@@ -1545,7 +1545,7 @@ force_active:
   - __ct__13TUnk_804A3168FP7TObjectPUc
   - TObjPlayer__sub_8012AF50
   - __ct__13TUnk_804A4C78FP7TObjectPUc
-  - __ct__13TUnk_804A5340FP13TUnk_804A535CPC3VecPC3Vecf
+  - __ct__21TItemShootRocketPunchFP22TItemWeaponRocketPunchPC3VecPC3Vecf
   - __ct__13TUnk_804A5930FP7TObjectPUc
   - TObjPlayer__sub_8013A788
   - TObjPlayer__sub_8015434C
@@ -2460,8 +2460,8 @@ force_active:
   - __dt__13TUnk_804A5058Fv
   - __dt__13TUnk_804A5150Fv
   - __dt__13TUnk_804A5248Fv
-  - __dt__13TUnk_804A5340Fv
-  - __dt__13TUnk_804A535CFv
+  - __dt__21TItemShootRocketPunchFv
+  - __dt__22TItemWeaponRocketPunchFv
   - __dt__13TUnk_804A5550Fv
   - __dt__13TUnk_804A5648Fv
   - __dt__13TUnk_804A5740Fv
@@ -3230,8 +3230,8 @@ force_active:
   - __vt__13TUnk_804A5058
   - __vt__13TUnk_804A5150
   - __vt__13TUnk_804A5248
-  - __vt__13TUnk_804A5340
-  - __vt__13TUnk_804A535C
+  - __vt__21TItemShootRocketPunch
+  - __vt__22TItemWeaponRocketPunch
   - __vt__13TUnk_804A5550
   - __vt__13TUnk_804A5648
   - __vt__13TUnk_804A5740
@@ -5964,7 +5964,7 @@ force_active:
   - emit_marker_effects__13TUnk_804A4338Fv
   - emit_marker_effects__13TUnk_804A4A88Fv
   - emit_marker_effects__13TUnk_804A4B80Fv
-  - emit_marker_effects__13TUnk_804A535CFv
+  - emit_marker_effects__22TItemWeaponRocketPunchFv
   - emit_marker_effects__13TUnk_804A5648Fv
   - emit_marker_effects__13TUnk_804A5A28Fv
   - emit_marker_effects__13TUnk_804A5E20Fv
@@ -6643,7 +6643,7 @@ force_active:
   - get_gstream_buffered_bytes__Fv
   - get_handle_6x78_entry__FUs
   - get_hit_count__11TBoss6Type2Fv
-  - fn_8012C9D8__13TUnk_804A535CFv
+  - get_shot_model__22TItemWeaponRocketPunchFv
   - get_indirect_recipe__Fl
   - get_indirect_source_id__FUc
   - get_indirect_source_pixels__FUc
@@ -6943,7 +6943,7 @@ force_active:
   - hold_captured_player__12TBoss1DragonFv
   - hook__13TItemEffLavisFv
   - hook__13TUnk_804A2148Fv
-  - hook__13TUnk_804A5340Fv
+  - hook__21TItemShootRocketPunchFv
   - hook__15TItemEffBringerFv
   - hospital_position_table_by_episode
   - howling_state__14TObjEneBm5WolfFl
@@ -7199,7 +7199,7 @@ force_active:
   - init_timer__13TObjCHTimeWinFv
   - init_timer__18TChallenge4PResultFv
   - init_timer_event__13TUnk_804A0608Fv
-  - __ct__13TUnk_804A535CFP7TObjectPUc
+  - __ct__22TItemWeaponRocketPunchFP7TObjectPUc
   - __ct__13TUnk_804A5A28FP7TObjectPUc
   - __ct__13TUnk_804A5F18FP7TObjectPUc
   - init_vertex_table__17TObjEneBm3FlyNestFv
@@ -14183,7 +14183,7 @@ force_active:
   - render__17TLightGlareSwitchFv
   - render__11TLightGlareFv
   - render__13TUnk_804A2148Fv
-  - render__13TUnk_804A5340Fv
+  - render__21TItemShootRocketPunchFv
   - render__13TUnk_804A5D10Fv
   - render__13TUnk_804B5C08Fv
   - render__13TUnk_804B7C1CFv
@@ -14572,7 +14572,7 @@ force_active:
   - reserved_53__13TUnk_804A1570Fv
   - reserved_53__13TUnk_804A204CFv
   - reserved_53__13TUnk_804A4C78Fv
-  - reserved_53__13TUnk_804A535CFv
+  - reserved_53__22TItemWeaponRocketPunchFv
   - reserved_53__13TUnk_804A5648Fv
   - reserved_53__13TUnk_804A66D8Fv
   - resetTechniqueContactQuery__Fv
@@ -17509,7 +17509,7 @@ force_active:
   - vfunc_60__13TUnk_804A5058Fv
   - vfunc_60__13TUnk_804A5150Fv
   - vfunc_60__13TUnk_804A5248Fv
-  - vfunc_60__13TUnk_804A535CFv
+  - vfunc_60__22TItemWeaponRocketPunchFv
   - vfunc_60__13TUnk_804A5740Fv
   - vfunc_60__13TUnk_804A6108Fv
   - vfunc_60__13TUnk_804A62F8Fv

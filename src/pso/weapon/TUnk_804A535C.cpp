@@ -1,8 +1,8 @@
 #include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
-#include "pso/weapon/TUnk_804A535C.h"
+#include "pso/weapon/TItemWeaponRocketPunch.h"
 #include "pso/player/TObjPlayer_8012C3F4.h"
-#include "pso/weapon/shoot/TUnk_804A5340.h"
+#include "pso/weapon/shoot/TItemShootRocketPunch.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/player/TObjPlayer_8023E480.h"
@@ -59,7 +59,7 @@ void rocket_punch_wall_impact(u32 layer, u32 weapon, u32 target, uaddr pos) {
 }
 extern "C" s32 post_translate_matrix(void *);
 
-void TUnk_804A5340::render() {
+void TItemShootRocketPunch::render() {
     u8 *self = (u8 *)this;
     if ((TItemShootModel::is_owner_alive() != 0) && ((uaddr) this->model != 0U) && ((uaddr) this->texture_list != 0U)) {
         push_matrix();
@@ -73,19 +73,19 @@ void TUnk_804A5340::render() {
 }
 
 
-void TUnk_804A5340::hook() {  }
+void TItemShootRocketPunch::hook() {  }
 
-TUnk_804A5340::TUnk_804A5340(TUnk_804A535C *owner, const Vec *pos, const Vec *dir, f32 life)
+TItemShootRocketPunch::TItemShootRocketPunch(TItemWeaponRocketPunch *owner, const Vec *pos, const Vec *dir, f32 life)
     : TItemShootModel(owner, pos, dir, life) {
-    set_render_model(owner->fn_8012C9D8(), (NJS_TEXLIST *)owner->get_texlist());
+    set_render_model(owner->get_shot_model(), (NJS_TEXLIST *)owner->get_texlist());
 }
 
 uaddr rocket_punch_create_shot(saddr owner, saddr pos, saddr dir, f32 life) {
-    TUnk_804A5340 *shot = NULL;
+    TItemShootRocketPunch *shot = NULL;
     TItemShootParticle *particle;
 
     if (owner != 0) {
-        shot = new TUnk_804A5340((TUnk_804A535C *)owner, (const Vec *)pos, (const Vec *)dir, life);
+        shot = new TItemShootRocketPunch((TItemWeaponRocketPunch *)owner, (const Vec *)pos, (const Vec *)dir, life);
         particle = (TItemShootParticle *)TObjPlayer::spawn_shoot_particle(owner, pos, dir, life);
         if ((shot != NULL) && (particle != NULL)) {
             particle->spawn_slot_emitter(0x1BB, 0);
@@ -95,7 +95,7 @@ uaddr rocket_punch_create_shot(saddr owner, saddr pos, saddr dir, f32 life) {
     return (uaddr)shot;
 }
 
-void TUnk_804A535C::emit_marker_effects() {
+void TItemWeaponRocketPunch::emit_marker_effects() {
     saddr burst_counter;
     s32 burst_count;
     TObjPlayer *player = owner;
@@ -120,7 +120,7 @@ void TUnk_804A535C::emit_marker_effects() {
     }
 }
 
-void TUnk_804A535C::vfunc_60() {
+void TItemWeaponRocketPunch::vfunc_60() {
     void *model;
     switch (TObjPlayer::get_player_list()) {
     case 1:
@@ -138,7 +138,7 @@ void TUnk_804A535C::vfunc_60() {
     }
 }
 
-void TUnk_804A535C::reserved_53() {
+void TItemWeaponRocketPunch::reserved_53() {
     NJS_OBJECT *saved_model = item_model;
     punch_flags.set(1);
     draw_weapon_model();
@@ -150,11 +150,11 @@ void TUnk_804A535C::reserved_53() {
     item_model = saved_model;
 }
 
-TUnk_804A535C::~TUnk_804A535C() {
+TItemWeaponRocketPunch::~TItemWeaponRocketPunch() {
 
 }
 
-TUnk_804A535C::TUnk_804A535C(TObject *parent, u8 *item) : TItemWeapon(parent, item) {
+TItemWeaponRocketPunch::TItemWeaponRocketPunch(TObject *parent, u8 *item) : TItemWeapon(parent, item) {
     effect_flags.set(32);
     set_weapon_flags(515);
     impact_callback = (WeaponHitCallback)rocket_punch_wall_impact;
@@ -166,22 +166,22 @@ TUnk_804A535C::TUnk_804A535C(TObject *parent, u8 *item) : TItemWeapon(parent, it
 
 TItem *TObjPlayer::create_trade_action_state(u8 *item) {
     if (item != NULL) {
-        return new TUnk_804A535C(tl_05, item);
+        return new TItemWeaponRocketPunch(tl_05, item);
     }
     return NULL;
 }
 
-TUnk_804A5340::~TUnk_804A5340() {
+TItemShootRocketPunch::~TItemShootRocketPunch() {
 
 }
 
 void rocket_punch_return_timer(uaddr weapon) {
     if (weapon != 0U) {
-        ((TUnk_804A535C *)weapon)->punch_flags.clear(2);
+        ((TItemWeaponRocketPunch *)weapon)->punch_flags.clear(2);
     }
 }
 
-NJS_OBJECT *TUnk_804A535C::fn_8012C9D8() {
+NJS_OBJECT *TItemWeaponRocketPunch::get_shot_model() {
     if (test_flags_any(&punch_flags.bits, 4) != 0) {
         return second_model;
     }
