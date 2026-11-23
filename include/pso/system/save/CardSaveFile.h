@@ -22,6 +22,18 @@ LAYOUT_ASSERT(CardSaveDescriptor_banner_offset, offsetof(CardSaveDescriptor, ban
 LAYOUT_ASSERT(CardSaveDescriptor_data_offset, offsetof(CardSaveDescriptor, data) == 0x58);
 LAYOUT_ASSERT(CardSaveDescriptor_size, sizeof(CardSaveDescriptor) == 0x60);
 
+// The memory card file holding the guild card list, and where downloaded cards go.
+struct GuildCardFile_804C89BC {
+    char filename[0x20];
+    char comment[0x20];
+    u32 flags;
+    char download_name[0x10];
+    char download_dir[0x20];
+    u32 download_flags;
+};
+
+extern GuildCardFile_804C89BC pso_guildcard_card_filename;
+
 void set_card_banner_and_icon(CardSaveDescriptor *file, s32 index);
 s32 verify_card_save_header(CardSaveDescriptor *file, void *image);
 void fn_801E14E4(CardSaveDescriptor *file);

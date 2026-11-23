@@ -49,14 +49,6 @@ struct CardFileComment_804C8974 {
     u32 flags;
     u8 icon[0x10];
 };
-struct GuildCardFile_804C89BC {
-    char filename[0x20];
-    char comment[0x20];
-    u32 flags;
-    char download_name[0x10];
-    char download_dir[0x20];
-    u32 download_flags;
-};
 CharacterFile *card_character_save_buffer;
 CharacterFile *secondary_card_character_save_buffer;
 TPlyCharData *selected_character_data;

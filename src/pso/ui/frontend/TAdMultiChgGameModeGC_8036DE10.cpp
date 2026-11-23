@@ -20,8 +20,6 @@
 struct RecoveredGlobal_8036E8DC_lbl_804C88C0 { s32 value; u8 remaining[0x50]; };
 LAYOUT_ASSERT(RecoveredGlobal_8036E8DC_lbl_804C88C0_size, sizeof(RecoveredGlobal_8036E8DC_lbl_804C88C0) == 0x54);
 
-struct RecoveredGlobal_8036E8DC_lbl_804C89BC { s32 value; u8 remaining[0x74]; };
-LAYOUT_ASSERT(RecoveredGlobal_8036E8DC_lbl_804C89BC_size, sizeof(RecoveredGlobal_8036E8DC_lbl_804C89BC) == 0x78);
 
 
 #include <stddef.h>
@@ -58,7 +56,6 @@ s32 poll_memcard_result(saddr);
 extern RecoveredGlobal_8036E8DC_lbl_804C88C0 pso_character_card_filename;
 struct PsoSystemCardFilename { char value[0xB]; };
 extern PsoSystemCardFilename pso_system_card_filename;
-extern RecoveredGlobal_8036E8DC_lbl_804C89BC pso_guildcard_card_filename;
 void *create_window_menu_default(void *, s32);
 void TKeyBoardControl__sub_8000F90C(s32 arg0);
 
@@ -514,7 +511,7 @@ s32 TAdSinglePlyChrSelectGC::check_system_file_status() {
     if (TAdPlayerLoadGC::check_memcard_status(0) != 0) {
         return 4;
     }
-    if ((TAdPlayerLoadGC::find_card_file(0, (const char *)&pso_character_card_filename.value) != 0) || (TAdPlayerLoadGC::find_card_file(0, (const char *)((const char *)&pso_guildcard_card_filename.value)) != 0) || (TAdPlayerLoadGC::find_card_file(0, (const char *)((const char *)&pso_system_card_filename.value)) != 0)) {
+    if ((TAdPlayerLoadGC::find_card_file(0, (const char *)&pso_character_card_filename.value) != 0) || (TAdPlayerLoadGC::find_card_file(0, pso_guildcard_card_filename.filename) != 0) || (TAdPlayerLoadGC::find_card_file(0, (const char *)((const char *)&pso_system_card_filename.value)) != 0)) {
         return 8;
     }
     return 0;

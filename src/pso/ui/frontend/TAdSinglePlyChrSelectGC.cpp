@@ -42,9 +42,6 @@
 #include "pso/system/ControllerInput.h"
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
 
-struct RecoveredGlobal_802D4730_lbl_804C89BC { s32 value; u8 remaining[0x74]; };
-LAYOUT_ASSERT(RecoveredGlobal_802D4730_lbl_804C89BC_size, sizeof(RecoveredGlobal_802D4730_lbl_804C89BC) == 0x78);
-
 const vec2f single_chr_select_item_rect_table[4] = {
     { 131.0f, 182.0f }, { 131.0f, 225.0f }, { 131.0f, 268.0f }, { 131.0f, 311.0f },
 };
@@ -58,8 +55,6 @@ struct T_802D4F2C { NJS_POINT2 p[3]; };
 
 const char *TAdSinglePlyChrSelectGC__class_name = "TAdSinglePlyChrSelectGC";
 const T_802D4F2C single_chr_select_position_table = { { { 156.0f, 421.0f }, { 299.0f, 421.0f }, { 432.0f, 421.0f } } };
-
-extern RecoveredGlobal_802D4730_lbl_804C89BC pso_guildcard_card_filename;
 
 void TAdSinglePlyChrSelectGC::render() {
     if (TMainTask::get_render_pass() == 1) return;
@@ -414,7 +409,7 @@ void TAdSinglePlyChrSelectGC::sub_802D4730() {
         return;
     }
     if (poll_memcard_result(0) == 0) {
-        if (TAdPlayerLoadGC::find_card_file(0, (const char *)(&pso_guildcard_card_filename.value)) == 0) {
+        if (TAdPlayerLoadGC::find_card_file(0, pso_guildcard_card_filename.filename) == 0) {
             if (this->card_load_message != NULL) {
                 this->card_load_message->close();
                 this->card_load_message = NULL;
@@ -446,7 +441,7 @@ void TAdSinglePlyChrSelectGC::sub_802D486C() {
         return;
     }
     if (poll_memcard_result(0) == 0) {
-        if ((u32)TAdPlayerLoadGC::find_card_file(0, (const char *)&pso_guildcard_card_filename.value) != 0xFFFFFF41U) {
+        if ((u32)TAdPlayerLoadGC::find_card_file(0, pso_guildcard_card_filename.filename) != 0xFFFFFF41U) {
             if (this->card_check_message != NULL) {
                 this->card_check_message->close();
                 this->card_check_message = NULL;
