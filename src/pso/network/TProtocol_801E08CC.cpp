@@ -2,7 +2,7 @@
 #include "pso/network/TProtocol_801E08CC.h"
 #include "pso/system/byteswap.h"
 #include "pso/system/THeap.h"
-#include "pso/system/GbaDownloadRuntime.h"
+#include "pso/system/GbaAramCache.h"
 
 extern "C" {
 

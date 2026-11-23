@@ -1,10 +1,11 @@
 #include "types.h"
 #include <dolphin/ar.h>
 #include <dolphin/os/OSCache.h>
-#include "pso/system/GbaDownloadRuntime.h"
+#include "pso/system/GbaAramCache.h"
 #include "pso/ui/TUnk_804EDBD0.h"
 #include "pso/ui/frontend/TAdWarningBaseGC.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
+#include "pso/system/task/TMainTask.h"
 #include "pso/unk/TLobby.h"
 
 ARQRequest ad_warning_arq_request;
@@ -15,6 +16,10 @@ s32 warning_aram_load_done_flag;
 int TAdWarningBaseGC__aram_alloc_size;
 int lobby_count_value;
 s32 aram_request_busy_flag;
+
+void TLobby__sub_8032CDEC(void) { TAdWarningBaseGC__aram_alloc_size = 0; warning_aram_load_done_flag = 0; }
+
+void TUnk_804EDBD0::destroy() { queue_destruction(); }
 
 void TUnk_804EDBD0::wait_aram_request() {
     if (aram_request_busy_flag == 0) {
@@ -88,3 +93,21 @@ s32 TAdWarningBaseGC::post_aram_request(int buf, int size) {
 TUnk_804EDBD0::~TUnk_804EDBD0() {}
 
 TUnk_804EDBD0::TUnk_804EDBD0(TObject *parent) : TObject(parent) { state = 0; }
+
+void TAdWarningBaseGC::create() { new TUnk_804EDBD0(tl_00); }
+
+void TAdWarningBaseGC__sub_8032D188(void) {
+    TAdWarningBaseGC__aram_capacity = 0;
+    ad_warning_aram_base = 0;
+    TAdWarningBaseGC__aram_alloc_size = 0;
+    warning_aram_load_done_flag = 0;
+    lobby_count_value = 0;
+}
+
+void TAdWarningBaseGC::init_heap() {
+    TAdWarningBaseGC__aram_capacity = 0x80000;
+    ad_warning_aram_base = ARAlloc(0x80000);
+    TAdWarningBaseGC__aram_alloc_size = 0;
+    warning_aram_load_done_flag = 0;
+    lobby_count_value = 0;
+}

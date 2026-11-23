@@ -9390,26 +9390,17 @@ pso/ui/frontend/TAdExNetConfirmGC_8032C504.cpp:
 	.sdata      start:0x805D4200 end:0x805D4208
 
 pso/system/GbaDownloadRuntime.cpp:
-	.text       start:0x8032C6AC end:0x8032CE1C
+	.text       start:0x8032C6AC end:0x8032CDEC
 	.rodata     start:0x80477310 end:0x80477320
 	.bss        start:0x805434A8 end:0x805434B0
 	.sbss       start:0x805D6CC0 end:0x805D6CE0
 	.sdata2     start:0x805DF7A0 end:0x805DF7B0
 
-pso/ui/frontend/TAdWarningBaseGC_8032CE1C.cpp:
-	.text       start:0x8032CE1C end:0x8032D154
+pso/system/GbaAramCache.cpp:
+	.text       start:0x8032CDEC end:0x8032D1E4
 	.data       start:0x804EDB70 end:0x804EDBE8
 	.bss        start:0x805434B0 end:0x805434D0
 	.sbss       start:0x805D6CE0 end:0x805D6D00
-
-pso/ui/frontend/TAdWarningBaseGC_8032D154.cpp:
-	.text       start:0x8032D154 end:0x8032D188
-
-pso/ui/frontend/TAdWarningBaseGC_8032D188.cpp:
-	.text       start:0x8032D188 end:0x8032D1A4
-
-pso/ui/frontend/TAdWarningBaseGC_8032D1A4.cpp:
-	.text       start:0x8032D1A4 end:0x8032D1E4
 
 pso/ui/frontend/TAdWarningBaseGC.cpp:
 	.text       start:0x8032D1E4 end:0x8032D514

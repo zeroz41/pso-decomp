@@ -5,8 +5,8 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/network/GbaJoybootState.h"
 #include "pso/system/GbaDownloadRuntime.h"
+#include "pso/system/GbaAramCache.h"
 #include "pso/unk/TLobby_801F2D2C.h"
-#include "pso/ui/TUnk_804EDBD0.h"
 #include "pso/ui/frontend/TAdWarningBaseGC.h"
 #include "pso/system/date.h"
 #include "pso/unk/TLobby.h"
@@ -274,7 +274,3 @@ void TLobby::set_send_buffer(u8 *arg0, s32 arg1) {
 void TLobby__sub_8032CDC0(void) { lbl_805D6CD9 = 0; lbl_805D6CDA = 0; }
 
 void reset_joyboot_state(void* p) { *(s16*)((char*)p + 0x0) = 0; *(s16*)((char*)p + 0x2) = 0; *(s16*)((char*)p + 0x4) = 0; *(u8*)((char*)p + 0x6) = 0; *(u8*)((char*)p + 0x7) = 0; }
-
-void TLobby__sub_8032CDEC(void) { TAdWarningBaseGC__aram_alloc_size = 0; warning_aram_load_done_flag = 0; }
-
-void TUnk_804EDBD0::destroy() { queue_destruction(); }

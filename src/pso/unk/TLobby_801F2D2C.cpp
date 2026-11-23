@@ -10,7 +10,7 @@
 #include "pso/system/vector.h"
 #include "pso/quest/QuestScriptFormat.h"
 #include "pso/system/data/FlagWord.h"
-#include "pso/system/GbaDownloadRuntime.h"
+#include "pso/system/GbaAramCache.h"
 #include "types.h"
 #include "pso/object/warp/ForestWarpResources.h"
 #include "pso/unk/TLobby_801E43E4.h"

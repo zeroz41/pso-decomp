@@ -628,6 +628,7 @@ pso/ui/charcreate/CharacterAppearanceTables.cpp
 pso/ui/charcreate/CreationMotion.cpp
 pso/system/scene/EndingSceneTables.cpp
 pso/system/GbaDownloadRuntime.cpp
+pso/system/GbaAramCache.cpp
 pso/ui/keyboard/KeyboardCharacterMaps.cpp
 pso/quest/QuestDownloadAramFile.cpp
 pso/quest/QuestDownloadBuffers.cpp
@@ -1902,10 +1903,6 @@ pso/ui/frontend/TAdVIConfigGC.cpp
 pso/ui/frontend/TAdVIConfigGC_80248B8C.cpp
 pso/ui/frontend/TAdVIConfigGC_80308200.cpp
 pso/ui/frontend/TAdWarningBaseGC.cpp
-pso/ui/frontend/TAdWarningBaseGC_8032CE1C.cpp
-pso/ui/frontend/TAdWarningBaseGC_8032D154.cpp
-pso/ui/frontend/TAdWarningBaseGC_8032D188.cpp
-pso/ui/frontend/TAdWarningBaseGC_8032D1A4.cpp
 pso/ui/frontend/TAdYesNoBaseGC.cpp
 pso/quest/challenge/TChallenge4PItemSelect.cpp
 pso/ui/font/TFontSmallTask.cpp

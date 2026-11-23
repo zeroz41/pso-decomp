@@ -49,6 +49,7 @@
 #include "pso/ui/frontend/TAdPlayerLoadGC_801E0C30.h"
 #include "pso/unk/TLobby_80243370.h"
 #include "pso/system/GbaDownloadRuntime.h"
+#include "pso/system/GbaAramCache.h"
 
 void update_music_sequencer(void);
 extern "C" {
