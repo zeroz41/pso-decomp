@@ -29,12 +29,6 @@ struct RafoieBurst { s32 entry; s32 flags; f32 scale; };
 
 struct RafoieBurstList { const RafoieBurst *entries; u32 count; };
 
-struct Obj_80237DAC {
-    u8 pad0[0x20];
-    u16 band;
-    u8 pad22[0x28 - 0x22];
-    Vec position;
-};
 
 extern "C" {
 
@@ -60,25 +54,24 @@ extern const RecoveredGlobal_80238388_lbl_8044DAF0 lbl_8044DAF0 = {0};
 }
 
 void TUnk_804CCB28::spawn_rafoie_explosion_bursts() {
-    Obj_80237DAC *self = (Obj_80237DAC *)this;
     Vec higher;
     u32 i;
-    VecCopy(&higher, &self->position);
-    higher.y = (8.0f) + self->position.y;
-    for (i = 0; i < rafoie_burst_table[*(u16 *)&this->m_20].count; i++) {
-        const RafoieBurst *row = &rafoie_burst_table[*(u16 *)&this->m_20].entries[i];
+    VecCopy(&higher, &position);
+    higher.y = (8.0f) + position.y;
+    for (i = 0; i < rafoie_burst_table[band].count; i++) {
+        const RafoieBurst *row = &rafoie_burst_table[band].entries[i];
         u16 mode = 0;
         void *p;
         if (row->flags & 0x1000) {
             mode = 0x2000;
         }
         if (row->flags & 0x10) {
-            p = spawn_particle_effect_with_flags(&self->position, row->entry, mode);
+            p = spawn_particle_effect_with_flags(&position, row->entry, mode);
         } else {
             p = spawn_particle_effect_with_flags(&higher, row->entry, mode);
         }
         if (p != NULL) {
-            ((TParticleCtrl *)p)->set_scale(rafoie_burst_table[*(u16 *)&this->m_20].entries[i].scale, rafoie_burst_table[*(u16 *)&this->m_20].entries[i].scale);
+            ((TParticleCtrl *)p)->set_scale(rafoie_burst_table[band].entries[i].scale, rafoie_burst_table[band].entries[i].scale);
         }
     }
 }
@@ -164,17 +157,6 @@ struct Stack_80238388 {
     f32 sp20;
 };
 
-struct RaFoie_802381F8 {
-    u8 pad0[0x22];
-    u16 level;
-    TEffIndirect *tev;
-    u8 m28[0x34 - 0x28];
-    f32 sx;
-    f32 sy;
-    f32 sz;
-    u8 pad40[0x48 - 0x40];
-    u8 m48[1];
-};
 
 extern "C" {
 void post_translate_matrix(void *);
@@ -198,7 +180,6 @@ void TTecRaFoie::calc_area_parameters() {
 }
 
 void TUnk_804CCB28::render() {
-    RaFoie_802381F8 *o = (RaFoie_802381F8 *)this;
     f32 x;
     f32 y;
     f32 z;
@@ -212,14 +193,14 @@ void TUnk_804CCB28::render() {
     id = model_render_flags;
     saved_model_render_flags = id;
     model_render_flags = id | 0x200010;
-    ((void (*)(void *, s32))set_constant_material)(o->m48, id);
-    if (o->tev != 0) {
-        enable_indirect_tev(o->tev, 2, 0, 0);
+    ((void (*)(void *, s32))set_constant_material)(&color, id);
+    if (indirect_effect != 0) {
+        enable_indirect_tev(indirect_effect, 2, 0, 0);
     }
-    lv = o->level;
-    x = o->sx;
-    y = o->sy;
-    z = o->sz;
+    lv = level;
+    x = scale.x;
+    y = scale.y;
+    z = scale.z;
     if (lv >= 0xF && lv < 0x19) {
         x = (1.3f) * x;
         y = (1.3f) * y;
@@ -230,7 +211,7 @@ void TUnk_804CCB28::render() {
         z = (1.8f) * z;
     }
     push_matrix();
-    post_translate_matrix(o->m28);
+    post_translate_matrix(&position);
     scale_matrix(0, x, y, z);
     rotate_matrix_y(0, camera_ctrl_instance->yaw);
     TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(lbl_805D63B0));
@@ -242,14 +223,13 @@ void TUnk_804CCB28::render() {
     set_cull_none();
     pop_matrix();
     model_render_flags = saved_model_render_flags;
-    if (o->tev != 0) {
-        disable_indirect_tev(o->tev, 0);
+    if (indirect_effect != 0) {
+        disable_indirect_tev(indirect_effect, 0);
     }
     TParticleCtrl::end_effect_render();
 }
 
 void TUnk_804CCB28::run_task() {
-    u8 *arg0 = (u8 *)this;
     LAYOUT_ASSERT(sp8_offset, offsetof(Stack_80238388, sp8) == 0x0);
     LAYOUT_ASSERT(spC_offset, offsetof(Stack_80238388, spC) == 0x4);
     LAYOUT_ASSERT(sp10_offset, offsetof(Stack_80238388, sp10) == 0x8);
@@ -259,121 +239,92 @@ void TUnk_804CCB28::run_task() {
     LAYOUT_ASSERT(sp20_offset, offsetof(Stack_80238388, sp20) == 0x18);
     Stack_80238388 stack;
     f32 temp_f1;
-    this->m_58 = (this->m_58 + 1);
-    this->m_5c = (s32) (this->m_5c + 1);
-    if ((s32) this->m_5c >= 0x10) {
-        this->m_5c = 0;
+    age = age + 1;
+    anim_frame = anim_frame + 1;
+    if (anim_frame >= 16) {
+        anim_frame = 0;
     }
-    if ((s32) this->m_58 > 0x6E) {
+    if (age > 110) {
         queue_destruction();
     }
     stack.sp8 = *(s32 *)((s8 *)&lbl_8044DAF0.value + 0);
     stack.spC = *(s32 *)((s8 *)&lbl_8044DAF0.value + 4);
     stack.sp10 = *(s32 *)((s8 *)&lbl_8044DAF0.value + 8);
     stack.sp14 = *(s32 *)((s8 *)&lbl_8044DAF0.value + 0xC);
-    temp_f1 = this->m_40;
+    temp_f1 = target_scale;
     stack.sp18 = temp_f1;
     stack.sp1C = temp_f1;
     stack.sp20 = temp_f1;
-    if (this->m_34 >= (temp_f1 - (1.0f))) {
-        if ((s32) this->m_60 != 0) {
-            this->m_60 = 0;
+    if (scale.x >= (temp_f1 - (1.0f))) {
+        if (growing != 0) {
+            growing = 0;
         }
-        approach_position_if_far((Vec *)&this->m_34, (Vec *)&stack.sp18, 0.05f);
+        approach_position_if_far(&scale, (Vec *)&stack.sp18, 0.05f);
     } else {
-        approach_position_if_far((Vec *)&this->m_34, (Vec *)&stack.sp18, 0.15f);
+        approach_position_if_far(&scale, (Vec *)&stack.sp18, 0.15f);
     }
-    approach_alpha_clamped((f32 *)(arg0 + 0x48), (const f32 *)&stack.sp8, 0.035f);
+    approach_alpha_clamped(&color.a, (const f32 *)&stack.sp8, 0.035f);
 }
 #pragma pop
 
 }
-struct RecoveredGlobal_802384E0_lbl_804CCB28;
-
-extern RecoveredGlobal_802384E0_lbl_804CCB28 __vt__13TUnk_804CCB28;
 
 TUnk_804CCB28::~TUnk_804CCB28() {
 
 }
 
-struct Stack_802384E0 {
-    s32 sp8;
-    f32 spC;
-    u8 trailing_storage[0x4];
-};
-
-struct RecoveredGlobal_802384E0_lbl_804CCB28 { s32 value; u8 remaining[0x14]; };
-
-
 extern "C" {
 void run_task__10TTecRaFoieFv(TTecRaFoie *arg0);
 extern s32 tl_particle;
-s32 __ct__7TObjectFP7TObject(void *, void *);
 void copy_technique_target_list(void *, void *);
 }
 
-u8 *create_rafoie_explosion(u8 *arg0, s32 *arg1, s16 band, s16 arg3, saddr arg4, f32 farg0) {
-    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_802384E0, sp8) == 0x0);
-    LAYOUT_ASSERT(spC_offset, offsetof(Stack_802384E0, spC) == 0x4);
-    Stack_802384E0 stack;
-    __ct__7TObjectFP7TObject((void *)arg0, (void *)arg4);
-    *(s32 **)((s8 *)arg0 + 0x18) = &__vt__13TUnk_804CCB28.value;
-    ((TUnk_804CCB28 *)arg0)->m_20 = band;
-    *(s16 *)((s8 *)arg0 + 0x22) = arg3;
-    ((TUnk_804CCB28 *)arg0)->m_60 = 1;
-    VecCopy((Vec *)(arg0 + 0x28), (const Vec *)(arg1));
-    *(f32 *)((s8 *)arg0 + 0x44) = farg0;
-    ((TUnk_804CCB28 *)arg0)->m_58 = 0;
-    *(s32 *)((s8 *)arg0 + 0x5C) = 0;
-    ((TUnk_804CCB28 *)arg0)->m_34 = (f32) (1.2f);
-    *(f32 *)((s8 *)arg0 + 0x38) = (f32) (1.2f);
-    ((TUnk_804CCB28 *)arg0)->m_3c = (f32) (1.2f);
-    ((TUnk_804CCB28 *)arg0)->m_48 = (f32) (1.0f);
-    *(f32 *)((s8 *)arg0 + 0x4C) = (f32) (1.0f);
-    ((TUnk_804CCB28 *)arg0)->m_50 = (f32) (1.0f);
-    *(f32 *)((s8 *)arg0 + 0x54) = (f32) (1.0f);
-    VecCopy((Vec *)(&stack.sp8), (const Vec *)(arg0 + 0x28));
-    stack.spC += (5.0f);
-    VecCopy((Vec *)(arg0 + 0x28), (const Vec *)(&stack.sp8));
-    ((TUnk_804CCB28 *)arg0)->spawn_rafoie_explosion_bursts();
-    ((TUnk_804CCB28 *)arg0)->indirect_effect = new TEffIndirect(0x11, (TObject *)arg0);
-    ((TUnk_804CCB28 *)arg0)->m_40 = (f32) (1.9f);
-    return arg0;
+TUnk_804CCB28::TUnk_804CCB28(Vec *pos, s16 band, s16 level, TObject *parent, f32 radius) : TObject(parent) {
+    Vec raised;
+    this->band = band;
+    this->level = level;
+    growing = 1;
+    VecCopy(&position, pos);
+    this->radius = radius;
+    age = 0;
+    anim_frame = 0;
+    scale.x = 1.2f;
+    scale.y = 1.2f;
+    scale.z = 1.2f;
+    color.a = 1.0f;
+    color.r = 1.0f;
+    color.g = 1.0f;
+    color.b = 1.0f;
+    VecCopy(&raised, &position);
+    raised.y += 5.0f;
+    VecCopy(&position, &raised);
+    spawn_rafoie_explosion_bursts();
+    indirect_effect = new TEffIndirect(0x11, this);
+    target_scale = 1.9f;
 }
 
-struct Stack_802385EC {
-    s32 sp8;
-    f32 spC;
-    u8 trailing_storage[0x4];
-};
-
-TUnk_804CCB28 *create_fire_explosion_effect(u8 *arg0, f32 farg0, const Vec *pos, s16 arg2, TObject *parent) {
-    LAYOUT_ASSERT(sp8_offset, (offsetof(Stack_802385EC, sp8) == 0x0));
-    LAYOUT_ASSERT(spC_offset, (offsetof(Stack_802385EC, spC) == 0x4));
-    Stack_802385EC stack;
-    __ct__7TObjectFP7TObject((void *)arg0, (void *)parent);
-    *(s32 **)((s8 *)arg0 + 0x18) = &__vt__13TUnk_804CCB28.value;
-    ((TUnk_804CCB28 *)arg0)->m_20 = arg2;
-    *(s16 *)((s8 *)arg0 + 0x22) = 0;
-    ((TUnk_804CCB28 *)arg0)->m_60 = 1;
-    VecCopy((Vec *)(arg0 + 0x28), pos);
-    *(f32 *)((s8 *)arg0 + 0x44) = farg0;
-    ((TUnk_804CCB28 *)arg0)->m_58 = 0;
-    *(s32 *)((s8 *)arg0 + 0x5C) = 0;
-    ((TUnk_804CCB28 *)arg0)->m_34 = (f32) (1.2f);
-    *(f32 *)((s8 *)arg0 + 0x38) = (f32) (1.2f);
-    ((TUnk_804CCB28 *)arg0)->m_3c = (f32) (1.2f);
-    ((TUnk_804CCB28 *)arg0)->m_48 = (f32) (1.0f);
-    *(f32 *)((s8 *)arg0 + 0x4C) = (f32) (1.0f);
-    ((TUnk_804CCB28 *)arg0)->m_50 = (f32) (1.0f);
-    *(f32 *)((s8 *)arg0 + 0x54) = (f32) (1.0f);
-    VecCopy((Vec *)(&stack.sp8), (const Vec *)(arg0 + 0x28));
-    stack.spC += (5.0f);
-    VecCopy((Vec *)(arg0 + 0x28), (const Vec *)(&stack.sp8));
-    ((TUnk_804CCB28 *)arg0)->spawn_rafoie_explosion_bursts();
-    ((TUnk_804CCB28 *)arg0)->indirect_effect = new TEffIndirect(0x11, (TObject *)arg0);
-    ((TUnk_804CCB28 *)arg0)->m_40 = (f32) (1.9f);
-    return (TUnk_804CCB28 *)arg0;
+TUnk_804CCB28::TUnk_804CCB28(f32 radius, const Vec *pos, s16 band, TObject *parent) : TObject(parent) {
+    Vec raised;
+    this->band = band;
+    level = 0;
+    growing = 1;
+    VecCopy(&position, pos);
+    this->radius = radius;
+    age = 0;
+    anim_frame = 0;
+    scale.x = 1.2f;
+    scale.y = 1.2f;
+    scale.z = 1.2f;
+    color.a = 1.0f;
+    color.r = 1.0f;
+    color.g = 1.0f;
+    color.b = 1.0f;
+    VecCopy(&raised, &position);
+    raised.y += 5.0f;
+    VecCopy(&position, &raised);
+    spawn_rafoie_explosion_bursts();
+    indirect_effect = new TEffIndirect(0x11, this);
+    target_scale = 1.9f;
 }
 
 void TTecRaFoie::vfunc_6(void *target) {
@@ -419,10 +370,7 @@ void TTecRaFoie::update_detonation(void *pos) {
     if (age != 10) {
         return;
     }
-    p = TObject::operator new(0x64);
-    if (p != NULL) {
-        create_rafoie_explosion((u8 *)p, (s32 *)&target, band, 10, tl_particle, (f32)level);
-    }
+    new TUnk_804CCB28((Vec *)&target, band, 10, (TObject *)tl_particle, (f32)level);
     switch (band) {
     case 0:
         h = play_sound_effect(0x4002A803, &target, 0, 0);

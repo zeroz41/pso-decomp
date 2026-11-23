@@ -407,15 +407,12 @@ void weapon_fire_explosion_effect(TObjPlayer *player, TObjBase *target, Vec *pos
         spawn_particle_effect(&player->body_center, 0x69);
     }
     if (phase == 1) {
-        obj = static_cast<TUnk_804CCB28 *>(TObject::operator new(sizeof(TUnk_804CCB28)));
+        obj = new TUnk_804CCB28(10.0f, pos, 0, tl_particle);
         if (obj != NULL) {
-            obj = create_fire_explosion_effect((u8 *)obj, 10.0f, pos, 0, tl_particle);
-        }
-        if (obj != NULL) {
-            obj->m_34 = 0.6f;
-            obj->m_38 = 0.6f;
-            obj->m_3c = 0.6f;
-            obj->m_40 = 0.8f;
+            obj->scale.x = 0.6f;
+            obj->scale.y = 0.6f;
+            obj->scale.z = 0.6f;
+            obj->target_scale = 0.8f;
         }
     }
 }

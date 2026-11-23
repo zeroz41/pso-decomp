@@ -31,13 +31,9 @@ BmlResource *gigue_missile_resource;
 const char *TObjEneMe1GiGueMissile__name = "TObjEneMe1GiGueMissile";
 
 void TObjEneMe1GiGueMissile::explode(void *pos) {
-    void *fx;
     TObjPlayer *p;
     s32 i;
-    fx = TObject::operator new(0x64);
-    if (fx != NULL) {
-        create_fire_explosion_effect((u8 *)fx, 40.0f, (const Vec *)pos, 0, tl_07);
-    }
+    new TUnk_804CCB28(40.0f, (const Vec *)pos, 0, tl_07);
     for (i = 0; i < 4; i++) {
         p = get_player_by_client_id(i);
         if (p != NULL && horizontal_distance_squared(&p->position, (Vec *)pos) <= 1600.0f) {

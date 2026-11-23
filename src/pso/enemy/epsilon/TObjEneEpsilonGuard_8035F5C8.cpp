@@ -454,10 +454,7 @@ void TObjEneEpsilonBody::handle_fire_state(s32 reason) {
             if (fire_timer <= 0) {
                 TObjPlayer *player;
                 s32 i;
-                void *e = TObject::operator new(0x64);
-                if (e != 0) {
-                    create_fire_explosion_effect((u8 *)e, 40.0f, d, 0, (TObject *)tl_07);
-                }
+                new TUnk_804CCB28(40.0f, d, 0, (TObject *)tl_07);
                 play_sound_effect(0x4003A348, &position, 0, 0);
                 for (i = 0; i < 4; i++) {
                     player = get_player_by_client_id(i);

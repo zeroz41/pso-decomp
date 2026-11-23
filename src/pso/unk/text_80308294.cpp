@@ -19,14 +19,10 @@ typedef struct SlicerLaunchData_8012D9C8 {
 
 void spawn_fire_explosion_at(uaddr a0, saddr a1) {
     Desc_8011E5C4 info;
-    void *o;
     TObjPlayer__sub_802E449C(&info);
     ((TItemWeapon *)a0)->fill_status_info(&info);
     VecCopy(&info.position, (const Vec *)a1);
     info.hits = 10;
     new TUnk_804A2548(tl_05, &info);
-    o = TObject::operator new(0x64);
-    if (o != NULL) {
-        create_fire_explosion_effect((u8 *)o, 10.0f, &info.position, 0, tl_particle);
-    }
+    new TUnk_804CCB28(10.0f, &info.position, 0, tl_particle);
 }
