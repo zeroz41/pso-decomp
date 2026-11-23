@@ -56,14 +56,11 @@ s32 post_translate_matrix(void *);
 void draw_ginja_object(saddr);
 void set_material_alpha_compare_reference(s32 reference);
 }
-void calc_projection_screen_offset(f32 *x, f32 *arg1);
 f32 calc_camera_fov_degrees(void);
-void set_tex_coord_gen2(s32 arg0, s32 func, s32 arg2, s32 mtx);
 void set_ginja_post_texgen_count(s32 x);
 void set_ginja_post_tev_stage_count(s32 x);
 void load_current_pos_matrix(s32 arg0);
 void load_current_tex_matrix(s32 i);
-void play_indirect_effect_recipe(u8 kind, u16 sampler, s32 second);
 void load_list_texture(s32 idx, s32 wrapS, s32 wrapT, s32 map);
 
 void init_particle_effect__10TObjPlayerFv(void) { TObjFish::set_global_param(get_shared_capture_texture_list()); load_list_texture(0, 0, 0, 2); }

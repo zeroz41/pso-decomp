@@ -19,6 +19,7 @@
 #include "pso/object/ending/TObjOnlineEndingHexLine.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/object/ambient/TObjLight.h"
+#include "pso/unk/text_803E2F28.h"
 
 struct Col_802E6CB0 { f32 a; f32 b; f32 c; f32 d; };
 
@@ -88,7 +89,6 @@ extern const f32 lbl_805DE9E4;
 
 }
 void set_chunk_blend(u32 x);
-void draw_chunk_model(void *model);
 extern Col_802E6CB0 lbl_80472C9C;
 extern s32 saved_model_render_flags;
 extern s32 model_render_flags;

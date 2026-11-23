@@ -1460,9 +1460,7 @@ s32 *TWindowDuelResult__sub_801C257C(void);
 s32 *get_split_screen_battle_rankings(void);
 }
 void obj_copyVec2_0(u8 *d, u8 *s);
-void reset_cameras_to_actor(void *actor, s32 view_unused);
 void set_shadow_material_state(void);
-void direction_to_rotation_xz(u8 *dir, s32 *rot_a, s32 *rot_b);
 void emit_sand_footstep_effect(saddr arg0);
 void emit_water_footstep_effect(saddr arg0);
 void emit_grass_footstep_effect(saddr arg0);

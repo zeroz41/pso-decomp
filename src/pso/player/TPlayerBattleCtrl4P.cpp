@@ -46,6 +46,7 @@
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/network/client_id.h"
+#include "pso/camera/TCameraCtrl.h"
 
 extern "C" s32 check_player_flag1__10TObjPlayerFv(void);
 
@@ -152,7 +153,6 @@ void request_active_window_close(void);
 extern const char *TPlayerBattleCtrl4P_player_name_formats[];
 extern s16 battle_event_second_table[];
 extern s32 local_client_id;
-void reset_cameras_to_actor(void *actor, s32 view_unused);
 s32 TPlayerBattleCtrl4P__init_flag;
 typedef struct Ctl_80310F10 Ctl_80310F10;
 Rank_801C343C split_screen_battle_rankings[4];

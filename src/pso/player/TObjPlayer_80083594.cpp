@@ -122,6 +122,7 @@ extern s32 hud_texlist;
 #include "pso/camera/TLiveCameraView.h"
 #include <stddef.h>
 #include "pso/camera/TCameraCtrl.h"
+#include "pso/unk/text_803DD5E0.h"
 #include "pso/camera/CameraViewParams.h"
 #include "pso/camera/CameraHelpers.h"
 #include "pso/render/GinjaView.h"
@@ -208,7 +209,6 @@ void **release_texture_list();
 void **TObjPlayer__sub_80083F04(void);
 s32 is_in_shadow_range(u8 *arg0, f32 farg0);
 saddr get_capture_texture_pixels(void);
-s32 load_texture_list(void *);
 void TObjPlayer__sub_80083F38(void);
 void **release_shared_capture_texture(void);
 u8 get_display_copy_filter();
@@ -228,7 +228,6 @@ s32 GXSetNumChans(s32);
 
 void disable_camera_capture_overlay(void);
 void init_capture_texture(s32 wide);
-void set_ginja_draw_flags(s32 flags);
 void set_light_ambient_color(f32 r, f32 g, f32 b);
 void submit_light0(s32 arg0, s32 arg1);
 void load_gx_light_slot(s32 arg0);
