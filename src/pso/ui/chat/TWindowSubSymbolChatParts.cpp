@@ -23,7 +23,7 @@
 
 #pragma push
 #pragma readonly_strings on
-const char *TWindowSubSymbolChatParts__name = "TWindowSubSymbolChatParts";
+const char *TWindowSubSymbolChatParts::class_name = "TWindowSubSymbolChatParts";
 #pragma pop
 
 extern s32 hud_texlist;
@@ -120,27 +120,6 @@ struct Win_80284D68 {
     s32 card;
 };
 
-struct Parts_80285D38 {
-    s32 f0;
-    u8 pad[0x14];
-    void *vt;
-    u8 pad2[0x20 - 0x1C];
-    s16 id;
-    u8 pad3[0x70 - 0x22];
-    s8 f70;
-    u8 pad4;
-    s8 f72;
-    s8 f73;
-    u8 pad5[2];
-    s16 f76;
-    u8 pad6[0x7C - 0x78];
-    s32 f7C;
-    s32 f80;
-    u8 pad7[0x88 - 0x84];
-    void *sub88;
-    void *sub8C;
-};
-
 struct Parts_80285B84 {
     u8 pad[0x2C];
     s32 flags;
@@ -157,9 +136,7 @@ s32 draw_window_scrollbar(s32, s32, void *);
 void fn_80285314(Win_802857C4 *, Rect_802857C4 *);
 void fn_802855C4(Win_802857C4 *, Rect_802857C4 *);
 void setup_part_sprites__28TWindowSubSymbolChatPartsSetFPvPvPvUsiiii(void *, void *, void *, u16, s32, s32, s32, s32);
-Parts_80285D38 * TWindowSubSymbolChatParts__ct(Parts_80285D38 *arg0, void *arg1, s32 arg2, s32 arg3);
 
-extern s32 __vt__25TWindowSubSymbolChatParts[];
 
 #pragma push
 #pragma fp_contract on
@@ -573,28 +550,25 @@ TWindowSubSymbolChatParts::~TWindowSubSymbolChatParts() {
     TWindowSubStatusDisp::destroy_status_display((saddr)(*(void **)((s8 *)this + 0x88)), (s16)1);
 }
 
-Parts_80285D38 *TWindowSubSymbolChatParts__ct(Parts_80285D38 *arg0, void *parent, s32 arg2, s32 arg3) {
+TWindowSubSymbolChatParts::TWindowSubSymbolChatParts(void *parent, s32 *arg2, s32 *arg3)
+    : TWindowAddition((u8 *)&symbol_chat_parts_window_layout, 4, (u8 *)parent) {
     NJS_POINT2 v;
     void *p;
-    void *q;
-    __ct__15TWindowAdditionFPUcsPUc(arg0, (u8 *)&symbol_chat_parts_window_layout, (s16)4, (u8 *)parent);
-    arg0->vt = __vt__25TWindowSubSymbolChatParts;
-    arg0->f0 = (saddr)TWindowSubSymbolChatParts__name;
-    arg0->f70 = 0;
-    arg0->f72 = 0;
-    arg0->f73 = 0;
-    arg0->f76 = 0;
-    arg0->f7C = arg2;
-    arg0->f80 = arg3;
+
+    m_name = class_name;
+    m_70 = 0;
+    m_72 = 0;
+    m_73 = 0;
+    m_76 = 0;
+    m_7c = arg2;
+    m_80 = arg3;
     p = ::operator new(0x24);
     if (p != NULL) {
-        p = ((TWindowSubStatusDisp *)p)->construct_type1_heading((saddr)TWindowSubStatusDisp::get_message_10(0x33), arg0->id);
+        p = ((TWindowSubStatusDisp *)p)->construct_type1_heading((saddr)TWindowSubStatusDisp::get_message_10(0x33), client_index);
     }
-    arg0->sub88 = p;
+    m_88 = (TWindowSubStatusDisp *)p;
     v.x = 0.0f;
     v.y = 0.0f;
-    q = new WindowScrollBar(&v);
-    arg0->sub8C = q;
-    return arg0;
+    scrollbar = new WindowScrollBar(&v);
 }
 }

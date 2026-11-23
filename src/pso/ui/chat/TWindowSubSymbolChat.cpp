@@ -79,8 +79,6 @@ extern s32 hud_texlist;
 
 void TWindowSubSymbolChat__sub_80281840(Win_80281840 *arg0);
 s32 TWindowSubComCard__sub_80265660(s32, s32);
-s32 TWindowSubSymbolChatParts__ct(s32, s32, s32 *, s32 *);
-s32 __nw__7TObjectFUl(int);
 
 int forward_trade_action_default__16TObjCityMainWarpFPviii(void *p, int a1, int a2, int a3);
 s32 get_cursor_pos__20TWindowShortListCtrlFv(s32);
@@ -848,13 +846,9 @@ void TWindowSubSymbolChat::open_menu(s32 arg0, saddr list) {
 }
 
 s32 TWindowSubSymbolChat::create_parts() {
-    s32 var_r31;
-
-    var_r31 = __nw__7TObjectFUl(0x90);
-    if (var_r31 != 0) {
-        var_r31 = TWindowSubSymbolChatParts__ct(var_r31, get_window_layout_position(0x7D), &TWindowSubSymbolChat__data_805D6498, &TWindowSubSymbolChat__data_805D649C);
-    }
-    return var_r31;
+    return reinterpret_cast<saddr>(new TWindowSubSymbolChatParts(
+        reinterpret_cast<void *>(get_window_layout_position(0x7D)),
+        &TWindowSubSymbolChat__data_805D6498, &TWindowSubSymbolChat__data_805D649C));
 }
 
 s32 TWindowSubSymbolChat::create_parts_set() {

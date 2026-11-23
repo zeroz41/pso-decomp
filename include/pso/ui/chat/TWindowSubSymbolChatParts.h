@@ -9,7 +9,9 @@ struct TWindowSubStatusDisp;
 struct WindowScrollBar;
 
 struct TWindowSubSymbolChatParts : public TWindowAddition {
+    TWindowSubSymbolChatParts(void *parent, s32 *arg2, s32 *arg3);
     virtual ~TWindowSubSymbolChatParts();
+    static const char *class_name;
     void sub_80284FB8();
     void sub_80285274(u8 *);
     void sub_80285054();
