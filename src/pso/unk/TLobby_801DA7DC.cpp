@@ -6,37 +6,11 @@
 #include "pso/unk/TLobby_801DEFC4.h"
 #include "pso/player/TPlyGuildCardTag_8007B434.h"
 #include "pso/unk/TLobby.h"
+#include "pso/network/TProtocol.h"
 #include "pso/network/protocol/protocol.h"
 #include "pso/network/PSOV3EncryptionTCP.h"
 
-struct Base_801DA7DC { char pad[0x18]; };
-struct VObj_801DA7DC : Base_801DA7DC {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual s32 m_call(void *a1, s32 a2);
-};
-
 struct Pkt_801DA848 { u8 hdr[4]; u8 body[0xD50]; };
-
-struct Base_801DA8C4 { char pad[0x18]; };
-
-struct VObj_801DA8C4 : Base_801DA8C4 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual s32 m_call(void *a1, s32 a2);
-};
 
 struct Pkt_801DA8C4 {
     u8 cmd;
@@ -104,15 +78,14 @@ extern "C" {
 void handle_cmd_C5__9TProtocolFR6packet(u8 *arg0, Pkt_801DA848 *arg1);
 s32 __as__16TPlyClientConfigFRC16TPlyClientConfig(void *, void *);
 s32 __as__21TPlyMeetUserExtensionFRC21TPlyMeetUserExtension(void *, void *);
-extern u8 meet_user_settings[];
 extern char *lobby_server_greeting_text;
 void handle_cmd_02__9TProtocolFR6packet(u8 *arg0, Recv_801DAA70 *arg1);
-void TLobby::send_c6_packet(void *lobby) {
-    if ((s32) *(s32 *)((s8 *)this + 0x1910) != 0) {
+void TProtocol::send_c6_packet(void *lobby) {
+    if (m_connected != 0) {
         *(u8 *)((s8 *)lobby + 0) = 0xC6;
         *(s16 *)((s8 *)lobby + 2) = 0x7C;
         ((TLobby *)lobby)->bswap_c6_packet();
-        ((VObj_801DA7DC *)this)->m_call(lobby, 0x7C);
+        send((u8 *)lobby, 0x7C);
     }
 }
 
@@ -126,30 +99,30 @@ void handle_cmd_C5__9TProtocolFR6packet(u8 *arg0, Pkt_801DA848 *arg1) {
     }
 }
 
-s32 send_login_9e_extended__6TLobbyFPvPvi(u8 *arg0, u8 *src, s32 arg2) {
+s32 TProtocol::send_login_9e_extended(void *player_name, int udp_disabled) {
     Pkt_801DA8C4 pkt;
-    memset(arg0 + 0x3F7A, 0, 0x10);
-    strncpy((char *)(arg0 + 0x3F7A), (const char *)src, 0x10);
-    *(s32 *)(arg0 + 0x1930) = arg2;
+    memset(m_player_name, 0, 0x10);
+    strncpy(m_player_name, (const char *)player_name, 0x10);
+    m_udp_disabled = udp_disabled;
     ((TPlySmth *)(&pkt))->construct();
     memset(&pkt, 0, 0x150);
     pkt.cmd = 0x9E;
-    pkt.flag = *(s32 *)(arg0 + 0x1930);
+    pkt.flag = m_udp_disabled;
     pkt.size = 0x150;
-    __as__16TPlyGuildCardTagFRC16TPlyGuildCardTag(pkt.tag, arg0 + 0x1900);
-    __as__8TPlySmthFRC8TPlySmth((saddr)pkt.smth, (saddr)(arg0 + 0x18F8));
-    pkt.f14 = *(u16 *)(arg0 + 0x1908);
-    pkt.f19 = *(s32 *)(arg0 + 0x1934);
-    __as__16TPlyClientConfigFRC16TPlyClientConfig(pkt.config, arg0 + 0x3FAC);
-    strncpy(pkt.name1, (const char *)(arg0 + 0x3EB8), 0x10);
-    strncpy(pkt.name2, (const char *)(arg0 + 0x3EC9), 0x10);
-    strncpy(pkt.name3, (const char *)(arg0 + 0x3F8A), 0x10);
-    strncpy(pkt.name4, (const char *)(arg0 + 0x3F9B), 0x10);
-    strncpy(pkt.desc1, (const char *)(arg0 + 0x3EDA), 0x30);
-    strncpy(pkt.desc2, (const char *)(arg0 + 0x3F0A), 0x30);
-    strncpy(pkt.name5, (const char *)(arg0 + 0x3F7A), 0x10);
+    __as__16TPlyGuildCardTagFRC16TPlyGuildCardTag(pkt.tag, &m_guildcard_tag);
+    __as__8TPlySmthFRC8TPlySmth((saddr)pkt.smth, (saddr)&m_smth);
+    pkt.f14 = m_sub_version;
+    pkt.f19 = m_language;
+    __as__16TPlyClientConfigFRC16TPlyClientConfig(pkt.config, &m_client_config);
+    strncpy(pkt.name1, m_serial_number_v1, 0x10);
+    strncpy(pkt.name2, m_access_key_v1, 0x10);
+    strncpy(pkt.name3, m_serial_number2, 0x10);
+    strncpy(pkt.name4, m_access_key2, 0x10);
+    strncpy(pkt.desc1, m_serial_number, 0x30);
+    strncpy(pkt.desc2, m_access_key, 0x30);
+    strncpy(pkt.name5, m_player_name, 0x10);
     ((TLobby *)(&pkt))->bswap_guild_card_meet_user();
-    ((VObj_801DA8C4 *)arg0)->m_call(&pkt, 0x150);
+    send((u8 *)&pkt, 0x150);
     return 0;
 }
 
@@ -190,7 +163,7 @@ void handle_cmd_02__9TProtocolFR6packet(u8 *arg0, Recv_801DAA70 *arg1) {
         __as__16TPlyClientConfigFRC16TPlyClientConfig(pkt.config, arg0 + 0x3FAC);
         if (*(s32 *)(arg0 + 0x1918) != 0) {
             pkt.f18 = 1;
-            __as__21TPlyMeetUserExtensionFRC21TPlyMeetUserExtension(pkt.ext, meet_user_settings);
+            __as__21TPlyMeetUserExtensionFRC21TPlyMeetUserExtension(pkt.ext, &meet_user_settings);
             pkt.size = 0x150;
             ((TLobby *)(&pkt))->bswap_guild_card_meet_user();
             ((VObj_801DAA70 *)arg0)->m_call(&pkt, 0x150);

@@ -67,39 +67,11 @@ struct PktHdr_801DA4A0 {
 };
 
 #include <string.h>
-struct VBase_18_801DA548 { char pad[0x18]; };
-
-struct VObj_18_801DA548 : VBase_18_801DA548 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8(void *, s32);
-};
-
 struct Pkt_801DA548 {
     u8 cmd;
     u8 flag;
     u16 size;
     char text[0xac];
-};
-
-struct VBase_18_801DA734 { char pad[0x18]; };
-
-struct VObj_18_801DA734 : VBase_18_801DA734 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8(void *, s32);
 };
 
 struct Pkt_801DA734 {
@@ -184,8 +156,7 @@ void send_trade_list__6TLobbyFPvPv(VObj_18_801DA4A0 *obj, Pkt_801DA4A0 *src) {
     obj->m8(&pkt, 0x288);
 }
 
-void TLobby::send_text_packet_D9(char *str) {
-    VObj_18_801DA548 *obj = (VObj_18_801DA548 *)this;
+void TProtocol::send_text_packet_D9(char *str) {
     Pkt_801DA548 pkt;
     s32 n;
     memset(&pkt, 0, 0xB0);
@@ -196,7 +167,7 @@ void TLobby::send_text_packet_D9(char *str) {
     n = (strlen(t) + 8) & ~3;
     pkt.size = n;
     TLobby__sub_801DF024(&pkt);
-    obj->m8(&pkt, n);
+    send((u8 *)&pkt, n);
 }
 
 void handle_cmd_D8__9TProtocolFR6packet(u8 *arg0, Pkt_801DA5E4 *arg1) {
@@ -228,8 +199,8 @@ void TProtocol::send_disable_auto_reply() {
     header.bswap();
     send((u8*)&header, sizeof(header));
 }
-void TLobby::send_text_packet_c7(char *str) {
-    if (*(s32 *)((char *)this + 0x1910) != 0) {
+void TProtocol::send_text_packet_c7(char *str) {
+    if (m_connected != 0) {
     Pkt_801DA734 pkt;
     s32 n;
     memset(&pkt, 0, 0x204);
@@ -240,6 +211,6 @@ void TLobby::send_text_packet_c7(char *str) {
     n = (strlen(t) + 8) & ~3;
     pkt.size = n;
     TLobby__sub_801DF064(&pkt);
-    ((VObj_18_801DA734 *)this)->m8(&pkt, n);
+    send((u8 *)&pkt, n);
     }
 }

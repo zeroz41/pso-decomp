@@ -292,7 +292,6 @@ struct TLobby : public TObject {
     u8 normalize_battle_rule_value_b();
     u8 clamp_rule_value_2();
     void reset_settings_to_default();
-    void send_c6_packet(void *lobby);
     void bswap_cmd_d8_header();
     void bswap_c6_packet();
     void bswap_cmd_c5();
@@ -569,7 +568,6 @@ struct TLobby : public TObject {
     static s32 get_flagged_table_entry(s32 client);
     static s32 get_flag_value_if_set();
     void add_status_disp_entry(s32 arg1, s32 arg2);
-    void send_text_packet_D9(char *str);
     static void tmp_buf_release_if_owner(const char *name);
     static s32 tmp_buf_release(const char *name);
     static s32 tmp_buf_is_free();
@@ -626,7 +624,6 @@ struct TLobby : public TObject {
     static void rebuild_area_keep_players();
     static void teardown_scene();
     u8 get_rule_field_0();
-    void send_6F_burst_done();
     static void send_6x75_quest_flag(s16 arg0, s16 arg1, s16 arg2);
     static void send_6x75_quest_flag_cur_difficulty(s16 arg0, s16 arg1);
     void byteswap_6x75_packet();
@@ -825,7 +822,6 @@ struct TLobby : public TObject {
     void fill_guild_card_from_char(s32 arg1);
     void roll_item_grind_bonus();
     void remove_trade_entry(u32 key);
-    void send_text_packet_c7(char *str);
     static void free_map_resources();
     static void send_field1c_packet(saddr arg0);
     static void send_font_state(saddr arg0);
@@ -1080,7 +1076,6 @@ struct TLobby : public TObject {
     static void send_6x6E_sync_game_state(int);
     static void send_6x70_player_data(int);
     static void send_giveup_to_all_players();
-    static s32 send_login_9e_extended(void *, void *, int);
     static void send_logout();
     static void send_packet_60(void *packet);
     static void send_position_update();

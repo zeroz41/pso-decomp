@@ -295,6 +295,11 @@ public:
     void send_server_time_request();
     void send_server_time_accepted();
     void send_quest_menu_closed();
+    void send_6F_burst_done();
+    void send_c6_packet(void *lobby);
+    void send_text_packet_c7(char *str);
+    void send_text_packet_D9(char *str);
+    s32 send_login_9e_extended(void *player_name, int udp_disabled);
 
     void send_regist();
     int send_login2(int disable_udp);

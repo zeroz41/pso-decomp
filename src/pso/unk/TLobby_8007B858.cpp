@@ -11,6 +11,7 @@
 #include "pso/unk/TUnk_804F07C8.h"
 #include "pso/map/TSetManager.h"
 #include "pso/unk/TLobby.h"
+#include "pso/network/TProtocol.h"
 #include "pso/unk/TLobbyEventTheme.h"
 #include "pso/quest/TQuestColCtrl.h"
 #include "pso/ui/hud/TRaderMapCore.h"
@@ -70,11 +71,6 @@ s32 cleanup_game_objects__9TMainTaskFv();
 s32 restore_floor_telepipes();
 s32 __ct__15TWindowCtrlMainFv();
 
-extern saddr tl_00;
-extern saddr tl_01;
-extern saddr tl_06;
-extern saddr tl_particlemodel;
-extern saddr tl_fade;
 
 // Session resources, loaded front to back by TLobby::run_lobby_load_tables and released
 // back to front by TLobby::clear_session_buffers (load, release pairs).
@@ -122,10 +118,10 @@ void TLobby::create_tasks() {
     uaddr tmp;
     create_area_fog_ctrl();
     if (is_split_screen() == 0) {
-        new TUnk_8048E5F4((TObject *)tl_particlemodel, 1);
-        new TUnk_8048E5F4((TObject *)tl_particlemodel, 0);
-        new TUnk_804EDAC0((TObject *)tl_particlemodel);
-        new TUnk_804EFA88((TObject *)tl_particlemodel);
+        new TUnk_8048E5F4(tl_particlemodel, 1);
+        new TUnk_8048E5F4(tl_particlemodel, 0);
+        new TUnk_804EDAC0(tl_particlemodel);
+        new TUnk_804EFA88(tl_particlemodel);
     }
     cleanup_game_objects__9TMainTaskFv();
     TScene::create();
@@ -136,14 +132,14 @@ void TLobby::create_tasks() {
     if (tmp != 0U) {
         __ct__15TWindowCtrlMainFv();
     }
-    new TWindowCtrl((TObject *)tl_00);
-    new TUnk_80499970((TObject *)tl_fade);
+    new TWindowCtrl(tl_00);
+    new TUnk_80499970(tl_fade);
     TLobby::set_fade_params(0);
-    new TCineCtrl((TObject *)tl_00);
+    new TCineCtrl(tl_00);
     TRaderMapCore::create();
     restore_floor_telepipes();
-    new TUnk_804F07C8((TObject *)tl_06);
-    new TSwitch((TObject *)tl_00);
+    new TUnk_804F07C8(tl_06);
+    new TSwitch(tl_00);
     TQuestColCtrl::init();
     if (get_current_floor_area() == AREA_LOBBY) {
         TLobbyEventTheme::create();
@@ -152,9 +148,9 @@ void TLobby::create_tasks() {
         TGoGoBallGame::create();
     }
     if ((get_main_phase() == 0xF) && ((get_current_floor_area() == AREA_PIONEER2_EP1) || (get_current_floor_area() == AREA_PIONEER2_EP2))) {
-        new THunterGuildSeqOnlineTask((TObject *)tl_01);
+        new THunterGuildSeqOnlineTask(tl_01);
     }
-    new TTecCtrl((TObject *)tl_01);
+    new TTecCtrl(tl_01);
 }
 
 void TLobby::clear_session_buffers() {
@@ -282,5 +278,5 @@ void TLobby::send_status_packet() {
     char lobby[0x84];
 
     ((TLobby *)lobby)->collect_active_card_ids();
-    ((TLobby *)protocol_instance)->send_c6_packet((s32 *) lobby);
+    protocol_instance->send_c6_packet(lobby);
 }

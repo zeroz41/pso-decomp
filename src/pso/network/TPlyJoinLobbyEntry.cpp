@@ -642,7 +642,7 @@ void handle_6x71_unblock_game_join(void) {
             }
             pend[i] = 0;
         }
-        ((TLobby *)TLobby::protocol_instance)->send_6F_burst_done();
+        TLobby::protocol_instance->send_6F_burst_done();
         TAdSinglePlyChrSelectGC::load_character_from_card(0);
         TLobby::data_805D5594 = 0xF;
     }
@@ -2055,7 +2055,7 @@ void TLobby::handle_verify_result(unsigned int arg0) {
         lobby_debug_printf_stub(lobby_msg_regist_check_ok);
         TLobby::dispatch_by_index(1);
         option_state = TLobby::get_option_state();
-        TLobby::send_login_9e_extended(protocol_instance, (void *) (((saddr)(void *)TAdSinglePlyChrSelectGC::get_char_index((u32)(0xFFFF))) + 0x370), (int)option_state);
+        protocol_instance->send_login_9e_extended((void *) (((saddr)(void *)TAdSinglePlyChrSelectGC::get_char_index((u32)(0xFFFF))) + 0x370), (int)option_state);
         return;
     case 1:
         send_register_9c((u8 *)protocol_instance);
@@ -2126,7 +2126,7 @@ void TLobby::handle_register_result(int arg0) {
         lobby_debug_printf_stub(lobby_msg_registed);
         get_player_by_client_id(local_client_id);
         opt = TLobby::get_option_state();
-        TLobby::send_login_9e_extended(protocol_instance, (u8 *)TAdSinglePlyChrSelectGC::get_char_index(0xFFFF) + 0x370, opt);
+        protocol_instance->send_login_9e_extended((u8 *)TAdSinglePlyChrSelectGC::get_char_index(0xFFFF) + 0x370, opt);
         TLobby::dispatch_by_index(1);
         return;
     }
@@ -2402,7 +2402,7 @@ void TLobby::make_players() {
         p->m6();
         strncpy(TLobby__player_names[local_client_id], p->m10(), 0x10);
         lobby_debug_printf_stub(lobby_debug_make_player_format, local_client_id);
-        ((TLobby *)protocol_instance)->send_6F_burst_done();
+        protocol_instance->send_6F_burst_done();
         data_805D5594 = 0xF;
         p = (Ply_80136A8C *)create_player_object(1 - local_client_id, 4, (u8 *)TAdSinglePlyChrSelectGC::get_char_index(0));
         if (p != NULL) {
@@ -2423,7 +2423,7 @@ void TLobby::make_players() {
         p->m6();
         strncpy(TLobby__player_names[local_client_id], p->m10(), 0x10);
         lobby_debug_printf_stub(lobby_debug_make_player_format, local_client_id);
-        ((TLobby *)protocol_instance)->send_6F_burst_done();
+        protocol_instance->send_6F_burst_done();
         data_805D5594 = 0xF;
     }
 }

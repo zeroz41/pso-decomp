@@ -25,7 +25,7 @@ void TLobby::init_once_data(u32 arg0) {
 void TLobby::flush_pending_send() {
     if (info_board_state_flags & 1) {
         if (protocol_instance != NULL) {
-            ((TLobby *)protocol_instance)->send_text_packet_D9((char *)(TLobby::get_card_window_field()));
+            protocol_instance->send_text_packet_D9((char *)(TLobby::get_card_window_field()));
         }
         info_board_state_flags &= 0xFFFFFFFE;
     }

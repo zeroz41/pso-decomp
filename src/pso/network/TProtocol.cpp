@@ -34,15 +34,14 @@ struct Stack_801DB554 {
     s16 spA;
 };
 
-void TLobby::send_6F_burst_done() {
-    u8 *arg0 = (u8 *)this;
+void TProtocol::send_6F_burst_done() {
     Stack_801DB554 stack;
-    if ((s32) *(s32 *)((s8 *)arg0 + 0x1910) != 0) {
+    if (m_connected != 0) {
         stack.sp8 = 0x6F;
         stack.sp9 = 0;
         stack.spA = 4;
         ((packet_header *)((saddr) &stack.sp8))->bswap();
-        ((TProtocol *)arg0)->send((u8 *)&stack.sp8, 4);
+        send((u8 *)&stack.sp8, 4);
     }
 }
 
