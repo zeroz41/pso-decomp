@@ -91,7 +91,6 @@ s32 TKeyBoardControl__sub_8000F90C(int);
 s32 run_load_callback_table(void *, int);
 s32 reset_controller_input_state();
 s32 __ct__15TWindowCtrlMainFv(u32);
-extern u8 default_scene_light_config[];
 
 extern u8 lobby_rule_settings[];
 s32 register_callback__23TAdSinglePlyChrSelectGCFis(int, int);
@@ -439,7 +438,7 @@ void init_single_player_char_select_scene(void) {
     set_copy_clear_color_argb(0, 0, 0);
     reset_controller_input_state();
     run_load_callback_table(&(*(RecoveredGlobal_8033B264_lbl_804EF728 *)&character_select_scene_resource_callbacks), 0x30);
-    init_menu_scene_lights(default_scene_light_config, 4);
+    init_menu_scene_lights((u8 *)default_scene_light_config, 4);
     new TCameraCtrl(tl_camera);
     Vec a = lbl_80477D60;
     Vec b = lbl_80477D6C;

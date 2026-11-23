@@ -88,7 +88,6 @@ void run_load_callback_table(void *, s32);
 }
 void clear_resource_load_tasks(void);
 void set_screen_size(f32, f32);
-extern u8 default_scene_light_config[];
 
 // The mode the scene machine shows (create_mode_scene picks the scene object by it) and the one
 // before it (sync_mode_state).
@@ -494,7 +493,7 @@ void init_game_mode_select_scene(void) {
     }
     TLobby::clear_callback_and_reset_keyboard();
     TParticleCtrl::init_heap(0x100000);
-    init_menu_scene_lights(default_scene_light_config, 4);
+    init_menu_scene_lights((u8 *)default_scene_light_config, 4);
     TObjLight__scene_light_state.direction.y = -1.0f * sin_table_lookup(0x1555);
     c = cos_table_lookup(0x1555);
     TObjLight__scene_light_state.direction.x = c * sin_table_lookup(0x9000);

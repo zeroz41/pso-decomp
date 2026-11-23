@@ -32,14 +32,13 @@ char character_creation_name_buffer[0x18];
 CharacterAppearanceFields character_creation_visual_record;
 extern "C" {
 }
-extern u8 default_scene_light_config[];
 BmlResource *creation_menu_main_obj;
 int creation_dressing_room_mode_flag;
 extern s32 TObjCMMainMenu__data_805D659C;
 
 void init_creation_menu_scene(void) {
     void *p;
-    init_menu_scene_lights(default_scene_light_config, 4);
+    init_menu_scene_lights((u8 *)default_scene_light_config, 4);
     TCameraCtrl::reset_view_state();
     TCameraCtrl::init_default_view();
     new TCameraCtrl(tl_camera);

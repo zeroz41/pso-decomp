@@ -557,7 +557,7 @@ force_active:
   - TItemDrop__data_805D53D0
   - TItemDrop__gsl_adxf_handle
   - TItemDrop__gsl_entry_count
-  - TItemEffArmor__ct
+  - __ct__13TItemEffArmorFP10TObjPlayerff
   - __ct__13TItemEffEquipFP7TObjectUslll
   - TItemEffFlame__class_name
   - TItemEffHeaven__class_name

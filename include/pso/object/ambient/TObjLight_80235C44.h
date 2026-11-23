@@ -12,7 +12,7 @@ struct Vec;
 // --- C functions defined in TObjLight_80235C44.cpp ---
 extern "C" {
 TUnk_804CCAA8 *construct_actor_light_task(TUnk_804CCAA8 *light, NJS_ARGB *color, Vec *desired, s32 duration,
-                                          TObjBase *source, TObject *parent, f32 step);
+                                          TObjBase *source, f32 step, TObject *parent);
 }
 // --- end of C functions
 

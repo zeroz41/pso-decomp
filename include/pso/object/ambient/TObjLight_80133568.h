@@ -43,6 +43,9 @@ struct TObjLightSceneLightState {
     u8 pad_44[0xC];
 };
 extern TObjLightSceneLightState TObjLight__scene_light_state;
+// The light init_map_lights sets up without a map light entry, laid out like
+// the start of TObjLightSceneLightState ([7] intensity, [8] ambient).
+extern f32 default_scene_light_config[];
 
 extern TUnk_804A6F90 *lbl_805D5558;
 extern void *lbl_805D555C;

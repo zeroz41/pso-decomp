@@ -99,7 +99,7 @@ TUnk_804CCAA8::TUnk_804CCAA8(f32 step, f32 peak, f32 intensity, NJS_ARGB *color,
     TObjLight::find_light_params((f32 *)&direction, (f32 *)&scene_color, actor);
 }
 TUnk_804CCAA8 *construct_actor_light_task(TUnk_804CCAA8 *light, NJS_ARGB *color, Vec *desired, s32 duration,
-                                          TObjBase *source, TObject *parent, f32 step) {
+                                          TObjBase *source, f32 step, TObject *parent) {
     NJS_ARGB scene_color;
     __ct__7TObjectFP7TObject(light, parent);
     *(s32 **)((s8 *)light + 0x18) = __vt__13TUnk_804CCAA8;
