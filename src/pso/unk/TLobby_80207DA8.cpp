@@ -315,7 +315,6 @@ saddr get_floor_scene_table(s32 area) {
 
 void TLobby::reset_story_select(void* p) { TLobby::reset_story_select(); }
 void TLobby__sub_80207F10(void) { TLobby::reset_story_select(); }
-s32 get_current_floor();
 void bswap_enemy_set_row(void *arg0);
 void bswap_enemy_set_row_fields(void *arg0);
 void swap_object_row_endian(void *arg0);

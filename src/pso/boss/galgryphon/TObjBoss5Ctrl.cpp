@@ -7,15 +7,14 @@
 #include "pso/boss/galgryphon/TObjBoss5FloorGrass.h"
 #include "pso/boss/galgryphon/TObjBoss5FloorStone.h"
 #include "pso/boss/galgryphon/TObjBoss5PillarCtrl.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 #pragma readonly_strings on
 #pragma fp_contract on
 
 
 extern "C" {
-s32 get_current_floor();
 s32 is_room_enemy_set_cleared(s32, s32);
-s32 is_split_screen();
 const char *lbl_805D2828 = "TObjBoss5Ctrl";
 }
 

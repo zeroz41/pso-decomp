@@ -129,7 +129,6 @@ void *__construct_new_array(void *block, void (*ctor)(void *), void (*dtor)(void
 void fn_801C1BA8(void *, void *);
 s32 fn_801D40D4(s32 arg0, Rec_801D40D4 *arg1, u8 *arg2);
 void TLobby__sub_801D4C28(void* a0, int a1, int a2, int a3);
-s32 try_spend_actor_meseta(u8 *arg0, s32 arg1);
 s32 item_identity_matches(u8 *arg0, u8 *arg1);
 s32 export_inventory_entry__10TObjPlayerFiPv(saddr arg0, u8 *arg1);
 }

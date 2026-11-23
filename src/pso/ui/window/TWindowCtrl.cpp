@@ -26,6 +26,7 @@
 #include "pso/unk/TLobby.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/enemy/shinowa/TObjEneMe3ShinowaReal_8002ADD8.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 const char *TWindowCtrl__name = "TWindowCtrl";
 /* frame of the open sequence at which each window appears: split screen / single player */
@@ -90,7 +91,6 @@ void TWindowCtrl::update_pulse_color() {
 #pragma pop
 
 s32 TWindowCtrl__sub_8024B000(void *, saddr);
-s32 is_split_screen();
 
 extern s32 local_client_id;
 

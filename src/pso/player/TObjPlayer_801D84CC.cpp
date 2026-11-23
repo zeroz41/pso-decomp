@@ -19,6 +19,7 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 struct Stack_801D8664 {
     s8 sp8;
@@ -46,7 +47,6 @@ struct VObj_84_801d859c_801D84CC : VObj_84Base_801d859c_801D84CC {
 
 s32 advance_item_id_counter();
 void set_equip_slot_entry(saddr arg0, s32 arg1, s32 arg2);
-u16 get_entity_id(void *);
 
 void process_trade_target__10TObjPlayerFiPv(saddr arg0, void *player) {
     void *item;

@@ -90,7 +90,6 @@ const char *TObjEneMe3Stelth__class_name = stelth_class_name;
 const char *TObjEneMe3StelthReal__class_name = stelth_real_class_name;
 
 
-void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 heading);
 extern "C" {
 extern StelthBehaviorParams *TObjEneMe3Stelth__behavior_params_by_variant[];
 extern CollisionBody TObjEneMe3Stelth__collision_body_template;

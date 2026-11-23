@@ -27,6 +27,7 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/system/task/TObject.h"
 #include "pso/object/ambient/TObjFish.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 
 struct Ent_80207478 { s32 f0; char *name; };
@@ -44,7 +45,6 @@ extern "C" {
 void TSceneSora__sub_80207430(void);
 u8 *__ct__10TSceneSoraFl(TSceneSora *arg0, s32 _w1);
 s32 rotate_matrix_y(int, int);
-s32 get_current_floor();
 extern char sky_model_ext_s_njm[];
 extern char sky_model_ext_sm_gj[];
 extern char sky_model_ext_s_gj[];

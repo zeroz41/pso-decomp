@@ -6,9 +6,9 @@
 #include "pso/map/FloorArea.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 extern "C" {
-s32 is_split_screen(void);
 extern const char TObjParticle__class_name_string[] = "TObjParticle";
 const char *obj_particle_class_name = TObjParticle__class_name_string;
 }

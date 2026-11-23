@@ -15,6 +15,7 @@
 #include "pso/unk/TLobby.h"
 #include <stdio.h>
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
+#include "pso/player/TObjPlayer_80011014.h"
 extern "C" { extern const char TObjNewFloorWin__class_name_string[16] = "TObjNewFloorWin"; }
 
 struct TObjNewFloorWin_80073DCC { u8 pad[0x1C]; s32 state; void *window; s32 timer24; s32 timer28; };
@@ -86,7 +87,6 @@ TObjNewFloorWin::~TObjNewFloorWin() {}
 
 
 extern "C" {
-s32 is_split_screen(void);
 void *__ct__15TObjNewFloorWinFP7TObjectPv(void *arg0, void *arg1, void *arg2);
 s32 get_player_by_client_id(u32);
 
