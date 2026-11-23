@@ -53,7 +53,6 @@
 
 void update_music_sequencer(void);
 extern "C" {
-void TObjPlayer__sub_80083FB0(void);
 
 extern s32 lbl_805D62B0;
 
@@ -66,7 +65,7 @@ void TKeyBoardControl__sub_8000F764(void) {
 }
 
 void TKeyBoardControl::run_tasks() {
-    TObjPlayer__sub_80083FB0();
+    TObjPlayer::sub_80083FB0();
     update_global_sound_frame();
     if ((s32) lbl_805D62B0 != 0) {
         update_music_sequencer();
@@ -154,7 +153,6 @@ saddr lbl_805D49A4;
 saddr player_matrix_stack_buffer;
 saddr keyboard_input_buffer;
 extern "C" {
-void TObjPlayer__sub_801D92A4(void);
 void fn_800FFE0C(void);
 void TWindowSnapShot__sub_802A7DA0(void);
 void TWindowSubStatusDisp__sub_803386F0(void);
@@ -181,7 +179,7 @@ void shutdown_and_reset_system(void) {
     TParticleCtrl::reset_emitter_table();
     free_effect_resources();
     TAdSinglePlyChrSelectGC::free_resources();
-    TObjPlayer__sub_801D92A4();
+    TObjPlayer::sub_801D92A4();
     TLobby__sub_8020E3BC();
     TWindowSnapShot__sub_802A7DA0();
     TAdWarningBaseGC__sub_8032D188();

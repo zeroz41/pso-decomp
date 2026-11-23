@@ -182,7 +182,7 @@ void draw_color_lines(ColorLineList *l, s32 n, s32 flags, f32 scale) {
     u32 c;
     TObjPlayer::load_screen_space_matrix();
     if (flags & 4) {
-        TObjPlayer__sub_803E21DC();
+        TObjPlayer::sub_803E21DC();
     } else {
         setup_opaque_color_draw();
     }
@@ -206,7 +206,7 @@ void draw_line_list(Lines_801E341C *l, s32 n, u32 flags) {
     u32 *c;
     load_camera_view_matrix();
     if (flags & 4) {
-        TObjPlayer__sub_803E21DC();
+        TObjPlayer::sub_803E21DC();
     } else {
         setup_opaque_color_draw();
     }
@@ -294,7 +294,7 @@ void draw_polygon_2d(NJS_POINT2COL *poly, s32 count, u32 flags, f32 depth) {
             TObjPlayer::setup_render();
         }
     } else if (flags & 4) {
-        TObjPlayer__sub_803E21DC();
+        TObjPlayer::sub_803E21DC();
     } else {
         setup_opaque_color_draw();
     }
@@ -324,7 +324,7 @@ void draw_tri_fan_3d(NJS_POINT3COL *fan, s32 n, u32 flags) {
         }
         load_context_texture_obj();
     } else if (flags & 4) {
-        TObjPlayer__sub_803E21DC();
+        TObjPlayer::sub_803E21DC();
     } else {
         setup_opaque_color_draw();
     }
@@ -343,7 +343,7 @@ void draw_tri_fan_3d(NJS_POINT3COL *fan, s32 n, u32 flags) {
         c++;
     }
     TObjEneRe4Sorcerer__sub_801E3F20();
-    TObjPlayer__sub_803E2248();
+    TObjPlayer::sub_803E2248();
 }
 
 // Reads one Ninja chunk (NJCM, NJTL, NMDM, ...) at file + *offset into dst (or a fresh

@@ -50,7 +50,6 @@ struct Item_802C3F74 : VBase_802C3F74 {
 extern "C" {
 void copy_player_visual_record(void *, void *);
 void clamp_stats__10TObjPlayerFiPv(void *, void *, s32);
-s8 TObjPlayer__sub_801AFD8C(void *);
 s8 query_state_if_present__10TObjPlayerFPv(void *, s32);
 u8 TObjPlayer__sub_801C0124(void *, s16);
 u8 *TObjPlayer__sub_802C4688(O_802C4688 *self, s32 i);
@@ -108,7 +107,7 @@ void export_character_data__10TObjPlayerFPvPv(u8 *player, u8 *arg1) {
     }
     ((TObjPlayer *)player)->set_hp_clamped(hp);
     ((TObjPlayer *)player)->set_tp(facing);
-    *(s8 *)((s8 *)arg1 + 3) = TObjPlayer__sub_801AFD8C(player);
+    *(s8 *)((s8 *)arg1 + 3) = ((TObjPlayer *)player)->sub_801AFD8C();
     ((TObjPlayer *)player)->apply_pending_action((saddr)arg1);
     ((TObjPlayer *)player)->copy_mag_level_to_record((u8 *)arg1);
     ((TObjPlayer *)player)->copy_byte_339_to_record((u8 *)arg1);
@@ -181,7 +180,7 @@ void export_state_to_record__10TObjPlayerFPvPv(u8 *player, s8 *arg1) {
     }
     ((TObjPlayer *)player)->set_hp_clamped(hp);
     ((TObjPlayer *)player)->set_tp(facing);
-    arg1[3] = TObjPlayer__sub_801AFD8C(player);
+    arg1[3] = ((TObjPlayer *)player)->sub_801AFD8C();
     if (TObjPlayer__sub_802A1018() != 0) {
         ((TObjPlayer *)arg1)->set_flag_40();
     }

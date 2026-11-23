@@ -123,7 +123,6 @@ s32 TWindowDuelResult__sub_801C19AC(f32 *arg0);
 void set_split_screen_battle_phase__19TPlayerBattleCtrl4PFl(u8 *arg0, s32 arg1);
 extern s32 TDeadSpot__class_name;
 void destroy_matching_children__19TPlayerBattleCtrl4PFPvPv(void *self, Par_80311304 *p);
-void TObjPlayer__send_selected_spawn_position(void *self, u16 id);
 s32 obj_set_flag_20000();
 s64 OSGetTime(void);
 void obj_clear_flag30_20000(TObjBase *actor);
@@ -816,7 +815,7 @@ void TPlayerBattleCtrl4P::reset_players() {
     for (i = 0; i < 4; i++) {
         p = (void *)get_player_by_client_id(i);
         if (p != 0) {
-            TObjPlayer__send_selected_spawn_position(p, ((Ctl_80311380 *)this)->tbl[((TObjBase *)(p))->get_entity_id()]);
+            ((TObjPlayer *)p)->send_selected_spawn_position(((Ctl_80311380 *)this)->tbl[((TObjBase *)(p))->get_entity_id()]);
             reset_cameras_to_actor(p, 0);
         }
     }

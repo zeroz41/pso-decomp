@@ -12,6 +12,7 @@
 
 #include "pso/ui/window/TWindowShortListCtrl.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/player/TObjPlayer.h"
 
 struct VBase_18_7b3651 { char pad[0x18]; };
 
@@ -38,7 +39,6 @@ typedef struct Ent_800FC968 { u8 pad0[4]; char name[0x100]; u16 a; u8 pad106[6];
 extern "C" {
 s32 get_shared_text_buffer(void);
 char *TWindowSubStatusDisp__sub_80071820(char *);
-s32 TObjPlayer__sub_801AFD8C(void *);
 void text_builder_append_int(s32);
 void text_builder_append(const char *);
 }
@@ -83,7 +83,7 @@ s32 TWindowSubStatusDisp::build_status_text(s32 client_id) {
         return 0;
     }
     name = p->m10();
-    idx = TObjPlayer__sub_801AFD8C(p);
+    idx = ((TObjPlayer *)p)->sub_801AFD8C();
     lvl = p->m14();
     text_builder_reset();
     switch (mode) {

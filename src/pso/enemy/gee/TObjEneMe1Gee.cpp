@@ -157,7 +157,7 @@ void TObjEneMe1Gee::load_resources() {
     p = new TBreakUpMdlData((saddr)TObjEneMe1Gee__resource_bundle->models->model);
     gee_breakup_model = p;
     gee_node4_diffuse = (s32 *)(((NJS_CNK_MODEL *)((NJS_OBJECT *)find_model_node((saddr)TObjEneMe1Gee__resource_bundle->models->model, 4))->model)->polygon_list + 2);
-    TObjPlayer__sub_800F0928();
+    TObjPlayer::sub_800F0928();
     {
         NpcAnimationBinding params = { NULL, reinterpret_cast<TObjMotionAction *>(TObjEneMe1Gee__motion_parameters), 0, 0, 4 };
         params.motions = reinterpret_cast<BmlMotionEntry *>(TObjEneMe1Gee__resource_bundle->motions);

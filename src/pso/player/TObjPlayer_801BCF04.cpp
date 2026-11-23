@@ -7,7 +7,6 @@
 extern "C" {
 
 s32 is_lobby_floor_15__15TFontSmallLobbyFv();
-s32 TObjPlayer__sub_801C2114();
 s32 assign_inventory_item_ids(void *, s32, u8);
 s32 bind_saved_inventory_equipment__10TObjPlayerFPvPvi(void *, s32, u8);
 
@@ -21,7 +20,7 @@ void TObjPlayer::load_character_state(u8 *player) {
     count = *player;
     temp_r30 = (saddr)((TObjPlayer *)player)->get_ptr_4();
     create_inventory();
-    set_action_provider_variant((s16) TObjPlayer__sub_801C2114());
+    set_action_provider_variant((s16) sub_801C2114());
     if ((obj_isState2_324() == 0) || (is_lobby_floor_15__15TFontSmallLobbyFv() == 0)) {
         if (!(shared_state_flags & 1)) {
             assign_inventory_item_ids(this, temp_r30, count);

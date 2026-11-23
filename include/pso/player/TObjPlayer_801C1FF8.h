@@ -7,7 +7,6 @@ extern "C" {
 s32 is_field_0_positive(s32 *arg0);
 void *get_ptr_8(void *p);
 void set_field_0_s32(void *p, s32 v);
-int TObjPlayer__sub_801C2114(void);
 u8 get_byte_3(void *p);
 u8 get_byte_2(void *p);
 u8 get_byte_1ab(void *p);

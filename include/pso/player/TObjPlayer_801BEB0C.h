@@ -4,7 +4,6 @@
 #include "types.h"
 
 extern "C" {
-s32 TObjPlayer__sub_801BEB0C(void *p);
 u8 TObjPlayer__sub_801BEB3C(void *p);
 u8 TObjPlayer__sub_801BEB44(void *p);
 u8 TObjPlayer__sub_801BEB4C(void *p);

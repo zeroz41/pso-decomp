@@ -52,6 +52,6 @@ void draw_textured_vertices__10TObjPlayerFPvii(Vtx_803E2810 *v, s32 n, s32 mode)
         GXTexCoord2f32_803E2810(v->s, v->t);
         v++;
     }
-    TObjPlayer__sub_803E2248();
+    TObjPlayer::sub_803E2248();
 }
 }

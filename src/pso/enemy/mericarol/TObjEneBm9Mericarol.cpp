@@ -147,7 +147,7 @@ void TObjEneBm9Mericarol::load_resources() {
     lbl_805D6874 = 0;
     lbl_805D6878 = 0;
     fn_802D1CC8();
-    TObjPlayer__sub_800F0928();
+    TObjPlayer::sub_800F0928();
     for (i = 0; i < 3; i++) {
         bm9_mericarol_phase_hp_table[i] = (u8 *)TLobby::register_boss(mericarol_phase_hp_ids[i]);
         bm9_mericarol_phase_attack_table[i] = (u8 *)TLobby::dispatch_shared_handler_b(mericarol_phase_attack_ids[i]);

@@ -96,7 +96,7 @@ void TBoss2Mine::apply_paralysis() {  }
 
 void TBoss2Mine::apply_poison_status() {  }
 
-void TBoss2Mine::load_resources() { TObjPlayer__sub_800F0928(); }
+void TBoss2Mine::load_resources() { TObjPlayer::sub_800F0928(); }
 
 void TBoss2Mine::free_resources() {  }
 

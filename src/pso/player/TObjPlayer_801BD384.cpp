@@ -40,19 +40,10 @@ s32 fn_800FE73C(TObjPlayer *player);
 typedef void (*Fn_vpvp_801BD570)(void *, void *);
 
 void TObjPlayer__sub_801BD384(void* p) { ((TObjPlayer *)p)->update_body_parts(); }
-void TObjPlayer__sub_801BD3A4(void) {  }
+void TObjPlayer::sub_801BD3A4() {  }
 void TObjPlayer::free_chara_making() { restore_boss6_player_snapshot(this); ((TCharaMaking *)this)->free_loaded_buffers(); }
 void TObjPlayer::update_body_parts() { copy_player_visual_record((char*)this + 0x85c); this->model_load_flags = 255; ((TCharaMaking *)this)->update_body_parts(); fn_800FE73C(this); }
 
-void TObjPlayer__sub_801BCD54(void *);
-void TObjPlayer__sub_801BCC50(void *);
-void TObjPlayer__sub_801BCB28(void *);
-void TObjPlayer__sub_801BCA10(void *);
-void TObjPlayer__sub_801BD314(void *);
-void TObjPlayer__sub_801BC504(void *);
-void TObjPlayer__sub_801BBC64(void *);
-void TObjPlayer__sub_801BBB94(void *);
-void TObjPlayer__sub_801BB8AC(void *);
 void *TObjPlayer__sub_801BEDC0(void *arg0, s16 arg1);
 
 }
@@ -61,16 +52,16 @@ TObjPlayer::~TObjPlayer() {
     release_child_object();
     free_chara_making();
     destroy_child();
-    TObjPlayer__sub_801BCD54(this);
-    TObjPlayer__sub_801BCC50(this);
-    TObjPlayer__sub_801BCB28(this);
-    TObjPlayer__sub_801BCA10(this);
+    sub_801BCD54();
+    sub_801BCC50();
+    sub_801BCB28();
+    sub_801BCA10();
     destroy_owned_object();
-    TObjPlayer__sub_801BD314(this);
-    TObjPlayer__sub_801BC504(this);
-    TObjPlayer__sub_801BBC64(this);
-    TObjPlayer__sub_801BBB94(this);
-    TObjPlayer__sub_801BB8AC(this);
+    sub_801BD314();
+    sub_801BC504();
+    sub_801BBC64();
+    sub_801BBB94();
+    sub_801BB8AC();
     unregister();
     TObjPlayer::free_owned_buffer_b((saddr)((s8 *)this + 0x7CC), (s16)(-1));
     destroy__10TObjPlayerFis((saddr)((s8 *)this + 0x754), -1);

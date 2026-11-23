@@ -38,7 +38,7 @@ void TUnk_804A1A48::reserved_53() {
         *(s32 *)((s8 *)child + 0) = (s32) (*(s32 *)((s8 *)child + 0) & 0xFFFFFFF7);
         *(s32 *)((s8 *)temp_r30 + 0) = (s32) (*(s32 *)((s8 *)temp_r30 + 0) & 0xFFFFFFF7);
         *(s32 *)((s8 *)temp_r29 + 0) = (s32) (*(s32 *)((s8 *)temp_r29 + 0) & 0xFFFFFFF7);
-        TObjPlayer__sub_80364198();
+        TObjPlayer::sub_80364198();
         model_render_flags &= 0xFFFFFFEF;
         TObjPlayer::set_model_fade_alpha((f32)this->get_owner_alpha());
         *(s32 *)((s8 *)child + 0) = (s32) (*(s32 *)((s8 *)child + 0) | 1);
@@ -60,7 +60,7 @@ void TUnk_804A1A48::reserved_53() {
         temp_r3 = *(s32 *)((s8 *)temp_r29 + 0x18);
         *(s32 *)((s8 *)temp_r29 + 0x18) = (s32) (temp_r3 + this->swing_angle);
         TObjPlayer::warn_if_gauge_low();
-        TObjPlayer__sub_8036414C();
+        TObjPlayer::sub_8036414C();
     }
 }
 

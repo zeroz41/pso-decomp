@@ -338,7 +338,7 @@ void TObjLiveMonitor::render() {
     if (camera != NULL && camera->is_enabled() != 0) {
         camera->load_view_texture();
     } else if (is_split_screen() == 0) {
-        TObjPlayer__sub_80084500();
+        TObjPlayer::sub_80084500();
     } else {
         render_live_monitor_screen();
     }
@@ -375,7 +375,7 @@ int TObjLiveMonitor::render_live_monitor_screen() {
         if (camera != NULL && camera->is_enabled() != 0) {
             camera->load_view_texture();
         } else if (is_split_screen() == 0) {
-            TObjPlayer__sub_80084500();
+            TObjPlayer::sub_80084500();
         } else {
             set_texlist(texlist);
         }
@@ -397,7 +397,7 @@ int TObjLiveMonitor::render_live_monitor_screen() {
         break;
     case 4:
         if (is_split_screen() == 0) {
-            TObjPlayer__sub_80084500();
+            TObjPlayer::sub_80084500();
         }
         slot = 0;
         break;

@@ -35,14 +35,11 @@ s8 TObjPlayer__sub_801AFDBC(s8);
 extern s32 game_difficulty_selection;
 s32 get_class_starting_inventory(s8 cls);
 u8 *get_class_defense_template(TObjPlayer *player);
-s32 TObjPlayer__sub_801D8C3C(void);
 player_stats *get_class_stat_caps(s8 cls);
 u8 *get_class_attack_template(TObjPlayer *player);
 stats *get_class_base_stats(s8 cls);
-u8 *TObjPlayer__sub_801D8DCC(TObjPlayer *player);
 s32 TObjPlayer__sub_801D91B8(saddr player);
 s32 TBoss4DarkFalz__sub_801D94C0(void* p);
-void TObjPlayer__sub_801D92A4(void);
 int load_encrypted_archive_data(const char *);
 }
 int ply_level_table;
@@ -121,7 +118,7 @@ s32 *TObjPlayer::get_hurt_protection_ticks() {
     return var_r3;
 }
 
-s32 TObjPlayer__sub_801D8C3C(void) {
+s32 TObjPlayer::sub_801D8C3C() {
     return *(s32 *)((s8 *)lbl_80449254 + (TLobby::get_instance() * 4));
 }
 
@@ -150,11 +147,11 @@ s32 get_class_starting_inventory(s8 cls) {
     return *(s32 *)((s8 *)class_starting_inventory_table + (cls * 4));
 }
 
-u8 *TObjPlayer__sub_801D8DCC(TObjPlayer *player) {
+u8 * TObjPlayer::sub_801D8DCC() {
   s32 temp_r31;
   s8 *new_var;
-  temp_r31 = player->get_handle_value() * 0x14;
-  new_var = ((s8 *)player_cast_motion_record_table) + (player->has_valid_handle() * 4);
+  temp_r31 = this->get_handle_value() * 0x14;
+  new_var = ((s8 *)player_cast_motion_record_table) + (this->has_valid_handle() * 4);
   return *(u8 **)new_var + temp_r31;
 }
 
@@ -340,7 +337,7 @@ u8 *get_ply_level_table_row(s8 cls, s32 lvl) {
   return *(u8 **)((s8 *)temp_r30 + TObjPlayer__sub_801AFDBC(cls) * 4) + TObjPlayer::clamp_index_to_max(lvl) * 0xC;
 }
 
-void TObjPlayer__sub_801D92A4(void) { TLobby::free_nodes_with_id(ply_level_table); }
+void TObjPlayer::sub_801D92A4() { TLobby::free_nodes_with_id(ply_level_table); }
 
 void load_ply_level_tbl(void) { ply_level_table = load_encrypted_archive_data("PlyLevelTbl.cpt"); }
 

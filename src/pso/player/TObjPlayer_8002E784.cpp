@@ -148,7 +148,7 @@ void TObjPlayer::create_breakup_model() {
     TObjPlayer__sub_8002ECC4(shared_breakup_model, 0x13);
 }
 
-void TObjPlayer__sub_8002EB88(void) {
+void TObjPlayer::sub_8002EB88() {
     delete shared_breakup_model;
     shared_breakup_model = NULL;
 }
@@ -241,7 +241,7 @@ void TUnk_804820A8::render() {
     current_scene_light->sub_801337F8();
 }
 
-void TObjPlayer__sub_8002E7C8(void) {
+void TObjPlayer::sub_8002E7C8() {
     TBreakUpMdlData *model = new TBreakUpMdlData((saddr)boss2_derolle_resource->models[5].model);
     lbl_805D4B8C = model;
     TObjPlayer__sub_8002ECC4(model, 0x1C);

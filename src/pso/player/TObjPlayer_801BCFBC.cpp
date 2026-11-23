@@ -214,14 +214,13 @@ void TObjPlayer::sub_801BD240() {
     ((TObjPlayer *)arg0)->update_input_and_draw();
 }
 
-int TObjPlayer__sub_801C2114(void);
 
 extern "C" {
 
 void TObjPlayer::update_input_and_draw() {
     saddr ctl = (saddr)this;
     if (is_current_area_item_enabled() == 0) {
-        ((TObjPlayer *)ctl)->set_action_provider_variant((int) (TObjPlayer__sub_801C2114()));
+        ((TObjPlayer *)ctl)->set_action_provider_variant((int) (sub_801C2114()));
     }
     ((TObjPlayer *)ctl)->init_idle_animation();
     ((TObjPlayer *)ctl)->draw();
@@ -232,4 +231,4 @@ void TObjPlayer::update_input_and_draw() {
 
 }
 
-void TObjPlayer__sub_801BD314(void) {  }
+void TObjPlayer::sub_801BD314() {  }

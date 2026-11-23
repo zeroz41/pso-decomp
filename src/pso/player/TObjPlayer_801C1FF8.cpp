@@ -68,7 +68,7 @@ S_801C20A4 *init_player_telepipe_record(S_801C20A4 *arg0) {
 }
 
 void set_field_0_s32(void* p, s32 v) { *(s32*)((char*)p + 0x0) = v; }
-int TObjPlayer__sub_801C2114(void) { return 0; }
+int TObjPlayer::sub_801C2114() { return 0; }
 u8 TObjPlayer::get_field_5() { return *(u8*)((char*)this + 0x5); }
 u8 TObjPlayer::get_byte_4() { return *(u8*)((char*)this + 0x4); }
 u8 get_byte_3(void* p) { return *(u8*)((char*)p + 0x3); }

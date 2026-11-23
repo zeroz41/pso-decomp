@@ -75,7 +75,7 @@ void TObjPlayer::clear_state_flags(s32 arg1) {
     TObjPlayer *arg0 = (TObjPlayer *)this;
   new_var2 = ~arg1;
   new_var = (s32 *) (((s8 *) arg0) + 0x334);
-  *new_var = (s32) ((arg0->m_334) & new_var2);
+  *new_var = (s32) ((arg0->state_flags) & new_var2);
 }
 
 void fn_8011E1D4(TObjPlayer *player) {

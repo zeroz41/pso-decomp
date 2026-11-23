@@ -1502,9 +1502,9 @@ force_active:
   - clear_immunity_flags__9TObjCharaFv
   - TObjPlayer__sub_8002ECC4
   - TObjPlayer__sub_8002ED48
-  - TObjPlayer__sub_80082C30
-  - TObjPlayer__sub_80083F9C
-  - TObjPlayer__sub_80083FA4
+  - sub_80082C30__10TObjPlayerFv
+  - sub_80083F9C__10TObjPlayerFv
+  - sub_80083FA4__10TObjPlayerFv
   - summon_claws__18TObjEneBalClawBodyFv
   - __dt__12TObjEneBeastFv
   - clear_state7_flag__17TObjEneDarkGunnerFv
@@ -1532,7 +1532,7 @@ force_active:
   - capture_slime_tail_node
   - reset_slime_tail_node_index
   - TObjPlayer__sub_800E85BC
-  - TObjPlayer__sub_800F083C
+  - sub_800F083C__10TObjPlayerFv
   - TObjPlayer__sub_800F08AC
   - TObjPlayer__sub_800FF1FC
   - TObjPlayer__sub_800FF220
@@ -1613,7 +1613,7 @@ force_active:
   - TObjPlayer__sub_803DAA70
   - TObjPlayer__sub_803DAD84
   - load_texture_entry
-  - TObjPlayer__sub_803E24E0
+  - sub_803E24E0__10TObjPlayerFv
   - TObjPlayer__sub_803E500C
   - TObjPlayer__sub_803E5378
   - TObjPlayer__sub_803E53F8

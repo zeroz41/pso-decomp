@@ -587,7 +587,7 @@ void init_offline_game_scene(void) {
     TLobby::create_map_csn_ctrl();
     TParticleCtrl::create_quad_sprites();
     TLoadCtrl::poll_default();
-    TObjPlayer__sub_801B1C8C();
+    TObjPlayer::sub_801B1C8C();
     set_current_floor_area(0);
     TScene::set_scene(0);
     floor_transition_state.init_range(0);
@@ -599,7 +599,7 @@ void init_offline_game_scene(void) {
         TLobby::invoke_callback();
         TLobby::clear_callback_and_reset_keyboard();
         TLoadCtrl::cleanup_scene();
-        TObjPlayer__sub_801B1BA4();
+        TObjPlayer::sub_801B1BA4();
         return;
     }
     TLobby::clear_callback_and_reset_keyboard();
@@ -624,7 +624,7 @@ void init_offline_game_scene(void) {
             player_data->reset_motion_fields();
         }
     }
-    TObjPlayer__sub_801B1BA4();
+    TObjPlayer::sub_801B1BA4();
     if (quest_area_manager != NULL) {
         new TQuestThread(quest_area_manager, 0);
     }

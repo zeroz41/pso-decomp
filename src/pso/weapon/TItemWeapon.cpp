@@ -70,7 +70,7 @@ void TItemWeapon::draw_weapon_model() {
             } else {
                 set_chunk_model_node_callback(apply_weapon_node_material);
             }
-            TObjPlayer__sub_80364198();
+            TObjPlayer::sub_80364198();
             model_render_flags &= 0xFFFFFFEF;
             TObjPlayer::set_model_fade_alpha((f32)this->get_owner_alpha());
             if (this->has_no_defer_render() != 0) {
@@ -107,7 +107,7 @@ void TItemWeapon::draw_weapon_model() {
             this->end_particle_tev();
             this->end_shield_tev();
             TObjPlayer::warn_if_gauge_low();
-            TObjPlayer__sub_8036414C();
+            TObjPlayer::sub_8036414C();
             if ((u32) *(u32 *)((s8 *)this + 0x17C) == 0U) {
                 this->sub_80121208(NULL);
             } else {

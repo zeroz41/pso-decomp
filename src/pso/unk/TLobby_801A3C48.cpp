@@ -124,8 +124,6 @@ s32 cleanup__6TLobbyFv();
 s32 PPCSync();
 extern s32 lbl_805D5718;
 s32 unlock_main_warp_destination();
-s32 TObjPlayer__sub_801B1BA4();
-s32 TObjPlayer__sub_801B1C8C();
 s32 load_area_scene_and_init(void *);
 s32 run_load_callback_table(void *, s32);
 void TLobby__sub_801A3E94(void);
@@ -292,7 +290,7 @@ void reload_lobby_floor_scene(void) {
     TObject holder(NULL);
     TLobby::clear_counters();
     TLobby::reset_state_flags();
-    TObjPlayer__sub_801B1C8C();
+    TObjPlayer::sub_801B1C8C();
     TLobby::stop_audio_streams();
     process_pending_resources();
     reset_controller_input_state();
@@ -327,7 +325,7 @@ void reload_lobby_floor_scene(void) {
     TLobby__sub_801A3E94();
     TLobby::process_deferred_player_setup();
     TLobby::install_game_join_handlers();
-    TObjPlayer__sub_801B1BA4();
+    TObjPlayer::sub_801B1BA4();
     TLobby::send_room_change(TLobby::lobby_number);
     init_key_slots__15TOKeyJungleMainFPv();
     TLobby__data_805D5CE8 = 0;
@@ -366,7 +364,7 @@ void TLobby::reload_floor_scene() {
     Pl_801A40D8 *p;
     s32 j;
     TLobby::reset_state_flags();
-    TObjPlayer__sub_801B1C8C();
+    TObjPlayer::sub_801B1C8C();
     TLobby::stop_audio_streams();
     TLobby::update_lobby_subsystems();
     TObject holder(NULL);
@@ -404,7 +402,7 @@ void TLobby::reload_floor_scene() {
         }
     }
     TLobby::process_deferred_player_setup();
-    TObjPlayer__sub_801B1BA4();
+    TObjPlayer::sub_801B1BA4();
     TObjBgmColCtrl::create_controller();
 }
 
@@ -434,7 +432,7 @@ void start_quest_mission(void) {
     VObj_18_801A4268 *p;
     TObject holder(NULL);
     TLobby::reset_state_flags();
-    TObjPlayer__sub_801B1C8C();
+    TObjPlayer::sub_801B1C8C();
     TLobby::stop_audio_streams();
     TLobby::update_lobby_subsystems();
     process_pending_resources();
@@ -484,7 +482,7 @@ void start_quest_mission(void) {
         }
     }
     TLobby::process_deferred_player_setup();
-    TObjPlayer__sub_801B1BA4();
+    TObjPlayer::sub_801B1BA4();
     TQuestThread::create_for_floor();
 }
 
@@ -496,7 +494,7 @@ void change_floor_reload_area(void) {
     VObj_18_801A441C *p;
     TObject holder(NULL);
     TLobby::reset_state_flags();
-    TObjPlayer__sub_801B1C8C();
+    TObjPlayer::sub_801B1C8C();
     TLobby::stop_audio_streams();
     process_pending_resources();
     reset_controller_input_state();
@@ -543,7 +541,7 @@ void change_floor_reload_area(void) {
     if (r != 0) {
         TLobby__sub_801A3E94();
     }
-    TObjPlayer__sub_801B1BA4();
+    TObjPlayer::sub_801B1BA4();
     TLobby::process_deferred_player_setup();
     TQuestThread::create_for_floor();
     if (r != 0) {

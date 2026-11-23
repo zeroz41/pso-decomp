@@ -357,7 +357,7 @@ s32 TObjChara::is_in_fixed_pose() {
 s32 TObjPlayer::get_photon_blast_charge() {
     return photon_blast_gauge.get_charge();
 }
-int TObjPlayer::is_frozen() { return (m_334 >> 9) & 1; }
+int TObjPlayer::is_frozen() { return (state_flags >> 9) & 1; }
 s16 MagStats::get_synchro() { return synchro; }
 s16 MagStats::get_iq() { return iq; }
 u8 MagStats::get_color() { return color; }
@@ -562,7 +562,7 @@ void TItemMag::render_equipped() {
         scaled = owner->scale_state.is_scaled();
         scale = owner->scale_state.get_scalar();
         push_matrix();
-        TObjPlayer__sub_80364198();
+        TObjPlayer::sub_80364198();
         TObjPlayer::set_model_fade_alpha(get_owner_alpha());
         for (i = 0; i != 2; i++) {
             if (children[i] != NULL && children[i]->is_growth_inactive() != 0) {
@@ -577,7 +577,7 @@ void TItemMag::render_equipped() {
             }
         }
         TObjPlayer::warn_if_gauge_low();
-        TObjPlayer__sub_8036414C();
+        TObjPlayer::sub_8036414C();
         pop_matrix();
     }
 }

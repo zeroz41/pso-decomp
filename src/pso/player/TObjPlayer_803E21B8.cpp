@@ -57,17 +57,17 @@ void GXSetNumChans(u8);
 void GXSetChanCtrl(int, int, int, int, int, int, int);
 }
 void setup_opaque_color_draw(void) {
-    TObjPlayer__sub_803E24E0();
+    TObjPlayer::sub_803E24E0();
     TObjPlayer::setup_vertex_format();
 }
 
-void TObjPlayer__sub_803E21DC(void) {
+void TObjPlayer::sub_803E21DC() {
     TObjPlayer::apply_blend_mode_1();
     TObjPlayer::setup_vertex_format();
 }
 
 void TObjPlayer::setup_render() {
-    TObjPlayer__sub_803E24E0();
+    sub_803E24E0();
     TObjPlayer::setup_vtx_desc();
 }
 
@@ -76,7 +76,7 @@ void setup_blended_textured_draw(void) {
     TObjPlayer::setup_vtx_desc();
 }
 
-void TObjPlayer__sub_803E2248(void) {
+void TObjPlayer::sub_803E2248() {
 
 }
 
@@ -148,7 +148,7 @@ void TObjPlayer::setup_color_channels(int total) {
     }
 }
 
-s32 TObjPlayer__sub_803E24E0(void) { return apply_cached_blend_mode(0x0); }
+s32 TObjPlayer::sub_803E24E0() { return apply_cached_blend_mode(0x0); }
 #pragma pop
 
 #pragma push
@@ -215,7 +215,7 @@ void draw_projected_line_strip__10TObjPlayerFPvii(Vtx_803E26A4 *v, s32 n, s32 mo
     u32 c;
     TObjPlayer::load_screen_space_matrix();
     if (mode != 0) {
-        TObjPlayer__sub_803E21DC();
+        TObjPlayer::sub_803E21DC();
     } else {
         setup_opaque_color_draw();
     }
@@ -227,7 +227,7 @@ void draw_projected_line_strip__10TObjPlayerFPvii(Vtx_803E26A4 *v, s32 n, s32 mo
         GXColor1u32_803E26A4(((c & 0xFFFFFF) << 8) | ((c & 0xFF000000) >> 24));
         v++;
     }
-    TObjPlayer__sub_803E2248();
+    TObjPlayer::sub_803E2248();
 }
 #pragma pop
 

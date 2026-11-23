@@ -295,5 +295,5 @@ s32 TObjPlayer::check_player_flag1() {
 }
 
 s32 TObjPlayer::check_flag(s32 flag) {
-    return (m_334 & flag) != 0;
+    return (state_flags & flag) != 0;
 }

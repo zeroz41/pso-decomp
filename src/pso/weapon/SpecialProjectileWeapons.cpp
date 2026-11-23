@@ -133,7 +133,7 @@ void TUnk_804A204C::reserved_53() {
         head->evalflags &= ~0x18;
         if (get_joint_position(5, &sp8) != 0) {
             push_matrix();
-            TObjPlayer__sub_80364198();
+            TObjPlayer::sub_80364198();
             model_render_flags &= 0xFFFFFFEF;
             TObjPlayer::set_model_fade_alpha((f32)this->get_owner_alpha());
             post_translate_matrix(&sp8);

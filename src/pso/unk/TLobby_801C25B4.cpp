@@ -186,7 +186,6 @@ void TObjEneRe4Sorcerer__sub_801E3F14(s32);
 void TObjEneRe4Sorcerer__sub_801E3F18(void);
 extern s32 TDeadSpot__class_name;
 
-s32 TObjPlayer__send_selected_spawn_position(s32, u16);
 extern u16 battle_mode_data_table[];
 extern saddr tl_05;
 void send_6x7D_set_battle_mode_data(void *);
@@ -1430,7 +1429,7 @@ void TLobby::finish_chr_select_scene_init() {
     TLobby::init_scene_objects();
     temp_r3 = (saddr)get_local_player();
     if (temp_r3 != 0) {
-        TObjPlayer__send_selected_spawn_position(temp_r3, battle_mode_data_table[(u16)((TObjBase *)temp_r3)->get_entity_id()]);
+        ((TObjPlayer *)temp_r3)->send_selected_spawn_position(battle_mode_data_table[(u16)((TObjBase *)temp_r3)->get_entity_id()]);
         reset_cameras_to_actor((void *)temp_r3, 0);
     }
     ((TLobby *)tl_05)->destroy_matching_children();
