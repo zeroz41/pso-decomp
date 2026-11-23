@@ -144,7 +144,7 @@ void *TQuestListOnline__ct(TQuestListOnline *quest_list_online, void *parent, vo
     quest_list_online->selection_stage = 0;
     *(void **)((s8 *)quest_list_online + 0x24) = player;
     memset(quest_list_online->selected_entry, 0, 28);
-    ((TShopWindowBase *)quest_list_online)->set_field_20(0);
+    ((TShopWindowBase *)quest_list_online)->set_state(0);
     TQuestListOnline__instance = quest_list_online;
     return quest_list_online;
 }
@@ -188,7 +188,7 @@ void TQuestListOnline::vfunc_11() {
     }
 }
 
-void TQuestListOnline::request_menu() { TLobby__protocol_instance->send_quest_menu_request(); online_quest_bin_data = NULL; quest_bin_decompressed_size = 0; online_quest_dat_buffer = NULL; online_quest_list_decompressed_size = 0; set_field_20((saddr)((void*)12)); }
+void TQuestListOnline::request_menu() { TLobby__protocol_instance->send_quest_menu_request(); online_quest_bin_data = NULL; quest_bin_decompressed_size = 0; online_quest_dat_buffer = NULL; online_quest_list_decompressed_size = 0; set_state((saddr)((void*)12)); }
 
 void TQuestListOnline::build_list_window() {
     s32 id;
@@ -203,7 +203,7 @@ void TQuestListOnline::build_list_window() {
             list_window->reset_list();
         }
         if (TQuestListOnline__quest_list_buffer != NULL && TQuestListOnline__quest_list_buffer->header.flags == 0) {
-            set_field_20(0xB);
+            set_state(0xB);
             return;
         }
         if (TQuestListOnline__quest_list_buffer != NULL) {
@@ -234,7 +234,7 @@ void TQuestListOnline::build_list_window() {
             description_window->append_line((saddr)TQuestListOnline__quest_list_buffer->entries[0].short_description, (int)0x80);
         }
         selected_index = 0;
-        set_field_20(3);
+        set_state(3);
     }
 }
 
@@ -252,7 +252,7 @@ void TQuestListOnline::show_info_window() {
     if (TQuestListOnline__selected_quest_info != NULL) {
         info_window->append_line((saddr)TQuestListOnline__selected_quest_info->text, (int)0x80);
     }
-    this->set_field_20(3);
+    this->set_state(3);
 }
 
 void TQuestListOnline::handle_list_selection() {
@@ -292,14 +292,14 @@ void TQuestListOnline::handle_list_selection() {
             }
             list_window->close();
             list_window = NULL;
-            set_field_20(0xC);
+            set_state(0xC);
             selection_stage++;
             return;
         } else if (selection_stage == 1) {
             s32 idx = list_window->get_cursor_value();
             __as__16TPlyGuildCardTagFRC16TPlyGuildCardTag(selected_entry, &TQuestListOnline__quest_list_buffer->entries[idx].tag);
             TLobby__protocol_instance->send_info((TPlyGuildCardTag &)selected_entry);
-            set_field_20(0xC);
+            set_state(0xC);
             selection_stage++;
             return;
         } else if (selection_stage == 2) {
@@ -310,21 +310,21 @@ void TQuestListOnline::handle_list_selection() {
                 if (sequence != NULL) {
                     ((VObj_18_80217C1C*)sequence)->m7(5, 1);
                 }
-                set_field_20(8);
+                set_state(8);
             }
         }
     }
     if (list_window != NULL && list_window->is_cancelled() != 0) {
-        set_field_20(9);
+        set_state(9);
     }
 }
 
-void TQuestListOnline::begin_buffer_request() { set_field_20(5); }
+void TQuestListOnline::begin_buffer_request() { set_state(5); }
 
 void TQuestListOnline::request_download_buffer() {
     if (TLobby::tmp_buf_is_free() != 0) {
         TQuestListOnline__decompression_cursor = TLobby::tmp_buf_use_req(online_tmp_buf_owner_name);
-        set_field_20(6);
+        set_state(6);
     }
 }
 
@@ -337,7 +337,7 @@ void TQuestListOnline::decompress_quest_list_buffers() {
     TQuestListOnline__decompression_cursor += quest_bin_decompressed_size;
     online_quest_list_decompressed_size = prs_decompress_buffer((saddr)TQuestListOnline__dat_download_state.buffer, (saddr)TQuestListOnline__decompression_cursor);
     online_quest_dat_buffer = TQuestListOnline__decompression_cursor;
-    set_field_20((saddr)((void *)7));
+    set_state((saddr)((void *)7));
 }
 #pragma pop
 
@@ -366,7 +366,7 @@ void TQuestListOnline::handle_quest_confirm() {
                     this->list_window->queue_destruction();
                     this->list_window = NULL;
                 }
-                set_field_20(0xC);
+                set_state(0xC);
                 return;
             }
             if (this->sequence != NULL) {
@@ -391,7 +391,7 @@ void TQuestListOnline::handle_quest_confirm() {
             if (this->sequence != NULL) {
                 (*(VObj_18_802178E4 * *)&this->sequence)->m7(0x19, 1);
             }
-            set_field_20(1);
+            set_state(1);
             return;
         }
     }
@@ -411,7 +411,7 @@ void TQuestListOnline::handle_quest_confirm() {
         if (this->sequence != NULL) {
             (*(VObj_18_802178E4 * *)&this->sequence)->m7(0x19, 1);
         }
-        set_field_20(1);
+        set_state(1);
     }
 }
 

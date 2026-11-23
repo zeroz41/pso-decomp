@@ -31,20 +31,20 @@ struct Stack_80215DA0
 };
 void TJudgmentSequence__sub_80215BA0(TShopWindowBase *window) {
     if (window != NULL) {
-        window->set_field_20(4);
+        window->set_state(4);
     }
 }
 
 void TJudgmentSequence__sub_80215BCC(TShopWindowBase *window) {
     if (window != NULL) {
-        window->set_field_20(4);
+        window->set_state(4);
     }
 }
 
 void TJudgmentSequence__sub_80215BF8(TShopWindowBase *window) {
     if (window != NULL) {
         window->send_message(0xD, 1);
-        window->set_field_20(4);
+        window->set_state(4);
     }
 }
 
@@ -60,12 +60,12 @@ void TJudgmentSequence::open_judgment_window() {
     o->m_16c = TJudgmentSequence__sub_80215BCC;
     o->on_close = TJudgmentSequence__sub_80215BA0;
     o->on_cancel = TJudgmentSequence__sub_80215BF8;
-    set_field_20(5);
+    set_state(5);
 }
 
 void TJudgmentSequence::handle_confirm() {
     if (vfunc_10() != 0 && (sub_80223A48() != 0 || sub_802239EC() != 0)) {
-        set_field_20(3);
+        set_state(3);
     }
 }
 
@@ -80,11 +80,11 @@ void TJudgmentSequence::setup_counter_camera() {
     create_message_window(get_window_layout_position(0x2C, x), (saddr)pos);
     send_message(1, 1);
     m_2c = (TWindowBase *)create_meseta_window(((s32)get_child_field1c()) & 0xFFFF);
-    set_field_20(2);
+    set_state(2);
     counter_camera = set_service_counter_camera(this, 2);
 }
 
-void TJudgmentSequence::restore_player_state() { TShopSequence::restore_player_state(); set_field_20(1); }
+void TJudgmentSequence::restore_player_state() { TShopSequence::restore_player_state(); set_state(1); }
 
 struct Seq_80215CB8;
 void TJudgmentSequence::vfunc_11() {
@@ -130,7 +130,7 @@ TJudgmentSequence::TJudgmentSequence(TObject *parent, TObjPlayer *player) : TSho
     m_2c = 0;
     counter_camera = NULL;
     judgment_sequence_instance = this;
-    set_field_20(0);
+    set_state(0);
     TJudgmentSequence__slot_flags[sub_8022397C()] = 1;
 }
 

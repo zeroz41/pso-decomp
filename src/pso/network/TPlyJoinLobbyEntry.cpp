@@ -3113,7 +3113,7 @@ void set_area_random_seed(int a0) { area_random_seed = a0; }
 
 void TQuestListOnline__sub_8013ACF4(s32 arg0) {
     if (TQuestListOnline__instance != NULL) {
-        TQuestListOnline__instance->set_field_20(arg0);
+        TQuestListOnline__instance->set_state(arg0);
     }
 }
 

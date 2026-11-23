@@ -122,10 +122,10 @@ void TShopKeepItemWindow::rebuild_item_list() {
         }
     }
     if (this->entry_count != 0) {
-        set_field_20(1);
+        set_state(1);
     } else {
         display_shop_message(0x49, 1);
-        set_field_20(7);
+        set_state(7);
         return;
     }
     if (this->item_list_window == NULL) {
@@ -173,7 +173,7 @@ void TShopKeepItemWindow::handle_deposit_list_select() {
         }
     }
     if (sub_802239EC() != 0) {
-        set_field_20(5);
+        set_state(5);
         play_sound_effect(0x52D01, 0, 0, 0);
         return;
     }
@@ -195,7 +195,7 @@ void TShopKeepItemWindow::handle_deposit_list_select() {
         }
         if (count == 0) {
             display_shop_message(0x3C, 1);
-            set_field_20(7);
+            set_state(7);
             return;
         }
         break;
@@ -205,7 +205,7 @@ void TShopKeepItemWindow::handle_deposit_list_select() {
     default:
         if (bank_has_free_row(bank) == 0) {
             display_shop_message(0x3C, 1);
-            set_field_20(7);
+            set_state(7);
             return;
         }
         count = 1;
@@ -216,7 +216,7 @@ void TShopKeepItemWindow::handle_deposit_list_select() {
         if (this->number_window != NULL && TLobby::is_camera_ctrl_active() > 2) {
             ((TCheckRoomSequence *)this->number_window)->set_position(0.75f, 0.75f);
         }
-        set_field_20(4);
+        set_state(4);
         return;
     }
     if (this->confirm_window == NULL) {
@@ -224,7 +224,7 @@ void TShopKeepItemWindow::handle_deposit_list_select() {
         ((TWindowMenu *)this->confirm_window)->set_ready_flag();
         f32 scale = get_scale();
         ((TWindowAddition *)this->confirm_window)->set_position_xy(get_scale(), scale);
-        set_field_20(2);
+        set_state(2);
     }
 }
 
@@ -244,14 +244,14 @@ void TShopKeepItemWindow::update_number_input() {
         this->deposit_count = ((TShopEquipmentSellWindow *)(this->number_window))->get_result();
         ((TWindowBase *)this->number_window)->close();
         this->number_window = NULL;
-        set_field_20(2);
+        set_state(2);
         return;
     }
     w = this->number_window;
     if ((w != NULL) && (((TShopEquipmentSellWindow *)w)->is_confirmed() != 0)) {
         ((TWindowBase *)this->number_window)->close();
         this->number_window = NULL;
-        set_field_20(3);
+        set_state(3);
     }
 }
 
@@ -272,20 +272,20 @@ void TShopKeepItemWindow::handle_deposit_confirm() {
                 play_sound_effect(0x52D01, 0, 0, 0);
                 ((TWindowBase *)this->confirm_window)->close();
                 this->confirm_window = 0;
-                set_field_20(0);
+                set_state(0);
                 return;
             }
             display_shop_message(0x3C, 1);
             play_sound_effect(0x53F06, 0, 0, 0);
             ((TWindowBase *)this->confirm_window)->close();
             this->confirm_window = 0;
-            set_field_20(7);
+            set_state(7);
             return;
         }
         if (r == 1) {
             ((TWindowBase *)this->confirm_window)->close();
             this->confirm_window = 0;
-            set_field_20(3);
+            set_state(3);
             return;
         }
     }
@@ -293,7 +293,7 @@ void TShopKeepItemWindow::handle_deposit_confirm() {
     if (win != NULL && win->is_cancelled() != 0) {
         ((TWindowBase *)this->confirm_window)->close();
         this->confirm_window = 0;
-        set_field_20(3);
+        set_state(3);
     }
 }
 
@@ -301,7 +301,7 @@ void TShopKeepItemWindow::close() {
     if (this->item_list_window != NULL) {
         this->item_list_window->clear_decided();
     }
-    set_field_20(1);
+    set_state(1);
 }
 
 void TShopKeepItemWindow::close_with_ok_callback() {

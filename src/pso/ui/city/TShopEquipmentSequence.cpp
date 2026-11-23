@@ -43,7 +43,6 @@ struct Stack_8021D948
   f32 sp8;
   f32 spC;
 };
-struct W_8021D750 { u8 pad[0x190]; void *cb0; };
 struct S_8021D750 { u8 pad[0x24]; s32 player; };
 struct Base_8021D7B8 { char pad[0x18]; };
 struct Base_8021D524 { char pad[0x18]; };
@@ -96,7 +95,7 @@ void TShopEquipmentSequence::vfunc_11() {
     switch (state) {
     case 0:
         TShopSequence::restore_player_state();
-        set_field_20(1);
+        set_state(1);
         return;
     case 1:
         open_greeting();
@@ -111,10 +110,10 @@ void TShopEquipmentSequence::vfunc_11() {
         open_sell_window();
         return;
     case 5:
-        set_field_20(9);
+        set_state(9);
         return;
     case 6:
-        set_field_20(9);
+        set_state(9);
         return;
     case 7:
         TShopEquipmentSequence__sub_8021D65C();
@@ -138,7 +137,7 @@ void TShopEquipmentSequence::open_greeting() {
     create_message_window(get_window_layout_position(0x2C, 332.0f), (saddr)pos);
     display_shop_message(0x27, 1);
     meseta_window = (TWindowBase *)create_meseta_window((s32)(unsigned short)get_child_field1c());
-    set_field_20(2);
+    set_state(2);
     counter_camera = set_service_counter_camera(this, 3);
 }
 
@@ -157,13 +156,13 @@ void TShopEquipmentSequence::update_buy_sell_choice() {
     if (choice_menu != NULL && choice_menu->is_decided() != 0) {
         r = choice_menu->get_selected_value();
         if (r == 0) {
-            set_field_20(3);
+            set_state(3);
             choice_menu->close();
             choice_menu = NULL;
             return;
         }
         if (r == 1) {
-            set_field_20(4);
+            set_state(4);
             choice_menu->close();
             choice_menu = NULL;
             return;
@@ -171,17 +170,17 @@ void TShopEquipmentSequence::update_buy_sell_choice() {
     }
     if (choice_menu != NULL && choice_menu->is_cancelled() != 0) {
         this->display_shop_message(0x2C, 1);
-        set_field_20(9);
+        set_state(9);
         choice_menu->close();
         choice_menu = NULL;
     }
 }
 
 void TShopEquipmentSequence::open_buy_window() {
-    W_8021D750 *o = (W_8021D750 *)new TShopEquipmentListWindow(tl_05, this, player);
-    o->cb0 = (void *)exit__22TShopEquipmentSequenceFPv;
+    TShopEquipmentListWindow *o = new TShopEquipmentListWindow(tl_05, this, player);
+    o->on_close = exit__22TShopEquipmentSequenceFPv;
     reset_controller_input_state();
-    set_field_20(7);
+    set_state(7);
 }
 
 void TShopEquipmentSequence::open_sell_window() {
@@ -189,7 +188,7 @@ void TShopEquipmentSequence::open_sell_window() {
     o->m_3a4 = (uaddr)exit__22TShopEquipmentSequenceFPv;
     o->m_3a8 = (uaddr)init_window__22TShopEquipmentSequenceFPv;
     reset_controller_input_state();
-    set_field_20(7);
+    set_state(7);
 }
 
 void TShopEquipmentSequence::close_if_done() {
@@ -205,21 +204,21 @@ void TShopEquipmentSequence__sub_8021D65C(void) {  }
 void TShopEquipmentSequence::handle_confirm() {
     if (vfunc_10() != 0 && (sub_80223A48() != 0 || sub_802239EC() != 0)) {
         display_shop_message(lbl_805D622C, 1);
-        set_field_20(lbl_805D6230);
+        set_state(lbl_805D6230);
     }
 }
 
 void exit__22TShopEquipmentSequenceFPv(TShopWindowBase *window) {
     if (window != NULL) {
         window->display_shop_message(0x1A, 1);
-        window->set_field_20(2);
+        window->set_state(2);
     }
 }
 
 void init_window__22TShopEquipmentSequenceFPv(TShopWindowBase *window) {
     if (window != NULL) {
         window->display_shop_message(0x1B, 1);
-        window->set_field_20(8);
+        window->set_state(8);
         lbl_805D622C = 0x1A;
         lbl_805D6230 = 2;
     }

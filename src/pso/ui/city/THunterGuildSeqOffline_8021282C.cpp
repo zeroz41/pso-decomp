@@ -33,7 +33,7 @@ void THunterGuildSeqOffline::request_close(TShopWindowBase *) {
     if (THunterGuildSeqOffline__active_instance != NULL) {
         THunterGuildSeqOffline__active_instance->display_guild_message(6, 1);
         THunterGuildSeqOffline__active_instance->unk_38 = 2;
-        THunterGuildSeqOffline__active_instance->set_field_20(5);
+        THunterGuildSeqOffline__active_instance->set_state(5);
     }
 }
 
@@ -52,7 +52,7 @@ void THunterGuildSeqOffline::handle_cancel_choice() {
                 if (THunterGuildSeqOffline__quest_result_callbacks[2] != -1) {
                     m_34 = TQuestThread::create_in_root(THunterGuildSeqOffline__quest_result_callbacks[2]);
                 }
-                ((TShopWindowBase *)arg0)->set_field_20(5);
+                ((TShopWindowBase *)arg0)->set_state(5);
                 return;
             }
             if (selected_menu_value == 1) {
@@ -60,7 +60,7 @@ void THunterGuildSeqOffline::handle_cancel_choice() {
                 this->choice_menu = NULL;
                 this->display_guild_message(0xA, 1);
                 *(s32 *)&this->unk_38 = 0;
-                ((TShopWindowBase *)arg0)->set_field_20(5);
+                ((TShopWindowBase *)arg0)->set_state(5);
                 return;
             }
             goto block_8;
@@ -71,7 +71,7 @@ block_8:
             this->choice_menu = NULL;
             this->display_guild_message(0xA, 1);
             *(s32 *)&this->unk_38 = 0;
-            ((TShopWindowBase *)arg0)->set_field_20(5);
+            ((TShopWindowBase *)arg0)->set_state(5);
         }
     }
 }
@@ -125,7 +125,7 @@ void THunterGuildSeqOffline::open_quest_list() {
         if (challenge != NULL) {
             challenge->on_accept = THunterGuildSeqOffline::request_close;
             challenge->on_cancel = THunterGuildSeqOffline::set_state_close2;
-            set_field_20(10);
+            set_state(10);
         }
         break;
     case 1:
@@ -133,7 +133,7 @@ void THunterGuildSeqOffline::open_quest_list() {
         if (challenge != NULL) {
             challenge->on_accept = THunterGuildSeqOffline::set_state_4;
             challenge->on_cancel = THunterGuildSeqOffline::set_state_close;
-            set_field_20(10);
+            set_state(10);
         }
         break;
     case 0:
@@ -143,7 +143,7 @@ void THunterGuildSeqOffline::open_quest_list() {
             offline->on_accept = THunterGuildSeqOffline::request_close;
             offline->on_cancel = THunterGuildSeqOffline::set_state_close2;
             offline->on_download = THunterGuildSeqOffline::create_quest_list_vm;
-            set_field_20(10);
+            set_state(10);
         }
         break;
     }
@@ -162,7 +162,7 @@ block_3:
         if ((this->vfunc_10() != 0) && ((sub_80223A48() != 0) || (sub_802239EC() != 0))) {
             this->display_guild_message(0xC, 1);
             *(s32 *)&this->unk_38 = 1;
-            set_field_20(5);
+            set_state(5);
         }
     }
 }

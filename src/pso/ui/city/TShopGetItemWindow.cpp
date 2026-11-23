@@ -112,7 +112,7 @@ void TShopGetItemWindow::rebuild_item_list() {
     room_table_entry = TCheckRoomSequence::get_room_table_entry(x = sub_8022397C());
     if (room_table_entry == 0) {
         display_shop_message(0x3E, 1);
-        set_field_20(6);
+        set_state(6);
         if (m_28 != NULL) {
             m_28->reset_list();
         }
@@ -171,7 +171,7 @@ void TShopGetItemWindow::rebuild_item_list() {
         m_34->set_displayed_item_colored((uaddr)&displayed_item_colored);
         m_58 = sel;
     }
-    set_field_20(1);
+    set_state(1);
     }
 }
 
@@ -192,7 +192,7 @@ void TShopGetItemWindow::handle_withdraw_list_input() {
         }
     }
     if (sub_802239EC() != 0) {
-        set_field_20(7);
+        set_state(7);
         return;
     }
     if (sub_80223A48() != 0) {
@@ -207,7 +207,7 @@ void TShopGetItemWindow::handle_withdraw_list_input() {
                 if (m_30 != NULL && TLobby::is_camera_ctrl_active() > 2) {
                     ((TCheckRoomSequence *)m_30)->set_position(0.75f, 0.75f);
                 }
-                set_field_20(2);
+                set_state(2);
                 return;
             }
             sel = player->get_entity_id();
@@ -215,7 +215,7 @@ void TShopGetItemWindow::handle_withdraw_list_input() {
             ((TWindowMenu *)m_2c)->set_ready_flag();
             scale = get_scale();
             ((TWindowAddition *)m_2c)->set_position_xy(get_scale(), scale);
-            set_field_20(3);
+            set_state(3);
         }
     }
 }
@@ -232,14 +232,14 @@ void TShopGetItemWindow::update_input_number() {
         m_54 = ((TShopEquipmentSellWindow *)m_30)->get_result();
         ((TWindowBase *)m_30)->close();
         m_30 = NULL;
-        set_field_20(3);
+        set_state(3);
         return;
     }
     w = m_30;
     if (w != NULL && ((TShopEquipmentSellWindow *)w)->is_confirmed() != 0) {
         ((TWindowBase *)m_30)->close();
         m_30 = NULL;
-        set_field_20(4);
+        set_state(4);
     }
 }
 
@@ -263,13 +263,13 @@ void TShopGetItemWindow::handle_withdraw_confirm() {
                 }
                 if (player->can_inventory_accept_item((u8 *)&record) == 0) {
                     display_shop_message(0x4B, 1);
-                    set_field_20(6);
+                    set_state(6);
                 } else {
                     player->request_inventory_item(&record);
                     remove_bank_item_amount__18TCheckRoomSequenceFiii(idx, m_54, slot);
                     compact_items__18TCheckRoomSequenceFi(slot);
                     copy_bank_to_card_window(slot);
-                    set_field_20(0);
+                    set_state(0);
                 }
             }
             ((TWindowBase *)m_2c)->close();
@@ -279,7 +279,7 @@ void TShopGetItemWindow::handle_withdraw_confirm() {
         if (sel == 1) {
             ((TWindowBase *)m_2c)->close();
             m_2c = NULL;
-            set_field_20(4);
+            set_state(4);
             return;
         }
     }
@@ -287,7 +287,7 @@ void TShopGetItemWindow::handle_withdraw_confirm() {
     if (menu2 != NULL && menu2->is_cancelled() != 0) {
         ((TWindowBase *)m_2c)->close();
         m_2c = NULL;
-        set_field_20(4);
+        set_state(4);
     }
 }
 
@@ -295,7 +295,7 @@ void TShopGetItemWindow::close() {
     if (m_28 != NULL) {
         m_28->clear_decided();
     }
-    set_field_20(1);
+    set_state(1);
 }
 
 void TShopGetItemWindow::display_shop_message(s32 id, s32 flags) {

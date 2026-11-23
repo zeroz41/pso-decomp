@@ -152,8 +152,8 @@ void THunterGuildSeqOnline_Server::vfunc_11() {
     case 5: update(); break;
     case 6: create_judgment_item_window(); break;
     case 7: sub_80214254(); break;
-    case 9: set_field_20(0xC); break;
-    case 10: set_field_20(0xC); break;
+    case 9: set_state(0xC); break;
+    case 10: set_state(0xC); break;
     case 12: close_window(); break;
     case 13: confirm_and_close_if_valid(); break;
     case 14: return;
@@ -163,7 +163,7 @@ void THunterGuildSeqOnline_Server::vfunc_11() {
 void THunterGuildSeqOnline_Server::restore_player_state() {
     TShopSequence::restore_player_state();
     counter_camera = (TObject *)set_service_counter_camera(this, 1);
-    set_field_20(1);
+    set_state(1);
 }
 
 void THunterGuildSeqOnline_Server::init_window() {
@@ -176,7 +176,7 @@ void THunterGuildSeqOnline_Server::init_window() {
     }
     display_guild_message(1, 1);
     pad_30 = 0;
-    set_field_20(3);
+    set_state(3);
 }
 
 void THunterGuildSeqOnline_Server::sub_802145F8() {
@@ -213,7 +213,7 @@ void THunterGuildSeqOnline_Server::sub_802145F8() {
                 }
                 if (sub_802239EC() != 0) {
                     display_guild_message(0x10, 1);
-                    set_field_20(0xD);
+                    set_state(0xD);
                     return;
                 }
                 break;
@@ -224,7 +224,7 @@ void THunterGuildSeqOnline_Server::sub_802145F8() {
                         if (THunterGuildSeqOffline__quest_result_callbacks[1] != -1) {
                             quest_thread = TQuestThread::create_in_root(THunterGuildSeqOffline__quest_result_callbacks[1]);
                         }
-                        set_field_20(4);
+                        set_state(4);
                         return;
                     }
                     if (TQuestThread::get_register(quest_mission_manager, 0xFD) != 0) {
@@ -232,16 +232,16 @@ void THunterGuildSeqOnline_Server::sub_802145F8() {
                         if (THunterGuildSeqOffline__quest_result_callbacks[0] != -1) {
                             quest_thread = TQuestThread::create_in_root(THunterGuildSeqOffline__quest_result_callbacks[0]);
                         }
-                        set_field_20(5);
+                        set_state(5);
                         return;
                     }
                     display_guild_message(2, 1);
-                    set_field_20(6);
+                    set_state(6);
                     return;
                 }
                 display_guild_message(4, 1);
                 pad_30 = 0;
-                set_field_20(8);
+                set_state(8);
                 break;
             }
         }
@@ -258,7 +258,7 @@ void THunterGuildSeqOnline_Server::update_confirm_input() {
     if ((vfunc_10() != 0) && ((sub_80223A48() != 0) || (sub_802239EC() != 0))) {
         display_guild_message(0xC, 1);
         pad_34 = 1;
-        set_field_20(0xC);
+        set_state(0xC);
     }
 }
 
@@ -272,7 +272,7 @@ void THunterGuildSeqOnline_Server::update() {
     if ((vfunc_10() != 0) && ((sub_80223A48() != 0) || (sub_802239EC() != 0))) {
         display_guild_message(0xC, 1);
         pad_34 = 1;
-        set_field_20(0xC);
+        set_state(0xC);
     }
 }
 
@@ -282,7 +282,7 @@ void THunterGuildSeqOnline_Server::create_judgment_item_window() {
         ((TWindowSubComCardList *)choice_menu)->set_selected_index(1);
         choice_menu->set_position_xy(get_scale(), get_scale());
         display_guild_message(8, 1);
-        set_field_20(7);
+        set_state(7);
     }
 }
 
@@ -297,14 +297,14 @@ void THunterGuildSeqOnline_Server::sub_80214254() {
             if ((s32) THunterGuildSeqOffline__quest_result_callbacks[2] != -1) {
                 quest_thread = TQuestThread::create_in_root(THunterGuildSeqOffline__quest_result_callbacks[2]);
             }
-            set_field_20(0xC);
+            set_state(0xC);
             break;
         case 1:
             choice_menu->close();
             choice_menu = NULL;
             display_guild_message(0xA, 1);
             pad_34 = 0;
-            set_field_20(0xC);
+            set_state(0xC);
             break;
         }
     }
@@ -313,7 +313,7 @@ void THunterGuildSeqOnline_Server::sub_80214254() {
         choice_menu = NULL;
         display_guild_message(0xA, 1);
         pad_34 = 0;
-        set_field_20(0xC);
+        set_state(0xC);
     }
 }
 
@@ -359,21 +359,21 @@ void THunterGuildSeqOnline_Server::sub_80214058() {
         l->f2c = (void *)THunterGuildSeqOffline__sub_80213EBC;
         l->f30 = (void *)THunterGuildSeqOffline__sub_80213E64;
         l->f34 = (void *)THunterGuildSeqOffline::reset_quest_list_vm;
-        set_field_20(0xE);
+        set_state(0xE);
     }
 }
 
 void THunterGuildSeqOnline_Server::confirm_and_close_if_valid() {
     if (vfunc_10() != 0 && (sub_80223A48() != 0 || sub_802239EC() != 0)) {
         display_guild_message(0xc, 1);
-        set_field_20(0xc);
+        set_state(0xc);
     }
 }
 
 void THunterGuildSeqOffline__sub_80213F78(void) {
     if (hunter_guild_seq_online_server_instance != NULL) {
         hunter_guild_seq_online_server_instance->display_guild_message(0xC, 1);
-        hunter_guild_seq_online_server_instance->set_field_20(9);
+        hunter_guild_seq_online_server_instance->set_state(9);
         hunter_guild_seq_online_server_instance->pad_34 = 0;
     }
 }
@@ -381,7 +381,7 @@ void THunterGuildSeqOffline__sub_80213F78(void) {
 void THunterGuildSeqOffline::reset_quest_list_vm() {
     if (hunter_guild_seq_online_server_instance != NULL) {
         hunter_guild_seq_online_server_instance->display_message((const char *)get_message_text(0x43), 1);
-        hunter_guild_seq_online_server_instance->set_field_20(9);
+        hunter_guild_seq_online_server_instance->set_state(9);
         hunter_guild_seq_online_server_instance->pad_34 = 0;
     }
 }
@@ -389,7 +389,7 @@ void THunterGuildSeqOffline::reset_quest_list_vm() {
 void THunterGuildSeqOffline__sub_80213EBC(void) {
     if (hunter_guild_seq_online_server_instance != NULL) {
         hunter_guild_seq_online_server_instance->display_guild_message(0xC, 1);
-        hunter_guild_seq_online_server_instance->set_field_20(0xA);
+        hunter_guild_seq_online_server_instance->set_state(0xA);
         hunter_guild_seq_online_server_instance->pad_34 = 2;
     }
 }
@@ -397,7 +397,7 @@ void THunterGuildSeqOffline__sub_80213EBC(void) {
 void THunterGuildSeqOffline__sub_80213E64(void) {
     if (hunter_guild_seq_online_server_instance != NULL) {
         hunter_guild_seq_online_server_instance->display_guild_message(6, 1);
-        hunter_guild_seq_online_server_instance->set_field_20(0xC);
+        hunter_guild_seq_online_server_instance->set_state(0xC);
         hunter_guild_seq_online_server_instance->pad_34 = 2;
     }
 }
@@ -467,7 +467,7 @@ void THunterGuildSeqOnline_Client::vfunc_11() {
 void THunterGuildSeqOnline_Client::restore_player_state() {
     TShopSequence::restore_player_state();
     counter_camera = (TObject *)set_service_counter_camera(this, 1);
-    set_field_20(1);
+    set_state(1);
 }
 
 void THunterGuildSeqOnline_Client::sub_80213B18() {
@@ -477,7 +477,7 @@ void THunterGuildSeqOnline_Client::sub_80213B18() {
     create_message_window((s32)(get_window_layout_position(0x2C)), (s32)((saddr) &stack.sp8));
     display_guild_message(1, 1);
     pad_30 = 0;
-    set_field_20(2);
+    set_state(2);
 }
 
 void THunterGuildSeqOnline_Client::sub_80213980() {
@@ -494,20 +494,20 @@ void THunterGuildSeqOnline_Client::sub_80213980() {
                 if (THunterGuildSeqOffline__quest_result_callbacks[1] != -1) {
                     quest_thread = TQuestThread::create_in_root(THunterGuildSeqOffline__quest_result_callbacks[1]);
                 }
-                set_field_20(4);
+                set_state(4);
             } else if (TQuestThread::get_register(quest_mission_manager, 0xFD) != 0) {
                 display_guild_message(0x12, 1);
                 if (THunterGuildSeqOffline__quest_result_callbacks[0] != -1) {
                     quest_thread = TQuestThread::create_in_root(THunterGuildSeqOffline__quest_result_callbacks[0]);
                 }
-                set_field_20(5);
+                set_state(5);
             } else {
                 display_guild_message(2, 1);
-                set_field_20(6);
+                set_state(6);
             }
         } else if (sub_80223A48() != 0 || sub_802239EC() != 0) {
             display_guild_message(0x15, 1);
-            set_field_20(0xB);
+            set_state(0xB);
         }
         break;
     }
@@ -517,7 +517,7 @@ void THunterGuildSeqOnline_Client::handle_close() {
     if ((vfunc_10() != 0) && ((sub_80223A48() != 0) || (sub_802239EC() != 0))) {
         display_guild_message(0xC, 1);
         pad_34 = 0;
-        set_field_20(0xC);
+        set_state(0xC);
     }
 }
 
@@ -531,7 +531,7 @@ void THunterGuildSeqOnline_Client::update_close_shop() {
     if ((vfunc_10() != 0) && ((sub_80223A48() != 0) || (sub_802239EC() != 0))) {
         display_guild_message(0xC, 1);
         pad_34 = 1;
-        set_field_20(0xC);
+        set_state(0xC);
     }
 }
 
@@ -545,7 +545,7 @@ void THunterGuildSeqOnline_Client::update_shop_close() {
     if ((vfunc_10() != 0) && ((sub_80223A48() != 0) || (sub_802239EC() != 0))) {
         display_guild_message(0xC, 1);
         pad_34 = 1;
-        set_field_20(0xC);
+        set_state(0xC);
     }
 }
 

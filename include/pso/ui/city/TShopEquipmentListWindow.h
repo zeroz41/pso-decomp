@@ -4,8 +4,13 @@
 #include "types.h"
 #include <stddef.h>
 #include "pso/ui/city/TShopWindowBase.h"
+#include "pso/item/TItemData.h"
 
 struct TWindowMenu;
+class TWindowMenuIconLine;
+struct TWindowHelpItem;
+struct TWindowCost;
+class TWindowBase;
 
 struct TShopEquipmentListWindow : public TShopWindowBase {
     TShopEquipmentListWindow(TObject *parent, TShopWindowBase *sequence, TObjPlayer *player);
@@ -14,18 +19,18 @@ struct TShopEquipmentListWindow : public TShopWindowBase {
     virtual void display_message(const char *text, s32 flags);
     virtual void display_shop_message(s32 id, s32 flags);
     TShopWindowBase *sequence;  // the shop sequence that opened it; messages go to it
-    TWindowMenu *m_2c;
-    uaddr m_30;
-    uaddr m_34;
-    uaddr m_38;
-    uaddr m_3c;
-    u32 m_40;
-    u8 _pad44[0x4];
-    u32 m_48;
-    u32 m_4c;
-    u8 _pad50[0x140];
-    u32 m_190;
-    void update_list(void *arg1);
+    TWindowMenu *confirm_menu;          // buy / cancel, then the equip yes / no
+    TWindowMenuIconLine *item_list;     // the shop's stock
+    TWindowHelpItem *help_window;       // describes the item under the cursor
+    TWindowBase *pad_38;
+    TWindowCost *cost_window;           // the price of the item under the cursor
+    u32 pad_40;
+    s32 item_count;
+    s32 last_cursor;                    // the cursor the help and cost windows show
+    s32 can_equip;                      // check_purchase_eligibility: the player can equip it
+    TItemData stock[16];                // data2.price is each item's price
+    void (*on_close)(TShopWindowBase *sequence);
+    void update_list(TItemData *item);
     void handle_equip_offer();
     void handle_buy_confirm();
     void open_menu_window();
@@ -34,7 +39,7 @@ struct TShopEquipmentListWindow : public TShopWindowBase {
     void handle_select();
     void handle_selection();
     s32 check_purchase_eligibility();
-    static void create_buy_list_windows(void *p);
+    void create_buy_list_windows();
 };
 
 LAYOUT_ASSERT(TShopEquipmentListWindow_size, sizeof(TShopEquipmentListWindow) == 0x194);
@@ -45,6 +50,6 @@ void *__dt__24TShopEquipmentListWindowFv(TShopEquipmentListWindow *arg0, s16 arg
 }
 // --- end of C functions
 
-LAYOUT_ASSERT(TShopEquipmentListWindow_m_2c_offset, offsetof(TShopEquipmentListWindow, m_2c) == 0x2C);
+LAYOUT_ASSERT(TShopEquipmentListWindow_stock_offset, offsetof(TShopEquipmentListWindow, stock) == 0x50);
 
 #endif

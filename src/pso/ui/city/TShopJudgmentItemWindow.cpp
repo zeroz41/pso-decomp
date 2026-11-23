@@ -126,10 +126,10 @@ void TShopJudgmentItemWindow::build_item_list() {
         }
     }
     if (item_count != 0) {
-        set_field_20(1);
+        set_state(1);
     } else {
         send_message(2, 1);
-        set_field_20(0xB);
+        set_state(0xB);
         return;
     }
     if (item_list == NULL) {
@@ -151,7 +151,7 @@ void TShopJudgmentItemWindow::build_item_list() {
 void TShopJudgmentItemWindow::handle_input() {
 
     if (sub_802239EC() != 0) {
-        set_field_20(0xA);
+        set_state(0xA);
         play_sound_effect(0x52D01, 0, 0, 0);
         return;
     }
@@ -159,7 +159,7 @@ void TShopJudgmentItemWindow::handle_input() {
         this->yes_no_menu = create_yes_no_window(get_window_layout_position(0x2B), this->player->get_entity_id(), NULL, NULL);
         this->yes_no_menu->set_position_xy(get_scale(), get_scale());
         send_message(3, 1);
-        set_field_20(2);
+        set_state(2);
         play_sound_effect(0x52D01, 0, 0, 0);
     }
 }
@@ -178,7 +178,7 @@ void TShopJudgmentItemWindow::handle_judge_confirm() {
                     yes_no_menu->close();
                     this->yes_no_menu = NULL;
                     send_message(5, 1);
-                    set_field_20(0xB);
+                    set_state(0xB);
                     return;
                 }
                 cursor = item_list->get_cursor_value();
@@ -196,14 +196,14 @@ void TShopJudgmentItemWindow::handle_judge_confirm() {
                 yes_no_menu->close();
                 this->yes_no_menu = NULL;
                 send_message(6, 1);
-                set_field_20(3);
+                set_state(3);
                 return;
             }
             if (selected_menu_value == 1) {
                 yes_no_menu->close();
                 this->yes_no_menu = NULL;
                 send_message(4, 1);
-                set_field_20(1);
+                set_state(1);
                 item_list->clear_decided();
                 return;
             }
@@ -214,7 +214,7 @@ block_14:
             yes_no_menu->close();
             this->yes_no_menu = NULL;
             send_message(4, 1);
-            set_field_20(1);
+            set_state(1);
             item_list->clear_decided();
         }
     }
@@ -261,7 +261,7 @@ void TShopJudgmentItemWindow::create_result_windows() {
             this->help_window->set_displayed_item_colored((uaddr)&judged_item);
         }
         send_message(8, 1);
-        set_field_20(4);
+        set_state(4);
     }
 }
 
@@ -292,7 +292,7 @@ void TShopJudgmentItemWindow::update_judge_confirm() {
                     send_message(0xC, 1);
                     yes_no_menu->close();
                     yes_no_menu = NULL;
-                    set_field_20(7);
+                    set_state(7);
                     return;
                 }
                 delete_item(player, selected_item.id, 1);
@@ -305,14 +305,14 @@ void TShopJudgmentItemWindow::update_judge_confirm() {
                 if (TLobby::get_shop_value() > 0) {
                     play_cue_stream_file("miniclear.adx");
                 }
-                set_field_20(0);
+                set_state(0);
                 return;
             }
             if (selected_menu_value == 1) {
                 yes_no_menu->close();
                 yes_no_menu = NULL;
                 send_message(9, 1);
-                set_field_20(6);
+                set_state(6);
                 return;
             }
             goto block_19;
@@ -322,7 +322,7 @@ block_19:
             yes_no_menu->close();
             yes_no_menu = NULL;
             send_message(9, 1);
-            set_field_20(6);
+            set_state(6);
         }
     }
 }
@@ -372,7 +372,7 @@ void TShopJudgmentItemWindow::handle_equip_prompt() {
                 if (TLobby::get_shop_value() > 0) {
                     play_cue_stream_file("miniclear.adx");
                 }
-                set_field_20(0);
+                set_state(0);
             }
             if (sel == 1) {
                 yes_no_menu->close();
@@ -385,7 +385,7 @@ void TShopJudgmentItemWindow::handle_equip_prompt() {
                 if (TLobby::get_shop_value() > 0) {
                     play_cue_stream_file("miniclear.adx");
                 }
-                set_field_20(0);
+                set_state(0);
             }
         }
         if (yes_no_menu != NULL && yes_no_menu->is_cancelled() != 0) {
@@ -399,7 +399,7 @@ void TShopJudgmentItemWindow::handle_equip_prompt() {
             if (TLobby::get_shop_value() > 0) {
                 play_cue_stream_file("miniclear.adx");
             }
-            set_field_20(0);
+            set_state(0);
         }
     }
 }
@@ -409,7 +409,7 @@ void TShopJudgmentItemWindow::update() {
     this->timer = c;
     if (c <= 0 && vfunc_10() != 0 && (sub_80223A48() != 0 || sub_802239EC() != 0)) {
         send_message(0xB, 1);
-        set_field_20(0);
+        set_state(0);
     }
 }
 
@@ -446,14 +446,14 @@ void TShopJudgmentItemWindow::handle_pay_confirm() {
                 this->yes_no_menu = NULL;
                 try_spend_actor_meseta((u8 *)this->player, 0x64);
                 send_message(0xA, 1);
-                this->set_field_20(5);
+                this->set_state(5);
                 return;
             }
             if (selected_menu_value == 1) {
                 this->yes_no_menu->close();
                 this->yes_no_menu = NULL;
                 send_message(8, 1);
-                this->set_field_20(4);
+                this->set_state(4);
                 return;
             }
             goto block_17;
@@ -463,7 +463,7 @@ block_17:
             this->yes_no_menu->close();
             this->yes_no_menu = NULL;
             send_message(8, 1);
-            this->set_field_20(4);
+            this->set_state(4);
         }
     }
 }

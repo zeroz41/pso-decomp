@@ -222,14 +222,14 @@ void TShopEquipmentSellWindow::build_sell_list() {
         }
     }
     if (self->count == 0) {
-        ((TShopWindowBase *)self)->set_field_20(7);
+        ((TShopWindowBase *)self)->set_state(7);
         if (self->list_win != NULL) {
             ((TWindowMenuIconLine *)(self->list_win))->reset_list();
         }
         return;
     }
     ((TShopEquipmentSellWindow *)self)->display_shop_message(0xC, 1);
-    ((TShopWindowBase *)self)->set_field_20(1);
+    ((TShopWindowBase *)self)->set_state(1);
     if (self->list_win == NULL) {
         self->list_win = create_item_list_window(get_shop_text(self->text), self->count, ((TObjBase *)((saddr)self->owner))->get_entity_id());
         for (i = 0; i < self->count; i++) {
@@ -309,7 +309,7 @@ void TShopEquipmentSellWindow::handle_selection() {
         w->sel = i;
     }
     if (((TShopWindowBase *)w)->sub_802239EC() != 0) {
-        ((TShopWindowBase *)w)->set_field_20(8);
+        ((TShopWindowBase *)w)->set_state(8);
         play_sound_effect(0x52D01, 0, 0, 0);
         return;
     }
@@ -323,7 +323,7 @@ void TShopEquipmentSellWindow::handle_selection() {
                 if (w->qty_win != NULL && TLobby::is_camera_ctrl_active() > 2) {
                     ((TCheckRoomSequence *)(w->qty_win))->set_position(0.75f, 0.75f);
                 }
-                ((TShopWindowBase *)w)->set_field_20(3);
+                ((TShopWindowBase *)w)->set_state(3);
                 return;
             }
         }
@@ -335,7 +335,7 @@ void TShopEquipmentSellWindow::handle_selection() {
             align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(w->menu_win));
             w->menu_win->set_ready_flag();
             w->menu_win->set_position_xy(((TShopWindowBase *)w)->get_scale(), ((TShopWindowBase *)w)->get_scale());
-            ((TShopWindowBase *)w)->set_field_20(2);
+            ((TShopWindowBase *)w)->set_state(2);
         }
     }
 }
@@ -344,7 +344,7 @@ void TShopEquipmentSellWindow::close() {
     if ((u32) this->m_38c != 0U) {
         ((TWindowMenuIconLine *)(*(void **)((s8 *)this + 0x38C)))->clear_decided();
     }
-    set_field_20(1);
+    set_state(1);
 }
 
 void TShopEquipmentSellWindow::handle_input_window_result() {
@@ -362,13 +362,13 @@ void TShopEquipmentSellWindow::handle_input_window_result() {
         this->m_37c = ((TShopEquipmentSellWindow *)(this->m_394))->get_result();
         ((TWindowBase *)this->m_394)->close();
         this->m_394 = 0U;
-        set_field_20(2);
+        set_state(2);
         return;
     }
     if (((u32) this->m_394 != 0U) && (((TShopEquipmentSellWindow *)(this->m_394))->is_confirmed() != 0)) {
         ((TWindowBase *)this->m_394)->close();
         this->m_394 = 0U;
-        set_field_20(5);
+        set_state(5);
     }
 }
 
@@ -383,33 +383,33 @@ void TShopEquipmentSellWindow::handle_sell_confirm() {
                 ((TWindowBase *)w->card)->close();
                 w->card = NULL;
                 w->sel = i;
-                ((TShopWindowBase *)w)->set_field_20(0);
+                ((TShopWindowBase *)w)->set_state(0);
                 return;
             }
             ((TShopEquipmentSellWindow *)w)->display_shop_message(0x1C, 1);
             ((TWindowBase *)w->card)->close();
             w->card = NULL;
-            ((TShopWindowBase *)w)->set_field_20(4);
+            ((TShopWindowBase *)w)->set_state(4);
             return;
         }
         if (r == 1) {
             ((TWindowBase *)w->card)->close();
             w->card = NULL;
-            ((TShopWindowBase *)w)->set_field_20(5);
+            ((TShopWindowBase *)w)->set_state(5);
             return;
         }
     }
     if (w->card != NULL && ((TWindowMenu *)(w->card))->is_cancelled() != 0) {
         ((TWindowBase *)w->card)->close();
         w->card = NULL;
-        ((TShopWindowBase *)w)->set_field_20(5);
+        ((TShopWindowBase *)w)->set_state(5);
     }
 }
 
 void TShopEquipmentSellWindow::update() {
     if (vfunc_10() != 0 && (sub_80223A48() != 0 || sub_802239EC() != 0)) {
         display_shop_message(0xc, 1);
-        set_field_20(5);
+        set_state(5);
     }
 }
 

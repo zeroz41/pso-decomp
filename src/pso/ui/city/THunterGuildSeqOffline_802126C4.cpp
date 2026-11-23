@@ -8,7 +8,7 @@
 void THunterGuildSeqOffline::notify_close() {
     if (THunterGuildSeqOffline__active_instance != NULL) {
         THunterGuildSeqOffline__active_instance->display_guild_message(0x19, 1);
-        THunterGuildSeqOffline__active_instance->set_field_20(4);
+        THunterGuildSeqOffline__active_instance->set_state(4);
     }
 }
 

@@ -15,7 +15,7 @@ public:
     virtual void display_guild_message(s32 index, s32 flags);
     virtual int vfunc_10();
     virtual void vfunc_11();
-    void set_field_20(s32);
+    void set_state(s32);
     s32 sub_802239EC();
     s32 sub_80223A48();
     s32 sub_8022397C();

@@ -23,7 +23,7 @@ void THunterGuildSeqOffline::set_state_4(TShopWindowBase *) {
     if (THunterGuildSeqOffline__active_instance != NULL) {
         THunterGuildSeqOffline__active_instance->display_guild_message(6, 1);
         THunterGuildSeqOffline__active_instance->unk_38 = 4;
-        THunterGuildSeqOffline__active_instance->set_field_20(5);
+        THunterGuildSeqOffline__active_instance->set_state(5);
     }
 }
 
@@ -31,7 +31,7 @@ void THunterGuildSeqOffline::handle_click() {
     VObj_802125BC_80212564 *o = (VObj_802125BC_80212564 *)this;
     if (o->m8() != 0 && (sub_80223A48() != 0 || sub_802239EC() != 0)) {
         o->m7(0x19, 1);
-        set_field_20(4);
+        set_state(4);
     }
 }
 

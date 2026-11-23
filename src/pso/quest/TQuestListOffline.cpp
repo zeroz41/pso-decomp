@@ -81,7 +81,7 @@ TQuestListOffline::TQuestListOffline(TObject *parent, TShopWindowBase *sequence,
     } else {
         quests = lbl_804C9C10;
     }
-    set_field_20(0);
+    set_state(0);
 }
 
 TQuestListOffline::~TQuestListOffline() {
@@ -186,7 +186,7 @@ void TQuestListOffline::init_quest_list_window() {
             shown_index = 0;
         }
     }
-    set_field_20(1);
+    set_state(1);
 }
 
 void TQuestListOffline::update_list_navigation() {
@@ -207,13 +207,13 @@ void TQuestListOffline::update_list_navigation() {
         }
     }
     if (list_window != NULL && list_window->is_cancelled() != 0) {
-        set_field_20(5);
+        set_state(5);
         return;
     }
     if (list_window != NULL && list_window->is_decided() != 0) {
         sel = list_window->get_cursor_value();
         if (quests[sel].flags & 1) {
-            set_field_20(4);
+            set_state(4);
             return;
         }
         if (confirm_window == NULL) {
@@ -232,7 +232,7 @@ void TQuestListOffline::update_list_navigation() {
             if (sequence != NULL) {
                 sequence->display_guild_message(5, 1);
             }
-            set_field_20(2);
+            set_state(2);
         }
     }
 }
@@ -244,7 +244,7 @@ void TQuestListOffline::handle_confirm_dialog() {
             if (choice == 0) {
                 s32 cursor = list_window->get_cursor_value();
                 prepare_offline_quest_filenames(quests[cursor].filename);
-                set_field_20(3);
+                set_state(3);
                 return;
             }
             if (choice == 1) {
@@ -252,7 +252,7 @@ void TQuestListOffline::handle_confirm_dialog() {
                 if (sequence != NULL) {
                     sequence->display_guild_message(0x19, 1);
                 }
-                set_field_20(0);
+                set_state(0);
                 return;
             }
         }
@@ -261,7 +261,7 @@ void TQuestListOffline::handle_confirm_dialog() {
             if (sequence != NULL) {
                 sequence->display_guild_message(0x19, 1);
             }
-            set_field_20(0);
+            set_state(0);
         }
     }
 }

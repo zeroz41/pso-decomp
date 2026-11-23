@@ -73,7 +73,7 @@ void THunterGuildSeqOnline_Client::open_judgment_item_window() {
         ((TWindowSubComCardList *)choice_menu)->set_selected_index(1);
         ((TWindowAddition *)choice_menu)->set_position_xy(get_scale(), get_scale());
         display_guild_message(8, 1);
-        set_field_20(7);
+        set_state(7);
     }
 }
 
@@ -88,14 +88,14 @@ void THunterGuildSeqOnline_Client::handle_confirm_window() {
             if (THunterGuildSeqOffline__quest_result_callbacks[2] != -1) {
                 quest_thread = reinterpret_cast<TQuestThread *>(TQuestThread::create_in_root(THunterGuildSeqOffline__quest_result_callbacks[2]));
             }
-            set_field_20(0xC);
+            set_state(0xC);
             break;
         case 1:
             choice_menu->close();
             choice_menu = NULL;
             display_guild_message(0xA, 1);
             pad_34 = 0;
-            set_field_20(0xC);
+            set_state(0xC);
             break;
         }
     }
@@ -104,7 +104,7 @@ void THunterGuildSeqOnline_Client::handle_confirm_window() {
         choice_menu = NULL;
         display_guild_message(0xA, 1);
         pad_34 = 0;
-        set_field_20(0xC);
+        set_state(0xC);
     }
 }
 
@@ -213,7 +213,7 @@ void THunterGuildSeqOffline::vfunc_11() {
     }
 }
 
-void THunterGuildSeqOffline::restore_player_state() { TShopSequence::restore_player_state(); fn_80223480(this); THunterGuildWarning::create_instance((saddr)((void*)2)); set_field_20((saddr)((void*)((void*)1))); }
+void THunterGuildSeqOffline::restore_player_state() { TShopSequence::restore_player_state(); fn_80223480(this); THunterGuildWarning::create_instance((saddr)((void*)2)); set_state((saddr)((void*)((void*)1))); }
 
 void THunterGuildSeqOffline::open_greeting() {
     u8 *arg0 = (u8 *)this;
@@ -225,7 +225,7 @@ void THunterGuildSeqOffline::open_greeting() {
     ((TShopSequence *)arg0)->create_message_window((s32)((saddr) (((u8 *)get_window_layout_position(0x2C)))), (saddr)&stack.sp8);
     this->display_guild_message(1, 1);
     counter_camera = (TObject *)set_service_counter_camera(arg0, 1);
-    ((TShopWindowBase *)arg0)->set_field_20((saddr)((void*)(2)));
+    ((TShopWindowBase *)arg0)->set_state((saddr)((void*)(2)));
 }
 
 void THunterGuildSeqOffline::resolve_active_quest_result() {
@@ -237,7 +237,7 @@ void THunterGuildSeqOffline::resolve_active_quest_result() {
                 if ((s32) *(s32 *)((s8 *)&THunterGuildSeqOffline__quest_result_callbacks + 4) != -1) {
                     this->m_34 = reinterpret_cast<TQuestThread *>(TQuestThread::create_in_root(*(s32 *)((s8 *)&THunterGuildSeqOffline__quest_result_callbacks + 4)));
                 }
-                ((TShopWindowBase *)arg0)->set_field_20((saddr)((void*)(7)));
+                ((TShopWindowBase *)arg0)->set_state((saddr)((void*)(7)));
                 return;
             }
             if (TQuestThread::get_register(quest_mission_manager, 0xFD) == 1) {
@@ -245,15 +245,15 @@ void THunterGuildSeqOffline::resolve_active_quest_result() {
                 if ((s32) *(s32 *)((s8 *)&THunterGuildSeqOffline__quest_result_callbacks + 0) != -1) {
                     this->m_34 = reinterpret_cast<TQuestThread *>(TQuestThread::create_in_root(*(s32 *)((s8 *)&THunterGuildSeqOffline__quest_result_callbacks + 0)));
                 }
-                ((TShopWindowBase *)arg0)->set_field_20((saddr)((void*)(8)));
+                ((TShopWindowBase *)arg0)->set_state((saddr)((void*)(8)));
                 return;
             }
             this->display_guild_message(2, 1);
-            ((TShopWindowBase *)arg0)->set_field_20((saddr)((void*)(3)));
+            ((TShopWindowBase *)arg0)->set_state((saddr)((void*)(3)));
             return;
         }
         this->display_guild_message(4, 1);
-        ((TShopWindowBase *)arg0)->set_field_20((saddr)((void*)(4)));
+        ((TShopWindowBase *)arg0)->set_state((saddr)((void*)(4)));
     }
 }
 
@@ -265,7 +265,7 @@ void THunterGuildSeqOffline::open_judgment_window() {
         ((TWindowSubComCardList *)(this->choice_menu))->set_selected_index(1);
         ((TWindowAddition *)(this->choice_menu))->set_position_xy(get_scale(), get_scale());
         this->display_guild_message(8, 1);
-        set_field_20((saddr)((void*)(6)));
+        set_state((saddr)((void*)(6)));
     }
 }
 
@@ -281,7 +281,7 @@ block_3:
         if ((this->vfunc_10() != 0) && ((sub_80223A48() != 0) || (sub_802239EC() != 0))) {
             this->display_guild_message(0xC, 1);
             *(s32 *)&this->unk_38 = 1;
-            set_field_20((saddr)((void*)(5)));
+            set_state((saddr)((void*)(5)));
         }
     }
 }

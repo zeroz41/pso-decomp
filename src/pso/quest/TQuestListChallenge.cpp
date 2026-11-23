@@ -96,7 +96,7 @@ void TQuestListChallenge::handle_confirm_select() {
                 s32 index = list_window->get_cursor_value();
                 const QuestListStageEntry *catalog = entries;
                 prepare_offline_quest_filenames(catalog[index].filename);
-                set_field_20(3);
+                set_state(3);
                 return;
             }
             if (selected_menu_value == 1) {
@@ -104,7 +104,7 @@ void TQuestListChallenge::handle_confirm_select() {
                 if (sequence != NULL) {
                     sequence->display_guild_message(0x19, 0x80);
                 }
-                set_field_20(0);
+                set_state(0);
                 return;
             }
             goto block_9;
@@ -115,7 +115,7 @@ block_9:
             if (sequence != NULL) {
                 sequence->display_guild_message(0x19, 0x80);
             }
-            set_field_20(0);
+            set_state(0);
         }
     }
 }
@@ -154,7 +154,7 @@ void TQuestListChallenge::update_selection() {
         }
     }
     if (list_window != NULL && list_window->is_cancelled() == 1) {
-        set_field_20(4);
+        set_state(4);
         return;
     }
     if (list_window != NULL && list_window->is_decided() == 1) {
@@ -177,7 +177,7 @@ void TQuestListChallenge::update_selection() {
             if (sequence != NULL) {
                 sequence->display_guild_message(5, 0x80);
             }
-            set_field_20(2);
+            set_state(2);
         }
     }
 }
@@ -197,7 +197,7 @@ void TQuestListChallenge::create_quest_list_window() {
             list_window->add_list_entry(0x2C, e, i);
         }
         ((TWindowMenuIconLine *)list_window)->calc_content_extent();
-        set_field_20(1);
+        set_state(1);
     }
 }
 
@@ -263,7 +263,7 @@ TQuestListChallenge::TQuestListChallenge(TObject *parent, TShopWindowBase *seque
         count = 8;
         break;
     }
-    set_field_20(0);
+    set_state(0);
     TQuestListChallenge__active_instance = this;
 }
 

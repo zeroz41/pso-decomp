@@ -129,7 +129,7 @@ void TShopItemListWindow::vfunc_11() {
     switch (*(u32 *)((s8 *)arg0 + 0x20)) {
     case 0:
         TShopItemListWindow::build_item_list(arg0);
-        ((TShopWindowBase *)arg0)->set_field_20(1);
+        ((TShopWindowBase *)arg0)->set_state(1);
         return;
     case 1:
         TShopItemListWindow::handle_tool_list_select(arg0);
@@ -273,16 +273,16 @@ void TShopItemListWindow::handle_tool_list_select(void *p) {
         switch (((TShopItemListWindow *)W)->check_purchase_eligibility()) {
         case 0:
             ((TShopItemListWindow *)p)->display_shop_message(0xF, 1);
-            ((TShopWindowBase *)W)->set_field_20(5);
+            ((TShopWindowBase *)W)->set_state(5);
             break;
         case 1:
             ((TShopItemListWindow *)p)->display_shop_message(0x19, 1);
-            ((TShopWindowBase *)W)->set_field_20(6);
+            ((TShopWindowBase *)W)->set_state(6);
             break;
         case 2:
             break;
         case 3:
-            ((TShopWindowBase *)W)->set_field_20(7);
+            ((TShopWindowBase *)W)->set_state(7);
             break;
         }
     }
@@ -293,7 +293,7 @@ void TShopItemListWindow::update() {
     if (vfunc_10() != 0 && (sub_80223A48() != 0 || sub_802239EC() != 0)) {
         display_shop_message(0xB, 1);
         ((TWindowMenuIconLine *)(this->item_list))->clear_decided();
-        set_field_20(1);
+        set_state(1);
     }
 }
 
@@ -301,7 +301,7 @@ void TShopItemListWindow::handle_confirm() {
     if (vfunc_10() != 0 && (sub_80223A48() != 0 || sub_802239EC() != 0)) {
         display_shop_message(0xB, 1);
         ((TWindowMenuIconLine *)(this->item_list))->clear_decided();
-        set_field_20(1);
+        set_state(1);
     }
 }
 
@@ -324,7 +324,7 @@ void TShopItemListWindow::prepare_tool_purchase() {
                 ((TCheckRoomSequence *)quantity_input)->set_position(0.75f, 0.75f);
             }
             m_4c = 0;
-            set_field_20(2);
+            set_state(2);
             return;
         }
         confirm_menu = create_window_menu((saddr)get_window_layout_position(0x2B), 2, ((TObjBase *)player)->get_entity_id());
@@ -337,7 +337,7 @@ void TShopItemListWindow::prepare_tool_purchase() {
         ((TWindowAddition *)confirm_menu)->set_position_xy(get_scale(), scale);
         m_50 = 1;
         m_4c = 1;
-        set_field_20(2);
+        set_state(2);
     }
 }
 
@@ -370,7 +370,7 @@ void TShopItemListWindow::handle_amount_confirm() {
             if (item_list != 0U) {
                 ((TWindowMenuIconLine *)item_list)->clear_decided();
             }
-            set_field_20(1);
+            set_state(1);
         }
         break;
     case 1:
@@ -396,7 +396,7 @@ void TShopItemListWindow::handle_amount_confirm() {
                 }
                 ((TWindowBase *)confirm_menu)->close();
                 confirm_menu = NULL;
-                set_field_20(0);
+                set_state(0);
             }
             if (r == 1) {
                 ((TWindowBase *)confirm_menu)->close();
@@ -404,7 +404,7 @@ void TShopItemListWindow::handle_amount_confirm() {
                 if (item_list != 0U) {
                     ((TWindowMenuIconLine *)item_list)->clear_decided();
                 }
-                set_field_20(1);
+                set_state(1);
             }
         }
         if (confirm_menu != NULL && confirm_menu->is_cancelled() != 0) {
@@ -413,7 +413,7 @@ void TShopItemListWindow::handle_amount_confirm() {
             if (item_list != 0U) {
                 ((TWindowMenuIconLine *)item_list)->clear_decided();
             }
-            set_field_20(1);
+            set_state(1);
         }
         break;
     }

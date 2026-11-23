@@ -92,7 +92,7 @@ void TShopEquipmentGearSequence::vfunc_11() {
     switch (state) {
     case 0:
         TShopSequence::restore_player_state();
-        set_field_20(1);
+        set_state(1);
         return;
     case 1:
         open_greeting();
@@ -123,7 +123,7 @@ void TShopEquipmentGearSequence::open_greeting() {
     create_message_window(get_window_layout_position(0x2C, 332.0f), (saddr)pos);
     display_shop_message(0x2b, 1);
     meseta_window = (TWindowBase *)create_meseta_window((s32)(unsigned short)get_child_field1c());
-    set_field_20(2);
+    set_state(2);
     counter_camera = set_service_counter_camera(this, 0x4);
 }
 
@@ -146,13 +146,13 @@ void TShopEquipmentGearSequence::update_buy_sell_choice(void *self) {
     if (sequence->choice_menu != NULL && sequence->choice_menu->is_decided() != 0) {
         r = sequence->choice_menu->get_selected_value();
         if (r == 0) {
-            sequence->set_field_20(3);
+            sequence->set_state(3);
             sequence->choice_menu->close();
             sequence->choice_menu = NULL;
             return;
         }
         if (r == 1) {
-            sequence->set_field_20(4);
+            sequence->set_state(4);
             sequence->choice_menu->close();
             sequence->choice_menu = NULL;
             return;
@@ -160,7 +160,7 @@ void TShopEquipmentGearSequence::update_buy_sell_choice(void *self) {
     }
     if (sequence->choice_menu != NULL && sequence->choice_menu->is_cancelled() != 0) {
         sequence->display_shop_message(0x2C, 1);
-        sequence->set_field_20(6);
+        sequence->set_state(6);
         sequence->choice_menu->close();
         sequence->choice_menu = NULL;
     }
@@ -170,7 +170,7 @@ void TShopEquipmentGearSequence::open_armor_list_window() {
     TShopArmorListWindow *o = new TShopArmorListWindow(tl_05, this, player);
     o->m_1f4 = (uaddr)enter_quest_list;
     reset_controller_input_state();
-    this->set_field_20(5);
+    this->set_state(5);
 }
 
 void TShopEquipmentGearSequence::open_sell_window() {
@@ -178,7 +178,7 @@ void TShopEquipmentGearSequence::open_sell_window() {
     o->m_3a4 = (uaddr)enter_quest_list;
     o->m_3a8 = (uaddr)open_gear_shop;
     reset_controller_input_state();
-    set_field_20(5);
+    set_state(5);
 }
 
 void TShopEquipmentGearSequence::try_close() {
@@ -192,21 +192,21 @@ void TShopEquipmentGearSequence::try_close() {
 void TShopEquipmentGearSequence::handle_confirm() {
     if (vfunc_10() != 0 && (sub_80223A48() != 0 || sub_802239EC() != 0)) {
         display_shop_message(lbl_805D6218, 1);
-        set_field_20(lbl_805D621C);
+        set_state(lbl_805D621C);
     }
 }
 
 void TShopEquipmentGearSequence::enter_quest_list(TShopWindowBase *sequence) {
     if (sequence != NULL) {
         sequence->display_shop_message(0x1A, 1);
-        sequence->set_field_20(2);
+        sequence->set_state(2);
     }
 }
 
 void TShopEquipmentGearSequence::open_gear_shop(TShopWindowBase *sequence) {
     if (sequence != NULL) {
         sequence->display_shop_message(0x1B, 1);
-        sequence->set_field_20(7);
+        sequence->set_state(7);
         lbl_805D6218 = 0x1A;
         lbl_805D621C = 2;
     }
