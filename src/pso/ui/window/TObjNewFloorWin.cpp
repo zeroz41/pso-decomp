@@ -74,7 +74,7 @@ void TObjNewFloorWin::open_window() {
         sprintf((char *)arg0 + 0x2C, "%s %02d", get_message_text(0x67), TObjNewFloorWin__sub_8007410C());
         ((TWindowMenu *)(*(uaddr *)((s8 *)arg0 + 0x20)))->add_text_entry((saddr)(arg0 + 0x2C), 0, 0);
         ((TWindowMenu *)(*(uaddr *)((s8 *)arg0 + 0x20)))->calc_window_size();
-        ((TAdChrSelASlotGC *)(*(uaddr *)((s8 *)arg0 + 0x20)))->set_flag_40();
+        ((TWindowMenu *)(*(uaddr *)((s8 *)arg0 + 0x20)))->set_flag_40();
         fn_800740DC();
         TWindowCtrl::close_active_window();
         TWindowCtrl::ensure_initialized();

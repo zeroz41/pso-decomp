@@ -33,7 +33,7 @@ void update_challenge_warp_window(TObjCityMainWarpChallenge *warp) {
                 warp->menu_window = create_window_menu_default(get_window_layout_position(0x35), 7);
                 if ((u32) warp->menu_window != 0U) {
                     ((TWindowMenu *)(warp->menu_window))->add_text_entry((saddr)TWindowSubStatusDisp::get_message_10(0x40), 0, 0, -1);
-                    ((TAdChrSelASlotGC *)(warp->menu_window))->set_flag_40();
+                    ((TWindowMenu *)(warp->menu_window))->set_flag_40();
                     ((TWindowMenu *)(warp->menu_window))->calc_window_size();
                     align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(warp->menu_window));
                 }

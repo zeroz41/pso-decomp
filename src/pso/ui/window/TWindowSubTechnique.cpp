@@ -206,7 +206,7 @@ void TWindowSubTechnique::run_task() {
         if (technique_menu == 0) {
             technique_menu = (TWindowMenu *)create_title_window(category_menu->get_selected_value());
         }
-        ((TAdChrSelASlotGC *)technique_menu)->set_flag_40();
+        ((TWindowMenu *)technique_menu)->set_flag_40();
         TQuestThread::set_status_flag_80(technique_menu);
         TWindowSubTechnique::get_current_selection(&m_20, &m_24, playerIndex);
         category_menu->clear_flag_and_release();

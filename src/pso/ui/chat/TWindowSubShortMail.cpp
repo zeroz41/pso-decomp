@@ -518,7 +518,7 @@ saddr TWindowSubShortMail::create_window(void) {
         ((TWindowMenu *)list)->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x106)), 0, 0);
         add_gray_text_entry((TWindowMenu *)list, (const char *)(get_card_window_area__6TLobbyFv()), 0, 0);
     }
-    ((TAdChrSelASlotGC *)list)->set_flag_40();
+    ((TWindowMenu *)list)->set_flag_40();
     TQuestThread::set_status_flag_80((void *)list);
     ((TWindowSubComCardList *)list)->set_scroll_target(206.0f, 140.0f);
     return list;

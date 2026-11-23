@@ -605,7 +605,7 @@ void TObjCityAreaWarp::open_confirm_window(s32 client_id) {
         menu_window = (saddr)create_window_menu((saddr)get_window_layout_position(0x33), 1, client_id);
         ((TWindowMenu *)menu_window)->add_text_entry(get_localized_text_entry(9, 0x24), 0xA, 0, -1);
         ((TWindowMenu *)menu_window)->set_flag70_bit10();
-        ((TAdChrSelASlotGC *)menu_window)->set_flag_40();
+        ((TWindowMenu *)menu_window)->set_flag_40();
         ((TWindowMenu *)menu_window)->calc_window_size();
         align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(menu_window));
         user_client_id = client_id;
@@ -666,7 +666,7 @@ void TObjCityMapWarp::open_confirm_window(s32 client_id) {
         clamp_destination_index();
         ((TWindowMenu *)playerPopups[client_id])->add_text_entry(get_localized_text_entry(9, map_warp_dest_text_ids[set_params[2]]), 0xA, 0, -1);
         ((TWindowMenu *)playerPopups[client_id])->set_flag70_bit10();
-        ((TAdChrSelASlotGC *)playerPopups[client_id])->set_flag_40();
+        ((TWindowMenu *)playerPopups[client_id])->set_flag_40();
         ((TWindowMenu *)playerPopups[client_id])->calc_window_size();
         align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(playerPopups[client_id]));
     }
@@ -765,7 +765,7 @@ void TObjLaboMapWarp::open_confirm_window(s32 client_id) {
         clamp_index();
         ((TWindowMenu *)playerPopups[client_id])->add_text_entry(get_localized_text_entry(9, map_warp_dest_text_ids[set_params[2]]), 0xA, 0, -1);
         ((TWindowMenu *)playerPopups[client_id])->set_flag70_bit10();
-        ((TAdChrSelASlotGC *)playerPopups[client_id])->set_flag_40();
+        ((TWindowMenu *)playerPopups[client_id])->set_flag_40();
         ((TWindowMenu *)playerPopups[client_id])->calc_window_size();
         align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(playerPopups[client_id]));
     }

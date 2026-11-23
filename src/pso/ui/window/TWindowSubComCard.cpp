@@ -1269,7 +1269,7 @@ s32 TWindowSubComCard::create_single_entry_window(void) {
   saddr menu;
     menu = create_window_menu_default((void *)(((saddr)get_window_layout_position(0x84))), 1);
     ((TWindowMenu *)menu)->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x38)), 3, 0);
-    ((TAdChrSelASlotGC *)menu)->set_flag_40();
+    ((TWindowMenu *)menu)->set_flag_40();
     ((TWindowSubComCardList *)menu)->set_scroll_target(213.0f, 64.0f);
     return menu;
 }

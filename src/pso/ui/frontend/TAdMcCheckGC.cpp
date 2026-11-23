@@ -33,7 +33,7 @@ TObject *TAdMcCheckGC::create(s32 arg1) {
 
     window_menu_default = create_window_menu_default(&mc_check_window_positions[this->card_slot], 1);
     ((TWindowMenu *)window_menu_default)->add_text_entry(get_localized_text_entry(0x16, arg1), 0x20, 0);
-    ((TAdChrSelASlotGC *)window_menu_default)->set_flag_40();
+    ((TWindowMenu *)window_menu_default)->set_flag_40();
     TQuestThread::set_status_flag_80((void *)window_menu_default);
     ((TWindowSubComCard *)window_menu_default)->calc_layout_height(190.0f);
     return reinterpret_cast<TObject *>(window_menu_default);

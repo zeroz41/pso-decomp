@@ -106,7 +106,7 @@ TWindowBase *TAdChrSelASlotGC::create_format_failed_window(s32 kind) {
     }
     w = (TWindowBase *)create_window_menu_default((saddr)&pos, 1);
     ((TWindowMenu *)w)->add_text_entry(get_localized_text_entry(0x16, kind + 0x2B), 0x20, 0);
-    ((TAdChrSelASlotGC *)w)->set_flag_40();
+    ((TWindowMenu *)w)->set_flag_40();
     TQuestThread::set_status_flag_80(w);
     ((TWindowSubComCard *)w)->calc_layout_height(190.0f);
     return w;
@@ -125,7 +125,7 @@ TWindowBase *TAdChrSelASlotGC::create_not_formatted_window(s32 kind) {
     }
     w = (TWindowBase *)create_window_menu_default((saddr)&pos, 1);
     ((TWindowMenu *)w)->add_text_entry(get_localized_text_entry(0x16, kind + 0x29), 0x20, 0);
-    ((TAdChrSelASlotGC *)w)->set_flag_40();
+    ((TWindowMenu *)w)->set_flag_40();
     TQuestThread::set_status_flag_80(w);
     ((TWindowSubComCard *)w)->calc_layout_height(190.0f);
     return w;
@@ -144,7 +144,7 @@ TWindowBase *TAdChrSelASlotGC::create_formatted_window(s32 kind) {
     }
     w = (TWindowBase *)create_window_menu_default((saddr)&pos, 1);
     ((TWindowMenu *)w)->add_text_entry(get_localized_text_entry(0x16, kind + 0x27), 0x20, 0);
-    ((TAdChrSelASlotGC *)w)->set_flag_40();
+    ((TWindowMenu *)w)->set_flag_40();
     TQuestThread::set_status_flag_80(w);
     ((TWindowSubComCard *)w)->calc_layout_height(190.0f);
     return w;
@@ -238,7 +238,7 @@ TWindowBase *TAdChrSelASlotGC::create_slot_message_window(s32 kind, s32 text) {
     }
     w = (TWindowBase *)create_window_menu_default((saddr)&pos, 1);
     ((TWindowMenu *)w)->add_text_entry(get_localized_text_entry(0x16, text), 0x21, 0);
-    ((TAdChrSelASlotGC *)w)->set_flag_40();
+    ((TWindowMenu *)w)->set_flag_40();
     TQuestThread::set_status_flag_80(w);
     ((TWindowSubComCard *)w)->calc_layout_height(190.0f);
     return w;

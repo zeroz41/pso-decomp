@@ -41,7 +41,7 @@ void TWindowMessageYesNo::move_to(const NJS_POINT2 *position) {
     }
 }
 
-void TWindowSubComCard::update_card_slot() { void* m = *(void* *)&this->m_2c; if (m) ((TAdChrSelASlotGC *)m)->set_flag_40(); }
+void TWindowSubComCard::update_card_slot() { void* m = *(void* *)&this->m_2c; if (m) ((TWindowMenu *)m)->set_flag_40(); }
 void TWindowSubComCard::notify_trade_main() { void* m = *(void* *)&this->m_2c; if (m) ((TWindowSubTradeMain *)m)->clear_trade_flag(); }
 
 }

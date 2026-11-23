@@ -37,6 +37,7 @@ struct TWindowMenu : public TWindowAddition {
     void clear_flag_and_release();
     s32 get_selected_value();
     void set_flag70_bit10();
+    void set_flag_40();
     s32 add_text_entry(saddr text, s32 flags, s32 id, s32 color);
     s32 add_text_entry(saddr text, s32 flags, s32 id);
     virtual void render();

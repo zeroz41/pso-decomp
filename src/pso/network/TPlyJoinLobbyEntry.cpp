@@ -1849,7 +1849,7 @@ void TLobby::open_keyboard_window() {
         lobby_keyboard_prompt_window->add_text_entry((saddr)blank_entry, 2, 1);
         lobby_keyboard_prompt_window->calc_window_size();
         align_menu_entry_positions(lobby_keyboard_prompt_window);
-        ((TAdChrSelASlotGC *)lobby_keyboard_prompt_window)->set_flag_40();
+        lobby_keyboard_prompt_window->set_flag_40();
     }
     lobby_keyboard_controller = new TKeyBoardControl(TLobby__join_lobby_controller, 0x10, 0, 0, local_client_id);
     lobby_keyboard_controller->set_sub_position((u8 *)(get_window_layout_position(0xC4)));

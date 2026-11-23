@@ -420,7 +420,7 @@ void TObjMapWarp::open_confirm_window(s32 client_id) {
         ((TWindowMenu *)(*(uaddr *)((s8 *)temp_r31 + 0xEC)))->calc_window_size();
         align_menu_entry_positions(reinterpret_cast<TWindowMenu *>((*(uaddr *)((s8 *)temp_r31 + 0xEC))));
         ((TWindowMenu *)(*(uaddr *)((s8 *)temp_r31 + 0xEC)))->set_flag70_bit10();
-        ((TAdChrSelASlotGC *)(*(uaddr *)((s8 *)temp_r31 + 0xEC)))->set_flag_40();
+        ((TWindowMenu *)(*(uaddr *)((s8 *)temp_r31 + 0xEC)))->set_flag_40();
     }
 }
 #pragma pop
@@ -606,7 +606,7 @@ void TObjAreaWarp::open_confirm_window(s32 client_id) {
         ((TWindowMenu *)(this->menu_window))->calc_window_size();
         align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(this->menu_window));
         ((TWindowMenu *)(this->menu_window))->set_flag70_bit10();
-        ((TAdChrSelASlotGC *)(this->menu_window))->set_flag_40();
+        ((TWindowMenu *)(this->menu_window))->set_flag_40();
         this->user_client_id = client_id;
         player = (uaddr)get_player_by_client_id(this->user_client_id);
         if (player != 0U) {
@@ -1058,7 +1058,7 @@ void TObjAreaWarpEnding::open_confirm_window(s32 client_id) {
         ((TWindowMenu *)(this->menu_window))->calc_window_size();
         align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(this->menu_window));
         ((TWindowMenu *)(this->menu_window))->set_flag70_bit10();
-        ((TAdChrSelASlotGC *)(this->menu_window))->set_flag_40();
+        ((TWindowMenu *)(this->menu_window))->set_flag_40();
         user_client_id = client_id;
     }
 }

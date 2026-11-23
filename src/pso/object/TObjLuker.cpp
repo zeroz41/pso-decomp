@@ -176,7 +176,7 @@ void TObjLuker::open_destination_windows() {
             if (self->wins[i] != 0) {
                 this->m_a0 = target;
                 ((TWindowMenu *)(self->wins[i]))->add_text_entry(get_floor_destination_name(get_floor_area(target)), 2, 0, -1);
-                ((TAdChrSelASlotGC *)(self->wins[i]))->set_flag_40();
+                ((TWindowMenu *)(self->wins[i]))->set_flag_40();
                 ((TWindowMenu *)(self->wins[i]))->calc_window_size();
                 align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(self->wins[i]));
                 ((TObject *)(self->wins[i]))->suspend_update();

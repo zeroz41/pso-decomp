@@ -801,7 +801,7 @@ void TWindowSubTradeMain::set_child_windows_enabled(s32 on) {
             if (on != 0) {
                 ((TWindowSubTradeMain *)(((TradeMain_80330BCC *)this)->w30))->clear_trade_flag();
             } else {
-                ((TAdChrSelASlotGC *)(((TradeMain_80330BCC *)this)->w30))->set_flag_40();
+                ((TWindowMenu *)(((TradeMain_80330BCC *)this)->w30))->set_flag_40();
             }
         }
         break;
@@ -868,7 +868,7 @@ void TWindowSubTradeMain::set_child_windows_enabled(s32 on) {
             if (on != 0) {
                 ((TWindowSubTradeMain *)(((TradeMain_80330BCC *)this)->w34))->clear_trade_flag();
             } else {
-                ((TAdChrSelASlotGC *)(((TradeMain_80330BCC *)this)->w34))->set_flag_40();
+                ((TWindowMenu *)(((TradeMain_80330BCC *)this)->w34))->set_flag_40();
             }
         }
         break;

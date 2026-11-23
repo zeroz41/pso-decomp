@@ -5,7 +5,7 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/TWindowAddition.h"
-#include "pso/ui/frontend/TAdChrSelASlotGC.h"
+#include "pso/ui/window/TWindowMenu.h"
 #include "pso/unk/TLobby.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/system/task/TObject.h"
@@ -44,7 +44,7 @@ __declspec(section ".data") const char* challenge_result_rank_labels[4] = {
 };
 __declspec(section ".sdata2") extern const char challenge_result_newline[] = "\n";
 
-void TAdChrSelASlotGC::set_flag_40() { *(u16 *)&this->wait_message[7] |= 0x40; }
+void TWindowMenu::set_flag_40() { m_70 |= 0x40; }
 int TObjNewFloorWin__sub_8007410C(void) {  return current_lobby_id; }
 }
 

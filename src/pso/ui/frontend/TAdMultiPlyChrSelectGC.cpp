@@ -1886,7 +1886,7 @@ TWindowMenu *TAdMultiPlyChrSelectGC::create_choice_menu() {
 TWindowMenu *TAdMultiPlyChrSelectGC::sub_802DBEC4(s32 *desc) {
     TWindowMenu *menu = (TWindowMenu *)create_window_menu_default((saddr)desc, 1);
     menu->add_text_entry(get_localized_text_entry(0x1F, 6), 0x21, 0);
-    ((TAdChrSelASlotGC *)menu)->set_flag_40();
+    ((TWindowMenu *)menu)->set_flag_40();
     TQuestThread::set_status_flag_80(menu);
     ((TWindowSubComCard *)menu)->calc_layout_height(190.0f);
     return menu;
@@ -1895,7 +1895,7 @@ TWindowMenu *TAdMultiPlyChrSelectGC::sub_802DBEC4(s32 *desc) {
 TWindowMenu *TAdMultiPlyChrSelectGC::sub_802DBE4C(s32 *desc) {
     TWindowMenu *menu = (TWindowMenu *)create_window_menu_default((saddr)desc, 1);
     menu->add_text_entry(get_localized_text_entry(0x1F, 7), 0x21, 0);
-    ((TAdChrSelASlotGC *)menu)->set_flag_40();
+    ((TWindowMenu *)menu)->set_flag_40();
     TQuestThread::set_status_flag_80(menu);
     ((TWindowSubComCard *)menu)->calc_layout_height(190.0f);
     return menu;

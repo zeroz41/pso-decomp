@@ -26,7 +26,6 @@ struct TAdChrSelASlotGC : public TObject {
     s32 prev_state;
     TAdChrSelSlotGC *slot_gc; // 0x2C
     TAdPlayerLoadGC *player_load;
-    void set_flag_40();
     static void render(void *self);
     s32 is_character_transferred(u32 i);
     s32 get_plate_value_for_slot(s32 k);
