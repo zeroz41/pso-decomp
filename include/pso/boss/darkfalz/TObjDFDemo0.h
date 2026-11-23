@@ -9,6 +9,14 @@ class TParticleCtrl;
 struct AnimationMotion;
 struct NJS_TEXLIST;
 
+// A particle effect the demo keeps alive from frame `start` until frame `end`.
+struct DFDemo0Emitter {
+    s32 effect_id;
+    s32 start;
+    s32 end;
+    Vec position;
+};
+
 // Dark Falz's first demo scene: six body models from boss4_type1_model_ids
 // play their motions around df_demo0_center while timed particle effects,
 // sounds and pad rumble run; it fades in and removes itself after 0x118 frames.

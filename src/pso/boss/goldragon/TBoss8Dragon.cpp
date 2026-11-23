@@ -29,6 +29,7 @@
 #include "pso/unk/text_803D8F74.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/math/AngleLookup.h"
+#include "pso/network/client_id.h"
 #include "pso/math/AngleUnits.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include <stdlib.h>
@@ -122,7 +123,6 @@ extern Vec *boss8_dragon_capture_points_out;
 extern s32 boss8_dragon_capture_flags;
 extern NJS_OBJECT *boss8_dragon_capture_model;
 extern TBoss8Dragon *boss8_dragon_main_instance;
-extern s32 designated_client_id;
 extern s32 boss8_dragon_breath_node;
 extern f32 boss8_dragon_visibility_distance;
 

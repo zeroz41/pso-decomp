@@ -22,6 +22,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/boss/darkfalz/TObjDFDemo0.h"
+#include "pso/boss/darkfalz/TBoss4Type1.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/system/MatrixStack.h"
@@ -33,16 +34,6 @@
 const char *TObjDFDemo0__name = "TObjDFDemo0";
 const ModelNodeSpec TObjDFDemo0__model_node_entries[7] = {
     {9, 1, 0}, {7, 1, 0}, {5, 2, 0}, {4, 2, 0}, {6, 2, 0}, {3, 5, 0}, {3, 0x5E, 0},
-};
-
-extern s32 boss4_type1_model_ids[];
-
-// A particle effect the demo keeps alive from frame `start` until frame `end`.
-struct DFDemo0Emitter {
-    s32 effect_id;
-    s32 start;
-    s32 end;
-    Vec position;
 };
 
 extern "C" {
