@@ -9,6 +9,7 @@
 #include "pso/unk/TLobby.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include <string.h>
+#include "pso/ui/window/TWindowCtrl.h"
 
 struct SRock_80224544_8022448C;
 
@@ -220,7 +221,6 @@ u32 ShortMailEntry::get_id() { return sequence_id; }
 
 int TLobby::get_short_mail_ctrl() {  return lobby_short_mail_entry_count; }
 
-extern u16 lbl_805D63FC;
 
 void TLobby__sub_80225CB8(void) {
     lbl_805D63FC |= 1;

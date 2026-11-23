@@ -19,6 +19,7 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/render/render_util.h"
+#include "pso/ui/window/TWindowCtrl.h"
 
 
 typedef struct Src_8024220C
@@ -1183,7 +1184,6 @@ char *GuildCardRecord::get_sub_disp_ptr() { return reinterpret_cast<char *>(&ext
 s32 GuildCardRecord::get_id() { return id; }
 
 
-extern u16 lbl_805D63FC;
 
 void TLobby__sub_80242918(void) {
     lbl_805D63FC |= 4;

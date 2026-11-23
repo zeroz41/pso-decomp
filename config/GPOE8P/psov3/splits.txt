@@ -6626,7 +6626,6 @@ pso/ui/window/TWindowComCardFollower.cpp:
 	.text       start:0x80249CBC end:0x8024A054
 	.rodata     start:0x8044EBC0 end:0x8044EBC8
 	.data       start:0x804CE918 end:0x804CE9C8
-	.sbss       start:0x805D63F8 end:0x805D6400
 	.sdata2     start:0x805DCBD0 end:0x805DCBD4
 
 pso/ui/window/TWindowCtrl.cpp:
@@ -6634,6 +6633,7 @@ pso/ui/window/TWindowCtrl.cpp:
 	.rodata     start:0x8044EBC8 end:0x8044EBF0
 	.data       start:0x804CE9C8 end:0x804CEAB8
 	.sdata      start:0x805D38C8 end:0x805D38D0
+	.sbss       start:0x805D63F8 end:0x805D6400
 	.sdata2     start:0x805DCBD8 end:0x805DCC18
 
 pso/ui/window/TWindowCtrlMain.cpp:

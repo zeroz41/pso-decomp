@@ -5,13 +5,13 @@
 #include "pso/ui/chat/ShortMail.h"
 
 #include "types.h"
+#include "pso/ui/window/TWindowCtrl.h"
 
 void TPlyGuildCardTag::bswap() {
     bswap_32(&m_guildcard_number);
     bswap_16(&m_tag2);
 }
 
-extern u16 lbl_805D63FC;
 
 void TWindowSubShortMail__sub_8007B824(void) {
     lbl_805D63FC |= 2;

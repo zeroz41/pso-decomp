@@ -62,9 +62,10 @@
 #include "pso/unk/text_8026AC50.h"
 #include "pso/unk/text_8026ACDC.h"
 
-extern "C" {
+TWindowCtrl *TWindowCtrl::instance;
+u16 lbl_805D63FC;
 
-extern u16 lbl_805D63FC;
+extern "C" {
 
 s32 get_multiplayer_controller_active_index(s32);
 
