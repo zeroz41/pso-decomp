@@ -7,6 +7,7 @@
 #include "pso/system/task/TObject.h"
 
 struct TWindowMenu;
+struct NJS_POINT2;
 
 struct TWindowMessageYesNo : public TObject {
     TWindowMessageYesNo(TObject *parent, s32 client_id, void *arg3, void *arg4);
@@ -23,6 +24,8 @@ struct TWindowMessageYesNo : public TObject {
     static TWindowMessageYesNo *create(void *parent, s32 client_id, void *arg2, void *arg3);
     void set_menu_selected_index(s16 index);
     void open_yes_no_prompt_with_text(s32 text, s32 pos, f32 width);
+    void get_choice_menu_position(NJS_POINT2 *position);
+    void move_to(const NJS_POINT2 *position);
 };
 
 LAYOUT_ASSERT(TWindowMessageYesNoChoiceMenuOffset, offsetof(TWindowMessageYesNo, choice_menu) == 0x2C);

@@ -92,7 +92,6 @@ s32 set_depth__11TWindowBaseFf(s32);
 TWindowHelpItem *__ct__15TWindowHelpItemFPvUs(TWindowHelpItem *, void *, u32);
 s32 TWindowHelpItem__set_displayed_item_by_id(u32);
 TWindowInputNumber *__ct__18TWindowInputNumberFPvllls(TWindowInputNumber *, void *, s32, s32, s32, s16);
-void update_label_positions__17TWindowSubComCardFPvPv(void *, saddr);
 }
 
 #include "pso/ui/city/TShopEquipmentSellWindow.h"
@@ -775,7 +774,7 @@ void TWindowSubTradeMain::set_labels(s32 arg1) {
         TWindowSubTradeMain::update_position_if_changed((saddr)this, (u8 *)this->confirm, (u8 *)((saddr)(get_window_layout_position(arg1 + 0x5E))));
     }
     if (dialog != NULL) {
-        update_label_positions__17TWindowSubComCardFPvPv(dialog, get_window_layout_position(arg1 + 0x5F));
+        dialog->move_to(reinterpret_cast<const NJS_POINT2 *>(get_window_layout_position(arg1 + 0x5F)));
     }
     if ((u32) this->offer != 0U) {
         if ((u32) this->list != 0U) {

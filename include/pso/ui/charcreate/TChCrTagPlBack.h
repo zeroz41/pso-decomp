@@ -12,7 +12,6 @@ public:
 public:
     static TChCrTagPlBack *create(s32 index);
     static TChCrTagPlBack *create_default();
-    void get_position_offset(void *arg1);
 };
 
 extern const char *TChCrTagPlBack__name;
