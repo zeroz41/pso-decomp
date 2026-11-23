@@ -187,7 +187,7 @@ extern "C" {
 void *get_player_by_client_id(s32 i);
 s32 TLobby__sub_80070F4C(void);
 s32 TLobby__sub_80070FD8(void);
-u8 lobby_player_name[0xC];
+char challenge_rank_title[0xC];
 RecoveredGlobal_800713C8_lbl_804FF82C lbl_804FF82C;
 s32 *TLobby__sub_800713C8(void);
 s32 TLobby__sub_80070DA8(void);

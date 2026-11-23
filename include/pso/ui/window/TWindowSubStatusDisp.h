@@ -55,7 +55,7 @@ struct TWindowSubStatusDisp : public TWindowBase {
 
     static s32 get_status_index(u16 client_index);
     static s32 get_status_index_or_default(u16 *arg0);
-    static s32 *get_status_window(u16 arg0);
+    static char *get_status_window(u16 arg0);
     static void *get_message_10(s32 index);
     static void draw_number_digits(void *color, s16 value, u16 digits, f32 x, f32 y, f32 scale);
     static void render_forward();
