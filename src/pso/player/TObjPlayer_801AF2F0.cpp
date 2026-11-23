@@ -86,6 +86,7 @@
 #include "pso/player/TForceOperate.h"
 #include "pso/technique/TTecCtrl.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/unk/text_801D94C8.h"
 
 #pragma readonly_strings on
 
@@ -1200,7 +1201,6 @@ void TObjPlayer__sub_801B4044(void* p);
 s32 test_ordered_anim_markers__10TObjPlayerFPvff(u8 *arg0, f32 at_frame, f32 farg1);
 void update_rotation__10TObjPlayerFv(void *arg0);
 void handle_6xA1_revive_player_v3(void *command);
-void TObjPlayer__sub_801B4430(saddr arg0);
 void handle_6x32_medical_center_revive_all_players(void);
 void send_code50_packet__10TObjPlayerFi(saddr player);
 void recover_full__10TObjPlayerFPv(void *player);
@@ -1418,7 +1418,6 @@ s32 get_class_defense_template();
 player_stats *get_class_stat_caps(s8 cls);
 stats *get_class_base_stats(s8 cls);
 void apply_class_level_growth(s8 cls, s32 level, stats *st);
-f32 get_class_technique_boost(s32, s32);
 void update_all_units__10TObjPlayerFll(void *, u8);
 s32 poll_memcard_result(saddr);
 s32 is_item_area_enabled(s32 area);
@@ -1494,7 +1493,6 @@ extern RecoveredGlobal_8000F7FC_lbl_80515F48 start_freeze_self__10TObjPlayerFv;
 s16 item_equip_attach_equip_flag_table[10] = {0x3E, 0x3F, 0x18, 0x24, 0x32, 0x23, 0x30, 0x0A, 0x13, 0x00};
 
 extern "C" {
-s32 TObjPlayer__sub_801BE2C8(void *);
 
 struct Ent_801AF868 { u16 id; s16 val; u32 pad; };
 s32 *TWindowDuelResult__sub_801C257C(void);
@@ -4891,12 +4889,12 @@ void handle_6x32_medical_center_revive_all_players(void) {
     }
 }
 
-void TObjPlayer__sub_801B4430(saddr arg0) {
+void TObjPlayer::sub_801B4430() {
     struct S801B4430_801b4430_801B3FD8 sp8;
 
-    if ((arg0 == 0) || (((TObjChara *)arg0)->obj_isState2_324() == 0)) {
+    if ((((saddr)this) == 0) || (this->obj_isState2_324() == 0)) {
         ((TObjPlayer *)(&sp8))->set_code_161_1();
-        sp8.h = ((TObjBase *)(arg0))->get_entity_id();
+        sp8.h = ((TObjBase *)(((saddr)this)))->get_entity_id();
         ((TObjPlayer *)(&sp8))->update_font();
     }
 }
@@ -7115,11 +7113,11 @@ void handle_6x9B_level_up_all_techniques(void *command) {
     }
 }
 
-f32 TObjPlayer::get_battle_value(s32 arg0, int arg1, s32 arg2) {
-    if (get_player_by_client_id(arg1 & 0xFFFF) == NULL) {
+f32 TObjPlayer::get_battle_value(u16 client, s16 technique) {
+    if (get_player_by_client_id(client) == NULL) {
         return (*(f32 *)&TObjPlayer__data_805DC278);
     }
-    return get_class_technique_boost(((s32 (*)(s32))get_class_index__10TObjPlayerFv)(arg0), arg2);
+    return get_class_technique_boost(get_class_index(), technique);
 }
 
 void TObjPlayer::sub_801AF454(s32 x) {
@@ -7150,13 +7148,13 @@ s32 calc_stat_threshold__10TObjPlayerFPv(void *player) {
     return 0x3C - var_r31;
 }
 
-s32 TObjPlayer__sub_801AF290(void *p) {
+s32 TObjPlayer::sub_801AF290() {
     s32 v;
     TObjPlayer *target;
     s32 r = 0;
     TObjPlayer *player;
-    s32 cur = TObjPlayer__sub_801BE2C8(p);
-    target = player = (TObjPlayer *)p;
+    s32 cur = sub_801BE2C8();
+    target = player = (TObjPlayer *)this;
     v = cur + 1;
     if (v >= ((s32 (*)(void *, s32))calc_stat_threshold__10TObjPlayerFPv)(target, cur)) {
         v = 0;

@@ -57,7 +57,6 @@ TechniqueBoostTable technique_boost_tables[4];
 TechniqueBoostTable lbl_8051607C[4];
 
 extern "C" {
-f32 get_battle_value__10TObjPlayerFlil(void *, s32, s16);
 }
 
 struct Target_8022D27C { u16 id; s16 part; };
@@ -756,7 +755,7 @@ void set_technique_boost(TechniqueBoost *boost, u16 client, s32 index) {
 
 f32 calc_technique_boost(s32 technique, u16 actor) {
     f32 sum;
-    void *player;
+    TObjPlayer *player;
     s32 i;
 
     sum = 0.0f;
@@ -770,14 +769,14 @@ f32 calc_technique_boost(s32 technique, u16 actor) {
     }
     player = get_player_by_client_id(actor);
     if (player != NULL) {
-        sum += ((f32 (*)(void *, u16, s16))get_battle_value__10TObjPlayerFlil)(player, actor, technique);
+        sum += player->get_battle_value(actor, technique);
     }
     return sum;
 }
 
 u32 get_technique_caster_flags(s32 technique, u16 actor) {
     u32 flags;
-    void *player;
+    TObjPlayer *player;
     s32 i;
 
     flags = 0;
@@ -787,10 +786,10 @@ u32 get_technique_caster_flags(s32 technique, u16 actor) {
     for (i = 0; i < 6; i++) {
         player = get_player_by_client_id(actor);
         if (player != NULL) {
-            flags += ((f32 (*)(void *, u16, s16))get_battle_value__10TObjPlayerFlil)(player, actor, technique);
+            flags += player->get_battle_value(actor, technique);
             switch (technique) {
             case 18:
-                if (((f32 (*)(void *, u16, s16))get_battle_value__10TObjPlayerFlil)(player, actor, technique) == 1.0f) {
+                if (player->get_battle_value(actor, technique) == 1.0f) {
                     flags |= 1;
                 }
                 break;

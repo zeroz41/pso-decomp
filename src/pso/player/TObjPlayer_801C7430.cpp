@@ -1055,7 +1055,6 @@ s32 get_type__10TObjPlayerFPv(void *);
 s32 play_weapon_hit_sound(void *);
 void apply_camera_shake__10TObjPlayerFiii(TObjPlayer *player, TObjChara *target, s32 damage);
 u8 * find_entity_by_id(s32);
-s32 TObjPlayer__sub_801AF290(void *p);
 s32 is_on_current_floor__10TObjPlayerFi();
 s32 get_trap_type__10TOMineTrapFv(int);
 s32 accumulate_damage_stats_at_76c(s32, s32, s32);
@@ -1069,7 +1068,6 @@ void apply_speed_scale__10TObjPlayerFif(saddr arg0, f32 farg0);
 void complete_deferred_player_death();
 int is_flag_400_set__10TObjPlayerFPv(void *p);
 void enable_action_input__10TObjPlayerFPv(void *p);
-void TObjPlayer__sub_801B4430(saddr arg0);
 void send_code_49_1__10TObjPlayerFi(saddr player);
 u16 TObjPlayer__sub_801B5AF8(void *, s32);
 u32 resolve_move_collision__10TObjPlayerFv(void *);
@@ -1184,7 +1182,6 @@ u8 * TObjPlayer__sub_801D2540(u8 *arg0, u8 *arg1);
 u8 * TObjPlayer__sub_801D25AC(u8 *arg0, u8 *arg1);
 void clear_status_bit6__10TObjPlayerFPv(void* p);
 f32 get_action_rate_entry(Obj_801D2640 *p);
-int TObjPlayer__sub_801D2680(void *p);
 s16 TObjPlayer__sub_801D2824(void* p);
 s16 TObjPlayer__sub_801D282C(void* p);
 f32 TObjPlayer__sub_801D2858(void* p);
@@ -2508,7 +2505,7 @@ void TObjPlayer::send_6x4F_revived() {
             this->refill_traps();
         }
     } else {
-        TObjPlayer__sub_801B4430(arg0);
+        ((TObjPlayer *)arg0)->sub_801B4430();
     }
     ((TObjPlayer *)arg0)->photon_blast_gauge.update_if_ready();
     if ((arg0 == 0U) || (this->obj_isState2_324() == 0)) {
@@ -4906,7 +4903,7 @@ void TObjPlayer::apply_movement_if_ready() {
     s16 handle_value;
 
     handle_value = ((TObjPlayer *)this)->get_handle_value();
-    if ((handle_value != 0x11) && ((handle_value >= 0x11) || (handle_value >= 0xA) || (handle_value < 6)) && (this->is_flag_b0_4() == 0) && ((s16) this->requested_action == (s16) this->current_action) && (this->action_flags & 0x20000000) && (((s32 (*)(void *))TObjPlayer__sub_801D2680)(arg0) == 0)) {
+    if ((handle_value != 0x11) && ((handle_value >= 0x11) || (handle_value >= 0xA) || (handle_value < 6)) && (this->is_flag_b0_4() == 0) && ((s16) this->requested_action == (s16) this->current_action) && (this->action_flags & 0x20000000) && (((TObjPlayer *)arg0)->sub_801D2680() == 0)) {
         if (0.0f > get_root_motion_step(&this->velocity.x, &this->velocity.z)) {
             clear_velocity(arg0);
         }
@@ -5600,10 +5597,10 @@ void TObjPlayer::update_action(saddr owner) {
     } else if (temp_r3 == 1U) {
         ((TObjPlayer *)owner)->rewind_position_history();
     }
-    if ((((TObjPlayer *)owner)->is_newman() != 0) && (TFontSmallLobby::is_lobby_floor_15() == 0) && (TObjPlayer__sub_801AF290((void *)owner) != 0)) {
+    if ((((TObjPlayer *)owner)->is_newman() != 0) && (TFontSmallLobby::is_lobby_floor_15() == 0) && (((TObjPlayer *)owner)->sub_801AF290() != 0)) {
         add_actor_tp((u8 *)owner, 1);
     }
-    if ((((s32 (*)(s32))is_android_player)(owner) != 0) && (TFontSmallLobby::is_lobby_floor_15() == 0) && (TObjPlayer__sub_801AF290((void *)owner) != 0)) {
+    if ((((s32 (*)(s32))is_android_player)(owner) != 0) && (TFontSmallLobby::is_lobby_floor_15() == 0) && (((TObjPlayer *)owner)->sub_801AF290() != 0)) {
         add_actor_hp((u8 *)owner, 1);
     }
 }
@@ -6503,8 +6500,8 @@ void TObjPlayer::set_field_d4_and_flag_200(f32 value) {
     set_motion_flags(MOTION_OVERRIDE_BLEND_SPEED);
 }
 
-int TObjPlayer__sub_801D2680(void *p) {
-    return (*(u32 *)((char *)p + 0xB0) >> 6) & 1;
+int TObjPlayer::sub_801D2680() {
+    return (this->motion_flags >> 6) & 1;
 }
 
 void TObjPlayer::set_action_flag() {

@@ -176,7 +176,7 @@ struct TObjPlayer : public TObjChara {
     PhotonChairSeat chair_seat;
     ContactSurfaceState contact_surface;
     s32 m_36c;
-    u8 unk_370[0x4];
+    s32 pad_370;
     MaterialUsage materials;
     // Inferred: the action provider init_action_provider creates (TUnk_804DDBF0 or TUnk_804ED7D0).
     TUnk_804DDD28 *action_provider;
@@ -1161,7 +1161,7 @@ struct TObjPlayer : public TObjChara {
     void stop_force_if_alive();
     void update_battle_control_if_unlocked();
     void update_facing_from_lock();
-    static f32 get_battle_value(s32 arg0, int arg1, s32 arg2);
+    f32 get_battle_value(u16 client, s16 technique);
     u32 set_lobby_marker(s32 arg1);
     s32 are_traps_full();
     s32 is_alive_and_ready();
@@ -1622,6 +1622,10 @@ struct TObjPlayer : public TObjChara {
     s32 update_aim_target();
     s32 update_combat_stats();
     void update_timer_state();
+    s32 sub_801AF290();
+    void sub_801B4430();
+    s32 sub_801BE2C8();
+    int sub_801D2680();
     // End of placeholder-named members.
 };
 

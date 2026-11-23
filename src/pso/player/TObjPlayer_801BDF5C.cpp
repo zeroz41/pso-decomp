@@ -158,7 +158,7 @@ s32 TObjPlayer::check_camera_mode() {
     return (u8)((u8) (is_quest_active() == 1));
 }
 void TObjPlayer::sub_801BE2C0(s32 v) { *(s32*)((char*)this + 0x370) = v; }
-s32 TObjPlayer__sub_801BE2C8(void* p) { return *(s32*)((char*)p + 0x370); }
+s32 TObjPlayer::sub_801BE2C8() { return this->pad_370; }
 int TObjPlayer::is_newman() { return (this->class_flags & CLASS_FLAG_NEWMAN) != 0; }
 int TObjPlayer::is_android() { return (this->class_flags & CLASS_FLAG_ANDROID) != 0; }
 void TObjPlayer::check_stat_flag_41c() { ((FlagWord *)((char*)this + 0x41c))->set(32); }

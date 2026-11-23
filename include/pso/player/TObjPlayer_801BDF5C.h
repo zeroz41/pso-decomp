@@ -9,7 +9,6 @@ struct TObjPlayer;
 extern "C" {
 // The player of this machine's client, or NULL.
 TObjPlayer *get_local_player();
-s32 TObjPlayer__sub_801BE2C8(void *p);
 void TObjPlayer__sub_801BE784(void *p, u8 v);
 void TObjPlayer__sub_801BE794(void *p, u8 v);
 void TObjPlayer__sub_801BE7A4(void *p, u8 v);
