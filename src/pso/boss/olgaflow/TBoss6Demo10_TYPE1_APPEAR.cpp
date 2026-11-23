@@ -151,7 +151,7 @@ TBoss6Demo10_TYPE1_APPEAR::TBoss6Demo10_TYPE1_APPEAR(TBoss6PlotFalz *plot) : TOb
       k = boss6_type1_part_model_ids[i];
       k = k & 0xFFFFFFFFu;
       parts[i].model = (NJS_OBJECT *)get_bml_model(archive, k);
-      parts[i].texture = (NJS_TEXLIST *)get_bml_texlist(archive, k);
+      parts[i].texture = get_bml_texlist(archive, k);
       parts[i].motion = get_bml_motion(archive, boss6_type1_appear_motion_indices[i]);
     }
     capture = ModelNodePositionCapture::create(boss6_type1_appear_node_desc, &effect_position);

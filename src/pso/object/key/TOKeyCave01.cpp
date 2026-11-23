@@ -236,7 +236,7 @@ void TOKeyCave01::load_resources() {
         TOKeyCave01__resource_bundle = resource;
         TOKeyCave01__texture_lists = (NJS_TEXLIST **)mem_alloc(2 * sizeof(*TOKeyCave01__texture_lists));
         TOKeyCave01__texture_lists[0] = (NJS_TEXLIST *)load_gvm_texture_file("fs_obj_key_jungle_red.gvm");
-        TOKeyCave01__texture_lists[1] = (NJS_TEXLIST *)TOKeyCave01__resource_bundle->models[0].texlist;
+        TOKeyCave01__texture_lists[1] = TOKeyCave01__resource_bundle->models[0].texlist;
         key_cave_render_state = 1;
         return;
     }
@@ -244,7 +244,7 @@ void TOKeyCave01::load_resources() {
     TOKeyCave01__resource_bundle = resource;
     TOKeyCave01__texture_lists = (NJS_TEXLIST **)mem_alloc(2 * sizeof(*TOKeyCave01__texture_lists));
     TOKeyCave01__texture_lists[0] = (NJS_TEXLIST *)load_gvm_texture_file("fs_obj_do_doa_panelr.gvm");
-    TOKeyCave01__texture_lists[1] = (NJS_TEXLIST *)TOKeyCave01__resource_bundle->models[0].texlist;
+    TOKeyCave01__texture_lists[1] = TOKeyCave01__resource_bundle->models[0].texlist;
     key_cave_render_state = 0;
 }
 

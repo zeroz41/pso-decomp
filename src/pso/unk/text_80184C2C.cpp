@@ -238,7 +238,7 @@ extern "C" void TLobby__sub_80184DF4(void) {
         *(BmlResource **)((u8 *)&city_season_easter_egg_model_table + slot_offset) = (BmlResource *)tmp;
         for (i = 0; i < *(s32 *)(tmp + 0x434); i++) {
             if ((*(u32 (**)[4])(tmp + 0x42c))[i][3] != 0) {
-                *(NJS_TEXLIST **)((u8 *)&city_season_xmas_model_table + slot_offset) = (NJS_TEXLIST *)((BmlResource *)tmp)->models[i].texlist;
+                *(NJS_TEXLIST **)((u8 *)&city_season_xmas_model_table + slot_offset) = ((BmlResource *)tmp)->models[i].texlist;
                 break;
             }
         }
@@ -286,7 +286,7 @@ extern "C" void TLobby__sub_80184DF4(void) {
     lbl_805D5B38 = (BmlResource *)board;
     for (i = 0; i < *(s32 *)(board + 0x434); i++) {
         if ((*(u32 (**)[4])(board + 0x42c))[i][3] != 0) {
-            lbl_805D5B44 = (NJS_TEXLIST *)((BmlResource *)board)->models[i].texlist;
+            lbl_805D5B44 = ((BmlResource *)board)->models[i].texlist;
             break;
         }
     }

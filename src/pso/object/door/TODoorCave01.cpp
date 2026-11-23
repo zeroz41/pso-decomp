@@ -270,7 +270,7 @@ void TODoorCave01::load_resources() {
         bml_resource = resource;
         texture_lists[0] = (NJS_TEXLIST *)load_gvm_texture_file("fs_obj_do_doa01r.gvm");
     }
-    texture_lists[1] = (NJS_TEXLIST *)bml_resource->models[0].texlist;
+    texture_lists[1] = bml_resource->models[0].texlist;
 }
 
 TODoorCave01::~TODoorCave01() {

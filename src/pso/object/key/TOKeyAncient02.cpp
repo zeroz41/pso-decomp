@@ -143,7 +143,7 @@ void TOKeyAncient02::load_resources() {
     BmlResource *resource = new BmlResource(1, &bm_fs_obj_o_doorswitch01_resource_descriptor, 0, 0, NULL);
     TOKeyAncient02__model_archive = resource;
     TOKeyAncient02__texture_lists = (NJS_TEXLIST **)mem_alloc(2 * sizeof(*TOKeyAncient02__texture_lists));
-    TOKeyAncient02__texture_lists[0] = (NJS_TEXLIST *)get_bml_texlist((BmlResource *)TOKeyAncient02__model_archive, 0);
+    TOKeyAncient02__texture_lists[0] = get_bml_texlist((BmlResource *)TOKeyAncient02__model_archive, 0);
     TOKeyAncient02__texture_lists[1] = (NJS_TEXLIST *)load_gvm_texture_file("o_key_ancient02.gvm");
     TOKeyAncient02__glass_model = (NJS_OBJECT *)get_bml_model((BmlResource *)TOKeyAncient02__model_archive, 0);
 }

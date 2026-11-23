@@ -304,7 +304,7 @@ AnimationMotion *TOTrapChainSawKey::get_motion(s32 index) {
 
 NJS_TEXLIST *fn_802C9924(s32 index) {
     if (lbl_805D6808 != NULL) {
-        return (NJS_TEXLIST *)get_bml_texlist((BmlResource *)lbl_805D6808, index);
+        return get_bml_texlist((BmlResource *)lbl_805D6808, index);
     }
     return NULL;
 }

@@ -191,7 +191,7 @@ void TObjEneMe3Stelth::load_shared_resources() {
     } else {
         TObjEneMe3Stelth__bml_resource = load_enemy_bml_resource(&stelth_bml_resource_desc);
     }
-    src = (NJS_TEXLIST *)TObjEneMe3Stelth__bml_resource->models->texlist;
+    src = TObjEneMe3Stelth__bml_resource->models->texlist;
     n = src->nbTexture;
     TObjEneMe3Stelth__alternate_texture_list.nbTexture = n;
     TObjEneMe3Stelth__alternate_texture_list.textures = (NJS_TEXNAME *)mem_alloc(n * sizeof(NJS_TEXNAME));

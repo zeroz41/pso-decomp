@@ -764,7 +764,7 @@ TOMineTrap::TOMineTrap(TObjBase *owner, s16 kind, s16 slot) : TOMine(tl_05) {
             model = (void *)get_bml_model((BmlResource *)lbl_805D5A50, 4);
             texlist = (saddr)get_bml_texlist((BmlResource *)lbl_805D5A50, 4);
             light_model = (NJS_OBJECT *)get_bml_model((BmlResource *)lbl_805D5A50, 1);
-            light_textures = (NJS_TEXLIST *)get_bml_texlist((BmlResource *)lbl_805D5A50, 1);
+            light_textures = get_bml_texlist((BmlResource *)lbl_805D5A50, 1);
             break;
         case 15:
         case 16:
@@ -773,7 +773,7 @@ TOMineTrap::TOMineTrap(TObjBase *owner, s16 kind, s16 slot) : TOMine(tl_05) {
             model = (void *)get_bml_model((BmlResource *)lbl_805D5A50, 5);
             texlist = (saddr)get_bml_texlist((BmlResource *)lbl_805D5A50, 5);
             light_model = (NJS_OBJECT *)get_bml_model((BmlResource *)lbl_805D5A50, 0);
-            light_textures = (NJS_TEXLIST *)get_bml_texlist((BmlResource *)lbl_805D5A50, 0);
+            light_textures = get_bml_texlist((BmlResource *)lbl_805D5A50, 0);
             break;
         }
         mode = 0;

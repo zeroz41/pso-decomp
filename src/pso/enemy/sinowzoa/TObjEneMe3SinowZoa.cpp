@@ -175,7 +175,7 @@ void TObjEneMe3SinowZoa::load_resources() {
     } else {
         TObjEneMe3SinowZoa__bml_resource = load_enemy_bml_resource(&bm_ene_me3_shinowa_zoa_resource_descriptor);
     }
-    src = (NJS_TEXLIST *)TObjEneMe3SinowZoa__bml_resource->models->texlist;
+    src = TObjEneMe3SinowZoa__bml_resource->models->texlist;
     count = src->nbTexture;
     TObjEneMe3SinowZoa__alternate_texture_list.nbTexture = count;
     TObjEneMe3SinowZoa__alternate_texture_list.textures = (NJS_TEXNAME *)mem_alloc(count * sizeof(NJS_TEXNAME));

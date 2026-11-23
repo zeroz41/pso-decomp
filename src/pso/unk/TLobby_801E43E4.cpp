@@ -254,7 +254,7 @@ u8 *load_gvm_texture_file(const char *name) {
             TLanguage__read_cursor += 4;
         }
     }
-    load_gvm_texture_archive((void *)buf, (NJS_TEXLIST *)res);
+    load_gvm_texture_archive((void *)buf, res);
     if (big != 0) {
         TAdSinglePlyChrSelectGC::safe_free(big);
     } else {

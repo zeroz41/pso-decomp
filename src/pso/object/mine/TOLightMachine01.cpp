@@ -79,7 +79,7 @@ void TOLightMachine01::load_assets() {
     BmlResource *archive = new BmlResource(1, (BmlResourceDescriptor *)&light_machine01_resource_desc, 0, 0, NULL);
     TOLightMachine01__shared_bml_archive = archive;
     light_machine_ginja_model_handle = (NJS_OBJECT *)get_bml_model((BmlResource *)archive, 0);
-    light_machine_ginja_param = (NJS_TEXLIST *)get_bml_texlist((BmlResource *)TOLightMachine01__shared_bml_archive, 0);
+    light_machine_ginja_param = get_bml_texlist((BmlResource *)TOLightMachine01__shared_bml_archive, 0);
 }
 
 }

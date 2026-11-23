@@ -145,8 +145,8 @@ void load_boss_warp_resources() {
         warp_boss_model = (NJS_OBJECT *)get_bml_model((BmlResource *)boss_warp_resource_bundle, 1);
         warp_boss_motion = get_bml_motion(boss_warp_resource_bundle, 1);
         warp_boss_bml_motion = get_bml_motion(boss_warp_resource_bundle, 0);
-        boss_warp_base_textures = (NJS_TEXLIST *)get_bml_texlist((BmlResource *)boss_warp_resource_bundle, 2);
-        boss_warp_effect_textures = (NJS_TEXLIST *)get_bml_texlist((BmlResource *)boss_warp_resource_bundle, 2);
+        boss_warp_base_textures = get_bml_texlist((BmlResource *)boss_warp_resource_bundle, 2);
+        boss_warp_effect_textures = get_bml_texlist((BmlResource *)boss_warp_resource_bundle, 2);
         return;
     }
     if (TContainerAncient01::is_global_state_in_table() != 0 || area == AREA_SEABED_UPPER || area == AREA_SEABED_LOWER) {
@@ -157,8 +157,8 @@ void load_boss_warp_resources() {
         warp_boss_model = (NJS_OBJECT *)get_bml_model((BmlResource *)boss_warp_resource_bundle, 1);
         warp_boss_motion = get_bml_motion(boss_warp_resource_bundle, 0);
         warp_boss_bml_motion = get_bml_motion(boss_warp_resource_bundle, 0);
-        boss_warp_base_textures = (NJS_TEXLIST *)get_bml_texlist((BmlResource *)boss_warp_resource_bundle, 0);
-        boss_warp_effect_textures = (NJS_TEXLIST *)get_bml_texlist((BmlResource *)boss_warp_resource_bundle, 0);
+        boss_warp_base_textures = get_bml_texlist((BmlResource *)boss_warp_resource_bundle, 0);
+        boss_warp_effect_textures = get_bml_texlist((BmlResource *)boss_warp_resource_bundle, 0);
         return;
     }
     resource = new BmlResource(5, &lbl_804B94AC, 0, 0, NULL);
@@ -168,8 +168,8 @@ void load_boss_warp_resources() {
     warp_boss_model = (NJS_OBJECT *)get_bml_model((BmlResource *)boss_warp_resource_bundle, 1);
     warp_boss_motion = get_bml_motion(boss_warp_resource_bundle, 1);
     warp_boss_bml_motion = get_bml_motion(boss_warp_resource_bundle, 0);
-    boss_warp_base_textures = (NJS_TEXLIST *)get_bml_texlist((BmlResource *)boss_warp_resource_bundle, 2);
-    boss_warp_effect_textures = (NJS_TEXLIST *)get_bml_texlist((BmlResource *)boss_warp_resource_bundle, 2);
+    boss_warp_base_textures = get_bml_texlist((BmlResource *)boss_warp_resource_bundle, 2);
+    boss_warp_effect_textures = get_bml_texlist((BmlResource *)boss_warp_resource_bundle, 2);
 }
 
 void release_boss_warp_resources(void) {

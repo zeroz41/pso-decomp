@@ -475,7 +475,7 @@ void fn_80291138(void) {
         ((TObject *)cmicon_instance)->queue_destruction();
     }
     cmicon_instance = NULL;
-    release_texture_list((NJS_TEXLIST *)&creation_sprite_table);
+    release_texture_list(&creation_sprite_table);
 }
 
 void fn_80291178(void) {

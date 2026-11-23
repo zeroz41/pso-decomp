@@ -302,10 +302,10 @@ TObjButterflyLobby::TObjButterflyLobby(TObject *parent, ObjectSetData *set_data)
     *(f32 *)((s8 *)this + 0x94) = 1.0f;
     if (set_data->set_params[0] < 1) {
         lobby_model = (NJS_OBJECT *)get_bml_model((BmlResource *)lobby_butterfly_bml_resource, 0);
-        model_textures = (NJS_TEXLIST *)get_bml_texlist((BmlResource *)lobby_butterfly_bml_resource, 0);
+        model_textures = get_bml_texlist((BmlResource *)lobby_butterfly_bml_resource, 0);
     } else {
         lobby_model = (NJS_OBJECT *)get_bml_model((BmlResource *)lobby_butterfly_bml_resource, 1);
-        model_textures = (NJS_TEXLIST *)get_bml_texlist((BmlResource *)lobby_butterfly_bml_resource, 1);
+        model_textures = get_bml_texlist((BmlResource *)lobby_butterfly_bml_resource, 1);
     }
     init_params();
 }

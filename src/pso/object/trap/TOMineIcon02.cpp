@@ -43,7 +43,7 @@ TOMineIcon02::TOMineIcon02(TObject *parent, void *set_data) : TOMine(parent) {
     model = (void *)get_bml_model((BmlResource *)lbl_805D5A50, 5);
     texlist = (saddr)get_bml_texlist((BmlResource *)lbl_805D5A50, 5);
     light_model = (NJS_OBJECT *)get_bml_model((BmlResource *)lbl_805D5A50, 0);
-    light_textures = (NJS_TEXLIST *)get_bml_texlist((BmlResource *)lbl_805D5A50, 0);
+    light_textures = get_bml_texlist((BmlResource *)lbl_805D5A50, 0);
     mode = 0;
     if (set_params[0] < 0) {
         set_params[0] = 0;

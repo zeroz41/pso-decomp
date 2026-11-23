@@ -216,14 +216,14 @@ s32 request_item_model_load(u8 *item) {
 void TItemLoad::get_drop_model(u8 index, NJS_OBJECT **model, NJS_TEXLIST **texlist) {
     if ((model != NULL) && (texlist != NULL)) {
         *model = (NJS_OBJECT *)get_bml_model(TItemLoad__bml_resource, index + 2);
-        *texlist = (NJS_TEXLIST *)get_bml_texlist(TItemLoad__bml_resource, 0);
+        *texlist = get_bml_texlist(TItemLoad__bml_resource, 0);
     }
 }
 
 void TItemLoad::get_armor_effect_model(NJS_OBJECT **model, NJS_TEXLIST **texlist, AnimationMotion **motion) {
     if ((model != NULL) && (texlist != NULL) && (motion != NULL)) {
         *model = (NJS_OBJECT *)get_bml_model(TItemLoad__bml_resource, 1);
-        *texlist = (NJS_TEXLIST *)get_bml_texlist(TItemLoad__bml_resource, 0);
+        *texlist = get_bml_texlist(TItemLoad__bml_resource, 0);
         *motion = get_bml_motion(TItemLoad__bml_resource, 0);
     }
 }
@@ -236,7 +236,7 @@ void TItemLoad::get_item_model(s32 index, NJS_OBJECT **model) {
 
 void TItemLoad::get_item_texture_list(s32 index, NJS_TEXLIST **texlist) {
     if (texlist != NULL) {
-        *texlist = (NJS_TEXLIST *)get_bml_texlist(TItemLoad__bml_resource, 0);
+        *texlist = get_bml_texlist(TItemLoad__bml_resource, 0);
     }
 }
 

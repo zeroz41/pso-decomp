@@ -160,7 +160,7 @@ void load_shinowa_mirage_resources() {
     } else {
         TObjEneMe3ShinowaMirage__bml_resource = load_enemy_bml_resource(&shinowa_mirage_resource_descriptor);
     }
-    src = (NJS_TEXLIST *)TObjEneMe3ShinowaMirage__bml_resource->models->texlist;
+    src = TObjEneMe3ShinowaMirage__bml_resource->models->texlist;
     n = src->nbTexture;
     TObjEneMe3ShinowaMirage__alternate_texture_list.nbTexture = n;
     TObjEneMe3ShinowaMirage__alternate_texture_list.textures = (NJS_TEXNAME *)mem_alloc(n * sizeof(NJS_TEXNAME));

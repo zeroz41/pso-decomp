@@ -87,7 +87,7 @@ void TOKeyAncient01::load_resources() {
     BmlResource *resource = new BmlResource(1, &bm_fd_obj_n_switch_resource_descriptor, 0, 0, NULL);
     TOKeyAncient01__shared_resource_object = resource;
     TOKeyAncient01__texture_lists = (NJS_TEXLIST **)mem_alloc(4 * sizeof(*TOKeyAncient01__texture_lists));
-    TOKeyAncient01__texture_lists[0] = (NJS_TEXLIST *)TOKeyAncient01__shared_resource_object->models[0].texlist;
+    TOKeyAncient01__texture_lists[0] = TOKeyAncient01__shared_resource_object->models[0].texlist;
     TOKeyAncient01__texture_lists[1] = (NJS_TEXLIST *)load_gvm_texture_file("o_key_ancient01b.gvm");
     TOKeyAncient01__texture_lists[2] = (NJS_TEXLIST *)load_gvm_texture_file("o_key_ancient01g.gvm");
     TOKeyAncient01__texture_lists[3] = (NJS_TEXLIST *)load_gvm_texture_file("o_key_ancient01p.gvm");

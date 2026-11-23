@@ -292,7 +292,7 @@ void TObjEneDubchik::load_resources() {
         p = new BmlResource(5, &bm_ene_dubchik_resource_descriptor, 0, 0, NULL);
         dubchik_resource = (BmlResource *)p;
     }
-    dubchik_texlist = (NJS_TEXLIST *)dubchik_resource->models[1].texlist;
+    dubchik_texlist = dubchik_resource->models[1].texlist;
     if (TObjEneDD::check_v2_mode() != 0) {
         dubchik_variant_texlist = (NJS_TEXLIST *)load_gvm_texture_file(dubchik_v2_gvm_filename());
     } else {

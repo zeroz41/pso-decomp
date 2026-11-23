@@ -183,7 +183,7 @@ void TOKeyAncient03::load_resources() {
     TOKeyAncient03__model_archive = resource;
     textures = (NJS_TEXLIST **)mem_alloc(2 * sizeof(*textures));
     TOKeyAncient03__texture_variants = textures;
-    textures[0] = (NJS_TEXLIST *)TOKeyAncient03__model_archive->models[0].texlist;
+    textures[0] = TOKeyAncient03__model_archive->models[0].texlist;
     TOKeyAncient03__texture_variants[1] = (NJS_TEXLIST *)load_gvm_texture_file("fs_obj_o_doorpanelg.gvm");
 }
 

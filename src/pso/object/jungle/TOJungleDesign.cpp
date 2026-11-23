@@ -82,7 +82,7 @@ TOJungleDesign::TOJungleDesign(saddr parent, saddr set_data) : TObjCollidable((T
 
 NJS_TEXLIST *fn_802FF028(s32 index) {
     if (TOJungleDesign__shared_model_resource != NULL) {
-        return (NJS_TEXLIST *)get_bml_texlist((BmlResource *)TOJungleDesign__shared_model_resource, index);
+        return get_bml_texlist((BmlResource *)TOJungleDesign__shared_model_resource, index);
     }
     return NULL;
 }

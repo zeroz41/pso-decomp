@@ -139,7 +139,7 @@ NJS_OBJECT *TObjContainerJungEx::get_model(s32 index) {
 
 NJS_TEXLIST *TObjContainerJungEx::get_textures(s32 index) {
     if (jungle_container_ex_archive != NULL) {
-        return (NJS_TEXLIST *)get_bml_texlist((BmlResource *)jungle_container_ex_archive, index);
+        return get_bml_texlist((BmlResource *)jungle_container_ex_archive, index);
     }
     return 0;
 }
@@ -254,7 +254,7 @@ void TObjContainerJung::vfunc_79() const {
 void TObjContainerJung::load_resources() {
     BmlResource *archive = new BmlResource(5, (BmlResourceDescriptor *)&TObjContainerJung__resource_descriptor, 0, 0, NULL);
     jungle_container_archive = archive;
-    jungle_container_textures = (NJS_TEXLIST *)get_bml_texlist((BmlResource *)archive, 0);
+    jungle_container_textures = get_bml_texlist((BmlResource *)archive, 0);
 }
 
 void TObjContainerJung::release() {

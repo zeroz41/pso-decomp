@@ -146,7 +146,7 @@ void TODoorMachine02::load_resources() {
         bml_resource = resource;
         texture_lists[0] = (NJS_TEXLIST *)load_gvm_texture_file("fs_obj_ki_doa2_r.gvm");
     }
-    texture_lists[1] = (NJS_TEXLIST *)bml_resource->models[0].texlist;
+    texture_lists[1] = bml_resource->models[0].texlist;
 }
 
 TODoorMachine02::~TODoorMachine02() {

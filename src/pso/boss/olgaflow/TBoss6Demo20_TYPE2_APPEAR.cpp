@@ -286,17 +286,17 @@ TBoss6Demo20_TYPE2_APPEAR::TBoss6Demo20_TYPE2_APPEAR(TBoss6PlotFalz *plot) : TOb
             v = t;
             opening_parts[i].model = (NJS_OBJECT *)get_bml_model(archive, t);
         }
-        opening_parts[i].texture = (NJS_TEXLIST *)get_bml_texlist(archive, v);
+        opening_parts[i].texture = get_bml_texlist(archive, v);
         opening_parts[i].motion = get_bml_motion(archive, boss6_type2_appear_motion_indices[i]);
     }
     model4.model = (NJS_OBJECT *)get_bml_model(archive, 4);
-    model4.texture = (NJS_TEXLIST *)get_bml_texlist(archive, 4);
+    model4.texture = get_bml_texlist(archive, 4);
     model4.motion = get_bml_motion(archive, 0x20);
     model1.model = (NJS_OBJECT *)get_bml_model(archive, 1);
-    model1.texture = (NJS_TEXLIST *)get_bml_texlist(archive, 1);
+    model1.texture = get_bml_texlist(archive, 1);
     model1.motion = get_bml_motion(archive, 0x36);
     model12.model = (NJS_OBJECT *)get_bml_model(archive, 0xC);
-    model12.texture = (NJS_TEXLIST *)get_bml_texlist(archive, 0xC);
+    model12.texture = get_bml_texlist(archive, 0xC);
     model12.motion = get_bml_motion(archive, 0x22);
     capture = ModelNodePositionCapture::create(boss6_type2_appear_model_node_descriptors, effect_positions);
     for (i = 0; i < 9; i++) {

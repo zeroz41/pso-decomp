@@ -73,7 +73,7 @@ void TOFenceAncient04::load_resources() {
     model_resource = resource;
     NJS_TEXLIST **lists = (NJS_TEXLIST **)mem_alloc(4 * sizeof(NJS_TEXLIST *));
     texlists = lists;
-    lists[0] = (NJS_TEXLIST *)model_resource->models[0].texlist;
+    lists[0] = model_resource->models[0].texlist;
     texlists[1] = (NJS_TEXLIST *)load_gvm_texture_file(texture_file_b);
     texlists[2] = (NJS_TEXLIST *)load_gvm_texture_file(texture_file_g);
     texlists[3] = (NJS_TEXLIST *)load_gvm_texture_file(texture_file_p);

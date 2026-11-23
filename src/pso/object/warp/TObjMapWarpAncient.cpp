@@ -58,7 +58,7 @@ NJS_TEXLIST *TObjGoalWarpAncient::get_goal_beam_textures() {
 }
 
 NJS_TEXLIST *TObjGoalWarpAncient::get_archive_textures(s32 index) {
-    return (NJS_TEXLIST *)get_bml_texlist((BmlResource *)ancient_warp_shared_resource, index);
+    return get_bml_texlist((BmlResource *)ancient_warp_shared_resource, index);
 }
 
 void TObjGoalWarpAncient::load_resources() {

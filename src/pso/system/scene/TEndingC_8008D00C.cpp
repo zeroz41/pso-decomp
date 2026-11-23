@@ -57,11 +57,11 @@ void start_ending_pic_sequence(void) { TEndingPic__animation_state = 1; }
 
 void start_ending_ab_fade(void) { TEndingAB__fade_sequence_state = 1; }
 
-void register_texture_ed_512kabe_c(void) { ending_c_wall_texture_list = &ending_c_wall_texlist; bind_gvm_texture_list(ending_c_texture_ed_512kabe_c, (NJS_TEXLIST *)&ending_c_wall_texlist); }
+void register_texture_ed_512kabe_c(void) { ending_c_wall_texture_list = &ending_c_wall_texlist; bind_gvm_texture_list(ending_c_texture_ed_512kabe_c, &ending_c_wall_texlist); }
 
 void TEndingC::release_lobby() {
     if (ending_c_wall_texture_list != NULL) {
-        release_texture_list((NJS_TEXLIST *)ending_c_wall_texture_list);
+        release_texture_list(ending_c_wall_texture_list);
         ending_c_wall_texture_list = NULL;
     }
 }
