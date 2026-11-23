@@ -1137,6 +1137,33 @@ struct TLobby : public TObject {
     static void set_mode(void *, int);
     static void set_split_screen_flag();
     static void update_all(int);
+
+    // Lobby state shared by the lobby screens.
+    static void *list_window;
+    static s32 data_805D5594;
+    static uaddr current_dialog_window;
+    static void *download_list_window;
+    static uaddr join_entry_window_obj;
+    static void *card_list_window;
+    static s32 event_theme_id;
+    static s32 lobby_number;
+    static s32 deferred_player_setup_state;
+    static s32 join_state_flag;
+    static TLobby *join_lobby_controller;
+    static s16 pending_member_count;
+    static s32 idle_timeout_active;
+    static s32 data_805D55AC;
+    static s32 join_lobby_idle_timer;
+    static s32 player_setup_pending;
+    static u32 data_80506A6C[3252];
+    static s16 data_805D558C;
+    static s32 date_seconds;
+    static s32 card_list_selected_index;
+    static s32 data_805D5588;
+    static s32 login_pending_flag;
+    static s32 lobby_entered_flag;
+    static s32 data_805D55B8;
+    static u32 join_entries_dtor_registration[3];
 };
 
 LAYOUT_ASSERT(TLobby_size, sizeof(TLobby) == 0x1C);

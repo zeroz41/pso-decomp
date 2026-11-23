@@ -132,7 +132,6 @@ BmlResourceDescriptor *city_season_resource_descriptors[6] = {
     &bm_obj_city_xmas_resource_descriptor,   &bm_obj_city_pump_resource_descriptor,
     &bm_obj_city_21_resource_descriptor,     &bm_obj_city_sonic_resource_descriptor,
 };
-extern s32 TLobby__event_theme_id;
 
 BmlResource *city_season_easter_egg_model_table[6];
 GinjaTextureList *city_season_xmas_model_table[6];
@@ -158,7 +157,7 @@ void TLobby__sub_80184C80(void *p) {
     s32 i;
     TLobby::clear_global_array(p);
     for (i = 0; i < 6; i++) {
-        if (TLobby__event_theme_id == lobby_event_theme_id_table[i]) {
+        if (TLobby::event_theme_id == lobby_event_theme_id_table[i]) {
             lbl_8050DC20[i] = 1;
             return;
         }

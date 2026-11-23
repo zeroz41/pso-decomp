@@ -15,9 +15,9 @@ GinjaTextureList *lobby_main_texture_gvm;
 void TLobbyEventTheme::sub_80351DF8(s32 theme) {}
 
 s32 TLobby::get_filtered_event_theme() {
-    switch (TLobby__event_theme_id) {
+    switch (event_theme_id) {
     case 1: case 3: case 4: case 5: case 7: case 8: case 9: case 10: case 11: case 12: case 13:
-        return TLobby__event_theme_id;
+        return event_theme_id;
     }
     return 0;
 }

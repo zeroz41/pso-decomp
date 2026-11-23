@@ -231,7 +231,6 @@ extern uaddr TLobby__protocol_instance;
 extern s32 lobby_state_flags;
 void process_async_file_reads(void);
 void update_sound_request_slots(void);
-extern s32 TLobby__idle_timeout_active;
 extern s32 lbl_805D55C0;
 s16 TLobby__data_805D5CE8;
 int new_game_setup_flags;
@@ -245,7 +244,6 @@ void start_quest_mission(void);
 extern u8 game_variations[];
 void change_floor_reload_area(void);
 void load_battle_param_entry(void);
-extern s32 TLobby__lobby_number;
 void reload_lobby_floor_scene(void);
 void init_area_lights(void);
 void load_floor_scene(void);
@@ -315,10 +313,10 @@ void reload_lobby_floor_scene(void) {
     TParticleCtrl::create_quad_sprites();
     TLoadCtrl::start_loading(2);
     TLobby__sub_8020A6B0(0xF);
-    initialize_floor_transition(&floor_transition_state, 0xF, TLobby__lobby_number);
+    initialize_floor_transition(&floor_transition_state, 0xF, TLobby::lobby_number);
     floor_transition_state.set_next_floor_index(0);
     set_current_floor_area(0xF);
-    TScene::set_scene(TLobby__lobby_number);
+    TScene::set_scene(TLobby::lobby_number);
     load_area_scene_and_init(reinterpret_cast<u8 *>(&floor_transition_state));
     load_battle_param_entry();
     TLoadCtrl::cleanup_scene();
@@ -330,7 +328,7 @@ void reload_lobby_floor_scene(void) {
     TLobby::process_deferred_player_setup();
     TLobby::install_game_join_handlers();
     TObjPlayer__sub_801B1BA4();
-    TLobby::send_room_change(TLobby__lobby_number);
+    TLobby::send_room_change(TLobby::lobby_number);
     init_key_slots__15TOKeyJungleMainFPv();
     TLobby__data_805D5CE8 = 0;
 }
@@ -626,7 +624,7 @@ void TLobby::run_lobby_frame() {
         }
     }
     TLobby::update_periodic_tick();
-    if ((func_801A5E54__Fv() != 0) || ((s32) TLobby__idle_timeout_active == 1)) {
+    if ((func_801A5E54__Fv() != 0) || ((s32) idle_timeout_active == 1)) {
         TLobby::reset_to_chr_select();
     }
     if (TQuestVmDownLoadServer::is_ready() != 0) {
@@ -691,7 +689,7 @@ void TLobby::run_main_frame() {
     if ((s16) TLobby__data_805D5CE8 == 1) {
         reload_lobby_floor_scene();
     }
-    if ((func_801A5E54__Fv() != 0) || ((s32) TLobby__idle_timeout_active == 1)) {
+    if ((func_801A5E54__Fv() != 0) || ((s32) idle_timeout_active == 1)) {
         TLobby::init_chr_select();
     }
     if (TQuestVmDownLoadServer::is_ready() != 0) {

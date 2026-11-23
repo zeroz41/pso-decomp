@@ -3,6 +3,7 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/object/collision/TObjBgmColCtrl.h"
 #include "pso/system/TLoadCtrl_80227390.h"
+#include "pso/unk/TLobby.h"
 
 #include "pso/map/FloorArea.h"
 #include "pso/system/task/TObject.h"
@@ -29,7 +30,6 @@ const char *area_music_filename_table[6] = {
 struct Names_8017E1E4 { const char *name[2]; };
 
 
-extern u32 TLobby__event_theme_id;
 s32 bgm_zone_category;
 s32 lbl_805D5B04;
 // The root the BGM collision zones hang under (created next to the controller).
@@ -226,7 +226,7 @@ void TObjBgmColCtrl::run_task() {
                 if (TObjBgmColCtrl::is_active() == 0) {
                     TObjBgmColCtrl::play_lobby_theme_music();
                 }
-                if ((get_current_floor_area() == AREA_LOBBY) && ((s32) TLobby__event_theme_id != (s32) TObjBgmColCtrl__current_theme_id)) {
+                if ((get_current_floor_area() == AREA_LOBBY) && ((s32) TLobby::event_theme_id != (s32) TObjBgmColCtrl__current_theme_id)) {
                     TObjBgmColCtrl::play_lobby_theme_music();
                 }
             }
@@ -242,7 +242,7 @@ void TObjBgmColCtrl::play_lobby_theme_music() {
     const char *name;
     if (get_current_floor_area() == AREA_LOBBY) {
         name = names.name[1];
-        TObjBgmColCtrl__current_theme_id = TLobby__event_theme_id;
+        TObjBgmColCtrl__current_theme_id = TLobby::event_theme_id;
     } else {
         name = names.name[0];
         TObjBgmColCtrl__current_theme_id = 0;

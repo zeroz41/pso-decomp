@@ -42,7 +42,7 @@
 extern "C" const char rappy_variant_na_name[3] = "NA";
 
 // The Rag Rappy archive and its event variants (xs Christmas, es Easter, hw Halloween, picked by
-// TLobby__event_theme_id); the "ap" archives are the ones load_resources takes on difficulty 3.
+// TLobby::event_theme_id); the "ap" archives are the ones load_resources takes on difficulty 3.
 const char *lappy_model_names[3] = {
     "re3_b_lappy_base.nj", "re3_s_lappy_base.nj", NULL,
 };
@@ -943,7 +943,7 @@ void TObjEneLappy::load_resources() {
 
     rare = game_difficulty_selection == 3;
     if (get_main_phase() == 0xF) {
-        switch (TLobby__event_theme_id) {
+        switch (TLobby::event_theme_id) {
         case 1:
             lappy_variant_id = 1;
             if (rare) {

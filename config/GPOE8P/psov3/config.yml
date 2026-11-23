@@ -607,30 +607,30 @@ force_active:
   - TLazerFenceSw__class_name
   - TLoadCtrl__ct
   - battle_team_table
-  - TLobby__card_list_selected_index
-  - TLobby__card_list_window
-  - TLobby__current_dialog_window
+  - card_list_selected_index__6TLobby
+  - card_list_window__6TLobby
+  - current_dialog_window__6TLobby
   - TLobby__data_8043EF38
-  - TLobby__data_80506A6C
+  - data_80506A6C__6TLobby
   - TLobby__data_80513D10
-  - TLobby__data_805D5588
-  - TLobby__data_805D558C
-  - TLobby__data_805D55B8
+  - data_805D5588__6TLobby
+  - data_805D558C__6TLobby
+  - data_805D55B8__6TLobby
   - TLobby__data_805D5EE0
-  - TLobby__deferred_player_setup_state
+  - deferred_player_setup_state__6TLobby
   - disk_error_msg_last
   - disk_error_msg_table
-  - TLobby__download_list_window
-  - TLobby__join_entries_dtor_registration
-  - TLobby__join_entry_window_obj
-  - TLobby__join_lobby_controller
-  - TLobby__join_lobby_idle_timer
-  - TLobby__list_window
-  - TLobby__lobby_entered_flag
-  - TLobby__login_pending_flag
-  - TLobby__pending_member_count
+  - download_list_window__6TLobby
+  - join_entries_dtor_registration__6TLobby
+  - join_entry_window_obj__6TLobby
+  - join_lobby_controller__6TLobby
+  - join_lobby_idle_timer__6TLobby
+  - list_window__6TLobby
+  - lobby_entered_flag__6TLobby
+  - login_pending_flag__6TLobby
+  - pending_member_count__6TLobby
   - TLobby__player_names
-  - TLobby__player_setup_pending
+  - player_setup_pending__6TLobby
   - state_handler_pmf_table
   - TLobby__sub_8001D9E8
   - TLobby__sub_8001DBD8

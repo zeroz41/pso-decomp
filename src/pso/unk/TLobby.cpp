@@ -19,7 +19,6 @@ void clear_state(void);
 extern "C" {
 
 extern u8 lobby_scroll_text_buffer[];
-extern s32 TLobby__data_805D5594;
 extern void *lobby_scroll_text_window;
 extern saddr tl_window;
 void handle_game_join__6TLobbyFPv();
@@ -53,7 +52,7 @@ void TLobby::open_scroll_text_window(saddr src) {
         lobby_scroll_text_buffer[0xFFF] = 0;
         lobby_scroll_text_window = new TAdScrollWinGC((TObject *)tl_window, 2, (saddr)lobby_scroll_text_buffer);
     }
-    TLobby__data_805D5594 = 0x1A;
+    data_805D5594 = 0x1A;
 }
 
 void TLobby::render() { { (void)(TAdPlayerLoadGC::get_instance()); return; } }

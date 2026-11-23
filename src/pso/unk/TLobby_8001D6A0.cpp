@@ -681,16 +681,14 @@ s32 TLobby::calc_alpha_shifted(f32 alpha) {
 }
 
 extern s32 TLobby__data_8050AAAC[];
-extern s32 TLobby__data_805D55AC;
-extern s32 TLobby__lobby_number;
 
 void TLobby::close_result_windows() {
     text_builder_reset();
     text_builder_append((u8 *)TLobby__data_8050AAAC);
     text_builder_append((u8 *)":");
-    append_padded_number(TLobby__data_805D55AC, 2);
+    append_padded_number(data_805D55AC, 2);
     text_builder_append((u8 *)"-");
-    append_padded_number(TLobby__lobby_number + 1, 2);
+    append_padded_number(lobby_number + 1, 2);
 }
 
 
@@ -811,7 +809,7 @@ void TLobby__sub_8001EA5C(f32 x, f32 y, f32 size, f32 alpha) {
         if (get_main_phase() == 0xF) {
             getDateStamp(&date);
             DateToSeconds(&date, (int *)&elapsed);
-            elapsed -= TLobby__date_seconds;
+            elapsed -= TLobby::date_seconds;
             text_builder_reset();
             if (elapsed / 3600 > 99) {
                 text_builder_append((u8 *)"99:59");

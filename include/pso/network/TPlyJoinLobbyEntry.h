@@ -2,6 +2,7 @@
 #define PSO_NETWORK_TPLYJOINLOBBYENTRY_H
 
 #include "types.h"
+#include "pso/unk/TLobby.h"
 
 class TProtocol;
 struct TAdScrollWinGC;
@@ -11,7 +12,6 @@ struct TWindowMakeTeam;
 struct TWindowMenu;
 
 extern TProtocol *TLobby__protocol_instance;
-extern TLobby *TLobby__join_lobby_controller;
 extern TWindowMenu *TLobby_warp_menu_window;
 extern TWindowMenu *lobby_com_card_window;
 extern TWindowMenu *lobby_make_team_menu_window;
@@ -21,8 +21,6 @@ extern TKeyBoardControl *lobby_keyboard_controller;
 extern TAdScrollWinGC *lobby_scroll_text_window;
 
 extern "C" {
-extern s32 TLobby__date_seconds;
-extern s32 TLobby__event_theme_id;
 u8 *init_idle_timeout_timer(u8 *arg0, saddr parent);
 void TLobby__sub_80135FFC(void);
 void TLobby__sub_801371B0(s32 arg0);
