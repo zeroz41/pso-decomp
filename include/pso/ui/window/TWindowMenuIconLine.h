@@ -7,6 +7,12 @@ struct TItem;
 struct TItemData;
 struct WindowScrollBar;
 
+// One slot of a trade offer: an inventory item id (0xFFFFFF01 for meseta) and how many.
+struct TradeItemEntry {
+    u32 id;
+    s32 count;
+};
+
 class TWindowMenuIconLine : public TWindowAddition {
 public:
     TWindowMenuIconLine(u8 *parent, u32 count, s16 client, u8 *descriptor);
@@ -36,6 +42,17 @@ public:
     // Append a row for an item record kept outside the inventory (bank, shop stock); count 0 hides the stack size.
     void add_item_info_entry(TItemData *item, s32 index, s32 count);
     void add_ground_item(TItemData *item, s32 index);
+    // Append a row with no item that shows message (-1 for the empty-list row).
+    void add_list_entry(s32 message);
+    void add_inventory_item(TItem *item, s32 count, s32 id);
+    // Fill the list from the player's inventory: the 31 slots of a trade
+    // offer, usable items, armor of one kind and group to equip, mags of one
+    // kind, items to appraise.
+    void fill_trade_item_list(TradeItemEntry *entries);
+    void build_usable_item_list();
+    void add_armor_equip_candidates(u16 kind, u16 sub);
+    void build_mag_item_candidates(u16 kind);
+    void populate_judgment_item_list();
     void save_cursor_selection();
     void clamp_selection_to_valid_entry();
     // Rebuild the list keeping the cursor: usable items, items to appraise,
@@ -43,6 +60,8 @@ public:
     void refresh_usable_item_list();
     void refresh_judgment_item_list();
     void refresh_armor_equip_list(u16 kind, u16 sub);
+    void refresh_mag_item_list(u16 kind);
+    void refresh_trade_item_list(TradeItemEntry *entries);
     saddr get_cursor_value();
     s16 get_cursor_index();
     void calc_content_extent();

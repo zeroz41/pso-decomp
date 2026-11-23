@@ -88,10 +88,8 @@ struct TWindowSubStatusDisp : public TWindowBase {
     void set_text(uaddr arg1, s32 string, s32 arg3);
     void set_text(uaddr arg1, s32 arg2);
     void clamp_scroll_offset();
-    void add_list_entry(s32 arg1);
     void refresh_selected_entry(s32 arg1);
     void add_status_entry(s8 arg1, s32 src, s32 item);
-    void add_inventory_item(saddr item, s32 count, s32 sid);
     void init_scroll_pos();
     int is_flag80_set();
     void add_text_entry(s32 arg1, s32 arg2);

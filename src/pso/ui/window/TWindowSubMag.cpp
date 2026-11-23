@@ -186,7 +186,7 @@ void TWindowSubMag::run_task() {
             slotwin = fn_802628C0((void *)get_window_layout_position(0xC), lbl_8044F9E8, client_id);
         }
         ((TWindowHelpItem *)(help))->sub_80255E24();
-        ((TWindowSubMag *)((saddr)list))->init_and_setup((void*)2);
+        ((TWindowMenuIconLine *)list)->refresh_mag_item_list(2);
         ((TWindowMenuIconLine *)(list))->clear_decided();
         ((TWindowSubMag *)(list))->start_scroll((188.0f));
         state = 2;
@@ -269,7 +269,7 @@ void TWindowSubMag::run_task() {
         window_request_refresh((u8 *)help);
         ((TWindowSubMag *)(help))->set_flag60_bit8();
         ((TWindowHelpItem *)(help))->refresh_copied_items();
-        ((TWindowSubMag *)((saddr)list))->init_and_setup((void*)2);
+        ((TWindowMenuIconLine *)list)->refresh_mag_item_list(2);
         ((TWindowLoadItemTexture *)slotwin)->set_mag_slot_state((TItemData *)((TWindowSubMag *)help)->get_mag_state());
         if (((TItemData *)(help))->update_mag_status_gauges() != 0) {
             state = 9;
@@ -357,7 +357,7 @@ saddr TWindowSubMag::setup_list() {
     ((TWindowMenuIconLine *)equip_kind_window)->ensure_status_display((saddr)TWindowSubStatusDisp::get_message_10(0x29));
     ((TWindowBase *)equip_kind_window)->set_depth(TWindowSubEquip__sub_80263AF8((u8 *)parent, 0));
     ((TWindowSubShortCutList *)equip_kind_window)->set_flag70_bit10();
-    ((TWindowSubMag *)equip_kind_window)->init_and_setup((void*)2);
+    ((TWindowMenuIconLine *)equip_kind_window)->refresh_mag_item_list(2);
     return equip_kind_window;
 }
 

@@ -24,7 +24,7 @@ void fn_802789E0(u8 *arg0) {
             }
         }
         if (*(s16 *)(arg0 + 0x72) <= 0) {
-            ((TWindowSubStatusDisp *)arg0)->add_list_entry(-1);
+            ((TWindowMenuIconLine *)arg0)->add_list_entry(-1);
         }
         ((TWindowMenuIconLine *)arg0)->calc_content_extent();
     }

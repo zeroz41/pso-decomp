@@ -36,7 +36,7 @@ void TObjPlayer::build_shop_item_list() {
             ((TWindowMenuIconLine *)((u8 *)this))->add_list_entry((TItem *)slot_value, item_id);
         }
         if (*(s16 *)((s8 *)((u8 *)this) + 0x72) <= 0) {
-            ((TWindowSubStatusDisp *)((u8 *)this))->add_list_entry(-1);
+            ((TWindowMenuIconLine *)this)->add_list_entry(-1);
         }
         ((TWindowMenuIconLine *)this)->calc_content_extent();
     }

@@ -141,7 +141,7 @@ s32 TWindowSubEquip::open_equip_kind_list(u32 arg1) {
     ((TWindowSubShortCutList *)equip_kind_window)->set_flag70_bit10();
     switch (arg1) {
     case 6:
-        ((TWindowSubMag *)equip_kind_window)->init_and_setup((void*)0);
+        ((TWindowMenuIconLine *)equip_kind_window)->refresh_mag_item_list(0);
         break;
     case 2:
         ((TWindowMenuIconLine *)equip_kind_window)->refresh_armor_equip_list(1, 1);
@@ -156,7 +156,7 @@ s32 TWindowSubEquip::open_equip_kind_list(u32 arg1) {
         ((TWindowMenuIconLine *)equip_kind_window)->refresh_armor_equip_list(1, 2);
         break;
     case 1:
-        ((TWindowSubMag *)equip_kind_window)->init_and_setup((void*)2);
+        ((TWindowMenuIconLine *)equip_kind_window)->refresh_mag_item_list(2);
         break;
     }
     mark_unequippable_items(equip_kind_window);
