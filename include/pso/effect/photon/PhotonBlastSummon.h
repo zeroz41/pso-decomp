@@ -137,10 +137,4 @@ void spawn_photon_blast_opening_effects(s32 kind, s32 owner_id);
 void copy_effect_params(PhotonOpeningEffect *dst, PhotonOpeningEffect *src);
 void publish_photon_blast_joint_origins(NJS_OBJECT *);
 
-// TPhotonPilla.cpp still builds its object by hand and calls these by symbol.
-extern "C" {
-void *__ct__18TPhotonBlastSummonFv(void *summon);
-void *__dt__18TPhotonBlastSummonFv(void *summon, s16 mode);
-}
-
 #endif

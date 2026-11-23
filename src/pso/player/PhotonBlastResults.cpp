@@ -473,7 +473,6 @@ void TUnk_804C349C::deliver_photon_blast_results_delayed() {
 
 void TUnk_804C349C::step_photon_blast_sequence() {
     PhotonSummonParams params;
-    u8 *summon;
     s32 first_summon;
     s32 j;
 
@@ -511,11 +510,7 @@ void TUnk_804C349C::step_photon_blast_sequence() {
         params.level = this->levels[this->summon_index];
         switch (this->kinds[this->summon_index]) {
         case 2:
-            summon = (u8 *)TObject::operator new(0x1CC);
-            if (summon != NULL) {
-                summon = (u8 *)TPhotonGolla__ct((TPhotonGolla *)summon, &params);
-            }
-            this->summon = (TObject *)summon;
+            this->summon = new TPhotonGolla(&params);
             break;
         case 3:
             this->summon = new TPhotonPilla(&params);
@@ -529,11 +524,7 @@ void TUnk_804C349C::step_photon_blast_sequence() {
             }
             break;
         case 0:
-            summon = (u8 *)TObject::operator new(0x1A8);
-            if (summon != NULL) {
-                summon = (u8 *)TPhotonFarlla__ct((TPhotonFarlla *)summon, &params);
-            }
-            this->summon = (TObject *)summon;
+            this->summon = new TPhotonFarlla(&params);
             break;
         case 1:
             this->summon = new TPhotonEstlla(&params);

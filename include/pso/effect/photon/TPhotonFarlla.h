@@ -8,6 +8,7 @@ class TPhotonFarlla : public TPhotonBlastSummon {
 public:
     static const char *class_name;
 
+    TPhotonFarlla(PhotonSummonParams *params);
     virtual ~TPhotonFarlla();
     // The constructor passes the chain's summon count; the body ignores it.
     void reset_material_color(u8 count);
@@ -28,11 +29,6 @@ public:
     s32 frame;
 };
 LAYOUT_ASSERT(TPhotonFarlla_size, sizeof(TPhotonFarlla) == 0x1A8);
-
-extern "C" {
-TPhotonFarlla *TPhotonFarlla__ct(TPhotonFarlla *summon, PhotonSummonParams *params);
-void *destroy__13TPhotonFarllaFPvs(TPhotonFarlla *farlla, s16 mode);
-}
 
 void destroy_farlla_photon_blast_model(void);
 void create_farlla_photon_blast_model(void);

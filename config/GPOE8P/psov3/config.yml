@@ -5628,10 +5628,10 @@ force_active:
   - depth_buffer_settings
   - despawn_state__14TObjEneBm5WolfFl
   - __dt__12TBoss1DragonFv
-  - destroy__12TPhotonGollaFPvs
+  - __dt__12TPhotonGollaFv
   - __dt__12TPhotonPillaFv
   - destroy__12T_OWEHMS_ExpFs
-  - destroy__13TPhotonFarllaFPvs
+  - __dt__13TPhotonFarllaFv
   - __dt__18TObjEneBm5WolfNodeFv
   - __dt__15TORockJungleL01Fv
   - destroy__15TWindowHelpItemFPvs
@@ -7987,8 +7987,8 @@ force_active:
   - lbl_804B8DA0
   - ancient_boss_warp_model_names
   - jungle_boss_warp_model_names
-  - lbl_804C3564
-  - lbl_804C35F4
+  - __vt__13TPhotonFarlla
+  - __vt__12TPhotonGolla
   - __vt__12TPhotonPilla
   - lbl_804C46B0
   - lbl_804C4794

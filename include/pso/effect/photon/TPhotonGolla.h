@@ -9,6 +9,7 @@ class TPhotonGolla : public TPhotonBlastSummon {
 public:
     static const char *class_name;
 
+    TPhotonGolla(PhotonSummonParams *params);
     virtual ~TPhotonGolla();
     // The constructor passes the chain's summon count; the body ignores it.
     void reset_material_color(u8 count);
@@ -34,11 +35,6 @@ public:
     s32 frame;
 };
 LAYOUT_ASSERT(TPhotonGolla_size, sizeof(TPhotonGolla) == 0x1CC);
-
-extern "C" {
-TPhotonGolla *TPhotonGolla__ct(TPhotonGolla *summon, PhotonSummonParams *params);
-void *destroy__12TPhotonGollaFPvs(TPhotonGolla *golla, s16 mode);
-}
 
 void destroy_golla_photon_blast_model(void);
 void create_golla_photon_blast_model(void);
