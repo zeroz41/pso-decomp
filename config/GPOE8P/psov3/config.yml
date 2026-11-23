@@ -3853,7 +3853,7 @@ force_active:
   - alloc_boss_target_slot__16TBoss3VoloptCoreFv
   - alloc_breakup_model__13TUnk_804E3BD8Fl
   - alloc_breakup_piece_records__15TBreakUpMdlDataFP10NJS_OBJECT
-  - alloc_char_records__23TAdSinglePlyChrSelectGCFi
+  - alloc_char_records__23TAdSinglePlyChrSelectGCFPv
   - alloc_download_buffer__13TUnk_804EF8C0Fv
   - alloc_download_quest__6TLobbyFlPl
   - alloc_global_buffer
@@ -6714,7 +6714,7 @@ force_active:
   - get_selected_entry__14TWindowSubItemFv
   - get_selected_guild_card_record__Fv
   - get_seq_phase__6TLobbyFi
-  - get_serial_access_field_118__23TAdSinglePlyChrSelectGCFPv
+  - get_serial_access_field_118__23TAdSinglePlyChrSelectGCFv
   - get_serial_result__22TAdEnterSerialAccessGCFv
   - get_serial_text__22TAdEnterSerialAccessGCFii
   - get_set_bonus_multiplier__9TItemDataFPvi
@@ -7214,7 +7214,7 @@ force_active:
   - init_warps__13TUnk_804EF8C0Fv
   - init_window__22THunterGuildSeqOfflineFPv
   - init_window__22TShopEquipmentSequenceFPv
-  - init_windows__23TAdSinglePlyChrSelectGCFi
+  - init_windows__23TAdSinglePlyChrSelectGCFPv
   - init_with_global_table__9TBoss6MagFv
   - init_work__11TBoss6Type1Fv
   - init_zeroed_object__10TObjPlayerFv
@@ -7285,7 +7285,7 @@ force_active:
   - is_entity_locally_controlled__Fl
   - is_manual_camera_held__13TCameraFollowFv
   - is_valid__24ModelNodePositionCaptureFPC22ModelNodePositionEntry
-  - is_entry_valid__23TAdSinglePlyChrSelectGCFPvi
+  - is_entry_valid__23TAdSinglePlyChrSelectGCFP13CharacterFilei
   - is_entry_valid__6TLobbyFl
   - is_far_from_origin__10TBoss6MineFv
   - is_field88_zero__15TObjCityMapWarpFv

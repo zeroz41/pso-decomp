@@ -40,7 +40,6 @@ TWindowBase *TAdPlyStatusGC__sub_8033F8B0(void *arg0, const void *arg1);
 saddr get_localized_text_entry(s32 arg0, s32 arg1);
 extern saddr ply_status_chcr_load_afs;
 s32 *TAdSinglePlyChrSelectGC__sub_801FE3E4(u32 i);
-saddr get_entry__23TAdSinglePlyChrSelectGCFi(s32 i);
 s32 TAdSinglePlyChrSelectGC__sub_801FE800(u32 i);
 }
 s32 get_class_name_text(s32 arg0);
@@ -167,7 +166,7 @@ void TAdPlyStatusGC::format_status_strings() {
         plate = TAdMultiPlyChrSelectGC::get_card_instance();
         if (plate != NULL) {
             if (TAdSinglePlyChrSelectGC__sub_801FE800(plate->get_active_card_slot()) != 0) {
-                c = (u8 *)get_entry__23TAdSinglePlyChrSelectGCFi(plate->get_active_card_slot());
+                c = (u8 *)TAdSinglePlyChrSelectGC::get_entry(plate->get_active_card_slot());
             }
         }
         if (c == 0) {

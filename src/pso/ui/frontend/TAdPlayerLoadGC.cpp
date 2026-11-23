@@ -12,8 +12,6 @@ const char *TAdPlayerLoadGC__class_name = "TAdPlayerLoadGC";
 
 extern "C" {
 s32 poll_memcard_result(saddr chan);
-s32 check_system_load_result__23TAdSinglePlyChrSelectGCFv();
-s32 load_system_file_flag__23TAdSinglePlyChrSelectGCFv();
 extern char pso_character_card_filename[];
 extern char pso_system_card_filename[];
 extern int TAdPlayerLoadGC__load_state;
@@ -83,7 +81,7 @@ void TAdPlayerLoadGC::run_task() {
         }
         break;
     case 8:
-        if ((u32)load_system_file_flag__23TAdSinglePlyChrSelectGCFv() != 0xFFFFFF05U) {
+        if ((u32)TAdSinglePlyChrSelectGC::load_system_file_flag() != 0xFFFFFF05U) {
             state = 9U;
         }
         break;
@@ -165,7 +163,7 @@ void TAdPlayerLoadGC::run_task() {
     case 21:
         if (probe_card_slot(1) == 0) {
             state = 0xDU;
-        } else if ((find_card_file(1, pso_character_card_filename) == 0) && ((u32)check_system_load_result__23TAdSinglePlyChrSelectGCFv() != 0xFFFFFF05U)) {
+        } else if ((find_card_file(1, pso_character_card_filename) == 0) && ((u32)TAdSinglePlyChrSelectGC::check_system_load_result() != 0xFFFFFF05U)) {
             state = 0x16U;
         }
         break;

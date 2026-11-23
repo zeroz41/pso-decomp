@@ -136,7 +136,7 @@ s32 TAdSinglePlyChrSelectGC::load_and_verify_character_save(char *desc) {
         TAdSinglePlyChrSelectGC::safe_free((uaddr)buf);
         return (u8)(0);
     }
-    if (load_system_file__23TAdSinglePlyChrSelectGCFiPv(0, &sum) == 0) {
+    if (TAdSinglePlyChrSelectGC::load_system_file(0, &sum) == 0) {
         lbl_805D49B4 = 0;
         TAdSinglePlyChrSelectGC::safe_free((uaddr)buf);
         return (u8)(0);

@@ -59,7 +59,6 @@ extern RecoveredGlobal_8036E8DC_lbl_804C88C0 pso_character_card_filename;
 struct PsoSystemCardFilename { char value[0xB]; };
 extern PsoSystemCardFilename pso_system_card_filename;
 extern RecoveredGlobal_8036E8DC_lbl_804C89BC pso_guildcard_card_filename;
-u32 load_system_file_flag__23TAdSinglePlyChrSelectGCFv(void);
 void *create_window_menu_default(void *, s32);
 void TKeyBoardControl__sub_8000F90C(s32 arg0);
 
@@ -472,7 +471,7 @@ void TAdMultiChgGameModeGC::sub_8036E7DC() {
     if (handle_mode_selection() != 0) {
         return;
     }
-    if (load_system_file_flag__23TAdSinglePlyChrSelectGCFv() == 0xFFFFFF05) {
+    if (TAdSinglePlyChrSelectGC::load_system_file_flag() == 0xFFFFFF05) {
         return;
     }
 }

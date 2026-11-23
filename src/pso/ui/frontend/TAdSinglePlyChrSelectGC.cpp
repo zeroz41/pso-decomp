@@ -65,8 +65,6 @@ void set_queued_main_phase(s32 arg0);
 void request_main_phase(s32 arg0);
 s32 load_tables();
 u32 TAdSinglePlyChrSelectGC__sub_801FE4BC();
-s32 is_slot_active__23TAdSinglePlyChrSelectGCFUi();
-s32 clear_entry__23TAdSinglePlyChrSelectGCFi();
 s32 TAdSinglePlyChrSelectGC__sub_802D4D9C();
 
 void TAdSinglePlyChrSelectGC::render() {
@@ -247,8 +245,7 @@ void TAdSinglePlyChrSelectGC::update() {
     if (((TWindowMessageYesNo *)(*(saddr *)&this->unk_48))->is_child_visible() != 0) {
         switch (((TWindowMessageYesNo *)(*(saddr *)&this->unk_48))->get_selected_value()) {
         case 0:
-            reinterpret_cast<TAdSelectCurGC *>(m_2c)->selection_index();
-            clear_entry__23TAdSinglePlyChrSelectGCFi();
+            TAdSinglePlyChrSelectGC::clear_entry(reinterpret_cast<TAdSelectCurGC *>(m_2c)->selection_index());
             ((TAdChrSelASlotGC *)(*(saddr *)&this->m_28))->get_state();
             ((TAdChrSelASlotGC *)(*(saddr *)&this->m_28))->set_state(0xF);
             ((TAdSelectCurGC *)(*(saddr *)&this->m_2c))->set_selection_state(1);
@@ -358,8 +355,7 @@ void TAdSinglePlyChrSelectGC::handle_slot_selection() {
     if (reinterpret_cast<TAdSelectCurGC *>(m_2c)->confirmation_result() == 1) {
         reinterpret_cast<TAdSelectCurGC *>(m_2c)->selection_index();
         load_tables();
-        reinterpret_cast<TAdSelectCurGC *>(m_2c)->selection_index();
-        if (is_slot_active__23TAdSinglePlyChrSelectGCFUi() != 0) {
+        if (TAdSinglePlyChrSelectGC::is_slot_active(reinterpret_cast<TAdSelectCurGC *>(m_2c)->selection_index()) != 0) {
             if (((TAdChrSelASlotGC *)this->m_28)->is_character_transferred((u32)(reinterpret_cast<TAdSelectCurGC *>((*(saddr *)&this->m_2c))->selection_index())) != 0) {
                 this->m_54 = (uaddr)new TAdFadeGC(tl_fade, NULL);
                 *(u32 *)&this->unk_48 = ((TAdChrSelASlotGC *)this->m_28)->open_yes_no_window((saddr)&single_chr_select_yes_no_pos, 0);
