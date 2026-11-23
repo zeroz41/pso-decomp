@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include <string.h>
+#include "pso/network/TGameProtocol.h"
 #include "pso/unk/TUnk_804C8678.h"
 #include "pso/ui/frontend/DrawLineResource.h"
 #include "pso/system/task/TMainTask.h"
@@ -157,7 +158,6 @@ s32 TLobby__sub_80146908();
 void TLobby__sub_801A3CF8(void);
 int TLobby__sub_801A3E8C(void);
 u32 TAdDialingGC__sub_801A4C9C();
-s32 TGameProtocol__ct(void *, void *);
 s32 TLobby__sub_801F3774();
 s32 TLobby__sub_8020A6B0(int);
 s32 TAdDialingGC__sub_80328730();
@@ -746,7 +746,6 @@ void TLobby::update_camera_state() {
 
 void run_online_lobby_scene(void) {
     TLobby *lobby;
-    void *p;
     TLobby__new_game_setup_flags = 0;
     TLobby__lobby_state_flags = 0;
     set_copy_clear_color_argb(0, 0, 0);
@@ -803,10 +802,7 @@ void run_online_lobby_scene(void) {
         TLoadCtrl::cleanup_scene();
     } else {
         lobby = new TLobby(tl_su);
-        p = TObject::operator new(0x20);
-        if (p != NULL) {
-            TGameProtocol__ct(p, tl_su);
-        }
+        new TGameProtocol(tl_su);
         TLobby__sub_801A3CF8();
         TLobby::reset_state_flags();
         if (TLobby__sub_801A3E8C() != 0) {

@@ -485,37 +485,21 @@ void TGameProtocol::run_task() {
             dispatch_pso_data_commands((Buf_801E416C *)n);
             n->m6();
         }
-        if (*(u16 *)((u8 *)n + 6) == *(u32 *)((u8 *)this + 0x1C)) {
+        if (*(u16 *)((u8 *)n + 6) == frame_slot) {
             TLobby__sub_801A54E8((u8 *)n);
             ((TPacket *)n)->clear_send_buffer();
         }
     }
-    *(u32 *)((u8 *)this + 0x1C) = (*(u32 *)((u8 *)this + 0x1C) + 1) & 3;
+    frame_slot = (frame_slot + 1) & 3;
 }
 
 TGameProtocol::~TGameProtocol() {
     game_protocol_instance = 0;
 }
 
-extern "C" {
-
-void __ct__7TObjectFP7TObject(void *);
-
-extern s32 __vt__13TGameProtocol[];
-
-void *TGameProtocol__ct(void *game_protocol) {
-    void *o;
-    __ct__7TObjectFP7TObject(game_protocol);
-    *(s32 **)((s8 *)game_protocol + 0x18) = __vt__13TGameProtocol;
-    ((TGameProtocol *)game_protocol)->m_name = TGameProtocol__class_name;
-    TGameProtocol__instance = game_protocol;
-    *(u32 *)((s8 *)game_protocol + 0x1C) = 0;
-    o = TObject::operator new(0x1C);
-    if (o != NULL) {
-        o = ((void * (*)(void *, void *))__ct__7TObjectFP7TObject)(o, game_protocol);
-    }
-    game_protocol_instance = o;
-    return game_protocol;
-}
-
+TGameProtocol::TGameProtocol(TObject *parent) : TObject(parent) {
+    m_name = TGameProtocol__class_name;
+    TGameProtocol__instance = this;
+    frame_slot = 0;
+    game_protocol_instance = new TObject(this);
 }
