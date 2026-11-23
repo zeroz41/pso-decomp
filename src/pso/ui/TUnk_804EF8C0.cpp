@@ -92,7 +92,6 @@ u32 init_char_slots__23TAdSinglePlyChrSelectGCFi();
 int TAdSinglePlyChrSelectGC__sub_801FCD3C(void *);
 s32 compare_save_headers__23TAdSinglePlyChrSelectGCFPvPvPvPv(int, int, int, int);
 s32 decrypt_char_data__23TAdSinglePlyChrSelectGCFPv(int);
-s32 encrypt_save_data__23TAdSinglePlyChrSelectGCFPvPv(int);
 s32 get_field_118__22TAdEnterSerialAccessGCFv();
 
 void TAdSinglePlyChrSelectGC::reset_quest_id() {
@@ -286,7 +285,7 @@ void TUnk_804EF8C0::handle_load_result() {
                 }
             } else {
                 seed_character_select_serial_rng(get_field_118__22TAdEnterSerialAccessGCFv());
-                encrypt_save_data__23TAdSinglePlyChrSelectGCFPvPv(TAdSinglePlyChrSelectGC::get_instance());
+                TAdSinglePlyChrSelectGC::encrypt_save_data((void *)TAdSinglePlyChrSelectGC::get_instance());
                 TAdSinglePlyChrSelectGC::save_character_file(1);
                 state = 4;
             }
