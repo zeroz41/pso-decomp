@@ -1,3 +1,4 @@
+#include "pso/ui/chat/SymbolChatPreset.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/ui/window/WindowMenuFactory.h"
@@ -21,7 +22,7 @@
 void TUnk_804CE7D0::render() {  }
 
 void TUnk_804CE7D0::run_task() {
-    ((TWindowSubSymbolChat *)chat_symbol)->set_from_key(preset_list->get_selected_value());
+    chat_symbol->set_from_key(preset_list->get_selected_value());
 }
 
 TUnk_804CE7D0::~TUnk_804CE7D0() {
@@ -44,8 +45,8 @@ TUnk_804CE7D0::TUnk_804CE7D0(TObject *parent) : TObject(parent) {
     i = 0;
     do {
         symbol_chat_preset = (u8 *)(get_symbol_chat_preset(i));
-        text = (u8 *)(((TWindowSubSymbolChat *)symbol_chat_preset)->get_symbol_chat_data());
-        if (is_symbol_chat_preset_in_use((u32 *)symbol_chat_preset) != 0) {
+        text = (u8 *)(reinterpret_cast<SymbolChatPreset *>(symbol_chat_preset)->get_symbol_chat_data());
+        if (is_symbol_chat_preset_in_use(reinterpret_cast<const SymbolChatPreset *>(symbol_chat_preset)) != 0) {
             forward_trade_action_default__16TObjCityMainWarpFPviii(preset_list, (saddr) text, 0x66, i);
         } else {
             add_gray_text_entry((TWindowSubTradeMain *)preset_list, (const char *)text, 0x46, (s32)i);

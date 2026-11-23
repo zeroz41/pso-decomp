@@ -34,14 +34,11 @@ static const CharacterSlotPosition lbl_80475908 = { 429.0f, 156.0f };
 static const CharacterSlotPosition lbl_80475910 = { 441.0f, 117.0f };
 const char *TAdChrSelBSlotGC__name = "TAdChrSelBSlotGC";
 
-struct G_8030E3BC { s32 a; s32 b; s32 c; f32 v[2]; };
-
 struct S_8030E3BC { s32 x; s32 y; s32 state; };
 
-G_8030E3BC chr_select_b_slot_entry;
+PlayerSlotLabel chr_select_b_slot_entry;
 
 extern "C" {
-void set_entry_text__15TAdSubPlyItemGCFPvPv(void *item, G_8030E3BC *entry);
 s32 poll_memcard_result(saddr);
 s32 start_memcard_format(s32, s32, s32, s32, s32);
 s32 are_split_screen_battle_players_tied(void *);
@@ -62,12 +59,13 @@ s32 TAdChrSelBSlotGC::is_character_transferred(u32 i) {
     return e->state == 1 ? 1 : 0;
 }
 
-G_8030E3BC *TAdChrSelBSlotGC::build_slot_entry(s32 index, s32 slot, void *pos) {
+PlayerSlotLabel *TAdChrSelBSlotGC::build_slot_entry(s32 index, s32 slot, void *pos) {
     S_8030E3BC *e = (S_8030E3BC *)TAdSinglePlyChrSelectGC__sub_801FE3E4(slot);
-    chr_select_b_slot_entry.a = index;
-    chr_select_b_slot_entry.b = e != NULL ? e->x : get_localized_text_entry(0x16, 0x1C);
-    chr_select_b_slot_entry.c = e != NULL ? e->y + 1 : 0;
-    copy_vec2((chr_select_b_slot_entry.v), pos);
+    chr_select_b_slot_entry.slot = index;
+    chr_select_b_slot_entry.name = reinterpret_cast<const char *>(
+        e != NULL ? e->x : get_localized_text_entry(0x16, 0x1C));
+    chr_select_b_slot_entry.level = e != NULL ? e->y + 1 : 0;
+    copy_vec2(&chr_select_b_slot_entry.position, pos);
     return &chr_select_b_slot_entry;
 }
 

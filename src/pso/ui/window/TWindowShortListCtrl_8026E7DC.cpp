@@ -1,3 +1,4 @@
+#include "pso/ui/window/TWindowSubEquipKind.h"
 #include "pso/system/CharacterSaveRecordLookup.h"
 #include "types.h"
 #include "pso/ui/window/TWindowShortListCtrl_8026E7DC.h"
@@ -44,7 +45,6 @@ void play_sound_effect(int, int, int, int);
 s32 TWindowCtrl__sub_8024A228(saddr);
 void *__ct__15TWindowHelpItemFPvUs(void *, s32, s32);
 saddr get_window_layout_position(int);
-void *create_equip_kind_window(saddr, const NJS_POINT2 *, s32);
 s32 end_player_keyboard_hold(saddr);
 s32 TWindowCtrl__sub_8024A1A8();
 s32 TWindowHelpItem__set_displayed_item_by_id(void *);
@@ -272,7 +272,7 @@ void TWindowShortListCtrl::run_task() {
             TWindowSubTechnique::get_current_selection((s16 *)&m_20, (s32 *)&m_28, client_id);
             tech_window = create_window(get_window_layout_position(1), (saddr)&short_list_window_pos);
         }
-        ((TWindowSubComCard *)tech_window)->clear_flag_and_release();
+        ((TWindowMenu *)tech_window)->clear_flag_and_release();
         state = 10;
     case 10:
         ((TObjPlayer *)player)->update_cursor((s16)((TWindowMenu *)tech_window)->get_selected_value());

@@ -23,7 +23,7 @@ struct TAdAgreementBaseGC : public TObject {
     void *callback_window;   // 0x2C: create_agreement_callback's text window
     TAdSelectCurGC *cursor;  // 0x30: the two-entry agree/decline cursor
     u32 m_34;
-    static void draw_agreement_text();
+    static void draw_agreement_text(void *window, void *frame_context);
 };
 
 LAYOUT_ASSERT(TAdAgreementBaseGC_size, sizeof(TAdAgreementBaseGC) == 0x38);

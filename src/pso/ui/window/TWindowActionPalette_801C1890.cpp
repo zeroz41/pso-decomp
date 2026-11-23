@@ -1,3 +1,5 @@
+#include "pso/player/TPlyInventory.h"
+#include "pso/item/InventoryEntryCopy.h"
 #include "pso/network/protocol/protocol_types.h"
 #include "types.h"
 #include "pso/system/data/FlagWord.h"
@@ -28,7 +30,6 @@ struct S_801C1BA8 { u8 a; u8 b; u8 c; u8 d; s32 e; C_801C1BA8 f; };
 extern "C" {
 int TWindowActionPalette__sub_801C1C20(void* p);
 void *TWindowActionPalette__sub_801C1C68(O_801C1C68 *self, s32 i);
-S_801C1BA8 *fn_801C1BA8(S_801C1BA8 *arg0, S_801C1BA8 *arg1);
 }
 
 void init_6x21_inter_level_warp_packet(u8 *arg0) {
@@ -118,14 +119,16 @@ u16 get_lock_target_id(void* p) { return *(u16*)((char*)p + 0x4); }
 
 s32 fn_801C1BA0(void* p) { return *(s32*)((char*)p + 0x24); }
 
-S_801C1BA8 *fn_801C1BA8(S_801C1BA8 *arg0, S_801C1BA8 *arg1) {
-    arg0->a = arg1->a;
-    arg0->b = arg1->b;
-    arg0->c = arg1->c;
-    arg0->d = arg1->d;
-    arg0->e = arg1->e;
-    arg0->f = arg1->f;
-    return arg0;
+TPlyInventoryItem *fn_801C1BA8(TPlyInventoryItem *destination, const TPlyInventoryItem *source) {
+    S_801C1BA8 *dst = (S_801C1BA8 *)destination;
+    const S_801C1BA8 *src = (const S_801C1BA8 *)source;
+    dst->a = src->a;
+    dst->b = src->b;
+    dst->c = src->c;
+    dst->d = src->d;
+    dst->e = src->e;
+    dst->f = src->f;
+    return destination;
 }
 
 int TWindowActionPalette::handle_input_forward() { return TWindowActionPalette__sub_801C1C20(this); }

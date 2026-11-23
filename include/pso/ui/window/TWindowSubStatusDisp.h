@@ -1,3 +1,4 @@
+#include "pso/unk/GuildCardRecord.h"
 #ifndef PSO_UI_WINDOW_TWINDOWSUBSTATUSDISP_H
 #define PSO_UI_WINDOW_TWINDOWSUBSTATUSDISP_H
 
@@ -73,12 +74,9 @@ struct TWindowSubStatusDisp : public TWindowBase {
     static void append_play_time(u32 time);
     static void append_comma();
     s8 *copy_message_page_text();
-    void*get_sub_disp_ptr();
     void set_selected_index(s16 arg1);
     static void draw_status(saddr window, s32 arg2, s32 arg3);
     static void dispatch_without_flags(saddr window, s32 arg2, s32 arg3);
-    int is_flag_4_set();
-    void set_input_mode(u8 v);
     s16 get_item_type();
     s16 get_field_2F8();
     s16 get_stat();
@@ -112,7 +110,7 @@ struct TWindowSubStatusDisp : public TWindowBase {
     static s32 deleting_destructor(s32 arg0, s16 arg1);
     void forward_render(void *a1);
     int update_subwindow();
-    void fill_card_text_entries(saddr arg1);
+    void fill_card_text_entries(GuildCardRecord *record);
     static saddr query_status_field(void *arg0, s8 arg1);
     static saddr get_flag_or_zero(void *arg0, s8 arg1);
     static void draw_split_screen_dividers();
@@ -128,7 +126,6 @@ struct TWindowSubStatusDisp : public TWindowBase {
     static s32 calc_entry_offset(s32 slot);
     static s32 get_layout_id(s32 slot);
     static s32 resolve_player_slot(s32 slot);
-    u8 *init_layout_entry_copy(u8 *arg1);
     void advance_state();
     void finalize_state();
     void setup_entry_msg_d1(s32 arg1);
@@ -145,7 +142,6 @@ struct TWindowSubStatusDisp : public TWindowBase {
     void set_ground_item(void *arg1, s32 arg2);
     void init_display(s32 src, s32 arg2);
     static void *get_entry_ptr(int a0);
-    u8 *init_part_direct(u8 *rec, s32 client);
     void append_entry(s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5);
     s32 update_hp_entry();
     static s32 destroy_status_display(saddr arg0, s16 arg1);

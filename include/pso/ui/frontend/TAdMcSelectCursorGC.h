@@ -2,15 +2,19 @@
 #define PSO_UI_FRONTEND_TADMCSELECTCURSORGC_H
 
 #include "types.h"
+#include <stddef.h>
+#include "pso/ui/frontend/TAdMcSelectMcGC.h"
+
+struct TAdMcCheckGC;
 #include "pso/system/task/TObject.h"
 
 struct TAdMcSelectCursorGC : public TObject {
     TAdMcSelectCursorGC(TObject *parent);
     virtual ~TAdMcSelectCursorGC();
-    u32 m_1c;
-    u32 m_20;
-    u32 m_24;
-    u8 _pad28[0x100];
+    s32 m_1c;
+    s32 m_20;
+    s32 m_24;
+    McSelectMcQuad quads[8];
     u32 m_128;
     u32 m_12c;
     u8 _pad130[0x4];
@@ -18,22 +22,26 @@ struct TAdMcSelectCursorGC : public TObject {
     u32 m_138;
     u32 m_13c;
     void render_cursor();
+    s32 get_slot_index();
+    void set_field_13c(s32 mode);
     virtual void render();
     virtual void run_task();
-    static uaddr get_instance(saddr arg0);
+    static TAdMcSelectCursorGC *get_instance(TObject *parent);
     static void release_cursor_entry();
     static void init_resource();
-    static saddr get_cursor_type(int a0);
+    static TAdMcCheckGC *get_cursor_type(int slot);
     void sub_8032A140(); // clears m_1c; defined in TAdMcSelectGC.cpp
     void sub_8032A15C(); // sets m_1c to 1; defined in TAdMcSelectGC.cpp
-    s32 get_slot_index(); // returns m_20; defined in TAdMcSelectGC.cpp
-    void set_field_13c(s32 v); // defined in TAdMcSelectGC.cpp
     s32 sub_8032AAC4(); // returns m_20, the selected slot; defined in TAdMcSelectMcGC.cpp, its only caller
 };
 
+LAYOUT_ASSERT(TAdMcSelectCursorGC_quads_offset, offsetof(TAdMcSelectCursorGC, quads) == 0x28);
+LAYOUT_ASSERT(TAdMcSelectCursorGC_fade_offset, offsetof(TAdMcSelectCursorGC, m_128) == 0x128);
+LAYOUT_ASSERT(TAdMcSelectCursorGC_mode_offset, offsetof(TAdMcSelectCursorGC, m_13c) == 0x13C);
 LAYOUT_ASSERT(TAdMcSelectCursorGC_size, sizeof(TAdMcSelectCursorGC) == 0x140);
 
 extern "C" {
+extern TAdMcSelectCursorGC *TAdMcSelectCursorGC__instance;
 void *__dt__19TAdMcSelectCursorGCFv(void *arg0, s16 arg1);
 }
 

@@ -32,10 +32,8 @@ const char *TAdEp3Exist__name = "TAdEp3Exist";
 const f32 lbl_8047B8C4[2] = { 85.0f, 384.0f };
 const f32 lbl_8047B8CC[2] = { 470.0f, 32.0f };
 
-extern "C" void draw_message_window__11TAdEp3ExistFl(void);
-
 void *TAdEp3Exist::vfunc_6() {
-    return TAdEnterSerialAccessGC::create_callback((void *)lbl_8047B8C4, (void *)lbl_8047B8CC, (void *)draw_message_window__11TAdEp3ExistFl);
+    return TAdEnterSerialAccessGC::create_callback((void *)lbl_8047B8C4, (void *)lbl_8047B8CC, draw_message_window);
 }
 
 struct Obj_8036F4DC { u8 pad0[8]; u8 cnt; u8 bits; };
@@ -65,9 +63,8 @@ int prs_read_control_bit(Obj_8036F4DC *arg0);
 void TAdEp3Exist__sub_8036F5A4(void* p);
 s32 prs_decompress(Prs_8036F5B0 *c, u8 *src, s32 arg2, s32 arg3);
 
-void TAdEp3Exist::draw_message_window(saddr arg1) {
-    saddr arg0 = (saddr)this;
-    ((TWindowBase *)arg0)->draw_window_frame((void *) (arg1));
+void TAdEp3Exist::draw_message_window(void *window, void *frame_context) {
+    ((TWindowBase *)window)->draw_window_frame(frame_context);
     f32 x = 320.0f - (f32)(calc_text_width((char *)get_localized_text_entry(0x2C, 0xA)) >> 1U);
     TAdSubPlyItemGC::render_status_line(x, 394.0f, 0.8f, (const char *)get_localized_text_entry(0x2C, 0xA), -1);
 }

@@ -4,6 +4,7 @@
 #include "types.h"
 #include "pso/ui/city/TShopSequence.h"
 
+class TQuestThread;
 class TWindowBase;
 struct TWindowMenu;
 
@@ -25,8 +26,8 @@ struct THunterGuildSeqOnline_Client : public TShopSequence {
     TObject *counter_camera;  // 0x2C: set_service_counter_camera
     s32 pad_30;
     s32 pad_34;
-    TObject *quest_thread;    // 0x38: TQuestThread::create_in_root
-    TWindowBase *choice_menu; // 0x3C: create_yes_no_window
+    TQuestThread *quest_thread;    // 0x38: TQuestThread::create_in_root
+    TWindowMenu *choice_menu; // 0x3C: create_yes_no_window
 };
 
 LAYOUT_ASSERT(THunterGuildSeqOnline_Client_size, sizeof(THunterGuildSeqOnline_Client) == 0x40);

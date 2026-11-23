@@ -10,6 +10,6 @@ s32 TWindowSubComCard::get_entry_id() { return *(s32*)((char*)this + 0x18); }
 
 int TWindowSubComCard__sub_8026906C(void* p) { return *(u16*)((char*)p + 0x0) & 0x80; }
 void TWindowMeseta::set_value(s32 value) {
-    m_68 = value;
-    ((TWindowSubStatusDisp *)get_array_entry(1))->set_all_values((int)m_68);
+    meseta = value;
+    ((TWindowSubStatusDisp *)get_array_entry(1))->set_all_values((int)meseta);
 }

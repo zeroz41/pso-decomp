@@ -7,8 +7,9 @@
 // Pad button bits, one per hold counter of a ControllerInputContext.
 extern const u32 input_button_mask_table[14];
 
-void init_stick_escape_detector(void *detector, void *target);
-void accumulate_key_bits(s32 key, s32 *bits);
+struct StickEscapeDetector;
+void init_stick_escape_detector(StickEscapeDetector *detector, const ControllerInputContext *input);
+void accumulate_key_bits(s32 key, u32 *buttons);
 void update_button_hold_counter(void *pad, void *counter, int mask, int held);
 
 void controller_stuff();
@@ -19,7 +20,7 @@ void reset_controller_input_state(void);
 void update_pad_recalibration(void);
 s32 TKeyBoardControl__sub_801A58B0(void);
 s32 TKeyBoardControl__sub_801A58D8(void);
-void update_state_from_input__16TKeyBoardControlFPv(u8 key);
+s32 update_state_from_input__16TKeyBoardControlFPv(u8 key);
 void fn_801A6A28(ControllerInputContext *pad, u32 mask, u32 previous);
 void map_c_stick_to_buttons(ControllerInputContext *pad, s16 x, s16 y, s32 previous);
 void map_main_stick_to_buttons(ControllerInputContext *pad, s16 x, s16 y, s32 previous);

@@ -8,6 +8,7 @@
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowDD_WS_String.h"
+#include "pso/ui/window/TWindowDD_WS_Word.h"
 #include "pso/ui/window/TWindowDD_80341A08.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/unk/text_80228E98.h"
@@ -79,7 +80,6 @@ void TWindowDD__sub_80347FA0(saddr arg0, s32 arg1);
 s32 TWindowDD__sub_80348DD8(void *, int);
 void TWindowDD__sub_80347A4C(u8 *arg0, saddr arg1);
 extern const f32 lbl_805DFB94;
-s32 TWindowDD_is_id_in_range_5AC_5F9(s16 arg0);
 void TWindowDD__sub_80347758(M_80347758 *src, M_80347758 *dst);
 s32 TWindowDD__sub_803412A0(u32);
 TWindowDD_WS_String *TWindowDD__sub_8034146C(f32 *pos, f32 *size, u32 str, s32 style, f32 width);
@@ -314,10 +314,9 @@ s32 TWindowDD::is_state_zero_unless_0x2C8(s32 arg0) {
     return (u32) __cntlzw((u32) ((s32 (*)(void))TWindowDD__sub_80347858)()) >> 5;
 }
 
-s32 TWindowDD_is_id_in_range_5AC_5F9(s16 id) {
-    u8 var_r3;
-    var_r3 = 0;
-    if ((id >= 0x5ac) && (id <= 0x5f9)) {
+s32 TWindowDD_is_id_in_range_5AC_5F9(s32 value) {
+    u8 var_r3 = 0;
+    if (static_cast<s16>(value) >= 0x5ac && static_cast<s16>(value) <= 0x5f9) {
         var_r3 = 1;
     }
     return var_r3;
@@ -364,7 +363,7 @@ u8 *TWindowDD::init_last_child() {
     if (temp_r0 > 0) {
         var_r31 = ((u8 **)(arg0 + 0x24))[temp_r0 - 1];
         if (var_r31 != NULL) {
-            ((TWindowDD *)var_r31)->init_and_mark_field8C();
+            reinterpret_cast<TWindowDD_WS_Word *>(var_r31)->init_and_mark_field8C();
             ((TWindowDD *)var_r31)->set_pos_and_data(TWindowDD__data_805DFB6C);
             *(f32 *)((s8 *)var_r31 + 0x38) = (f32) TWindowDD__data_805DFB74;
         }
@@ -374,7 +373,7 @@ u8 *TWindowDD::init_last_child() {
 
 void TWindowDD__sub_80347A4C(u8 *arg0, saddr window_dd) {
     s32 temp_r3;
-    temp_r3 = TWindowDD__sub_80342158((u8 *)window_dd);
+    temp_r3 = TWindowDD__sub_80342158(reinterpret_cast<const TWindowDD_WS_Word *>(window_dd));
     if (TWindowDD::is_state_zero_unless_0x2C8(temp_r3) != 0) {
         TWindowDD__sub_80348DD8(arg0 + 0xC4, temp_r3);
         TWindowDD__sub_80347CC8((W_80347CC8 *)(arg0), arg0 + 0xC4);
@@ -411,7 +410,7 @@ struct W_80347CC8;
 void TWindowDD::update_selection_state() {
     s32 v;
     W_80347B70 *arg0 = (W_80347B70 *)this;
-    v = TWindowDD__sub_80342158(arg0->tbl[arg0->idx]);
+    v = TWindowDD__sub_80342158(reinterpret_cast<TWindowDD_WS_Word *>(arg0->tbl[arg0->idx]));
     if ((s16)v != arg0->cur) {
         switch (arg0->state) {
         case 0:
@@ -443,7 +442,7 @@ void TWindowDD__sub_80347C50(W_80347C50 *self) {
                                                                    self->child[self->depth]->get_field_68());
     if (next != self->f8C) {
         self->f8C = next;
-        self->child[self->depth + 1]->init_child((void *)self->f8C);
+        reinterpret_cast<TWindowDD_WS_Word *>(self->child[self->depth + 1])->init_child(self->f8C);
     }
 }
 
@@ -528,7 +527,7 @@ s32 TWindowDD::get_current_child_index() {
     var_r3 = (u8 *)(arg0 + (*(s32 *)((s8 *)arg0 + 0x20) * 4));
     var_r3 = (u8 *)(*(u8 **)((s8 *)var_r3 + 0x24));
     if (var_r3 != NULL) {
-        return TWindowDD__sub_80342158(var_r3);
+        return TWindowDD__sub_80342158(reinterpret_cast<TWindowDD_WS_Word *>(var_r3));
     }
     var_r3 = (u8 *)((void *)-1U);
     return -1;

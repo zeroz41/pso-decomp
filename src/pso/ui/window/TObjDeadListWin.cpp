@@ -27,8 +27,8 @@ extern const char dead_list_name_separator[] = "\n";
 void TObjDeadListWin::build_dead_list_window() {
     char text[0x44];
     s32 i;
-    m_window_handle = (uaddr)TWindowMessage::create((const NJS_POINT2 *)(get_window_layout_position(0x3C)), (const f32 *)dead_list_window_position, 1);
-    if (m_window_handle != 0U) {
+    m_window_handle = (TWindowMessage *)TWindowMessage::create((const NJS_POINT2 *)(get_window_layout_position(0x3C)), (const f32 *)dead_list_window_position, 1);
+    if (m_window_handle != NULL) {
         text[0] = 0;
         strcat(text, dead_list_text_prefix);
         i = 0;
@@ -39,7 +39,7 @@ void TObjDeadListWin::build_dead_list_window() {
             }
             i += 1;
         } while (i < 4);
-        ((TWindowMessage *)m_window_handle)->append_line((saddr)text, (int)2);
+        m_window_handle->append_line((saddr)text, (int)2);
     }
 }
 
@@ -55,9 +55,9 @@ void TObjDeadListWin::update_countdown() {
     temp_r0 = m_countdown - 1;
     m_countdown = temp_r0;
     if (temp_r0 < 0) {
-        if (m_window_handle != 0U) {
-            ((TWindowBase *)m_window_handle)->close();
-            m_window_handle = 0U;
+        if (m_window_handle != NULL) {
+            m_window_handle->close();
+            m_window_handle = NULL;
         }
         queue_destruction();
     }
@@ -99,7 +99,7 @@ TObjDeadListWin::~TObjDeadListWin() {}
 TObjDeadListWin::TObjDeadListWin(TObject* parent) : TObject(parent) {
     s32 i;
     m_name = TObjDeadListWin_name;
-    m_window_handle = 0;
+    m_window_handle = NULL;
     m_countdown = 0x12C;
     for (i = 0; i < 4; i++) m_names[i].text[0] = 0;
     m_phase = 0;

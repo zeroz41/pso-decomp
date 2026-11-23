@@ -1,3 +1,4 @@
+#include "pso/ui/window/TWindowSubStatusDisp_802671F0.h"
 #include "types.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/ui/window/TWindowBase.h"
@@ -14,10 +15,9 @@ const char *TWindowSubEquipList__class_name = "TWindowSubEquipList";
 
 
 extern "C" {
-s32 TShopJudgmentItemWindow__sub_80267F9C(void *, int);
 
 u8 *create_equip_list_window(saddr parent, saddr position, s32 client) {
-    TShopJudgmentItemWindow__sub_80267F9C((void *)position, 8);
+    TShopJudgmentItemWindow__sub_80267F9C(reinterpret_cast<const NJS_POINT2 *>(position), 8);
     return (u8 *)new TWindowSubEquipList((u8 *)parent, client);
 }
 

@@ -1,3 +1,5 @@
+#include "pso/ui/window/TWindowSubStatusDisp_80287570.h"
+#include "pso/ui/window/WindowDrawContext.h"
 #include "types.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/unk/TLobby_8001D6A0.h"
@@ -43,11 +45,7 @@ struct TimerEntry {
     f32 x;
 };
 
-/* Position view for ease_window_timer_position (target at +0x30, current at +0x40). */
-struct Obj_80287BE8 { u8 pad[0x30]; f32 f30; f32 f34; u8 pad2[8]; f32 f40; f32 f44; };
-
 extern "C" {
-s32 draw_window_tab(void *, void *, int, f32);
 saddr get_window_layout_position(s32);
 void init_timer_window_layout(TWindowTimer *self);
 void init_timer_window_layout_alt(TWindowTimer *self);
@@ -79,14 +77,12 @@ void init_timer_window_layout_alt(TWindowTimer *self) {
 #pragma push
 #pragma fp_contract on
 void TWindowTimer::ease_window_timer_position() {
-    Obj_80287BE8 *o = (Obj_80287BE8 *)this;
-    o->f40 += 0.21f * (o->f30 - o->f40);
-    o->f44 += 0.21f * (o->f34 - o->f44);
+    frame_position[0] += 0.21f * (target_position[0] - frame_position[0]);
+    frame_position[1] += 0.21f * (target_position[1] - frame_position[1]);
 }
 #pragma pop
 
 void TWindowTimer::update_chat_parts() {
-    u8 *arg0 = (u8 *)this;
     saddr window_layout_position;
 
     if (this->flags & 1) {
@@ -96,7 +92,7 @@ void TWindowTimer::update_chat_parts() {
     } else {
         window_layout_position = get_window_layout_position(0x22);
     }
-    copy_vec2((arg0 + 0x30), (void*)window_layout_position);
+    copy_vec2(target_position, (void*)window_layout_position);
 }
 
 void TWindowTimer::draw(s32 arg1, s32 arg2) {
@@ -135,8 +131,8 @@ void TWindowTimer::set_time(u32 secs) {
     ((TWindowHelpItem *)entry)->reset_float_field();
 }
 
-void TWindowTimer::draw_tab(s32 arg0, saddr arg1) {
-    draw_window_tab((void *)arg1, (void *)(arg1 + 0x10), 3, -64.0f);
+void TWindowTimer::draw_tab(WindowDrawContext *context) {
+    draw_window_tab(context, &context->inner_x, 3, -64.0f);
 }
 
 TWindowTimer *TWindowTimer::create() {
@@ -152,22 +148,19 @@ TWindowTimer *TWindowTimer::create_alt() {
 }
 
 void TWindowTimer::render() {
-    saddr temp_r3;
-    temp_r3 = reinterpret_cast<saddr>(draw_default_entry());
-    TWindowTimer::draw_tab((saddr)this, temp_r3);
-    draw_visible_window_entries(
-        this,
-        reinterpret_cast<const WindowLayoutEntries *>((void *)((saddr)this + 0x24)),
-        reinterpret_cast<WindowDrawContext *>(temp_r3));
+    WindowDrawContext *context = draw_default_entry();
+    draw_tab(context);
+    draw_visible_window_entries(this, &entry_list, context);
 }
 
 void TWindowTimer::run_task() {
-    TWindowTimer *window_timer = this;
-  if ((window_timer->flags) & 1)
-  {
-    window_timer->draw((s32)((int) TWindowTimer::get_timer_value(0)), (s32)((int) TWindowTimer::get_timer_value(1)));
-  }
- do { ((TWindowDD *)window_timer)->initialize_subwindow(); window_timer->update_chat_parts(); window_timer->ease_window_timer_position(); ((TWindowBase *)window_timer)->update_window_entry_list(reinterpret_cast<const WindowLayoutEntries *>((u8 *)window_timer + 0x24)); } while (0);
+    if (flags & 1) {
+        draw(get_timer_value(0), get_timer_value(1));
+    }
+    ((TWindowDD *)this)->initialize_subwindow();
+    update_chat_parts();
+    ease_window_timer_position();
+    update_window_entry_list(&entry_list);
 }
 
 TWindowTimer::~TWindowTimer() {}

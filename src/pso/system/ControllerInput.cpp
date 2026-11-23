@@ -11,7 +11,6 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC.h"
-#include "pso/ui/window/TWindowChoiceSetting.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/system/data/pso_date.h"
 #include "pso/player/TObjPlayer_80011014.h"
@@ -32,15 +31,6 @@ extern s32 lbl_805D49B4;
 s32 func_801A5E54__Fv(void);
 }
 
-struct Kb_801A6910 {
-    u32 f0;
-    u8 pad4[4];
-    u32 f8;
-    u8 padC[0x48 - 0xC];
-    u32 f48;
-    u32 f4C;
-};
-void accumulate_key_bits(s32 arg0, s32 *arg1);
 // Stands in for a port with no controller: nothing held.
 PadSlot controller_default_pad_state = { 0, 0, 0, 0xFFFFFFFF, 0, 0, 0, 0, 0, 0, 0, 0, { 0 }, 0 };
 u32 TKeyBoardControl_key_bit_table[6] = { 16, 32, 64, 128, 4, 2 };
@@ -96,9 +86,9 @@ s32 TKeyBoardControl::check_and_read(s32 arg0) {
     return 0;
 }
 
-s32 TKeyBoardControl::read_input(s32 arg0) {
+s32 TKeyBoardControl::read_input(u8 key) {
     if (hardware_keyboard_state.check_input_ready() != 0) {
-        return ((s32 (*)(s32))update_state_from_input__16TKeyBoardControlFPv)(arg0);
+        return update_state_from_input__16TKeyBoardControlFPv(key);
     }
     return 0;
 }
@@ -115,31 +105,27 @@ s32 TKeyBoardControl::is_key_down(s32 arg0) {
     return 0;
 }
 
-void update_state_from_input__16TKeyBoardControlFPv(u8 key) {
-    hardware_keyboard_state.sub_801323C8(key);
+s32 update_state_from_input__16TKeyBoardControlFPv(u8 key) {
+    return hardware_keyboard_state.sub_801323C8(key);
 }
 
+extern s32 actor_frame_tick;
 
-s32 TKeyBoardControl::check_input_angle() {
-    s32 temp_r4_2;
-    void *temp_r4;
-    s32 temp_r5;
-    u16 temp_r0;
-
-    temp_r4 = *(void * *)&this->m_prev;
-    if (temp_r4 == NULL) {
+s32 StickEscapeDetector::check_input_angle() {
+    const ControllerInputContext *current = input;
+    if (current == NULL) {
         return 0;
     }
-    if (*(f32 *)((s8 *)temp_r4 + 0x24) < 0.5f) {
+    if (current->stick_magnitude < 0.5f) {
         return 0;
     }
-    temp_r5 = *(s32 *)&this->m_name;
-    *(s32 *)&this->m_name = *(s32 *)((s8 *)temp_r4 + 0x1C);
-    temp_r0 = temp_r5 - *(s32 *)&this->m_name;
-    if (((s32) temp_r0 > 0x5000) && ((s32) temp_r0 < 0xB000)) {
-        temp_r4_2 = *(s32 *)&this->m_flags;
-        *(s32 *)&this->m_flags = (s32) actor_frame_tick;
-        if ((s32) (*(s32 *)&this->m_flags - temp_r4_2) < 8) {
+    const s32 previous_angle = last_stick_angle;
+    last_stick_angle = current->stick_angle;
+    const u16 turn = previous_angle - last_stick_angle;
+    if ((s32)turn > 0x5000 && (s32)turn < 0xB000) {
+        const s32 previous_frame = last_turn_frame;
+        last_turn_frame = actor_frame_tick;
+        if (last_turn_frame - previous_frame < 8) {
             return 1;
         }
     }
@@ -147,15 +133,19 @@ s32 TKeyBoardControl::check_input_angle() {
 }
 }
 
-void init_stick_escape_detector(void *arg0, void *arg1) {
-    if (arg1 != NULL) {
-        *(void **)((s8 *)arg0 + 8) = arg1;
-        *(s32 *)((s8 *)arg0 + 0) = (s32) *(s32 *)((s8 *)(*(void **)((s8 *)arg0 + 8)) + 0x1C);
-        *(s32 *)((s8 *)arg0 + 4) = (s32) actor_frame_tick;
+void init_stick_escape_detector(StickEscapeDetector *detector, const ControllerInputContext *input) {
+    if (input != NULL) {
+        detector->input = input;
+        detector->last_stick_angle = detector->input->stick_angle;
+        detector->last_turn_frame = actor_frame_tick;
     }
 }
 
-void TObjPlayer::reset_fields() { *(s32*)((char*)this + 0x0) = 0; *(s32*)((char*)this + 0x4) = 0; *(s32*)((char*)this + 0x8) = 0; }
+void StickEscapeDetector::reset_fields() {
+    last_stick_angle = 0;
+    last_turn_frame = 0;
+    input = NULL;
+}
 
 s32 TKeyBoardControl::get_ascii_key() {
   short new_var;
@@ -282,12 +272,11 @@ s32 TKeyBoardControl::read_key_checked(u8 arg0) {
     return TKeyBoardControl::check_and_read((s32)(arg0));
 }
 void TKeyBoardControl::update_input_frame() {
-    u8 *key_board_control;
     hardware_keyboard_state.sub_80132650();
     if (is_split_screen() == 0) {
-        key_board_control = (u8 *)&controller_input_state.keyboard;
-        ((TKeyBoardControl *)key_board_control)->poll_key_state();
-        update_button_hold_counters((ControllerInputContext *)key_board_control);
+        ControllerInputContext *keyboard = &controller_input_state.keyboard;
+        keyboard->poll_key_state();
+        update_button_hold_counters(keyboard);
     }
 }
 #pragma push
@@ -445,34 +434,12 @@ void controller_stuff(void) {
 
 #pragma push
 
-struct Sub_801A67A4
-{
-  u32 w[7];
-};
-
-struct Rec_801A67A4
-{
-  s32 f0;
-  s32 f4;
-  s32 f8;
-  s32 fC;
-  u16 f10;
-  u16 f12;
-  s16 f14;
-  s16 f16;
-  s16 f18;
-  s16 f1A;
-  s32 f1C;
-  s32 f20;
-  f32 f24;
-  f32 f28;
-  Sub_801A67A4 f2C;
-  s32 f48;
-  s32 f4C;
+struct ControllerHoldFrameBlock {
+    u32 words[7];
 };
 
 extern "C" {
-void copy_state__16TKeyBoardControlFPvPv(Rec_801A67A4 *arg0, Rec_801A67A4 *arg1);
+void copy_state__16TKeyBoardControlFPvPv(ControllerInputContext *arg0, ControllerInputContext *arg1);
 
 void bind_controller_devices(void) {
     PadSlot *slot;
@@ -554,40 +521,38 @@ void reset_controller_input_state(void) {
         pad->pressed_with_sticks = 0;
         pad++;
     }
-    copy_state__16TKeyBoardControlFPvPv((Rec_801A67A4 *)&controller_input_state.keyboard, (Rec_801A67A4 *)controller_input_state.controllers);
+    copy_state__16TKeyBoardControlFPvPv(&controller_input_state.keyboard, controller_input_state.controllers);
     TKeyBoardControl::reset();
 }
 
-typedef struct Rec_801A67A4 Rec_801A67A4;
-typedef struct Sub_801A67A4 Sub_801A67A4;
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-void copy_state__16TKeyBoardControlFPvPv(Rec_801A67A4 *arg0, Rec_801A67A4 *arg1) {
-  Rec_801A67A4 *new_var;
-  Rec_801A67A4 *new_var2;
-  Sub_801A67A4 *s;
-  Sub_801A67A4 *d;
-  arg0->f0 = arg1->f0;
-  arg0->f4 = arg1->f4;
-  arg0->f8 = arg1->f8;
-  arg0->fC = arg1->fC;
-  arg0->f10 = arg1->f10;
-  arg0->f12 = arg1->f12;
-  arg0->f14 = arg1->f14;
+void copy_state__16TKeyBoardControlFPvPv(ControllerInputContext *arg0, ControllerInputContext *arg1) {
+  ControllerInputContext *new_var;
+  ControllerInputContext *new_var2;
+  ControllerHoldFrameBlock *s;
+  ControllerHoldFrameBlock *d;
+  arg0->buttons = arg1->buttons;
+  arg0->not_held = arg1->not_held;
+  arg0->pressed_buttons = arg1->pressed_buttons;
+  arg0->released = arg1->released;
+  arg0->trigger_r = arg1->trigger_r;
+  arg0->trigger_l = arg1->trigger_l;
+  arg0->stick_x = arg1->stick_x;
   new_var = (new_var2 = arg0);
-  new_var2->f16 = arg1->f16;
-  arg0->f18 = arg1->f18;
-  new_var2->f1A = arg1->f1A;
-  new_var->f1C = arg1->f1C;
-  new_var2->f20 = arg1->f20;
-  arg0->f24 = arg1->f24;
-  arg0->f28 = arg1->f28;
-  s = &arg1->f2C;
-  d = &(new_var = new_var2)->f2C;
+  new_var2->stick_y = arg1->stick_y;
+  arg0->cstick_x = arg1->cstick_x;
+  new_var2->cstick_y = arg1->cstick_y;
+  new_var->stick_angle = arg1->stick_angle;
+  new_var2->cstick_angle = arg1->cstick_angle;
+  arg0->stick_magnitude = arg1->stick_magnitude;
+  arg0->cstick_magnitude = arg1->cstick_magnitude;
+  s = reinterpret_cast<ControllerHoldFrameBlock *>(arg1->hold_frames);
+  d = reinterpret_cast<ControllerHoldFrameBlock *>((new_var = new_var2)->hold_frames);
   *d = *s;
-  arg0->f48 = arg1->f48;
-  new_var->f4C = arg1->f4C;
+  arg0->held_with_sticks = arg1->held_with_sticks;
+  new_var->pressed_with_sticks = arg1->pressed_with_sticks;
 }
 
 void TKeyBoardControl::init_pad_state() {
@@ -607,38 +572,38 @@ void TKeyBoardControl::init_pad_state() {
     }
     lbl_805D34C8 = 1;
 }
-s32 TKeyBoardControl::poll_key_state() {
-    Kb_801A6910 *self = (Kb_801A6910 *)this;
+s32 ControllerInputContext::poll_key_state() {
     s32 i;
     u8 n;
     s32 j;
-    self->f0 = 0;
-    self->f8 = 0;
+    buttons = 0;
+    pressed_buttons = 0;
     for (i = 0; i < 6; i++) {
         if (TKeyBoardControl::read_input((u8)keyboard_poll_key_codes[i]) != 0) {
-            self->f0 |= TKeyBoardControl_key_bit_table[i];
+            buttons |= TKeyBoardControl_key_bit_table[i];
         }
     }
     n = hardware_keyboard_state.get_pending_count();
     for (j = 0; j < n; j++) {
-        ((void (*)(u8, u32 *))accumulate_key_bits)((s32)hardware_keyboard_state.sub_8013239C(j), &self->f8);
+        accumulate_key_bits(hardware_keyboard_state.sub_8013239C(j), &pressed_buttons);
     }
-    self->f48 = self->f0;
-    self->f4C = self->f8;
+    held_with_sticks = buttons;
+    pressed_with_sticks = pressed_buttons;
     return 0;
 }
 }
 
 #pragma pop
 
-void accumulate_key_bits(s32 arg0, s32 *arg1) {
+void accumulate_key_bits(s32 key, u32 *buttons) {
     s32 i;
     for (i = 0; i < 6; i++) {
-        if (arg0 == ((s32 *)keyboard_poll_key_codes)[i]) {
-            *arg1 |= ((s32 *)TKeyBoardControl_key_bit_table)[i];
+        if (key == (s32)keyboard_poll_key_codes[i]) {
+            *buttons |= TKeyBoardControl_key_bit_table[i];
         }
     }
 }
+
 
 extern "C" {
 

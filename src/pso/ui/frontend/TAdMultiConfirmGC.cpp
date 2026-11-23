@@ -8,6 +8,7 @@
 
 #include "pso/ui/frontend/TAdMultiChgGameModeGC.h"
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC.h"
+#include "pso/ui/TAdChrSelPlayerGC.h"
 #include "pso/ui/frontend/TAdMultiPlayerNoGC.h"
 #include "pso/system/task/TObject.h"
 
@@ -16,7 +17,7 @@ typedef struct Obj_802FF87C {
     s32 state;
     u32 count;
     u8 pad24[0x34 - 0x24];
-    void *players[4];
+    TAdChrSelPlayerGC *players[4];
     u8 pad44[4];
     s32 x48;
 } Obj_802FF87C;
@@ -28,7 +29,7 @@ struct TAdMultiConfirmGC_802FFA3C {
     s32 state;
     u32 count;
     s32 ids[4];
-    void *players[4];
+    TAdChrSelPlayerGC *players[4];
     void *guide;
     void *ok;
 };
@@ -67,7 +68,7 @@ void TAdMultiConfirmGC::run_task() {
     case 1:
         for (i = 0; i < 4; i++) {
             if (arg0->players[i] != NULL) {
-                ((TAdMultiPlyChrSelectGC *)(arg0->players[i]))->set_field_100(2);
+                arg0->players[i]->set_field_100(2);
             }
         }
         this->m_1c = 2;

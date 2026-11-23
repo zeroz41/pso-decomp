@@ -4,11 +4,16 @@
 #include "types.h"
 #include "pso/ui/window/TWindowBase.h"
 
+struct SymbolChatPreset;
+
 struct TWindowChatSymbol : public TWindowBase {
     TWindowChatSymbol(saddr arg1, saddr arg2);
     virtual ~TWindowChatSymbol();
+    void set_selection(SymbolChatPreset *preset);
+    void set_from_key(s32 arg1);
+    void update_visibility();
     virtual void render();
-    uaddr m_60;
+    SymbolChatPreset *m_60;
     u32 m_64;
     virtual void run_task();
 };

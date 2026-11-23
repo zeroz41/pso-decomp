@@ -1,3 +1,4 @@
+#include "pso/render/GinjaTextureInput.h"
 #include "pso/system/save/CardSaveFile.h"
 #include "pso/render/TriangleFan3D.h"
 #include "types.h"
@@ -32,7 +33,6 @@ struct Stat_80197E64 { u8 pad0[4]; u16 blocks; u8 pad6[0xE]; };
 extern "C" {
 s32 poll_memcard_result(saddr);
 s32 get_card_file_info__15TAdPlayerLoadGCFiPvPv(saddr, const char *, Stat_80197E64 *);
-void set_texture_name(void *, void *, int, int);
 }
 
 const char *TObjSinBoard__class_name = "TObjSinBoard";
@@ -40,7 +40,7 @@ const char *TObjSinBoard__class_name = "TObjSinBoard";
 u32 TObjSinBoard__texture_buffer;
 GinjaTextureEntry TObjSinBoard__texture_name;
 __declspec(section ".data") GinjaTextureList signboard_texture_list;
-u8 TObjSinBoard__texture_surface[0x24];
+GinjaTextureInput TObjSinBoard__texture_surface;
 u32 gogo_ball_team_scores[2];
 f32 gogo_ball_configuration[0x15];
 f32 gogo_ball_sync_state[7];
@@ -118,8 +118,8 @@ void fn_80197FD0(const void *image, u32 size) {
         move_data((void *)(t), (const void *)(image), size);
         signboard_texture_list.entries = &TObjSinBoard__texture_name;
         signboard_texture_list.count = 1;
-        ((TObjPlayer *)TObjSinBoard__texture_surface)->set_render_rect(TObjSinBoard__texture_buffer, 0, 0, 0);
-        set_texture_name(&TObjSinBoard__texture_name, TObjSinBoard__texture_surface, 0, 0x40000000);
+        TObjSinBoard__texture_surface.set_render_rect(reinterpret_cast<void *>(TObjSinBoard__texture_buffer), 0, 0, 0);
+        set_texture_name(&TObjSinBoard__texture_name, &TObjSinBoard__texture_surface, 0, 0x40000000);
         load_texture_if_valid((uaddr)&signboard_texture_list);
     }
 }

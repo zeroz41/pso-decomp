@@ -6,7 +6,7 @@
 
 s32 TWindowDD_check_input_mask(void *input_context, s32 mask);
 extern "C" {
-s32 TWindowDD_is_id_in_range_5AC_5F9(s16 id);
+s32 TWindowDD_is_id_in_range_5AC_5F9(s32 value);
 }
 
 struct TWindowDDValueList {
@@ -56,9 +56,7 @@ struct TWindowDD : public TObject
     void set_clamped_page(s32 arg1);
     void handle_input();
     void set_clamped_selection(s32 arg1);
-    static void *construct_variant_a(void *arg0v);
     static void *create();
-    void init();
     void set_value_f32(s32 arg1);
     void set_scale(s32 arg1, s32 arg2);
     static s32 check_all_ready(s32 floor);
@@ -66,20 +64,12 @@ struct TWindowDD : public TObject
     int initialize_subwindow();
     void set_mode_2();
     void reset_cursor();
-    void handle_scroll_input();
-    void init_and_mark_field8C();
-    void free_child();
-    void init_child(void* a1);
-    void init_layout_entries();
-    void reset_fields();
-    void load_element_list();
     void set_pos_and_data(f32 farg0);
     s32 get_field_0x74();
     s32 get_cursor_index();
     s32 update_if_field28_set();
     void get_cursor_pos(u8 *arg1);
     s32 get_field_68();
-    void add_scroll_offset(int a1);
     void enter_state_19();
     void enter_state_18();
     void enter_state_9();
@@ -93,7 +83,7 @@ struct TWindowDD : public TObject
     void update_selected_id();
     static void build_player_word_lists();
     static void free_buffers();
-    static void open(saddr src, s32 player);
+    static void open(void *message, u16 speaker);
     static u8 is_id_in_special_range(s16 id);
     static s32 classify_id(s16 id);
     static s32 get_player_battle_flag_state(u16 arg0);
@@ -167,7 +157,7 @@ void TWindowDD__sub_80340910(void *p);
 }
 s32 TWindowDD_check_input_mask(void *input_context, s32 mask);
 extern "C" {
-void *__dt__13TUnk_804EFBACFv(void *arg0, s16 arg1);
+void *__dt__21TWindowWordSelectModeFv(void *arg0, s16 arg1);
 void measure_message_text_width_default(void *entry);
 s32 dispatch_by_window_mode(u8 *window_dd, u32 arg1, s32 entry_id, s32 value_index);
 void TWindowDD__sub_80344114(void);

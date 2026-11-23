@@ -11,6 +11,10 @@ class TWindowArea;
 struct TWindowMessageLog;
 struct TWindowSimpleStatus;
 
+struct TWindowGetComCard;
+
+class TWindowFukidasi;
+
 struct TWindowCtrl : public TObject {
     TWindowCtrl(TObject *parent);
     virtual ~TWindowCtrl();
@@ -26,7 +30,7 @@ struct TWindowCtrl : public TObject {
     TWindowTimer *m_30;
     TWindowArea *m_34;
     uaddr m_38;
-    uaddr m_3c;
+    TWindowGetComCard *m_3c;
     TWindowTradeRequest *trade_request;
     TWindowMessageLog *message_log;
     u8 unk_48[0x8];
@@ -36,7 +40,7 @@ struct TWindowCtrl : public TObject {
     u8 unk_72[0x4];
     u16 m_76;
     TWindowSimpleStatus *simple_status[3];
-    u8 unk_84[0x10];
+    TWindowFukidasi *balloons[4];
     void* m_94;
     virtual void run_task();
     virtual void render();
@@ -61,8 +65,11 @@ struct TWindowCtrl : public TObject {
     static void close_timer_window();
     static void create_alt_timer();
     static char *skip_name_prefix(void *self, char *s);
+    void get_speaker_balloon_anchor(u16 speaker, f32 *height, s32 *name);
+    s32 find_farthest_balloon_slot(u16 speaker);
+    TWindowFukidasi *acquire_balloon_slot(u16 speaker, s32 flags, s32 client);
     s32 count_balloon_slots();
-    void *show_chat_balloon(s32 player, s32 flags, void *text, void *local);
+    TWindowFukidasi *show_chat_balloon(u16 player, s32 flags, void *text, s32 client);
     void handle_chat_message(char *arg1);
     static void init_all_slots();
     static void init_all_slots2();
@@ -75,8 +82,8 @@ struct TWindowCtrl : public TObject {
     static void release_slot(s8 *arg0);
     static void close_windows_by_flags(u16 arg0);
     static s32 open_balloon(u16 player, u8 *arg1, s32 flags, s32 arg3);
-    static saddr open(s32 id, saddr text, s32 flags);
-    static int open_default(s32 id, s32 text);
+    static saddr open(u16 id, saddr text, s32 flags);
+    static int open_default(u16 id, s32 text);
     static void create_level_up_window(saddr arg0, saddr arg1);
     static void set_window_flags(void *client_id, s32 flags, s32 arg2);
     static void set_window_flags_off(s32 client, s32 flags);
@@ -96,7 +103,6 @@ struct TWindowCtrl : public TObject {
     static void shutdown();
     static void close();
     void set_flag1e_bit40();
-    u16 get_flags();
     static saddr get_window(s32 client_id);
     static s32 get_flag_bit4();
     static s32 get_flag_bit5();
@@ -130,6 +136,7 @@ struct TWindowCtrl : public TObject {
 };
 
 LAYOUT_ASSERT(WindowCtrlTradeRequestOffset, offsetof(TWindowCtrl, trade_request) == 0x40);
+LAYOUT_ASSERT(TWindowCtrlBalloonSlotsOffset, offsetof(TWindowCtrl, balloons) == 0x84);
 LAYOUT_ASSERT(TWindowCtrl_size, sizeof(TWindowCtrl) == 0xE8);
 
 

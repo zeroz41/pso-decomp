@@ -31,7 +31,7 @@ struct TWindowCtrlMain : public TObject {
     static void update_fade_alphas();
     static void set_value(s32 arg0, s32 arg1);
     static void free_shared_draw_context();
-    void draw_strip_swap_color(s32 n, s32 flags, f32 _w3);
+
 };
 
 LAYOUT_ASSERT(TWindowCtrlMain_size, sizeof(TWindowCtrlMain) == 0x1C);

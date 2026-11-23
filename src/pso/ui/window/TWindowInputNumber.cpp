@@ -1,3 +1,5 @@
+#include "pso/system/ControllerInputState.h"
+#include "pso/unk/TUnk_804CF9C8.h"
 #include "types.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/ui/window/WindowDrawContext.h"
@@ -119,41 +121,11 @@ void TWindowInputNumber::set_value(f32 farg0) {
 
 }
 
-typedef struct Digit_802561E8 {
-    u16 flags;
-    u8 pad2[6];
-    f32 x;
-    f32 y;
-    f32 w;
-} Digit_802561E8;
-
-struct Ctx_802563A0 {
-    u8 pad0[0x10];
-    f32 x;
-    f32 y;
-    u8 pad18[0x30 - 0x18];
-    s32 visible;
-    u8 pad34[0x38 - 0x34];
-    f32 depth;
-};
-
 struct UV_802563A0 { f32 u, v; };
 struct ArrowUVs { UV_802563A0 uv[2]; };
 static const ArrowUVs arrow_uvs = {{{224.0f, 0.0f}, {240.0f, 0.0f}}};
 
-struct Quad_802563A0 { f32 x, y, x2, y2, u, v, u2, v2; };
-
-typedef struct InNum_802561E8 {
-    u8 pad0[0x38];
-    f32 x;
-    u8 pad3c[0x26];
-    s8 ndigits;
-} InNum_802561E8;
-
-struct Win_80256354 { u8 p0[0x62]; s8 f62; u8 p63[5]; s32 f68; };
-
 extern "C" {
-void draw_arrows__18TWindowInputNumberFv(TWindowInputNumber *, Ctx_802563A0 *, Digit_802561E8 *, int);
 extern s32 lbl_805D63F0;
 void __dl__7TObjectFPv(void *);
 
@@ -182,15 +154,15 @@ void TWindowInputNumber::align_digits() {
     i = 0;
     scale = 0.5f;
     step = 12.0f;
-    pos = scale * (((InNum_802561E8 *)this)->x - 8.0f) + scale * (f32)(((InNum_802561E8 *)this)->ndigits * 12);
+    pos = scale * (target_size[0] - 8.0f) + scale * (f32)(digitCount * 12);
     pos -= 6.0f;
-    for (; i < ((InNum_802561E8 *)this)->ndigits; i++) {
-        Digit_802561E8 *d = (Digit_802561E8 *)((TWindowBase *)this)->get_array_entry(i);
-        d->x = scale * d->w + pos;
+    for (; i < digitCount; i++) {
+        TUnk_804CF9C8 *d = static_cast<TUnk_804CF9C8 *>(get_array_entry(i));
+        d->x = scale * d->width + pos;
         pos -= step;
     }
     for (; i < 6; i++) {
-        Digit_802561E8 *d = (Digit_802561E8 *)((TWindowBase *)((InNum_802561E8 *)this))->get_array_entry(i);
+        TUnk_804CF9C8 *d = static_cast<TUnk_804CF9C8 *>(get_array_entry(i));
         d->flags |= 2;
     }
 }
@@ -214,152 +186,143 @@ void TWindowInputNumber::refresh_digit_entries() {
 }
 
 void TWindowInputNumber::calc_digit_count() {
-    Win_80256354 *w = (Win_80256354 *)this;
     s32 i = 0;
-    w->f62 = 0;
+    digitCount = 0;
     while (i < 6) {
-        if (w->f68 < number_input_decimal_place_values[i]) {
+        if (maximum < number_input_decimal_place_values[i]) {
             break;
         }
-        w->f62 = i;
+        digitCount = i;
         i++;
     }
-    w->f62++;
+    digitCount++;
 }
 
 #pragma push
 #pragma fp_contract on
-void draw_arrows__18TWindowInputNumberFv(TWindowInputNumber *self, Ctx_802563A0 *ctx, Digit_802561E8 *digit, int confirmed) {
+void TWindowInputNumber::draw_arrows(WindowDrawContext *ctx, TUnk_804CF9C8 *digit, int confirmed) {
     ArrowUVs uvs = arrow_uvs;
     UV_802563A0 *uv;
-    Quad_802563A0 q;
+    TexturedQuad q;
     f32 x;
     f32 y;
     f32 depth;
 
-    if (ctx->visible < 0) {
+    if (ctx->open_tick < 0) {
         return;
     }
     uv = &uvs.uv[0];
     if (confirmed != 0) {
         uv = &uvs.uv[1];
     }
-    x = ctx->x + digit->x - 0.5f * digit->w - 7.0f - 1.0f;
-    y = ctx->y + digit->y;
+    x = ctx->inner_x + digit->x - 0.5f * digit->width - 7.0f - 1.0f;
+    y = ctx->inner_y + digit->y;
     depth = -1.0f / (0.22424999f + ctx->depth);
     begin_screen_draw(1);
     TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(lbl_805D63F0));
     set_draw_texture_and_color(0, -1);
-    q.x = x;
-    q.y = y - 15.0f;
-    q.x2 = 14.0f + q.x;
-    q.y2 = 12.0f + q.y;
-    q.u = uv->u / 256.0f;
-    q.v = uv->v / 256.0f;
-    q.u2 = (14.0f + uv->u) / 256.0f;
-    q.v2 = (12.0f + uv->v) / 256.0f;
-    ((WindowDrawContext *)ctx)->transform_quad((TexturedQuad *)&q);
+    q.x0 = x;
+    q.y0 = y - 15.0f;
+    q.x1 = 14.0f + q.x0;
+    q.y1 = 12.0f + q.y0;
+    q.u0 = uv->u / 256.0f;
+    q.v0 = uv->v / 256.0f;
+    q.u1 = (14.0f + uv->u) / 256.0f;
+    q.v1 = (12.0f + uv->v) / 256.0f;
+    ctx->transform_quad(&q);
     draw_textured_quad_at_depth((f32 *)&q, depth);
-    q.x = x;
-    q.y = 25.0f + y;
-    q.x2 = 14.0f + q.x;
-    q.y2 = 12.0f + q.y;
-    q.u = uv->u / 256.0f;
-    q.v = (28.0f + uv->v) / 256.0f;
-    q.u2 = (14.0f + uv->u) / 256.0f;
-    q.v2 = (28.0f + (12.0f + uv->v)) / 256.0f;
-    ((WindowDrawContext *)ctx)->transform_quad((TexturedQuad *)&q);
+    q.x0 = x;
+    q.y0 = 25.0f + y;
+    q.x1 = 14.0f + q.x0;
+    q.y1 = 12.0f + q.y0;
+    q.u0 = uv->u / 256.0f;
+    q.v0 = (28.0f + uv->v) / 256.0f;
+    q.u1 = (14.0f + uv->u) / 256.0f;
+    q.v1 = (28.0f + (12.0f + uv->v)) / 256.0f;
+    ctx->transform_quad(&q);
     draw_textured_quad_at_depth((f32 *)&q, depth);
-    q.x = x;
-    q.y = 19.0f + y;
-    q.x2 = 14.0f + q.x;
-    q.y2 = 12.0f + q.y;
-    q.u = uv->u / 256.0f;
-    q.v = (13.0f + uv->v) / 256.0f;
-    q.u2 = (14.0f + uv->u) / 256.0f;
-    q.v2 = (13.0f + (12.0f + uv->v)) / 256.0f;
-    ((WindowDrawContext *)ctx)->transform_quad((TexturedQuad *)&q);
+    q.x0 = x;
+    q.y0 = 19.0f + y;
+    q.x1 = 14.0f + q.x0;
+    q.y1 = 12.0f + q.y0;
+    q.u0 = uv->u / 256.0f;
+    q.v0 = (13.0f + uv->v) / 256.0f;
+    q.u1 = (14.0f + uv->u) / 256.0f;
+    q.v1 = (13.0f + (12.0f + uv->v)) / 256.0f;
+    ctx->transform_quad(&q);
     draw_textured_quad_at_depth((f32 *)&q, depth);
     TWindowSubStatusDisp::get_player();
 }
 #pragma pop
 
 void TWindowInputNumber::render() {
-    TWindowInputNumber *arg0 = this;
-    saddr ctx;
-
-    ctx = reinterpret_cast<saddr>(((TWindowBase *)arg0)->setup_window_draw_context((f32 *)((u8 *)arg0 + 0x74)));
-    ((TWindowBase *)arg0)->draw_window_frame((void *)ctx);
-    draw_visible_window_entries(
-        reinterpret_cast<const void *>(arg0),
-        reinterpret_cast<const WindowLayoutEntries *>((u8 *)arg0 + 0x24),
-        reinterpret_cast<WindowDrawContext *>(ctx));
-    draw_arrows__18TWindowInputNumberFv(arg0, (Ctx_802563A0 *)ctx, (Digit_802561E8 *)((TWindowBase *)arg0)->get_array_entry(arg0->selectedDigit), arg0->is_confirmed());
-    {
-        void *temp_ptr = (void *) arg0->unknown70;
-        if (temp_ptr != NULL) {
-            ((TWindowSubStatusDisp *)((void *)(temp_ptr)))->forward_render((void *)(ctx));
-        }
+    WindowDrawContext *context = setup_window_draw_context(&scaleX);
+    draw_window_frame(context);
+    draw_visible_window_entries(this, &entry_list, context);
+    draw_arrows(context, static_cast<TUnk_804CF9C8 *>(get_array_entry(selectedDigit)), is_confirmed());
+    void *heading = reinterpret_cast<void *>(unknown70);
+    if (heading != NULL) {
+        static_cast<TWindowSubStatusDisp *>(heading)->forward_render(context);
     }
 }
 
 void TWindowInputNumber::run_task() {
-    u8 *arg0 = (u8 *)this;
+    TWindowInputNumber *self = this;
     s32 temp_r30;
     uaddr temp_r3;
     ControllerInputContext *input;
     ControllerInputContext *temp_r29_2;
     ControllerInputContext *context;
 
-    temp_r30 = is_player_input_active(((s32) *(s16 *)((s8 *)arg0 + 0x20)));
-    if (!(*(s32 *)((s8 *)arg0 + 0x2C) & 2)) {
-        *(s32 *)((s8 *)arg0 + 0x5C) = 0x01000000;
+    temp_r30 = is_player_input_active(self->client_index);
+    if (!(self->window_flags & 2)) {
+        self->open_tick = 0x01000000;
     }
-    if ((((TWindowInputNumber *)arg0)->is_confirmed() == 0) && !(*(u16 *)((s8 *)arg0 + 0x60) & 0x40) && (((TWindowBase *)arg0)->sub_80244994() != 0)) {
-        if (*(u16 *)((s8 *)arg0 + 0x60) & 0x10) {
+    if ((self->is_confirmed() == 0) && !(self->inputFlags & 0x40) && (self->sub_80244994() != 0)) {
+        if (self->inputFlags & 0x10) {
             input = &controller_input_state.controllers[temp_r30];
-            if ((test_buttons_press_or_repeat(input, 0x10, 6, 1) != 0) || (((TWindowInputNumber *)arg0)->is_locked(0x10) != 0)) {
-                ((TWindowInputNumber *)arg0)->update_value();
+            if ((test_buttons_press_or_repeat(input, 0x10, 6, 1) != 0) || (self->is_locked(0x10) != 0)) {
+                self->update_value();
             }
-            if ((test_buttons_press_or_repeat(input, 0x20, 6, 1) != 0) || (((TWindowInputNumber *)arg0)->is_locked(0x20) != 0)) {
-                ((TWindowInputNumber *)arg0)->update();
+            if ((test_buttons_press_or_repeat(input, 0x20, 6, 1) != 0) || (self->is_locked(0x20) != 0)) {
+                self->update();
             }
-            if ((test_buttons_press_or_repeat(input, 0x40, 6, 1) != 0) || (((TWindowInputNumber *)arg0)->is_locked(0x40) != 0)) {
-                ((TWindowInputNumber *)arg0)->move_cursor_next();
+            if ((test_buttons_press_or_repeat(input, 0x40, 6, 1) != 0) || (self->is_locked(0x40) != 0)) {
+                self->move_cursor_next();
             }
-            if ((test_buttons_press_or_repeat(input, 0x80, 6, 1) != 0) || (((TWindowInputNumber *)arg0)->is_locked(0x80) != 0)) {
-                ((TWindowInputNumber *)arg0)->handle_decrement();
+            if ((test_buttons_press_or_repeat(input, 0x80, 6, 1) != 0) || (self->is_locked(0x80) != 0)) {
+                self->handle_decrement();
             }
         } else {
             temp_r29_2 = &controller_input_state.controllers[temp_r30];
-            if ((TAdMultiPlyChrSelectGC::dispatch_draw_command((saddr)temp_r29_2, 0x10, 6, 1) != 0) || (((TWindowInputNumber *)arg0)->is_locked(0x10) != 0)) {
-                ((TWindowInputNumber *)arg0)->update_value();
+            if ((TAdMultiPlyChrSelectGC::dispatch_draw_command((saddr)temp_r29_2, 0x10, 6, 1) != 0) || (self->is_locked(0x10) != 0)) {
+                self->update_value();
             }
-            if ((TAdMultiPlyChrSelectGC::dispatch_draw_command((saddr)temp_r29_2, 0x20, 6, 1) != 0) || (((TWindowInputNumber *)arg0)->is_locked(0x20) != 0)) {
-                ((TWindowInputNumber *)arg0)->update();
+            if ((TAdMultiPlyChrSelectGC::dispatch_draw_command((saddr)temp_r29_2, 0x20, 6, 1) != 0) || (self->is_locked(0x20) != 0)) {
+                self->update();
             }
-            if ((TAdMultiPlyChrSelectGC::dispatch_draw_command((saddr)temp_r29_2, 0x40, 6, 1) != 0) || (((TWindowInputNumber *)arg0)->is_locked(0x40) != 0)) {
-                ((TWindowInputNumber *)arg0)->move_cursor_next();
+            if ((TAdMultiPlyChrSelectGC::dispatch_draw_command((saddr)temp_r29_2, 0x40, 6, 1) != 0) || (self->is_locked(0x40) != 0)) {
+                self->move_cursor_next();
             }
-            if ((TAdMultiPlyChrSelectGC::dispatch_draw_command((saddr)temp_r29_2, 0x80, 6, 1) != 0) || (((TWindowInputNumber *)arg0)->is_locked(0x80) != 0)) {
-                ((TWindowInputNumber *)arg0)->handle_decrement();
+            if ((TAdMultiPlyChrSelectGC::dispatch_draw_command((saddr)temp_r29_2, 0x80, 6, 1) != 0) || (self->is_locked(0x80) != 0)) {
+                self->handle_decrement();
             }
         }
         context = &controller_input_state.controllers[temp_r30];
-        if ((test_pressed_buttons_packed(context, 4) != 0) || (((TWindowInputNumber *)arg0)->test_input_flag(4) != 0)) {
-            ((TWindowInputNumber *)arg0)->confirm_input();
+        if ((test_pressed_buttons_packed(context, 4) != 0) || (self->test_input_flag(4) != 0)) {
+            self->confirm_input();
         }
-        if ((test_pressed_buttons_packed(context, 2) != 0) || (((TWindowInputNumber *)arg0)->test_input_flag(2) != 0)) {
-            ((TWindowInputNumber *)arg0)->mark_confirmed();
+        if ((test_pressed_buttons_packed(context, 2) != 0) || (self->test_input_flag(2) != 0)) {
+            self->mark_confirmed();
         }
     }
-    temp_r3 = *(u32 *)((s8 *)arg0 + 0x70);
-    if ((temp_r3 != 0U) && ((f32) *(s32 *)((s8 *)arg0 + 0x5C) >= 7.5f)) {
+    temp_r3 = self->unknown70;
+    if ((temp_r3 != 0U) && ((f32) self->open_tick >= 7.5f)) {
         ((TWindowSubStatusDisp *)temp_r3)->update_subwindow();
     }
-    ((TWindowDD *)arg0)->initialize_subwindow();
-    ((TWindowBase *)arg0)->update_fade();
-    ((TWindowBase *)arg0)->update_window_entry_list(reinterpret_cast<const WindowLayoutEntries *>(arg0 + 0x24));
+    reinterpret_cast<TWindowDD *>(self)->initialize_subwindow();
+    self->update_fade();
+    self->update_window_entry_list(&self->entry_list);
 }
 
 TWindowInputNumber::~TWindowInputNumber() {

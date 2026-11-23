@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/render/ColorLineList.h"
 #include "pso/boss/olgaflow/TBoss6EmptyWarp.h"
 #include "pso/system/TLoadCtrl_80227390.h"
 #include "pso/system/task/TObject_80019A50.h"
@@ -35,7 +36,7 @@ void draw_empty_warp_overlay(void) {
     stack.sp14 = 4;
     stack.sp8 = empty_warp_overlay_vertices;
     set_depth_buffer_settings_1();
-    ((TWindowCtrlMain *)(&stack.sp8))->draw_strip_swap_color(4, 2, -1.0f);
+    reinterpret_cast<ColorLineList *>(&stack)->draw_strip_swap_color(4, 2, -1.0f);
     restore_saved_depth_alpha_state();
 }
 

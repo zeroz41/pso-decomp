@@ -320,7 +320,7 @@ void TWindowKeyBoardSoft::sub_80260904(s32 port) {
     if (((TWindowKeyBoardSoft *)self)->is_cursor_locked() != 0 && (code < '0' || code > '9')) {
         return;
     }
-    ((TWindowSubStatusDisp *)kb->child)->set_input_mode(2);
+    kb->child->set_input_mode(2);
     kb->child->insert_character(code);
 }
 

@@ -1,3 +1,4 @@
+#include "pso/render/ColorLineList.h"
 #include "pso/unk/TUnk_804C8678.h"
 #include "types.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
@@ -39,13 +40,7 @@ struct Entry_8027D444 {
     f32 w;
 };
 
-struct Lines_8027D444 {
-    NJS_POINT2 *verts;
-    u32 *colors;
-    s32 f8;
-    s32 count;
-};
-
+struct Ent_8027D6A0 { u8 pad0[0x20]; u8 f20[0x30]; };
 
 struct Win_8027D6A0 { u8 pad0[0x61]; s8 f61; };
 
@@ -153,11 +148,10 @@ void TWindowSubQuestBoardSelect::select_next() {
 }
 
 void TWindowSubSymbolChatFaceType__sub_80283C84(void *, void *, f32, f32);
-void draw_color_lines(Lines_8027D444 *l, s32 n, s32 flags, f32 scale);
 
 void TWindowSubQuestBoardSelect__sub_8027D444(TWindowSubQuestBoardSelect *self, Ctx_8027D444 *ctx) {
-    NJS_POINT2 v[3];
-    Lines_8027D444 d;
+    ColorLineVertex v[3];
+    ColorLineList d;
     u32 colors[3];
     Entry_8027D444 *e;
     f32 x;
@@ -186,7 +180,7 @@ void TWindowSubQuestBoardSelect__sub_8027D444(TWindowSubQuestBoardSelect *self, 
     depth = 0.1794f + ctx->depth;
     d.verts = v;
     d.colors = colors;
-    d.f8 = 0;
+    d.unk_8 = 0;
     d.colors[0] = alpha | 0xFF0000 | 0x7E00;
     d.colors[1] = d.colors[0];
     d.colors[2] = d.colors[0];

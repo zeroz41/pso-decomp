@@ -2,6 +2,7 @@
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/memory.h"
 #include "pso/ui/window/TWindowSubComCard.h"
+#include "pso/unk/GuildCardRecord.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/TWindowHelpItem.h"
 #include <string.h>
@@ -9,7 +10,6 @@
 #include "pso/ui/window/TWindowSubStatusDisp_80228F5C.h"
 
 extern "C" {
-void *TWindowSubComCard__sub_8027523C(void *p);
 u8 *init_heading_entry__20TWindowSubStatusDispFPvPvici(u8 *arg0, u8 *arg1, saddr arg2, s8 arg3, s32 arg4);
 extern const f32 lbl_8044FCF0[2] = { 0.0f, -13.0f };
 }
@@ -56,7 +56,7 @@ u8 *TWindowSubStatusDisp::construct_type1_heading(s32 title, s32 client_index) {
 
 #pragma push
 #pragma scheduling off
-void TWindowSubStatusDisp::fill_card_text_entries(saddr arg1) {
+void TWindowSubStatusDisp::fill_card_text_entries(GuildCardRecord *record) {
     u8 *temp_r3;
     saddr temp_r31;
     saddr temp_r30;
@@ -73,20 +73,20 @@ void TWindowSubStatusDisp::fill_card_text_entries(saddr arg1) {
     temp_r26 = *(s32 *)((s8 *)temp_r3 + 0x20);
     text_builder_reset();
     text_builder_append((u8 *)":");
-    text_builder_append((u8 *)(((TWindowSubStatusDisp *)arg1)->get_sub_disp_ptr()));
+    text_builder_append((u8 *)(record->get_sub_disp_ptr()));
     set_text_entry_string((u8 *)temp_r31, (uaddr)(get_shared_text_buffer()), 0x60);
     text_builder_reset();
     text_builder_append((u8 *)":");
-    text_builder_append((u8 *)(((TWindowSubComCard *)arg1)->get_name()));
+    text_builder_append((u8 *)(record->get_name()));
     set_text_entry_string((u8 *)temp_r30, (uaddr)(get_shared_text_buffer()), 0x60);
     text_builder_reset();
     text_builder_append((u8 *)":");
-    text_builder_append((u8 *)(TWindowSubComCard__sub_8027523C((void *)arg1)));
+    text_builder_append((u8 *)(TWindowSubComCard__sub_8027523C(record)));
     set_text_entry_string((u8 *)temp_r29, (uaddr)(get_shared_text_buffer()), 0x60);
-    if ((s8) *(u8 *)((TWindowSubComCard *)arg1)->get_card_data_ptr() != 0) {
+    if ((s8) *(u8 *)record->get_card_data_ptr() != 0) {
         text_builder_reset();
         text_builder_append((u8 *)":");
-        text_builder_append(((u8 *)((TWindowSubComCard *)arg1)->get_card_data_ptr()));
+        text_builder_append(((u8 *)record->get_card_data_ptr()));
         set_text_entry_string((u8 *)temp_r28, (uaddr)(get_shared_text_buffer()), 0x60);
         ((TWindowSubStatusDisp *)temp_r27)->clear_visible_flag();
         ((TWindowSubStatusDisp *)temp_r28)->clear_visible_flag();
@@ -94,9 +94,9 @@ void TWindowSubStatusDisp::fill_card_text_entries(saddr arg1) {
         ((TWindowHelpItem *)temp_r27)->set_flag0_bit2();
         ((TWindowHelpItem *)temp_r28)->set_flag0_bit2();
     }
-    if (strcmp((const char *)(((TWindowSubComCard *)arg1)->get_sub_obj()), (const char *)(((TWindowSubStatusDisp *)arg1)->get_sub_disp_ptr())) != 0) {
+    if (strcmp((const char *)(record->get_sub_obj()), (const char *)(record->get_sub_disp_ptr())) != 0) {
         text_builder_reset();
-        text_builder_append((u8 *)(((TWindowSubComCard *)arg1)->get_sub_obj()));
+        text_builder_append((u8 *)(record->get_sub_obj()));
         text_builder_append((u8 *)(TWindowSubStatusDisp::get_message_10(0x45)));
         set_text_entry_string((u8 *)temp_r26, (uaddr)(get_shared_text_buffer()), 0x60);
         ((TWindowSubStatusDisp *)temp_r26)->clear_visible_flag();

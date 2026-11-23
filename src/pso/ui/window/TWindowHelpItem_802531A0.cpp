@@ -137,7 +137,7 @@ void TWindowHelpItem::update_tech_disk_details() {
         e6 = (u8 *)((TWindowBase *)this)->get_array_entry(6);
         check_equip_requirements((void *)player, (TItemData *)(*(void **)(((u8 *)this) + 0x68)), &sp8);
         if (sp8 & 1) {
-            set_sprite_uv_from_pixels(e1, TWindowHelpItem__data_805DCDE4, 152.0f);
+            set_sprite_uv_from_pixels(reinterpret_cast<WindowSpritePart *>(e1), TWindowHelpItem__data_805DCDE4, 152.0f);
             ((TWindowHelpItem *)e2)->set_flag0_bit2();
             ((TWindowHelpItem *)e3)->set_flag0_bit2();
             ((TWindowHelpItem *)e4)->set_flag0_bit2();
@@ -145,7 +145,7 @@ void TWindowHelpItem::update_tech_disk_details() {
             ((TWindowHelpItem *)e6)->set_flag0_bit2();
             return;
         }
-        set_sprite_uv_from_pixels(e1, TWindowHelpItem__data_805DCDE4, lbl_805DCDEC);
+        set_sprite_uv_from_pixels(reinterpret_cast<WindowSpritePart *>(e1), TWindowHelpItem__data_805DCDE4, lbl_805DCDEC);
         ((TWindowHelpItem *)e2)->reset_float_field();
         ((TWindowHelpItem *)e4)->reset_float_field();
         ((TWindowHelpItem *)e6)->reset_float_field();

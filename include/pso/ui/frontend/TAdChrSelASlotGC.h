@@ -1,6 +1,7 @@
 #ifndef PSO_UI_FRONTEND_TADCHRSELASLOTGC_H
 #define PSO_UI_FRONTEND_TADCHRSELASLOTGC_H
 
+#include <stddef.h>
 #include "types.h"
 #include "pso/system/task/TObject.h"
 
@@ -12,7 +13,7 @@ class TAdDrawLineCtrl;
 class TAdPlayerLoadGC;
 class TWindowBase;
 struct TWindowMessageYesNo;
-struct G_8030C45C;
+struct PlayerSlotLabel;
 
 struct TAdChrSelASlotGC : public TObject {
     TAdChrSelASlotGC(TObject *parent, s32 mode);
@@ -29,7 +30,7 @@ struct TAdChrSelASlotGC : public TObject {
     static void render(void *self);
     s32 is_character_transferred(u32 i);
     s32 get_plate_value_for_slot(s32 k);
-    G_8030C45C *build_slot_entry(s32 index, s32 slot, void *pos);
+    PlayerSlotLabel *build_slot_entry(s32 index, s32 slot, void *pos);
     TWindowBase *create_format_failed_window(s32 kind);
     TWindowBase *create_not_formatted_window(s32 kind);
     TWindowBase *create_formatted_window(s32 kind);
@@ -88,4 +89,5 @@ struct TAdChrSelASlotGC : public TObject {
 };
 
 LAYOUT_ASSERT(TAdChrSelASlotGC_size, sizeof(TAdChrSelASlotGC) == 0x80);
+LAYOUT_ASSERT(TAdChrSelASlotGC_state_offset, offsetof(TAdChrSelASlotGC, state) == 0x24);
 #endif

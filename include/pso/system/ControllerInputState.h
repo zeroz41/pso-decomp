@@ -5,6 +5,8 @@
 #include <stddef.h>
 
 struct ControllerInputContext {
+    s32 poll_key_state();
+
     u32 buttons;
     u32 not_held;  // ~buttons
     u32 pressed_buttons;  // set the frame a button goes down
@@ -39,6 +41,9 @@ struct ControllerInputState {
 };
 
 LAYOUT_ASSERT(ControllerInputContext_size, sizeof(ControllerInputContext) == 0x50);
+LAYOUT_ASSERT(ControllerInputContext_stick_angle_offset, offsetof(ControllerInputContext, stick_angle) == 0x1C);
+LAYOUT_ASSERT(ControllerInputContext_hold_frames_offset, offsetof(ControllerInputContext, hold_frames) == 0x2C);
+LAYOUT_ASSERT(ControllerInputState_keyboard_offset, offsetof(ControllerInputState, keyboard) == 0x160);
 LAYOUT_ASSERT(ControllerInputState_controllers_offset, offsetof(ControllerInputState, controllers) == 0x20);
 LAYOUT_ASSERT(ControllerInputState_size, sizeof(ControllerInputState) == 0x1B0);
 

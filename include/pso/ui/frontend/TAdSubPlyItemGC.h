@@ -4,6 +4,15 @@
 #include "pso/system/task/TObject.h"
 #include "types.h"
 
+struct PlayerSlotLabel {
+    s32 slot;
+    const char *name;
+    s32 level;
+    NJS_POINT2 position;
+};
+
+LAYOUT_ASSERT(PlayerSlotLabelSize, sizeof(PlayerSlotLabel) == 0x14);
+
 // Up to four player lines (name, then "LV%d" right-aligned) on the character-select plates.
 class TAdSubPlyItemGC : public TObject {
 public:
@@ -30,5 +39,7 @@ public:
     NJS_POINT2 level_pos[4];
 };
 LAYOUT_ASSERT(TAdSubPlyItemGCExtent, sizeof(TAdSubPlyItemGC) == 0x48C);
+
+extern "C" void set_entry_text__15TAdSubPlyItemGCFPvPv(TAdSubPlyItemGC *self, PlayerSlotLabel *entry);
 
 #endif

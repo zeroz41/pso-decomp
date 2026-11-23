@@ -3,10 +3,13 @@
 
 #include "types.h"
 
-#include "pso/unk/TUnk_804CF918.h"
+#include "pso/unk/TWindowLayoutEntry.h"
 #include <stddef.h>
 
-class WindowSpritePart : public TUnk_804CF918 {
+struct SpritePartLayoutRecord;
+struct DirectSpritePartLayoutRecord;
+
+class WindowSpritePart : public TWindowLayoutEntry {
 public:
     f32 x;
     f32 y;
@@ -20,6 +23,9 @@ public:
     s32 color;
     s32 *texture_list_slot;
     s32 kind;
+
+    WindowSpritePart *init_part_scaled(SpritePartLayoutRecord *source, s32 client);
+    WindowSpritePart *init_part_direct(DirectSpritePartLayoutRecord *source, s32 client);
 };
 
 LAYOUT_ASSERT(WindowSpritePartSize, sizeof(WindowSpritePart) == 0x38);

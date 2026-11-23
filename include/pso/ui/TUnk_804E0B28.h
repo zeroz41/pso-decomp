@@ -13,7 +13,6 @@ public:
     virtual ~TUnk_804E0B28();
     virtual void render();
     virtual void run_task();
-    static void update_transition_anim_if_active();
     void update_transition_anim();
 
     f32 position0X;

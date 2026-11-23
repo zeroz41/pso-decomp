@@ -12,7 +12,7 @@ struct TWindowRoom : public TWindowBase {
     TWindowRoom(char *title);
     virtual ~TWindowRoom();
     void *get_title_entry();
-    void draw_tab(void *context);
+    void draw_tab(WindowDrawContext *context);
     virtual void run_task();
     virtual void render();
 };

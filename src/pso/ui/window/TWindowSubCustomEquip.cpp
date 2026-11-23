@@ -486,7 +486,7 @@ void TWindowSubCustomEquip::handle_cursor_input() {
 void TWindowSubCustomEquip::render() {
     WindowDrawContext *context = draw_default_entry();
     draw_window_frame(context);
-    draw_visible_window_entries(this, reinterpret_cast<const WindowLayoutEntries *>((u8 *)this + 0x24), context);
+    draw_visible_window_entries(this, &entry_list, context);
     draw_cursor(reinterpret_cast<u8 *>(context));
     m_6c->forward_render(context);
 }

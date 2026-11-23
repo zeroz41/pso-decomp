@@ -1,10 +1,12 @@
 #ifndef PSO_UI_FRONTEND_TADCHRSELBSLOTGC_H
 #define PSO_UI_FRONTEND_TADCHRSELBSLOTGC_H
 
+#include <stddef.h>
 #include "types.h"
 #include "pso/system/task/TObject.h"
 
 class TAdSubPlyItemGC;
+class TAdChrSelSlotGC;
 class TAdChrSelMovePlateGC;
 class TAdPlyChrSelPlateGC;
 class TAdChrSelSlotGC;
@@ -12,7 +14,7 @@ class TAdChrSelASlotGC;
 class TAdDrawLineCtrl;
 class TWindowBase;
 struct TWindowMessageYesNo;
-struct G_8030E3BC;
+struct PlayerSlotLabel;
 
 struct TAdChrSelBSlotGC : public TObject {
     TAdChrSelBSlotGC(TObject *parent);
@@ -27,7 +29,7 @@ struct TAdChrSelBSlotGC : public TObject {
     void create_children();
     static void render(void *self);
     s32 is_character_transferred(u32 i);
-    G_8030E3BC *build_slot_entry(s32 index, s32 slot, void *pos);
+    PlayerSlotLabel *build_slot_entry(s32 index, s32 slot, void *pos);
     void sub_8030E458();
     void set_load_state();
     void init();
@@ -89,4 +91,5 @@ struct TAdChrSelBSlotGC : public TObject {
 };
 
 LAYOUT_ASSERT(TAdChrSelBSlotGC_size, sizeof(TAdChrSelBSlotGC) == 0x80);
+LAYOUT_ASSERT(TAdChrSelBSlotGC_m_1c_offset, offsetof(TAdChrSelBSlotGC, state) == 0x1C);
 #endif

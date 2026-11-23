@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/render/ColorLineList.h"
 #include "pso/render/Draw2D.h"
 #include "pso/ui/frontend/TAdBackGC_8029A6EC.h"
 #include "pso/ui/frontend/TAdBackGC.h"
@@ -26,30 +27,28 @@ struct AdPicTextureList { void *entries; u32 count; };
 __declspec(section ".data") AdPicTextureList chr_select_ad_pic_2_texture_descriptor = { lbl_804DBEC0, 8 };
 const char *TAdBackGC__class_name = "TAdBackGC";
 
-struct Fan_8029A6EC { f32 *pos; u32 *col; s32 first; s32 count; };
-
 
 void TAdBackGC::sub_8029A6EC() {
-    f32 pos[8];
-    Fan_8029A6EC fan;
+    ColorLineVertex pos[4];
+    ColorLineList fan;
     u32 col[4];
 
-    fan.pos = pos;
-    fan.col = col;
-    fan.first = 0;
+    fan.verts = pos;
+    fan.colors = col;
+    fan.unk_8 = 0;
     fan.count = 4;
-    fan.pos[0] = 0.0f;
-    fan.pos[1] = 0.0f;
-    fan.col[0] = 0xFF;
-    fan.pos[2] = 0.0f;
-    fan.pos[3] = 479.0f;
-    fan.col[1] = 0xFF;
-    fan.pos[4] = 639.0f;
-    fan.pos[5] = 479.0f;
-    fan.col[2] = 0xFF;
-    fan.pos[6] = 639.0f;
-    fan.pos[7] = 0.0f;
-    fan.col[3] = 0xFF;
+    fan.verts[0].x = 0.0f;
+    fan.verts[0].y = 0.0f;
+    fan.colors[0] = 0xFF;
+    fan.verts[1].x = 0.0f;
+    fan.verts[1].y = 479.0f;
+    fan.colors[1] = 0xFF;
+    fan.verts[2].x = 639.0f;
+    fan.verts[2].y = 479.0f;
+    fan.colors[2] = 0xFF;
+    fan.verts[3].x = 639.0f;
+    fan.verts[3].y = 0.0f;
+    fan.colors[3] = 0xFF;
     draw_polygon_2d((NJS_POINT2COL *)&fan, 4, 3, this->m_depth - 0.01f);
 }
 

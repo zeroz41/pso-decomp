@@ -114,7 +114,7 @@ void TWindowSubShortCut::run_task() {
         if ((u32) this->menu == 0U) {
             this->menu = open_menu();
         }
-        ((TWindowSubComCard *)(this->menu))->clear_flag_and_release();
+        ((TWindowMenu *)(this->menu))->clear_flag_and_release();
         ((TWindowMenu *)(this->menu))->clear_transition_flag();
         this->state = 4U;
     case 4:

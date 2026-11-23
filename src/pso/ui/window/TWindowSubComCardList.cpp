@@ -1,3 +1,4 @@
+#include "pso/player/GuildCardEntry.h"
 #include "types.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/ui/window/TWindowMainMenu_80263AB0.h"
@@ -74,7 +75,7 @@ TWindowSubComCardList::TWindowSubComCardList(void *parent) : TWindowMenu(7, 4, (
     }
     m_8c = new PageIndicator(0, (s8)n, local_client_id);
     *(s32 *)(window_menu + 0x90) = 0;
-    *(s32 *)(window_menu + 0x94) = get_card_entry__17TWindowSubComCardFi(0);
+    *(GuildCardSlot **)(window_menu + 0x94) = get_card_entry__17TWindowSubComCardFi(0);
     *(s32 *)(window_menu + 0x98) = 0xD2;
     *(s8 *)(window_menu + 0x9C) = 0;
     ((TWindowSubComCardList *)window_menu)->set_flag70_bit100();

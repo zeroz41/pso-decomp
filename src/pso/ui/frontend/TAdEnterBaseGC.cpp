@@ -312,7 +312,7 @@ s32 TAdEnterSerialAccessGC::show_message_window(void *arg0, void *arg1) {
 }
 
 void *TAdEnterSerialAccessGC::create_default_callback() {
-    return TAdEnterSerialAccessGC::create_callback((void *)lbl_80477188, (void *)lbl_80477190, (void *)fn_8032AC9C);
+    return TAdEnterSerialAccessGC::create_callback((void *)lbl_80477188, (void *)lbl_80477190, fn_8032AC9C);
 }
 
 u32 TAdEnterSerialAccessGC::create_keyboard_control(saddr arg0, s32 arg1) {

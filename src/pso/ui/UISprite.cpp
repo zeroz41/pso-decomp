@@ -410,7 +410,7 @@ void draw_ui_sprite_tinted(s32 sprite_id, vec2f *position, vec2f *scale, UISprit
         TCharaMaking__resolve_creation_sprite_table(&sprite.tanim, &sprite_id);
         copy_argb(&saved_model_draw_color, &model_material_color);
         set_constant_material((const NJS_ARGB *)tint);
-        TLobby::draw_with_camera((saddr)&sprite, sprite_id, 0x22, depth);
+        TLobby::draw_with_camera(&sprite, sprite_id, 0x22, depth);
         copy_argb(&model_material_color, &saved_model_draw_color);
     }
 }

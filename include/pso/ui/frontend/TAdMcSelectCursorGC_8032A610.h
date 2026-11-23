@@ -3,8 +3,10 @@
 
 #include "types.h"
 
+struct TAdMcCheckGC;
+
 extern "C" {
-s32 TAdMcSelectCursorGC__sub_8032A6D8(void *p);
+s32 TAdMcSelectCursorGC__sub_8032A6D8(TAdMcCheckGC *card);
 }
 
 #endif

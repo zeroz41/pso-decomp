@@ -4,6 +4,8 @@
 #include "types.h"
 #include "pso/system/task/TObject.h"
 
+struct GuildCardSlot;
+
 struct TWindowSubComCard : public TObject {
     TWindowSubComCard(TObject *object, void *arg2);
     virtual ~TWindowSubComCard();
@@ -51,7 +53,6 @@ struct TWindowSubComCard : public TObject {
     static saddr get_card_slot(s32 arg0);
     static void *send_command(saddr index);
     static u8 *apply_selection(s32 index);
-    void clear_flag_and_release();
     s32 find_value_by_key(u16 key);
     static saddr get_com_count();
     static void release();
@@ -77,12 +78,7 @@ struct TWindowSubComCard : public TObject {
     f32 calc_offset();
     f32 get_normalized_progress();
     void update_open_close();
-    void begin_scroll(f32 farg0);
-    int get_flag();
-    void clear_flag_and_release2();
     void set_entry_value_clear_flag(s32 idx, s32 val);
-    s32 update_selected_entry();
-    void update_next_entry(s32 arg1, s32 arg2, s32 arg3);
     s32 get_entry_id();
     static s32 create_card_list(saddr parent, s32 card_slot, s32 arg2, s32 arg3);
     void free_windows();
@@ -96,7 +92,7 @@ struct TWindowSubComCard : public TObject {
     static f32 trunc_float(f32 value);
     void set_card_text(saddr src);
     u8 *get_card_entry_data();
-    static s32 find_card_by_id(u32 arg0);
+    static GuildCardSlot *find_card_by_id(u32 id);
     static void swap_cards(s32 arg0, s32 arg1);
     static s32 init_com_card();
     static void remove_card_at(s32 i);
@@ -108,9 +104,6 @@ struct TWindowSubComCard : public TObject {
     static void handle_press_b(saddr ply_guild_card_tag, s32 arg1);
     void calc_layout_height(f32 width);
 
-    s32 find_entry_value_by_id(s32 key);
-    void mark_entry_by_id(s32 arg1);
-    void disable_entry_by_id(s32 id);
     void set_card_index(s32 arg1);
     void set_selected_card(s32 arg1);
     void set_help_message(s32 arg1);
@@ -119,12 +112,7 @@ struct TWindowSubComCard : public TObject {
     s32 open_yesno_dialog();
     s32 confirm_and_free();
     void set_com_param(s32 arg1);
-    void*get_card_data_ptr();
-    void*get_name();
-    void*get_sub_obj();
-    void destroy_keyboard();
     void set_page(s16 v);
-    void set_flag_10();
     void set_display_page();
     static s32 create_com_card_window(s32 parent);
     static s32 create_menu();

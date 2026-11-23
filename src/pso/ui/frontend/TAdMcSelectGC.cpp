@@ -1,7 +1,8 @@
 #include "pso/ui/frontend/TAdDrawLineCtrl.h"
-#include "types.h"
-#include "pso/ui/frontend/TAdBackTxtGC.h"
 #include "pso/ui/frontend/TAdBackGC.h"
+#include "pso/ui/frontend/TAdBackTxtGC.h"
+#include "pso/ui/frontend/TAdTitleGC.h"
+#include "types.h"
 #include "pso/unk/text_8033F314.h"
 #include "pso/ui/frontend/TAdChrSelSlotGC.h"
 #include "pso/ui/frontend/TAdMcSelectGC.h"
@@ -13,8 +14,8 @@
 #include "pso/system/task/TObject.h"
 
 // Screen positions of the two memory card slots, passed to TAdChrSelSlotGC::init_slot by the ctor.
-static const f32 lbl_804770F8[2] = { 95.0f, 118.0f };
-static const f32 lbl_80477100[2] = { 381.0f, 118.0f };
+static const CharacterSlotPosition lbl_804770F8 = { 95.0f, 118.0f };
+static const CharacterSlotPosition lbl_80477100 = { 381.0f, 118.0f };
 const char *TAdMcSelectGC__class_name = "TAdMcSelectGC";
 void *TAdMcSelectGC__instance;
 
@@ -89,31 +90,29 @@ TAdMcSelectGC::TAdMcSelectGC(TObject *parent) : TObject(parent) {
     create_draw_line_ctrl(this, 0x17, 0.0f)->sub_8032A180(0);
     slot_gc = new TAdChrSelSlotGC(this);
     slot_gc->set_select_index(0);
-    slot_gc->init_slot(0, (void *)lbl_804770F8);
-    slot_gc->init_slot(1, (void *)lbl_80477100);
+    slot_gc->init_slot(0, (void *)&lbl_804770F8);
+    slot_gc->init_slot(1, (void *)&lbl_80477100);
     for (i = 0; i < 2; i++) {
         mc = new TAdMcSelectMcGC(this, i);
         mc->set_field_0x1c(0);
     }
-    ((TAdMcSelectCursorGC *)TAdMcSelectCursorGC::get_instance((saddr)this))->set_field_13c(0);
+    TAdMcSelectCursorGC::get_instance(this)->set_field_13c(0);
     for (j = 0; j < 2; j++) {
         fn_8033F314((saddr)this, j);
     }
 }
 
 
-void *TAdMcSelectGC::create(void *arg0) {
-    void *o;
-    o = new TAdMcSelectGC((TObject *)arg0);
-    TAdMcSelectGC__instance = o;
-    return o;
+void *TAdMcSelectGC::create(void *parent) {
+    TAdMcSelectGC__instance = new TAdMcSelectGC(static_cast<TObject *>(parent));
+    return TAdMcSelectGC__instance;
 }
+
 
 void TAdMcSelectGC::open() { TLobby__sub_802C78EC(); TAdMcSelectMcGC::release_selected_entry(); TAdMcSelectCursorGC::release_cursor_entry(); }
 void TAdMcSelectGC::close() { TAdMcSelectCursorGC::init_resource(); TAdMcSelectMcGC::init_memorycard(); TLobby__sub_802C7920(); }
 void TAdMcSelectCursorGC::sub_8032A140() { m_1c = 0; }
 
-extern TAdMcSelectCursorGC *TAdMcSelectCursorGC__instance;
 TAdMcSelectCursorGC *TAdMcSelectGC::get_mc_count() { return TAdMcSelectCursorGC__instance; }
 
 s32 TAdMcSelectCursorGC::get_slot_index() { return m_20; }
@@ -128,8 +127,7 @@ void TAdTitleGC::set_field_134(s32 value) {
     draw_line_ctrl->sub_8032A180(value);
 }
 
-void TAdBackTxtGC::set_field_24(s32 v) { m_24 = v; }
-void TAdBackTxtGC::set_depth(f32 v) { m_depth = v; }
-void TAdBackGC::set_field_20(s32 v) { m_20 = v; }
-void TAdBackGC::set_depth(f32 v) { m_depth = v; }
-
+void TAdBackTxtGC::set_field_24(s32 render_pass) { m_24 = render_pass; }
+void TAdBackTxtGC::set_depth(f32 value) { m_depth = value; }
+void TAdBackGC::set_field_20(s32 render_pass) { m_20 = render_pass; }
+void TAdBackGC::set_depth(f32 value) { m_depth = value; }

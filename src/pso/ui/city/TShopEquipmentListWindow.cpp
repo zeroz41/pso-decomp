@@ -123,7 +123,7 @@ s32 is_single_purchase_shop_item(u8 *p);
 
 extern "C" {
 extern const s32 local_client_id;
-uaddr create_yes_no_window(int, u16, int, int);
+
 void play_sound_effect(int, int, int, int);
 
 void __dl__7TObjectFPv(void *);
@@ -455,7 +455,7 @@ void TShopEquipmentListWindow::handle_equip_offer() {
             if (w->flag != 0) {
                 ((TShopEquipmentListWindow *)w)->display_shop_message(0x18, 1);
                 ((TWindowBase *)w->win)->close();
-                w->win = (void *)create_yes_no_window(get_window_layout_position(0x2B), get_entity_id(w->player), 0, 0);
+                w->win = (void *)create_yes_no_window((const NJS_POINT2 *)get_window_layout_position(0x2B), (u16)(get_entity_id(w->player)), NULL, NULL);
                 sc = ((TShopWindowBase *)w)->get_scale();
                 ((TWindowAddition *)((uaddr)w->win))->set_position_xy(((TShopWindowBase *)w)->get_scale(), sc);
                 ((TShopWindowBase *)w)->set_field_20(9);

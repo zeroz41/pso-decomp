@@ -1,7 +1,10 @@
 #include "types.h"
+#include "pso/unk/WindowLayoutRecord.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
+#include "pso/ui/window/WindowSpritePart.h"
 #include "pso/unk/TLobby.h"
-#include "pso/unk/TUnk_804CF930.h"
+#include "pso/unk/TWindowStatusGauge.h"
+#include "pso/unk/TWindowStatusGaugeFeedback.h"
 #include "pso/unk/TUnk_804CF998.h"
 #include "pso/unk/TUnk_804CF9C8.h"
 #include "pso/unk/TUnk_804EF440.h"
@@ -22,7 +25,7 @@
 #include "pso/map/FloorArea.h"
 #include "pso/render/render_util.h"
 #include "pso/ui/ItemListRow.h"
-#include "pso/unk/TUnk_804CF918.h"
+#include "pso/unk/TWindowLayoutEntry.h"
 
 
 extern "C" {
@@ -33,18 +36,14 @@ struct Desc_80257D44 {
     u32 recs[1];
 };
 
-typedef void *(*Ctor_80257D44)(void *, void *, s32);
 
 void mem_free(void *);
 saddr mem_alloc(s32);
-void* init_from__13TUnk_804CF930FPvi(void* a0, void* a1, int a2);
-u8 * init_layout_entry_copy__20TWindowSubStatusDispFPUc(u8 *arg0, u8 *arg1);
 void * TWindowHelpItem__sub_8025A594(void *, void *, s32);
 void * TWindowHelpItem__sub_8025A95C(void *, void *, s32);
 }
 u8 *construct_text_entry(u8 *arg0, u8 *arg1, s32 arg2);
 extern "C" {
-void * init_part_scaled__20TWindowSubStatusDispFPvPvi(void *, void *, s32);
 
 __declspec(section ".sdata2") f32 lbl_805DCEF0 = 7.5f;
 
@@ -52,7 +51,7 @@ void draw_visible_window_entries(const void *, const WindowLayoutEntries *entrie
     void *const *part;
     u32 remaining;
     for (remaining = entries->count, part = entries->items; remaining != 0; remaining--, part++) {
-        TUnk_804CF918 *entry = static_cast<TUnk_804CF918 *>(*part);
+        TWindowLayoutEntry *entry = static_cast<TWindowLayoutEntry *>(*part);
         if (!(entry->flags & 2)) {
             entry->render(context);
         }
@@ -68,7 +67,7 @@ void TWindowBase::update_window_entry_list(const WindowLayoutEntries *entries) {
     remaining = entries->count;
     part = entries->items;
     while (remaining-- != 0) {
-        static_cast<TUnk_804CF918 *>(*part)->update();
+        static_cast<TWindowLayoutEntry *>(*part)->update();
         part++;
     }
 }
@@ -82,7 +81,7 @@ void WindowLayoutEntries::destroy_all_items() {
         address += (remaining - 1) * sizeof(*items);
         // Use a target address so the final decrement forms no out-of-bounds pointer.
         while (remaining-- != 0) {
-            delete static_cast<TUnk_804CF918 *>(*reinterpret_cast<void **>(address));
+            delete static_cast<TWindowLayoutEntry *>(*reinterpret_cast<void **>(address));
             address -= sizeof(*items);
         }
         mem_free(items);
@@ -126,20 +125,20 @@ void init_window_layout_entries(WindowLayoutEntries *entries, const void *layout
                 rec += 0x14 / 4;
                 break;
             case 1:
-                o = ::operator new(0x28);
+                o = ::operator new(sizeof(TWindowStatusGauge));
                 if (o != NULL) {
-                    o = ((Ctor_80257D44)init_from__13TUnk_804CF930FPvi)(o, rec, client);
+                    o = static_cast<TWindowStatusGauge *>(o)->init_from(reinterpret_cast<StatusGaugeLayout *>(rec), client);
                 }
                 *out = o;
-                rec += 0x24 / 4;
+                rec += sizeof(StatusGaugeLayout) / 4;
                 break;
             case 2:
-                o = ::operator new(0x68);
+                o = ::operator new(sizeof(TWindowStatusGaugeFeedback));
                 if (o != NULL) {
-                    o = ((Ctor_80257D44)init_layout_entry_copy__20TWindowSubStatusDispFPUc)(o, rec, client);
+                    o = static_cast<TWindowStatusGaugeFeedback *>(o)->init_layout_entry_copy(reinterpret_cast<LayoutEntryCopyRecord *>(rec), client);
                 }
                 *out = o;
-                rec += 0x2C / 4;
+                rec += sizeof(LayoutEntryCopyRecord) / 4;
                 break;
             case 3:
                 o = ::operator new(0x2C);
@@ -166,20 +165,20 @@ void init_window_layout_entries(WindowLayoutEntries *entries, const void *layout
                 rec += 0x1C / 4;
                 break;
             case 6:
-                o = ::operator new(0x38);
+                o = ::operator new(sizeof(WindowSpritePart));
                 if (o != NULL) {
-                    o = init_part_scaled__20TWindowSubStatusDispFPvPvi(o, rec, client);
+                    o = static_cast<WindowSpritePart *>(o)->init_part_scaled(reinterpret_cast<SpritePartLayoutRecord *>(rec), client);
                 }
                 *out = o;
-                rec += 0x30 / 4;
+                rec += sizeof(SpritePartLayoutRecord) / 4;
                 break;
             case 7:
-                o = ::operator new(0x38);
+                o = ::operator new(sizeof(WindowSpritePart));
                 if (o != NULL) {
-                    o = ((TWindowSubStatusDisp *)o)->init_part_direct((u8 *)rec, client);
+                    o = static_cast<WindowSpritePart *>(o)->init_part_direct(reinterpret_cast<DirectSpritePartLayoutRecord *>(rec), client);
                 }
                 *out = o;
-                rec += 0x38 / 4;
+                rec += sizeof(DirectSpritePartLayoutRecord) / 4;
                 break;
             case 8:
                 o = ::operator new(0x38);

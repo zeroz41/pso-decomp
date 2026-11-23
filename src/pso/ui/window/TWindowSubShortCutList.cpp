@@ -1,3 +1,5 @@
+#include "pso/ui/window/TWindowSubStatusDisp_802671F0.h"
+#include "pso/system/NinjaTypes.h"
 #include "types.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/ui/window/TWindowDD.h"
@@ -6,6 +8,7 @@
 #include "pso/ui/window/TWindowMenuIconLine.h"
 #include "pso/ui/window/TWindowSubShortCutList.h"
 #include "pso/ui/chat/TWindowChat.h"
+#include "pso/ui/chat/SymbolChatPreset.h"
 #include "pso/ui/window/TWindowShortListCtrl.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/city/TShopArmorListWindow.h"
@@ -16,10 +19,9 @@
 
 const char *TWindowSubShortCutList__class_name = "TWindowSubShortCutList";
 // Size argument of the shortcut list window.
-static const f32 lbl_8044FAA8[2] = {405.0f, 188.0f};
+static const NJS_POINT2 lbl_8044FAA8 = {405.0f, 188.0f};
 
 extern "C" {
-void TShopJudgmentItemWindow__sub_80267F9C(void *, int);
 char *fn_80076BC4(s32 *);
 s32 get_symbol_chat_data__20TWindowSubSymbolChatFv();
 
@@ -49,13 +51,12 @@ void TWindowSubShortCutList::refresh_entries() {
             TWindowDD::format_message(chat_shortcut + 1, (void *)get_shared_text_buffer(), (u16) local_client_id);
             draw_entry(index, 0x10, (saddr)get_shared_text_buffer(), index);
             break;
-        case 3:
-            TWindowChat::open_symbol_chat(chat_shortcut + 1);
-            {
-                s32 d = get_symbol_chat_data__20TWindowSubSymbolChatFv();
-                draw_entry(index, 0x11, d, index);
-            }
+        case 3: {
+            SymbolChatPreset *preset = TWindowChat::open_symbol_chat(chat_shortcut + 1);
+            s32 d = (saddr)preset->get_symbol_chat_data();
+            draw_entry(index, 0x11, d, index);
             break;
+        }
         }
         var_r30 += 1;
         index += 1;
@@ -64,7 +65,7 @@ void TWindowSubShortCutList::refresh_entries() {
 }
 
 void *TWindowSubShortCutList::create(void *index) {
-    TShopJudgmentItemWindow__sub_80267F9C((void *)lbl_8044FAA8, 4);
+    TShopJudgmentItemWindow__sub_80267F9C(&lbl_8044FAA8, 4);
     return new TWindowSubShortCutList((u8 *)this, (saddr)index);
 }
 

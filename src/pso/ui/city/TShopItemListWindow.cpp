@@ -4,6 +4,7 @@
 #pragma dont_inline off
 
 #include "pso/system/SoundEffect.h"
+#include "pso/ui/window/TWindowQuantity.h"
 #include "pso/ui/window/WindowMenuFactory.h"
 #include "types.h"
 #include "pso/ui/window/TWindowCost.h"
@@ -78,7 +79,6 @@ static const size_t shop_price_offset = shop_items_offset + offsetof(TItemData, 
 s32 section_id_favored_grind_table[10] = {9, 7, 2, 4, 8, 10, -1, 3, -1, 5};
 
 extern "C" {
-void *create_window_quantity(u16);
 s32 sub_8022397C__15TShopWindowBaseFv(void *);
 const char *TShopItemListWindow__class_name = "TShopItemListWindow";
 int obj_getPtr2B0_20(u8 *p);

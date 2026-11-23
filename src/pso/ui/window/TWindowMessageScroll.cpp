@@ -19,7 +19,7 @@ void TWindowMessageScroll::run_task() {
     TWindowMessage::retire_scrolled_lines();
     ((TWindowDD *)arg0)->initialize_subwindow();
     ((TWindowBase *)arg0)->update_fade();
-    ((TWindowBase *)arg0)->update_window_entry_list(reinterpret_cast<const WindowLayoutEntries *>((u8 *)&this->entry_list));
+    ((TWindowBase *)arg0)->update_window_entry_list(&this->entry_list);
     if ((((TWindowBase *)arg0)->sub_80244994() != 0) && (this->unk_80 <= this->scroll_offset[1])) {
         *completion_register = 1;
     }
