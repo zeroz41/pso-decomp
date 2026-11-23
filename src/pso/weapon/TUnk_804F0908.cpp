@@ -35,8 +35,6 @@
 #include "pso/unk/text_80120908.h"
 
 
-struct P_8034F020 { u8 pad0[0x1F8]; s32 f1F8; };
-
 typedef struct SlicerLaunchData_8012D9C8 {
     u16 player; u16 pad;
     void *textures; void *model; u32 weapon;
@@ -110,7 +108,7 @@ void TObjPlayer::spawn_particle_at_entity_slot(s32 arg0, s32 arg1, s32 arg2, s32
     }
 }
 
-TItem *TObjPlayer__sub_8034F1AC(u8 *item) {
+TItem *TUnk_804F0810::create(u8 *item) {
     if (item != NULL) {
         return new TUnk_804F0810(tl_05, item);
     }
@@ -119,19 +117,19 @@ TItem *TObjPlayer__sub_8034F1AC(u8 *item) {
 
 TUnk_804F0810::TUnk_804F0810(TObject *parent, u8 *item) : TItemWeapon(parent, item) {
     set_weapon_flags(1);
-    unk_1F8 = 13653;
+    spin_angle = 13653;
 }
 
 TUnk_804F0810::~TUnk_804F0810() {}
 
-void TUnk_804F0810::update_attack() { TObjPlayer::add_angle_clamped((s32 *)((char*)this + 0x1f8), (saddr)((void*)(-4551)), (saddr)((void*)(0))); }
-void TUnk_804F0810::update_idle() { TObjPlayer::add_angle_clamped((s32 *)((char*)this + 0x1f8), (saddr)((void*)(1820)), (saddr)((void*)(13653))); }
+void TUnk_804F0810::update_attack() { TObjPlayer::add_angle_clamped(&spin_angle, -4551, 0); }
+void TUnk_804F0810::update_idle() { TObjPlayer::add_angle_clamped(&spin_angle, 1820, 13653); }
 void TUnk_804F0810::reserved_53() { draw_weapon_at_joint((saddr)this, 49); update_trail_slot(0); update_trail_slot(1); }
 
 void TUnk_804F0810::vfunc_60() {
     switch (TObjPlayer::get_player_list()) {
     case 1:
-        ((s32)rotate_matrix_z(0, (s32)(((P_8034F020 *)this)->f1F8)));
+        rotate_matrix_z(0, spin_angle);
         break;
     }
 }

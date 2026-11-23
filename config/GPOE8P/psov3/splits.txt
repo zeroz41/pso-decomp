@@ -10071,12 +10071,12 @@ pso/npc/TNpcPlayer_8034DAA0.cpp:
 	.sbss       start:0x805D6EA0 end:0x805D6EA4
 	.sdata2     start:0x805DFDF0 end:0x805DFDF8
 
-pso/effect/item/TItemEffPG_8034EFDC.cpp:
+pso/weapon/TUnk_804F0908.cpp:
 	.text       start:0x8034EFDC end:0x8034F470
 	.data       start:0x804F0810 end:0x804F0A00
 	.sdata2     start:0x805DFDF8 end:0x805DFDFC
 
-pso/effect/item/TItemEffPG_8034F470.cpp:
+pso/weapon/TUnk_804F0AF8.cpp:
 	.text       start:0x8034F470 end:0x8034FA50
 	.data       start:0x804F0A00 end:0x804F0BF0
 	.sdata2     start:0x805DFE00 end:0x805DFE04

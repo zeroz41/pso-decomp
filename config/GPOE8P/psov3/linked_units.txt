@@ -474,8 +474,8 @@ pso/effect/item/TItemEffHeaven.cpp
 pso/effect/item/TItemEffLandHit.cpp
 pso/effect/item/TItemEffLavis.cpp
 pso/effect/item/TItemEffNeedle.cpp
-pso/effect/item/TItemEffPG_8034EFDC.cpp
-pso/effect/item/TItemEffPG_8034F470.cpp
+pso/weapon/TUnk_804F0908.cpp
+pso/weapon/TUnk_804F0AF8.cpp
 pso/effect/item/TItemEffPG.cpp
 pso/effect/item/TItemEffShield.cpp
 pso/effect/item/TItemEffectWeapon.cpp

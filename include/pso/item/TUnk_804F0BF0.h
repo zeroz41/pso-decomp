@@ -18,18 +18,19 @@ public:
     virtual ~TUnk_804F0BF0();
     virtual void render();
     virtual void run_task();
+    void begin_fade();
 
     s32 item_id;
-    NJS_OBJECT *m_20;
+    NJS_OBJECT *model;  // drawn turning by rotation_y, its child by child_rotation_y
     GinjaTextureList *texture_list;
     NJS_ARGB color;
-    TParticleCtrl *m_38;
+    TParticleCtrl *particle;
     s32 rotation_y;
-    s32 m_40;
+    s32 child_rotation_y;
     f32 max_scale;
     Vec scale;
     f32 scale_step;
-    s32 m_58;
+    s32 fading;  // set by begin_fade: color.a falls until the effect ends
     Vec position;
 };
 

@@ -8327,7 +8327,7 @@ force_active:
   - TAdDialingGC__name
   - boss6_mag_name
   - lbl_805D42D8
-  - TItemEffPG__name
+  - class_name__10TItemEffPG
   - TBoss5GryphonLightningWing__name
   - lbl_805D4630
   - lbl_805D4638

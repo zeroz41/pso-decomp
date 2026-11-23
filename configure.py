@@ -561,10 +561,10 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # TItemTimerEvent: written last to first, deferred.
     "pso/item/TItemTimerEvent.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
     # vtables come out 0810, 0908, 0A00, 0AF8 then 0BF0: written last to first, deferred.
-    # TItemEffPG_8034EFDC/_8034F470 were cut from TItemEffPG.cpp at the .sdata2 pads
-    # (0x805DFDFC, 0x805DFE04); all three keep its deferred backwards source.
-    "pso/effect/item/TItemEffPG_8034EFDC.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
-    "pso/effect/item/TItemEffPG_8034F470.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
+    # The TUnk_804F0908 (Rappy's Fan) and TUnk_804F0AF8 (with the Gi-Gue bazooka) units end at
+    # .sdata2 pads (0x805DFDFC, 0x805DFE04) before TItemEffPG; all three keep deferred backwards source.
+    "pso/weapon/TUnk_804F0908.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
+    "pso/weapon/TUnk_804F0AF8.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
     "pso/effect/item/TItemEffPG.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
     # vtables come out TUnk_804A2548 then TUnk_804A2564: written last to first, deferred.
     "pso/player/TUnk_804A2548.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},

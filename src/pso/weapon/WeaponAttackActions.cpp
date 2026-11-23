@@ -330,9 +330,9 @@ void TUnk_804F1320::spawn_pg_effect(const Vec *origin, saddr item, f32 radius) {
     prm.init_params();
     fill_status_info(&prm);
     VecCopy(&prm.position, origin);
-    prm.pad_28 = radius;
-    prm.pad_34 = this->second_model;
-    prm.pad_38 = (GinjaTextureList *)this->texlist;
+    prm.max_radius = radius;
+    prm.model = this->second_model;
+    prm.texture_list = (GinjaTextureList *)this->texlist;
     if (TObjPlayer::is_locally_controlled(owner) != 0) {
         TItemEffPG::create(tl_05, &prm);
     } else {

@@ -54,15 +54,15 @@ TItem *TUnk_804F0AF8::create(u8 *item) {
 
 TUnk_804F0AF8::TUnk_804F0AF8(TObject *parent, u8 *item) : TItemWeapon(parent, item) {
     set_weapon_flags(1);
-    unk_1F8 = -30947;
-    m_1fc = -7281;
+    spin_angle = -30947;
+    second_spin_angle = -7281;
 }
 
 TUnk_804F0AF8::~TUnk_804F0AF8() {}
 
-void TUnk_804F0AF8::update_attack() { TObjPlayer::add_angle_clamped((s32 *)((char*)this + 0x1f8), (saddr)((void*)((void*)16384)), (saddr)((void*)((void*)0))); TObjPlayer::add_angle_clamped((s32 *)((char*)this + 0x1fc), (saddr)((void*)((void*)3640)), (saddr)((void*)((void*)0))); }
+void TUnk_804F0AF8::update_attack() { TObjPlayer::add_angle_clamped(&spin_angle, 16384, 0); TObjPlayer::add_angle_clamped(&second_spin_angle, 3640, 0); }
 
-void TUnk_804F0AF8::update_idle() { TObjPlayer::add_angle_clamped((s32 *)((char*)this + 0x1f8), (saddr)((void*)((void*)-8192)), (saddr)((void*)((void*)-30947))); TObjPlayer::add_angle_clamped((s32 *)((char*)this + 0x1fc), (saddr)((void*)((void*)-1820)), (saddr)((void*)((void*)-7281))); }
+void TUnk_804F0AF8::update_idle() { TObjPlayer::add_angle_clamped(&spin_angle, -8192, -30947); TObjPlayer::add_angle_clamped(&second_spin_angle, -1820, -7281); }
 
 void TUnk_804F0AF8::reserved_53() { draw_weapon_at_joint((saddr)this, 49); update_trail_slot(0); update_trail_slot(1); }
 
@@ -72,10 +72,10 @@ void TUnk_804F0AF8::vfunc_60() {
     player_list = TObjPlayer::get_player_list();
     switch (player_list) {
     case 2:
-        rotate_matrix_z(0, this->unk_1F8);
+        rotate_matrix_z(0, this->spin_angle);
         return;
     case 8:
-        rotate_matrix_z(0, this->m_1fc);
+        rotate_matrix_z(0, this->second_spin_angle);
         return;
     }
 }
@@ -89,16 +89,16 @@ TItem *TObjPlayer::create_gi_gue_bazooka(u8 *item) {
 
 TUnk_804F0A00::TUnk_804F0A00(TObject *parent, u8 *item) : TItemWeapon(parent, item) {
     set_weapon_flags(0x8000);
-    unk_1F8 = -0x1C71;
-    m_1fc = -0x1555;
-    unk_200 = 0x238E;
+    spin_angle = -0x1C71;
+    second_spin_angle = -0x1555;
+    third_spin_angle = 0x238E;
 }
 
 TUnk_804F0A00::~TUnk_804F0A00() {}
 
-void TUnk_804F0A00::update_attack() { TObjPlayer::add_angle_clamped((s32 *)((char*)this + 0x1f8), (saddr)((void*)((void*)-3640)), (saddr)((void*)((void*)0))); TObjPlayer::add_angle_clamped((s32 *)((char*)this + 0x1fc), (saddr)((void*)((void*)2730)), (saddr)((void*)((void*)0))); TObjPlayer::add_angle_clamped((s32 *)((char*)this + 0x200), (saddr)((void*)((void*)-1820)), (saddr)((void*)((void*)0))); }
+void TUnk_804F0A00::update_attack() { TObjPlayer::add_angle_clamped(&spin_angle, -3640, 0); TObjPlayer::add_angle_clamped(&second_spin_angle, 2730, 0); TObjPlayer::add_angle_clamped(&third_spin_angle, -1820, 0); }
 
-void TUnk_804F0A00::update_idle() { TObjPlayer::add_angle_clamped((s32 *)((char*)this + 0x1f8), (saddr)((void*)((void*)1820)), (saddr)((void*)((void*)7281))); TObjPlayer::add_angle_clamped((s32 *)((char*)this + 0x1fc), (saddr)((void*)((void*)-1820)), (saddr)((void*)((void*)-5461))); TObjPlayer::add_angle_clamped((s32 *)((char*)this + 0x200), (saddr)((void*)((void*)1820)), (saddr)((void*)((void*)9102))); }
+void TUnk_804F0A00::update_idle() { TObjPlayer::add_angle_clamped(&spin_angle, 1820, 7281); TObjPlayer::add_angle_clamped(&second_spin_angle, -1820, -5461); TObjPlayer::add_angle_clamped(&third_spin_angle, 1820, 9102); }
 
 void TUnk_804F0A00::vfunc_60() {
     s32 player_list;
@@ -106,16 +106,16 @@ void TUnk_804F0A00::vfunc_60() {
     player_list = TObjPlayer::get_player_list();
     switch (player_list) {
     case 2:
-        rotate_matrix_x(0, this->unk_1F8);
+        rotate_matrix_x(0, this->spin_angle);
         return;
     case 3:
-        rotate_matrix_x(0, this->m_1fc);
+        rotate_matrix_x(0, this->second_spin_angle);
         return;
     case 5:
-        rotate_matrix_z(0, this->unk_200);
+        rotate_matrix_z(0, this->third_spin_angle);
         return;
     case 4:
-        rotate_matrix_z(0, -this->unk_200);
+        rotate_matrix_z(0, -this->third_spin_angle);
         return;
     }
 }
