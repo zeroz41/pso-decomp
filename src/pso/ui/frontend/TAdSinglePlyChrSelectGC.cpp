@@ -280,7 +280,7 @@ void TAdSinglePlyChrSelectGC::handle_menu_selection() {
             *(s32 *)&this->m_20 = 0xC;
             return;
         case 1:
-            ((TWindowOptionCtrl *)(*(saddr *)&this->unk_38))->open();
+            ((TWindowMenu *)(*(saddr *)&this->unk_38))->open();
             this->m_4c = TAdChrSelASlotGC::create_format_message_window(static_cast<saddr>(m_28), (saddr)&single_chr_select_message_pos, 0);
             *(s32 *)&this->m_20 = 9;
             return;
@@ -289,7 +289,7 @@ void TAdSinglePlyChrSelectGC::handle_menu_selection() {
             *(s32 *)&this->m_20 = 5;
             return;
         case 3:
-            ((TWindowOptionCtrl *)(*(saddr *)&this->unk_38))->open();
+            ((TWindowMenu *)(*(saddr *)&this->unk_38))->open();
             *(TWindowMessageYesNo **)&this->unk_50 = ((TAdChrSelASlotGC *)this->m_28)->open_replace_character_prompt((saddr)&single_chr_select_message_pos, 0);
             *(s32 *)&this->m_20 = 0xA;
             return;

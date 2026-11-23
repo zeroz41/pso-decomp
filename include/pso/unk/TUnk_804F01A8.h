@@ -5,16 +5,16 @@
 
 class TUnk_804F01A8 : public TObject {
 public:
+    TUnk_804F01A8(TObject *parent);
     virtual ~TUnk_804F01A8();
-    void *ct();
     s32 get_field_24();
     void open_confirm_dialog(s32 arg1, s32 arg2);
     void set_option_and_confirm(s32 arg1, s32 arg2);
     virtual void render();
     virtual void run_task();
-    u8 unk_1C[0x4];
-    u32 m_20;
-    u32 m_24;
+    s32 state;
+    s32 flags;
+    s32 result;
     u32 m_28;
     uaddr m_2c;
 };

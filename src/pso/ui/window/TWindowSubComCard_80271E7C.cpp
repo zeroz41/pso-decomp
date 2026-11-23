@@ -387,7 +387,7 @@ void TWindowSubComCard::run_task() {
         if ((u32) this->m_68 == 0U) {
             this->m_68 = TWindowSubComCard__sub_8027337C();
         }
-        ((TWindowOptionCtrl *)(this->m_64))->open();
+        ((TWindowMenu *)(this->m_64))->open();
         this->state = 6U;
     case 0x6:
         if (((TWindowMenu *)(this->m_68))->is_cancelled() != 0) {
@@ -572,7 +572,7 @@ void TWindowSubComCard::run_task() {
         }
         break;
     case 0x15:
-        ((TWindowOptionCtrl *)(this->m_64))->open();
+        ((TWindowMenu *)(this->m_64))->open();
         this->confirm_window = this->confirm_and_free();
         this->state = 0x16U;
     case 0x16:

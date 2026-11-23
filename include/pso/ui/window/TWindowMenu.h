@@ -20,6 +20,7 @@ struct TWindowMenu : public TWindowAddition {
     void update_layout_height(f32 width);
     void set_ready_flag();
     void clear_transition_flag();
+    void open();
     void set_loss_flag();
     int sub_80266BB8();
     s32 test_menu_flag(s32 buttons);

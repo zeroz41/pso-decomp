@@ -475,7 +475,7 @@ void TWindowSubTradeMain::run_task() {
         break;
     case 20:
         if (o->menu != 0) {
-            ((TWindowOptionCtrl *)(o->menu))->open();
+            ((TWindowMenu *)(o->menu))->open();
         }
         window_request_show(o->menu);
         if (o->confirm == 0) {

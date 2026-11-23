@@ -319,7 +319,7 @@ void TWindowSubShortMail::run_task() {
         o->state = 1;
         break;
     case 17:
-        ((TWindowOptionCtrl *)(o->w44))->open();
+        ((TWindowMenu *)(o->w44))->open();
         o->w50 = ((void * (*)(void *)) open_confirm_dialog__19TWindowSubShortMailFv)(o);
         o->state = 0x12;
     case 18:

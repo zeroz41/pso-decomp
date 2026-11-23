@@ -355,7 +355,7 @@ void TWindowSubSymbolChat::run_task() {
         }
         break;
     case 6:
-        ((TWindowOptionCtrl *)(this->main_menu))->open();
+        ((TWindowMenu *)(this->main_menu))->open();
         if ((u32) this->m_54 != 0U) {
             ((TWindowBase *)this->m_54)->close();
             this->m_54 = 0U;
@@ -414,7 +414,7 @@ void TWindowSubSymbolChat::run_task() {
             ((TWindowBase *)this->parts)->close();
             this->parts = 0U;
         }
-        ((TWindowOptionCtrl *)(this->main_menu))->open();
+        ((TWindowMenu *)(this->main_menu))->open();
         if ((u32) this->m_38 == 0U) {
             this->m_38 = TWindowSubSymbolChat__sub_8028233C((saddr)arg0);
         }
@@ -549,7 +549,7 @@ void TWindowSubSymbolChat::run_task() {
             ((TWindowBase *)this->parts)->close();
             this->parts = 0U;
         }
-        ((TWindowOptionCtrl *)(this->main_menu))->open();
+        ((TWindowMenu *)(this->main_menu))->open();
         if ((u32) this->m_38 == 0U) {
             this->m_38 = create_menu__20TWindowSubSymbolChatFPv((arg0));
         }
@@ -671,7 +671,7 @@ void TWindowSubSymbolChat::run_task() {
         this->m_1c = 4U;
         return;
     case 34:
-        ((TWindowOptionCtrl *)(this->main_menu))->open();
+        ((TWindowMenu *)(this->main_menu))->open();
         if ((u32) this->confirm_window != 0U) {
             ((TWindowSubComCard *)(this->confirm_window))->close();
             this->confirm_window = 0U;
@@ -711,7 +711,7 @@ void TWindowSubSymbolChat::run_task() {
         }
         break;
     case 38:
-        ((TWindowOptionCtrl *)(this->main_menu))->open();
+        ((TWindowMenu *)(this->main_menu))->open();
         if ((u32) this->m_44 == 0U) {
             this->m_44 = ((TWindowSubSymbolChat *)arg0)->create_confirm_window();
         }

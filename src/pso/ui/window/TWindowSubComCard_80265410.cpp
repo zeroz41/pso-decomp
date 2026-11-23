@@ -500,19 +500,19 @@ void TWindowMenu::clear_transition_flag() {
     }
 }
 
-void TWindowOptionCtrl::open() {
+void TWindowMenu::open() {
     u16 open_flags;
     WindowTextEntry *selected_entry;
 
-    open_flags = *(u16 *)((s8 *)this + 0x70);
+    open_flags = m_70;
     if (!(open_flags & 0x20)) {
-        *(u16 *)((s8 *)this + 0x70) = (u16) (open_flags | 0x20);
-        selected_entry = static_cast<WindowTextEntry *>(((TWindowMenu *)this)->get_selected_entry());
-        *(f32 *)&this->m_3c = (f32) (20.0f + selected_entry->height);
-        if (*(s32 *)&this->m_2c & 0x40) {
-            *(f32 *)&this->m_3c += 6.0f;
+        m_70 = (u16) (open_flags | 0x20);
+        selected_entry = static_cast<WindowTextEntry *>(get_selected_entry());
+        target_size[1] = 20.0f + selected_entry->height;
+        if (window_flags & 0x40) {
+            target_size[1] += 6.0f;
         }
-        *(s32 *)((s8 *)this + 0x50) = 3;
+        tween_ticks = 3;
     }
 }
 

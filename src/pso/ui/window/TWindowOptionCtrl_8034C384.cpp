@@ -18,20 +18,15 @@ saddr get_localized_text_entry(s32);
 s32 poll_memcard_result(saddr chan);
 s32 start_memcard_format(int, int, int, int, int);
 s32 play_sound_effect(int, int, int, int);
-void __ct__7TObjectFP7TObject(void *);
 extern s32 local_client_id;
 extern saddr tl_01;
-extern s32 __vt__13TUnk_804F01A8[];
 
-void *TUnk_804F01A8::ct() {
-    __ct__7TObjectFP7TObject(this);
-    *(s32 **)((s8 *)this + 0x18) = __vt__13TUnk_804F01A8;
-    *(u32 *)((s8 *)this + 0x1C) = 0;
-    this->m_20 = 0;
-    this->m_24 = 0;
-    (this->m_28) = 14;
+TUnk_804F01A8::TUnk_804F01A8(TObject *parent) : TObject(parent) {
+    this->state = 0;
+    this->flags = 0;
+    this->result = 0;
+    this->m_28 = 14;
     this->m_2c = 0;
-    return this;
 }
 
 TUnk_804F01A8::~TUnk_804F01A8() {
@@ -39,212 +34,211 @@ TUnk_804F01A8::~TUnk_804F01A8() {
 }
 
 void TUnk_804F01A8::run_task() {
-    u8 *arg0 = (u8 *)this;
     s32 temp_r0;
     s32 temp_r0_2;
-    if (!(*(s32 *)((s8 *)arg0 + 0x20) & 1)) {
+    if (!(this->flags & 1)) {
         switch (TObjBoss2Tunnel::save_snapshot()) {
         case 1:
-            *(s32 *)((s8 *)arg0 + 0x20) = (s32) (*(s32 *)((s8 *)arg0 + 0x20) | 2);
-            this->m_24 = 1;
-            *(s32 *)((s8 *)arg0 + 0x1C) = 0x10;
+            this->flags = (s32) (this->flags | 2);
+            this->result = 1;
+            this->state = 0x10;
             break;
         case -4:
-            if (*(s32 *)((s8 *)arg0 + 0x20) & 2) {
-                this->m_24 = 0;
-                *(s32 *)((s8 *)arg0 + 0x1C) = 3;
+            if (this->flags & 2) {
+                this->result = 0;
+                this->state = 3;
             }
-            if ((s32) *(s32 *)((s8 *)arg0 + 0x1C) == 4) {
+            if (this->state == 4) {
                 set_option_and_confirm(1, 0);
             }
             break;
         case -3:
-            if ((s32) *(s32 *)((s8 *)arg0 + 0x1C) == 4) {
+            if (this->state == 4) {
                 set_option_and_confirm(2, 1);
-                *(s32 *)((s8 *)arg0 + 0x1C) = 0xB;
+                this->state = 0xB;
             }
             break;
         case -2:
-            if ((s32) *(s32 *)((s8 *)arg0 + 0x1C) == 4) {
+            if (this->state == 4) {
                 set_option_and_confirm(3, 0);
             }
             break;
         case -9:
-            temp_r0 = *(s32 *)((s8 *)arg0 + 0x1C);
+            temp_r0 = this->state;
             if ((temp_r0 == 4) || (temp_r0 == 0)) {
                 set_option_and_confirm(7, 1);
-                *(s32 *)((s8 *)arg0 + 0x1C) = 9;
+                this->state = 9;
             }
             break;
         case -1:
-            if ((s32) *(s32 *)((s8 *)arg0 + 0x1C) == 4) {
+            if (this->state == 4) {
                 set_option_and_confirm(4, 1);
-                *(s32 *)((s8 *)arg0 + 0x1C) = 7;
+                this->state = 7;
             }
             break;
         case -7:
-            if ((s32) *(s32 *)((s8 *)arg0 + 0x1C) == 4) {
+            if (this->state == 4) {
                 set_option_and_confirm(5, 1);
-                *(s32 *)((s8 *)arg0 + 0x1C) = 7;
+                this->state = 7;
             }
             break;
         case 0:
-            if ((s32) *(s32 *)((s8 *)arg0 + 0x1C) == 4) {
+            if (this->state == 4) {
                 set_option_and_confirm(6, 0);
-                *(s32 *)((s8 *)arg0 + 0x1C) = 5;
+                this->state = 5;
             }
             break;
         case -6:
-            if ((s32) *(s32 *)((s8 *)arg0 + 0x1C) == 4) {
+            if (this->state == 4) {
                 set_option_and_confirm(0xA, 0);
             }
             break;
         case -8:
-            if (((s32) *(s32 *)((s8 *)arg0 + 0x1C) == 4) && ((s32) this->m_28 != 0xF)) {
+            if ((this->state == 4) && ((s32) this->m_28 != 0xF)) {
                 this->m_28 = 0xF;
                 open_confirm_dialog((int) (((s32 (*)(int, int)) get_localized_text_entry)(0x16, 5)), 0);
             }
             break;
         }
     }
-    temp_r0_2 = *(s32 *)((s8 *)arg0 + 0x1C);
+    temp_r0_2 = this->state;
     {
         switch (temp_r0_2) {
         case 0:
         case 1:
             set_option_and_confirm(0, 1);
-            *(s32 *)((s8 *)arg0 + 0x1C) = 2;
+            this->state = 2;
         case 2:
             if (((TWindowSubComCard *)(this->m_2c))->get_card_data() != 0) {
-                this->m_24 = 2;
-                *(s32 *)((s8 *)arg0 + 0x1C) = 0x10;
+                this->result = 2;
+                this->state = 0x10;
                 return;
             }
             if (((TWindowMessageYesNo *)(this->m_2c))->is_child_visible() != 0) {
                 if (((TWindowSubComCard *)(this->m_2c))->get_slot_or_neg1() == 0) {
-                    *(s32 *)((s8 *)arg0 + 0x1C) = 3;
+                    this->state = 3;
                     return;
                 }
-                this->m_24 = 2;
-                *(s32 *)((s8 *)arg0 + 0x1C) = 0x10;
+                this->result = 2;
+                this->state = 0x10;
                 return;
             }
             break;
         case 3:
-            *(s32 *)((s8 *)arg0 + 0x20) = (s32) (*(s32 *)((s8 *)arg0 + 0x20) & 0xFFFFFFFD);
-            *(s32 *)((s8 *)arg0 + 0x1C) = 4;
+            this->flags = (s32) (this->flags & 0xFFFFFFFD);
+            this->state = 4;
         case 4:
             if ((test_pressed_buttons_packed(&controller_input_state.controllers[0], 6) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 6) != 0)) {
                 play_sound_effect(0x52F16, 0, 0, 0);
-                *(s32 *)((s8 *)arg0 + 0x20) = (s32) (*(s32 *)((s8 *)arg0 + 0x20) & 0xFFFFFFFD);
-                this->m_24 = 2;
-                *(s32 *)((s8 *)arg0 + 0x1C) = 0x10;
+                this->flags = (s32) (this->flags & 0xFFFFFFFD);
+                this->result = 2;
+                this->state = 0x10;
                 return;
             }
             break;
         case 5:
-            *(s32 *)((s8 *)arg0 + 0x20) = (s32) (*(s32 *)((s8 *)arg0 + 0x20) | 1);
+            this->flags = (s32) (this->flags | 1);
             TObjBoss2Tunnel::save_snapshot_to_card();
-            *(s32 *)((s8 *)arg0 + 0x1C) = 6;
+            this->state = 6;
         case 6:
             if (TObjBoss2Tunnel::load_snapshot() != 0) {
-                *(s32 *)((s8 *)arg0 + 0x20) = (s32) (*(s32 *)((s8 *)arg0 + 0x20) & 0xFFFFFFFE);
-                *(s32 *)((s8 *)arg0 + 0x1C) = 3;
+                this->flags = (s32) (this->flags & 0xFFFFFFFE);
+                this->state = 3;
                 return;
             }
             break;
         case 7:
-            *(s32 *)((s8 *)arg0 + 0x20) = (s32) (*(s32 *)((s8 *)arg0 + 0x20) | 2);
-            *(s32 *)((s8 *)arg0 + 0x1C) = 8;
+            this->flags = (s32) (this->flags | 2);
+            this->state = 8;
         case 8:
             if (((TWindowSubComCard *)(this->m_2c))->get_card_data() != 0) {
-                *(s32 *)((s8 *)arg0 + 0x20) = (s32) (*(s32 *)((s8 *)arg0 + 0x20) & 0xFFFFFFFD);
-                this->m_24 = 2;
-                *(s32 *)((s8 *)arg0 + 0x1C) = 0x10;
+                this->flags = (s32) (this->flags & 0xFFFFFFFD);
+                this->result = 2;
+                this->state = 0x10;
                 return;
             }
             if (((TWindowMessageYesNo *)(this->m_2c))->is_child_visible() != 0) {
-                *(s32 *)((s8 *)arg0 + 0x20) = (s32) (*(s32 *)((s8 *)arg0 + 0x20) & 0xFFFFFFFD);
+                this->flags = (s32) (this->flags & 0xFFFFFFFD);
                 if (((TWindowSubComCard *)(this->m_2c))->get_slot_or_neg1() == 0) {
-                    this->m_24 = 3;
-                    *(s32 *)((s8 *)arg0 + 0x1C) = 0x10;
+                    this->result = 3;
+                    this->state = 0x10;
                     return;
                 }
-                this->m_24 = 2;
-                *(s32 *)((s8 *)arg0 + 0x1C) = 0x10;
+                this->result = 2;
+                this->state = 0x10;
                 return;
             }
             break;
         case 9:
-            *(s32 *)((s8 *)arg0 + 0x20) = (s32) (*(s32 *)((s8 *)arg0 + 0x20) | 2);
-            *(s32 *)((s8 *)arg0 + 0x1C) = 0xA;
+            this->flags = (s32) (this->flags | 2);
+            this->state = 0xA;
         case 10:
             if (((TWindowSubComCard *)(this->m_2c))->get_card_data() != 0) {
-                *(s32 *)((s8 *)arg0 + 0x20) = (s32) (*(s32 *)((s8 *)arg0 + 0x20) & 0xFFFFFFFD);
-                this->m_24 = 2;
-                *(s32 *)((s8 *)arg0 + 0x1C) = 0x10;
+                this->flags = (s32) (this->flags & 0xFFFFFFFD);
+                this->result = 2;
+                this->state = 0x10;
                 return;
             }
             if (((TWindowMessageYesNo *)(this->m_2c))->is_child_visible() != 0) {
-                *(s32 *)((s8 *)arg0 + 0x20) = (s32) (*(s32 *)((s8 *)arg0 + 0x20) & 0xFFFFFFFD);
+                this->flags = (s32) (this->flags & 0xFFFFFFFD);
                 if (((TWindowSubComCard *)(this->m_2c))->get_slot_or_neg1() == 0) {
                     TObjBoss2Tunnel::poll_pso_screen_load();
-                    this->m_24 = 2;
-                    *(s32 *)((s8 *)arg0 + 0x1C) = 0x10;
+                    this->result = 2;
+                    this->state = 0x10;
                     return;
                 }
-                this->m_24 = 2;
-                *(s32 *)((s8 *)arg0 + 0x1C) = 0x10;
+                this->result = 2;
+                this->state = 0x10;
                 return;
             }
             break;
         case 11:
-            *(s32 *)((s8 *)arg0 + 0x20) = (s32) (*(s32 *)((s8 *)arg0 + 0x20) | 2);
-            *(s32 *)((s8 *)arg0 + 0x1C) = 0xC;
+            this->flags = (s32) (this->flags | 2);
+            this->state = 0xC;
         case 12:
             if (((TWindowSubComCard *)(this->m_2c))->get_card_data() != 0) {
-                *(s32 *)((s8 *)arg0 + 0x20) = (s32) (*(s32 *)((s8 *)arg0 + 0x20) & 0xFFFFFFFD);
-                this->m_24 = 2;
-                *(s32 *)((s8 *)arg0 + 0x1C) = 0x10;
+                this->flags = (s32) (this->flags & 0xFFFFFFFD);
+                this->result = 2;
+                this->state = 0x10;
                 return;
             }
             if (((TWindowMessageYesNo *)(this->m_2c))->is_child_visible() != 0) {
-                *(s32 *)((s8 *)arg0 + 0x20) = (s32) (*(s32 *)((s8 *)arg0 + 0x20) & 0xFFFFFFFD);
+                this->flags = (s32) (this->flags & 0xFFFFFFFD);
                 if (((TWindowSubComCard *)(this->m_2c))->get_slot_or_neg1() == 0) {
-                    *(s32 *)((s8 *)arg0 + 0x1C) = 0xD;
+                    this->state = 0xD;
                     return;
                 }
-                this->m_24 = 2;
-                *(s32 *)((s8 *)arg0 + 0x1C) = 0x10;
+                this->result = 2;
+                this->state = 0x10;
                 return;
             }
             break;
         case 13:
             if (start_memcard_format(1, 0, 0, 0, 0) == 0) {
                 set_option_and_confirm(8, 0);
-                *(s32 *)((s8 *)arg0 + 0x20) = (s32) (*(s32 *)((s8 *)arg0 + 0x20) | 1);
-                *(s32 *)((s8 *)arg0 + 0x1C) = 0xE;
+                this->flags = (s32) (this->flags | 1);
+                this->state = 0xE;
                 return;
             }
             set_option_and_confirm(9, 0);
-            *(s32 *)((s8 *)arg0 + 0x1C) = 0xF;
+            this->state = 0xF;
             return;
         case 14:
             if (poll_memcard_result(1) == 0) {
                 if ((u32) TAdPlayerLoadGC::get_load_result(1) == 0xFFFFFF81U) {
                     set_option_and_confirm(9, 0);
-                    *(s32 *)((s8 *)arg0 + 0x1C) = 0xF;
+                    this->state = 0xF;
                     return;
                 }
-                *(s32 *)((s8 *)arg0 + 0x20) = (s32) (*(s32 *)((s8 *)arg0 + 0x20) & 0xFFFFFFFE);
-                *(s32 *)((s8 *)arg0 + 0x1C) = 0;
+                this->flags = (s32) (this->flags & 0xFFFFFFFE);
+                this->state = 0;
                 return;
             }
             break;
         case 15:
             if ((test_pressed_buttons_packed(&controller_input_state.controllers[0], 6) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 6) != 0)) {
                 play_sound_effect(0x52F16, 0, 0, 0);
-                *(s32 *)((s8 *)arg0 + 0x1C) = 3;
+                this->state = 3;
             }
             break;
         case 16:
@@ -275,7 +269,7 @@ void TUnk_804F01A8::open_confirm_dialog(s32 message, s32 arg2) {
     initialize_option_dialog((void *)this->m_2c, message, ((saddr)TWindowOptionCtrl::get_option_entry(0xCF)), 470.0f);
 }
 
-s32 TUnk_804F01A8::get_field_24() { return this->m_24; }
+s32 TUnk_804F01A8::get_field_24() { return this->result; }
 
 void TLobby__sub_8034C3A4(void* p) { ((TLobby *)p)->reset_info_board(); }
 

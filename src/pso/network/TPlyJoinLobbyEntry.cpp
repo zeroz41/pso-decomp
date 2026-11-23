@@ -1745,7 +1745,7 @@ void TLobby::close_and_set_state_13(int msg) {
 }
 void TLobby::create_warp_menu() {
     s32 window_layout_position;
-    ((TWindowOptionCtrl *)TLobby_warp_menu_window)->open();
+    ((TWindowMenu *)TLobby_warp_menu_window)->open();
     window_layout_position = (saddr)get_window_layout_position(0xB5);
     lobby_com_card_window = (TWindowMenu *)create_window_menu_default(window_layout_position, 2);
     TObjCityMainWarp::forward_trade_action_default(lobby_com_card_window, TLobby::get_seq_phase(0x39), 6, 0);
@@ -1771,7 +1771,7 @@ void TLobby::request_game_list() {
 void TLobby::open_menu_window() {
     TWindowMenu *menu = lobby_com_card_window;
     if (menu != NULL) {
-        ((TWindowOptionCtrl *)menu)->open();
+        ((TWindowMenu *)menu)->open();
     }
     ((s32 (*)(s32))TLobby::show_seq_phase_message)(0x11);
     lobby_make_team_menu_window = (TWindowMenu *)create_window_menu_default((saddr)get_window_layout_position(0xB6), 2);
@@ -1790,7 +1790,7 @@ void TLobby::open_make_team_window(int arg0) {
 void TLobby::close_all_windows(void *) { TLobby::close_all_windows(); }
 void TLobby::open_warp_menu() {
     s32 window_layout_position;
-    ((TWindowOptionCtrl *)TLobby_warp_menu_window)->open();
+    ((TWindowMenu *)TLobby_warp_menu_window)->open();
     window_layout_position = (saddr)get_window_layout_position(0xB5);
     lobby_com_card_window = (TWindowMenu *)create_window_menu_default(window_layout_position, 2);
     TObjCityMainWarp::forward_trade_action_default(lobby_com_card_window, TLobby::get_seq_phase(0x3E), 6, 0);
@@ -1884,7 +1884,7 @@ void TLobby::send_room_change(int idx) {
 }
 void TLobby::open_city_warp_menu() {
     s32 window_layout_position;
-    ((TWindowOptionCtrl *)TLobby_warp_menu_window)->open();
+    ((TWindowMenu *)TLobby_warp_menu_window)->open();
     window_layout_position = (saddr)get_window_layout_position(0xB5);
     lobby_com_card_window = (TWindowMenu *)create_window_menu_default(window_layout_position, 5);
     TObjCityMainWarp::forward_trade_action_default(lobby_com_card_window, TLobby::get_seq_phase(0x4C), 6, 0);

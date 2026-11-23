@@ -279,7 +279,7 @@ void TWindowSubItem::run_task() {
             }
             break;
         case 6:
-            ((TWindowOptionCtrl *)(this->purpose_menu))->open();
+            ((TWindowMenu *)(this->purpose_menu))->open();
             this->confirm_menu = create_menu_window();
             this->state = 7;
         case 7:
@@ -338,7 +338,7 @@ void TWindowSubItem::run_task() {
                 this->state = 0xE;
                 return;
             }
-            ((TWindowOptionCtrl *)(this->purpose_menu))->open();
+            ((TWindowMenu *)(this->purpose_menu))->open();
             if (this->count_input == 0) {
                 this->count_input = create_count_input(n);
             }
@@ -411,7 +411,7 @@ void TWindowSubItem::run_task() {
                 this->state = 0x16;
                 return;
             }
-            ((TWindowOptionCtrl *)(this->purpose_menu))->open();
+            ((TWindowMenu *)(this->purpose_menu))->open();
             if (this->count_input == 0) {
                 this->count_input = create_count_input(n);
             }

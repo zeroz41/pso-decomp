@@ -183,7 +183,7 @@ void TWindowSubShortCut::run_task() {
         }
         break;
     case 9:
-        ((TWindowOptionCtrl *)(this->menu))->open();
+        ((TWindowMenu *)(this->menu))->open();
         if ((u32) this->confirm_window == 0U) {
             this->confirm_window = open_confirm_message();
         }

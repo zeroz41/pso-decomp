@@ -799,7 +799,7 @@ void TAdMultiPlyChrSelectGC::update_state_option() {
             this->state = 0xA;
             return;
         case 2:
-            ((TWindowOptionCtrl *)(*(saddr *)((s8 *)this + 0x7C)))->open();
+            ((TWindowMenu *)(*(saddr *)((s8 *)this + 0x7C)))->open();
             *(void **)((s8 *)this + 0x98) = sub_802DBCE8();
             this->state = 6;
             return;
