@@ -5,12 +5,12 @@
 
 class TUnk_8048E5F4 : public TObject {
 public:
+    TUnk_8048E5F4(TObject *parent, s32 flags);
     virtual ~TUnk_8048E5F4();
-    void *init_subobject(void *, void *);
     virtual void render_shadows();
     virtual void render();
     virtual void run_task();
-    u8 unk_1C[0x4];
+    s32 flags;
 };
 LAYOUT_ASSERT(TUnk_8048E5F4_size, sizeof(TUnk_8048E5F4) == 0x20);
 

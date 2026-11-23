@@ -151,9 +151,7 @@ void load_list_texture(s32 idx, s32 wrapS, s32 wrapT, s32 map);
 #include "pso/render/RenderSbssGlobals.h"
 
 extern "C" {
-s32 __ct__7TObjectFP7TObject(void *, void *);
 u8 camera_capture_overlay_alpha = 143;
-extern s32 __vt__13TUnk_8048E5F4[];
 extern s32 model_render_flags;
 }
 
@@ -746,11 +744,8 @@ void reset_particle_tev() {
 }
 
 
-void *TUnk_8048E5F4::init_subobject(void *parent, void *flags) {
-    __ct__7TObjectFP7TObject(this, parent);
-    *(s32 **)((s8 *)this + 0x18) = __vt__13TUnk_8048E5F4;
-    *(void * *)&this->unk_1C = flags;
-    return this;
+TUnk_8048E5F4::TUnk_8048E5F4(TObject *parent, s32 flags) : TObject(parent) {
+    this->flags = flags;
 }
 
 TUnk_8048E5F4::~TUnk_8048E5F4() {
@@ -762,7 +757,7 @@ void TUnk_8048E5F4::render_shadows() { if (TObjPlayer::get_camera_flag() != 0) {
 
 void TUnk_8048E5F4::render() {
     if (!(get_camera_capture_flags() & 4)) {
-        if (*(s32 *)&this->unk_1C & 1) {
+        if (flags & 1) {
             if (test_camera_capture_flags_bits01() == 1) {
                 TCameraCtrl::restore_full_screen_view();
                 TParticleCtrl::begin_effect_render();

@@ -122,14 +122,8 @@ void TLobby::create_tasks() {
     uaddr tmp;
     create_area_fog_ctrl();
     if (is_split_screen() == 0) {
-        tmp = (uaddr)TObject::operator new(0x20);
-        if (tmp != 0U) {
-            ((TUnk_8048E5F4 *)tmp)->init_subobject((void *)tl_particlemodel, (void *)1);
-        }
-        tmp = (uaddr)TObject::operator new(0x20);
-        if (tmp != 0U) {
-            ((TUnk_8048E5F4 *)tmp)->init_subobject((void *)tl_particlemodel, (void *)0);
-        }
+        new TUnk_8048E5F4((TObject *)tl_particlemodel, 1);
+        new TUnk_8048E5F4((TObject *)tl_particlemodel, 0);
         new TUnk_804EDAC0((TObject *)tl_particlemodel);
         new TUnk_804EFA88((TObject *)tl_particlemodel);
     }
