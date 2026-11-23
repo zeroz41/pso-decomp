@@ -1,7 +1,6 @@
 #include "types.h"
 #include "pso/system/data/FlagWord.h"
 #include "pso/player/TPlyCharData_8007214C.h"
-#include "pso/player/TObjPlayer_801AA508.h"
 #include "pso/player/TObjPlayer_801C1FF8.h"
 #include "pso/player/TPlyItem.h"
 #include "pso/system/memory.h"
@@ -29,7 +28,8 @@ u8 get_record_byte_at(O_801C21C4 *self, s32 i);
 void is_slot_within_limit__10TObjPlayerFllUc(u8 id, s16 i, u8 v);
 void __destroy_arr(void *, void *, int, int);
 void __construct_array(void *, void *, void *, int, int);
-void init_arrays__10TObjPlayerFv(void);
+void __ct__18PhotonBlastRequestFv(void);
+void __dt__18PhotonBlastRequestFv(void);
 extern const f32 TObjPlayer__data_805DC278;
 S_801C20A4 *init_player_telepipe_record(S_801C20A4 *arg0);
 s32 test_flags_any(s32 *flags, s32 mask);
@@ -128,7 +128,7 @@ void*TObjPlayer::init_char_data() { ((TObjPlayer *)((char*)this + 0x4))->clear_h
 
 void *fn_801C2308(void *arr, s16 arg1) {
     if (arr != 0) {
-        __destroy_arr(arr, (void *)TObjPlayer__sub_801AA528, 0x18, 4);
+        __destroy_arr(arr, (void *)__dt__18PhotonBlastRequestFv, 0x18, 4);
         if (arg1 > 0) {
             ::operator delete(arr);
         }
@@ -136,7 +136,7 @@ void *fn_801C2308(void *arr, s16 arg1) {
     return arr;
 }
 void *fn_801C2360(void *array) {
-    __construct_array(array, (void *)init_arrays__10TObjPlayerFv, (void *)TObjPlayer__sub_801AA528, 0x18, 4);
+    __construct_array(array, (void *)__ct__18PhotonBlastRequestFv, (void *)__dt__18PhotonBlastRequestFv, 0x18, 4);
     return array;
 }
 

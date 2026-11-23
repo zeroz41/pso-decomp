@@ -4873,21 +4873,15 @@ pso/effect/photon/TPhotonConcentrate.cpp:
 	.sdata2     start:0x805DC0F8 end:0x805DC110
 
 pso/player/PhotonBlastResults.cpp:
-	.text       start:0x801A826C end:0x801AA508
+	.text       start:0x801A826C end:0x801AA6F8
 	.rodata     start:0x80446A78 end:0x80446CD8
 	.data       start:0x804C32C0 end:0x804C34B4
 	.bss        start:0x8050E880 end:0x8050E920
 	.sbss       start:0x805D5D28 end:0x805D5D2C
 	.sdata2     start:0x805DC110 end:0x805DC138
 
-pso/player/TObjPlayer_801AA508.cpp:
-	.text       start:0x801AA508 end:0x801AA584
-
-pso/player/TObjPlayer_801AA5C0.cpp:
-	.text       start:0x801AA584 end:0x801AA664
-
 pso/effect/photon/TPhotonEstlla.cpp:
-	.text       start:0x801AA664 end:0x801AAE6C
+	.text       start:0x801AA6F8 end:0x801AAE6C
 	.rodata     start:0x80446CD8 end:0x80446D28
 	.data       start:0x804C34B8 end:0x804C3518
 	.sdata      start:0x805D34D8 end:0x805D34E0

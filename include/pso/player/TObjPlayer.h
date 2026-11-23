@@ -512,10 +512,6 @@ struct TObjPlayer : public TObjChara {
     void reset_state_block();
     static void*get_photon_blast_entry(int a0);
     s16 get_evp();
-    u16 get_section_id();
-    void set_field_2(s16 v);
-    void set_type(s16 v);
-    u16 get_entity_type();
     static void destroy_global_buffer();
     int check_flag_0x80();
     static void free_buffer_pair();
@@ -1031,7 +1027,6 @@ struct TObjPlayer : public TObjChara {
     void*init_follow_particle_ctrl();
     static s32 check_hit_by_id(saddr arg0, s32 arg1, s32 arg2);
     void update_children();
-    void reset_id_entry();
     int query_field40();
     void process_indexed_element(s32 arg1);
     void check_flag_at_4();
@@ -1205,7 +1200,6 @@ struct TObjPlayer : public TObjChara {
     static u32 spawn_shot_effect(saddr arg0, saddr arg1, saddr arg2, f32 farg0);
     void clear_rico_ring_flag();
     static void start_photon_blast(s32 kind, s32 client_id);
-    s32 init_arrays();
     s32 get_card_window_field_244();
     void init_local_pad_binding();
     void stop_force_if_alive();

@@ -1554,8 +1554,8 @@ force_active:
   - TObjPlayer__sub_801550B8
   - __dt__13TUnk_804B5BA8Fv
   - TObjPlayer__sub_801994DC
-  - TObjPlayer__sub_801AA61C
-  - TObjPlayer__sub_801AA6E4
+  - __ct__22PhotonBlastRequestSlotFv
+  - __as__22PhotonBlastRequestSlotFR22PhotonBlastRequestSlot
   - TObjPlayer__sub_801BD384
   - __sinit_TObjPlayer_801BDF5C_cpp
   - TObjPlayer__sub_801BF31C
@@ -7327,7 +7327,7 @@ force_active:
   - is_p02_idle__12TBoss3VoloptFv
   - is_partner_counter_reached__FPsll
   - is_phase_active__15TObjBoss2TunnelFl
-  - is_photon_blast_presentation_admitted__FUlPv
+  - is_photon_blast_presentation_admitted__FUlP18PhotonBlastRequest
   - is_any_city_player_in_range__13TUnk_804B5BA8FPC3Vecf
   - is_player_in_range__10TObjRoomIdFUsf
   - is_player_in_range__13TBoss6MagMineFv

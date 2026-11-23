@@ -6,7 +6,6 @@
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "types.h"
-#include "pso/player/TObjPlayer_801AA664.h"
 
 #include "pso/player/TObjPlayer.h"
 #include "pso/unk/text_800F5BC0.h"
@@ -36,14 +35,6 @@
 #include "pso/system/BmlResource.h"
 #include "pso/player/PhotonBlastResults.h"
 #include "pso/system/MatrixOps.h"
-
-u16 TObjPlayer::get_entity_type() { return *(u16*)((char*)this + 0x0); }
-void* TObjPlayer__sub_801AA66C(void* p, void* a1) { *(short*)(p) = *(unsigned short*)(a1); *(short*)((char*)p + 0x2) = *(short*)((char*)a1 + 0x2); *(void**)((char*)p + 0x4) = *(void**)((char*)a1 + 0x4); TObjPlayer__sub_801AA6E4((u8 *)((char*)p + 0x8), (u8 *)((char*)a1 + 0x8)); TObjPlayer__sub_801AA6E4((u8 *)((char*)p + 0xc), (u8 *)((char*)a1 + 0xc)); TObjPlayer__sub_801AA6E4((u8 *)((char*)p + 0x10), (u8 *)((char*)a1 + 0x10)); TObjPlayer__sub_801AA6E4((u8 *)((char*)p + 0x14), (u8 *)((char*)a1 + 0x14)); return p; }
-
-void TObjPlayer__sub_801AA6E4(u8 *arg0, u8 *arg1) {
-    *(u16 *)((s8 *)arg0 + 0) = (u16) *(u16 *)((s8 *)arg1 + 0);
-    *(s16 *)((s8 *)arg0 + 2) = (s16) *(s16 *)((s8 *)arg1 + 2);
-}
 
 void TPhotonEstlla::reset_color(u8 summon_count) {
     color.a = 0.0f;

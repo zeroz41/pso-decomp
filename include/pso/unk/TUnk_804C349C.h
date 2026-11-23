@@ -5,6 +5,7 @@
 #include "pso/system/vector.h"
 
 class TObjPlayer;
+struct PhotonBlastRequest;
 
 // The photon blast sequence task (vtable 0x804C349C): new'd by
 // admit_photon_blast_sequence with the owner's client id, the chained
@@ -13,7 +14,7 @@ class TObjPlayer;
 // Field names are inferred from the functions that use them.
 class TUnk_804C349C : public TObject {
 public:
-    TUnk_804C349C(s32 owner_client_id, u8 *players, s32 *counts, s32 animated, s32 delay);
+    TUnk_804C349C(s32 owner_client_id, PhotonBlastRequest *requests, s32 *counts, s32 animated, s32 delay);
     virtual ~TUnk_804C349C();
     void step_photon_blast_sequence();
     void update_and_destroy();

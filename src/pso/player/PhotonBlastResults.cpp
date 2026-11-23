@@ -33,7 +33,6 @@
 #include "pso/player/TObjPlayer_801AC0D8.h"
 #include "pso/player/TObjPlayer_801AE48C.h"
 #include "pso/effect/photon/TPhotonFarlla.h"
-#include "pso/player/TObjPlayer_801AADE8.h"
 #include "pso/effect/photon/TPhotonYoulla.h"
 #include "pso/effect/photon/TPhotonMylla.h"
 #include "pso/player/TObjPlayer_801AD47C.h"
@@ -44,7 +43,6 @@
 
 #define TOBJECT_OUT_OF_LINE_HELPERS
 
-struct Slot_801A8868 { u8 pad[0x18]; };
 struct Counts_801A8868 { s32 v[4]; };
 
 struct Hit_801A86E0 { s32 kind; f32 value; };
@@ -83,16 +81,12 @@ void *find_entity_by_id(u16 id);
 
 s32 get_floor__10TObjPlayerFv(void *);
 s32 get_room__8TObjBaseFv(void *);
-void set_type__10TObjPlayerFs(void *, s16);
-s32 TObjPlayer__sub_801AA528(saddr arg0, s16 arg1);
-void *TObjPlayer__sub_801AA66C(void *, void *);
 s16 TObjPlayer__sub_80313114(u8 *arg0);
 
 }
 extern s32 photon_blast_donation_flags[];
 void clear_photon_blast_donations(void);
 extern s32 local_client_id;
-s32 is_photon_blast_presentation_admitted(u32 owner_id, void *records);
 
 // One entry per photon blast; +0x00 is the hit power (queue_photon_blast_hit), +0x12 is read by
 // TObjPlayer_801C7430, +0x20 is the effect id start_photon_blast plays.
@@ -162,7 +156,6 @@ const char *pm_mdl_motion_names[16] = {
 BmlResourceDescriptor photon_blast_resource_descriptor = { "pm_mdl.bml", pm_mdl_model_names, pm_mdl_motion_names, 12, 15 };
 
 const Counts_801A8868 photon_blast_result_counts_init = { 0, 0, 0, 0 };
-void admit_photon_blast_sequence(u8 *players, void *self);
 
 #pragma push
 #pragma fp_contract on
@@ -222,14 +215,14 @@ loop_1:
     goto loop_1;
 }
 
-s32 is_photon_blast_presentation_admitted(u32 owner_id, void *records) {
+s32 is_photon_blast_presentation_admitted(u32 owner_id, PhotonBlastRequest *requests) {
     void *local;
     void *owner;
     s16 group;
     if (is_split_screen() != 0) {
         return 1;
     }
-    if (local_client_id == ((TObjPlayer *)records)->get_section_id()) {
+    if (local_client_id == requests->get_client_id()) {
         return 1;
     }
     local = get_player_by_client_id(local_client_id);
@@ -279,10 +272,9 @@ void clear_photon_blast_donations(void) {
     }
 }
 #define GET_STAT ((s16 (*)(void *))get_room__8TObjBaseFv)
-#define SET_TYPE ((void (*)(void *, u16))set_type__10TObjPlayerFs)
-void admit_photon_blast_sequence(u8 *players, void *self) {
-    Slot_801A8868 a[4];
-    Slot_801A8868 b[4];
+void admit_photon_blast_sequence(PhotonBlastRequest *requests, void *self) {
+    PhotonBlastRequest a[4];
+    PhotonBlastRequest b[4];
     s32 n;
     s32 j;
     s32 k;
@@ -293,33 +285,25 @@ void admit_photon_blast_sequence(u8 *players, void *self) {
     s32 idx;
     s32 m;
     TObjPlayer *q;
-    ((TObjPlayer *)(&a[0]))->init_arrays();
-    ((TObjPlayer *)(&a[1]))->init_arrays();
-    ((TObjPlayer *)(&a[2]))->init_arrays();
-    ((TObjPlayer *)(&a[3]))->init_arrays();
-    ((TObjPlayer *)(&b[0]))->init_arrays();
-    ((TObjPlayer *)(&b[1]))->init_arrays();
-    ((TObjPlayer *)(&b[2]))->init_arrays();
-    ((TObjPlayer *)(&b[3]))->init_arrays();
     Counts_801A8868 counts = photon_blast_result_counts_init;
     for (n = 0; n < 4; n++) {
-        SET_TYPE(&b[n], 0xFFFF);
-        ((TObjPlayer *)(&b[n]))->set_field_2(-1);
+        b[n].set_client_id(0xFFFF);
+        b[n].set_kind(-1);
     }
     n = 0;
     k = 0;
-    for (j = 0; j < 4; j++, players += 0x18) {
-        p = get_player_by_client_id(((TObjPlayer *)players)->get_section_id());
+    for (j = 0; j < 4; j++, requests++) {
+        p = get_player_by_client_id(requests->get_client_id());
         if (p != NULL && GET_STAT(p) == GET_STAT(self)
-            && TObjPlayer__sub_80313114(players) != -1) {
-            SET_TYPE(&a[n], ((TObjPlayer *)players)->get_section_id());
-            ((TObjPlayer *)(&a[n]))->set_field_2(TObjPlayer__sub_80313114(players));
+            && TObjPlayer__sub_80313114((u8 *)requests) != -1) {
+            a[n].set_client_id(requests->get_client_id());
+            a[n].set_kind(TObjPlayer__sub_80313114((u8 *)requests));
             n++;
         }
     }
     for (i = n; i < 4; i++) {
-        SET_TYPE(&a[i], 0xFFFF);
-        ((TObjPlayer *)(&a[i]))->set_field_2(-1);
+        a[i].set_client_id(0xFFFF);
+        a[i].set_kind(-1);
     }
     for (m = 0; m < 4; m++) {
         if (m != 0) {
@@ -333,7 +317,7 @@ void admit_photon_blast_sequence(u8 *players, void *self) {
                 k++;
             }
         }
-        TObjPlayer__sub_801AA66C(&b[k], &a[m]);
+        b[k] = a[m];
     }
     flag = 0;
     for (i = 0; i < 4; i++) {
@@ -346,18 +330,10 @@ void admit_photon_blast_sequence(u8 *players, void *self) {
         }
     }
     if (flag != 0) {
-        TObjPlayer__sub_801AA528((saddr)&b[3], -1);
-        TObjPlayer__sub_801AA528((saddr)&b[2], -1);
-        TObjPlayer__sub_801AA528((saddr)&b[1], -1);
-        TObjPlayer__sub_801AA528((saddr)&b[0], -1);
-        TObjPlayer__sub_801AA528((saddr)&a[3], -1);
-        TObjPlayer__sub_801AA528((saddr)&a[2], -1);
-        TObjPlayer__sub_801AA528((saddr)&a[1], -1);
-        TObjPlayer__sub_801AA528((saddr)&a[0], -1);
         return;
     }
     if (is_photon_blast_presentation_admitted(get_entity_id((TObjBase *)self), b) != 0) {
-        new TUnk_804C349C(get_entity_id((TObjBase *)self), (u8 *)b, counts.v, 1, 0);
+        new TUnk_804C349C(get_entity_id((TObjBase *)self), b, counts.v, 1, 0);
     } else {
         idx = 0;
         for (i = 0; i < 4; i++) {
@@ -367,19 +343,10 @@ void admit_photon_blast_sequence(u8 *players, void *self) {
             }
         }
         delay = idx * 150 + 100;
-        new TUnk_804C349C(get_entity_id((TObjBase *)self), (u8 *)b, counts.v, 0, delay);
+        new TUnk_804C349C(get_entity_id((TObjBase *)self), b, counts.v, 0, delay);
     }
-    TObjPlayer__sub_801AA528((saddr)&b[3], -1);
-    TObjPlayer__sub_801AA528((saddr)&b[2], -1);
-    TObjPlayer__sub_801AA528((saddr)&b[1], -1);
-    TObjPlayer__sub_801AA528((saddr)&b[0], -1);
-    TObjPlayer__sub_801AA528((saddr)&a[3], -1);
-    TObjPlayer__sub_801AA528((saddr)&a[2], -1);
-    TObjPlayer__sub_801AA528((saddr)&a[1], -1);
-    TObjPlayer__sub_801AA528((saddr)&a[0], -1);
 }
 #undef GET_STAT
-#undef SET_TYPE
 
 void deliver_photon_blast_results_animated(TUnk_804C349C *seq) {
     s32 i;
@@ -746,12 +713,12 @@ TUnk_804C349C::~TUnk_804C349C() {
     }
 }
 
-TUnk_804C349C::TUnk_804C349C(s32 owner_client_id, u8 *players, s32 *counts, s32 animated, s32 delay)
+TUnk_804C349C::TUnk_804C349C(s32 owner_client_id, PhotonBlastRequest *requests, s32 *counts, s32 animated, s32 delay)
     : TObject(tl_07) {
     TObjPlayer *player;
     s32 i;
     s32 j;
-    u8 *entry;
+    PhotonBlastRequestSlot *donor;
 
     this->owner_client_id = owner_client_id;
     this->delay = delay;
@@ -772,13 +739,13 @@ TUnk_804C349C::TUnk_804C349C(s32 owner_client_id, u8 *players, s32 *counts, s32 
     }
     summon_count = 4;
     for (i = 0; i < 4; i++) {
-        if (TObjPlayer__sub_80313114(players) == -1) {
+        if (TObjPlayer__sub_80313114((u8 *)requests) == -1) {
             summon_count = i;
             break;
         }
-        kinds[i] = TObjPlayer__sub_80313114(players);
-        participants[i] = ((TObjPlayer *)players)->get_section_id();
-        players += 0x18;
+        kinds[i] = TObjPlayer__sub_80313114((u8 *)requests);
+        participants[i] = requests->get_client_id();
+        requests++;
     }
     owner = get_player_by_client_id(owner_client_id);
     apply_photon_blast_action_hold((saddr)this, summon_count * 150 + 100, owner_client_id);
@@ -812,14 +779,14 @@ TUnk_804C349C::TUnk_804C349C(s32 owner_client_id, u8 *players, s32 *counts, s32 
         recipients[k] = 0xFFFF;
     }
     if (owner != NULL && get_player_by_client_id(local_client_id) != NULL) {
-        entry = TObjPlayer::find_photon_blast_by_section_id(get_entity_id(owner));
-        if (entry != NULL) {
+        donor = (PhotonBlastRequestSlot *)TObjPlayer::find_photon_blast_by_section_id(get_entity_id(owner));
+        if (donor != NULL) {
             for (i = 0; i < 4; i++) {
-                if (((TObjPlayer *)entry)->get_entity_type() != 0xFFFF
-                    && this->owner_client_id != ((TObjPlayer *)entry)->get_entity_type()) {
-                    recipients[i] = ((TObjPlayer *)entry)->get_entity_type();
+                if (donor->get_client_id() != 0xFFFF
+                    && this->owner_client_id != donor->get_client_id()) {
+                    recipients[i] = donor->get_client_id();
                 }
-                entry += 4;
+                donor++;
             }
         }
     }
@@ -944,3 +911,43 @@ PhotonBlastLoadCallback photon_blast_load_callback_table[10] = {
     { load_photon_rainbow_resources, release_photon_rainbow_resources },
     { load_photon_laser_resources, release_photon_laser_resources },
 };
+
+s16 TObjPlayer::get_evp() { return evp; }
+
+u16 PhotonBlastRequest::get_client_id() { return client_id; }
+
+void PhotonBlastRequest::set_kind(s16 kind) { this->kind = kind; }
+
+void PhotonBlastRequest::set_client_id(u16 client_id) { this->client_id = client_id; }
+
+PhotonBlastRequest::~PhotonBlastRequest() {}
+
+PhotonBlastRequestSlot::~PhotonBlastRequestSlot() {}
+
+PhotonBlastRequest::PhotonBlastRequest() { reset(); }
+
+PhotonBlastRequestSlot::PhotonBlastRequestSlot() { clear(); }
+
+void PhotonBlastRequestSlot::clear() {
+    client_id = 0xFFFF;
+    amount = 0;
+}
+
+u16 PhotonBlastRequestSlot::get_client_id() { return client_id; }
+
+PhotonBlastRequest &PhotonBlastRequest::operator=(PhotonBlastRequest &other) {
+    client_id = other.client_id;
+    kind = other.kind;
+    flags.bits = other.flags.bits;
+    slots[0] = other.slots[0];
+    slots[1] = other.slots[1];
+    slots[2] = other.slots[2];
+    slots[3] = other.slots[3];
+    return *this;
+}
+
+PhotonBlastRequestSlot &PhotonBlastRequestSlot::operator=(PhotonBlastRequestSlot &other) {
+    client_id = other.client_id;
+    amount = other.amount;
+    return *this;
+}
