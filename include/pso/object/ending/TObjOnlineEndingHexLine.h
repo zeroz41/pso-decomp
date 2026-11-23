@@ -4,6 +4,8 @@
 #include <stddef.h>
 #include "types.h"
 
+struct NJS_POINT2;
+
 struct EndingHexPoint {
     s16 x;
     s16 y;
@@ -11,6 +13,7 @@ struct EndingHexPoint {
 
 class TObjOnlineEndingHexLine : public TObject {
 public:
+    TObjOnlineEndingHexLine(TObject *parent, EndingHexPoint *start);
     virtual ~TObjOnlineEndingHexLine();
     virtual void render();
     virtual void run_task();
@@ -19,6 +22,7 @@ public:
     f32 progress;
 
     void step_line();
+    static s32 calc_rotated_hex_point(NJS_POINT2 *out, EndingHexPoint *point);
     static void *create(void *arg0, void *arg1);
 };
 

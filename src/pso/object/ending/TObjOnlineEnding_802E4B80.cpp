@@ -12,6 +12,7 @@
 #include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
 #include "pso/object/ending/TObjOnlineEnding.h"
+#include "pso/object/ending/TObjOnlineEndingHexMove.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/unk/TLobby.h"
 #include "pso/object/ambient/TObjFish.h"
@@ -166,7 +167,6 @@ f32 online_ending_scene_z_offset;
 BmlResource *online_ending_resource;
 s8 online_ending_scene_translation_initialized;
 s8 online_ending_quad_vertices_initialized;
-void *create_TObjOnlineEndingHexMove(void *arg0);
 void reset_hex_line_params();
 }
 
@@ -256,7 +256,7 @@ TObjOnlineEnding::TObjOnlineEnding(TObject *parent) : TObjBase(parent) {
         break;
     }
     reset_hex_line_params();
-    create_TObjOnlineEndingHexMove(this);
+    TObjOnlineEndingHexMove::create(this);
     self->create_result_window();
     self->elapsed_frames = 0;
     self->scene_state = 0;

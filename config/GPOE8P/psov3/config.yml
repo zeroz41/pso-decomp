@@ -1489,7 +1489,7 @@ force_active:
   - TObjOnlineEndingHexLine__hex_line_params
   - copy_ending_hex_point
   - TObjOnlineEndingHexLine_corner_offsets
-  - TObjOnlineEndingHexMove__ct
+  - __ct__23TObjOnlineEndingHexMoveFP7TObject
   - TObjOnlineEndingHexMove__default_move_params
   - __ct__16TObjOnlineEndingFP7TObject
   - __ct__12TObjParticleFP7TObjectP15ParticleSetData
@@ -2155,7 +2155,7 @@ force_active:
   - __ct__22TPlyFollowParticleCtrlFP8TObjBase
   - __ct__22TPlyPtclObjectLeftHandFP8TObjBase
   - __ct__22TQuestVmDownLoadServerFP7TObject
-  - __ct__23TObjOnlineEndingHexLineFv
+  - __ct__23TObjOnlineEndingHexLineFP7TObjectP14EndingHexPoint
   - __ct__23TObjSeabedSuisoBrakableFPv
   - __ct__23TPlyPtclObjectRightHandFP8TObjBase
   - __ct__24G_ActivateMagEffect_6x61Fv
@@ -4799,7 +4799,7 @@ force_active:
   - calc_rate_from_field__14TBoss4DarkFalzFv
   - calc_recoil_offsets__13TUnk_80490470Fv
   - calc_remaining_char_slots__6TLobbyFv
-  - calc_rotated_hex_point__23TObjOnlineEndingHexLineFPvPv
+  - calc_rotated_hex_point__23TObjOnlineEndingHexLineFP10NJS_POINT2P14EndingHexPoint
   - calc_rotated_vector__14TObjEneBm5WolfFlP3VecPl
   - calc_rotated_vector__16TObjEneBm5GibonUFlP3VecPl
   - calc_scale__18TWindowEffectLightFv
@@ -5369,7 +5369,7 @@ force_active:
   - copy_matrix__22TObjTombstoneDropRatesFPC22TObjTombstoneDropRates
   - copy_member_record__6TLobbyFPvPv
   - copy_motion_pair__13TUnk_804DDD28FPv
-  - copy_move_params__23TObjOnlineEndingHexMoveFPvPv
+  - copy_move_params__23TObjOnlineEndingHexMoveFP19EndingHexLineParamsPC19EndingHexLineParams
   - copy_network_info_cipher_block__FPUlPUl
   - copy_network_info_config_string__FPcPcUlUl
   - copy_node_record__10TObjPlayerFl
@@ -17002,7 +17002,7 @@ force_active:
   - update_light_direction__12TCharaMakingFv
   - update_light_magic__11TBoss4Type3Fv
   - update_lights__10TObjPlayerFv
-  - update_line_params__23TObjOnlineEndingHexLineFv
+  - update_line_params__23TObjOnlineEndingHexMoveFv
   - update_line_timers__14TWindowMessageFv
   - update_linked_epsilon_position__12TBoss1DragonFv
   - update_linked_ground_position__13TBoss5GryphonFv

@@ -547,7 +547,9 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # the TAdStorySelectGC ctor reaches each of its .rodata initialisers with its own lis/addi (no shared base): -pool off.
     "pso/ui/frontend/TAdStorySelectGC_802C3284.cpp": {"cflags": _switch(cflags_pso, "-pool off")},
     "pso/object/TObjLuker_801329B0.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
-    "pso/object/ending/TObjOnlineEnding_802E4B80.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    # -inline off,deferred: the ctor reaches __vt__16TObjOnlineEnding through the unit's .data
+    # anchor, so the vtable is pooled before the functions; the source runs from the last function back.
+    "pso/object/ending/TObjOnlineEnding_802E4B80.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
     "pso/ui/frontend/TAdPlayerLoadGC.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
     "pso/ui/frontend/TAdDialingMessageWindow.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
     "pso/ui/frontend/TAdSubPlyItemGC_802D6BEC.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
@@ -725,7 +727,9 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/ui/frontend/TAdEnterPasswordGC.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/ui/frontend/TAdWarningBaseGC.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/ui/frontend/TAdEnterPPPPassGC.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
-    "pso/object/ending/TObjOnlineEndingHexLine.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    # -inline off,deferred: __vt__23TObjOnlineEndingHexLine precedes the HexMove vtable although
+    # HexLine's key function comes first, so the source runs from the last function back.
+    "pso/object/ending/TObjOnlineEndingHexLine.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
     "pso/boss/galgryphon/TBoss5GryphonShockWave.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/enemy/gyaranzo/TObjGyaranzoMissile.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/ui/window/TWindowChoiceSetting.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
@@ -1514,9 +1518,6 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # -inline off,deferred: __vt__8TEndingC precedes run_task's jump table, so the source runs
     # from the last function back.
     "pso/system/scene/TEndingC_8008D00C.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
-    # -inline off,deferred: the ctor reaches __vt__16TObjOnlineEnding through the unit's .data
-    # anchor, so the vtable is pooled before the functions; the source runs from the last function back.
-    "pso/object/ending/TObjOnlineEnding_802E4B80.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
     "pso/object/collision/TOSymbolchatColli.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/ui/charcreate/TChCrTagInformationStr.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/quest/challenge/TChallenge4PItemSelect.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
