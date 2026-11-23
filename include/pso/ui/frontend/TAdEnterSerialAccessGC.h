@@ -3,9 +3,11 @@
 
 #include "pso/ui/window/WindowCallback.h"
 #include "types.h"
+#include "pso/system/NinjaTypes.h"
 #include "pso/ui/frontend/TAdEnterBaseGC.h"
 
 class TAdSelectCurGC;
+class TKeyBoardControl;
 class TWindowBase;
 struct TWindowCallBack;
 
@@ -25,18 +27,25 @@ struct TAdEnterSerialAccessGC : public TAdEnterBaseGC {
     TWindowBase *draw_window;
     s32 input_valid;
     s32 prev_input_valid;
-    static void draw_screen(void *arg0, void *arg1);
+    static void draw_screen(void *window, void *context);
+    static void draw_serial_chars(void *context);
     static void draw_serial_separators();
     static void draw_serial_plates();
-    void format_dashed_serial(u8 *src, u32 count, u32 *lens);
-    static s32 *get_formatted_serial();
+    static void format_dashed_serial(char *dst, const char *src, u32 count, const u32 *lengths);
+    static char *get_formatted_serial();
     static s32 parse_serial_value();
+    static void initialize_serial_input(const char *serial);
+    static void sub_8032190C(const char *key);
+    static void sub_8032195C(const char *serial);
     static char *convert_serial_hex_to_decimal(const char *serial);
     static char *hex_to_decimal_string(const char *serial);
-    TWindowBase *open_message_window(s32 text_index);
     TWindowCallBack *create_draw_callback();
-    static void init_state();
+    TWindowBase *open_message_window(s32 text_index);
     void sub_80321B28(s32 field);
+    void sub_80321F18();
+    void sub_80321F3C();
+    static void sub_80322418(u32 value, s32 field);
+    static void init_state();
     static TWindowCallBack *create_callback(void *position, void *scale, WindowCallback callback);
     void *create_default_callback();
     static s32 show_message_window(void *arg0, void *arg1);
@@ -44,37 +53,22 @@ struct TAdEnterSerialAccessGC : public TAdEnterBaseGC {
     static void store_serial_access_key(saddr arg0, saddr arg1, saddr arg2);
     static char *serial_to_hex_string(const char *serial);
     static int forward_input(void *screen, s32 field, const char *text);
-    static void draw_serial_chars(saddr arg0);
-    static u32 create_keyboard_control(saddr arg0, s32 arg1);
+    static TKeyBoardControl *create_keyboard_control(saddr arg0, s32 arg1);
+
+    static const NJS_POINT2 selection_positions[2];
+    static char raw_serial_buffer[0xC];
+    static char access_key_input_buffer[0x10];
+    static TKeyBoardControl *keyboard_control;
+    static s32 input_state;
 };
 
 LAYOUT_ASSERT(TAdEnterSerialAccessGC_size, sizeof(TAdEnterSerialAccessGC) == 0x68);
 
 extern "C" {
-u8 *TAdEnterSerialAccessGC__sub_80321738(void);
-s32 *TAdEnterSerialAccessGC__sub_803217B8(void);
-s32 *TAdEnterSerialAccessGC__sub_80321874(void);
-void TAdEnterSerialAccessGC__sub_8032190C(const char *key);
-void TAdEnterSerialAccessGC__sub_8032195C(const char *serial);
-void TAdEnterSerialAccessGC__sub_80321F18(void *p);
-void TAdEnterSerialAccessGC__sub_80321F3C(void *p);
-void TAdEnterSerialAccessGC__sub_80322418(s32 arg0, s32 arg1);
-void initialize_serial_input(const char *serial);
+char *TAdEnterSerialAccessGC__sub_80321738(void);
+char *TAdEnterSerialAccessGC__sub_803217B8(void);
+char *TAdEnterSerialAccessGC__sub_80321874(void);
+void *create_callback_at_zero_vec2(WindowCallback callback);
 }
-extern "C" void *create_callback_at_zero_vec2(WindowCallback callback);
-
-// --- C functions defined in TAdEnterSerialAccessGC.cpp ---
-extern "C" {
-u8 *TAdEnterSerialAccessGC__sub_80321738(void);
-s32 *TAdEnterSerialAccessGC__sub_803217B8(void);
-s32 *TAdEnterSerialAccessGC__sub_80321874(void);
-void TAdEnterSerialAccessGC__sub_8032190C(const char *key);
-void TAdEnterSerialAccessGC__sub_8032195C(const char *serial);
-void TAdEnterSerialAccessGC__sub_80321F18(void *p);
-void TAdEnterSerialAccessGC__sub_80321F3C(void *p);
-void TAdEnterSerialAccessGC__sub_80322418(s32 arg0, s32 arg1);
-void initialize_serial_input(const char *serial);
-}
-// --- end of C functions
 
 #endif

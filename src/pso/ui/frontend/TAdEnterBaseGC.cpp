@@ -110,7 +110,7 @@ TAdEnterBaseGC::Position password_screen_status_line_position[1] = {0.0f, 0.0f};
 u32 serial_access_entered_value_table[4] = {0};
 
 // The TU's .sbss, in this order; TAdEnterPasswordGC and TAdEnterPPPPassGC share the first two.
-void *password_entry_keyboard_control;
+TKeyBoardControl *password_entry_keyboard_control;
 
 s32 password_entry_dispatch_state;
 
@@ -315,24 +315,24 @@ void *TAdEnterSerialAccessGC::create_default_callback() {
     return TAdEnterSerialAccessGC::create_callback((void *)lbl_80477188, (void *)lbl_80477190, fn_8032AC9C);
 }
 
-u32 TAdEnterSerialAccessGC::create_keyboard_control(saddr arg0, s32 arg1) {
-    u8 *kb;
+TKeyBoardControl *TAdEnterSerialAccessGC::create_keyboard_control(saddr arg0, s32 arg1) {
+    TKeyBoardControl *kb;
     if (arg1 < 0 || arg1 >= 4) {
-        return 0;
+        return NULL;
     }
     B4_8032AD30 sp8 = serial_keyboard_mode_table;
-    kb = (u8 *)new TKeyBoardControl((TObject *)arg0, serial_keyboard_field_width_table[arg1], 0, sp8.b[arg1], local_client_id);
+    kb = new TKeyBoardControl((TObject *)arg0, serial_keyboard_field_width_table[arg1], 0, sp8.b[arg1], local_client_id);
     if (kb == NULL) {
-        return 0;
+        return NULL;
     }
-    ((TKeyBoardControl *)kb)->set_sub_position((u8 *)serial_keyboard_position_table[arg1]);
+    kb->set_sub_position((u8 *)serial_keyboard_position_table[arg1]);
     if (has_serial_input__22TAdEnterSerialAccessGCFv(arg0, arg1) != 0) {
-        ((TKeyBoardControl *)kb)->set_text((char *)get_serial_text__22TAdEnterSerialAccessGCFii(arg0, arg1));
+        kb->set_text((char *)get_serial_text__22TAdEnterSerialAccessGCFii(arg0, arg1));
     }
     if (arg1 != 3) {
-        reinterpret_cast<TKeyBoardControl *>(kb)->set_composer_flag62_bit4();
+        kb->set_composer_flag62_bit4();
     }
-    return (uaddr)kb;
+    return kb;
 }
 
 void fn_8032AC9C(void *arg0, void *arg1) {
@@ -379,7 +379,7 @@ void draw_masked_password_field(saddr arg0) {
         TAdPlyChrSelPlateGC plate(reinterpret_cast<TObject *>(tl_clipout), &layout);
         NJS_COLOR w = password_field_box_color;
         draw_selection_plate(&plate, const_cast<NJS_POINT2 *>(&password_field_box_pos), w, 0);
-        str = ((TKeyBoardControl *)password_entry_keyboard_control)->realloc_buffer();
+        str = password_entry_keyboard_control->realloc_buffer();
         len = strlen(str);
         mem_free(str);
         memset(buf, 0, 0x80);
@@ -391,7 +391,7 @@ void draw_masked_password_field(saddr arg0) {
         len = calc_text_width("*");
         draw_menu_font_string_white((const char *)buf, password_field_text_pos[0], password_field_text_pos[1]);
         NJS_POINT2 p2;
-        p2.x = password_field_text_pos[0] + (f32) (len * static_cast<TKeyBoardControl *>(password_entry_keyboard_control)->get_cursor_position());
+        p2.x = password_field_text_pos[0] + (f32) (len * password_entry_keyboard_control->get_cursor_position());
         p2.y = password_field_text_pos[1];
         fn_8025DE10((void *)arg0, &p2);
     }

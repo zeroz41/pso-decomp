@@ -153,14 +153,14 @@ force_active:
   - sub_8024F330__17TWindowDuelResultFv
   - sub_8024F3CC__17TWindowDuelResultFv
   - sub_8032BC94__13TUnk_804EDAC0FP7TObject
-  - TAdEnterSerialAccessGC__input_state
-  - TAdEnterSerialAccessGC__keyboard_control
+  - input_state__22TAdEnterSerialAccessGC
+  - keyboard_control__22TAdEnterSerialAccessGC
   - TAdEnterSerialAccessGC__name
-  - TAdEnterSerialAccessGC__sub_8032190C
-  - TAdEnterSerialAccessGC__sub_8032195C
+  - sub_8032190C__22TAdEnterSerialAccessGCFPCc
+  - sub_8032195C__22TAdEnterSerialAccessGCFPCc
   - sub_80321B28__22TAdEnterSerialAccessGCFl
-  - TAdEnterSerialAccessGC__sub_80321F18
-  - TAdEnterSerialAccessGC__sub_80321F3C
+  - sub_80321F18__22TAdEnterSerialAccessGCFv
+  - sub_80321F3C__22TAdEnterSerialAccessGCFv
   - TAdEnterSerialAccessGC_serial_buffer
   - TAdEp3Exist__name
   - TAdEp3Exist__sub_8036F0AC
@@ -5897,7 +5897,7 @@ force_active:
   - draw_selected_bar__11TWindowMenuFPUc
   - draw_selected_entry__20TWindowSubSymbolChatFv
   - draw_selected_part_cursor__28TWindowSubSymbolChatPartsSetFPv
-  - draw_serial_chars__22TAdEnterSerialAccessGCFl
+  - draw_serial_chars__22TAdEnterSerialAccessGCFPv
   - draw_serial_plates__22TAdEnterSerialAccessGCFv
   - draw_serial_separators__22TAdEnterSerialAccessGCFv
   - draw_shadow_on_ground__FPUc
@@ -6449,7 +6449,7 @@ force_active:
   - forest_box_collision_body_parts
   - forest_rel_filename_table
   - format_challenge_stage_times__23TAdSinglePlyChrSelectGCFll
-  - format_dashed_serial__22TAdEnterSerialAccessGCFPUcUlPUl
+  - format_dashed_serial__22TAdEnterSerialAccessGCFPcPCcUlPCUl
   - format_date_text__13TObjTombstoneFv
   - format_drop_table_filename
   - format_enemy_text__13TObjTombstoneFv
@@ -6992,7 +6992,7 @@ force_active:
   - init__18VoloptPartsMessageFv
   - init__19VoloptPhase2MessageFv
   - init__21TObjEneRe7BeruraPunchFv
-  - initialize_serial_input
+  - initialize_serial_input__22TAdEnterSerialAccessGCFPCc
   - __ct__22TChCrLoadAfsTextureReqFP7TObjectP26TChCrLoadAfsTextureReqArgs
   - init__24TBoss3VoloptAttackPacketFv
   - init__25TBoss3VoloptTargetsPacketFv
