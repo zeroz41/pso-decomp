@@ -4,12 +4,19 @@
 #include <stddef.h>
 #include "types.h"
 #include "pso/ui/city/TShopSequence.h"
+#include "pso/item/TItemData.h"
 
 class TWindowBase;
 struct TWindowInputNumber;
 struct TWindowDeposit;
 struct TWindowMenu;
-struct TItemData;
+
+// One of the 200 item records the bank keeps per player slot.
+struct BankItemRecord {
+    TItemData item;
+    s16 amount;     // the stack held
+    s16 used;       // 0 for an empty record
+};
 
 struct TCheckRoomSequence : public TShopSequence {
     TCheckRoomSequence(TObject *parent, TObjPlayer *player);
@@ -49,7 +56,11 @@ struct TCheckRoomSequence : public TShopSequence {
     static void init_check_params(TShopWindowBase *sequence);
     static void init_check(TShopWindowBase *sequence);
     static void notify_quest_list_vm(TShopWindowBase *sequence);
+    // Allocate and free the bank records: four slots in split screen, else one.
     static void alloc_item_buffers();
+    static void free_bank_item_records();
+    static void init_item_entry(BankItemRecord *record);
+    static void copy_data(BankItemRecord *record, void *item);
     // The bank keeps 200 item records per player slot.
     static void compact_items(int slot);
     static void remove_bank_item_amount(int index, int amount, int slot);
@@ -67,6 +78,10 @@ struct TCheckRoomSequence : public TShopSequence {
 
 s32 bank_has_free_row(s32 slot);
 extern "C" {
+// The bank of each player slot: its item records, how many are used, and its meseta.
+extern BankItemRecord *bank_item_records_by_slot[4];
+extern s32 bank_item_count_by_slot[4];
+extern s32 bank_meseta_by_slot[4];
 void sort_bank_items(s32 slot);
 s32 get_bank_deposit_capacity_for_item(TItemData *item, s32 slot);
 s32 copy_bank_item_with_stack_limit(s32 index, void *data, s32 *count, s32 slot);
@@ -74,6 +89,7 @@ s32 store_item_in_bank(u8 *item, s32 amount, s32 slot);
 void copy_bank_to_card_window(s32 slot);
 }
 
+LAYOUT_ASSERT(BankItemRecord_size, sizeof(BankItemRecord) == 0x18);
 LAYOUT_ASSERT(TCheckRoomSequence_size, sizeof(TCheckRoomSequence) == 0x4C);
 LAYOUT_ASSERT(TCheckRoomSequence_choice_menu_offset, offsetof(TCheckRoomSequence, choice_menu) == 0x3C);
 #endif

@@ -13,6 +13,7 @@
 #include "pso/quest/TQuestListChallenge.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/ui/city/TCheckRoomSequence.h"
 #include "pso/ui/city/TShopGetItemWindow_8021EEE4.h"
 #include "pso/unk/TLobby_80207DA8.h"
 #include "pso/unk/TLobby_80226070.h"
@@ -21,9 +22,6 @@
 #include "pso/object/city/TObjCityAirCar_Ctrl.h"
 
 extern "C" {
-// TCheckRoomSequence.cpp; no header declares them yet.
-void alloc_item_buffers__18TCheckRoomSequenceFv(void);
-void TCheckRoomSequence__free_bank_item_records(void);
 // text_80184C2C.cpp; its header does not declare it yet.
 void TLobby__sub_80184DF4(void);
 }
@@ -40,7 +38,7 @@ void (*TLobby_scene_load_callback_table[24])(void) = {
     TLobby::clear_flag_if_not_split_screen, TLobby::free_global,
     reset_globals2__19TQuestListChallengeFv, reset_globals__19TQuestListChallengeFv,
     TLobby__sub_80184DF4, TLobby::free_buffers,
-    alloc_item_buffers__18TCheckRoomSequenceFv, TCheckRoomSequence__free_bank_item_records,
+    TCheckRoomSequence::alloc_item_buffers, TCheckRoomSequence::free_bank_item_records,
     measure_traffic_path_lengths, free_buffer_pair_table,
     TQuestVmDownLoadServer::reset_download_state, TQuestVmDownLoadServer::free_download_buffers,
     TLobby::alloc_buffer, TLobby::free_buffer,

@@ -7,8 +7,6 @@
 
 void TWindowInputNumber::set_scale(f32 x, f32 y) { scaleX = x; scaleY = y; }
 
-    extern int lbl_80513DA8[];
-int TCheckRoomSequence::get_room_data(int a0) {  return lbl_80513DA8[a0]; }
+int TCheckRoomSequence::get_room_data(int a0) {  return bank_meseta_by_slot[a0]; }
 
-    extern int lbl_80513D98[];
-int TCheckRoomSequence::get_room_table_entry(int a0) {  return lbl_80513D98[a0]; }
+int TCheckRoomSequence::get_room_table_entry(int a0) {  return bank_item_count_by_slot[a0]; }
