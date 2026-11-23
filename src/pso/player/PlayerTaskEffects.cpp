@@ -345,9 +345,7 @@ void set_arrival_override_pos(u16 idx, s32 yaw, void *pos);
 void clear_movement_history(MovementHistory *p);
 s16 get_attack_params_atp_max(void *p);
 u8 *__ct__15TPlyOnCountOverFv(u8 *object, s32 arg1, s32 arg2, s32 arg3);
-u8 *__ct__13TPlyOnCreatedFv(u8 *object, s32 arg1, s32 arg2);
 extern s32 __vt__15TPlyOnCountOver[];
-extern s32 __vt__13TPlyOnCreated[];
 int copy_subcommand_header(void *);
 }
 void calc_death_sink_offset(void *arg0);
@@ -835,30 +833,22 @@ void TPlayerReadyCallback::run_task() {
     }
 }
 
-void *TPlyOnCreated::create(s32 client, void *callback) {
-    void *o;
-    o = TObject::operator new(0x24);
-    if (o != NULL) {
-        o = __ct__13TPlyOnCreatedFv((u8 *)o, client, (saddr)callback);
-    }
-    return o;
+void *TPlyOnCreated::create(s32 client, int (*callback)(void *)) {
+    return new TPlyOnCreated(client, callback);
 }
 
-u8 *__ct__13TPlyOnCreatedFv(u8 *object, s32 arg1, s32 arg2) {
-    __ct__7TObjectFP7TObject(object, (void *)tl_06);
-    *(s32 **)((s8 *)object + 0x18) = __vt__13TPlyOnCreated;
-    *(s32 *)((s8 *)object + 0) = (saddr) TPlyOnCreated__name;
-    *(s16 *)((s8 *)object + 0x1C) = arg1;
-    *(s32 *)((s8 *)object + 0x20) = arg2;
-    return object;
+TPlyOnCreated::TPlyOnCreated(s32 client, int (*callback)(void *)) : TObject((TObject *)tl_06) {
+    m_name = TPlyOnCreated__name;
+    player_id = client;
+    this->callback = callback;
 }
 
 void TPlyOnCreated::run_task() {
-    s32 (*temp_r12)();
-    if (get_player_by_client_id(*(u16 *)((s8 *)this + 0x1C)) != 0U) {
-        temp_r12 = *(s32 (**)())((s8 *)this + 0x20);
-        if (temp_r12 != NULL) {
-            temp_r12();
+    TObjPlayer *player = get_player_by_client_id(player_id);
+    if (player != NULL) {
+        int (*fn)(void *) = callback;
+        if (fn != NULL) {
+            fn(player);
         }
         queue_destruction();
     }

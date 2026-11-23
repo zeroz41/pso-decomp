@@ -21,7 +21,7 @@ s32 sync_state__10TObjPlayerFi(saddr arg0) {
     uaddr temp_r3;
     temp_r3 = (uaddr)get_local_player();
     if (temp_r3 == 0U) {
-        TPlyOnCreated::create((u16)local_client_id, (void *)fn_802C4748);
+        TPlyOnCreated::create((u16)local_client_id, fn_802C4748);
         return 0;
     }
     export_state_to_record__10TObjPlayerFPvPv((u8 *)temp_r3, (s8 *)arg0);
