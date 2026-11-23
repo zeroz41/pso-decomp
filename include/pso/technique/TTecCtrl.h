@@ -13,7 +13,7 @@ public:
     virtual void run_task();
     virtual void render();
 public:
-    static s32 classify_distance_band(s32 arg0, s32 level, u16 arg2);
+    static s32 classify_distance_band(s32 arg0, s32 level, u16 slot);
     static s32 is_technique_ready();
 
     u32 pad_1C;  // zeroed by the ctor
@@ -30,6 +30,6 @@ extern GinjaTextureList *lbl_805D63B0;
 extern "C" {
 void TLobby__sub_8022F068(void);
 }
-void *get_technique_base_params(int a0);
+void *get_technique_base_params(int kind);
 
 #endif

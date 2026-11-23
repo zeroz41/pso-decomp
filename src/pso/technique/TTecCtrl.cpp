@@ -254,7 +254,7 @@ void TTecCtrl::run_task() {
     reset_telepipe_visit_counts();
 }
 
-void* get_technique_base_params(int a0) {  return &technique_param_table[a0]; }
+void* get_technique_base_params(int kind) {  return &technique_param_table[kind]; }
 
 s32 clamp_nonnegative_int(s32 x) {
     if (x <= 0) {
@@ -833,14 +833,14 @@ u32 get_technique_caster_flags(s32 technique, u16 actor) {
     return flags;
 }
 
-s32 TTecCtrl::classify_distance_band(s32 technique, s32 level, u16 arg2) {
+s32 TTecCtrl::classify_distance_band(s32 technique, s32 level, u16 slot) {
     f32 temp_f1;
 
-    calc_technique_parameters(technique, level, arg2);
+    calc_technique_parameters(technique, level, slot);
     if ((level == 0) || (level == 1)) {
         return 0;
     }
-    temp_f1 = calc_technique_boost(technique, arg2);
+    temp_f1 = calc_technique_boost(technique, slot);
     if (temp_f1 < 1.0f) {
         return 1;
     }
