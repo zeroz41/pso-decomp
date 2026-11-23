@@ -1036,8 +1036,8 @@ force_active:
   - __ct__8TObjDoorFP7TObjectPv
   - label_color_table__8TObjDoor
   - resource_param__8TObjDoor
-  - fn_8018E890__8TObjDoorFv
-  - fn_8018E8BC__8TObjDoorFv
+  - update_open__8TObjDoorFv
+  - update_closing__8TObjDoorFv
   - __ct__17TObjEZBoneRotBaseFP7TObjectPvP13EZBoneRotDesc
   - TObjEZRopeBase__name
   - TObjEneBalClawClaw__collision_body_template
@@ -14467,7 +14467,7 @@ force_active:
   - render__8TOKeyColFv
   - render__8TOKurageFv
   - render__8TOSensorFv
-  - fn_8018E40C__8TObjDoorFv
+  - draw_opening__8TObjDoorFv
   - render__8TObjDoorFv
   - render__8TObjRainFv
   - render__8TObjTankFv

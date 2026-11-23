@@ -138,7 +138,7 @@ TObjDoor::~TObjDoor() {
 void TObjDoor::run_task() {
     static void (TObjDoor::*update_fns[6])() = {
         &TObjDoor::update_locked_pulse, &TObjDoor::update_anim, &TObjDoor::draw_closed_glow,
-        &TObjDoor::fn_8018E8BC, &TObjDoor::update_opening_glow, &TObjDoor::fn_8018E890,
+        &TObjDoor::update_closing, &TObjDoor::update_opening_glow, &TObjDoor::update_open,
     };
     s32 saved = this->state;
     if (TObjDoor__data_805D5BC8 != 0) {
@@ -211,7 +211,7 @@ void TObjDoor::update_state() {
 void TObjDoor::render() {
     static void (TObjDoor::*draw_fns[6])() = {
         &TObjDoor::draw_locked, &TObjDoor::update_timer, &TObjDoor::draw_closed,
-        &TObjDoor::draw_closing, &TObjDoor::fn_8018E40C, &TObjDoor::draw_model,
+        &TObjDoor::draw_closing, &TObjDoor::draw_opening, &TObjDoor::draw_model,
     };
     s32 saved = this->state;
     if (TObjDoor__data_805D5BC8 != 0) {
@@ -266,7 +266,7 @@ void TObjDoor::draw_closed_glow() {
     if (this->glow > 0.5f) this->glow = 0.5f;
 }
 
-void TObjDoor::fn_8018E8BC() {}
+void TObjDoor::update_closing() {}
 
 #pragma push
 #pragma opt_common_subs off
@@ -278,7 +278,7 @@ void TObjDoor::update_opening_glow() {
 }
 #pragma pop
 
-void TObjDoor::fn_8018E890() {}
+void TObjDoor::update_open() {}
 
 void TObjDoor::draw_locked() {
     TObjFish::set_global_param(resource_param);
@@ -358,7 +358,7 @@ void TObjDoor::draw_closing() {
     pop_matrix();
 }
 
-void TObjDoor::fn_8018E40C() {
+void TObjDoor::draw_opening() {
     TObjFish::set_global_param(resource_param);
     push_matrix();
     post_translate_matrix(&this->position.x);

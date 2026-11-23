@@ -32,15 +32,15 @@ struct TObjDoor : public TObjCollidable {
     void update_timer();
     void draw_closed();
     void draw_closing();
-    void fn_8018E40C();
+    void draw_opening();
     void draw_model();
     // run_task's update per state.
     void update_locked_pulse();
     void update_anim();
     void draw_closed_glow();
-    void fn_8018E8BC();
+    void update_closing();
     void update_opening_glow();
-    void fn_8018E890();
+    void update_open();
     void update_state();
     static void free_resources();
     static void load_resources();
