@@ -280,22 +280,22 @@ void inpResetChannelDefaults(u8 arg0, u8 arg1) {
     *var_r3 = 2;
 }
 
-void inpAddCtrl(Obj_803BB8F0 *arg0, u8 arg1, s32 arg2, u8 arg3, u32 arg4) {
+void inpAddCtrl(Obj_803BB8F0 *ch, u8 arg1, s32 arg2, u8 x, u32 arg4) {
     u32 n;
-    if (arg3 == 0) {
-        arg0->count = 0;
+    if (x == 0) {
+        ch->count = 0;
     }
-    n = arg0->count;
+    n = ch->count;
     if (n < 4) {
-        arg0->count = n + 1;
+        ch->count = n + 1;
         if (arg4 == 0) {
             arg1 = inpTranslateExCtrl(arg1);
         } else {
-            arg3 |= 0x10;
+            x |= 0x10;
         }
-        arg0->ents[(u8)n].code = arg1;
-        arg0->ents[(u8)n].flags = arg3;
-        arg0->ents[(u8)n].val = arg2;
+        ch->ents[(u8)n].code = arg1;
+        ch->ents[(u8)n].flags = x;
+        ch->ents[(u8)n].val = arg2;
     }
 }
 

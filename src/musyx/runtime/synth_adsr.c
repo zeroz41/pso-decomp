@@ -212,11 +212,11 @@ u32 adsrHandle(void *arg0, void *arg1, void *arg2) {
     return ret;
 }
 
-u32 adsrHandleLowPrecision(void *arg0, void *arg1, void *arg2) {
+u32 adsrHandleLowPrecision(void *pitchADSR, void *arg1, void *arg2) {
     u8 i;
 
     for (i = 0; i < 15; i++) {
-        if (adsrHandle(arg0, arg1, arg2) != 0) {
+        if (adsrHandle(pitchADSR, arg1, arg2) != 0) {
             return 1;
         }
     }

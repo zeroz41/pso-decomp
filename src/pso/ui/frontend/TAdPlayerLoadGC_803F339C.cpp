@@ -10,14 +10,14 @@ extern "C" {
 extern CardRequestSlot load_request_slots[];
 extern CardFileEntry card_open_files[];
 
-s32 TAdPlayerLoadGC::take_card_read_result(s32 arg0, s32 *arg1) {
+s32 TAdPlayerLoadGC::take_card_read_result(s32 arg0, s32 *card_detail) {
     s32 r;
     s32 t;
     if (TAdPlayerLoadGC::get_load_state() < 1) {
         return -1;
     }
     if (load_request_slots[arg0].kind == 0x4) {
-        *arg1 = load_request_slots[arg0].result;
+        *card_detail = load_request_slots[arg0].result;
         t = load_request_slots[arg0].status;
         r = t;
         if (t != 200) {
@@ -33,7 +33,7 @@ s32 TAdPlayerLoadGC::take_card_read_result(s32 arg0, s32 *arg1) {
             load_request_slots[arg0].result = 0;
         }
     } else {
-        *arg1 = 0;
+        *card_detail = 0;
         r = -4;
     }
     return r;
@@ -60,7 +60,7 @@ s32 TAdPlayerLoadGC::request_card_read(s32 file, void *buffer, s32 length, s32 o
     load_request_slots[chan].file_index = file;
     return 0;
 }
-s32 TAdPlayerLoadGC::take_card_open_result(s32 arg0, s32 *arg1) {
+s32 TAdPlayerLoadGC::take_card_open_result(s32 arg0, s32 *card_detail) {
     s32 r;
     s32 t;
 
@@ -68,7 +68,7 @@ s32 TAdPlayerLoadGC::take_card_open_result(s32 arg0, s32 *arg1) {
         return -1;
     }
     if (load_request_slots[arg0].kind == 3) {
-        *arg1 = load_request_slots[arg0].result;
+        *card_detail = load_request_slots[arg0].result;
         t = load_request_slots[arg0].status;
         r = t;
         if (t != 200) {
@@ -88,7 +88,7 @@ s32 TAdPlayerLoadGC::take_card_open_result(s32 arg0, s32 *arg1) {
             load_request_slots[arg0].result = 0;
         }
     } else {
-        *arg1 = 0;
+        *card_detail = 0;
         r = -4;
     }
     return r;
@@ -137,7 +137,7 @@ s32 TAdPlayerLoadGC::begin_card_file_request(s32 chan, const char *name) {
 void TAdPlayerLoadGC::unmount_card(s32 chan) {
     CARDUnmount(chan);
 }
-s32 TAdPlayerLoadGC::take_card_mount_result(s32 arg0, s32 *arg1) {
+s32 TAdPlayerLoadGC::take_card_mount_result(s32 arg0, s32 *card_detail) {
     s32 r;
     s32 t;
 
@@ -145,7 +145,7 @@ s32 TAdPlayerLoadGC::take_card_mount_result(s32 arg0, s32 *arg1) {
         return -1;
     }
     if (load_request_slots[arg0].kind == 1) {
-        *arg1 = load_request_slots[arg0].result;
+        *card_detail = load_request_slots[arg0].result;
         t = load_request_slots[arg0].status;
         r = t;
         if (t != 200) {
@@ -161,7 +161,7 @@ s32 TAdPlayerLoadGC::take_card_mount_result(s32 arg0, s32 *arg1) {
             load_request_slots[arg0].result = 0;
         }
     } else {
-        *arg1 = 0;
+        *card_detail = 0;
         r = -4;
     }
     return r;
@@ -185,36 +185,36 @@ s32 request_card_mount(s32 chan) {
 }
 
 extern "C" {
-s32 TAdPlayerLoadGC::take_card_find_result(s32 arg0, s32 *arg1) {
+s32 TAdPlayerLoadGC::take_card_find_result(s32 card_channel, s32 *card_detail) {
     s32 r;
     s32 t;
 
     if (TAdPlayerLoadGC::get_load_state() < 1) {
         return -1;
     }
-    if (load_request_slots[arg0].kind == 9) {
-        *arg1 = load_request_slots[arg0].result;
-        t = load_request_slots[arg0].status;
+    if (load_request_slots[card_channel].kind == 9) {
+        *card_detail = load_request_slots[card_channel].result;
+        t = load_request_slots[card_channel].status;
         r = t;
         if (t != 200) {
-            load_request_slots[arg0].buffer = NULL;
-            memset(load_request_slots[arg0].name, 0, 0x20);
-            memset(load_request_slots[arg0].new_name, 0, 0x20);
-            load_request_slots[arg0].kind = 0;
-            load_request_slots[arg0].step = 0;
-            load_request_slots[arg0].offset = 0;
-            load_request_slots[arg0].length = 0;
-            load_request_slots[arg0].file_index = -1;
-            load_request_slots[arg0].status = 0;
-            load_request_slots[arg0].result = 0;
+            load_request_slots[card_channel].buffer = NULL;
+            memset(load_request_slots[card_channel].name, 0, 0x20);
+            memset(load_request_slots[card_channel].new_name, 0, 0x20);
+            load_request_slots[card_channel].kind = 0;
+            load_request_slots[card_channel].step = 0;
+            load_request_slots[card_channel].offset = 0;
+            load_request_slots[card_channel].length = 0;
+            load_request_slots[card_channel].file_index = -1;
+            load_request_slots[card_channel].status = 0;
+            load_request_slots[card_channel].result = 0;
         }
     } else {
-        *arg1 = 0;
+        *card_detail = 0;
         r = -4;
     }
     return r;
 }
-s32 TAdPlayerLoadGC::request_card_find(s32 arg0, const char *arg1) {
+s32 TAdPlayerLoadGC::request_card_find(s32 card_channel, const char *arg1) {
     s32 r = 0;
     s32 n = 0;
 
@@ -224,24 +224,24 @@ s32 TAdPlayerLoadGC::request_card_find(s32 arg0, const char *arg1) {
     if (strlen(arg1) >= 0x20) {
         return -2;
     }
-    if (load_request_slots[arg0].kind != 0) {
+    if (load_request_slots[card_channel].kind != 0) {
         return -4;
     }
     while (r != 1) {
         if (0x19000 <= n) {
             break;
         }
-        r = CARDProbe(arg0);
+        r = CARDProbe(card_channel);
         n++;
     }
     if (r != 1) {
         return -100;
     }
-    load_request_slots[arg0].kind = 9;
-    load_request_slots[arg0].step = 1;
-    load_request_slots[arg0].status = 200;
-    memset(load_request_slots[arg0].name, 0, 0x20);
-    strcpy(load_request_slots[arg0].name, arg1);
+    load_request_slots[card_channel].kind = 9;
+    load_request_slots[card_channel].step = 1;
+    load_request_slots[card_channel].status = 200;
+    memset(load_request_slots[card_channel].name, 0, 0x20);
+    strcpy(load_request_slots[card_channel].name, arg1);
     return 0;
 }
 }

@@ -345,7 +345,7 @@ struct TObjPlayer : public TObjChara {
     void set_position(f32 a, f32 b, f32 c);
     void set_meseta(s32 arg1);
     void bswap_status_effect_data();
-    void *copy_6x0d_status_effect_packet(void *arg1);
+    void *copy_6x0d_status_effect_packet(void *command);
     void copy_player_record_header(u8 *arg1);
     void prepare_heavy_attack_particles_default();
     int emit_zalure_support_effect_at();
@@ -505,7 +505,7 @@ struct TObjPlayer : public TObjChara {
     static void clear_item_table();
     static void init_all_slots();
     static s32 check_flag_pair(s32 arg0, s32 arg1);
-    static s32 check_flags(s32 arg0, s32 arg1);
+    static s32 check_flags(s32 flags, s32 arg1);
     static void reset();
     static void set_camera_mode(s32 camera_mode);
     void reset_state_block();
@@ -806,15 +806,15 @@ struct TObjPlayer : public TObjChara {
     void clear_flag_200();
     void*get_field4_ptr();
     void set_float_param(s16 arg1);
-    void *copy_lobby_font_header(void *arg1);
+    void *copy_lobby_font_header(void *command);
     void swap_endian32();
     void swap_bytes();
-    void *copy_packet_header_6xAB(void *arg1);
+    void *copy_packet_header_6xAB(void *command);
     void send_swapped_bytes();
     void send_swapped_packet();
     void bswap_and_send();
     void bswap_packet();
-    void *copy_packet_header_6x58(void *arg1);
+    void *copy_packet_header_6x58(void *command);
     void handle_recv_packet();
     void set_cmd_87();
     void draw_and_send();
@@ -830,7 +830,7 @@ struct TObjPlayer : public TObjChara {
     void set_revived_state();
     void broadcast_lobby_display();
     void bswap_fields();
-    void*copy_head_fields(void* a1);
+    void*copy_head_fields(void* command);
     void init_6x89_packet();
     void init_revive_packet();
     void bswap_font_lobby2();
@@ -863,7 +863,7 @@ struct TObjPlayer : public TObjChara {
     void *copy_6x48_cast_technique_complete_packet(void *arg1);
     void send_swapped_header();
     void swap_field6();
-    void *copy_6x8d_technique_level_packet(void *arg1);
+    void *copy_6x8d_technique_level_packet(void *command);
     void send_swap_field6();
     void *copy_6x45_attack_packet(void *src);
     void bswap_field4_sub();
@@ -1041,7 +1041,7 @@ struct TObjPlayer : public TObjChara {
     static void free_global_805D6FB8();
     static void alloc_and_init_object_b4();
     void init_record_array(s32 arg1);
-    static s32 find_table_index_by_id(u32 arg0);
+    static s32 find_table_index_by_id(u32 id);
     static s32 find_record_index(u32 arg0, u32 arg1);
     void release_empty_ref_entry();
     static void set_global_effect_state(s32 global_effect_state);
@@ -1188,7 +1188,7 @@ struct TObjPlayer : public TObjChara {
     void draw();
     static void draw(void *player, f32 at_frame);
     void set_state_flag_604B();
-    static s32 update_small_font(saddr arg0, void * _w1);
+    static s32 update_small_font(saddr arg0, void * command);
     static void send_item_pickup_request(saddr player);
     void set_state_flag_6043();
     static void notify_field1c(saddr arg0);
@@ -1218,8 +1218,8 @@ struct TObjPlayer : public TObjChara {
     void update_foot_stamp(int arg1);
     void play_footstep_sound(f32 at_frame, f32 farg1);
     void revive();
-    static s32 revive_6xA1(saddr arg0, void * _w1);
-    static s32 update_medical_font(saddr arg0, void * _w1);
+    static s32 revive_6xA1(saddr arg0, void * command);
+    static s32 update_medical_font(saddr arg0, void * command);
     s32 get_recovery_need_flags();
     s32 can_use_action();
     s32 is_target_valid();
@@ -1229,7 +1229,7 @@ struct TObjPlayer : public TObjChara {
     void apply_material_color_override();
     static s32 get_battle_ctrl_flag(u16 id);
     s32 is_outside_movement_hold(f32 *pos);
-    static s32 draw_small_font(saddr arg0, void * _w1);
+    static s32 draw_small_font(saddr arg0, void * command);
     static void send_code_45_1(saddr player);
     static void play_effect_default(saddr player, int effect);
     static void play_effect(saddr arg0, s32 arg1, s32 arg2);
@@ -1265,7 +1265,7 @@ struct TObjPlayer : public TObjChara {
     void copy_stats(void *arg1);
     static void notify_volopt_if_ready(void* p);
     void spawn_level_change_feedback(const char *message);
-    void *copy_fields(void *arg1);
+    void *copy_fields(void *command);
     s32 apply_exp_level_growth();
     void update_status_effects();
     void update_position_history();
@@ -1276,11 +1276,11 @@ struct TObjPlayer : public TObjChara {
     void calc_wall_slide_point(void *normal, void *arg2);
     void close_sub_window();
     s32 find_inventory_item_id(s8 arg1, s8 arg2);
-    s32 try_add_sale_meseta(s32 arg1, s32 amount, s32 arg3);
+    s32 try_add_sale_meseta(s32 arg1, s32 amount, s32 count);
     void drop_items_on_death();
-    static void send_6x2A_drop_item(void *arg0, s32 arg1, void *arg2, s32 arg3);
+    static void send_6x2A_drop_item(void *arg0, s32 source, void *arg2, s32 arg3);
     s32 send_trap_packet(int arg1_);
-    void request_meseta_drop(s32 arg1);
+    void request_meseta_drop(s32 amount);
     void request_item_drop(s32 key, s32 count);
     s32 count_items_of_type(s8 arg1, s8 arg2, s8 arg3);
     void dispatch_action(s32 key, s32 amount);
@@ -1288,7 +1288,7 @@ struct TObjPlayer : public TObjChara {
     s32 update_target_lock();
     void use_current_item();
     void unequip_all_units();
-    void *copy_unequip_fields(void *arg1);
+    void *copy_unequip_fields(void *command);
     void equip_item_to_slot(void *item, s32 slot);
     s32 end_camera_pan();
     static void freeze_all_players();
@@ -1327,7 +1327,7 @@ struct TObjPlayer : public TObjChara {
     void build_6x2C_impose_hold_packet();
     void bswap_and_send_packet();
     void bswap_body_dwords();
-    void *copy_pair_fields(void *arg1);
+    void *copy_pair_fields(void *command);
     void send_swapped_packet_6x30();
     void build_6x30_change_level_packet();
     void bswap_body_dwords2();
@@ -1367,10 +1367,10 @@ struct TObjPlayer : public TObjChara {
     void send_player_floor_packet(u32 client);
     void send_player_floor_packet_u32x5();
     void bswap_set_floor_packet();
-    void*handle_6x1F_set_floor(void* a1);
+    void*handle_6x1F_set_floor(void* command);
     void bswap_and_send_set_floor();
     void bswap_warp_packet();
-    void*copy_warp_target(void* a1);
+    void*copy_warp_target(void* command);
     void update_warp_relocation();
     static s32 try_camera_action(saddr player, s32 arg1);
     void bswap_entry_list();

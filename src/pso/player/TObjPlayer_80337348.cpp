@@ -37,8 +37,8 @@ u8 MaterialUsage::get_total_materials_used() {
     return sum;
 }
 
-u8 get_material_limit_for_class(s32 arg0) {
-    switch ((s8)arg0) {
+u8 get_material_limit_for_class(s32 class_index) {
+    switch ((s8)class_index) {
     case 0:
     case 3:
     case 6:

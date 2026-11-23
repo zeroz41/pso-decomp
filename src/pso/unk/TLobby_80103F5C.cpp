@@ -170,8 +170,8 @@ void evict_lowest_key_floor_item(s32 n) {
     }
 }
 
-s32 TLobby::is_stat_over_limit(s32 arg0) {
-    if ((arg0 >= 0) && (arg0 < 0x12) && ((s32) *(s32 *)((s8 *)floor_item_counts_by_floor + (arg0 * 4)) < 0x32)) {
+s32 TLobby::is_stat_over_limit(s32 floor) {
+    if ((floor >= 0) && (floor < 0x12) && ((s32) *(s32 *)((s8 *)floor_item_counts_by_floor + (floor * 4)) < 0x32)) {
         return 0;
     }
     return 1;
@@ -271,8 +271,8 @@ s32 push_free_entity_id(u16 id) {
   return 0;
 }
 
-s32 TLobby::is_entry_valid(s32 arg0) {
-    if (((s32) *(s32 *)((s8 *)floor_item_counts_by_floor + (arg0 * 4)) < 0xC0) && (arg0 < 0x12)) {
+s32 TLobby::is_entry_valid(s32 floor) {
+    if (((s32) *(s32 *)((s8 *)floor_item_counts_by_floor + (floor * 4)) < 0xC0) && (floor < 0x12)) {
         return 1;
     }
     return 0;

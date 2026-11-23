@@ -604,7 +604,7 @@ extern SND_HOOKS salHooks;
 f32* salMalloc(s32 bytes);
 void salFree(saddr arg0);
 u8 inpTranslateExCtrl(u8 arg0);
-void inpAddCtrl(Obj_803BB8F0 *arg0, u8 arg1, s32 arg2, u8 arg3, u32 arg4);
+void inpAddCtrl(Obj_803BB8F0 *ch, u8 arg1, s32 arg2, u8 x, u32 arg4);
 u8 inpTranslateExCtrl(u8 arg0);
 u16 inpGetMidiCtrl(u8 arg0, u8 channel, u8 set);
 u16 inpGetExCtrl(Obj_803BC7E4 *arg0, u8 arg1);
@@ -682,7 +682,7 @@ extern "C" {
 
 void sndConvertMs(s32 *time);
 u32 sndConvert2Ms(u32 time);
-void salApplyMatrix(u8 *mat, u8 *arg1, u8 *arg2);
+void salApplyMatrix(u8 *mat, u8 *pos, u8 *arg2);
 LAYOUT_ASSERT(RecoveredGlobal_803BD5C4_lbl_805663D8_size, sizeof(RecoveredGlobal_803BD5C4_lbl_805663D8) == 0x6E0);
 extern "C" {
 f32 powf(f32, f32);
@@ -726,7 +726,7 @@ typedef struct AuxChorus_803BFBF0 {
 }
 
 extern "C" {
-void salApplyMatrix(u8 *mat, u8 *arg1, u8 *arg2);
+void salApplyMatrix(u8 *mat, u8 *pos, u8 *arg2);
 f32 salNormalizeVector(Vec_803BAD1C *vec);
 void inpSetGlobalMIDIDirtyFlag(u8 a, u8 b, u32 v);
 void inpSetMidiCtrl(u8 ctrl, u8 channel, u8 set, u8 value);
@@ -735,7 +735,7 @@ void inpResetMidiCtrl(u8 midi, u8 midiSet, u32 arg2);
 u16 inpGetMidiCtrl(u8 ctrl, u8 channel, u8 set);
 u8 *inpGetChannelDefaults(u8 a, u8 b);
 void inpResetChannelDefaults(u8 arg0, u8 arg1);
-void inpAddCtrl(Obj_803BB8F0 *arg0, u8 arg1, s32 arg2, u8 arg3, u32 arg4);
+void inpAddCtrl(Obj_803BB8F0 *ch, u8 arg1, s32 arg2, u8 x, u32 arg4);
 void inpFXCopyCtrl(u8 ctrl, SynthVoice_803BADF8 *dvoice, SynthVoice_803BADF8 *svoice);
 void inpSetMidiLastNote(u8 arg0, u8 arg1, u8 arg2);
 u8 inpGetMidiLastNote(u8 midi, u8 midiSet);

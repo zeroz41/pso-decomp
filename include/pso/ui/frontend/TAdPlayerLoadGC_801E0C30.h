@@ -14,7 +14,7 @@ s32 start_memcard_write(s32 chan, const char *name, void *buffer, s32 blocks, Ca
 }
 
 int fn_801E1510(void);
-s32 card_blocks_for_size(void *arg0, s32 arg1, u32 arg2);
+s32 card_blocks_for_size(void *arg0, s32 arg1, u32 size);
 
 extern void *banner_buffers[6];
 

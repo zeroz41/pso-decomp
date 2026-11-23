@@ -158,9 +158,9 @@ void TLobby__sub_80241798(Sound_80241798 *arg0);
 void calc_sound_spatial_params(SoundRequestVoice *);
 void send_voice_controller_updates(u8 *arg0);
 
-s32 set_voice_pitch_slide(u8 *arg0, s32 arg1, s32 arg2) {
+s32 set_voice_pitch_slide(u8 *arg0, s32 arg1, s32 duration) {
     s32 var_r5;
-    var_r5 = arg2;
+    var_r5 = duration;
     if (var_r5 <= 0) {
         var_r5 = 0x88888888;
     }

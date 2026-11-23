@@ -88,7 +88,7 @@ void TObjPlayer__sub_803DA388(Slot_803DA388 *p, s32 n) {
 }
 #pragma pop
 
-s32 TObjPlayer::find_table_index_by_id(u32 arg0) {
+s32 TObjPlayer::find_table_index_by_id(u32 id) {
     E_803DA55C *e;
     u32 *q;
     s32 i;
@@ -96,7 +96,7 @@ s32 TObjPlayer::find_table_index_by_id(u32 arg0) {
     e = (*(E_803DA55C * *)&record_array_ptr);
     for (; i < record_array_count; e++, i++) {
         q = e->p;
-        if (q != 0 && arg0 == *q) {
+        if (q != 0 && id == *q) {
             return i;
         }
     }

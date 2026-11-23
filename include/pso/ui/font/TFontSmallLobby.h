@@ -22,7 +22,7 @@ struct TFontSmallLobby
     void bswap_6x90_set_player_battle_team();
     void send_font_state_msg();
     static void *create(s32 id);
-    static s32 disable_stealth_suit_effect(s32 arg0, void * _w1);
+    static s32 disable_stealth_suit_effect(s32 arg0, void * command);
     static s32 is_lobby_floor_15();
     static void draw_small_label(int);
 };

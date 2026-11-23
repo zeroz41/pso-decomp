@@ -168,9 +168,9 @@ s16 compare_sockaddr(NetworkAddress *a, NetworkAddress *b) {
     }
 }
 
-s16 AT_IP_GetMssFromDstSrc(u8 *arg0, u8 *arg1) {
-    NetworkAddress *a = (NetworkAddress *)arg0;
-    NetworkAddress *b = (NetworkAddress *)arg1;
+s16 AT_IP_GetMssFromDstSrc(u8 *remote, u8 *local) {
+    NetworkAddress *a = (NetworkAddress *)remote;
+    NetworkAddress *b = (NetworkAddress *)local;
     s16 mtu;
     u32 family;
     Ipv4Route *rt4;

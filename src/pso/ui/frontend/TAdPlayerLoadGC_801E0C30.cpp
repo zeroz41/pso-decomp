@@ -344,8 +344,8 @@ void set_card_banner_and_icon(CardSaveDescriptor *file, s32 index) {
 }
 
 int fn_801E1510(void) {  return lbl_805D5E44; }
-s32 card_blocks_for_size(void *arg0, s32 arg1, u32 arg2) {
-    return (s32) (((arg2 >> 0xDU) + 3) << 0xD) / 8192;
+s32 card_blocks_for_size(void *arg0, s32 arg1, u32 size) {
+    return (s32) (((size >> 0xDU) + 3) << 0xD) / 8192;
 }
 s32 TAdPlayerLoadGC::get_load_result(s32) {
     return card_result_code;

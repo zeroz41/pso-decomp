@@ -812,29 +812,29 @@ s32 TObjPlayer::check_flag_pair(s32 arg0, s32 arg1) {
     return 0;
 }
 
-s32 TObjPlayer::check_flags(s32 arg0, s32 arg1) {
+s32 TObjPlayer::check_flags(s32 flags, s32 arg1) {
     s32 temp_r5;
 
-    temp_r5 = arg0 & arg1;
+    temp_r5 = flags & arg1;
     if (!(temp_r5 & 1)) {
         return 0;
     }
     if (!(temp_r5 & 6)) {
         return 0;
     }
-    if (((arg0 & 8) && (arg1 & 0x2000)) || ((arg1 & 8) && (arg0 & 0x2000))) {
+    if (((flags & 8) && (arg1 & 0x2000)) || ((arg1 & 8) && (flags & 0x2000))) {
         return 0;
     }
-    if (((arg0 & 0x10) && (arg1 & 0x4000)) || ((arg1 & 0x10) && (arg0 & 0x4000))) {
+    if (((flags & 0x10) && (arg1 & 0x4000)) || ((arg1 & 0x10) && (flags & 0x4000))) {
         return 0;
     }
-    if (((arg0 & 0x20) && (arg1 & 0x8000)) || ((arg1 & 0x20) && (arg0 & 0x8000))) {
+    if (((flags & 0x20) && (arg1 & 0x8000)) || ((arg1 & 0x20) && (flags & 0x8000))) {
         return 0;
     }
-    if (((arg0 & 0x40) && (arg1 & 0x10000)) || ((arg1 & 0x40) && (arg0 & 0x10000))) {
+    if (((flags & 0x40) && (arg1 & 0x10000)) || ((arg1 & 0x40) && (flags & 0x10000))) {
         return 0;
     }
-    if (((arg0 & 0x80) && (arg1 & 0x40000)) || ((arg1 & 0x80) && (arg0 & 0x40000))) {
+    if (((flags & 0x80) && (arg1 & 0x40000)) || ((arg1 & 0x80) && (flags & 0x40000))) {
         return 0;
     }
     return 1;

@@ -362,8 +362,8 @@ extern s16 AT_IP4_IfUp(u32 addr, u32 mask, u32 broadcast, s16 idx) {
     return 0;
 }
 #pragma pop
-s16 AT_IP4_IsReachable(u32 arg0, u32 arg1) {
-    if (AT_IP4_RouteSearch(arg0, arg1) != NULL) {
+s16 AT_IP4_IsReachable(u32 ipv4, u32 arg1) {
+    if (AT_IP4_RouteSearch(ipv4, arg1) != NULL) {
         return 1;
     }
     return 0;
@@ -735,9 +735,9 @@ s16 *get_active_entry_by_index(s16 arg0) {
 }
 #pragma pop
 
-s16 TLobby__sub_8040FEE4(s32 arg0, s32 arg1) {
+s16 TLobby__sub_8040FEE4(s32 ipv4, s32 arg1) {
     s32 temp_r0;
-    temp_r0 = arg0 - arg1;
+    temp_r0 = ipv4 - arg1;
     if (temp_r0 < 0) {
         return -1;
     }

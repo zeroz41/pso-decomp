@@ -94,7 +94,7 @@ void TLobby::clear_stale_entries(u8 *tail) {
         var_r29 += 8;
     } while (var_r28 < 0x1E);
 }
-s32 TLobby::add_trade_item(u32 arg1, s32 arg2) {
+s32 TLobby::add_trade_item(u32 arg1, s32 cnt) {
     ItemB_802D20C8 a;
     ItemA_802D20C8 b;
     uaddr item;
@@ -103,7 +103,7 @@ s32 TLobby::add_trade_item(u32 arg1, s32 arg2) {
     s32 i;
     if (arg1 == 0xFFFFFF01) {
         s32 *t = (s32 *) this->get_trade_obj_ptr();
-        t[1] += arg2;
+        t[1] += cnt;
         return t[1] > 999999;
     }
     item = ((u32 (*)(u32)) find_item_by_id)(arg1);
@@ -119,7 +119,7 @@ s32 TLobby::add_trade_item(u32 arg1, s32 arg2) {
                 if (found != 0) {
                     ((TItem *)found)->copy_to_item_data((TItemData *)&b);
                     if (item_identity_matches((u8 *)&b, (u8 *)&a) != 0) {
-                        e->count += arg2;
+                        e->count += cnt;
                         if (e->count > ((TItem *)found)->get_max_stack_size()) {
                             return 2;
                         }
@@ -133,6 +133,6 @@ s32 TLobby::add_trade_item(u32 arg1, s32 arg2) {
         return 3;
     }
     e->id = arg1;
-    e->count = arg2;
+    e->count = cnt;
     return 0;
 }

@@ -26,7 +26,7 @@ struct TAdPlyStatusGC : public TObject {
     void set_status_param(int load_afs);
     static TAdPlyStatusGC *get_index();
     static void set_status_index(int a0, int a1);
-    void close_window(s32 arg1);
+    void close_window(s32 index);
     void close_window();
     void update_shown();
     void update_hidden();

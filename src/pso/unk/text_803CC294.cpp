@@ -406,13 +406,13 @@ inline AdxfHandle *alloc_803CD16C(void) {
     s->used = 1;
     return s;
 }
-inline s32 open_803CD16C(AdxfHandle *s, s32 arg0, s32 arg1) {
+inline s32 open_803CD16C(AdxfHandle *s, s32 partition, s32 arg1) {
     char filename[0x10C];
     s32 c;
     s32 b;
     s32 a;
     AdxStreamFile *h;
-    if (TLobby::get_afs_file_info(arg0, arg1, filename, &a, &b, &c) < 0) {
+    if (TLobby::get_afs_file_info(partition, arg1, filename, &a, &b, &c) < 0) {
         return -3;
     }
     s->archive_start_sector = b;

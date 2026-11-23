@@ -909,11 +909,11 @@ void TAdPlayerLoadGC::reset_slot_entry(s32 arg0) {
 }
 
 // Returns CARDClose's result; for a file index outside 0..99 ret is never set (as in the game).
-s32 TAdPlayerLoadGC::close_card_slot(s32 arg0) {
+s32 TAdPlayerLoadGC::close_card_slot(s32 file_handle) {
     CardFileEntry *s;
     s32 ret;
-    if (arg0 >= 0 && arg0 < 0x64) {
-        s = &card_open_files[arg0];
+    if (file_handle >= 0 && file_handle < 0x64) {
+        s = &card_open_files[file_handle];
         ret = CARDClose(&s->file_info);
         memset(s, 0, 0x88);
         s->channel = 2;

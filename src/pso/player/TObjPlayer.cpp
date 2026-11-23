@@ -151,9 +151,9 @@ void TObjPlayer::bswap_status_effect_data() {
 #pragma push
 #pragma opt_common_subs off
 #pragma pop
-void *TObjPlayer::copy_6x0d_status_effect_packet(void *arg1) {
+void *TObjPlayer::copy_6x0d_status_effect_packet(void *command) {
     copy_subcommand_header(this);
-    ((Pkt_801D2964 *)this)->pos = ((Pkt_801D2964 *)arg1)->pos;
+    ((Pkt_801D2964 *)this)->pos = ((Pkt_801D2964 *)command)->pos;
     return this;
 }
 #pragma push

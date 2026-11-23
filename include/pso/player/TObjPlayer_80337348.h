@@ -34,6 +34,6 @@ struct MaterialUsage {
     u8 pad_8[4];
 };
 
-u8 get_material_limit_for_class(s32 arg0);
+u8 get_material_limit_for_class(s32 class_index);
 
 #endif

@@ -38,7 +38,7 @@ public:
   void init_entry(u8 status_icon, u8 category_icon, u8 status_style, u32 src, s32 item);
   void setup_stat_line(s32 src, s32 arg2, s32 arg3);
   void init_status_entry_by_flag(s32 flag, u32 src, s32 item);
-  void init_list_entry(u8 arg1, s32 src, s32 arg3);
+  void init_list_entry(u8 icon, s32 src, s32 arg3);
   void init_status_entry(u8 category_icon, u32 src, s32 item);
   void set_inventory_item(void *item, s32 count, s32 sid);
   void update_from_player(void *item, s32 arg2, s32 arg3);

@@ -446,8 +446,8 @@ s32 TLobby__sub_802924B4(s32 arg0, u16 slot_index) {
   arg0 = arg0;
 }
 
-void TLobby::set_encoded_name_and_color(u8 *arg0, s32 arg1) {
-    TLobby::encode_name_xor((u8 *)&lbl_804DB1F0 + 0x50, arg0, 0xC);
+void TLobby::set_encoded_name_and_color(u8 *lobby, s32 arg1) {
+    TLobby::encode_name_xor((u8 *)&lbl_804DB1F0 + 0x50, lobby, 0xC);
     *(s32 *)((s8 *)&lbl_804DB1F0 + 0x18) = (s32) (arg1 | 0xFF000000);
 }
 void TLobby::set_split_screen_name() {

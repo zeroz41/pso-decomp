@@ -388,7 +388,7 @@ struct TLobby : public TObject {
     static void draw_if_ready2();
     static s32 check_ready_status();
     static void reset_menu_state_globals();
-    static void set_encoded_name_and_color(u8 *arg0, s32 arg1);
+    static void set_encoded_name_and_color(u8 *lobby, s32 arg1);
     static void update_challenge_timer(s32 arg0);
     static s32 set_camera_height_if_valid(f32 farg0);
     static s32 try_set_split_screen(s32 arg0);
@@ -611,9 +611,9 @@ struct TLobby : public TObject {
     static void set_fade_params(void (*callback)());
     static s32 get_quest_thread_state();
     u8 *pop_stack_entry(s16 arg1);
-    static s32 is_stat_over_limit(s32 arg0);
+    static s32 is_stat_over_limit(s32 floor);
     s32 write_sync_item_state();
-    static s32 is_entry_valid(s32 arg0);
+    static s32 is_entry_valid(s32 floor);
     static void respawn_missing_floor_items(s32 n);
     static void drop_item_from_source(s16 source, int client, s16 room, int slot, f32 x, f32 z);
     static void reset_item_id_counters();
@@ -808,7 +808,7 @@ struct TLobby : public TObject {
     static void update_floor_state_deferred();
     static void update_scene_alt();
     static s32 is_multi_ready();
-    s32 add_trade_item(u32 arg1, s32 arg2);
+    s32 add_trade_item(u32 arg1, s32 cnt);
     static void update_game_modes();
     void byteswap_trade_packet();
     void prepare_and_send_trade_packet(u32 client_id);
@@ -864,7 +864,7 @@ struct TLobby : public TObject {
     s32 lz_compress_packet(void *src, s32 size, s32 *hdr);
     void assign_object_ids(s32 arg1, void *arg2);
     static s32 init_floor_enemy_count(s32 floor, u8 *source, u32 size);
-    static s32 load_object_set_entries(s32 arg0, u8 *rows, u32 arg2);
+    static s32 load_object_set_entries(s32 arg0, u8 *rows, u32 byte_size);
     static s32 unhide_enemies_at(s32 arg0, s32 arg1, s32 arg2);
     void transfer_trade_item_amount(u32 arg1, s32 arg2);
     void move_trade_item_amount(u32 arg1, s32 arg2);
@@ -887,7 +887,7 @@ struct TLobby : public TObject {
     void send_compressed_packet_6c();
     void send_cmd_6B();
     u8 *create_new_floor_windows();
-    static AdxbDecoder *alloc_record(s32 arg0, saddr arg1, s32 arg2, s32 arg3);
+    static AdxbDecoder *alloc_record(s32 arg0, saddr arg1, s32 size, s32 arg3);
     static void append_float_value(s32 reg);
     static void append_int_param(s32 reg);
     static void send_simple_mail(s32 arg0, void *arg1);

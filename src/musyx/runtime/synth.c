@@ -1117,9 +1117,9 @@ void synthVolume(u8 volume, u16 time, u8 vGroup, s8 seqMode, s32 seqId) {
 
 #pragma push
 #pragma opt_common_subs on
-s32 synthIsFadeOutActive(u8 arg0) {
-    if (synthMasterFader[arg0].type != 4 && (synthMasterFaderActiveFlags & (1 << arg0)) &&
-        synthMasterFader[arg0].start > synthMasterFader[arg0].target) {
+s32 synthIsFadeOutActive(u8 defVGroup) {
+    if (synthMasterFader[defVGroup].type != 4 && (synthMasterFaderActiveFlags & (1 << defVGroup)) &&
+        synthMasterFader[defVGroup].start > synthMasterFader[defVGroup].target) {
         return 1;
     }
     return 0;

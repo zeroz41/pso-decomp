@@ -375,7 +375,7 @@ inline void free_803C3E88(AdxbDecoder *r) {
         r->used = 0;
     }
 }
-AdxbDecoder *TLobby::alloc_record(s32 channels, saddr arg1, s32 arg2, s32 arg3) {
+AdxbDecoder *TLobby::alloc_record(s32 channels, saddr arg1, s32 size, s32 arg3) {
     s32 i;
     AdxbDecoder *r;
     for (i = 0; i < 16; i++) {
@@ -396,7 +396,7 @@ AdxbDecoder *TLobby::alloc_record(s32 channels, saddr arg1, s32 arg2, s32 arg3) 
     }
     r->m_38 = channels;
     r->m_3C = (s16 *)arg1;
-    r->wrap_len = arg2;
+    r->wrap_len = size;
     r->wrap_offset = arg3;
     r->read = (void (*)(s32, s32 *, s32 *, s32 *))get_progress_info__6TLobbyFPvPvPvPv;
     r->readArg = (saddr)r;

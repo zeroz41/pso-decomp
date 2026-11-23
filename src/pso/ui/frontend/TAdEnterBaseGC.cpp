@@ -194,7 +194,7 @@ void TAdEnterBaseGC::fn_8032B318(Position *position) {
 
 int TAdEnterSerialAccessGC::forward_input(void *window, s32 mode, const char *buf) { return validate_input__22TAdEnterSerialAccessGCFPviPv(window, mode, buf); }
 
-int validate_input__22TAdEnterSerialAccessGCFPviPv(void *arg0, s32 arg1, const char *arg2) {
+int validate_input__22TAdEnterSerialAccessGCFPviPv(void *window, s32 mode, const char *arg2) {
     s32 i;
     s32 n;
 
@@ -202,13 +202,13 @@ int validate_input__22TAdEnterSerialAccessGCFPviPv(void *arg0, s32 arg1, const c
     max.n[2] = strlen(arg2);
     max.n[3] = strlen(arg2);
     Lim_8032B1A4 min = {10, 12, 1, 0};
-    if (strlen(arg2) < min.n[arg1]) {
+    if (strlen(arg2) < min.n[mode]) {
         return 0;
     }
-    switch (arg1) {
+    switch (mode) {
     case 0:
     case 1:
-        n = max.n[arg1];
+        n = max.n[mode];
         for (i = 0; i < n; i++, arg2++) {
             if (TAdEndText__sub_8001B3BC(*arg2) == 0) {
                 return 0;
@@ -216,7 +216,7 @@ int validate_input__22TAdEnterSerialAccessGCFPviPv(void *arg0, s32 arg1, const c
         }
         break;
     case 2:
-        n = max.n[arg1];
+        n = max.n[mode];
         for (i = 0; i < n; i++, arg2++) {
             if (TAdEndText__sub_8001B3EC(*arg2) == 0) {
                 return 0;
@@ -276,15 +276,15 @@ s32 has_serial_input__22TAdEnterSerialAccessGCFv(s32 parent, s32 field) {
     return (s8)*get_serial_text__22TAdEnterSerialAccessGCFii(parent, field) ? 1 : 0;
 }
 
-u8 *get_serial_text__22TAdEnterSerialAccessGCFii(s32 arg0, s32 arg1) {
-    if (arg1 == 3) {
+u8 *get_serial_text__22TAdEnterSerialAccessGCFii(s32 arg0, s32 field) {
+    if (field == 3) {
         return (u8 *)"";
     }
-    if (arg1 == 2 && TAdPsoPassSaveGC__sub_8032B584() == 0) {
+    if (field == 2 && TAdPsoPassSaveGC__sub_8032B584() == 0) {
         return (u8 *)"";
     }
     if (*(s8 *) (TAdSinglePlyChrSelectGC::get_instance() + 0x1152C) != 0) {
-        switch (arg1) {
+        switch (field) {
         case 0:
             return (u8 *) TAdEnterSerialAccessGC::serial_to_hex_string((const char *)(TAdSinglePlyChrSelectGC::get_instance() + 0x1152C));
         case 1:
@@ -292,8 +292,8 @@ u8 *get_serial_text__22TAdEnterSerialAccessGCFii(s32 arg0, s32 arg1) {
         case 2:
             return (u8 *) (TAdSinglePlyChrSelectGC::get_instance() + 0x1154C);
         }
-    } else if (serial_access_entered_value_table[arg1] == get_field_118__22TAdEnterSerialAccessGCFv()) {
-        switch (arg1) {
+    } else if (serial_access_entered_value_table[field] == get_field_118__22TAdEnterSerialAccessGCFv()) {
+        switch (field) {
         case 0:
             return get_raw_serial_input_buffer();
         case 1:

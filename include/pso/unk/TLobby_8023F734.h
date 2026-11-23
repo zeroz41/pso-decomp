@@ -113,7 +113,7 @@ void update_random_flip_flag__6TLobbyFv(u8 *arg0);
 s32 validate_and_set_selection__6TLobbyFl(void *arg0, s32 arg1);
 }
 
-s32 set_voice_pitch_slide(u8 *arg0, s32 arg1, s32 arg2);
+s32 set_voice_pitch_slide(u8 *arg0, s32 arg1, s32 duration);
 s32 tick_sound_voice(struct SoundRequestVoice *v);
 
 // --- C functions defined in TLobby_8023F734.cpp ---

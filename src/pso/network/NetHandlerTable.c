@@ -174,14 +174,14 @@ s16 call_handler_by_index(s16 arg0, s32 payload, s32 detail, s32 first, s32 seco
     return fn(payload, detail, first, second);
 }
 
-s16 dispatch_handler_by_index(s16 arg0, s32 def, s32 arg2, s32 tex) {
+s16 dispatch_handler_by_index(s16 id, s32 def, s32 arg2, s32 tex) {
     LobbyHandler *e;
     s16 (*fn)(s32, s32, s32);
-    if (arg0 < 0 || arg0 > lobby_handler_table_desc.count) {
+    if (id < 0 || id > lobby_handler_table_desc.count) {
         return -0x10F;
     }
     e = lobby_handler_table_desc.list;
-    e += arg0;
+    e += id;
     if (e->active == 0) {
         return -2;
     }

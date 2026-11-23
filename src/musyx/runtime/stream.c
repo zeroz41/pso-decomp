@@ -303,8 +303,8 @@ void streamCorrectLoops(void) {
 
 }
 
-void streamKill(s32 arg0) {
-    STREAM_INFO *r = &streamInfo[arg0];
+void streamKill(s32 vi) {
+    STREAM_INFO *r = &streamInfo[vi];
 
     switch (r->state) {
     case 1:

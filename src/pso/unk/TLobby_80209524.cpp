@@ -839,7 +839,7 @@ int TLobby::rebuild_entry() { return clear_record_flags_a(); }
 
 // ---- pso/unk/text_8020AB50
 
-s32 load_area_enemy_set(s32 floor, s32 arg1, s32 terrain, s32 entities) {
+s32 load_area_enemy_set(s32 floor, s32 area, s32 terrain, s32 entities) {
     char buf[0x28];
     const char *filename;
     s32 size;
@@ -848,8 +848,8 @@ s32 load_area_enemy_set(s32 floor, s32 arg1, s32 terrain, s32 entities) {
     s32 i;
     MapSetVariant *t2;
     MapSetEntry *t3;
-    t2 = TLobby__data_805D6068[arg1].variants;
-    if (t2 == NULL || TLobby__data_805D6068[arg1].count - 1 < terrain) {
+    t2 = TLobby__data_805D6068[area].variants;
+    if (t2 == NULL || TLobby__data_805D6068[area].count - 1 < terrain) {
         TLobby::debug_print("NOT FOUND SET");
         return 0;
     }
@@ -859,7 +859,7 @@ s32 load_area_enemy_set(s32 floor, s32 arg1, s32 terrain, s32 entities) {
         return 0;
     }
     filename = t3[entities].enemy_set_name;
-    if (arg1 == 0 || arg1 == 0x12) {
+    if (area == 0 || area == 0x12) {
         switch (get_game_play_mode()) {
         case 0:
             replace_file_extension__6TLobbyFPvPvPv((char *)buf, (char *)filename, "e.dat");
@@ -887,7 +887,7 @@ s32 load_area_enemy_set(s32 floor, s32 arg1, s32 terrain, s32 entities) {
         bswap_enemy_set_row(p);
         *(s16 *)(p + 2) = 0;
     }
-    reserve_enemy_set_actor_ids((SpawnRecord_8020A9C4 *)TLobby__map_set_file_buffer, count, arg1);
+    reserve_enemy_set_actor_ids((SpawnRecord_8020A9C4 *)TLobby__map_set_file_buffer, count, area);
     init_floor_enemy_count__6TLobbyFlPUcUl(floor, TLobby__map_set_file_buffer, size);
     return 1;
 }
@@ -1141,9 +1141,9 @@ s32 TLobby::init_floor_enemy_count(s32 floor, u8 *source, u32 size) {
     return 0;
 }
 
-s32 TLobby::load_object_set_entries(s32 arg0, u8 *rows, u32 arg2) {
-    if (TLobby::load_floor_enemy_group_entries(arg0, (FloorObjectSetRow *)rows, arg2) == 1) {
-        TLobby__data_80513C80[arg0] = arg2 / 68U;
+s32 TLobby::load_object_set_entries(s32 arg0, u8 *rows, u32 byte_size) {
+    if (TLobby::load_floor_enemy_group_entries(arg0, (FloorObjectSetRow *)rows, byte_size) == 1) {
+        TLobby__data_80513C80[arg0] = byte_size / 68U;
         return 1;
     }
     TLobby__data_80513C80[arg0] = -1;

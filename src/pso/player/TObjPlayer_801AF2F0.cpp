@@ -2559,10 +2559,10 @@ void TObjPlayer::send_6x26_unequip_item(void *self, u32 item_id) {
     }
 }
 
-void *TObjPlayer::copy_unequip_fields(void *arg1) {
+void *TObjPlayer::copy_unequip_fields(void *command) {
     copy_subcommand_header();
-    *(s32 *)((s8 *)this + 4) = (s32) *(s32 *)((s8 *)arg1 + 4);
-    *(s32 *)((s8 *)this + 8) = (s32) *(s32 *)((s8 *)arg1 + 8);
+    *(s32 *)((s8 *)this + 4) = (s32) *(s32 *)((s8 *)command + 4);
+    *(s32 *)((s8 *)this + 8) = (s32) *(s32 *)((s8 *)command + 8);
     return this;
 }
 
@@ -3053,14 +3053,14 @@ void TObjPlayer::request_item_drop(s32 key, s32 count) {
     insert_item_node__10TObjPlayerFiiiii((saddr)&this->inventory_objects->list, TObjPlayer__sub_801BF914(((u8 *)this) + 0x84C), this, &item, id);
 }
 
-void TObjPlayer::request_meseta_drop(s32 arg1) {
+void TObjPlayer::request_meseta_drop(s32 amount) {
     LAYOUT_ASSERT(sp8_offset, offsetof(Stack_801B8A80, sp8) == 0x0);
     LAYOUT_ASSERT(sp14_offset, offsetof(Stack_801B8A80, sp14) == 0xC);
     Stack_801B8A80 stack;
-    if (arg1 > 0) {
+    if (amount > 0) {
         TObjPlayer::play_effect_default((saddr)this, 0x384);
         set_action_flag_2();
-        ((TObjPlayer *)(&stack.sp8))->init_item_data(arg1);
+        ((TObjPlayer *)(&stack.sp8))->init_item_data(amount);
         stack.sp14 = -1;
         insert_item_node__10TObjPlayerFiiiii((saddr)&this->inventory_objects->list, TObjPlayer__sub_801BF914(((u8 *)this) + 0x84C), this, &stack.sp8, -1);
     }
@@ -3106,12 +3106,12 @@ void handle_6x83_place_trap(void *command) {
     }
 }
 
-void TObjPlayer::send_6x2A_drop_item(void *player, s32 arg1, void *arg2, s32 arg3) {
+void TObjPlayer::send_6x2A_drop_item(void *player, s32 source, void *arg2, s32 arg3) {
     Cmd_801B8870 cmd;
     if (((s32 (*)(void))is_volopt_phase_final__10TObjPlayerFv)() == 0 && (player == NULL || ((TObjChara *)player)->obj_isState2_324() == 0)) {
         ((TObjPlayer *)(&cmd))->init_6x2A();
         cmd.client = ((TObjBase *)((saddr)player))->get_entity_id();
-        cmd.a = arg1;
+        cmd.a = source;
         cmd.b = arg3;
         cmd.floor = ((s16 (*)(void))get_current_floor)();
         VecCopy((Vec *)&cmd.pos, (const Vec *)arg2);
@@ -3188,13 +3188,13 @@ s32 try_buy_item(saddr player, void *item) {
 
 #pragma push
 #pragma opt_propagation off
-s32 TObjPlayer::try_add_sale_meseta(s32 arg1, s32 amount, s32 arg3) {
+s32 TObjPlayer::try_add_sale_meseta(s32 arg1, s32 amount, s32 count) {
     s32 max = 999999;
     if (max < ((Player_801B855C *)this)->data->meseta + amount) {
         return 0;
     }
     ((TObjPlayer *)((Player_801B855C *)this))->add_meseta((s32)amount);
-    ((void (*)(void *, s32, s32))send_6x29_delete_item__10TObjPlayerFPvii)(((Player_801B855C *)this), arg1, arg3);
+    ((void (*)(void *, s32, s32))send_6x29_delete_item__10TObjPlayerFPvii)(((Player_801B855C *)this), arg1, count);
     return 1;
 }
 #pragma pop
@@ -3868,16 +3868,16 @@ void send_6x30_change_player_level(Player_801B6C30 *arg0) {
     }
 }
 
-void *TObjPlayer::copy_fields(void *arg1) {
+void *TObjPlayer::copy_fields(void *command) {
     copy_subcommand_header();
-    this->m_flags = (s16) *(s16 *)((s8 *)arg1 + 4);
-    this->m_id = (s16) *(s16 *)((s8 *)arg1 + 6);
-    *(s16 *)((s8 *)this + 8) = (s16) *(s16 *)((s8 *)arg1 + 8);
-    *(s16 *)((s8 *)this + 0xA) = (s16) *(s16 *)((s8 *)arg1 + 0xA);
-    *(s16 *)((s8 *)this + 0xC) = (s16) *(s16 *)((s8 *)arg1 + 0xC);
-    *(s16 *)((s8 *)this + 0xE) = (s16) *(s16 *)((s8 *)arg1 + 0xE);
-    *(s16 *)((s8 *)this + 0x10) = (s16) *(s16 *)((s8 *)arg1 + 0x10);
-    *(s16 *)((s8 *)this + 0x12) = (s16) *(s16 *)((s8 *)arg1 + 0x12);
+    this->m_flags = (s16) *(s16 *)((s8 *)command + 4);
+    this->m_id = (s16) *(s16 *)((s8 *)command + 6);
+    *(s16 *)((s8 *)this + 8) = (s16) *(s16 *)((s8 *)command + 8);
+    *(s16 *)((s8 *)this + 0xA) = (s16) *(s16 *)((s8 *)command + 0xA);
+    *(s16 *)((s8 *)this + 0xC) = (s16) *(s16 *)((s8 *)command + 0xC);
+    *(s16 *)((s8 *)this + 0xE) = (s16) *(s16 *)((s8 *)command + 0xE);
+    *(s16 *)((s8 *)this + 0x10) = (s16) *(s16 *)((s8 *)command + 0x10);
+    *(s16 *)((s8 *)this + 0x12) = (s16) *(s16 *)((s8 *)command + 0x12);
     return this;
 }
 
@@ -4551,7 +4551,7 @@ void TObjPlayer::send_code_45_1(saddr player) {
     }
 }
 
-s32 TObjPlayer::draw_small_font(saddr arg0, void * _w1) {
+s32 TObjPlayer::draw_small_font(saddr arg0, void * command) {
     copy_subcommand_header();
     return arg0;
 }
@@ -4865,7 +4865,7 @@ void send_code_49_1__10TObjPlayerFi(saddr player) {
     }
 }
 
-s32 TObjPlayer::update_medical_font(saddr arg0, void * _w1) {
+s32 TObjPlayer::update_medical_font(saddr arg0, void * command) {
     copy_subcommand_header();
     return arg0;
 }
@@ -4922,7 +4922,7 @@ void TObjPlayer__sub_801B4430(saddr arg0) {
     }
 }
 
-s32 TObjPlayer::revive_6xA1(saddr arg0, void * _w1) {
+s32 TObjPlayer::revive_6xA1(saddr arg0, void * command) {
     copy_subcommand_header();
     return arg0;
 }
@@ -6127,7 +6127,7 @@ void TObjPlayer::send_item_pickup_request(saddr player) {
     }
 }
 
-s32 TObjPlayer::update_small_font(saddr arg0, void * _w1) {
+s32 TObjPlayer::update_small_font(saddr arg0, void * command) {
     copy_subcommand_header();
     return arg0;
 }
@@ -6280,7 +6280,7 @@ void draw_small_label__15TFontSmallLobbyFi(saddr arg0) {
     }
 }
 
-s32 TFontSmallLobby::disable_stealth_suit_effect(s32 arg0, void * _w1) {
+s32 TFontSmallLobby::disable_stealth_suit_effect(s32 arg0, void * command) {
     copy_subcommand_header();
     return arg0;
 }

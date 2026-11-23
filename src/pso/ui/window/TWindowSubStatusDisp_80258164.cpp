@@ -445,12 +445,12 @@ void ItemListRow::init_status_entry_by_flag(s32 flag, u32 src, s32 item) {
     this->x = lbl_805DCF04;
 }
 
-void ItemListRow::init_list_entry(u8 arg1, s32 src, s32 arg3) {
+void ItemListRow::init_list_entry(u8 icon, s32 src, s32 arg3) {
     u8 var_r0;
 
-    var_r0 = arg1;
+    var_r0 = icon;
     this->x = (f32) lbl_805DCF04;
-    if (arg1 == 0x18) {
+    if (icon == 0x18) {
         var_r0 = 0x16;
     }
     this->status_icon = var_r0;
@@ -462,7 +462,7 @@ void ItemListRow::init_list_entry(u8 arg1, s32 src, s32 arg3) {
     this->suffix_style = -1;
     this->item = arg3;
     this->flags |= 0x145;
-    if (arg1 == 0x18) {
+    if (icon == 0x18) {
         this->flags |= 0x80;
         this->style = 0xFF909090;
     }

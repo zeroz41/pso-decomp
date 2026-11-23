@@ -209,13 +209,13 @@ s32 TQuestVmDownLoadServer::get_buffer_size() {
 }
 
 
-u8 TQuestVmDownLoadServer::lookup_value_by_key(u16 arg0) {
+u8 TQuestVmDownLoadServer::lookup_value_by_key(u16 code) {
     const JisSymbolEntry *p;
     for (p = jis_to_single_byte_symbol_table; p < jis_to_single_byte_symbol_table + 45; p++) {
-        if (p->key == arg0) {
+        if (p->key == code) {
             return p->val;
         }
-        if (p->key > arg0) {
+        if (p->key > code) {
             break;
         }
     }
@@ -225,11 +225,11 @@ u8 TQuestVmDownLoadServer::lookup_value_by_key(u16 arg0) {
 #pragma push
 #pragma bool off
 
-s32 TQuestVmDownLoadServer__sub_803E6F98(u16 arg0) {
+s32 TQuestVmDownLoadServer__sub_803E6F98(u16 prev) {
     u8 decoded[2];
     u16 code;
-    code = arg0;
-    if (TQuestVmDownLoadServer__is_sjis_double_byte(arg0) != 0) {
+    code = prev;
+    if (TQuestVmDownLoadServer__is_sjis_double_byte(prev) != 0) {
         code = TQuestVmDownLoadServer__sub_803EC69C(code);
     }
     if (TQuestVmDownLoadServer__sub_803E7098(decoded, code) != 1) {
@@ -238,11 +238,11 @@ s32 TQuestVmDownLoadServer__sub_803E6F98(u16 arg0) {
     return (romaji_kana_char_class_table[decoded[0]] & 0xF) == 0xB;
 }
 
-s32 TQuestVmDownLoadServer__sub_803E7018(u16 arg0) {
+s32 TQuestVmDownLoadServer__sub_803E7018(u16 prev) {
     u8 decoded[2];
     u16 code;
-    code = arg0;
-    if (TQuestVmDownLoadServer__is_sjis_double_byte(arg0) != 0) {
+    code = prev;
+    if (TQuestVmDownLoadServer__is_sjis_double_byte(prev) != 0) {
         code = TQuestVmDownLoadServer__sub_803EC69C(code);
     }
     if (TQuestVmDownLoadServer__sub_803E7098(decoded, code) != 1) {

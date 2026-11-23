@@ -3,6 +3,6 @@
 
 #include "types.h"
 
-s32 load_area_enemy_set(s32 floor, s32 arg1, s32 terrain, s32 entities);
+s32 load_area_enemy_set(s32 floor, s32 area, s32 terrain, s32 entities);
 
 #endif
