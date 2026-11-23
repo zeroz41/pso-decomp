@@ -37,9 +37,6 @@ struct E_800D80E4 { Vec v; u8 pad[8]; u32 col; };
 
 struct Obj_800D80E4 { u8 pad0[0x18]; void *vt; E_800D80E4 e[4]; Vec base; Vec dir[4]; u8 padb8[8]; f32 sc; u8 padc4[4]; f32 c8; };
 
-struct E_800D8228 { Vec v; u8 pad[8]; u32 col; };
-
-struct Obj_800D8228 { u8 pad0[0x18]; void *vt; E_800D8228 e[4]; Vec base; Vec dir[4]; u8 padb8[8]; f32 sc; f32 t; f32 c8; };
 
 struct Vtx_800D8314 { Vec pos; f32 u; f32 v; s32 color; };
 
@@ -59,7 +56,6 @@ extern "C" {
 f32 vec3_add_to(void *, void *);
 extern const f32 lbl_805DA380;
 u32 __cvt_fp2unsigned(f32);
-void run_task__9TDeadSpotFv(Obj_800D8228 *arg0);
 s32 rotate_matrix_z(int, int);
 s32 rotate_matrix_x(int, int);
 
@@ -196,23 +192,23 @@ TDeadSpot::~TDeadSpot() {}
 #pragma pop
 #pragma push
 #pragma fp_contract on
-void run_task__9TDeadSpotFv(Obj_800D8228 *arg0) {
-    E_800D8228 *p;
+void TDeadSpot::run_task() {
+    ParticleStripVertex *p;
     s32 i;
     f32 bx, by, bz;
-    if (arg0->t <= arg0->sc) {
-        arg0->t += 0.2f;
-        if (arg0->t <= 0.0f) {
+    if (scale <= max_scale) {
+        scale += 0.2f;
+        if (scale <= 0.0f) {
             return;
         }
-        p = arg0->e;
-        bx = arg0->base.x;
-        by = arg0->base.y;
-        bz = arg0->base.z;
+        p = verts;
+        bx = center.x;
+        by = center.y;
+        bz = center.z;
         for (i = 0; i < 4; i++) {
-            p->v.x = arg0->dir[i].x * arg0->t + bx;
-            p->v.y = arg0->dir[i].y * arg0->t + by;
-            p->v.z = arg0->dir[i].z * arg0->t + bz;
+            p->x = corners[i].x * scale + bx;
+            p->y = corners[i].y * scale + by;
+            p->z = corners[i].z * scale + bz;
             p++;
         }
     }
