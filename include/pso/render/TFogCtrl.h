@@ -50,6 +50,7 @@ struct TFogCtrl : public TObject {
     f32 blend_rate;
     s32 locked;          // while set, select_fog and restore_fog refuse
     s32 index;           // the view this controller belongs to
+    static TFogCtrl *fog_instance_table[4];  // one per view, NULL when none
     static s32 select_fog_for_viewport(s32 arg0, s32 arg1, s32 arg2);
     static s32 restore_fog_for_player(s32 owner_client_id, s32 arg0);
     static void*get_entry(int a0);

@@ -24,7 +24,6 @@
 #include "pso/math/AngleLookup.h"
 
 extern "C" {
-extern TFogCtrl *TFogCtrl__fog_instance_table[];
 static const char lbl_8043DA20[] = "fogentry.dat";
 static const char lbl_8043DA30[] = "fogentry_a.dat";
 const char *TFogCtrl__name = "TFogCtrl";
@@ -64,7 +63,7 @@ s32 area_fog_row_table[36] = {
     96, 97, 98, 64, 65, 24, 25, 26, 27, 28, 40, 41, 66, 99, 100, 16, 73, 75,
 };
 // The TFogCtrl of each view (one per player in split screen).
-TFogCtrl *TFogCtrl__fog_instance_table[4];
+TFogCtrl *TFogCtrl::fog_instance_table[4];
 FogEntry fog_default_entry;
 FogEntry *fog_entry_array;
 s32 fog_update_flags;
@@ -91,7 +90,7 @@ void init_scene_fog_system(void) {
     }
     read_disc_file(lbl_8043DA20, fog_entry_array);
     for (i = 0; i < 4; i++) {
-        TFogCtrl__fog_instance_table[i] = NULL;
+        TFogCtrl::fog_instance_table[i] = NULL;
     }
     TParticleCtrl::end_effect_render();
     TFogCtrl::create_instance();
@@ -139,8 +138,8 @@ void TFogCtrl::update_fog_entries() {
         fog_update_flags &= ~2;
     }
     for (i = 0; i != 4; i++) {
-        if (TFogCtrl__fog_instance_table[i] != NULL) {
-            TFogCtrl__fog_instance_table[i]->fn_800FBAAC();
+        if (fog_instance_table[i] != NULL) {
+            fog_instance_table[i]->fn_800FBAAC();
         }
     }
     TParticleCtrl::end_effect_render();
@@ -151,8 +150,8 @@ void TFogCtrl::fn_800FBAAC() { }
 void TFogCtrl::fn_800FBA58() {
     s32 i;
     for (i = 0; i != 4; i++) {
-        if (TFogCtrl__fog_instance_table[i] != NULL) {
-            TFogCtrl__fog_instance_table[i]->fn_800FBA54();
+        if (fog_instance_table[i] != NULL) {
+            fog_instance_table[i]->fn_800FBA54();
         }
     }
 }
@@ -167,7 +166,7 @@ TFogCtrl::TFogCtrl(TObject *parent, s32 index) : TObject(parent) {
     m_name = TFogCtrl__name;
     this->index = index;
     if (this->index >= 0 && this->index < 4) {
-        TFogCtrl__fog_instance_table[this->index] = this;
+        fog_instance_table[this->index] = this;
     }
     mode = 0;
     zero = FOG_ZERO;
@@ -198,7 +197,7 @@ TFogCtrl::~TFogCtrl() {
     reset_scene_fog();
     TParticleCtrl::end_effect_render();
     if (index >= 0 && index < 4) {
-        TFogCtrl__fog_instance_table[index] = NULL;
+        fog_instance_table[index] = NULL;
     }
 }
 
@@ -498,8 +497,8 @@ void TFogCtrl::update_all() {
     s32 i;
     if (is_split_screen() == 0) {
         for (i = 0; i != 4; i++) {
-            if (TFogCtrl__fog_instance_table[i] != NULL) {
-                TFogCtrl__fog_instance_table[i]->clear_active_flag();
+            if (fog_instance_table[i] != NULL) {
+                fog_instance_table[i]->clear_active_flag();
             }
         }
     }
@@ -513,7 +512,7 @@ void TFogCtrl::update_all() {
 void TFogCtrl::clear_split_screen_fog() {
     TFogCtrl *fog;
     if (is_split_screen() == 1) {
-        fog = TFogCtrl__fog_instance_table[TCameraCtrl::get_nth_view_player_id(TCameraCtrl::get_camera_mode())];
+        fog = fog_instance_table[TCameraCtrl::get_nth_view_player_id(TCameraCtrl::get_camera_mode())];
         if (fog != NULL) {
             fog->clear_active_flag();
         }
@@ -570,8 +569,8 @@ s32 TFogCtrl::restore_fog_for_player(s32 owner_client_id, s32 arg0) {
         owner_client_id = 0;
     }
     if ((owner_client_id >= 0) && (owner_client_id < 4)) {
-        if (TFogCtrl__fog_instance_table[owner_client_id] != NULL) {
-            return TFogCtrl__fog_instance_table[owner_client_id]->restore_fog(arg0);
+        if (fog_instance_table[owner_client_id] != NULL) {
+            return fog_instance_table[owner_client_id]->restore_fog(arg0);
         }
     }
     return 0;
@@ -586,8 +585,8 @@ s32 TFogCtrl::select_fog_for_viewport(s32 arg0, s32 arg1, s32 arg2) {
     if (is_split_screen() == 0) {
         arg0 = 0;
     }
-    if (arg0 >= 0 && arg0 < 4 && TFogCtrl__fog_instance_table[arg0] != NULL) {
-        return TFogCtrl__fog_instance_table[arg0]->select_fog(arg1, arg2);
+    if (arg0 >= 0 && arg0 < 4 && fog_instance_table[arg0] != NULL) {
+        return fog_instance_table[arg0]->select_fog(arg1, arg2);
     }
     return 0;
 }
@@ -596,8 +595,8 @@ s32 TFogCtrl::select_fog_for_viewport(s32 arg0, s32 arg1, s32 arg2) {
 s32 TFogCtrl::update_all(s32 arg0) {
     s32 i;
     for (i = 0; i != 4; i++) {
-        if (TFogCtrl__fog_instance_table[i] != NULL) {
-            TFogCtrl__fog_instance_table[i]->restore_fog(arg0);
+        if (fog_instance_table[i] != NULL) {
+            fog_instance_table[i]->restore_fog(arg0);
         }
     }
     return 1;
@@ -606,8 +605,8 @@ s32 TFogCtrl::update_all(s32 arg0) {
 s32 TFogCtrl::update_first_active_fog() {
     s32 i;
     for (i = 0; i < 4; i++) {
-        if (TFogCtrl__fog_instance_table[i] != NULL) {
-            return TFogCtrl__fog_instance_table[i]->fn_800FAC84();
+        if (fog_instance_table[i] != NULL) {
+            return fog_instance_table[i]->fn_800FAC84();
         }
     }
     return 0;
@@ -616,8 +615,8 @@ s32 TFogCtrl::update_first_active_fog() {
 s32 TFogCtrl::apply_all(s32 arg0, s32 arg1) {
     s32 i;
     for (i = 0; i != 4; i++) {
-        if (TFogCtrl__fog_instance_table[i] != NULL) {
-            TFogCtrl__fog_instance_table[i]->select_fog(arg0, arg1);
+        if (fog_instance_table[i] != NULL) {
+            fog_instance_table[i]->select_fog(arg0, arg1);
         }
     }
     return 1;
@@ -626,8 +625,8 @@ s32 TFogCtrl::apply_all(s32 arg0, s32 arg1) {
 s32 TFogCtrl::update_all(s32 arg0, s32 arg1) {
     s32 i;
     for (i = 0; i != 4; i++) {
-        if (TFogCtrl__fog_instance_table[i] != NULL) {
-            TFogCtrl__fog_instance_table[i]->request_fog(arg0, arg1);
+        if (fog_instance_table[i] != NULL) {
+            fog_instance_table[i]->request_fog(arg0, arg1);
         }
     }
     return 1;
