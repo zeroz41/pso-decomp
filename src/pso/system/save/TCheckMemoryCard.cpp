@@ -1,5 +1,6 @@
 #include "types.h"
 #include "pso/ui/window/WindowMenuFactory.h"
+#include "pso/system/save/CardSaveFile.h"
 #include "pso/system/save/TCheckMemoryCard.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
@@ -19,9 +20,7 @@
 extern "C" {
 s32 poll_memcard_result(saddr chan);
 }
-extern char pso_system_card_filename[];
 extern char pso_character_card_filename[];
-extern char pso_guildcard_card_filename[];
 
 // Text of one card message: the entry is replaced by keyboard_entry while the keyboard controller is in use.
 struct CheckMemoryCardText {
@@ -68,13 +67,13 @@ s32 TCheckMemoryCard::is_card_ready() {
 }
 
 s32 TCheckMemoryCard::has_no_save_files(s32 chan) {
-    if (TAdPlayerLoadGC::find_card_file(chan, pso_system_card_filename) != 0 || TAdPlayerLoadGC::find_card_file(chan, pso_character_card_filename) != 0 || TAdPlayerLoadGC::find_card_file(chan, pso_guildcard_card_filename) != 0) {
+    if (TAdPlayerLoadGC::find_card_file(chan, pso_system_card_filename) != 0 || TAdPlayerLoadGC::find_card_file(chan, pso_character_card_filename) != 0 || TAdPlayerLoadGC::find_card_file(chan, pso_guildcard_card_filename.filename) != 0) {
         return 0;
     }
     return 1;
 }
 
-s32 TCheckMemoryCard::sub_8033BA84(s32 chan) {
+s32 TCheckMemoryCard::has_no_system_file(s32 chan) {
     if (TAdPlayerLoadGC::find_card_file(chan, pso_system_card_filename) != 0) {
         return 0;
     }
@@ -122,7 +121,7 @@ s32 TCheckMemoryCard::check_card() {
     status_checked = 1;
     flags = check_player_data();
     if (system_file_only != 0) {
-        if (sub_8033BA84(0) == 0) {
+        if (has_no_system_file(0) == 0) {
             flags |= 0x10;
         }
     } else if (has_no_save_files(0) == 0) {

@@ -58,7 +58,6 @@ extern "C" {
 
 const char *TAdTrialAgreementGC__name = "TAdTrialAgreementGC";
 
-extern s32 pso_system_card_filename[];
 
 s32 TAdTrialAgreementGC::check_card_file(saddr arg0) {
     s32 card_file;
@@ -74,7 +73,7 @@ s32 TAdTrialAgreementGC::check_card_file(saddr arg0) {
         return 0;
     }
     ((TAdTrialAgreementGC *)arg0)->wait_for_load();
-    card_file = TAdPlayerLoadGC::find_card_file(0, (const char *)pso_system_card_filename);
+    card_file = TAdPlayerLoadGC::find_card_file(0, pso_system_card_filename);
     if ((card_file == 0) || ((card_file + 0x10000) == 0xFF41U)) {
         return 1;
     }

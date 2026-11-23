@@ -33,6 +33,8 @@ struct GuildCardFile_804C89BC {
 };
 
 extern GuildCardFile_804C89BC pso_guildcard_card_filename;
+// The memory card file name of the system save, "PSO_SYSTEM".
+extern "C" char pso_system_card_filename[0x20];
 
 void set_card_banner_and_icon(CardSaveDescriptor *file, s32 index);
 s32 verify_card_save_header(CardSaveDescriptor *file, void *image);
