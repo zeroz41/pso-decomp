@@ -1196,7 +1196,7 @@ void fn_8024AB54(saddr client_id) {
     TWindowCtrl::call_window_method(client_id, &TWindowCtrl::fn_8024C6CC);
 }
 
-void close_window_if_active(void* p) { if (TWindowCtrl::get_flag_bit4() == 0) { TWindowCtrl::disable_client_main_menu((saddr)p); } }
+void close_window_if_active(s32 client) { if (TWindowCtrl::get_flag_bit4() == 0) { TWindowCtrl::disable_client_main_menu(client); } }
 
 extern "C" {
 

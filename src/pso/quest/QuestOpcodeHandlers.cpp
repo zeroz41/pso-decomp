@@ -47,6 +47,7 @@
 #include "pso/object/door/TObjDoor_801F3754.h"
 #include "pso/unk/TLobby_80207644.h"
 #include "pso/object/switch/TSwitch.h"
+#include "pso/unk/text_8024AB18.h"
 #include "pso/unk/text_8024AB98.h"
 #include "pso/unk/text_80278460.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
@@ -945,7 +946,6 @@ u8 is_floor_switch_set(u32 id, s16 floor);
 void clear_current_floor_switch(s32 id);
 void set_current_floor_switch(s32 id);
 void init_switch_table(void);
-void close_window_if_active(void *p);
 extern "C" {
 saddr get_window_layout_position(s32);
 saddr create_equip_kind_window(saddr, const f32 *, s32);
@@ -1122,7 +1122,7 @@ void qst_op_chat_box() {
     dispatch_message_window_text(qst_message_window, arg, 3);
     qst_suspend_reason = QST_WAIT_MESSAGE;
     TWindowCtrl::set_flag_bit2();
-    close_window_if_active((void *)local_client_id);
+    close_window_if_active(local_client_id);
     request_active_window_close();
     TWindowCtrl::set_close_flag();
 }
@@ -1136,7 +1136,7 @@ void qst_op_add_color_overlay() {
     new TUnk_80499988(tl_01, 0, e, d, a, b, c);
 }
 
-void qst_op_get_chosen_item_id(int a0) { qst_registers[(unsigned char)(a0)] = -1; qst_result_register = a0; qst_suspend_reason = QST_WAIT_ITEM_CHOICE; TWindowCtrl::set_flag_bit2(); close_window_if_active((void *)((*(saddr *)&local_client_id))); request_active_window_close(); TWindowCtrl::set_close_flag(); }
+void qst_op_get_chosen_item_id(int a0) { qst_registers[(unsigned char)(a0)] = -1; qst_result_register = a0; qst_suspend_reason = QST_WAIT_ITEM_CHOICE; TWindowCtrl::set_flag_bit2(); close_window_if_active(local_client_id); request_active_window_close(); TWindowCtrl::set_close_flag(); }
 
 void qst_op_prevent_item_select(s32 reg) {
     if (qst_pack_select_help_window != NULL) {
@@ -4978,7 +4978,7 @@ void qst_op_window_msg(void) {
     dispatch_message_window_text(window, text, 3);
     qst_suspend_reason = QST_WAIT_MESSAGE;
     TWindowCtrl::set_flag_bit2();
-    close_window_if_active((void *)local_client_id);
+    close_window_if_active(local_client_id);
     request_active_window_close();
     TWindowCtrl::set_close_flag();
 }
@@ -5018,7 +5018,7 @@ void qst_op_list(void) {
     qst_registers[idx] = 0;
     qst_result_register = idx;
     qst_suspend_reason = QST_WAIT_LIST;
-    close_window_if_active((void *)local_client_id);
+    close_window_if_active(local_client_id);
     request_active_window_close();
     TWindowCtrl::set_close_flag();
     delete list;
@@ -5031,7 +5031,7 @@ void qst_op_message(void) {
     void *actor;
     s32 end;
     s32 i;
-    close_window_if_active((void *)local_client_id);
+    close_window_if_active(local_client_id);
     request_active_window_close();
     TWindowCtrl::set_close_flag();
     qst_message_speaker = speaker;
