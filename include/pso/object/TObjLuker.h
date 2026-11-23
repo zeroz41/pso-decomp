@@ -7,7 +7,7 @@
 struct TObjLuker : public TObjBase {
     TObjLuker(TObject *parent, void *set_data);
     virtual ~TObjLuker();
-    u8 unk_90[0x10];
+    TObject *windows[4];  // one per player, indexed by entity id
     u32 m_a0;
     u32 m_a4;
     u16 m_a8;
@@ -19,6 +19,7 @@ struct TObjLuker : public TObjBase {
     u32 m_b4;
     u32 m_b8;
     void show_part(u16 arg1);
+    void hide_part(u16 part);
     void update_floor_name_windows();
     void open_destination_windows();
     void transfer_to_town();

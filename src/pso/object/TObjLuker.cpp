@@ -52,8 +52,6 @@ struct Ctrl_801A0CE8 { u8 pad[0x832]; s16 target; };
 
 struct Obj_801A0CE8 { u8 pad[0x90]; void *wins[4]; s32 cur; u8 pad2[4]; u16 id; };
 
-struct Obj_801A0C38 { u8 pad[0x90]; void *parts[1]; };
-
 struct Luker_801A16D8 { u8 pad0[0x18]; void *f18; u8 pad1C[0x74]; void *wins[4]; };
 
 struct Luker_801A1768 {
@@ -82,7 +80,6 @@ struct Ctrl_801A0E38;
 struct Obj_801A0DB4;
 struct Obj_801A0E38;
 struct Obj_801A0CE8;
-struct Obj_801A0C38;
 
 struct Luker_801A1260
 {
@@ -97,7 +94,6 @@ void close_windows__9TObjLukerFPv(Obj_801A0DB4 *self);
 s32 is_split_screen(void);
 void *get_window_layout_position(s32 a);
 void *create_window_menu_default(void *p, s32 a);
-void hide_part__9TObjLukerFPvUs(Obj_801A0C38 *self, u16 i);
 f32 horizontal_distance_squared(void *, void *);
 s32 play_persistent_sound(int, void *, void *, int, int);
 s32 TTecLuker__sub_8023401C(void *);
@@ -105,10 +101,10 @@ s32 is_player_in_range__9TObjLukerFv(saddr arg0, f32 farg0);
 s32 init_fields__9TTecLukerFs(void *, int);
 extern s32 lbl_805D55C0;
 
-void hide_part__9TObjLukerFPvUs(Obj_801A0C38 *self, u16 i) {
-    if (self->parts[i] != 0) {
-        ((TObject *)(self->parts[i]))->suspend_update();
-        ((TObject *)self->parts[i])->disallow_rendering();
+void TObjLuker::hide_part(u16 part) {
+    if (windows[part] != 0) {
+        windows[part]->suspend_update();
+        windows[part]->disallow_rendering();
     }
 }
 
@@ -262,14 +258,14 @@ s32 is_player_in_range__9TObjLukerFv(saddr arg0, f32 farg0) {
                         ((TObjLuker *)arg0)->show_part((((TObjBase *)(p))->get_entity_id()));
                     }
                 } else {
-                    hide_part__9TObjLukerFPvUs((Obj_801A0C38 *)arg0, (((TObjBase *)((saddr)p))->get_entity_id()));
+                    ((TObjLuker *)arg0)->hide_part((((TObjBase *)((saddr)p))->get_entity_id()));
                 }
             }
         }
         for (saddr i = 0; i < 4; i++) {
             p = (uaddr)get_player_by_client_id(i);
             if ((p != 0U) && (((TObjPlayer *)p)->is_controls_locked() == 1)) {
-                hide_part__9TObjLukerFPvUs((Obj_801A0C38 *)arg0, (((TObjBase *)((saddr)p))->get_entity_id()));
+                ((TObjLuker *)arg0)->hide_part((((TObjBase *)((saddr)p))->get_entity_id()));
             }
         }
     } else {
@@ -282,7 +278,7 @@ s32 is_player_in_range__9TObjLukerFv(saddr arg0, f32 farg0) {
                 if (((TObjPlayer *)p)->is_controls_locked() == 0) {
                     ((TObjLuker *)arg0)->show_part((((TObjBase *)(p))->get_entity_id()));
                 } else {
-                    hide_part__9TObjLukerFPvUs((Obj_801A0C38 *)arg0, (((TObjBase *)((saddr)p))->get_entity_id()));
+                    ((TObjLuker *)arg0)->hide_part((((TObjBase *)((saddr)p))->get_entity_id()));
                 }
             }
             return 1;
