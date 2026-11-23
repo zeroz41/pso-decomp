@@ -681,7 +681,7 @@ void TMainCursor::setup_action_channel(u8 *player, s32 slot, s32 kind, s32 id) {
         return;
     }
     cur = &((Main_8013CDE4 *)this)->cursors[slot];
-    if (((TMainCursor *)cur)->check_type_and_enabled(kind, id) == 0) {
+    if (check_type_and_enabled(reinterpret_cast<const ActionPaletteTag *>(cur), kind, id) == 0) {
         clear_target_cursor_list(cur->f40);
         ((TMainCursor *)(cur->f9c))->reset_slot();
     }
@@ -1244,16 +1244,16 @@ s32 target_in_vertical_cone(Vec *p, Vec *q, s32 yaw, f32 range, f32 dist) {
 
 extern "C" {
 
-s32 try_move__11TMainCursorFiii(saddr arg0, u8 type, u8 enabled) {
-    if (((TMainCursor *)arg0)->is_channel_active() != 0) {
-        return matches_type_and_enabled(reinterpret_cast<const ActionPaletteTag *>(arg0), type, enabled);
+s32 try_move__11TMainCursorFiii(saddr cursor, u8 type, u8 enabled) {
+    if (((TMainCursor *)cursor)->is_channel_active() != 0) {
+        return matches_type_and_enabled(reinterpret_cast<const ActionPaletteTag *>(cursor), type, enabled);
     }
     return 0;
 }
 
 }
 
-int TMainCursor::check_type_and_enabled(u8 type, u8 enabled) { return matches_type_and_enabled(reinterpret_cast<const ActionPaletteTag *>(this), type, enabled); }
+int check_type_and_enabled(const ActionPaletteTag *tag, u8 type, u8 enabled) { return matches_type_and_enabled(tag, type, enabled); }
 
 TMainCursor::TMainCursor(TObject *parent, saddr target_index, s32 target_id, s32 action_palette, s32 active,
                          u16 offset_y, f32 size)
@@ -1882,14 +1882,14 @@ void set_cursor_palette_mode(ActionPaletteTag *tag, u8 mode) { set_action_palett
 
 void TMainCursor::sub_8013E724(f32 v) { this->m_2c = v; }
 
-void TMainCursor::set_target_id_at_60(u8 arg1) {
+void TMainCursor::set_target_id_at_60(u8 target_id) {
     saddr arg0 = (saddr)this;
-    ((TMainCursor *)(arg0 + 0x60))->set_target_id(arg1);
+    ((TMainCursor *)(arg0 + 0x60))->set_target_id(target_id);
 }
 
 void TMainCursor::set_target_id(s16 v) { this->m_id = v; }
 
-int TMainCursor::set_target_index_at_60(void* _w1) { return set_target_index__11TMainCursorFs((void*)((char*)this + 0x60), (saddr)_w1); }
+int TMainCursor::set_target_index_at_60(void* target_index) { return set_target_index__11TMainCursorFs((void*)((char*)this + 0x60), (saddr)target_index); }
 
 TUnk_8013E780::TUnk_8013E780() {
     reset_target();

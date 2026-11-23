@@ -48,7 +48,6 @@ struct TMainCursor : public TObject {
     TUnk_804A7254 unk_4c;
     TUnk_8013E780 unk_60;
     void update_position();
-    int check_type_and_enabled(u8 type, u8 enabled);
     s32 sort_actions_by_priority();
     void reset_state();
     void update_photon_chair();
@@ -106,9 +105,9 @@ struct TMainCursor : public TObject {
     void update_chair();
     void validate_target();
     int is_same_target(void *b);
-    void set_target_id_at_60(u8 arg1);
+    void set_target_id_at_60(u8 target_id);
     void set_target_id(s16 v);
-    int set_target_index_at_60(void* _w1);
+    int set_target_index_at_60(void* target_index);
     s32 get_body_exclude_mask();
     s32 get_body_include_mask();
     s32 get_actor_exclude_mask();
