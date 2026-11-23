@@ -30,6 +30,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/unk/text_8022350C.h"
 
 #define CAT2(a,b) a##b
 #define CAT(a,b) CAT2(a,b)
@@ -60,7 +61,6 @@ s32 quest_download_active;
 s32 quest_download_received_bytes;
 s32 quest_download_graph_current_bytes;
 extern s32 THunterGuildSeqOffline__quest_result_callbacks[];
-saddr set_service_counter_camera(void *, s32);
 
     extern int evt2_random_enemies_mode;
 
@@ -89,7 +89,6 @@ extern "C" {
 
 saddr get_window_layout_position(s32);
 extern s32 THunterGuildSeqOffline__quest_result_callbacks[];
-saddr set_service_counter_camera(void *, s32);
 
 saddr get_window_layout_position(s32);
 
@@ -161,7 +160,7 @@ void THunterGuildSeqOnline_Server::update_state() {
 
 void THunterGuildSeqOnline_Server::restore_player_state() {
     TShopSequence::restore_player_state();
-    counter_camera = (TObject *)set_service_counter_camera(this, 1);
+    counter_camera = set_service_counter_camera(this, 1);
     set_state(1);
 }
 
@@ -465,7 +464,7 @@ void THunterGuildSeqOnline_Client::update_state() {
 
 void THunterGuildSeqOnline_Client::restore_player_state() {
     TShopSequence::restore_player_state();
-    counter_camera = (TObject *)set_service_counter_camera(this, 1);
+    counter_camera = set_service_counter_camera(this, 1);
     set_state(1);
 }
 

@@ -69,7 +69,6 @@ struct TWindowMainMenu : public TObject {
     void close();
     virtual void run_task();
     virtual void render();
-    static void set_entry_field_20(saddr window_base, s32 arg1);
     int is_item_active();
     void set_symbol_chat_parts(void * symbol_chat_parts);
     void update_item_tween();

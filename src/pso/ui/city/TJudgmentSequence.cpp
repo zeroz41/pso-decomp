@@ -10,9 +10,9 @@
 #include "pso/ui/city/TShopWindowBase.h"
 #include "pso/ui/city/TShopJudgmentItemWindow.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/unk/text_8022350C.h"
 
 extern "C" {
-TObject *set_service_counter_camera(void *, int);
 saddr get_window_layout_position(int, f32);
 s32 TJudgmentSequence__slot_flags[4];
 TJudgmentSequence *judgment_sequence_instance;

@@ -35,6 +35,7 @@
 #include "pso/item/TItemData.h"
 #include "pso/unk/TLobby_803DE778.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/unk/text_8022350C.h"
 
 #pragma readonly_strings on
 
@@ -61,7 +62,6 @@ struct Rec_80210F78
 };
 
 extern "C" {
-TObject *set_service_counter_camera(void *, int);
 // The runtime's array new and BankItemRecord::BankItemRecord(), whose address
 // C++ does not let alloc_item_buffers take.
 void *__construct_new_array(void *block, void *ctor, void *dtor, u32 size, u32 count);
@@ -160,7 +160,7 @@ void TCheckRoomSequence::accept_meseta_withdrawal() {
         player->add_meseta(amount);
         copy_bank_to_card_window(slot);
         if (deposit_window != NULL) {
-            TWindowMainMenu::set_entry_field_20((saddr)deposit_window, get_room_data(slot));
+            deposit_window->set_meseta(get_room_data(slot));
         }
         display_shop_message(0x46, 1);
         set_state(2);
@@ -216,7 +216,7 @@ void TCheckRoomSequence::accept_meseta_deposit() {
         try_spend_actor_meseta((u8 *)player, amount);
         copy_bank_to_card_window(slot);
         if (deposit_window != NULL) {
-            TWindowMainMenu::set_entry_field_20((saddr)deposit_window, get_room_data(slot));
+            deposit_window->set_meseta(get_room_data(slot));
         }
         display_shop_message(0x46, 1);
         set_state(2);
@@ -470,7 +470,7 @@ void TCheckRoomSequence::open_bank() {
     display_shop_message(0x31, 1);
     meseta_window = create_meseta_window(get_player_entity_id());
     deposit_window = new TWindowDeposit(get_player_entity_id());
-    TWindowMainMenu::set_entry_field_20((saddr)deposit_window, get_room_data(get_split_screen_slot()));
+    deposit_window->set_meseta(get_room_data(get_split_screen_slot()));
     menu_step = 0;
     counter_camera = set_service_counter_camera(this, 6);
     set_state(2);

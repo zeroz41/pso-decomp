@@ -12,6 +12,8 @@ struct TWindowDeposit : public TWindowBase {
     f32 width;
     f32 scale[2];
     void render_status(WindowDrawContext *context);
+    // The bank meseta the window shows.
+    void set_meseta(s32 meseta);
     virtual void run_task();
 };
 

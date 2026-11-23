@@ -21,13 +21,11 @@ const char *TShopSequence__class_name = "TShopSequence";
 static const s32 service_counter_camera_table[7] = {6, 5, 3, 0, 2, 1, 4};
 static const s32 service_counter_camera_alt_table[7] = {16, 15, 13, 10, 12, 11, 14};
 
-// sequence: the calling counter sequence (unused).
-void set_service_counter_camera(s32 sequence, s32 counter) {
+TCameraConversation *set_service_counter_camera(void *sequence, s32 counter) {
     if (TLobby::get_instance() == 0) {
-        create_conversation_camera(service_counter_camera_table[counter]);
-        return;
+        return create_conversation_camera(service_counter_camera_table[counter]);
     }
-    create_conversation_camera(service_counter_camera_alt_table[counter]);
+    return create_conversation_camera(service_counter_camera_alt_table[counter]);
 }
 
 s32 is_split_screen();

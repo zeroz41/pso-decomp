@@ -22,9 +22,9 @@
 #include "pso/item/TItemData.h"
 #include "pso/ui/city/TShopJudgmentItemWindow.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/unk/text_8022350C.h"
 
 extern "C" {
-TObject *set_service_counter_camera(void *, int);
 saddr get_window_layout_position(int, f32);
 s32 TShopItemTecSequence__slot_table[4];
 extern const char *TShopItemTecSequence__class_name;

@@ -31,6 +31,7 @@ extern s32 local_client_id;
 #include "pso/system/ControllerInputState.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/unk/text_8022350C.h"
 
 extern "C" {
 s32 TMedicalCenterSequence__data_80513E90[4];
@@ -38,7 +39,6 @@ s32 TMedicalCenterMes__slot_flags[4];
 }
 
 extern "C" {
-TObject *set_service_counter_camera(void *, int);
 extern const char *TMedicalCenterSequence__class_name;
 
 s32 play_sound_effect(s32, s32, s32, s32);
@@ -91,7 +91,7 @@ TMedicalCenterSequence::TMedicalCenterSequence(TObject *parent, TObjPlayer *play
 
 TMedicalCenterSequence::~TMedicalCenterSequence() {
     if (counter_camera != NULL) {
-        ((TObject *)counter_camera)->queue_destruction();
+        counter_camera->queue_destruction();
         counter_camera = NULL;
     }
     close_message_window();

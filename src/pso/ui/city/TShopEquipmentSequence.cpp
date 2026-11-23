@@ -20,9 +20,9 @@
 #include "pso/ui/city/TShopWindowBase.h"
 #include "pso/system/task/TObject.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/unk/text_8022350C.h"
 
 extern "C" {
-TObject *set_service_counter_camera(void *, int);
 saddr get_window_layout_position(int, f32);
 s32 TShopEquipmentSequence__slot_active_flags[4];
 extern const char *TShopEquipmentSequence__class_name;
