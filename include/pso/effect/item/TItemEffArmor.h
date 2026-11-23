@@ -44,16 +44,16 @@ LAYOUT_ASSERT(TItemEffArmor_size, sizeof(TItemEffArmor) == 0x7C);
 
 // While a player wears the armour, every 120 frames: a particle effect on the
 // player when its area allows items and TObjPlayer__sub_80117E50 holds.
-class TUnk_8049EFB8 : public TObject {
+class TItemEffArmorPulse : public TObject {
 public:
-    TUnk_8049EFB8(TObject *parent, u16 client_id);
-    virtual ~TUnk_8049EFB8();
+    TItemEffArmorPulse(TObject *parent, u16 client_id);
+    virtual ~TItemEffArmorPulse();
     virtual void run_task();
 
     s32 timer;
     u16 client_id;  // the wearer (get_player_by_client_id)
     u8 pad_22[0x2];
 };
-LAYOUT_ASSERT(TUnk_8049EFB8_size, sizeof(TUnk_8049EFB8) == 0x24);
+LAYOUT_ASSERT(TItemEffArmorPulse_size, sizeof(TItemEffArmorPulse) == 0x24);
 
 #endif

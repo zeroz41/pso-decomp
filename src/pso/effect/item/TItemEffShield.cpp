@@ -87,21 +87,21 @@ void TItemEffShield::spawn_recipe_particles() {
     }
 }
 
-TUnk_8049F148::TUnk_8049F148(TObject *parent, u16 client_id) : TObject(parent) {
+TItemEffShieldAura::TItemEffShieldAura(TObject *parent, u16 client_id) : TObject(parent) {
     this->client_id = client_id;
     floor = -1;
     particle = NULL;
     item_generation = get_item_system_generation();
 }
 
-TUnk_8049F148::~TUnk_8049F148() {
+TItemEffShieldAura::~TItemEffShieldAura() {
     if (particle != NULL) {
         particle->queue_destruction();
         particle = NULL;
     }
 }
 
-void TUnk_8049F148::run_task() {
+void TItemEffShieldAura::run_task() {
     Vec position;
     s32 current_floor;
     TItem *item;
@@ -141,7 +141,7 @@ void TUnk_8049F148::run_task() {
     }
 }
 
-TUnk_8049F130::TUnk_8049F130(TObject *parent, u16 client_id, u8 item_index) : TObject(parent) {
+TItemEffShieldPulse::TItemEffShieldPulse(TObject *parent, u16 client_id, u8 item_index) : TObject(parent) {
     timer = 0;
     particle_id = shield_particle_ids[(item_index - 0x53) % 8];
     oneshot = shield_particle_oneshot[(item_index - 0x53) % 8];
@@ -150,9 +150,9 @@ TUnk_8049F130::TUnk_8049F130(TObject *parent, u16 client_id, u8 item_index) : TO
     item_generation = get_item_system_generation();
 }
 
-TUnk_8049F130::~TUnk_8049F130() {}
+TItemEffShieldPulse::~TItemEffShieldPulse() {}
 
-void TUnk_8049F130::run_task() {
+void TItemEffShieldPulse::run_task() {
     TItemData item;
     TObjPlayer *player;
 

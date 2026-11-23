@@ -319,7 +319,7 @@ u32 pack_weapon_trail_color(void *weapon) {
 }
 
 void TUnk_804F1320::spawn_pg_effect(const Vec *origin, saddr item, f32 radius) {
-    S_8035016C prm;
+    ItemEffPGParams prm;
     if (item < 0 || item >= 200) {
         return;
     }

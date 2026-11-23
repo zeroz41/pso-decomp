@@ -125,7 +125,7 @@
 #include "pso/weapon/TUnk_804ECFB0.h"
 #include "pso/weapon/TUnk_804ED1A0.h"
 #include "pso/weapon/TUnk_804ED488.h"
-#include "pso/weapon/TUnk_804EDC28.h"
+#include "pso/weapon/TItemWeaponGuardianna.h"
 #include "pso/weapon/TUnk_804F0AF8.h"
 #include "pso/weapon/TUnk_804F0810.h"
 #include "pso/weapon/TUnk_804F26E0.h"

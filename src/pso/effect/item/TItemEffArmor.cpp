@@ -117,15 +117,15 @@ void TItemEffArmor::render() {
     pop_matrix();
 }
 
-TUnk_8049EFB8::TUnk_8049EFB8(TObject *parent, u16 client_id) : TObject(parent) {
+TItemEffArmorPulse::TItemEffArmorPulse(TObject *parent, u16 client_id) : TObject(parent) {
     timer = 0;
     this->client_id = client_id;
 }
 
-TUnk_8049EFB8::~TUnk_8049EFB8() {
+TItemEffArmorPulse::~TItemEffArmorPulse() {
 }
 
-void TUnk_8049EFB8::run_task() {
+void TItemEffArmorPulse::run_task() {
     if (120.0f <= (f32)timer) {
         TObjPlayer *player = get_player_by_client_id(client_id);
         if (player != NULL) {

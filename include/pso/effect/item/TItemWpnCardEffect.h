@@ -37,11 +37,11 @@ public:
 LAYOUT_ASSERT(TItemWpnCardEffect_size, sizeof(TItemWpnCardEffect) == 0x70);
 
 // The card drawn with the weapon's second model, fading in while flashing.
-class TUnk_804EDD20 : public TItemWpnCardEffect {
+class TItemWpnCardModelEffect : public TItemWpnCardEffect {
 public:
-    TUnk_804EDD20(TObject *parent, f32 *position, f32 *direction, s32 tint, s32 item_id);
-    TUnk_804EDD20(TObject *parent, ActorBodyHit *hit, f32 *direction, s32 tint, s32 item_id);
-    virtual ~TUnk_804EDD20();
+    TItemWpnCardModelEffect(TObject *parent, f32 *position, f32 *direction, s32 tint, s32 item_id);
+    TItemWpnCardModelEffect(TObject *parent, ActorBodyHit *hit, f32 *direction, s32 tint, s32 item_id);
+    virtual ~TItemWpnCardModelEffect();
     void init_offset_vectors();
     virtual void render();
     virtual void vfunc_8();
@@ -51,7 +51,7 @@ public:
     Vec scale;
     NJS_ARGB color;     // the constant material colour render draws the card with; a fades between -1 and 0
 };
-LAYOUT_ASSERT(TUnk_804EDD20_size, sizeof(TUnk_804EDD20) == 0x90);
+LAYOUT_ASSERT(TItemWpnCardModelEffect_size, sizeof(TItemWpnCardModelEffect) == 0x90);
 
 // Guardianna's yellow card where a shot hits a wall; the red and untinted cards of other weapons.
 void start_guardianna_wall_card(s32 item_id, saddr position, saddr direction);

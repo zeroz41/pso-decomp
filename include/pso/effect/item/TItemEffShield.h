@@ -35,10 +35,10 @@ LAYOUT_ASSERT(TItemEffShield_size, sizeof(TItemEffShield) == 0x48);
 
 // The particle an equipped shield with item index 0x53-0x82 plays on its
 // wearer every 120 frames while players nearby hold the same shield.
-class TUnk_8049F130 : public TObject {
+class TItemEffShieldPulse : public TObject {
 public:
-    TUnk_8049F130(TObject *parent, u16 client_id, u8 item_index);
-    virtual ~TUnk_8049F130();
+    TItemEffShieldPulse(TObject *parent, u16 client_id, u8 item_index);
+    virtual ~TItemEffShieldPulse();
     virtual void run_task();
 
     s32 timer;
@@ -49,15 +49,15 @@ public:
     u8 pad_2B;
     u32 item_generation;  // get_item_system_generation when it was made
 };
-LAYOUT_ASSERT(TUnk_8049F130_size, sizeof(TUnk_8049F130) == 0x30);
+LAYOUT_ASSERT(TItemEffShieldPulse_size, sizeof(TItemEffShieldPulse) == 0x30);
 
 // The particle an equipped shield with item index 26 plays at its wearer's
 // node 0x24 while the player is on the current floor; hidden while the player
 // holds an item of group 0x1A.
-class TUnk_8049F148 : public TObject {
+class TItemEffShieldAura : public TObject {
 public:
-    TUnk_8049F148(TObject *parent, u16 client_id);
-    virtual ~TUnk_8049F148();
+    TItemEffShieldAura(TObject *parent, u16 client_id);
+    virtual ~TItemEffShieldAura();
     virtual void run_task();
 
     TParticleCtrl *particle;
@@ -66,6 +66,6 @@ public:
     u8 pad_26[0x2];
     u32 item_generation;  // get_item_system_generation when it was made
 };
-LAYOUT_ASSERT(TUnk_8049F148_size, sizeof(TUnk_8049F148) == 0x2C);
+LAYOUT_ASSERT(TItemEffShieldAura_size, sizeof(TItemEffShieldAura) == 0x2C);
 
 #endif

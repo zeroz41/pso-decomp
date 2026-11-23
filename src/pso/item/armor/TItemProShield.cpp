@@ -43,8 +43,8 @@ s16 obj_getS16_2BA(u8 *p);
 const char *TItemProShield__name = "TItemProShield";
 const char *lbl_805D2C3C = "ItemShieldEntry.dat";
 // Called with the item index widened to int.
-void __ct__13TUnk_8049F148FP7TObjectUs(void *effect, TItemHeapObject *parent, u16 client);
-void __ct__13TUnk_8049F130FP7TObjectUsUc(void *object, TItemHeapObject *parent, u16 client, int index);
+void __ct__18TItemEffShieldAuraFP7TObjectUs(void *effect, TItemHeapObject *parent, u16 client);
+void __ct__19TItemEffShieldPulseFP7TObjectUsUc(void *object, TItemHeapObject *parent, u16 client, int index);
 }
 
 ShieldEffectEntry *TItemProShield::shield_table;
@@ -149,7 +149,7 @@ void TItemProShield::on_equip() {
             if (effect_objects != NULL) {
                 event = TObject::operator new(0x2C);
                 if (event != NULL) {
-                    __ct__13TUnk_8049F148FP7TObjectUs(event, effect_objects, get_owner_client());
+                    __ct__18TItemEffShieldAuraFP7TObjectUs(event, effect_objects, get_owner_client());
                 }
             }
             break;
@@ -157,7 +157,7 @@ void TItemProShield::on_equip() {
         if ((index >= 0x53U) && (index <= 0x82U)) {
             event = TObject::operator new(0x30);
             if (event != NULL) {
-                __ct__13TUnk_8049F130FP7TObjectUsUc(event, effect_objects, get_owner_client(), index);
+                __ct__19TItemEffShieldPulseFP7TObjectUsUc(event, effect_objects, get_owner_client(), index);
             }
         }
     }

@@ -9,10 +9,10 @@ class TParticleCtrl;
 
 // An invisible collidable pinned to one animation node of a player; its
 // position follows the node every frame and it answers get_center with it.
-class TUnk_8049F038 : public TObjCollidable {
+class TItemEffEquipAnchor : public TObjCollidable {
 public:
-    TUnk_8049F038(TObject *parent, u16 client_id, s32 node);
-    virtual ~TUnk_8049F038();
+    TItemEffEquipAnchor(TObject *parent, u16 client_id, s32 node);
+    virtual ~TItemEffEquipAnchor();
     virtual void *get_center();
     virtual void run_task();
 
@@ -21,10 +21,10 @@ public:
     s32 node;       // the player's animation node
     CollisionBody body;
 };
-LAYOUT_ASSERT(TUnk_8049F038_size, sizeof(TUnk_8049F038) == 0xE0);
+LAYOUT_ASSERT(TItemEffEquipAnchor_size, sizeof(TItemEffEquipAnchor) == 0xE0);
 
 // The effect TItemWeapon::on_equip starts at a player's node: a particle effect
-// on a TUnk_8049F038 at the node, swapped for a second effect after 10
+// on a TItemEffEquipAnchor at the node, swapped for a second effect after 10
 // frames; the effect ends after 20 frames.
 class TItemEffEquip : public TObject {
 public:
@@ -41,7 +41,7 @@ public:
 
     static const char *class_name;
 
-    TUnk_8049F038 *anchor;
+    TItemEffEquipAnchor *anchor;
     TParticleCtrl *particle;
     s32 next_particle_id;  // spawned by release_effect, -1 for none
 };

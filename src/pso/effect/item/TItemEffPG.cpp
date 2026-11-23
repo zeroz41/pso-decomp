@@ -12,7 +12,6 @@
 #include "pso/weapon/TUnk_804F0810.h"
 #include "pso/player/TUnk_804A2548.h"
 #include "pso/weapon/TItemAttackCol.h"
-#include "pso/item/TUnk_804F0BF0.h"
 #include "pso/render/MaterialColorFade.h"
 #include "pso/object/trap/TOTrapAncient01_80226534.h"
 #include "pso/boss/derolle/TBoss2DeRolLe.h"
@@ -23,7 +22,6 @@
 #include "pso/unk/text_803D96A8.h"
 #include "pso/render/render_util.h"
 #include "pso/render/model_render_state.h"
-#include "pso/effect/item/TUnk_804F0C08.h"
 #include "pso/effect/item/TItemEffPG.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/task/TMainTask.h"
@@ -38,7 +36,7 @@
 // the vtables come out in the original's order.
 const char *TItemEffPG::class_name = "TItemEffPG";
 
-S_8035016C *S_8035016C::init_params() {
+ItemEffPGParams *ItemEffPGParams::init_params() {
     TObjPlayer__sub_802E451C(this);
     hits = 10;
     max_radius = 50.0f;
@@ -47,11 +45,11 @@ S_8035016C *S_8035016C::init_params() {
     return this;
 }
 
-void TItemEffPG::create(TObject *parent, S_8035016C *params) {
+void TItemEffPG::create(TObject *parent, ItemEffPGParams *params) {
     new TItemEffPG(parent, params);
 }
 
-TItemEffPG::TItemEffPG(TObject *parent, S_8035016C *params) : TUnk_804E355C(parent, params) {
+TItemEffPG::TItemEffPG(TObject *parent, ItemEffPGParams *params) : TUnk_804E355C(parent, params) {
     m_name = class_name;
     max_radius = params->max_radius;
     if (50.0f < max_radius) {
@@ -60,7 +58,7 @@ TItemEffPG::TItemEffPG(TObject *parent, S_8035016C *params) : TUnk_804E355C(pare
     radius_step = params->radius_step;
     required_charge = params->required_charge;
     pad_B0 *= 3.0f;
-    visual = new TUnk_804F0BF0(this, params);
+    visual = new TItemEffPGModel(this, params);
 }
 
 TItemEffPG::~TItemEffPG() {}
@@ -110,17 +108,17 @@ s32 TItemEffPG::consume_charge() {
     return 1;
 }
 
-void TItemEffPG::create(TObject *parent, S_8035016C *params, s32 count) {
-    new TUnk_804F0C08(parent, params, count);
+void TItemEffPG::create(TObject *parent, ItemEffPGParams *params, s32 count) {
+    new TItemEffPGLimited(parent, params, count);
 }
 
-TUnk_804F0C08::TUnk_804F0C08(TObject *parent, S_8035016C *params, s32 count) : TItemEffPG(parent, params) {
+TItemEffPGLimited::TItemEffPGLimited(TObject *parent, ItemEffPGParams *params, s32 count) : TItemEffPG(parent, params) {
     uses_left = count;
 }
 
-TUnk_804F0C08::~TUnk_804F0C08() {}
+TItemEffPGLimited::~TItemEffPGLimited() {}
 
-s32 TUnk_804F0C08::consume_charge() {
+s32 TItemEffPGLimited::consume_charge() {
     s32 left = uses_left;
     if (left > 0) {
         uses_left = left - 1;
@@ -129,7 +127,7 @@ s32 TUnk_804F0C08::consume_charge() {
     return 0;
 }
 
-TUnk_804F0BF0::TUnk_804F0BF0(TItemEffPG *parent, S_8035016C *params) : TObject(parent) {
+TItemEffPGModel::TItemEffPGModel(TItemEffPG *parent, ItemEffPGParams *params) : TObject(parent) {
     item_id = params->item_id;
     model = params->model;
     texture_list = params->texture_list;
@@ -150,14 +148,14 @@ TUnk_804F0BF0::TUnk_804F0BF0(TItemEffPG *parent, S_8035016C *params) : TObject(p
     fading = 0;
 }
 
-TUnk_804F0BF0::~TUnk_804F0BF0() {
+TItemEffPGModel::~TItemEffPGModel() {
     if (particle != NULL) {
         particle->queue_destruction();
         particle = NULL;
     }
 }
 
-void TUnk_804F0BF0::run_task() {
+void TItemEffPGModel::run_task() {
     rotation_y += 0x71C;
     child_rotation_y -= 0xE38;
     if (fading == 0) {
@@ -184,7 +182,7 @@ void TUnk_804F0BF0::run_task() {
     play_persistent_sound(0x4001A343, (saddr)this, (uaddr)&position, 0, 0);
 }
 
-void TUnk_804F0BF0::render() {
+void TItemEffPGModel::render() {
     if (all_parents_unqueued_for_destruction() == 0 || find_equipped_item(item_id) == 0) {
         return;
     }
@@ -219,6 +217,6 @@ void TUnk_804F0BF0::render() {
     }
 }
 
-void TUnk_804F0BF0::begin_fade() {
+void TItemEffPGModel::begin_fade() {
     fading = 1;
 }

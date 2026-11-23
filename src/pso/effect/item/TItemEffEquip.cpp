@@ -19,7 +19,7 @@ const char *TItemEffEquip::class_name = "TItemEffEquip";
 
 #pragma defer_codegen on
 
-TUnk_8049F038::TUnk_8049F038(TObject *parent, u16 client_id, s32 node) : TObjCollidable(parent) {
+TItemEffEquipAnchor::TItemEffEquipAnchor(TObject *parent, u16 client_id, s32 node) : TObjCollidable(parent) {
     this->client_id = client_id;
     this->node = node;
     copy_collision_body(&body, &equip_anchor_body);
@@ -31,7 +31,7 @@ TUnk_8049F038::TUnk_8049F038(TObject *parent, u16 client_id, s32 node) : TObjCol
     disallow_rendering();
 }
 
-TUnk_8049F038::~TUnk_8049F038() {
+TItemEffEquipAnchor::~TItemEffEquipAnchor() {
     if (bodies != NULL) {
         unregister_object_by_id();
         clear_collision_bodies();
@@ -40,14 +40,14 @@ TUnk_8049F038::~TUnk_8049F038() {
     }
 }
 
-void TUnk_8049F038::run_task() {
+void TItemEffEquipAnchor::run_task() {
     TObjPlayer *player = get_player_by_client_id(client_id);
     if (player != NULL) {
         player->get_anim_node_position(node, &position);
     }
 }
 
-void *TUnk_8049F038::get_center() {
+void *TItemEffEquipAnchor::get_center() {
     TObjPlayer *player = get_player_by_client_id(client_id);
     if (player != NULL) {
         player->get_anim_node_position(node, &position);
@@ -63,7 +63,7 @@ TItemEffEquip::TItemEffEquip(TObject *parent, u16 client_id, s32 node, s32 parti
     : TObject(parent) {
     m_name = class_name;
     disallow_rendering();
-    anchor = new TUnk_8049F038(this, client_id, node);
+    anchor = new TItemEffEquipAnchor(this, client_id, node);
     particle = NULL;
     this->next_particle_id = next_particle_id;
     if (anchor != NULL) {

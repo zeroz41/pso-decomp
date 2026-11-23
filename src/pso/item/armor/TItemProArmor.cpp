@@ -109,7 +109,7 @@ void TItemProArmor::on_equip() {
         new TUnk_804A0668(effect_objects, get_owner_client(), 150);
         break;
     case 45:
-        new TUnk_8049EFB8(effect_objects, get_owner_client());
+        new TItemEffArmorPulse(effect_objects, get_owner_client());
         break;
     }
 }
