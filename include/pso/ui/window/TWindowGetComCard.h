@@ -3,6 +3,7 @@
 
 #include "types.h"
 #include "pso/system/task/TObject.h"
+#include "pso/system/NinjaTypes.h"
 
 struct GuildCardEntry;
 struct TWindowMenu;
@@ -19,15 +20,12 @@ struct TWindowGetComCard : public TObject {
     virtual void render();
     static void remove_entry(s32 index, GuildCardEntry *entries, s32 count);
     static void construct_card_tags();
+
+    static const char *class_name;
+    static NJS_POINT2 window_rect; // where run_task opens the yes/no confirmation
 };
 
 LAYOUT_ASSERT(TWindowGetComCard_size, sizeof(TWindowGetComCard) == 0x2C);
-
-extern "C" {
-void TWindowFukidasi__sub_80252C38(void *p);
-void *__dt__17TWindowGetComCardFv(TWindowGetComCard *arg0, s16 arg1);
-int fn_80252CBC(void *p);
-}
 
 // --- C functions defined in TWindowGetComCard.cpp ---
 extern "C" {
