@@ -115,7 +115,7 @@ void TItemEquipBase::apply_equip_effects() {
         TItemLockCountCtrl::lock_effect(get_owner_client(), 0);
     }
     if (start_effect(0x20, 0x40)) {
-        ((PlayerAttackState *)&owner->attack_state)->set_item_effect();
+        owner->attack_state.set_item_effect();
     }
     if (start_effect(0x80, 0x100)) {
         TItemLockCountCtrl::lock_effect(get_owner_client(), 1);
@@ -150,7 +150,7 @@ void TItemEquipBase::remove_equip_effects() {
     if (stop_effect(0x40)) {
         TObjPlayer *player = owner;
         if (player != NULL) {
-            ((PlayerAttackState *)&player->attack_state)->clear_item_effect();
+            player->attack_state.clear_item_effect();
         }
     }
     if (stop_effect(0x100)) {
@@ -410,9 +410,9 @@ void TechniqueBoost::clear() {
     amount = 0.0f;
 }
 
-void PlayerAttackState::set_item_effect() { flags.set(0x20); }
+void PlayerAttackController::set_item_effect() { ((FlagWord *)&flags)->set(0x20); }
 
-void PlayerAttackState::clear_item_effect() { flags.clear(0x20); }
+void PlayerAttackController::clear_item_effect() { ((FlagWord *)&flags)->clear(0x20); }
 
 void AttackParams::sub_ata(s32 amount) { ata -= amount; }
 

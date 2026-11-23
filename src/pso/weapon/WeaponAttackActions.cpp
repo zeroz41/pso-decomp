@@ -20,7 +20,6 @@ struct NJS_OBJECT;
 #include "pso/weapon/TUnk_804A4D70.h"
 #include "pso/system/PadRumble.h"
 #include "pso/item/TItemEquipBase.h"
-#include "pso/unk/text_80121180.h"
 #include <stddef.h>
 #include "pso/map/FloorArea.h"
 #include "pso/boss/darkfalz/TBoss4Type3.h"
@@ -382,7 +381,7 @@ void TItemWeapon::fill_status_info(S_802E451C *params) {
     params->client_id = static_cast<s16>(owner->get_entity_id());
     params->room = owner->get_room();
     params->item_id = ((TItem *)this)->get_item_id();
-    params->pad_1C = get_attack_accuracy_scale((s16 *)((u8 *)owner + 0x7CC));
+    params->pad_1C = owner->attack_state.get_attack_accuracy_scale();
     params->pad_24 = (s32) owner->is_status_subsystem_ready();
     params->pad_20 = owner->query_extended_state();
     ((TItemWeapon *)this)->restore_action_type();
@@ -698,7 +697,7 @@ void TItemWeapon::deliver_hit(TObjPlayer *attacker, TObjChara *target, s32 attac
     if (get_mode() == 2) {
         player = owner;
         if ((player != NULL) && (target != NULL)) {
-            accuracy = get_attack_accuracy_scale((s16 *)((u8 *)player + 0x7CC));
+            accuracy = player->attack_state.get_attack_accuracy_scale();
             if ((attack_kind == 2) && (is_identified() == 0)) {
                 accuracy *= lbl_805DAC94;
             }

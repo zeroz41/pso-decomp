@@ -59,7 +59,7 @@ int TObjEneSlimeOne::find_nearest_enemy_with_flag(Vec *direction, f32 range) {
 
 void TObjEneSlimeOne::clear_parent_slime() { parent_slime = NULL; }
 
-s16 TObjPlayer::get_attack_stage() { return get_validated_attack_stage((u8 *)&attack_state); }
+s16 TObjPlayer::get_attack_stage() { return attack_state.get_validated_attack_stage(); }
 
 extern f32 TObjEneSlimeOne__target_depth;
 extern u8 TObjEneSlimeOne__target_depth_initialized;

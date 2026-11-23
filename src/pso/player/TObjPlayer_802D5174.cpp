@@ -52,7 +52,6 @@ struct S_802D5B78 {
 
 extern "C" {
 void spawn_hit_particles__10TObjPlayerFiPv(saddr pos, const Vec *dir);
-s16 get_validated_attack_stage(u8 *arg0);
 void get_weapon_color__11TItemWeaponFPv(void *, void *);
 s32 rotate_matrix_about_axis(int, void *, int);
 void set_matrix_identity(u8 *matrix);
@@ -135,7 +134,7 @@ void TUnk_804E23F0::vfunc_60() {
 void TUnk_804E23F0::emit_marker_effects() {
     Vec pos;
     owner->get_anim_node_position(0x30, &pos);
-    if (get_validated_attack_stage((u8 *)owner + 0x7CC) == 2) {
+    if (owner->attack_state.get_validated_attack_stage() == 2) {
         fire_shot_at_target(&pos, item_model, 0);
         fire_shot_at_target(&pos, item_model, 0x1555);
         fire_shot_at_target(&pos, item_model, -0x1555);

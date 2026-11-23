@@ -44,7 +44,7 @@ void TUnk_804A5A28::emit_marker_effects() {
     tec.f4 = ((Self_8012D708 *)this)->f24;
     tec.f8 = ((Self_8012D708 *)this)->f188;
     tec.f10 = TObjPlayer__sub_801D2F4C((s16 *)((u8 *)this->owner + 0x7CC));
-    tec.validated_attack_stage = get_validated_attack_stage((u8 *)this->owner + 0x7CC);
+    tec.validated_attack_stage = owner->attack_state.get_validated_attack_stage();
     tec.f14 = ((TObjPlayer *)(this->owner))->query_extended_state();
     tec.f18 = 1.0f;
     tec.f1C = 0.0f;

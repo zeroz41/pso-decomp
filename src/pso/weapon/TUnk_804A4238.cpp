@@ -49,7 +49,7 @@ void TUnk_804A4238::emit_marker_effects() {
     tec.f4 = this->texlist;
     tec.f8 = self->f188;
     tec.f10 = TObjPlayer__sub_801D2F4C((s16 *)((u8 *)self->owner + 0x7CC));
-    tec.validated_attack_stage = get_validated_attack_stage((u8 *)self->owner + 0x7CC);
+    tec.validated_attack_stage = owner->attack_state.get_validated_attack_stage();
     tec.f14 = ((TObjPlayer *)self->owner)->query_extended_state();
     tec.f18 = 1.0f;
     tec.f1C = 0.6f;

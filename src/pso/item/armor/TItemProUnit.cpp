@@ -29,10 +29,10 @@ const char *item_pro_unit_class_name = "TItemProUnit";
 // This object's copy of the timer event constructor (on_equip calls it).
 TUnk_804A0608::TUnk_804A0608(TItemHeapObject *parent, u16 client, s32 period) : TItemTimerEvent(parent, client, period) {}
 
-// The out-of-line copies of PlayerAttackState's EVP scale accessors.
-f32 PlayerAttackState::get_evp() { return evp_scale; }
+// The out-of-line copies of PlayerAttackController's EVP scale accessors.
+f32 PlayerAttackController::get_evp() { return evp_scale; }
 
-void PlayerAttackState::set_evp(f32 scale) { evp_scale = scale; }
+void PlayerAttackController::set_evp(f32 scale) { evp_scale = scale; }
 
 TItemProUnit::~TItemProUnit() {}
 
@@ -164,8 +164,8 @@ void TItemProUnit::apply_owner_bonuses() {
 
 void TItemProUnit::update_equipped() {
     if (effect_type == UNIT_EFFECT_EVP_SCALE) {
-        if (((PlayerAttackState *)&owner->attack_state)->get_evp() < evp_scale) {
-            ((PlayerAttackState *)&owner->attack_state)->set_evp(evp_scale);
+        if (owner->attack_state.get_evp() < evp_scale) {
+            owner->attack_state.set_evp(evp_scale);
         }
     }
 }
@@ -175,7 +175,7 @@ void TItemProUnit::on_unequip() { set_attach_slot(9); }
 void TItemProUnit::remove_owner_bonuses() {
     s32 i;
     if (effect_type == UNIT_EFFECT_EVP_SCALE) {
-        ((PlayerAttackState *)&owner->attack_state)->set_evp(1.0f);
+        owner->attack_state.set_evp(1.0f);
     }
     i = 0;
     do {

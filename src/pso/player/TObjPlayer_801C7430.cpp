@@ -42,7 +42,6 @@
 #include "pso/ui/window/TWindowActionPalette.h"
 #include "pso/item/TItem.h"
 #include "pso/player/TObjPlayer_8012121C.h"
-#include "pso/unk/text_80121180.h"
 #include "pso/map/FloorArea.h"
 #include "pso/unk/TLobby_80207644.h"
 #include "pso/math/AngleLookup.h"
@@ -1328,8 +1327,6 @@ extern saddr TOMineTrap__data_805D3080;
 extern s32 fn_80152EF8[];
 const f64 lbl_80447128 = 0.1;
 const f64 lbl_80447148 = 10430.38043493439;
-extern f32 attack_type_accuracy_scales[3];
-extern f32 attack_combo_accuracy_multipliers[4];
 extern f32 scratch_vec[];
 extern f32 player_feedback_light_color[];
 extern void *player_slot_table[];
@@ -4640,7 +4637,7 @@ void TObjPlayer::finish_attack_stage2() {
         }
     } else if ((this->motion_flags & 0x10) &&
                ((s32 (*)(void *, s32))test_flags_any)(get_anim_field_c__10TObjPlayerFPv(self->act), 1) != 0) {
-        switch (((s16 (*)(void *))get_validated_attack_stage)(self->act)) {
+        switch (attack_state.get_validated_attack_stage()) {
         case 0:
         case 1:
             this->phase = 4;
@@ -4739,13 +4736,13 @@ void TObjPlayer::setup_attack_stage() {
     *(s16 *)(arg0 + 0x328) = 0;
     switch (((s16 (*)(void *))TObjPlayer__sub_801D2F4C)(arg0 + 0x7CC)) {
     case 0:
-        if (((s16 (*)(void *))get_validated_attack_stage)(arg0 + 0x7CC) == 0) {
+        if (attack_state.get_validated_attack_stage() == 0) {
             set_field_d4_and_flag_200(0.5f);
         }
         break;
     case 1:
     case 2:
-        if (((s16 (*)(void *))get_validated_attack_stage)(arg0 + 0x7CC) == 0) {
+        if (attack_state.get_validated_attack_stage() == 0) {
             set_field_d4_and_flag_200(0.2f);
         }
         break;
@@ -4806,19 +4803,19 @@ int TObjPlayer::deliver_attack_hits(f32 damage_scale) {
                 accuracy = 0.1f;
             }
         } else {
-            accuracy = get_attack_accuracy_scale((s16 *)&attack_state);
+            accuracy = attack_state.get_attack_accuracy_scale();
         }
         if (target->roll_physical_accuracy(this, collider, accuracy) != 0) {
             s32 damage;
             f32 dealt;
             switch (TObjPlayer__sub_801D2F4C((s16 *)&attack_state)) {
             case 0:
-                damage = target->receive_physical_attack(this, damage_scale * get_attack_damage_scale((s16 *)&attack_state));
+                damage = target->receive_physical_attack(this, damage_scale * attack_state.get_attack_damage_scale());
                 gain_photon_blast_charge(TObjPlayer::calc_photon_blast_charge(this, damage));
                 apply_camera_shake__10TObjPlayerFiii(this, target, damage);
                 break;
             case 1:
-                dealt = target->receive_physical_attack(this, damage_scale * get_attack_damage_scale((s16 *)&attack_state));
+                dealt = target->receive_physical_attack(this, damage_scale * attack_state.get_attack_damage_scale());
                 damage = dealt;
                 gain_photon_blast_charge(TObjPlayer::calc_photon_blast_charge(this, damage));
                 apply_camera_shake__10TObjPlayerFiii(this, target, damage);
@@ -4854,8 +4851,8 @@ int TObjPlayer::deliver_attack_hits(f32 damage_scale) {
                 switch (TObjPlayer__sub_801D2F4C((s16 *)&attack_state)) {
                 case 2:
                     if (target->roll_physical_accuracy(this, collider,
-                                                       ((TObjPlayer *)&attack_state)->calc_attack_stage_multiplier(2)) != 0) {
-                        s32 damage = target->receive_physical_attack(this, damage_scale * get_attack_damage_scale((s16 *)&attack_state));
+                                                       attack_state.calc_attack_stage_multiplier(2)) != 0) {
+                        s32 damage = target->receive_physical_attack(this, damage_scale * attack_state.get_attack_damage_scale());
                         gain_photon_blast_charge(TObjPlayer::calc_photon_blast_charge(this, damage));
                         apply_camera_shake__10TObjPlayerFiii(this, target, damage);
                         hit = 1;
@@ -5123,7 +5120,7 @@ void TObjPlayer::finish_attack_stage1() {
         }
     } else if ((this->motion_flags & 0x10) &&
                ((s32 (*)(void *, s32))test_flags_any)(get_anim_field_c__10TObjPlayerFPv(self->act), 1) != 0) {
-        switch (((s16 (*)(void *))get_validated_attack_stage)(self->act)) {
+        switch (attack_state.get_validated_attack_stage()) {
         case 0:
             this->phase = 4;
             clear_status_bit6__10TObjPlayerFPv(self);
@@ -7330,9 +7327,8 @@ void* get_anim_field_c__10TObjPlayerFPv(void* p) { return (char*)p + 0xc; }
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-f32 TObjPlayer::calc_attack_stage_multiplier(s32 arg1) {
-    saddr arg0 = (saddr)this;
-    return *(f32 *)((s8 *)((u8 *)(attack_type_accuracy_scales) + (arg1 * 4)) + 0) * *(f32 *)((s8 *)((u8 *)(attack_combo_accuracy_multipliers) + (get_validated_attack_stage((u8 *)(arg0)) * 4)) + 0);
+f32 PlayerAttackController::calc_attack_stage_multiplier(s32 kind) {
+    return attack_type_accuracy_scales[kind] * attack_combo_accuracy_multipliers[get_validated_attack_stage()];
 }
 extern int fold_flush_29;
 #pragma pop

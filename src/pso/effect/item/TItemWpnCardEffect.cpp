@@ -31,7 +31,6 @@
 
 const char *TItemWpnCardEffect::class_name = "TItemWpnCardEffect";
 
-extern "C" s16 get_validated_attack_stage(u8 *attack_state);
 
 #pragma fp_contract on
 
@@ -278,7 +277,7 @@ void TItemWeaponGuardianna::emit_marker_effects() {
     Vec origin;
 
     get_joint_position(4, &origin);
-    if (get_validated_attack_stage((u8 *)&owner->attack_state) == 2) {
+    if (owner->attack_state.get_validated_attack_stage() == 2) {
         fire_shot_at_target(&origin, item_model, 0);
         fire_shot_at_target(&origin, item_model, 0x1555);
         fire_shot_at_target(&origin, item_model, -0x1555);

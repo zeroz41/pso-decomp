@@ -46,7 +46,6 @@ void TUnk_804A5B20::vfunc_60() {
 
 extern "C" {
 s16 TObjPlayer__sub_801D2F4C(s16 *arg0);
-s16 get_validated_attack_stage(u8 *arg0);
 void get_weapon_color__11TItemWeaponFPv(f32 *, void *);
 }
 
@@ -59,7 +58,7 @@ void TUnk_804A5B20::emit_marker_effects() {
     launch.texlist = texlist;
     launch.model = second_model;
     launch.attack_kind = TObjPlayer__sub_801D2F4C((s16 *)((u8 *)owner + 0x7CC));
-    launch.combo_stage = get_validated_attack_stage((u8 *)owner + 0x7CC);
+    launch.combo_stage = owner->attack_state.get_validated_attack_stage();
     launch.damage_multiplier = owner->query_extended_state();
     get_weapon_color__11TItemWeaponFPv(tmp, this);
     copy_argb(&launch.color, (NJS_ARGB *)tmp);

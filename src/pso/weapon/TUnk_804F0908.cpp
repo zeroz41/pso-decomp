@@ -45,7 +45,6 @@ void init_slicer_launch_state(void *arg0);
 extern "C" {
 s32 rotate_matrix_z(s32, s32);
 s16 TObjPlayer__sub_801D2F4C(s16 *arg0);
-s16 get_validated_attack_stage(u8 *arg0);
 void get_weapon_color__11TItemWeaponFPv(f32 *, void *);
 void *find_entity_by_id(s32);
 }
@@ -78,7 +77,7 @@ void TUnk_804F0908::emit_marker_effects() {
     launch.textures = *(void **)((s8 *)this + 0x24);
     launch.model = *(void **)((s8 *)this + 0x188);
     launch.kind = TObjPlayer__sub_801D2F4C((s16 *)(*(u8 **)&owner + 0x7CC));
-    launch.stage = get_validated_attack_stage(*(u8 **)&owner + 0x7CC);
+    launch.stage = owner->attack_state.get_validated_attack_stage();
     launch.multiplier = ((TObjPlayer *)(*(u8 **)&owner))->query_extended_state();
     get_weapon_color__11TItemWeaponFPv(tmp, this);
     copy_argb((NJS_ARGB *)launch.color, (NJS_ARGB *)tmp);

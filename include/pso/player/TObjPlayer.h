@@ -439,7 +439,7 @@ struct TObjPlayer : public TObjChara {
     void copy_vec3(void* q);
     static void init_render_globals();
     static void push_material_color_override(f32 alpha, f32 farg1, f32 farg2, f32 farg3);
-    // get_validated_attack_stage of attack_state: the pending stage, 0 when it is not valid.
+    // attack_state.get_validated_attack_stage(): the pending stage, 0 when it is not valid.
     s16 get_attack_stage();
     static void update_lights();
     static void clear_alt_model_flag();
@@ -884,7 +884,6 @@ struct TObjPlayer : public TObjChara {
     f32 get_float_14();
     void set_tech_override(u8 v);
     void set_attack_target(s16 v);
-    f32 calc_attack_stage_multiplier(s32 arg1);
     void set_flag_1_at_c();
     void increment_strike_counter();
     void set_action_type(s32 v);

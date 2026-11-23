@@ -31,7 +31,6 @@
 #include "pso/ui/window/TWindowActionPalette.h"
 #include "pso/item/TItem.h"
 #include "pso/player/TObjPlayer_8012121C.h"
-#include "pso/unk/text_80121180.h"
 #include "pso/map/FloorArea.h"
 #include "pso/unk/TLobby_80207644.h"
 #include "pso/math/AngleLookup.h"
@@ -100,13 +99,12 @@ void TObjPlayer::advance_and_clamp_state() {
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-s16 get_validated_attack_stage(u8 *arg0) {
-    s16 var_r31;
-    var_r31 = *(s16 *)((s8 *)arg0 + 0x10);
-    if (TObjPlayer__sub_801D2EE8((s16)(((int) (var_r31)))) == 0) {
-        var_r31 = 0;
+s16 PlayerAttackController::get_validated_attack_stage() {
+    s16 stage = pending_stage;
+    if (TObjPlayer__sub_801D2EE8(stage) == 0) {
+        stage = 0;
     }
-    return var_r31;
+    return stage;
 }
 #pragma pop
 
@@ -206,7 +204,7 @@ void queue_physical_attack_input(PlayerAttackController *self, TObjPlayer *obj, 
         ((int (*)(void*, int))test_flags_any)((void*)(((void *)get_anim_field_c__10TObjPlayerFPv((void*)(self)))), 4) == 0) {
         ((FlagWord *)((void *)get_anim_field_c__10TObjPlayerFPv((void*)(self))))->set(1);
         ((TObjPlayer *)self)->advance_and_clamp_state();
-        if (get_validated_attack_stage((u8 *)self) > arg3) {
+        if (self->get_validated_attack_stage() > arg3) {
             ((TObjPlayer *)self)->set_saved_attack_stage(arg3);
         }
         t = ((TObjPlayer *)obj)->get_action_palette_entry(kind);

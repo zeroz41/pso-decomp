@@ -5167,7 +5167,7 @@ force_active:
   - clear_harmful_statuses__12TBoss1DragonFv
   - clear_harmful_statuses__13TObjEneRe4BitFv
   - clear_harmful_statuses__14TBoss7CrawfishFv
-  - clear_item_effect__17PlayerAttackStateFv
+  - clear_item_effect__22PlayerAttackControllerFv
   - clear_item_if_player_picked_up__9TItemDropFPvPv
   - clear_item_table__10TObjPlayerFv
   - clear_key_state__16KeyboardKeyStateFv
@@ -6624,7 +6624,7 @@ force_active:
   - get_entry_by_index__12TObjNpcEnemyFs
   - get_event_theme_index__17TObjParticleLobbyFv
   - get_evolution_stage__8TItemMagFv
-  - get_evp__17PlayerAttackStateFv
+  - get_evp__22PlayerAttackControllerFv
   - get_falz_phase__10TObjPlayerFv
   - get_field_04__6TLobbyFv
   - get_variant__11TBoss6Type2Fv
@@ -15508,7 +15508,7 @@ force_active:
   - set_id__23TAdSinglePlyChrSelectGCFPvi
   - set_index__9TLanguageFl
   - set_input_active__11TWindowChatFv
-  - set_item_effect__17PlayerAttackStateFv
+  - set_item_effect__22PlayerAttackControllerFv
   - set_items_and_refresh__15TWindowHelpItemFPvPv
   - set_keyboard_mode__6TLobbyFi
   - set_labels__19TWindowSubTradeMainFl

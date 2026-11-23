@@ -24,7 +24,6 @@
 #include "pso/player/TObjPlayer_80120FC4.h"
 #include "pso/player/TObjPlayer_80121010.h"
 #include "pso/player/TObjPlayer_8012105C.h"
-#include "pso/unk/text_80121180.h"
 #include "pso/player/TObjPlayer_8012121C.h"
 #include "pso/unk/text_803E2D70.h"
 #include "pso/system/MatrixStack.h"
@@ -316,7 +315,7 @@ void TObjPlayer::set_model_param(s16 v) { *(s16 *)&this->unk_118 = v; }
 void TObjPlayer::set_model_id(s16 v) { this->m_116 = v; }
 s16 TObjPlayer::is_status_subsystem_ready() { return TObjPlayer__sub_801D2F4C((s16 *)((char*)this + 0x7cc)); }
 CapturedTargetList *TObjPlayer::get_extended_state() { return (CapturedTargetList *)((TObjPlayer *)((char*)this + 0x7cc))->get_state_ptr(); }
-f32 TObjPlayer::query_extended_state() { return get_attack_damage_scale((s16 *)((char*)this + 0x7cc)); }
+f32 TObjPlayer::query_extended_state() { return attack_state.get_attack_damage_scale(); }
 int TObjPlayer::test_flag30_bit0x100000() { return test_actor_flags((uaddr)((void*)1048576)); }
 }
 void* get_model_joint_matrix(void* owner, int joint) {  return (char*)(*(saddr *)((char*)owner + 0xdb4)) + joint * 48; }
@@ -328,20 +327,10 @@ void*TObjPlayer::get_state_ptr() { return (char*)this + 0x30; }
 
 // ---- pso/unk/text_80121180
 
-extern "C" {
-s16 get_validated_attack_stage();
-extern f32 attack_type_accuracy_scales[3];
-extern f32 attack_combo_accuracy_multipliers[4];
-extern f32 attack_damage_scale_table[3];
+f32 PlayerAttackController::get_attack_damage_scale() { return attack_damage_scale_table[attack_kind]; }
 
-f32 get_attack_damage_scale(s16 *arg0) {
-    return *(f32 *)((s8 *)((u8 *)attack_damage_scale_table + (*(s16 *)((s8 *)arg0 + 0) * 4)) + 0);
-}
-
-f32 get_attack_accuracy_scale(s16 *arg0) {
-    return *(f32 *)((s8 *)((u8 *)attack_type_accuracy_scales + (*(s16 *)((s8 *)arg0 + 0) * 4)) + 0) * *(f32 *)((s8 *)((u8 *)attack_combo_accuracy_multipliers + (get_validated_attack_stage() * 4)) + 0);
-}
-
+f32 PlayerAttackController::get_attack_accuracy_scale() {
+    return attack_type_accuracy_scales[attack_kind] * attack_combo_accuracy_multipliers[get_validated_attack_stage()];
 }
 
 // ---- pso/player/TObjPlayer_801211F0

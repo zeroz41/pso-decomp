@@ -17,7 +17,7 @@
 
 
 void TUnk_804A2B98::on_unequipped() {
-    ((PlayerAttackState *)((u8 *)this->owner + 0x7CC))->set_evp(1.0f);
+    owner->attack_state.set_evp(1.0f);
 }
 
 // ---- pso/player/TObjPlayer_801267C4
@@ -43,7 +43,7 @@ void TUnk_804A2B98::on_equipped() {
         scale = 1.2f;
         break;
     }
-    ((PlayerAttackState *)((u8 *)this->owner + 0x7CC))->set_evp(scale);
+    owner->attack_state.set_evp(scale);
 }
 
 
@@ -93,7 +93,7 @@ void TUnk_804A2B98::emit_marker_effects() {
   else
   {
     k = this->owner->has_valid_handle() * 3;
-    stage = get_validated_attack_stage((u8 *)this->owner + 0x7CC);
+    stage = owner->attack_state.get_validated_attack_stage();
     index = stage;
     index += k;
     this->owner->get_anim_node_position(knuckle_marker_joint_table[index], (Vec *)buf);
