@@ -23,7 +23,7 @@ const s32 shield_particle_oneshot[8] = { 1, 1, 1, 0, 1, 0, 0, 0 };
 const s32 shield_particle_ids[8] = { -1, 446, 447, 145, 32, 416, 417, 177 };
 
 // Built with -inline off,deferred: the functions are written from the last one in the
-// object (0x8010A050-0x8010A710) back to the first.
+// object back to the first.
 
 TItemEffShield::~TItemEffShield() {}
 

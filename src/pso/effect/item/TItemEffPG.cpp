@@ -35,9 +35,7 @@
 #include "pso/unk/text_803D8F74.h"
 
 // Built with -inline off,deferred: functions are written last to first, so
-// the vtables come out 0BF0, 0C08, 0C28 as in the original.
-// The functions from 0x8034FE28 on were a separate unit; their literals continue
-// this TU's .sdata2 pool at 0x805DFE14 (a 4-mod-8 address, so no TU starts there).
+// the vtables come out in the original's order.
 const char *TItemEffPG::class_name = "TItemEffPG";
 
 S_8035016C *S_8035016C::init_params() {
