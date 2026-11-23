@@ -4,7 +4,7 @@
 #include "types.h"
 #include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/ui/window/TWindowOptionCtrl.h"
-#include "pso/unk/TUnk_804F01A8.h"
+#include "pso/ui/window/TSnapshotFileSetup.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/TLanguage.h"
 #include "pso/system/task/TObject_80019A50.h"
@@ -266,12 +266,12 @@ void TWindowOptionCtrl::run_task() {
         break;
     case 14:
         if (card_format_dialog == NULL) {
-            card_format_dialog = new TUnk_804F01A8(this);
+            card_format_dialog = new TSnapshotFileSetup(this);
         }
         ((TWindowMenu *)(main_menu))->open();
         state = 0xF;
     case 15: {
-        s32 r = card_format_dialog->get_field_24();
+        s32 r = card_format_dialog->get_result();
         if (r == 1 || r == 2) {
             card_format_dialog->queue_destruction();
             card_format_dialog = NULL;

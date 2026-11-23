@@ -5,7 +5,7 @@
 #include "pso/system/task/TObject.h"
 
 class TAdPlayerLoadGC;
-class TUnk_804F01A8;
+class TSnapshotFileSetup;
 struct NJS_POINT2;
 
 struct TWindowOptionCtrl : public TObject {
@@ -25,7 +25,7 @@ struct TWindowOptionCtrl : public TObject {
     void *snap_shot_window;
     void *yes_no_window;
     void *serial_info_window;
-    TUnk_804F01A8 *card_format_dialog;
+    TSnapshotFileSetup *card_format_dialog;
     TAdPlayerLoadGC *player_load; // memory-card watcher made by the ctor
 
     static const char *class_name;
