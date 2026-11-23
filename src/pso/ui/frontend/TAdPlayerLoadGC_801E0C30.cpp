@@ -34,7 +34,7 @@ struct Info_801E21A8 { u32 length; s16 blocks; u8 f6; u8 f7; s16 f8; u16 year; u
 u32 card_slot_state_flags;
 s32 lbl_805D5E34;
 void *banner_file_buf;
-s32 lbl_805D5E3C;
+s32 memcard_file_size;
 s32 card_result_code;
     int lbl_805D5E44;
 extern "C" {
@@ -47,10 +47,10 @@ void fill_date_from_seconds(u32 secs, DateStamp *out);
 extern "C" {
 int strcmp(const char *s1, const char *s2);
 s32 get_card_file_info__15TAdPlayerLoadGCFiPvPv(saddr chan, const char *name, Info_801E21A8 *info);
-extern u8 *lbl_80511F68[];
+extern u8 *memcard_work_areas[];
 s32 open_or_create_memcard_file(s32 chan, const char *name, void *buf, u32 size);
-extern CARDFileInfo lbl_80511EE8;
-extern CARDStat lbl_80511EFC;
+extern CARDFileInfo memcard_file_info;
+extern CARDStat memcard_file_status;
 
 void TAdPlayerLoadGC::reset_load_state(s32 channel, u64 *serial_number) {
     *serial_number = 0;
@@ -215,7 +215,7 @@ s32 mount_memcard(saddr chan) {
         return -0xFF;
     }
     mounting = 0x100 << chan;
-    workArea = lbl_80511F68[chan];
+    workArea = memcard_work_areas[chan];
     if (card_slot_state_flags & mounting) {
         card_slot_state_flags &= ~mounting;
         card_result_code = -0x7F;
@@ -392,17 +392,17 @@ s32 start_memcard_write(s32 chan, const char *name, void *buf, s32 blocks, CardW
         break;
     }
     if (static_cast<u8>(flags) != 0) {
-        CARDSetAttributes(chan, lbl_80511EE8.fileNo, 0x1C);
+        CARDSetAttributes(chan, memcard_file_info.fileNo, 0x1C);
     }
-    CARDGetStatus(chan, lbl_80511EE8.fileNo, &lbl_80511EFC);
-    lbl_80511EFC.commentAddr = 0;
-    lbl_80511EFC.iconAddr = 0x40;
-    lbl_80511EFC.bannerFormat = (lbl_80511EFC.bannerFormat & ~3) | 2;
-    lbl_80511EFC.bannerFormat &= ~4;
-    lbl_80511EFC.iconFormat = (lbl_80511EFC.iconFormat & ~3) | 2;
-    lbl_80511EFC.iconSpeed = (lbl_80511EFC.iconSpeed & ~3) | 3;
-    lbl_80511EFC.iconSpeed &= ~0xC;
-    switch (CARDWriteAsync(&lbl_80511EE8, buf, lbl_805D5E3C, 0, NULL)) {
+    CARDGetStatus(chan, memcard_file_info.fileNo, &memcard_file_status);
+    memcard_file_status.commentAddr = 0;
+    memcard_file_status.iconAddr = 0x40;
+    memcard_file_status.bannerFormat = (memcard_file_status.bannerFormat & ~3) | 2;
+    memcard_file_status.bannerFormat &= ~4;
+    memcard_file_status.iconFormat = (memcard_file_status.iconFormat & ~3) | 2;
+    memcard_file_status.iconSpeed = (memcard_file_status.iconSpeed & ~3) | 3;
+    memcard_file_status.iconSpeed &= ~0xC;
+    switch (CARDWriteAsync(&memcard_file_info, buf, memcard_file_size, 0, NULL)) {
     case -128:
     case -14:
     case -11:
@@ -463,7 +463,7 @@ s32 start_memcard_read(s32 chan, const char *name, void *buf, u32 blocks) {
     if (chan >= 2) {
         return 0;
     }
-    switch (CARDOpen(chan, name, &lbl_80511EE8)) {
+    switch (CARDOpen(chan, name, &memcard_file_info)) {
     case -3:
         card_result_code = -0xFF;
         return -0xFF;
@@ -490,10 +490,10 @@ s32 start_memcard_read(s32 chan, const char *name, void *buf, u32 blocks) {
     if (blocks != 0) {
         size = blocks * size;
     } else {
-        CARDGetStatus(chan, lbl_80511EE8.fileNo, &st);
+        CARDGetStatus(chan, memcard_file_info.fileNo, &st);
         size = st.length;
     }
-    switch (CARDReadAsync(&lbl_80511EE8, buf, (s32)size, 0, NULL)) {
+    switch (CARDReadAsync(&memcard_file_info, buf, (s32)size, 0, NULL)) {
     case -3:
         card_result_code = -0xFF;
         return -0xFF;
@@ -537,8 +537,8 @@ s32 poll_memcard_result(saddr chan) {
         case -10:
         case 0:
             card_slot_state_flags &= ~(0x10 << chan);
-            CARDSetStatus(chan, lbl_80511EE8.fileNo, &lbl_80511EFC);
-            CARDClose(&lbl_80511EE8);
+            CARDSetStatus(chan, memcard_file_info.fileNo, &memcard_file_status);
+            CARDClose(&memcard_file_info);
             card_result_code = 0;
             return 0;
         case -128:
@@ -563,7 +563,7 @@ s32 poll_memcard_result(saddr chan) {
         case -10:
         case 0:
             card_slot_state_flags &= ~(0x40 << chan);
-            CARDClose(&lbl_80511EE8);
+            CARDClose(&memcard_file_info);
             card_result_code = 0;
             return 0;
         case -128:
@@ -877,7 +877,7 @@ s32 init_memcard(s32 unused, s32 chan, u8 *workArea) {
         return -0x100;
     }
     for (i = 0; i < 2; i++) {
-        lbl_80511F68[i] = workArea + i * 0xA000;
+        memcard_work_areas[i] = workArea + i * 0xA000;
         mount_memcard(i);
     }
     card_result_code = 0;
@@ -890,8 +890,8 @@ s32 open_or_create_memcard_file(s32 chan, const char *name, void *buf, u32 size)
     s32 result;
     memset(fileName, 0, sizeof(fileName));
     strncpy(fileName, name, sizeof(fileName));
-    lbl_805D5E3C = size;
-    result = CARDOpen(chan, name, &lbl_80511EE8);
+    memcard_file_size = size;
+    result = CARDOpen(chan, name, &memcard_file_info);
     switch (result) {
     case -3:
         return -0xFF;
@@ -906,7 +906,7 @@ s32 open_or_create_memcard_file(s32 chan, const char *name, void *buf, u32 size)
     default:
         return result;
     case -4:
-        result = CARDCreate(chan, fileName, lbl_805D5E3C, &lbl_80511EE8);
+        result = CARDCreate(chan, fileName, memcard_file_size, &memcard_file_info);
         switch (result) {
         case -7:
             return result;
@@ -931,6 +931,6 @@ s32 open_or_create_memcard_file(s32 chan, const char *name, void *buf, u32 size)
 }
 
 void *banner_buffers[6];
-CARDFileInfo lbl_80511EE8;
-CARDStat lbl_80511EFC;
-u8 *lbl_80511F68[2];
+CARDFileInfo memcard_file_info;
+CARDStat memcard_file_status;
+u8 *memcard_work_areas[2];

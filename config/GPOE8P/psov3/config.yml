@@ -184,7 +184,7 @@ force_active:
   - TAdMultiSaveGC__sub_802FF2B4
   - TAdMultiSaveGC__sub_802FF314
   - banner_buffers
-  - lbl_80511EE8
+  - memcard_file_info
   - TAdPlayerLoadGC__network_config_buffer
   - TAdPlayerLoadGC__network_info_payload_buffer
   - TAdPlayerLoadGC__player_load_value
@@ -8193,8 +8193,8 @@ force_active:
   - lbl_8050CFC4
   - lbl_8050EA64
   - lbl_80511DD8
-  - lbl_80511EFC
-  - lbl_80511F68
+  - memcard_file_status
+  - memcard_work_areas
   - lbl_805137C8
   - lbl_80513918
   - lbl_80513F70

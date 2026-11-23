@@ -86,9 +86,9 @@ void TAdSinglePlyChrSelectGC::finish_character_selection_transition() {
         this->chr_menu->close();
         this->chr_menu = NULL;
     }
-    if (this->create_prompt != NULL) {
-        this->create_prompt->close();
-        this->create_prompt = NULL;
+    if (this->create_character_prompt != NULL) {
+        this->create_character_prompt->close();
+        this->create_character_prompt = NULL;
     }
     if (this->meseta_prompt != NULL) {
         this->meseta_prompt->close();
@@ -131,10 +131,10 @@ void TAdSinglePlyChrSelectGC::close_and_change_scene() {
         menu->close();
         this->chr_menu = NULL;
     }
-    prompt = this->create_prompt;
+    prompt = this->create_character_prompt;
     if (prompt != NULL) {
         prompt->close();
-        this->create_prompt = NULL;
+        this->create_character_prompt = NULL;
     }
     frames = this->state_timer + 1;
     this->state_timer = frames;
@@ -206,8 +206,8 @@ void TAdSinglePlyChrSelectGC::update_card_input() {
         this->state = 0;
         return;
     }
-    if (this->create_prompt->is_child_visible() != 0) {
-        switch (this->create_prompt->get_selected_value()) {
+    if (this->create_character_prompt->is_child_visible() != 0) {
+        switch (this->create_character_prompt->get_selected_value()) {
         case 0:
             this->menu_choice = 3;
             this->state = 0xC;
@@ -217,7 +217,7 @@ void TAdSinglePlyChrSelectGC::update_card_input() {
             this->state = 5;
             return;
         }
-    } else if (this->create_prompt->is_cancelled() != 0) {
+    } else if (this->create_character_prompt->is_cancelled() != 0) {
         this->cursor->set_selection_state(1);
         this->state = 5;
     }
@@ -229,8 +229,8 @@ void TAdSinglePlyChrSelectGC::update() {
         this->state = 0;
         return;
     }
-    if (this->transfer_prompt->is_child_visible() != 0) {
-        switch (this->transfer_prompt->get_selected_value()) {
+    if (this->yes_no_prompt->is_child_visible() != 0) {
+        switch (this->yes_no_prompt->get_selected_value()) {
         case 0:
             TAdSinglePlyChrSelectGC::clear_entry(cursor->selection_index());
             this->slot_window->get_state();
@@ -243,7 +243,7 @@ void TAdSinglePlyChrSelectGC::update() {
             this->state = 5;
             return;
         }
-    } else if (this->transfer_prompt->is_cancelled() != 0) {
+    } else if (this->yes_no_prompt->is_cancelled() != 0) {
         this->cursor->set_selection_state(1);
         this->state = 5;
     }
@@ -290,13 +290,13 @@ void TAdSinglePlyChrSelectGC::handle_slot_selection() {
         ((TWindowBase *)(*(void * *)&this->chr_menu))->close();
         this->chr_menu = NULL;
     }
-    if (this->create_prompt != NULL) {
-        ((TWindowMessageYesNo *)(*(void * *)&this->create_prompt))->close();
-        this->create_prompt = NULL;
+    if (this->create_character_prompt != NULL) {
+        ((TWindowMessageYesNo *)(*(void * *)&this->create_character_prompt))->close();
+        this->create_character_prompt = NULL;
     }
-    if (this->transfer_prompt != NULL) {
-        ((TWindowMessageYesNo *)(*(void * *)&this->transfer_prompt))->close();
-        this->transfer_prompt = NULL;
+    if (this->yes_no_prompt != NULL) {
+        ((TWindowMessageYesNo *)(*(void * *)&this->yes_no_prompt))->close();
+        this->yes_no_prompt = NULL;
     }
     if (this->replace_prompt != NULL) {
         ((TWindowMessageYesNo *)(*(void * *)&this->replace_prompt))->close();
@@ -306,9 +306,9 @@ void TAdSinglePlyChrSelectGC::handle_slot_selection() {
         ((TWindowMessageYesNo *)(*(void * *)&this->meseta_prompt))->close();
         this->meseta_prompt = NULL;
     }
-    if (this->fade != NULL) {
-        this->fade->queue_destruction();
-        this->fade = NULL;
+    if (this->fade_task != NULL) {
+        this->fade_task->queue_destruction();
+        this->fade_task = NULL;
     }
     if ((test_pressed_buttons_packed(&controller_physical_port_bank.controllers[0], 2) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0)) {
         play_sound_effect(0x52F16, 0, 0, 0);
@@ -341,8 +341,8 @@ void TAdSinglePlyChrSelectGC::handle_slot_selection() {
         load_tables(cursor->selection_index());
         if (TAdSinglePlyChrSelectGC::is_slot_active(cursor->selection_index()) != 0) {
             if (this->slot_window->is_character_transferred((u32)(this->cursor->selection_index())) != 0) {
-                this->fade = new TAdFadeGC(tl_fade, NULL);
-                this->transfer_prompt = this->slot_window->open_yes_no_window((saddr)&single_chr_select_yes_no_pos, 0);
+                this->fade_task = new TAdFadeGC(tl_fade, NULL);
+                this->yes_no_prompt = this->slot_window->open_yes_no_window((saddr)&single_chr_select_yes_no_pos, 0);
                 this->state = 7;
                 return;
             }
@@ -350,7 +350,7 @@ void TAdSinglePlyChrSelectGC::handle_slot_selection() {
             this->state = 6;
             return;
         }
-        this->create_prompt = this->slot_window->open_create_character_prompt((saddr)&single_chr_select_slot_message_pos);
+        this->create_character_prompt = this->slot_window->open_create_character_prompt((saddr)&single_chr_select_slot_message_pos);
         this->state = 8;
     }
 }
@@ -473,13 +473,13 @@ void TAdSinglePlyChrSelectGC::cleanup() {
         this->chr_menu->close();
         this->chr_menu = NULL;
     }
-    if (this->create_prompt != NULL) {
-        this->create_prompt->close();
-        this->create_prompt = NULL;
+    if (this->create_character_prompt != NULL) {
+        this->create_character_prompt->close();
+        this->create_character_prompt = NULL;
     }
-    if (this->transfer_prompt != NULL) {
-        this->transfer_prompt->close();
-        this->transfer_prompt = NULL;
+    if (this->yes_no_prompt != NULL) {
+        this->yes_no_prompt->close();
+        this->yes_no_prompt = NULL;
     }
     if (this->meseta_prompt != NULL) {
         this->meseta_prompt->close();
@@ -497,9 +497,9 @@ void TAdSinglePlyChrSelectGC::cleanup() {
         this->card_load_message->close();
         this->card_load_message = NULL;
     }
-    if (this->fade != NULL) {
-        this->fade->queue_destruction();
-        this->fade = NULL;
+    if (this->fade_task != NULL) {
+        this->fade_task->queue_destruction();
+        this->fade_task = NULL;
     }
     if ((test_pressed_buttons_packed(&controller_input_state.controllers[0], 2) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0)) {
         play_sound_effect(0x52F16, 0, 0, 0);
@@ -550,11 +550,11 @@ void TAdSinglePlyChrSelectGC::sub_802D4E08() {
     this->prev_state = this->state;
     this->cursor = NULL;
     this->player = NULL;
-    this->fade = NULL;
+    this->fade_task = NULL;
     this->guide = NULL;
     this->chr_menu = NULL;
-    this->create_prompt = NULL;
-    this->transfer_prompt = NULL;
+    this->create_character_prompt = NULL;
+    this->yes_no_prompt = NULL;
     this->meseta_prompt = NULL;
     this->replace_prompt = NULL;
     this->card_check_message = NULL;
@@ -568,8 +568,8 @@ TAdSinglePlyChrSelectGC::~TAdSinglePlyChrSelectGC() {
     if (this->chr_menu != NULL) { this->chr_menu->queue_destruction(); this->chr_menu = NULL; }
     if (this->card_check_message != NULL) { this->card_check_message->queue_destruction(); this->card_check_message = NULL; }
     if (this->card_load_message != NULL) { this->card_load_message->queue_destruction(); this->card_load_message = NULL; }
-    if (this->create_prompt != NULL) { this->create_prompt->queue_destruction(); this->create_prompt = NULL; }
-    if (this->transfer_prompt != NULL) { this->transfer_prompt->queue_destruction(); this->transfer_prompt = NULL; }
+    if (this->create_character_prompt != NULL) { this->create_character_prompt->queue_destruction(); this->create_character_prompt = NULL; }
+    if (this->yes_no_prompt != NULL) { this->yes_no_prompt->queue_destruction(); this->yes_no_prompt = NULL; }
 }
 
 // pool_data off: the cursor rects and the title positions are each reached with their own lis/addi.

@@ -12,6 +12,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp_8024FBA8.h"
 #include "pso/unk/TLobby_80132ED0.h"
 #include "pso/ui/window/TWindowBase.h"
+#include "pso/ui/window/WindowDrawContext.h"
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/window/TWindowDuelResult.h"
 #include "pso/ui/window/TWindowSubComCard.h"
@@ -109,21 +110,17 @@ void TWindowSnapShot::play_open_sound() {
 
 void TWindowSnapShot::render() {
     Stack_802A7F00 stack;
-    u8 *context;
-    context = reinterpret_cast<u8 *>(draw_default_entry());
+    WindowDrawContext *context = draw_default_entry();
     draw_window_frame(context);
-    draw_visible_window_entries(
-        this,
-        &this->entry_list,
-        reinterpret_cast<WindowDrawContext *>(context));
+    draw_visible_window_entries(this, &this->entry_list, context);
     if (!(m_60 & 2)) {
-        if ((s32) *(s32 *)((s8 *)context + 0x30) > 0) {
-            stack.sp8 = 18.0f + *(f32 *)((s8 *)context + 0x10);
-            stack.spC = *(f32 *)((s8 *)context + 0x14);
+        if (context->open_tick > 0) {
+            stack.sp8 = 18.0f + context->inner_x;
+            stack.spC = context->inner_y;
             draw_screen_snapshot(&stack.sp8, 18.0f);
         }
     } else {
-        draw_window_text((f32 *)(context + 0x10), (const char *)(get_localized_text_entry(0x24, 7)), -1, 0, 1000000.0f);
+        draw_window_text(&context->inner_x, (const char *)(get_localized_text_entry(0x24, 7)), -1, 0, 1000000.0f);
     }
 }
 

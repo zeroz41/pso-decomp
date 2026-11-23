@@ -135,11 +135,11 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     TWindowMenu *chr_menu;                 // 0x38  play / meseta / delete / back menu of an occupied slot
     TWindowBase *card_check_message;       // 0x3C  shown while the card is polled for the guild card file
     TWindowBase *card_load_message;        // 0x40  shown while the guild card file is read
-    TWindowMessageYesNo *create_prompt;    // 0x44  empty slot: create a character?
-    TWindowMessageYesNo *transfer_prompt;  // 0x48  transferred character confirmation
+    TWindowMessageYesNo *create_character_prompt; // 0x44  empty slot: create a character?
+    TWindowMessageYesNo *yes_no_prompt;    // 0x48  transferred character confirmation
     TWindowMessageYesNo *meseta_prompt;    // 0x4C  menu entry 1, costs 10000 meseta
     TWindowMessageYesNo *replace_prompt;   // 0x50  menu entry 3
-    TAdFadeGC *fade;                       // 0x54
+    TAdFadeGC *fade_task;                  // 0x54
     s32 last_cursor_index;                 // 0x58
     s32 menu_choice;                       // 0x5C  chr_menu entry that decides where the scene goes next
     static void free_all_resources();
