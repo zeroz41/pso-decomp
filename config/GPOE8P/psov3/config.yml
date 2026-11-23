@@ -16124,7 +16124,7 @@ force_active:
   - store_position__13TObjEneBm3FlyFv
   - stream_read_be32
   - strstr
-  - send_update_entity_stat__9TObjCharaFUsUcUc
+  - send_update_entity_stat__9TObjCharaFUsll
   - get_attack_params_ata__9TObjCharaFv
   - sub_8001CCD4__11TLoadingCurFv
   - sub_8002E1CC__13TObjBoss1RockFPUcPUcl

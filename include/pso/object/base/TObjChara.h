@@ -80,7 +80,10 @@ public:
     s32 check_can_act(s32 dmg);
     // Tells the other clients (6x9A) that `target` changed this one's HP,
     // TP or meseta (`which` 0-4) by `amount`.
-    void send_update_entity_stat(u16 target, u8 which, u8 amount);
+    void send_update_entity_stat(u16 target, s32 which, s32 amount);
+    // Sets attacker_id; a local player's id also becomes local_attacker_id
+    // (single screen) or goes to TObjPlayer::add_id_to_slots (split screen).
+    void record_attack_source(u16 id);
     u16 get_local_attacker_id();
     void clear_immunity_flags();
     // Status-effect particles at body_center; play_sound adds the cue.

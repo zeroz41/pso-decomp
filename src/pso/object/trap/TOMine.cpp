@@ -173,7 +173,6 @@ struct VObj_18_1da615 : VBase_18_1da615 {
 extern "C" {
 s32 play_sound_effect(s32, s32, s32, s32);
 void TOMineTrap__sub_80170CD4(void* p);
-void record_attack_source(void *object, u16 id);
 f32 atan2_float(f32 y, f32 x);
 f32 vec3_add_to(void *, void *);
 f32 vec_squared_length(u8 *arg0);
@@ -888,7 +887,7 @@ void TOMineTrap::run_task() {
                             ((TObjChara *)target)->receive_direct_attack(this, attack, 0, -1, -1);
                             break;
                         }
-                        record_attack_source(target, get_trap_type());
+                        ((TObjChara *)target)->record_attack_source(get_trap_type());
                     }
                     if (m_380 != 1) {
                         m_380 = show_owner_message(chara);
@@ -906,7 +905,7 @@ void TOMineTrap::run_task() {
                         ((TObjChara *)target)->receive_direct_attack(attacker, attack, 0, -1, -1);
                         break;
                     }
-                    record_attack_source(target, get_trap_type());
+                    ((TObjChara *)target)->record_attack_source(get_trap_type());
                 }
             } else if (((TUnk_804B6C24 *)p)->check_value_equals((saddr)TOMineTrap__data_805D3080) != 0) {
                 if (horizontal_distance_squared(&position, &p->position) < m_350 * m_350) {
