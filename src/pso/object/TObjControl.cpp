@@ -236,11 +236,11 @@ void TObjCollidable::clear_shadow_flag() { this->m_flags &= 0xfffffbff; }
 
 int TObjEnemy::apply_player_54a00() { return unregister_object_by_id(); }
 
-s32 TObjEnemy::apply_by_index(s16 arg0) {
-    if (arg0 > 0xB4F) {
+s32 TObjEnemy::apply_by_index(s16 index) {
+    if (index > 0xB4F) {
         return 0;
     }
-    copy_header__6TLobbyFPv((saddr)TLobby__data_805D6144 + (arg0 * 0xC));
+    copy_header__6TLobbyFPv((saddr)TLobby__data_805D6144 + (index * 0xC));
     return 1;
 }
 
