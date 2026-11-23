@@ -29,13 +29,8 @@
 #include "pso/object/base/TObjBase.h"
 
 extern "C" {
-s32 compact_items__18TCheckRoomSequenceFi(int);
-s32 remove_bank_item_amount__18TCheckRoomSequenceFiii(int, int, int);
-s32 copy_item_record__18TCheckRoomSequenceFiPvi(int, void *, int);
-s32 copy_bank_to_card_window(int);
 
 void *get_window_layout_position(int);
-s32 copy_bank_item_with_stack_limit(s32 idx, void *data, s32 *out, s32 slot);
 s16 get_player_entity_id__15TShopWindowBaseFv(void *);
 TWindowInputNumber *__ct__18TWindowInputNumberFPvllls(void *, void *, int, s32, int, int);
 }
@@ -165,7 +160,7 @@ void TShopDeleteItemWindow::sub_80337E2C() {
         cursor = item_list->get_cursor_index();
     }
     if (help_window == NULL) {
-        if (copy_item_record__18TCheckRoomSequenceFiPvi(cursor, &displayed_item_colored, base) != 0) {
+        if (TCheckRoomSequence::copy_item_record(cursor, &displayed_item_colored, base) != 0) {
             help_window = new TWindowHelpItem(get_window_layout_position(0x27), ((TObjBase *)(player))->get_entity_id());
             if (help_window != NULL && TLobby::is_camera_ctrl_active() > 2) {
                 help_window->set_scale(0.75f, 0.75f);
@@ -173,7 +168,7 @@ void TShopDeleteItemWindow::sub_80337E2C() {
             help_window->set_displayed_item_colored((uaddr)&displayed_item_colored);
             last_cursor = cursor;
         }
-    } else if (copy_item_record__18TCheckRoomSequenceFiPvi(cursor, &displayed_item_colored, base) != 0) {
+    } else if (TCheckRoomSequence::copy_item_record(cursor, &displayed_item_colored, base) != 0) {
         help_window->set_displayed_item_colored((uaddr)&displayed_item_colored);
         last_cursor = cursor;
     }
@@ -197,7 +192,7 @@ void TShopDeleteItemWindow::update_item_select(void *arg0) {
     if (self->item_list != NULL) {
         cursor = self->item_list->get_cursor_value();
         if (self->help_window != NULL && cursor != self->last_cursor) {
-            if (copy_item_record__18TCheckRoomSequenceFiPvi(cursor, &self->displayed_item_colored, base) != 0) {
+            if (TCheckRoomSequence::copy_item_record(cursor, &self->displayed_item_colored, base) != 0) {
                 self->help_window->set_displayed_item_colored((uaddr)&self->displayed_item_colored);
             }
             self->last_cursor = cursor;
@@ -271,9 +266,9 @@ void TShopDeleteItemWindow::handle_confirm_dialog() {
         sel = confirm_menu->get_selected_value();
         if (sel == 0) {
             idx = item_list->get_cursor_value();
-            if (copy_item_record__18TCheckRoomSequenceFiPvi(idx, &record, slot) != 0) {
-                remove_bank_item_amount__18TCheckRoomSequenceFiii(idx, delete_count, slot);
-                compact_items__18TCheckRoomSequenceFi(slot);
+            if (TCheckRoomSequence::copy_item_record(idx, &record, slot) != 0) {
+                TCheckRoomSequence::remove_bank_item_amount(idx, delete_count, slot);
+                TCheckRoomSequence::compact_items(slot);
                 copy_bank_to_card_window(slot);
                 set_state(0);
             }

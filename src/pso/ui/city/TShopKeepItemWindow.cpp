@@ -33,39 +33,29 @@
 #include "pso/ui/window/TMessageWindowController.h"
 #include "pso/ui/window/TWindowInputNumber.h"
 #include "pso/object/base/TObjBase.h"
-s32 bank_has_free_row(s32 slot);
+#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/system/SoundEffect.h"
+#include "pso/ui/window/WindowLayout.h"
 
 extern "C" {
-
-saddr get_window_layout_position(s32);
-s32 delete_item(TObjPlayer *, s32, s32);
-s32 store_item_in_bank(u8 *item, s32 amount, s32 slot);
-void copy_bank_to_card_window(s32 slot);
-s32 play_sound_effect(s32, s32, s32, s32);
 TWindowMenuIconLine *create_item_list_window(s32, s32, s32);
-void sort_bank_items(s32 slot);
-s32 get_bank_deposit_capacity_for_item(TItemData *item, s32 slot);
 }
 
 const char *TShopKeepItemWindow__class_name = "TShopKeepItemWindow";
 
-struct Base_80221844 { char pad[0x18]; };
-struct Base_8022187C_80221844 { char pad[0x18]; };
-struct Base_802219A0 { char pad[0x18]; };
-struct VBase_80221F08 { char pad[0x18]; };
-TShopKeepItemWindow::TShopKeepItemWindow(void *arg1, void *arg2, void *arg3) : TShopWindowBase((TObject *)arg1) {
+TShopKeepItemWindow::TShopKeepItemWindow(TObject *parent, TShopWindowBase *sequence, TObjPlayer *player) : TShopWindowBase(parent) {
     m_name = TShopKeepItemWindow__class_name;
-    this->m_370 = 0;
+    this->pad_370 = 0;
     this->entry_count = 0;
     this->deposit_count = 1;
     this->help_item_index = 0;
     this->state = 0;
-    this->message_window = (TShopWindowBase *)arg2;
+    this->sequence = sequence;
     this->item_list_window = 0;
     this->confirm_window = 0;
     this->help_window = 0;
     this->number_window = 0;
-    this->player = (TObjPlayer *)arg3;
+    this->player = player;
     this->ok_callback = NULL;
     this->cancel_callback = NULL;
     memset(this->entries, 0, sizeof(this->entries));
@@ -79,28 +69,27 @@ TShopKeepItemWindow::~TShopKeepItemWindow() {
 }
 
 void TShopKeepItemWindow::update_state() {
-    u8 *arg0 = (u8 *)this;
     switch (this->state) {
     case 0:
-        ((TShopKeepItemWindow *)arg0)->rebuild_item_list();
+        rebuild_item_list();
         return;
     case 1:
-        ((TShopKeepItemWindow *)arg0)->handle_deposit_list_select();
+        handle_deposit_list_select();
         return;
     case 2:
-        ((TShopKeepItemWindow *)arg0)->handle_deposit_confirm();
+        handle_deposit_confirm();
         return;
     case 3:
-        ((TShopKeepItemWindow *)arg0)->close();
+        close();
         return;
     case 4:
-        ((TShopKeepItemWindow *)arg0)->update_number_input();
+        update_number_input();
         return;
     case 5:
-        ((TShopKeepItemWindow *)arg0)->close_with_ok_callback();
+        close_with_ok_callback();
         return;
     case 7:
-        ((TShopKeepItemWindow *)arg0)->close_with_cancel_callback();
+        close_with_cancel_callback();
     default:
         return;
     }
@@ -305,36 +294,36 @@ void TShopKeepItemWindow::close() {
 }
 
 void TShopKeepItemWindow::close_with_ok_callback() {
-    void (*temp_r12)(TShopWindowBase *);
+    void (*callback)(TShopWindowBase *);
 
-    temp_r12 = this->ok_callback;
-    if (temp_r12 != NULL) {
-        temp_r12(this->message_window);
+    callback = this->ok_callback;
+    if (callback != NULL) {
+        callback(this->sequence);
     }
     sort_bank_items(get_split_screen_slot());
     queue_destruction();
 }
 
 void TShopKeepItemWindow::close_with_cancel_callback() {
-    void (*temp_r12)(TShopWindowBase *);
+    void (*callback)(TShopWindowBase *);
 
-    temp_r12 = this->cancel_callback;
-    if (temp_r12 != NULL) {
-        temp_r12(this->message_window);
+    callback = this->cancel_callback;
+    if (callback != NULL) {
+        callback(this->sequence);
     }
     sort_bank_items(get_split_screen_slot());
     queue_destruction();
 }
 
 void TShopKeepItemWindow::display_shop_message(s32 id, s32 flags) {
-    TShopWindowBase *owner = this->message_window;
+    TShopWindowBase *owner = this->sequence;
     if (owner != NULL) {
         owner->display_shop_message(id, flags);
     }
 }
 
 void TShopKeepItemWindow::display_message(const char *text, s32 flags) {
-    TShopWindowBase *owner = this->message_window;
+    TShopWindowBase *owner = this->sequence;
     if (owner != NULL) {
         owner->display_message(text, flags);
     }

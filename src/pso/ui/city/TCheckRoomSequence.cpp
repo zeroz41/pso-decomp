@@ -114,7 +114,7 @@ struct Rec_80210F78
 };
 
 extern "C" {
-u8 is_item_record_empty(u8 *arg0);
+s32 is_item_record_empty(u8 *record);
 void init_item_entry__18TCheckRoomSequenceFPv(Obj_80211408 *self);
 void close_window__18TCheckRoomSequenceFPv(TCheckRoomSequence_8020F070 *self);
 int reset_controller_input_state(void *);
@@ -131,7 +131,6 @@ void accept_meseta_withdrawal__18TCheckRoomSequenceFPv(u8 *arg0);
 s32 try_spend_actor_meseta(u8 *player, s32 count);
 void accept_meseta_deposit__18TCheckRoomSequenceFPv(u8 *arg0);
 void copy_item_to_bank_entry__18TCheckRoomSequenceFPvPv(u8 *arg0, u8 *arg1);
-void compact_items__18TCheckRoomSequenceFi(s32 slot);
 s32 poll_memcard_result(saddr chan);
 int obj_getPtr2B0_20(u8 *p);
 void *__ct__18TWindowInputNumberFPvllls(void *, s32, s32, s32, s32, s16);
@@ -139,25 +138,20 @@ saddr get_window_layout_position(s32);
 void begin_meseta_withdrawal__18TCheckRoomSequenceFPv(Seq_8020F478 *self);
 void begin_meseta_deposit__18TCheckRoomSequenceFPv(Seq_8020F730 *self);
 s32 get_max_stack_size__9TItemDataFv(void *);
-s32 get_bank_deposit_capacity_for_item(Item_80210A04 *item, s32 slot);
 s32 TCheckRoomSequence__sub_80210B34(u8 *, s32, s32);
-s32 store_item_in_bank(u8 *item, s32 amount, s32 slot);
 s32 check_room_ready__18TCheckRoomSequenceFv(void);
 s32 get_shop_text(int);
 
 void handle_root_choice__18TCheckRoomSequenceFv(u8 *arg0);
-void *__ct__19TShopKeepItemWindowFPvPvPv(TShopKeepItemWindow *arg0, void *arg1, void *arg2, void *arg3);
+void *__ct__19TShopKeepItemWindowFP7TObjectP15TShopWindowBaseP10TObjPlayer(TShopKeepItemWindow *arg0, void *arg1, void *arg2, void *arg3);
 void init_check_params__18TCheckRoomSequenceFUi(uaddr shop_window_base);
 void open_deposit_item_window__18TCheckRoomSequenceFv(u8 *arg0);
 void handle_withdraw_choice__18TCheckRoomSequenceFv(u8 *arg0);
 void handle_deposit_choice__18TCheckRoomSequenceFv(u8 *arg0);
 s32 set_service_counter_camera(void *, int);
 void open_bank__18TCheckRoomSequenceFv(u8 *sequence);
-void remove_bank_item_amount__18TCheckRoomSequenceFiii(s32 idx, s32 amount, s32 slot);
-void copy_bank_to_card_window(s32 slot);
 extern u32 bank_item_records_by_slot[4];
 void copy_data__18TCheckRoomSequenceFPvPv(void* p, void* a1);
-s32 copy_bank_item_with_stack_limit(s32 idx, void *data, s32 *out, s32 slot);
 void* TAdSinglePlyChrSelectGC__sub_802115C0(void* p);
 void set_quest_list_mode_19__18TCheckRoomSequenceFPv(void* p);
 s32 get_game_play_mode();
@@ -222,7 +216,6 @@ void notify_quest_list_vm__18TCheckRoomSequenceFPv(u8 *arg0) {
     }
 }
 }
-u8 bank_has_free_row(s32 i);
 s32 get_bank_meseta_capacity(s32 i);
 s32 bank_credit_meseta(s32 v, s32 i);
 s32 bank_debit_meseta(s32 v, s32 i);
@@ -424,7 +417,7 @@ void open_deposit_item_window__18TCheckRoomSequenceFv(u8 *arg0) {
     mem = TObject::operator new(0x39C);
     w = (Win_8020F8C0 *)mem;
     if (mem != NULL) {
-        w = (Win_8020F8C0 *)__ct__19TShopKeepItemWindowFPvPvPv((TShopKeepItemWindow *)((void *)mem), (void *)tl_05, (void *)arg0, (void *)(*(saddr *)((s8 *)arg0 + 0x24)));
+        w = (Win_8020F8C0 *)__ct__19TShopKeepItemWindowFP7TObjectP15TShopWindowBaseP10TObjPlayer((TShopKeepItemWindow *)((void *)mem), (void *)tl_05, (void *)arg0, (void *)(*(saddr *)((s8 *)arg0 + 0x24)));
     }
     w->cb0 = (void *)finish_room_check__18TCheckRoomSequenceFPv;
     w->cb1 = (void *)init_check_params__18TCheckRoomSequenceFUi;
@@ -766,8 +759,8 @@ void TCheckRoomSequence::reset_slots() {
 
 #pragma push
 #pragma optimization_level 1
-u8 bank_has_free_row(s32 i) {
-    return lbl_80513D98[i] <= 0xc7;
+s32 bank_has_free_row(s32 slot) {
+    return lbl_80513D98[slot] <= 0xc7;
 }
 #pragma pop
 
@@ -781,15 +774,15 @@ s32 get_bank_meseta_capacity(s32 i) {
 #pragma push
 #pragma optimization_level 1
 extern "C" {
-void compact_items__18TCheckRoomSequenceFi(s32 slot) {
+void TCheckRoomSequence::compact_items(int slot) {
     u8 *a;
     u8 *b;
     u8 *base;
     base = (u8 *)((Rec_80210904 * *)&bank_item_records_by_slot)[slot];
     for (a = base; a < base + 0x12A8; a += 0x18) {
-        if (((s32 (*)(u8 *))is_item_record_empty)(a) != 0) {
+        if (is_item_record_empty(a) != 0) {
             for (b = a + 0x18; b < base + 0x12C0; b += 0x18) {
-                if (((s32 (*)(u8 *))is_item_record_empty)(b) == 0) {
+                if (is_item_record_empty(b) == 0) {
                     ((TAdSinglePlyChrSelectGC *)a)->copy_item_data(b);
                     init_item_entry__18TCheckRoomSequenceFPv((Obj_80211408 *)(b));
                     break;
@@ -801,32 +794,32 @@ void compact_items__18TCheckRoomSequenceFi(s32 slot) {
 #pragma pop
 
 void sort_bank_items(s32 slot) {
-    compact_items__18TCheckRoomSequenceFi(0);
+    TCheckRoomSequence::compact_items(0);
     ((TLobby *)((void *)bank_item_records_by_slot[slot]))->sort_records(lbl_80513D98[slot], 2);
 }
 
 #pragma push
 #pragma optimization_level 1
-s32 get_bank_deposit_capacity_for_item(Item_80210A04 *item, s32 slot) {
+s32 get_bank_deposit_capacity_for_item(TItemData *item, s32 slot) {
     Item_80210A04 *recs = (Item_80210A04 *)bank_item_records_by_slot[slot];
     s32 i;
-    if (item->b0 != 3) {
+    if (item->data1.data_u8[0] != 3) {
         return 0;
     }
     if (TCheckRoomSequence::get_item_def((uaddr)item) == 0) {
         return 0;
     }
     for (i = 0; i < 200; i++) {
-        if (((s32 (*)(u8 *))is_item_record_empty)((u8 *)&recs[i]) == 0 &&
-            item->b0 == recs[i].b0 && item->b1 == recs[i].b1 &&
-            item->b2 == recs[i].b2 && item->b4 == recs[i].b4) {
+        if (is_item_record_empty((u8 *)&recs[i]) == 0 &&
+            item->data1.data_u8[0] == recs[i].b0 && item->data1.data_u8[1] == recs[i].b1 &&
+            item->data1.data_u8[2] == recs[i].b2 && item->data1.data_u8[4] == recs[i].b4) {
             return ((TItemData *)(&recs[i]))->get_max_stack_size() - recs[i].f14;
         }
     }
-    if (((s32 (*)(s32))bank_has_free_row)(slot) == 0) {
+    if (bank_has_free_row(slot) == 0) {
         return 0;
     }
-    return ((TItemData *)item)->get_max_stack_size();
+    return item->get_max_stack_size();
 }
 }
 #pragma pop
@@ -843,7 +836,7 @@ s32 TCheckRoomSequence__sub_80210B34(u8 *item, s32 amount, s32 slot) {
         return 0;
     }
     for (i = 0; i < 200; i++) {
-        if (((s32 (*)(u8 *))is_item_record_empty)((u8 *)&recs[i]) == 0 &&
+        if (is_item_record_empty((u8 *)&recs[i]) == 0 &&
             item[0] == recs[i].b0 && item[1] == recs[i].b1 && item[2] == recs[i].b2) {
             recs[i].f14 += amount;
             if (recs[i].f14 > ((TItemData *)(&recs[i]))->get_max_stack_size()) {
@@ -853,7 +846,7 @@ s32 TCheckRoomSequence__sub_80210B34(u8 *item, s32 amount, s32 slot) {
         }
     }
     for (i = 0; i < 200; i++) {
-        if (((s32 (*)(u8 *))is_item_record_empty)((u8 *)&recs[i]) != 0) {
+        if (is_item_record_empty((u8 *)&recs[i]) != 0) {
             copy_item_to_bank_entry__18TCheckRoomSequenceFPvPv((u8 *)&recs[i], item);
             recs[i].f14 = amount;
             lbl_80513D98[slot]++;
@@ -890,7 +883,7 @@ s32 TCheckRoomSequence__delete_bank_item(u8 *item, s32 slot) {
     Rec_80211034 *rec = bank_item_records_by_slot[slot];
     s32 i;
     for (i = 0; i < 200; i++, rec++) {
-        if (((s32 (*)(u8 *))is_item_record_empty)(rec->b) == 0 &&
+        if (is_item_record_empty(rec->b) == 0 &&
             rec->b[0] == item[0] && rec->b[1] == item[1] && rec->b[2] == item[2] &&
             rec->b[3] == item[3] && rec->b[4] == item[4] && rec->b[5] == item[5]) {
             init_item_entry__18TCheckRoomSequenceFPv((Obj_80211408 *)rec);
@@ -901,7 +894,7 @@ s32 TCheckRoomSequence__delete_bank_item(u8 *item, s32 slot) {
     return 0;
 }
 
-void remove_bank_item_amount__18TCheckRoomSequenceFiii(s32 idx, s32 amount, s32 slot) {
+void TCheckRoomSequence::remove_bank_item_amount(int idx, int amount, int slot) {
     Item_80210E28 *recs = (Item_80210E28 *)bank_item_records_by_slot[slot];
     s32 n;
     if (idx <= 199) {
@@ -913,7 +906,7 @@ void remove_bank_item_amount__18TCheckRoomSequenceFiii(s32 idx, s32 amount, s32 
             init_item_entry__18TCheckRoomSequenceFPv((Obj_80211408 *)&recs[idx]);
             lbl_80513D98[slot]--;
             copy_bank_to_card_window(slot);
-        } else if (((s32 (*)(u8 *))is_item_record_empty)((u8 *)&recs[idx]) == 0) {
+        } else if (is_item_record_empty((u8 *)&recs[idx]) == 0) {
             n = recs[idx].f14;
             n -= amount;
             if (n >= 0) {
@@ -941,7 +934,7 @@ s32 copy_bank_item_with_stack_limit(s32 idx, void *data, s32 *out, s32 slot) {
   {
     return 0;
   }
-  if (((s32 (*)(u8 *)) is_item_record_empty)((u8 *) (base + (idx * 0x18))) != 0)
+  if (is_item_record_empty((u8 *) (base + (idx * 0x18))) != 0)
   {
     return 0;
   }
@@ -966,12 +959,12 @@ s32 copy_bank_item_with_stack_limit(s32 idx, void *data, s32 *out, s32 slot) {
 
 #pragma push
 #pragma optimization_level 1
-s32 copy_item_record__18TCheckRoomSequenceFiPvi(s32 idx, void *data, s32 slot) {
+s32 TCheckRoomSequence::copy_item_record(int idx, void *data, int slot) {
     Rec_80211034 *recs = bank_item_records_by_slot[slot];
     if (idx > 199) {
         return 0;
     }
-    if (((s32 (*)(u8 *))is_item_record_empty)((u8 *)&recs[idx]) != 0) {
+    if (is_item_record_empty((u8 *)&recs[idx]) != 0) {
         return 0;
     }
     copy_data__18TCheckRoomSequenceFPvPv(&recs[idx], data);
@@ -987,11 +980,11 @@ s32 store_item_in_bank(u8 *item, s32 amount, s32 slot) {
     if (TCheckRoomSequence__sub_80210B34(item, amount, slot) != 0) {
         return 1;
     }
-    if (((s32 (*)(s32))bank_has_free_row)(slot) == 0) {
+    if (bank_has_free_row(slot) == 0) {
         return 0;
     }
     for (i = 0; i < 200; i++) {
-        if (((s32 (*)(u8 *))is_item_record_empty)((u8 *)&recs[i]) != 0) {
+        if (is_item_record_empty((u8 *)&recs[i]) != 0) {
             copy_item_to_bank_entry__18TCheckRoomSequenceFPvPv((u8 *)&recs[i], item);
             lbl_80513D98[slot]++;
             copy_bank_to_card_window(slot);
@@ -1104,8 +1097,8 @@ void copy_item_to_bank_entry__18TCheckRoomSequenceFPvPv(u8 *arg0, u8 *arg1) {
 }
 #pragma pop
 
-u8 is_item_record_empty(u8 *arg0) {
-    return (u8) (*(s16 *)((s8 *)arg0 + 0x16) == 0);
+s32 is_item_record_empty(u8 *record) {
+    return (u8) (*(s16 *)((s8 *)record + 0x16) == 0);
 }
 
 #pragma push

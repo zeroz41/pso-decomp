@@ -26,11 +26,6 @@
 extern "C" {
 
 saddr get_window_layout_position(s32);
-s32 compact_items__18TCheckRoomSequenceFi(int);
-s32 remove_bank_item_amount__18TCheckRoomSequenceFiii(int, int, int);
-s32 copy_item_record__18TCheckRoomSequenceFiPvi(int, void *, int);
-s32 copy_bank_to_card_window(int);
-s32 copy_bank_item_with_stack_limit(s32 idx, void *data, s32 *out, s32 slot);
 TWindowInputNumber *__ct__18TWindowInputNumberFPvllls(void *, s32, s32, s32, s32, s16);
 TWindowHelpItem *__ct__15TWindowHelpItemFPvl(void *, s32, s32);
 void add_item_info_entry__20TWindowSubStatusDispFlll(TWindowMenuIconLine *, void *, s32, s32);
@@ -154,7 +149,7 @@ void TShopGetItemWindow::rebuild_item_list() {
         sel = item_list->get_cursor_index();
     }
     if (help_window == NULL) {
-        if (copy_item_record__18TCheckRoomSequenceFiPvi(sel, &displayed_item_colored, x) != 0) {
+        if (TCheckRoomSequence::copy_item_record(sel, &displayed_item_colored, x) != 0) {
             help = (TWindowHelpItem *)TObject::operator new(0xBC);
             if (help != NULL) {
                 id = player->get_entity_id();
@@ -167,7 +162,7 @@ void TShopGetItemWindow::rebuild_item_list() {
             help_window->set_displayed_item_colored((uaddr)&displayed_item_colored);
             last_cursor = sel;
         }
-    } else if (copy_item_record__18TCheckRoomSequenceFiPvi(sel, &displayed_item_colored, x) != 0) {
+    } else if (TCheckRoomSequence::copy_item_record(sel, &displayed_item_colored, x) != 0) {
         help_window->set_displayed_item_colored((uaddr)&displayed_item_colored);
         last_cursor = sel;
     }
@@ -185,7 +180,7 @@ void TShopGetItemWindow::handle_withdraw_list_input() {
     if (item_list != NULL) {
         sel = item_list->get_cursor_value();
         if (help_window != NULL && sel != last_cursor) {
-            if (copy_item_record__18TCheckRoomSequenceFiPvi(sel, &displayed_item_colored, x) != 0) {
+            if (TCheckRoomSequence::copy_item_record(sel, &displayed_item_colored, x) != 0) {
                 help_window->set_displayed_item_colored((uaddr)&displayed_item_colored);
             }
             last_cursor = sel;
@@ -256,7 +251,7 @@ void TShopGetItemWindow::handle_withdraw_confirm() {
         sel = confirm_menu->get_selected_value();
         if (sel == 0) {
             idx = item_list->get_cursor_value();
-            if (copy_item_record__18TCheckRoomSequenceFiPvi(idx, &record, (int)(slot & 0xFFFFFFFFFFFFFFFFu)) != 0) {
+            if (TCheckRoomSequence::copy_item_record(idx, &record, (int)(slot & 0xFFFFFFFFFFFFFFFFu)) != 0) {
                 record.id = -1;
                 if (TCheckRoomSequence::get_item_def((uaddr)&record) != 0) {
                     record.set_stack_count(withdraw_count);
@@ -266,8 +261,8 @@ void TShopGetItemWindow::handle_withdraw_confirm() {
                     set_state(6);
                 } else {
                     player->request_inventory_item(&record);
-                    remove_bank_item_amount__18TCheckRoomSequenceFiii(idx, withdraw_count, slot);
-                    compact_items__18TCheckRoomSequenceFi(slot);
+                    TCheckRoomSequence::remove_bank_item_amount(idx, withdraw_count, slot);
+                    TCheckRoomSequence::compact_items(slot);
                     copy_bank_to_card_window(slot);
                     set_state(0);
                 }
