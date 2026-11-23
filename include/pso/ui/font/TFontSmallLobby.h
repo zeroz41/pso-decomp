@@ -24,7 +24,7 @@ struct TFontSmallLobby
     void send_photon_blast_ready();
     void update_if_ready();
     void reset_state();
-    static int is_valid_index(s16 arg0);
+    static int is_valid_index(s16 index);
     void reset_fields();
     void set_bit1_at_40();
     void *clear_photon_blast_ready_flag(void *src);
@@ -55,7 +55,7 @@ struct TFontSmallLobby
     s32 construct_pb_controller();
     static s32 disable_stealth_suit_effect(s32 arg0, void * _w1);
     static s32 is_lobby_floor_15();
-    static void draw_small_label(int);
+    static void draw_small_label(int line);
     static s32 draw_party_label(int, unsigned int, s16);
     static u16 get_type(void* p);
 };
