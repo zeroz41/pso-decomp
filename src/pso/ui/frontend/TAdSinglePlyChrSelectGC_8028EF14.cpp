@@ -295,7 +295,7 @@ struct Sel_802902CC {
 s32 __ct__10TObjMotionFP7TObject(void *, void *);
 }
 void request_creation_motion(s32 arg0);
-extern s32 chara_select_creation_shape_rel_files[];
+extern const char *chara_select_creation_shape_rel_files[];
 void map_shape_region_samples(s32 region, s32 *samples);
 extern CreationShapeBlend creation_shape_blend;
 s32 clear_creation_shape_eval_masks(f32 *dst, const f32 *a, const f32 *b, const f32 *c);

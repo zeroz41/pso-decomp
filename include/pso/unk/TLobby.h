@@ -736,7 +736,7 @@ struct TLobby : public TObject {
     // Empties the com card list on floor load and unload.
     static void reset_state();
     static s32 create_file_load_entry(saddr arg0, s32 arg1, u32 arg2, saddr src, void **arg4);
-    static s32 request_file_read(saddr arg0, s32 arg1, s32 *arg2, void **arg3);
+    static s32 request_file_read(const char *name, s32 arg1, s32 *arg2, void **arg3);
     static void reset_lobby_state();
     static void init_keyboard_buffer();
     static s32 poll_connect();

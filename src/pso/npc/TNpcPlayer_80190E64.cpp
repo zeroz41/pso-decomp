@@ -141,7 +141,7 @@ TUnk_804B7C04::TUnk_804B7C04(f32 *position, s32 heading, s32 slot, s32 record, s
     m_2c = 0;
     unk_38 = mode;
     TNpcPlayer::ensure_rock_singleton();
-    TLobby::request_file_read((saddr)"npcplayerchar.dat", (s32)npc_player_char_data_buffer, (s32 *)&m_2c, (void **)0);
+    TLobby::request_file_read("npcplayerchar.dat", (s32)npc_player_char_data_buffer, (s32 *)&m_2c, (void **)0);
 }
 
 TUnk_804B7C04::~TUnk_804B7C04() {
