@@ -3,101 +3,48 @@
 #include "pso/unk/TLobby.h"
 #include "pso/audio/AdxStreamRuntime.h"
 #include "pso/audio/AdxmThreadStorage.h"
+#include "pso/audio/AdxtInternal.h"
 #include "pso/audio/LscStream.h"
 #include "pso/audio/SjRingBuffer.h"
 
 #include "types.h"
 #include "pso/unk/text_803D31A4.h"
 
-struct VT_803C9FCC { u8 pad[0x14]; void (*update)(void *self); };
-
-struct Part_803C9FCC { VT_803C9FCC *vt; };
-
-struct Stream_803C9FCC {
-    u8 f0;
-    u8 active;
-    u8 f2;
-    s8 count;
-    void *f4;
-    void *f8;
-    u8 padc[0x10 - 0xC];
-    s32 f10;
-    s32 f14;
-    Part_803C9FCC *parts[9];
-    s16 f3c;
-    s16 f3e;
-    u8 pad40[0x4C - 0x40];
-    s32 f4c;
-    u8 pad50[0x71 - 0x50];
-    u8 f71;
-    u8 pad72[0x8C - 0x72];
-    s32 f8c;
-    s32 f90;
-    u8 pad94[0x9C - 0x94];
-    s32 f9c;
-    s32 fa0;
-    s32 fa4;
-};
-
-struct Stream_803CA824 {
-    u8 f0;
-    u8 state;
-    u8 pad2[0x8 - 0x2];
-    void *handle;
-    u8 padc[0x10 - 0xC];
-    s32 f10;
-    u8 pad14[0x60 - 0x14];
-    s16 f60;
-    u8 pad62[0x98 - 0x62];
-    u8 f98;
-};
-
-typedef struct Ent_803CA774 {
-    s32 off;
-    s32 len;
-} Ent_803CA774;
-
-extern "C" {
-void configure_audio_stream_output(Stream_803C9FCC *self);
-void start_audio_stream_file(Stream_803CA824 *self, const char *name);
-struct SjMemoryBuffer;
-
+static inline AdxtPlayer *adxt_player_from_lobby(void *self) {
+    return (AdxtPlayer *)self;
 }
-void stop_audio_stream(u8 *arg0);
 
-
-struct Stream_803C9FCC;
-
-void TLobby::adxt_start_mem_idx(u8 *arg1, s32 arg2) {
-    s32 r;
-    stop_audio_stream(((u8 *)this));
-    if (arg2 >= ((Ent_803CA774 *)arg1)[0].len || arg2 < 0) {
+void TLobby::adxt_start_mem_idx(u8 *table_data, s32 entry_index) {
+    AdxtPlayer *player = adxt_player_from_lobby(this);
+    s32 ring_handle;
+    stop_audio_stream((u8 *)player);
+    if (entry_index >= ((AdxtMemTableEntry *)table_data)[0].length || entry_index < 0) {
         return;
     }
     TLobby::init_once();
-    r = (saddr)sj_memory_buffer_create(arg1 + *(s32 *)(arg1 + (arg2 + 1) * 8), 0x40000000);
-    if (r == 0) {
+    ring_handle = (saddr)sj_memory_buffer_create(table_data + *(s32 *)(table_data + (entry_index + 1) * 8), 0x40000000);
+    if (ring_handle == 0) {
         TLobby::release_ref();
         TLobby::notify_error("E8101207: can't create sj (ADXT_StartMemIdx)");
         return;
     }
-    start_stream_playback(r);
-    ((u8 *)this)[2] = 2;
-    ((u8 *)this)[0x98] = 0;
+    start_stream_playback(ring_handle);
+    player->source_type = 2;
+    player->sync_mode_flag = 0;
     TLobby::release_ref();
 }
 
-void start_audio_stream_file(Stream_803CA824 *self, const char *name) {
-    stop_audio_stream((u8 *)self);
+void start_audio_stream_file(AdxtPlayer *player, const char *name) {
+    stop_audio_stream((u8 *)player);
     TLobby::init_once();
-    if ((self->handle = ADXSTM_OpenFnameEx(name, self->f10)) == 0) {
+    if ((player->stream_file = ADXSTM_OpenFnameEx(name, (saddr)player->input_ring)) == 0) {
         TLobby::release_ref();
         TLobby::report_adx_error("E8101205 ADXT_StartFname: can't open ", name);
-        self->f60 = -1;
-        self->state = 6;
+        player->error_code = -1;
+        player->stat = 6;
     } else {
-        configure_audio_stream_output((Stream_803C9FCC *)self);
-        self->f98 = 0;
+        configure_audio_stream_output(player);
+        player->sync_mode_flag = 0;
         TLobby::release_ref();
     }
 }

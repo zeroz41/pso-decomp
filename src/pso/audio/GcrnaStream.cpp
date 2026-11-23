@@ -1,26 +1,14 @@
 #include <string.h>
+#include <dolphin/os/OSCache.h>
 #include "pso/audio/GcrnaStream.h"
+#include "pso/audio/GcrnaMusyxStream.h"
 #include "pso/audio/GcrnaError.h"
 #include <dolphin/os/OSAlloc.h>
-#include "pso/unk/TLobby_803D43C8.h"
+#include "pso/audio/GcrnaControlBridge.h"
 
 #define OS_CORE_CLOCK (*(u32 *)0x800000FC)
 
 #pragma readonly_strings on
-
-extern "C" {
-void sndStreamMixParameterEx(u32 stream_id, u8 volume, u8 pan, u8 surround_pan, u8 aux_a, u8 aux_b);
-u32 sndStreamActivate(u32 stream_id);
-void sndStreamDeactivate(u32 stream_id);
-void sndStreamFree(u32 stream_id);
-void sndStreamFrq(u32 stream_id, s32 frequency);
-struct SND_ADPCMSTREAM_INFO;
-u32 sndStreamAllocEx(u8 priority, void *buffer, u32 samples, u32 frequency, u8 volume,
-                     u8 pan, u8 surround_pan, u8 aux_a, u8 aux_b, u8 studio, u32 flags,
-                     u32 (*callback)(void *, u32, void *, u32, u32), u32 user,
-                     SND_ADPCMSTREAM_INFO *adpcm_info);
-void DCFlushRange(void *buffer, u32 size);
-}
 
 extern u8 gcrna_volume_table[1000];
 extern u32 gcrna_pan_table[31];
@@ -28,10 +16,10 @@ extern GcrnaStream gcrna_stream_pool[16];
 extern u8 *gcrna_audio_buffers[32];
 u32 gcrna_init_count;
 u32 gcrna_audio_buffer_count;
-u32 lbl_805D7688;
+u32 gcrna_audio_buffer_size;
 u8 *gcrna_audio_allocation;
 s32 gcrna_uses_caller_buffer;
-s32 lbl_805D7694;
+s32 gcrna_default_frequency_mode;
 uaddr gcrna_aligned_audio_storage;
 
 extern "C" const char *const volatile gcrna_version_pointer = "\nGCRNA Ver.0.97 Build:Jun 13 2002 19:01:27\n";
@@ -380,7 +368,7 @@ GcrnaStream *GCRNA_Create(SjRingBuffer **inputs, s32 channels) {
             return 0;
         }
     }
-    gcrna_set_frequency_mode(stream, lbl_805D7694);
+    gcrna_set_frequency_mode(stream, gcrna_default_frequency_mode);
     gcrna_set_frequency(stream, 48000);
     gcrna_set_sample_bits(stream, 16);
     gcrna_set_volume(stream, 0);
@@ -423,7 +411,7 @@ void gcrna_initialize(void) {
         gcrna_error_initialize();
         if (gcrna_uses_caller_buffer == 0) {
             gcrna_audio_buffer_count = 32;
-            lbl_805D7688 = 0x2000;
+            gcrna_audio_buffer_size = 0x2000;
             gcrna_audio_allocation = (u8 *)OSAlloc(32 * 0x2000 + 32);
         }
         gcrna_aligned_audio_storage = ((uaddr)gcrna_audio_allocation + 31) & ~31ULL;
@@ -450,7 +438,7 @@ void gcrna_set_audio_buffer_storage(u8 *buffer, u32 size, s32 count) {
         return;
     }
     gcrna_audio_buffer_count = count;
-    lbl_805D7688 = size;
+    gcrna_audio_buffer_size = size;
     gcrna_audio_allocation = buffer;
     gcrna_uses_caller_buffer = 1;
 }

@@ -7,10 +7,4 @@ extern "C" {
 void TLobby__sub_803D2ED4(void);
 }
 
-// --- C functions defined in RefCountedWorkBuffer.cpp ---
-extern "C" {
-void TLobby__sub_803D2ED4(void);
-}
-// --- end of C functions
-
 #endif

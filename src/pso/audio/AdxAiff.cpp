@@ -8,101 +8,26 @@
 #include "pso/audio/AiffHeader.h"
 
 extern "C" {
+void adxb_decode_aiff_pcm8(AdxbDecoder *o);
+void adxb_decode_aiff_pcm16(AdxbDecoder *o);
+}
 
-void TLobby::dispatch_network_state() {
-    AdxbDecoder *o = (AdxbDecoder *)this;
+static inline void adxb_exec_aiff_impl(void *ptr) {
+    AdxbDecoder *o = (AdxbDecoder *)ptr;
     if (o->m_AA == 1) {
-        decode_pcm8_stream();
+        adxb_decode_aiff_pcm8(o);
         return;
     }
-    copy_byteswapped_pcm_samples();
+    adxb_decode_aiff_pcm16(o);
 }
 
-void TLobby::decode_pcm8_stream() {
-    AdxbDecoder *o = (AdxbDecoder *)this;
-    u8 *src = o->src;
-    if (o->state == 1 && o->id->get_client_count() == 0) {
-        s16 *l;
-        s16 *r;
-        s32 i;
-        s32 n;
-        o->read(o->readArg, &o->pos, &o->avail, &o->x78);
-        n = o->bufLen - o->pos;
-        if (n > o->avail) {
-            n = o->avail;
-        }
-        if (n > o->maxLen) {
-            n = o->maxLen;
-        }
-        l = o->buf + o->pos;
-        if (o->channels == 2) {
-            r = o->buf + (o->rOff + o->pos);
-            for (i = 0; i < n; i++) {
-                l[i] = (src[i * 2] << 8) & 0xFF00;
-                r[i] = (src[i * 2 + 1] << 8) & 0xFF00;
-            }
-        } else {
-            for (i = 0; i < n; i++) {
-                l[i] = (src[i] << 8) & 0xFF00;
-            }
-        }
-        o->n = n;
-        o->bytes = n * o->channels;
-        o->state = 2;
-    }
-    if (o->state == 2) {
-        o->done(o->doneArg, o->bytes, o->n);
-        o->state = 3;
-    }
-}
-
-void TLobby::copy_byteswapped_pcm_samples() {
-    AdxbDecoder *o = (AdxbDecoder *)this;
-    u16 *src = (u16 *)o->src;
-    u16 *l;
-    s32 v;
-    u16 *r;
-    s32 i;
-    s32 n;
-    if (o->state == 1 && o->id->get_client_count() == 0) {
-        o->read(o->readArg, &o->pos, &o->avail, &o->x78);
-        n = o->bufLen - o->pos;
-        if (n > o->avail) {
-            n = o->avail;
-        }
-        if (n > o->maxLen) {
-            n = o->maxLen;
-        }
-        l = (u16 *)o->buf + o->pos;
-        if (o->channels == 2) {
-            r = (u16 *)o->buf + (o->rOff + o->pos);
-            for (i = 0; i < n; i++) {
-                v = src[i * 2];
-                l[i] = (src[i * 2] >> 8) | (v << 8);
-                r[i] = (src[i * 2 + 1] >> 8) | (src[i * 2 + 1] << 8);
-            }
-        } else {
-            for (i = 0; i < n; i++) {
-                l[i] = (src[i] >> 8) | (src[i] << 8);
-            }
-        }
-        o->n = n;
-        o->bytes = o->channels * (n * 2);
-        o->state = 2;
-    }
-    if (o->state == 2) {
-        o->done(o->doneArg, o->bytes, o->n);
-        o->state = 3;
-    }
-}
-
-s32 TLobby::parse_stream_header(void *hdr, void *size) {
-    AdxbDecoder *o = (AdxbDecoder *)this;
+static inline s32 adxb_parse_aiff_stream_header(void *ptr, void *hdr, void *size) {
+    AdxbDecoder *o = (AdxbDecoder *)ptr;
     u8 *p = (u8 *)hdr;
-    s32 frames;
-    s32 bits;
-    s32 channels;
     s32 rate;
+    s32 channels;
+    s32 bits;
+    s32 frames;
     s16 len;
     s32 st;
     u8 *e;
@@ -110,7 +35,7 @@ s32 TLobby::parse_stream_header(void *hdr, void *size) {
     if ((saddr)size < 0x1000) {
         len = 0;
         st = -1;
-    } else if ((e = TLobby__sub_803C2388(p, &rate, &channels, &bits, &frames)) == NULL) {
+    } else if ((e = adx_aiff_parse_header(p, &rate, &channels, &bits, &frames)) == NULL) {
         st = -1;
     } else if ((len = e - p) <= 0) {
         st = -1;
@@ -158,12 +83,102 @@ s32 TLobby::parse_stream_header(void *hdr, void *size) {
     return len;
 }
 
-s32 TLobby::is_aiff_header() {
-    AiffFormHeader *h = (AiffFormHeader *)this;
+static inline s32 adxb_is_aiff_header(const void *ptr) {
+    const AiffFormHeader *h = (const AiffFormHeader *)ptr;
     if (memcmp(h->id, "FORM", 4) == 0 && memcmp(h->type, "AIFF", 4) == 0) {
         return 1;
     }
     return 0;
+}
+
+extern "C" {
+
+void TLobby::dispatch_network_state() {
+    adxb_exec_aiff_impl(this);
+}
+
+void adxb_decode_aiff_pcm8(AdxbDecoder *o) {
+    u8 *src = o->src;
+    if (o->state == 1 && o->id->get_client_count() == 0) {
+        s16 *l;
+        s16 *r;
+        s32 i;
+        s32 n;
+        o->read(o->readArg, &o->pos, &o->avail, &o->x78);
+        n = o->bufLen - o->pos;
+        if (n > o->avail) {
+            n = o->avail;
+        }
+        if (n > o->maxLen) {
+            n = o->maxLen;
+        }
+        l = o->buf + o->pos;
+        if (o->channels == 2) {
+            r = o->buf + (o->rOff + o->pos);
+            for (i = 0; i < n; i++) {
+                l[i] = (src[i * 2] << 8) & 0xFF00;
+                r[i] = (src[i * 2 + 1] << 8) & 0xFF00;
+            }
+        } else {
+            for (i = 0; i < n; i++) {
+                l[i] = (src[i] << 8) & 0xFF00;
+            }
+        }
+        o->n = n;
+        o->bytes = n * o->channels;
+        o->state = 2;
+    }
+    if (o->state == 2) {
+        o->done(o->doneArg, o->bytes, o->n);
+        o->state = 3;
+    }
+}
+
+void adxb_decode_aiff_pcm16(AdxbDecoder *o) {
+    u16 *src = (u16 *)o->src;
+    u16 *l;
+    s32 v;
+    u16 *r;
+    s32 i;
+    s32 n;
+    if (o->state == 1 && o->id->get_client_count() == 0) {
+        o->read(o->readArg, &o->pos, &o->avail, &o->x78);
+        n = o->bufLen - o->pos;
+        if (n > o->avail) {
+            n = o->avail;
+        }
+        if (n > o->maxLen) {
+            n = o->maxLen;
+        }
+        l = (u16 *)o->buf + o->pos;
+        if (o->channels == 2) {
+            r = (u16 *)o->buf + (o->rOff + o->pos);
+            for (i = 0; i < n; i++) {
+                v = src[i * 2];
+                l[i] = (src[i * 2] >> 8) | (v << 8);
+                r[i] = (src[i * 2 + 1] >> 8) | (src[i * 2 + 1] << 8);
+            }
+        } else {
+            for (i = 0; i < n; i++) {
+                l[i] = (src[i] >> 8) | (src[i] << 8);
+            }
+        }
+        o->n = n;
+        o->bytes = o->channels * (n * 2);
+        o->state = 2;
+    }
+    if (o->state == 2) {
+        o->done(o->doneArg, o->bytes, o->n);
+        o->state = 3;
+    }
+}
+
+s32 TLobby::parse_stream_header(void *hdr, void *size) {
+    return adxb_parse_aiff_stream_header(this, hdr, size);
+}
+
+s32 TLobby::is_aiff_header() {
+    return adxb_is_aiff_header(this);
 }
 
 // Little-endian reads of big-endian header fields, swapped in place afterwards.
@@ -174,7 +189,7 @@ s32 TLobby::is_aiff_header() {
 
 // Walks the chunks of an AIFF ("FORM"/"AIFF") header, whose fields are big-endian: COMM gives
 // the format, SSND the start of the sample data, which is returned (NULL if not an AIFF).
-u8 *TLobby__sub_803C2388(u8 *hdr, s32 *rate, s32 *channels, s32 *bits, s32 *frames) {
+u8 *adx_aiff_parse_header(u8 *hdr, s32 *rate, s32 *channels, s32 *bits, s32 *frames) {
     u8 *p;
     u8 *end;
     u8 *data;

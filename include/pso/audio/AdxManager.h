@@ -4,9 +4,24 @@
 #include "types.h"
 #include "pso/audio/AdxCallbacks.h"
 
-// --- C functions defined in AdxManager.cpp ---
+struct AdxmPendingCallback {
+    void (*fn)(s32);
+    s32 arg;
+};
+
+struct AdxmThreadConfig {
+    s32 prio0;
+    s32 busy_wait_prio;
+    s32 vblank_prio;
+    s32 pad_0c;
+    s32 prio;
+};
+
+// --- C functions and globals defined in AdxManager.cpp / AdxtInit.cpp ---
 extern "C" {
-void setup_adx_file_systems(s32 *arg0);
+extern s32 lbl_805D7540;
+void VIWaitForRetrace(void);
+void setup_adx_file_systems(s32 *read_mode);
 void fs_error_notify(s32 context, const char *message, void *detail);
 void exec_adx_server(void);
 s32 is_adxm_initialized(void);

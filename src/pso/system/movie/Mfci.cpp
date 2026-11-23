@@ -1,11 +1,11 @@
 // CRI MFCI ("MFCI/GC Ver.1.03", the banner that heads this file's string pool): the memory-file
 // device of CRI's file system. A file name is "<address>.<size>" in hex and a read copies from that
-// address. mfci_callback_table (0x804FA020) is the device's function table; mfci_get_interface
+// address. mfci_callback_table is the device's function table; mfci_get_interface
 // returns it.
 #include "types.h"
 #include <stdio.h>
 #include <string.h>
-#include "pso/unk/text_803D31A4.h"
+#include "pso/audio/CriSvm.h"
 #include "pso/unk/TLobby.h"
 #include "pso/system/movie/Mfci.h"
 
@@ -20,7 +20,7 @@ MfciFilePool mfci_file_pool;
 CvFsErrorCallback mfci_error_callback;
 s32 mfci_error_callback_context;
 
-inline MfciFileEntry *find_free_803D4058(void) {
+inline MfciFileEntry *mfci_find_free_entry(void) {
     MfciFileEntry *r = 0;
     s32 i;
     for (i = 0; i < 40; i++) {
@@ -49,7 +49,7 @@ MfciFileEntry *mfci_open_entry(s32 entry, s32 mode) { // inferred: mfCiOpenEntry
         }
         return NULL;
     }
-    f = find_free_803D4058();
+    f = mfci_find_free_entry();
     if (f == NULL) {
         if (mfci_error_callback != NULL) {
             mfci_error_callback(mfci_error_callback_context, "E1041002:not enough handle resource.(mfCiOpenEntry)", 0);
@@ -145,9 +145,9 @@ void mfci_stop_transfer(void *handle) {
             mfci_error_callback(mfci_error_callback_context, "E0092912:handl is null.", 0);
         }
     } else {
-        TLobby__sub_803D39C0();
+        svm_lock();
         file->state = 0;
-        TLobby__sub_803D3988();
+        svm_unlock();
     }
 }
 
@@ -180,7 +180,7 @@ s32 mfci_request_read(void *handle, s32 sectors, void *buffer) {
         mfci_file_entry->state = 1;
         return 0;
     }
-    TLobby__sub_803D39C0();
+    svm_lock();
     mfci_file_entry->read_bytes = 0;
     mfci_file_entry->read_sectors = sectors < mfci_file_entry->sector_count - mfci_file_entry->position_sector
         ? sectors : mfci_file_entry->sector_count - mfci_file_entry->position_sector;
@@ -188,7 +188,7 @@ s32 mfci_request_read(void *handle, s32 sectors, void *buffer) {
     bytes = mfci_file_entry->read_sectors * mfci_file_entry->block_size;
     if (bytes == 0) {
         mfci_file_entry->state = 1;
-        TLobby__sub_803D3988();
+        svm_unlock();
         return 0;
     }
     mfci_file_entry->read_offset = offset;
@@ -202,7 +202,7 @@ s32 mfci_request_read(void *handle, s32 sectors, void *buffer) {
     mfci_file_entry->read_bytes = mfci_file_entry->read_sectors * mfci_file_entry->block_size;
     mfci_file_entry->position_sector = mfci_file_entry->position_sector + mfci_file_entry->read_sectors;
     mfci_file_entry->state = 1;
-    TLobby__sub_803D3988();
+    svm_unlock();
     return mfci_file_entry->read_sectors;
 }
 
@@ -225,7 +225,7 @@ s32 mfci_seek(void *handle, s32 sectors, s32 origin) {
         }
         return 0;
     }
-    TLobby__sub_803D39C0();
+    svm_lock();
     if (origin == 0) {
         mfci_file_entry->position_sector = sectors;
     } else if (origin == 2) {
@@ -235,7 +235,7 @@ s32 mfci_seek(void *handle, s32 sectors, s32 origin) {
     }
     mfci_file_entry->position_sector = mfci_file_entry->position_sector < mfci_file_entry->sector_count ? mfci_file_entry->position_sector : mfci_file_entry->sector_count;
     mfci_file_entry->position_sector = mfci_file_entry->position_sector > 0 ? mfci_file_entry->position_sector : 0;
-    TLobby__sub_803D3988();
+    svm_unlock();
     return mfci_file_entry->position_sector;
 }
 
@@ -247,9 +247,9 @@ void mfci_close(void *handle) {
                 mfci_error_callback(mfci_error_callback_context, "E0092912:handl is null.", 0);
             }
         } else {
-            TLobby__sub_803D39C0();
+            svm_lock();
             mfci_file_entry->state = 0;
-            TLobby__sub_803D3988();
+            svm_unlock();
         }
         if ((s32)mfci_file_entry->used == 1) {
             mfci_file_entry->used = 0;
@@ -272,7 +272,7 @@ void *mfci_open(const char *name, s32 entry, s32 mode) {
         }
         return 0;
     }
-    f = find_free_803D4058();
+    f = mfci_find_free_entry();
     if (f == 0) {
         if (mfci_error_callback != 0) {
             mfci_error_callback(mfci_error_callback_context, "E01100303:not enough handle resource.(mfCiOpen)", 0);

@@ -29,13 +29,15 @@ s16 stream_chunk_decode_table[256] = {
 #define READ_LE32(b) ((b)[0] | ((b)[1] << 8) | ((b)[2] << 16) | ((b)[3] << 24))
 #define SWAP32(x) ((((x) >> 24) & 0xFF) | (((x) >> 8) & 0xFF00) | (((x) << 8) & 0xFF0000) | ((x) << 24))
 
-void TLobby::dispatch_by_state() {
-    AdxbDecoder *o = (AdxbDecoder *)this;
+void adxb_decode_au_ulaw(AdxbDecoder *o);
+
+static inline void adxb_exec_au_impl(void *ptr) {
+    AdxbDecoder *o = (AdxbDecoder *)ptr;
     s16 kind;
 
     kind = o->m_AA;
     if (kind == 2) {
-        decode_stream_chunk();
+        adxb_decode_au_ulaw(o);
         return;
     }
     if (kind == 1) {
@@ -45,8 +47,11 @@ void TLobby::dispatch_by_state() {
     process_byteswapped_pcm_transfer(o);
 }
 
-void TLobby::decode_stream_chunk() {
-    AdxbDecoder *o = (AdxbDecoder *)this;
+void TLobby::dispatch_by_state() {
+    adxb_exec_au_impl(this);
+}
+
+void adxb_decode_au_ulaw(AdxbDecoder *o) {
     u8 *src = o->src;
 
     if (o->state == 1 && o->id->get_client_count() == 0) {

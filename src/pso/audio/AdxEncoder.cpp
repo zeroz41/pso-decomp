@@ -7,119 +7,17 @@
 
 #include "types.h"
 
-struct Buf_803C7748 { void *data; s32 size; };
-struct Strm_803C7748;
-struct VT_803C7748 {
-    void *pad[6];
-    void (*lock)(Strm_803C7748 *, s32, s32, Buf_803C7748 *);
-    void (*unlock)(Strm_803C7748 *, s32, Buf_803C7748 *);
-    void (*commit)(Strm_803C7748 *, s32, Buf_803C7748 *);
-    s32 (*avail)(Strm_803C7748 *, s32);
-};
-struct Strm_803C7748 { VT_803C7748 *vt; };
-struct Obj_803C7748 {
-    u8 pad_0[0xC]; Strm_803C7748 *fc; u8 pad_10[0x2C - 0x10]; s32 f2c; u8 pad_30[0x50 - 0x30];
-    s32 f50; u8 pad_54[0x6C - 0x54]; s32 f6c;
-};
-
-/* ADX encoder work objects (CRI ADX encoder, statically pooled in this unit).
-   Field names follow the ADX header fields write_adx_header emits from them. */
-struct AdxEncCoef {                /* calc_adx_predictor_coeffs outputs */
-    s16 coef1;
-    s16 coef2;
-};
-
-struct AdxEncHistory {             /* 0x0C, pool of 16 */
-    s8 used;
-    u8 pad_1[3];
-    AdxEncCoef coef;
-    s16 hist1;
-    s16 hist2;
-};
-
-/* An encoder channel carries its own predictor state (used/coef/history) at the start, like the
-   AdxEncHistory it pairs with (inferred from the shared offsets). */
-struct AdxEncChannel : AdxEncHistory { /* 0x90, pool of 16 */
-    u8 pad_c[8];
-    s32 block_samples;
-    s16 samples[32];               /* prediction residuals */
-    s8 quantized[32];
-    s32 peak;                      /* largest |residual| of the block */
-    s16 scale;
-    u8 pad_7e[2];
-    f64 inv_scale;
-    AdxEncHistory *history;
-    u8 pad_8c[4];
-};
-
-struct AdxEncoder {                /* 0x2D0, pool of 8 */
-    s8 used;
-    s8 state;
-    s8 num_inputs;
-    u8 end_of_input;
-    SjRingBuffer *input[2];
-    SjRingBuffer *output;
-    u8 pad_10[0x18];
-    s32 pad_28;
-    s32 bytes_written;
-    s32 samples_encoded;
-    s32 pad_34;
-    s32 pad_38;
-    s32 total_samples;
-    s32 pad_40;
-    s32 block_samples;
-    s32 data_offset;
-    s32 encoding_type;
-    s32 block_size;
-    s32 sample_bits;
-    s32 channels;
-    s32 sample_rate;
-    s32 header_samples;
-    s32 highpass_freq;
-    s32 loop_type;
-    s32 loop_count;
-    s32 loop_start_sample;
-    s32 loop_start_byte;
-    s32 loop_end_sample;
-    s32 loop_end_byte;
-    AdxEncChannel *channel[2];
-    s16 hist1[2];
-    s16 hist2[2];
-    s16 pcm[2][32];
-    s16 input_samples[2][32];
-    s16 clamped_samples[2][32];
-    s16 decoded_samples[2][32];
-    s16 block_scale[2];
-    u8 pad_294[4];
-    f64 block_inv_scale[2];
-    u8 block_data[2][16];
-    s16 start_hist1[2];
-    s16 start_hist2[2];
-};
-
 #define ADXENC_MAX(a, b) (((a) > (b)) ? (a) : (b))
 #define ADXENC_MIN(a, b) (((a) < (b)) ? (a) : (b))
 
-LAYOUT_ASSERT(AdxEncHistory_size, sizeof(AdxEncHistory) == 0x0C);
-LAYOUT_ASSERT(AdxEncChannel_size, sizeof(AdxEncChannel) == 0x90);
-LAYOUT_ASSERT(AdxEncoder_size, sizeof(AdxEncoder) == 0x2D0);
-LAYOUT_ASSERT(AdxEncoder_channel_offset, offsetof(AdxEncoder, channel) == 0x80);
-LAYOUT_ASSERT(AdxEncoder_start_history_offset, offsetof(AdxEncoder, start_hist1) == 0x2C8);
-
 extern "C" {
-void TLobby__sub_803C5ED4(AdxEncoder *enc);
-s32 adx_encode_available_blocks(AdxEncoder *enc);
-s32 adx_write_encoded_blocks(AdxEncoder *enc);
-s32 write_adx_header(AdxEncoder *encoder, SjRingBuffer *stream);
-void TLobby__sub_803C7DF0(AdxEncoder *enc, s32 ch);
-s32 fn_803C8020(AdxEncoder *enc, s32 ch);
-s32 lbl_805D4660 = 0x1000;
-char *lbl_805D4664 = "(c)CRI";
+s32 adx_encoder_max_scale = 0x1000;
+char *adx_encoder_copyright_tag = "(c)CRI";
 
 /* The encoder's file-local work pools: 61C4 addresses all three from one .bss base register, which CW
    only does for static data of one TU. */
 static AdxEncChannel adx_encoder_channel_work_pools[16];
-static AdxEncHistory lbl_80573A00[16]; // inferred: the encoder history pool
+static AdxEncHistory adx_encoder_history_pool[16];
 static AdxEncoder adx_encoder_context_pool[8];
 
 void TLobby__sub_803C5E78(void) {
@@ -130,7 +28,7 @@ void TLobby__sub_803C5E78(void) {
     i = 0;
     do {
         if (enc[i].used == 1) {
-            TLobby__sub_803C5ED4(&enc[i]);
+            adx_encoder_step_context(&enc[i]);
         }
         i++;
     } while (i < 8);
@@ -162,7 +60,7 @@ inline SjRingBuffer *adxenc_get_output(AdxEncoder *enc) {
 }
 
 /* Encoder step: state 1 primes the history and writes the ADX header, state 2 encodes (inferred). */
-void TLobby__sub_803C5ED4(AdxEncoder *enc) {
+void adx_encoder_step_context(AdxEncoder *enc) {
     s16 coef2;
     s16 coef1;
     SjRingBuffer *out;
@@ -195,23 +93,23 @@ void TLobby__sub_803C5ED4(AdxEncoder *enc) {
     }
 }
 
-void adx_process_encoder_output(u8 *arg0p) {
-    struct Fields_arg0 { u8 pad_0[1]; s8 field_1; u8 pad_2[1]; u8 field_3; u8 pad_4[40]; s32 field_2C; s32 field_30; u8 pad_34[8]; s32 field_3C; };
-    s32 temp_r3;
+void adx_process_encoder_output(u8 *encoder_buf) {
+    AdxEncoder *enc = (AdxEncoder *)encoder_buf;
+    s32 encoded_samples;
 loop_1:
-    if ((s8) ((Fields_arg0*)arg0p)->field_3 == 0) {
+    if ((s8)enc->end_of_input == 0) {
 loop_2:
-        temp_r3 = adx_encode_available_blocks((AdxEncoder *)arg0p);
-        if (temp_r3 != 0) {
-            ((Fields_arg0*)arg0p)->field_2C = (s32) (((Fields_arg0*)arg0p)->field_2C + temp_r3);
-            if ((s32) ((Fields_arg0*)arg0p)->field_30 >= (s32) ((Fields_arg0*)arg0p)->field_3C) {
-                ((Fields_arg0*)arg0p)->field_3 = 1U;
+        encoded_samples = adx_encode_available_blocks(enc);
+        if (encoded_samples != 0) {
+            enc->bytes_written += encoded_samples;
+            if (enc->samples_encoded >= enc->total_samples) {
+                enc->end_of_input = 1U;
                 goto loop_1;
             }
             goto loop_2;
         }
-    } else if (TLobby::write_zero_padded_block(arg0p) > 0) {
-        ((Fields_arg0*)arg0p)->field_1 = 3;
+    } else if (adx_write_zero_padded_block(enc) > 0) {
+        enc->state = 3;
     }
 }
 
@@ -258,7 +156,7 @@ inline AdxEncHistory *alloc_history_61C4(void) {
     AdxEncHistory *h;
     s32 i;
     for (i = 0; i < 16; i++) {
-        h = &lbl_80573A00[i];
+        h = &adx_encoder_history_pool[i];
         if (h->used == 0) {
             break;
         }
@@ -295,7 +193,7 @@ AdxEncoder *TLobby__sub_803C61C4(s32 nch, SjRingBuffer **src, SjRingBuffer *dst)
     s32 len;
     s32 i;
 
-    len = strlen(lbl_805D4664);
+    len = strlen(adx_encoder_copyright_tag);
     for (i = 0; i < 8; i++) {
         if (adx_encoder_context_pool[i].used == 0) {
             break;
@@ -416,7 +314,7 @@ s32 write_adx_header(AdxEncoder *encoder, SjRingBuffer *s) {
     s32 i;
     s32 lim;
 
-    len = strlen(lbl_805D4664);
+    len = strlen(adx_encoder_copyright_tag);
     h = 0x8000;
     if (put16_803C6860(s, &h) != 1) {
         goto fail;
@@ -527,7 +425,7 @@ s32 write_adx_header(AdxEncoder *encoder, SjRingBuffer *s) {
             goto fail;
         }
     }
-    if (putn_803C6860(s, lbl_805D4664, len) != len) {
+    if (putn_803C6860(s, adx_encoder_copyright_tag, len) != len) {
         goto fail;
     }
     total += len;
@@ -540,46 +438,45 @@ fail:
 
 #pragma push
 #pragma opt_propagation off
-inline void put16_803C7748(Strm_803C7748 *s, const void *src) {
-    Buf_803C7748 b;
-    s->vt->lock(s, 0, 2, &b);
+inline void put16_803C7748(SjRingBuffer *s, const void *src) {
+    SjChunk b;
+    s->interface->get_chunk(s, 0, 2, &b);
     if (b.size < 2) {
-        s->vt->unlock(s, 0, &b);
+        s->interface->unget_chunk(s, 0, &b);
     } else {
         s16 *d = (s16 *)b.data;
         *d = *(const s16 *)src;
-        s->vt->commit(s, 1, &b);
+        s->interface->put_chunk(s, 1, &b);
     }
 }
 
-inline void put_803C7748(Strm_803C7748 *s, void *src, s32 n) {
-    Buf_803C7748 b;
-    s->vt->lock(s, 0, n, &b);
+inline void put_803C7748(SjRingBuffer *s, void *src, s32 n) {
+    SjChunk b;
+    s->interface->get_chunk(s, 0, n, &b);
     if (b.size < n) {
-        s->vt->unlock(s, 0, &b);
+        s->interface->unget_chunk(s, 0, &b);
     } else {
         memcpy(b.data, src, n);
-        s->vt->commit(s, 1, &b);
+        s->interface->put_chunk(s, 1, &b);
     }
 }
 
-#define arg0 ((Obj_803C7748 *)arg0p)
-s32 TLobby::write_zero_padded_block(void *arg0p) {
+s32 adx_write_zero_padded_block(AdxEncoder *enc) {
     s32 len;
     s32 n;
     s32 i;
     u16 w;
     u8 zero;
-    Strm_803C7748 *s = arg0->fc;
-    s32 off = arg0->f2c;
+    SjRingBuffer *s = enc->output;
+    s32 off = enc->bytes_written;
 
-    if (arg0->f6c <= 0) {
-        n = arg0->f50;
+    if (enc->loop_count <= 0) {
+        n = enc->block_size;
     } else {
-        n = (((off + arg0->f50 + 0x7FF) / 2048) << 11) - off;
+        n = (((off + enc->block_size + 0x7FF) / 2048) << 11) - off;
     }
     len = n - 4;
-    if (s->vt->avail(s, 0) < n) {
+    if (s->interface->get_available(s, 0) < n) {
         return 0;
     }
     w = 0x8001;
@@ -592,7 +489,6 @@ s32 TLobby::write_zero_padded_block(void *arg0p) {
     }
     return n;
 }
-#undef arg0
 #pragma pop
 
 /* Pulls n samples per channel from the input streams into pcm (inferred). */
@@ -634,13 +530,13 @@ inline void encode_channels_7978(AdxEncoder *enc) {
     AdxEncHistory *h;
 
     for (ch = 0; ch < enc->channels; ch++) {
-        fn_803C8020(enc, ch);
+        adx_encoder_process_step(enc, ch);
         c = enc->channel[ch];
         h = c->history;
         enc->block_scale[ch] = c->scale;
         enc->block_inv_scale[ch] = c->inv_scale;
         set_history_7978(enc, ch, h->hist1, h->hist2);
-        TLobby__sub_803C7DF0(enc, ch);
+        adx_encoder_finish_block(enc, ch);
     }
 }
 
@@ -717,7 +613,7 @@ s32 adx_write_encoded_blocks(AdxEncoder *enc) {
 }
 
 // Quantizes one block of channel ch to ADX nibbles (inferred: the ADX encoder's block step).
-void TLobby__sub_803C7DF0(AdxEncoder *enc, s32 ch) {
+void adx_encoder_finish_block(AdxEncoder *enc, s32 ch) {
     s32 i;
     s32 k;
     s32 per_byte;
@@ -809,7 +705,7 @@ inline void decode_sample_8020(AdxEncChannel *c, s16 v) {
 }
 
 /* Computes the block scale of channel ch, then quantizes it against the decoder's history (inferred). */
-s32 fn_803C8020(AdxEncoder *enc, s32 ch) {
+s32 adx_encoder_process_step(AdxEncoder *enc, s32 ch) {
     s16 *smp = enc->pcm[ch];
     s32 i;
     AdxEncChannel *c = enc->channel[ch];
@@ -821,7 +717,7 @@ s32 fn_803C8020(AdxEncoder *enc, s32 ch) {
         predict_sample_8020(c, i, smp[i]);
     }
     scale = (c->peak - 1) / 7 + 1;
-    c->scale = ADXENC_MAX(ADXENC_MIN(scale, lbl_805D4660), 1);
+    c->scale = ADXENC_MAX(ADXENC_MIN(scale, adx_encoder_max_scale), 1);
     if (c->peak == 0) {
         c->inv_scale = 32767.0;
     } else {

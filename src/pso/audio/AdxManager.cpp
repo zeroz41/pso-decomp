@@ -12,57 +12,38 @@
 #include "pso/audio/SjRingBuffer.h"
 
 #include "types.h"
-#include "pso/unk/text_803D31A4.h"
-#include "pso/unk/TLobby_803CE478.h"
-
-
-typedef struct Cb_803CBA58 {
-    void (*fn)(s32);
-    s32 arg;
-} Cb_803CBA58;
-
-typedef struct Cfg_803CBA58 {
-    s32 prio0;
-    s32 busy_wait_prio;
-    s32 vblank_prio;
-    s32 pad_0c;
-    s32 prio;
-} Cfg_803CBA58;
+#include "pso/audio/CriSvm.h"
+#include "pso/system/movie/Gcci.h"
 
 extern "C" {
-s32 VIWaitForRetrace();
-extern s32 lbl_805D7540;
 
-Cfg_803CBA58 lbl_804F9D80 = {0};
-Cb_803CBA58 adx_worker_thread_pending_callback = {NULL, 0};
+AdxmThreadConfig adxm_thread_config = {0};
+AdxmPendingCallback adx_worker_thread_pending_callback = {NULL, 0};
 
-s32 lbl_805D7590;
-s32 lbl_805D7594;
-s32 lbl_805D7598;
-volatile s32 lbl_805D759C;
-s32 lbl_805D75A0;
-s32 lbl_805D75A4;
-OSThread *lbl_805D75A8;
-s32 lbl_805D75AC;
-volatile s32 lbl_805D75B0;
-volatile s32 lbl_805D75B4;
-volatile s32 lbl_805D75B8;
-volatile s32 lbl_805D75BC;
+s32 adxm_init_count;
+s32 adxm_svm_lock_depth;
+s32 adxm_worker_idle_requested;
+volatile s32 adxm_busy_wait_spin_count;
+s32 adxm_vblank_tick_count;
+s32 adxm_worker_loop_count;
+OSThread *adxm_main_thread;
+s32 adxm_saved_thread_priority;
+volatile s32 adxm_lock_transition_flag;
+volatile s32 adxm_vblank_thread_stopped;
+volatile s32 adxm_vblank_thread_run_flag;
+volatile s32 adxm_worker_thread_stopped;
 volatile s32 lobby_worker_thread_run_flag;
-volatile s32 lbl_805D75C4;
-volatile s32 lbl_805D75C8;
-}
-void set_dvd_synchronous_read_mode(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
-extern "C" {
+volatile s32 adxm_busy_wait_stopped;
+volatile s32 adxm_busy_wait_run_flag;
 
-void setup_adx_file_systems(s32 *arg0) {
+void setup_adx_file_systems(s32 *read_mode) {
     cvFsEntryErrFunc(fs_error_notify, 0);
     cvFsAddDev(const_cast<char *>("MFS"), mfci_get_interface, 0);
     cvFsEntryErrFunc(fs_error_notify, 0);
     cvFsAddDev(const_cast<char *>("GCD"), initialize_dvd_file_driver, 0);
     cvFsSetDefDev(const_cast<char *>("GCD"));
-    if (arg0 != NULL) {
-        set_dvd_synchronous_read_mode(0, 0, 0, *arg0);
+    if (read_mode != NULL) {
+        set_dvd_synchronous_read_mode(0, 0, 0, *read_mode);
     } else {
         set_dvd_synchronous_read_mode(0, 0, 0, 0);
     }
@@ -72,16 +53,16 @@ void fs_error_notify(s32, const char *message, void *) {
     TLobby::notify_error(message);
 }
 
-static const char *const volatile lbl_805E0D78 = "\nADXGC Ver.1.10 Build:Jun 13 2002 19:01:41\n";
+static const char *const volatile adxgc_version_pointer = "\nADXGC Ver.1.10 Build:Jun 13 2002 19:01:41\n";
 
 void exec_adx_server(void) {
-    lbl_805E0D78;
+    adxgc_version_pointer;
     TLobby__sub_803C9608();
     ADXT_ExecFsSvr();
 }
 
 s32 is_adxm_initialized(void) {
-    return lbl_805D7590 != 0;
+    return adxm_init_count != 0;
 }
 
 OSThread adxm_worker_thread;
@@ -91,43 +72,45 @@ u8 adxm_worker_stack[ADXM_WORKER_STACK_BYTES];
 u8 adxm_vblank_stack[ADXM_VBLANK_STACK_BYTES];
 u8 adxm_busy_wait_stack[ADXM_BUSY_WAIT_STACK_BYTES];
 
-void init_runtime_threads(Cfg_803CBA58 *cfg) {
-    lbl_805E0D78;
-    if (lbl_805D7590 == 0) {
+typedef void *(*AdxmThreadEntry)(void *);
+
+void init_runtime_threads(AdxmThreadConfig *cfg) {
+    adxgc_version_pointer;
+    if (adxm_init_count == 0) {
         TLobby::init_callback_tables();
-        TLobby__sub_803D33E4(__OSCallResetFunctions, 0);
-        TLobby__sub_803D33D4(adxm_svm_unlock_callback, 0);
+        svm_set_lock_callback(__OSCallResetFunctions, 0);
+        svm_set_unlock_callback(adxm_svm_unlock_callback, 0);
         if (cfg == NULL) {
-            lbl_804F9D80.pad_0c = 16;
-            lbl_804F9D80.prio0 = 1;
-            lbl_804F9D80.busy_wait_prio = 8;
-            lbl_804F9D80.vblank_prio = 12;
-            lbl_804F9D80.prio = 24;
+            adxm_thread_config.pad_0c = 16;
+            adxm_thread_config.prio0 = 1;
+            adxm_thread_config.busy_wait_prio = 8;
+            adxm_thread_config.vblank_prio = 12;
+            adxm_thread_config.prio = 24;
         } else {
-            __memcpy(&lbl_804F9D80, cfg, sizeof(Cfg_803CBA58));
+            __memcpy(&adxm_thread_config, cfg, sizeof(AdxmThreadConfig));
         }
-        OSCreateThread(&adxm_busy_wait_thread, (void *(*)(void *))TLobby::wait_for_lock_release, NULL,
+        OSCreateThread(&adxm_busy_wait_thread, (AdxmThreadEntry)TLobby::wait_for_lock_release, NULL,
                        adxm_busy_wait_stack + sizeof(adxm_busy_wait_stack), sizeof(adxm_busy_wait_stack),
-                       lbl_804F9D80.busy_wait_prio, 1);
-        OSCreateThread(&adxm_vblank_thread, (void *(*)(void *))vblank_thread_loop, NULL,
+                       adxm_thread_config.busy_wait_prio, 1);
+        OSCreateThread(&adxm_vblank_thread, (AdxmThreadEntry)vblank_thread_loop, NULL,
                        adxm_vblank_stack + sizeof(adxm_vblank_stack), sizeof(adxm_vblank_stack),
-                       lbl_804F9D80.vblank_prio, 1);
-        OSCreateThread(&adxm_worker_thread, (void *(*)(void *))TLobby::worker_thread_loop, NULL,
+                       adxm_thread_config.vblank_prio, 1);
+        OSCreateThread(&adxm_worker_thread, (AdxmThreadEntry)TLobby::worker_thread_loop, NULL,
                        adxm_worker_stack + sizeof(adxm_worker_stack), sizeof(adxm_worker_stack),
-                       lbl_804F9D80.prio, 1);
-        lbl_805D75A8 = OSGetCurrentThread();
+                       adxm_thread_config.prio, 1);
+        adxm_main_thread = OSGetCurrentThread();
         lobby_worker_thread_run_flag = 1;
-        lbl_805D75B8 = 1;
-        lbl_805D75C8 = 1;
-        lbl_805D75BC = 0;
-        lbl_805D75B4 = 0;
-        lbl_805D75C4 = 0;
-        lbl_805D75B0 = 0;
+        adxm_vblank_thread_run_flag = 1;
+        adxm_busy_wait_run_flag = 1;
+        adxm_worker_thread_stopped = 0;
+        adxm_vblank_thread_stopped = 0;
+        adxm_busy_wait_stopped = 0;
+        adxm_lock_transition_flag = 0;
         OSResumeThread(&adxm_vblank_thread);
         OSResumeThread(&adxm_worker_thread);
-        TLobby__sub_803D34B0(5, TLobby::adxm_goto_mwidle_border, 0);
+        svm_set_single_callback(5, TLobby::adxm_goto_mwidle_border, 0);
     }
-    lbl_805D7590++;
+    adxm_init_count++;
 }
 
 void adxm_set_error_callback(AdxMessageCallback callback, s32 context) {
@@ -140,11 +123,11 @@ void exec_vsync_servers(void) {
 
 void TLobby::worker_thread_loop() {
     while (lobby_worker_thread_run_flag == 1) {
-        lbl_805D75A4++;
-        if (TLobby::run_worker_callbacks_slot5() == 0 || lbl_805D7598 == 1) {
-            if (lbl_805D7598 == 1) {
-                lbl_805D7598 = 0;
-                OSSetThreadPriority(&adxm_worker_thread, lbl_804F9D80.prio);
+        adxm_worker_loop_count++;
+        if (TLobby::run_worker_callbacks_slot5() == 0 || adxm_worker_idle_requested == 1) {
+            if (adxm_worker_idle_requested == 1) {
+                adxm_worker_idle_requested = 0;
+                OSSetThreadPriority(&adxm_worker_thread, adxm_thread_config.prio);
             }
             if (adx_worker_thread_pending_callback.fn != NULL) {
                 adx_worker_thread_pending_callback.fn(adx_worker_thread_pending_callback.arg);
@@ -152,55 +135,55 @@ void TLobby::worker_thread_loop() {
             OSSuspendThread(&adxm_worker_thread);
         }
     }
-    lbl_805D75BC = 1;
+    adxm_worker_thread_stopped = 1;
 }
 
 void vblank_thread_loop(void) {
-    while (lbl_805D75B8 == 1) {
+    while (adxm_vblank_thread_run_flag == 1) {
         VIWaitForRetrace();
-        lbl_805D75A0++;
+        adxm_vblank_tick_count++;
         lbl_805D7540++;
         TLobby::run_callbacks_group2();
-        if (lbl_805D75BC == 0) {
+        if (adxm_worker_thread_stopped == 0) {
             OSResumeThread(&adxm_worker_thread);
             if (adx_worker_thread_pending_callback.fn != NULL) {
                 adx_worker_thread_pending_callback.fn(adx_worker_thread_pending_callback.arg);
             }
         }
     }
-    lbl_805D75B4 = 1;
+    adxm_vblank_thread_stopped = 1;
 }
 
 void TLobby::wait_for_lock_release() {
-    while (lbl_805D75C8 == 1) {
-        lbl_805D759C++;
+    while (adxm_busy_wait_run_flag == 1) {
+        adxm_busy_wait_spin_count++;
     }
-    lbl_805D75C4 = 1;
+    adxm_busy_wait_stopped = 1;
 }
 void TLobby::adxm_goto_mwidle_border(s32) {
     s32 i;
-    if (lbl_805D75BC == 1) {
+    if (adxm_worker_thread_stopped == 1) {
         return;
     }
-    lbl_805D7598 = 1;
-    OSSetThreadPriority(&adxm_worker_thread, lbl_804F9D80.prio0);
+    adxm_worker_idle_requested = 1;
+    OSSetThreadPriority(&adxm_worker_thread, adxm_thread_config.prio0);
     for (i = 0; i < 200000000; i++) {
         OSResumeThread(&adxm_worker_thread);
-        if (lbl_805D7598 == 0) {
+        if (adxm_worker_idle_requested == 0) {
             break;
         }
     }
     if (i == 200000000) {
         TLobby::set_message_and_notify("1060102: Internal Error: adxm_goto_mwidle_border");
     }
-    OSSetThreadPriority(&adxm_worker_thread, lbl_804F9D80.prio);
+    OSSetThreadPriority(&adxm_worker_thread, adxm_thread_config.prio);
 }
 void adxm_svm_unlock_callback(s32) {
     OSThread *t;
-    if (--lbl_805D7594 == 0) {
+    if (--adxm_svm_lock_depth == 0) {
         t = OSGetCurrentThread();
         OSSuspendThread(&adxm_busy_wait_thread);
-        OSSetThreadPriority(t, lbl_805D75AC);
+        OSSetThreadPriority(t, adxm_saved_thread_priority);
     }
 }
 
@@ -208,27 +191,27 @@ void __OSCallResetFunctions(s32) {
     s32 enabled;
     OSThread *thread;
     s32 prio;
-    if (lbl_805D7594 == 0) {
+    if (adxm_svm_lock_depth == 0) {
         enabled = OSDisableInterrupts();
         OSDisableScheduler();
-        lbl_805D75B0 = 1;
+        adxm_lock_transition_flag = 1;
         thread = OSGetCurrentThread();
         prio = OSGetThreadPriority(thread);
-        OSSetThreadPriority(thread, lbl_804F9D80.prio0);
-        lbl_805D75AC = prio;
-        lbl_805D75B0 = 0;
+        OSSetThreadPriority(thread, adxm_thread_config.prio0);
+        adxm_saved_thread_priority = prio;
+        adxm_lock_transition_flag = 0;
         OSEnableScheduler();
         OSRestoreInterrupts(enabled);
         OSResumeThread(&adxm_busy_wait_thread);
     }
-    lbl_805D7594++;
+    adxm_svm_lock_depth++;
 }
 }
 
 void dispatch_lobby_callback(void) {
-    TLobby__sub_803D3988();
+    svm_unlock();
 }
 
 void dispatch_callback(void) {
-    TLobby__sub_803D39C0();
+    svm_lock();
 }

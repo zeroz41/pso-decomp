@@ -6,27 +6,26 @@ extern SjMemoryBuffer sj_memory_buffer_pool[32];
 extern s32 sj_memory_buffer_init_count;
 extern SjMemoryBufferInterface sj_memory_buffer_interface;
 __declspec(section ".rodata") extern const u8 sj_memory_buffer_uuid[16];
-void sj_memory_buffer_set_error_callback(SjMemoryBuffer* arg0, SjErrorCallback arg1, void* arg2);
 
-s32 sj_memory_buffer_is_chunk_available(SjMemoryBuffer* sj_memory_buffer, s32 arg1, s32 arg2, s32* arg3) {
+s32 sj_memory_buffer_is_chunk_available(SjMemoryBuffer* sj_memory_buffer, s32 side, s32 requested_size, s32* available_size) {
     s32 n;
     middleware_interrupt_lock_enter();
-    if (arg1 == 0) {
+    if (side == 0) {
         n = 0;
-    } else if (arg1 == 1) {
-        n = sj_memory_buffer->readable_bytes < arg2 ? sj_memory_buffer->readable_bytes : arg2;
+    } else if (side == 1) {
+        n = sj_memory_buffer->readable_bytes < requested_size ? sj_memory_buffer->readable_bytes : requested_size;
     } else {
         n = 0;
         if (sj_memory_buffer->error_callback != 0) {
             sj_memory_buffer->error_callback(sj_memory_buffer->error_context, -3);
         }
     }
-    *arg3 = n;
+    *available_size = n;
     middleware_interrupt_lock_leave();
-    { u32 r = (u32)__cntlzw(arg2 - n) >> 5; return r; }
+    { u32 r = (u32)__cntlzw(requested_size - n) >> 5; return r; }
 }
 
-void sj_memory_buffer_unget_chunk(SjMemoryBuffer* sj_memory_buffer, s32 arg1, SjChunk* sj_chunk) {
+void sj_memory_buffer_unget_chunk(SjMemoryBuffer* sj_memory_buffer, s32 side, SjChunk* sj_chunk) {
   s32 d;
   s32 len;
   s32 n;
@@ -37,7 +36,7 @@ void sj_memory_buffer_unget_chunk(SjMemoryBuffer* sj_memory_buffer, s32 arg1, Sj
     return;
   }
   middleware_interrupt_lock_enter();
-  if (arg1 == 0)
+  if (side == 0)
   {
     if (sj_memory_buffer->error_callback != 0)
     {
@@ -45,7 +44,7 @@ void sj_memory_buffer_unget_chunk(SjMemoryBuffer* sj_memory_buffer, s32 arg1, Sj
     }
   }
   else
-    if (arg1 == 1)
+    if (side == 1)
   {
  dummy_label_788039: ;
     len = sj_chunk->size;
@@ -83,12 +82,12 @@ void sj_memory_buffer_unget_chunk(SjMemoryBuffer* sj_memory_buffer, s32 arg1, Sj
   middleware_interrupt_lock_leave();
 }
 
-void sj_memory_buffer_put_chunk(SjMemoryBuffer* sj_memory_buffer, u32 arg1, SjChunk* sj_chunk) {
+void sj_memory_buffer_put_chunk(SjMemoryBuffer* sj_memory_buffer, u32 side, SjChunk* sj_chunk) {
     if (sj_chunk->size <= 0 || sj_chunk->data == 0) {
         return;
     }
     middleware_interrupt_lock_enter();
-    if (arg1 > 1) {
+    if (side > 1) {
         sj_chunk->size = 0;
         sj_chunk->data = 0;
         if (sj_memory_buffer->error_callback != 0) {
@@ -98,13 +97,13 @@ void sj_memory_buffer_put_chunk(SjMemoryBuffer* sj_memory_buffer, u32 arg1, SjCh
     middleware_interrupt_lock_leave();
 }
 
-void sj_memory_buffer_get_chunk(SjMemoryBuffer* sj_memory_buffer, s32 arg1, s32 arg2, SjChunk* sj_chunk) {
+void sj_memory_buffer_get_chunk(SjMemoryBuffer* sj_memory_buffer, s32 side, s32 requested_size, SjChunk* sj_chunk) {
     middleware_interrupt_lock_enter();
-    if (arg1 == 0) {
+    if (side == 0) {
         sj_chunk->size = 0;
         sj_chunk->data = 0;
-    } else if (arg1 == 1) {
-        sj_chunk->size = sj_memory_buffer->readable_bytes < arg2 ? sj_memory_buffer->readable_bytes : arg2;
+    } else if (side == 1) {
+        sj_chunk->size = sj_memory_buffer->readable_bytes < requested_size ? sj_memory_buffer->readable_bytes : requested_size;
         sj_chunk->data = sj_memory_buffer->buffer + sj_memory_buffer->read_position;
         sj_memory_buffer->read_position += sj_chunk->size;
         sj_memory_buffer->readable_bytes -= sj_chunk->size;
@@ -120,13 +119,13 @@ void sj_memory_buffer_get_chunk(SjMemoryBuffer* sj_memory_buffer, s32 arg1, s32 
 
 #pragma optimize_for_size on
 
-s32 sj_memory_buffer_get_available(SjMemoryBuffer* sj_memory_buffer, s32 arg1) {
+s32 sj_memory_buffer_get_available(SjMemoryBuffer* sj_memory_buffer, s32 side) {
     SjErrorCallback error_callback;
 
-    if (arg1 == 1) {
+    if (side == 1) {
         return sj_memory_buffer->readable_bytes;
     }
-    if (arg1 == 0) {
+    if (side == 0) {
         return 0;
     }
     error_callback = sj_memory_buffer->error_callback;
@@ -141,9 +140,9 @@ void sj_memory_buffer_reset(SjMemoryBuffer* sj_memory_buffer) {
     sj_memory_buffer->read_position = 0;
 }
 
-void sj_memory_buffer_set_error_callback(SjMemoryBuffer* sj_memory_buffer, SjErrorCallback arg1, void* arg2) {
-    sj_memory_buffer->error_callback = arg1;
-    sj_memory_buffer->error_context = arg2;
+void sj_memory_buffer_set_error_callback(SjMemoryBuffer* sj_memory_buffer, SjErrorCallback callback, void* context) {
+    sj_memory_buffer->error_callback = callback;
+    sj_memory_buffer->error_context = context;
 }
 
 const u8* sj_memory_buffer_get_uuid(SjMemoryBuffer* sj_memory_buffer) {
@@ -159,7 +158,7 @@ void sj_memory_buffer_destroy(SjMemoryBuffer* sj_memory_buffer) {
 
 #pragma push
 #pragma optimize_for_size off
-SjMemoryBuffer* sj_memory_buffer_create(void* arg0, s32 arg1) {
+SjMemoryBuffer* sj_memory_buffer_create(void* data, s32 buffer_size) {
     s32 i;
     SjMemoryBuffer *s;
     for (i = 0; i < 32; i++) {
@@ -173,8 +172,8 @@ SjMemoryBuffer* sj_memory_buffer_create(void* arg0, s32 arg1) {
     s = &((SjMemoryBuffer *)&sj_memory_buffer_pool)[i];
     s->in_use = 1;
     s->interface = &sj_memory_buffer_interface;
-    s->buffer = (u8*)arg0;
-    s->buffer_size = arg1;
+    s->buffer = (u8*)data;
+    s->buffer_size = buffer_size;
     s->type_uuid = sj_memory_buffer_uuid;
     s->error_callback = sj_memory_buffer_error_halt;
     s->error_context = s;
@@ -185,10 +184,10 @@ SjMemoryBuffer* sj_memory_buffer_create(void* arg0, s32 arg1) {
 #pragma pop
 
 void sj_memory_buffer_shutdown(void) {
-    s32 temp_r0;
-    temp_r0 = sj_memory_buffer_init_count - 1;
-    sj_memory_buffer_init_count = temp_r0;
-    if (temp_r0 == 0) {
+    s32 ref_count;
+    ref_count = sj_memory_buffer_init_count - 1;
+    sj_memory_buffer_init_count = ref_count;
+    if (ref_count == 0) {
         memset(&sj_memory_buffer_pool, 0, 0x480);
     }
 }

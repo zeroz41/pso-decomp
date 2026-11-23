@@ -1,5 +1,6 @@
 #include <string.h>
 #include <dolphin/os/OSThread.h>
+#include "pso/audio/AdxDecode4.h"
 #include "pso/audio/AdxExpand.h"
 #include "pso/audio/AdxHeader.h"
 #include "pso/unk/TLobby.h"
@@ -11,128 +12,158 @@
 #include "types.h"
 #include "pso/unk/text_803D31A4.h"
 
+static inline void adx_expand_update_impl(void *ptr) {
+    AdxDecoderChannel *ch = (AdxDecoderChannel *)ptr;
+    u32 decoded_blocks;
+    u32 sign_bit;
 
-struct Ch_803CB5C4 {
-    s32 used;
-    s32 id;
-    s32 f8;
-    s32 fC;
-    u8 pad10[0x18];
-    u8 f28[8];
-    s16 c0;
-    s16 c1;
-};
-
-extern "C" {
-extern Ch_803CB5C4 adx_decoder_channel_pool[16];
-
-u32 decode_adx_mono_blocks(int, int, int, void *, int, int);
-u32 dispatch_receive_update__6TLobbyFv(int, int, int, void *, int, void *, int, int);
-
-s32 lbl_805D7588;
-
-void TLobby::update_receive_check() {
-    u8 *arg0 = (u8 *)this;
-    u32 temp_r0;
-    u32 temp_r3;
-
-    if ((saddr) this->m_next == 1) {
-        *(s32 *)&this->m_next = 2;
+    if (ch->state == 1) {
+        ch->state = 2;
     }
-    if ((saddr) this->m_next == 2) {
-        if ((saddr) this->m_down == 1) {
-            *(u32 *)&this->m_up = decode_adx_mono_blocks((int) (*(s32 *)((s8 *)arg0 + 0x18)), (int) (*(s32 *)((s8 *)arg0 + 0x1C)), (int) (*(s32 *)((s8 *)arg0 + 0x20)), arg0 + 0x28, (int) (*(s16 *)((s8 *)arg0 + 0x30)), (int) (*(s16 *)((s8 *)arg0 + 0x32)));
+    if (ch->state == 2) {
+        if (ch->decode_mode == 1) {
+            ch->decoded_count = decode_adx_mono_blocks((s8 *)ch->src, ch->nblk, (s16 *)ch->out_buf, ch->delay_samples,
+                                                       ch->coef_k0, ch->coef_k1);
         } else {
-            *(u32 *)&this->m_up = dispatch_receive_update__6TLobbyFv((int) (*(s32 *)((s8 *)arg0 + 0x18)), (int) (*(s32 *)((s8 *)arg0 + 0x1C)), (int) (*(s32 *)((s8 *)arg0 + 0x20)), arg0 + 0x28, (int) (*(s32 *)((s8 *)arg0 + 0x24)), arg0 + 0x2C, (int) (*(s16 *)((s8 *)arg0 + 0x30)), (int) (*(s16 *)((s8 *)arg0 + 0x32)));
-            temp_r0 = *(u32 *)&this->m_up;
-            temp_r3 = temp_r0 >> 0x1FU;
-            if ((s32) (((temp_r0 & 1) ^ temp_r3) - temp_r3) == 1) {
-                lbl_805D7588 = 1;
+            ch->decoded_count = dispatch_receive_update__6TLobbyFv(ch->src, ch->nblk, ch->out_buf, ch->delay_samples,
+                                                                    ch->out_right_buf, &ch->delay_samples[2],
+                                                                    ch->coef_k0, ch->coef_k1);
+            decoded_blocks = (u32)ch->decoded_count;
+            sign_bit = decoded_blocks >> 0x1FU;
+            if ((s32)(((decoded_blocks & 1) ^ sign_bit) - sign_bit) == 1) {
+                adx_expand_odd_result_flag = 1;
             }
         }
-        *(s32 *)&this->m_next = 3;
+        ch->state = 3;
     }
+}
+
+static inline s32 adx_expand_get_size_impl(const void *ptr) {
+    return ((const AdxDecoderChannel *)ptr)->decoded_count;
+}
+
+static inline void adx_expand_reset_state_impl(void *ptr) {
+    AdxDecoderChannel *ch = (AdxDecoderChannel *)ptr;
+    if (ch->state == 3) {
+        ch->state = 0;
+    }
+}
+
+static inline void adx_expand_reset_client_impl(void *ptr) {
+    AdxDecoderChannel *ch = (AdxDecoderChannel *)ptr;
+    ch->state = 0;
+    memset(ch->delay_samples, 0, sizeof(ch->delay_samples));
+}
+
+static inline s32 adx_expand_is_idle_impl(const void *ptr) {
+    return ((const AdxDecoderChannel *)ptr)->state == 0;
+}
+
+static inline void adx_expand_set_stereo_impl(void *ptr, s32 src, s32 nblk, s32 out_left, s32 out_right) {
+    AdxDecoderChannel *ch = (AdxDecoderChannel *)ptr;
+    ch->decode_mode = 2;
+    ch->src = src;
+    ch->nblk = nblk;
+    ch->out_buf = out_left;
+    ch->out_right_buf = out_right;
+}
+
+static inline void adx_expand_set_mono_impl(void *ptr, s32 src, s32 nblk, s32 out_buf) {
+    AdxDecoderChannel *ch = (AdxDecoderChannel *)ptr;
+    ch->decode_mode = 1;
+    ch->src = src;
+    ch->nblk = nblk;
+    ch->out_buf = out_buf;
+    ch->out_right_buf = 0;
+}
+
+static inline s32 adx_expand_get_state_impl(const void *ptr) {
+    return ((const AdxDecoderChannel *)ptr)->state;
+}
+
+static inline void adx_expand_clear_impl(void *ptr) {
+    AdxDecoderChannel *ch = (AdxDecoderChannel *)ptr;
+    if (ch != NULL) {
+        ch->used = 0;
+        memset(ch, 0, sizeof(AdxDecoderChannel));
+    }
+}
+
+static inline void adx_expand_calc_coeffs_impl(void *ptr, s32 rate, s32 cutoff) {
+    AdxDecoderChannel *ch = (AdxDecoderChannel *)ptr;
+    calc_adx_predictor_coeffs(cutoff, rate, &ch->coef_k0, &ch->coef_k1);
+}
+
+extern "C" {
+s32 adx_expand_odd_result_flag;
+
+void TLobby::update_receive_check() {
+    adx_expand_update_impl(this);
 }
 
 s32 TLobby::get_size() {
-    return *(s32 *)&this->m_up;
+    return adx_expand_get_size_impl(this);
 }
 
 void TLobby::reset_field_0C() {
-    if ((saddr) this->m_next == 3) {
-        this->m_next = 0;
-    }
+    adx_expand_reset_state_impl(this);
 }
 
 void TLobby::reset_client_state() {
-    u8 *arg0 = (u8 *)this;
-    this->m_next = 0;
-    memset(arg0 + 0x28, 0, 8);
+    adx_expand_reset_client_impl(this);
 }
 
-void TLobby__sub_803CB4A4(u8 *arg0) {
-    if ((s32) *(s32 *)((s8 *)arg0 + 0xC) == 0) {
-        *(s32 *)((s8 *)arg0 + 0x10) = 0;
-        *(s32 *)((s8 *)arg0 + 0xC) = 1;
+void TLobby__sub_803CB4A4(u8 *channel_buf) {
+    AdxDecoderChannel *ch = (AdxDecoderChannel *)channel_buf;
+    if (ch->state == 0) {
+        ch->decoded_count = 0;
+        ch->state = 1;
     }
 }
 
-s32 TLobby::post_request(s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
-    u8 *arg0 = (u8 *)this;
-    if ((saddr) this->m_next == 0) {
-        *(s32 *)&this->m_down = 2;
-        *(s32 *)((s8 *)arg0 + 0x18) = arg1;
-        *(s32 *)((s8 *)arg0 + 0x1C) = arg2;
-        *(s32 *)((s8 *)arg0 + 0x20) = arg3;
-        *(s32 *)((s8 *)arg0 + 0x24) = arg4;
+s32 TLobby::post_request(s32 src, s32 nblk, s32 out_left, s32 out_right) {
+    if (adx_expand_is_idle_impl(this)) {
+        adx_expand_set_stereo_impl(this, src, nblk, out_left, out_right);
         return 1;
     }
     return 0;
 }
 
-s32 TLobby::try_post_command(s32 arg1, s32 arg2, s32 arg3) {
-    u8 *arg0 = (u8 *)this;
-    if ((saddr) this->m_next == 0) {
-        *(s32 *)&this->m_down = 1;
-        *(s32 *)((s8 *)arg0 + 0x18) = arg1;
-        *(s32 *)((s8 *)arg0 + 0x1C) = arg2;
-        *(s32 *)((s8 *)arg0 + 0x20) = arg3;
-        *(s32 *)((s8 *)arg0 + 0x24) = 0;
+s32 TLobby::try_post_command(s32 src, s32 nblk, s32 out_buf) {
+    if (adx_expand_is_idle_impl(this)) {
+        adx_expand_set_mono_impl(this, src, nblk, out_buf);
         return 1;
     }
     return 0;
 }
 
 s32 TLobby::get_client_count() {
-    return *(s32 *)&this->m_next;
+    return adx_expand_get_state_impl(this);
 }
 
 void TLobby::clear_record_data() {
-    s32 *arg0 = (s32 *)this;
-    if (arg0 != NULL) {
-        *arg0 = 0;
-        memset(arg0, 0, 0x34);
-    }
+    adx_expand_clear_impl(this);
 }
 
-void TLobby__sub_803CB570(u8 *arg0, u8 *arg1, s16 *arg2) {
-    *(s16 *)((s8 *)arg0 + 0x28) = (s16) *(s16 *)((s8 *)arg1 + 0);
-    *(s16 *)((s8 *)arg0 + 0x2A) = (s16) *arg2;
-    *(s16 *)((s8 *)arg0 + 0x2C) = (s16) *(s16 *)((s8 *)arg1 + 2);
-    *(s16 *)((s8 *)arg0 + 0x2C) = (s16) *(s16 *)((s8 *)arg1 + 2);
+void TLobby__sub_803CB570(u8 *channel_buf, u8 *header, s16 *out_coefs) {
+    AdxDecoderChannel *ch = (AdxDecoderChannel *)channel_buf;
+    s16 *header_samples = (s16 *)header;
+    ch->delay_samples[0] = header_samples[0];
+    ch->delay_samples[1] = *out_coefs;
+    ch->delay_samples[2] = header_samples[1];
+    ch->delay_samples[2] = header_samples[1];
 }
 
 #pragma push
 #pragma fp_contract on
 void TLobby::calc_adx_coeffs_at_offset(s32 rate, s32 cutoff) {
-    saddr arg0 = (saddr)this;
-    calc_adx_predictor_coeffs(cutoff, rate, (s16 *)(arg0 + 0x30), (s16 *)(arg0 + 0x32));
+    adx_expand_calc_coeffs_impl(this, rate, cutoff);
 }
 #pragma pop
 
-Ch_803CB5C4 *adx_allocate_decoder_channel(void) {
+AdxDecoderChannel *adx_allocate_decoder_channel(void) {
     s32 i;
-    Ch_803CB5C4 *c;
+    AdxDecoderChannel *c;
 
     for (i = 0; i < 16; i++) {
         if (adx_decoder_channel_pool[i].used == 0) {
@@ -143,20 +174,20 @@ Ch_803CB5C4 *adx_allocate_decoder_channel(void) {
         return NULL;
     }
     c = &adx_decoder_channel_pool[i];
-    memset(c, 0, sizeof(Ch_803CB5C4));
+    memset(c, 0, sizeof(AdxDecoderChannel));
     c->used = 1;
     c->id = i;
-    c->f8 = 0;
-    c->fC = 0;
-    calc_adx_predictor_coeffs((saddr)((void *)500), (saddr)((void *)44100), (s16 *)((s16 *)&c->c0), (s16 *)((s16 *)&c->c1));
-    memset(c->f28, 0, 8);
+    c->pad_08 = 0;
+    c->state = 0;
+    calc_adx_predictor_coeffs(500, 44100, &c->coef_k0, &c->coef_k1);
+    memset(c->delay_samples, 0, sizeof(c->delay_samples));
     return c;
 }
 
 void TLobby::clear_buffer_340() {
-    memset(adx_decoder_channel_pool, 0, 0x340);
+    memset(adx_decoder_channel_pool, 0, sizeof(adx_decoder_channel_pool));
 }
 
 }
 
-Ch_803CB5C4 adx_decoder_channel_pool[16];
+AdxDecoderChannel adx_decoder_channel_pool[16];

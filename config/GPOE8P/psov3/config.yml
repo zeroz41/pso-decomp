@@ -708,9 +708,9 @@ force_active:
   - __as__14TRecvInfoBoardFRC14TRecvInfoBoard
   - __ct__18TSymbolChatCaptureFP7TObject
   - TLobby__sub_803C4698
-  - TLobby__sub_803CBE40
+  - adx_bridge_apply_field
   - TLobby__sub_803CE2A0
-  - TLobby__sub_803D346C
+  - svm_invoke_single_callback
   - gvm_stream_begin
   - gvm_stream_read
   - gvm_stream_seek
@@ -8509,7 +8509,7 @@ force_active:
   - lbl_805D750C
   - lbl_805D75D0
   - lbl_805D75F0
-  - lbl_805D7610
+  - gcci_init_guard
   - lbl_805D76A8
   - lbl_805D76C8
   - lbl_805D76CC

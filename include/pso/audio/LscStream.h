@@ -4,6 +4,16 @@
 #include <stddef.h>
 
 struct AdxStreamFile;
+struct SjHandle;
+
+struct SjInterface {
+    void *slots[9];
+    s32 (*GetNumData)(SjHandle *, s32);
+};
+
+struct SjHandle {
+    SjInterface *vt;
+};
 
 struct LscQueueEntry {
     s32 stream_id;
@@ -22,7 +32,7 @@ struct LscStream {
     u8 repeat;
     u8 paused;
     void* stream;
-    u8 unknown_0C[8];
+    u8 pad_0C[8];
     s32 min_buffer_bytes;
     s32 buffer_capacity;
     s32 write_index;
@@ -30,8 +40,8 @@ struct LscStream {
     s32 queued_count;
     AdxStreamFile *file_handle;
     s32 file_sector_count;
-    u8 unknown_30[4];
-    s32 field_34;
+    u8 pad_30[4];
+    s32 bytes_transferred;
     LscQueueEntry entries[16];
 };
 LAYOUT_ASSERT(LscQueueEntry_size, sizeof(LscQueueEntry)==0x40);
@@ -56,12 +66,16 @@ LAYOUT_ASSERT(LscStream_read_index_offset, offsetof(LscStream, read_index)==0x20
 LAYOUT_ASSERT(LscStream_queued_count_offset, offsetof(LscStream, queued_count)==0x24);
 LAYOUT_ASSERT(LscStream_file_handle_offset, offsetof(LscStream, file_handle)==0x28);
 LAYOUT_ASSERT(LscStream_file_sector_count_offset, offsetof(LscStream, file_sector_count)==0x2C);
-LAYOUT_ASSERT(LscStream_field_34_offset, offsetof(LscStream, field_34)==0x34);
+LAYOUT_ASSERT(LscStream_bytes_transferred_offset, offsetof(LscStream, bytes_transferred)==0x34);
 LAYOUT_ASSERT(LscStream_entries_offset, offsetof(LscStream, entries)==0x38);
+
+// --- C functions defined in LscStream.cpp / LscInit.cpp / LscServer.cpp ---
 extern "C" {
 extern LscStream lsc_slot_table[16];
 extern const char *const volatile lsc_version_string;
 extern s32 lsc_init_count;
+void lsc_set_repeat(LscStream* stream, u8 repeat);
+void lsc_notify_queue_empty(void);
 s32 lsc_get_min_buffer_bytes(LscStream* stream);
 void lsc_set_min_buffer_bytes(LscStream* stream, s32 bytes);
 s32 lsc_get_stream_progress(LscStream* stream, s32 stream_id);
@@ -81,48 +95,8 @@ LscStream* lsc_create(void* sj_handle);
 void lsc_shutdown(void);
 void lsc_init(void);
 void lsc_poll(LscStream* stream);
-}
-
-extern "C" {
-LscStream *lsc_create(void *sj_handle);
-void lsc_destroy(LscStream *lsc_stream);
-s32 lsc_get_min_buffer_bytes(LscStream *p);
-s32 lsc_get_queued_stream_count(LscStream *p);
-s32 lsc_get_queued_stream_id(LscStream *lsc_stream, s32 ordinal);
-s32 lsc_get_state(LscStream *lsc_stream);
-char *lsc_get_stream_filename(LscStream *arg0, s32 arg1);
-s32 lsc_get_stream_progress(LscStream *arg0, s32 arg1);
-s32 lsc_get_stream_status(LscStream *arg0, s32 arg1);
-void lsc_init(void);
-void lsc_poll_all(void);
-void lsc_set_min_buffer_bytes(LscStream *lsc_stream, s32 bytes);
-void lsc_shutdown(void);
-void lsc_start(LscStream *o);
-void lsc_stop(LscStream *lsc_stream);
-}
-
-// --- C functions defined in LscStream.cpp ---
-extern "C" {
-void lsc_set_repeat(LscStream *lsc_stream, u8 repeat);
-void lsc_notify_queue_empty(void);
-LscStream *lsc_create(void *sj_handle);
-void lsc_destroy(LscStream *lsc_stream);
-s32 lsc_enqueue_range(LscStream *lsc_stream, const char *filename, s32 open_mode, s32 range_offset, s32 range_length);
-s32 lsc_get_min_buffer_bytes(LscStream *p);
-s32 lsc_get_queued_stream_count(LscStream *p);
-s32 lsc_get_queued_stream_id(LscStream *lsc_stream, s32 ordinal);
-s32 lsc_get_state(LscStream *lsc_stream);
-char *lsc_get_stream_filename(LscStream *lsc_stream, s32 arg1);
-s32 lsc_get_stream_progress(LscStream *lsc_stream, s32 arg1);
-s32 lsc_get_stream_status(LscStream *lsc_stream, s32 arg1);
-void lsc_init(void);
-void lsc_poll_all(void);
-void lsc_set_min_buffer_bytes(LscStream *lsc_stream, s32 bytes);
-void lsc_shutdown(void);
-void lsc_start(LscStream *o);
-void lsc_stop(LscStream *lsc_stream);
-void lsc_interrupt_lock_leave(void *lock);
-void lsc_interrupt_lock_enter(void *lock);
+void lsc_interrupt_lock_leave(void* lock);
+void lsc_interrupt_lock_enter(void* lock);
 }
 // --- end of C functions
 
