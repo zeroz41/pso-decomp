@@ -1602,7 +1602,7 @@ force_active:
   - is_button_enabled__16PlayerPadBindingFl
   - __sinit_TObjPlayer_80354EC8_cpp
   - TObjPlayer__sub_80355098
-  - __ct__13TUnk_804F29F8FP7TObject
+  - __ct__21TEquippedItemDrawTaskFP7TObject
   - sample_motion_value_channel__FPv
   - sample_absent_vector_channel__FPv
   - sample_absent_angle_channel__FPv
