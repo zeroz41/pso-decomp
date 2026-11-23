@@ -179,7 +179,7 @@ struct G_ClearPhotonBlastReadyFlag_6x3A {
 
 struct G_ClearTemporaryPhotonBlastStateFlags_6x3B {
  struct G_ClientIDHeader header;
- void *fn_801D6804(void *src);
+ void *load_subcommand_header(void *src);
  void init_pkt_cmd_3B();
  void update_and_send();
 };
@@ -265,7 +265,7 @@ struct G_DonateToPhotonBlast_6x38 {
  s16 unused;
  void bswap_fields();
  void *copy_packet_header_6x38(void *src);
- void fn_801D698C();
+ void init_subcommand_6x38();
  void send_state();
 };
 

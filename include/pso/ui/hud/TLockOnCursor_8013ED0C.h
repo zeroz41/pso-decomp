@@ -7,10 +7,5 @@ extern "C" {
 s32 destroy_target_records(saddr arg0, s16 arg1);
 }
 
-// --- C functions defined in TLockOnCursor_8013ED0C.cpp ---
-extern "C" {
-s32 destroy_target_records(saddr arg0, s16 arg1);
-}
-// --- end of C functions
 
 #endif

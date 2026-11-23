@@ -8,11 +8,5 @@ void TMainCursor__sub_8013DFC4(u8 *arg0);
 u16 get_client_id(void *p);
 }
 
-// --- C functions defined in TMainCursor_8013DF5C.cpp ---
-extern "C" {
-void TMainCursor__sub_8013DFC4(u8 *arg0);
-u16 get_client_id(void *p);
-}
-// --- end of C functions
 
 #endif

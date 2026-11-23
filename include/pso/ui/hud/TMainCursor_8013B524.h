@@ -8,10 +8,5 @@ extern "C" {
 void render__11TMainCursorFPv(TMainCursor *main_cursor);
 }
 
-// --- C functions defined in TMainCursor_8013B524.cpp ---
-extern "C" {
-void render__11TMainCursorFPv(TMainCursor *main_cursor);
-}
-// --- end of C functions
 
 #endif

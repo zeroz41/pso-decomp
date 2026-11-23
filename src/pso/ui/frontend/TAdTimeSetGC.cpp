@@ -1048,7 +1048,7 @@ void T_ATS_DrawCalendar::render() {
         default:
             sprintf(buf, "%02d/%02d/%d %s", date.month, date.day, date.year, get_localized_text_entry(0x1C, wd));
             s = buf;
-            w = -0.5f * (f32)TWindowSubStatusDisp__sub_80144E9C(s);
+            w = -0.5f * (f32)calc_fullwidth_text_width(s);
             break;
         }
         draw_menu_font_string_white((const char *)s, p.x + w, p.y);

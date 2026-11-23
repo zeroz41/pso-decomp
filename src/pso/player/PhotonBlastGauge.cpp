@@ -24,13 +24,13 @@ s32 PhotonBlastGauge::fn_801D5DDC() {
 }
 
 s16 PhotonBlastGauge::get_valid_index() {
-    s16 var_r31;
+    s16 index;
 
-    var_r31 = blast;
-    if (is_valid_index(var_r31) == 0) {
-        var_r31 = 0;
+    index = blast;
+    if (is_valid_index(index) == 0) {
+        index = 0;
     }
-    return var_r31;
+    return index;
 }
 
 extern "C" {
@@ -41,23 +41,23 @@ s32 validate_6x3A_clear_photon_blast_ready_flag(void *);
 }
 
 void PhotonBlastGauge::set_section_index(s16 count) {
-    s16 var_r4;
+    s16 clamped;
 
-    var_r4 = count;
-    if ((var_r4 < 0) || (var_r4 > 0xA)) {
-        var_r4 = 0;
+    clamped = count;
+    if ((clamped < 0) || (clamped > 0xA)) {
+        clamped = 0;
     }
-    target_count = var_r4;
+    target_count = clamped;
 }
 
 void handle_6x3B_clear_temporary_photon_blast_state_flags(saddr src) {
-    G_ClearTemporaryPhotonBlastStateFlags_6x3B sp8;
+    G_ClearTemporaryPhotonBlastStateFlags_6x3B pkt;
     TObjPlayer *player;
-    sp8.init_pkt_cmd_3B();
-    sp8.fn_801D6804((void *)src);
-    bswap_g_client_id_header(&sp8);
-    if (validate_6x3B_clear_temporary_photon_blast_state_flags(&sp8) != 0) {
-        player = get_player_by_client_id(sp8.header.client_id);
+    pkt.init_pkt_cmd_3B();
+    pkt.load_subcommand_header((void *)src);
+    bswap_g_client_id_header(&pkt);
+    if (validate_6x3B_clear_temporary_photon_blast_state_flags(&pkt) != 0) {
+        player = get_player_by_client_id(pkt.header.client_id);
         if (player != NULL) {
             player->photon_blast_gauge.clear_photon_blast_state();
             if (TObjPlayer::is_locally_controlled(player) != 0) {
@@ -68,22 +68,22 @@ void handle_6x3B_clear_temporary_photon_blast_state_flags(saddr src) {
 }
 
 void PhotonBlastGauge::reinit_photon_blast_gauge() {
-    G_ClearTemporaryPhotonBlastStateFlags_6x3B sp8;
+    G_ClearTemporaryPhotonBlastStateFlags_6x3B pkt;
     clear_photon_blast_state();
     donation.reset_fields();
-    sp8.init_pkt_cmd_3B();
-    sp8.header.client_id = client_id;
-    sp8.update_and_send();
+    pkt.init_pkt_cmd_3B();
+    pkt.header.client_id = client_id;
+    pkt.update_and_send();
 }
 
 void handle_6x3A_clear_photon_blast_ready_flag(saddr src) {
-    G_ClearPhotonBlastReadyFlag_6x3A sp8;
+    G_ClearPhotonBlastReadyFlag_6x3A pkt;
     TObjPlayer *player;
-    sp8.init_6x3A_packet();
-    sp8.clear_photon_blast_ready_flag((void *)src);
-    bswap_g_client_id_header(&sp8);
-    if (validate_6x3A_clear_photon_blast_ready_flag(&sp8) != 0) {
-        player = get_player_by_client_id(sp8.header.client_id);
+    pkt.init_6x3A_packet();
+    pkt.clear_photon_blast_ready_flag((void *)src);
+    bswap_g_client_id_header(&pkt);
+    if (validate_6x3A_clear_photon_blast_ready_flag(&pkt) != 0) {
+        player = get_player_by_client_id(pkt.header.client_id);
         if (player != NULL) {
             player->photon_blast_gauge.set_bit1_at_40();
         }
@@ -101,19 +101,19 @@ void PhotonBlastGauge::send_6x3A_clear_photon_blast_ready_flag() {
 }
 
 void handle_6x39_set_photon_blast_ready_flag(saddr src) {
-    G_SetPhotonBlastReadyFlag_6x39 sp8;
-    s32 temp_r31;
+    G_SetPhotonBlastReadyFlag_6x39 pkt;
+    s32 player_floor;
     TObjPlayer *player;
     s32 v;
-    sp8.init_6x39_packet();
-    sp8.handle_photon_blast_ready((void *)src);
-    bswap_g_client_id_header(&sp8);
-    if (validate_6x39_set_photon_blast_ready_flag(&sp8) != 0) {
-        player = get_player_by_client_id(sp8.header.client_id);
+    pkt.init_6x39_packet();
+    pkt.handle_photon_blast_ready((void *)src);
+    bswap_g_client_id_header(&pkt);
+    if (validate_6x39_set_photon_blast_ready_flag(&pkt) != 0) {
+        player = get_player_by_client_id(pkt.header.client_id);
         if ((player != NULL) && (is_current_area_item_enabled() != 0)) {
-            temp_r31 = player->get_floor();
+            player_floor = player->get_floor();
             v = get_current_floor();
-            if (v == temp_r31) {
+            if (v == player_floor) {
                 player->photon_blast_gauge.update_ready();
                 player->photon_blast_gauge.send_photon_blast_ready();
             }
@@ -148,7 +148,7 @@ void PhotonBlastGauge::reset_targets() {
 void handle_6x38_donate_to_photon_blast(saddr src) {
     G_DonateToPhotonBlast_6x38 cmd;
     TObjPlayer *player;
-    cmd.fn_801D698C();
+    cmd.init_subcommand_6x38();
     cmd.copy_packet_header_6x38((void *)src);
     cmd.bswap_fields();
     if (validate_6x38_donate_to_photon_blast(&cmd) != 0) {
@@ -162,7 +162,7 @@ void handle_6x38_donate_to_photon_blast(saddr src) {
 }
 
 void PhotonBlastGauge::draw_party_label(TObjChara *target, u16 effect) {
-    G_DonateToPhotonBlast_6x38 sp8;
+    G_DonateToPhotonBlast_6x38 pkt;
 
     set_flag_40_bit5();
     subtract_photon_blast_charge(10.0f);
@@ -170,10 +170,10 @@ void PhotonBlastGauge::draw_party_label(TObjChara *target, u16 effect) {
     donation.fn_801D671C(1);
     TWindowCtrl::create_party_effect(target->get_entity_id(), effect);
     if ((target == NULL) || (target->obj_isState2_324() == 0)) {
-        sp8.fn_801D698C();
-        sp8.header.client_id = target->get_entity_id();
-        sp8.target_client_id = effect;
-        sp8.send_state();
+        pkt.init_subcommand_6x38();
+        pkt.header.client_id = target->get_entity_id();
+        pkt.target_client_id = effect;
+        pkt.send_state();
     }
 }
 
@@ -221,10 +221,10 @@ void add_photon_blast_chain_charge(PhotonBlastGauge *gauge, f32 amount) {
 }
 
 void PhotonBlastGauge::add_photon_blast_charge(f32 amount) {
-    f32 temp_f0;
-    temp_f0 = charge;
-    if (temp_f0 < 100.0f) {
-        charge = temp_f0 + amount;
+    f32 current;
+    current = charge;
+    if (current < 100.0f) {
+        charge = current + amount;
         if (charge >= 100.0f) {
             charge = 100.0f;
             send_6x39_photon_blast_ready();
@@ -239,7 +239,7 @@ void PhotonBlastGauge::send_photon_blast_ready() {
     }
 }
 
-void PhotonBlastGauge::update_if_ready() { if (fn_801D67AC() != 0) { update_ready(); } }
+void PhotonBlastGauge::update_if_ready() { if (is_photon_blast_charge_full() != 0) { update_ready(); } }
 void PhotonBlastGauge::reset_photon_blast_gauge() {
     s32 i;
     fn_801D67C8();
@@ -275,18 +275,21 @@ void PhotonBlastGauge::reset_state() {
 }
 
 
-struct Obj_801D6A18 { s32 a[4]; s32 x10; s32 x14; };
+struct PlayerSubObjectSlots { s32 a[4]; s32 x10; s32 x14; };
 
-typedef struct Rec_801D6AB4 {
-    u8 pad0[8];
-    f32 a;
-    f32 b;
-} Rec_801D6AB4;
+// One damage accumulation slot (TObjPlayer + 0x75C and friends): the running
+// total, the raw amount, and the two weight factors damage_weight picks between.
+struct DamageStatSlot {
+    f32 total;
+    f32 accumulated;
+    f32 normal_weight;
+    f32 bonus_weight;
+};
 
 extern "C" {
-f32 fn_801D6AB4(void *, saddr, s32);
-s32 accumulate_damage_stats(u8 *arg0, s32 collidable, s32 amount);
-void clear_player_sub_object_slots(Obj_801D6A18 *p);
+f32 damage_weight(DamageStatSlot *slot, saddr attacker, s32 amount);
+s32 accumulate_damage_stats(u8 *slotp, s32 attacker, s32 amount);
+void clear_player_sub_object_slots(PlayerSubObjectSlots *p);
 }
 
 PhotonBlastGauge::PhotonBlastGauge() {
@@ -294,13 +297,13 @@ PhotonBlastGauge::PhotonBlastGauge() {
     reset_state();
 }
 
-int PhotonBlastGauge::is_valid_index(s16 blast) {
-    u8 var_r4;
-    var_r4 = 0;
-    if (((blast >= 0) && (blast < 6)) || (blast == -1)) {
-        var_r4 = 1;
+int PhotonBlastGauge::is_valid_index(s16 index) {
+    u8 valid;
+    valid = 0;
+    if (((index >= 0) && (index < 6)) || (index == -1)) {
+        valid = 1;
     }
-    return var_r4;
+    return valid;
 }
 
 void Obj_801D67D4::reset_fields() { state = 0; count = 0; }
@@ -319,13 +322,13 @@ void PhotonBlastGauge::update_field_40() { flags.clear(16); }
 void PhotonBlastGauge::fn_801D677C() { flags.set(16); }
 u16 PhotonBlastGauge::get_type() { return client_id; }
 
-s32 PhotonBlastGauge::fn_801D67AC() {
+s32 PhotonBlastGauge::is_photon_blast_charge_full() {
     return charge >= 100.0f;
 }
 
 void PhotonBlastGauge::fn_801D67C8() { blast = 6; }
 void *Obj_801D67D4::init_reset_fields() { reset_fields(); return this; }
-void *G_ClearTemporaryPhotonBlastStateFlags_6x3B::fn_801D6804(void *src) { copy_subcommand_header(this, src); return this; }
+void *G_ClearTemporaryPhotonBlastStateFlags_6x3B::load_subcommand_header(void *src) { copy_subcommand_header(this, src); return this; }
 void G_ClearTemporaryPhotonBlastStateFlags_6x3B::init_pkt_cmd_3B() { header.subcommand = 59; header.size = 1; }
 void G_ClearTemporaryPhotonBlastStateFlags_6x3B::update_and_send() { bswap_g_client_id_header(this); send_subcommand(this); }
 void G_ClearPhotonBlastReadyFlag_6x3A::init_6x3A_packet() { header.subcommand = 58; header.size = 1; }
@@ -336,7 +339,7 @@ void G_DonateToPhotonBlast_6x38::bswap_fields() { header.bswap(); bswap_16(&targ
 
 void *G_DonateToPhotonBlast_6x38::copy_packet_header_6x38(void *src) { G_DonateToPhotonBlast_6x38 *s = (G_DonateToPhotonBlast_6x38 *)src; copy_subcommand_header(this, src); target_client_id = s->target_client_id; unused = s->unused; return this; }
 
-void G_DonateToPhotonBlast_6x38::fn_801D698C() {
+void G_DonateToPhotonBlast_6x38::init_subcommand_6x38() {
     target_client_id = 0xFFFF;
     unused = 0;
     header.subcommand = 0x38;
@@ -347,7 +350,7 @@ void G_DonateToPhotonBlast_6x38::send_state() { bswap_fields(); send_subcommand(
 void *G_SetPhotonBlastReadyFlag_6x39::handle_photon_blast_ready(void *src) { copy_subcommand_header(this, src); return this; }
 
 extern "C" {
-void clear_player_sub_object_slots(Obj_801D6A18 *p) {
+void clear_player_sub_object_slots(PlayerSubObjectSlots *p) {
     s32 i;
     for (i = 0; i < 4; i++) {
         p->a[i] = 0;
@@ -356,28 +359,29 @@ void clear_player_sub_object_slots(Obj_801D6A18 *p) {
     p->x14 = 0;
 }
 
-s32 accumulate_damage_stats(u8 *arg0v, s32 collidable, s32 amount) {
+s32 accumulate_damage_stats(u8 *slotp, s32 attacker, s32 amount) {
   f32 new_var;
-  f32 temp_f1;
+  f32 weighted;
+  DamageStatSlot *slot = (DamageStatSlot *)slotp;
   new_var = (f32) amount;
-  *((f32 *) (((s8 *) arg0v) + 4)) = (f32) ((*((f32 *) (((s8 *) arg0v) + 4))) + new_var);
-  new_var = fn_801D6AB4(arg0v, collidable, amount);
-  temp_f1 = new_var;
-  *((f32 *) (((s8 *) arg0v) + 0)) = (f32) ((*((f32 *) (((s8 *) arg0v) + 0))) + temp_f1);
-  return (s32) temp_f1;
+  slot->accumulated = slot->accumulated + new_var;
+  new_var = damage_weight(slot, attacker, amount);
+  weighted = new_var;
+  slot->total = slot->total + weighted;
+  return (s32) weighted;
 }
 
-#define arg0 ((Rec_801D6AB4 *)arg0v)
-f32 fn_801D6AB4(void *arg0v, saddr collidable, s32 amount) {
+// amount weighted by the slot's per-target-kind factor: the bonus weight for
+// enemies flagged 0x10000000 (test_actor_flags), the normal weight otherwise.
+f32 damage_weight(DamageStatSlot *slot, saddr attacker, s32 amount) {
     f32 v;
     f32 k = (f32)amount;
 
-    v = arg0->a;
-    if (((TObjCollidable *)collidable)->test_actor_flags(0x10000000) != 0) {
-        v = arg0->b;
+    v = slot->normal_weight;
+    if (((TObjCollidable *)attacker)->test_actor_flags(0x10000000) != 0) {
+        v = slot->bonus_weight;
     }
     return k * v;
 }
-#undef arg0
 
 }

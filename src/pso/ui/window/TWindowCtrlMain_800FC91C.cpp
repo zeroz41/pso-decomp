@@ -64,7 +64,7 @@ void TWindowCtrlMain::advance_card_status(s32 local_client_id) {
     if (card_status_bits >= 5) {
         card_status_bits = 0;
     }
-    fn_800FCCC8(local_client_id, card_status_bits);
+    update_card_window_flags(local_client_id, card_status_bits);
 }
 s32 TWindowSubStatusDisp::build_status_text(s32 client_id) {
     s32 mode;
@@ -146,7 +146,7 @@ void TUnk_8049CA54::run_task() {
                 temp_r4 = *(s32 *)&this->player_id;
                 set_color(get_status_index_or_default__20TWindowSubStatusDispFPUs((s8 *)lobby_player_status_records + (temp_r4 * 0x11C) + 4, temp_r4));
             } else {
-                set_color(fn_800FCCF4((void *)player));
+                set_color(get_player_status_color((void *)player));
             }
         }
     }

@@ -31,38 +31,38 @@ void TNowLoading::render() {  }
 #pragma push
 #pragma fp_contract on
 void TNowLoading::run_task() {
-    Vec pos;
+    Vec marker_position;
     if (camera_ctrl_instance == NULL) {
-        this->position.x = (65.0f * ninja_camera.vx) + ninja_camera.px;
-        this->position.y = (65.0f * ninja_camera.vy) + ninja_camera.py;
-        this->position.z = (65.0f * ninja_camera.vz) + ninja_camera.pz;
-        if (this->particles[0] != NULL) {
-            this->particles[0]->set_position(&this->position);
+        this->m_position.x = (65.0f * ninja_camera.vx) + ninja_camera.px;
+        this->m_position.y = (65.0f * ninja_camera.vy) + ninja_camera.py;
+        this->m_position.z = (65.0f * ninja_camera.vz) + ninja_camera.pz;
+        if (this->m_particles[0] != NULL) {
+            this->m_particles[0]->set_position(&this->m_position);
         }
-        if (this->particles[1] != NULL) {
-            this->particles[1]->set_position(&this->position);
+        if (this->m_particles[1] != NULL) {
+            this->m_particles[1]->set_position(&this->m_position);
         }
-        if (this->particles[2] != NULL) {
-            this->particles[2]->set_position(&this->position);
+        if (this->m_particles[2] != NULL) {
+            this->m_particles[2]->set_position(&this->m_position);
         }
-        if (this->particles[3] != NULL) {
-            this->particles[3]->set_position(&this->position);
+        if (this->m_particles[3] != NULL) {
+            this->m_particles[3]->set_position(&this->m_position);
         }
     } else {
-        pos.x = (65.0f * ninja_camera.vx) + ninja_camera.px;
-        pos.y = (65.0f * ninja_camera.vy) + ninja_camera.py;
-        pos.z = (65.0f * ninja_camera.vz) + ninja_camera.pz;
-        if (this->particles[0] != NULL) {
-            this->particles[0]->set_position(&pos);
+        marker_position.x = (65.0f * ninja_camera.vx) + ninja_camera.px;
+        marker_position.y = (65.0f * ninja_camera.vy) + ninja_camera.py;
+        marker_position.z = (65.0f * ninja_camera.vz) + ninja_camera.pz;
+        if (this->m_particles[0] != NULL) {
+            this->m_particles[0]->set_position(&marker_position);
         }
-        if (this->particles[1] != NULL) {
-            this->particles[1]->set_position(&pos);
+        if (this->m_particles[1] != NULL) {
+            this->m_particles[1]->set_position(&marker_position);
         }
-        if (this->particles[2] != NULL) {
-            this->particles[2]->set_position(&pos);
+        if (this->m_particles[2] != NULL) {
+            this->m_particles[2]->set_position(&marker_position);
         }
-        if (this->particles[3] != NULL) {
-            this->particles[3]->set_position(&pos);
+        if (this->m_particles[3] != NULL) {
+            this->m_particles[3]->set_position(&marker_position);
         }
     }
 }
@@ -70,20 +70,20 @@ void TNowLoading::run_task() {
 
 }
 TNowLoading::~TNowLoading() {
-    if (this->particles[0] != NULL) { this->particles[0]->queue_destruction(); this->particles[0] = NULL; }
-    if (this->particles[1] != NULL) { this->particles[1]->queue_destruction(); this->particles[1] = NULL; }
-    if (this->particles[2] != NULL) { this->particles[2]->queue_destruction(); this->particles[2] = NULL; }
-    if (this->particles[3] != NULL) { this->particles[3]->queue_destruction(); this->particles[3] = NULL; }
+    if (this->m_particles[0] != NULL) { this->m_particles[0]->queue_destruction(); this->m_particles[0] = NULL; }
+    if (this->m_particles[1] != NULL) { this->m_particles[1]->queue_destruction(); this->m_particles[1] = NULL; }
+    if (this->m_particles[2] != NULL) { this->m_particles[2]->queue_destruction(); this->m_particles[2] = NULL; }
+    if (this->m_particles[3] != NULL) { this->m_particles[3]->queue_destruction(); this->m_particles[3] = NULL; }
 }
 
 
 #pragma push
 #pragma fp_contract on
-TNowLoading::TNowLoading(TObject *parent, Vec *arg2) : TObject(parent) {
+TNowLoading::TNowLoading(TObject *parent, Vec *pos) : TObject(parent) {
     Vec dir;
     s32 out[3];
-    m_name = TNowLoading__class_name;
-    VecCopy(&this->position, (const Vec *)arg2);
+    this->m_name = TNowLoading__class_name;
+    VecCopy(&this->m_position, pos);
     out[0] = 0;
     out[1] = 0;
     out[2] = 0;
@@ -91,15 +91,15 @@ TNowLoading::TNowLoading(TObject *parent, Vec *arg2) : TObject(parent) {
     dir.y = -ninja_camera.vy;
     dir.z = -ninja_camera.vz;
     direction_to_rotation_xz((u8 *)&dir, &out[0], &out[2]);
-    this->position.x = 65.0f * ninja_camera.vx + ninja_camera.px;
-    this->position.y = 65.0f * ninja_camera.vy + ninja_camera.py;
-    this->position.z = 65.0f * ninja_camera.vz + ninja_camera.pz;
-    this->particles[0] = NULL;
-    this->particles[1] = NULL;
-    this->particles[2] = NULL;
-    this->particles[3] = NULL;
-    new TAdLoadNetworkGC(this, &this->position);
-    new TLoadingCur(this, &this->position);
+    this->m_position.x = 65.0f * ninja_camera.vx + ninja_camera.px;
+    this->m_position.y = 65.0f * ninja_camera.vy + ninja_camera.py;
+    this->m_position.z = 65.0f * ninja_camera.vz + ninja_camera.pz;
+    this->m_particles[0] = NULL;
+    this->m_particles[1] = NULL;
+    this->m_particles[2] = NULL;
+    this->m_particles[3] = NULL;
+    new TAdLoadNetworkGC(this, &this->m_position);
+    new TLoadingCur(this, &this->m_position);
 }
 #pragma pop
 

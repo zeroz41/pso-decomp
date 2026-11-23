@@ -8,23 +8,23 @@ extern "C" {
 s32 TWindowActionPalette__sub_801C1C68(s32, s32);
 
 s32 TMainCursor::find_action_slot(s32 arg0, void *arg1, s16 type, s32 enabled, s32 arg4) {
+    saddr first_tag;
+    s32 slot;
     saddr tag;
-    s32 var_r30;
-    saddr var_r29;
-    u32 temp_r3;
+    u32 bank_base;
 
     if (arg1 != NULL) {
-        temp_r3 = *(u32 *)((s8 *)arg1 + 0x424);
-        if (temp_r3 != 0U) {
-            tag = temp_r3 + 0x520;
-            if (TObjPlayer__sub_801D84F0((void *)tag) != 0) {
-                if (get_action_palette_tag_mode(reinterpret_cast<const ActionPaletteTag *>(tag)) == 1) {
-                    if (type == (s32) get_action_palette_tag_mode(reinterpret_cast<const ActionPaletteTag *>(tag))) {
+        bank_base = *(u32 *)((s8 *)arg1 + 0x424);
+        if (bank_base != 0U) {
+            first_tag = bank_base + 0x520;
+            if (TObjPlayer__sub_801D84F0((void *)first_tag) != 0) {
+                if (get_action_palette_tag_mode(reinterpret_cast<const ActionPaletteTag *>(first_tag)) == 1) {
+                    if (type == (s32) get_action_palette_tag_mode(reinterpret_cast<const ActionPaletteTag *>(first_tag))) {
                         return 0;
                     }
                     goto block_8;
                 }
-                if (matches_type_and_enabled(reinterpret_cast<const ActionPaletteTag *>(tag), (u8) type, (u8) enabled) != 0) {
+                if (matches_type_and_enabled(reinterpret_cast<const ActionPaletteTag *>(first_tag), (u8) type, (u8) enabled) != 0) {
                     return 0;
                 }
                 goto block_8;
@@ -32,22 +32,22 @@ s32 TMainCursor::find_action_slot(s32 arg0, void *arg1, s16 type, s32 enabled, s
         }
     }
 block_8:
-    var_r29 = TWindowActionPalette__sub_801C1C68(arg0, arg4);
-    var_r30 = 0;
+    tag = TWindowActionPalette__sub_801C1C68(arg0, arg4);
+    slot = 0;
 loop_9:
-    if (get_action_palette_tag_mode(reinterpret_cast<const ActionPaletteTag *>(var_r29)) == 1) {
-        if (type == (s32) get_action_palette_tag_mode(reinterpret_cast<const ActionPaletteTag *>(var_r29))) {
-            return var_r30;
+    if (get_action_palette_tag_mode(reinterpret_cast<const ActionPaletteTag *>(tag)) == 1) {
+        if (type == (s32) get_action_palette_tag_mode(reinterpret_cast<const ActionPaletteTag *>(tag))) {
+            return slot;
         }
         goto block_14;
     }
-    if (matches_type_and_enabled(reinterpret_cast<const ActionPaletteTag *>(var_r29), (u8) type, (u8) enabled) != 0) {
-        return var_r30;
+    if (matches_type_and_enabled(reinterpret_cast<const ActionPaletteTag *>(tag), (u8) type, (u8) enabled) != 0) {
+        return slot;
     }
 block_14:
-    var_r30 += 1;
-    var_r29 += 4;
-    if (var_r30 >= 4) {
+    slot += 1;
+    tag += 4;
+    if (slot >= 4) {
         return -1;
     }
     goto loop_9;

@@ -26,24 +26,31 @@
 #include "pso/ui/frontend/TAdRicoRing_8001BEE8.h"
 #include "pso/system/task/TMainTask.h"
 
-struct Ent_8012C384 { u8 pad[0x1c]; u8 position[0x10]; };
+struct TargetEntityPosition {
+    u8 pad[0x1c];
+    u8 position[0x10];
+};
 
-struct Mylla_8012C384 { u8 pad[0xa4]; Ent_8012C384 *ents; s32 count; };
+struct TargetEntityManager {
+    u8 pad[0xa4];
+    TargetEntityPosition *ents;
+    s32 count;
+};
 
 extern "C" {
-Mylla_8012C384 *find_entity_by_id(u32);
+TargetEntityManager *find_entity_by_id(u32);
 }
 
-void rocket_punch_target_impact(void *self, u32 a, u32 b, s32 idx) {
-    Mylla_8012C384 *m;
-    rocket_punch_return_timer(a);
-    m = find_entity_by_id(b);
-    if (m && m->ents && idx < m->count) {
-        spawn_particle_effect((const Vec *)m->ents[idx].position, 0x45);
+void rocket_punch_target_impact(void *self, u32 weapon, u32 target, s32 extra) {
+    TargetEntityManager *m;
+    rocket_punch_return_timer(weapon);
+    m = find_entity_by_id(target);
+    if (m && m->ents && extra < m->count) {
+        spawn_particle_effect((const Vec *)m->ents[extra].position, 0x45);
     }
 }
 
-void rocket_punch_wall_impact(u32 arg0, u32 weapon, u32 arg2, uaddr pos) {
+void rocket_punch_wall_impact(u32 layer, u32 weapon, u32 target, uaddr pos) {
     if ((weapon != 0U) && (pos != 0U)) {
         rocket_punch_return_timer(weapon);
         spawn_particle_effect((const Vec *)pos, 0x45);
@@ -53,11 +60,11 @@ void rocket_punch_wall_impact(u32 arg0, u32 weapon, u32 arg2, uaddr pos) {
 extern "C" s32 post_translate_matrix(void *);
 
 void TUnk_804A5340::render() {
-    u8 *arg0 = (u8 *)this;
+    u8 *self = (u8 *)this;
     if ((TItemShootModel::is_owner_alive() != 0) && ((uaddr) this->model != 0U) && ((uaddr) this->texture_list != 0U)) {
         push_matrix();
         set_texlist(this->texture_list);
-        post_translate_matrix(arg0 + 0x1C);
+        post_translate_matrix(self + 0x1C);
         rotate_matrix_y(0, this->m_count);
         rotate_matrix_x(0, this->m_28 - 0x4000);
         draw_ginja_object(this->model);
@@ -89,17 +96,17 @@ uaddr rocket_punch_create_shot(saddr owner, saddr pos, saddr dir, f32 life) {
 }
 
 void TUnk_804A535C::emit_marker_effects() {
-    saddr counter;
-    s32 i;
+    saddr burst_counter;
+    s32 burst_count;
     TObjPlayer *player = owner;
     if (player == NULL) return;
-    counter = (saddr)player + 0x7CC;
-    if (get_burst_counter((void *)counter) == 0) {
-        i = 0;
+    burst_counter = (saddr)player + 0x7CC;
+    if (get_burst_counter((void *)burst_counter) == 0) {
+        burst_count = 0;
         do {
-            increment_burst_counter((u8 *)counter);
-            i += 1;
-        } while (i != 2);
+            increment_burst_counter((u8 *)burst_counter);
+            burst_count += 1;
+        } while (burst_count != 2);
         punch_flags.set(2);
         TItemAttacker::spawn_item_timer(this, (ItemTimerCallback)rocket_punch_return_timer, 0x3C);
         punch_flags.set(4);
@@ -132,7 +139,7 @@ void TUnk_804A535C::vfunc_60() {
 }
 
 void TUnk_804A535C::reserved_53() {
-    NJS_OBJECT *model = item_model;
+    NJS_OBJECT *saved_model = item_model;
     punch_flags.set(1);
     draw_weapon_model();
     get_joint_position(1, &shot_origins[0]);
@@ -140,7 +147,7 @@ void TUnk_804A535C::reserved_53() {
     punch_flags.clear(1);
     draw_weapon_at_joint((saddr)this, 0x23);
     get_joint_position(1, &shot_origins[1]);
-    item_model = model;
+    item_model = saved_model;
 }
 
 TUnk_804A535C::~TUnk_804A535C() {

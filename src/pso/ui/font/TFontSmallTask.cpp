@@ -19,19 +19,33 @@
 #include "pso/ui/window/TWindowSubStatusDisp_80228F5C.h"
 #include "pso/unk/TLobby_800F8AA8.h"
 #include "pso/object/base/TObjBase.h"
-const char *TFontSmallTask__name = "TFontSmallTask";
+#include "pso/system/MatrixOps.h"
+#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixVector.h"
+#include "pso/unk/text_803D853C.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
+#include "pso/ui/window/TWindowSubStatusDisp_800FBD74.h"
+const char *font_small_task_class_name = "TFontSmallTask";
 
 static const Vec font_small_forward_vec = {0.0f, 0.0f, -1.0f};
+
 extern "C" {
-void fn_800FCCC8(saddr client_id, s32 card_status_bits) {
+void update_card_window_flags(saddr client_id, s32 card_status_bits) {
     TWindowKeyBoardHard::set_card_window_flags((void *)client_id, (s32)(card_status_bits << 0xD), (s32)0xFFFF1FFF);
 }
-s32 fn_800FCCF4(void* p) { return *(s32*)((char*)p + 0x874); }
+s32 get_player_status_color(void *player) { return *(s32 *)((char *)player + 0x874); }
 }
-void text_builder_reset(void);
 
+// The screen-space corner/UV box build_small_font_glyph_quad fills for one glyph.
+struct GlyphQuad { f32 x, y, right, bottom, u, v, u2, v2; };
 
-f32 TFontSmallTask::calc_small_font_scale() {
+extern "C" {
+void build_small_font_glyph_quad(u8 c, GlyphQuad *q);
+s32 is_split_screen(void);
+}
+
+f32 TFontSmallTask::calc_font_scale() {
     f32 view_scale;
     view_scale = TCameraCtrl::get_view_scale();
     if (view_scale >= 1.0) {
@@ -40,31 +54,13 @@ f32 TFontSmallTask::calc_small_font_scale() {
     return 1.0f / view_scale;
 }
 
-struct Quad_800FCD40 { f32 x, y, right, bottom, u, v, u2, v2; };
-extern "C" {
-
-void rotate_matrix_y(int, s32);
-void rotate_matrix_x(int, s32);
-void rotate_matrix_z(int, s32);
-void rotate_vector_by_matrix(int, Vec *, Vec *);
-f32 vec3_dot(Vec *, Vec *);
-void project_world_to_screen(int, f32 *, f32 *);
-s32 is_split_screen(void);
-void begin_screen_draw(int);
-void set_draw_texture_and_color(int, u32);
-void build_small_font_glyph_quad(u8, Quad_800FCD40 *);
-void draw_textured_quad_at_depth(Quad_800FCD40 *, f32);
-u8 get_small_font_glyph_width(u8);
-}
-extern u8 identity_matrix[];
-
 #pragma push
 #pragma fp_contract on
 void TFontSmallTask::render() {
     Vec forward = font_small_forward_vec;
     Vec diff;
     f32 screen[2];
-    Quad_800FCD40 q;
+    GlyphQuad q;
     f32 depth;
     f32 y;
     f32 x;
@@ -103,7 +99,7 @@ void TFontSmallTask::render() {
         return;
     }
     push_matrix();
-    project_world_to_screen(0, &position.x, screen);
+    project_world_to_screen(0, &position, screen);
     pop_matrix();
     if (is_split_screen() != 0) {
         screen[0] -= (f32)TCameraCtrl::get_viewport_x();
@@ -125,7 +121,7 @@ void TFontSmallTask::render() {
     } else {
         fade = 1.0f;
     }
-    scale = calc_small_font_scale();
+    scale = calc_font_scale();
     begin_screen_draw(1);
     TWindowSubStatusDisp::render_forward();
     while (*cursor != 0) {
@@ -147,7 +143,7 @@ void TFontSmallTask::render() {
         build_small_font_glyph_quad(c, &q);
         q.right = scale * (q.right - x) + x;
         q.bottom = scale * (q.bottom - y) + y;
-        draw_textured_quad_at_depth(&q, depth);
+        draw_textured_quad_at_depth((f32 *)&q, depth);
         adv = (f32)(u8)get_small_font_glyph_width(c);
         x = adv * scale + x;
         reveal = reveal - 5.5f * (adv / text_width);
@@ -174,28 +170,28 @@ void TFontSmallTask::run_task() {
     }
 }
 
-s32 create_font_small_task(Vec *pos, s32 color, s32 life, s32 delay, s32 *str, s32 arg5, u16 view) {
+s32 create_font_small_task(Vec *pos, s32 color, s32 life, s32 delay, s32 *str, s32 value, u16 view) {
     text_builder_reset();
     text_builder_append((u8 *)str);
-    if (arg5 >= 0) {
+    if (value >= 0) {
         text_builder_append((u8 *)"+");
     }
-    text_builder_append_int(arg5);
+    text_builder_append_int(value);
     return (saddr)new TFontSmallTask(pos, color, life, delay, (const char *)get_shared_text_buffer(), view);
 }
 
-s32 create_font_small_task_default_color(Vec *pos, s32 color, s32 life, s32 delay, s32 *str, s32 arg5) {
+s32 create_font_small_task_default_color(Vec *pos, s32 color, s32 life, s32 delay, s32 *str, s32 value) {
     text_builder_reset();
     text_builder_append((u8 *)str);
-    if (arg5 >= 0) {
+    if (value >= 0) {
         text_builder_append((u8 *)"+");
     }
-    text_builder_append_int(arg5);
+    text_builder_append_int(value);
     return (saddr)new TFontSmallTask(pos, color, life, delay, (const char *)get_shared_text_buffer(), 0xFFFF);
 }
 
-void TBoss3Volopt__sub_800FD344(s32 pos, s32 color, s32 life, void *str, void *arg4) {
-    create_font_small_task((Vec *)(saddr)pos, (s32)color, (s32)life, 0, (s32 *)str, (saddr)arg4, 0xFFFF);
+void create_boss_health_font(s32 pos, s32 color, s32 life, void *label, void *value) {
+    create_font_small_task((Vec *)(saddr)pos, (s32)color, (s32)life, 0, (s32 *)label, (saddr)value, 0xFFFF);
 }
 
 s32 TObjEneEpsilonGuard::create_damage_font(s32 pos, s32 color, s32 life, s32 damage) {
@@ -212,23 +208,23 @@ saddr TOCtrlDubchik::create_font(saddr pos, s32 color, s32 life, const char *tex
 
 TFontSmallTask::~TFontSmallTask() {}
 
-struct Ent_800FD6A0 { u32 id; void (*fn)(void); };
+// One .ctors reverse-walk entry: a labelled function the lobby area tear-down calls.
+struct LobbyFrameEntry { u32 id; void (*fn)(void); };
 
-struct Ent_800FD6F8 { void (*fn)(void); u32 id; };
+// One forward-walk load callback entry: a function and its threshold id.
+struct LoadFrameEntry { void (*fn)(void); u32 id; };
 
 LeaderSelection leader_selection;
 extern "C" {
-void call_funcs_reverse__6TLobbyFPvUi(Ent_800FD6A0 *arr, u32 size);
-s32 run_load_callback_table(Ent_800FD6F8 *p, u32 size);
+s32 run_load_callback_table(LoadFrameEntry *p, u32 size);
 }
-u32 calc_small_font_text_width(const char *s);
 
 #pragma push
 #pragma fp_contract on
 
-TFontSmallTask::TFontSmallTask(Vec *pos, u32 color, s32 life, s32 delay, const char *text, u16 view)
+TFontSmallTask::TFontSmallTask(Vec *pos, u32 color, s32 life, s32 delay, const char *str, u16 view)
     : TObject((TObject *)TWindowCtrlMain::get_instance()) {
-    m_name = TFontSmallTask__name;
+    m_name = font_small_task_class_name;
     VecCopy(&position, pos);
     offset_x = 0.0f;
     offset_y = 0.0f;
@@ -242,10 +238,10 @@ TFontSmallTask::TFontSmallTask(Vec *pos, u32 color, s32 life, s32 delay, const c
         this->view = 0xFFFF;
     }
     disallow_rendering();
-    strncpy(this->text, text, 0xF);
-    this->text[0xF] = 0;
-    text_width = calc_small_font_text_width(this->text);
-    offset_x -= 0.5f * text_width * calc_small_font_scale();
+    strncpy(text, str, 0xF);
+    text[0xF] = 0;
+    text_width = calc_small_font_text_width(text);
+    offset_x -= 0.5f * text_width * calc_font_scale();
 }
 #pragma pop
 
@@ -270,9 +266,9 @@ void LeaderSelection::find_leader_section_id(s32 client_id) {
     }
 }
 
-void call_funcs_reverse__6TLobbyFPvUi(Ent_800FD6A0 *arr, u32 size) {
-    s32 n = size / sizeof(Ent_800FD6A0);
-    Ent_800FD6A0 *p = arr + n;
+void TLobby::call_funcs_reverse(void *table, unsigned int size) {
+    s32 n = size / sizeof(LobbyFrameEntry);
+    LobbyFrameEntry *p = (LobbyFrameEntry *)table + n;
     while (n > 0) {
         p--;
         if (p->fn != NULL) {
@@ -282,8 +278,8 @@ void call_funcs_reverse__6TLobbyFPvUi(Ent_800FD6A0 *arr, u32 size) {
     }
 }
 
-s32 run_load_callback_table(Ent_800FD6F8 *p, u32 size) {
-    s32 n = size / sizeof(Ent_800FD6F8);
+s32 run_load_callback_table(LoadFrameEntry *p, u32 size) {
+    s32 n = size / sizeof(LoadFrameEntry);
     while (n > 0) {
         if (is_area_transfer_pending() != 0) {
             return 0;
@@ -296,4 +292,3 @@ s32 run_load_callback_table(Ent_800FD6F8 *p, u32 size) {
     }
     return 1;
 }
-

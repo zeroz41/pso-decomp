@@ -11,7 +11,7 @@ typedef void (*ItemTimerCallback)(TObject *object);
 // The hit a delayed weapon attack carries to its target (launch_shot,
 // launch_rare_weapon_special, TUnk_804A2260::sub_80124C90).
 struct Unk_8010340C {
-    void copy_from(Unk_8010340C *src);
+    void copy_from(Unk_8010340C *source_record);
     s32 reserved;   // always 0
     s32 kind;       // TItemWeapon::deliver_hit's attack_kind
     s32 weapon;     // item id of the weapon
@@ -23,7 +23,7 @@ struct Unk_8010340C {
 
 class TItemAttacker : public TObject {
 public:
-    TItemAttacker(TObject *parent, const Vec *origin, s32 frames, Unk_8010340C *hit);
+    TItemAttacker(TObject *parent, const Vec *position, s32 frames, Unk_8010340C *attack_record);
     virtual ~TItemAttacker();
     virtual void run_task();
 public:
@@ -40,10 +40,10 @@ public:
 LAYOUT_ASSERT(TItemAttacker_size, sizeof(TItemAttacker) == 0x50);
 
 extern "C" {
-void TItemAttacker__sub_8010349C(TObject *object);
+void TItemAttacker__sub_8010349C(TObject *attacker);
 void TItemBuff__ct(void);
 }
-void spawn_item_attacker(TObject *parent, const Vec *origin, s32 frames, Unk_8010340C *hit);
+void spawn_item_attacker(TObject *parent, const Vec *position, s32 frames, Unk_8010340C *attack_record);
 s32 create_item_buff(s32 size);
 saddr get_item_chunk_buffer(int a0);
 

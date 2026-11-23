@@ -61,12 +61,12 @@ s32 is_item_area_enabled();
 
 
 void TUnk_804A204C::emit_marker_effects() {
-    s32 pos;
-    void *source;
+    s32 joint_position;
+    void *owner;
     if (is_mode_two_and_ready() != 0) {
-        if (get_joint_position(5, &pos) != 0) {
-            source = this->owner;
-            TTecMegid::create_ex((saddr)source, (saddr)(&pos), (s32)(*(s32 *)((s8 *)source + 0x60)), (s32)(((TItemWeapon *)this)->get_tp()));
+        if (get_joint_position(5, &joint_position) != 0) {
+            owner = this->owner;
+            TTecMegid::create_ex((saddr)owner, (saddr)(&joint_position), (s32)(*(s32 *)((s8 *)owner + 0x60)), (s32)(((TItemWeapon *)this)->get_tp()));
             this->roll_technique();
         }
     } else {
@@ -122,28 +122,28 @@ void TUnk_804A204C::vfunc_60() {
 }
 
 void TUnk_804A204C::reserved_53() {
-    s32 sp8;
-    NJS_OBJECT *mount;
-    NJS_OBJECT *head;
+    s32 joint_position;
+    NJS_OBJECT *model_link;
+    NJS_OBJECT *effect_model;
     if (item_model != NULL && is_hidden() == 0) {
-        mount = item_model->child->sibling;
-        head = mount->sibling;
-        head->evalflags |= 0x18;
-        draw_weapon_at_joint(this, 0x30, mount);
-        head->evalflags &= ~0x18;
-        if (get_joint_position(5, &sp8) != 0) {
+        model_link = item_model->child->sibling;
+        effect_model = model_link->sibling;
+        effect_model->evalflags |= 0x18;
+        draw_weapon_at_joint(this, 0x30, model_link);
+        effect_model->evalflags &= ~0x18;
+        if (get_joint_position(5, &joint_position) != 0) {
             push_matrix();
             TObjPlayer::sub_80364198();
             model_render_flags &= 0xFFFFFFEF;
             TObjPlayer::set_model_fade_alpha((f32)this->get_owner_alpha());
-            post_translate_matrix(&sp8);
+            post_translate_matrix(&joint_position);
             rotate_matrix_y(0, (int)(*(s32 *)((s8 *)this->owner + 0x60)));
-            head->evalflags |= 0x11;
-            draw_ginja_object(head);
+            effect_model->evalflags |= 0x11;
+            draw_ginja_object(effect_model);
             TParticleCtrl::begin_effect_render();
-            draw_ginja_object(head->child);
+            draw_ginja_object(effect_model->child);
             TParticleCtrl::end_effect_render();
-            head->evalflags &= ~0x11;
+            effect_model->evalflags &= ~0x11;
             TObjPlayer::warn_if_gauge_low();
             pop_matrix();
             pop_matrix();

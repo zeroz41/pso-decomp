@@ -13,12 +13,17 @@ class TAdGuideTxtGC;
 class TAdGameStartGC;
 struct TAdChrSelPlyPlateGC;
 struct TAdChrMoveEffectGC;
+class TAdFadeGC;
 
 class TAdChrSelPlayerGC;
 struct TWindowMenu;
 struct TWindowMessageYesNo;
 
 struct TAdMultiPlyChrSelectGC : public TObject {
+    struct SlotGridPosition {
+        s32 card_slot;
+        s32 cursor_column;
+    };
     TAdMultiPlyChrSelectGC(TObject *, s32);
     virtual ~TAdMultiPlyChrSelectGC();
     static TAdChrSelPlayerGC *get_or_create_player(TObject *parent, s32 mode, s32 index, s32 slot);
@@ -33,8 +38,8 @@ struct TAdMultiPlyChrSelectGC : public TObject {
     s32 last_card_slot; // 0x30  player_plate's active card slot when last checked
     s32 last_cursor;    // 0x34  player_plate's cursor when last checked
     s32 swap_slot;      // 0x38  slot passed to swap_characters (swap_search + 4)
-    s32 can_start;      // 0x3C  run_task: port 0 connected and at least two players ready
-    s32 show_flag_notice; // 0x40  the slot under the cursor has data flag 1 set (guide lines 0xD/0xE)
+    s32 controllers_ready; // 0x3C  run_task: port 0 connected and at least two players ready
+    s32 show_flag_notice;  // 0x40  the slot under the cursor has data flag 1 set (guide lines 0xD/0xE)
     s32 guide_state;    // 0x44  which guide line is shown (0, 1, 2 = ready)
     s32 mode;           // 0x48  constructor mode; switch in handle_event and sub_802DCD14
     s32 cursor;         // 0x4C  get_clamped_cursor() of this frame
@@ -44,11 +49,11 @@ struct TAdMultiPlyChrSelectGC : public TObject {
     TAdChrSelPlyPlateGC *player_plate;
     TAdChrSelPlayerGC *player_preview;
     TAdGuideTxtGC *guide;
-    void handle_event(s32 arg1);
-    void initialize_selection_state(s32 arg1);
+    void handle_event(s32 select_flag);
+    void initialize_selection_state(s32 mode);
     static TAdChrSelPlyPlateGC *get_card_instance();
     static void reset_slot_selection_table();
-    static void split_slot_index(s32 slot, s32 *arg1, s32 *arg2);
+    static void split_slot_index(s32 slot_index, s32 *out_cursor_column, s32 *out_card_slot);
     static void init();
     static s32 get_status();
     static s32 is_selection_confirmed();
@@ -121,17 +126,17 @@ struct TAdMultiPlyChrSelectGC : public TObject {
     TAdChrSelASlotGC *a_slot;        // 0x68  get_or_create_slot_window
     TAdChrSelBSlotGC *b_slot;        // 0x6C  TAdChrSelBSlotGC::create
     TAdSelectCurGC *select_cursor;   // 0x70
-    TAdFadeGC *fade;
+    TAdFadeGC *fade_task;
     TAdGameStartGC *game_start;
-    TWindowMenu *choice_menu;              // 0x7C  create_choice_menu (4 entries)
-    TWindowMenu *moving_notice;            // 0x80  sub_802DBEC4, shown while a character moves
-    TWindowMenu *full_notice;              // 0x84  sub_802DBE4C, shown when no free slot was found
-    TWindowMessageYesNo *confirm_window;   // 0x88  create_confirm_window
-    TWindowMessageYesNo *transfer_prompt;  // 0x8C  a_slot->open_yes_no_window for a transferred character
-    TWindowMessageYesNo *create_prompt;    // 0x90  a_slot->open_create_character_prompt
-    TWindowMessageYesNo *yes_no_dialog;    // 0x94  sub_802DBD64, swap search prompt
-    TWindowMessageYesNo *delete_prompt;    // 0x98  sub_802DBCE8, choice menu entry 2
-    s32 resumed;                           // 0x9C  set by handle_event when returning to the scene
+    TWindowMenu *choice_menu;                      // 0x7C  create_choice_menu (4 entries)
+    TWindowMenu *moving_notice;                    // 0x80  sub_802DBEC4, shown while a character moves
+    TWindowMenu *full_notice;                      // 0x84  sub_802DBE4C, shown when no free slot was found
+    TWindowMessageYesNo *confirm_window;           // 0x88  create_confirm_window
+    TWindowMessageYesNo *yes_no_prompt;            // 0x8C  a_slot->open_yes_no_window for a transferred character
+    TWindowMessageYesNo *create_character_prompt;  // 0x90  a_slot->open_create_character_prompt
+    TWindowMessageYesNo *yes_no_dialog;            // 0x94  sub_802DBD64, swap search prompt
+    TWindowMessageYesNo *delete_prompt;            // 0x98  sub_802DBCE8, choice menu entry 2
+    s32 resumed;                                   // 0x9C  set by handle_event when returning to the scene
     static s32 dispatch_draw_command(saddr input, s32 buttons, s32 delay, s32 period);
     void open_windows();
     void init_windows();

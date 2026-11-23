@@ -68,7 +68,7 @@ struct PhotonBlastGauge {
     void update_if_ready();
     void reset_photon_blast_gauge();
     void reset_state();
-    static int is_valid_index(s16 blast);
+    static int is_valid_index(s16 index);
     void set_bit1_at_40();
     void update_ready();
     void check_flag_at_40();
@@ -76,7 +76,7 @@ struct PhotonBlastGauge {
     void update_field_40();
     void fn_801D677C();
     u16 get_type();
-    s32 fn_801D67AC();
+    s32 is_photon_blast_charge_full();
     void fn_801D67C8();
     void clear_photon_blast_state();
     void trigger_photon_blast();

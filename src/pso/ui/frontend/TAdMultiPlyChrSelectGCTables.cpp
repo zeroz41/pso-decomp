@@ -23,13 +23,13 @@ __declspec(section ".rodata") extern const u32 multi_chr_select_item_rect_table[
     0x43D90000, 0x43860000, 0x43D90000, 0x439B8000,
 };
 
-__declspec(section ".rodata") extern const u32 lbl_80472808[2] = {
+__declspec(section ".rodata") extern const u32 multi_chr_select_cursor_size[2] = {
     0x43340000, 0x42180000,
 };
 
 extern "C" __declspec(section ".rodata") const char TAdMultiPlyChrSelectGC__class_name_string[] = "TAdMultiPlyChrSelectGC";
 
-__declspec(section ".rodata") extern const u32 lbl_80472828[2] = {
+__declspec(section ".rodata") extern const u32 multi_chr_select_cursor_position[2] = {
     0x00000000, 0x00000000,
 };
 
