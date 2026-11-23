@@ -680,11 +680,10 @@ s32 TLobby::calc_alpha_shifted(f32 alpha) {
     return __cvt_fp2unsigned(255.0f * alpha) << 0x18;
 }
 
-extern s32 TLobby__data_8050AAAC[];
 
 void TLobby::close_result_windows() {
     text_builder_reset();
-    text_builder_append((u8 *)TLobby__data_8050AAAC);
+    text_builder_append((u8 *)lobby_ship_name);
     text_builder_append((u8 *)":");
     append_padded_number(data_805D55AC, 2);
     text_builder_append((u8 *)"-");

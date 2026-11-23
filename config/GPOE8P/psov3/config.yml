@@ -610,7 +610,7 @@ force_active:
   - card_list_selected_index__6TLobby
   - card_list_window__6TLobby
   - current_dialog_window__6TLobby
-  - TLobby__data_8043EF38
+  - lobby_debug_delete_player_format
   - data_80506A6C__6TLobby
   - TLobby__data_80513D10
   - data_805D5588__6TLobby
@@ -629,7 +629,7 @@ force_active:
   - lobby_entered_flag__6TLobby
   - login_pending_flag__6TLobby
   - pending_member_count__6TLobby
-  - TLobby__player_names
+  - lobby_player_names
   - player_setup_pending__6TLobby
   - state_handler_pmf_table
   - TLobby__sub_8001D9E8

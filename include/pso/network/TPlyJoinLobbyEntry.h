@@ -57,4 +57,6 @@ extern "C" {
 void set_player_count__6TLobbyFi(int a0);
 }
 
+extern char lobby_ship_name[0x28];
+
 #endif

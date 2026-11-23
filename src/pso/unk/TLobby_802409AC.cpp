@@ -7,6 +7,7 @@
 #include "pso/audio/SoundRequestVoice.h"
 #include "pso/unk/GuildCardRecord.h"
 #include "pso/unk/TLobby.h"
+#include "pso/network/TPlyJoinLobbyEntry.h"
 #include "pso/unk/TLobby_8023F734.h"
 #include "pso/unk/TLobby_80242910.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
@@ -947,8 +948,6 @@ typedef struct Entry_80242380 {
 } Entry_80242380;
 
 extern "C" {
-struct RecoveredGlobal_TLobby__data_8050AAAC { s32 value; u8 remaining[0x24]; };
-extern RecoveredGlobal_TLobby__data_8050AAAC TLobby__data_8050AAAC;
 char *get_shared_text_buffer();
 void text_builder_append(char *);
 }
@@ -1085,9 +1084,9 @@ char *TLobby::build_text_from_comma_list() {
 
 void TLobby__sub_8024259C(saddr arg0) {
     if (TLobby::protocol_instance != NULL) {
-        memset((char *)&TLobby__data_8050AAAC.value, 0, 0x11);
-        strncpy((char *)&TLobby__data_8050AAAC.value, (char *)(arg0 + 0x19), 0x10);
-        *(s8 *)((s8 *)&TLobby__data_8050AAAC.value + 0x10) = 0;
+        memset(lobby_ship_name, 0, 0x11);
+        strncpy(lobby_ship_name, (char *)(arg0 + 0x19), 0x10);
+        lobby_ship_name[0x10] = 0;
         TLobby::protocol_instance->seq_jump((u8 *)(arg0 + 0x4C), *(TPlyMeetUserExtension *)(arg0 + 0x58));
     }
 }

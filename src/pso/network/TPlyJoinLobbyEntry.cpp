@@ -175,7 +175,7 @@ struct Timer_80134F9C {
     u32 limit;
     u8 state;
 };
-typedef char Row_TLobby__data_8050AAE8[16];
+typedef char LobbyPlayerName[16];
 typedef struct { f32 x; f32 y; } Pair_80135E7C;
 struct Ent_80136E68 {
     u8 pad0[8];
@@ -308,7 +308,7 @@ void apply_lobby_markers__6TLobbyFv();
 void copy_player_records__6TLobbyFl();
 void init_once__6TLobbyFPv();
 void lobby_debug_printf_stub(const char *fmt, ...);
-extern const char TLobby__data_8043EF38[];
+extern const char lobby_debug_delete_player_format[];
 extern const char lobby_debug_burst_player_format[];
 extern const char lobby_debug_udp_close_player_format[];
 extern s32 designated_client_id;
@@ -489,9 +489,9 @@ u32 TLobby::join_entries_dtor_registration[3];
 u32 TLobby::data_80506A6C[3252];
 u32 lbl_80509D3C[8];
 u32 lobby_player_status_records[852];
-char TLobby__data_8050AAAC[0x28];
+char lobby_ship_name[0x28];
 u32 lbl_8050AAD4[5];
-Row_TLobby__data_8050AAE8 TLobby__player_names[12];
+LobbyPlayerName lobby_player_names[12];
 s32 game_join_pending_clients[4];
 Row_80135208 game_join_player_records[4];
 u32 lobby_join_message_buffer[64];
@@ -617,7 +617,7 @@ void handle_6x71_unblock_game_join(void) {
         ((TLobby *)(p + 0xDAC))->copy_header_struct(&TLobby::protocol_instance->m_guildcard_tag);
         ((VObj_18_9029aa *)p)->m6();
         {
-            saddr nm = (saddr)TLobby__player_names;
+            saddr nm = (saddr)lobby_player_names;
             strncpy((char *)(nm + local_client_id * 16), (const char *)((VObj_18_9029aa *)p)->m10(), 0x10);
         }
         lobby_debug_printf_stub(lobby_debug_make_player_format, local_client_id);
@@ -668,7 +668,7 @@ void handle_6x70_sync_player_disp_and_inventory(Pkt_801354AC *arg0) {
                 delete p;
             }
             plr = (Plr_801354AC *)create_remote_player_object(disp);
-            strncpy(TLobby__player_names[((TObjBase *)(plr))->get_entity_id()], plr->m10(), 0x10);
+            strncpy(lobby_player_names[((TObjBase *)(plr))->get_entity_id()], plr->m10(), 0x10);
             TLobby::open_udp_socket_for_player(disp->id);
             lobby_debug_printf_stub(lobby_debug_create_player_format, ((TObjBase *)(plr))->get_entity_id());
         }
@@ -2287,8 +2287,8 @@ void TLobby::open_ship_block_select_menu(int count, void *entries, void *selecte
         TLobby::set_menu_mode_0();
     }
     if (strncmp(entry->name, lobby_list_header_block, 5) != 0) {
-        memset(TLobby__data_8050AAAC, 0, 0x11);
-        strncpy(TLobby__data_8050AAAC, entry->name, 0x10);
+        memset(lobby_ship_name, 0, 0x11);
+        strncpy(lobby_ship_name, entry->name, 0x10);
     }
 }
 void TLobby::open_information_list(int count, void *entries) {
@@ -2376,7 +2376,7 @@ void TLobby::handle_game_join(void *data) {
         p = (Obj_80136C94 *)get_player_by_client_id(i);
         if (p != NULL) {
             delete p;
-            lobby_debug_printf_stub(TLobby__data_8043EF38, i);
+            lobby_debug_printf_stub(lobby_debug_delete_player_format, i);
         }
     }
     for (j = 0; j < 4; j++) {
@@ -2397,7 +2397,7 @@ void TLobby::make_players() {
         p = (Ply_80136A8C *)create_player_object(local_client_id, 0, (u8 *)TAdSinglePlyChrSelectGC::get_char_index(0xFFFF));
         ((TLobby *)((u8 *)p + 0xDAC))->copy_header_struct(&protocol_instance->m_guildcard_tag);
         p->m6();
-        strncpy(TLobby__player_names[local_client_id], p->m10(), 0x10);
+        strncpy(lobby_player_names[local_client_id], p->m10(), 0x10);
         lobby_debug_printf_stub(lobby_debug_make_player_format, local_client_id);
         protocol_instance->send_6F_burst_done();
         data_805D5594 = 0xF;
@@ -2418,7 +2418,7 @@ void TLobby::make_players() {
         p = (Ply_80136A8C *)create_player_object(local_client_id, 0, (u8 *)TAdSinglePlyChrSelectGC::get_char_index(0xFFFF));
         ((TLobby *)((u8 *)p + 0xDAC))->copy_header_struct(&protocol_instance->m_guildcard_tag);
         p->m6();
-        strncpy(TLobby__player_names[local_client_id], p->m10(), 0x10);
+        strncpy(lobby_player_names[local_client_id], p->m10(), 0x10);
         lobby_debug_printf_stub(lobby_debug_make_player_format, local_client_id);
         protocol_instance->send_6F_burst_done();
         data_805D5594 = 0xF;
@@ -2450,16 +2450,16 @@ void TLobby::handle_lobby_enter(TPlyJoinLobbyEntry *ents, int n, int client_id, 
         delete (Obj_801368B0 *)node;
     }
     for (j = 0; j < 12; j++) {
-        TLobby__player_names[j][0] = 0;
+        lobby_player_names[j][0] = 0;
     }
     for (i = 0; i < n; i++) {
-        strncpy(TLobby__player_names[ents[i].client_id], ents[i].name, 0x10);
+        strncpy(lobby_player_names[ents[i].client_id], ents[i].name, 0x10);
     }
     for (i = 0; i < 12; i++) {
         p = (Obj_801368B0 *)get_player_by_client_id(i);
         if (p != NULL) {
             delete p;
-            lobby_debug_printf_stub(TLobby__data_8043EF38, i);
+            lobby_debug_printf_stub(lobby_debug_delete_player_format, i);
         }
     }
     TLobby::add_lobby_members(ents, n, client_id, leader);
@@ -2506,7 +2506,7 @@ void construct_lobby_players(Rec_801378AC *records, s32 count, int self_id, s32 
         lobby_player_construction_window->queue_destruction();
         lobby_player_construction_window = NULL;
     }
-    sprintf((char *)lbl_80509D3C, lobby_list_block_range_format, TLobby__data_8050AAAC, TLobby::data_805D55AC, TLobby::lobby_number + 1);
+    sprintf((char *)lbl_80509D3C, lobby_list_block_range_format, lobby_ship_name, TLobby::data_805D55AC, TLobby::lobby_number + 1);
     room = TObject::operator new(sizeof(TWindowRoom));
     if (room != NULL) {
         room = __ct__11TWindowRoomFPc(room, (char *)lbl_80509D3C);
@@ -2564,7 +2564,7 @@ void TLobby::on_game_player_add(TPlyJoinLobbyEntry *entries, int leader_id, int 
             }
         }
         delete p;
-        lobby_debug_printf_stub(TLobby__data_8043EF38, e.client_id);
+        lobby_debug_printf_stub(lobby_debug_delete_player_format, e.client_id);
     }
     if (local_client_id == designated_client_id) {
         ((TLobby *)(e.client_id))->send_6x6D_item_state();
@@ -2617,7 +2617,7 @@ void TLobby::remove_player(unsigned int arg0, int arg1, int arg2) {
         }
         delete p;
     }
-    strncpy(TLobby__player_names[arg0], TLobby__data_805DB0B0, 0x10);
+    strncpy(lobby_player_names[arg0], TLobby__data_805DB0B0, 0x10);
     if (data_805D5594 == 0xE) {
         TLobby__data_805D5CE8 = 1;
     }
@@ -2645,9 +2645,9 @@ void TLobby::on_lobby_player_add(TPlyJoinLobbyEntry *entries, int leader_id) {
     p = (Obj_80136080 *)get_player_by_client_id(e.client_id);
     if (p != NULL) {
         delete p;
-        lobby_debug_printf_stub(TLobby__data_8043EF38, e.client_id);
+        lobby_debug_printf_stub(lobby_debug_delete_player_format, e.client_id);
     }
-    strncpy(TLobby__player_names[e.client_id], e.name, 0x10);
+    strncpy(lobby_player_names[e.client_id], e.name, 0x10);
     plr = create_player_object(e.client_id, 4, e.char_data);
     ((TLobby *)(plr + 0xDAC))->copy_header_struct(&e);
     ((Plr_80136080 *)plr)->m6();
@@ -2662,7 +2662,7 @@ void TLobby::retire_lobby_player(int idx, int v) {
         delete p;
         lobby_debug_printf_stub(lobby_debug_player_exit_format, idx);
     }
-    strncpy(TLobby__player_names[idx], TLobby__data_805DB0B0, 0x10);
+    strncpy(lobby_player_names[idx], TLobby__data_805DB0B0, 0x10);
 }
 
 void TLobby__sub_80135FFC(void) {  }
@@ -2824,7 +2824,7 @@ TLobby::TLobby(TObject *parent) : TObject(parent) {
     local_client_id = 0;
     designated_client_id = 0;
     memset(lbl_80509D3C, 0, 0x20);
-    memset(TLobby__player_names, 0, 0xC0);
+    memset(lobby_player_names, 0, 0xC0);
     memset(lobby_player_status_records, 0, 0xD50);
     protocol = new TProtocol(this, 0x36, current_language, TLobby::init_serial_access(), (char *)get_access_key_input_buffer(), (char *)TAdEnterPasswordGC__sub_8013ADE4());
     protocol_instance = protocol;
@@ -3180,7 +3180,7 @@ __declspec(section ".rodata") const char lobby_debug_rcv_enemy_condition_format[
 __declspec(section ".rodata") const char lobby_window_title_download[] = "Down Load";
 __declspec(section ".rodata") const char lobby_debug_player_exit_format[] = "player %d exit";
 __declspec(section ".rodata") const char lobby_debug_burst_overwrite_format[] = "OnBurstLobby over write player %d";
-__declspec(section ".rodata") const char TLobby__data_8043EF38[] = "delete player %d";
+__declspec(section ".rodata") const char lobby_debug_delete_player_format[] = "delete player %d";
 __declspec(section ".rodata") const char lobby_debug_udp_close_ip_format[] = "udp close %d.%d.%d.%d";
 __declspec(section ".rodata") const char lobby_debug_udp_close_player_format[] = "udp close %d %d.%d.%d.%d";
 __declspec(section ".rodata") const char lobby_debug_my_player_format[] = "My Player %d";
