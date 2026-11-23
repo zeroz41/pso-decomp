@@ -1878,7 +1878,7 @@ force_active:
   - TWindowTimer__sub_80199410
   - TWindowTimer__sub_8019A098
   - TWindowTimer__sub_8019A574
-  - TWindowTimer__sub_8019A6F8
+  - init__15G_GoGoBall_6x79Fv
   - TWindowTimer__sub_8019A770
   - TextEnglish
   - TextFrench
@@ -4672,7 +4672,7 @@ force_active:
   - bswap32_in_place__6TLobbyFPUl
   - bswap_6x12_packet__10TObjPlayerFv
   - bswap_6x6E_sync_game_state__6TLobbyFPv
-  - bswap_6x79_gogo_ball__12TWindowTimerFi
+  - bswap__15G_GoGoBall_6x79Fv
   - bswap_6xAD_subordinate_action__20TItemEffOrgaFlowShotFv
   - bswap__13TPlyStartGameFPv
   - bswap__17G_PickUpItem_6x59Fv
@@ -5395,7 +5395,7 @@ force_active:
   - copy_spawn_params__13TBoss5GryphonFP28G_GalGryphonBossActions_6xA0
   - copy_stat_block__17TWindowSetLevelUpFl
   - copy_state__20TBoss6MagMotionTrackFP20TBoss6MagMotionTrack
-  - copy_state__12TWindowTimerFPUc
+  - copy_state__14GoGoBallConfigFP14GoGoBallConfig
   - copy_state__16TKeyBoardControlFPvPv
   - copy_state_block__6TLobbyFv
   - copy_struct28__17TWindowSubComCardFii
@@ -15356,7 +15356,7 @@ force_active:
   - send_drop_stacked_item__FP9TItemDataUsPf
   - send_field_state__5TItemFsP10TObjPlayer
   - send_giveup_to_all_players__6TLobbyFv
-  - send_gogo_ball__12TWindowTimerFv
+  - send__15G_GoGoBall_6x79Fv
   - send_guild_card__17TWindowSubComCardFv
   - send_head__10TObjPlayerFv
   - send_login3__9TProtocolFv
