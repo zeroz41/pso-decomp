@@ -2,6 +2,7 @@
 
 #include "types.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/ui/window/TWindowMainMenu.h"
 #include "pso/ui/window/TWindowMainMenu_80263AB0.h"
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/window/TWindowBase.h"
@@ -70,47 +71,25 @@ u8 *calc_technique_parameters(u16, u8, s32);
 void text_builder_reset();
 s32 get_palette_consumable_count(u16, s32);
 
-struct Equip_80275CB0 {
-    u8 pad0[0x18];
-    s32 *vt;
-    s8 x1c;
-    u8 pad1d[3];
-    s32 x20;
-    void *parent;
-    void *custom;
-    s32 x2c;
-    void *list;
-    s16 x34;
-    s16 x36;
-};
-
 extern "C" {
-void __ct__7TObjectFP7TObject(void *, void *);
 void *get_window_layout_position(s32);
-extern s32 __vt__13TUnk_804D1160[];
 extern const f32 lbl_8044F718[2] = {190.0f, 168.0f};
-#define self ((Equip_80275CB0 *)arg0)
-void *TWindowSubEquip__sub_80275CB0(void *arg0, void *arg1, s32 arg2) {
-    void *p;
-    __ct__7TObjectFP7TObject(arg0, arg1);
-    self->vt = __vt__13TUnk_804D1160;
-    self->parent = arg1;
-    self->x20 = arg2;
-    p = new TWindowSubCustomEquip(self->x20);
-    self->custom = p;
-    ((TWindowBase *)self->custom)->set_depth(TWindowSubEquip__sub_80263AF8((u8 *)self->parent, 0));
-    self->list = TWindowMessage::create((saddr)(get_window_layout_position(0x11)), (const f32 *)lbl_8044F718, 1, (s32)self->x20);
-    ((TWindowBase *)self->list)->set_depth(TWindowSubEquip__sub_80263AF8((u8 *)self->parent, 2));
-    call_if_split_screen((uaddr)self->list, self->x20);
-    self->x2c = 0;
-    self->x34 = 0;
-    self->x36 = 0;
-    self->x1c = 0;
-    return arg0;
-}
 }
 
-#undef self
+TUnk_804D1160::TUnk_804D1160(TWindowMainMenu *parent, s32 client) : TObject(parent) {
+    main_menu = parent;
+    m_20 = client;
+    m_28 = (uaddr)new TWindowSubCustomEquip(m_20);
+    ((TWindowBase *)m_28)->set_depth(TWindowSubEquip__sub_80263AF8((u8 *)main_menu, 0));
+    m_30 = (uaddr)TWindowMessage::create((saddr)(get_window_layout_position(0x11)), lbl_8044F718, 1, m_20);
+    ((TWindowBase *)m_30)->set_depth(TWindowSubEquip__sub_80263AF8((u8 *)main_menu, 2));
+    call_if_split_screen(m_30, m_20);
+    m_2c = 0;
+    help_kind = 0;
+    help_id = 0;
+    state = 0;
+}
+
 TUnk_804D1160::~TUnk_804D1160() {
     if ((void *)m_2c != NULL) {
         ((TWindowBase *)m_2c)->close();
