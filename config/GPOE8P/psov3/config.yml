@@ -558,7 +558,7 @@ force_active:
   - TItemDrop__gsl_adxf_handle
   - TItemDrop__gsl_entry_count
   - TItemEffArmor__ct
-  - TItemEffEquip__ct
+  - __ct__13TItemEffEquipFP7TObjectUslll
   - TItemEffFlame__class_name
   - TItemEffHeaven__class_name
   - TItemEffNeedleBase__class_name
@@ -1994,7 +1994,7 @@ force_active:
   - __ct__17TCameraDebugOrbitFv
   - __ct__15TCameraScriptedFv
   - __ct__13TUnk_8048DF58Fv
-  - __ct__13TUnk_8049F038FP7TObjectsl
+  - __ct__13TUnk_8049F038FP7TObjectUsl
   - __ct__13TUnk_8049F770FP7TObjectPUc
   - __ct__13TUnk_8049F828FP7TObjectPUc
   - __ct__13TUnk_8049F8E0FP7TObjectPUc

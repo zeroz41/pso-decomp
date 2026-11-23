@@ -122,7 +122,7 @@ struct Self_8011EDFC {
 };
 
 s32 TObjectV8047c128_subtract_hp(u8 *arg0, s16 arg1);
-saddr get_entity_id(void *);
+u16 get_entity_id(void *);
 u8 * csnVector(void *, void *, s32);
 f32 horizontal_distance_squared(void *, void *);
 TObjChara *resolve_hittable_target(s32, s32);
@@ -1163,9 +1163,9 @@ void TItemWeapon::on_equip() {
             set_weapon_flags(8);
         } else {
             TItemAttacker::spawn_item_timer(this, (ItemTimerCallback)set_flag_8_if_check_passes__10TObjPlayerFv, 0x14);
-            TItemEffEquip::create((void *)tl_05, (void *)(get_entity_id(owner)), (void *)0x30, (void *)0x9D, (void *)0x9E);
+            TItemEffEquip::create(tl_05, get_entity_id(owner), 0x30, 0x9D, 0x9E);
             if (test_weapon_flags(0x200) != 0U) {
-                TItemEffEquip::create((void *)tl_05, (void *)(get_entity_id(owner)), (void *)0x23, (void *)0x9D, (void *)0x9E);
+                TItemEffEquip::create(tl_05, get_entity_id(owner), 0x23, 0x9D, 0x9E);
             }
             set_sound_pitch_request(play_sound_effect(0x4000B20A, &owner->position, 0, 0), 0x300, 0);
         }

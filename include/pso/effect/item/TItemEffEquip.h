@@ -2,26 +2,49 @@
 #define PSO_EFFECT_ITEM_TITEMEFFEQUIP_H
 
 #include "pso/system/task/TObject.h"
+#include "pso/object/base/TObjMotion.h"
 #include "types.h"
 
-class TObjBase;
 class TParticleCtrl;
 
+// An invisible collidable pinned to one animation node of a player; its
+// position follows the node every frame and it answers get_center with it.
+class TUnk_8049F038 : public TObjCollidable {
+public:
+    TUnk_8049F038(TObject *parent, u16 client_id, s32 node);
+    virtual ~TUnk_8049F038();
+    virtual void *get_center();
+    virtual void run_task();
+
+    u16 client_id;  // the player it follows (get_player_by_client_id)
+    u8 pad_AE[0x2];
+    s32 node;       // the player's animation node
+    CollisionBody body;
+};
+LAYOUT_ASSERT(TUnk_8049F038_size, sizeof(TUnk_8049F038) == 0xE0);
+
+// The effect TItemWeapon::on_equip starts at a player's node: a particle effect
+// on a TUnk_8049F038 at the node, swapped for a second effect after 10
+// frames; the effect ends after 20 frames.
 class TItemEffEquip : public TObject {
 public:
- TObjBase *m_1c;       // the equipped actor the effect follows (inferred)
- TParticleCtrl *m_20;  // the particle effect spawned at its center
-public:
+    TItemEffEquip(TObject *parent, u16 client_id, s32 node, s32 particle_id, s32 next_particle_id);
     virtual ~TItemEffEquip();
-    void spawn_equip_particle_effect(saddr);
     virtual void run_task();
-public:
-    static void create(void *arg0, void *arg1, void *arg2, void *arg3, void *arg4);
-    void release_effect();
-};
 
-extern "C" {
-void *TItemEffEquip__ct(void *arg0, void *arg1, void *arg2, void *arg3, void *arg4, void *arg5);
-}
+    static void create(TObject *parent, u16 client_id, s32 node, s32 particle_id, s32 next_particle_id);
+    void spawn_equip_particle_effect(s32 particle_id);
+    void release_effect();
+    // Item timer callbacks.
+    static void release_effect_timer(TObject *effect);
+    static void retire_equipment_effect(TObject *effect);
+
+    static const char *class_name;
+
+    TUnk_8049F038 *anchor;
+    TParticleCtrl *particle;
+    s32 next_particle_id;  // spawned by release_effect, -1 for none
+};
+LAYOUT_ASSERT(TItemEffEquip_size, sizeof(TItemEffEquip) == 0x28);
 
 #endif
