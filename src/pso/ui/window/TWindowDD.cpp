@@ -94,7 +94,7 @@ void TWindowDD::reset_entries(f32 v, s32) {
     }
 }
 
-void TWindowDD::set_quad_corners_scaled(f32 farg0, f32 farg1, f32 farg2) {
+void TWindowDD::set_quad_corners_scaled(f32 x, f32 y, f32 farg2) {
     u8 *arg0 = (u8 *)this;
   f32 temp_f0;
   f32 temp_f1;
@@ -108,14 +108,14 @@ void TWindowDD::set_quad_corners_scaled(f32 farg0, f32 farg1, f32 farg2) {
   f32 temp_f7;
   f32 temp_f8;
   s8 *new_var2;
-  temp_f4 = farg0 + farg2;
-  temp_f8 = TWindowDD__data_805DFB18 * farg0;
-  temp_f7 = TWindowDD__data_805DFB18 * farg1;
+  temp_f4 = x + farg2;
+  temp_f8 = TWindowDD__data_805DFB18 * x;
+  temp_f7 = TWindowDD__data_805DFB18 * y;
   *((f32 *) (((s8 *) arg0) + 0)) = temp_f8;
-  temp_f5 = TWindowDD__data_805DFB18 * (TWindowDD__data_805DFB20 + farg1);
+  temp_f5 = TWindowDD__data_805DFB18 * (TWindowDD__data_805DFB20 + y);
   new_var4 = TWindowDD__data_805DFB18 * temp_f4;
   *((f32 *) (((s8 *) arg0) + 4)) = temp_f7;
-  temp_f1 = 48.0f + farg0;
+  temp_f1 = 48.0f + x;
   temp_f2 = new_var4;
   *((f32 *) (((s8 *) arg0) + 8)) = temp_f8;
   temp_f1_2 = TWindowDD__data_805DFB18 * temp_f1;

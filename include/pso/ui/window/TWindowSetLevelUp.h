@@ -14,7 +14,7 @@ public:
     virtual void run_task();
     virtual void render();
 public:
-    void copy_stat_block(saddr arg1);
+    void copy_stat_block(saddr stats);
 
     static const char *class_name;
 

@@ -24,7 +24,7 @@ public:
     void clear_flag_and_release2();
     void set_flag_10();
     s32 update_selected_entry();
-    s32 find_entry_value_by_id(s32 arg1);
+    s32 find_entry_value_by_id(s32 key);
     void mark_entry_by_id(s32 arg1);
     void disable_entry_by_id(s32 arg1);
     void update_next_entry(s32 arg1, s32 arg2, s32 arg3);

@@ -903,12 +903,12 @@ saddr TWindowCtrl::open(u16 id, saddr text, s32 flags) {
 
 }
 
-s32 TWindowCtrl::open_balloon(u16 player, u8 *arg1, s32 flags, s32 arg3) {
+s32 TWindowCtrl::open_balloon(u16 player, u8 *arg1, s32 flags, s32 client) {
     saddr temp_r3;
     if (instance == 0U) {
         return 0;
     }
-    temp_r3 = reinterpret_cast<saddr>(instance->acquire_balloon_slot(player, flags, arg3));
+    temp_r3 = reinterpret_cast<saddr>(instance->acquire_balloon_slot(player, flags, client));
     if (temp_r3 == 0) {
         return 0;
     }
@@ -1169,20 +1169,20 @@ void TWindowCtrl::set_flag_bit2() {
     }
 }
 
-void end_player_keyboard_hold(saddr arg0) {
-    TWindowCtrl::call_window_method(arg0, &TWindowCtrl::end_keyboard_hold);
+void end_player_keyboard_hold(saddr client_id) {
+    TWindowCtrl::call_window_method(client_id, &TWindowCtrl::end_keyboard_hold);
 }
 
-void begin_player_keyboard_hold(saddr arg0) {
-    TWindowCtrl::call_window_method(arg0, &TWindowCtrl::begin_keyboard_hold);
+void begin_player_keyboard_hold(saddr client_id) {
+    TWindowCtrl::call_window_method(client_id, &TWindowCtrl::begin_keyboard_hold);
 }
 
-void TWindowReturnCity__sub_8024ACA8(saddr arg0) {
-    TWindowCtrl::call_window_method(arg0, &TWindowCtrl::fn_8024C71C);
+void TWindowReturnCity__sub_8024ACA8(saddr client_id) {
+    TWindowCtrl::call_window_method(client_id, &TWindowCtrl::fn_8024C71C);
 }
 
-void fn_8024AC64(saddr arg0) {
-    TWindowCtrl::call_window_method(arg0, &TWindowCtrl::fn_8024C70C);
+void fn_8024AC64(saddr client_id) {
+    TWindowCtrl::call_window_method(client_id, &TWindowCtrl::fn_8024C70C);
 }
 
 void TWindowCtrl::enable_client_main_menu(s32 client) {
@@ -1361,16 +1361,16 @@ s32 TWindowCtrl::find_farthest_balloon_slot(u16 speaker) {
 
 extern "C" {
 
-f32 get_entity_distance_or_default__11TWindowCtrlFiPvUs(s32 arg0, RecoveredFields_8024A688_arg1 *arg1, u16 arg2) {
+f32 get_entity_distance_or_default__11TWindowCtrlFiPvUs(s32 arg0, RecoveredFields_8024A688_arg1 *arg1, u16 id) {
   f32 temp_f2;
   f32 temp_f3;
   f32 temp_f4;
   u8 *entity;
-  if (arg2 == ((-1) & 0xFFFF))
+  if (id == ((-1) & 0xFFFF))
   {
     return 1000000.0f;
   }
-  entity = (u8 *) find_entity_by_id(arg2);
+  entity = (u8 *) find_entity_by_id(id);
   if (entity == 0)
   {
     return 1000000.0f;

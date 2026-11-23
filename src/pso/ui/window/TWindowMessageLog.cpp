@@ -124,7 +124,7 @@ extern u8 *chat_last_line_buffer;
 struct ChatLogLines { s32 value; u8 remaining[0x74]; };
 ChatLogLines chat_log_lines;
 
-void TAdScrollWinGC__sub_8026A5F8(void* a0) { *(float*)((char*)a0 + 0x84) = 0.0f; *(float*)((char*)a0 + 0x6c) = 0.0f; *(float*)((char*)a0 + 0x94) = 0.0f; }
+void TAdScrollWinGC__sub_8026A5F8(void* window) { *(float*)((char*)window + 0x84) = 0.0f; *(float*)((char*)window + 0x6c) = 0.0f; *(float*)((char*)window + 0x94) = 0.0f; }
 
 void TAdScrollWinGC::advance_scroll(f32 v) { *(f32*)((char*)this + 0x94) += v; }
 
@@ -272,9 +272,9 @@ void post_chat_log_message(u16 arg0, s32 *shared_text_buffer) {
     }
 }
 
-u8 *create_message_log_window(s32 arg0, saddr arg1, s32 client) {
-    TLobby__sub_80269DA4((void *)arg1, 0x1E);
-    return (u8 *)new TWindowMessageLog(arg0, client);
+u8 *create_message_log_window(s32 parent, saddr extent, s32 client) {
+    TLobby__sub_80269DA4((void *)extent, 0x1E);
+    return (u8 *)new TWindowMessageLog(parent, client);
 }
 
 

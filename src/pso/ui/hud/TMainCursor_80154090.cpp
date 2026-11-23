@@ -68,11 +68,11 @@ void TMainCursor::set_flag_bit(s32 arg1, u16 arg2) {
         ((FlagWord *)(temp_r5 + (arg1 * 4)))->clear(1 << arg2);
     }
 }
-void TMainCursor__sub_80154230(void *arg0, s32 arg1, u16 arg2) {
+void TMainCursor__sub_80154230(void *ent, s32 arg1, u16 arg2) {
     saddr temp_r5;
 
     if (((s32 (*)(void))TMainCursor__sub_80154288)() != 0) {
-        temp_r5 = *(s32 *)((s8 *)arg0 + 0x9C);
+        temp_r5 = *(s32 *)((s8 *)ent + 0x9C);
         ((FlagWord *)(temp_r5 + (arg1 * 4)))->set(1 << arg2);
     }
 }

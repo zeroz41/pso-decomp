@@ -18,10 +18,10 @@ s32 lbl_805D5D00;
 s32 lbl_805D5D04;
 }
 
-s32 TWindowKeyBoardHard::test_card_flag(s32 arg1, s32 arg2) {
+s32 TWindowKeyBoardHard::test_card_flag(s32 client, s32 arg2) {
     void *character_save_record;
 
-    character_save_record = ((void *)get_character_save_record((u32)arg1));
+    character_save_record = ((void *)get_character_save_record((u32)client));
     if (character_save_record == NULL) {
         return 0;
     }

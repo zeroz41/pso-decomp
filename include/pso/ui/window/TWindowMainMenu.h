@@ -78,7 +78,7 @@ struct TWindowMainMenu : public TObject {
     int get_selected_item_type();
     void clear_menu_flags();
     saddr find_free_slot();
-    s32 update_if_active(s32 _w1);
+    s32 update_if_active(s32 id);
     void draw_entries_reversed(u8 *frame);
     s32 is_not_split_screen();
     static void *create_menu(void *arg0, void *arg1);

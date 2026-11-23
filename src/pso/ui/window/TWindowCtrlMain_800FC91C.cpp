@@ -66,15 +66,15 @@ void TWindowCtrlMain::advance_card_status(s32 local_client_id) {
     }
     fn_800FCCC8(local_client_id, card_status_bits);
 }
-s32 TWindowSubStatusDisp::build_status_text(s32 arg0) {
+s32 TWindowSubStatusDisp::build_status_text(s32 client_id) {
     s32 mode;
     char *name;
     u8 *info;
     s32 idx;
     s32 lvl;
     VObj_18_7b3651 *p;
-    mode = TWindowShortListCtrl::get_card_status_bits(arg0);
-    p = get_player_by_client_id(arg0);
+    mode = TWindowShortListCtrl::get_card_status_bits(client_id);
+    p = get_player_by_client_id(client_id);
     if (p == NULL) {
         return 0;
     }
@@ -101,15 +101,15 @@ s32 TWindowSubStatusDisp::build_status_text(s32 arg0) {
             return 0;
         }
         text_builder_append("W:");
-        text_builder_append_int(lobby_player_status_records[arg0].a);
+        text_builder_append_int(lobby_player_status_records[client_id].a);
         text_builder_append(" D:");
-        text_builder_append_int(lobby_player_status_records[arg0].b);
+        text_builder_append_int(lobby_player_status_records[client_id].b);
         break;
     case 3:
         if ((s8)info[0x33] < 2) {
             return 0;
         }
-        text_builder_append(TWindowSubStatusDisp__sub_80071820(lobby_player_status_records[arg0].name));
+        text_builder_append(TWindowSubStatusDisp__sub_80071820(lobby_player_status_records[client_id].name));
         break;
     case 4:
         return 0;
@@ -168,8 +168,8 @@ extern "C" {
 u8 * __ct__14TFontSmallHelpFUlUllUl(void *, s32, s32, s32, s32);
 extern RecoveredGlobal_800FCC78_lbl_8049CA54 __vt__13TUnk_8049CA54;
 LAYOUT_ASSERT(RecoveredGlobal_800FCC78_lbl_8049CA54_size, sizeof(RecoveredGlobal_800FCC78_lbl_8049CA54) == 0x1C);
-u8 *fn_800FCC78(u8 *arg0, s32 arg1) {
-    __ct__14TFontSmallHelpFUlUllUl(arg0, arg1, -1, -1, 0);
+u8 *fn_800FCC78(u8 *arg0, s32 id) {
+    __ct__14TFontSmallHelpFUlUllUl(arg0, id, -1, -1, 0);
     *(s32 **)((s8 *)arg0 + 0x18) = &__vt__13TUnk_8049CA54.value;
     *(s32 *)((s8 *)arg0 + 0x60) = 5;
     return arg0;

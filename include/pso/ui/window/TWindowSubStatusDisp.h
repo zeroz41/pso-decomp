@@ -55,7 +55,7 @@ struct TWindowSubStatusDisp : public TWindowBase {
 
     static s32 get_status_index(u16 client_index);
     static s32 get_status_index_or_default(u16 *arg0);
-    static char *get_status_window(u16 arg0);
+    static char *get_status_window(u16 client);
     static void *get_message_10(s32 index);
     static void draw_number_digits(void *color, s16 value, u16 digits, f32 x, f32 y, f32 scale);
     static void render_forward();
@@ -75,14 +75,14 @@ struct TWindowSubStatusDisp : public TWindowBase {
     static void append_comma();
     s8 *copy_message_page_text();
     void set_selected_index(s16 arg1);
-    static void draw_status(saddr window, s32 arg2, s32 arg3);
-    static void dispatch_without_flags(saddr window, s32 arg2, s32 arg3);
+    static void draw_status(saddr window, s32 arg2, s32 item);
+    static void dispatch_without_flags(saddr window, s32 arg2, s32 item);
     s16 get_item_type();
     s16 get_field_2F8();
     s16 get_stat();
     s16 get_value();
     void set_all_values(s32 meseta);
-    void set_animated_target(s32 arg1, f32 farg0);
+    void set_animated_target(s32 meseta, f32 farg0);
     static void update_palette_sprite();
     void set_string(uaddr arg1);
     void set_text(uaddr arg1, s32 arg2, s32 arg3);
@@ -90,7 +90,7 @@ struct TWindowSubStatusDisp : public TWindowBase {
     void clamp_scroll_offset();
     void add_list_entry(s32 arg1);
     void refresh_selected_entry(s32 arg1);
-    void add_status_entry(s8 arg1, s32 src, s32 arg3);
+    void add_status_entry(s8 arg1, s32 src, s32 item);
     void add_inventory_item(saddr item, s32 count, s32 sid);
     void add_item_info_entry(saddr arg1, s32 arg2, saddr count);
     void add_ground_item(saddr arg1, s32 arg2);
@@ -108,7 +108,7 @@ struct TWindowSubStatusDisp : public TWindowBase {
     void draw_entry_tab(void *arg1);
     void update(void* a1);
     static s32 deleting_destructor(s32 arg0, s16 arg1);
-    void forward_render(void *a1);
+    void forward_render(void *level);
     int update_subwindow();
     void fill_card_text_entries(GuildCardRecord *record);
     static saddr query_status_field(void *arg0, s8 arg1);
@@ -121,13 +121,13 @@ struct TWindowSubStatusDisp : public TWindowBase {
     void set_entry_display_value(s32 str);
     s32 get_display_mode();
     static f32 round_away_from_zero(f32 farg0);
-    static s32 build_status_text(s32 arg0);
+    static s32 build_status_text(s32 client_id);
     static s32 calc_layout_hash(s32 slot);
     static s32 calc_entry_offset(s32 slot);
     static s32 get_layout_id(s32 slot);
     static s32 resolve_player_slot(s32 slot);
     static void *get_entry_ptr(int a0);
-    void append_entry(s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5);
+    void append_entry(s32 flag, s32 arg2, s32 item, s32 arg4, s32 arg5);
     s32 update_hp_entry();
     static s32 destroy_status_display(saddr arg0, s16 arg1);
     u8 *construct_type1_heading(s32 title, s32 client_index);

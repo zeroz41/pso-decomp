@@ -29,7 +29,7 @@ struct TWindowCtrlMain : public TObject {
     static void set_field18(f32 value, s32 viewport_index);
     static void set_depth(f32 value, s32 viewport_index);
     static void update_fade_alphas();
-    static void set_value(s32 arg0, s32 arg1);
+    static void set_value(s32 viewport_index, s32 arg1);
     static void free_shared_draw_context();
 
 };

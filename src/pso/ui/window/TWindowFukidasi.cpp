@@ -548,7 +548,7 @@ void draw_name_plate__15TWindowFukidasiFv(TWindowFukidasi *self, View_80252764 *
 
 #pragma pop
 extern "C" {
-void TWindowFukidasi::init_balloon(u16 arg1, s32 str, s32 arg3, f32 farg0) {
+void TWindowFukidasi::init_balloon(u16 arg1, s32 str, s32 arg3, f32 scale) {
     u32 len;
 
     *(s32 *)((s8 *)this + 0) = (saddr) window_fukidasi_class_name;
@@ -567,7 +567,7 @@ void TWindowFukidasi::init_balloon(u16 arg1, s32 str, s32 arg3, f32 farg0) {
     }
     set_color(arg1);
     *(f32 *)((s8 *)this + 0x80) = 0.0f;
-    this->m_7c = farg0;
+    this->m_7c = scale;
     this->frame_size[0] = 0.0f;
     this->frame_size[1] = 0.0f;
     this->clear_flag();

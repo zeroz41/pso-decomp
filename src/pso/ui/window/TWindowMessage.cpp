@@ -336,7 +336,7 @@ WindowDescriptor message_window_settings = {
 
 extern "C" {
 
-int TWindowMessage::append_line(int a1, int a2) { return append_message_window_line((TWindowMessage *)this, a1, a2, -1); }
+int TWindowMessage::append_line(int text, int flags) { return append_message_window_line((TWindowMessage *)this, text, flags, -1); }
 
 void TLobby__sub_80269C90(void) {
     message_window_settings.flags = 3;

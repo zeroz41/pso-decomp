@@ -139,22 +139,22 @@ s32 TWindowSubSymbolChat__sub_800771C4(const SymbolChatPreset *preset, s32 index
     return ((u8)preset->payload.facial_parts[index] - 0xFF) != 0 ? 1 : 0;
 }
 
-void TWindowSubSymbolChat::set_entry(s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6) {
+void TWindowSubSymbolChat::set_entry(s32 arg1, s32 arg2, s32 x, s32 y, s32 arg5, s32 arg6) {
     Obj_800771E4 *arg0 = (Obj_800771E4 *)this;
     Ent_800771E4 *p = &arg0->e[arg1];
     p->a = arg2;
-    p->b = arg3;
-    p->c = arg4;
+    p->b = x;
+    p->c = y;
     p->d = arg5;
     p->d = p->d | (arg6 * 2);
 }
 
-void TWindowSubSymbolChat::add(s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5) {
+void TWindowSubSymbolChat::add(s32 part_id, s32 x, s32 y, s32 flags, s32 arg5) {
     s32 *arg0 = (s32 *)this;
     s32 temp;
     temp = reinterpret_cast<SymbolChatPreset *>(this)->find_free_entry(0);
     if (temp < 0xC) {
-        set_entry(temp, arg1, arg2, arg3, arg4, arg5);
+        set_entry(temp, part_id, x, y, flags, arg5);
         *arg0 |= 1;
     }
 }

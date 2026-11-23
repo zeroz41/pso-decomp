@@ -18,11 +18,11 @@ const char *TWindowSetLevelUp::class_name = "TWindowSetLevelUp";
 
 extern "C" void TWindowSetLevelUp__sub_8026DE28(void* p, s32 v) { *(s32*)((char*)p + 0x88) = v; }
 
-void TWindowSetLevelUp::copy_stat_block(saddr arg1) {
+void TWindowSetLevelUp::copy_stat_block(saddr stats) {
     saddr arg0 = (saddr)this;
-    *(ByteBlock_16 *)(arg0) = *(const ByteBlock_16 *)(arg1);
-    *(s16 *)((s8 *)arg0 + 0x16) = (s16) *(s16 *)((s8 *)arg1 + 0x16);
-    *(s16 *)((s8 *)arg0 + 0x18) = (s16) *(s16 *)((s8 *)arg1 + 0x18);
+    *(ByteBlock_16 *)(arg0) = *(const ByteBlock_16 *)(stats);
+    *(s16 *)((s8 *)arg0 + 0x16) = (s16) *(s16 *)((s8 *)stats + 0x16);
+    *(s16 *)((s8 *)arg0 + 0x18) = (s16) *(s16 *)((s8 *)stats + 0x18);
 }
 
 TWindowSetLevelUp::TWindowSetLevelUp(TObject *parent, saddr stats, s32 client) : TObject(parent) {

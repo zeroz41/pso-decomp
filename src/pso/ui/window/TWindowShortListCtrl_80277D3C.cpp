@@ -9,13 +9,13 @@ extern "C" {
 void *get_player_by_client_id(s32 i);
 void send_6x25_equip_item(void *arg0, s32 arg1, s32 arg2);
 
-void TWindowShortListCtrl::assign_shortcut(s32 slot, saddr item, s32 arg2) {
+void TWindowShortListCtrl::assign_shortcut(s32 slot, saddr item, s32 client_id) {
     uaddr slot_value;
     saddr player;
     saddr item_id;
     uaddr temp_r3b;
 
-    player = (saddr)get_player_by_client_id(arg2);
+    player = (saddr)get_player_by_client_id(client_id);
     if (player != 0) {
         slot_value = TObjPlayer::get_slot_value((s32 *)(player + 0xD04), slot);
         temp_r3b = (uaddr)find_item_by_id(item);

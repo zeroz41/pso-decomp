@@ -21,9 +21,9 @@ s32 draw_window_scrollbar(s32, s32, void *);
 
 extern s32 local_client_id;
 
-u8 *TWindowSubStatusDisp__sub_80248BE8(saddr arg0, saddr arg1, s32 arg2) {
-    TShopJudgmentItemWindow__sub_80267F9C((void *)arg1, 0x5);
-    return (u8 *)new TWindowCheckBox((u8 *)arg0, arg2);
+u8 *TWindowSubStatusDisp__sub_80248BE8(saddr parent, saddr size, s32 client) {
+    TShopJudgmentItemWindow__sub_80267F9C((void *)size, 0x5);
+    return (u8 *)new TWindowCheckBox((u8 *)parent, client);
 }
 
 void *create_check_box_window_for_local_client(const NJS_POINT2 *layout_position, const void *position) {

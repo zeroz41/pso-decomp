@@ -499,10 +499,10 @@ saddr TWindowOptionCtrl::create_option_menu() {
     return check_box_window;
 }
 
-saddr TWindowOptionCtrl::open_yes_no_window(saddr arg0, s32 arg1, s32 arg2) {
+saddr TWindowOptionCtrl::open_yes_no_window(saddr arg0, s32 arg1, s32 index) {
   saddr window;
   window = (saddr)TWindowMessageYesNo::create((void *)(arg0), 6, (void *)(arg0 * 0), 0);
-  ((TWindowMessageYesNo *)window)->open_yes_no_prompt_with_text((s32)(get_localized_text_entry(0xF, arg1)), (saddr)(get_window_layout_position(arg2)), 470.0f);
+  ((TWindowMessageYesNo *)window)->open_yes_no_prompt_with_text((s32)(get_localized_text_entry(0xF, arg1)), (saddr)(get_window_layout_position(index)), 470.0f);
   ((TWindowMessageYesNo *)window)->set_menu_selected_index(1);
   return window;
 }

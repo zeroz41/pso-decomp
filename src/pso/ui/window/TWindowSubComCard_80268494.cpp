@@ -20,12 +20,12 @@ s32 TWindowMenuInfomation::update_selected_entry() {
     return ((TWindowSubComCard *)get_array_entry(m_74))->get_entry_id();
 }
 
-s32 TWindowMenuInfomation::find_entry_value_by_id(s32 arg1) {
+s32 TWindowMenuInfomation::find_entry_value_by_id(s32 key) {
     s32 i;
     Ent_802684BC *e;
     for (i = 0; i < entry_capacity; i++) {
         e = (Ent_802684BC *)get_array_entry(i);
-        if (e != NULL && ((TWindowSubComCard *)e)->is_flag_4_set() != 0 && arg1 == ((TWindowSubComCard *)e)->get_entry_id()) {
+        if (e != NULL && ((TWindowSubComCard *)e)->is_flag_4_set() != 0 && key == ((TWindowSubComCard *)e)->get_entry_id()) {
             return e->f1C;
         }
     }

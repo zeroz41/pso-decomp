@@ -2,12 +2,12 @@
 #include "pso/ui/window/TUnk_804CE7E8.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 
-void TWindowSubStatusDisp::draw_status(saddr window, s32 arg2, s32 arg3) {
-    ((TWindowSubStatusDisp *)window)->append_entry(0, arg2, arg3, 0, 1);
+void TWindowSubStatusDisp::draw_status(saddr window, s32 arg2, s32 item) {
+    ((TWindowSubStatusDisp *)window)->append_entry(0, arg2, item, 0, 1);
 }
 
-void TWindowSubStatusDisp::dispatch_without_flags(saddr window, s32 arg2, s32 arg3) {
-    ((TWindowSubStatusDisp *)window)->append_entry(0, arg2, arg3, 0, 0);
+void TWindowSubStatusDisp::dispatch_without_flags(saddr window, s32 arg2, s32 item) {
+    ((TWindowSubStatusDisp *)window)->append_entry(0, arg2, item, 0, 0);
 }
 
 void TWindowCheckBox::sync_level_field() {

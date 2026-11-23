@@ -504,8 +504,8 @@ s32 TWindowHelpItem::get_help_value(u16 slot, s32 client_id) {
     return item->get_amount();
 }
 
-void TWindowHelpItem::set_help_text(saddr help, saddr arg1) {
-    if (TWindowKeyBoardHard::test_card_flag_2(arg1) != 0) {
+void TWindowHelpItem::set_help_text(saddr help, saddr client_id) {
+    if (TWindowKeyBoardHard::test_card_flag_2(client_id) != 0) {
         set_sprite_uv_from_pixels(reinterpret_cast<WindowSpritePart *>(help), 92.0f, 56.0f);
         return;
     }

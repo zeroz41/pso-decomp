@@ -375,7 +375,7 @@ void TWindowSubComCard__sub_8007B26C(GuildCardEntry *entry) {
 
 int clear(void* p) { return (saddr)memset(p, 0, 144); }
 
-void TWindowSubComCard::clear_and_init(void* a1) { clear(this); ((TLobby *)this)->fill_guild_card_from_char((saddr)a1); }
+void TWindowSubComCard::clear_and_init(void* local_client_id) { clear(this); ((TLobby *)this)->fill_guild_card_from_char((saddr)local_client_id); }
 s32 fn_8007B2E0(u8 *ply_guild_card_tag, s32 id) {
     ShortMailEntry *mail;
     mail = TLobby::find_short_mail_by_id(id);

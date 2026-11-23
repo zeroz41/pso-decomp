@@ -21,12 +21,12 @@ void TWindowSubStatusDisp::set_all_values(s32 meseta) {
     *(f32 *)((s8 *)arg0 + 0x2C) = 0.0f;
 }
 
-void TWindowSubStatusDisp::set_animated_target(s32 arg1, f32 farg0) {
+void TWindowSubStatusDisp::set_animated_target(s32 meseta, f32 farg0) {
     f32 temp_f2;
     f32 var_f31;
 
-    if (*(f32 *)((s8 *)this + 0x28) != (f32) arg1) {
-        *(f32 *)((s8 *)this + 0x28) = (f32) arg1;
+    if (*(f32 *)((s8 *)this + 0x28) != (f32) meseta) {
+        *(f32 *)((s8 *)this + 0x28) = (f32) meseta;
         temp_f2 = *(f32 *)((s8 *)this + 0x28);
         var_f31 = temp_f2 - *(f32 *)((s8 *)this + 0x24);
         var_f31 = var_f31 / farg0;

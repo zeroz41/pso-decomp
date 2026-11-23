@@ -51,7 +51,7 @@ struct TWindowDD : public TObject
     u32 m_104;
     void draw_transformed_primitive(s32 a1, u32 a2, s32 a3);
     void reset_entries(f32 z, s32 color);
-    void set_quad_corners_scaled(f32 farg0, f32 farg1, f32 farg2);
+    void set_quad_corners_scaled(f32 x, f32 y, f32 farg2);
     static s32 apply_both_choices(s32 arg0, saddr buttons);
     void set_clamped_page(s32 arg1);
     void handle_input();
@@ -98,9 +98,9 @@ struct TWindowDD : public TObject
     void init_entry_field_64(s32 arg1);
     static void refresh_sub(void* p, void* a1);
     static void apply_input(void* p, void* a1);
-    static void update(void* p, void* a1);
+    static void update(void* p, void* child);
     void update(saddr arg1);
-    static void set_default_coords(int a0, void* a1);
+    static void set_default_coords(int a0, void* win);
     static void init_layout(void *window, void *child);
     static void set_default_positions(void *window, void *child);
     static void spawn_window();
@@ -122,7 +122,7 @@ struct TWindowDD : public TObject
     static void append_char(s8 c, char *buf, s32 *pos);
     static void append_string(const char *str, char *buf, s32 *pos);
     void copy_point_table(s32 idx);
-    static s32 get_draw_count(void **arg0);
+    static s32 get_draw_count(void **hud_texlist);
     static saddr get_entry(s32 arg0);
     int handle_word_select();
     static void send_chat_packet(void *data);

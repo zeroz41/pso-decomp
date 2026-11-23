@@ -573,7 +573,7 @@ void TWindowDD::refresh_sub(void* p, void* a1) { TWindowDD__sub_80341AE0((u8 *)a
 
 void TWindowDD::apply_input(void* p, void* a1) { TWindowDD__sub_80341AE0((u8 *)a1); ((TWindowDD *)a1)->reset_cursor(); }
 
-void TWindowDD::update(void* p, void* a1) { TWindowDD__sub_80341AE0((u8 *)a1); ((TWindowDD *)a1)->set_mode_2(); }
+void TWindowDD::update(void* p, void* child) { TWindowDD__sub_80341AE0((u8 *)child); ((TWindowDD *)child)->set_mode_2(); }
 
 
 void TWindowDD::update(saddr arg1) {
@@ -594,7 +594,7 @@ int update__9TWindowDDFl(void);
         extern const float lbl_805DFB98;
     extern const float lbl_805DFB9C;
     extern const float lbl_805DFBA0;
-void TWindowDD::set_default_coords(int a0, void* a1) { refresh_sub__9TWindowDDFPvPv(); *(float*)((char*)a1 + 0x30) = lbl_805DFB94; *(float*)((char*)a1 + 0x40) = lbl_805DFB94; *(float*)((char*)a1 + 0x34) = lbl_805DFB98; *(float*)((char*)a1 + 0x44) = lbl_805DFB98; *(float*)((char*)a1 + 0x38) = lbl_805DFB9C; *(float*)((char*)a1 + 0x48) = lbl_805DFB9C; *(float*)((char*)a1 + 0x3c) = lbl_805DFBA0; *(float*)((char*)a1 + 0x4c) = lbl_805DFBA0; }
+void TWindowDD::set_default_coords(int a0, void* win) { refresh_sub__9TWindowDDFPvPv(); *(float*)((char*)win + 0x30) = lbl_805DFB94; *(float*)((char*)win + 0x40) = lbl_805DFB94; *(float*)((char*)win + 0x34) = lbl_805DFB98; *(float*)((char*)win + 0x44) = lbl_805DFB98; *(float*)((char*)win + 0x38) = lbl_805DFB9C; *(float*)((char*)win + 0x48) = lbl_805DFB9C; *(float*)((char*)win + 0x3c) = lbl_805DFBA0; *(float*)((char*)win + 0x4c) = lbl_805DFBA0; }
 
     extern const float lbl_805DFB80;
     extern const float lbl_805DFB84;
@@ -954,8 +954,8 @@ f32 TWindowDD__sub_80348AD4(f32 draw_depth, f32 offset) {
 }
 #pragma pop
 
-s32 TWindowDD::get_draw_count(void **arg0) {
-    return **(s32 **)((s8 *)(*(void **)((s8 *)(*arg0) + 0x20)) + 0xC);
+s32 TWindowDD::get_draw_count(void **hud_texlist) {
+    return **(s32 **)((s8 *)(*(void **)((s8 *)(*hud_texlist) + 0x20)) + 0xC);
 }
 
 extern s32 TWindowDD__ws_data_table;

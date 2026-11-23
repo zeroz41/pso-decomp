@@ -10,7 +10,7 @@ struct TWindowChatSymbol : public TWindowBase {
     TWindowChatSymbol(saddr arg1, saddr arg2);
     virtual ~TWindowChatSymbol();
     void set_selection(SymbolChatPreset *preset);
-    void set_from_key(s32 arg1);
+    void set_from_key(s32 index);
     void update_visibility();
     virtual void render();
     SymbolChatPreset *selected_preset;

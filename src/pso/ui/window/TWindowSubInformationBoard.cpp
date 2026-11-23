@@ -242,8 +242,8 @@ u32 TWindowSubInformationBoard::show_card_a7() {
     return (uaddr)window;
 }
 
-TKeyBoardControl *TWindowSubInformationBoard::open_keyboard(saddr arg0) {
-    TKeyBoardControl *keyboard = new TKeyBoardControl((TObject *)arg0, 0xC6, 5, 4, local_client_id);
+TKeyBoardControl *TWindowSubInformationBoard::open_keyboard(saddr parent) {
+    TKeyBoardControl *keyboard = new TKeyBoardControl((TObject *)parent, 0xC6, 5, 4, local_client_id);
     keyboard->set_text((char *)TLobby::get_card_window_field());
     keyboard->set_sub_position((u8 *)(get_window_layout_position(0xBB)));
     keyboard->set_flag62_bit2();

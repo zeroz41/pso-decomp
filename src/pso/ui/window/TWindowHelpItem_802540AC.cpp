@@ -1083,33 +1083,33 @@ void TWindowHelpItem::dispatch_item_help() {
 #undef lbl_804CF7A8
 #undef lbl_804CF7F0
 
-void TWindowHelpItem__set_displayed_item_by_id(u8 *window_help_item, saddr arg1) {
+void TWindowHelpItem__set_displayed_item_by_id(u8 *window_help_item, saddr id) {
     u8 *item;
-    if (arg1 == -1) {
+    if (id == -1) {
         ((TWindowHelpItem *)window_help_item)->set_displayed_item_data(NULL, (void*)((void*)((void *)-1)));
         return;
     }
-    item = (u8 *)(find_item_by_id(arg1));
+    item = (u8 *)(find_item_by_id(id));
     if (item == NULL) {
-        ((TWindowHelpItem *)window_help_item)->set_displayed_item_data(NULL, (void*)((void*)((void *) arg1)));
+        ((TWindowHelpItem *)window_help_item)->set_displayed_item_data(NULL, (void*)((void*)((void *) id)));
         return;
     }
     ((TItem *)item)->copy_to_item_data((TItemData *)(window_help_item + 0x88));
-    ((TWindowHelpItem *)window_help_item)->set_displayed_item_data(window_help_item + 0x88, (void*)((void*)((void *) arg1)));
+    ((TWindowHelpItem *)window_help_item)->set_displayed_item_data(window_help_item + 0x88, (void*)((void*)((void *) id)));
 }
-void show_item_by_id__15TWindowHelpItemFPvi(u8 *window_help_item, saddr arg1) {
+void show_item_by_id__15TWindowHelpItemFPvi(u8 *window_help_item, saddr id) {
     u8 *item;
-    if (arg1 == -1) {
+    if (id == -1) {
         ((TWindowHelpItem *)window_help_item)->set_items_and_refresh(NULL, (void*)((void*)((void *)-1)));
         return;
     }
-    item = (u8 *)(find_item_by_id(arg1));
+    item = (u8 *)(find_item_by_id(id));
     if (item == NULL) {
-        ((TWindowHelpItem *)window_help_item)->set_items_and_refresh(NULL, (void*)((void*)((void *) arg1)));
+        ((TWindowHelpItem *)window_help_item)->set_items_and_refresh(NULL, (void*)((void*)((void *) id)));
         return;
     }
     ((TItem *)item)->copy_to_item_data((TItemData *)(window_help_item + 0x74));
-    ((TWindowHelpItem *)window_help_item)->set_items_and_refresh(window_help_item + 0x74, (void*)((void*)((void *) arg1)));
+    ((TWindowHelpItem *)window_help_item)->set_items_and_refresh(window_help_item + 0x74, (void*)((void*)((void *) id)));
 }
 void TWindowHelpItem::set_displayed_item_colored(uaddr arg1) {
     saddr var_r5;

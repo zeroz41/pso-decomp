@@ -4,7 +4,7 @@
 #include "types.h"
 
 extern "C" {
-void TAdScrollWinGC__sub_8026A5F8(void *a0);
+void TAdScrollWinGC__sub_8026A5F8(void *window);
 void TWindowSubLog__sub_8026A664(u8 *arg0, f32 farg0);
 }
 void cache_last_chat_line(uaddr text);
@@ -17,7 +17,7 @@ void fn_8026A61C(void *p, f32 v);
 
 // --- C functions defined in TAdScrollWinGC_8026A5F8.cpp ---
 extern "C" {
-void TAdScrollWinGC__sub_8026A5F8(void *a0);
+void TAdScrollWinGC__sub_8026A5F8(void *window);
 void TWindowSubLog__sub_8026A664(u8 *arg0, f32 farg0);
 }
 void chat_log_add_line(const char *text);

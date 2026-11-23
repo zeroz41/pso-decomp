@@ -708,8 +708,8 @@ TObject *get_viewport_window_root(s32 viewport_index) {
 
 TObject *TWindowCtrlMain__sub_8024CDB0(void* p) { return get_viewport_window_root((saddr)p); }
 
-void TWindowCtrlMain::set_value(s32 arg0, s32 arg1) {
-    get_window_control_state(arg0)->field04 = arg1;
+void TWindowCtrlMain::set_value(s32 viewport_index, s32 arg1) {
+    get_window_control_state(viewport_index)->field04 = arg1;
 }
 
 s32 TWindowCtrlMain__sub_8024CD5C(s32 viewport_index) {

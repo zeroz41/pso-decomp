@@ -37,7 +37,7 @@ NJS_TEXLIST f256_hyouji_texlist = { f256_hyouji_texname, 13 };
 extern "C" {
 int TWindowSubStatusDisp__sub_802879B0(void*);
 
-void TWindowSubStatusDisp::forward_render(void *a1) { this->update(a1); }
+void TWindowSubStatusDisp::forward_render(void *level) { this->update(level); }
 int TWindowSubStatusDisp::update_subwindow() { return TWindowSubStatusDisp__sub_802879B0(this); }
 s32 TWindowSubStatusDisp::destroy_status_display(saddr arg0, s16 arg1) {
     if (arg0 != 0) {

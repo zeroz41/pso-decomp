@@ -61,12 +61,12 @@ struct TWindowSubComCard : public TObject {
     static saddr get_com_count();
     static void release();
     static saddr get_chr_select();
-    void clear_and_init(void* a1);
+    void clear_and_init(void* local_client_id);
     s32 get_card_id();
     int is_active();
     void bswap_guild_card();
     int bswap_guild_card_tag();
-    void init_card(void* a1);
+    void init_card(void* client_id);
     static int get_keyboard_mode();
     void *init_guild_card();
     static s32 init_card();
@@ -88,7 +88,7 @@ struct TWindowSubComCard : public TObject {
     void free_windows();
     void update_card_slot();
     void notify_trade_main();
-    void*init_fields(int a1, int a2);
+    void*init_fields(int rec, int client);
     int is_flag_4_set();
     static f32 trunc_float(f32 value);
     void set_card_text(saddr src);

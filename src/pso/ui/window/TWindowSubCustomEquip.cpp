@@ -318,17 +318,17 @@ void TWindowSubCustomEquip::layout_selection_parts(void *arg1) {
     *(u16 *)((s8 *)d + 0) |= 2;
 }
 
-void TWindowSubCustomEquip::layout_entry_group(void *arg1) {
+void TWindowSubCustomEquip::layout_entry_group(void *index) {
   u8 *base;
   u8 *e1;
   u8 *e2;
   u32 i;
   s32 idx;
   s32 v;
-  base = (u8 *) get_array_entry((saddr) arg1);
+  base = (u8 *) get_array_entry((saddr) index);
   for (i = 0; i < 3; i++)
   {
-    idx = ((saddr) arg1) + i;
+    idx = ((saddr) index) + i;
     e1 = (u8 *) get_array_entry(idx + 1);
     e2 = (u8 *) get_array_entry(idx + 4);
     *((f32 *) (((s8 *) e1) + 8)) = (*((f32 *) (((s8 *) base) + 8))) + custom_equip_entry_offset_table[i].x;
@@ -360,7 +360,7 @@ void TWindowSubCustomEquip::refresh_palette_slots() {
 
 #pragma push
 #pragma fp_contract on
-void TWindowSubCustomEquip::place_bank_slot_on_ring(s32 arg1, s32 arg2) {
+void TWindowSubCustomEquip::place_bank_slot_on_ring(s32 angle, s32 index) {
     f32 temp_f1;
     f32 temp_f30;
     f32 temp_f31;
@@ -374,13 +374,13 @@ void TWindowSubCustomEquip::place_bank_slot_on_ring(s32 arg1, s32 arg2) {
         lbl_805D647C = 1;
         lbl_805D6478 = 25.0f;
     }
-    temp_f30 = sin_table_lookup(arg1);
-    temp_f31 = cos_table_lookup(arg1);
-    array_entry = (u8 *)(this->get_array_entry(arg2));
+    temp_f30 = sin_table_lookup(angle);
+    temp_f31 = cos_table_lookup(angle);
+    array_entry = (u8 *)(this->get_array_entry(index));
     *(f32 *)((s8 *)array_entry + 8) = (f32) ((TWindowSubCustomEquip__ring_scale * temp_f31) + 27.0f);
     *(f32 *)((s8 *)array_entry + 0xC) = (f32) ((lbl_805D6478 * temp_f30) + 34.0f);
-    if ((arg1 - 0x7200) & 0x8000) {
-        temp_f1 = (0.5f * cos_table_lookup(arg1 + 0xFFFF4E00)) + 1.0f;
+    if ((angle - 0x7200) & 0x8000) {
+        temp_f1 = (0.5f * cos_table_lookup(angle + 0xFFFF4E00)) + 1.0f;
         *(f32 *)((s8 *)array_entry + 0x18) = 0.1f;
         temp_r4 = (s32) (255.0f * temp_f1);
         *(s32 *)((s8 *)array_entry + 0x2C) = (s32) ((u8) temp_r4 | (((temp_r4 << 0x10) & 0xFF0000) | 0xFF000000 | ((temp_r4 << 8) & 0xFF00)));

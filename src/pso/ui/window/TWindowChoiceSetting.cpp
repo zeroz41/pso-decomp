@@ -193,11 +193,11 @@ WindowDescriptor choice_setting_popup_window_descriptor = {
     {0.0f, 0.0f}, 50050.0f, &choice_setting_popup_layout_entries, 3,
 };
 
-TWindowMenuInfomation *create_information_counter_window(s32 arg0) {
+TWindowMenuInfomation *create_information_counter_window(s32 rows) {
     TWindowMenuInfomation *window;
 
-    fn_80268C5C(&lbl_8044F3A0, arg0);
-    window = new TWindowMenuInfomation((void *)get_window_layout_position(0xAE), arg0);
+    fn_80268C5C(&lbl_8044F3A0, rows);
+    window = new TWindowMenuInfomation((void *)get_window_layout_position(0xAE), rows);
     window->create_sub_window((saddr)"Information Counter");
     return window;
 }

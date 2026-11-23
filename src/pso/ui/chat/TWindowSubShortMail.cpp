@@ -392,29 +392,29 @@ saddr TWindowSubShortMail::create_list_item() {
     return temp_r31;
 }
 
-s32 TWindowSubShortMail::refresh_mail_list(void *arg1) {
+s32 TWindowSubShortMail::refresh_mail_list(void *mail_list) {
     s32 n;
     u32 id;
     s32 i;
     s16 sel;
     ShortMailEntry *e;
-    id = ((TWindowMenuIconLine *)arg1)->get_cursor_value();
+    id = ((TWindowMenuIconLine *)mail_list)->get_cursor_value();
     sel = -1;
     TLobby::clear_lobby_flag();
-    ((TShopArmorListWindow *)arg1)->save_cursor_selection();
-    ((TWindowMenuIconLine *)arg1)->reset_list();
+    ((TShopArmorListWindow *)mail_list)->save_cursor_selection();
+    ((TWindowMenuIconLine *)mail_list)->reset_list();
     n = TLobby::get_short_mail_ctrl();
     i = n - 1;
     while (i >= 0) {
         e = get_short_mail_entry(i);
-        ((TWindowSubStatusDisp *)arg1)->add_status_entry(e->get_flags(), (saddr)e->get_sender_name(), e->get_id());
+        ((TWindowSubStatusDisp *)mail_list)->add_status_entry(e->get_flags(), (saddr)e->get_sender_name(), e->get_id());
         if (id == e->get_id()) {
             sel = (n - 1) - i;
         }
         i--;
     }
     if (n <= 0) {
-        ((TWindowMenuIconLine *)arg1)->advance_line(-1);
+        ((TWindowMenuIconLine *)mail_list)->advance_line(-1);
         if (this->message_window != 0) {
             ((TWindowBase *)this->message_window)->close();
             this->message_window = 0;
@@ -424,10 +424,10 @@ s32 TWindowSubShortMail::refresh_mail_list(void *arg1) {
         this->mail_id = -1;
     }
     if (sel == -1) {
-        ((TShopArmorListWindow *)arg1)->clamp_selection_to_valid_entry();
+        ((TShopArmorListWindow *)mail_list)->clamp_selection_to_valid_entry();
         return 0;
     }
-    ((TWindowSubShortCutList *)arg1)->set_cursor_index(sel);
+    ((TWindowSubShortCutList *)mail_list)->set_cursor_index(sel);
     return 1;
 }
 

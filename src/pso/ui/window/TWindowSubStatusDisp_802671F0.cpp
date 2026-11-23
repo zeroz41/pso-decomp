@@ -216,13 +216,13 @@ void TWindowSubStatusDisp::add_list_entry(s32 arg1) {
     }
 }
 
-void TWindowSubShortCutList::draw_entry(s32 index, s32 arg2, s32 arg3, s32 arg4) {
+void TWindowSubShortCutList::draw_entry(s32 index, s32 status_style, s32 arg3, s32 item) {
     u8 sp9;
     u8 sp8;
 
     if ((s16) this->entry_count < (s16) this->entry_capacity) {
         fn_80266BD0(index, &sp9, &sp8, this->client_index);
-        ((ItemListRow *)get_array_entry(this->entry_count))->init_entry(sp9, sp8, arg2, arg3, arg4);
+        ((ItemListRow *)get_array_entry(this->entry_count))->init_entry(sp9, sp8, status_style, arg3, item);
         this->entry_count = (this->entry_count + 1);
     }
 }
@@ -286,7 +286,7 @@ void TWindowSubStatusDisp::refresh_selected_entry(s32 arg1) {
     }
 }
 
-void TWindowSubStatusDisp::add_status_entry(s8 arg1, s32 src, s32 arg3) {
+void TWindowSubStatusDisp::add_status_entry(s8 arg1, s32 src, s32 item) {
     u8 category_icon;
     s16 temp_r5;
     void *window_sub_status_disp;
@@ -301,7 +301,7 @@ void TWindowSubStatusDisp::add_status_entry(s8 arg1, s32 src, s32 arg3) {
             category_icon = 0x33;
         }
         window_sub_status_disp = (void *)this->get_array_entry((s16)temp_r5);
-        ((ItemListRow *)window_sub_status_disp)->init_status_entry(category_icon, src, arg3);
+        ((ItemListRow *)window_sub_status_disp)->init_status_entry(category_icon, src, item);
         *(f32 *)((s8 *)window_sub_status_disp + 8) = (f32) -18.0f;
         if (arg1 & 2) {
             reinterpret_cast<ItemListRow *>(window_sub_status_disp)->status_icon = 0xE;
@@ -311,7 +311,7 @@ void TWindowSubStatusDisp::add_status_entry(s8 arg1, s32 src, s32 arg3) {
     }
 }
 
-void TWindowSubStatusDisp::append_entry(s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5) {
+void TWindowSubStatusDisp::append_entry(s32 flag, s32 arg2, s32 item, s32 arg4, s32 arg5) {
     ItemListRow *row;
     s32 i;
     f32 k;
@@ -319,7 +319,7 @@ void TWindowSubStatusDisp::append_entry(s32 arg1, s32 arg2, s32 arg3, s32 arg4, 
 
     if (*(s16 *)(((u8 *)this) + 0x72) < *(s16 *)(((u8 *)this) + 0x76)) {
         row = (ItemListRow *)get_array_entry(*(s16 *)(((u8 *)this) + 0x72));
-        row->init_status_entry_by_flag(arg1, arg2, arg3);
+        row->init_status_entry_by_flag(flag, arg2, item);
         if (arg4 != 0) {
             row->flags |= 0x400;
         }
@@ -358,12 +358,12 @@ void TShopEquipmentSellWindow::add_item(saddr item, s32 arg2, s32 arg3) {
     }
 }
 
-void TShopJudgmentItemWindow::add_list_entry(saddr arg1, s32 arg2) {
+void TShopJudgmentItemWindow::add_list_entry(saddr item, s32 arg2) {
     int index;
-    if (arg1 != 0) {
+    if (item != 0) {
         index = this->m_72;
         if (index < (s16) this->m_76) {
-            ((ItemListRow *)(reinterpret_cast<TWindowBase *>(this)->get_array_entry(index)))->init_item_row((void *)arg1, (s32)arg2);
+            ((ItemListRow *)(reinterpret_cast<TWindowBase *>(this)->get_array_entry(index)))->init_item_row((void *)item, (s32)arg2);
             this->m_72 = (this->m_72 + 1);
         }
     }
@@ -406,17 +406,17 @@ void TAdVIConfigGC__sub_80267704(s32 arg0) {
 
 typedef struct Win_80267714 Win_80267714;
 #pragma fp_contract on
-void draw_item_list_capacity(void *arg0, Win_80267714 *arg1, s32 arg2, s32 arg3) {
+void draw_item_list_capacity(void *arg0, Win_80267714 *context, s32 arg2, s32 arg3) {
   u8 new_var;
   NJS_POINT2 pt;
-  if (arg1->i30 >= 0)
+  if (context->i30 >= 0)
   {
-    pt.x = (166.0f + arg1->x) - 8.0f;
-    pt.y = arg1->y - 13.0f;
-    draw_window_tab((WindowDrawContext *)arg1, &pt.x, 0, -60.0f);
+    pt.x = (166.0f + context->x) - 8.0f;
+    pt.y = context->y - 13.0f;
+    draw_window_tab((WindowDrawContext *)context, &pt.x, 0, -60.0f);
     pt.x += 50.0f;
     pt.y += 4.0f;
-    set_text_draw_params(reinterpret_cast<WindowDrawContext *>(arg1), 0, 0, (f32)(-1.0f / (0.1794f + arg1->f38)), (f32)100000.0f);
+    set_text_draw_params(reinterpret_cast<WindowDrawContext *>(context), 0, 0, (f32)(-1.0f / (0.1794f + context->f38)), (f32)100000.0f);
     text_builder_reset();
     text_builder_append_int(arg2);
     get_shared_text_buffer();

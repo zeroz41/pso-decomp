@@ -27,8 +27,8 @@ struct TWindowSubItem : public TObject {
     void close_windows(s32 arg1);
     void exec_item_command(saddr item_id, s32 arg2);
     void set_cursor_row_for_mode(s32 arg1);
-    static void draw_slot(saddr arg1, saddr arg2, s32 arg3);
-    static void add_meseta_purpose_actions(saddr arg0, saddr arg1);
+    static void draw_slot(saddr arg1, saddr titled_window_menu, s32 arg3);
+    static void add_meseta_purpose_actions(saddr arg0, saddr titled_window_menu);
     s32 create_count_input(s32 maximum);
     s32 create_menu_window();
     virtual void render();

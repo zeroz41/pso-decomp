@@ -25,6 +25,6 @@ TWindowChoiceSetting *create_choice_setting_window__17TWindowSubComCardFiii(
     const NJS_POINT2 *position, const NJS_POINT2 *extent, s32 rows);
 void render__21TWindowMenuInfomationFv(u8 *arg0);
 }
-TWindowMenuInfomation *create_information_counter_window(s32 arg0);
+TWindowMenuInfomation *create_information_counter_window(s32 rows);
 
 #endif

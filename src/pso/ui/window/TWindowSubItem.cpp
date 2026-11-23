@@ -492,23 +492,23 @@ s32 TWindowSubItem::create_count_input(s32 maximum) {
     return storage;
 }
 
-void TWindowSubItem::add_meseta_purpose_actions(saddr arg0, saddr arg1) {
+void TWindowSubItem::add_meseta_purpose_actions(saddr arg0, saddr titled_window_menu) {
     if (get_current_floor_area() == AREA_LOBBY) {
-        add_gray_text_entry((TWindowMenu *)arg1, (const char *)(TWindowSubStatusDisp::get_message_10(0x5F)), 6, 6);
+        add_gray_text_entry((TWindowMenu *)titled_window_menu, (const char *)(TWindowSubStatusDisp::get_message_10(0x5F)), 6, 6);
         return;
     }
-    ((TWindowMenu *)arg1)->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x5F)), 6, 6);
+    ((TWindowMenu *)titled_window_menu)->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x5F)), 6, 6);
 }
 
-void TWindowSubItem::draw_slot(saddr arg1, saddr arg2, s32 arg3) {
+void TWindowSubItem::draw_slot(saddr arg1, saddr titled_window_menu, s32 arg3) {
     s32 id;
 
     id = ((u32)__cntlzw(4 - (arg3 & 0xF)) >> 5) + 4;
     if ((is_current_area_item_enabled() == 0) || (is_boss_area() != 0)) {
-        add_gray_text_entry((TWindowMenu *)arg2, (const char *)(get_localized_text_entry(0x10, 0xF)), 6, id);
+        add_gray_text_entry((TWindowMenu *)titled_window_menu, (const char *)(get_localized_text_entry(0x10, 0xF)), 6, id);
         return;
     }
-    ((TWindowMenu *)arg2)->add_text_entry(get_localized_text_entry(0x10, 0xF), 0x26, id);
+    ((TWindowMenu *)titled_window_menu)->add_text_entry(get_localized_text_entry(0x10, 0xF), 0x26, id);
 }
 
 void add_item_purpose_actions(TWindowSubItem *window_sub_item, saddr list, saddr arg2) {

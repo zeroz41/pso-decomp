@@ -447,11 +447,11 @@ s32 TWindowMainMenu::is_not_split_screen() {
     return (u32)__cntlzw(is_split_screen()) >> 5;
 }
 
-s32 TWindowMainMenu::update_if_active(s32 _w1) {
+s32 TWindowMainMenu::update_if_active(s32 id) {
     Menu_802ADD38 *_w0 = (Menu_802ADD38 *)this;
     s32 temp_r3;
 
-    temp_r3 = append_child_rows__15TWindowMainMenuFPvi((Menu_802ADD38 *)(_w0), _w1);
+    temp_r3 = append_child_rows__15TWindowMainMenuFPvi((Menu_802ADD38 *)(_w0), id);
     if (temp_r3 != 0) {
         ((s32 (*)(void))TWindowMainMenu__sub_802AD74C)();
     }

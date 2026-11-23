@@ -36,10 +36,10 @@ s32 TWindowSubStatusDisp::get_status_index_or_default(u16 *arg0) {
 
 extern char lbl_805D285C[4];
 
-char *TWindowSubStatusDisp::get_status_window(u16 arg0) {
+char *TWindowSubStatusDisp::get_status_window(u16 client) {
     u32 character_save_record;
 
-    character_save_record = ((u32)get_character_save_record(arg0));
+    character_save_record = ((u32)get_character_save_record(client));
     if (character_save_record == 0U) {
         return lbl_805D285C;
     }
@@ -93,14 +93,14 @@ s32 TWindowSubStatusDisp__sub_800718D0(void) {
     return sum;
 }
 
-s32 TWindowSubStatusDisp__sub_80071988(u16 arg0, saddr slot) {
+s32 TWindowSubStatusDisp__sub_80071988(u16 client, saddr slot) {
     s32 *p;
     s32 n;
     s32 r;
     s32 sum;
     s32 i;
     uaddr w;
-    w = ((u32)get_character_save_record(arg0));
+    w = ((u32)get_character_save_record(client));
     if (w == 0U) {
         return 0;
     }
@@ -117,10 +117,10 @@ s32 TWindowSubStatusDisp__sub_80071988(u16 arg0, saddr slot) {
     return sum;
 }
 
-s32 TWindowSubStatusDisp__sub_80071A24(s32 arg0, u16 arg1, saddr slot) {
+s32 TWindowSubStatusDisp__sub_80071A24(s32 arg0, u16 client, saddr slot) {
     s32 layout_id;
     uaddr character_save_record;
-    character_save_record = get_character_save_record((u32)arg1);
+    character_save_record = get_character_save_record((u32)client);
     layout_id = TWindowSubStatusDisp::get_layout_id(slot);
     if ((arg0 < 0) || (arg0 >= layout_id) || (character_save_record == 0U)) {
         return 0;
