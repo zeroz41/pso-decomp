@@ -1784,7 +1784,7 @@ void TObjCMHairMenu::render() {
         step = 44.0f * scale;
         list.verts = pts;
         list.colors = cols;
-        list.unk_8 = 0;
+        list.tex = 0;
         pts[0].x = 0.1f * (lbl_804650D4[1].x - lbl_804650D4[0].x) + lbl_804650D4[0].x;
         pts[1].x = 1.1f * (lbl_804650D4[1].x - lbl_804650D4[0].x) + lbl_804650D4[0].x;
         pts[2].x = 1.1f * (lbl_804650D4[2].x - lbl_804650D4[3].x) + lbl_804650D4[3].x;

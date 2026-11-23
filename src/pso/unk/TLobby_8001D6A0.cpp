@@ -836,7 +836,7 @@ void TLobby__sub_8001EA5C(f32 x, f32 y, f32 size, f32 alpha) {
         progress /= 2592.0f;
         lines.verts = verts;
         lines.colors = colors;
-        lines.unk_8 = 0;
+        lines.tex = 0;
         lines.count = 3;
         lines.colors[0] = color | 0xFF00;
         lines.colors[1] = color | 0xFF00;

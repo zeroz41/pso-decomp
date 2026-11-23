@@ -275,7 +275,7 @@ void draw_polygon_2d(NJS_POINT2COL *poly, s32 count, u32 flags, f32 depth) {
     if (!(flags & 2)) {
         tmp.verts = v;
         tmp.colors = c;
-        tmp.unk_8 = self->unk_8;
+        tmp.tex = self->tex;
         tmp.count = 2;
         draw_color_lines(self, count, flags | 0x10, depth);
         copy_vec2((&v[0]), &self->verts[0]);

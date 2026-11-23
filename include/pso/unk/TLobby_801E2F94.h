@@ -13,7 +13,7 @@ struct ColorLineVertex {
 struct ColorLineList {
     ColorLineVertex *verts;
     u32 *colors;
-    s32 unk_8;
+    NJS_TEX *tex;  // optional texture coordinates, NULL for flat lines
     s32 count;
 };
 

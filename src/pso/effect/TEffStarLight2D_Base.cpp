@@ -210,7 +210,7 @@ void TEffStarLight2D::draw_segment(ColorLineVertex *a, ColorLineVertex *b,
     start_color.channels.a = clamped_start;
     polygon.verts = vertices;
     polygon.colors = colors;
-    polygon.unk_8 = 0;
+    polygon.tex = 0;
     polygon.count = 4;
     end_color.channels.a = clamped_end;
     polygon.verts[0].x = a->x;
