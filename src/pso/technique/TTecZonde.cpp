@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/technique/TTecZondeEff.h"
 #include "types.h"
 #include "pso/enemy/TUnk_80493450.h"
 #include <stdlib.h>
@@ -172,54 +173,33 @@ void TTecZonde::run_task() {
         scale = 0.5f;
         switch (self->level) {
         case 0:
-            o = TObject::operator new(0x260);
-            if (o != NULL) {
-                ((TTecZonde *)o)->construct_bolt_effect(tl_07, (u8 *)segs[0].a, (u8 *)segs[0].b, 0x14000000, 0x14, segs[0].len, 0.5f);
-            }
+            new TTecZondeEff((TObject *)tl_07, (Vec *)segs[0].a, (Vec *)segs[0].b, 0x14000000, 0x14, segs[0].len, 0.5f);
             break;
         case 1:
             scale *= 1.2f;
-            o = TObject::operator new(0x260);
-            if (o != NULL) {
-                ((TTecZonde *)o)->construct_bolt_effect(tl_07, (u8 *)segs[0].a, (u8 *)segs[0].b, 0x14000000, 0x14, segs[0].len, scale);
-            }
+            new TTecZondeEff((TObject *)tl_07, (Vec *)segs[0].a, (Vec *)segs[0].b, 0x14000000, 0x14, segs[0].len, scale);
             break;
         case 2:
             scale *= 1.4f;
-            o = TObject::operator new(0x260);
-            if (o != NULL) {
-                ((TTecZonde *)o)->construct_bolt_effect(tl_07, (u8 *)segs[0].a, (u8 *)segs[0].b, 0x14000000, 0x14, segs[0].len, scale);
-            }
+            new TTecZondeEff((TObject *)tl_07, (Vec *)segs[0].a, (Vec *)segs[0].b, 0x14000000, 0x14, segs[0].len, scale);
             break;
         case 3:
             for (j = 0; j < 3; j++) {
-                o = TObject::operator new(0x260);
-                if (o != NULL) {
-                    ((TTecZonde *)o)->construct_bolt_effect(tl_07, (u8 *)segs[j].a, (u8 *)segs[j].b, 0x14000000, 0x14, segs[j].len, 0.5f);
-                }
+                new TTecZondeEff((TObject *)tl_07, (Vec *)segs[j].a, (Vec *)segs[j].b, 0x14000000, 0x14, segs[j].len, 0.5f);
             }
             break;
         case 4:
             scale *= 1.4f;
             for (k = 0; k < 3; k++) {
-                o = TObject::operator new(0x260);
-                if (o != NULL) {
-                    ((TTecZonde *)o)->construct_bolt_effect(tl_07, (u8 *)segs[k].a, (u8 *)segs[k].b, 0x14000000, 0x14, segs[k].len, scale);
-                }
+                new TTecZondeEff((TObject *)tl_07, (Vec *)segs[k].a, (Vec *)segs[k].b, 0x14000000, 0x14, segs[k].len, scale);
             }
             break;
         case 5:
             for (l = 0; l < 14; l++) {
                 if (l == 0) {
-                    o = TObject::operator new(0x260);
-                    if (o != NULL) {
-                        ((TTecZonde *)o)->construct_bolt_effect(tl_07, (u8 *)segs[l].a, (u8 *)segs[l].b, 0x14000000, 0x14, segs[l].len, 5.0f);
-                    }
+                    new TTecZondeEff((TObject *)tl_07, (Vec *)segs[l].a, (Vec *)segs[l].b, 0x14000000, 0x14, segs[l].len, 5.0f);
                 } else {
-                    o = TObject::operator new(0x260);
-                    if (o != NULL) {
-                        ((TTecZonde *)o)->construct_bolt_effect(tl_07, (u8 *)segs[l].a, (u8 *)segs[l].b, 0x14000000, 0x14, segs[l].len, 0.5f);
-                    }
+                    new TTecZondeEff((TObject *)tl_07, (Vec *)segs[l].a, (Vec *)segs[l].b, 0x14000000, 0x14, segs[l].len, 0.5f);
                 }
             }
             break;

@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/technique/TTecZondeEff.h"
 #include "pso/enemy/EnemyTargeting.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/unk/SampledMotionPoints.h"
@@ -1124,10 +1125,7 @@ void TObjEneMoja::update_technique_state() {
                         rotate_vector_by_matrix(0, &dir, &dir);
                         pop_matrix();
                     }
-                    obj = TObject::operator new(0x260);
-                    if (obj != NULL) {
-                        ((TTecZonde *)obj)->construct_bolt_effect((u8 *)tl_07, (u8 *)&pos, (u8 *)&dir, 0x14000000, 20, (f32)(attack_params->get_attack_range()), 1.8f);
-                    }
+                    new TTecZondeEff(tl_07, &pos, &dir, 0x14000000, 20, (f32)(attack_params->get_attack_range()), 1.8f);
                     play_sound_effect(0x4002A408, &pos, 0, 0);
                     break;
                 }

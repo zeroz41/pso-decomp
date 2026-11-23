@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include "pso/system/vector.h"
 #include "pso/technique/TTecZonde.h"
+#include "pso/technique/TTecZondeEff.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/weapon/TItemWeapon.h"
 #include "pso/player/TUnk_804F166C.h"
@@ -52,7 +53,6 @@ void spawn_scattered_lightning_strikes(u8 *arg0, s32 arg1) {
     Strike_80357B2C *s;
     Vec *d;
     s32 i;
-    uaddr obj;
     f32 scale;
     s32 j;
     s32 k;
@@ -77,54 +77,33 @@ void spawn_scattered_lightning_strikes(u8 *arg0, s32 arg1) {
     scale = 0.5f;
     switch (arg1) {
     case 0:
-        obj = (uaddr)TObject::operator new(0x260);
-        if (obj != 0) {
-            ((TTecZonde *)obj)->construct_bolt_effect((u8 *)tl_07, (u8 *)&strikes[0].pos, (u8 *)&strikes[0].dir, 0x14000000, 0x14, strikes[0].len, 0.5f);
-        }
+        new TTecZondeEff((TObject *)tl_07, &strikes[0].pos, &strikes[0].dir, 0x14000000, 0x14, strikes[0].len, 0.5f);
         break;
     case 1:
         scale *= 1.2f;
-        obj = (uaddr)TObject::operator new(0x260);
-        if (obj != 0) {
-            ((TTecZonde *)obj)->construct_bolt_effect((u8 *)tl_07, (u8 *)&strikes[0].pos, (u8 *)&strikes[0].dir, 0x14000000, 0x14, strikes[0].len, (f32)scale);
-        }
+        new TTecZondeEff((TObject *)tl_07, &strikes[0].pos, &strikes[0].dir, 0x14000000, 0x14, strikes[0].len, (f32)scale);
         break;
     case 2:
         scale *= 1.4f;
-        obj = (uaddr)TObject::operator new(0x260);
-        if (obj != 0) {
-            ((TTecZonde *)obj)->construct_bolt_effect((u8 *)tl_07, (u8 *)&strikes[0].pos, (u8 *)&strikes[0].dir, 0x14000000, 0x14, strikes[0].len, (f32)scale);
-        }
+        new TTecZondeEff((TObject *)tl_07, &strikes[0].pos, &strikes[0].dir, 0x14000000, 0x14, strikes[0].len, (f32)scale);
         break;
     case 3:
         for (j = 0; j < 3; j++) {
-            obj = (uaddr)TObject::operator new(0x260);
-            if (obj != 0) {
-                ((TTecZonde *)obj)->construct_bolt_effect((u8 *)tl_07, (u8 *)&strikes[j].pos, (u8 *)&strikes[j].dir, 0x14000000, 0x14, strikes[j].len, 0.5f);
-            }
+            new TTecZondeEff((TObject *)tl_07, &strikes[j].pos, &strikes[j].dir, 0x14000000, 0x14, strikes[j].len, 0.5f);
         }
         break;
     case 4:
         scale *= 1.4f;
         for (k = 0; k < 3; k++) {
-            obj = (uaddr)TObject::operator new(0x260);
-            if (obj != 0) {
-                ((TTecZonde *)obj)->construct_bolt_effect((u8 *)tl_07, (u8 *)&strikes[k].pos, (u8 *)&strikes[k].dir, 0x14000000, 0x14, strikes[k].len, (f32)scale);
-            }
+            new TTecZondeEff((TObject *)tl_07, &strikes[k].pos, &strikes[k].dir, 0x14000000, 0x14, strikes[k].len, (f32)scale);
         }
         break;
     case 5:
         for (m = 0; m < 14; m++) {
             if (m == 0) {
-                obj = (uaddr)TObject::operator new(0x260);
-                if (obj != 0) {
-                    ((TTecZonde *)obj)->construct_bolt_effect((u8 *)tl_07, (u8 *)&strikes[m].pos, (u8 *)&strikes[m].dir, 0x14000000, 0x14, strikes[m].len, 5.0f);
-                }
+                new TTecZondeEff((TObject *)tl_07, &strikes[m].pos, &strikes[m].dir, 0x14000000, 0x14, strikes[m].len, 5.0f);
             } else {
-                obj = (uaddr)TObject::operator new(0x260);
-                if (obj != 0) {
-                    ((TTecZonde *)obj)->construct_bolt_effect((u8 *)tl_07, (u8 *)&strikes[m].pos, (u8 *)&strikes[m].dir, 0x14000000, 0x14, strikes[m].len, 0.5f);
-                }
+                new TTecZondeEff((TObject *)tl_07, &strikes[m].pos, &strikes[m].dir, 0x14000000, 0x14, strikes[m].len, 0.5f);
             }
         }
         break;
@@ -346,7 +325,6 @@ void dispatch_by_type(TObjPlayer *player, TObjBase *target, Vec *pos, s32 phase)
 void weapon_special_lightning_bolt_effect(TObjPlayer *player, TObjBase *target, Vec *pos, s32 phase) {
     Vec node;
     Vec v;
-    uaddr obj;
     if (phase == 0) {
         player->get_anim_node_position(0x30, &node);
         spawn_particle_effect(&node, 0xBE);
@@ -356,10 +334,7 @@ void weapon_special_lightning_bolt_effect(TObjPlayer *player, TObjBase *target, 
         v.y += 100.0f;
         {
             Vec t = lbl_804793D8;
-            obj = (uaddr)TObject::operator new(0x260);
-            if (obj != 0U) {
-                ((TTecZonde *)obj)->construct_bolt_effect((u8 *)tl_07, (u8 *)&v, (u8 *)&t, 0x14000000, 0x14, 100.0f, 1.8f);
-            }
+            new TTecZondeEff((TObject *)tl_07, &v, &t, 0x14000000, 0x14, 100.0f, 1.8f);
         }
     }
 }

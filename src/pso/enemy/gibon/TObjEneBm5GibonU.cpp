@@ -4,6 +4,7 @@
 #include "pso/system/EnemyBmlResource.h"
 #include "pso/boss/goldragon/TBoss8Dragon_80065C90.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/technique/TTecZondeEff.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/map/CsnGroundQuery.h"
 #include "pso/npc/NpcModelRegistry.h"
@@ -521,10 +522,7 @@ void TObjEneBm5GibonU::state_cast_technique(s32 msg) {
                             rotate_matrix_y(0, rotation_y);
                             rotate_vector_by_matrix(0, &v, &v);
                             pop_matrix();
-                            e = TObject::operator new(0x260);
-                            if (e != 0) {
-                                ((TTecZonde *)e)->construct_bolt_effect((u8 *)tl_07, (u8 *)&p, (u8 *)&v, 0x14000000, 20, (f32)(attack_params->get_attack_range()), 1.8f);
-                            }
+                            new TTecZondeEff(tl_07, &p, &v, 0x14000000, 20, (f32)(attack_params->get_attack_range()), 1.8f);
                         }
                         play_sound_effect(0x4002A408, &p, 0, 0);
                         break;

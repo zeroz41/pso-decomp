@@ -1,3 +1,4 @@
+#include "pso/technique/TTecZondeEff.h"
 #include "pso/system/BmlAccessors.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
@@ -624,10 +625,7 @@ void TOTrapAncient02R::vfunc_81() {
                         spawn_particle_effect(&scratch_vec, 0xB9);
                         spawn_particle_effect(&scratch_vec, 0xBA);
                         {
-                            void *t = TObject::operator new(0x260);
-                            if (t != NULL) {
-                                ((TTecZonde *)t)->construct_bolt_effect((u8 *)tl_07, (u8 *)&scratch_vec, (u8 *)&lbl_8050BF00, 0x14000000, 0x14, range, 1.8f);
-                            }
+                            new TTecZondeEff(tl_07, &scratch_vec, &lbl_8050BF00, 0x14000000, 0x14, range, 1.8f);
                         }
                         play_sound_effect(0x4002A408, &scratch_vec, 0, 0);
                         break;

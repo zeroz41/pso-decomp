@@ -7,7 +7,9 @@
 
 class TTecZondeEff : public TObject {
 public:
-    TTecZondeEff(TObject *, s32, s32, f32);
+    TTecZondeEff(TObject *parent, s32 decay, s32 start, f32 scale);
+    TTecZondeEff(TObject *parent, Vec *from, Vec *dir, s32 decay, s32 start, f32 length, f32 scale);
+    TTecZondeEff(TObject *parent, Vec *from, Vec *dir, f32 length);
     virtual ~TTecZondeEff();
     void randomize_bolt_jitter();
     void calc_lightning_scatter_direction(s32, void *);
@@ -18,8 +20,6 @@ public:
     s32 calc_dominant_axis();
     void init_bolt_points();
     static void init_resources();
-public:
-    u8 *construct(u8 *parent, u8 *arg2, u8 *arg3, f32 farg0);
 
     Vec origin;
     Vec direction;  // unit vector from origin to the far end; length holds the distance
@@ -39,9 +39,6 @@ public:
     s16 active;
 };
 
-extern "C" {
-u8 *__ct__12TTecZondeEffFP7TObjectllf(u8 *object, u8 *arg1, s32 arg2, s32 arg3, f32 farg0);
-}
 void clear_zonde_beam_vertex_pointer(void);
 
 #endif

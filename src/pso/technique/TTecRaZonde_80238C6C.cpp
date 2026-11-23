@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/technique/TTecZondeEff.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
 #include "pso/technique/TechniqueParams.h"
@@ -260,17 +261,9 @@ TTecRaZonde::TTecRaZonde(saddr source, Vec *origin, s32 level) : TTecCircle(sour
         if ((0.0f) != len) {
             normalize_vector(&b);
         }
-        {
-            u8 *o = (u8 *)TObject::operator new(0x260);
-            if (o != 0) {
-                ((TTecZonde *)o)->construct_bolt_effect((u8 *)tl_07, (u8 *)&a, (u8 *)&b, 0x14000000, 6, len, (5.0f));
-            }
-        }
+        new TTecZondeEff(tl_07, &a, &b, 0x14000000, 6, len, 5.0f);
         if (band == 5) {
-            u8 *o = (u8 *)TObject::operator new(0x260);
-            if (o != 0) {
-                ((TTecZonde *)o)->construct_bolt_effect((u8 *)tl_07, (u8 *)&a, (u8 *)&b, 0x14000000, 6, len, (0.5f));
-            }
+            new TTecZondeEff(tl_07, &a, &b, 0x14000000, 6, len, 0.5f);
         }
     }
     switch (band) {

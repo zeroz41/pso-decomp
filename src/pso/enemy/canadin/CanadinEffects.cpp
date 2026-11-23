@@ -151,10 +151,7 @@ void TObjEneMe1Canadin_EffDischarge::run_task() {
     VecCopy(&v, &seg_end);
     subtract_vector(&v, &seg_start);
     scale = normalize_vector_safe(&v);
-    TTecZondeEff *eff = (TTecZondeEff *)TObject::operator new(0x260);
-    if (eff != NULL) {
-        eff->construct((u8 *)tl_05, (u8 *)&seg_start, (u8 *)&v, scale);
-    }
+    new TTecZondeEff(tl_05, &seg_start, &v, scale);
     VecCopy(&seg_start, &seg_end);
     if (done != 0) {
         owner->deliver_discharge_attack(&target);

@@ -754,10 +754,7 @@ s32 TBoss3VoloptP01::fire_zonde_at_players() {
             VecCopy(&dir, target_pos);
             subtract_vector(&dir, &pos);
             len = normalize_vector(&dir);
-            bolt = (TTecZondeEff *)TObject::operator new(0x260);
-            if (bolt != NULL) {
-                bolt->construct((u8 *)tl_07, (u8 *)&pos, (u8 *)&dir, len);
-            }
+            new TTecZondeEff(tl_07, &pos, &dir, len);
             VecCopy(&pos, target_pos);
             target->receive_direct_attack(this, attack, NULL, -1, -1);
         }
@@ -766,10 +763,7 @@ s32 TBoss3VoloptP01::fire_zonde_at_players() {
             Vec to_hiraisin = *&hiraisin->position;
             subtract_vector(&to_hiraisin, &pos);
             len = normalize_vector(&to_hiraisin);
-            bolt = (TTecZondeEff *)TObject::operator new(0x260);
-            if (bolt != NULL) {
-                bolt->construct((u8 *)tl_07, (u8 *)&pos, (u8 *)&to_hiraisin, len);
-            }
+            new TTecZondeEff(tl_07, &pos, &to_hiraisin, len);
             if (hiraisin->is_grounded() != 0) {
                 TBoss3VoloptActionPacket packet;
                 packet.init();

@@ -25,21 +25,6 @@
 #pragma readonly_strings on
 
 
-struct RecoveredGlobal_8023D988___vt__12TTecZondeEff {
-    s32 value;
-    u8 remaining[0x14];
-};
-
-struct RecoveredGlobal_8023DADC___vt__12TTecZondeEff {
-    s32 value;
-    u8 remaining[0x14];
-};
-
-struct RecoveredGlobal_8023DA10___vt__12TTecZondeEff {
-    s32 value;
-    u8 remaining[0x14];
-};
-
 struct P_8023DBB4 { void *vt; s32 n; };
 
 struct Rec_8023D4A8 { f32 a, b, c; };
@@ -120,8 +105,6 @@ struct Obj_8023CED4
 };
 
 extern "C" {
-void __ct__7TObjectFP7TObject(void *, void *);
-extern RecoveredGlobal_8023D988___vt__12TTecZondeEff __vt__12TTecZondeEff;
 const char *TTecZondeEff_class_name = "TTecZondeEff";
 P_8023DBB4 tec_zonde_effect_task_list;
 extern char lbl_804CC8C8[];
@@ -327,8 +310,6 @@ s32 TTecZondeEff::calc_dominant_axis() {
     return 2;
 }
 
-LAYOUT_ASSERT(RecoveredGlobal_8023D988___vt__12TTecZondeEff_size, sizeof(RecoveredGlobal_8023D988___vt__12TTecZondeEff) == 0x18);
-
 void TTecZondeEff::randomize_bolt_jitter() {
     Rec_8023D4A8 *p;
     s32 axis;
@@ -445,62 +426,53 @@ void TTecZondeEff::run_task() {
 TTecZondeEff::~TTecZondeEff() {}
 }
 void clear_zonde_beam_vertex_pointer(void);
-TTecZondeEff::TTecZondeEff(TObject *parent, s32 arg2, s32 arg3, f32 farg0) : TObject(parent) {
-    this->m_name = TTecZondeEff_class_name;
-    *(f32 *)((s8 *)this + 0x244) = farg0;
-    *(s32 *)((s8 *)this + 0x254) = arg2;
-    *(s32 *)((s8 *)this + 0x258) = arg3;
-    *(s32 *)((s8 *)this + 0x250) = 0;
-    *(s16 *)((s8 *)this + 0x25C) = 0;
-    *(s32 *)((s8 *)this + 0x38) = 0xD;
-    *(s32 *)((s8 *)this + 0x248) = 0;
-    *(s32 *)((s8 *)this + 0x24C) = 0xFF000000;
-    *(s16 *)((s8 *)this + 0x25E) = 0;
+TTecZondeEff::TTecZondeEff(TObject *parent, s32 decay, s32 start, f32 scale) : TObject(parent) {
+    m_name = TTecZondeEff_class_name;
+    this->scale = scale;
+    this->decay = decay;
+    this->start = start;
+    idx = 0;
+    frame = 0;
+    point_count = 13;
+    timer = 0;
+    power = 0xFF000000;
+    active = 0;
 }
 
-LAYOUT_ASSERT(RecoveredGlobal_8023DADC___vt__12TTecZondeEff_size, sizeof(RecoveredGlobal_8023DADC___vt__12TTecZondeEff) == 0x18);
-
-LAYOUT_ASSERT(RecoveredGlobal_8023DA10___vt__12TTecZondeEff_size, sizeof(RecoveredGlobal_8023DA10___vt__12TTecZondeEff) == 0x18);
-u8 *TTecZonde::construct_bolt_effect(u8 *parent, u8 *arg2, u8 *arg3, s32 arg4, s32 arg5, f32 farg0, f32 scale) {
-    __ct__7TObjectFP7TObject(this, parent);
-    *(s32 **)((s8 *)((u8 *)this) + 0x18) = &(*(RecoveredGlobal_8023DA10___vt__12TTecZondeEff *)&__vt__12TTecZondeEff).value;
-    this->m_name = TTecZondeEff_class_name;
-    *(f32 *)((s8 *)((u8 *)this) + 0x244) = scale;
-    *(s32 *)((s8 *)((u8 *)this) + 0x254) = arg4;
-    *(s32 *)((s8 *)((u8 *)this) + 0x258) = arg5;
-    VecCopy((Vec *)(((u8 *)this) + 0x1C), (const Vec *)arg2);
-    VecCopy((Vec *)(((u8 *)this) + 0x28), (const Vec *)arg3);
-    *(f32 *)((s8 *)((u8 *)this) + 0x34) = farg0;
-    *(s32 *)((s8 *)((u8 *)this) + 0x250) = 0;
-    *(s16 *)((s8 *)((u8 *)this) + 0x25C) = 0;
-    *(s32 *)((s8 *)((u8 *)this) + 0x38) = 0xD;
-    ((TTecZondeEff *)((u8 *)this))->init_bolt_points();
-    ((TTecZondeEff *)this)->randomize_bolt_jitter();
-    *(s32 *)((s8 *)((u8 *)this) + 0x248) = 0;
-    *(s32 *)((s8 *)((u8 *)this) + 0x24C) = 0xFF000000;
-    *(s16 *)((s8 *)((u8 *)this) + 0x25E) = 0;
-    return ((u8 *)this);
+TTecZondeEff::TTecZondeEff(TObject *parent, Vec *from, Vec *dir, s32 decay, s32 start, f32 length, f32 scale) : TObject(parent) {
+    m_name = TTecZondeEff_class_name;
+    this->scale = scale;
+    this->decay = decay;
+    this->start = start;
+    VecCopy(&origin, from);
+    VecCopy(&direction, dir);
+    this->length = length;
+    idx = 0;
+    frame = 0;
+    point_count = 13;
+    init_bolt_points();
+    randomize_bolt_jitter();
+    timer = 0;
+    power = 0xFF000000;
+    active = 0;
 }
 
-u8 *TTecZondeEff::construct(u8 *parent, u8 *arg2, u8 *arg3, f32 farg0) {
-    __ct__7TObjectFP7TObject(this, parent);
-    *(s32 **)((s8 *)((u8 *)this) + 0x18) = &(*(RecoveredGlobal_8023DADC___vt__12TTecZondeEff *)&__vt__12TTecZondeEff).value;
-    this->m_name = TTecZondeEff_class_name;
-    *(f32 *)((s8 *)((u8 *)this) + 0x244) = 1.0f;
-    *(s32 *)((s8 *)((u8 *)this) + 0x254) = 0x08000000;
-    *(s32 *)((s8 *)((u8 *)this) + 0x258) = 0x14;
-    VecCopy((Vec *)(((u8 *)this) + 0x1C), (const Vec *)arg2);
-    VecCopy((Vec *)(((u8 *)this) + 0x28), (const Vec *)arg3);
-    *(f32 *)((s8 *)((u8 *)this) + 0x34) = farg0;
-    *(s32 *)((s8 *)((u8 *)this) + 0x250) = 0;
-    *(s16 *)((s8 *)((u8 *)this) + 0x25C) = 0;
-    *(s32 *)((s8 *)((u8 *)this) + 0x38) = 0xD;
-    this->init_bolt_points();
-    ((TTecZondeEff *)this)->randomize_bolt_jitter();
-    *(s32 *)((s8 *)((u8 *)this) + 0x248) = 0;
-    *(s32 *)((s8 *)((u8 *)this) + 0x24C) = 0xFF000000;
-    *(s16 *)((s8 *)((u8 *)this) + 0x25E) = 0;
-    return ((u8 *)this);
+TTecZondeEff::TTecZondeEff(TObject *parent, Vec *from, Vec *dir, f32 length) : TObject(parent) {
+    m_name = TTecZondeEff_class_name;
+    scale = 1.0f;
+    decay = 0x08000000;
+    start = 0x14;
+    VecCopy(&origin, from);
+    VecCopy(&direction, dir);
+    this->length = length;
+    idx = 0;
+    frame = 0;
+    point_count = 13;
+    init_bolt_points();
+    randomize_bolt_jitter();
+    timer = 0;
+    power = 0xFF000000;
+    active = 0;
 }
 
 void clear_zonde_beam_vertex_pointer(void) {
