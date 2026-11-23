@@ -11,7 +11,6 @@ struct PhotonBlastRequest;
 // admit_photon_blast_sequence with the owner's client id, the chained
 // players and their counts; run by step_photon_blast_sequence while
 // `animated`, else delivered after `delay` frames (update_and_destroy).
-// Field names are inferred from the functions that use them.
 class TUnk_804C349C : public TObject {
 public:
     TUnk_804C349C(s32 owner_client_id, PhotonBlastRequest *requests, s32 *counts, s32 animated, s32 delay);
