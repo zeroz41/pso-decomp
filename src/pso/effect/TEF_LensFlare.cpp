@@ -2,6 +2,7 @@
 #include "pso/effect/particle/ParticleDefinition.h"
 #include "pso/effect/TEF_LensFlare.h"
 #include "pso/effect/TEF_PvrWave.h"
+#include "pso/unk/TUnk_804C57E0.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/math/MatrixVector.h"
@@ -18,16 +19,10 @@
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/vector.h"
 
-struct Base_8008194C_80081278 { char pad[0x50]; };
-struct VObj_8008194C_80081278 : Base_8008194C_80081278 {
-    virtual void m0();
-    virtual void m1();
-};
-
 __declspec(section ".rodata") extern const char TEF_LensFlare__class_name_string[] = "TEF_LensFlare";
-const char *TEF_LensFlare__class_name = TEF_LensFlare__class_name_string;
+const char *TEF_LensFlare::class_name = TEF_LensFlare__class_name_string;
 
-// The reflections TEF_LensFlare__ct hands to every flare (render() draws the first nine).
+// The reflections the constructor hands to every flare (render() draws the first nine).
 LensFlareElement lens_flare_reflected_element_descriptors[10] = {
     {1, 0.1f, 0.8f, 0.0f, 0.7f, -10.0f},
     {2, 0.4f, 0.6f, 0.5f, 0.7f, -10.1f},
@@ -41,12 +36,6 @@ LensFlareElement lens_flare_reflected_element_descriptors[10] = {
     {2, 0.0f, 4.0f, 2.0f, 0.4f, -10.9f},
 };
 
-extern "C" {
-s32 __ct__8TObjBaseFP7TObject(void *, void *);
-extern s32 __vt__13TEF_LensFlare[];
-u8 *TEF_LensFlare__ct(u8 *arg0, saddr arg1, saddr arg2);
-
-}
 TEF_LensFlare::~TEF_LensFlare() {
 
 }
@@ -269,20 +258,16 @@ void TEF_LensFlare::render() {
 #pragma pop
 
 
-u8 *TEF_LensFlare__ct(u8 *ef_lens_flare, saddr parent, saddr set_data) {
-    __ct__8TObjBaseFP7TObject((void *)ef_lens_flare, (void *)parent);
-    *(s32 **)((s8 *)ef_lens_flare + 0x18) = __vt__13TEF_LensFlare;
-    ((TEF_LensFlare *)ef_lens_flare)->m_name = TEF_LensFlare__class_name;
-    ((TEF_LensFlare *)(ef_lens_flare))->apply_object_set_data((void *)set_data);
-    ((TEF_LensFlare *)ef_lens_flare)->elements = lens_flare_reflected_element_descriptors;
-    return ef_lens_flare;
+TEF_LensFlare::TEF_LensFlare(TObject *parent, void *set_data) : TObjBase(parent) {
+    m_name = class_name;
+    apply_object_set_data(set_data);
+    elements = lens_flare_reflected_element_descriptors;
 }
 
 void TEF_LensFlare::run_task() {  }
 void TEF_PvrWave::render() {  }
 
 void TEF_PvrWave::run_task() {
-    struct VObj_8008194C_80081278 *o = (struct VObj_8008194C_80081278 *)*(void **)((s8 *)this + 0x1C);
-    o->m1();
+    wave->update_texture_wave_image();
 }
 

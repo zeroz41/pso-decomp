@@ -10,7 +10,7 @@
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 
 extern "C" {
-u8 * TEF_LensFlare__ct(void *, saddr, saddr);
+u8 * __ct__13TEF_LensFlareFP7TObjectPv(void *, saddr, saddr);
 extern saddr tl_05;
 u32 __cvt_fp2unsigned(f32);
 f32 horizontal_distance_squared(s32, s32);
@@ -70,7 +70,7 @@ u8 *TEF_LensFlare__create(s32 arg0) {
     ef_lens_flare = (u8 *)(TObject::operator new(0x94));
     var_r0 = ef_lens_flare;
     if (var_r0 != NULL) {
-        var_r0 = (u8 *)(TEF_LensFlare__ct(ef_lens_flare, tl_05, arg0));
+        var_r0 = (u8 *)(__ct__13TEF_LensFlareFP7TObjectPv(ef_lens_flare, tl_05, arg0));
     }
     return var_r0;
 }
