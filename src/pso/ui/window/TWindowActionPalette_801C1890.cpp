@@ -218,12 +218,7 @@ int PhotonBlastGauge::fn_801C1F50() { return test_flags_any(&flags, 2); }
 
 void TObjPlayer__sub_801C1F78(void* p, u16 v) { *(s16*)((char*)p + 0x0) = v; }
 
-s32 TObjPlayer::free_owned_buffer_a(saddr arg0, s16 arg1) {
-    if ((arg0 != 0) && (arg1 > 0)) {
-        __dl__FPv();
-    }
-    return arg0;
-}
+PhotonBlastGauge::~PhotonBlastGauge() {}
 
 s32 TObjPlayer::free_owned_buffer_b(saddr arg0, s16 arg1) {
     if ((arg0 != 0) && (arg1 > 0)) {

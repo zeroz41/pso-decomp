@@ -31,6 +31,7 @@ struct Obj_801D67D4 {
 // A player's photon blast state (TObjPlayer + 0x4AC): the charge the mag's
 // support events and the photon blast window read.
 struct PhotonBlastGauge {
+    ~PhotonBlastGauge();
     // Empties the charge.
     void clear_charge();
     f32 get_charge();

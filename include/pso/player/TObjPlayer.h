@@ -322,7 +322,6 @@ struct TObjPlayer : public TObjChara {
     void set_flags_bit2();
     void set_flags_bit1();
     void clear_flag_1_at_1c();
-    static s32 free_owned_buffer_a(saddr arg0, s16 arg1);
     static s32 free_owned_buffer_b(saddr arg0, s16 arg1);
     static void*get_pmt_record(int i);
     static void*get_item_pmt_record(int type, int id);

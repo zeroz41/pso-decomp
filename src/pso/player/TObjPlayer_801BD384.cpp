@@ -64,7 +64,6 @@ TObjPlayer::~TObjPlayer() {
     TObjPlayer__sub_801BFAD4((s8 *)this + 0x644, -1);
     TObjPlayer::dt((saddr)((s8 *)this + 0x550), (s16)(-1));
     __dt__14TPlyDispConfigFv((saddr)((s8 *)this + 0x500), -1);
-    TObjPlayer::free_owned_buffer_a((saddr)((s8 *)this + 0x4AC), (s16)(-1));
 }
 
 extern "C" {
