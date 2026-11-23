@@ -145,9 +145,9 @@ def render_quality(quality: dict | None, repo: str) -> list[str]:
     advisory_title = "**Advisory checks**, signs worth a look that also fire on clean code (not in the total):"
     moved = [r for r in debt if changed(r)]
     if not moved and not any(changed(r) for r in owned + advisory):
-        lines += ["", f"Advisory: never fails a pull request. **No change in any check**; the tree stays at {after:,}."]
+        lines += ["", f"This section never fails a pull request. **No change in any check**; the tree stays at {after:,}."]
     else:
-        lines += ["", f"Advisory: never fails a pull request. **Debt {signed(after - base).strip('*')}**: "
+        lines += ["", f"This section never fails a pull request. **Debt {signed(after - base).strip('*')}**: "
                   f"this pull request removes {removed:,} and adds {added:,} across "
                   f"{plural(files, 'changed source file')}; the tree goes from {base:,} to {after:,}."]
     if moved:   # what this pull request did, the largest change first
