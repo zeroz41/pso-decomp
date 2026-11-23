@@ -5256,7 +5256,7 @@ force_active:
   - collect_beam_targets__16TObjEneNanoDragoFv
   - collect_body_contacts__10TTecCircleFP14TObjCollidableP13CollisionBodyPv
   - collect_candidate_players__12TBoss3VoloptFv
-  - collect_hit_targets__12TPhotonGollaFPv
+  - collect_hit_targets__12TPhotonGollaFv
   - collect_node_matrices__16TObjEneRe7BeruraFP10NJS_OBJECTl
   - collect_node_positions__11TBreakUpMdlFPUcl
   - collect_owner_events__8TItemMagFv
@@ -15969,7 +15969,7 @@ force_active:
   - spawn_break_effect__23TObjSeabedSuisoBrakableFv
   - spawn_breakup_models__15TBoss3VoloptP02Fv
   - spawn_child__17TObjEneBm3FlyNestFv
-  - spawn_concentrate__12TPhotonGollaFPv
+  - spawn_concentrate__12TPhotonGollaFv
   - spawn_confusion_feedback_effect__Fll
   - spawn_dead_spot__10TObjPlayerFlllf
   - spawn_debris__22TOWreckAncientBrakableFv
@@ -16262,7 +16262,7 @@ force_active:
   - sub_8019F9E4__14TObjWarpBoss03Fv
   - reset_color__13TPhotonEstllaFUc
   - sub_801AAE6C__13TPhotonFarllaFv
-  - sub_801AB688__12TPhotonGollaFv
+  - reset_material_color__12TPhotonGollaFUc
   - reset_material_color__13TPhotonLeillaFUc
   - reset_material_color__12TPhotonMyllaFUc
   - reset_color__12TPhotonPillaFUc

@@ -31,4 +31,6 @@ extern "C" {
 void *destroy__13TPhotonFarllaFPvs(void *arg0, s16 arg1);
 }
 
+void create_farlla_photon_blast_model(void);
+
 #endif

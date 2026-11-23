@@ -15,6 +15,7 @@
 #include "pso/unk/text_801AB370.h"
 #include "pso/unk/text_801ABE14.h"
 #include "pso/effect/photon/TPhotonPilla.h"
+#include "pso/effect/photon/TPhotonGolla.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/unk/TUnk_804C349C.h"
 #include "pso/player/PhotonBlastResults.h"
@@ -32,7 +33,7 @@
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/player/TObjPlayer_801AC0D8.h"
 #include "pso/player/TObjPlayer_801AE48C.h"
-#include "pso/player/TObjPlayer_801AB608.h"
+#include "pso/effect/photon/TPhotonFarlla.h"
 #include "pso/player/TObjPlayer_801AADE8.h"
 #include "pso/effect/photon/TPhotonYoulla.h"
 #include "pso/effect/photon/TPhotonMylla.h"
@@ -619,7 +620,7 @@ void TUnk_804C349C::step_photon_blast_sequence() {
         case 2:
             summon = (u8 *)TObject::operator new(0x1CC);
             if (summon != NULL) {
-                summon = TPhotonGolla__ct(summon, (u8 *)&params);
+                summon = (u8 *)TPhotonGolla__ct((TPhotonGolla *)summon, &params);
             }
             this->summon = (TObject *)summon;
             break;
@@ -935,7 +936,7 @@ void load_photon_blast_resources(void) {
 }
 
 PhotonBlastLoadCallback photon_blast_load_callback_table[10] = {
-    { create_golla_photon_blast_model, TObjPlayer::destroy_static_buffer_pair },
+    { create_golla_photon_blast_model, destroy_golla_photon_blast_model },
     { create_pilla_photon_blast_model, TObjPlayer::free_buffer_pair },
     { create_leilla_photon_blast_model, destroy_leilla_photon_blast_model },
     { create_farlla_photon_blast_model, TObjPlayer::destroy_buffers },

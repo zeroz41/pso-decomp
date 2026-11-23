@@ -3,35 +3,53 @@
 #include "types.h"
 #include "pso/effect/photon/PhotonBlastSummon.h"
 
+class TObjChara;
+
+// What TPhotonGolla hands each TPhotonConcentrate beam it fires.
+struct PhotonConcentrateParams {
+    Vec origin;
+    Vec target;
+    Vec direction;
+    f32 range[3];
+    TObjChara *target_object;
+    u32 angle;
+};
+
+// Golla, the photon blast summon that fires concentrated beams at the nearest enemy in front of its owner.
 class TPhotonGolla : public TPhotonBlastSummon {
 public:
     virtual ~TPhotonGolla();
-    void sub_801AB688();
+    // The constructor passes the chain's summon count; the body ignores it.
+    void reset_material_color(u8 count);
+    void spawn_concentrate();
+    void collect_hit_targets();
     virtual void render();
     virtual void run_task();
-    u8 unk_158[0x4];
-    float m_15c;
-    u8 unk_160[0x4];
-    float m_164;
-    u8 unk_168[0x34];
-    s32 m_19c;
-    u8 unk_1A0[0x4];
-    u8 * m_1a4;
-    u8 unk_1A8[0x10];
-    s16 m_1b8;
-    u8 unk_1BA[0x2];
-    s32 m_1bc;
-    u8 unk_1C0[0x4];
-    s32 m_1c4;
-    u8 unk_1C8[0x4];
-public:
-    static void spawn_concentrate(void *arg0);
-    static void collect_hit_targets(void *arg0);
+
+    u16 owner_id;
+    u8 pad_15A[2];
+    NJS_ARGB material_color;
+    u8 pad_16C[0x30];
+    TObjChara *hit_target;      // the target collect_hit_targets queued a hit on
+    u8 pad_1A0[4];
+    TObjCollidable *owner;
+    TObjChara *target;          // the nearest enemy inside the owner's front arc
+    Vec beam_origin;            // the muzzle the beams leave from (attachment 2)
+    s16 last_action;
+    u8 pad_1BA[2];
+    s32 is_first;
+    s32 has_more;
+    s32 visible;
+    s32 frame;
 };
 LAYOUT_ASSERT(TPhotonGolla_size, sizeof(TPhotonGolla) == 0x1CC);
 
 extern "C" {
-void *destroy__12TPhotonGollaFPvs(void *arg0, s16 arg1);
+TPhotonGolla *TPhotonGolla__ct(TPhotonGolla *summon, PhotonSummonParams *params);
+void *destroy__12TPhotonGollaFPvs(TPhotonGolla *golla, s16 mode);
 }
+
+void destroy_golla_photon_blast_model(void);
+void create_golla_photon_blast_model(void);
 
 #endif
