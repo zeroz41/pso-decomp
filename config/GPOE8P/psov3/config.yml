@@ -5365,7 +5365,7 @@ force_active:
   - set_parameters__15TEffStarLight2DFP19StarLightParameters
   - copy_gauge_warn_vec__10TObjPlayerFv
   - copy_global_value_block__6TLobbyFv
-  - copy_header_and_vec__6TSceneFPv
+  - copy_from__18TextureUvAnimationFP18TextureUvAnimation
   - copy_matrix__22TObjTombstoneDropRatesFPC22TObjTombstoneDropRates
   - copy_member_record__6TLobbyFPvPv
   - copy_motion_pair__13TUnk_804DDD28FPv
@@ -6199,7 +6199,7 @@ force_active:
   - find_heal_target__13TOHealGeneralFv
   - find_index_in_table__11TBoss6Type2FUl
   - find_indirect_effect_ctrl__Fl
-  - find_material_entry_by_id__6TSceneFPvUs
+  - find_material_entry_by_id__6TSceneFUs
   - find_motion_key_partition_u16__FPCvUlUlUl
   - find_nearest_enemy__15TObjEnemyCustomFP3Vecf
   - refresh_target__12TObjEneSaverFv
@@ -6218,7 +6218,7 @@ force_active:
   - find_target_player__16TOTrapAncient02RFv
   - find_target_player__6TOMineFv
   - find_target_pos__11TBoss4Type2FP3Vec
-  - find_uv_animation__6TSceneFPvPv
+  - find_uv_animation__6TSceneFP18TextureUvAnimation
   - find_vertex_list__18TObjTailsTailsMoveFv
   - finish_and_dispatch_next_phase__14TBoss6PlotFalzFv
   - finish_chr_select_scene_init__6TLobbyFv

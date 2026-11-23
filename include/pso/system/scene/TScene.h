@@ -7,6 +7,24 @@
 struct SceneMaterialSection;
 struct Vec;
 
+// One record of the area's texture UV animations (texture_animation_buffer).
+struct TextureUvAnimation {
+    u16 id;
+    u16 texture;
+    f32 u, v, du, dv;
+
+    void copy_from(TextureUvAnimation *src);
+};
+
+// One entry of the material info file: the indirect-texture effect of a material id.
+struct SceneMaterialInfo {
+    u16 id;
+    u8 texture_index;
+    u8 pad_03;
+    u8 effect_id;
+    u8 pad_05[3];
+};
+
 /* A map section's rotation, its node's angles plus the section's (passed to the section render callback). */
 struct SceneSectionAngles { s32 x, y, z; };
 
@@ -57,7 +75,8 @@ public:
     void advance_scene_object_animations();
     void init_material_nodes();
     static void create_texture_wave_tasks(TObject *parent);
-    void copy_header_and_vec(void* q);
+    s32 find_uv_animation(TextureUvAnimation *uv);
+    SceneMaterialInfo *find_material_entry_by_id(u16 id);
     void initialize_fmt1_materials();
     void initialize_materials();
     void cleanup_materials();

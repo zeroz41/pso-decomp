@@ -182,28 +182,15 @@ s32 TScene__sub_80205874(void*);
 extern Vec lbl_8044A84C[];
 
 
-struct Ent_80205AA8 { u16 id; u8 pad[6]; };
-
-
-struct Tbl_80205AA8 { s32 x; s32 count; Ent_80205AA8 e[1]; };
-extern "C" {
-
-Ent_80205AA8 *find_material_entry_by_id__6TSceneFPvUs(void *self, u16 id);
-
-}
+// The material info file (<floor>i.bin): a header word, then count entries.
+struct SceneMaterialInfoFile { s32 header; s32 count; SceneMaterialInfo entries[1]; };
 
 struct Cyc_80205D24 { u16 id; u16 reserved; s16 texture; s16 index; s32 timer; };
 
 
-struct Uv_80205DE4 { u16 id; };
-
 struct Node_80205AEC { u32 flags; void *obj; u32 tex; u16 id; u8 b; u8 c; };
 
 
-struct Info_80205AEC { u8 a0; u8 a1; u8 tex; u8 b; u8 c; };
-
-
-struct Def_80206058 { u16 id, texture; f32 u, v, du, dv; };
 
 // One record of the area's texture wave table, ended by a negative texture_index.
 struct TextureWaveEntry {
@@ -216,7 +203,6 @@ extern "C" {
 
 
 
-s32 find_uv_animation__6TSceneFPvPv(void *task, Uv_80205DE4 *uv);
 
 extern u32 lbl_8044A800[];
 
@@ -1090,12 +1076,12 @@ void TScene::initialize_fmt1_materials() {
     for (section = 0; section < scene_material_root->count; section++, room++) {
         object = room->objects;
         for (i = 0; i < room->count; i++, object++) {
-            if ((object->flags & 0x20) && !find_uv_animation__6TSceneFPvPv(this, (Uv_80205DE4 *)object->uv)) object->flags &= ~0x20;
+            if ((object->flags & 0x20) && !find_uv_animation((TextureUvAnimation *)object->uv)) object->flags &= ~0x20;
             if ((object->flags & 0x40) && !load_texture_sequence_frame(this, (Cyc_80205D24 *)object->cycle)) object->flags &= ~0x40;
         }
         anim = room->animated;
         for (j = 0; j < room->animatedCount; j++, anim++) {
-            if ((anim->flags & 0x20) && !find_uv_animation__6TSceneFPvPv(this, (Uv_80205DE4 *)anim->uv)) anim->flags &= ~0x20;
+            if ((anim->flags & 0x20) && !find_uv_animation((TextureUvAnimation *)anim->uv)) anim->flags &= ~0x20;
             if ((anim->flags & 0x40) && !load_texture_sequence_frame(this, (Cyc_80205D24 *)anim->cycle)) anim->flags &= ~0x40;
         }
     }
@@ -1117,9 +1103,9 @@ void TScene::initialize_fmt2_materials() {
             if (object->flags & 0x20) {
                 SceneMaterialUv *uv = object->uv;
                 if (uv->buffer) continue;
-                Def_80206058 def;
+                TextureUvAnimation def;
                 def.id = uv->id;
-                if (find_uv_animation__6TSceneFPvPv(task, (Uv_80205DE4 *)&def) == 1) {
+                if (find_uv_animation(&def) == 1) {
                     uv->id = def.id; uv->texture = def.texture;
                     uv->u = def.u; uv->v = def.v; uv->du = def.du; uv->dv = def.dv;
                     SceneMaterialNode *node = resolve_indirect_node_record(task, object);
@@ -1137,9 +1123,9 @@ void TScene::initialize_fmt2_materials() {
             if (anim->flags & 0x20) {
                 SceneMaterialUv *uv2 = anim->uv;
                 if (uv2->buffer) continue;
-                Def_80206058 def2;
+                TextureUvAnimation def2;
                 def2.id = uv2->id;
-                if (find_uv_animation__6TSceneFPvPv(task, (Uv_80205DE4 *)&def2) == 1) {
+                if (find_uv_animation(&def2) == 1) {
                     uv2->id = def2.id; uv2->texture = def2.texture;
                     uv2->u = def2.u; uv2->v = def2.v; uv2->du = def2.du; uv2->dv = def2.dv;
                     SceneMaterialNode *node2 = resolve_indirect_object_record(task, anim);
@@ -1199,17 +1185,24 @@ void TScene::cleanup_fmt2_materials() {
 }
 
 
-void TScene::copy_header_and_vec(void* q) { *(u16 *)&this->m_name = *(u16*)((char*)q + 0x0); *(u16*)((char*)this + 0x2) = *(u16*)((char*)q + 0x2); *(f32 *)&this->m_flags = *(f32*)((char*)q + 0x4); *(f32 *)&this->m_prev = *(f32*)((char*)q + 0x8); *(f32 *)&this->m_next = *(f32*)((char*)q + 0xc); *(f32 *)&this->m_up = *(f32*)((char*)q + 0x10); }
+void TextureUvAnimation::copy_from(TextureUvAnimation *src) {
+    id = src->id;
+    texture = src->texture;
+    u = src->u;
+    v = src->v;
+    du = src->du;
+    dv = src->dv;
+}
 
-s32 find_uv_animation__6TSceneFPvPv(void *task, Uv_80205DE4 *uv) {
+s32 TScene::find_uv_animation(TextureUvAnimation *uv) {
     s16 *p;
     s16 n = 0;
-    u16 *rec = NULL;
+    TextureUvAnimation *rec = NULL;
     p = (*(s16 * *)&texture_animation_buffer);
     while (p[0] != -1) {
         if (p[0] & 1) {
             n = p[2];
-            rec = (u16 *)(p + 4);
+            rec = (TextureUvAnimation *)(p + 4);
             break;
         }
         if (p[0] & 2) {
@@ -1219,11 +1212,11 @@ s32 find_uv_animation__6TSceneFPvPv(void *task, Uv_80205DE4 *uv) {
         }
     }
     while (n > 0) {
-        if (rec[0] == uv->id) {
-            ((TScene *)uv)->copy_header_and_vec(rec);
+        if (rec->id == uv->id) {
+            uv->copy_from(rec);
             return 1;
         }
-        rec = (u16 *)((u8 *)rec + 0x14);
+        rec++;
         n--;
     }
     return 0;
@@ -1268,23 +1261,23 @@ void TScene::init_material_nodes() {
     SceneMaterialStatic *st;
     s32 j;
     Node_80205AEC *node;
-    Info_80205AEC *info;
+    SceneMaterialInfo *info;
     SceneMaterialAnimated *an;
     s32 j2;
     Node_80205AEC *node2;
-    Info_80205AEC *info2;
+    SceneMaterialInfo *info2;
     if (scene_material_root != NULL) {
         for (i = 0, sec = scene_material_root->sections; i < scene_material_root->count; i++, sec++) {
             for (j = 0, st = sec->objects; j < sec->count; j++, st++) {
                 if (st->flags & 0x200) {
                     node = (Node_80205AEC *)st->node;
                     if (node->obj == NULL) {
-                        info = (Info_80205AEC *)find_material_entry_by_id__6TSceneFPvUs(this, node->id);
+                        info = find_material_entry_by_id(node->id);
                         if (info != NULL) {
-                            node->obj = new TEffIndirect(info->c, this);
-                            node->tex = lbl_8044A800[info->tex];
-                            node->b = lbl_8044A80C[info->b];
-                            node->c = info->c;
+                            node->obj = new TEffIndirect(info->effect_id, this);
+                            node->tex = lbl_8044A800[info->texture_index];
+                            node->b = lbl_8044A80C[info->pad_03];
+                            node->c = info->effect_id;
                         } else {
                             node->obj = 0;
                             node->tex = 0;
@@ -1298,12 +1291,12 @@ void TScene::init_material_nodes() {
                 if (an->flags & 0x200) {
                     node2 = (Node_80205AEC *)an->node;
                     if (node2->obj == NULL) {
-                        info2 = (Info_80205AEC *)find_material_entry_by_id__6TSceneFPvUs(this, node2->id);
+                        info2 = find_material_entry_by_id(node2->id);
                         if (info2 != NULL) {
-                            node2->obj = new TEffIndirect(info2->c, this);
-                            node2->tex = lbl_8044A800[info2->tex];
-                            node2->b = lbl_8044A80C[info2->b];
-                            node2->c = info2->c;
+                            node2->obj = new TEffIndirect(info2->effect_id, this);
+                            node2->tex = lbl_8044A800[info2->texture_index];
+                            node2->b = lbl_8044A80C[info2->pad_03];
+                            node2->c = info2->effect_id;
                         } else {
                             node2->obj = 0;
                             node2->tex = 0;
@@ -1320,10 +1313,10 @@ void TScene::init_material_nodes() {
 
 void TScene__sub_80205AE8(s32 *) {  }
 
-Ent_80205AA8 *find_material_entry_by_id__6TSceneFPvUs(void *self, u16 id) {
-    Tbl_80205AA8 *t = (Tbl_80205AA8 *)material_info_buffer;
+SceneMaterialInfo *TScene::find_material_entry_by_id(u16 id) {
+    SceneMaterialInfoFile *t = (SceneMaterialInfoFile *)material_info_buffer;
     if (t != 0) {
-        Ent_80205AA8 *p = t->e;
+        SceneMaterialInfo *p = t->entries;
         s32 i;
         for (i = 0; i < t->count; i++, p++) {
             if (p->id == id) return p;
