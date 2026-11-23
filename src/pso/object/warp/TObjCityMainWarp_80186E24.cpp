@@ -32,7 +32,7 @@ void update_challenge_warp_window(TObjCityMainWarpChallenge *warp) {
             if ((u32) *(u32 *)((s8 *)warp + 0xB0) == 0U) {
                 *(u32 *)((s8 *)warp + 0xB0) = create_window_menu_default(get_window_layout_position(0x35), 7);
                 if ((u32) *(u32 *)((s8 *)warp + 0xB0) != 0U) {
-                    ((TWindowSubTradeMain *)(*(uaddr *)((s8 *)warp + 0xB0)))->add_text_entry((saddr)TWindowSubStatusDisp::get_message_10(0x40), 0, 0, -1);
+                    ((TWindowMenu *)(*(uaddr *)((s8 *)warp + 0xB0)))->add_text_entry((saddr)TWindowSubStatusDisp::get_message_10(0x40), 0, 0, -1);
                     ((TAdChrSelASlotGC *)(*(uaddr *)((s8 *)warp + 0xB0)))->set_flag_40();
                     ((TWindowMenu *)(*(uaddr *)((s8 *)warp + 0xB0)))->calc_window_size();
                     align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(*(uaddr *)((s8 *)warp + 0xB0)));

@@ -821,14 +821,14 @@ void TAdTimeSetGC::open_message_choice(u32 text, s32 sel, u32 first_text, u32 se
         entry_text = (uaddr)TWindowSubStatusDisp::get_message_10(0x5B);
     }
     if (sel != -2) {
-        forward_trade_action_default__16TObjCityMainWarpFPviii(menu_window, entry_text, 5, 0);
+        menu_window->add_text_entry(entry_text, 5, 0);
         entry_text = second_text;
         if (second_text == 0) {
             entry_text = (uaddr)TWindowSubStatusDisp::get_message_10(0x5C);
         }
-        forward_trade_action_default__16TObjCityMainWarpFPviii(menu_window, entry_text, 5, 1);
+        menu_window->add_text_entry(entry_text, 5, 1);
     } else {
-        forward_trade_action_default__16TObjCityMainWarpFPviii(menu_window, entry_text, 5, 1);
+        menu_window->add_text_entry(entry_text, 5, 1);
     }
     ((TWindowMenu *)menu_window)->update_layout_height(time_set_menu_width);
     align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(menu_window));

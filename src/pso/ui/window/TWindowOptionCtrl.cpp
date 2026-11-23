@@ -49,7 +49,6 @@ const vec2f lbl_8044F49C = {470.0f, 80.0f};
 const vec2f lbl_8044F4A4 = {470.0f, 80.0f};
 
 extern "C" {
-s32 forward_trade_action_default__16TObjCityMainWarpFPviii(s32, s32, s32, s32);
 s32 create_window_menu_default(s32, s32);
 }
 
@@ -393,14 +392,14 @@ saddr TWindowOptionCtrl::create_menu() {
     saddr menu;
 
     menu = create_window_menu_default((saddr)TWindowOptionCtrl::get_option_entry(0xCE), 9);
-    forward_trade_action_default__16TObjCityMainWarpFPviii(menu, get_localized_text_entry(0xF, 0), 6, 3);
-    forward_trade_action_default__16TObjCityMainWarpFPviii(menu, get_localized_text_entry(0xF, 1), 6, 7);
-    forward_trade_action_default__16TObjCityMainWarpFPviii(menu, get_localized_text_entry(0xF, 2), 6, 5);
-    forward_trade_action_default__16TObjCityMainWarpFPviii(menu, get_localized_text_entry(0xF, 3), 6, 9);
-    forward_trade_action_default__16TObjCityMainWarpFPviii(menu, get_localized_text_entry(0xF, 4), 6, 0xB);
-    forward_trade_action_default__16TObjCityMainWarpFPviii(menu, get_localized_text_entry(0xF, 5), 6, 0x10);
-    forward_trade_action_default__16TObjCityMainWarpFPviii(menu, get_localized_text_entry(0xF, 6), 6, 0x19);
-    forward_trade_action_default__16TObjCityMainWarpFPviii(menu, get_localized_text_entry(0xF, 7), 6, 0x1B);
+    ((TWindowMenu *)menu)->add_text_entry(get_localized_text_entry(0xF, 0), 6, 3);
+    ((TWindowMenu *)menu)->add_text_entry(get_localized_text_entry(0xF, 1), 6, 7);
+    ((TWindowMenu *)menu)->add_text_entry(get_localized_text_entry(0xF, 2), 6, 5);
+    ((TWindowMenu *)menu)->add_text_entry(get_localized_text_entry(0xF, 3), 6, 9);
+    ((TWindowMenu *)menu)->add_text_entry(get_localized_text_entry(0xF, 4), 6, 0xB);
+    ((TWindowMenu *)menu)->add_text_entry(get_localized_text_entry(0xF, 5), 6, 0x10);
+    ((TWindowMenu *)menu)->add_text_entry(get_localized_text_entry(0xF, 6), 6, 0x19);
+    ((TWindowMenu *)menu)->add_text_entry(get_localized_text_entry(0xF, 7), 6, 0x1B);
     ((TWindowMenu *)menu)->update_layout_height(470.0f);
     align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(menu));
     return menu;
@@ -429,9 +428,9 @@ saddr TWindowOptionCtrl::create_list_window() {
     do {
         if (is_music_flag_unlocked_stub(idx) != 0) {
             if (check_flag_index_set(idx) == 0) {
-                add_gray_text_entry((TWindowSubTradeMain *)list, (const char *)("?????"), 0x26, idx);
+                add_gray_text_entry((TWindowMenu *)list, (const char *)("?????"), 0x26, idx);
             } else {
-                forward_trade_action_default__16TObjCityMainWarpFPviii(list, get_option_table_entry(idx), 0x26, idx);
+                ((TWindowMenu *)list)->add_text_entry(get_option_table_entry(idx), 0x26, idx);
             }
         }
         idx += 1;
@@ -481,9 +480,9 @@ saddr TWindowOptionCtrl::create_snap_shot_window() {
 saddr TWindowOptionCtrl::create_sub_menu_window() {
     saddr menu;
     menu = create_window_menu_default((saddr)TWindowOptionCtrl::get_option_entry(0xCF), 3);
-    forward_trade_action_default__16TObjCityMainWarpFPviii(menu, get_localized_text_entry(0xF, 0x1A), 6, 0x12);
-    forward_trade_action_default__16TObjCityMainWarpFPviii(menu, get_localized_text_entry(0xF, 0x1B), 6, 0x14);
-    forward_trade_action_default__16TObjCityMainWarpFPviii(menu, get_localized_text_entry(0xF, 0x1C), 6, 0x15);
+    ((TWindowMenu *)menu)->add_text_entry(get_localized_text_entry(0xF, 0x1A), 6, 0x12);
+    ((TWindowMenu *)menu)->add_text_entry(get_localized_text_entry(0xF, 0x1B), 6, 0x14);
+    ((TWindowMenu *)menu)->add_text_entry(get_localized_text_entry(0xF, 0x1C), 6, 0x15);
     ((TWindowMenu *)menu)->update_layout_height(470.0f);
     align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(menu));
     return menu;

@@ -88,7 +88,7 @@ void TObjWarpLobby::open_lobby_menu() {
     sp[1] = 1e+02f;
     this->menu_window = create_window_menu_default(sp, 0xF, 4.5e+02f);
     for (i = 0; i < 0xF; i++) {
-        TObjCityMainWarp::forward_trade_action_default((void *)this->menu_window, (saddr)warp_lobby_directory_label_table[i], 6, i);
+        ((TWindowMenu *)this->menu_window)->add_text_entry((saddr)warp_lobby_directory_label_table[i], 6, i);
     }
     ((TWindowMenu *)(this->menu_window))->calc_window_size();
     align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(this->menu_window));

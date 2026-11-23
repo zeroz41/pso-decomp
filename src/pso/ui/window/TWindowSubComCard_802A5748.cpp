@@ -41,7 +41,7 @@ s32 TWindowMessageYesNo::is_child_visible() {
 }
 void initialize_option_dialog(void *arg0, s32 message, s32 position, f32 width) {
     *(s32 *)((s8 *)arg0 + 0x28) = (saddr)create_window_menu((saddr)(position), 1, *(s32 *)((s8 *)arg0 + 0x24));
-    TObjCityMainWarp::forward_trade_action_default((void *)(*(saddr *)((s8 *)arg0 + 0x28)), (int)message, 0x21, 0);
+    ((TWindowMenu *)(*(saddr *)((s8 *)arg0 + 0x28)))->add_text_entry(message, 0x21, 0);
     ((TAdChrSelASlotGC *)(*(saddr *)((s8 *)arg0 + 0x28)))->set_flag_40();
     TQuestThread::set_status_flag_80((void *)(*(saddr *)((s8 *)arg0 + 0x28)));
     ((TWindowSubComCard *)(*(saddr *)((s8 *)arg0 + 0x28)))->calc_layout_height(width);
@@ -54,7 +54,7 @@ void open_yes_no_prompt(TWindowMessageYesNo *dialog, u32 title, s32 text, s32 po
     } else {
         dialog->message_menu = reinterpret_cast<TWindowMenu *>(create_titled_window_menu(position_id, 1, title, dialog->client_id));
     }
-    TObjCityMainWarp::forward_trade_action_default(dialog->message_menu, text, 0x21, 0);
+    dialog->message_menu->add_text_entry(text, 0x21, 0);
     reinterpret_cast<TAdChrSelASlotGC *>(dialog->message_menu)->set_flag_40();
     TQuestThread::set_status_flag_80(dialog->message_menu);
     reinterpret_cast<TWindowSubComCard *>(dialog->message_menu)->calc_layout_height(width);

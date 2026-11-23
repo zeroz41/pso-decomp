@@ -39,7 +39,6 @@ extern "C" {
 void open_com_card_list__18TWindowSubShortCutFv(void *arg0);
 u32 *get_chat_shortcut();
 saddr get_window_layout_position(s32 a0 = 0);
-int forward_trade_action_default__16TObjCityMainWarpFPviii(void *p, int a1, int a2, int a3);
 
 }
 
@@ -222,11 +221,11 @@ s32 TWindowSubShortCut::open_menu() {
     ((TWindowMenuIconLine *)this->com_card_list)->get_cursor_value();
     chat_shortcut = get_chat_shortcut();
     list = create_titled_window_menu_default(get_window_layout_position(0x74), 2, (saddr)TWindowSubStatusDisp::get_message_10(0x2C));
-    forward_trade_action_default__16TObjCityMainWarpFPviii((void *)list, (int)((saddr)TWindowSubStatusDisp::get_message_10(0x7E)), 6, 5);
+    ((TWindowMenu *)list)->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x7E)), 6, 5);
     if ((u32) *chat_shortcut != 0U) {
-        TObjCityMainWarp::forward_trade_action_default((void *)list, (saddr)(TWindowSubStatusDisp::get_message_10(0x5A)), 6, 9);
+        ((TWindowMenu *)list)->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x5A)), 6, 9);
     } else {
-        add_gray_text_entry((TWindowSubTradeMain *)list, (const char *)(TWindowSubStatusDisp::get_message_10(0x5A)), 6, 9);
+        add_gray_text_entry((TWindowMenu *)list, (const char *)(TWindowSubStatusDisp::get_message_10(0x5A)), 6, 9);
     }
     ((TWindowMenu *)list)->set_flag70_bit10();
     ((TWindowMenu *)list)->update_layout_height(205.0f);

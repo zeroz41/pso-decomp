@@ -145,7 +145,6 @@ s32 store_item_in_bank(u8 *item, s32 arg1, s32 slot);
 s32 check_room_ready__18TCheckRoomSequenceFv(void);
 s32 get_shop_text(int);
 
-s32 forward_trade_action_default__16TObjCityMainWarpFPviii(TWindowMenu *, saddr, int, int);
 void handle_root_choice__18TCheckRoomSequenceFv(u8 *arg0);
 void *__ct__19TShopKeepItemWindowFPvPvPv(TShopKeepItemWindow *arg0, void *arg1, void *arg2, void *arg3);
 void init_check_params__18TCheckRoomSequenceFUi(uaddr arg0);
@@ -445,8 +444,8 @@ void handle_withdraw_choice__18TCheckRoomSequenceFv(u8 *arg0) {
     case 0:
         if (sequence->choice_menu == NULL) {
             sequence->choice_menu = create_window_menu((saddr)get_window_layout_position(0x2B), 2, (u16)((TObjBase *)((saddr) (*(saddr *)((s8 *)arg0 + 0x24))))->get_entity_id());
-            forward_trade_action_default__16TObjCityMainWarpFPviii(sequence->choice_menu, (int) (get_shop_text(2)), 6, 0);
-            forward_trade_action_default__16TObjCityMainWarpFPviii(sequence->choice_menu, (int) (get_shop_text(3)), 6, 1);
+            sequence->choice_menu->add_text_entry(get_shop_text(2), 6, 0);
+            sequence->choice_menu->add_text_entry(get_shop_text(3), 6, 1);
             sequence->choice_menu->calc_window_size();
             align_menu_entry_positions(sequence->choice_menu);
             sequence->choice_menu->set_ready_flag();
@@ -491,8 +490,8 @@ void handle_deposit_choice__18TCheckRoomSequenceFv(u8 *arg0) {
     case 0:
         if (sequence->choice_menu == NULL) {
             sequence->choice_menu = create_window_menu((saddr)get_window_layout_position(0x2B), 2, (u16)((TObjBase *)((saddr) (*(saddr *)((s8 *)arg0 + 0x24))))->get_entity_id());
-            forward_trade_action_default__16TObjCityMainWarpFPviii(sequence->choice_menu, (int) (get_shop_text(2)), 6, 0);
-            forward_trade_action_default__16TObjCityMainWarpFPviii(sequence->choice_menu, (int) (get_shop_text(3)), 6, 1);
+            sequence->choice_menu->add_text_entry(get_shop_text(2), 6, 0);
+            sequence->choice_menu->add_text_entry(get_shop_text(3), 6, 1);
             sequence->choice_menu->calc_window_size();
             align_menu_entry_positions(sequence->choice_menu);
             sequence->choice_menu->set_ready_flag();
@@ -541,8 +540,8 @@ void handle_root_choice__18TCheckRoomSequenceFv(u8 *arg0) {
         case 0:
             if (sequence->choice_menu == NULL) {
                 sequence->choice_menu = create_window_menu((saddr)get_window_layout_position(0x2B), 2, (u16)((TObjBase *)((saddr) (*(saddr *)((s8 *)arg0 + 0x24))))->get_entity_id());
-                forward_trade_action_default__16TObjCityMainWarpFPviii(sequence->choice_menu, (int) (get_shop_text(8)), 6, 0);
-                forward_trade_action_default__16TObjCityMainWarpFPviii(sequence->choice_menu, (int) (get_shop_text(9)), 6, 1);
+                sequence->choice_menu->add_text_entry(get_shop_text(8), 6, 0);
+                sequence->choice_menu->add_text_entry(get_shop_text(9), 6, 1);
                 sequence->choice_menu->calc_window_size();
                 align_menu_entry_positions(sequence->choice_menu);
                 sequence->choice_menu->set_ready_flag();
@@ -580,7 +579,7 @@ void handle_root_choice__18TCheckRoomSequenceFv(u8 *arg0) {
         case 0:
             if (sequence->choice_menu == NULL) {
                 sequence->choice_menu = create_window_menu((saddr)get_window_layout_position(0x2B), 2, (u16)((TObjBase *)((saddr) (*(saddr *)((s8 *)arg0 + 0x24))))->get_entity_id());
-                forward_trade_action_default__16TObjCityMainWarpFPviii(sequence->choice_menu, (int) (get_shop_text(0xA)), 6, 1);
+                sequence->choice_menu->add_text_entry(get_shop_text(0xA), 6, 1);
                 sequence->choice_menu->calc_window_size();
                 align_menu_entry_positions(sequence->choice_menu);
                 sequence->choice_menu->set_ready_flag();

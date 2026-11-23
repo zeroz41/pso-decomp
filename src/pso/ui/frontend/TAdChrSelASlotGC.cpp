@@ -26,6 +26,7 @@
 #include "pso/system/vector.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/object/warp/TObjCityMainWarp.h"
+#include "pso/ui/window/TWindowMenu.h"
 
 static const ChrSelPlateLayout chr_sel_a_slot_plate_layout = { 180.0f, 38.0f, { 0xDD, 0x90, 0x48, 0x00 }, 0 };
 // Plate positions of the four entries (slot kind 0)
@@ -103,7 +104,7 @@ TWindowBase *TAdChrSelASlotGC::create_format_failed_window(s32 kind) {
         break;
     }
     w = (TWindowBase *)create_window_menu_default((saddr)&pos, 1);
-    TObjCityMainWarp::forward_trade_action_default(w, get_localized_text_entry(0x16, kind + 0x2B), 0x20, 0);
+    ((TWindowMenu *)w)->add_text_entry(get_localized_text_entry(0x16, kind + 0x2B), 0x20, 0);
     ((TAdChrSelASlotGC *)w)->set_flag_40();
     TQuestThread::set_status_flag_80(w);
     ((TWindowSubComCard *)w)->calc_layout_height(190.0f);
@@ -122,7 +123,7 @@ TWindowBase *TAdChrSelASlotGC::create_not_formatted_window(s32 kind) {
         break;
     }
     w = (TWindowBase *)create_window_menu_default((saddr)&pos, 1);
-    TObjCityMainWarp::forward_trade_action_default(w, get_localized_text_entry(0x16, kind + 0x29), 0x20, 0);
+    ((TWindowMenu *)w)->add_text_entry(get_localized_text_entry(0x16, kind + 0x29), 0x20, 0);
     ((TAdChrSelASlotGC *)w)->set_flag_40();
     TQuestThread::set_status_flag_80(w);
     ((TWindowSubComCard *)w)->calc_layout_height(190.0f);
@@ -141,7 +142,7 @@ TWindowBase *TAdChrSelASlotGC::create_formatted_window(s32 kind) {
         break;
     }
     w = (TWindowBase *)create_window_menu_default((saddr)&pos, 1);
-    TObjCityMainWarp::forward_trade_action_default(w, get_localized_text_entry(0x16, kind + 0x27), 0x20, 0);
+    ((TWindowMenu *)w)->add_text_entry(get_localized_text_entry(0x16, kind + 0x27), 0x20, 0);
     ((TAdChrSelASlotGC *)w)->set_flag_40();
     TQuestThread::set_status_flag_80(w);
     ((TWindowSubComCard *)w)->calc_layout_height(190.0f);
@@ -235,7 +236,7 @@ TWindowBase *TAdChrSelASlotGC::create_slot_message_window(s32 kind, s32 text) {
         break;
     }
     w = (TWindowBase *)create_window_menu_default((saddr)&pos, 1);
-    TObjCityMainWarp::forward_trade_action_default(w, get_localized_text_entry(0x16, text), 0x21, 0);
+    ((TWindowMenu *)w)->add_text_entry(get_localized_text_entry(0x16, text), 0x21, 0);
     ((TAdChrSelASlotGC *)w)->set_flag_40();
     TQuestThread::set_status_flag_80(w);
     ((TWindowSubComCard *)w)->calc_layout_height(190.0f);

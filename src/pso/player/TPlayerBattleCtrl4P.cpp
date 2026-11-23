@@ -159,7 +159,6 @@ Rank_801C343C split_screen_battle_rankings[4];
 struct Ids_80311C2C { s32 a; s32 b; s32 c; s32 d; };
 struct O_80311C2C { u8 pad[0x20]; void *w0; void *w1; u8 pad2[0x294 - 0x28]; Ids_80311C2C *ids; };
 extern "C" {
-int forward_trade_action_default__16TObjCityMainWarpFPviii(void *p, int a1, int a2, int a3);
 void *create_window_menu_default(void *, int);
 void *get_window_layout_position(int);
 void TLobby__sub_801036CC();
@@ -566,8 +565,8 @@ void TPlayerBattleCtrl4P::update_rematch_menu() {
         }
         if (((O_80311C2C *)this)->w1 == NULL) {
             ((O_80311C2C *)this)->w1 = create_window_menu_default(get_window_layout_position(0x54), 2);
-            forward_trade_action_default__16TObjCityMainWarpFPviii(((O_80311C2C *)this)->w1, ((O_80311C2C *)this)->ids->b, 6, 1);
-            forward_trade_action_default__16TObjCityMainWarpFPviii(((O_80311C2C *)this)->w1, ((O_80311C2C *)this)->ids->d, 6, 3);
+            ((TWindowMenu *)(((O_80311C2C *)this)->w1))->add_text_entry(((O_80311C2C *)this)->ids->b, 6, 1);
+            ((TWindowMenu *)(((O_80311C2C *)this)->w1))->add_text_entry(((O_80311C2C *)this)->ids->d, 6, 3);
             ((TWindowMenu *)(((O_80311C2C *)this)->w1))->calc_window_size();
             align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(((O_80311C2C *)this)->w1));
             ((TWindowMenu *)(((O_80311C2C *)this)->w1))->set_ready_flag();

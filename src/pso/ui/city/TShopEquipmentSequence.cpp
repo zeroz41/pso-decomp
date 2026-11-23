@@ -147,8 +147,8 @@ void TShopEquipmentSequence::update_buy_sell_choice() {
     if (choice_menu == NULL) {
         s32 id = ((TObjBase *)(player))->get_entity_id();
         choice_menu = create_window_menu(((saddr (*)(int))get_window_layout_position)(0x2B), 2, id);
-        forward_trade_action_default__16TObjCityMainWarpFPviii(choice_menu, get_shop_text(4), 6, 0);
-        forward_trade_action_default__16TObjCityMainWarpFPviii(choice_menu, get_shop_text(6), 6, 1);
+        choice_menu->add_text_entry(get_shop_text(4), 6, 0);
+        choice_menu->add_text_entry(get_shop_text(6), 6, 1);
         choice_menu->calc_window_size();
         align_menu_entry_positions(choice_menu);
         choice_menu->set_ready_flag();

@@ -125,7 +125,6 @@ extern const s32 local_client_id;
 void play_sound_effect(int, int, int, int);
 
 void __dl__7TObjectFPv(void *);
-int forward_trade_action_default__16TObjCityMainWarpFPviii(void *p, int a1, int a2, int a3);
 struct Win_8021C33C;
 
     extern int shop_weapon_stock_counts[];
@@ -358,8 +357,8 @@ void TShopEquipmentListWindow::open_menu_window() {
     if (this->m_2c == NULL) {
         entity_id = ((TObjBase *)(this->m_24))->get_entity_id();
         this->m_2c = create_window_menu((saddr)get_window_layout_position(0x2B), 2, entity_id);
-        forward_trade_action_default__16TObjCityMainWarpFPviii((void *)this->m_2c, (int)(get_shop_text(4)), 6, 0);
-        forward_trade_action_default__16TObjCityMainWarpFPviii((void *)this->m_2c, (int)(get_shop_text(5)), 6, 1);
+        this->m_2c->add_text_entry(get_shop_text(4), 6, 0);
+        this->m_2c->add_text_entry(get_shop_text(5), 6, 1);
         m_2c->calc_window_size();
         align_menu_entry_positions(this->m_2c);
         m_2c->set_ready_flag();

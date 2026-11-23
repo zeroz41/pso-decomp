@@ -14,7 +14,6 @@ extern "C" {
 saddr create_window_menu_default(saddr pos, s32 entries);
 saddr create_titled_window_menu_default(saddr pos, s32 entries, saddr title);
 void fn_80266378(s32 arg0);
-int forward_trade_action_default__16TObjCityMainWarpFPviii(void *p, int a1, int a2, int a3);
 u8 *init_shop_judgment_window(void *p);
 }
 

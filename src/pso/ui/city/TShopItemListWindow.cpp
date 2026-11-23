@@ -328,8 +328,8 @@ void TShopItemListWindow::prepare_tool_purchase() {
             return;
         }
         confirm_menu = create_window_menu((saddr)get_window_layout_position(0x2B), 2, ((TObjBase *)m_24)->get_entity_id());
-        forward_trade_action_default__16TObjCityMainWarpFPviii((void *)confirm_menu, get_shop_text(4), 6, 0);
-        forward_trade_action_default__16TObjCityMainWarpFPviii((void *)confirm_menu, get_shop_text(5), 6, 1);
+        confirm_menu->add_text_entry(get_shop_text(4), 6, 0);
+        confirm_menu->add_text_entry(get_shop_text(5), 6, 1);
         confirm_menu->calc_window_size();
         align_menu_entry_positions(confirm_menu);
         confirm_menu->set_ready_flag();
@@ -351,8 +351,8 @@ void TShopItemListWindow::handle_amount_confirm() {
         if (quantity_input != 0U && ((TWindowInputNumber *)quantity_input)->is_confirmed() != 0) {
             if (confirm_menu == NULL) {
                 confirm_menu = create_window_menu((saddr)get_window_layout_position(0x2B), 2, ((TObjBase *)m_24)->get_entity_id());
-                forward_trade_action_default__16TObjCityMainWarpFPviii((void *)confirm_menu, get_shop_text(4), 6, 0);
-                forward_trade_action_default__16TObjCityMainWarpFPviii((void *)confirm_menu, get_shop_text(5), 6, 1);
+                confirm_menu->add_text_entry(get_shop_text(4), 6, 0);
+                confirm_menu->add_text_entry(get_shop_text(5), 6, 1);
                 confirm_menu->calc_window_size();
                 align_menu_entry_positions(confirm_menu);
                 confirm_menu->set_ready_flag();

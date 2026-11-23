@@ -489,9 +489,9 @@ void TObjCityMainWarp::open_confirm_window(s32 client_id) {
                 for (j = 0, k = 0; j < 17; j++) {
                     if (TObjCityMainWarp__visible_destination_mask & (1 << j)) {
                         if (get_game_play_mode() == 1) {
-                            TObjCityMainWarp::forward_trade_action_default((void *)menu_window, (saddr)TObjCityMainWarp__sub_80186AF4(), 0xE, (int)k);
+                            ((TWindowMenu *)menu_window)->add_text_entry((saddr)TObjCityMainWarp__sub_80186AF4(), 0xE, k);
                         } else {
-                            TObjCityMainWarp::forward_trade_action_default((void *)menu_window, get_localized_text_entry(9, city_warp_group9_text_table[j]), 0xE, k);
+                            ((TWindowMenu *)menu_window)->add_text_entry(get_localized_text_entry(9, city_warp_group9_text_table[j]), 0xE, k);
                         }
                         k++;
                     }
@@ -500,9 +500,9 @@ void TObjCityMainWarp::open_confirm_window(s32 client_id) {
                 for (j2 = 0, k2 = 0; j2 < 17; j2++) {
                     if (TObjCityMainWarp__visible_destination_mask & (1 << j2)) {
                         if (get_game_play_mode() == 1) {
-                            TObjCityMainWarp::forward_trade_action_default((void *)menu_window, (saddr)TObjCityMainWarp__sub_80186AF4(), 0xE, (int)k2);
+                            ((TWindowMenu *)menu_window)->add_text_entry((saddr)TObjCityMainWarp__sub_80186AF4(), 0xE, k2);
                         } else {
-                            TObjCityMainWarp::forward_trade_action_default((void *)menu_window, get_localized_text_entry(9, city_warp_group9_text_table_b[j2]), 0xE, k2);
+                            ((TWindowMenu *)menu_window)->add_text_entry(get_localized_text_entry(9, city_warp_group9_text_table_b[j2]), 0xE, k2);
                         }
                         k2++;
                     }
@@ -602,7 +602,7 @@ void *TObjCityAreaWarp::create(void *set_data) {
 void TObjCityAreaWarp::open_confirm_window(s32 client_id) {
     if (menu_window == 0) {
         menu_window = (saddr)create_window_menu((saddr)get_window_layout_position(0x33), 1, client_id);
-        ((TWindowSubTradeMain *)menu_window)->add_text_entry(get_localized_text_entry(9, 0x24), 0xA, 0, -1);
+        ((TWindowMenu *)menu_window)->add_text_entry(get_localized_text_entry(9, 0x24), 0xA, 0, -1);
         ((TWindowMenu *)menu_window)->set_flag70_bit10();
         ((TAdChrSelASlotGC *)menu_window)->set_flag_40();
         ((TWindowMenu *)menu_window)->calc_window_size();
@@ -663,7 +663,7 @@ void TObjCityMapWarp::open_confirm_window(s32 client_id) {
     if (playerPopups[client_id] == NULL) {
         playerPopups[client_id] = (TWindowMenu *)create_window_menu((saddr)get_window_layout_position(0x33), 1, client_id);
         clamp_destination_index();
-        ((TWindowSubTradeMain *)playerPopups[client_id])->add_text_entry(get_localized_text_entry(9, map_warp_dest_text_ids[set_params[2]]), 0xA, 0, -1);
+        ((TWindowMenu *)playerPopups[client_id])->add_text_entry(get_localized_text_entry(9, map_warp_dest_text_ids[set_params[2]]), 0xA, 0, -1);
         ((TWindowMenu *)playerPopups[client_id])->set_flag70_bit10();
         ((TAdChrSelASlotGC *)playerPopups[client_id])->set_flag_40();
         ((TWindowMenu *)playerPopups[client_id])->calc_window_size();
@@ -762,7 +762,7 @@ void TObjLaboMapWarp::open_confirm_window(s32 client_id) {
     if (playerPopups[client_id] == NULL) {
         playerPopups[client_id] = (TWindowMenu *)create_window_menu((saddr)get_window_layout_position(0x33), 1, client_id);
         clamp_index();
-        ((TWindowSubTradeMain *)playerPopups[client_id])->add_text_entry(get_localized_text_entry(9, map_warp_dest_text_ids[set_params[2]]), 0xA, 0, -1);
+        ((TWindowMenu *)playerPopups[client_id])->add_text_entry(get_localized_text_entry(9, map_warp_dest_text_ids[set_params[2]]), 0xA, 0, -1);
         ((TWindowMenu *)playerPopups[client_id])->set_flag70_bit10();
         ((TAdChrSelASlotGC *)playerPopups[client_id])->set_flag_40();
         ((TWindowMenu *)playerPopups[client_id])->calc_window_size();

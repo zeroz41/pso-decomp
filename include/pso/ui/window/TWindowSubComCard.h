@@ -128,7 +128,7 @@ struct TWindowSubComCard : public TObject {
 };
 
 LAYOUT_ASSERT(TWindowSubComCard_size, sizeof(TWindowSubComCard) == 0x88);
-struct TWindowSubTradeMain;
-extern "C" void add_gray_text_entry(TWindowSubTradeMain *list, const char *text, s32 kind, s32 id);
+struct TWindowMenu;
+extern "C" void add_gray_text_entry(TWindowMenu *list, const char *text, s32 kind, s32 id);
 
 #endif

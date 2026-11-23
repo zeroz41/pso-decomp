@@ -45,7 +45,6 @@ struct ItemData_80279754 {
 extern "C" {
 void TWindowSubItem__sub_8027AA30(u8 *arg0);
 s32 TWindowSubItem__sub_8027AA78(s32 arg0);
-s32 forward_trade_action_default__16TObjCityMainWarpFPviii(s32, s32, s32, s32);
 saddr get_window_layout_position(s32);
 saddr get_player_by_client_id(s32);
 s32 TObjPlayer__sub_801B7B58(int, int, int);
@@ -473,8 +472,8 @@ s32 TWindowSubItem::open_purpose_window(s32 arg1) {
 s32 TWindowSubItem::create_menu_window() {
     saddr titled_window_menu;
     titled_window_menu = create_titled_window_menu(((int)get_window_layout_position(6)), 2, (saddr)TWindowSubStatusDisp::get_message_10(0x27), this->client_id);
-    forward_trade_action_default__16TObjCityMainWarpFPviii(titled_window_menu, (saddr)TWindowSubStatusDisp::get_message_10(0x5D), 6, 0);
-    forward_trade_action_default__16TObjCityMainWarpFPviii(titled_window_menu, (saddr)TWindowSubStatusDisp::get_message_10(0x5E), 6, 1);
+    ((TWindowMenu *)titled_window_menu)->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x5D)), 6, 0);
+    ((TWindowMenu *)titled_window_menu)->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x5E)), 6, 1);
     ((TWindowBase *)titled_window_menu)->set_depth(TWindowSubEquip__sub_80263AF8((u8 *)this->parent_menu, 2));
     ((TWindowMenu *)titled_window_menu)->set_flag70_bit10();
     ((TWindowMenu *)titled_window_menu)->update_layout_height(224.0f);
@@ -495,10 +494,10 @@ s32 TWindowSubItem::create_count_input(s32 maximum) {
 
 void TWindowSubItem::add_meseta_purpose_actions(saddr arg0, saddr arg1) {
     if (get_current_floor_area() == AREA_LOBBY) {
-        add_gray_text_entry((TWindowSubTradeMain *)arg1, (const char *)(TWindowSubStatusDisp::get_message_10(0x5F)), 6, 6);
+        add_gray_text_entry((TWindowMenu *)arg1, (const char *)(TWindowSubStatusDisp::get_message_10(0x5F)), 6, 6);
         return;
     }
-    forward_trade_action_default__16TObjCityMainWarpFPviii(arg1, (saddr)(TWindowSubStatusDisp::get_message_10(0x5F)), 6, 6);
+    ((TWindowMenu *)arg1)->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x5F)), 6, 6);
 }
 
 void TWindowSubItem::draw_slot(saddr arg1, saddr arg2, s32 arg3) {
@@ -506,10 +505,10 @@ void TWindowSubItem::draw_slot(saddr arg1, saddr arg2, s32 arg3) {
 
     id = ((u32)__cntlzw(4 - (arg3 & 0xF)) >> 5) + 4;
     if ((is_current_area_item_enabled() == 0) || (is_boss_area() != 0)) {
-        add_gray_text_entry((TWindowSubTradeMain *)arg2, (const char *)(get_localized_text_entry(0x10, 0xF)), 6, id);
+        add_gray_text_entry((TWindowMenu *)arg2, (const char *)(get_localized_text_entry(0x10, 0xF)), 6, id);
         return;
     }
-    forward_trade_action_default__16TObjCityMainWarpFPviii(arg2, (s32)(get_localized_text_entry(0x10, 0xF)), 0x26, id);
+    ((TWindowMenu *)arg2)->add_text_entry(get_localized_text_entry(0x10, 0xF), 0x26, id);
 }
 
 void add_item_purpose_actions(TWindowSubItem *window_sub_item, saddr list, saddr arg2) {
@@ -523,11 +522,11 @@ void add_item_purpose_actions(TWindowSubItem *window_sub_item, saddr list, saddr
     {
       if ((((TItem *)item)->get_usable_action_flags(1, 0) != 0U) || (get_current_floor_area() == AREA_LOBBY))
       {
-        add_gray_text_entry((TWindowSubTradeMain *)list, (const char *)(TWindowSubStatusDisp::get_message_10(0x60)), 6, 0);
+        add_gray_text_entry((TWindowMenu *)list, (const char *)(TWindowSubStatusDisp::get_message_10(0x60)), 6, 0);
       }
       else
       {
-        forward_trade_action_default__16TObjCityMainWarpFPviii((saddr)((void *) list), (saddr)TWindowSubStatusDisp::get_message_10(0x60), 6, 0);
+        ((TWindowMenu *)list)->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x60)), 6, 0);
       }
     }
     ((TItem *)item)->get_item_type();
@@ -537,11 +536,11 @@ void add_item_purpose_actions(TWindowSubItem *window_sub_item, saddr list, saddr
       {
         if (get_current_floor_area() == AREA_LOBBY)
         {
-          add_gray_text_entry((TWindowSubTradeMain *)list, (const char *)(TWindowSubStatusDisp::get_message_10(0x61)), 6, 2);
+          add_gray_text_entry((TWindowMenu *)list, (const char *)(TWindowSubStatusDisp::get_message_10(0x61)), 6, 2);
         }
         else
         {
-          forward_trade_action_default__16TObjCityMainWarpFPviii((saddr)((void *) list), (saddr)TWindowSubStatusDisp::get_message_10(0x61), 6, 2);
+          ((TWindowMenu *)list)->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x61)), 6, 2);
         }
       }
       else
@@ -551,29 +550,29 @@ void add_item_purpose_actions(TWindowSubItem *window_sub_item, saddr list, saddr
         {
           if (((((TItem *)item)->check_equip_requirements((TObjPlayer *)player, (s16 *)(&sp8)) != 0) && (has_armor_with_unit_slot(window_sub_item, (TItem *)item) != 0)) && (get_current_floor_area() != AREA_LOBBY))
           {
-            forward_trade_action_default__16TObjCityMainWarpFPviii((saddr)((void *) list), (saddr)TWindowSubStatusDisp::get_message_10(0x62), 6, 1);
+            ((TWindowMenu *)list)->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x62)), 6, 1);
           }
           else
           {
-            add_gray_text_entry((TWindowSubTradeMain *)list, (const char *)(TWindowSubStatusDisp::get_message_10(0x62)), 6, 1);
+            add_gray_text_entry((TWindowMenu *)list, (const char *)(TWindowSubStatusDisp::get_message_10(0x62)), 6, 1);
           }
         }
       }
     }
     if ((get_current_floor_area() == AREA_LOBBY) || (((TItem *)item)->get_usable_action_flags(0x10, 0) != 0U))
     {
-      add_gray_text_entry((TWindowSubTradeMain *)list, (const char *)(TWindowSubStatusDisp::get_message_10(0x5F)), 6, 3);
+      add_gray_text_entry((TWindowMenu *)list, (const char *)(TWindowSubStatusDisp::get_message_10(0x5F)), 6, 3);
     }
     else
     {
-      forward_trade_action_default__16TObjCityMainWarpFPviii((saddr)((void *) list), (saddr)TWindowSubStatusDisp::get_message_10(0x5F), 6, 3);
+      ((TWindowMenu *)list)->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x5F)), 6, 3);
     }
     if (get_current_floor_area() == AREA_LOBBY)
     {
-      add_gray_text_entry((TWindowSubTradeMain *)list, (const char *)(TWindowSubStatusDisp::get_message_10(0x63)), 6, 7);
+      add_gray_text_entry((TWindowMenu *)list, (const char *)(TWindowSubStatusDisp::get_message_10(0x63)), 6, 7);
       return;
     }
-    forward_trade_action_default__16TObjCityMainWarpFPviii((saddr)((void *) list), (saddr)TWindowSubStatusDisp::get_message_10(0x63), 6, 7);
+    ((TWindowMenu *)list)->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x63)), 6, 7);
   }
 }
 

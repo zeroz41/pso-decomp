@@ -123,7 +123,7 @@ void TObjWarpJungMain::open_confirm_window(s32 client_id) {
     if (menu_window == 0) {
         menu_window = (saddr)create_window_menu((saddr)get_window_layout_position(0x32), 3, client_id);
         for (i = 0; i < 3; i++) {
-            TObjCityMainWarp::forward_trade_action_default((void *)menu_window, get_localized_text_entry(9, jungle_warp_destination_text_ids[i]), 0xE, i);
+            ((TWindowMenu *)menu_window)->add_text_entry(get_localized_text_entry(9, jungle_warp_destination_text_ids[i]), 0xE, i);
         }
         ((TWindowMenu *)menu_window)->calc_window_size();
         align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(menu_window));

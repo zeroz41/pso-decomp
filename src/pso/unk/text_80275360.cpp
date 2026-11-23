@@ -8,6 +8,7 @@
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/ui/chat/ShortMail.h"
 #include "pso/object/warp/TObjCityMainWarp.h"
+#include "pso/ui/window/TWindowMenu.h"
 
 
 void TWindowSubComCardList::sub_80275360() {
@@ -33,7 +34,7 @@ void TWindowSubComCardList::sub_80275360() {
         if (card->is_active() == 0) {
             break;
         }
-        TObjCityMainWarp::forward_trade_action_default(this, (saddr)card->get_name(), 7, index);
+        this->add_text_entry((saddr)card->get_name(), 7, index);
     }
     if (this->get_field_72() <= 0) {
         switch ((s8)this->empty_message) {
@@ -44,6 +45,6 @@ void TWindowSubComCardList::sub_80275360() {
             msg = (saddr)TWindowSubStatusDisp::get_message_10(0xD2);
             break;
         }
-        add_gray_text_entry((TWindowSubTradeMain *)this, (const char *)msg, 4, -1);
+        add_gray_text_entry((TWindowMenu *)this, (const char *)msg, 4, -1);
     }
 }

@@ -62,7 +62,6 @@ extern PsoSystemCardFilename pso_system_card_filename;
 extern RecoveredGlobal_8036E8DC_lbl_804C89BC pso_guildcard_card_filename;
 u32 load_system_file_flag__23TAdSinglePlyChrSelectGCFv(void);
 void *create_window_menu_default(void *, s32);
-int forward_trade_action_default__16TObjCityMainWarpFPviii(void *p, int a1, int a2, int a3);
 s32 all_players_loaded__23TAdSinglePlyChrSelectGCFv();
 s32 TAdPlayerLoadGC__sub_801FD770();
 void TKeyBoardControl__sub_8000F90C(s32 arg0);
@@ -338,12 +337,12 @@ void TAdMultiChgGameModeGC::setup_mode_menu(void *arg0, s32 arg1) {
     d = TAdMultiChgGameModeGC__sub_8036DE10((saddr)self, 5, self->f24);
     if (self->win != 0) {
         if (arg1 == 0) {
-            forward_trade_action_default__16TObjCityMainWarpFPviii(self->win, a, 5, 0);
-            forward_trade_action_default__16TObjCityMainWarpFPviii(self->win, b, 5, 1);
+            ((TWindowMenu *)self->win)->add_text_entry(a, 5, 0);
+            ((TWindowMenu *)self->win)->add_text_entry(b, 5, 1);
             ((TWindowSubComCardList *)(self->win))->set_selected_index(1);
         } else {
-            forward_trade_action_default__16TObjCityMainWarpFPviii(self->win, c, 5, 0);
-            forward_trade_action_default__16TObjCityMainWarpFPviii(self->win, d, 5, 1);
+            ((TWindowMenu *)self->win)->add_text_entry(c, 5, 0);
+            ((TWindowMenu *)self->win)->add_text_entry(d, 5, 1);
             ((TWindowSubComCardList *)(self->win))->set_selected_index(0);
         }
         ((TWindowMenu *)(self->win))->update_layout_height(lbl_805D7020);

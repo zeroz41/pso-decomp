@@ -1668,13 +1668,13 @@ void TLobby::open_lobby_warp_menu() {
     window_layout_position = (saddr)get_window_layout_position(0xB4);
     if ((s32) TLobby__lobby_number < 0xD) {
         TLobby_warp_menu_window = (TWindowMenu *)create_window_menu_default(window_layout_position, 2);
-        TObjCityMainWarp::forward_trade_action_default(TLobby_warp_menu_window, TLobby::get_seq_phase(0x35), 6, 0);
-        TObjCityMainWarp::forward_trade_action_default(TLobby_warp_menu_window, TLobby::get_seq_phase(0x36), 6, 1);
+        TLobby_warp_menu_window->add_text_entry(TLobby::get_seq_phase(0x35), 6, 0);
+        TLobby_warp_menu_window->add_text_entry(TLobby::get_seq_phase(0x36), 6, 1);
     } else {
         TLobby_warp_menu_window = (TWindowMenu *)create_window_menu_default(window_layout_position, 3);
-        TObjCityMainWarp::forward_trade_action_default(TLobby_warp_menu_window, TLobby::get_seq_phase(0x35), 6, 0);
-        TObjCityMainWarp::forward_trade_action_default(TLobby_warp_menu_window, TLobby::get_seq_phase(0x36), 6, 1);
-        TObjCityMainWarp::forward_trade_action_default(TLobby_warp_menu_window, TLobby::get_seq_phase(0x47), 6, 3);
+        TLobby_warp_menu_window->add_text_entry(TLobby::get_seq_phase(0x35), 6, 0);
+        TLobby_warp_menu_window->add_text_entry(TLobby::get_seq_phase(0x36), 6, 1);
+        TLobby_warp_menu_window->add_text_entry(TLobby::get_seq_phase(0x47), 6, 3);
     }
     TLobby_warp_menu_window->calc_window_size();
     align_menu_entry_positions(TLobby_warp_menu_window);
@@ -1741,8 +1741,8 @@ void TLobby::create_warp_menu() {
     ((TWindowMenu *)TLobby_warp_menu_window)->open();
     window_layout_position = (saddr)get_window_layout_position(0xB5);
     lobby_com_card_window = (TWindowMenu *)create_window_menu_default(window_layout_position, 2);
-    TObjCityMainWarp::forward_trade_action_default(lobby_com_card_window, TLobby::get_seq_phase(0x39), 6, 0);
-    TObjCityMainWarp::forward_trade_action_default(lobby_com_card_window, TLobby::get_seq_phase(0x3A), 6, 1);
+    lobby_com_card_window->add_text_entry(TLobby::get_seq_phase(0x39), 6, 0);
+    lobby_com_card_window->add_text_entry(TLobby::get_seq_phase(0x3A), 6, 1);
     lobby_com_card_window->calc_window_size();
     align_menu_entry_positions(lobby_com_card_window);
     lobby_com_card_window->set_ready_flag();
@@ -1768,8 +1768,8 @@ void TLobby::open_menu_window() {
     }
     ((s32 (*)(s32))TLobby::show_seq_phase_message)(0x11);
     lobby_make_team_menu_window = (TWindowMenu *)create_window_menu_default((saddr)get_window_layout_position(0xB6), 2);
-    TObjCityMainWarp::forward_trade_action_default(lobby_make_team_menu_window, TLobby::get_seq_phase(0x45), 6, 0);
-    TObjCityMainWarp::forward_trade_action_default(lobby_make_team_menu_window, TLobby::get_seq_phase(0x46), 6, 1);
+    lobby_make_team_menu_window->add_text_entry(TLobby::get_seq_phase(0x45), 6, 0);
+    lobby_make_team_menu_window->add_text_entry(TLobby::get_seq_phase(0x46), 6, 1);
     lobby_make_team_menu_window->calc_window_size();
     align_menu_entry_positions(lobby_make_team_menu_window);
     lobby_make_team_menu_window->set_ready_flag();
@@ -1786,8 +1786,8 @@ void TLobby::open_warp_menu() {
     ((TWindowMenu *)TLobby_warp_menu_window)->open();
     window_layout_position = (saddr)get_window_layout_position(0xB5);
     lobby_com_card_window = (TWindowMenu *)create_window_menu_default(window_layout_position, 2);
-    TObjCityMainWarp::forward_trade_action_default(lobby_com_card_window, TLobby::get_seq_phase(0x3E), 6, 0);
-    TObjCityMainWarp::forward_trade_action_default(lobby_com_card_window, TLobby::get_seq_phase(0x3F), 6, 1);
+    lobby_com_card_window->add_text_entry(TLobby::get_seq_phase(0x3E), 6, 0);
+    lobby_com_card_window->add_text_entry(TLobby::get_seq_phase(0x3F), 6, 1);
     lobby_com_card_window->calc_window_size();
     align_menu_entry_positions(lobby_com_card_window);
     lobby_com_card_window->set_ready_flag();
@@ -1853,8 +1853,8 @@ void TLobby::open_keyboard_window() {
         static s32 *blank_entry = &lbl_805DB0B4;
         tmp_r3 = (saddr)get_window_layout_position(0xC3);
         lobby_keyboard_prompt_window = (TWindowMenu *)create_window_menu_default(tmp_r3, 2);
-        TObjCityMainWarp::forward_trade_action_default(lobby_keyboard_prompt_window, TLobby::get_seq_phase(0x44), 2, 0);
-        TObjCityMainWarp::forward_trade_action_default(lobby_keyboard_prompt_window, (saddr)blank_entry, 2, 1);
+        lobby_keyboard_prompt_window->add_text_entry(TLobby::get_seq_phase(0x44), 2, 0);
+        lobby_keyboard_prompt_window->add_text_entry((saddr)blank_entry, 2, 1);
         lobby_keyboard_prompt_window->calc_window_size();
         align_menu_entry_positions(lobby_keyboard_prompt_window);
         ((TAdChrSelASlotGC *)lobby_keyboard_prompt_window)->set_flag_40();
@@ -1880,11 +1880,11 @@ void TLobby::open_city_warp_menu() {
     ((TWindowMenu *)TLobby_warp_menu_window)->open();
     window_layout_position = (saddr)get_window_layout_position(0xB5);
     lobby_com_card_window = (TWindowMenu *)create_window_menu_default(window_layout_position, 5);
-    TObjCityMainWarp::forward_trade_action_default(lobby_com_card_window, TLobby::get_seq_phase(0x4C), 6, 0);
-    TObjCityMainWarp::forward_trade_action_default(lobby_com_card_window, TLobby::get_seq_phase(0x48), 6, 1);
-    TObjCityMainWarp::forward_trade_action_default(lobby_com_card_window, TLobby::get_seq_phase(0x49), 6, 2);
-    TObjCityMainWarp::forward_trade_action_default(lobby_com_card_window, TLobby::get_seq_phase(0x4A), 6, 3);
-    TObjCityMainWarp::forward_trade_action_default(lobby_com_card_window, TLobby::get_seq_phase(0x4B), 6, 4);
+    lobby_com_card_window->add_text_entry(TLobby::get_seq_phase(0x4C), 6, 0);
+    lobby_com_card_window->add_text_entry(TLobby::get_seq_phase(0x48), 6, 1);
+    lobby_com_card_window->add_text_entry(TLobby::get_seq_phase(0x49), 6, 2);
+    lobby_com_card_window->add_text_entry(TLobby::get_seq_phase(0x4A), 6, 3);
+    lobby_com_card_window->add_text_entry(TLobby::get_seq_phase(0x4B), 6, 4);
     lobby_com_card_window->calc_window_size();
     align_menu_entry_positions(lobby_com_card_window);
     lobby_com_card_window->set_ready_flag();

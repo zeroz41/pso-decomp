@@ -28,7 +28,6 @@ extern const f32 lbl_8044F308[2] = {389.0f, 251.0f};
 extern "C" {
 const char *TWindowMakeTeam__sub_80264B38(TWindowMakeTeam *o);
 const char *TWindowMakeTeam__sub_80264B24(TWindowMakeTeam *o);
-int forward_trade_action_default__16TObjCityMainWarpFPviii(void *p, int a1, int a2, int a3);
 extern s32 local_client_id;
 char *get_shared_text_buffer(void);
 }
@@ -190,9 +189,9 @@ TWindowMenu *TWindowMakeTeam::create_entry_menu_window() {
     u8 *arg0 = (u8 *)this;
     saddr r;
     r = (s32)create_window_menu_default((saddr)lbl_8044F300, 3);
-    TObjCityMainWarp::forward_trade_action_default((void *)r, (int)(TWindowMakeTeam::draw_entry_0x110(0)), 6, 0);
-    TObjCityMainWarp::forward_trade_action_default((void *)r, (int)(TWindowMakeTeam::draw_entry_0x110(1)), 6, 1);
-    TObjCityMainWarp::forward_trade_action_default((void *)r, (int)(TWindowMakeTeam::draw_entry_0x110(2)), 6, 2);
+    ((TWindowMenu *)r)->add_text_entry(TWindowMakeTeam::draw_entry_0x110(0), 6, 0);
+    ((TWindowMenu *)r)->add_text_entry(TWindowMakeTeam::draw_entry_0x110(1), 6, 1);
+    ((TWindowMenu *)r)->add_text_entry(TWindowMakeTeam::draw_entry_0x110(2), 6, 2);
     ((TWindowMenu *)r)->calc_window_size();
     align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(r));
     ((TWindowSubComCardList *)r)->set_selected_index(*(s8 *)(arg0 + 0x1E));
@@ -204,12 +203,12 @@ TWindowMenu *TWindowMakeTeam::create_status_menu_window() {
     saddr r;
     s32 m;
     r = (s32)create_window_menu_default((saddr)lbl_8044F308, 4);
-    TObjCityMainWarp::forward_trade_action_default((void *)r, (saddr)TWindowMakeTeam::init_status_disp(0), 6, 0);
-    TObjCityMainWarp::forward_trade_action_default((void *)r, (saddr)TWindowMakeTeam::init_status_disp(1), 6, 1);
-    TObjCityMainWarp::forward_trade_action_default((void *)r, (saddr)TWindowMakeTeam::init_status_disp(2), 6, 2);
+    ((TWindowMenu *)r)->add_text_entry((saddr)(TWindowMakeTeam::init_status_disp(0)), 6, 0);
+    ((TWindowMenu *)r)->add_text_entry((saddr)(TWindowMakeTeam::init_status_disp(1)), 6, 1);
+    ((TWindowMenu *)r)->add_text_entry((saddr)(TWindowMakeTeam::init_status_disp(2)), 6, 2);
     m = *(s32 *)(arg0 + 0x20);
     if (m == 1 || m == 2) {
-        TObjCityMainWarp::forward_trade_action_default((void *)r, (saddr)TWindowMakeTeam::init_status_disp(3), 6, 3);
+        ((TWindowMenu *)r)->add_text_entry((saddr)(TWindowMakeTeam::init_status_disp(3)), 6, 3);
     }
     ((TWindowMenu *)r)->calc_window_size();
     align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(r));

@@ -71,7 +71,6 @@ typedef struct Pos3_803001B4 { NJS_POINT2 p[3]; } Pos3_803001B4;
 typedef struct Arr3_803001B4 { s32 v[3]; } Arr3_803001B4;
 
 extern "C" {
-int forward_trade_action_default__16TObjCityMainWarpFPviii(void *p, int a1, int a2, int a3);
 s32 create_window_menu_default(void *, u32);
 
 static const TAdSelectTxtLayout lbl_80474E40[7] = {
@@ -117,9 +116,9 @@ saddr TAdMultiSelGameModeGC::build_mode_menu(s32 arg1) {
     r = create_window_menu_default(&pos.p[arg1], n);
     for (i = 0; i < n; i++) {
         if (is_mode_entry_enabled(arg1, i) != 0) {
-            forward_trade_action_default__16TObjCityMainWarpFPviii((void *)r, (int)(get_localized_text_entry(0x18, i + b.v[arg1])), 6, (int)(i + a.v[arg1]));
+            ((TWindowMenu *)r)->add_text_entry(get_localized_text_entry(0x18, i + b.v[arg1]), 6, i + a.v[arg1]);
         } else {
-            add_gray_text_entry((TWindowSubTradeMain *)r, (const char *)(get_localized_text_entry(0x18, i + b.v[arg1])), 6, i + a.v[arg1]);
+            add_gray_text_entry((TWindowMenu *)r, (const char *)(get_localized_text_entry(0x18, i + b.v[arg1])), 6, i + a.v[arg1]);
         }
         ((TWindowMenu *)r)->update_layout_height(206.0f);
         ((TWindowSubComCardList *)r)->set_selected_index(a.v[arg1]);

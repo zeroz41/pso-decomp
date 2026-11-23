@@ -746,9 +746,9 @@ void update_duel_result__6TLobbyFPv(u8 *arg0) {
                 }
                 if (*(void **)((s8 *)arg0 + 0x50) == NULL) {
                     *(void **)((s8 *)arg0 + 0x50) = create_window_menu_default(get_window_layout_position(0x54), 3);
-                    TObjCityMainWarp::forward_trade_action_default(*(void **)((s8 *)arg0 + 0x50), *(s32 *)((s8 *)(*(s32 **)((s8 *)arg0 + 0x40)) + 4), 6, 1);
-                    TObjCityMainWarp::forward_trade_action_default(*(void **)((s8 *)arg0 + 0x50), *(s32 *)((s8 *)(*(s32 **)((s8 *)arg0 + 0x40)) + 8), 6, 2);
-                    TObjCityMainWarp::forward_trade_action_default(*(void **)((s8 *)arg0 + 0x50), *(s32 *)((s8 *)(*(s32 **)((s8 *)arg0 + 0x40)) + 0xC), 6, 3);
+                    ((TWindowMenu *)(*(void **)((s8 *)arg0 + 0x50)))->add_text_entry(*(s32 *)((s8 *)(*(s32 **)((s8 *)arg0 + 0x40)) + 4), 6, 1);
+                    ((TWindowMenu *)(*(void **)((s8 *)arg0 + 0x50)))->add_text_entry(*(s32 *)((s8 *)(*(s32 **)((s8 *)arg0 + 0x40)) + 8), 6, 2);
+                    ((TWindowMenu *)(*(void **)((s8 *)arg0 + 0x50)))->add_text_entry(*(s32 *)((s8 *)(*(s32 **)((s8 *)arg0 + 0x40)) + 0xC), 6, 3);
                     ((TWindowMenu *)(*(void **)((s8 *)arg0 + 0x50)))->calc_window_size();
                     align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(*(void **)((s8 *)arg0 + 0x50)));
                     ((TWindowMenu *)(*(void **)((s8 *)arg0 + 0x50)))->set_ready_flag();

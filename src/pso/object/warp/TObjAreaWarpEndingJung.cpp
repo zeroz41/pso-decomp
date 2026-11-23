@@ -414,7 +414,7 @@ void TObjMapWarp::open_confirm_window(s32 client_id) {
     temp_r31 = (u8 *)(arg0 + (client_id * 4));
     if ((u32) *(u32 *)((s8 *)temp_r31 + 0xEC) == 0U) {
         *(uaddr *)((s8 *)temp_r31 + 0xEC) = (uaddr)create_window_menu((saddr)get_window_layout_position(0x33), 1, client_id);
-        ((TWindowSubTradeMain *)(*(uaddr *)((s8 *)temp_r31 + 0xEC)))->add_text_entry(get_localized_text_entry(9, 0x25), 2, 0, -1);
+        ((TWindowMenu *)(*(uaddr *)((s8 *)temp_r31 + 0xEC)))->add_text_entry(get_localized_text_entry(9, 0x25), 2, 0, -1);
         ((TWindowMenu *)(*(uaddr *)((s8 *)temp_r31 + 0xEC)))->calc_window_size();
         align_menu_entry_positions(reinterpret_cast<TWindowMenu *>((*(uaddr *)((s8 *)temp_r31 + 0xEC))));
         ((TWindowMenu *)(*(uaddr *)((s8 *)temp_r31 + 0xEC)))->set_flag70_bit10();
@@ -596,10 +596,10 @@ void TObjAreaWarp::open_confirm_window(s32 arg1) {
     if ((u32) this->menu_window == 0U) {
         this->menu_window = (uaddr)create_window_menu((saddr)get_window_layout_position(0x33), 1, arg1);
         if (((s32 (*)(void))get_game_play_mode)() == 1) {
-            ((TWindowSubTradeMain *)(this->menu_window))->add_text_entry((saddr)TObjCityMainWarp__sub_80186AF4(), 2, 0, -1);
+            ((TWindowMenu *)(this->menu_window))->add_text_entry((saddr)TObjCityMainWarp__sub_80186AF4(), 2, 0, -1);
         } else {
             get_floor_area(this->dest_floor);
-            ((TWindowSubTradeMain *)(this->menu_window))->add_text_entry(get_floor_destination_name(), 2, 0, -1);
+            ((TWindowMenu *)(this->menu_window))->add_text_entry(get_floor_destination_name(), 2, 0, -1);
         }
         ((TWindowMenu *)(this->menu_window))->calc_window_size();
         align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(this->menu_window));
@@ -1049,9 +1049,9 @@ void TObjAreaWarpEnding::open_confirm_window(s32 client_id) {
     if ((u32) this->menu_window == 0U) {
         this->menu_window = (uaddr)create_window_menu((saddr)get_window_layout_position(0x33), 1, client_id);
         if (get_main_phase() == 0xE) {
-            ((TWindowSubTradeMain *)(this->menu_window))->add_text_entry(get_localized_text_entry(9, 0x26), 3, 0, -1);
+            ((TWindowMenu *)(this->menu_window))->add_text_entry(get_localized_text_entry(9, 0x26), 3, 0, -1);
         } else {
-            ((TWindowSubTradeMain *)(this->menu_window))->add_text_entry(get_localized_text_entry(9, 0x23), 2, 0, -1);
+            ((TWindowMenu *)(this->menu_window))->add_text_entry(get_localized_text_entry(9, 0x23), 2, 0, -1);
         }
         ((TWindowMenu *)(this->menu_window))->calc_window_size();
         align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(this->menu_window));

@@ -47,9 +47,9 @@ TUnk_804CE7D0::TUnk_804CE7D0(TObject *parent) : TObject(parent) {
         symbol_chat_preset = (u8 *)(get_symbol_chat_preset(i));
         text = (u8 *)(reinterpret_cast<SymbolChatPreset *>(symbol_chat_preset)->get_symbol_chat_data());
         if (is_symbol_chat_preset_in_use(reinterpret_cast<const SymbolChatPreset *>(symbol_chat_preset)) != 0) {
-            forward_trade_action_default__16TObjCityMainWarpFPviii(preset_list, (saddr) text, 0x66, i);
+            preset_list->add_text_entry((saddr)text, 0x66, i);
         } else {
-            add_gray_text_entry((TWindowSubTradeMain *)preset_list, (const char *)text, 0x46, (s32)i);
+            add_gray_text_entry((TWindowMenu *)preset_list, (const char *)text, 0x46, (s32)i);
         }
         i += 1;
     } while (i < 0xC);

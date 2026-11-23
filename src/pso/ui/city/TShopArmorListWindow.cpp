@@ -118,7 +118,6 @@ s32 get_shop_text(s32);
 void *__ct__15TWindowHelpItemFPvl(void *, s32, s32);
 u8 *create_item_list_window(s32 arg0, s32 arg1, s32 arg2);
 
-int forward_trade_action_default__16TObjCityMainWarpFPviii(void *p, int a1, int a2, int a3);
 
 // Written last-to-first: the unit is built with deferred code generation (see configure.py).
 
@@ -368,8 +367,8 @@ void TShopArmorListWindow::open_menu_window() {
     if (this->choice_menu == NULL) {
         entity_id = ((TObjBase *)(this->m_24))->get_entity_id();
         this->choice_menu = create_window_menu((saddr)get_window_layout_position(0x2B), 2, entity_id);
-        forward_trade_action_default__16TObjCityMainWarpFPviii((void *)this->choice_menu, (int)(get_shop_text(4)), 6, 0);
-        forward_trade_action_default__16TObjCityMainWarpFPviii((void *)this->choice_menu, (int)(get_shop_text(5)), 6, 1);
+        this->choice_menu->add_text_entry(get_shop_text(4), 6, 0);
+        this->choice_menu->add_text_entry(get_shop_text(5), 6, 1);
         choice_menu->calc_window_size();
         align_menu_entry_positions(this->choice_menu);
         choice_menu->set_ready_flag();

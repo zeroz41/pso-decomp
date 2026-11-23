@@ -65,7 +65,6 @@ s32 TAdSinglePlyChrSelectGC__sub_801FDA4C();
 int request_queued_main_phase(void*);
 extern void *character_select_scene_resource_callbacks[];
 int create_window_menu_default(void*, void*);
-int forward_trade_action_default__16TObjCityMainWarpFPviii(void*, void*, void*, void*);
 u32 __nw__7TObjectFUl(int);
 
 s32 get_card_file_info__15TAdPlayerLoadGCFiPvPv(int, void *, int);
@@ -458,14 +457,14 @@ void TUnk_804EF8C0::close_window() {
 void TUnk_804EF8C0::init_warp() {
     close_window();
     menu = (TWindowMenu *)create_window_menu_default((void *)lbl_80477D58, (void *)2);
-    forward_trade_action_default__16TObjCityMainWarpFPviii(menu, (void *)get_message_text(14), (void *)6, (void *)1);
+    menu->add_text_entry(get_message_text(14), 6, 1);
     menu->update_layout_height(289.0f);
 }
 void TUnk_804EF8C0::init_warps() {
     close_window();
     menu = (TWindowMenu *)create_window_menu_default((void *)lbl_80477D58, (void *)2);
-    forward_trade_action_default__16TObjCityMainWarpFPviii(menu, (void *)get_message_text(13), (void *)6, (void *)0);
-    forward_trade_action_default__16TObjCityMainWarpFPviii(menu, (void *)get_message_text(14), (void *)6, (void *)1);
+    menu->add_text_entry(get_message_text(13), 6, 0);
+    menu->add_text_entry(get_message_text(14), 6, 1);
     menu->update_layout_height(289.0f);
 }
 

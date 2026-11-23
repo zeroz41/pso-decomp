@@ -21,7 +21,6 @@ extern "C" { extern const char TObjNewFloorWin__class_name_string[16] = "TObjNew
 struct TObjNewFloorWin_80073DCC { u8 pad[0x1C]; s32 state; void *window; s32 timer24; s32 timer28; };
 
 extern "C" {
-int forward_trade_action_default__16TObjCityMainWarpFPviii(void *p, int a1, int a2, int a3);
 saddr get_window_layout_position(s32);
 
 s32 has_window_task_root();
@@ -72,7 +71,7 @@ void TObjNewFloorWin::open_window() {
     }
     if ((u32) *(u32 *)((s8 *)arg0 + 0x20) != 0U) {
         sprintf((char *)arg0 + 0x2C, "%s %02d", get_message_text(0x67), TObjNewFloorWin__sub_8007410C());
-        forward_trade_action_default__16TObjCityMainWarpFPviii((void *)(*(uaddr *)((s8 *)arg0 + 0x20)), (saddr)(arg0 + 0x2C), 0, 0);
+        ((TWindowMenu *)(*(uaddr *)((s8 *)arg0 + 0x20)))->add_text_entry((saddr)(arg0 + 0x2C), 0, 0);
         ((TWindowMenu *)(*(uaddr *)((s8 *)arg0 + 0x20)))->calc_window_size();
         ((TAdChrSelASlotGC *)(*(uaddr *)((s8 *)arg0 + 0x20)))->set_flag_40();
         fn_800740DC();

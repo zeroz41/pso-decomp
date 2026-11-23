@@ -47,9 +47,8 @@ void set_selected_index__21TWindowSubComCardListFs(s32, s32);
 
 s32 get_technique_name(s16);
 s32 can_use_palette_action__10TObjPlayerFPvUcUc(u32, s32, u8);
-s32 add_text_entry__19TWindowSubTradeMainFllll(s32, s32, s32, s16, s32);
-
-s32 forward_trade_action_default__16TObjCityMainWarpFPviii(s32, s32, s32, s16);
+s32 add_text_entry__11TWindowMenuFllll(s32, s32, s32, s16, s32);
+s32 add_text_entry__11TWindowMenuFlll(s32, s32, s32, s16);
 
 void TWindowSubTechnique::get_current_selection(s16 *arg0, s32 *arg1, s32 client) { TWindowSubTechnique::get_selection(arg0, arg1, client); }
 
@@ -85,10 +84,10 @@ void TWindowSubTechnique::draw_technique_row(s32 id, s32 arg1, s32 list) {
         return;
     }
     if (TWindowSubTechnique::is_technique_available(id, arg1) == 0) {
-        add_text_entry__19TWindowSubTradeMainFllll(list, technique_name, 0x16, id, 0xFFFD3901);
+        add_text_entry__11TWindowMenuFllll(list, technique_name, 0x16, id, 0xFFFD3901);
         return;
     }
-    forward_trade_action_default__16TObjCityMainWarpFPviii(list, technique_name, 6, id);
+    add_text_entry__11TWindowMenuFlll(list, technique_name, 6, id);
 }
 #pragma fp_contract on
 
@@ -140,11 +139,11 @@ s32 TWindowSubTechnique::open_menu() {
     titled_window_menu = create_titled_window_menu(get_window_layout_position(0x12), 5, (saddr)TWindowSubStatusDisp::get_message_10(0x2F), this->playerIndex);
     ((TWindowBase *)titled_window_menu)->set_depth(TWindowSubEquip__sub_80263AF8((u8 *)parent_menu, 0));
     ((TWindowSubComCardList *)titled_window_menu)->set_flag70_bit100();
-    TObjCityMainWarp::forward_trade_action_default((void *)titled_window_menu, (saddr)(TWindowSubStatusDisp::get_message_10(0x9C)), 6, 0);
-    TObjCityMainWarp::forward_trade_action_default((void *)titled_window_menu, (saddr)(TWindowSubStatusDisp::get_message_10(0x9D)), 6, 1);
-    TObjCityMainWarp::forward_trade_action_default((void *)titled_window_menu, (saddr)(TWindowSubStatusDisp::get_message_10(0x9E)), 6, 2);
-    TObjCityMainWarp::forward_trade_action_default((void *)titled_window_menu, (saddr)(TWindowSubStatusDisp::get_message_10(0x9F)), 6, 3);
-    TObjCityMainWarp::forward_trade_action_default((void *)titled_window_menu, (saddr)(TWindowSubStatusDisp::get_message_10(0xA0)), 6, 4);
+    ((TWindowMenu *)titled_window_menu)->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x9C)), 6, 0);
+    ((TWindowMenu *)titled_window_menu)->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x9D)), 6, 1);
+    ((TWindowMenu *)titled_window_menu)->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x9E)), 6, 2);
+    ((TWindowMenu *)titled_window_menu)->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x9F)), 6, 3);
+    ((TWindowMenu *)titled_window_menu)->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0xA0)), 6, 4);
     ((TWindowMenu *)titled_window_menu)->set_flag70_bit10();
     ((TWindowMenu *)titled_window_menu)->update_layout_height(179.0f);
     align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(titled_window_menu));

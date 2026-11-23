@@ -596,7 +596,7 @@ void TObjWarpBoss::warp_boss_handle_window() {
             if (menu_window == 0) {
                 menu_window = create_window_menu_default((saddr)get_window_layout_position(0x35), 7);
                 if (menu_window != 0) {
-                    ((TWindowSubTradeMain *)menu_window)->add_text_entry((saddr)TWindowSubStatusDisp::get_message_10(0x40), 0, 0, -1);
+                    ((TWindowMenu *)menu_window)->add_text_entry((saddr)TWindowSubStatusDisp::get_message_10(0x40), 0, 0, -1);
                     ((TAdChrSelASlotGC *)menu_window)->set_flag_40();
                     ((TWindowMenu *)menu_window)->calc_window_size();
                     align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(menu_window));

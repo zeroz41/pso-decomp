@@ -68,7 +68,6 @@ u32 TAdSinglePlyChrSelectGC__sub_801FE4BC();
 s32 is_slot_active__23TAdSinglePlyChrSelectGCFUi();
 s32 clear_entry__23TAdSinglePlyChrSelectGCFi();
 s32 TAdSinglePlyChrSelectGC__sub_802D4D9C();
-int forward_trade_action_default__16TObjCityMainWarpFPviii(void *p, int a1, int a2, int a3);
 
 void TAdSinglePlyChrSelectGC::render() {
     if (TMainTask::get_render_pass() == 1) return;
@@ -79,15 +78,15 @@ s32 TAdSinglePlyChrSelectGC::create_chr_warp(s32 arg0, s32 arg1) {
 
     if (TAdSinglePlyChrSelectGC__sub_802D4D9C() != 0) {
         window_menu_default = create_window_menu_default(arg1, 4);
-        forward_trade_action_default__16TObjCityMainWarpFPviii((void *)window_menu_default, (int)(get_localized_text_entry(0x1E, 1)), 6, 0);
-        forward_trade_action_default__16TObjCityMainWarpFPviii((void *)window_menu_default, (int)(get_localized_text_entry(0x1E, 2)), 6, 1);
-        forward_trade_action_default__16TObjCityMainWarpFPviii((void *)window_menu_default, (int)(get_localized_text_entry(0x1E, 3)), 6, 2);
-        forward_trade_action_default__16TObjCityMainWarpFPviii((void *)window_menu_default, (int)(get_localized_text_entry(0x1E, 4)), 6, 3);
+        ((TWindowMenu *)window_menu_default)->add_text_entry(get_localized_text_entry(0x1E, 1), 6, 0);
+        ((TWindowMenu *)window_menu_default)->add_text_entry(get_localized_text_entry(0x1E, 2), 6, 1);
+        ((TWindowMenu *)window_menu_default)->add_text_entry(get_localized_text_entry(0x1E, 3), 6, 2);
+        ((TWindowMenu *)window_menu_default)->add_text_entry(get_localized_text_entry(0x1E, 4), 6, 3);
     } else {
         window_menu_default = create_window_menu_default(arg1, 3);
-        forward_trade_action_default__16TObjCityMainWarpFPviii((void *)window_menu_default, (int)(get_localized_text_entry(0x1E, 1)), 6, 0);
-        forward_trade_action_default__16TObjCityMainWarpFPviii((void *)window_menu_default, (int)(get_localized_text_entry(0x1E, 3)), 6, 2);
-        forward_trade_action_default__16TObjCityMainWarpFPviii((void *)window_menu_default, (int)(get_localized_text_entry(0x1E, 4)), 6, 3);
+        ((TWindowMenu *)window_menu_default)->add_text_entry(get_localized_text_entry(0x1E, 1), 6, 0);
+        ((TWindowMenu *)window_menu_default)->add_text_entry(get_localized_text_entry(0x1E, 3), 6, 2);
+        ((TWindowMenu *)window_menu_default)->add_text_entry(get_localized_text_entry(0x1E, 4), 6, 3);
     }
     ((TWindowMenu *)window_menu_default)->calc_window_size();
     align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(window_menu_default));

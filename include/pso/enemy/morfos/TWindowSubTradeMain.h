@@ -40,7 +40,6 @@ struct TWindowSubTradeMain : public TObject {
     uaddr help_item;
     TWindowChat *chat;
     void *submission;
-    s32 add_text_entry(saddr text, s32 flags, s32 id, s32 color);
     void clear_trade_flag();
     void send_60_update();
     void bswap_6x6A_packet();

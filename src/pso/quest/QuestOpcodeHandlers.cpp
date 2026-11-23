@@ -5053,7 +5053,7 @@ void qst_op_list(void) {
     list->tokenize_args(buf);
     qst_list_window = (void *)(saddr)create_window_menu_default(get_window_layout_position(0x37), list->count);
     for (i = 0; i < list->count; i++) {
-        TObjCityMainWarp::forward_trade_action_default(qst_list_window, (saddr)list->tokens[i], 7, (int)i);
+        ((TWindowMenu *)qst_list_window)->add_text_entry((saddr)list->tokens[i], 7, i);
     }
     ((TWindowMenu *)qst_list_window)->calc_window_size();
     align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(qst_list_window));

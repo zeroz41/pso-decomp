@@ -32,7 +32,6 @@ s32 lbl_805D624C;
 TShopItemTecSequence *item_tec_sequence_instance;
 extern void *tl_05;
 s32 get_shop_text(s32 arg0);
-int forward_trade_action_default__16TObjCityMainWarpFPviii(void* p, int a1, int a2, int a3);
 
 
 extern int shop_tool_stock_counts[];
@@ -153,8 +152,8 @@ void TShopItemTecSequence::update_buy_sell_choice() {
     if (choice_menu == NULL) {
         s32 id = player->get_entity_id();
         choice_menu = create_window_menu(((saddr (*)(int))get_window_layout_position)(0x2B), 2, id);
-        forward_trade_action_default__16TObjCityMainWarpFPviii(choice_menu, get_shop_text(4), 6, 0);
-        forward_trade_action_default__16TObjCityMainWarpFPviii(choice_menu, get_shop_text(6), 6, 1);
+        choice_menu->add_text_entry(get_shop_text(4), 6, 0);
+        choice_menu->add_text_entry(get_shop_text(6), 6, 1);
         choice_menu->calc_window_size();
         align_menu_entry_positions(choice_menu);
         choice_menu->set_ready_flag();

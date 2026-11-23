@@ -387,7 +387,7 @@ void TChallenge4PItemSelect::open_menu() {
         if ((uaddr)menu_window != 0U) {
             var_r29 = 0;
             do {
-                TObjCityMainWarp::forward_trade_action_default(menu_window, get_text_collection(challenge4p_item_select_text_ids[var_r29]), 6, var_r29);
+                ((TWindowMenu *)menu_window)->add_text_entry(get_text_collection(challenge4p_item_select_text_ids[var_r29]), 6, var_r29);
                 var_r29 += 1;
             } while (var_r29 < 8);
             ((TWindowSubComCardList *)menu_window)->set_scroll_target(252.0f, 1.4e+02f);

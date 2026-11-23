@@ -18,7 +18,6 @@
 
 extern "C" {
 saddr get_message_text(s32 arg0);
-int forward_trade_action_default__16TObjCityMainWarpFPviii(void *p, int a1, int a2, int a3);
 saddr create_window_menu_default(const void *, int);
 s32 verify_system_file__23TAdSinglePlyChrSelectGCFPv();
 }
@@ -188,8 +187,8 @@ TWindowMessage *TAdMultiSaveGC::sub_802FF1F4() {
 
 TWindowSubComCardList *TAdMultiSaveGC::sub_802FF170() {
     TWindowSubComCardList *menu = (TWindowSubComCardList *)create_window_menu_default(lbl_80474D90, 2);
-    forward_trade_action_default__16TObjCityMainWarpFPviii(menu, get_message_text(0xD), 6, 0);
-    forward_trade_action_default__16TObjCityMainWarpFPviii(menu, get_message_text(0xE), 6, 1);
+    menu->add_text_entry(get_message_text(0xD), 6, 0);
+    menu->add_text_entry(get_message_text(0xE), 6, 1);
     menu->update_layout_height(289.0f);
     return menu;
 }

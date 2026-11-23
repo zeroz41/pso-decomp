@@ -221,9 +221,9 @@ void TObjChallengeRetry::open_loss_menu() {
     }
     this->menu = reinterpret_cast<TWindowSubComCardList *>(create_window_menu_default(get_window_layout_position(0x3A), 3));
     if (this->menu != NULL) {
-        TObjCityMainWarp::forward_trade_action_default(this->menu, (int)(get_message_text(0x5B)), 5, 0);
-        TObjCityMainWarp::forward_trade_action_default(this->menu, (int)(get_message_text(0x5C)), 5, 1);
-        TObjCityMainWarp::forward_trade_action_default(this->menu, (int)(get_message_text(0x5D)), 5, 2);
+        this->menu->add_text_entry(get_message_text(0x5B), 5, 0);
+        this->menu->add_text_entry(get_message_text(0x5C), 5, 1);
+        this->menu->add_text_entry(get_message_text(0x5D), 5, 2);
         this->menu->calc_window_size();
         this->menu->set_loss_flag();
         this->menu->set_selected_index(2);

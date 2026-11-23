@@ -122,7 +122,6 @@ void TWindowHelpItem__set_displayed_item_by_id(void *arg0, saddr arg1);
 s32 play_sound_effect(s32, s32, s32, s32);
 void *__ct__18TWindowInputNumberFPvllls(void *, s32, s32, s32, s32, s16);
 
-s32 forward_trade_action_default__16TObjCityMainWarpFPviii(TWindowMenu *, saddr, saddr, s32);
 void __dl__7TObjectFPv(void *);
 
 extern s32 __vt__24TShopEquipmentSellWindow[];
@@ -339,8 +338,8 @@ void TShopEquipmentSellWindow::handle_selection() {
         }
         if (w->menu_win == NULL) {
             w->menu_win = create_window_menu((saddr)get_window_layout_position(0x2B), 2, ((TObjBase *)((saddr)w->owner))->get_entity_id());
-            forward_trade_action_default__16TObjCityMainWarpFPviii(w->menu_win, get_shop_text(6), 6, 0);
-            forward_trade_action_default__16TObjCityMainWarpFPviii(w->menu_win, get_shop_text(7), 6, 1);
+            w->menu_win->add_text_entry(get_shop_text(6), 6, 0);
+            w->menu_win->add_text_entry(get_shop_text(7), 6, 1);
             w->menu_win->calc_window_size();
             align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(w->menu_win));
             w->menu_win->set_ready_flag();
@@ -362,8 +361,8 @@ void TShopEquipmentSellWindow::handle_input_window_result() {
     if (((u32) this->m_394 != 0U) && (((TWindowInputNumber *)(this->m_394))->is_confirmed() != 0)) {
         if (confirm_menu == NULL) {
             this->confirm_menu = create_window_menu((saddr)get_window_layout_position(0x2B), 2, ((TObjBase *)(saddr)(this->m_24))->get_entity_id());
-            forward_trade_action_default__16TObjCityMainWarpFPviii(this->confirm_menu, get_shop_text(6), 6, 0);
-            forward_trade_action_default__16TObjCityMainWarpFPviii(this->confirm_menu, get_shop_text(7), 6, 1);
+            this->confirm_menu->add_text_entry(get_shop_text(6), 6, 0);
+            this->confirm_menu->add_text_entry(get_shop_text(7), 6, 1);
             this->confirm_menu->calc_window_size();
             align_menu_entry_positions(this->confirm_menu);
             this->confirm_menu->set_ready_flag();
