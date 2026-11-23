@@ -676,13 +676,13 @@ break;
 }
 while ((rem--) > 0)
 {
-if (((s16) (ppp_buffer_read((void *)((u8 *) flag), (void *)(&(*(u8*)&lobby_read_byte_buffer)), 1))) != 1)
+if (((s16) (ppp_buffer_read((void *)((u8 *) flag), (void *)lobby_read_byte_buffer, 1))) != 1)
 {
 c = -1;
 }
 else
 {
-c = (s16) (*(u8*)&lobby_read_byte_buffer);
+c = (s16) lobby_read_byte_buffer[0];
 }
 *(out++) = c;
 }

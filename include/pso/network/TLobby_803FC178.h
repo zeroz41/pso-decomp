@@ -109,7 +109,7 @@ extern u8 lbl_805D7AC0[2];
 extern u8 lbl_805D7AC4[1];
 extern s16 lbl_805D7A7A;
 extern s16 lbl_805D7A7E;
-extern saddr lobby_timer_list_head;
+extern void *lobby_timer_list_head;
 extern s16 lbl_805D7A7C;
 extern s32 lbl_805D7A90;
 extern u8 lcp_read_value_buffer[4];

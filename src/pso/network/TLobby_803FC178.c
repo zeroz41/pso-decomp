@@ -210,7 +210,7 @@ void chap_input(PppFsm *self, PppFrame *source) {
 }
 
 s32 TLobby__sub_803FC684(u8 *source, u8 *chap_secret, u8 *arg2) {
-    char **p = *(char ***)(arg2 + 0x30);
+    char **p = (char **)((PppFsm *)arg2)->opts;
 
     if (NetStringLength((const char *)((void *)source)) >= 0x80) {
         source[0x7F] = 0;

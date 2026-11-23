@@ -37,28 +37,28 @@ const u8 lbl_8047FE3C[20] = {0, 10, 6, 6, 0, 0, 0, 0, 0, 6, 0, 6};
 u8 lcp_read_byte_buffer;
 u8 lbl_805D7AA8[4];
 s16 TLobby__sub_803FED78(u8 *self) {
-    u8 *p;
+    PppFsm *p;
     NetThreadState *pd;
     u8 *obj;
     s16 st;
-    s16 *ps;
+    void *ps;
     s16 check_connection_status(void *); /* declared s16 here; the definition returns s32 */
     st = 1;
-    obj = *(u8 **)(self + 0xc);
-    *(s16 *)(self + 8) = 0;
-    ps = (s16 *)&ppp_proto_blocks.ipv6cp;
-    ps[4] = 0;
-    p = (u8 *)ps;
+    obj = ((PppFsm *)self)->sub;
+    ((PppFsm *)self)->abort = 0;
+    ps = &ppp_proto_blocks.ipv6cp;
+    ((PppFsm *)ps)->abort = 0;
+    p = (PppFsm *)ps;
     pd = &lbl_805C18A0;
     goto test;
     while (1) {
         if (is_timed_out() != 0 || obj[0] == 4) {
             update_connection_state(self);
-            *(s16 *)(self + 8) = 0;
-            *(s16 *)(p + 8) = 0;
+            ((PppFsm *)self)->abort = 0;
+            p->abort = 0;
             return -1;
         }
-        if (*(s16 *)(self + 8) != 0) goto after;
+        if (((PppFsm *)self)->abort != 0) goto after;
         st = check_connection_status((void *)p);
         unlock_mutex(pd->mutex);
         net_sleep_ms(0x64);
@@ -70,13 +70,13 @@ test:
     }
 after:
     if (lbl_805D7A7C != 6 && (s16)(s32)lbl_805D7A7C) {
-        if (*(s16 *)(self + 8) != 0) {
-            *(s16 *)(p + 8) = 0;
-            *(s16 *)(self + 8) = 0;
+        if (((PppFsm *)self)->abort != 0) {
+            p->abort = 0;
+            ((PppFsm *)self)->abort = 0;
             return -1;
         }
-        *(s16 *)(p + 8) = 0;
-        *(s16 *)(self + 8) = 0;
+        p->abort = 0;
+        ((PppFsm *)self)->abort = 0;
         return 0;
     }
     pd = &lbl_805C18A0;
@@ -89,20 +89,20 @@ after:
     }
     switch (st) {
     case 0:
-        *(s16 *)(self + 8) = 0;
-        *(s16 *)(p + 8) = 0;
+        ((PppFsm *)self)->abort = 0;
+        p->abort = 0;
         return 0;
     case -2:
-        if (*(s16 *)(self + 8) == 0) {
-            *(s16 *)(self + 8) = 0;
-            *(s16 *)(p + 8) = 0;
+        if (((PppFsm *)self)->abort == 0) {
+            ((PppFsm *)self)->abort = 0;
+            p->abort = 0;
             return 0;
         }
         break;
     }
     update_connection_state(self);
-    *(s16 *)(p + 8) = 0;
-    *(s16 *)(self + 8) = 0;
+    p->abort = 0;
+    ((PppFsm *)self)->abort = 0;
     return -1;
 }
 
@@ -119,13 +119,13 @@ void TLobby__sub_803FEF4C(u8 *self) {
     ((PppFsmProtocol *)o)->name = "IPcp";
     sub = self + 0x6c;
     p = o + 0x3c;
-    *(u16 *)(o + 0x4) = 0x8021;
-    *(s16 *)(o + 0x6) = 0xfe;
-    o[0x8] = 2;
-    o[0x9] = 0x14;
-    o[0xa] = 10;
-    o[0xb] = 10;
-    *(u32 *)(o + 0xc) = 0xbb8;
+    ((PppFsmProtocol *)o)->proto = 0x8021;
+    ((PppFsmProtocol *)o)->h6 = 0xfe;
+    ((PppFsmProtocol *)o)->b8 = 2;
+    ((PppFsmProtocol *)o)->b9 = 0x14;
+    ((PppFsmProtocol *)o)->bA = 10;
+    ((PppFsmProtocol *)o)->bB = 10;
+    ((PppFsmProtocol *)o)->timeout = 0xbb8;
     ((PppFsmProtocol *)o)->release_resources = free_field_98;
     ((PppFsmProtocol *)o)->reset_options = TLobby__sub_803FF48C;
     ((PppFsmProtocol *)o)->start_negotiation = TLobby__sub_803FF374;
@@ -137,9 +137,9 @@ void TLobby__sub_803FEF4C(u8 *self) {
     ((PppFsmProtocol *)o)->check_config_ack = TLobby__sub_803FF858;
     ((PppFsmProtocol *)o)->check_config_nak = TLobby__sub_803FF698;
     ((PppFsmProtocol *)o)->check_config_reject = TLobby__sub_803FF50C;
-    *(u8 **)(sub + 0xc) = self;
-    *(u8 **)(sub + 0x2c) = o;
-    *(u8 **)(sub + 0x30) = p;
+    ((PppFsm *)sub)->sub = self;
+    ((PppFsm *)sub)->proto = (PppFsmProtocol *)o;
+    ((PppFsm *)sub)->opts = p;
     ((IpcpState *)o)->config.local.want = *src;
     ((IpcpState *)o)->config.local.flags = 6;
     ((IpcpState *)o)->config.peer.want = *src;
@@ -240,8 +240,7 @@ s16 TLobby__sub_803FF304(u8 *lobby) {
 }
 
 void free_field_98(PppFsm *self) {
-    u8 *arg0 = (u8 *)self;
-    TLobby__sub_80405000((*(IpcpConfig **)(arg0 + 0x30))->net_list);
+    TLobby__sub_80405000(((IpcpConfig *)self->opts)->net_list);
 }
 
 void TLobby__sub_803FF374(PppFsm *arg0) {
@@ -272,9 +271,7 @@ void ipcp_opening(PppFsm *arg0) {
 }
 
 void free_field_98_and_clear(PppFsm *self) {
-    u8 *arg0 = (u8 *)self;
-    IpcpConfig *config;
-    config = *(IpcpConfig **)(arg0 + 0x30);
+    IpcpConfig *config = (IpcpConfig *)self->opts;
     TLobby__sub_80405000(config->net_list);
     config->net_list = 0;
 }

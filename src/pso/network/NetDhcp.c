@@ -68,7 +68,7 @@ u8 dhcp_server_id[4];
 u8 lbl_805D7B1C[6];
 s16 dhcp_socket;
 s32 lbl_805D7B14;
-s32 dhcp_reply_received;
+volatile s32 dhcp_reply_received;
 volatile s32 dhcp_step;
 s16 dhcp_iface;
 volatile s32 dhcp_state = -2;
@@ -263,7 +263,7 @@ s32 dhcp_build_packet(DhcpMessage *packet) {
     }
     NetMemcpy(packet->hdr.chaddr, lbl_805D7B1C, 6);
     p = (u8 *)&packet->hdr.cookie;
-    *(s32 *)p = (*(s32 *)&lbl_805D7B4C);
+    *(s32 *)p = (s32)lbl_805D7B4C;
     p += sizeof(packet->hdr.cookie);
     *p++ = 0x35;
     *p++ = 1;
@@ -469,7 +469,7 @@ s32 dhcp_request_step(void) {
         dhcp_step = 1;
     case 1:
         len = dhcp_build_packet(&lbl_805C1E00.outgoing);
-        *(volatile s32 *)&dhcp_reply_received = 0;
+        dhcp_reply_received = 0;
         if (dhcp_state == 4) {
             id = *(s32 *)dhcp_server_id;
         } else {
@@ -752,7 +752,7 @@ void parse_dhcp_lease_times(u8 *packet) {
 
 s16 TLobby__sub_8042474C(s32 *lease, s32 *renew, s32 *rebind) {
     dhcp_error = 0;
-    if ((*(volatile s32 *)&dhcp_state) == 3 || (*(volatile s32 *)&dhcp_state) == 4 || (*(volatile s32 *)&dhcp_state) == 5) {
+    if (dhcp_state == 3 || dhcp_state == 4 || dhcp_state == 5) {
         if (dhcp_get_option(7, lease) != 0) {
             dhcp_error = 0x11;
         }
@@ -794,7 +794,7 @@ s32 find_dhcp_option(u8 *p, u8 tag, u8 **out) {
 
 s16 DHCP_get_gateway(void *arg0, s32 *router) {
     dhcp_error = 0;
-    if ((*(volatile s32 *)&dhcp_state) != 3 && (*(volatile s32 *)&dhcp_state) != 4 && (*(volatile s32 *)&dhcp_state) != 5) {
+    if (dhcp_state != 3 && dhcp_state != 4 && dhcp_state != 5) {
         dhcp_error = 2;
         return -1;
     }
@@ -806,7 +806,7 @@ s16 DHCP_get_gateway(void *arg0, s32 *router) {
 
 s16 DHCP_get_dns(void *arg0, char *domain, s32 *dns1, s32 *dns2) {
     dhcp_error = 0;
-    if ((*(volatile s32 *)&dhcp_state) != 3 && (*(volatile s32 *)&dhcp_state) != 4 && (*(volatile s32 *)&dhcp_state) != 5) {
+    if (dhcp_state != 3 && dhcp_state != 4 && dhcp_state != 5) {
         dhcp_error = 2;
         return -1;
     }
@@ -898,12 +898,12 @@ void dhcp_stop(void) {
 
 s32 DHCP_release(s32 session, s32 ip, s32 retries) {
     s32 state;
-    *(volatile s32 *)&dhcp_state = 6;
-    *(volatile s32 *)&dhcp_step = 0;
+    dhcp_state = 6;
+    dhcp_step = 0;
     dhcp_max_retries = retries;
     dhcp_error = 0;
     do {
-        state = *(volatile s32 *)&dhcp_state;
+        state = dhcp_state;
         net_sleep_ms(0x10);
     } while (state == 6);
     if (state != 0) {
@@ -932,7 +932,7 @@ s16 dhcp_discover_and_request(s16 iface, s32 arg1, s32 lease_time, void *arg3, s
 
 s32 DHCP_request(s16 iface, s32 arg1, s32 lease_time, void *arg3, s32 *address, s32 *netmask, s32 *broadcast, s32 retries) {
     dhcp_error = 0;
-    if (*(volatile s32 *)&dhcp_state != 0) {
+    if (dhcp_state != 0) {
         dhcp_error = 2;
         return -1;
     }
@@ -946,8 +946,8 @@ s32 DHCP_request(s16 iface, s32 arg1, s32 lease_time, void *arg3, s32 *address, 
     lbl_805D7B54 = arg1;
     dhcp_requested_lease = lease_time;
     dhcp_max_retries = retries;
-    *(volatile s32 *)&dhcp_state = 1;
-    *(volatile s32 *)&dhcp_step = 0;
+    dhcp_state = 1;
+    dhcp_step = 0;
     return 0;
 }
 
@@ -1016,19 +1016,19 @@ s16 DHCP_init(s16 iface) {
 s32 ensure_dhcp_reply_socket(void) {
     s32 addr[7];
     u8 unused[4];
-    if ((*(volatile s32 *)&dhcp_state) == 4 || (*(volatile s32 *)&dhcp_state) == 5 || (*(volatile s32 *)&dhcp_state) == 6) {
+    if (dhcp_state == 4 || dhcp_state == 5 || dhcp_state == 6) {
         if (dhcp_socket > -1) {
             udp_close(dhcp_socket);
         }
         addr[0] = 4;
         addr[1] = 0;
         if ((dhcp_socket = udp_open(0, 0x44, addr, 0x43, 0, dhcp_handle_reply)) < 0) {
-            if (*(volatile s32 *)&dhcp_state == 6) {
+            if (dhcp_state == 6) {
                 lbl_805D7B14 = dhcp_set_interface_mode(0);
             }
             dhcp_error = 4;
-            *(volatile s32 *)&dhcp_step = -1;
-            *(volatile s32 *)&dhcp_state = -2;
+            dhcp_step = -1;
+            dhcp_state = -2;
             return -1;
         }
     }
@@ -1065,7 +1065,7 @@ s32 dhcp_set_interface_mode(s32 mode) {
                 if (if_config(dhcp_iface, &req2) != 0) {
                     dhcp_error = 3;
                     r = 0;
-                    *(volatile s32 *)&dhcp_step = -1;
+                    dhcp_step = -1;
                     dhcp_state = -2;
                     return r;
                 }

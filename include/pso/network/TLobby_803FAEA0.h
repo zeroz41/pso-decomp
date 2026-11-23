@@ -81,9 +81,30 @@ typedef struct PppProtoBlocks {
     PppFsm ipcp;            /* 0x6C: its opts points at the IpcpConfig */
     PppFsm chap;            /* 0xA0 */
     PppFsm ipv6cp;          /* 0xD4 */
-    u8 tail[0x40];          /* 0x108: s32 byte count +0x110, s16 drop counters +0x122/+0x124 */
+    u8 tail_pad0[8];        /* 0x108 */
+    s32 tx_bytes;           /* 0x110 */
+    s32 tx_packets;         /* 0x114 */
+    u8 tail_pad18[0xA];     /* 0x118 */
+    s16 tx_drops;           /* 0x122 */
+    s16 tx_alloc_drops;     /* 0x124 */
+    u8 tail_pad26[0x0A];    /* 0x126 */
+    s16 rx_lcp;             /* 0x130 */
+    s16 rx_pap;             /* 0x132 */
+    s16 rx_ipcp;            /* 0x134 */
+    s16 rx_chap;            /* 0x136 */
+    s16 rx_ipv6cp;          /* 0x138 */
+    s16 rx_drops;           /* 0x13A */
+    u8 tail_pad3C[4];       /* 0x13C */
+    s16 rx_err_drops;       /* 0x140 */
+    s16 rx_alloc_drops;     /* 0x142 */
+    u8 tail_pad44[4];       /* 0x144 */
 } PppProtoBlocks;
 LAYOUT_ASSERT(PppProtoBlocks_size_check, sizeof(PppProtoBlocks) == 0x148);
+LAYOUT_ASSERT(PppProtoBlocks_tx_bytes_offset, offsetof(PppProtoBlocks, tx_bytes) == 0x110);
+LAYOUT_ASSERT(PppProtoBlocks_tx_drops_offset, offsetof(PppProtoBlocks, tx_drops) == 0x122);
+LAYOUT_ASSERT(PppProtoBlocks_rx_drops_offset, offsetof(PppProtoBlocks, rx_drops) == 0x13A);
+LAYOUT_ASSERT(PppProtoBlocks_rx_err_drops_offset, offsetof(PppProtoBlocks, rx_err_drops) == 0x140);
+LAYOUT_ASSERT(PppProtoBlocks_rx_alloc_drops_offset, offsetof(PppProtoBlocks, rx_alloc_drops) == 0x142);
 
 /* TLobby_803FAEA0.c: session control (stack up/down, login name, connection configuration, timeout). */
 #ifdef __cplusplus

@@ -357,7 +357,7 @@ zero:
     }
 
     if (res == 0) {
-        *(u8 **)(fsm->sub + 0x10c) = p1;
+        ((PppFsmLink *)fsm->sub)->pap_peer_id = p1;
         ptr = (u8 *)" Welcome";
         st = 2;
     } else {

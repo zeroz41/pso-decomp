@@ -57,7 +57,9 @@ typedef struct PapOptions {
 typedef struct PppFsmLink {
     u8 state;
     u8 next_identifier;
-    u8 unknown02[0x116];
+    u8 unknown02[0x10A];
+    u8 *pap_peer_id;            /* 0x10C */
+    u8 pad110[8];
     s16 transmitted[4];         /* 0x118 */
 } PppFsmLink;
 
