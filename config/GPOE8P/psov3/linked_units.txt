@@ -692,7 +692,7 @@ pso/effect/TDuelEffectString.cpp
 pso/system/scene/TEnding.cpp
 pso/system/scene/TEndingAB.cpp
 pso/system/scene/TEndingC.cpp
-pso/system/scene/TEndingC_8008D00C.cpp
+pso/system/scene/TEndingCWall.cpp
 pso/system/scene/TEndingPic.cpp
 pso/system/scene/TEndingPicStage.cpp
 pso/system/scene/TEnding_8008C5C0.cpp
@@ -1567,7 +1567,7 @@ pso/object/ambient/TObjMistCtrl.cpp
 pso/object/base/TObjMotion.cpp
 pso/object/ending/TObjOnlineEnding.cpp
 pso/object/ending/TObjOnlineEndingHexLine.cpp
-pso/object/ending/TObjOnlineEnding_802E4B80.cpp
+pso/object/ending/TObjOnlineEndingMain.cpp
 pso/object/TObjParticle.cpp
 pso/object/lobby/TObjParticleLobby.cpp
 pso/object/quest/TObjQuestCol.cpp

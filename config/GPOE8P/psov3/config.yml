@@ -1485,12 +1485,12 @@ force_active:
   - TObjNpcSoldierMacho__shared_model_resource
   - TObjNpcSoutokufu__name
   - TObjNpcSoutokufu__shared_model_resource
-  - TObjOnlineEndingHexLine__direction_table
+  - online_ending_hex_direction_table
   - hex_line_params__23TObjOnlineEndingHexLine
-  - copy_ending_hex_point
-  - TObjOnlineEndingHexLine_corner_offsets
+  - copy_ending_hex_point__FP14EndingHexPointPC14EndingHexPoint
+  - online_ending_hex_corner_offsets
   - __ct__23TObjOnlineEndingHexMoveFP7TObject
-  - TObjOnlineEndingHexMove__default_move_params
+  - online_ending_hex_move_default_params
   - __ct__16TObjOnlineEndingFP7TObject
   - __ct__12TObjParticleFP7TObjectP15ParticleSetData
   - __ct__11TObjPathObjFP7TObjectPv
@@ -8086,7 +8086,7 @@ force_active:
   - mericarol_motion_names
   - mericarol_low_model_names
   - mericarol_low_motion_names
-  - lbl_804E3A38
+  - online_ending_scene_origin
   - lbl_804E3B60
   - boss7_tunnel_particle_pos_table
   - __vt__19TBoss8DragonColli_C
