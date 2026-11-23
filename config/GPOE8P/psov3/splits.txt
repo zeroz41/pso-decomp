@@ -5928,7 +5928,7 @@ pso/quest/TQuestListOnline.cpp:
 	.sbss       start:0x805D61E0 end:0x805D6200
 	.sdata2     start:0x805DC6A0 end:0x805DC6B0
 
-pso/ui/window/TWindowSubComCard.cpp:
+pso/quest/TQuestListOnline_802183B4.cpp:
 	.text       start:0x802183B4 end:0x802183F8
 
 pso/quest/TQuestListVM.cpp:
@@ -7291,7 +7291,7 @@ pso/ui/window/TWindowCtrl_80271DFC.cpp:
 pso/unk/TLobby_80271E48.cpp:
 	.text       start:0x80271E48 end:0x80271E7C
 
-pso/ui/window/TWindowSubComCard_80271E7C.cpp:
+pso/ui/window/TWindowSubComCard.cpp:
 	.text       start:0x80271E7C end:0x802752D8
 	.rodata     start:0x8044F698 end:0x8044F6F8
 	.data       start:0x804D0FF0 end:0x804D1148
@@ -7484,7 +7484,7 @@ pso/ui/window/TWindowSubShortCutList.cpp:
 	.data       start:0x804D1A20 end:0x804D1A3C
 	.sdata      start:0x805D3A90 end:0x805D3A98
 
-pso/ui/chat/TWindowSubShortMail_8027E620.cpp:
+pso/ui/chat/TWindowSubShortMail.cpp:
 	.text       start:0x8027E620 end:0x8027FB00
 	.rodata     start:0x8044FAB0 end:0x8044FAD8
 	.data       start:0x804D1A40 end:0x804D1ACC

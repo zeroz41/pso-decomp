@@ -1335,7 +1335,7 @@ pso/ui/window/TWindowSoundBalance.cpp
 pso/ui/window/TWindowStatus.cpp
 pso/ui/window/TWindowSubAreaMap.cpp
 pso/ui/window/TWindowSubAreaMapDisp.cpp
-pso/ui/window/TWindowSubComCard.cpp
+pso/quest/TQuestListOnline_802183B4.cpp
 pso/ui/window/TWindowSubComCardList.cpp
 pso/ui/window/TWindowSubComCard_8007341C.cpp
 pso/ui/window/TWindowSubComCard_80073DB8.cpp
@@ -1356,7 +1356,7 @@ pso/ui/window/TWindowSubComCard_80265410.cpp
 pso/ui/window/TWindowSubComCard_80266BC4.cpp
 pso/ui/window/TWindowSubComCard_80268494.cpp
 pso/ui/window/TWindowSubComCard_80269064.cpp
-pso/ui/window/TWindowSubComCard_80271E7C.cpp
+pso/ui/window/TWindowSubComCard.cpp
 pso/ui/window/TWindowSubComCard_80275484.cpp
 pso/ui/window/TWindowSubComCard_802A559C.cpp
 pso/ui/window/TWindowSubComCard_802A5748.cpp
@@ -1391,7 +1391,7 @@ pso/ui/window/TWindowSubShortCut_80246FB0.cpp
 pso/ui/keyboard/TKeyBoardControl_80131998.cpp
 pso/ui/keyboard/TKeyBoardControl_80131AA4.cpp
 pso/ui/chat/TWindowSubShortMail_80246CB8.cpp
-pso/ui/chat/TWindowSubShortMail_8027E620.cpp
+pso/ui/chat/TWindowSubShortMail.cpp
 pso/ui/chat/TWindowSubShortMail_802A571C.cpp
 pso/ui/window/TWindowSubStatusDisp.cpp
 pso/ui/window/TWindowSubStatusDisp_8006F044.cpp
