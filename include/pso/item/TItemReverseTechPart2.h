@@ -14,13 +14,13 @@ public:
 public:
     static void destroy_and_flag(TObject *fade);
 
-    TItemReverseTech_8011A54C picture_0;
-    TItemReverseTech_8011A54C picture_1;
-    TItemReverseTech_8011A54C picture_2;
-    TItemReverseTech_8011A54C picture_3;
-    TItemReverseTech_8011A54C picture_4;
-    TItemReverseTech_8011A54C picture_5;
-    TItemReverseTech_8011A54C picture_6;
+    TItemReverseTechPicture picture_0;
+    TItemReverseTechPicture picture_1;
+    TItemReverseTechPicture picture_2;
+    TItemReverseTechPicture picture_3;
+    TItemReverseTechPicture picture_4;
+    TItemReverseTechPicture picture_5;
+    TItemReverseTechPicture picture_6;
     s32 frame;
     s32 shown_count;
 };

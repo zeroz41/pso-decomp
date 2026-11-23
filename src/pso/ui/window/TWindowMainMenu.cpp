@@ -19,7 +19,7 @@ struct TWindowSubItem;
 
 #include "pso/ui/window/TWindowSubMag.h"
 
-#include "pso/unk/TUnk_804D1160.h"
+#include "pso/ui/window/TCustomizeMenuCtrl.h"
 #include "pso/ui/window/TWindowSubEquip_80277E48.h"
 #include "pso/ui/window/TWindowSubGameEnd.h"
 #include "pso/ui/window/TWindowSubQuestBoard.h"
@@ -267,7 +267,7 @@ void TWindowMainMenu::create_submenu(u32 id) {
         return;
     case 0:
     case 1:
-        this->m_20 = (saddr)new TUnk_804D1160(this, this->client_index);
+        this->m_20 = (saddr)new TCustomizeMenuCtrl(this, this->client_index);
         return;
     case 9:
     case 10:

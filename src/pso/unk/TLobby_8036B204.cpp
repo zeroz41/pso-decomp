@@ -1,6 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
-#include "pso/unk/TUnk_804F3640.h"
+#include "pso/ui/chat/TSymbolChatCapture.h"
 #include "pso/unk/text_80076E84.h"
 #include "pso/unk/TLobby_8036B204.h"
 #include "pso/system/task/TObject_80019A50.h"
@@ -12,7 +12,7 @@ extern "C" {
 s32 TLobby__sub_8036B1AC(saddr payload);
 }
 
-TUnk_804F3640 *slot_entity_dispatcher_instance;
+TSymbolChatCapture *slot_entity_dispatcher_instance;
 
 void TLobby::send_slot_entity_or_local(u16 slot, s32 buf) {
     if (slot_entity_dispatcher_instance != NULL && slot < 4) {
@@ -28,7 +28,7 @@ void TLobby::dispatch_by_index(u16 slot, int src) {
     }
 }
 
-void TUnk_804F3640::send_slot_entity(u16 slot, saddr buf) {
+void TSymbolChatCapture::send_slot_entity(u16 slot, saddr buf) {
     if (entries != NULL) {
         TLobby::copy_symbol_chat_entry((void *)buf, &entries[slot]);
         return;
@@ -36,7 +36,7 @@ void TUnk_804F3640::send_slot_entity(u16 slot, saddr buf) {
     TLobby__sub_8036B1AC(buf);
 }
 
-void TUnk_804F3640::start_entry_timer(u16 slot, saddr src) {
+void TSymbolChatCapture::start_entry_timer(u16 slot, saddr src) {
     if (entries != NULL) {
         s32 i = slot;
         TLobby::copy_symbol_chat_entry(&entries[i], (void *)src);
@@ -44,7 +44,7 @@ void TUnk_804F3640::start_entry_timer(u16 slot, saddr src) {
     }
 }
 
-void TUnk_804F3640::run_task() {
+void TSymbolChatCapture::run_task() {
     s32 i;
     for (i = 0; i != 4; i++) {
         if (timers[i] != 0) {
@@ -56,12 +56,12 @@ void TUnk_804F3640::run_task() {
     }
 }
 
-TUnk_804F3640::~TUnk_804F3640() {
+TSymbolChatCapture::~TSymbolChatCapture() {
     mem_free(entries);
     slot_entity_dispatcher_instance = NULL;
 }
 
-TUnk_804F3640::TUnk_804F3640(TObject *parent) : TObject(parent) {
+TSymbolChatCapture::TSymbolChatCapture(TObject *parent) : TObject(parent) {
     s32 i;
     entries = (SymbolChatPayload *)mem_alloc(4 * sizeof(SymbolChatPayload));
     if (entries != NULL) {
@@ -77,7 +77,7 @@ TUnk_804F3640::TUnk_804F3640(TObject *parent) : TObject(parent) {
 
 void TLobby::create_singleton(void *parent) {
     if (slot_entity_dispatcher_instance == NULL) {
-        new TUnk_804F3640((TObject *)parent);
+        new TSymbolChatCapture((TObject *)parent);
     }
 }
 

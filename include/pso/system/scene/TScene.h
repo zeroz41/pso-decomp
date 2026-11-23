@@ -68,7 +68,8 @@ public:
     BOOL is_in_view_depth(Vec *pos, f32 depth, f32);
     // Which of the four culling passes render runs this frame.
     s32 get_cull_mode();
-    void sub_80205AE8();
+    // Empty: the TEffIndirect nodes init_material_nodes creates are child tasks.
+    void release_material_nodes();
     s32 is_within_view_edge(Vec *pos, Vec *dir, Vec *edge, f32 radius);
     s32 check_object_in_view_cone(SceneMaterialSection *section, Vec *pos, Vec *dir, s32 angle);
     void update_room_visibility_from_camera();
@@ -117,8 +118,9 @@ public:
     static void load_scene_rel_file(saddr ent);
     static void load_scene_data(saddr name);
     static void load_current_floor();
-    static void sub_802065EC(saddr ent);
-    static void sub_802065E8(saddr ent);
+    // Empty per-floor file loaders called after load_tam_file.
+    static void empty_floor_loader_1(saddr ent);
+    static void empty_floor_loader_2(saddr ent);
     // Reflection pass: only the sections flagged 0x100 render while it is active.
     static void begin_reflection_pass();
     static void end_reflection_pass();

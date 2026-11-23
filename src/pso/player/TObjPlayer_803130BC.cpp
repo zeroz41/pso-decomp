@@ -43,7 +43,7 @@ void TObjPlayer::process_indexed_element(s32 arg1) {
 
 void TObjPlayer::check_flag_at_4() { ((FlagWord *)((char*)this + 0x4))->set(1); }
 int TObjPlayer__sub_80313218(void* p) { return (test_flags_any((s32 *)((char*)p + 0x4), 1)) == 0; }
-void TObjPlayer::set_field_0(u16 v) { *(u16*)((char*)this + 0x0) = v; }
+void PhotonBlastRequestSlot::set_client_id(u16 id) { client_id = id; }
 void TObjPlayer__sub_80313250(void *arg0, s32 arg1) {
     *(s16 *)((s8 *)arg0 + 2) = (s16) (*(s16 *)((s8 *)arg0 + 2) + arg1);
 }

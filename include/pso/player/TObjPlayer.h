@@ -958,7 +958,6 @@ struct TObjPlayer : public TObjChara {
     void update_children();
     void process_indexed_element(s32 arg1);
     void check_flag_at_4();
-    void set_field_0(u16 v);
     static int get_max_children(void*);
     static void alloc_and_init(s32 item_id, saddr position, saddr direction);
     static void create_and_init_effect(s32 item_id, u32 *hit, saddr direction);

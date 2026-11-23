@@ -19,7 +19,6 @@ void append_photon_blast_request(saddr arg0, u16 arg1, s16 arg2);
 int TObjPlayer__sub_803131AC(void* a0);
 void TObjPlayer__sub_80312E98(void *o, u16 id);
 void *TObjPlayer__sub_803131B4(void *, int);
-void set_field_0__10TObjPlayerFUs(void* p, u16 v);
 void TObjPlayer__sub_80313250(void *arg0, s32 arg1);
 void TObjPlayer__sub_80313010(void *o, u16 id);
 u16 get_client_id__18PhotonBlastRequestFv(void *);
@@ -149,7 +148,7 @@ void TObjPlayer__sub_80313010(void *o, u16 id) {
             return;
         }
         if (((PhotonBlastRequestSlot *)e)->get_client_id() == 0xFFFF) {
-            set_field_0__10TObjPlayerFUs(e, id);
+            ((PhotonBlastRequestSlot *)e)->set_client_id(id);
             TObjPlayer__sub_80313250(e, 10);
             return;
         }

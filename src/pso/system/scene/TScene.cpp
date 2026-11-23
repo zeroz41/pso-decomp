@@ -919,8 +919,8 @@ void load_floor_scene(void) {
     }
     TScene::load_floor_rel_file(ent);
     TScene::load_tam_file(ent);
-    TScene::sub_802065EC(ent);
-    TScene::sub_802065E8(ent);
+    TScene::empty_floor_loader_1(ent);
+    TScene::empty_floor_loader_2(ent);
     copy_name("..");
     floor_scene_ready_flag = 1;
     reflection_pass_active = 0;
@@ -991,9 +991,9 @@ void TScene::load_floor_rel_file(saddr name) {
     }
 }
 
-void TScene::sub_802065EC(saddr) {}
+void TScene::empty_floor_loader_1(saddr) {}
 
-void TScene::sub_802065E8(saddr) {}
+void TScene::empty_floor_loader_2(saddr) {}
 
 void TScene::create() {
     new TScene(tl_02);
@@ -1014,7 +1014,7 @@ TScene::TScene(TObject *parent) : TObject(parent) {
 }
 
 TScene::~TScene() {
-    sub_80205AE8();
+    release_material_nodes();
     cleanup_materials();
     map_section_render_callback = 0;
     active_scene_callback = 0;
@@ -1277,7 +1277,7 @@ void TScene::init_material_nodes() {
 }
 
 
-void TScene::sub_80205AE8() {}
+void TScene::release_material_nodes() {}
 
 SceneMaterialInfo *TScene::find_material_entry_by_id(u16 id) {
     SceneMaterialInfoFile *t = (SceneMaterialInfoFile *)material_info_buffer;

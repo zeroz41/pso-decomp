@@ -8,8 +8,8 @@
 
 // One picture of the reverse tech scene: TItemReverseTechPart2 keeps seven and
 // shows one by building a TItemReverseTechBG from it.
-struct TItemReverseTech_8011A54C {
-    TItemReverseTech_8011A54C();
+struct TItemReverseTechPicture {
+    TItemReverseTechPicture();
     s32 hold_time;  // frames at full alpha
     s32 fade_time;  // frames of each fade, in and out
     NJS_TEXLIST *texlist;
@@ -25,7 +25,7 @@ struct TItemReverseTech_8011A54C {
 
 class TItemReverseTechBG : public TObject {
 public:
-    TItemReverseTechBG(TObject *parent, TItemReverseTech_8011A54C *picture);
+    TItemReverseTechBG(TObject *parent, TItemReverseTechPicture *picture);
     virtual ~TItemReverseTechBG();
     virtual void run_task();
     virtual void render();

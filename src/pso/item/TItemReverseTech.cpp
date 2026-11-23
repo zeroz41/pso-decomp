@@ -81,7 +81,7 @@ void activate_uraending_code(void) {  }
 void activate_reverse_rotation_code(void) { TLobby::set_global_flags(1); }
 void activate_fast_rotation_code(void) { TLobby::set_global_flags(2); }
 
-TItemReverseTech_8011A54C::TItemReverseTech_8011A54C() {
+TItemReverseTechPicture::TItemReverseTechPicture() {
     u1 = 1.0f;
     v1 = 1.0f;
 }
@@ -417,7 +417,7 @@ void TItemReverseTechPart2::render() {  }
 const char *TItemReverseTechBG__name = "TItemReverseTechBG";
 
 
-TItemReverseTechBG::TItemReverseTechBG(TObject *parent, TItemReverseTech_8011A54C *picture) : TObject(parent) {
+TItemReverseTechBG::TItemReverseTechBG(TObject *parent, TItemReverseTechPicture *picture) : TObject(parent) {
     m_name = TItemReverseTechBG__name;
     hold_time = picture->hold_time;
     fade_time = picture->fade_time;

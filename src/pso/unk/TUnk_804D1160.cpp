@@ -14,7 +14,7 @@
 #include "pso/unk/text_80076E84.h"
 #include "pso/unk/text_80263A20.h"
 #include "pso/ui/window/TWindowMenu.h"
-#include "pso/unk/TUnk_804D1160.h"
+#include "pso/ui/window/TCustomizeMenuCtrl.h"
 #include "pso/ui/window/TWindowSubComCardList.h"
 #include "pso/ui/window/TWindowSubCustomEquip.h"
 #include "pso/unk/TLobby.h"
@@ -76,7 +76,7 @@ void *get_window_layout_position(s32);
 extern const f32 lbl_8044F718[2] = {190.0f, 168.0f};
 }
 
-TUnk_804D1160::TUnk_804D1160(TWindowMainMenu *parent, s32 client) : TObject(parent) {
+TCustomizeMenuCtrl::TCustomizeMenuCtrl(TWindowMainMenu *parent, s32 client) : TObject(parent) {
     main_menu = parent;
     client_id = client;
     custom_equip = (uaddr)new TWindowSubCustomEquip(client_id);
@@ -90,7 +90,7 @@ TUnk_804D1160::TUnk_804D1160(TWindowMainMenu *parent, s32 client) : TObject(pare
     state = 0;
 }
 
-TUnk_804D1160::~TUnk_804D1160() {
+TCustomizeMenuCtrl::~TCustomizeMenuCtrl() {
     if ((void *)custom_select != NULL) {
         ((TWindowBase *)custom_select)->close();
         custom_select = 0;
@@ -105,7 +105,7 @@ TUnk_804D1160::~TUnk_804D1160() {
     }
 }
 
-void TUnk_804D1160::run_task() {
+void TCustomizeMenuCtrl::run_task() {
     Self_80275A8C *self = (Self_80275A8C *)this;
     Ev_802758C8 ev;
     switch (self->state) {
@@ -119,7 +119,7 @@ void TUnk_804D1160::run_task() {
         self->state = 2;
     case 2:
         ((TWindowSubCustomEquip *)(this->custom_equip))->get_cursor_pos(&ev);
-        ((TUnk_804D1160 *)self)->update_customize_help_text(&ev);
+        ((TCustomizeMenuCtrl *)self)->update_customize_help_text(&ev);
         if (TWindowSubCustomEquip__sub_80275DA8((void *)this->custom_equip) != 0) {
             self->f24->v7();
             self->state = 5;
@@ -132,7 +132,7 @@ void TUnk_804D1160::run_task() {
         ((TWindowBase *)self->f2c)->set_depth(TWindowSubEquip__sub_80263AF8((u8 *)self->f24, 1));
         self->state = 4;
     case 4:
-        ((TUnk_804D1160 *)self)->update_customize_help_text(static_cast<TWindowSubCustomSelect *>(self->f2c)->get_selected_action());
+        ((TCustomizeMenuCtrl *)self)->update_customize_help_text(static_cast<TWindowSubCustomSelect *>(self->f2c)->get_selected_action());
         if (fn_80275D90(self->f2c) != 0) {
             self->state = 1;
         }
@@ -147,9 +147,9 @@ void TUnk_804D1160::run_task() {
     }
 }
 
-void TUnk_804D1160::render() {  }
+void TCustomizeMenuCtrl::render() {  }
 
-void TUnk_804D1160::update_customize_help_text(void *ev_arg) {
+void TCustomizeMenuCtrl::update_customize_help_text(void *ev_arg) {
     Win_802758C8 *self = (Win_802758C8 *)this;
     Ev_802758C8 *ev = (Ev_802758C8 *)ev_arg;
     u8 *pl;

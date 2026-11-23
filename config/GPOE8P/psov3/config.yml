@@ -706,7 +706,7 @@ force_active:
   - TLobby__sub_803361FC
   - TLobby__sub_803362A4
   - __as__14TRecvInfoBoardFRC14TRecvInfoBoard
-  - __ct__13TUnk_804F3640FP7TObject
+  - __ct__18TSymbolChatCaptureFP7TObject
   - TLobby__sub_803C4698
   - TLobby__sub_803CBE40
   - TLobby__sub_803CE2A0
@@ -1715,9 +1715,9 @@ force_active:
   - is_within_view_edge__6TSceneFP3VecP3VecP3Vecf
   - TScene__sub_802040D4
   - get_cull_mode__6TSceneFv
-  - sub_80205AE8__6TSceneFv
-  - sub_802065E8__6TSceneFl
-  - sub_802065EC__6TSceneFl
+  - release_material_nodes__6TSceneFv
+  - empty_floor_loader_2__6TSceneFl
+  - empty_floor_loader_1__6TSceneFl
   - supplementary_rel_buffer
   - texture_animation_buffer
   - texture_wave_resource
@@ -2118,7 +2118,7 @@ force_active:
   - __ct__18TChallenge4PResultFP7TObjectUsl
   - __ct__18TEffStarLightChildFP15ColorLineVertexP15ColorLineVertexP7TObjectff
   - __ct__18TItemEffNeedleBaseFP7TObjectP5TItem
-  - __ct__18TItemReverseTechBGFP7TObjectP25TItemReverseTech_8011A54C
+  - __ct__18TItemReverseTechBGFP7TObjectP23TItemReverseTechPicture
   - __ct__18TOCapsuleAncient01FP7TObjectPv
   - __ct__18TOCapsuleMachine01FPv
   - __ct__18TOExplosiveMachineFv
@@ -2517,7 +2517,7 @@ force_active:
   - __dt__23TEquippedWeaponDrawTaskFv
   - __dt__13TBoss6MagMineFv
   - __dt__13TUnk_804F3428Fv
-  - __dt__13TUnk_804F3640Fv
+  - __dt__18TSymbolChatCaptureFv
   - __dt__13TUnk_804F3A20Fv
   - __dt__13TWindowStatusFv
   - __dt__13TWindowSubLogFv
@@ -3284,7 +3284,7 @@ force_active:
   - __vt__23TEquippedWeaponDrawTask
   - __vt__13TBoss6MagMine
   - __vt__13TUnk_804F3428
-  - __vt__13TUnk_804F3640
+  - __vt__18TSymbolChatCapture
   - __vt__13TUnk_804F3A20
   - __vt__13TWindowStatus
   - __vt__13TWindowSubLog
@@ -14905,7 +14905,7 @@ force_active:
   - run_task__23TEquippedWeaponDrawTaskFv
   - run_task__13TBoss6MagMineFv
   - run_task__13TUnk_804F3428Fv
-  - run_task__13TUnk_804F3640Fv
+  - run_task__18TSymbolChatCaptureFv
   - run_task__13TUnk_804F3A20Fv
   - run_task__13TWindowStatusFv
   - run_task__13TWindowSubLogFv
@@ -15369,7 +15369,7 @@ force_active:
   - send_position_update__6TLobbyFv
   - send_run_request__10TNpcPlayerFv
   - send_selected_character__6TLobbyFv
-  - send_slot_entity__13TUnk_804F3640FUsl
+  - send_slot_entity__18TSymbolChatCaptureFUsl
   - send_srank_stat_extra__13TUnk_804A4948FUll
   - send_srank_stat_extra_to_locks__13TUnk_804A4948Fv
   - send_state_60__10TNpcPlayerFv
@@ -16039,7 +16039,7 @@ force_active:
   - start_download__12TChCrLoadAfsFv
   - start_duel_battle__6TLobbyFv
   - start_effect__14TItemEquipBaseFUlUl
-  - start_entry_timer__13TUnk_804F3640FUsl
+  - start_entry_timer__18TSymbolChatCaptureFUsl
   - start_fade__9TAdFadeGCFPv
   - start_gba_joyboot__6TLobbyFv
   - start_get_type_async__16TKeyBoardControlFllll
@@ -16796,7 +16796,7 @@ force_active:
   - update_countdown__11TBoss6Type2Fv
   - update_countdown__15TObjDeadListWinFv
   - update_countdown_state__11TBoss6Type1Fv
-  - update_customize_help_text__13TUnk_804D1160FPv
+  - update_customize_help_text__18TCustomizeMenuCtrlFPv
   - update_cut__11TBoss4Type3Fv
   - update_cutscene_fade__14TBoss6PlotFalzFv
   - update_damage_recovery__14TObjEneIllGillFv
