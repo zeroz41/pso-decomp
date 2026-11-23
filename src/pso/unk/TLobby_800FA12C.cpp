@@ -1,12 +1,8 @@
-#include "types.h"
 #include "pso/unk/TLobby.h"
-
-extern void *async_file_read_current_request;
+#include "pso/unk/text_800FA464.h"
 
 void TLobby::pop_and_close() {
-    void *temp_r31;
-
-    temp_r31 = *(void **)((s8 *)async_file_read_current_request + 0x38);
-    ((TLobby *)async_file_read_current_request)->pop_stack_entry(1);
-    async_file_read_current_request = temp_r31;
+    AsyncFileReadRequest *next = async_file_read_current_request->next;
+    pop_stack_entry(async_file_read_current_request, 1);
+    async_file_read_current_request = next;
 }

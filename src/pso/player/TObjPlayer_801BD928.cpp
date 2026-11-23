@@ -1,3 +1,4 @@
+#include "pso/player/TPlyCharData.h"
 #include "types.h"
 #include "pso/unk/TLobby_800FD78C.h"
 #include "pso/system/data/FlagWord.h"
@@ -25,7 +26,7 @@ u8 get_byte_e7(void *);
 
 extern const char *lbl_805D3530;
 
-TObjPlayer::TObjPlayer(TObject *parent, s32 slot, s32 role, u8 *record) : TObjChara(parent) {
+TObjPlayer::TObjPlayer(TObject *parent, s32 slot, s32 role, TPlyCharData *record) : TObjChara(parent) {
     ((TObjPlayer *)(((u8 *)this) + 0x608))->set_vec4_const_wrapper();
     ((TObjPlayer *)(((u8 *)this) + 0x634))->wrap_update();
     battle_music.reset_and_clear();
@@ -51,21 +52,21 @@ TObjPlayer::TObjPlayer(TObject *parent, s32 slot, s32 role, u8 *record) : TObjCh
     this->init_action_provider();
     this->entity_id = slot;
     this->setup_control_role(role);
-    update_body_parts(record + 0x370);
-    sub_801BEE2C((s16)(*(u8 *)((s8 *)record + 1)));
-    sub_801BEE24((s16)(*(u8 *)((s8 *)record + 2)));
+    update_body_parts(&record->m_disp_part2);
+    sub_801BEE2C(record->m_inventory.m_hp_materials_used);
+    sub_801BEE24(record->m_inventory.m_tp_materials_used);
     this->set_field_374(get_byte_e7(record));
     this->set_field_374_state(get_byte_103(record));
     this->set_inventory_state(get_byte_11f(record));
     this->set_equip_flags(get_byte_13b(record));
     this->set_luck_materials_used(get_byte_157(record));
-    this->init_player_data(record + 0x34C);
+    this->init_player_data(&record->m_stats);
     this->create_lockon_cursor();
     this->sub_801BD318();
     this->init_control_mode(role);
     TObjPlayer__sub_801BCA14(this, record);
-    init_player_substructs(record + 0x3C0);
-    this->load_character_state((u8 *)record);
+    init_player_substructs(reinterpret_cast<u8 *>(&record->m_config));
+    this->load_character_state(record);
     this->update_if_active();
     assign_owner_ids();
     this->setup_fresh_player_state((u8 *)record);

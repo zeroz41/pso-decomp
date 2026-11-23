@@ -1,4 +1,5 @@
 #include "pso/system/save/CardSaveFile.h"
+#include "pso/system/save/CardFileInfo.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include <stdio.h>
 #include <string.h>
@@ -51,7 +52,7 @@ extern TObject *tl_00;
 
 struct StatusWindowPos { f32 a; f32 b; };extern "C" {
 saddr get_window_layout_position(s32);
-s32 poll_memcard_result(saddr);
+
 }
 extern s32 lbl_805D55C0;
 extern uaddr lobby_player_construction_window;
@@ -615,7 +616,7 @@ void TQuestVmDownLoadServer::update_mc_select() {
             if (lobby_player_construction_window != 0) {
                 ((TObject *)((void *)lobby_player_construction_window))->disallow_rendering();
             }
-            this->mc_select = (TObject *)TAdMcSelectGC::create(tl_03);
+            this->mc_select = TAdMcSelectGC::create(tl_03);
         }
         if (this->mc_select != NULL) {
             TAdMcSelectGC::select_if_mc_present();
@@ -657,7 +658,7 @@ void TQuestVmDownLoadServer::open() {
         if (window != 0U) {
             ((TObject *)((void *)window))->disallow_rendering();
         }
-        this->mc_select = (TObject *)TAdMcSelectGC::create(tl_03);
+        this->mc_select = TAdMcSelectGC::create(tl_03);
     }
     this->state = 4;
     show_status_message(get_localized_text_entry(0x29, 1), 1);

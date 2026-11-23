@@ -17,7 +17,7 @@
 static const CharacterSlotPosition lbl_804770F8 = { 95.0f, 118.0f };
 static const CharacterSlotPosition lbl_80477100 = { 381.0f, 118.0f };
 const char *TAdMcSelectGC__class_name = "TAdMcSelectGC";
-void *TAdMcSelectGC__instance;
+TAdMcSelectGC *TAdMcSelectGC__instance;
 
 void TAdMcSelectGC::render() {
     if (TMainTask::get_render_pass() == 1) { return;
@@ -103,8 +103,8 @@ TAdMcSelectGC::TAdMcSelectGC(TObject *parent) : TObject(parent) {
 }
 
 
-void *TAdMcSelectGC::create(void *parent) {
-    TAdMcSelectGC__instance = new TAdMcSelectGC(static_cast<TObject *>(parent));
+TAdMcSelectGC *TAdMcSelectGC::create(TObject *parent) {
+    TAdMcSelectGC__instance = new TAdMcSelectGC(parent);
     return TAdMcSelectGC__instance;
 }
 

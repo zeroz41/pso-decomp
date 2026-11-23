@@ -26,6 +26,7 @@ struct ARQRequest {
 
 void ARQInit();
 void ARQPostRequest(ARQRequest* task, uaddr owner, u32 type, u32 priority, uaddr source, uaddr dest, u32 length, ARQCallback callback);
+void ARQRemoveRequest(ARQRequest* task);
 
 ARQCallback ARRegisterDMACallback(ARQCallback callback);
 u32 ARGetDMAStatus();

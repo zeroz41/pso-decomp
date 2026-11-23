@@ -1,4 +1,6 @@
 #define PSO_SDK_COMPACT_MATH
+#include "pso/system/data/pso_date.h"
+#include "pso/system/save/CardFileInfo.h"
 #include <stdio.h>
 #include <string.h>
 #include <dolphin/os/OSThread.h>
@@ -16,10 +18,6 @@
 
 struct Names_801E13C4 { const char* p[6]; };
 
-struct Date_801E21A8 { u16 year; u8 mon; u8 mday; u8 hour; u8 min; u8 sec; u8 pad; u8 pad8[4]; };
-
-struct Info_801E21A8 { u32 length; s16 blocks; u8 f6; u8 f7; s16 f8; u16 year; u8 mon; u8 mday; u8 hour; u8 min; u8 sec; u8 pad; };
-
 u32 card_slot_state_flags;
 s32 lbl_805D5E34;
 void *banner_file_buf;
@@ -28,14 +26,11 @@ s32 card_result_code;
     int card_wait_state;
 extern "C" {
 s32 mount_memcard(saddr);
-s32 poll_memcard_result(saddr);
 const Names_801E13C4 memory_card_banner_filenames = {{"vms_sys.tp", "vms_icon1.tp", "vms_icon2.tp", "vms_down.tp", "vms_capt.tp", "vms_net.tp"}};
 u32 calc_crc32_bitwise(u8 *, u32);
 }
-void fill_date_from_seconds(u32 secs, DateStamp *out);
 extern "C" {
 int strcmp(const char *s1, const char *s2);
-s32 get_card_file_info__15TAdPlayerLoadGCFiPvPv(saddr chan, const char *name, Info_801E21A8 *info);
 extern u8 *memcard_work_areas[];
 s32 open_or_create_memcard_file(s32 chan, const char *name, void *buf, u32 size);
 extern CARDFileInfo memcard_file_info;
@@ -698,10 +693,10 @@ check:
     return -0xFB;
 }
 
-s32 get_card_file_info__15TAdPlayerLoadGCFiPvPv(saddr chan, const char *name, Info_801E21A8 *info) {
+s32 TAdPlayerLoadGC::get_card_file_info(s32 chan, const char *name, CardFileInfo *info) {
     s32 memSize;
     s32 sectorSize;
-    Date_801E21A8 date;
+    DateStamp date;
     CARDStat st;
     s32 r;
     s32 found;
@@ -766,17 +761,17 @@ check:
         if (info != NULL) {
             info->length = st.length;
             info->blocks = (st.length >> 13) + 1;
-            info->f6 = 0;
-            info->f7 = 0;
-            info->f8 = 0;
-            fill_date_from_seconds(st.time, (DateStamp *)&date);
-            info->year = date.year;
-            info->mon = date.mon;
-            info->mday = date.mday;
-            info->hour = date.hour;
-            info->min = date.min;
-            info->sec = date.sec;
-            info->pad = date.pad;
+            info->reserved_bytes[0] = 0;
+            info->reserved_bytes[1] = 0;
+            info->reserved_word = 0;
+            fill_date_from_seconds(st.time, &date);
+            info->date.year = date.year;
+            info->date.month = date.month;
+            info->date.day = date.day;
+            info->date.hour = date.hour;
+            info->date.minute = date.minute;
+            info->date.second = date.second;
+            info->date.weekday = date.weekday;
         }
         card_result_code = 0;
         return 0;

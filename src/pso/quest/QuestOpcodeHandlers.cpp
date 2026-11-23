@@ -1,3 +1,4 @@
+#include "pso/system/GbaDownloadRuntime.h"
 #include "pso/system/CharacterSaveRecordLookup.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -974,8 +975,6 @@ void activate_palettex(u16 client_index);
 
 extern E_801EB484 duel_result_table[];
 extern int battle_ctrl_default_value;
-extern saddr gba_download_data_buffer;
-extern s32 gba_download_data_size;
 int quest_active_flag;
 int evt2_random_enemies_mode;
 extern RecoveredGlobal_8000F7FC_lbl_80515F48 fn_801F3480;
@@ -1151,12 +1150,10 @@ void qst_op_open_pack_select() {
 }
 
 void qst_op_prepare_gba_rom_from_disk(void) {
-    s32 filename;
-
-    filename = qst_args[0];
+    const char *filename = reinterpret_cast<const char *>(qst_args[0]);
     TLobby::free_luker_object();
     TLobby::send_data(filename);
-    TLobby::set_send_buffer((u8 *)gba_download_data_buffer, (s32)gba_download_data_size);
+    TLobby::set_send_buffer(gba_download_data_buffer, static_cast<s32>(gba_download_data_size));
     TLobby::clear_quest_vm_flag();
 }
 
@@ -2001,7 +1998,7 @@ void qst_op_start_or_update_gba_joyboot(s32 idx) {
     }
 }
 
-void qst_op_prepare_gba_rom_from_download() { update_alloc_size__6TLobbyFv((void*)0); TLobby::set_send_buffer((u8 *)(*(saddr *)&gba_download_data_buffer), (saddr)((void*)((*(saddr *)&gba_download_data_size)))); }
+void qst_op_prepare_gba_rom_from_download() { update_alloc_size__6TLobbyFv((void*)0); TLobby::set_send_buffer(gba_download_data_buffer, static_cast<s32>(gba_download_data_size)); }
 
 void qst_op_get_dl_status(s32 reg) {
     if (TLobby::get_lobby_count() != 0) {

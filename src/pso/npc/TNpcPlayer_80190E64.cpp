@@ -140,11 +140,11 @@ TNpcPlayerSpawner::TNpcPlayerSpawner(f32 *position, s32 heading, s32 slot, s32 r
     load_state = 0;
     this->mode = mode;
     TNpcPlayer::ensure_rock_singleton();
-    TLobby::request_file_read("npcplayerchar.dat", (s32)npc_player_char_data_buffer, (s32 *)&load_state, (void **)0);
+    TLobby::request_file_read("npcplayerchar.dat", npc_player_char_data_buffer, (s32 *)&load_state, (void **)0);
 }
 
 TNpcPlayerSpawner::~TNpcPlayerSpawner() {
-    u8 *player_object = create_player_object(slot, 6, TNpcPlayer::build_npc_player_record(this->record));
+    u8 *player_object = reinterpret_cast<u8 *>(create_player_object(slot, 6, TNpcPlayer::build_npc_player_record(this->record)));
     if (player_object != NULL) {
         *(s16 *)((s8 *)player_object + 0x324) = 6;
         if (this->mode == 1) {

@@ -76,10 +76,12 @@ struct StickEscapeDetector {
 LAYOUT_ASSERT(StickEscapeDetector_size, sizeof(StickEscapeDetector) == 0xC);
 void init_stick_escape_detector(StickEscapeDetector *detector, const ControllerInputContext *input);
 
+class TPlyCharData;
+
 struct TObjPlayer : public TObjChara {
     TObjPlayer(TObject *parent, void *arg2);
     TObjPlayer(TObject *parent, TUnk_801D8A4C *src);
-    TObjPlayer(TObject *parent, s32 slot, s32 role, u8 *record);
+    TObjPlayer(TObject *parent, s32 slot, s32 role, TPlyCharData *record);
     // The key function: __vt__10TObjPlayer is emitted with the TU at 0x801AF290
     // (TObjPlayer_801AF2F0.cpp), which defines this; the destructor is in a later fragment.
     virtual void reset_motion_fields();
@@ -514,7 +516,7 @@ struct TObjPlayer : public TObjChara {
     void init_data_table_ptr();
     static void update_recobox(saddr player);
     void destroy_child();
-    void load_character_state(u8 *player);
+    void load_character_state(TPlyCharData *record);
     void update_action_animation();
     void update_input_and_draw();
     void free_chara_making();
@@ -586,10 +588,9 @@ struct TObjPlayer : public TObjChara {
     u32 unpack_u32_hi();
     u32 unpack_u32_lo();
     s32 get_slot_value_checked(s32 i);
-    void*get_ptr_4();
     int check_flag_at_428();
     void*get_sub_obj();
-    void*get_char_data();
+    TPlyCharData *get_char_data();
     void*init_char_data();
     s8 calc_class_stat_boost_index(s8 arg1, s32 arg2);
     s32 consume_trap_count(s32 arg1, s32 arg2);

@@ -58,47 +58,6 @@ s32 online_quest_list_state;
 
 
 
-struct VBase_18_80217F88 { char pad[0x18]; };
-
-struct VObj_18_80217F88 : VBase_18_80217F88 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual s32 m8();
-};
-
-struct VBase_18_802178E4 { char pad[0x18]; };
-
-struct VObj_18_802178E4 : VBase_18_802178E4 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7(s32, s32);
-};
-
-struct VBase_18_80217C1C { char pad[0x18]; };
-
-struct VObj_18_80217C1C : VBase_18_80217C1C {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7(s32, s32);
-    virtual s32 m8();
-};
-
 
 
 extern "C" {
@@ -125,8 +84,9 @@ void TWindowMenu::clear_flag_and_release() {
 
 s32 TQuestListOnline::get_selection_stage() { return selection_stage; }
 
-void *TQuestListOnline__ct(TQuestListOnline *quest_list_online, void *parent, void *arg2, void *player) {
-    __ct__15TShopWindowBaseFP7TObject(quest_list_online, (TObject *)parent);
+TQuestListOnline *TQuestListOnline__ct(TQuestListOnline *quest_list_online, TObject *parent,
+                                     TShopWindowBase *sequence, TObjPlayer *player) {
+    __ct__15TShopWindowBaseFP7TObject(quest_list_online, parent);
     *(s32 **)((s8 *)quest_list_online + 0x18) = __vt__16TQuestListOnline;
     __ct__13GameListEntryFv(&quest_list_online->selected_entry);
     quest_list_online->m_name = TQuestListOnline__class_name;
@@ -134,15 +94,15 @@ void *TQuestListOnline__ct(TQuestListOnline *quest_list_online, void *parent, vo
     quest_list_online->description_window = NULL;
     quest_list_online->info_window = NULL;
     quest_list_online->confirm_window = NULL;
-    quest_list_online->sequence = arg2;
+    quest_list_online->sequence = sequence;
     quest_list_online->selected_index = 0;
     quest_list_online->callback28 = NULL;
     quest_list_online->callback2c = NULL;
     quest_list_online->callback34 = NULL;
     quest_list_online->selection_stage = 0;
-    *(void **)((s8 *)quest_list_online + 0x24) = player;
+    quest_list_online->player = player;
     memset(&quest_list_online->selected_entry, 0, sizeof(quest_list_online->selected_entry));
-    ((TShopWindowBase *)quest_list_online)->set_state(0);
+    quest_list_online->set_state(0);
     TQuestListOnline__instance = quest_list_online;
     return quest_list_online;
 }
@@ -193,7 +153,7 @@ void TQuestListOnline::build_list_window() {
     s32 off;
     s32 i;
     QuestListEntry *entry;
-    if (((VObj_18_80217F88 *)this->sequence)->m8() != 0) {
+    if (sequence->is_message_ready() != 0) {
         if (list_window == NULL) {
             id = player->get_entity_id();
             list_window = create_item_list_window(get_guild_text(0), 0x40, id);
@@ -254,7 +214,7 @@ void TQuestListOnline::show_info_window() {
 }
 
 void TQuestListOnline::handle_list_selection() {
-    if (((VObj_18_80217C1C*)sequence)->m8() == 0) {
+    if (sequence->is_message_ready() == 0) {
         return;
     }
     if (list_window != NULL) {
@@ -306,7 +266,7 @@ void TQuestListOnline::handle_list_selection() {
                 confirm_window = create_yes_no_window((const NJS_POINT2 *)get_window_layout_position(0x2B), id, NULL, NULL);
                 confirm_window->set_position_xy(get_scale(), get_scale());
                 if (sequence != NULL) {
-                    ((VObj_18_80217C1C*)sequence)->m7(5, 1);
+                    sequence->display_guild_message(5, 1);
                 }
                 set_state(8);
             }
@@ -347,7 +307,7 @@ void TQuestListOnline::handle_quest_confirm() {
         if (v == 0) {
             if (THunterGuildSeqOffline::check_party_gathered() == 1) {
                 if (this->sequence != NULL) {
-                    (*(VObj_18_802178E4 * *)&this->sequence)->m7(0x14, 1);
+                    sequence->display_guild_message(0x14, 1);
                 }
                 TLobby::protocol_instance->send_action(selected_entry, 0, "", "");
                 this->confirm_window->queue_destruction();
@@ -368,7 +328,7 @@ void TQuestListOnline::handle_quest_confirm() {
                 return;
             }
             if (this->sequence != NULL) {
-                (*(VObj_18_802178E4 * *)&this->sequence)->m7(0x10, 1);
+                sequence->display_guild_message(0x10, 1);
             }
             ((TWindowMenu *)(this->confirm_window))->clear_flag_and_release();
             return;
@@ -387,7 +347,7 @@ void TQuestListOnline::handle_quest_confirm() {
             selection_stage = n - 1;
             close_windows();
             if (this->sequence != NULL) {
-                (*(VObj_18_802178E4 * *)&this->sequence)->m7(0x19, 1);
+                sequence->display_guild_message(0x19, 1);
             }
             set_state(1);
             return;
@@ -407,14 +367,14 @@ void TQuestListOnline::handle_quest_confirm() {
         selection_stage = n - 1;
         close_windows();
         if (this->sequence != NULL) {
-            (*(VObj_18_802178E4 * *)&this->sequence)->m7(0x19, 1);
+            sequence->display_guild_message(0x19, 1);
         }
         set_state(1);
     }
 }
 
 void TQuestListOnline::invoke_callback_30_and_queue_destruction() {
-    s32 (*temp_r12)();
+    void (*temp_r12)();
 
     temp_r12 = callback30;
     if (temp_r12 != NULL) {
@@ -430,7 +390,7 @@ void TQuestListOnline::ensure_online_quests_loaded() {
 }
 
 void TQuestListOnline::invoke_callback_28_and_queue_destruction() {
-    s32 (*temp_r12)();
+    void (*temp_r12)();
 
     temp_r12 = callback28;
     if (temp_r12 != NULL) {
@@ -440,7 +400,7 @@ void TQuestListOnline::invoke_callback_28_and_queue_destruction() {
 }
 
 void TQuestListOnline::invoke_callback_34_and_queue_destruction() {
-    s32 (*temp_r12)();
+    void (*temp_r12)();
 
     temp_r12 = callback34;
     if (temp_r12 != NULL) {
@@ -450,7 +410,7 @@ void TQuestListOnline::invoke_callback_34_and_queue_destruction() {
 }
 
 void TQuestListOnline::invoke_callback_2c_and_queue_destruction() {
-    s32 (*temp_r12)();
+    void (*temp_r12)();
 
     temp_r12 = callback2c;
     if (temp_r12 != NULL) {

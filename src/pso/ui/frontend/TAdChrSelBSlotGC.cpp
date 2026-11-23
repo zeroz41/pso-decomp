@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/system/save/CardFileInfo.h"
 #include "pso/ui/frontend/TAdDrawLineCtrl.h"
 #include "types.h"
 #include "pso/system/ControllerInputState.h"
@@ -40,7 +41,6 @@ struct S_8030E3BC { s32 x; s32 y; s32 state; };
 PlayerSlotLabel chr_select_b_slot_entry;
 
 extern "C" {
-s32 poll_memcard_result(saddr);
 s32 start_memcard_format(s32, s32, s32, s32, s32);
 s32 are_split_screen_battle_players_tied(void *);
 extern TAdChrSelASlotGC *TAdChrSel__global_slot_data;

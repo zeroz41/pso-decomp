@@ -16,7 +16,7 @@
 #include "pso/system/memory.h"
 
 extern "C" {
-uaddr gba_download_data_buffer;
+u8 *gba_download_data_buffer;
 uaddr gba_download_graph;
 u32 gba_download_data_size;
 s32 TLobby__data_805D6CCC;
@@ -52,17 +52,17 @@ void TLobby::init_graph() {
 }
 
 void TLobby::free_buffer() {
-    if ((u32) gba_download_data_buffer != 0U) {
-        xfree((void*)gba_download_data_buffer);
-        gba_download_data_buffer = 0U;
+    if (gba_download_data_buffer != NULL) {
+        xfree(gba_download_data_buffer);
+        gba_download_data_buffer = NULL;
     }
     gba_download_data_size = 0;
 }
 
 void TLobby::alloc_buffer() {
-    gba_download_data_buffer = 0;
+    gba_download_data_buffer = NULL;
     gba_download_data_size = 0;
-    gba_download_data_buffer = (saddr)xmalloc(0x40000);
+    gba_download_data_buffer = static_cast<u8 *>(xmalloc(0x40000));
     gba_download_data_size = 0;
 }
 }
@@ -89,17 +89,17 @@ void gba_joyboot_transfer_callback(s32 channel, s32 arg1) {
     }
 }
 
-void TLobby::send_data(saddr filename) {
+void TLobby::send_data(const char *filename) {
     u32 resource_file_size;
 
-    resource_file_size = get_resource_file_size((const char *)filename);
+    resource_file_size = get_resource_file_size(filename);
     gba_download_data_size = resource_file_size;
     if (resource_file_size > 0x40000U) {
         gba_download_data_size = 0U;
         return;
     }
-    if ((u32) gba_download_data_buffer != 0U) {
-        read_disc_file((const char *)filename, (void *)gba_download_data_buffer);
+    if (gba_download_data_buffer != NULL) {
+        read_disc_file(filename, gba_download_data_buffer);
         return;
     }
     gba_download_data_size = 0U;
@@ -114,8 +114,8 @@ void TLobby::update_alloc_size() {
         gba_download_data_size = 0U;
         return;
     }
-    if ((u32) gba_download_data_buffer != 0U) {
-        TAdWarningBaseGC::load_from_aram_sync(gba_download_data_buffer);
+    if (gba_download_data_buffer != NULL) {
+        TAdWarningBaseGC::load_from_aram_sync(reinterpret_cast<saddr>(gba_download_data_buffer));
         gba_download_data_size = TAdWarningBaseGC::get_alloc_size();
         return;
     }

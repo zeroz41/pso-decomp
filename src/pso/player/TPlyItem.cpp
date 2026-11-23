@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/system/save/CardFileInfo.h"
 #include "pso/item/InventoryEntryCopy.h"
 #include "types.h"
 #include "pso/player/TPlyCharData.h"
@@ -55,7 +56,6 @@ struct Actor_801D3E20 {
 };
 struct Ground_801D3C38 { u8 pad0[4]; Vec *pos; };
 extern "C" {
-s32 poll_memcard_result(saddr);
 // The callers sign-extend the result (extsb), the header's member returns u8.
 extern void *tl_07;
 void *find_placement_obstruction(void *self, CollisionBodySet *s);
@@ -752,7 +752,7 @@ s32 fn_801D4270(s32 id) {
     if (list == NULL) {
         return 0;
     }
-    p = static_cast<TPlyInventoryItem *>(reinterpret_cast<TObjPlayer *>(list)->get_ptr_4());
+    p = list->get_items();
     for (i = 0; i < 30; i++, ++p) {
         if (static_cast<s32>(p->m_data.id) == id) {
             return 1;
@@ -769,7 +769,7 @@ void remove_list_entry_by_id(s32 arg0) {
     s32 rem;
     selected = reinterpret_cast<TPlyInventory *>(TAdSinglePlyChrSelectGC::get_char_index(0xFFFF));
     if (selected != NULL) {
-        p = static_cast<TPlyInventoryItem *>(reinterpret_cast<TObjPlayer *>(selected)->get_ptr_4());
+        p = selected->get_items();
         n = selected->m_num_items;
         for (i = 0; i < n; p++, i++) {
             if (static_cast<s32>(p->m_data.id) == arg0) {

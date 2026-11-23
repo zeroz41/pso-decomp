@@ -228,7 +228,7 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     static s32 compare_save_headers(void *record_a, void *record_b, void *file_a, void *file_b);
     static void decrypt_char_data(void *arg0);
     static void free_char_data_slots(void *table);
-    static u8 *get_entry(int i);
+    static TPlyCharData *get_entry(int i);
     static int get_serial_seed();
     static void *init_windows(void *arg0);
     static s32 is_entry_valid(CharacterFile *self, int i);

@@ -1,4 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/system/save/CardSaveFile.h"
+#include "pso/system/save/CardFileInfo.h"
 #include "types.h"
 #include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/ui/frontend/TAdBackTxtGC.h"
@@ -37,15 +39,11 @@
 // Functions and data of other units that have no shared declaration with the signature these calls use.
 extern "C" {
 s32 get_memcard_free_files(s32 chan);
-s32 poll_memcard_result(saddr chan);
 s32 start_memcard_format(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
 s32 load_guild_card_save(void);
 s32 load_system_file(s32 arg0);
 int TAdSinglePlyChrSelectGC__sub_801FD990(s32 chan);
 void init_timestamped_data(void);
-extern char pso_system_card_filename[];
-extern char pso_character_card_filename[];
-extern char pso_guildcard_card_filename[];
 }
 
 // One entry per state: enter is called by change_state, run by run_task every frame.
@@ -360,7 +358,7 @@ void TAdTimeSetGC::close_scene() {
 }
 
 void TAdTimeSetGC::sub_802E2BD4() {
-    if ((s32)TAdPlayerLoadGC::delete_memcard_file(0, (const char *)(pso_character_card_filename)) == 0) {
+    if ((s32)TAdPlayerLoadGC::delete_memcard_file(0, pso_character_card_filename.filename) == 0) {
         change_state(9);
     }
 }
@@ -393,7 +391,7 @@ void TAdTimeSetGC::sub_802E2AD4() {
 }
 
 void TAdTimeSetGC::advance_when_load_done() {
-    if ((s32)TAdPlayerLoadGC::delete_memcard_file(0, (const char *)(pso_guildcard_card_filename)) == 0) {
+    if ((s32)TAdPlayerLoadGC::delete_memcard_file(0, pso_guildcard_card_filename.filename) == 0) {
         change_state(0xB);
     }
 }
@@ -988,11 +986,11 @@ s32 TAdTimeSetGC::sub_802E15C8() {
 }
 
 s32 TAdTimeSetGC::is_card_file_absent_b() {
-    return TAdPlayerLoadGC::find_card_file(0, pso_character_card_filename) == 0;
+    return TAdPlayerLoadGC::find_card_file(0, pso_character_card_filename.filename) == 0;
 }
 
 s32 TAdTimeSetGC::is_card_file_absent_a() {
-    return TAdPlayerLoadGC::find_card_file(0, pso_guildcard_card_filename) == 0;
+    return TAdPlayerLoadGC::find_card_file(0, pso_guildcard_card_filename.filename) == 0;
 }
 
 s32 TAdTimeSetGC::sub_802E1528() {
@@ -1000,11 +998,11 @@ s32 TAdTimeSetGC::sub_802E1528() {
 }
 
 s32 TAdTimeSetGC::is_card_file_missing_b() {
-    return TAdPlayerLoadGC::find_card_file(0, pso_character_card_filename) == -0xBF;
+    return TAdPlayerLoadGC::find_card_file(0, pso_character_card_filename.filename) == -0xBF;
 }
 
 s32 TAdTimeSetGC::is_card_file_missing_a() {
-    return TAdPlayerLoadGC::find_card_file(0, pso_guildcard_card_filename) == -0xBF;
+    return TAdPlayerLoadGC::find_card_file(0, pso_guildcard_card_filename.filename) == -0xBF;
 }
 
 T_ATS_DrawCalendar *T_ATS_DrawCalendar::create() {

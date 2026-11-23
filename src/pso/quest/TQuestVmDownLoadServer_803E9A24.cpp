@@ -685,7 +685,7 @@ QuestDownloadSegment *TQuestVmDownLoadServer__sub_803E9A74(s32 pos, s32 end, u8 
 }
 #pragma pop
 
-const QuestDownloadMatchToken *find_longest_match_entry__22TQuestVmDownLoadServerFPviPv(u8 *text, s32 remaining, s32 *arg2) {
+const QuestDownloadMatchToken *TQuestVmDownLoadServer::find_longest_match_entry(u8 *text, s32 remaining, s32 *arg2) {
     const u8 *s;
     u8 *a;
     s32 k;
@@ -1241,7 +1241,7 @@ void TQuestVmDownLoadServer__sub_803EA9E8(s32 start, s32 inputEnd, s32 mode, s32
     remaining = limit - start;
     while (remaining > 0) {
         if (slot->tokens == (const QuestDownloadMatchToken *)0xFFFFFFFF) {
-            tokens = find_longest_match_entry__22TQuestVmDownLoadServerFPviPv(text, remaining, &tokenLength);
+            tokens = TQuestVmDownLoadServer::find_longest_match_entry(text, remaining, &tokenLength);
             if (tokens == (const QuestDownloadMatchToken *)0xFFFFFFFF) {
                 break;
             }

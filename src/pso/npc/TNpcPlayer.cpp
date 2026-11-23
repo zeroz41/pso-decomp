@@ -1491,7 +1491,7 @@ void TNpcPlayer::ensure_rock_singleton() {
     }
 }
 
-u8 *TNpcPlayer::build_npc_player_record(s32 arg0) {
+TPlyCharData *TNpcPlayer::build_npc_player_record(s32 arg0) {
     s32 mode;
     s32 diff;
     s32 lvl;
@@ -1538,10 +1538,10 @@ u8 *TNpcPlayer::build_npc_player_record(s32 arg0) {
         break;
     }
     copy_player_visual_record(&reinterpret_cast<TPlyCharData *>(lbl_8050CFC4)->m_disp_part2, &lbl_8050CF68);
-    return (u8 *)lbl_8050CFC4;
+    return reinterpret_cast<TPlyCharData *>(lbl_8050CFC4);
 }
 
-u8 *load_npc_player_template(s32 index) {
+TPlyCharData *load_npc_player_template(s32 index) {
     s32 mode;
     s32 diff;
     s32 lvl;
@@ -1593,7 +1593,7 @@ u8 *load_npc_player_template(s32 index) {
         break;
     }
     copy_player_visual_record(&reinterpret_cast<TPlyCharData *>(lbl_8050CFC4)->m_disp_part2, &lbl_8050CF68);
-    return (u8 *)lbl_8050CFC4;
+    return reinterpret_cast<TPlyCharData *>(lbl_8050CFC4);
 }
 
 TNpcPlayer::TNpcPlayer(u16 a, u16 b, int kind, TObject *parent) : TObject(parent) {

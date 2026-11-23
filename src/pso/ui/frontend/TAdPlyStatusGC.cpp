@@ -1,3 +1,4 @@
+#include "pso/player/TPlyCharData.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/CharacterSaveRecordLookup.h"
 #include "pso/ui/frontend/TAdChrSelPlyPlateGC.h"
@@ -23,13 +24,6 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/ui/window/TWindowComCard.h"
 
-struct Card_8033F6A8 {
-    u8 pad0[0x30];
-    s8 f30;
-    s8 f31;
-    s8 f32;
-    u8 pad33[0x1D];
-};
 
 struct Save_8033F6A8 { u8 pad[0xC]; u32 fC; };
 
@@ -137,7 +131,7 @@ void draw_status_window__14TAdPlyStatusGCFPvPv(void *window_base, void *arg1) {
 
 void TAdPlyStatusGC::format_status_strings() {
     char *buf = (char *)this;
-    u8 *c;
+    TPlyCharData *c;
     u32 time;
     u32 mins;
     s32 flags;
@@ -156,7 +150,7 @@ void TAdPlyStatusGC::format_status_strings() {
         if (p != 0) {
             time = p->fC;
         }
-        c = (u8 *)TAdSinglePlyChrSelectGC::get_char_index(0xFFFF);
+        c = TAdSinglePlyChrSelectGC::get_char_index(0xFFFF);
         break;
     case 1:
         p = (Save_8033F6A8 *)TAdSinglePlyChrSelectGC__sub_801FE3E4(ply_status_index);
@@ -166,7 +160,7 @@ void TAdPlyStatusGC::format_status_strings() {
         plate = TAdMultiPlyChrSelectGC::get_card_instance();
         if (plate != NULL) {
             if (TAdSinglePlyChrSelectGC__sub_801FE800(plate->get_active_card_slot()) != 0) {
-                c = (u8 *)TAdSinglePlyChrSelectGC::get_entry(plate->get_active_card_slot());
+                c = TAdSinglePlyChrSelectGC::get_entry(plate->get_active_card_slot());
             }
         }
         if (c == 0) {
@@ -175,7 +169,7 @@ void TAdPlyStatusGC::format_status_strings() {
         break;
     }
     if (c != 0) {
-        Card_8033F6A8 card = *(Card_8033F6A8 *)(c + 0x370);
+        disp_data_part2 card = c->m_disp_part2;
         t = time / 60;
         hours = t / 60;
         mins = t % 60;
@@ -186,16 +180,16 @@ void TAdPlyStatusGC::format_status_strings() {
         if (mins > 59) {
             mins = 59;
         }
-        flags = card.f32;
+        flags = *reinterpret_cast<const s8 *>(&card.v2_flags);
         if (flags & 2) {
             sprintf(buf, ":%s", get_localized_text_entry(0x26, 0));
         } else {
-            sprintf(buf, ":%s", get_class_name_text(card.f31));
+            sprintf(buf, ":%s", get_class_name_text(*reinterpret_cast<const s8 *>(&card.char_class)));
         }
         if (flags & 1) {
             sprintf(buf + 0x10, ":%s", get_localized_text_entry(0x26, 0));
         } else {
-            sprintf(buf + 0x10, ":%s", TObjLuker::get_stat_table_entry(card.f30));
+            sprintf(buf + 0x10, ":%s", TObjLuker::get_stat_table_entry(*reinterpret_cast<const s8 *>(&card.section_id)));
         }
         sprintf(buf + 0x20, ":%04d:%02d'", hours, mins);
     }

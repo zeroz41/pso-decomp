@@ -20,6 +20,7 @@ public:
 class TPlyInventory {
 public:
     void bswap();
+    TPlyInventoryItem *get_items();
 public:
     u8 m_num_items;
     u8 m_hp_materials_used;

@@ -1,4 +1,5 @@
 #define PSO_SDK_COMPACT_MATH
+#include "pso/system/save/CardFileInfo.h"
 #include <string.h>
 #include <dolphin/os/OSThread.h>
 #include <dolphin/card.h>
@@ -41,18 +42,6 @@
 #include "pso/ui/keyboard/TKeyBoardControl_8000F764.h"
 #include "pso/unk/TLobby_801461EC.h"
 #include "pso/player/PlayerSlots.h"
-struct CardFileInfo_804C88C0 {
-    char filename[0x20];
-    char comment[0x20];
-    u32 flags;
-    u8 icon[0x10];
-};
-struct CardFileComment_804C8974 {
-    char game_name[0x14];
-    char comment[0x20];
-    u32 flags;
-    u8 icon[0x10];
-};
 CharacterFile *card_character_save_buffer;
 CharacterFile *secondary_card_character_save_buffer;
 TPlyCharData *selected_character_data;
@@ -77,14 +66,14 @@ s32 card_load_followup_pending;
 s32 chr_select_save_slot;
 char chr_select_game_name_buffer[4];
 extern "C" {
-CardFileInfo_804C88C0 pso_character_card_filename = {
+CharacterCardMetadata pso_character_card_filename = {
     "PSO_CHARACTER", "CHARACTER_FILE", 0,
     { 0x35, 0x04, 0x08, 0x1A, 0x0A, 0x07, 'T', 'T', 'T', 'U' },
 };
 char pso_system_card_filename[0x20] = "PSO_SYSTEM";
 char memory_card_system_dir_name[0x20] = "PSO3_SYSTEM";
 char memory_card_character_dir_name[0x20] = "PSO3_CHARACTER";
-CardFileComment_804C8974 episode_i_and_ii_card_filename = {
+EpisodeCardMetadata episode_i_and_ii_card_filename = {
     "EPISODE I & II", "SYSTEM_FILE", 0,
     { 0x35, 0x04, 0x08, 0x1A, 0x0A, 0x07, 'U', 'T', 'T', 'T' },
 };
@@ -156,7 +145,6 @@ static const NJS_POINT2 chr_select_save_message_window_size = { 548.0f, 220.0f }
 // Game code written over the memory card disk ID.
 static const char card_disk_game_code[] = "GPSE";
 
-s32 poll_memcard_result(saddr);
 void __construct_array(void*, void*, void*, int, int);
 u32 calc_crc32_bitwise(u8 *, u32);
 s32 start_memcard_read(s32, char *, void *, s32);
@@ -1494,17 +1482,14 @@ s32 TAdSinglePlyChrSelectGC__sub_801FE800(u32 arg0);
 s32 *TAdSinglePlyChrSelectGC__sub_801FE4BC(u32 arg0);
 
 
-struct Ent_801FE468_801FBF54 { char pad4[4]; char body[0x2798 - 4]; };
-
 int get_split_screen_character_save_record(int a0);
 s32 load_guild_card_save(void);
-s32 poll_memcard_result(saddr);
 extern s32 lbl_805D49B4;
 
 
-u8 *TAdSinglePlyChrSelectGC::get_entry(int i) {
+TPlyCharData *TAdSinglePlyChrSelectGC::get_entry(int i) {
     if (TAdSinglePlyChrSelectGC::is_entry_valid(secondary_card_character_save_buffer, i) != 0) {
-        return (u8 *)&((struct Ent_801FE468_801FBF54 *) secondary_card_character_save_buffer)[i].body[0];
+        return &secondary_card_character_save_buffer->slots[i].chardata;
     }
     return 0;
 }
@@ -1664,7 +1649,6 @@ extern "C" {
 
 s32 load_pso_system(void);
 s32 load_system_file(s32 arg0);
-s32 poll_memcard_result(saddr);
 
 
 s32 load_system_file(s32 arg0) {
@@ -1729,7 +1713,6 @@ struct RecoveredGlobal_801FEBBC_lbl_80513904 {
 };
 
 extern "C" {
-s32 poll_memcard_result(saddr);
 s32 TAdSinglePlyChrSelectGC__sub_801FEBBC(void);
 s32 load_pso_system(void);
 void TAdSinglePlyChrSelectGC__sub_801FFF14(void);
@@ -1799,7 +1782,6 @@ s32 get_field_118__22TAdEnterSerialAccessGCFv();
 void TLobby__sub_80269C90(void);
 void TLobby__sub_80269CA4(s32);
 void func_803DCDFC__Fv(void);
-s32 poll_memcard_result(saddr);
 s32 TAdSinglePlyChrSelectGC__sub_801FDA4C();
 
 
@@ -2272,7 +2254,7 @@ s32 TAdSinglePlyChrSelectGC::load_character_from_card(int card_file) {
                 memcpy(TAdSinglePlyChrSelectGC__sub_801FCD04(card_character_save_buffer), selected_character_data, 0x41C);
                 memcpy(TAdSinglePlyChrSelectGC__sub_801FCD3C(card_character_save_buffer), (void *)active_character_save_record, 0x2370);
                 if (TAdSinglePlyChrSelectGC::get_game_mode() == 0) {
-                    p = (saddr)((TObjPlayer *)TAdSinglePlyChrSelectGC__sub_801FCD04(card_character_save_buffer))->get_ptr_4();
+                    p = reinterpret_cast<saddr>(reinterpret_cast<TPlyCharData *>(TAdSinglePlyChrSelectGC__sub_801FCD04(card_character_save_buffer))->m_inventory.get_items());
                     for (i = 0; i < 30; i++) {
                         ((TAdSinglePlyChrSelectGC *)p)->clear_inventory_slot();
                         p += 0x1C;
@@ -2415,12 +2397,6 @@ struct Save_80200690 {
     u32 y;
 };
 
-struct Str_80200A44 {
-    u8 pad0[0x20];
-    char title[0x24];
-    u8 icon[0x70];
-    char name[0x10];
-};
 
 extern "C" {
 s32 reinit__17TWindowSubComCardFi(s32 object);
@@ -2701,13 +2677,23 @@ void TAdSinglePlyChrSelectGC::encrypt_save_data(void *arg0) {
 }
 #undef self
 
+// The save writers address the neighboring card records relative to the character record.
+struct CardSaveMetadataBlock {
+    CharacterCardMetadata character;
+    char system_filename[0x20];
+    char system_dir_name[0x20];
+    char character_dir_name[0x20];
+    EpisodeCardMetadata episode;
+    GuildCardFile_804C89BC guild_card;
+};
+
 void TAdSinglePlyChrSelectGC::build_save_file() {
-    char *base = (char *)&pso_character_card_filename;
+    const CardSaveMetadataBlock *metadata = reinterpret_cast<const CardSaveMetadataBlock *>(&pso_character_card_filename);
     CardSaveDescriptor f;
     memset(&f, 0, sizeof(f));
-    strcpy(f.filename, base + 0xB4);
-    strcpy(f.title, base + 0x11C);
-    memcpy(f.key, base + 0xEC, 0x10);
+    strcpy(f.filename, metadata->episode.game_name);
+    strcpy(f.title, metadata->guild_card.comment);
+    memcpy(f.key, metadata->episode.icon, 0x10);
     set_card_banner_and_icon(&f, 1);
     f.field_4c = 1;
     f.field_4e = 1;
@@ -2720,12 +2706,12 @@ void TAdSinglePlyChrSelectGC::build_save_file() {
 }
 
 void TAdSinglePlyChrSelectGC::build_default_save_file() {
-    char *base = (char *)&pso_character_card_filename;
+    const CardSaveMetadataBlock *metadata = reinterpret_cast<const CardSaveMetadataBlock *>(&pso_character_card_filename);
     CardSaveDescriptor f;
     memset(&f, 0, sizeof(f));
-    strcpy(f.filename, base + 0xB4);
-    strcpy(f.title, base + 0xC8);
-    memcpy(f.key, base + 0xEC, 0x10);
+    strcpy(f.filename, metadata->episode.game_name);
+    strcpy(f.title, metadata->episode.comment);
+    memcpy(f.key, metadata->episode.icon, 0x10);
     set_card_banner_and_icon(&f, 0);
     f.field_4c = 1;
     f.field_4e = 1;
@@ -2738,12 +2724,12 @@ void TAdSinglePlyChrSelectGC::build_default_save_file() {
 }
 
 void TAdSinglePlyChrSelectGC::save_character_file(int arg0) {
-    char *base = (char *)&pso_character_card_filename;
+    const CardSaveMetadataBlock *metadata = reinterpret_cast<const CardSaveMetadataBlock *>(&pso_character_card_filename);
     CardSaveDescriptor f;
     memset(&f, 0, sizeof(f));
-    strcpy(f.filename, ((Str_80200A44 *)base)->name);
-    strcpy(f.title, ((Str_80200A44 *)base)->title);
-    memcpy(f.key, ((Str_80200A44 *)base)->icon, 0x10);
+    strcpy(f.filename, metadata->episode.game_name);
+    strcpy(f.title, metadata->character.comment);
+    memcpy(f.key, metadata->character.icon, 0x10);
     set_card_banner_and_icon(&f, 2);
     f.field_4c = 1;
     f.field_4e = 1;
@@ -2769,7 +2755,7 @@ void TAdSinglePlyChrSelectGC::reset_character_data(void) {
     saddr var_r30;
 
     if ((void *) selected_character_data != NULL) {
-        var_r30 = (saddr)((TObjPlayer *)TAdSinglePlyChrSelectGC__sub_801FCD04(card_character_save_buffer))->get_ptr_4();
+        var_r30 = reinterpret_cast<saddr>(reinterpret_cast<TPlyCharData *>(TAdSinglePlyChrSelectGC__sub_801FCD04(card_character_save_buffer))->m_inventory.get_items());
         i = 0;
         do {
             ((TAdSinglePlyChrSelectGC *)var_r30)->clear_inventory_slot();
@@ -2892,7 +2878,7 @@ s32 TAdSinglePlyChrSelectGC::save_online_character(void) {
             if (TAdSinglePlyChrSelectGC::get_game_mode() == 0) {
                 s32 i;
                 saddr p;
-                p = (saddr)((TObjPlayer *)TAdSinglePlyChrSelectGC__sub_801FCD04(card_character_save_buffer))->get_ptr_4();
+                p = reinterpret_cast<saddr>(reinterpret_cast<TPlyCharData *>(TAdSinglePlyChrSelectGC__sub_801FCD04(card_character_save_buffer))->m_inventory.get_items());
                 for (i = 0; i < 30; i++) {
                     ((TAdSinglePlyChrSelectGC *)p)->clear_inventory_slot();
                     p += 0x1C;
@@ -2949,7 +2935,6 @@ extern "C" {
 s32 default_clock_offset_frames(void);
 s32 __dt__12TPlyCharDataFv(s32 arg0, s16 arg1);
 
-s32 poll_memcard_result(saddr);
 s32 TAdSinglePlyChrSelectGC__sub_801FDA4C();
 s32 TAdSinglePlyChrSelectGC__sub_801FEBBC();
 s32 load_and_verify_data(s32 arg0);

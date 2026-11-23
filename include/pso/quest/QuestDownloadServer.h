@@ -13,23 +13,24 @@
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/quest/QuestDownloadCharTables.h"
 
-struct File_803F09FC {
-    s32 remain;
-    s32 pos;
+struct QuestSymbolLookupResult {
+    s16 page_index;
+    s16 record_offset;
+    u8 reserved[8];
+    u8 *encodedRecord;
 };
 
-struct Info_803F0138 {
-    s16 id;
-    s16 off;
-    u8 pad4[8];
-    u8 *p;
+struct QuestNameLookupResult {
+    s16 page_index;
+    s16 record_id;
+    s16 match_length;
+    s16 prefix_length;
+    u8 reserved[4];
+    u8 *encodedRecord;
 };
 
-struct Src_803EBD38 { u16 x0; u16 x2; u8 x4; u8 text[1]; };
-
-struct Out_803E8C2C { s16 a; s16 id; s16 len; s16 pre; u8 pad[4]; u8 *encodedRecord; };
-
-typedef Out_803E8C2C Out_803E8B1C;
+LAYOUT_ASSERT(QuestSymbolLookupRecordOffset, offsetof(QuestSymbolLookupResult, encodedRecord) == 0xC);
+LAYOUT_ASSERT(QuestNameLookupRecordOffset, offsetof(QuestNameLookupResult, encodedRecord) == 0xC);
 
 // Name cache: eight 0x400-byte record pages (lbl_80591EC8), then the hash buckets (lbl_80593EC8)
 // and the free-list node pool that __VIRetraceHandler links up.
@@ -52,10 +53,8 @@ extern u16 *quest_download_buffer_start;
 extern u16 *quest_vm_download_buffer_end;
 extern s32 quest_download_match_length_limit;
 extern s32 quest_download_server_state;
-extern saddr quest_download_file_handle;
-s32 has_name_mismatch__22TQuestVmDownLoadServerFPUc(s32 row, u8 *key);
-s32 find_name_index__22TQuestVmDownLoadServerFv(const char *key);
-void set_file_info_name__22TQuestVmDownLoadServerFv(const char *filename);
+// The ARAM backend returns -1 for a closed file.
+extern s32 quest_download_file_handle;
 extern char quest_vm_download_server_file_info[0x44] ATTRIBUTE_ALIGN(4);
 extern saddr lbl_805D78F8;
 extern QuestDownloadNameCacheImage lbl_80591EC8;
@@ -87,14 +86,12 @@ s32 TQuestVmDownLoadServer__sub_803EEF2C(QuestDownloadRequest *req);
 void relocate_name_record(s32 id);
 void TQuestVmDownLoadServer__sub_803EF8E0(u8 *p);
 extern u32 quest_download_aram_size;
-extern File_803F09FC quest_download_aram_file;
 extern u8 lbl_80591AC4[0x404];
 extern s32 lbl_805D7820;
 extern s32 quest_download_ask_header_size;
 extern s32 quest_download_header_name_index_hi_count;
 extern s32 lbl_805D7874;
 extern s32 lbl_805D78FC;
-void append_message_text__22TQuestVmDownLoadServerFlP12Req_803EEF2CUc(u8 *arg0, s32 arg1, QuestDownloadRequest *arg2, u8 arg3);
 extern s32 quest_page_text_limit;
 extern saddr quest_text_entry_len;
 s32 TQuestVmDownLoadServer__sub_803EC71C(u16 *, u8 *, s32);
@@ -106,18 +103,14 @@ extern s32 quest_page_node_index;
 extern QuestDownloadTextNode *quest_page_node_head;
 extern s32 lbl_805D78E8;
 extern saddr quest_text_cursor_pos;
-s32 find_symbol_entry__22TQuestVmDownLoadServerFsP13Info_803F0138(const char *name, s16 len, Info_803F0138 *out);
 void DCInvalidateRange(void *, u32);
-void ARQPostRequest(void *req, uaddr owner, u32 type, u32 prio, uaddr src, uaddr dst, u32 len, void (*cb)(u8 *));
 u32 OSGetTick(void);
 u32 __OSBusClock AT_ADDRESS(0x800000F8);
 void OSReport(const char *, ...);
-void ARQRemoveRequest(void *);
-extern u8 quest_download_aram_dma_buffer[];
 extern u32 quest_download_aram_timeout;
 extern u32 quest_download_aram_priority;
 extern u32 quest_download_aram_owner;
-extern s32 quest_download_aram_dma_pending;
+extern u32 quest_download_aram_dma_pending;
 extern u32 quest_download_aram_base;
 void TQuestVmDownLoadServer__sub_803EB4D4(void);
 void TQuestVmDownLoadServer__sub_803EC284(s32, s32);
@@ -143,12 +136,9 @@ QuestDownloadTextNode *TQuestVmDownLoadServer__alloc_quest_text_node(void);
 QuestDownloadSegment *TQuestVmDownLoadServer__alloc_quest_segment(void);
 extern QuestDownloadCachePage *file_page_cache_head;
 extern QuestDownloadCachedNameIndex lbl_80593EC8;
-s32 lookup_name_prefix(char *name, s16 name_len, Out_803E8C2C *arg2);
+s32 lookup_name_prefix(char *name, s16 name_len, QuestNameLookupResult *out);
 void TQuestVmDownLoadServer__sub_803EFF20(u8 *data, s32 key, s32 sub_key, s32 *best, u8 *dst, s32 flags);
 extern const char ask_header_signature[];
-const QuestDownloadMatchToken *find_longest_match_entry__22TQuestVmDownLoadServerFPviPv(u8 *text, s32 remaining, s32 *arg2);
-void build_message_packet__22TQuestVmDownLoadServerFPviPvUc(u8 *arg0, s32 size, QuestDownloadRequest *msg, u8 attr);
-s32 lookup_name_entry__22TQuestVmDownLoadServerFsP12Out_803E8C2C(char *arg0, s16 arg1, Out_803E8C2C *arg2);
 void TQuestVmDownLoadServer__sub_803EFCB4(u8 *data, s32 key, s32 sub_key, s32 *cnt, s32 *total, u8 *buf, s32 flags);
 extern u8 *lbl_805D7824;
 

@@ -11,7 +11,7 @@ void init_class_starting_inventory(void *data) {
     character->m_inventory.m_num_items = 5;
     copy_item_entry_array(character->m_inventory.m_num_items,
         get_class_starting_inventory(class_index),
-        static_cast<TPlyInventoryItem *>(reinterpret_cast<TObjPlayer *>(character)->get_ptr_4()));
+        character->m_inventory.get_items());
 }
 
 }

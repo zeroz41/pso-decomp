@@ -132,7 +132,7 @@ struct TNpcPlayer : public TObject {
     s32 check_return_to_leader();
     s32 update_follow_target();
     void decide_action();
-    static u8 *build_npc_player_record(s32 arg0);
+    static TPlyCharData *build_npc_player_record(s32 arg0);
     static void ensure_rock_singleton();
     s32 get_npc_state();
     s32 get_condition();
@@ -192,7 +192,7 @@ struct TNpcPlayer : public TObject {
 LAYOUT_ASSERT(TNpcPlayer_size, sizeof(TNpcPlayer) == 0xE8);
 
 // Builds the character record of NPC template index, scaled to the selected difficulty.
-u8 *load_npc_player_template(s32 index);
+TPlyCharData *load_npc_player_template(s32 index);
 // Clears a 6x40 walk-to-position packet and sets its header (subcommand 0x40, size 4).
 void init_6x40_walk_packet(void *cmd);
 #endif

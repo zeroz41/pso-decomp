@@ -50,6 +50,7 @@ struct QuestDownloadEntryNode {
 };
 
 LAYOUT_ASSERT(QuestDownloadEntryPrefixSize, sizeof(QuestDownloadEntryPrefix) == 8);
+LAYOUT_ASSERT(QuestDownloadEntryPrefixSource, offsetof(QuestDownloadEntryPrefix, source) == 4);
 LAYOUT_ASSERT(QuestDownloadEntryNodeSize, sizeof(QuestDownloadEntryNode) == 0x10);
 LAYOUT_ASSERT(QuestDownloadEntryNodeNext, offsetof(QuestDownloadEntryNode, next) == 0xC);
 
@@ -93,10 +94,14 @@ struct QuestDownloadSlot {
 };
 
 LAYOUT_ASSERT(QuestDownloadTextNodeSize, sizeof(QuestDownloadTextNode) == 0x14);
+LAYOUT_ASSERT(QuestDownloadTextNodeDataOffset, offsetof(QuestDownloadTextNode, data) == 1);
+LAYOUT_ASSERT(QuestDownloadTextNodeSourceOffset, offsetof(QuestDownloadTextNode, source) == 8);
 LAYOUT_ASSERT(QuestDownloadTextNodeNextOffset, offsetof(QuestDownloadTextNode, next) == 0x10);
 LAYOUT_ASSERT(QuestDownloadItemNodeSize, sizeof(QuestDownloadItemNode) == 0x10);
 LAYOUT_ASSERT(QuestDownloadItemNextOffset, offsetof(QuestDownloadItemNode, next) == 0xC);
 LAYOUT_ASSERT(QuestDownloadSlotSize, sizeof(QuestDownloadSlot) == 0x1C);
+LAYOUT_ASSERT(QuestDownloadSlotItemsOffset, offsetof(QuestDownloadSlot, items) == 4);
+LAYOUT_ASSERT(QuestDownloadSlotHeadOffset, offsetof(QuestDownloadSlot, head) == 8);
 LAYOUT_ASSERT(QuestDownloadSlotTextOffset, offsetof(QuestDownloadSlot, chain) == 0xC);
 
 extern "C" {

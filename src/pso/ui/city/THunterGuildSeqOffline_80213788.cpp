@@ -54,9 +54,9 @@ OnlineQuestMenu *TQuestListOnline__quest_list_buffer;
 OnlineQuestInfo *TQuestListOnline__selected_quest_info;
 int TQuestListOnline__bin_download_complete;
 int TQuestListOnline__dat_download_complete;
-u32 TQuestListOnline__download_window;
+TWindowMessage *TQuestListOnline__download_window;
 TWindowMessage *TQuestListOnline__quest_info_window;
-void *TQuestListOnline__download_barrier_window;
+TWindowMessage *TQuestListOnline__download_barrier_window;
 s32 quest_download_active;
 s32 quest_download_received_bytes;
 s32 quest_download_graph_current_bytes;
@@ -71,8 +71,6 @@ extern s32 THunterGuildSeqOffline__quest_result_callbacks[];
 // Set by each class's ctor, cleared by its dtor.
 THunterGuildSeqOnline_Server *hunter_guild_seq_online_server_instance;
 THunterGuildSeqOnline_Client *hunter_guild_seq_online_client_instance;
-
-struct List_80214058 { u8 pad[0x28]; void *f28; void *f2c; void *f30; void *f34; };
 
 extern "C" {
 
@@ -346,17 +344,17 @@ void THunterGuildSeqOnline_Server::close_window() {
 }
 
 void THunterGuildSeqOnline_Server::sub_80214058() {
-    List_80214058 *l;
-    l = (List_80214058 *)TObject::operator new(0x70);
+    TQuestListOnline *l;
+    l = static_cast<TQuestListOnline *>(TObject::operator new(sizeof(TQuestListOnline)));
     if (l != 0) {
-        l = (List_80214058 *)TQuestListOnline__ct((TQuestListOnline *)l, (void *)tl_05, this, player);
+        l = TQuestListOnline__ct(l, tl_05, this, player);
     }
     if (l != 0) {
         display_guild_message(4, 1);
-        l->f28 = (void *)THunterGuildSeqOffline__sub_80213F78;
-        l->f2c = (void *)THunterGuildSeqOffline__sub_80213EBC;
-        l->f30 = (void *)THunterGuildSeqOffline__sub_80213E64;
-        l->f34 = (void *)THunterGuildSeqOffline::reset_quest_list_vm;
+        l->callback28 = THunterGuildSeqOffline__sub_80213F78;
+        l->callback2c = THunterGuildSeqOffline__sub_80213EBC;
+        l->callback30 = THunterGuildSeqOffline__sub_80213E64;
+        l->callback34 = THunterGuildSeqOffline::reset_quest_list_vm;
         set_state(0xE);
     }
 }

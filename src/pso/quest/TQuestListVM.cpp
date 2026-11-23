@@ -1,3 +1,4 @@
+#include "pso/system/save/CardFileInfo.h"
 #include "pso/system/save/CardSaveFile.h"
 #include "pso/ui/window/WindowMenuFactory.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
@@ -31,7 +32,6 @@ struct WindowSize {
 };
 
 extern "C" {
-s32 poll_memcard_result(s32 card_slot);
 extern s32 evt2_random_enemies_mode;
 }
 

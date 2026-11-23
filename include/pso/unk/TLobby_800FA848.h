@@ -3,6 +3,8 @@
 
 #include "types.h"
 
-void *link_into_list(void *entry);
+struct AsyncFileReadRequest;
+
+AsyncFileReadRequest *link_into_list(AsyncFileReadRequest *entry);
 
 #endif

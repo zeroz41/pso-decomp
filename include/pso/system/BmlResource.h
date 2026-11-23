@@ -22,16 +22,21 @@ struct BmlMotionEntry {
     AnimationMotion *motion;
 };
 
+LAYOUT_ASSERT(BmlMotionEntry_size, sizeof(BmlMotionEntry) == 8);
+LAYOUT_ASSERT(BmlMotionEntry_motion_offset, offsetof(BmlMotionEntry, motion) == 4);
+
 struct BmlResourceDescriptor;
+
+typedef void (*BmlLoadCallback)(void *);
 struct BmlResource {
-    BmlResource(s32 kind, BmlResourceDescriptor *descriptor, saddr callback, saddr context, void *arena);
+    BmlResource(s32 kind, BmlResourceDescriptor *descriptor, BmlLoadCallback callback, void *context, void *arena);
     ~BmlResource();
     void free_if_not_in_arena(void *ptr);
     void reset();
-    void load_texture_sub(void *filename, s32 index);
+    void load_texture_sub(const char *filename, s32 index);
     void set_flag_and_notify();
-    s32 load_bin_motion(void *name, s32 index);
-    s32 load_bin_model(void *name, s32 index);
+    s32 load_bin_motion(const char *name, s32 index);
+    s32 load_bin_model(const char *name, s32 index);
 
     u32 flags;
     s32 loaded_models;
@@ -41,8 +46,8 @@ struct BmlResource {
     s32 unknown_14;
     void *handles[256];
     s32 handle_count;
-    saddr callback;
-    saddr callback_context;
+    BmlLoadCallback callback;
+    void *callback_context;
     void *arena;
     s32 arena_offset;
     BmlModelEntry *models;
@@ -55,9 +60,14 @@ struct BmlResource {
 LAYOUT_ASSERT(BmlResource_size, sizeof(BmlResource) == 0x440);
 LAYOUT_ASSERT(BmlResource_handles_offset, offsetof(BmlResource, handles) == 0x18);
 LAYOUT_ASSERT(BmlResource_handle_count_offset, offsetof(BmlResource, handle_count) == 0x418);
+LAYOUT_ASSERT(BmlResource_callback_offset, offsetof(BmlResource, callback) == 0x41C);
 LAYOUT_ASSERT(BmlResource_arena_offset, offsetof(BmlResource, arena) == 0x424);
 LAYOUT_ASSERT(BmlResource_models_offset, offsetof(BmlResource, models) == 0x42C);
 LAYOUT_ASSERT(BmlResource_motions_offset, offsetof(BmlResource, motions) == 0x430);
 LAYOUT_ASSERT(BmlResource_model_count_offset, offsetof(BmlResource, model_count) == 0x434);
+
+extern "C" BmlResource *init_bin_model_request(BmlResource *resource, s32 kind,
+    const char **models, const char **motions,
+    BmlLoadCallback on_loaded, void *context, void *arena);
 
 #endif

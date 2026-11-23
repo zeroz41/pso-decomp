@@ -91,9 +91,9 @@ void TObjPlayer::rebuild_players_for_stage(s32 stage) {
                 TObjPlayer::begin_action_state(&cd);
                 TNpcPlayer::send_command(chr.f31, t->item_count, (const TPlyInventoryItem *)t->items, t->level, &cd);
                 if (i == local_client_id) {
-                    p = (TObjPlayer *)create_player_object(i, 0, (u8 *)&cd);
+                    p = create_player_object(i, 0, &cd);
                 } else {
-                    p = (TObjPlayer *)create_player_object(i, 4, (u8 *)&cd);
+                    p = create_player_object(i, 4, &cd);
                 }
                 if (p == NULL) {
                     return;

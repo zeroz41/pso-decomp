@@ -48,7 +48,7 @@ extern s32 quest_download_server_state;
 extern saddr lbl_805D78F8;
 extern s32 lbl_805D78FC;
 extern s32 lbl_805D7900;
-extern saddr quest_download_file_handle;
+extern s32 quest_download_file_handle;
 extern u8 quest_request_text_buffer[];
 
 // Handlers by request id (1..63); unassigned ids return -1.
@@ -262,7 +262,7 @@ s32 quest_download_request_0x20(saddr *arg0) {
     }
     {
         saddr src = *arg0;
-        strcpy((char *)(char *)&quest_convert_string.value, (const char *)(const char *)src);
+        strcpy(quest_convert_string.value, reinterpret_cast<const char *>(src));
     }
     quest_download_state = 0;
     lbl_805D7830 = 0;
@@ -394,7 +394,7 @@ s32 TQuestVmDownLoadServer::poll_download_status(saddr *) {
     if ((s32) quest_download_initialized == 0) {
         return -1;
     }
-    if (TQuestVmDownLoadServer__sub_803F08E4((s8 *)&quest_convert_string.value) == -7) {
+    if (TQuestVmDownLoadServer__sub_803F08E4(reinterpret_cast<s8 *>(quest_convert_string.value)) == -7) {
         return 1;
     }
     TQuestVmDownLoadServer__sub_803E6ACC(0);

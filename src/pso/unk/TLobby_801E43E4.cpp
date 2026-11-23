@@ -190,12 +190,12 @@ void TObjPlayer::free_if_valid(saddr texlist) {
 // A GVM texture archive's header ("GVMH").
 struct GvmFileHeader {
     u8 magic[4];
-    s32 size;
+    u32 size;
     u16 flags;
     u16 count;
 };
 
-saddr TLanguage__read_cursor;
+u8 *TLanguage__read_cursor;
 
 NJS_TEXLIST *load_gvm_texture_file(const char *name) {
     s32 count;
@@ -203,11 +203,11 @@ NJS_TEXLIST *load_gvm_texture_file(const char *name) {
     NJS_TEXLIST *res;
     NJS_TEXNAME *ent;
     char *str;
-    uaddr buf;
-    u32 big;
+    u8 *buf;
+    u8 *big;
     s32 size;
     GvmFileHeader hdr;
-    big = 0;
+    big = NULL;
     TLobby::pump_frames();
     size = TGStream::get_resource_file_size(name);
     if (size <= 0) {
@@ -216,16 +216,16 @@ NJS_TEXLIST *load_gvm_texture_file(const char *name) {
     }
     size = ((size + 0x7FF) / 2048) * 2048;
     if (size > 0x40000) {
-        big = (uaddr)TQuestVmDownLoadServer::alloc(size);
+        big = static_cast<u8 *>(TQuestVmDownLoadServer::alloc(size));
         buf = big;
     } else {
-        buf = (saddr)TLobby::tmp_buf_use_req("LoadPvmFileTls");
+        buf = TLobby::tmp_buf_use_req("LoadPvmFileTls");
     }
-    TGStream::load_sct_file(name, (u8 *)buf);
+    TGStream::load_sct_file(name, buf);
     count = TLanguage::read_file_header(buf, &hdr);
     if (count == 0) {
-        if (big != 0) {
-            TAdSinglePlyChrSelectGC::safe_free(big);
+        if (big != NULL) {
+            TAdSinglePlyChrSelectGC::safe_free(reinterpret_cast<uaddr>(big));
         } else {
             TLobby::tmp_buf_release("LoadPvmFileTls");
         }
@@ -241,7 +241,7 @@ NJS_TEXLIST *load_gvm_texture_file(const char *name) {
         ent->filename = str;
         TLanguage__read_cursor += 2;
         if (hdr.flags & 1) {
-            TLanguage::read_into_buffer((saddr)str, 0x1C);
+            TLanguage::read_into_buffer(str, 0x1C);
             str[0x1C] = 0;
         }
         if (hdr.flags & 2) {
@@ -254,44 +254,43 @@ NJS_TEXLIST *load_gvm_texture_file(const char *name) {
             TLanguage__read_cursor += 4;
         }
     }
-    load_gvm_texture_archive((void *)buf, res);
-    if (big != 0) {
-        TAdSinglePlyChrSelectGC::safe_free(big);
+    load_gvm_texture_archive(buf, res);
+    if (big != NULL) {
+        TAdSinglePlyChrSelectGC::safe_free(reinterpret_cast<uaddr>(big));
     } else {
         TLobby::tmp_buf_release("LoadPvmFileTls");
     }
     return res;
 }
 
-int TLanguage::read_file_header(int cursor, void *header) {
-    GvmFileHeader *hdr = (GvmFileHeader *)header;
+int TLanguage::read_file_header(u8 *cursor, GvmFileHeader *hdr) {
     TLanguage__read_cursor = cursor;
-    TLanguage::read_into_buffer((saddr)hdr, 4);
+    TLanguage::read_into_buffer(hdr, 4);
     hdr->size = TLanguage::read_u32_le();
     hdr->flags = TLanguage::read_u16_le();
     hdr->count = TLanguage::read_u16_le();
-    bswap_32((u32 *)&hdr->size);
+    bswap_32(&hdr->size);
     bswap_16(&hdr->flags);
     bswap_16(&hdr->count);
     return hdr->count;
 }
 
-void TLanguage::read_into_buffer(saddr arg0, s32 arg1) {
-    move_data((void *)(arg0), (const void *)((const void *)TLanguage__read_cursor), (u32)arg1);
-    TLanguage__read_cursor += arg1;
+void TLanguage::read_into_buffer(void *destination, s32 length) {
+    move_data(destination, TLanguage__read_cursor, length);
+    TLanguage__read_cursor += length;
 }
 
 s32 TLanguage::read_u32_le() {
-    s32 v = *(u8 *)TLanguage__read_cursor++;
-    v |= *(u8 *)TLanguage__read_cursor++ << 8;
-    v |= *(u8 *)TLanguage__read_cursor++ << 16;
-    v |= *(u8 *)TLanguage__read_cursor++ << 24;
+    s32 v = *TLanguage__read_cursor++;
+    v |= *TLanguage__read_cursor++ << 8;
+    v |= *TLanguage__read_cursor++ << 16;
+    v |= *TLanguage__read_cursor++ << 24;
     return v;
 }
 
 s32 TLanguage::read_u16_le() {
-    s32 lo = *(u8 *)TLanguage__read_cursor++;
-    lo |= *(u8 *)TLanguage__read_cursor++ << 8;
+    s32 lo = *TLanguage__read_cursor++;
+    lo |= *TLanguage__read_cursor++ << 8;
     return lo;
 }
 

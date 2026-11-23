@@ -1,6 +1,7 @@
 #ifndef PSO_PLAYER_TPLYCHARDATA_H
 #define PSO_PLAYER_TPLYCHARDATA_H
 
+#include <stddef.h>
 #include "types.h"
 #include "pso/macros.h"
 #include "pso/network/protocol/protocol.h"
@@ -29,5 +30,10 @@ public:
 public:
     void init_inventory_items();
 };
+
+LAYOUT_ASSERT(PlyCharDataSize, sizeof(TPlyCharData) == 0x41C);
+LAYOUT_ASSERT(PlyCharDataInventoryOffset, offsetof(TPlyCharData, m_inventory) == 0);
+LAYOUT_ASSERT(PlyCharDataStatsOffset, offsetof(TPlyCharData, m_stats) == 0x34C);
+LAYOUT_ASSERT(PlyCharDataAppearanceOffset, offsetof(TPlyCharData, m_disp_part2) == 0x370);
 
 #endif

@@ -22,7 +22,7 @@ s32 begin_action_state__10TObjPlayerFPv(u8 *player) {
     TPlyCharData *character = (TPlyCharData *)player;
     class_index = character->m_disp_part2.char_class;
     character->m_inventory.m_num_items = 5;
-    copy_entries(5, get_class_starting_inventory(class_index), (TPlyInventoryItem *)((TObjPlayer *)player)->get_ptr_4());
+    copy_entries(5, get_class_starting_inventory(class_index), character->m_inventory.get_items());
     ((TObjPlayer *)player)->set_action_state(1);
     init_new_character_stats(character);
     TObjPlayer::setup_effect_slots((s32)(*(s32 *)((s8 *)player + 0x3A4)), (saddr)(player + 0x3C0));

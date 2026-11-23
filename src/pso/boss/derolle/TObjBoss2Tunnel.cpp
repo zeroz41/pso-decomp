@@ -233,7 +233,6 @@ struct G_PlaySound_6xB2 {
 };
 extern "C" {
 extern s32 lbl_805D49B4;
-extern char episode_i_and_ii_card_filename[];
 s8 func_801A5E54__Fv(void);
 extern s32 hud_texlist;
 }
@@ -957,7 +956,7 @@ s32 take_snapshot(void) {
         }
         *countp = count;
         memset(&card, 0, sizeof(card));
-        strcpy(card.filename, episode_i_and_ii_card_filename);
+        strcpy(card.filename, episode_i_and_ii_card_filename.game_name);
         strcpy(card.title, snapshot_card_title);
         memcpy(card.key, snapshot_card_icon, 0x10);
         set_card_banner_and_icon(&card, 4);
@@ -1182,7 +1181,7 @@ s32 TObjBoss2Tunnel::save_snapshot_to_card() {
     }
     memset(TObjBoss2Tunnel__snapshot_buffer, 0, 4);
     memset(&c, 0, 0x60);
-    strcpy(c.filename, episode_i_and_ii_card_filename);
+    strcpy(c.filename, episode_i_and_ii_card_filename.game_name);
     strcpy(c.title, snapshot_card_title);
     memcpy(c.key, snapshot_card_icon, 0x10);
     set_card_banner_and_icon(&c, 4);

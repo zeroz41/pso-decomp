@@ -497,7 +497,7 @@ void bind_character_preview_models(const CharacterPreviewModels *models) {
 }
 void load_creation_shape_rel(TCMCharacter *character) {
     s32 rc;
-    character->shape_rel = (saddr)TQuestVmDownLoadServer::alloc(0x44000);
+    character->shape_rel = TQuestVmDownLoadServer::alloc(0x44000);
     rc = TLobby::request_file_read(
         chara_select_creation_shape_rel_files[character_display_index(reinterpret_cast<uaddr>(creation_player_character))],
         character->shape_rel, &character->shape_rel_ready, NULL);
@@ -509,8 +509,8 @@ void load_creation_shape_rel(TCMCharacter *character) {
     }
 }
 void TCMCharacter::free_field_FC() {
-    TAdSinglePlyChrSelectGC::safe_free(shape_rel);
-    shape_rel = 0;
+    TAdSinglePlyChrSelectGC::safe_free(reinterpret_cast<uaddr>(shape_rel));
+    shape_rel = NULL;
 }
 
 void TCMCharacter::run_task() {
@@ -561,7 +561,7 @@ void TCMCharacter::apply_character_appearance() {
     if ((s32)creation_head_model_parts[head].present == 1) {
         chara_select_head_node = creation_head_model_parts[head].model;
     }
-    char_creation_data_block = (void ***)relocate_data_block_pointers(this->shape_rel, this->shape_rel_size);
+    char_creation_data_block = (void ***)relocate_data_block_pointers(reinterpret_cast<saddr>(this->shape_rel), this->shape_rel_size);
     TCharaMaking__bind_body_shape_nodes((CharacterAppearanceFields *)((CharacterAppearanceFields *)app), this->model);
     TCharaMaking__bind_head_shape_nodes((CharacterAppearanceFields *)((CharacterAppearanceFields *)app), (void *)((void *)chara_select_head_node));
     blend_creation_proportion_shapes(&((CharacterAppearanceFields *)creation_player_character)->width);

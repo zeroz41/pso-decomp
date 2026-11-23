@@ -26,7 +26,7 @@ public:
     s32 state;
     char name[48];
     // The model-list terminator also serves as the empty motion list.
-    char *model_ids[2];
+    const char *model_ids[2];
     BmlResource *loaded_bml;
     s32 slot_claimed;
     s32 lifetime_remaining;

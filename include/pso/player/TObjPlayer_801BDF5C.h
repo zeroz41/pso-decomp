@@ -4,6 +4,7 @@
 #include "types.h"
 
 struct TObjPlayer;
+class TPlyCharData;
 
 // --- C functions defined in TObjPlayer_801BDF5C.cpp ---
 extern "C" {
@@ -32,6 +33,6 @@ s32 destroy_char_data__10TObjPlayerFis(saddr arg0, s16 arg1);
 // --- end of C functions
 
 // Allocates and constructs the player for client slot from a character record.
-u8 *create_player_object(s32 slot, s32 role, u8 *record);
+TObjPlayer *create_player_object(s32 slot, s32 role, TPlyCharData *record);
 
 #endif
