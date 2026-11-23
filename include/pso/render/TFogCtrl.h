@@ -53,7 +53,7 @@ struct TFogCtrl : public TObject {
     static TFogCtrl *fog_instance_table[4];  // one per view, NULL when none
     static s32 select_fog_for_viewport(s32 arg0, s32 arg1, s32 arg2);
     static s32 restore_fog_for_player(s32 owner_client_id, s32 arg0);
-    static void*get_entry(int a0);
+    static FogEntry *get_entry(int a0);
     static void clear_split_screen_fog();
     static void update_all();
     void clear_active_flag();

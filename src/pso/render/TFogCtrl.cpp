@@ -30,10 +30,6 @@ const char *TFogCtrl__name = "TFogCtrl";
 const char *TFogCtrl_EOR__name = "TFogCtrl_EOR";
 }
 
-struct ByteBlock_8 { u8 bytes[0x8]; };
-
-struct ByteBlock_20 { u8 bytes[0x20]; };
-
 struct GXFogAdjTable {
     u16 r[10];
 };
@@ -55,7 +51,7 @@ extern const f32 TFogCtrl__data_805DA94C = 640.0f;
 #define FOG_ZERO (*(const f32 *)&TFogCtrl__data_805DA948)
 #define FOG_MAX (*(const f32 *)&TFogCtrl__data_805DA94C)
 }
-void copy_fog_entry(u8 *arg0, u8 *arg1);
+FogEntry *copy_fog_entry(FogEntry *dst, FogEntry *src);
 void init_scene_fog_system(void);
 
 s32 area_fog_row_table[36] = {
@@ -86,7 +82,7 @@ void init_scene_fog_system(void) {
     fog_default_entry.waves[6] = FOG_MAX;
     fog_entry_array = (FogEntry *)mem_alloc(0x80 * sizeof(FogEntry));
     for (i = 0; i < 0x80; i++) {
-        copy_fog_entry((u8 *)&fog_entry_array[i], (u8 *)&fog_default_entry);
+        copy_fog_entry(&fog_entry_array[i], &fog_default_entry);
     }
     read_disc_file(lbl_8043DA20, fog_entry_array);
     for (i = 0; i < 4; i++) {
@@ -172,7 +168,7 @@ TFogCtrl::TFogCtrl(TObject *parent, s32 index) : TObject(parent) {
     zero = FOG_ZERO;
     for (i = 0; i < 4; i++) {
         slot_storage[i].entry = 0;
-        copy_fog_entry((u8 *)&slot_storage[i], (u8 *)&fog_default_entry);
+        copy_fog_entry(&slot_storage[i].params, &fog_default_entry);
         slot_storage[i].scroll = zero;
         slots[i] = &slot_storage[i];
     }
@@ -295,7 +291,7 @@ void TFogCtrl::load_entry_into_slot(s32 i, s32 entry) {
     s32 k;
     FogSlot *f = slots[i];
     f->entry = entry;
-    copy_fog_entry((u8 *)f, (u8 *)TFogCtrl::get_entry(entry));
+    copy_fog_entry(&f->params, TFogCtrl::get_entry(entry));
     f->scroll = FOG_ZERO;
     for (k = 0; k < 3; k++) {
         f->pad_48[k] = 0;
@@ -524,32 +520,16 @@ void TFogCtrl::clear_split_screen_fog() {
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-void *TFogCtrl::get_entry(int a0) { return &fog_entry_array[a0]; }
+FogEntry *TFogCtrl::get_entry(int a0) { return &fog_entry_array[a0]; }
 #pragma pop
 
 #pragma push
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-void copy_fog_entry(u8 *arg0, u8 *arg1) {
-    s32 var_r5;
-    saddr var_r7;
-    u8 *var_r6;
-    var_r5 = *(s32 *)((s8 *)arg1 + 0);
-    var_r6 = (u8 *)arg1 + 0x14;
-    var_r7 = (long) ((u8 *)arg0 + 0x14);
-    *(s32 *)((s8 *)arg0 + 0) = var_r5;
-    var_r5 = *(s32 *)((s8 *)arg1 + 4);
-    *(s32 *)((s8 *)arg0 + 4) = var_r5;
-    *(f32 *)((s8 *)arg0 + 8) = (f32) *(f32 *)((s8 *)arg1 + 8);
-    *(f32 *)((s8 *)arg0 + 0xC) = (f32) *(f32 *)((s8 *)arg1 + 0xC);
-    *(f32 *)((s8 *)arg0 + 0x10) = (f32) *(f32 *)((s8 *)arg1 + 0x10);
-    var_r5 = *(s32 *)((s8 *)arg1 + 0x14);
-    *(s32 *)((s8 *)arg0 + 0x14) = var_r5;
-    *(ByteBlock_20 *)(var_r7 + 4) = *(const ByteBlock_20 *)((saddr) var_r6 + 4);
-    var_r7 += 0x20;
-    var_r6 += 0x20;
-    *(ByteBlock_8 *)((saddr) arg0 + 0x38) = *(const ByteBlock_8 *)((saddr) arg1 + 0x38);
+FogEntry *copy_fog_entry(FogEntry *dst, FogEntry *src) {
+    *dst = *src;
+    return dst;
 }
 #pragma pop
 
