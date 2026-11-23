@@ -636,35 +636,35 @@ ParticleParam *TParticleCtrl::get_particle_by_index(s32 particle_index) {
     return &particle_global_entry_table[particle_index];
 }
 void load_particle_entry_resources(void);
-extern char lbl_80439494[];
-extern char lbl_804394A4[];
-extern char lbl_804394BC[];
-extern char lbl_804394D4[];
+extern char particle_entry_file_name[];
+extern char particle_area_entry_file_format_0[];
+extern char particle_area_entry_file_format[];
+extern char particle_texture_file_name[];
 void load_particle_entry_resources(void) {
     char name[0x20];
     s32 area;
     void *p;
     memset(name, 0, 0x20);
-    strcpy(name, lbl_80439494);
+    strcpy(name, particle_entry_file_name);
     area = get_current_floor_area();
     if (area < 10) {
         if (area < 0) {
             return;
         }
-        sprintf(name, lbl_804394A4, area);
+        sprintf(name, particle_area_entry_file_format_0, area);
     } else {
-        sprintf(name, lbl_804394BC, area);
+        sprintf(name, particle_area_entry_file_format, area);
     }
     particle_area_entry_table = reinterpret_cast<ParticleParam *>(mem_alloc(0x2600));
     read_disc_file(name, particle_area_entry_table);
     p = new BmlResource(1, (BmlResourceDescriptor *)particle_regular_bml_descriptor, 0, 0, NULL);
     TParticleCtrl__regular_bml_resource = (uaddr)p;
-    TParticleCtrl__texture_list = (uaddr)load_gvm_texture_file((saddr)lbl_804394D4);
+    TParticleCtrl__texture_list = (uaddr)load_gvm_texture_file((saddr)particle_texture_file_name);
 }
 
-__declspec(section ".rodata") extern char lbl_80439494[] = "particleentrya";
-__declspec(section ".rodata") extern char lbl_804394A4[] = "particleentrya0%d.dat";
-__declspec(section ".rodata") extern char lbl_804394BC[] = "particleentrya%d.dat";
-__declspec(section ".rodata") extern char lbl_804394D4[] = "tecregular.gvm";
+__declspec(section ".rodata") extern char particle_entry_file_name[] = "particleentrya";
+__declspec(section ".rodata") extern char particle_area_entry_file_format_0[] = "particleentrya0%d.dat";
+__declspec(section ".rodata") extern char particle_area_entry_file_format[] = "particleentrya%d.dat";
+__declspec(section ".rodata") extern char particle_texture_file_name[] = "tecregular.gvm";
 
 s32 particle_pool_limit = 1;

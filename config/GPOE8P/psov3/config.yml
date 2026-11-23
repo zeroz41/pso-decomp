@@ -7461,10 +7461,10 @@ force_active:
   - df_demo3_zero_camera_angles
   - follow_camera_init_eye_offset
   - follow_camera_reset_eye_offset
-  - lbl_80439494
-  - lbl_804394A4
-  - lbl_804394BC
-  - lbl_804394D4
+  - particle_entry_file_name
+  - particle_area_entry_file_format_0
+  - particle_area_entry_file_format
+  - particle_texture_file_name
   - dimedian_a_bml_filename
   - shark_model_name_bm1f_s_wala_body_nj
   - shark_model_name_bm1tl_s_wala_body_nj
