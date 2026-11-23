@@ -12,13 +12,15 @@
 
 #pragma readonly_strings on
 
-struct Obj_803C5B50 { u8 pad_0[0x14]; SjRingBuffer *f14; };
+// Stream object view: its SjRingBuffer lives at 0x14 and is the copy target
+// when a decoded ADX chunk is drained from the source ring.
+struct AdxRingBufferHost { u8 pad_0[0x14]; SjRingBuffer *ringBuffer; };
 
 extern "C" {
 extern u8 adx_stream_ring_buffer_storage[];
 extern u8 adx_stream_ring_buffer[];
 
-void TLobby__sub_803C5B50(Obj_803C5B50 *arg0, s32 arg1, s32 arg2, s32 arg3) {
+void TLobby__sub_803C5B50(AdxRingBufferHost *arg0, s32 arg1, s32 arg2, s32 arg3) {
     SjRingBuffer *arr[2];
     SjChunk b1;
     SjChunk b2;
@@ -29,7 +31,7 @@ void TLobby__sub_803C5B50(Obj_803C5B50 *arg0, s32 arg1, s32 arg2, s32 arg3) {
     src = sj_ring_buffer_create(adx_stream_ring_buffer, 0x400, 0);
     arr[0] = sj_ring_buffer_create(adx_stream_ring_buffer_storage, 0x400, 0);
     arr[1] = sj_ring_buffer_create(adx_stream_ring_buffer_storage + 0x20, 0x400, 0);
-    dst = arg0->f14;
+    dst = arg0->ringBuffer;
     ctx = TLobby__sub_803C61C4(2, arr, src);
     TLobby__sub_803C60F0(ctx, arg1, arg2, arg3);
     TLobby__sub_803C6118(ctx);
@@ -62,21 +64,21 @@ void TLobby__sub_803C5D00(u8 *arg0) {
 s32 lbl_805D7548;
 
 void TLobby__sub_803C5D24(u8 *lobby) {
-    struct Fields_arg0 { u8 pad_0[2]; s8 field_2; u8 pad_3[13]; s32 field_10; void ** field_14; u8 pad_18[38]; s16 field_3E; u8 pad_40[84]; u8 * field_94; s8 field_98; };
+    struct LobbyStreamFields { u8 pad_0[2]; s8 field_2; u8 pad_3[13]; s32 field_10; void ** field_14; u8 pad_18[38]; s16 field_3E; u8 pad_40[84]; u8 * field_94; s8 field_98; };
     void **temp_r3;
     u8 *temp_r31;
     u8 *temp_r4;
-    temp_r31 = (u8 *)(((Fields_arg0*)lobby)->field_94);
+    temp_r31 = (u8 *)(((LobbyStreamFields*)lobby)->field_94);
     TLobby__sub_803C9DB4(lobby);
     TLobby::init_once();
-    ((TLobby *)lobby)->start_stream_playback(((Fields_arg0*)lobby)->field_10);
-    temp_r3 = (void **)(((Fields_arg0*)lobby)->field_14);
+    ((TLobby *)lobby)->start_stream_playback(((LobbyStreamFields*)lobby)->field_10);
+    temp_r3 = (void **)(((LobbyStreamFields*)lobby)->field_14);
     temp_r4 = (u8 *)(*temp_r3);
     (*(s32 (**)(void **, void *))((s8 *)temp_r4 + 0x14))(temp_r3, temp_r4);
-    ((Fields_arg0*)lobby)->field_2 = 4;
-    lsc_set_min_buffer_bytes((LscStream*)temp_r31, ((Fields_arg0*)lobby)->field_3E << 0xB);
+    ((LobbyStreamFields*)lobby)->field_2 = 4;
+    lsc_set_min_buffer_bytes((LscStream*)temp_r31, ((LobbyStreamFields*)lobby)->field_3E << 0xB);
     lsc_start((LscStream*)temp_r31);
-    ((Fields_arg0*)lobby)->field_98 = 1;
+    ((LobbyStreamFields*)lobby)->field_98 = 1;
     TLobby::release_ref();
 }
 }
