@@ -579,7 +579,7 @@ void TObjEneBalClawBody::update_attack() {
             }
         }
         if (body->action_flags != 4) {
-            obj_setFlags30(body, 0x800);
+            body->set_actor_flags(0x800);
         }
         break;
     case -1:

@@ -5,6 +5,7 @@
 #include "pso/enemy/dd/TObjEneDD_ST.h"
 #include "pso/item/TItemLockCountCtrl.h"
 #include "pso/system/task/TObject.h"
+#include "pso/object/base/TObjBase.h"
 
 struct Base_801193D8 { char pad[0x18]; };
 
@@ -16,7 +17,6 @@ struct VObj_801193D8 : Base_801193D8 {
 VObj_801193D8 *item_effect_object_table[7];
 extern "C" {
 u32 get_player_by_client_id(u16);
-s32 obj_setFlags30(u32, s32);
 }
 
 // Releases client's hold on item effect `effect`; the last release stops it.
@@ -137,7 +137,7 @@ void TItemLockCountCtrl::add_poison_immunity(int arg0) {
 void TItemLockCountCtrl::add_status_cleanse(int arg0) {
     u32 temp = get_player_by_client_id(arg0);
     if (temp != 0U) {
-        obj_setFlags30(temp, 0x40);
+        ((TObjBase *)(saddr)temp)->set_actor_flags(0x40);
     }
 }
 void TItemLockCountCtrl::free_all() {

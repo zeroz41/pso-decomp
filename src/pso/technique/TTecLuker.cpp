@@ -78,7 +78,6 @@ void TTecLuker__sub_80235048(void* p);
 int TTecLuker__sub_80235054(void* p);
 int fn_80235078(void *arg0);
 uaddr get_player_by_client_id(s32);
-s32 obj_setFlags30(void *, int);
 s32 init_collision_body_parts(void *, void *, int);
 bool TTecLuker__sub_8023401C(u8 *arg0);
 }
@@ -743,7 +742,7 @@ void TTecLuker::apply_all_players() {
 TUnk_804CC9D4::TUnk_804CC9D4(Vec *pos, TObject *parent, s32 always) : TObjCollidable(parent) {
     VecCopy(&position, pos);
     init_collision_body_parts(this, &telepipe_field_collision_body_template, 1);
-    obj_setFlags30(this, 0x40000000);
+    set_actor_flags(0x40000000);
     register_object_by_id();
     cursor_action.set_telepipe();
     interacted = 0;

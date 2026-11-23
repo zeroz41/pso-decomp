@@ -58,6 +58,7 @@
 #include "pso/technique/TTecKafun.h"
 #include "pso/player/TPlyDispData.h"
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
+#include "pso/object/base/TObjBase.h"
 #pragma defer_codegen on
 
 
@@ -844,7 +845,7 @@ s32 TObjEneBm9Mericarol::check_attack_hits() {
                 t.power = mericarol_phase_param_table[get_phase()]->attack_power;
                 DirectAttackPayload payload = t;
                 if (p->receive_direct_attack(this, payload, 0, -1, -1) > 0.0f) {
-                    obj_setFlags30(p, 0x600);
+                    p->set_actor_flags(0x600);
                 }
             }
         }

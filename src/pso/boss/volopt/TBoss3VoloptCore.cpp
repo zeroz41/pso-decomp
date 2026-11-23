@@ -30,6 +30,7 @@
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/render/model_render_state.h"
 #include "pso/ui/hud/TRaderMapCore.h"
+#include "pso/object/base/TObjBase.h"
 
 struct TBoss3VoloptOrbitSpeeds {
     u8 pad_0[0x18];
@@ -138,7 +139,7 @@ void TBoss3VoloptCore::init_params() {
     run_idle_action();
     add_flags_2e4(4);
     hit_cooldown = 0;
-    obj_setFlags30(this, 0x8000);
+    set_actor_flags(0x8000);
     if (TBoss3Volopt::is_v2_mode() != 0) {
         core_turn_angle_limit = 0xA00;
     } else {

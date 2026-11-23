@@ -705,7 +705,7 @@ void TObjEneDolmOlm::run_idle_action() {
         }
         this->phase = 0;
         request_stand_action();
-        obj_setFlags30(this, 0x04040000);
+        set_actor_flags(0x04040000);
         set_indexed_flags(0, 0x0A000000);
         break;
     }
@@ -793,7 +793,7 @@ void TObjEneDolmOlm::run_attack_action() {
         if (start_special == 1) {
             mode = 0xB;
             phase = 0;
-            obj_setFlags30(this, 0x200000);
+            set_actor_flags(0x200000);
             clear_actor_flags(0x04040000);
             clear_player_status_flag(0, 0x0A000000);
             return;
@@ -806,7 +806,7 @@ void TObjEneDolmOlm::run_attack_action() {
             } else {
                 requested_action = 4;
             }
-            obj_setFlags30(this, 0x200000);
+            set_actor_flags(0x200000);
             clear_actor_flags(0x04040000);
             clear_player_status_flag(0, 0x0A000000);
         }

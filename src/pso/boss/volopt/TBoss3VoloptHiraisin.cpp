@@ -22,6 +22,7 @@
 #include "pso/system/MatrixOps.h"
 #include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
+#include "pso/object/base/TObjBase.h"
 
 
 extern "C" {
@@ -360,7 +361,7 @@ void TBoss3VoloptHiraisin::init_params() {
     load_params_from_table(0x10);
     start_appear();
     add_flags_2e4(4);
-    obj_setFlags30(this, 0x8000);
+    set_actor_flags(0x8000);
     clear_lobby_object_state();
 }
 

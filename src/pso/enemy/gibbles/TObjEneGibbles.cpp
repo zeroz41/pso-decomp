@@ -587,7 +587,7 @@ void TObjEneGibbles::run_idle_action() {
             this->phase = 0;
             this->requested_action = 0;
             clear_actor_flags(0x200000);
-            obj_setFlags30(this, 0x06040000);
+            set_actor_flags(0x06040000);
             this->status_flags &= 0xFFFF0000;
             this->bodies->flags &= 0xFFFFFFFE;
         }
@@ -993,7 +993,7 @@ s32 TObjEneGibbles::landing_damage_players() {
                 f32 res = pl->receive_direct_attack(this, attack, NULL, -1, -1);
                 pl->apply_knockback_from_attacker((u8 *)this, res);
                 if (res > 0.0f) {
-                    obj_setFlags30(pl, 0x600);
+                    pl->set_actor_flags(0x600);
                 }
             }
         }
@@ -1037,7 +1037,7 @@ extern "C" s32 TObjEneGibbles__sub_802D9824(void *self, s32 arg, f32 scale) {
             }
             obj->apply_knockback_from_attacker((u8 *)g, scale);
             if (arg == 1 && scale > 0.0f) {
-                obj_setFlags30(obj, 0x600);
+                obj->set_actor_flags(0x600);
                 g->armor = (s16)(g->armor + scale);
                 g->armor_state = 0x10e;
             }
@@ -1083,7 +1083,7 @@ extern "C" s32 TObjEneGibbles__sub_802D9644(void *self, s32 arg, f32 scale) {
             }
             obj->apply_knockback_from_attacker((u8 *)g, scale);
             if (arg == 1 && scale > 0.0f) {
-                obj_setFlags30(obj, 0x600);
+                obj->set_actor_flags(0x600);
                 g->armor = (s16)(g->armor + scale);
                 g->armor_state = 0x10e;
             }

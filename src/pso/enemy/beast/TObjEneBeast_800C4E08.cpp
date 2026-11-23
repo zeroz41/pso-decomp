@@ -103,7 +103,7 @@ void TUnk_80493450::update_target_near_flag() {
                     clear_actor_flags(0x100000);
                 }
             } else if (dist < BEAST_HUNTER_NEAR_ENTER_DISTANCE_SQ) {
-                obj_setFlags30(this, 0x100000);
+                set_actor_flags(0x100000);
             }
             break;
         default:
@@ -112,12 +112,12 @@ void TUnk_80493450::update_target_near_flag() {
                     clear_actor_flags(0x100000);
                 }
             } else if (dist < BEAST_OTHER_NEAR_ENTER_DISTANCE_SQ) {
-                obj_setFlags30(this, 0x100000);
+                set_actor_flags(0x100000);
             }
             break;
         }
     } else {
-        obj_setFlags30(this, 0x100000);
+        set_actor_flags(0x100000);
     }
 }
 
@@ -274,7 +274,7 @@ void TUnk_80493450::run_attack_action() {
         } else {
             requested_action = 4;
         }
-        obj_setFlags30(this, 0x200000);
+        set_actor_flags(0x200000);
         clear_actor_flags(0x04040000);
         clear_player_status_flag(0, 0x0A000000);
         break;
@@ -603,7 +603,7 @@ void TUnk_80493450::run_idle_action() {
         }
         phase = 0;
         request_stand_action();
-        obj_setFlags30(this, 0x04040000);
+        set_actor_flags(0x04040000);
         set_indexed_flags(0, 0x0A000000);
         break;
     }
@@ -619,12 +619,12 @@ void TUnk_80493450::refresh_target() {
 
     if (appearing == 1) {
         targetId = 0xFFFF;
-        obj_setFlags30(this, 0x04040000);
+        set_actor_flags(0x04040000);
     } else if (test_actor_flags(0x1000) != 0) {
         if (--retreat_timer < 0) {
             targetId = 0xFFFF;
             retreat_timer = 0;
-            obj_setFlags30(this, 0x1000);
+            set_actor_flags(0x1000);
         } else {
             targetId = find_nearest_visible_player(this, NULL, ((BeastMovementParams *)movementParameters)->detectionRadius);
         }

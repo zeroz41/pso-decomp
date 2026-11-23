@@ -60,6 +60,7 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/render/model_render_state.h"
 #include "pso/object/trap/TOTrapAncient01_80226534.h"
+#include "pso/object/base/TObjBase.h"
 
 extern "C" {
 BmlResource *dubchik_resource;
@@ -183,7 +184,7 @@ s32 TObjEneDubchik::undo_large_move() {
 
 void TObjEneDubchik::set_invuln_flags() {
     bodies->flags |= 0x0A000000;
-    obj_setFlags30(this, 0x04000000U);
+    set_actor_flags(0x04000000U);
 }
 
 void TObjEneDubchik::clear_flag_04000000() {
@@ -1099,7 +1100,7 @@ void TObjEneDubchik::update_return_home() {
 
 void TObjEneDubchik::start_dying() {
     behavior_flags |= 0x02000000;
-    obj_setFlags30(this, 0x800U);
+    set_actor_flags(0x800U);
 }
 
 void TObjEneDubchik::load_params() {
@@ -1181,7 +1182,7 @@ void TObjEneDubchik::update_dying() {
         refresh_lobby_state();
         send_entity_set_flags();
         trigger_dell_biter_events(&body_center);
-        obj_setFlags30(this, 0x800);
+        set_actor_flags(0x800);
         queue_destruction();
     }
 }

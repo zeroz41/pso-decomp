@@ -154,7 +154,6 @@ s16 get_attack_params_atp_min(void *);
 
 s16 get_attack_params_atp_max(void *);
 
-void obj_setFlags30(void *, s32);
 
 s32 is_split_screen();
 
@@ -769,7 +768,7 @@ void TObjEnemy::apply_hit_message_flags(void *arg1_arg) {
             this->apply_movement_ailment(0);
         }
     }
-    obj_setFlags30(this, flags);
+    set_actor_flags(flags);
     p.a = arg1->attack_status;
     p.b = arg1->attack_status_level;
     arg1->attack_status = 0;
@@ -906,7 +905,7 @@ void handle_6x9C_set_enemy_low_game_flags_ultimate(Msg_800F62E0 *arg0) {
     if (e->test_actor_flags(flags) != 0) {
         return;
     }
-    obj_setFlags30(e, flags);
+    e->set_actor_flags(flags);
     switch (flags) {
     case 2:
         e->apply_paralysis();

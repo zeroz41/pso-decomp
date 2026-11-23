@@ -350,7 +350,7 @@ void TItem::operator delete(void *p) { obj_heap->heap_free(p); }
 
 TItem::TItem(TObject *parent, u8 *item) : TObjCollidable(parent) {
     m_name = TItem__name;
-    obj_setFlags30(this, 0x80000000);
+    set_actor_flags(0x80000000);
     copy_collision_body(&collision_body, &item_collider_body);
     cursor_action.set_pick_up();
     set_collision_body(&collision_body);

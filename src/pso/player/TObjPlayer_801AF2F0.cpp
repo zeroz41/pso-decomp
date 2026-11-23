@@ -1122,7 +1122,6 @@ s32 is_locally_controlled__10TObjPlayerFPv(void * a0);
 s32 get_actor_tp(void *);
 int obj_getPtr2B0_20(u8 *p);
 s32 get_actor_hp__9TObjCharaFv(void *);
-s32 obj_setFlags30(void *, s32);
 s32 get_current_floor();
 s32 get_type__10TObjPlayerFPv(void *);
 f32 atan2_float(f32 y, f32 x);
@@ -2139,7 +2138,7 @@ void render__10TObjPlayerFv(u8 *player) {
                 ((s32 (*)(void))restore_scene_lighting)();
             }
         } else {
-            obj_setFlags30(player, 0x08000000);
+            ((TObjBase *)player)->set_actor_flags(0x08000000);
             set_motion_packed_rotation();
             TObjPlayer::draw(player, ((TObjChara *)player)->get_frame());
             clear_motion_packed_rotation();
@@ -3811,11 +3810,11 @@ void TObjPlayer::update_status_effects() {
   else
   {
     TObjPlayer::decrement_clamp((s32 *)(arg0 + 0x644), 1);
-    ((s32 (*)(void *, int))obj_setFlags30)(this, 0x04000000);
+    set_actor_flags(0x04000000);
   }
   if ((this->hp) <= 0)
   {
-    ((s32 (*)(void *, int))obj_setFlags30)(this, 0xA00);
+    set_actor_flags(0xA00);
   }
   ((TObjPlayer *)(arg0 + 0x360))->update_timer();
 }
@@ -6273,7 +6272,7 @@ s32 TObjPlayer::is_actor_cadence_frame(s32 arg1) {
 }
 
 void TObjPlayer::deactivate_body_collision() {
-    ((void (*)(void *, u32))obj_setFlags30)(this, 0x02000000U);
+    set_actor_flags(0x02000000U);
     this->clear_player_status_flag(0, 1U);
 }
 
@@ -7082,7 +7081,7 @@ void TObjPlayer__sub_801AF904(s32 arg0) {
 
 void set_flags_a00__10TObjPlayerFPv(void *object) {
     if (object != NULL) {
-        obj_setFlags30(object, 0xA00);
+        ((TObjBase *)object)->set_actor_flags(0xA00);
     }
 }
 

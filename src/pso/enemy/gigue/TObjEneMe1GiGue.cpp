@@ -218,7 +218,7 @@ TObjEneMe1GiGue::TObjEneMe1GiGue(TObject *parent, void *set_data) : TObjEnemyCus
     project_actor_to_ground(this, &position, 0);
     flightHeight = 0.0f;
     cameraFade.activate_and_dispatch();
-    obj_setFlags30(this, 0x01000000);
+    set_actor_flags(0x01000000);
     VecCopy(&prev_position, &position);
     clear_lobby_object_state();
 }

@@ -37,6 +37,7 @@
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/object/base/TObjBase.h"
 
 
 TObjMotionAction balclaw_claw_actions[7] = {
@@ -635,7 +636,7 @@ void TObjEneBalClawClaw::load_params() {
 }
 
 void TObjEneBalClawClaw::attach() {
-    obj_setFlags30(this, 0x04040000);
+    set_actor_flags(0x04040000);
     behavior_flags &= 0xDFFFFFFF;
     behavior_flags |= 0x10000000;
 }
@@ -660,7 +661,7 @@ void TObjEneBalClawClaw::update_drop() {
         apply_actor_gravity(this, NULL, 0.0f);
         if (fade.decay_value_toward_floor() == 1) {
             behavior_flags &= ~4;
-            obj_setFlags30(this, 0x02000000);
+            set_actor_flags(0x02000000);
             state = 2;
         }
         break;

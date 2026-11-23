@@ -222,7 +222,7 @@ TObjEneNanoDrago::TObjEneNanoDrago(TObject *parent, void *setData) : TObjEnemyCu
     for (i = 0; i < 4; i++) {
         cameraFades[i].activate_and_dispatch();
     }
-    obj_setFlags30(this, 0x1000000);
+    set_actor_flags(0x1000000);
     VecCopy((Vec *)(&prev_position), (const Vec *)(&position));
     clear_lobby_object_state();
 }

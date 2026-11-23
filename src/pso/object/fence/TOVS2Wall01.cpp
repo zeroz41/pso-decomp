@@ -411,7 +411,7 @@ TOVS2Wall01::TOVS2Wall01(void *set_data) : TObjChara((TObject *)tl_05) {
     m_name = TOVS2Wall01__class_name;
     apply_object_set_data(set_data);
     calc_attach_pos();
-    obj_setFlags30(this, 0x60000000);
+    set_actor_flags(0x60000000);
     model = (void *)get_bml_model((BmlResource *)TOVS2Wall01__bml_resource, 6);
     texlist = (saddr)get_bml_texlist((BmlResource *)TOVS2Wall01__bml_resource, 6);
     init_collision_body_parts(this, &ovs2wall01_collision_parts[6], 1);

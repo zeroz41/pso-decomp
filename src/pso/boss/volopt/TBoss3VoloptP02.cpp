@@ -251,7 +251,7 @@ void TBoss3VoloptP02::init_params() {
         }
         behavior_flags |= 0x400000;
     }
-    obj_setFlags30(this, 0x8000);
+    set_actor_flags(0x8000);
     wave_delays[2] = 0;
     wave_delays[1] = 0;
     wave_delays[0] = 0;

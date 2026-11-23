@@ -189,7 +189,6 @@ extern "C" {
 s32 is_item_light_interaction_blocked();
 s32 check_path_obstructed(void *, void *);
 f32 atan2_float(f32 y, f32 x);
-s32 obj_setFlags30(void *, s32);
 s32 lappy_variant_id;
 BmlResource *rappy_bml_resource;
 s32 *rappy_visibility_node;
@@ -203,7 +202,7 @@ void TObjEneLappy::clear_flags_60() {
     if (flags & 0x60) {
         lappy_flags = flags & ~0x60;
         project_actor_to_ground(this, &position, 0);
-        obj_setFlags30(this, 0x800000);
+        set_actor_flags(0x800000);
     }
 }
 

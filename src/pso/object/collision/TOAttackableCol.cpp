@@ -61,7 +61,6 @@ struct Obj_801575AC {
 extern "C" {
 void *init_6x91_subcommand(void *arg0);
 void TOAttackableCol__sub_80157310(void *_w0);
-s32 obj_setFlags30(void *, int);
 s32 init_collision_body_parts(void *, void *, int);
 s32 get_current_floor(void);
 void TOAttackableCol__sub_80157C20(void* p, s32 v);
@@ -318,7 +317,7 @@ TOAttackableCol::TOAttackableCol(saddr set_data) : TObjChara(tl_05) {
     ((TObject *)this)->m_name = TOAttackableCol__name;
     ((TOAttackableCol *)(((u8 *)this)))->apply_object_set_data((void *)set_data);
     ((TObjChara *)this)->calc_attach_pos();
-    obj_setFlags30(((u8 *)this), 0x60000000);
+    set_actor_flags(0x60000000);
     init_collision_body_parts(((u8 *)this), &TOAttackableCol__collision_parts, 1);
     ((TObjCollidable *)this)->set_indexed_flags(0, 0x718);
     ((TObjPlayer *)this)->register_object_by_id();

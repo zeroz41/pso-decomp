@@ -691,7 +691,6 @@ u16 obj_getArrU16_FC(ObjArrFC* p, int i);
 s16 get_actor_attack_params_atp_min__9TObjCharaFv(void* p);
 s16 get_attack_params_atp_min(void* p);
 s16 get_attack_params_atp_max(void* p);
-void obj_setFlags30(ObjFlags* p, u32 mask);
 bool is_split_screen(void);
 f32 calc_random_ratio__10TObjPlayerFv(void);
 s32 get_current_floor(void);
@@ -766,7 +765,6 @@ void direction_to_rotation_xz(u8 *arg0, s32 *arg1, s32 *arg2);
 #pragma fp_contract on
 #pragma opt_common_subs off
 #define TEST30(o, m) ((TObjCollidable *)o)->test_actor_flags(m)
-#define SET30(o, m) ((void (*)(Actor_8001311C *, u32))obj_setFlags30)(o, m)
 #define FIELD1C(o) ((TObjBase *)(o))->get_entity_id()
 #define STATE2(o) (((TObjChara *)(o))->obj_isState2_324())
 #define STATE3(o) ((TObjChara *)o)->obj_isState3_324()
@@ -783,7 +781,6 @@ struct O_800112D4;
 #define VECCOPY_W24(d, s) ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)((d), (s))
 #define FIELD1C_W24(p) ((TObjBase *)(p))->get_entity_id()
 #define TESTF30_W24(p, m) ((TObjCollidable *)((p)))->test_actor_flags((m))
-#define SETF30_W24(p, m) ((void (*)(void *, u32))obj_setFlags30)((p), (m))
 #define ISSTATE2_W24(p) (((TObjChara *)(p))->obj_isState2_324())
 #define ISLOCAL_W24(p) TObjPlayer::is_locally_controlled(p)
 #define MISS_W24(s, v) (((TObjChara *)(s))->show_miss_popup((const float *)(v)))
@@ -801,7 +798,6 @@ struct O_800112D4;
 struct Obj_80014108;
 #pragma pop
 #undef TEST30
-#undef SET30
 #undef FIELD1C
 #undef STATE2
 #undef STATE3
@@ -814,7 +810,6 @@ struct Obj_80014108;
 #undef VECCOPY_W24
 #undef FIELD1C_W24
 #undef TESTF30_W24
-#undef SETF30_W24
 #undef ISSTATE2_W24
 #undef ISLOCAL_W24
 #undef MISS_W24
@@ -1021,8 +1016,8 @@ void G_ClientIDHeader::bswap() { bswap_16(&client_id); }
 
 void TObjPlayer::bswap_head16() { ((G_ClientIDHeader *)this)->bswap(); bswap_16__FPUs((char*)this + 0x4); }
 
-void obj_setFlags30(ObjFlags* p, u32 mask) {
-    p->flags_30 |= mask;
+void TObjBase::set_actor_flags(s32 flags) {
+    actorFlags |= flags;
 }
 
 void TObjBase::clear_actor_flags(u32 mask) {
@@ -1922,7 +1917,7 @@ s32 TObjChara::update_action_hold_status() {
         }
         if (temp_r31 > 0) {
             ((TObjBase *)((u8 *)this))->clear_actor_flags((u32)(3));
-            ((s32 (*)(void *, s32))obj_setFlags30)((void *) (((u8 *)this)), 2);
+            set_actor_flags(2);
             if ((temp_r31 % 45) == 0) {
                 this->spawn_paralysis_feedback_effect(1);
             }
@@ -1968,7 +1963,7 @@ s32 TObjChara::update_flag30_timer() {
         temp_ret = this->add_status_effect_timer(1, -1);
         if (temp_ret > 0) {
             this->clear_actor_flags((u32)0x3C);
-            ((s32 (*)(void *, s32))obj_setFlags30)(this, 0x10);
+            set_actor_flags(0x10);
             if ((temp_ret % 45) == 0) {
                 this->spawn_confusion_feedback_effect(1);
             }
@@ -1992,7 +1987,7 @@ s32 TObjChara::update_movement_status() {
         temp_ret = this->add_status_effect_timer(1, -1);
         if (temp_ret > 0) {
             this->clear_actor_flags((u32)0x3C);
-            ((s32 (*)(void *, s32))obj_setFlags30)(this, 0x20);
+            set_actor_flags(0x20);
             if ((temp_ret % 45) == 0) {
                 ((s32 (*)(s32, void *, s32, s32))play_sound_effect)(0xB20F, ((u8 *)this) + 0x38, 0, 0);
             }
@@ -2018,7 +2013,7 @@ s32 TObjChara::update_shock_clock() {
         temp_ret = this->add_status_effect_timer(1, -1);
         if (temp_ret > 0) {
             this->clear_actor_flags((u32)0x3C);
-            ((void (*)(void *, s32))obj_setFlags30)(this, 4);
+            set_actor_flags(4);
             if ((temp_ret % 45) == 0) {
                 this->play_shock_feedback(1);
             }
@@ -2603,7 +2598,7 @@ void TObjChara::apply_action_hold_status(f32 power) {
     saddr arg0 = (saddr)this;
     ((TObjChara *)arg0)->set_status_effect_type(4, 0x14);
     ((TObjChara *)arg0)->set_status_effect_timer(4, (s32) power);
-    ((void (*)(void *, u32))obj_setFlags30)(this, 0x4000U);
+    set_actor_flags(0x4000U);
 }
 
 void TObjChara::run_idle_action() {  }
@@ -2633,7 +2628,6 @@ int TObjChara::deliver_attack_hits(f32) { return 0; }
 #define TObjectV8047c128_subtract_hp(a, b) ((void (*)(void *, s32))TObjectV8047c128_subtract_hp)(a, b)
 #define VecCopy__FP3VecPC3Vec(a, b) ((void (*)(void *, void *))VecCopy__FP3VecPC3Vec)(a, b)
 #define get_actor_attack_params_atp_min__9TObjCharaFv(a) (((TObjChara *)(a))->get_actor_attack_params_atp_min())
-#define obj_setFlags30(a, b) ((void (*)(void *, u32))obj_setFlags30)(a, b)
 #define get_type__10TObjPlayerFPv(a) ((s32 (*)(void *))get_type__10TObjPlayerFPv)(a)
 #define play_sound_effect(a, b, c, d) ((void (*)(s32, void *, s32, s32))play_sound_effect)(a, b, c, d)
 #define RESIST_80014108(k) \
@@ -2745,7 +2739,7 @@ f32 TObjChara::receive_physical_attack(void *att, f32 scale) {
         ((Obj_80014108 *)this)->flags30 |= 0x100;
         return 0.0f;
     }
-    obj_setFlags30(((Obj_80014108 *)this), 0x200);
+    set_actor_flags(0x200);
     this->check_heavy_damage_flag(total);
     if (immune == 0) {
         TObjectV8047c128_subtract_hp(((Obj_80014108 *)this), (s32)total);
@@ -2770,7 +2764,6 @@ f32 TObjChara::receive_physical_attack(void *att, f32 scale) {
 #undef TObjectV8047c128_subtract_hp
 #undef VecCopy__FP3VecPC3Vec
 #undef get_actor_attack_params_atp_min__9TObjCharaFv
-#undef obj_setFlags30
 #undef get_type__10TObjPlayerFPv
 #undef play_sound_effect
 #undef RESIST_80014108
@@ -2799,7 +2792,6 @@ void TObjChara::apply_knockback_from_attacker(u8 *arg1, f32) {
 #pragma push
 #pragma fp_contract on
 #define TEST30(o, m) ((TObjCollidable *)o)->test_actor_flags(m)
-#define SET30(o, m) ((void (*)(Actor_8001311C *, u32))obj_setFlags30)(o, m)
 #define FIELD1C(o) ((TObjBase *)(o))->get_entity_id()
 #define STATE2(o) (((TObjChara *)(o))->obj_isState2_324())
 #define STATE3(o) ((TObjChara *)o)->obj_isState3_324()
@@ -2885,10 +2877,10 @@ f32 TObjChara::receive_direct_attack(void *att, DirectAttackPayload payload, voi
             if (immune == 0) {
                 SUB_HP(((Actor_8001311C *)this), (s32)dmg);
                 if (((TObjChara *)((Actor_8001311C *)this))->clamp_hp() <= 0) {
-                    SET30(((Actor_8001311C *)this), 0x800);
+                    set_actor_flags(0x800);
                 }
             }
-            SET30(((Actor_8001311C *)this), 0x200);
+            set_actor_flags(0x200);
             this->check_heavy_damage_flag(dmg);
             ((Actor_8001311C *)this)->f2dc |= 4;
             if (TEST30(((Actor_8001311C *)this), 0x02000000) == 0) {
@@ -2904,10 +2896,10 @@ f32 TObjChara::receive_direct_attack(void *att, DirectAttackPayload payload, voi
             if (immune == 0) {
                 SUB_HP(((Actor_8001311C *)this), (s32)dmg);
                 if (((TObjChara *)((Actor_8001311C *)this))->clamp_hp() <= 0) {
-                    SET30(((Actor_8001311C *)this), 0x800);
+                    set_actor_flags(0x800);
                 }
             }
-            SET30(((Actor_8001311C *)this), 0x200);
+            set_actor_flags(0x200);
             this->check_heavy_damage_flag(dmg);
             ((Actor_8001311C *)this)->f2dc |= 4;
             if (TEST30(((Actor_8001311C *)this), 0x02000000) == 0) {
@@ -2923,10 +2915,10 @@ f32 TObjChara::receive_direct_attack(void *att, DirectAttackPayload payload, voi
             if (immune == 0) {
                 SUB_HP(((Actor_8001311C *)this), (s32)dmg);
                 if (((TObjChara *)((Actor_8001311C *)this))->clamp_hp() <= 0) {
-                    SET30(((Actor_8001311C *)this), 0x800);
+                    set_actor_flags(0x800);
                 }
             }
-            SET30(((Actor_8001311C *)this), 0x200);
+            set_actor_flags(0x200);
             ((Actor_8001311C *)this)->f2dc |= 4;
             if (LOCAL(((Actor_8001311C *)this)) != 0 || ((TObjPlayer *)((Actor_8001311C *)att))->is_local_player() != 0) {
                 f = info.power - (2.5e+02f);
@@ -2950,10 +2942,10 @@ f32 TObjChara::receive_direct_attack(void *att, DirectAttackPayload payload, voi
             if (immune == 0) {
                 SUB_HP(((Actor_8001311C *)this), (s32)dmg);
                 if (((TObjChara *)((Actor_8001311C *)this))->clamp_hp() <= 0) {
-                    SET30(((Actor_8001311C *)this), 0x800);
+                    set_actor_flags(0x800);
                 }
             }
-            SET30(((Actor_8001311C *)this), 0x200);
+            set_actor_flags(0x200);
             this->check_heavy_damage_flag(dmg);
             ((Actor_8001311C *)this)->f2dc |= 4;
             if ((LOCAL(((Actor_8001311C *)this)) != 0 || ((TObjPlayer *)((Actor_8001311C *)att))->is_local_player() != 0) &&
@@ -2972,10 +2964,10 @@ f32 TObjChara::receive_direct_attack(void *att, DirectAttackPayload payload, voi
             if (immune == 0) {
                 SUB_HP(((Actor_8001311C *)this), (s32)dmg);
                 if (((TObjChara *)((Actor_8001311C *)this))->clamp_hp() <= 0) {
-                    SET30(((Actor_8001311C *)this), 0x800);
+                    set_actor_flags(0x800);
                 }
             }
-            SET30(((Actor_8001311C *)this), 0x200);
+            set_actor_flags(0x200);
             this->check_heavy_damage_flag(dmg);
             ((Actor_8001311C *)this)->f2dc |= 4;
             if (TEST30(((Actor_8001311C *)this), 0x02000000) == 0) {
@@ -2995,7 +2987,7 @@ f32 TObjChara::receive_direct_attack(void *att, DirectAttackPayload payload, voi
                 dmg = (0.01f) * (info.power - (f32)((Actor_8001311C *)this)->resist5);
                 if (immune == 0 && this->random_ratio() < dmg) {
                     ((TObjPlayer *)((Actor_8001311C *)this))->set_hp_clamped(0);
-                    SET30(((Actor_8001311C *)this), 0xA00);
+                    set_actor_flags(0xA00);
                 }
             } else {
                 dmg = (0.0f);
@@ -3116,10 +3108,10 @@ f32 TObjChara::receive_direct_attack(void *att, DirectAttackPayload payload, voi
             if (immune == 0) {
                 SUB_HP(((Actor_8001311C *)this), (s32)dmg);
                 if (((TObjChara *)((Actor_8001311C *)this))->clamp_hp() <= 0) {
-                    SET30(((Actor_8001311C *)this), 0x800);
+                    set_actor_flags(0x800);
                 }
             }
-            SET30(((Actor_8001311C *)this), 0x200);
+            set_actor_flags(0x200);
             this->check_heavy_damage_flag(dmg);
             ((Actor_8001311C *)this)->f2dc |= 4;
             if (TEST30(((Actor_8001311C *)this), 0x02000000) == 0) {
@@ -3151,7 +3143,6 @@ f32 TObjChara::receive_direct_attack(void *att, DirectAttackPayload payload, voi
 #define VECCOPY_W24(d, s) ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)((d), (s))
 #define FIELD1C_W24(p) ((TObjBase *)(p))->get_entity_id()
 #define TESTF30_W24(p, m) ((TObjCollidable *)((p)))->test_actor_flags((m))
-#define SETF30_W24(p, m) ((void (*)(void *, u32))obj_setFlags30)((p), (m))
 #define ISSTATE2_W24(p) (((TObjChara *)(p))->obj_isState2_324())
 #define ISLOCAL_W24(p) TObjPlayer::is_locally_controlled(p)
 #define MISS_W24(s, v) (((TObjChara *)(s))->show_miss_popup((const float *)(v)))
@@ -3310,10 +3301,10 @@ f32 TObjChara::receive_weapon_special_attack(void *attacker, void *collision) {
             self->m20(att, (0.6f));
         }
         if (((TObjChara *)self)->clamp_hp() <= 0) {
-            SETF30_W24(self, 0xA00);
+            set_actor_flags(0xA00);
             empty_post_damage_hook(self, att);
         } else {
-            SETF30_W24(self, 0x200);
+            set_actor_flags(0x200);
         }
         if (TESTF30_W24(self, 0x02000000) == 0) {
             create_hit_effect__10TObjPlayerFPv(&pos);
@@ -3363,7 +3354,7 @@ f32 TObjChara::receive_weapon_special_attack(void *attacker, void *collision) {
                 self->m20(att, (0.6f));
             }
         }
-        SETF30_W24(self, 0x200);
+        set_actor_flags(0x200);
         if (TESTF30_W24(self, 0x02000000) == 0) {
             create_hit_effect__10TObjPlayerFPv(&pos);
         }
@@ -3391,7 +3382,7 @@ f32 TObjChara::receive_weapon_special_attack(void *attacker, void *collision) {
                 }
                 att->m12((s32)dmg);
             }
-            SETF30_W24(self, 0x200);
+            set_actor_flags(0x200);
             DISPATCH_W24(att, self, &pos);
             if (TESTF30_W24(self, 0x02000000) == 0) {
                 create_hit_effect__10TObjPlayerFPv(&pos);
@@ -3531,11 +3522,11 @@ f32 TObjChara::receive_weapon_special_attack(void *attacker, void *collision) {
         if (immune == 0) {
             SUBHP_W24(self, (s32)dmg);
             if (((TObjChara *)self)->clamp_hp() <= 0) {
-                SETF30_W24(self, 0x800);
+                set_actor_flags(0x800);
                 empty_post_damage_hook(self, att);
             }
         }
-        SETF30_W24(self, 0x200);
+        set_actor_flags(0x200);
         ((TObjChara *)self)->check_heavy_damage_flag(dmg);
         self->f2DC |= 4;
         if (TESTF30_W24(self, 0x02000000) == 0) {
@@ -3554,11 +3545,11 @@ f32 TObjChara::receive_weapon_special_attack(void *attacker, void *collision) {
         if (immune == 0) {
             SUBHP_W24(self, (s32)dmg);
             if (((TObjChara *)self)->clamp_hp() <= 0) {
-                SETF30_W24(self, 0x800);
+                set_actor_flags(0x800);
                 empty_post_damage_hook(self, att);
             }
         }
-        SETF30_W24(self, 0x200);
+        set_actor_flags(0x200);
         ((TObjChara *)self)->check_heavy_damage_flag(dmg);
         self->f2DC |= 4;
         if ((ISLOCAL_W24(self) != 0 || ((TObjPlayer *)att)->is_local_player() != 0) &&
@@ -3583,7 +3574,7 @@ f32 TObjChara::receive_weapon_special_attack(void *attacker, void *collision) {
             if (immune == 0) {
                 ((TObjChara *)self)->get_actor_hp();
                 ((TObjPlayer *)self)->set_hp_clamped(0);
-                SETF30_W24(self, 0xA00);
+                set_actor_flags(0xA00);
                 empty_post_damage_hook(self, att);
             }
         } else {
@@ -3622,11 +3613,11 @@ f32 TObjChara::receive_weapon_special_attack(void *attacker, void *collision) {
             if (immune == 0) {
                 SUBHP_W24(self, (s32)dmg);
                 if (((TObjChara *)self)->clamp_hp() <= 0) {
-                    SETF30_W24(self, 0x800);
+                    set_actor_flags(0x800);
                     empty_post_damage_hook(self, att);
                 }
             }
-            SETF30_W24(self, 0x200);
+            set_actor_flags(0x200);
             if (TESTF30_W24(self, 0x02000000) == 0) {
                 DISPATCH_W24(att, self, &pos);
             }
@@ -3654,7 +3645,6 @@ f32 TObjChara::receive_weapon_special_attack(void *attacker, void *collision) {
 #pragma pop
 #pragma pop
 #undef TEST30
-#undef SET30
 #undef FIELD1C
 #undef STATE2
 #undef STATE3
@@ -3667,7 +3657,6 @@ f32 TObjChara::receive_weapon_special_attack(void *attacker, void *collision) {
 #undef VECCOPY_W24
 #undef FIELD1C_W24
 #undef TESTF30_W24
-#undef SETF30_W24
 #undef ISSTATE2_W24
 #undef ISLOCAL_W24
 #undef MISS_W24

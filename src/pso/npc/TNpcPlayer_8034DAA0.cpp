@@ -108,7 +108,6 @@ public:
 
 extern "C" {
 s32 obj_getS16_2BA(Player_8034DAA0 *);
-void obj_setFlags30(void *, u32);
 
 void set_tp__10TObjPlayerFs(Player_8034DAA0 *, s32);
 
@@ -821,22 +820,22 @@ void TLobby__sub_8034DAA0(s32 arg0, u32 arg1) {
     }
     switch (arg1) {
     case 0:
-        obj_setFlags30(p, 1);
+        ((TObjBase *)p)->set_actor_flags(1);
         break;
     case 1:
-        obj_setFlags30(p, 2);
+        ((TObjBase *)p)->set_actor_flags(2);
         break;
     case 2:
-        obj_setFlags30(p, 4);
+        ((TObjBase *)p)->set_actor_flags(4);
         break;
     case 3:
-        obj_setFlags30(p, 0x20);
+        ((TObjBase *)p)->set_actor_flags(0x20);
         break;
     case 4:
-        obj_setFlags30(p, 8);
+        ((TObjBase *)p)->set_actor_flags(8);
         break;
     case 5:
-        obj_setFlags30(p, 0x10);
+        ((TObjBase *)p)->set_actor_flags(0x10);
         break;
     case 6: {
         Vec2i_8034DAA0 v = {9, 20.0f};

@@ -122,7 +122,6 @@ struct VObj_802C936C : Base_802C936C {
 };
 
 
-void obj_setFlags30(void *object, u32 flags);
 
 s8 get_current_floor(int);
 
@@ -588,7 +587,7 @@ void TOTrapChainSawDamage::vfunc_18(TObjPlayer *player) {
     attack.kind = 0;
     attack.power = scale_by_level(*(f32 *)((s8 *)this + 0xFC));
     player->receive_direct_attack(this, attack, NULL, -1, -1);
-    obj_setFlags30(player, 0x400);
+    player->set_actor_flags(0x400);
 }
 void TOTrapChainSawDamage::update_state() {
     TOTrapChainSaw::update_state();

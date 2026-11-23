@@ -53,6 +53,7 @@
 #include "pso/map/CsnQuery.h"
 #include "pso/render/model_render_state.h"
 #include "pso/ui/hud/TRaderMapCore.h"
+#include "pso/object/base/TObjBase.h"
 
 
 extern const char bm7_s_paa_body_model_filename[] = "bm7_s_paa_body.nj";
@@ -711,7 +712,7 @@ void TObjEnePanarms::enter_wait_hidden() {
     VecCopy(&this->position, &this->home_position);
     this->snap_to_ground();
     this->position.y = (f32) (-39.600002f + this->ground_y);
-    obj_setFlags30(this, 0x04040000);
+    set_actor_flags(0x04040000);
     this->collision_body_parts->flags &= ~1;
     this->collision_body_parts->flags |= 0x08000000;
     this->shadow_visible = 0;
@@ -742,7 +743,7 @@ void TObjEnePanarms::enter_rise() {
     this->visible = 1;
     this->collision_body_parts->flags &= ~1;
     clear_actor_flags(0x40000U);
-    obj_setFlags30(this, (int)(0x04000000U));
+    set_actor_flags((int)(0x04000000U));
 }
 
 void TObjEnePanarms::update_rise() {
@@ -1042,7 +1043,7 @@ void TObjEnePanarms::update_beam_down() {
 void TObjEnePanarms::enter_split() {
     this->collision_body_parts->flags &= ~1;
     this->clear_actor_flags((u32)(0x40000));
-    obj_setFlags30(this, 0x04000000);
+    set_actor_flags(0x04000000);
     spawn_split_effect(0x22, 0x3C);
     play_sound_effect(this->remap_sound_for_area(0x4003BC2D), &this->draw_positions[1], 0, 0);
     play_sound_effect(this->remap_sound_for_area(0x4003BC2C), &this->draw_positions[3], 0, 0);
@@ -1063,7 +1064,7 @@ void TObjEnePanarms::update_split() {
 void TObjEnePanarms::enter_separated() {
     this->collision_body_parts->flags &= ~1;
     this->clear_actor_flags((u32)(0x40000));
-    obj_setFlags30(this, 0x04000000);
+    set_actor_flags(0x04000000);
     this->visible = 0;
     this->state_timer = 0x384;
     this->has_split = 1;
@@ -1123,7 +1124,7 @@ void TObjEnePanarms::enter_merge() {
     this->visible = 0;
     this->collision_body_parts->flags &= ~1;
     clear_actor_flags(0x40000U);
-    obj_setFlags30(this, (int)(0x04000000U));
+    set_actor_flags((int)(0x04000000U));
     spawn_split_effect(0x2D, 0x25);
     this->hp = (s16) (this->halves[0]->hp + this->halves[1]->hp);
     this->halves[0]->start_merge();
@@ -1150,7 +1151,7 @@ void TObjEnePanarms::enter_rejoin() {
     this->visible = 1;
     this->collision_body_parts->flags &= ~1;
     this->clear_actor_flags((u32)(0x40000));
-    obj_setFlags30(this, 0x04000000);
+    set_actor_flags(0x04000000);
     play_sound_effect(this->remap_sound_for_area(0x4003BC31), &this->draw_positions[1], 0, 0);
     play_sound_effect(this->remap_sound_for_area(0x4003BC30), &this->draw_positions[3], 0, 0);
     this->init(0xA);

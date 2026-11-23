@@ -58,6 +58,7 @@
 #include "pso/render/model_render_state.h"
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
+#include "pso/object/base/TObjBase.h"
 
 extern SampledMotionPoints *beast_claw_trail_instance;
 extern SampledMotionPoints *boss4_type3_instance;
@@ -163,7 +164,7 @@ void TObjEneBeast::beast_update_appear() {
             phase = 1;
             requested_action = 0xB;
             set_indexed_flags(0, 0x0A000000);
-            obj_setFlags30(this, 0x04000000);
+            set_actor_flags(0x04000000);
             play_sound_effect(0x4003AB32, &position, 0, 0);
         }
         break;
@@ -422,7 +423,7 @@ TObjEneBeast::TObjEneBeast(TObject *parent, void *set_data) : TUnk_80493450(pare
     in_group = 0;
     child_count = 0;
     add_flags_2e4(1);
-    obj_setFlags30(this, 0x40000);
+    set_actor_flags(0x40000);
     corpse_offset_y = 0.0f;
     attack_trails[0] = TAttackTraceStrip::create(0xA0303030, 0xFF303030);
     attack_trails[1] = TAttackTraceStrip::create(0xA0303030, 0xFF303030);

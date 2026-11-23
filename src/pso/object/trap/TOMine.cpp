@@ -210,7 +210,6 @@ struct VObj_801710E4 : VBase_801710E4 {
 extern "C" {
 u16 find_nearest_visible_player(void *, int, f32);
 void post_translate_matrix(void *);
-void obj_setFlags30(void *, u32);
 int submit_target_to_player_cursor(void*);
 typedef struct RecoveredFields_80170F0C_arg0 RecoveredFields_80170F0C_arg0;
 // ---- declarations carried over from the fragment TOMineTrap.cpp
@@ -276,7 +275,7 @@ TOMine::TOMine(TObject *parent) : TObjChara(parent) {
     color.b = 0.0f;
     m_340 = 0;
     m_370 = 0;
-    obj_setFlags30(this, 0x60000000);
+    set_actor_flags(0x60000000);
     actorFlags &= ~0x40000;
 }
 

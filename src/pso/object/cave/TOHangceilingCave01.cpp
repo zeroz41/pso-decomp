@@ -30,6 +30,7 @@
 #include "pso/system/TLanguage_801E4874.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/unk/text_803D8F74.h"
+#include "pso/object/base/TObjBase.h"
 
 struct Q_801681D0 { f32 w[4]; };
 
@@ -294,7 +295,7 @@ void TUnk_804B2578::sub_80168488() {
                 attack.kind = 0;
                 attack.power = vfunc_81(m_338);
                 player->receive_direct_attack(this, attack, NULL, -1, -1);
-                obj_setFlags30(player, 0x400);
+                player->set_actor_flags(0x400);
                 sub_80168280((uaddr)player);
             }
         }

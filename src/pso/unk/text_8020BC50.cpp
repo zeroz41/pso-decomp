@@ -5,7 +5,6 @@
 struct Pkt_8020BD50 { u8 hdr[2]; u16 id; s16 area; s16 flags; };
 
 extern "C" {
-void obj_setFlags30(u32, int);
 s32 get_current_floor();
 void *find_entity_by_id(u16 id);
 void TLobby__sub_8020BCE4(void);
@@ -42,7 +41,7 @@ void TLobby__sub_8020BCE4(void) {
     for (i = 0; i < n; i++, p++) {
         u32 r = (uaddr)find_entity_by_id(p->id);
         if (r != 0) {
-            obj_setFlags30(r, 0x800);
+            ((TObjBase *)(saddr)r)->set_actor_flags(0x800);
         }
     }
 }

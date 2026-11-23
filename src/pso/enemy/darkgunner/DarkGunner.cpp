@@ -348,7 +348,7 @@ TObjEneDarkGunner::TObjEneDarkGunner(TObject *parent, void *set_data) : TObjEnem
     referenceHp = hp;
     update_prev_position();
     behavior_flags = 0x550000;
-    obj_setFlags30(this, 0x04040000);
+    set_actor_flags(0x04040000);
     rotation_z = 0x8000;
     render_y_offset = 0.0f;
     hover_speed = 0.0f;

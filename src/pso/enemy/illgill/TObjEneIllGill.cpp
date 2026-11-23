@@ -361,7 +361,7 @@ void TObjEneIllGill::refresh_target() {
                 }
             }
             target = 0;
-            obj_setFlags30(this, 0x04040000);
+            set_actor_flags(0x04040000);
             return;
         }
         if (t < 0x4000) {
@@ -501,13 +501,13 @@ void TObjEneIllGill::update_idle() {
     ((TObjMotion *)self)->advance_animation();
     switch (this->phase) {
     case 0:
-        obj_setFlags30(self, 0x04040000);
+        ((TObjBase *)self)->set_actor_flags(0x04040000);
         ((TUnk_80494938 *)(&this->fade))->start_fade_in();
         play_area_se_with_particle(&position);
         this->phase = 1;
         break;
     case 1:
-        obj_setFlags30(self, 0x04040000);
+        ((TObjBase *)self)->set_actor_flags(0x04040000);
         if (fade.advance_toward_max() == 1) {
             this->phase = 2;
             this->requested_action = 1;
@@ -546,7 +546,7 @@ void TObjEneIllGill::update_forward_movement() {
     IllGillMovementParameters *movement;
     this->requested_action = 0;
     ((TObjMotion *)player)->advance_animation();
-    obj_setFlags30(player, 0x04040000);
+    ((TObjBase *)player)->set_actor_flags(0x04040000);
     v.y = 0.0f;
     v.x = 0.0f;
     v.z = 1.0f;
@@ -993,7 +993,7 @@ void TObjEneIllGill::run_death_reaction() {
 
 void TObjEneIllGill::update_death_fall() {
     u8 *self = (u8 *)this;
-  obj_setFlags30((void *) self, 0x04040000);
+  ((TObjBase *)self)->set_actor_flags(0x04040000);
   ((TObjMotion *)self)->advance_animation();
   switch (this->phase)
   {
@@ -1227,7 +1227,7 @@ void TObjEneIllGill::update_charge_attack() {
                 if (select_enemy_destination(o, v, 1) != 0 || select_enemy_destination(o, *(&((TObjChara *)o->target)->body_center), 1) != 0) {
                     o->phase = 1;
                     o->requested_action = 8;
-                    obj_setFlags30(o, 0x4000000);
+                    o->set_actor_flags(0x4000000);
                     o->set_indexed_flags(0, 0x80);
                     copy_position_if_valid(o, o->body_center);
                     o->actionTimer = 10;
@@ -1246,7 +1246,7 @@ void TObjEneIllGill::update_charge_attack() {
         }
         break;
     case 1: {
-        obj_setFlags30(o, 0x4000000);
+        o->set_actor_flags(0x4000000);
         o->set_indexed_flags(0, 0x80);
         {
             Vec v = *(&((TObjChara *)o->target)->body_center);
@@ -1320,7 +1320,7 @@ void TObjEneIllGill::update_charge_attack() {
                 if (o->find_actor_body_contact((u8 *)p, 10000.0f) != 0 &&
                     p->select_melee_contact_body(o, 1.0f) != 0) {
                     f32 dmg = p->receive_physical_attack(o, 1.0f);
-                    obj_setFlags30(p, 0x400);
+                    p->set_actor_flags(0x400);
                     p->apply_knockback_from_attacker((u8 *)o, 2.0f * dmg);
                     *hit = p;
                     if (is_split_screen() == 0 && local_client_id == p->get_entity_id()) {

@@ -464,7 +464,7 @@ void TObjEneEpsilonBody::handle_fire_state(s32 reason) {
                         t.kind = 1;
                         t.power = epsilon_body_shared_params->fire_power;
                         if (player->receive_direct_attack(this, t, 0, -1, -1) > 0.0f) {
-                            obj_setFlags30(player, 0x600);
+                            player->set_actor_flags(0x600);
                         }
                         play_sound_effect(0x4002A828, &player->position, 0, 0);
                     }

@@ -1095,7 +1095,7 @@ void TObjEneSaver::run_idle_action() {
             phase = 0;
             requested_action = 0;
             clear_actor_flags(0x200000);
-            obj_setFlags30(this, 0x06040000);
+            set_actor_flags(0x06040000);
             state_flags &= 0xFFFF0000;
             state_flags |= 0x40;
             bodies->flags &= ~1;
@@ -1112,7 +1112,7 @@ void TObjEneSaver::run_idle_action() {
         phase = 0;
         requested_action = 0;
         clear_actor_flags(0x200000);
-        obj_setFlags30(this, 0x06040000);
+        set_actor_flags(0x06040000);
         state_flags &= 0xFFFF0000;
         state_flags |= 0x40;
         break;

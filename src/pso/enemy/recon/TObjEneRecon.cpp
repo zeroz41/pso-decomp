@@ -1247,7 +1247,7 @@ void TObjEneRecon::run_task() {
     if (m != 8 && m != 7 && owner->is_anim_6() == 1) {
         hit_flags = (s32)(hit_flags | 4);
         ((TObjPlayer *)this)->set_hp_clamped(0);
-        obj_setFlags30(this, 0xA00U);
+        set_actor_flags(0xA00U);
         sync_enemy_state(0);
     }
     if (update_status_effects() != 4) {

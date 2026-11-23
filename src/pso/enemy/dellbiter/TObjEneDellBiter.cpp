@@ -451,7 +451,7 @@ s32 TObjEneDellBiter::check_rush_collisions() {
                 }
                 target->receive_direct_attack(this, attack, NULL, -1, -1);
                 if (target->test_actor_flags(0x04000000) == 0) {
-                    obj_setFlags30(target, 0x600);
+                    target->set_actor_flags(0x600);
                 }
                 new TObjEneDellBiter_Eff_Rush(this, this, target, 12.0f);
             }

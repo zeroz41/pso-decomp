@@ -32,6 +32,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include <dolphin/base/PPCArch.h>
+#include "pso/object/base/TObjBase.h"
 
 
 
@@ -204,7 +205,7 @@ void TBoss3VoloptMonitor::init_params() {
     anim_timer = 3.0f * (3.0517578e-05f * (f32)rand());
     add_flags_2e4(4);
     volopt_target_slot_used[slot] = 0;
-    obj_setFlags30(this, 0x8000);
+    set_actor_flags(0x8000);
     clear_lobby_object_state();
 }
 
@@ -466,6 +467,6 @@ void TBoss3VoloptMonitor::spawn_effects() {
 
 void TBoss3VoloptMonitor::set_hit_flags_and_notify() {
     behavior_flags |= 0x40000;
-    obj_setFlags30(this, 0x800);
+    set_actor_flags(0x800);
     run_death_reaction();
 }

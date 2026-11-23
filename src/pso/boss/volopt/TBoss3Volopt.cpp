@@ -1158,7 +1158,7 @@ void TBoss3Volopt::update_phase2() {
         }
         if (is_dead() != 0) {
             update_phase();
-            obj_setFlags30(this, 0x800);
+            set_actor_flags(0x800);
             sync_enemy_state(0);
             next_action = 5;
             new TUnk_80483B88;

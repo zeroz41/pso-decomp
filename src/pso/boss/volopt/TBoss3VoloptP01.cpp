@@ -165,7 +165,7 @@ void TBoss3VoloptP01::init_params() {
     charge_effect = NULL;
     glow_effect = NULL;
     add_flags_2e4(4);
-    obj_setFlags30(this, 0x8000);
+    set_actor_flags(0x8000);
     clear_lobby_object_state();
 }
 

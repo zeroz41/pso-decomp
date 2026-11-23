@@ -18,6 +18,8 @@ public:
     virtual s32 update_object_view_visibility(f32, f32);
     virtual s32 classify_actor_view_detail(f32, f32, f32);
     virtual const char *get_name();
+    // actorFlags |= flags.
+    void set_actor_flags(s32 flags);
     // actorFlags &= ~flags.
     void clear_actor_flags(u32 flags);
     s16 get_room();

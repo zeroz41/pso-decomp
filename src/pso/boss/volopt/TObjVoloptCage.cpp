@@ -26,6 +26,7 @@
 #include <stdlib.h>
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 #include "pso/system/MatrixStack.h"
+#include "pso/object/base/TObjBase.h"
 
 // TBoss3Volopt::create_breakup_mdl takes saddr; through that declaration CW keeps the param and Vec addresses
 // in saved registers across the two calls, so the call goes through the pointer-typed symbol.
@@ -61,7 +62,7 @@ void TObjVoloptCage::damage_caged_player() {
         player->receive_direct_attack(m_up, attack, NULL, -1, -1);
     }
     status = 15;
-    obj_setFlags30(this, 0x800);
+    set_actor_flags(0x800);
     run_death_reaction();
 }
 
@@ -139,7 +140,7 @@ void TObjVoloptCage::update_capture() {
         state = 1;
     case 1:
         if (--countdown <= 0) {
-            obj_setFlags30(this, 0x800);
+            set_actor_flags(0x800);
             run_death_reaction();
         }
         break;
@@ -281,7 +282,7 @@ void set_volopt_cage_flag() {
 }
 
 void obj_set_flag_20000(TObjBase *actor) {
-    obj_setFlags30(actor, 0x20000);
+    actor->set_actor_flags(0x20000);
 }
 
 void obj_clear_flag30_20000(TObjBase *actor) {

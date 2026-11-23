@@ -42,7 +42,7 @@ void TObjEneMe1GiGueMissile::explode(void *pos) {
             hit.kind = 0;
             hit.power = power;
             if (p->receive_direct_attack((void *)owner, hit, NULL, -1, -1) > 0.0f) {
-                obj_setFlags30(p, 0x600);
+                p->set_actor_flags(0x600);
             }
             if (get_current_floor_area() == AREA_TOWER) {
                 play_sound_effect(0x4003A312, &p->position, 0, 0);
