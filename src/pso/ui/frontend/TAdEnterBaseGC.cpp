@@ -3,6 +3,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 
 #include "types.h"
+#include "pso/ui/frontend/TAdEndText.h"
 #include "pso/ui/window/TWindowBase.h"
 #include <stdio.h>
 #include <string.h>
@@ -134,10 +135,6 @@ u8 *TAdEnterPasswordGC__sub_8013ADE4();
 
 u32 get_field_118__22TAdEnterSerialAccessGCFv();
 
-s32 TAdEndText__sub_8001B3BC(int);
-
-s32 TAdEndText__sub_8001B3EC(int);
-
 extern s32 local_client_id;
 
 }
@@ -210,7 +207,7 @@ int validate_input__22TAdEnterSerialAccessGCFPviPv(void *window, s32 mode, const
     case 1:
         n = max.n[mode];
         for (i = 0; i < n; i++, arg2++) {
-            if (TAdEndText__sub_8001B3BC(*arg2) == 0) {
+            if (is_digit(*arg2) == 0) {
                 return 0;
             }
         }
@@ -218,7 +215,7 @@ int validate_input__22TAdEnterSerialAccessGCFPviPv(void *window, s32 mode, const
     case 2:
         n = max.n[mode];
         for (i = 0; i < n; i++, arg2++) {
-            if (TAdEndText__sub_8001B3EC(*arg2) == 0) {
+            if (is_alnum(*arg2) == 0) {
                 return 0;
             }
         }

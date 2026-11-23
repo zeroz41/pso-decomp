@@ -6,6 +6,7 @@
 #include "pso/ui/window/TWindowSubComCard.h"
 #include <string.h>
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/ui/frontend/TAdEndText.h"
 
 extern "C" {
 u8 * copy_player_visual_record(void *, void *);
@@ -14,7 +15,6 @@ extern CharacterAppearanceFields character_creation_visual_record;
 extern char character_creation_name_buffer[0x18];
 CharacterAppearanceFields *get_class_appearance_preset(s32 arg0);
 extern "C" {
-s32 TAdEndText__sub_8001B3EC(s32);
 
 CharacterAppearanceFields *TObjCMMainMenu__sub_8028D9A8(void) {
     return &character_creation_visual_record;
@@ -69,7 +69,7 @@ s32 TObjCMMainMenu::validate_character_name(s8 *arg0) {
     p = buf;
     q = out;
     while (*p != 0) {
-        if (TAdEndText__sub_8001B3EC(*p) != 0) {
+        if (is_alnum(*p) != 0) {
             *q = *p;
             q++;
         }

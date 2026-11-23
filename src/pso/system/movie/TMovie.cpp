@@ -317,7 +317,7 @@ s32 TMovie::check_skip_input() {
     ControllerInputContext *context;
     s32 var_r30;
 
-    if (TAdEndText__sub_8001B41C() != 0) {
+    if (is_ending_sequence_active() != 0) {
         if ((TLobby::run_disk_error_check() == 0) || (this->player->is_playback_finished() != 0) || (func_801A5E54__Fv() != 0)) {
             if ((TLobby::run_disk_error_check() == 0) || (func_801A5E54__Fv() != 0)) {
                 fn_801449F0();
@@ -394,7 +394,7 @@ void TMovie::run_task() {
     render_tick();
     TMovie::calc_frame_buffer_size((saddr)((void *)video_initial_display_framebuffer), (saddr)((void *)video_initial_draw_framebuffer));
     txt = NULL;
-    if (TAdEndText__sub_8001B41C() != 0) {
+    if (is_ending_sequence_active() != 0) {
         txt = new TAdEndText(this);
     }
     for (;;) {

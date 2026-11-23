@@ -434,6 +434,8 @@ GAME_COMPILER = "GC/2.6"
 GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # -str readonly: the string literals of these files sit in .rodata.
     "pso/unk/TLobby_80103F5C.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    # The ending credits keep their 8-byte texture list in .data.
+    "pso/ui/frontend/TAdEndText.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-sdata 4")},
     # pack_movie_frame keeps every named local in one register, recomputes its pad and
     # stride shifts and leaves invariant hoisting to the backend. The frame-buffer
     # functions after it (flush_cache..flush_framebuffer, same TU) match under these too.
