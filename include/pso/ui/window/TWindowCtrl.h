@@ -136,20 +136,20 @@ struct TWindowCtrl : public TObject {
     void clear_flag_bit0();
     void fn_8024C6CC();
     void fn_8024C6DC();
-    void fn_8024C6EC();
-    void fn_8024C6FC();
+    void disable_main_menu();
+    void enable_main_menu();
     void fn_8024C70C();
     void fn_8024C71C();
-    void fn_8024C72C();
-    void fn_8024C73C();
+    void begin_keyboard_hold();
+    void end_keyboard_hold();
     void fn_8024C74C();
     void fn_8024C75C();
-    s32 fn_8024C7C4();
-    s32 fn_8024C7D4();
+    s32 has_get_com_card_window();
+    s32 is_main_menu_disabled();
     s32 fn_8024C7E0();
     s32 fn_8024C7F8();
-    void fn_8024D85C();
-    s32 fn_8024D868();
+    void start_countdown();
+    s32 is_countdown_done();
 };
 
 LAYOUT_ASSERT(WindowCtrlTradeRequestOffset, offsetof(TWindowCtrl, trade_request) == 0x40);

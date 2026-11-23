@@ -224,7 +224,7 @@ void TWindowCtrl::update_target_info_window() {
     if ((*(void **)((s8 *)arg0 + 0x38) != NULL) && ((((TObject *)(*(void **)((s8 *)arg0 + 0x38)))->all_parents_unqueued_for_destruction() == 0) || (((TWindowBase *)(*(uaddr *)((s8 *)arg0 + 0x38)))->sub_80244994() == 0))) {
         *(u32 *)((s8 *)arg0 + 0x38) = 0U;
     }
-    if ((fn_8024C7E0() != 0) || (get_active_menu() != 0) || (((TWindowCtrl *)arg0)->is_visible() != 0) || (fn_8024C7C4() != 0) || (TWindowCtrl__sub_8024A314() != 0)) {
+    if ((fn_8024C7E0() != 0) || (get_active_menu() != 0) || (((TWindowCtrl *)arg0)->is_visible() != 0) || (has_get_com_card_window() != 0) || (TWindowCtrl__sub_8024A314() != 0)) {
         if ((u32) *(u32 *)((s8 *)arg0 + 0x38) != 0U) {
             ((TWindowBase *)(*(void **)((s8 *)arg0 + 0x38)))->close();
             *(u32 *)((s8 *)arg0 + 0x38) = 0U;
@@ -256,7 +256,7 @@ void TWindowCtrl::update_main_menu_request() {
     if (((TObjPlayer *)p)->is_inactive() == 0) {
         return;
     }
-    if (is_visible() != 0 || fn_8024C7D4() != 0) {
+    if (is_visible() != 0 || is_main_menu_disabled() != 0) {
         (*(W_8024DCE8 **)((s8 *)this + 0x28))->m6();
         return;
     }
@@ -324,7 +324,7 @@ void TWindowCtrl::update_short_list_request() {
             idx = is_player_input_active(*(s32 *)&this->m_24);
             id = get_current_target_id__10TObjPlayerFv();
             if (get_active_menu() != 0 || is_visible() != 0 ||
-                (id != 0xFFFF && id != *(s32 *)&this->m_24) || fn_8024C7D4() != 0 ||
+                (id != 0xFFFF && id != *(s32 *)&this->m_24) || is_main_menu_disabled() != 0 ||
                 TWindowCtrl::get_display_flag() != 0) {
                 if (*(void **)((s8 *)this + 0x3C) != NULL) {
                     ((TObject *)(*(void **)((s8 *)this + 0x3C)))->queue_destruction();
@@ -404,11 +404,11 @@ void TWindowCtrlMain::spawn_palette_slot_light(s32 kind) { void* m = *(void**)((
 
 void TWindowCtrlMain::update_child_2c() { void* m = *(void**)((char*)this + 0x2c); if (m) append_line__14TWindowMessageFii(m); }
 
-s32 TWindowCtrl::fn_8024D868() {
+s32 TWindowCtrl::is_countdown_done() {
     return this->countdown <= 0 ? 1 : 0;
 }
 
-void TWindowCtrl::fn_8024D85C() { this->countdown = 60; }
+void TWindowCtrl::start_countdown() { this->countdown = 60; }
 
 void TWindowCtrlMain__sub_8024D838(void) { TWindowCtrlMain::reset_all((void*)((void*)(0))); }
 
