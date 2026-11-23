@@ -56,7 +56,6 @@ struct Win_80248374 { u8 pad[0x2C]; int f2c; };
 extern "C" {
 void setup_part_sprites__28TWindowSubSymbolChatPartsSetFPvPvPvUsiiii(Part_802480EC *arg0, Part_802480EC *arg1, Part_802480EC *arg2, u16 arg3, s32 arg4, s32 arg5, s32 arg6, s32 arg7);
 void apply_part_to_window__28TWindowSubSymbolChatPartsSetFPvPvi(Obj_80248088 *arg0, Part_80248088 *arg1, s32 arg2);
-struct Ctl_80248324 { u8 pad[4]; Part_802480EC **tbl; };
 
 struct SymbolChatSpriteLayout {
     u32 cols;
@@ -64,7 +63,7 @@ struct SymbolChatSpriteLayout {
     SpritePartLayoutRecord recs[25];
 };
 
-void fn_80248324(Ctl_80248324 *c, s32 arg1, s32 arg2);
+void fn_80248324(WindowLayoutEntries *entries, s32 arg1, s32 arg2);
 
 extern s32 hud_texlist;
 
@@ -257,8 +256,8 @@ u16 *TWindowSubSymbolChatPartsSet::get_parts_entry(void *window, int sel) {
     return (u16 *)((TWindowBase *)window)->get_array_entry(sel + 5);
 }
 
-void fn_80248324(Ctl_80248324 *c, s32 arg1, s32 cur) {
-    Part_802480EC **p = c->tbl + cur;
+void fn_80248324(WindowLayoutEntries *entries, s32 arg1, s32 cur) {
+    Part_802480EC **p = (Part_802480EC **)entries->items + cur;
     setup_part_sprites__28TWindowSubSymbolChatPartsSetFPvPvPvUsiiii(p[5], p[9], p[1], (u16)((u8)arg1), (s32)((arg1 >> 8) & 7), (s32)((arg1 >> 11) & 1), (s32)((arg1 >> 12) & 1), cur);
 }
 }
@@ -278,18 +277,18 @@ void fn_802483C8(void *arg0, u8 _w1) {
 
 void TWindowSubSymbolChat__sub_802483F0(int a0, void* a1) { *(float*)((char*)a1 + 0x0) = 136.0f; *(float*)((char*)a1 + 0x4) = 90.0f; }
 
-void set_symbol_chat_parts__20TWindowSubSymbolChatFiPv(saddr arg0, void *data) {
+void set_symbol_chat_parts(WindowLayoutEntries *entries, void *data) {
     SymbolChatPayload *arg1 = static_cast<SymbolChatPayload *>(data);
     s32 i;
     s32 j;
 
-    ((s32 (*)(s32, u8))fn_802483C8)(arg0, (u8)arg1->appearance);
+    fn_802483C8(entries, (u8)arg1->appearance);
     for (i = 0; i < 4; i += 1) {
-        ((s32 (*)(s32, u16, s32))fn_80248324)(arg0, arg1->facial_parts[i], i);
+        fn_80248324(entries, arg1->facial_parts[i], i);
     }
     j = 0;
     do {
-        apply_part_to_window__28TWindowSubSymbolChatPartsSetFPvPvi((Obj_80248088 *)(arg0), (Part_80248088 *)&arg1->parts[j], j);
+        apply_part_to_window__28TWindowSubSymbolChatPartsSetFPvPvi((Obj_80248088 *)entries, (Part_80248088 *)&arg1->parts[j], j);
         j += 1;
     } while (j < 0xC);
 }
@@ -309,7 +308,7 @@ void TWindowChatSymbol::update_visibility() {
         return;
     }
     ((TObject *)arg0)->allow_rendering();
-    set_symbol_chat_parts__20TWindowSubSymbolChatFiPv((saddr)(arg0 + 0x24), selected_preset->get_data_ptr());
+    set_symbol_chat_parts(&this->entry_list, selected_preset->get_data_ptr());
 }
 
 void TWindowChatSymbol::set_selection(SymbolChatPreset *preset) {

@@ -8,9 +8,8 @@ void TWindowSubSymbolChat__sub_802483F0(int a0, void *a1);
 void fn_802483C8(void *arg0, u8 _w1);
 }
 int set_symbol_chat_face_sprite(void *arg0, u8 b);
-extern "C" {
-void set_symbol_chat_parts__20TWindowSubSymbolChatFiPv(saddr arg0, void *arg1);
-}
+struct WindowLayoutEntries;
+void set_symbol_chat_parts(WindowLayoutEntries *entries, void *data);
 
 // --- C functions defined in TWindowSubSymbolChatPartsSet_80247EFC.cpp ---
 extern "C" {

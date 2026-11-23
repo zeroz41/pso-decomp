@@ -691,7 +691,7 @@ void open__15TWindowFukidasiFPvPvi(u8 *arg0, u32 *arg1, s32 flags) {
             *(s32 *)((s8 *)arg0 + 0x5C) = 0;
         }
     }
-    set_symbol_chat_parts__20TWindowSubSymbolChatFiPv((saddr)(arg0 + 0x24), (void *)arg1);
+    set_symbol_chat_parts(&((TWindowFukidasi *)arg0)->entry_list, (void *)arg1);
     TWindowSubSymbolChat::play_symbol_sound(((u32) *arg1 >> 5U) & 0xF);
     *(s16 *)((s8 *)arg0 + 0x74) = 0x5A;
 }
