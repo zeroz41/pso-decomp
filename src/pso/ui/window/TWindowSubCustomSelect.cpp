@@ -92,8 +92,8 @@ void TWindowSubCustomSelect::update_list_scroll() {
   new_var2 = (51.0f * ((f32) ((s8)this->m_71))) + 6.0f;
   tgt = 27.0f + new_var2;
   tgt -= 81.0f;
-  new_var3 = (f32 *) (((s8 *) arg0) + 0x6C);
-  *new_var3 = (*new_var3) + (tgt - (*((f32 *) (((s8 *) arg0) + 0x6C))));
+  new_var3 = &this->scroll_offset[1];
+  *new_var3 = (*new_var3) + (tgt - (this->scroll_offset[1]));
   stack.sp8 = 0.0f;
   stack.spC = ((this->frame_size[1]) - 10.0f) - 16.0f;
   clamp_list_scroll_offset(*((u8 **) (((s8 *) arg0) + 0x80)), (new_var = arg0) + 0x68, &stack.sp8);

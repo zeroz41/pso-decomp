@@ -75,16 +75,15 @@ s32 dispatch_request_0x13__19TWindowKeyBoardSoftFlll(u8 *, s32 *, s8 *);
 
 
 void TWindowKeyBoardBase::init_keyboard_text_field(u32 width, u32 lines) {
-    u8 *arg0 = (u8 *)this;
     if (lines == 0) {
         this->target_size[0] = 100000.0f;
-        *(f32 *)((s8 *)arg0 + 0x3C) = 38.0f;
+        this->target_size[1] = 38.0f;
     } else {
         this->target_size[0] = (f32) (0.1f + (8.0f + (f32) width));
-        *(f32 *)((s8 *)arg0 + 0x3C) = (f32) (20.0f + (f32) (lines * 0x14));
+        this->target_size[1] = (f32) (20.0f + (f32) (lines * 0x14));
     }
     this->frame_size[0] = (f32) this->target_size[0];
-    *(f32 *)((s8 *)arg0 + 0x4C) = (f32) *(f32 *)((s8 *)arg0 + 0x3C);
+    this->frame_size[1] = (f32) this->target_size[1];
     m_text.init(width, lines);
     m_68 = &m_text;
     this->m_60 = 0;

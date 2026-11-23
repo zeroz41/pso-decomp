@@ -84,7 +84,6 @@ bool is_player_in_service_range__14TShopGeneratorFPUcf(u8 *self, u8 *player, f32
 #pragma opt_propagation off
 #pragma opt_dead_assignments off
 bool TShopGenerator::is_player_in_service_range(u8 *arg1, f32 farg0) {
-    u8 *arg0 = (u8 *)this;
     f32 to_self[3];
     if (xyz_distance_squared((arg1 + 0x38), ((u8 *)&this->position)) > (farg0 * farg0)) {
         return 0;
@@ -94,9 +93,9 @@ bool TShopGenerator::is_player_in_service_range(u8 *arg1, f32 farg0) {
     rotate_matrix_y(0, (int) (*(s32 *)((s8 *)arg1 + 0x60)));
     rotate_vector_by_matrix(0, (void *)facing, (void *)facing);
     pop_matrix();
-    to_self[0] = *(f32 *)((s8 *)arg0 + 0x38) - *(f32 *)((s8 *)arg1 + 0x38);
-    to_self[1] = *(f32 *)((s8 *)arg0 + 0x3C) - *(f32 *)((s8 *)arg1 + 0x3C);
-    to_self[2] = *(f32 *)((s8 *)arg0 + 0x40) - *(f32 *)((s8 *)arg1 + 0x40);
+    to_self[0] = this->position.x - *(f32 *)((s8 *)arg1 + 0x38);
+    to_self[1] = this->position.y - *(f32 *)((s8 *)arg1 + 0x3C);
+    to_self[2] = this->position.z - *(f32 *)((s8 *)arg1 + 0x40);
     normalize_vector((Vec *)to_self);
     return (vec3_dot((void *)facing, (void *)to_self) > -0.5f) == 0;
 }

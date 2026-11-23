@@ -278,18 +278,17 @@ block_4:
 #pragma push
 #pragma fp_contract on
 void TWindowMenu::update_target_y() {
-    u8 *arg0 = (u8 *)this;
     f32 v;
     f32 t;
     f32 base;
-    if (scroll_bar != 0 && *(u32 *)(arg0 + 0x50) == 0) {
-        v = 9.0f + (f32)(*(s16 *)(arg0 + 0x78) * 0x14);
-        v -= 0.5f * (*(f32 *)(arg0 + 0x4C) - 20.0f);
+    if (scroll_bar != 0 && this->tween_ticks == 0) {
+        v = 9.0f + (f32)(this->selected_row * 0x14);
+        v -= 0.5f * (this->frame_size[1] - 20.0f);
         if (heading != NULL) {
             v -= 3.0f;
         }
-        t = *(f32 *)(arg0 + 0x6C);
-        *(f32 *)(arg0 + 0x6C) = t + (v - t);
+        t = this->scroll_offset[1];
+        this->scroll_offset[1] = t + (v - t);
     }
 }
 #pragma pop
@@ -335,7 +334,7 @@ void TWindowMenu::update_scroll_value() {
   f32 v;
   u32 *new_var;
   u32 n;
-  new_var = (u32 *)(arg0 + 0x50);
+  new_var = &this->tween_ticks;
   if ((*((u16 *)(arg0 + 0x70))) & 0x20)
   {
     v = *((f32 *) (static_cast<u8 *>(reinterpret_cast<TWindowMenu *>(arg0)->get_selected_entry()) + 0xC));
@@ -343,17 +342,17 @@ void TWindowMenu::update_scroll_value() {
   else
   {
     v = 0.0f;
-    new_var = (u32 *)(arg0 + 0x50);
+    new_var = &this->tween_ticks;
   }
   n = *new_var;
   if (n == 0)
   {
-    *((f32 *)(arg0 + 0x6C)) = v;
+    this->scroll_offset[1] = v;
     return;
   }
-  v += 0.5f * ((*((f32 *)(arg0 + 0x3C))) - (*((f32 *)(arg0 + 0x4C))));
+  v += 0.5f * ((this->target_size[1]) - (this->frame_size[1]));
   new_var2 = (u8 *)&this->scroll_offset[1];
-  *((f32 *) new_var2) += (v - (*((f32 *)(arg0 + 0x6C)))) / ((f32) n);
+  *((f32 *) new_var2) += (v - (this->scroll_offset[1])) / ((f32) n);
 }
 
 s32 TWindowMenu::get_selected_value() {

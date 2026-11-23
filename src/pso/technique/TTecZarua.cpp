@@ -66,7 +66,7 @@ void TTecZarua::vfunc_6(void *target_arg) {
     u8 *target = (u8 *)target_arg;
     Damage_802386F8 d;
     d.kind = 0xc;
-    d.power = *(f32 *)(self + 0x88);
+    d.power = this->power;
     ((VObj_802386F8 *)target)->m21(*(s32 *)(self + 0x1C), d, *(s32 *)(self + 0xB8), 0xc, -1, self);
 }
 

@@ -204,6 +204,6 @@ void TSetManager::apply_floor_set_rows() {
         apply_room_transform_to_object_rows(floor_decoration_rows, TLobby__data_805D6120);
         resolve_set_row_factory_indices(arg0, floor_decoration_rows, TLobby__data_805D6120);
     }
-    *(s32 *)((s8 *)arg0 + 0x1C) = 1;
+    this->step = 1;
 }
 #pragma pop

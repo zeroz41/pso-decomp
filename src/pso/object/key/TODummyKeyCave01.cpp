@@ -167,12 +167,12 @@ void TODummyKeyCave01::render() {
     u32 v;
     u8 *node;
     s32 id;
-    if (this->update_object_view_visibility((4e+02f), (2e+01f)) != 0 && *(void **)(arg0 + 0x34) != NULL &&
+    if (this->update_object_view_visibility((4e+02f), (2e+01f)) != 0 && this->model != NULL &&
         (v = *(u32 *)(arg0 + 0x24)) != 0) {
         set_texlist(v);
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
-        rotate_matrix_zyx(0, *(s32 *)(arg0 + 0x5C), *(s32 *)(arg0 + 0x60), *(s32 *)(arg0 + 0x64));
+        rotate_matrix_zyx(0, this->rotation_x, this->rotation_y, this->rotation_z);
         scale_current_matrix((u8 *)&this->scale);
         node = *(u8 **)(arg0 + 0x34);
         draw_ginja_model(*(void **)(node + 4));

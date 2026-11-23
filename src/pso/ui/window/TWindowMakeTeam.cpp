@@ -212,7 +212,7 @@ TWindowMenu *TWindowMakeTeam::create_status_menu_window() {
     }
     ((TWindowMenu *)r)->calc_window_size();
     align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(r));
-    ((TWindowSubComCardList *)r)->set_selected_index(*(s8 *)(arg0 + 0x1F));
+    ((TWindowSubComCardList *)r)->set_selected_index(this->selected_value);
     return (TWindowMenu *)r;
 }
 

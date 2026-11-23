@@ -12,9 +12,8 @@
 extern "C" {
 
 void TObjWarpBoss03::sub_8019F9E4() {
-    u8 *arg0 = (u8 *)this;
     if (this->update_object_view_visibility(4e+02f, 2e+01f) != 0) {
-        debug_draw_sphere(&position, &debug_color_green_half_alpha, 2.0f * *(f32 *)(arg0 + 0xAC));
+        debug_draw_sphere(&position, &debug_color_green_half_alpha, 2.0f * this->warp_range);
     }
 }
 

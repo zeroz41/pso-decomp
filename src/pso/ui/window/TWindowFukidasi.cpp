@@ -225,7 +225,7 @@ void TWindowFukidasi::run_task() {
   switch (*((u8 *) (((s8 *) arg0) + 0x70)))
   {
     case 1:
-      ((TWindowFukidasi *)arg0)->calc_text_size((f32 *)(((u8 *) arg0) + 0x38));
+      ((TWindowFukidasi *)arg0)->calc_text_size(&this->target_size[0]);
       *((s32 *) (((s8 *) arg0) + 0x50)) = 6;
       ((TWindowFukidasi *)arg0)->clear_flag();
       ((TWindowFukidasi *)arg0)->set_flag2c_bit100();
@@ -246,7 +246,7 @@ void TWindowFukidasi::run_task() {
     {
       *((s16 *) (((s8 *) arg0) + 0x74)) = (s16) ((*((s16 *) (((s8 *) arg0) + 0x74))) - 1);
       *((f32 *) (((s8 *) arg0) + 0x58)) += 0.1f;
-      *((f32 *) (((s8 *) arg0) + 0x1C)) += 0.1f;
+      this->sort_depth += 0.1f;
       if ((*((s16 *) (((s8 *) arg0) + 0x74))) < 0)
       {
         *((u8 *) (((s8 *) arg0) + 0x70)) = 7U;
@@ -269,7 +269,7 @@ void TWindowFukidasi::run_task() {
     case 7:
       ((TWindowFukidasi *)arg0)->clear_flag();
       ((TWindowFukidasi *)arg0)->clear_flag2c_bit100();
-      *((s32 *) (((s8 *) arg0) + 0x2C)) = (s32) ((*((s32 *) (((s8 *) arg0) + 0x2C))) & 0xFFFFFFFE);
+      this->window_flags = (s32) ((this->window_flags) & 0xFFFFFFFE);
       *((u8 *) (((s8 *) arg0) + 0x71)) = (u8) ((*((u8 *) (((s8 *) arg0) + 0x71))) | 0x10);
       *((u8 *) (((s8 *) arg0) + 0x70)) = 8U;
     case 8:

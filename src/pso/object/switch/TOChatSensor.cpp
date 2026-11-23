@@ -229,10 +229,10 @@ void TOChatSensor::handle_chat_message(void *arg1) {
                     }
                     *(s32 *)(arg0 + 0xC8) = 1;
                 }
-            } else if (*(u16 *)(arg0 + 0x94) < 0x100) {
+            } else if (this->id < 0x100) {
                 ((TOChatSensor *)(&pkt))->init_packet_type();
                 pkt.a = get_current_floor();
-                pkt.b = *(u16 *)(arg0 + 0x94);
+                pkt.b = this->id;
                 pkt.c = 1;
                 ((TOChatSensor *)(&pkt))->send_state();
             }

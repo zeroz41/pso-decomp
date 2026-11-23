@@ -208,7 +208,7 @@ void TTecPlayerInfluence::render() {
     u8 *arg0 = (u8 *)this;
     Vec target = {50.0f, 50.0f, 50.0f};
     approach_vector_in_place(&scale, &target, 2.7f);
-    debug_draw_sphere((const Vec *)(arg0 + 0x20), (const NJS_ARGB *)&this->color, *(f32 *)(arg0 + 0x3C));
+    debug_draw_sphere((const Vec *)(arg0 + 0x20), (const NJS_ARGB *)&this->color, this->scale.x);
 }
 
 void deliver_technique_to_party_targets(Obj_802370D8 *arg0) {

@@ -103,15 +103,15 @@ void TUnk_804A403C::emit_marker_effects() {
             increment_burst_counter((u8 *)temp_r31);
             var_r30 += 1;
         } while (var_r30 != 2);
-        ((FlagWord *)(arg0 + 0x1FC))->set(2);
+        this->flags.set(2);
         TItemAttacker::spawn_item_timer((TObject *)arg0, (ItemTimerCallback)clear_rico_ring_flag__10TObjPlayerFv, 0x3C);
-        ((FlagWord *)(arg0 + 0x1FC))->set(4);
+        this->flags.set(4);
         if (launch_shot(arg0 + 0x200, 0, 0, 1) == 1) {
-            ((FlagWord *)(arg0 + 0x1FC))->clear(4);
+            this->flags.clear(4);
             launch_shot(arg0 + 0x20C, 0, 0, 0);
             return;
         }
-        ((FlagWord *)(arg0 + 0x1FC))->clear(4);
+        this->flags.clear(4);
         launch_shot(arg0 + 0x20C, 0, 0, 1);
     }
 }
@@ -142,11 +142,11 @@ void TUnk_804A403C::reserved_53() {
     u8 *arg0 = (u8 *)this;
 
     temp_r31 = *(s32 *)((s8 *)arg0 + 0xF4);
-    ((FlagWord *)(arg0 + 0x1FC))->set(1);
+    this->flags.set(1);
     draw_weapon_at_joint((saddr)arg0, 0x30);
     ((TItemWeapon *)arg0)->get_joint_position(1, (arg0 + 0x200));
     *(s32 *)((s8 *)arg0 + 0xF4) = (s32) *(s32 *)((s8 *)arg0 + 0x180);
-    ((FlagWord *)(arg0 + 0x1FC))->clear(1);
+    this->flags.clear(1);
     draw_weapon_at_joint((saddr)arg0, 0x23);
     ((TItemWeapon *)arg0)->get_joint_position(1, (arg0 + 0x20C));
     *(s32 *)((s8 *)arg0 + 0xF4) = temp_r31;

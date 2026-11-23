@@ -319,11 +319,11 @@ void TTecSlicer::deliver_target_hit() {
     s32 temp_r3;
     if (this->targetId != 0xFFFF) {
         dist = horizontal_distance_squared((const Vec *)(arg0 + 0x9C), (const Vec *)(arg0 + 0x38));
-        range = *(f32 *)((s8 *)arg0 + 0xB8) + *(f32 *)((s8 *)arg0 + 0xBC);
+        range = this->range + this->radius;
         if (dist < range * range) {
             temp_r3 = (saddr)resolve_hittable_target(this->targetId, *(s8 *)((s8 *)arg0 + 0xC6));
             if (temp_r3 != 0) {
-                ((VObj_18_ed5691 *)(*(u8 * *)&this->currentWeapon))->m59(*(s32 *)&this->currentPlayer, temp_r3, *(s16 *)((s8 *)arg0 + 0x11C), *(s8 *)((s8 *)arg0 + 0xC6), this->damageMultiplier);
+                ((VObj_18_ed5691 *)(*(u8 * *)&this->currentWeapon))->m59(*(s32 *)&this->currentPlayer, temp_r3, this->attackKind, *(s8 *)((s8 *)arg0 + 0xC6), this->damageMultiplier);
             }
         }
     }
@@ -339,10 +339,10 @@ void destroy_on_collision__10TTecSlicerFi(saddr object, s32 _w1) {
 #pragma fp_contract on
 void TTecSlicer::advance_position() {
     u8 *arg0 = (u8 *)this;
-    VecCopy((Vec *)(arg0 + 0x44), (const Vec *)(arg0 + 0x38));
-    *(f32 *)((s8 *)arg0 + 0x38) = (f32) ((*(f32 *)((s8 *)arg0 + 0x90) * *(f32 *)((s8 *)arg0 + 0xB4)) + *(f32 *)((s8 *)arg0 + 0x38));
-    *(f32 *)((s8 *)arg0 + 0x3C) = (f32) ((*(f32 *)((s8 *)arg0 + 0x94) * *(f32 *)((s8 *)arg0 + 0xB4)) + *(f32 *)((s8 *)arg0 + 0x3C));
-    *(f32 *)((s8 *)arg0 + 0x40) = (f32) ((*(f32 *)((s8 *)arg0 + 0x98) * *(f32 *)((s8 *)arg0 + 0xB4)) + *(f32 *)((s8 *)arg0 + 0x40));
+    VecCopy(&this->prev_position, (const Vec *)(arg0 + 0x38));
+    this->position.x = (f32) ((this->direction[0] * this->speed) + this->position.x);
+    this->position.y = (f32) ((this->direction[1] * this->speed) + this->position.y);
+    this->position.z = (f32) ((this->direction[2] * this->speed) + this->position.z);
 }
 #pragma pop
 
@@ -429,9 +429,9 @@ void TTecSlicer::render() {
         TParticleCtrl::begin_effect_render();
         push_matrix();
         post_translate_matrix((f32 *)&this->position);
-        rotate_matrix_y(0, *(s32 *)((s8 *)arg0 + 0x60));
-        rotate_matrix_z(0, *(s32 *)((s8 *)arg0 + 0x64));
-        rotate_matrix_x(0, *(s32 *)((s8 *)arg0 + 0x5C));
+        rotate_matrix_y(0, this->rotation_y);
+        rotate_matrix_z(0, this->rotation_z);
+        rotate_matrix_x(0, this->rotation_x);
         scale_current_matrix((f32 *)&this->scale);
         draw_ginja_object(this->model);
         set_constant_material(&chunk_material_color_half_alpha_f32);
