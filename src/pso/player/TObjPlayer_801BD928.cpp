@@ -24,14 +24,12 @@ u8 get_byte_11f(void *);
 u8 get_byte_103(void *);
 u8 get_byte_e7(void *);
 s32 init_follow_particle_state(void *);
-s32 TObjPlayer__sub_803374C4(void *);
 s32 TObjPlayer__sub_80351974(void *);
 s32 __ct__14TPlyDispConfigFv(void *);
 
 extern const char *lbl_805D3530;
 
 TObjPlayer::TObjPlayer(TObject *parent, s32 slot, s32 role, u8 *record) : TObjChara(parent) {
-    TObjPlayer__sub_803374C4((void *) (((u8 *)this) + 0x374));
     init_follow_particle_state((void *) (((u8 *)this) + 0x384));
     __ct__8FlagWordFv((((u8 *)this) + 0x41C));
     TFontSmallLobby__sub_801C0164((void *) (((u8 *)this) + 0x428));

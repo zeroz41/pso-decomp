@@ -42,8 +42,6 @@ void TObjPlayer::sub_801BD3A4() {  }
 void TObjPlayer::free_chara_making() { restore_boss6_player_snapshot(this); ((TCharaMaking *)this)->free_loaded_buffers(); }
 void TObjPlayer::update_body_parts(void *visual) { copy_player_visual_record((char*)this + 0x85c, visual); this->model_load_flags = 255; ((TCharaMaking *)this)->update_body_parts(); fn_800FE73C(this); }
 
-void *TObjPlayer__sub_801BEDC0(void *arg0, s16 arg1);
-
 }
 
 TObjPlayer::~TObjPlayer() {
@@ -68,7 +66,6 @@ TObjPlayer::~TObjPlayer() {
     __dt__14TPlyDispConfigFv((saddr)((s8 *)this + 0x500), -1);
     TObjPlayer::free_owned_buffer_a((saddr)((s8 *)this + 0x4AC), (s16)(-1));
     destroy_follow_particle_state((saddr)((s8 *)this + 0x384), -1);
-    TObjPlayer__sub_801BEDC0((s8 *)this + 0x374, -1);
 }
 
 extern "C" {
@@ -77,13 +74,11 @@ void init_session_technique_caps__10TObjPlayerFPvPv(void *, void *);
 void TObjPlayer__sub_801BCAB0(void *, void *);
 void init_player_telepipe_record(void *);
 void TObjPlayer__sub_801BBB70(void *, void *);
-void TObjPlayer__sub_803374C4(void *);
 void TObjPlayer__sub_80351974(void *);
 extern const char *lbl_805D3530;
 }
 
 TObjPlayer::TObjPlayer(TObject *parent, TUnk_801D8A4C *src) : TObjChara(parent) {
-    TObjPlayer__sub_803374C4((void *)((char *)this + 884));
     init_follow_particle_state((PlayerFollowParticles *)((char *)this + 900));
     __ct__8FlagWordFv(((char *)this + 1052));
     TFontSmallLobby__sub_801C0164(((char *)this + 1064));
@@ -125,7 +120,6 @@ TObjPlayer::TObjPlayer(TObject *parent, TUnk_801D8A4C *src) : TObjChara(parent) 
 }
 
 TObjPlayer::TObjPlayer(TObject *parent, void *arg2) : TObjChara(parent) {
-    TObjPlayer__sub_803374C4((void *)((char *)this + 884));
     init_follow_particle_state((PlayerFollowParticles *)((char *)this + 900));
     __ct__8FlagWordFv(((char *)this + 1052));
     TFontSmallLobby__sub_801C0164(((char *)this + 1064));

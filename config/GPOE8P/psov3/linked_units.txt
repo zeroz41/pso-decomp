@@ -1229,7 +1229,6 @@ pso/ui/window/TWindowDD_80348C54.cpp
 pso/ui/window/TWindowDD_8034AF68.cpp
 pso/ui/window/TWindowDeposit.cpp
 pso/ui/window/TWindowDuelResult.cpp
-pso/player/PlayerDeadSpotCallbackEntries.cpp
 pso/player/PlayerSdata2Block1.cpp
 pso/player/PlayerSharedSbss.cpp
 pso/ui/window/TWindowDuelResult_801C2528.cpp

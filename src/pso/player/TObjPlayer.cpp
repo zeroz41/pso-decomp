@@ -81,11 +81,9 @@ void emit_jellen_support_effect(u8 *owner);
 void emit_shifta_support_effect(u8 *owner);
 extern "C" {
 int copy_subcommand_header(void*);
-void *TObjPlayer__sub_801BEDC0(void *arg0, s16 arg1);
 void TObjPlayer__sub_801BF47C(void* p);
 int lbl_805D5D70;
 int shared_flag;
-extern s32 lbl_804C3E44[];
 extern const f32 TObjPlayer__data_805DC278;
 }
 extern const float TObjPlayer__data_805DC294;
@@ -435,15 +433,7 @@ void TObjPlayer::set_meseta(s32 arg1) {
 
 void TObjPlayer::set_position(f32 a, f32 b, f32 c) { this->position.x = a; this->position.y = b; this->position.z = c; }
 
-void *TObjPlayer__sub_801BEDC0(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 8) = lbl_804C3E44;
-        if (arg1 > 0) {
-            ::operator delete(arg0);
-        }
-    }
-    return arg0;
-}
+MaterialUsage::~MaterialUsage() {}
 
 void MaterialUsage::fn_801BEDB8(u8 v) { counts[0] = v; }
 
@@ -494,8 +484,8 @@ void TObjPlayer::set_shared_flag(int a0) { shared_flag = a0; }
 #pragma push
 #pragma dont_inline on
 
-struct RecoveredGlobal_lbl_804C3E38 { s32 value; u8 remaining[0x8]; };
-extern RecoveredGlobal_lbl_804C3E38 lbl_804C3E38;
+struct RecoveredGlobal_lbl_804C3E38 { s32 value; s32 pad_4; void *(*dtor)(void *, s16); };
+RecoveredGlobal_lbl_804C3E38 lbl_804C3E38 = {0, 0, TObjPlayer__sub_801BFAD4};
 
 void *TObjPlayer__sub_801BFAD4(void *arg0, s16 arg1) {
     if (arg0 != NULL) {

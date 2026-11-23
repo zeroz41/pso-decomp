@@ -5,9 +5,7 @@
 
 // TObjPlayer + 0x374: the player's material usage counts. Name inferred from its API
 // (get_total_materials_used sums counts[0..4]; try_add_item_count caps the sum at
-// get_material_limit_for_class; can_use_more_materials). Its constructor
-// (TObjPlayer__sub_803374C4) stores lbl_804C3E44, whose only slot is the destructor TObjPlayer__sub_801BEDC0,
-// at +8.
+// get_material_limit_for_class; can_use_more_materials).
 struct MaterialUsage {
     u8 fn_801BED70();
     u8 fn_801BED78();
@@ -31,8 +29,12 @@ struct MaterialUsage {
     u8 fn_803374F8(s32 index);
 
     u8 counts[8];
-    u8 pad_8[4];
+
+    MaterialUsage();
+    virtual ~MaterialUsage();
 };
+
+LAYOUT_ASSERT(MaterialUsage_size, sizeof(MaterialUsage) == 0xC);
 
 u8 get_material_limit_for_class(s32 class_index);
 

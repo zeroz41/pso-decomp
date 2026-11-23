@@ -2,11 +2,7 @@
 #include "pso/player/TObjPlayer_80337348.h"
 #include "pso/player/TObjPlayer.h"
 
-struct T_803374C4 { u8 b[8]; void *p; };
-
-extern char lbl_804C3E44[];
 extern "C" {
-T_803374C4 *TObjPlayer__sub_803374C4(T_803374C4 *self);
 s32 MaterialUsage::try_add_item_count(s32 class_index, s32 index, u8 amount) {
     u8 total_materials_used;
 
@@ -58,11 +54,9 @@ u8 get_material_limit_for_class(s32 class_index) {
     return 0xFA;
 }
 
-T_803374C4 *TObjPlayer__sub_803374C4(T_803374C4 *self) {
+MaterialUsage::MaterialUsage() {
     s32 i;
-    self->p = lbl_804C3E44;
     for (i = 0; i < 8; i++) {
-        self->b[i] = 0;
+        counts[i] = 0;
     }
-    return self;
 }

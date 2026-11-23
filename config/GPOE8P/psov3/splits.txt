@@ -4923,9 +4923,6 @@ pso/player/TObjPlayer_801AF2F0.cpp:
 	.data       start:0x804C3BA8 end:0x804C3E38
 	.sdata      start:0x805D3530 end:0x805D3538
 
-pso/player/PlayerDeadSpotCallbackEntries.cpp:
-	.data       start:0x804C3E38 end:0x804C3E50
-
 pso/player/TObjPlayer_801BC140.cpp:
 	.text       start:0x801BC140 end:0x801BC194
 
@@ -4977,7 +4974,7 @@ pso/player/TPlyPhotonChair_801BEC44.cpp:
 
 pso/player/TObjPlayer.cpp:
 	.text       start:0x801BEC98 end:0x801C0064
-	.data       start:0x804C3E50 end:0x804C3E60
+	.data       start:0x804C3E38 end:0x804C3E60
 	.sbss       start:0x805D5D70 end:0x805D5D78
 
 pso/player/PlayerSharedSbss.cpp:
