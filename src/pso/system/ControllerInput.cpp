@@ -526,30 +526,30 @@ void reset_controller_input_state(void) {
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-void copy_state__16TKeyBoardControlFPvPv(ControllerInputContext *arg0, ControllerInputContext *arg1) {
+void copy_state__16TKeyBoardControlFPvPv(ControllerInputContext *controller_input_context, ControllerInputContext *arg1) {
   ControllerInputContext *new_var;
   ControllerInputContext *new_var2;
   ControllerHoldFrameBlock *s;
   ControllerHoldFrameBlock *d;
-  arg0->buttons = arg1->buttons;
-  arg0->not_held = arg1->not_held;
-  arg0->pressed_buttons = arg1->pressed_buttons;
-  arg0->released = arg1->released;
-  arg0->trigger_r = arg1->trigger_r;
-  arg0->trigger_l = arg1->trigger_l;
-  arg0->stick_x = arg1->stick_x;
-  new_var = (new_var2 = arg0);
+  controller_input_context->buttons = arg1->buttons;
+  controller_input_context->not_held = arg1->not_held;
+  controller_input_context->pressed_buttons = arg1->pressed_buttons;
+  controller_input_context->released = arg1->released;
+  controller_input_context->trigger_r = arg1->trigger_r;
+  controller_input_context->trigger_l = arg1->trigger_l;
+  controller_input_context->stick_x = arg1->stick_x;
+  new_var = (new_var2 = controller_input_context);
   new_var2->stick_y = arg1->stick_y;
-  arg0->cstick_x = arg1->cstick_x;
+  controller_input_context->cstick_x = arg1->cstick_x;
   new_var2->cstick_y = arg1->cstick_y;
   new_var->stick_angle = arg1->stick_angle;
   new_var2->cstick_angle = arg1->cstick_angle;
-  arg0->stick_magnitude = arg1->stick_magnitude;
-  arg0->cstick_magnitude = arg1->cstick_magnitude;
+  controller_input_context->stick_magnitude = arg1->stick_magnitude;
+  controller_input_context->cstick_magnitude = arg1->cstick_magnitude;
   s = reinterpret_cast<ControllerHoldFrameBlock *>(arg1->hold_frames);
   d = reinterpret_cast<ControllerHoldFrameBlock *>((new_var = new_var2)->hold_frames);
   *d = *s;
-  arg0->held_with_sticks = arg1->held_with_sticks;
+  controller_input_context->held_with_sticks = arg1->held_with_sticks;
   new_var->pressed_with_sticks = arg1->pressed_with_sticks;
 }
 

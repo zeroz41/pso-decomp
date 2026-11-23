@@ -652,7 +652,7 @@ void reset_view_count(void) { camera_split_screen_selector = 1; }
 
 void TLobby::clear_quest_state() { lobby_online_ready_flag = 0; }
 
-void TScene::set_scene(int a0) { scene_resource_index = a0; }
+void TScene::set_scene(int scene) { scene_resource_index = scene; }
 
 
 // The global character record. The original's static initializer precedes this

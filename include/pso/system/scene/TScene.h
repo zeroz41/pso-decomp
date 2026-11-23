@@ -35,7 +35,7 @@ public:
     void tick_material_fmt2();
 public:
     static void bind_ending_wall_textures();
-    static void set_scene(int a0);
+    static void set_scene(int scene);
     static void apply_single_screen_state();
     static void set_ready();
     static void reset_counter();
