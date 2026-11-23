@@ -110,7 +110,6 @@ const TechniqueEmitterSourceTable TTecBarta__emitter_bands[6] = {
     {lbl_8044CCE4, 4}, {lbl_8044CD14, 4}, {lbl_8044CD44, 7},
 };
 const char *TTecBarta__class_name = "TTecBarta";
-void move_ground_technique_projectile(void *p);
 extern "C" {
 s32 get_type__10TObjPlayerFPv(void *);
 List_8022BD74 *find_area_contact__10TTecCircleFl(Tec_8022BD74 *, void *);
@@ -277,7 +276,7 @@ void TTecBarta::run_task() {
             attach_particle_model((u8 *)e, get_bml_model(technique_effect_bml, 5), lbl_805D63B0, 0, 0, 1.0f);
         }
     }
-    move_ground_technique_projectile(this);
+    move_ground_technique_projectile();
     advance_lifetime_or_destroy();
     dispatch_all_technique_contacts();
 }

@@ -16116,7 +16116,7 @@ force_active:
   - step_effect_sequence__18TObjEneRe4SorcererFP10NJS_OBJECT
   - step_fade_opacity_decrease__13TUnk_80499970Fv
   - step_fade_opacity_increase__13TUnk_80499970Fv
-  - step_ground_technique_projectile
+  - step_ground_technique_projectile__8TTecShotFv
   - step_line__23TObjOnlineEndingHexLineFv
   - step_placement_search__13TUnk_804C4498Fv
   - stop__13TUnk_804A7478Fv

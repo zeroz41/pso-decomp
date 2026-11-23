@@ -6,15 +6,18 @@
 #include "pso/object/base/TObjMotion.h"
 
 struct CsnGroup;
-struct TechniqueContactActor;
 struct TechniqueContactBody;
 
 class TTecShot : public TEffect {
 public:
-    TTecShot(saddr arg1, u8 *arg2, u8 *arg3, s32 arg4);
+    // Flies from `pos` towards the point `target`.
+    TTecShot(saddr source, u8 *pos, u8 *target, s32 level);
     TTecShot(saddr source, Vec *pos, s32 angle, s32 level);
     virtual ~TTecShot();
     void check_technique_projectile_wall_hit();
+    // Slides along the floor (Barta) instead of flying straight.
+    void step_ground_technique_projectile();
+    void move_ground_technique_projectile();
     void move_technique_projectile();
     virtual void run_task();
     virtual void render();
@@ -28,25 +31,20 @@ public:
     u8 *query_technique_enemy_contacts(saddr);
     f32 range;
     f32 traveled;
-    f32 previous[3];
+    Vec previous;  // position before the last move
     CsnGroup *ground_candidates[16];
     s16 level;
     s16 band;
     u16 sourceId;
-    u8 unk_CA[0x2];
+    u8 pad_CA[0x2];
     f32 power;
     u8 parameters[0x28];
     TechniqueContactBody* contact;
     CollisionBody collisionBody;
-    TechniqueContactActor* proxy;
+    TObjCollidable *collidable;
     f32 halfWidth;
 };
 
 LAYOUT_ASSERT(TechniqueGroundCandidatesOffset, offsetof(TTecShot, ground_candidates) == 0x84);
-
-extern "C" {
-// TTecShot::~TTecShot(), called by the destructors that are still written by hand.
-void *__dt__8TTecShotFv(void *p, s16 flags);
-}
 
 #endif
