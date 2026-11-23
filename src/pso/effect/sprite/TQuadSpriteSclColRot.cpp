@@ -10,53 +10,12 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/render/render_util.h"
 #include "pso/math/AngleLookup.h"
+#include "pso/system/MatrixStack.h"
 
-struct QuadSpriteNode {
-    QuadSpriteNode *next;
-    Vec pos;
-    Vec ofs;
-    f32 sx;
-    f32 sy;
-    u32 color;
-    u8 pad28;
-    u8 type;
-    s16 angle;
-};
-
-struct QuadSpriteList {
-    QuadSpriteNode *head;
-    u8 pad4[0x28];
-};
-
-struct RotatedSpriteQuad {
-    f32 x;
-    f32 y;
-    f32 z;
-    f32 ax;
-    f32 ay;
-    f32 bx;
-    f32 by;
-    u32 pad1C;
-    f32 u;
-    f32 v;
-    f32 uw;
-    f32 ux;
-    f32 vx;
-    f32 vh;
-    f32 m_38;
-    f32 m_3c;
-};
-
-extern "C" {
-
-void transform_point_by_current_matrix(Vec *in, Vec *out);
-
-
-}
 #pragma push
 #pragma fp_contract on
 void TQuadSpriteSclColRot::render() {
-    RotatedSpriteQuad q;
+    RotatedQuadSpriteRect q;
     Vec out;
     Vec pos;
     u32 flags;
@@ -76,7 +35,7 @@ void TQuadSpriteSclColRot::render() {
     s32 i;
     QuadSpriteNode *n;
 
-    if (*(s32 *)unk_24 == 0) {
+    if (queued == 0) {
         return;
     }
     flags = definition->flags;
@@ -97,27 +56,27 @@ void TQuadSpriteSclColRot::render() {
     sh = sw * (480.0f / (480.0f * screen_projection.width));
     TParticleCtrl::begin_effect_render();
     begin_screen_draw(1);
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(definition->texlist));
+    TObjFish::set_global_param(definition->texlist);
     set_draw_texture_and_color(definition->texture, definition->color);
     one = -1.0f;
     zero = 0.0f;
     for (i = 0; i < definition->uv_count; i++) {
         const f32 *uv;
-        n = (*(QuadSpriteList **)unk_1C)[i].head;
+        n = lists[i].next;
         uv = definition->uvs[i];
         q.u = uv[0];
         q.v = uv[1];
-        q.uw = uv[2] - uv[0];
-        q.ux = zero;
-        q.vx = zero;
-        q.vh = uv[3] - uv[1];
+        q.edge_a_u = uv[2] - uv[0];
+        q.edge_a_v = zero;
+        q.edge_b_u = zero;
+        q.edge_b_v = uv[3] - uv[1];
         while (n != NULL) {
             f32 sx, sy;
-            pos.x = n->pos.x + n->ofs.x;
-            pos.y = n->pos.y + n->ofs.y;
-            pos.z = n->pos.z + n->ofs.z;
+            pos.x = n->pos.x + n->offset.x;
+            pos.y = n->pos.y + n->offset.y;
+            pos.z = n->pos.z + n->offset.z;
             if ((s32)n->type != 1) {
-                transform_point_by_current_matrix(&pos, &out);
+                transform_point_by_current_matrix(&pos.x, &out);
                 out.y = -out.y;
             } else {
                 VecCopy(&out, &pos);
@@ -140,20 +99,20 @@ void TQuadSpriteSclColRot::render() {
                 }
                 w *= definition->width;
                 h *= definition->height;
-                w *= n->sx;
-                h *= n->sy;
+                w *= n->scale_x;
+                h *= n->scale_y;
                 c = cos_table_lookup(n->angle);
                 s = -sin_table_lookup(n->angle);
-                q.z = d;
+                q.depth = d;
                 q.x = x - (w * c + h * s);
                 q.y = y - (-w * s + h * c);
                 w += w;
                 h += h;
-                q.ax = w * c;
-                q.ay = -w * s;
-                q.bx = h * s;
-                q.by = h * c;
-                DVDConvertEntrynumToPath((f32 *)&q);
+                q.edge_a_x = w * c;
+                q.edge_a_y = -w * s;
+                q.edge_b_x = h * s;
+                q.edge_b_y = h * c;
+                DVDConvertEntrynumToPath(&q.x);
             }
             n = n->next;
         }
@@ -166,13 +125,11 @@ void TQuadSpriteSclColRot::render() {
 #pragma pop
 
 TQuadSpriteSclColRot::~TQuadSpriteSclColRot() {
-
 }
 
-const char *TQuadSpriteSclColRot__class_name = "TQuadSpriteSclColRot";
+const char *quad_sprite_scl_col_rot_class_name = "TQuadSpriteSclColRot";
 
-#define quad_sprite_scl_col_rot ((u8 *)this)
-TQuadSpriteSclColRot::TQuadSpriteSclColRot(TObject *parent, ParticleDefinition *sprite_definition) : TUnk_804C57F0(parent, sprite_definition) {
-    ((TQuadSpriteSclColRot *)quad_sprite_scl_col_rot)->m_name = TQuadSpriteSclColRot__class_name;
+TQuadSpriteSclColRot::TQuadSpriteSclColRot(TObject *parent, ParticleDefinition *sprite_definition)
+    : TUnk_804C57F0(parent, sprite_definition) {
+    m_name = quad_sprite_scl_col_rot_class_name;
 }
-#undef quad_sprite_scl_col_rot
