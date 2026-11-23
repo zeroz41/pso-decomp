@@ -2189,6 +2189,8 @@ void draw_projected_shadow__10TObjPlayerFPvPvi(VObj_801BAB78 *self, f32 *pos, s3
     pop_matrix();
 }
 
+}
+
 void send_6x21_inter_level_warp(TObjPlayer *player, s32 floor) {
     if (player == 0 || player->obj_isState2_324() == 0) {
         Msg_801BAB1C m;
@@ -2198,6 +2200,8 @@ void send_6x21_inter_level_warp(TObjPlayer *player, s32 floor) {
         ((TObjPlayer *)(&m))->send_warp_packet();
     }
 }
+
+extern "C" {
 
 void handle_6x21_inter_level_warp(void *command) {
     Msg_801BAA6C m;
