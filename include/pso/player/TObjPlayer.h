@@ -600,7 +600,7 @@ struct TObjPlayer : public TObjChara {
     static s32 decrement_clamp(s32 *arg0, s32 arg1);
     void copy_offset_position(void *chara);
     void calc_pos_delta(void *arg1, void *arg2);
-    void set_flag_2000000_alt();
+    void set_visible_flag();
     s32 check_flag_04000000();
     void clear_flag_8000();
     s32 check_flag_0x8000();

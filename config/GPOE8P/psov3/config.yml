@@ -2513,7 +2513,7 @@ force_active:
   - __dt__13TUnk_804F1280Fv
   - __dt__13TUnk_804F1320Fv
   - __dt__13TUnk_804F1C88Fv
-  - __dt__13TUnk_804F29F8Fv
+  - __dt__21TEquippedItemDrawTaskFv
   - __dt__13TUnk_804F2A10Fv
   - __dt__13TBoss6MagMineFv
   - __dt__13TUnk_804F3428Fv
@@ -3280,7 +3280,7 @@ force_active:
   - __vt__13TUnk_804F0FF0
   - __vt__13TUnk_804F1280
   - __vt__13TUnk_804F1320
-  - __vt__13TUnk_804F29F8
+  - __vt__21TEquippedItemDrawTask
   - __vt__13TUnk_804F2A10
   - __vt__13TBoss6MagMine
   - __vt__13TUnk_804F3428
@@ -14901,7 +14901,7 @@ force_active:
   - run_task__13TUnk_804F0D1CFv
   - run_task__13TUnk_804F1280Fv
   - run_task__13TUnk_804F1C88Fv
-  - run_task__13TUnk_804F29F8Fv
+  - run_task__21TEquippedItemDrawTaskFv
   - run_task__13TUnk_804F2A10Fv
   - run_task__13TBoss6MagMineFv
   - run_task__13TUnk_804F3428Fv

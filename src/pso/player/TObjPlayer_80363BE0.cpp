@@ -1,5 +1,5 @@
 #include "pso/system/NinjaTypes.h"
-#include "pso/player/TUnk_804F29F8.h"
+#include "pso/player/TEquippedItemDrawTask.h"
 #include "pso/player/TUnk_804F2A10.h"
 #include "types.h"
 #include "pso/item/TItem.h"
@@ -231,18 +231,18 @@ void TObjPlayer::free_static_buffer() {
     }
 }
 void TObjPlayer::create_cleanup_object(void *arg0) {
-    new TUnk_804F29F8((TObject *)arg0);
+    new TEquippedItemDrawTask((TObject *)arg0);
 }
-TUnk_804F29F8::TUnk_804F29F8(TObject *parent) : TObject(parent) {
+TEquippedItemDrawTask::TEquippedItemDrawTask(TObject *parent) : TObject(parent) {
     reset_id_array__10TObjPlayerFPv(player_item_id_list);
 }
 
-TUnk_804F29F8::~TUnk_804F29F8() {
+TEquippedItemDrawTask::~TEquippedItemDrawTask() {
 
 }
 
 
-void TUnk_804F29F8::run_task() { reset_id_array__10TObjPlayerFPv((void*)player_item_id_list); }
+void TEquippedItemDrawTask::run_task() { reset_id_array__10TObjPlayerFPv((void*)player_item_id_list); }
 
 struct DrawPrefix { u8 prefix[0x18]; };
 
@@ -275,7 +275,7 @@ struct DrawTarget : DrawPrefix {
 };
 
 
-void TUnk_804F29F8::render() {
+void TEquippedItemDrawTask::render() {
     set_default_alpha_blend();
     saved_model_render_flags = model_render_flags;
     saved_chunk_polygon_flags_and_mask = chunk_polygon_flags_and_mask;

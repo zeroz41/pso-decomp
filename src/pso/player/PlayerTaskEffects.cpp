@@ -152,6 +152,8 @@ LAYOUT_ASSERT(RecoveredGlobal_801C6FF8_lbl_804C4008_size, sizeof(RecoveredGlobal
 #include "pso/system/THeap.h"
 #include "pso/item/mag/TItemMag.h"
 #include "pso/player/TForceOperate.h"
+#include "pso/object/base/CollisionActorLookup.h"
+#include "pso/player/MovementHistory.h"
 #include "pso/ui/hud/TMainCursor.h"
 #include "pso/ui/hud/TLockOnCursor.h"
 #include "pso/ui/hud/TNowLoading.h"
@@ -229,21 +231,6 @@ u8 *__ct__18TPlayerLobbyMarkerFP7TObjectsSc(u8 *arg0, u8 *arg1, s16 arg2, s8 arg
 extern s32 chunk_polygon_flags_and_mask;
 extern s32 chunk_polygon_flags_or_mask;
 
-struct Base_801C57D0 { char pad[0x18]; };
-struct VObj_801C57D0 : Base_801C57D0 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11(u16);
-};
 
 
 
@@ -253,19 +240,12 @@ struct Arrival_801C5F84 {
     Vec pos;
 };
 
-// MovementHistory and MovementHistoryEntry are inferred from clear_movement_history.
-struct MovementHistoryEntry { f32 a; f32 b; };
-
-struct MovementHistory { s32 n; MovementHistoryEntry e[16]; };
-
 extern "C" {
-void *find_entity_by_id();
 s32 get_current_floor();
 s16 obj_getS16_2BA(u8 *p);
 extern Arrival_801C5F84 TObjPlayer__arrival_override_table[12];
 void set_arrival_override_coords(u16 slot, s32 heading, f32 x, f32 y, f32 z);
 void set_arrival_override_pos(u16 idx, s32 yaw, void *pos);
-void clear_movement_history(MovementHistory *p);
 int copy_subcommand_header(void *);
 }
 void update_player_appear_fade(u8 *arg0);
@@ -748,15 +728,15 @@ void TPlyOnCountOver::run_task() {
     }
 }
 
-void clear_movement_history(MovementHistory *p) {
+void clear_movement_history(MovementHistory *history) {
     s32 i;
-    MovementHistoryEntry *e;
-    p->n = 0;
-    e = p->e;
+    MovementHistoryEntry *entry;
+    history->index = 0;
+    entry = history->entries;
     for (i = 0; i < 16; i++) {
-        e->b = 0.0f;
-        e->a = 0.0f;
-        e++;
+        entry->z = 0.0f;
+        entry->x = 0.0f;
+        entry++;
     }
 }
 
@@ -925,7 +905,7 @@ void update_player_appear_fade(u8 *arg0) {
             if (var_f31 >= 1.0f) {
                 var_f31 = 1.0f;
                 *(s32 *)((s8 *)arg0 + 4) = 2;
-                ((TObjPlayer *)player)->set_flag_2000000_alt();
+                ((TObjPlayer *)player)->set_visible_flag();
                 ((TObjPlayer *)player)->activate_body_collision();
             }
             ((TObjPlayer *)player)->render_material_state.alpha = var_f31;
@@ -959,15 +939,14 @@ TForceOperate::TForceOperate(TObject *parent, u16 id) : TObject(parent) {
 
 void TForceOperate::run_task() {
     void *state;
-    void *entity;
+    TObjCollidable *entity;
 
     if (TObjPlayer__sub_801C6DAC((u8 *)&m_1c) != 0) {
         state = (void *)((TMainCursor *)(&m_1c))->get_state();
         if ((((TObjPlayer *)state)->is_target_valid() != 0) && (((TObjPlayer *)state)->has_action_palette_entry() != 0)) {
-            ((TMainCursor *)&((TObjPlayer *)state)->lock_on_cursor->selection.target)->get_id();
-            entity = find_entity_by_id();
+            entity = find_entity_by_id(((TMainCursor *)&((TObjPlayer *)state)->lock_on_cursor->selection.target)->get_id());
             if (entity != NULL) {
-                ((VObj_801C57D0 *)entity)->m11(((TObjBase *)((saddr)state))->get_entity_id());
+                entity->interact(((TObjBase *)((saddr)state))->get_entity_id());
                 queue_destruction();
             }
         }
@@ -996,7 +975,7 @@ TPlyOnCountOver::~TPlyOnCountOver() {}
 
 TPlayerLobbyMarker::~TPlayerLobbyMarker() {}
 
-void TObjPlayer::set_flag_2000000_alt() { set_state_flags((uaddr)((void*)2097152)); }
+void TObjPlayer::set_visible_flag() { set_state_flags(0x200000); }
 s32 TObjPlayer::check_flag_04000000() { return check_flag((saddr)((void*)4194304)); }
 void TObjPlayer::clear_flag_8000() { clear_state_flags((saddr)((void*)32768)); }
 s32 TObjPlayer::check_flag_0x8000() { return check_flag(0x8000); }
