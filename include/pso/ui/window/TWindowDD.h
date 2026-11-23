@@ -148,10 +148,6 @@ LAYOUT_ASSERT(WindowListSize, sizeof(TWindowDDValueList) == 8);
 LAYOUT_ASSERT(WindowListCountOffset, offsetof(TWindowDDValueList, count) == 4);
 
 extern "C" {
-// TWindowBase::TWindowBase(u8 *, s16, u8 *), called by the constructors that are still written by hand.
-u8 *__ct__11TWindowBaseFPUcsPUc(void *self, u8 *descriptor, s16 client, u8 *parent);
-// TWindowBase::~TWindowBase(), called by the destructors that are still written by hand.
-void *__dt__11TWindowBaseFv(void *p, s16 flags);
 s32 TWindowDD__sub_80340820(void *p);
 void TWindowDD__sub_80340910(void *p);
 }
