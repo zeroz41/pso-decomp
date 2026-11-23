@@ -55,6 +55,7 @@
 #include "pso/render/model_render_state.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/enemy/EnemyMovement.h"
+#include "pso/object/base/TObjBase.h"
 struct IllGillEffectRotation { s32 x, y, z; };
 extern int enable_v2_features;
 extern "C" {
@@ -333,7 +334,7 @@ void TObjEneIllGill::refresh_target() {
                 pl = (u8 *)TObjPlayer::get_player_data(i);
                 if (pl == NULL) break;
                 if (obj_is_hit_receivable(pl) == 0) continue;
-                id = get_entity_id((TObjBase *)pl);
+                id = ((TObjBase *)pl)->get_entity_id();
                 if (id >= 0x4000) continue;
                 if (id == entity_id) continue;
                 if (((TObjChara *)pl)->actorFlags & 0x02000800) continue;
@@ -658,7 +659,7 @@ s32 TObjEneIllGill::is_target_in_attack_range() {
         } else {
             rad = 10.0f;
         }
-        id = get_entity_id((TObjBase *)pl);
+        id = ((TObjBase *)pl)->get_entity_id();
         if (id < 0x1000) {
             s32 i;
             pl = this->target;
@@ -1313,7 +1314,7 @@ void TObjEneIllGill::update_charge_attack() {
                 if (p == NULL) {
                     break;
                 }
-                if (get_entity_id(p) >= 0x1000) {
+                if (p->get_entity_id() >= 0x1000) {
                     break;
                 }
                 if (o->find_actor_body_contact((u8 *)p, 10000.0f) != 0 &&
@@ -1322,7 +1323,7 @@ void TObjEneIllGill::update_charge_attack() {
                     obj_setFlags30(p, 0x400);
                     p->apply_knockback_from_attacker((u8 *)o, 2.0f * dmg);
                     *hit = p;
-                    if (is_split_screen() == 0 && local_client_id == get_entity_id(p)) {
+                    if (is_split_screen() == 0 && local_client_id == p->get_entity_id()) {
                         TCameraCtrl::set_shake_preset(1);
                     }
                 }
@@ -1392,7 +1393,7 @@ TObjIllGillKage::TObjIllGillKage(saddr parent, uaddr target) : TObjBase((TObject
     m_name = TObjIllGillKage__class_name;
     if (target != 0U) {
         VecCopy(&position, &((TObjBase *)target)->position);
-        this->target_id = get_entity_id((TObjBase *)target);
+        this->target_id = ((TObjBase *)target)->get_entity_id();
         this->timer = 0xB4;
         this->state = 0;
     } else {

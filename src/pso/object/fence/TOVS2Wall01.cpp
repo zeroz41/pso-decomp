@@ -44,6 +44,7 @@
 #include "pso/system/SoundEffect.h"
 #include "pso/object/fence/WallHitPacket.h"
 #include "pso/unk/TLobby_801F3A24.h"
+#include "pso/object/base/TObjBase.h"
 
 const char *bm_o_vs2_motion_names[1] = { NULL };
 
@@ -228,8 +229,8 @@ void TOVS2Wall01::break_wall() {
 f32 TOVS2Wall01::take_hit(TObjBase *attacker) {
     TObjPlayer *player = NULL;
 
-    get_entity_id(attacker);
-    if (get_entity_id(attacker) < 4U) {
+    attacker->get_entity_id();
+    if (attacker->get_entity_id() < 4U) {
         player = (TObjPlayer *)attacker;
     }
     if ((player != NULL) && (TObjPlayer::is_locally_controlled(player) == 1)) {

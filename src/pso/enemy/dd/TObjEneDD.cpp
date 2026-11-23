@@ -22,10 +22,10 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TObject.h"
+#include "pso/object/base/TObjBase.h"
 const char *TObjEneDD__name = "TObjEneDD";
 const char *TObjEneDD_ST__name = "TObjEneDD_ST";
 extern "C" {
-u16 get_entity_id(void *);
 }
 #include "pso/map/CsnQuery.h"
 
@@ -340,7 +340,7 @@ u16 enemy_nearest_visible_player_sq(TObjChara *self, f32 range) {
         if (p->is_alive() != 0) {
             d = horizontal_distance_squared(&self->body_center, &p->position);
             if (d < best && csnLookAt(&self->body_center, &p->body_center) == 0) {
-                result = get_entity_id(p);
+                result = p->get_entity_id();
                 best = d;
             }
         }
@@ -376,7 +376,7 @@ s32 collect_enemy_target_candidates(TObjEneDD *self, TargetCandidate *out, f32 r
             if (p->is_alive() != 0) {
                 d = horizontal_distance_squared(&self->position, &p->position);
                 if (d < range) {
-                    out[n].id = get_entity_id(p);
+                    out[n].id = p->get_entity_id();
                     out[n].dist = d;
                     n++;
                 }
@@ -387,7 +387,7 @@ s32 collect_enemy_target_candidates(TObjEneDD *self, TargetCandidate *out, f32 r
             p = TObjPlayer::get_player_data(i);
             if (p->is_alive() != 0) {
                 d = horizontal_distance_squared(&self->position, &p->position);
-                out[n].id = get_entity_id(p);
+                out[n].id = p->get_entity_id();
                 out[n].dist = d;
                 n++;
             }
@@ -434,7 +434,7 @@ u16 enemy_nearest_visible_enemy_sq(TObjChara *self, f32 range) {
         if (p != self && !(p->actorFlags & 0x01000000) && p->is_alive() != 0) {
             d = horizontal_distance_squared(&self->body_center, &p->position);
             if (d < range && csnLookAt(&self->body_center, &p->body_center) == 0) {
-                best = get_entity_id(p);
+                best = p->get_entity_id();
                 range = d;
             }
         }
@@ -1092,7 +1092,7 @@ void TObjEneDD_ST::set_target_player(void *player) {
     n = TLobby::get_game_mode();
     for (i = 0; i < n; i++) {
         if (player == TObjPlayer::get_player_data(i)) {
-            target_id = get_entity_id(player);
+            target_id = ((TObjBase *)(player))->get_entity_id();
             current_target = (TObjChara *)player;
             return;
         }

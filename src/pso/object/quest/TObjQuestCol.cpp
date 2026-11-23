@@ -32,6 +32,7 @@
 #include "pso/unk/TLobby.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjBase.h"
 
 extern NJS_ARGB debug_color_green_half_alpha;
 extern NJS_ARGB debug_color_purple_half_alpha;
@@ -506,7 +507,7 @@ TObjQuestColBase *TQuestColCtrl::find_by_id(u16 arg0) {
              || ((TUnk_804B6C24 *)cur)->check_value_equals((saddr)obj_quest_col_apc_class_name) != 0
              || ((TUnk_804B6C24 *)cur)->check_value_equals((saddr)TObjQuestColApcIN__name) != 0
              || ((TUnk_804B6C24 *)cur)->check_value_equals((saddr)TObjQuestColApcINW__name) != 0)
-            && arg0 == get_entity_id(static_cast<TObjQuestColBase *>(cur))) {
+            && arg0 == ((TObjBase *)(static_cast<TObjQuestColBase *>(cur)))->get_entity_id()) {
             return static_cast<TObjQuestColBase *>(cur);
         }
     }

@@ -42,6 +42,7 @@
 #include "pso/system/byteswap.h"
 #include "pso/unk/text_80104FCC.h"
 #include "pso/ui/font/TFontSmallLobby.h"
+#include "pso/object/base/TObjBase.h"
 
 const char *item_mag_class_name = "TItemMag";
 
@@ -861,7 +862,7 @@ void TItemMag::cast_support_technique(s32 technique) {
     case 17: {
         TargetCursorList targets;
         targets.count = 1;
-        targets.records[0].id = get_entity_id(owner);
+        targets.records[0].id = owner->get_entity_id();
         targets.records[0].flag = 0;
         TTecReverser::create(owner, &owner->position, &targets, level);
         break;

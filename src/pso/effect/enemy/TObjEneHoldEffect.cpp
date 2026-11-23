@@ -16,6 +16,7 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/math/MatrixTransforms.h"
+#include "pso/object/base/TObjBase.h"
 
 #pragma readonly_strings on
 
@@ -84,7 +85,7 @@ TObjEneHoldEffect::TObjEneHoldEffect(TObjBase *target, s32 type, s32 frames) : T
     if (target != NULL) {
         m_name = class_name;
         VecCopy(&position, &target->position);
-        target_id = get_entity_id(target);
+        target_id = target->get_entity_id();
         frames_left = frames;
         switch (type) {
         case 1:

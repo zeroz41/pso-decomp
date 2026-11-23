@@ -63,6 +63,7 @@
 #include "pso/object/ambient/TObjFish.h"
 
 #include "pso/render/TUnk_80490470.h"
+#include "pso/object/base/TObjBase.h"
 extern "C" {
 
 
@@ -472,7 +473,7 @@ s32 TObjEneRe4Sorcerer::select_attack_target(f32 ranger_range_sq, f32 range_sq) 
             if (p != this && p != o1 && p != o2 && ((TObjBase *)p)->is_alive() != 0) {
                 d = horizontal_distance_squared(&this->body_center, &p->position);
                 if (d < best && csnLookAt(&this->body_center, &p->body_center) == 0) {
-                    id = get_entity_id(p);
+                    id = p->get_entity_id();
                     best = d;
                 }
             }
@@ -493,11 +494,11 @@ s32 TObjEneRe4Sorcerer::select_attack_target(f32 ranger_range_sq, f32 range_sq) 
             if (is_target_ranger(q) != 0) {
                 if (e < ranger_range_sq && is_target_unobstructed_from((TObjEneDD *)this, (TObjChara *)q) != 0) {
                     ranger_range_sq = e;
-                    tA = get_entity_id(q);
+                    tA = q->get_entity_id();
                 }
             } else if (e < range_sq && is_target_unobstructed_from((TObjEneDD *)this, (TObjChara *)q) != 0) {
                 range_sq = e;
-                tB = get_entity_id(q);
+                tB = q->get_entity_id();
             }
         }
     }
@@ -624,7 +625,7 @@ s32 TObjEneRe4Sorcerer::update_farthest_target(TObjChara *player, f32 *farthest)
         distance = horizontal_distance_squared(&position, &player->position);
         if ((distance <= 40000.0f) && (distance > *farthest)) {
             *farthest = distance;
-            target_id = get_entity_id(player);
+            target_id = player->get_entity_id();
             current_target = player;
             return 1;
         }
@@ -689,7 +690,7 @@ s32 TObjEneRe4Sorcerer::cast_technique() {
         if (attack_cycle == 0) {
             clear_target_cursor_list(&targets);
             targets.count = 1;
-            targets.records[0].id = get_entity_id(current_target);
+            targets.records[0].id = current_target->get_entity_id();
             targets.records[0].flag = 0;
             if (TObjEneDD::check_v2_mode() != 0) {
                 TTecGrants::create(this, src, &targets, TObjEneDD::clamp_frame_index(sorcerer_behavior_params[6]));

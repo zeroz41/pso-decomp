@@ -26,7 +26,7 @@ struct TObjNpcBase : public TObjEnemy {
     virtual ~TObjNpcBase();
     virtual void run_task();
     virtual void render();
-    virtual void interact(s32 client);
+    virtual void interact(u16 client);
     virtual void vfunc_83();
     virtual void update_standing();
     virtual void update_wandering();

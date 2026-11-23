@@ -12,6 +12,8 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/map/FloorArea.h"
+#include "pso/object/base/TObjBase.h"
+#include "pso/ui/window/TWindowCtrl.h"
 
 extern "C" {
 
@@ -182,25 +184,23 @@ void handle_6x38_donate_to_photon_blast(saddr arg0) {
 }
 extern "C" {
 
-void draw_party_label__15TFontSmallLobbyFiUis(saddr arg0, uaddr arg1, s16 arg2);
+void draw_party_label__15TFontSmallLobbyFiUiUs(saddr arg0, uaddr arg1, u16 arg2);
 s32 subtract_photon_blast_charge(PhotonBlastGauge *gauge, f32 amount);
 void TFontSmallLobby__sub_801D671C(void *a0, int a1);
-s32 create_party_effect__11TWindowCtrlFPvPv(s16, s16);
-s16 get_entity_id(u32);
 
 struct Sp801D6230_801d6230 { s16 f0; s16 fA; s16 fC; };
 
-void draw_party_label__15TFontSmallLobbyFiUis(saddr font_small_lobby, uaddr arg1, s16 arg2) {
+void draw_party_label__15TFontSmallLobbyFiUiUs(saddr font_small_lobby, uaddr arg1, u16 arg2) {
     Sp801D6230_801d6230 sp8;
 
     ((TFontSmallLobby *)font_small_lobby)->set_flag_40_bit5();
     subtract_photon_blast_charge((PhotonBlastGauge *)font_small_lobby, 10.0f);
     ((TFontSmallLobby *)(font_small_lobby + 0x4C))->set_target_index(8);
     TFontSmallLobby__sub_801D671C((void *)(font_small_lobby + 0x4C), 1);
-    create_party_effect__11TWindowCtrlFPvPv(get_entity_id(arg1), arg2);
+    TWindowCtrl::create_party_effect(((TObjBase *)(arg1))->get_entity_id(), arg2);
     if ((arg1 == 0U) || (((TObjChara *)arg1)->obj_isState2_324() == 0)) {
         TFontSmallLobby__sub_801D698C((Subcommand6x38 *)&sp8);
-        sp8.fA = get_entity_id(arg1);
+        sp8.fA = ((TObjBase *)(arg1))->get_entity_id();
         sp8.fC = arg2;
         ((TFontSmallLobby *)((s32 *) &sp8))->send_state();
     }

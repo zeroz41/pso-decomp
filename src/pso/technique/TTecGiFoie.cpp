@@ -22,6 +22,7 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/unk/TLobby_80226070.h"
+#include "pso/object/base/TObjBase.h"
 
 extern "C" {
 
@@ -152,7 +153,7 @@ TTecGiFoie::TTecGiFoie(saddr source, Vec *origin, s32 level) : TTecCircle(source
         break;
     }
     if (this->source != NULL) {
-        this->sourceId = get_entity_id((TObjBase *)this->source);
+        this->sourceId = ((TObjBase *)this->source)->get_entity_id();
     }
 }
 
@@ -201,12 +202,12 @@ void TTecGiFoie::vfunc_6(void *target) {
     s32 found = 0;
     s32 i;
     for (i = 0; i < 32; i++) {
-        if (this->hitIds[i] == get_entity_id((TObjBase *)target)) {
+        if (this->hitIds[i] == ((TObjBase *)target)->get_entity_id()) {
             found = 1;
         }
     }
     if (found == 0) {
-        this->hitIds[this->hitCursor] = get_entity_id((TObjBase *)target);
+        this->hitIds[this->hitCursor] = ((TObjBase *)target)->get_entity_id();
         this->hitCursor += 1;
         if (this->hitCursor >= 32) {
             this->hitCursor = 31;

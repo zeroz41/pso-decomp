@@ -17,6 +17,7 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/technique/TTecCtrl.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/object/base/TObjBase.h"
 struct Owner_80237310
 {
   u8 pad[0x30];
@@ -111,7 +112,6 @@ struct Tec_80236EE8 {
 };
 
 extern "C" {
-u16 get_entity_id(void *);
 void init_collision_body_parts(void *, f32 *, s32);
 void *__ct__14TObjCollidableFP7TObject(void *, void *);
 const char *lbl_805D37F0 = "TTecPlayerInfluence";
@@ -177,7 +177,7 @@ TTecPlayerInfluence::TTecPlayerInfluence(void *owner_arg, void *pos, s32 level) 
     init_collision_body_parts(self->fdc, self->fb0, 1);
   }
   self->fac = 1;
-  if (((self->owner != 0) && (get_entity_id(self->owner) < 4)) && (self->owner->flags & 0x02000000))
+  if (((self->owner != 0) && (((TObjBase *)(self->owner))->get_entity_id() < 4)) && (self->owner->flags & 0x02000000))
   {
     self->fac = 0;
   }
@@ -218,7 +218,7 @@ void deliver_technique_to_party_targets(Obj_802370D8 *arg0) {
         ((TObject *)arg0)->queue_destruction();
         return;
     }
-    if (get_entity_id(*(void **)((s8 *)arg0 + 0x1C)) < 4) {
+    if (((TObjBase *)(*(void **)((s8 *)arg0 + 0x1C)))->get_entity_id() < 4) {
         list = gather_contacts_for_self__10TObjPlayerFl(arg0, *(u32 *)((s8 *)arg0 + 0x1C));
     } else {
         list = (List_802370D8 *)((TTecPlayerInfluence *)arg0)->find_support_technique_contact_for_target(*(u32 *)((s8 *)arg0 + 0x1C));

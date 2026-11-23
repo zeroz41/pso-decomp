@@ -31,6 +31,7 @@
 #include "pso/network/client_id.h"
 #include "pso/ui/TLevelSelect.h"
 #include "pso/system/MatrixOps.h"
+#include "pso/object/base/TObjBase.h"
 
 
 const char *TObjFogCollision__name = "TObjFogCollision";
@@ -324,8 +325,7 @@ const char *TObjFogCollision_Manager__name = "TObjFogCollision_Manager";
 TObjFogCollision_Manager *TObjFogCollisionPoison__instances[12];
 
 extern "C" {
-s32 get_entity_id(s32);
-s32 send_6x2F_change_player_hp(s32, s32, s16);
+s32 send_6x2F_change_player_hp(s32, u16, s16);
 s32 play_sound_effect(s32, s32, s32, s32);
 }
 
@@ -374,7 +374,7 @@ void TObjFogCollisionPoison::apply_poison_damage(s32 client) {
         if (v < 0) {
             v = 0;
         }
-        send_6x2F_change_player_hp(0xFFFF, get_entity_id(p), v);
+        send_6x2F_change_player_hp(0xFFFF, ((TObjBase *)(p))->get_entity_id(), v);
     }
 }
 

@@ -16,6 +16,7 @@
 #include "pso/unk/TLobby_80226070.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/object/base/CollisionActorLookup.h"
+#include "pso/object/base/TObjBase.h"
 
 struct Tec_8022FB70 { u8 pad[0x20]; f32 pos[3]; u8 pad2c[0xC6 - 0x2C]; s16 band; };
 
@@ -122,7 +123,6 @@ struct Foie_8022FC94
 
 s32 clamp_nonnegative_int(s32 x);
 extern "C" {
-u16 get_entity_id(void *);
 // foie_emitter_parts_N (inferred, after TTecGiFoie's emitter_parts_N): the particle parts entry N of
 // TTecFoie__emitter_profile_table spawns; the scale of part 0x14 grows with the band.
 static const Binding_8022FC94 foie_emitter_parts_0[1] = {{0x14, 2, 1.0f}};
@@ -262,7 +262,7 @@ void TTecFoie::run_task() {
 TTecFoie::TTecFoie(saddr source, u8 *pos, u8 *target, s32 level)
     : TTecShot(source, pos, target, level) {
     if (this->source != NULL) {
-        sourceId = get_entity_id((void *)this->source);
+        sourceId = ((TObjBase *)this->source)->get_entity_id();
     }
     init_projectile_params();
     create_particle_emitters();
@@ -274,7 +274,7 @@ TTecFoie::TTecFoie(saddr source, Vec *pos, s32 angle, s32 level)
     : TTecShot(source, pos, angle, level) {
     m_name = TTecFoie__name;
     if (this->source != NULL) {
-        sourceId = get_entity_id((void *)this->source);
+        sourceId = ((TObjBase *)this->source)->get_entity_id();
     }
     init_projectile_params();
     create_particle_emitters();

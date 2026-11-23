@@ -17,6 +17,7 @@
 #include "pso/unk/TLobby_80291D94.h"
 #include "pso/item/TItemData_8010EDA8.h"
 #include "pso/unk/text_80076E84.h"
+#include "pso/object/base/TObjBase.h"
 
 struct Parm_8010C1E0;
 struct Item_8010C498;
@@ -93,7 +94,6 @@ struct Parm_8010C320
 };
 
 extern "C" {
-u16 get_entity_id(void *);
 s32 check_equip_requirements(void *self, TItemData *p, s32 *out);
 void *lookup_item_pmt_record(u8 *item);
 u8 get_cast_technique_level(void *, int);
@@ -192,7 +192,7 @@ void TItemData::apply_custom_shield_bonus(saddr player, TItemData *a, TItemData 
     if (data1.data_u8[0] == 1 && data1.data_u8[1] == 2) {
         u8 id = data1.data_u8[2];
         if (id >= 0x53 && id <= 0x82) {
-            s32 count = TObjPlayer::count_nearby_players_with_shield(get_entity_id((void *)player), data1.data_u8);
+            s32 count = TObjPlayer::count_nearby_players_with_shield(((TObjBase *)player)->get_entity_id(), data1.data_u8);
             u8 kind = (data1.data_u8[2] - 0x53) % 8;
             s16 bonus_per_player[8] = {0, 50, 25, 25, 100, 50, 50, 10};
             s16 amount = count * bonus_per_player[kind];
@@ -934,7 +934,7 @@ s32 TItemData::calc_action_flags(s32 mask, u8 *player) {
   }
   else
   {
-    id = get_entity_id(player);
+    id = ((TObjBase *)(player))->get_entity_id();
   }
   if (player == 0)
   {
@@ -1323,7 +1323,7 @@ f32 TItemData::get_armor_set_multiplier(u8 *arg1) {
         }
         break;
     case 45:
-        if (is_opposite_sex_player_near(get_entity_id(arg1)) != 0) {
+        if (is_opposite_sex_player_near(((TObjBase *)(arg1))->get_entity_id()) != 0) {
             v = 1.5f;
         }
         break;

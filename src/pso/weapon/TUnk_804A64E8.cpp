@@ -7,6 +7,7 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/player/TObjPlayer_801D2E20.h"
+#include "pso/object/base/TObjBase.h"
 
 void TUnk_804A64E8::vfunc_60() {
     switch (TObjPlayer::get_player_list()) {
@@ -59,7 +60,7 @@ void TUnk_804A64E8::emit_marker_effects() {
     Tec_8012F704 tec;
 
     init_slicer_launch_state((SlicerState_801295FC *)&tec);
-    tec.id = get_entity_id(this->owner);
+    tec.id = this->owner->get_entity_id();
     tec.fC = this->get_item_id();
     tec.f4 = ((Self_8012F704 *)this)->f24;
     tec.f8 = ((Self_8012F704 *)this)->f188;

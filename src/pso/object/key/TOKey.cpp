@@ -371,7 +371,7 @@ void TOKey::send_switch_on() {
     cmd.send();
 }
 
-void TOKey::interact(s32 client) {
+void TOKey::interact(u16 client) {
     s32 m = mode;
     TObjPlayer *player;
 

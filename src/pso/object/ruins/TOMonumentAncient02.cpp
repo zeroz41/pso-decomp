@@ -81,7 +81,7 @@ void TOMonumentAncient02::vfunc_6(s16 *state, s32) {
     access_object_saved_state(state, 0);
 }
 
-void TOMonumentAncient02::interact(s32 client) {
+void TOMonumentAncient02::interact(u16 client) {
     s16 state;
     TObjPlayer *player;
     switch (object_state) {

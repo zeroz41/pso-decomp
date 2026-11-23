@@ -26,6 +26,7 @@
 #include <stdlib.h>
 #include "pso/unk/text_803D853C.h"
 #include "pso/network/client_id.h"
+#include "pso/object/base/TObjBase.h"
 
 // Matrix-stack, vector and animation helpers and unowned globals without a usable header:
 // text_803D96A8.h/text_803D853C.h/MatrixTransforms.h/TObjMotion.h includers declare these with
@@ -480,7 +481,7 @@ u16 TObjEnemyCustom::find_nearest_enemy(Vec *out, f32 radius) {
         if (entity == NULL) {
             break;
         }
-        id = get_entity_id(entity);
+        id = entity->get_entity_id();
         if (id == entity_id) {
             continue;
         }
@@ -492,7 +493,7 @@ u16 TObjEnemyCustom::find_nearest_enemy(Vec *out, f32 radius) {
         }
         distance = calc_xz_distance_sq(this, entity, &offset);
         if (distance < best_distance) {
-            best = get_entity_id(entity);
+            best = entity->get_entity_id();
             best_distance = distance;
             if (out != NULL) {
                 VecCopy(out, &offset);

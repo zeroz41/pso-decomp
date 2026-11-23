@@ -12,6 +12,7 @@
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/system/task/TObject.h"
 #include "pso/object/base/TObjChara.h"
+#include "pso/object/base/TObjBase.h"
 
 const char *lbl_805D3198 = "TOTrap";
 
@@ -48,7 +49,7 @@ void TOTrap::vfunc_82() {
         this->receive_physical_attack(this->target, 1.0f);
         p = (TObjChara *)this->target;
         if (p != NULL) {
-            u32 v = get_entity_id(p);
+            u32 v = p->get_entity_id();
             if (v < 0x1000U) {
                 pl = get_player_by_client_id(v);
                 if (TObjPlayer::is_locally_controlled(pl) != 0 && pl->check_player_flag1() != 0) {
@@ -132,7 +133,7 @@ f32 TOTrap::receive_physical_attack(void *source, f32) {
         access_object_saved_state(&msg, 0);
         send_object_state_update(&msg);
         if (source != NULL) {
-            id = get_entity_id((TObjBase *)source);
+            id = ((TObjBase *)source)->get_entity_id();
             if (id < 0x1000U) {
                 pl = get_player_by_client_id(id);
                 if (pl != NULL && TObjPlayer::is_locally_controlled(pl) != 0 && pl->check_player_flag1() != 0) {

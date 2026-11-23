@@ -11,6 +11,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/technique/TTecCtrl.h"
 #include "pso/unk/TLobby_80226070.h"
+#include "pso/object/base/TObjBase.h"
 
 struct RecoveredFields_8023C558_arg0
 {
@@ -115,7 +116,6 @@ struct Zonde_8023C79C {
 };
 
 extern "C" {
-u16 get_entity_id(void *);
 
 TTecZonde::~TTecZonde() {
 }
@@ -252,7 +252,7 @@ TTecZonde::TTecZonde(s32 source, u8 *arg2, u8 *target_list, s32 level) : TTecSho
     init_parameters();
     copy_technique_target_list(&targets, (TargetCursorList *)target_list);
     if (this->source != 0) {
-        sourceId = get_entity_id((void *)this->source);
+        sourceId = ((TObjBase *)(saddr)this->source)->get_entity_id();
     }
 }
 

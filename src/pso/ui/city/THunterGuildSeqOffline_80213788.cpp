@@ -28,6 +28,7 @@
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/system/task/TObject.h"
 #include "pso/camera/TCameraCtrl.h"
+#include "pso/object/base/TObjBase.h"
 
 #define CAT2(a,b) a##b
 #define CAT(a,b) CAT2(a,b)
@@ -74,7 +75,6 @@ struct List_80214058 { u8 pad[0x28]; void *f28; void *f2c; void *f30; void *f34;
 
 extern "C" {
 
-saddr get_entity_id(void *);
 extern saddr TLobby__protocol_instance;
 
 }
@@ -277,7 +277,7 @@ void THunterGuildSeqOnline_Server::update() {
 
 void THunterGuildSeqOnline_Server::create_judgment_item_window() {
     if ((vfunc_10() != 0) && ((sub_80223A48() != 0) || (sub_802239EC() != 0))) {
-        choice_menu = create_yes_no_window((const NJS_POINT2 *)get_window_layout_position(0x2B), (u16)get_entity_id(player), NULL, NULL);
+        choice_menu = create_yes_no_window((const NJS_POINT2 *)get_window_layout_position(0x2B), ((TObjBase *)(player))->get_entity_id(), NULL, NULL);
         ((TWindowSubComCardList *)choice_menu)->set_selected_index(1);
         choice_menu->set_position_xy(get_scale(), get_scale());
         display_guild_message(8, 1);
@@ -335,14 +335,14 @@ void THunterGuildSeqOnline_Server::close_window() {
     case 1:
         mem = TObject::operator new(0x28);
         if (mem != NULL) ((THunterGuildSeqOffline *)mem)->init((void *)tl_00, (void *)reset_random_enemies_mode);
-        THunterGuildSeqOffline__sub_8021E180((saddr)(get_entity_id(player)));
+        THunterGuildSeqOffline__sub_8021E180((((TObjBase *)(player))->get_entity_id()));
         TShopSequence::close_window();
         queue_destruction();
         break;
     case 2:
         mem = TObject::operator new(0x28);
         if (mem != NULL) ((THunterGuildSeqOffline *)mem)->init((void *)tl_00, (void *)set_random_enemies_mode);
-        THunterGuildSeqOffline__sub_8021E180((saddr)(get_entity_id(player)));
+        THunterGuildSeqOffline__sub_8021E180((((TObjBase *)(player))->get_entity_id()));
         TShopSequence::close_window();
         queue_destruction();
         break;

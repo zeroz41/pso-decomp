@@ -16,6 +16,7 @@
 #include "pso/unk/TLobby_80226070.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/object/base/CollisionActorLookup.h"
+#include "pso/object/base/TObjBase.h"
 
 #pragma readonly_strings on
 
@@ -51,7 +52,6 @@ struct VObj_802386F8 : VBase_802386F8 {
 };
 
 extern "C" {
-s32 get_entity_id(void *);
 }
 
 void TTecZarua::calc_range() {
@@ -131,7 +131,7 @@ TTecZarua::TTecZarua(saddr source, Vec *pos, TargetCursorList *list, s32 level) 
         break;
     }
     if (this->source != 0) {
-        sourceId = get_entity_id((void *)this->source);
+        sourceId = ((TObjBase *)this->source)->get_entity_id();
     }
 }
 
@@ -165,6 +165,6 @@ TTecZarua::TTecZarua(saddr source, Vec *pos, Vec *target, s32 level) : TTecCircl
         break;
     }
     if (this->source != 0) {
-        sourceId = get_entity_id((void *)this->source);
+        sourceId = ((TObjBase *)this->source)->get_entity_id();
     }
 }

@@ -25,6 +25,7 @@
 #include "pso/unk/TUnk_804DDD28.h"
 #include "pso/boss/barbaray/TBoss7Crawfish.h"
 #include "pso/unk/TLobby.h"
+#include "pso/object/base/TObjBase.h"
 
 
 #define TOBJECT_OUT_OF_LINE_HELPERS
@@ -59,7 +60,7 @@ void TObjPlayer__sub_801BEEE0(void* p, void* q);
 void TObjPlayer__sub_801BEF30(void* p, void* q);
 void TObjPlayer__sub_801BEF44(void* p, void* q);
 void TObjPlayer__sub_801BEF60(void* p, s32 v);
-int create_attached_oneshot_emitter(void*, int, int);
+int create_attached_oneshot_emitter(void*, u16, int);
 int emit_player_particle(void*, int, int);
 void* TObjPlayer__sub_801BF31C(void* p);
 int TObjPlayer__sub_801BF3A0(void* p);
@@ -71,10 +72,9 @@ void TObjPlayer__sub_801BF488(s32 *arg0, s32 arg1);
 void TObjPlayer__sub_801BF4A0(s32 *arg0, s32 arg1);
 void emit_idle_water_effect(saddr arg0);
 void TObjPlayer__sub_801BEEAC(u8 *arg0, u8 *arg1);
-s32 get_entity_id(int);
 }
-int emit_zalure_support_effect(void* p, int a1);
-int emit_deband_support_effect(void* p, int a1);
+int emit_zalure_support_effect(void* p, u16 a1);
+int emit_deband_support_effect(void* p, u16 a1);
 void* get_surface_contact_point(void* p);
 void emit_grass_footstep_effect(saddr arg0);
 void emit_water_step_particles(saddr owner, saddr position);
@@ -82,7 +82,7 @@ void emit_water_footstep_effect(saddr arg0);
 void emit_sand_step_particles(saddr owner, saddr position);
 void emit_sand_footstep_effect(saddr arg0);
 void emit_idle_water_splash(s32 owner, saddr position);
-void emit_photon_blast_feedback_effects(saddr arg0, s32 arg1);
+void emit_photon_blast_feedback_effects(saddr arg0, u16 arg1);
 void prepare_heavy_attack_particles(u8 *arg0);
 void emit_jellen_support_effect(u8 *arg0);
 void emit_shifta_support_effect(u8 *arg0);
@@ -206,21 +206,21 @@ void TObjPlayer::prepare_heavy_attack_particles_default() { prepare_heavy_attack
 #pragma fp_contract on
 void prepare_heavy_attack_particles(u8 *arg0) {
     if (*(u32 *)((s8 *)arg0 + 4) != 0U) {
-        TObjPlayer::check_hit_by_id((saddr)arg0, (s32)((int)((int) (get_entity_id((int) *(u32 *)((s8 *)arg0 + 4))))), 0x11);
-        TObjPlayer::check_hit_by_id((saddr)arg0, (s32)((int)((int) (get_entity_id((int) *(u32 *)((s8 *)arg0 + 4))))), 0x12);
+        TObjPlayer::check_hit_by_id((saddr)arg0, ((TObjBase *)((saddr)*(u32 *)((s8 *)arg0 + 4)))->get_entity_id(), 0x11);
+        TObjPlayer::check_hit_by_id((saddr)arg0, ((TObjBase *)((saddr)*(u32 *)((s8 *)arg0 + 4)))->get_entity_id(), 0x12);
     }
 }
 #pragma pop
 
 int TObjPlayer::emit_zalure_support_effect_at() {
-    u16 *arg0 = (u16 *)this; return emit_zalure_support_effect((void*)((s8 *)arg0 + 4), (int)(*arg0)); }
+    u16 *arg0 = (u16 *)this; return emit_zalure_support_effect((void*)((s8 *)arg0 + 4), *arg0); }
 
-int emit_zalure_support_effect(void* p, int a1) { return create_attached_oneshot_emitter(p, a1, 508); }
+int emit_zalure_support_effect(void* p, u16 a1) { return create_attached_oneshot_emitter(p, a1, 508); }
 
 int TObjPlayer::emit_deband_support_effect_at() {
-    u16 *arg0 = (u16 *)this; return emit_deband_support_effect((void*)((s8 *)arg0 + 4), (int)(*arg0)); }
+    u16 *arg0 = (u16 *)this; return emit_deband_support_effect((void*)((s8 *)arg0 + 4), *arg0); }
 
-int emit_deband_support_effect(void* p, int a1) { return TObjPlayer::check_hit_by_id((saddr)p, (s32)a1, 508); }
+int emit_deband_support_effect(void* p, u16 a1) { return TObjPlayer::check_hit_by_id((saddr)p, a1, 508); }
 
 void TObjPlayer::emit_jellen_support_effect_default() { emit_jellen_support_effect((u8 *)((char*)this + 0x4)); }
 
@@ -228,10 +228,10 @@ void TObjPlayer::emit_jellen_support_effect_default() { emit_jellen_support_effe
 #pragma fp_contract on
 void emit_jellen_support_effect(u8 *arg0) {
     if ((u32) *(u32 *)((s8 *)arg0 + 0) != 0U) {
-        create_attached_oneshot_emitter(arg0, (int)((int) (get_entity_id((int) *(u32 *)((s8 *)arg0 + 0)))), 0x1C);
+        create_attached_oneshot_emitter(arg0, ((TObjBase *)((saddr)*(u32 *)((s8 *)arg0 + 0)))->get_entity_id(), 0x1C);
     }
     if ((u32) *(u32 *)((s8 *)arg0 + 4) != 0U) {
-        create_attached_oneshot_emitter(arg0, (int)((int) (get_entity_id((int) *(u32 *)((s8 *)arg0 + 4)))), 0x1C);
+        create_attached_oneshot_emitter(arg0, ((TObjBase *)((saddr)*(u32 *)((s8 *)arg0 + 4)))->get_entity_id(), 0x1C);
     }
 }
 #pragma pop
@@ -242,10 +242,10 @@ void TObjPlayer::emit_shifta_support() { emit_shifta_support_effect((u8 *)((char
 #pragma fp_contract on
 void emit_shifta_support_effect(u8 *arg0) {
     if ((u32) *(u32 *)((s8 *)arg0 + 0) != 0U) {
-        TObjPlayer::check_hit_by_id((saddr)arg0, (s32)((int)((int) (get_entity_id((int) *(u32 *)((s8 *)arg0 + 0))))), 0x1C);
+        TObjPlayer::check_hit_by_id((saddr)arg0, ((TObjBase *)((saddr)*(u32 *)((s8 *)arg0 + 0)))->get_entity_id(), 0x1C);
     }
     if ((u32) *(u32 *)((s8 *)arg0 + 4) != 0U) {
-        TObjPlayer::check_hit_by_id((saddr)arg0, (s32)((int)((int) (get_entity_id((int) *(u32 *)((s8 *)arg0 + 4))))), 0x1C);
+        TObjPlayer::check_hit_by_id((saddr)arg0, ((TObjBase *)((saddr)*(u32 *)((s8 *)arg0 + 4)))->get_entity_id(), 0x1C);
     }
 }
 #pragma pop
@@ -257,9 +257,9 @@ void emit_idle_water_effect(saddr arg0) {
 void* get_surface_contact_point(void* p) { return (char*)p + 0x24; }
 
 int TObjPlayer::emit_movement_effect_at() {
-    u16 *arg0 = (u16 *)this; return ((TObjPlayer *)((s8 *)arg0 + 4))->check_hit_by_id_276((int)(*arg0)); }
+    u16 *arg0 = (u16 *)this; return ((TObjPlayer *)((s8 *)arg0 + 4))->check_hit_by_id_276(*arg0); }
 
-int TObjPlayer::check_hit_by_id_276(int a1) { return TObjPlayer::check_hit_by_id((saddr)this, (s32)a1, 276); }
+int TObjPlayer::check_hit_by_id_276(u16 a1) { return TObjPlayer::check_hit_by_id((saddr)this, a1, 276); }
 
 void TObjPlayer::check_hit_by_id_431_from_packet() {
     u16 *arg0 = (u16 *)this;
@@ -284,10 +284,10 @@ void* TObjPlayer__sub_801BF31C(void* p) { return (char*)p + 0x18; }
 
 void TObjPlayer::emit_photon_blast_feedback_from_packet() {
     u16 *arg0 = (u16 *)this;
-    emit_photon_blast_feedback_effects((saddr)((s8 *)arg0 + 4), (s32)(*arg0));
+    emit_photon_blast_feedback_effects((saddr)((s8 *)arg0 + 4), *arg0);
 }
 
-void emit_photon_blast_feedback_effects(s32 arg0, s32 arg1) {
+void emit_photon_blast_feedback_effects(saddr arg0, u16 arg1) {
     TObjPlayer::check_hit_by_id(arg0, arg1, 5);
     TObjPlayer::check_hit_by_id(arg0, arg1, 0x2C);
     TObjPlayer::check_hit_by_id(arg0, arg1, 0x3B);
@@ -468,7 +468,7 @@ void TObjPlayer::reset_counter_field4() {
     extern const float TObjPlayer__data_805DC294;
 void TObjPlayer::set_vec3_const() { *(float*)((char*)this + 0x0) = TObjPlayer__data_805DC294; *(float*)((char*)this + 0x4) = TObjPlayer__data_805DC294; *(float*)((char*)this + 0x8) = TObjPlayer__data_805DC294; }
 
-void TObjPlayer__sub_801BF9E0(void* p, s16 v) { *(s16*)((char*)p + 0x0) = v; }
+void TObjPlayer__sub_801BF9E0(void* p, u16 v) { *(s16*)((char*)p + 0x0) = v; }
 void TObjPlayer::set_pos_z(f32 v) { *(f32*)((char*)this + 0x8) = v; }
 
 u8 *TObjPlayer__sub_801BF9F0(u8 *arg0, s16 arg1) {

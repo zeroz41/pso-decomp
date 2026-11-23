@@ -19,10 +19,10 @@ void *get_player_by_client_id(s32);
 int TObjPlayer__sub_803131AC(void* a0);
 void TObjPlayer__sub_80312E98(void *o, u16 id);
 void *TObjPlayer__sub_803131B4(void *, int);
-void set_field_0__10TObjPlayerFs(void* p, int v);
+void set_field_0__10TObjPlayerFUs(void* p, u16 v);
 void TObjPlayer__sub_80313250(void *arg0, s32 arg1);
-void TObjPlayer__sub_80313010(void *o, s32 id);
-s32 get_client_id__18PhotonBlastRequestFv(void *);
+void TObjPlayer__sub_80313010(void *o, u16 id);
+u16 get_client_id__18PhotonBlastRequestFv(void *);
 int TObjPlayer__sub_803131AC(void* a0 = 0);
 }
 void release_photon_blast_requests(void *registry);
@@ -58,19 +58,19 @@ void *TObjPlayer::find_by_section_id(u16 section) {
     return 0;
 }
 
-void TObjPlayer::create_party_effects(saddr id) {
+void TObjPlayer::create_party_effects(u16 id) {
     s32 n;
     saddr i;
-    saddr sec;
+    u16 sec;
     Ply_80312D4C *ent;
     u8 *e;
     n = TObjPlayer__sub_803131AC(this);
     for (i = 0; i < n; i++) {
         e = (u8 *)TObjPlayer::get_element(this, i);
         sec = get_client_id__18PhotonBlastRequestFv(e);
-        ent = (Ply_80312D4C *)get_player_by_client_id((u16)sec);
-        if (ent != NULL && (u16)id != (u16)sec && ((TObjPlayer *)((u8 *)ent + 0x4AC))->query_field40() != 0) {
-            TWindowCtrl::create_party_effect((void*)id, (void*)sec);
+        ent = (Ply_80312D4C *)get_player_by_client_id(sec);
+        if (ent != NULL && id != sec && ((TObjPlayer *)((u8 *)ent + 0x4AC))->query_field40() != 0) {
+            TWindowCtrl::create_party_effect(id, sec);
             TObjPlayer__sub_80313010(e, id);
             ent->m75(10.0f);
         }
@@ -137,19 +137,19 @@ loop_1:
     }
     goto loop_1;
 }
-void TObjPlayer__sub_80313010(void *o, s32 id) {
+void TObjPlayer__sub_80313010(void *o, u16 id) {
     s32 n;
     saddr i;
     void *e;
     n = TObjPlayer::get_max_children(o);
     for (i = 0; i < n; i++) {
         e = TObjPlayer__sub_803131B4(o, i);
-        if ((u16)id == ((PhotonBlastRequestSlot *)e)->get_client_id()) {
+        if (id == ((PhotonBlastRequestSlot *)e)->get_client_id()) {
             TObjPlayer__sub_80313250(e, 10);
             return;
         }
         if (((PhotonBlastRequestSlot *)e)->get_client_id() == 0xFFFF) {
-            set_field_0__10TObjPlayerFs(e, id);
+            set_field_0__10TObjPlayerFUs(e, id);
             TObjPlayer__sub_80313250(e, 10);
             return;
         }

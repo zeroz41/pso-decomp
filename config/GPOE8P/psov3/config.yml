@@ -5000,7 +5000,7 @@ force_active:
   - check_ground_or_fall__13TUnk_804B5BA8Fv
   - check_heavy_damage_flag__9TObjCharaFf
   - check_height_ready__13TObjTombstoneFv
-  - check_hit_by_id_276__10TObjPlayerFi
+  - check_hit_by_id_276__10TObjPlayerFUs
   - check_hit_sphere__16TObjEneBm5GibonUFif
   - check_hold_player__14TOTrapSeabed01FPv
   - check_load_state__16TAdChrSelASlotGCFv
@@ -5308,7 +5308,7 @@ force_active:
   - construct_rappys_fan__13TUnk_804F0908FlPv
   - __ct__13TUnk_804A4238FP7TObjectPUc
   - __ct__13TUnk_804A4338FP7TObjectPUc
-  - __ct__13TUnk_804CC0E8FP3VecP3VeclP7TObject
+  - __ct__13TUnk_804CC0E8FP3VecP3VecUsP7TObject
   - __ct__13TUnk_804CCBC0FP3VeclP7TObject
   - __ct__13TUnk_804A5C18FP7TObjectPUc
   - __ct__13TUnk_804A5B20FP7TObjectPUc
@@ -5954,7 +5954,7 @@ force_active:
   - duel_result_window_layout_table
   - duel_start_countdown_effect_pos
   - eff_indirect_update_and_flush__16TEffIndirectCtrlFv
-  - emit_deband_support_effect__FPvi
+  - emit_deband_support_effect__FPvUs
   - emit_grass_footstep_particle__10TObjPlayerFi
   - emit_jellen_support_effect__FPUc
   - emit_marker_effects__13TUnk_804A0DB0Fv
@@ -5976,11 +5976,11 @@ force_active:
   - emit_marker_effects__13TUnk_804ECDC0Fv
   - emit_marker_effects__13TUnk_804F1320Fv
   - emit_part_attack_effect__13TBoss5GryphonFi
-  - emit_photon_blast_feedback_effects__Fll
+  - emit_photon_blast_feedback_effects__FlUs
   - emit_player_model_particle__Fllll
   - emit_player_sprite_particle__Flll
   - emit_shifta_support_effect__FPUc
-  - emit_zalure_support_effect__FPvi
+  - emit_zalure_support_effect__FPvUs
   - empty_post_damage_hook__FPvPv
   - empty_state__14TObjEneBm5WolfFl
   - empty_warp_overlay_vertices
@@ -7237,7 +7237,7 @@ force_active:
   - insert_sorted_by_id__5TItemFv
   - insert_string__19TWindowKeyBoardBaseFPc
   - instance__16TLobbyEventTheme
-  - interact__19TOMonumentAncient02Fl
+  - interact__19TOMonumentAncient02FUs
   - interact_player_neg1__11TOVS2Wall01Fv
   - interp_position_between_nodes__11TBoss4Type3Fv
   - interpolate_along_curve__18TObjTailsTailsMoveFPf
@@ -7346,7 +7346,7 @@ force_active:
   - is_secondary_sequence__12TBoss1DragonFv
   - is_sega_logo_done__FP11TAdSEGAlogo
   - is_signboard_texture_buffer_missing__Fv
-  - is_slot_active__14TShopGeneratorFi
+  - is_slot_active__14TShopGeneratorFUs
   - is_sound_enabled__12TObjEnvSoundFPvl
   - is_sphere_visible__12TBoss1DragonFP3Vecf
   - is_split_screen__10TObjPlayerFv
@@ -15669,7 +15669,7 @@ force_active:
   - show_message__17TMCFormatSequenceFll
   - show_message__18TChallenge4PResultFl
   - show_message_and_wait__15TObjBoss2TunnelFl
-  - show_part__9TObjLukerFl
+  - show_part__9TObjLukerFUs
   - show_score_results__6TLobbyFPv
   - show_seq_phase_message__6TLobbyFi
   - show_status_message__22TQuestVmDownLoadServerFll

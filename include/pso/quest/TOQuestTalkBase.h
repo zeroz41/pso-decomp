@@ -16,7 +16,7 @@ public:
     virtual void run_task();
     virtual void render();
     virtual void vfunc_6(s16 *state, s32);
-    virtual void interact(s32 client);
+    virtual void interact(u16 client);
     // Sets active from the activation rule and returns it.
     virtual s32 update_active_state();
     // The per-frame animation step run_task ends with (the capsules spin

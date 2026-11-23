@@ -53,6 +53,7 @@ struct NJS_OBJECT;
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/object/base/TObjBase.h"
 
 extern "C" {
 extern void *slime_model_index_by_type[2];
@@ -1513,7 +1514,7 @@ s32 TObjEneSlimeTailAttack::apply_tail_hits() {
     id2 = self->find_nearest_enemy_with_flag(25.0f);
     if (id2 != 0xFFFF) {
         TObjEneSlimeOne *owner = self->owner;
-        if (owner == NULL || id2 != (u16)get_entity_id(owner)) {
+        if (owner == NULL || id2 != (u16)owner->get_entity_id()) {
             e2 = (TObjChara *)get_enemy_entity(id2);
             if (e2 != NULL && !(horizontal_distance_squared(&self->body_center, &e2->body_center) > 56.25f)) {
                 f32 damage = e2->receive_direct_attack(self->owner, hit, 0, -1, -1);

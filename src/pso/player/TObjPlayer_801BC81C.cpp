@@ -10,6 +10,10 @@
 #include "pso/player/TObjPlayer_801BCD28.h"
 #include "pso/system/task/TObject.h"
 #include "pso/player/TPlyDispData.h"
+#include "pso/object/base/TObjBase.h"
+#include "pso/ui/window/TWindowActionPalette_801C1890.h"
+#include "pso/player/TObjPlayer_801BF978.h"
+#include "pso/player/TObjPlayer_801C1FF8.h"
 
 
 extern "C" {
@@ -59,24 +63,20 @@ typedef struct Player_801BC948 {
 } Player_801BC948;
 
 extern "C" {
-s32 get_entity_id(void *);
-s32 TObjPlayer__sub_801BF9E0(void *, int);
-s32 set_field2_s16(void *, s32);
 s32 get_class_index__10TObjPlayerFv(void *);
 void TObjPlayer__sub_801BEF44(void *, void *);
-void TObjPlayer__sub_801C1F78(void *, s32);
 void clamp_and_set_unit_value__10TObjPlayerFiUci(void *, u8, s16);
 void TObjPlayer__sub_801D955C(void *, s32);
 void init_session_technique_caps__10TObjPlayerFPvPv(Player_801BC948 *self, Src_801BC948 *src);
 
 void TObjPlayer__sub_801BC8F0(saddr arg0) {
-    TObjPlayer__sub_801BF9E0((void *)(arg0 + 0x634), (int) (get_entity_id((void *)arg0)));
+    TObjPlayer__sub_801BF9E0((void *)(arg0 + 0x634), ((TObjBase *)arg0)->get_entity_id());
     ((TObjPlayer *)(arg0 + 0x384))->update_follow_particle(arg0);
-    set_field2_s16((void *)(arg0 + 0x34C), (get_entity_id((void *)arg0)));
+    set_field2_s16((void *)(arg0 + 0x34C), (((TObjBase *)arg0)->get_entity_id()));
 }
 void init_session_technique_caps__10TObjPlayerFPvPv(Player_801BC948 *self, Src_801BC948 *src) {
     s32 i;
-    TObjPlayer__sub_801C1F78(self->f4ac, get_entity_id(self));
+    TObjPlayer__sub_801C1F78(self->f4ac, ((TObjBase *)(self))->get_entity_id());
     TObjPlayer__sub_801D955C(self->techs, get_class_index__10TObjPlayerFv(self));
     ((TObjPlayer *)(self->techs))->copy_all_technique_entries((void *)0x1D);
     for (i = 0; i < 0x13; i++) {
@@ -94,7 +94,7 @@ s32 get_record_byte_at(void *, s32);
 
 void TObjPlayer__sub_801BCA14(u8 *player, void *arg1) {
     s32 i;
-    TObjPlayer__sub_801C1F78(player + 0x4AC, ((s32 (*)())get_entity_id)());
+    TObjPlayer__sub_801C1F78(player + 0x4AC, ((TObjBase *)player)->get_entity_id());
     TObjPlayer__sub_801D955C(player + 0x428, get_class_index__10TObjPlayerFv(player));
     ((TObjPlayer *)(player + 0x428))->copy_all_technique_entries((void *)0x1D);
     i = 0;

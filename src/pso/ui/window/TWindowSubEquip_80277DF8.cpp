@@ -34,7 +34,7 @@ void *get_player_by_client_id(s32 i);
 s32 play_sound_effect(s32, s32, s32, s32);
 s32 fn_80255A38(s32);
 s32 TWindowSubEquip__sub_80263AF4(void *, s32);
-saddr __ct__15TWindowHelpItemFPvUs(void *, void *, s32);
+saddr __ct__15TWindowHelpItemFPvl(void *, void *, s32);
 s32 create_equip_list_window(void *, const NJS_POINT2 *, s32);
 }
 
@@ -50,7 +50,7 @@ TWindowSubEquip::TWindowSubEquip(TWindowMainMenu *parent, s32 client) : TObject(
     ((TWindowSubShortCutList *)(this->equip_list))->set_flag70_bit10();
     p = TObject::operator new(0xBC);
     if (p != 0) {
-        p = (void *)__ct__15TWindowHelpItemFPvUs(p, get_window_layout_position(2), this->client_id);
+        p = (void *)__ct__15TWindowHelpItemFPvl(p, get_window_layout_position(2), this->client_id);
     }
     *(void **)((s8 *)this + 0x30) = p;
     ((TWindowBase *)this->m_30)->set_depth(TWindowSubEquip__sub_80263AF8((u8 *)this->parent, 2));

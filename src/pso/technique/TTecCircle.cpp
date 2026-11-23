@@ -14,6 +14,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/object/base/TObjBase.h"
 
 // Built with deferred code generation (configure.py): the functions run last to first.
 
@@ -47,7 +48,7 @@ TTecCircle::TTecCircle(saddr source, Vec *pos, Vec *target, s32 level) : TEffect
     this->collisionBody.radius = 10.0f;
     this->collisionBody.half_width = 1.0f;
     this->collisionBody.shape = 0;
-    if (get_entity_id((TObjBase *)this->source) < 4U) {
+    if (((TObjBase *)this->source)->get_entity_id() < 4U) {
         if (get_type__10TObjPlayerFPv((void *)(this->source + 0x828)) != 0) {
             this->collisionBody.flags = 0x40007;
         } else {
@@ -94,7 +95,7 @@ TTecCircle::TTecCircle(saddr source, saddr pos, s32 level) : TEffect() {
     this->collisionBody.radius = 10.0f;
     this->collisionBody.half_width = 1.0f;
     this->collisionBody.shape = 0;
-    if (get_entity_id((TObjBase *)this->source) < 4U) {
+    if (((TObjBase *)this->source)->get_entity_id() < 4U) {
         if (get_type__10TObjPlayerFPv((void *)(this->source + 0x828)) != 0) {
             this->collisionBody.flags = 0x40007;
         } else {

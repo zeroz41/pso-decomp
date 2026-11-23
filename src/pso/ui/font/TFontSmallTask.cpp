@@ -18,6 +18,7 @@
 #include "pso/unk/TLobby_8001D6A0.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80228F5C.h"
 #include "pso/unk/TLobby_800F8AA8.h"
+#include "pso/object/base/TObjBase.h"
 const char *TFontSmallTask__name = "TFontSmallTask";
 
 struct TFontSmallTask_800FD4D4 {
@@ -270,7 +271,6 @@ LeaderSelection leader_selection;
 extern "C" {
 void call_funcs_reverse__6TLobbyFPvUi(Ent_800FD6A0 *arr, u32 size);
 s32 run_load_callback_table(Ent_800FD6F8 *p, u32 size);
-u16 get_entity_id();
 void __ct__7TObjectFP7TObject(void *, void *);
 }
 u32 calc_small_font_text_width(const char *s);
@@ -318,7 +318,7 @@ void LeaderSelection::find_leader_section_id(s32 client_id) {
     count = TLobby::get_game_mode();
     for (i = 0; i < count; i++) {
         player = TObjPlayer::get_player_data(i);
-        if (player != NULL && client_id == get_entity_id()) {
+        if (player != NULL && client_id == player->get_entity_id()) {
             level = player->get_actor_level_index();
             section_id = ((TPlyPhotonChair *)player)->get_actor_section_id();
         }

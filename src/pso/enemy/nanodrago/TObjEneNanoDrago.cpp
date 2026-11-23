@@ -50,6 +50,7 @@
 #include <stddef.h>
 #include "pso/system/task/TObject.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
+#include "pso/object/base/TObjBase.h"
 LAYOUT_ASSERT(NanoGrow_scale, offsetof(TObjEneNanoDrago, scale.x) == 0x68);
 LAYOUT_ASSERT(NanoGrow_target_scale, offsetof(TObjEneNanoDrago, scale.y) == 0x6c);
 LAYOUT_ASSERT(NanoGrow_base_atp, offsetof(TObjEneNanoDrago, base_atp) == 0x2c0);
@@ -1100,7 +1101,7 @@ void TObjEneNanoDrago::add_target_in_front_arc(TObjChara *candidate) {
       heading = (-((s32) (RADIANS_TO_ANGLE * atan2_float(v.z, dx)))) + 0x4000;
       if (angle_difference_abs(heading, rotation_y) <= 0xAAA)
       {
-        s16 id = get_entity_id(candidate);
+        s16 id = candidate->get_entity_id();
         u16 *ids = beamTargetIds;
         ids[beamTargetCount++] = id;
       }

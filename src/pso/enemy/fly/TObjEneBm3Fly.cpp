@@ -36,6 +36,7 @@
 #include "pso/object/trap/TOTrapAncient01_80226534.h"
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel_8007E418.h"
+#include "pso/object/base/TObjBase.h"
 
 #pragma defer_codegen on
 
@@ -100,7 +101,7 @@ void TObjEneBm3Fly::release_shared_data() {
 
 TObjEneBm3Fly::TObjEneBm3Fly(TObject *parent, TObjEneBm3FlyNest *nest, s32 entity_id, s32 set_index, const Vec *position, const Vec *velocity) : TObjEneDD_ST(parent) {
     m_name = TObjEneBm3Fly__name;
-    owner_id = get_entity_id(nest);
+    owner_id = nest->get_entity_id();
     init_common_from((u8 *)nest);
     this->entity_id = entity_id;
     this->set_index = set_index;

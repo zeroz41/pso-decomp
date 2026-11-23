@@ -21,6 +21,7 @@
 #include "pso/math/MatrixVector.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjBase.h"
 
 extern "C" {
 s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
@@ -50,7 +51,7 @@ s32 TUnk_80484A94::try_capture_target() {
                 target->receive_direct_attack(m_up, hit, NULL, -1, -1);
                 owner = m_up;
                 if (owner != NULL) {
-                    ((TBoss3Volopt *)owner)->create_cage(get_entity_id(target));
+                    ((TBoss3Volopt *)owner)->create_cage(target->get_entity_id());
                 }
                 return 1;
             }
@@ -111,7 +112,7 @@ TUnk_80484A94::~TUnk_80484A94() {
 
 TUnk_80484A94::TUnk_80484A94(TObjEnemy *owner, Vec *pos, s32 target) : TObjCollidable(owner) {
     init_collision_body_parts(this, volopt_shot_collision_body, 1);
-    entity_id = get_entity_id(owner);
+    entity_id = owner->get_entity_id();
     VecCopy(&position, pos);
     target_id = target;
     rotation_x = 0;

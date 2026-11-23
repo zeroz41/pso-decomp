@@ -43,7 +43,7 @@ s32 try_send_6x27_use_item(void *arg0, s32 arg1);
 s32 try_equip_item__10TObjPlayerFii(u8 *, s32);
 void play_sound_effect(int, int, int, int);
 s32 TWindowCtrl__sub_8024A228(saddr);
-void *__ct__15TWindowHelpItemFPvUs(void *, s32, s32);
+void *__ct__15TWindowHelpItemFPvl(void *, s32, s32);
 saddr get_window_layout_position(int);
 s32 end_player_keyboard_hold(saddr);
 s32 TWindowCtrl__sub_8024A1A8();
@@ -155,7 +155,7 @@ void TWindowShortListCtrl::run_task() {
             if (help_window == NULL) {
                 void *w = TObject::operator new(0xBC);
                 if (w != NULL) {
-                    w = __ct__15TWindowHelpItemFPvUs(w, get_window_layout_position(2), client_id);
+                    w = __ct__15TWindowHelpItemFPvl(w, get_window_layout_position(2), client_id);
                 }
                 help_window = w;
                 help_item_id = -1;

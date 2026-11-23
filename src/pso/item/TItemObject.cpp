@@ -16,6 +16,7 @@
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/render/render_util.h"
+#include "pso/object/base/TObjBase.h"
 
 #pragma readonly_strings on
 
@@ -131,7 +132,7 @@ void send_star_atomizer_targets(TObjPlayer *player) {
         slot = player->lock_on_cursor->find_by_pos(4, 0xA);
         if (slot != NULL) {
             ((TObjPlayer *)&cmd)->set_type_bytes();
-            cmd.target_client_ids[0] = get_entity_id(player);
+            cmd.target_client_ids[0] = player->get_entity_id();
             for (i = 0; i != 3; i++) {
                 cmd.target_client_ids[i + 1] = ((TObjPlayer *)TObjPlayer__sub_80116620(&slot->target_records, i))->get_type_id();
             }
@@ -152,7 +153,7 @@ void send_nearby_player_ids(TObjPlayer *self, f32 range) {
             player = (TObjPlayer *)get_player_by_client_id(i);
             if (player != NULL) {
                 if (horizontal_distance_squared(&self->position, &player->position) < range) {
-                    cmd.target_client_ids[j++] = get_entity_id(player);
+                    cmd.target_client_ids[j++] = player->get_entity_id();
                 } else {
                     cmd.target_client_ids[j++] = -1;
                 }

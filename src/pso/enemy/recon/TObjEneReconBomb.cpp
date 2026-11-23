@@ -30,6 +30,7 @@
 #include "pso/system/MatrixOps.h"
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/object/base/TObjBase.h"
 
 
 #pragma readonly_strings on
@@ -146,7 +147,7 @@ void TObjEneReconBomb::run_task() {
         spawn_particle_effect_with_flags(&position, 0x46, 0x40);
         for (i = 0; i < lbl_805D5868; i++) {
             pl = TObjPlayer::get_player_data(i);
-            if (TObjPlayer::is_valid_and_active((uaddr)pl) != 0 && pl != 0 && get_entity_id(pl) < 0x1000 && pl->has_flag_0x800() == 0) {
+            if (TObjPlayer::is_valid_and_active((uaddr)pl) != 0 && pl != 0 && pl->get_entity_id() < 0x1000 && pl->has_flag_0x800() == 0) {
                 if (horizontal_distance_squared(&pl->body_center, &body_center) <= blast_radius * blast_radius) {
                     DirectAttackPayload attack;
                     attack.kind = 0;
@@ -174,7 +175,7 @@ TObjEneReconBomb::TObjEneReconBomb(TObject *parent, TObjEneRecon *recon, const V
 
     m_name = TObjEneReconBomb__name;
     owner = recon;
-    owner_id = get_entity_id(owner);
+    owner_id = owner->get_entity_id();
     blast_radius = owner->get_bomb_radius();
     blast_power = owner->get_bomb_power();
     launch_speed = owner->get_bomb_speed();

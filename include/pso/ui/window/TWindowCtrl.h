@@ -90,8 +90,8 @@ struct TWindowCtrl : public TObject {
     static void set_window_flags_off(s32 client, s32 flags);
     static void init_all(void* p, void* a1);
     void init_all_default();
-    static void show_party_effect(void* a0, void* a1, void* a2);
-    static void create_party_effect(void* a0, void* a1);
+    static void show_party_effect(u16 from, u16 to, u32 kind);
+    static void create_party_effect(u16 from, u16 to);
     static void dispatch_to_child(s32 client, s32 kind);
     void update_pulse_color();
     void update_trade_window();

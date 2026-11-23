@@ -21,9 +21,9 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/window/TWindowInputNumber.h"
 #include "pso/system/task/TObject.h"
+#include "pso/object/base/TObjBase.h"
 
 extern "C" {
-s32 get_entity_id(TObjPlayer *);
 
 saddr get_window_layout_position(s32);
 s32 compact_items__18TCheckRoomSequenceFi(int);
@@ -32,10 +32,10 @@ s32 copy_item_record__18TCheckRoomSequenceFiPvi(int, void *, int);
 s32 copy_bank_to_card_window(int);
 s32 copy_bank_item_with_stack_limit(s32 idx, void *data, s32 *out, s32 slot);
 TWindowInputNumber *__ct__18TWindowInputNumberFPvllls(void *, s32, s32, s32, s32, s16);
-TWindowHelpItem *__ct__15TWindowHelpItemFPvUs(void *, s32, u16);
+TWindowHelpItem *__ct__15TWindowHelpItemFPvl(void *, s32, s32);
 void add_item_info_entry__20TWindowSubStatusDispFlll(TWindowMenuIconLine *, void *, s32, s32);
 void TWindowSetLevelUp__sub_8026DE28(TWindowMenuIconLine *, s32);
-TWindowMenuIconLine *create_item_list_window(s32, s32, u16);
+TWindowMenuIconLine *create_item_list_window(s32, s32, s32);
 }
 
 extern const char *TShopGetItemWindow__class_name;
@@ -103,7 +103,7 @@ void TShopGetItemWindow::vfunc_11() {
 }
 
 void TShopGetItemWindow::rebuild_item_list() {
-    u16 id;
+    s32 id;
     s32 x;
     s32 sel;
     s32 i;
@@ -120,7 +120,7 @@ void TShopGetItemWindow::rebuild_item_list() {
     if (m_28 == NULL) {
         TItemData item;
         s32 count;
-        m_28 = create_item_list_window(get_shop_text(0x30), 0xC8, get_entity_id(m_24));
+        m_28 = create_item_list_window(get_shop_text(0x30), 0xC8, m_24->get_entity_id());
         TWindowSetLevelUp__sub_8026DE28(m_28, 0xC8);
         for (i = 0; i < 0xC8; i++) {
             if (copy_bank_item_with_stack_limit(i, &item, &count, x) != 0) {
@@ -157,8 +157,8 @@ void TShopGetItemWindow::rebuild_item_list() {
         if (copy_item_record__18TCheckRoomSequenceFiPvi(sel, &m_38, x) != 0) {
             help = (TWindowHelpItem *)TObject::operator new(0xBC);
             if (help != NULL) {
-                id = (u16)get_entity_id(m_24);
-                help = __ct__15TWindowHelpItemFPvUs(help, get_window_layout_position(0x27), id);
+                id = m_24->get_entity_id();
+                help = __ct__15TWindowHelpItemFPvl(help, get_window_layout_position(0x27), id);
             }
             m_34 = help;
             if (m_34 != NULL && TLobby::is_camera_ctrl_active() > 2) {
@@ -210,7 +210,7 @@ void TShopGetItemWindow::handle_withdraw_list_input() {
                 set_field_20(2);
                 return;
             }
-            sel = (u16)get_entity_id(m_24);
+            sel = m_24->get_entity_id();
             m_2c = create_yes_no_window((const NJS_POINT2 *)get_window_layout_position(0x2B), sel, NULL, NULL);
             ((TWindowMenu *)m_2c)->set_ready_flag();
             scale = get_scale();
@@ -225,7 +225,7 @@ void TShopGetItemWindow::update_input_number() {
     w = m_30;
     if (w != NULL && w->is_confirmed() != 0) {
         if (m_2c == NULL) {
-            m_2c = create_yes_no_window((const NJS_POINT2 *)get_window_layout_position(0x2B), (u16)get_entity_id(m_24), NULL, NULL);
+            m_2c = create_yes_no_window((const NJS_POINT2 *)get_window_layout_position(0x2B), m_24->get_entity_id(), NULL, NULL);
             ((TWindowMenu *)m_2c)->set_ready_flag();
             ((TWindowAddition *)m_2c)->set_position_xy(get_scale(), get_scale());
         }

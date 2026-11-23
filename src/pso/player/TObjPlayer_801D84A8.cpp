@@ -9,6 +9,7 @@
 #include "pso/technique/TTecCtrl.h"
 #include "pso/player/TPlyItem.h"
 #include "pso/weapon/WeaponSpecialSelection.h"
+#include "pso/object/base/TObjBase.h"
 
 struct Tec_801D7DA4 { u8 pad[0x10]; s16 cost; };
 
@@ -23,12 +24,11 @@ struct TObjPlayer_801D8044 {
 
 extern "C" {
 u8 get_cast_technique_level(void *, int);
-Tec_801D7DA4 *calc_technique_parameters(s32, s32, s32);
+Tec_801D7DA4 *calc_technique_parameters(s32, s32, u16);
 s32 get_game_play_mode();
 s32 TObjPlayer__sub_801C1F50(void *);
 
 s32 TObjPlayer__sub_801AF694(void *, s32);
-u16 get_entity_id(void *);
 s32 TWindowCtrl__sub_8024A228(saddr);
 s32 TMainCursor__sub_8013F244(void *);
 s32 fn_8013F24C(void *, s32);
@@ -74,7 +74,7 @@ s32 is_palette_entry_displayable__10TObjPlayerFv(u8 *player, u8 kind, u8 sub) {
         if (((TObjPlayer *)(player + 0x428))->test_bit1_at_10() != 0 || ((TObjCollidable *)player)->test_actor_flags(0x20006) != 0 || ((TObjPlayer *)player)->get_camera_field() == 0) {
             return 0;
         }
-        if (*(s16 *)(player + 0x32E) - calc_technique_parameters(tec = sub, get_cast_technique_level(player + 0x428, sub), ((s32 (*)(void *))get_entity_id)(player))->cost < 0) {
+        if (*(s16 *)(player + 0x32E) - calc_technique_parameters(tec = sub, get_cast_technique_level(player + 0x428, sub), ((TObjBase *)(player))->get_entity_id())->cost < 0) {
             return 0;
         }
         switch (tec) {
@@ -239,7 +239,7 @@ bool can_use_palette_action__10TObjPlayerFPvUcUc(TObjPlayer_801D8044 *self, u8 k
                 if (TObjPlayer__sub_801AF694(self, 0) != 0) {
                     return 0;
                 }
-                if (TWindowCtrl__sub_8024A228(get_entity_id(self)) == 0) {
+                if (TWindowCtrl__sub_8024A228(((TObjBase *)(self))->get_entity_id()) == 0) {
                     return 0;
                 }
                 break;
@@ -247,7 +247,7 @@ bool can_use_palette_action__10TObjPlayerFPvUcUc(TObjPlayer_801D8044 *self, u8 k
                 if (TObjPlayer__sub_801AF694(self, 1) != 0) {
                     return 0;
                 }
-                if (TWindowCtrl__sub_8024A228(get_entity_id(self)) == 0) {
+                if (TWindowCtrl__sub_8024A228(((TObjBase *)(self))->get_entity_id()) == 0) {
                     return 0;
                 }
                 break;
@@ -255,7 +255,7 @@ bool can_use_palette_action__10TObjPlayerFPvUcUc(TObjPlayer_801D8044 *self, u8 k
                 if (TObjPlayer__sub_801AF694(self, 2) != 0) {
                     return 0;
                 }
-                if (TWindowCtrl__sub_8024A228(get_entity_id(self)) == 0) {
+                if (TWindowCtrl__sub_8024A228(((TObjBase *)(self))->get_entity_id()) == 0) {
                     return 0;
                 }
                 break;
@@ -263,7 +263,7 @@ bool can_use_palette_action__10TObjPlayerFPvUcUc(TObjPlayer_801D8044 *self, u8 k
                 if (TObjPlayer__sub_801AF694(self, 3) != 0) {
                     return 0;
                 }
-                if (TWindowCtrl__sub_8024A228(get_entity_id(self)) == 0) {
+                if (TWindowCtrl__sub_8024A228(((TObjBase *)(self))->get_entity_id()) == 0) {
                     return 0;
                 }
                 break;

@@ -21,7 +21,7 @@ public:
     virtual ~TOKey();
     virtual void run_task();
     virtual s32 update_object_view_visibility(f32, f32);
-    virtual void interact(s32 client);
+    virtual void interact(u16 client);
     // Copies the floor's switch state into is_on (unless mode is NONE).
     virtual void update_lock_state();
     // 1 when the local player stands in range and presses the action button.

@@ -2,6 +2,7 @@
 #include "pso/effect/particle/ParticleFactory.h"
 
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/object/base/TObjBase.h"
 
 #include "pso/animation/MotionContext.h"
 #include "pso/unk/text_803D853C.h"
@@ -3759,13 +3760,13 @@ void TBoss7DeRolLeC::spawn_crawfish_child(s16 slot, const Vec *position, Boss7An
     u16 id;
     TObject *child;
     if (crawfish_parent != NULL && slot > 0) {
-        u16 base_id = get_entity_id(this);
+        u16 base_id = this->get_entity_id();
         CrawfishSlotOffset offset;
         offset.value = slot;
         add_crawfish_slot_base(offset);
         id = offset.value + base_id;
         for (child = crawfish_parent->m_down; child != NULL; child = child->m_next) {
-            if (id == get_entity_id((TObjBase *)child)) {
+            if (id == ((TObjBase *)child)->get_entity_id()) {
                 return;
             }
         }
@@ -3800,9 +3801,9 @@ s16 TBoss7DeRolLeC::find_free_crawfish_slot() {
     TObject *child;
     s16 i;
     memset(used, 0, sizeof(used));
-    base = get_entity_id(this) + 11;
+    base = this->get_entity_id() + 11;
     for (child = crawfish_parent->m_down; child != NULL; child = child->m_next) {
-        used[get_entity_id((TObjBase *)child) - base] = 1;
+        used[((TObjBase *)child)->get_entity_id() - base] = 1;
     }
     for (i = 35; i >= 0; i--) {
         if (used[i] == 0) {

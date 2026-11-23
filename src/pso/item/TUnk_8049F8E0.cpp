@@ -3,12 +3,12 @@
 #include "pso/item/TUnk_8049F8E0.h"
 #include "pso/ui/hud/TLockOnCursor.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/player/TObjPlayer_801C7430.h"
+#include "pso/object/base/TObjBase.h"
 
 extern "C" {
-s32 get_entity_id(void *);
-int get_type_id__10TObjPlayerFv();
+s16 get_type_id__10TObjPlayerFv();
 void *TObjPlayer__sub_80116620(void *, s32);
-s32 send_6x33_revive_player(s32, s32);
 }
 
 #pragma push
@@ -24,7 +24,7 @@ void TUnk_8049F8E0::apply_use_effect() {
                 TObjPlayer__sub_80116620(&slot->target_records, 0);
                 if ((u16) get_type_id__10TObjPlayerFv() != 0xffffU) {
                     TObjPlayer__sub_80116620(&slot->target_records, 0);
-                    send_6x33_revive_player(get_entity_id(this->owner), get_type_id__10TObjPlayerFv());
+                    send_6x33_revive_player(this->owner->get_entity_id(), get_type_id__10TObjPlayerFv());
                 }
             }
         }

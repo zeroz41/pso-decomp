@@ -60,6 +60,7 @@
 #include "pso/render/model_render_state.h"
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 #include "pso/player/TPlyDispData.h"
+#include "pso/object/base/TObjBase.h"
 extern "C" {
 s32 spawn_dead_spot_scale15(void *, int);
 void TObjPlayer__sub_800ACA0C(void *);
@@ -439,9 +440,9 @@ void TObjEneMoja::render() {
 // TObjChara's slot 28. Picks the nearest player or enemy it can reach as the
 // target (inferred purpose; the slot has no evidenced name).
 void TObjEneMoja::refresh_target() {
-    s32 best_id;
+    u16 best_id;
     s32 i;
-    s32 id;
+    u16 id;
     TObjPlayer *p;
     f32 best;
     f32 d;
@@ -458,8 +459,8 @@ void TObjEneMoja::refresh_target() {
                 if (p == NULL) {
                     break;
                 }
-                id = ((s32 (*)(TObjBase *))get_entity_id)(p);
-                if ((u16)id < 0x4000 && (u16)id != entity_id && !(p->actorFlags & 0x02000800)) {
+                id = p->get_entity_id();
+                if (id < 0x4000 && id != entity_id && !(p->actorFlags & 0x02000800)) {
                     f32 xx;
                     f32 zz;
                     VecCopy(&v, &p->body_center);
@@ -643,7 +644,7 @@ void TObjEneMoja::update_appearance_jump() {
             if (p == NULL) {
                 break;
             }
-            if ((u16)get_entity_id(p) >= 0x1000) {
+            if ((u16)p->get_entity_id() >= 0x1000) {
                 break;
             }
             if (obj_is_hit_receivable((u8 *)p) != 0) {
@@ -655,7 +656,7 @@ void TObjEneMoja::update_appearance_jump() {
                     f32 damage = p->receive_direct_attack(this, hit, 0, -1, -1);
                     p->apply_knockback_from_attacker((u8 *)this, damage);
                 }
-                if (dist <= 10000.0f && !is_split_screen() && local_client_id == (u16)get_entity_id(p)) {
+                if (dist <= 10000.0f && !is_split_screen() && local_client_id == (u16)p->get_entity_id()) {
                     TCameraCtrl::set_shake_preset(0);
                 }
             }
@@ -723,7 +724,7 @@ void TObjEneMoja::update_appearance_drop() {
             if (p == NULL) {
                 break;
             }
-            if ((u16)get_entity_id(p) >= 0x1000) {
+            if ((u16)p->get_entity_id() >= 0x1000) {
                 break;
             }
             if (obj_is_hit_receivable((u8 *)p) != 0) {
@@ -735,7 +736,7 @@ void TObjEneMoja::update_appearance_drop() {
                     f32 damage = p->receive_direct_attack(this, hit, 0, -1, -1);
                     p->apply_knockback_from_attacker((u8 *)this, damage);
                 }
-                if (dist <= 10000.0f && !is_split_screen() && local_client_id == (u16)get_entity_id(p)) {
+                if (dist <= 10000.0f && !is_split_screen() && local_client_id == (u16)p->get_entity_id()) {
                     TCameraCtrl::set_shake_preset(0);
                 }
             }
@@ -1221,7 +1222,7 @@ void TObjEneMoja::update_attack_jump() {
             phase = 2;
             for (i = 0; i < lbl_805D5868; i++) {
                 p = TObjPlayer::get_player_data(i);
-                if (p == NULL || (u16)get_entity_id(p) >= 0x1000) {
+                if (p == NULL || (u16)p->get_entity_id() >= 0x1000) {
                     break;
                 }
                 if (obj_is_hit_receivable((u8 *)p) != 0) {
@@ -1233,7 +1234,7 @@ void TObjEneMoja::update_attack_jump() {
                         f32 damage = p->receive_direct_attack(this, hit, 0, -1, -1);
                         p->apply_knockback_from_attacker((u8 *)this, damage);
                     }
-                    if (d <= 10000.0f && is_split_screen() == 0 && local_client_id == (u16)get_entity_id(p)) {
+                    if (d <= 10000.0f && is_split_screen() == 0 && local_client_id == (u16)p->get_entity_id()) {
                         TCameraCtrl::set_shake_preset(0);
                     }
                 }

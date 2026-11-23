@@ -24,6 +24,7 @@
 #include "pso/unk/text_803E2F28.h"
 #include "pso/render/model_render_state.h"
 #include "pso/enemy/sorcerer/Re4BitData.h"
+#include "pso/object/base/TObjBase.h"
 #pragma defer_codegen on
 
 // Re4BitData.cpp defines it as 16 bytes (the shadow scale and a zero word), a Vec is 12.
@@ -88,7 +89,7 @@ TObjEneRe4Bit::TObjEneRe4Bit(TObject *parent, TObjEneRe4Sorcerer *owner, Vec *an
     : TObjEneDD_ST(parent) {
     m_name = TObjEneRe4Bit__name;
     init_common_from((u8 *)owner);
-    owner_id = get_entity_id((TObjBase *)owner);
+    owner_id = ((TObjBase *)owner)->get_entity_id();
     entity_id = id;
     this->set_index = set_index;
     this->anchor = anchor;

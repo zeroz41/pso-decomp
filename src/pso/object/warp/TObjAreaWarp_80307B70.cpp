@@ -1,21 +1,22 @@
 #include "types.h"
 #include "pso/object/warp/TObjAreaWarp.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/TObjPlayer.h"
 
 extern "C" {
 
-u16 get_entity_id();
 
 s32 TObjAreaWarp::find_active_player() {
     u32 temp_r31;
     s32 var_r30;
+    TObjPlayer *player;
 
     if ((s32) *(s32 *)&this->m_down != 0) {
         temp_r31 = *(s32 *)&this->entity_id & *(s32 *)((s8 *)this + 0x20);
         var_r30 = 0;
 loop_2:
-        if (!((temp_r31 >> var_r30) & 1) && (get_player_by_client_id(var_r30) != 0U)) {
-            return (u16)((u16) get_entity_id());
+        if (!((temp_r31 >> var_r30) & 1) && (player = get_player_by_client_id(var_r30)) != NULL) {
+            return player->get_entity_id();
         }
         var_r30 += 1;
         if (var_r30 >= 4) {

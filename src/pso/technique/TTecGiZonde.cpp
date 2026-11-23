@@ -19,6 +19,7 @@
 #include "pso/system/SoundEffect.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/object/base/CollisionActorLookup.h"
+#include "pso/object/base/TObjBase.h"
 
 typedef struct GTarget_80232598 {
     u16 id;
@@ -136,7 +137,6 @@ void TTecGiZonde::vfunc_8(void *arg1_arg) {
 }
 
 extern "C" {
-s16 get_entity_id(void *);
 
 #define UNQ(e) TTecLuker::is_parents_unqueued(e)
 s32 TTecGiZonde::find_chain_targets() {
@@ -315,7 +315,7 @@ TTecGiZonde::TTecGiZonde(saddr source, Vec *pos, void *targets, s32 level) : TTe
         break;
     }
     if (this->source != 0U) {
-        sourceId = get_entity_id((void *)this->source);
+        sourceId = ((TObjBase *)this->source)->get_entity_id();
     }
 }
 

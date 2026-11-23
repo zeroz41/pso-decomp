@@ -65,7 +65,7 @@ void decrement_clamped(void *, s32);
 void play_sound_effect(s32, s32, s32, s32);
 s32 TWindowCtrl__sub_8024A228(saddr);
 u32 __nw__7TObjectFUl(u32);
-u32 __ct__15TWindowHelpItemFPvUs(u32, s32, s32);
+u32 __ct__15TWindowHelpItemFPvl(u32, s32, s32);
 s32 send_6x25_equip_item(s32, s32, s32);
 s32 TWindowHelpItem__set_displayed_item_by_id(u32);
 s32 close_sub_window__10TObjPlayerFv();
@@ -216,7 +216,7 @@ void TWindowSubItem::run_task() {
             if (this->help_window == 0) {
                 w = __nw__7TObjectFUl(0xBC);
                 if (w != 0) {
-                    w = __ct__15TWindowHelpItemFPvUs(w, get_window_layout_position(2), this->client_id);
+                    w = __ct__15TWindowHelpItemFPvl(w, get_window_layout_position(2), this->client_id);
                 }
                 this->help_window = w;
                 ((TWindowBase *)this->help_window)->set_depth(TWindowSubEquip__sub_80263AF8((u8 *)this->parent_menu, 4));

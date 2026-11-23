@@ -19,6 +19,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/object/switch/TSwitch.h"
 #include "pso/object/base/CollisionActorLookup.h"
+#include "pso/object/base/TObjBase.h"
 
 
 #pragma readonly_strings on
@@ -60,7 +61,6 @@ struct Obj_801575AC {
 extern "C" {
 void *init_6x91_subcommand(void *arg0);
 void TOAttackableCol__sub_80157310(void *_w0);
-u16 get_entity_id(void *);
 s32 obj_setFlags30(void *, int);
 s32 init_collision_body_parts(void *, void *, int);
 s32 get_current_floor(void);
@@ -219,7 +219,7 @@ f32 TOAttackableCol::apply_hit(saddr arg1) {
   uaddr var_r0;
   uaddr var_r0_2;
   var_r30 = 0;
-  if (((arg1 != 0) && (get_entity_id((void *) arg1) < 4U)) && (TObjPlayer::is_locally_controlled((void *) arg1) != 0))
+  if (((arg1 != 0) && (((TObjBase *)arg1)->get_entity_id() < 4U)) && (TObjPlayer::is_locally_controlled((void *) arg1) != 0))
   {
     var_r30 = 1;
   }

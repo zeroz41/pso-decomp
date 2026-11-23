@@ -16,6 +16,7 @@
 #include "pso/collision/ActorBodyContact.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
+#include "pso/object/base/TObjBase.h"
 
 
 struct Elt_801542CC { char pad[0x18]; s32 f18; char pad2[0x2C - 0x1C]; };
@@ -154,7 +155,6 @@ void TLobby__sub_80156BA8(void *p);
 void check_enemy_body_collisions(TObjCollidable *actor);
 extern unsigned char lbl_8050DAD0[];
 void free_collision_body_parts(G_80156720 *arg0);
-u16 get_entity_id(int);
 u16 TObjRoomId__sub_801A1DB8(u16);
 s32 project_actor_to_ground(TObjCollidable *actor, Vec *pos, Vec *normal);
 void TObjPlayer__sub_801542F4(saddr a);
@@ -422,7 +422,7 @@ s32 TObjCollidable::unregister_object_by_id() {
     if ((TObjCollidable *)TObjPlayer__data_8050D460[lo] == this) {
         memcpy(&TObjPlayer__data_8050D460[lo], &TObjPlayer__data_8050D460[lo + 1], (count - (lo + 1)) * 4);
         lbl_805D5868--;
-        u16 k = get_entity_id((saddr)this);
+        u16 k = ((TObjBase *)((saddr)this))->get_entity_id();
         if (k < 0x1000) {
             registered_player_count--;
         } else if (k < 0x4000) {
@@ -475,7 +475,7 @@ u16 register_entity_by_id(void *ov) {
     }
     TBL[lo] = o;
     lbl_805D5868++;
-    t = get_entity_id((saddr)o);
+    t = ((TObjBase *)((saddr)o))->get_entity_id();
     if (t < 0x1000) {
         registered_player_count++;
     } else if (t < 0x4000) {
@@ -1006,7 +1006,7 @@ void TObjCollidable::mark_enemy_body_contacts() {
             if (obj == 0U) {
                 break;
             }
-            u16 t = get_entity_id(obj);
+            u16 t = ((TObjBase *)(obj))->get_entity_id();
             if (t >= 0x1000U && t < 0x4000U && check_actor_body_contact((Obj_80156268 *)obj, 100.0f) != 0U) {
                 ((P_8015610C *)this)->f->flags = ((P_8015610C *)this)->f->flags | 0x100000;
             }

@@ -36,6 +36,7 @@
 #include "pso/system/MatrixOps.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/math/ScratchVectors.h"
+#include "pso/object/base/TObjBase.h"
 
 
 extern const Vec beast_zero_vector = { 0.0f, 0.0f, 0.0f };
@@ -92,7 +93,7 @@ void TUnk_80493450::update_target_near_flag() {
         clear_actor_flags(0x100000);
         return;
     }
-    if (get_entity_id((TObjBase *)target) < 0x1000 && is_actor_cadence_frame(0x1E) != 0) {
+    if (((TObjBase *)target)->get_entity_id() < 0x1000 && is_actor_cadence_frame(0x1E) != 0) {
         player = (TObjPlayer *)target;
         dist = horizontal_distance_squared(&player->position, &position);
         switch (player->class_flags & CLASS_FLAG_TYPE_MASK) {
@@ -638,7 +639,7 @@ void TUnk_80493450::refresh_target() {
                 if (player == NULL) {
                     break;
                 }
-                id = get_entity_id(player);
+                id = player->get_entity_id();
                 if (id < 0x4000 && id != entity_id && player->test_actor_flags(0x03000800) == 0) {
                     VecCopy(&d, &player->body_center);
                     subtract_vector(&d, &body_center);

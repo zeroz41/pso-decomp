@@ -16,6 +16,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjBase.h"
 
 #pragma readonly_strings on
 
@@ -64,7 +65,7 @@ TObjEneMorfosArm::TObjEneMorfosArm(TObject *parent, void *owner) : TObjMotion(pa
     BmlModelEntry *resource;
     m_name = TObjEneMorfosArm__name;
     morfos = (TObjEneMorfos *)owner;
-    morfos_id = get_entity_id(morfos);
+    morfos_id = morfos->get_entity_id();
     VecCopy(&position, morfos->get_arm_point());
     rotation_y = morfos->get_rotation_y();
     model = TObjEneMorfosArm__parent_morfos_instance->models[0].model;

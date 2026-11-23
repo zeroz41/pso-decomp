@@ -36,6 +36,7 @@
 #include "pso/unk/text_80223B98.h"
 #include "pso/system/task/TObject.h"
 #include "pso/player/TPlyItem.h"
+#include "pso/object/base/TObjBase.h"
 
 
 #pragma readonly_strings on
@@ -82,12 +83,11 @@ extern "C" {
 s32 sub_8022397C__15TShopWindowBaseFv(void *);
 const char *TShopItemListWindow__class_name = "TShopItemListWindow";
 int obj_getPtr2B0_20(u8 *p);
-s32 get_entity_id(void *);
 s32 TShopItemTecSequence__sub_8021FE6C();
 s32 get_shop_text(int);
-void *__ct__15TWindowHelpItemFPvUs(void *, s32, u16);
+void *__ct__15TWindowHelpItemFPvl(void *, s32, s32);
 saddr get_window_layout_position(int);
-void *create_item_list_window(s32, s32, u16);
+void *create_item_list_window(s32, s32, s32);
 
 s32 try_buy_item(saddr arg0, void *item);
 
@@ -184,7 +184,7 @@ void TShopItemListWindow::build_item_list(void *p) {
         }
     }
     if (W->list == NULL) {
-        W->list = create_item_list_window(get_shop_text(0x2D), W->count, get_entity_id(W->player));
+        W->list = create_item_list_window(get_shop_text(0x2D), W->count, ((TObjBase *)(W->player))->get_entity_id());
     } else {
         ((TWindowMenuIconLine *)(W->list))->reset_list();
     }
@@ -202,7 +202,7 @@ void TShopItemListWindow::build_item_list(void *p) {
     if (W->help == NULL) {
         o = TObject::operator new(0xBC);
         if (o != NULL) {
-            o = __ct__15TWindowHelpItemFPvUs(o, get_window_layout_position(0x27), get_entity_id(W->player));
+            o = __ct__15TWindowHelpItemFPvl(o, get_window_layout_position(0x27), ((TObjBase *)(W->player))->get_entity_id());
         }
         W->help = o;
         if (W->help != NULL && TLobby::is_camera_ctrl_active() > 2) {
@@ -216,7 +216,7 @@ void TShopItemListWindow::build_item_list(void *p) {
         ((TWindowSubStatusDisp *)(W->status))->set_entry1_field20(n);
     }
     if (W->cost == NULL) {
-        W->cost = create_cost_window((u16)get_entity_id(W->player));
+        W->cost = create_cost_window(((TObjBase *)(W->player))->get_entity_id());
         if ((c = W->cost) != NULL && (s32)window->shop_items[0].data2.data_u32 > 0) {
             static_cast<TWindowCost *>(c)->set_cost((s32)window->shop_items[0].data2.data_u32);
         }
@@ -327,7 +327,7 @@ void TShopItemListWindow::prepare_tool_purchase() {
             set_field_20(2);
             return;
         }
-        confirm_menu = create_window_menu((saddr)get_window_layout_position(0x2B), 2, (u16)get_entity_id((void *)m_24));
+        confirm_menu = create_window_menu((saddr)get_window_layout_position(0x2B), 2, ((TObjBase *)m_24)->get_entity_id());
         forward_trade_action_default__16TObjCityMainWarpFPviii((void *)confirm_menu, get_shop_text(4), 6, 0);
         forward_trade_action_default__16TObjCityMainWarpFPviii((void *)confirm_menu, get_shop_text(5), 6, 1);
         confirm_menu->calc_window_size();
@@ -350,7 +350,7 @@ void TShopItemListWindow::handle_amount_confirm() {
     case 0:
         if (quantity_input != 0U && ((TWindowInputNumber *)quantity_input)->is_confirmed() != 0) {
             if (confirm_menu == NULL) {
-                confirm_menu = create_window_menu((saddr)get_window_layout_position(0x2B), 2, (u16)get_entity_id((void *)m_24));
+                confirm_menu = create_window_menu((saddr)get_window_layout_position(0x2B), 2, ((TObjBase *)m_24)->get_entity_id());
                 forward_trade_action_default__16TObjCityMainWarpFPviii((void *)confirm_menu, get_shop_text(4), 6, 0);
                 forward_trade_action_default__16TObjCityMainWarpFPviii((void *)confirm_menu, get_shop_text(5), 6, 1);
                 confirm_menu->calc_window_size();

@@ -1,6 +1,7 @@
 #include "types.h"
 #include "pso/map/FloorPopulation.h"
 #include "pso/unk/TLobby.h"
+#include "pso/object/base/TObjBase.h"
 struct Pkt_8020BD50 { u8 hdr[2]; u16 id; s16 area; s16 flags; };
 
 extern "C" {
@@ -102,7 +103,6 @@ void handle_6x76_set_entity_set_flags(Pkt_8020BD50 *pkt) {
 struct Pkt_8020BF14 { u8 hdr[2]; s16 a; s16 b; s16 c; };
 
 extern "C" {
-s16 get_entity_id(void *);
 }
 void build_6x76_set_entity_set_flags(void *);
 void send_6x76_set_entity_set_flags(void *arg0, s16 arg1);
@@ -110,7 +110,7 @@ void send_6x76_set_entity_set_flags(void *arg0, s16 arg1);
 void send_6x76_set_entity_set_flags(void *arg0, s16 arg1) {
     Pkt_8020BF14 pkt;
     build_6x76_set_entity_set_flags(&pkt);
-    pkt.a = get_entity_id(arg0);
+    pkt.a = ((TObjBase *)(arg0))->get_entity_id();
     pkt.b = ((s16 (*)())get_current_floor)();
     pkt.c = arg1;
     ((TLobby *)(&pkt))->send_player_update();

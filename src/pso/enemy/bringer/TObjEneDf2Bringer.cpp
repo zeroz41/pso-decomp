@@ -27,6 +27,7 @@
 #include "pso/math/AngleLookup.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/system/BmlResourceDescriptor.h"
+#include "pso/object/base/TObjBase.h"
 
 
 
@@ -466,7 +467,7 @@ s32 TObjEneDf2Bringer::check_rush_hits() {
                 h.kind = 0;
                 h.power = TObjEneDf2Bringer__params->rush_power;
                 player->receive_direct_attack(this, h, 0, -1, -1);
-                if (is_player_entity_id(get_entity_id(player)) != 0) {
+                if (is_player_entity_id(player->get_entity_id()) != 0) {
                     if (TObjEneDD::check_v2_mode() != 0) {
                         if (TObjPlayer::is_locally_controlled(player) != 0) {
                             TItem *item = (TItem *)TObjPlayer::get_equipped_weapon(player);
@@ -541,7 +542,7 @@ s32 TObjEneDf2Bringer::target_farthest_visible_player() {
             dist = horizontal_distance_squared(&body_center, &player->position);
             if (dist < 90000.0f && dist > best &&
                 csnLookAt(&body_center, &player->body_center) == NULL) {
-                id = get_entity_id(player);
+                id = player->get_entity_id();
                 best = dist;
             }
         }

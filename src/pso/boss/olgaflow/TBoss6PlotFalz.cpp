@@ -33,6 +33,7 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/system/BmlResourceDescriptor.h"
+#include "pso/object/base/TObjBase.h"
 
 extern const char *boss06_plotfalz_dat_model_names[15];
 extern const char *boss06_plotfalz_dat_motion_names[63];
@@ -227,7 +228,7 @@ s32 TBoss6PlotFalz::sort_active_players() {
     for (i = 0; i < registered_player_count; i++) {
         p = TObjPlayer::get_player_data(i);
         if (p != NULL && TBoss6PlotFalz::is_active(p) != 0 && p->hp != 0) {
-            boss6_plot_falz_player_order_table[n] = get_entity_id(p);
+            boss6_plot_falz_player_order_table[n] = p->get_entity_id();
             vals[n] = p->hp;
             n++;
         }
@@ -258,7 +259,7 @@ u16 TBoss6PlotFalz::pick_random_active_player() {
     for (i = 0; i < registered_player_count; i++) {
         p = TObjPlayer::get_player_data(i);
         if (p != NULL && TBoss6PlotFalz::is_active(p) != 0) {
-            ids[n] = get_entity_id(p);
+            ids[n] = p->get_entity_id();
             n++;
         }
     }
@@ -625,7 +626,7 @@ void TBoss6PlotFalz::apply_radial_effect_to_players(void *pos, s16 amount, s16 k
         if (TBoss6PlotFalz::is_state_1f((TObjPlayer *)p) != 0 && TObjPlayer::is_locally_controlled((void *)p) != 0) {
             d = xyz_distance((void *)(p + 0x38), pos);
             if (!(d >= range)) {
-                start_pad_rumble_client((s16)((f32)amount * (1.0f - d / range)), kind, (s16)((s32 (*)(s32))get_entity_id)(p));
+                start_pad_rumble_client((s16)((f32)amount * (1.0f - d / range)), kind, (s16)((TObjBase *)(p))->get_entity_id());
             }
         }
     }

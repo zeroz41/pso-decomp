@@ -20,6 +20,7 @@
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/object/base/CollisionActorLookup.h"
+#include "pso/object/base/TObjBase.h"
 
 #pragma readonly_strings on
 
@@ -75,7 +76,6 @@ extern "C" {
 
 
 s32 obj_is_hit_receivable(u8 *arg0);
-s32 get_entity_id(void *);
 TechniqueContactList *TObjPlayer__sub_802A3DE8(Obj_802A3DE8 *self, void *src);
 TechniqueContactList *TObjPlayer__sub_802A3FDC(Obj_802A3FDC *self, void *src);
 
@@ -142,7 +142,7 @@ TechniqueContactList *TObjPlayer__sub_802A3DE8(Obj_802A3DE8 *self, void *src) {
         p = (Pl_802A3DE8 *)TObjPlayer::get_player_data(i);
         if (p == 0) continue;
         if ((p->flags & 0x20000000) || (p->flags & 0x10000000)) {
-            if ((u16)get_entity_id(p) == (u16)get_entity_id(src)) continue;
+            if ((u16)((TObjBase *)(p))->get_entity_id() == (u16)((TObjBase *)(src))->get_entity_id()) continue;
             r = (TechniqueContactBody *)((TObjCollidable *)((u8 *)self->body))->find_actor_body_contact((u8 *)p, 10000.0f);
             if (r == 0) continue;
             L_802A3DE8.bodies[L_802A3DE8.count] = r;
@@ -186,7 +186,7 @@ TechniqueContactList *TObjPlayer__sub_802A3FDC(Obj_802A3FDC *self, void *src) {
         p = ((Pl_802A3FDC *)TObjPlayer::get_player_data(i));
         if (p == 0) continue;
         if (p->flags & 0x20000000) {
-            if ((u16)get_entity_id(p) != (u16)get_entity_id(src)) {
+            if ((u16)((TObjBase *)(p))->get_entity_id() != (u16)((TObjBase *)(src))->get_entity_id()) {
                 r = (TechniqueContactBody *)((TObjCollidable *)((u8 *)self->body))->find_actor_body_contact((u8 *)p, 10000.0f);
                 if (r != 0) {
                     L_802A3FDC.bodies[L_802A3FDC.count] = r;
@@ -225,12 +225,12 @@ TechniqueContactList *TObjPlayer::collect_technique_contacts(void *src) {
     a.z = 0.5f * (a.z + sd->z);
     VecCopy((Vec *)(((Obj_802A41CC *)this)->body + 0x38), (const Vec *)&a);
     copy_xyz(((Obj_802A41CC *)this)->body + 0x5C, &((Obj_802A41CC *)this)->fA0);
-    if ((u16)get_entity_id(src) < 4) {
+    if ((u16)((TObjBase *)(src))->get_entity_id() < 4) {
         n = TLobby::get_lobby_flag();
         for (i = 0; i < n; i++) {
             p = (Pl_802A41CC *)TObjPlayer::get_player_data(i);
             if (p == 0) continue;
-            if ((u16)get_entity_id(p) == (u16)get_entity_id(src)) continue;
+            if ((u16)((TObjBase *)(p))->get_entity_id() == (u16)((TObjBase *)(src))->get_entity_id()) continue;
             r = (TechniqueContactBody *)((TObjCollidable *)(((Obj_802A41CC *)this)->body))->find_actor_body_contact((u8 *)p, 10000.0f);
             if (r == 0) continue;
             if ((p->flags & 0x20000000) || (p->flags & 0x10000000)) {
@@ -247,7 +247,7 @@ TechniqueContactList *TObjPlayer::collect_technique_contacts(void *src) {
         for (j = 0; j < 4; j++) {
             p = (Pl_802A41CC *)find_entity_by_id(j);
             if (p == 0) continue;
-            if ((u16)get_entity_id(p) == (u16)get_entity_id(src)) continue;
+            if ((u16)((TObjBase *)(p))->get_entity_id() == (u16)((TObjBase *)(src))->get_entity_id()) continue;
             r = (TechniqueContactBody *)((TObjCollidable *)(((Obj_802A41CC *)this)->body))->find_actor_body_contact((u8 *)p, 10000.0f);
             if (r == 0) continue;
             if (p->flags & 0x10000000) {

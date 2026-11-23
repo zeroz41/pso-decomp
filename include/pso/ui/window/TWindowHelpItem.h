@@ -33,7 +33,7 @@ struct TWindowHelpItem : public TWindowBase
     struct CallbackWords { u32 words[3]; } m_callback;
 
     static void *operator new(unsigned long size) { return TObject::operator new(size); }
-    TWindowHelpItem(void *position, u16 index);
+    TWindowHelpItem(void *position, s32 index);
     void set_flag0_bit2();
     static void set_help_text(saddr help, saddr arg1);
     static s32 get_help_value(u16 slot, s32 client_id);

@@ -36,6 +36,7 @@
 #include "pso/technique/TTecCtrl.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/camera/TCameraCtrl.h"
+#include "pso/object/base/TObjBase.h"
 
 struct Actor_801D3E20 {
     u8 pad[0x30];
@@ -824,7 +825,7 @@ TUnk_804C4498::TUnk_804C4498(TObject *parent, TObjBase *source, const Vec *pos, 
         this->room = 0;
         this->heading = 0;
     } else {
-        this->client_id = get_entity_id(source);
+        this->client_id = source->get_entity_id();
         this->room = source->get_room();
         this->heading = source->rotation_y;
     }

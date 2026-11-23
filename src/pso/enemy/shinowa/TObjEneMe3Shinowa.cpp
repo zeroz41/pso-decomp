@@ -64,6 +64,7 @@
 #include "pso/math/MatrixTransforms.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel_8007E418.h"
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
+#include "pso/object/base/TObjBase.h"
 
 #pragma defer_codegen on
 extern "C" {
@@ -1687,7 +1688,7 @@ TObjEneMe3ShinowaMirage *TObjEneMe3ShinowaReal::get_or_create_mirage(s32 index) 
     if (mirage_ids[index] == 0xFFFF) {
         mirage = TObjEneMe3ShinowaMirage::create(this, (u16)(entity_id + index + 1), set_index + index + 1);
         if (mirage != NULL) {
-            mirage_ids[index] = get_entity_id(mirage);
+            mirage_ids[index] = mirage->get_entity_id();
         }
     } else {
         mirage = (TObjEneMe3ShinowaMirage *)find_entity_by_id(mirage_ids[index]);
@@ -1868,7 +1869,7 @@ TObjEneMe3ShinowaMirage::TObjEneMe3ShinowaMirage(TObject *parent, TObjEneMe3Shin
     CollisionBody *body;
 
     m_name = TObjEneMe3ShinowaMirage__class_name;
-    owner_id = get_entity_id(owner);
+    owner_id = owner->get_entity_id();
     init_common_from((u8 *)owner);
     parameters[1] = owner->parameters[1];
     fn_800E762C();

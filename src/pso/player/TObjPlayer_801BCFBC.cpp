@@ -6,6 +6,7 @@
 #include "pso/map/FloorArea.h"
 #include "pso/player/TObjPlayer_801BD314.h"
 #include "pso/object/base/TObjChara.h"
+#include "pso/object/base/TObjBase.h"
 
 
 extern "C" {
@@ -176,7 +177,6 @@ typedef struct Player_801BD0C0 {
 } Player_801BD0C0;
 
 extern "C" {
-u16 get_entity_id(void *);
 extern s32 TObjPlayer__shared_model_buffer;
 extern const f32 TObjPlayer__data_805DC278;
 
@@ -206,10 +206,10 @@ void TObjPlayer::init_idle_animation() {
 
 void TObjPlayer::sub_801BD240() {
     P_801BD240 *arg0 = (P_801BD240 *)this;
-    s32 t = get_entity_id(arg0) * 0xC00;
+    s32 t = ((TObjBase *)(arg0))->get_entity_id() * 0xC00;
     arg0->fE0 = TObjPlayer__shared_model_buffer + t;
     ((TObjPlayer *)arg0)->select_class_action_provider();
-    arg0->f380->m3(get_entity_id(arg0));
+    arg0->f380->m3(((TObjBase *)(arg0))->get_entity_id());
     ((TObjPlayer *)arg0)->init_idle_animation();
     ((TObjPlayer *)arg0)->update_input_and_draw();
 }

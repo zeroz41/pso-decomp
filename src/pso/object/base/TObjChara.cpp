@@ -97,6 +97,7 @@
 #include "pso/item/TItemReverseTech.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/player/TPlyDispData.h"
+#include "pso/object/base/TObjBase.h"
 
 
 struct VBase_800172CC { u8 pad[0x18]; };
@@ -678,7 +679,7 @@ void clear_velocity(u8 *arg0);
 void add_id_to_slots__10TObjPlayerFiUs(s32 arg0, u16 arg1);
 void handle_6x9A_update_entity_stat(Pkt_80010C54 *pkt);
 void send_update_entity_stat__9TObjCharaFUsUcUc(Obj_80010DE8 *self, u16 a, u8 b, u8 c);
-void record_attack_source(Obj_80010F54 *self, s32 id);
+void record_attack_source(Obj_80010F54 *self, u16 id);
 s32 add_actor_tp_bonus(O_80011274 *self, s32 x);
 s32 add_actor_hp_bonus(O_80011378 *self, s32 x);
 s32 select_destination_away_from(TObjChara *chara, Vec point);
@@ -689,7 +690,6 @@ u16 obj_getArrU16_FC(ObjArrFC* p, int i);
 s16 get_actor_attack_params_atp_min__9TObjCharaFv(void* p);
 s16 get_attack_params_atp_min(void* p);
 s16 get_attack_params_atp_max(void* p);
-u16 get_entity_id(ObjFlags* p);
 void obj_setFlags30(ObjFlags* p, u32 mask);
 bool is_split_screen(void);
 f32 calc_random_ratio__10TObjPlayerFv(void);
@@ -701,7 +701,7 @@ u32 csnLookAt(void *, void *);
 uaddr csnVector(void *, void *, s32);
 u32 subtractive_rng_next();
 void create__10TObjPlayerFUiii(uaddr, s32, s32);
-s32 create_font_small_task(u32, s32, s32, s32, s32 *, s16, s32);
+s32 create_font_small_task(u32, s32, s32, s32, s32 *, s16, u16);
 s32 create_font_small_task_default_color(u32, s32, s32, s32, s32 *, s16);
 s32 create_damage_font__19TObjEneEpsilonGuardFllll(u32, s32, s32, s16);
 f32 horizontal_distance_squared(void *, void *);
@@ -767,7 +767,7 @@ void direction_to_rotation_xz(u8 *arg0, s32 *arg1, s32 *arg2);
 #pragma opt_common_subs off
 #define TEST30(o, m) ((TObjCollidable *)o)->test_actor_flags(m)
 #define SET30(o, m) ((void (*)(Actor_8001311C *, u32))obj_setFlags30)(o, m)
-#define FIELD1C(o) ((u16 (*)(Actor_8001311C *))get_entity_id)(o)
+#define FIELD1C(o) ((TObjBase *)(o))->get_entity_id()
 #define STATE2(o) (((TObjChara *)(o))->obj_isState2_324())
 #define STATE3(o) ((TObjChara *)o)->obj_isState3_324()
 #define LOCAL(o) TObjPlayer::is_locally_controlled(o)
@@ -781,7 +781,7 @@ struct Obj_80010DE8;
 struct O_800112D4;
 
 #define VECCOPY_W24(d, s) ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)((d), (s))
-#define FIELD1C_W24(p) ((u16 (*)(void *))get_entity_id)(p)
+#define FIELD1C_W24(p) ((TObjBase *)(p))->get_entity_id()
 #define TESTF30_W24(p, m) ((TObjCollidable *)((p)))->test_actor_flags((m))
 #define SETF30_W24(p, m) ((void (*)(void *, u32))obj_setFlags30)((p), (m))
 #define ISSTATE2_W24(p) (((TObjChara *)(p))->obj_isState2_324())
@@ -1029,8 +1029,8 @@ void TObjBase::clear_actor_flags(u32 mask) {
     ((ObjFlags*)this)->flags_30 &= ~mask;
 }
 
-u16 get_entity_id(ObjFlags* p) {
-    return p->field_1c;
+u16 TObjBase::get_entity_id() {
+    return entity_id;
 }
 
 s32 TObjCollidable::test_actor_flags(u32 mask) {
@@ -1048,7 +1048,7 @@ s32 obj_is_hit_receivable(u8 *target) {
     return (u8) (*(u16 *)((s8 *)target + 0x96) == 1);
 }
 
-void TObjCollidable::interact(s32 client) { this->interactor = client; }
+void TObjCollidable::interact(u16 client) { this->interactor = client; }
 
 StatusEffect::StatusEffect() { clear(); }
 
@@ -1808,7 +1808,7 @@ s32 TObjChara::is_target_in_attack_range() {
     Player_8001745C *p = (Player_8001745C *)this;
     if (p->target != NULL && p->f318 != 0 &&
         ((TObject *)(p->target))->all_parents_unqueued_for_destruction() != 0 &&
-        ((u8 * (*)(u16))find_entity_by_id)(((u16 (*)(void *))get_entity_id)(p->target)) != NULL) {
+        ((u8 * (*)(u16))find_entity_by_id)(((TObjBase *)(p->target))->get_entity_id()) != NULL) {
         t = p->target;
         if (!(t->flags30 & 0x800)) {
             if (t->parts != NULL) {
@@ -2237,13 +2237,13 @@ void show_meseta_label(saddr arg0, u32 arg1, s32 arg2, s32 arg3) {
         if (TObjPlayer::is_locally_controlled((void *)(arg0)) != 0) {
             size <<= 1;
         }
-        ((void (*)(u32, s32, s32, s32, void *, s16, s32))create_font_small_task)(arg1, -0x100, size, arg2, lbl_804340A8, arg3, ((s32 (*)(s32))get_entity_id)(arg0));
+        ((void (*)(u32, s32, s32, s32, void *, s16, u16))create_font_small_task)(arg1, -0x100, size, arg2, lbl_804340A8, arg3, ((TObjBase *)(arg0))->get_entity_id());
     }
 }
 
 void display_exp_gain(saddr arg0, u32 arg1, s32 arg2, s32 arg3) {
     if ((((TObjCollidable *)arg0)->test_actor_flags(0x02000000) == 0) && (TObjPlayer::is_locally_controlled((void *)(arg0)) == 0) && (arg1 != 0U)) {
-        create_font_small_task(arg1, 0xFFFF00FF, 0x14, arg2, (s32 *)"EXP", arg3, ((s32 (*)(s32))get_entity_id)(arg0));
+        create_font_small_task(arg1, 0xFFFF00FF, 0x14, arg2, (s32 *)"EXP", arg3, ((TObjBase *)(arg0))->get_entity_id());
     }
 }
 
@@ -2424,12 +2424,12 @@ void TObjChara::apply_shock_status() {
     f32 v;
 
     ok = 0;
-    if (((u16 (*)(void *))get_entity_id)(this) >= 0x1000 && ((u16 (*)(void *))get_entity_id)(this) < 0x4000 &&
+    if (this->get_entity_id() >= 0x1000 && this->get_entity_id() < 0x4000 &&
         this->obj_testFlag_2E4(4) != 0 && this->test_actor_flags(0x01000000) == 0 &&
         this->test_immunity_flags(4) == 0) {
         ok = 1;
     }
-    if (((u16 (*)(void *))get_entity_id)(this) < 0x1000 && this->test_immunity_flags(4) == 0) {
+    if (this->get_entity_id() < 0x1000 && this->test_immunity_flags(4) == 0) {
         ok = 1;
     }
     if (ok != 0) {
@@ -2446,7 +2446,7 @@ void TObjChara::apply_shock_status() {
             break;
         }
         this->set_status_effect_type(1, 3);
-        if (((u16 (*)(void *))get_entity_id)(this) < 0x1000) {
+        if (this->get_entity_id() < 0x1000) {
             this->set_status_effect_amount(1, (0.0f));
         } else {
             this->set_status_effect_amount(1, (-0.15f));
@@ -2647,7 +2647,6 @@ int TObjChara::deliver_attack_hits(f32) { return 0; }
 #define TObjectV8047c128_subtract_hp(a, b) ((void (*)(void *, s32))TObjectV8047c128_subtract_hp)(a, b)
 #define VecCopy__FP3VecPC3Vec(a, b) ((void (*)(void *, void *))VecCopy__FP3VecPC3Vec)(a, b)
 #define get_actor_attack_params_atp_min__9TObjCharaFv(a) (((TObjChara *)(a))->get_actor_attack_params_atp_min())
-#define get_entity_id(a) ((u16 (*)(void *))get_entity_id)(a)
 #define obj_setFlags30(a, b) ((void (*)(void *, u32))obj_setFlags30)(a, b)
 #define get_type__10TObjPlayerFPv(a) ((s32 (*)(void *))get_type__10TObjPlayerFPv)(a)
 #define play_sound_effect(a, b, c, d) ((void (*)(s32, void *, s32, s32))play_sound_effect)(a, b, c, d)
@@ -2668,7 +2667,7 @@ f32 TObjChara::receive_physical_attack(void *att, f32 scale) {
     f32 lck;
     f32 boss;
 
-    if (((Obj_80014108 *)att) == NULL || get_entity_id(((Obj_80014108 *)att)) == 0xFFFF || this->test_actor_flags(0x800) != 0) {
+    if (((Obj_80014108 *)att) == NULL || ((TObjBase *)att)->get_entity_id() == 0xFFFF || this->test_actor_flags(0x800) != 0) {
         return 0.0f;
     }
     if (this->test_actor_flags(0x04000000) != 0 && this->test_actor_flags(0x02000000) == 0) {
@@ -2733,7 +2732,7 @@ f32 TObjChara::receive_physical_attack(void *att, f32 scale) {
                 d *= scale;
                 if (this->test_actor_flags(0x02000000) == 0) {
                     boss = this->random_ratio();
-                    if (get_entity_id(((Obj_80014108 *)att)) < 0x1000) {
+                    if (((TObjBase *)att)->get_entity_id() < 0x1000) {
                         crit = boss; crit *= (5e+02f);
                     } else {
                         crit = boss; crit *= (2e+02f);
@@ -2785,7 +2784,6 @@ f32 TObjChara::receive_physical_attack(void *att, f32 scale) {
 #undef TObjectV8047c128_subtract_hp
 #undef VecCopy__FP3VecPC3Vec
 #undef get_actor_attack_params_atp_min__9TObjCharaFv
-#undef get_entity_id
 #undef obj_setFlags30
 #undef get_type__10TObjPlayerFPv
 #undef play_sound_effect
@@ -2816,7 +2814,7 @@ void TObjChara::apply_knockback_from_attacker(u8 *arg1, f32) {
 #pragma fp_contract on
 #define TEST30(o, m) ((TObjCollidable *)o)->test_actor_flags(m)
 #define SET30(o, m) ((void (*)(Actor_8001311C *, u32))obj_setFlags30)(o, m)
-#define FIELD1C(o) ((u16 (*)(Actor_8001311C *))get_entity_id)(o)
+#define FIELD1C(o) ((TObjBase *)(o))->get_entity_id()
 #define STATE2(o) (((TObjChara *)(o))->obj_isState2_324())
 #define STATE3(o) ((TObjChara *)o)->obj_isState3_324()
 #define LOCAL(o) TObjPlayer::is_locally_controlled(o)
@@ -3165,7 +3163,7 @@ f32 TObjChara::receive_direct_attack(void *att, DirectAttackPayload payload, voi
 #pragma fp_contract on
 #pragma opt_common_subs off
 #define VECCOPY_W24(d, s) ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)((d), (s))
-#define FIELD1C_W24(p) ((u16 (*)(void *))get_entity_id)(p)
+#define FIELD1C_W24(p) ((TObjBase *)(p))->get_entity_id()
 #define TESTF30_W24(p, m) ((TObjCollidable *)((p)))->test_actor_flags((m))
 #define SETF30_W24(p, m) ((void (*)(void *, u32))obj_setFlags30)((p), (m))
 #define ISSTATE2_W24(p) (((TObjChara *)(p))->obj_isState2_324())
@@ -3775,7 +3773,7 @@ u16 find_nearest_hittable_enemy(TObjBase *searcher, Vec *direction, f32 range) {
             break;
         }
         if (((s32 (*)(ObjFlags *))obj_is_hit_receivable)(p) != 0) {
-            u16 id = get_entity_id(p);
+            u16 id = ((TObjBase *)p)->get_entity_id();
             if (id >= 0x1000 && id < 0x4000 && !(p->flags_30 & 0x02000800)) {
                 dist = ((f32 (*)(TObjBase *, ObjFlags *, void *))calc_xz_distance_sq)(searcher, p, &pos);
                 if (dist < best) {
@@ -4019,18 +4017,18 @@ void TObjChara::refresh_target() {  }
 
 void attach_mine_trap__10TObjPlayerFiUi(saddr arg0, u32 arg1) {
     if (arg1 != 0U) {
-        ((int (*)(void*, void*))record_attack_source)((void*)arg0, (void*)(((saddr (*)(u32))get_entity_id)(arg1)));
+        record_attack_source((Obj_80010F54 *)arg0, ((TObjBase *)(arg1))->get_entity_id());
     }
 }
 
-void record_attack_source(Obj_80010F54 *self, s32 id) {
-    if ((u16)id != 0xFFFF) {
+void record_attack_source(Obj_80010F54 *self, u16 id) {
+    if (id != 0xFFFF) {
         self->id = id;
         if (self->id < 0x1000 && is_entity_locally_controlled(self->id) != 0) {
             if (((s32 (*)(void))is_split_screen)() == 0) {
                 self->id2 = self->id;
             } else {
-                ((s32 (*)(void *, s32))add_id_to_slots__10TObjPlayerFiUs)(self, id);
+                ((s32 (*)(void *, u16))add_id_to_slots__10TObjPlayerFiUs)(self, id);
             }
         }
     }
@@ -4162,7 +4160,7 @@ void TObjChara::apply_switch_attack() {
 
     particle_effect_with_flags = spawn_particle_effect_with_flags(&this->body_center, 0x1FD, 0x50);
     if (particle_effect_with_flags != 0) {
-        particle_effect_with_flags->set_owner_id(get_entity_id((ObjFlags *)this));
+        particle_effect_with_flags->set_owner_id(((TObjBase *)this)->get_entity_id());
     }
 }
 
@@ -4174,7 +4172,7 @@ void TObjChara::enemy_spawn_jellen_effect() {
     stack.sp10 = -0x8000;
     oneshot_particle_emitter = (saddr)create_oneshot_particle_emitter(&this->body_center, &stack.sp8, 0x1FD, 0x50);
     if (oneshot_particle_emitter != 0) {
-        ((TParticleCtrl *)oneshot_particle_emitter)->set_owner_id(get_entity_id((ObjFlags *)this));
+        ((TParticleCtrl *)oneshot_particle_emitter)->set_owner_id(((TObjBase *)this)->get_entity_id());
     }
 }
 
@@ -4183,7 +4181,7 @@ void TObjChara::trigger_switch_attack() {
 
     particle_effect_with_flags = spawn_particle_effect_with_flags(&this->body_center, 0x1FE, 0x50);
     if (particle_effect_with_flags != 0) {
-        particle_effect_with_flags->set_owner_id(get_entity_id((ObjFlags *)this));
+        particle_effect_with_flags->set_owner_id(((TObjBase *)this)->get_entity_id());
     }
 }
 
@@ -4195,7 +4193,7 @@ void TObjChara::enemy_spawn_zalure_effect() {
     stack.sp10 = -0x8000;
     oneshot_particle_emitter = (saddr)create_oneshot_particle_emitter(&this->body_center, &stack.sp8, 0x1FE, 0x50);
     if (oneshot_particle_emitter != 0) {
-        ((TParticleCtrl *)oneshot_particle_emitter)->set_owner_id(get_entity_id((ObjFlags *)this));
+        ((TParticleCtrl *)oneshot_particle_emitter)->set_owner_id(((TObjBase *)this)->get_entity_id());
     }
 }
 
@@ -4335,7 +4333,7 @@ void clear_velocity(u8 *arg0) {
 s32 calc_shock_chance(TObjPlayer *actor, TObjPlayer *arg1, TObjPlayer *arg2) {
     f32 var_f31;
 
-    if ((((u16 (*)(TObjPlayer *))get_entity_id)(arg1) >= 0x1000U) && (((u16 (*)(TObjPlayer *))get_entity_id)(arg2) < 0x1000U)) {
+    if ((arg1->get_entity_id() >= 0x1000U) && (arg2->get_entity_id() < 0x1000U)) {
         var_f31 = 0.75f - ((f32) ((TObjPlayer *)actor)->get_item_index() / 100.0f);
         if (var_f31 < 0.0f) {
             var_f31 = 0.0f;
@@ -4352,7 +4350,7 @@ s32 calc_freeze_chance(TObjPlayer *actor, TObjPlayer *arg1, TObjPlayer *arg2, f3
     f32 var_f31;
 
     var_f31 = farg0;
-    if ((((u16 (*)(TObjPlayer *))get_entity_id)(arg1) >= 0x1000U) && (((u16 (*)(TObjPlayer *))get_entity_id)(arg1) < 0x4000U) && (((u16 (*)(TObjPlayer *))get_entity_id)(arg2) < 0x1000U)) {
+    if ((arg1->get_entity_id() >= 0x1000U) && (arg1->get_entity_id() < 0x4000U) && (arg2->get_entity_id() < 0x1000U)) {
         var_f31 = 0.75f - ((f32) ((TObjPlayer *)actor)->get_class_id() / 100.0f);
         if (var_f31 < 0.0f) {
             var_f31 = 0.0f;
@@ -4370,7 +4368,7 @@ void TObjChara::spawn_poison_effect(s32 play_sound) {
     if (this->test_actor_flags(0x02000000) == 0) {
         effect = spawn_particle_effect_with_flags(&this->body_center, 0x25, 0x50);
         if (effect != 0) {
-            effect->set_owner_id(get_entity_id((ObjFlags *)this));
+            effect->set_owner_id(((TObjBase *)this)->get_entity_id());
         }
         if (play_sound != 0) {
             play_sound_effect(0xCD0B, (saddr)&this->position, 0, 0);
@@ -4383,7 +4381,7 @@ void TObjChara::spawn_paralysis_feedback_effect(s32 play_sound) {
     if (this->test_actor_flags(0x02000000) == 0) {
         effect = spawn_particle_effect_with_flags(&this->body_center, 0x26, 0x50);
         if (effect != 0) {
-            effect->set_owner_id(get_entity_id((ObjFlags *)this));
+            effect->set_owner_id(((TObjBase *)this)->get_entity_id());
         }
         if (play_sound != 0) {
             play_sound_effect(0xB20C, (saddr)&this->position, 0, 0);
@@ -4396,7 +4394,7 @@ void TObjChara::spawn_slow_effect(s32 play_sound) {
     if (this->test_actor_flags(0x02000000) == 0) {
         effect = spawn_particle_effect_with_flags(&this->body_center, 0x27, 0x50);
         if (effect != 0) {
-            effect->set_owner_id(get_entity_id((ObjFlags *)this));
+            effect->set_owner_id(((TObjBase *)this)->get_entity_id());
         }
         if (play_sound != 0) {
             play_sound_effect(0xB20D, (saddr)&this->position, 0, 0);
@@ -4409,7 +4407,7 @@ void TObjChara::spawn_confusion_feedback_effect(s32 play_sound) {
     if (this->test_actor_flags(0x02000000) == 0) {
         effect = spawn_particle_effect_with_flags(&this->body_center, 0x24, 0x50);
         if (effect != 0) {
-            effect->set_owner_id(get_entity_id((ObjFlags *)this));
+            effect->set_owner_id(((TObjBase *)this)->get_entity_id());
         }
         if (play_sound != 0) {
             play_sound_effect(0xB20E, (saddr)&this->position, 0, 0);
@@ -4422,7 +4420,7 @@ void TObjChara::play_shock_feedback(s32 play_sound) {
     if (this->test_actor_flags(0x02000000) == 0) {
         effect = spawn_particle_effect_with_flags(&this->body_center, 0x21, 0x50);
         if (effect != 0) {
-            effect->set_owner_id(get_entity_id((ObjFlags *)this));
+            effect->set_owner_id(((TObjBase *)this)->get_entity_id());
         }
         if (play_sound != 0) {
             play_sound_effect(0xB210, (saddr)&this->position, 0, 0);
@@ -4456,7 +4454,7 @@ void activate_switch_attacks__10TObjPlayerFii(saddr arg0, saddr arg1) {
 }
 
 s32 TObjPlayer::is_local_player() {
-    if (((u16 (*)(void*))get_entity_id)(this) < 0x1000U) {
+    if (this->get_entity_id() < 0x1000U) {
         return TObjPlayer::is_locally_controlled(this);
     }
     return 0;

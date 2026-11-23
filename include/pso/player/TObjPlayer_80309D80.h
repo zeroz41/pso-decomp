@@ -26,7 +26,7 @@ struct PlayerFollowParticles {
 extern "C" {
 s32 destroy_follow_particle_state(saddr self, s16 flags);
 PlayerFollowParticles *init_follow_particle_state(PlayerFollowParticles *state);
-TParticleCtrl *create_attached_oneshot_emitter(void *owner, s32 target_id, s32 id);
+TParticleCtrl *create_attached_oneshot_emitter(void *owner, u16 target_id, s32 id);
 }
 void emit_idle_water_splash(s32 owner, s32 position);
 s32 emit_player_model_particle(saddr owner, saddr position, saddr entry, s32 model);

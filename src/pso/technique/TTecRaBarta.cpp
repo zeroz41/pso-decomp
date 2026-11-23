@@ -27,6 +27,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/object/base/CollisionActorLookup.h"
+#include "pso/object/base/TObjBase.h"
 
 struct HitInfo_80237900 { s32 type; f32 power; };
 
@@ -142,7 +143,6 @@ struct RaBarta_802377FC {
 };
 
 extern "C" {
-u16 get_entity_id(void *);
 
 
 s32 play_sound_effect(s32, s32, s32, s32);
@@ -281,12 +281,12 @@ void TTecRaBarta::vfunc_6(void *target) {
     s32 found = 0;
     s32 i;
     for (i = 0; i < 32; i++) {
-        if (self->ids[i] == get_entity_id(((VObj_80237900 *)target))) {
+        if (self->ids[i] == ((TObjBase *)target)->get_entity_id()) {
             found = 1;
         }
     }
     if (found == 0) {
-        self->ids[*(s32 *)&this->m_138] = get_entity_id(((VObj_80237900 *)target));
+        self->ids[*(s32 *)&this->m_138] = ((TObjBase *)target)->get_entity_id();
         *(s32 *)&this->m_138 += 1;
         if (*(s32 *)&this->m_138 >= 32) {
             *(s32 *)&this->m_138 = 31;
@@ -373,7 +373,7 @@ TTecRaBarta::TTecRaBarta(saddr source, Vec *origin, Vec *pos, s32 level) : TTecC
     vfunc_8(&position);
     vfunc_9();
     if (this->source != 0) {
-        sourceId = get_entity_id((void *)this->source);
+        sourceId = ((TObjBase *)this->source)->get_entity_id();
     }
 }
 #pragma pop
@@ -393,6 +393,6 @@ TTecRaBarta::TTecRaBarta(saddr source, Vec *origin, s32 level) : TTecCircle(sour
     vfunc_8(0);
     vfunc_9();
     if (this->source != 0) {
-        sourceId = get_entity_id((void *)this->source);
+        sourceId = ((TObjBase *)this->source)->get_entity_id();
     }
 }

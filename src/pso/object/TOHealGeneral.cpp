@@ -23,6 +23,7 @@
 #include "pso/system/SoundEffect.h"
 #include "pso/system/vector.h"
 #include "pso/unk/text_803D8F74.h"
+#include "pso/object/base/TObjBase.h"
 
 // TObjPlayer_80011014.h declares get_entity_id returning u16, but this
 // unit's callers saw a 32-bit return (no zero extension before the
@@ -32,7 +33,6 @@ s32 add_actor_tp(u8 *arg0, s32 arg1);
 s32 add_actor_hp(u8 *arg0, s16 arg1);
 s16 get_actor_tp(u8 *p);
 s16 obj_getS16_2BA(u8 *p);
-s32 get_entity_id(void *object);
 }
 
 const char *bm_fe_obj_kaifuku_moto_model_names[2] = { "fe_obj_kaifuku_moto.nj", NULL };
@@ -117,17 +117,17 @@ void TOHealGeneral::apply_heal_to_target() {
 void TOHealGeneral::find_heal_target() {
     TObjPlayer *player;
     s32 i;
-    s32 id;
+    u16 id;
     f32 r;
     rotor_angle += 0x147;
     heal_target = 0xFFFF;
     for (i = 0; i < registered_player_count; i++) {
         player = TObjPlayer::get_player_data(i);
-        id = get_entity_id(player);
+        id = player->get_entity_id();
         if (player == NULL) {
             continue;
         }
-        if ((u16)id >= 0x1000) {
+        if (id >= 0x1000) {
             continue;
         }
         r = 10.0f - ((TObjCollidable *)player)->get_collision_body_radius(0);

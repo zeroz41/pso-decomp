@@ -4,12 +4,11 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/unk/TLobby.h"
 #include "pso/ui/hud/TRaderMapCore.h"
+#include "pso/object/base/TObjBase.h"
+#include "pso/unk/text_8024AB98.h"
 
 extern "C" {
-s32 get_entity_id(void *);
 u8 *get_player_by_client_id(s32);
-s32 TLobby__sub_8024AC20(u16);
-s32 TObjPlayer__sub_8024ABDC(u16);
 void fn_802233F8(void) {
     u16 self_slot;
     s32 i;
@@ -21,7 +20,7 @@ void fn_802233F8(void) {
                 p = get_player_by_client_id(i);
                 if (p != NULL && ((TObjPlayer *)p)->check_player_flag1() != 0) {
                     TObjPlayer::send_code_45_1((saddr)p);
-                    TLobby__sub_8024AC20(get_entity_id(p));
+                    TLobby__sub_8024AC20(((TObjBase *)(p))->get_entity_id());
                 }
             }
         }
@@ -38,7 +37,7 @@ void fn_80223480(void) {
                 p = get_player_by_client_id(i);
                 if (p != NULL && ((TObjPlayer *)p)->check_player_flag1() == 0) {
                     TObjPlayer::play_effect_default((saddr)p, (int)(-1));
-                    TObjPlayer__sub_8024ABDC(get_entity_id(p));
+                    TObjPlayer__sub_8024ABDC(((TObjBase *)(p))->get_entity_id());
                 }
             }
         }

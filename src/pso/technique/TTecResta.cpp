@@ -19,6 +19,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/player/TargetCursorList.h"
+#include "pso/object/base/TObjBase.h"
 
 #pragma readonly_strings on
 
@@ -92,13 +93,11 @@ struct VObj_18_9c98dd : VBase_18_9c98dd {
 struct Obj_80239CF4 { u8 pad[0x1C]; void *source; u8 pad20[0x88 - 0x20]; f32 power; };
 
 extern "C" {
-saddr get_entity_id(int);
 Row_8023967C TTecResta__self_recovery_effect_table[3] = {
     {0x14, 1, 0x2C, 0},
     {0, 1, 0x2D, 1},
     {0x14, 1, 0x2E, 0},
 };
-void set_owner_id__13TParticleCtrlFUs(void *, s32);
 void deliver_technique_to_party_targets(void *);
 s32 is_split_screen(void);
 int spawn_support_tec_range_effect(void*);
@@ -126,7 +125,7 @@ TTecResta::TTecResta(void *owner, void *pos, s32 level) : TTecPlayerInfluence(ow
         t->bodies->radius = 5.0f + m_7c;
     }
     if (source != 0U) {
-        m_a8 = get_entity_id(source);
+        m_a8 = ((TObjBase *)(saddr)source)->get_entity_id();
     }
     if (m_ac != 0) {
         init_cast();
@@ -147,7 +146,7 @@ TTecResta::TTecResta(void *owner, void *pos, void *target_list, s32 level) : TTe
         t->bodies->radius = 5.0f + m_7c;
     }
     if (source != 0U) {
-        m_a8 = get_entity_id(source);
+        m_a8 = ((TObjBase *)(saddr)source)->get_entity_id();
     }
     if (m_ac != 0) {
         init_cast();
@@ -204,22 +203,22 @@ void TTecResta::vfunc_7(void *arg1_arg) {
     h.type = 6;
     h.power = arg0->m_74;
     if (is_split_screen() == 0) {
-        TWindowCtrl::show_party_effect((void*)(get_entity_id(arg0->source)), (void*)(get_entity_id((saddr)player)), (void*)6);
+        TWindowCtrl::show_party_effect((((TObjBase *)(arg0->source))->get_entity_id()), (((TObjBase *)((saddr)player))->get_entity_id()), 6);
     }
     HitInfo_8023985C c = h;
     player->m21((void *)arg0->source, &c, 0, 0xF, -1);
-    if ((u16)get_entity_id(arg0->source) == (u16)get_entity_id((saddr)player)) {
+    if (((TObjBase *)(arg0->source))->get_entity_id() == ((TObjBase *)((saddr)player))->get_entity_id()) {
         if (*(s32 *)&arg0->m_ac != 0) {
             new TUnk_804CCBC0((Vec *)((u8 *)player + 0x2FC), arg0->source, tl_07);
         }
     } else if (*(s32 *)&arg0->m_ac != 0) {
-        void *e = spawn_particle_effect_with_flags((const Vec *)((u8 *)player + 0x2FC), 0x1F6, 0x10);
+        TParticleCtrl *e = spawn_particle_effect_with_flags((const Vec *)((u8 *)player + 0x2FC), 0x1F6, 0x10);
         if (e != NULL) {
-            set_owner_id__13TParticleCtrlFUs(e, get_entity_id((saddr)player));
+            e->set_owner_id(((TObjBase *)((saddr)player))->get_entity_id());
         }
         e = spawn_particle_effect_with_flags((const Vec *)((u8 *)player + 0x2FC), 0x1F7, 0x10);
         if (e != NULL) {
-            set_owner_id__13TParticleCtrlFUs(e, get_entity_id((saddr)player));
+            e->set_owner_id(((TObjBase *)((saddr)player))->get_entity_id());
         }
     }
     if (*(s32 *)&arg0->m_ac != 0) {
@@ -259,7 +258,7 @@ TUnk_804CCBC0::TUnk_804CCBC0(Vec *pos, s32 owner, TObject *parent) : TObject(par
             m_emitters[i] = create_timed_particle_emitter_with_flags(&v, row->entry, row->delay, row->duration, 0x10);
         }
         if (m_emitters[i] != 0) {
-            set_owner_id__13TParticleCtrlFUs(m_emitters[i], get_entity_id(m_owner));
+            m_emitters[i]->set_owner_id(((TObjBase *)(saddr)(m_owner))->get_entity_id());
         }
     }
 }

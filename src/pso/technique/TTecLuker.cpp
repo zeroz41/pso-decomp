@@ -37,6 +37,7 @@
 #include "pso/math/MatrixVector.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/effect/particle/TTelepipeMarker.h"
+#include "pso/object/base/TObjBase.h"
 
 struct Stack_802340E4 {
     s32 sp8;
@@ -128,7 +129,6 @@ s16 get_field_2__9TTecLukerFPv(void* p);
 s32 get_current_floor(void);
 void restore_floor_telepipes(void);
 s32 telepipe_record_differs(Rec_8023402C *r, s16 floor, Vec *p, u16 unused);
-s32 get_entity_id(void *);
 s32 is_split_screen();
 u8 *find_entity_by_id(u16);
 void handle_6x68_set_telepipe_state(Pkt_802341B0 *pkt);
@@ -208,7 +208,7 @@ TTecLuker::TTecLuker(saddr source, Vec *pos, Vec *target, s32 level) : TTecCircl
     floor = get_current_floor();
     placement = NULL;
     if (this->source != 0) {
-        sourceId = get_entity_id((void *)this->source);
+        sourceId = ((TObjBase *)this->source)->get_entity_id();
     }
     traveller = local_client_id;
     if (is_split_screen() == 0 && sourceId != local_client_id) {
@@ -255,7 +255,7 @@ TTecLuker::~TTecLuker() {
 
 void TTecLuker::run_task() {
     struct { f32 x, y, z; } sp8;
-    s32 temp_r30;
+    u16 owner_id;
     u16 entity_id;
     u16 temp_r5;
     u8 *temp_r29;
@@ -270,7 +270,7 @@ void TTecLuker::run_task() {
     }
     switch (phase) {
     case 0:
-        entity_id = get_entity_id(owner);
+        entity_id = ((TObjBase *)(owner))->get_entity_id();
         if (entity_id != 0xFFFFU) {
             if (entity_id > 0xCU) {
                 phase = 4;
@@ -326,7 +326,7 @@ void TTecLuker::run_task() {
         }
         break;
     case 3:
-        temp_r30 = get_entity_id(owner);
+        owner_id = ((TObjBase *)(owner))->get_entity_id();
         temp_r29 = (u8 *)get_player_by_client_id(traveller);
         if ((is_split_screen() == 0) && (temp_r29 != NULL)) {
             if (*(s32 *)((s8 *)temp_r29 + 0x30) & 0x800) {
@@ -340,7 +340,7 @@ void TTecLuker::run_task() {
                 warp_frames = 0;
                 return;
             }
-            ((void (*)(void *, u16))set_state__9TTecLukerFl)(temp_r29 + 0x848, temp_r30);
+            set_state__9TTecLukerFl(temp_r29 + 0x848, owner_id);
             if (TLobby::get_instance() == 1) {
                 send_6x21_inter_level_warp(temp_r29, 0);
             } else {
@@ -351,22 +351,20 @@ void TTecLuker::run_task() {
 block_43:
         {
         s32 i;
-        u16 st2;
         u8 *p;
         i = 0;
-        st2 = (u16) temp_r30;
         do {
             p = (u8 *)get_player_by_client_id(i);
             if (p != NULL) {
                 if (is_split_screen() != 0) {
-                    ((void (*)(void *, u16))set_state__9TTecLukerFl)(p + 0x848, st2);
+                    set_state__9TTecLukerFl(p + 0x848, owner_id);
                     if (TLobby::get_instance() == 1) {
                         send_6x21_inter_level_warp(p, 0);
                     } else {
                         send_6x21_inter_level_warp(p, 0);
                     }
                 } else if (((TObjChara *)p)->obj_isState3_324() != 0) {
-                    ((void (*)(void *, u16))set_state__9TTecLukerFl)(p + 0x848, st2);
+                    set_state__9TTecLukerFl(p + 0x848, owner_id);
                     if (TLobby::get_instance() == 1) {
                         send_6x21_inter_level_warp(p, 0);
                     } else {
@@ -389,9 +387,8 @@ block_43:
     }
 }
 
-typedef void (*Write_802347B4)(u8 *, s32, s16, u8 *, s32);
 void TTecLuker::setup_telepipe_field() {
-    u16 id = get_entity_id((void *)source);
+    s32 id = ((TObjBase *)source)->get_entity_id();
     visual = new TUnk_804CCA0C(&pipe_pos, id, tl_07);
     phase = 1;
     if (field != NULL) {
@@ -399,11 +396,11 @@ void TTecLuker::setup_telepipe_field() {
     } else {
         field = new TUnk_804CC9D4(&pipe_pos, tl_05, 0);
     }
-    if (traveller == (u16)get_entity_id((void *)source)) {
+    if (traveller == ((TObjBase *)source)->get_entity_id()) {
         s16 room;
         floor = get_current_floor();
         room = (s32)((TObjBase *)source)->get_room();
-        ((Write_802347B4)write_telepipe_record)((u8 *)source + 0x830, get_entity_id((void *)source), floor, (u8 *)&pipe_pos, room);
+        write_telepipe_record((u8 *)source + 0x830, ((TObjBase *)source)->get_entity_id(), floor, (u8 *)&pipe_pos, room);
         ((TTecLuker *)((u8 *)source + 0x830))->send_telepipe_packet();
     }
 }
@@ -773,4 +770,4 @@ void TUnk_804CC9D4::run_task() {
     }
 }
 
-void TUnk_804CC9D4::interact(s32) { interacted = 1; }
+void TUnk_804CC9D4::interact(u16) { interacted = 1; }

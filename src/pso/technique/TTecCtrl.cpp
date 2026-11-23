@@ -47,6 +47,7 @@
 #include "pso/object/TUnk_804CC74C.h"
 #include "pso/unk/text_803D853C.h"
 #include "pso/unk/text_803D8F74.h"
+#include "pso/object/base/TObjBase.h"
 
 TechniqueParams lbl_80515F90;
 // Per player: the technique boosts of the equipped weapon and shield.
@@ -93,7 +94,6 @@ void *TObjPlayer__sub_80116620(void *, int);
 s32 get_obj_id__10TObjPlayerFv(void *);
 void set_slot_type_state__10TObjPlayerFllss(void *, int, u16, s32);
 void capture_technique_targets__10TObjPlayerFv(int kind, Owner_8022CDE8 *owner);
-u16 get_entity_id(void *);
 s32 is_split_screen();
 Ent_8022D27C *find_entity_by_id(u16);
 void get_hand_joint_position__10TObjPlayerFl(void *, void *);
@@ -595,7 +595,7 @@ void launch_technique__10TObjPlayerFv(s32 tech, s32 unused, Player_8022D27C *pl)
     case 14:
         if (is_split_screen() != 0) {
             ((TTecLuker *)pl)->create(&hand, &ofs, 0);
-        } else if (local_client_id == get_entity_id(pl)) {
+        } else if (local_client_id == ((TObjBase *)(pl))->get_entity_id()) {
             ((TTecLuker *)pl)->create(&hand, &ofs, 0);
         }
         break;

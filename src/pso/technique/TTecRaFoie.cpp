@@ -23,6 +23,7 @@
 #include "pso/technique/TTecLuker.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/camera/TCameraCtrl.h"
+#include "pso/object/base/TObjBase.h"
 #pragma readonly_strings on
 
 struct RafoieBurst { s32 entry; s32 flags; f32 scale; };
@@ -32,7 +33,6 @@ struct RafoieBurstList { const RafoieBurst *entries; u32 count; };
 
 extern "C" {
 
-u16 get_entity_id(void *);
 s32 is_split_screen();
 
 
@@ -424,7 +424,7 @@ TTecRaFoie::TTecRaFoie(saddr source, Vec *origin, Vec *pos, s32 level) : TTecCir
         collidable->bodies->radius = scope;
     }
     if (this->source != 0) {
-        sourceId = get_entity_id((void *)this->source);
+        sourceId = ((TObjBase *)this->source)->get_entity_id();
     }
     vfunc_8(0);
     vfunc_9();
@@ -437,7 +437,7 @@ TTecRaFoie::TTecRaFoie(saddr source, Vec *origin, TargetCursorList *list, s32 le
     m_148 = 0;
     copy_technique_target_list(&m_targets, list);
     if (this->source != 0) {
-        sourceId = get_entity_id((void *)this->source);
+        sourceId = ((TObjBase *)this->source)->get_entity_id();
     }
     if (collidable != NULL) {
         collidable->bodies->radius = scope;

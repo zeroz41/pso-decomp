@@ -27,6 +27,7 @@
 #include "pso/unk/text_803D8F74.h"
 #include "pso/unk/text_803D96A8.h"
 #include "types.h"
+#include "pso/object/base/TObjBase.h"
 
 // The armour's glow: the model's starting colour and its actor light's.
 extern const NJS_ARGB armor_glow_color = { 1.0f, 0.5f, 1.0f, 1.0f };
@@ -89,7 +90,7 @@ void TItemEffArmor::run_task() {
     }
     color.a = 1.0f - (frame / 29.0f);
     if (owner != NULL) {
-        publish_actor_light_scalars(get_entity_id(owner), light_intensity, light_level);
+        publish_actor_light_scalars(owner->get_entity_id(), light_intensity, light_level);
     }
     if (light_level >= 1.0f) {
         light_step = -1.0f * light_step;
@@ -130,7 +131,7 @@ void TItemEffArmorPulse::run_task() {
         TObjPlayer *player = get_player_by_client_id(client_id);
         if (player != NULL) {
             if (is_item_area_enabled(player->get_area()) == 1) {
-                if (is_opposite_sex_player_near(get_entity_id(player)) != 0) {
+                if (is_opposite_sex_player_near(player->get_entity_id()) != 0) {
                     spawn_particle_effect(&player->body_center, 0x1BE);
                 }
             }

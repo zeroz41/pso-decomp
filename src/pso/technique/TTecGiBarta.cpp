@@ -22,6 +22,7 @@
 #include "pso/unk/text_803D8F74.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/object/base/CollisionActorLookup.h"
+#include "pso/object/base/TObjBase.h"
 
 struct RecoveredFields_802308A0_arg0
 {
@@ -98,7 +99,6 @@ struct Shot_802304A0 {
 
 extern "C" {
 
-u16 get_entity_id(void *);
 s32 play_sound_effect(s32, s32, s32, s32);
 
 void TTecGiBarta::update_technique_by_phase() {
@@ -281,12 +281,12 @@ void TTecGiBarta::vfunc_8(void *target) {
     s32 found = 0;
     s32 i;
     for (i = 0; i < 32; i++) {
-        if (self->ids[i] == get_entity_id(((VObj_802309AC *)target))) {
+        if (self->ids[i] == ((TObjBase *)target)->get_entity_id()) {
             found = 1;
         }
     }
     if (found == 0) {
-        self->ids[this->hitCursor] = get_entity_id(((VObj_802309AC *)target));
+        self->ids[this->hitCursor] = ((TObjBase *)target)->get_entity_id();
         this->hitCursor += 1;
         if (this->hitCursor >= 32) {
             this->hitCursor = 31;
@@ -338,7 +338,7 @@ TTecGiBarta::TTecGiBarta(saddr source, u8 *pos, u8 *target, s32 level)
     }
     hitCursor = 0;
     if (this->source) {
-        sourceId = get_entity_id((void *)this->source);
+        sourceId = ((TObjBase *)this->source)->get_entity_id();
     }
     create_particles();
     update_technique_by_phase();
@@ -354,7 +354,7 @@ TTecGiBarta::TTecGiBarta(saddr source, Vec *pos, s32 angle, s32 level)
     }
     hitCursor = 0;
     if (this->source != 0) {
-        sourceId = get_entity_id((void *)this->source);
+        sourceId = ((TObjBase *)this->source)->get_entity_id();
     }
     create_particles();
     update_technique_by_phase();

@@ -49,6 +49,7 @@
 #include "pso/system/BmlResource.h"
 #include "pso/unk/TLobby_801E2F94.h"
 #include "pso/unk/TLobby_80131794.h"
+#include "pso/object/base/TObjBase.h"
 
 typedef struct RadarInitPiece_801F9474 {
     s16 id, flags;
@@ -291,7 +292,6 @@ extern s32 chunk_polygon_flags_and_mask;
 extern s32 model_render_flags;
 void TRaderMapCore__sub_801F967C(TRaderMapCore *self, u32 color);
 void scale_matrix(s32, f32, f32, f32);
-int get_entity_id(void*);
 s32 get_current_floor(void);
 s32 TLobby__sub_801C19D0(void *);
 // Marker colours (a, r, g, b) per player slot: red, green, yellow, blue.
@@ -306,7 +306,7 @@ NJS_POINT2 TRaderMapCore__sub_801F9D38(TRaderMapCore *self);
 void GXSetViewport(f32, f32, f32, f32, f32, f32);
 
 int __dt__5THeapFv(void*, void*);
-s32 is_card_flag_set__19TWindowKeyBoardHardFv(u16);
+s32 is_card_flag_set__19TWindowKeyBoardHardFv(s32);
 }
 
 #define MAP_801F9C54 ((struct Map_801F9C54 *) TRaderMapCore__floor_map_resource)
@@ -593,7 +593,7 @@ void TRaderMapCore::run_task() {
         }
         gather_player_markers();
         if ((TRaderMapCore::is_not_split_screen() == 1) && ((u32) *(u32 *)((s8 *)this + 0x184) != 0U)) {
-            m_134 = (u16)get_entity_id(m_184);
+            m_134 = ((TObjBase *)(m_184))->get_entity_id();
         }
         update_follow_projection((saddr)((void *)TRaderMapCore__view_mode));
         if (TRaderMapCore::is_not_split_screen() == 1) {
@@ -631,7 +631,7 @@ void TRaderMapCore::update_target() {
         *(u32 *)&this->m_184 = player;
     }
     if ((uaddr) this->m_184 != 0U) {
-        if (is_card_flag_set__19TWindowKeyBoardHardFv(get_entity_id((void*)this->m_184)) != 0) {
+        if (is_card_flag_set__19TWindowKeyBoardHardFv(((TObjBase *)this->m_184)->get_entity_id()) != 0) {
             this->m_168 |= lbl_805DC56C;
             return;
         }
@@ -1099,7 +1099,7 @@ void TRaderMapCore::gather_player_markers() {
                     copy_argb((NJS_ARGB *)&me->color, (NJS_ARGB *)&radar_player_slot_color_table[2]);
                 }
             } else {
-                copy_argb((NJS_ARGB *)&me->color, (NJS_ARGB *)(&radar_player_slot_color_table[(u16)get_entity_id(p)]));
+                copy_argb((NJS_ARGB *)&me->color, (NJS_ARGB *)(&radar_player_slot_color_table[((TObjBase *)(p))->get_entity_id()]));
             }
         } else {
             ((TRaderMapCore *)me)->reset();
@@ -1120,7 +1120,7 @@ void TRaderMapCore::gather_player_markers() {
                 e->y = 10.0f;
                 e->unkC = p->unk60;
                 e->id = i;
-                copy_argb((NJS_ARGB *)&e->color, (NJS_ARGB *)(&radar_player_slot_color_table[(u16)get_entity_id(p)]));
+                copy_argb((NJS_ARGB *)&e->color, (NJS_ARGB *)(&radar_player_slot_color_table[((TObjBase *)(p))->get_entity_id()]));
             } else {
                 ((TRaderMapCore *)e)->reset();
             }

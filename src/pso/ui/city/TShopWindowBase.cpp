@@ -9,11 +9,11 @@
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/ControllerInput.h"
+#include "pso/object/base/TObjBase.h"
 
 #pragma readonly_strings on
 
 extern "C" {
-s32 get_entity_id(void *);
 
 void TShopWindowBase::vfunc_11() {  }
 
@@ -30,15 +30,15 @@ s32 TShopWindowBase::sub_8022397C() {
     uaddr temp_r3;
     temp_r3 = *(u32 *)((s8 *)arg0 + 0x24);
     if (temp_r3 != 0U) {
-        return (u16)TShopGenerator__sub_80222DAC((get_entity_id((void *)temp_r3)));
+        return (u16)TShopGenerator__sub_80222DAC((((TObjBase *)temp_r3)->get_entity_id()));
     }
     return 0U;
 }
 
-s32 TShopSequence::get_child_field1c() {
+u16 TShopSequence::get_child_field1c() {
     void *temp_r3 = this->player;
     if (temp_r3 != NULL) {
-        return get_entity_id(temp_r3);
+        return ((TObjBase *)temp_r3)->get_entity_id();
     }
     return 0;
 }

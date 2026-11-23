@@ -38,6 +38,7 @@
 #include "pso/unk/TLobby.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/object/ambient/TObjFish.h"
+#include "pso/object/base/TObjBase.h"
 extern "C" const char rappy_variant_na_name[3] = "NA";
 
 // The Rag Rappy archive and its event variants (xs Christmas, es Easter, hw Halloween, picked by
@@ -187,7 +188,6 @@ void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 heading);
 extern "C" {
 s32 is_item_light_interaction_blocked();
 s32 check_path_obstructed(void *, void *);
-s32 get_entity_id(void *);
 f32 atan2_float(f32 y, f32 x);
 s32 obj_setFlags30(void *, s32);
 s32 lappy_variant_id;
@@ -776,9 +776,9 @@ void TObjEneLappy::run_idle_action() {
 }
 
 void TObjEneLappy::refresh_target() {
-    s32 best_id;
+    u16 best_id;
     s32 i;
-    s32 id;
+    u16 id;
     TObjPlayer *p;
     f32 best;
     f32 d;
@@ -800,8 +800,8 @@ void TObjEneLappy::refresh_target() {
                 if (p == NULL) {
                     break;
                 }
-                id = get_entity_id(p);
-                if ((u16)id < 0x4000 && (u16)id != entity_id && !(p->actorFlags & 0x800)) {
+                id = p->get_entity_id();
+                if (id < 0x4000 && id != entity_id && !(p->actorFlags & 0x800)) {
                     f32 xx;
                     f32 zz;
                     VecCopy(&v, &p->body_center);
@@ -825,7 +825,7 @@ void TObjEneLappy::refresh_target() {
         TObjPlayer *q;
         for (j = 0; j < registered_player_count; j++) {
             q = TObjPlayer::get_player_data(j);
-            if (q != NULL && last_attack_target != (u16) get_entity_id(q) && !(q->actorFlags & 0x800)) {
+            if (q != NULL && last_attack_target != q->get_entity_id() && !(q->actorFlags & 0x800)) {
                 if (xz_distance_squared(&q->body_center, &body_center) < 2500.0f) {
                     targetId = j;
                 }

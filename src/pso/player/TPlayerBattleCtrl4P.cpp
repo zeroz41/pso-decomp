@@ -41,6 +41,7 @@
 #include "pso/player/TUnk_804B6C24.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/ui/hud/TRaderMapCore.h"
+#include "pso/object/base/TObjBase.h"
 
 extern "C" s32 check_player_flag1__10TObjPlayerFv(void);
 
@@ -139,7 +140,6 @@ extern const f32 lbl_805D354C;
 extern const f32 lbl_805D3550;
 extern const f32 lbl_805D5DC4;
 extern const f32 lbl_805D5DC8;
-u16 get_entity_id(void *);
 void TLobby__sub_801B09A4(void);
 void TLobby__sub_8020BB18(void);
 void TLobby__sub_8020BCE4(void);
@@ -849,7 +849,7 @@ void TPlayerBattleCtrl4P::reset_players() {
     for (i = 0; i < 4; i++) {
         p = (void *)get_player_by_client_id(i);
         if (p != 0) {
-            TObjPlayer__send_selected_spawn_position(p, ((Ctl_80311380 *)this)->tbl[get_entity_id(p)]);
+            TObjPlayer__send_selected_spawn_position(p, ((Ctl_80311380 *)this)->tbl[((TObjBase *)(p))->get_entity_id()]);
             reset_cameras_to_actor(p, 0);
         }
     }
@@ -1033,7 +1033,7 @@ s32 calculate_split_screen_battle_rankings(void *) {
         for (k = 0; k < 4; k++) {
             p = PLAYER_801C343C(k);
             if (p != 0) {
-                TBL_801C343C[n].id = get_entity_id((void *)p);
+                TBL_801C343C[n].id = ((TObjBase *)p)->get_entity_id();
                 TBL_801C343C[n].score = team.v[TLobby__sub_801C19D0((void *)(p + 0x828)) != 1 ? 1 : 0];
                 n++;
             }
@@ -1042,7 +1042,7 @@ s32 calculate_split_screen_battle_rankings(void *) {
         for (k = 0; k < 4; k++) {
             p = PLAYER_801C343C(k);
             if (p != 0) {
-                TBL_801C343C[n].id = get_entity_id((void *)p);
+                TBL_801C343C[n].id = ((TObjBase *)p)->get_entity_id();
                 TBL_801C343C[n].score = TLobby__sub_801C4FC4((void *)(p + 0x7AC));
                 n++;
             }

@@ -46,6 +46,7 @@
 #include "pso/system/vector.h"
 #include <dolphin/base/PPCArch.h>
 #include "pso/system/task/TObject.h"
+#include "pso/object/base/TObjBase.h"
 
 // One fragment chip play_sounds throws when the trap breaks: model index,
 // position in the trap's frame and the chip's y angle.
@@ -414,7 +415,7 @@ void TOTrapSeabed01::sub_802C9D38() {
     TObjPlayer *held;
     if (TRaderMapCore::is_not_split_screen() == 1) {
         if (target != NULL) {
-            held = get_player_by_client_id(get_entity_id((TObjBase *)target));
+            held = get_player_by_client_id(((TObjBase *)target)->get_entity_id());
             if (held != NULL) {
                 if (held->check_player_flag1() != 0) {
                     TObjPlayer::send_code_45_1((saddr)held);
@@ -422,7 +423,7 @@ void TOTrapSeabed01::sub_802C9D38() {
                 obj_clear_flag30_20000(held);
             }
         }
-    } else if (target != NULL && local_client_id == get_entity_id((TObjBase *)target)) {
+    } else if (target != NULL && local_client_id == ((TObjBase *)target)->get_entity_id()) {
         held = get_player_by_client_id(local_client_id);
         if (held != NULL && held->check_player_flag1() != 0) {
             TObjPlayer::send_code_45_1((saddr)held);

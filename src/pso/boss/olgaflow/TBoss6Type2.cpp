@@ -62,6 +62,7 @@
 #include "pso/camera/TCameraFollow.h"
 #include "pso/network/client_id.h"
 #include "pso/unk/text_803D853C.h"
+#include "pso/object/base/TObjBase.h"
 
 // One row per body motion. update_motion_tracks loops a mode 0 row, holds a
 // mode 2 row on its last frame and goes on to row `next`.
@@ -1399,7 +1400,7 @@ s32 TBoss6Type2::push_players_away(void *target, f32 range) {
                 break;
             }
         }
-        mask |= 1 << get_entity_id(pl);
+        mask |= 1 << pl->get_entity_id();
     }
     return mask;
 }
@@ -1617,7 +1618,7 @@ void TBoss6Type2::request_player_camera_offsets(f32 a, f32 b) {
                     }
                 }
             }
-            request_follow_camera_offsets(&off, &cam, get_entity_id(p));
+            request_follow_camera_offsets(&off, &cam, p->get_entity_id());
             if (flag == 0) {
                 break;
             }

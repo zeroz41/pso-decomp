@@ -61,6 +61,7 @@
 #include "pso/boss/darkfalz/TObjDFJisin.h"
 #include "pso/boss/darkfalz/TObjDFHorming.h"
 #include "pso/object/trap/TOTrapAncient01_80226534.h"
+#include "pso/object/base/TObjBase.h"
 
 extern "C" {
 
@@ -317,7 +318,7 @@ void apply_tenchu_hits(TObject *source) {
         if (player == NULL) {
             continue;
         }
-        if (is_player_in_boss_area(get_entity_id(player)) == 0) {
+        if (is_player_in_boss_area(player->get_entity_id()) == 0) {
             continue;
         }
         target = TBoss4Type2__tenchu_furu_array;
@@ -795,7 +796,7 @@ void TBoss4Type1::pick_target_position(Vec *out) {
         if (p == NULL) {
             continue;
         }
-        if (is_player_in_boss_area(get_entity_id(p)) == 0) {
+        if (is_player_in_boss_area(p->get_entity_id()) == 0) {
             continue;
         }
         {

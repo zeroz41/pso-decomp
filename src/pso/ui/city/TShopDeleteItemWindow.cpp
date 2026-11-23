@@ -26,13 +26,13 @@
 #include "pso/ui/window/TWindowSetLevelUp.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/unk/text_80222C28.h"
+#include "pso/object/base/TObjBase.h"
 
 extern "C" {
 s32 compact_items__18TCheckRoomSequenceFi(int);
 s32 remove_bank_item_amount__18TCheckRoomSequenceFiii(int, int, int);
 s32 copy_item_record__18TCheckRoomSequenceFiPvi(int, void *, int);
 s32 copy_bank_to_card_window(int);
-u16 get_entity_id(TObjPlayer *);
 
 void *get_window_layout_position(int);
 s32 copy_bank_item_with_stack_limit(s32 idx, void *data, s32 *out, s32 slot);
@@ -131,7 +131,7 @@ void TShopDeleteItemWindow::sub_80337E2C() {
     if (m_30 == NULL) {
         TItemData item;
         s32 count;
-        m_30 = (TWindowMenuIconLine *)create_item_list_window(get_shop_text(0x30), 200, get_entity_id(m_24));
+        m_30 = (TWindowMenuIconLine *)create_item_list_window(get_shop_text(0x30), 200, ((TObjBase *)(m_24))->get_entity_id());
         TWindowSetLevelUp__sub_8026DE28(m_30, 200);
         for (i = 0; i < 200; i++) {
             if (copy_bank_item_with_stack_limit(i, &item, &count, base) != 0) {
@@ -166,7 +166,7 @@ void TShopDeleteItemWindow::sub_80337E2C() {
     }
     if (m_3c == NULL) {
         if (copy_item_record__18TCheckRoomSequenceFiPvi(cursor, &m_40, base) != 0) {
-            m_3c = new TWindowHelpItem(get_window_layout_position(0x27), (u32)get_entity_id(m_24));
+            m_3c = new TWindowHelpItem(get_window_layout_position(0x27), ((TObjBase *)(m_24))->get_entity_id());
             if (m_3c != NULL && TLobby::is_camera_ctrl_active() > 2) {
                 ((TLobby *)m_3c)->set_position(0.75f, 0.75f);
             }
@@ -219,7 +219,7 @@ void TShopDeleteItemWindow::update_item_select(void *arg0) {
                 }
                 self->set_field_20(2);
             } else {
-                id = get_entity_id(self->m_24);
+                id = ((TObjBase *)(self->m_24))->get_entity_id();
                 self->m_34 = create_yes_no_window((const NJS_POINT2 *)((get_window_layout_position(0x2B))), id, NULL, NULL);
                 ((TWindowMenu *)self->m_34)->set_ready_flag();
                 ((TWindowSubComCardList *)self->m_34)->set_selected_index(1);
@@ -238,7 +238,7 @@ extern "C" {
 void TShopDeleteItemWindow::handle_number_input() {
     if (m_38 != NULL && m_38->is_confirmed() != 0) {
         if (m_34 == NULL) {
-            u32 id = get_entity_id(m_24);
+            u32 id = ((TObjBase *)(m_24))->get_entity_id();
             m_34 = create_yes_no_window((const NJS_POINT2 *)((get_window_layout_position(0x2B))), id, NULL, NULL);
             ((TWindowMenu *)m_34)->set_ready_flag();
             ((TWindowSubComCardList *)m_34)->set_selected_index(1);

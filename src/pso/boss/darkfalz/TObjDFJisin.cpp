@@ -52,6 +52,7 @@ struct NJS_OBJECT;
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/render/render_util.h"
 #include "pso/unk/text_803D853C.h"
+#include "pso/object/base/TObjBase.h"
 
 
 const char *TObjDFUsoTower__name = "TObjDFUsoTower";
@@ -636,7 +637,7 @@ void TObjDFJisin::damage_players_near_point(Vec *point) {
     hit.power = 0.0f;
     for (i = 0; i < TLobby::get_game_mode(); i++) {
         p = TObjPlayer::get_player_data(i);
-        if (p != NULL && is_player_in_boss_area(get_entity_id(p)) != 0 &&
+        if (p != NULL && is_player_in_boss_area(p->get_entity_id()) != 0 &&
             !(p->class_flags & CLASS_FLAG_ANDROID) &&
             !(xyz_distance(&pos, &p->position) > 20.0f)) {
             DirectAttackPayload h = hit;

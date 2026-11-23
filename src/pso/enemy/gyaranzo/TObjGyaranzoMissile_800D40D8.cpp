@@ -29,6 +29,7 @@
 #include "pso/render/model_render_state.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/unk/text_803E2F28.h"
+#include "pso/object/base/TObjBase.h"
 
 void TObjEneGyaranzo::run_miss_reaction() {  }
 void TObjEneGyaranzo::run_move_action() {  }
@@ -182,7 +183,7 @@ TUnk_8049442C::TUnk_8049442C(TObjBase *owner, Vec *pos, s32 angle, s32 spin) : T
     mine_model = gyaranzo_bml_resource->models[5].model;
     mine_textures = (saddr)gyaranzo_bml_resource->models[5].texlist;
     room = owner->room;
-    owner_id = get_entity_id(owner);
+    owner_id = owner->get_entity_id();
     pad_B8 = 0;
     yaw = angle + 0x8000;
     pitch = -0x4000;

@@ -461,7 +461,7 @@ extern "C" void get_center__11TItemWeaponFv();
 extern "C" int update_object_view_visibility__5TItemFff(void *p);
 extern "C" void classify_actor_view_detail__8TObjBaseFfff();
 extern "C" void get_name__5TItemFv();
-extern "C" void interact__5TItemFl();
+extern "C" void interact__5TItemFUs();
 extern "C" void update_owned__11TItemWeaponFv();
 extern "C" void update_in_inventory__5TItemFv();
 extern "C" void update_equipped__11TItemWeaponFv();
@@ -514,7 +514,7 @@ void *lbl_804E1BB0[62] = {
     (void *)0x0, (void *)0x0, (void *)&__dt__13TUnk_804E1BB0Fv, (void *)&run_task__5TItemFv,
     (void *)&render__5TItemFv, (void *)&render_shadows__5TItemFv, (void *)&vfunc_6__8TObjBaseFPsl, (void *)&apply_object_set_data__8TObjBaseFPv,
     (void *)&reset_motion_fields__14TObjCollidableFv, (void *)&get_center__11TItemWeaponFv, (void *)&update_object_view_visibility__5TItemFff, (void *)&classify_actor_view_detail__8TObjBaseFfff,
-    (void *)&get_name__5TItemFv, (void *)&interact__5TItemFl, (void *)&update_owned__11TItemWeaponFv, (void *)&update_in_inventory__5TItemFv,
+    (void *)&get_name__5TItemFv, (void *)&interact__5TItemFUs, (void *)&update_owned__11TItemWeaponFv, (void *)&update_in_inventory__5TItemFv,
     (void *)&update_equipped__11TItemWeaponFv, (void *)&activate_effect__11TItemWeaponFl, (void *)&write_item_data__11TItemWeaponFP9TItemData, (void *)&set_attach_slot__14TItemEquipBaseFSc,
     (void *)&equip__14TItemEquipBaseFv, (void *)&unequip__14TItemEquipBaseFv, (void *)&add_equip_stats__14TItemEquipBaseFl, (void *)&remove_equip_stats__14TItemEquipBaseFl,
     (void *)&subtract_item_stat_bonus__14TItemEquipBaseFllPs, (void *)&subtract_equip_stats__14TItemEquipBaseFPvPsPs, (void *)&render_equipped__11TItemWeaponFv, (void *)&render_equipped_shadow__11TItemWeaponFv,

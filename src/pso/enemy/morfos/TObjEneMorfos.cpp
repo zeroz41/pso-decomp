@@ -57,6 +57,7 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/render/render_util.h"
 #include "pso/render/model_render_state.h"
+#include "pso/object/base/TObjBase.h"
 // .rodata holds the table strings, the class name, the 803350AC binding template, then the Vecs in
 // reverse .text order and the doubles in .text order: deferred codegen, functions written last to first.
 #pragma defer_codegen on
@@ -432,7 +433,7 @@ s32 TObjEneMorfos::select_target_in_view() {
         d = normalize_vector_xz((Vec *)(&v));
         if (d < 400.0f && d > best && dx * v.x + dz * v.z > cosLim &&
             csnLookAt(&body_center, &p->body_center) == 0) {
-            id = get_entity_id(p);
+            id = p->get_entity_id();
             best = d;
         }
     }

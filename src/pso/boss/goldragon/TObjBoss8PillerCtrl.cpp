@@ -24,7 +24,7 @@ const Ent_8035C03C boss8_piller_ctrl_params[41] = {
 
 // Written last to first: the unit is generated deferred (see configure.py).
 
-TObjBoss8PillerCtrl::TObjBoss8PillerCtrl(TObject *parent, f32, const Vec *pos, s32 id) : TObject(parent) {
+TObjBoss8PillerCtrl::TObjBoss8PillerCtrl(TObject *parent, f32, const Vec *pos, u16 id) : TObject(parent) {
     m_name = TObjBoss8PillerCtrl__class_name;
     VecCopy(&position, pos);
     sub_8035C034(&position);

@@ -11,6 +11,7 @@
 #include "pso/system/ControllerInputState.h"
 #include "pso/system/vector.h"
 #include "pso/unk/text_803D96A8.h"
+#include "pso/object/base/TObjBase.h"
 
 // Eye offsets from the followed player; update_follow_settings uses the first.
 const Vec vol_opt_follow_eye_offsets[2] = {
@@ -21,7 +22,7 @@ const Vec vol_opt_follow_eye_offsets[2] = {
 void TCameraController::set_target(TObjPlayer *object) {
     actor = object;
     if (object != NULL) {
-        actor_id = get_entity_id(object);
+        actor_id = object->get_entity_id();
     }
 }
 

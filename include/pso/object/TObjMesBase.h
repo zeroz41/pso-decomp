@@ -12,7 +12,7 @@ struct TObjMesBase : public TObjCollidable {
     virtual void vfunc_14();
     virtual void clear_ref_if_destroyed();
     virtual void debug_draw_label();
-    virtual void interact(s32 client);
+    virtual void interact(u16 client);
     virtual void run_task();
     TQuestThread *messageChild;
     s32 messagePhase;

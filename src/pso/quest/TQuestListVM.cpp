@@ -22,6 +22,7 @@
 #include "pso/ui/Language.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/ui/window/TObjBagWarnWin_8006EF24.h"
+#include "pso/object/base/TObjBase.h"
 
 // A window's width and height.
 struct WindowSize {
@@ -381,14 +382,14 @@ void TQuestListVM::build_download_list() {
         } else {
             switch (current_language) {
             case LANGUAGE_JAPANESE:
-                list_window = (TWindowMenuIconLine *)create_item_list_window((saddr)download_list_title_jp, 0x40, get_entity_id(player));
+                list_window = (TWindowMenuIconLine *)create_item_list_window((saddr)download_list_title_jp, 0x40, player->get_entity_id());
                 break;
             case LANGUAGE_ENGLISH:
             case LANGUAGE_GERMAN:
             case LANGUAGE_FRENCH:
             case LANGUAGE_SPANISH:
             default:
-                list_window = (TWindowMenuIconLine *)create_item_list_window((saddr)download_list_title, 0x40, get_entity_id(player));
+                list_window = (TWindowMenuIconLine *)create_item_list_window((saddr)download_list_title, 0x40, player->get_entity_id());
                 break;
             }
         }
@@ -513,7 +514,7 @@ void TQuestListVM::poll_quest_download() {
 void TQuestListVM::open_confirm_window() {
     if (detail_window == NULL) {
         WindowSize size = detail_window_size;
-        detail_window = (TWindowMessage *)TWindowMessage::create((saddr)get_window_layout_position(0x2E), size.dimensions, 1, get_entity_id(player));
+        detail_window = (TWindowMessage *)TWindowMessage::create((saddr)get_window_layout_position(0x2E), size.dimensions, 1, player->get_entity_id());
         detail_window->append_line((saddr)((QuestBinHeader *)decrypted_quest_buffer)->long_description, 1);
         detail_window->set_depth(-13000.0f);
         if (TCameraCtrl::get_camera_id() >= 2) {
@@ -525,7 +526,7 @@ void TQuestListVM::open_confirm_window() {
             set_field_20(resume_state);
             return;
         }
-        confirm_window = create_yes_no_window((const NJS_POINT2 *)get_window_layout_position(0x2B), get_entity_id(player), NULL, NULL);
+        confirm_window = create_yes_no_window((const NJS_POINT2 *)get_window_layout_position(0x2B), player->get_entity_id(), NULL, NULL);
         confirm_window->set_position_xy(get_scale(), get_scale());
         display_guild_message(5, 1);
         set_field_20(resume_state);

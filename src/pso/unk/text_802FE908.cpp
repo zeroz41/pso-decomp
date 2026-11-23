@@ -13,7 +13,7 @@ s32 is_room_enemy_set_cleared(s32, s32);
 extern void *tl_05;
 void create_boss8_demo_objects(void);
 
-void create_boss8_piller_ctrl(const Vec *position, s32 id, f32 ignored) {
+void create_boss8_piller_ctrl(const Vec *position, u16 id, f32 ignored) {
     new TObjBoss8PillerCtrl((TObject *)tl_05, ignored, position, id);
 }
 void create_boss8_demo_objects(void) {

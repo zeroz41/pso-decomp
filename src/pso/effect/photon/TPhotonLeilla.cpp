@@ -6,6 +6,7 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/player/PhotonBlastResults.h"
 #include "pso/system/BmlResource.h"
+#include "pso/object/base/TObjBase.h"
 
 const char *TPhotonLeilla::class_name = "TPhotonLeilla";
 
@@ -109,7 +110,7 @@ void TPhotonLeilla::run_task() {
     if (1.3e+02f == (f32)frame) {
         owner_object = find_entity_by_id(owner_id);
         if (owner_object != NULL) {
-            queue_photon_blast_hit(get_entity_id(owner_object), 4, 0, power);
+            queue_photon_blast_hit(owner_object->get_entity_id(), 4, 0, power);
         }
     }
     if ((f32)frame > 109.0f) {

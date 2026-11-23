@@ -39,6 +39,7 @@
 #include "pso/render/model_render_state.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/system/task/TObject_80019A50.h"
+#include "pso/object/base/TObjBase.h"
 
 static const char balclaw_body_class_name_text[] = "TObjEneBalClawBody";
 
@@ -1051,7 +1052,7 @@ s32 TObjEneBalClawBody::summon_claws() {
         p = (TObjEneBalClawClaw *)TObjPlayer::get_player_data(i);
         if (p != NULL && ((TWindowLockOn *)p)->get_target_id() == 0x26 &&
             self->room == p->room && p->check_active() != 0) {
-            self->child_ids[self->child_count++] = get_entity_id(p);
+            self->child_ids[self->child_count++] = p->get_entity_id();
             if (self->child_count >= 4) {
                 break;
             }

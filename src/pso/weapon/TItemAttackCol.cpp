@@ -30,6 +30,7 @@
 #include "pso/technique/TTecCtrl.h"
 #include "pso/ui/frontend/TAdRicoRing_8001BEE8.h"
 #include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/object/base/TObjBase.h"
 
 struct VBase_18_f2ea1e { char pad[0x18]; };
 
@@ -253,7 +254,7 @@ s32 TUnk_804E355C::try_add_hit_target(const ActorBodyHit *hit) {
     if (hit_count >= 8) {
         return 0;
     }
-    if (client_id == get_entity_id((TObjBase *)hit->target)) {
+    if (client_id == ((TObjBase *)hit->target)->get_entity_id()) {
         return 0;
     }
     ok = 1;

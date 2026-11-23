@@ -19,6 +19,7 @@
 #include "pso/system/SoundEffect.h"
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/player/TargetCursorList.h"
+#include "pso/object/base/TObjBase.h"
 
 #pragma readonly_strings on
 
@@ -82,7 +83,6 @@ struct Anti_8022AEF8 {
 };
 
 extern "C" {
-saddr get_entity_id(int);
 int TTecAnti__spawn_anti_range_effect(void* p);
 void TTecAnti__sub_8022AD94(void *);
 void set_owner_id__13TParticleCtrlFUs(void *, s32);
@@ -135,7 +135,7 @@ TTecAnti::TTecAnti(void *owner, void *pos, void *target_list, s32 level) : TTecP
         t->bodies->radius = 5.0f + m_7c;
     }
     if (source != 0U) {
-        m_a8 = get_entity_id(source);
+        m_a8 = ((TObjBase *)(saddr)source)->get_entity_id();
     }
     if (m_ac != 0) {
         play_anti_cast_sound();
@@ -193,20 +193,20 @@ void TTecAnti::vfunc_7(void *pl_arg) {
     }
     pl->m21(self->caster, hit, 0, 0x10, self->level);
     if (is_split_screen() == 0) {
-        TWindowCtrl::show_party_effect((void*)(get_entity_id((saddr)self->caster)), (void*)(get_entity_id((saddr)pl)), (void*)7);
+        TWindowCtrl::show_party_effect((((TObjBase *)((saddr)self->caster))->get_entity_id()), (((TObjBase *)((saddr)pl))->get_entity_id()), 7);
     }
-    if ((u16)get_entity_id((saddr)self->caster) == (u16)get_entity_id((saddr)pl)) {
+    if (((TObjBase *)((saddr)self->caster))->get_entity_id() == ((TObjBase *)((saddr)pl))->get_entity_id()) {
         if (self->xAC != 0) {
-            new TUnk_804CC0E8((Vec *)pl->x2FC, (Vec *)pl->pos, get_entity_id((saddr)pl), tl_07);
+            new TUnk_804CC0E8((Vec *)pl->x2FC, (Vec *)pl->pos, ((TObjBase *)((saddr)pl))->get_entity_id(), tl_07);
         }
     } else if (self->xAC != 0) {
         o = spawn_particle_effect_with_flags((const Vec *)pl->x2FC, 0x1F8, 0x10);
         if (o != NULL) {
-            set_owner_id__13TParticleCtrlFUs(o, get_entity_id((saddr)pl));
+            ((TParticleCtrl *)o)->set_owner_id(((TObjBase *)((saddr)pl))->get_entity_id());
         }
         o = spawn_particle_effect_with_flags((const Vec *)pl->x2FC, 0x1FF, 0x10);
         if (o != NULL) {
-            set_owner_id__13TParticleCtrlFUs(o, get_entity_id((saddr)pl));
+            ((TParticleCtrl *)o)->set_owner_id(((TObjBase *)((saddr)pl))->get_entity_id());
         }
     }
     if (self->xAC != 0) {
@@ -214,7 +214,7 @@ void TTecAnti::vfunc_7(void *pl_arg) {
     }
 }
 
-TUnk_804CC0E8::TUnk_804CC0E8(Vec *body_pos, Vec *ground_pos, s32 owner_id, TObject *parent) : TObject(parent) {
+TUnk_804CC0E8::TUnk_804CC0E8(Vec *body_pos, Vec *ground_pos, u16 owner_id, TObject *parent) : TObject(parent) {
     s32 i;
     VecCopy(&m_body_pos, body_pos);
     VecCopy(&m_ground_pos, ground_pos);
@@ -224,12 +224,12 @@ TUnk_804CC0E8::TUnk_804CC0E8(Vec *body_pos, Vec *ground_pos, s32 owner_id, TObje
         if (row->flags & 1) {
             p = create_timed_particle_emitter_with_flags(&m_ground_pos, row->c, row->a, row->b, 0x10);
             if (p != NULL) {
-                set_owner_id__13TParticleCtrlFUs(p, owner_id);
+                p->set_owner_id(owner_id);
             }
         } else {
             p = create_timed_particle_emitter_with_flags(&m_body_pos, row->c, row->a, row->b, 0x10);
             if (p != NULL) {
-                set_owner_id__13TParticleCtrlFUs(p, owner_id);
+                p->set_owner_id(owner_id);
             }
         }
     }

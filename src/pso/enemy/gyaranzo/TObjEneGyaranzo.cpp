@@ -58,6 +58,7 @@
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 #include "pso/ui/hud/TRaderMapCore.h"
+#include "pso/object/base/TObjBase.h"
 
 LAYOUT_ASSERT(GyaranzoPositionOffset, offsetof(TObjEneGyaranzo, position) == 0x38);
 
@@ -842,7 +843,7 @@ void TObjEneGyaranzo::select_targets() {
         if (!(dist < 90000.0f)) continue;
         if (check_path_obstructed(this, &p->body_center) == 1) continue;
         TObjGyaranzoMissile_target_slots[n].distance_squared = dist;
-        TObjGyaranzoMissile_target_slots[n].id = get_entity_id(p);
+        TObjGyaranzoMissile_target_slots[n].id = p->get_entity_id();
         if (n > 0 && TObjGyaranzoMissile_target_slots[n].distance_squared > TObjGyaranzoMissile_target_slots[best].distance_squared) {
             best = n;
         }

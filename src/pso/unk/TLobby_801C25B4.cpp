@@ -39,6 +39,7 @@
 
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/object/warp/TObjCityMainWarp.h"
+#include "pso/object/base/TObjBase.h"
 // The placement ordinals show_score_results prints; their strings open the unit's .sdata2.
 #pragma push
 char *lobby_rank_ordinal_text_table[] = {"1st", "2nd", "3rd", "4th"};
@@ -148,7 +149,6 @@ typedef struct Entry_801C2B04 {
 } Entry_801C2B04;
 
 extern "C" {
-u16 get_entity_id(void *);
 
 void build_6x7D_set_battle_mode_data(void *);
 
@@ -1190,7 +1190,7 @@ s32 calc_player_rankings__6TLobbyFPv(Lobby_801C484C *) {
         for (k = 0; k < 4; k++) {
             p = PLAYER_801C343C(k);
             if (p != 0) {
-                TBL_801C343C[n].id = get_entity_id((void *)p);
+                TBL_801C343C[n].id = ((TObjBase *)p)->get_entity_id();
                 TBL_801C343C[n].score = team.v[TLobby__sub_801C19D0((void *)(p + 0x828)) != 1 ? 1 : 0];
                 n++;
             }
@@ -1199,7 +1199,7 @@ s32 calc_player_rankings__6TLobbyFPv(Lobby_801C484C *) {
         for (k = 0; k < 4; k++) {
             p = PLAYER_801C343C(k);
             if (p != 0) {
-                TBL_801C343C[n].id = get_entity_id((void *)p);
+                TBL_801C343C[n].id = ((TObjBase *)p)->get_entity_id();
                 TBL_801C343C[n].score = TLobby__sub_801C4FC4((void *)(p + 0x7AC));
                 n++;
             }
@@ -1240,7 +1240,7 @@ void record_local_battle_placement(void *arg0) {
     slot = -1;
     for (i = 0; i < 4; i++) {
         pl = get_player_by_client_id(TLobby__duel_result_table[i].id);
-        if (pl != 0 && local_client_id == (u16)get_entity_id((void *)pl)) {
+        if (pl != 0 && local_client_id == (u16)((TObjBase *)pl)->get_entity_id()) {
             slot = TBL_801C32B4[i].slot;
             break;
         }
@@ -1441,7 +1441,7 @@ void TLobby::finish_chr_select_scene_init() {
     TLobby::init_scene_objects();
     temp_r3 = (saddr)get_local_player();
     if (temp_r3 != 0) {
-        TObjPlayer__send_selected_spawn_position(temp_r3, battle_mode_data_table[(u16)get_entity_id((void *)temp_r3)]);
+        TObjPlayer__send_selected_spawn_position(temp_r3, battle_mode_data_table[(u16)((TObjBase *)temp_r3)->get_entity_id()]);
         reset_cameras_to_actor((void *)temp_r3, 0);
     }
     ((TLobby *)tl_05)->destroy_matching_children();
@@ -1530,7 +1530,7 @@ void TLobby::send_battle_mode_state() {
         id = TLobby::assign_player_id(this);
         build_6x7D_set_battle_mode_data(&m);
         m.kind = 3;
-        m.id = get_entity_id(p);
+        m.id = ((TObjBase *)p)->get_entity_id();
         m.player = id;
         on = 1;
         if (p->flags & 0x800) {

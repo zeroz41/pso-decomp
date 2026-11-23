@@ -27,6 +27,7 @@
 #include "pso/unk/TLobby_80207644.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/object/base/TObjBase.h"
 
 
 #pragma readonly_strings on
@@ -98,7 +99,6 @@ void hide_part__9TObjLukerFPvUs(Obj_801A0C38 *self, u16 i);
 f32 horizontal_distance_squared(void *, void *);
 s32 play_persistent_sound(int, void *, void *, int, int);
 s32 TTecLuker__sub_8023401C(void *);
-s32 get_entity_id(int);
 s32 is_player_in_range__9TObjLukerFv(saddr arg0, f32 farg0);
 void send_6x21_inter_level_warp(void *obj, s32 value);
 s32 init_fields__9TTecLukerFs(void *, int);
@@ -113,7 +113,7 @@ void hide_part__9TObjLukerFPvUs(Obj_801A0C38 *self, u16 i) {
 
 #pragma push
 #pragma opt_common_subs off
-void TObjLuker::show_part(s32 arg1) {
+void TObjLuker::show_part(u16 arg1) {
     saddr arg0 = (saddr)this;
     u8 *temp_r31;
     u8 *temp_r3;
@@ -246,7 +246,6 @@ s32 are_players_gathered_near(void *arg0, s32 *arg1, f32 range) {
     return ret;
 }
 
-#define C38_801A10A0 ((void (*)(void *, int))hide_part__9TObjLukerFPvUs)
 #define DB4_801A10A0 ((void (*)(void *))close_windows__9TObjLukerFPv)
 #define PBC_801A10A0 ((uaddr (*)(s32))get_player_by_client_id)
 
@@ -261,17 +260,17 @@ s32 is_player_in_range__9TObjLukerFv(saddr arg0, f32 farg0) {
                 if (horizontal_distance_squared((void *)(arg0 + 0x38), (void *)(p + 0x38)) < (farg0 * farg0)) {
                     found = 1;
                     if ((p != 0U) && (((TObjPlayer *)p)->is_controls_locked() == 0)) {
-                        ((TObjLuker *)arg0)->show_part((int) (get_entity_id(p)));
+                        ((TObjLuker *)arg0)->show_part((((TObjBase *)(p))->get_entity_id()));
                     }
                 } else {
-                    C38_801A10A0((void *)arg0, (int) (get_entity_id((int)p)));
+                    hide_part__9TObjLukerFPvUs((Obj_801A0C38 *)arg0, (((TObjBase *)((saddr)p))->get_entity_id()));
                 }
             }
         }
         for (saddr i = 0; i < 4; i++) {
             p = PBC_801A10A0(i);
             if ((p != 0U) && (((TObjPlayer *)p)->is_controls_locked() == 1)) {
-                C38_801A10A0((void *)arg0, (int) (get_entity_id((int)p)));
+                hide_part__9TObjLukerFPvUs((Obj_801A0C38 *)arg0, (((TObjBase *)((saddr)p))->get_entity_id()));
             }
         }
     } else {
@@ -282,9 +281,9 @@ s32 is_player_in_range__9TObjLukerFv(saddr arg0, f32 farg0) {
         if (found != 0) {
             if (p != 0U) {
                 if (((TObjPlayer *)p)->is_controls_locked() == 0) {
-                    ((TObjLuker *)arg0)->show_part((int) (get_entity_id(p)));
+                    ((TObjLuker *)arg0)->show_part((((TObjBase *)(p))->get_entity_id()));
                 } else {
-                    C38_801A10A0((void *)arg0, (int) (get_entity_id((int)p)));
+                    hide_part__9TObjLukerFPvUs((Obj_801A0C38 *)arg0, (((TObjBase *)((saddr)p))->get_entity_id()));
                 }
             }
             return 1;

@@ -141,10 +141,10 @@ struct TLockOnCursor : public TObject {
     TUnk_8013EF0C nearest_target;
     TUnk_804A7248 palette_override; // the palette action forced by update_cursor or the short list
 
-    TLockOnCursor(TObject *parent, s32 target_id);
+    TLockOnCursor(TObject *parent, u16 target_id);
     virtual ~TLockOnCursor();
     u16 get_target_id();
-    void sub_8013EEC0(s32 target_id);
+    void sub_8013EEC0(u16 target_id);
     virtual void render();
     void renderSecondaryCursor(u8* body, s32 type, s32 action);
     virtual void run_task();

@@ -53,6 +53,7 @@
 #include "pso/unk/text_803D853C.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/camera/TCameraFollow.h"
+#include "pso/object/base/TObjBase.h"
 
 
 
@@ -1768,7 +1769,7 @@ void TBoss6Type1::fire_at_all_players(f32 dy) {
                 }
             }
         }
-        request_jittered_camera(&ofs, &out, get_entity_id(p));
+        request_jittered_camera(&ofs, &out, p->get_entity_id());
     }
 }
 

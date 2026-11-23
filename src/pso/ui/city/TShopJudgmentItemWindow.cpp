@@ -32,6 +32,7 @@
 #include <string.h>
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/player/TPlyItem.h"
+#include "pso/object/base/TObjBase.h"
 
 const char *TShopJudgmentItemWindow__class_name = "TShopJudgmentItemWindow";
 struct Ent_80221440 { s32 item; s32 idx; };
@@ -50,7 +51,6 @@ struct Win_80221440 {
 
 extern "C" {
 int obj_getPtr2B0_20(u8 *p);
-u16 get_entity_id(s32);
 }
 
 s32 get_appraisal_text(s32 arg0);
@@ -64,7 +64,7 @@ saddr get_window_layout_position(s32);
 void send_6x25_equip_item(void *arg0, s32 arg1, s32 arg2);
 void TItemData__clear_unidentified_flag(void *arg0);
 u32 advance_item_id_counter(u16 client);
-u32 __ct__15TWindowHelpItemFPvUs(int, int, u16);
+u32 __ct__15TWindowHelpItemFPvl(int, int, s32);
 extern s32 local_client_id;
 s32 play_sound_effect(s32, s32, s32, s32);
 void __dl__7TObjectFPv(void *);
@@ -166,7 +166,7 @@ void TShopJudgmentItemWindow::build_item_list(void *arg0) {
         return;
     }
     if (W->list == NULL) {
-        W->list = create_item_list_window(get_appraisal_text(0), W->count, (u16)((s32 (*)(s32))get_entity_id)((saddr)W->player));
+        W->list = create_item_list_window(get_appraisal_text(0), W->count, ((TObjBase *)((saddr)W->player))->get_entity_id());
         for (j = 0; j < W->count; j++) {
             ((TShopJudgmentItemWindow *)(W->list))->add_list_entry(W->ents[j].item, j);
         }
@@ -193,7 +193,7 @@ void TShopJudgmentItemWindow::handle_input() {
         return;
     }
     if (this->TShopWindowBase::sub_80223A48() != 0) {
-        this->m_158 = (saddr)create_yes_no_window((const NJS_POINT2 *)get_window_layout_position(0x2B), (u16)get_entity_id(this->m_24), NULL, NULL);
+        this->m_158 = (saddr)create_yes_no_window((const NJS_POINT2 *)get_window_layout_position(0x2B), ((TObjBase *)(this->m_24))->get_entity_id(), NULL, NULL);
         ((TWindowAddition *)(this->m_158))->set_position_xy(this->TShopWindowBase::get_scale(), this->TShopWindowBase::get_scale());
         send_message(3, 1);
         set_field_20(2);
@@ -274,14 +274,14 @@ void TShopJudgmentItemWindow::create_result_windows() {
         if ((u32) this->m_154 == 0U) {
             switch (current_language) {
             case LANGUAGE_JAPANESE:
-                this->m_154 = (uaddr) create_item_list_window((saddr)"\x8A\xD3\x92\xE8\x8C\x8B\x89\xCA", 1, (s32)(get_entity_id(this->m_24)));
+                this->m_154 = (uaddr) create_item_list_window((saddr)"\x8A\xD3\x92\xE8\x8C\x8B\x89\xCA", 1, (((TObjBase *)(this->m_24))->get_entity_id()));
                 break;
             case LANGUAGE_ENGLISH:
             case LANGUAGE_GERMAN:
             case LANGUAGE_FRENCH:
             case LANGUAGE_SPANISH:
             default:
-                this->m_154 = (uaddr) create_item_list_window((saddr)"Result", 1, (s32)(get_entity_id(this->m_24)));
+                this->m_154 = (uaddr) create_item_list_window((saddr)"Result", 1, (((TObjBase *)(this->m_24))->get_entity_id()));
                 break;
             }
             TItemData__clear_unidentified_flag(((u8 *)&this->unk_28));
@@ -294,13 +294,13 @@ void TShopJudgmentItemWindow::create_result_windows() {
             ((TWindowMenuIconLine *)this->m_154)->calc_content_extent();
         }
         if ((u32) this->m_160 == 0U) {
-            this->m_160 = (uaddr)TWindowLoadItemTexture::create((void *)get_window_layout_position(0x30), (u16)((s32 (*)(s32))get_entity_id)(this->m_24));
+            this->m_160 = (uaddr)TWindowLoadItemTexture::create((void *)get_window_layout_position(0x30), ((TObjBase *)(this->m_24))->get_entity_id());
             ((TWindowLoadItemTexture *)this->m_160)->set_mag_slot_state((TItemData *)(arg0 + 0x28));
         }
         if ((u32) this->m_15c == 0U) {
             var_r29 = (uaddr)TObject::operator new(0xBC);
             if (var_r29 != 0U) {
-                var_r29 = __ct__15TWindowHelpItemFPvUs(var_r29, (int) (get_window_layout_position(0x27)), ((s32 (*)(s32))get_entity_id)(this->m_24));
+                var_r29 = __ct__15TWindowHelpItemFPvl(var_r29, (int) (get_window_layout_position(0x27)), ((TObjBase *)(this->m_24))->get_entity_id());
             }
             this->m_15c = var_r29;
             if (((u32) this->m_15c != 0U) && (TLobby::is_camera_ctrl_active() > 2)) {
@@ -318,7 +318,7 @@ void TShopJudgmentItemWindow::update_judge_confirm() {
     s32 selected_menu_value;
     if (((TShopWindowBase *)(arg0))->vfunc_10() != 0) {
         if ((u32) *(u32 *)((s8 *)arg0 + 0x158) == 0U) {
-            *(s32 *)((s8 *)arg0 + 0x158) = (saddr)create_yes_no_window((const NJS_POINT2 *)get_window_layout_position(0x2B), get_entity_id((s32) (*(s32 *)((s8 *)arg0 + 0x24))), NULL, NULL);
+            *(s32 *)((s8 *)arg0 + 0x158) = (saddr)create_yes_no_window((const NJS_POINT2 *)get_window_layout_position(0x2B), ((TObjBase *)((saddr)(*(s32 *)((s8 *)arg0 + 0x24))))->get_entity_id(), NULL, NULL);
             ((TWindowAddition *)(*(saddr *)((s8 *)arg0 + 0x158)))->set_position_xy(((TShopWindowBase *)arg0)->get_scale(), ((TShopWindowBase *)arg0)->get_scale());
         }
         if (((u32) *(u32 *)((s8 *)arg0 + 0x158) != 0U) && (((TWindowMenu *)(*(void **)((s8 *)arg0 + 0x158)))->is_decided() != 0)) {
@@ -390,7 +390,7 @@ void TShopJudgmentItemWindow::handle_equip_prompt() {
 
     if (this->vfunc_10() != 0) {
         if (F(0x158, void *) == NULL) {
-            id = get_entity_id(F(0x24, s32));
+            id = ((TObjBase *)(saddr)(F(0x24, s32)))->get_entity_id();
             F(0x158, s32) = (saddr)create_yes_no_window((const NJS_POINT2 *)get_window_layout_position(0x2B), id, NULL, NULL);
             ((TWindowSubComCardList *)(F(0x158, void *)))->set_selected_index(0);
             y = ((TShopWindowBase *)arg0)->get_scale();
@@ -476,7 +476,7 @@ void TShopJudgmentItemWindow::handle_pay_confirm() {
 
     if (this->vfunc_10() != 0) {
         if ((u32) this->m_158 == 0U) {
-            this->m_158 = (saddr)create_yes_no_window((const NJS_POINT2 *)get_window_layout_position(0x2B), get_entity_id(this->m_24), NULL, NULL);
+            this->m_158 = (saddr)create_yes_no_window((const NJS_POINT2 *)get_window_layout_position(0x2B), ((TObjBase *)(this->m_24))->get_entity_id(), NULL, NULL);
             ((TWindowSubComCardList *)((void *)this->m_158))->set_selected_index(0);
             ((TWindowAddition *)(this->m_158))->set_position_xy(get_scale(), get_scale());
         }

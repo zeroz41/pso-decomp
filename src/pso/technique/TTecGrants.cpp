@@ -13,6 +13,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/player/TargetCursorList.h"
+#include "pso/object/base/TObjBase.h"
 
 struct RecoveredFields_80238D10_arg0
 {
@@ -54,7 +55,6 @@ struct VObj_802386F8 : VBase_802386F8 {
 };
 
 extern "C" {
-s32 get_entity_id(int);
 extern s32 tec_grants_class_name;
 
 void TTecGrants::render() {  }
@@ -108,7 +108,7 @@ TTecGrants::TTecGrants(saddr arg1, saddr origin, saddr target_list, saddr level)
     copy_technique_target_list(&targets, (TargetCursorList *)target_list);
     m_148 = 0;
     if (source != 0U) {
-        sourceId = get_entity_id(source);
+        sourceId = ((TObjBase *)(saddr)source)->get_entity_id();
     }
 }
 

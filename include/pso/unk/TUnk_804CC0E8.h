@@ -8,7 +8,7 @@
 // body and at the feet, then removes itself on the next frame.
 class TUnk_804CC0E8 : public TObject {
 public:
-    TUnk_804CC0E8(Vec *body_pos, Vec *ground_pos, s32 owner_id, TObject *parent);
+    TUnk_804CC0E8(Vec *body_pos, Vec *ground_pos, u16 owner_id, TObject *parent);
     virtual ~TUnk_804CC0E8();
     virtual void run_task();
 

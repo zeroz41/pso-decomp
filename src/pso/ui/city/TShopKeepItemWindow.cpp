@@ -32,10 +32,10 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/TMessageWindowController.h"
 #include "pso/ui/window/TWindowInputNumber.h"
+#include "pso/object/base/TObjBase.h"
 s32 bank_has_free_row(s32 slot);
 
 extern "C" {
-u32 get_entity_id(TObjPlayer *);
 
 saddr get_window_layout_position(s32);
 s32 delete_item(TObjPlayer *, s32, s32);
@@ -43,7 +43,7 @@ s32 store_item_in_bank(u8 *item, s32 arg1, s32 slot);
 void copy_bank_to_card_window(s32 slot);
 s32 play_sound_effect(s32, s32, s32, s32);
 void TWindowHelpItem__set_displayed_item_by_id(TWindowHelpItem *, s32);
-TWindowMenuIconLine *create_item_list_window(s32, s32, u16);
+TWindowMenuIconLine *create_item_list_window(s32, s32, s32);
 void sort_bank_items(s32 slot);
 s32 get_bank_deposit_capacity_for_item(TItemData *item, s32 slot);
 }
@@ -130,7 +130,7 @@ void TShopKeepItemWindow::rebuild_item_list() {
         return;
     }
     if (this->item_list_window == NULL) {
-        this->item_list_window = create_item_list_window(get_shop_text(0x30), 0x40, get_entity_id(this->m_24));
+        this->item_list_window = create_item_list_window(get_shop_text(0x30), 0x40, this->m_24->get_entity_id());
         for (s32 j = 0; j < this->entry_count; j++) {
             ((TShopJudgmentItemWindow *)(this->item_list_window))->add_list_entry((saddr)this->entries[j].item, j);
         }
@@ -148,7 +148,7 @@ void TShopKeepItemWindow::rebuild_item_list() {
         cur = ((TShopGetItemWindow *)(this->item_list_window))->get_cursor_index();
     }
     if (this->help_window == NULL) {
-        this->help_window = new TWindowHelpItem((void *)get_window_layout_position(0x27), get_entity_id(this->m_24));
+        this->help_window = new TWindowHelpItem((void *)get_window_layout_position(0x27), this->m_24->get_entity_id());
         if (this->help_window != NULL && TLobby::is_camera_ctrl_active() > 2) {
             ((TLobby *)(this->help_window))->set_position(0.75f, 0.75f);
         }
@@ -221,7 +221,7 @@ void TShopKeepItemWindow::handle_deposit_list_select() {
         return;
     }
     if (this->confirm_window == NULL) {
-        this->confirm_window = create_yes_no_window((const NJS_POINT2 *)get_window_layout_position(0x2B), (u16)(get_entity_id(this->m_24)), NULL, NULL);
+        this->confirm_window = create_yes_no_window((const NJS_POINT2 *)get_window_layout_position(0x2B), (this->m_24->get_entity_id()), NULL, NULL);
         ((TWindowMenu *)this->confirm_window)->set_ready_flag();
         f32 scale = get_scale();
         ((TWindowAddition *)this->confirm_window)->set_position_xy(get_scale(), scale);
@@ -231,13 +231,13 @@ void TShopKeepItemWindow::handle_deposit_list_select() {
 
 void TShopKeepItemWindow::update_number_input() {
     f32 scale;
-    u16 entity_id;
+    s32 entity_id;
     TWindowInputNumber *w;
     w = this->number_window;
     if ((w != NULL) && (w->is_confirmed() != 0)) {
         if (this->confirm_window == NULL) {
-            entity_id = get_entity_id(this->m_24);
-            this->confirm_window = create_yes_no_window((const NJS_POINT2 *)get_window_layout_position(0x2B), (u16)entity_id, NULL, NULL);
+            entity_id = this->m_24->get_entity_id();
+            this->confirm_window = create_yes_no_window((const NJS_POINT2 *)get_window_layout_position(0x2B), entity_id, NULL, NULL);
             ((TWindowMenu *)(this->confirm_window))->set_ready_flag();
             scale = get_scale();
             ((TWindowAddition *)(this->confirm_window))->set_position_xy(get_scale(), scale);

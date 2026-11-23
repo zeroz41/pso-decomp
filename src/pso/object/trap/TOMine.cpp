@@ -47,6 +47,7 @@ struct game_command_header;
 #include "pso/unk/TLobby_80132ED0.h"
 #include "pso/ui/TLevelSelect.h"
 #include "pso/map/area/AreaScene.h"
+#include "pso/object/base/TObjBase.h"
 
 // ---- declarations carried over from the fragment TOMineTrapDisp_8016EDC8.cpp
 extern "C" {
@@ -111,7 +112,6 @@ u16 TOMineTrap__sub_80171358(TOMineTrap *p);
 void handle_6x80_trigger_trap(game_command_header *command);
 // ---- declarations carried over from the fragment TOMineTrap_8016F6F8.cpp
 s32 get_current_floor(void);
-u16 get_entity_id(void *);
 }
 
 struct VBase_18_33b813
@@ -495,7 +495,7 @@ f32 TOMine::receive_direct_attack(void *arg1, DirectAttackPayload payload, void 
     return 0.0f;
   }
   var_r31 = 0;
-  if ((get_entity_id((void *) arg1) < 4U) && (TObjPlayer::is_locally_controlled((void *) arg1) != 0))
+  if ((((TObjBase *)arg1)->get_entity_id() < 4U) && (TObjPlayer::is_locally_controlled((void *) arg1) != 0))
   {
     var_r31 = 1;
   }
@@ -680,7 +680,7 @@ s32 TOMine::roll_physical_accuracy(void *, s32, f32) { return 1; }
 s32 TOMine::is_target_in_list(void *obj) {
     TOMine *self = this;
     if (obj != 0) {
-        u32 id = get_entity_id(obj);
+        u32 id = ((TObjBase *)(obj))->get_entity_id();
         if (id < 4) {
             Node_801702C8 *n;
             for (n = *(Node_801702C8 * *)&self->m_down; n != 0; n = n->next) {
@@ -702,7 +702,7 @@ TOMineTrap::TOMineTrap(TObjBase *owner, s16 kind, s16 slot) : TOMine(tl_05) {
     m_name = TOMineTrap__data_805D3080;
     m_380 = 0;
     if (owner != NULL) {
-        sub_80171348(get_entity_id(owner));
+        sub_80171348(owner->get_entity_id());
     } else {
         m_2d8 = 0xFFFF;
     }
@@ -809,7 +809,7 @@ saddr create_placed_trap__10TOMineTrapFUiss(uaddr owner, s16 kind, s16 slot) {
     u16 id;
     void *player;
     void *obj;
-    if (enable_v2_features != 1 || owner == 0 || (id = get_entity_id((void *)owner)) == 0xFFFF || id >= 0x1000 ||
+    if (enable_v2_features != 1 || owner == 0 || (id = ((TObjBase *)owner)->get_entity_id()) == 0xFFFF || id >= 0x1000 ||
         (player = (void *)get_player_by_client_id(id)) == 0 || ((TObjPlayer *)player)->get_floor() != get_current_floor() ||
         kind < 0 || kind >= 4 || slot < 0 || slot > 0x14) {
         return 0;
@@ -867,7 +867,7 @@ void TOMineTrap::run_task() {
             if (p->alt_room != alt_room && p->room != room && p->room != alt_room) {
                 continue;
             }
-            id = get_entity_id(p);
+            id = p->get_entity_id();
             if (id == 0xFFFF) {
                 continue;
             }
@@ -950,7 +950,7 @@ s32 TOMineTrap::find_target_in_range() {
         if (actor == NULL || actor == this || actor->test_actor_flags(0x800) != 0) {
             continue;
         }
-        id = get_entity_id(actor);
+        id = actor->get_entity_id();
         if (id == 0xFFFF) {
             continue;
         }
@@ -1231,13 +1231,13 @@ void TOMineTrapDisp::run_task() {
                 pl = get_player_by_client_id(i);
                 if (pl != 0 && TObjPlayer::is_locally_controlled(pl) != 0) {
                     if (fn_80171314(pl) != 0 ||
-                        (TTecCtrl::is_technique_ready() != 0 && m_ac == (u16)get_entity_id(pl))) {
+                        (TTecCtrl::is_technique_ready() != 0 && m_ac == (u16)pl->get_entity_id())) {
                         if (!(horizontal_distance_squared(&position, &pl->position) <= 40000.0f)) {
                             if ((s16)pl->get_room() != (s16)this->get_room()) {
                                 continue;
                             }
                         }
-                        if (m_a8 == (u16)get_entity_id(pl)) {
+                        if (m_a8 == (u16)pl->get_entity_id()) {
                             hit = 1;
                         }
                     }

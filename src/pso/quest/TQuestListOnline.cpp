@@ -29,6 +29,7 @@
 #include "pso/quest/TQuestListVM.h"
 #include "pso/system/task/TObject.h"
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
+#include "pso/object/base/TObjBase.h"
 
 
 // A window's width and height.
@@ -99,7 +100,6 @@ struct VObj_18_80217C1C : VBase_18_80217C1C {
 
 
 extern "C" {
-s32 get_entity_id(int);
 saddr get_window_layout_position(int);
 
 s32 send_action__9TProtocolFR13GameListEntryUcPcPc(void *, void *, int, char *, char *);
@@ -190,13 +190,13 @@ void TQuestListOnline::vfunc_11() {
 void TQuestListOnline::request_menu() { TLobby__protocol_instance->send_quest_menu_request(); online_quest_bin_data = NULL; quest_bin_decompressed_size = 0; online_quest_dat_buffer = NULL; online_quest_list_decompressed_size = 0; set_field_20((saddr)((void*)12)); }
 
 void TQuestListOnline::build_list_window() {
-    u16 id;
+    s32 id;
     s32 off;
     s32 i;
     QuestListEntry *entry;
     if (((VObj_18_80217F88 *)this->sequence)->m8() != 0) {
         if (list_window == NULL) {
-            id = get_entity_id(window_owner);
+            id = ((TObjBase *)(saddr)(window_owner))->get_entity_id();
             list_window = (TWindowMenuIconLine *)create_item_list_window(get_guild_text(0), 0x40, id);
         } else {
             list_window->reset_list();
@@ -238,10 +238,10 @@ void TQuestListOnline::build_list_window() {
 }
 
 void TQuestListOnline::show_info_window() {
-    u16 temp_r31;
+    s32 temp_r31;
     if (info_window == NULL) {
         WindowSize size = online_info_window_size;
-        temp_r31 = get_entity_id(window_owner);
+        temp_r31 = ((TObjBase *)(saddr)(window_owner))->get_entity_id();
         info_window = (TWindowMessage *)TWindowMessage::create(get_window_layout_position(0x2E), (const f32 *)&size, 1, (s32)temp_r31);
         info_window->set_depth(37000.0f);
         if (TCameraCtrl::get_camera_id() >= 2) {
@@ -303,7 +303,7 @@ void TQuestListOnline::handle_list_selection() {
             return;
         } else if (selection_stage == 2) {
             if (confirm_window == NULL) {
-                u16 id = get_entity_id(window_owner);
+                s32 id = ((TObjBase *)(saddr)(window_owner))->get_entity_id();
                 confirm_window = create_yes_no_window((const NJS_POINT2 *)get_window_layout_position(0x2B), id, NULL, NULL);
                 confirm_window->set_position_xy(get_scale(), get_scale());
                 if (sequence != NULL) {

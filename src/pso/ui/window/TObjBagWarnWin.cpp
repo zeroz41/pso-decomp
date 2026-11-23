@@ -1,4 +1,5 @@
 #include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjBase.h"
 #pragma defer_codegen on
 
 #pragma readonly_strings on
@@ -232,13 +233,13 @@ s32 TObjBagWarnWin4P::check_can_open(void * _w0) {
 
     for (i = 0; i < 4; i++) {
         TObjPlayer *player = get_player_by_client_id(i);
-        if (player != NULL && TWindowCtrl::has_player_active_menu(get_entity_id(player)) != 0) {
+        if (player != NULL && TWindowCtrl::has_player_active_menu(player->get_entity_id()) != 0) {
             return 0;
         }
     }
     for (i = 0; i < 4; i++) {
         TObjPlayer *player = get_player_by_client_id(i);
-        if (player != NULL && TWindowCtrl::is_slot_visible(get_entity_id(player)) != 0) {
+        if (player != NULL && TWindowCtrl::is_slot_visible(player->get_entity_id()) != 0) {
             return 0;
         }
     }

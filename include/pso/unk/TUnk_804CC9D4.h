@@ -10,7 +10,7 @@ public:
     TUnk_804CC9D4(Vec *pos, TObject *parent, s32 always_selectable);
     virtual ~TUnk_804CC9D4();
     virtual void run_task();
-    virtual void interact(s32 client);
+    virtual void interact(u16 client);
     // Inferred names: run_task offers the cursor action without the gathered-players check
     // when this is set (warps pass 1, telepipes 0); interact sets the latch TTecLuker polls.
     s32 always_selectable;

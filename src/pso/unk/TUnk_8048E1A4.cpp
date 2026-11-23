@@ -27,6 +27,7 @@
 #include "pso/technique/TTecCtrl.h"
 #include "pso/unk/TLobby_8001EF5C.h"
 #include "pso/player/TPlyDispData.h"
+#include "pso/object/base/TObjBase.h"
 
 
 f32 TUnk_8048E1A4::receive_physical_attack(void *arg1, f32) {
@@ -204,14 +205,13 @@ void TUnk_8048E1A4::render() {
 }
 
 s32 __ct__13TUnk_8048E1A4FPUcPUc(u32, u32, s32, s32);
-u16 get_entity_id(void *);
 
 void create__10TObjPlayerFUiii(uaddr arg0, s32 arg1, s32 arg2) {
     u16 entity_id;
 
     u32 obj;
     if ((is_current_area_item_enabled() != 0) && (arg0 != 0U)) {
-        entity_id = get_entity_id((void *)arg0);
+        entity_id = ((TObjBase *)arg0)->get_entity_id();
         if (((u16) entity_id != 0xFFFF) && ((u16) entity_id < 0x4000U) && ((obj = (uaddr)TObject::operator new(0x368)) != 0U)) {
             __ct__13TUnk_8048E1A4FPUcPUc(obj, arg0, arg1, arg2);
         }
@@ -308,7 +308,7 @@ TUnk_8048E1A4::TUnk_8048E1A4(u8 *chara, u8 *arg2) : TObjChara((TObject *)((void 
     player_stats *temp_r3;
     ((RecoveredFields_8008213C_arg0 *)((u8 *)this))->field_34 = (saddr)get_bml_model((BmlResource *)freeze_shell_bml_resource, 1);
     if (chara != NULL) {
-        ((RecoveredFields_8008213C_arg0 *)((u8 *)this))->field_358 = get_entity_id(chara);
+        ((RecoveredFields_8008213C_arg0 *)((u8 *)this))->field_358 = ((TObjBase *)(chara))->get_entity_id();
         VecCopy((Vec *)(((u8 *)this) + 0x35C), (const Vec *)(chara + 0x38));
         if (arg2 != NULL) {
             VecCopy((Vec *)(((u8 *)this) + 0x38), (const Vec *)(arg2 + 0x1C));

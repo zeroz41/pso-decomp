@@ -98,7 +98,7 @@ extern "C" {
 void vfunc_6__8TObjBaseFPsl();
 }
 extern "C" {
-void interact__14TObjCollidableFl();
+void interact__14TObjCollidableFUs();
 }
 extern "C" {
 void get_name__8TObjBaseFv();
@@ -588,7 +588,7 @@ void *lbl_804D4054[21] = {
     (void *)0x0, (void *)0x0, (void *)&TAdSinglePlyChrSelectGC__sub_802908CC, (void *)&run_task__12TCMCharacterFv,
     (void *)&close_if_active__23TAdSinglePlyChrSelectGCFv, (void *)&render_shadows__7TObjectFv, (void *)&vfunc_6__8TObjBaseFPsl, (void *)&apply_object_set_data__8TObjBaseFPv,
     (void *)&reset_motion_fields__10TObjMotionFv, (void *)&get_center__8TObjBaseFv, (void *)&update_object_view_visibility__8TObjBaseFff, (void *)&classify_actor_view_detail__8TObjBaseFfff,
-    (void *)&get_name__8TObjBaseFv, (void *)&interact__14TObjCollidableFl, (void *)0x0, (void *)0x0,
+    (void *)&get_name__8TObjBaseFv, (void *)&interact__14TObjCollidableFUs, (void *)0x0, (void *)0x0,
     (void *)0x0, (void *)0x0, (void *)0x0, (void *)0x0,
     (void *)0x0,
 };

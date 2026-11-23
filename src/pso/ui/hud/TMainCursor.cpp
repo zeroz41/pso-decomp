@@ -69,6 +69,7 @@
 #include "pso/ui/hud/TMainCursor_80154090.h"
 #include "pso/ui/frontend/TAdRicoRing_8001BEE8.h"
 #include "pso/player/PhotonBlastResults.h"
+#include "pso/object/base/TObjBase.h"
 extern "C" void *__ct__16TargetCursorListFv(void *list);
 extern "C" void *__ct__18TargetCursorRecordFv(void *p);
 
@@ -406,7 +407,7 @@ void TLOC_End::run_task() {
 
 #pragma defer_codegen on
 
-TLockOnCursor::TLockOnCursor(TObject *parent, s32 target_id) : TObject(parent) {
+TLockOnCursor::TLockOnCursor(TObject *parent, u16 target_id) : TObject(parent) {
     m_name = lock_on_cursor_class_name;
     sub_8013EEC0(target_id);
     flags.reset();
@@ -707,7 +708,7 @@ void TMainCursor::setup_action_channel(u8 *player, s32 slot, s32 kind, s32 id) {
     case 4:
         switch ((s16)id) {
         case 10:
-            tech = (Tech_8013CDE4 *)calc_technique_parameters(0xF, 0xE, get_entity_id((TObjBase *)player));
+            tech = (Tech_8013CDE4 *)calc_technique_parameters(0xF, 0xE, ((TObjBase *)player)->get_entity_id());
             TMainCursor__sub_8013E9A0(cur);
             TECH_8013CDE4(tech)
             ((TMainCursor *)cur)->set_type(tech->f22);
@@ -715,7 +716,7 @@ void TMainCursor::setup_action_channel(u8 *player, s32 slot, s32 kind, s32 id) {
             TMainCursor::set_display_flags((saddr)this, (saddr)player, C_8013CDE4);
             break;
         case 9:
-            tech = (Tech_8013CDE4 *)calc_technique_parameters(0x11, 0xE, get_entity_id((TObjBase *)player));
+            tech = (Tech_8013CDE4 *)calc_technique_parameters(0x11, 0xE, ((TObjBase *)player)->get_entity_id());
             TMainCursor__sub_8013E9A0(cur);
             TECH_8013CDE4(tech)
             ((TMainCursor *)cur)->set_type(tech->f22);
@@ -740,7 +741,7 @@ void TMainCursor::setup_action_channel(u8 *player, s32 slot, s32 kind, s32 id) {
         ((TMainCursor *)cur)->set_type(wpn->f10);
         break;
     case 3: {
-        u16 client = get_entity_id((TObjBase *)player);
+        u16 client = ((TObjBase *)player)->get_entity_id();
         s32 lvl = get_cast_technique_level(player + 0x428, id);
         sid = id;
         tech = (Tech_8013CDE4 *)calc_technique_parameters(sid, lvl, client);
@@ -1067,7 +1068,7 @@ s32 try_add_target_candidate__11TMainCursorFPvPvPvPv(u8 *cursor, u8 *player, u8 
     if (target == NULL) {
         return 0;
     }
-    if ((u16)get_entity_id((TObjBase *)target) == (u16)get_entity_id((TObjBase *)player)) {
+    if ((u16)((TObjBase *)target)->get_entity_id() == (u16)((TObjBase *)player)->get_entity_id()) {
         return 0;
     }
     if (TTecCtrl::is_technique_ready() == 0) {
@@ -1092,7 +1093,7 @@ s32 try_add_target_candidate__11TMainCursorFPvPvPvPv(u8 *cursor, u8 *player, u8 
             continue;
         }
         c->flags &= ~0x10000000;
-        ((TMainCursor *)player)->set_flag_bit(i, get_entity_id((TObjBase *)target));
+        ((TMainCursor *)player)->set_flag_bit(i, ((TObjBase *)target)->get_entity_id());
         if (!(c->flags & 1)) {
             continue;
         }
@@ -1105,7 +1106,7 @@ s32 try_add_target_candidate__11TMainCursorFPvPvPvPv(u8 *cursor, u8 *player, u8 
         dist = horizontal_distance_squared((const Vec *)(cursor + 0x1C), (const Vec *)c->pos);
         if (!(c->flags & 0x22000) && best->candidate_target_dist > dist) {
             best->candidate_target_dist = dist;
-            best->candidate_target_id = get_entity_id((TObjBase *)player);
+            best->candidate_target_id = ((TObjBase *)player)->get_entity_id();
             best->candidate_part_index = i;
         }
         {
@@ -1143,7 +1144,7 @@ s32 try_add_target_candidate__11TMainCursorFPvPvPvPv(u8 *cursor, u8 *player, u8 
         }
         ((TMainCursor *)TMainCursor::get_record_at(cursor + 0x40, slot))->set_size(dist);
         ((TMainCursor *)(TMainCursor::get_record_at(cursor + 0x40, slot)))->set_field2(i);
-        set_cursor_id__11TMainCursorFs((void *)TMainCursor::get_record_at(cursor + 0x40, slot), get_entity_id((TObjBase *)player));
+        set_cursor_id__11TMainCursorFs((void *)TMainCursor::get_record_at(cursor + 0x40, slot), ((TObjBase *)player)->get_entity_id());
         found = 1;
     }
     return found;
@@ -1444,7 +1445,7 @@ void TMainCursor::validate_target() {
         }
         if (t->f32E - *(s16 *)((u8 *)calc_technique_parameters(TMainCursor__sub_8013E338(((u8 *)this) + 0x60),
                                                       get_cast_technique_level((u8 *)t + 0x428, TMainCursor__sub_8013E338(((u8 *)this) + 0x60)),
-                                                      get_entity_id((TObjBase *)t)) + 0x10) < 0) {
+                                                      ((TObjBase *)t)->get_entity_id()) + 0x10) < 0) {
             this->update_target_sub();
             return;
         }
@@ -2140,7 +2141,7 @@ TUnk_804A7248::TUnk_804A7248() {
     unk_4 = 0;
 }
 
-void TLockOnCursor::sub_8013EEC0(s32 target_id) { this->target_id = target_id; }
+void TLockOnCursor::sub_8013EEC0(u16 target_id) { this->target_id = target_id; }
 
 TUnk_804A7248::~TUnk_804A7248() {}
 

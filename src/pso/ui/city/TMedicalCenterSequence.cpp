@@ -1,5 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/ui/city/TMedicalCenterMes.h"
+#include "pso/unk/text_80222C28.h"
+#include "pso/item/shop/TShopGenerator.h"
 #include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/unk/text_8026934C.h"
 #include "pso/ui/window/TWindowBase.h"
@@ -12,12 +14,10 @@
 #include "pso/player/TObjPlayer.h"
 #include "types.h"
 #include "pso/system/ControllerInput.h"
+#include "pso/object/base/TObjBase.h"
 
 extern "C" {
-s32 TShopGenerator__sub_80222DAC(s32);
-s32 get_entity_id(TObjPlayer *);
 void *get_player_by_client_id(s32);
-void THunterGuildSeqOffline__sub_8021E180(s32);
 saddr get_window_layout_position(int, f32);
 void TMedicalCenterMes__sub_80216260(void);
 
@@ -224,9 +224,9 @@ void TMedicalCenterSequence::show_already_healthy() {
 }
 
 void TMedicalCenterSequence::show_fee_prompt() {
-    u16 id;
+    s32 id;
     display_shop_message(0x20, 1);
-    id = get_entity_id(player);
+    id = player->get_entity_id();
     m_30 = create_yes_no_window((const NJS_POINT2 *)(((s32 (*)(int))get_window_layout_position)(0x2B)), id, NULL, NULL);
     ((TWindowAddition *)m_30)->set_position_xy(get_scale(), get_scale());
     set_field_20(3);
@@ -251,14 +251,14 @@ TMedicalCenterMes::TMedicalCenterMes(TObject *parent, TObjPlayer *player) : TObj
     state = 0;
     this->player = player;
     if (this->player != NULL) {
-        s32 slot = TShopGenerator__sub_80222DAC(get_entity_id(this->player));
+        s32 slot = TShopGenerator__sub_80222DAC(this->player->get_entity_id());
         TMedicalCenterMes__slot_flags[(u16)slot] = 1;
     }
 }
 
 TMedicalCenterMes::~TMedicalCenterMes() {
     if (player != NULL) {
-        s32 slot = TShopGenerator__sub_80222DAC(get_entity_id(player));
+        s32 slot = TShopGenerator__sub_80222DAC(player->get_entity_id());
         TMedicalCenterMes__slot_flags[(u16)slot] = 0;
     }
 }
@@ -283,10 +283,10 @@ void TMedicalCenterMes::run_task() {
         if (player == NULL) {
             player = (TObjPlayer *)get_player_by_client_id(local_client_id);
         }
-        THunterGuildSeqOffline__sub_8021E180(get_entity_id(player));
-        TWindowCtrl::suppress_slot((u16)get_entity_id(player));
+        THunterGuildSeqOffline__sub_8021E180(player->get_entity_id());
+        TWindowCtrl::suppress_slot(player->get_entity_id());
         f32 pos[2] = {332.0f, 80.0f};
-        u16 id = (u16)get_entity_id(player);
+        s32 id = player->get_entity_id();
         create_message_window(((s32 (*)(int))get_window_layout_position)(0x2C), (saddr)pos, id);
         format_shop_message(0x25, 1);
         if (player != NULL) {
@@ -308,13 +308,13 @@ void TMedicalCenterMes::run_task() {
         }
         close();
         if (player != NULL) {
-            TWindowCtrl::unsuppress_slot((u16)get_entity_id(player));
+            TWindowCtrl::unsuppress_slot(player->get_entity_id());
         }
-        TShopGenerator::clear_slot_active(get_entity_id(player));
+        TShopGenerator::clear_slot_active(player->get_entity_id());
         queue_destruction();
         break;
     }
 }
-s32 TMedicalCenterMes::get_slot_flag(int client) {
+s32 TMedicalCenterMes::get_slot_flag(u16 client) {
     return TMedicalCenterMes__slot_flags[(u16)TShopGenerator__sub_80222DAC(client)];
 }

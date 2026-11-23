@@ -9,9 +9,11 @@
 #include "pso/ui/window/TWindowSubComCardList.h"
 #include "pso/ui/city/THunterGuildSeqOffline.h"
 #include "pso/ui/city/THunterGuildSeqOffline_80213788.h"
+#include "pso/item/shop/TShopGenerator.h"
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/quest/TQuestThread.h"
 #include "pso/system/task/TObject.h"
+#include "pso/object/base/TObjBase.h"
 
 struct Base_802133C4_80212D9C { char pad[0x18]; };
 struct VObj_802133C4_80212D9C : Base_802133C4_80212D9C {
@@ -56,8 +58,6 @@ s32 THunterGuildSeqOffline__instance_table[4];
 THunterGuildSeqOffline *THunterGuildSeqOffline__active_instance;
 const char *lbl_805D3658 = "THunterGuildSeqOffline";
 void THunterGuildSeqOffline__sub_8021339C(void);
-u16 get_entity_id(s32);
-void THunterGuildSeqOffline__sub_8021E180(void);
 extern void *tl_00;
 void THunterGuildSeqOffline__sub_80213410(void);
 s32 THunterGuildSeqOffline__sub_80213458(void);
@@ -68,7 +68,7 @@ int fn_80223480(void*);
 
 void THunterGuildSeqOnline_Client::open_judgment_item_window() {
     if ((vfunc_10() != 0) && ((sub_80223A48() != 0) || (sub_802239EC() != 0))) {
-        choice_menu = create_yes_no_window((const NJS_POINT2 *)get_window_layout_position(0x2B), (u16)get_entity_id((saddr)player), NULL, NULL);
+        choice_menu = create_yes_no_window((const NJS_POINT2 *)get_window_layout_position(0x2B), (u16)((TObjBase *)((saddr)player))->get_entity_id(), NULL, NULL);
         ((TWindowSubComCardList *)choice_menu)->set_selected_index(1);
         ((TWindowAddition *)choice_menu)->set_position_xy(get_scale(), get_scale());
         display_guild_message(8, 1);
@@ -121,8 +121,7 @@ void THunterGuildSeqOnline_Client::close_window() {
             if (o != NULL) {
                 ((THunterGuildSeqOffline *)o)->init(tl_00, (void *)reset_random_enemies_mode);
             }
-            get_entity_id((saddr)player);
-            THunterGuildSeqOffline__sub_8021E180();
+            THunterGuildSeqOffline__sub_8021E180(((TObjBase *)((saddr)player))->get_entity_id());
             break;
         }
         case 0:
@@ -264,7 +263,7 @@ void THunterGuildSeqOffline::open_judgment_window() {
 
     if ((this->vfunc_10() != 0)
         && ((sub_80223A48() != 0) || (sub_802239EC() != 0))) {
-        *(s32 *)&this->choice_menu = (saddr)create_yes_no_window((const NJS_POINT2 *)get_window_layout_position(0x2B), (u16)get_entity_id((saddr)this->player), NULL, NULL);
+        *(s32 *)&this->choice_menu = (saddr)create_yes_no_window((const NJS_POINT2 *)get_window_layout_position(0x2B), (u16)((TObjBase *)((saddr)this->player))->get_entity_id(), NULL, NULL);
         ((TWindowSubComCardList *)(this->choice_menu))->set_selected_index(1);
         ((TWindowAddition *)(this->choice_menu))->set_position_xy(get_scale(), get_scale());
         this->display_guild_message(8, 1);

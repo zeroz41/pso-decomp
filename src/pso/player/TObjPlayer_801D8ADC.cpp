@@ -20,6 +20,7 @@
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjBase.h"
 
 #pragma inline_depth(1)
 #pragma auto_inline off
@@ -134,7 +135,7 @@ s32 TObjPlayer::get_guild_return_yaw() {
 }
 
 const Vec *TObjPlayer::get_guild_return_position() {
-    return guild_return_position_table_by_episode[TLobby::get_instance()] + get_entity_id(this);
+    return guild_return_position_table_by_episode[TLobby::get_instance()] + this->get_entity_id();
 }
 
 s32 TObjPlayer::get_hospital_yaw() {
@@ -142,7 +143,7 @@ s32 TObjPlayer::get_hospital_yaw() {
 }
 
 u8 *TObjPlayer::get_hospital_position() {
-    return (u8 *)hospital_position_table_by_episode[TLobby::get_instance()] + (get_entity_id(this) * 0xC);
+    return (u8 *)hospital_position_table_by_episode[TLobby::get_instance()] + (this->get_entity_id() * 0xC);
 }
 
 s32 get_class_starting_inventory(s8 cls) {

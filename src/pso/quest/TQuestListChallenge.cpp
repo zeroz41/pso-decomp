@@ -16,6 +16,7 @@
 #include "pso/ui/city/TShopJudgmentItemWindow_8026DF00.h"
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/unk/TLobby_8030A6A8.h"
+#include "pso/object/base/TObjBase.h"
 
 extern "C" {
 s32 lbl_805D64A8;
@@ -159,7 +160,7 @@ void TQuestListChallenge::update_selection() {
         sel = list_window->get_cursor_value();
         if (info_window == NULL) {
             ChallengeWindowExtent p = lbl_80450AB4[0].extent;
-            id = (u16)get_entity_id(player);
+            id = (u16)player->get_entity_id();
             info_window = create_quest_detail_window(get_window_layout_position(0x2E), p.dimensions, 1, id);
             text2 = get_quest_list_text(text_group, entries[sel].confirm_text);
             info_window->append_line(text2, 0x80);
@@ -169,7 +170,7 @@ void TQuestListChallenge::update_selection() {
             }
         }
         if (confirmation == NULL) {
-            id = (u16)get_entity_id(player);
+            id = (u16)player->get_entity_id();
             confirmation = create_quest_confirmation_menu(get_window_layout_position(0x2B), id, NULL, NULL);
             confirmation->set_position_xy(get_scale(), get_scale());
             if (sequence != NULL) {
@@ -188,7 +189,7 @@ void TQuestListChallenge::create_quest_list_window() {
     s32 e;
 
     if (sequence->vfunc_10() != 0 && list_window == NULL) {
-        id = get_entity_id(player);
+        id = player->get_entity_id();
         list_window = (TWindowMenuIconLine *)create_item_list_window(get_guild_text(0), 0x40, id);
         for (i = 0; i < count; i++) {
             e = get_quest_list_text(text_group, entries[i].title_text);

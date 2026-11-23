@@ -15,6 +15,7 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/system/BmlResource.h"
 #include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjBase.h"
 
 #pragma readonly_strings on
 
@@ -96,7 +97,7 @@ TObjEneMe1GiGueBarrier::TObjEneMe1GiGueBarrier(TObject *parent, void *owner_obj)
     BmlModelEntry *models;
     m_name = TObjEneMe1GiGueBarrier__name;
     owner = (TObjEneMe1GiGue *)owner_obj;
-    owner_id = get_entity_id(owner);
+    owner_id = owner->get_entity_id();
     VecCopy(&position, owner->update_and_get_pos());
     rotation_y = owner->get_rotation_y();
     timer = owner->get_barrier_duration();

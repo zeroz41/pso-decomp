@@ -8,6 +8,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/player/TObjPlayer_801D2E20.h"
 #include "pso/player/TObjPlayer_80128A70.h"
+#include "pso/object/base/TObjBase.h"
 
 
 struct Owner_80129648 { u8 pad[0x60]; s32 f60; };
@@ -34,7 +35,6 @@ struct Tec_80129648 {
 };
 
 extern "C" {
-s16 get_entity_id(void *);
 }
 void init_slicer_launch_state(void *);
 void TUnk_804A4338::emit_marker_effects() {
@@ -42,7 +42,7 @@ void TUnk_804A4338::emit_marker_effects() {
     Tec_80129648 tec;
     TObjPlayer__sub_80128A70();
     init_slicer_launch_state(&tec);
-    tec.id = get_entity_id(self->owner);
+    tec.id = ((TObjBase *)(self->owner))->get_entity_id();
     tec.fC = ((TItem *)self)->get_item_id();
     tec.f4 = this->texlist;
     tec.f8 = self->f188;

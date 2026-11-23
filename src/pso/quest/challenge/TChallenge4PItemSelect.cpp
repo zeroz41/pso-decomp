@@ -19,6 +19,7 @@
 #include "pso/player/PlayerSlots.h"
 #include "pso/ui/window/TWindowMessagePage.h"
 #include "pso/ui/window/TWindowCtrl.h"
+#include "pso/unk/text_8024AB98.h"
 #include "pso/map/FloorArea.h"
 #include "pso/system/task/TObject.h"
 #include "pso/item/TItemData.h"
@@ -26,6 +27,7 @@
 #include "pso/object/warp/TObjCityMainWarp.h"
 #include "pso/boss/darkfalz/TBoss4Type2.h"
 #include "pso/unk/TLobby_80132ED0.h"
+#include "pso/object/base/TObjBase.h"
 
 struct Stack_8034B158 {
     s8 sp8;
@@ -66,12 +68,9 @@ extern "C" {
 void obj_set_flag_20000(TObjPlayer *);
 void get_player_result__18TChallenge4PResultFPv(TObjPlayer *, s32);
 void fn_8034BE48(TObjPlayer *);
-u32 get_entity_id(TObjPlayer *);
-void TObjPlayer__sub_8024ABDC(u16);
 void request_active_window_close();
 void obj_clear_flag30_20000(TObjPlayer *);
 void fn_8034BE38(TObjPlayer *);
-void TLobby__sub_8024AC20(u16);
 void update_entries__18TChallenge4PResultFii(saddr arg0, s32 arg1);
 s32 __ct__18TChallenge4PResultFP7TObjectUsl(void *, s32, int, s32);
 
@@ -300,7 +299,7 @@ s32 update_challenge_result_player_locks() {
                 get_player_result__18TChallenge4PResultFPv(player, 2);
                 get_player_result__18TChallenge4PResultFPv(player, 3);
                 if (((TObjPlayer *)player)->check_flag_0x40000000() == 0) fn_8034BE48(player);
-                TObjPlayer__sub_8024ABDC(get_entity_id(player));
+                TObjPlayer__sub_8024ABDC(player->get_entity_id());
                 request_active_window_close();
                 TWindowCtrl::set_close_flag();
             }
@@ -313,7 +312,7 @@ s32 update_challenge_result_player_locks() {
                 obj_clear_flag30_20000(player);
                 ((TChallenge4PResult *)player)->get_player_rank();
                 if (((TObjPlayer *)player)->check_flag_0x40000000()) fn_8034BE38(player);
-                TLobby__sub_8024AC20(get_entity_id(player));
+                TLobby__sub_8024AC20(player->get_entity_id());
                 TWindowCtrl::clear_flag();
                 TWindowCtrl::clear_flag_2();
             }

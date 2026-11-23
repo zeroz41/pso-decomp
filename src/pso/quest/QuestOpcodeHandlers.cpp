@@ -47,6 +47,7 @@
 #include "pso/unk/text_8024AB98.h"
 #include "pso/unk/text_80278460.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
+#include "pso/object/base/TObjBase.h"
 
 void qst_call_stack_push(s32 value);
 s32 qst_call_stack_pop(void);
@@ -839,7 +840,6 @@ void VecCopy__FP3VecPC3Vec(Vec *, const void *);
 s16 get_actor_tp(u8 *);
 s32 obj_getPtr2B0_20();
 s16 obj_getS16_2BA(u8 *);
-u16 get_entity_id(void *);
 s32 get_current_floor();
 f64 atan2_float(void *, f32, f32);
 void TLobby__sub_8001DE30(void *);
@@ -942,7 +942,7 @@ void * __nw__7TObjectFUl(u32);
 void request_active_window_close(void);
 s32 close_windows_by_flags__11TWindowCtrlFUs(int, void *);
 void open_default__11TWindowCtrlFUsl(u16, s32);
-s32 __ct__15TWindowHelpItemFPvUs(s32, s32, s32);
+s32 __ct__15TWindowHelpItemFPvl(s32, s32, s32);
 }
 void init_6x40_walk_packet(void *a0);
 s32 get_field_d4(void *);
@@ -984,10 +984,10 @@ s32 reset_player_lobby_model__10TNpcPlayerFUs(int, void *);
 s32 update_player_field__10TNpcPlayerFUsl(int, int, void *);
 s32 end_camera_pan_for_client__10TNpcPlayerFUs(int, void *);
 s32 apply_to_battle_player_slot__10TNpcPlayerFUss(int, int, void *);
-void TObjPlayer__sub_80354CCC(s32 arg0);
-void TObjPlayer__sub_80354D14(s32 arg0);
-void TObjPlayer__sub_80354DAC(s32 arg0);
-void activate_palettex(s32 arg0);
+void TObjPlayer__sub_80354CCC(u16 arg0);
+void TObjPlayer__sub_80354D14(u16 arg0);
+void TObjPlayer__sub_80354DAC(u16 arg0);
+void activate_palettex(u16 arg0);
 }
 
 extern E_801EB484 TLobby__duel_result_table[];
@@ -1105,7 +1105,7 @@ void qst_op_chat_bubble(void) {
     for (i = start; i < end; i++) {
         player = (void *)TObjPlayer::get_player_data(i);
         if (player != NULL) {
-            win = get_entity_id(player);
+            win = ((TObjBase *)(player))->get_entity_id();
             if (win < 0x4000) {
                 v = fn_get_field_3ac(player);
             } else {
@@ -1174,7 +1174,7 @@ void qst_op_open_pack_select() {
     save_and_close__20TShopArmorListWindowFv();
     var_r31 = ((s32 (*)(s32))__nw__7TObjectFUl)(0xBC);
     if (var_r31 != 0) {
-        var_r31 = __ct__15TWindowHelpItemFPvUs(var_r31, get_window_layout_position(2), local_client_id);
+        var_r31 = __ct__15TWindowHelpItemFPvl(var_r31, get_window_layout_position(2), local_client_id);
     }
     qst_pack_select_help_window = (void *)var_r31;
 }
@@ -1667,7 +1667,7 @@ void qst_op_check_npc_straggle_ex(u8 i, u8 slot) {
         v.y = qst_registers[i++];
         v.z = qst_registers[i];
         TLobby__sub_801F3500(obj, &v);
-        qst_registers[slot] = get_entity_id(obj);
+        qst_registers[slot] = obj->get_entity_id();
     }
 }
 
@@ -1683,7 +1683,7 @@ void qst_op_set_obj_param_ex(u8 i, u8 out) {
     s.scale.y = qst_registers[i];
     obj = create_quest_col_alock(&s, &qst_registers[out]);
     if (obj != NULL) {
-        qst_registers[out] = get_entity_id(obj);
+        qst_registers[out] = ((TObjBase *)(obj))->get_entity_id();
     }
 }
 
@@ -1700,7 +1700,7 @@ void qst_op_party_coords_call_ex(u8 i, u8 out) {
     s.set_params[0] = qst_registers[i];
     obj = fn_80196214(&s, &qst_registers[first]);
     if (obj != NULL) {
-        qst_registers[out] = get_entity_id(obj);
+        qst_registers[out] = ((TObjBase *)(obj))->get_entity_id();
     }
 }
 
@@ -1716,7 +1716,7 @@ void qst_op_npc_coords_call_ex(u8 i, u8 out) {
     s.set_params[0] = qst_registers[i];
     obj = fn_801963A8(&s, &qst_registers[first]);
     if (obj != NULL) {
-        qst_registers[out] = get_entity_id(obj);
+        qst_registers[out] = ((TObjBase *)(obj))->get_entity_id();
     }
 }
 
@@ -1732,7 +1732,7 @@ void qst_op_at_coords_talk_ex(u8 i, u8 out) {
     s.set_params[0] = qst_registers[i];
     obj = fn_80196814(&s, &qst_registers[first]);
     if (obj != NULL) {
-        qst_registers[out] = get_entity_id(obj);
+        qst_registers[out] = ((TObjBase *)(obj))->get_entity_id();
     }
 }
 
@@ -1748,7 +1748,7 @@ void qst_op_at_coords_call_ex(u8 i, u8 out) {
     s.set_params[0] = qst_registers[i];
     obj = create_quest_col(&s, &qst_registers[first]);
     if (obj != NULL) {
-        qst_registers[out] = get_entity_id(obj);
+        qst_registers[out] = ((TObjBase *)(obj))->get_entity_id();
     }
 }
 
@@ -4959,7 +4959,7 @@ void qst_op_mesend(void) {
     for (i = start; i < end; i++) {
         p = (void *)TObjPlayer::get_player_data(i);
         if (p != NULL) {
-            f = get_entity_id(p);
+            f = ((TObjBase *)(p))->get_entity_id();
             if (f < 0x4000) {
                 v = fn_get_field_3ac(p);
             } else {
@@ -5089,7 +5089,7 @@ void qst_op_message(void) {
         for (i = first; i < end; i++) {
             actor = (void *)TObjPlayer::get_player_data(i);
             if (actor != NULL) {
-                s32 identity = get_entity_id(actor);
+                s32 identity = ((TObjBase *)(actor))->get_entity_id();
                 s32 entity;
                 if (identity < 0x4000) {
                     entity = fn_get_field_3ac(actor);

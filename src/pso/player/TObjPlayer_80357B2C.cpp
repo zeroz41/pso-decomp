@@ -25,6 +25,7 @@
 #include "pso/unk/TLobby_8001EF5C.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjBase.h"
 
 struct InwardOrbitDir { s32 x, y, z; };
 
@@ -465,7 +466,7 @@ void dispatch_weapon_special_effect(TObjPlayer *player, TObjBase *target, Vec *p
     if (player == NULL && target == NULL) {
         return;
     }
-    if ((s32)get_entity_id(player) >= 0xC) {
+    if ((s32)player->get_entity_id() >= 0xC) {
         return;
     }
     if (is_current_area_item_enabled() == 0) {

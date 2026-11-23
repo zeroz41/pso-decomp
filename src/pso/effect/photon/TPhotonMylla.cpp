@@ -34,6 +34,7 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/render/model_render_state.h"
 #include "pso/unk/text_803D8F74.h"
+#include "pso/object/base/TObjBase.h"
 
 
 const char *TPhotonMylla::class_name = "TPhotonMylla";
@@ -134,7 +135,7 @@ void TPhotonMylla::run_task() {
         strike_pos.y += 45.0f;
         spawn_particle_effect(&strike_pos, 0x169);
         if (owner_object != NULL) {
-            queue_photon_blast_hit(get_entity_id(owner_object), 5, 0, power);
+            queue_photon_blast_hit(owner_object->get_entity_id(), 5, 0, power);
         }
     }
     if ((f32)frame > 116.0f) {

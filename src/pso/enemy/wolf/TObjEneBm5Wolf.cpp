@@ -45,6 +45,7 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/object/base/TObjBase.h"
 extern "C" {
 extern u32 TObjEneBm5Wolf__instance_list[];
 extern u32 TObjEneBm5Wolf__pack_member_list[];
@@ -181,7 +182,7 @@ void TObjEneBm5WolfNode::append_to(TObjEneBm5WolfNode **head, TObjEneBm5WolfNode
 }
 
 void TObjEneBm5WolfNode::set_owner(TObjEneBm5Wolf *owner) {
-    entity_id = get_entity_id(owner);
+    entity_id = owner->get_entity_id();
 }
 
 TObjEneBm5Wolf *TObjEneBm5WolfNode::get_owner() {
@@ -763,7 +764,7 @@ void TObjEneBm5Wolf::anchor_state(s32 event) {
     case 0:
         leader = TObjEneBm5Wolf::find_pack_leader(this->group_id);
         if (leader != 0) {
-            this->leader_id = get_entity_id(leader);
+            this->leader_id = leader->get_entity_id();
         }
         if ((this->is_leader != 0) || (leader == 0)) {
             VecCopy(&this->group_anchor, (const Vec *)&this->spawn_position);

@@ -18,10 +18,10 @@
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/quest/TQuestThread.h"
 #include "pso/ui/city/TShopSequence.h"
+#include "pso/object/base/TObjBase.h"
 
 extern "C" {
 extern s32 THunterGuildSeqOffline__quest_result_callbacks[];
-s32 get_entity_id(TObjPlayer *);
 void fn_802233F8(void *);
 
     extern int evt2_random_enemies_mode;
@@ -97,28 +97,28 @@ void THunterGuildSeqOffline::close_window() {
         if (o != NULL) {
             ((THunterGuildSeqOffline *)o)->init(tl_00, (void *)THunterGuildSeqOffline::set_enemy_mode_0);
         }
-        THunterGuildSeqOffline__sub_8021E180(get_entity_id(player));
+        THunterGuildSeqOffline__sub_8021E180(player->get_entity_id());
         break;
     case 2:
         o = TObject::operator new(0x28);
         if (o != NULL) {
             ((THunterGuildSeqOffline *)o)->init(tl_00, (void *)THunterGuildSeqOffline::set_enemy_mode_1);
         }
-        THunterGuildSeqOffline__sub_8021E180(get_entity_id(player));
+        THunterGuildSeqOffline__sub_8021E180(player->get_entity_id());
         break;
     case 3:
         o = TObject::operator new(0x28);
         if (o != NULL) {
             ((THunterGuildSeqOffline *)o)->init(tl_00, (void *)TQuestListVM::set_enemy_mode_3);
         }
-        THunterGuildSeqOffline__sub_8021E180(get_entity_id(player));
+        THunterGuildSeqOffline__sub_8021E180(player->get_entity_id());
         break;
     case 4:
         o = TObject::operator new(0x28);
         if (o != NULL) {
             ((THunterGuildSeqOffline *)o)->init(tl_00, (void *)THunterGuildSeqOffline::set_enemy_mode_5);
         }
-        THunterGuildSeqOffline__sub_8021E180(get_entity_id(player));
+        THunterGuildSeqOffline__sub_8021E180(player->get_entity_id());
         break;
     }
     TShopSequence::close_window();

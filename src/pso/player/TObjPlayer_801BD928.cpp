@@ -8,6 +8,7 @@
 #include "pso/unk/TLobby_80227A2C.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjBase.h"
 
 extern "C" {
 
@@ -96,7 +97,7 @@ u8 *TObjPlayer::construct_player_instance(saddr arg1, s32 slot, s32 role, u8 *ar
     TObjPlayer__sub_801BC8F0(this);
     this->setup_fresh_player_state((u8 *)arg4);
     this->sub_801BB8B0((u8 *)arg4);
-    TObjPlayer::set_com_card_window((saddr)((get_entity_id(this))));
+    TObjPlayer::set_com_card_window((saddr)((this->get_entity_id())));
     return ((u8 *)this);
 }
 

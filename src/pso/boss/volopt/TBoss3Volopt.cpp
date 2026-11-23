@@ -46,6 +46,7 @@
 #include <stdlib.h>
 #include "pso/object/base/TObjChara.h"
 #include "pso/unk/TLobby_803DE778.h"
+#include "pso/object/base/TObjBase.h"
 #pragma readonly_strings on
 
 // Camera offsets for the follow camera, from TLobby's shared parameter tables.
@@ -549,7 +550,7 @@ void TBoss3Volopt::move_to_arena(s32 phase2) {
         if (phase2 != 0) {
             for (i = 0; i < registered_player_count; i++) {
                 player = TObjPlayer::get_player_data(i);
-                if (player != NULL && TObjRoomId__sub_801A1DB8(get_entity_id(player)) == 0 &&
+                if (player != NULL && TObjRoomId__sub_801A1DB8(player->get_entity_id()) == 0 &&
                     ((TObjPlayer *)player)->get_area() == 0xD) {
                     send_position(player, &volopt_phase2_player_positions[i], volopt_phase2_player_angles[i]);
                 }
@@ -1415,7 +1416,7 @@ void TBoss3Volopt::send_position(TObjPlayer *player, Vec *pos, s32 rotation_y) {
     TBoss3VoloptPositionPacket packet;
     if (player != NULL) {
         packet.init();
-        packet.id = get_entity_id(player);
+        packet.id = player->get_entity_id();
         VecCopy(&packet.pos, pos);
         packet.rotation_y = rotation_y;
         packet.send();
@@ -1515,7 +1516,7 @@ u16 TBoss3Volopt::find_random_player() {
     }
     player = candidate_players[(s32)((f32)volopt_candidate_count * (3.0517578e-05f * (f32)rand()))];
     if (player != NULL) {
-        return get_entity_id(player);
+        return player->get_entity_id();
     }
     return 0xFFFF;
 }
@@ -1542,7 +1543,7 @@ u16 TBoss3Volopt::find_strongest_player() {
         }
     }
     if (best != NULL) {
-        return get_entity_id(best);
+        return best->get_entity_id();
     }
     return 0xFFFF;
 }

@@ -20,6 +20,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjBase.h"
 
 struct Stack_801D8664 {
     s8 sp8;
@@ -51,7 +52,7 @@ void set_equip_slot_entry(saddr arg0, s32 arg1, s32 arg2);
 void process_trade_target__10TObjPlayerFiPv(saddr arg0, void *player) {
     void *item;
 
-    ((s32 (*)())get_entity_id)();
+    ((TObjBase *)arg0)->get_entity_id();
     *(s32 *)((s8 *)player + 0xC) = advance_item_id_counter();
     item = create_item((TItemData *)player);
     if (item != NULL) {
@@ -153,7 +154,7 @@ TUnk_804C4540::TUnk_804C4540(TObject *parent, TUnk_801D8A4C *src) : TObjPlayer(p
     VecCopy(&position, (const Vec *)((TObjPlayer *)src->pose)->get_sub_object());
     rotation_y = ((TObjPlayer *)src->pose)->get_lock_timer();
     select_class_action_provider();
-    joint_matrices = TObjPlayer__shared_model_buffer + get_entity_id(this) * 0xC00;
+    joint_matrices = TObjPlayer__shared_model_buffer + this->get_entity_id() * 0xC00;
     init_motion((TObjMotionAction *)get_table_entry_by_clamped_index(), (BmlMotionEntry *)*(saddr *)player_ending_motion_object, 1);
     frame = src->frame;
     set_action_flag_40();

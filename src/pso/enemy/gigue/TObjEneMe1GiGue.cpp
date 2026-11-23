@@ -58,6 +58,7 @@
 #include "pso/object/trap/TOTrapAncient01_80226534.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/npc/TNpcPlayer_800D87A8.h"
+#include "pso/object/base/TObjBase.h"
 
 s32 get_gigue_int_parameter(TObjEneMe1GiGue *, s32);
 f32 get_gigue_float_parameter(TObjEneMe1GiGue *, s32);
@@ -1170,7 +1171,7 @@ void TObjEneMe1GiGue::add_target_in_cone(TObjChara *target) {
         if (!(v.x * v.x + v.z * v.z > this->attackRange * this->attackRange)) {
             angle = -(s32)(10430.38043493439 * atan2_float(v.z, v.x)) + 0x4000;
             if (angle_difference_abs(angle, this->rotation_y) <= this->attackAngle / 2) {
-                this->targetIds[this->targetCount++] = get_entity_id(target);
+                this->targetIds[this->targetCount++] = target->get_entity_id();
             }
         }
     }

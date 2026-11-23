@@ -8,13 +8,13 @@
 #include "pso/system/vector.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/player/TForceOperate.h"
+#include "pso/object/base/TObjBase.h"
 
 struct Ent_801BC194 { u8 pad[0x14]; };
 
 extern "C" {
 
 s32 get_main_phase();
-u16 get_entity_id(void *);
 }
 void reset_cameras_to_actor(void *actor, s32 arg1);
 extern "C" {
@@ -44,19 +44,19 @@ void TObjPlayer::place_on_area_entry() {
         this->rotation_y = TObjPlayer__sub_801D8C3C(arg0);
         TObjPlayer::play_effect_default((saddr)arg0, (int)0x1E);
         TObjPlayer::set_camera_mode(3);
-        new TForceOperate(tl_02, get_entity_id(arg0));
+        new TForceOperate(tl_02, ((TObjBase *)(arg0))->get_entity_id());
     } else if (this->obj_isState2_324() == 0) {
-        p = consume_telepipe_arrival(get_entity_id(arg0), (u8 *)&this->rotation_y);
+        p = consume_telepipe_arrival(((TObjBase *)(arg0))->get_entity_id(), (u8 *)&this->rotation_y);
         if (p != NULL) {
             this->set_position_from(p);
         } else {
-            e = &TObjPlayer__arrival_override_table[get_entity_id(arg0)];
+            e = &TObjPlayer__arrival_override_table[((TObjBase *)(arg0))->get_entity_id()];
             if (this->obj_isState2_324() == 0 && TObjPlayer__sub_801BF95C(e) == 1) {
                 TObjPlayer__sub_801BF954(e, 0);
                 this->rotation_y = ((TObjPlayer *)e)->get_lock_timer();
                 this->set_position_from(((TObjPlayer *)e)->get_sub_object());
             } else {
-                other = find_player_arrival_set(arg0, get_entity_id(arg0));
+                other = find_player_arrival_set(arg0, ((TObjBase *)(arg0))->get_entity_id());
                 if (other != NULL) {
                     this->set_position_from(other + 0x38);
                     this->rotation_y = *(s32 *)((s8 *)other + 0x60);

@@ -47,7 +47,7 @@ s32 TObjPlayer::check_action_usable(s32 arg1) {
     return fn_80351A14((u8 *)(*(uaddr *)((s8 *)this + 0xC)), arg1);
 }
 
-void init_pad_binding(u8 *arg0, s16 arg1, s16 arg2) {
+void init_pad_binding(u8 *arg0, u16 arg1, s16 arg2) {
     *(s16 *)((s8 *)arg0 + 0) = arg1;
     *(s16 *)((s8 *)arg0 + 2) = arg2;
     *(s32 *)((s8 *)arg0 + 4) = -1;

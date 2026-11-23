@@ -18,6 +18,7 @@
 #include "pso/system/SoundEffect.h"
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/player/TargetCursorList.h"
+#include "pso/object/base/TObjBase.h"
 
 #pragma readonly_strings on
 
@@ -38,7 +39,6 @@ struct Rev_8023A364 {
 struct List_8023A244 { uaddr objs[16]; s32 vals[16]; s32 count; };
 
 extern "C" {
-s32 get_entity_id(int);
 const char *lbl_805D3818 = "TTecReverser";
 Entry_80239E44 revival_particle_table[3] = {
     {0, 0x1E, 0x35, 0},
@@ -66,7 +66,7 @@ void TTecShot::dispatch_all_technique_contacts() {
         queue_destruction();
         return;
     }
-    if ((u16) get_entity_id((int) (*(s32 *)((s8 *)((u8 *)this) + 0x1C))) < 4U) {
+    if ((u16) ((TObjBase *)((saddr)(*(s32 *)((s8 *)((u8 *)this) + 0x1C))))->get_entity_id() < 4U) {
         if (get_type__10TObjPlayerFPv((void *)(*(saddr *)((s8 *)((u8 *)this) + 0x1C) + 0x828)) != 0) {
             list = (List_8023A244 *) query_technique_player_contacts(*(s32 *)((s8 *)((u8 *)this) + 0x1C));
         } else {
@@ -97,7 +97,7 @@ void TTecShot::dispatch_technique_contact(s32) {
         queue_destruction();
         return;
     }
-    if ((u16) get_entity_id((int) (*(s32 *)((s8 *)((u8 *)this) + 0x1C))) < 4U) {
+    if ((u16) ((TObjBase *)((saddr)(*(s32 *)((s8 *)((u8 *)this) + 0x1C))))->get_entity_id() < 4U) {
         if (get_type__10TObjPlayerFPv((void *)(*(saddr *)((s8 *)((u8 *)this) + 0x1C) + 0x828)) != 0) {
             var_r31 = query_technique_player_contacts(*(s32 *)((s8 *)((u8 *)this) + 0x1C));
         } else {
@@ -128,7 +128,7 @@ TTecReverser::TTecReverser(saddr arg1, saddr origin, saddr targets, saddr level)
     copy_technique_target_list(&((TTecReverser *)tec_reverser)->targets, (TargetCursorList *)targets);
     play_sound_effect(0x4002A812, tec_reverser + 0x20, 0, 0);
     if (((TTecReverser *)tec_reverser)->source != 0U) {
-        ((TTecReverser *)tec_reverser)->sourceId = get_entity_id(((TTecReverser *)tec_reverser)->source);
+        ((TTecReverser *)tec_reverser)->sourceId = ((TObjBase *)(saddr)((TTecReverser *)tec_reverser)->source)->get_entity_id();
     }
 }
 #undef tec_reverser

@@ -75,6 +75,7 @@
 #include "pso/render/model_render_state.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/system/MatrixStack.h"
+#include "pso/object/base/TObjBase.h"
 
 
 extern "C" {
@@ -565,7 +566,7 @@ s32 TObjEneDellBiter::select_farthest_visible_player() {
             distance = horizontal_distance_squared(&body_center, &player->position);
             if (distance < 90000.0f && distance > best &&
                 csnLookAt(&body_center, &player->body_center) == 0) {
-                id = get_entity_id(player);
+                id = player->get_entity_id();
                 best = distance;
             }
         }

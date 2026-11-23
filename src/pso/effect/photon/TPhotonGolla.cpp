@@ -26,6 +26,7 @@
 #include "pso/unk/TLobby_802268F4.h"
 #include "pso/system/BmlResource.h"
 #include "pso/player/PhotonBlastResults.h"
+#include "pso/object/base/TObjBase.h"
 
 // The original emits code in reverse definition order.
 #pragma defer_codegen on
@@ -259,7 +260,7 @@ void TPhotonGolla::collect_hit_targets() {
         }
     }
     if (target != NULL) {
-        queue_photon_blast_hit(get_entity_id(target), 2, 0, power);
+        queue_photon_blast_hit(target->get_entity_id(), 2, 0, power);
     }
     hit_target = target;
 }

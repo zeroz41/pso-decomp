@@ -10,6 +10,7 @@
 #include "pso/object/base/TObjChara.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/unk/TLobby.h"
+#include "pso/object/base/TObjBase.h"
 #pragma readonly_strings on
 #pragma defer_codegen on
 #pragma inline_depth(1)
@@ -507,7 +508,7 @@ void TBoss4Type2::find_target_pos(Vec *out) {
         if (p == NULL) {
             continue;
         }
-        if (is_player_in_boss_area(get_entity_id(p)) == 0) {
+        if (is_player_in_boss_area(p->get_entity_id()) == 0) {
             continue;
         }
         {
@@ -632,7 +633,7 @@ void TBoss4Type2::spawn_bishi_around_players() {
     b.unk_0C = 1;
     for (i = 0; i < registered_player_count; i++) {
         pl = TObjPlayer::get_player_data(i);
-        if (pl != 0 && is_player_in_boss_area(get_entity_id(pl)) != 0) {
+        if (pl != 0 && is_player_in_boss_area(pl->get_entity_id()) != 0) {
             for (j = 0; j < 3; j++) {
                 if (owner->alloc_child_ids(&b.set_index, &b.entity_id) != 0) {
                     VecCopy(&b.position, &pl->position);

@@ -24,6 +24,7 @@
 #include "pso/render/model_render_state.h"
 #include "pso/unk/text_803DA798.h"
 #include "pso/effect/particle/ParticleStrip.h"
+#include "pso/object/base/TObjBase.h"
 
 // Per player class (in the order of the switch below): the footprint's
 // length, width and offset along the facing, before the height scaling.
@@ -105,7 +106,7 @@ TPlayerFootStamp::TPlayerFootStamp(TObjPlayer *player, s32 side) : TObject(tl_07
     }
     this->side = side;
 
-    if (get_entity_id(player) < 4) {
+    if (player->get_entity_id() < 4) {
         switch (player->get_class_index()) {
         case 1:
             sub_802B0204(0);

@@ -83,6 +83,7 @@
 #include "pso/object/warp/TObjCityMainWarp_801867F4.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/render/NinjaUtil.h"
+#include "pso/object/base/TObjBase.h"
 
 // The original TU was built with deferred codegen: functions below are in reverse
 // address order, and the pool (three {3, 2} initializers, then the float literals
@@ -465,11 +466,11 @@ void TObjMapWarp::process_player_warps() {
                 }
                 t = find_warp_player_in_range(this, i, this->warp_range);
                 if (t != NULL) {
-                    this->open_confirm_window(get_entity_id(t));
+                    this->open_confirm_window(t->get_entity_id());
                     if (t->is_target_valid() != 0 && this->vfunc_18(t->get_controller_port()) != 0) {
                         for (j = 0; j < 4; j++) {
                             if (test_player_body_overlap_at(this, t, &destinations[j]) == 0) {
-                                send_6x55_intra_map_warp(get_entity_id(t), &destinations[j], this->set_params[0]);
+                                send_6x55_intra_map_warp(t->get_entity_id(), &destinations[j], this->set_params[0]);
                             }
                         }
                     }
@@ -498,7 +499,7 @@ void TObjMapWarp::process_player_warps() {
             if (t2->is_target_valid() != 0 && this->vfunc_18(t2->get_controller_port()) != 0) {
                 for (j2 = 0; j2 < 4; j2++) {
                     if (test_player_body_overlap_at(this, t2, &destinations[j2]) == 0) {
-                        send_6x55_intra_map_warp(get_entity_id(t2), &destinations[j2], this->set_params[0]);
+                        send_6x55_intra_map_warp(t2->get_entity_id(), &destinations[j2], this->set_params[0]);
                     }
                 }
             }
@@ -663,7 +664,7 @@ void TObjAreaWarp::handle_area_selection() {
                     if (d->fC0 != NULL) {
                         this->open_confirm_window(((TObjAreaWarp *)d->fC0)->find_active_player());
                     } else {
-                        this->open_confirm_window(get_entity_id(t));
+                        this->open_confirm_window(t->get_entity_id());
                     }
                     if (this->vfunc_18(i) != 0) {
                         this->vfunc_14();

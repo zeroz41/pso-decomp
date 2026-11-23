@@ -49,6 +49,7 @@ struct NJS_OBJECT;
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/object/ambient/TObjLight_80235C44.h"
 #include "pso/ui/frontend/TAdRicoRing_8001BEE8.h"
+#include "pso/object/base/TObjBase.h"
 
 
 // ---- pso/item/WeaponAttackActions
@@ -123,7 +124,6 @@ struct Self_8011EDFC {
 };
 
 s32 TObjectV8047c128_subtract_hp(u8 *arg0, s16 arg1);
-u16 get_entity_id(void *);
 u8 * csnVector(void *, void *, s32);
 f32 horizontal_distance_squared(void *, void *);
 TObjChara *resolve_hittable_target(s32, s32);
@@ -389,7 +389,7 @@ void TItemWeapon::fire_shot_at_target(void *origin, void *model, s32 angle) {
 
 void TItemWeapon::fill_status_info(S_802E451C *params) {
     ((TItemWeapon *)this)->remap_extra_attack_type();
-    params->client_id = static_cast<s16>(get_entity_id(owner));
+    params->client_id = static_cast<s16>(owner->get_entity_id());
     params->room = owner->get_room();
     params->item_id = ((TItem *)this)->get_item_id();
     params->pad_1C = get_attack_accuracy_scale((s16 *)((u8 *)owner + 0x7CC));
@@ -454,8 +454,8 @@ void TItemWeapon::launch_rare_weapon_special(void *origin, s32 enable, f32 scale
                 Spawn_8011EDFC sp;
                 sp.a = 0;
                 sp.b = 1;
-                sp.d = get_entity_id(((Self_8011EDFC *)this)->owner);
-                sp.e = get_entity_id(t);
+                sp.d = ((TObjBase *)(((Self_8011EDFC *)this)->owner))->get_entity_id();
+                sp.e = ((TObjBase *)(t))->get_entity_id();
                 sp.c = ((TItem *)this)->get_item_id();
                 sp.f = get_captured_target_collider_index(e2);
                 sp.g = scale * ((TObjPlayer *)(((Self_8011EDFC *)this)->owner))->query_extended_state();
@@ -536,8 +536,8 @@ s32 TItemWeapon::launch_shot(u8 *arg1, s32 i, s32 arg3, s32 arg4) {
                         remap_extra_attack_type();
                         hit.reserved = 0;
                         hit.kind = (s32) this->owner->is_status_subsystem_ready();
-                        hit.source = get_entity_id((void *)this->owner);
-                        hit.target = get_entity_id(var_r29);
+                        hit.source = ((TObjBase *)this->owner)->get_entity_id();
+                        hit.target = ((TObjBase *)(var_r29))->get_entity_id();
                         hit.weapon = this->get_item_id();
                         hit.collider = get_captured_target_collider_index(temp_r22_3);
                         hit.damage = ((TObjPlayer *)((void *)this->owner))->query_extended_state();
@@ -727,7 +727,7 @@ void TItemWeapon::deliver_hit(TObjPlayer *attacker, TObjChara *target, s32 attac
                     break;
                 }
                 if (hit_callback != NULL) {
-                    hit_callback((saddr)tl_05, this, get_entity_id(target), body);
+                    hit_callback((saddr)tl_05, this, target->get_entity_id(), body);
                 }
                 damage = (s32)damage_dealt;
                 owner->gain_photon_blast_charge(TObjPlayer::calc_photon_blast_charge(owner, damage));
@@ -758,9 +758,9 @@ void TItemWeapon::perform_action() {
         packet.player=self->owner;
         play_weapon_owner_sounds(&packet);
         if(((TItemWeapon *)self)->test_weapon_flags(0x40000)) {
-            start_pad_rumble_client(0x80, 5, (s16)get_entity_id(self->owner));
+            start_pad_rumble_client(0x80, 5, (s16)self->owner->get_entity_id());
         } else if(((TItemWeapon *)self)->test_weapon_flags(0x80000) && ((TItemWeapon *)self)->is_mode_two_and_ready()) {
-            start_pad_rumble_client(0x80, 5, (s16)get_entity_id(self->owner));
+            start_pad_rumble_client(0x80, 5, (s16)self->owner->get_entity_id());
         }
         self->emit_marker_effects();
         ((TItemWeapon *)self)->set_weapon_flags(0x1000000);
@@ -1156,9 +1156,9 @@ void TItemWeapon::on_equip() {
             set_weapon_flags(8);
         } else {
             TItemAttacker::spawn_item_timer(this, (ItemTimerCallback)set_flag_8_if_check_passes__10TObjPlayerFv, 0x14);
-            TItemEffEquip::create(tl_05, get_entity_id(owner), 0x30, 0x9D, 0x9E);
+            TItemEffEquip::create(tl_05, owner->get_entity_id(), 0x30, 0x9D, 0x9E);
             if (test_weapon_flags(0x200) != 0U) {
-                TItemEffEquip::create(tl_05, get_entity_id(owner), 0x23, 0x9D, 0x9E);
+                TItemEffEquip::create(tl_05, owner->get_entity_id(), 0x23, 0x9D, 0x9E);
             }
             set_sound_pitch_request(play_sound_effect(0x4000B20A, &owner->position, 0, 0), 0x300, 0);
         }

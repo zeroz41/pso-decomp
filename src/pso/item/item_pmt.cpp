@@ -21,6 +21,7 @@
 #include "pso/item/TItemData_8010EDA8.h"
 #include "pso/unk/TLobby_800F8AA8.h"
 #include "pso/system/SoundEffect.h"
+#include "pso/object/base/TObjBase.h"
 
 void *item_pmt;
 
@@ -111,7 +112,6 @@ s32 get_item_star_count(s32 id);
 Entry_8011CB18 *get_weapon_range_record(Item_8011CB18 *item, s16 mode);
 void play_weapon_owner_sounds(Ctx_8011C7C8 *c);
 void play_weapon_hit_sound(Ctx_8011C7C8 *c);
-u16 get_entity_id(void *);
 void play_shield_sound_cue(Obj_8011C59C *arg0);
 typedef struct Thing__8011c1e8_8011C000 { u8 a; u8 b; } Thing;
 
@@ -339,7 +339,7 @@ void play_weapon_hit_sound(Ctx_8011C7C8 *c) {
         key[1] = ((Pmt_8011C7C8 *)item_pmt_tbl)->weapons[group].target[1].key;
         pitch[1] = ((Pmt_8011C7C8 *)item_pmt_tbl)->weapons[group].target[1].pitch;
         pos = (u8 *)((TObjCollidable *)target)->bodies + c->part * 0x2C + 0x1C;
-        type = get_entity_id(target);
+        type = ((TObjBase *)(target))->get_entity_id();
         if (type < 0x1000) {
             cls = *(s8 *)&((TObjPlayer *)target)->m_88d;
             mode = 1;

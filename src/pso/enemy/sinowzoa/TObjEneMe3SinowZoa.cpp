@@ -76,6 +76,7 @@
 #include "pso/system/MatrixOps.h"
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 #include "pso/ui/TLevelSelect.h"
+#include "pso/object/base/TObjBase.h"
 
 // load_resources fills these per kind (0 and 1) from TLobby::register_boss,
 // TLobby::dispatch_shared_handler_b, TLobby::register_object and
@@ -2088,7 +2089,7 @@ s32 TObjEneMe3SinowZoa::check_move_collision(const Vec *pos) {
     this->check_collisions();
     this->update_enemy_collision_flags();
     if (body->flags & 0x80000) {
-        if (get_valid_target_player(get_entity_id(this->current_target)) == 0) {
+        if (get_valid_target_player(this->current_target->get_entity_id()) == 0) {
             VecCopy(&this->position, &saved_position);
             TObjPlayer::init_all_slots();
             return 1;

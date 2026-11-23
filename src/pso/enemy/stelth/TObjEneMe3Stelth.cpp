@@ -82,6 +82,7 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 #include "pso/ui/frontend/TAdEnterPasswordGC.h"
+#include "pso/object/base/TObjBase.h"
 
 #pragma readonly_strings on
 
@@ -2028,7 +2029,7 @@ s32 TObjEneMe3Stelth::check_move_collision(Vec *pos) {
     VecCopy(&this->position, pos);
     TObjPlayer::init_all_slots();
     this->check_collisions();
-    if ((body->flags & 0x80000) && get_valid_target_player(get_entity_id(this->current_target)) == 0) {
+    if ((body->flags & 0x80000) && get_valid_target_player(this->current_target->get_entity_id()) == 0) {
         VecCopy(&this->position, &sp);
         TObjPlayer::init_all_slots();
         return 1;
@@ -2046,7 +2047,7 @@ s32 TObjEneMe3Stelth::check_move_collision(Vec *pos) {
     return result;
 }
 f32 TObjEneMe3Stelth::receive_direct_attack(void *source, DirectAttackPayload payload, void *collider, s32, s32) {
-    if (stealthed == 1 && get_entity_id((TObjBase *)source) < 0x1000 && random_ratio() <= stealth_off_chance) {
+    if (stealthed == 1 && ((TObjBase *)source)->get_entity_id() < 0x1000 && random_ratio() <= stealth_off_chance) {
         transition_enemy_state(0x12);
     } else if (mode == 2) {
         transition_enemy_state(6);

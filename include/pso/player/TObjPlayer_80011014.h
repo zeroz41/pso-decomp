@@ -54,7 +54,6 @@ s32 check_path_obstructed(TObjChara *chara, Vec *target);
 // Turns rotation_y half way toward move_destination.
 void enemy_turn_half_toward_dest(TObjChara *chara);
 s32 enemy_turn_toward_dest__9TObjEnemyFl(TObjEnemy *enemy, s32 turn_speed);
-u16 get_entity_id(TObjBase *object);
 }
 
 void move_with_wall_slide(u8 *actor);

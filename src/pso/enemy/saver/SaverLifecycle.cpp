@@ -59,6 +59,7 @@
 #include "pso/unk/text_803D853C.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/render/model_render_state.h"
+#include "pso/object/base/TObjBase.h"
 
 extern "C" {
 void calc_velocity_toward_destination(TObjChara *chara, Vec from, Vec to, f32 speed);
@@ -623,7 +624,6 @@ void TObjEneSaver::state_nail() {
     submit_cursor_candidate(this, -1);
 }
 
-#define get_entity_id ((s32 (*)(void*))(get_entity_id))
 
 #pragma defer_codegen on
 
@@ -940,10 +940,10 @@ void TObjEneSaver::refresh_target() {
         return;
     }
     if (test_actor_flags(0x10) != 0) {
-        s32 best_id;
+        u16 best_id;
         s32 i;
         TObjPlayer *p;
-        s32 id;
+        u16 id;
         f32 best;
         f32 d;
         u16 tid;
@@ -954,8 +954,8 @@ void TObjEneSaver::refresh_target() {
         for (; i < registered_player_count + registered_enemy_count; i++) {
             p = TObjPlayer::get_player_data(i);
             if (p != NULL && p != (TObjChara *)this) {
-                id = get_entity_id(p);
-                if ((u16)id < 0x4000 && (u16)id != entity_id && !(p->actorFlags & 0x02000800)) {
+                id = p->get_entity_id();
+                if (id < 0x4000 && id != entity_id && !(p->actorFlags & 0x02000800)) {
                     VecCopy(&v, &p->body_center);
                     subtract_vector(&v, &body_center);
                     d = v.x * v.x + v.z * v.z;
@@ -985,8 +985,8 @@ void TObjEneSaver::refresh_target() {
         return;
     }
     {
-        s32 best_id2;
-        s32 best_id;
+        u16 best_id2;
+        u16 best_id;
         TObjPlayer *p;
         TObjPlayer *best_p2;
         TObjPlayer *best_p;
@@ -1005,7 +1005,7 @@ void TObjEneSaver::refresh_target() {
         for (; i < registered_player_count; i++) {
             p = TObjPlayer::get_player_data(i);
             if (p == NULL) continue;
-            if ((u16)get_entity_id(p) >= 0x1000) continue;
+            if (p->get_entity_id() >= 0x1000) continue;
             if (p->get_floor() != get_current_floor()) continue;
             if (p->actorFlags & 0x02000800) continue;
             VecCopy(&v, &p->body_center);
@@ -1013,12 +1013,12 @@ void TObjEneSaver::refresh_target() {
             d = v.x * v.x + v.z * v.z;
             if ((p->class_flags & parameter_mask) && d < best &&
                 check_path_obstructed(this, &p->body_center) != 1) {
-                best_id = get_entity_id(p);
+                best_id = p->get_entity_id();
                 best = d;
                 best_p = p;
             }
             if (d < best2 && check_path_obstructed(this, &p->body_center) != 1) {
-                best_id2 = get_entity_id(p);
+                best_id2 = p->get_entity_id();
                 best2 = d;
                 best_p2 = p;
             }
@@ -1216,7 +1216,6 @@ void TObjEneSaver::run_move_action() {
     }
 }
 
-#undef get_entity_id
 
 void TObjEneSaver::advance_motion_state() {
 
@@ -1407,7 +1406,7 @@ void TObjEneSaver::damage_targets_in_reach() {
     for (i = 0; i < n; i++) {
         p = TObjPlayer::get_player_data(i);
         if (TObjPlayer::is_valid_and_active((uaddr)p) != 0 && p != this &&
-            get_entity_id(p) < limit && !(p->actorFlags & 0x02000800) &&
+            p->get_entity_id() < limit && !(p->actorFlags & 0x02000800) &&
             p->select_melee_contact_body(this, 1.0f) != 0) {
             f32 damage = p->receive_physical_attack(this, 1.0f);
             p->apply_knockback_from_attacker((u8 *)this, damage);

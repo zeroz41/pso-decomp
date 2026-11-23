@@ -50,6 +50,7 @@
 #include "pso/npc/TObjNpcEnemy.h"
 
 #include "pso/object/ambient/TObjFish.h"
+#include "pso/object/base/TObjBase.h"
 
 #pragma readonly_strings on
 extern "C" {
@@ -121,7 +122,6 @@ struct VObj_802C936C : Base_802C936C {
 };
 
 
-u16 get_entity_id(TObjBase *object);
 void obj_setFlags30(void *object, u32 flags);
 
 s8 get_current_floor(int);
@@ -470,7 +470,7 @@ void TOTrapChainSaw::check_player_contact() {
 }
 
 s32 TOTrapChainSaw::consume_counter(TObjPlayer *player) {
-    s32 i = get_entity_id(player);
+    s32 i = player->get_entity_id();
     if (i >= 0 && i < 4) {
         if (hit_cooldown[i] > 0) {
             hit_cooldown[i] = hit_cooldown[i] - 1;
@@ -481,7 +481,7 @@ s32 TOTrapChainSaw::consume_counter(TObjPlayer *player) {
 }
 
 void TOTrapChainSaw::set_hit_cooldown_for_player(TObjPlayer *player) {
-    s32 i = get_entity_id(player);
+    s32 i = player->get_entity_id();
     if (i >= 0 && i < 4) {
         hit_cooldown[i] = 0x96;
     }

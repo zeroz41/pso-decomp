@@ -82,6 +82,7 @@
 #include "pso/unk/text_803D853C.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/camera/CameraHelpers.h"
+#include "pso/object/base/TObjBase.h"
 
 extern "C" {
 extern s32 local_client_id;
@@ -91,7 +92,6 @@ extern u16 boss8_dragon_control_client_id;
 f32 sample_acceleration_curve(AccelerationCurve *c, f32 t);
 void init_acceleration_curve(AccelerationCurve *c, f32 a, f32 d, f32 length, f32 speed);
 extern "C" {
-u16 get_entity_id(u8 *);
 f32 newton_sqrtf(f32);
 
 }
@@ -1053,7 +1053,7 @@ s32 TBoss8Dragon::select_target_in_front() {
             subtract_vector(&d, &this->position);
             normalize_vector_xz((Vec *)&d);
             if (vec3_dot(&d, &ref) > lim) {
-                ids[n++] = get_entity_id(player);
+                ids[n++] = ((TObjBase *)(player))->get_entity_id();
             }
         }
     }
@@ -2002,7 +2002,7 @@ void TBoss8Dragon::state_breath_attack(s32 event) {
                 direction_to_rotation_xz((u8 *)&breath_direction, &rot.x, &rot.z);
                 this->impactAge++;
                 if (this->impactAge >= 2) {
-                    new TBoss8DragonEffBreath(&sub_tasks, &breath_origin, &breath_direction, attack_kind, get_entity_id(((u8 *)this)));
+                    new TBoss8DragonEffBreath(&sub_tasks, &breath_origin, &breath_direction, attack_kind, ((TObjBase *)this)->get_entity_id());
                     this->impactAge = 0;
                 }
                 if (this->breath_particles[0] == 0) {
@@ -2391,19 +2391,19 @@ void TBoss8Dragon::update_air_fire_state(s32 event) {
                 dir.y = 0.0f;
                 VecCopy(&v, (Vec *)d);
                 v.y = boss8_dragon_arena_center.y;
-                new TBoss8DragonEffBullet(&sub_tasks, &breath_origin, &v, attack_kind, get_entity_id(((u8 *)this)));
+                new TBoss8DragonEffBullet(&sub_tasks, &breath_origin, &v, attack_kind, ((TObjBase *)this)->get_entity_id());
                 rotate_vec_xz(&dir, &rot, 0x1000);
                 VecCopy(&v, &position);
                 v.x += rot.x * len;
                 v.y = boss8_dragon_arena_center.y;
                 v.z += rot.z * len;
-                new TBoss8DragonEffBullet(&sub_tasks, &breath_origin, &v, attack_kind, get_entity_id(((u8 *)this)));
+                new TBoss8DragonEffBullet(&sub_tasks, &breath_origin, &v, attack_kind, ((TObjBase *)this)->get_entity_id());
                 rotate_vec_xz(&dir, &rot, -0x1000);
                 VecCopy(&v, &position);
                 v.x += rot.x * len;
                 v.y = boss8_dragon_arena_center.y;
                 v.z += rot.z * len;
-                new TBoss8DragonEffBullet(&sub_tasks, &breath_origin, &v, attack_kind, get_entity_id(((u8 *)this)));
+                new TBoss8DragonEffBullet(&sub_tasks, &breath_origin, &v, attack_kind, ((TObjBase *)this)->get_entity_id());
                 spawn_particle_effect_with_flags((const Vec *)&breath_origin, this->particle_ids[9], 0x40);
                 this->stateStep = 3;
                 this->action_frames = 0;
@@ -2529,7 +2529,7 @@ void TBoss8Dragon::update_spinning_projectile_attack(s32 event) {
                     pos.y = 0.0f;
                     pos.z = 700.0f * (calc_random_ratio__10TObjPlayerFv(this->randomState) - 0.5f);
                 }
-                new TBoss8DragonEffBullet(&sub_tasks, &breath_origin, &pos, this->attack_kind, get_entity_id((u8 *)this));
+                new TBoss8DragonEffBullet(&sub_tasks, &breath_origin, &pos, this->attack_kind, ((TObjBase *)this)->get_entity_id());
             }
             this->rotation_x -= this->action_angle;
             break;
@@ -2702,7 +2702,7 @@ void TBoss8Dragon::update_fall_state(s32 event) {
             }
             if (this->is_passing_frame(50.0f) != 0) {
                 fill_value_array(this->attack_history);
-                create_boss8_piller_ctrl(&position, (s32)(((s32 (*)(u8 *))get_entity_id)((u8 *)this)), 100.0f);
+                create_boss8_piller_ctrl(&position, (((TObjBase *)this)->get_entity_id()), 100.0f);
                 spawn_particle_effect_with_flags(&position, this->particle_ids[2], 0x40);
                 if (this->particle_ids[3] != -1) {
                     spawn_particle_effect_with_flags(&position, this->particle_ids[3], 0x40);
@@ -3003,7 +3003,7 @@ void TBoss8Dragon::update_dive_state(s32 event) {
             if (this->position.y <= 0.0f && this->ground_impact_done == 0) {
                 this->apply_ground_impact_attack();
                 fill_value_array(this->attack_history);
-                create_boss8_piller_ctrl(&position, (s32)(((s32 (*)(u8 *))get_entity_id)((u8 *)this)), 100.0f);
+                create_boss8_piller_ctrl(&position, (((TObjBase *)this)->get_entity_id()), 100.0f);
                 this->ground_impact_done = 1;
                 this->set_invulnerable();
                 this->disable_body_collision();
@@ -3334,7 +3334,7 @@ void TBoss8Dragon::handle_leap_state(s32 event) {
                 this->set_state();
                 this->apply_ground_impact_attack();
                 fill_value_array(attack_history);
-                create_boss8_piller_ctrl(&position, (s32)(((s32 (*)(void *))get_entity_id)(this)), 100.0f);
+                create_boss8_piller_ctrl(&position, (this->get_entity_id()), 100.0f);
                 this->play_effect_sound(0x4003AD0F);
             }
             break;
@@ -4360,7 +4360,7 @@ void TBoss8Dragon::update_appearance_state(s32 event) {
                     v.y = 0.0f;
                     v.z = 0.5f * (this->node_positions[3].z + this->node_positions[5].z);
                     fill_value_array(this->attack_history);
-                    create_boss8_piller_ctrl(&v, (s32)(((s32 (*)(void *))get_entity_id)(this)), 100.0f);
+                    create_boss8_piller_ctrl(&v, (this->get_entity_id()), 100.0f);
                     spawn_particle_effect_with_flags(&this->position, this->particle_ids[2], 0x40);
                     if (this->particle_ids[3] != -1) {
                         spawn_particle_effect_with_flags(&this->position, this->particle_ids[3], 0x40);

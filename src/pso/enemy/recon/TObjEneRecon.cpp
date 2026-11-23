@@ -51,6 +51,7 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/object/base/CollisionActorLookup.h"
+#include "pso/object/base/TObjBase.h"
 
 #pragma readonly_strings on
 
@@ -706,7 +707,7 @@ void TObjEneRecon::state_attack(s32 reason) {
             if (hit_window == 1) {
                 for (i = 0; i < lbl_805D5868; i++) {
                     p = TObjPlayer::get_player_data(i);
-                    if (TObjPlayer::is_valid_and_active((uaddr)p) != 0 && p != NULL && get_entity_id(p) < 0x1000 && p->has_flag_0x800() == 0) {
+                    if (TObjPlayer::is_valid_and_active((uaddr)p) != 0 && p != NULL && p->get_entity_id() < 0x1000 && p->has_flag_0x800() == 0) {
                         d = horizontal_distance_squared(&p->body_center, &root_node_position);
                         if (d <= attack_params->get_damage_radius() * attack_params->get_damage_radius()) {
                             DirectAttackPayload attack;
@@ -1135,7 +1136,7 @@ void TObjEneRecon::release_static_instance() {
 
 TObjEneRecon::TObjEneRecon(TObject *parent, TObjEneRecobox *owner, u16 id, s32 index, Vec *pos, Vec *dir) : TObjEneDD_ST(parent) {
     m_name = TObjEneRecon_name_ref;
-    owner_id = get_entity_id(owner);
+    owner_id = owner->get_entity_id();
     init_common_from((u8 *)owner);
     entity_id = id;
     set_index = index;

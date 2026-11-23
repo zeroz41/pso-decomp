@@ -51,6 +51,7 @@
 #include "pso/math/MatrixVector.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/ui/hud/TRaderMapCore.h"
+#include "pso/object/base/TObjBase.h"
 
 
 extern "C" {
@@ -553,7 +554,7 @@ void TObjEneDelDepth::update_movement() {
             if (pl == 0) {
                 break;
             }
-            if (obj_is_hit_receivable((u8 *)pl) != 0 && is_player_entity_id(get_entity_id(pl)) != 0) {
+            if (obj_is_hit_receivable((u8 *)pl) != 0 && is_player_entity_id(pl->get_entity_id()) != 0) {
                 pl->select_melee_contact_body(self, 1.0f);
                 pl->receive_physical_attack(self, 1.0f);
                 pl->apply_knockback_from_attacker((u8 *)self, 5.0f);

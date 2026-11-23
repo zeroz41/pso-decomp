@@ -29,6 +29,7 @@
 #include "pso/technique/TTecCtrl.h"
 #include "pso/boss/goldragon/TBoss8Dragon_80065C90.h"
 #include "pso/object/base/CollisionActorLookup.h"
+#include "pso/object/base/TObjBase.h"
 
 // ---- pso/unk/text_80232934
 
@@ -274,7 +275,6 @@ struct Task_80232EC0 {
 };
 
 extern "C" {
-u16 get_entity_id(void *);
 void *mem_alloc(u32 size);
 s32 play_sound_effect(s32, void *, s32, s32);
 }
@@ -282,7 +282,7 @@ TUnk_804CC888::TUnk_804CC888(u8 *src, s32 level, TObject *parent) : TObject(pare
     u32 i;
     VecCopy((Vec *)(((Task_80232EC0 *)this)->pos), (const Vec *)(src + 0x38));
     ((Task_80232EC0 *)this)->x2c = 0;
-    ((Task_80232EC0 *)this)->owner = get_entity_id(src);
+    ((Task_80232EC0 *)this)->owner = ((TObjBase *)(src))->get_entity_id();
     ((Task_80232EC0 *)this)->level = level;
     if (((Task_80232EC0 *)this)->level < 0) {
         ((Task_80232EC0 *)this)->level = 0;

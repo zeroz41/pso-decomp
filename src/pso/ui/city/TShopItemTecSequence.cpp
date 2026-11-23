@@ -20,6 +20,7 @@
 #include "pso/item/TItem.h"
 #include "pso/item/TItemData.h"
 #include "pso/ui/city/TShopJudgmentItemWindow.h"
+#include "pso/object/base/TObjBase.h"
 
 extern "C" {
 TObject *set_service_counter_camera(void *, int);
@@ -30,7 +31,6 @@ s32 lbl_805D6248;
 s32 lbl_805D624C;
 TShopItemTecSequence *item_tec_sequence_instance;
 extern void *tl_05;
-s32 get_entity_id(TObjPlayer *);
 s32 get_shop_text(s32 arg0);
 int forward_trade_action_default__16TObjCityMainWarpFPviii(void* p, int a1, int a2, int a3);
 
@@ -151,7 +151,7 @@ void TShopItemTecSequence::open_greeting() {
 void TShopItemTecSequence::update_buy_sell_choice() {
     s32 r;
     if (choice_menu == NULL) {
-        u16 id = get_entity_id(player);
+        s32 id = player->get_entity_id();
         choice_menu = create_window_menu(((saddr (*)(int))get_window_layout_position)(0x2B), 2, id);
         forward_trade_action_default__16TObjCityMainWarpFPviii(choice_menu, get_shop_text(4), 6, 0);
         forward_trade_action_default__16TObjCityMainWarpFPviii(choice_menu, get_shop_text(6), 6, 1);

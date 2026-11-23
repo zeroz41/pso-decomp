@@ -52,6 +52,7 @@
 #include "pso/boss/derolle/TObjBoss2Tunnel_8007E418.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/render/BlobShadow.h"
+#include "pso/object/base/TObjBase.h"
 BmlResource *gogo_ball_bml_resource;
 #pragma inline_depth(1)
 #pragma auto_inline off
@@ -275,7 +276,6 @@ struct Timer_8019A104 {
 extern "C" {
 void TWindowTimer__sub_8019A6F8(void* p);
 void TWindowTimer__sub_8019A098(void);
-u16 get_entity_id(void *);
 void vec3_add_to(void *, void *);
 f32 atan2_float(f32, f32);
 #define CFG (*(Cfg_8019A104 *)&gogo_ball_configuration)
@@ -416,7 +416,7 @@ void TUnk_804B8E18::update_goal_checks(u16 id) {
         }
     }
     if ((ST.flags & 2 || ST.flags & 1 || ST.flags & 0x20 || ST.flags & 0x10) && !(ST.flags & 8) && !(ST.flags & 4)) {
-        TWindowCtrl::open(get_entity_id(self), (saddr)"\tC4Goal", 0x1B);
+        TWindowCtrl::open(((TObjBase *)(self))->get_entity_id(), (saddr)"\tC4Goal", 0x1B);
     }
     if (!(ST.flags & 0x33) && self->f360 != 0) {
         self->f360 = 0;
@@ -424,7 +424,8 @@ void TUnk_804B8E18::update_goal_checks(u16 id) {
     len = ((f32 (*)(void *))vector_length)(&self->vel);
     if ((0.0f) == len) {
         if (self->f358 == 0) {
-            TWindowCtrl::open(((u16 (*)(void *, s32))get_entity_id)(self, self->f35C++), (saddr)"Go!", 0x1B);
+            self->f35C++;
+            TWindowCtrl::open(((TObjBase *)(self))->get_entity_id(), (saddr)"Go!", 0x1B);
         }
         self->f358 = 1;
     } else {
@@ -472,7 +473,7 @@ void TUnk_804B8E18::run_task() {
         p.y += ((Tbl_80199F14 *)&gogo_ball_configuration)->yofs;
         spawn_particle_effect_with_flags(&p, 0x45, 0x40);
         spawn_particle_effect_with_flags(&p, 0x46, 0x40);
-        TWindowCtrl::open(get_entity_id(this), (saddr)"Good Bye", 0x1B);
+        TWindowCtrl::open(this->get_entity_id(), (saddr)"Good Bye", 0x1B);
         queue_destruction();
         return;
     }

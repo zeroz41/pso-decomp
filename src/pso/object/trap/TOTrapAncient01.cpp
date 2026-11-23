@@ -45,6 +45,7 @@
 
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/task/TObject.h"
+#include "pso/object/base/TObjBase.h"
 
 
 BmlResource *TOTrapAncient01__bml_resource;
@@ -397,7 +398,7 @@ void TOTrapAncient01::release_trapped_player() {
     TObjPlayer *player;
     if (TRaderMapCore::is_not_split_screen() == 1) {
         if (target != NULL) {
-            player = get_player_by_client_id(get_entity_id((TObjBase *)target));
+            player = get_player_by_client_id(((TObjBase *)target)->get_entity_id());
             if (player != NULL) {
                 if (player->check_player_flag1() != 0) {
                     TObjPlayer::send_code_45_1((saddr)player);
@@ -405,7 +406,7 @@ void TOTrapAncient01::release_trapped_player() {
                 obj_clear_flag30_20000(player);
             }
         }
-    } else if (target != NULL && local_client_id == get_entity_id((TObjBase *)target)) {
+    } else if (target != NULL && local_client_id == ((TObjBase *)target)->get_entity_id()) {
         player = get_player_by_client_id(local_client_id);
         if (player != NULL) {
             if (player->check_player_flag1() != 0) {

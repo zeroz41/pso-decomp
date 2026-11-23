@@ -2,6 +2,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjBase.h"
 
 extern "C" {
 
@@ -27,7 +28,7 @@ void TObjPlayer::load_character_state(u8 *player) {
         }
         bind_saved_inventory_equipment__10TObjPlayerFPvPvi(this, temp_r30, count);
     }
-    this->m_db4 = (s32) (player_shared_buffer_base + (get_entity_id(this) * 0x600));
+    this->m_db4 = (s32) (player_shared_buffer_base + (this->get_entity_id() * 0x600));
 }
 
 }

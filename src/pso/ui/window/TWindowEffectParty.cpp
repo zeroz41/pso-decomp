@@ -92,18 +92,18 @@ void TWindowEffectParty::render() {  }
 #pragma readonly_strings on
 const char *TWindowEffectParty__name = "TWindowEffectParty";
 
-void *TWindowEffectParty::create(void *owner, s32 from, s32 to, u32 kind) {
+void *TWindowEffectParty::create(void *owner, u16 from, u16 to, u32 kind) {
     s32 id;
     u16 b;
     u16 a;
     void *w;
-    if ((u16)from == (u16)to) {
+    if (from == to) {
         return 0;
     }
-    if ((u16)from >= 4) {
+    if (from >= 4) {
         return 0;
     }
-    if ((u16)to >= 4) {
+    if (to >= 4) {
         return 0;
     }
     switch (kind) {
@@ -126,11 +126,13 @@ void *TWindowEffectParty::create(void *owner, s32 from, s32 to, u32 kind) {
     default:
         return 0;
     }
-    a = from - local_client_id;
+    a = from;
+    a -= local_client_id;
     if (a & 0xFFFC) {
         a += 4;
     }
-    b = to - local_client_id;
+    b = to;
+    b -= local_client_id;
     if (b & 0xFFFC) {
         b += 4;
     }

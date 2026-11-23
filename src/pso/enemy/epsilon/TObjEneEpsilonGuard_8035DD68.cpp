@@ -37,6 +37,7 @@ struct NJS_OBJECT;
 #include "pso/system/task/TMainTask.h"
 #include "pso/object/trap/TOTrapAncient01_80226534.h"
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
+#include "pso/object/base/TObjBase.h"
 
 u8 *epsilon_guard_boss_stat_handle;
 u8 *epsilon_guard_shared_handler_b;
@@ -551,7 +552,7 @@ void TObjEneEpsilonGuard::update_guard_state() {
             }
         } else {
             current_target = (TObjChara *)body;
-            target_id = get_entity_id(current_target);
+            target_id = current_target->get_entity_id();
             enemy_copy_target_destination();
             update_effect_attack();
         }
@@ -721,7 +722,7 @@ TObjEneEpsilonGuard::TObjEneEpsilonGuard(TObject *parent, TObjEneEpsilonBody *bo
     : TObjEneEpsilon(parent) {
     s32 i;
     m_name = TObjEneEpsilonGuard__class_name;
-    body_id = get_entity_id(body);
+    body_id = body->get_entity_id();
     init_common_from((u8 *)body);
     this->entity_id = entity_id;
     this->set_index = set_index;

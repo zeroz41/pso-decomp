@@ -24,6 +24,7 @@
 #include "pso/object/base/TObjChara.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/object/base/TObjBase.h"
 
 #pragma readonly_strings on
 
@@ -109,7 +110,7 @@ TObjEneMe1GiGueMissile::TObjEneMe1GiGueMissile(s32 owner, Vec *from, Vec *to, f3
     this->speed = speed;
     play_sound_effect(0x4002A600, &pos, 0, 0);
     if ((void *)this->owner != NULL) {
-        owner_id = get_entity_id((TObjBase *)this->owner);
+        owner_id = ((TObjBase *)this->owner)->get_entity_id();
     }
     if (collider != NULL) {
         collider->bodies->radius = 1.0f;

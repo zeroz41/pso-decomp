@@ -1,13 +1,13 @@
 #include "pso/system/CharacterSaveRecordLookup.h"
+#include "pso/player/TObjPlayer_80351748.h"
 #include "types.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
 #include "pso/player/TObjPlayer.h"
 
 #include "pso/technique/TTecCtrl.h"
+#include "pso/object/base/TObjBase.h"
 
 extern "C" {
-s32 get_entity_id(void *);
-s32 init_pad_binding(void *, s32, int);
 s32 TObjPlayer__sub_801AF868(s32);
 s32 check_flag_800000__10TObjPlayerFPv(s32);
 void emit_idle_water_effect(saddr arg0);
@@ -15,12 +15,12 @@ int has_water_ground_flag(void *p);
 void TObjPlayer__sub_801BEF60(void *p, s32 v);
 
 s32 TObjPlayer::get_card_window_field_244() {
-    return *(s32 *)((s8 *)(get_character_save_record((u32) ((u16)get_entity_id(this)))) + 0x244);
+    return *(s32 *)((s8 *)(get_character_save_record((this->get_entity_id()))) + 0x244);
 }
 
 void TObjPlayer::init_local_pad_binding() {
     if (((s32)TObjPlayer::is_locally_controlled(this)) != 0) {
-        init_pad_binding((void *) (((u8 *)this) + 0x550), (get_entity_id(this)), (int) ((s16) this->controller_port));
+        init_pad_binding((u8 *)this + 0x550, (this->get_entity_id()), (int) ((s16) this->controller_port));
     }
 }
 

@@ -6,6 +6,7 @@
 #include "pso/effect/enemy/TEneParticleCtrl.h"
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjBase.h"
 
 CollisionBody TEneParticleCtrl::collision_body = {{0.0f, 0.0f, 0.0f}, 20.0f, 0.0f, 0, 0x10003, {0.0f, 0.0f, 0.0f}, 0.0f};
 
@@ -29,7 +30,7 @@ TEneParticleCtrl::TEneParticleCtrl(TObjChara *owner, s32 effect_index) : TObjCol
     init_collision_body_parts(this, &collision_body, 1);
     register_object_by_id();
     bodies->flags &= ~1;
-    owner_id = get_entity_id(owner);
+    owner_id = owner->get_entity_id();
     set_position_from(&owner->center);
     VecCopy(&effect_pos, &owner->body_center);
     effect = effect_index;

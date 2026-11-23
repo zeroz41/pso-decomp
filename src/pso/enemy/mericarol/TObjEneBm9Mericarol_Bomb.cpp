@@ -19,6 +19,7 @@
 #include "pso/system/MatrixOps.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjBase.h"
 
 const char *TObjEneBm9Mericarol_Bomb__class_name = "TObjEneBm9Mericarol_Bomb";
 
@@ -202,7 +203,7 @@ TObjEneBm9Mericarol_Bomb::TObjEneBm9Mericarol_Bomb(TObjEneBm9Mericarol *owner, V
         break;
     }
     bodies->radius = 2.0f;
-    owner_id = get_entity_id(owner);
+    owner_id = owner->get_entity_id();
     VecCopy(&pos, start);
     VecCopy(&position, &pos);
     ground_normal.x = 0.0f;

@@ -77,6 +77,7 @@ struct ByteBlock_C { u8 bytes[0xc]; };
 #include "types.h"
 #include "pso/camera/CameraPlayback.h"
 #include "pso/system/PadRumble.h"
+#include "pso/object/base/TObjBase.h"
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
@@ -123,7 +124,6 @@ s32 is_split_screen();
 void direction_to_rotation_xz(u8 *dir, s32 *rot_a, s32 *rot_b);
 void dragon_capture_node_points(NJS_OBJECT *);
 extern "C" {
-u16 get_entity_id(void *);
 extern const Vec boss1_dragon_arena_center = {0.0f, 0.0f, 0.0f};
 extern const DragonAttackParams boss1_dragon_attack_sphere_params = {0, 0.0f, 30.0f, 7.0f, 1};
 extern const DragonAttackParams boss1_dragon_head_fall_attack_params = {0, 0.0f, 35.0f, 50.0f, 1};
@@ -1294,7 +1294,7 @@ s32 TBoss1Dragon::select_forward_target() {
             subtract_vector(&delta, &this->position);
             normalize_vector_xz((Vec *)&delta);
             if (vec3_dot(&delta, &fwd) > cutoff) {
-                selected[n++] = get_entity_id(p);
+                selected[n++] = p->get_entity_id();
             }
         }
     }

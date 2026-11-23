@@ -360,7 +360,7 @@ struct TObjPlayer : public TObjChara {
     void emit_jellen_support_effect_default();
     void emit_shifta_support();
     int emit_movement_effect_at();
-    int check_hit_by_id_276(int a1);
+    int check_hit_by_id_276(u16 a1);
     void check_hit_by_id_431_from_packet();
     int emit_grass_footstep_particle(int a1);
     void emit_photon_blast_feedback_from_packet();
@@ -525,7 +525,7 @@ struct TObjPlayer : public TObjChara {
     static s32 is_camera_ready();
     static s32 is_camera_mode_active();
     static s32 is_single_screen();
-    static s32 is_player_valid_target(s32 client_index);
+    static s32 is_player_valid_target(u16 client_index);
     void update_movement_effects();
     static int get_max_level();
     void update_position(saddr arg1);
@@ -758,7 +758,7 @@ struct TObjPlayer : public TObjChara {
     static void apply_velocity_if_free(saddr arg0);
     void complete_guard_reaction();
     void select_hit_action();
-    static void create_photon_blast_party_effects(s32 arg0);
+    static void create_photon_blast_party_effects(u16 arg0);
     static u8 *find_photon_blast_by_section_id(u16 section_id);
     static s32 get_current_target_id();
     static void update_photon_blast_state();
@@ -1027,16 +1027,16 @@ struct TObjPlayer : public TObjChara {
     static void clear_foot_stamp(saddr arg0, saddr arg1);
     void update_child(void *arg1);
     void update_follow_particle(saddr arg1);
-    static s32 check_hit_by_id_431(void* p, int a1);
+    static s32 check_hit_by_id_431(void* p, u16 a1);
     void create_right_hand_ptcl(void *arg1);
     void create_left_hand_ptcl(void *arg1);
     void*init_follow_particle_ctrl();
-    static s32 check_hit_by_id(saddr arg0, s32 arg1, s32 arg2);
+    static s32 check_hit_by_id(saddr arg0, u16 arg1, s32 arg2);
     void update_children();
     int query_field40();
     void process_indexed_element(s32 arg1);
     void check_flag_at_4();
-    void set_field_0(s16 v);
+    void set_field_0(u16 v);
     static int get_max_children(void*);
     static void alloc_and_init(s32 arg0, saddr arg1, saddr arg2);
     static void create_and_init_effect(s32 arg0, u32 *arg1, saddr arg2);
@@ -1162,7 +1162,7 @@ struct TObjPlayer : public TObjChara {
     static void load_lobby_pigeon_resource();
     static TItem *create_object_by_type(u8 *item);
     void *find_by_section_id(u16 section);
-    void create_party_effects(saddr id);
+    void create_party_effects(u16 id);
     u16 find_first_valid_target_id();
     void process_all_elements();
     static void invert_matrix_in_place(uaddr arg0);
@@ -1195,7 +1195,7 @@ struct TObjPlayer : public TObjChara {
     static void free_chr_select();
     static void load_jungle_ebi_resources();
     static void load_seabed_dolphin();
-    static void new_child_object(s32 arg0);
+    static void new_child_object(u16 arg0);
     void create_item_eff_cane(TItem* item, s32 attachment, s32 effect_id);
     void spawn_cane_effect(TItem* item, s32 attachment);
     void spawn_cane_effects(TItem* item, s32 first_attachment, s32 second_attachment);

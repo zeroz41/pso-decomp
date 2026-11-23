@@ -54,7 +54,7 @@ public:
     s32 unregister_object_by_id();
     void send_object_state_update(void *);
     // A player (client id, 0xFFFF for none) uses the action button on it.
-    virtual void interact(s32 client);
+    virtual void interact(u16 client);
     s32 set_flag8();
     s32 has_interactor();
     s32 get_cursor_action();

@@ -62,6 +62,7 @@
 #include "pso/ui/font/TFontSmallTask.h"
 #include "pso/map/TSetManager.h"
 #include "pso/player/TObjPlayer_801BDF5C.h"
+#include "pso/object/base/TObjBase.h"
 
 struct Entry_8013634C {
     u8 tag[8];
@@ -311,7 +312,6 @@ extern const char lobby_window_title_information[];
 s32 TLobby__sub_8013F810(void *, void *, s32, void *);
 void handle_6x6E_sync_game_state(Pkt_8013566C *arg0);
 void mark_area_change_pending();
-u16 get_entity_id(void *);
 void * get_current_floor();
 void copy_challenge_info(void *, void *);
 void TLobby__sub_80077798(void *, void *);
@@ -676,9 +676,9 @@ void handle_6x70_sync_player_disp_and_inventory(Pkt_801354AC *arg0) {
                 delete p;
             }
             plr = (Plr_801354AC *)create_remote_player_object(disp);
-            strncpy(TLobby__player_names[get_entity_id(plr)], plr->m10(), 0x10);
+            strncpy(TLobby__player_names[((TObjBase *)(plr))->get_entity_id()], plr->m10(), 0x10);
             TLobby::open_udp_socket_for_player(disp->id);
-            lobby_debug_printf_stub(lobby_debug_create_player_format, get_entity_id(plr));
+            lobby_debug_printf_stub(lobby_debug_create_player_format, ((TObjBase *)(plr))->get_entity_id());
         }
     }
 }

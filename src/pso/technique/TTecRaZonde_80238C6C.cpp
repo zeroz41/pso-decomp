@@ -30,6 +30,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/object/base/CollisionActorLookup.h"
+#include "pso/object/base/TObjBase.h"
 
 struct RecoveredFields_80230D9C_arg0
 {
@@ -44,7 +45,6 @@ struct RecoveredFields_80230D9C_arg0
 #pragma fp_contract on
 
 extern "C" {
-u16 get_entity_id(void *);
 s32 play_sound_effect(s32 id, void *pos, s32 a, s32 b);
 f32 vector_length(void *);
 #pragma push
@@ -301,7 +301,7 @@ TTecRaZonde::TTecRaZonde(saddr source, Vec *origin, s32 level) : TTecCircle(sour
     }
     }
     if (this->source != 0) {
-        sourceId = get_entity_id((void *)this->source);
+        sourceId = ((TObjBase *)this->source)->get_entity_id();
     }
 }
 #pragma pop

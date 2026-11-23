@@ -11,7 +11,7 @@ saddr get_shop_text(s32 index);
 }
 
 extern "C" {
-s32 TShopGenerator__sub_80222DAC(s32 client);
+u16 TShopGenerator__sub_80222DAC(u16 client);
 }
 
 #endif

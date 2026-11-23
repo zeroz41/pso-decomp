@@ -37,6 +37,7 @@ struct NJS_OBJECT;
 #include "pso/object/trap/TOTrapAncient01_80226534.h"
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 #include "pso/unk/text_803E2F28.h"
+#include "pso/object/base/TObjBase.h"
 
 #pragma inline_depth(1)
 // Joint index per guard slot and the joint-local point the guard angle is measured from (update_guard_anchor).
@@ -142,7 +143,7 @@ TObjEneEpsilonBody::TObjEneEpsilonBody(TObject *parent, void *set_data) : TObjEn
     for (i = 0; i < 4; i++) {
         TObjEneEpsilonGuard *guard = TObjEneEpsilonGuard::create(this, (u16)(entity_id + 1 + i), set_index + 1 + i, &position, rotation_y);
         if (guard != NULL) {
-            guard_ids[i] = get_entity_id(guard);
+            guard_ids[i] = guard->get_entity_id();
         }
         VecCopy(&guard_position[i], &position);
         guard_rotation_y[i] = rotation_y;
@@ -1349,7 +1350,7 @@ f32 TObjEneEpsilonBody::receive_weapon_special_attack(void *src, void *hit) {
         s32 strong;
         obj_getS16_118((u8 *)src);
         strong = 0;
-        if (src == NULL || get_entity_id((TObjBase *)src) == 0xFFFF) {
+        if (src == NULL || ((TObjBase *)src)->get_entity_id() == 0xFFFF) {
             show_miss_popup(&position.x);
             return 0.0f;
         }

@@ -23,6 +23,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjBase.h"
 
 #pragma inline_depth(1)
 #pragma auto_inline off
@@ -221,7 +222,7 @@ void select_actor_lighting(TObjBase *obj) {
     s32 i;
 
     for (i = 0; i < TObjLight__light_count; i++) {
-        if (TObjLight__light_table[i].id == get_entity_id(obj)) {
+        if (TObjLight__light_table[i].id == obj->get_entity_id()) {
             if (((u32)TObjLight__light_table[i].f24 & 1) && ((u32)TObjLight__light_table[i].f24 & 2)) {
                 set_light_ambient_color(TObjLight__light_table[i].f20, TObjLight__light_table[i].f20, TObjLight__light_table[i].f20);
                 init_distant_light(0, TObjLight__light_table[i].dir[0], TObjLight__light_table[i].dir[1], TObjLight__light_table[i].dir[2]);
@@ -249,7 +250,7 @@ void select_actor_lighting(TObjBase *obj) {
         }
     }
     for (i = 0; i < TObjLight__actor_light_count; i++) {
-        if (TObjLight__actor_light_table[i].id == get_entity_id(obj)) {
+        if (TObjLight__actor_light_table[i].id == obj->get_entity_id()) {
             init_distant_light(0, TObjLight__actor_light_table[i].dir[0], TObjLight__actor_light_table[i].dir[1], TObjLight__actor_light_table[i].dir[2]);
             GXInitLightDir(TObjLight__gx_light_objects, TObjLight__actor_light_table[i].dir[0], TObjLight__actor_light_table[i].dir[1], TObjLight__actor_light_table[i].dir[2]);
             set_light_ambient_color(TObjLight__scene_light_state.ambient, TObjLight__scene_light_state.ambient, TObjLight__scene_light_state.ambient);

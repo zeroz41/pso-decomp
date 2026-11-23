@@ -7,6 +7,7 @@
 #include "pso/map/FloorArea.h"
 #include "pso/system/task/TObject.h"
 #include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjBase.h"
 
 extern "C" {
 
@@ -16,7 +17,7 @@ extern s32 player_shared_buffer_base;
 void TObjPlayer::init_data_table_ptr() {
     ((TObjPlayer *)this)->create_inventory();
     set_action_provider_variant(TObjPlayer__sub_801C2114());
-    this->m_db4 = (s32) (player_shared_buffer_base + (get_entity_id(this) * 0x600));
+    this->m_db4 = (s32) (player_shared_buffer_base + (this->get_entity_id() * 0x600));
 }
 
 int TObjPlayer__sub_801C2114(void);
@@ -28,7 +29,7 @@ void TObjPlayer::init_from_source(u8 *arg1) {
     ((TObjPlayer *)this)->create_inventory();
     set_action_provider_variant((s16) TObjPlayer__sub_801C2114());
     bind_saved_inventory_equipment__10TObjPlayerFPvPvi(((u8 *)this), arg1 + 0x140, *(s32 *)((s8 *)arg1 + 0x13C));
-    this->m_db4 = (s32) (player_shared_buffer_base + (get_entity_id(this) * 0x600));
+    this->m_db4 = (s32) (player_shared_buffer_base + (this->get_entity_id() * 0x600));
 }
 
 void TObjPlayer::update_recobox(saddr player) {

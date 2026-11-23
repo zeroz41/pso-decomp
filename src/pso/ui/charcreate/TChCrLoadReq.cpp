@@ -10,6 +10,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/ui/charcreate/CharacterLoadBuffer.h"
 #include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjBase.h"
 
 // Built with -inline off,deferred: .text comes out last function first, so the functions are
 // written in reverse address order; the data (the node range statics, then the load slot count,
@@ -60,7 +61,7 @@ TChCrLoadReq::TChCrLoadReq(TObjPlayer *player) : TObject(player) {
     m_name = TChCrLoadReq__name;
     inputs.appearance = (CharacterAppearanceFields *)player->name;
     inputs.completion_flags = (u32 *)&player->model_load_flags;
-    inputs.load_slot = get_entity_id(player);
+    inputs.load_slot = player->get_entity_id();
     inputs.body_model = (s32 *)&player->model;
     inputs.part_models = (s32 *)&player->hair_model;
     inputs.body_textures = (GinjaTextureList *)player->body_textures;

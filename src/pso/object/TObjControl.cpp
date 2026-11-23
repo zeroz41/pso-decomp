@@ -33,6 +33,7 @@
 #include "pso/unk/TLobby_80291D94.h"
 #include "pso/player/PlayerAttackParams.h"
 #include "pso/player/TPlyDispData.h"
+#include "pso/object/base/TObjBase.h"
 
 struct Ply_800F7118 {
     u8 pad0[0x28];
@@ -50,7 +51,6 @@ struct Ply_800F7118 {
     s32 f36C;
 };
 extern "C" {
-u16 get_entity_id(void *);
 
 
 extern uaddr TObjPlayer__data_8050D460[];
@@ -405,7 +405,7 @@ void TUnk_80493450::link_into_group_chain() {
             if (p == NULL || p == self) {
                 continue;
             }
-            id = get_entity_id(p);
+            id = ((TObjBase *)(p))->get_entity_id();
             if (id < 0x1000 || id >= 0x4000) {
                 continue;
             }
@@ -676,7 +676,7 @@ void TObjEnemy::award_enemy_experience(s32 arg1) {
         }
     }
     p->add_actor_exp(val);
-    create_font_small_task(((u8 *)this) + 0x2FC, 0xFFFF00FF, 0x14, 0x14, "EXP", val, get_entity_id(p));
+    create_font_small_task(((u8 *)this) + 0x2FC, 0xFFFF00FF, 0x14, 0x14, "EXP", val, p->get_entity_id());
 }
 
 void TObjEnemy::distribute_experience() {
@@ -710,14 +710,14 @@ u8 *get_enemy_entity(u16 arg0) {
         low = registered_player_count;
         while (low < high) {
             mid = (low + high) / 2;
-            if (get_entity_id((void *)TObjPlayer__data_8050D460[mid]) < arg0) {
+            if (((TObjBase *)TObjPlayer__data_8050D460[mid])->get_entity_id() < arg0) {
                 low = mid + 1;
             } else {
                 high = mid;
             }
         }
         uaddr e = TObjPlayer__data_8050D460[low];
-        if (e != 0 && arg0 == get_entity_id((void *)e)) {
+        if (e != 0 && arg0 == ((TObjBase *)e)->get_entity_id()) {
             return (u8 *)e;
         }
     }

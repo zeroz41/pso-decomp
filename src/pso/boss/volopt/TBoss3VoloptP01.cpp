@@ -37,6 +37,7 @@
 #include "pso/system/MatrixOps.h"
 #include "pso/unk/text_803D853C.h"
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
+#include "pso/object/base/TObjBase.h"
 
 extern "C" {
 s32 post_translate_matrix(const void *pos);
@@ -696,7 +697,7 @@ void TBoss3VoloptP01::push_nearby_players() {
     radius_sq = 64.0f;
     for (i = 0; i < registered_player_count; i++) {
         player = TObjPlayer::get_player_data(i);
-        if (player == NULL || get_entity_id(player) >= 0x1000) {
+        if (player == NULL || player->get_entity_id() >= 0x1000) {
             break;
         }
         {
@@ -738,7 +739,7 @@ s32 TBoss3VoloptP01::fire_zonde_at_players() {
     n = 0;
     for (i = 0; i < registered_player_count; i++) {
         player = TObjPlayer::get_player_data(i);
-        if (player == NULL || get_entity_id(player) >= 0x1000) {
+        if (player == NULL || player->get_entity_id() >= 0x1000) {
             break;
         }
         if (!(player->actorFlags & 0x02000800)) {
@@ -793,8 +794,8 @@ void TBoss3VoloptP01::cast_tech_on_players() {
         n = 0;
         for (i = 0; i < registered_player_count; i++) {
             player = TObjPlayer::get_player_data(i);
-            if (player != NULL && get_entity_id(player) < 0x1000 && !(player->actorFlags & 0x02000800)) {
-                targets.records[n].id = get_entity_id(player);
+            if (player != NULL && player->get_entity_id() < 0x1000 && !(player->actorFlags & 0x02000800)) {
+                targets.records[n].id = player->get_entity_id();
                 targets.records[n].flag = 1;
                 n++;
             }
@@ -807,7 +808,7 @@ void TBoss3VoloptP01::cast_tech_on_players() {
     case 1:
         for (j = 0; j < registered_player_count; j++) {
             player = TObjPlayer::get_player_data(j);
-            if (player != NULL && get_entity_id(player) < 0x1000 && !(player->actorFlags & 0x02000800)) {
+            if (player != NULL && player->get_entity_id() < 0x1000 && !(player->actorFlags & 0x02000800)) {
                 TTecFoie::create_ex(this, &pos, &player->body_center, 0x1D);
             }
         }
@@ -815,7 +816,7 @@ void TBoss3VoloptP01::cast_tech_on_players() {
     case 2:
         for (k = 0; k < registered_player_count; k++) {
             target = TObjPlayer::get_player_data(k);
-            if (target != NULL && get_entity_id(target) < 0x1000 && !(target->actorFlags & 0x02000800)) {
+            if (target != NULL && target->get_entity_id() < 0x1000 && !(target->actorFlags & 0x02000800)) {
                 TTecGiBarta::create(this, &pos, &target->body_center, 0x1D);
             }
         }

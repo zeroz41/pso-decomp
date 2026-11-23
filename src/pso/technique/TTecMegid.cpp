@@ -21,6 +21,7 @@
 #include "pso/unk/text_803D8F74.h"
 #include "pso/unk/text_803D853C.h"
 #include "pso/system/MatrixOps.h"
+#include "pso/object/base/TObjBase.h"
 
 struct RecoveredFields_80235348_arg0
 {
@@ -150,7 +151,6 @@ static const Vec tec_megid_offset_vec = {0.0f, 0.0f, -5.0f};
 
 extern "C" {
 void mem_free(void *p);
-u16 get_entity_id(void *);
 s32 play_sound_effect(s32, s32, s32, s32);
 }
 u32 get_technique_caster_flags(s32 technique, u16 actor);
@@ -272,12 +272,12 @@ void TTecMegid::vfunc_8(void *target) {
     s32 found = 0;
     s32 i;
     for (i = 0; i < 32; i++) {
-        if (hitIds[i] == get_entity_id(target)) {
+        if (hitIds[i] == ((TObjBase *)(target))->get_entity_id()) {
             found = 1;
         }
     }
     if (found == 0) {
-        hitIds[hitCursor] = get_entity_id(target);
+        hitIds[hitCursor] = ((TObjBase *)(target))->get_entity_id();
         hitCursor += 1;
         if (hitCursor >= 32) {
             hitCursor = 31;
@@ -285,7 +285,7 @@ void TTecMegid::vfunc_8(void *target) {
         HitInfo_80235490 tmp;
         tmp.type = 5;
         tmp.power = power;
-        if (get_entity_id(target) < 4 && ((TObjChara *)target)->obj_isState3_324() != 0) {
+        if (((TObjBase *)(target))->get_entity_id() < 4 && ((TObjChara *)target)->obj_isState3_324() != 0) {
             return;
         }
         HitInfo_80235490 info = tmp;
@@ -358,7 +358,7 @@ TTecMegid::TTecMegid(saddr source, u8 *pos, u8 *target, s32 level) : TTecShot(so
     spawn_particle_emitters();
     update_by_state();
     if (*(void **)((s8 *)this + 0x1C) != 0) {
-        sourceId = get_entity_id(*(void **)((s8 *)this + 0x1C));
+        sourceId = ((TObjBase *)(*(void **)((s8 *)this + 0x1C)))->get_entity_id();
     }
 }
 }
@@ -376,6 +376,6 @@ TTecMegid::TTecMegid(saddr source, Vec *pos, s32 angle, s32 level) : TTecShot(so
     spawn_particle_emitters();
     update_by_state();
     if (*(void **)((s8 *)this + 0x1C) != 0) {
-        sourceId = get_entity_id(*(void **)((s8 *)this + 0x1C));
+        sourceId = ((TObjBase *)(*(void **)((s8 *)this + 0x1C)))->get_entity_id();
     }
 }

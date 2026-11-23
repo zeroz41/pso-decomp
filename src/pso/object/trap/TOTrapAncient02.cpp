@@ -46,6 +46,7 @@
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/system/vector.h"
+#include "pso/object/base/TObjBase.h"
 
 extern s32 game_difficulty_selection;
 
@@ -392,7 +393,7 @@ void TOTrapAncient02::vfunc_82() {
             if (timer < 0) {
                 phase = 3;
                 timer = reset;
-                if (target != NULL && local_client_id == get_entity_id((TObjBase *)target)) {
+                if (target != NULL && local_client_id == ((TObjBase *)target)->get_entity_id()) {
                     p = get_player_by_client_id(local_client_id);
                     if (p != NULL && p->check_player_flag1() != 0) {
                         TObjPlayer::send_code_45_1((saddr)p);

@@ -25,6 +25,7 @@
 #include "pso/unk/text_803D853C.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/system/MatrixOps.h"
+#include "pso/object/base/TObjBase.h"
 
 typedef struct Actor_80193FE8 {
     u8 pad0[0x28];
@@ -64,7 +65,6 @@ typedef struct Light_80193FE8 {
 
 extern "C" {
 s32 is_split_screen(void);
-u16 get_entity_id(void *);
 f32 xyz_distance_squared(void *, void *);
 Actor_80193FE8 *get_player_by_client_id(s32);
 
@@ -147,7 +147,7 @@ void TObjLight::run_task() {
                     self->out_dir.x = t * (self->dir.x - self->base_dir.x) + self->base_dir.x;
                     self->out_dir.y = t * (self->dir.y - self->base_dir.y) + self->base_dir.y;
                     self->out_dir.z = t * (self->dir.z - self->base_dir.z) + self->base_dir.z;
-                    register_actor_light(get_entity_id(a), this);
+                    register_actor_light(((TObjBase *)(a))->get_entity_id(), this);
                 }
             }
         }
@@ -170,7 +170,7 @@ void TObjLight::run_task() {
                     self->out_dir.y = t * (self->dir.y - self->base_dir.y) + self->base_dir.y;
                     self->out_dir.z = t * (self->dir.z - self->base_dir.z) + self->base_dir.z;
                     if (get_current_floor_area() != AREA_LOBBY) {
-                        register_actor_light(get_entity_id(a), this);
+                        register_actor_light(((TObjBase *)(a))->get_entity_id(), this);
                     }
                 }
             }

@@ -69,6 +69,7 @@
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/enemy/lappy/TObjEneLappy_800F5DE0.h"
 #include "pso/player/TPlyDispData.h"
+#include "pso/object/base/TObjBase.h"
 
 extern const f64 dolmolm_radians_to_angle[];
 extern int lbl_805D69E8;
@@ -589,7 +590,7 @@ void TObjEneDolmOlm::update_special_attack() {
     advance_animation();
     switch (phase) {
     case 0:
-        if (target == 0 || get_entity_id((TObjBase *)target) >= 0x1000) {
+        if (target == 0 || ((TObjBase *)target)->get_entity_id() >= 0x1000) {
             actorFlags &= ~0x200000;
             phase = 2;
             requested_action = 2;
@@ -647,7 +648,7 @@ void TObjEneDolmOlm::update_special_attack() {
             d = horizontal_distance_squared(&((TObjChara *)target)->position, &position);
             t = TObjEneDolmOlm__behavior_params_by_variant[variant];
             if (a < t->special_angle && d < t->special_range * t->special_range) {
-                u16 id = get_entity_id((TObjBase *)target);
+                u16 id = ((TObjBase *)target)->get_entity_id();
                 if (((TObjCollidable *)target)->test_actor_flags(0x4000000) == 0) {
                     TObjPlayer *pl = get_player_by_client_id(id);
                     if (pl != 0 && TObjPlayer::is_locally_controlled(pl) != 0 &&

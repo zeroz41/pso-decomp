@@ -15,6 +15,7 @@
 #include "pso/system/SoundEffect.h"
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/player/TargetCursorList.h"
+#include "pso/object/base/TObjBase.h"
 
 #pragma readonly_strings on
 
@@ -58,7 +59,6 @@ struct Obj_8023AE8C { u8 pad[0x1C]; u8 *source; u8 pad20[0x74 - 0x20]; f32 power
 
 
 extern "C" {
-saddr get_entity_id(int);
 int TTecSifta__spawn_sifta_range_effect(void* p);
 s32 is_split_screen();
 void deliver_technique_to_party_targets(void *);
@@ -115,7 +115,7 @@ void TTecSifta::vfunc_7(void *arg1_arg) {
         h.type = 9;
         h.power = arg0->power;
         if (is_split_screen() == 0) {
-            TWindowCtrl::show_party_effect((void*)(get_entity_id((saddr)arg0->source)), (void*)(get_entity_id((saddr)player)), (void*)9);
+            TWindowCtrl::show_party_effect((((TObjBase *)((saddr)arg0->source))->get_entity_id()), (((TObjBase *)((saddr)player))->get_entity_id()), 9);
         }
         HitInfo_8023AE8C c = h;
         player->m21(arg0->source, &c, 0, 0xD, -1);
@@ -172,7 +172,7 @@ TTecSifta::TTecSifta(void *owner, void *pos, void *target_list, s32 level) : TTe
         t->bodies->radius = 5.0f + m_7c;
     }
     if (source != 0U) {
-        m_a8 = get_entity_id(source);
+        m_a8 = ((TObjBase *)(saddr)source)->get_entity_id();
     }
     if (m_ac != 0) {
         TTecSifta__spawn_sifta_range_effect(this);
@@ -191,7 +191,7 @@ TTecSifta::TTecSifta(void *owner, void *pos, s32 level) : TTecPlayerInfluence(ow
         t->bodies->radius = 5.0f + m_7c;
     }
     if (source != 0U) {
-        m_a8 = get_entity_id(source);
+        m_a8 = ((TObjBase *)(saddr)source)->get_entity_id();
     }
     TTecSifta__spawn_sifta_range_effect(this);
     play_sifta_cast_sound();

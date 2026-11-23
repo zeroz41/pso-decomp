@@ -9,11 +9,11 @@
 #include "pso/math/AngleLookup.h"
 #include "pso/system/vector.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/object/base/TObjBase.h"
 
 extern "C" {
 // TObjPlayer_80011014.h declares these, but its calc_random_ratio prototype takes no rng.
 BOOL is_split_screen(void);
-u16 get_entity_id(TObjBase *object);
 f32 calc_random_ratio__10TObjPlayerFv(void *);
 void subtractive_rng_seed(void *, s32);
 }
@@ -157,7 +157,7 @@ s32 TBoss8Dragon::is_closest_part() {
     len = normalize_vector_xz(&v);
     for (i = 1; i < 6; i++) {
         u16 id = boss8_dragon_leader_part->get_part_entity_id(i);
-        if (id != get_entity_id(this)) {
+        if (id != this->get_entity_id()) {
             TBoss8Dragon *part = (TBoss8Dragon *)get_enemy_entity(id);
             if (part != NULL) {
                 v.x = part->position.x - this->position.x;
@@ -183,7 +183,7 @@ s32 TBoss8Dragon::push_apart_from_parts() {
     }
     for (i = 0; i < 6; i++) {
         u16 id = boss8_dragon_leader_part->get_part_entity_id(i);
-        if (id != get_entity_id(this)) {
+        if (id != this->get_entity_id()) {
             TBoss8Dragon *part = (TBoss8Dragon *)get_enemy_entity(id);
             if (part != NULL) {
                 v.x = part->position.x - this->position.x;
@@ -210,7 +210,7 @@ s32 TBoss8Dragon::is_near_other_part() {
     }
     for (i = 0; i < 6; i++) {
         u16 id = boss8_dragon_leader_part->get_part_entity_id(i);
-        if (id != get_entity_id(this)) {
+        if (id != this->get_entity_id()) {
             TBoss8Dragon *part = (TBoss8Dragon *)get_enemy_entity(id);
             if (part != NULL) {
                 v.x = part->position.x - this->position.x;

@@ -43,6 +43,7 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/system/scene/OfflineGameScene.h"
 #include "pso/quest/QuestOpcodeTables.h"
+#include "pso/object/base/TObjBase.h"
 
 // The Ninja camera the view matrix is built from each frame: position,
 // direction, roll, angle and clip planes.
@@ -495,7 +496,7 @@ void reset_cameras_to_actor(void *actor, s32 view_unused) {
     if (actor == 0) {
         return;
     }
-    entity_id = (u16)get_entity_id((TObjBase *)actor);
+    entity_id = (u16)((TObjBase *)actor)->get_entity_id();
     id = entity_id;
     if (is_split_screen() == 0) {
         view = 0;
@@ -1138,7 +1139,7 @@ u16 TCameraCtrl::get_camera_target_id(s32 view) {
     if (camera_ctrl_instance != NULL) {
         actor = camera_ctrl_instance->focus_actor;
         if (actor != NULL) {
-            return get_entity_id((TObjBase *)actor);
+            return ((TObjBase *)actor)->get_entity_id();
         }
     }
     return 0xFFFF;

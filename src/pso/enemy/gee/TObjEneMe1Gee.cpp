@@ -59,6 +59,7 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/player/TObjPlayer_800F0810.h"
 #include "pso/system/MatrixStack.h"
+#include "pso/object/base/TObjBase.h"
 
 #pragma defer_codegen on
 extern "C" {
@@ -273,7 +274,7 @@ void TObjEneMe1Gee::init_state() {
     this->mode = 0;
     this->dispatch_action(this->mode, 4);
     if (this->leader != NULL) {
-        this->leader_id = get_entity_id(this->leader);
+        this->leader_id = this->leader->get_entity_id();
         return;
     }
     this->leader_id = 0xFFFF;

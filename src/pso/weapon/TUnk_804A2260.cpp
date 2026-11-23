@@ -14,6 +14,7 @@
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/effect/item/TItemEffLavis.h"
 #include "pso/player/TObjPlayer_803E1A58.h"
+#include "pso/object/base/TObjBase.h"
 
 struct Hit_80124C90 { u8 pad0[4]; Vec *pos; };
 
@@ -28,7 +29,6 @@ struct Pl_80124C90 { u8 pad0[0x38]; Vec pos38; u8 pad44[0x60 - 0x44]; s32 angle;
 struct Me_80124C90 { u8 pad0[0xF0]; Pl_80124C90 *pl; u8 padf4[0x1E4 - 0xF4]; f32 scale; };
 
 extern "C" {
-s16 get_entity_id(void *);
 Hit_80124C90 *csnVector(void *, void *, int);
 }
 void spawn_item_attacker(s32 arg0, u32 arg1, s32 arg2, u8 *arg3);
@@ -87,8 +87,8 @@ void TUnk_804A2260::sub_80124C90() {
             void *e2 = get_captured_target_entry(ext, i);
             atk.a = 0;
             atk.b = 1;
-            atk.id0 = get_entity_id(me->pl);
-            atk.id1 = get_entity_id(t);
+            atk.id0 = ((TObjBase *)(me->pl))->get_entity_id();
+            atk.id1 = ((TObjBase *)(t))->get_entity_id();
             atk.d8 = this->get_item_id();
             atk.idx = get_captured_target_collider_index(e2);
             atk.f = ((TObjPlayer *)me->pl)->query_extended_state();

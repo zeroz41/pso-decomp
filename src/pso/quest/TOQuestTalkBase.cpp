@@ -25,7 +25,7 @@ void TOQuestTalkBase::vfunc_6(s16 *state, s32) {
     object_state = *state;
 }
 
-void TOQuestTalkBase::interact(s32 client) {
+void TOQuestTalkBase::interact(u16 client) {
     TObjPlayer *player;
     if (quest_label > 0) {
         if ((u16)client == local_client_id) {

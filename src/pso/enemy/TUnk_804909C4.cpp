@@ -17,6 +17,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/vector.h"
+#include "pso/object/base/TObjBase.h"
 
 CollisionBody dark_gunner_shot_collision_body[] = {
     {{0.0f, 0.0f, 0.0f}, 0.0f, 0.0f, 0, 0x8003, {0.0f, 0.0f, 0.0f}, 0.0f}
@@ -80,7 +81,7 @@ TUnk_804909C4::TUnk_804909C4(u8 *owner, saddr start, saddr target) : TObjCollida
     CsnHit *wall;
     init_collision_body_parts(this, dark_gunner_shot_collision_body, 1);
     bodies->radius = 0.75f * dark_gunner_shot_speed;
-    owner_id = get_entity_id((TObjBase *)owner);
+    owner_id = ((TObjBase *)owner)->get_entity_id();
     trail_particle_id = ((TObjEneDarkGunner *)owner)->is_death_gunner() != 0 ? 0xDA : 0xD5;
     room = ((TObjBase *)owner)->room;
     VecCopy(&position, (const Vec *)start);

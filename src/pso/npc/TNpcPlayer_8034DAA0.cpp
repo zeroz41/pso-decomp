@@ -21,6 +21,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/network/client_id.h"
 #include "pso/player/TObjPlayer_801BDF5C.h"
+#include "pso/object/base/TObjBase.h"
 
 
 // One TU: TLobby__sub_8034DAA0 (jumptable after the TUnk_804F07C8 vtable in .data),
@@ -209,7 +210,6 @@ struct Stack_8034ED58 {
 int lbl_805D6EA0;
 extern "C" {
 void set_arrival_override_coords(u16, s32, f32, f32, f32);
-u16 get_entity_id(s32);
 void send_6x21_inter_level_warp(void *obj, s32 value);
 void send_6x24_teleport_player(u16 slot, void *pos, s32 heading);
 f32 atan2_float(f32, f32);
@@ -482,7 +482,7 @@ void TNpcPlayer::apply_to_players(s32 value, void *arg1, s32 heading) {
     do {
         temp_r3 = get_player_by_client_id(var_r31);
         if ((temp_r3 != 0) && (reinterpret_cast<TObjPlayer *>(temp_r3)->obj_isState3_324() != 0) && ((u16) ((TObjPlayer *)temp_r3)->get_npc_controller() != 0xFFFF)) {
-            set_arrival_override_coords(get_entity_id(temp_r3), heading, *(f32 *)((s8 *)arg1 + 0), *(f32 *)((s8 *)arg1 + 4), *(f32 *)((s8 *)arg1 + 8));
+            set_arrival_override_coords(((TObjBase *)(temp_r3))->get_entity_id(), heading, *(f32 *)((s8 *)arg1 + 0), *(f32 *)((s8 *)arg1 + 4), *(f32 *)((s8 *)arg1 + 8));
             send_6x21_inter_level_warp((void *)temp_r3, value);
         }
         var_r31 += 1;
@@ -502,7 +502,7 @@ void TNpcPlayer::send_6x3e_to_all_players(void *pos, s32 arg) {
                 flag = 1;
             }
             ((TNpcPlayer *)(&pkt))->init_6x3E_packet();
-            pkt.id = get_entity_id(p);
+            pkt.id = ((TObjBase *)(p))->get_entity_id();
             VecCopy((Vec *)&pkt.x, (const Vec *)pos);
             pkt.arg = arg;
             pkt.flag = flag;
@@ -518,7 +518,7 @@ void show_partner_chatter_for_key(s16 key) {
         player = get_player_by_client_id(i);
         if (player && reinterpret_cast<TObjPlayer *>(player)->obj_isState3_324() && key == ((TObjBase *)player)->get_room()
             && !(lbl_805D6EA0 & 2) && (*(Global_8034E5A8 *)&npc_partner_dialogue_state).f46e) {
-            TWindowCtrl::open(get_entity_id(player), (saddr)(&(*(Global_8034E5A8 *)&npc_partner_dialogue_state).f46e), 0x1B);
+            TWindowCtrl::open(((TObjBase *)(player))->get_entity_id(), (saddr)(&(*(Global_8034E5A8 *)&npc_partner_dialogue_state).f46e), 0x1B);
         }
     }
 }
@@ -531,7 +531,7 @@ void notify_partner_room_cleared(s32 arg0) {
     do {
         p = get_player_by_client_id(i);
         if (p != 0 && reinterpret_cast<TObjPlayer *>(p)->obj_isState3_324() != 0 && arg0 == ((TObjBase *)p)->get_room() && !(lbl_805D6EA0 & 2) && *win != 0) {
-            TWindowCtrl::open(get_entity_id(p), (saddr)((void *)((saddr)win)), 0x1B);
+            TWindowCtrl::open(((TObjBase *)(p))->get_entity_id(), (saddr)((void *)((saddr)win)), 0x1B);
         }
         i += 1;
     } while (i < 4);

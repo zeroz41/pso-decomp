@@ -63,6 +63,7 @@
 #include "pso/math/MatrixVector.h"
 #include "pso/render/model_render_state.h"
 #include "pso/system/MatrixStack.h"
+#include "pso/object/base/TObjBase.h"
 
 
 extern "C" {
@@ -292,7 +293,7 @@ void TObjEneMe1Canadin::setup_enemy() {
     mode = 0;
     dispatch_action(mode, 4);
     if (leader != NULL) {
-        leader_id = get_entity_id(leader);
+        leader_id = leader->get_entity_id();
     } else {
         leader_id = 0xFFFF;
     }
@@ -1303,7 +1304,7 @@ void TObjEneMe1Canadin::state_melee_attack(s32 msg) {
                 if (this->is_hover_low() != 0 && this->current_target->select_melee_contact_body(this, 1.0f) != 0) {
                     this->current_target->receive_physical_attack(this, 1.0f);
                     this->current_target->apply_knockback_from_attacker((u8 *)this, 3.0f);
-                    if ((s32)is_player_entity_id(get_entity_id(this->current_target)) != 0 && is_target_android(this->current_target) != 0 && this->random_ratio() < 0.05f) {
+                    if ((s32)is_player_entity_id(this->current_target->get_entity_id()) != 0 && is_target_android(this->current_target) != 0 && this->random_ratio() < 0.05f) {
                         this->current_target->apply_shock_status();
                         this->current_target->sync_enemy_state(0);
                     }

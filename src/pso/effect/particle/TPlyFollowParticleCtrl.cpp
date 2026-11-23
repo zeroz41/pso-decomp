@@ -13,12 +13,14 @@
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/player/TObjPlayer_80309D80.h"
 #include "pso/effect/particle/TParticleCtrl.h"
+#include "pso/object/base/CollisionActorLookup.h"
 #include "pso/boss/goldragon/TBoss8Dragon_80065C90.h"
 #include "pso/player/TPlayerFootStamp.h"
 #include "pso/quest/TQuestListVM_8007EAF8.h"
 #include "pso/effect/particle/TPlyFollowParticleCtrl.h"
 #include "pso/player/TPlyPtclObjectLeftHand.h"
 #include "pso/player/TPlyPtclObjectRightHand.h"
+#include "pso/object/base/TObjBase.h"
 
 const char *TPlyFollowParticleCtrl::class_name = "TPlyFollowParticleCtrl";
 const char *TPlyPtclObjectLeftHand::class_name = "TPlyPtclObjectLeftHand";
@@ -48,7 +50,7 @@ TPlyFollowParticleCtrl::TPlyFollowParticleCtrl(TObjBase *owner) : TObjCollidable
     set_collision_body(&ply_follow_collision_body);
     register_object_by_id();
     bodies->flags &= ~1;
-    owner_id = get_entity_id(owner);
+    owner_id = owner->get_entity_id();
     pad_AE = 0xFFFF;
     set_position_from(&owner->center);
 }
@@ -102,23 +104,21 @@ TParticleCtrl *emit_player_particle(void *owner, const Vec *position, s32 id) { 
 // The emitters below take target_id as an int while find_entity_by_id and set_owner_id
 // take u16, and the int is passed on unconverted, so both are called through int prototypes.
 extern "C" {
-TObjCollidable *find_entity_by_id(s32 id);
-void set_owner_id__13TParticleCtrlFUs(TParticleCtrl *particle, s32 id);
 }
 
-s32 TObjPlayer::check_hit_by_id(saddr owner, s32 target_id, s32 id) {
+s32 TObjPlayer::check_hit_by_id(saddr owner, u16 target_id, s32 id) {
     TObjCollidable *target = find_entity_by_id(target_id);
     if (target == NULL) {
         return 0;
     }
     TParticleCtrl *particle = spawn_particle_effect_with_flags(&target->center, id, 0x50);
     if (particle != NULL) {
-        set_owner_id__13TParticleCtrlFUs(particle, target_id);
+        particle->set_owner_id(target_id);
     }
     return (saddr)particle;
 }
 
-TParticleCtrl *create_attached_oneshot_emitter(void *owner, s32 target_id, s32 id) {
+TParticleCtrl *create_attached_oneshot_emitter(void *owner, u16 target_id, s32 id) {
     ParticleAngles direction;
     TObjCollidable *target = find_entity_by_id(target_id);
     if (target == NULL) {
@@ -129,7 +129,7 @@ TParticleCtrl *create_attached_oneshot_emitter(void *owner, s32 target_id, s32 i
     direction.z = -0x8000;
     TParticleCtrl *particle = (TParticleCtrl *)create_oneshot_particle_emitter(&target->center, &direction, id, 0x50);
     if (particle != NULL) {
-        set_owner_id__13TParticleCtrlFUs(particle, target_id);
+        particle->set_owner_id(target_id);
     }
     return particle;
 }
@@ -184,7 +184,7 @@ void emit_idle_water_splash(s32 owner, s32 position) {
 }
 
 
-s32 TObjPlayer::check_hit_by_id_431(void* p, int a1) { return TObjPlayer::check_hit_by_id((saddr)p, (s32)a1, 431); }
+s32 TObjPlayer::check_hit_by_id_431(void* p, u16 a1) { return TObjPlayer::check_hit_by_id((saddr)p, a1, 431); }
 
 PlayerFollowParticles *init_follow_particle_state(PlayerFollowParticles *state) {
     s32 i;
@@ -212,7 +212,7 @@ s32 destroy_follow_particle_state(saddr self, s16 flags) {
 }
 
 void TObjPlayer::update_follow_particle(saddr owner) {
-    ((PlayerFollowParticles *)this)->set_owner_id(get_entity_id((TObjBase *)owner));
+    ((PlayerFollowParticles *)this)->set_owner_id(((TObjBase *)owner)->get_entity_id());
 }
 
 void TObjPlayer::update_child(void *owner) {

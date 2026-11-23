@@ -178,7 +178,6 @@ int set_window_flags__11TWindowCtrlFPvll(void*, void*, void*);
 
 extern "C" {
 
-int create__18TWindowEffectPartyFPvllUl(void*, void*, void*, void*, void*);
 
 }
 
@@ -842,11 +841,11 @@ void TWindowCtrl::dispatch_to_child(s32 client, s32 kind) {
     }
 }
 
-void TWindowCtrl::create_party_effect(void* a0, void* a1) { TWindowEffectParty::create((void *)tl_07, (saddr)a0, (saddr)a1, (uaddr)((void*)0)); }
+void TWindowCtrl::create_party_effect(u16 from, u16 to) { TWindowEffectParty::create((void *)tl_07, from, to, 0); }
 
 extern "C" {
 
-void TWindowCtrl::show_party_effect(void* a0, void* a1, void* a2) { create__18TWindowEffectPartyFPvllUl((void*)tl_07, a0, a1, a2, a0); }
+void TWindowCtrl::show_party_effect(u16 from, u16 to, u32 kind) { TWindowEffectParty::create((void *)tl_07, from, to, kind); }
 
 }
 

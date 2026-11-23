@@ -24,13 +24,13 @@
 #include "pso/system/task/TObject.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/render/render_util.h"
+#include "pso/object/base/TObjBase.h"
 
 
 static const f32 lbl_805DC888[1] = {1.0f};
 static const f32 lbl_805DC88C[1] = {0.0f};
 
 extern "C" {
-u16 get_entity_id(void *);
 s32 __ct__7TObjectFP7TObject(void *, void *);
 extern s32 __vt__11TActorLight[];
 
@@ -55,7 +55,7 @@ void TActorLight::run_task() {
         frac = (f32) age / mid;
         amb1 = frac * (peak - TObjLight__scene_light_state.ambient) + TObjLight__scene_light_state.ambient;
         inten1 = frac * (intensity - TObjLight__scene_light_state.intensity) + TObjLight__scene_light_state.intensity;
-        publish_actor_light_scalars((u16) get_entity_id(source), inten1, amb1);
+        publish_actor_light_scalars((u16) source->get_entity_id(), inten1, amb1);
         copy_argb(&unused, &baseColor);
         approach_vector_fixed_distance(&direction, &desired, &direction, step);
         approach_rgb_clamped(&unused, &color, 0.1f);
@@ -65,11 +65,11 @@ void TActorLight::run_task() {
         frac = ((f32) age - mid) / mid;
         amb2 = frac * (TObjLight__scene_light_state.ambient - peak) + peak;
         inten2 = frac * (TObjLight__scene_light_state.intensity - intensity) + intensity;
-        publish_actor_light_scalars((u16) get_entity_id(source), inten2, amb2);
+        publish_actor_light_scalars((u16) source->get_entity_id(), inten2, amb2);
         approach_vector_fixed_distance(&direction, &baseDir, &direction, step);
         approach_rgb_clamped(&color, &baseColor, 0.1f);
     }
-    publish_light_direction_color((u16) get_entity_id(source), &direction, &color);
+    publish_light_direction_color((u16) source->get_entity_id(), &direction, &color);
     age++;
     if (duration < age) {
         queue_destruction();
@@ -95,7 +95,7 @@ TActorLight::TActorLight(f32 step, f32 peak, f32 intensity, NJS_ARGB *color, Vec
     phase = 1;
     this->peak = peak;
     this->intensity = intensity;
-    actor = get_entity_id(this->source);
+    actor = this->source->get_entity_id();
     TObjLight::find_light_params((f32 *)&direction, (f32 *)&scene_color, actor);
 }
 TActorLight *construct_actor_light_task(TActorLight *light, NJS_ARGB *color, Vec *desired, s32 duration,
@@ -112,7 +112,7 @@ TActorLight *construct_actor_light_task(TActorLight *light, NJS_ARGB *color, Vec
     light->phase = 0;
     light->peak = lbl_805DC888[0];
     light->intensity = lbl_805DC888[0];
-    light->actor = get_entity_id(light->source);
+    light->actor = light->source->get_entity_id();
     TObjLight::find_light_params((f32 *)&light->direction, (f32 *)&scene_color, light->actor);
     return light;
 }
@@ -330,7 +330,7 @@ saddr find_area_technique_contact(TTecCircle *self, TObjCollidable *target, Coll
     VecCopy(&target->position, &pos);
     for (i = TLobby::get_game_mode(); i < TLobby::get_lobby_flag(); i++) {
         pd = (PD_80236378 *)TObjPlayer::get_player_data(i);
-        if (pd != 0 && (pd->flags & 0x20000000) && get_entity_id(pd) != get_entity_id(arg3)) {
+        if (pd != 0 && (pd->flags & 0x20000000) && ((TObjBase *)(pd))->get_entity_id() != ((TObjBase *)(arg3))->get_entity_id()) {
             c = (Contact_80236378 *)target->find_actor_body_contact((u8 *)pd, range);
             if (c != 0 && ((c->flags & 1) || !(c->flags & 0x02000000))) {
                 ((List_80236378 *)&technique_contact_query_results)->bodies[((List_80236378 *)&technique_contact_query_results)->count] = c;
@@ -360,13 +360,13 @@ saddr TTecCircle::collect_body_contacts(TObjCollidable *target, CollisionBody *b
         return (saddr)&technique_contact_query_results;
     }
     VecCopy(&target->position, &pos);
-    if (get_entity_id(player) < 4) {
+    if (((TObjBase *)(player))->get_entity_id() < 4) {
         n = TLobby::get_lobby_flag();
         for (i = 0; i < n; i++) {
             pd = (PD_802364D8 *)TObjPlayer::get_player_data(i);
-            if (pd != 0 && get_entity_id(pd) != get_entity_id(player)) {
+            if (pd != 0 && ((TObjBase *)(pd))->get_entity_id() != ((TObjBase *)(player))->get_entity_id()) {
                 ok = 1;
-                if (get_entity_id(pd) < 4) {
+                if (((TObjBase *)(pd))->get_entity_id() < 4) {
                     if (((TObjPlayer *)player)->get_floor() == ((TObjPlayer *)pd)->get_floor()) {
                         ok = 1;
                     } else {
@@ -389,7 +389,7 @@ saddr TTecCircle::collect_body_contacts(TObjCollidable *target, CollisionBody *b
     } else {
         for (j = 0; j < 4; j++) {
             e = (PD_802364D8 *)find_entity_by_id(j);
-            if (e != 0 && get_entity_id(e) != get_entity_id(player) && (e->flags & 0x10000000)) {
+            if (e != 0 && ((TObjBase *)(e))->get_entity_id() != ((TObjBase *)(player))->get_entity_id() && (e->flags & 0x10000000)) {
                 c = (Contact_802364D8 *)target->find_actor_body_contact((u8 *)e, 1e+04f);
                 if (c != 0) {
                     ((List_802364D8 *)&technique_contact_query_results)->bodies[((List_802364D8 *)&technique_contact_query_results)->count] = c;
@@ -459,7 +459,7 @@ u8 *TTecShot::query_technique_enemy_contacts(saddr arg) {
         pd = (PD_802367D8 *)TObjPlayer::get_player_data(i);
         if (pd == 0) continue;
         if (pd->flags & 0x20000000) {
-            if (get_entity_id(pd) == get_entity_id((void *)arg)) continue;
+            if (((TObjBase *)(pd))->get_entity_id() == ((TObjBase *)arg)->get_entity_id()) continue;
             c = (Contact_802367D8 *)((TObjCollidable *)((u8 *)s->proxy))->find_actor_body_contact((u8 *)pd, (f32)range);
             if (c != 0 && ((c->flags & 1) || !(c->flags & 0x02000000))) {
                 ((List_802367D8 *)&technique_contact_query_results)->bodies[((List_802367D8 *)&technique_contact_query_results)->count] = c;
@@ -514,12 +514,12 @@ u8 *TTecShot::query_technique_player_contacts(saddr arg) {
     pos.z = 0.5f * (pos.z + pp[2]);
     VecCopy((Vec *)((u8 *)s->proxy + 0x38), (const Vec *)&pos);
     copy_xyz((u8 *)s->proxy + 0x5C, (u8 *)this + 0x54);
-    if (get_entity_id((void *)arg) < 4) {
+    if (((TObjBase *)arg)->get_entity_id() < 4) {
         n = TLobby::get_lobby_flag();
         for (i = 0; i < n; i++) {
             pd = (PD_80236A20 *)TObjPlayer::get_player_data(i);
             if (pd == 0) continue;
-            if (get_entity_id(pd) == get_entity_id((void *)arg)) continue;
+            if (((TObjBase *)(pd))->get_entity_id() == ((TObjBase *)arg)->get_entity_id()) continue;
             c = (Contact_80236A20 *)((TObjCollidable *)((u8 *)s->proxy))->find_actor_body_contact((u8 *)pd, (f32)range);
             if (c != 0 && ((pd->flags & 0x20000000) || (pd->flags & 0x10000000)) && ((c->flags & 1) || !(c->flags & 0x02000000))) {
                 ((List_80236A20 *)&technique_contact_query_results)->bodies[((List_80236A20 *)&technique_contact_query_results)->count] = c;
@@ -534,7 +534,7 @@ u8 *TTecShot::query_technique_player_contacts(saddr arg) {
         for (j = 0; j < 4; j++) {
             e = (PD_80236A20 *)find_entity_by_id(j);
             if (e == 0) continue;
-            if (get_entity_id(e) == get_entity_id((void *)arg)) continue;
+            if (((TObjBase *)(e))->get_entity_id() == ((TObjBase *)arg)->get_entity_id()) continue;
             c = (Contact_80236A20 *)((TObjCollidable *)((u8 *)s->proxy))->find_actor_body_contact((u8 *)e, (f32)1e+04f);
             if (c != 0 && (e->flags & 0x10000000)) {
                 ((List_80236A20 *)&technique_contact_query_results)->bodies[((List_80236A20 *)&technique_contact_query_results)->count] = c;

@@ -17,6 +17,7 @@
 #include "pso/unk/TLobby_80226070.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/object/base/CollisionActorLookup.h"
+#include "pso/object/base/TObjBase.h"
 
 struct HitInfo_8022B8F4 { s32 type; f32 power; };
 
@@ -81,7 +82,6 @@ struct Tec_8022BD74 {
 };
 
 extern "C" {
-u16 get_entity_id(void *);
 
 }
 
@@ -222,12 +222,12 @@ void TTecBarta::vfunc_8(void *target) {
     s32 found = 0;
     s32 i;
     for (i = 0; i < 32; i++) {
-        if (self->ids[i] == get_entity_id(((VObj_8022B8F4 *)target))) {
+        if (self->ids[i] == ((TObjBase *)target)->get_entity_id()) {
             found = 1;
         }
     }
     if (found == 0) {
-        self->ids[this->hitCursor] = get_entity_id(((VObj_8022B8F4 *)target));
+        self->ids[this->hitCursor] = ((TObjBase *)target)->get_entity_id();
         this->hitCursor += 1;
         if (this->hitCursor >= 32) {
             this->hitCursor = 31;
@@ -297,7 +297,7 @@ TTecBarta::TTecBarta(saddr source, u8 *pos, u8 *target, s32 level)
     create_particle_emitters();
     update_technique_by_state();
     if (this->source) {
-        sourceId = get_entity_id((void *)this->source);
+        sourceId = ((TObjBase *)this->source)->get_entity_id();
     }
 }
 
@@ -316,7 +316,7 @@ TTecBarta::TTecBarta(saddr source, Vec *pos, s32 angle, s32 level)
     create_particle_emitters();
     update_technique_by_state();
     if (this->source) {
-        sourceId = get_entity_id((void *)this->source);
+        sourceId = ((TObjBase *)this->source)->get_entity_id();
     }
 }
 
@@ -330,7 +330,7 @@ void TTecCircle::apply_technique_to_area_targets() {
         ((TObject *)((TechniqueParticleEmitter *)((Tec_8022BD74 *)this)))->queue_destruction();
         return;
     }
-    if (get_entity_id(((Tec_8022BD74 *)this)->owner) < 4) {
+    if (((TObjBase *)(((Tec_8022BD74 *)this)->owner))->get_entity_id() < 4) {
         if (get_type__10TObjPlayerFPv((u8 *)((Tec_8022BD74 *)this)->owner + 0x828) != 0) {
             list = (List_8022BD74 *)collect_body_contacts_for_target((saddr)((Tec_8022BD74 *)this)->owner);
         } else {

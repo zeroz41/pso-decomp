@@ -34,6 +34,7 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/system/BmlResource.h"
 #include "pso/player/PhotonBlastResults.h"
+#include "pso/object/base/TObjBase.h"
 
 // The original emits code in reverse definition order.
 #pragma defer_codegen on
@@ -235,7 +236,7 @@ void TPhotonPilla::apply_photon_blast_effects() {
         do {
             saddr player = TObjPlayer::get_battle_param(index);
             if (player != 0U) {
-                queue_photon_blast_hit(get_entity_id((TObjBase *)player), 2, 0, power);
+                queue_photon_blast_hit(((TObjBase *)player)->get_entity_id(), 2, 0, power);
             }
             index += 1;
         } while (index < 0x10);

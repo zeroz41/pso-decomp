@@ -18,6 +18,7 @@
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/city/TShopWindowBase.h"
 #include "pso/system/task/TObject.h"
+#include "pso/object/base/TObjBase.h"
 
 extern "C" {
 TObject *set_service_counter_camera(void *, int);
@@ -28,7 +29,6 @@ TShopEquipmentSequence *lbl_805D6228;
 s32 lbl_805D622C;
 s32 lbl_805D6230;
 extern void *tl_05;
-u16 get_entity_id(TObjPlayer *);
 }
 
 #pragma readonly_strings on
@@ -145,7 +145,7 @@ void TShopEquipmentSequence::open_greeting() {
 void TShopEquipmentSequence::update_buy_sell_choice() {
     s32 r;
     if (choice_menu == NULL) {
-        s32 id = get_entity_id(player);
+        s32 id = ((TObjBase *)(player))->get_entity_id();
         choice_menu = create_window_menu(((saddr (*)(int))get_window_layout_position)(0x2B), 2, id);
         forward_trade_action_default__16TObjCityMainWarpFPviii(choice_menu, get_shop_text(4), 6, 0);
         forward_trade_action_default__16TObjCityMainWarpFPviii(choice_menu, get_shop_text(6), 6, 1);

@@ -89,7 +89,7 @@ TWindowHelpItem::~TWindowHelpItem() {
 }
 
 }
-TWindowHelpItem::TWindowHelpItem(void *pos, u16 idx) : TWindowBase((u8 *)&window_help_item_layout, (s16)idx, (u8 *)pos) {
+TWindowHelpItem::TWindowHelpItem(void *pos, s32 idx) : TWindowBase((u8 *)&window_help_item_layout, (s16)idx, (u8 *)pos) {
     this->m_name = window_help_item_class_name;
     copy_vec2(((u8 *)this + 0x30), pos);
     this->save_position();

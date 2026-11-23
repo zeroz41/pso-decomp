@@ -26,6 +26,7 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/render/model_render_state.h"
+#include "pso/object/base/TObjBase.h"
 
 
 // The original emits code in reverse definition order.
@@ -224,7 +225,7 @@ void TPhotonFarlla::collect_hit_targets() {
         for (i = 0; i < 16; i++) {
             candidate = (TObjChara *)TObjPlayer::get_battle_param(i);
             if (candidate != NULL) {
-                queue_photon_blast_hit(get_entity_id(candidate), 0, 0, power);
+                queue_photon_blast_hit(candidate->get_entity_id(), 0, 0, power);
             }
         }
     }

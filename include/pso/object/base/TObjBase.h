@@ -28,6 +28,7 @@ public:
     s32 mask_object_set_row_flags(s32);
     s32 set_event_source_flag(s32);
     void set_entity_id(u16 id);
+    u16 get_entity_id();
     int set_position_from(void *pos);
     void save_previous_position();
     CameraAngles *get_rotation();

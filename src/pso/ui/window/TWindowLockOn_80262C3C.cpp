@@ -24,6 +24,7 @@
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/window/WindowLayout.h"
+#include "pso/object/base/TObjBase.h"
 
 
 #pragma readonly_strings on
@@ -139,7 +140,6 @@ struct LockOnEntryColor {
 
 extern "C" {
 s16 obj_getS16_2BA(LockOnEnemyView *);
-u16 get_entity_id(void *);
 s32 is_split_screen(void);
 }
 s32 enemy_name_for_rt_index(s32 arg0);
@@ -258,7 +258,7 @@ void TWindowLockOn::update_for_other_player(TObjCollidable *player) {
     init_window_layout_entries(reinterpret_cast<WindowLayoutEntries *>(&entry_list), &lock_on_window_params, client_index);
     m_70 = &TWindowLockOn::update_photon_blast_marker;
     w = (LockOnEntry *)get_array_entry(1);
-    id = get_entity_id(player);
+    id = player->get_entity_id();
     ((TWindowLockOn *)w)->update_for_player_index(id);
     ((TWindowHelpItem *)w)->reset_float_field();
     measure_message_text_width_default(w);

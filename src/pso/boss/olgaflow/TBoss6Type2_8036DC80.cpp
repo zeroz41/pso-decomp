@@ -5,6 +5,7 @@
 #include "pso/player/PlayerSlots.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjBase.h"
 
 // One client's look as the Olga Flow fight starts; free_chara_making puts it back.
 struct Boss6PlayerSnapshot {
@@ -18,7 +19,7 @@ void restore_boss6_player_snapshot(TObjPlayer *player) {
     u16 client_id;
     Boss6PlayerSnapshot *snapshot;
 
-    client_id = get_entity_id(player);
+    client_id = player->get_entity_id();
     if (client_id < 4U) {
         snapshot = &boss6_type2_player_snapshot_table[client_id];
         if (snapshot->active != 0) {

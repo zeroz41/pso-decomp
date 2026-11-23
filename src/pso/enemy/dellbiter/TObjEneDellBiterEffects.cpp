@@ -11,6 +11,7 @@
 #include "pso/map/CsnQuery.h"
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel_8007E418.h"
+#include "pso/object/base/TObjBase.h"
 
 extern "C" {
 }
@@ -52,7 +53,7 @@ TObjEneDellBiter_Eff_Rush::TObjEneDellBiter_Eff_Rush(
 TObjEneDellBiter_Eff_Rush::~TObjEneDellBiter_Eff_Rush() {}
 
 void TObjEneDellBiter_Eff_Rush::run_task() {
-    if (is_player_entity_id(get_entity_id(target)) != 0) {
+    if (is_player_entity_id(target->get_entity_id()) != 0) {
         queue_destruction();
         return;
     }

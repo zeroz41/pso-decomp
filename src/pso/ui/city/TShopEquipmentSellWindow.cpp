@@ -28,6 +28,7 @@
 #include <string.h>
 #include "pso/player/TPlyItem.h"
 #include "pso/item/TItemList.h"
+#include "pso/object/base/TObjBase.h"
 
 #pragma readonly_strings on
 
@@ -114,10 +115,9 @@ struct Win_8021C968 {
 };
 
 extern "C" {
-void *create_item_list_window(s32, s32, u16);
-s32 get_entity_id(s32);
+void *create_item_list_window(s32, s32, s32);
 saddr get_window_layout_position(s32);
-void *__ct__15TWindowHelpItemFPvUs(void *, s32, u16);
+void *__ct__15TWindowHelpItemFPvl(void *, s32, s32);
 void TWindowHelpItem__set_displayed_item_by_id(void *arg0, saddr arg1);
 s32 play_sound_effect(s32, s32, s32, s32);
 void *__ct__18TWindowInputNumberFPvllls(void *, s32, s32, s32, s32, s16);
@@ -233,7 +233,7 @@ void TShopEquipmentSellWindow::build_sell_list() {
     ((TShopEquipmentSellWindow *)self)->display_shop_message(0xC, 1);
     ((TShopWindowBase *)self)->set_field_20(1);
     if (self->list_win == NULL) {
-        self->list_win = create_item_list_window(get_shop_text(self->text), self->count, get_entity_id((saddr)self->owner));
+        self->list_win = create_item_list_window(get_shop_text(self->text), self->count, ((TObjBase *)((saddr)self->owner))->get_entity_id());
         for (i = 0; i < self->count; i++) {
             ((TShopEquipmentSellWindow *)(self->list_win))->add_item(self->entries[i].id, self->entries[i].price, i);
         }
@@ -253,7 +253,7 @@ void TShopEquipmentSellWindow::build_sell_list() {
     if (self->help_win == NULL) {
         p = TObject::operator new(0xBC);
         if (p != NULL) {
-            p = __ct__15TWindowHelpItemFPvUs(p, get_window_layout_position(0x27), get_entity_id((saddr)self->owner));
+            p = __ct__15TWindowHelpItemFPvl(p, get_window_layout_position(0x27), ((TObjBase *)((saddr)self->owner))->get_entity_id());
         }
         self->help_win = p;
         if (self->help_win != NULL && TLobby::is_camera_ctrl_active() > 2) {
@@ -282,7 +282,7 @@ void TShopEquipmentSellWindow::build_sell_list() {
         }
     }
     if (self->cost_win == NULL) {
-        self->cost_win = create_cost_window((u16)get_entity_id((saddr)self->owner));
+        self->cost_win = create_cost_window(((TObjBase *)((saddr)self->owner))->get_entity_id());
         if (self->cost_win != NULL && self->entries[0].price > 0) {
             ((TWindowCost *)self->cost_win)->set_cost(self->entries[0].price);
         }
@@ -338,7 +338,7 @@ void TShopEquipmentSellWindow::handle_selection() {
             }
         }
         if (w->menu_win == NULL) {
-            w->menu_win = create_window_menu((saddr)get_window_layout_position(0x2B), 2, (u16)get_entity_id((saddr)w->owner));
+            w->menu_win = create_window_menu((saddr)get_window_layout_position(0x2B), 2, ((TObjBase *)((saddr)w->owner))->get_entity_id());
             forward_trade_action_default__16TObjCityMainWarpFPviii(w->menu_win, get_shop_text(6), 6, 0);
             forward_trade_action_default__16TObjCityMainWarpFPviii(w->menu_win, get_shop_text(7), 6, 1);
             w->menu_win->calc_window_size();
@@ -361,7 +361,7 @@ void TShopEquipmentSellWindow::handle_input_window_result() {
 
     if (((u32) this->m_394 != 0U) && (((TWindowInputNumber *)(this->m_394))->is_confirmed() != 0)) {
         if (confirm_menu == NULL) {
-            this->confirm_menu = create_window_menu((saddr)get_window_layout_position(0x2B), 2, (u16) get_entity_id(this->m_24));
+            this->confirm_menu = create_window_menu((saddr)get_window_layout_position(0x2B), 2, ((TObjBase *)(saddr)(this->m_24))->get_entity_id());
             forward_trade_action_default__16TObjCityMainWarpFPviii(this->confirm_menu, get_shop_text(6), 6, 0);
             forward_trade_action_default__16TObjCityMainWarpFPviii(this->confirm_menu, get_shop_text(7), 6, 1);
             this->confirm_menu->calc_window_size();

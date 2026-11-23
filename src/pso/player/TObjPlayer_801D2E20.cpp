@@ -41,6 +41,7 @@
 #include "pso/ui/hud/TMainCursor_8013E7B8.h"
 #include "pso/item/TItemLockCountCtrl_8011E184.h"
 #include "pso/ui/window/TWindowCtrl.h"
+#include "pso/object/base/TObjBase.h"
 
 #pragma readonly_strings on
 
@@ -214,7 +215,7 @@ void queue_physical_attack_input(PlayerAttackController *self, TObjPlayer *obj, 
         t = ((TObjPlayer *)obj)->get_action_palette_entry(kind);
         ((TObjPlayer *)obj)->set_action_palette_state_mode(2);
         ((TObjPlayer *)self)->set_attack_target((s16)(t));
-        TWindowCtrl::dispatch_to_child((u16)((s32 (*)(void *))get_entity_id)(obj), kind);
+        TWindowCtrl::dispatch_to_child((u16)obj->get_entity_id(), kind);
     }
 }
 #pragma pop

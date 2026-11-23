@@ -22,6 +22,7 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/player/TUnk_804B6C24.h"
+#include "pso/object/base/TObjBase.h"
 
 extern "C" {
 
@@ -67,7 +68,6 @@ s32 __ct__11TPlayerSoulFP7TObjectUs();
 
 
 s32 check_flag_0x8000__10TObjPlayerFv();
-s32 get_entity_id(saddr);
 
 extern saddr tl_06;
 
@@ -302,7 +302,7 @@ struct VObj_801C57D0 : Base_801C57D0 {
     virtual void m8();
     virtual void m9();
     virtual void m10();
-    virtual void m11(s32);
+    virtual void m11(u16);
 };
 
 struct Actor_801C58CC : VO_801C6408 {
@@ -743,7 +743,7 @@ void TObjPlayer::revive_or_spawn_marker() {
     }
     temp_r3 = (saddr)TObject::operator new(0x24);
     if (temp_r3 != 0) {
-        ((s32 (*)(s32, s32, s32)) __ct__11TPlayerSoulFP7TObjectUs)(temp_r3, tl_06, get_entity_id(player));
+        ((s32 (*)(s32, s32, u16)) __ct__11TPlayerSoulFP7TObjectUs)(temp_r3, tl_06, ((TObjBase *)(player))->get_entity_id());
     }
 }
 
@@ -784,10 +784,10 @@ void TPlayerSoul::run_task() {
 }
 
 extern "C" {
-void TObjPlayer::new_child_object(s32 arg0) {
+void TObjPlayer::new_child_object(u16 arg0) {
     void* obj = TObject::operator new(0x24);
     if (obj != 0) {
-        ((void *(*)(void *, s32, s32)) __ct__20TPlayerLevelFeedbackFP7TObjectUs)(obj, tl_07, arg0);
+        ((void *(*)(void *, s32, u16)) __ct__20TPlayerLevelFeedbackFP7TObjectUs)(obj, tl_07, arg0);
     }
 }
 
@@ -1119,7 +1119,7 @@ void TForceOperate::run_task() {
             ((TMainCursor *)&((TObjPlayer *)temp_r31)->lock_on_cursor->selection.target)->get_id();
             entity = find_entity_by_id();
             if (entity != NULL) {
-                ((VObj_801C57D0 *)entity)->m11(get_entity_id((saddr)temp_r31));
+                ((VObj_801C57D0 *)entity)->m11(((TObjBase *)((saddr)temp_r31))->get_entity_id());
                 queue_destruction();
             }
         }

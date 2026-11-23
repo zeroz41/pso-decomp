@@ -17,6 +17,7 @@
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/system/task/TObject.h"
+#include "pso/object/base/TObjBase.h"
 
 extern "C" {
 
@@ -31,7 +32,6 @@ saddr get_window_layout_position(int, f32);
 extern s32 TShopEquipmentGearSequence__window_slot_table[4];
 extern const char *TShopEquipmentGearSequence__class_name;
 extern void *tl_05;
-s32 get_entity_id(TObjPlayer *);
 s32 get_shop_text(s32);
 int forward_trade_action_default__16TObjCityMainWarpFPviii(void *p, int a1, int a2, int a3);
 }
@@ -132,11 +132,11 @@ void TShopEquipmentGearSequence::open_greeting() {
 extern "C" {
 
 void TShopEquipmentGearSequence::update_buy_sell_choice(void *self) {
-    u16 id;
+    s32 id;
     s32 r;
     TShopEquipmentGearSequence *sequence = static_cast<TShopEquipmentGearSequence *>(self);
     if (sequence->choice_menu == NULL) {
-        id = get_entity_id(sequence->player);
+        id = ((TObjBase *)(sequence->player))->get_entity_id();
         sequence->choice_menu = create_window_menu(((saddr (*)(int))get_window_layout_position)(0x2B), 2, id);
         forward_trade_action_default__16TObjCityMainWarpFPviii(sequence->choice_menu, get_shop_text(4), 6, 0);
         forward_trade_action_default__16TObjCityMainWarpFPviii(sequence->choice_menu, get_shop_text(6), 6, 1);

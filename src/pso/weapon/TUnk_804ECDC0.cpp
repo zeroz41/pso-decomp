@@ -6,6 +6,7 @@
 #include "pso/system/NinjaTypes.h"
 #include "pso/technique/TTecSlicer.h"
 #include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjBase.h"
 
 
 typedef struct SlicerLaunchData_8012D9C8 {
@@ -26,7 +27,7 @@ void TUnk_804ECDC0::emit_marker_effects() {
     f32 tmp[4];
     SlicerLaunchData_8012D9C8 launch;
     init_slicer_launch_state(&launch);
-    launch.player = get_entity_id(owner);
+    launch.player = owner->get_entity_id();
     launch.weapon = this->get_item_id();
     launch.textures = *(void **)((s8 *)this + 0x24);
     launch.model = second_model;

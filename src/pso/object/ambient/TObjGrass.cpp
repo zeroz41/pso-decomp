@@ -49,6 +49,7 @@
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
+#include "pso/object/base/TObjBase.h"
 
 
 saddr lbl_805D5140;
@@ -274,7 +275,6 @@ f32 vec3_add_to(void *, void *);
 extern u8 identity_matrix[];
 u16 find_nearest_visible_player(void *, int, f32);
 s32 check_path_obstructed(void *, void *);
-s32 get_entity_id(void *);
 s32 get_current_floor();
 s32 subtract_vector(void *, void *);
 void TObjGrass__sub_800BCA2C(void *);
@@ -663,9 +663,9 @@ void TObjGrass::render() {
 }
 
 void TObjGrass::refresh_target() {
-    s32 best_id;
+    u16 best_id;
     s32 i;
-    s32 id;
+    u16 id;
     u8 *p;
     f32 best;
     f32 d;
@@ -688,8 +688,8 @@ void TObjGrass::refresh_target() {
                 if (p == NULL) {
                     break;
                 }
-                id = get_entity_id(p);
-                if ((u16)id < 0x4000 && (u16)id != this->entity_id && !(*(s32 *)((s8 *)p + 0x30) & 0x02000800)) {
+                id = ((TObjBase *)(p))->get_entity_id();
+                if (id < 0x4000 && id != this->entity_id && !(*(s32 *)((s8 *)p + 0x30) & 0x02000800)) {
                     f32 xx;
                     f32 zz;
                     VecCopy((Vec *)&v, (const Vec *)(p + 0x2FC));
@@ -1037,7 +1037,7 @@ s32 TObjGrass::is_target_in_attack_range() {
     } else {
         r = (1e+01f);
     }
-    kind = get_entity_id(t);
+    kind = ((TObjBase *)(t))->get_entity_id();
     if (kind < 0x1000) {
         t = this->target;
         if (((TObjPlayer *)t)->check_player_flag1() == 1 || (enable_v2_features == 1 && ((TObjCollidable *)t)->test_actor_flags(0x20) != 0)) {
@@ -1298,7 +1298,7 @@ void TObjGrass::sub_800BD4D8() {
                 if (p == NULL) {
                     break;
                 }
-                if ((u16)get_entity_id(p) >= 0x1000) {
+                if ((u16)((TObjBase *)(p))->get_entity_id() >= 0x1000) {
                     break;
                 }
                 if (obj_is_hit_receivable(p) != 0 && ((TObjCollidable *)o)->find_actor_body_contact((u8*)p, (f32)((1e+04f))) != 0 &&
@@ -1306,7 +1306,7 @@ void TObjGrass::sub_800BD4D8() {
                     f32 dmg = p->m20(o, (1.0f));
                     obj_setFlags30(p, 0x400);
                     p->m23(o, (2.0f) * dmg);
-                    if (is_split_screen() == 0 && local_client_id == (u16)get_entity_id(p)) {
+                    if (is_split_screen() == 0 && local_client_id == (u16)((TObjBase *)(p))->get_entity_id()) {
                         TCameraCtrl::set_shake_preset(1);
                     }
                     *(VObj_18_800BD4D8 **)((u8 *)o + k) = p;
@@ -1670,7 +1670,7 @@ TObjGrassWeb::TObjGrassWeb(TObject *parent, TObjCollidable *target) : TObjBase(p
         m_name = TObjGrassWeb__class_name;
         VecCopy(&position, &target->position);
         m_90 = 0;
-        m_a4 = get_entity_id(target);
+        m_a4 = target->get_entity_id();
         set_params[0] = 0xB4;
     } else {
         TObject::queue_destruction();

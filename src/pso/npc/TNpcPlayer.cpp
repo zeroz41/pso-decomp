@@ -34,6 +34,7 @@
 #include "pso/ui/TLevelSelect.h"
 #include "pso/unk/TLobby_8013A874.h"
 #include "pso/object/base/CollisionActorLookup.h"
+#include "pso/object/base/TObjBase.h"
 
 extern "C" {
 void rotate_matrix_y(s32, s32);
@@ -80,7 +81,6 @@ s32 TNpcPlayer__data_805D5864;
 f32 atan2_float(f32 y, f32 x);
 s16 get_actor_tp(u8 *p);
 s16 obj_getS16_2BA(u8 *p);
-s32 get_entity_id(void *obj);
 f32 fabs_float(f32);
 s32 __dt__12TPlyCharDataFv(s32 arg0, s16 arg1);
 void * __ct__12TPlyCharDataFv(void *self);
@@ -2875,7 +2875,7 @@ s32 scan_nearby_enemies__10TNpcPlayerFPvPvf(Unk_8014F844 *view, void *pos, f32 r
             d = horizontal_distance_squared(&origin, &actor->bodies[c].center);
             if (d < range) {
                 found = 1;
-                view->m_4[view->m_0].m_0 = (u16)get_entity_id(actor);
+                view->m_4[view->m_0].m_0 = actor->get_entity_id();
                 view->m_4[view->m_0].m_8 = d;
                 view->m_4[view->m_0].m_4 = c;
                 if (view->m_0 >= 9) {
@@ -2912,7 +2912,7 @@ s32 find_parts_in_range__10TNpcPlayerFPvPvif(Unk_8014F844 *view, void *pos, u16 
             d = horizontal_distance_squared(pos, &actor->bodies[i].center);
             if (d < range) {
                 found = 1;
-                view->m_4[view->m_0].m_0 = (u16)get_entity_id(actor);
+                view->m_4[view->m_0].m_0 = actor->get_entity_id();
                 view->m_4[view->m_0].m_8 = d;
                 view->m_4[view->m_0].m_4 = i;
                 if (view->m_0 >= 9) {
@@ -3368,7 +3368,7 @@ void TNpcPlayer::request_chatter(u32 arg1) {
 }
 
 void deliver_partner_chatter(TNpcPlayer *self) {
-    u16 id;
+    u32 id;
     char *text;
     if (self->m_24 >= 0x19) {
         self->m_80 &= ~4;
@@ -3378,15 +3378,15 @@ void deliver_partner_chatter(TNpcPlayer *self) {
     if (TObjPlayer::is_any_teammate_in_state() != 0) {
         return;
     }
-    id = get_entity_id(self->m_78->m_94);
+    id = self->m_78->m_94->get_entity_id();
     if (id != 0xFFFF) {
         text = (char *)get_partner_custom_text(self->m_24, id);
         if (text != 0) {
-            TWindowCtrl::open((s32)id, (saddr)text, 0x1B);
+            TWindowCtrl::open(id, (saddr)text, 0x1B);
         } else {
             text = npc_partner_dialogue_state[self->m_24].text;
             if (text[0] != 0) {
-                TWindowCtrl::open((s32)id, (saddr)text, 0x1B);
+                TWindowCtrl::open(id, (saddr)text, 0x1B);
             }
         }
     }

@@ -9,6 +9,7 @@
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/system/SoundEffect.h"
 #include <stdlib.h>
+#include "pso/object/base/TObjBase.h"
 
 const char *TItemEffFlame::class_name = "TItemEffFlame";
 
@@ -42,7 +43,7 @@ TItemEffFlame::~TItemEffFlame() {
 
 TItemEffFlame::TItemEffFlame(TObject *parent, ActorBodyHit *hit) : TObject(parent) {
     m_name = class_name;
-    target_id = get_entity_id(hit->target);
+    target_id = hit->target->get_entity_id();
     body_index = hit->body;
     emitter = create_particle_emitter(&hit->target->bodies[body_index].center, 0x1BB);
     disallow_rendering();

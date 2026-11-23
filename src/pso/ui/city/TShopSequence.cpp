@@ -8,12 +8,12 @@
 #include "pso/unk/TLobby.h"
 #include "pso/unk/text_8022350C.h"
 #include "pso/ui/window/TWindowCtrl.h"
+#include "pso/object/base/TObjBase.h"
 
 #pragma readonly_strings on
 
 
 extern "C" {
-s32 get_entity_id(u32);
 const char *TShopSequence__class_name = "TShopSequence";
 
 // Conversation camera per service counter; the alternate set is used while a TLobby runs.
@@ -50,7 +50,7 @@ void TShopSequence::close_message_window() {
 u32 TShopSequence::create_message_window(s32 x, s32 y) {
     if (message_window != NULL) {
         if (player != NULL) {
-            return (uaddr)message_window->create_message_window(x, y, (u16)get_entity_id((uaddr)player));
+            return (uaddr)message_window->create_message_window(x, y, (u16)((TObjBase *)((uaddr)player))->get_entity_id());
         }
         return (uaddr)message_window->create_window(x, y);
     }
@@ -90,7 +90,7 @@ void TShopSequence::close_window() {
     s32 var_r31;
 
     if ((u32) *(u32 *)((s8 *)this + 0x24) != 0U) {
-        TWindowCtrl::unsuppress_slot((u16)get_entity_id(*(u32 *)((s8 *)this + 0x24)));
+        TWindowCtrl::unsuppress_slot((u16)((TObjBase *)(saddr)(*(u32 *)((s8 *)this + 0x24)))->get_entity_id());
         if (TRaderMapCore::is_not_split_screen() != 1) {
             var_r31 = 0;
             do {
@@ -119,7 +119,7 @@ void TShopSequence::restore_player_state() {
                 var_r31 += 1;
             } while (var_r31 < 4);
         }
-        TWindowCtrl::suppress_slot((u16)get_entity_id(*(u32 *)((s8 *)this + 0x24)));
+        TWindowCtrl::suppress_slot((u16)((TObjBase *)(saddr)(*(u32 *)((s8 *)this + 0x24)))->get_entity_id());
     }
 }
 TShopSequence::~TShopSequence() {

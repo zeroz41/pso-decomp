@@ -50,6 +50,7 @@
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/render/StripBufferPair.h"
 #include "pso/unk/text_803E2F28.h"
+#include "pso/object/base/TObjBase.h"
 
 #pragma defer_codegen on
 extern "C" {
@@ -441,7 +442,7 @@ s32 TObjEneRe7Berura::acquire_target_in_view() {
             if (d < 400.0f && d > best &&
                 s * v.x + c * v.z > limit &&
                 csnLookAt(&body_center, &p->body_center) == 0) {
-                id = get_entity_id(p);
+                id = p->get_entity_id();
                 best = d;
             }
         }

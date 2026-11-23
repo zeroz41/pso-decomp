@@ -13,6 +13,7 @@
 #include "pso/system/MatrixOps.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/weapon/SlicerLaunchState.h"
+#include "pso/object/base/TObjBase.h"
 
 
 void TUnk_804A5B20::vfunc_60() {
@@ -53,7 +54,7 @@ void TUnk_804A5B20::emit_marker_effects() {
     f32 tmp[4];
     SlicerLaunchState launch;
     init_slicer_launch_state(&launch);
-    launch.player_id = get_entity_id(owner);
+    launch.player_id = owner->get_entity_id();
     launch.item_id = get_item_id();
     launch.texlist = texlist;
     launch.model = second_model;

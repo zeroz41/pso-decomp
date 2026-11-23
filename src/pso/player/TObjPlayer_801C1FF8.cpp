@@ -117,7 +117,7 @@ u8 get_byte_13b(void* p) { return *(u8*)((char*)p + 0x13b); }
 u8 get_byte_11f(void* p) { return *(u8*)((char*)p + 0x11f); }
 u8 get_byte_103(void* p) { return *(u8*)((char*)p + 0x103); }
 u8 get_byte_e7(void* p) { return *(u8*)((char*)p + 0xe7); }
-void set_field2_s16(void* p, s16 v) { *(s16*)((char*)p + 0x2) = v; }
+void set_field2_s16(void* p, u16 v) { *(s16*)((char*)p + 0x2) = v; }
 void*TObjPlayer::setup_ctrl() { fn_8035B00C(this); return this; }
 
 int TObjPlayer::check_flag_at_428() { return test_flags_any((s32 *)((char*)this + 0x428), 1); }

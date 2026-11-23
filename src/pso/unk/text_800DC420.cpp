@@ -15,6 +15,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/map/CsnGroundQuery.h"
 #include "pso/object/base/CollisionActorLookup.h"
+#include "pso/object/base/TObjBase.h"
 
 
 struct D_800DC420 { u8 pad[0x18]; s32 arr[1]; };
@@ -53,7 +54,6 @@ struct Ang_800DC83C { s32 x, y, z; };
 extern "C" {
 extern saddr lbl_805D5254;
 extern D_800DC448 *nano_drago_entry_params_resource;
-u16 get_entity_id(void *);
 s32 is_split_screen();
 extern const f32 lbl_805D525C;
 extern s32 lbl_805D526C;
@@ -116,7 +116,7 @@ void hit_object_in_radius__10TObjPlayerFPvPvPv(Src_800DC4B4 *arg0, Obj_800DC4B4 
         if (obj->flags & 0x800) {
             ((TObjEneNanoDrago *)attacker)->request_growth();
         }
-        if (is_split_screen() == 0 && local_client_id == get_entity_id(obj)) {
+        if (is_split_screen() == 0 && local_client_id == ((TObjBase *)(obj))->get_entity_id()) {
             ((TObjEneNanoDrago *)attacker)->trigger_hit_camera_shake((uaddr)obj);
         }
     }
@@ -199,7 +199,7 @@ TUnk_80494E10 *construct_beam_effect__10TObjPlayerFPvPvPviPv(TUnk_80494E10 *beam
     beam->vel.x *= s;
     beam->vel.y *= s;
     beam->vel.z *= s;
-    beam->owner = get_entity_id(owner);
+    beam->owner = ((TObjBase *)(owner))->get_entity_id();
     ang.x = 0;
     ang.y = (s32)(10430.38043493439 * atan2_float(target->x - pos->x, target->z - pos->z)) + 0x4000;
     ang.z = 0x4000 - (s32)(10430.38043493439 * atan2_float(target->y - pos->y, vec_xz_distance(target, pos)));

@@ -18,19 +18,19 @@
 #include "pso/ui/charcreate/TCharaMaking.h"
 #include "pso/boss/olgaflow/TBoss6Type2_8036DC80.h"
 #include "pso/player/TUnk_804C4540.h"
+#include "pso/object/base/TObjBase.h"
 
 
 extern "C" {
-u16 get_entity_id(void *);
 s32 sub_801AF454__10TObjPlayerFl(void *, u16);
 extern s32 TObjPlayer__shared_model_buffer;
 void TObjPlayer::sub_801BD318() {
     u8 *arg0 = (u8 *)this;
     s32 temp_r4;
-    temp_r4 = get_entity_id(arg0) * 0xC00;
+    temp_r4 = ((TObjBase *)(arg0))->get_entity_id() * 0xC00;
     (*(s32 *)&this->joint_matrices) = (s32) (TObjPlayer__shared_model_buffer + temp_r4);
     this->select_class_action_provider();
-    sub_801AF454__10TObjPlayerFl(arg0, get_entity_id(arg0));
+    sub_801AF454__10TObjPlayerFl(arg0, ((TObjBase *)(arg0))->get_entity_id());
     this->init_idle_animation();
     this->draw();
 }

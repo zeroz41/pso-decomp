@@ -35,6 +35,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/unk/text_803D96A8.h"
+#include "pso/object/base/TObjBase.h"
 
 extern const char TObjBs4CutAtk_type_name[] = "TObjBs4CutAtk";
 extern const char TBoss4Type3_type_name[] = "TBoss4Type3";
@@ -198,7 +199,7 @@ void TObjBs4CutAtk::run_task() {
     }
     for (i = 0; i < TLobby::get_game_mode(); i++) {
         player = TObjPlayer::get_player_data(i);
-        if (is_player_in_boss_area(get_entity_id(player)) == 0) {
+        if (is_player_in_boss_area(player->get_entity_id()) == 0) {
             continue;
         }
         ang = (s32)(10430.38043493439 * atan2_float(-(player->position.x - 10000.0f), player->position.z));

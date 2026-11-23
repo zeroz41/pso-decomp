@@ -1,6 +1,7 @@
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/system/NinjaTypes.h"
+#include "pso/object/base/TObjBase.h"
 // TItem, the base of every item object, with the item registry, the item
 // packets (6x59/5A/5D/5E/61) and the item system's set-up. The data is
 // emitted before the vtable; the static initializer is followed by this
@@ -495,7 +496,7 @@ void TItem::update_timer() {
     submit_cursor_candidate(this, -1);
 }
 
-void TItem::interact(s32 client) {
+void TItem::interact(u16 client) {
     u16 id = client;
     if (id != 0xFFFF) {
         if ((get_player_by_client_id(id))->can_pickup_item_by_id(this) != 0 && has_interactor() == 0) {
@@ -929,7 +930,7 @@ void TItem::set_mode(s8 new_mode) {
 }
 
 void TItem::register_in_world(s32 clear_status) {
-    if (get_entity_id(this) == 0xFFFF) {
+    if (this->get_entity_id() == 0xFFFF) {
         set_entity_id(pop_free_entity_id());
         this->register_object_by_id();
         if (clear_status != 0) {
@@ -941,9 +942,9 @@ void TItem::register_in_world(s32 clear_status) {
 // Gives the object id back to the free list and drops the item out of the
 // world's object table.
 void TItem::unregister_from_world() {
-    if (get_entity_id(this) != 0xFFFF) {
+    if (this->get_entity_id() != 0xFFFF) {
         unregister_object_by_id();
-        push_free_entity_id(get_entity_id(this));
+        push_free_entity_id(this->get_entity_id());
         set_entity_id(0xFFFF);
         set_indexed_flags(0, 1);
     }

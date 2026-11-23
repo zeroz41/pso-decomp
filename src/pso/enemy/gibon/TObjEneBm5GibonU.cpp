@@ -73,6 +73,7 @@ struct NJS_OBJECT;
 #include "pso/enemy/panarms/TObjEnePanarms.h"
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/system/MatrixStack.h"
+#include "pso/object/base/TObjBase.h"
 
 // The motion-binding block TLobby::spawn_npc_enemy takes (same layout as GeeAnimationBinding).
 
@@ -508,7 +509,7 @@ void TObjEneBm5GibonU::state_cast_technique(s32 msg) {
                         if (r < attack_params->get_attack_angle() / 2 && current_target != 0) {
                             clear_target_cursor_list(&targets);
                             targets.count = 1;
-                            targets.records[0].id = get_entity_id(current_target);
+                            targets.records[0].id = current_target->get_entity_id();
                             targets.records[0].flag = 0;
                             TTecGiZonde::create(this, &p, &targets, get_clamped_level());
                         } else {
@@ -1840,7 +1841,7 @@ void TObjEneBm5GibonU::handle_state(s32 msg) {
       other = TObjEneBm5GibonU::find_pack_leader(group_id);
       if (other)
     {
-      leader_id = get_entity_id(other);
+      leader_id = other->get_entity_id();
     }
       if (is_leader != 0 || other == NULL)
     {
@@ -1924,7 +1925,7 @@ void TObjEneBm5GibonUNode::append_to(TObjEneBm5GibonUNode **head, TObjEneBm5Gibo
 }
 
 void TObjEneBm5GibonUNode::set_owner(TObjEneBm5GibonU *owner) {
-    entity_id = get_entity_id(owner);
+    entity_id = owner->get_entity_id();
 }
 
 TObjEneBm5GibonU *TObjEneBm5GibonUNode::get_owner() {

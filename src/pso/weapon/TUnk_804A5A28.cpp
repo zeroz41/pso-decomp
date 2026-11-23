@@ -9,6 +9,7 @@
 #include "pso/player/TObjPlayer_8012D8E4.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/player/TObjPlayer_801D2E20.h"
+#include "pso/object/base/TObjBase.h"
 
 struct Owner_8012D708 { u8 pad[0x60]; s32 f60; };
 struct Self_8012D708 { u8 pad0[0x24]; s32 f24; u8 pad28[0xF0 - 0x28]; Owner_8012D708 *owner; u8 padF4[0x188 - 0xF4]; s32 f188; };
@@ -38,7 +39,7 @@ void TUnk_804A5A28::emit_marker_effects() {
     Tec_8012D708 tec;
 
     init_slicer_launch_state((SlicerState_801295FC *)&tec);
-    tec.id = get_entity_id(this->owner);
+    tec.id = this->owner->get_entity_id();
     tec.fC = this->get_item_id();
     tec.f4 = ((Self_8012D708 *)this)->f24;
     tec.f8 = ((Self_8012D708 *)this)->f188;
