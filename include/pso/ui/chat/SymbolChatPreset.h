@@ -18,8 +18,8 @@ struct SymbolChatPreset {
     s32 count_used_slots();
     s32 find_free_entry(s32 i);
     void remove_slot_shift_down(s32 i);
-    void set_entry(s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6);
-    void add(s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5);
+    void set_entry(s32 slot, s32 part_id, s32 x, s32 y, s32 flags, s32 flag_bit_1);
+    void add(s32 part_id, s32 x, s32 y, s32 flags, s32 flag_bit_1);
     void set_entry_bits(s32 v, s32 a, s32 idx, s32 b, s32 c);
     void set_symbol_flags(s32 arg1, s32 arg2);
     void update_selected_symbol();

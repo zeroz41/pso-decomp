@@ -660,7 +660,7 @@ saddr TWindowSubTradeMain::create_trade_menu() {
 
 TWindowMessageYesNo *TWindowSubTradeMain::open_confirm_yes_no() {
     TWindowMessageYesNo *window = TWindowMessageYesNo::create(this, client_id, NULL, NULL);
-    open_yes_no_prompt(reinterpret_cast<TChCrTagPlBack *>(window),
+    open_yes_no_prompt(window,
         reinterpret_cast<uaddr>(TWindowSubStatusDisp::get_message_10(0x20)),
         reinterpret_cast<saddr>(TWindowSubStatusDisp::get_message_10(0xE6)),
         get_window_layout_position(0x5F), 282.0f);
@@ -690,7 +690,7 @@ TWindowMessageYesNo *TWindowSubTradeMain::open_option_dialog(saddr message) {
 
 TWindowMessageYesNo *TWindowSubTradeMain::open_confirm_prompt() {
     TWindowMessageYesNo *window = TWindowMessageYesNo::create(this, client_id, NULL, NULL);
-    open_yes_no_prompt(reinterpret_cast<TChCrTagPlBack *>(window),
+    open_yes_no_prompt(window,
         reinterpret_cast<uaddr>(TWindowSubStatusDisp::get_message_10(0x20)),
         reinterpret_cast<saddr>(TWindowSubStatusDisp::get_message_10(0xE4)),
         get_window_layout_position(0x5F), 282.0f);

@@ -109,8 +109,6 @@ s32 update_state_from_input__16TKeyBoardControlFPv(u8 key) {
     return hardware_keyboard_state.sub_801323C8(key);
 }
 
-extern s32 actor_frame_tick;
-
 s32 StickEscapeDetector::check_input_angle() {
     const ControllerInputContext *current = input;
     if (current == NULL) {

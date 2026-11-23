@@ -51,20 +51,19 @@ void initialize_option_dialog(void *arg0, s32 message, s32 position, f32 width) 
     ((TWindowSubComCard *)(*(saddr *)((s8 *)arg0 + 0x28)))->calc_layout_height(width);
 }
 
-void open_yes_no_prompt(TChCrTagPlBack *ch_cr_tag_pl_back, u32 title, s32 text, s32 arg3, f32 width) {
+void open_yes_no_prompt(TWindowMessageYesNo *dialog, u32 title, s32 text, s32 position_id, f32 width) {
     NJS_POINT2 position;
     if (title == 0U) {
-        *(s32 *)((s8 *)ch_cr_tag_pl_back + 0x28) = (saddr)create_window_menu((saddr)(arg3), 1, *(s32 *)((s8 *)ch_cr_tag_pl_back + 0x24));
+        dialog->m_28 = reinterpret_cast<uaddr>(create_window_menu(position_id, 1, dialog->client_id));
     } else {
-        *(s32 *)((s8 *)ch_cr_tag_pl_back + 0x28) = (long) (create_titled_window_menu(arg3, 1, title, *(s32 *)((s8 *)ch_cr_tag_pl_back + 0x24)));
+        dialog->m_28 = static_cast<uaddr>(create_titled_window_menu(position_id, 1, title, dialog->client_id));
     }
-    TObjCityMainWarp::forward_trade_action_default(((void *) *(saddr *)((s8 *)ch_cr_tag_pl_back + 0x28)), (text), 0x21, 0);
-    ((TAdChrSelASlotGC *)(*(saddr *)((s8 *)ch_cr_tag_pl_back + 0x28)))->set_flag_40();
-    TQuestThread::set_status_flag_80((void *)((saddr) (*(saddr *)((s8 *)ch_cr_tag_pl_back + 0x28))));
-    ((TWindowSubComCard *)(*(saddr *)((s8 *)ch_cr_tag_pl_back + 0x28)))->calc_layout_height(width);
-    ch_cr_tag_pl_back->get_position_offset(&position);
-    reinterpret_cast<TWindowMessageYesNo *>(ch_cr_tag_pl_back)->choice_menu =
-        create_yes_no_window(&position, *(s32 *)((u8 *)ch_cr_tag_pl_back + 0x24),
-                             *(const char **)((u8 *)ch_cr_tag_pl_back + 0x20),
-                             *(const char **)((u8 *)ch_cr_tag_pl_back + 0x1C));
+    TObjCityMainWarp::forward_trade_action_default(reinterpret_cast<void *>(dialog->m_28), text, 0x21, 0);
+    reinterpret_cast<TAdChrSelASlotGC *>(dialog->m_28)->set_flag_40();
+    TQuestThread::set_status_flag_80(reinterpret_cast<void *>(dialog->m_28));
+    reinterpret_cast<TWindowSubComCard *>(dialog->m_28)->calc_layout_height(width);
+    reinterpret_cast<TChCrTagPlBack *>(dialog)->get_position_offset(&position);
+    dialog->choice_menu = create_yes_no_window(&position, dialog->client_id,
+                                              reinterpret_cast<const char *>(dialog->m_20),
+                                              reinterpret_cast<const char *>(dialog->m_1c));
 }

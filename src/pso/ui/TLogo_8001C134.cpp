@@ -5,7 +5,6 @@
 #include "pso/ui/TLogo.h"
 #include "pso/system/task/TObject.h"
 
-extern int TLogo__exit_requested_flag;
 extern "C" void release_texture_list(void *);
 
 void TLogo::free_held_object() {

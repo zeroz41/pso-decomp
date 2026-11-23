@@ -49,7 +49,6 @@ struct Fuki_802506E8 {
 };
 extern "C" {
 f32 * get_message_by_type__11TWindowCtrlFScl(u8, int);
-s32 clamp_position__15TWindowFukidasiFPvf(void *arg0, void *arg1, f32 farg0);
 int rand(void);
 f32 xyz_distance(void *, void *);
 s32 rest_balloon__15TWindowFukidasiFv(Fuki_80250A24 *b, f32 *rect, f32 *arg2);
@@ -147,8 +146,6 @@ void clamp_text_size__15TWindowFukidasiFPvPv(Fuki_80250314 *b, f32 *out);
 s32 TWindowFukidasi__sub_802505C0(Fuki_80251028 *b, f32 *rect, f32 *out);
 s32 shift_rect_with_head__15TWindowFukidasiFPvPvPv(Fuki_80250F70 *b, f32 *rect, f32 *out);
 void refresh_rect_placement__15TWindowFukidasiFPv(Fuki_80251028 *b);
-void set_color__15TWindowFukidasiFUs(void *arg0, u16 arg1);
-void open__15TWindowFukidasiFPvPvi(u8 *arg0, u32 *arg1, s32 arg2);
 void set_text__15TWindowFukidasiFPvii(u8 *arg0, saddr arg1, saddr arg2);
 void init_flags__15TWindowFukidasiFPvi(void *arg0, s32 arg1);
 void draw_name_plate__15TWindowFukidasiFv(TWindowFukidasi *, View_80252764 *, u32);

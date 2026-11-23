@@ -32,6 +32,7 @@ public:
 LAYOUT_ASSERT(TLogoExtent, sizeof(TLogo) == 0x38);
 
 extern "C" {
+extern int TLogo__exit_requested_flag;
 void TLogo__sub_8013F5AC(void);
 int TLogo__sub_8013F7E8(int _w0);
 s32 TLogo__sub_8013F800(void *p);
