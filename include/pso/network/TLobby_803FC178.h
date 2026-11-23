@@ -9,7 +9,7 @@
 typedef struct RecoveredGlobal_803AA0C0_lbl_80556E88 RecoveredGlobal_803AA0C0_lbl_80556E88;
 typedef struct Sub_803FC480 Sub_803FC480;
 typedef struct Obj_803FC480 Obj_803FC480;
-typedef struct Buf_803FC684 Buf_803FC684;
+typedef struct PppChapAuthenticationState PppChapAuthenticationState;
 typedef struct RecoveredGlobal_803F88E4_lbl_805AEEB0 RecoveredGlobal_803F88E4_lbl_805AEEB0;
 typedef struct RecoveredFields_803F88E4_arg0 RecoveredFields_803F88E4_arg0;
 typedef struct PppHeader PppHeader;
@@ -19,13 +19,13 @@ struct RecoveredGlobal_803AA0C0_lbl_80556E88 {
 };
 struct Sub_803FC480 { u8 f0; u8 f1; u8 f2; u8 f3; u8 f4; };
 struct Obj_803FC480 { u8 f0; u8 f1; u8 f2; u8 pad3[0x9D]; Sub_803FC480 sub; };
-struct Buf_803FC684 {
-    char a[0x80];
-    char b[0x80];
+struct PppChapAuthenticationState {
+    char peer_id[0x80];
+    char secret[0x80];
     PppChap options;
     PppFsmProtocol proto;
 };
-LAYOUT_ASSERT(Buf_803FC684_size, sizeof(Buf_803FC684) == 0x150);
+LAYOUT_ASSERT(PppChapAuthenticationState_size, sizeof(PppChapAuthenticationState) == 0x150);
 struct RecoveredGlobal_803F88E4_lbl_805AEEB0
 {
   s32 value;
@@ -118,7 +118,7 @@ extern u8 lcp_read_byte_buffer;
 extern s16 lobby_modem_connect_state;
 extern s16 ppp_auth_failed;
 extern s16 lbl_805D7A82;
-extern Buf_803FC684 lbl_805C0180;
+extern PppChapAuthenticationState ppp_chap_authentication_state;
 extern const char chap_protocol_name[5];
 extern const char chap_failure_message[7];
 extern s32 lbl_805D7AA0; /* PppFsm.c */

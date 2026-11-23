@@ -8,9 +8,9 @@
 
 #pragma push
 #pragma cplusplus on
-Obj_80403F4C lbl_805C06D8;
-Ent_80403F4C lbl_805C0710[16];
-Ent_80403F4C lbl_805C0FD0[16];
+PppVjCompressionState lbl_805C06D8;
+PppVjConnectionState lbl_805C0710[16];
+PppVjConnectionState lbl_805C0FD0[16];
 u32 lbl_805C1890[4];
 #pragma pop
 
@@ -30,10 +30,10 @@ inline u8 *vj_encode(u8 *cp, u32 n) {
     return cp;
 }
 
-s32 TLobby__sub_804048E8(Obj_80403F4C *comp, PppFrame **m, s16 compress_cid) {
-    Ent_80403F4C *cs;
-    Ent_80403F4C *lastcs;
-    Ent_80403F4C *lcs;
+s32 TLobby__sub_804048E8(PppVjCompressionState *comp, PppFrame **m, s16 compress_cid) {
+    PppVjConnectionState *cs;
+    PppVjConnectionState *lastcs;
+    PppVjConnectionState *lcs;
     B_80403F4C *oth;
     u32 deltaS;
     u32 deltaA;
@@ -186,16 +186,16 @@ uncompressed:
 }
 #pragma pop
 
-void TLobby__sub_80405000(Obj_80403F4C *state) {
+void TLobby__sub_80405000(PppVjCompressionState *state) {
     if (state == NULL) {
         return;
     }
 }
 
-Obj_80403F4C *init_net_list(s16 count1, s16 count2) {
-    Ent_80403F4C *base;
+PppVjCompressionState *init_net_list(s16 count1, s16 count2) {
+    PppVjConnectionState *base;
     s16 i;
-    Obj_80403F4C *p = &lbl_805C06D8;
+    PppVjCompressionState *p = &lbl_805C06D8;
 
     if (count1 > 0 && count1 <= 0x10) {
         p->ents = lbl_805C0710;

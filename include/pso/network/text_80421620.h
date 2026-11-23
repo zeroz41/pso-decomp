@@ -21,6 +21,7 @@ s32 set_thread_state_and_resume(s32 idx, TcpCompletion cb, s16 state);
 s32 complete_request_callback(s16 handle, TcpSendCallback cb, s16 code, const TcpSendRequest *request);
 s32 net_unlock(void);
 s32 net_lock(void);
+s16 net_register_timer(NetTimerCallback callback, s32 interval);
 s32 net_unregister_timer(NetTimerCallback timer);
 s32 udp_close(s32 a);
 s16 TLobby__sub_80423064(s16 idx, s32 op);

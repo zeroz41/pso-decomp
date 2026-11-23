@@ -16,10 +16,10 @@
 u8 lbl_805D7AC4[1];
 u8 lbl_805D7AC0[2];
 
-s16 TLobby__sub_80403F4C(Obj_80403F4C *o, PppFrame **spp) {
+s16 TLobby__sub_80403F4C(PppVjCompressionState *o, PppFrame **spp) {
     A_80403F4C a;
     B_80403F4C b;
-    Ent_80403F4C *e;
+    PppVjConnectionState *e;
     u8 c;
 
     TLobby__sub_803FEA88(&a, spp);
@@ -78,9 +78,9 @@ inline s32 vj_read_u16(PppFrame **src) {
     }
     return read_network_u16_be(lbl_805D7AC0);
 }
-s16 TLobby__sub_804040E0(Obj_80403F4C *comp, PppFrame **src) {
+s16 TLobby__sub_804040E0(PppVjCompressionState *comp, PppFrame **src) {
     B_80403F4C *th;
-    Ent_80403F4C *cs;
+    PppVjConnectionState *cs;
     s16 changes;
     s32 v;
     s16 len;

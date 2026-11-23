@@ -158,7 +158,7 @@ extern s32 NetUnregisterTimer(NetTimerCallback fn) {
     return -0x100;
 }
 
-s32 NetRegisterTimer(s32 period, s16 locked, NetTimerCallback fn) {
+s16 NetRegisterTimer(s32 period, s16 locked, NetTimerCallback fn) {
     u32 now;
     s32 *pint;
     s16 slot;

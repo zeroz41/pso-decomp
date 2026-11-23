@@ -78,11 +78,6 @@ s32 TLobby__sub_8040A3C0(void) {
     return ret;
 }
 
-/* This caller consumes the signed halfword result of the stack timer wrapper. */
-
-/* This caller reads the low halfword of the timer registration result. */
-s16 net_register_timer(NetTimerCallback callback, s32 interval);
-
 s16 init_net_tables(void) {
     DnsResolverState *g = &dns_resolver_state;
     s16 i;

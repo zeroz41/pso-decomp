@@ -24,7 +24,7 @@ typedef struct V_803FE600 V_803FE600;
 typedef struct O_803FE600 O_803FE600;
 typedef struct Blk_803FF48C Blk_803FF48C;
 typedef union U_803FF48C U_803FF48C;
-typedef struct Names_80403168 Names_80403168;
+typedef struct PppPapAuthenticationState PppPapAuthenticationState;
 struct Self_803FD74C {
     u8 f0; u8 f1; u8 f2; u8 f3; u8 f4; u8 f5; u8 f6; u8 f7;
     s16 f8; u8 padA[6];
@@ -75,18 +75,18 @@ struct O_803FE600 {
 };
 struct Blk_803FF48C { s32 w[9]; };
 union U_803FF48C { s16 h4; Blk_803FF48C src; };
-struct Names_80403168 {
+struct PppPapAuthenticationState {
     PppFsmProtocol proto;
     PapOptions options;
-    u8 a[0x80];
-    u8 b[0x80];
+    u8 peer_id[0x80];
+    u8 password[0x80];
 };
-LAYOUT_ASSERT(Names_80403168_size, sizeof(Names_80403168) == 0x148);
+LAYOUT_ASSERT(PppPapAuthenticationState_size, sizeof(PppPapAuthenticationState) == 0x148);
 
 #ifdef __cplusplus
 extern "C" {
 #endif
-extern Names_80403168 lbl_805C04D8;
+extern PppPapAuthenticationState ppp_pap_authentication_state;
 u32 TLobby__sub_803FE9F8(u32 sum, PppFrame* buf, u16 count);
 void TLobby__sub_803FD0C0(void);
 /* Called across the PPP files; each line names its defining file. */
@@ -116,7 +116,7 @@ s16 chap_connect(u8 *chap_name, u8 *chap_secret, s32 timeout);
 s16 TLobby__sub_80402BB4(void *arg0, u32 timeout);
 s16 pap_connect(u8 *peer_id, u8 *pap_password, s32 timeout);
 void setup_auth_after_lcp_negotiation(PppFsm *c);
-s16 TLobby__sub_80403F4C(Obj_80403F4C *state, PppFrame **spp);
+s16 TLobby__sub_80403F4C(PppVjCompressionState *state, PppFrame **spp);
 PppFrame *init_net_buffer_entry(u16 idx);
 void append_masked_ipcp_options(uaddr *self, void *opt, s32 mask);
 s16 TLobby__sub_803FF858(PppFsm *fsm, PppHeader *msg, PppFrame *expected);

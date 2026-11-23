@@ -227,8 +227,8 @@ s32 net_unregister_timer(NetTimerCallback timer) {
     return result;
 }
 
-s32 net_register_timer(NetTimerCallback callback, s32 interval) {
-    s32 result;
+s16 net_register_timer(NetTimerCallback callback, s32 interval) {
+    s16 result;
     if (callback == 0) {
         return -2;
     }

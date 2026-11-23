@@ -50,19 +50,19 @@ typedef struct B_80403F4C {
 LAYOUT_ASSERT(B_80403F4C_size_check, sizeof(B_80403F4C) == 0x44);
 
 /* A VJ compression connection state. */
-typedef struct Ent_80403F4C {
+typedef struct PppVjConnectionState {
     u8 id;
     u8 pad1[3];
-    struct Ent_80403F4C *next;
+    struct PppVjConnectionState *next;
     A_80403F4C a;
     B_80403F4C b;
-} Ent_80403F4C;
-LAYOUT_ASSERT(Ent_80403F4C_size_check, sizeof(Ent_80403F4C) == 0x8C);
+} PppVjConnectionState;
+LAYOUT_ASSERT(PppVjConnectionState_size, sizeof(PppVjConnectionState) == 0x8C);
 
 /* The VJ compression state. */
-typedef struct Obj_80403F4C {
-    Ent_80403F4C *tstate;
-    Ent_80403F4C *ents;
+typedef struct PppVjCompressionState {
+    PppVjConnectionState *tstate;
+    PppVjConnectionState *ents;
     u8 max_tx;
     u8 max;
     u8 last_cs;
@@ -80,16 +80,16 @@ typedef struct Obj_80403F4C {
     s32 n2C;
     s32 n30;
     s32 n34;
-} Obj_80403F4C;
-LAYOUT_ASSERT(Obj_80403F4C_size_check, sizeof(Obj_80403F4C) == 0x38);
+} PppVjCompressionState;
+LAYOUT_ASSERT(PppVjCompressionState_size, sizeof(PppVjCompressionState) == 0x38);
 
 #ifdef __cplusplus
 extern "C" {
 #endif
-void TLobby__sub_80405000(Obj_80403F4C *state);
-Obj_80403F4C *init_net_list(s16 count1, s16 count2);
-s16 TLobby__sub_804040E0(Obj_80403F4C *state, PppFrame **frame);
-s32 TLobby__sub_804048E8(Obj_80403F4C *state, PppFrame **frame, s16 compress_cid);
+void TLobby__sub_80405000(PppVjCompressionState *state);
+PppVjCompressionState *init_net_list(s16 count1, s16 count2);
+s16 TLobby__sub_804040E0(PppVjCompressionState *state, PppFrame **frame);
+s32 TLobby__sub_804048E8(PppVjCompressionState *state, PppFrame **frame, s16 compress_cid);
 s32 TLobby__sub_803FEA88(A_80403F4C *out, PppFrame **src);
 PppFrame *NetIPv4WriteHeader(A_80403F4C *ip, PppFrame *frame, s32 preserve_checksum);
 s32 TLobby__sub_804053B8(B_80403F4C *record, PppFrame **frame);

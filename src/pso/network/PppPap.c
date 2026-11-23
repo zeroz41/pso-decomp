@@ -63,12 +63,12 @@ s16 TLobby__sub_80402BB4(void *arg0, u32 timeout) {
 
 PppFrame *TLobby__sub_80403634(PppFsm *fsm);
 void pap_init(u8 *arg0) {
-    Names_80403168 *g;
+    PppPapAuthenticationState *g;
     PppFsmProtocol *p;
     PppFsm *fsm;
     PppFsmTimer *timer;
 
-    g = &lbl_805C04D8;
+    g = &ppp_pap_authentication_state;
     p = &g->proto;
     fsm = (PppFsm *)(arg0 + 0x38);
     if (fsm->opts == NULL) {
@@ -221,26 +221,26 @@ void pap_input(PppFsm *self, PppFrame *source) {
 #pragma pop
 
 s32 TLobby__sub_80403168(u8 *arg0, u8 *pap_password, u8 *ppp_fsm) {
-    Names_80403168 *g;
+    PppPapAuthenticationState *g;
     PapOptions *opts;
     u32 n;
     u32 m;
     opts = (PapOptions *)((PppFsm *)ppp_fsm)->opts;
-    g = &lbl_805C04D8;
+    g = &ppp_pap_authentication_state;
     n = NetStringLength((const char *)(arg0));
     if (n >= 0x80) {
         n = 0x7F;
     }
-    NetMemcpy(g->a, arg0, n);
-    g->a[n] = 0;
+    NetMemcpy(g->peer_id, arg0, n);
+    g->peer_id[n] = 0;
     m = NetStringLength((const char *)(pap_password));
     if (m >= 0x80) {
         m = 0x7F;
     }
-    NetMemcpy(g->b, pap_password, m);
-    g->b[m] = 0;
-    opts->peer_id = g->a;
-    opts->password = g->b;
+    NetMemcpy(g->password, pap_password, m);
+    g->password[m] = 0;
+    opts->peer_id = g->peer_id;
+    opts->password = g->password;
     return 0;
 }
 
@@ -418,4 +418,4 @@ PppFrame *TLobby__sub_80403634(PppFsm *fsm) {
 #pragma pop
 
 PppPapState lbl_805C0620;
-Names_80403168 lbl_805C04D8;
+PppPapAuthenticationState ppp_pap_authentication_state;

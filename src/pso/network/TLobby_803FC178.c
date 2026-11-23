@@ -72,9 +72,9 @@ s16 TLobby__sub_803FC1CC(PppFsm *c, s32 timeout) {
     return 0;
 }
 
-struct Buf_803FC684;
+struct PppChapAuthenticationState;
 struct N_80405298;
-Buf_803FC684 lbl_805C0180;
+PppChapAuthenticationState ppp_chap_authentication_state;
 PppAuthState lbl_805C02D0;
 /* The challenge length and the response reader's scratch byte (.sbss 805D7A98), in reverse definition order. */
 u16 lbl_805D7A9A;
@@ -85,28 +85,28 @@ void TLobby__sub_803FC318(PppProtoBlocks *connection) {
 
     if (fsm->opts == NULL) {
         timer = &fsm->timer;
-        lbl_805C0180.proto.name = chap_protocol_name;
-        lbl_805C0180.proto.proto = 0xC223;
-        lbl_805C0180.proto.h6 = 0x70;
-        lbl_805C0180.proto.b8 = 3;
-        lbl_805C0180.proto.bB = 0;
-        lbl_805C0180.proto.b9 = lbl_805C02D0.f36;
-        lbl_805C0180.proto.bA = lbl_805C02D0.f37;
-        lbl_805C0180.proto.timeout = lbl_805C02D0.f38 * 1000;
-        lbl_805C0180.proto.release_resources = TLobby__sub_803FE84C;
-        lbl_805C0180.proto.reset_options = TLobby__sub_803FE84C;
-        lbl_805C0180.proto.start_negotiation = TLobby__sub_803FE84C;
-        lbl_805C0180.proto.link_opened = TLobby__sub_803FE84C;
-        lbl_805C0180.proto.link_closed = TLobby__sub_803FE84C;
-        lbl_805C0180.proto.finish_termination = TLobby__sub_803FE84C;
-        lbl_805C0180.proto.build_config_request = build_avetcp_net_buffer;
-        lbl_805C0180.proto.check_config_request = TLobby__sub_803FE844;
-        lbl_805C0180.proto.check_config_ack = TLobby__sub_803FE844;
-        lbl_805C0180.proto.check_config_nak = TLobby__sub_803FE844;
-        lbl_805C0180.proto.check_config_reject = TLobby__sub_803FE844;
+        ppp_chap_authentication_state.proto.name = chap_protocol_name;
+        ppp_chap_authentication_state.proto.proto = 0xC223;
+        ppp_chap_authentication_state.proto.h6 = 0x70;
+        ppp_chap_authentication_state.proto.b8 = 3;
+        ppp_chap_authentication_state.proto.bB = 0;
+        ppp_chap_authentication_state.proto.b9 = lbl_805C02D0.f36;
+        ppp_chap_authentication_state.proto.bA = lbl_805C02D0.f37;
+        ppp_chap_authentication_state.proto.timeout = lbl_805C02D0.f38 * 1000;
+        ppp_chap_authentication_state.proto.release_resources = TLobby__sub_803FE84C;
+        ppp_chap_authentication_state.proto.reset_options = TLobby__sub_803FE84C;
+        ppp_chap_authentication_state.proto.start_negotiation = TLobby__sub_803FE84C;
+        ppp_chap_authentication_state.proto.link_opened = TLobby__sub_803FE84C;
+        ppp_chap_authentication_state.proto.link_closed = TLobby__sub_803FE84C;
+        ppp_chap_authentication_state.proto.finish_termination = TLobby__sub_803FE84C;
+        ppp_chap_authentication_state.proto.build_config_request = build_avetcp_net_buffer;
+        ppp_chap_authentication_state.proto.check_config_request = TLobby__sub_803FE844;
+        ppp_chap_authentication_state.proto.check_config_ack = TLobby__sub_803FE844;
+        ppp_chap_authentication_state.proto.check_config_nak = TLobby__sub_803FE844;
+        ppp_chap_authentication_state.proto.check_config_reject = TLobby__sub_803FE844;
         fsm->sub = (u8 *)connection;
-        fsm->proto = &lbl_805C0180.proto;
-        fsm->opts = &lbl_805C0180.options;
+        fsm->proto = &ppp_chap_authentication_state.proto;
+        fsm->opts = &ppp_chap_authentication_state.options;
         fsm->f4 = fsm->proto->b9;
         fsm->f7 = fsm->proto->bA;
         fsm->f5 = fsm->proto->bB;
@@ -218,10 +218,10 @@ s32 TLobby__sub_803FC684(u8 *source, u8 *arg1, u8 *arg2) {
     if (NetStringLength((const char *)((void *)arg1)) >= 0x80) {
         arg1[0x7F] = 0;
     }
-    NetCopyString((char *)((lbl_805C0180.a)), (const char *)(source));
-    NetCopyString((char *)((lbl_805C0180.b)), (const char *)(arg1));
-    p[0] = lbl_805C0180.a;
-    p[1] = lbl_805C0180.b;
+    NetCopyString(ppp_chap_authentication_state.peer_id, (const char *)source);
+    NetCopyString(ppp_chap_authentication_state.secret, (const char *)arg1);
+    p[0] = ppp_chap_authentication_state.peer_id;
+    p[1] = ppp_chap_authentication_state.secret;
     return 0;
 }
 
