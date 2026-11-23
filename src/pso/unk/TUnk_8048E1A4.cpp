@@ -265,7 +265,6 @@ struct RecoveredFields_8008213C_temp_r3 {
 };
 
 extern "C" {
-TParticleCtrl *create_particle_emitter(const void *pos, s32 id);
 extern saddr tl_05;
 
 void TLobby::destroy_global_singleton() {

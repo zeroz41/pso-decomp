@@ -29,6 +29,10 @@ public:
     virtual ~TParticleCtrl();
     virtual void run_task();
 public:
+    static const char *class_name;
+    // The regular technique models (bm_tec_regurar.bml) and the particle textures.
+    static BmlResource *regular_bml_resource;
+    static GinjaTextureList *texture_list;
     // Moves the emitter.
     void set_position(void *pos);
     // Queues the emitter's destruction; nothing when it is NULL.
@@ -115,12 +119,8 @@ extern s32 particle_pool_limit;
 // Loads the area's particle entries, the regular technique models and their textures.
 void load_particle_entry_resources(void);
 
-extern "C" {
-extern BmlResource *TParticleCtrl__regular_bml_resource;
-extern GinjaTextureList *TParticleCtrl__texture_list;
 TParticleCtrl *create_particle_emitter(const void *pos, s32 id);
 TParticleCtrl *create_timed_particle_emitter(const void *pos, s32 id, s32 delay, s32 duration);
-}
 
 // Sets the colour the frame is cleared to from a packed ARGB value, with depth cleared to the far plane. Only the
 // colour is read.

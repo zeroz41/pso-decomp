@@ -82,7 +82,7 @@ void TParticleCtrl::set_position(void *pos) {
 
 #pragma readonly_strings on
 
-const char *TParticleCtrl__class_name_descriptor[2] = {"TParticleCtrl", 0};
+const char *TParticleCtrl::class_name = "TParticleCtrl";
 
 #pragma push
 #pragma fp_contract on
@@ -300,7 +300,7 @@ TParticleCtrl::~TParticleCtrl() {}
 TParticleCtrl::TParticleCtrl(const Vec *pos, ParticleAngles *dir, ParticleParam *entry, s32 oneshot, s32 delay,
                              s32 lifetime, s32 use_self, u16 flags)
     : TObject(tl_07) {
-    m_name = TParticleCtrl__class_name_descriptor[0];
+    m_name = class_name;
     model = 0;
     texlist = 0;
     motion = 0;
@@ -337,7 +337,7 @@ TParticleCtrl::TParticleCtrl(const Vec *pos, ParticleAngles *dir, ParticleParam 
 TParticleCtrl::TParticleCtrl(const Vec *pos, ParticleAngles *dir, ParticleParam *entry, s32 oneshot, s32 delay,
                              s32 lifetime, s32 use_self)
     : TObject(tl_07) {
-    m_name = TParticleCtrl__class_name_descriptor[0];
+    m_name = class_name;
     model = 0;
     texlist = 0;
     motion = 0;
@@ -374,7 +374,7 @@ TParticleCtrl::TParticleCtrl(const Vec *pos, ParticleAngles *dir, ParticleParam 
 TParticleCtrl::TParticleCtrl(const Vec *pos, ParticleParam *entry, s32 oneshot, s32 delay, s32 lifetime,
                              s32 use_self, u16 flags)
     : TObject(tl_07) {
-    m_name = TParticleCtrl__class_name_descriptor[0];
+    m_name = class_name;
     model = 0;
     texlist = 0;
     motion = 0;
@@ -411,7 +411,7 @@ TParticleCtrl::TParticleCtrl(const Vec *pos, ParticleParam *entry, s32 oneshot, 
 TParticleCtrl::TParticleCtrl(const Vec *pos, ParticleParam *entry, s32 oneshot, s32 delay, s32 lifetime,
                              s32 use_self)
     : TObject(tl_07) {
-    m_name = TParticleCtrl__class_name_descriptor[0];
+    m_name = class_name;
     model = 0;
     texlist = 0;
     motion = 0;

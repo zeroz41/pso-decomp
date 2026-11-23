@@ -5,22 +5,21 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/task/TObject.h"
 
-extern "C" {
-
 ParticleParam *particle_global_entry_table;
 ParticleParam *particle_area_entry_table;
-BmlResource *TParticleCtrl__regular_bml_resource;
-GinjaTextureList *TParticleCtrl__texture_list;
+BmlResource *TParticleCtrl::regular_bml_resource;
+GinjaTextureList *TParticleCtrl::texture_list;
 
 NJS_OBJECT *TParticleCtrl::get_particle_model(s32 model) {
     if (model < 3) {
-        return get_bml_model(TParticleCtrl__regular_bml_resource, model);
+        return get_bml_model(regular_bml_resource, model);
     }
     return 0;
 }
 
-GinjaTextureList *TParticleCtrl::get_instance() {  return TParticleCtrl__texture_list; }
+GinjaTextureList *TParticleCtrl::get_instance() {  return texture_list; }
 
+extern "C" {
 // Callers pass the flags as int while the constructor takes u16, so the wrapper
 // hands the int on to it unconverted.
 void *__ct__13TParticleCtrlFPC3VecP14ParticleAnglesP13ParticleParamllllUs(void *self, const Vec *pos, ParticleAngles *dir, ParticleParam *entry, s32 oneshot,
