@@ -22,7 +22,6 @@
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/unk/text_803D96A8.h"
 
-struct W_80290250 { u8 pad[0xfc]; s32 bufp; s32 rc; u8 data[4]; };
 
 
 struct Opaque_80290088;
@@ -68,58 +67,25 @@ __declspec(section ".data") u32 creation_models_ready;
 extern "C" {
 s32 is_entry_equal__23TAdSinglePlyChrSelectGCFPvPv(void *, void *);
 s32 creation_motion_group(CharacterAppearanceFields *);
-void load_creation_shape_rel(W_80290250 *arg0);
+void load_creation_shape_rel(TCMCharacter *character);
 void TCharaMaking__sub_8028E3A0();
 void TAdSinglePlyChrSelectGC__sub_80290884(void* p, void* q);
 s32 count_char_diffs__23TAdSinglePlyChrSelectGCFPvPv(void *, void *);
 
 void TAdSinglePlyChrSelectGC__sub_8028ED54(void);
 void blend_creation_proportion_shapes(f32 *);
-void *__dt__10TObjMotionFv(void *arg0, s16 arg1);
 void TAdSinglePlyChrSelectGC__sub_8028F084(CreationTextureCacheEntry *entry, TCharaMaking *appearance);
 void TCharaMaking__bind_appearance_texture_lists(s32 *hair, s32 *head, s32 *body, TCharaMaking *appearance);
 void copy_slot_data__23TAdSinglePlyChrSelectGCFPvPv(void *dst, void *src);
 extern s32 lbl_805D49B4;
 
 s32 creation_resource_ready_state;
-u8 *TAdSinglePlyChrSelectGC__sub_802908CC(u8 *arg0, s16 arg1);
 void translate_matrix_vec3(u8 *arg0, u8 *arg1);
 void rotate_matrix_y(int, u32);
 int fn_8001ED90(void *p);
 int TAdSinglePlyChrSelectGC__get_char_creation_figure_draw_flag(void);
-void close_if_active__23TAdSinglePlyChrSelectGCFv(u8 * _w0);
 s32 release_texture_list(void *);
 
-extern "C" {
-void run_task__12TCMCharacterFv();
-}
-extern "C" {
-void vfunc_6__8TObjBaseFPsl();
-}
-extern "C" {
-void interact__14TObjCollidableFUs();
-}
-extern "C" {
-void get_name__8TObjBaseFv();
-}
-extern "C" {
-void get_center__8TObjBaseFv();
-}
-extern "C" {
-void apply_object_set_data__8TObjBaseFPv();
-}
-extern "C" {
-void classify_actor_view_detail__8TObjBaseFfff();
-}
-extern "C" {
-void render_shadows__7TObjectFv();
-}
-extern "C" {
-void reset_motion_fields__10TObjMotionFv();
-}
-extern "C" {
-void update_object_view_visibility__8TObjBaseFff();
-}
 #pragma push
 #pragma readonly_strings on
 // empty motion name lists of the character-making BmlResourceDescriptors (inferred)
@@ -292,7 +258,6 @@ struct Sel_802902CC {
     saddr e[3];
 };
 
-s32 __ct__10TObjMotionFP7TObject(void *, void *);
 }
 void request_creation_motion(s32 arg0);
 extern const char *chara_select_creation_shape_rel_files[];
@@ -306,22 +271,19 @@ extern "C" {
 
 void TCharaMaking__bind_head_shape_nodes(CharacterAppearanceFields *appearance, void *model);
 void TCharaMaking__bind_body_shape_nodes(CharacterAppearanceFields *appearance, void *model);
-void *TCMCharacter__ct(void *arg0, void *arg1);
-extern s32 creation_region_sample_index_table[24]; extern CreationShapePoint lbl_804D400C[9]; extern void* lbl_804D4054[21];
+extern s32 creation_region_sample_index_table[24]; extern CreationShapePoint lbl_804D400C[9];
 #pragma defer_codegen on
-void *TCMCharacter__ct(void *motion, void *arg1) {
+TCMCharacter::TCMCharacter(TObject *parent) : TObjMotion(parent) {
     CreationTextureCacheEntry *p;
     s32 res;
     CharacterAppearanceFields *cm;
 
-    __ct__10TObjMotionFP7TObject(motion, arg1);
-    *(void **)((s8 *)motion + 0x18) = (void *)lbl_804D4054;
-    ((TObjMotion *)motion)->m_name = TCMCharacter__name;
+    m_name = TCMCharacter__name;
     lbl_805D49B4 = 1;
     cm = creation_player_character;
     char_select_active_flag = 0;
     char_creation_figure_draw_flag = 0;
-    creation_figure_object = (uaddr)motion;
+    creation_figure_object = (uaddr)this;
     res = (saddr)new BmlResource(6, ((BmlResourceDescriptor **)character_making_resource_descriptor_table)[character_display_index((uaddr)cm)], 0, 0, NULL);
     chara_select_preview_resource = res;
     for (p = ((CreationTextureCacheEntry *)creation_texture_cache); p < ((CreationTextureCacheEntry *)creation_texture_cache) + 0x80; p++) {
@@ -336,51 +298,42 @@ void *TCMCharacter__ct(void *motion, void *arg1) {
     char_select_current_entry = 0;
     ((void (*)(int))TAdSinglePlyChrSelectGC__sub_8028ED54)(0);
     char_select_current_entry = 0;
-    ((TObjMotion *)motion)->set_action_table((saddr)character_making_action_table);
-    ((TObjMotion *)motion)->set_motion_list(reinterpret_cast<saddr>(creation_menu_main_obj->motions));
-    ((TObjMotion *)motion)->requested_action = creation_motion_group(creation_player_character);
-    ((TObjMotion *)motion)->set_animation(((TObjMotion *)motion)->requested_action);
-    *(s32 *)((s8 *)motion + 0xE0) = (saddr)mem_alloc(0xC00);
-    *(f32 *)((s8 *)motion + 0x40) = 0.0f;
-    *(f32 *)((s8 *)motion + 0x3C) = 0.0f;
-    *(f32 *)((s8 *)motion + 0x38) = 0.0f;
-    ((TObjMotion *)motion)->rotation_z = 0;
-    ((TObjMotion *)motion)->rotation_y = 0;
-    ((TObjMotion *)motion)->rotation_x = 0;
-    load_creation_shape_rel((W_80290250 *)motion);
+    set_action_table((saddr)character_making_action_table);
+    set_motion_list(reinterpret_cast<saddr>(creation_menu_main_obj->motions));
+    requested_action = creation_motion_group(creation_player_character);
+    set_animation(requested_action);
+    joint_matrices = mem_alloc(0xC00);
+    position.z = 0.0f;
+    position.y = 0.0f;
+    position.x = 0.0f;
+    rotation_z = 0;
+    rotation_y = 0;
+    rotation_x = 0;
+    load_creation_shape_rel(this);
     reset_character_creation_figure_rotation();
     creation_resource_ready_state = 0;
-    return motion;
 }
-u8 *TAdSinglePlyChrSelectGC__sub_802908CC(u8 *arg0, s16 arg1) {
+TCMCharacter::~TCMCharacter() {
     CreationTextureCacheEntry *p;
     CreationTextureCacheEntry *end;
-    if (arg0 != NULL) {
-        *(void ***)((s8 *)arg0 + 0x18) = lbl_804D4054;
-        for (p = creation_texture_cache, end = creation_texture_cache + 128; p < end; p++) {
-            if (p->in_use != 0) {
-                ((TAdSinglePlyChrSelectGC *)p)->update_char_panels();
-            }
-        }
-        ((TAdSinglePlyChrSelectGC *)arg0)->free_field_FC();
-        delete (BmlResource *)chara_select_preview_resource;
-        chara_select_preview_resource = 0;
-        ((TCMCharacter *)arg0)->reset_model_parts();
-        chara_select_head_node = 0;
-        chara_select_hair_node_b = 0;
-        chara_select_hair_node_a = 0;
-        ((TAdSinglePlyChrSelectGC *)arg0)->m_34 = 0;
-        mem_free((void *)(*(saddr *)((s8 *)arg0 + 0xE0)));
-        creation_resource_ready_state = 0;
-        creation_figure_object = 0;
-        lbl_805D49B4 = 0;
-        char_creation_figure_draw_flag = 0;
-        __dt__10TObjMotionFv((arg0), 0);
-        if (arg1 > 0) {
-            TObject::operator delete(arg0);
+    for (p = creation_texture_cache, end = creation_texture_cache + 128; p < end; p++) {
+        if (p->in_use != 0) {
+            ((TAdSinglePlyChrSelectGC *)p)->update_char_panels();
         }
     }
-    return arg0;
+    free_field_FC();
+    delete (BmlResource *)chara_select_preview_resource;
+    chara_select_preview_resource = 0;
+    reset_model_parts();
+    chara_select_head_node = 0;
+    chara_select_hair_node_b = 0;
+    chara_select_hair_node_a = 0;
+    model = 0;
+    mem_free(joint_matrices);
+    creation_resource_ready_state = 0;
+    creation_figure_object = 0;
+    lbl_805D49B4 = 0;
+    char_creation_figure_draw_flag = 0;
 }
 }
 
@@ -545,22 +498,22 @@ void bind_character_preview_models(const CharacterPreviewModels *models) {
         make_node_flag_table(models->body_samples[i], (NodeFlagEntry *)&creation_body_shape_samples[t]);
     }
 }
-void load_creation_shape_rel(W_80290250 *arg0) {
+void load_creation_shape_rel(TCMCharacter *character) {
     s32 rc;
-    arg0->bufp = (saddr)TQuestVmDownLoadServer::alloc(0x44000);
+    character->shape_rel = (saddr)TQuestVmDownLoadServer::alloc(0x44000);
     rc = TLobby::request_file_read(
         chara_select_creation_shape_rel_files[character_display_index(reinterpret_cast<uaddr>(creation_player_character))],
-        arg0->bufp, reinterpret_cast<s32 *>(arg0->data), NULL);
-    arg0->rc = rc;
+        character->shape_rel, &character->shape_rel_ready, NULL);
+    character->shape_rel_size = rc;
     if (rc >= 0) {
-        if (arg0->rc > 0x44000) {
+        if (character->shape_rel_size > 0x44000) {
             return;
         }
     }
 }
-void TAdSinglePlyChrSelectGC::free_field_FC() {
-    TAdSinglePlyChrSelectGC::safe_free(*(s32 *)((s8 *)this + 0xFC));
-    *(s32 *)((s8 *)this + 0xFC) = 0;
+void TCMCharacter::free_field_FC() {
+    TAdSinglePlyChrSelectGC::safe_free(shape_rel);
+    shape_rel = 0;
 }
 
 void TCMCharacter::run_task() {
@@ -586,14 +539,6 @@ s32 creation_region_sample_index_table[24] = {
 CreationShapePoint lbl_804D400C[9] = {
     {0.0f, 0.0f}, {1.0f / 3.0f, 0.0f}, {2.0f / 3.0f, 0.0f}, {1.0f / 3.0f, 0.5f}, {0.0f, 1.0f},
     {1.0f / 3.0f, 1.0f}, {2.0f / 3.0f, 1.0f}, {1.0f, 1.0f}, {1.0f, 0.0f},
-};
-void *lbl_804D4054[21] = {
-    (void *)0x0, (void *)0x0, (void *)&TAdSinglePlyChrSelectGC__sub_802908CC, (void *)&run_task__12TCMCharacterFv,
-    (void *)&close_if_active__23TAdSinglePlyChrSelectGCFv, (void *)&render_shadows__7TObjectFv, (void *)&vfunc_6__8TObjBaseFPsl, (void *)&apply_object_set_data__8TObjBaseFPv,
-    (void *)&reset_motion_fields__10TObjMotionFv, (void *)&get_center__8TObjBaseFv, (void *)&update_object_view_visibility__8TObjBaseFff, (void *)&classify_actor_view_detail__8TObjBaseFfff,
-    (void *)&get_name__8TObjBaseFv, (void *)&interact__14TObjCollidableFUs, (void *)0x0, (void *)0x0,
-    (void *)0x0, (void *)0x0, (void *)0x0, (void *)0x0,
-    (void *)0x0,
 };
 
 
@@ -657,13 +602,13 @@ void request_creation_motion(s32 arg0) {
     ((TObjMotion *)creation_figure_object)->set_requested_action(arg0 * 3 + creation_motion_group(creation_player_character));
 }
 
-void TAdSinglePlyChrSelectGC::draw_player_model() { ((TObjMotion *)this)->set_motion_interpolation_flag(); ((TObjMotion *)this)->draw_saving_joints_checked(); }
-void close_if_active__23TAdSinglePlyChrSelectGCFv(u8 * ad_single_ply_chr_select_gc) {
+void TCMCharacter::draw_player_model() { set_motion_interpolation_flag(); draw_saving_joints_checked(); }
+void TCMCharacter::render() {
     if ((s32) char_select_active_flag != 0) {
-        ((TAdSinglePlyChrSelectGC *)ad_single_ply_chr_select_gc)->draw_creation_figure();
+        draw_creation_figure();
     }
 }
-void TAdSinglePlyChrSelectGC::draw_creation_figure() {
+void TCMCharacter::draw_creation_figure() {
     u32 v;
     TParticleCtrl::begin_effect_render();
     if (scan_creation_resources(this) == 0) {
@@ -673,18 +618,18 @@ void TAdSinglePlyChrSelectGC::draw_creation_figure() {
     {
         char_creation_figure_draw_flag = 1;
         push_matrix();
-        translate_matrix_vec3(0, ((u8 *)this) + 0x38);
+        translate_matrix_vec3(0, (u8 *)&position);
         rotate_matrix_y(0, creation_figure_rotation_y);
         TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>((u8 *)char_select_current_entry + 0x460));
         this->draw_player_model();
-        push_matrix_from((void *)((TObjMotion *)this)->get_joint_matrix(0x3A));
+        push_matrix_from((void *)get_joint_matrix(0x3A));
         TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>((u8 *)char_select_current_entry + 0x2EC));
         TObjPlayer::play_phase_transition_sound(creation_head_model_parts[*(s16 *)((s8 *)char_select_current_entry + 0xA)].model);
         pop_matrix();
         v = creation_cap_model_parts[*(s16 *)((s8 *)char_select_current_entry + 0xC)].model;
         if (v != 0) {
             TCharaMaking::enable_making();
-            push_matrix_from((void *)((TObjMotion *)this)->get_joint_matrix(0x3B));
+            push_matrix_from((void *)get_joint_matrix(0x3B));
             TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>((u8 *)char_select_current_entry + 0x178));
             TObjPlayer::play_phase_transition_sound(v);
             pop_matrix();
@@ -693,7 +638,7 @@ void TAdSinglePlyChrSelectGC::draw_creation_figure() {
         v = creation_hair_model_parts[*(s16 *)((s8 *)char_select_current_entry + 0xC)].model;
         if (v != 0) {
             TCharaMaking::enable_making();
-            push_matrix_from((void *)((TObjMotion *)this)->get_joint_matrix(0x3B));
+            push_matrix_from((void *)get_joint_matrix(0x3B));
             TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>((u8 *)char_select_current_entry + 0x178));
             TCharaMaking::setup_from_data(v, creation_player_character);
             pop_matrix();
@@ -1098,4 +1043,3 @@ void TAdSinglePlyChrSelectGC::update_char_panels() {
     }
 }
 
-#pragma defer_codegen off

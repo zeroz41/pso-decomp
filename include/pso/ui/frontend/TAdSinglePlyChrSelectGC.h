@@ -98,8 +98,6 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     static void init_entry_tables(void* _w0);
     static s32 is_active();
     void reset_creation_parts();
-    void free_field_FC();
-    void draw_player_model();
     static s32 map_button_code(s32 arg0);
     static s32 count_remaining_slots();
     static s32 has_matching_entry(void *arg0);
@@ -142,7 +140,6 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     u8 *copy_character_data(u8 *arg1);
     u8 *construct_chardata_array();
     void swap_item_data(s32 *arg1);
-    void draw_creation_figure();
     static void reset_quest_id();
     static void set_quest_download_server(int a0);
     static void init_logo_state(s32 arg0);

@@ -10,6 +10,7 @@
 #include "pso/ui/charcreate/CharacterCreationModels.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/ui/charcreate/TCharaMaking.h"
+#include "pso/object/TCMCharacter.h"
 #include "pso/ui/charcreate/TChCrLoadReq.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/ui/charcreate/TCharaMaking_8028E3F4.h"
@@ -507,7 +508,6 @@ void request_chara_making_archives(void) {
 }
 extern "C" {
 
-void *TCMCharacter__ct(void *arg0, void *arg1);
 
 void TCharaMaking__sub_8028E790(void) {  }
 }
@@ -561,12 +561,8 @@ TCharaMaking::~TCharaMaking() {
 }
 
 TCharaMaking::TCharaMaking(TObject *parent) : TObject(parent) {
-    uaddr motion;
     m_name = TCharaMaking__name;
-    motion = ((uaddr)TObject::operator new(0x10C));
-    if (motion != 0U) {
-        TCMCharacter__ct((void *)motion, this);
-    }
+    new TCMCharacter(this);
     creation_main_menu_obj = TObjCMMainMenu::create(this);
     m_1c = 0x1555;
     m_20 = 0x9000;
