@@ -117,7 +117,7 @@ s32 TAdSinglePlyChrSelectGC::destroy_chardata_array(int arg0, s16 arg1) {
     if (arg0 != 0) {
         __destroy_arr(arg0 + 4, (s32 *)TAdSinglePlyChrSelectGC::free_chardata, 0x39b4, 7);
         if (arg1 > 0) {
-            ::operator delete((void *)arg0);
+            ::operator delete((void *)(saddr)arg0);
         }
     }
     return arg0;
