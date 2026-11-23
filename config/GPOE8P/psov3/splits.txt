@@ -17,16 +17,17 @@ pso/unk/text_8000F740.cpp:
 	.text       start:0x8000F740 end:0x8000F764
 
 pso/ui/keyboard/TKeyBoardControl_8000F764.cpp:
-	.text       start:0x8000F764 end:0x8000FD54
+	.text       start:0x8000F764 end:0x8000FE54
+	.data       start:0x804805E0 end:0x804806E8
 	.bss        start:0x804FE020 end:0x804FE138
 	.sbss       start:0x805D49A0 end:0x805D49C4
 	.sdata2     start:0x805D7D00 end:0x805D7D14
 	.sbss2      start:0x805E1200 end:0x805E1204
 
 pso/player/TObjPlayer_80011014.cpp:
-	.text       start:0x8000FD54 end:0x80019848
+	.text       start:0x8000FE54 end:0x80019848
 	.rodata     start:0x80434040 end:0x80434090
-	.data       start:0x804805E0 end:0x804808EC
+	.data       start:0x804806E8 end:0x804808EC
 	.sdata2     start:0x805D7D18 end:0x805D7DCC
 
 pso/player/TObjPlayer_80011014Data.cpp:

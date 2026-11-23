@@ -11,6 +11,24 @@
 #include "pso/render/TFogCtrl.h"
 #include "pso/effect/TEffect.h"
 #include "pso/system/MainPhaseState.h"
+#include "pso/system/MainPhaseTable.h"
+#include "pso/unk/TLobby_800FD78C.h"
+#include "pso/ui/TLogo.h"
+#include "pso/ui/frontend/TAdMultiChgGameModeGC_8023F4E4.h"
+#include "pso/unk/text_8023F3F8.h"
+#include "pso/ui/keyboard/TKeyBoardControl_802A1180.h"
+#include "pso/unk/text_802A1154.h"
+#include "pso/unk/text_80290BEC.h"
+#include "pso/ui/frontend/TAdMultiChgGameModeGC.h"
+#include "pso/ui/frontend/TAdEndText_80307A34.h"
+#include "pso/ui/frontend/TAdEndText.h"
+#include "pso/system/scene/TEnding.h"
+#include "pso/unk/text_8008C4F4.h"
+#include "pso/system/scene/OfflineGameScene.h"
+#include "pso/unk/TLobby_801A3C48.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_8033A8EC.h"
+#include "pso/ui/frontend/TAdTrialModemChkGC.h"
+#include "pso/item/TItemReverseTech.h"
 #include "pso/ui/keyboard/TKeyBoardControl_803DE9C4.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC.h"
 #include "pso/system/task/TMainTask.h"
@@ -364,4 +382,61 @@ void init_game_systems(void) {
     load_ply_level_tbl();
     verify_game_file_integrity();
     TLobby::handle_flag2_request();
+}
+
+MainPhaseEntry main_phase_table[] = {
+    { NULL, NULL, NULL },
+    { TLogo::init_logo_scene, TLogo::run_frame, TLogo__sub_8013F5AC },
+    { TAdMultiChgGameModeGC__sub_8023F62C, run_game_mode_select_frame, TLobby::release_scene_resources },
+    { TKeyBoardControl::update_menu_scene, update_movie_phase, fn_802A1154 },
+    { TAdMultiChgGameModeGC__sub_8023F4E4, run_game_mode_select_frame, TLobby::release_scene_resources },
+    { TKeyBoardControl::update_main_menu_scene, run_main_frame, fn_80290BEC },
+    { TAdMultiChgGameModeGC::render_game_mode_change, run_game_mode_select_frame, TLobby::release_scene_resources },
+    { TAdMultiChgGameModeGC__sub_8023F5B4, run_game_mode_select_frame, TLobby::release_scene_resources },
+    { start_ending_sequence, TKeyBoardControl::run_main_frame, TAdEndText::cleanup },
+    { TAdMultiChgGameModeGC::render_scene, run_game_mode_select_frame, TLobby::release_scene_resources },
+    { TAdMultiChgGameModeGC__sub_8023F564, run_game_mode_select_frame, TLobby::release_scene_resources },
+    { TAdMultiChgGameModeGC__sub_8023F58C, run_game_mode_select_frame, TLobby::release_scene_resources },
+    { TEnding::set_flag_and_advance, run_game_frame, fn_8008C4F4 },
+    { TAdMultiChgGameModeGC__sub_8023F50C, run_game_mode_select_frame, TLobby::release_scene_resources },
+    { init_offline_game_scene, dispatch_offline_main_frame, TLobby::teardown_scene },
+    { run_online_lobby_scene, TLobby::update_camera_state, cleanup_online_lobby_scene },
+    { TEnding::start_ending_scene, run_game_frame, fn_8008C4F4 },
+    { NULL, NULL, NULL },
+    { init_single_player_char_select_scene, TAdSinglePlyChrSelectGC::run_frame, TAdSinglePlyChrSelectGC__sub_8033B264 },
+    { TAdTrialModemChkGC__sub_803354E8, TAdTrialModemChkGC::check_modem_result, TAdTrialModemChkGC__sub_803354A4 },
+    { NULL, NULL, NULL },
+    { TItemReverseTech::init_scene, TItemReverseTech::run_frame, TItemReverseTech::run_cleanup_callbacks },
+};
+
+void main(void) {
+    MainPhaseCallback fn;
+    MainPhaseCallback update;
+
+    init_game_systems();
+    while (main_phase_state.cur != 0) {
+        main_phase_state.result = 0;
+        fn = main_phase_table[main_phase_state.cur].init;
+        if (fn != NULL) {
+            fn();
+        }
+        update = main_phase_table[main_phase_state.cur].update;
+        while (main_phase_state.result == 0 && update != NULL) {
+            update();
+            actor_frame_tick++;
+        }
+        fn = main_phase_table[main_phase_state.cur].exit;
+        if (fn != NULL) {
+            fn();
+        }
+        switch (main_phase_state.result) {
+        case 1:
+        case 2:
+        case 3:
+            main_phase_state.prev = main_phase_state.cur;
+            main_phase_state.cur = main_phase_state.next;
+            break;
+        }
+    }
+    shutdown_and_reset_system();
 }
