@@ -120,8 +120,7 @@ void TObjPlayer__sub_801BCB28(void) {  }
 void TObjPlayer::update_if_active() { if (is_script_controlled() != 0) { sync_current_area(); sync_current_floor(); } }
 
 s32 TObjPlayer__sub_801B2014(void *);
-s32 TObjPlayer__sub_801BEB68(void *, void *);
-saddr TObjPlayer__sub_801BEB8C(void *);
+u8 TObjPlayer__sub_801BEB8C(void *);
 u8 TObjPlayer__sub_801BEBB8(void *);
 u8 TObjPlayer__sub_801BEBE4(void *);
 u8 TObjPlayer__sub_801BEC10(void *);
@@ -134,7 +133,7 @@ void TObjPlayer::load_char_data(u8 *arg1) {
     this->set_field_374_state(TObjPlayer__sub_801BEC10(arg1));
     this->set_inventory_state(TObjPlayer__sub_801BEBE4(arg1));
     this->set_equip_flags(TObjPlayer__sub_801BEBB8(arg1));
-    TObjPlayer__sub_801BEB68(this, (void *) (TObjPlayer__sub_801BEB8C(arg1)));
+    this->fn_801BEB68(TObjPlayer__sub_801BEB8C(arg1));
     this->init_player_data(arg1 + 0x118);
     this->hp = (s16) *(s16 *)((s8 *)arg1 + 0x22);
     TObjPlayer__sub_801B2014(this);

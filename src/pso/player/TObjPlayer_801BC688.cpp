@@ -5,20 +5,12 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/unk/TLobby.h"
 
-struct Base_801BC688 { char pad[8]; };
-
-struct VObj_801BC688 : Base_801BC688 { virtual void m0(); virtual void m1(int); };
-
 
 extern const f32 TObjPlayer__data_805DC278;
 #pragma push
 #pragma fp_contract on
 void TObjPlayer::release_child_object() {
-    void *temp_r3;
-    temp_r3 = *(void * *)&this->unk_380;
-    if (temp_r3 != NULL) {
-        ((VObj_801BC688 *)temp_r3)->m1(1);
-    }
+    delete action_provider;
 }
 #pragma pop
 
@@ -27,9 +19,9 @@ void TObjPlayer::release_child_object() {
 void TObjPlayer::init_action_provider() {
     u8 *arg0 = (u8 *)this;
     if (TObjPlayer::get_hold_effect_count() == 1) {
-        *(u8 * *)&this->unk_380 = (u8 *)new TUnk_804DDBF0;
+        action_provider = new TUnk_804DDBF0;
     } else if (TObjPlayer::get_hold_effect_count() == 0) {
-        *(u8 * *)&this->unk_380 = (u8 *)new TUnk_804ED7D0;
+        action_provider = new TUnk_804ED7D0;
     }
     this->m_33b = 0;
     *(s8 *)&this->unk_33A = 0;

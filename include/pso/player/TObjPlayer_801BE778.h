@@ -8,7 +8,6 @@ void TObjPlayer__sub_801BE784(void *p, u8 v);
 void TObjPlayer__sub_801BE794(void *p, u8 v);
 void TObjPlayer__sub_801BE7A4(void *p, u8 v);
 void TObjPlayer__sub_801BE7B4(void *p, u8 v);
-int TObjPlayer__sub_801BE7BC(void *p);
 void TObjPlayer__sub_801BE7E0(void *p, u8 v);
 void TObjPlayer__sub_801BE80C(void *p, u8 v);
 void TObjPlayer__sub_801BE838(void *p, u8 v);

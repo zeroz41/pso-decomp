@@ -83,7 +83,6 @@ s32 TObjPlayer__sub_8013A748(void *, void *);
 void is_slot_within_limit__10TObjPlayerFllUc(u8 id, s16 i, u8 v);
 s32 clamp_stats__10TObjPlayerFiPv(void *, void *, void *);
 s8 query_state_if_present__10TObjPlayerFPv(void *, void *);
-u8 TObjPlayer__sub_801BE7BC(void *);
 u8 TObjPlayer__sub_801C0124(void *, s16);
 s32 TObjPlayer__sub_802A1018();
 int init_action_config__10TObjPlayerFv(void*);
@@ -105,7 +104,7 @@ void export_player_record__10TObjPlayerFPvPv(TObjPlayer *arg0, u8 *arg1) {
     arg0->set_flag_103(((TObjPlayer *)arg1)->get_field_374_state());
     arg0->set_action_flags(((TObjPlayer *)arg1)->get_inventory_state());
     arg0->set_byte_13b(((TObjPlayer *)arg1)->get_equip_flags());
-    arg0->set_field_157(TObjPlayer__sub_801BE7BC(arg1));
+    arg0->set_field_157(((TObjPlayer *)arg1)->fn_801BE7BC());
     TObjPlayer__sub_8013A748((u8 *)arg0 + 0x3C0, arg1 + 0x500);
     for (i = 0; i < 0x13; i++) {
         e = TObjPlayer__sub_802C4698((O_802C4698 *) arg0, i);

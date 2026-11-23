@@ -52,7 +52,6 @@ void copy_player_visual_record(void *, void *);
 void clamp_stats__10TObjPlayerFiPv(void *, void *, s32);
 s8 TObjPlayer__sub_801AFD8C(void *);
 s8 query_state_if_present__10TObjPlayerFPv(void *, s32);
-u8 TObjPlayer__sub_801BE7BC(void *);
 u8 TObjPlayer__sub_801C0124(void *, s16);
 u8 *TObjPlayer__sub_802C4688(O_802C4688 *self, s32 i);
 E_802C4698 *TObjPlayer__sub_802C4698(O_802C4698 *self, s32 i);
@@ -91,7 +90,7 @@ void export_character_data__10TObjPlayerFPvPv(u8 *arg0, u8 *arg1) {
     ((TObjPlayer *)arg1)->set_flag_103(((TObjPlayer *)arg0)->get_field_374_state());
     ((TObjPlayer *)arg1)->set_action_flags(((TObjPlayer *)arg0)->get_inventory_state());
     ((TObjPlayer *)arg1)->set_byte_13b(((TObjPlayer *)arg0)->get_equip_flags());
-    ((TObjPlayer *)arg1)->set_field_157(TObjPlayer__sub_801BE7BC(arg0));
+    ((TObjPlayer *)arg1)->set_field_157(((TObjPlayer *)arg0)->fn_801BE7BC());
     TLobby::copy_data(arg1 + 0x34C, ((TObjPlayer *)arg0)->get_stats());
     clamp_stats__10TObjPlayerFiPv(arg0, arg1 + 0x34C, (saddr)TObjPlayer::get_class_stat_entry(arg0));
     copy_player_visual_record(arg1 + 0x370, arg0 + 0x85C);
@@ -166,7 +165,7 @@ void export_state_to_record__10TObjPlayerFPvPv(u8 *arg0, s8 *arg1) {
     ((TObjPlayer *)arg1)->set_flag_103(((TObjPlayer *)arg0)->get_field_374_state());
     ((TObjPlayer *)arg1)->set_action_flags(((TObjPlayer *)arg0)->get_inventory_state());
     ((TObjPlayer *)arg1)->set_byte_13b(((TObjPlayer *)arg0)->get_equip_flags());
-    ((TObjPlayer *)arg1)->set_field_157(TObjPlayer__sub_801BE7BC(arg0));
+    ((TObjPlayer *)arg1)->set_field_157(((TObjPlayer *)arg0)->fn_801BE7BC());
     clamp_stats__10TObjPlayerFiPv(arg0, arg1 + 0x34C, (saddr)TObjPlayer::get_class_stat_entry(arg0));
     copy_player_visual_record(arg1 + 0x370, arg0 + 0x85C);
     TObjPlayer__sub_8013A748(arg1 + 0x3C0, arg0 + 0x500);

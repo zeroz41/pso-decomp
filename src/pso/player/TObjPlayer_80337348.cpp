@@ -7,42 +7,33 @@ struct T_803374C4 { u8 b[8]; void *p; };
 extern char lbl_804C3E44[];
 extern "C" {
 T_803374C4 *TObjPlayer__sub_803374C4(T_803374C4 *self);
-s32 TObjPlayer__sub_801BED70(s32);
-s32 TObjPlayer__sub_801BED78(s32);
-s32 TObjPlayer__sub_801BED80(s32);
-s32 TObjPlayer__sub_801BED88(s32);
-s32 TObjPlayer__sub_801BED90();
-int fn_803374F0(s32, s32, u8);
-s32 fn_803374F8(s32, s32);
+s32 Obj_803374C4::try_add_item_count(s32 class_index, s32 index, u8 amount) {
+    u8 total_materials_used;
 
-s32 TObjPlayer::try_add_item_count(s32 arg0, s32 arg1, s32 arg2, u8 arg3) {
-    s32 total_materials_used;
-
-    total_materials_used = get_total_materials_used(arg0);
-    if ((u8) (total_materials_used + arg3) > get_material_limit_for_class(arg1)) {
+    total_materials_used = get_total_materials_used();
+    if ((u8) (total_materials_used + amount) > get_material_limit_for_class(class_index)) {
         return 0;
     }
-    fn_803374F0(arg0, arg2, (u8) (arg3 + fn_803374F8(arg0, arg2)));
+    fn_803374F0(index, (u8) (amount + fn_803374F8(index)));
     return 1;
 }
 
-s32 TObjPlayer::can_use_more_materials(s32 arg1) {
-    s32 arg0 = (saddr)this;
-    s32 t = get_total_materials_used(arg0);
-    if ((u8)t >= get_material_limit_for_class(arg1)) {
+s32 Obj_803374C4::can_use_more_materials(s32 class_index) {
+    u8 t = get_total_materials_used();
+    if (t >= get_material_limit_for_class(class_index)) {
         return 1;
     }
     return 0;
 }
 }
 
-s32 get_total_materials_used(s32 arg0) {
-    s32 sum;
-    sum = TObjPlayer__sub_801BED90();
-    sum += TObjPlayer__sub_801BED88(arg0);
-    sum += TObjPlayer__sub_801BED80(arg0);
-    sum += TObjPlayer__sub_801BED78(arg0);
-    sum += TObjPlayer__sub_801BED70(arg0);
+u8 Obj_803374C4::get_total_materials_used() {
+    u8 sum;
+    sum = fn_801BED90();
+    sum += fn_801BED88();
+    sum += fn_801BED80();
+    sum += fn_801BED78();
+    sum += fn_801BED70();
     return sum;
 }
 

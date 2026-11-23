@@ -5,12 +5,14 @@
 
 struct NJS_OBJECT;
 #include "pso/player/PhotonBlastGauge.h"
+#include "pso/player/TObjPlayer_80337348.h"
 #include "pso/player/PlayerClassFlags.h"
 #include "pso/player/PlayerScaleState.h"
 #include "pso/player/RenderMaterialState.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/player/PlayerAttackController.h"
 #include "pso/player/PlayerStats.h"
+#include "pso/unk/TUnk_804DDD28.h"
 
 struct TItemData;
 struct SceneSectionAngles;
@@ -173,12 +175,9 @@ struct TObjPlayer : public TObjChara {
     u8 unk_364[0x8];
     s32 m_36c;
     u8 unk_370[0x4];
-    void* m_374;
-    u8 unk_378[0x1];
-    u8 m_379;
-    u8 unk_37A[0x2];
-    s32 m_37c;
-    u8 unk_380[0x4];
+    Obj_803374C4 materials;
+    // Inferred: the action provider init_action_provider creates (TUnk_804DDBF0 or TUnk_804ED7D0).
+    TUnk_804DDD28 *action_provider;
     void* m_384;
     u8 unk_388[0x4];
     int m_38c;
@@ -345,11 +344,6 @@ struct TObjPlayer : public TObjChara {
     static s32 is_any_teammate_in_state();
     static void set_shared_flag(int a0);
     static void set_shared_count(int a0);
-    static void add_item_count_kind4(s32 arg0, s32 arg1, s32 arg2);
-    static void try_add_item_count_kind3(s32 arg0, s32 arg1, s32 arg2);
-    static void try_add_item_count_type2(s32 arg0, s32 arg1, s32 arg2);
-    static void add_item_count(s32 arg0, s32 arg1, s32 arg2);
-    static void try_add_item(s32 arg0, s32 arg1, s32 arg2);
     void set_position(f32 a, f32 b, f32 c);
     void set_meseta(s32 arg1);
     void bswap_status_effect_data();
@@ -1031,7 +1025,6 @@ struct TObjPlayer : public TObjChara {
     static void start_guardianna_hit_card(s32 arg0, u32 *arg1, saddr arg2);
     static void create_aux_object(s32 arg0, u32 *arg1, saddr arg2);
     static void create_network_object(s32 arg0, u32 *arg1, saddr arg2);
-    s32 can_use_more_materials(s32 arg1);
     void free_indexed_entry(s32 _w1);
     void copy_node_record(saddr arg1);
     static void notify_all_battle_players();
@@ -1421,7 +1414,6 @@ struct TObjPlayer : public TObjChara {
     static TItem *create_state_1536(u8 *item);
     static TItem *create_mode_floats_state(u8 *item);
     static TItem *create_vtable_1f8_state(u8 *item);
-    static s32 try_add_item_count(s32 arg0, s32 arg1, s32 arg2, u8 arg3);
     static void spawn_particle_at_entity_slot(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
     static TItem *create_rappys_fan(u8 *item);
     static void spawn_fire_explosion_for_item(s32 arg0, s32 arg1);
@@ -1457,6 +1449,8 @@ struct TObjPlayer : public TObjChara {
     u8 get_inventory_state();
     u8 get_field_374_state();
     u8 get_field_374();
+    u8 fn_801BE7BC();
+    void fn_801BEB68(u8 v);
     static s32 clamp_index_to_max(s32 level);
     s32 clamp_nested_index();
     void clear_flag_20000();

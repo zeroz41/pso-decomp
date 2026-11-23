@@ -88,19 +88,8 @@ void emit_jellen_support_effect(u8 *arg0);
 void emit_shifta_support_effect(u8 *arg0);
 extern "C" {
 int copy_subcommand_header(void*);
-u8 TObjPlayer__sub_801BED70(void* p);
-u8 TObjPlayer__sub_801BED78(void* p);
-u8 TObjPlayer__sub_801BED80(void* p);
-u8 TObjPlayer__sub_801BED88(void* p);
-u8 TObjPlayer__sub_801BED90(void* p);
-void TObjPlayer__sub_801BED98(void* p, u8 v);
-void TObjPlayer__sub_801BEDA0(void* p, u8 v);
-void TObjPlayer__sub_801BEDA8(void* p, u8 v);
-void TObjPlayer__sub_801BEDB0(void* p, u8 v);
-void TObjPlayer__sub_801BEDB8(void* p, u8 v);
 void *TObjPlayer__sub_801BEDC0(void *arg0, s16 arg1);
 void TObjPlayer__sub_801BF47C(void* p);
-s32 try_add_item_count__10TObjPlayerFlllUc(s32 a0 = 0, s32 a1 = 0, s32 a2 = 0, s32 a3 = 0);
 
 int lbl_805D5D70;
 int shared_flag;
@@ -108,31 +97,31 @@ void TObjPlayer::set_shared_flag(int a0) { shared_flag = a0; }
 
 void TObjPlayer::set_shared_count(int a0) { lbl_805D5D70 = a0; }
 
-void TObjPlayer::add_item_count_kind4(s32 arg0, s32 arg1, s32 arg2) {
-    try_add_item_count__10TObjPlayerFlllUc(arg0, arg1, 4, arg2);
+void Obj_803374C4::add_item_count_kind4(s32 class_index, u8 amount) {
+    try_add_item_count(class_index, 4, amount);
 }
-void TObjPlayer::try_add_item_count_kind3(s32 arg0, s32 arg1, s32 arg2) {
-    try_add_item_count__10TObjPlayerFlllUc(arg0, arg1, 3, arg2);
+void Obj_803374C4::try_add_item_count_kind3(s32 class_index, u8 amount) {
+    try_add_item_count(class_index, 3, amount);
 }
-void TObjPlayer::try_add_item_count_type2(s32 arg0, s32 arg1, s32 arg2) {
-    try_add_item_count__10TObjPlayerFlllUc(arg0, arg1, 2, arg2);
+void Obj_803374C4::try_add_item_count_type2(s32 class_index, u8 amount) {
+    try_add_item_count(class_index, 2, amount);
 }
-void TObjPlayer::add_item_count(s32 arg0, s32 arg1, s32 arg2) {
-    try_add_item_count__10TObjPlayerFlllUc(arg0, arg1, 1, arg2);
+void Obj_803374C4::add_item_count(s32 class_index, u8 amount) {
+    try_add_item_count(class_index, 1, amount);
 }
-void TObjPlayer::try_add_item(s32 arg0, s32 arg1, s32 arg2) {
-    try_add_item_count__10TObjPlayerFlllUc(arg0, arg1, 0, arg2);
+void Obj_803374C4::try_add_item(s32 class_index, u8 amount) {
+    try_add_item_count(class_index, 0, amount);
 }
-u8 TObjPlayer__sub_801BED70(void* p) { return *(u8*)((char*)p + 0x4); }
-u8 TObjPlayer__sub_801BED78(void* p) { return *(u8*)((char*)p + 0x3); }
-u8 TObjPlayer__sub_801BED80(void* p) { return *(u8*)((char*)p + 0x2); }
-u8 TObjPlayer__sub_801BED88(void* p) { return *(u8*)((char*)p + 0x1); }
-u8 TObjPlayer__sub_801BED90(void* p) { return *(u8*)((char*)p + 0x0); }
-void TObjPlayer__sub_801BED98(void* p, u8 v) { *(u8*)((char*)p + 0x4) = v; }
-void TObjPlayer__sub_801BEDA0(void* p, u8 v) { *(u8*)((char*)p + 0x3) = v; }
-void TObjPlayer__sub_801BEDA8(void* p, u8 v) { *(u8*)((char*)p + 0x2) = v; }
-void TObjPlayer__sub_801BEDB0(void* p, u8 v) { *(u8*)((char*)p + 0x1) = v; }
-void TObjPlayer__sub_801BEDB8(void* p, u8 v) { *(u8*)((char*)p + 0x0) = v; }
+u8 Obj_803374C4::fn_801BED70() { return counts[4]; }
+u8 Obj_803374C4::fn_801BED78() { return counts[3]; }
+u8 Obj_803374C4::fn_801BED80() { return counts[2]; }
+u8 Obj_803374C4::fn_801BED88() { return counts[1]; }
+u8 Obj_803374C4::fn_801BED90() { return counts[0]; }
+void Obj_803374C4::fn_801BED98(u8 v) { counts[4] = v; }
+void Obj_803374C4::fn_801BEDA0(u8 v) { counts[3] = v; }
+void Obj_803374C4::fn_801BEDA8(u8 v) { counts[2] = v; }
+void Obj_803374C4::fn_801BEDB0(u8 v) { counts[1] = v; }
+void Obj_803374C4::fn_801BEDB8(u8 v) { counts[0] = v; }
 
 extern s32 lbl_804C3E44[];
 

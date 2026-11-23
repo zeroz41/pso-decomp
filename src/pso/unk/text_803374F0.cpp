@@ -1,10 +1,10 @@
 #include "types.h"
-#include "pso/unk/text_803374F0.h"
+#include "pso/player/TObjPlayer_80337348.h"
 
-void fn_803374F0(u8 *arg0, s32 arg1, s8 arg2) {
-    *(s8 *)((s8 *)(arg0 + arg1) + 0) = arg2;
+void Obj_803374C4::fn_803374F0(s32 index, u8 value) {
+    counts[index] = value;
 }
 
-u8 fn_803374F8(u8 *arg0, s32 arg1) {
-    return *(u8 *)((s8 *)(arg0 + arg1) + 0);
+u8 Obj_803374C4::fn_803374F8(s32 index) {
+    return counts[index];
 }

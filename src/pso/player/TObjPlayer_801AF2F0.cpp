@@ -599,13 +599,6 @@ struct Hit_801B5DDC {
     u8 pad28[0x38 - 0x28];
 };
 
-struct Obj_801B5DDC {
-    u8 pad0[0x38];
-    Vec pos;
-    u8 pad44[0x308 - 0x44];
-    Vec f308;
-};
-
 struct P_801B5FB0 { u8 pad[0x308]; f32 a; f32 pad30c; f32 b; };
 
 struct Pkt_801B6A5C {
@@ -698,17 +691,6 @@ typedef struct Player_801B6C30 {
     Src_801B6C30 *src;
 } Player_801B6C30;
 
-struct Stats_801B6CE0 {
-    u8 pad0[0x18];
-    s32 level;
-    s32 exp;
-};
-
-struct Obj_801B6CE0 {
-    u8 pad0[0x2B0];
-    Stats_801B6CE0 *stats;
-};
-
 struct Buf1C { u8 pad[0x1C]; };
 
 typedef struct VBase_18_c0d9f3 VBase_18_c0d9f3;
@@ -716,8 +698,6 @@ typedef struct VBase_18_c0d9f3 VBase_18_c0d9f3;
 typedef struct VObj_18_c0d9f3 VObj_18_c0d9f3;
 
 struct Player_801B6C30;
-
-struct Obj_801B6CE0;
 
 struct P_801B7B58 { u8 pad[0xD00]; void *fD00; };
 
@@ -836,12 +816,6 @@ struct Player_801B91F0 {
     Inv_801B91F0 *inv;
 };
 
-struct Obj_801B92EC {
-    u8 pad0[0x38];
-    Vec pos;
-    u8 pad44[0x60 - 0x44];
-    s32 angle;
-};
 
 typedef struct Cmd_801B9634 { u8 hdr[2]; s16 client; s32 val; } Cmd_801B9634;
 
@@ -1146,7 +1120,7 @@ s32 TMainCursor__sub_80154098(int, int, int);
 s32 TMainCursor__sub_801540B8(int, int, int);
 u16 register_entity_by_id(void *obj);
 u8 * find_entity_by_id(u16);
-s32 test_player_overlap_with_players(Obj_801B5DDC *, Obj_801B5DDC *, Vec *, Hit_801B5DDC *);
+s32 test_player_overlap_with_players(void *, void *, Vec *, Hit_801B5DDC *);
 void check_enemy_body_collisions(void *arg0);
 int clear_collision_bodies__14TObjCollidableFv(void*);
 void fn_8019DD24(void *p, u32 v);
@@ -1273,7 +1247,7 @@ void dispatch_input__10TObjPlayerFPvii(void *arg0, saddr arg1, s32 arg2);
 void handle_6xAC(void *arg0);
 void handle_6x29_delete_inventory_item(void *arg0);
 void send_6x29_delete_item__10TObjPlayerFPvii(void *obj, s32 a, s32 b);
-bool is_target_in_facing_cone__10TObjPlayerFPv(Obj_801B92EC *self, Vec *target);
+bool is_target_in_facing_cone__10TObjPlayerFPv(void *self, Vec *target);
 void unequip_item__10TObjPlayerFiPv(saddr arg0, void *arg1);
 void handle_6x26_unequip_item(void *arg0);
 void handle_6x25_equip_item(void *arg0);
@@ -1311,8 +1285,7 @@ void TObjPlayer__sub_801BE794(void *, s32);
 s32 get_byte_339__10TObjPlayerFv(void *);
 void TObjPlayer__sub_801BE7A4(void *, s32);
 s32 get_mag_level__10TObjPlayerFv(void *);
-void TObjPlayer__sub_801BE7B4(void *, s32);
-s32 TObjPlayer__sub_801BE7BC(void *);
+void TObjPlayer__sub_801BE7B4(void *, u8);
 void TObjPlayer__sub_801BE7E0(void *, u8);
 void TObjPlayer__sub_801BE80C(void *, u8);
 void TObjPlayer__sub_801BE838(void *, u8);
@@ -2862,11 +2835,11 @@ bool TObjPlayer::is_target_in_facing_cone(void *target_arg) {
     f32 x;
     f32 z;
     f32 dot;
-    fwd.x = sin_table_lookup(((Obj_801B92EC *)this)->angle);
+    fwd.x = sin_table_lookup(rotation_y);
     fwd.y = TObjPlayer__data_805DC278;
-    fwd.z = cos_table_lookup(((Obj_801B92EC *)this)->angle);
-    x = TObjPlayer__data_805DC2BC * sin_table_lookup(((Obj_801B92EC *)this)->angle + 0x8000) + ((Obj_801B92EC *)this)->pos.x;
-    z = TObjPlayer__data_805DC2BC * cos_table_lookup(((Obj_801B92EC *)this)->angle + 0x8000) + ((Obj_801B92EC *)this)->pos.z;
+    fwd.z = cos_table_lookup(rotation_y);
+    x = TObjPlayer__data_805DC2BC * sin_table_lookup(rotation_y + 0x8000) + position.x;
+    z = TObjPlayer__data_805DC2BC * cos_table_lookup(rotation_y + 0x8000) + position.z;
     to.x = target->x - x;
     to.y = TObjPlayer__data_805DC278;
     to.z = target->z - z;
@@ -3873,7 +3846,7 @@ s32 TObjPlayer::apply_exp_level_growth() {
         if (e == NULL) {
             break;
         }
-        if (get_level_row_exp_threshold() > ((Obj_801B6CE0 *)this)->stats->exp) {
+        if (get_level_row_exp_threshold() > stat_block->exp) {
             break;
         }
         add_stat(((TObjPlayer *)e)->get_char_class());
@@ -3882,7 +3855,7 @@ s32 TObjPlayer::apply_exp_level_growth() {
         add_hp(get_byte_3((void *)e));
         add_dfp(((TObjPlayer *)e)->get_byte_4());
         add_ata(((TObjPlayer *)e)->get_field_5());
-        ((Obj_801B6CE0 *)this)->stats->level = lvl;
+        stat_block->level = lvl;
         lvl++;
     }
     return 1;
@@ -4226,21 +4199,20 @@ saddr TObjPlayer::resolve_move_collision() {
 }
 
 s32 TObjPlayer::check_actor_blocking_move() {
-    Obj_801B5DDC *self = (Obj_801B5DDC *)this;
     Vec pos;
     Vec diff;
     Hit_801B5DDC hit;
-    pos.x = self->pos.x + self->f308.x;
+    pos.x = position.x + velocity.x;
     pos.y = TObjPlayer__data_805DC278;
-    pos.z = self->pos.z + self->f308.z;
-    if (test_player_overlap_with_players(self, self, &pos, &hit) != 0) {
+    pos.z = position.z + velocity.z;
+    if (test_player_overlap_with_players(this, this, &pos, &hit) != 0) {
         if (hit.flags & 0x100) {
             return 0;
         }
         diff.x = pos.x - hit.pos.x;
         diff.y = TObjPlayer__data_805DC278;
         diff.z = pos.z - hit.pos.z;
-        if (vec3_dot(&diff, &self->f308) < TObjPlayer__data_805DC278) {
+        if (vec3_dot(&diff, &velocity) < TObjPlayer__data_805DC278) {
             return 1;
         }
     }
@@ -4698,7 +4670,7 @@ void fill_player_record__10TObjPlayerFPvPv(Src_801B4CE4 *src, Dst_801B4CE4 *dst)
     TObjPlayer__sub_801BE838(dst, ((TObjPlayer *)src)->get_field_374_state());
     TObjPlayer__sub_801BE80C(dst, ((TObjPlayer *)src)->get_inventory_state());
     TObjPlayer__sub_801BE7E0(dst, ((TObjPlayer *)src)->get_equip_flags());
-    TObjPlayer__sub_801BE7B4(dst, TObjPlayer__sub_801BE7BC(src));
+    TObjPlayer__sub_801BE7B4(dst, ((TObjPlayer *)src)->fn_801BE7BC());
     for (i = 0; i < 0x13; i++) {
         TObjPlayer::split_capped_value(TObjPlayer__sub_801C0124(src->f428, i), &dst->fB4[i], (s8 *)&dst->f142[i]);
     }

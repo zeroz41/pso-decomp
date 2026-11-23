@@ -6736,7 +6736,7 @@ force_active:
   - get_table_value__19TAdPlyPltAnimCtrlGCFi
   - get_demo_camera_position__16TCameraDebugViewFv
   - get_texlist__23TObjSeabedSuisoBrakableFi
-  - get_total_materials_used__Fl
+  - get_total_materials_used__12Obj_803374C4Fv
   - get_type__16PhotonBlastGaugeFv
   - get_type__23TAdSinglePlyChrSelectGCFPv
   - get_vidlist
