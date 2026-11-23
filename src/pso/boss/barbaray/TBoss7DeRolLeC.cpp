@@ -149,7 +149,7 @@ extern TObjMotionAction de_rol_le_c_action_table[17];
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/render/model_render_state.h"
 #include "pso/map/area/AreaScene.h"
-#include "pso/player/TUnk_804E3BA8.h"
+#include "pso/boss/barbaray/TBoss7BodyBreakUp.h"
 #include "pso/player/PlayerSlots.h"
 
 // Step of a De Rol Le C action sequence: the action id and its parameter, a
@@ -796,7 +796,7 @@ void TBoss7DeRolLeC::run_task() {
     if (flags & 0x80) {
         this->state_flags = flags & ~0x80;
         this->state_flags |= 0x40;
-        new TUnk_804E3BA8(this, node_matrices);
+        new TBoss7BodyBreakUp(this, node_matrices);
     }
     if ((TObjEneDD::is_main_phase_15() != 0) && (this->debug_pad_active == 0)) {
         if (this->update_lobby_state() != 0) {

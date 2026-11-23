@@ -1,6 +1,6 @@
 #include "pso/system/NinjaTypes.h"
 #include "pso/player/TEquippedItemDrawTask.h"
-#include "pso/player/TUnk_804F2A10.h"
+#include "pso/player/TEquippedWeaponDrawTask.h"
 #include "types.h"
 #include "pso/item/TItem.h"
 #include "pso/ui/hud/TRaderMapCore.h"
@@ -153,7 +153,7 @@ void TObjPlayer::warn_if_gauge_low() {
 }
 
 void TObjPlayer::spawn_cleanup_helper(void *arg0) {
-    new TUnk_804F2A10((TObject *)arg0);
+    new TEquippedWeaponDrawTask((TObject *)arg0);
 }
 
 
@@ -163,16 +163,16 @@ void TObjPlayer::push_id_to_list(s32 id) {
     }
     ((TObjPlayer *)(*(void **)&lbl_805D6FB8))->push_to_list(id);
 }
-TUnk_804F2A10::TUnk_804F2A10(TObject *parent) : TObject(parent) {
+TEquippedWeaponDrawTask::TEquippedWeaponDrawTask(TObject *parent) : TObject(parent) {
     reset_id_array__10TObjPlayerFPv(lbl_805D6FB8);
 }
 
-TUnk_804F2A10::~TUnk_804F2A10() {
+TEquippedWeaponDrawTask::~TEquippedWeaponDrawTask() {
 
 }
 
 
-void TUnk_804F2A10::run_task() {
+void TEquippedWeaponDrawTask::run_task() {
     NJS_OBJECT *model;
     NJS_TEXLIST *texture;
 
@@ -181,7 +181,7 @@ void TUnk_804F2A10::run_task() {
         scroll_item_model_uvs(model->child, 2, 2, 0xB);
     }
 }
-void TUnk_804F2A10::render() {
+void TEquippedWeaponDrawTask::render() {
     s32 *p;
     s32 n;
     VObj_18_1419ea *obj;

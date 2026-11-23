@@ -11,7 +11,7 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/boss/goldragon/TBoss8Dragon.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TUnk_804E3BC0.h"
+#include "pso/boss/barbaray/TBoss7JointBreakUp.h"
 #include "pso/system/task/TObject.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 
@@ -26,7 +26,7 @@ void TBoss7Joint::init_boss_stats() {
     reload_stats_keep_hp_tp((u8 *)TLobby::register_boss(0x10), (u8 *)TLobby::dispatch_shared_handler_b(0xF), (u8 *)TLobby::register_object(0x10));
     hp = 0x4E20;
     hpmax = 0x4E20;
-    new TUnk_804E3BC0(this, &position, index);
+    new TBoss7JointBreakUp(this, &position, index);
     play_sound_effect(0x3A312, &position, 0, 0);
 }
 

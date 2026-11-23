@@ -6,7 +6,7 @@
 #include "pso/weapon/TItemAttacker.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/unk/text_803D96A8.h"
-#include "pso/unk/TUnk_804A5D10.h"
+#include "pso/weapon/TWeaponCasing.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/system/vector.h"
 #include "pso/item/TItem.h"
@@ -39,7 +39,7 @@ TUnk_804A5D28::~TUnk_804A5D28() {}
 
 void expire_weapon_casing(void *p) { ((TObject *)p)->queue_destruction(); }
 
-TUnk_804A5D10::~TUnk_804A5D10() {}
+TWeaponCasing::~TWeaponCasing() {}
 
 TItem *TObjPlayer::create_inferno_bazooka(u8 *item) {
     if (item != NULL) {
@@ -94,7 +94,7 @@ void TUnk_804A5D28::vfunc_60() {
 #pragma push
 #pragma opt_common_subs off
 #pragma fp_contract on
-TUnk_804A5D10::TUnk_804A5D10(TObject *parent, TItem *item, Vec *position, Vec *velocity, s32 *rotation) : TObject(parent) {
+TWeaponCasing::TWeaponCasing(TObject *parent, TItem *item, Vec *position, Vec *velocity, s32 *rotation) : TObject(parent) {
     item_id = item->get_item_id();
     VecCopy(&this->position, position);
     copy_xyz(&rotation_x, rotation);
@@ -105,7 +105,7 @@ TUnk_804A5D10::TUnk_804A5D10(TObject *parent, TItem *item, Vec *position, Vec *v
 }
 #pragma pop
 
-void TUnk_804A5D10::run_task() {
+void TWeaponCasing::run_task() {
     if (find_equipped_item(item_id) == 0U) {
         queue_destruction();
         return;
@@ -115,7 +115,7 @@ void TUnk_804A5D10::run_task() {
 }
 
 
-void TUnk_804A5D10::render() {
+void TWeaponCasing::render() {
     uaddr child;
     u8 *equipped_item;
 
@@ -140,7 +140,7 @@ void TObjPlayer::launch_weapon_casing(saddr parent, uaddr item, s32 joint, uaddr
     u8 sp8[0x18];
     void *object;
     if ((parent != 0) && (item != 0U) && (velocity != 0U) && (angle != 0U) && (((TItemWeapon *)item)->get_joint_position(joint, sp8) != 0)) {
-        object = new TUnk_804A5D10((TObject *)parent, (TItem *)item, (Vec *)sp8, (Vec *)velocity, (s32 *)angle);
+        object = new TWeaponCasing((TObject *)parent, (TItem *)item, (Vec *)sp8, (Vec *)velocity, (s32 *)angle);
         TItemAttacker::spawn_item_timer((TObject *)object, (ItemTimerCallback)expire_weapon_casing, 0xF);
     }
 }
@@ -148,7 +148,7 @@ void TObjPlayer::launch_weapon_casing(saddr parent, uaddr item, s32 joint, uaddr
 void TObjPlayer::spawn_weapon_casing(saddr parent, uaddr item, uaddr pos, uaddr velocity, uaddr angle) {
     void *p;
     if ((parent != 0) && (item != 0U) && (pos != 0U) && (velocity != 0U) && (angle != 0U)) {
-        p = new TUnk_804A5D10((TObject *)parent, (TItem *)item, (Vec *)pos, (Vec *)velocity, (s32 *)angle);
+        p = new TWeaponCasing((TObject *)parent, (TItem *)item, (Vec *)pos, (Vec *)velocity, (s32 *)angle);
         TItemAttacker::spawn_item_timer((TObject *)p, (ItemTimerCallback)expire_weapon_casing, 0xF);
     }
 }

@@ -8,9 +8,9 @@
 #include "pso/render/NinjaUtil.h"
 #include "pso/render/MaterialColorFade.h"
 #include "pso/system/vector.h"
-#include "pso/player/TUnk_804E3BD8.h"
-#include "pso/player/TUnk_804E3BC0.h"
-#include "pso/player/TUnk_804E3BA8.h"
+#include "pso/boss/barbaray/TBoss7BreakUp.h"
+#include "pso/boss/barbaray/TBoss7JointBreakUp.h"
+#include "pso/boss/barbaray/TBoss7BodyBreakUp.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/system/task/TObject.h"
@@ -149,7 +149,7 @@ s32 TObjPlayer__sub_802E76C8(u8 *arg0) {
 }
 #pragma pop
 
-void TUnk_804E3BC0::sub_802E7640() {
+void TBoss7JointBreakUp::scale_node_positions() {
     s32 i;
     push_matrix();
     set_matrix_identity(0);
@@ -160,7 +160,7 @@ void TUnk_804E3BC0::sub_802E7640() {
     pop_matrix();
 }
 
-void TUnk_804E3BD8::sub_802E75B8() {
+void TBoss7BreakUp::scale_node_velocities_xz() {
     s32 i;
     push_matrix();
     set_matrix_identity(0);
@@ -171,30 +171,30 @@ void TUnk_804E3BD8::sub_802E75B8() {
     pop_matrix();
 }
 
-TUnk_804E3BD8::TUnk_804E3BD8(TObject *parent) : TObject(parent) {
+TBoss7BreakUp::TBoss7BreakUp(TObject *parent) : TObject(parent) {
     age = 0;
     model = NULL;
     count = 0;
     pieces = NULL;
 }
 
-TUnk_804E3BD8::~TUnk_804E3BD8() {
+TBoss7BreakUp::~TBoss7BreakUp() {
     mem_free(pieces);
     delete model;
 }
 
 
-void TUnk_804E3BD8::alloc_breakup_model(s32 model) {
+void TBoss7BreakUp::alloc_breakup_model(s32 model) {
     this->model = new TBreakUpMdlData(model);
     count = this->model->m_count;
-    sub_802E75B8();
+    scale_node_velocities_xz();
     pieces = (u8 *)mem_alloc(count * 0x2C);
 }
 
 void TObjPlayer__sub_802E7470(void) {  }
 void TObjPlayer__sub_802E746C(void) {  }
 
-TUnk_804E3BC0::TUnk_804E3BC0(TObject *parent, Vec *position, s32 index) : TUnk_804E3BD8(parent) {
+TBoss7JointBreakUp::TBoss7JointBreakUp(TObject *parent, Vec *position, s32 index) : TBoss7BreakUp(parent) {
     s32 n;
     Piece_802E72DC *p;
     Vec *q;
@@ -206,7 +206,7 @@ TUnk_804E3BC0::TUnk_804E3BC0(TObject *parent, Vec *position, s32 index) : TUnk_8
     }
     if (n > 0) {
         alloc_breakup_model((s32)find_model_node((uaddr)TBoss7DeRolLeC::get_archive_model(3), n));
-        sub_802E7640();
+        scale_node_positions();
         p = (Piece_802E72DC *)pieces;
         for (i = 0; i < count; i++, p++) {
             VecCopy(&p->pos, position);
@@ -226,10 +226,10 @@ TUnk_804E3BC0::TUnk_804E3BC0(TObject *parent, Vec *position, s32 index) : TUnk_8
     }
 }
 
-TUnk_804E3BC0::~TUnk_804E3BC0() {
+TBoss7JointBreakUp::~TBoss7JointBreakUp() {
 }
 
-void TUnk_804E3BC0::run_task() {
+void TBoss7JointBreakUp::run_task() {
     s32 off;
     s32 i;
     age++;
@@ -244,7 +244,7 @@ void TUnk_804E3BC0::run_task() {
     }
 }
 
-void TUnk_804E3BC0::render() {
+void TBoss7JointBreakUp::render() {
     Node_802E708C *node;
     Part_802E708C *part;
     u8 *fx = (u8 *)TBoss7DeRolLeC::get_archive_model(3);
@@ -285,7 +285,7 @@ void TUnk_804E3BC0::render() {
 void TObjPlayer__sub_802E7088(void) {  }
 void TObjPlayer__sub_802E7084(void) {  }
 
-TUnk_804E3BA8::TUnk_804E3BA8(TObject *parent, GC_Mtx *matrices) : TUnk_804E3BD8(parent) {
+TBoss7BodyBreakUp::TBoss7BodyBreakUp(TObject *parent, GC_Mtx *matrices) : TBoss7BreakUp(parent) {
     Part_802E6F10 *part;
     s32 i;
     alloc_breakup_model((saddr)TBoss7DeRolLeC::get_archive_model(2));
@@ -311,10 +311,10 @@ TUnk_804E3BA8::TUnk_804E3BA8(TObject *parent, GC_Mtx *matrices) : TUnk_804E3BD8(
     pop_matrix();
 }
 
-TUnk_804E3BA8::~TUnk_804E3BA8() {
+TBoss7BodyBreakUp::~TBoss7BodyBreakUp() {
 }
 
-void TUnk_804E3BA8::run_task() {
+void TBoss7BodyBreakUp::run_task() {
     s32 off;
     s32 i;
     age++;
@@ -329,7 +329,7 @@ void TUnk_804E3BA8::run_task() {
     }
 }
 
-void TUnk_804E3BA8::render() {
+void TBoss7BodyBreakUp::render() {
     Node_802E6CB0 *node;
     Part_802E6CB0 *part;
     s32 i;

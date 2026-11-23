@@ -136,7 +136,7 @@ void load_list_texture(s32 idx, s32 wrapS, s32 wrapT, s32 map);
 #include "pso/player/TObjPlayer_80083B38.h"
 #include "pso/player/TObjPlayer_800847A8.h"
 #include "pso/system/memory.h"
-#include "pso/player/TUnk_8048E5F4.h"
+#include "pso/player/TCameraCapturePass.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/map/FloorArea.h"
@@ -737,18 +737,18 @@ void reset_particle_tev() {
 }
 
 
-TUnk_8048E5F4::TUnk_8048E5F4(TObject *parent, s32 flags) : TObject(parent) {
+TCameraCapturePass::TCameraCapturePass(TObject *parent, s32 flags) : TObject(parent) {
     this->flags = flags;
 }
 
-TUnk_8048E5F4::~TUnk_8048E5F4() {
+TCameraCapturePass::~TCameraCapturePass() {
 }
 
-void TUnk_8048E5F4::run_task() {  }
+void TCameraCapturePass::run_task() {  }
 
-void TUnk_8048E5F4::render_shadows() { if (TObjPlayer::get_camera_flag() != 0) { set_tev_swap_mode((u8)(0)); } }
+void TCameraCapturePass::render_shadows() { if (TObjPlayer::get_camera_flag() != 0) { set_tev_swap_mode((u8)(0)); } }
 
-void TUnk_8048E5F4::render() {
+void TCameraCapturePass::render() {
     if (!(get_camera_capture_flags() & 4)) {
         if (flags & 1) {
             if (test_camera_capture_flags_bits01() == 1) {

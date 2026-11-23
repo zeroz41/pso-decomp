@@ -18,7 +18,7 @@
 #include "pso/system/scene/TScene.h"
 #include "pso/system/scene/TSceneSora.h"
 #include "pso/object/switch/TSwitch.h"
-#include "pso/player/TUnk_8048E5F4.h"
+#include "pso/player/TCameraCapturePass.h"
 #include "pso/map/FloorArea.h"
 
 #include "types.h"
@@ -118,8 +118,8 @@ void TLobby::create_tasks() {
     uaddr tmp;
     create_area_fog_ctrl();
     if (is_split_screen() == 0) {
-        new TUnk_8048E5F4(tl_particlemodel, 1);
-        new TUnk_8048E5F4(tl_particlemodel, 0);
+        new TCameraCapturePass(tl_particlemodel, 1);
+        new TCameraCapturePass(tl_particlemodel, 0);
         new TUnk_804EDAC0(tl_particlemodel);
         new TUnk_804EFA88(tl_particlemodel);
     }

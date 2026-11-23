@@ -2466,7 +2466,7 @@ force_active:
   - __dt__13TUnk_804A5648Fv
   - __dt__13TUnk_804A5740Fv
   - __dt__13TUnk_804A5A28Fv
-  - __dt__13TUnk_804A5D10Fv
+  - __dt__13TWeaponCasingFv
   - __dt__13TUnk_804A5E20Fv
   - __dt__13TUnk_804A6108Fv
   - __dt__13TUnk_804A62F8Fv
@@ -2493,7 +2493,7 @@ force_active:
   - __dt__13TUnk_804CCD78Fv
   - __dt__13TUnk_804DCB64Fv
   - __dt__12TEffIndirectFv
-  - __dt__13TUnk_804E3BD8Fv
+  - __dt__13TBoss7BreakUpFv
   - __dt__13TUnk_804E4788Fv
   - __dt__13TUnk_804E4BF0Fv
   - __dt__13TUnk_804E6FA8Fv
@@ -2514,7 +2514,7 @@ force_active:
   - __dt__13TUnk_804F1320Fv
   - __dt__13TUnk_804F1C88Fv
   - __dt__21TEquippedItemDrawTaskFv
-  - __dt__13TUnk_804F2A10Fv
+  - __dt__23TEquippedWeaponDrawTaskFv
   - __dt__13TBoss6MagMineFv
   - __dt__13TUnk_804F3428Fv
   - __dt__13TUnk_804F3640Fv
@@ -3236,7 +3236,7 @@ force_active:
   - __vt__13TUnk_804A5648
   - __vt__13TUnk_804A5740
   - __vt__13TUnk_804A5A28
-  - __vt__13TUnk_804A5D10
+  - __vt__13TWeaponCasing
   - __vt__13TUnk_804A5E20
   - __vt__13TUnk_804A6108
   - __vt__13TUnk_804A62F8
@@ -3264,7 +3264,7 @@ force_active:
   - __vt__13TUnk_804CCD78
   - __vt__13TUnk_804DCB64
   - __vt__12TEffIndirect
-  - __vt__13TUnk_804E3BD8
+  - __vt__13TBoss7BreakUp
   - __vt__13TUnk_804E4788
   - __vt__13TUnk_804E4BF0
   - __vt__13TUnk_804E6FA8
@@ -3281,7 +3281,7 @@ force_active:
   - __vt__13TUnk_804F1280
   - __vt__13TUnk_804F1320
   - __vt__21TEquippedItemDrawTask
-  - __vt__13TUnk_804F2A10
+  - __vt__23TEquippedWeaponDrawTask
   - __vt__13TBoss6MagMine
   - __vt__13TUnk_804F3428
   - __vt__13TUnk_804F3640
@@ -3851,7 +3851,7 @@ force_active:
   - all_children_gone__18TObjEneEpsilonBodyFv
   - alloc_boss4rock_buffer__6TLobbyFv
   - alloc_boss_target_slot__16TBoss3VoloptCoreFv
-  - alloc_breakup_model__13TUnk_804E3BD8Fl
+  - alloc_breakup_model__13TBoss7BreakUpFl
   - alloc_breakup_piece_records__15TBreakUpMdlDataFP10NJS_OBJECT
   - alloc_char_records__23TAdSinglePlyChrSelectGCFPv
   - alloc_download_buffer__17TCharSaveSequenceFv
@@ -5316,7 +5316,7 @@ force_active:
   - __ct__10TTecRaFoieFlP3VecP16TargetCursorListl
   - __ct__9TTecBartaFlP3Vecll
   - __ct__22TWindowDD_WS_ScrollBarFv
-  - __ct__13TUnk_804A5D10FP7TObjectP5TItemP3VecP3VecPl
+  - __ct__13TWeaponCasingFP7TObjectP5TItemP3VecP3VecPl
   - __ct__13TUnk_804A5458FP7TObjectPUc
   - construct_with_index__22TObjFogCollisionPoisonFPUcl
   - __ct__20ItemModelChunkLoaderFPCcll
@@ -7205,7 +7205,7 @@ force_active:
   - init_vertex_table__17TObjEneBm3FlyNestFv
   - __ct__13TUnk_804ED390FP7TObjectPUc
   - __ct__13TUnk_804A63F0FP7TObjectPUc
-  - __ct__13TUnk_804F2A10FP7TObject
+  - __ct__23TEquippedWeaponDrawTaskFP7TObject
   - __ct__13TUnk_804A4E68FP7TObjectPUc
   - __ct__13TUnk_804A5150FP7TObjectPUc
   - __ct__13TUnk_804ECEB8FP7TObjectPUc
@@ -7217,7 +7217,7 @@ force_active:
   - init_windows__23TAdSinglePlyChrSelectGCFPv
   - init_with_global_table__9TBoss6MagFv
   - init_work__11TBoss6Type1Fv
-  - __ct__13TUnk_804E3BD8FP7TObject
+  - __ct__13TBoss7BreakUpFP7TObject
   - initialize__13TUnk_804A05C8FP15TItemHeapObjectUsll
   - __ct__13TUnk_804A5248FP7TObjectPUc
   - initialize_battle__19TPlayerBattleCtrl4PFv
@@ -14184,7 +14184,7 @@ force_active:
   - render__11TLightGlareFv
   - render__13TUnk_804A2148Fv
   - render__21TItemShootRocketPunchFv
-  - render__13TUnk_804A5D10Fv
+  - render__13TWeaponCasingFv
   - render__13TUnk_804B5C08Fv
   - render__13TUnk_804B7C1CFv
   - render__13TUnk_804CC870Fv
@@ -14199,7 +14199,7 @@ force_active:
   - render__15TItemEffPGModelFv
   - render__13TUnk_804F1280Fv
   - render__13TUnk_804F1C88Fv
-  - render__13TUnk_804F2A10Fv
+  - render__23TEquippedWeaponDrawTaskFv
   - render__13TBoss6MagMineFv
   - render__13TWindowStatusFv
   - render__13TWindowSubLogFv
@@ -14873,7 +14873,7 @@ force_active:
   - run_task__13TUnk_8049FEB8Fv
   - run_task__20TItemFollowStarLightFv
   - run_task__17TItemFollowEffectFv
-  - run_task__13TUnk_804A5D10Fv
+  - run_task__13TWeaponCasingFv
   - run_task__13TUnk_804B5C08Fv
   - run_task__17TNpcPlayerSpawnerFv
   - run_task__13TUnk_804B7C1CFv
@@ -14902,7 +14902,7 @@ force_active:
   - run_task__13TUnk_804F1280Fv
   - run_task__13TUnk_804F1C88Fv
   - run_task__21TEquippedItemDrawTaskFv
-  - run_task__13TUnk_804F2A10Fv
+  - run_task__23TEquippedWeaponDrawTaskFv
   - run_task__13TBoss6MagMineFv
   - run_task__13TUnk_804F3428Fv
   - run_task__13TUnk_804F3640Fv
