@@ -117,7 +117,6 @@ struct VObj_18_801A441C : VBase_18_801A441C {
     virtual void m6();
 };
 
-struct Obj_801A40D8 { u8 pad[0x20]; };
 
 struct PlB_801A40D8 { u8 pad[0x18]; };
 
@@ -141,13 +140,11 @@ s32 PPCSync();
 extern s32 lbl_805D5718;
 void __construct_array(void *, void *, int, int, int);
 s32 TLobby__sub_8013A23C(s32 arg0);
-s32 __dt__7TObjectFv(void *, s32);
 s32 unlock_main_warp_destination();
 s32 TObjPlayer__sub_801B1BA4();
 s32 TObjPlayer__sub_801B1C8C();
 void *get_player_by_client_id(s32);
 s32 load_area_scene_and_init(void *);
-s32 __ct__7TObjectFP7TObject(void *, s32);
 s32 run_load_callback_table(void *, s32);
 void TLobby__sub_801A3E94(void);
 s32 TAdDialingGC__sub_801A4C90();
@@ -318,8 +315,7 @@ int TLobby__sub_801A3E8C(void) { return 0; }
 void TLobby__sub_801A3E94(void) {  }
 
 void reload_lobby_floor_scene(void) {
-    s32 sp8[9];
-    __ct__7TObjectFP7TObject(sp8, 0);
+    TObject holder(NULL);
     TLobby::clear_counters();
     TLobby::reset_state_flags();
     TObjPlayer__sub_801B1C8C();
@@ -361,7 +357,6 @@ void reload_lobby_floor_scene(void) {
     TLobby::send_room_change(TLobby__lobby_number);
     init_key_slots__15TOKeyJungleMainFPv();
     TLobby__data_805D5CE8 = 0;
-    __dt__7TObjectFv(sp8, -1);
 }
 
 void TLobby::send_and_handle() { TLobby::blocking_vsync(); }
@@ -393,7 +388,6 @@ void TLobby::blocking_vsync() {
 }
 
 void TLobby::reload_floor_scene() {
-    Obj_801A40D8 sp8;
     s32 i;
     Pl_801A40D8 *p;
     s32 j;
@@ -401,7 +395,7 @@ void TLobby::reload_floor_scene() {
     TObjPlayer__sub_801B1C8C();
     TLobby::stop_audio_streams();
     TLobby::update_lobby_subsystems();
-    __ct__7TObjectFP7TObject(&sp8, 0);
+    TObject holder(NULL);
     process_pending_resources();
     reset_controller_input_state();
     render_tick();
@@ -409,7 +403,7 @@ void TLobby::reload_floor_scene() {
     for (i = 0; i < 12; i++) {
         p = (Pl_801A40D8 *)get_player_by_client_id(i);
         if (p != NULL) {
-            ((TObject *)p)->set_parent((TObject *)(&sp8));
+            ((TObject *)p)->set_parent(&holder);
         }
     }
     main_task.delete_layer_children();
@@ -438,7 +432,6 @@ void TLobby::reload_floor_scene() {
     TLobby::process_deferred_player_setup();
     TObjPlayer__sub_801B1BA4();
     TObjBgmColCtrl::create_controller();
-    __dt__7TObjectFv(&sp8, -1);
 }
 
 void TLobby::free_objects() {
@@ -461,12 +454,11 @@ void TLobby::free_objects() {
 }
 
 void start_quest_mission(void) {
-    u8 tmp[0x1C];
     s32 i;
     s32 j;
     VObj_18_801A4268 *q;
     VObj_18_801A4268 *p;
-    __ct__7TObjectFP7TObject(tmp, 0);
+    TObject holder(NULL);
     TLobby::reset_state_flags();
     TObjPlayer__sub_801B1C8C();
     TLobby::stop_audio_streams();
@@ -479,7 +471,7 @@ void start_quest_mission(void) {
     for (i = 0; i < 12; i++) {
         p = (VObj_18_801A4268 *) get_player_by_client_id(i);
         if (p != NULL) {
-            ((TObject *)p)->set_parent((TObject *)tmp);
+            ((TObject *)p)->set_parent(&holder);
         }
     }
     main_task.delete_layer_children();
@@ -520,17 +512,15 @@ void start_quest_mission(void) {
     TLobby::process_deferred_player_setup();
     TObjPlayer__sub_801B1BA4();
     TQuestThread::create_for_floor();
-    __dt__7TObjectFv(tmp, -1);
 }
 
 void change_floor_reload_area(void) {
-    u8 tmp[0x1C];
     s32 i;
     s32 j;
     s32 r;
     void *q;
     VObj_18_801A441C *p;
-    __ct__7TObjectFP7TObject(tmp, 0);
+    TObject holder(NULL);
     TLobby::reset_state_flags();
     TObjPlayer__sub_801B1C8C();
     TLobby::stop_audio_streams();
@@ -542,7 +532,7 @@ void change_floor_reload_area(void) {
     for (i = 0; i < 12; i++) {
         p = (VObj_18_801A441C *) get_player_by_client_id(i);
         if (p != NULL) {
-            ((TObject *)p)->set_parent((TObject *)tmp);
+            ((TObject *)p)->set_parent(&holder);
         }
     }
     main_task.delete_layer_children();
@@ -593,7 +583,6 @@ void change_floor_reload_area(void) {
         TLobby::clear_callback_and_reset_keyboard();
     }
     TLobby::clear_callback_and_reset_keyboard();
-    __dt__7TObjectFv(tmp, -1);
 }
 
 void cleanup_online_lobby_scene(void) {
