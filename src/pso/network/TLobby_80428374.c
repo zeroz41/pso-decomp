@@ -432,7 +432,7 @@ s16 modem_script_dial(ModemRequest *request) {
 #pragma dont_inline off
 void modem_script_store_field(s16 type, s16 index, u8 *src, s16 *nstr, s16 *nint) {
     s32 n;
-    u8 *dst;
+    char *dst;
     s16 i;
     s16 value;
     u8 c;
@@ -440,8 +440,8 @@ void modem_script_store_field(s16 type, s16 index, u8 *src, s16 *nstr, s16 *nint
     if (modem_command_layouts[type].kind[index] == 0) {
         n = *nstr;
         dst = lobby_net_session_state.strbuf + n * lobby_net_session_state.strstride;
-        NetCopyString((char *)dst, (const char *)src);
-        lobby_net_session_state.fields[index].text = dst;
+        NetCopyString(dst, (const char *)src);
+        lobby_net_session_state.fields[index].text = (u8 *)dst;
         *nstr = n + 1;
     }
     if (modem_command_layouts[type].kind[index] == 1) {

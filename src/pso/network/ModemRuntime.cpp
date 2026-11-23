@@ -422,7 +422,7 @@ void parse_modem_command_response(void) {
             memcpy(modem_connection_info.error_control, line + 5, len - 5);
             modem_connection_info.error_control[len - 5] = 0;
         } else if (len > 5 && memcmp(line, "+MRR: ", 5) == 0) {
-            sscanf((char *)line + 5, "%d,%d", &modem_connection_info.f4, &modem_connection_info.f8);
+            sscanf((char *)line + 5, "%d,%d", &modem_connection_info.transmit_rate, &modem_connection_info.receive_rate);
         } else if ((len == 4 && memcmp(line, "ATE0", 4) == 0) || (len == 5 && memcmp(line, "ERROR", 5) == 0)) {
         } else if (len == 10 && memcmp(line, "NO CARRIER", 10) == 0) {
             lbl_805D7C98 = 1;
@@ -942,10 +942,10 @@ s32 TAdSinglePlyChrSelectGC__sub_8042E184(void) {
 }
 
 // The two AT&P commands are edited in place by modem_send_at_command.
-static char lbl_805D4920[5] = "ATDT";
-static char lbl_805D4928[7] = "AT&P0\r";
-static char lbl_805D4930[5] = "ATDP";
-static char lbl_805D4938[7] = "AT&P2\r";
+static char modem_tone_dial_prefix[5] = "ATDT";
+static char modem_pulse_ratio_default_command[7] = "AT&P0\r";
+static char modem_pulse_dial_prefix[5] = "ATDP";
+static char modem_pulse_ratio_alt_command[7] = "AT&P2\r";
 
 s32 modem_dial(const char *number, s32 mode, void (*callback)(s32 result)) {
     char buf[0x40];
@@ -961,15 +961,15 @@ s32 modem_dial(const char *number, s32 mode, void (*callback)(s32 result)) {
     modem_command_response_state.callback = callback;
     switch (mode) {
     case 1:
-        strcpy(buf, lbl_805D4920);
+        strcpy(buf, modem_tone_dial_prefix);
         break;
     case 2:
-        result = modem_send_at_command(lbl_805D4928);
-        strcpy(buf, lbl_805D4930);
+        result = modem_send_at_command(modem_pulse_ratio_default_command);
+        strcpy(buf, modem_pulse_dial_prefix);
         break;
     case 3:
-        result = modem_send_at_command(lbl_805D4938);
-        strcpy(buf, lbl_805D4930);
+        result = modem_send_at_command(modem_pulse_ratio_alt_command);
+        strcpy(buf, modem_pulse_dial_prefix);
         break;
     }
     strcat(buf, number);

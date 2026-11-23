@@ -12,7 +12,7 @@ typedef union ModemFieldSlot {
 typedef struct ModemSessionState {
     const char **subst;
     u8 pad04[4];
-    u8 *strbuf;
+    char *strbuf;
     u8 pad0C[2];
     s16 strstride;
     ModemFieldSlot *fields;

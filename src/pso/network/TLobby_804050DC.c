@@ -287,7 +287,6 @@ s32 TLobby__sub_804053B8(B_80403F4C *record, PppFrame **pp)
   return cb;
 }
 
-extern u16 TLobby__sub_803FE934(u8 *obj, PppFrame *buf, u16 n);
 PppFrame *TLobby__sub_8040555C(B_80403F4C *record, PppFrame *frame, u8 *obj) {
     u8 hdr[0x3c];
     u32 n = 0;
@@ -685,9 +684,7 @@ s32 TLobby__sub_804060B8(u8 *src, int len, int id) {
 #pragma pop
 void init_lcp_protocol(u8 *conn);
 void pap_init(u8 *arg0);
-void TLobby__sub_803FC318(void* self);
 void TLobby__sub_803FEF4C(u8 *self);
-void TLobby__sub_803F9FAC(u8 *ctx);
 s32 TLobby__sub_804061FC(void)
 {
   u8 *p;
@@ -704,9 +701,9 @@ s32 TLobby__sub_804061FC(void)
   p[0] = z;
   init_lcp_protocol((u8 *)(PppProtoBlocks *)new_var);
   pap_init((u8 *)(PppProtoBlocks *)new_var);
-  TLobby__sub_803FC318((u8 *)(PppProtoBlocks *)new_var);
+  TLobby__sub_803FC318((PppProtoBlocks *)new_var);
   TLobby__sub_803FEF4C((u8 *)(PppProtoBlocks *)new_var);
-  TLobby__sub_803F9FAC((u8 *)(PppProtoBlocks *)new_var);
+  TLobby__sub_803F9FAC((PppProtoBlocks *)new_var);
   if (p[0] == 0)
   {
     p[0] = 1;

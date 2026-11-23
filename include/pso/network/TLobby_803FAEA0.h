@@ -107,6 +107,8 @@ void set_ppp_auth_protocol(u16 protocol);
 extern s16 lbl_805D7A84;
 extern s16 lbl_805D7A88;
 extern saddr lbl_805D7A8C;
+void TLobby__sub_803FC318(PppProtoBlocks *connection);
+void TLobby__sub_803F9FAC(PppProtoBlocks *connection);
 extern PppProtoBlocks ppp_proto_blocks;
 extern s16 lobby_modem_abort_flag;
 extern s32 lobby_modem_reply_value;

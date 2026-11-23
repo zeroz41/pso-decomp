@@ -79,8 +79,8 @@ PppAuthState lbl_805C02D0;
 /* The challenge length and the response reader's scratch byte (.sbss 805D7A98), in reverse definition order. */
 u16 lbl_805D7A9A;
 u8 chap_read_byte_buffer;
-extern void TLobby__sub_803FC318(u8 *conn) {
-    PppFsm *fsm = (PppFsm *)(conn + 0xA0);
+void TLobby__sub_803FC318(PppProtoBlocks *connection) {
+    PppFsm *fsm = &connection->chap;
     PppFsmTimer *timer;
 
     if (fsm->opts == NULL) {
@@ -93,18 +93,18 @@ extern void TLobby__sub_803FC318(u8 *conn) {
         lbl_805C0180.proto.b9 = lbl_805C02D0.f36;
         lbl_805C0180.proto.bA = lbl_805C02D0.f37;
         lbl_805C0180.proto.timeout = lbl_805C02D0.f38 * 1000;
-        lbl_805C0180.proto.f10 = TLobby__sub_803FE84C;
-        lbl_805C0180.proto.f14 = TLobby__sub_803FE84C;
-        lbl_805C0180.proto.f18 = TLobby__sub_803FE84C;
-        lbl_805C0180.proto.f1C = TLobby__sub_803FE84C;
-        lbl_805C0180.proto.f20 = TLobby__sub_803FE84C;
-        lbl_805C0180.proto.f24 = TLobby__sub_803FE84C;
-        lbl_805C0180.proto.f28 = build_avetcp_net_buffer;
-        lbl_805C0180.proto.f2C = TLobby__sub_803FE844;
-        lbl_805C0180.proto.f30 = TLobby__sub_803FE844;
-        lbl_805C0180.proto.f34 = TLobby__sub_803FE844;
-        lbl_805C0180.proto.f38 = TLobby__sub_803FE844;
-        fsm->sub = conn;
+        lbl_805C0180.proto.release_resources = TLobby__sub_803FE84C;
+        lbl_805C0180.proto.reset_options = TLobby__sub_803FE84C;
+        lbl_805C0180.proto.start_negotiation = TLobby__sub_803FE84C;
+        lbl_805C0180.proto.link_opened = TLobby__sub_803FE84C;
+        lbl_805C0180.proto.link_closed = TLobby__sub_803FE84C;
+        lbl_805C0180.proto.finish_termination = TLobby__sub_803FE84C;
+        lbl_805C0180.proto.build_config_request = build_avetcp_net_buffer;
+        lbl_805C0180.proto.check_config_request = TLobby__sub_803FE844;
+        lbl_805C0180.proto.check_config_ack = TLobby__sub_803FE844;
+        lbl_805C0180.proto.check_config_nak = TLobby__sub_803FE844;
+        lbl_805C0180.proto.check_config_reject = TLobby__sub_803FE844;
+        fsm->sub = (u8 *)connection;
         fsm->proto = &lbl_805C0180.proto;
         fsm->opts = &lbl_805C0180.options;
         fsm->f4 = fsm->proto->b9;

@@ -23,17 +23,17 @@ struct PppFsmProtocol {
     u8 bA;                      /* 0x0A: copied to PppFsm.f7 */
     u8 bB;                      /* 0x0B: copied to PppFsm.f5 */
     s32 timeout;                /* 0x0C: in ms */
-    PppFsmAction f10;
-    PppFsmAction f14;
-    PppFsmAction f18;
-    PppFsmAction f1C;
-    PppFsmAction f20;
-    PppFsmAction f24;
-    struct PppFrame *(*f28)(PppFsm *fsm); /* builds the packet to (re)send */
-    PppFsmCheck f2C;
-    PppFsmCheck f30;
-    PppFsmCheck f34;
-    PppFsmCheck f38;
+    PppFsmAction release_resources;
+    PppFsmAction reset_options;
+    PppFsmAction start_negotiation;
+    PppFsmAction link_opened;
+    PppFsmAction link_closed;
+    PppFsmAction finish_termination;
+    struct PppFrame *(*build_config_request)(PppFsm *fsm); /* builds the packet to (re)send */
+    PppFsmCheck check_config_request;
+    PppFsmCheck check_config_ack;
+    PppFsmCheck check_config_nak;
+    PppFsmCheck check_config_reject;
 };
 
 /* The FSM's retry timer (lobby_timer_add arms it). */

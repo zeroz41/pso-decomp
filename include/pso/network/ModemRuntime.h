@@ -8,8 +8,8 @@ struct OSContext;
 
 typedef struct ModemConnectionInfo {
     s32 value;
-    s32 f4;
-    s32 f8;
+    s32 transmit_rate;
+    s32 receive_rate;
     char carrier[5];
     char error_control[5];
     char compression[6];

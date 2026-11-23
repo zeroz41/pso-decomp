@@ -280,7 +280,7 @@ PppFrame *TLobby__sub_803FABDC(PppFsm *self);
 s16 TLobby__sub_803FA4A4(PppFsm *self, PppHeader *src, PppFrame *h);
 s16 TLobby__sub_803FA7B0(PppFsm *self, PppHeader *src, PppFrame *h);
 s16 TLobby__sub_803FA318(PppFsm *self, PppHeader *src, PppFrame *h);
-void TLobby__sub_803F9FAC(u8 *ctx) {
+void TLobby__sub_803F9FAC(PppProtoBlocks *connection) {
     Ipv6cpOptionSet *src = &lbl_804FD380;
     PppFsmProtocol *base = &ppp_ipv6cp_protocol_state.proto;
     PppFsm *sub;
@@ -294,20 +294,20 @@ void TLobby__sub_803F9FAC(u8 *ctx) {
     base->bA = 5;
     base->bB = 5;
     base->timeout = 0xBB8;
-    base->f10 = TLobby__sub_803FA234;
-    base->f14 = TLobby__sub_803FA2A8;
-    base->f18 = TLobby__sub_803FA238;
-    base->f1C = init_net_state_entry;
-    base->f20 = TLobby__sub_803FA280;
-    base->f24 = NetIPv6CPCancelTimer;
-    base->f28 = TLobby__sub_803FABDC;
-    base->f2C = TLobby__sub_803FA7B0;
-    base->f30 = verify_message_sequence;
-    base->f34 = TLobby__sub_803FA4A4;
-    base->f38 = TLobby__sub_803FA318;
+    base->release_resources = TLobby__sub_803FA234;
+    base->reset_options = TLobby__sub_803FA2A8;
+    base->start_negotiation = TLobby__sub_803FA238;
+    base->link_opened = init_net_state_entry;
+    base->link_closed = TLobby__sub_803FA280;
+    base->finish_termination = NetIPv6CPCancelTimer;
+    base->build_config_request = TLobby__sub_803FABDC;
+    base->check_config_request = TLobby__sub_803FA7B0;
+    base->check_config_ack = verify_message_sequence;
+    base->check_config_nak = TLobby__sub_803FA4A4;
+    base->check_config_reject = TLobby__sub_803FA318;
 
-    sub = (PppFsm *)(ctx + 0xd4);
-    sub->sub = ctx;
+    sub = &connection->ipv6cp;
+    sub->sub = (u8 *)connection;
     sub->proto = base;
     blk = &ppp_ipv6cp_protocol_state.config;
     sub->opts = blk;
