@@ -152,40 +152,38 @@ void TTecBarta::update_technique_by_state() {
 
 
 void TTecBarta::create_particle_emitters() {
-#define self ((TTecBarta *)this)
     s32 angles[3];
     s32 reverse[3];
     u32 i;
     const TechniqueEmitterSourceRow *row;
     u32 flags;
     saddr base = (saddr)this;
-    angles[0] = self->angles[0];
+    angles[0] = this->angles[0];
     angles[1] = 0;
-    angles[2] = self->angles[2];
-    self->emitters = (TechniqueParticleEmitter **)mem_alloc(TTecBarta__emitter_bands[self->band].count * 4);
-    for (i = 0; i < TTecBarta__emitter_bands[self->band].count; i++) {
-        row = &TTecBarta__emitter_bands[self->band].rows[i];
+    angles[2] = this->angles[2];
+    this->emitters = (TechniqueParticleEmitter **)mem_alloc(TTecBarta__emitter_bands[this->band].count * 4);
+    for (i = 0; i < TTecBarta__emitter_bands[this->band].count; i++) {
+        row = &TTecBarta__emitter_bands[this->band].rows[i];
         flags = row->flags;
         if (flags & 2) {
-            self->emitters[i] = (TechniqueParticleEmitter *)spawn_continuous_particle_with_direction((f32 *)(base + 0x20), angles, row->entry);
+            this->emitters[i] = (TechniqueParticleEmitter *)spawn_continuous_particle_with_direction((f32 *)(base + 0x20), angles, row->entry);
         } else if (flags & 1) {
-            reverse[0] = self->angles[0] + 0x8000;
+            reverse[0] = this->angles[0] + 0x8000;
             reverse[1] = 0;
-            reverse[2] = self->angles[2];
-            self->emitters[i] = (TechniqueParticleEmitter *)spawn_continuous_particle_with_direction((f32 *)(base + 0x20), reverse, TTecBarta__emitter_bands[self->band].rows[i].entry);
+            reverse[2] = this->angles[2];
+            this->emitters[i] = (TechniqueParticleEmitter *)spawn_continuous_particle_with_direction((f32 *)(base + 0x20), reverse, TTecBarta__emitter_bands[this->band].rows[i].entry);
         } else {
-            self->emitters[i] = (TechniqueParticleEmitter *)create_particle_emitter((f32 *)(base + 0x20), row->entry);
+            this->emitters[i] = (TechniqueParticleEmitter *)create_particle_emitter((f32 *)(base + 0x20), row->entry);
         }
-        if (self->emitters[i] != NULL) {
-            row = &TTecBarta__emitter_bands[self->band].rows[i];
+        if (this->emitters[i] != NULL) {
+            row = &TTecBarta__emitter_bands[this->band].rows[i];
             if (row->flags & 0x20) {
-                attach_particle_model((u8 *)self->emitters[i], get_bml_model(technique_effect_bml, 0), technique_texture_list, get_bml_motion(technique_effect_bml, 0), 0, 1.0f);
+                attach_particle_model((u8 *)this->emitters[i], get_bml_model(technique_effect_bml, 0), technique_texture_list, get_bml_motion(technique_effect_bml, 0), 0, 1.0f);
             } else {
-                ((TParticleCtrl *)(self->emitters[i]))->set_scale(row->scale, row->scale);
+                ((TParticleCtrl *)(this->emitters[i]))->set_scale(row->scale, row->scale);
             }
         }
     }
-#undef self
 }
 
 void TTecBarta::init_parameters() {
