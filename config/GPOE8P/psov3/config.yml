@@ -1723,7 +1723,7 @@ force_active:
   - texture_wave_resource
   - TSetEvtDestroy_class_name
   - TSetEvtDestroy_name
-  - TSetManager__sub_8020D7D4
+  - fn_8020D7D4__11TSetManagerFv
   - TShopDeleteItemWindow__sub_80337E2C
   - TShopEquipmentListWindow__sub_8021C85C
   - TShopEquipmentSequence__sub_8021D65C

@@ -330,7 +330,6 @@ struct TLobby : public TObject {
     static void assign_display_objects(u8 *arg0, s32 enemy_count);
     static void attach_objects_by_id(s32 floor);
     static void assign_objects_to_slots(u8 *arg0, s32 object_count);
-    static void free_resources();
     static s32 get_lobby_group(s32 arg0);
     static s32 get_shield_shop_tier_for_level(s32 arg0);
     static s32 get_armor_shop_tier_for_level(s32 arg0);
@@ -557,9 +556,6 @@ struct TLobby : public TObject {
     static u8 lookup_table_value(s8 x);
     bool is_slot_match();
     static void spawn_player_tombstones();
-    static void clear_floor_flags_and_depart();
-    static void setup_floor_decorations();
-    static void reset_id_tables();
     static void load_ask_dictionary();
     static void drain_deferred_packets();
     s32 get_table_entry_by_index();

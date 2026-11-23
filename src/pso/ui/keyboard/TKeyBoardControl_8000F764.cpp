@@ -6,6 +6,7 @@
 #include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "pso/ui/keyboard/KeyboardKeyState.h"
 #include "pso/unk/TLobby.h"
+#include "pso/map/TSetManager.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/render/render_util.h"
 #include "pso/render/TFogCtrl.h"
@@ -109,7 +110,6 @@ s32 OSInit();
 s32 OSSetArenaLo(u32);
 void TLobby__sub_8007EB70(void);
 void fn_800FFE10(void);
-void TLobby__sub_8020E3C0(void);
 s32 TLobby__sub_80226BA4();
 }
 void init_adx_audio_system(void);
@@ -136,7 +136,6 @@ extern "C" {
 s32 init_pad_slots_and_read__16TKeyBoardControlFv(int, int, int);
 int OSResetSystem(void*, void*, void*);
 void TLobby__sub_80147978(void);
-void TLobby__sub_8020E3BC(void);
 }
 extern u8 gx_default_light_obj[];
 extern void *video_initial_draw_framebuffer;
@@ -180,7 +179,7 @@ void shutdown_and_reset_system(void) {
     free_effect_resources();
     TAdSinglePlyChrSelectGC::free_resources();
     TObjPlayer::sub_801D92A4();
-    TLobby__sub_8020E3BC();
+    free_item_drop_memory_pool();
     TWindowSnapShot__sub_802A7DA0();
     TAdWarningBaseGC__sub_8032D188();
     TLobby::destroy_game_heap();
@@ -359,7 +358,7 @@ void init_game_systems(void) {
     TLobby__sub_80226BA4();
     TLobby::wait_for_sound_init();
     load_info_icon();
-    TLobby__sub_8020E3C0();
+    alloc_item_drop_memory_pool();
     TWindowSnapShot::alloc_buffer();
     TAdWarningBaseGC::init_heap();
     TLobby::load_ask_dictionary();

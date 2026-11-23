@@ -8,12 +8,13 @@
 #include <string.h>
 
 #pragma readonly_strings on
-#include "pso/map/TSetManager_8020D918.h"
 #include "pso/unk/TLobby.h"
 #include "pso/unk/TLobby_8001D6A0.h"
 #include "pso/unk/TLobby_801F3A24.h"
-#include "pso/unk/TLobby_8020E3BC.h"
 #include "pso/system/THeap.h"
+#include "pso/unk/TLobby_80207DA8.h"
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
+#include <dolphin/ar.h>
 #include "pso/system/scene/TScene.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
@@ -22,20 +23,6 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/quest/TQuestListVM_8007EAF8.h"
 
-extern "C" {
-extern "C" void apply_floor_set_rows__11TSetManagerFv();
-extern "C" void update_decoration_spawning__11TSetManagerFv();
-void *set_manager_task_pmf_table[3] = {
-    (void *)0x0, (void *)0xffffffff, (void *)&apply_floor_set_rows__11TSetManagerFv,
-};
-void *lbl_804C9454[3] = {
-    (void *)0x0, (void *)0xffffffff, (void *)&update_decoration_spawning__11TSetManagerFv,
-};
-void *lbl_804C9460[6] = {
-    (void *)0x0, (void *)0x0, (void *)0x0, (void *)0x0,
-    (void *)0x0, (void *)0x0,
-};
-}
 s32 active_set_floor_area;
 s32 active_set_floor;
 s32 lbl_805D6100;
@@ -59,26 +46,23 @@ EnemyStateRecord *TLobby__data_805D6144;
 s32 object_condition_count;
 s32 enemy_condition_count;
 
-void TSetManager__sub_8020D7D4(void) {  }
-typedef void (TSetManager::*Pmf_8020D7D8)();
+void TSetManager::fn_8020D7D4() {  }
 
 void TSetManager::run_task() {
-    static s8 init;
-    if (!init) {
-        ((Pmf_8020D7D8 *)lbl_804C9460)[0] = *(Pmf_8020D7D8 *)set_manager_task_pmf_table;
-        ((Pmf_8020D7D8 *)lbl_804C9460)[1] = *(Pmf_8020D7D8 *)lbl_804C9454;
-        init = 1;
-    }
-    (this->*((Pmf_8020D7D8 *)lbl_804C9460)[step])();
-    ((void (*)(void *))TSetManager__sub_8020D7D4)(this);
+    static void (TSetManager::*steps[])() = {
+        &TSetManager::apply_floor_set_rows,
+        &TSetManager::update_decoration_spawning,
+    };
+    (this->*steps[step])();
+    fn_8020D7D4();
 }
 
 TSetManager::~TSetManager() {}
 
-const char *lbl_805D3638 = "TSetManager";
+const char *TSetManager::class_name = "TSetManager";
 
 TSetManager::TSetManager(TObject *parent) : TObject(parent) {
-    m_name = lbl_805D3638;
+    m_name = class_name;
     step = 0;
 }
 
@@ -86,29 +70,22 @@ LobbyPoolEntry floor_set_archives[18];
 LobbyFloorRows floor_enemy_group_table[18];
 s32 floor_object_set_counts[18];
 s32 floor_enemy_set_counts[18];
-extern "C" {
 u32 TLobby__data_80513D10[9];
 #pragma push
 #pragma force_active on
 u8 lbl_80513D34[0x24];
 #pragma pop
-void archive_pool_free(void *pool, void *node);
-void *mem_alloc(u32);
-}
-void arrive_floor_population(void);
-void swap_object_row_endian(void *);
-extern const char lbl_8044BC24[7] = "ad.dat";
-extern const char lbl_8044BC2C[6] = "d.dat";
-s32 load_map_decoration_rows(s32 map, s32 grp, s32 room);
 extern "C" {
-void mem_free(void*);
-
+void archive_pool_free(void *pool, void *node);
+}
+extern const char decoration_file_suffix_online[7] = "ad.dat";
+extern const char decoration_file_suffix_offline[6] = "d.dat";
 
 void TSetManager::create() {
     new TSetManager((TObject *)tl_02);
 }
 
-void TLobby__sub_8020D94C(void) {
+void free_floor_decorations() {
     if (floor_decoration_rows != NULL) {
         mem_free(floor_decoration_rows);
         floor_decoration_rows = NULL;
@@ -119,7 +96,6 @@ void TLobby__sub_8020D94C(void) {
         TLobby__data_805D6124 = 0U;
         TLobby__data_805D6128 = 0;
     }
-}
 }
 
 s32 load_map_decoration_rows(s32 map, s32 grp, s32 room) {
@@ -135,9 +111,9 @@ s32 load_map_decoration_rows(s32 map, s32 grp, s32 room) {
         return 0;
     }
     if (TLobby::is_online_ready() != 0) {
-        TLobby::replace_file_extension((char *)path, (char *)r->decoration_set_name, (char *)lbl_8044BC24);
+        TLobby::replace_file_extension((char *)path, (char *)r->decoration_set_name, (char *)decoration_file_suffix_online);
     } else {
-        TLobby::replace_file_extension((char *)path, (char *)r->decoration_set_name, (char *)lbl_8044BC2C);
+        TLobby::replace_file_extension((char *)path, (char *)r->decoration_set_name, (char *)decoration_file_suffix_offline);
     }
     size = get_resource_file_size((const char *)path);
     if (size < 0) {
@@ -157,20 +133,14 @@ s32 load_map_decoration_rows(s32 map, s32 grp, s32 room) {
     return 1;
 }
 
-#pragma push
-#pragma scheduling off
-
-void TLobby::clear_floor_flags_and_depart() {
-    s32 unused;
-    TLobby__sub_8020D94C();
-    unused = floor_set_flags & ~8;
-    floor_set_flags = unused;
+void clear_floor_flags_and_depart() {
+    free_floor_decorations();
+    floor_set_flags &= ~8;
     floor_set_flags &= ~16;
-    depart_floor_population(unused);
+    depart_floor_population();
 }
-#pragma pop
 
-void TLobby::setup_floor_decorations() {
+void setup_floor_decorations() {
     FloorMapSelection v;
     saddr r;
     arrive_floor_population();
@@ -190,7 +160,7 @@ void TLobby::setup_floor_decorations() {
     active_set_floor_area = -1;
 }
 
-void TLobby::reset_id_tables() {
+void reset_id_tables() {
     s32 i;
     s32 n = 0;
     if (quest_object_entries != 0) {
@@ -278,7 +248,7 @@ void clear_floor_population(void) {
     memset(floor_enemy_group_table, 0, sizeof(floor_enemy_group_table));
 }
 
-void depart_floor_population(int unused) {
+void depart_floor_population() {
     LobbyFloorRows *area = &floor_enemy_group_table[get_current_floor()];
     if (current_floor_object_set_rows != 0) {
         FloorObjectSetRow *s = current_floor_object_set_rows;
@@ -310,7 +280,7 @@ void depart_floor_population(int unused) {
     }
 }
 
-void TLobby::free_resources() {
+void free_item_drop_tables() {
     if (TLobby__data_805D6144 != NULL) {
         TAdSinglePlyChrSelectGC::safe_free((uaddr)TLobby__data_805D6144);
         TLobby__data_805D6144 = NULL;
@@ -337,7 +307,7 @@ void TLobby::free_resources() {
     }
 }
 
-void arrive_floor_population(void) {
+void arrive_floor_population() {
     s32 index;
     LobbyFloorRows *floor;
     saddr bytes;
@@ -431,16 +401,14 @@ void init_item_drop_tables(void) {
     lbl_805D6100 = 0;
 }
 
-extern "C" {
+void free_item_drop_memory_pool() {  }
 
-s32 ARAlloc(s32);
-
-void TLobby__sub_8020E3BC(void) {  }
-
-void TLobby__sub_8020E3C0(void) {
+void alloc_item_drop_memory_pool() {
     item_drop_memory_pool_size = 0x100000;
     item_drop_memory_pool_ar_addr = ARAlloc(0x100000);
 }
+
+extern "C" {
 
 EnemySetRecord *get_loaded_enemy_set_rows() { return current_floor_enemy_set_rows; }
 

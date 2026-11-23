@@ -30,6 +30,7 @@
 #include "pso/ui/frontend/TAdDialingGC.h"
 #include "pso/quest/TQuestThread.h"
 #include "pso/map/FloorArea.h"
+#include "pso/map/TSetManager.h"
 #include "pso/map/FloorResourceCallbacks.h"
 #include "pso/unk/TLobby_8020B03C.h"
 #include "pso/object/switch/TSwitch.h"
@@ -142,7 +143,6 @@ s32 TAdDialingGC__sub_80328730();
 void TLobby__sub_801F494C(u16 client);
 s32 reset_story_select__6TLobbyFPv();
 s32 init_key_slots__15TOKeyJungleMainFPv();
-s32 depart_floor_population();
 void TWindowCtrlMain__sub_8024D838(void);
 void TObjPlayer__sub_80156934(void);
 void TRaderMapCore__sub_801F95CC(void);
@@ -151,10 +151,8 @@ void TQuestThread__sub_801F5D88(void);
 void TLobby__sub_8029B2A4(void);
 void reset_globals(void);
 }
-void clear_floor_population();
 extern saddr game_protocol_instance;
 void init_scene_fog_system(void);
-void init_item_drop_tables(void);
 void clear_received_symbol_chat(void);
 
 // Load and release hooks of the online lobby scene, in pairs: run_online_lobby_scene runs
@@ -179,7 +177,7 @@ FloorResourceCallbacks online_lobby_scene_callback_table[43] = {
     {alloc_quest_download_buffer, TLobby::free_chr_select_singleton},
     {init_item_system, free_item_system},
     {TLobby::load_item_data, TLobby__sub_802083C0},
-    {init_item_drop_tables, TLobby::free_resources},
+    {init_item_drop_tables, free_item_drop_tables},
     {TLobby::create_heap_8000, TLobby::free_heap},
     {TRaderMapCore__sub_801F95CC, TRaderMapCore::free_heap},
     {alloc_work_buffer, TLobby__sub_801A5478},
@@ -243,7 +241,6 @@ void load_battle_param_entry(void);
 void reload_lobby_floor_scene(void);
 void init_area_lights(void);
 void load_floor_scene(void);
-void arrive_floor_population(void);
 void TLobby::set_flag_and_update() { new_game_setup_flags = (new_game_setup_flags | 0x1); set_floor_transition_ready(&floor_transition_state); }
 
 void TLobby::init_chr_select() { TKeyBoardControl::reset(); TLobby::send_logout(); TAdSinglePlyChrSelectGC::init(); set_queued_main_phase(9); request_main_phase(18); }

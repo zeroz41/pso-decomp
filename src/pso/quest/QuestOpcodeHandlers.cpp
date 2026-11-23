@@ -36,6 +36,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/item/drop/TItemDropSub.h"
 #include "pso/unk/TLobby.h"
+#include "pso/map/TSetManager.h"
 #include "pso/network/TPlyJoinLobbyEntry.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
@@ -2346,7 +2347,7 @@ void qst_op_reset_map(void) {
     }
     TQuestThread::destroy_all_in((TObject *)tl_00);
     TLobby::init_sub_objects();
-    TLobby::reset_id_tables();
+    reset_id_tables();
     clear_floor_event_flags();
     init_switch_table();
     TRaderMapCore::free_map_data();

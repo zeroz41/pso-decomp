@@ -24,6 +24,7 @@ void destroy_child_recursive__6TLobbyFPvPv(TObject *task, TObject *object) {
 }
 void init_switch_table(void);
 #include "pso/unk/TLobby.h"
+#include "pso/map/TSetManager.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 
-void TLobby::init_scene_objects() { TLobby::init_sub_objects(); TLobby::reset_id_tables(); clear_floor_event_flags(); init_switch_table(); TRaderMapCore::set_piece_flags(1); TLobby::attach_objects_by_id((s32)get_current_floor()); TLobby::create_objects((s32)get_current_floor()); TQuestThread::create_for_floor(); }
+void TLobby::init_scene_objects() { TLobby::init_sub_objects(); reset_id_tables(); clear_floor_event_flags(); init_switch_table(); TRaderMapCore::set_piece_flags(1); TLobby::attach_objects_by_id((s32)get_current_floor()); TLobby::create_objects((s32)get_current_floor()); TQuestThread::create_for_floor(); }

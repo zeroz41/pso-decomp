@@ -89,7 +89,6 @@
 #include "pso/ui/window/TWindowCtrlMain_8024CB7C.h"
 #include "pso/map/area/AreaScene.h"
 #include "pso/unk/text_801F3774.h"
-#include "pso/map/TSetManager_8020D918.h"
 #include "pso/unk/text_800F9B84.h"
 #include "pso/unk/text_800FA260.h"
 #include "pso/unk/TLobby_801F3A24.h"
@@ -212,7 +211,7 @@ FloorResourceCallbacks offline_game_scene_callbacks[48] = {
     {load_light_entry_file, TObjLight::free_shared_data},
     {alloc_quest_download_buffer, TLobby::free_chr_select_singleton},
     {TLobby::load_item_data, TLobby__sub_802083C0},
-    {init_item_drop_tables, TLobby::free_resources},
+    {init_item_drop_tables, free_item_drop_tables},
     {init_item_system, free_item_system},
     {TLobby::create_heap_8000, TLobby::free_heap},
     {TRaderMapCore__sub_801F95CC, TRaderMapCore::free_heap},
