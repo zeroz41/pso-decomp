@@ -14,7 +14,6 @@
 extern "C" {
 
 s32 TFontSmallLobby__sub_801C0164(void *);
-s32 init_player_substructs__10TObjPlayerFv(void *, void *);
 s32 TObjPlayer__sub_801BCA14(void *, void *);
 s32 TObjPlayer__sub_801BFB4C(void *);
 s32 TObjPlayer__sub_801C1A00(void *);
@@ -82,7 +81,7 @@ TObjPlayer::TObjPlayer(TObject *parent, s32 slot, s32 role, u8 *record) : TObjCh
     this->sub_801BD318();
     this->init_control_mode(role);
     TObjPlayer__sub_801BCA14(this, record);
-    init_player_substructs__10TObjPlayerFv(this, record + 0x3C0);
+    init_player_substructs(record + 0x3C0);
     this->load_character_state((u8 *)record);
     this->update_if_active();
     sub_801BC8F0();

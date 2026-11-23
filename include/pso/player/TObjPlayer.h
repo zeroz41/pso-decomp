@@ -127,7 +127,7 @@ struct TObjPlayer : public TObjChara {
     void init_collision_body();
     void create_lockon_cursor();
     void update_lock_on_cursor();
-    void sub_801BBC2C();
+    void sub_801BBC2C(void *data);
     void setup_fresh_player_state(u8 *);
     void init_class_flags(saddr);
     void sub_801BB8B0(u8 *);
@@ -145,7 +145,7 @@ struct TObjPlayer : public TObjChara {
     void sub_801BEE24(s16);
     void update_body_parts();
     void sub_801BD318();
-    void sub_801BD240();
+    void sub_801BD240(void *data);
     s32 sub_801A1DDC();
     void gain_photon_blast_chain_charge();
     void spend_photon_blast_charge(f32 charge);
@@ -526,7 +526,7 @@ struct TObjPlayer : public TObjChara {
     void update_if_active();
     int can_cast_technique();
     void init_player_data(void *src);
-    int is_flag_set_550();
+    int is_flag_set_550(void *data);
     void init_data_table_ptr();
     static void update_recobox(saddr player);
     void destroy_child();
@@ -1300,10 +1300,10 @@ struct TObjPlayer : public TObjChara {
     void draw_head_attachments();
     void render_body_pass(f32 f);
     void unregister();
-    void init_player_substructs();
+    void init_player_substructs(u8 *data);
     static void init_action_palette_defaults(saddr player);
     void send_respawn_position();
-    void init_battle();
+    void init_battle(void *data);
     void reset_area_entry_state();
     void*init_pair();
     u8 *copy_hold_params(u8 *arg1);

@@ -75,12 +75,8 @@ TObjPlayer::~TObjPlayer() {
 
 extern "C" {
 void TObjPlayer__sub_801BB85C(TObjPlayer *player, u8 *record);
-void sub_801BBC2C__10TObjPlayerFv(void *, void *);
-void init_battle__10TObjPlayerFv(void *, void *);
 void init_session_technique_caps__10TObjPlayerFPvPv(void *, void *);
 void TObjPlayer__sub_801BCAB0(void *, void *);
-void is_flag_set_550__10TObjPlayerFv(void *, void *);
-void sub_801BD240__10TObjPlayerFv(void *, void *);
 void init_player_telepipe_record(void *);
 void TObjPlayer__sub_801BBB70(void *, void *);
 void TObjPlayer__sub_803374C4(void *);
@@ -169,13 +165,13 @@ TObjPlayer::TObjPlayer(TObject *parent, void *arg2) : TObjChara(parent) {
     ((Fn_vpvp_801BD570)TObjPlayer__sub_801BD384)(this, (void *)((char *)arg2 + 200));
     this->load_char_data((u8 *)arg2);
     this->update_position((saddr)arg2);
-    sub_801BBC2C__10TObjPlayerFv(this, arg2);
-    sub_801BD240__10TObjPlayerFv(this, arg2);
-    is_flag_set_550__10TObjPlayerFv(this, arg2);
+    sub_801BBC2C(arg2);
+    sub_801BD240(arg2);
+    is_flag_set_550(arg2);
     init_session_technique_caps__10TObjPlayerFPvPv(this, arg2);
     this->init_from_source((u8 *)arg2);
     TObjPlayer__sub_801BCAB0(this, arg2);
-    init_battle__10TObjPlayerFv(this, arg2);
+    init_battle(arg2);
     TObjPlayer__sub_801BBB70(this, arg2);
     this->init_class_flags((saddr)arg2);
     TObjPlayer__sub_801BB85C(this, (u8 *)arg2);

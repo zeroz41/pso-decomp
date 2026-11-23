@@ -204,7 +204,7 @@ void TObjPlayer::init_idle_animation() {
     ((TObjPlayer *)arg0)->init_motion((TObjMotionAction *)arg0->anim->m5(((TObjPlayer *)arg0)->has_valid_handle(), (s32)((TObjPlayer *)arg0)->get_handle_value()), (BmlMotionEntry *)arg0->anim->m74(), get_idle_animation());
 }
 
-void TObjPlayer::sub_801BD240() {
+void TObjPlayer::sub_801BD240(void *data) {
     P_801BD240 *arg0 = (P_801BD240 *)this;
     s32 t = ((TObjBase *)(arg0))->get_entity_id() * 0xC00;
     arg0->fE0 = TObjPlayer__shared_model_buffer + t;

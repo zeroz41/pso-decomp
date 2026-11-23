@@ -18,7 +18,7 @@
 
 extern "C" {
 
-void TObjPlayer::init_battle() {
+void TObjPlayer::init_battle(void *data) {
     saddr arg0 = (saddr)this;
     sub_801BC8F0();
     ::set_flag_400000(this);
@@ -167,7 +167,7 @@ void TObjPlayer::init_player_data(void *src) {
 
 int TObjPlayer__sub_801BEF60(void*, int);
 
-int TObjPlayer::is_flag_set_550() { return TObjPlayer__sub_801BEF60((char*)this + 0x550, 0); }
+int TObjPlayer::is_flag_set_550(void *data) { return TObjPlayer__sub_801BEF60((char*)this + 0x550, 0); }
 void TObjPlayer::sub_801BCD50() {  }
 void TObjPlayer::sub_801BCD54() {  }
 

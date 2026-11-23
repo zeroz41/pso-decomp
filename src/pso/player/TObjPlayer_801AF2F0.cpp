@@ -1717,14 +1717,14 @@ void TObjPlayer::sub_801BBC64() {  }
 
 void TObjPlayer::update_lock_on_cursor() { void* m = this->lock_on_cursor; if (m) ((TLockOnCursor *)m)->reset_and_spawn_cursors(); }
 
-void TObjPlayer::sub_801BBC2C() { this->lock_on_cursor = NULL; }
+void TObjPlayer::sub_801BBC2C(void *data) { this->lock_on_cursor = NULL; }
 
 void TObjPlayer::init_action_palette_defaults(saddr player) {
     ((TObjPlayer *)player)->set_action_palette_entry(0, 0, 0, 1, 0);
     ((TObjPlayer *)player)->set_action_palette_entry(0, 1, 0, 1, 0);
 }
 
-void TObjPlayer::init_player_substructs() {
+void TObjPlayer::init_player_substructs(u8 *data) {
     TObjPlayer__sub_8013A748((void *)((char *)this + 1280));
     TObjPlayer::init_action_palette_defaults((saddr)this);
 }
