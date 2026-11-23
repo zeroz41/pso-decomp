@@ -1836,7 +1836,6 @@ pso/ui/frontend/TAdDialingGC.cpp
 pso/ui/frontend/TAdDialingGC_80328E50.cpp
 pso/ui/frontend/TAdDialingGC_80328E90.cpp
 pso/ui/frontend/TAdDialingMessageWindow.cpp
-pso/ui/frontend/TAdDialingMessageWindow_8036A064.cpp
 pso/ui/frontend/TAdEnterBaseGC.cpp
 pso/ui/frontend/TAdEnterPPPPassGC.cpp
 pso/ui/frontend/TAdEnterPasswordGC.cpp
