@@ -2437,7 +2437,7 @@ void TObjPlayer::run_service_hold_state_phase(s16 phase) {
 
 void TObjPlayer::notify_lobby() {
     ((s32 (*)(void))clear_status_bit6__10TObjPlayerFPv)();
-    TWindowCtrl::enable_client_main_menu(((TObjBase *)(saddr)((s32)this))->get_entity_id());
+    TWindowCtrl::enable_client_main_menu(this->get_entity_id());
 }
 
 void TObjPlayer::ensure_default() {
@@ -4583,7 +4583,7 @@ void TObjPlayer::sub_801CE134() {
 
     temp_r3 = sub_801CEAC8();
     if (temp_r3 != -1) {
-        ((s32 (*)(s32, s32, s32, s32))queue_physical_attack_input)(((s32)this) + 0x7CC, ((s32)this), temp_r3, 2);
+        ((s32 (*)(s32, s32, s32, s32))queue_physical_attack_input)(((saddr)this) + 0x7CC, ((saddr)this), temp_r3, 2);
     }
 }
 
