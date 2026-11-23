@@ -44,7 +44,7 @@ extern s32 model_render_flags;
 
 void TItemWeapon::draw_weapon_model() {
     s32 var_r30;
-    u8 *parameters;
+    WeaponParams *parameters;
     if ((void *) this->owner == NULL || (u32) *(u32 *)((s8 *)this + 0xF4) == 0U) {
         return;
     }
@@ -60,10 +60,10 @@ void TItemWeapon::draw_weapon_model() {
         if ((var_r30 != 0) && (this->is_hidden() == 0)) {
             weapon_render_callback_object = (u8 *)this;
             weapon_node_material_index = *(s16 *)((s8 *)this + 0x1CC);
-            parameters = (u8 *)this->parameters;
-            TObjPlayer__weapon_node_ids[0] = (s16) *(u8 *)((s8 *)parameters + 0x21);
-            TObjPlayer__weapon_node_ids[1] = (s16) *(u8 *)((s8 *)parameters + 0x22);
-            TObjPlayer__weapon_node_ids[2] = (s16) *(u8 *)((s8 *)parameters + 0x23);
+            parameters = this->parameters;
+            TObjPlayer__weapon_node_ids[0] = parameters->effect_nodes[0];
+            TObjPlayer__weapon_node_ids[1] = parameters->effect_nodes[1];
+            TObjPlayer__weapon_node_ids[2] = parameters->effect_nodes[2];
             if ((u32) *(u32 *)((s8 *)this + 0x17C) == 0U) {
                 this->sub_80121208((saddr)apply_weapon_node_material);
             } else {

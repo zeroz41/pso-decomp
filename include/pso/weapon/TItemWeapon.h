@@ -19,7 +19,9 @@ struct WeaponParams {
     u8 special;                    // the weapon's fixed special, 0 for none
     u8 pad_19[0x1C - 0x19];
     u8 trail_joints[4];            // start and end joints of trails 0 and 1
-    u8 pad_20[0x28 - 0x20];
+    u8 pad_20;
+    u8 effect_nodes[3];            // model nodes apply_weapon_node_material draws with the effect render
+    u8 pad_24[0x28 - 0x24];
 };
 
 // impact_callback / hit_callback: (task layer, weapon, target, extra).
