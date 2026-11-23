@@ -550,6 +550,9 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # -inline off,deferred: the ctor reaches __vt__16TObjOnlineEnding through the unit's .data
     # anchor, so the vtable is pooled before the functions; the source runs from the last function back.
     "pso/object/ending/TObjOnlineEnding_802E4B80.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
+    # -inline off,deferred: the ctor reaches __vt__21TObjHMS_EZRope_Player through the unit's .data
+    # anchor and the HMS vtable precedes the base's, so the source runs from the last function back.
+    "pso/object/TObjHMS_EZRope_Player.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
     "pso/ui/frontend/TAdPlayerLoadGC.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
     "pso/ui/frontend/TAdDialingMessageWindow.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
     "pso/ui/frontend/TAdSubPlyItemGC_802D6BEC.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},

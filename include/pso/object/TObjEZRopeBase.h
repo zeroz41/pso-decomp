@@ -36,6 +36,7 @@ public:
     TObjEZRopeCollider *colliders;
     Vec *points;
 public:
+    TObjEZRopeBase(TObject *parent);
     virtual ~TObjEZRopeBase();
     void sub_800FF8CC(void *, void *, s32);
     void sub_800FF788(void *);
@@ -43,9 +44,5 @@ public:
 
 LAYOUT_ASSERT(TObjEZRopeSegment_size, sizeof(TObjEZRopeSegment) == 0x18);
 LAYOUT_ASSERT(TObjEZRopeBase_size, sizeof(TObjEZRopeBase) == 0x30);
-
-extern "C" {
-void *TObjEZRopeBase__ct(void *obj_ez_rope_base);
-}
 
 #endif

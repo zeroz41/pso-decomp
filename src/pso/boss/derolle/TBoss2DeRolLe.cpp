@@ -276,12 +276,6 @@ const char *boss2_de_rol_le_class_name = "TBoss2DeRolLe";
 #include "pso/object/ambient/TObjLight.h"
 #include "pso/object/TUnk_804A6F78.h"
 
-extern "C" {
-
-void *__ct__9TBoss2FinFv(void *, TObject *, Vec *, Vec *);
-
-}
-
 void *TBoss2DeRolLe__base_params[1];
 void *TBoss2DeRolLe__resistance_params[1];
 TBoss2DeRolLeParams *derolle_params[1];
@@ -635,13 +629,7 @@ TBoss2DeRolLe::TBoss2DeRolLe(TObject *parent, void *set_data) : TObjEneDD_ST(par
     for (i = 0; i < 3; i++) {
         target_mines[i] = new TUnk_80482D04(&part_group, id++, set++);
     }
-    {
-        void *p = TObject::operator new(0x88);
-        if (p != NULL) {
-            p = __ct__9TBoss2FinFv(p, &part_group, &node_positions[1], &node_positions[10]);
-        }
-        fin = (TBoss2Fin *)p;
-    }
+    fin = new TBoss2Fin(&part_group, &node_positions[1], &node_positions[10]);
     position_index = 0;
     next_position_index = 0;
     travel_step_zx = 0;

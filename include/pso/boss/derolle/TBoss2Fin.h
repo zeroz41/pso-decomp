@@ -9,6 +9,7 @@
 // kept out of a sphere just below it.
 class TBoss2Fin : public TObjEZRopeBase {
 public:
+    TBoss2Fin(TObject *parent, Vec *first_anchor, Vec *second_anchor);
     virtual ~TBoss2Fin();
     virtual void run_task();
     virtual void render();
