@@ -3,7 +3,6 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/quest/challenge/ChallengeModeState.h"
-#include "pso/quest/challenge/ChallengeRecord.h"
 
 s32 TWindowSubStatusDisp::calc_layout_hash(s32 slot) {
     return TWindowSubStatusDisp::get_layout_id(slot) * 0x8C9F;

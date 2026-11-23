@@ -38,7 +38,7 @@ void TAdSinglePlyChrSelectGC::format_challenge_stage_times(s32 lobby, s32 challe
     s32 kind;
     ChallengeClientRecords *rec;
     s32 i;
-    u8 *data;
+    ChallengeRecord *data;
     s32 t;
     ChallengeStageRank *slot;
     s32 *p;
@@ -58,7 +58,7 @@ void TAdSinglePlyChrSelectGC::format_challenge_stage_times(s32 lobby, s32 challe
         if (rec->present != 0) {
             strcat(challenge_progress_text_buffer, (char *)(get_player_by_client_id(i) + 0x85C));
             strcat(challenge_progress_text_buffer, "\n  ");
-            data = rec->records;
+            data = &rec->records;
             slot = TWindowSubStatusDisp__sub_8006F134(data, kind);
             t = TLobby::get_valid_slot(TWindowSubStatusDisp__sub_8006F0D8(data, kind)[idx]);
             if (t == 0) {
@@ -125,7 +125,7 @@ void TLobby::open_challenge_progress_window(void *slot) {
         if (rec->present != 0) {
             strcat(challenge_progress_text_buffer, (char *)(get_player_by_client_id(i) + 0x85C));
             strcat(challenge_progress_text_buffer, "\n    ");
-            n = fn_80071A9C(this, rec->records, slot);
+            n = fn_80071A9C(this, &rec->records, slot);
             if (n >= TWindowSubStatusDisp::get_layout_id((saddr)slot)) {
                 strcat(challenge_progress_text_buffer, get_message_text(0x52));
             } else if (n == 0) {
