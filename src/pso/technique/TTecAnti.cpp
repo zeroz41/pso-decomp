@@ -34,20 +34,6 @@ struct Obj_8022ACB4 { u8 pad[0xA6]; s16 state; };
 struct AntiRow_8022AE10 { s32 a; s32 b; s32 c; s32 flags; };
 
 
-struct Target_8022B150 { u16 id; u8 pad[6]; };
-
-struct Anti_8022B150 {
-    u8 pad0[0x1C];
-    uaddr source;
-    u8 pad1[0xA4 - 0x20];
-    s16 level;
-    u8 pad2[0xA8 - 0xA6];
-    u16 source_id;
-    u8 pad3[0xE0 - 0xAA];
-    s32 count;
-    Target_8022B150 targets[11];
-    s32 captured;
-};
 
 struct Hit_8022AEF8 {
     s32 type;
@@ -107,7 +93,6 @@ AntiRow_8022AE10 TTecAnti__self_effect_rows[4] = {
     {0xA, 1, 0x1EC, 1},
 };
 void deliver_technique_to_party_targets(void *);
-void run_task__8TTecAntiFv(Anti_8022B150 *self);
 s32 is_split_screen();
 int spawn_support_tec_range_effect(void*);
 }
@@ -158,34 +143,34 @@ TTecAnti::TTecAnti(void *owner, void *pos, void *target_list, s32 level) : TTecP
     }
 }
 
-void run_task__8TTecAntiFv(Anti_8022B150 *self) {
+void TTecAnti::run_task() {
     uaddr target;
     s32 i;
-    self->source = (uaddr)find_entity_by_id(self->source_id);
-    if (self->source == 0) {
-        ((TObject *)self)->queue_destruction();
+    source = (uaddr)find_entity_by_id(m_a8);
+    if (source == 0) {
+        queue_destruction();
         return;
     }
-    if (self->captured != 0) {
-        if (self->level == 0) {
-            ((TTecAnti *)self)->vfunc_7((void *)self->source);
+    if (m_13c != 0) {
+        if (m_a4 == 0) {
+            vfunc_7((void *)source);
         } else {
-            ((TTecAnti *)self)->vfunc_7((void *)self->source);
-            if (self->count != 0) {
-                for (i = 0; i < self->count; i++) {
-                    target = (uaddr)find_entity_by_id(self->targets[i].id);
+            vfunc_7((void *)source);
+            if (targets.count != 0) {
+                for (i = 0; i < targets.count; i++) {
+                    target = (uaddr)find_entity_by_id(targets.records[i].id);
                     if ((TTecLuker::is_parents_unqueued(target) != 0) && (TObjPlayer::is_valid_and_active(target) != 0)) {
-                        ((TTecAnti *)self)->vfunc_7((void *)target);
+                        vfunc_7((void *)target);
                     }
                 }
             }
         }
-    } else if (self->level == 0) {
-        ((TTecAnti *)self)->vfunc_7((void *)self->source);
+    } else if (m_a4 == 0) {
+        vfunc_7((void *)source);
     } else {
-        deliver_technique_to_party_targets(self);
+        deliver_technique_to_party_targets(this);
     }
-    ((TObject *)self)->queue_destruction();
+    queue_destruction();
 }
 
 TTecAnti::~TTecAnti() {

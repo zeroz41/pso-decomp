@@ -12,7 +12,7 @@ struct TTecAnti : public TTecPlayerInfluence {
     virtual void vfunc_7(void *);
     virtual void run_task();
     TargetCursorList targets;
-    u32 m_13c;
+    s32 m_13c;
     static void create(void *source, void *origin, void *targets, s32 level);
     virtual void render();
 };
