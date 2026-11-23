@@ -10,7 +10,7 @@
 #include "pso/system/task/TObject.h"
 
 extern "C" {
-u8 * __ct__15TEffStarLight2DFPvPvP7TObject(void *, s32, s32, s32);
+u8 * __ct__15TEffStarLight2DFP3VecP19StarLightParametersP7TObject(void *, s32, s32, s32);
 int set__8FlagWordFUl(void*);
 
 int TItemMenuCtrl::set_menu_flags() { return set__8FlagWordFUl((char*)this + 0x1c); }
@@ -26,7 +26,7 @@ u8 *spawn_star_light_2d(s32 arg0, s32 arg1, s32 arg2) {
         eff_star_light2_d = (u8 *)(TObject::operator new(0x4C));
         var_r0 = eff_star_light2_d;
         if (var_r0 != NULL) {
-            var_r0 = (u8 *)(__ct__15TEffStarLight2DFPvPvP7TObject(eff_star_light2_d, arg0, arg1, arg2));
+            var_r0 = (u8 *)(__ct__15TEffStarLight2DFP3VecP19StarLightParametersP7TObject(eff_star_light2_d, arg0, arg1, arg2));
         }
         return var_r0;
     }

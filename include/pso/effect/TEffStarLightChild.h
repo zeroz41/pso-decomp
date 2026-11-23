@@ -4,13 +4,16 @@
 #include "types.h"
 #include "pso/unk/TLobby_801E2F94.h"
 
+// One segment of a star light's trail: a screen-space edge across the path
+// that shrinks to its middle, then disappears.
 class TEffStarLightChild : public TObject {
 public:
+    TEffStarLightChild(ColorLineVertex *from, ColorLineVertex *to, TObject *parent, f32 width, f32 speed);
     virtual ~TEffStarLightChild();
     virtual void run_task();
 public:
     virtual void render();
-    f32 shrink_distance;
+    f32 shrink_distance;  // each end moves this far toward the middle per frame
     ColorLineVertex edges[2];
 };
 

@@ -520,9 +520,9 @@ force_active:
   - source_buffers__16TEffIndirectCtrl
   - resume_indirect_effect__16TEffIndirectCtrlFv
   - get_indirect_kind__16TEffIndirectCtrlFv
-  - TEffStarLight2D__name
+  - star_light_2d_class_name
   - TEffStarLight2D_class_name
-  - TEffStarLightChild__name
+  - star_light_child_class_name
   - TEffStarLightChild_class_name
   - class_name__7TEffect
   - TEndingAB__sub_8008D5A0
@@ -2116,7 +2116,7 @@ force_active:
   - __ct__18TAdLoadQuestLineGCFP7TObjectPv
   - __ct__18TChCrTagOccupationFP7TObjectl
   - __ct__18TChallenge4PResultFP7TObjectUsl
-  - __ct__18TEffStarLightChildFv
+  - __ct__18TEffStarLightChildFP15ColorLineVertexP15ColorLineVertexP7TObjectff
   - __ct__18TItemEffNeedleBaseFP7TObjectP5TItem
   - __ct__18TItemReverseTechBGFv
   - __ct__18TOCapsuleAncient01FP7TObjectPv
@@ -5361,9 +5361,9 @@ force_active:
   - copy_from__11TMainCursorFPv
   - copy_from__13TItemAttackerFPv
   - copy_from__14TechniqueBoostFP14TechniqueBoost
-  - copy_from__15TEffStarLight2DFPv
+  - copy_from__19StarLightParametersFP19StarLightParameters
   - copy_from__23MagNodeOscillationStateFP23MagNodeOscillationState
-  - copy_from_subobject__15TEffStarLight2DFPv
+  - set_parameters__15TEffStarLight2DFP19StarLightParameters
   - copy_gauge_warn_vec__10TObjPlayerFv
   - copy_global_value_block__6TLobbyFv
   - copy_header_and_vec__6TSceneFPv
