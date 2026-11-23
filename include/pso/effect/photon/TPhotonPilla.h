@@ -8,6 +8,8 @@
 // summoner and hits every player in battle.
 class TPhotonPilla : public TPhotonBlastSummon {
 public:
+    static const char *class_name;
+
     TPhotonPilla(PhotonSummonParams *params);
     virtual ~TPhotonPilla();
     void spawn_laser();

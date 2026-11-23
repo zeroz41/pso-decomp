@@ -7,6 +7,8 @@
 // Youlla, the photon blast summon that plays the attachment effects of blast 6 and fades out.
 class TPhotonYoulla : public TPhotonBlastSummon {
 public:
+    static const char *class_name;
+
     TPhotonYoulla(PhotonSummonParams *params);
     virtual ~TPhotonYoulla();
     // The constructor passes the chain's summon count; the body ignores it.

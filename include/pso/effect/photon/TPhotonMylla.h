@@ -7,6 +7,8 @@
 // Mylla, the photon blast summon that comes with Youlla and strikes the area around its owner.
 class TPhotonMylla : public TPhotonBlastSummon {
 public:
+    static const char *class_name;
+
     TPhotonMylla(PhotonSummonParams *params);
     virtual ~TPhotonMylla();
     // The constructor passes the chain's summon count; the body ignores it.

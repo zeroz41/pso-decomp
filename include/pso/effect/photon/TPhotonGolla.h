@@ -7,6 +7,8 @@
 // Golla, the photon blast summon that fires concentrated beams at the nearest enemy in front of its owner.
 class TPhotonGolla : public TPhotonBlastSummon {
 public:
+    static const char *class_name;
+
     virtual ~TPhotonGolla();
     // The constructor passes the chain's summon count; the body ignores it.
     void reset_material_color(u8 count);

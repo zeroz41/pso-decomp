@@ -6,6 +6,8 @@
 // Farlla, the photon blast summon that strikes every enemy inside its collision body.
 class TPhotonFarlla : public TPhotonBlastSummon {
 public:
+    static const char *class_name;
+
     virtual ~TPhotonFarlla();
     // The constructor passes the chain's summon count; the body ignores it.
     void reset_material_color(u8 count);

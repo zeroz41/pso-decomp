@@ -41,7 +41,7 @@
 
 extern "C" s32 scroll_strip_uvs(void *strips, s16 u, s16 v);
 
-const char *TPhotonPilla__class_name = "TPhotonPilla";
+const char *TPhotonPilla::class_name = "TPhotonPilla";
 void *pilla_photon_buffer_pair;
 extern const PhotonLaserParams photon_pilla_laser_packet = {
     { 0.0f, 0.0f, 0.0f }, { 0 }, { 0.0f, -1.0f, 0.0f }, 300.0f, 30.0f, 30.0f
@@ -80,7 +80,7 @@ void TObjPlayer::free_buffer_pair() {
 }
 
 TPhotonPilla::TPhotonPilla(PhotonSummonParams *params) : TPhotonBlastSummon() {
-    m_name = TPhotonPilla__class_name;
+    m_name = class_name;
     blast_kind = 3;
     VecCopy(&position, &params->position);
     owner_id = params->owner_id;

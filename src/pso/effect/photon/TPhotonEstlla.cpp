@@ -58,7 +58,7 @@ void TPhotonEstlla::reset_color(u8 summon_count) {
 
 extern "C" s32 scroll_strip_uvs(void *strips, s16 u, s16 v);
 
-const char *TPhotonEstlla__class_name = "TPhotonEstlla";
+const char *TPhotonEstlla::class_name = "TPhotonEstlla";
 extern const PhotonLineParams photon_estlla_line_packet_init = {
     { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, 10.0f, 0.0f
 };
@@ -168,7 +168,7 @@ TObjMotionAction photon_estlla_param_table[2] = {
 
 TPhotonEstlla::TPhotonEstlla(PhotonSummonParams *params) : TPhotonBlastSummon() {
     TObjCollidable *owner;
-    m_name = TPhotonEstlla__class_name;
+    m_name = class_name;
     blast_kind = 1;
     VecCopy(&position, &params->position);
     owner_id = params->owner_id;

@@ -1,19 +1,19 @@
 #include "pso/effect/photon/TPhotonRainbow.h"
 #include "pso/effect/photon/TPhotonMagicSquare.h"
 #include "pso/system/NinjaTypes.h"
+#include "pso/effect/photon/TPhotonLeilla.h"
 #include "pso/effect/photon/PhotonBlastSummon.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/player/PhotonBlastResults.h"
 #include "pso/system/BmlResource.h"
 
-const char *TPhotonLeilla_name = "TPhotonLeilla";
+const char *TPhotonLeilla::class_name = "TPhotonLeilla";
 
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "types.h"
 #include "pso/system/BmlResource.h"
 #include "pso/player/PhotonBlastResults.h"
-#include "pso/effect/photon/TPhotonLeilla.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/render/MaterialColorFade.h"
 #include "pso/system/vector.h"
@@ -137,7 +137,7 @@ TObjMotionAction photon_blast_leilla_params[2] = {
 TPhotonLeilla::TPhotonLeilla(PhotonSummonParams *params) {
     Vec pos;
     TObjCollidable *owner_object;
-    m_name = TPhotonLeilla_name;
+    m_name = class_name;
     blast_kind = 4;
     VecCopy(&position, &params->position);
     owner_id = params->owner_id;

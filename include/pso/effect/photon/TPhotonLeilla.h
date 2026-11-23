@@ -7,6 +7,8 @@
 // Leilla, the photon blast summon of blast 4.
 class TPhotonLeilla : public TPhotonBlastSummon {
 public:
+    static const char *class_name;
+
     TPhotonLeilla(PhotonSummonParams *params);
     virtual ~TPhotonLeilla();
     // The constructor passes the chain's summon count; the body ignores it.

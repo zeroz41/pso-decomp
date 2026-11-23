@@ -9,6 +9,8 @@
 // summoner's facing.
 class TPhotonEstlla : public TPhotonBlastSummon {
 public:
+    static const char *class_name;
+
     TPhotonEstlla(PhotonSummonParams *params);
     virtual ~TPhotonEstlla();
     void reset_color(u8 summon_count);

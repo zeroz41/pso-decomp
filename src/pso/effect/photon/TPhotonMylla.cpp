@@ -36,7 +36,7 @@
 #include "pso/unk/text_803D8F74.h"
 
 
-const char *TPhotonMylla_name = "TPhotonMylla";
+const char *TPhotonMylla::class_name = "TPhotonMylla";
 
 // Mylla brings Youlla along; the count byte is not the chain's.
 static const PhotonSummonParams photon_mylla_packet_template = { { 0.0f, 0.0f, 0.0f }, 0, 0, 0, { 0 }, 4, 1.0f };
@@ -162,7 +162,7 @@ TObjMotionAction photon_mylla_action_table[2] = {
 TPhotonMylla::TPhotonMylla(PhotonSummonParams *params) {
     Vec pos;
     TObjCollidable *owner_object;
-    m_name = TPhotonMylla_name;
+    m_name = class_name;
     blast_kind = 5;
     VecCopy(&position, &params->position);
     owner_id = params->owner_id;

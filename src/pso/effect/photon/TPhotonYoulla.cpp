@@ -27,7 +27,7 @@
 #pragma readonly_strings on
 
 
-const char *TPhotonYoulla_name = "TPhotonYoulla";
+const char *TPhotonYoulla::class_name = "TPhotonYoulla";
 void *youlla_photon_blast_buffer_pair;
 
 
@@ -112,7 +112,7 @@ TPhotonYoulla::~TPhotonYoulla() {
 
 TPhotonYoulla::TPhotonYoulla(PhotonSummonParams *params) {
     TObjCollidable *owner_object;
-    m_name = TPhotonYoulla_name;
+    m_name = class_name;
     blast_kind = 5;
     VecCopy(&position, &params->position);
     owner_id = params->owner_id;
