@@ -7,6 +7,7 @@
 #include "pso/ui/window/TWindowBase.h"
 
 struct PageIndicator;
+class ItemListRow;
 
 struct TWindowSubStatusDisp : public TWindowBase {
     // Challenge-mode record set (inferred names): resolve_player_slot maps RECORD_SET_CURRENT to the running
@@ -133,7 +134,7 @@ struct TWindowSubStatusDisp : public TWindowBase {
     void init_no_item_entry(s32 arg1);
     void init_entry(s8 arg1, s8 arg2, u8 arg3, u32 src, s32 arg5);
     void setup_stat_line(s32 src, s32 arg2, s32 arg3);
-    void init_status_entry_by_flag(s32 x);
+    static void init_status_entry_by_flag(ItemListRow *row, s32 flag, u32 src, s32 item);
     void init_list_entry(u8 arg1, s32 src, s32 arg3);
     void set_inventory_item(void *item, s32 count, s32 sid);
     void update_from_player(void *item, s32 arg2, s32 arg3);
@@ -152,7 +153,7 @@ struct TWindowSubStatusDisp : public TWindowBase {
     static void *find_cached_glyph(u16 code);
     static u8 calc_gauge_scale(u16 glyph, void *arg1, s32 color);
     void update_item_icon_colors(void *item);
-    static s32 init_status_entry(void *, char, unsigned int, int);
+    static void init_status_entry(ItemListRow *row, u8 category_icon, u32 src, s32 item);
     static void reset(void *arg0);
     static void *destroy_free_buffers(void *window_sub_status_disp, s16 arg1);
 };

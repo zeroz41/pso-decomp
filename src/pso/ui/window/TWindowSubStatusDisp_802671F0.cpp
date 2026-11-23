@@ -308,21 +308,21 @@ void TWindowSubStatusDisp::refresh_selected_entry(s32 arg1) {
 }
 
 void TWindowSubStatusDisp::add_status_entry(s8 arg1, s32 src, s32 arg3) {
-    s8 var_r29;
+    u8 category_icon;
     s16 temp_r5;
     void *window_sub_status_disp;
 
     temp_r5 = *(s16 *)((s8 *)this + 0x72);
     if (temp_r5 < (s16) *(s16 *)((s8 *)this + 0x76)) {
         if (arg1 & 8) {
-            var_r29 = 0xD;
+            category_icon = 0xD;
         } else if (arg1 & 4) {
-            var_r29 = 0xF;
+            category_icon = 0xF;
         } else {
-            var_r29 = 0x33;
+            category_icon = 0x33;
         }
         window_sub_status_disp = (void *)this->get_array_entry((s16)temp_r5);
-        init_status_entry__20TWindowSubStatusDispFPvcUii((u8 *)window_sub_status_disp, var_r29, src, arg3);
+        init_status_entry((ItemListRow *)window_sub_status_disp, category_icon, src, arg3);
         *(f32 *)((s8 *)window_sub_status_disp + 8) = (f32) -18.0f;
         if (arg1 & 2) {
             reinterpret_cast<ItemListRow *>(window_sub_status_disp)->status_icon = 0xE;
@@ -332,26 +332,25 @@ void TWindowSubStatusDisp::add_status_entry(s8 arg1, s32 src, s32 arg3) {
     }
 }
 
-void init_status_entry_by_flag__20TWindowSubStatusDispFl(void *, s32, s32, s32);
 void TWindowSubStatusDisp::append_entry(s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5) {
-    u16 *e;
+    ItemListRow *row;
     s32 i;
     f32 k;
-    u8 *p;
+    ItemListRow *other;
 
     if (*(s16 *)(((u8 *)this) + 0x72) < *(s16 *)(((u8 *)this) + 0x76)) {
-        e = (u16 *)get_array_entry(*(s16 *)(((u8 *)this) + 0x72));
-        init_status_entry_by_flag__20TWindowSubStatusDispFl(e, arg1, arg2, arg3);
+        row = (ItemListRow *)get_array_entry(*(s16 *)(((u8 *)this) + 0x72));
+        init_status_entry_by_flag(row, arg1, arg2, arg3);
         if (arg4 != 0) {
-            *e |= 0x400;
+            row->flags |= 0x400;
         }
         if (arg5 != 0) {
             k = 40.0f;
             i = 0;
-            *e |= 0x1000;
+            row->flags |= 0x1000;
             while (i < *(s16 *)(((u8 *)this) + 0x76)) {
-                p = (u8 *)get_array_entry(i);
-                *(f32 *)(p + 0xC) = k * (f32)i++;
+                other = (ItemListRow *)get_array_entry(i);
+                other->y = k * (f32)i++;
             }
         }
         (*(s16 *)(((u8 *)this) + 0x72))++;
