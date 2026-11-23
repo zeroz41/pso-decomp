@@ -380,11 +380,7 @@ void TAdMultiChgGameModeGC::create_mode_scene() {
         game_mode_scene_instance = TAdMultiPlyChrSelectGC::get_or_create(tl_01, 1);
         break;
     case 15:
-        p = TObject::operator new(0x68);
-        if (p != NULL) {
-            p = TAdEnterSerialAccessGC__ct((TAdEnterSerialAccessGC *)p, tl_02);
-        }
-        game_mode_scene_instance = (TObject *)p;
+        game_mode_scene_instance = new TAdEnterSerialAccessGC(tl_02);
         break;
     case 16:
         game_mode_scene_instance = new TAdEnterPasswordGC(tl_02);

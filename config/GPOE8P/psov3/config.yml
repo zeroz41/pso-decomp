@@ -158,7 +158,7 @@ force_active:
   - TAdEnterSerialAccessGC__name
   - TAdEnterSerialAccessGC__sub_8032190C
   - TAdEnterSerialAccessGC__sub_8032195C
-  - TAdEnterSerialAccessGC__sub_80321B28
+  - sub_80321B28__22TAdEnterSerialAccessGCFl
   - TAdEnterSerialAccessGC__sub_80321F18
   - TAdEnterSerialAccessGC__sub_80321F3C
   - TAdEnterSerialAccessGC_serial_buffer
@@ -9306,7 +9306,7 @@ force_active:
   - open_message_choice__12TAdTimeSetGCFUllUlUl
   - open_message_window__14TObjBagWarnWinFv
   - open_message_window__20TObjChallenge4PRetryFv
-  - open_message_window__22TAdEnterSerialAccessGCFPvPv
+  - open_message_window__22TAdEnterSerialAccessGCFl
   - open_message_window__9TSaveChCrFUl
   - open_mode4_window__17TWindowSubComCardFv
   - open_option_dialog__19TWindowSubTradeMainFl

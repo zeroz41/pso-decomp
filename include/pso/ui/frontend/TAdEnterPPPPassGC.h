@@ -14,7 +14,8 @@ struct TAdEnterPPPPassGC : public TAdEnterBaseGC {
     void request_transition(void *);
     void forward_chg_game_mode(void *);
     void close_windows_and_advance(void *);
-    u8 unk_38[0x8];
+    s32 input_valid;
+    s32 prev_input_valid;
     s32 m_40;
 };
 

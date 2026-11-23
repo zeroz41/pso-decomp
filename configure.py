@@ -494,6 +494,8 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/enemy/canadin/CanadinEffects.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly", "-fp_contract on")},
     "pso/ui/window/TWindowArea.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # its only string (the empty entry text) sits in .sdata2, as in its sibling parts _80336054/_8033A8EC.
+    # .data holds the vtable ahead of run_task's jump table: deferred generation of the last-to-first source.
+    "pso/ui/frontend/TAdEnterSerialAccessGC.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
     "pso/ui/frontend/TAdSinglePlyChrSelectGC.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/ui/city/TShopDeleteItemWindow.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/unk/TLobby_80207DA8.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},

@@ -73,21 +73,21 @@ void update_password_input__17TAdEnterPPPPassGCFPv(u8 *ad_enter_serial_access_gc
     char *buf;
     s32 cur;
     buf = ((TKeyBoardControl *)password_entry_keyboard_control)->realloc_buffer();
-    if ((*(s32 *)&((TAdEnterSerialAccessGC *)ad_enter_serial_access_gc)->m_40 == 0 && test_pressed_buttons_packed(&controller_physical_port_bank.controllers[0], 2) != 0) ||
-        (*(s32 *)&((TAdEnterSerialAccessGC *)ad_enter_serial_access_gc)->m_40 == 0 && test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0)) {
+    if ((((TAdEnterPPPPassGC *)ad_enter_serial_access_gc)->m_40 == 0 && test_pressed_buttons_packed(&controller_physical_port_bank.controllers[0], 2) != 0) ||
+        (((TAdEnterPPPPassGC *)ad_enter_serial_access_gc)->m_40 == 0 && test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0)) {
         mem_free(buf);
         set_password__17TAdEnterPPPPassGCFi((saddr)"");
         *(s32 *)&((TAdEnterSerialAccessGC *)ad_enter_serial_access_gc)->m_20 = 2;
         password_entry_dispatch_state = 4;
         return;
     }
-    ((TAdEnterSerialAccessGC *)ad_enter_serial_access_gc)->m_3c = *(s32 *)((s8 *)ad_enter_serial_access_gc + 0x38);
+    ((TAdEnterPPPPassGC *)ad_enter_serial_access_gc)->prev_input_valid = ((TAdEnterPPPPassGC *)ad_enter_serial_access_gc)->input_valid;
     if (password_entry_keyboard_control != NULL) {
         if (((TKeyBoardControl *)password_entry_keyboard_control)->is_confirmed() != 0) {
             if (test_pressed_buttons_packed(&controller_physical_port_bank.controllers[0], 2) != 0 ||
                 test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0) {
                 reinterpret_cast<TKeyBoardControl *>(password_entry_keyboard_control)->clear_keyboard_flag60_bit1();
-                *(s32 *)((s8 *)ad_enter_serial_access_gc + 0x38) = 0;
+                ((TAdEnterPPPPassGC *)ad_enter_serial_access_gc)->input_valid = 0;
                 if (*(u32 *)((s8 *)ad_enter_serial_access_gc + 0x2C) != 0) {
                     ((TAdSelectCurGC *)(*(saddr *)((s8 *)ad_enter_serial_access_gc + 0x2C)))->lock_navigation();
                 }
@@ -95,19 +95,19 @@ void update_password_input__17TAdEnterPPPPassGCFPv(u8 *ad_enter_serial_access_gc
                 reinterpret_cast<TKeyBoardControl *>(password_entry_keyboard_control)->clear_keyboard_flag60_bit1();
                 play_sound_effect(0x53F06, 0, 0, 0);
             } else {
-                *(s32 *)((s8 *)ad_enter_serial_access_gc + 0x38) = 1;
+                ((TAdEnterPPPPassGC *)ad_enter_serial_access_gc)->input_valid = 1;
                 if (*(u32 *)((s8 *)ad_enter_serial_access_gc + 0x2C) != 0) {
                     ((TAdSelectCurGC *)(*(saddr *)((s8 *)ad_enter_serial_access_gc + 0x2C)))->request_navigation_unlock();
                 }
             }
         } else {
-            *(s32 *)((s8 *)ad_enter_serial_access_gc + 0x38) = 0;
+            ((TAdEnterPPPPassGC *)ad_enter_serial_access_gc)->input_valid = 0;
             if (*(u32 *)((s8 *)ad_enter_serial_access_gc + 0x2C) != 0) {
                 ((TAdSelectCurGC *)(*(saddr *)((s8 *)ad_enter_serial_access_gc + 0x2C)))->lock_navigation();
             }
         }
     }
-    if (((TAdEnterSerialAccessGC *)ad_enter_serial_access_gc)->m_3c != (cur = *(s32 *)((s8 *)ad_enter_serial_access_gc + 0x38))) {
+    if (((TAdEnterPPPPassGC *)ad_enter_serial_access_gc)->prev_input_valid != (cur = ((TAdEnterPPPPassGC *)ad_enter_serial_access_gc)->input_valid)) {
         if (cur != 0) {
             if (*(u32 *)((s8 *)ad_enter_serial_access_gc + 0x2C) != 0) {
                 ((TAdSelectCurGC *)(*(saddr *)((s8 *)ad_enter_serial_access_gc + 0x2C)))->reset_entries();
@@ -124,7 +124,7 @@ void update_password_input__17TAdEnterPPPPassGCFPv(u8 *ad_enter_serial_access_gc
         *(s32 *)&((TAdEnterSerialAccessGC *)ad_enter_serial_access_gc)->m_20 = 3;
         password_entry_dispatch_state = 4;
     }
-    *(s32 *)&((TAdEnterSerialAccessGC *)ad_enter_serial_access_gc)->m_40 = strlen(buf);
+    ((TAdEnterPPPPassGC *)ad_enter_serial_access_gc)->m_40 = strlen(buf);
     mem_free(buf);
 }
 
