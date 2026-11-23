@@ -26,6 +26,14 @@ struct ChallengeRecord {
     s32 ep2_split_stage_times[5];
 };
 
+// A challenge rank's threshold, set by the quest: a clear time at or under `time` earns
+// `award_flags` (checked against the record set's ChallengeStageRank::award_flags).
+struct ChallengeRankThreshold {
+    s32 time;
+    u32 award_flags;
+    u32 pad_8[5];
+};
+
 // A client's challenge records as received from the server.
 struct ChallengeClientRecords {
     s32 present;
@@ -55,7 +63,7 @@ struct ChallengeModeState {
     u32 pad_50[2];
     s32 pad_58;
     u32 pad_5C[0x70];
-    u32 pad_21C[21];
+    ChallengeRankThreshold rank_thresholds[3];
     ChallengeClientRecords client_records[4];
     s32 pad_680[4];
 };
@@ -67,9 +75,13 @@ LAYOUT_ASSERT(ChallengeRecord_rank_title, offsetof(ChallengeRecord, rank_title) 
 LAYOUT_ASSERT(ChallengeRecord_ep2_split_rank, offsetof(ChallengeRecord, ep2_split_rank) == 0xE4);
 LAYOUT_ASSERT(ChallengeRecord_ep2_split_stage_times, offsetof(ChallengeRecord, ep2_split_stage_times) == 0xEC);
 LAYOUT_ASSERT(ChallengeClientRecords_size, sizeof(ChallengeClientRecords) == 0x104);
+LAYOUT_ASSERT(ChallengeModeState_rank_thresholds, offsetof(ChallengeModeState, rank_thresholds) == 0x21C);
 LAYOUT_ASSERT(ChallengeModeState_size, sizeof(ChallengeModeState) == 0x690);
 
 extern ChallengeModeState challenge_mode_state;
 extern ChallengeModeState challenge_settings_defaults;
+// The split-screen challenge (TChallenge4P) keeps its own session and defaults.
+extern ChallengeModeState challenge4p_mode_state;
+extern ChallengeModeState challenge_default_settings;
 
 #endif

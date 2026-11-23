@@ -71,8 +71,4 @@ void update_destruction_countdown__6TLobbyFPv(TLobby *lobby);
 }
 // --- end of C functions
 
-// lbl_804DB1F0: layout known from its uses only.
-struct RecoveredGlobal_lbl_804DB1F0 { s32 value; u8 remaining[0x6AC]; };
-extern RecoveredGlobal_lbl_804DB1F0 lbl_804DB1F0;
-
 #endif
