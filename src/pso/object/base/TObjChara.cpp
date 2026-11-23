@@ -1,4 +1,5 @@
 #include "pso/enemy/EnemyMovement.h"
+#include "pso/object/TActorLight.h"
 #include "pso/enemy/EnemyTargeting.h"
 #include "pso/effect/particle/ParticleFactory.h"
 
@@ -715,7 +716,6 @@ s32 get_player_by_client_id(s32);
 int bswap_16__FPUs(void*);
 s32 play_sound_effect(s32, s32, s32, s32);
 u32 __nw__7TObjectFUl(s32);
-s32 construct_actor_light_task(f32, void *, const f32 *, const f32 *, s32, void *, s32);
 s32 vec3_add_to(void *, void *);
 void matrix_mult_vec(s32, void *, void *);
 s32 scale_matrix(int, f32, f32, f32);
@@ -739,7 +739,7 @@ extern RecoveredGlobal_8001806C_lbl_8058D490 identity_matrix;
 extern s32 actor_frame_tick;
 extern s32 lobby_player_count;
 extern s32 current_floor_index;
-extern s32 tl_07;
+extern TObject *tl_07;
 void obj_setField96_1(ObjFlags* p);
 const f32 player_attack_stat_status_light_colors[4] = {1.0f, 0.9f, 0.5f, 0.2f};
 const f32 player_defense_stat_status_light_colors[4] = {1.0f, 0.4f, 0.8f, 1.0f};
@@ -2040,7 +2040,6 @@ block_8:
 
 s32 TObjChara::update_attack_stat_status() {
     s32 temp_ret;
-    void *obj;
 
     if (this->get_status_effect_timer(2) > 0) {
         temp_ret = this->add_status_effect_timer(2, -1);
@@ -2062,10 +2061,7 @@ s32 TObjChara::update_attack_stat_status() {
                     }
                     break;
                 }
-                obj = ((void * (*)(u32))__nw__7TObjectFUl)(0x64);
-                if (obj != 0) {
-                    construct_actor_light_task((0.1f), obj, player_attack_stat_status_light_colors, TObjPlayer__data_80434060, 0x2D, ((u8 *)this), tl_07);
-                }
+                new TActorLight(0.1f, (NJS_ARGB *)player_attack_stat_status_light_colors, (Vec *)TObjPlayer__data_80434060, 0x2D, this, tl_07);
             }
             return 1;
         }
@@ -2082,7 +2078,6 @@ s32 TObjChara::update_attack_stat_status() {
 
 s32 TObjChara::update_defense_stat_status() {
     s32 temp_ret;
-    void *obj;
 
     if (this->get_status_effect_timer(3) > 0) {
         temp_ret = this->add_status_effect_timer(3, -1);
@@ -2104,10 +2099,7 @@ s32 TObjChara::update_defense_stat_status() {
                     }
                     break;
                 }
-                obj = ((void * (*)(u32))__nw__7TObjectFUl)(0x64);
-                if (obj != 0) {
-                    construct_actor_light_task((0.1f), obj, player_defense_stat_status_light_colors, TObjPlayer__data_80434060, 0x2D, ((u8 *)this), tl_07);
-                }
+                new TActorLight(0.1f, (NJS_ARGB *)player_defense_stat_status_light_colors, (Vec *)TObjPlayer__data_80434060, 0x2D, this, tl_07);
             }
             return 1;
         }
@@ -2525,10 +2517,7 @@ void TObjChara::apply_attack_stat_status(void *arg1_arg) {
         this->adjust_atp_range((s32) (var_f31 * (f32) this->get_base_atp_range()));
         this->set_status_effect_timer(2, (s32) ((3e+01f) * ((1e+01f) * arg1->power + (4e+01f))));
         if (((TObjCollidable *)(((TObjPlayer *)this)))->test_actor_flags(0x02000000) == 0) {
-            u32 temp_obj = __nw__7TObjectFUl(0x64);
-            if (temp_obj != 0U) {
-                ((s32 (*)(u32, const f32 *, const f32 *, s32, TObjPlayer*, f32, s32))construct_actor_light_task)(temp_obj, player_attack_stat_status_light_colors, TObjPlayer__data_80434060, 0x2D, ((TObjPlayer *)this), (0.1f), tl_07);
-            }
+            new TActorLight(0.1f, (NJS_ARGB *)player_attack_stat_status_light_colors, (Vec *)TObjPlayer__data_80434060, 0x2D, this, tl_07);
         }
     }
 }
@@ -2558,10 +2547,7 @@ void TObjChara::apply_defense_stat_status(void *receipt_arg) {
         this->adjust_dfp((s32) (var_f30 * (f32) this->get_base_dfp()));
         this->set_status_effect_timer(3, (s32) ((3e+01f) * ((1e+01f) * receipt->power + (4e+01f))));
         if (this->test_actor_flags(0x02000000) == 0) {
-            u32 temp_obj = __nw__7TObjectFUl(0x64);
-            if (temp_obj != 0U) {
-                ((s32 (*)(u32, const f32 *, const f32 *, s32, s32, f32, s32))construct_actor_light_task)(temp_obj, player_defense_stat_status_light_colors, TObjPlayer__data_80434060, 0x2D, (saddr)this, (0.1f), tl_07);
-            }
+            new TActorLight(0.1f, (NJS_ARGB *)player_defense_stat_status_light_colors, (Vec *)TObjPlayer__data_80434060, 0x2D, this, tl_07);
         }
     }
 }

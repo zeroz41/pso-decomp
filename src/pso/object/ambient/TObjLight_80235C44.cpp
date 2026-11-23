@@ -31,8 +31,6 @@ static const f32 lbl_805DC888[1] = {1.0f};
 static const f32 lbl_805DC88C[1] = {0.0f};
 
 extern "C" {
-s32 __ct__7TObjectFP7TObject(void *, void *);
-extern s32 __vt__11TActorLight[];
 
 
 #pragma push
@@ -98,23 +96,20 @@ TActorLight::TActorLight(f32 step, f32 peak, f32 intensity, NJS_ARGB *color, Vec
     actor = this->source->get_entity_id();
     TObjLight::find_light_params((f32 *)&direction, (f32 *)&scene_color, actor);
 }
-TActorLight *construct_actor_light_task(TActorLight *light, NJS_ARGB *color, Vec *desired, s32 duration,
-                                          TObjBase *source, f32 step, TObject *parent) {
+TActorLight::TActorLight(f32 step, NJS_ARGB *color, Vec *desired, s32 duration, TObjBase *source, TObject *parent)
+    : TObject(parent) {
     NJS_ARGB scene_color;
-    __ct__7TObjectFP7TObject(light, parent);
-    *(s32 **)((s8 *)light + 0x18) = __vt__11TActorLight;
-    copy_argb(&light->color, color);
-    VecCopy(&light->desired, desired);
-    light->duration = duration;
-    light->age = 0;
-    light->step = step;
-    light->source = source;
-    light->phase = 0;
-    light->peak = lbl_805DC888[0];
-    light->intensity = lbl_805DC888[0];
-    light->actor = light->source->get_entity_id();
-    TObjLight::find_light_params((f32 *)&light->direction, (f32 *)&scene_color, light->actor);
-    return light;
+    copy_argb(&this->color, color);
+    VecCopy(&this->desired, desired);
+    this->duration = duration;
+    age = 0;
+    this->step = step;
+    this->source = source;
+    phase = 0;
+    peak = lbl_805DC888[0];
+    intensity = lbl_805DC888[0];
+    actor = this->source->get_entity_id();
+    TObjLight::find_light_params((f32 *)&direction, (f32 *)&scene_color, actor);
 }
 
 extern "C" {

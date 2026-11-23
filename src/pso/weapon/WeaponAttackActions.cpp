@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/object/TActorLight.h"
 
 struct NJS_OBJECT;
 #include <string.h>
@@ -62,7 +63,6 @@ typedef struct A12_8011E3E8 { s32 a; s32 b; s32 c; } A12_8011E3E8;
 
 typedef struct A16_8011E3E8 { s32 a; s32 b; s32 c; s32 d; } A16_8011E3E8;
 
-typedef struct Obj_8011E3E8 { u8 pad[0xF0]; s32 f0; } Obj_8011E3E8;
 
 
 struct WeaponArgb { f32 alpha, red, green, blue; };
@@ -155,13 +155,9 @@ s32 TItemWeapon::is_mode_two_and_ready() {
 }
 
 void TItemWeapon::spawn_light_task() {
-    Obj_8011E3E8 *arg0 = (Obj_8011E3E8 *)this;
     A12_8011E3E8 a = lbl_8043E838[0];
     A16_8011E3E8 b = lbl_8043E844[0];
-    uaddr p = (uaddr)TObject::operator new(0x64);
-    if (p != 0) {
-        ((void (*)(f32, u32, void *, void *, s32, s32, s32))construct_actor_light_task)(0.2f, p, &b, &a, 1, arg0->f0, (saddr)tl_07);
-    }
+    new TActorLight(0.2f, (NJS_ARGB *)&b, (Vec *)&a, 1, owner, tl_07);
 }
 
 void TItemWeapon::restore_action_type() {

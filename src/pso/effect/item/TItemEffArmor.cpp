@@ -68,10 +68,7 @@ TItemEffArmor::TItemEffArmor(TObjPlayer *owner, f32 scale, f32 rise) : TObject(t
     copy_argb(&color, (NJS_ARGB *)&armor_glow_color);
     {
         Vec up = { 0.0f, 1.0f, 0.0f };
-        TActorLight *light = (TActorLight *)TObject::operator new(0x64);
-        if (light != NULL) {
-            construct_actor_light_task(light, (NJS_ARGB *)&armor_glow_color, &up, 0x3A, owner, 0.2f, tl_07);
-        }
+        new TActorLight(0.2f, (NJS_ARGB *)&armor_glow_color, &up, 0x3A, owner, tl_07);
     }
 }
 

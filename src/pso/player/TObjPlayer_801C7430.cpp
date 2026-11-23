@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/ui/window/TWindowReturnCity.h"
+#include "pso/object/TActorLight.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/network/protocol/protocol_types.h"
@@ -1310,7 +1311,6 @@ u32 __nw__7TObjectFUl(s32);
 void capture_technique_targets__10TObjPlayerFv(int kind, void *owner);
 void launch_technique__10TObjPlayerFv(s32, s32, void *);
 Rec_801CCEDC * calc_technique_parameters(s32 tech, s32 level, u16 id);
-s32 construct_actor_light_task(void *, f32 *, f32 *, int, void *, f32, TObject *);
 }
 void increment_burst_counter(u8 *arg0);
 s32 get_burst_counter(void *);
@@ -4751,7 +4751,6 @@ void TObjPlayer::run_attack_stage2_phase(s16 phase) {
 
 void TObjPlayer::start_attack_preparation() {
     u8 *arg0 = (u8 *)this;
-    void *p;
     switch (((s16 (*)(void *))TObjPlayer__sub_801D2F4C)(arg0 + 0x7CC)) {
     case 0:
         *(s16 *)(arg0 + 0x328) = 3;
@@ -4764,10 +4763,7 @@ void TObjPlayer::start_attack_preparation() {
         player_feedback_light_color[0] = scratch_vec[2] = 1.0f;
         player_feedback_light_color[2] = player_feedback_light_color[1] = 0.8f;
         player_feedback_light_color[3] = 1.0f;
-        p = ((void * (*)(u32))__nw__7TObjectFUl)(0x64);
-        if (p != NULL) {
-            construct_actor_light_task(p, player_feedback_light_color, scratch_vec, 8, arg0, 0.2f, tl_07);
-        }
+        new TActorLight(0.2f, (NJS_ARGB *)player_feedback_light_color, (Vec *)scratch_vec, 8, this, tl_07);
         publish_actor_light_scalars(((TObjBase *)arg0)->get_entity_id(), 1.0f, 0.5f);
         this->play_sound_if_on_floor(0x1AD1C);
         break;
@@ -4779,10 +4775,7 @@ void TObjPlayer::start_attack_preparation() {
         player_feedback_light_color[0] = scratch_vec[2] = 1.0f;
         player_feedback_light_color[2] = player_feedback_light_color[1] = 0.8f;
         player_feedback_light_color[3] = 1.0f;
-        p = ((void * (*)(u32))__nw__7TObjectFUl)(0x64);
-        if (p != NULL) {
-            construct_actor_light_task(p, player_feedback_light_color, scratch_vec, 8, arg0, 0.2f, tl_07);
-        }
+        new TActorLight(0.2f, (NJS_ARGB *)player_feedback_light_color, (Vec *)scratch_vec, 8, this, tl_07);
         publish_actor_light_scalars(((TObjBase *)arg0)->get_entity_id(), 1.0f, 0.5f);
         this->play_sound_if_on_floor(0x1AD1D);
         break;

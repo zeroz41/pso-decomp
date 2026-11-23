@@ -2,6 +2,7 @@
 // last to first, so they are defined here from the highest address down.
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/ui/window/TWindowReturnCity.h"
+#include "pso/object/TActorLight.h"
 #include "pso/unk/TLobby_800FD78C.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/render/ChunkMaterialState.h"
@@ -1494,7 +1495,6 @@ void text_builder_append_int(s32 arg0);
 void text_builder_append(u8 *str);
 u32 __nw__7TObjectFUl(s32);
 u8 * __ct__7TObjectFP7TObject(void *, void *);
-void construct_actor_light_task(void *, Color_801B6964 *, Vec *, s32, s32, s32, f32);
 s32 get_battle_ctrl_default__6TLobbyFv();
 s32 get_party_yaw();
 u8 *get_party_position(void);
@@ -3979,10 +3979,7 @@ void spawn_level_change_feedback__10TObjPlayerFv(saddr arg0, s32 arg1) {
     player_feedback_light_color[0].g = player_feedback_light_color[0].r = TObjPlayer__data_805DC294;
     player_feedback_light_color[0].b = lbl_805DC2A4;
     player_feedback_light_color[0].a = lbl_805DC2A8;
-    p = ((void * (*)(u32))__nw__7TObjectFUl)(0x64);
-    if (p != NULL) {
-        ((void (*)(void *, Color_801B6964 *, f32, Vec *, s32, s32, s32))construct_actor_light_task)(p, player_feedback_light_color, lbl_805DC2AC, scratch_vec, 10, arg0, (saddr)tl_07);
-    }
+    new TActorLight(lbl_805DC2AC, (NJS_ARGB *)player_feedback_light_color, scratch_vec, 10, (TObjBase *)arg0, tl_07);
     publish_actor_light_scalars(((TObjBase *)(arg0))->get_entity_id(), TObjPlayer__data_805DC294, TObjPlayer__data_805DC28C);
 }
 
