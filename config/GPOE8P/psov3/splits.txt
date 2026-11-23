@@ -1243,7 +1243,7 @@ pso/effect/TEffStarLight2D_Base.cpp:
 pso/enemy/canadin/TObjEneMe1CanadinLeader.cpp:
 	.text       start:0x80085774 end:0x80085798
 
-pso/effect/particle/TParticleCtrl.cpp:
+pso/effect/particle/LightGlare.cpp:
 	.text       start:0x80085798 end:0x80085EE4
 	.rodata     start:0x804393D0 end:0x804393F0
 	.data       start:0x8048E6A8 end:0x8048E710
@@ -1257,39 +1257,12 @@ pso/effect/particle/TParticleCtrl_80085EE4.cpp:
 	.sbss       start:0x805D4EF0 end:0x805D4EF8
 	.sdata2     start:0x805D94C0 end:0x805D94E0
 
-pso/effect/particle/TParticleCtrl_80086884.cpp:
-	.text       start:0x80086884 end:0x80086B64
-	.sbss       start:0x805D4EF8 end:0x805D4F08
-
-pso/unk/text_80086B64.cpp:
-	.text       start:0x80086B64 end:0x80086C44
-
-pso/boss/darkfalz/TBoss4Type2_80086C44.cpp:
-	.text       start:0x80086C44 end:0x80086D50
-
-pso/unk/text_80086D50.cpp:
-	.text       start:0x80086D50 end:0x80086E28
-
-pso/unk/text_80086E28.cpp:
-	.text       start:0x80086E28 end:0x80086FE0
-
-pso/unk/text_80086FE0.cpp:
-	.text       start:0x80086FE0 end:0x800870BC
-
-pso/unk/text_800870BC.cpp:
-	.text       start:0x800870BC end:0x800871A0
-
-pso/unk/text_800871A0.cpp:
-	.text       start:0x800871A0 end:0x80087278
-
-pso/unk/text_80087278.cpp:
-	.text       start:0x80087278 end:0x800874F4
-
-pso/effect/particle/TParticleCtrl_800874F4.cpp:
-	.text       start:0x800874F4 end:0x80088588
+pso/effect/particle/TParticleCtrl.cpp:
+	.text       start:0x80086884 end:0x80088588
 	.rodata     start:0x80439420 end:0x80439438
 	.data       start:0x8048E740 end:0x8048E758
 	.sdata      start:0x805D2938 end:0x805D2940
+	.sbss       start:0x805D4EF8 end:0x805D4F08
 	.sdata2     start:0x805D94E0 end:0x805D94F8
 
 pso/effect/particle/ParticleResources.cpp:
