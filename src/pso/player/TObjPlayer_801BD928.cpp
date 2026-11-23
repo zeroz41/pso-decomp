@@ -29,7 +29,6 @@ s32 __ct__14TPlyDispConfigFv(void *);
 extern const char *lbl_805D3530;
 
 TObjPlayer::TObjPlayer(TObject *parent, s32 slot, s32 role, u8 *record) : TObjChara(parent) {
-    __ct__8FlagWordFv((((u8 *)this) + 0x41C));
     TFontSmallLobby__sub_801C0164((void *) (((u8 *)this) + 0x428));
     this->photon_blast_gauge.construct_pb_controller();
     __ct__14TPlyDispConfigFv((void *) (((u8 *)this) + 0x500));

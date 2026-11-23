@@ -77,7 +77,6 @@ extern const char *lbl_805D3530;
 }
 
 TObjPlayer::TObjPlayer(TObject *parent, TUnk_801D8A4C *src) : TObjChara(parent) {
-    __ct__8FlagWordFv(((char *)this + 1052));
     TFontSmallLobby__sub_801C0164(((char *)this + 1064));
     this->photon_blast_gauge.construct_pb_controller();
     __ct__14TPlyDispConfigFv(((char *)this + 1280));
@@ -117,7 +116,6 @@ TObjPlayer::TObjPlayer(TObject *parent, TUnk_801D8A4C *src) : TObjChara(parent) 
 }
 
 TObjPlayer::TObjPlayer(TObject *parent, void *arg2) : TObjChara(parent) {
-    __ct__8FlagWordFv(((char *)this + 1052));
     TFontSmallLobby__sub_801C0164(((char *)this + 1064));
     this->photon_blast_gauge.construct_pb_controller();
     __ct__14TPlyDispConfigFv(((char *)this + 1280));

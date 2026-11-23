@@ -206,7 +206,7 @@ struct TObjPlayer : public TObjChara {
     f32 m_40c;
     void* m_410;
     u8 _pad414[0x8];
-    void* m_41c;
+    FlagWord m_41c;
     u8 unk_420[0x4];
     TLockOnCursor *lock_on_cursor;  // created by create_lockon_cursor for local players
     u8 technique_levels[0x84];  // set/get_cast_technique_level's table
