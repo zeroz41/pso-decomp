@@ -3,24 +3,25 @@
 
 #include "types.h"
 #include "pso/object/base/TObjChara.h"
+#include "pso/npc/TObjNpcBase.h"
 
 struct TOSymbolchatColli : public TObjChara {
-    TOSymbolchatColli(TObject *parent, s32 arg2);
+    TOSymbolchatColli(TObject *parent, s32 set_data);
     virtual ~TOSymbolchatColli();
     virtual void run_task();
+    void fn_8017866C(s32 state, u16 player);  // opens the state's balloon chat over the player
     s32 get_state();
     void init_collision_params();
     virtual void render();
     static void *create(void *arg0);
     static void free_rock();
     static void load_symbol_chat_data();
-    u8 unk_334[0x24];
-    f32 m_358;
-    u8 unk_35C[0x1C];
-    u16 m_378;
-    u8 unk_37A[0x2];
-    u16 m_37c;
-    u8 unk_37E[0x6];
+    f32 radius_sq;            // scale.x squared
+    s32 player_inside[4];     // set while that player is inside the radius
+    NpcBattleStats stats;
+    u8 *balloon_chats[3];     // per state: the param table entry, else the preset picked by preset_ids
+    u16 switch_ids[3];        // set param high half, 0xFFFF when not a switch
+    u16 preset_ids[3];        // set param low half
 };
 
 LAYOUT_ASSERT(TOSymbolchatColli_size, sizeof(TOSymbolchatColli) == 0x384);
