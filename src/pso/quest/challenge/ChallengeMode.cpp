@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/object/quest/TObjTagChallenge.h"
 #include "pso/system/CharacterSaveRecordLookup.h"
 #include "pso/ui/window/TObjCHTimeWin.h"
 #include "pso/object/TObjWarnChime.h"
@@ -36,7 +37,6 @@ s32 challenge_task_created;
 s32 TLobby__data_805D4E30;
 
 typedef void (TChallenge::*Step_80070674)(void);
-void *create_obj_tag_challenge(void *tag_challenge);
 
 ChallengeModeState challenge_settings_defaults = {
     -1, 1.0f, -1, 0, 0x39383814, -10, -1, 0, 0, -1,

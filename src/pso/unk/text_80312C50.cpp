@@ -30,15 +30,15 @@ void release_photon_blast_requests(void *registry);
 void release_photon_blast_requests(void *registry) {
     s32 count;
     saddr i;
-    u8 *owner;
+    TObjPlayer *owner;
     count = TObjPlayer__sub_803131AC(registry);
     for (i = 0; i < count; i++) {
         u16 player = ((u16)((PhotonBlastRequest *)(TObjPlayer::get_element(registry, i)))->get_client_id());
         if (player != 0xFFFF) {
-            owner = (u8 *)get_player_by_client_id(player);
+            owner = get_player_by_client_id(player);
             if (owner != NULL) {
-                ((PhotonBlastGauge *)(owner + 0x4AC))->check_photon_blast_flag();
-                ((PhotonBlastGauge *)(owner + 0x4AC))->trigger_photon_blast();
+                owner->photon_blast_gauge.check_photon_blast_flag();
+                owner->photon_blast_gauge.trigger_photon_blast();
             }
         }
     }

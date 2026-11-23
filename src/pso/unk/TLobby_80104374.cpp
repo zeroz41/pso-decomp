@@ -1,3 +1,4 @@
+#include "pso/network/client_id.h"
 #include "pso/item/TItemIdCounters.h"
 #include "pso/unk/TLobby_801E43E4.h"
 #include "types.h"
@@ -159,8 +160,6 @@ s32 get_item_icon_index();
 void TLobby__sub_80104464(void);
 int fn_80077788(void);
 int fn_80077790(void);
-extern s32 local_client_id;
-extern s32 designated_client_id;
 s32 TItemDropSub__sub_80107B74();
 }
 

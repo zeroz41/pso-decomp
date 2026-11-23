@@ -83,6 +83,7 @@ int qst_label_address(int label);
 #include "pso/player/TPlayerBattleCtrl4P.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/technique/TTecLuker.h"
+#include "pso/network/client_id.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/object/warp/TObjAreaWarpQuest.h"
 #include "pso/object/warp/TObjCityMainWarp.h"
@@ -241,7 +242,6 @@ const CmdTable_801E6604 message_substitution_handlers = { {
     { "name job", append_hero_class_name },
 } };
 
-extern saddr local_client_id;
 
 void TLobby::capture_chat_sensor() {
     saddr message = (saddr)this;
@@ -945,7 +945,6 @@ u8 is_floor_switch_set(u32 id, s16 floor);
 void clear_current_floor_switch(s32 id);
 void set_current_floor_switch(s32 id);
 void init_switch_table(void);
-void create_quest_telepipe_for_client(u16 client);
 void close_window_if_active(void *p);
 extern "C" {
 saddr get_window_layout_position(s32);
@@ -974,7 +973,6 @@ void activate_palettex(u16 client_index);
 }
 
 extern E_801EB484 duel_result_table[];
-extern s32 designated_client_id;
 extern int battle_ctrl_default_value;
 extern saddr gba_download_data_buffer;
 extern s32 gba_download_data_size;
@@ -1333,7 +1331,6 @@ void update_gba_joyboot_transfer();
 s32 update_challenge_result_player_locks();
 void quest_player_face_actor(u16, u16);
 void quest_player_look_at_partner(u16);
-void quest_remove_npc_player(u16 client);
 void qst_op_get_lang_setting(void) {
     qst_registers[qst_args[0]] = current_language;
 }
@@ -2807,18 +2804,16 @@ void qst_op_get_gender(s32 slot_reg, s32 dst) {
 }
 
 void qst_op_disable_techs(s32 slot_reg) {
-    uaddr player;
-    player = (uaddr)get_player_by_client_id(qst_registers[(u8)slot_reg]);
-    if (player != 0U) {
-        TLobby__sub_801F3694((void *)(player + 0x428));
+    TObjPlayer *player = get_player_by_client_id(qst_registers[(u8)slot_reg]);
+    if (player != NULL) {
+        TLobby__sub_801F3694(&player->technique_state);
     }
 }
 
 void qst_op_enable_techs(s32 slot_reg) {
-    uaddr player;
-    player = (uaddr)get_player_by_client_id(qst_registers[(u8)slot_reg]);
-    if (player != 0U) {
-        TFontSmallLobby__sub_801C013C((void *)(player + 0x428));
+    TObjPlayer *player = get_player_by_client_id(qst_registers[(u8)slot_reg]);
+    if (player != NULL) {
+        TFontSmallLobby__sub_801C013C(&player->technique_state);
     }
 }
 

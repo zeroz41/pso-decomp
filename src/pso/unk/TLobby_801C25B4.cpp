@@ -1,3 +1,5 @@
+#include "pso/camera/TCameraCtrl.h"
+#include "pso/network/client_id.h"
 #include "pso/npc/TNpcPlayer_802C3CD0.h"
 #include "pso/ui/window/TWindowDuelResult.h"
 #include <stdio.h>
@@ -78,8 +80,6 @@ extern "C" {
 u8 TLobby__sub_801C2614(void);
 s32 TLobby__sub_801C2678(void);
 extern s16 battle_event_second_table[];
-extern saddr local_client_id;
-extern s32 designated_client_id;
 s32 TLobby__sub_801C19D0(void *);
 u8 TLobby__sub_801D7100(void *);
 extern u8 lobby_rule_settings[];
@@ -204,7 +204,6 @@ void clear_trap_counts(s8 *arg0);
 extern saddr tl_00;
 extern saddr tl_01;
 }
-void reset_cameras_to_actor(void *actor, s32 view_unused);
 struct Stack_801C3CFC {
     s32 sp8;
     s8 spC;

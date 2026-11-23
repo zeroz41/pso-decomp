@@ -36,4 +36,6 @@ struct TTecLuker : public TTecCircle {
 };
 
 LAYOUT_ASSERT(TTecLuker_size, sizeof(TTecLuker) == 0x110);
+
+void create_quest_telepipe_for_client(u16 client);
 #endif

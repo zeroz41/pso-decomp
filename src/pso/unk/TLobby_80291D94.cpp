@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/object/quest/TObjTagChallenge.h"
 #include "pso/npc/TNpcPlayer_802C3CD0.h"
 #include <string.h>
 #include "pso/ui/window/TObjCHTimeWin.h"
@@ -738,7 +739,6 @@ extern "C" {
 void TLobby__sub_80293218(s32 client);
 
 }
-void *create_obj_tag_challenge(void *tag_challenge);
 void setup_split_screen(void);
 
 
