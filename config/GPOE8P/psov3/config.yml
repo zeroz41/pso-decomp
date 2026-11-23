@@ -16260,7 +16260,7 @@ force_active:
   - delay_before_fade_in__14TObjWarpStringFv
   - sub_8019E418__12TObjWarpBossFv
   - sub_8019F9E4__14TObjWarpBoss03Fv
-  - sub_801AA6F8__13TPhotonEstllaFv
+  - reset_color__13TPhotonEstllaFUc
   - sub_801AAE6C__13TPhotonFarllaFv
   - sub_801AB688__12TPhotonGollaFv
   - sub_801AC444__13TPhotonLeillaFv

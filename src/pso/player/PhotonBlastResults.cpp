@@ -11,7 +11,7 @@
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/effect/photon/PhotonBlastSummon.h"
 #include "pso/system/vector.h"
-#include "pso/unk/text_801AAB74.h"
+#include "pso/effect/photon/TPhotonEstlla.h"
 #include "pso/unk/text_801AB370.h"
 #include "pso/unk/text_801ABE14.h"
 #include "pso/effect/photon/TPhotonPilla.h"
@@ -649,11 +649,7 @@ void TUnk_804C349C::step_photon_blast_sequence() {
             this->summon = (TObject *)summon;
             break;
         case 1:
-            summon = (u8 *)TObject::operator new(0x1A4);
-            if (summon != NULL) {
-                summon = __ct__13TPhotonEstllaFPUc(summon, (u8 *)&params);
-            }
-            this->summon = (TObject *)summon;
+            this->summon = new TPhotonEstlla(&params);
             break;
         case 5:
             summon = (u8 *)TObject::operator new(0x1A8);
