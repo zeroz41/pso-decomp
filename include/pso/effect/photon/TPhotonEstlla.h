@@ -31,5 +31,6 @@ public:
 LAYOUT_ASSERT(TPhotonEstlla_size, sizeof(TPhotonEstlla) == 0x1A4);
 
 void create_estlla_photon_blast_model(void);
+void destroy_estlla_photon_blast_model(void);
 
 #endif

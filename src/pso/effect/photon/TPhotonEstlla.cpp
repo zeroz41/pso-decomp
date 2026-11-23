@@ -217,7 +217,7 @@ TPhotonEstlla::TPhotonEstlla(PhotonSummonParams *params) : TPhotonBlastSummon() 
     }
 }
 
-void TObjPlayer::destroy_global_buffer() {
+void destroy_estlla_photon_blast_model(void) {
     if (estlla_photon_blast_model != NULL) {
         destroy_buffer_pair(estlla_photon_blast_model, 1);
     }

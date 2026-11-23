@@ -31,7 +31,6 @@
 #include "pso/unk/text_801AA3B4.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/player/TObjPlayer_801AC0D8.h"
-#include "pso/player/TObjPlayer_801AE48C.h"
 #include "pso/effect/photon/TPhotonFarlla.h"
 #include "pso/effect/photon/TPhotonYoulla.h"
 #include "pso/effect/photon/TPhotonMylla.h"
@@ -901,10 +900,10 @@ void load_photon_blast_resources(void) {
 
 PhotonBlastLoadCallback photon_blast_load_callback_table[10] = {
     { create_golla_photon_blast_model, destroy_golla_photon_blast_model },
-    { create_pilla_photon_blast_model, TObjPlayer::free_buffer_pair },
+    { create_pilla_photon_blast_model, destroy_pilla_photon_blast_model },
     { create_leilla_photon_blast_model, destroy_leilla_photon_blast_model },
     { create_farlla_photon_blast_model, destroy_farlla_photon_blast_model },
-    { create_estlla_photon_blast_model, TObjPlayer::destroy_global_buffer },
+    { create_estlla_photon_blast_model, destroy_estlla_photon_blast_model },
     { create_youlla_photon_blast_model, destroy_youlla_photon_blast_model },
     { create_mylla_photon_blast_model, destroy_mylla_photon_blast_model },
     { TObjPlayer__sub_801AD480, TObjPlayer__sub_801AD47C },

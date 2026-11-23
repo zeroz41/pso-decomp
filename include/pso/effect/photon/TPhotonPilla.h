@@ -31,4 +31,7 @@ public:
 };
 LAYOUT_ASSERT(TPhotonPilla_size, sizeof(TPhotonPilla) == 0x1AC);
 
+void create_pilla_photon_blast_model(void);
+void destroy_pilla_photon_blast_model(void);
+
 #endif

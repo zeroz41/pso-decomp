@@ -7,7 +7,6 @@
 #include "pso/render/MaterialColorFade.h"
 #include "pso/boss/derolle/TBoss2DeRolLe.h"
 #include "pso/math/MatrixTransforms.h"
-#include "pso/player/TObjPlayer_801AE48C.h"
 #include "pso/unk/text_800F5BC0.h"
 #include "pso/unk/TLobby.h"
 #include "pso/render/ChunkMaterialState.h"
@@ -42,7 +41,7 @@
 extern "C" s32 scroll_strip_uvs(void *strips, s16 u, s16 v);
 
 const char *TPhotonPilla::class_name = "TPhotonPilla";
-void *pilla_photon_buffer_pair;
+void *pilla_photon_blast_model;
 extern const PhotonLaserParams photon_pilla_laser_packet = {
     { 0.0f, 0.0f, 0.0f }, { 0 }, { 0.0f, -1.0f, 0.0f }, 300.0f, 30.0f, 30.0f
 };
@@ -69,14 +68,14 @@ void create_pilla_photon_blast_model(void) {
     if (strips != NULL) {
         strips = (TLobby *)strips->alloc_tables((saddr)photon_blast_shared_resource->models[0].model->child, 0);
     }
-    pilla_photon_buffer_pair = strips;
+    pilla_photon_blast_model = strips;
 }
 
-void TObjPlayer::free_buffer_pair() {
-    if (pilla_photon_buffer_pair != NULL) {
-        destroy_buffer_pair(pilla_photon_buffer_pair, 1);
+void destroy_pilla_photon_blast_model(void) {
+    if (pilla_photon_blast_model != NULL) {
+        destroy_buffer_pair(pilla_photon_blast_model, 1);
     }
-    pilla_photon_buffer_pair = NULL;
+    pilla_photon_blast_model = NULL;
 }
 
 TPhotonPilla::TPhotonPilla(PhotonSummonParams *params) : TPhotonBlastSummon() {
@@ -190,7 +189,7 @@ void TPhotonPilla::run_task() {
 
 void TPhotonPilla::render() {
     if (started != 0) {
-        scroll_strip_uvs(pilla_photon_buffer_pair, uv_scroll, 0);
+        scroll_strip_uvs(pilla_photon_blast_model, uv_scroll, 0);
         TParticleCtrl::begin_effect_render();
         TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
         push_matrix();
