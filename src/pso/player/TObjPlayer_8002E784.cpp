@@ -62,15 +62,15 @@ f32 boss2_breakup_water_level = boss2_water_level;
 s32 TObjPlayer__sub_8002EDCC(BreakupPiece *piece) {
     f32 temp_f1;
     f32 temp_f2;
-    f32 temp_f3;
-    f32 temp_f4;
-    s32 temp_r0;
-    s32 temp_r31;
+    f32 x;
+    f32 z;
+    s32 state;
+    s32 spin;
     s32 var_r30;
     var_r30 = 0;
-    temp_r0 = piece->state;
-    temp_r31 = piece->spin;
-    switch (temp_r0) {
+    state = piece->state;
+    spin = piece->spin;
+    switch (state) {
     case 0:
         piece->vel.y = (piece->vel.y - breakup_gravity);
         vec3_add_to(&piece->pos, &piece->vel);
@@ -78,9 +78,9 @@ s32 TObjPlayer__sub_8002EDCC(BreakupPiece *piece) {
         if (temp_f1 < breakup_zero) {
             temp_f2 = piece->pos.y;
             if (temp_f2 < breakup_floor_height) {
-                temp_f3 = piece->pos.x;
-                temp_f4 = piece->pos.z;
-                if ((temp_f3 <= boss2_platform_max) && (temp_f3 >= boss2_platform_min) && (temp_f4 <= 76.0f) && (temp_f4 >= (-75.0f))) {
+                x = piece->pos.x;
+                z = piece->pos.z;
+                if ((x <= boss2_platform_max) && (x >= boss2_platform_min) && (z <= 76.0f) && (z >= (-75.0f))) {
                     piece->vel.y = (temp_f1 * breakup_bounce_factor);
                     piece->state = 2;
                 } else if (temp_f2 < boss2_water_level) {
@@ -89,8 +89,8 @@ s32 TObjPlayer__sub_8002EDCC(BreakupPiece *piece) {
                 }
             }
         }
-        piece->ang_x = (piece->ang_x + temp_r31);
-        piece->ang_z = (piece->ang_z + (temp_r31 * 2));
+        piece->ang_x = (piece->ang_x + spin);
+        piece->ang_z = (piece->ang_z + (spin * 2));
         break;
     case 2:
         piece->vel.y = (piece->vel.y - breakup_gravity);
@@ -100,8 +100,8 @@ s32 TObjPlayer__sub_8002EDCC(BreakupPiece *piece) {
             piece->alpha = breakup_zero;
             piece->state = 3;
         }
-        piece->ang_x = (piece->ang_x + temp_r31);
-        piece->ang_z = (piece->ang_z + (temp_r31 * 2));
+        piece->ang_x = (piece->ang_x + spin);
+        piece->ang_z = (piece->ang_z + (spin * 2));
         break;
     case 1:
         piece->pos.y = ((breakup_gravity * piece->vel.y) + piece->pos.y);

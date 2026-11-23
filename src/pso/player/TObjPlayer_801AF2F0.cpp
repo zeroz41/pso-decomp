@@ -3486,15 +3486,15 @@ u8 *TObjPlayer::update_actor_ground_y() {
 
 u8 *TObjPlayer::update_actor_ground_y_at(Vec *pos) {
     Vec stack;
-    f32 temp_f1;
+    f32 y;
     s32 temp_r31;
     u8 *temp_r3;
     player_stats *temp_r6;
     u8 *arg0 = (u8 *)this;
     stack.x = pos->x;
     temp_r6 = ((TObjPlayer *)arg0)->stat_block;
-    temp_f1 = pos->y;
-    stack.y = temp_f1 + temp_r6->proportions;
+    y = pos->y;
+    stack.y = y + temp_r6->proportions;
     stack.z = pos->z;
     temp_r3 = (u8 *)csnVectorUnder(&stack, this->ground_candidates.groups, 0x5F);
     if (temp_r3 == NULL) {

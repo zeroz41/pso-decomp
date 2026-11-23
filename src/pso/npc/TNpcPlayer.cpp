@@ -2357,7 +2357,7 @@ void TNpcPlayer::update_condition_flags() {
 #pragma push
 #pragma fp_contract on
 void partner_observe_surroundings(TNpcPlayer *npc_player) {
-    f32 temp_f3;
+    f32 x;
     s32 temp_r3_2;
     TObjPlayer *obj_player;
     TObjPlayer *temp_r3;
@@ -2370,9 +2370,9 @@ void partner_observe_surroundings(TNpcPlayer *npc_player) {
         ((s32 (*)(s32, f32))check_and_set_reached__10TNpcPlayerFPv)((saddr)npc_player->m_78, npc_player->ai_params.enemy_lock_on_range);
     }
     ((s32 (*)(s32))partner_view_update_conditions)((saddr)npc_player->m_78);
-    temp_f3 = npc_player->m_dc.x;
+    x = npc_player->m_dc.x;
     temp_r3 = npc_player->m_78->m_94;
-    npc_player->m_78->m_98 = (s32)(10430.38043493439 * atan2_float(temp_f3 - temp_r3->position.x, npc_player->m_dc.z - temp_r3->position.z));
+    npc_player->m_78->m_98 = (s32)(10430.38043493439 * atan2_float(x - temp_r3->position.x, npc_player->m_dc.z - temp_r3->position.z));
     ((s32 (*)(void *))partner_probe_obstacles)(npc_player->m_78);
     if (partner_view_update_hp_change(npc_player->m_78) != 0) {
         if (((TNpcPlayer *)npc_player->m_78)->get_condition() & 0x40) {
@@ -2697,7 +2697,7 @@ s32 partner_view_update_conditions(u8 *arg0) {
     f32 temp_f2;
     f32 actor_hp;
     f32 actor_tp;
-    s32 temp_r3;
+    s32 actorFlags;
     s32 var_r31;
     var_r31 = 0;
     actor_hp = (f32)((TObjChara *)view->m_94)->get_actor_hp();
@@ -2722,8 +2722,8 @@ s32 partner_view_update_conditions(u8 *arg0) {
         view->m_90 = view->m_90 | 0x800;
         view->m_8c = view->m_8c | 4;
     }
-    temp_r3 = view->m_94->actorFlags;
-    if ((temp_r3 & 1) || (temp_r3 & 2) || (temp_r3 & 0x10)) {
+    actorFlags = view->m_94->actorFlags;
+    if ((actorFlags & 1) || (actorFlags & 2) || (actorFlags & 0x10)) {
         var_r31 = 1;
         view->m_90 = view->m_90 | 2;
         view->m_8c = view->m_8c | 4;

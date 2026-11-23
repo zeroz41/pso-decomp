@@ -1885,7 +1885,7 @@ void TObjCMProportion::run_task() {
     s32 angle;
     f32 magnitude;
     f32 temp_f0;
-    f32 temp_f1_4;
+    f32 height;
     f32 proportion;
     f32 var_f30;
     f32 var_f29;
@@ -1942,10 +1942,10 @@ void TObjCMProportion::run_task() {
             temp_r3_3->width += 0.99f;
         }
         temp_r3_4 = arg0->appearance;
-        temp_f1_4 = temp_r3_4->height;
-        if (temp_f1_4 > 0.99f) {
+        height = temp_r3_4->height;
+        if (height > 0.99f) {
             temp_r3_4->height = (f32) 0.99f;
-        } else if (temp_f1_4 < 0.0f) {
+        } else if (height < 0.0f) {
             temp_r3_4->height = (f32) 0.0f;
         }
         if (creation_buttons_pressed(6) != 0) {

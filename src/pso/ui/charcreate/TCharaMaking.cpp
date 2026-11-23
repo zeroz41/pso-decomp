@@ -363,18 +363,18 @@ void TCharaMaking::clear_flag_bit0() { restore_alpha_ref(); model_render_flags =
 void TCharaMaking::enable_making() { model_render_flags = (model_render_flags | 0x1); set_alpha_ref_override((u8)31); }
 void TCharaMaking__bind_appearance_texture_lists(TextureOutput *output, TextureOutput *texture_output, TextureOutput *body, CharacterAppearanceFields *appearance) {
   CharacterClassAppearance *definition;
-  CharacterTextureList **temp_r3;
-  CharacterTextureList **temp_r3_2;
+  CharacterTextureList **hairTextures;
+  CharacterTextureList **headTextures;
   CharacterTextureList *source;
   CharacterClassAppearance *new_var;
   CharacterTextureList *temp_r6_2;
   new_var = &class_appearance_table[character_display_index(reinterpret_cast<uaddr>(appearance))];
   output->loaded = 0;
   definition = new_var;
-  temp_r3 = definition->hairTextures;
-  if (temp_r3 != 0)
+  hairTextures = definition->hairTextures;
+  if (hairTextures != 0)
   {
-    source = temp_r3[appearance->hair];
+    source = hairTextures[appearance->hair];
     if (source != 0)
     {
       ((TCharaMaking *)output)->build_appearance_texture_names(appearance, definition, source);
@@ -382,10 +382,10 @@ void TCharaMaking__bind_appearance_texture_lists(TextureOutput *output, TextureO
     }
   }
   texture_output->loaded = 0;
-  temp_r3_2 = definition->headTextures;
-  if (temp_r3_2 != 0)
+  headTextures = definition->headTextures;
+  if (headTextures != 0)
   {
-    temp_r6_2 = temp_r3_2[appearance->head];
+    temp_r6_2 = headTextures[appearance->head];
     if (temp_r6_2 != 0)
     {
       ((TCharaMaking *)texture_output)->build_appearance_texture_names(appearance, definition, temp_r6_2);

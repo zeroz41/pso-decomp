@@ -463,7 +463,7 @@ uaddr forest_rel_work_buffer;
 
 void TLobby::update_drop_item() {
     MapSetModule *temp_r3;
-    MapSetArea *temp_r0;
+    MapSetArea *areas;
     s32 drop_item_mode;
 
     forest_rel_set_data_table = 0;
@@ -474,9 +474,9 @@ void TLobby::update_drop_item() {
             temp_r3 = (MapSetModule *)load_relocatable_file((saddr)forest_rel_filename_table[drop_item_mode], forest_rel_work_buffer);
             forest_rel_module = temp_r3;
             if (temp_r3 != NULL) {
-                temp_r0 = temp_r3->areas;
-                forest_rel_set_data_table = temp_r0;
-                TLobby__data_805D6068 = temp_r0;
+                areas = temp_r3->areas;
+                forest_rel_set_data_table = areas;
+                TLobby__data_805D6068 = areas;
             }
         }
     }
@@ -514,7 +514,7 @@ void set_destroy_event__6TLobbyFi(int a0);
 
 void TLobby::load_item_data() {
     MapSetModule *temp_r3_2;
-    MapSetArea *temp_r0;
+    MapSetArea *areas;
     s32 drop_item_mode;
     u32 temp_r3;
 
@@ -528,9 +528,9 @@ void TLobby::load_item_data() {
             temp_r3_2 = (MapSetModule *)load_relocatable_file((saddr)forest_rel_filename_table[drop_item_mode], forest_rel_work_buffer);
             forest_rel_module = temp_r3_2;
             if (temp_r3_2 != NULL) {
-                temp_r0 = temp_r3_2->areas;
-                forest_rel_set_data_table = temp_r0;
-                TLobby__data_805D6068 = temp_r0;
+                areas = temp_r3_2->areas;
+                forest_rel_set_data_table = areas;
+                TLobby__data_805D6068 = areas;
             }
         }
     }
