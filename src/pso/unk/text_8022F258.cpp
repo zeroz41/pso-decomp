@@ -43,7 +43,7 @@ TUnk_804CC74C::TUnk_804CC74C(TObjPlayer *actor, TObject *parent) : TObject(paren
 void TTecDeband::play_state_sound() {
     Obj_8022F42C *arg0 = (Obj_8022F42C *)this;
     s32 r;
-    switch (*(s16 *)&this->m_a6) {
+    switch (band) {
     case 0:
     case 1:
         r = play_sound_effect(0x4002AA16, (u8 *)arg0 + 0x20, 0, 0);

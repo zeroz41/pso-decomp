@@ -17633,18 +17633,18 @@ force_active:
   - vfunc_6__9TTecJelinFPv
   - vfunc_6__9TTecZaruaFPv
   - apply_enemy_state__15TBoss3VoloptP02FPl
-  - vfunc_7__10TTecDebandFPv
+  - apply_to_player__10TTecDebandFP10TObjPlayer
   - vfunc_7__13TAdVIConfigGCFv
   - vfunc_7__16TAdPsoPassSaveGCFv
   - vfunc_7__17TAdExNetConfirmGCFv
   - vfunc_7__17TAdLicAgreementGCFv
   - vfunc_7__18TAdAgreementBaseGCFv
   - vfunc_7__18TAdTrialModemChkGCFv
-  - vfunc_7__19TTecPlayerInfluenceFPv
+  - apply_to_player__19TTecPlayerInfluenceFP10TObjPlayer
   - vfunc_7__20TAdSnAkPassConfirmGCFv
-  - vfunc_7__8TTecAntiFPv
-  - vfunc_7__9TTecRestaFPv
-  - vfunc_7__9TTecSiftaFPv
+  - apply_to_player__8TTecAntiFP10TObjPlayer
+  - apply_to_player__9TTecRestaFP10TObjPlayer
+  - apply_to_player__9TTecSiftaFP10TObjPlayer
   - vfunc_80__12TOMineIcon04Fv
   - vfunc_80__21TObjContainerAbeEnemyFv
   - vfunc_81__14TOTrapSeabed01Fv

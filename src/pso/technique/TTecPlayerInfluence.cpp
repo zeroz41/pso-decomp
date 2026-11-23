@@ -18,69 +18,7 @@
 #include "pso/technique/TTecCtrl.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/object/base/TObjBase.h"
-struct Owner_80237310
-{
-  u8 pad[0x30];
-  u32 flags;
-};
-
-struct Obj_80237310
-{
-  s32 f0;
-  u8 pad4[0x14];
-  void *vt;
-  Owner_80237310 *owner;
-  f32 pos[3];
-  f32 f2c;
-  f32 f30;
-  f32 f34;
-  f32 f38;
-  f32 f3c;
-  f32 f40;
-  f32 f44;
-  u8 pad48[0x64 - 0x48];
-  f32 f64;
-  u8 pad68[0x70 - 0x68];
-  f32 f70;
-  u8 pad74[0xA0 - 0x74];
-  s32 fa0;
-  s16 level;
-  s16 tier;
-  u16 fa8;
-  u8 padaa[2];
-  s32 fac;
-  f32 fb0[3];
-  f32 fbc;
-  f32 fc0;
-  s32 fc4;
-  s32 fc8;
-  u8 padcc[0xDC - 0xCC];
-  void *fdc;
-};
-
-typedef struct Emitter_80237494
-{
-  u32 entry;
-  u32 flags;
-  f32 scale;
-} Emitter_80237494;
-
-typedef struct Profile_80237494
-{
-  Emitter_80237494 *emitters;
-  u32 count;
-} Profile_80237494;
-
-typedef struct Rabarta_80237494
-{
-  u8 pad0[0x1C];
-  u8 *source;
-  u8 pad20[0x7A - 0x20];
-  s16 band;
-  u8 pad7c[0xF4 - 0x7C];
-  void **emitters;
-} Rabarta_80237494;
-
+#include "pso/player/TObjPlayer_801542CC.h"
 struct VBase_18_1a504b { char pad[0x18]; };
 
 struct VObj_18_1a504b : VBase_18_1a504b {
@@ -112,80 +50,69 @@ struct Tec_80236EE8 {
 };
 
 extern "C" {
-void init_collision_body_parts(void *, f32 *, s32);
-void *__ct__14TObjCollidableFP7TObject(void *, void *);
-const char *lbl_805D37F0 = "TTecPlayerInfluence";
-void free_collision_body_parts(void *);
 
 List_802370D8 *gather_contacts_for_self__10TObjPlayerFl(void *, u32);
 void deliver_technique_to_party_targets(Obj_802370D8 *arg0);
 void spawn_support_tec_range_effect(Tec_80236EE8 *self);
 }
 
+const char *TTecPlayerInfluence::class_name = "TTecPlayerInfluence";
+
 // Built with -inline off,deferred: the functions are written from the last one
 // in the object back to the first.
 
-void TTecPlayerInfluence::vfunc_7(void *) {  }
+void TTecPlayerInfluence::apply_to_player(TObjPlayer *) {  }
 
-#define self ((Obj_80237310 *)this)
-TTecPlayerInfluence::TTecPlayerInfluence(void *owner_arg, void *pos, s32 level) : TEffect() {
-  Owner_80237310 *owner = (Owner_80237310 *)owner_arg;
-  void *p;
-  self->f0 = (saddr)lbl_805D37F0;
-  self->fa8 = 0xFFFF;
-  VecCopy((Vec *)self->pos, (const Vec *)pos);
+TTecPlayerInfluence::TTecPlayerInfluence(void *owner, void *pos, s32 level) : TEffect() {
+  m_name = class_name;
+  sourceId = 0xFFFF;
+  VecCopy(&position, (const Vec *)pos);
   if (level < 0)
   {
-    self->level = 0;
+    this->level = 0;
   }
   else
     if (level >= 30)
   {
-    self->level = 30;
+    this->level = 30;
   }
   else
   {
-    self->level = level;
+    this->level = level;
   }
-  self->tier = TObjPlayer::get_level_tier(self->level);
-  self->f64 = (3.0f);
-  self->f70 = (9e+01f);
-  self->f3c = (1.0f);
-  self->f40 = (1.0f);
-  self->f44 = (1.0f);
-  self->owner = owner;
-  self->f2c = (0.2f);
-  self->f30 = (1.0f);
-  self->f34 = (1.0f);
-  self->f38 = (1.0f);
-  self->fa0 = 0;
-  self->fb0[0] = (0.0f);
-  self->fb0[1] = (0.0f);
-  self->fb0[2] = (0.0f);
-  self->fbc = 10.0f;
-  self->fc0 = (1.0f);
-  self->fc4 = 0;
-  self->fc8 = 0x40107;
-  p = TObject::operator new(0xAC);
-  if (p != 0)
+  band = TObjPlayer::get_level_tier(this->level);
+  speed = 3.0f;
+  lifetime = 90.0f;
+  scale.x = 1.0f;
+  scale.y = 1.0f;
+  scale.z = 1.0f;
+  source = (uaddr)owner;
+  color.a = 0.2f;
+  color.r = 1.0f;
+  color.g = 1.0f;
+  color.b = 1.0f;
+  pad_A0 = 0;
+  collisionBody.offset.x = 0.0f;
+  collisionBody.offset.y = 0.0f;
+  collisionBody.offset.z = 0.0f;
+  collisionBody.radius = 10.0f;
+  collisionBody.half_width = 1.0f;
+  collisionBody.shape = 0;
+  collisionBody.flags = 0x40107;
+  target = new TObjCollidable(this);
+  if (target != NULL)
   {
-    p = __ct__14TObjCollidableFP7TObject(p, self);
+    init_collision_body_parts(target, &collisionBody, 1);
   }
-  self->fdc = p;
-  if (self->fdc != 0)
+  show_effects = 1;
+  if (source != 0 && ((TObjBase *)source)->get_entity_id() < 4 && (((TObjBase *)source)->actorFlags & 0x02000000))
   {
-    init_collision_body_parts(self->fdc, self->fb0, 1);
-  }
-  self->fac = 1;
-  if (((self->owner != 0) && (((TObjBase *)(self->owner))->get_entity_id() < 4)) && (self->owner->flags & 0x02000000))
-  {
-    self->fac = 0;
+    show_effects = 0;
   }
 }
-#undef self
 
 TTecPlayerInfluence::~TTecPlayerInfluence() {
-    if (*(void **)((s8 *)this + 0xDC) != NULL) { free_collision_body_parts(*(void **)((s8 *)this + 0xDC)); }
+    if (target != NULL) { free_collision_body_parts(target); }
 }
 
 
@@ -194,21 +121,19 @@ void TTecPlayerInfluence::run_task() {
     this->tick_lifetime();
 }
 
-void TTecPlayerInfluence::sub_80237258() { this->m_bc = this->scale.x; }
+void TTecPlayerInfluence::sub_80237258() { collisionBody.radius = scale.x; }
 
 void TTecPlayerInfluence::tick_lifetime() {
-    u8 *arg0 = (u8 *)this;
-    this->age = (this->age + 1);
-    if ((f32) this->age > *(f32 *)&this->unk_70) {
-        ((TObject *)arg0)->queue_destruction();
+    age++;
+    if ((f32)age > lifetime) {
+        queue_destruction();
     }
 }
 
 void TTecPlayerInfluence::render() {
-    u8 *arg0 = (u8 *)this;
     Vec target = {50.0f, 50.0f, 50.0f};
     approach_vector_in_place(&scale, &target, 2.7f);
-    debug_draw_sphere((const Vec *)(arg0 + 0x20), (const NJS_ARGB *)&this->color, this->scale.x);
+    debug_draw_sphere(&position, &color, scale.x);
 }
 
 void deliver_technique_to_party_targets(Obj_802370D8 *arg0) {

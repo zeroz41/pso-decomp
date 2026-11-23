@@ -9,7 +9,7 @@ struct TTecDeband : public TTecPlayerInfluence {
     TTecDeband(void *owner, void *pos, void *arg3, s32 level);
     TTecDeband(void *owner, void *pos, s32 level);
     virtual ~TTecDeband();
-    virtual void vfunc_7(void *);
+    virtual void apply_to_player(TObjPlayer *player);
     virtual void run_task();
     TargetCursorList targets;
     s32 m_13c;

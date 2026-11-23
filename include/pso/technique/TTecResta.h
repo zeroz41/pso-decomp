@@ -9,7 +9,7 @@ struct TTecResta : public TTecPlayerInfluence {
     TTecResta(void *owner, void *pos, void *targets, s32 level);
     TTecResta(void *owner, void *pos, s32 level);
     virtual ~TTecResta();
-    virtual void vfunc_7(void *);
+    virtual void apply_to_player(TObjPlayer *player);
     virtual void run_task();
     TargetCursorList targets;
     s32 m_13c;

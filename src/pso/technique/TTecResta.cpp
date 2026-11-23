@@ -32,66 +32,6 @@ struct Row_8023967C { s32 delay; s32 duration; s32 entry; u32 flags; };
 
 
 
-struct HitInfo_8023985C { s32 type; f32 power; };
-
-struct VBase_8023985C { char pad[0x18]; };
-
-struct VObj_8023985C : VBase_8023985C {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual void m19();
-    virtual void m20();
-    virtual void m21(void *, HitInfo_8023985C *, s32, s32, s32);
-};
-
-struct VBase_18_9c98dd { char pad[0x18]; };
-
-struct HitInfo_80239CF4 { s32 type; f32 power; };
-
-struct VObj_18_9c98dd : VBase_18_9c98dd {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual void m19();
-    virtual void m20();
-    virtual void m21(void *, HitInfo_80239CF4 *, s32, s32, s32);
-};
-
-struct Obj_80239CF4 { u8 pad[0x1C]; void *source; u8 pad20[0x88 - 0x20]; f32 power; };
-
 extern "C" {
 Row_8023967C TTecResta__self_recovery_effect_table[3] = {
     {0x14, 1, 0x2C, 0},
@@ -104,15 +44,13 @@ int spawn_support_tec_range_effect(void*);
 
 
 }
-void TTecReverser::vfunc_6(void *arg1_arg) {
-    Obj_80239CF4 *arg0 = (Obj_80239CF4 *)this;
-    VObj_18_9c98dd *arg1 = (VObj_18_9c98dd *)arg1_arg;
-    HitInfo_80239CF4 h;
-    h.type = 8;
-    h.power = arg0->power;
-    HitInfo_80239CF4 c = h;
-    arg1->m21(arg0->source, &c, 0, -1, -1);
-    new TUnk_804CCA90((Vec *)((u8 *)arg1 + 0x38), 0x2D, 0x4002AD13, tl_07);
+void TTecReverser::vfunc_6(void *arg) {
+    TObjPlayer *player = (TObjPlayer *)arg;
+    DirectAttackPayload hit;
+    hit.kind = 8;
+    hit.power = power;
+    player->receive_direct_attack((void *)source, hit, 0, -1, -1);
+    new TUnk_804CCA90(&player->position, 0x2D, 0x4002AD13, tl_07);
 }
 
 TTecResta::TTecResta(void *owner, void *pos, s32 level) : TTecPlayerInfluence(owner, pos, level) {
@@ -122,12 +60,12 @@ TTecResta::TTecResta(void *owner, void *pos, s32 level) : TTecPlayerInfluence(ow
     init_parameters();
     t = target;
     if (t != NULL) {
-        t->bodies->radius = 5.0f + m_7c;
+        t->bodies->radius = 5.0f + params.pad_08;
     }
     if (source != 0U) {
-        m_a8 = ((TObjBase *)(saddr)source)->get_entity_id();
+        sourceId = ((TObjBase *)(saddr)source)->get_entity_id();
     }
-    if (m_ac != 0) {
+    if (show_effects != 0) {
         init_cast();
         play_launch_sound();
     }
@@ -143,12 +81,12 @@ TTecResta::TTecResta(void *owner, void *pos, void *target_list, s32 level) : TTe
     init_parameters();
     t = target;
     if (t != NULL) {
-        t->bodies->radius = 5.0f + m_7c;
+        t->bodies->radius = 5.0f + params.pad_08;
     }
     if (source != 0U) {
-        m_a8 = ((TObjBase *)(saddr)source)->get_entity_id();
+        sourceId = ((TObjBase *)(saddr)source)->get_entity_id();
     }
-    if (m_ac != 0) {
+    if (show_effects != 0) {
         init_cast();
         play_launch_sound();
     }
@@ -162,27 +100,27 @@ TTecResta::~TTecResta() {
 void TTecResta::run_task() {
     uaddr member;
     s32 i;
-    source = (uaddr)find_entity_by_id(m_a8);
+    source = (uaddr)find_entity_by_id(sourceId);
     if (TTecLuker::is_parents_unqueued(source) == 0) {
         queue_destruction();
         return;
     }
     if (m_13c != 0) {
-        if (m_a4 <= 1) {
-            vfunc_7((void *)source);
+        if (level <= 1) {
+            apply_to_player((TObjPlayer *)source);
         } else {
-            vfunc_7((void *)source);
+            apply_to_player((TObjPlayer *)source);
             if (targets.count != 0) {
                 for (i = 0; i < targets.count; i++) {
                     member = (uaddr)find_entity_by_id(targets.records[i].id);
                     if (TTecLuker::is_parents_unqueued(member) != 0) {
-                        vfunc_7((void *)member);
+                        apply_to_player((TObjPlayer *)member);
                     }
                 }
             }
         }
-    } else if (m_a4 <= 1) {
-        vfunc_7((void *)source);
+    } else if (level <= 1) {
+        apply_to_player((TObjPlayer *)source);
     } else {
         deliver_technique_to_party_targets(this);
     }
@@ -193,36 +131,33 @@ void TTecResta::render() {  }
 
 #pragma push
 #pragma opt_common_subs off
-void TTecResta::vfunc_7(void *arg1_arg) {
-    TTecResta *arg0 = this;
-    VObj_8023985C *player = (VObj_8023985C *)arg1_arg;
-    HitInfo_8023985C h;
-    if (((TObjPlayer *)player)->is_script_controlled() != 0) {
+void TTecResta::apply_to_player(TObjPlayer *player) {
+    DirectAttackPayload hit;
+    if (player->is_script_controlled() != 0) {
         return;
     }
-    h.type = 6;
-    h.power = arg0->m_74;
+    hit.kind = 6;
+    hit.power = params.pad_00;
     if (is_split_screen() == 0) {
-        TWindowCtrl::show_party_effect((((TObjBase *)(arg0->source))->get_entity_id()), (((TObjBase *)((saddr)player))->get_entity_id()), 6);
+        TWindowCtrl::show_party_effect(((TObjBase *)source)->get_entity_id(), player->get_entity_id(), 6);
     }
-    HitInfo_8023985C c = h;
-    player->m21((void *)arg0->source, &c, 0, 0xF, -1);
-    if (((TObjBase *)(arg0->source))->get_entity_id() == ((TObjBase *)((saddr)player))->get_entity_id()) {
-        if (*(s32 *)&arg0->m_ac != 0) {
-            new TUnk_804CCBC0((Vec *)((u8 *)player + 0x2FC), arg0->source, tl_07);
+    player->receive_direct_attack((void *)source, hit, 0, 0xF, -1);
+    if (((TObjBase *)source)->get_entity_id() == player->get_entity_id()) {
+        if (show_effects != 0) {
+            new TUnk_804CCBC0(&player->body_center, source, tl_07);
         }
-    } else if (*(s32 *)&arg0->m_ac != 0) {
-        TParticleCtrl *e = spawn_particle_effect_with_flags((const Vec *)((u8 *)player + 0x2FC), 0x1F6, 0x10);
+    } else if (show_effects != 0) {
+        TParticleCtrl *e = spawn_particle_effect_with_flags(&player->body_center, 0x1F6, 0x10);
         if (e != NULL) {
-            e->set_owner_id(((TObjBase *)((saddr)player))->get_entity_id());
+            e->set_owner_id(player->get_entity_id());
         }
-        e = spawn_particle_effect_with_flags((const Vec *)((u8 *)player + 0x2FC), 0x1F7, 0x10);
+        e = spawn_particle_effect_with_flags(&player->body_center, 0x1F7, 0x10);
         if (e != NULL) {
-            e->set_owner_id(((TObjBase *)((saddr)player))->get_entity_id());
+            e->set_owner_id(player->get_entity_id());
         }
     }
-    if (*(s32 *)&arg0->m_ac != 0) {
-        new TUnk_804CCA90((Vec *)((u8 *)player + 0x2FC), 0x14, 0x4002A80F, tl_07);
+    if (show_effects != 0) {
+        new TUnk_804CCA90(&player->body_center, 0x14, 0x4002A80F, tl_07);
     }
 }
 #pragma pop
@@ -275,15 +210,13 @@ void TUnk_804CCBC0::run_task() {
 }
 
 void TTecResta::init_parameters() {
-    u8 *arg0 = (u8 *)this;
-  saddr new_var;
-  new_var = (saddr) calc_technique_parameters(0xF, this->m_a4, 0xFFFF);
-  ((TechniqueParams *)(arg0 + 0x74))->copy((TechniqueParams *)new_var);
-  this->m_74 = (f32) ((this->m_74) + ((f32) ((this->m_98) * (this->m_a4))));
-  if (TTecCtrl::is_technique_ready() != 0)
-  {
-    this->m_74 = (f32) ((this->m_74) * technique_scale_table[15].power);
-  }
+    TechniqueParams *res;
+    res = calc_technique_parameters(0xF, level, 0xFFFF);
+    params.copy(res);
+    params.pad_00 = params.pad_00 + (f32)(params.pad_24 * level);
+    if (TTecCtrl::is_technique_ready() != 0) {
+        params.pad_00 *= technique_scale_table[15].power;
+    }
 }
 
 f32 TTecResta::calc_heal_amount(s32 level) {

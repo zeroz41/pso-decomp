@@ -410,7 +410,7 @@ saddr TTecCircle::collect_body_contacts_for_target(saddr player) {
 }
 
 saddr TTecPlayerInfluence::find_support_technique_contact_for_target(saddr player) {
-    return find_support_technique_contact(this, target, &m_b0, (void *)player);
+    return find_support_technique_contact(this, target, &collisionBody, (void *)player);
 }
 
 void TObjPlayer::gather_contacts_for_self(s32 arg1) {
