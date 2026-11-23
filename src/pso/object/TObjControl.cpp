@@ -480,127 +480,127 @@ void TUnk_80493450::link_into_group_chain() {
 
 #undef FIND_TAIL_800F7118
 void TUnk_80493450::unlink_enemy_group_relations() {
-    u8 *temp_r0;
-    u8 *temp_r0_2;
-    u8 *children;
-    u8 *temp_r0_4;
-    u8 *temp_r0_5;
-    u8 *temp_r0_6;
-    u8 *temp_r0_7;
-    u8 *temp_r0_8;
-    u8 *temp_r0_9;
-    u8 *temp_r4;
-    u8 *temp_r4_2;
-    u8 *temp_r4_3;
-    u8 *temp_r4_4;
-    u8 *temp_r4_5;
-    u8 *group;
-    u8 *temp_r5_2;
-    u8 *previous;
-    u8 *temp_r5_4;
-    u8 *temp_r5_5;
-    u8 *var_r5;
-    u8 *var_r6;
-    u8 *var_r6_2;
-    u8 *var_r6_3;
-    group = (u8 *)this->group;
+    TObjEnemy *temp_r0;
+    TObjEnemy *temp_r0_2;
+    TObjEnemy *children;
+    TObjEnemy *temp_r0_4;
+    TObjEnemy *temp_r0_5;
+    TObjEnemy *temp_r0_6;
+    TObjEnemy *temp_r0_7;
+    TObjEnemy *temp_r0_8;
+    TObjEnemy *temp_r0_9;
+    TObjEnemy *temp_r4;
+    TObjEnemy *temp_r4_2;
+    TObjEnemy *temp_r4_3;
+    TObjEnemy *temp_r4_4;
+    TObjEnemy *temp_r4_5;
+    TObjEnemy *group;
+    TObjEnemy *temp_r5_2;
+    TObjEnemy *previous;
+    TObjEnemy *temp_r5_4;
+    TObjEnemy *temp_r5_5;
+    TObjEnemy *var_r5;
+    TObjEnemy *var_r6;
+    TObjEnemy *var_r6_2;
+    TObjEnemy *var_r6_3;
+    group = this->group;
     if (group != NULL) {
-        temp_r4 = (u8 *)this->next;
+        temp_r4 = this->next;
         if (temp_r4 != NULL) {
-            temp_r5_2 = (u8 *)this->children;
+            temp_r5_2 = this->children;
             if (temp_r5_2 != NULL) {
-                temp_r0 = (u8 *)(*(u8 **)((s8 *)temp_r4 + 0x34C));
+                temp_r0 = temp_r4->children;
                 if (temp_r0 != NULL) {
                     var_r6 = temp_r0;
-while (*(u8 **)((s8 *)var_r6 + 0x348) != NULL) {
-    var_r6 = *(u8 **)((s8 *)var_r6 + 0x348);
-}
-                    *(u8 **)((s8 *)var_r6 + 0x348) = temp_r5_2;
-                    *(void **)((s8 *)this->children + 0x340) = NULL;
-                    *(void **)((s8 *)this->children + 0x344) = var_r6;
+                    while (var_r6->next != NULL) {
+                        var_r6 = var_r6->next;
+                    }
+                    var_r6->next = temp_r5_2;
+                    this->children->group = NULL;
+                    this->children->previous = var_r6;
                 } else {
-                    *(u8 **)((s8 *)temp_r4 + 0x34C) = temp_r5_2;
-                    *(void **)((s8 *)this->children + 0x340) = (void *) this->next;
+                    temp_r4->children = temp_r5_2;
+                    this->children->group = this->next;
                 }
             }
-            *(void **)((s8 *)this->group + 0x34C) = (void *) this->next;
-            *(void **)((s8 *)this->next + 0x340) = (void *) this->group;
-            *(void **)((s8 *)this->next + 0x344) = NULL;
+            this->group->children = this->next;
+            this->next->group = this->group;
+            this->next->previous = NULL;
         } else {
-            children = (u8 *)this->children;
+            children = this->children;
             if (children != NULL) {
-                *(u8 **)((s8 *)group + 0x34C) = children;
-                *(void **)((s8 *)this->children + 0x340) = (void *) this->group;
+                group->children = children;
+                this->children->group = this->group;
             } else {
-                *(u8 **)((s8 *)group + 0x34C) = NULL;
+                group->children = NULL;
             }
         }
     } else {
-        previous = (u8 *)this->previous;
+        previous = this->previous;
         if (previous != NULL) {
-            temp_r4_2 = (u8 *)this->next;
+            temp_r4_2 = this->next;
             if (temp_r4_2 != NULL) {
-                temp_r5_4 = (u8 *)this->children;
+                temp_r5_4 = this->children;
                 if (temp_r5_4 != NULL) {
-                    temp_r0_4 = (u8 *)(*(u8 **)((s8 *)temp_r4_2 + 0x34C));
+                    temp_r0_4 = temp_r4_2->children;
                     if (temp_r0_4 != NULL) {
                         var_r6_2 = temp_r0_4;
-while (*(u8 **)((s8 *)var_r6_2 + 0x348) != NULL) {
-    var_r6_2 = *(u8 **)((s8 *)var_r6_2 + 0x348);
-}
-                        *(u8 **)((s8 *)var_r6_2 + 0x348) = temp_r5_4;
-                        *(void **)((s8 *)this->children + 0x340) = NULL;
-                        *(void **)((s8 *)this->children + 0x344) = var_r6_2;
+                        while (var_r6_2->next != NULL) {
+                            var_r6_2 = var_r6_2->next;
+                        }
+                        var_r6_2->next = temp_r5_4;
+                        this->children->group = NULL;
+                        this->children->previous = var_r6_2;
                     } else {
-                        *(u8 **)((s8 *)temp_r4_2 + 0x34C) = temp_r5_4;
-                        *(void **)((s8 *)this->children + 0x340) = (void *) this->next;
+                        temp_r4_2->children = temp_r5_4;
+                        this->children->group = this->next;
                     }
                 }
-                *(void **)((s8 *)this->previous + 0x348) = (void *) this->next;
-                *(void **)((s8 *)this->next + 0x344) = (void *) this->previous;
+                this->previous->next = this->next;
+                this->next->previous = this->previous;
             } else {
-                temp_r4_3 = (u8 *)this->children;
+                temp_r4_3 = this->children;
                 if (temp_r4_3 != NULL) {
-                    temp_r0_6 = (u8 *)(*(u8 **)((s8 *)previous + 0x34C));
+                    temp_r0_6 = previous->children;
                     if (temp_r0_6 != NULL) {
                         var_r5 = temp_r0_6;
-while (*(u8 **)((s8 *)var_r5 + 0x348) != NULL) {
-    var_r5 = *(u8 **)((s8 *)var_r5 + 0x348);
-}
-                        *(u8 **)((s8 *)var_r5 + 0x348) = temp_r4_3;
-                        *(void **)((s8 *)this->children + 0x340) = NULL;
-                        *(void **)((s8 *)this->children + 0x344) = var_r5;
+                        while (var_r5->next != NULL) {
+                            var_r5 = var_r5->next;
+                        }
+                        var_r5->next = temp_r4_3;
+                        this->children->group = NULL;
+                        this->children->previous = var_r5;
                     } else {
-                        *(u8 **)((s8 *)previous + 0x34C) = temp_r4_3;
-                        *(void **)((s8 *)this->children + 0x340) = (void *) this->previous;
+                        previous->children = temp_r4_3;
+                        this->children->group = this->previous;
                     }
                 }
-                *(void **)((s8 *)this->previous + 0x348) = NULL;
+                this->previous->next = NULL;
             }
         } else {
-            temp_r4_4 = (u8 *)this->next;
+            temp_r4_4 = this->next;
             if (temp_r4_4 != NULL) {
-                temp_r5_5 = (u8 *)this->children;
+                temp_r5_5 = this->children;
                 if (temp_r5_5 != NULL) {
-                    temp_r0_8 = (u8 *)(*(u8 **)((s8 *)temp_r4_4 + 0x34C));
+                    temp_r0_8 = temp_r4_4->children;
                     if (temp_r0_8 != NULL) {
                         var_r6_3 = temp_r0_8;
-while (*(u8 **)((s8 *)var_r6_3 + 0x348) != NULL) {
-    var_r6_3 = *(u8 **)((s8 *)var_r6_3 + 0x348);
-}
-                        *(u8 **)((s8 *)var_r6_3 + 0x348) = temp_r5_5;
-                        *(void **)((s8 *)this->children + 0x340) = NULL;
-                        *(void **)((s8 *)this->children + 0x344) = var_r6_3;
+                        while (var_r6_3->next != NULL) {
+                            var_r6_3 = var_r6_3->next;
+                        }
+                        var_r6_3->next = temp_r5_5;
+                        this->children->group = NULL;
+                        this->children->previous = var_r6_3;
                     } else {
-                        *(u8 **)((s8 *)temp_r4_4 + 0x34C) = temp_r5_5;
-                        *(void **)((s8 *)this->children + 0x340) = (void *) this->next;
+                        temp_r4_4->children = temp_r5_5;
+                        this->children->group = this->next;
                     }
                 }
-                *(void **)((s8 *)this->next + 0x344) = NULL;
+                this->next->previous = NULL;
             } else {
-                temp_r4_5 = (u8 *)this->children;
+                temp_r4_5 = this->children;
                 if (temp_r4_5 != NULL) {
-                    *(u8 **)((s8 *)temp_r4_5 + 0x340) = NULL;
+                    temp_r4_5->group = NULL;
                 }
             }
         }
