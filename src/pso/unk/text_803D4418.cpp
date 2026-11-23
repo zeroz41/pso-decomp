@@ -1,11 +1,9 @@
 #include "types.h"
-// gcrna audio stream ID table; IDs live after a 0x40-byte control prefix.
-struct GcrnaStreamIdTable { u8 pad[0x40]; s32 streamIds[1]; };
+#include "pso/audio/GcrnaStream.h"
 
 extern "C" {
-s32 gcrna_get_stream_id(GcrnaStreamIdTable *self, s32 i);
-s32 gcrna_get_stream_id(GcrnaStreamIdTable *self, s32 i) {
-    return self->streamIds[i];
+u32 gcrna_get_stream_id(GcrnaStream *stream, s32 channel) {
+    return stream->stream_ids[channel];
 }
 
 }

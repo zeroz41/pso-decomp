@@ -17262,7 +17262,7 @@ force_active:
   - update_status_message__12TAdDialingGCFv
   - update_status_message__6TLobbyFPv
   - update_stream__15PSOV3EncryptionFv
-  - update_stream_buffers__6TLobbyFv
+  - update_stream_buffers
   - update_stretch_state__12TBoss1DragonFUl
   - update_sub_window__20TWindowSubSymbolChatFv
   - update_submenu__15TWindowMainMenuFv

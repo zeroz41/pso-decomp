@@ -53,6 +53,14 @@ void gcrna_set_error_callback(GcrnaErrorCallback callback, void* context);
 void gcrna_set_audio_buffer_storage(u8* buffer, u32 size, s32 count);
 }
 
+extern "C" {
+u32 gcrna_get_stream_id(GcrnaStream *stream, s32 channel);
+void set_stream_channel_pan(GcrnaStream *stream, s32 channel, s32 pan);
+void set_stream_frequency(GcrnaStream *stream, s32 frequency);
+void update_active_streams(void);
+void update_stream_buffers(GcrnaStream *stream);
+}
+
 // --- C functions defined in GcrnaStream.cpp ---
 extern "C" {
 GcrnaStream *GCRNA_Create(SjRingBuffer * *inputs, s32 channels);
