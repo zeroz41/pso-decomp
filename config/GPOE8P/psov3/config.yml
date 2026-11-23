@@ -1661,15 +1661,15 @@ force_active:
   - TPlayerBattleCtrl__ct
   - TPlyCharData__global_character_data
   - TPlyCharData__global_destructor_registration
-  - TPlyFollowParticleCtrl__class_name
+  - class_name__22TPlyFollowParticleCtrl
   - TPlyFollowParticleCtrl__sub_8030A694
   - TPlyGuildCardTag__sub_8013ACA4
   - copy_lobby_entry__FPvPv
   - TPlyOnCreated__name
   - TPlyPhotonChair__shared_model_resource
   - TPlyPhotonChair__sub_8035B56C
-  - TPlyPtclObjectLeftHand__class_name
-  - TPlyPtclObjectRightHand__class_name
+  - class_name__22TPlyPtclObjectLeftHand
+  - class_name__23TPlyPtclObjectRightHand
   - TQuestBgmCtrl__area_bgm_index
   - TQuestBgmCtrl__bgm_forced_flag
   - TQuestBgmCtrl__class_name
@@ -6657,7 +6657,7 @@ force_active:
   - get_labo_design_object__Fi
   - get_level_bracket__6TLobbyFl
   - get_level_tier__6TLobbyFl
-  - get_lifetime__22TPlyFollowParticleCtrlFv
+  - get_owner_id__22TPlyFollowParticleCtrlFv
   - get_list_item8__24TShopEquipmentListWindowFv
   - get_lobby_theme_clamped__16TObjCurtainLobbyFv
   - get_mag_state__13TWindowSubMagFv
@@ -8103,7 +8103,7 @@ force_active:
   - dell_biter_low_model_names
   - dell_biter_low_motion_names
   - dell_biter_low_bml_resource
-  - lbl_804E7578
+  - ply_follow_collision_body
   - lbl_804E7750
   - deldepth_model_names
   - deldepth_low_model_names

@@ -19,52 +19,38 @@
 #include "pso/effect/particle/TPlyFollowParticleCtrl.h"
 #include "pso/player/TPlyPtclObjectLeftHand.h"
 #include "pso/player/TPlyPtclObjectRightHand.h"
+#include "pso/boss/darkfalz/TBoss4Type2_80086C44.h"
 
-const char *TPlyFollowParticleCtrl__class_name = "TPlyFollowParticleCtrl";
-const char *TPlyPtclObjectLeftHand__class_name = "TPlyPtclObjectLeftHand";
-const char *TPlyPtclObjectRightHand__class_name = "TPlyPtclObjectRightHand";
+const char *TPlyFollowParticleCtrl::class_name = "TPlyFollowParticleCtrl";
+const char *TPlyPtclObjectLeftHand::class_name = "TPlyPtclObjectLeftHand";
+const char *TPlyPtclObjectRightHand::class_name = "TPlyPtclObjectRightHand";
 // The follow controller's one collision body: a sphere of radius 20.
-CollisionBody lbl_804E7578 = {
+CollisionBody ply_follow_collision_body = {
     { 0.0f, 0.0f, 0.0f }, 20.0f, 0.0f, 0, 0x10003, { 0.0f, 0.0f, 0.0f }, 0.0f,
 };
-struct Stack_8030A1E4
-{
-  s32 sp8;
-  s32 spC;
-  s32 sp10;
-};
-struct Fol_80309E9C { u16 a; u16 b; u8 pad[0x8]; Vec v[3]; };
-extern "C" {
-s32 set_owner_id__13TParticleCtrlFUs(s32, s32);
-uaddr find_entity_by_id(s32);
-Fol_80309E9C *init_follow_particle_state(Fol_80309E9C *o);
-struct VOff_80309DD0_arg0_80309dd0_80309D80 { char pad_0[0x4]; char f_4[1]; };
-}
-void *create_oneshot_particle_emitter(void *pos, void *dir, s32 id, u16 flags);
-typedef struct Stack_8030A1E4 Stack_8030A1E4;
 
 void *TPlyFollowParticleCtrl::get_center() { return 0; }
 
-u16 TPlyFollowParticleCtrl::get_lifetime() { return this->m_ac; }
+u16 TPlyFollowParticleCtrl::get_owner_id() { return owner_id; }
 
 void TPlyFollowParticleCtrl__sub_8030A694(void) {  }
 
-s32 __dt__22TPlyFollowParticleCtrlFis(s32 arg0, s16 arg1) {
-    if ((arg0 != 0) && (arg1 > 0)) {
+s32 __dt__22TPlyFollowParticleCtrlFis(s32 self, s16 flags) {
+    if ((self != 0) && (flags > 0)) {
         __dl__FPv();
     }
-    return arg0;
+    return self;
 }
 
 void TPlyFollowParticleCtrl::set_type(u16 type) { *(u16 *)&this->m_name = type; }
 
 TPlyFollowParticleCtrl::TPlyFollowParticleCtrl(TObjBase *owner) : TObjCollidable(tl_06) {
-    m_name = TPlyFollowParticleCtrl__class_name;
-    set_collision_body(&lbl_804E7578);
+    m_name = TPlyFollowParticleCtrl::class_name;
+    set_collision_body(&ply_follow_collision_body);
     register_object_by_id();
     bodies->flags &= ~1;
-    m_ac = get_entity_id(owner);
-    m_ae = 0xFFFF;
+    owner_id = get_entity_id(owner);
+    pad_AE = 0xFFFF;
     set_position_from(&owner->center);
 }
 
@@ -75,20 +61,20 @@ TPlyFollowParticleCtrl::~TPlyFollowParticleCtrl() {
 
 // Ends itself once its player is gone.
 void TPlyFollowParticleCtrl::run_task() {
-    if (get_player_by_client_id(get_lifetime()) == NULL) {
+    if (get_player_by_client_id(get_owner_id()) == NULL) {
         queue_destruction();
     }
 }
 
 TPlyPtclObjectLeftHand::TPlyPtclObjectLeftHand(TObjBase *owner) : TPlyFollowParticleCtrl(owner) {
-    m_name = TPlyPtclObjectLeftHand__class_name;
+    m_name = TPlyPtclObjectLeftHand::class_name;
 }
 
 TPlyPtclObjectLeftHand::~TPlyPtclObjectLeftHand() {}
 
 // Follows the left hand (node 0x23).
 void *TPlyPtclObjectLeftHand::get_center() {
-    TObjPlayer *player = get_player_by_client_id(get_lifetime());
+    TObjPlayer *player = get_player_by_client_id(get_owner_id());
     if (player == NULL) {
         return NULL;
     }
@@ -97,14 +83,14 @@ void *TPlyPtclObjectLeftHand::get_center() {
 }
 
 TPlyPtclObjectRightHand::TPlyPtclObjectRightHand(TObjBase *owner) : TPlyFollowParticleCtrl(owner) {
-    m_name = TPlyPtclObjectRightHand__class_name;
+    m_name = TPlyPtclObjectRightHand::class_name;
 }
 
 TPlyPtclObjectRightHand::~TPlyPtclObjectRightHand() {}
 
 // Follows the right hand (node 0x30) of the player it belongs to.
 void *TPlyPtclObjectRightHand::get_center() {
-    TObjPlayer *player = get_player_by_client_id(get_lifetime());
+    TObjPlayer *player = get_player_by_client_id(get_owner_id());
     if (player == NULL) {
         return NULL;
     }
@@ -112,50 +98,49 @@ void *TPlyPtclObjectRightHand::get_center() {
     return ((TObjPlayer *)this)->get_position_ptr();
 }
 
-s32 emit_player_particle(void* p, void* a1, void* a2) { return (saddr)spawn_particle_effect((const Vec *)a1, (s32)(saddr)a2); }
+TParticleCtrl *emit_player_particle(void *owner, const Vec *position, s32 id) { return spawn_particle_effect(position, id); }
 
-s32 TObjPlayer::check_hit_by_id(saddr arg0, s32 arg1, s32 id) {
-    TParticleCtrl *particle;
-    uaddr entity;
+// The emitters below take target_id as an int while find_entity_by_id and set_owner_id
+// take u16, and the int is passed on unconverted, so both are called through int prototypes.
+extern "C" {
+TObjCollidable *find_entity_by_id(s32 id);
+void set_owner_id__13TParticleCtrlFUs(TParticleCtrl *particle, s32 id);
+}
 
-    entity = find_entity_by_id(arg1);
-    if (entity == 0U) {
+s32 TObjPlayer::check_hit_by_id(saddr owner, s32 target_id, s32 id) {
+    TObjCollidable *target = find_entity_by_id(target_id);
+    if (target == NULL) {
         return 0;
     }
-    particle = spawn_particle_effect_with_flags((const Vec *)(entity + 0x74), id, 0x50);
-    if (particle != 0) {
-        set_owner_id__13TParticleCtrlFUs((saddr)particle, arg1);
+    TParticleCtrl *particle = spawn_particle_effect_with_flags(&target->center, id, 0x50);
+    if (particle != NULL) {
+        set_owner_id__13TParticleCtrlFUs(particle, target_id);
     }
     return (saddr)particle;
 }
 
-s32 create_attached_oneshot_emitter(unsigned long long arg1, s32 id) {
-  Stack_8030A1E4 stack;
-  saddr oneshot_particle_emitter;
-  u8 *entity;
-  entity = (u8 *) ((u8 *)find_entity_by_id(arg1));
-  if (entity == 0)
-  {
-    return 0;
-  }
-  stack.spC = 0;
-  stack.sp8 = 0;
-  stack.sp10 = -0x8000;
-  oneshot_particle_emitter = (saddr)create_oneshot_particle_emitter((entity + 0x74), (&stack.sp8), id, 0x50);
-  if (oneshot_particle_emitter != 0)
-  {
-    ((TParticleCtrl *)oneshot_particle_emitter)->set_owner_id(arg1);
-  }
-  return oneshot_particle_emitter;
+TParticleCtrl *create_attached_oneshot_emitter(void *owner, s32 target_id, s32 id) {
+    ParticleAngles direction;
+    TObjCollidable *target = find_entity_by_id(target_id);
+    if (target == NULL) {
+        return NULL;
+    }
+    direction.y = 0;
+    direction.x = 0;
+    direction.z = -0x8000;
+    TParticleCtrl *particle = (TParticleCtrl *)create_oneshot_particle_emitter(&target->center, &direction, id, 0x50);
+    if (particle != NULL) {
+        set_owner_id__13TParticleCtrlFUs(particle, target_id);
+    }
+    return particle;
 }
 
 s32 emit_player_model_particle(saddr owner, saddr position, saddr entry, s32 model) {
-  saddr emitter = emit_player_particle((void*)owner, (void*)position, (void*)entry);
-  if (emitter)
-  {
-    attach_particle_model((u8 *)emitter, TParticleCtrl::get_particle_model(model), TParticleCtrl::get_instance(), 0, 1, 1.0f);
-  }
-  return emitter;
+    TParticleCtrl *emitter = emit_player_particle((void *)owner, (const Vec *)position, entry);
+    if (emitter) {
+        attach_particle_model(emitter, TParticleCtrl::get_particle_model(model), TParticleCtrl::get_instance(), 0, 1, 1.0f);
+    }
+    return (saddr)emitter;
 }
 
 void emit_player_sprite_particle(s32 owner, saddr position, s32 id) {
@@ -164,34 +149,34 @@ void emit_player_sprite_particle(s32 owner, saddr position, s32 id) {
 
 void*TObjPlayer::init_follow_particle_ctrl() { TPlyFollowParticleCtrl__sub_8030A694(); *(int*)(this) = 0; *(int*)((char*)this + 0x4) = 0; return this; }
 
-s32 TObjPlayer::dt_follow_particle_ctrl(saddr arg0, s16 arg1) {
-    if (arg0 != 0) {
-        __dt__22TPlyFollowParticleCtrlFis(arg0, 0);
-        if (arg1 > 0) {
-            ::operator delete((void *)arg0);
+s32 TObjPlayer::dt_follow_particle_ctrl(saddr self, s16 flags) {
+    if (self != 0) {
+        __dt__22TPlyFollowParticleCtrlFis(self, 0);
+        if (flags > 0) {
+            ::operator delete((void *)self);
         }
     }
-    return arg0;
+    return self;
 }
 
-void TObjPlayer::create_left_hand_ptcl(void *arg1) {
-    *(void * *)&this->m_name = new TPlyPtclObjectLeftHand((TObjBase *)arg1);
+void TObjPlayer::create_left_hand_ptcl(void *owner) {
+    ((PlayerHandParticles *)this)->left_hand = new TPlyPtclObjectLeftHand((TObjBase *)owner);
 }
 
-void TObjPlayer::create_right_hand_ptcl(void *ply_ptcl_object_right_hand) {
-    *(void **)((s8 *)this + 0x4) = new TPlyPtclObjectRightHand((TObjBase *)ply_ptcl_object_right_hand);
+void TObjPlayer::create_right_hand_ptcl(void *owner) {
+    ((PlayerHandParticles *)this)->right_hand = new TPlyPtclObjectRightHand((TObjBase *)owner);
 }
 
 void emit_water_step_particles(saddr owner, saddr position) {
     emit_player_model_particle(owner, position, 0x237, 2);
     emit_player_model_particle(owner, position, 0x239, 0);
-    emit_player_particle((void*)owner, (void*)position, (void*)(0x238));
+    emit_player_particle((void *)owner, (const Vec *)position, 0x238);
 }
 
 void emit_sand_step_particles(saddr owner, saddr position) {
     emit_player_model_particle(owner, position, 0x23D, 2);
     emit_player_model_particle(owner, position, 0x23F, 0);
-    emit_player_particle((void*)owner, (void*)position, (void*)(0x23E));
+    emit_player_particle((void *)owner, (const Vec *)position, 0x23E);
 }
 
 void emit_idle_water_splash(s32 owner, s32 position) {
@@ -202,46 +187,46 @@ void emit_idle_water_splash(s32 owner, s32 position) {
 
 s32 TObjPlayer::check_hit_by_id_431(void* p, int a1) { return TObjPlayer::check_hit_by_id((saddr)p, (s32)a1, 431); }
 
-Fol_80309E9C *init_follow_particle_state(Fol_80309E9C *o) {
+PlayerFollowParticles *init_follow_particle_state(PlayerFollowParticles *state) {
     s32 i;
     Vec *p;
-    ((TObjPlayer *)((u8 *)o + 4))->init_follow_particle_ctrl();
-    o->b = 0xFFFF;
-    o->a = 0xFFFF;
+    ((TObjPlayer *)&state->hands)->init_follow_particle_ctrl();
+    state->pad_2 = 0xFFFF;
+    state->owner_id = 0xFFFF;
     for (i = 0; i < 3; i++) {
-        p = &o->v[i];
+        p = &state->pad_C[i];
         p->z = 0.0f;
         p->y = 0.0f;
         p->x = 0.0f;
     }
-    return o;
+    return state;
 }
 
-s32 destroy_follow_particle_state(saddr arg0, s16 arg1) {
-    if (arg0 != 0) {
-        TObjPlayer::dt_follow_particle_ctrl(arg0 + 4, (s16)(-1));
-        if (arg1 > 0) {
-            ::operator delete((void *)arg0);
+s32 destroy_follow_particle_state(saddr self, s16 flags) {
+    if (self != 0) {
+        TObjPlayer::dt_follow_particle_ctrl((saddr)&((PlayerFollowParticles *)self)->hands, -1);
+        if (flags > 0) {
+            ::operator delete((void *)self);
         }
     }
-    return arg0;
+    return self;
 }
 
-void TObjPlayer::update_follow_particle(saddr arg1) {
-    ((TPlyFollowParticleCtrl *)this)->set_type(get_entity_id((TObjBase *)arg1));
+void TObjPlayer::update_follow_particle(saddr owner) {
+    ((TPlyFollowParticleCtrl *)this)->set_type(get_entity_id((TObjBase *)owner));
 }
 
-void TObjPlayer::update_child(void *ply_ptcl_object_right_hand) {
-    struct VOff_80309DD0_arg0_80309dd0_80309D80 *self = (struct VOff_80309DD0_arg0_80309dd0_80309D80 *)this;
-    ((TObjPlayer *)(self->f_4))->create_left_hand_ptcl(ply_ptcl_object_right_hand);
-    ((TObjPlayer *)(self->f_4))->create_right_hand_ptcl(ply_ptcl_object_right_hand);
+void TObjPlayer::update_child(void *owner) {
+    PlayerFollowParticles *state = (PlayerFollowParticles *)this;
+    ((TObjPlayer *)&state->hands)->create_left_hand_ptcl(owner);
+    ((TObjPlayer *)&state->hands)->create_right_hand_ptcl(owner);
 }
 
-void TObjPlayer::clear_foot_stamp(saddr arg0, saddr arg1) {
-    TPlayerFootStamp::create((void *)arg1, (void *)0);
+void TObjPlayer::clear_foot_stamp(saddr owner, saddr player) {
+    TPlayerFootStamp::create((void *)player, (void *)0);
 }
 
-void TObjPlayer::enable_foot_stamp(saddr arg1, saddr arg2) {
-    TPlayerFootStamp::create((void *)arg2, (void *)1);
+void TObjPlayer::enable_foot_stamp(saddr owner, saddr player) {
+    TPlayerFootStamp::create((void *)player, (void *)1);
 }
 

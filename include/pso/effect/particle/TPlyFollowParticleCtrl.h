@@ -5,19 +5,19 @@
 #include "pso/object/base/TObjMotion.h"
 
 struct TPlyFollowParticleCtrl : public TObjCollidable {
-    // owner: the actor it follows (its id goes to m_ac, its center is the
+    // owner: the actor it follows (its id goes to owner_id, its center is the
     // starting position).
     TPlyFollowParticleCtrl(TObjBase *owner);
     virtual ~TPlyFollowParticleCtrl();
     virtual void run_task();
     virtual void *get_center();
-    u16 m_ac;
-    u16 m_ae;
+    u16 owner_id; // entity id of the actor followed, looked up as a player client id
+    u16 pad_AE;
     void set_type(u16 type);
-    u16 get_lifetime();
-};
+    u16 get_owner_id();
 
-extern const char *TPlyFollowParticleCtrl__class_name;
+    static const char *class_name;
+};
 
 LAYOUT_ASSERT(TPlyFollowParticleCtrl_size, sizeof(TPlyFollowParticleCtrl) == 0xB0);
 
