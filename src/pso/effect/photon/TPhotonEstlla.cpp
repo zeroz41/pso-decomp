@@ -236,7 +236,7 @@ void TObjPlayer::destroy_global_buffer() {
 void create_estlla_photon_blast_model(void) {
     TLobby *strips = (TLobby *)::operator new(0x14);
     if (strips != NULL) {
-        strips = (TLobby *)strips->alloc_tables((s32)photon_blast_shared_resource->models[9].model->child, 0);
+        strips = (TLobby *)strips->alloc_tables((saddr)photon_blast_shared_resource->models[9].model->child, 0);
     }
     estlla_photon_blast_model = strips;
 }

@@ -67,7 +67,7 @@ Vec photon_pilla_laser_offset_table[6] = {
 void create_pilla_photon_blast_model(void) {
     TLobby *strips = (TLobby *)::operator new(0x14);
     if (strips != NULL) {
-        strips = (TLobby *)strips->alloc_tables((s32)photon_blast_shared_resource->models[0].model->child, 0);
+        strips = (TLobby *)strips->alloc_tables((saddr)photon_blast_shared_resource->models[0].model->child, 0);
     }
     pilla_photon_buffer_pair = strips;
 }
