@@ -1224,15 +1224,6 @@ pso/ui/window/TWindowCtrl_8024B704.cpp
 pso/ui/window/TWindowCtrl_8024B728.cpp
 pso/ui/window/TWindowCtrl_8024B760.cpp
 pso/ui/window/TWindowCtrl_8024B794.cpp
-pso/ui/window/TWindowCtrl_8024C160.cpp
-pso/ui/window/TWindowCtrl_8024C530.cpp
-pso/ui/window/TWindowCtrl_8024C56C.cpp
-pso/ui/window/TWindowCtrl_8024C598.cpp
-pso/ui/window/TWindowCtrl_8024C5FC.cpp
-pso/ui/window/TWindowCtrl_8024C640.cpp
-pso/ui/window/TWindowCtrl_8024C660.cpp
-pso/ui/window/TWindowCtrl_8024C680.cpp
-pso/ui/window/TWindowCtrl_8024C6CC.cpp
 pso/ui/window/TWindowCtrl_80269FB0.cpp
 pso/ui/window/TWindowCtrl_8026AD44.cpp
 pso/ui/window/TWindowCtrl_8026F6A4.cpp

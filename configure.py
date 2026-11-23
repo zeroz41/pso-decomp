@@ -1493,8 +1493,9 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # -str readonly: "TWindowBase" (TWindowBase__name, tmp buffer key) sits in .rodata (0x8044E658).
     "pso/ui/window/TWindowBase.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/ui/window/TWindowSubTechnique.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
-    # -str readonly: the class name "TWindowCtrl" of TWindowCtrl__name sits in .rodata (0x8044EBC8).
-    "pso/ui/window/TWindowCtrl.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    # TWindowCtrl: its pointer-to-member constants sit in .data in reverse .text order of their users, so the
+    # source is written last to first under deferred codegen; the class name "TWindowCtrl" sits in .rodata.
+    "pso/ui/window/TWindowCtrl.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
     # -str readonly: the class name "TWindowStatus" of TWindowStatus__name sits in .rodata (0x8044F640).
     "pso/ui/window/TWindowStatus.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/ui/window/TWindowTradeRequest_802E0170.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
