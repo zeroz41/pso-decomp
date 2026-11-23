@@ -1485,8 +1485,8 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/object/TObjLiveMonitor.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # -str readonly: the class-name string their .sdata name pointer targets sits in .rodata
     "pso/boss/olgaflow/TBoss6EffHyoui.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
-    "pso/ui/keyboard/TKeyBoardControl_80131C58.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
-    "pso/ui/keyboard/TKeyBoardControl_80131F5C.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    "pso/ui/keyboard/KeyboardControlTask.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    "pso/ui/keyboard/KeyboardKeyState.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/object/trap/TOTrap.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/object/wreck/TOWreckAncient02.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/effect/sprite/TQuadSpriteNormal.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
@@ -1593,7 +1593,7 @@ MIDDLEWARE: List[Tuple[str, int, str, List[str], Dict[str, Dict[str, Any]]]] = [
     # mcFsGc ("Ver 1.10.00 Build:Sep 17 2002") with ACCESS's file transfer.
     ("mcfs", 0x803E5668, "GC/1.2.5", cflags_middleware, {
         # Epilogue order (mtlr before the restores) only 1.2.5n produces.
-        "pso/ui/keyboard/TKeyBoardControl_803F0C50.cpp": {"mw_version": "GC/1.2.5n"},
+        "pso/ui/keyboard/KeyboardDeviceDriver.cpp": {"mw_version": "GC/1.2.5n"},
         "pso/unk/text_803F1804.cpp": {"mw_version": "GC/1.2.5n"},
         # Its loops keep base + index offsets instead of walking pointers
         # (0x803F2F1C, 0x803F31D8); the rest of the file is the same either way.

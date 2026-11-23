@@ -16,7 +16,7 @@ Sections:
 pso/unk/text_8000F740.cpp:
 	.text       start:0x8000F740 end:0x8000F764
 
-pso/ui/keyboard/TKeyBoardControl_8000F764.cpp:
+pso/ui/keyboard/SystemBootInit.cpp:
 	.text       start:0x8000F764 end:0x8000FE54
 	.data       start:0x804805E0 end:0x804806E8
 	.bss        start:0x804FE020 end:0x804FE138
@@ -3007,26 +3007,20 @@ pso/unk/TLobby_80131794.cpp:
 	.text       start:0x80131794 end:0x80131998
 	.sdata2     start:0x805DB070 end:0x805DB078
 
-pso/ui/keyboard/TKeyBoardControl_80131998.cpp:
-	.text       start:0x80131998 end:0x80131A5C
-
-pso/ui/keyboard/TKeyBoardControl_80131A5C.cpp:
-	.text       start:0x80131A5C end:0x80131AA4
-
-pso/ui/keyboard/TKeyBoardControl_80131AA4.cpp:
-	.text       start:0x80131AA4 end:0x80131BC4
+pso/ui/keyboard/TKeyBoardControlLayout.cpp:
+	.text       start:0x80131998 end:0x80131BC4
 	.sdata2     start:0x805DB078 end:0x805DB080
 
 pso/ui/keyboard/TKeyBoardControl_80131BC4.cpp:
 	.text       start:0x80131BC4 end:0x80131C58
 
-pso/ui/keyboard/TKeyBoardControl_80131C58.cpp:
+pso/ui/keyboard/KeyboardControlTask.cpp:
 	.text       start:0x80131C58 end:0x80131F5C
 	.rodata     start:0x8043E9D8 end:0x8043E9F0
 	.data       start:0x804A6EB8 end:0x804A6ED0
 	.sdata      start:0x805D2C98 end:0x805D2C9C
 
-pso/ui/keyboard/TKeyBoardControl_80131F5C.cpp:
+pso/ui/keyboard/KeyboardKeyState.cpp:
 	.text       start:0x80131F5C end:0x8013292C
 	.data       start:0x804A6ED0 end:0x804A6EE0
 	.bss        start:0x80506270 end:0x80506320
@@ -6802,7 +6796,7 @@ pso/ui/window/TWindowKeyBoardBase_8025B85C.cpp:
 pso/ui/chat/TWindowChat_8025CB10.cpp:
 	.text       start:0x8025CB10 end:0x8025CB70
 
-pso/ui/keyboard/TKeyBoardControl_8025CB70.cpp:
+pso/ui/keyboard/WindowKeyBoardMode.cpp:
 	.text       start:0x8025CB70 end:0x8025CD10
 
 pso/unk/text_8025CD10.cpp:
@@ -11867,7 +11861,7 @@ pso/quest/QuestDownloadAramFile.cpp:
 	.sbss       start:0x805D7908 end:0x805D7930
 	.sdata2     start:0x805E10D8 end:0x805E10E8
 
-pso/ui/keyboard/TKeyBoardControl_803F0C50.cpp:
+pso/ui/keyboard/KeyboardDeviceDriver.cpp:
 	.text       start:0x803F0C50 end:0x803F1804
 	.data       start:0x804FCD38 end:0x804FCD48
 	.bss        start:0x805A2720 end:0x805A28C0

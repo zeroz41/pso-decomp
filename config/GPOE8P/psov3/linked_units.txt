@@ -718,14 +718,14 @@ pso/ui/city/TJudgmentSequence.cpp
 pso/ui/city/TJudgmentSequence_8021E4C4.cpp
 pso/ui/window/TWindowKeyBoardSoft.cpp
 pso/system/ControllerInput.cpp
-pso/ui/keyboard/TKeyBoardControl_8000F764.cpp
-pso/ui/keyboard/TKeyBoardControl_80131C58.cpp
-pso/ui/keyboard/TKeyBoardControl_80131F5C.cpp
+pso/ui/keyboard/SystemBootInit.cpp
+pso/ui/keyboard/KeyboardControlTask.cpp
+pso/ui/keyboard/KeyboardKeyState.cpp
 pso/unk/TLobby_80243370.cpp
-pso/ui/keyboard/TKeyBoardControl_8025CB70.cpp
+pso/ui/keyboard/WindowKeyBoardMode.cpp
 pso/ui/keyboard/TKeyBoardControl_80290CB0.cpp
 pso/ui/keyboard/TKeyBoardControl_803CBDE0.cpp
-pso/ui/keyboard/TKeyBoardControl_803F0C50.cpp
+pso/ui/keyboard/KeyboardDeviceDriver.cpp
 pso/effect/TKomorebi.cpp
 pso/system/TLanguage.cpp
 pso/system/TLanguage_801A5694.cpp
@@ -1260,7 +1260,7 @@ pso/ui/window/TWindowMainMenu_8024E3CC.cpp
 pso/ui/window/TWindowMainMenu_802AD538.cpp
 pso/ui/window/TWindowMainMenu_802AE928.cpp
 pso/ui/window/TWindowMakeTeam.cpp
-pso/ui/keyboard/TKeyBoardControl_80131A5C.cpp
+pso/ui/keyboard/TKeyBoardControlLayout.cpp
 pso/ui/window/TWindowMenuMainMenu.cpp
 pso/ui/window/TWindowMeseta.cpp
 pso/ui/window/TWindowMessage.cpp
@@ -1342,8 +1342,6 @@ pso/ui/window/TWindowSubQuestBoard_8027D1E8.cpp
 pso/ui/window/TWindowSubShortCut.cpp
 pso/ui/window/TWindowSubShortCutList.cpp
 pso/ui/window/TWindowSubShortCut_80246FB0.cpp
-pso/ui/keyboard/TKeyBoardControl_80131998.cpp
-pso/ui/keyboard/TKeyBoardControl_80131AA4.cpp
 pso/ui/chat/TWindowSubShortMail_80246CB8.cpp
 pso/ui/chat/TWindowSubShortMail.cpp
 pso/ui/chat/TWindowSubShortMail_802A571C.cpp

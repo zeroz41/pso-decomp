@@ -1,54 +1,77 @@
 #include "types.h"
+#include "pso/system/ControllerInput.h"
 #include "pso/system/ControllerInputState.h"
-#include "pso/ui/window/TWindowBase.h"
-#include "pso/ui/keyboard/TKeyBoardControl_80131C58.h"
-#include "pso/ui/keyboard/TKeyBoardControl_803F0C50.h"
-#include "pso/ui/window/TWindowCtrl_8024A054.h"
-#include "pso/unk/text_803F1804.h"
+#include "pso/system/task/TObject.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
+#include "pso/ui/keyboard/TKeyBoardControl_80131C58.h"
+#include "pso/ui/keyboard/KeyboardDeviceDriver.h"
 #include "pso/ui/keyboard/KeyboardKeyState.h"
-#include "pso/ui/window/TWindowLockOn.h"
+#include "pso/ui/window/TWindowBase.h"
+#include "pso/ui/window/TWindowKeyBoardBase.h"
+#include "pso/ui/window/TWindowKeyBoardHard.h"
 #include "pso/ui/window/TWindowKeyBoardSoft.h"
+#include "pso/ui/window/TWindowCtrl_8024A054.h"
+#include "pso/ui/window/TWindowLockOn.h"
 #include "pso/ui/window/TWindowMakeTeam.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/enemy/morfos/TWindowSubTradeMain.h"
-#include "pso/ui/window/TWindowKeyBoardBase.h"
-#include "pso/ui/window/TWindowKeyBoardHard.h"
-#include "pso/system/ControllerInput.h"
-#include "pso/system/task/TObject.h"
-
+#include "pso/unk/text_803F1804.h"
 
 KeyboardKeyState hardware_keyboard_state;
 
-void TKeyBoardControl__sub_80131F5C(void) {  }
-void TKeyBoardControl__sub_80131F60(void) {  }
-void TWindowKeyBoardHard::set_flag60_bit200() { m_60 |= 0x200; }
-void TWindowKeyBoardHard::clear_flag60_bit200() { m_60 &= 0xfffffdff; }
-int TWindowKeyBoardHard::is_key_held() { return (m_60 >> 8) & 0x1; }
-void TWindowKeyBoardBase::set_flag62_bit2() { m_62 |= 0x2; }
-int TWindowKeyBoardBase::is_cancelled() { return (m_60 >> 5) & 0x1; }
-int TWindowKeyBoardBase::is_confirmed() { return m_60 & 0x1; }
-void TWindowKeyBoardBase::set_flag62_bit8() { m_62 |= 0x8; }
+void TKeyBoardControl__sub_80131F5C(void) {
+}
 
-s32 KeyboardKeyState::append_char(s8 chan) {
-    s32 r;
+void TKeyBoardControl__sub_80131F60(void) {
+}
+
+void TWindowKeyBoardHard::set_flag60_bit200() {
+    m_60 |= 0x200;
+}
+
+void TWindowKeyBoardHard::clear_flag60_bit200() {
+    m_60 &= 0xfffffdff;
+}
+
+int TWindowKeyBoardHard::is_key_held() {
+    return (m_60 >> 8) & 0x1;
+}
+
+void TWindowKeyBoardBase::set_flag62_bit2() {
+    m_62 |= 0x2;
+}
+
+int TWindowKeyBoardBase::is_cancelled() {
+    return (m_60 >> 5) & 0x1;
+}
+
+int TWindowKeyBoardBase::is_confirmed() {
+    return m_60 & 0x1;
+}
+
+void TWindowKeyBoardBase::set_flag62_bit8() {
+    m_62 |= 0x8;
+}
+
+s32 KeyboardKeyState::append_char(s8 port_index) {
+    s32 err;
     u8 *p;
     if (raw_count >= 0x7C) {
         return 1;
     }
-    r = poll_keyboard_port((chan), (u8 *)((s32 *)((s32 *)&raw[raw_count])));
-    if (r == -1) {
+    err = poll_keyboard_port(port_index, (u8 *)(s32 *)&raw[raw_count]);
+    if (err == -1) {
         return 0;
     }
-    if (r == 0) {
+    if (err == 0) {
         p = raw;
         while (*p != 0) {
             p++;
             raw_count++;
         }
     }
-    mode = TKeyBoardControl__sub_803F1548(chan);
-    port = chan;
+    mode = get_keyboard_port_layout(port_index);
+    port = port_index;
     return 1;
 }
 
@@ -56,7 +79,7 @@ void KeyboardKeyState::append_next_char() {
     s32 i = 0;
     reports = reports + 1;
     do {
-        if (((s32)append_char(i)) != 0) {
+        if ((s32)append_char(i) != 0) {
             return;
         }
         i++;
@@ -64,17 +87,19 @@ void KeyboardKeyState::append_next_char() {
     port = 4;
 }
 
-void KeyboardKeyState::append_next_char_global() { hardware_keyboard_state.append_next_char(); }
+void KeyboardKeyState::append_next_char_global() {
+    hardware_keyboard_state.append_next_char();
+}
 
 void KeyboardKeyState::disable_disconnected_ports() {
-    s32 sp8;
-    s32 temp_r3;
+    s32 unused_buf;
+    s32 status;
     s32 chan;
     chan = 0;
     do {
-        temp_r3 = poll_keyboard_port(chan, (u8 *)&sp8);
-        if ((temp_r3 == -1) || (temp_r3 == -0x80)) {
-            TKeyBoardControl__sub_803F0E90(chan, 0);
+        status = poll_keyboard_port(chan, (u8 *)&unused_buf);
+        if ((status == -1) || (status == -0x80)) {
+            reset_keyboard_port(chan, NULL);
         }
         chan += 1;
     } while (chan < 4);
@@ -134,30 +159,34 @@ s32 KeyboardKeyState::has_any_key_pressed() {
     return 0;
 }
 
-u8 KeyboardKeyState::sub_8013239C(u8 arg1) {
-    if (arg1 >= pending_count) {
+u8 KeyboardKeyState::sub_8013239C(u8 index) {
+    if (index >= pending_count) {
         return 0;
     }
-    return pending[arg1];
+    return pending[index];
 }
 
-u8 KeyboardKeyState::get_pending_count() { return pending_count; }
+u8 KeyboardKeyState::get_pending_count() {
+    return pending_count;
+}
 
 s32 KeyboardKeyState::sub_801323C8(u8 key) {
     return (pressed[key / 32] & (1 << (key % 32))) != 0 ? 1 : 0;
 }
 
-u8 KeyboardKeyState::get_key_state() { return mode; }
+u8 KeyboardKeyState::get_key_state() {
+    return mode;
+}
 
 void KeyboardKeyState::push_key_to_buffer(u8 key) {
-    u8 t;
+    u8 count;
     if ((hardware_keyboard_state.get_key_state() != 0 && key == 0x5B) || (u8)(key - 0x54) <= 2 || key == 0x57) {
         return;
     }
-    t = pending_count;
-    if (t < 8) {
-        pending_count = t + 1;
-        pending[t] = key;
+    count = pending_count;
+    if (count < 8) {
+        pending_count = count + 1;
+        pending[count] = key;
     }
 }
 
@@ -176,16 +205,16 @@ void KeyboardKeyState::reset_inactive_keys() {
     } while (i < 8);
 }
 
-void KeyboardKeyState::tick_key_repeat_timer(u8 arg1) {
+void KeyboardKeyState::tick_key_repeat_timer(u8 key) {
     KeyboardKeyRepeat *p;
     KeyboardKeyRepeat *q;
     s32 i;
     p = repeat;
     for (i = 0; i < 8; i++, p++) {
-        if (p->key == arg1) {
+        if (p->key == key) {
             p->timer--;
             if (p->timer <= 0) {
-                push_key_to_buffer(arg1);
+                push_key_to_buffer(key);
                 p->timer += 6;
             }
             return;
@@ -194,7 +223,7 @@ void KeyboardKeyState::tick_key_repeat_timer(u8 arg1) {
     q = repeat;
     for (i = 0; i < 8; i++, q++) {
         if (q->key == 0) {
-            q->key = arg1;
+            q->key = key;
             q->timer = 0x23;
         }
     }
@@ -203,7 +232,7 @@ void KeyboardKeyState::tick_key_repeat_timer(u8 arg1) {
 // One bit per key code 0x00-0x7F: the codes that enter the key buffer (name inferred).
 static u32 valid_key_mask[4] = { 0xFFFF00C0, 0xFFFFFFFF, 0xFF0FFFFF, 0xC0000003 };
 
-void KeyboardKeyState::sub_80132598(KeyboardKeyState *kb, u8 key, u32 *pressed) {
+void KeyboardKeyState::process_raw_key(KeyboardKeyState *kb, u8 key, u32 *pressed) {
     if (key != 0) {
         s32 code = key & 0x7F;
         s32 word = code / 32;
@@ -239,7 +268,7 @@ void KeyboardKeyState::sub_80132650() {
         bits[i] = 0;
     }
     for (i = 0; i < raw_count; i++) {
-        sub_80132598(this, raw[i], bits);
+        process_raw_key(this, raw[i], bits);
         raw[i] = 0;
     }
     raw_count = 0;
@@ -273,10 +302,10 @@ void KeyboardKeyState::clear_key_state() {
     }
 }
 
-void KeyboardKeyState::sub_801327DC(u8 chan) {
-    s32 sp8;
-    if (poll_keyboard_port(chan, (u8 *)&sp8) == 0) {
-        TKeyBoardControl__sub_803F0E90(chan, (void *)(0));
+void KeyboardKeyState::reset_port_if_connected(u8 chan) {
+    s32 key_buf;
+    if (poll_keyboard_port(chan, (u8 *)&key_buf) == 0) {
+        reset_keyboard_port(chan, NULL);
     }
 }
 
@@ -289,7 +318,7 @@ void KeyboardKeyState::reset_state() {
     clear_key_state();
     reset_keys();
     for (i = 0; i < 4; i++) {
-        sub_801327DC(i);
+        reset_port_if_connected(i);
     }
 }
 #pragma pop

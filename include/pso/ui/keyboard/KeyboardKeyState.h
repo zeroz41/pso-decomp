@@ -23,14 +23,14 @@ struct KeyboardKeyState {
     u32 pressed[4];
     KeyboardKeyRepeat repeat[8];
 
-    s32 append_char(s8 chan);
+    s32 append_char(s8 port_index);
     void append_next_char();
     static void append_next_char_global();
     void disable_disconnected_ports();
     s32 has_any_key_pressed();
     u8 get_pending_count();
     void push_key_to_buffer(u8 key);
-    void tick_key_repeat_timer(u8 arg1);
+    void tick_key_repeat_timer(u8 key);
     void reset_keys();
     void clear_key_state();
     void reset_input();
@@ -42,12 +42,12 @@ struct KeyboardKeyState {
     s32 sub_80132274();
     s32 is_key_57_pressed();
     s32 sub_80132310();
-    u8 sub_8013239C(u8 arg1);
+    u8 sub_8013239C(u8 index);
     s32 sub_801323C8(u8 key);
     u8 get_key_state();
-    static void sub_80132598(KeyboardKeyState *kb, u8 key, u32 *pressed);
+    static void process_raw_key(KeyboardKeyState *kb, u8 key, u32 *pressed);
     void sub_80132650();
-    void sub_801327DC(u8 chan);
+    void reset_port_if_connected(u8 chan);
     void reset_state();
 };
 

@@ -589,14 +589,14 @@ force_active:
   - TJudgmentSequence__sub_80215BCC
   - TJudgmentSequence__sub_80215BF8
   - TKeyBoardControl__pad_status_buffer
-  - TKeyBoardControl__polling_disabled
-  - TKeyBoardControl__sub_8000F764
-  - TKeyBoardControl__sub_8000F9E4
-  - sub_80132598__16KeyboardKeyStateFP16KeyboardKeyStateUcPUl
-  - sub_801327DC__16KeyboardKeyStateFUc
+  - keyboard_polling_disabled
+  - poll_input_devices_frame
+  - reset_main_phase_state
+  - process_raw_key__16KeyboardKeyStateFP16KeyboardKeyStateUcPUl
+  - reset_port_if_connected__16KeyboardKeyStateFUc
   - TKeyBoardControl__sub_80290D10
-  - TKeyBoardControl__sub_803F0E8C
-  - TKeyBoardControl__sub_803F107C
+  - noop_keyboard_callback
+  - on_keyboard_type_event
   - TKeyBoardControl_key_bit_table
   - TKeyBoardControl_prev_pad_state
   - __ct__9TKomorebiFP7TObjectP13ObjectSetData
@@ -6861,7 +6861,7 @@ force_active:
   - handle_msg_type2__6TLobbyFl
   - handle_number_input__21TShopDeleteItemWindowFv
   - handle_open__19TWindowMenuIconLineFv
-  - handle_pad_transfer_done__16TKeyBoardControlFiUiPv
+  - handle_pad_transfer_done__FlUlP9OSContext
   - handle_page_input__24TWindowSubSymbolChatHelpFv
   - handle_page_input__26TWindowSubQuestBoardSelectFv
   - handle_pay_confirm__23TShopJudgmentItemWindowFv
@@ -8330,8 +8330,8 @@ force_active:
   - lbl_805D4638
   - lbl_805D4640
   - lbl_805D46C8
-  - lbl_805D49A0
-  - lbl_805D49A4
+  - record_table_buffer
+  - slot_table_buffer
   - boss1_dragon_lift_accel
   - boss1_dragon_dive_accel
   - boss1_dragon_breath_node
@@ -17131,7 +17131,7 @@ force_active:
   - update_position_if_changed__19TWindowSubTradeMainFlPUcPUc
   - approach_upper_hover_height__17TObjEneMe1CanadinFv
   - update_possess_target__11TBoss6Type2Fv
-  - update_pressed_keys__16TKeyBoardControlFv
+  - update_pressed_keys__20KeyboardChannelStateFv
   - update_proximity_state__16TObjEneNanoDragoFv
   - update_pulse_state__10TBoss2MineFv
   - update_pulse_value__17TOSensorAncient01Fv
