@@ -21,15 +21,12 @@ struct O_801C0708 { u8 a; u8 b; u8 pad[2]; s32 c; u16 d; u16 e; };
 struct O_801C0350 { u8 a; u8 b; u8 pad[2]; u16 c; u16 d; };
 
 extern "C" {
-extern s32 fn_80152EF8[];
-void __construct_array(void *, void *, int, int, int);
 void __copy(void *, void *, int);
 void TFontSmallLobby__sub_801C013C(void* p) { ((FlagWord *)((void*)((char*)p + 0x10)))->clear(2); }
 
 }
 
 PlayerTechniqueState::PlayerTechniqueState() {
-    __construct_array(targets, fn_80152EF8, 0, 4, 10);
     reset_tech_state();
 }
 

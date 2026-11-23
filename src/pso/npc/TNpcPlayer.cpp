@@ -27,6 +27,7 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/system/vector.h"
 #include "pso/network/protocol/protocol.h"
+#include "pso/network/protocol/cast_packets.h"
 #include "pso/technique/TTecReverser.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/system/task/TMainTask.h"
@@ -54,15 +55,6 @@ struct Msg_80150DE8 { u8 hdr[2]; u16 type; f32 x; f32 z; };
 struct Msg_80150E44 { u8 hdr[2]; u16 type; f32 x; f32 z; u32 flags; };
 
 
-struct Msg_80150A34 {
-    u8 pad0[2];
-    u16 type;
-    s8 kind;
-    u8 pad5;
-    s8 e;
-    s8 one;
-    u8 sub[0x2C];
-};
 extern "C" {
 
 
@@ -72,7 +64,6 @@ struct Obj_801528A8 { u8 pad[0x5c]; u8 arr[1]; };
 struct Tec_80150B90 { u8 pad[0x10]; s16 f10; };
 
 
-struct Obj_80152F28 { u16 a; u16 b; };
 
 struct N_80152C8C { u8 pad0[7]; s8 count; u32 pos[1]; };
 uaddr npc_player_char_data_buffer;
@@ -114,18 +105,14 @@ void TNpcPlayer__sub_80152A34(u8 *arg0, s32 arg1, s32 arg2);
 void init_6x45_attack_packet(u8 *arg0);
 void init_6x44_attack_packet(u8 *arg0);
 void init_6x43_attack_packet(u8 *arg0);
-void TNpcPlayer__sub_80152D64(void* p);
 void set_state__10TNpcPlayerFPvs(void* p, s16 v);
 void set_type__10TNpcPlayerFPvs(void* p, s16 v);
-void* fn_80152EF8(void* p);
-void TFontSmallLobby__sub_80152F28(Obj_80152F28 *self);
 s32 free_collision_body_parts(u32);
 void init_collision_body_parts(void *, void *, s32);
 s32 try_send_6x27_use_item(s32, s32, void *);
 s8 get_cast_technique_level(void *, s16);
 Tec_80150B90 * calc_technique_parameters(s32, s32, s32);
 void __register_global_object(void *obj, void *dtor, void *link);
-void __construct_array(void *array, void *(*ctor)(void *), void *dtor, u32 size, u32 count);
 void matrix_mult_vec(s32, Vec *, Vec *);
 f32 vec3_dot(Vec *, Vec *);
 f32 vector_length(Vec *);
@@ -1313,12 +1300,12 @@ u16 TObjPlayer::get_npc_controller() { return npc_control.controller_client_id; 
 
 int get_registered_object_count(void) {  return registered_entity_count; }
 
-void TFontSmallLobby__sub_80152F28(Obj_80152F28 *self) {
-    self->a = 0xFFFF;
-    self->b = 0;
+void PhotonBlastTarget::reset() {
+    entity_id = 0xFFFF;
+    index = 0;
 }
 
-void* fn_80152EF8(void* p) { TFontSmallLobby__sub_80152F28((Obj_80152F28 *)(p)); return p; }
+PhotonBlastTarget::PhotonBlastTarget() { reset(); }
 
 void set_type__10TNpcPlayerFPvs(void* p, s16 v) { *(s16*)((char*)p + 0x0) = v; }
 
@@ -1344,14 +1331,16 @@ void TNpcPlayer::init_model() { ((G_ClientIDHeader *)this)->bswap(); ((VectorXZF
 
 void TNpcPlayer::reset_model() { init_model(); ((TLobby *)this)->update_players(); }
 
-void TNpcPlayer__sub_80152D64(void* p) { *(u8*)((char*)p + 0x3) = 0; *(u8*)((char*)p + 0x2) = 0; *(u8*)((char*)p + 0x1) = 0; *(u8*)((char*)p + 0x0) = 0; }
+G_CastTechniqueParams_6x47::G_CastTechniqueParams_6x47() {
+    target_count = 0;
+    level = 0;
+    unused = 0;
+    technique_number = 0;
+}
 
-void *TNpcPlayer::init_cast_technique_cmd() {
-    TNpcPlayer__sub_80152D64((void*)((void *)((char *)this + 4)));
-    __construct_array((void *)((char *)this + 8), fn_80152EF8, 0, 4, 10);
-    *(u8 *)((s8 *)this + 0x0) = 71;
-    *(u8 *)((s8 *)this + 0x1) = 12;
-    return this;
+G_CastTechnique_6x47::G_CastTechnique_6x47() {
+    header.subcommand = 0x47;
+    header.size = sizeof(G_CastTechnique_6x47) / 4;
 }
 
 u8 get_6x47_cast_packet_size(u8 *arg0) {
@@ -2285,10 +2274,9 @@ void TNpcPlayer::update_combat_action() {
 }
 
 void TNpcPlayer::request_technique_cast(s32 kind) {
-    Msg_80150A34 m;
+    G_CastTechnique_6x47 cmd;
     u8 *actor;
 
-    ((TNpcPlayer *)(&m))->init_cast_technique_cmd();
     actor = (u8 *)m_78->m_94;
     if (kind == 15 || kind == 16) {
         request_chatter(0x16);
@@ -2298,22 +2286,22 @@ void TNpcPlayer::request_technique_cast(s32 kind) {
         request_chatter(2);
     }
     if (TObjPlayer::try_camera_action((saddr)actor, (s32)kind) != 0) {
-        m.type = get_npc_type__10TNpcPlayerFPv(m_78);
-        m.kind = kind;
-        m.one = 1;
+        cmd.header.client_id = get_npc_type__10TNpcPlayerFPv(m_78);
+        cmd.params.technique_number = kind;
+        cmd.params.target_count = 1;
         if (kind == 15 || kind == 16) {
             if (kind == 15) {
                 m_80 |= 0x10000;
             }
-            m.e = get_cast_technique_level(actor + 0x428, kind);
-            ((void (*)(void *, u16))set_type__10TNpcPlayerFPvs)(m.sub, ((s32 (*)(void *))get_npc_type__10TNpcPlayerFPv)(m_74));
-            set_state__10TNpcPlayerFPvs(m.sub, 0);
+            cmd.params.level = get_cast_technique_level(actor + 0x428, kind);
+            ((void (*)(void *, u16))set_type__10TNpcPlayerFPvs)(cmd.targets, ((s32 (*)(void *))get_npc_type__10TNpcPlayerFPv)(m_74));
+            set_state__10TNpcPlayerFPvs(cmd.targets, 0);
         } else {
-            m.e = get_cast_technique_level(actor + 0x428, kind);
-            ((void (*)(void *, u16))set_type__10TNpcPlayerFPvs)(m.sub, ((TNpcPlayer *)m_78)->get_npc_state());
-            set_state__10TNpcPlayerFPvs(m.sub, TNpcPlayer__sub_801528DC(m_78));
+            cmd.params.level = get_cast_technique_level(actor + 0x428, kind);
+            ((void (*)(void *, u16))set_type__10TNpcPlayerFPvs)(cmd.targets, ((TNpcPlayer *)m_78)->get_npc_state());
+            set_state__10TNpcPlayerFPvs(cmd.targets, TNpcPlayer__sub_801528DC(m_78));
         }
-        ((TNpcPlayer *)(&m))->finalize_and_send_packet();
+        ((TNpcPlayer *)(&cmd))->finalize_and_send_packet();
     }
 }
 

@@ -137,7 +137,6 @@ struct TNpcPlayer : public TObject {
     void update_lobby();
     void finalize_and_send_packet();
     void byteswap_positions();
-    void *init_cast_technique_cmd();
     void reset_model();
     void init_model();
     void reset_move_state();

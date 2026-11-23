@@ -179,7 +179,6 @@ void PhotonBlastGauge::draw_party_label(TObjChara *target, u16 effect) {
 
 extern "C" {
 void add_photon_blast_chain_charge(PhotonBlastGauge *gauge, f32 amount);
-void TFontSmallLobby__sub_80152F28(void *);
 }
 
 s32 PhotonBlastGauge::subtract_photon_blast_charge(f32 amount) {
@@ -246,7 +245,7 @@ void PhotonBlastGauge::reset_photon_blast_gauge() {
     fn_801D67C8();
     set_section_index(0);
     for (i = 0; i < 10; i++) {
-        TFontSmallLobby__sub_80152F28(&targets[i]);
+        targets[i].reset();
     }
     clear_charge();
     clear_photon_blast_state();
@@ -264,11 +263,11 @@ void PhotonBlastGauge::reset_state() {
     frame_step = 1.0f;
     complete_threshold = 0.0f;
     do {
-        TFontSmallLobby__sub_80152F28(&targets[i]);
+        targets[i].reset();
         i++;
     } while (i < 10);
     charge = 0.0f;
-    ((FlagWord *)&flags)->reset();
+    flags.reset();
     for (k = 0, fp = blast_levels; k < 6; k++, fp++) {
         *fp = 0;
     }
@@ -288,13 +287,9 @@ extern "C" {
 f32 fn_801D6AB4(void *, saddr, s32);
 s32 accumulate_damage_stats(u8 *arg0, s32 collidable, s32 amount);
 void clear_player_sub_object_slots(Obj_801D6A18 *p);
-s32 __construct_array(void *, void *, int, int, int);
-extern s32 fn_80152EF8[];
 }
 
 PhotonBlastGauge::PhotonBlastGauge() {
-    __construct_array(targets, fn_80152EF8, 0, 4, 0xA);
-    __ct__8FlagWordFv(&flags);
     donation.init_reset_fields();
     reset_state();
 }
@@ -309,19 +304,19 @@ int PhotonBlastGauge::is_valid_index(s16 blast) {
 }
 
 void Obj_801D67D4::reset_fields() { state = 0; count = 0; }
-void PhotonBlastGauge::set_bit1_at_40() { ((FlagWord *)&flags)->clear(2); }
+void PhotonBlastGauge::set_bit1_at_40() { flags.clear(2); }
 void *G_ClearPhotonBlastReadyFlag_6x3A::clear_photon_blast_ready_flag(void *src) { copy_subcommand_header(this, src); return this; }
-void PhotonBlastGauge::update_ready() { ((FlagWord *)&flags)->set(2); }
+void PhotonBlastGauge::update_ready() { flags.set(2); }
 
 s32 Obj_801D67D4::get_state() { return state; }
 s32 Obj_801D67D4::get_field_04() { return count; }
-void PhotonBlastGauge::check_flag_at_40() { ((FlagWord *)&flags)->clear(32); }
+void PhotonBlastGauge::check_flag_at_40() { flags.clear(32); }
 void Obj_801D67D4::set_target_count(s32 v) { count = v; }
 void Obj_801D67D4::set_target_index(s32 v) { state = v; }
 void Obj_801D67D4::fn_801D671C(int n) { count = count + n; }
-void PhotonBlastGauge::set_flag_40_bit5() { ((FlagWord *)&flags)->set(32); }
-void PhotonBlastGauge::update_field_40() { ((FlagWord *)&flags)->clear(16); }
-void PhotonBlastGauge::fn_801D677C() { ((FlagWord *)&flags)->set(16); }
+void PhotonBlastGauge::set_flag_40_bit5() { flags.set(32); }
+void PhotonBlastGauge::update_field_40() { flags.clear(16); }
+void PhotonBlastGauge::fn_801D677C() { flags.set(16); }
 u16 PhotonBlastGauge::get_type() { return client_id; }
 
 s32 PhotonBlastGauge::fn_801D67AC() {

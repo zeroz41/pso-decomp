@@ -433,16 +433,6 @@ struct Pkt_801CC0F4 {
     u8 pad[0x10 - 4];
 };
 
-typedef struct Msg_801CC6B8 {
-    u8 pad0[2];
-    u16 id;
-    s8 kind;
-    u8 pad5;
-    s16 count;
-    s16 param;
-    u8 padA[2];
-    u32 techs[13];
-} Msg_801CC6B8;
 
 typedef struct Player_801CC6B8 {
     u8 pad0[0x4AC];
@@ -452,17 +442,6 @@ typedef struct Player_801CC6B8 {
 
 struct Mylla_801CC558 { u8 pad[0xA4]; u8 *tbl; };
 
-struct Pkt_801CC7F8 {
-    u8 cmd;
-    u8 size;
-    s16 client;
-    s8 index;
-    u8 pad5;
-    s16 count;
-    s16 sub;
-    u8 padA[2];
-    s32 tech[11];
-};
 
 struct Pkt_801CCB58 { u16 hdr; u16 id; s16 c; };
 
@@ -536,15 +515,6 @@ typedef struct Msg1_801CD72C {
     u8 pad5[3];
 } Msg1_801CD72C;
 
-typedef struct Msg2_801CD72C {
-    u8 pad0[2];
-    s16 id;
-    u8 tech;
-    u8 pad5;
-    u8 lv;
-    u8 count;
-    u32 data[13];
-} Msg2_801CD72C;
 
 typedef struct Player_801CD72C {
     u8 pad0[0x424];
@@ -1167,7 +1137,6 @@ void TObjPlayer__sub_801D1C70(u8 *arg0);
 void * TObjPlayer__sub_801D1D44(void *arg0, void *arg1);
 void TObjPlayer__sub_801D1D88(u8 *arg0);
 s32 copy_photon_blast_data__10TObjPlayerFiPv(saddr arg0, u8 *arg1);
-void TObjPlayer__sub_801D1F44(void* p);
 u8 TObjPlayer__sub_801D2004(u8 *arg0);
 void* TObjPlayer__sub_801D2058(void* p, void* a1);
 u8 * TObjPlayer__sub_801D21CC(u8 *arg0, u8 *arg1);
@@ -1242,11 +1211,9 @@ s32 validate_6x4B_hit_by_enemy(void *);
 s32 validate_6x48_cast_technique_complete(void *);
 s32 validate_6x8D_set_technique_level_override(void *);
 s32 validate_6x46_attack_finished(void *);
-void __construct_array(void *, void *, int, int, int);
 f32 cos_table_lookup(s32);
 
 extern saddr TOMineTrap__data_805D3080;
-extern s32 fn_80152EF8[];
 const f64 lbl_80447128 = 0.1;
 const f64 lbl_80447148 = 10430.38043493439;
 extern f32 scratch_vec[];
@@ -3784,25 +3751,24 @@ void TObjPlayer::enter_photon_blast_action() {
 void handle_6x49_execute_photon_blast(void *command) {
     s32 i;
     Player_801CC6B8 *p;
-    Msg_801CC6B8 m;
-    ((TObjPlayer *)(&m))->init_6x49_packet();
-    ((void (*)(void *, void *))copy_photon_blast_data__10TObjPlayerFiPv)(&m, command);
-    ((TObjPlayer *)(&m))->byteswap_6x49_packet();
-    if (validate_6x49_execute_photon_blast((G_ExecutePhotonBlast_6x49 *)&m) != 0) {
-        p = (Player_801CC6B8 *)get_player_by_client_id(m.id);
+    G_ExecutePhotonBlast_6x49 cmd;
+    ((void (*)(void *, void *))copy_photon_blast_data__10TObjPlayerFiPv)(&cmd, command);
+    ((TObjPlayer *)(&cmd))->byteswap_6x49_packet();
+    if (validate_6x49_execute_photon_blast(&cmd) != 0) {
+        p = (Player_801CC6B8 *)get_player_by_client_id(cmd.header.client_id);
         if (p != NULL && ((TObjPlayer *)p)->test_action_mask(0x8000) == 0 && is_current_area_item_enabled() != 0) {
             if (get_current_floor() == ((TObjPlayer *)p)->get_floor()) {
                 s32 count;
                 PhotonBlastTarget *dst;
-                u32 *src;
+                PhotonBlastTarget *src;
                 ((PhotonBlastGauge *)p->pb)->start_photon_blast_action();
-                TObjPlayer::apply_photon_blast(m.id, m.kind);
-                set_photon_blast_kind(p->pb, m.kind);
-                count = m.count;
+                TObjPlayer::apply_photon_blast(cmd.header.client_id, cmd.params.photon_blast);
+                set_photon_blast_kind(p->pb, cmd.params.photon_blast);
+                count = cmd.params.target_count;
                 ((PhotonBlastGauge *)p->pb)->set_section_index(count);
-                ((TObjPlayer *)p)->set_float_param(m.param);
+                ((TObjPlayer *)p)->set_float_param(cmd.params.pb_meter_value);
                 dst = ((TObjPlayer *)p)->photon_blast_gauge.fn_801D2AB0(0);
-                src = m.techs;
+                src = cmd.targets;
                 for (i = 0; i < count; i++) {
                     copy_tech_params__10TObjPlayerFPvPv(dst++, src++);
                 }
@@ -3818,11 +3784,10 @@ void copy_tech_params__10TObjPlayerFPvPv(void *arg0, void *arg1) {
 }
 
 void TObjPlayer::prepare_photon_blast_action() {
-    Pkt_801CC7F8 pkt;
     s32 i;
     s16 n;
     PhotonBlastTarget *src;
-    s32 *dst;
+    PhotonBlastTarget *dst;
     u8 *arg0 = (u8 *)this;
     if (((s32 (*)(void))reset_volopt_state__10TObjPlayerFv)() != 0) {
         ((ProtectionTimer *)(arg0 + 0x644))->set_frames(0x708);
@@ -3832,17 +3797,17 @@ void TObjPlayer::prepare_photon_blast_action() {
             ((TMainCursor *)this->lock_on_cursor)->set_cursor_pos(e->entity_id, e->index);
         }
         if (arg0 == NULL || ((TObjChara *)arg0)->obj_isState2_324() == 0) {
-            ((TObjPlayer *)(&pkt))->init_6x49_packet();
-            pkt.client = ((TObjBase *)arg0)->get_entity_id();
-            pkt.index = this->photon_blast_gauge.get_valid_index();
-            pkt.count = n = this->photon_blast_gauge.fn_801D5DDC();
-            pkt.sub = ((TObjPlayer *)arg0)->get_photon_blast_charge();
+            G_ExecutePhotonBlast_6x49 cmd;
+            cmd.header.client_id = ((TObjBase *)arg0)->get_entity_id();
+            cmd.params.photon_blast = this->photon_blast_gauge.get_valid_index();
+            cmd.params.target_count = n = this->photon_blast_gauge.fn_801D5DDC();
+            cmd.params.pb_meter_value = ((TObjPlayer *)arg0)->get_photon_blast_charge();
             src = this->photon_blast_gauge.fn_801D2AB0(0);
-            dst = pkt.tech;
+            dst = cmd.targets;
             for (i = 0; i < n; i++) {
                 copy_tech_params__10TObjPlayerFPvPv(dst++, src++);
             }
-            ((s32 (*)(void *))send_photon_blast_targets_packet)(&pkt);
+            ((s32 (*)(void *))send_photon_blast_targets_packet)(&cmd);
         }
     }
 }
@@ -4201,24 +4166,22 @@ void TObjPlayer::enter_technique_cast() {
 
 void handle_6x47_cast_technique(u8* self) {
     s32 validate_6x47_cast_technique__FPUc(u8*);
-    u8 buf[8];
-    u32 arr[7];
+    G_CastTechnique_6x47 cmd;
     u8* p;
     s32 i;
     s32 lim;
     s8 n;
     u32* d;
-    u32* s;
+    PhotonBlastTarget* s;
     s32 c;
     s8 e;
 
-    ((TNpcPlayer *)buf)->init_cast_technique_cmd();
-    TObjPlayer__sub_801D21CC(buf, self);
-    ((TNpcPlayer *)buf)->byteswap_positions();
-    if (validate_6x47_cast_technique__FPUc(buf) == 0) {
+    TObjPlayer__sub_801D21CC((u8 *)&cmd, self);
+    ((TNpcPlayer *)&cmd)->byteswap_positions();
+    if (validate_6x47_cast_technique__FPUc((u8 *)&cmd) == 0) {
         return;
     }
-    p = (u8*)get_player_by_client_id(*(u16*)(buf + 2));
+    p = (u8*)get_player_by_client_id(cmd.header.client_id);
     if (p == NULL) {
         return;
     }
@@ -4228,9 +4191,9 @@ void handle_6x47_cast_technique(u8* self) {
     if (((TObjPlayer *)p)->test_action_mask(0x8200) != 0) {
         return;
     }
-    c = *(s8*)(buf + 4);
-    set_technique_id__20PlayerTechniqueStateFs(p + 0x428, *(s8*)(buf + 4));
-    e = buf[6];
+    c = cmd.params.technique_number;
+    set_technique_id__20PlayerTechniqueStateFs(p + 0x428, cmd.params.technique_number);
+    e = cmd.params.level;
     n = (s8)((TObjPlayer *)(p + 0x428))->get_valid_technique();
     if (TObjPlayer::is_valid_technique_slot((u8)n) == 0) {
         n = 0;
@@ -4243,10 +4206,10 @@ void handle_6x47_cast_technique(u8* self) {
     }
     ((PlayerTechniqueState *)(p + 0x428))->set_level((u8)e);
     clamp_and_set_unit_value__10TObjPlayerFiUci((TObjPlayer *)p, (u8)e, c);
-    lim = *(s8*)(buf + 7);
+    lim = cmd.params.target_count;
     ((PlayerTechniqueState *)(p + 0x428))->set_tech_level(lim);
     d = (u32*)get_technique_data__10TObjPlayerFPv(p + 0x428);
-    s = arr;
+    s = cmd.targets;
     for (i = 0; i < lim; i++) {
         copy_tech_params__10TObjPlayerFPvPv(d++, s++);
     }
@@ -4272,13 +4235,12 @@ void TObjPlayer::request_technique_cast() {
     u8 hi;
     u8 lo;
     Msg1_801CD72C m1;
-    Msg2_801CD72C m2;
     TechData_801CD424 *td;
     s16 tech;
     s32 i;
     s32 count;
     TechData_801CD424 *src;
-    u32 *dst;
+    PhotonBlastTarget *dst;
     Player_801CD72C *self = (Player_801CD72C *)this;
     capture_technique_targets(((PlayerTechniqueState *)(self->techs))->get_or_init_field_4(), this);
     if (self->cursor != NULL) {
@@ -4292,18 +4254,18 @@ void TObjPlayer::request_technique_cast() {
         m1.id = ((TObjBase *)self)->get_entity_id();
         m1.level = lo;
         ((TObjPlayer *)(&m1))->send_swap_field6();
-        ((TNpcPlayer *)(&m2))->init_cast_technique_cmd();
-        m2.id = ((TObjBase *)self)->get_entity_id();
-        m2.tech = tech;
-        m2.lv = hi;
+        G_CastTechnique_6x47 cmd;
+        cmd.header.client_id = ((TObjBase *)self)->get_entity_id();
+        cmd.params.technique_number = tech;
+        cmd.params.level = hi;
         count = ((TObjPlayer *)(self->techs))->get_section_clamped();
-        m2.count = count;
+        cmd.params.target_count = count;
         src = ((TechData_801CD424 * (*)(void *))get_technique_data__10TObjPlayerFPv)(self->techs);
-        dst = m2.data;
+        dst = cmd.targets;
         for (i = 0; i < count; i++) {
             copy_tech_params__10TObjPlayerFPvPv(dst++, src++);
         }
-        ((TNpcPlayer *)(&m2))->finalize_and_send_packet();
+        ((TNpcPlayer *)(&cmd))->finalize_and_send_packet();
     }
 }
 
@@ -6257,17 +6219,20 @@ extern int fold_flush_11;
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-void *TObjPlayer::init_6x49_packet() {
-    TObjPlayer__sub_801D1F44((void*)((void *)((char *)this + 4)));
-    __construct_array((void *)((char *)this + 12), fn_80152EF8, 0, 4, 10);
-    *(u8 *)((s8 *)this + 0x0) = 73;
-    *(u8 *)((s8 *)this + 0x1) = 13;
-    return this;
+G_ExecutePhotonBlast_6x49::G_ExecutePhotonBlast_6x49() {
+    header.subcommand = 0x49;
+    header.size = sizeof(G_ExecutePhotonBlast_6x49) / 4;
 }
 extern int fold_flush_12;
 #pragma pop
 
-void TObjPlayer__sub_801D1F44(void* p) { *(s16*)((char*)p + 0x6) = 0; *(s16*)((char*)p + 0x4) = 0; *(s16*)((char*)p + 0x2) = 0; *(u8*)((char*)p + 0x1) = 0; *(u8*)((char*)p + 0x0) = 0; }
+G_ExecutePhotonBlastParams_6x49::G_ExecutePhotonBlastParams_6x49() {
+    unused2 = 0;
+    pb_meter_value = 0;
+    target_count = 0;
+    unused1 = 0;
+    photon_blast = 0;
+}
 
 void send_photon_blast_targets_packet(u8 *player) {
     *(s8 *)((s8 *)player + 1) = (s8) ((((u32)TObjPlayer__sub_801D2004((u8 *)(player))) >> 2U) & 0x3F);

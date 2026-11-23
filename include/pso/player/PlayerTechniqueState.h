@@ -4,6 +4,7 @@
 #include <stddef.h>
 #include "types.h"
 #include "pso/system/data/FlagWord.h"
+#include "pso/player/PhotonBlastGauge.h"
 
 // A player's techniques (TObjPlayer + 0x428): the cast in progress, its
 // targets and the level of each of the 19 techniques.
@@ -35,7 +36,7 @@ public:
     u8 pad_14[0x4];
     f32 pad_18;
     f32 pad_1c;
-    u8 targets[0x28];
+    PhotonBlastTarget targets[10];
     u8 pad_48[0x14];
     u8 levels[0x14];
     u8 caps[0x14];

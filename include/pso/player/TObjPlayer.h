@@ -839,7 +839,6 @@ struct TObjPlayer : public TObjChara {
     void update_and_send4();
     void byteswap_6x49_packet();
     void swap_endian_shorts();
-    void *init_6x49_packet();
     void byteswap_pb_targets_packet();
     void bswap_coords();
     void init_6x33_packet();

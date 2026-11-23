@@ -2,12 +2,17 @@
 #define PSO_PLAYER_PHOTONBLASTGAUGE_H
 
 #include "types.h"
+#include "pso/system/data/FlagWord.h"
 
 class TObjChara;
 
 // One photon blast target: the entity id and its part index (find_entity_by_id
 // and set_cursor_pos read them).
 struct PhotonBlastTarget {
+    PhotonBlastTarget();
+    // No target: entity_id 0xFFFF, part 0.
+    void reset();
+
     u16 entity_id;
     s16 index;
 };
@@ -96,7 +101,7 @@ struct PhotonBlastGauge {
     f32 complete_threshold;
     PhotonBlastTarget targets[10];
     f32 charge;
-    s32 flags;
+    FlagWord flags;
     s8 blast_levels[6];
     u8 pad_4a[0x2];
     Obj_801D67D4 donation;

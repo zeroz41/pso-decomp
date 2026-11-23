@@ -29,7 +29,7 @@ void PhotonBlastRequest::reset() {
     ((TObjPlayer *)this)->update_children();
 }
 
-int PhotonBlastGauge::query_field40() { return test_flags_any(&flags, 4); }
+int PhotonBlastGauge::query_field40() { return test_flags_any(&flags.bits, 4); }
 int TObjPlayer__sub_803131AC(void) { return 4; }
 
 s32 *TObjPlayer__sub_803131B4(T_803131B4 *self, s32 i) {
