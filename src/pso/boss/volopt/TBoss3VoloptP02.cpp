@@ -138,7 +138,7 @@ static inline s32 min_s32(s32 a, s32 b) { return (a < b) ? a : b; }
 
 static u8 lbl_804FF008[0x28];
 static s16 wave_delays[3];
-static TUnk_8048FA00 *breakup_models[5];
+static TBreakUpMdlData *breakup_models[5];
 static u32 *breakup_flags_a[32];
 static u32 *breakup_flags_b[16];
 static u32 *breakup_flags_c[16];
@@ -152,7 +152,7 @@ static void *object_handle;
 VoloptP02Params *volopt_p02_params;
 static s32 *part_params;
 BmlResource *volopt_p02_resources;
-static TUnk_8048FA00 *breakup_model;
+static TBreakUpMdlData *breakup_model;
 static NjObject *model_node_44;
 static NjObject *model_node_39;
 static NjObject *model_node_27;
@@ -275,7 +275,7 @@ void *TBoss3VoloptP02::create(void *set_data) {
 }
 
 void TBoss3VoloptP02::load_resources() {
-    TUnk_8048FA00 *model;
+    TBreakUpMdlData *model;
     s32 root;
     NjObject *nodes[5];
     NjObject *parts[5];
@@ -284,7 +284,7 @@ void TBoss3VoloptP02::load_resources() {
     s32 n;
 
     volopt_p02_resources = boss3_volopt_resources;
-    model = new TUnk_8048FA00((saddr)volopt_p02_resources->models[19].model);
+    model = new TBreakUpMdlData((saddr)volopt_p02_resources->models[19].model);
     breakup_model = model;
     root = (saddr)volopt_p02_resources->models[20].model;
     ((NjObject *)find_model_node(root, 0x44))->evalflags |= 8;
@@ -297,7 +297,7 @@ void TBoss3VoloptP02::load_resources() {
     }
     for (j = 0; j < 5; j++) {
         nodes[j]->sibling = NULL;
-        model = new TUnk_8048FA00((saddr)nodes[j]);
+        model = new TBreakUpMdlData((saddr)nodes[j]);
         breakup_models[j] = model;
     }
     root = (saddr)volopt_p02_resources->models[19].model;

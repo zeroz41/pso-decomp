@@ -62,7 +62,7 @@ static void *volopt_p01_shared_handler_b;
 static void *volopt_p01_object_handle;
 static TBoss3VoloptP01Params *volopt_p01_shared_handler_handle;
 static BmlResource *TBoss3VoloptP01__resource_bundle;
-static TUnk_8048FA00 *TBoss3VoloptP01__breakup_model;
+static TBreakUpMdlData *TBoss3VoloptP01__breakup_model;
 static TBoss3VoloptChunkList *volopt_p01_chunk_list;
 static u8 *volopt_p01_breakup_color_ptr;
 
@@ -179,7 +179,7 @@ void *TBoss3VoloptP01::create(void *set_data) {
 
 void TBoss3VoloptP01::init_breakup_effect() {
     TBoss3VoloptP01__resource_bundle = boss3_volopt_resources;
-    TBoss3VoloptP01__breakup_model = new TUnk_8048FA00((saddr)TBoss3VoloptP01__resource_bundle->models[17].model);
+    TBoss3VoloptP01__breakup_model = new TBreakUpMdlData((saddr)TBoss3VoloptP01__resource_bundle->models[17].model);
     volopt_p01_chunk_list = (TBoss3VoloptChunkList *)find_model_node((saddr)TBoss3VoloptP01__resource_bundle->models[17].model, 0xD);
     volopt_p01_boss_stat_handle_a = TLobby::register_boss(0x22);
     volopt_p01_shared_handler_b = TLobby::dispatch_shared_handler_b(0x22);

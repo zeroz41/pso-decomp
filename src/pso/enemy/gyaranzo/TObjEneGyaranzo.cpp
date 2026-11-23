@@ -158,7 +158,7 @@ NJS_OBJECT *gyaranzo_broken_node25;
 
 NJS_OBJECT *gyaranzo_broken_node13;
 
-TUnk_8048FA00 *gyaranzo_breakup_model_obj;
+TBreakUpMdlData *gyaranzo_breakup_model_obj;
 
 s32 gyaranzo_missile_volley_end_time;
 
@@ -231,8 +231,8 @@ void TLobby::load_gyaranzo_resources() {
     }
     gyaranzo_broken_node25 = (NJS_OBJECT *)find_model_node((uaddr)gyaranzo_bml_resource->models[3].model, 0x19);
     gyaranzo_broken_node13 = (NJS_OBJECT *)find_model_node((uaddr)gyaranzo_bml_resource->models[3].model, 0xD);
-    p = new TUnk_8048FA00(gyaranzo_bml_resource->models[3].model, (NJS_MOTION *)get_bml_motion(gyaranzo_bml_resource, 3), 54.0f);
-    gyaranzo_breakup_model_obj = (TUnk_8048FA00 *)p;
+    p = new TBreakUpMdlData(gyaranzo_bml_resource->models[3].model, (NJS_MOTION *)get_bml_motion(gyaranzo_bml_resource, 3), 54.0f);
+    gyaranzo_breakup_model_obj = (TBreakUpMdlData *)p;
     gyaranzo_boss_stats_handle = (saddr)TLobby::register_boss(0x1D);
     gyaranzo_boss_stats_ptr_b = (saddr)TLobby::dispatch_shared_handler_b(0x1D);
     gyaranzo_object_handle = (saddr)TLobby::register_object(0x1D);

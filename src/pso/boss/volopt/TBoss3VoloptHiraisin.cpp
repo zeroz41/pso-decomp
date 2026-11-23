@@ -98,7 +98,7 @@ static void *volopt_hiraisin_object_params;
 static void *volopt_hiraisin_stat_table;
 static BmlResource *volopt_hiraisin_resources;
 static ModelNode *volopt_hiraisin_spin_node;
-static TUnk_8048FA00 *volopt_hiraisin_breakup_model;
+static TBreakUpMdlData *volopt_hiraisin_breakup_model;
 
 void TBoss3VoloptHiraisin::clear_flag_08000000() {
     clear_player_status_flag(0, 0x08000000);
@@ -318,11 +318,11 @@ void TBoss3VoloptHiraisin::destroy() {
 }
 
 void TBoss3VoloptHiraisin::init_models() {
-    TUnk_8048FA00 *breakup;
+    TBreakUpMdlData *breakup;
     volopt_hiraisin_resources = boss3_volopt_resources;
     volopt_hiraisin_spin_node = (ModelNode *)find_model_node((saddr)get_bml_model((BmlResource *)boss3_volopt_resources, 0x10), 0xB);
     volopt_hiraisin_spin_node->flags &= ~2;
-    breakup = new TUnk_8048FA00((saddr)get_bml_model((BmlResource *)volopt_hiraisin_resources, 0x10));
+    breakup = new TBreakUpMdlData((saddr)get_bml_model((BmlResource *)volopt_hiraisin_resources, 0x10));
     volopt_hiraisin_breakup_model = breakup;
     volopt_hiraisin_stats = TLobby::register_boss(0x24);
     volopt_hiraisin_stats_b = TLobby::dispatch_shared_handler_b(0x24);

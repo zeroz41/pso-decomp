@@ -68,8 +68,8 @@ BmlResource * TObjEneMe1Gee__resource_bundle;
 u8 * gee_model_node7;
 s32 TObjEneMe1Gee__render_node_index;
 Vec *gee_camera_ctrl_step_ptr;
-TUnk_8048FA00 * gee_leader_breakup_model;
-TUnk_8048FA00 * gee_breakup_model;
+TBreakUpMdlData * gee_leader_breakup_model;
+TBreakUpMdlData * gee_breakup_model;
 // The colour word of model node 4's first material chunk (polygon_list + 2); apply_model_color writes core_color_packed.
 s32 *gee_node4_diffuse;
 GeeMovementParameters me1_gee_init_params = {225.0f, 0.0f, 0x600};
@@ -130,7 +130,7 @@ static f32 gee_camera_ctrl_vec[4];
 
 void TObjEneMe1Gee::load_resources() {
     s32 i;
-    TUnk_8048FA00 *p;
+    TBreakUpMdlData *p;
     Vec *v;
     v = (Vec *)gee_camera_ctrl_vec;
     gee_camera_ctrl_vec[0] = 0.0f;
@@ -150,9 +150,9 @@ void TObjEneMe1Gee::load_resources() {
         gee_shared_handler_a_table[i] = (TObjEneMe1GeeParams *)TLobby::dispatch_shared_handler_a(gee_param_ids[i]);
     }
     TObjEneMe1Gee__render_node_index = 0;
-    p = new TUnk_8048FA00((saddr)TObjEneMe1Gee__resource_bundle->models->model);
+    p = new TBreakUpMdlData((saddr)TObjEneMe1Gee__resource_bundle->models->model);
     gee_leader_breakup_model = p;
-    p = new TUnk_8048FA00((saddr)TObjEneMe1Gee__resource_bundle->models->model);
+    p = new TBreakUpMdlData((saddr)TObjEneMe1Gee__resource_bundle->models->model);
     gee_breakup_model = p;
     gee_node4_diffuse = (s32 *)(((NJS_CNK_MODEL *)((NJS_OBJECT *)find_model_node((saddr)TObjEneMe1Gee__resource_bundle->models->model, 4))->model)->polygon_list + 2);
     TObjPlayer__sub_800F0928();

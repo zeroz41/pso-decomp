@@ -27,7 +27,7 @@ void *player_corpse_mark_resource;
 s32 player_particle_effect_enabled;
 
 void TBoss3Volopt::create_breakup_mdl(saddr model, saddr params, s32 texlist, saddr position, s32 rotation_y) {
-    new TBreakUpMdl(tl_05, (TUnk_8048FA00 *)model, (BreakUpParamRow *)params, (GinjaTextureList *)texlist,
+    new TBreakUpMdl(tl_05, (TBreakUpMdlData *)model, (BreakUpParamRow *)params, (GinjaTextureList *)texlist,
                     (Vec *)position, rotation_y);
 }
 void play_area_variant_sound(Vec *position) {

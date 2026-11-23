@@ -32,8 +32,8 @@
 Vec epsilon_zero_vector;
 u8 *epsilon_guard_part_color_table[9];
 BmlResource *epsilon_bml_resource;
-TUnk_8048FA00 *epsilon_body_breakup_model;
-TUnk_8048FA00 *epsilon_guard_breakup_model;
+TBreakUpMdlData *epsilon_body_breakup_model;
+TBreakUpMdlData *epsilon_guard_breakup_model;
 
 const char *bm_ene_epsilon_model_names[8] = {
     "re6_b_bcbody.nj", "re6_b_bal_body.nj", "re6_b_claw_body.nj", "bc1_bc_body.nj", "bc2_body.nj", "re6_hahen1.nj",
@@ -62,8 +62,8 @@ void TObjEneEpsilonGuard::load_assets() {
     epsilon_zero_vector.y = 0.0f;
     epsilon_zero_vector.z = 0.0f;
     epsilon_bml_resource = new BmlResource(1, &TObjEneEpsilonGuard__resource_descriptor, 0, 0, NULL);
-    epsilon_body_breakup_model = new TUnk_8048FA00((saddr)get_bml_model(epsilon_bml_resource, 5));
-    epsilon_guard_breakup_model = new TUnk_8048FA00((saddr)get_bml_model(epsilon_bml_resource, 6));
+    epsilon_body_breakup_model = new TBreakUpMdlData((saddr)get_bml_model(epsilon_bml_resource, 5));
+    epsilon_guard_breakup_model = new TBreakUpMdlData((saddr)get_bml_model(epsilon_bml_resource, 6));
     epsilon_body_boss_stat_handle = (u8 *)TLobby::register_boss(0x23);
     epsilon_body_shared_handler_b = (u8 *)TLobby::dispatch_shared_handler_b(0x23);
     epsilon_body_registered_object_handle = (u8 *)TLobby::register_object(0x23);

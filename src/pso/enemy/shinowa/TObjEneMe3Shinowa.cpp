@@ -69,7 +69,7 @@
 extern "C" {
 BmlResource * TObjEneMe3ShinowaMirage__bml_resource;
 s32 TObjEneMe3ShinowaMirage__render_node_index;
-TUnk_8048FA00 * TObjEneMe3ShinowaMirage__breakup_model;
+TBreakUpMdlData * TObjEneMe3ShinowaMirage__breakup_model;
 SampledMotionPoints * TObjEneMe3ShinowaMirage__sword_trail_a;
 SampledMotionPoints * TObjEneMe3ShinowaMirage__sword_trail_b;
 SampledMotionPoints * TObjEneMe3ShinowaMirage__attack_trail;
@@ -208,7 +208,7 @@ void load_shinowa_mirage_resources() {
         TObjEneMe3ShinowaMirage__material_color_pointers[2] = NULL;
     }
     motion = TObjEneMe3ShinowaMirage__bml_resource->motions[shinowa_mirage_motion_param_table[4].motion].motion;
-    TUnk_8048FA00 *breakup = new TUnk_8048FA00(TObjEneMe3ShinowaMirage__bml_resource->models->model, (NJS_MOTION *)motion, motion->frameCount - 1);
+    TBreakUpMdlData *breakup = new TBreakUpMdlData(TObjEneMe3ShinowaMirage__bml_resource->models->model, (NJS_MOTION *)motion, motion->frameCount - 1);
     TObjEneMe3ShinowaMirage__breakup_model = breakup;
     {
         Vec first;

@@ -49,11 +49,11 @@ extern const f32 breakup_spread_scale;
 extern const f32 breakup_gravity;
 extern const f32 breakup_fade_step;
 extern const f32 breakup_floor_height;
-void TObjPlayer__sub_8002ECC4(TUnk_8048FA00 *model, s32 n);
-void TObjPlayer__sub_8002ED48(TUnk_8048FA00 *model, s32 n);
+void TObjPlayer__sub_8002ECC4(TBreakUpMdlData *model, s32 n);
+void TObjPlayer__sub_8002ED48(TBreakUpMdlData *model, s32 n);
 
-TUnk_8048FA00 *shared_breakup_model;
-TUnk_8048FA00 *lbl_805D4B8C;
+TBreakUpMdlData *shared_breakup_model;
+TBreakUpMdlData *lbl_805D4B8C;
 f32 boss2_breakup_water_level = boss2_water_level;
 
 #pragma push
@@ -112,7 +112,7 @@ s32 TObjPlayer__sub_8002EDCC(BreakupPiece *piece) {
 }
 #pragma pop
 
-void TObjPlayer__sub_8002ED48(TUnk_8048FA00 *model, s32 n) {
+void TObjPlayer__sub_8002ED48(TBreakUpMdlData *model, s32 n) {
     s32 i;
     push_matrix();
     set_matrix_identity(0);
@@ -123,7 +123,7 @@ void TObjPlayer__sub_8002ED48(TUnk_8048FA00 *model, s32 n) {
     pop_matrix();
 }
 
-void TObjPlayer__sub_8002ECC4(TUnk_8048FA00 *model, s32 n) {
+void TObjPlayer__sub_8002ECC4(TBreakUpMdlData *model, s32 n) {
     s32 i;
     push_matrix();
     set_matrix_identity(0);
@@ -142,7 +142,7 @@ TUnk_804820C0::~TUnk_804820C0() {
 }
 
 void TObjPlayer::create_breakup_model() {
-    TUnk_8048FA00 *model = new TUnk_8048FA00((saddr)boss2_derolle_resource->models[6].model);
+    TBreakUpMdlData *model = new TBreakUpMdlData((saddr)boss2_derolle_resource->models[6].model);
     shared_breakup_model = model;
     TObjPlayer__sub_8002ED48(model, 0x13);
     TObjPlayer__sub_8002ECC4(shared_breakup_model, 0x13);
@@ -242,7 +242,7 @@ void TUnk_804820A8::render() {
 }
 
 void TObjPlayer__sub_8002E7C8(void) {
-    TUnk_8048FA00 *model = new TUnk_8048FA00((saddr)boss2_derolle_resource->models[5].model);
+    TBreakUpMdlData *model = new TBreakUpMdlData((saddr)boss2_derolle_resource->models[5].model);
     lbl_805D4B8C = model;
     TObjPlayer__sub_8002ECC4(model, 0x1C);
 }

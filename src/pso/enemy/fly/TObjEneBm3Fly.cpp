@@ -46,7 +46,7 @@ AttackParams * TObjEneBm3Fly__attack_params;
 u8 * bm3_fly_resist_stats;
 Bm3FlyParameters * bm3_fly_lobby_params;
 BmlResource * bm3_fly_nest_resources;
-TUnk_8048FA00 * TObjEneBm3Fly__breakup_model;
+TBreakUpMdlData * TObjEneBm3Fly__breakup_model;
 extern const f32 lbl_805D9E80;
 extern void *tl_04;
 
@@ -72,9 +72,9 @@ TObjMotionAction bm3_fly_action_table[5] = {
 const NpcAnimationBinding bm3_fly_resource_binding_desc = { NULL, reinterpret_cast<TObjMotionAction *>(bm3_fly_action_table), 0, 1, 5 };
 
 void TObjEneBm3Fly::load_resources() {
-    TUnk_8048FA00 *model;
+    TBreakUpMdlData *model;
     bm3_fly_nest_resources = TObjEneBm3FlyNest::get_bml_resource();
-    model = new TUnk_8048FA00((saddr)bm3_fly_nest_resources->models[0].model);
+    model = new TBreakUpMdlData((saddr)bm3_fly_nest_resources->models[0].model);
     TObjEneBm3Fly__breakup_model = model;
     bm3_fly_boss_stat_handle = (u8 *)TLobby::register_boss(0);
     TObjEneBm3Fly__attack_params = (AttackParams *)TLobby::dispatch_shared_handler_b(0);

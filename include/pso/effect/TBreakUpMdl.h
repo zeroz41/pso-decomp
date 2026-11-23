@@ -18,15 +18,15 @@ struct BreakupNodeRecord {
 };
 
 // A breakup model: the visible nodes of a model with where each sits and the xz direction it flies off in.
-class TUnk_8048FA00 {
+class TBreakUpMdlData {
 public:
     s32 m_count;
     BreakupNodeRecord *m_records;
     s32 is_ginja;   // the node models are Ginja models (else chunk models)
-    TUnk_8048FA00(long model, long motion, f32 frame);
-    TUnk_8048FA00(NJS_OBJECT *model, NJS_MOTION *motion, f32 frame);
-    TUnk_8048FA00(long model);
-    virtual ~TUnk_8048FA00();
+    TBreakUpMdlData(long model, long motion, f32 frame);
+    TBreakUpMdlData(NJS_OBJECT *model, NJS_MOTION *motion, f32 frame);
+    TBreakUpMdlData(long model);
+    virtual ~TBreakUpMdlData();
     void alloc_breakup_piece_records(NJS_OBJECT *model);
     s32 collect_node_positions(NJS_OBJECT *node, s32 index);
     s32 build_node_records(NJS_OBJECT *node, s32 index);
@@ -56,11 +56,11 @@ struct BreakUpPiece {
 // A model that falls apart: each node of a breakup model flies off from where it sits and the whole
 // thing fades out.
 struct TBreakUpMdl : public TObject {
-    TBreakUpMdl(TObject *parent, TUnk_8048FA00 *model, BreakUpParamRow *params, GinjaTextureList *texlist,
+    TBreakUpMdl(TObject *parent, TBreakUpMdlData *model, BreakUpParamRow *params, GinjaTextureList *texlist,
                 Vec *position, s32 rotation_y);
     virtual ~TBreakUpMdl();
     s32 piece_count;
-    TUnk_8048FA00 *model;
+    TBreakUpMdlData *model;
     GinjaTextureList *texlist;
     f32 alpha;
     u8 pad_2C[4];

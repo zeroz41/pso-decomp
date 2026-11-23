@@ -3852,7 +3852,7 @@ force_active:
   - alloc_boss4rock_buffer__6TLobbyFv
   - alloc_boss_target_slot__16TBoss3VoloptCoreFv
   - alloc_breakup_model__13TUnk_804E3BD8Fl
-  - alloc_breakup_piece_records__13TUnk_8048FA00FP10NJS_OBJECT
+  - alloc_breakup_piece_records__15TBreakUpMdlDataFP10NJS_OBJECT
   - alloc_char_records__23TAdSinglePlyChrSelectGCFi
   - alloc_download_buffer__13TUnk_804EF8C0Fv
   - alloc_download_quest__6TLobbyFlPl

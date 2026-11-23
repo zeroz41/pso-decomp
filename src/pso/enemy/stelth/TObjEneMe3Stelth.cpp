@@ -96,7 +96,7 @@ extern StelthBehaviorParams *TObjEneMe3Stelth__behavior_params_by_variant[];
 extern CollisionBody TObjEneMe3Stelth__collision_body_template;
 BmlResource *TObjEneMe3Stelth__bml_resource;
 s32 TObjEneMe3Stelth__render_node_index;
-TUnk_8048FA00 *TObjEneMe3Stelth__breakup_model;
+TBreakUpMdlData *TObjEneMe3Stelth__breakup_model;
 SampledMotionPoints *TObjEneMe3Stelth__trail_buffer;
 s32 stelth_projection_texture_handle;
 f32 lbl_805010E0[3];
@@ -241,11 +241,11 @@ void TObjEneMe3Stelth::load_shared_resources() {
     }
     motion = TObjEneMe3Stelth__bml_resource->motions[TObjEneMe3Stelth__animation_descriptors[5].motion].motion;
     if (is_split_screen() != 0) {
-        p = new TUnk_8048FA00(TObjEneMe3Stelth__bml_resource->models->model, (NJS_MOTION *)motion, (f32)(((NJS_MOTION *)motion)->nbFrame - 1));
-        TObjEneMe3Stelth__breakup_model = (TUnk_8048FA00 *)p;
+        p = new TBreakUpMdlData(TObjEneMe3Stelth__bml_resource->models->model, (NJS_MOTION *)motion, (f32)(((NJS_MOTION *)motion)->nbFrame - 1));
+        TObjEneMe3Stelth__breakup_model = (TBreakUpMdlData *)p;
     } else {
-        p = new TUnk_8048FA00((long)(saddr)TObjEneMe3Stelth__bml_resource->models->model, (long)motion, (f32)(((NJS_MOTION *)motion)->nbFrame - 1));
-        TObjEneMe3Stelth__breakup_model = (TUnk_8048FA00 *)p;
+        p = new TBreakUpMdlData((long)(saddr)TObjEneMe3Stelth__bml_resource->models->model, (long)motion, (f32)(((NJS_MOTION *)motion)->nbFrame - 1));
+        TObjEneMe3Stelth__breakup_model = (TBreakUpMdlData *)p;
     }
     {
         Vec va;

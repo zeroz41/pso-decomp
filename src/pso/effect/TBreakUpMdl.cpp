@@ -48,7 +48,7 @@ void BreakUpParamRow::copy(BreakUpParamRow *src) {
 }
 
 
-TUnk_8048FA00::TUnk_8048FA00(long model) {
+TBreakUpMdlData::TBreakUpMdlData(long model) {
     alloc_breakup_piece_records((NJS_OBJECT *)model);
     push_matrix_from(&identity_matrix);
     build_node_records((NJS_OBJECT *)model, 0);
@@ -56,7 +56,7 @@ TUnk_8048FA00::TUnk_8048FA00(long model) {
     is_ginja = 0;
 }
 
-TUnk_8048FA00::TUnk_8048FA00(NJS_OBJECT *model, NJS_MOTION *motion, f32 frame) {
+TBreakUpMdlData::TBreakUpMdlData(NJS_OBJECT *model, NJS_MOTION *motion, f32 frame) {
     is_ginja = 0;
     alloc_breakup_piece_records(model);
     bind_motion_context(motion, frame);
@@ -65,7 +65,7 @@ TUnk_8048FA00::TUnk_8048FA00(NJS_OBJECT *model, NJS_MOTION *motion, f32 frame) {
     pop_matrix();
 }
 
-TUnk_8048FA00::TUnk_8048FA00(long model, long motion, f32 frame) {
+TBreakUpMdlData::TBreakUpMdlData(long model, long motion, f32 frame) {
     is_ginja = 1;
     alloc_breakup_piece_records((NJS_OBJECT *)model);
     bind_motion_context((NJS_MOTION *)motion, frame);
@@ -74,7 +74,7 @@ TUnk_8048FA00::TUnk_8048FA00(long model, long motion, f32 frame) {
     pop_matrix();
 }
 
-void TUnk_8048FA00::alloc_breakup_piece_records(NJS_OBJECT *model) {
+void TBreakUpMdlData::alloc_breakup_piece_records(NJS_OBJECT *model) {
     s32 i;
     m_count = count_visible_nodes(model);
     m_records = (BreakupNodeRecord *)mem_alloc(m_count * sizeof(BreakupNodeRecord));
@@ -86,14 +86,14 @@ void TUnk_8048FA00::alloc_breakup_piece_records(NJS_OBJECT *model) {
     }
 }
 
-TUnk_8048FA00::~TUnk_8048FA00() {
+TBreakUpMdlData::~TBreakUpMdlData() {
     mem_free(m_records);
     m_records = NULL;
 }
 
 #pragma push
 #pragma fp_contract on
-s32 TUnk_8048FA00::build_node_records(NJS_OBJECT *node, s32 index) {
+s32 TBreakUpMdlData::build_node_records(NJS_OBJECT *node, s32 index) {
     BreakupNodeRecord *record;
     u32 flags;
     do {
@@ -119,7 +119,7 @@ s32 TUnk_8048FA00::build_node_records(NJS_OBJECT *node, s32 index) {
     return index;
 }
 
-s32 TUnk_8048FA00::collect_node_positions(NJS_OBJECT *node, s32 index) {
+s32 TBreakUpMdlData::collect_node_positions(NJS_OBJECT *node, s32 index) {
     BreakupNodeRecord *record;
     u32 flags;
     do {
@@ -143,7 +143,7 @@ s32 TUnk_8048FA00::collect_node_positions(NJS_OBJECT *node, s32 index) {
     return index;
 }
 
-TBreakUpMdl::TBreakUpMdl(TObject *parent, TUnk_8048FA00 *model, BreakUpParamRow *params, GinjaTextureList *texlist,
+TBreakUpMdl::TBreakUpMdl(TObject *parent, TBreakUpMdlData *model, BreakUpParamRow *params, GinjaTextureList *texlist,
                          Vec *position, s32 rotation_y) : TObject(parent) {
     f32 base;
     f32 scale;

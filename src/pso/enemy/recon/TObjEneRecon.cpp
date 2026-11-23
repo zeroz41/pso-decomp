@@ -69,7 +69,7 @@ saddr TObjEneRecon__attack_params;
 saddr TObjEneRecon__resistance_params;
 ReconParams *TObjEneRecon__behavior_params;
 BmlResource *TObjEneRecon__recobox_static_instance;
-TUnk_8048FA00 *boss3_volopt_instance;
+TBreakUpMdlData *boss3_volopt_instance;
 s32 recon_intro_stage;
 Vec *recon_model_matrix_ptr;
 
@@ -1105,7 +1105,7 @@ f32 TObjEneRecobox::get_recon_rotate_rad() { return recon_rotate_rad; }
 extern "C" {
 void TObjEneRecon::load_resources() {
   TObjEneRecon__recobox_static_instance = TObjEneRecobox::get_bml_resource();
-  boss3_volopt_instance = new TUnk_8048FA00((long)(saddr)TObjEneRecon__recobox_static_instance->models->model);
+  boss3_volopt_instance = new TBreakUpMdlData((long)(saddr)TObjEneRecon__recobox_static_instance->models->model);
   recon_intro_stage = 0;
   recon_model_matrix_ptr = 0;
   TObjEneRecon__base_params = (saddr)TLobby::register_boss(0x42);

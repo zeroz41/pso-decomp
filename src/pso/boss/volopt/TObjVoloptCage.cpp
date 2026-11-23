@@ -29,7 +29,7 @@
 
 // TBoss3Volopt::create_breakup_mdl takes saddr; through that declaration CW keeps the param and Vec addresses
 // in saved registers across the two calls, so the call goes through the pointer-typed symbol.
-extern "C" void create_breakup_mdl__12TBoss3VoloptFlllll(TUnk_8048FA00 *model, VoloptBreakUpParams *params,
+extern "C" void create_breakup_mdl__12TBoss3VoloptFlllll(TBreakUpMdlData *model, VoloptBreakUpParams *params,
                                                          s32 textures, Vec *pos, s32 angle);
 
 extern BmlResource *volopt_p02_resources;
@@ -48,7 +48,7 @@ VoloptBreakUpParams volopt_cage_breakup_params = {
 
 void *volopt_cage_combat_stats;
 VoloptCageParams *volopt_cage_params;
-static TUnk_8048FA00 *volopt_cage_breakup_model;
+static TBreakUpMdlData *volopt_cage_breakup_model;
 static saddr volopt_cage_model;
 static s32 volopt_cage_textures;
 
@@ -175,7 +175,7 @@ void TObjVoloptCage::destroy() {
 
 void TObjVoloptCage::init_break_model() {
     volopt_cage_model = (saddr)boss3_volopt_resources->models[0x12].model;
-    volopt_cage_breakup_model = new TUnk_8048FA00(volopt_cage_model);
+    volopt_cage_breakup_model = new TBreakUpMdlData(volopt_cage_model);
     volopt_cage_combat_stats = TLobby::register_boss(0x26);
     volopt_cage_params = (VoloptCageParams *)TLobby::dispatch_shared_handler_a(0x26);
 }

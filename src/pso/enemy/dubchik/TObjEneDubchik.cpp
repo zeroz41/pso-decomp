@@ -303,7 +303,7 @@ void TObjEneDubchik::load_resources() {
     lbl_805D509C = (NJS_OBJECT *)find_model_node((uaddr)dubchik_resource->models[0].model, 0x15);
     lbl_805D50A0 = (NJS_OBJECT *)find_model_node((uaddr)dubchik_resource->models[0].model, 0x2A);
     ((NJS_OBJECT *)find_model_node((uaddr)dubchik_resource->models[1].model, 0x15))->evalflags |= NJD_EVAL_HIDE;
-    p = new TUnk_8048FA00((saddr)dubchik_resource->models[0].model);
+    p = new TBreakUpMdlData((saddr)dubchik_resource->models[0].model);
     breakup_model_ptr = p;
     p = new SampledMotionPoints(2, 28.0f, 35.0f, 1.0f);
     dubchik_scratch_trail0_points[0] = (SampledMotionPoints *)p;
@@ -347,7 +347,7 @@ void TObjEneDubchik::load_resources() {
 
 void TObjEneDubchik::free_resources() {
     if (breakup_model_ptr != NULL) {
-        delete (TUnk_8048FA00 *)breakup_model_ptr;
+        delete (TBreakUpMdlData *)breakup_model_ptr;
         breakup_model_ptr = NULL;
     }
     if (dubchik_resource != NULL) {

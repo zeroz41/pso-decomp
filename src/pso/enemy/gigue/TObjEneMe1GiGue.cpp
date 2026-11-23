@@ -66,7 +66,7 @@ saddr gigue_attack_params;
 saddr gigue_resistance_params;
 GiGueParameters *TObjEneMe1GiGue__param_table;
 BmlResource *gigue_resource;
-TUnk_8048FA00 *gigue_breakup_model;
+TBreakUpMdlData *gigue_breakup_model;
 f32 gigue_missile_speed;
 f32 gigue_shot_speed;
 f32 gigue_shot_homing;
@@ -240,8 +240,8 @@ void TObjEneMe1GiGue::load_resources() {
     gigue_attack_params = (saddr)TLobby::dispatch_shared_handler_b(0x1A);
     gigue_resistance_params = (saddr)TLobby::register_object(0x1A);
     TObjEneMe1GiGue__param_table = (GiGueParameters *)TLobby::dispatch_shared_handler_a(0x1A);
-    o = new TUnk_8048FA00((saddr)gigue_resource->models->model);
-    gigue_breakup_model = (TUnk_8048FA00 *)o;
+    o = new TBreakUpMdlData((saddr)gigue_resource->models->model);
+    gigue_breakup_model = (TBreakUpMdlData *)o;
     TObjEneMe1GiGueMissile::init_global();
     TObjEneMe1GiGueBarrier::init_global();
     {

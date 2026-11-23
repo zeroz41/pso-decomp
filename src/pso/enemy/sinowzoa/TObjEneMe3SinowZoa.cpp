@@ -93,7 +93,7 @@ u32 *TObjEneMe3SinowZoa__material_color_pointers[4];
 
 BmlResource * TObjEneMe3SinowZoa__bml_resource;
 s32 TObjEneMe3SinowZoa__render_node_index;
-TUnk_8048FA00 * TObjEneMe3SinowZoa__breakup_model;
+TBreakUpMdlData * TObjEneMe3SinowZoa__breakup_model;
 
 
 extern "C" {
@@ -163,7 +163,7 @@ void TObjEneMe3SinowZoa::load_resources() {
     u32 model;
     ModelNode *node;
     AnimationMotion *motion;
-    TUnk_8048FA00 *breakup;
+    TBreakUpMdlData *breakup;
     TObjEneMe3SinowZoaParams *params;
 
     lbl_80542FB0.x = 0.0f;
@@ -223,7 +223,7 @@ void TObjEneMe3SinowZoa::load_resources() {
         TObjEneMe3SinowZoa__material_color_pointers[2] = NULL;
     }
     motion = TObjEneMe3SinowZoa__bml_resource->motions[TObjEneMe3SinowZoa__animation_descriptors[5].motion].motion;
-    breakup = new TUnk_8048FA00(TObjEneMe3SinowZoa__bml_resource->models->model, (NJS_MOTION *)motion, motion->frameCount - 1);
+    breakup = new TBreakUpMdlData(TObjEneMe3SinowZoa__bml_resource->models->model, (NJS_MOTION *)motion, motion->frameCount - 1);
     TObjEneMe3SinowZoa__breakup_model = breakup;
     {
         NpcAnimationBinding info = sinow_zoa_attack_binding_desc_a;

@@ -74,8 +74,8 @@ Vec *TObjEneMe1Canadin__render_point_cursor;
 
 
 
-TUnk_8048FA00 *canadin_leader_breakup_model;
-TUnk_8048FA00 *canadin_breakup_model;
+TBreakUpMdlData *canadin_leader_breakup_model;
+TBreakUpMdlData *canadin_breakup_model;
 // Colour words of the first material chunk (polygon_list + 2) of nodes 3 and 2 of the leader and member models;
 // apply_model_color writes core_color_packed into them.
 s32 *canadin_leader_node3_diffuse;
@@ -162,10 +162,10 @@ void TObjEneMe1Canadin::load_resources() {
         canadin_shared_handler_a_table[i] = (TObjEneMe1CanadinParams *)TLobby::dispatch_shared_handler_a(canadin_param_ids[i]);
     }
     TObjEneMe1Canadin__render_node_index = 0;
-    p = new TUnk_8048FA00((saddr)bm_ene_me1_mb_resource->models[1].model);
-    canadin_leader_breakup_model = (TUnk_8048FA00 *)p;
-    p = new TUnk_8048FA00((saddr)bm_ene_me1_mb_resource->models[0].model);
-    canadin_breakup_model = (TUnk_8048FA00 *)p;
+    p = new TBreakUpMdlData((saddr)bm_ene_me1_mb_resource->models[1].model);
+    canadin_leader_breakup_model = (TBreakUpMdlData *)p;
+    p = new TBreakUpMdlData((saddr)bm_ene_me1_mb_resource->models[0].model);
+    canadin_breakup_model = (TBreakUpMdlData *)p;
     model = (saddr)bm_ene_me1_mb_resource->models[1].model;
     canadin_leader_node3_diffuse = (s32 *)(((NJS_CNK_MODEL *)((NJS_OBJECT *)find_model_node(model, 3))->model)->polygon_list + 2);
     canadin_leader_node2_diffuse = (s32 *)(((NJS_CNK_MODEL *)((NJS_OBJECT *)find_model_node(model, 2))->model)->polygon_list + 2);
