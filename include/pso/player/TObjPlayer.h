@@ -13,6 +13,7 @@ struct NJS_OBJECT;
 #include "pso/player/PlayerAttackController.h"
 #include "pso/player/PlayerStats.h"
 #include "pso/player/BattleMusicState.h"
+#include "pso/player/ContactSurfaceState.h"
 #include "pso/unk/TUnk_804DDD28.h"
 
 struct TItemData;
@@ -172,8 +173,7 @@ struct TObjPlayer : public TObjChara {
     u8 unk_350[0x4];
     f32 m_354;
     u8 unk_358[0x8];
-    void* m_360;
-    u8 unk_364[0x8];
+    ContactSurfaceState contact_surface;
     s32 m_36c;
     u8 unk_370[0x4];
     MaterialUsage materials;
@@ -578,22 +578,16 @@ struct TObjPlayer : public TObjChara {
     void set_field_374_state(u8 v);
     void set_field_374(u8 v);
     void*reset_sub_status_disp();
-    s32 update_timer();
-    void update_field8();
     void set_anim_state(s32 v);
     void set_state(s16 v);
     void set_anim_state(s16 v);
     void set_action_id(s16 v);
-    void test_flag_16();
-    void set_flag_4();
-    void check_flag_2();
     s16 get_action_id();
     void*get_sub_object();
     s32 get_lock_timer();
     void init_tag();
     void set_vec3_const();
     void set_pos_z(f32 v);
-    static s32 free_if_valid(s32 arg0, s16 arg1);
     static s32 reset_and_return(saddr arg0);
     void clear_base();
     void*forward_release();
@@ -608,8 +602,6 @@ struct TObjPlayer : public TObjChara {
     void*init_subobjects();
     void set_speed(f32 farg0);
     void set_scale_xyz(f32 farg0);
-    s32 setup_state();
-    void setup_state_helper();
     u8 *init_subobject();
     int sub_802a7290_fwd();
     int is_handle_valid();
@@ -1487,7 +1479,6 @@ struct TObjPlayer : public TObjChara {
     void check_idle_movement_request();
     void push_to_list(s32 id);
     static saddr run_and_return_arg(saddr arg0);
-    s32 init_state();
     u8 get_mag_level();
     const Vec *get_guild_return_position();
     void spawn_item();
@@ -1503,8 +1494,6 @@ struct TObjPlayer : public TObjChara {
     void reset_stat_scale_and_ring();
     static void apply_stats_and_update(void* p);
     static void apply_stat_multipliers_and_reset(void* p);
-    int set_action_flag16();
-    int test_flag_8();
     s32 can_guard();
     static void clamp_and_set_unit_value(int, u8, int);
     static void *get_element(void *, int);

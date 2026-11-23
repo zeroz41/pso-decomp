@@ -65,7 +65,6 @@ int emit_player_particle(void*, int, int);
 void* TObjPlayer__sub_801BF31C(void* p);
 int TObjPlayer__sub_801BF3A0(void* p);
 int VecCopy__FP3VecPC3Vec(void*);
-int has_water_ground_flag(void* p);
 int test_flags_any(void*, int);
 u8 TObjPlayer__sub_801BF460(s32 *arg0, s32 arg1);
 void TObjPlayer__sub_801BF488(s32 *arg0, s32 arg1);
@@ -286,7 +285,7 @@ int TObjPlayer__sub_801BF3A0(void* p) { return VecCopy__FP3VecPC3Vec((char*)p + 
 
 int TObjPlayer::copy_vec_at_18() { return VecCopy__FP3VecPC3Vec((char*)this + 0x18); }
 
-int has_water_ground_flag(void* p) { return test_flags_any(p, 4); }
+int ContactSurfaceState::has_water_ground_flag() { return test_flags_any(&flags, 4); }
 
 void TPlayerLobbyMarker::set_material_index(u8 v) { this->material_index = v; }
 
@@ -320,8 +319,8 @@ void BattleMusicState::set_flag_2() { ((FlagWord *)&flags)->set(2); }
 
 extern "C" {
 extern const f32 TObjPlayer__data_805DC278;
-s32 is_timer_running(u8 *p) {
-    return (u8) (*(s32 *)((s8 *)p + 4) != -1);
+s32 ContactSurfaceState::is_timer_running() {
+    return (u8)(timer != -1);
 }
 
 s32 TObjPlayer__sub_801BF560(s16 *arg0) {
@@ -334,25 +333,25 @@ s32 TObjPlayer__sub_801BF560(s16 *arg0) {
 
 s16 TObjPlayer__sub_801BF57C(void* p) { return *(s16*)((char*)p + 0x0); }
 
-s32 TObjPlayer__sub_801BF584(u8 *arg0) {
-    if ((TObjPlayer__sub_801BF5F8(arg0, (s32)((int) (TObjPlayer__sub_801BF60C(arg0)))) != 0) && (TObjPlayer__sub_801BF5F8(arg0, (s32)((int) (*(s32 *)((s8 *)arg0 + 8)))) != 0)) {
-        TObjPlayer__sub_801BF5F0(arg0, 0x96);
+s32 ContactSurfaceState::fn_801BF584() {
+    if (fn_801BF5F8(fn_801BF60C()) != 0 && fn_801BF5F8(prev_flags) != 0) {
+        fn_801BF5F0(0x96);
         return 1;
     }
     return 0;
 }
 
-void TObjPlayer__sub_801BF5F0(void* p, s32 v) { *(s32*)((char*)p + 0x4) = v; }
+void ContactSurfaceState::fn_801BF5F0(s32 v) { timer = v; }
 
-s32 TObjPlayer__sub_801BF5F8(void *arg0, s32 arg1) {
-    return (u8) ((arg1 & 0xC) != 0);
+s32 ContactSurfaceState::fn_801BF5F8(s32 v) {
+    return (u8)((v & 0xC) != 0);
 }
 
-s32 TObjPlayer__sub_801BF60C(u8 *arg0) {
-    return *(s32 *)((s8 *)arg0 + 8) ^ ((s32)TObjPlayer__sub_801BF640(arg0));
+s32 ContactSurfaceState::fn_801BF60C() {
+    return prev_flags ^ fn_801BF640();
 }
 
-int TObjPlayer__sub_801BF640(void* p) { return TObjPlayer__sub_801BFFA0(p); }
+int ContactSurfaceState::fn_801BF640() { return TObjPlayer__sub_801BFFA0(&flags); }
 
 void *TObjPlayer__sub_801BF660(void *arg0) {
     TObjPlayer__sub_801BF690((u8 *)arg0);
@@ -366,8 +365,6 @@ void TObjPlayer__sub_801BF690(u8 *arg0) {
     *(f32 *)((s8 *)arg0 + 0xC) = (f32) TObjPlayer__data_805DC278;
 }
 
-int TObjPlayer__sub_801BF8CC(void* p);
-int reset__8FlagWordFv(void*);
 
 f32 TObjPlayer__sub_801BF6B0(void* p) { return *(f32*)((char*)p + 0x8); }
 void* TObjPlayer__sub_801BF6B8(void* p) { return (char*)p + 0xc; }
@@ -382,33 +379,29 @@ u8 get_player_action_palette_mode(const PlayerActionPaletteState *state) {
     return get_action_palette_tag_mode(&state->tag);
 }
 void*TObjPlayer::reset_sub_status_disp() { ((TWindowSubStatusDisp *)this)->clear_fields(); *(short*)((char*)this + 0x18) = 0; *(short*)((char*)this + 0x16) = 0; return this; }
-s32 TObjPlayer::update_timer() {
-    s32 temp_r0;
-
-    if (is_timer_running((u8 *)this) != 0) {
-        temp_r0 = *(s32 *)((s8 *)this + 4) - 1;
-        *(s32 *)((s8 *)this + 4) = temp_r0;
-        if (temp_r0 < 0) {
-            TObjPlayer__sub_801BF7B8(this);
+s32 ContactSurfaceState::update_timer() {
+    if (is_timer_running() != 0) {
+        if (--timer < 0) {
+            fn_801BF7B8();
         }
     }
-    return *(s32 *)((s8 *)this + 4);
+    return timer;
 }
-void TObjPlayer__sub_801BF7B8(void* p) { *(s32*)((char*)p + 0x4) = -1; }
-void TObjPlayer::update_field8() {
-    *(s32 *)((s8 *)this + 8) = TObjPlayer__sub_801BF640(this);
+void ContactSurfaceState::fn_801BF7B8() { timer = -1; }
+void ContactSurfaceState::update_field8() {
+    prev_flags = fn_801BF640();
 }
 void TObjPlayer::set_anim_state(s32 v) { *(s32*)((char*)this + 0x4) = v; }
 void TObjPlayer::set_state(s16 v) { *(s16*)((char*)this + 0x0) = v; }
 void TObjPlayer::set_anim_state(s16 v) { *(s16*)((char*)this + 0x8) = v; }
 void TObjPlayer::set_action_id(s16 v) { *(s16*)((char*)this + 0x2) = v; }
 f32 TObjPlayer__sub_801BF814(void* p) { return *(f32*)((char*)p + 0x0); }
-void TObjPlayer::test_flag_16() { ((FlagWord *)this)->set(16); }
-void TObjPlayer__sub_801BF840(void* p) { ((FlagWord *)p)->set(8); }
-void TObjPlayer::set_flag_4() { ((FlagWord *)this)->set(4); }
-void TObjPlayer::check_flag_2() { ((FlagWord *)this)->set(2); }
-int TObjPlayer__sub_801BF8AC(void* p) { return TObjPlayer__sub_801BF8CC(p); }
-int TObjPlayer__sub_801BF8CC(void* p) { return reset__8FlagWordFv(p); }
+void ContactSurfaceState::test_flag_16() { ((FlagWord *)&flags)->set(16); }
+void ContactSurfaceState::fn_801BF840() { ((FlagWord *)&flags)->set(8); }
+void ContactSurfaceState::set_flag_4() { ((FlagWord *)&flags)->set(4); }
+void ContactSurfaceState::check_flag_2() { ((FlagWord *)&flags)->set(2); }
+void ContactSurfaceState::fn_801BF8AC() { fn_801BF8CC(); }
+void ContactSurfaceState::fn_801BF8CC() { ((FlagWord *)&flags)->reset(); }
 
 }
 
@@ -471,22 +464,22 @@ u8 *TObjPlayer__sub_801BF9F0(u8 *arg0, s16 arg1) {
     return arg0;
 }
 
-s32 TObjPlayer__sub_801BFA4C(saddr arg0, s16 arg1) {
-    if (arg0 != 0) {
-        TObjPlayer::free_if_valid(arg0, 0);
-        if (arg1 > 0) {
-            ::operator delete((void *)arg0);
+ContactSurfaceState *ContactSurfaceState::fn_801BFA4C(s16 arg) {
+    if (this != NULL) {
+        free_if_valid(0);
+        if (arg > 0) {
+            ::operator delete(this);
         }
     }
-    return arg0;
+    return this;
 }
 
 
-s32 TObjPlayer::free_if_valid(s32 arg0, s16 arg1) {
-    if ((arg0 != 0) && (arg1 > 0)) {
-        __dl__FPv();
+ContactSurfaceState *ContactSurfaceState::free_if_valid(s16 arg) {
+    if (this != NULL && arg > 0) {
+        ::operator delete(this);
     }
-    return arg0;
+    return this;
 }
 
 struct RecoveredGlobal_lbl_804C3E38 { s32 value; u8 remaining[0x8]; };
@@ -590,22 +583,20 @@ void TObjPlayer__sub_801BFE88(u8 *arg0) {
     *(f32 *)((s8 *)arg0 + 0) = (f32) TObjPlayer__data_805DC278;
 }
 
-s32 TObjPlayer::init_state() {
-    saddr p = (saddr)this;
-    ((TObjPlayer *)p)->setup_state();
-    TObjPlayer__sub_801BFED4((void *)p);
-    return p;
+ContactSurfaceState *ContactSurfaceState::init_state() {
+    setup_state();
+    fn_801BFED4();
+    return this;
 }
 
 
-void TObjPlayer__sub_801BFED4(void* p) { *(s32*)((char*)p + 0x4) = -1; }
-s32 TObjPlayer::setup_state() {
-    s32 arg0 = (saddr)this;
-    __ct__8FlagWordFv(this);
+void ContactSurfaceState::fn_801BFED4() { timer = -1; }
+ContactSurfaceState *ContactSurfaceState::setup_state() {
+    __ct__8FlagWordFv(&flags);
     setup_state_helper();
-    return arg0;
+    return this;
 }
-void TObjPlayer::setup_state_helper() { ((FlagWord *)this)->reset(); }
+void ContactSurfaceState::setup_state_helper() { ((FlagWord *)&flags)->reset(); }
 
 
 u8 *TObjPlayer::init_subobject() {

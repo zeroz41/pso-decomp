@@ -43,7 +43,6 @@ u8 *TObjPlayer__sub_801D8DCC(TObjPlayer *arg0);
 s32 TObjPlayer__sub_801D91B8(saddr arg0);
 s32 TBoss4DarkFalz__sub_801D94C0(void* p);
 void TObjPlayer__sub_801D92A4(void);
-s32 get_contact_surface_type(saddr arg0);
 int load_encrypted_archive_data(const char *);
 }
 int ply_level_table;
@@ -377,7 +376,7 @@ f32 TObjPlayer::get_class_hp_factor() {
     return player_profession_stat_factors[get_clamped_index()].hp;
 }
 
-int TObjPlayer::get_floor_surface_type() { return get_contact_surface_type((saddr)((char*)this + 0x360)); }
+int TObjPlayer::get_floor_surface_type() { return contact_surface.get_contact_surface_type(); }
 s32 TObjPlayer::get_falz_phase() { return TBoss4DarkFalz__sub_801D94C0((void*)((char*)this + 0x7cc)); }
 
     extern int dark_falz_form_index;

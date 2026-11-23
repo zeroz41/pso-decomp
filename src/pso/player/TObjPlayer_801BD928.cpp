@@ -40,7 +40,7 @@ u8 *TObjPlayer::construct_player_instance(saddr arg1, s32 slot, s32 role, u8 *ar
     *(s32 **)((s8 *)((u8 *)this) + 0x18) = __vt__10TObjPlayer;
     ((TObjPlayer *)(((u8 *)this) + 0x340))->init_subobject();
     ((TObjPlayer *)(((u8 *)this) + 0x34C))->setup_ctrl();
-    ((TObjPlayer *)(((u8 *)this) + 0x360))->init_state();
+    contact_surface.init_state();
     TObjPlayer__sub_803374C4((void *) (((u8 *)this) + 0x374));
     init_follow_particle_state((void *) (((u8 *)this) + 0x384));
     __ct__8FlagWordFv((((u8 *)this) + 0x41C));

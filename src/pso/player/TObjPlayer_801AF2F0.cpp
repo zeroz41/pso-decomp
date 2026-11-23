@@ -1313,10 +1313,8 @@ int TObjPlayer__sub_801BF460(void*);
 int TObjPlayer__sub_801BF47C(void*);
 int TObjPlayer__sub_801BF488(void*);
 int TObjPlayer__sub_801BF4A0(void*);
-s32 is_timer_running(u8 *p);
 s32 TObjPlayer__sub_801BF560(s16 *arg0);
 s16 TObjPlayer__sub_801BF57C(void *p);
-s32 TObjPlayer__sub_801BF584(u8 *arg0);
 void *TObjPlayer__sub_801BF660(void *arg0);
 f32 TObjPlayer__sub_801BF6B0(void *, f32, f32, f32);
 void *TObjPlayer__sub_801BF6B8(void *p);
@@ -1326,8 +1324,6 @@ void TObjPlayer__sub_801BF6D4(void *p, s16 v);
 void TObjPlayer__sub_801BF6DC(void *p, s16 v);
 f32 TObjPlayer__sub_801BF814(void *p);
 s32 set_action_id__10TObjPlayerFs(void *, s32);
-void TObjPlayer__sub_801BF840(void *p);
-int TObjPlayer__sub_801BF8AC(void *p);
 void set_equip_slot_entry(saddr, s32, s32);
 void TObjPlayer__sub_801BF8F8(s32 *p);
 void *TObjPlayer__sub_801BF914(void *);
@@ -1418,7 +1414,6 @@ s32 set_arrival_override_pos(u16, int, int);
 void update_player_scale_camera(PlayerScaleState *state);
 void request_player_size_restore(PlayerScaleState *state);
 u32 create_lobby_marker__10TObjPlayerFsSc(u16 a0 = 0, s32 a1 = 0);
-s32 get_contact_surface_type(saddr arg0);
 void release_all_players_control_lock(void);
 s32 check_conditions__10TObjPlayerFv(void *, s16);
 u8 *TObjPlayer__sub_801CFBFC(u8 *arg0);
@@ -3510,22 +3505,22 @@ u8 *TObjPlayer::update_actor_ground_y_at(Vec *pos) {
     if (temp_r3 == NULL) {
         return NULL;
     }
-    TObjPlayer__sub_801BF8AC(((u8 *)&this->m_360));
+    this->contact_surface.fn_801BF8AC();
     temp_r31 = *(s32 *)((s8 *)temp_r3 + 0);
     if (temp_r31 & 0x10) {
-        ((TObjPlayer *)(arg0 + 0x360))->check_flag_2();
+        this->contact_surface.check_flag_2();
         copy_vec_at_18__10TObjPlayerFv((u8 *)&this->m_384, (void *) (*(u8 **)((s8 *)temp_r3 + 4) + 0x1C));
     }
     if ((temp_r31 & 4) && (player_auxiliary_surfaces_enabled() != 0)) {
-        ((TObjPlayer *)(arg0 + 0x360))->set_flag_4();
+        this->contact_surface.set_flag_4();
         TObjPlayer__sub_801BF3A0((u8 *)&this->m_384, (void *) (*(u8 **)((s8 *)temp_r3 + 4) + 0x38));
     }
     if ((temp_r31 & 2) && (player_auxiliary_surfaces_enabled() != 0)) {
-        TObjPlayer__sub_801BF840(((u8 *)&this->m_360));
+        this->contact_surface.fn_801BF840();
         TObjPlayer__sub_801BF3A0((u8 *)&this->m_384, (void *) (*(u8 **)((s8 *)temp_r3 + 4) + 0x54));
     }
     if (temp_r31 & 8) {
-        ((TObjPlayer *)(arg0 + 0x360))->test_flag_16();
+        this->contact_surface.test_flag_16();
     }
     if (!(temp_r31 & 1)) {
         return NULL;
@@ -3745,7 +3740,7 @@ void TObjPlayer::update_position_history() {
         this->set_position_history_entry(*(s32 *)((s8 *)arg0 + 0x6AC), *(f32 *)((s8 *)arg0 + 0x38), *(f32 *)((s8 *)arg0 + 0x40));
     }
     VecCopy((Vec *)(arg0 + 0x44), (const Vec *)&this->position);
-    ((TObjPlayer *)(arg0 + 0x360))->update_field8();
+    this->contact_surface.update_field8();
 }
 
 void TObjPlayer::update_status_effects() {
@@ -3783,7 +3778,7 @@ void TObjPlayer::update_status_effects() {
   {
     set_actor_flags(0xA00);
   }
-  ((TObjPlayer *)(arg0 + 0x360))->update_timer();
+  this->contact_surface.update_timer();
 }
 
 void TObjPlayer::check_level_up() {
@@ -4726,7 +4721,7 @@ void TObjPlayer::update_facing_vector() {
     if (this->lock_on_cursor != NULL) {
         ((TMainCursor *)this->lock_on_cursor)->reset_slots();
     }
-    TObjPlayer__sub_801BF584(((u8 *)this) + 0x360);
+    this->contact_surface.fn_801BF584();
 }
 
 void submit_target_to_player_cursor(void *target, s32 id) {
@@ -4977,7 +4972,7 @@ void TObjPlayer::emit_footstep_effect(f32 farg0, f32 farg1) {
     s32 contact_surface_type;
     saddr arg0 = (saddr)this;
     if ((this->is_body_collision_inactive() == 0) && (temp_r3 = ((s32)test_ordered_anim_markers__10TObjPlayerFPvff((u8 *)arg0, farg0, farg1)), ((temp_r3 == 0) == 0))) {
-        contact_surface_type = get_contact_surface_type((arg0 + 0x360));
+        contact_surface_type = this->contact_surface.get_contact_surface_type();
         switch (contact_surface_type) {
         case 1:
             emit_grass_footstep_effect((arg0 + 0x384));
@@ -4992,7 +4987,7 @@ void TObjPlayer::emit_footstep_effect(f32 farg0, f32 farg1) {
             this->update_foot_stamp(temp_r3);
             return;
         case 0:
-            if (is_timer_running((u8 *)(arg0 + 0x360)) != 0) {
+            if (this->contact_surface.is_timer_running() != 0) {
                 this->update_foot_stamp(temp_r3);
             }
             break;
