@@ -13,7 +13,7 @@ struct SceneMaterialStatic {SceneMaterialNode* node;SceneMaterialUv* uv;SceneMat
 struct SceneMaterialAnimated {SceneMaterialNode* node;NJS_MOTION* motion;u32 unknown;f32 frame,speed;SceneMaterialUv* uv;SceneMaterialCycle* cycle;u32 flags;};
 struct SceneMaterialSection {s32 id;f32 position[3];s32 angles[3];f32 radius;SceneMaterialStatic* objects;SceneMaterialAnimated* animated;s32 count,animatedCount;u32 flags;};
 // texlist: the texture list the scene's model pass hands to TObjFish::set_global_param.
-struct SceneMaterialRoot {u32 format,flags;s16 count,reserved;f32 radius;SceneMaterialSection* sections;saddr texlist;};
+struct SceneMaterialRoot {u32 format,flags;s16 count,reserved;f32 radius;SceneMaterialSection* sections;uaddr texlist;};
 // The current map's scene, loaded from its relocatable file.
 extern SceneMaterialRoot *scene_material_root;
 LAYOUT_ASSERT(SceneMaterialUv_size, sizeof(SceneMaterialUv)==24);

@@ -647,7 +647,7 @@ void TScene::load_current_floor() {
     }
     copy_name((char *)current_floor_name);
     TScene::load_scene_rel_file(ent);
-    if (scene_material_root != NULL && *(u32 *)((s8 *)scene_material_root + 0x14) != 0) {
+    if (scene_material_root != NULL && scene_material_root->texlist != 0) {
         found = 0;
         if (TRaderMapCore::is_not_split_screen() == 1) {
             TLobby::replace_file_extension((char *)path, (char *)tbl[scene_resource_index].name, (char *)"m.gvm");
@@ -656,7 +656,7 @@ void TScene::load_current_floor() {
         if (found <= 0) {
             TLobby::replace_file_extension((char *)path, (char *)tbl[scene_resource_index].name, (char *)".gvm");
         }
-        bind_gvm_texture_list(path, *(u32 *)((s8 *)scene_material_root + 0x14));
+        bind_gvm_texture_list(path, scene_material_root->texlist);
     }
     TScene::load_scene_data(ent);
     TScene::load_supplementary_t_rel(ent);
@@ -674,8 +674,8 @@ void TScene::load_current_floor() {
 void TScene::load_scene_data(saddr name) {
     struct Sp8Buf20_80206494 filename;
     s32 size;
-    u32 temp_r3;
-    u32 temp_r3_2;
+    u32 lobby_buffer;
+    u32 buffer;
 
     TObjButterflyLobby::alloc_scene_buffer();
     scene_collision_data = NULL;
@@ -685,24 +685,24 @@ void TScene::load_scene_data(saddr name) {
     size = get_resource_file_size((const char *)&filename);
     if (get_current_floor_area() == AREA_LOBBY) {
         if ((size > 0) && ((u32) size <= 0x10000U)) {
-            temp_r3 = (saddr)TQuestVmDownLoadServer::alloc(0x10000);
-            collision_file_buffer = temp_r3;
-            if (temp_r3 != 0U) {
-                scene_collision_data = (CsnGroup **)load_relocatable_file((saddr)((s32 *)&filename), temp_r3);
+            lobby_buffer = (saddr)TQuestVmDownLoadServer::alloc(0x10000);
+            collision_file_buffer = lobby_buffer;
+            if (lobby_buffer != 0U) {
+                scene_collision_data = (CsnGroup **)load_relocatable_file((saddr)((s32 *)&filename), lobby_buffer);
                 collision_file_size_limit = 0x10000;
             }
         }
     } else if (size > 0) {
-        temp_r3_2 = (saddr)TQuestVmDownLoadServer::alloc(size);
-        collision_file_buffer = temp_r3_2;
-        if (temp_r3_2 != 0U) {
-            scene_collision_data = (CsnGroup **)load_relocatable_file((saddr)((s32 *)&filename), temp_r3_2);
+        buffer = (saddr)TQuestVmDownLoadServer::alloc(size);
+        collision_file_buffer = buffer;
+        if (buffer != 0U) {
+            scene_collision_data = (CsnGroup **)load_relocatable_file((saddr)((s32 *)&filename), buffer);
             collision_file_size_limit = size;
         }
     }
     if ((scene_collision_data != NULL) && (TObjMapCsn::get_collision_controller() != NULL)) {
-        TMapCsnCtrl *temp_csn = TObjMapCsn::get_collision_controller();
-        collect_collision_groups(temp_csn, *scene_collision_data);
+        TMapCsnCtrl *csn = TObjMapCsn::get_collision_controller();
+        collect_collision_groups(csn, *scene_collision_data);
         return;
     }
     TLobby::debug_print("TScene : CANNOT LOAD COLLISION DATA");
@@ -772,37 +772,37 @@ void TScene::load_supplementary_t_rel(saddr name) {
 void TScene::load_map_texture_archive(saddr name) {
     char filename[0x20];
     s32 area;
-    s32 var_r30;
-    uaddr temp_r3;
-    uaddr temp_r3_2;
+    s32 size;
+    uaddr lobby_buffer;
+    uaddr buffer;
 
     area = get_current_floor_area();
     texture_animation_buffer = 0U;
-    var_r30 = 0;
+    size = 0;
     texture_animation_size_limit = 0;
     if (TRaderMapCore::is_not_split_screen() == 1) {
         TLobby::replace_file_extension((char *)(filename), (char *)(name), (char *)("m.tam"));
-        var_r30 = get_resource_file_size((const char *)filename);
+        size = get_resource_file_size((const char *)filename);
     }
-    if (var_r30 <= 0) {
+    if (size <= 0) {
         TLobby::replace_file_extension((char *)(filename), (char *)(name), (char *)(".tam"));
-        var_r30 = get_resource_file_size((const char *)filename);
+        size = get_resource_file_size((const char *)filename);
     }
     if (area == AREA_LOBBY) {
-        if ((var_r30 > 0) && ((u32) var_r30 <= 0x100U)) {
-            temp_r3 = (saddr)TQuestVmDownLoadServer::alloc(0x100);
-            texture_animation_buffer = temp_r3;
-            if (temp_r3 != 0U) {
-                read_disc_file((const char *)filename, (void *)temp_r3);
+        if ((size > 0) && ((u32) size <= 0x100U)) {
+            lobby_buffer = (saddr)TQuestVmDownLoadServer::alloc(0x100);
+            texture_animation_buffer = lobby_buffer;
+            if (lobby_buffer != 0U) {
+                read_disc_file((const char *)filename, (void *)lobby_buffer);
                 texture_animation_size_limit = 0x100;
             }
         }
-    } else if (var_r30 > 0) {
-        temp_r3_2 = (saddr)TQuestVmDownLoadServer::alloc(var_r30);
-        texture_animation_buffer = temp_r3_2;
-        if (temp_r3_2 != 0U) {
-            read_disc_file((const char *)filename, (void *)temp_r3_2);
-            texture_animation_size_limit = var_r30;
+    } else if (size > 0) {
+        buffer = (saddr)TQuestVmDownLoadServer::alloc(size);
+        texture_animation_buffer = buffer;
+        if (buffer != 0U) {
+            read_disc_file((const char *)filename, (void *)buffer);
+            texture_animation_size_limit = size;
         }
     }
 }
@@ -838,8 +838,8 @@ void TScene::load_floor_bin_file(saddr name) {
 void TScene::load_file_to_buffer(saddr name) {
     s32 filename[8];
     s32 size;
-    uaddr temp_r3;
-    uaddr temp_r3_2;
+    uaddr lobby_buffer;
+    uaddr buffer;
 
     material_info_buffer = 0U;
     scene_file_buffer_size = 0;
@@ -847,61 +847,61 @@ void TScene::load_file_to_buffer(saddr name) {
     size = get_resource_file_size((const char *)filename);
     if (get_current_floor_area() == AREA_LOBBY) {
         if ((size > 0) && ((u32) size <= 0x100U)) {
-            temp_r3 = (saddr)TQuestVmDownLoadServer::alloc(0x100);
-            material_info_buffer = temp_r3;
-            if (temp_r3 != 0U) {
-                read_disc_file((const char *)filename, (void *)temp_r3);
+            lobby_buffer = (saddr)TQuestVmDownLoadServer::alloc(0x100);
+            material_info_buffer = lobby_buffer;
+            if (lobby_buffer != 0U) {
+                read_disc_file((const char *)filename, (void *)lobby_buffer);
                 scene_file_buffer_size = 0x100;
             }
         }
     } else if (size > 0) {
-        temp_r3_2 = (saddr)TQuestVmDownLoadServer::alloc(size);
-        material_info_buffer = temp_r3_2;
-        if (temp_r3_2 != 0U) {
-            read_disc_file((const char *)filename, (void *)temp_r3_2);
+        buffer = (saddr)TQuestVmDownLoadServer::alloc(size);
+        material_info_buffer = buffer;
+        if (buffer != 0U) {
+            read_disc_file((const char *)filename, (void *)buffer);
             scene_file_buffer_size = size;
         }
     }
 }
 
 void TScene::free_scene_resources() {
-    u32 temp_r3;
-    temp_r3 = material_info_buffer;
-    if (temp_r3 != 0U) {
-        TAdSinglePlyChrSelectGC::safe_free(temp_r3);
+    u32 buffer;
+    buffer = material_info_buffer;
+    if (buffer != 0U) {
+        TAdSinglePlyChrSelectGC::safe_free(buffer);
         material_info_buffer = 0U;
     }
-    temp_r3 = floor_bin_buffer;
-    if (temp_r3 != 0U) {
-        TAdSinglePlyChrSelectGC::safe_free(temp_r3);
+    buffer = floor_bin_buffer;
+    if (buffer != 0U) {
+        TAdSinglePlyChrSelectGC::safe_free(buffer);
         floor_bin_buffer = 0U;
     }
-    temp_r3 = texture_animation_buffer;
-    if (temp_r3 != 0U) {
-        TAdSinglePlyChrSelectGC::safe_free(temp_r3);
+    buffer = texture_animation_buffer;
+    if (buffer != 0U) {
+        TAdSinglePlyChrSelectGC::safe_free(buffer);
         texture_animation_buffer = 0U;
     }
-    temp_r3 = supplementary_rel_buffer;
-    if (temp_r3 != 0U) {
-        TAdSinglePlyChrSelectGC::safe_free(temp_r3);
+    buffer = supplementary_rel_buffer;
+    if (buffer != 0U) {
+        TAdSinglePlyChrSelectGC::safe_free(buffer);
         supplementary_rel_buffer = 0U;
     }
-    temp_r3 = (uaddr)scene_material_root;
-    if (temp_r3 != 0U) {
-        if ((temp_r3 = *(u32*)((u8*)scene_material_root + 0x14)) != 0U) {
-            release_texture_list(temp_r3);
-            *(u32 *)((s8 *)scene_material_root + 0x14) = 0U;
+    buffer = (uaddr)scene_material_root;
+    if (buffer != 0U) {
+        if ((buffer = scene_material_root->texlist) != 0U) {
+            release_texture_list(buffer);
+            scene_material_root->texlist = 0U;
         }
     }
-    temp_r3 = collision_file_buffer;
-    if (temp_r3 != 0U) {
-        TAdSinglePlyChrSelectGC::safe_free(temp_r3);
+    buffer = collision_file_buffer;
+    if (buffer != 0U) {
+        TAdSinglePlyChrSelectGC::safe_free(buffer);
         collision_file_buffer = 0U;
     }
     TObjButterflyLobby::free_singleton_805D4E6C();
-    temp_r3 = map_rel_load_buffer;
-    if (temp_r3 != 0U) {
-        TAdSinglePlyChrSelectGC::safe_free(temp_r3);
+    buffer = map_rel_load_buffer;
+    if (buffer != 0U) {
+        TAdSinglePlyChrSelectGC::safe_free(buffer);
         map_rel_load_buffer = 0U;
     }
     scene_collision_data = NULL;
@@ -917,9 +917,9 @@ void load_floor_scene(void) {
     s32 found;
     FloorMapSelection res;
     s32 path[11];
-    if (scene_material_root != NULL && *(u32 *)((s8 *)scene_material_root + 0x14) != 0) {
-        release_texture_list(*(u32 *)((s8 *)scene_material_root + 0x14));
-        *(u32 *)((s8 *)scene_material_root + 0x14) = 0;
+    if (scene_material_root != NULL && scene_material_root->texlist != 0) {
+        release_texture_list(scene_material_root->texlist);
+        scene_material_root->texlist = 0;
     }
     if (get_floor_map_selection(current_floor_index, &res) == 1) {
         tbl = (Ent_802066BC *)get_floor_scene_table(res.area);
@@ -929,7 +929,7 @@ void load_floor_scene(void) {
     copy_name((char *)current_floor_name);
     load_scene_map_file(ent);
     load_scene_collision_file(ent);
-    if (scene_material_root != NULL && *(u32 *)((s8 *)scene_material_root + 0x14) != 0) {
+    if (scene_material_root != NULL && scene_material_root->texlist != 0) {
         found = 0;
         if (TRaderMapCore::is_not_split_screen() == 1) {
             TLobby::replace_file_extension((char *)path, (char *)tbl[scene_resource_index].name, (char *)"m.gvm");
@@ -938,7 +938,7 @@ void load_floor_scene(void) {
         if (found <= 0) {
             TLobby::replace_file_extension((char *)path, (char *)tbl[scene_resource_index].name, (char *)".gvm");
         }
-        bind_gvm_texture_list(path, *(u32 *)((s8 *)scene_material_root + 0x14));
+        bind_gvm_texture_list(path, scene_material_root->texlist);
     }
     TScene::load_floor_rel_file(ent);
     TScene::load_tam_file(ent);
@@ -1030,7 +1030,7 @@ TScene::TScene(TObject *parent) : TObject(parent) {
     m_38 = 0x32;
     m_3c = 0;
     initialize_materials();
-    if ((get_current_floor_area() == AREA_FOREST1) && ((u32) texture_wave_resource != 0U) && ((void *) (*(u8 * *)&scene_material_root) != NULL) && ((u32) *(u32 *)((s8 *)(*(u8 * *)&scene_material_root) + 0x14) != 0U)) {
+    if ((get_current_floor_area() == AREA_FOREST1) && ((u32) texture_wave_resource != 0U) && (scene_material_root != NULL) && (scene_material_root->texlist != 0)) {
         TScene::create_texture_wave_tasks(this);
     }
     init_material_nodes();
@@ -1319,7 +1319,7 @@ void TScene::run_task() { set_field4(); advance_scene_object_animations(); dispa
 
 void TScene::set_field4() {
     if ((void *) scene_material_root != NULL) {
-        *(s32 *)((s8 *)scene_material_root + 4) = 0x8F;
+        scene_material_root->flags = 0x8F;
     }
 }
 
@@ -1379,8 +1379,8 @@ void TScene::render_map_sections() {
         if (render_callback != NULL) {
             render_callback();
         }
-        if (*(void **)((u8 *)scene_material_root + 0x14) != NULL) {
-            TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(*(void **)((u8 *)scene_material_root + 0x14)));
+        if (scene_material_root->texlist != 0) {
+            TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(scene_material_root->texlist));
         }
         sec = scene_material_root->sections;
         prepare_ginja_model();
