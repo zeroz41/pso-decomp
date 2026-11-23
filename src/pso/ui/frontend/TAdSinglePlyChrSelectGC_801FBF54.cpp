@@ -2256,7 +2256,7 @@ s32 TAdSinglePlyChrSelectGC::load_character_from_card(int card_file) {
                 memcpy(TAdSinglePlyChrSelectGC__sub_801FCD04(card_character_save_buffer), selected_character_data, 0x41C);
                 memcpy(TAdSinglePlyChrSelectGC__sub_801FCD3C(card_character_save_buffer), (void *)active_character_save_record, 0x2370);
                 if (TAdSinglePlyChrSelectGC::get_game_mode() == 0) {
-                    p = (saddr)((TObjPlayer *)TAdSinglePlyChrSelectGC__sub_801FCD04(card_character_save_buffer))->get_ptr_4();
+                    p = reinterpret_cast<saddr>(reinterpret_cast<TPlyCharData *>(TAdSinglePlyChrSelectGC__sub_801FCD04(card_character_save_buffer))->m_inventory.get_items());
                     for (i = 0; i < 30; i++) {
                         ((TAdSinglePlyChrSelectGC *)p)->clear_inventory_slot();
                         p += 0x1C;
@@ -2757,7 +2757,7 @@ void TAdSinglePlyChrSelectGC::reset_character_data(void) {
     saddr var_r30;
 
     if ((void *) selected_character_data != NULL) {
-        var_r30 = (saddr)((TObjPlayer *)TAdSinglePlyChrSelectGC__sub_801FCD04(card_character_save_buffer))->get_ptr_4();
+        var_r30 = reinterpret_cast<saddr>(reinterpret_cast<TPlyCharData *>(TAdSinglePlyChrSelectGC__sub_801FCD04(card_character_save_buffer))->m_inventory.get_items());
         i = 0;
         do {
             ((TAdSinglePlyChrSelectGC *)var_r30)->clear_inventory_slot();
@@ -2880,7 +2880,7 @@ s32 TAdSinglePlyChrSelectGC::save_online_character(void) {
             if (TAdSinglePlyChrSelectGC::get_game_mode() == 0) {
                 s32 i;
                 saddr p;
-                p = (saddr)((TObjPlayer *)TAdSinglePlyChrSelectGC__sub_801FCD04(card_character_save_buffer))->get_ptr_4();
+                p = reinterpret_cast<saddr>(reinterpret_cast<TPlyCharData *>(TAdSinglePlyChrSelectGC__sub_801FCD04(card_character_save_buffer))->m_inventory.get_items());
                 for (i = 0; i < 30; i++) {
                     ((TAdSinglePlyChrSelectGC *)p)->clear_inventory_slot();
                     p += 0x1C;

@@ -393,7 +393,7 @@ void TLobby::rebuild_players_for_stage(s32 arg0) {
                 copy_player_visual_record(&cd.m_disp_part2, &info);
                 TObjPlayer::begin_action_state(&cd);
                 TNpcPlayer::send_command(info.cls, tbl->f4, reinterpret_cast<const TPlyInventoryItem *>(tbl->f8), tbl->f0, &cd);
-                p = (TObjPlayer *)create_player_object(i, map, (u8 *)&cd);
+                p = create_player_object(i, map, &cd);
                 if (p == NULL) {
                     return;
                 }

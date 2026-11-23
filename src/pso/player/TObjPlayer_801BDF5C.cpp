@@ -38,15 +38,15 @@ extern "C" {
 
 u8 *TObjPlayer::create_player_instance(s32 arg0, saddr player) {
     u8 *p;
-    p = (u8 *)new TObjPlayer(tl_03, arg0 & 0xFFFF, get_field_0_s32((void *)player), (u8 *)((TObjPlayer *)player)->get_char_data());
+    p = (u8 *)new TObjPlayer(tl_03, arg0 & 0xFFFF, get_field_0_s32((void *)player), ((TObjPlayer *)player)->get_char_data());
     ((TLobby *)(p + 0xDAC))->copy_header_struct((void *)((TObjPlayer *)player)->get_sub_obj());
     ((TObjPlayer *)p)->reset_motion_fields();
     return p;
 }
 
-u8 *create_player_object(s32 slot, s32 role, u8 *record) {
+TObjPlayer *create_player_object(s32 slot, s32 role, TPlyCharData *record) {
     decode_created_player_inventory(record);
-    return (u8 *)new TObjPlayer(tl_03, slot, role, record);
+    return new TObjPlayer(tl_03, slot, role, record);
 }
 
 extern "C" {

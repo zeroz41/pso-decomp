@@ -1,3 +1,4 @@
+#include "pso/player/TPlyInventory.h"
 #include "pso/player/PlayerLevelTable.h"
 #include "types.h"
 #include "pso/system/data/FlagWord.h"
@@ -111,7 +112,7 @@ s32 TObjPlayer::get_slot_value_checked(s32 i) {
     return (u8)(v);
 }
 
-void*TObjPlayer::get_ptr_4() { return (char*)this + 0x4; }
+TPlyInventoryItem *TPlyInventory::get_items() { return m_items; }
 u8 get_byte_157(void* p) { return *(u8*)((char*)p + 0x157); }
 u8 get_byte_13b(void* p) { return *(u8*)((char*)p + 0x13b); }
 u8 get_byte_11f(void* p) { return *(u8*)((char*)p + 0x11f); }
@@ -122,7 +123,7 @@ PhotonChairSeat::PhotonChairSeat() { reset(); }
 
 int TObjPlayer::check_flag_at_428() { return test_flags_any((s32 *)((char*)this + 0x428), 1); }
 void*TObjPlayer::get_sub_obj() { return (char*)this + 0x4; }
-void*TObjPlayer::get_char_data() { return (char*)this + 0xc; }
+TPlyCharData *TObjPlayer::get_char_data() { return reinterpret_cast<TPlyCharData *>(reinterpret_cast<u8 *>(this) + 0xC); }
 s32 get_field_0_s32(void* p) { return *(s32*)((char*)p + 0x0); }
 void*TObjPlayer::init_char_data() { ((TObjPlayer *)((char*)this + 0x4))->clear_header_struct(); __ct__12TPlyCharDataFv((saddr)((char*)this + 0xc)); __ct__8FlagWordFv(((char*)this + 0x428)); *(int*)(this) = 0; return this; }
 

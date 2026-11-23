@@ -144,7 +144,7 @@ TNpcPlayerSpawner::TNpcPlayerSpawner(f32 *position, s32 heading, s32 slot, s32 r
 }
 
 TNpcPlayerSpawner::~TNpcPlayerSpawner() {
-    u8 *player_object = create_player_object(slot, 6, TNpcPlayer::build_npc_player_record(this->record));
+    u8 *player_object = reinterpret_cast<u8 *>(create_player_object(slot, 6, TNpcPlayer::build_npc_player_record(this->record)));
     if (player_object != NULL) {
         *(s16 *)((s8 *)player_object + 0x324) = 6;
         if (this->mode == 1) {

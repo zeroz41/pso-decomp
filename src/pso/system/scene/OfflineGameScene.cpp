@@ -131,13 +131,13 @@ void recreate_split_screen_players(void) {
 
 void TLobby::apply_char_to_players() {
     s32 slot;
-    u8 *record;
-    u8 *local_record;
+    TPlyCharData *record;
+    TPlyCharData *local_record;
     if (is_split_screen() != 0) {
         slot = 0;
         do {
             if (is_multiplayer_character_slot_selected(slot) != 0) {
-                record = (u8 *)TAdSinglePlyChrSelectGC::get_char_index(slot);
+                record = TAdSinglePlyChrSelectGC::get_char_index(slot);
                 if (record != NULL) {
                     create_player_object(slot, player_control_role_base + slot, record);
                 }
@@ -146,7 +146,7 @@ void TLobby::apply_char_to_players() {
         } while (slot < 4);
         return;
     }
-    local_record = (u8 *)TAdSinglePlyChrSelectGC::get_char_index(local_client_id);
+    local_record = TAdSinglePlyChrSelectGC::get_char_index(local_client_id);
     if (local_record != NULL) {
         create_player_object(0, player_control_role_base, local_record);
     }

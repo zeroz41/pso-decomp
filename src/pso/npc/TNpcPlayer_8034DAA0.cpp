@@ -407,7 +407,7 @@ void handle_6x69_npc_control(Pkt_8034E814 *pkt) {
             return;
         }
         if (client == local_client_id) {
-            p = (TObjPlayer *)create_player_object(pkt->target, 5, load_npc_player_template(pkt->state));
+            p = create_player_object(pkt->target, 5, load_npc_player_template(pkt->state));
             if (p == NULL) {
                 return;
             }
@@ -416,7 +416,7 @@ void handle_6x69_npc_control(Pkt_8034E814 *pkt) {
             p->set_npc_control_state(pkt->state);
             new TNpcPlayer((u16)local_client_id, pkt->target, pkt->state, tl_00);
         } else {
-            p = (TObjPlayer *)create_player_object(pkt->target, 4, load_npc_player_template(pkt->state));
+            p = create_player_object(pkt->target, 4, load_npc_player_template(pkt->state));
             if (p != NULL) {
                 p->reset_motion_fields();
             }
@@ -441,7 +441,7 @@ void handle_6x69_npc_control(Pkt_8034E814 *pkt) {
             return;
         }
         if (client == local_client_id) {
-            p = (TObjPlayer *)create_player_object(pkt->target, 5, load_npc_player_template(pkt->state));
+            p = create_player_object(pkt->target, 5, load_npc_player_template(pkt->state));
             if (p == NULL) {
                 return;
             }
@@ -451,7 +451,7 @@ void handle_6x69_npc_control(Pkt_8034E814 *pkt) {
             p->set_npc_control_state(pkt->state);
             new TNpcPlayer((u16)local_client_id, pkt->target, pkt->state, 1, tl_00);
         } else {
-            p = (TObjPlayer *)create_player_object(pkt->target, 4, load_npc_player_template(pkt->state));
+            p = create_player_object(pkt->target, 4, load_npc_player_template(pkt->state));
             if (p != NULL) {
                 p->reset_motion_fields();
                 TObjPlayer::notify_field1c((saddr)p);
