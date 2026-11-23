@@ -509,9 +509,9 @@ void TOTrapChainSaw::update_demo() {
     }
 }
 
-f32 TOTrapChainSaw::scale_by_level(f32 farg0) {
+f32 TOTrapChainSaw::scale_by_level(f32 level) {
     F4_802C8FF8 t = TOTrapChainSaw__level_scale_table;
-    return farg0 * t.v[game_difficulty_selection];
+    return level * t.v[game_difficulty_selection];
 }
 #pragma push
 #pragma auto_inline off

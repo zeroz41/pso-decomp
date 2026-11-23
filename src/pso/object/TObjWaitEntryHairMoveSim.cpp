@@ -633,8 +633,8 @@ s32 is_level_in_table__24TObjWaitEntryHairMoveSimFPv(Obj_800FE698 *o) {
     return 0;
 }
 
-void create_hair_effects__24TObjWaitEntryHairMoveSimFPv(TObjWaitEntryHairMoveSim *arg0) {
-    Self_800FE5A0 *self = (Self_800FE5A0 *)arg0;
+void create_hair_effects__24TObjWaitEntryHairMoveSimFPv(TObjWaitEntryHairMoveSim *wait_entry_hair_move_sim) {
+    Self_800FE5A0 *self = (Self_800FE5A0 *)wait_entry_hair_move_sim;
     EntX_800FE5A0 *e;
     saddr v;
     for (e = hair_effect_selection_table; e->a >= 0 && e->a <= self->pl->lvl; e++) {

@@ -494,7 +494,7 @@ void TQuestColCtrl::delete_by_param(s32 id) {
     }
 }
 
-TObjQuestColBase *TQuestColCtrl::find_by_id(u16 arg0) {
+TObjQuestColBase *TQuestColCtrl::find_by_id(u16 id) {
     TObject *next;
     TObject *cur;
     next = quest_collision_task_root->m_down;
@@ -507,7 +507,7 @@ TObjQuestColBase *TQuestColCtrl::find_by_id(u16 arg0) {
              || ((TUnk_804B6C24 *)cur)->check_value_equals((saddr)obj_quest_col_apc_class_name) != 0
              || ((TUnk_804B6C24 *)cur)->check_value_equals((saddr)TObjQuestColApcIN__name) != 0
              || ((TUnk_804B6C24 *)cur)->check_value_equals((saddr)TObjQuestColApcINW__name) != 0)
-            && arg0 == ((TObjBase *)(static_cast<TObjQuestColBase *>(cur)))->get_entity_id()) {
+            && id == ((TObjBase *)(static_cast<TObjQuestColBase *>(cur)))->get_entity_id()) {
             return static_cast<TObjQuestColBase *>(cur);
         }
     }

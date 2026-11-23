@@ -18,9 +18,9 @@ const char *lbl_805D3198 = "TOTrap";
 
 
 extern s32 game_difficulty_selection;
-f32 TOTrap::scale_by_table_value(f32 farg0) {
+f32 TOTrap::scale_by_table_value(f32 table_value) {
     f32 scale[4] = {1.0f, 2.0f, 3.0f, 6.0f};
-    return farg0 * scale[game_difficulty_selection];
+    return table_value * scale[game_difficulty_selection];
 }
 
 void TOTrap::vfunc_89() {  }

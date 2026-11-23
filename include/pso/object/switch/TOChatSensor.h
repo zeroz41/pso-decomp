@@ -24,7 +24,7 @@ struct TOChatSensor : public TObjBase {
     static void dispatch_chat_message_to_children(saddr arg0);
     static void destroy_global();
     void check_player_proximity();
-    void set_trigger_text(void *arg1);
+    void set_trigger_text(void *trigger_text);
     void handle_chat_message(void *arg1);
     void init_params();
     virtual void render();

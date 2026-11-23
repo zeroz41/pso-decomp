@@ -26,7 +26,7 @@ struct TOTrapChainSaw : public TObjMapObject {
     virtual void vfunc_27();
     virtual void vfunc_28();
     virtual void vfunc_29();
-    virtual f32 scale_by_level(f32 farg0);
+    virtual f32 scale_by_level(f32 level);
     virtual void render();
     virtual void run_task();
     u32 m_c8;

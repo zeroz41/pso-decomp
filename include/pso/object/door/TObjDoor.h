@@ -44,7 +44,7 @@ struct TObjDoor : public TObjCollidable {
     void update_state();
     static void free_resources();
     static void load_resources();
-    static void set_main_warp_id(int a0);
+    static void set_main_warp_id(int main_warp_id);
     static void *create(void *set_data);
 
     static CollisionBody collision_desc;

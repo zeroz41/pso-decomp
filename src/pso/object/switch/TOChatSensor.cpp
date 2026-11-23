@@ -240,11 +240,11 @@ void TOChatSensor::handle_chat_message(void *arg1) {
     }
 }
 
-void TOChatSensor::set_trigger_text(void *arg1) {
+void TOChatSensor::set_trigger_text(void *trigger_text) {
     C_8015ACE4 *arg0 = (C_8015ACE4 *)this;
     s32 i;
-    if (arg1 != 0) {
-        strncpy((char *)arg0->buf, (const char *)arg1, 0x1F);
+    if (trigger_text != 0) {
+        strncpy((char *)arg0->buf, (const char *)trigger_text, 0x1F);
         arg0->buf[0x1F] = 0;
         for (i = 0; i < 0x20; i++) {
             if (arg0->buf[i] == 0xA) {

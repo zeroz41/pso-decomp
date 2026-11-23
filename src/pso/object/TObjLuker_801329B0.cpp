@@ -29,9 +29,9 @@ void get_floor_destination_name(u32 arg0) {
 }
 
 const char *TObjLuker::get_stat_table_entry(int a0) { return luker_stat_entry_ptr_table[a0]; }
-s32 enemy_name_for_rt_index(s32 arg0) {
+s32 enemy_name_for_rt_index(s32 rt_index) {
     s32 var_r3;
-    var_r3 = arg0;
+    var_r3 = rt_index;
     if (var_r3 < 0) {
         var_r3 = 0;
     }

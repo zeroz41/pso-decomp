@@ -214,19 +214,19 @@ void TObjOnlineEndingHexMove::update_line_params() {
 #pragma push
 #pragma fp_contract on
 
-s32 TObjOnlineEndingHexLine::calc_rotated_hex_point(NJS_POINT2 *arg0, EndingHexPoint *arg1) {
+s32 TObjOnlineEndingHexLine::calc_rotated_hex_point(NJS_POINT2 *arg0, EndingHexPoint *ending_hex_point) {
     NJS_POINT2 p;
     f32 s;
     f32 c;
     f32 sc;
     s32 ang;
 
-    if (arg1->y & 1) {
-        p.x = 30.0f * (0.5f + (f32) arg1->x);
+    if (ending_hex_point->y & 1) {
+        p.x = 30.0f * (0.5f + (f32) ending_hex_point->x);
     } else {
-        p.x = (f32) (arg1->x * 0x1E);
+        p.x = (f32) (ending_hex_point->x * 0x1E);
     }
-    f32 y = (f32) (arg1->y * 0x19);
+    f32 y = (f32) (ending_hex_point->y * 0x19);
     NJS_POINT2 ctr = lbl_80472C00[0];
     ang = TObjOnlineEndingHexLine__hex_line_params.angle;
     p.x = p.x - ctr.x;

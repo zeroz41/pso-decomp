@@ -249,8 +249,8 @@ s32 TOMineTrap::select_melee_contact_body(void *attacker, f32) {
 
 
 void TOMine::vfunc_84() {  }
-int TOMineTrap::set_trap_count(int a0) { mine_trap_count = a0; return a0; }
-int TOMineTrap::set_instance(int a0) { mine_trap_instance_id = a0; return a0; }
+int TOMineTrap::set_trap_count(int trap_count) { mine_trap_count = trap_count; return trap_count; }
+int TOMineTrap::set_instance(int instance) { mine_trap_instance_id = instance; return instance; }
 void TOMineTrap__sub_80171368(f32 farg0) {
     lbl_805D307C = farg0;
 }

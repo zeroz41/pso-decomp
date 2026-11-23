@@ -179,10 +179,10 @@ void create_bgm_col_zones(void) {
     }
 }
 
-void TObjPlayer::set_camera_mode(s32 arg0) {
-    if ((get_quest_bgm_issued_flag() == 0) && (TRaderMapCore::is_not_split_screen() != 1) && (arg0 != (s32) bgm_zone_category)) {
-        bgm_zone_category = arg0;
-        play_area_music((char *)area_music_filename_table[arg0]);
+void TObjPlayer::set_camera_mode(s32 camera_mode) {
+    if ((get_quest_bgm_issued_flag() == 0) && (TRaderMapCore::is_not_split_screen() != 1) && (camera_mode != (s32) bgm_zone_category)) {
+        bgm_zone_category = camera_mode;
+        play_area_music((char *)area_music_filename_table[camera_mode]);
     }
 }
 

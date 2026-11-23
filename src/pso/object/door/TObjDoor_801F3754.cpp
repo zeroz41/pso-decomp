@@ -10,4 +10,4 @@ void TObjDoor__sub_801F3754(void) {
 void TObjDoor__sub_801F3760(void) { switch_doors_force_closed = 1; }
 
     extern int city_main_warp_destination_id;
-void TObjDoor::set_main_warp_id(int a0) { city_main_warp_destination_id = a0; }
+void TObjDoor::set_main_warp_id(int main_warp_id) { city_main_warp_destination_id = main_warp_id; }
