@@ -544,13 +544,13 @@ s32 TFogCtrl::fn_800FAC84() { return slots[0]->entry; }
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-s32 TFogCtrl::restore_fog_for_player(s32 owner_client_id, s32 arg0) {
+s32 TFogCtrl::restore_fog_for_player(s32 owner_client_id, s32 player) {
     if (is_split_screen() == 0) {
         owner_client_id = 0;
     }
     if ((owner_client_id >= 0) && (owner_client_id < 4)) {
         if (fog_instance_table[owner_client_id] != NULL) {
-            return fog_instance_table[owner_client_id]->restore_fog(arg0);
+            return fog_instance_table[owner_client_id]->restore_fog(player);
         }
     }
     return 0;

@@ -506,7 +506,7 @@ TUnk_804DC7C4::TUnk_804DC7C4(TObject *parent) : TObject(parent) {
 
 
 s32 TSceneSora::get_state() { return *(s32*)((char*)this + 0x20); }
-void TSceneSora::set_scene_flag(int a0) { (*(int *)&lbl_805D65F0) = a0; }
+void TSceneSora::set_scene_flag(int scene_flag) { (*(int *)&lbl_805D65F0) = scene_flag; }
 void TSceneSora::copy_reflection_vec(u8 *arg0) {
     VecCopy((Vec *)(&sora_reflection_ray_direction), (const Vec *)(arg0));
 }

@@ -292,20 +292,20 @@ void set_ginja_tev_order(u32 parameter, u32) {
     GXSetTevOrder(stage, coordinate, texture, channel);
 }
 
-void set_ginja_texcoord_gen(u32 arg0, u32) {
+void set_ginja_texcoord_gen(u32 ginja_texcoord_gen, u32) {
     u32 idx;
     GXTexCoordID coord;
     u32 func;
     u32 src;
     GXTexMtx mtx;
-    idx = (arg0 & 0xF0000) >> 16;
+    idx = (ginja_texcoord_gen & 0xF0000) >> 16;
     if ((u32)model_render_flags & 0x80000) {
         idx += ginja_material_cache.texgen_offset;
     }
     coord = ginja_texcoord_ids[idx];
-    func = (arg0 & 0xF000) >> 12;
-    src = (arg0 & 0xFF0) >> 4;
-    mtx = ginja_texture_matrix_ids[arg0 & 0xF];
+    func = (ginja_texcoord_gen & 0xF000) >> 12;
+    src = (ginja_texcoord_gen & 0xFF0) >> 4;
+    mtx = ginja_texture_matrix_ids[ginja_texcoord_gen & 0xF];
     if (ginja_texcoord_gen_enabled != 0 && mtx == GX_IDENTITY) {
         mtx = GX_TEXMTX0;
     }
@@ -625,8 +625,8 @@ void set_ginja_draw_list_mask(s32 arg0) {
     ginja_draw_list_mask = arg0;
 }
 
-void TObjPlayer::set_global_effect_state(s32 arg0) {
-    lbl_805D76E0 = arg0;
+void TObjPlayer::set_global_effect_state(s32 global_effect_state) {
+    lbl_805D76E0 = global_effect_state;
 }
 
 #pragma push
