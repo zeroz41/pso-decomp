@@ -61,6 +61,8 @@ struct TAdTimeSetGCState {
     void (TAdTimeSetGC::*enter)();
     void (TAdTimeSetGC::*run)();
 };
+LAYOUT_ASSERT(TAdTimeSetGCState_size, sizeof(TAdTimeSetGCState) == 24);
+LAYOUT_ASSERT(TAdTimeSetGCState_run_offset, offsetof(TAdTimeSetGCState, run) == 12);
 
 const char *TAdTimeSetGC_class_name = "TAdTimeSetGC";
 

@@ -1,3 +1,4 @@
+#include "pso/player/GuildCardEntry.h"
 #include "pso/map/FloorResourceCallbacks.h"
 #include "pso/unk/TLobby_8007B858.h"
 #include "pso/ui/window/TWindowCtrl.h"
@@ -276,10 +277,10 @@ void TLobby::collect_active_card_ids() {
     n = 0;
     i = 0;
     do {
-        if (((TWindowSubComCard *)card)->is_active() == 0) {
+        if (reinterpret_cast<GuildCardEntry *>(card)->is_active() == 0) {
             break;
         }
-        *p++ = ((TWindowSubComCard *)card)->get_card_id();
+        *p++ = reinterpret_cast<GuildCardEntry *>(card)->get_card_id();
         i++;
         n++;
         card += 0x90;

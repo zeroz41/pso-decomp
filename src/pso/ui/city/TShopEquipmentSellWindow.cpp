@@ -2,6 +2,7 @@
 
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/item/TItemData.h"
+#include "pso/ui/window/TWindowQuantity.h"
 #include "pso/ui/city/TShopEquipmentSellWindow.h"
 #include "pso/ui/window/TWindowMenuIconLine.h"
 #include "pso/ui/window/TWindowBase.h"
@@ -119,7 +120,6 @@ s32 get_entity_id(s32);
 saddr get_window_layout_position(s32);
 void *__ct__15TWindowHelpItemFPvUs(void *, s32, u16);
 void TWindowHelpItem__set_displayed_item_by_id(void *arg0, saddr arg1);
-void *create_window_quantity(u16 arg0);
 s32 play_sound_effect(s32, s32, s32, s32);
 void *__ct__18TWindowInputNumberFPvllls(void *, s32, s32, s32, s32, s16);
 
@@ -266,7 +266,7 @@ void TShopEquipmentSellWindow::build_sell_list() {
         TWindowHelpItem__set_displayed_item_by_id(self->help_win, self->entries[v].item.id);
     }
     if (self->qty_win == NULL) {
-        self->qty_win = create_window_quantity(((TShopSequence *)self)->get_child_field1c());
+        self->qty_win = create_window_quantity((u16)((TShopSequence *)self)->get_child_field1c());
         r = ((TPlyItem *)(self->owner->inventory))->set_mode_and_refresh_object(&self->entries[0].item);
         if (r != NULL) {
             TShopEquipmentSellWindow::set_entry_count(self->qty_win, (void *)((TItemList *)r)->get_owner_if_alive());

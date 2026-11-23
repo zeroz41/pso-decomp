@@ -5,6 +5,7 @@
 #include "pso/ui/window/TWindowBase.h"
 
 struct TWindowSubMagPhoton : public TWindowBase {
+    TWindowSubMagPhoton(void *position, s32 mag_state, s32 client);
     virtual ~TWindowSubMagPhoton();
     void init_photon_blast_entries();
     int get_active_flag();

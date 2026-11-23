@@ -30,7 +30,7 @@ int TAdMultiPlyChrSelectGC__sub_802C6FA8(void) {  return lbl_805D6668; }
 
 TUnk_804E0B28 *lbl_805D67E8;
 
-void TUnk_804E0B28::update_transition_anim_if_active() {
+extern "C" void update_transition_anim_if_active(void *, void *) {
     if (lbl_805D67E8 != NULL) {
         lbl_805D67E8->update_transition_anim();
     }
@@ -112,5 +112,5 @@ TUnk_804E0B28::TUnk_804E0B28(TObject *parent, s32 client) : TObject(parent) {
     this->timer = 0;
     lbl_805D67E8 = this;
     this->statusWindow = new TWindowSubStatusDisp(this->client);
-    this->callback = (TWindowBase *)create_callback_at_zero_vec2((void *)update_transition_anim_if_active);
+    this->callback = (TWindowBase *)create_callback_at_zero_vec2(update_transition_anim_if_active);
 }

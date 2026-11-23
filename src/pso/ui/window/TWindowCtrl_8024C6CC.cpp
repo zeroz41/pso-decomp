@@ -3,7 +3,7 @@
 #include "pso/ui/window/TWindowCtrl_8024C6CC.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/ui/hud/TRaderMapCore.h"
-#include "pso/ui/window/TUnk_804CF0B8.h"
+#include "pso/ui/window/TWindowFukidasi.h"
 #include "pso/ui/window/TWindowSimpleStatus.h"
 
 LAYOUT_ASSERT(WindowCtrlFlagsOffset, offsetof(TWindowCtrl, flags) == 0x1C);
@@ -63,5 +63,5 @@ s32 TWindowCtrl__sub_8024C7F8(const TWindowCtrl *window) {
     return (window->flags >> 4) & 1;
 }
 int TWindowCtrl::is_visible() { return this->flags & 0x1; }
-s16 TUnk_804CF0B8::get_field_20() { return *(s16 *)&(this->client_index); }
+s16 TWindowFukidasi::get_field_20() { return *(s16 *)&(this->client_index); }
 s32 TWindowSimpleStatus::get_width() { return (s16)(*(s16 *)&this->client_index); }

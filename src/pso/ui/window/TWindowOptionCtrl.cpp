@@ -193,7 +193,7 @@ void TWindowOptionCtrl::run_task() {
             self->f28 = (void *)((TWindowOptionCtrl *)self)->create_menu();
         }
         ((TWindowMenu *)(self->f28))->clear_transition_flag();
-        ((TWindowSubComCard *)(self->f28))->clear_flag_and_release();
+        ((TWindowMenu *)(self->f28))->clear_flag_and_release();
         self->state = 2;
     case 2:
         if (((TWindowMenu *)(self->f28))->is_cancelled() != 0) {
@@ -239,7 +239,7 @@ void TWindowOptionCtrl::run_task() {
         }
         if (((TWindowMenu *)(self->f2C))->is_decided() != 0) {
             ((TWindowOptionCtrl *)self)->apply_and_close(((TWindowMenu *)self->f2C)->get_selected_value());
-            ((TWindowSubComCard *)(self->f2C))->clear_flag_and_release();
+            ((TWindowMenu *)(self->f2C))->clear_flag_and_release();
         }
         break;
     case 7:
@@ -336,7 +336,7 @@ void TWindowOptionCtrl::run_task() {
         }
         ((TWindowOptionCtrl *)(self->f28))->open();
         ((TWindowMenu *)(self->f2C))->clear_transition_flag();
-        ((TWindowSubComCard *)(self->f2C))->clear_flag_and_release();
+        ((TWindowMenu *)(self->f2C))->clear_flag_and_release();
         self->state = 0x11;
     case 17:
         if (((TWindowMenu *)(self->f2C))->is_cancelled() != 0) {

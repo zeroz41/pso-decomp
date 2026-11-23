@@ -1,12 +1,14 @@
 #pragma defer_codegen on
 
 #include "types.h"
+#include "pso/unk/WindowLayoutRecord.h"
 #include "pso/ui/window/WindowDrawContext.h"
-#include "pso/unk/TUnk_804CF918.h"
+#include "pso/unk/TWindowLayoutEntry.h"
 #include "pso/system/memory.h"
 #include "pso/ui/window/TWindowBase.h"
-#include "pso/unk/TUnk_804CF930.h"
+#include "pso/unk/TWindowStatusGauge.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
+#include "pso/ui/window/TWindowSubStatusDisp_80256B94.h"
 #include "pso/technique/TTecRaFoie.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/window/TWindowKeyBoardSoft.h"
@@ -18,57 +20,48 @@
 
 extern s32 lbl_805D63F0;
 
-struct Bar_80256C00 {
-    u8 pad0[0x14];
-    f32 scale;
-    u8 pad1[4];
-    f32 width;
-    f32 max;
-    f32 target;
-};
-
-struct Gauge_802571B4 {
-    u16 flags;
-    u8 pad2[0x12];
-    f32 scale;
-    u8 pad18[4];
-    f32 cur;
-    f32 max;
-    f32 val;
-};
-
-
 extern "C" {
-void TWindowSubStatusDisp__sub_80256C40(TUnk_804CF930 *self, WindowDrawContext *ctx, NJS_POINT2 *pos, f32 depth);
-extern s32 __vt__13TUnk_804CF930[];
-typedef void *(*Ctor_80257D44)(void *, void *, s32);
+void TWindowSubStatusDisp__sub_80256C40(TWindowStatusGauge *self, WindowDrawContext *ctx, NJS_POINT2 *pos, f32 depth);
+extern s32 __vt__18TWindowStatusGauge[];
 
-void*TUnk_804CF930::init_from(void*a1, int a2) { __ct__13TUnk_804CF918Fl(this, a2); *(int*)((char*)this + 0x4) = (saddr)__vt__13TUnk_804CF930; *(float*)((char*)this + 0x1c) = 0.0f; *(float*)((char*)this + 0xc) = *(float*)((char*)a1 + 0x4); *(float*)((char*)this + 0x10) = *(float*)((char*)a1 + 0x8); *(float*)((char*)this + 0x8) = *(float*)((char*)a1 + 0xc); *(float*)((char*)this + 0x14) = *(float*)((char*)a1 + 0x18); this->color = *(int*)((char*)a1 + 0x10); *(short*)((char*)this + 0x0) = *(int*)((char*)a1 + 0x14); *(float*)((char*)this + 0x20) = *(float*)((char*)a1 + 0x1c); *(float*)((char*)this + 0x24) = *(float*)((char*)a1 + 0x20); return this; }
+TWindowStatusGauge *TWindowStatusGauge::init_from(StatusGaugeLayout *source, s32 client) {
+    __ct__18TWindowLayoutEntryFl(this, client);
+    *reinterpret_cast<s32 **>(reinterpret_cast<u8 *>(this) + 4) = __vt__18TWindowStatusGauge;
+    width = 0.0f;
+    x = source->pos[0];
+    y = source->pos[1];
+    depth = source->depth;
+    scale = source->scale;
+    color = source->color;
+    flags = (u16)source->flags;
+    maximum = source->maximum;
+    target = source->target;
+    return this;
+}
 
-TUnk_804CF930::~TUnk_804CF930() {}
+TWindowStatusGauge::~TWindowStatusGauge() {}
 
-void TUnk_804CF930::update() {
-    Gauge_802571B4 *g = (Gauge_802571B4 *)this;
-    f32 target;
+void TWindowStatusGauge::update() {
+    f32 goal;
     f32 diff;
-    g->flags &= ~4;
-    if (g->max <= 0.0f || g->val <= 0.0f) {
-        target = 0.0f;
+    flags &= ~4;
+    if (maximum <= 0.0f || target <= 0.0f) {
+        goal = 0.0f;
     } else {
-        target = (g->val * g->scale) / g->max;
+        goal = (target * scale) / maximum;
     }
-    diff = target - g->cur;
+    diff = goal - width;
     if (fabs_float(diff) < 2.0f) {
-        g->cur = target;
-        g->flags |= 4;
+        width = goal;
+        flags |= 4;
     } else if (diff > 0.0f) {
-        g->cur += 2.0f;
+        width += 2.0f;
     } else {
-        g->cur -= 2.0f;
+        width -= 2.0f;
     }
 }
 
-void TUnk_804CF930::render(WindowDrawContext *ctx) {
+void TWindowStatusGauge::render(WindowDrawContext *ctx) {
     NJS_POINT2 pos;
     f32 depth;
     f32 len;
@@ -104,8 +97,7 @@ void TUnk_804CF930::render(WindowDrawContext *ctx) {
     TWindowSubStatusDisp::get_player();
 }
 
-void TUnk_804CF930::draw_status_gauge_bar(void *ctx, void *pos_arg, f32 depth, f32 len) {
-    NJS_POINT2 *pos = (NJS_POINT2 *)pos_arg;
+void TWindowStatusGauge::draw_status_gauge_bar(WindowDrawContext *ctx, NJS_POINT2 *pos, f32 depth, f32 len) {
     TexturedQuad q;
     f32 w;
     f32 end;
@@ -125,7 +117,7 @@ void TUnk_804CF930::draw_status_gauge_bar(void *ctx, void *pos_arg, f32 depth, f
     q.v0 = 0.1171875f;
     q.u1 = (230.0f + w) / 256.0f;
     q.v1 = 0.14453125f;
-    if (((WindowDrawContext *)ctx)->clip_and_transform_quad(&q) != 0) {
+    if (ctx->clip_and_transform_quad(&q) != 0) {
         draw_textured_quad_at_depth((f32 *)&q, depth);
     }
     if (len <= 4.0f) {
@@ -140,7 +132,7 @@ void TUnk_804CF930::draw_status_gauge_bar(void *ctx, void *pos_arg, f32 depth, f
     q.v0 = 0.1171875f;
     q.u1 = 0.97265625f;
     q.v1 = 0.14453125f;
-    if (((WindowDrawContext *)ctx)->clip_and_transform_quad(&q) != 0) {
+    if (ctx->clip_and_transform_quad(&q) != 0) {
         draw_textured_quad_at_depth((f32 *)&q, depth);
     }
     end = scale - 4.0f;
@@ -156,12 +148,12 @@ void TUnk_804CF930::draw_status_gauge_bar(void *ctx, void *pos_arg, f32 depth, f
     q.v0 = 0.1171875f;
     q.u1 = (252.0f + w) / 256.0f;
     q.v1 = 0.14453125f;
-    if (((WindowDrawContext *)ctx)->clip_and_transform_quad(&q) != 0) {
+    if (ctx->clip_and_transform_quad(&q) != 0) {
         draw_textured_quad_at_depth((f32 *)&q, depth);
     }
 }
 
-void TWindowSubStatusDisp__sub_80256C40(TUnk_804CF930 *self, WindowDrawContext *ctx, NJS_POINT2 *pos, f32 depth) {
+void TWindowSubStatusDisp__sub_80256C40(TWindowStatusGauge *self, WindowDrawContext *ctx, NJS_POINT2 *pos, f32 depth) {
     TexturedQuad q;
     f32 w;
     w = self->scale - -2.0f;
@@ -173,7 +165,7 @@ void TWindowSubStatusDisp__sub_80256C40(TUnk_804CF930 *self, WindowDrawContext *
     q.v0 = 0.93359375f;
     q.u1 = 0.2265625f;
     q.v1 = 0.96875f;
-    if (((WindowDrawContext *)ctx)->clip_and_transform_quad(&q) != 0) {
+    if (ctx->clip_and_transform_quad(&q) != 0) {
         draw_textured_quad_at_depth((f32 *)&q, depth);
     }
     q.x0 = 20.0f + (-1.0f + pos->x);
@@ -184,7 +176,7 @@ void TWindowSubStatusDisp__sub_80256C40(TUnk_804CF930 *self, WindowDrawContext *
     q.v0 = 0.93359375f;
     q.u1 = 0.30859375f;
     q.v1 = 0.96875f;
-    if (((WindowDrawContext *)ctx)->clip_and_transform_quad(&q) != 0) {
+    if (ctx->clip_and_transform_quad(&q) != 0) {
         draw_textured_quad_at_depth((f32 *)&q, depth);
     }
     q.x0 = ((-1.0f + pos->x) + w) - 20.0f;
@@ -195,14 +187,14 @@ void TWindowSubStatusDisp__sub_80256C40(TUnk_804CF930 *self, WindowDrawContext *
     q.v0 = 0.93359375f;
     q.u1 = 0.48828125f;
     q.v1 = 0.96875f;
-    if (((WindowDrawContext *)ctx)->clip_and_transform_quad(&q) != 0) {
+    if (ctx->clip_and_transform_quad(&q) != 0) {
         draw_textured_quad_at_depth((f32 *)&q, depth);
     }
 }
 
-void TUnk_804CF930::calc_bar_width() {
+void TWindowStatusGauge::calc_bar_width() {
     f32 target;
-    f32 max = ((struct Bar_80256C00 *)this)->max;
+    f32 max = maximum;
     f32 v;
     if (max <= 0.0f || (target = this->target) <= 0.0f) {
         v = 0.0f;
@@ -212,14 +204,14 @@ void TUnk_804CF930::calc_bar_width() {
     this->width = v;
 }
 
-void TUnk_804CF918::render(WindowDrawContext *) {  }
+void TWindowLayoutEntry::render(WindowDrawContext *) {  }
 
-void TUnk_804CF918::update() {}
+void TWindowLayoutEntry::update() {}
 
-TUnk_804CF918::TUnk_804CF918(s32 m_2) {
+TWindowLayoutEntry::TWindowLayoutEntry(s32 m_2) {
     this->flags = 0;
     this->m_2 = m_2;
 }
 
-TUnk_804CF918::~TUnk_804CF918() {}
+TWindowLayoutEntry::~TWindowLayoutEntry() {}
 }

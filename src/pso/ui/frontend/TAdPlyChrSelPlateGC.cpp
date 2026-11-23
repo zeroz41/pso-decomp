@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/render/ColorCopy.h"
 #include "pso/render/Draw2D.h"
 #include <stddef.h>
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
@@ -33,17 +34,17 @@ void draw_selection_plate(TAdPlyChrSelPlateGC *plate, NJS_POINT2 *pos, NJS_COLOR
     fan.num = 4;
     fan.p[0].x = x;
     fan.p[0].y = y;
-    ((TAdChrMoveEffectGC *)&fan.col[0])->copy4(&color);
+    copy4(&fan.col[0], &color);
     fan.p[1].x = fan.p[0].x;
     fan.p[1].y = fan.p[0].y + plate->plate_size.y;
-    ((TAdChrMoveEffectGC *)&fan.col[1])->copy4(&color);
+    copy4(&fan.col[1], &color);
     fan.p[2].x = fan.p[0].x + plate->plate_size.x;
     fan.p[2].y = fan.p[0].y + plate->plate_size.y;
-    ((TAdChrMoveEffectGC *)&fan.col[2])->copy4(&color);
+    copy4(&fan.col[2], &color);
     fan.p[3].x = fan.p[0].x + plate->plate_size.x;
     fan.p[3].y = fan.p[0].y;
-    ((TAdChrMoveEffectGC *)&fan.col[3])->copy4(&color);
-    draw_polygon_2d((NJS_POINT2COL *)&fan, 4, 7, 0.001f * (f32)depth + (-30.0f));
+    copy4(&fan.col[3], &color);
+    draw_polygon_2d(&fan, 4, 7, 0.001f * (f32)depth + (-30.0f));
 }
 #pragma pop
 
@@ -175,5 +176,5 @@ TAdPlyChrSelPlateGC::TAdPlyChrSelPlateGC(TObject *parent, const ChrSelPlateLayou
         state->color[i][3] = 0;
     }
     copy_vec2__FPvPv(&plate_size, &layout->width);
-    reinterpret_cast<TAdChrMoveEffectGC *>(&active_color)->copy4(const_cast<u8 *>(layout->color));
+    copy4(&active_color, layout->color);
 }

@@ -7,6 +7,7 @@
 #include "pso/render/DebugFont.h"
 #include "pso/render/render_util.h"
 #include "pso/unk/TLobby_801E2F94.h"
+#include "pso/unk/TLobby_80228154.h"
 #include "pso/player/TObjPlayer_803E21B8.h"
 #include "pso/enemy/sorcerer/TObjEneRe4Sorcerer_801E3F14.h"
 #include "pso/unk/text_801E3F24.h"
@@ -36,9 +37,8 @@
 
 extern "C" {
 
-s32 TLobby__sub_80228154(s32, s32, s32, f32);
 
-void TLobby::draw_with_camera(s32 sprite, s32 frame_index, s32 flags, f32 depth) {
+void TLobby::draw_with_camera(NJS_SPRITE *sprite, s32 frame_index, s32 flags, f32 depth) {
     TCameraCtrl::restore_full_screen_view();
     TLobby__sub_80228154(sprite, frame_index, flags, depth);
     TCameraCtrl::restore_saved_view();
@@ -239,7 +239,7 @@ void draw_line_list(Lines_801E341C *l, s32 n, u32 flags) {
 void reset_line_width(void) { current_line_width = 12; }
 
 void set_line_width(int a0) { current_line_width = a0; }
-void TWindowCtrlMain::draw_strip_swap_color(s32 n, s32 flags, f32 scale) {
+void ColorLineList::draw_strip_swap_color(s32 n, s32 flags, f32 scale) {
     s32 i;
     u32 x;
     u32 *p;
@@ -247,7 +247,7 @@ void TWindowCtrlMain::draw_strip_swap_color(s32 n, s32 flags, f32 scale) {
         draw_polygon_2d((NJS_POINT2COL *)this, n, flags, scale);
         return;
     }
-    p = ((Ctrl_801E352C *)this)->data;
+    p = colors;
     for (i = 0; i < n; i++) {
         x = *p;
         *p = (x << 8) | (x >> 24);
@@ -255,7 +255,7 @@ void TWindowCtrlMain::draw_strip_swap_color(s32 n, s32 flags, f32 scale) {
     }
     draw_polygon_2d((NJS_POINT2COL *)this, n, flags, scale);
     {
-    u32 *q = ((Ctrl_801E352C *)this)->data;
+    u32 *q = colors;
     u32 y;
     for (i = 0; i < n; i++) {
         y = *q;

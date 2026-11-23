@@ -1,6 +1,8 @@
+#include "pso/unk/WindowLayoutRecord.h"
 #include "types.h"
-#include "pso/unk/TUnk_804CF930.h"
-#include "pso/unk/TUnk_804CF948.h"
+#include "pso/render/ColorCopy.h"
+#include "pso/unk/TWindowStatusGauge.h"
+#include "pso/unk/TWindowStatusGaugeFeedback.h"
 #include "pso/system/memory.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
@@ -102,11 +104,10 @@ struct Bar_8025799C {
 };
 
 s32 play_sound_effect(u32, s32, s32, s32);
-void* init_from__13TUnk_804CF930FPvi(void* a0, void* a1, int a2);
 u32 update_text_color_transition(Fade_802575C0 *fade);
 void start_text_color_transition(Fade_802575C0 *arg0, u32 rgb, f32 time);
 
-extern s32 __vt__13TUnk_804CF948[];
+extern s32 __vt__26TWindowStatusGaugeFeedback[];
 extern const float lbl_805DCE58;
 
 #define CLAMP_8025737C(v, lo, hi) ((v) < (lo) ? (lo) : ((v) < (hi) ? (v) : (hi)))
@@ -177,7 +178,7 @@ void start_text_color_transition(Fade_802575C0 *array_entry, u32 rgb, f32 time) 
         array_entry->tr = c.r;
         array_entry->tg = c.g;
         array_entry->tb = c.b;
-        ((TAdChrMoveEffectGC *)(&c))->copy4(&array_entry->col);
+        copy4(&c, &array_entry->col);
         time = 1.0f / time;
         array_entry->cr = c.r;
         array_entry->cg = c.g;
@@ -189,10 +190,20 @@ void start_text_color_transition(Fade_802575C0 *array_entry, u32 rgb, f32 time) 
     }
 }
 
-void TAdChrMoveEffectGC::copy4(void* q) { *(u8 *)&this->m_name = *(u8*)((char*)q + 0x0); *(u8*)((char*)this + 0x1) = *(u8*)((char*)q + 0x1); *(u8*)((char*)this + 0x2) = *(u8*)((char*)q + 0x2); *(u8*)((char*)this + 0x3) = *(u8*)((char*)q + 0x3); }
+#pragma push
+#pragma scheduling off
+void copy4(void *destination, const void *source) {
+    u8 *dst = static_cast<u8 *>(destination);
+    const u8 *src = static_cast<const u8 *>(source);
+    dst[0] = src[0];
+    dst[1] = src[1];
+    dst[2] = src[2];
+    dst[3] = src[3];
+}
+#pragma pop
 
-void TUnk_804CF948::calc_bar_width() {
-    TUnk_804CF930::calc_bar_width();
+void TWindowStatusGaugeFeedback::calc_bar_width() {
+    TWindowStatusGauge::calc_bar_width();
     shown = (s16)target;
 }
 
@@ -200,7 +211,7 @@ void TUnk_804CF948::calc_bar_width() {
 #pragma fp_contract on
 #define self ((Gauge_80257784 *)this)
 #define parent ((Parent_80257784 *)context)
-void TUnk_804CF948::render(WindowDrawContext *context) {
+void TWindowStatusGaugeFeedback::render(WindowDrawContext *context) {
     NJS_POINT2 pos;
     f32 scale;
     f32 lo;
@@ -251,9 +262,9 @@ void TUnk_804CF948::render(WindowDrawContext *context) {
         }
         if (hi > 0.0f) {
             set_constant_material_color(col);
-            ((TUnk_804CF930 *)self)->draw_status_gauge_bar(parent, &pos, scale, hi);
+            ((TWindowStatusGauge *)self)->draw_status_gauge_bar(context, &pos, scale, hi);
             set_constant_material_color(self->f18);
-            ((TUnk_804CF930 *)self)->draw_status_gauge_bar(parent, &pos, scale, lo);
+            ((TWindowStatusGauge *)self)->draw_status_gauge_bar(context, &pos, scale, lo);
         }
         TWindowSubStatusDisp::get_player();
     }
@@ -262,7 +273,7 @@ void TUnk_804CF948::render(WindowDrawContext *context) {
 #undef parent
 #pragma pop
 
-void TUnk_804CF948::update() {
+void TWindowStatusGaugeFeedback::update() {
     Bar_8025799C *bar = (Bar_8025799C *)this;
     if (bar->flags & 0x40) {
         bar->color18 = update_text_color_transition((Fade_802575C0 *)bar);
@@ -291,21 +302,21 @@ void TUnk_804CF948::update() {
             set_sound_pitch_request(slot, -0x100, 0);
         }
     } else {
-        TUnk_804CF930::update();
+        TWindowStatusGauge::update();
     }
 }
 
-TUnk_804CF948::~TUnk_804CF948() {}
+TWindowStatusGaugeFeedback::~TWindowStatusGaugeFeedback() {}
 
-u8 *TWindowSubStatusDisp::init_layout_entry_copy(u8 *arg1) {
-    ((s32 (*)(void))init_from__13TUnk_804CF930FPvi)();
-    *(s32 * *)&this->m_flags = __vt__13TUnk_804CF948;
-    *(s16 *)((s8 *)((u8 *)this) + 0x28) = (s16) reinterpret_cast<TUnk_804CF948 *>(this)->target;
-    *(s32 *)((s8 *)((u8 *)this) + 0x60) = (s32) *(s32 *)((s8 *)arg1 + 0x24);
-    *(s32 *)((s8 *)((u8 *)this) + 0x64) = (s32) *(s32 *)((s8 *)arg1 + 0x28);
-    reinterpret_cast<TUnk_804CF948 *>(this)->m_2c = (s32) *(s32 *)((s8 *)((u8 *)this) + 0x18);
-    reinterpret_cast<TUnk_804CF948 *>(this)->timer = 0;
-    return ((u8 *)this);
+TWindowStatusGaugeFeedback *TWindowStatusGaugeFeedback::init_layout_entry_copy(LayoutEntryCopyRecord *source, s32 client) {
+    init_from(&source->gauge, client);
+    *reinterpret_cast<s32 **>(reinterpret_cast<u8 *>(this) + 4) = __vt__26TWindowStatusGaugeFeedback;
+    shown = (s16)target;
+    rising_color = source->color_rising;
+    falling_color = source->color_falling;
+    m_2c = color;
+    timer = 0;
+    return this;
 }
 }
 

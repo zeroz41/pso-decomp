@@ -337,7 +337,7 @@ void *TCMCharacter__ct(void *motion, void *arg1) {
     char_select_current_entry = 0;
     ((void (*)(int))TAdSinglePlyChrSelectGC__sub_8028ED54)(0);
     char_select_current_entry = 0;
-    ((TObjMotion *)motion)->set_field_d8((saddr)((void *)character_making_action_table));
+    ((TObjMotion *)motion)->set_field_d8((saddr)character_making_action_table);
     ((TObjMotion *)motion)->set_field_dc(reinterpret_cast<saddr>(creation_menu_main_obj->motions));
     ((TObjMotion *)motion)->requested_action = creation_motion_group(creation_player_character);
     ((TObjMotion *)motion)->set_animation(((TObjMotion *)motion)->requested_action);
@@ -545,7 +545,9 @@ void bind_character_preview_models(const CharacterPreviewModels *models) {
 void load_creation_shape_rel(W_80290250 *arg0) {
     s32 rc;
     arg0->bufp = (saddr)TQuestVmDownLoadServer::alloc(0x44000);
-    rc = TLobby::request_file_read((saddr)(chara_select_creation_shape_rel_files[character_display_index(reinterpret_cast<uaddr>(creation_player_character))]), (s32)arg0->bufp, (s32 *)arg0->data, (void **)0);
+    rc = TLobby::request_file_read(
+        chara_select_creation_shape_rel_files[character_display_index(reinterpret_cast<uaddr>(creation_player_character))],
+        arg0->bufp, reinterpret_cast<s32 *>(arg0->data), NULL);
     arg0->rc = rc;
     if (rc >= 0) {
         if (arg0->rc > 0x44000) {

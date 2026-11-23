@@ -341,7 +341,7 @@ void TWindowActionPalette::update_slot_icon(int idx, u16 mode, u16 slot) {
 
 void TWindowActionPalette::set_bank_panel_art(unsigned short state) {
     u8 *sprite = (u8 *)get_array_entry(1);
-    set_sprite_uv_from_pixels(sprite, TWindowActionPalette__bank_panel_uv_origins[state][0], TWindowActionPalette__bank_panel_uv_origins[state][1]);
+    set_sprite_uv_from_pixels(reinterpret_cast<WindowSpritePart *>(sprite), TWindowActionPalette__bank_panel_uv_origins[state][0], TWindowActionPalette__bank_panel_uv_origins[state][1]);
 }
 
 #pragma push
@@ -507,8 +507,8 @@ s32 TWindowHelpItem::get_help_value(u16 slot, s32 client_id) {
 
 void TWindowHelpItem::set_help_text(saddr help, saddr arg1) {
     if (TWindowKeyBoardHard::test_card_flag_2(arg1) != 0) {
-        set_sprite_uv_from_pixels((u8 *)help, 92.0f, 56.0f);
+        set_sprite_uv_from_pixels(reinterpret_cast<WindowSpritePart *>(help), 92.0f, 56.0f);
         return;
     }
-    set_sprite_uv_from_pixels((u8 *)help, 92.0f, 0.0f);
+    set_sprite_uv_from_pixels(reinterpret_cast<WindowSpritePart *>(help), 92.0f, 0.0f);
 }

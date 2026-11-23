@@ -4,6 +4,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/ui/frontend/T_ATS_DrawCalendar.h"
 #include "types.h"
+#include <stddef.h>
 
 class TAdBackGC;
 class TAdBackTxtGC;
@@ -115,5 +116,12 @@ public:
 };
 
 LAYOUT_ASSERT(TAdTimeSetGC_size, sizeof(TAdTimeSetGC) == 0x468);
+LAYOUT_ASSERT(TAdTimeSetGC_state_index_offset, offsetof(TAdTimeSetGC, state_index) == 0x1C);
+LAYOUT_ASSERT(TAdTimeSetGC_load_status_offset, offsetof(TAdTimeSetGC, load_status) == 0x44);
+LAYOUT_ASSERT(TAdTimeSetGC_message_window_offset, offsetof(TAdTimeSetGC, message_window) == 0x50);
+LAYOUT_ASSERT(TAdTimeSetGC_menu_window_offset, offsetof(TAdTimeSetGC, menu_window) == 0x54);
+LAYOUT_ASSERT(TAdTimeSetGC_calendar_offset, offsetof(TAdTimeSetGC, calendar) == 0x58);
+LAYOUT_ASSERT(TAdTimeSetGC_timer_offset, offsetof(TAdTimeSetGC, timer) == 0x60);
+LAYOUT_ASSERT(TAdTimeSetGC_text_offset, offsetof(TAdTimeSetGC, text) == 0x68);
 
 #endif

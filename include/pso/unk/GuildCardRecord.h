@@ -17,6 +17,13 @@ struct GuildCardRecord {
 
     GuildCardRecord();
     s32 get_serial() const;
+    s32 get_id();
+    char *get_sub_obj();
+    char *get_name();
+    char *get_card_data_ptr();
+    char *get_sub_disp_ptr();
 };
+
+extern "C" char *TWindowSubComCard__sub_8027523C(GuildCardRecord *entry);
 
 #endif

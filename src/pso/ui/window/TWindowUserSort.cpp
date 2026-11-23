@@ -62,10 +62,10 @@ void TWindowUserSort::run_task() { ((TWindowDD *)this)->initialize_subwindow(); 
 TWindowUserSort::~TWindowUserSort() {}
 
 #define self ((u8 *)this)
-TWindowUserSort::TWindowUserSort(saddr arg1, s32 arg2) : TWindowBase((u8 *)&window_user_sort_settings, (s16)4, (u8 *)arg1) {
+TWindowUserSort::TWindowUserSort(saddr arg1, GuildCardRecord *record) : TWindowBase((u8 *)&window_user_sort_settings, (s16)4, (u8 *)arg1) {
     m_name = TWindowUserSort__name;
-    ((TWindowUserSort *)self)->m_60 = arg2;
-    ((TWindowSubStatusDisp *)(self + 0x24))->fill_card_text_entries(arg2);
+    m_60 = record;
+    ((TWindowSubStatusDisp *)(self + 0x24))->fill_card_text_entries(record);
 }
 #undef self
 

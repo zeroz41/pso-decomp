@@ -1,3 +1,4 @@
+#include "pso/render/GinjaTextureInput.h"
 #include "types.h"
 #include "pso/unk/TLobby.h"
 #include "pso/unk/text_802D1C84.h"
@@ -128,16 +129,15 @@ void fn_802D1C84(void) {
     }
 }
 
-void set_texture_name(void *, void *, int, int);
 
-u32 lbl_80540B98[9];
-u32 lbl_80540BBC[3];
+GinjaTextureInput lbl_80540B98;
+GinjaTextureEntry lbl_80540BBC;
 __declspec(section ".data") u32 lbl_80540BC8[2];
 
 void fn_802D1CC8(void) {
-    ((TObjPlayer *)lbl_80540B98)->set_render_rect((saddr)(lbl_805D6880 = mem_alloc(0x800)), 0x902, 0x20, 0x20);
-    set_texture_name(lbl_80540BBC, lbl_80540B98, 0x18696, 0x40800000);
-    lbl_80540BC8[0] = (uaddr)lbl_80540BBC;
+    lbl_80540B98.set_render_rect(lbl_805D6880 = mem_alloc(0x800), 0x902, 0x20, 0x20);
+    set_texture_name(&lbl_80540BBC, &lbl_80540B98, 0x18696, 0x40800000);
+    lbl_80540BC8[0] = reinterpret_cast<uaddr>(&lbl_80540BBC);
     lbl_80540BC8[1] = 1;
     pso_load_texture((NJS_TEXLIST *)lbl_80540BC8);
 }

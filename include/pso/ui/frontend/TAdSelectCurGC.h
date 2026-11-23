@@ -46,6 +46,7 @@ public:
 };
 
 LAYOUT_ASSERT(TAdSelectCurGC_size, sizeof(TAdSelectCurGC) == 0x708);
+LAYOUT_ASSERT(TAdSelectCurGC_pending_command_offset, offsetof(TAdSelectCurGC, pending_command) == 0x700);
 LAYOUT_ASSERT(TAdSelectCurGC_position_offset, offsetof(TAdSelectCurGC, entry_positions) == 0x1C);
 LAYOUT_ASSERT(TAdSelectCurGC_cursor_size_offset, offsetof(TAdSelectCurGC, cursor_size) == 0x9C);
 LAYOUT_ASSERT(TAdSelectCurGC_selection_table_offset, offsetof(TAdSelectCurGC, entry_alpha) == 0x6BC);

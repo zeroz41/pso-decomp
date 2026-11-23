@@ -1249,6 +1249,7 @@ pso/ui/window/TWindowDD_8034055C.cpp
 pso/ui/window/TWindowDD_80340A78.cpp
 pso/ui/window/TWindowDD_80341334.cpp
 pso/ui/window/TWindowDD_80341A08.cpp
+pso/ui/window/TWindowDDEntryTable.cpp
 pso/ui/window/TWindowDD_80342428.cpp
 pso/ui/window/TWindowDD_803424EC.cpp
 pso/ui/window/TWindowDD_80342554.cpp

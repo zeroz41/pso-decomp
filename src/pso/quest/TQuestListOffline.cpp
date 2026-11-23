@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/quest/TQuestListOffline.h"
 #include "pso/quest/StoryQuestProgress.h"
 #include "pso/camera/TCameraCtrl.h"
@@ -224,7 +225,7 @@ void TQuestListOffline::update_list_navigation() {
             }
         }
         if (confirm_menu == NULL) {
-            confirm_menu = (TWindowMenu *)create_yes_no_window((saddr)get_window_layout_position(0x2B), get_entity_id(player), 0, 0);
+            confirm_menu = create_yes_no_window((const NJS_POINT2 *)get_window_layout_position(0x2B), get_entity_id(player), NULL, NULL);
             confirm_menu->set_position_xy(get_scale(), get_scale());
             if (sequence != NULL) {
                 sequence->display_guild_message(5, 1);

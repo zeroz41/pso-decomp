@@ -1,3 +1,4 @@
+#include "pso/ui/window/TWindowSubStatusDisp_802671F0.h"
 #include "types.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/ui/window/TWindowBase.h"
@@ -28,10 +29,9 @@ const char *TWindowSubItemList__class_name = "TWindowSubItemList";
 extern "C" {
 s32 draw_item_list_capacity(void *, int, int, int);
 s32 draw_window_scrollbar(void *, int, void *);
-s32 TShopJudgmentItemWindow__sub_80267F9C(void *, int);
 
 u8 *create_sub_item_list_window(saddr parent, saddr position, s32 client) {
-    TShopJudgmentItemWindow__sub_80267F9C((void *)position, 0x24);
+    TShopJudgmentItemWindow__sub_80267F9C(reinterpret_cast<const NJS_POINT2 *>(position), 0x24);
     return (u8 *)new TWindowSubItemList((u8 *)parent, client);
 }
 

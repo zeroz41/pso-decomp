@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/city/TShopJudgmentItemWindow_8026DF00.h"
@@ -292,7 +293,7 @@ void TQuestListOnline::handle_list_selection() {
         } else if (selection_stage == 2) {
             if (confirm_window == NULL) {
                 u16 id = get_entity_id(window_owner);
-                confirm_window = (TWindowMenu *)create_yes_no_window(get_window_layout_position(0x2B), id, 0, 0);
+                confirm_window = create_yes_no_window((const NJS_POINT2 *)get_window_layout_position(0x2B), id, NULL, NULL);
                 confirm_window->set_position_xy(get_scale(), get_scale());
                 if (sequence != NULL) {
                     ((VObj_18_80217C1C*)sequence)->m7(5, 1);
@@ -359,7 +360,7 @@ void TQuestListOnline::handle_quest_confirm() {
             if (this->sequence != NULL) {
                 (*(VObj_18_802178E4 * *)&this->sequence)->m7(0x10, 1);
             }
-            ((TWindowSubComCard *)(this->confirm_window))->clear_flag_and_release();
+            ((TWindowMenu *)(this->confirm_window))->clear_flag_and_release();
             return;
         }
         if (v == 1) {

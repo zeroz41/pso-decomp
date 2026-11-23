@@ -3,9 +3,11 @@
 
 #include "types.h"
 
+struct SymbolChatPreset;
+
 struct TWindowSubSymbolChat;
 extern "C" {
-s32 *TWindowSubSymbolChat__sub_8028379C(void);
+SymbolChatPreset *TWindowSubSymbolChat__sub_8028379C(void);
 }
 
 #endif

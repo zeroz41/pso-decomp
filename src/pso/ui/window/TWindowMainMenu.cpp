@@ -51,7 +51,6 @@ extern const f32 lbl_8044F2E0[2] = {206.0f, 140.0f};
 #include "pso/player/TObjPlayer_801AF2F0.h"
 
 extern "C" {
-s32 __ct__19TWindowSubShortMailFP7TObjectPv(int, void *, int);
 struct Obj_80263D7C; struct Obj_80263DBC;
 }
 
@@ -255,7 +254,6 @@ void TWindowMainMenu::create_submenu(u32 id) {
     s32 temp_r3_13;
     s32 temp_r3_14;
     saddr temp_r3_15;
-    s32 temp_r3_16;
     s32 temp_r3_17;
     s32 temp_r3_18;
     saddr window_sub_game_end;
@@ -268,7 +266,6 @@ void TWindowMainMenu::create_submenu(u32 id) {
     s32 var_r0_13;
     s32 var_r0_14;
     s32 var_r0_15;
-    s32 var_r0_16;
     s32 var_r0_17;
     s32 var_r0_18;
     s32 var_r0_19;
@@ -380,12 +377,7 @@ void TWindowMainMenu::create_submenu(u32 id) {
         return;
     case 19:
     case 20:
-        temp_r3_16 = ((saddr)TObject::operator new(0x60));
-        var_r0_16 = temp_r3_16;
-        if (var_r0_16 != 0) {
-            var_r0_16 = __ct__19TWindowSubShortMailFP7TObjectPv(temp_r3_16, this, (int) this->client_index);
-        }
-        this->m_20 = var_r0_16;
+        this->m_20 = reinterpret_cast<saddr>(new TWindowSubShortMail(this, reinterpret_cast<void *>(static_cast<saddr>(client_index))));
         return;
     case 22:
         temp_r3_17 = ((saddr)TObject::operator new(0x914));

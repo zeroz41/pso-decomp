@@ -1,16 +1,23 @@
+// Emit the follower vtable before the status-icon jump table.
+#pragma defer_codegen on
+
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/ui/window/TWindowSubStatusDisp_8025B050.h"
 #include "types.h"
 #include "pso/ui/window/WindowSpritePart.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
+#include "pso/player/GuildCardEntry.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/unk/text_8026CB5C.h"
 #include "pso/ui/window/TWindowCtrl.h"
+#include "pso/ui/window/TWindowTradeRequest.h"
+#include "pso/system/NinjaTypes.h"
 #include "pso/ui/window/TWindowComCard.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/window/TWindowSubComCard.h"
-#include "pso/ui/window/TUnk_804CE964.h"
+#include "pso/ui/window/TWindowComCardFollower.h"
 #include "pso/unk/TLobby.h"
 #include "pso/unk/TLobby_8001D6A0.h"
 #include "pso/ui/window/TWindowDuelResult.h"
@@ -23,20 +30,15 @@ extern "C" {
 void render__14TWindowComCardFv(saddr arg0);
 s32 TWindowSubComCard__sub_8007B070(s32);
 extern s32 local_client_id;
-u8 *TWindowComCard__ct(u8 *arg0, saddr arg1, saddr arg2);
 void TWindowComCard__sub_80249920(saddr arg0, s32 arg1, s32 arg2);
 s8 TWindowComCard__sub_80249C18(void* p);
 s8 TWindowComCard__sub_80249C20(void* p);
 void *__dt__14TWindowComCardFv(void *arg0, s16 arg1);
 void run_task__14TWindowComCardFv(void* p);
-saddr get_card_entry__17TWindowSubComCardFi(s32 arg0);
 int initialize_subwindow__9TWindowDDFv(void*);
 
 extern "C" u8 lbl_805D63F0[];
 extern "C" void render_shadows__7TObjectFv();
-void run_task__13TUnk_804CE964Fv(u8 *arg0);
-void *TWindowComCard__sub_80249E80(void *arg0, s16 arg1);
-void render__13TUnk_804CE964Fv(s32 arg0);
 extern void *lbl_804CE820[44];
 extern void *lbl_804CE918[14];
 void *lbl_804CE820[44] = {
@@ -81,12 +83,7 @@ void *TWindowComCard__window_desc_b[5] = {
     (void *)0x42000000, (void *)0x41e00000, (void *)0x4788d100, (void *)&lbl_804CE918,
     (void *)0x82b,
 };
-void *lbl_804CE964[6] = {
-    (void *)0x0, (void *)0x0, (void *)&TWindowComCard__sub_80249E80, (void *)&run_task__13TUnk_804CE964Fv,
-    (void *)&render__13TUnk_804CE964Fv, (void *)&render_shadows__7TObjectFv,
-};
 #define __vt__14TWindowComCard ((s32 *)__vt__14TWindowComCard)
-#define lbl_804CE964 ((s32 *)lbl_804CE964)
 }
 
 // The text set of the com card display: its six text entries (name, card id, class, status, stat, keyboard).
@@ -95,6 +92,7 @@ struct ComCardText { u16 flags; u8 pad2[6]; f32 x; u8 padC[4]; f32 w; };
 struct ComCardTextSet { void *t0; ComCardText *t4; void *t8; void *tC; void *t10; void *t14; };
 
 struct ComCardDisplay { u8 pad[4]; ComCardTextSet *set; };
+extern "C" void update_com_card_display(ComCardDisplay *display, void *data);
 
 extern "C" {
 s8 TWindowSubComCard__sub_8007B6EC(void *);
@@ -102,198 +100,85 @@ s32 TWindowSubComCard__sub_8007B6F4(void *);
 }
 s32 get_class_name_text(s32 arg0);
 
-extern "C" void update_com_card_display(ComCardDisplay *arg0, void *keyboard_mode) {
-    ComCardText *t4;
-    void *t14;
-    void *t0;
-    void *tC;
-    void *t8;
-    void *t10;
-    ComCardTextSet *s;
-    s32 n;
-    s32 id;
-    s = arg0->set;
-    t0 = s->t0;
-    tC = s->tC;
-    t8 = s->t8;
-    t10 = s->t10;
-    t4 = s->t4;
-    t14 = s->t14;
-    set_text_entry_string((u8 *)t0, (uaddr)((void *)((TLobby *)keyboard_mode)->get_com_card_list()), 0x220);
-    n = TWindowComCard__sub_80249C20(keyboard_mode);
-    if (n > 5) {
-        n = 5;
-    }
-    TWindowDuelResult::set_default_status(tC, (saddr)com_card_status_text_table[n]);
-    n = TWindowSubComCard__sub_8007B6EC(keyboard_mode);
-    if (n > 0xC) {
-        n = 0xC;
-    }
-    TWindowDuelResult::set_default_status(t8, get_class_name_text(n));
-    n = TWindowComCard__sub_80249C18(keyboard_mode);
-    if (n > 0xA) {
-        n = 0xA;
-    }
-    TWindowDuelResult::set_default_status(t10, (saddr)TObjLuker::get_stat_table_entry(n));
-    if (TWindowSubComCard__sub_8007B6F4(keyboard_mode) != 0) {
-        id = ((TWindowSubComCard *)keyboard_mode)->get_card_id();
-        if (id == 0) {
-            t4->flags |= 2;
-        } else {
-            text_builder_reset();
-            text_builder_append_int(id);
-            set_text_entry_string((u8 *)t4, (uaddr)((void *)get_shared_text_buffer()), 0x20);
-            measure_message_text_width_default(t4);
-            t4->x = 198.0f - t4->w;
-            t4->flags &= ~2;
-        }
-    } else {
-        t4->flags |= 2;
-    }
-    set_text_entry_string((u8 *)t14, (uaddr)((void *)((TWindowComCard *)keyboard_mode)->get_kbd_ptr()), 0x220);
-}
-
-extern "C" {
-
-void TWindowComCard__sub_80249920(saddr arg0, s32 arg1, s32 arg2) {
-    saddr temp = arg2 + (arg1 * 0x90);
-    if (temp != 0) {
-        update_com_card_display((ComCardDisplay *)(arg0 + 0x24), (void *)temp);
-    }
-}
-
-void TWindowComCard::set_display_value(s32 arg1, s32 arg2) {
-    saddr arg0 = (saddr)this;
-    saddr temp = arg2 + (arg1 << 8);
-    if (temp != 0) {
-        update_com_card_display((ComCardDisplay *)(arg0 + 0x24), (void *)temp);
-    }
-}
-
-u8 *TWindowComCard::create_for_card(s32 arg0, s32 index, s32 card_slot) {
-    s32 var_r30;
-    s32 var_r31;
-    s32 parent;
-    s32 keyboard_mode;
-    u8 *window_dd;
-    u8 *var_r0;
-    u8 *var_r3;
-    var_r30 = arg0;
-    if (index < 0) {
-        var_r3 = NULL;
-        return NULL;
-    }
-    var_r3 = (u8 *)((void *)0x60);
-    var_r31 = card_slot + (index * 0x90);
-    window_dd = (u8 *)(((u8 *)TObject::operator new(0x60)));
-    var_r0 = window_dd;
-    if (var_r0 != NULL) {
-        parent = var_r30;
-        keyboard_mode = var_r31;
-        var_r0 = (u8 *)(((u8 *)TWindowComCard__ct(window_dd, parent, keyboard_mode)));
-    }
-    var_r3 = var_r0;
-    return var_r3;
-}
-
-void *TWindowComCard::create(void *parent, void *arg1) {
-    void *x0;
-    void *o;
-    x0 = (void *)get_card_entry__17TWindowSubComCardFi((saddr)arg1);
-    if (x0 == NULL) {
-        return NULL;
-    }
-    o = TObject::operator new(0x60);
-    if (o != NULL) {
-        o = TWindowComCard__ct((u8 *)o, (saddr)parent, (saddr)x0);
-    }
-    return o;
-}
-
-s32 TWindowSubComCard::create_com_card_window(s32 parent) {
-    saddr keyboard_mode;
-    saddr window_dd;
-    s32 var_r0;
-    keyboard_mode = TWindowSubComCard::get_keyboard_mode();
-    if (keyboard_mode == 0) {
-        return 0;
-    }
-    if (TWindowSubComCard__sub_8007B070(keyboard_mode) != 0) {
-        ((TWindowSubComCard *)keyboard_mode)->clear_and_init((void *)(saddr)local_client_id);
-    }
-    window_dd = ((saddr)TObject::operator new(0x60));
-    var_r0 = window_dd;
-    if (var_r0 != 0) {
-        var_r0 = ((saddr)TWindowComCard__ct((u8 *)window_dd, (s32)parent, (s32)keyboard_mode));
-    }
-    return var_r0;
-}
-
-void render__14TWindowComCardFv(saddr arg0) {
-    saddr temp_r3;
-    temp_r3 = reinterpret_cast<saddr>(reinterpret_cast<TWindowBase *>(arg0)->draw_default_entry());
-    ((TWindowBase *)arg0)->draw_window_frame((void *)temp_r3);
-    draw_visible_window_entries(
-        reinterpret_cast<const void *>(arg0),
-        reinterpret_cast<const WindowLayoutEntries *>((void *)(arg0 + 0x24)),
-        reinterpret_cast<WindowDrawContext *>(temp_r3));
-}
-
-void run_task__14TWindowComCardFv(void* p) { ((TWindowDD *)p)->initialize_subwindow(); ((TWindowBase *)p)->update_fade(); ((TWindowBase *)p)->update_window_entry_list(reinterpret_cast<const WindowLayoutEntries *>((char*)p + 0x24)); }
-
-void *__dt__14TWindowComCardFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__14TWindowComCard;
-        __dt__11TWindowBaseFv(arg0, 0);
-        if (arg1 > 0) {
-            TObject::operator delete(arg0);
-        }
-    }
-    return arg0;
-}
-
-u8 *TWindowComCard__ct(u8 *window_dd, saddr parent, saddr keyboard_mode) {
-    __ct__11TWindowBaseFPUcsPUc(window_dd, (u8 *)&TWindowComCard__window_desc, (s16)4, (u8 *)parent);
-    *(s32 **)((s8 *)window_dd + 0x18) = (s32 *)__vt__14TWindowComCard;
-    *(s32 *)((s8 *)window_dd + 0) = (saddr) TWindowComCard__class_name;
-    update_com_card_display((ComCardDisplay *)(window_dd + 0x24), (void *)keyboard_mode);
-    return window_dd;
-}
-
-void*TWindowComCard::get_kbd_ptr() { return (char*)this + 0x20; }
-s8 TWindowComCard__sub_80249C18(void* p) { return *(s8*)((char*)p + 0x8e); }
-s8 TWindowComCard__sub_80249C20(void* p) { return *(s8*)((char*)p + 0x8d); }
-}
 extern u8 *text_language_group_table;
-s32 get_class_name_text(s32 arg0);
-s32 get_class_name_text(s32 arg0) {
-    return *(s32 *)((s8 *)(*(saddr *)((s8 *)text_language_group_table + 0x1C)) + (arg0 * 4));
+
+TWindowCtrl *TWindowCtrl::instance;
+u16 lbl_805D63FC;
+
+extern "C" void request_active_window_close(void) {
+    if ((TWindowCtrl::instance != NULL) && (TWindowCtrl::instance->m_38 != 0U)) {
+        ((TWindowCtrl *)((void*)TWindowCtrl::instance->m_38))->set_flag1e_bit8();
+    }
 }
 
-s32 get_status_effect_icon_index(u32 arg0);
-void set_sprite_uv_from_pixels(u8 *arg0, f32 farg0, f32 farg1);
-
-
-void TWindowComCard::set_help_mode(s32 mode) {
-    const ComCardHelpRect *temp_r4;
-
-    if (mode == 0xE) {
-        *(u16 *)&this->m_name = (u16) (*(u16 *)&this->m_name | 2);
-        return;
+void TWindowTradeRequest::close_request_window() {
+    lbl_805D63FC &= 0xFFFFFFF7;
+    TWindowCtrl *controller = reinterpret_cast<TWindowCtrl *>(TWindowCtrl::instance);
+    if (controller != NULL) {
+        TWindowTradeRequest *request = controller->trade_request;
+        if (request != NULL) {
+            request->queue_destruction();
+            reinterpret_cast<TWindowCtrl *>(TWindowCtrl::instance)->trade_request = NULL;
+        }
     }
-    *(u16 *)&this->m_name = (u16) (*(u16 *)&this->m_name & 0xFFFFFFFD);
-    if (mode < 0xA) {
-        reinterpret_cast<WindowSpritePart *>(this)->kind = 1;
-    } else {
-        reinterpret_cast<WindowSpritePart *>(this)->kind = 2;
-    }
-    temp_r4 = &com_card_help_panel_rect_table[mode];
-    set_sprite_uv_from_pixels((u8 *)this, temp_r4->x, temp_r4->y);
 }
 
-void*TWindowComCard::get_card_name_ptr() { return (char*)this + 0xa; }
-s32 get_status_effect_icon_index(u32 word) {
-    switch (word) {
+#pragma push
+#pragma fp_contract on
+TWindowComCardFollower::TWindowComCardFollower(TWindowBase *parent, NJS_POINT2 *ofs, s32 col, s32 mode, s32 client)
+    : TWindowBase((u8 *)TWindowComCard__window_desc_b, (s16)client, (u8 *)get_zero_vec2()) {
+    parent_window = parent;
+    offset.x = ofs->x;
+    offset.y = ofs->y;
+    card_column = col;
+    help_mode = mode;
+    target_position[0] = 16.0f * (f32)card_column + (parent_window->frame_position[0] + offset.x);
+    target_position[1] = parent_window->frame_position[1] + offset.y;
+    save_position();
+    ((TWindowComCard *)get_array_entry(0))->set_help_mode(mode);
+}
+#pragma pop
+
+TWindowComCardFollower::~TWindowComCardFollower() {}
+
+void TWindowComCardFollower::run_task() {
+    u8 *arg0 = (u8 *)this;
+    f32 temp_f1;
+    u8 *temp_r4;
+    temp_r4 = (unsigned char *) (this->parent_window);
+    temp_f1 = parent_window->frame_position[1];
+    this->target_position[1] = (f32) (temp_f1 + offset.y);
+    this->frame_position[1] = (f32) this->target_position[1];
+    ((s32 (*)(void *, int, f32))initialize_subwindow__9TWindowDDFv)((void *)arg0, (saddr)temp_r4, (f32)temp_f1);
+    ((TWindowBase *)arg0)->update_fade();
+    ((TWindowBase *)arg0)->update_window_entry_list(reinterpret_cast<const WindowLayoutEntries *>(arg0 + 0x24));
+}
+
+void TWindowComCardFollower::render() {
+    WindowDrawContext *context = draw_default_entry();
+    draw_visible_window_entries(this, &entry_list, context);
+}
+
+#pragma push
+#pragma fp_contract on
+void TWindowComCardFollower::set_column(s32 column) {
+    if (card_column != column) {
+        card_column = column;
+        target_position[0] = 16.0f * (f32)card_column + (parent_window->frame_position[0] + offset.x);
+        tween_ticks = 0xF;
+    }
+}
+#pragma pop
+
+void TWindowComCardFollower::set_selected_index(s32 value) {
+    if (help_mode != value) {
+        help_mode = value;
+        ((TWindowComCard *)get_array_entry(0))->set_help_mode(help_mode);
+    }
+}
+
+s32 get_status_effect_icon_index(u32 arg0) {
+    switch (arg0) {
     case 3:
         return 1;
     case 9:
@@ -318,82 +203,45 @@ s32 get_status_effect_icon_index(u32 word) {
         return 0xE;
     }
 }
-extern "C" {
 
-void TWindowComCard::set_selected_index(s32 arg1) {
-    saddr temp;
-    if ((s32) *(s32 *)((s8 *)this + 0x70) != arg1) {
-        *(s32 *)((s8 *)this + 0x70) = arg1;
-        temp = reinterpret_cast<saddr>(this->get_array_entry(0));
-        ((TWindowComCard *)temp)->set_help_mode(*(s32 *)((s8 *)this + 0x70));
+void*TWindowComCard::get_card_name_ptr() { return (char*)this + 0xa; }
+
+void TWindowComCard::set_help_mode(s32 arg1) {
+    const ComCardHelpRect *temp_r4;
+
+    if (arg1 == 0xE) {
+        *(u16 *)&this->m_name = (u16) (*(u16 *)&this->m_name | 2);
+        return;
     }
-}
-
-void TWindowComCard__sub_80249D7C(u8 *arg0, s32 arg1);
-
-
-#pragma push
-#pragma fp_contract on
-void TWindowComCard__sub_80249D7C(u8 *arg0, s32 count) {
-    if ((s32) *(s32 *)((s8 *)arg0 + 0x6C) != count) {
-        *(s32 *)((s8 *)arg0 + 0x6C) = count;
-        *(f32 *)((s8 *)arg0 + 0x30) = (f32) ((16.0f * (f32) *(s32 *)((s8 *)arg0 + 0x6C)) + (*(f32 *)((s8 *)(*(void **)((s8 *)arg0 + 0x60)) + 0x40) + *(f32 *)((s8 *)arg0 + 0x64)));
-        *(s32 *)((s8 *)arg0 + 0x50) = 0xF;
+    *(u16 *)&this->m_name = (u16) (*(u16 *)&this->m_name & 0xFFFFFFFD);
+    if (arg1 < 0xA) {
+        reinterpret_cast<WindowSpritePart *>(this)->kind = 1;
+    } else {
+        reinterpret_cast<WindowSpritePart *>(this)->kind = 2;
     }
-}
-}
-#pragma pop
-
-#include "pso/ui/window/TWindowTradeRequest.h"
-#include "pso/system/NinjaTypes.h"
-
-TWindowCtrl *TWindowCtrl::instance;
-u16 lbl_805D63FC;
-extern "C" {
-typedef struct Parent_80249ED8 {
-    u8 pad0[0x40];
-    f32 x;
-    f32 y;
-} Parent_80249ED8;
-
-typedef struct Win_80249ED8 {
-    u8 pad0[0x18];
-    s32 *vtbl;
-    u8 pad1C[0x30 - 0x1C];
-    f32 x;
-    f32 y;
-    u8 pad38[0x60 - 0x38];
-    Parent_80249ED8 *parent;
-    NJS_POINT2 ofs;
-    s32 col;
-    s32 mode;
-} Win_80249ED8;
-
-
-void request_active_window_close(void);
-
-void TUnk_804CE964::render() {
-    s32 arg0 = (saddr)this;
-    s8 *tmp = reinterpret_cast<s8 *>(reinterpret_cast<TWindowBase *>(arg0)->draw_default_entry());
-    ((s32 (*)(s32, s32, s32))draw_visible_window_entries)(arg0, arg0 + 0x24, (saddr)tmp);
+    temp_r4 = &com_card_help_panel_rect_table[arg1];
+    set_sprite_uv_from_pixels(reinterpret_cast<WindowSpritePart *>(this), temp_r4->x, temp_r4->y);
 }
 
-void TUnk_804CE964::run_task() {
-    u8 *arg0 = (u8 *)this;
-    f32 temp_f1;
-    u8 *temp_r4;
-    temp_r4 = (unsigned char *) (this->m_60);
-    temp_f1 = *(f32 *)((s8 *)temp_r4 + 0x44);
-    this->target_position[1] = (f32) (temp_f1 + this->m_68);
-    this->frame_position[1] = (f32) this->target_position[1];
-    ((s32 (*)(void *, int, f32))initialize_subwindow__9TWindowDDFv)((void *)arg0, (saddr)temp_r4, (f32)temp_f1);
-    ((TWindowBase *)arg0)->update_fade();
-    ((TWindowBase *)arg0)->update_window_entry_list(reinterpret_cast<const WindowLayoutEntries *>(arg0 + 0x24));
+s32 get_class_name_text(s32 arg0) {
+    return *(s32 *)((s8 *)(*(saddr *)((s8 *)text_language_group_table + 0x1C)) + (arg0 * 4));
 }
 
-void *TWindowComCard__sub_80249E80(void *arg0, s16 arg1) {
+extern "C" s8 TWindowComCard__sub_80249C20(void* p) { return *(s8*)((char*)p + 0x8d); }
+
+extern "C" s8 TWindowComCard__sub_80249C18(void* p) { return *(s8*)((char*)p + 0x8e); }
+
+void*TWindowComCard::get_kbd_ptr() { return (char*)this + 0x20; }
+
+TWindowComCard::TWindowComCard(void *position, void *data)
+    : TWindowBase((u8 *)&TWindowComCard__window_desc, 4, (u8 *)position) {
+    m_name = TWindowComCard__class_name;
+    update_com_card_display((ComCardDisplay *)&entry_list, data);
+}
+
+extern "C" void *__dt__14TWindowComCardFv(void *arg0, s16 arg1) {
     if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = lbl_804CE964;
+        *(s32 **)((s8 *)arg0 + 0x18) = __vt__14TWindowComCard;
         __dt__11TWindowBaseFv(arg0, 0);
         if (arg1 > 0) {
             TObject::operator delete(arg0);
@@ -402,40 +250,107 @@ void *TWindowComCard__sub_80249E80(void *arg0, s16 arg1) {
     return arg0;
 }
 
-#pragma push
-#pragma fp_contract on
-Win_80249ED8 *TWindowComCard__sub_80249ED8(Win_80249ED8 *o, Parent_80249ED8 *parent, NJS_POINT2 *ofs, s32 col, s32 mode, s32 client) {
-    __ct__11TWindowBaseFPUcsPUc(o, (u8 *)TWindowComCard__window_desc_b, (s16)client, (u8 *)(get_zero_vec2()));
-    o->vtbl = (s32 *)lbl_804CE964;
-    o->parent = parent;
-    o->ofs.x = ofs->x;
-    o->ofs.y = ofs->y;
-    o->col = col;
-    o->mode = mode;
-    o->x = 16.0f * (f32)o->col + (o->parent->x + o->ofs.x);
-    o->y = o->parent->y + o->ofs.y;
-    ((TWindowBase *)o)->save_position();
-    ((TWindowComCard *)((saddr)((TWindowBase *)o)->get_array_entry(0)))->set_help_mode(mode);
-    return o;
-}
-#pragma pop
+extern "C" void run_task__14TWindowComCardFv(void* p) { ((TWindowDD *)p)->initialize_subwindow(); ((TWindowBase *)p)->update_fade(); ((TWindowBase *)p)->update_window_entry_list(reinterpret_cast<const WindowLayoutEntries *>((char*)p + 0x24)); }
 
-void TWindowTradeRequest::close_request_window() {
-    lbl_805D63FC &= 0xFFFFFFF7;
-    TWindowCtrl *controller = TWindowCtrl::instance;
-    if (controller != NULL) {
-        TWindowTradeRequest *request = controller->trade_request;
-        if (request != NULL) {
-            request->queue_destruction();
-            TWindowCtrl::instance->trade_request = NULL;
+extern "C" void render__14TWindowComCardFv(saddr arg0) {
+    saddr temp_r3;
+    temp_r3 = reinterpret_cast<saddr>(reinterpret_cast<TWindowBase *>(arg0)->draw_default_entry());
+    ((TWindowBase *)arg0)->draw_window_frame((void *)temp_r3);
+    draw_visible_window_entries(
+        reinterpret_cast<const void *>(arg0),
+        reinterpret_cast<const WindowLayoutEntries *>((void *)(arg0 + 0x24)),
+        reinterpret_cast<WindowDrawContext *>(temp_r3));
+}
+
+s32 TWindowSubComCard::create_com_card_window(s32 position) {
+    saddr keyboard_mode = TWindowSubComCard::get_keyboard_mode();
+    if (keyboard_mode == 0) {
+        return 0;
+    }
+    if (TWindowSubComCard__sub_8007B070(keyboard_mode) != 0) {
+        ((TWindowSubComCard *)keyboard_mode)->clear_and_init((void *)(saddr)local_client_id);
+    }
+    return (s32)new TWindowComCard((void *)position, (void *)keyboard_mode);
+}
+
+void *TWindowComCard::create(void *position, void *index) {
+    void *entry = get_card_entry__17TWindowSubComCardFi(static_cast<s32>(reinterpret_cast<saddr>(index)));
+    if (entry == NULL) {
+        return NULL;
+    }
+    return new TWindowComCard(position, entry);
+}
+
+u8 *TWindowComCard::create_for_card(s32 position, s32 index, s32 records) {
+    if (index < 0) {
+        return NULL;
+    }
+    s32 data = records + index * 0x90;
+    return (u8 *)new TWindowComCard((void *)position, (void *)data);
+}
+
+void TWindowComCard::set_display_value(s32 arg1, s32 arg2) {
+    saddr arg0 = (saddr)this;
+    saddr temp = arg2 + (arg1 << 8);
+    if (temp != 0) {
+        update_com_card_display((ComCardDisplay *)(arg0 + 0x24), (void *)temp);
+    }
+}
+
+extern "C" void TWindowComCard__sub_80249920(saddr arg0, s32 arg1, s32 arg2) {
+    saddr temp = arg2 + (arg1 * 0x90);
+    if (temp != 0) {
+        update_com_card_display((ComCardDisplay *)(arg0 + 0x24), (void *)temp);
+    }
+}
+
+extern "C" void update_com_card_display(ComCardDisplay *arg0, void *arg1) {
+    ComCardText *t4;
+    void *t14;
+    void *t0;
+    void *tC;
+    void *t8;
+    void *t10;
+    ComCardTextSet *s;
+    s32 n;
+    s32 id;
+    s = arg0->set;
+    t0 = s->t0;
+    tC = s->tC;
+    t8 = s->t8;
+    t10 = s->t10;
+    t4 = s->t4;
+    t14 = s->t14;
+    set_text_entry_string((u8 *)t0, (uaddr)reinterpret_cast<GuildCardEntry *>(arg1)->get_name(), 0x220);
+    n = TWindowComCard__sub_80249C20(arg1);
+    if (n > 5) {
+        n = 5;
+    }
+    TWindowDuelResult::set_default_status(tC, (saddr)com_card_status_text_table[n]);
+    n = TWindowSubComCard__sub_8007B6EC(arg1);
+    if (n > 0xC) {
+        n = 0xC;
+    }
+    TWindowDuelResult::set_default_status(t8, get_class_name_text(n));
+    n = TWindowComCard__sub_80249C18(arg1);
+    if (n > 0xA) {
+        n = 0xA;
+    }
+    TWindowDuelResult::set_default_status(t10, reinterpret_cast<saddr>(TObjLuker::get_stat_table_entry(n)));
+    if (TWindowSubComCard__sub_8007B6F4(arg1) != 0) {
+        id = reinterpret_cast<const GuildCardEntry *>(arg1)->get_card_id();
+        if (id == 0) {
+            t4->flags |= 2;
+        } else {
+            text_builder_reset();
+            text_builder_append_int(id);
+            set_text_entry_string((u8 *)t4, (uaddr)((void *)get_shared_text_buffer()), 0x20);
+            measure_message_text_width_default(t4);
+            t4->x = 198.0f - t4->w;
+            t4->flags &= ~2;
         }
+    } else {
+        t4->flags |= 2;
     }
-}
-
-void request_active_window_close(void) {
-    if ((TWindowCtrl::instance != NULL) && (TWindowCtrl::instance->m_38 != 0U)) {
-        ((TWindowCtrl *)TWindowCtrl::instance->m_38)->set_flag1e_bit8();
-    }
-}
-
+    set_text_entry_string((u8 *)t14, (uaddr)((void *)((TWindowComCard *)arg1)->get_kbd_ptr()), 0x220);
 }

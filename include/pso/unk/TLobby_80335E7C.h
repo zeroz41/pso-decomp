@@ -4,8 +4,4 @@
 #include "types.h"
 #include "pso/unk/TLobby_80335E08.h"
 
-// --- C functions defined in TLobby_80335E7C.cpp ---
-void *get_title_texture_list(void);
-// --- end of C functions
-
 #endif

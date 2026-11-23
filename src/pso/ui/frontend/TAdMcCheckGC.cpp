@@ -11,7 +11,6 @@
 #include "pso/system/NinjaTypes.h"
 
 extern "C" {
-extern s32 memcard_cursor_instance_table[];
 s32 GXSetTexCoordGen2(s32, s32, s32, s32, s32, s32);
 s32 create_window_menu_default(const void *, s32);
 int forward_trade_action_default__16TObjCityMainWarpFPviii(void *p, int a1, int a2, int a3);
@@ -23,100 +22,100 @@ void set_tex_coord_gen2(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
 void TLobby__sub_8033EE38(void* p) { *(s32*)((char*)p + 0x18) = 0; *(s32*)((char*)p + 0x1c) = 0; }
 void TAdMcCheckGC::render() {  }
 
-// Check-window position per memory card slot (m_28: slot A, slot B).
+// Check-window position for slots A and B.
 static const NJS_POINT2 mc_check_window_positions[2] = {
     {85.0f, 183.0f},
     {371.0f, 183.0f},
 };
 
-s32 TAdMcCheckGC::create(s32 arg1) {
+TObject *TAdMcCheckGC::create(s32 arg1) {
     saddr window_menu_default;
 
-    window_menu_default = create_window_menu_default(&mc_check_window_positions[this->m_28], 1);
+    window_menu_default = create_window_menu_default(&mc_check_window_positions[this->card_slot], 1);
     forward_trade_action_default__16TObjCityMainWarpFPviii((void *)window_menu_default, (int)(get_localized_text_entry(0x16, arg1)), 0x20, 0);
     ((TAdChrSelASlotGC *)window_menu_default)->set_flag_40();
     TQuestThread::set_status_flag_80((void *)window_menu_default);
     ((TWindowSubComCard *)window_menu_default)->calc_layout_height(190.0f);
-    return window_menu_default;
+    return reinterpret_cast<TObject *>(window_menu_default);
 }
 
 void TAdMcCheckGC::run_task() {
 
-    if (TAdPlayerLoadGC::probe_card_slot(this->m_28) == 0) {
+    if (TAdPlayerLoadGC::probe_card_slot(this->card_slot) == 0) {
         this->m_1c = 0;
-        if ((u32) this->m_2c != 0U) {
-            ((TObject *)(this->m_2c))->queue_destruction();
-            this->m_2c = 0U;
+        if (this->m_2c != NULL) {
+            this->m_2c->queue_destruction();
+            this->m_2c = NULL;
         }
-        if ((u32) this->m_34 != 0U) {
-            ((TObject *)(this->m_34))->queue_destruction();
-            this->m_34 = 0U;
+        if (this->m_34 != NULL) {
+            this->m_34->queue_destruction();
+            this->m_34 = NULL;
         }
-        if ((u32) this->m_30 != 0U) {
-            ((TObject *)(this->m_30))->queue_destruction();
-            this->m_30 = 0U;
+        if (this->m_30 != NULL) {
+            this->m_30->queue_destruction();
+            this->m_30 = NULL;
         }
-        if ((u32) this->m_38 != 0U) {
-            ((TObject *)(this->m_38))->queue_destruction();
-            this->m_38 = 0U;
+        if (this->m_38 != NULL) {
+            this->m_38->queue_destruction();
+            this->m_38 = NULL;
         }
     }
     switch (this->m_1c) {
     case 0:
-        if (TAdPlayerLoadGC::probe_card_slot(this->m_28) != 0) {
+        if (TAdPlayerLoadGC::probe_card_slot(this->card_slot) != 0) {
             this->m_1c = 1;
         }
         break;
     case 1:
-        if ((TAdPlayerLoadGC::probe_and_check_card(this->m_28) == 0) && ((u32) (TAdPlayerLoadGC::get_load_result(this->m_28) + 0x10000) == 0xFF83U)) {
-            if (((s32) this->m_24 > 0xA) && ((u32) this->m_2c == 0U)) {
-                this->m_2c = create(this->m_28 + 2);
+        if ((TAdPlayerLoadGC::probe_and_check_card(this->card_slot) == 0) && ((u32) (TAdPlayerLoadGC::get_load_result(this->card_slot) + 0x10000) == 0xFF83U)) {
+            if (((s32) this->m_24 > 0xA) && (this->m_2c == NULL)) {
+                this->m_2c = create(this->card_slot + 2);
             }
         } else {
             this->m_1c = 2;
-            if ((u32) this->m_2c != 0U) {
-                ((TObject *)(this->m_2c))->queue_destruction();
-                this->m_2c = 0U;
+            if (this->m_2c != NULL) {
+                this->m_2c->queue_destruction();
+                this->m_2c = NULL;
             }
         }
         break;
     case 2:
-        if ((TAdPlayerLoadGC::probe_and_check_card(this->m_28) == 0) && ((u32) (TAdPlayerLoadGC::get_load_result(this->m_28) + 0x10000) == 0xFF21U)) {
-            if (((s32) this->m_24 > 0xA) && ((u32) this->m_30 == 0U)) {
-                this->m_30 = create(this->m_28 + 4);
+        if ((TAdPlayerLoadGC::probe_and_check_card(this->card_slot) == 0) && ((u32) (TAdPlayerLoadGC::get_load_result(this->card_slot) + 0x10000) == 0xFF21U)) {
+            if (((s32) this->m_24 > 0xA) && (this->m_30 == NULL)) {
+                this->m_30 = create(this->card_slot + 4);
             }
         } else {
             this->m_1c = 3;
-            if ((u32) this->m_30 != 0U) {
-                ((TObject *)(this->m_30))->queue_destruction();
-                this->m_30 = 0U;
+            if (this->m_30 != NULL) {
+                this->m_30->queue_destruction();
+                this->m_30 = NULL;
             }
         }
         break;
     case 3:
-        if (TAdPlayerLoadGC::probe_and_check_card(this->m_28) != 0) {
-            if ((s32) this->m_28 == 1) {
+        if (TAdPlayerLoadGC::probe_and_check_card(this->card_slot) != 0) {
+            if ((s32) this->card_slot == 1) {
                 this->m_1c = 5;
             } else {
                 this->m_1c = 4;
             }
-            if ((u32) this->m_34 != 0U) {
-                ((TObject *)(this->m_34))->queue_destruction();
-                this->m_34 = 0U;
+            if (this->m_34 != NULL) {
+                this->m_34->queue_destruction();
+                this->m_34 = NULL;
             }
-        } else if (((s32) this->m_24 > 0xA) && ((u32) this->m_34 == 0U)) {
-            this->m_34 = create(this->m_28 + 6);
+        } else if (((s32) this->m_24 > 0xA) && (this->m_34 == NULL)) {
+            this->m_34 = create(this->card_slot + 6);
         }
         break;
     case 4:
-        if (TAdPlayerLoadGC::check_memcard_status(this->m_28) == 0) {
+        if (TAdPlayerLoadGC::check_memcard_status(this->card_slot) == 0) {
             this->m_1c = 5;
-            if ((u32) this->m_38 != 0U) {
-                ((TObject *)(this->m_38))->queue_destruction();
-                this->m_38 = 0U;
+            if (this->m_38 != NULL) {
+                this->m_38->queue_destruction();
+                this->m_38 = NULL;
             }
-        } else if (((s32) this->m_24 > 0xA) && ((u32) this->m_38 == 0U)) {
-            this->m_38 = create(this->m_28 + 8);
+        } else if (((s32) this->m_24 > 0xA) && (this->m_38 == NULL)) {
+            this->m_38 = create(this->card_slot + 8);
         }
         break;
     case 5:
@@ -133,33 +132,32 @@ void TAdMcCheckGC::run_task() {
 const char *TAdMcCheckGC__name = "TAdMcCheckGC";
 
 TAdMcCheckGC::~TAdMcCheckGC() {
-    s32 temp_r4;
-    temp_r4 = this->m_28 * 4;
-    if ((u32) *(u32 *)((s8 *)((u8 *)memcard_cursor_instance_table + temp_r4) + 0) != 0U) {
-        *(s32 *)((s8 *)((u8 *)memcard_cursor_instance_table + temp_r4) + 0) = 0;
+    s32 offset = card_slot * sizeof(TAdMcCheckGC *);
+    if (*reinterpret_cast<TAdMcCheckGC **>(reinterpret_cast<u8 *>(memcard_cursor_instance_table) + offset) != NULL) {
+        *reinterpret_cast<TAdMcCheckGC **>(reinterpret_cast<u8 *>(memcard_cursor_instance_table) + offset) = NULL;
     }
-    if ((u32) this->m_2c != 0U) {
-        ((TObject *)(*(void **)((s8 *)this + 0x2C)))->queue_destruction();
-        this->m_2c = 0U;
+    if (this->m_2c != NULL) {
+        this->m_2c->queue_destruction();
+        this->m_2c = NULL;
     }
-    if ((u32) this->m_30 != 0U) {
-        ((TObject *)(*(void **)((s8 *)this + 0x30)))->queue_destruction();
-        this->m_30 = 0U;
+    if (this->m_30 != NULL) {
+        this->m_30->queue_destruction();
+        this->m_30 = NULL;
     }
-    if ((u32) this->m_34 != 0U) {
-        ((TObject *)(*(void **)((s8 *)this + 0x34)))->queue_destruction();
-        this->m_34 = 0U;
+    if (this->m_34 != NULL) {
+        this->m_34->queue_destruction();
+        this->m_34 = NULL;
     }
-    if ((u32) this->m_38 != 0U) {
-        ((TObject *)(*(void **)((s8 *)this + 0x38)))->queue_destruction();
-        this->m_38 = 0U;
+    if (this->m_38 != NULL) {
+        this->m_38->queue_destruction();
+        this->m_38 = NULL;
     }
 }
-TAdMcCheckGC::TAdMcCheckGC(TObject *object, void *arg2) : TObject(object) {
+TAdMcCheckGC::TAdMcCheckGC(TObject *object, s32 slot) : TObject(object) {
     this->m_name = TAdMcCheckGC__name;
-    *(void **)((s8 *)this + 0x28) = arg2;
+    card_slot = slot;
     this->m_1c = 0;
-    *(void **)((s8 *)this + 0x20) = *(void **)((s8 *)this + 0x1C);
+    m_20 = m_1c;
     this->m_24 = 0;
     this->m_2c = 0;
     this->m_30 = 0;
@@ -167,4 +165,4 @@ TAdMcCheckGC::TAdMcCheckGC(TObject *object, void *arg2) : TObject(object) {
     this->m_38 = 0;
 }
 
-s32 memcard_cursor_instance_table[2] = { 0, 0 };
+TAdMcCheckGC *memcard_cursor_instance_table[2] = { NULL, NULL };

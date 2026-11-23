@@ -1,3 +1,4 @@
+#include "pso/ui/window/TWindowSubStatusDisp_802671F0.h"
 #include "types.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/ui/window/TWindowBase.h"
@@ -7,12 +8,11 @@
 #include "pso/system/task/TObject.h"
 
 extern "C" {
-s32 TShopJudgmentItemWindow__sub_80267F9C(void *, int);
 s32 draw_window_scrollbar(void *, s32, void *);
 
-u8 *create_equip_kind_window(saddr parent, saddr position, s32 client) {
-    TShopJudgmentItemWindow__sub_80267F9C((void *)position, 0x1F);
-    return (u8 *)new TWindowSubEquipKind((u8 *)parent, client);
+TWindowSubEquipKind *create_equip_kind_window(saddr position, const NJS_POINT2 *size, s32 client) {
+    TShopJudgmentItemWindow__sub_80267F9C(size, 0x1F);
+    return new TWindowSubEquipKind(reinterpret_cast<u8 *>(position), client);
 }
 
 }

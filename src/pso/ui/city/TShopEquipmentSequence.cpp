@@ -10,6 +10,7 @@
 #include "pso/player/TObjPlayer_801A5AEC.h"
 #include "pso/unk/text_80222C28.h"
 #include "pso/unk/text_8026934C.h"
+#include "pso/ui/window/TWindowMeseta.h"
 #include "pso/ui/city/TShopSequence.h"
 #include "pso/ui/window/TWindowAddition.h"
 #include "pso/ui/window/TWindowMenu.h"

@@ -1,3 +1,4 @@
+#include "pso/ui/window/TWindowDD_80341A08.h"
 #include "types.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowDD_80342E40.h"
@@ -25,7 +26,6 @@ void TWindowDD__sub_80341AF8(u8 *arg0);
 s32 open_numeric_parameter_input__9TWindowDDFPviii(void *, int, int, void *);
 s32 classify_id__9TWindowDDFs();
 s32 TWindowDD__sub_80347CC8(void *, void *);
-s32 TWindowDD__sub_80342158(s32);
 s32 TWindowDD__sub_803435A0(void *);
 s32 TWindowDD__sub_80347C50();
 s32 TWindowDD__sub_803482B0(void *);
@@ -60,7 +60,7 @@ void TWindowDD::handle_confirm_input() {
     TWindowDD__sub_80347C50();
     if (((TWindowDD *)arg0)->test_input_flag_4() != 0) {
         TWindowDD::play_sound();
-        id = TWindowDD__sub_80342158(arg0->ids[arg0->idx]);
+        id = TWindowDD__sub_80342158(reinterpret_cast<TWindowDD_WS_Word *>(arg0->ids[arg0->idx]));
         arg0->fc6 = TWindowDD__sub_80348448(arg0, id);
         arg0->fb4 = TWindowDD__sub_80348424(arg0, id);
         push_recent_id(id);

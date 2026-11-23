@@ -1,11 +1,12 @@
 #include "types.h"
+#include "pso/unk/WindowLayoutRecord.h"
 #include "pso/ui/window/WindowSpritePart.h"
 #include "pso/ui/window/WindowDrawContext.h"
-#include "pso/unk/TUnk_804CF918.h"
+#include "pso/unk/TWindowLayoutEntry.h"
 #include "pso/ui/window/TWindowSubStatusDisp_8025B050.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/system/memory.h"
-#include "pso/unk/TUnk_804CF930.h"
+#include "pso/unk/TWindowStatusGauge.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 #include "pso/object/ambient/TObjFish.h"
@@ -13,19 +14,8 @@
 #include "pso/render/render_util.h"
 #include "pso/system/vector.h"
 
-struct Win_8025B0D0 {
-    u16 flags; u8 pad2[6];
-    f32 f8; f32 fC; f32 f10; f32 f14; f32 f18;
-    f32 f1C; f32 f20; f32 f24; f32 f28;
-    s32 i2C; s32 *p30; s32 i34;
-};
-
-struct Ref_8025B0D0 { u8 pad0[0x10]; f32 f10; f32 f14; f32 f18; u8 pad1c[0x30 - 0x1C]; s32 i30; u8 pad34[4]; f32 f38; };
-
-struct Quad_8025B0D0 { f32 v[8]; };
-
 extern "C" {
-void draw_window_uv_sprite_part(Win_8025B0D0 *arg0, Ref_8025B0D0 *arg1);
+void draw_window_uv_sprite_part(WindowSpritePart *sprite, WindowDrawContext *context);
 }
 
 void *window_uv_sprite_part_vtable[6] = {
@@ -36,39 +26,42 @@ void *window_uv_sprite_part_vtable[6] = {
     0,
 };
 
-void swap_sprite_v_edges(u8 *arg0) {
-    f32 temp_f1;
-    temp_f1 = *(f32 *)((s8 *)arg0 + 0x20);
-    *(f32 *)((s8 *)arg0 + 0x20) = (f32) *(f32 *)((s8 *)arg0 + 0x28);
-    *(f32 *)((s8 *)arg0 + 0x28) = temp_f1;
+void swap_sprite_v_edges(WindowSpritePart *sprite) {
+    f32 v = sprite->v0;
+    sprite->v0 = sprite->v1;
+    sprite->v1 = v;
 }
 
-void swap_sprite_u_edges(u8 *arg0) {
-    f32 temp_f1;
-    temp_f1 = *(f32 *)((s8 *)arg0 + 0x1C);
-    *(f32 *)((s8 *)arg0 + 0x1C) = (f32) *(f32 *)((s8 *)arg0 + 0x24);
-    *(f32 *)((s8 *)arg0 + 0x24) = temp_f1;
+void swap_sprite_u_edges(WindowSpritePart *sprite) {
+    f32 u = sprite->u0;
+    sprite->u0 = sprite->u1;
+    sprite->u1 = u;
 }
 
-void set_sprite_uv_bounds(void* p, f32 a, f32 b, f32 c, f32 d) { *(f32*)((char*)p + 0x1c) = a; *(f32*)((char*)p + 0x20) = b; *(f32*)((char*)p + 0x24) = c; *(f32*)((char*)p + 0x28) = d; }
-
-void set_sprite_uv_from_pixels(u8 *help, f32 farg0, f32 farg1) {
-    f32 x, y;
-    *(f32 *)((s8 *)help + 0x1C) = (f32) (farg0 / 256.0f);
-    *(f32 *)((s8 *)help + 0x20) = (f32) (farg1 / 256.0f);
-    x = farg0 + *(f32 *)((s8 *)help + 0x10);
-    *(f32 *)((s8 *)help + 0x24) = (f32) (x / 256.0f);
-    y = farg1 + *(f32 *)((s8 *)help + 0x14);
-    *(f32 *)((s8 *)help + 0x28) = (f32) (y / 256.0f);
+void set_sprite_uv_bounds(WindowSpritePart *sprite, f32 u0, f32 v0, f32 u1, f32 v1) {
+    sprite->u0 = u0;
+    sprite->v0 = v0;
+    sprite->u1 = u1;
+    sprite->v1 = v1;
 }
 
-void set_sprite_dimensions(void* p, f32 a, f32 b) { *(f32*)((char*)p + 0x10) = a; *(f32*)((char*)p + 0x14) = b; }
+void set_sprite_uv_from_pixels(WindowSpritePart *sprite, f32 x, f32 y) {
+    sprite->u0 = x / 256.0f;
+    sprite->v0 = y / 256.0f;
+    sprite->u1 = (x + sprite->w) / 256.0f;
+    sprite->v1 = (y + sprite->h) / 256.0f;
+}
+
+void set_sprite_dimensions(WindowSpritePart *sprite, f32 width, f32 height) {
+    sprite->w = width;
+    sprite->h = height;
+}
 
 #pragma push
 #pragma fp_contract on
 
-void draw_window_uv_sprite_part(Win_8025B0D0 *arg0, Ref_8025B0D0 *arg1) {
-    Quad_8025B0D0 q;
+void draw_window_uv_sprite_part(WindowSpritePart *sprite, WindowDrawContext *context) {
+    TexturedQuad q;
     f32 x;
     f32 y;
     f32 scale;
@@ -78,45 +71,45 @@ void draw_window_uv_sprite_part(Win_8025B0D0 *arg0, Ref_8025B0D0 *arg1) {
     f32 lo;
     f32 hi;
     f32 w;
-    x = arg1->f10 + arg0->f8;
-    y = arg1->f14 + arg0->fC;
-    scale = (-1.0f) / ((0.299f) * arg0->f18 + arg1->f38);
-    a = arg0->fC / (21.0f);
-    t = a + arg0->f8 / arg1->f18;
+    x = context->inner_x + sprite->x;
+    y = context->inner_y + sprite->y;
+    scale = (-1.0f) / ((0.299f) * sprite->depth + context->depth);
+    a = sprite->y / (21.0f);
+    t = a + sprite->x / context->inner_w;
     t *= (7.5f);
-    len = (17.0f) * ((f32)arg1->i30 - t);
-    len /= (3.5f) * arg0->f10;
+    len = (17.0f) * ((f32)context->open_tick - t);
+    len /= (3.5f) * sprite->w;
     if (len <= (0.0f)) {
         return;
     }
     if (len > (0.5f)) {
         len = (0.5f);
     }
-    if (arg0->flags & 8) {
+    if (sprite->flags & 8) {
         set_additive_blend();
     }
-    if (arg0->flags & 0xC) {
+    if (sprite->flags & 0xC) {
         begin_screen_draw(1);
     } else {
         begin_screen_draw(0);
     }
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(*arg0->p30));
-    set_draw_texture_and_color(arg0->i34, arg0->i2C);
-    w = arg0->f10;
+    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(*sprite->texture_list_slot));
+    set_draw_texture_and_color(sprite->kind, sprite->color);
+    w = sprite->w;
     lo = (0.5f) - len;
     hi = (0.5f) + len;
-    q.v[0] = w * lo + x;
-    q.v[1] = arg0->f14 * lo + y;
-    q.v[2] = w * hi + x;
-    q.v[3] = arg0->f14 * hi + y;
-    q.v[4] = arg0->f1C;
-    q.v[5] = arg0->f20;
-    q.v[6] = arg0->f24;
-    q.v[7] = arg0->f28;
-    if (arg0->flags & 0x10) {
-        ((WindowDrawContext *)arg1)->transform_quad((TexturedQuad *)&q);
+    q.x0 = w * lo + x;
+    q.y0 = sprite->h * lo + y;
+    q.x1 = w * hi + x;
+    q.y1 = sprite->h * hi + y;
+    q.u0 = sprite->u0;
+    q.v0 = sprite->v0;
+    q.u1 = sprite->u1;
+    q.v1 = sprite->v1;
+    if (sprite->flags & 0x10) {
+        context->transform_quad(&q);
         draw_textured_quad_at_depth((f32 *)&q, scale);
-    } else if (((WindowDrawContext *)arg1)->clip_and_transform_quad((TexturedQuad *)&q) != 0) {
+    } else if (context->clip_and_transform_quad(&q) != 0) {
         draw_textured_quad_at_depth((f32 *)&q, scale);
     }
     TWindowSubStatusDisp::get_player();
@@ -129,7 +122,7 @@ void TWindowSubStatusDisp::update_palette_sprite() {  }
 void *TWindowSubStatusDisp__sub_8025B2DC(void *arg0, s16 arg1) {
     if (arg0 != NULL) {
         *(void ***)((s8 *)arg0 + 4) = window_uv_sprite_part_vtable;
-        __dt__13TUnk_804CF918Fv(arg0, 0);
+        __dt__18TWindowLayoutEntryFv(arg0, 0);
         if (arg1 > 0) {
             ::operator delete(arg0);
         }
@@ -137,42 +130,36 @@ void *TWindowSubStatusDisp__sub_8025B2DC(void *arg0, s16 arg1) {
     return arg0;
 }
 
-u8 *TWindowSubStatusDisp::init_part_direct(u8 *rec, s32 client) {
-    __ct__13TUnk_804CF918Fl(this, client);
-    *(void ***)((s8 *)((u8 *)this) + 4) = window_uv_sprite_part_vtable;
-    copy_vec2((((u8 *)this) + 8), rec + 4);
-    copy_vec2((((u8 *)this) + 0x10), rec + 0xC);
-    this->sort_depth = (f32) *(f32 *)((s8 *)rec + 0x14);
-    *(f32 *)((s8 *)((u8 *)this) + 0x20) = (f32) *(f32 *)((s8 *)rec + 0x18);
-    *(f32 *)((s8 *)((u8 *)this) + 0x24) = (f32) *(f32 *)((s8 *)rec + 0x1C);
-    *(f32 *)((s8 *)((u8 *)this) + 0x28) = (f32) *(f32 *)((s8 *)rec + 0x20);
-    *(f32 *)((s8 *)((u8 *)this) + 0x18) = (f32) *(f32 *)((s8 *)rec + 0x24);
-    this->window_flags = (s32) *(s32 *)((s8 *)rec + 0x28);
-    *(s32 *)((s8 *)((u8 *)this) + 0x30) = (s32) *(s32 *)((s8 *)rec + 0x2C);
-    reinterpret_cast<WindowSpritePart *>(this)->kind = *reinterpret_cast<s32 *>(rec + 0x30);
-    *(s16 *)((s8 *)((u8 *)this) + 0) = (s16) *(s32 *)((s8 *)rec + 0x34);
-    return ((u8 *)this);
+WindowSpritePart *WindowSpritePart::init_part_direct(DirectSpritePartLayoutRecord *source, s32 client) {
+    __ct__18TWindowLayoutEntryFl(this, client);
+    *reinterpret_cast<void ***>(reinterpret_cast<u8 *>(this) + 4) = window_uv_sprite_part_vtable;
+    copy_vec2(&x, source->pos);
+    copy_vec2(&w, source->size);
+    u0 = source->u0;
+    v0 = source->v0;
+    u1 = source->u1;
+    v1 = source->v1;
+    depth = source->depth;
+    color = source->color;
+    texture_list_slot = source->texture_list_slot;
+    kind = source->texture;
+    flags = (u16)source->flags;
+    return this;
 }
 
-u8 *init_part_scaled__20TWindowSubStatusDispFPvPvi(u8 *arg0, u8 *rec, s32 client) {
-    __ct__13TUnk_804CF918Fl(arg0, client);
-    *(void ***)((s8 *)arg0 + 4) = window_uv_sprite_part_vtable;
-    copy_vec2((arg0 + 8), rec + 4);
-    copy_vec2((arg0 + 0x10), rec + 0xC);
-    *(f32 *)((s8 *)arg0 + 0x1C) = (f32) (*(f32 *)((s8 *)rec + 0x14) / 256.0f);
-    *(f32 *)((s8 *)arg0 + 0x20) = (f32) (*(f32 *)((s8 *)rec + 0x18) / 256.0f);
-    {
-        f32 t0 = *(f32 *)((s8 *)rec + 0x14) + *(f32 *)((s8 *)arg0 + 0x10);
-        *(f32 *)((s8 *)arg0 + 0x24) = (f32) (t0 / 256.0f);
-    }
-    {
-        f32 t1 = *(f32 *)((s8 *)rec + 0x18) + *(f32 *)((s8 *)arg0 + 0x14);
-        *(f32 *)((s8 *)arg0 + 0x28) = (f32) (t1 / 256.0f);
-    }
-    *(f32 *)((s8 *)arg0 + 0x18) = (f32) *(f32 *)((s8 *)rec + 0x1C);
-    *(s32 *)((s8 *)arg0 + 0x2C) = (s32) *(s32 *)((s8 *)rec + 0x20);
-    *(s32 *)((s8 *)arg0 + 0x30) = (s32) *(s32 *)((s8 *)rec + 0x24);
-    *(s32 *)((s8 *)arg0 + 0x34) = (s32) *(s32 *)((s8 *)rec + 0x28);
-    *(s16 *)((s8 *)arg0 + 0) = (s16) *(s32 *)((s8 *)rec + 0x2C);
-    return arg0;
+WindowSpritePart *WindowSpritePart::init_part_scaled(SpritePartLayoutRecord *source, s32 client) {
+    __ct__18TWindowLayoutEntryFl(this, client);
+    *reinterpret_cast<void ***>(reinterpret_cast<u8 *>(this) + 4) = window_uv_sprite_part_vtable;
+    copy_vec2(&x, source->pos);
+    copy_vec2(&w, source->size);
+    u0 = source->u / 256.0f;
+    v0 = source->v / 256.0f;
+    u1 = (source->u + w) / 256.0f;
+    v1 = (source->v + h) / 256.0f;
+    depth = source->depth;
+    color = source->color;
+    texture_list_slot = source->texture_list_slot;
+    kind = source->texture;
+    flags = (u16)source->flags;
+    return this;
 }

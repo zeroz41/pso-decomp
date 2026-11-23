@@ -1,3 +1,4 @@
+#include "pso/ui/chat/SymbolChatPreset.h"
 #include "types.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/ui/window/TWindowSubComCard_80244774.h"
@@ -109,18 +110,18 @@ void TWindowShortCut::show_shortcut(s32 index, s32 *shortcut) {
     if (icon != 0x33) {
         SpriteOrigin *origin = (SpriteOrigin *)TWindowSubStatusDisp::get_entry_ptr(icon);
         shortcut_icon->flags &= ~2;
-        set_sprite_uv_from_pixels((u8 *)shortcut_icon, origin->u, origin->v);
+        set_sprite_uv_from_pixels(reinterpret_cast<WindowSpritePart *>(shortcut_icon), origin->u, origin->v);
     } else {
         shortcut_icon->flags |= 2;
     }
 
     SpriteOrigin *detail_origin = (SpriteOrigin *)TWindowSubStatusDisp::get_entry_ptr(icon_detail);
-    set_sprite_uv_from_pixels(detail_icon, detail_origin->u, detail_origin->v);
+    set_sprite_uv_from_pixels(reinterpret_cast<WindowSpritePart *>(detail_icon), detail_origin->u, detail_origin->v);
     set_text_entry_string(kind_label, (uaddr)TWindowSubStatusDisp::get_message_10(0xC5), 0);
     set_text_entry_string(kind_name, (uaddr)TWindowSubStatusDisp::get_message_10(0xC0 + kind), 0);
     s32 kind_sprite = shortcut_kind_sprites[kind - 1];
     SpriteOrigin *kind_origin = (SpriteOrigin *)TWindowSubStatusDisp::get_entry_ptr(kind_sprite);
-    set_sprite_uv_from_pixels(kind_icon, kind_origin->u, kind_origin->v);
+    set_sprite_uv_from_pixels(reinterpret_cast<WindowSpritePart *>(kind_icon), kind_origin->u, kind_origin->v);
 
     position.x = 211.0f;
     position.y = 380.0f;
@@ -160,8 +161,8 @@ void TWindowShortCut::show_shortcut(s32 index, s32 *shortcut) {
         break;
     }
     case 3: {
-        u8 *preset = TWindowChat::open_symbol_chat(shortcut + 1);
-        set_text_entry_string((u8 *)preview, (uaddr)((TWindowSubSymbolChat *)preset)->get_symbol_chat_data(), 0);
+        SymbolChatPreset *preset = TWindowChat::open_symbol_chat(shortcut + 1);
+        set_text_entry_string((u8 *)preview, (uaddr)preset->get_symbol_chat_data(), 0);
         f32 height;
         f32 width;
         width = 203.0f;
@@ -172,7 +173,7 @@ void TWindowShortCut::show_shortcut(s32 index, s32 *shortcut) {
         position.y -= 0.5f * height;
         TWindowChatSymbol *symbol = (TWindowChatSymbol *)new TWindowChatSymbol((saddr)&position, (saddr)&size);
         symbol_preview = symbol;
-        ((TWindowSubSymbolChatPartsSet *)symbol_preview)->set_selection((uaddr)preset);
+        symbol_preview->set_selection(preset);
         symbol_preview->set_depth(50060.0f);
         break;
     }

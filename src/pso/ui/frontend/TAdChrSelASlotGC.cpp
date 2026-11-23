@@ -51,16 +51,10 @@ static const CharacterSlotPosition TAdChrSelASlotGC__data_804758B0 = { 24.0f, 18
 static const CharacterSlotPosition TAdChrSelASlotGC__data_804758B8 = { 431.0f, 182.0f };
 const char *TAdChrSelASlotGC__name = "TAdChrSelASlotGC";
 
-struct G_8030C45C { s32 a; s32 b; s32 c; f32 v[2]; };
-
 struct S_8030C45C { s32 x; s32 y; s32 state; };
 
-extern "C" {
-void set_entry_text__15TAdSubPlyItemGCFPvPv(void *item, G_8030C45C *entry);
-}
-
 TAdChrSelASlotGC *TAdChrSel__global_slot_data;
-extern G_8030C45C chr_select_a_slot_entry;
+extern PlayerSlotLabel chr_select_a_slot_entry;
 extern char char_select_format_message_buffer[];
 
 void TAdChrSelASlotGC::render() {
@@ -87,12 +81,13 @@ s32 TAdChrSelASlotGC::get_plate_value_for_slot(s32 k) {
     return 0;
 }
 
-G_8030C45C *TAdChrSelASlotGC::build_slot_entry(s32 index, s32 slot, void *pos) {
+PlayerSlotLabel *TAdChrSelASlotGC::build_slot_entry(s32 index, s32 slot, void *pos) {
     S_8030C45C *e = (S_8030C45C *)TAdSinglePlyChrSelectGC__sub_801FE4BC(slot);
-    chr_select_a_slot_entry.a = index;
-    chr_select_a_slot_entry.b = e != NULL ? e->x : get_localized_text_entry(0x16, 0x1C);
-    chr_select_a_slot_entry.c = e != NULL ? e->y + 1 : 0;
-    copy_vec2((chr_select_a_slot_entry.v), pos);
+    chr_select_a_slot_entry.slot = index;
+    chr_select_a_slot_entry.name = reinterpret_cast<const char *>(
+        e != NULL ? e->x : get_localized_text_entry(0x16, 0x1C));
+    chr_select_a_slot_entry.level = e != NULL ? e->y + 1 : 0;
+    copy_vec2(&chr_select_a_slot_entry.position, pos);
     return &chr_select_a_slot_entry;
 }
 
@@ -826,4 +821,4 @@ s32 TAdPlayerLoadGC::get_slot_index() { return this->state; }
 
 
 char char_select_format_message_buffer[0x100];
-G_8030C45C chr_select_a_slot_entry;
+PlayerSlotLabel chr_select_a_slot_entry;

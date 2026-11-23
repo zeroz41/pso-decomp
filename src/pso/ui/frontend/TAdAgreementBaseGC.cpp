@@ -30,7 +30,6 @@ static const NJS_POINT2 lbl_804770C4 = {470.0f, 60.0f};
 extern "C" {
 void *__ct__14TAdSelectCurGCFv(void *, TObject *, void *, void *);
 void *get_localized_text_entry(int, u32);
-void draw_window_frame__11TWindowBaseFPv();
 
 void TAdAgreementBaseGC::check_main_task_state() {
     if (TMainTask::get_render_pass() == 1) { return;
@@ -39,10 +38,10 @@ void TAdAgreementBaseGC::check_main_task_state() {
 
 #pragma push
 #pragma fp_contract on
-void TAdAgreementBaseGC::draw_agreement_text() {
+void TAdAgreementBaseGC::draw_agreement_text(void *window, void *frame_context) {
     NJS_POINT2 pos[2];
     u32 i;
-    draw_window_frame__11TWindowBaseFPv();
+    ((TWindowBase *)window)->draw_window_frame(frame_context);
     for (i = 0; i < 2; i++) {
         pos[i].x = 320.0f - (f32) (calc_text_width((char *)(get_localized_text_entry(0x1B, i))) >> 1);
         pos[i].y = 20.0f * (f32) i + 394.0f;
@@ -54,7 +53,7 @@ void TAdAgreementBaseGC::draw_agreement_text() {
 void TAdAgreementBaseGC::vfunc_9() { state = 4; }
 
 void *TAdAgreementBaseGC::create_agreement_callback() {
-    return TAdEnterSerialAccessGC::create_callback((void *)&lbl_804770BC, (void *)&lbl_804770C4, (void *)TAdAgreementBaseGC::draw_agreement_text);
+    return TAdEnterSerialAccessGC::create_callback((void *)&lbl_804770BC, (void *)&lbl_804770C4, TAdAgreementBaseGC::draw_agreement_text);
 }
 
 void TAdAgreementBaseGC::update_state() {

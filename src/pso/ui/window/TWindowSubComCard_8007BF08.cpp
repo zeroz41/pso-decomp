@@ -1,16 +1,15 @@
 #include "types.h"
 #include "pso/ui/window/TWindowSubComCard.h"
+#include "pso/player/GuildCardEntry.h"
 
 extern "C" {
 
-s32 get_card_entry__17TWindowSubComCardFi();
-
 void TWindowSubComCard::update_press() {
-    s32 ply_guild_card_tag;
+    s32 temp_r31;
 
-    ply_guild_card_tag = get_card_entry__17TWindowSubComCardFi();
-    if (TWindowSubComCard::scroll_list(ply_guild_card_tag) == 0) {
-        TWindowSubComCard::select_card_entry(ply_guild_card_tag);
+    temp_r31 = reinterpret_cast<saddr>(get_card_entry__17TWindowSubComCardFi(static_cast<s32>(reinterpret_cast<saddr>(this))));
+    if (TWindowSubComCard::scroll_list(temp_r31) == 0) {
+        TWindowSubComCard::select_card_entry(temp_r31);
     }
 }
 

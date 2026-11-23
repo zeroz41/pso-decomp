@@ -60,7 +60,6 @@ int is_logo_exit_requested(int);
 int is_sega_logo_done(TAdSEGAlogo *logo);
 void process_async_file_reads(void);
 void update_sound_request_slots(void);
-extern int TLogo__exit_requested_flag;
 extern int sega_logo_done_flag;
 extern int logo_clear_flag;
 

@@ -3,7 +3,10 @@
 
 #include "types.h"
 
+struct WindowDrawContext;
+
 extern "C" {
+void draw_window_tab(WindowDrawContext *context, f32 *position, u8 style, f32 width);
 f32 TWindowSubStatusDisp__sub_80287570(void *arg0);
 f32 TWindowSubStatusDisp__sub_802877A4(f32 farg0);
 void TWindowSubStatusDisp__sub_802878B8(u8 *arg0, u8 *arg1);

@@ -3,7 +3,7 @@
 #include "pso/ui/charcreate/CharacterPreviewModels.h"
 #include "pso/ui/charcreate/TChCrLoadAfsTextureReq.h"
 #include "pso/ui/charcreate/TChCrLoadGmNjReq.h"
-#include "pso/unk/TLobby_801E2F94.h"
+#include "pso/system/NinjaChunk.h"
 #include "pso/ui/charcreate/CharacterLoadBuffer.h"
 #include "pso/ui/charcreate/CharacterAppearanceTables.h"
 #include "pso/system/task/TObject_80019A50.h"
@@ -68,17 +68,17 @@ extern s32 chr_select_load_slot_count;
 void TChCrLoadReq::load_preview_models() {
     u32 len;
     u32 tag;
-    u32 bufs[6];
+    uaddr bufs[6];
     CharacterPreviewModels models;
     s32 i;
     s32 j;
-    u32 p;
+    uaddr p;
     for (i = 0; i < 6; i++) {
         len = 0;
-        p = (uaddr)TLobby__sub_801E38A0(m_74[i]->get_load_buffer(), &len, &tag, NULL, NULL);
+        p = (uaddr)TLobby__sub_801E38A0(static_cast<const u8 *>(m_74[i]->get_load_buffer()), &len, &tag, NULL, NULL);
         if (p == 0 || tag != 0x4E4A544C) return;
         TAdSinglePlyChrSelectGC::safe_free(p);
-        bufs[i] = (uaddr)TLobby__sub_801E38A0(m_74[i]->get_load_buffer(), &len, &tag, NULL, NULL);
+        bufs[i] = (uaddr)TLobby__sub_801E38A0(static_cast<const u8 *>(m_74[i]->get_load_buffer()), &len, &tag, NULL, NULL);
         if (bufs[i] == 0 || tag != 0x4E4A434D) {
             for (i = 0; i < 6; i++) TAdSinglePlyChrSelectGC::safe_free(bufs[i]);
             return;

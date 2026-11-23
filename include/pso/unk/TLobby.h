@@ -2,6 +2,10 @@
 #define PSO_UNK_TLOBBY_H
 
 #include "types.h"
+
+struct NJS_SPRITE;
+
+struct ShortMailEntry;
 #include "pso/audio/AdxCallbacks.h"
 #include "pso/audio/GcrnaError.h"
 #include "pso/system/task/TObject.h"
@@ -205,7 +209,6 @@ struct TLobby : public TObject {
     void bswap_fields();
     void bswap_header_3words();
     void bswap_6x6B();
-    u8 get_mode();
     static char *init_serial_access();
     void set_range(u8 *src, int size, s8 *dst);
     static s32 set_range(struct AdxStreamFile *file, s32 threshold, s32 chunk_size);
@@ -300,7 +303,7 @@ struct TLobby : public TObject {
     void bswap_c6_packet();
     void bswap_cmd_c5();
     void bswap_guild_card_meet_user();
-    static void draw_with_camera(s32 arg0, s32 arg1, s32 arg2, f32 farg0);
+    static void draw_with_camera(NJS_SPRITE *sprite, s32 frame_index, s32 flags, f32 depth);
     static void clear_story_flag_list();
     static void clear_story_flags_and_reset_camera();
     static void backup_story_select();
@@ -446,7 +449,7 @@ struct TLobby : public TObject {
     static void init_object_flag();
     static s32 test_flag_1_at_6c84();
     static void clear_flag_at_6c84();
-    static void*get_record(int a0);
+    static NJS_SPRITE *get_record(int index);
     void queue_destruction_and_cleanup();
     void set_flag_and_clear_download();
     void open_keyboard();
@@ -551,7 +554,6 @@ struct TLobby : public TObject {
     u32 get_packet_size();
     u32 get_available_size();
     void copy_u16_array(u16 *src, s32 n);
-    void move_words(u32 *src, s32 n);
     static s32 calc_delta(s32 arg0, s32 arg1);
     static void reset_player_state();
     static s32 aram_dma_blocking(s32 owner, s32 aram, saddr dest, s32 length);
@@ -911,7 +913,7 @@ struct TLobby : public TObject {
     static void append_float_value(s32 arg0);
     static void append_int_param(s32 arg0);
     static void send_simple_mail(s32 arg0, void *arg1);
-    static void *find_short_mail_by_id(u32 id);
+    static ShortMailEntry *find_short_mail_by_id(u32 id);
     static s32 find_free_slot();
     static void remove_entry_at(s32 idx);
     static void clear_all_entries(void* _w0);

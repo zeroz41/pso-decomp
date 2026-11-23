@@ -2,6 +2,9 @@
 #define PSO_ENEMY_MORFOS_TWINDOWSUBTRADEMAIN_H
 
 #include "types.h"
+
+class TWindowInputNumber;
+class TWindowHelpItem;
 #include "pso/system/task/TObject.h"
 
 struct TWindowMainMenu;
@@ -15,8 +18,8 @@ struct TWindowSubTradeMain : public TObject {
     saddr create_trade_window();
     saddr open_trade_equip_window();
     saddr create_list();
-    saddr create_input_number(s32);
-    saddr create_help_item();
+    TWindowInputNumber *create_input_number(s32 maximum);
+    TWindowHelpItem *create_help_item();
     void set_displayed_item(s32);
     void set_labels(s32);
     void set_child_windows_enabled(s32);

@@ -45,11 +45,11 @@ void TAdSubPlyItemGC::run_task() {
 }
 
 extern "C" {
-void set_entry_text__15TAdSubPlyItemGCFPvPv(TAdSubPlyItemGC *self, Entry_802D6DAC *e) {
-    s32 i = e->idx;
-    strncpy(self->names[i], e->str, 0xFE);
-    self->levels[i] = e->id;
-    copy_vec2((&self->name_pos[i]), &e->pos);
+void set_entry_text__15TAdSubPlyItemGCFPvPv(TAdSubPlyItemGC *self, PlayerSlotLabel *e) {
+    s32 i = e->slot;
+    strncpy(self->names[i], e->name, 0xFE);
+    self->levels[i] = e->level;
+    copy_vec2(&self->name_pos[i], &e->position);
     self->level_pos[i].x = (180.0f + self->name_pos[i].x) -
                            (f32)calc_text_width((char *)self->format_level_text(self->levels[i]));
     self->level_pos[i].y = 20.0f + self->name_pos[i].y;
