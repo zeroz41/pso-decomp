@@ -46,19 +46,15 @@ void TLobby::draw_with_camera(NJS_SPRITE *sprite, s32 frame_index, s32 flags, f3
 }
 }
 
-typedef struct Rect_801E2FEC { s16 x, y, w, h; u8 pad8[8]; s16 tex; } Rect_801E2FEC;
-typedef struct Self_801E2FEC { f32 x, y, z; u8 padC[0xC]; s32 param; Rect_801E2FEC *rect; } Self_801E2FEC;
-
 s32 set_texture_num(s32 i);
 
-void TObjPlayer::draw_shadow_quad(s32 arg1, s32 flags) {
-    Self_801E2FEC *self = (Self_801E2FEC *)this;
+void draw_shadow_quad(NJS_SPRITE *sprite, s32 frame, s32 flags) {
     ParticleStripVertex v[4];
     f32 ey, ex, cx, cy, z;
     f32 u0, v0, u1, v1;
 
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(self->param));
-    set_texture_num(self->rect->tex);
+    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(sprite->tlist));
+    set_texture_num(sprite->tanim->texid);
     u0 = 0.01f;
     u1 = 0.99f;
     v0 = u0;
@@ -71,10 +67,10 @@ void TObjPlayer::draw_shadow_quad(s32 arg1, s32 flags) {
         v0 = 0.99f;
         v1 = 0.01f;
     }
-    cx = self->x + 0.5f * (f32)self->rect->x;
-    cy = self->y + 0.5f * (f32)self->rect->y;
-    ex = 0.5f * (f32)self->rect->x - (f32)self->rect->w;
-    ey = 0.5f * (f32)self->rect->y - (f32)self->rect->h;
+    cx = sprite->p.x + 0.5f * (f32)sprite->tanim->sx;
+    cy = sprite->p.y + 0.5f * (f32)sprite->tanim->sy;
+    ex = 0.5f * (f32)sprite->tanim->sx - (f32)sprite->tanim->cx;
+    ey = 0.5f * (f32)sprite->tanim->sy - (f32)sprite->tanim->cy;
     v[0].x = cx - ex;
     v[0].y = cy - ey;
     v[1].x = cx - ex;
@@ -91,7 +87,7 @@ void TObjPlayer::draw_shadow_quad(s32 arg1, s32 flags) {
     v[2].v = v0;
     v[3].u = u1;
     v[3].v = v1;
-    z = self->z;
+    z = sprite->p.z;
     v[0].z = z;
     v[0].color = 0xFF000000;
     v[1].z = z;

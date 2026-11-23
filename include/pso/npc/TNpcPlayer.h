@@ -188,4 +188,6 @@ LAYOUT_ASSERT(TNpcPlayer_size, sizeof(TNpcPlayer) == 0xE8);
 
 // Builds the character record of NPC template index, scaled to the selected difficulty.
 u8 *load_npc_player_template(s32 index);
+// Clears a 6x40 walk-to-position packet and sets its header (subcommand 0x40, size 4).
+void init_6x40_walk_packet(void *cmd);
 #endif

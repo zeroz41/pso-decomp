@@ -169,7 +169,6 @@ void bswap_6x45_packet(void* p);
 void bswap_6x44_packet(void* p);
 void bswap_6x43_packet(void* p);
 u8 get_6x47_cast_packet_size(u8 *arg0);
-void init_6x40_walk_packet(void* cmd);
 int get_registered_object_count(void);
 const char *get_partner_custom_text(s32 kind, u16 player);
 extern void *lbl_804AC690[35];

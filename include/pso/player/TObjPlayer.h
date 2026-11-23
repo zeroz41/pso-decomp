@@ -306,7 +306,6 @@ struct TObjPlayer : public TObjChara {
     void write_ids();
     void set_vec4_const();
     static void init_matrix_stack(s32 arg0, s32 arg1);
-    void draw_shadow_quad(s32 arg1, s32 flags);
     static void render_tree(void *model);
     void draw_compass_sprite(s32 idx, s32 color, s32 flags, f32 z);
     void init_vec_record();

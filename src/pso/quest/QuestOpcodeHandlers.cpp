@@ -938,7 +938,6 @@ int TLobby__sub_8022733C(void*);
 void request_active_window_close(void);
 s32 unhide_enemies_at__6TLobbyFlll(s32, s32, s32, s32);
 }
-void init_6x40_walk_packet(void *cmd);
 s32 get_field_d4(void *);
 void build_6x77_sync_quest_register(void* p);
 void set_quest_floor_designation_ex(s16, s32, s32, s32, s32);
@@ -3401,12 +3400,12 @@ void qst_op_get_num_kills(s32 slot_reg, s32 dst) {
 }
 
 void qst_op_go_floor(s32 a, s32 b) {
-    uaddr r = ((uaddr)get_player_by_client_id(qst_registers[(u8)a]));
-    if (r != 0 && local_client_id == qst_registers[(u8)a]) {
+    TObjPlayer *player = get_player_by_client_id(qst_registers[(u8)a]);
+    if (player != NULL && local_client_id == qst_registers[(u8)a]) {
         floor_transition_state.set_next_floor(qst_registers[(u8)b], get_floor_map_terrain(qst_registers[(u8)b]));
         mark_area_change_pending();
         TNpcPlayer::send_inter_level_warp_all(floor_transition_state.get_next_floor());
-        send_6x21_inter_level_warp((TObjPlayer *)r, floor_transition_state.get_next_floor());
+        send_6x21_inter_level_warp(player, floor_transition_state.get_next_floor());
     }
 }
 

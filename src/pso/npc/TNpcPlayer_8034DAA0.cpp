@@ -463,28 +463,28 @@ void handle_6x69_npc_control(Pkt_8034E814 *pkt) {
 
 void TNpcPlayer::send_inter_level_warp_all(s32 value) {
     s32 i;
-    saddr player;
+    TObjPlayer *player;
 
     for (i = 0; i < 4; i++) {
-        player = (saddr)get_player_by_client_id(i);
-        if (player != 0 && reinterpret_cast<TObjPlayer *>(player)->obj_isState3_324() != 0 && ((TObjPlayer *)player)->get_npc_controller() != 0xFFFF) {
-            send_6x21_inter_level_warp((TObjPlayer *)player, value);
+        player = get_player_by_client_id(i);
+        if (player != NULL && player->obj_isState3_324() != 0 && player->get_npc_controller() != 0xFFFF) {
+            send_6x21_inter_level_warp(player, value);
         }
     }
 }
 
 void TNpcPlayer::apply_to_players(s32 value, void *arg1, s32 heading) {
-    s32 var_r31;
-    saddr player;
-    var_r31 = 0;
+    s32 client;
+    TObjPlayer *player;
+    client = 0;
     do {
-        player = (saddr)get_player_by_client_id(var_r31);
-        if ((player != 0) && (reinterpret_cast<TObjPlayer *>(player)->obj_isState3_324() != 0) && ((u16) ((TObjPlayer *)player)->get_npc_controller() != 0xFFFF)) {
-            set_arrival_override_coords(((TObjBase *)(player))->get_entity_id(), heading, *(f32 *)((s8 *)arg1 + 0), *(f32 *)((s8 *)arg1 + 4), *(f32 *)((s8 *)arg1 + 8));
-            send_6x21_inter_level_warp((TObjPlayer *)player, value);
+        player = get_player_by_client_id(client);
+        if ((player != NULL) && (player->obj_isState3_324() != 0) && (player->get_npc_controller() != 0xFFFF)) {
+            set_arrival_override_coords(player->get_entity_id(), heading, *(f32 *)((s8 *)arg1 + 0), *(f32 *)((s8 *)arg1 + 4), *(f32 *)((s8 *)arg1 + 8));
+            send_6x21_inter_level_warp(player, value);
         }
-        var_r31 += 1;
-    } while (var_r31 < 4);
+        client += 1;
+    } while (client < 4);
 }
 
 void TNpcPlayer::send_6x3e_to_all_players(void *pos, s32 arg) {

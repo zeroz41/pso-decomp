@@ -32,6 +32,7 @@
 #include "pso/system/byteswap.h"
 #include "pso/system/TLanguage.h"
 #include "pso/unk/TLobby.h"
+#include "pso/unk/TLobby_801E2F94.h"
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/npc/TNpcPlayer.h"
 #include "pso/ui/window/TWindowCtrl.h"
@@ -99,7 +100,6 @@ const NJS_ARGB fish_draw_color[1] = {{0.2f, 0.0f, 0.0f, 0.0f}};
 const ParticleAngles boss3_volopt_init_vec = {0, 0, 0x8000};
 
 struct ByteBlock_C { u8 bytes[0xc]; };
-void init_6x40_walk_packet(void *cmd);
 void close_gogo_ball_timer() { TWindowCtrl::close_timer_window(); }
 void add_gogo_ball_one_point_score(s32 i) {
     gogo_ball_team_scores[i] += 1;
@@ -528,7 +528,7 @@ void TObjGoGoBall::draw_shadow_quads(Vec *pos, Vec *dir, s32 angle, Vec *scale, 
     Angle3 rot;
     NJS_ARGB col;
     NJS_SPRITE sprite;
-    if (blob_shadow_texture_list == 0) {
+    if (blob_shadow_texture_list == NULL) {
         return;
     }
     direction_to_rotation_xz((u8 *)dir, &rot.x, &rot.z);
@@ -548,7 +548,7 @@ void TObjGoGoBall::draw_shadow_quads(Vec *pos, Vec *dir, s32 angle, Vec *scale, 
     sprite.sx = 1.0f;
     sprite.sy = 1.0f;
     sprite.ang = 0;
-    sprite.tlist = (NJS_TEXLIST *)blob_shadow_texture_list;
+    sprite.tlist = blob_shadow_texture_list;
     sprite.tanim = &gogo_ball_shadow_texanim;
     col.a = alpha;
     col.r = 1.0f;
@@ -556,16 +556,16 @@ void TObjGoGoBall::draw_shadow_quads(Vec *pos, Vec *dir, s32 angle, Vec *scale, 
     col.b = 1.0f;
     set_constant_material(&col);
     TParticleCtrl::begin_effect_render();
-    ((TObjPlayer *)&sprite)->draw_shadow_quad(0, 0x22);
+    draw_shadow_quad(&sprite, 0, 0x22);
     sprite.p.x = 0.0f;
     sprite.p.y = 0.0f;
-    ((TObjPlayer *)&sprite)->draw_shadow_quad(0, 0x26);
+    draw_shadow_quad(&sprite, 0, 0x26);
     sprite.p.x = -5.0f;
     sprite.p.y = -5.0f;
-    ((TObjPlayer *)&sprite)->draw_shadow_quad(0, 0x2A);
+    draw_shadow_quad(&sprite, 0, 0x2A);
     sprite.p.x = 0.0f;
     sprite.p.y = -5.0f;
-    ((TObjPlayer *)&sprite)->draw_shadow_quad(0, 0x2E);
+    draw_shadow_quad(&sprite, 0, 0x2E);
     TParticleCtrl::end_effect_render();
     set_constant_material(&chunk_material_color_half_alpha_f32);
     pop_matrix();
