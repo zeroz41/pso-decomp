@@ -10,6 +10,7 @@ struct OSContext;
 class TAdGuideTxtGC;
 class TAdChrSelPlayerGC;
 class TPlyCharData;
+struct CharacterFile;
 
 struct TCheckMemoryCard;
 
@@ -168,14 +169,14 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     static s32 apply_loaded_character(int arg0);
     static void build_default_save_file();
     static void build_save_file();
-    static s32 check_page_cross(int arg1, int arg2, int arg3, int arg4);
+    static s32 check_page_cross(CharacterFile *arg1, int arg2, CharacterFile *arg3, int arg4);
     static s32 check_system_file_status();
     static void clear_load_buffers();
     static void clear_slot_body(int i);
     static void clear_slot_entry(int i);
     static saddr construct_card_window_array(int arg0);
     static void * copy_char_slot_data(void * a0, void * a1);
-    static s32 copy_character_to_slot(unsigned int arg0, int arg1, unsigned int arg2, int arg3);
+    static s32 copy_character_to_slot(CharacterFile *arg0, int arg1, CharacterFile *arg2, int arg3);
     static void copy_chr_slots_from_request();
     static s32 copy_save_data(int arg0, int arg1);
     static void encrypt_save_data(void *arg0);
@@ -224,8 +225,8 @@ LAYOUT_ASSERT(TAdSinglePlyChrSelectGC_m_34_offset, offsetof(TAdSinglePlyChrSelec
 
 // Memory-card save state of the character select scene (.sbss of TAdSinglePlyChrSelectGC_801FBF54.cpp,
 // in definition order). The buffers hold heap addresses as words: every test of them against 0 is a cmplwi.
-extern uaddr card_character_save_buffer;
-extern uaddr secondary_card_character_save_buffer;
+extern CharacterFile *card_character_save_buffer;
+extern CharacterFile *secondary_card_character_save_buffer;
 extern TPlyCharData *selected_character_data;
 extern uaddr active_character_save_record;
 extern uaddr guild_card_save_payload;

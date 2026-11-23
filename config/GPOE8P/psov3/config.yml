@@ -5013,7 +5013,7 @@ force_active:
   - check_object_in_view_cone__6TSceneFiPvPvPvi
   - check_open_trigger__20TContainerAncient01RFv
   - check_owner__13TObjTombstoneFv
-  - check_page_cross__23TAdSinglePlyChrSelectGCFiiii
+  - check_page_cross__23TAdSinglePlyChrSelectGCFP13CharacterFileiP13CharacterFilei
   - check_parts_visible__12TBoss1DragonFP14TObjCollidable
   - check_path_ahead__14TObjEneDolmOlmFlf
   - check_phase_advance__12TBoss1DragonFv
@@ -5350,7 +5350,7 @@ force_active:
   - copy_challenge_result_record__FP21ChallengeResultRecordPC21ChallengeResultRecord
   - copy_char_slot_data__23TAdSinglePlyChrSelectGCFPvPv
   - copy_character_data__23TAdSinglePlyChrSelectGCFPUc
-  - copy_character_to_slot__23TAdSinglePlyChrSelectGCFUiiUii
+  - copy_character_to_slot__23TAdSinglePlyChrSelectGCFP13CharacterFileiP13CharacterFilei
   - copy_chat_entry__20TWindowSubSymbolChatFPl
   - copy_data__18TCheckRoomSequenceFPvPv
   - copy_debris_params__8TObjChipFPvPv

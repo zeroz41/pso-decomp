@@ -7,7 +7,13 @@
 struct CharacterSaveRecord {
     CharacterSaveRecord();
 
-    u8 pad_0[0x250];
+    u8 pad_0[0x4];
+    s32 pad_4;
+    u8 pad_8[0x14 - 0x8];
+    u32 pad_14;
+    u8 pad_18[0x248 - 0x18];
+    s32 pad_248;
+    s32 pad_24C;
     // 200 entries of 0x18, built by TAdSinglePlyChrSelectGC__sub_802115C0 (as TCheckRoomSequence builds its bank).
     u8 bank_items[200 * 0x18];
     // Set up by init_guild_card_tag.
