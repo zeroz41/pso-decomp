@@ -215,9 +215,9 @@ void BmlResource::load_texture_sub(void *name, s32 index) {
         TLobby::debug_print("LoadTextureSub: %s too large.", buf);
     } else if (size > 0) {
         load_gvm_texture_archive(lobby_download_buffer, models[index].texlist);
-        models[index].m_0 |= 1;
+        models[index].flags |= 1;
     } else {
-        models[index].m_0 |= 2;
+        models[index].flags |= 2;
         if (!(flags & 4)) {
             TLobby::debug_print("LoadTextureSub: %s load failed.", buf);
         }
@@ -401,7 +401,7 @@ s32 TLobby::load_bml_exec(BmlResource *bml, u8 *name) {
                     TLobby::set_read_params(&lobby_bml_file_handle, (int)n, (saddr)lobby_bml_read_buffer);
                 }
             } else {
-                bml->models[bml_load_entry_index].m_0 |= 2;
+                bml->models[bml_load_entry_index].flags |= 2;
                 if (!(bml->flags & 4)) {
                     TLobby::debug_print("LoadBmlExec: %s load failed.", bml_header_record_ptr);
                 }
@@ -423,7 +423,7 @@ s32 TLobby::load_bml_exec(BmlResource *bml, u8 *name) {
         } else if (ADXF_GetStat(lobby_bml_file_handle) == 3) {
             TLobby::reset_read_state();
             load_gvm_texture_archive(lobby_bml_read_buffer, bml->models[bml_load_entry_index].texlist);
-            bml->models[bml_load_entry_index].m_0 |= 1;
+            bml->models[bml_load_entry_index].flags |= 1;
             bml_load_entry_index++;
             bml_header_record_ptr++;
             bml->loaded_textures++;
@@ -476,7 +476,7 @@ void increment_ref_and_set_flag__6TLobbyFPv(void *context) {
     BmlResource *resource = request->resource;
     resource->loaded_textures++;
     TLobby::check_bin_model_loaded(request->resource, resource);
-    request->entry->m_0 |= 1;
+    request->entry->flags |= 1;
 }
 }
 void load_bin_motion_callback(BmlMotionLoadRequest *request) {
@@ -633,7 +633,7 @@ BmlResource::~BmlResource() {
             free_if_not_in_arena(models[i].model);
         }
         if (models[i].texlist != NULL) {
-            if (models[i].m_0 & 1) {
+            if (models[i].flags & 1) {
                 release_texture_list(models[i].texlist);
             }
             free_if_not_in_arena(models[i].texlist);
@@ -681,7 +681,7 @@ BmlResource::BmlResource(s32 kind, BmlResourceDescriptor *descriptor, saddr on_l
     if (model_count > 0) {
         models = (BmlModelEntry *)mem_alloc(model_count * sizeof(BmlModelEntry));
         for (s32 i = 0; i < model_count; i++) {
-            models[i].m_0 = 0;
+            models[i].flags = 0;
             models[i].model = NULL;
             models[i].texlist = NULL;
         }
@@ -762,13 +762,13 @@ BmlResource::BmlResource(s32 kind, BmlResourceDescriptor *descriptor, saddr on_l
                             prs_decompress_buffer(tbuf, (saddr)resource_decompress_buffer);
                             TAdSinglePlyChrSelectGC::safe_free(tbuf);
                             if (load_gvm_texture_archive(resource_decompress_buffer, models[i].texlist) > 0) {
-                                models[i].m_0 |= 1;
+                                models[i].flags |= 1;
                             } else {
-                                models[i].m_0 |= 2;
+                                models[i].flags |= 2;
                                 TLobby::debug_print("TBinModel: Illegal Texture.");
                             }
                         } else {
-                            e->m_0 |= 2;
+                            e->flags |= 2;
                             if (!(this->flags & 4)) {
                                 TLobby::debug_print("TBinModel: Texture not exist.");
                             }

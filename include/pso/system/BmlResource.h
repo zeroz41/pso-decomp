@@ -5,7 +5,7 @@
 #include <stddef.h>
 
 struct BmlModelEntry {
-    s32 m_0;
+    u32 flags; // 1 once its texture list is loaded, 2 when that load failed
     s32 m_4;
     NJS_OBJECT *model;
     // The model's texture list, set as the global texture list before it is drawn.
