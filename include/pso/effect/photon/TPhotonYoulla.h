@@ -2,9 +2,9 @@
 #define PSO_EFFECT_PHOTON_TPHOTONYOULLA_H
 
 #include "types.h"
-#include "pso/unk/TUnk_804C3248.h"
+#include "pso/effect/photon/PhotonBlastSummon.h"
 
-struct TPhotonYoulla : public TUnk_804C3248 {
+struct TPhotonYoulla : public TPhotonBlastSummon {
     virtual ~TPhotonYoulla();
     // The ctor passes byte +0x1C of its spawn record; the body ignores it.
     void sub_801AE72C(u8);

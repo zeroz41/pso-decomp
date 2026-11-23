@@ -11,7 +11,7 @@
 #include "pso/unk/TLobby.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/render/MaterialColorFade.h"
-#include "pso/unk/TUnk_804C3248.h"
+#include "pso/effect/photon/PhotonBlastSummon.h"
 #include "pso/object/base/TObjMotion.h"
 #include <stddef.h>
 #include "pso/effect/particle/TParticleCtrl.h"
@@ -114,7 +114,7 @@ void TPhotonEstlla::spawn_line() {
         PhotonLineParams packet = photon_estlla_line_packet_init;
         packet.pos = self->pos;
         packet.dir = direction;
-        packet.power = this->m_150;
+        packet.power = this->power;
         new TPhotonLine(&packet, (TObject *)self, this->m_17c);
     }
 }
@@ -128,7 +128,7 @@ void TPhotonEstlla::render() {
         push_matrix();
         translate_matrix(0, self->pos.x, self->pos.y, self->pos.z);
         rotate_matrix_y(0, this->rotation_y);
-        ((TUnk_804C3248 *)self)->set_photon_blast_joint_callback();
+        ((TPhotonBlastSummon *)self)->set_photon_blast_joint_callback();
         saved_model_render_flags = model_render_flags;
         copy_argb((NJS_ARGB *)&saved_model_draw_color, (NJS_ARGB *)&model_material_color);
         saved_chunk_polygon_flags_and_mask = chunk_polygon_flags_and_mask;
@@ -143,7 +143,7 @@ void TPhotonEstlla::render() {
         chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
         copy_argb((NJS_ARGB *)&model_material_color, (NJS_ARGB *)&saved_model_draw_color);
         model_render_flags = saved_model_render_flags;
-        ((TObjPlayer *)self)->clear_render_context();
+        ((TPhotonBlastSummon *)self)->clear_photon_blast_joint_callback();
         pop_matrix();
         TParticleCtrl::end_effect_render();
     }
@@ -170,15 +170,15 @@ void TPhotonEstlla::run_task() {
         }
     }
     if (((s32) *(s32 *)&this->m_1a0 == 0x64) && ((s16) this->requested_action == 1)) {
-        ((TUnk_804C3248 *)arg0)->begin_photon_summon_camera(0);
+        ((TPhotonBlastSummon *)arg0)->begin_photon_summon_camera(0);
         *(s32 *)&this->m_1a0 = 0;
         ((TObjMotion *)arg0)->set_field_b8(0);
-        ((TUnk_804C3248 *)arg0)->spawn_photon_blast_attachment_effects(1);
+        ((TPhotonBlastSummon *)arg0)->spawn_photon_blast_attachment_effects(1);
     }
     *(s16 *)&this->m_190 = (s16) this->requested_action;
-    ((TUnk_804C3248 *)arg0)->update_state();
+    ((TPhotonBlastSummon *)arg0)->update_state();
     ((TObjMotion *)arg0)->advance_animation();
-    ((TUnk_804C3248 *)arg0)->update_photon_blast_attachments();
+    ((TPhotonBlastSummon *)arg0)->update_photon_blast_attachments();
     *(s16 *)((s8 *)arg0 + 0x14C) = (s16) (*(s16 *)((s8 *)arg0 + 0x14C) + 0xF);
     *(s16 *)((s8 *)arg0 + 0x14C) = (s16) (u8) *(s16 *)((s8 *)arg0 + 0x14C);
     if (9e+01f == (f32) *(s32 *)&this->m_1a0) {
@@ -211,7 +211,7 @@ TObjMotionAction photon_estlla_param_table[2] = {
     {MOTION_MODE_LOOP, 0, 0xC, 1.0f, 0},
 };
 
-TPhotonEstlla::TPhotonEstlla(u8 *arg1) : TUnk_804C3248() {
+TPhotonEstlla::TPhotonEstlla(u8 *arg1) : TPhotonBlastSummon() {
     Vec pos;
     u8 *e;
     void *p;
@@ -234,7 +234,7 @@ TPhotonEstlla::TPhotonEstlla(u8 *arg1) : TUnk_804C3248() {
     *(s32 *)&this->m_194 = *(s32 *)((s8 *)arg1 + 0x10);
     *(s32 *)&this->m_198 = *(s32 *)((s8 *)arg1 + 0x14);
     *(s32 *)&this->m_19c = 0;
-    this->m_134 = 0;
+    this->camera_script = 0;
     this->enter_scene();
     *(s32 *)&this->m_1a0 = 0;
     switch (get_current_floor_area()) {
@@ -256,7 +256,7 @@ TPhotonEstlla::TPhotonEstlla(u8 *arg1) : TUnk_804C3248() {
     if (*(s32 *)&this->m_198 == 1) {
         *(s32 *)((s8 *)this + 0x154) |= 1;
     }
-    this->m_150 = *(f32 *)((s8 *)arg1 + 0x20);
+    this->power = *(f32 *)((s8 *)arg1 + 0x20);
     if (*(s32 *)&this->m_194 == 0) {
         this->set_field_b8(0);
         this->begin_photon_summon_camera(0);

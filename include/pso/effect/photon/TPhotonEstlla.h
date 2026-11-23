@@ -2,9 +2,9 @@
 #define PSO_EFFECT_PHOTON_TPHOTONESTLLA_H
 
 #include "types.h"
-#include "pso/unk/TUnk_804C3248.h"
+#include "pso/effect/photon/PhotonBlastSummon.h"
 
-struct TPhotonEstlla : public TUnk_804C3248 {
+struct TPhotonEstlla : public TPhotonBlastSummon {
     TPhotonEstlla(u8 *arg1);
     virtual ~TPhotonEstlla();
     void sub_801AA6F8();

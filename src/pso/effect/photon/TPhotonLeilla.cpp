@@ -1,5 +1,5 @@
 #include "pso/system/NinjaTypes.h"
-#include "pso/unk/TUnk_804C3248.h"
+#include "pso/effect/photon/PhotonBlastSummon.h"
 #include "pso/system/MatrixStack.h"
 
 const char *TPhotonLeilla__class_name = "TPhotonLeilla";
@@ -14,7 +14,6 @@ const char *TPhotonLeilla__class_name = "TPhotonLeilla";
 
 #include "pso/object/base/TObjMotion.h"
 #include <stddef.h>
-#include "pso/effect/photon/PhotonBlastSummon.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/enemy/panarms/TObjEnePanarms.h"
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
@@ -92,10 +91,10 @@ void TPhotonLeilla::render() {
         set_motion_packed_rotation();
         set_chunk_material_override_pair(-1, 0x800);
         set_constant_material((const NJS_ARGB *)(((f32 *)&self->color)));
-        ((TUnk_804C3248 *)self)->set_photon_blast_joint_callback();
+        ((TPhotonBlastSummon *)self)->set_photon_blast_joint_callback();
         ((TObjMotion *)self)->draw();
         clear_motion_packed_rotation();
-        ((TObjPlayer *)self)->clear_render_context();
+        ((TPhotonBlastSummon *)self)->clear_photon_blast_joint_callback();
         chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
         chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
         copy_argb((NJS_ARGB *)&model_material_color, (NJS_ARGB *)&saved_model_draw_color);
@@ -131,21 +130,21 @@ void TPhotonLeilla::run_task() {
         }
     }
     if ((5e+01f == (f32) *(s32 *)&this->m_1ac) && ((s16) this->requested_action == 1)) {
-        ((TUnk_804C3248 *)arg0)->begin_photon_summon_camera(2);
+        ((TPhotonBlastSummon *)arg0)->begin_photon_summon_camera(2);
         *(s32 *)&this->m_1ac = 0;
         ((TObjMotion *)arg0)->set_field_b8(0);
-        ((TUnk_804C3248 *)arg0)->spawn_photon_blast_attachment_effects(4);
+        ((TPhotonBlastSummon *)arg0)->spawn_photon_blast_attachment_effects(4);
     }
     *(s16 *)&this->m_190 = (s16) this->requested_action;
-    ((TUnk_804C3248 *)arg0)->update_state();
+    ((TPhotonBlastSummon *)arg0)->update_state();
     ((TObjMotion *)arg0)->advance_animation();
-    ((TUnk_804C3248 *)arg0)->update_photon_blast_attachments();
+    ((TPhotonBlastSummon *)arg0)->update_photon_blast_attachments();
     *(s16 *)((s8 *)arg0 + 0x14C) = (s16) (*(s16 *)((s8 *)arg0 + 0x14C) + 0xF);
     *(s16 *)((s8 *)arg0 + 0x14C) = (s16) (u8) *(s16 *)((s8 *)arg0 + 0x14C);
     if (1.3e+02f == (f32) *(s32 *)&this->m_1ac) {
         temp_r3_3 = (u8 *)(find_entity_by_id(this->m_17c));
         if (temp_r3_3 != NULL) {
-            queue_photon_blast_hit((get_entity_id(temp_r3_3)), 4, 0, this->m_150);
+            queue_photon_blast_hit((get_entity_id(temp_r3_3)), 4, 0, this->power);
         }
     }
     if ((f32) *(s32 *)&this->m_1ac > 109.0f) {
@@ -203,7 +202,7 @@ void *TPhotonLeilla__ct(Leilla_801AC808 *self, Pkt_801AC808 *pkt) {
     Vec v;
     u8 *o;
     u8 *owner;
-    __ct__13TUnk_804C3248Fv(self);
+    __ct__18TPhotonBlastSummonFv(self);
     *(void **)((u8 *)self + 0x18) = __vt__13TPhotonLeilla;
     F_801AC808(self, const char *, 0) = TPhotonLeilla__class_name;
     F_801AC808(self, s32, 0x138) = 4;
@@ -251,7 +250,7 @@ void *TPhotonLeilla__ct(Leilla_801AC808 *self, Pkt_801AC808 *pkt) {
     F_801AC808(self, f32, 0x150) = pkt->f20;
     if (F_801AC808(self, s32, 0x194) == 0) {
         ((TObjMotion *)self)->set_field_b8(0);
-        ((TUnk_804C3248 *)self)->begin_photon_summon_camera(2);
+        ((TPhotonBlastSummon *)self)->begin_photon_summon_camera(2);
         F_801AC808(self, s32, 0x194) = 1;
         F_801AC808(self, s16, 0x190) = 0;
         F_801AC808(self, s32, 0x19C) = 1;
@@ -264,7 +263,7 @@ void *TPhotonLeilla__ct(Leilla_801AC808 *self, Pkt_801AC808 *pkt) {
         if (o != NULL) {
             construct_photon_magic_square_normal((u8 *)o, (saddr)self, 4, (saddr)&v, 0x78);
         }
-        ((TUnk_804C3248 *)self)->spawn_photon_blast_attachment_effects(4);
+        ((TPhotonBlastSummon *)self)->spawn_photon_blast_attachment_effects(4);
         play_cue_stream_file((saddr)"reila2.adx");
     } else {
         spawn_photon_blast_opening_effects(4, F_801AC808(self, u16, 0x17C));

@@ -3,7 +3,7 @@
 #include "pso/effect/photon/TPhotonFarlla.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/system/task/TObject.h"
-#include "pso/unk/TUnk_804C3248.h"
+#include "pso/effect/photon/PhotonBlastSummon.h"
 #include "pso/system/MatrixStack.h"
 
 const char *TPhotonFarlla__class_name = "TPhotonFarlla";
@@ -26,7 +26,6 @@ const char *TPhotonFarlla__class_name = "TPhotonFarlla";
 #include "pso/unk/TLobby.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-#include "pso/effect/photon/PhotonBlastSummon.h"
 #include "pso/system/vector.h"
 #include <stddef.h>
 #include "pso/enemy/panarms/TObjEnePanarms.h"
@@ -82,7 +81,7 @@ void TPhotonFarlla::update_all_slots() {
         index = 0;
         do {
             if (TObjPlayer::get_battle_param(index) != 0U) {
-                queue_photon_blast_hit((u16) get_entity_id(), 0, 0, this->m_150);
+                queue_photon_blast_hit((u16) get_entity_id(), 0, 0, this->power);
             }
             index += 1;
         } while (index < 0x10);
@@ -97,7 +96,7 @@ void TPhotonFarlla::render() {
         push_matrix();
         translate_matrix(0, self->pos.x, self->pos.y, self->pos.z);
         rotate_matrix_y(0, this->rotation_y);
-        ((TUnk_804C3248 *)self)->set_photon_blast_joint_callback();
+        ((TPhotonBlastSummon *)self)->set_photon_blast_joint_callback();
         saved_model_render_flags = model_render_flags;
         copy_argb((NJS_ARGB *)&saved_model_draw_color, (NJS_ARGB *)&model_material_color);
         saved_chunk_polygon_flags_and_mask = chunk_polygon_flags_and_mask;
@@ -112,7 +111,7 @@ void TPhotonFarlla::render() {
         chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
         copy_argb((NJS_ARGB *)&model_material_color, (NJS_ARGB *)&saved_model_draw_color);
         model_render_flags = saved_model_render_flags;
-        ((TObjPlayer *)self)->clear_render_context();
+        ((TPhotonBlastSummon *)self)->clear_photon_blast_joint_callback();
         pop_matrix();
         TParticleCtrl::end_effect_render();
     }
@@ -164,15 +163,15 @@ void TPhotonFarlla::run_task() {
         }
     }
     if (((s32) *(s32 *)&this->unk_1A4 == 0x64) && ((s16) this->requested_action == 1)) {
-        ((TUnk_804C3248 *)arg0)->begin_photon_summon_camera(1);
+        ((TPhotonBlastSummon *)arg0)->begin_photon_summon_camera(1);
         *(s32 *)&this->unk_1A4 = 0;
         ((TObjMotion *)arg0)->set_field_b8(0);
-        ((TUnk_804C3248 *)arg0)->spawn_photon_blast_attachment_effects(0);
+        ((TPhotonBlastSummon *)arg0)->spawn_photon_blast_attachment_effects(0);
     }
     this->m_194 = (s16) this->requested_action;
-    ((TUnk_804C3248 *)arg0)->update_state();
+    ((TPhotonBlastSummon *)arg0)->update_state();
     ((TObjMotion *)arg0)->advance_animation();
-    ((TUnk_804C3248 *)arg0)->update_photon_blast_attachments();
+    ((TPhotonBlastSummon *)arg0)->update_photon_blast_attachments();
     *(s16 *)((s8 *)arg0 + 0x14C) = (s16) (*(s16 *)((s8 *)arg0 + 0x14C) + 0xF);
     *(s16 *)((s8 *)arg0 + 0x14C) = (s16) (u8) *(s16 *)((s8 *)arg0 + 0x14C);
     if (1.4e+02f == (f32) *(s32 *)&this->unk_1A4) {
@@ -216,10 +215,10 @@ void *destroy__13TPhotonFarllaFPvs(void *photon_farlla, s16 arg1) {
     if (photon_farlla != NULL) {
         *(s32 **)((s8 *)photon_farlla + 0x18) = (s32 *)lbl_804C3564;
         ((TPhotonFarlla *)photon_farlla)->update_if_active();
-        ((TUnk_804C3248 *)photon_farlla)->free_photon();
+        ((TPhotonBlastSummon *)photon_farlla)->free_photon();
         ((TObjCollidable *)photon_farlla)->unregister_object_by_id();
         free_collision_body_parts(photon_farlla);
-        __dt__13TUnk_804C3248Fv(photon_farlla, 0);
+        __dt__18TPhotonBlastSummonFv(photon_farlla, 0);
         if (arg1 > 0) {
             TObject::operator delete(photon_farlla);
         }
@@ -236,12 +235,12 @@ extern "C" void get_name__8TObjBaseFv();
 extern "C" void get_center__8TObjBaseFv();
 extern "C" void apply_object_set_data__8TObjBaseFPv();
 extern "C" void classify_actor_view_detail__8TObjBaseFfff();
-extern "C" void enter_scene__13TUnk_804C3248Fv();
+extern "C" void enter_scene__18TPhotonBlastSummonFv();
 extern "C" void render__13TPhotonFarllaFv();
 extern "C" void render_shadows__7TObjectFv();
 extern "C" void reset_motion_fields__10TObjMotionFv();
 extern "C" void run_task__13TPhotonFarllaFv();
-extern "C" void update_if_active__13TUnk_804C3248Fv();
+extern "C" void update_if_active__18TPhotonBlastSummonFv();
 extern "C" void update_object_view_visibility__8TObjBaseFff();
 #pragma push
 #pragma opt_propagation off
@@ -258,14 +257,14 @@ void *lbl_804C3564[17] = {
     (void *)0x0, (void *)0x0, (void *)&destroy__13TPhotonFarllaFPvs, (void *)&run_task__13TPhotonFarllaFv,
     (void *)&render__13TPhotonFarllaFv, (void *)&render_shadows__7TObjectFv, (void *)&vfunc_6__8TObjBaseFPsl, (void *)&apply_object_set_data__8TObjBaseFPv,
     (void *)&reset_motion_fields__10TObjMotionFv, (void *)&get_center__8TObjBaseFv, (void *)&update_object_view_visibility__8TObjBaseFff, (void *)&classify_actor_view_detail__8TObjBaseFfff,
-    (void *)&get_name__8TObjBaseFv, (void *)&interact__14TObjCollidableFl, (void *)&enter_scene__13TUnk_804C3248Fv, (void *)&update_if_active__13TUnk_804C3248Fv,
+    (void *)&get_name__8TObjBaseFv, (void *)&interact__14TObjCollidableFl, (void *)&enter_scene__18TPhotonBlastSummonFv, (void *)&update_if_active__18TPhotonBlastSummonFv,
     (void *)0x0,
 };
 u8 *TPhotonFarlla__ct(u8 *summon, u8 *arg1) {
     Vec pos;
     u8 *e;
     void *p;
-    __ct__13TUnk_804C3248Fv(summon);
+    __ct__18TPhotonBlastSummonFv(summon);
     *(u8 **)((s8 *)summon + 0x18) = (u8 *)lbl_804C3564;
     ((TPhotonFarlla *)summon)->m_name = TPhotonFarlla__class_name;
     *(s32 *)((s8 *)summon + 0x138) = 0;
@@ -290,7 +289,7 @@ u8 *TPhotonFarlla__ct(u8 *summon, u8 *arg1) {
     ((TPhotonFarlla *)summon)->m_198 = *(s32 *)((s8 *)arg1 + 0x10);
     *(s32 *)((s8 *)summon + 0x19C) = *(s32 *)((s8 *)arg1 + 0x14);
     ((TPhotonFarlla *)summon)->m_1a0 = 0;
-    ((TPhotonFarlla *)summon)->m_134 = 1;
+    ((TPhotonFarlla *)summon)->camera_script = 1;
     ((TPhotonFarlla *)summon)->enter_scene();
     *(s32 *)((s8 *)summon + 0x1A4) = 0;
     switch (get_current_floor_area()) {
@@ -312,10 +311,10 @@ u8 *TPhotonFarlla__ct(u8 *summon, u8 *arg1) {
     if (*(s32 *)((s8 *)summon + 0x19C) == 1) {
         *(s32 *)((s8 *)summon + 0x154) |= 1;
     }
-    ((TPhotonFarlla *)summon)->m_150 = *(f32 *)((s8 *)arg1 + 0x20);
+    ((TPhotonFarlla *)summon)->power = *(f32 *)((s8 *)arg1 + 0x20);
     if (((TPhotonFarlla *)summon)->m_198 == 0) {
         ((TObjMotion *)summon)->set_field_b8(0);
-        ((TUnk_804C3248 *)summon)->begin_photon_summon_camera(1);
+        ((TPhotonBlastSummon *)summon)->begin_photon_summon_camera(1);
         ((TPhotonFarlla *)summon)->m_198 = 1;
         ((TPhotonFarlla *)summon)->m_194 = 0;
         ((TPhotonFarlla *)summon)->m_1a0 = 1;
@@ -328,7 +327,7 @@ u8 *TPhotonFarlla__ct(u8 *summon, u8 *arg1) {
         if (p != NULL) {
             construct_photon_magic_square_normal((u8 *)p, (saddr)summon, 0, (saddr)&pos, 0x78);
         }
-        ((TUnk_804C3248 *)summon)->spawn_photon_blast_attachment_effects(0);
+        ((TPhotonBlastSummon *)summon)->spawn_photon_blast_attachment_effects(0);
         play_cue_stream_file((saddr)"farla2.adx");
     } else {
         spawn_photon_blast_opening_effects(0, ((TPhotonFarlla *)summon)->m_17c);

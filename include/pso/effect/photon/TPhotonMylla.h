@@ -2,9 +2,9 @@
 #define PSO_EFFECT_PHOTON_TPHOTONMYLLA_H
 
 #include "types.h"
-#include "pso/unk/TUnk_804C3248.h"
+#include "pso/effect/photon/PhotonBlastSummon.h"
 
-struct TPhotonMylla : public TUnk_804C3248 {
+struct TPhotonMylla : public TPhotonBlastSummon {
     virtual ~TPhotonMylla();
     void sub_801AD4A8();
     u8 _pad158[0x24];

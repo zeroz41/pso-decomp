@@ -2,9 +2,9 @@
 #define PSO_EFFECT_PHOTON_TPHOTONLEILLA_H
 
 #include "types.h"
-#include "pso/unk/TUnk_804C3248.h"
+#include "pso/effect/photon/PhotonBlastSummon.h"
 
-struct TPhotonLeilla : public TUnk_804C3248 {
+struct TPhotonLeilla : public TPhotonBlastSummon {
     virtual ~TPhotonLeilla();
     void sub_801AC444();
     u8 _pad158[0x24];

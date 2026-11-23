@@ -100,7 +100,7 @@ void *TObjPlayer__sub_801AA66C(void *, void *);
 s16 TObjPlayer__sub_80313114(u8 *arg0);
 u8 *TPhotonLeilla__ct(u8 *self, u8 *params);
 u8 *TPhotonMylla__ct(u8 *self, u8 *params);
-extern u32 lbl_805D5D18;
+
 }
 extern s32 photon_blast_donation_flags[];
 void clear_photon_blast_donations(void);
@@ -615,7 +615,7 @@ void TUnk_804C349C::step_photon_blast_sequence() {
             switch (this->kinds[this->summon_index]) {
             case 2:
             case 3: {
-                TObjChara *anchor = (TObjChara *)find_entity_by_id(lbl_805D5D18);
+                TObjChara *anchor = (TObjChara *)find_entity_by_id(last_photon_blast_hit_identity);
                 if (anchor != NULL) {
                     VecCopy(&this->position, &anchor->position);
                 }
@@ -651,7 +651,7 @@ void TUnk_804C349C::step_photon_blast_sequence() {
             this->summon = (TObject *)summon;
             for (j = 0; j < 4; j++) {
                 if (this->participants[j] < 4) {
-                    ((void (*)(u32, s32, s32))queue_photon_blast_support)(this->participants[j], 4, 1);
+                    queue_photon_blast_support(this->participants[j], 4, 1);
                 }
             }
             break;
@@ -677,7 +677,7 @@ void TUnk_804C349C::step_photon_blast_sequence() {
             this->summon = (TObject *)summon;
             for (j = 0; j < 4; j++) {
                 if (this->participants[j] < 4) {
-                    ((void (*)(u32, s32, s32))queue_photon_blast_support)(this->participants[j], 5, 1);
+                    queue_photon_blast_support(this->participants[j], 5, 1);
                 }
             }
             break;

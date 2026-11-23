@@ -1,9 +1,9 @@
 #ifndef PSO_EFFECT_PHOTON_TPHOTONPILLA_H
 #define PSO_EFFECT_PHOTON_TPHOTONPILLA_H
 #include "types.h"
-#include "pso/unk/TUnk_804C3248.h"
+#include "pso/effect/photon/PhotonBlastSummon.h"
 
-class TPhotonPilla : public TUnk_804C3248 {
+class TPhotonPilla : public TPhotonBlastSummon {
 public:
     virtual ~TPhotonPilla();
     void spawn_laser();

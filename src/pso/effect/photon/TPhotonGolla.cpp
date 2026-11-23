@@ -11,7 +11,6 @@
 #include "pso/unk/text_803D96A8.h"
 #include "pso/player/TObjPlayer_801AB608.h"
 #include "pso/system/vector.h"
-#include "pso/unk/TUnk_804C3248.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/effect/photon/TPhotonGolla.h"
 #include "pso/map/FloorArea.h"
@@ -277,7 +276,7 @@ void TPhotonGolla::render() {
         push_matrix();
         post_translate_matrix(&self->pos);
         rotate_matrix_y(0, this->rotation_y);
-        ((TUnk_804C3248 *)self)->set_photon_blast_joint_callback();
+        ((TPhotonBlastSummon *)self)->set_photon_blast_joint_callback();
         saved_model_render_flags = model_render_flags;
         copy_argb((NJS_ARGB *)&saved_model_draw_color, (NJS_ARGB *)&model_material_color);
         saved_chunk_polygon_flags_and_mask = chunk_polygon_flags_and_mask;
@@ -292,7 +291,7 @@ void TPhotonGolla::render() {
         chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
         copy_argb((NJS_ARGB *)&model_material_color, (NJS_ARGB *)&saved_model_draw_color);
         model_render_flags = saved_model_render_flags;
-        ((TObjPlayer *)self)->clear_render_context();
+        ((TPhotonBlastSummon *)self)->clear_photon_blast_joint_callback();
         pop_matrix();
         TParticleCtrl::end_effect_render();
     }
@@ -321,15 +320,15 @@ void TPhotonGolla::run_task() {
         }
     }
     if ((5e+01f == (f32) *(s32 *)&this->unk_1C8) && ((s16) this->requested_action == 1)) {
-        ((TUnk_804C3248 *)arg0)->begin_photon_summon_camera(5);
+        ((TPhotonBlastSummon *)arg0)->begin_photon_summon_camera(5);
         *(s32 *)&this->unk_1C8 = 0;
         ((TObjMotion *)arg0)->set_field_b8(0);
-        ((TUnk_804C3248 *)arg0)->spawn_photon_blast_attachment_effects(2);
+        ((TPhotonBlastSummon *)arg0)->spawn_photon_blast_attachment_effects(2);
     }
     this->m_1b8 = (s16) this->requested_action;
-    ((TUnk_804C3248 *)arg0)->update_state();
+    ((TPhotonBlastSummon *)arg0)->update_state();
     ((TObjMotion *)arg0)->advance_animation();
-    ((TUnk_804C3248 *)arg0)->update_photon_blast_attachments();
+    ((TPhotonBlastSummon *)arg0)->update_photon_blast_attachments();
     *(s16 *)((s8 *)arg0 + 0x14C) = (s16) (*(s16 *)((s8 *)arg0 + 0x14C) + 0xF);
     *(s16 *)((s8 *)arg0 + 0x14C) = (s16) (u8) *(s16 *)((s8 *)arg0 + 0x14C);
     if ((s32) *(s32 *)&this->unk_1C8 == 0x50) {
@@ -357,10 +356,10 @@ void *destroy__12TPhotonGollaFPvs(void *photon_golla, s16 arg1) {
     if (photon_golla != NULL) {
         *(s32 **)((s8 *)photon_golla + 0x18) = (s32 *)lbl_804C35F4;
         ((TPhotonGolla *)photon_golla)->update_if_active();
-        ((TUnk_804C3248 *)photon_golla)->free_photon();
+        ((TPhotonBlastSummon *)photon_golla)->free_photon();
         ((TObjCollidable *)photon_golla)->unregister_object_by_id();
         free_collision_body_parts(photon_golla);
-        __dt__13TUnk_804C3248Fv(photon_golla, 0);
+        __dt__18TPhotonBlastSummonFv(photon_golla, 0);
         if (arg1 > 0) {
             TObject::operator delete(photon_golla);
         }
@@ -387,12 +386,12 @@ extern "C" void get_name__8TObjBaseFv();
 extern "C" void get_center__8TObjBaseFv();
 extern "C" void apply_object_set_data__8TObjBaseFPv();
 extern "C" void classify_actor_view_detail__8TObjBaseFfff();
-extern "C" void enter_scene__13TUnk_804C3248Fv();
+extern "C" void enter_scene__18TPhotonBlastSummonFv();
 extern "C" void render__12TPhotonGollaFv();
 extern "C" void render_shadows__7TObjectFv();
 extern "C" void reset_motion_fields__10TObjMotionFv();
 extern "C" void run_task__12TPhotonGollaFv();
-extern "C" void update_if_active__13TUnk_804C3248Fv();
+extern "C" void update_if_active__18TPhotonBlastSummonFv();
 extern "C" void update_object_view_visibility__8TObjBaseFff();
 #pragma push
 #pragma opt_propagation off
@@ -409,14 +408,14 @@ void *lbl_804C35F4[17] = {
     (void *)0x0, (void *)0x0, (void *)&destroy__12TPhotonGollaFPvs, (void *)&run_task__12TPhotonGollaFv,
     (void *)&render__12TPhotonGollaFv, (void *)&render_shadows__7TObjectFv, (void *)&vfunc_6__8TObjBaseFPsl, (void *)&apply_object_set_data__8TObjBaseFPv,
     (void *)&reset_motion_fields__10TObjMotionFv, (void *)&get_center__8TObjBaseFv, (void *)&update_object_view_visibility__8TObjBaseFff, (void *)&classify_actor_view_detail__8TObjBaseFfff,
-    (void *)&get_name__8TObjBaseFv, (void *)&interact__14TObjCollidableFl, (void *)&enter_scene__13TUnk_804C3248Fv, (void *)&update_if_active__13TUnk_804C3248Fv,
+    (void *)&get_name__8TObjBaseFv, (void *)&interact__14TObjCollidableFl, (void *)&enter_scene__18TPhotonBlastSummonFv, (void *)&update_if_active__18TPhotonBlastSummonFv,
     (void *)0x0,
 };
 u8 *TPhotonGolla__ct(u8 *summon, u8 *arg1) {
     Vec pos;
     u8 *e;
     void *p;
-    __ct__13TUnk_804C3248Fv(summon);
+    __ct__18TPhotonBlastSummonFv(summon);
     *(u8 **)((s8 *)summon + 0x18) = (u8 *)lbl_804C35F4;
     ((TPhotonGolla *)summon)->m_name = TPhotonGolla__class_name;
     *(s32 *)((s8 *)summon + 0x138) = 2;
@@ -444,7 +443,7 @@ u8 *TPhotonGolla__ct(u8 *summon, u8 *arg1) {
     ((TPhotonGolla *)summon)->m_1bc = *(s32 *)((s8 *)arg1 + 0x10);
     *(s32 *)((s8 *)summon + 0x1C0) = *(s32 *)((s8 *)arg1 + 0x14);
     ((TPhotonGolla *)summon)->m_1c4 = 0;
-    ((TPhotonGolla *)summon)->m_134 = 5;
+    ((TPhotonGolla *)summon)->camera_script = 5;
     ((TPhotonGolla *)summon)->enter_scene();
     *(s32 *)((s8 *)summon + 0x1C8) = 0;
     switch (get_current_floor_area()) {
@@ -468,10 +467,10 @@ u8 *TPhotonGolla__ct(u8 *summon, u8 *arg1) {
     if (*(s32 *)((s8 *)summon + 0x1C0) == 1) {
         *(s32 *)((s8 *)summon + 0x154) |= 1;
     }
-    ((TPhotonGolla *)summon)->m_150 = *(f32 *)((s8 *)arg1 + 0x20);
+    ((TPhotonGolla *)summon)->power = *(f32 *)((s8 *)arg1 + 0x20);
     if (((TPhotonGolla *)summon)->m_1bc == 0) {
         ((TObjMotion *)summon)->set_field_b8(0);
-        ((TUnk_804C3248 *)summon)->begin_photon_summon_camera(5);
+        ((TPhotonBlastSummon *)summon)->begin_photon_summon_camera(5);
         ((TPhotonGolla *)summon)->m_1bc = 1;
         ((TPhotonGolla *)summon)->m_1b8 = 0;
         ((TPhotonGolla *)summon)->m_1c4 = 1;
@@ -484,7 +483,7 @@ u8 *TPhotonGolla__ct(u8 *summon, u8 *arg1) {
         if (p != NULL) {
             TPhotonMagicSquare__ct((u8 *)p, (saddr)summon, 3, (saddr)&pos, 0x96, (f32)0.5f);
         }
-        ((TUnk_804C3248 *)summon)->spawn_photon_blast_attachment_effects(2);
+        ((TPhotonBlastSummon *)summon)->spawn_photon_blast_attachment_effects(2);
         play_cue_stream_file((saddr)"goula2.adx");
     } else {
         spawn_photon_blast_opening_effects(2, *(u16 *)((s8 *)summon + 0x158));

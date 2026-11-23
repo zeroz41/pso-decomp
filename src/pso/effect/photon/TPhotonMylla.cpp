@@ -1,6 +1,6 @@
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/system/NinjaTypes.h"
-#include "pso/unk/TUnk_804C3248.h"
+#include "pso/effect/photon/PhotonBlastSummon.h"
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "types.h"
@@ -16,7 +16,6 @@ struct TPhotonYoulla;
 
 
 #include <stddef.h>
-#include <stddef.h>
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/enemy/panarms/TObjEnePanarms.h"
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
@@ -27,7 +26,6 @@ struct TPhotonYoulla;
 #include "pso/object/trap/TOTrapAncient01_80226534.h"
 #include "pso/effect/photon/TPhotonYoulla.h"
 #include "pso/unk/TLobby_802268F4.h"
-#include "pso/effect/photon/PhotonBlastSummon.h"
 struct Stack_801AD5D8 {
     s32 sp8;
     f32 spC;
@@ -169,7 +167,7 @@ void TPhotonMylla::render() {
         set_material_alpha_compare_reference(0);
         set_chunk_material_override_pair(-1, 0x800);
         set_constant_material((const NJS_ARGB *)(((f32 *)&self->color)));
-        ((TUnk_804C3248 *)self)->set_photon_blast_joint_callback();
+        ((TPhotonBlastSummon *)self)->set_photon_blast_joint_callback();
         ((TObjMotion *)self)->draw();
         clear_motion_packed_rotation();
         set_material_alpha_compare_reference(0xBF);
@@ -177,7 +175,7 @@ void TPhotonMylla::render() {
         chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
         copy_argb((NJS_ARGB *)&model_material_color, (NJS_ARGB *)&saved_model_draw_color);
         model_render_flags = saved_model_render_flags;
-        ((TObjPlayer *)self)->clear_render_context();
+        ((TPhotonBlastSummon *)self)->clear_photon_blast_joint_callback();
         pop_matrix();
         TParticleCtrl::end_effect_render();
     }
@@ -213,15 +211,15 @@ void TPhotonMylla::run_task() {
         }
     }
     if ((100.0f == (f32) ((RecoveredFields_801AD5D8_arg0 *)arg0)->field_1A4) && ((s16) ((RecoveredFields_801AD5D8_arg0 *)arg0)->field_B8 == 1)) {
-        ((TUnk_804C3248 *)arg0)->begin_photon_summon_camera(3);
+        ((TPhotonBlastSummon *)arg0)->begin_photon_summon_camera(3);
         ((RecoveredFields_801AD5D8_arg0 *)arg0)->field_1A4 = 0;
         ((TObjMotion *)arg0)->set_field_b8(0);
-        ((TUnk_804C3248 *)arg0)->spawn_photon_blast_attachment_effects(5);
+        ((TPhotonBlastSummon *)arg0)->spawn_photon_blast_attachment_effects(5);
     }
     ((RecoveredFields_801AD5D8_arg0 *)arg0)->field_194 = (s16) ((RecoveredFields_801AD5D8_arg0 *)arg0)->field_B8;
-    ((TUnk_804C3248 *)arg0)->update_state();
+    ((TPhotonBlastSummon *)arg0)->update_state();
     ((TObjMotion *)arg0)->advance_animation();
-    ((TUnk_804C3248 *)arg0)->update_photon_blast_attachments();
+    ((TPhotonBlastSummon *)arg0)->update_photon_blast_attachments();
     ((RecoveredFields_801AD5D8_arg0 *)arg0)->field_14C = (s16) (((RecoveredFields_801AD5D8_arg0 *)arg0)->field_14C + 0xF);
     ((RecoveredFields_801AD5D8_arg0 *)arg0)->field_14C = (s16) (u8) ((RecoveredFields_801AD5D8_arg0 *)arg0)->field_14C;
     ((RecoveredFields_801AD5D8_arg0 *)arg0)->field_1A4 = (s32) (((RecoveredFields_801AD5D8_arg0 *)arg0)->field_1A4 + 1);
@@ -279,7 +277,7 @@ void *TPhotonMylla__ct(Mylla_801AD970 *self, Pkt_801AD970 *pkt) {
     Vec v;
     u8 *o;
     u8 *owner;
-    __ct__13TUnk_804C3248Fv(self);
+    __ct__18TPhotonBlastSummonFv(self);
     *(void **)((u8 *)self + 0x18) = __vt__12TPhotonMylla;
     F_801AD970(self, const char *, 0) = TPhotonMylla__class_name;
     F_801AD970(self, s32, 0x138) = 5;
@@ -344,7 +342,7 @@ void *TPhotonMylla__ct(Mylla_801AD970 *self, Pkt_801AD970 *pkt) {
     F_801AD970(self, f32, 0x150) = pkt->f20;
     if (F_801AD970(self, s32, 0x198) == 0) {
         ((TObjMotion *)self)->set_field_b8(0);
-        ((TUnk_804C3248 *)self)->begin_photon_summon_camera(3);
+        ((TPhotonBlastSummon *)self)->begin_photon_summon_camera(3);
         F_801AD970(self, s32, 0x198) = 1;
         F_801AD970(self, s16, 0x194) = 0;
         F_801AD970(self, s32, 0x1A0) = 1;
@@ -357,7 +355,7 @@ void *TPhotonMylla__ct(Mylla_801AD970 *self, Pkt_801AD970 *pkt) {
         if (o != NULL) {
             TPhotonMagicSquare__ct((u8 *)o, (saddr)self, 5, (saddr)&v, 0xAA, 0.5f);
         }
-        ((TUnk_804C3248 *)self)->spawn_photon_blast_attachment_effects(5);
+        ((TPhotonBlastSummon *)self)->spawn_photon_blast_attachment_effects(5);
         play_cue_stream_file((saddr)"maila2.adx");
     } else {
         spawn_photon_blast_opening_effects(5, F_801AD970(self, u16, 0x17C));

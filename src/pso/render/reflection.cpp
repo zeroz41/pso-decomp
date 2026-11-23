@@ -300,8 +300,6 @@ void GXSetTevOrder(s32 stage, s32 coord, s32 map, s32 color);
 const f64 lbl_80465E18 = 0.0054931640625;
 
 const Vec sora_reflection_up_vec = {0.0f, 1.0f, 0.0f};
-extern s32 TSceneSora__sky_active_flag;
-extern u32 TSceneSora__instance;
 
 void TObjPlayer::clear_state_if_flag80(s32 arg0) {
     if (arg0 & 0x80) {

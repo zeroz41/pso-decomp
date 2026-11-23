@@ -1,9 +1,9 @@
 #ifndef PSO_EFFECT_PHOTON_TPHOTONFARLLA_H
 #define PSO_EFFECT_PHOTON_TPHOTONFARLLA_H
 #include "types.h"
-#include "pso/unk/TUnk_804C3248.h"
+#include "pso/effect/photon/PhotonBlastSummon.h"
 
-class TPhotonFarlla : public TUnk_804C3248 {
+class TPhotonFarlla : public TPhotonBlastSummon {
 public:
     virtual ~TPhotonFarlla();
     void update_all_slots();

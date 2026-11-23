@@ -1187,7 +1187,6 @@ struct TObjPlayer : public TObjChara {
     static void update_particle_by_phase(NJS_OBJECT *);
     void draw_blob_shadows();
     void set_flag_8_if_check_passes();
-    void clear_render_context();
     u8 *construct_freeze_shell(u8 *arg1, u8 *arg2);
     static void create_tec_zonde(void *source, void *origin, void *targets, s32 level);
     TechniqueContactList *collect_technique_contacts(void *src);

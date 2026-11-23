@@ -37,7 +37,7 @@ struct Ent_80207478 { s32 f0; char *name; };
 extern "C" {
 s32 TSceneSora__sky_active_flag = 1;
 const char *TSceneSora__name = "TSceneSora";
-s32 TSceneSora__instance;
+TSceneSora *TSceneSora__instance;
 BmlResource *TSceneSora__sky_bml_resource;
 s32 TSceneSora__has_sky_motion;
 
@@ -110,7 +110,7 @@ void TSceneSora::create_instance() {
         if (scene_sora != 0) {
             scene_sora = ((saddr)__ct__10TSceneSoraFl((TSceneSora *)((u8 *)scene_sora), (s32)tl_05));
         }
-        TSceneSora__instance = scene_sora;
+        TSceneSora__instance = (TSceneSora *)scene_sora;
         return;
     }
     TSceneSora__instance = 0;

@@ -11,7 +11,6 @@
 #include "pso/render/MaterialAlphaCompare.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/system/vector.h"
-#include "pso/unk/TUnk_804C3248.h"
 #include "pso/object/base/TObjMotion.h"
 
 #include "pso/effect/particle/TParticleCtrl.h"
@@ -80,11 +79,11 @@ void TPhotonYoulla::render() {
         set_material_alpha_compare_reference(0);
         set_chunk_material_override_pair(-1, 0x800);
         set_constant_material((const NJS_ARGB *)(((f32 *)&self->color)));
-        ((TUnk_804C3248 *)self)->set_photon_blast_joint_callback();
+        ((TPhotonBlastSummon *)self)->set_photon_blast_joint_callback();
         ((TObjMotion *)self)->draw();
         clear_motion_packed_rotation();
         set_material_alpha_compare_reference(0xBF);
-        ((TObjPlayer *)self)->clear_render_context();
+        ((TPhotonBlastSummon *)self)->clear_photon_blast_joint_callback();
         chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
         chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
         copy_argb((NJS_ARGB *)&model_material_color, (NJS_ARGB *)&saved_model_draw_color);
@@ -129,7 +128,7 @@ TPhotonYoulla::~TPhotonYoulla() {
 
 u8 *TPhotonYoulla__ct(TPhotonYoulla *photon_youlla, u8 *arg1) {
     u8 *temp_r3;
-    __ct__13TUnk_804C3248Fv(photon_youlla);
+    __ct__18TPhotonBlastSummonFv(photon_youlla);
     *(s32 **)((s8 *)photon_youlla + 0x18) = __vt__13TPhotonYoulla;
     *(s32 *)((s8 *)photon_youlla + 0) = (s32) ((saddr)TPhotonYoulla__name);
     *(s32 *)((s8 *)photon_youlla + 0x138) = 5;
@@ -158,7 +157,7 @@ u8 *TPhotonYoulla__ct(TPhotonYoulla *photon_youlla, u8 *arg1) {
         photon_youlla->m_198 = 1;
         photon_youlla->m_194 = 0;
         photon_youlla->m_1a0 = 1;
-        ((TUnk_804C3248 *)photon_youlla)->spawn_photon_blast_attachment_effects(6);
+        ((TPhotonBlastSummon *)photon_youlla)->spawn_photon_blast_attachment_effects(6);
     } else {
         spawn_photon_blast_opening_effects(6, (photon_youlla->m_17c));
     }

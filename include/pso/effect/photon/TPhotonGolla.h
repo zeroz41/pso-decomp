@@ -1,9 +1,9 @@
 #ifndef PSO_EFFECT_PHOTON_TPHOTONGOLLA_H
 #define PSO_EFFECT_PHOTON_TPHOTONGOLLA_H
 #include "types.h"
-#include "pso/unk/TUnk_804C3248.h"
+#include "pso/effect/photon/PhotonBlastSummon.h"
 
-class TPhotonGolla : public TUnk_804C3248 {
+class TPhotonGolla : public TPhotonBlastSummon {
 public:
     virtual ~TPhotonGolla();
     void sub_801AB688();
