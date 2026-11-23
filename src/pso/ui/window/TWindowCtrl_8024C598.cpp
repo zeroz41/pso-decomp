@@ -15,7 +15,7 @@ s32 TWindowCtrl__sub_8024C5C4(const TWindowChat *chat) {
 }
 
 void TWindowCtrl::set_flag1e_bit40() { this->m_1e |= 0x40; }
-u16 TWindowFukidasi::get_speaker_id() { return this->m_76; }
+u16 TWindowFukidasi::get_speaker_id() { return this->speaker_id; }
 int TWindowFukidasi::get_flag_bit1() { return ((this->m_71) >> 1) & 0x1; }
 
 }

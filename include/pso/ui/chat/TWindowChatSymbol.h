@@ -13,7 +13,7 @@ struct TWindowChatSymbol : public TWindowBase {
     void set_from_key(s32 arg1);
     void update_visibility();
     virtual void render();
-    SymbolChatPreset *m_60;
+    SymbolChatPreset *selected_preset;
     u32 m_64;
     virtual void run_task();
 };

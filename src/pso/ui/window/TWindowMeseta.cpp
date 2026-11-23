@@ -35,7 +35,7 @@ void TWindowMeseta::draw_value(WindowDrawContext *context) {
     draw_window_tab(context, &context->inner_x, 3, m_60);
 }
 void TWindowMeseta::render() {
-    WindowDrawContext *context = setup_window_draw_context(m_6c);
+    WindowDrawContext *context = setup_window_draw_context(draw_scale);
     draw_value(context);
     draw_visible_window_entries(this, &entry_list, context);
 }
@@ -98,11 +98,11 @@ TWindowMeseta::TWindowMeseta(void *position, s32 arg2, s32 str)
     save_position();
     m_60 = TWindowSubStatusDisp__sub_802877A4(frame_size[0] - 16.0f);
     if (TCameraCtrl::get_camera_id() > 2) {
-        m_6c[0] = 0.75f;
-        m_6c[1] = 0.75f;
+        draw_scale[0] = 0.75f;
+        draw_scale[1] = 0.75f;
     } else {
-        m_6c[0] = 1.0f;
-        m_6c[1] = 1.0f;
+        draw_scale[0] = 1.0f;
+        draw_scale[1] = 1.0f;
     }
 }
 

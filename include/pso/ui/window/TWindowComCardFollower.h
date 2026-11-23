@@ -13,14 +13,14 @@ public:
     void set_column(s32 column);
     virtual void render();
     virtual void run_task();
-    TWindowBase *m_60;
+    TWindowBase *parent_window;
     NJS_POINT2 offset;
-    s32 m_6c;
-    s32 m_70;
+    s32 card_column;
+    s32 help_mode;
 };
-LAYOUT_ASSERT(ComCardFollowerParentOffset, offsetof(TWindowComCardFollower, m_60) == 0x60);
+LAYOUT_ASSERT(ComCardFollowerParentOffset, offsetof(TWindowComCardFollower, parent_window) == 0x60);
 LAYOUT_ASSERT(ComCardFollowerPositionOffset, offsetof(TWindowComCardFollower, offset) == 0x64);
-LAYOUT_ASSERT(ComCardFollowerModeOffset, offsetof(TWindowComCardFollower, m_70) == 0x70);
+LAYOUT_ASSERT(ComCardFollowerModeOffset, offsetof(TWindowComCardFollower, help_mode) == 0x70);
 LAYOUT_ASSERT(TWindowComCardFollower_size, sizeof(TWindowComCardFollower) == 0x74);
 
 #endif

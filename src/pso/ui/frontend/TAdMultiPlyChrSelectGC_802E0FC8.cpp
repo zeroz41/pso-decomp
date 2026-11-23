@@ -6,7 +6,7 @@
 
 TAdChrSelPlayerGC::TAdChrSelPlayerGC(TObject *parent, s32 mode, s32 index, s32 slot) : TObjMotion(parent) {
     this->slot = slot;
-    m_108 = index;
+    formation_index = index;
     init_selection_model(mode);
 }
 

@@ -536,7 +536,7 @@ void render__25TWindowSubSymbolChatPartsFv(u8 *window_sub_symbol_chat_parts) {
         fn_80285314((Win_802857C4 *)(window_sub_symbol_chat_parts), (Rect_802857C4 *)(ctx));
         break;
     }
-    draw_window_scrollbar((saddr)((TWindowSubSymbolChatParts *)window_sub_symbol_chat_parts)->m_8c, ctx, window_sub_symbol_chat_parts + 0x68);
+    draw_window_scrollbar((saddr)((TWindowSubSymbolChatParts *)window_sub_symbol_chat_parts)->scrollbar, ctx, window_sub_symbol_chat_parts + 0x68);
     ((TWindowSubSymbolChatParts *)window_sub_symbol_chat_parts)->sub_80285274((u8 *)ctx);
     ((TWindowSubSymbolChatParts *)window_sub_symbol_chat_parts)->m_88->forward_render((void *)(ctx));
 }

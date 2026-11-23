@@ -11,7 +11,7 @@ struct TAdMcCheckGC : public TObject {
     u32 m_1c;
     u32 m_20;
     u32 m_24;
-    s32 m_28;
+    s32 card_slot;
     TObject *m_2c;
     TObject *m_30;
     TObject *m_34;
@@ -21,7 +21,7 @@ struct TAdMcCheckGC : public TObject {
     virtual void run_task();
 };
 
-LAYOUT_ASSERT(TAdMcCheckGC_slot_offset, offsetof(TAdMcCheckGC, m_28) == 0x28);
+LAYOUT_ASSERT(TAdMcCheckGC_slot_offset, offsetof(TAdMcCheckGC, card_slot) == 0x28);
 LAYOUT_ASSERT(TAdMcCheckGC_warnings_offset, offsetof(TAdMcCheckGC, m_2c) == 0x2C);
 LAYOUT_ASSERT(TAdMcCheckGC_size, sizeof(TAdMcCheckGC) == 0x3C);
 

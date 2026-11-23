@@ -19,8 +19,8 @@ public:
     s16 timer;
     s32 m_2c;
     u8 unk_30[0x30];
-    s32 m_60;
-    s32 m_64;
+    s32 rising_color;
+    s32 falling_color;
 };
 
 LAYOUT_ASSERT(TWindowStatusGaugeFeedback_size, sizeof(TWindowStatusGaugeFeedback) == 0x68);

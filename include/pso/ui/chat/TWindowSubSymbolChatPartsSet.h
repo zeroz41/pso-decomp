@@ -20,8 +20,8 @@ struct TWindowSubSymbolChatPartsSet : public TWindowChatSymbol {
     virtual void render();
     u8 m_68;
     s8 selection_mode;
-    s16 m_6a;
-    s16 m_6c;
+    s16 cursor_x;
+    s16 cursor_y;
     u16 m_6e;
     s8 *m_70;
     s32 first_part_index;
@@ -29,7 +29,7 @@ struct TWindowSubSymbolChatPartsSet : public TWindowChatSymbol {
     s32 *m_7c;
     s32 *m_80;
     s32 *m_84;
-    TWindowSubStatusDisp *m_88;
+    TWindowSubStatusDisp *heading_display;
     void draw_selected_part_cursor(void *ctx);
     void handle_cancel();
     void handle_decide();

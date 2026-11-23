@@ -25,10 +25,10 @@ public:
     void init_selection_model(s32);
     s32 state;  // run_task switches on it; render draws in state 3
     s32 m_100;
-    s32 m_104;
-    s32 m_108;
+    s32 layout_mode;
+    s32 formation_index;
     s32 slot;  // its index in multi_chr_select_player_slot_table
-    s32 m_110;
+    s32 status_index;
     u8 pad_114[0x8];
     s32 spin_model;
     u8 visual_record[0x31];  // copy_player_visual_record fills it
@@ -42,7 +42,7 @@ extern TAdChrSelPlayerGC *multi_chr_select_player_slot_table[4];
 LAYOUT_ASSERT(CharacterSelectPlayerSpinOffset, offsetof(TAdChrSelPlayerGC, spin_model) == 0x11C);
 LAYOUT_ASSERT(TAdChrSelPlayerGC_size, sizeof(TAdChrSelPlayerGC) == 0x174);
 LAYOUT_ASSERT(TAdChrSelPlayerGC_m_100_offset, offsetof(TAdChrSelPlayerGC, m_100) == 0x100);
-LAYOUT_ASSERT(TAdChrSelPlayerGC_m_104_offset, offsetof(TAdChrSelPlayerGC, m_104) == 0x104);
-LAYOUT_ASSERT(TAdChrSelPlayerGC_m_110_offset, offsetof(TAdChrSelPlayerGC, m_110) == 0x110);
+LAYOUT_ASSERT(TAdChrSelPlayerGC_layout_mode_offset, offsetof(TAdChrSelPlayerGC, layout_mode) == 0x104);
+LAYOUT_ASSERT(TAdChrSelPlayerGC_status_index_offset, offsetof(TAdChrSelPlayerGC, status_index) == 0x110);
 
 #endif

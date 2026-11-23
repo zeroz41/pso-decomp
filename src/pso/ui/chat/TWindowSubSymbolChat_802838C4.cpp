@@ -17,11 +17,11 @@ void SymbolChatPreset::clear_flag_bit2() {
 }
 
 s32 TWindowSubSymbolChatPartsSet::get_cursor_pos() {
-    return m_6c;
+    return cursor_y;
 }
 
 s32 TWindowSubSymbolChatPartsSet::get_cursor_x() {
-    return m_6a;
+    return cursor_x;
 }
 
 s32 TWindowSubSymbolChatPartsSet::is_active() {

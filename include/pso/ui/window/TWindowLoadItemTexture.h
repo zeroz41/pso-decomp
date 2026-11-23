@@ -20,14 +20,14 @@ struct TWindowLoadItemTexture : public TWindowBase {
     u8 m_61;
     u8 _pad62[0x2];
     f32 draw_scale[2];
-    TItemTexLoad *m_6c;
-    GinjaTextureList *m_70;
+    TItemTexLoad *texture_loader;
+    GinjaTextureList *texture_list;
 };
 
 LAYOUT_ASSERT(TWindowLoadItemTexture_size, sizeof(TWindowLoadItemTexture) == 0x74);
 LAYOUT_ASSERT(TWindowLoadItemTexture_scale_offset, offsetof(TWindowLoadItemTexture, draw_scale) == 0x64);
-LAYOUT_ASSERT(TWindowLoadItemTexture_loader_offset, offsetof(TWindowLoadItemTexture, m_6c) == 0x6C);
-LAYOUT_ASSERT(TWindowLoadItemTexture_list_offset, offsetof(TWindowLoadItemTexture, m_70) == 0x70);
+LAYOUT_ASSERT(TWindowLoadItemTexture_loader_offset, offsetof(TWindowLoadItemTexture, texture_loader) == 0x6C);
+LAYOUT_ASSERT(TWindowLoadItemTexture_list_offset, offsetof(TWindowLoadItemTexture, texture_list) == 0x70);
 
 extern "C" {
 TWindowLoadItemTexture *fn_802628C0(void *position, const f32 *extent, s32 client);

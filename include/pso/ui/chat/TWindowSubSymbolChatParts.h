@@ -28,7 +28,7 @@ struct TWindowSubSymbolChatParts : public TWindowAddition {
     s32 *m_80;
     u8 _pad84[0x4];
     TWindowSubStatusDisp *m_88;
-    Scroll_8026D790 *m_8c;
+    Scroll_8026D790 *scrollbar;
     void select_index_and_scroll(s32 index);
     void update_height();
     void open(s8 *selected_value);
@@ -57,6 +57,6 @@ LAYOUT_ASSERT(TWindowSubSymbolChatParts_selection_offset, offsetof(TWindowSubSym
 LAYOUT_ASSERT(TWindowSubSymbolChatParts_m_7c_offset, offsetof(TWindowSubSymbolChatParts, m_7c) == 0x7C);
 LAYOUT_ASSERT(TWindowSubSymbolChatParts_m_80_offset, offsetof(TWindowSubSymbolChatParts, m_80) == 0x80);
 LAYOUT_ASSERT(TWindowSubSymbolChatParts_m_88_offset, offsetof(TWindowSubSymbolChatParts, m_88) == 0x88);
-LAYOUT_ASSERT(TWindowSubSymbolChatParts_m_8c_offset, offsetof(TWindowSubSymbolChatParts, m_8c) == 0x8C);
+LAYOUT_ASSERT(TWindowSubSymbolChatParts_scrollbar_offset, offsetof(TWindowSubSymbolChatParts, scrollbar) == 0x8C);
 
 #endif

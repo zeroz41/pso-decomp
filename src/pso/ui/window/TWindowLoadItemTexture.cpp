@@ -76,8 +76,8 @@ TWindowLoadItemTexture *TWindowLoadItemTexture::create(void *position, s32 clien
 
 void TWindowLoadItemTexture::render() {
     if ((s32)m_60 == 1) {
-        m_70 = m_6c->ready_texture_list();
-        if (m_70 != NULL) {
+        texture_list = texture_loader->ready_texture_list();
+        if (texture_list != NULL) {
             fn_8026287C(this);
             m_60 = 1;
         }
@@ -96,7 +96,7 @@ void TWindowLoadItemTexture::run_task() {
 }
 
 TWindowLoadItemTexture::~TWindowLoadItemTexture() {
-    m_6c->queue_destruction();
+    texture_loader->queue_destruction();
 }
 
 TWindowLoadItemTexture::TWindowLoadItemTexture(void *position, f32 *extent, s32 client)
@@ -120,7 +120,7 @@ TWindowLoadItemTexture::TWindowLoadItemTexture(void *position, f32 *extent, s32 
     WindowSpritePart *entry = static_cast<WindowSpritePart *>(get_array_entry(0));
     entry->w = extent[0];
     entry->h = extent[1];
-    m_6c = TItemTexLoad::create((TObject *)tl_07);
+    texture_loader = TItemTexLoad::create((TObject *)tl_07);
     m_61 = 0;
     m_60 = 2;
 }

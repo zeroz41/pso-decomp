@@ -330,14 +330,14 @@ void TWindowFukidasi::render() {
     draw_tail(v, (u32)(0xFF000000), off, 0.01495f + draw_depth);
     off[0] = 0.0f;
     off[1] = 0.0f;
-    draw_body((struct DrawCtx_80252558 *)(v), static_cast<u32>(m_84), off, 0.01495f + draw_depth);
-    draw_tail(v, static_cast<u32>(m_84), off, 0.04485f + draw_depth);
+    draw_body((struct DrawCtx_80252558 *)(v), static_cast<u32>(balloon_color), off, 0.01495f + draw_depth);
+    draw_tail(v, static_cast<u32>(balloon_color), off, 0.04485f + draw_depth);
     if (is_active() != 0) {
         draw_visible_window_entries(
             this,
             &entry_list,
             reinterpret_cast<WindowDrawContext *>(v));
-        draw_name_plate__15TWindowFukidasiFv(this, v, static_cast<u32>(m_84));
+        draw_name_plate__15TWindowFukidasiFv(this, v, static_cast<u32>(balloon_color));
     }
 }
 
@@ -558,7 +558,7 @@ void TWindowFukidasi::init_balloon(u16 arg1, s32 str, s32 arg3, f32 farg0) {
     this->m_71 = 0;
     *(s8 *)&this->unk_72 = 2;
     this->m_73 = -1;
-    this->m_76 = arg1;
+    this->speaker_id = arg1;
     this->client_index = arg3;
     if (str != 0) {
         len = TWindowKeyBoardSoft::strnlen((s8 *)str, (u32)0x18);
@@ -737,10 +737,10 @@ s32 TWindowFukidasi::clamp_position(void *arg1, f32 farg0) {
 #pragma pop
 extern "C" {
 void TWindowFukidasi::set_color(u16 arg1) {
-    this->m_84 = 0xFFF8F8F8;
+    this->balloon_color = 0xFFF8F8F8;
     TObjChara *chara;
     if (((u32)arg1 < 0xCU) && ((chara = get_player_by_client_id((u32)arg1)) != 0) && (chara->obj_isState3_324() == 0)) {
-        this->m_84 = (s32) TWindowFukidasi__balloon_color_table[(u16)arg1];
+        this->balloon_color = (s32) TWindowFukidasi__balloon_color_table[(u16)arg1];
     }
 }
 }

@@ -38,7 +38,7 @@ struct TAdMultiPlyChrSelectGC : public TObject {
     s32 m_54;
     s32 swap_search;    // 0x58  first extra slot (0..2) the swap search starts from
     TAdChrSelPlyPlateGC *player_plate;
-    TAdChrSelPlayerGC *unk_60;
+    TAdChrSelPlayerGC *player_preview;
     TAdGuideTxtGC *guide;
     void handle_event(s32 arg1);
     void initialize_selection_state(s32 arg1);
@@ -136,7 +136,7 @@ struct TAdMultiPlyChrSelectGC : public TObject {
 extern "C" TAdMultiPlyChrSelectGC *TAdMultiPlyChrSelectGC__instance;
 
 LAYOUT_ASSERT(TAdMultiPlyChrSelectGC_size, sizeof(TAdMultiPlyChrSelectGC) == 0xA0);
-LAYOUT_ASSERT(TAdMultiPlyChrSelectGC_unk_60_offset, offsetof(TAdMultiPlyChrSelectGC, unk_60) == 0x60);
+LAYOUT_ASSERT(TAdMultiPlyChrSelectGC_player_preview_offset, offsetof(TAdMultiPlyChrSelectGC, player_preview) == 0x60);
 LAYOUT_ASSERT(TAdMultiPlyChrSelectGC_unk_68_offset, offsetof(TAdMultiPlyChrSelectGC, a_slot) == 0x68);
 LAYOUT_ASSERT(TAdMultiPlyChrSelectGC_m_6c_offset, offsetof(TAdMultiPlyChrSelectGC, b_slot) == 0x6C);
 

@@ -155,10 +155,10 @@ TWindowCtrlPlayer::TWindowCtrlPlayer(TObject *parent, s32 arg2) : TObject(parent
 
 TWindowCtrlPlayer::~TWindowCtrlPlayer() {
     if (*(void **)((s8 *)this + 0x3C) != NULL) { ((TObject *)(*(void **)((s8 *)this + 0x3C)))->queue_destruction(); this->m_3c = 0; }
-    if (*(void **)((s8 *)this + 0x38) != NULL) { ((TWindowBase *)(*(void **)((s8 *)this + 0x38)))->close(); this->m_38 = 0; }
+    if (*(void **)((s8 *)this + 0x38) != NULL) { ((TWindowBase *)(*(void **)((s8 *)this + 0x38)))->close(); this->lock_on_window = 0; }
     if (*(void **)((s8 *)this + 0x34) != NULL) { ((TWindowBase *)(*(void **)((s8 *)this + 0x34)))->close(); this->m_34 = 0; }
-    if (*(void **)((s8 *)this + 0x30) != NULL) { ((TWindowBase *)(*(void **)((s8 *)this + 0x30)))->close(); this->m_30 = 0; }
-    if (*(void **)((s8 *)this + 0x2C) != NULL) { ((TWindowBase *)(*(void **)((s8 *)this + 0x2C)))->close(); this->m_2c = 0; }
+    if (*(void **)((s8 *)this + 0x30) != NULL) { ((TWindowBase *)(*(void **)((s8 *)this + 0x30)))->close(); this->simple_status = 0; }
+    if (*(void **)((s8 *)this + 0x2C) != NULL) { ((TWindowBase *)(*(void **)((s8 *)this + 0x2C)))->close(); this->message_information = 0; }
     if (*(void **)((s8 *)this + 0x28) != NULL) { ((TObject *)(*(void **)((s8 *)this + 0x28)))->queue_destruction(); this->m_28 = 0; }
 }
 
@@ -174,7 +174,7 @@ void TWindowCtrlPlayer::sub_8024E0F0() {
     uaddr temp_r3_2;
     switch (*(s16 *)&this->m_1e) {
     case 18:
-        temp_r3 = reinterpret_cast<uaddr>(this->m_30);
+        temp_r3 = reinterpret_cast<uaddr>(this->simple_status);
         if (temp_r3 != 0U) {
             ((TObject *)temp_r3)->clear_update_suspension();
         }

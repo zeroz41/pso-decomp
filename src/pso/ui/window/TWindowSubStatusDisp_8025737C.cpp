@@ -312,8 +312,8 @@ TWindowStatusGaugeFeedback *TWindowStatusGaugeFeedback::init_layout_entry_copy(L
     init_from(&source->gauge, client);
     *reinterpret_cast<s32 **>(reinterpret_cast<u8 *>(this) + 4) = __vt__26TWindowStatusGaugeFeedback;
     shown = (s16)target;
-    m_60 = source->color_rising;
-    m_64 = source->color_falling;
+    rising_color = source->color_rising;
+    falling_color = source->color_falling;
     m_2c = color;
     timer = 0;
     return this;

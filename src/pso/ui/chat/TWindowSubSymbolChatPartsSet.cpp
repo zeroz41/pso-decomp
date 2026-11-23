@@ -104,13 +104,13 @@ void TWindowSubSymbolChatPartsSet::init_symbol_layout(s32 *arg1) {
   m_94 = 2.0f;
   if (((s32) (*arg1)) == 1)
   {
-    m_6a = 0x14;
-    m_6c = 0x20;
+    cursor_x = 0x14;
+    cursor_y = 0x20;
   }
   else
   {
-    m_6a = 0x20;
-    m_6c = 0x20;
+    cursor_x = 0x20;
+    cursor_y = 0x20;
   }
   sel = 0;
   do
@@ -207,7 +207,7 @@ void TWindowSubSymbolChatPartsSet::handle_cancel() {
 void TWindowSubSymbolChatPartsSet::handle_decide() {
     play_sound_effect(0x52D01, 0, 0, 0);
     this->m_68 = (u8) (this->m_68 | 1);
-    this->m_88->set_entry_state(2);
+    this->heading_display->set_entry_state(2);
 }
 
 void TWindowSubSymbolChatPartsSet::sub_8028625C() {
@@ -276,16 +276,16 @@ void TWindowSubSymbolChatPartsSet::handle_cursor_input() {
     camera_ctrl = &controller_input_state.controllers[0];
     if ((test_previous_buttons_packed(camera_ctrl, 0xF0) != 0) || (test_previous_buttons_color(&controller_input_state.keyboard, 0xF0) != 0)) {
         if ((test_previous_buttons_packed(camera_ctrl, 0x80) != 0) || (test_previous_buttons_color(&controller_input_state.keyboard, 0x80) != 0)) {
-            *(s16 *)&this->m_6a = (s16) (*(s16 *)&this->m_6a + 1);
+            *(s16 *)&this->cursor_x = (s16) (*(s16 *)&this->cursor_x + 1);
         }
         if ((test_previous_buttons_packed(camera_ctrl, 0x40) != 0) || (test_previous_buttons_color(&controller_input_state.keyboard, 0x40) != 0)) {
-            *(s16 *)&this->m_6a = (s16) (*(s16 *)&this->m_6a - 1);
+            *(s16 *)&this->cursor_x = (s16) (*(s16 *)&this->cursor_x - 1);
         }
         if ((test_previous_buttons_packed(camera_ctrl, 0x10) != 0) || (test_previous_buttons_color(&controller_input_state.keyboard, 0x10) != 0)) {
-            *(s16 *)&this->m_6c = (s16) (*(s16 *)&this->m_6c - 1);
+            *(s16 *)&this->cursor_y = (s16) (*(s16 *)&this->cursor_y - 1);
         }
         if ((test_previous_buttons_packed(camera_ctrl, 0x20) != 0) || (test_previous_buttons_color(&controller_input_state.keyboard, 0x20) != 0)) {
-            *(s16 *)&this->m_6c = (s16) (*(s16 *)&this->m_6c + 1);
+            *(s16 *)&this->cursor_y = (s16) (*(s16 *)&this->cursor_y + 1);
         }
         switch ((s8)w->f69) {
         case 0:
@@ -351,7 +351,7 @@ void TWindowSubSymbolChatPartsSet::render() {
     this->draw_selected_part_cursor(c_arg);
     copy_vec2((c_arg + 0x10), &sp10);
     copy_vec2((c_arg + 0x28), &sp8);
-    this->m_88->forward_render(c_arg);
+    this->heading_display->forward_render(c_arg);
 }
 
 void TWindowSubSymbolChatPartsSet::run_task() {
@@ -371,7 +371,7 @@ void TWindowSubSymbolChatPartsSet::run_task() {
     toggle_selected_part();
     ((TWindowSubSymbolChatPartsSet *)arg0)->sub_8028625C();
     if ((f32) *(s32 *)&this->open_tick >= 7.5f) {
-        this->m_88->update_subwindow();
+        this->heading_display->update_subwindow();
     }
     ((TWindowDD *)arg0)->initialize_subwindow();
     ((TWindowBase *)arg0)->update_window_entry_list(&entry_list);
@@ -379,7 +379,7 @@ void TWindowSubSymbolChatPartsSet::run_task() {
 
 }
 TWindowSubSymbolChatPartsSet::~TWindowSubSymbolChatPartsSet() {
-    TWindowSubStatusDisp::destroy_status_display((s32)m_88, 1);
+    TWindowSubStatusDisp::destroy_status_display((s32)heading_display, 1);
 }
 
 TWindowSubSymbolChatPartsSet::TWindowSubSymbolChatPartsSet(void *position, s16 index, s32 *first, s32 *second)
@@ -387,8 +387,8 @@ TWindowSubSymbolChatPartsSet::TWindowSubSymbolChatPartsSet(void *position, s16 i
     m_name = TWindowSubSymbolChatPartsSet__name;
     set_depth(50030.0f);
     m_68 = 0;
-    m_6a = 0;
-    m_6c = 0;
+    cursor_x = 0;
+    cursor_y = 0;
     m_6e = index;
     m_70 = NULL;
     m_7c = first;
@@ -397,7 +397,7 @@ TWindowSubSymbolChatPartsSet::TWindowSubSymbolChatPartsSet(void *position, s16 i
     if (heading != NULL) {
         heading = (TWindowSubStatusDisp *)heading->construct_type1_heading((saddr)TWindowSubStatusDisp::get_message_10(0x34), client_index);
     }
-    m_88 = heading;
+    heading_display = heading;
     m_8c = 21.0f;
     m_90 = 49.0f;
     m_94 = 1.0f;

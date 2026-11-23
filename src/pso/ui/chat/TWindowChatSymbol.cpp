@@ -304,17 +304,17 @@ void TWindowSubSymbolChat::init_layout_entries(saddr player) {
 
 void TWindowChatSymbol::update_visibility() {
     u8 *arg0 = (u8 *)this;
-    if (((s32) this->m_64 == 0) && (m_60 == NULL || is_symbol_chat_preset_in_use(m_60) == 0)) {
+    if (((s32) this->m_64 == 0) && (selected_preset == NULL || is_symbol_chat_preset_in_use(selected_preset) == 0)) {
         ((TObject *)arg0)->disallow_rendering();
         return;
     }
     ((TObject *)arg0)->allow_rendering();
-    set_symbol_chat_parts__20TWindowSubSymbolChatFiPv((saddr)(arg0 + 0x24), m_60->get_data_ptr());
+    set_symbol_chat_parts__20TWindowSubSymbolChatFiPv((saddr)(arg0 + 0x24), selected_preset->get_data_ptr());
 }
 
 void TWindowChatSymbol::set_selection(SymbolChatPreset *preset) {
-    if (m_60 != preset) {
-        m_60 = preset;
+    if (selected_preset != preset) {
+        selected_preset = preset;
         update_visibility();
     }
 }
@@ -362,7 +362,7 @@ WindowDescriptor window_chat_symbol_settings = {
 TWindowChatSymbol::TWindowChatSymbol(saddr arg1, saddr arg2) : TWindowBase((u8 *)&window_chat_symbol_settings, (s16)4, (u8 *)arg1) {
     this->m_name = TWindowChatSymbol__name;
     fn_8024491C((void *)this, (void *)arg2);
-    this->m_60 = 0;
+    this->selected_preset = 0;
     this->m_64 = 0;
 }
 }

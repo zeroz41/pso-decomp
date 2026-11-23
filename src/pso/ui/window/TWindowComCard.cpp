@@ -127,13 +127,13 @@ void TWindowTradeRequest::close_request_window() {
 #pragma fp_contract on
 TWindowComCardFollower::TWindowComCardFollower(TWindowBase *parent, NJS_POINT2 *ofs, s32 col, s32 mode, s32 client)
     : TWindowBase((u8 *)TWindowComCard__window_desc_b, (s16)client, (u8 *)get_zero_vec2()) {
-    m_60 = parent;
+    parent_window = parent;
     offset.x = ofs->x;
     offset.y = ofs->y;
-    m_6c = col;
-    m_70 = mode;
-    target_position[0] = 16.0f * (f32)m_6c + (m_60->frame_position[0] + offset.x);
-    target_position[1] = m_60->frame_position[1] + offset.y;
+    card_column = col;
+    help_mode = mode;
+    target_position[0] = 16.0f * (f32)card_column + (parent_window->frame_position[0] + offset.x);
+    target_position[1] = parent_window->frame_position[1] + offset.y;
     save_position();
     ((TWindowComCard *)get_array_entry(0))->set_help_mode(mode);
 }
@@ -145,8 +145,8 @@ void TWindowComCardFollower::run_task() {
     u8 *arg0 = (u8 *)this;
     f32 temp_f1;
     u8 *temp_r4;
-    temp_r4 = (unsigned char *) (this->m_60);
-    temp_f1 = m_60->frame_position[1];
+    temp_r4 = (unsigned char *) (this->parent_window);
+    temp_f1 = parent_window->frame_position[1];
     this->target_position[1] = (f32) (temp_f1 + offset.y);
     this->frame_position[1] = (f32) this->target_position[1];
     ((s32 (*)(void *, int, f32))initialize_subwindow__9TWindowDDFv)((void *)arg0, (saddr)temp_r4, (f32)temp_f1);
@@ -162,18 +162,18 @@ void TWindowComCardFollower::render() {
 #pragma push
 #pragma fp_contract on
 void TWindowComCardFollower::set_column(s32 column) {
-    if (m_6c != column) {
-        m_6c = column;
-        target_position[0] = 16.0f * (f32)m_6c + (m_60->frame_position[0] + offset.x);
+    if (card_column != column) {
+        card_column = column;
+        target_position[0] = 16.0f * (f32)card_column + (parent_window->frame_position[0] + offset.x);
         tween_ticks = 0xF;
     }
 }
 #pragma pop
 
 void TWindowComCardFollower::set_selected_index(s32 value) {
-    if (m_70 != value) {
-        m_70 = value;
-        ((TWindowComCard *)get_array_entry(0))->set_help_mode(m_70);
+    if (help_mode != value) {
+        help_mode = value;
+        ((TWindowComCard *)get_array_entry(0))->set_help_mode(help_mode);
     }
 }
 

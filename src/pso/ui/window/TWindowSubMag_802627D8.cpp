@@ -19,7 +19,7 @@ int TWindowKeyBoardBase::get_flag62_bit8() { return this->m_62 & 0x8; }
 
 void TWindowLoadItemTexture::set_mag_slot_state(TItemData *item) {
     static_cast<WindowSpritePart *>(get_array_entry(0))->flags |= 2;
-    if (m_6c->load_item_icon(item) != 0) {
+    if (texture_loader->load_item_icon(item) != 0) {
         m_60 = 1;
         return;
     }
@@ -28,7 +28,7 @@ void TWindowLoadItemTexture::set_mag_slot_state(TItemData *item) {
 
 void fn_8026287C(TWindowLoadItemTexture *window) {
     WindowSpritePart *sprite = static_cast<WindowSpritePart *>(window->get_array_entry(0));
-    sprite->texture_list_slot = reinterpret_cast<s32 *>(&window->m_70);
+    sprite->texture_list_slot = reinterpret_cast<s32 *>(&window->texture_list);
     sprite->flags &= ~2;
 }
 

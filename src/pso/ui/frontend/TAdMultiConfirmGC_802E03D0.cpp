@@ -71,7 +71,7 @@ extern "C" {
 
 void TAdChrSelPlayerGC::place_model_for_mode(s32) {
     spin_model = 0;
-    switch (m_104) {
+    switch (layout_mode) {
     case 0:
         position.x = 17.0f;
         position.y = -10.5f;
@@ -92,30 +92,30 @@ void TAdChrSelPlayerGC::place_model_for_mode(s32) {
         spin_model = 1;
         break;
     case 3:
-        position.x = 28.0f * m_108 + -14.0f;
+        position.x = 28.0f * formation_index + -14.0f;
         position.y = -10.0f;
         position.z = -110.0f;
         rotation_x = 0;
-        rotation_y = 182.04445f * (7.25f - 14.5f * m_108);
+        rotation_y = 182.04445f * (7.25f - 14.5f * formation_index);
         rotation_z = 0;
         break;
     case 4:
-        position.x = 19.0f * m_108 + -19.0f;
+        position.x = 19.0f * formation_index + -19.0f;
         position.y = -10.0f;
         position.z = -110.0f;
         rotation_x = 0;
-        rotation_y = 182.04445f * (9.8f - 9.8f * m_108);
+        rotation_y = 182.04445f * (9.8f - 9.8f * formation_index);
         rotation_z = 0;
         break;
     case 5: {
         f32 xs[4] = { -21.5f, -8.0f, 7.0f, 23.5f };
         f32 zs[4] = { -110.0f, -118.56f, -110.0f, -118.56f };
         f32 rs[4] = { 11.6f, 3.86f, -3.64f, -11.21f };
-        position.x = xs[m_108];
+        position.x = xs[formation_index];
         position.y = -10.0f;
-        position.z = zs[m_108];
+        position.z = zs[formation_index];
         rotation_x = 0;
-        rotation_y = 182.04445f * rs[m_108];
+        rotation_y = 182.04445f * rs[formation_index];
         rotation_z = 0;
         break;
     }
@@ -124,8 +124,8 @@ void TAdChrSelPlayerGC::place_model_for_mode(s32) {
 #pragma pop
 
 void TAdChrSelPlayerGC::set_index_and_close_status(s32 index) {
-    m_104 = index;
-    place_model_for_mode(m_104);
+    layout_mode = index;
+    place_model_for_mode(layout_mode);
     TAdPlyStatusGC *status = reinterpret_cast<TAdPlyStatusGC *>(TAdPlyStatusGC::get_index());
     if (status != NULL) {
         status->close_window(index);
@@ -133,10 +133,10 @@ void TAdChrSelPlayerGC::set_index_and_close_status(s32 index) {
 }
 
 void TAdChrSelPlayerGC::set_status_value(s32 value) {
-    m_110 = value;
+    status_index = value;
     TAdPlyStatusGC *status = reinterpret_cast<TAdPlyStatusGC *>(TAdPlyStatusGC::get_index());
     if (status != NULL) {
-        TAdPlyStatusGC::set_status_index(reinterpret_cast<saddr>(status), m_110);
+        TAdPlyStatusGC::set_status_index(reinterpret_cast<saddr>(status), status_index);
     }
 }
 

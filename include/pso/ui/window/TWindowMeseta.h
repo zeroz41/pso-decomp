@@ -11,13 +11,13 @@ struct TWindowMeseta : public TWindowBase {
     f32 m_60;
     u32 m_64;
     u32 meseta;
-    f32 m_6c[2];
+    f32 draw_scale[2];
     void run_task();
     s32 get_meseta_value();
     void draw_value(WindowDrawContext *context);
     void set_value(s32 value);
 };
 
-LAYOUT_ASSERT(TWindowMeseta_scale_offset, offsetof(TWindowMeseta, m_6c) == 0x6C);
+LAYOUT_ASSERT(TWindowMeseta_scale_offset, offsetof(TWindowMeseta, draw_scale) == 0x6C);
 LAYOUT_ASSERT(TWindowMeseta_size, sizeof(TWindowMeseta) == 0x74);
 #endif

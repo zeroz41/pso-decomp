@@ -11,12 +11,12 @@ void TAdChrSelPlayerGC::init_selection_model(s32 arg1) {
     this->m_name = lbl_805D3F78;
     state = 0;
     this->m_100 = 0;
-    this->m_110 = 0;
-    m_104 = arg1;
+    this->status_index = 0;
+    layout_mode = arg1;
     this->m_170 = 0;
     *(s32 *)&this->joint_matrices = (saddr)mem_alloc(0xC00);
     TAdPlyStatusGC::get_instance((saddr)this, (s32)arg1);
-    place_model_for_mode(m_104);
+    place_model_for_mode(layout_mode);
 }
 
 }
