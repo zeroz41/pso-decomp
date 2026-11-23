@@ -548,14 +548,14 @@ s32 TObjCityMainWarp::is_warp_enabled() {
     return TObjAreaWarp::is_warp_enabled();
 }
 
-void run_task__16TObjCityMainWarpFv(TObjCityMainWarp *city_main_warp) {
+void TObjCityMainWarp::run_task() {
     f32 lim = (f32)(city_common_model_archive->motions[7].motion->frameCount - 1);
 
-    city_main_warp->m_c4 += 4.0f;
-    if (city_main_warp->m_c4 >= lim) {
-        city_main_warp->m_c4 -= lim;
+    m_c4 += 4.0f;
+    if (m_c4 >= lim) {
+        m_c4 -= lim;
     }
-    ((TObjAreaWarp *)city_main_warp)->handle_area_selection();
+    handle_area_selection();
 }
 
 void TObjCityMainWarp::render() {
@@ -783,17 +783,17 @@ void TObjLaboMapWarp::clamp_index() {
 
 int TObjLaboMapWarp::is_field88_zero() { return set_params[1] == 0; }
 
-void run_task__15TObjLaboMapWarpFv(TObjLaboMapWarp *warp) {
+void TObjLaboMapWarp::run_task() {
     f32 lim;
     lim = (f32)(get_bml_motion(TObjLaboMapWarp__resource_bundle, 0)->frameCount - 1);
-    warp->animation_frame += 4.0f;
-    if (warp->animation_frame >= lim) {
-        warp->animation_frame -= lim;
+    animation_frame += 4.0f;
+    if (animation_frame >= lim) {
+        animation_frame -= lim;
     }
     if (TLobby::get_instance() == 0 && (get_game_play_mode() == 1 || get_game_play_mode() == 2)) {
         return;
     }
-    warp->process_player_warps();
+    process_player_warps();
 }
 
 void TObjLaboMapWarp::render() {
