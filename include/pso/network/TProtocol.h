@@ -42,12 +42,7 @@ public:
     packet_header header;
     u32 blocked_senders[30];
 public:
-    void bswap() {
-        header.bswap();
-        for (int i = 0; i < 30; ++i) {
-            bswap_32(&blocked_senders[i]);
-        }
-    };
+    void bswap();
 };
 
 class TSendPsoRegistConnect {
@@ -236,7 +231,7 @@ struct TSendClientConfig {
     o(handle_B0_recv_emergency_call, char *mesg) \
     o(handle_88_player_arrow_color_list_packet, void) \
     o(handle_8A_lobby_name_packet, char *name) \
-    o(handle_C5_player_challenge_data_packet, TPlyChallenge *records, u8 count) \
+    o(handle_C5_player_challenge_data_packet, TPlyChallenge *records, s32 count) \
     o(handle_DA_lobby_event_packet, int theme) \
     o(handle_AB_quest_stats_response_packet, void) \
     o(handle_D3_execute_trade_packet, TTradeList *trade_list) \

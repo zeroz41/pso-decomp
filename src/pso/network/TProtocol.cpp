@@ -457,7 +457,7 @@ void copy_choice_search_parameters(void *, void *);
 s32 validate_player_visual_record(void *arg0);
 extern "C" {
 
-void send_player_data_98__9TProtocolFPvPvPvPvPvPvPv(Proto_801DC1E4 *self, u8 *char_data, void *challenge, void *choice_search_config,
+void send_player_data_98__9TProtocolFPvPvPvPvPvPvPv(Proto_801DC1E4 *self, u8 *char_data, TPlyChallenge *challenge, void *choice_search_config,
                                List_801DC1E4 *blocked_senders, Text_801DC1E4 *auto_reply, char *info_board) {
     if (self->connected) {
         validate_player_visual_record(char_data + 0x370);
@@ -468,7 +468,7 @@ void send_player_data_98__9TProtocolFPvPvPvPvPvPvPv(Proto_801DC1E4 *self, u8 *ch
         tmp.header.flags = 3;
         tmp.header.size = sizeof(tmp);
         TProtocol::copy_player_data(&tmp.char_data, self->char_data);
-        ((TLobby *)&tmp.challenge)->copy_player_record((u8 *)challenge);
+        tmp.challenge = *challenge;
         copy_choice_search_parameters(&tmp.choice_search_config, choice_search_config);
         strncpy(tmp.info_board, info_board, sizeof(tmp.info_board));
         for (int i = 0; i < blocked_senders->flags; ++i) {
@@ -488,7 +488,7 @@ struct List_801DC34C { u8 command; u8 flags; u16 size; u32 entries[30]; };
 struct Text_801DC34C { u8 command; u8 flags; u16 size; char text[0x200]; };
 struct Proto_801DC34C { u8 pad[0x1910]; s32 connected; u8 pad1914[0x74]; u8 char_data[0x41C]; };
 
-void send_player_data_61__9TProtocolFPvPvPvPvPvPvPv(Proto_801DC34C *self, u8 *char_data, void *challenge, void *choice_search_config,
+void send_player_data_61__9TProtocolFPvPvPvPvPvPvPv(Proto_801DC34C *self, u8 *char_data, TPlyChallenge *challenge, void *choice_search_config,
                                List_801DC34C *blocked_senders, Text_801DC34C *auto_reply, char *info_board) {
     if (self->connected) {
         validate_player_visual_record(char_data + 0x370);
@@ -499,7 +499,7 @@ void send_player_data_61__9TProtocolFPvPvPvPvPvPvPv(Proto_801DC34C *self, u8 *ch
         tmp.header.flags = 3;
         tmp.header.size = sizeof(tmp);
         TProtocol::copy_player_data(&tmp.char_data, self->char_data);
-        ((TLobby *)&tmp.challenge)->copy_player_record((u8 *)challenge);
+        tmp.challenge = *challenge;
         copy_choice_search_parameters(&tmp.choice_search_config, choice_search_config);
         strncpy(tmp.info_board, info_board, sizeof(tmp.info_board));
         for (int i = 0; i < blocked_senders->flags; ++i) {

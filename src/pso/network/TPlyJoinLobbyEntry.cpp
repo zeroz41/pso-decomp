@@ -299,7 +299,6 @@ extern "C" {
 void try_close__6TLobbyFPv();
 void handle_quest_download_chunk__6TLobbyFv();
 void apply_lobby_markers__6TLobbyFv();
-void copy_player_records__6TLobbyFl(TPlyChallenge *records, u8 count);
 void init_once__6TLobbyFPv(TRecvInfoBoard *info_board);
 void lobby_debug_printf_stub(const char *fmt, ...);
 extern const char lobby_debug_delete_player_format[];
@@ -2863,7 +2862,7 @@ TLobby::TLobby(TObject *parent) : TObject(parent) {
     protocol_instance->m_recv_handlers.handle_B0_recv_emergency_call = (recv_packet_handler_handle_B0_recv_emergency_call)TLobby::disable_window_flags;
     protocol_instance->m_recv_handlers.handle_1F_recv_text_list = (recv_packet_handler_handle_1F_recv_text_list)TLobby::open_information_list;
     protocol_instance->m_recv_handlers.handle_88_player_arrow_color_list_packet = apply_lobby_markers__6TLobbyFv;
-    protocol_instance->m_recv_handlers.handle_C5_player_challenge_data_packet = copy_player_records__6TLobbyFl;
+    protocol_instance->m_recv_handlers.handle_C5_player_challenge_data_packet = TLobby::copy_player_records;
     protocol_instance->m_recv_handlers.handle_D3_execute_trade_packet = handle_trade_received_items;
     protocol_instance->m_recv_handlers.handle_D4_trade_result_packet = (recv_packet_handler_handle_D4_trade_result_packet)TLobby::handle_reset_choice;
     protocol_instance->m_recv_handlers.handle_D1_advance_trade_state_packet = (recv_packet_handler_handle_D1_advance_trade_state_packet)TLobby::apply_trade_items;

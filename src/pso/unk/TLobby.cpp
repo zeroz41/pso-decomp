@@ -12,10 +12,6 @@
 #include "pso/player/PlayerSlots.h"
 #include "pso/unk/TLobby_801461EC.h"
 
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-
 void clear_state(void);
 extern "C" {
 
@@ -55,34 +51,16 @@ void TLobby::open_scroll_text_window(saddr src) {
 
 void TLobby::render() { { (void)(TAdPlayerLoadGC::get_instance()); return; } }
 
-struct E_80134B58 { u8 d[0x11C]; };
-struct In_80134B58 { u32 type; u8 rest[0x118]; };
-extern E_80134B58 lobby_player_status_records[];
-void TLobby::copy_player_records(s32 arg1) {
-    In_80134B58 *arg0 = (In_80134B58 *)this;
-    s32 i;
-    for (i = 0; i < arg1; i++) {
-        if (arg0[i].type > 0xC) {
+extern TPlyChallenge lobby_player_status_records[12];
+
+// C5: the server's player records for the lobby.
+void TLobby::copy_player_records(TPlyChallenge *records, s32 count) {
+    for (s32 i = 0; i < count; i++) {
+        if (records[i].client_id > 12) {
             return;
         }
-        ((TLobby *)((u8 *)&lobby_player_status_records[arg0[i].type]))->copy_player_record((u8 *)&arg0[i]);
+        lobby_player_status_records[records[i].client_id] = records[i];
     }
-}
-
-struct ByteBlock_100 { u8 bytes[0x100]; };
-void TLobby::copy_player_record(u8 *challenge) {
-    *(s32 *)&this->m_name = (s32) *(s32 *)((s8 *)challenge + 0);
-    *(ByteBlock_100 *)((saddr) ((u8 *)this) + 4) = *(const ByteBlock_100 *)((saddr) challenge + 4);
-    *(u16 *)((s8 *)((u8 *)this) + 0x104) = (u16) *(u16 *)((s8 *)challenge + 0x104);
-    *(u16 *)((s8 *)((u8 *)this) + 0x106) = (u16) *(u16 *)((s8 *)challenge + 0x106);
-    *(u16 *)((s8 *)((u8 *)this) + 0x108) = (u16) *(u16 *)((s8 *)challenge + 0x108);
-    *(u16 *)((s8 *)((u8 *)this) + 0x10A) = (u16) *(u16 *)((s8 *)challenge + 0x10A);
-    *(u16 *)((s8 *)((u8 *)this) + 0x10C) = (u16) *(u16 *)((s8 *)challenge + 0x10C);
-    *(u16 *)((s8 *)((u8 *)this) + 0x10E) = (u16) *(u16 *)((s8 *)challenge + 0x10E);
-    *(u16 *)((s8 *)((u8 *)this) + 0x110) = (u16) *(u16 *)((s8 *)challenge + 0x110);
-    *(u16 *)((s8 *)((u8 *)this) + 0x112) = (u16) *(u16 *)((s8 *)challenge + 0x112);
-    *(s32 *)((s8 *)((u8 *)this) + 0x114) = (s32) *(s32 *)((s8 *)challenge + 0x114);
-    *(s32 *)((s8 *)((u8 *)this) + 0x118) = (s32) *(s32 *)((s8 *)challenge + 0x118);
 }
 
 struct Ent_80134C44 { u8 pad[4]; u32 key; u32 val; };

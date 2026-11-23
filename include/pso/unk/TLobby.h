@@ -14,6 +14,7 @@ struct ShortMailEntry;
 struct NJS_TEXLIST;
 class TObjPlayer;
 class TProtocol;
+struct TPlyChallenge;
 s32 pso_load_texture(NJS_TEXLIST *texlist);
 
 struct TLobbyFloorItemEntry {
@@ -76,7 +77,7 @@ struct TLobby : public TObject {
     static void dispatch_by_index(s32 arg0);
     static void open_scroll_text_window(saddr src);
     void render();
-    void copy_player_records(s32 arg1);
+    static void copy_player_records(TPlyChallenge *records, s32 count);
     void apply_lobby_markers();
     static s32 get_option_state();
     static void install_game_join_handlers();
@@ -292,7 +293,6 @@ struct TLobby : public TObject {
     u8 normalize_battle_rule_value_b();
     u8 clamp_rule_value_2();
     void reset_settings_to_default();
-    void bswap_c6_packet();
     static void draw_with_camera(NJS_SPRITE *sprite, s32 frame_index, s32 flags, f32 depth);
     static void clear_story_flag_list();
     static void clear_story_flags_and_reset_camera();
@@ -666,7 +666,6 @@ struct TLobby : public TObject {
     static void send_data(saddr filename);
     static void update_alloc_size();
     static u8 get_selected_slot();
-    void copy_player_record(u8 *challenge);
     u8 *init_memory_pool(s32 arg1, s32 arg2, s32 flags);
     static void init_on_main_phase();
     static void copy_state_block();

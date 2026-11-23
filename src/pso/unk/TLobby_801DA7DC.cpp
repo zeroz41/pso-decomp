@@ -12,7 +12,7 @@ void TProtocol::send_c6_packet(void *lobby) {
     if (m_connected != 0) {
         *(u8 *)((s8 *)lobby + 0) = 0xC6;
         *(s16 *)((s8 *)lobby + 2) = 0x7C;
-        ((TLobby *)lobby)->bswap_c6_packet();
+        ((TBlockedSenders *)lobby)->bswap();
         send((u8 *)lobby, 0x7C);
     }
 }
