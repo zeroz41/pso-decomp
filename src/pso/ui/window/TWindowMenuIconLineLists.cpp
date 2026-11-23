@@ -1,14 +1,11 @@
 #include "types.h"
 #include "pso/ui/window/TWindowMenuIconLine.h"
 #include "pso/ui/window/TWindowSubEquip_80279044.h"
+#include "pso/ui/window/TWindowSubItem.h"
 #include "pso/item/TItem.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TPlyItem.h"
 #include "pso/player/PlayerSlots.h"
-
-extern "C" {
-s32 TWindowSubItem__sub_8027AA78(s32 arg0);
-}
 
 void TWindowMenuIconLine::refresh_trade_item_list(TradeItemEntry *entries) {
     save_cursor_selection();
@@ -126,7 +123,7 @@ void TWindowMenuIconLine::build_battle_stat_list() {
 
     stat = 0U;
     do {
-        add_battle_stat_entry(stat, TWindowSubItem__sub_8027AA78(stat), 1);
+        add_battle_stat_entry(stat, get_battle_item_id(stat), 1);
         stat += 1;
     } while (stat < 5U);
     if (entry_count <= 0) {

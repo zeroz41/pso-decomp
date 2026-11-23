@@ -6,6 +6,7 @@
 
 struct TWindowMainMenu;
 struct TWindowHelpItem;
+struct TWindowSubItemList;
 
 struct TWindowSubItem : public TObject {
     TWindowSubItem(TWindowMainMenu *parent, s32 client);
@@ -16,7 +17,7 @@ struct TWindowSubItem : public TObject {
     s32 client_id;
     s32 amount;
     TWindowMainMenu *parent_menu;
-    uaddr item_list;
+    TWindowSubItemList *item_list;
     uaddr purpose_menu;
     uaddr confirm_menu;
     uaddr count_input;
@@ -36,15 +37,14 @@ struct TWindowSubItem : public TObject {
     virtual void run_task();
     void set_flag60_bit10();
     void clear_flag_and_release();
-    void reset_selected();
-    void set_field_74(s16 v);
-    s32 get_selected_entry();
-    void refresh();
     s32 open_purpose_window(s32 arg1);
-    void gray_out_unusable_entries();
     static s32 is_usable(saddr player);
 };
 
 LAYOUT_ASSERT(TWindowSubItem_size, sizeof(TWindowSubItem) == 0x44);
+
+// List id of battle item stat (0-4): -0x10 to -0x0C, the rows
+// TWindowMenuIconLine::add_battle_stat_entry adds.
+s32 get_battle_item_id(s32 stat);
 
 #endif

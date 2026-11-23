@@ -174,16 +174,15 @@ void TWindowMenuIconLine::calc_content_extent() {
     }
 }
 
-void TWindowSubStatusDisp::clamp_scroll_offset() {
-    u8 *arg0 = (u8 *)this;
+void TWindowMenuIconLine::clamp_scroll_offset() {
     NJS_POINT2 range;
-    if ((u32) *(u32 *)((s8 *)arg0 + 0x84) != 0U) {
+    if (scroll_bar != NULL) {
         range.x = 0.0f;
-        range.y = this->frame_size[1] - 20.0f;
-        if ((u32) *(u32 *)((s8 *)arg0 + 0x80) != 0U) {
+        range.y = frame_size[1] - 20.0f;
+        if (status_display != NULL) {
             range.y -= 6.0f;
         }
-        clamp_list_scroll_offset(*(WindowScrollBar **)((s8 *)arg0 + 0x84), &this->m_68, &range);
+        clamp_list_scroll_offset(scroll_bar, scroll_offset, &range);
     }
 }
 

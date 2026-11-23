@@ -73,6 +73,7 @@ public:
     saddr get_cursor_value();
     s16 get_cursor_index();
     void calc_content_extent();
+    void clamp_scroll_offset();
     void disable_cancel();
     void advance_line(s32 message);
     void advance_status_disp_entry(s32 message);

@@ -1843,8 +1843,8 @@ force_active:
   - class_name__17TWindowSubGameEnd
   - TWindowSubItemList__class_name
   - TWindowSubItemList__ct
-  - TWindowSubItem__sub_8027AA30
-  - TWindowSubItem__sub_8027AB10
+  - select_cursor_entry__18TWindowSubItemListFv
+  - gray_out_battle_item_entries__18TWindowSubItemListFv
   - TWindowSubLog__class_name
   - get_photon_blast_name
   - TWindowSubMag__sub_8027C0E8
@@ -6711,7 +6711,7 @@ force_active:
   - get_result__18TObjItemNameSelectFv
   - get_rock_entry__10TBoss6RockFl
   - get_selected_blast__13TWindowSubMagFv
-  - get_selected_entry__14TWindowSubItemFv
+  - get_selected_entry__18TWindowSubItemListFv
   - get_selected_guild_card_record__Fv
   - get_seq_phase__6TLobbyFi
   - get_serial_seed__23TAdSinglePlyChrSelectGCFv
@@ -6754,7 +6754,7 @@ force_active:
   - grass_combat_stats_handle
   - grass_origin_vec
   - grass_render_vec
-  - gray_out_unusable_entries__14TWindowSubItemFv
+  - gray_out_unusable_entries__18TWindowSubItemListFv
   - group_selection_area_id_table
   - TBoss5GryphonColli_sphere_chain_desc
   - gryphon_particle_enable_pos
@@ -13833,7 +13833,7 @@ force_active:
   - poll_memcard_status__9TSaveChCrFv
   - poll_quest_download__12TQuestListVMFv
   - populate_quest_floor_sets__Fv
-  - populate_sub_item_list
+  - build_item_list__18TWindowSubItemListFv
   - pose_player__15TEndingPicStageF17player_class_typeSc
   - post_aram_request__16TAdWarningBaseGCFii
   - post_message__6TLobbyFlll
@@ -14029,7 +14029,7 @@ force_active:
   - ref_counted_load_buffer
   - refill_gstream_buffer__Fl
   - reflect_velocity_off_collision__12TObjGoGoBallFPvPv
-  - refresh__14TWindowSubItemFv
+  - refresh__18TWindowSubItemListFv
   - refresh_display__12TAdDialingGCFv
   - refresh_invincibility__8TItemMagFv
   - refresh_item_list__20TShopArmorListWindowFPv
@@ -15463,7 +15463,7 @@ force_active:
   - set_close_up__13TCameraFollowFl
   - set_field_4__6TLobbyFl
   - set_field_60__15TWindowCallBackFPFPvPv_v
-  - set_field_74__14TWindowSubItemFs
+  - set_cursor__18TWindowSubItemListFs
   - set_field_8__15TPlyPhotonChairFl
   - set_fields_24_34_from_global__17TObjEneDarkGunnerFPv
   - set_fields_554__11TBoss6Type2Fv
