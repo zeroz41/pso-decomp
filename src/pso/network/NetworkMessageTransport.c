@@ -583,7 +583,7 @@ s16 query_link_status(void) {
     return -1;
 }
 
-s32 set_connect_mode(s32 mode) {
+s32 AT_SetEtherNegoMode(s32 mode) {
     switch (mode) {
     case 1:
         lobby_connect_mode = 1;

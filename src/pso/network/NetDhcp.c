@@ -29,7 +29,7 @@ typedef struct Req_804250A8 {
 typedef struct P_8042315C { s32 type; s32 a; s32 b; s32 c; s32 pad10; s16 n; s16 m; s32 d; s32 pad1C; } P_8042315C;
 
 s16 TLobby__sub_80422F70(s16 iface, void *hdr_src, s32 len, void *buf);
-s16 TLobby__sub_8042315C(s16 iface, void *req);
+s16 if_config(s16 iface, void *req);
 DhcpClientBuffers lbl_805C1E00;
 extern u8 lbl_805C2F94[0x100]; /* defined at the end of the file */
 extern u8 dhcp_hostname[0x2C]; /* defined at the end of the file */
@@ -388,7 +388,7 @@ s32 dhcp_release_step(void) {
         opt.a = 0;
         opt.b = -1;
         opt.c = -1;
-        if (TLobby__sub_8042315C(dhcp_iface, &opt) != 0) {
+        if (if_config(dhcp_iface, &opt) != 0) {
             dhcp_error = 3;
             dhcp_step = -1;
             dhcp_state = -2;
@@ -588,13 +588,13 @@ s32 dhcp_discover_step(void) {
         req.a = 0;
         req.b = -1;
         req.c = -1;
-        if (TLobby__sub_8042315C(dhcp_iface, &req) != 0) {
-            TLobby__sub_80423064(dhcp_iface, 4);
+        if (if_config(dhcp_iface, &req) != 0) {
+            if_down(dhcp_iface, 4);
             req2.type = 4;
             req2.a = 0;
             req2.b = -1;
             req2.c = -1;
-            if (TLobby__sub_8042315C(dhcp_iface, &req2) != 0) {
+            if (if_config(dhcp_iface, &req2) != 0) {
                 dhcp_step = -1;
                 dhcp_state = -2;
                 dhcp_error = 3;
@@ -607,7 +607,7 @@ s32 dhcp_discover_step(void) {
         sock = udp_open(NULL, 0x44, buf, 0x43, 0, dhcp_handle_reply);
         dhcp_socket = sock;
         if (sock < 0) {
-            TLobby__sub_80423064(dhcp_iface, 4);
+            if_down(dhcp_iface, 4);
             lbl_805D7B14 = 0;
             dhcp_step = -1;
             dhcp_state = -2;
@@ -668,16 +668,16 @@ s32 dhcp_discover_step(void) {
     return dhcp_state;
 }
 
-s16 TLobby__sub_8042455C(char *a) {
+s16 DHCP_hostname(char *hostname) {
     u32 length;
     dhcp_error = 0;
-    if (a == 0) {
+    if (hostname == 0) {
         dhcp_error = 1;
         return -1;
     }
-    length = NetStringLength((const char*)a);
+    length = NetStringLength((const char*)hostname);
     if ((u16)length < 0x20 && (u16)length != 0) {
-        dhcp_set_option(0x10, (u16)length, a);
+        dhcp_set_option(0x10, (u16)length, hostname);
         return 0;
     }
     dhcp_error = 1;
@@ -792,7 +792,7 @@ s32 find_dhcp_option(u8 *p, u8 tag, u8 **out) {
     return 0;
 }
 
-s16 TLobby__sub_8042489C(void *, s32 *out) {
+s16 DHCP_get_gateway(void *, s32 *out) {
     dhcp_error = 0;
     if ((*(volatile s32 *)&dhcp_state) != 3 && (*(volatile s32 *)&dhcp_state) != 4 && (*(volatile s32 *)&dhcp_state) != 5) {
         dhcp_error = 2;
@@ -804,7 +804,7 @@ s16 TLobby__sub_8042489C(void *, s32 *out) {
     return 0;
 }
 
-s16 validate_slot_buffers(void *arg0, char *out, s32 *dns1, s32 *dns2) {
+s16 DHCP_get_dns(void *arg0, char *out, s32 *dns1, s32 *dns2) {
     dhcp_error = 0;
     if ((*(volatile s32 *)&dhcp_state) != 3 && (*(volatile s32 *)&dhcp_state) != 4 && (*(volatile s32 *)&dhcp_state) != 5) {
         dhcp_error = 2;
@@ -896,7 +896,7 @@ void dhcp_stop(void) {
     lbl_805D7B14 = dhcp_set_interface_mode(0);
 }
 
-s32 dhcp_release_blocking(s32 session, s32 ip, s32 timeout) {
+s32 DHCP_release(s32 session, s32 ip, s32 timeout) {
     s32 state;
     *(volatile s32 *)&dhcp_state = 6;
     *(volatile s32 *)&dhcp_step = 0;
@@ -914,7 +914,7 @@ s32 dhcp_release_blocking(s32 session, s32 ip, s32 timeout) {
 
 s16 dhcp_discover_and_request(s16 a0, s32 a1, s32 a2, void *a3, s32 *a4, s32 *a5, s32 *a6, s32 a7) {
     s32 state;
-    if (dhcp_begin_discover(a0, a1, a2, a3, a4, a5, a6, a7) != 0) {
+    if (DHCP_request(a0, a1, a2, a3, a4, a5, a6, a7) != 0) {
         return -1;
     }
     do {
@@ -930,7 +930,7 @@ s16 dhcp_discover_and_request(s16 a0, s32 a1, s32 a2, void *a3, s32 *a4, s32 *a5
     return 0;
 }
 
-s32 dhcp_begin_discover(s16, s32 a1, s32 a2, void *, s32 *a4, s32 *a5, s32 *a6, s32 a7) {
+s32 DHCP_request(s16, s32 a1, s32 a2, void *, s32 *a4, s32 *a5, s32 *a6, s32 a7) {
     dhcp_error = 0;
     if (*(volatile s32 *)&dhcp_state != 0) {
         dhcp_error = 2;
@@ -992,18 +992,18 @@ static inline s32 dhcp_open_interface(s16 iface) {
     addr[1] = 0;
     addr[2] = 0;
     addr[3] = 0;
-    if (TLobby__sub_8042315C(iface, addr) < 0) {
+    if (if_config(iface, addr) < 0) {
         return -1;
     }
     if (TLobby__sub_80422F70(iface, addr, 0x1C, lbl_805D7B1C) < 0) {
-        TLobby__sub_80423064(iface, 4);
+        if_down(iface, 4);
         return -1;
     }
-    TLobby__sub_80423064(iface, 4);
+    if_down(iface, 4);
     return 0;
 }
 
-s32 dhcp_start(s16 iface) {
+s32 DHCP_init(s16 iface) {
     dhcp_reset_state(iface);
     if (dhcp_open_interface(dhcp_iface) != 0) {
         dhcp_error = 3;
@@ -1056,13 +1056,13 @@ s32 dhcp_set_interface_mode(s32 mode) {
             req.b = 0;
             req.c = -1;
             req.d = -1;
-            if (TLobby__sub_8042315C(dhcp_iface, &req) != 0) {
-                TLobby__sub_80423064(dhcp_iface, 4);
+            if (if_config(dhcp_iface, &req) != 0) {
+                if_down(dhcp_iface, 4);
                 req2.a = 4;
                 req2.b = 0;
                 req2.c = -1;
                 req2.d = -1;
-                if (TLobby__sub_8042315C(dhcp_iface, &req2) != 0) {
+                if (if_config(dhcp_iface, &req2) != 0) {
                     dhcp_error = 3;
                     r = 0;
                     *(volatile s32 *)&dhcp_step = -1;
@@ -1072,7 +1072,7 @@ s32 dhcp_set_interface_mode(s32 mode) {
             }
             return 1;
         case 0:
-            TLobby__sub_80423064(dhcp_iface, 4);
+            if_down(dhcp_iface, 4);
             return 0;
         }
     }

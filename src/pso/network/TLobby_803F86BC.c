@@ -26,7 +26,7 @@ typedef struct Big_803F8AD8 {
 } Big_803F8AD8;
 
 
-/* The start-up parameters validate_and_store_net_params stores (one per NetTransportParams field) with their
+/* The start-up parameters AT_SetInitParam stores (one per NetTransportParams field) with their
  * defaults, and the thread priority NetSetDefaultThreadPriority sets. */
 s16 net_param_a = 1;
 u16 net_param_player_count = 8;

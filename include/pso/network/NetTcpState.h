@@ -192,7 +192,7 @@ extern "C" {
 #endif
 extern TcpState tcp_protocol_state;
 
-s16 TLobby__sub_8041A9AC(TcpTcb *tcb);
+s16 AT_TCP_Rawsend(TcpTcb *tcb);
 /* NetTcp.c: claim a free TCB, else the state-10 one with the smallest timers[3]; returns its index or -0x103. */
 s16 TLobby__sub_8041E780(void);
 /* NetTcp.c: account the resent range [first, last) against the retransmit scoreboard (segs[]). */

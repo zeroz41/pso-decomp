@@ -53,7 +53,7 @@ u32 lobby_modem_wait_timeout_ms;
 u32 lobby_modem_wait_start_ms;
 
 s32 net_sleep_ms(int);
-s16 TLobby__sub_804293B0(u8 *buf, s16 len);
+s16 WaitNstrRecv(u8 *buf, s16 len);
 s16 network_input_available(u16 *avail);
 s16 recv_network_bytes(u8 *dst, u16 n);
 s16 send_network_bytes(void *, s32);
@@ -192,13 +192,13 @@ s16 modem_run_script(u8 *script, NetSession *sess) {
         }
         switch (cmd) {
         case 0:
-            ret = modem_script_dial(&sess->req);
+            ret = go_dial(&sess->req);
             break;
         case 1:
             ret = modem_script_send();
             break;
         case 2:
-            ret = modem_script_wait(&sess->req);
+            ret = go_wait(&sess->req);
             break;
         case 3:
             ret = wait_timeout_loop(&sess->req);
@@ -256,12 +256,12 @@ inline s16 modem_wait_for_string(u8 *s, s16 n, s16 timeout) {
     if (n > lobby_net_session_state.window_len) {
         n = lobby_net_session_state.window_len;
     }
-    if (TLobby__sub_804293B0(lobby_net_session_state.window, n) != 0) {
+    if (WaitNstrRecv(lobby_net_session_state.window, n) != 0) {
         return -1;
     }
     while (NetCompareStringsCaseInsensitiveN(lobby_net_session_state.window, s, n) != 0) {
         NetMemmove(lobby_net_session_state.window, lobby_net_session_state.window + 1, n - 1);
-        if (TLobby__sub_804293B0(lobby_net_session_state.window + n - 1, 1) != 0) {
+        if (WaitNstrRecv(lobby_net_session_state.window + n - 1, 1) != 0) {
             return -1;
         }
     }
@@ -269,7 +269,7 @@ inline s16 modem_wait_for_string(u8 *s, s16 n, s16 timeout) {
 }
 
 /* The script's "wait" command (index 2 of the command names). */
-s16 modem_script_wait(ModemRequest *req) {
+s16 go_wait(ModemRequest *req) {
     s32 len;
     s32 pos;
     s32 k;
@@ -352,7 +352,7 @@ s16 modem_script_send(void) {
 }
 
 /* Builds the dial string from the configured prefix, optional suffix, and script text. */
-s16 modem_script_dial(ModemRequest *request) {
+s16 go_dial(ModemRequest *request) {
     ModemConfig *config;
     ModemSessionState *state;
     u8 **out;
@@ -571,7 +571,7 @@ s16 TLobby__sub_804290D4(s32 idx) {
     NetMemset(*bufp, 0, *lenp);
     for (;;) {
         NetMemmove(*bufp, *bufp + 1, *lenp - 1);
-        if (TLobby__sub_804293B0(*bufp + *lenp - 1, 1) != 0) {
+        if (WaitNstrRecv(*bufp + *lenp - 1, 1) != 0) {
             return 4;
         }
         n = NetStringLength(config->result_ok);
@@ -606,7 +606,7 @@ L122:
     }
     lobby_modem_reply_value = 0;
     for (idx = 0; idx < *lenp - 1; idx++) {
-        if (TLobby__sub_804293B0(*bufp + idx, 1) != 0) {
+        if (WaitNstrRecv(*bufp + idx, 1) != 0) {
             return 4;
         }
         if ((*bufp)[idx] == config->terminator) {
@@ -634,7 +634,7 @@ done:
     return 0;
 }
 
-s16 TLobby__sub_804293B0(u8 *buf, s16 len) {
+s16 WaitNstrRecv(u8 *buf, s16 len) {
     u16 avail;
     s32 now;
     s32 start;

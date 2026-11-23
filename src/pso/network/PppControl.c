@@ -83,7 +83,7 @@ s32 ipv6cp_set_interface_identifiers(s32 ignored, u8 *first_identifier, u8 *seco
     PppFsm *fsm_state = &ppp_proto_blocks.ipv6cp;
     Ipv6cpConfig *state = fsm_state->opts;
 
-    set_flags_and_state(fsm_state);
+    PP_doppp_active(fsm_state);
     if (clear_flag_bit4(ignored, &state->local) != 0) {
         return -0x11;
     }
@@ -111,7 +111,7 @@ s32 ipcp_configure_all_options(s16 vj_disabled, s32 addr_local, s32 addr_peer, s
     s16 ipcp_set_local_primary_dns(IpcpSide *side, s32 addr);
     fsm_state = (u8 *)&ppp_proto_blocks.ipcp;
     ipcp_cfg = *(IpcpConfig **)((s8 *)fsm_state + 0x30);
-    set_flags_and_state((void *)fsm_state);
+    PP_doppp_active((void *)fsm_state);
     if (ipcp_set_vj_compression(vj_disabled, &ipcp_cfg->local) != 0) {
         return -0x11;
     }
@@ -145,17 +145,17 @@ s16 chap_connect(u8 *chap_name, u8 *chap_secret, s32 timeout) {
     s16 r;
     s16 st;
     TLobby__sub_803FC684(chap_name, chap_secret, c);
-    r = TLobby__sub_803FC1CC((PppFsm *)c, timeout);
+    r = PP_chap_monitor((PppFsm *)c, timeout);
     if (r < 0) {
         if (r == -0x12) {
             return -0x12;
         }
         return -0x11;
     }
-    set_flags_and_state(g + 0x6C);
+    PP_doppp_active(g + 0x6C);
     st = lbl_805D7A7C;
     if (st == 6 || st == 0) {
-        set_flags_and_state(g + 0xD4);
+        PP_doppp_active(g + 0xD4);
     }
     return 0;
 }
@@ -169,17 +169,17 @@ s16 pap_connect(u8 *peer_id, u8 *pap_password, s32 timeout) {
         TLobby__sub_80403168(peer_id, pap_password, c);
         TLobby__sub_803FE658((PppFsm *)c);
     }
-    r = TLobby__sub_80402BB4(c, timeout);
+    r = PP_pap_monitor(c, timeout);
     if (r < 0) {
         if (r == -0x12) {
             return -0x12;
         }
         return -0x11;
     }
-    set_flags_and_state(g + 0x6C);
+    PP_doppp_active(g + 0x6C);
     st = lbl_805D7A7C;
     if (st == 6 || st == 0) {
-        set_flags_and_state(g + 0xD4);
+        PP_doppp_active(g + 0xD4);
     }
     return 0;
 }

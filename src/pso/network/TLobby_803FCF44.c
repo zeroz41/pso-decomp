@@ -1,14 +1,12 @@
-/* The AVE-TCP net buffer setup (build_avetcp_net_buffer, which logs under the name "avetcp" at 805E1158) and
- * set_flags_and_state (a C library, built with GC/1.2.5n). A file of its own: CHAP (TLobby_803FC178.c) defines
- * the .bss object at 805C02D0 before the functions that use it, while this code loads that address afresh at
+/* The AVE-TCP net buffer setup (build_avetcp_net_buffer, which logs under the name "avetcp") and
+ * PP_doppp_active (a C library, built with GC/1.2.5n). A file of its own: CHAP (TLobby_803FC178.c) defines
+ * the .bss object lbl_805C02D0 before the functions that use it, while this code loads that address afresh at
  * each use. No name evidence for the module, so the file keeps its address name. */
 #include "types.h"
 #include "pso/network/TLobby_803FC178.h"
 #include "pso/network/TLobby_803FCF44.h"
 #include "pso/network/TLobby_804050DC.h"
 #include "pso/network/TLobby_8041112C.h"
-/* This file's functions. */
-s32 set_flags_and_state(void *self);
 #include "pso/network/NetworkRuntime.h"
 #include "pso/network/TLobby_804048E8.h"
 #include "pso/network/NetworkTransport.h"
@@ -61,7 +59,7 @@ PppFrame *build_avetcp_net_buffer(PppFsm *c)
   return buf;
 }
 
-s32 set_flags_and_state(void *self) {
+s32 PP_doppp_active(void *self) {
     u8 *arg0 = (u8 *)self;
     *(u8 *)((s8 *)arg0 + 2) = (u8) (*(u8 *)((s8 *)arg0 + 2) & 0xFFFFFFBF);
     *(u8 *)((s8 *)arg0 + 2) = (u8) (*(u8 *)((s8 *)arg0 + 2) | 0x80);

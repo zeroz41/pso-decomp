@@ -18,12 +18,12 @@ PppAuthSecret ppp_auth_secrets[] = {
     {NULL, NULL},
 };
 
-/* inferred: the shutdown hook TLobby__sub_803FAFDC calls while it stops the stack */
+/* inferred: the shutdown hook ppp_term calls while it stops the stack */
 void TLobby__sub_803F7678(void) {
 
 }
 
-/* inferred: the start-up hook init_net_session calls */
+/* inferred: the start-up hook ppp_init calls */
 s32 TLobby__sub_803F767C(void) {
     return 0;
 }

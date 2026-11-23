@@ -78,7 +78,7 @@ s16 reset_network_timer_list(void) {
 }
 
 s32 TLobby__sub_803FB6A0(void);
-void TLobby__sub_803FB7A4(void);
+void ppp_open_sub(void);
 void run_net_thread_loop(void) {
     NetThreadState *g = &lbl_805C18A0;
     for (;;) {
@@ -90,7 +90,7 @@ void run_net_thread_loop(void) {
         }
         if (lbl_805D7A88 != 0) {
             lock_mutex(g->mutex);
-            TLobby__sub_803FB7A4();
+            ppp_open_sub();
             unlock_mutex(g->mutex);
             continue;
         }
