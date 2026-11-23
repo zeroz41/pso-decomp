@@ -41,7 +41,7 @@
 
 extern "C" {
 s32 canSetMenuCursorAction(s32, s32, u8, u8);
-s32 try_send_6x27_use_item(void *arg0, s32 key);
+s32 try_send_6x27_use_item(void *player, s32 key);
 s32 try_equip_item__10TObjPlayerFii(u8 *, s32);
 void play_sound_effect(int, int, int, int);
 s32 TWindowCtrl__sub_8024A228(saddr);

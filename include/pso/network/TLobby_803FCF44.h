@@ -111,7 +111,7 @@ u32 TLobby__sub_80402AFC(u8 *p);
 u8 *write_network_u16_be(u8 *p, u16 v);
 void TLobby__sub_803FF384(PppFsm *arg0);
 s16 wait_for_connection(PppFsm *c);
-s32 TLobby__sub_80403168(u8 *source, u8 *pap_password, u8 *arg2);
+s32 TLobby__sub_80403168(u8 *source, u8 *pap_password, u8 *ppp_fsm);
 s16 chap_connect(u8 *chap_name, u8 *chap_secret, s32 timeout);
 s16 TLobby__sub_80402BB4(void *arg0, u32 timeout);
 s16 pap_connect(u8 *peer_id, u8 *pap_password, s32 timeout);

@@ -1235,7 +1235,7 @@ s32 fn_801B7CEC(u8 *arg0, s8 kind, s8 group, s8 index);
 void handle_6x28_feed_mag(saddr command);
 void send_6x28_feed_mag(void *arg0, s32 arg1, s32 arg2);
 void handle_6x27_use_item(saddr command);
-s32 try_send_6x27_use_item(void *arg0, s32 key);
+s32 try_send_6x27_use_item(void *player, s32 key);
 void rebuild_player_inventory(void *arg0);
 void assign_inventory_item_ids(void *arg0, Ent_801B80C0 *arg1, s32 arg2);
 void equip_saved_item_if_slot_empty__10TObjPlayerFPvPv(u8 *player, u8 *records);

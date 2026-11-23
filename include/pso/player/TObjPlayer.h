@@ -1420,7 +1420,7 @@ struct TObjPlayer : public TObjChara {
     static TItem *create_effect_object(u8 *item);
     static TItem *create_fields_state(u8 *item);
     static TItem *create_state_35_alt(u8 *item);
-    static bool is_slot_within_limit(s32 arg0, s32 arg1, u8 level);
+    static bool is_slot_within_limit(s32 cls, s32 tech, u8 level);
     s32 can_use_camera_field();
     void init_parts();
     s32 get_action_palette_entry(s32 index);

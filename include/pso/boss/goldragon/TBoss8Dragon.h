@@ -242,7 +242,7 @@ public:
     void sweep_head_fall_spheres_early();
     void render_nodes_flagged();
     void copy_vectors();
-    static void trigger_switches_in_range(void *arg0, void *pos, void *arg2);
+    static void trigger_switches_in_range(void *floor_stone, void *pos, void *prm);
     static s32 calc_binomial_coefficient(s32 n, s32 k);
     static s32 eval_bezier_curve(void *points, int count, int closed, void *out, f32 t);
     static void get_camera_offsets(Vec *target_offset, Vec *eye_offset);
