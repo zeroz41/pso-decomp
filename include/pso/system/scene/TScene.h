@@ -42,8 +42,8 @@ public:
     static void set_instance(void (*callback)(void));
     static void set_active_scene(void (*callback)(s32 flags));
     static void set_id(void (*callback)(Vec *pos, SceneSectionAngles *angles, u32 flags));
-    s32 find_section_at_position();
-    static s32 get_player_ctrl_field(u16 arg0);
+    // The map section the player with client_id stands in, or -1.
+    static s32 find_player_section(u16 client_id);
     void render_map_sections();
     void render_static_map_section(SceneMaterialSection *arg1, s32 arg2);
     void render_animated_map_section(SceneMaterialSection *arg1, s32 arg2);
@@ -84,5 +84,10 @@ LAYOUT_ASSERT(TScene_field_38_offset, offsetof(TScene, m_38) == 0x38);
 LAYOUT_ASSERT(TScene_field_3c_offset, offsetof(TScene, m_3c) == 0x3C);
 
 void load_scene_collision_file(saddr scene_file_index);
+// The id of the nearest map section whose radius holds pos, or -1.
+s32 find_section_at_position(Vec *pos);
+
+extern s32 scene_resource_index;
+extern s32 lobby_online_ready_flag;
 
 #endif

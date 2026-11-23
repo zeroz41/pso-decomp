@@ -24,7 +24,7 @@
 #include "pso/ui/window/TWindowCtrl_8024A054.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include <stddef.h>
-#include "pso/camera/TCameraCtrl_801A6E60.h"
+#include "pso/system/ControllerInput.h"
 #include "pso/enemy/shinowa/TObjEneMe3ShinowaReal_8002ADD8.h"
 #include "pso/ui/window/WindowLayout.h"
 
@@ -59,7 +59,6 @@ u16 get_entry_by_index__20TWindowActionPaletteFPll(int, int);
 s32 is_action_channel_available__10TObjPlayerFii(saddr arg0, s32 arg1);
 s32 is_palettex_activated(s32 arg0);
 s32 TObjPlayer__sub_80354C7C(s32);
-extern u8 controller_input_state[];
 extern u32 __vt__20TWindowActionPalette[6];
 f32 TWindowSubComCard__sub_80244784(TWindowSubComCard *);
 s32 TWindowSubComCard__sub_802452DC(int);
@@ -180,7 +179,7 @@ void TWindowActionPalette::run_task() {
         open_tick = 0x01000000;
     }
     slot = is_player_input_active(client_index);
-    if (test_previous_buttons_packed(controller_input_state + slot * 0x50 + 0x20, fn_8002AE08(client_index)) != 0) {
+    if (test_previous_buttons_packed(&controller_input_state.controllers[slot], fn_8002AE08(client_index)) != 0) {
         state = 3;
     }
     help = (u8 *)get_array_entry(0);

@@ -6,6 +6,7 @@
 #include "pso/system/NinjaTypes.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "types.h"
+#include "pso/render/GinjaView.h"
 #include "pso/effect/TEffect.h"
 #include "pso/render/MaterialColorFade.h"
 #include "pso/system/vector.h"
@@ -29,6 +30,7 @@
 #include "pso/unk/text_803D8F74.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/unk/text_803D853C.h"
+#include "pso/camera/TCameraCtrl.h"
 
 struct Col_80086418 { u8 a, r, g, b; };
 
@@ -40,15 +42,6 @@ struct Ctrl_80086418 {
 struct Vtx_80086248 { f32 x, y, z, u, v; u32 color; };
 
 typedef struct Quad_80085EE4 { f32 x, y, z, ax, ay, bx, by, pad1C; f32 u, v, du, k0, k1, dv; f32 pad38[2]; } Quad_80085EE4;
-
-typedef struct Cam_80085EE4 {
-    u8 pad0[8];
-    f32 cx;
-    f32 cy;
-    u8 pad10[8];
-    f32 scale;
-    f32 aspect;
-} Cam_80085EE4;
 
 typedef struct Particle_80085EE4 {
     u8 pad0[0x70];
@@ -80,12 +73,10 @@ s32 GXSetTevOp(int, int);
 s32 GXSetNumTevStages(int);
 s32 post_translate_matrix(void *);
 s32 emit_particle_strip_vertices(void *, int);
-extern u8 *camera_ctrl_instance;
 }
 void load_projected_texture_matrix(f32 farg0);
 void play_indirect_effect_recipe(u8 arg0, u16 sampler, s32 second);
 s32 set_texture_num(s32 i);
-extern Cam_80085EE4 lbl_8058D4F8;
 
 
 THeap *TParticleCtrl__heap;
@@ -241,8 +232,8 @@ void TUnk_8048E728::draw_particle_refraction_quad() {
     v[3].x = -10.0f * self->w; v[3].y = -10.0f * self->h; v[3].z = 0.0f; v[3].u = uv[2]; v[3].v = uv[3]; v[3].color = self->color;
     push_matrix();
     post_translate_matrix(&p);
-    rotate_matrix_y(0, *(s32 *)(camera_ctrl_instance + 0x194));
-    rotate_matrix_x(0, *(s32 *)(camera_ctrl_instance + 0x190));
+    rotate_matrix_y(0, camera_ctrl_instance->yaw);
+    rotate_matrix_x(0, camera_ctrl_instance->pitch);
     load_projected_texture_matrix(1.1333334f);
     TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(lbl_804C5820[9].texlist));
     set_texture_num(self->tex);
@@ -301,10 +292,10 @@ void TUnk_8048E778::draw_sprite_quad(s32 kind) {
     } else {
         set_additive_blend();
     }
-    sy = lbl_8058D4F8.scale;
-    x = lbl_8058D4F8.cx;
-    cy = lbl_8058D4F8.cy;
-    sx = sy * (480.0f / (480.0f * lbl_8058D4F8.aspect));
+    sy = screen_projection.distance;
+    x = screen_projection.center_x;
+    cy = screen_projection.center_y;
+    sx = sy * (480.0f / (480.0f * screen_projection.width));
     TParticleCtrl::begin_effect_render();
     begin_screen_draw(1);
     TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(lbl_804C5820[kind].texlist));

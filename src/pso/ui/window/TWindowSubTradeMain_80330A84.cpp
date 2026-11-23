@@ -29,7 +29,7 @@
 #include "pso/ui/window/TWindowSubLog.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TObject.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/system/ControllerInput.h"
 #include "pso/object/warp/TObjCityMainWarp.h"
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/ui/window/TWindowCtrl_8024ADAC.h"
@@ -111,11 +111,6 @@ struct RecoveredFields_80331520_arg0
   s32 field_28;
 };
 
-struct Ctrl_8033162C {
-    u8 pad0[0x20];
-    u8 btn[0x30];
-};
-
 struct TWindowSubTradeMain_8033162C {
     u8 pad0[0x1C];
     u8 state;
@@ -145,7 +140,6 @@ void window_request_show(void *);
 extern "C" {
 s32 get_state__19TWindowSubTradeMainFv(void *, void *);
 void TWindowSubTradeMain__sub_803323C8(void *);
-extern Ctrl_8033162C controller_input_state[];
 void fn_8027B2A8(void *);
 }
 
@@ -587,8 +581,8 @@ void TWindowSubTradeMain::run_task() {
     case 28:
         if (are_both_trade_offers_confirmed() == 0 ||
             (!(o->flags & 1) &&
-             (TWindowShortListCtrl__check_controller_button(controller_input_state[player].btn, 2) != 0 ||
-              test_controller_flag_4c_color(controller_input_state[4].btn, 2) != 0))) {
+             (test_pressed_buttons_packed(&controller_input_state.controllers[player], 2) != 0 ||
+              test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0))) {
             play_sound_effect(0x52F16, 0, 0, 0);
             clear_local_trade_final_confirmation();
             o->state = 0x1D;
@@ -613,8 +607,8 @@ void TWindowSubTradeMain::run_task() {
         if (o->timer > 0) {
             o->timer--;
         } else if (!(o->flags & 1) &&
-                   (TWindowShortListCtrl__check_controller_button(controller_input_state[player].btn, 2) != 0 ||
-                    test_controller_flag_4c_color(controller_input_state[4].btn, 2) != 0)) {
+                   (test_pressed_buttons_packed(&controller_input_state.controllers[player], 2) != 0 ||
+                    test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0)) {
             play_sound_effect(0x52F16, 0, 0, 0);
             TLobby::clear_flag400();
             o->timer = 900;

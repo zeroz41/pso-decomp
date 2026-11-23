@@ -10,7 +10,6 @@
 #include "pso/system/task/TObject.h"
 #include "pso/boss/darkfalz/TObjDFDemoF.h"
 #include "pso/object/base/TObjMotion.h"
-#include "pso/camera/TCameraCtrl_800687BC.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/boss/darkfalz/TBoss4Uro.h"
 #include "pso/camera/TCameraCtrl.h"
@@ -63,8 +62,8 @@ TObjDFDemoF::TObjDFDemoF(TObject *parent) : TObjBase(parent) {
     }
     self->frame = -1.0f;
     activate_camera_mode(5);
-    set_scripted_camera_pose(&df_demof_camera_position, &df_demof_camera_position, &df_demof_camera_angles);
-    df_demof_camera_playback.cache_target_and_forward(0x392D);
+    set_scripted_camera_origin(&df_demof_camera_position, &df_demof_camera_position, &df_demof_camera_angles);
+    df_demof_camera_playback.play(0x392D);
     play_sound_effect(0x3A802, 0, 0, 0);
     start_pad_rumble_all(0x20, 0xF);
     this->timer = 0;

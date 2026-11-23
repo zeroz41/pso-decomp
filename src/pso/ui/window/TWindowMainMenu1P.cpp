@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/camera/TCameraCtrl_800687BC.h"
+#include "pso/camera/CameraViewParams.h"
 #include "pso/ui/window/TWindowMainMenu.h"
 #include "pso/ui/window/TWindowMainMenu1P.h"
 #include "pso/camera/TCameraCtrl.h"
@@ -146,18 +146,18 @@ void TWindowMainMenu1P::update_backdrop_transition() {
       m_61 = 3U;
     }
   }
-  backdrop.center_x = (f32) ((26.666666f * ((f32) ((s8) (m_60)))) + 320.0f);
-  backdrop.center_y = (f32) (240.0f - 37.333332f * ((f32) ((s8) (m_61))));
+  backdrop.screen.projection.center_x = (f32) ((26.666666f * ((f32) ((s8) (m_60)))) + 320.0f);
+  backdrop.screen.projection.center_y = (f32) (240.0f - 37.333332f * ((f32) ((s8) (m_61))));
   TWindowCtrlMain::set_depth(53.333332f * ((f32) ((s8) (m_60))), client_index);
   TWindowCtrlMain::set_field18(480.0f - 74.666664f * ((f32) ((s8) (m_61))), client_index);
-  backdrop.pad_30[4] = (f32) ((640.0f - (backdrop.center_x)) / 320.0f);
-  backdrop.pad_30[5] = (f32) ((backdrop.center_y) / 240.0f);
-  temp_f1 = backdrop.pad_30[5];
-  if ((backdrop.pad_30[4]) < (backdrop.pad_30[5]))
+  backdrop.pad_40[0] = (f32) ((640.0f - (backdrop.screen.projection.center_x)) / 320.0f);
+  backdrop.pad_40[1] = (f32) ((backdrop.screen.projection.center_y) / 240.0f);
+  temp_f1 = backdrop.pad_40[1];
+  if ((backdrop.pad_40[0]) < (backdrop.pad_40[1]))
   {
-    backdrop.pad_30[4] = backdrop.pad_30[5];
+    backdrop.pad_40[0] = backdrop.pad_40[1];
   }
-  backdrop.pad_30[5] = (f32) (0.85f * (backdrop.pad_30[4]));
+  backdrop.pad_40[1] = (f32) (0.85f * (backdrop.pad_40[0]));
   if ((m_4c) & 2)
   {
     backdrop.apply_if_overridden();
@@ -177,16 +177,16 @@ TWindowMainMenu1P::TWindowMainMenu1P(TObject *parent, s32 client) : TWindowMainM
     this->m_name = TWindowMainMenu1P__name;
     m_60 = 0;
     m_61 = 0;
-    backdrop.center_x = 320.0f;
-    backdrop.center_y = 240.0f;
-    backdrop.width = 640.0f;
-    backdrop.height = 480.0f;
-    backdrop.pad_30[0] = 0.0f;
-    backdrop.pad_30[1] = 0.0f;
-    backdrop.pad_30[2] = 20.0f;
-    backdrop.pad_30[3] = 15.0f;
-    backdrop.pad_30[4] = 1.0f;
-    backdrop.pad_30[5] = 0.85f;
+    backdrop.screen.projection.center_x = 320.0f;
+    backdrop.screen.projection.center_y = 240.0f;
+    backdrop.screen.viewport_width = 640.0f;
+    backdrop.screen.viewport_height = 480.0f;
+    backdrop.scissor.x0 = 0.0f;
+    backdrop.scissor.y0 = 0.0f;
+    backdrop.scissor.x1 = 20.0f;
+    backdrop.scissor.y1 = 15.0f;
+    backdrop.pad_40[0] = 1.0f;
+    backdrop.pad_40[1] = 0.85f;
 }
 
 }

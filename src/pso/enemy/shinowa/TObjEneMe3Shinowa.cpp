@@ -4,7 +4,6 @@
 #include "pso/animation/MotionContext.h"
 #include "pso/npc/NpcModelRegistry.h"
 #include "pso/npc/NpcAnimationBinding.h"
-#include "pso/camera/TCameraCtrl_803D749C.h"
 #include "pso/enemy/shinowa/TObjEneMe3Shinowa.h"
 #include "pso/enemy/shinowa/ShinowaData.h"
 #include "pso/unk/SampledMotionPoints.h"

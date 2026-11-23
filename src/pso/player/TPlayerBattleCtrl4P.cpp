@@ -38,7 +38,7 @@
 
 
 #include "pso/player/TUnk_804B6C24.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/system/ControllerInput.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 
 extern "C" s32 check_player_flag1__10TObjPlayerFv(void);
@@ -167,7 +167,6 @@ void TLobby__sub_801036CC();
 void TLobby__sub_8020BC50();
 void TKeyBoardControl__sub_8000F950(void);
 s32 reset_players();
-s32 check_flag_100__10TObjPlayerFPv();
 char team_matchup_message_buffer[256];
 }
     extern int evt2_random_enemies_mode;
@@ -623,7 +622,8 @@ void TPlayerBattleCtrl4P::close_rematch_menu() {
 #pragma pop
 
 void TPlayerBattleCtrl4P::wait_for_rematch_menu_button() {
-    if ((get_player_by_client_id(local_client_id) != 0U) && (check_flag_100__10TObjPlayerFPv() == 0) && (TWindowShortListCtrl__check_controller_button(&controller_input_state.controllers[0], 6) != 0)) {
+    TObjPlayer *player = (TObjPlayer *)get_player_by_client_id(local_client_id);
+    if ((player != NULL) && (player->is_controls_locked() == 0) && (test_pressed_buttons_packed(&controller_input_state.controllers[0], 6) != 0)) {
         set_score((saddr)((5)));
     }
 }
@@ -1395,7 +1395,7 @@ s32 TPlayerBattleCtrl4P::close_windows_on_button() {
     for (i = 0; i < 4; i++) {
         if ((p = get_player_by_client_id(i)) != NULL) {
             if (self->win[i] != NULL) {
-                if (TWindowShortListCtrl__check_controller_button(&controller_input_state.controllers[((TRaderMapCore *)p)->get_map_id()], 2) != 0) {
+                if (test_pressed_buttons_packed(&controller_input_state.controllers[((TObjPlayer *)p)->get_controller_port()], 2) != 0) {
                     ((TWindowBase *)(self->win[i]))->close();
                     self->win[i] = 0;
                 } else {

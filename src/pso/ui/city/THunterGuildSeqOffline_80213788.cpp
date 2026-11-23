@@ -26,6 +26,7 @@
 #include "pso/quest/TQuestListVM.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/system/task/TObject.h"
+#include "pso/camera/TCameraCtrl.h"
 
 #define CAT2(a,b) a##b
 #define CAT(a,b) CAT2(a,b)
@@ -55,7 +56,6 @@ void *TQuestListOnline__download_barrier_window;
 s32 quest_download_active;
 s32 quest_download_received_bytes;
 s32 quest_download_graph_current_bytes;
-int is_quest_active(void);
 extern s32 THunterGuildSeqOffline__quest_result_callbacks[];
 saddr set_service_counter_camera(void *, s32);
 
@@ -74,7 +74,6 @@ struct List_80214058 { u8 pad[0x28]; void *f28; void *f2c; void *f30; void *f34;
 extern "C" {
 
 saddr get_entity_id(void *);
-int is_quest_active(void);
 extern saddr TLobby__protocol_instance;
 
 }
@@ -86,10 +85,8 @@ struct Stack_8021488C {
 
 extern "C" {
 
-int is_quest_active(void);
 
 saddr get_window_layout_position(s32);
-int is_quest_active(void);
 extern s32 THunterGuildSeqOffline__quest_result_callbacks[];
 saddr set_service_counter_camera(void *, s32);
 u8 *create_yes_no_window(s32 arg0, s32 arg1, uaddr arg2, uaddr arg3);

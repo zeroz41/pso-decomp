@@ -25,7 +25,7 @@
 #include "pso/object/warp/TObjAreaWarpQuest.h"
 #include "pso/ui/frontend/TAdChrSelASlotGC.h"
 #include "pso/unk/TLobby_80207644.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/system/ControllerInput.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 
 
@@ -73,8 +73,6 @@ struct Luker_801A1768 {
 
 struct Plr_801A0F34 { u8 pad[0x30]; s32 flags; u8 pad34[4]; u8 pos[0xc]; };
 
-struct Pad_801A0F34 { u8 pad[0x20]; u8 btn[0x30]; };
-
 struct Ctrl_801A0E38;
 struct Obj_801A0DB4;
 struct Obj_801A0E38;
@@ -98,7 +96,6 @@ void *create_window_menu_default(void *p, s32 a);
 s32 get_floor_destination_name(s32 f);
 void hide_part__9TObjLukerFPvUs(Obj_801A0C38 *self, u16 i);
 f32 horizontal_distance_squared(void *, void *);
-s32 check_flag_100__10TObjPlayerFPv(void *);
 s32 play_persistent_sound(int, void *, void *, int, int);
 s32 TTecLuker__sub_8023401C(void *);
 s32 get_entity_id(int);
@@ -190,7 +187,6 @@ void TObjLuker::open_destination_windows() {
     }
 }
 }
-extern Pad_801A0F34 controller_input_state[];
 s32 are_players_gathered_near(void *arg0, s32 *arg1, f32 range);
 void offset_point_toward_camera(u8 *arg0, u8 *arg1, f32 farg0);
 extern s32 local_client_id;
@@ -212,7 +208,7 @@ s32 are_players_gathered_near(void *arg0, s32 *arg1, f32 range) {
         if (p != NULL) {
             pos = p->pos;
             if (!(p->flags & 0x800)) {
-                if (check_flag_100__10TObjPlayerFPv(p) == 1) {
+                if (((TObjPlayer *)p)->is_controls_locked() == 1) {
                     ret = 0;
                 }
                 if (horizontal_distance_squared(arg0, pos) > range) {
@@ -231,10 +227,10 @@ s32 are_players_gathered_near(void *arg0, s32 *arg1, f32 range) {
     if (ret != 0 && flag == 0) {
         s32 found = 0;
         s32 j;
-        for (j = 0; j < TCameraCtrl::get_instance(); j++) {
+        for (j = 0; j < TCameraCtrl::get_view_count(); j++) {
             p = (Plr_801A0F34 *)((Ctrl_801A0E38 *(*)(s32))get_player_by_client_id)(TCameraCtrl::get_nth_view_player_id(j));
             if (p != NULL &&
-                TWindowShortListCtrl__check_controller_button(controller_input_state[((TRaderMapCore *)p)->get_map_id()].btn, 4) != 0) {
+                test_pressed_buttons_packed(&controller_input_state.controllers[((TObjPlayer *)p)->get_controller_port()], 4) != 0) {
                 found = 1;
                 if (arg1 != NULL) {
                     *arg1 = j;
@@ -265,7 +261,7 @@ s32 is_player_in_range__9TObjLukerFv(saddr arg0, f32 farg0) {
             if (p != 0U) {
                 if (horizontal_distance_squared((void *)(arg0 + 0x38), (void *)(p + 0x38)) < (farg0 * farg0)) {
                     found = 1;
-                    if ((p != 0U) && (check_flag_100__10TObjPlayerFPv((void *)p) == 0)) {
+                    if ((p != 0U) && (((TObjPlayer *)p)->is_controls_locked() == 0)) {
                         ((TObjLuker *)arg0)->show_part((int) (get_entity_id(p)));
                     }
                 } else {
@@ -275,7 +271,7 @@ s32 is_player_in_range__9TObjLukerFv(saddr arg0, f32 farg0) {
         }
         for (saddr i = 0; i < 4; i++) {
             p = PBC_801A10A0(i);
-            if ((p != 0U) && (check_flag_100__10TObjPlayerFPv((void *)p) == 1)) {
+            if ((p != 0U) && (((TObjPlayer *)p)->is_controls_locked() == 1)) {
                 C38_801A10A0((void *)arg0, (int) (get_entity_id((int)p)));
             }
         }
@@ -286,7 +282,7 @@ s32 is_player_in_range__9TObjLukerFv(saddr arg0, f32 farg0) {
         }
         if (found != 0) {
             if (p != 0U) {
-                if (check_flag_100__10TObjPlayerFPv((void *)p) == 0) {
+                if (((TObjPlayer *)p)->is_controls_locked() == 0) {
                     ((TObjLuker *)arg0)->show_part((int) (get_entity_id(p)));
                 } else {
                     C38_801A10A0((void *)arg0, (int) (get_entity_id((int)p)));
@@ -416,8 +412,8 @@ void TObjLuker::run_task() {
                         }
                     } else {
                         p = PBC_801A1418(local_client_id);
-                        if (p != NULL && check_flag_100__10TObjPlayerFPv(p) == 0 &&
-                            TWindowShortListCtrl__check_controller_button(controller_input_state[sp8].btn, 4) != 0) {
+                        if (p != NULL && ((TObjPlayer *)p)->is_controls_locked() == 0 &&
+                            test_pressed_buttons_packed(&controller_input_state.controllers[sp8], 4) != 0) {
                             flag = 1;
                         }
                     }

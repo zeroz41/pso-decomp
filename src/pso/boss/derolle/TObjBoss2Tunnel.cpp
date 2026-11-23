@@ -38,7 +38,6 @@
 #include "pso/boss/derolle/TObjBoss2Tunnel_8036EF0C.h"
 #include "pso/map/FloorArea.h"
 #include "pso/map/CsnQuery.h"
-#include "pso/camera/TCameraCtrl_800687BC.h"
 #include "pso/ui/keyboard/TKeyBoardControl_803DE9C4.h"
 #include "pso/unk/TLobby_803382E4.h"
 #include "pso/network/client_id.h"
@@ -58,8 +57,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
 
 #include "pso/system/NinjaTypes.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
-#include "pso/camera/TCameraCtrl_801A6E60.h"
+#include "pso/system/ControllerInput.h"
 #include "pso/unk/TLobby_803DE778.h"
 
 // Two debug chunk models other units draw with draw_chunk_object: debug_chunk_object (TObjEneBm3FlyNest,
@@ -237,14 +235,10 @@ extern "C" {
 extern s32 lbl_805D49B4;
 extern char episode_i_and_ii_card_filename[];
 s8 func_801A5E54__Fv(void);
-extern uaddr camera_ctrl_instance;
 extern s32 lbl_805D63F0;
 }
 f32 sample_acceleration_curve(AccelerationCurve *c, f32 t);
 void init_acceleration_curve(AccelerationCurve *c, f32 a, f32 d, f32 length, f32 speed);
-extern "C" {
-int is_float_nonfinite(f32 value);
-}
 
 
 u8 boss2_tunnel_state_flag;
@@ -330,14 +324,19 @@ f32 normalize_vector_xz(Vec *vector) {
 
 #pragma pop
 
-void TObjBoss2Tunnel::render(void* a1) { push_matrix(); TObjPlayer::invert_matrix_in_place((uaddr)((void*)0)); get_current_matrix(a1); pop_matrix(); }
+void store_inverse_current_matrix(NJS_CAMERA *camera, CameraMatrix *view) {
+    push_matrix();
+    TObjPlayer::invert_matrix_in_place(0);
+    get_current_matrix(view);
+    pop_matrix();
+}
 
 #pragma push
 #pragma fp_contract on
-void TObjBoss2Tunnel::transform_vec_by_camera(saddr camera, saddr in, saddr out) {
+void transform_vec_by_camera(NJS_CAMERA *camera, const Vec *in, Vec *out) {
     push_matrix();
-    TCameraCtrl::concat_matrix(0, (uaddr)TCameraCtrl::get_view_matrix());
-    matrix_mult_vec(NULL, (const Vec *)in, (Vec *)out);
+    premultiply_matrix(0, (uaddr)TCameraCtrl::get_view_matrix());
+    matrix_mult_vec(NULL, in, out);
     pop_matrix();
 }
 
@@ -863,7 +862,7 @@ s32 take_snapshot(void) {
     if (TQuestListVM::get_quest_bin() != NULL) {
         return 0;
     }
-    if (TCameraCtrl__sub_80069304() != 0) {
+    if (TCameraCtrl::is_view_override_active() != 0) {
         return 0;
     }
     if (is_split_screen() != 0) {
@@ -872,7 +871,7 @@ s32 take_snapshot(void) {
     if (TAdPlayerLoadGC::get_instance() != 0) {
         return 0;
     }
-    pad = (PadSlot *)TKeyBoardControl__sub_803DEB74(0x12);
+    pad = get_pad_slot(0x12);
     if (test_previous_buttons_packed(&controller_physical_port_bank.controllers[3], 0x20000) != 0) {
         if (boss2_tunnel_state_flag == 0) {
             move_snapshot_frame();
@@ -1298,8 +1297,8 @@ void TObjBoss2Tunnel::show_message_and_wait(s32 message) {
         frames++;
         func_803DCDFC__Fv();
         controller_stuff();
-        if (camera_ctrl_instance != 0U) {
-            ((TCameraCtrl *)camera_ctrl_instance)->setup_default_view(0);
+        if (camera_ctrl_instance != NULL) {
+            camera_ctrl_instance->setup_default_view(0);
         }
         main_task.render();
         if ((f32)frames >= 30.0f) {
@@ -1352,8 +1351,8 @@ s32 TObjBoss2Tunnel::run_confirm_message_loop() {
         frames++;
         func_803DCDFC__Fv();
         controller_stuff();
-        if (camera_ctrl_instance != 0U) {
-            ((TCameraCtrl *)camera_ctrl_instance)->setup_default_view(0);
+        if (camera_ctrl_instance != NULL) {
+            camera_ctrl_instance->setup_default_view(0);
         }
         main_task.render();
         draw_snapshot_capture_overlay();
@@ -1370,11 +1369,11 @@ s32 TObjBoss2Tunnel::run_confirm_message_loop() {
         win->render();
         TParticleCtrl::end_effect_render();
         if (frames >= 6.0) {
-            if (TWindowShortListCtrl__check_controller_button(pad, 2) != 0 || frames >= 0x78) {
+            if (test_pressed_buttons_packed(pad, 2) != 0 || frames >= 0x78) {
                 result = 0;
                 break;
             }
-            if (TWindowShortListCtrl__check_controller_button(pad, 4) != 0) {
+            if (test_pressed_buttons_packed(pad, 4) != 0) {
                 result = 1;
                 break;
             }

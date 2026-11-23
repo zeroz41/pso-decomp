@@ -30,7 +30,6 @@ struct Stack_80335E7C
 };
 
 extern "C" {
-void TCameraCtrl__sub_80068EF0(void);
 
 
 struct TitleTextureList { s32 value; u8 remaining[0x24]; };
@@ -62,7 +61,7 @@ void TUnk_804EE470::render() {
   stack.sp14 = 317.0f;
   draw_textured_quad_at_depth((&stack.sp8), 0.1f);
   TWindowSubStatusDisp::get_player();
-  TCameraCtrl__sub_80068EF0();
+  TCameraCtrl::restore_saved_view();
   TParticleCtrl::end_effect_render();
 }
 

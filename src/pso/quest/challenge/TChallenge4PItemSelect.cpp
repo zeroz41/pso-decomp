@@ -17,12 +17,13 @@
 #include "pso/quest/challenge/TChallenge4PResult.h"
 #include "pso/unk/TLobby_80291D94.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/player/PlayerSlots.h"
 #include "pso/ui/window/TWindowMessagePage.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/map/FloorArea.h"
 #include "pso/system/task/TObject.h"
 #include "pso/item/TItemData.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/system/ControllerInput.h"
 #include "pso/object/warp/TObjCityMainWarp.h"
 #include "pso/boss/darkfalz/TBoss4Type2.h"
 #include "pso/unk/TLobby_80132ED0.h"
@@ -61,9 +62,6 @@ struct W_8034B694 { u8 pad0[0x34]; E_8034B694 e[1]; u8 pad48[0x70 - 0x48]; Q_803
 
 extern "C" {
 
-s32 get_map_id__13TRaderMapCoreFv();
-uaddr get_player_by_client_id(int);
-extern u8 controller_input_state[];
 
 
 void obj_set_flag_20000(TObjPlayer *);
@@ -131,8 +129,8 @@ void TChallenge4PResult::run_task() {
 
 void TChallenge4PResult::update_input() {
     s32 temp_r3;
-    s32 temp_r5;
     uaddr p;
+    TObjPlayer *player;
 
     if ((uaddr) this->message_window == 0U) {
         this->show_message((s32)((s32)(get_localized_text_entry(0x2B, 6))));
@@ -144,9 +142,9 @@ void TChallenge4PResult::update_input() {
             this->wait_frames = (temp_r3 - 1);
             return;
         }
-        if (get_player_by_client_id(this->slot_index) != 0U) {
-            temp_r5 = get_map_id__13TRaderMapCoreFv() * 0x50;
-            if (TWindowShortListCtrl__check_controller_button(controller_input_state + temp_r5 + 0x20, 4) != 0) {
+        player = get_player_by_client_id(this->slot_index);
+        if (player != NULL) {
+            if (test_pressed_buttons_packed(&controller_input_state.controllers[player->get_controller_port()], 4) != 0) {
                 this->state_1c = 1;
             }
         } else {
@@ -185,10 +183,10 @@ void TChallenge4PResult::handle_result_code() {
     }
 }
 void TChallenge4PResult::update_wait_input() {
-    s32 temp_r5;
-    if (get_player_by_client_id(this->slot_index) != 0U) {
-        temp_r5 = get_map_id__13TRaderMapCoreFv() * 0x50;
-        if (TWindowShortListCtrl__check_controller_button((void *)((void *) ((u8 *)&controller_input_state + temp_r5 + 0x20)), 4) != 0) {
+    TObjPlayer *player;
+    player = get_player_by_client_id(this->slot_index);
+    if (player != NULL) {
+        if (test_pressed_buttons_packed(&controller_input_state.controllers[player->get_controller_port()], 4) != 0) {
             this->state_1c = 3;
         }
     } else {
@@ -257,7 +255,7 @@ void TChallenge4PResult::show_message(saddr text_handle) {
     }
     if (message_window != NULL) {
         ((TWindowMessagePage *)message_window)->set_message((void *)text_handle, 0x81);
-        if (TCameraCtrl::get_instance() > 2) {
+        if (TCameraCtrl::get_view_count() > 2) {
             ((TWindowAddition *)message_window)->set_position_xy(0.9f, 0.9f);
         }
     }
@@ -279,7 +277,7 @@ void TChallenge4PResult::clear_slot_entries() {
 void TChallenge4PResult::create(int arg0, s32 arg1) {
     void *temp;
 
-    if (get_player_by_client_id((u16)arg0) != 0U) {
+    if (get_player_by_client_id((u16)arg0) != NULL) {
         temp = (void *) TObject::operator new(0x7C);
         if (temp != NULL) {
             __ct__18TChallenge4PResultFP7TObjectUsl(temp, tl_01, arg0, arg1);
@@ -294,7 +292,7 @@ s32 update_challenge_result_player_locks() {
     }
     if (active) {
         for (s32 i = 0; i < 4; ++i) {
-            TObjPlayer *player = ((TObjPlayer *)get_player_by_client_id(i));
+            TObjPlayer *player = get_player_by_client_id(i);
             if (player && ((TObjPlayer *)player)->check_player_flag1() == 0) {
                 TObjPlayer::play_effect_default((saddr)player, (int)(-1));
                 obj_set_flag_20000(player);
@@ -310,7 +308,7 @@ s32 update_challenge_result_player_locks() {
         }
     } else {
         for (s32 i = 0; i < 4; ++i) {
-            TObjPlayer *player = ((TObjPlayer *)get_player_by_client_id(i));
+            TObjPlayer *player = get_player_by_client_id(i);
             if (player && ((TObjPlayer *)player)->check_player_flag1() != 0) {
                 TObjPlayer::send_code_45_1((saddr)player);
                 obj_clear_flag30_20000(player);
@@ -397,7 +395,7 @@ void TChallenge4PItemSelect::open_menu() {
             ((TWindowSubComCardList *)menu_window)->set_scroll_target(252.0f, 1.4e+02f);
             TWindowSubComCard__sub_80265500((u32 &)menu_window);
             ((TWindowBase *)menu_window)->set_depth(3.9e+04f);
-            if (TCameraCtrl::get_instance() > 2) {
+            if (TCameraCtrl::get_view_count() > 2) {
                 ((TWindowAddition *)menu_window)->set_position_xy(0.9f, 0.9f);
             }
             state = 1;

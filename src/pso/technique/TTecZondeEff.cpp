@@ -9,6 +9,7 @@
 #include "pso/map/FloorArea.h"
 
 #include "types.h"
+#include "pso/render/GinjaView.h"
 #include "pso/effect/TEffect.h"
 #include "pso/system/task/TObject.h"
 #include "pso/effect/particle/TParticleCtrl.h"
@@ -90,16 +91,6 @@ struct Zonde_8023D6B0 {
     s16 active;
 };
 
-struct Cam_8023D128
-{
-  u8 pad0[8];
-  f32 cx;
-  f32 cy;
-  u8 pad10[8];
-  f32 sx;
-  f32 sy;
-};
-
 struct Obj_8023D128
 {
   u8 pad0[0x38];
@@ -135,7 +126,6 @@ const char *TTecZondeEff_class_name = "TTecZondeEff";
 P_8023DBB4 tec_zonde_effect_task_list;
 extern char lbl_804CC8C8[];
 s32 TTecZondeEff__beam_vertex_data;
-extern Cam_8023D128 lbl_8058D4F8;
 s32 project_lightning_points(Obj_8023D128 *self, Vec *out, f32 *a, f32 *b);
 struct Obj_8023D294 { u8 pad[0x28]; Vec d; };
 
@@ -144,7 +134,6 @@ extern "C" {
 
 #pragma push
 #pragma fp_contract on
-typedef struct Cam_8023D128 Cam_8023D128;
 typedef struct Obj_8023D128 Obj_8023D128;
 
 typedef struct Obj_8023CED4 Obj_8023CED4;
@@ -235,10 +224,10 @@ s32 project_lightning_points(Obj_8023D128 *self, Vec *out, f32 *a, f32 *b) {
   f32 cx;
   f32 cy;
   s32 i;
-  sy0 = lbl_8058D4F8.sx;
-  sx0 = lbl_8058D4F8.sx * (480.0f / (480.0f * lbl_8058D4F8.sy));
-  cx = lbl_8058D4F8.cx;
-  cy = lbl_8058D4F8.cy;
+  sy0 = screen_projection.distance;
+  sx0 = screen_projection.distance * (480.0f / (480.0f * screen_projection.width));
+  cx = screen_projection.center_x;
+  cy = screen_projection.center_y;
   for (i = 0; i < self->count; i++)
   {
     Vec v;

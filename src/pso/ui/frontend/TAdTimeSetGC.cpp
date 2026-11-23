@@ -31,7 +31,7 @@
 #include "pso/unk/TLobby_80132ED0.h"
 #include "pso/unk/TLobby_80226070.h"
 #include "pso/unk/text_8023F160.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/system/ControllerInput.h"
 #include "pso/system/vector.h"
 
 // Functions and data of other units that have no shared declaration with the signature these calls use.
@@ -884,7 +884,7 @@ void TAdTimeSetGC::sub_802E18C8() {
 }
 
 s32 TAdTimeSetGC::sub_802E1868() {
-    if (TWindowShortListCtrl__check_controller_button(&controller_physical_port_bank.controllers[0], 4) != 0 ||
+    if (test_pressed_buttons_packed(&controller_physical_port_bank.controllers[0], 4) != 0 ||
         test_controller_flag_4c_color(&controller_input_state.keyboard, 4) != 0) {
         return 1;
     }

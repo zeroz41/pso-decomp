@@ -13,7 +13,7 @@
 #include "pso/object/base/TObjChara.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/window/TWindowSubComCard.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/system/ControllerInput.h"
 
 #include "types.h"
 #include "pso/player/TObjPlayer_80011014.h"
@@ -181,7 +181,6 @@ u32 TWindowSubComCard__sub_80272640(void *);
 u32 TWindowSubComCard__sub_80272A98(void *);
 u32 TWindowSubComCard__sub_8027337C();
 s32 open_confirm_prompt__19TWindowSubShortMailFPvi(void *arg0, s32 arg1);
-extern s32 controller_input_state[];
 extern saddr TLobby__protocol_instance;
 
 void TWindowSubComCard__sub_80077980(void *);
@@ -410,7 +409,7 @@ void TWindowSubComCard::run_task() {
         }
         this->state = 8U;
     case 0x8:
-        if ((TWindowShortListCtrl__check_controller_button((void *) ((u8 *)controller_input_state + 0x20), 6) != 0) || (test_controller_flag_4c_color((void *) ((u8 *)controller_input_state + 0x160), 6) != 0)) {
+        if ((test_pressed_buttons_packed(&controller_input_state.controllers[0], 6) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 6) != 0)) {
             this->state = 3U;
             return;
         }
@@ -469,7 +468,7 @@ void TWindowSubComCard::run_task() {
     case 0xC:
         ((s32 (*)(int, int, void*))update_display_value__17TWindowSubComCardFUiUiPv)(this->m_84, this->m_74, (void *) ((u8 *)this + 0x24));
         this->set_card_index((int) (((TWindowMenu *)this->m_84)->get_selected_value()));
-        if (TWindowShortListCtrl__check_controller_button((void *) ((u8 *)controller_input_state + 0x20), 0x400) != 0) {
+        if (test_pressed_buttons_packed(&controller_input_state.controllers[0], 0x400) != 0) {
             if (((TWindowBase *)(this->message_window))->sub_80244994() != 0) {
                 ((TWindowLockOn *)(this->message_window))->request_close();
             } else {
@@ -536,7 +535,7 @@ void TWindowSubComCard::run_task() {
         this->set_card_index((int) (((TWindowMenu *)this->m_84)->get_selected_value()));
         this->state = 0x12U;
     case 0x12:
-        if ((TWindowShortListCtrl__check_controller_button((void *) ((u8 *)controller_input_state + 0x20), 6) != 0) || (test_controller_flag_4c_color((void *) ((u8 *)controller_input_state + 0x160), 6) != 0)) {
+        if ((test_pressed_buttons_packed(&controller_input_state.controllers[0], 6) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 6) != 0)) {
             this->state = 0xBU;
             return;
         }
@@ -770,7 +769,7 @@ void TWindowSubComCard::run_task() {
         }
     case 0x28:
     case 0x34:
-        if ((TWindowShortListCtrl__check_controller_button((void *) ((u8 *)controller_input_state + 0x20), 2) != 0) || (test_controller_flag_4c_color((void *) ((u8 *)controller_input_state + 0x160), 2) != 0)) {
+        if ((test_pressed_buttons_packed(&controller_input_state.controllers[0], 2) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0)) {
             play_sound_effect(0x52F16, 0, 0, 0);
             this->state = 1U;
         }
@@ -834,7 +833,7 @@ void TWindowSubComCard::run_task() {
         TLobby::send_packet((saddr)this, (saddr)((u8 *)this + 0x30));
         this->state = 0x2EU;
     case 0x2E:
-        if ((TWindowShortListCtrl__check_controller_button((void *) ((u8 *)controller_input_state + 0x20), 2) != 0) || (test_controller_flag_4c_color((void *) ((u8 *)controller_input_state + 0x160), 2) != 0)) {
+        if ((test_pressed_buttons_packed(&controller_input_state.controllers[0], 2) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0)) {
             play_sound_effect(0x52F16, 0, 0, 0);
             this->state = 0x29U;
         }

@@ -66,9 +66,6 @@ extern saddr lbl_805D5B3C;
 extern saddr lbl_805D5B40;
 extern GinjaTextureList *lbl_805D5B44;
 extern void *lbl_805D5B48;
-// Defined in TCameraCtrl.cpp.
-extern TCameraCtrl *camera_ctrl_instance;
-extern f32 lbl_804FF5E8[];
 
 // Defined in text_800F5BC0.cpp, which has no declaration of it yet.
 extern "C" void scroll_strip_uvs(void *strips, s16 u_offset, s16 v_offset);
@@ -468,8 +465,8 @@ void TObjCity_Season_FireWorkCtrl::run_task() {
         spawn_delay--;
         if (spawn_delay < 0) {
             VecCopy(&to_camera, &position);
-            subtract_vector(&to_camera, (Vec *)&camera_ctrl_instance->pos_x);
-            if (normalize_vector_safe(&to_camera) < 450.0f && vec3_dot(&to_camera, (Vec *)&lbl_804FF5E8[3]) > 0.0f) {
+            subtract_vector(&to_camera, (Vec *)&camera_ctrl_instance->pos.x);
+            if (normalize_vector_safe(&to_camera) < 450.0f && vec3_dot(&to_camera, (Vec *)&ninja_camera.vx) > 0.0f) {
                 dx = scale.x * rand_signed_unit();
                 dz = scale.z * rand_signed_unit();
                 rise = 50.0f * (3.0517578e-05f * rand()) + scale.y;

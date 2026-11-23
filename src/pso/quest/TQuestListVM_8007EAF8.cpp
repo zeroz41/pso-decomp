@@ -52,5 +52,5 @@ TUnk_8048DF58 lbl_805005A4;
 #pragma push
 #pragma force_active on
 u8 lbl_805005C0[0x10];
-u8 demo_camera_controller_table[0x40];
+CameraParams *demo_camera_params_table[16];
 #pragma pop

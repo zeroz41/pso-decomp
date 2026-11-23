@@ -170,6 +170,7 @@ extern "C" {
 void *__dt__13TUnk_804EFBACFv(void *arg0, s16 arg1);
 void measure_message_text_width_default(void *entry);
 s32 dispatch_by_window_mode(u8 *window_dd, u32 arg1, s32 entry_id, s32 value_index);
+void TWindowDD__sub_80344114(void);
 }
 
 // Upper bounds of the numeric word-select entries, indexed by TWindowDD::classify_id.

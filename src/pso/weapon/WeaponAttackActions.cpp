@@ -13,7 +13,6 @@ struct NJS_OBJECT;
 #include "pso/item/TItemData.h"
 #include "pso/effect/item/TItemEffectWeapon.h"
 #include "pso/effect/item/TItemEffPG.h"
-#include "pso/item/armor/TItemProShield.h"
 #include "pso/weapon/WeaponAttackActions.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/weapon/TUnk_804A4D70.h"
@@ -146,7 +145,7 @@ void TItemWeapon::set_weapon_category_flags() {
 
 void TItemWeapon::drain_owner_hp_fraction(f32 farg0) {
     if (*(u32 *)&(*(NJS_MOTION_LINK *)((u8 *)this + 0xE4)).frame[1] != 0U) {
-        TObjectV8047c128_subtract_hp((u8 *)(*(uaddr *)&(*(NJS_MOTION_LINK *)((u8 *)this + 0xE4)).frame[1]), (farg0 * (f32) ((TItemProShield *)(*(uaddr *)&(*(NJS_MOTION_LINK *)((u8 *)this + 0xE4)).frame[1]))->get_field_2b8()));
+        TObjectV8047c128_subtract_hp((u8 *)(*(uaddr *)&(*(NJS_MOTION_LINK *)((u8 *)this + 0xE4)).frame[1]), (farg0 * (f32) ((TObjChara *)(*(uaddr *)&(*(NJS_MOTION_LINK *)((u8 *)this + 0xE4)).frame[1]))->get_hpmax()));
     }
 }
 
@@ -1201,7 +1200,7 @@ s32 TItemWeapon::get_joint_position(s32 joint, void *out) {
         floats.sp8 = lbl_805DAC98;
         push_matrix();
         TObjPlayer::copy_matrix(0, (uaddr)get_model_joint_matrix(owner, joint));
-        TCameraCtrl::concat_matrix(0, (saddr)TCameraCtrl::get_view_matrix());
+        premultiply_matrix(0, (saddr)TCameraCtrl::get_view_matrix());
         transform_point_by_current_matrix(&floats.sp8, out);
         pop_matrix();
     } else {

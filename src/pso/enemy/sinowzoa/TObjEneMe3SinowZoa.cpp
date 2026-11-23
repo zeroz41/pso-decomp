@@ -61,7 +61,7 @@
 #include "pso/math/AngleUnits.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/npc/TObjNpcEnemy_803D8090.h"
-#include "pso/camera/TCameraCtrl_803D6538.h"
+#include "pso/render/GinjaView.h"
 
 #include "pso/player/PlayerAttackParams.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
@@ -1098,7 +1098,7 @@ void TObjEneMe3SinowZoa::state_f_attack(s32 mode) {
                     v.y += 20.0f;
                     v.z = this->destination_direction.z * d + v.z;
                     if (csnVecterUnder(&v, 0x15) != 0) {
-                        if (this->room == ((TScene *)(&v))->find_section_at_position()) {
+                        if (this->room == find_section_at_position(&v)) {
                             if (this->stealthed != 0) {
                                 this->fade.set_rate(0.05f);
                                 this->fade.reset_obstruction_fade();
@@ -1667,7 +1667,7 @@ void TObjEneMe3SinowZoa::state_warp(s32 mode) {
                         if (check_move_collision(&tmp) == 0 &&
                             csnVector(&this->current_target->position, &tmp, 0x88E0) == 0 &&
                             csnVectorUnder(&pos, (CsnGroup **)&this->ground_cache, 0x15) != 0 &&
-                            this->room == ((TScene *)(&pos))->find_section_at_position()) {
+                            this->room == find_section_at_position(&pos)) {
                             VecCopy(&this->position, &pos);
                             this->rotation_y = ang + 0xC000;
                             break;

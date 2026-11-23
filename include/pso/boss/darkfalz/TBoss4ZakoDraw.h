@@ -9,6 +9,8 @@ public:
     virtual ~TBoss4ZakoDraw();
     virtual void run_task();
     virtual void render();
+    // Draws the zako queued for this frame, clipped to the view.
+    static void draw_queued();
 };
 
 // .sdata2 constants of the zako draw (TBoss4ZakoDraw.cpp); names inferred from the uses.

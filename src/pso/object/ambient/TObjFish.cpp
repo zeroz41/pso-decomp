@@ -108,7 +108,6 @@ extern const f32 lbl_80465D74[5][3] = { { 1.0f, 1.0f, 1.0f }, { 0.4f, 0.4f, 0.4f
 extern const f32 lbl_80465DB0[5][3] = { { 30.0f, 30.0f, 30.0f }, { 5.0f, 20.0f, 30.0f }, { 5.0f, 5.0f, 5.0f }, { 30.0f, 30.0f, 30.0f }, { 30.0f, 30.0f, 30.0f } };
 extern const char TObjFish__class_name_string[] = "TObjFish";
 #pragma pop
-extern TCameraCtrl *camera_ctrl_instance;
 
 #pragma push
 #pragma fp_contract on
@@ -128,9 +127,9 @@ void TObjFish::render() {
         translate_matrix_vec3(0, (u8 *)&position);
         rotate_matrix_y(0, rotation_y);
         if (camera_ctrl_instance != NULL) {
-            d.x = camera_ctrl_instance->pos_x - position.x;
-            d.y = camera_ctrl_instance->pos_y - position.y;
-            d.z = camera_ctrl_instance->pos_z - position.z;
+            d.x = camera_ctrl_instance->pos.x - position.x;
+            d.y = camera_ctrl_instance->pos.y - position.y;
+            d.z = camera_ctrl_instance->pos.z - position.z;
         }
         while (n-- != 0) {
             s16 a;

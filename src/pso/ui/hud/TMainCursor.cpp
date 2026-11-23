@@ -28,6 +28,7 @@
 #include "pso/ui/hud/TMainCursor_8013B690.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/ui/frontend/TAdRicoRing.h"
+#include "pso/camera/TCameraConversation.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/ui/hud/TMainCursor_8013F104.h"
@@ -145,8 +146,6 @@ struct VOff_8013B524_arg0_8013B524 { char pad_0[0x4C]; char f_4C[1]; };
 s32 rotate_matrix_z(s32, s32);
 s32 rotate_matrix_y(s32, s32);
 
-extern u8 *camera_ctrl_instance;
-
 s32 check_visible__11TMainCursorFv(void *, void *, s32, s32);
 void *find_entity_by_id(u16 id);
 u8 get_cast_technique_level(void *, s32);
@@ -164,7 +163,6 @@ struct Target_8013B70C {
 
 extern "C" {
 extern u8 shared_effect_texture_list[];
-s32 check_flag_100__10TObjPlayerFPv(void *);
 s32 play_sound_effect(s32, void *, s32, s32);
 
 extern "C" void render__7TObjectFv();
@@ -222,7 +220,6 @@ s32 quick_sort_partition__11TMainCursorFiPvii(saddr self, Ent_8013C678 *a, s32 l
 void TMainCursor__sub_8013F170(void *p, s32 v);
 void clear_target_cursor_list(void *p);
 
-s32 check_flag_100__10TObjPlayerFPv(void *player);
 s32 is_key_machine_ready__10TObjPlayerFv();
 s32 TMainCursor__sub_8013E2A0(void *list);
 s16 TMainCursor__sub_8013E298(void *entry);
@@ -351,8 +348,6 @@ u8 fn_8013F24C(Obj_8013F24C *self, s16 i);
 
 }
 
-extern int TCameraCtrl__fixed_npc_camera_active;
-
 // TMainCursor and TLockOnCursor are one translation unit: their vtables and the lock-on tasks' sit
 // together in .data in reverse key-function order. Deferred code generation is switched on and off
 // across the file; each deferred stretch is written last to first.
@@ -464,7 +459,7 @@ void TLockOnCursor::reset_and_spawn_cursors() {
     for (i = 0; i < 4; i++) {
         ((TMainCursor *)&action_slots[i])->reset_state();
     }
-    unk_4ec.reset_state();
+    selection.reset_state();
     TLockOnCursor__sub_8013EC1C(&unk_508);
     nearest_target.reset();
     if (get_start_task() == NULL) {
@@ -551,7 +546,7 @@ void TLockOnCursor::renderSecondaryCursor(u8 *body, s32 type, s32 action) {
                 push_matrix();
                 offset_point_toward_camera(body + 0x1C, (u8 *)&sp8, (f32)temp_f31);
                 translate_matrix_vec3((u8 *)(0), (u8 *)&sp8);
-                rotate_matrix_y(0, (int) (*(s32 *)((s8 *)camera_ctrl_instance + 0x194)));
+                rotate_matrix_y(0, camera_ctrl_instance->yaw);
                 TParticleCtrl::begin_effect_render();
                 push_matrix();
                 translate_matrix(0, TMainCursor__data_805DB0C0, temp_f31, TMainCursor__data_805DB0C0);
@@ -929,7 +924,7 @@ void TMainCursor::bind_action_channels() {
     if (player == 0) {
         return;
     }
-    if (check_flag_100__10TObjPlayerFPv((void *)player) != 0 && ((TMainCursor *)(&self->channel))->is_channel_active() != 0) {
+    if (((TObjPlayer *)player)->is_controls_locked() != 0 && ((TMainCursor *)(&self->channel))->is_channel_active() != 0) {
         type = get_action_palette_tag_mode(&self->channel);
         enabled = get_action_palette_tag_slot(&self->channel);
         if (is_current_area_item_enabled() == 0) {
@@ -1435,7 +1430,7 @@ void TMainCursor::validate_target() {
             this->update_target_sub();
             return;
         }
-        if (check_flag_100__10TObjPlayerFPv(t) == 0 && ((TObjCollidable *)t)->obj_testFlags30(0x20006) != 0) {
+        if (((TObjPlayer *)t)->is_controls_locked() == 0 && ((TObjCollidable *)t)->obj_testFlags30(0x20006) != 0) {
             this->update_target_sub();
             return;
         }
@@ -1499,7 +1494,7 @@ void render__11TMainCursorFPv(TMainCursor *main_cursor) {
     push_matrix();
     offset_point_toward_camera((u8 *)main_cursor + 0x40, (u8 *)&sp8, main_cursor->m_2c);
     translate_matrix_vec3((u8 *)(0), (u8 *)&sp8);
-    rotate_matrix_y(0, *(s32 *)((s8 *)camera_ctrl_instance + 0x194));
+    rotate_matrix_y(0, camera_ctrl_instance->yaw);
     push_matrix();
     rotate_matrix_z(0, 0x2AAA);
     translate_matrix(0, TMainCursor__data_805DB0C0, temp_f31, TMainCursor__data_805DB0C0);
@@ -2027,7 +2022,7 @@ void TLockOnCursor__sub_8013EC1C(void *p) {
 }
 
 void TUnk_8013EF6C::reset_state() {
-    unk_c.reset_target();
+    target.reset_target();
     unk_14.reset_target();
     unk_8.init();
     unk_0 = 0xffff;
@@ -2167,4 +2162,4 @@ u8 fn_8013F24C(Obj_8013F24C *self, s16 i) {
 
 }
 
-int TCameraCtrl::get_mode() {  return TCameraCtrl__fixed_npc_camera_active; }
+int TCameraCtrl::get_mode() {  return fixed_npc_camera_active; }

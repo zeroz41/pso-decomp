@@ -23,7 +23,7 @@
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/task/TObject.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/system/ControllerInput.h"
 
 struct B_802C3400 { NJS_POINT2 e[2]; };
 
@@ -35,7 +35,6 @@ const char *TAdStorySelectGC__class_name = TAdStorySelectGC__class_name_string;
 s32 story_select_cursor;
 extern "C" {
 void play_sound_effect(s32, s32, s32, s32);
-extern u8 controller_input_state[];
 void TAdStorySelectGC::render() {  }
 void TAdStorySelectGC::run_task() {
     TAdMultiChgGameModeGC::set_default_camera();
@@ -58,8 +57,8 @@ void TAdStorySelectGC::run_task() {
         break;
     case 0:
     default:
-        if (TWindowShortListCtrl__check_controller_button(controller_input_state + 0x20, 2) != 0 ||
-            test_controller_flag_4c_color(controller_input_state + 0x160, 2) != 0) {
+        if (test_pressed_buttons_packed(&controller_input_state.controllers[0], 2) != 0 ||
+            test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0) {
             play_sound_effect(0x52F16, 0, 0, 0);
             TAdMultiChgGameModeGC::set_game_mode();
         }

@@ -25,11 +25,11 @@
 #include "pso/unk/TLobby_803DE778.h"
 #include "pso/npc/TNpcPlayer_8034DAA0.h"
 #include "pso/system/GslArchive.h"
+#include "pso/unk/TLobby_800F8AA8.h"
 
 #pragma readonly_strings on
 
 extern "C" {
-s32 is_area_transfer_pending();
 }
 
 int set_event_destroy_id;

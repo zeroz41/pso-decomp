@@ -23,7 +23,7 @@
 #include "pso/ui/window/TWindowAddition.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/unk/text_800F9B84.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/system/ControllerInput.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include <string.h>
 
@@ -64,15 +64,14 @@ void *get_window_layout_position(s32);
 extern u8 *TLobby__protocol_instance;
 extern s32 quest_download_received_bytes;
 extern s32 quest_download_graph_current_bytes;
-extern s32 controller_input_state[];
 }
 
 void THunterGuildSeqOnlineTask::run_task() {
-    u8 *p;
+    ControllerInputContext *p;
     if (TQuestListOnline__quest_info_window != 0) {
-        p = (u8 *)controller_input_state + 0x20;
-        if (TWindowShortListCtrl__check_controller_button(p, 4) != 0 ||
-            TWindowShortListCtrl__check_controller_button(p, 2) != 0) {
+        p = &controller_input_state.controllers[0];
+        if (test_pressed_buttons_packed(p, 4) != 0 ||
+            test_pressed_buttons_packed(p, 2) != 0) {
             TQuestListOnline__quest_info_window->close();
             TQuestListOnline__quest_info_window = 0;
             TWindowCtrl::unsuppress_slot(local_client_id);

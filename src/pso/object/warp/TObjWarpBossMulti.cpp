@@ -61,6 +61,7 @@
 #include "pso/ui/frontend/TAdVIConfigGC.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80248BE8.h"
 #include "pso/ui/window/WindowLayout.h"
+#include "pso/camera/TCameraCtrl.h"
 
 
 #pragma defer_codegen on
@@ -111,11 +112,9 @@ saddr TObjWarpBossMulti__create(saddr arg0);
 const char lbl_8044663C[] = "<- NEXT STAGE No.";
 const char lbl_80446650[] = "<- KEY ID : %d";
 extern u32 player_slot_table[];
-extern saddr camera_ctrl_instance;
 extern s32 lbl_805D55C0;
 
 
-int check_flag_100__10TObjPlayerFPv(void *p);
 
 
 }
@@ -258,7 +257,7 @@ void TObjWarpBoss::run_task() {
 
 void TObjWarpBoss::render() {
     if (dest_floor == 0xE) {
-        if (xz_distance_squared((const Vec *)(camera_ctrl_instance + 0x178), &position) > 160000.0f) {
+        if (xz_distance_squared(&camera_ctrl_instance->pos, &position) > 160000.0f) {
             return;
         }
         goto block_4;
@@ -765,7 +764,7 @@ void TObjWarpBoss::update_warp_boss_visibility() {
     if ((player != NULL) && (player->has_flag_0x800() != 0)) {
         var_r30 = 0;
     }
-    if ((player != NULL) && (check_flag_100__10TObjPlayerFPv(player) != 0)) {
+    if ((player != NULL) && (player->is_controls_locked() != 0)) {
         var_r30 = 0;
     }
     if (var_r30 == 0) {
@@ -873,7 +872,7 @@ void TObjWarpBossMulti::run_task() {
 
 void TObjWarpBossMulti::render() {
     if ((s32) dest_floor == 0xE) {
-        if (xz_distance_squared((const Vec *)(camera_ctrl_instance + 0x178), &position) > 160000.0f) {
+        if (xz_distance_squared(&camera_ctrl_instance->pos, &position) > 160000.0f) {
             return;
         }
         goto block_4;

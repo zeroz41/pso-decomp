@@ -48,4 +48,5 @@ struct TFogCtrl : public TObject {
 };
 
 LAYOUT_ASSERT(TFogCtrl_size, sizeof(TFogCtrl) == 0x1C8);
+void init_scene_fog_system(void);
 #endif

@@ -20,7 +20,7 @@ void TObjPlayer::init_battle() {
     ((TObjPlayer *)(arg0 + 0x634))->enter_battle_state();
 }
 
-extern s32 update_photon_chair__10TObjPlayerFv[];
+void update_photon_chair__10TObjPlayerFv(void *player);
 }
 
 void TObjPlayer::reset_area_entry_state() {
@@ -29,7 +29,7 @@ void TObjPlayer::reset_area_entry_state() {
     ((TObjPlayer *)((char *)this + 1588))->enter_battle_state();
     x = TObjPlayer::is_locally_controlled(this);
     if (x != 0) {
-        ((TObjPlayer *)update_photon_chair__10TObjPlayerFv)->for_each_player_slot();
+        TObjPlayer::for_each_player_slot(update_photon_chair__10TObjPlayerFv);
     }
 }
 

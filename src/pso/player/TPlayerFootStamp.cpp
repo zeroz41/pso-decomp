@@ -25,8 +25,6 @@
 #include "pso/unk/text_803DA798.h"
 #include "pso/unk/text_803E29B0.h"
 
-extern TCameraCtrl *camera_ctrl_instance;
-
 // Per player class (in the order of the switch below): the footprint's
 // length, width and offset along the facing, before the height scaling.
 const Vec lbl_804707F8[12] = {
@@ -211,7 +209,7 @@ TPlayerFootStamp::TPlayerFootStamp(TObjPlayer *player, s32 side) : TObject(tl_07
 
         // TObjBase::get_rotation returns &rotation_x of any TObjBase.
         rotation = (s32 *)((TObjBase *)player)->get_rotation();
-        VecCopy(&position, (Vec *)player->get_position_ptr());
+        VecCopy(&position, player->get_position_ptr());
         position.y += 5.0f;
         ground = csnVecterUnder(&position, 0x16EF);
         if (ground == NULL) {
@@ -304,7 +302,7 @@ void TPlayerFootStamp::run_task() {
 
 // Draws the footprint while it is within 150 units of the camera.
 void TPlayerFootStamp::render() {
-    if (horizontal_distance_squared(&position, (const Vec *)&camera_ctrl_instance->pos_x) < 22500.0f) {
+    if (horizontal_distance_squared(&position, (const Vec *)&camera_ctrl_instance->pos.x) < 22500.0f) {
         saved_model_render_flags = model_render_flags;
         set_default_alpha_blend();
         TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(player_footstamp_texture_gvm_handle));

@@ -9,7 +9,7 @@
 #include "pso/unk/TLobby.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/system/task/TObject.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/system/ControllerInput.h"
 #include <stdio.h>
 #include <string.h>
 #include "pso/ui/window/WindowLayout.h"
@@ -18,11 +18,9 @@
 #pragma auto_inline off
 #pragma dont_inline off
 
-struct ControllerInputStateResultWin { s32 value; u8 remaining[0x1AC]; };
 extern "C" {
 char* get_message_text(s32);
 s32 has_window_task_root();
-extern ControllerInputStateResultWin controller_input_state;
 extern s32 current_lobby_id;
 extern TObject* tl_07;
 __declspec(section ".rodata") extern const char TObjResultWin_class_name[];
@@ -131,7 +129,7 @@ void TObjResultWin::run_task() {
                 ((TWindowBase *)m_window)->close();
                 queue_destruction();
             }
-        } else if (TWindowShortListCtrl__check_controller_button((void *) ((u8 *)&controller_input_state.value + 0x20), 4) != 0) {
+        } else if (test_pressed_buttons_packed(&controller_input_state.controllers[0], 4) != 0) {
             m_close_requested = 1;
         }
     }

@@ -21,12 +21,9 @@ struct Pad_8034BE5C { u8 pad0[0x34]; s16 tilt; u8 pad36[4]; s16 speed; };
 
 extern "C" {
 const char *lbl_805D4340 = "TAdFloorLoadCamGC";
-void set_active_camera_pose(u8 *arg0, u8 *arg1);
-s32 activate_camera_mode(s32 arg0);
 f32 vec_squared_length(u8 *arg0);
 extern Pad_8034BE5C controller_physical_port_bank;
 extern const f32 lbl_805DFDB8;
-void TCameraCtrl__sub_800687C8(void);
 
 u16 fn_8034BE30(void* p) { return *(u16*)((char*)p + 0x24); }
 void fn_8034BE38(void* p) { *(u32*)((char*)p + 0x334) &= 0xbfffffff; }
@@ -91,14 +88,14 @@ void TAdFloorLoadCamGC::run_task() {
     } else {
         normalize_vector(&up);
     }
-    TCameraCtrl::copy_vec_to_default((u8 *)&up);
-    set_active_camera_pose((u8 *)&s->pos, (u8 *)&s->target);
+    TCameraCtrl::copy_vec_to_default(&up);
+    set_active_camera_pose(&s->pos, &s->target);
 }
 #pragma pop
 
 }
 TAdFloorLoadCamGC::~TAdFloorLoadCamGC() {
-    TCameraCtrl__sub_800687C8();
+    TCameraCtrl::reset_up_vector();
 }
 TAdFloorLoadCamGC::TAdFloorLoadCamGC(TObject *object, void *arg2) : TObject(object) {
     m_name = lbl_805D4340;

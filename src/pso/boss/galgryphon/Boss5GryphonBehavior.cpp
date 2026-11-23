@@ -50,6 +50,7 @@
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
 #include "pso/render/RenderFadeState.h"
 #include "pso/camera/TCameraCtrl.h"
+#include "pso/camera/CameraHelpers.h"
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
@@ -71,8 +72,6 @@
 #include "pso/map/CsnGroundQuery.h"
 #include "pso/unk/text_80086B64.h"
 #include "pso/unk/text_80087278.h"
-#include "pso/camera/TCameraCtrl_800687BC.h"
-#include "pso/camera/TCameraCtrl_8006A03C.h"
 #include "pso/object/TObjControl.h"
 #include "pso/boss/galgryphon/TBoss5GryphonLightningEff.h"
 #include "pso/render/MaterialAlphaCompare.h"
@@ -85,9 +84,7 @@
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-#include "pso/camera/TCameraCtrl_800687BC.h"
 #include "pso/unk/TLobby_802268F4.h"
-#include "pso/camera/TCameraCtrl_8006A03C.h"
 #include "pso/object/TObjControl.h"
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/object/trap/TOTrapAncient01_80226534.h"
@@ -107,7 +104,6 @@ f32 newton_sqrtf(f32);
 s32 is_split_screen();
 f32 fabs_float(f32);
 s32 TBoss8Dragon__sub_800670E0(int, void *);
-void set_scripted_camera_pose(void *, void *, void *);
 f32 calc_random_ratio__10TObjPlayerFv(void *);
 s32 subtractive_rng_seed(void *, s32);
 void TBoss8Dragon__sub_80067074(saddr arg0, saddr prm);
@@ -234,7 +230,6 @@ s32 boss5_gryphon_render_flags;
 TBoss5Gryphon *boss5_gryphon_instance;
 f32 boss5_gryphon_camera_player_distance;  // blocks_camera_view: camera to player, xz
 extern "C" {
-extern u8 *camera_ctrl_instance;
 void *boss5_gryphon_action_table[108] = {
     (void *)0x10000, (void *)0x9, (void *)0x3f4ccccd, (void *)0x0,
     (void *)0x10000, (void *)0xb, (void *)0x3f000000, (void *)0x0,
@@ -264,12 +259,8 @@ void *boss5_gryphon_action_table[108] = {
     (void *)0x30000, (void *)0x7, (void *)0x3f800000, (void *)0x80000000,
     (void *)0x30000, (void *)0x10, (void *)0x3f000000, (void *)0x0,
 };
-void *boss8_dragon_follow_camera_offsets[3] = {
-    (void *)0x0, (void *)0x419e6666, (void *)0xc0a00000,
-};
-void *gryphon_follow_camera_target_offset[3] = {
-    (void *)0x0, (void *)0x41cb70a4, (void *)0x4235ae14,
-};
+Vec boss5_gryphon_follow_camera_target_offset = {0.0f, 19.8f, -5.0f};
+Vec boss5_gryphon_follow_camera_eye_offset = {0.0f, 25.43f, 45.42f};
 extern void *boss5_gryphon_landing_bezier_points[16];
 extern void *boss5_gryphon_descend_bezier_points[16];
 extern Vec gryphon_left_horn_lightning_offset;
@@ -475,38 +466,38 @@ const Vec *get_arena_center(void) {
 }
 
 }
-void TBoss8Dragon::get_follow_camera_offsets(u8 *target_offset) {
+void get_gryphon_follow_camera_offsets(Vec *target_offset, Vec *eye_offset) {
     if (boss5_gryphon_instance == NULL) {
-        VecCopy((Vec *)this, (const Vec *)boss8_dragon_follow_camera_offsets);
-        VecCopy((Vec *)target_offset, (const Vec *)gryphon_follow_camera_target_offset);
+        VecCopy(target_offset, &boss5_gryphon_follow_camera_target_offset);
+        VecCopy(eye_offset, &boss5_gryphon_follow_camera_eye_offset);
         return;
     }
-    boss5_gryphon_instance->fill_follow_camera_params((Vec *)this, (Vec *)target_offset);
+    boss5_gryphon_instance->fill_follow_camera_params(target_offset, eye_offset);
 }
 
-void TBoss5Gryphon::fill_follow_camera_params(Vec *offset, Vec *target_offset) {
-    offset->x = 0.0f;
+void TBoss5Gryphon::fill_follow_camera_params(Vec *target_offset, Vec *eye_offset) {
     target_offset->x = 0.0f;
+    eye_offset->x = 0.0f;
     switch (this->flight_mode) {
     default:
     case 2:
     case 0:
-        offset->y = boss5_gryphon_behavior_params[0]->camera[0];
-        offset->z = boss5_gryphon_behavior_params[0]->camera[1];
-        target_offset->y = boss5_gryphon_behavior_params[0]->camera[2];
-        target_offset->z = boss5_gryphon_behavior_params[0]->camera[3];
+        target_offset->y = boss5_gryphon_behavior_params[0]->camera[0];
+        target_offset->z = boss5_gryphon_behavior_params[0]->camera[1];
+        eye_offset->y = boss5_gryphon_behavior_params[0]->camera[2];
+        eye_offset->z = boss5_gryphon_behavior_params[0]->camera[3];
         return;
     case 1:
-        offset->y = boss5_gryphon_behavior_params[0]->camera[4];
-        offset->z = boss5_gryphon_behavior_params[0]->camera[5];
-        target_offset->y = boss5_gryphon_behavior_params[1]->camera[0];
-        target_offset->z = boss5_gryphon_behavior_params[1]->camera[1];
+        target_offset->y = boss5_gryphon_behavior_params[0]->camera[4];
+        target_offset->z = boss5_gryphon_behavior_params[0]->camera[5];
+        eye_offset->y = boss5_gryphon_behavior_params[1]->camera[0];
+        eye_offset->z = boss5_gryphon_behavior_params[1]->camera[1];
         return;
     case 3:
-        offset->y = boss5_gryphon_behavior_params[1]->camera[2];
-        offset->z = boss5_gryphon_behavior_params[1]->camera[3];
-        target_offset->y = boss5_gryphon_behavior_params[1]->camera[4];
-        target_offset->z = boss5_gryphon_behavior_params[1]->camera[5];
+        target_offset->y = boss5_gryphon_behavior_params[1]->camera[2];
+        target_offset->z = boss5_gryphon_behavior_params[1]->camera[3];
+        eye_offset->y = boss5_gryphon_behavior_params[1]->camera[4];
+        eye_offset->z = boss5_gryphon_behavior_params[1]->camera[5];
         return;
     }
 }
@@ -1569,8 +1560,8 @@ void TBoss5Gryphon::update_death_state(u32 event) {
             cam.frame = 0.0f;
             cam.frame_step = 0.5f;
             activate_camera_mode(5);
-            cam.cache_target_and_forward(0x31C7);
-            set_scripted_camera_pose(&self->position, &self->position, &this->rotation_x);
+            cam.play(0x31C7);
+            set_scripted_camera_origin(&self->position, &self->position, (CameraAngles *)&this->rotation_x);
             break;
         }
         return;
@@ -3756,7 +3747,7 @@ s32 TBoss5Gryphon::blocks_camera_view() {
     if (pl == 0) {
         return 0;
     }
-    VecCopy(&cam, (Vec *)(camera_ctrl_instance + 0x178));
+    VecCopy(&cam, &camera_ctrl_instance->pos);
     cam.y = 0.0f;
     VecCopy(&dir, &pl->position);
     subtract_vector(&dir, &cam);

@@ -23,6 +23,7 @@
 #include "pso/technique/TTecLuker.h"
 #include "pso/unk/text_80087278.h"
 #include "pso/system/SoundEffect.h"
+#include "pso/camera/TCameraCtrl.h"
 #pragma readonly_strings on
 
 struct RafoieBurst { s32 entry; s32 flags; f32 scale; };
@@ -179,7 +180,6 @@ struct RaFoie_802381F8 {
 extern "C" {
 void post_translate_matrix(void *);
 void draw_ginja_object(void);
-extern u8 *camera_ctrl_instance;
 extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
 #pragma push
@@ -233,7 +233,7 @@ void TUnk_804CCB28::render() {
     push_matrix();
     post_translate_matrix(o->m28);
     scale_matrix(0, x, y, z);
-    rotate_matrix_y(0, *(s32 *)(camera_ctrl_instance + 0x194));
+    rotate_matrix_y(0, camera_ctrl_instance->yaw);
     TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(lbl_805D63B0));
     set_cull_back();
     set_draw_list_mask(3);

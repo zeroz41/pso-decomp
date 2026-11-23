@@ -52,7 +52,7 @@ f32 get_battle_value__10TObjPlayerFlil(void *, s32, s16);
 
 typedef struct Owner_8022CDE8 {
     u8 pad0[0x424];
-    TLockOnCursor *f424;  // TObjPlayer::m_424
+    TLockOnCursor *f424;  // TObjPlayer::lock_on_cursor
     u8 slots[0x10];
 } Owner_8022CDE8;
 

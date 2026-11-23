@@ -120,6 +120,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/unk/text_800C7FEC.h"
 #include "pso/player/TObjPlayer_80011014.h"
+#include "pso/unk/TLobby_800F8AA8.h"
 
 
 struct RecoveredGlobal_800F7A7C_lbl_8048C9D8 {
@@ -129,7 +130,6 @@ struct RecoveredGlobal_800F7A7C_lbl_8048C9D8 {
 
 extern RecoveredGlobal_800F7A7C_lbl_8048C9D8 challenge_mode_state;
 extern "C" {
-s32 is_area_transfer_pending();
 
 void TLobby::bswap_field() { ((G_ClientIDHeader *)this)->bswap(); bswap_32((u32 *)((char*)this + 0x4)); }
 void TLobby::broadcast_state() { bswap_field(); send_subcommand((u8 *)this); }

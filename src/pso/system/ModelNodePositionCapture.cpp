@@ -1,6 +1,6 @@
 #include "pso/system/ModelNodePositionCapture.h"
 #include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
-#include "pso/camera/TCameraCtrl_800687BC.h"
+#include "pso/camera/TCameraCtrl.h"
 
 struct ModelNodePositionCaptureState {
     s32 node_index;
@@ -19,7 +19,7 @@ void ModelNodePositionCapture::capture_node(NJS_OBJECT *) {
     s32 index;
     while ((index = entry->node_index) != -1) {
         if (index == model_node_position_capture_state.node_index) {
-            transform_to_view__11TCameraCtrlFii((saddr)&entry->offset, (saddr)position);
+            TCameraCtrl::transform_to_view(&entry->offset, position);
         }
         entry++;
         position++;

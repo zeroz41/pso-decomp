@@ -4,6 +4,11 @@
 #include "types.h"
 
 struct TQuestVmDownLoadServer;
+struct CameraParams;
+
+// The demo cameras, picked by demo_camera_index; TCameraDebugView orbits the
+// eye of the current one.
+extern CameraParams *demo_camera_params_table[16];
 
 extern "C" {
 TQuestVmDownLoadServer *TQuestVmDownLoadServer__sub_8007EB14(void);

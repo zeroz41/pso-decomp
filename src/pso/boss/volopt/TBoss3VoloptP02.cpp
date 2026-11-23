@@ -47,7 +47,6 @@
 #include <stdlib.h>
 #include "pso/unk/text_803D853C.h"
 #include "pso/render/render_util.h"
-#include "pso/camera/TCameraCtrl_8006A03C.h"
 #include "pso/ui/font/TFontSmallTask.h"
 #include "pso/camera/CameraHelpers.h"
 #include "pso/math/MatrixTransforms.h"
@@ -61,8 +60,6 @@
 
 extern "C" {
 s32 play_persistent_sound(s32, void *, void *, s16, s32);
-s32 restore_player_cameras(void);
-s32 activate_camera_mode(int, f32);
 void TObjPlayer__sub_801BA42C(void);
 u16 TObjRoomId__sub_801A1DB8(void);
 u8 *get_player_by_client_id(s32);
@@ -1088,17 +1085,17 @@ void TBoss3VoloptP02::update_death_sequence() {
         cam.flags = 0;
         cam.frame = 0.0f;
         cam.frame_step = 1.0f;
-        activate_camera_mode(5, 0.0f);
-        cam.cache_target_and_forward(0x160A);
+        activate_camera_mode(5);
+        cam.play(0x160A);
         rotation_y = 0;
-        set_scripted_camera_pose(&boss3_volopt_spawn_pos, &boss3_volopt_spawn_pos, (CameraAngles *)&rotation_x);
+        set_scripted_camera_origin(&boss3_volopt_spawn_pos, &boss3_volopt_spawn_pos, (CameraAngles *)&rotation_x);
         TObjPlayer::freeze_all_players();
         TWindowCtrl::init_all_slots();
         state = 2;
         break;
     case 2:
         timer--;
-        if ((get_scripted_camera_playback()->flags & 1) || timer < 0) {
+        if ((get_scripted_camera_playback()->flags & CameraPlayback::FLAG_DONE) || timer < 0) {
             restore_player_cameras();
             TWindowCtrl::init_all_slots2();
             TObjPlayer__sub_801BA42C();

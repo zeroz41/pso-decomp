@@ -55,7 +55,6 @@ const char *TObjNpcConnoisseur__name = "TObjNpcConnoisseur";
 
 s32 lbl_805D5748;
 uaddr TObjNpcConnoisseur__instance;
-extern u8 TLobby__data_805011D8[];
 
 void TObjNpcConnoisseur::destroy_instance() {
     if ((u32) TObjNpcConnoisseur__instance != 0U) {
@@ -66,7 +65,7 @@ void TObjNpcConnoisseur::destroy_instance() {
 
 void TObjNpcConnoisseur::load_section_motion() {
     void *o;
-    lbl_805D5748 = ((TFontSmallTask *)TLobby__data_805011D8)->get_task_id();
+    lbl_805D5748 = leader_selection.get_section_id();
     o = new BmlResource(1, (BmlResourceDescriptor *)tekker_descriptor_selector_table[lbl_805D5748], 0, 0, NULL);
     TObjNpcConnoisseur__instance = (uaddr)o;
 }

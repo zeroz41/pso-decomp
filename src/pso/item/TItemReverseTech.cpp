@@ -19,7 +19,6 @@
 #include "pso/unk/TLobby.h"
 #include "pso/unk/TLobby_800FC3CC.h"
 #include "pso/item/TItemReverseTech.h"
-#include "pso/camera/TCameraCtrl_800687BC.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/system/TLoadCtrl_80227390.h"
 #include <stddef.h>
@@ -100,8 +99,6 @@ struct TItemReverseTechSceneHook {
 
 extern "C" {
 s32 prs_decompress_alloc(int, void *, int);
-u8 *TCameraCtrl__ct(u8 *arg0, void *parent);
-void set_copy_clear_color_argb(s32, s32, s32);
 void TItemReverseTech__sub_8011A54C(void* a0);
 void activate_fast_rotation_code(void);
 void activate_reverse_rotation_code(void);
@@ -136,7 +133,6 @@ void TItemReverseTech::init_scene() {
     TItemReverseTechSceneHook *e;
     u32 i;
     void (*fn)();
-    void *cam;
     set_screen_size(1.0f, 0.85f);
     set_copy_clear_color_argb(0, 0, 0);
     reset_controller_input_state();
@@ -150,14 +146,11 @@ void TItemReverseTech::init_scene() {
         }
     }
     init_map_lights(default_scene_light_config);
-    cam = TObject::operator new(0x1D4);
-    if (cam != NULL) {
-        TCameraCtrl__ct((u8 *)cam, (void *)tl_camera);
-    }
+    new TCameraCtrl(tl_camera);
     Vec eye = {0.0f, 0.0f, 0.0f};
     Vec at = {0.0f, 0.0f, -100.0f};
     TCameraCtrl::select_active_controller(9);
-    set_active_camera_pose((u8 *)&eye, (u8 *)&at);
+    set_active_camera_pose(&eye, &at);
     TKeyBoardControl__sub_8000F90C(2);
     set_queued_main_phase(2);
     TParticleCtrl::create_quad_sprites();
@@ -292,7 +285,7 @@ void TItemReverseTech::run_task() {
     uaddr var_r0;
 
     activate_camera_mode(9);
-    set_active_camera_pose((u8 *)&eye, (u8 *)&at);
+    set_active_camera_pose(&eye, &at);
     temp_r3 = (uaddr)part_one;
     if ((temp_r3 != 0U) && (((TObject *)temp_r3)->all_parents_unqueued_for_destruction() == 0)) {
         part_one = NULL;

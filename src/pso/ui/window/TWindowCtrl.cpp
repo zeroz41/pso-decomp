@@ -20,7 +20,7 @@
 #include "pso/npc/TNpcPlayer.h"
 #include "pso/map/FloorArea.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/system/ControllerInput.h"
 #include "pso/unk/TLobby.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/enemy/shinowa/TObjEneMe3ShinowaReal_8002ADD8.h"
@@ -47,14 +47,14 @@ saddr TWindowCtrl__sub_8024B7D4(s32 n) {
     TWindowSimpleStatus *status;
     TObjPlayer *player;
 
-    if (TWindowCtrl__active_window == NULL) {
+    if (TWindowCtrl::instance == NULL) {
         return 0;
     }
     if (get_current_floor_area() == AREA_LOBBY) {
         return 0;
     }
     for (i = 0; i < 3; i++) {
-        status = TWindowCtrl__active_window->simple_status[i];
+        status = TWindowCtrl::instance->simple_status[i];
         if (status != NULL && status->sub_80244994() != 0 && n-- == 0) {
             player = (TObjPlayer *)get_player_by_client_id(((TWindowSimpleStatus *)status)->get_width());
             if (player == NULL) {
@@ -112,11 +112,10 @@ void TWindowCtrl::update_trade_window() {
     }
 }
 
-extern u8 controller_input_state[];
 
 void TWindowCtrl::handle_controller() {
     saddr arg0 = (saddr)this;
-    if ((get_current_floor_area() == AREA_LOBBY) && (TWindowCtrl::is_slot_visible(local_client_id) == 0) && (TWindowCtrl__sub_8024B000((void *)arg0, (s32)local_client_id) == 0) && (TWindowCtrl::has_player_active_menu(local_client_id) == 0) && (TWindowShortListCtrl__check_controller_button(controller_input_state + 0x20, fn_8002AE08(local_client_id)) != 0)) {
+    if ((get_current_floor_area() == AREA_LOBBY) && (TWindowCtrl::is_slot_visible(local_client_id) == 0) && (TWindowCtrl__sub_8024B000((void *)arg0, (s32)local_client_id) == 0) && (TWindowCtrl::has_player_active_menu(local_client_id) == 0) && (test_pressed_buttons_packed(&controller_input_state.controllers[0], fn_8002AE08(local_client_id)) != 0)) {
         TWindowCtrlMain::advance_card_status(local_client_id);
     }
 }

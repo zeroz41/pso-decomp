@@ -8,7 +8,7 @@
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/charcreate/TObjCMHairMenu.h"
-#include "pso/item/armor/TItemProShield.h"
+#include "pso/object/base/TObjChara.h"
 #include "pso/unk/TLobby.h"
 #include "pso/ui/window/TWindowHelpItem.h"
 #include "pso/ui/window/TWindowSubComCard.h"
@@ -229,7 +229,7 @@ s32 TWindowSubStatusDisp::update_hp_entry() {
         return 0xFF00FF15;
     }
     array_entry = (u8 *)(((u8 *)get_array_entry(3)));
-    *(f32 *)((s8 *)array_entry + 0x20) = (f32) ((TItemProShield *)player)->get_field_2b8();
+    *(f32 *)((s8 *)array_entry + 0x20) = (f32) ((TObjChara *)player)->get_hpmax();
     if (*(f32 *)((s8 *)array_entry + 0x24) > (f32) *(s16 *)((s8 *)player + 0x32C)) {
         *(s32 *)((s8 *)((u8 *)this) + 0x60) = 4;
     }

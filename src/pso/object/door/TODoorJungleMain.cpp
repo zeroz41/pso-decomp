@@ -5,6 +5,8 @@
 #include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
 #include "pso/object/ambient/TObjFish.h"
+#include "pso/camera/TCameraCtrl.h"
+#include "pso/render/NinjaUtil.h"
 
 struct BmlResource;
 struct GinjaTextureList;
@@ -80,11 +82,6 @@ const char *TODoorJungleMain__name = "TODoorJungleMain";
 extern "C" u8 *TODoorJungleMain__ct(TODoorJungleMain *arg0, s32 arg1, saddr arg2);
 
 extern "C" {
-
-
-f32 xz_distance_squared(s32, s32);
-
-extern s32 camera_ctrl_instance;
 
 void TLobby__sub_8029B2A4(void* p);
 
@@ -393,10 +390,9 @@ void TODoorJungleMain::vfunc_6(s16 *arg1, s32 arg2) {
 }
 
 s32 TODoorJungleMain::update_object_view_visibility(f32 farg0, f32 farg1) {
-    saddr arg0 = (saddr)this;
-    if (xz_distance_squared(arg0 + 0x38, camera_ctrl_instance + 0x178) < (farg1 * farg1)) {
+    if (xz_distance_squared(&this->position, &camera_ctrl_instance->pos) < (farg1 * farg1)) {
         return 1;
     }
-    return ((TObjBase *)arg0)->TObjBase::update_object_view_visibility(farg0, farg1);
+    return TObjBase::update_object_view_visibility(farg0, farg1);
 }
 

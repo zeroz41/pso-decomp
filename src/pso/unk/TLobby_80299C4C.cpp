@@ -22,15 +22,15 @@
 #include "pso/object/base/TObjMotion.h"
 
 #include "pso/system/TLoadCtrl_80227390.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/system/ControllerInput.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/unk/TUnk_804DC7C4.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/object/warp/TObjCityMainWarp.h"
+#include "pso/camera/TCameraCtrl.h"
 
 extern "C" {
-s32 is_quest_active();
 s32 load_floor_sound_bank();
 s32 TLobby__sub_801403B4(s32);
 }
@@ -107,7 +107,7 @@ const char *TObjChallenge4PRetry__class_name = "TObjChallenge4PRetry";
 
 s32 TLobby__sub_8024AC20(int);
 s32 TLobby__sub_80292F5C();
-s32 get_player_by_client_id(int);
+saddr get_player_by_client_id(int);
 saddr get_message_text(s32);
 saddr get_window_layout_position(s32);
 void TObjPlayer__sub_8024ABDC(saddr arg0);
@@ -294,13 +294,13 @@ void TObjChallenge4PRetry::handle_retry_menu_select() {
 
 s32 has_window_task_root();
 
-s32 check_flag_100__10TObjPlayerFPv();
 
-extern s8 controller_input_state[];
 
 void TObjChallenge4PRetry::update_challenge_4p_retry() {
+    TObjPlayer *player;
     ((s32 (*)())play_all_players_effect__6TLobbyFPv)();
-    if ((get_player_by_client_id(local_client_id) != 0U) && (check_flag_100__10TObjPlayerFPv() == 0) && (TWindowShortListCtrl__check_controller_button(controller_input_state + 0x20, 4) != 0)) {
+    player = (TObjPlayer *)get_player_by_client_id(local_client_id);
+    if ((player != NULL) && (player->is_controls_locked() == 0) && (test_pressed_buttons_packed(&controller_input_state.controllers[0], 4) != 0)) {
         ((s32 (*)(void *))send_giveup_to_all_players__6TLobbyFv)(this);
         TLobby::close_giveup_window(this);
         this->state = 2;

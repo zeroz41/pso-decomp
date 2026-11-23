@@ -28,7 +28,7 @@
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/player/TUnk_804B6C24.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/system/ControllerInput.h"
 #include "pso/unk/TLobby.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/player/TObjPlayer_80011014.h"
@@ -41,8 +41,6 @@ void debug_draw_sphere(const Vec *pos, const NJS_ARGB *color, f32 radius);
 // render_util.h declares (pos, color, size); the lock code still loads its collision body into r5 first, which
 // only a third argument explains, though debug_draw_uniform_scaled never reads r5 (TObjRoomId passes nothing there).
 void debug_draw_uniform_scaled(const Vec *pos, const NJS_ARGB *color, CollisionBody *body, f32 size);
-extern s8 controller_input_state[];
-int check_flag_100__10TObjPlayerFPv(void *player);
 void enable_action_input__10TObjPlayerFPv(void *p);
 void *TObjQuestCol__create(void *arg0);
 void *TObjQuestColA__create(void *arg0);
@@ -180,7 +178,7 @@ int TObjQuestColA::vfunc_15() {
 
     player = get_player_by_client_id(local_client_id);
     if (player != NULL) {
-        if (check_flag_100__10TObjPlayerFPv(player) != 0) {
+        if (player->is_controls_locked() != 0) {
             enable_action_input__10TObjPlayerFPv(player);
             return 0;
         }
@@ -197,7 +195,7 @@ int TObjQuestColA::vfunc_15() {
         }
         if (temp_r3_2 == 0) {
             player->disable_primary_action_input();
-            if (TWindowShortListCtrl__check_controller_button(controller_input_state + 0x20, 4) != 0) {
+            if (test_pressed_buttons_packed(&controller_input_state.controllers[0], 4) != 0) {
                 return 1;
             }
         }
@@ -256,7 +254,7 @@ int TObjQuestColALock::vfunc_15() {
 
     player = get_player_by_client_id(local_client_id);
     if (player != NULL) {
-        if (check_flag_100__10TObjPlayerFPv(player) != 0) {
+        if (player->is_controls_locked() != 0) {
             enable_action_input__10TObjPlayerFPv(player);
             return 0;
         }
@@ -274,7 +272,7 @@ int TObjQuestColALock::vfunc_15() {
         }
         if (temp_r3_2 == 0) {
             player->disable_primary_action_input();
-            if (TWindowShortListCtrl__check_controller_button(controller_input_state + 0x20, 4) != 0) {
+            if (test_pressed_buttons_packed(&controller_input_state.controllers[0], 4) != 0) {
                 return 1;
             }
         }
@@ -562,7 +560,7 @@ int TObjQuestColALock2::vfunc_15() {
 
     player = get_player_by_client_id(local_client_id);
     if (player != NULL) {
-        if (check_flag_100__10TObjPlayerFPv(player) != 0) {
+        if (player->is_controls_locked() != 0) {
             enable_action_input__10TObjPlayerFPv(player);
             return 0;
         }
@@ -580,7 +578,7 @@ int TObjQuestColALock2::vfunc_15() {
         }
         if (temp_r3_2 == 0) {
             player->disable_primary_action_input();
-            if (TWindowShortListCtrl__check_controller_button(controller_input_state + 0x20, 4) != 0) {
+            if (test_pressed_buttons_packed(&controller_input_state.controllers[0], 4) != 0) {
                 return 1;
             }
         }

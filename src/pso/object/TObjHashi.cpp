@@ -27,7 +27,6 @@
 
 // The BML resource loader and its deleting destructor (TLobby_8001EF5C) and
 // a model's texture list (TObjFish_8001ED90), still named after their units.
-extern TCameraCtrl *camera_ctrl_instance;
 
 // The unit's .sdata2 float pool (0x805DBE20-0x805DBE40) is still referenced
 // from the DOL: CW pools these in the order the functions need them, and no
@@ -190,7 +189,7 @@ s32 TObjHashiBase::update_object_view_visibility(f32 depth, f32 radius) {
     if (TMainTask::get_render_pass() == 1) {
         return visibility;
     }
-    if (xz_distance_squared((const Vec *)&camera_ctrl_instance->pos_x, &position) < (radius * radius)) {
+    if (xz_distance_squared((const Vec *)&camera_ctrl_instance->pos.x, &position) < (radius * radius)) {
         visibility = 1;
         return 1;
     }
@@ -204,18 +203,18 @@ s32 TObjHashiBase::update_object_view_visibility(f32 depth, f32 radius) {
         return 0;
     }
     if (view.x < lbl_805DBE2C) {
-        view.x = (camera_right[0] * radius) + position.x;
-        view.y = (camera_right[1] * radius) + position.y;
-        view.z = (camera_right[2] * radius) + position.z;
+        view.x = (camera_right.x * radius) + position.x;
+        view.y = (camera_right.y * radius) + position.y;
+        view.z = (camera_right.z * radius) + position.z;
         project_world_to_screen(NULL, &view, screen);
         if (screen[0] < lbl_805DBE2C) {
             visibility = 0;
             return 0;
         }
     } else {
-        view.x = -((camera_right[0] * radius) - position.x);
-        view.y = -((camera_right[1] * radius) - position.y);
-        view.z = -((camera_right[2] * radius) - position.z);
+        view.x = -((camera_right.x * radius) - position.x);
+        view.y = -((camera_right.y * radius) - position.y);
+        view.z = -((camera_right.z * radius) - position.z);
         project_world_to_screen(NULL, &view, screen);
         if (screen[0] > lbl_805DBE30) {
             visibility = 0;

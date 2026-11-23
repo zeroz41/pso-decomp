@@ -14,6 +14,8 @@ extern "C" {
 extern QuestOpcodeEntry qst_opcode_table[0x300];
 }
 extern const char* qst_bgm_filename_table[];
+// Nonzero while a quest runs (is_quest_active).
+extern int quest_active_flag;
 
 // .rodata of QuestOpcodeTables.cpp; QuestOpcodeHandlers.cpp addresses each on its own.
 // Sound effect ids of the quest opcode `se` (qst_op_se), indexed by its argument.

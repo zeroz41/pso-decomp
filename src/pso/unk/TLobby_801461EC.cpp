@@ -16,7 +16,7 @@
 #include "pso/system/memory.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "pso/system/ControllerInputState.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/system/ControllerInput.h"
 
 struct RecoveredGlobal_8014672C_lbl_8050C0A8 {
     s32 value;
@@ -251,7 +251,7 @@ s32 connect_pppoe(s32 *out_value) {
     state = -1;
     do {
         cancel = 0;
-        if (TWindowShortListCtrl__check_controller_button(&controller_input_state.controllers[0], 2) != 0 ||
+        if (test_pressed_buttons_packed(&controller_input_state.controllers[0], 2) != 0 ||
             TKeyBoardControl::read_key_checked(0x4C) != 0) {
             cancel = 1;
             result = 0x10;
@@ -867,7 +867,7 @@ s32 connect_modem(s32 idx, s16 id) {
     countdown = 0;
     do {
         if (countdown == 0) {
-            if (TWindowShortListCtrl__check_controller_button(&controller_input_state.controllers[0], 2) != 0 ||
+            if (test_pressed_buttons_packed(&controller_input_state.controllers[0], 2) != 0 ||
                 TKeyBoardControl::read_key_checked(0x4C) != 0) {
                 cancel = 1;
                 result = 0x10;

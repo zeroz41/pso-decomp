@@ -1,7 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/boss/dragon/TBoss1DragonDemo.h"
 #include "pso/boss/dragon/TBoss1Dragon.h"
-#include "pso/camera/TCameraCtrl_800687BC.h"
 #include "pso/system/task/TObject_80019A50.h"
 
 #include "types.h"
@@ -22,7 +21,7 @@ void TBoss1DragonDemo__sub_8002B690(void) {  }
 void TBoss1DragonDemo::render() {  }
 
 void TBoss1DragonDemo::run_task() {
-    if ((get_scripted_camera_playback()->flags & 1) || *this->flag == 0) {
+    if ((get_scripted_camera_playback()->flags & CameraPlayback::FLAG_DONE) || *this->flag == 0) {
         restore_player_cameras();
         queue_destruction();
     }
@@ -42,7 +41,7 @@ TBoss1DragonDemo::TBoss1DragonDemo(TObject *parent, s32 *flag, f32 frame_step) :
         playback.frame = this->frame;
         playback.frame_step = this->frame_step;
         activate_camera_mode(5);
-        playback.cache_target_and_forward(0x238E);
+        playback.play(0x238E);
         break;
     case 1:
         playback.bank = 1;
@@ -51,7 +50,7 @@ TBoss1DragonDemo::TBoss1DragonDemo(TObject *parent, s32 *flag, f32 frame_step) :
         playback.frame = this->frame;
         playback.frame_step = this->frame_step;
         activate_camera_mode(5);
-        playback.cache_target_and_forward(0x3333);
+        playback.play(0x3333);
         break;
     }
 }

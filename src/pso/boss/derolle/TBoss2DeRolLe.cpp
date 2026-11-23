@@ -88,7 +88,7 @@ struct NJS_OBJECT;
 #include "pso/boss/derolle/TBoss2Joint.h"
 
 #include "pso/boss/derolle/TBoss2Mine.h"
-#include "pso/camera/TCameraCtrl_801A6E60.h"
+#include "pso/system/ControllerInput.h"
 
 #include "pso/boss/derolle/TUnk_80482D04.h"
 
@@ -98,8 +98,6 @@ struct NJS_OBJECT;
 #include "pso/system/MatrixOps.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/unk/text_803D853C.h"
-#include "pso/camera/TCameraCtrl_803D749C.h"
-#include "pso/camera/TCameraCtrl_800687BC.h"
 #include "pso/camera/CameraHelpers.h"
 #include "pso/unk/TLobby_802268F4.h"
 #include "pso/map/CsnQuery.h"
@@ -283,8 +281,6 @@ const char *boss2_de_rol_le_class_name = "TBoss2DeRolLe";
 extern "C" {
 
 void *__ct__9TBoss2FinFv(void *, TObject *, Vec *, Vec *);
-
-extern f32 lbl_804FF5E8[];
 
 }
 
@@ -1602,9 +1598,9 @@ void TBoss2DeRolLe::spawn_ceil_junk(Vec *pos) {
 void TBoss2DeRolLe::spawn_offset_particle(Vec *position, f32 height, f32 distance) {
     Vec pos;
     VecCopy(&pos, position);
-    pos.x = -((lbl_804FF5E8[3] * distance) - pos.x);
-    pos.y -= (lbl_804FF5E8[4] * distance) - height;
-    pos.z = -((lbl_804FF5E8[5] * distance) - pos.z);
+    pos.x = -((ninja_camera.vx * distance) - pos.x);
+    pos.y -= (ninja_camera.vy * distance) - height;
+    pos.z = -((ninja_camera.vz * distance) - pos.z);
     spawn_particle_effect_with_flags(&pos, 0x127, 0x40);
 }
 
@@ -1859,7 +1855,7 @@ void TBoss2DeRolLe::handle_intro_camera_state(u32 reason) {
             cam.frame = 0.0f;
             cam.frame_step = 0.8f;
             activate_camera_mode(5);
-            cam.cache_target_and_forward(0x1C71);
+            cam.play(0x1C71);
         } else {
             cam2.index = 0;
             cam2.bank = 1;
@@ -1867,7 +1863,7 @@ void TBoss2DeRolLe::handle_intro_camera_state(u32 reason) {
             cam2.frame = 0.0f;
             cam2.frame_step = 0.8f;
             activate_camera_mode(5);
-            cam2.cache_target_and_forward(0x1C71);
+            cam2.play(0x1C71);
         }
         TWindowCtrl::init_all_slots();
         get_target_state_b();
@@ -1964,7 +1960,7 @@ void TBoss2DeRolLe::handle_intro_camera_state(u32 reason) {
             }
             break;
         case 4:
-            if (get_scripted_camera_playback()->flags & 1) {
+            if (get_scripted_camera_playback()->flags & CameraPlayback::FLAG_DONE) {
                 restore_player_cameras();
                 state_step = 5;
             }
@@ -3571,8 +3567,8 @@ void TBoss2DeRolLe::handle_death_state(u32 reason) {
         cam.frame = 0.0f;
         cam.frame_step = 0.7f;
         activate_camera_mode(5);
-        cam.cache_target_and_forward(0x2AAA);
-        set_scripted_camera_pose(&position, &position, (CameraAngles *)&rotation_x);
+        cam.play(0x2AAA);
+        set_scripted_camera_origin(&position, &position, (CameraAngles *)&rotation_x);
         break;
     case 2:
         if (debug_pad->pressed_buttons & 0x400) {

@@ -29,8 +29,8 @@ extern const char *TWindowEffectParty__name;
 // in .data), so the functions are written from the last one back.
 #pragma fp_contract on
 void *TWindowCtrl__sub_8024FB80(s8 i) {
-    if (TWindowCtrl__active_window == 0) return 0;
-    return TWindowCtrl__active_window->simple_status[i];
+    if (TWindowCtrl::instance == 0) return 0;
+    return TWindowCtrl::instance->simple_status[i];
 }
 
 TWindowEffectParty::TWindowEffectParty(TObject *object, s8 arg2, s8 arg3, void *idx) : TObject(object) {

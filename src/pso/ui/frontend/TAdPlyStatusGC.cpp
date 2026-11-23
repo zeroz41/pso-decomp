@@ -17,7 +17,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/ui/frontend/TAdPlyStatusGC.h"
 #include "pso/ui/frontend/TAdEnterSerialAccessGC.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/system/ControllerInput.h"
 #include <stdio.h>
 #include <string.h>
 
@@ -266,7 +266,7 @@ void TAdPlyStatusGC::set_load_state(s32 arg1) {
 
 void update_hidden__14TAdPlyStatusGCFv(u8 *arg0) {
     saddr player_index;
-    s32 status;
+    s32 port;
     TAdPlyStatusGC__is_shown = 0;
     if ((u32) *(u32 *)((s8 *)arg0 + 0x6C) != 0U) {
         ((TWindowBase *)(*(void **)((s8 *)arg0 + 0x6C)))->close();
@@ -278,8 +278,8 @@ void update_hidden__14TAdPlyStatusGCFv(u8 *arg0) {
             ((TObject *)player_index)->allow_rendering();
             ((TAdGuideButtonGC *)player_index)->setup_button((GuideButtonSpec *)(arg0 + 0x48));
         }
-        status = TAdMultiPlyChrSelectGC::get_status() * 0x50;
-        if (TWindowShortListCtrl__check_controller_button((void *) ((u8 *)&controller_physical_port_bank + status + 0x20), 0x400) != 0) {
+        port = TAdMultiPlyChrSelectGC::get_status();
+        if (test_pressed_buttons_packed(&controller_physical_port_bank.controllers[port], 0x400) != 0) {
             *(s32 *)((s8 *)arg0 + 0x1C) = 1;
         }
     }
@@ -287,7 +287,7 @@ void update_hidden__14TAdPlyStatusGCFv(u8 *arg0) {
 
 void update_shown__14TAdPlyStatusGCFv(struct RecoveredFields_8033F9DC_arg0 *arg0) {
     saddr player_index;
-    s32 status;
+    s32 port;
     TAdPlyStatusGC__is_shown = 1;
     if ((s32) TAdPlyStatusGC__window_offset_index < 3) {
         if ((u32) arg0->field_6C == 0) {
@@ -298,8 +298,8 @@ void update_shown__14TAdPlyStatusGCFv(struct RecoveredFields_8033F9DC_arg0 *arg0
             ((TObject *)player_index)->allow_rendering();
             ((TAdGuideButtonGC *)player_index)->setup_button((GuideButtonSpec *)(&arg0->unknown_20[4]));
         }
-        status = TAdMultiPlyChrSelectGC::get_status() * 0x50;
-        if (TWindowShortListCtrl__check_controller_button((u8 *)(((u8 *)&controller_physical_port_bank + status)) + 0x20, 0x400) != 0) {
+        port = TAdMultiPlyChrSelectGC::get_status();
+        if (test_pressed_buttons_packed(&controller_physical_port_bank.controllers[port], 0x400) != 0) {
             arg0->field_1C = 2;
         }
     }

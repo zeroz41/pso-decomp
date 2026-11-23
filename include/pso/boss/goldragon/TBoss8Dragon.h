@@ -97,7 +97,7 @@ public:
     AccelerationCurve curve1;
     Vec sound_origin;  // project_sound_origin_from_camera's result; the dragon's sounds play from it
     Vec last_body_center;  // body_center, copied at the end of each run_task
-    u32 camera_target_raised;  // as TBoss1Dragon::camera_target_raised
+    u32 camera_eye_raised;  // as TBoss1Dragon::camera_eye_raised
     s32 airTurnVelocity;
     s32 airTurnDirection;
     s32 airTurnStartAngle;
@@ -245,11 +245,10 @@ public:
     static void trigger_switches_in_range(void *arg0, void *arg1, void *arg2);
     static s32 calc_binomial_coefficient(s32 n, s32 k);
     static s32 eval_bezier_curve(void *points, int count, int closed, void *out, f32 t);
-    static void get_camera_offsets(Vec *eye, Vec *target);
+    static void get_camera_offsets(Vec *target_offset, Vec *eye_offset);
     void render_body_model();
     void select_freeze_target();
     void sweep_death_body_attack();
-    void get_follow_camera_offsets(u8 *arg1);
     s32 is_closest_part();
     s32 push_apart_from_parts();
     s32 is_near_other_part();

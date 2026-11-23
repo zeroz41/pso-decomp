@@ -10,4 +10,4 @@ void TBoss4Type1::apply_confusion_status() {  }
 void TBoss4Type1::apply_movement_ailment(s32) {  }
 void TBoss4Type1::apply_shock_status() {  }
 void TBoss4Type1::clear_harmful_statuses() {  }
-void*TObjPlayer::get_position_ptr() { return (char*)this + 0x38; }
+Vec *TObjPlayer::get_position_ptr() { return &this->position; }

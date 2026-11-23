@@ -9,7 +9,6 @@
 #include "pso/camera/CameraPlayback.h"
 #include "pso/system/PadRumble.h"
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
-#include "pso/camera/TCameraCtrl_800687BC.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/unk/text_803D96A8.h"
@@ -339,8 +338,8 @@ TBoss6Demo21_TYPE2_DEAD::TBoss6Demo21_TYPE2_DEAD(TBoss6PlotFalz *plot, const Vec
     capture_8 = ModelNodePositionCapture::create(boss6_type2_death_effect_desc_b, &effect_position_8);
     capture_13 = ModelNodePositionCapture::create(boss6_type2_death_effect_desc_c, trail_positions);
     activate_camera_mode(5);
-    set_scripted_camera_pose(&camera_position, &camera_position, &boss6_type2_dead_camera_angles);
-    boss6_type2_dead_camera_script.cache_target_and_forward(0x416C);
+    set_scripted_camera_origin(&camera_position, &camera_position, &boss6_type2_dead_camera_angles);
+    boss6_type2_dead_camera_script.play(0x416C);
     for (i = 0; i < 4; i++) {
         emitters[i] = NULL;
     }

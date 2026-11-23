@@ -49,7 +49,7 @@ void TObjPlayer::init_action_provider() {
     this->set_battle_flag(0);
     this->controller_input = NULL;
     *(s32 *)&this->inventory_objects = 0;
-    this->m_424 = 0;
+    this->lock_on_cursor = NULL;
     (*(s32 *)&this->joint_matrices) = 0;
     this->m_db4 = 0;
     this->set_floor_index(0xF);
@@ -57,7 +57,7 @@ void TObjPlayer::init_action_provider() {
     this->m_54c = 0;
     *(s32 *)&this->unk_3B8 = 0;
     *(s32 *)&this->unk_420 = 0;
-    this->m_3d0 = 0;
+    this->controller_port = 0;
     this->reset_state();
     ::set_flag_400000(this);
     if (TObjPlayer::get_player_count() == 1) {

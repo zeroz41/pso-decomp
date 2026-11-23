@@ -76,7 +76,7 @@
 #include "pso/system/ControllerInputState.h"
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/system/byteswap.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/system/ControllerInput.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/unk/TLobby_80132ED0.h"
@@ -153,7 +153,6 @@ void update_fade_in__14TObjWarpStringFPv(u8 *arg0);
 u8 * __ct__14TObjWarpStringFv(u8 *arg0, u8 *arg1, saddr arg2, s16 arg3);
 s32 can_warp__11TObjMapWarpFlUs(void *, u16);
 void TObjAreaWarpQuest__sub_8019DCD8(TObjPlayer *, s32);
-int check_flag_100__10TObjPlayerFPv(void *p);
 void send_6x21_inter_level_warp(void *obj, s32 value);
 void __ct__7TObjectFP7TObject(void *, void *);
 void *destroy__13TAdVIConfigGCFPvs(void *arg0, s16 arg1);
@@ -318,7 +317,7 @@ TObjWarpBase::~TObjWarpBase() {
 TObjPlayer *find_warp_player_in_range(TObjWarpBase *warp, u16 client_id, f32 range) {
     TObjPlayer *player = get_player_by_client_id(client_id);
     if ((player != NULL) && (xz_distance_squared(&warp->position, &player->position) < (range * range))) {
-        if (check_flag_100__10TObjPlayerFPv(player) == 1) {
+        if (player->is_controls_locked() == 1) {
             return NULL;
         }
         return player;
@@ -346,7 +345,7 @@ s32 TObjWarpBase::is_warp_enabled() {
     u32 id = this->user_client_id;
 
     player = NULL;
-    if ((id != 0xFFFF) && ((player = get_player_by_client_id(id), ((player == NULL) != 0)) || (check_flag_100__10TObjPlayerFPv(player) != 0))) {
+    if ((id != 0xFFFF) && ((player = get_player_by_client_id(id), ((player == NULL) != 0)) || (((TObjPlayer *)player)->is_controls_locked() != 0))) {
         return 0U;
     }
     if ((s32) quest_warp_enabled == 0) {
@@ -368,11 +367,11 @@ s32 TObjWarpBase::is_warp_enabled() {
 }
 
 s32 TObjWarpBase::vfunc_17() {
-    return TWindowShortListCtrl__check_controller_button(&controller_input_state.controllers[0], 4);
+    return test_pressed_buttons_packed(&controller_input_state.controllers[0], 4);
 }
 
 s32 TObjWarpBase::vfunc_18(s32 client_id) {
-    return TWindowShortListCtrl__check_controller_button(&controller_input_state.controllers[client_id], 4);
+    return test_pressed_buttons_packed(&controller_input_state.controllers[client_id], 4);
 }
 
 const char *TObjMapWarp__name = "TObjMapWarp";
@@ -442,7 +441,7 @@ u8 TObjMapWarp::can_warp(s32 arg0, u16 arg1) {
 
     id = arg1;
     player = NULL;
-    if ((id != 0xFFFF) &&((player = get_player_by_client_id(id), ((player == NULL) != 0)) || (check_flag_100__10TObjPlayerFPv(player) != 0))) {
+    if ((id != 0xFFFF) &&((player = get_player_by_client_id(id), ((player == NULL) != 0)) || (((TObjPlayer *)player)->is_controls_locked() != 0))) {
         return 0U;
     }
     if ((s32) quest_warp_enabled == 0) {
@@ -480,7 +479,7 @@ void TObjMapWarp::process_player_warps() {
                 t = find_warp_player_in_range(this, i, this->warp_range);
                 if (t != NULL) {
                     this->open_confirm_window(get_entity_id(t));
-                    if (t->is_target_valid() != 0 && this->vfunc_18(((TRaderMapCore *)t)->get_map_id()) != 0) {
+                    if (t->is_target_valid() != 0 && this->vfunc_18(t->get_controller_port()) != 0) {
                         for (j = 0; j < 4; j++) {
                             if (test_player_body_overlap_at(this, t, &destinations[j]) == 0) {
                                 send_6x55_intra_map_warp(get_entity_id(t), &destinations[j], this->set_params[0]);
@@ -509,7 +508,7 @@ void TObjMapWarp::process_player_warps() {
         t2 = find_warp_player_in_range(this, local_client_id, this->warp_range);
         if (t2 != NULL) {
             this->open_confirm_window(local_client_id);
-            if (t2->is_target_valid() != 0 && this->vfunc_18(((TRaderMapCore *)t2)->get_map_id()) != 0) {
+            if (t2->is_target_valid() != 0 && this->vfunc_18(t2->get_controller_port()) != 0) {
                 for (j2 = 0; j2 < 4; j2++) {
                     if (test_player_body_overlap_at(this, t2, &destinations[j2]) == 0) {
                         send_6x55_intra_map_warp(get_entity_id(t2), &destinations[j2], this->set_params[0]);
@@ -633,7 +632,7 @@ s32 TObjAreaWarp::is_warp_enabled() {
     if (TRaderMapCore::is_not_split_screen() == 1) {
         var_r31 = 0;
 loop_2:
-        if (((player = get_player_by_client_id(var_r31)) != 0) && (check_flag_100__10TObjPlayerFPv(player) != 0)) {
+        if (((player = get_player_by_client_id(var_r31)) != 0) && (((TObjPlayer *)player)->is_controls_locked() != 0)) {
             return 0;
         }
         var_r31 += 1;
@@ -692,7 +691,7 @@ void TObjAreaWarp::handle_area_selection() {
             TObjPlayer *t2 = find_warp_player_in_range(this, local_client_id, d->fAC);
             if (t2 != NULL) {
                 this->open_confirm_window(local_client_id);
-                if (this->vfunc_18(((TRaderMapCore *)t2)->get_map_id()) != 0) {
+                if (this->vfunc_18(t2->get_controller_port()) != 0) {
                     this->vfunc_14();
                     this->confirm_area_transfer(t2);
                 }

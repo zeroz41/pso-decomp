@@ -11,7 +11,6 @@
 #include "pso/math/AngleLookup.h"
 #include "pso/camera/CameraHelpers.h"
 #include "pso/camera/TCameraCtrl.h"
-#include "pso/camera/TCameraCtrl_800687BC.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/player/TObjPlayer.h"
@@ -95,9 +94,9 @@ TObjDFDemo1::TObjDFDemo1(TObject *parent, const Vec *pos, s32 angle) : TObjBase(
     activate_camera_mode(5);
     {
         CameraAngles angles = {0, this->angle, 0};
-        set_scripted_camera_pose(&this->pos, &this->pos, &angles);
+        set_scripted_camera_origin(&this->pos, &this->pos, &angles);
     }
-    df_demo1_camera_playback.cache_target_and_forward(0x4000);
+    df_demo1_camera_playback.play(0x4000);
     play_sound_effect(0x4003A324, &position, 0, 1);
     scroll = 0.0f;
     strips.init(df_demo1_strip_specs, 6);

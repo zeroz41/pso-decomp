@@ -13,7 +13,7 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/unk/TLobby_8030A6A8.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/system/ControllerInput.h"
 
 #pragma readonly_strings on
 
@@ -63,7 +63,7 @@ void THunterGuildWarning::sub_80211774(void *) {
     s32 i;
     u16 id;
 
-    if (TCameraCtrl::get_instance() > 2) {
+    if (TCameraCtrl::get_view_count() > 2) {
         scale[0] = 0.9f;
         scale[1] = 0.9f;
     }
@@ -147,7 +147,6 @@ THunterGuildWarning::THunterGuildWarning(TObject *object, void *arg2) : TObject(
 
 extern "C" {
 TObjPlayer *get_player_by_client_id(s32 id);
-int check_flag_100__10TObjPlayerFPv(void *p);
 f32 xz_distance_squared(const f32 *a, const f32 *b);
 
 #pragma push
@@ -168,7 +167,7 @@ s32 TPlayerBattleCtrl4P::fn_80211B10(s32 id) {
     for (i = 0; i < 4; i++) {
         if (client_id != i) {
             TObjPlayer *other = get_player_by_client_id(i);
-            if (other != NULL && check_flag_100__10TObjPlayerFPv(other) != 0) {
+            if (other != NULL && other->is_controls_locked() != 0) {
                 result = 3;
             }
         }
@@ -271,11 +270,9 @@ s32 TLobby::handle_main_phase(saddr arg0) {
 
 extern "C" {
 s32 get_nth_view_player_id__11TCameraCtrlFl(s32);
-s32 get_map_id__13TRaderMapCoreFv();
 s32 THunterGuildSeqOffline__sub_80211FEC(s32);
 s32 THunterGuildSeqOffline__sub_80212000(s32);
 s32 THunterGuildSeqOffline__sub_80212060(s32);
-extern u8 controller_input_state[][0x50];
 extern s32 lbl_805D55C0;
 s32 TLobby__sub_80211D58(s32 arg0) {
     s32 kind;
@@ -294,8 +291,9 @@ s32 TLobby__sub_80211D58(s32 arg0) {
             }
             kind = TPlayerBattleCtrl4P::fn_80211B10(player);
             if (kind != 0) {
-                if (get_player_by_client_id((u16)player) != NULL) {
-                    if (TWindowShortListCtrl__check_controller_button(&controller_input_state[get_map_id__13TRaderMapCoreFv()][0x20], 4) != 0 &&
+                TObjPlayer *view_player = get_player_by_client_id((u16)player);
+                if (view_player != NULL) {
+                    if (test_pressed_buttons_packed(&controller_input_state.controllers[view_player->get_controller_port()], 4) != 0 &&
                         THunterGuildWarning::is_active() == 0) {
                         switch (kind) {
                         case 1:

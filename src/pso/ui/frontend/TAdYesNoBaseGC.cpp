@@ -13,7 +13,7 @@
 
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/system/task/TObject.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/system/ControllerInput.h"
 
 #include "pso/system/NinjaTypes.h"
 
@@ -47,8 +47,6 @@ void TAdYesNoBaseGC::init_parts(void *arg1, void *arg2) {
     ((void (*)(void *, void *))copy_vec2__FPvPv)((void *)((char *)this + 56), arg2);
 }
 
-extern s8 controller_input_state[];
-extern s8 controller_physical_port_bank[];
 
 void TAdYesNoBaseGC::vfunc_11() {
     s32 selected_menu_value;
@@ -76,7 +74,7 @@ void TAdYesNoBaseGC::vfunc_11() {
                 this->m_24 = 4;
                 break;
             }
-        } else if ((TWindowShortListCtrl__check_controller_button(controller_physical_port_bank + 0x20, 2) != 0) || (test_controller_flag_4c_color(controller_input_state + 0x160, 2) != 0)) {
+        } else if ((test_pressed_buttons_packed(&controller_physical_port_bank.controllers[0], 2) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0)) {
             this->m_1c = 2;
             this->m_24 = 4;
         }

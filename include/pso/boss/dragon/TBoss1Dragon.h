@@ -113,7 +113,7 @@ struct TBoss1Dragon : public TObjEneDD_ST {
     AccelerationCurve curve1;
     Vec sound_origin;  // as TBoss8Dragon::sound_origin
     Vec last_body_center;
-    u32 camera_target_raised;  // get_follow_camera_offsets raises the camera target while it is 1
+    u32 camera_eye_raised;  // calc_follow_camera_offsets raises and pulls back the follow camera eye while it is 1
     s32 airTurnVelocity;
     s32 airTurnDirection;
     s32 airTurnStartAngle;
@@ -250,7 +250,7 @@ struct TBoss1Dragon : public TObjEneDD_ST {
     s32 choose_burrow_ring_destination(Vec *out);
     s32 is_destination_ahead();
     void prepare_flight_destination(Vec *dest);
-    void calc_follow_camera_offsets(Vec *eye, Vec *target);
+    void calc_follow_camera_offsets(Vec *target_offset, Vec *eye_offset);
     void play_sound_if_in_band();
     void handle_walk_state(u32 reason);
     void update_controlled_flight_state(u32 reason);
@@ -270,7 +270,7 @@ struct TBoss1Dragon : public TObjEneDD_ST {
     void set_flight_height();
 };
 
-void get_dragon_follow_camera_offsets(Vec *eye, Vec *target);
+void get_dragon_follow_camera_offsets(Vec *target_offset, Vec *eye_offset);
 // The movement ailment (kind 0) the Dragon's hit boxes, tail and craters give a target not in state 2.
 void apply_dragon_hit_ailment(TObjChara *target);
 
@@ -292,7 +292,7 @@ DRAGON_OFFSET(attack_collider, 0x774);
 DRAGON_OFFSET(destination_direction, 0x3A0);
 DRAGON_OFFSET(ground_impact_done, 0x8A8);
 DRAGON_OFFSET(lobby_state_changed, 0x8B8);
-DRAGON_OFFSET(camera_target_raised, 0x654);
+DRAGON_OFFSET(camera_eye_raised, 0x654);
 DRAGON_OFFSET(attack_history, 0x688);
 DRAGON_OFFSET(sector_count, 0x6A0);
 DRAGON_OFFSET(sector_radii, 0x6A8);

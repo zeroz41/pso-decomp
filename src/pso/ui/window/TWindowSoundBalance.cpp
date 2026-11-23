@@ -17,8 +17,7 @@
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/unk/WindowLayoutRecord.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
-#include "pso/ui/hud/TLoadingCur_801A6DE0.h"
+#include "pso/system/ControllerInput.h"
 
 #pragma readonly_strings on
 
@@ -137,14 +136,14 @@ void TWindowSoundBalance::sub_8027095C() {
 
 
 void TWindowSoundBalance::handle_lr_input() {
-    u8 *input;
-    input = (u8 *)&controller_input_state.controllers[0];
-    if ((TAdMultiPlyChrSelectGC::dispatch_draw_command((saddr)input, 0x30, 6, 1) != 0) || (test_buttons_press_or_repeat((saddr)((void *) ((u8 *)&controller_input_state.keyboard)), 0x30, 6, 1) != 0)) {
+    ControllerInputContext *input;
+    input = &controller_input_state.controllers[0];
+    if ((TAdMultiPlyChrSelectGC::dispatch_draw_command((saddr)input, 0x30, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x30, 6, 1) != 0)) {
         play_sound_effect(0x54100, (s32)(0U), 0, 0);
-        if ((TAdMultiPlyChrSelectGC::dispatch_draw_command((saddr)input, 0x10, 6, 1) != 0) || (test_buttons_press_or_repeat((saddr)((void *) ((u8 *)&controller_input_state.keyboard)), 0x10, 6, 1) != 0)) {
+        if ((TAdMultiPlyChrSelectGC::dispatch_draw_command((saddr)input, 0x10, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x10, 6, 1) != 0)) {
             this->selection = (this->selection - 1);
         }
-        if ((TAdMultiPlyChrSelectGC::dispatch_draw_command((saddr)input, 0x20, 6, 1) != 0) || (test_buttons_press_or_repeat((saddr)((void *) ((u8 *)&controller_input_state.keyboard)), 0x20, 6, 1) != 0)) {
+        if ((TAdMultiPlyChrSelectGC::dispatch_draw_command((saddr)input, 0x20, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x20, 6, 1) != 0)) {
             this->selection = (this->selection + 1);
         }
         if ((s8) this->selection < 0) {
@@ -173,15 +172,15 @@ void TWindowSoundBalance::render() {
 #pragma pop
 
 void TWindowSoundBalance::run_task() {
-    u8 *input;
+    ControllerInputContext *input;
     if (is_active() == 0) {
         handle_lr_input();
         sub_8027095C();
-        input = (u8 *)&controller_input_state.controllers[0];
-        if ((TWindowShortListCtrl__check_controller_button(input, 4) != 0) || ((s32)test_controller_flag_4c_color((ControllerInputContext *)(&controller_input_state.keyboard), 4) != 0)) {
+        input = &controller_input_state.controllers[0];
+        if ((test_pressed_buttons_packed(input, 4) != 0) || ((s32)test_controller_flag_4c_color(&controller_input_state.keyboard, 4) != 0)) {
             play_open_sound();
         }
-        if ((TWindowShortListCtrl__check_controller_button(input, 2) != 0) || ((s32)test_controller_flag_4c_color((ControllerInputContext *)(&controller_input_state.keyboard), 2) != 0)) {
+        if ((test_pressed_buttons_packed(input, 2) != 0) || ((s32)test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0)) {
             handle_cancel();
         }
     }

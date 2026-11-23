@@ -58,7 +58,7 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/system/MatrixOps.h"
-#include "pso/camera/TCameraCtrl_8006CC30.h"
+#include "pso/camera/TCameraFollow.h"
 #include "pso/boss/darkfalz/TObjDFJisin.h"
 #include "pso/boss/darkfalz/TObjDFHorming.h"
 #include "pso/object/trap/TOTrapAncient01_80226534.h"
@@ -88,9 +88,6 @@ struct TBoss4Type1AttackTables {
     f32 weights[2];
     s32 attacks[2];
 };
-
-struct Cam_800531C8 { u8 pad[0x178]; Vec pos; };
-extern Cam_800531C8 *camera_ctrl_instance;
 
 const char *TBoss4Type1__name = "TBoss4Type1";
 f32 lbl_80485AE0[10] = { 0.0f, 0.0f, 0.0f, 25.0f, 2.0f, 25.0f, 0.5f, 0.5f, 0.5f, 0.5f };
@@ -325,7 +322,7 @@ void apply_tenchu_hits(TObject *source) {
             continue;
         }
         target = TBoss4Type2__tenchu_furu_array;
-        VecCopy(&pos, (Vec *)player->get_position_ptr());
+        VecCopy(&pos, player->get_position_ptr());
         pos.y = 0.0f;
         for (j = 0; j < 0x40; j++) {
             if (xyz_distance(&pos, target) < 25.0f) {
@@ -642,7 +639,7 @@ void TBoss4Type1::push_players_out_of_colliders() {
     for (p = 0; p < registered_player_count; p++) {
         pl = TObjPlayer::get_player_data(p);
         if (pl != NULL && pl->get_area() == 0xE) {
-            Vec pos = *(Vec *)pl->get_position_ptr();
+            Vec pos = *pl->get_position_ptr();
             Vec d;
             Vec q;
             for (j = 0; j < collider_count; j++) {
@@ -687,7 +684,7 @@ void TBoss4Type1::push_players_out_of_colliders() {
                     VecCopy(&pos, &q);
                 }
             }
-            if (xyz_distance((Vec *)pl->get_position_ptr(), &pos) > 0.0f) {
+            if (xyz_distance(pl->get_position_ptr(), &pos) > 0.0f) {
                 pl->set_position_from(&pos);
                 pl->save_previous_position();
                 pl->set_indexed_flags(0, 0x900000);

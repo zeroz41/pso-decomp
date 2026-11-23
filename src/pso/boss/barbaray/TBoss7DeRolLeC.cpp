@@ -116,7 +116,6 @@ extern TObjMotionAction de_rol_le_c_action_table[17];
 
 #include "pso/unk/text_80087278.h"
 #include "pso/unk/text_80086E28.h"
-#include "pso/camera/TCameraCtrl_803D749C.h"
 
 #include "pso/unk/text_803D96A8.h"
 
@@ -147,7 +146,6 @@ extern TObjMotionAction de_rol_le_c_action_table[17];
 
 #include "pso/system/task/TMainTask.h"
 #include "pso/player/TObjPlayer_802E6CA8.h"
-#include "pso/camera/TCameraCtrl_800687BC.h"
 #include "pso/camera/CameraHelpers.h"
 #include "pso/object/TObjControl.h"
 #include "pso/math/MatrixTransforms.h"
@@ -502,10 +500,6 @@ static inline void add_crawfish_slot_base(CrawfishSlotOffset &offset) {
 }
 
 #pragma pop
-
-extern "C" {
-extern f32 lbl_804FF5E8[];
-}
 
 NJS_OBJECT boss7_derolle_light_pool[11];
 
@@ -1519,9 +1513,9 @@ void TBoss7DeRolLeC::spawn_particle_201(Vec *pos) {
 void TBoss7DeRolLeC::spawn_offset_particle(const Vec *pos, f32 lift, f32 back) {
     Vec v;
     VecCopy(&v, pos);
-    v.x -= lbl_804FF5E8[3] * back;
-    v.y -= lbl_804FF5E8[4] * back - lift;
-    v.z -= lbl_804FF5E8[5] * back;
+    v.x -= ninja_camera.vx * back;
+    v.y -= ninja_camera.vy * back - lift;
+    v.z -= ninja_camera.vz * back;
     spawn_particle_effect_with_flags(&v, 0x127, 0x40);
 }
 #pragma pop
@@ -1800,7 +1794,7 @@ void TBoss7DeRolLeC::handle_intro_camera_state(u32 event) {
                 cam.frame = 0.0f;
                 cam.frame_step = 0.7f;
                 activate_camera_mode(5);
-                cam.cache_target_and_forward(0x1C71);
+                cam.play(0x1C71);
                 state_ints[0] = 1;
             }
         } else {
@@ -1825,7 +1819,7 @@ void TBoss7DeRolLeC::handle_intro_camera_state(u32 event) {
                 play_sound_effect(0x39906, NULL, 0, 0);
             }
             update_attached_orientation();
-            if (get_scripted_camera_playback()->flags & 1) {
+            if (get_scripted_camera_playback()->flags & CameraPlayback::FLAG_DONE) {
                 restore_player_cameras();
                 advance_action_sequence();
                 state_step = 1;
@@ -3268,7 +3262,7 @@ void TBoss7DeRolLeC::handle_death_state(u32 event) {
             cam.frame = 0.0f;
             cam.frame_step = 0.7f;
             activate_camera_mode(5);
-            cam.cache_target_and_forward(0x1C71);
+            cam.play(0x1C71);
         }
         break;
     case 2:
@@ -3285,7 +3279,7 @@ void TBoss7DeRolLeC::handle_death_state(u32 event) {
         break;
     case 0:
         advance_animation();
-        if (get_scripted_camera_playback()->flags & 1) {
+        if (get_scripted_camera_playback()->flags & CameraPlayback::FLAG_DONE) {
             state_step = 1;
             TWindowCtrl::init_all_slots2();
             restore_player_cameras();

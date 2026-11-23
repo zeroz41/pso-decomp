@@ -9,10 +9,10 @@ s32 TWindowCtrl::get_display_flag() {
     if (is_split_screen() != 0) {
         return 0;
     }
-    if (TWindowCtrl__active_window == NULL) {
+    if (instance == NULL) {
         return 0;
     }
-    return ((u16) TWindowCtrl__active_window->flags >> 1U) & 1;
+    return ((u16) instance->flags >> 1U) & 1;
 }
 
 }

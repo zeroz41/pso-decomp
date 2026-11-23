@@ -6,19 +6,17 @@
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/effect/photon/TPhotonRainbow_801AE640.h"
 #include "pso/system/vector.h"
+#include "pso/camera/TCameraCtrl.h"
 
 extern "C" {
 
 s32 post_translate_matrix(void *);
 s32 rotate_matrix_y(s32, s32);
 
-extern u8 *camera_ctrl_instance;
-
 void TPhotonRainbow::render() {
-    u8 *arg0 = (u8 *)this;
-    if ((void *) camera_ctrl_instance != NULL) {
-        *(f32 *)((s8 *)arg0 + 0x38) = (f32) *(f32 *)((s8 *)camera_ctrl_instance + 0x178);
-        *(f32 *)((s8 *)arg0 + 0x40) = (f32) *(f32 *)((s8 *)camera_ctrl_instance + 0x180);
+    if (camera_ctrl_instance != NULL) {
+        this->position.x = camera_ctrl_instance->pos.x;
+        this->position.z = camera_ctrl_instance->pos.z;
     }
     TParticleCtrl::begin_effect_render();
     push_matrix();

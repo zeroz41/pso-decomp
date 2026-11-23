@@ -20,6 +20,7 @@ struct TItem;
 class TPlyItem;
 struct TechniqueContactList;
 struct TUnk_801D8A4C;
+struct TLockOnCursor;
 
 // The frames a player stays protected from hits (after getting up, being
 // hurt, or a mag's invincibility).
@@ -95,6 +96,7 @@ struct TObjPlayer : public TObjChara {
     void set_move_mode_from_class_flags();
     void init_from_source(u8 *);
     void init_control_mode(s32);
+    s32 get_controller_port();
     void load_char_data(u8 *);
     void destroy_owned_object();
     void init_collision_body();
@@ -180,7 +182,7 @@ struct TObjPlayer : public TObjChara {
     s32 m_3c4;
     u8 unk_3C8[0x4];
     u32 m_3cc;
-    s32 m_3d0;
+    s32 controller_port; // 0-3, set by init_control_mode for a local player
     u8 unk_3D4[0x4];
     s32 m_3d8;
     s32 m_3dc;
@@ -198,7 +200,7 @@ struct TObjPlayer : public TObjChara {
     u8 _pad414[0x8];
     void* m_41c;
     u8 unk_420[0x4];
-    saddr m_424;
+    TLockOnCursor *lock_on_cursor;  // created by create_lockon_cursor for local players
     u8 technique_levels[0x84];  // set/get_cast_technique_level's table
     PhotonBlastGauge photon_blast_gauge;
     ActionPalette action_palettes[2];
@@ -296,9 +298,6 @@ struct TObjPlayer : public TObjChara {
     void call_callback_1ec(saddr arg1, saddr arg2);
     void copy_wall_polygon(u8 *arg1);
     static void copy_matrix(uaddr arg0, uaddr arg1);
-    static s32 run_next_key_callback(saddr arg0);
-    static s32 sample_next_quaternion_key(saddr arg0);
-    void apply_motion_node_transform();
     void bswap_change_hp_packet();
     void init_6x2F_packet_header();
     void byteswap_packet_body();
@@ -393,9 +392,13 @@ struct TObjPlayer : public TObjChara {
     static saddr get_battle_param(int a0);
     s32 check_player_flag1();
     s32 check_flag(s32 arg1);
+    // Set while a menu window holds the player's input, with the action buttons masked.
+    s32 is_controls_locked();
     static void sync_player_globals();
     static void begin_alpha_blend(f32 alpha);
-    void*get_position_ptr();
+    Vec *get_position_ptr();
+    // Where the player stood before this frame's move.
+    Vec *get_prev_position_ptr();
     void clear_header_struct();
     void clear_velocity_vectors();
     static void set_com_card_window(s32 arg0);
@@ -572,6 +575,7 @@ struct TObjPlayer : public TObjChara {
     void clear_flag_4000_callback();
     void clear_flag_4000();
     void set_flag_4000();
+    s32 is_flag_4000_set();
     void set_battle_flag(s32 v);
     s32 get_anim_id();
     int check_flag_0x40000000();
@@ -1354,7 +1358,7 @@ struct TObjPlayer : public TObjChara {
     void send_respawn_position();
     void init_battle();
     void reset_area_entry_state();
-    u8 *construct_player_instance(saddr arg1, s16 arg2, s32 arg3, u8 *arg4);
+    u8 *construct_player_instance(saddr arg1, s32 slot, s32 role, u8 *record);
     void*init_pair();
     u8 *copy_hold_params(u8 *arg1);
     void init_cmd_6x24();
@@ -1554,7 +1558,8 @@ struct TObjPlayer : public TObjChara {
     static s32 fill_player_record(void *, void *);
     s32 foreach_player();
     static void begin_action_state(void *);
-    s32 for_each_player_slot();
+    // Calls callback with each occupied entry of the player table.
+    static void for_each_player_slot(void (*callback)(void *));
     static void send_code50_packet(int);
     static void hit_object_in_radius(void *, void *, void *);
     static void draw_strip_pos_normal(void *, void *, unsigned int);
@@ -1587,4 +1592,8 @@ void set_flag_400000(TObjPlayer *player);
 // The owner joint each item attach slot hangs the equipped model from
 // (TItemEquipBase::set_attach_slot); defined with the player.
 extern s16 item_equip_attach_equip_flag_table[];
+
+// The demo camera check_demo_mode tests; TCameraDebugView looks at its entry of
+// demo_camera_params_table.
+extern s16 demo_camera_index;
 #endif

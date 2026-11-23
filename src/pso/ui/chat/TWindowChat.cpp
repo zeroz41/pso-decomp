@@ -1,7 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/vector.h"
 #include "pso/ui/window/TWindowCtrl.h"
-#include "pso/camera/TCameraCtrl_801A6E60.h"
+#include "pso/system/ControllerInput.h"
 #include "pso/ui/chat/TWindowSubSymbolChat.h"
 #include "pso/ui/window/TWindowKeyBoardHard.h"
 #include "pso/ui/chat/TWindowChat.h"
@@ -14,10 +14,10 @@
 #include "pso/unk/text_8024AD30.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/player/PlayerSlots.h"
 #include "pso/system/task/TObject.h"
 #include "pso/ui/window/TWindowMenu.h"
 #include "types.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 
 
 #include <stddef.h>
@@ -34,12 +34,9 @@ const char *window_chat_type_name_pointer = "TWindowChat";
 extern "C" {
 saddr TAdSinglePlyChrSelectGC__sub_80076D9C(saddr arg0, saddr arg1);
 int get_chat_shortcut(s32 arg0);
-void *get_player_by_client_id(s32 client);
 extern s32 local_client_id;
 saddr fn_8002AE08(s32);
 void send_chat_shortcut(s32);
-s32 check_flag_100__10TObjPlayerFPv();
-extern u8 controller_input_state[];
 s32 __nw__7TObjectFUl(int);
 saddr get_window_layout_position(int);
 void *__dt__11TWindowChatFv(void *, s16);
@@ -168,40 +165,41 @@ void TWindowChat::handle_dpad_shortcuts() {
     if (flags & 8) {
         return;
     }
-    pad = controller_input_state + 0x20;
-    if (TWindowShortListCtrl__check_controller_button(pad, 0xF0) == 0) {
+    pad = &controller_input_state.controllers[0];
+    if (test_pressed_buttons_packed(pad, 0xF0) == 0) {
         return;
     }
-    if (get_player_by_client_id(local_client_id) == NULL) {
+    TObjPlayer *player = get_player_by_client_id(local_client_id);
+    if (player == NULL) {
         return;
     }
-    if (check_flag_100__10TObjPlayerFPv() != 0) {
+    if (player->is_controls_locked() != 0) {
         return;
     }
     if (test_previous_buttons_packed(pad, fn_8002AE08(local_client_id)) == 0) {
-        if (TWindowShortListCtrl__check_controller_button(pad, 0x10) != 0) {
+        if (test_pressed_buttons_packed(pad, 0x10) != 0) {
             send_chat_shortcut(0);
         }
-        if (TWindowShortListCtrl__check_controller_button(pad, 0x20) != 0) {
+        if (test_pressed_buttons_packed(pad, 0x20) != 0) {
             send_chat_shortcut(3);
         }
-        if (TWindowShortListCtrl__check_controller_button(pad, 0x80) != 0) {
+        if (test_pressed_buttons_packed(pad, 0x80) != 0) {
             send_chat_shortcut(1);
         }
-        if (TWindowShortListCtrl__check_controller_button(pad, 0x40) != 0) {
+        if (test_pressed_buttons_packed(pad, 0x40) != 0) {
             send_chat_shortcut(2);
         }
     } else {
-        if (TWindowShortListCtrl__check_controller_button(pad, 0x10) != 0) {
+        if (test_pressed_buttons_packed(pad, 0x10) != 0) {
             send_chat_shortcut(4);
         }
-        if (TWindowShortListCtrl__check_controller_button(pad, 0x20) != 0) {
+        if (test_pressed_buttons_packed(pad, 0x20) != 0) {
             send_chat_shortcut(7);
         }
-        if (TWindowShortListCtrl__check_controller_button(pad, 0x80) != 0) {
+        if (test_pressed_buttons_packed(pad, 0x80) != 0) {
             send_chat_shortcut(5);
         }
-        if (TWindowShortListCtrl__check_controller_button(pad, 0x40) != 0) {
+        if (test_pressed_buttons_packed(pad, 0x40) != 0) {
             send_chat_shortcut(6);
         }
     }
@@ -277,15 +275,15 @@ void TWindowChat::handle_input() {
 
 void TWindowChat::handle_chat_input() {
   u8 temp_r3_2;
-  u8 *context;
+  ControllerInputContext *context;
   saddr player;
   player = (saddr)get_player_by_client_id((saddr)local_client_id);
   if (player != 0)
   {
     if (flags & 2)
     {
-      context = (u8 *)&controller_input_state + 0x20;
-      if ((TWindowShortListCtrl__check_controller_button((void *)((void *) context), 0x200) != 0) && (test_previous_buttons_packed((void *)((saddr) context), (saddr)((void *) fn_8002AE08((saddr)(local_client_id)))) == 0))
+      context = &controller_input_state.controllers[0];
+      if ((test_pressed_buttons_packed((void *)((void *) context), 0x200) != 0) && (test_previous_buttons_packed((void *)((saddr) context), (saddr)((void *) fn_8002AE08((saddr)(local_client_id)))) == 0))
       {
         flags = (u16) (flags & 0xFFFFFFFD);
         close_all_children();
@@ -298,9 +296,9 @@ void TWindowChat::handle_chat_input() {
       }
     }
     else
-      if ((hardKeyboard->is_key_held() == 0) || ((sub_80247EC0() != 0) && (TWindowShortListCtrl__check_controller_button((void *)((void *) ((u8 *)&controller_input_state + 0x20)), 0x200) != 0)))
+      if ((hardKeyboard->is_key_held() == 0) || ((sub_80247EC0() != 0) && (test_pressed_buttons_packed(&controller_input_state.controllers[0], 0x200) != 0)))
     {
-      if ((sub_80247EC0() != 0) && (TWindowShortListCtrl__check_controller_button((void *)((void *) ((u8 *)&controller_input_state + 0x20)), 0x200) != 0))
+      if ((sub_80247EC0() != 0) && (test_pressed_buttons_packed(&controller_input_state.controllers[0], 0x200) != 0))
       {
         composer->reset_input();
       }
@@ -314,7 +312,7 @@ void TWindowChat::handle_chat_input() {
       }
     }
     else
-      if ((TWindowShortListCtrl__check_controller_button((void *)((void *) ((u8 *)&controller_input_state + 0x20)), 0x400) != 0) && (composer->sub_8025CB10() == 0))
+      if ((test_pressed_buttons_packed(&controller_input_state.controllers[0], 0x400) != 0) && (composer->sub_8025CB10() == 0))
     {
       close_all_children();
       inputMode = (u8) (inputMode + 1);

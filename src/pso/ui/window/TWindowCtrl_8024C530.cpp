@@ -8,9 +8,9 @@
 
 
 void TWindowCtrl::shutdown() {
-    if (TWindowCtrl__active_window != NULL) {
-        TWindowCtrl__active_window->queue_destruction();
-        TWindowCtrl__active_window = NULL;
+    if (instance != NULL) {
+        instance->queue_destruction();
+        instance = NULL;
     }
     fn_8026AC50();
     TWindowMainMenu__sub_8024E3CC();

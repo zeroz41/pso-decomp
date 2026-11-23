@@ -18,7 +18,6 @@ struct Desc_8036D774 { f32 *pos; u32 *col; s32 a; s32 n; };
 
 saddr TBGMulti__textures;
 extern "C" {
-void TCameraCtrl__sub_80068EF0(void);
 s32 split_screen_hud_animation_frame;
 
 void TWindowSubStatusDisp::draw_split_screen_dividers() {
@@ -154,7 +153,7 @@ void TWindowSubStatusDisp::draw_split_screen_hud() {
         TWindowSubStatusDisp__sub_8036D994();
         TWindowSubStatusDisp::draw_tiled_background();
         TWindowSubStatusDisp::draw_split_screen_dividers();
-        TCameraCtrl__sub_80068EF0();
+        TCameraCtrl::restore_saved_view();
         TParticleCtrl::end_effect_render();
         restore_saved_depth_alpha_state();
         var_r3 = split_screen_hud_animation_frame;

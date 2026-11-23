@@ -108,7 +108,7 @@ void update_hp_tp_values__20TWindowSubStatusDispFPv(u8 *window_sub_status_disp) 
         b = (u8 *)((TWindowBase *)window_sub_status_disp)->get_array_entry(9);
         c = (u8 *)((TWindowBase *)window_sub_status_disp)->get_array_entry(6);
         d = (u8 *)((TWindowBase *)window_sub_status_disp)->get_array_entry(8);
-        *(s32 *)((s8 *)b + 0x20) = ((TItemProShield *)pl)->get_field_2b8();
+        *(s32 *)((s8 *)b + 0x20) = ((TObjChara *)pl)->get_hpmax();
         *(s32 *)((s8 *)a + 0x20) = *(s16 *)((s8 *)pl + 0x32C);
         v = ((TWindowSubStatusDisp *)window_sub_status_disp)->update_hp_entry();
         *(s32 *)((s8 *)a + 0x1C) = v;

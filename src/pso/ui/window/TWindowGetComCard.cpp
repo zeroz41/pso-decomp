@@ -18,14 +18,12 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/object/warp/TObjCityMainWarp.h"
 #include "pso/system/task/TObject.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/system/ControllerInput.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/unk/TLobby_8001D6A0.h"
 #include "pso/unk/text_8024AB98.h"
 #include "pso/ui/window/TWindowCtrl_8024A054.h"
 #include "pso/ui/window/TWindowCtrl_8024A1A8.h"
-
-struct Pad_80252CCC { u8 pad[0x20]; u8 m20[0x30]; };
 
 struct GetCard_80252CCC {
     u8 pad0[0x1C];
@@ -46,7 +44,6 @@ u8 *TWindowGetComCard__ct(TWindowGetComCard *arg0);
 void play_sound_effect(s32, s32, s32, s32);
 u8 *init_shop_judgment_window(void *p);
 __declspec(section ".data") f32 TWindowGetComCard__window_rect[2] = {152.0f, 370.0f};
-extern Pad_80252CCC controller_input_state[];
 void run_task__17TWindowGetComCardFv(GetCard_80252CCC *self);
 void TWindowFukidasi__sub_80252C38(void* p);
 int fn_80252CBC(void* p);
@@ -71,7 +68,7 @@ void run_task__17TWindowGetComCardFv(GetCard_80252CCC *self) {
         if (((TWindowMessagePage *)(self->fmt))->is_message_window_ready() != 0) {
             self->state = 2;
         }
-        if (TWindowShortListCtrl__check_controller_button(controller_input_state[0].m20, 4) != 0) {
+        if (test_pressed_buttons_packed(&controller_input_state.controllers[0], 4) != 0) {
             ((TWindowMessage *)(self->fmt))->complete_reveal();
             self->state = 2;
         }
@@ -110,14 +107,14 @@ void run_task__17TWindowGetComCardFv(GetCard_80252CCC *self) {
             TWindowGetComCard__sub_8007B54C();
             ((TObject *)self)->queue_destruction();
             self->state = 6;
-        } else if (TWindowShortListCtrl__check_controller_button(controller_input_state[port].m20, 2) != 0 ||
-                   test_controller_flag_4c_color(controller_input_state[4].m20, 2) != 0) {
+        } else if (test_pressed_buttons_packed(&controller_input_state.controllers[port], 2) != 0 ||
+                   test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0) {
             play_sound_effect(0x52F16, 0, 0, 0);
             self->state = 2;
         }
         break;
     case 5:
-        if (self->timer-- <= 0 || TWindowShortListCtrl__check_controller_button(controller_input_state[0].m20, 4) != 0) {
+        if (self->timer-- <= 0 || test_pressed_buttons_packed(&controller_input_state.controllers[0], 4) != 0) {
             TWindowGetComCard__sub_8007B54C();
             ((TObject *)self)->queue_destruction();
             self->state = 6;

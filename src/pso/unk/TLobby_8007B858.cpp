@@ -21,6 +21,7 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/camera/TCameraCtrl.h"
+#include "pso/camera/TCameraScripted.h"
 #include "pso/unk/TLobby_802D79EC.h"
 #include "pso/render/reflection.h"
 #include "pso/player/TObjPlayer.h"
@@ -47,6 +48,8 @@
 #include "pso/unk/text_801AA3B4.h"
 #include "pso/ui/window/TWindowReturnCity.h"
 #include "pso/system/task/TObject.h"
+#include "pso/camera/TCineCtrl.h"
+#include "pso/unk/TLobby_800F8AA8.h"
 
 void load_particle_entry_resources(void);
 void init_partner_dialogue(void);
@@ -62,7 +65,6 @@ void TFogCtrl__sub_800FBA58(void);
 void TTecLuker__sub_80234F08(void);
 void TTecLuker__sub_80234F48(void);
 void fn_80198E84(void);
-s32 __ct__9TCineCtrlFv(u32, s32);
 s32 create_area_fog_ctrl();
 s32 activate_triggered_floor_events();
 s32 cleanup_game_objects__9TMainTaskFv();
@@ -114,7 +116,7 @@ FloorResourceCallbacks lbl_8048D4C0[29] = {
 FloorResourceCallbacks lbl_8048D5A8[4] = {
     {load_technique_resources, TLobby__sub_8022F068},
     {load_photon_blast_resources, TObjPlayer__sub_801AA3B4},
-    {TCameraCtrl::load_camera_banks, TCameraCtrl::free_entries},
+    {load_camera_banks, free_camera_banks},
     {TLobby::update_difficulty, NULL},
 };
 
@@ -145,10 +147,7 @@ void TLobby::create_tasks() {
     new TWindowCtrl((TObject *)tl_00);
     new TUnk_80499970((TObject *)tl_fade);
     TLobby::set_fade_params(0);
-    tmp = (uaddr)TObject::operator new(0x30);
-    if (tmp != 0U) {
-        __ct__9TCineCtrlFv(tmp, tl_00);
-    }
+    new TCineCtrl((TObject *)tl_00);
     TRaderMapCore::create();
     restore_floor_telepipes();
     new TUnk_804F07C8((TObject *)tl_06);
@@ -202,8 +201,6 @@ s32 TLobby::run_lobby_load_tables() {
     return 1;
 }
 
-s32 is_area_transfer_pending();
-s32 apply_phase_keyboard_mode();
 s32 load_area_gsl();
 s32 close_gsl_archive();
 

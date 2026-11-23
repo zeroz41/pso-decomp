@@ -4,7 +4,7 @@
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/ui/window/TMessageWindowController.h"
-#include "pso/camera/TCameraCtrl_8006B3D8.h"
+#include "pso/camera/TCameraConversation.h"
 #include "pso/unk/TLobby.h"
 #include "pso/unk/text_8022350C.h"
 #include "pso/ui/window/TWindowCtrl.h"

@@ -5,13 +5,12 @@
 #include "pso/ui/window/TWindowChoiceSetting.h"
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC.h"
 #include "types.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/system/ControllerInput.h"
 #include "pso/ui/frontend/TAdSelectCurGC.h"
 
 #include "pso/unk/TLobby.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 #include "pso/render/GinjaTexture.h"
-#include "pso/ui/frontend/TAdSelectCurGC_801A6E20.h"
 #include "pso/system/vector.h"
 
 #pragma inline_depth(1)
@@ -50,12 +49,12 @@ void TAdSelectCurGC::run_task() {
         }
         if (ok != 0) {
             if (TAdMultiPlyChrSelectGC::dispatch_draw_command((saddr)(&controller_input_state.controllers[0]), 0x10, 6, 1) != 0 ||
-                test_buttons_press_or_repeat((saddr)(&controller_input_state.keyboard), 0x10, 6, 1) != 0) {
+                test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x10, 6, 1) != 0) {
                 play_sound_effect(0x54100, 0, 0, 0);
                 selected_index--;
             }
             if (TAdMultiPlyChrSelectGC::dispatch_draw_command((saddr)(&controller_input_state.controllers[0]), 0x20, 6, 1) != 0 ||
-                test_buttons_press_or_repeat((saddr)(&controller_input_state.keyboard), 0x20, 6, 1) != 0) {
+                test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x20, 6, 1) != 0) {
                 play_sound_effect(0x54100, 0, 0, 0);
                 selected_index++;
             }
@@ -67,7 +66,7 @@ void TAdSelectCurGC::run_task() {
             selected_index = entry_count - 1;
         }
         if (confirmation_disabled == 0 &&
-            (TWindowShortListCtrl__check_controller_button(&controller_physical_port_bank.controllers[0], 4) != 0 ||
+            (test_pressed_buttons_packed(&controller_physical_port_bank.controllers[0], 4) != 0 ||
              test_controller_flag_4c_color(&controller_input_state.keyboard, 4) != 0)) {
             play_sound_effect(0x52D01, 0, 0, 0);
             confirmation = 1;

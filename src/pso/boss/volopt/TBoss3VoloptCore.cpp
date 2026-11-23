@@ -22,7 +22,7 @@
 #include "pso/math/AngleLookup.h"
 #include "pso/render/render_util.h"
 #include "pso/unk/text_803E2D70.h"
-#include "pso/camera/TCameraCtrl_8006A03C.h"
+#include "pso/camera/TCameraCtrl.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"

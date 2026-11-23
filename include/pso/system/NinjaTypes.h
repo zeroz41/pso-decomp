@@ -26,6 +26,17 @@ struct NJS_TEXANIM {
 
 typedef Vec NJS_POINT3;
 
+// A Ninja camera: eye position, view direction, roll, view angle (0x10000 a
+// turn) and the near and far clip planes (negative view-space z).
+struct NJS_CAMERA {
+    f32 px, py, pz;
+    f32 vx, vy, vz;
+    s32 roll;
+    s32 ang;
+    f32 n_clip;
+    f32 f_clip;
+};
+
 // A 2D sprite: position, scale and angle, drawn from cells of `tanim`
 // (texture ids into `tlist`).
 struct NJS_SPRITE {
@@ -71,6 +82,8 @@ struct NJS_ARGB {
 #define NJD_EVAL_HIDE 0x8      // the node is not drawn
 #define NJD_EVAL_BREAK 0x10    // the node's children are skipped
 #define NJD_EVAL_ZXY_ANG 0x20  // ang is applied in Z, X, Y order
+#define NJD_EVAL_SKIP 0x40     // the node takes no motion keys: its own pos, ang and scl are used
+#define NJD_EVAL_QUATERNION 0x400  // ang (x, y, z) and quat_w are a rotation quaternion
 
 // Chunk polygon list heads (Ninja ninjacnk.h). A chunk starts with a 16-bit
 // [flags(8)|type(8)] head; the type ranges are bits, tiny, material (16-31), vertex (32-55),
@@ -146,6 +159,18 @@ struct NJS_MOTION {
     u16 inp_fn;
 };
 
+// NJS_MOTION::type bits: the channels each node's row of keys holds, in this order.
+#define NJD_MTYPE_POS_0 0x1
+#define NJD_MTYPE_ANG_1 0x2
+#define NJD_MTYPE_SCL_2 0x4
+#define NJD_MTYPE_VEC_3 0x8
+#define NJD_MTYPE_VERT_4 0x10
+#define NJD_MTYPE_NORM_5 0x20
+#define NJD_MTYPE_TARGET_3 0x40
+#define NJD_MTYPE_ROLL_6 0x80
+#define NJD_MTYPE_ANGLE_7 0x100
+#define NJD_MTYPE_QUAT_1 0x2000
+
 // Two motions blended: motion[0] at frame[0] into motion[1] at frame[1].
 struct NJS_MOTION_LINK {
     NJS_MOTION *motion[2];
@@ -162,6 +187,30 @@ struct NJS_MDATA2 {
 struct NJS_MKEY_F {
     u32 keyframe;
     f32 key[3];
+};
+
+// An angle key: three angles at a frame.
+struct NJS_MKEY_A {
+    u32 keyframe;
+    s32 key[3];
+};
+
+// A short angle key: three 16-bit angles at a 16-bit frame.
+struct NJS_MKEY_SA {
+    u16 keyframe;
+    s16 key[3];
+};
+
+// One angle at a frame.
+struct NJS_MKEY_A1 {
+    u32 keyframe;
+    s32 key;
+};
+
+// A rotation quaternion at a frame, real part first.
+struct NJS_MKEY_QUAT {
+    u32 keyframe;
+    f32 key[4];
 };
 
 #endif

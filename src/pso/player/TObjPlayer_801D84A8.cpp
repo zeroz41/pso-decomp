@@ -27,7 +27,6 @@ Tec_801D7DA4 *calc_technique_parameters(s32, s32, s32);
 s32 get_game_play_mode();
 s32 TObjPlayer__sub_801C1F50(void *);
 
-int check_flag_100__10TObjPlayerFPv(void *p);
 s32 TObjPlayer__sub_801AF694(void *, s32);
 u16 get_entity_id(void *);
 s32 TWindowCtrl__sub_8024A228(saddr);
@@ -145,7 +144,7 @@ bool can_use_palette_action__10TObjPlayerFPvUcUc(TObjPlayer_801D8044 *self, u8 k
                 return 0;
             }
         }
-        if (check_flag_100__10TObjPlayerFPv(self) != 0) {
+        if (((TObjPlayer *)self)->is_controls_locked() != 0) {
             return 1;
         }
         break;
@@ -153,7 +152,7 @@ bool can_use_palette_action__10TObjPlayerFPvUcUc(TObjPlayer_801D8044 *self, u8 k
         if (TObjPlayer::validate_and_clear_slot(self->slots, arg) != 0) {
             return 0;
         }
-        if (check_flag_100__10TObjPlayerFPv(self) != 0) {
+        if (((TObjPlayer *)self)->is_controls_locked() != 0) {
             return 1;
         }
         break;
@@ -270,7 +269,7 @@ bool can_use_palette_action__10TObjPlayerFPvUcUc(TObjPlayer_801D8044 *self, u8 k
                 break;
             }
         }
-        if (check_flag_100__10TObjPlayerFPv(self) != 0) {
+        if (((TObjPlayer *)self)->is_controls_locked() != 0) {
             return 1;
         }
         break;

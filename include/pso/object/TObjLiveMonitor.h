@@ -2,42 +2,35 @@
 #define PSO_OBJECT_TOBJLIVEMONITOR_H
 
 #include "pso/system/task/TObject.h"
+#include "pso/system/NinjaTypes.h"
 #include "types.h"
 
+// The big monitor of the Gol Dragon arena. Every few seconds it picks
+// another screen: 0 the live camera's picture (TObjLiveCameraCtrl), 1-3
+// animated pictures of its texture list, 4 the player's view.
 class TObjLiveMonitor : public TObject {
 public:
+    TObjLiveMonitor(TObject *parent);
     virtual ~TObjLiveMonitor();
-    void sub_8030B370();
+    void choose_next_screen();
     int render_live_monitor_screen();
     virtual void run_task();
     virtual void render();
-public:
-    static void *create(void *arg0);
-public:
-    void update_camera();
+    static void *create(TObject *parent);
 
-    s32 pad_1c;
-    s32 pad_20;
-    u32 camera_index; // name inferred: TObjLiveCameraCtrl::get_table_entry index the screen shows
-    s32 camera_timer; // name inferred: frames until fn_8030B370 picks another camera_index
+    NJS_OBJECT *model;
+    u32 texlist;      // set_texlist before drawing a picture
+    s32 screen;
+    s32 screen_timer; // frames until choose_next_screen picks another screen
 };
 
-class TObjLiveMonitor;
-void reset_live_camera_ctrl_globals(void); // inferred: clears the live camera controller slot and instance globals
+// The static resource hooks of the live camera controllers: clear the
+// controller slots, and nothing.
+void reset_live_camera_ctrl_globals(void);
 void release_live_camera_ctrl_globals(void);
 extern "C" {
-int TBoss8Dragon__sub_8030B80C(void);
-void *TObjLiveCamera__create(void *arg0);
-void *__ct__15TObjLiveMonitorFv(void *arg0);
-void *__dt__14TObjLiveCameraFv(void *arg0, s16 arg1);
-int call_null__12TBoss8DragonFv(void);
-void sub_8030B370__15TObjLiveMonitorFv(TObjLiveMonitor *live_monitor);
 void fn_8030B7B4(void);
 void fn_8030B7B8(void);
-void render__14TObjLiveCameraFv(void);
-void render__15TObjLiveMonitorFv(TObjLiveMonitor *arg0);
-void run_task__14TObjLiveCameraFv(void);
-int run_task__15TObjLiveMonitorFv(void *p);
 }
 
 #endif

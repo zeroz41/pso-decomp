@@ -10,7 +10,7 @@
 #include "pso/ui/window/TWindowCtrl_8024A054.h"
 #include "pso/quest/TQuestListVM_8007EAF8.h"
 #include "pso/ui/window/PageIndicator.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/system/ControllerInput.h"
 
 struct Stack_8026C708
 {
@@ -132,29 +132,23 @@ void decay_page_arrow_offset(PageIndicator *o) {
 #pragma pop
 
 
-struct Pad_8026C9DC {
-    u8 pad0[0x20];
-    u8 buttons[0x30];
-};
-
 extern "C" {
 void play_sound_effect(s32, s32, s32, s32);
-extern Pad_8026C9DC controller_input_state[];
 
 s32 handle_list_page_flip_input(PageIndicator *page_indicator) {
     void *pad;
     s8 cur;
     decay_page_arrow_offset(page_indicator);
     cur = page_indicator->page;
-    pad = controller_input_state[is_player_input_active(page_indicator->input_port)].buttons;
-    if (TWindowShortListCtrl__check_controller_button(pad, 0x30000) == 0) {
+    pad = &controller_input_state.controllers[is_player_input_active(page_indicator->input_port)];
+    if (test_pressed_buttons_packed(pad, 0x30000) == 0) {
         return 0;
     }
     play_sound_effect(0x54100, 0, 0, 0);
-    if (TWindowShortListCtrl__check_controller_button(pad, 0x10000) != 0) {
+    if (test_pressed_buttons_packed(pad, 0x10000) != 0) {
         cur++;
     }
-    if (TWindowShortListCtrl__check_controller_button(pad, 0x20000) != 0) {
+    if (test_pressed_buttons_packed(pad, 0x20000) != 0) {
         cur--;
     }
     if (cur < 0) {
@@ -167,7 +161,7 @@ s32 handle_list_page_flip_input(PageIndicator *page_indicator) {
         return 0;
     }
     page_indicator->page = cur;
-    if (TWindowShortListCtrl__check_controller_button(pad, 0x10000) != 0) {
+    if (test_pressed_buttons_packed(pad, 0x10000) != 0) {
         page_indicator->arrow_offset = 1e+01f;
     } else {
         page_indicator->arrow_offset = (-1e+01f);

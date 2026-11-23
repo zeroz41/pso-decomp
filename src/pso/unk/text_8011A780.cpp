@@ -19,6 +19,7 @@
 #include "pso/unk/TLobby_801F3A24.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
+#include "pso/camera/TCameraCtrl.h"
 
 
 // G_PickUpItem_6x59::G_PickUpItem_6x59() on a command built here.
@@ -81,7 +82,6 @@ saddr item_id_counter_table;
 void handle_box_drop_directive(void *);
 extern "C" {
 void handle_6x5A_pick_up_item_request(Msg_8011A9D8 *msg);
-int is_quest_active(void);
 void apply_by_index__9TObjEnemyFs(s16, void *);
 void drop_item_from_slot__10TObjPlayerFlll(s8 arg0, s32 arg1, s32 arg2);
 extern Source_8011AB64 *TLobby__data_805D6144;

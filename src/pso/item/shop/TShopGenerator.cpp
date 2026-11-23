@@ -4,6 +4,7 @@
 #include "pso/item/shop/TShopGenerator.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/TObjPlayer.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/system/task/TObject.h"
 
@@ -11,7 +12,7 @@
 #include "pso/ui/frontend/TAdPlayerLoadGC.h"
 #include "pso/ui/city/TMedicalCenterMes.h"
 #include "pso/object/base/TObjMotion.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/system/ControllerInput.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/unk/text_80222C28.h"
 #include "pso/unk/TLobby.h"
@@ -72,9 +73,7 @@ f32 vec3_dot(void *, void *);
 s32 rotate_vector_by_matrix(int, void *, void *);
 s32 get_entity_id(s32);
 int is_flag_400_set__10TObjPlayerFPv(void *p);
-int check_flag_100__10TObjPlayerFPv(void *p);
 s32 poll_memcard_result(saddr);
-extern u8 controller_input_state[];
 extern s32 lbl_805D55C0;
 // run_task reads the bool through an int-returning call (no clrlwi after either call); kept as found.
 bool is_player_in_service_range__14TShopGeneratorFPUcf(u8 *self, u8 *player, f32 range);
@@ -142,10 +141,10 @@ void TShopGenerator::run_task() {
             if (is_slot_active(get_entity_id(p)) == 1) continue;
             if (TMedicalCenterMes::get_slot_flag(get_entity_id(p)) == 1) continue;
             if (is_flag_400_set__10TObjPlayerFPv((void *)p) == 1) continue;
-            if (check_flag_100__10TObjPlayerFPv((void *)p) == 1) continue;
+            if (((TObjPlayer *)p)->is_controls_locked() == 1) continue;
             get_slot_flag = service->get_slot_flag;
             if (get_slot_flag((u16)TShopGenerator__sub_80222DAC(get_entity_id(p))) == 1) continue;
-            if (TWindowShortListCtrl__check_controller_button(controller_input_state + ((TRaderMapCore *)p)->get_map_id() * 0x50 + 0x20, 4) == 0) continue;
+            if (test_pressed_buttons_packed(&controller_input_state.controllers[((TObjPlayer *)p)->get_controller_port()], 4) == 0) continue;
             service->create((void *)p);
         }
     } else {
@@ -156,12 +155,12 @@ void TShopGenerator::run_task() {
         if (is_slot_active(get_entity_id(q)) == 1) return;
         if (TMedicalCenterMes::get_slot_flag(get_entity_id(q)) == 1) return;
         if (is_flag_400_set__10TObjPlayerFPv((void *)q) == 1) return;
-        if (check_flag_100__10TObjPlayerFPv((void *)q) == 1) return;
+        if (((TObjPlayer *)q)->is_controls_locked() == 1) return;
         if (is_no_service_active(this, q) == 0) return;
         get_slot_flag2 = service->get_slot_flag;
         if (get_slot_flag2((u16)TShopGenerator__sub_80222DAC(get_entity_id(q))) == 1) return;
         if (((s32 (*)(u8 *, u8 *, f32))is_player_in_service_range__14TShopGeneratorFPUcf)((u8 *)this, (u8 *)q, 20.0f) == 0) return;
-        if (TWindowShortListCtrl__check_controller_button(controller_input_state + ((TRaderMapCore *)q)->get_map_id() * 0x50 + 0x20, 4) == 0) return;
+        if (test_pressed_buttons_packed(&controller_input_state.controllers[((TObjPlayer *)q)->get_controller_port()], 4) == 0) return;
         service->create((void *)q);
     }
 }

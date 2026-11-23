@@ -365,7 +365,6 @@ extern u32 player_slot_table[];
 extern s32 battle_intro_value_table[];
 void obj_clear_flag30_20000(void *arg0);
 s32 __ct__15TDuelEffectCtrlFP7TObjectUc(void *, void *, int);
-s32 check_flag_100__10TObjPlayerFPv(void *);
 
 void record_local_battle_placement(void *);
 
@@ -799,7 +798,7 @@ void update_duel_result__6TLobbyFPv(u8 *arg0) {
             TLobby::send_battle_mode_params(5, 1, 0);
         } else {
             p = (void *)((uaddr (*)(s32))get_player_by_client_id)(local_client_id);
-            if (p != NULL && check_flag_100__10TObjPlayerFPv(p) == 0 && (G28 & 6)) {
+            if (p != NULL && ((TObjPlayer *)p)->is_controls_locked() == 0 && (G28 & 6)) {
                 *(s32 *)((s8 *)arg0 + 0x20) = 6;
             }
         }
@@ -829,7 +828,7 @@ void update_duel_result__6TLobbyFPv(u8 *arg0) {
     }
     if (*(s32 *)((s8 *)arg0 + 0x20) == 6 || *(s32 *)((s8 *)arg0 + 0x20) == 8) {
         p = (void *)(saddr)get_local_player();
-        if (p != NULL && check_flag_100__10TObjPlayerFPv(p) == 0 && TWindowCtrl::has_player_active_menu(local_client_id) == 0 && (G28 & 0x400)) {
+        if (p != NULL && ((TObjPlayer *)p)->is_controls_locked() == 0 && TWindowCtrl::has_player_active_menu(local_client_id) == 0 && (G28 & 0x400)) {
             if (*(void **)((s8 *)arg0 + 0x4C) != NULL) {
                 ((TWindowBase *)(*(void **)((s8 *)arg0 + 0x4C)))->close();
                 *(void **)((s8 *)arg0 + 0x4C) = NULL;

@@ -10,6 +10,7 @@
 #include "pso/npc/TObjNpcBase.h"
 #include "pso/npc/TObjNpcFemaleBase.h"
 #include "pso/system/task/TObject.h"
+#include "pso/camera/TCameraConversation.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/unk/TLobby.h"
 #include "pso/npc/TNpcPlayer.h"
@@ -33,7 +34,7 @@
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/network/protocol/subcmd_6x.h"
 #include "pso/system/SoundEffect.h"
-#include "pso/camera/TCameraCtrl_8006CC30.h"
+#include "pso/camera/TCameraFollow.h"
 #include "pso/network/client_id.h"
 #include "pso/unk/text_803E2F28.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
@@ -101,7 +102,6 @@ f32 atan2_float(f32 y, f32 x);
 }
 void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 heading);
 void move_with_wall_slide(u8 *arg0);
-u8 *create_conversation_camera(s32 arg0);
 extern "C" {
 s32 angle_difference_abs(s32, s32);
 
@@ -217,28 +217,28 @@ void TObjNpcBase::update_conversation() {
         if (TRaderMapCore::is_not_split_screen() == 0) {
             switch (m_3ac) {
             case 0x3E9:
-                m_3b4 = (TObject *)create_conversation_camera(7);
-                TCameraCtrl::update_battle_camera();
+                m_3b4 = create_conversation_camera(7);
+                deactivate_local_player_collision();
                 break;
             case 0x3EA:
-                m_3b4 = (TObject *)create_conversation_camera(9);
-                TCameraCtrl::update_battle_camera();
+                m_3b4 = create_conversation_camera(9);
+                deactivate_local_player_collision();
                 break;
             case 0x3EB:
-                m_3b4 = (TObject *)create_conversation_camera(8);
-                TCameraCtrl::update_battle_camera();
+                m_3b4 = create_conversation_camera(8);
+                deactivate_local_player_collision();
                 break;
             case 0x41A:
-                m_3b4 = (TObject *)create_conversation_camera(0x11);
-                TCameraCtrl::update_battle_camera();
+                m_3b4 = create_conversation_camera(0x11);
+                deactivate_local_player_collision();
                 break;
             case 0x41B:
-                m_3b4 = (TObject *)create_conversation_camera(0x12);
-                TCameraCtrl::update_battle_camera();
+                m_3b4 = create_conversation_camera(0x12);
+                deactivate_local_player_collision();
                 break;
             case 0x41F:
-                m_3b4 = (TObject *)create_conversation_camera(0x13);
-                TCameraCtrl::update_battle_camera();
+                m_3b4 = create_conversation_camera(0x13);
+                deactivate_local_player_collision();
                 break;
             default:
                 begin_conversation_camera();
@@ -264,7 +264,7 @@ void TObjNpcBase::update_conversation() {
             case 0x41A:
             case 0x41B:
             case 0x41F:
-                TCameraCtrl::update_active_player();
+                activate_local_player_collision();
                 if (m_3b4 != 0) {
                     m_3b4->queue_destruction();
                     m_3b4 = 0;

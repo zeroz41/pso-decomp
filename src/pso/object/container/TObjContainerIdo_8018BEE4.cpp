@@ -51,15 +51,13 @@ CollisionBody container_ido_collision_parts[] = { { { 0.0f, 0.0f, 0.0f }, 20.0f,
 const char *obj_container_ido_class_name = "TObjContainerIdo";
 }
 
-extern u8 *camera_ctrl_instance;
-
 #pragma push
 #pragma fp_contract on
 s32 TObjContainerIdo::update_object_view_visibility(f32 far_depth, f32 radius) {
     Vec p;
     f32 out[2];
     matrix_mult_vec(0, &home_position, &p);
-    if (xyz_distance_squared(&position, (Vec *)(camera_ctrl_instance + 0x178)) < radius * radius) {
+    if (xyz_distance_squared(&position, &camera_ctrl_instance->pos) < radius * radius) {
         return 1;
     }
     if (p.z + radius / 2.0f > 0.0f) {
@@ -69,17 +67,17 @@ s32 TObjContainerIdo::update_object_view_visibility(f32 far_depth, f32 radius) {
         return 0;
     }
     if (p.x < 0.0f) {
-        p.x = camera_right[0] * radius + position.x;
-        p.y = camera_right[1] * radius + position.y;
-        p.z = camera_right[2] * radius + position.z;
+        p.x = camera_right.x * radius + position.x;
+        p.y = camera_right.y * radius + position.y;
+        p.z = camera_right.z * radius + position.z;
         project_world_to_screen(0, &p, out);
         if (out[0] < 0.0f) {
             return 0;
         }
     } else {
-        p.x = position.x - camera_right[0] * radius;
-        p.y = position.y - camera_right[1] * radius;
-        p.z = position.z - camera_right[2] * radius;
+        p.x = position.x - camera_right.x * radius;
+        p.y = position.y - camera_right.y * radius;
+        p.z = position.z - camera_right.z * radius;
         project_world_to_screen(0, &p, out);
         if (out[0] > 6.4e+02f) {
             return 0;

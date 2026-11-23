@@ -411,7 +411,7 @@ void TBoss4Uro::clamp_min_player_distance() {
     if (falz == NULL) {
         return;
     }
-    VecCopy(&target, (Vec *)reinterpret_cast<TObjPlayer *>(falz)->get_position_ptr());
+    VecCopy(&target, reinterpret_cast<TObjPlayer *>(falz)->get_position_ptr());
     VecCopy(&d, &position);
     subtract_vector(&d, &target);
     d.y = 0.0f;
@@ -507,7 +507,7 @@ void TBoss4Uro::update_target_position() {
             instance = TBoss4DarkFalz::get_instance();
             if (instance != NULL) {
                 angle = 65536.0f * random_ratio();
-                VecCopy(&orbit_center, (Vec *)reinterpret_cast<TObjPlayer *>(instance)->get_position_ptr());
+                VecCopy(&orbit_center, reinterpret_cast<TObjPlayer *>(instance)->get_position_ptr());
                 orbit_center.y = 0.0f;
                 orbit_center.x = 110.0f * sin_table_lookup(angle) + orbit_center.x;
                 orbit_center.z = 110.0f * cos_table_lookup(angle) + orbit_center.z;

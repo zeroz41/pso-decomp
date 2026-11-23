@@ -13,9 +13,7 @@
 #include "pso/ui/chat/TWindowChat.h"
 #include "pso/ui/frontend/TAdScrollWinGC.h"
 #include "pso/system/task/TObject.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
-#include "pso/ui/hud/TLoadingCur_801A6DE0.h"
-#include "pso/camera/TCameraCtrl_801A6E60.h"
+#include "pso/system/ControllerInput.h"
 
 #pragma readonly_strings on
 
@@ -23,25 +21,18 @@
 const char *TWindowSubLog__class_name = "TWindowSubLog";
 
 
-struct RecoveredGlobal_8027AF58_lbl_8050E208 {
-    s32 value;
-    u8 remaining[0x1AC];
-};
-
 struct Lg_8027B194 { s32 f0; u8 pad4[0x14]; void *vt; void *f1c; void *f20; s32 f24; void *f28; u8 f2c[0x10]; };
 
 extern "C" {
 s32 play_sound_effect(int, int, int, int);
-extern RecoveredGlobal_8027AF58_lbl_8050E208 controller_input_state;
 const u8 lbl_8044F9C8[8] = {65, 136, 0, 0, 66, 16, 0, 0};
 const u8 lbl_8044F9D0[8] = {67, 151, 128, 0, 67, 204, 0, 0};
 
 void TWindowSubLog::render() {  }
 
-LAYOUT_ASSERT(RecoveredGlobal_8027AF58_lbl_8050E208_size, sizeof(RecoveredGlobal_8027AF58_lbl_8050E208) == 0x1B0);
 void TWindowSubLog::run_task() {
     u8 *arg0 = (u8 *)this;
-    u8 *context;
+    ControllerInputContext *context;
     u8 *temp_r3;
     if ((((TWindowChat *)(this->m_28))->is_mode_bit4() != 0) && (chat_accept_submission((saddr)(arg0 + 0x2C)) != 0)) {
         TWindowChat__sub_80247E50(reinterpret_cast<TWindowChat *>(this->m_28));
@@ -54,15 +45,15 @@ void TWindowSubLog::run_task() {
         return;
     }
     TWindowSubLog__sub_8026A664((*(u8 * *)&this->m_24), 408.0f);
-    context = (u8 *)&controller_input_state.value + 0x20;
-    if ((test_previous_buttons_packed(context, 0x10) != 0) || (test_previous_buttons_color((void *) ((u8 *)&controller_input_state.value + 0x160), 0x10) != 0)) {
+    context = &controller_input_state.controllers[0];
+    if ((test_previous_buttons_packed(context, 0x10) != 0) || (test_previous_buttons_color(&controller_input_state.keyboard, 0x10) != 0)) {
         fn_8026A61C((*(u8 * *)&this->m_24), -6.0f);
     }
-    if ((test_previous_buttons_packed(context, 0x20) != 0) || (test_previous_buttons_color((void *) ((u8 *)&controller_input_state.value + 0x160), 0x20) != 0)) {
+    if ((test_previous_buttons_packed(context, 0x20) != 0) || (test_previous_buttons_color(&controller_input_state.keyboard, 0x20) != 0)) {
         ((TAdScrollWinGC *)(this->m_24))->advance_scroll(6.0f);
     }
     temp_r3 = (u8 *)this->m_24;
-    if ((*(f32 *)((s8 *)temp_r3 + 0x3C) == *(f32 *)((s8 *)temp_r3 + 0x4C)) && ((TWindowShortListCtrl__check_controller_button(context, 2) != 0) || (test_controller_flag_4c_color((void *) ((u8 *)&controller_input_state.value + 0x160), 2) != 0))) {
+    if ((*(f32 *)((s8 *)temp_r3 + 0x3C) == *(f32 *)((s8 *)temp_r3 + 0x4C)) && ((test_pressed_buttons_packed(context, 2) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0))) {
         play_sound_effect(0x52F16, 0, 0, 0);
         parent_menu->on_submenu_closed();
         parent_menu->clear_log_active();

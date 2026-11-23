@@ -86,7 +86,7 @@
 
 #include "pso/unk/text_8008C4F4.h"
 
-#include "pso/unk/text_801A3014.h"
+#include "pso/system/scene/OfflineGameScene.h"
 
 #include "pso/unk/TLobby_801A3C48.h"
 
@@ -797,7 +797,6 @@ extern Vec scratch_vec;
 struct LobbyRuleSettings { s32 value; u8 remaining[0x2C]; };
 extern LobbyRuleSettings lobby_rule_settings;
 extern RecoveredGlobal_8001806C_lbl_8058D490 identity_matrix;
-extern s32 camera_split_screen_selector;
 extern s32 actor_frame_tick;
 extern s32 lobby_player_count;
 extern s32 current_floor_index;

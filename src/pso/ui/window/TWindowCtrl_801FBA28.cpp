@@ -3,8 +3,8 @@
 
 
 s32 TWindowCtrl::get_flag_bit0() {
-    if (TWindowCtrl__active_window == NULL) {
+    if (instance == NULL) {
         return 0;
     }
-    return TWindowCtrl__active_window->flags & 1;
+    return instance->flags & 1;
 }

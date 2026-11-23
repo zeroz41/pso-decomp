@@ -4,6 +4,7 @@
 #include "pso/effect/enemy/TObjEneHoldEffect.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/unk/text_800FD8A0.h"
+#include "pso/camera/TCameraCtrl.h"
 
 // One TU 0x800FD78C-0x800FD8B4: its .sbss 0x805D53A0-0x805D53B4 is one run (no pad inside) whose only user
 // here is fn_800FD8A0; the zero word at 0x805D53B4 before the 8-aligned 0x805D53B8 closes it (the next TU,
@@ -15,10 +16,6 @@ s32 actor_frame_tick;
 s32 player_control_role_base;
 s32 TLobby__designated_client_id;
 s32 lbl_805D53B0;
-
-extern "C" {
-int is_float_nonfinite(f32 farg0);
-}
 
 void Obj_80515BA0::init_range(s32 floor) {
     current_floor = floor;
@@ -55,14 +52,14 @@ s32 has_nonfinite_position(f32 *xz) {
 
 
 void TWindowCtrl::clear_flag_2() {
-    if (TWindowCtrl__active_window != NULL) {
-        TWindowCtrl__active_window->flags &= ~2;
+    if (instance != NULL) {
+        instance->flags &= ~2;
     }
 }
 
 void TWindowCtrl::set_close_flag() {
-    if (TWindowCtrl__active_window != NULL) {
-        TWindowCtrl__active_window->flags |= 2;
+    if (instance != NULL) {
+        instance->flags |= 2;
     }
 }
 

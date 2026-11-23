@@ -14,14 +14,14 @@ void fn_8027D1E8(Obj_8027D1E8 *o) {
 }
 
 void TWindowCtrl__sub_8027D1F8(void) {
-    if (TWindowCtrl__active_window != NULL) {
-        TWindowCtrl__active_window->flags &= ~0x10;
+    if (TWindowCtrl::instance != NULL) {
+        TWindowCtrl::instance->flags &= ~0x10;
     }
 }
 
 void TWindowCtrl__sub_8027D214(void) {
-    if (TWindowCtrl__active_window != NULL) {
-        TWindowCtrl__active_window->flags |= 0x10;
+    if (TWindowCtrl::instance != NULL) {
+        TWindowCtrl::instance->flags |= 0x10;
     }
 }
 

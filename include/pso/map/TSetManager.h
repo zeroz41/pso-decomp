@@ -23,4 +23,10 @@ extern "C" {
 void TSetManager__sub_8020D7D4(void);
 }
 
+void init_item_drop_tables(void);
+// Entry counts of quest_object_entries and the enemy state records, sent and received as the object and enemy
+// condition packets.
+extern s32 object_condition_count;
+extern s32 enemy_condition_count;
+
 #endif

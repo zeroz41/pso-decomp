@@ -37,7 +37,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/math/TMath.h"
 #include "pso/system/NinjaTypes.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/system/ControllerInput.h"
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
 
 struct RecoveredGlobal_802D4730_lbl_804C89BC { s32 value; u8 remaining[0x74]; };
@@ -328,7 +328,7 @@ void TAdSinglePlyChrSelectGC::handle_slot_selection() {
         ((TObject *)this->m_54)->queue_destruction();
         this->m_54 = 0U;
     }
-    if ((TWindowShortListCtrl__check_controller_button(&controller_physical_port_bank.controllers[0], 2) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0)) {
+    if ((test_pressed_buttons_packed(&controller_physical_port_bank.controllers[0], 2) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0)) {
         play_sound_effect(0x52F16, 0, 0, 0);
         *(s32 *)&this->m_20 = 0xB;
         return;
@@ -381,7 +381,7 @@ void TAdSinglePlyChrSelectGC::handle_slot_selection() {
 
 void TAdSinglePlyChrSelectGC::sub_802D4570() {
     u8 *arg0 = (u8 *)this;
-    if ((TWindowShortListCtrl__check_controller_button(&controller_input_state.controllers[0], 2) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0)) {
+    if ((test_pressed_buttons_packed(&controller_input_state.controllers[0], 2) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0)) {
         play_sound_effect(0x52F16, 0, 0, 0);
         *(s32 *)((s8 *)arg0 + 0x20) = 0xB;
         return;
@@ -399,7 +399,7 @@ void TAdSinglePlyChrSelectGC::sub_802D4570() {
 
 void TAdSinglePlyChrSelectGC::sub_802D4664() {
     u8 *arg0 = (u8 *)this;
-    if ((TWindowShortListCtrl__check_controller_button(&controller_input_state.controllers[0], 2) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0)) {
+    if ((test_pressed_buttons_packed(&controller_input_state.controllers[0], 2) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0)) {
         play_sound_effect(0x52F16, 0, 0, 0);
         *(s32 *)((s8 *)arg0 + 0x20) = 0xB;
         return;
@@ -420,7 +420,7 @@ void TAdSinglePlyChrSelectGC::sub_802D4664() {
 void TAdSinglePlyChrSelectGC::sub_802D4730() {
     u8 *arg0 = (u8 *)this;
     s32 temp_r0;
-    if ((TWindowShortListCtrl__check_controller_button(&controller_input_state.controllers[0], 2) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0)) {
+    if ((test_pressed_buttons_packed(&controller_input_state.controllers[0], 2) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0)) {
         play_sound_effect(0x52F16, 0, 0, 0);
         *(s32 *)((s8 *)arg0 + 0x20) = 0xB;
         return;
@@ -453,7 +453,7 @@ void TAdSinglePlyChrSelectGC::sub_802D4730() {
 void TAdSinglePlyChrSelectGC::sub_802D486C() {
     void *arg0 = this;
     s32 temp_r0;
-    if ((TWindowShortListCtrl__check_controller_button(&controller_input_state.controllers[0], 2) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0)) {
+    if ((test_pressed_buttons_packed(&controller_input_state.controllers[0], 2) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0)) {
         play_sound_effect(0x52F16, 0, 0, 0);
         *(s32 *)((s8 *)arg0 + 0x20) = 0xB;
         return;
@@ -530,7 +530,7 @@ void TAdSinglePlyChrSelectGC::cleanup() {
         ((TObject *)((void *)(*(void **)((s8 *)this + 0x54))))->queue_destruction();
         *(u32 *)((s8 *)this + 0x54) = 0U;
     }
-    if ((TWindowShortListCtrl__check_controller_button(&controller_input_state.controllers[0], 2) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0)) {
+    if ((test_pressed_buttons_packed(&controller_input_state.controllers[0], 2) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0)) {
         play_sound_effect(0x52F16, 0, 0, 0);
         *(s32 *)((s8 *)this + 0x20) = 0xB;
         return;

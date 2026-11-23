@@ -2,7 +2,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/player/TObjPlayer_8023E480.h"
 #include "pso/render/render_util.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/system/ControllerInput.h"
 struct E_80306AC8 { u8 pad[0x1c]; u32 flags; u8 pad2[0xc4 - 0x20]; };
 struct O_80306AC8 { E_80306AC8 e[12]; u8 pad[0x97c - 12 * 0xc4]; s32 count; };
 extern "C" {
@@ -32,8 +32,6 @@ struct E_80306DF4 { u8 pad0[0x1C]; s32 flags; s32 t; u8 pad[0xC4 - 0x24]; };
 struct O_80306DF4 { E_80306DF4 e[12]; u8 pad[0x1C]; s32 port[4]; u8 pad2[0x980 - 0x95C]; s32 flags; };
 
 struct Ports_80306DF4 { s32 v[4]; };
-
-struct Pad_80306DF4 { u8 pad[0x20]; u8 btn[0x30]; };
 
 struct Q_80306B04 { f32 a; f32 b; f32 c; f32 d; u8 pad[0x10]; };
 
@@ -76,7 +74,6 @@ typedef struct { u32 c[12]; } Col_80307034;
 
 extern "C" {
 s32 play_sound_effect(int, void *, int, int);
-extern Pad_80306DF4 controller_physical_port_bank[];
 saddr multi_confirm_texture_list;
 void __ct__7TObjectFP7TObject(void *, void *);
 extern void *__vt__12TAdMultiOkGC[];
@@ -169,7 +166,7 @@ void TAdMultiOkGC::run_task() {
 void TAdMultiOkGC::handle_player_buttons(int arg1) {
     O_80306DF4 *o = (O_80306DF4 *)this;
     Ports_80306DF4 ports = { 0, 1, 2, 3 };
-    if (TWindowShortListCtrl__check_controller_button(controller_physical_port_bank[ports.v[o->port[arg1]]].btn, 4) != 0) {
+    if (test_pressed_buttons_packed(&controller_physical_port_bank.controllers[ports.v[o->port[arg1]]], 4) != 0) {
         E_80306DF4 *e = &o->e[arg1];
         if (e->flags & 4) {
             e->t = -1;
@@ -182,7 +179,7 @@ void TAdMultiOkGC::handle_player_buttons(int arg1) {
             e->flags |= 2;
             play_sound_effect(0x52D01, 0, 0, 0);
         }
-    } else if (TWindowShortListCtrl__check_controller_button(controller_physical_port_bank[ports.v[o->port[arg1]]].btn, 2) != 0) {
+    } else if (test_pressed_buttons_packed(&controller_physical_port_bank.controllers[ports.v[o->port[arg1]]], 2) != 0) {
         if (!(o->e[arg1].flags & 2)) {
             o->flags |= 1;
             play_sound_effect(0x52F16, 0, 0, 0);

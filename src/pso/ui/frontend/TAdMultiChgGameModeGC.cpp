@@ -18,7 +18,7 @@
 #include "pso/unk/TLobby.h"
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/system/ControllerInput.h"
 #include "pso/system/task/TObject.h"
 
 struct Txt_802FFE58 { TAdSelectTxtLayout v[3]; };
@@ -62,7 +62,7 @@ void TAdMultiChgGameModeGC::run_task() {
     if (prev_selection != selection) {
         guide_text->set_line(0, reinterpret_cast<const char *>(get_localized_text_entry(0x21, selection)));
     }
-    if (TWindowShortListCtrl__check_controller_button(&controller_input_state.controllers[0], 2) != 0 ||
+    if (test_pressed_buttons_packed(&controller_input_state.controllers[0], 2) != 0 ||
         test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0) {
         request_scene_change();
     } else if (select_cursor->confirmation_result() == 1) {

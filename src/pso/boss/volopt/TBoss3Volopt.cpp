@@ -1,10 +1,10 @@
-#include "pso/camera/TCameraCtrl_8006CC30.h"
+#define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/camera/TCameraFollow.h"
 #include "pso/enemy/EnemyTargeting.h"
 #include "pso/network/client_id.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/network/protocol/protocol_types.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/render/NinjaUtil.h"
 #include "pso/system/PadRumble.h"
@@ -22,8 +22,6 @@
 #include "pso/math/AngleLookup.h"
 #include "pso/camera/CameraHelpers.h"
 #include "pso/camera/TCameraCtrl.h"
-#include "pso/camera/TCameraCtrl_800687BC.h"
-#include "pso/camera/TCameraCtrl_8006A03C.h"
 #include "pso/render/TFogCtrl.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/system/TLoadCtrl_80227390.h"
@@ -971,7 +969,7 @@ void TBoss3Volopt::update_intro_cutscene() {
         first.frame = 0.0f;
         first.frame_step = 0.0f;
         activate_camera_mode(5);
-        first.cache_target_and_forward(0x271C);
+        first.play(0x271C);
         state = 1;
     case 1:
         play_persistent_sound(0x4003B202, this, 0, 0, 0);
@@ -985,11 +983,11 @@ void TBoss3Volopt::update_intro_cutscene() {
             second.frame = 0.0f;
             second.frame_step = 1.0f;
             activate_camera_mode(5);
-            second.cache_target_and_forward(0x271C);
+            second.play(0x271C);
         }
         break;
     case 2:
-        if (get_scripted_camera_playback()->flags & 1) {
+        if (get_scripted_camera_playback()->flags & CameraPlayback::FLAG_DONE) {
             TObjEnemyCustom *core = (TObjEnemyCustom *)find_entity_by_id(volopt_core_id);
             if (core != NULL) {
                 core->start_appear();
@@ -1091,7 +1089,7 @@ void TBoss3Volopt::update_phase2_intro() {
     case 0:
         start_phase2();
         activate_camera_mode(9);
-        set_active_camera_pose((u8 *)&boss3_volopt_intro_camera_poses[0], (u8 *)&boss3_volopt_intro_camera_poses[1]);
+        set_active_camera_pose(&boss3_volopt_intro_camera_poses[0], &boss3_volopt_intro_camera_poses[1]);
         TObjPlayer::freeze_all_players();
         TWindowCtrl::init_all_slots();
         {
@@ -1122,12 +1120,12 @@ void TBoss3Volopt::update_phase2_intro() {
         playback.frame = 0.0f;
         playback.frame_step = 1.0f;
         activate_camera_mode(5);
-        playback.cache_target_and_forward(0x160A);
-        set_scripted_camera_pose(&position, &position, (CameraAngles *)&rotation_x);
+        playback.play(0x160A);
+        set_scripted_camera_origin(&position, &position, (CameraAngles *)&rotation_x);
         state = 4;
         return;
     case 4:
-        if (get_scripted_camera_playback()->flags & 1) {
+        if (get_scripted_camera_playback()->flags & CameraPlayback::FLAG_DONE) {
             restore_player_cameras();
             next_action = 4;
             return;

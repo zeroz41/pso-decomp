@@ -9,7 +9,7 @@
 #include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "pso/unk/TLobby.h"
 #include "pso/system/scene/TEnding.h"
-#include "pso/camera/TCameraCtrl_803D6538.h"
+#include "pso/render/GinjaView.h"
 #include "pso/system/scene/TEnding_8008C5C0.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/system/TLoadCtrl_80227390.h"
@@ -34,14 +34,13 @@ extern const char TEnding__class_name_string[] = "TEnding";
 s32 TKeyBoardControl__sub_8000F92C();
 void request_main_phase(s32 arg0);
 void func_803DCDFC__Fv(void);
-void reset__11TCameraCtrlFv(void);
 }
 void create_player_ending_motion(void);
 
 // Load and release hooks of the ending scene, in pairs: run_load_callback_table
 // calls the first of each pair, call_funcs_reverse the second, last pair first.
 void (*ending_scene_callbacks[26])(void) = {
-    TCameraCtrl::reset_view_state, reset__11TCameraCtrlFv,
+    TCameraCtrl::reset_view_state, TCameraCtrl::reset,
     TCameraCtrl::init_default_view, TCameraCtrl::reset_default_view,
     TLobby::update_keyboard_menu, TLobby::free_keyboard_soft_resources,
     TLobby::set_ending_callback, TLobby::free_ending_callback,
@@ -96,10 +95,7 @@ void run_game_frame(void) {
 }
 
 extern "C" {
-void set_active_camera_pose(u8 *arg0, u8 *arg1);
-u8 *TCameraCtrl__ct(u8 *arg0, void *parent);
 void run_load_callback_table(void *, int);
-void set_copy_clear_color_argb(int, int, int);
 }
 extern u8 default_scene_light_config[];
 extern s32 ending_scene_active;
@@ -110,19 +106,15 @@ void TEnding::set_flag_and_advance() {
 }
 
 void TEnding::start_ending_scene() {
-    void *p;
     set_screen_size(1.0f, 0.85f);
     set_copy_clear_color_argb(0, 0, 0);
     reset_controller_input_state();
     init_map_lights(default_scene_light_config);
-    p = TObject::operator new(0x1D4);
-    if (p != 0) {
-        TCameraCtrl__ct((u8 *)p, tl_camera);
-    }
+    new TCameraCtrl(tl_camera);
     Vec a = {0.0f, 0.0f, 0.0f};
     Vec b = {0.0f, 0.0f, -100.0f};
     TCameraCtrl::select_active_controller(9);
-    set_active_camera_pose((u8 *)&a, (u8 *)&b);
+    set_active_camera_pose(&a, &b);
     clear_resource_load_tasks();
     run_load_callback_table(ending_scene_callbacks, sizeof(ending_scene_callbacks));
     TKeyBoardControl__sub_8000F90C(2);

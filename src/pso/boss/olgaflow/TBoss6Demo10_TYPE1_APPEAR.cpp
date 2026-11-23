@@ -7,7 +7,6 @@
 #include "pso/camera/CameraHelpers.h"
 #include "pso/camera/CameraPlayback.h"
 #include "pso/system/PadRumble.h"
-#include "pso/camera/TCameraCtrl_800687BC.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/unk/text_803D96A8.h"
@@ -160,8 +159,8 @@ TBoss6Demo10_TYPE1_APPEAR::TBoss6Demo10_TYPE1_APPEAR(TBoss6PlotFalz *plot) : TOb
     emitter = NULL;
     scroll_strips.build_tables(boss6_type1_appear_model_node_descriptors, 2);
     activate_camera_mode(5);
-    set_scripted_camera_pose(&boss6_type1_appear_origin, &boss6_type1_appear_origin, &boss6_type1_appear_camera_angles);
-    boss6_type1_appear_camera_script.cache_target_and_forward(0x416C);
+    set_scripted_camera_origin(&boss6_type1_appear_origin, &boss6_type1_appear_origin, &boss6_type1_appear_camera_angles);
+    boss6_type1_appear_camera_script.play(0x416C);
     frame = lbl_805DFA50.value;
     timer = 0;
 }

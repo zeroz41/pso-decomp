@@ -21,7 +21,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC.h"
 #include "pso/ui/frontend/TAdChrMoveEffectGC.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/system/ControllerInput.h"
 #include "pso/system/task/TObject_8001A448.h"
 #include "pso/ui/window/TWindowMessageYesNo.h"
 #include "pso/ui/TLevelSelect.h"
@@ -511,7 +511,7 @@ void TAdMultiPlyChrSelectGC::update_state_serial() {
     ((TAdMultiPlyChrSelectGC *)(*(saddr *)((s8 *)this + 0x60)))->set_field_100(1);
     this->last_card_slot = -1;
     this->state_frames = (this->state_frames + 1);
-    if ((TWindowShortListCtrl__check_controller_button(&controller_physical_port_bank.controllers[0], 2) != 0) && (TAdMultiPlyChrSelectGC::get_chr_select_state() == 0)) {
+    if ((test_pressed_buttons_packed(&controller_physical_port_bank.controllers[0], 2) != 0) && (TAdMultiPlyChrSelectGC::get_chr_select_state() == 0)) {
         if ((this->a_slot->get_state() != 0xE) && (this->state_frames > 0xA)) {
             play_sound_effect(0x52F16, 0, 0, 0);
             this->state = 0x1B;
@@ -539,7 +539,7 @@ block_19:
 void TAdMultiPlyChrSelectGC::sub_802DEDA8() {
     s32 var_r30;
     ((TAdMultiPlyChrSelectGC *)(*(saddr *)((s8 *)this + 0x60)))->set_index_and_close_status(0);
-    if ((TWindowShortListCtrl__check_controller_button(&controller_physical_port_bank.controllers[0], 2) != 0) && (TAdMultiPlyChrSelectGC::get_chr_select_state() == 0) && (TAdMultiPlyChrSelectGC__count_selected_slots() < 1)) {
+    if ((test_pressed_buttons_packed(&controller_physical_port_bank.controllers[0], 2) != 0) && (TAdMultiPlyChrSelectGC::get_chr_select_state() == 0) && (TAdMultiPlyChrSelectGC__count_selected_slots() < 1)) {
         play_sound_effect(0x52F16, 0, 0, 0);
         this->state = 0x1B;
         return;
@@ -572,7 +572,7 @@ void TAdMultiPlyChrSelectGC::sub_802DEDA8() {
 }
 
 void TAdMultiPlyChrSelectGC::update_button_input() {
-    if ((TWindowShortListCtrl__check_controller_button(&controller_physical_port_bank.controllers[0], 2) != 0) && (TAdMultiPlyChrSelectGC::get_chr_select_state() == 0) && (TAdMultiPlyChrSelectGC__count_selected_slots() < 1)) {
+    if ((test_pressed_buttons_packed(&controller_physical_port_bank.controllers[0], 2) != 0) && (TAdMultiPlyChrSelectGC::get_chr_select_state() == 0) && (TAdMultiPlyChrSelectGC__count_selected_slots() < 1)) {
         play_sound_effect(0x52F16, 0, 0, 0);
         this->state = 0x1B;
         return;
@@ -628,9 +628,9 @@ void TAdMultiPlyChrSelectGC::sub_802DE7D0() {
         this->m_74 = 0U;
     }
     if (TAdMultiPlyChrSelectGC__count_selected_slots() > 0) {
-        var_r3 = TWindowShortListCtrl__check_controller_button(&controller_physical_port_bank.controllers[TAdMultiPlyChrSelectGC__get_last_selected_player()], 2);
+        var_r3 = test_pressed_buttons_packed(&controller_physical_port_bank.controllers[TAdMultiPlyChrSelectGC__get_last_selected_player()], 2);
     } else {
-        var_r3 = TWindowShortListCtrl__check_controller_button(&controller_physical_port_bank.controllers[((s32)TAdMultiPlyChrSelectGC::get_clamped_cursor())], 2);
+        var_r3 = test_pressed_buttons_packed(&controller_physical_port_bank.controllers[((s32)TAdMultiPlyChrSelectGC::get_clamped_cursor())], 2);
     }
     if (var_r3 != 0) {
         play_sound_effect(0x52F16, 0, 0, 0);
@@ -1019,7 +1019,7 @@ void TAdMultiPlyChrSelectGC::sub_802DDD08() {
     }
     this->last_card_slot = -1;
     if (this->b_slot->is_state_closing() == 0) {
-        if (TWindowShortListCtrl__check_controller_button(&controller_physical_port_bank.controllers[(player_plate->get_instance())], 2) != 0) {
+        if (test_pressed_buttons_packed(&controller_physical_port_bank.controllers[(player_plate->get_instance())], 2) != 0) {
             play_sound_effect(0x52F16, 0, 0, 0);
             if (this->a_slot != NULL) {
                 this->a_slot->queue_destruction();
@@ -1059,7 +1059,7 @@ void TAdMultiPlyChrSelectGC::sub_802DDD08() {
 }
 
 void TAdMultiPlyChrSelectGC::sub_802DDBA8() {
-    if (TWindowShortListCtrl__check_controller_button(&controller_physical_port_bank.controllers[(player_plate->get_instance())], 2) != 0) {
+    if (test_pressed_buttons_packed(&controller_physical_port_bank.controllers[(player_plate->get_instance())], 2) != 0) {
         play_sound_effect(0x52F16, 0, 0, 0);
         if (this->a_slot != NULL) {
             this->a_slot->queue_destruction();
@@ -1107,7 +1107,7 @@ void TAdMultiPlyChrSelectGC::update_select() {
         this->m_74 = 0U;
     }
     instance = player_plate->get_instance();
-    if (TWindowShortListCtrl__check_controller_button(&controller_physical_port_bank.controllers[instance], 2) != 0) {
+    if (test_pressed_buttons_packed(&controller_physical_port_bank.controllers[instance], 2) != 0) {
         play_sound_effect(0x52F16, 0, 0, 0);
         if (this->a_slot != NULL) {
             this->a_slot->queue_destruction();
@@ -1310,7 +1310,7 @@ void TAdMultiPlyChrSelectGC::update_state() {
 
 void TAdMultiPlyChrSelectGC::sub_802DD400() {
     if (this->b_slot->get_state() > 1) {
-        if (TWindowShortListCtrl__check_controller_button(&controller_physical_port_bank.controllers[(player_plate->get_instance())], 2) != 0) {
+        if (test_pressed_buttons_packed(&controller_physical_port_bank.controllers[(player_plate->get_instance())], 2) != 0) {
             goto block_2;
         }
     } else {
@@ -1384,7 +1384,7 @@ void TAdMultiPlyChrSelectGC::update_state_move() {
         return;
     }
     instance = player_plate->get_instance();
-    if (TWindowShortListCtrl__check_controller_button(&controller_physical_port_bank.controllers[instance], 2) != 0) {
+    if (test_pressed_buttons_packed(&controller_physical_port_bank.controllers[instance], 2) != 0) {
         play_sound_effect(0x52F16, 0, 0, 0);
         if (this->a_slot != NULL) {
             this->a_slot->queue_destruction();
@@ -1462,7 +1462,7 @@ void TAdMultiPlyChrSelectGC::sub_802DD010() {
 
 void TAdMultiPlyChrSelectGC::sub_802DCF68() {
     if (this->b_slot->get_state() > 1) {
-        if (TWindowShortListCtrl__check_controller_button(&controller_physical_port_bank.controllers[(player_plate->get_instance())], 2) == 0) {
+        if (test_pressed_buttons_packed(&controller_physical_port_bank.controllers[(player_plate->get_instance())], 2) == 0) {
             return;
         }
     }
@@ -1581,7 +1581,7 @@ void TAdMultiPlyChrSelectGC::close_and_reset() {
     guide->set_line(0, "");
     guide->set_line(1, "");
     this->last_card_slot = -1;
-    if ((this->b_slot->is_state_closing() == 0) && (TWindowShortListCtrl__check_controller_button(&controller_physical_port_bank.controllers[0], 2) != 0)) {
+    if ((this->b_slot->is_state_closing() == 0) && (test_pressed_buttons_packed(&controller_physical_port_bank.controllers[0], 2) != 0)) {
         play_sound_effect(0x52F16, 0, 0, 0);
         this->next_state = 0x1B;
         this->state = 0x1A;
@@ -1594,7 +1594,7 @@ void TAdMultiPlyChrSelectGC::close_and_reset() {
 
 void TAdMultiPlyChrSelectGC::sub_802DCA20() {
     ((TAdMultiPlyChrSelectGC *)(*(saddr *)((s8 *)this + 0x60)))->set_index_and_close_status(2);
-    if (TWindowShortListCtrl__check_controller_button(&controller_physical_port_bank.controllers[0], 2) != 0) {
+    if (test_pressed_buttons_packed(&controller_physical_port_bank.controllers[0], 2) != 0) {
         play_sound_effect(0x52F16, 0, 0, 0);
         this->next_state = 0x1B;
         this->state = 0x1A;
@@ -1629,7 +1629,7 @@ void TAdMultiPlyChrSelectGC::sub_802DC8A0() {
         ((TWindowBase *)(*(void **)((s8 *)this + 0x84)))->close();
         *(u32 *)((s8 *)this + 0x84) = 0U;
     }
-    if (TWindowShortListCtrl__check_controller_button(&controller_physical_port_bank.controllers[player_plate->get_instance()], 2) != 0) {
+    if (test_pressed_buttons_packed(&controller_physical_port_bank.controllers[player_plate->get_instance()], 2) != 0) {
         play_sound_effect(0x52F16, 0, 0, 0);
         this->next_state = 0x1B;
         this->state = 0x1A;
@@ -1665,7 +1665,7 @@ void TAdMultiPlyChrSelectGC::sub_802DC8A0() {
 
 void TAdMultiPlyChrSelectGC::update_input_state() {
 
-    if (TWindowShortListCtrl__check_controller_button(&controller_physical_port_bank.controllers[0], 2) != 0) {
+    if (test_pressed_buttons_packed(&controller_physical_port_bank.controllers[0], 2) != 0) {
         play_sound_effect(0x52F16, 0, 0, 0);
         if ((u32) this->m_94 != 0U) {
             ((TWindowSubComCard *)(*(void * *)&this->m_94))->close();
@@ -1710,7 +1710,7 @@ void TAdMultiPlyChrSelectGC::sub_802DC5CC() {
         ((TWindowSubComCard *)(*(void **)((s8 *)this + 0x94)))->close();
         *(u32 *)((s8 *)this + 0x94) = 0U;
     }
-    if (TWindowShortListCtrl__check_controller_button(&controller_physical_port_bank.controllers[0], 2) != 0) {
+    if (test_pressed_buttons_packed(&controller_physical_port_bank.controllers[0], 2) != 0) {
         play_sound_effect(0x52F16, 0, 0, 0);
         this->next_state = 0x1B;
         this->state = 0x1A;
@@ -1769,7 +1769,7 @@ void TAdMultiPlyChrSelectGC::handle_input() {
         return;
     }
     context = &controller_physical_port_bank.controllers[0];
-    if ((TWindowShortListCtrl__check_controller_button(context, 4) != 0) || (TWindowShortListCtrl__check_controller_button(context, 2) != 0)) {
+    if ((test_pressed_buttons_packed(context, 4) != 0) || (test_pressed_buttons_packed(context, 2) != 0)) {
         this->state = 0x1F;
     }
 }
@@ -1810,7 +1810,7 @@ void TAdMultiPlyChrSelectGC::sub_802DC440() {
 }
 
 void TAdMultiPlyChrSelectGC::check_cancel_input() {
-    if ((this->b_slot->get_state() < 0x14) || (TWindowShortListCtrl__check_controller_button(&controller_physical_port_bank.controllers[0], 2) != 0)) {
+    if ((this->b_slot->get_state() < 0x14) || (test_pressed_buttons_packed(&controller_physical_port_bank.controllers[0], 2) != 0)) {
         TAdPlayerLoadGC::set_state(1);
         this->swap_search = 0;
         this->state = 0x1D;

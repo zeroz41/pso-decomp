@@ -26,8 +26,9 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/system/ControllerInput.h"
 #include "pso/system/task/TObject.h"
+#include "pso/system/scene/OfflineGameScene.h"
 
 
 struct S8_802C4944 { f32 a, b; };
@@ -44,7 +45,6 @@ const S16_802C4944 select_game_mode_button_rect = {{{185.0f, 198.0f}, {155.0f, 2
 s32 TAdSelectGameModeGC__cached_mode_value;
 extern "C" {
 
-s32 free_sub_ctrls__19TAdSelectGameModeGCFv();
 s32 play_sound_effect(int, int, int, int);
 int sync_char_select_state__10TObjPlayerFv(void*);
 
@@ -62,8 +62,7 @@ void TAdSelectGameModeGC__sub_802C478C(void) {
             TAdSelectGameModeGC::enable_camera();
             return;
         case 1:
-            ((s32)TAdMultiPlyChrSelectGC__count_selected_slots());
-            free_sub_ctrls__19TAdSelectGameModeGCFv();
+            set_split_screen_views(TAdMultiPlyChrSelectGC__count_selected_slots());
             return;
         }
     } else {
@@ -77,7 +76,7 @@ void TAdSelectGameModeGC::run_task() {
         guide->set_line(1, reinterpret_cast<const char *>(get_localized_text_entry(0x15, cursor->selection_index() + 1)));
     }
     TAdSelectGameModeGC__cached_mode_value = cursor->selection_index();
-    if ((TWindowShortListCtrl__check_controller_button((void *) ((u8 *)&controller_physical_port_bank + 0x20), 2) != 0) || (test_controller_flag_4c_color((void *) ((u8 *)&controller_input_state + 0x160), 2) != 0)) {
+    if ((test_pressed_buttons_packed(&controller_physical_port_bank.controllers[0], 2) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0)) {
         play_sound_effect(0x52F16, 0, 0, 0);
         TAdMultiChgGameModeGC::request_scene_change();
         return;

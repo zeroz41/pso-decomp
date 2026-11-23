@@ -1,7 +1,7 @@
 #include "pso/ui/window/TWindowCtrl_8024C6CC.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
-#include "pso/ui/keyboard/KeyboardInputQueries.h"
+#include "pso/system/ControllerInput.h"
 #include "pso/render/Draw2D.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TObject_80019A50.h"
@@ -43,9 +43,7 @@
 #include "pso/unk/text_80271400.h"
 
 #include "pso/ui/window/TWindowDD.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 #include "pso/player/TObjPlayer_80011014.h"
-#include "pso/camera/TCameraCtrl_801A6E60.h"
 #include "pso/ui/window/TWindowCtrl_8024A1A8.h"
 #include "pso/ui/window/TWindowCtrl_8024A054.h"
 const char *TWindowCtrlMain__name = "TWindowCtrlMain";
@@ -67,9 +65,6 @@ extern TObject *tl_01;
 extern TObject *tl_window;
 extern TObject *tl_clipout;
 extern TObject *tl_fadeafter;
-extern "C" {
-void TCameraCtrl__sub_80068EF0(void);
-}
 struct VObj_8024C820 {
     char pad[0x18];
     virtual void m0(int);
@@ -98,7 +93,6 @@ void TWindowCtrlMain__sub_8024D85C(void* p);
 bool TWindowCtrlMain__sub_8024D868(u8 *arg0);
 }
 void load_hud_palette_textures(void);
-struct Pad_8024DCE8 { u8 pad[0x20]; u8 btn[0x30]; };
 struct WBase_8024DCE8 { u8 pad[0x18]; };
 struct W_8024DCE8 : WBase_8024DCE8 {
     virtual void m0();
@@ -115,7 +109,6 @@ s32 bind_target__13TWindowLockOnFUs(void *, s32);
 u32 create_for_target__13TWindowLockOnFlUs(int, s32);
 s32 fn_8002AE08(void *p);
 u16 get_current_target_id__10TObjPlayerFv();
-extern Pad_8024DCE8 controller_input_state[];
 int TWindowMainMenu__sub_8024E3F4(void *p);
 void TWindowCtrl__sub_8024DAAC(void *arg0);
 s32 TWindowMainMenu__sub_8024E3E0(void *);
@@ -275,7 +268,7 @@ void TWindowCtrl::update_main_menu_request() {
     {
         s32 idx = is_player_input_active(this->m_24);
         key = ((s16 (*)(void *))TKeyBoardControl::get_function_key_menu)(this);
-        if (TWindowShortListCtrl__check_controller_button(controller_input_state[idx].btn, 0x108) == 0 && key == 0x1F) {
+        if (test_pressed_buttons_packed(&controller_input_state.controllers[idx], 0x108) == 0 && key == 0x1F) {
             return;
         }
     }
@@ -322,7 +315,7 @@ void TWindowCtrl::show_active_window() {
 void TWindowCtrl::update_short_list_request() {
     s32 idx;
     u16 id;
-    u8 *btn;
+    ControllerInputContext *btn;
     if (*(void **)((s8 *)this + 0x3C) != NULL && ((TObject *)(*(void **)((s8 *)this + 0x3C)))->all_parents_unqueued_for_destruction() == 0) {
         *(void **)((s8 *)this + 0x3C) = NULL;
     }
@@ -343,8 +336,8 @@ void TWindowCtrl::update_short_list_request() {
                     *(void **)((s8 *)this + 0x3C) = NULL;
                 }
             } else if (*(void **)((s8 *)this + 0x3C) == NULL && is_enabled() == 0) {
-                if (test_previous_buttons_packed(btn = controller_input_state[idx].btn, fn_8002AE08((void *)(*(saddr *)&this->m_24))) != 0 &&
-                    TWindowShortListCtrl__check_controller_button(btn, 0x200) != 0) {
+                if (test_previous_buttons_packed(btn = &controller_input_state.controllers[idx], fn_8002AE08((void *)(*(saddr *)&this->m_24))) != 0 &&
+                    test_pressed_buttons_packed(btn, 0x200) != 0) {
                     *(void **)((s8 *)this + 0x3C) = new TWindowShortListCtrl(this, *(s32 *)&this->m_24);
                 }
             }
@@ -537,7 +530,7 @@ void TWindowCtrlMain::render() {
     TParticleCtrl::begin_effect_render();
     TCameraCtrl::restore_full_screen_view();
     TWindowCtrlMain__sub_8024CE24()->render_nodes();
-    TCameraCtrl__sub_80068EF0();
+    TCameraCtrl::restore_saved_view();
     TParticleCtrl::end_effect_render();
 }
 
@@ -813,7 +806,7 @@ void TWindowCtrlScreen::render() {
         TCameraCtrl::restore_full_screen_view();
         draw_menu_backdrop_gradients(viewport_index);
         get_viewport_window_root(viewport_index)->render_nodes();
-        TCameraCtrl__sub_80068EF0();
+        TCameraCtrl::restore_saved_view();
         TParticleCtrl::end_effect_render();
     }
 }
@@ -846,7 +839,7 @@ void TWindowCtrlClipOut::render() {
         TParticleCtrl::begin_effect_render();
         TCameraCtrl::restore_full_screen_view();
         TWindowCtrlMain__sub_8024CE34()->render_nodes();
-        TCameraCtrl__sub_80068EF0();
+        TCameraCtrl::restore_saved_view();
         TParticleCtrl::end_effect_render();
     }
 }

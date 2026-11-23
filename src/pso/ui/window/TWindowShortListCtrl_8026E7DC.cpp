@@ -27,9 +27,10 @@
 #include "pso/system/ControllerInputState.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/technique/TTecCtrl.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/system/ControllerInput.h"
 #include "pso/system/task/TObject.h"
 #include "pso/ui/hud/TMainCursor_8013DF5C.h"
+#include "pso/ui/hud/TLockOnCursor.h"
 #include "pso/enemy/shinowa/TObjEneMe3ShinowaReal_8002ADD8.h"
 #include "pso/ui/window/TWindowCtrl_8024A054.h"
 #include "pso/unk/text_801C53D4.h"
@@ -135,7 +136,7 @@ void TWindowShortListCtrl::run_task() {
     s32 sel;
     idx = is_player_input_active(client_id);
     player = (u8 *)get_player_by_client_id(client_id);
-    if ((timer > 2 && TWindowShortListCtrl__check_controller_button(&controller_input_state.controllers[idx], 0x200) != 0) || player == NULL) {
+    if ((timer > 2 && test_pressed_buttons_packed(&controller_input_state.controllers[idx], 0x200) != 0) || player == NULL) {
         queue_destruction();
         return;
     }
@@ -150,7 +151,7 @@ void TWindowShortListCtrl::run_task() {
         }
         state = 1;
     case 1:
-        if (TWindowShortListCtrl__check_controller_button(&controller_input_state.controllers[idx], 0x400) != 0) {
+        if (test_pressed_buttons_packed(&controller_input_state.controllers[idx], 0x400) != 0) {
             if (help_window == NULL) {
                 void *w = TObject::operator new(0xBC);
                 if (w != NULL) {
@@ -175,7 +176,7 @@ void TWindowShortListCtrl::run_task() {
         }
         break;
     case 2:
-        if (TWindowShortListCtrl__check_controller_button(&controller_input_state.controllers[idx], 2) != 0 ||
+        if (test_pressed_buttons_packed(&controller_input_state.controllers[idx], 2) != 0 ||
             test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0) {
             play_sound_effect(0x52F16, 0, 0, 0);
             queue_destruction();
@@ -207,7 +208,7 @@ void TWindowShortListCtrl::run_task() {
         break;
     case 5:
         assign_item_to_palette(((TWindowMenuIconLine *)list_window)->get_cursor_value(), client_id);
-        if (TWindowShortListCtrl__check_controller_button(&controller_input_state.controllers[idx], 2) != 0 ||
+        if (test_pressed_buttons_packed(&controller_input_state.controllers[idx], 2) != 0 ||
             test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0) {
             play_sound_effect(0x52F16, 0, 0, 0);
             queue_destruction();
@@ -242,7 +243,7 @@ void TWindowShortListCtrl::run_task() {
         }
         break;
     case 8:
-        if (TWindowShortListCtrl__check_controller_button(&controller_input_state.controllers[idx], 2) != 0 ||
+        if (test_pressed_buttons_packed(&controller_input_state.controllers[idx], 2) != 0 ||
             test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0) {
             play_sound_effect(0x52F16, 0, 0, 0);
             queue_destruction();
@@ -278,7 +279,7 @@ void TWindowShortListCtrl::run_task() {
         if (TWindowSubTechnique::update_selection((s16 *)&m_20, (s32 *)&m_28, client_id) != 0) {
             refresh_technique_rows((saddr)tech_window, (void *)&short_list_window_pos);
         }
-        if (TWindowShortListCtrl__check_controller_button(&controller_input_state.controllers[idx], 0x400) != 0) {
+        if (test_pressed_buttons_packed(&controller_input_state.controllers[idx], 0x400) != 0) {
             if (((TWindowSubComCardList *)tech_window)->get_selected_index() == -1) {
                 ((TWindowShortListCtrl *)tech_window)->update_cursor_pos();
             } else {
@@ -297,7 +298,7 @@ void TWindowShortListCtrl::run_task() {
         break;
     case 11:
         ((TObjPlayer *)player)->update_cursor((s16)((TWindowMenu *)tech_window)->get_selected_value());
-        if (TWindowShortListCtrl__check_controller_button(&controller_input_state.controllers[idx], 2) != 0 ||
+        if (test_pressed_buttons_packed(&controller_input_state.controllers[idx], 2) != 0 ||
             test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0) {
             play_sound_effect(0x52F16, 0, 0, 0);
             queue_destruction();
@@ -350,7 +351,7 @@ void TWindowShortListCtrl::refresh_technique_rows(saddr tech_window, void *arg2_
 
 void TWindowShortListCtrl::cycle_list_page() {
     s32 port = is_player_input_active(client_id);
-    if (TWindowShortListCtrl__check_controller_button(&controller_input_state.controllers[port], fn_8002AE08(client_id)) != 0) {
+    if (test_pressed_buttons_packed(&controller_input_state.controllers[port], fn_8002AE08(client_id)) != 0) {
         s8 old_page = page;
         TObjPlayer *player = get_player_by_client_id(client_id);
         if (player != NULL) {
@@ -400,17 +401,16 @@ void TWindowShortListCtrl::destroy_children() {
 void TWindowShortListCtrl::assign_item_to_palette(u32 item_id, u32 client_id) {
     TObjPlayer *player = get_player_by_client_id(client_id);
     if (player != NULL) {
-        // player+0x424 holds an object with a TWindowActionPalette at +0x520 (class not recovered yet).
-        u8 *menu = (u8 *)player->m_424;
-        if (menu != NULL) {
+        TLockOnCursor *cursor = player->lock_on_cursor;
+        if (cursor != NULL) {
             TItem *item = find_item_by_id(item_id);
             if (item != NULL && item->get_item_type() == 3) {
                 s32 slot = get_tool_palette_index(item);
                 if (slot != -1) {
-                    if (canSetMenuCursorAction((saddr)(menu + 0x520), (saddr)player, 4, slot) != 0) {
-                        set_action_palette_tag_mode(reinterpret_cast<ActionPaletteTag *>(menu + 0x520), 4);
-                        set_action_palette_tag_slot(reinterpret_cast<ActionPaletteTag *>(menu + 0x520), slot);
-                        TMainCursor__sub_8013DFC4(menu + 0x520);
+                    if (canSetMenuCursorAction((saddr)&cursor->palette_override, (saddr)player, 4, slot) != 0) {
+                        set_action_palette_tag_mode(&cursor->palette_override, 4);
+                        set_action_palette_tag_slot(&cursor->palette_override, slot);
+                        TMainCursor__sub_8013DFC4((u8 *)&cursor->palette_override);
                     }
                 }
             }

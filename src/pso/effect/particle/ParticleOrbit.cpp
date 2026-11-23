@@ -24,6 +24,7 @@
 #include "pso/effect/particle/TParticleCtrl_80327D30.h"
 #include "pso/player/TObjPlayer_80083594.h"
 #include "pso/system/task/TObject.h"
+#include "pso/camera/TCameraCtrl.h"
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
@@ -154,7 +155,6 @@ struct OIVec_8008B060 { s32 x, y, z; };
 
 extern "C" {
 s32 append_node_to_tail__13TParticleCtrlFPvPv(s32, void *);
-extern u8 *camera_ctrl_instance;
 extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
 }
@@ -421,8 +421,8 @@ void TUnk_8048E790::render() {
                     load_projected_texture_matrix(1.33f);
                 }
                 rotate_matrix_y(0, (s32) this->m_96);
-                if ((this->flags & 0x1000) && ((void *) camera_ctrl_instance != NULL)) {
-                    rotate_matrix_y(0, *(s32 *)((s8 *)camera_ctrl_instance + 0x194));
+                if ((this->flags & 0x1000) && (camera_ctrl_instance != NULL)) {
+                    rotate_matrix_y(0, camera_ctrl_instance->yaw);
                 }
                 TParticleCtrl::end_effect_render();
                 if (this->flags & 0x400) {

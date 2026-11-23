@@ -22,7 +22,7 @@
 #include "pso/system/vector.h"
 #include "pso/network/TProtocol.h"
 #include "pso/unk/text_803D853C.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/system/ControllerInput.h"
 
 
 const char *TOKey__class_name = "TOKey";
@@ -326,7 +326,7 @@ s32 TOKey::is_confirm_pressed() {
         return 0;
     }
     if (is_local_player_in_range() != 0 &&
-        TWindowShortListCtrl__check_controller_button(&controller_input_state.controllers[0], 4) != 0) {
+        test_pressed_buttons_packed(&controller_input_state.controllers[0], 4) != 0) {
         return 1;
     }
     return 0;

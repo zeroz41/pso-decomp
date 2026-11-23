@@ -37,10 +37,6 @@ typedef struct SpawnRecord_8020D36C {
 
 struct Out_8020D474 { u8 data[0x18]; };
 
-struct Ent_8020D4E8 { u8 d[0xC]; };
-
-struct Obj_8020D4E8 { u8 p0[0xD4]; Ent_8020D4E8 ents[13]; u8 p1[0x8]; Ent_8020D4E8 single; };
-
 typedef ObjectFactoryEntry Ent_8020D5AC;
 
 extern "C" {
@@ -60,7 +56,6 @@ s32 TLobby__sub_801C2614();
 extern RecoveredGlobal_8020D2B4_lbl_8058D490 identity_matrix;
 void apply_room_transform(saddr arg0, u8 *arg1, u8 *arg2);
 void resolve_set_row_factory_indices(void *arg0, FloorObjectSetRow *rows, int count);
-extern Obj_8020D4E8 *camera_ctrl_instance;
 s32 is_within_camera_distance(void *arg0, void *arg1, f32 farg0);
 void spawn_decorations_in_range(TSetManager *arg0);
 void apply_room_transform(saddr arg0, u8 *arg1, u8 *arg2) {
@@ -135,14 +130,14 @@ s32 is_within_camera_distance(void *arg0, void *arg1, f32 farg0) {
     s32 i;
     if (TRaderMapCore::is_not_split_screen() == 1) {
         if (camera_ctrl_instance != NULL) {
-            n = TCameraCtrl::get_instance();
+            n = TCameraCtrl::get_view_count();
             for (i = 0; i < n; i++) {
-                if (xyz_distance_squared((u8 *)arg1, (u8 *)&camera_ctrl_instance->ents[i]) < farg0) {
+                if (xyz_distance_squared((u8 *)arg1, (u8 *)&camera_ctrl_instance->split_pos[i]) < farg0) {
                     return 1;
                 }
             }
         }
-    } else if (camera_ctrl_instance != NULL && xyz_distance_squared((u8 *)arg1, (u8 *)&camera_ctrl_instance->single) < farg0) {
+    } else if (camera_ctrl_instance != NULL && xyz_distance_squared((u8 *)arg1, (u8 *)&camera_ctrl_instance->pos) < farg0) {
         return 1;
     }
     return 0;

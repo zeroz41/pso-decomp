@@ -12,17 +12,14 @@
 #include "pso/player/TObjPlayer_801A5AEC.h"
 #include "pso/unk/text_803DCDFC.h"
 #include "pso/unk/text_800FA464.h"
-#include "pso/camera/TCameraCtrl_803D6538.h"
+#include "pso/render/GinjaView.h"
+#include "pso/effect/particle/TParticleCtrl.h"
 
 // .sbss 0x805D6A58-0x805D6A60 is one TU's run: 0x805D6A5C is not 8-aligned, so both words belong to the TU that
 // starts at 0x805D6A58 after TAdGameStartBackGC's pad word. Between TAdGameStartBackGC and TBoss7Crawfish only this
 // unit (start_ending_sequence) and TObjPlayer_80307618 (the TUnk_804E71A0 it creates) use them.
 s32 ending_sequence_active;
 s32 ending_movie_active_flag;
-
-extern "C" {
-s32 set_copy_clear_color_argb(s32, s32, s32);
-}
 
 void TAdEndText::cleanup() { ending_sequence_active = 0; main_task.delete_layer_children(); TLobby::free_ending_callback(); TLobby::free_keyboard_soft_resources(); TAdEndText::free_resources(); render_tick(); }
 void TKeyBoardControl::run_main_frame() {

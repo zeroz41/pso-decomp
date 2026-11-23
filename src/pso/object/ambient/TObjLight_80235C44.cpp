@@ -120,7 +120,6 @@ TUnk_804CCAA8 *construct_actor_light_task(TUnk_804CCAA8 *light, NJS_ARGB *color,
 extern "C" {
 f32 vec_squared_length(void *, f32);
 }
-extern TCameraCtrl *camera_ctrl_instance;
 
 #pragma push
 #pragma fp_contract on
@@ -128,9 +127,9 @@ void offset_point_toward_camera(u8 *center, u8 *arg1, f32 farg0) {
     Vec stack;
     f32 temp_f1;
     if ((void *) camera_ctrl_instance != NULL) {
-        stack.x = camera_ctrl_instance->pos_x - *(f32 *)((s8 *)center + 0);
-        stack.y = camera_ctrl_instance->pos_y - *(f32 *)((s8 *)center + 4);
-        temp_f1 = camera_ctrl_instance->pos_z;
+        stack.x = camera_ctrl_instance->pos.x - *(f32 *)((s8 *)center + 0);
+        stack.y = camera_ctrl_instance->pos.y - *(f32 *)((s8 *)center + 4);
+        temp_f1 = camera_ctrl_instance->pos.z;
         stack.z = temp_f1 - *(f32 *)((s8 *)center + 8);
         if (lbl_805DC88C[0] != vec_squared_length(&stack.x, temp_f1)) {
             normalize_vector(&stack);

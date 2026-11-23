@@ -6,24 +6,18 @@
 #include "pso/ui/charcreate/CharacterAppearance.h"
 #include "pso/ui/charcreate/CharacterCreationModels.h"
 #include "pso/unk/TLobby.h"
+#include "pso/unk/TLobby_8006F278.h"
 #include "pso/ui/charcreate/TObjCMMainMenu.h"
 #include "pso/ui/charcreate/TObjCMProportion.h"
 #include "pso/render/render_util.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
 
-// Per class, the range (in tens of units) the review camera's look-at height
-// is picked from by the character's height setting.
-struct CreationHeightBounds {
-    f32 minimum;
-    f32 maximum;
-};
+static char active_character_name[12];
 
-static char split_screen_character_name[12];
-
-char *get_split_screen_character_name() {
-    saddr record = get_character_save_record(0xFFFF);
-    ((TLobby *)split_screen_character_name)->decode_obfuscated_string((void *)(record + 0x229C), 12);
-    return split_screen_character_name;
+char *get_active_character_name() {
+    CharacterSaveRecord *record = (CharacterSaveRecord *)get_character_save_record(0xFFFF);
+    decode_obfuscated_string(active_character_name, record->name, 12);
+    return active_character_name;
 }
 
 u32 get_character_creation_selected_entry_id() {
@@ -31,19 +25,19 @@ u32 get_character_creation_selected_entry_id() {
 }
 
 CreationCamera::CreationCamera() {
-    m_38 = 0;
+    flags = 0;
     target.x = 0.0f;
     target.y = 10.5f;
     target.z = 0.0f;
     distance = 30.0f;
     yaw = 0;
     pitch = 0;
-    shot = 2;
+    shot = CREATION_SHOT_FULL_BODY;
     shot_timer = 0;
     distance_speed = 0.0f;
     height_speed = 0.0f;
     creation_camera_mode = CREATION_CAMERA_AUTO;
-    projection_angle = 17294;
+    fov = 0x438E;
 }
 
 CreationCamera::~CreationCamera() {
@@ -79,18 +73,18 @@ static CreationHeightBounds creation_camera_height_bounds_table[12] = {
 // The view with the character centred, and the one shifted right for a
 // panel open on the left.
 static CameraViewParams creation_view_parameters[2] = {
-    {{1.0f, 1.0f}, 320.0f, 240.0f, {1.0f, 1.0f, 500.0f, 1.0f, 1.0f, 1.0f}, 640.0f, 480.0f, {0.0f, 0.0f, 20.0f, 15.0f, 1.0f, 1.0f}},
-    {{1.0f, 1.0f}, 640.0f * 0.72f, 240.0f, {1.0f, 1.0f, 500.0f, 1.0f, 1.0f, 1.0f}, 640.0f, 480.0f, {0.0f, 0.0f, 20.0f, 15.0f, 1.0f, 1.0f}},
+    {{{1.0f, 1.0f, 320.0f, 240.0f, 1.0f, 1.0f, 500.0f, 1.0f, 1.0f, 1.0f}, 640.0f, 480.0f}, {0.0f, 0.0f, 20.0f, 15.0f}, {1.0f, 1.0f}},
+    {{{1.0f, 1.0f, 640.0f * 0.72f, 240.0f, 1.0f, 1.0f, 500.0f, 1.0f, 1.0f, 1.0f}, 640.0f, 480.0f}, {0.0f, 0.0f, 20.0f, 15.0f}, {1.0f, 1.0f}},
 };
 
-CreationCamera *CreationCamera::create() {
+TCameraController *CreationCamera::create() {
     return new CreationCamera;
 }
 
 void CreationCamera::advance_manual() {
     s32 stick_angle;
     f32 stick;
-    f32 still;
+    f32 idle_stick;
     s32 min_pitch;
 
     if (creation_buttons_held(0x10)) {
@@ -132,8 +126,8 @@ void CreationCamera::advance_manual() {
         distance = 20.0f;
     }
 
-    get_creation_pad_stick(NULL, &still);
-    if (still > 0.0f || creation_buttons_held(0x300F0)) {
+    get_creation_pad_stick(NULL, &idle_stick);
+    if (idle_stick > 0.0f || creation_buttons_held(0x300F0)) {
         timer = 0;
         return;
     }
@@ -153,14 +147,14 @@ void CreationCamera::frame_menu_selection() {
     case 1:
     case 2:
     case 4:
-        wanted = 0;
+        wanted = CREATION_SHOT_FACE;
         break;
     case 6:
     case 8:
-        wanted = 1;
+        wanted = CREATION_SHOT_MEDIUM;
         break;
     default:
-        wanted = 2;
+        wanted = CREATION_SHOT_FULL_BODY;
         break;
     }
     if (shot == wanted) {
@@ -173,13 +167,13 @@ void CreationCamera::frame_menu_selection() {
     if (creation_player_character != NULL) {
         f32 height = calc_character_height(creation_player_character);
         switch (shot) {
-        case 0:
+        case CREATION_SHOT_FACE:
             approach_target(0, 0, 0.5f * height, 0.91f * height);
             break;
-        case 1:
+        case CREATION_SHOT_MEDIUM:
             approach_target(0, 0, 25.0f, 11.0f);
             break;
-        case 2:
+        case CREATION_SHOT_FULL_BODY:
             approach_target(0, 0, 1.25f * height, 0.55f * height);
             break;
         }
@@ -322,7 +316,7 @@ f32 creation_view_shift = 1.0f;
 // 72% across (shift 1), keeping the character beside an open panel.
 void set_creation_projection_center(f32 shift) {
     CameraViewParams params = creation_view_parameters[0];
-    params.center_x = 640.0f * (0.5f + (0.72f - 0.5f) * shift);
+    params.screen.projection.center_x = 640.0f * (0.5f + (0.72f - 0.5f) * shift);
     params.apply_if_overridden();
     creation_view_shift = shift;
 }

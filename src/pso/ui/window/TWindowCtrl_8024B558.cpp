@@ -11,13 +11,13 @@ extern s32 local_client_id;
 saddr TWindowCtrl::open(s32 id, saddr text, s32 flags) {
     saddr temp_r3;
 
-    if (TWindowCtrl__active_window == NULL) {
+    if (instance == NULL) {
         return 0;
     }
     if (flags & 0x40) {
         post_chat_log_message();
     }
-    temp_r3 = (saddr)TWindowCtrl__active_window->show_chat_balloon(id, flags, (void *)text, (void *)(saddr)local_client_id);
+    temp_r3 = (saddr)instance->show_chat_balloon(id, flags, (void *)text, (void *)(saddr)local_client_id);
     if (temp_r3 == 0) {
         return 0;
     }

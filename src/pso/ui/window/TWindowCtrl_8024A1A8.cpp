@@ -66,10 +66,10 @@ void get_speaker_balloon_anchor__11TWindowCtrlFPviPvPv(Ctrl_8024A928 *arg0, s32 
 extern "C" {
 
 bool TWindowCtrl__sub_8024A1A8(void) {
-    if (TWindowCtrl__active_window == NULL) {
+    if (TWindowCtrl::instance == NULL) {
         return 0;
     }
-    return TWindowCtrl__active_window->m_3c != 0;
+    return TWindowCtrl::instance->m_3c != 0;
 }
 
 void TWindowCtrl::call_window_method_with_default_vec(s32 client_id) {
@@ -78,8 +78,8 @@ void TWindowCtrl::call_window_method_with_default_vec(s32 client_id) {
 }
 
 void TWindowCtrl::set_field22() {
-    if (TWindowCtrl__active_window != NULL) {
-        TWindowCtrl__active_window->submit_cooldown = 0x2D;
+    if (instance != NULL) {
+        instance->submit_cooldown = 0x2D;
     }
 }
 
@@ -89,73 +89,73 @@ void TWindowCtrl__sub_8024A228(saddr client_id) {
 }
 
 bool TWindowCtrl::is_submit_cooldown_clear() {
-    if (TWindowCtrl__active_window == NULL) {
+    if (instance == NULL) {
         return 0;
     }
-    return TWindowCtrl__active_window->submit_cooldown <= 0;
+    return instance->submit_cooldown <= 0;
 }
 
 void TWindowCtrl::update_focused() {
-    if ((TWindowCtrl__active_window != NULL) && (TWindowCtrl__active_window->m_38 != 0U)) {
-        ((TWindowChat *)TWindowCtrl__active_window->m_38)->update();
+    if ((instance != NULL) && (instance->m_38 != 0U)) {
+        ((TWindowChat *)instance->m_38)->update();
     }
 }
 
 s32 TWindowCtrl::get_active_sub() {
-    if (TWindowCtrl__active_window == NULL) {
+    if (instance == NULL) {
         return 0;
     }
-    if (TWindowCtrl__active_window->m_38 == 0U) {
+    if (instance->m_38 == 0U) {
         return 0;
     }
-    return TWindowCtrl__sub_8024C5C4((TWindowChat *)TWindowCtrl__active_window->m_38);
+    return TWindowCtrl__sub_8024C5C4((TWindowChat *)instance->m_38);
 }
 
 s32 TWindowCtrl__sub_8024A314(void) {
-    if (TWindowCtrl__active_window == NULL) {
+    if (TWindowCtrl::instance == NULL) {
         return 0;
     }
-    if (TWindowCtrl__active_window->m_38 == 0U) {
+    if (TWindowCtrl::instance->m_38 == 0U) {
         return 0;
     }
-    return TWindowCtrl__sub_8024701C((TWindowChat *)TWindowCtrl__active_window->m_38);
+    return TWindowCtrl__sub_8024701C((TWindowChat *)TWindowCtrl::instance->m_38);
 }
 
 void TWindowCtrl::open_status_111() {
-    if ((TWindowCtrl__active_window != NULL) && (TWindowCtrl__active_window->m_34 == NULL)) {
-        TWindowCtrl__active_window->m_34 = create_area_window(TWindowSubStatusDisp::get_message_10(0x111));
+    if ((instance != NULL) && (instance->m_34 == NULL)) {
+        instance->m_34 = create_area_window(TWindowSubStatusDisp::get_message_10(0x111));
     }
 }
 
 void TWindowCtrl::open_status_112() {
-    if ((TWindowCtrl__active_window != NULL) && (TWindowCtrl__active_window->m_34 == NULL)) {
-        TWindowCtrl__active_window->m_34 = create_area_window(TWindowSubStatusDisp::get_message_10(0x112));
+    if ((instance != NULL) && (instance->m_34 == NULL)) {
+        instance->m_34 = create_area_window(TWindowSubStatusDisp::get_message_10(0x112));
     }
 }
 
 void TWindowCtrl::close_active_window() {
-    if ((TWindowCtrl__active_window != NULL) && (TWindowCtrl__active_window->m_34 != NULL)) {
-        TWindowCtrl__active_window->m_34->close();
-        TWindowCtrl__active_window->m_34 = NULL;
+    if ((instance != NULL) && (instance->m_34 != NULL)) {
+        instance->m_34->close();
+        instance->m_34 = NULL;
     }
 }
 
 void TWindowCtrl::ensure_initialized() {
-    if ((TWindowCtrl__active_window != NULL) && (TWindowCtrl__active_window->m_34 == NULL)) {
-        TWindowCtrl__active_window->m_34 = create_window_area();
+    if ((instance != NULL) && (instance->m_34 == NULL)) {
+        instance->m_34 = create_window_area();
     }
 }
 
 void TWindowCtrl::create_timer() {
-    if ((TWindowCtrl__active_window != NULL) && (TWindowCtrl__active_window->m_30 == NULL)) {
-        TWindowCtrl__active_window->m_30 = TWindowTimer::create();
+    if ((instance != NULL) && (instance->m_30 == NULL)) {
+        instance->m_30 = TWindowTimer::create();
     }
 }
 
 void TWindowCtrl::set_timer_window_time(u32 secs) {
     TWindowTimer *timer;
-    if (TWindowCtrl__active_window != NULL) {
-        timer = TWindowCtrl__active_window->m_30;
+    if (instance != NULL) {
+        timer = instance->m_30;
         if (timer != NULL) {
             timer->set_time(secs);
         }
@@ -163,15 +163,15 @@ void TWindowCtrl::set_timer_window_time(u32 secs) {
 }
 
 void TWindowCtrl::close_timer_window() {
-    if ((TWindowCtrl__active_window != NULL) && (TWindowCtrl__active_window->m_30 != NULL)) {
-        TWindowCtrl__active_window->m_30->close();
-        TWindowCtrl__active_window->m_30 = NULL;
+    if ((instance != NULL) && (instance->m_30 != NULL)) {
+        instance->m_30->close();
+        instance->m_30 = NULL;
     }
 }
 
 void TWindowCtrl::create_alt_timer() {
-    if ((TWindowCtrl__active_window != NULL) && (TWindowCtrl__active_window->m_30 == NULL)) {
-        TWindowCtrl__active_window->m_30 = TWindowTimer::create_alt();
+    if ((instance != NULL) && (instance->m_30 == NULL)) {
+        instance->m_30 = TWindowTimer::create_alt();
     }
 }
 
@@ -322,7 +322,7 @@ void *acquire_balloon_slot__11TWindowCtrlFPviiPv(Ctrl_8024A928 *self, s32 player
 void *TWindowCtrl::show_chat_balloon(s32 player, s32 flags, void *text, void *local) {
     Ctrl_8024A928 *self = (Ctrl_8024A928 *)this;
     u32 i;
-    if (TWindowCtrl__active_window == NULL) {
+    if (instance == NULL) {
         return 0;
     }
     if (flags & 8) {
@@ -336,7 +336,7 @@ void *TWindowCtrl::show_chat_balloon(s32 player, s32 flags, void *text, void *lo
             }
         }
     }
-    return acquire_balloon_slot__11TWindowCtrlFPviiPv((Ctrl_8024A928 *)TWindowCtrl__active_window, player, flags, local);
+    return acquire_balloon_slot__11TWindowCtrlFPviiPv((Ctrl_8024A928 *)instance, player, flags, local);
 }
 
 void TWindowCtrl::handle_chat_message(char *arg1) {
@@ -345,8 +345,8 @@ void TWindowCtrl::handle_chat_message(char *arg1) {
     u32 key;
     char *v;
     Ply_8024AA08 *p;
-    if (TWindowCtrl__active_window != NULL) {
-        v = TWindowCtrl::skip_name_prefix(TWindowCtrl__active_window, arg1);
+    if (instance != NULL) {
+        v = TWindowCtrl::skip_name_prefix(instance, arg1);
         key = arg0->f4;
         for (i = 0; i < 12; i++) {
             p = (Ply_8024AA08 *)get_player_by_client_id(i);

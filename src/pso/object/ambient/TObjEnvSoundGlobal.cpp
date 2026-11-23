@@ -87,7 +87,6 @@ const Row_80190AA0 *environment_sound_tables_by_area[36] = {
 };
 
 f32 xz_distance_squared(void *, void *);
-extern TCameraCtrl *camera_ctrl_instance;
 void run_task__14TObjEnvSoundExFv(Env_80190624 *o);
 void * TObjEnvSoundEx__create(void *arg0);
 
@@ -207,7 +206,7 @@ void * TObjEnvSound__create(void *rader_map_core) {
 }
 
 s32 fn_801908F8(saddr arg0, f32 farg0) {
-    return xyz_distance_squared(&camera_ctrl_instance->pos_x, (void *)(arg0 + 0x38), (void *)arg0) < farg0;
+    return xyz_distance_squared(&camera_ctrl_instance->pos.x, (void *)(arg0 + 0x38), (void *)arg0) < farg0;
 }
 
 s32 TObjEnvSound::is_sound_enabled(void *self, s32 cue) {
@@ -236,7 +235,7 @@ TObjEnvSoundEx::~TObjEnvSoundEx() {
 }
 
 void run_task__14TObjEnvSoundExFv(Env_80190624 *o) {
-    if (xz_distance_squared(&camera_ctrl_instance->pos_x, o->pos) < o->range * o->range) {
+    if (xz_distance_squared(&camera_ctrl_instance->pos.x, o->pos) < o->range * o->range) {
         o->vol += o->step;
         if (o->vol > (f32)o->f90) {
             o->vol = (f32)o->f90;

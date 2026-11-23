@@ -17,7 +17,7 @@ void TUnk_8049F8E0::apply_use_effect() {
     TUnk_8013EFB8 *slot;
     TLockOnCursor *cursor;
     if (((TObjPlayer *)this->owner)->sub_801A1DDC() != 0) {
-        cursor = (TLockOnCursor *)this->owner->m_424;
+        cursor = this->owner->lock_on_cursor;
         if (cursor != NULL) {
             slot = cursor->find_by_pos(4, 9);
             if (slot != NULL) {

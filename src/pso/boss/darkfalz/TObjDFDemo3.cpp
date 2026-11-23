@@ -12,7 +12,6 @@
 #include "pso/camera/CameraHelpers.h"
 #include "pso/system/task/TObject.h"
 #include "pso/object/base/TObjMotion.h"
-#include "pso/camera/TCameraCtrl_800687BC.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/unk/text_803D96A8.h"
@@ -75,9 +74,9 @@ TObjDFDemo3::TObjDFDemo3(TObject *parent, const Vec *position, s32 angle) : TObj
         CameraAngles c = df_demo3_zero_camera_angles;
         c.yaw = this->angle;
         const Vec *camera_position = &this->camera_position;
-        set_scripted_camera_pose(camera_position, camera_position, &c);
+        set_scripted_camera_origin(camera_position, camera_position, &c);
     }
-    df_demo3_camera_playback.cache_target_and_forward(0x1555);
+    df_demo3_camera_playback.play(0x1555);
     this->node_list = ModelNodePositionCapture::create(df_demo3_node_capture_entries, &this->emitter_position);
     this->timer = 0;
 }

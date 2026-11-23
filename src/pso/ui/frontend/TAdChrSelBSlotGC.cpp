@@ -22,7 +22,7 @@
 #include "pso/ui/frontend/TAdSubPlyItemGC.h"
 #include "pso/unk/TLobby.h"
 #include "pso/system/task/TObject.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/system/ControllerInput.h"
 #include "pso/system/vector.h"
 
 static const ChrSelPlateLayout chr_sel_b_slot_plate_layout = { 180.0f, 38.0f, { 0xBC, 0x98, 0x36, 0x00 }, 0 };
@@ -282,8 +282,8 @@ void TAdChrSelBSlotGC::wait_format_failed_dismiss() {
         m_70 = 0;
     }
     context = &controller_physical_port_bank.controllers[TAdMultiPlyChrSelectGC::get_state()->get_state_result()];
-    if (TWindowShortListCtrl__check_controller_button(context, 4) != 0 || TWindowShortListCtrl__check_controller_button(context, 2) != 0 ||
-        TWindowShortListCtrl__check_controller_button(context, 0x400) != 0 || TWindowShortListCtrl__check_controller_button(context, 0x200) != 0) {
+    if (test_pressed_buttons_packed(context, 4) != 0 || test_pressed_buttons_packed(context, 2) != 0 ||
+        test_pressed_buttons_packed(context, 0x400) != 0 || test_pressed_buttons_packed(context, 0x200) != 0) {
         state = 1;
         return;
     }
@@ -300,10 +300,10 @@ void TAdChrSelBSlotGC::check_cancel_and_close() {
     TWindowBase *window;
     s32 port;
     port = TAdMultiPlyChrSelectGC::get_state()->get_state_result();
-    if (TWindowShortListCtrl__check_controller_button(&controller_physical_port_bank.controllers[port], 4) != 0 ||
-        TWindowShortListCtrl__check_controller_button(&controller_physical_port_bank.controllers[port], 2) != 0 ||
-        TWindowShortListCtrl__check_controller_button(&controller_physical_port_bank.controllers[port], 0x400) != 0 ||
-        TWindowShortListCtrl__check_controller_button(&controller_physical_port_bank.controllers[port], 0x200) != 0) {
+    if (test_pressed_buttons_packed(&controller_physical_port_bank.controllers[port], 4) != 0 ||
+        test_pressed_buttons_packed(&controller_physical_port_bank.controllers[port], 2) != 0 ||
+        test_pressed_buttons_packed(&controller_physical_port_bank.controllers[port], 0x400) != 0 ||
+        test_pressed_buttons_packed(&controller_physical_port_bank.controllers[port], 0x200) != 0) {
         state = 1;
         return;
     }

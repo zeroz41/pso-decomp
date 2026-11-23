@@ -25,22 +25,18 @@
 #include "pso/math/AngleLookup.h"
 #include <stdlib.h>
 #include "pso/system/task/TObject.h"
-#include "pso/unk/TLobby_8007C550.h"
-#include "pso/unk/text_800832EC.h"
+#include "pso/camera/TLiveCameraView.h"
+#include "pso/player/TObjPlayer_80083B38.h"
+#include "pso/render/render_util.h"
 #include "pso/network/client_id.h"
 #include "pso/player/PlayerSlots.h"
 
 #pragma defer_codegen on
 
+BmlResource *live_monitor_shared_resource;
+s32 TObjLiveCameraCtrl::next_slot;
+TObjLiveCameraCtrl *TObjLiveCameraCtrl::instances[1];
 extern "C" {
-s32 TObjPlayer__sub_80084500();
-s32 TObjLiveCameraCtrl__is_enabled(void* p);
-
-s32 is_split_screen();
-extern s32 __vt__20TObjLiveMonitorSmall[];
-saddr live_monitor_shared_resource;
-s32 live_camera_controller_next_slot;
-s32 TObjLiveCameraCtrl__instances;
 s32 live_monitor_small_spawned_flag;
 u8 TObjLiveMonitorSmall__fish_spawned_flag;
 const char *bm_obj_boss8_monitor_model_names[4] = {
@@ -58,181 +54,149 @@ const char *TObjLiveCamera__class_name = "TObjLiveCamera";
 const char *TObjLiveMonitor__name = "TObjLiveMonitor";
 const char *TObjLiveMonitorSmall__name = "TObjLiveMonitorSmall";
 }
-/* TObjLiveCameraCtrl: model ids passed to fn_800832EC, indexed by its f4c */
-const s32 lbl_804757E0[2] = { 0xF44E8, 0xF44E9 };
-extern "C" {
+// The id each camera slot passes to its TLiveCameraView.
+const s32 live_camera_view_ids[2] = { 0xF44E8, 0xF44E9 };
 
-s32 __ct__7TObjectFP7TObject();
-extern s32 __vt__15TObjLiveMonitor[];
-extern void *tl_05;
-int get_part_entity_id__12TBoss8DragonFl(void*);
-s32 angle_diff_s16(int);
-f32 calc_random_ratio__10TObjPlayerFv(void *);
-void TObjPlayer__sub_80082CBC(void *effect);
-void TObjPlayer__sub_80082CCC(void *effect);
-}
-struct Cam_8030BED4 {
-    const char *f0;
-    u8 pad4[0x18 - 4];
-    s32 *vt;
-    s16 f1c, f1e;
-    s32 f20;
-    u16 f24;
-    s32 f28, f2c;
-    f32 f30;
-    f32 f34[3];
-    f32 f40[3];
-    s32 f4c;
-    void *f50;
-    u8 f54[4];
-};
 extern "C" {
+s32 is_split_screen();
+extern void *tl_05;
+f32 calc_random_ratio__10TObjPlayerFv(SubtractiveRng *rng);
 s32 get_current_floor();
-void subtractive_rng_seed(void *, s32);
-extern s32 tl_particlemodel;
+extern TObject *tl_particlemodel;
 }
 
 void reset_live_camera_ctrl_globals(void) {
-    live_camera_controller_next_slot = 0;
-    memset(&TObjLiveCameraCtrl__instances, 0, 4);
+    TObjLiveCameraCtrl::next_slot = 0;
+    memset(TObjLiveCameraCtrl::instances, 0, sizeof(TObjLiveCameraCtrl::instances));
 }
 
-// inferred: the release hook paired with reset_live_camera_ctrl_globals in static_resource_callback_table
 void release_live_camera_ctrl_globals(void) {}
 
-s32 TObjLiveCameraCtrl__is_enabled(void* p) { return *(s32*)((char*)p + 0x20); }
+s32 TObjLiveCameraCtrl::is_enabled() { return enabled; }
 
-s32 TObjLiveCameraCtrl::get_table_entry(s32 arg0) {
-    if (arg0 < 0) {
-        return 0;
+TObjLiveCameraCtrl *TObjLiveCameraCtrl::get_instance(s32 slot) {
+    if (slot < 0) {
+        return NULL;
     }
-    if (arg0 > 1) {
-        return 0;
+    if (slot > 1) {
+        return NULL;
     }
-    return *(s32 *)((s8 *)&TObjLiveCameraCtrl__instances + (arg0 * 4));
+    return instances[slot];
 }
 
 TObjLiveCameraCtrl::TObjLiveCameraCtrl(TObject *parent) : TObject(parent) {
-    void *p;
     s32 n;
-    __ct__14SubtractiveRngFv(((Cam_8030BED4 *)this)->f54);
-    ((Cam_8030BED4 *)this)->f0 = TObjLiveCameraCtrl__class_name;
-    n = live_camera_controller_next_slot;
-    *(Cam_8030BED4 **)((s8 *)((u8 *)(&TObjLiveCameraCtrl__instances) + n * 4) + 0) = ((Cam_8030BED4 *)this);
-    live_camera_controller_next_slot = n + 1;
-    ((Cam_8030BED4 *)this)->f4c = n;
-    ((Cam_8030BED4 *)this)->f1c = 0;
-    ((Cam_8030BED4 *)this)->f1e = 0;
-    ((Cam_8030BED4 *)this)->f20 = 1;
-    ((Cam_8030BED4 *)this)->f24 = 0xFFFF;
-    ((Cam_8030BED4 *)this)->f28 = 0;
-    ((Cam_8030BED4 *)this)->f2c = 0;
-    ((Cam_8030BED4 *)this)->f30 = 0.0f;
-    ((Cam_8030BED4 *)this)->f34[0] = 0.0f;
-    ((Cam_8030BED4 *)this)->f34[1] = 0.0f;
-    ((Cam_8030BED4 *)this)->f34[2] = 0.0f;
-    ((Cam_8030BED4 *)this)->f40[0] = 0.0f;
-    ((Cam_8030BED4 *)this)->f40[1] = 0.0f;
-    ((Cam_8030BED4 *)this)->f40[2] = 1.0f;
-    subtractive_rng_seed(((Cam_8030BED4 *)this)->f54, 0);
+    m_name = TObjLiveCameraCtrl__class_name;
+    n = next_slot;
+    instances[n] = this;
+    next_slot = n + 1;
+    slot = n;
+    shot = SHOT_NONE;
+    shot_frames = 0;
+    enabled = 1;
+    target_id = 0xFFFF;
+    orbit_angle = 0;
+    orbit_speed = 0;
+    height_offset = 0.0f;
+    eye.x = 0.0f;
+    eye.y = 0.0f;
+    eye.z = 0.0f;
+    target.x = 0.0f;
+    target.y = 0.0f;
+    target.z = 1.0f;
+    subtractive_rng_seed(&rng, 0);
     if (is_room_enemy_set_cleared(get_current_floor(), 1) == 0) {
-        ((Cam_8030BED4 *)this)->f1c = 5;
-        ((Cam_8030BED4 *)this)->f1e = -1;
-        ((Cam_8030BED4 *)this)->f34[0] = 0.0f;
-        ((Cam_8030BED4 *)this)->f34[1] = 155.0f;
-        ((Cam_8030BED4 *)this)->f34[2] = (-7.1e+02f);
-        ((Cam_8030BED4 *)this)->f40[0] = 0.0f;
-        ((Cam_8030BED4 *)this)->f40[1] = 155.0f;
-        ((Cam_8030BED4 *)this)->f40[2] = (-7.2e+02f);
+        shot = SHOT_OPENING;
+        shot_frames = -1;
+        eye.x = 0.0f;
+        eye.y = 155.0f;
+        eye.z = -710.0f;
+        target.x = 0.0f;
+        target.y = 155.0f;
+        target.z = -720.0f;
     }
-    p = TObject::operator new(0x3C);
-    if (p != 0) {
-        p = fn_800832EC((u8 *)p, (s32)tl_particlemodel, (s32)lbl_804757E0[((Cam_8030BED4 *)this)->f4c], (saddr)(((Cam_8030BED4 *)this)->f34), (saddr)(((Cam_8030BED4 *)this)->f40), 0.5f);
-    }
-    ((Cam_8030BED4 *)this)->f50 = p;
+    view = new TLiveCameraView(tl_particlemodel, live_camera_view_ids[slot], &eye, &target, 0.5f);
 }
 
 TObjLiveCameraCtrl::~TObjLiveCameraCtrl() {
-    ((TObject **)&TObjLiveCameraCtrl__instances)[slot_index] = NULL;
-    if (camera_object != NULL) camera_object->queue_destruction();
+    instances[slot] = NULL;
+    if (view != NULL) view->queue_destruction();
 }
 void TObjLiveCameraCtrl::run_task() {
     update_toggle_state();
     update_live_camera();
     choose_next_camera_shot();
-    if (camera_object != NULL) {
-        ((TCameraCtrl *)camera_object)->copy_position_vectors(vector_34, vector_40);
+    if (view != NULL) {
+        view->set_view(&eye, &target);
     }
 }
 
 
 void TObjLiveCameraCtrl::update_toggle_state() {
-    if ((s32) slot_index >= TBoss8Dragon::get_live_monitor_count()) {
-        if ((s32) pad_20 == 1) {
-            if (camera_object != NULL) {
-                TObjPlayer__sub_80082CBC(camera_object);
+    if (slot >= TBoss8Dragon::get_live_monitor_count()) {
+        if (enabled == 1) {
+            if (view != NULL) {
+                view->disable();
             }
-            pad_20 = 0;
+            enabled = 0;
         }
-    } else if ((s32) pad_20 == 0) {
-        if (camera_object != NULL) {
-            TObjPlayer__sub_80082CCC(camera_object);
+    } else if (enabled == 0) {
+        if (view != NULL) {
+            view->enable();
         }
-        pad_20 = 1;
+        enabled = 1;
     }
 }
 
 #pragma push
 #pragma fp_contract on
 void TObjLiveCameraCtrl::update_live_camera() {
-    u8 *arg0 = (u8 *)this;
-    TBoss8Dragon *boss8_dragon;
-    u8 *player;
-    u8 *temp_r3_2;
-    u8 *enemy_entity;
-    switch (this->pad_1c) {
-    case 1:
-        player = (u8 *)(get_player_by_client_id((s32) *(u16 *)((s8 *)arg0 + 0x24)));
+    TBoss8Dragon *boss;
+    TObjPlayer *player;
+    TObjBase *enemy;
+    switch (shot) {
+    case SHOT_PLAYER_ORBIT:
+        player = get_player_by_client_id(target_id);
         if (player != NULL) {
-            this->vector_34[0] = (f32) ((3e+01f * sin_table_lookup((int) (this->m_28))) + *(f32 *)((s8 *)player + 0x38));
-            this->vector_34[1] = (f32) (*(f32 *)((s8 *)player + 0x3C) + this->pad_30);
-            this->vector_34[2] = (f32) ((3e+01f * cos_table_lookup((int) (this->m_28))) + *(f32 *)((s8 *)player + 0x40));
-            this->vector_40[0] = (f32) *(f32 *)((s8 *)player + 0x38);
-            this->vector_40[1] = (f32) (*(f32 *)((s8 *)player + 0x3C) + this->pad_30);
-            this->vector_40[2] = (f32) *(f32 *)((s8 *)player + 0x40);
-            this->m_28 = (s32) (this->m_28 + this->pad_2c);
+            eye.x = 30.0f * sin_table_lookup(orbit_angle) + player->position.x;
+            eye.y = player->position.y + height_offset;
+            eye.z = 30.0f * cos_table_lookup(orbit_angle) + player->position.z;
+            target.x = player->position.x;
+            target.y = player->position.y + height_offset;
+            target.z = player->position.z;
+            orbit_angle += orbit_speed;
         }
         return;
-    case 2:
-        temp_r3_2 = (u8 *)(get_player_by_client_id((s32) *(u16 *)((s8 *)arg0 + 0x24)));
-        if (temp_r3_2 != NULL) {
-            this->vector_34[0] = (f32) ((45.42f * sin_table_lookup((int) (this->m_28))) + *(f32 *)((s8 *)temp_r3_2 + 0x38));
-            this->vector_34[1] = (f32) (25.43f + *(f32 *)((s8 *)temp_r3_2 + 0x3C));
-            this->vector_34[2] = (f32) ((45.42f * cos_table_lookup((int) (this->m_28))) + *(f32 *)((s8 *)temp_r3_2 + 0x40));
-            this->vector_40[0] = (f32) (((-5.0f) * sin_table_lookup((int) (this->m_28))) + *(f32 *)((s8 *)temp_r3_2 + 0x38));
-            this->vector_40[1] = (f32) (19.8f + *(f32 *)((s8 *)temp_r3_2 + 0x3C));
-            this->vector_40[2] = (f32) (((-5.0f) * cos_table_lookup((int) (this->m_28))) + *(f32 *)((s8 *)temp_r3_2 + 0x40));
-            ((TObjLiveCameraCtrl *)arg0)->sub_8030B818((int)((int) (*(s32 *)((s8 *)temp_r3_2 + 0x60) - 0x8000)));
+    case SHOT_BEHIND_PLAYER:
+        player = get_player_by_client_id(target_id);
+        if (player != NULL) {
+            eye.x = 45.42f * sin_table_lookup(orbit_angle) + player->position.x;
+            eye.y = 25.43f + player->position.y;
+            eye.z = 45.42f * cos_table_lookup(orbit_angle) + player->position.z;
+            target.x = -5.0f * sin_table_lookup(orbit_angle) + player->position.x;
+            target.y = 19.8f + player->position.y;
+            target.z = -5.0f * cos_table_lookup(orbit_angle) + player->position.z;
+            turn_orbit_toward(player->rotation_y - 0x8000);
             return;
         }
         break;
-    case 3:
-        enemy_entity = (u8 *)(get_enemy_entity(*(u16 *)((s8 *)arg0 + 0x24)));
-        if ((enemy_entity != NULL) && (*(f32 *)((s8 *)enemy_entity + 0x3C) >= 0.0f)) {
-            this->vector_34[0] = (f32) ((5e+01f * sin_table_lookup((int) (this->m_28))) + *(f32 *)((s8 *)enemy_entity + 0x38));
-            this->vector_34[1] = (f32) (1.2e+02f + *(f32 *)((s8 *)enemy_entity + 0x3C));
-            this->vector_34[2] = (f32) ((5e+01f * cos_table_lookup((int) (this->m_28))) + *(f32 *)((s8 *)enemy_entity + 0x40));
-            this->vector_40[0] = (f32) (((-1.2e+02f) * sin_table_lookup((int) (this->m_28))) + *(f32 *)((s8 *)enemy_entity + 0x38));
-            this->vector_40[1] = (f32) (2e+01f + *(f32 *)((s8 *)enemy_entity + 0x3C));
-            this->vector_40[2] = (f32) (((-1.2e+02f) * cos_table_lookup((int) (this->m_28))) + *(f32 *)((s8 *)enemy_entity + 0x40));
-            ((TObjLiveCameraCtrl *)arg0)->sub_8030B818((int)((int) (*(s32 *)((s8 *)enemy_entity + 0x60) - 0x8000)));
+    case SHOT_BEHIND_BOSS:
+        enemy = (TObjBase *)get_enemy_entity(target_id);
+        if (enemy != NULL && enemy->position.y >= 0.0f) {
+            eye.x = 50.0f * sin_table_lookup(orbit_angle) + enemy->position.x;
+            eye.y = 120.0f + enemy->position.y;
+            eye.z = 50.0f * cos_table_lookup(orbit_angle) + enemy->position.z;
+            target.x = -120.0f * sin_table_lookup(orbit_angle) + enemy->position.x;
+            target.y = 20.0f + enemy->position.y;
+            target.z = -120.0f * cos_table_lookup(orbit_angle) + enemy->position.z;
+            turn_orbit_toward(enemy->rotation_y - 0x8000);
             return;
         }
         break;
-    case 5:
-        boss8_dragon = TBoss8Dragon::get_part(0);
-        if ((boss8_dragon != NULL) && (boss8_dragon->has_appeared() != 0)) {
-            this->pad_1e = 0;
+    case SHOT_OPENING:
+        boss = TBoss8Dragon::get_part(0);
+        if (boss != NULL && boss->has_appeared() != 0) {
+            shot_frames = 0;
         }
         break;
     }
@@ -243,107 +207,101 @@ void TObjLiveCameraCtrl::update_live_camera() {
 #pragma push
 #pragma fp_contract on
 void TObjLiveCameraCtrl::choose_next_camera_shot() {
-    u8 *arg0 = (u8 *)this;
     f32 r;
-    u8 *p;
-    if (this->pad_1e < 0) {
+    TObjBase *subject;
+    if (shot_frames < 0) {
         return;
     }
-    if (--this->pad_1e > 0) {
+    if (--shot_frames > 0) {
         return;
     }
-    r = calc_random_ratio__10TObjPlayerFv(this->rng);
+    r = calc_random_ratio__10TObjPlayerFv(&rng);
     if (r < 0.3f) {
-        this->pad_1c = 1;
+        shot = SHOT_PLAYER_ORBIT;
     } else if (r < 0.4f) {
-        this->pad_1c = 2;
+        shot = SHOT_BEHIND_PLAYER;
     } else if (r < 0.6f) {
-        this->pad_1c = 3;
+        shot = SHOT_BEHIND_BOSS;
     } else {
-        this->pad_1c = 4;
+        shot = SHOT_ARENA;
     }
-    switch (this->pad_1c) {
-    case 0:
+    switch (shot) {
+    case SHOT_NONE:
         break;
-    case 1:
-        this->pad_1e = 1.8e+02f * (r = calc_random_ratio__10TObjPlayerFv(this->rng), r) + 1.8e+02f;
-        *(u16 *)((s8 *)arg0 + 0x24) = ((int (*)(void *))TBoss8Dragon__sub_8030B80C)(arg0);
-        this->m_28 = 65535.0f * calc_random_ratio__10TObjPlayerFv(this->rng);
-        this->pad_2c = 2.0f * (8e+01f * (calc_random_ratio__10TObjPlayerFv(this->rng) - 0.5f));
-        this->pad_30 = 15.0f * (r = calc_random_ratio__10TObjPlayerFv(this->rng), r) + 5.0f;
+    case SHOT_PLAYER_ORBIT:
+        shot_frames = 180.0f * calc_random_ratio__10TObjPlayerFv(&rng) + 180.0f;
+        target_id = get_player_target();
+        orbit_angle = 65535.0f * calc_random_ratio__10TObjPlayerFv(&rng);
+        orbit_speed = 2.0f * (80.0f * (calc_random_ratio__10TObjPlayerFv(&rng) - 0.5f));
+        height_offset = 15.0f * calc_random_ratio__10TObjPlayerFv(&rng) + 5.0f;
         break;
-    case 2:
-        this->pad_1e = 1.8e+02f * (r = calc_random_ratio__10TObjPlayerFv(this->rng), r) + 1.8e+02f;
-        *(u16 *)((s8 *)arg0 + 0x24) = ((int (*)(void *))TBoss8Dragon__sub_8030B80C)(arg0);
-        p = (u8 *)get_player_by_client_id(*(u16 *)((s8 *)arg0 + 0x24));
-        if (p != NULL) {
-            this->m_28 = *(s32 *)((s8 *)p + 0x60) - 0x8000;
+    case SHOT_BEHIND_PLAYER:
+        shot_frames = 180.0f * calc_random_ratio__10TObjPlayerFv(&rng) + 180.0f;
+        target_id = get_player_target();
+        subject = get_player_by_client_id(target_id);
+        if (subject != NULL) {
+            orbit_angle = subject->rotation_y - 0x8000;
         }
         break;
-    case 3:
-        this->pad_1e = 1.5e+02f * (r = calc_random_ratio__10TObjPlayerFv(this->rng), r) + 1.5e+02f;
-        *(u16 *)((s8 *)arg0 + 0x24) = ((u16 (*)(void *))call_null__12TBoss8DragonFv)(arg0);
-        p = get_enemy_entity(*(u16 *)((s8 *)arg0 + 0x24));
-        if (p != NULL) {
-            this->m_28 = *(s32 *)((s8 *)p + 0x60) - 0x8000;
+    case SHOT_BEHIND_BOSS:
+        shot_frames = 150.0f * calc_random_ratio__10TObjPlayerFv(&rng) + 150.0f;
+        target_id = get_boss_target();
+        subject = (TObjBase *)get_enemy_entity(target_id);
+        if (subject != NULL) {
+            orbit_angle = subject->rotation_y - 0x8000;
         }
         break;
-    case 4:
-        this->pad_1e = 1.2e+02f * (r = calc_random_ratio__10TObjPlayerFv(this->rng), r) + 1.2e+02f;
-        this->m_28 = 65535.0f * calc_random_ratio__10TObjPlayerFv(this->rng);
-        this->vector_34[0] = 3.6e+02f * sin_table_lookup(this->m_28);
-        this->vector_34[1] = 2.5e+02f;
-        this->vector_34[2] = 3.6e+02f * cos_table_lookup(this->m_28);
-        this->vector_40[0] = 0.0f;
-        this->vector_40[1] = 0.0f;
-        this->vector_40[2] = 0.0f;
+    case SHOT_ARENA:
+        shot_frames = 120.0f * calc_random_ratio__10TObjPlayerFv(&rng) + 120.0f;
+        orbit_angle = 65535.0f * calc_random_ratio__10TObjPlayerFv(&rng);
+        eye.x = 360.0f * sin_table_lookup(orbit_angle);
+        eye.y = 250.0f;
+        eye.z = 360.0f * cos_table_lookup(orbit_angle);
+        target.x = 0.0f;
+        target.y = 0.0f;
+        target.z = 0.0f;
         break;
     }
 }
 
 #pragma pop
 
-void TObjLiveCameraCtrl::sub_8030B818(int _w1) {
-  s32 temp_r0;
-  s32 var_r3;
-  s32 new_var;
-  f32 f;
-  new_var = angle_diff_s16(this->m_28);
-  f = (f32) new_var;
-  temp_r0 = (s32) (f *= 0.05f);
-  if (temp_r0 < (-0x280))
-  {
-    var_r3 = -0x280;
-  }
-  else
-  {
-    var_r3 = 0x280;
-    if (temp_r0 < 0x280)
-    {
-      var_r3 = temp_r0;
+void TObjLiveCameraCtrl::turn_orbit_toward(int angle) {
+    f32 diff = angle_diff_s16(orbit_angle, angle);
+    s32 wanted = (diff *= 0.05f);
+    s32 step;
+    if (wanted < -0x280) {
+        step = -0x280;
+    } else {
+        step = 0x280;
+        if (wanted < 0x280) {
+            step = wanted;
+        }
     }
-  }
-  this->m_28 = (s32) ((this->m_28) + var_r3);
+    orbit_angle += step;
 }
 
-int TBoss8Dragon__sub_8030B80C(void) {  return (local_client_id & 0xffff); }
+u16 TObjLiveCameraCtrl::get_player_target() { return local_client_id; }
 
-int call_null__12TBoss8DragonFv(void) { return get_part_entity_id__12TBoss8DragonFl((void*)(0)); }
+u16 TObjLiveCameraCtrl::get_boss_target() { return TBoss8Dragon::get_part_entity_id(0); }
 
-void TObjLiveMonitor::update_camera() { void* m = *(void**)((char*)this + 0x50); if (m) ((TCameraCtrl *)m)->update_single_screen(); }
+void TObjLiveCameraCtrl::load_view_texture() {
+    if (view != NULL) {
+        view->bind_texture();
+    }
+}
 
 void fn_8030B7B8(void) {  }
 
 void fn_8030B7B4(void) {  }
 
-void *TObjLiveCamera__create(void *arg0) {
-    void *o = (void *)new TObjLiveCamera((saddr)tl_05, (saddr)arg0);
-    return o;
+void *TObjLiveCamera::create(void *set_data) {
+    return new TObjLiveCamera((TObject *)tl_05, set_data);
 }
 
-TObjLiveCamera::TObjLiveCamera(saddr parent, saddr set_data) : TObjBase((TObject *)((void *)parent)) {
-    *(saddr *)((s8 *)this + 0) = (saddr) TObjLiveCamera__class_name;
-    ((TObjLiveCamera *)(((u8 *)this)))->apply_object_set_data((void *)set_data);
+TObjLiveCamera::TObjLiveCamera(TObject *parent, void *set_data) : TObjBase(parent) {
+    m_name = TObjLiveCamera__class_name;
+    apply_object_set_data(set_data);
 }
 
 TObjLiveCamera::~TObjLiveCamera() {}
@@ -353,65 +311,55 @@ void TObjLiveCamera::run_task() {  }
 void TObjLiveCamera::render() {  }
 
 void TObjLiveCamera::load_static_resource() {
-    saddr var_r0;
-    var_r0 = (saddr)new BmlResource(5, &bm_obj_boss8_monitor_resource_descriptor, 0, 0, NULL);
-    (*(saddr *)&live_monitor_shared_resource) = var_r0;
+    live_monitor_shared_resource = new BmlResource(5, &bm_obj_boss8_monitor_resource_descriptor, 0, 0, NULL);
 }
 
-void TObjLiveCamera::free_static_resource() { delete (BmlResource *)live_monitor_shared_resource; }
+void TObjLiveCamera::free_static_resource() { delete live_monitor_shared_resource; }
 
-void *TObjLiveMonitor::create(void *arg0) {
-    void *o = TObject::operator new(0x2C);
-    if (o != NULL) {
-        o = ((void *(*)(void *, void *))__ct__15TObjLiveMonitorFv)(o, arg0);
-    }
-    return o;
+void *TObjLiveMonitor::create(TObject *parent) {
+    return new TObjLiveMonitor(parent);
 }
 
-void *__ct__15TObjLiveMonitorFv(void *arg0) {
-    __ct__7TObjectFP7TObject();
-    *(s32 **)((s8 *)arg0 + 0x18) = (s32 *)__vt__15TObjLiveMonitor;
-    *(saddr *)((s8 *)arg0 + 0) = (saddr) TObjLiveMonitor__name;
-    *(s32 *)((s8 *)arg0 + 0x1C) = (saddr)get_bml_model((BmlResource *)live_monitor_shared_resource, 1);
-    *(s32 *)((s8 *)arg0 + 0x20) = (saddr)get_bml_texlist((BmlResource *)live_monitor_shared_resource, 0);
-    *(s32 *)((s8 *)arg0 + 0x24) = 5;
-    ((TObjLiveMonitor *)arg0)->camera_timer = 0;
-    return arg0;
+TObjLiveMonitor::TObjLiveMonitor(TObject *parent) : TObject(parent) {
+    m_name = TObjLiveMonitor__name;
+    model = get_bml_model(live_monitor_shared_resource, 1);
+    texlist = (uaddr)get_bml_texlist(live_monitor_shared_resource, 0);
+    screen = 5;
+    screen_timer = 0;
 }
 
 TObjLiveMonitor::~TObjLiveMonitor() {}
 
 
-int run_task__15TObjLiveMonitorFv(void* p) { return ((int (*)(void *))sub_8030B370__15TObjLiveMonitorFv)(p); }
+void TObjLiveMonitor::run_task() { choose_next_screen(); }
 
-void render__15TObjLiveMonitorFv(TObjLiveMonitor *live_monitor) {
-    saddr table_entry;
-    table_entry = TObjLiveCameraCtrl::get_table_entry(0);
-    if ((table_entry != 0) && (TObjLiveCameraCtrl__is_enabled((void *)table_entry) != 0)) {
-        ((TObjLiveMonitor *)table_entry)->update_camera();
+void TObjLiveMonitor::render() {
+    TObjLiveCameraCtrl *camera = TObjLiveCameraCtrl::get_instance(0);
+    if (camera != NULL && camera->is_enabled() != 0) {
+        camera->load_view_texture();
     } else if (is_split_screen() == 0) {
         TObjPlayer__sub_80084500();
     } else {
-        live_monitor->render_live_monitor_screen();
+        render_live_monitor_screen();
     }
     push_matrix();
-    draw_ginja_object(*(void **)((s8 *)live_monitor + 0x1C));
+    draw_ginja_object(model);
     pop_matrix();
 }
 
 #pragma push
 #pragma fp_contract on
-void TObjLiveMonitor::sub_8030B370() {
+void TObjLiveMonitor::choose_next_screen() {
     f32 r;
-    if (this->camera_timer >= 0) {
-        if (--this->camera_timer <= 0) {
+    if (this->screen_timer >= 0) {
+        if (--this->screen_timer <= 0) {
             if (is_split_screen() != 0) {
-                this->camera_index = (u32)(3.0f * (3.0517578e-05f * (f32)rand()) + 1.0f);
+                this->screen = (u32)(3.0f * (3.0517578e-05f * (f32)rand()) + 1.0f);
             } else {
-                this->camera_index = (u32)(5.0f * (3.0517578e-05f * (f32)rand()));
+                this->screen = (u32)(5.0f * (3.0517578e-05f * (f32)rand()));
             }
             r = 3.0517578e-05f * (f32)rand();
-            this->camera_timer = (s32)(300.0f * r + 300.0f);
+            this->screen_timer = (s32)(300.0f * r + 300.0f);
         }
     }
 }
@@ -419,82 +367,73 @@ void TObjLiveMonitor::sub_8030B370() {
 #pragma pop
 
 int TObjLiveMonitor::render_live_monitor_screen() {
-    saddr e;
-    s32 var_r4;
-    switch (*(s32 *)((s8 *)this + 0x24)) {
+    TObjLiveCameraCtrl *camera;
+    s32 slot;
+    switch (screen) {
     case 0:
-        e = TObjLiveCameraCtrl::get_table_entry(*(s32 *)((s8 *)this + 0x24));
-        if (e != 0 && TObjLiveCameraCtrl__is_enabled((void *)e) != 0) {
-            ((TObjLiveMonitor *)e)->update_camera();
+        camera = TObjLiveCameraCtrl::get_instance(screen);
+        if (camera != NULL && camera->is_enabled() != 0) {
+            camera->load_view_texture();
         } else if (is_split_screen() == 0) {
             TObjPlayer__sub_80084500();
         } else {
-            set_texlist((*(s32 *)((u8 *)this + 0x20)));
+            set_texlist(texlist);
         }
-        var_r4 = 0;
+        slot = 0;
         break;
     case 1:
-        set_texlist((*(s32 *)((u8 *)this + 0x20)));
-        var_r4 = 2 - (((*(u32 *)((u8 *)this + 0x28)) / 3U) % 3);
+        set_texlist(texlist);
+        slot = 2 - ((u32)screen_timer / 3 % 3);
         break;
     case 2:
-        set_texlist((*(s32 *)((u8 *)this + 0x20)));
-        var_r4 = 2 - (((*(u32 *)((u8 *)this + 0x28)) / 90U) % 3);
-        var_r4 += 3;
+        set_texlist(texlist);
+        slot = 2 - ((u32)screen_timer / 90 % 3);
+        slot += 3;
         break;
     case 3:
-        set_texlist((*(s32 *)((u8 *)this + 0x20)));
-        var_r4 = 4 - (((*(u32 *)((u8 *)this + 0x28)) / 3U) % 5);
-        var_r4 += 6;
+        set_texlist(texlist);
+        slot = 4 - ((u32)screen_timer / 3 % 5);
+        slot += 6;
         break;
     case 4:
         if (is_split_screen() == 0) {
             TObjPlayer__sub_80084500();
         }
-        var_r4 = 0;
+        slot = 0;
         break;
     default:
-        return *(s32 *)((s8 *)this + 0x24);
+        return screen;
     }
-    set_ginja_model_texture_slot((*reinterpret_cast<NJS_OBJECT **>((u8 *)this + 0x1C))->model, static_cast<u16>(var_r4));
+    set_ginja_model_texture_slot(model->model, static_cast<u16>(slot));
     push_matrix();
-    ::draw_ginja_model((*reinterpret_cast<NJS_OBJECT **>((u8 *)this + 0x1C))->model);
+    ::draw_ginja_model(model->model);
     return pop_matrix();
 }
 
-s32 TObjLiveMonitorSmall::spawn_for_each_fish() {
-    void *var_r31;
-    void *obj;
-    saddr arg0 = (saddr)this;
+s32 TObjLiveMonitorSmall::spawn_all(TObject *parent) {
+    NJS_OBJECT *node;
 
     if ((s8) TObjLiveMonitorSmall__fish_spawned_flag == 0) {
         live_monitor_small_spawned_flag = 1;
         TObjLiveMonitorSmall__fish_spawned_flag = 1;
     }
-    var_r31 = *(void **)((s8 *)(get_bml_model((BmlResource *)live_monitor_shared_resource, 0)) + 0x2C);
-    while (var_r31 != NULL) {
+    node = get_bml_model(live_monitor_shared_resource, 0)->child;
+    while (node != NULL) {
         if (live_monitor_small_spawned_flag != 0) {
-            obj = TObject::operator new(0x2C);
-            if (obj != NULL) {
-                __ct__20TObjLiveMonitorSmallFv((void *)obj, (void *)arg0, (void *)var_r31);
-            }
+            new TObjLiveMonitorSmall(parent, node);
         }
-        var_r31 = *(void **)((s8 *)var_r31 + 0x30);
+        node = node->sibling;
     }
     return 0;
 }
 
-void *__ct__20TObjLiveMonitorSmallFv(void *live_monitor_small, void *arg1, void *arg2) {
-    __ct__15TObjLiveMonitorFv(live_monitor_small);
-    *(s32 **)((s8 *)live_monitor_small + 0x18) = __vt__20TObjLiveMonitorSmall;
-    ((TObjLiveMonitorSmall *)live_monitor_small)->m_name = TObjLiveMonitorSmall__name;
-    *(void **)((s8 *)live_monitor_small + 0x1C) = arg2;
-    return live_monitor_small;
+TObjLiveMonitorSmall::TObjLiveMonitorSmall(TObject *parent, NJS_OBJECT *model) : TObjLiveMonitor(parent) {
+    m_name = TObjLiveMonitorSmall__name;
+    this->model = model;
 }
 
 TObjLiveMonitorSmall::~TObjLiveMonitorSmall() {}
 
-void TObjLiveMonitorSmall::run_task() { sub_8030B370(); }
+void TObjLiveMonitorSmall::run_task() { choose_next_screen(); }
 
 void TObjLiveMonitorSmall::render() { this->render_live_monitor_screen(); }
-

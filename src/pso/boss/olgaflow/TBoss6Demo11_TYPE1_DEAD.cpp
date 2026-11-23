@@ -13,7 +13,6 @@
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/camera/CameraHelpers.h"
 #include "pso/camera/TCameraCtrl.h"
-#include "pso/camera/TCameraCtrl_800687BC.h"
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/boss/olgaflow/TBoss6Demo11_TYPE1_DEAD.h"
 #include "pso/boss/olgaflow/TBoss6PlotFalz.h"
@@ -77,8 +76,8 @@ TBoss6Demo11_TYPE1_DEAD::TBoss6Demo11_TYPE1_DEAD(TBoss6PlotFalz *plot, const Vec
     node_effect = ModelNodePositionCapture::create(dead_effect_nodes(), effect_points);
     emitter = NULL;
     activate_camera_mode(5);
-    set_scripted_camera_pose(&position, &position, dead_camera_angles());
-    dead_camera_playback()->cache_target_and_forward(0x416C);
+    set_scripted_camera_origin(&position, &position, dead_camera_angles());
+    dead_camera_playback()->play(0x416C);
     frame = 0.0f;
     timer = 0;
 }

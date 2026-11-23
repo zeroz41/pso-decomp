@@ -4,17 +4,16 @@
 #include "pso/object/TObjLiveMonitor.h"
 #include "types.h"
 
+// One of the small monitors around the Gol Dragon arena: a node of the small
+// monitor model, showing the same screens as the big one.
 class TObjLiveMonitorSmall : public TObjLiveMonitor {
 public:
+    TObjLiveMonitorSmall(TObject *parent, NJS_OBJECT *model);
     virtual ~TObjLiveMonitorSmall();
     virtual void run_task();
     virtual void render();
-public:
-    s32 spawn_for_each_fish();
+    // Spawns one under parent for each node of the small monitor model.
+    static s32 spawn_all(TObject *parent);
 };
-
-extern "C" {
-void *__ct__20TObjLiveMonitorSmallFv(void *live_monitor_small, void *arg1, void *arg2);
-}
 
 #endif

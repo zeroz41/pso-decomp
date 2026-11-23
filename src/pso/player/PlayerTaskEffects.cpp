@@ -149,7 +149,6 @@ s32 draw_chunk_object();
 extern u8 shared_effect_texture_list[];
 extern u8 saved_model_draw_color[];
 extern u8 model_material_color[];
-extern void *camera_ctrl_instance;
 extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
 u8 *__ct__18TPlayerLobbyMarkerFP7TObjectsSc(u8 *arg0, u8 *arg1, s16 arg2, s8 arg3);
@@ -178,6 +177,7 @@ LAYOUT_ASSERT(RecoveredGlobal_801C6FF8_lbl_804C4008_size, sizeof(RecoveredGlobal
 #include "pso/item/mag/TItemMag.h"
 #include "pso/player/TForceOperate.h"
 #include "pso/ui/hud/TMainCursor.h"
+#include "pso/ui/hud/TLockOnCursor.h"
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/map/FloorArea.h"
@@ -280,7 +280,6 @@ int TObjPlayer__sub_801C7098(void* p);
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/unk/TLobby.h"
 #include "pso/system/vector.h"
-#include "pso/item/armor/TItemProShield.h"
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/unk/TLobby_801E43E4.h"
 #include "pso/system/byteswap.h"
@@ -288,7 +287,7 @@ int TObjPlayer__sub_801C7098(void* p);
 #include "pso/object/base/TObjChara.h"
 #include "pso/object/base/TObjMotion.h"
 
-#include "pso/camera/TCameraCtrl_8006CC30.h"
+#include "pso/camera/TCameraFollow.h"
 extern s32 chunk_polygon_flags_and_mask;
 extern s32 chunk_polygon_flags_or_mask;
 
@@ -547,7 +546,7 @@ void TPlayerLobbyMarker::render() {
         TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(shared_effect_texture_list));
         model_render_flags |= 0x11;
         translate_matrix_vec3(0, TObjPlayer__sub_801BF914(temp_r3 + 0x84C));
-        rotate_matrix_y(0, *(s32 *)((s8 *)camera_ctrl_instance + 0x194) + rotation);
+        rotate_matrix_y(0, camera_ctrl_instance->yaw + rotation);
         scale_matrix(0, 1.3f, 1.3f, 1.3f);
         set_constant_material(&player_lobby_marker_color_table[get_material_index()]);
         TMainCursor::get_cursor_state();
@@ -956,7 +955,7 @@ void set_params__10TObjPlayerFPvPvPviPv(void *arg0, void *arg1, void *stats, sad
 
 void init_shield_params(void *out, void *player, void *stats, saddr level, void *extra) {
     set_params__10TObjPlayerFPvPvPviPv(out, player, stats, level, extra);
-    *(s16 *)((s8 *)out + 0x16) = ((TItemProShield *)player)->get_field_2b8();
+    *(s16 *)((s8 *)out + 0x16) = ((TObjChara *)player)->get_hpmax();
     *(s16 *)((s8 *)out + 0x18) = obj_getS16_2BA((u8 *)player);
 }
 
@@ -1120,7 +1119,7 @@ void TForceOperate::run_task() {
     if (TObjPlayer__sub_801C6DAC((u8 *)&m_1c) != 0) {
         temp_r31 = (void *)((TMainCursor *)(&m_1c))->get_state();
         if ((((TObjPlayer *)temp_r31)->is_target_valid() != 0) && (((TObjPlayer *)temp_r31)->has_action_palette_entry() != 0)) {
-            ((TMainCursor *)(((TObjPlayer *)temp_r31)->m_424 + 0x4F8))->get_id();
+            ((TMainCursor *)&((TObjPlayer *)temp_r31)->lock_on_cursor->selection.target)->get_id();
             entity = find_entity_by_id();
             if (entity != NULL) {
                 ((VObj_801C57D0 *)entity)->m11(get_entity_id((saddr)temp_r31));

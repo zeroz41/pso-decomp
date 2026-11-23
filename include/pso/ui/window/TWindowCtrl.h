@@ -14,6 +14,7 @@ struct TWindowSimpleStatus;
 struct TWindowCtrl : public TObject {
     TWindowCtrl(TObject *parent);
     virtual ~TWindowCtrl();
+    static TWindowCtrl *instance;
     u16 flags;
     u16 m_1e;
     u16 m_20;
@@ -40,7 +41,6 @@ struct TWindowCtrl : public TObject {
     virtual void run_task();
     virtual void render();
     static s32 get_flag_bit3();
-    int is_player_flag_4000_set();
     static s32 is_map_visible();
     static void clear_flag_2();
     static void set_close_flag();
@@ -131,8 +131,6 @@ struct TWindowCtrl : public TObject {
 
 LAYOUT_ASSERT(WindowCtrlTradeRequestOffset, offsetof(TWindowCtrl, trade_request) == 0x40);
 LAYOUT_ASSERT(TWindowCtrl_size, sizeof(TWindowCtrl) == 0xE8);
-
-extern TWindowCtrl *TWindowCtrl__active_window;
 
 
 #endif

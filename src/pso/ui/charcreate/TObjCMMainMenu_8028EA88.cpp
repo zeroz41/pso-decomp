@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/system/task/TMainTask.h"
 #include "pso/player/TPlyCharData.h"
 #include "pso/ui/window/TWindowCtrlMain.h"
 #include "pso/ui/keyboard/TKeyBoardControl_80131C58.h"
@@ -30,11 +31,8 @@ CharacterCreationEffects lbl_8051C070;
 char character_creation_name_buffer[0x18];
 CharacterAppearanceFields character_creation_visual_record;
 extern "C" {
-u8 *TCameraCtrl__ct(u8 *arg0, void *parent);
 }
 extern u8 default_scene_light_config[];
-extern saddr tl_camera;
-extern saddr tl_03;
 BmlResource *creation_menu_main_obj;
 int creation_dressing_room_mode_flag;
 extern s32 TObjCMMainMenu__data_805D659C;
@@ -44,10 +42,7 @@ void init_creation_menu_scene(void) {
     init_menu_scene_lights(default_scene_light_config, 4);
     TCameraCtrl::reset_view_state();
     TCameraCtrl::init_default_view();
-    p = TObject::operator new(0x1D4);
-    if (p != NULL) {
-        TCameraCtrl__ct((u8 *)p, (void *)tl_camera);
-    }
+    new TCameraCtrl(tl_camera);
     TCameraCtrl::select_active_controller(8);
     begin_creation_view();
     register_texture_f256_ad_pic_2();
@@ -68,13 +63,13 @@ void init_creation_menu_scene(void) {
             TObjCMMainMenu__sub_8028EC34();
             TObjCMMainMenu__sub_8028EC24();
             TObjCMMainMenu__sub_8028D9F8();
-            TChCrCharSelect::init_and_create((TObject *)tl_03);
+            TChCrCharSelect::init_and_create(tl_03);
             TObjCMMainMenu::create_fade_effect((void *)0xF, (void *)1);
         } else {
             TObjCMMainMenu__sub_8028EC18();
             TObjCMMainMenu::select_char_menu();
             TObjCMMainMenu__sub_8028D9F8();
-            TCharaMaking::create((void *)tl_03, (void *)&get_char_index__23TAdSinglePlyChrSelectGCFUi(0xFFFF)->m_disp_part2);
+            TCharaMaking::create(tl_03, (void *)&get_char_index__23TAdSinglePlyChrSelectGCFUi(0xFFFF)->m_disp_part2);
             TObjCMMainMenu::create_fade_effect((void *)0xF, (void *)1);
         }
     }

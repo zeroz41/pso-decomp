@@ -30,7 +30,7 @@ void set_camera_capture_flags_bit2(void);
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 #include "pso/object/ambient/TObjFish.h"
-#include "pso/camera/TCameraCtrl_801A6E60.h"
+#include "pso/system/ControllerInput.h"
 
 struct Stack_80082C30 {
     f32 sp8;
@@ -116,31 +116,22 @@ Vec shadow_light_position = {0.0f, 0.0f, 0.0f};
 extern "C" {
 extern s32 lbl_805D63F0;
 void TObjPlayer__sub_80082C30(void);
-extern u8 controller_physical_port_bank[];
 }
 
-#include "pso/camera/TCameraCtrl_80082FCC.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/unk/TUnk_8048E5DC.h"
+#include "pso/camera/TLiveCameraView.h"
 #include <stddef.h>
 #include "pso/camera/TCameraCtrl.h"
-
-struct G_80082FCC { s32 value; s32 v4; f32 f8; f32 fC; };
+#include "pso/camera/CameraViewParams.h"
+#include "pso/camera/CameraHelpers.h"
+#include "pso/render/GinjaView.h"
 
 extern "C" {
-s32 TCameraCtrl__sub_80068EF0();
 s32 GXSetZMode(int, int, int);
 }
-void direction_to_pitch_yaw(u8 *arg0, s32 *arg1, s32 *arg2);
-void set_perspective_projection_from_fov(s32 arg0, f32 farg0, f32 farg1, f32 farg2);
-void set_camera_look_at(u8 *eye, u8 *target, u8 *up);
-extern u8 *camera_ctrl_instance;
 extern uaddr camera_render_target_singleton;
-extern G_80082FCC TCameraCtrl__data_804FF634;
 void load_list_texture(s32 idx, s32 wrapS, s32 wrapT, s32 map);
-extern s32 __vt__13TUnk_8048E5DC[];
 
-#include "pso/unk/text_800832EC.h"
 #include "pso/player/TObjPlayer_80083B38.h"
 #include "pso/player/TObjPlayer_800847A8.h"
 #include "pso/system/memory.h"
@@ -170,12 +161,6 @@ void set_ginja_post_tev_stage_count(s32 x);
 struct Rect_80083F38 { u8 data[0x20]; };
 struct Rect_800846C8 { u8 data[0x20]; };
 
-struct View_80083D54 {
-    u8 pad0[0x178];
-    Vec pos;
-    Vec target;
-};
-
 extern "C" {
 void translate_current_matrix_ps(f32, f32, f32);
 void rotate_current_matrix_x_ps(s32);
@@ -189,7 +174,6 @@ struct Stack_800836E8 {
 };
 
 extern "C" {
-s32 TCameraCtrl__sub_800689F4();
 s32 rotate_matrix_y(int, void *);
 s32 GXSetTevOp(s32, s32);
 s32 GXSetTevOrder(s32, s32, s32, s32);
@@ -258,12 +242,9 @@ void set_ginja_draw_flags(s32 arg0);
 void set_light_ambient_color(f32 r, f32 g, f32 b);
 void submit_light0(s32 arg0, s32 arg1);
 void load_gx_light_slot(s32 arg0);
-extern s32 scene_projection_state[];
 extern u8 *active_gx_render_mode;
 void capture_viewport_texture(void);
 void setup_blended_textured_draw(void);
-
-#define VIEW ((View_80083D54 *)camera_ctrl_instance)
 
 extern "C" {
 s32 GXSetTexCoordGen2(s32 a0 = 0, s32 a1 = 0, s32 a2 = 0, s32 a3 = 0, s32 a4 = 0, s32 a5 = 0);
@@ -555,14 +536,14 @@ void begin_shadow_map_pass(void) {
     if (camera_ctrl_instance == 0) {
         return;
     }
-    d.x = VIEW->target.x - VIEW->pos.x;
-    d.y = VIEW->target.y - VIEW->pos.y;
-    d.z = VIEW->target.z - VIEW->pos.z;
+    d.x = camera_ctrl_instance->tgt.x - camera_ctrl_instance->pos.x;
+    d.y = camera_ctrl_instance->tgt.y - camera_ctrl_instance->pos.y;
+    d.z = camera_ctrl_instance->tgt.z - camera_ctrl_instance->pos.z;
     if (0.0f != vec_squared_length(&d)) {
         normalize_vector(&d);
-        shadow_light_position.x = VIEW->pos.x + 0.4f * (256.0f * d.x);
-        shadow_light_position.y = VIEW->pos.y;
-        shadow_light_position.z = VIEW->pos.z + 0.4f * (256.0f * d.z);
+        shadow_light_position.x = camera_ctrl_instance->pos.x + 0.4f * (256.0f * d.x);
+        shadow_light_position.y = camera_ctrl_instance->pos.y;
+        shadow_light_position.z = camera_ctrl_instance->pos.z + 0.4f * (256.0f * d.z);
     } else {
         shadow_light_position.x = 0.0f;
         shadow_light_position.y = 0.0f;
@@ -585,9 +566,8 @@ void begin_shadow_map_pass(void) {
     set_ginja_draw_flags(2);
 }
 
-#undef VIEW
 s32 is_in_shadow_range(u8 *radius, f32 farg0) {
-    if (((uaddr) camera_ctrl_instance != 0U) && (((farg0 * farg0) + horizontal_distance_squared((const Vec *)radius, &shadow_light_position)) <= 8537.761f)) {
+    if ((camera_ctrl_instance != NULL) && (((farg0 * farg0) + horizontal_distance_squared((const Vec *)radius, &shadow_light_position)) <= 8537.761f)) {
         return 1;
     }
     return 0;
@@ -595,7 +575,7 @@ s32 is_in_shadow_range(u8 *radius, f32 farg0) {
 
 void end_shadow_map_pass() {
     u8 *temp_r31;
-    if ((is_split_screen() == 0) && (TObjPlayer::check_all_players_ready() != 0) && ((uaddr) camera_ctrl_instance != 0U)) {
+    if ((is_split_screen() == 0) && (TObjPlayer::check_all_players_ready() != 0) && (camera_ctrl_instance != NULL)) {
         pop_matrix();
         pop_matrix();
         GXColor_80083B8C c = {0, 0, 0, 0};
@@ -610,12 +590,12 @@ void end_shadow_map_pass() {
         GXSetCopyFilter((int) (*(u8 *)((s8 *)temp_r31 + 0x19)), temp_r31 + 0x1A, (int) (get_display_copy_filter()), temp_r31 + 0x32);
         GXSetViewport(0.0f, 0.0f, 640.0f, 480.0f, 0.0f, 1.0f);
         GXSetScissor(0, 0, 0x280, 0x1E0);
-        GXSetProjection(scene_projection_state, 0);
+        GXSetProjection(scene_projection_state.matrix, 0);
         set_light_ambient_color(0.3f, 0.3f, 0.3f);
         submit_light0(0, 1);
         load_gx_light_slot(0);
         set_ginja_draw_flags(0);
-        TCameraCtrl__sub_80068EF0();
+        TCameraCtrl::restore_saved_view();
     }
 }
 
@@ -633,8 +613,8 @@ f32 calc_camera_fov_degrees(void) {
     f32 var_f1;
     s32 temp_r31;
     var_f1 = 11832.0f;
-    if ((void *) camera_ctrl_instance != NULL) {
-        temp_f2 = (f32) (*(s32 *)((s8 *)camera_ctrl_instance + 0x19C));
+    if (camera_ctrl_instance != NULL) {
+        temp_f2 = (f32)camera_ctrl_instance->fov;
         temp_f2 *= 0.85f;
         temp_r31 = (s32) (temp_f2 / 2.0f);
         temp_f31 = cos_table_lookup(temp_r31);
@@ -695,7 +675,7 @@ void load_projection_tex_matrix(saddr rotation_y) {
         push_matrix();
         rotate_matrix_y(0, (void *)rotation_y);
         temp_f31 = (f32) (0.0054931640625 * calc_camera_fov_degrees());
-        if (TCameraCtrl__sub_800689F4() != 0) {
+        if (TCameraCtrl::is_view_offset() != 0) {
             C_MTXLightPerspective(sp10, temp_f31, 1.1333334f, 0.5f, -0.5f, (f32) (0.5f - spC), (f32) (0.5f - sp8));
         } else {
             C_MTXLightPerspective(sp10, temp_f31, 1.1333334f, 0.5f, -0.5f, 0.5f, 0.5f);
@@ -717,7 +697,7 @@ void load_projected_texture_matrix(f32 aspect) {
         calc_projection_screen_offset(&stack.spC, &stack.sp8);
         push_matrix();
         temp_f31 = (f32) (0.0054931640625 * calc_camera_fov_degrees());
-        if (TCameraCtrl__sub_800689F4() != 0) {
+        if (TCameraCtrl::is_view_offset() != 0) {
             C_MTXLightPerspective(stack.sp10, temp_f31, aspect, 0.5f, -0.5f, (f32) (0.5f - stack.spC), (f32) (0.5f - stack.sp8));
         } else {
             C_MTXLightPerspective(stack.sp10, temp_f31, aspect, 0.5f, -0.5f, 0.5f, 0.5f);
@@ -790,7 +770,7 @@ void TUnk_8048E5F4::render() {
                 TParticleCtrl::begin_effect_render();
                 TObjPlayer::draw_screen_quad(camera_capture_overlay_alpha << 0x18, 0, 0.0f);
                 TParticleCtrl::end_effect_render();
-                TCameraCtrl__sub_80068EF0();
+                TCameraCtrl::restore_saved_view();
                 disable_camera_capture_overlay();
             }
         } else {
@@ -826,37 +806,34 @@ void TObjPlayer::free_singleton() {
     }
 }
 
-u8 *fn_800832EC(u8 *arg0, saddr parent, s32 arg2, saddr arg3, saddr arg4, f32 farg0) {
-    __ct__7TObjectFP7TObject((void *)arg0, (void *)parent);
-    *(s32 **)((s8 *)arg0 + 0x18) = __vt__13TUnk_8048E5DC;
-    ((TUnk_8048E5DC *)arg0)->m_38 = farg0;
-    VecCopy((Vec *)(arg0 + 0x20), (const Vec *)(arg3));
-    VecCopy((Vec *)(arg0 + 0x2C), (const Vec *)(arg4));
-    *(s8 *)((s8 *)arg0 + 0x1C) = 0;
-    return arg0;
+TLiveCameraView::TLiveCameraView(TObject *parent, s32 id, const Vec *eye, const Vec *target, f32 value)
+    : TObject(parent) {
+    pad_38 = value;
+    VecCopy(&this->eye, eye);
+    VecCopy(&this->target, target);
+    flags = 0;
 }
 
-TUnk_8048E5DC::~TUnk_8048E5DC() {}
+TLiveCameraView::~TLiveCameraView() {}
 
 #pragma push
 #pragma opt_common_subs off
-void TUnk_8048E5DC::render_shadows() {
-    u8 *arg0 = (u8 *)this;
+void TLiveCameraView::render_shadows() {
     if (is_split_screen() == 0) {
         TCameraCtrl::restore_full_screen_view();
         GXSetViewport(0.0f, 0.0f, 640.0f, 480.0f, 0.0f, 1.0f);
         GXSetScissor(0, 0, 0x280, 0x1E0);
         Vec up = {0.0f, 1.0f, 0.0f};
-        set_perspective_projection_from_fov((((TCameraCtrl *)camera_ctrl_instance)->fov), 1.1333334f, 1.0f, 21000.0f);
-        set_camera_look_at((u8 *)&this->m_20, (u8 *)&this->unk_2C, (u8 *)&up);
-        if ((void *) camera_ctrl_instance != NULL) {
+        set_perspective_projection_from_fov((camera_ctrl_instance->fov), 1.1333334f, 1.0f, 21000.0f);
+        set_camera_look_at(&eye, &target, &up);
+        if (camera_ctrl_instance != NULL) {
             Vec dir;
             s32 pitch;
             s32 yaw;
-            dir.x = *(f32 *)&this->unk_2C - this->m_20;
-            dir.y = this->m_30 - *(f32 *)&this->unk_24;
-            dir.z = *(f32 *)((s8 *)arg0 + 0x34) - this->m_28;
-            direction_to_pitch_yaw((u8 *)&dir, &pitch, &yaw);
+            dir.x = target.x - eye.x;
+            dir.y = target.y - eye.y;
+            dir.z = target.z - eye.z;
+            direction_to_pitch_yaw(&dir, &pitch, &yaw);
             TCameraCtrl::calc_axes_from_angles((saddr)camera_ctrl_instance, pitch, yaw);
         }
         set_camera_capture_flags_bit2();
@@ -873,32 +850,32 @@ void TUnk_8048E5DC::render_shadows() {
         }
         GXSetViewport(0.0f, 0.0f, 640.0f, 480.0f, 0.0f, 1.0f);
         GXSetScissor(0, 0, 0x280, 0x1E0);
-        TCameraCtrl__sub_80068EF0();
-        ((TCameraCtrl *)camera_ctrl_instance)->calc_rotated_axes();
-        ((TCameraCtrl *)camera_ctrl_instance)->setup_default_view(0);
+        TCameraCtrl::restore_saved_view();
+        camera_ctrl_instance->calc_rotated_axes();
+        camera_ctrl_instance->setup_default_view(0);
     }
 }
 
 #pragma pop
-void TUnk_8048E5DC::run_task() {  }
+void TLiveCameraView::run_task() {}
 
-void TUnk_8048E5DC::render() {  }
+void TLiveCameraView::render() {}
 
-void TCameraCtrl::update_single_screen() {
+void TLiveCameraView::bind_texture() {
     if ((is_split_screen() == 0) && ((u32) camera_render_target_singleton != 0U)) {
         TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(camera_render_target_singleton + 0x1C));
         load_list_texture(0, 0, 0, 0);
     }
 }
 
-void TCameraCtrl::copy_position_vectors(void *first, void *second) {
-    VecCopy((Vec *)((char *)this + 32), (const Vec *)first);
-    VecCopy((Vec *)((char *)this + 44), (const Vec *)second);
+void TLiveCameraView::set_view(const Vec *eye, const Vec *target) {
+    VecCopy(&this->eye, eye);
+    VecCopy(&this->target, target);
 }
 
 void calc_projection_screen_offset(f32 *arg0, f32 *arg1) {
-    f32 dx = TCameraCtrl__data_804FF634.f8;
-    f32 y = TCameraCtrl__data_804FF634.fC;
+    f32 dx = TCameraCtrl::view_params.screen.projection.center_x;
+    f32 y = TCameraCtrl::view_params.screen.projection.center_y;
     f32 dy;
     dx -= 320.0f;
     dy = y - 240.0f;
@@ -927,7 +904,7 @@ void TObjPlayer::copy_screen_to_texture(s32 mode, void *src) {
         GXSetTexCopyDst(0x100, 0xC0, 4, 0);
         GXCopyTex(shared_capture_texture_list.entries->texture->surface->pixels, 1);
         GXPixModeSync();
-        cam = controller_physical_port_bank + 0x110;
+        cam = &controller_physical_port_bank.controllers[3];
         a.x = 192.0f;
         a.y = 144.0f;
         b.x = 256.0f;
@@ -952,7 +929,7 @@ void TObjPlayer::copy_screen_to_texture(s32 mode, void *src) {
         GXSetTexCopyDst(0x280, 0x1E0, 4, 0);
         GXCopyTex(shared_capture_texture_list.entries->texture->surface->pixels, 1);
         GXPixModeSync();
-        cam = controller_physical_port_bank + 0x110;
+        cam = &controller_physical_port_bank.controllers[3];
         a.x = 192.0f;
         a.y = 144.0f;
         b.x = 256.0f;
@@ -973,13 +950,9 @@ void TObjPlayer::copy_screen_to_texture(s32 mode, void *src) {
     }
 }
 
-extern "C" void TObjPlayer__sub_80082CCC(void* effect) {
-    *(reinterpret_cast<u8*>(effect) + 0x1C) &= ~0x4;
-}
+void TLiveCameraView::enable() { flags &= ~4; }
 
-extern "C" void TObjPlayer__sub_80082CBC(void* effect) {
-    *(reinterpret_cast<u8*>(effect) + 0x1C) |= 0x4;
-}
+void TLiveCameraView::disable() { flags |= 4; }
 
 #pragma push
 #pragma opt_common_subs off

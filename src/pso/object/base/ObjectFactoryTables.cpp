@@ -123,6 +123,7 @@
 #include "pso/object/warp/TObjWarpBoss03.h"
 #include "pso/object/lobby/TObjWeddingLobby.h"
 #include "pso/player/TObjPlayerSet.h"
+#include "pso/camera/TObjLiveCamera.h"
 
 extern "C" {
 void* TEF_LensFlare__create(void* placement);
@@ -255,7 +256,6 @@ void* create__17TOTrapChainSawKeyFv(void* placement);
 void* create__20TOTrapChainSawDamageFv(void* placement);
 void* alloc_and_init__18TObjAreaWarpForestFv(void* placement);
 void* TOJungleDesign__create(void* placement);
-void* TObjLiveCamera__create(void* placement);
 void* TObjButterflyLobby__create(void* placement);
 void* create_instance__18TObjLaboDesignBaseFPv(void* placement);
 void* TObjLaboDesignBase__sub_80364D38(void* placement);
@@ -2104,7 +2104,7 @@ ObjectFactoryEntry object_factories_floor_33[20] = {
     { 0x0018, TObjFogCollisionSwitch__create, 250000.0f, 0 },
     { 0x0161, create__28TOContainerAncientItemCommonFv, 250000.0f, 0 },
     { 0x0162, TOContainerAncientItemRare__create, 250000.0f, 0 },
-    { 0x02A0, TObjLiveCamera__create, 250000.0f, 0 },
+    { 0x02A0, TObjLiveCamera::create, 250000.0f, 0 },
     { 0x0027, TObjRaderIcon__create, 250000.0f, 0 },
     { 0x0229, TOCapsuleLabo::create, 250000.0f, 0 },
     { 0x0024, TOSwitchAttack::create, 250000.0f, 0 },

@@ -7,6 +7,7 @@ extern "C" void get_render_mode_for_tv_format(GXRenderModeObj_803DD430 *rmode, G
 
 #include "types.h"
 #include "pso/render/ModelDrawContext.h"
+#include "pso/render/GinjaView.h"
 #include "pso/unk/text_803DCDFC.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
@@ -228,49 +229,30 @@ void fn_803DD294(void) {
 
 typedef struct { u8 pad[0x28]; } Elem_803DD300;
 
-typedef struct {
-    f32 a;
-    f32 b;
-    f32 pad8[2];
-    f32 e;
-    f32 f;
-    f32 g;
-    f32 h;
-    f32 i;
-    f32 j;
-} Cam_803DD300;
-
-typedef struct {
-    f32 a;
-    f32 b;
-} Pair_803DD300;
-
 void init_render_context(Elem_803DD300 *);
 extern Elem_803DD300 render_contexts[6];
-extern f32 camera_clip_parameters[];
-extern Cam_803DD300 lbl_8058D4F8;
 extern s32 motion_node_draw_callback;
 extern f32 lbl_805D777C;
 extern s32 model_render_flags;
-
+}
 
 void TKeyBoardControl::update_camera() {
-    TCameraCtrl::init_projection_state();
+    init_projection_state();
 }
 
 
-void TCameraCtrl::init_projection_state() {
+void init_projection_state() {
     s32 i;
-    Cam_803DD300 *c = &lbl_8058D4F8;
+    ScreenProjection *c = &screen_projection;
 
-    c->h = 1.0f;
-    c->i = 1.0f;
-    c->j = 1.0f;
-    c->g = 500.0f;
-    c->a = c->h * c->g;
-    c->b = -c->a;
-    c->e = 1.0f / c->a;
-    c->f = 1.0f / c->b;
+    c->width = 1.0f;
+    c->height = 1.0f;
+    c->aspect = 1.0f;
+    c->distance = 500.0f;
+    c->scale_x = c->width * c->distance;
+    c->scale_y = -c->scale_x;
+    c->inv_scale_x = 1.0f / c->scale_x;
+    c->inv_scale_y = 1.0f / c->scale_y;
     camera_clip_parameters[0] = 60000.0f;
     camera_clip_parameters[1] = 1.0f;
     model_render_flags = 0;
@@ -281,7 +263,6 @@ void TCameraCtrl::init_projection_state() {
         init_render_context(&render_contexts[i]);
     }
     select_render_context(0);
-}
 }
 
 
@@ -376,6 +357,6 @@ s32 lbl_8058D470[8];
 Mtx34 identity_matrix;
 NJS_ARGB model_material_color;
 f32 camera_clip_parameters[10];
-Cam_803DD300 lbl_8058D4F8;
+ScreenProjection screen_projection;
 
 u32 lbl_8058D520[2];

@@ -5,7 +5,7 @@
 #include "types.h"
 #include "pso/render/Draw2D.h"
 #include "pso/unk/text_800F7DAC.h"
-#include "pso/camera/TCameraCtrl_803D6538.h"
+#include "pso/render/GinjaView.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/unk/TLobby_800F8AA8.h"
 #include "pso/network/TPlyJoinLobbyEntry.h"
@@ -816,20 +816,18 @@ void TLobby::reset_keyboard_state() { area_transfer_pending_flag = 0; TKeyBoardC
 
 void TLobby__sub_800F8AD0(void) {
     if ((u32) main_phase_deferred_callback != 0U) {
-        (*(s8 *)&area_transfer_pending_flag) = 1;
+        area_transfer_pending_flag = 1;
     }
 }
-
-bool is_area_transfer_pending(void) {
-    return (*(u8 *)&(*(s8 *)&area_transfer_pending_flag)) != 0;
 }
+
+s32 is_area_transfer_pending() { return area_transfer_pending_flag ? 1 : 0; }
 
 void TLobby::clear_callback_and_reset_keyboard() { TLobby::set_keyboard_mode(0); TKeyBoardControl::reset(); }
 
-int is_quest_active(void);
 #define main_phase_deferred_callback (*(s32 (**)())&main_phase_deferred_callback)
 
-void apply_phase_keyboard_mode(void) {
+void apply_phase_keyboard_mode() {
     switch (get_main_phase()) {
     case 15:
         if (is_quest_active() != 0) {
@@ -855,6 +853,7 @@ void apply_phase_keyboard_mode(void) {
     }
 }
 
+extern "C" {
 void TLobby__sub_800F8BD8(void) { TKeyBoardControl::reset(); TKeyBoardControl__sub_8000F92C(); }
 
 void TLobby::invoke_callback() {
@@ -1000,7 +999,6 @@ typedef struct {
 } Desc_800F8FB8;
 
 s32 DVDGetDriveStatus(void);
-void TCameraCtrl__sub_80068EF0(void);
 
 s8 func_801A5E54__Fv(void);
 s32 DVDCheckDisk(void);
@@ -1118,7 +1116,7 @@ s32 TLobby::run_disk_error_check() {
         break;
     }
     restore_saved_depth_alpha_state();
-    TCameraCtrl__sub_80068EF0();
+    TCameraCtrl::restore_saved_view();
     if (status == 4 || status == 5 || status == 6 || status == -1 || status == 11) {
         return 0;
     }

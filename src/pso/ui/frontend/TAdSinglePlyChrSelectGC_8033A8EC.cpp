@@ -30,6 +30,7 @@
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/window/TWindowSubComCardList.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/effect/particle/TParticleCtrl.h"
 
 struct RecoveredGlobal_8033B264_lbl_804EF728 {
     s32 value;
@@ -79,8 +80,6 @@ void check_ready__23TAdSinglePlyChrSelectGCFv(void);
 
 s32 TKeyBoardControl__sub_8000F92C();
 s32 request_main_phase(int);
-s32 set_active_camera_pose(void *, void *);
-s32 activate_camera_mode(int);
 s8 func_801A5E54__Fv();
 s32 run_save_load_sequence__23TAdSinglePlyChrSelectGCFv();
 }
@@ -89,10 +88,8 @@ void update_sound_request_slots(void);
 extern "C" {
 s32 func_803DCDFC__Fv();
 s32 TKeyBoardControl__sub_8000F90C(int);
-s32 TCameraCtrl__ct(u32, TObject *);
 s32 run_load_callback_table(void *, int);
 s32 reset_controller_input_state();
-s32 set_copy_clear_color_argb(int, int, int);
 s32 __ct__15TWindowCtrlMainFv(u32);
 extern u8 default_scene_light_config[];
 
@@ -443,10 +440,7 @@ void init_single_player_char_select_scene(void) {
     reset_controller_input_state();
     run_load_callback_table(&(*(RecoveredGlobal_8033B264_lbl_804EF728 *)&character_select_scene_resource_callbacks), 0x30);
     init_menu_scene_lights(default_scene_light_config, 4);
-    p = (uaddr)TObject::operator new(0x1D4);
-    if (p != 0) {
-        TCameraCtrl__ct(p, tl_camera);
-    }
+    new TCameraCtrl(tl_camera);
     Vec a = lbl_80477D60;
     Vec b = lbl_80477D6C;
     TCameraCtrl::select_active_controller(9);
@@ -500,9 +494,8 @@ extern char pso_system_card_filename[];
 extern "C" void TWindowCtrlMain__sub_8024D838();
 extern "C" void register_texture_f256_ad_pic_2();
 extern "C" void register_texture_f256_backtext();
-extern "C" void reset__11TCameraCtrlFv();
 void *character_select_scene_resource_callbacks[12] = {
-    (void *)&TCameraCtrl::reset_view_state, (void *)&reset__11TCameraCtrlFv, (void *)&TCameraCtrl::init_default_view, (void *)&TCameraCtrl::reset_default_view,
+    (void *)&TCameraCtrl::reset_view_state, (void *)&TCameraCtrl::reset, (void *)&TCameraCtrl::init_default_view, (void *)&TCameraCtrl::reset_default_view,
     (void *)&register_texture_f256_ad_pic_2, (void *)&TAdSinglePlyChrSelectGC::free_global, (void *)&register_texture_f256_backtext, (void *)&TAdSinglePlyChrSelectGC::free_singleton_805D65C0,
     (void *)&TWindowCtrlMain__sub_8024D838, (void *)&TWindowCtrlMain::free_all_windows, (void *)&TLobby::update_keyboard_menu, (void *)&TLobby::free_keyboard_soft_resources,
 };

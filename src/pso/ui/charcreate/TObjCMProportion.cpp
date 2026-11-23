@@ -6,7 +6,7 @@
 #include "pso/ui/charcreate/TChCrCharSelect.h"
 #include "pso/unk/text_802993F0.h"
 #include "pso/unk/text_80299420.h"
-#include "pso/ui/hud/TLoadingCur_801A6DE0.h"
+#include "pso/system/ControllerInput.h"
 #include "pso/player/TObjPlayer_80011014.h"
 __declspec(section ".rodata") CreationInputState lbl_80465150 = { 0 };
 

@@ -8,7 +8,7 @@
 
 #include "types.h"
 #include "pso/item/TItem.h"
-#include "pso/item/armor/TItemProShield.h"
+#include "pso/object/base/TObjChara.h"
 #include "pso/ui/hud/TLockOnCursor.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/player/TObjPlayer.h"
@@ -127,8 +127,8 @@ void send_star_atomizer_targets(TObjPlayer *player) {
     G_UseStarAtomizer_6x66 cmd;
     TUnk_8013EFB8 *slot;
     s32 i;
-    if (player != NULL && ((TObjPlayer *)player)->sub_801A1DDC() != 0 && (TLockOnCursor *)player->m_424 != NULL) {
-        slot = ((TLockOnCursor *)player->m_424)->find_by_pos(4, 0xA);
+    if (player != NULL && ((TObjPlayer *)player)->sub_801A1DDC() != 0 && player->lock_on_cursor != NULL) {
+        slot = player->lock_on_cursor->find_by_pos(4, 0xA);
         if (slot != NULL) {
             ((TObjPlayer *)&cmd)->set_type_bytes();
             cmd.target_client_ids[0] = get_entity_id(player);
@@ -177,7 +177,7 @@ void handle_6x66_use_star_atomizer(u8 *arg0) {
             target = (TObjPlayer *)get_player_by_client_id(cmd->target_client_ids[i]);
             if (target != NULL && target->has_flag_0x800() == 0) {
                 if (user->get_floor() == target->get_floor()) {
-                    target->set_hp_clamped(((TItemProShield *)target)->get_field_2b8());
+                    target->set_hp_clamped(target->get_hpmax());
                     if (is_current_area_item_enabled() != 0) {
                         if (i == 0) {
                             spawn_particle_effect((const Vec *)((u8 *)target + 0x2FC), 0x19);

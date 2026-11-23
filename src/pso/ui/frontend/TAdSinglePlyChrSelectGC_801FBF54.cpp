@@ -29,7 +29,7 @@
 #include "pso/ui/Language.h"
 #include "pso/map/FloorArea.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/system/ControllerInput.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F764.h"
@@ -606,13 +606,6 @@ void load_tables(int a0) { TAdSinglePlyChrSelectGC__selection_index = a0; memcpy
 
 namespace P801FCBA0 {
 
-struct VBase_18_4a87b2 { char pad[0x18]; };
-
-struct VObj_18_4a87b2 : VBase_18_4a87b2 {
-    virtual void m0();
-    virtual s32 m1();
-};
-
 struct RecoveredGlobal_801FDA4C_lbl_804C88C0 {
     s32 value;
     u8 remaining[0x50];
@@ -665,7 +658,6 @@ s32 forward_to_global_instance__23TAdSinglePlyChrSelectGCFi(s32 arg0);
 s32 __ct__12TPlyCharDataFv(s32);
 s32 memset(int, int, int);
 void alloc_char_records__23TAdSinglePlyChrSelectGCFi(saddr arg0);
-extern u8 *camera_ctrl_instance;
 void render_frame__23TAdSinglePlyChrSelectGCFv(void);
 extern RecoveredGlobal_801FDA4C_lbl_804C88C0 pso_character_card_filename;
 extern int lbl_805D49B4;
@@ -821,13 +813,13 @@ s32 *TAdSinglePlyChrSelectGC__sub_801FCD3C(Obj_801FCD3C *self) {
 }
 
 void render_frame__23TAdSinglePlyChrSelectGCFv(void) {
-    if ((void *) camera_ctrl_instance != NULL) {
+    if (camera_ctrl_instance != NULL) {
         main_task.begin_frame();
         if (is_split_screen() != 0) {
             TCameraCtrl::set_mode(0);
             forward_clear_split_screen_fog();
-            if ((void *) camera_ctrl_instance != NULL) {
-                ((VObj_18_4a87b2 *)(camera_ctrl_instance))->m1();
+            if (camera_ctrl_instance != NULL) {
+                camera_ctrl_instance->run_task();
             }
             TCameraCtrl::set_split_viewport(1, 0);
             main_task.render();
@@ -2000,7 +1992,6 @@ s32 get_field_118__22TAdEnterSerialAccessGCFv();
 void TLobby__sub_80269C90(void);
 void TLobby__sub_80269CA4(s32);
 void func_803DCDFC__Fv(void);
-extern u8 controller_input_state[];
 extern RecoveredGlobal_801FF200_lbl_80513910 chr_select_serial_seeds;
 extern void *tl_01;
 s32 save_character_to_card__23TAdSinglePlyChrSelectGCFv(void);
@@ -2089,7 +2080,7 @@ s32 save_character_to_card__23TAdSinglePlyChrSelectGCFv(void) {
             controller_stuff();
             TLobby::wait_ready_loop();
             render_frame__23TAdSinglePlyChrSelectGCFv();
-            if (func_801A5E54__Fv() != 0 || TWindowShortListCtrl__check_controller_button(&controller_input_state[0x20], 8) != 0) {
+            if (func_801A5E54__Fv() != 0 || test_pressed_buttons_packed(&controller_input_state.controllers[0], 8) != 0) {
                 if (check != NULL) {
             delete check;
         }
@@ -2174,7 +2165,7 @@ s32 save_character_to_card__23TAdSinglePlyChrSelectGCFv(void) {
             controller_stuff();
             TLobby::wait_ready_loop();
             render_frame__23TAdSinglePlyChrSelectGCFv();
-            if (func_801A5E54__Fv() != 0 || TWindowShortListCtrl__check_controller_button(&controller_input_state[0x20], 0x60E) != 0) {
+            if (func_801A5E54__Fv() != 0 || test_pressed_buttons_packed(&controller_input_state.controllers[0], 0x60E) != 0) {
                 break;
             }
             render_tick();

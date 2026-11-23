@@ -13,10 +13,6 @@
 #include "pso/ui/charcreate/TObjCMHairMenu.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
 
-extern "C" {
-void TCameraCtrl__sub_80068EF0(void);
-}
-
 const char *TDLGraph::class_name = "TDLGraph";
 TDLGraph *TDLGraph::graph_object;
 
@@ -79,7 +75,7 @@ void TDLGraph::render() {
     draw_progress_bar(bar_pos, bar_size);
     draw_countdown_timer(543.0f, 418.0f);
     draw_percent_text(615.0f, 418.0f);
-    TCameraCtrl__sub_80068EF0();
+    TCameraCtrl::restore_saved_view();
     update_bar_colors();
     m_frame++;
 }

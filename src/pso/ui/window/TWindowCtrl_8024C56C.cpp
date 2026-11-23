@@ -7,5 +7,5 @@
 void TWindowCtrl::close() {
     TWindowMainMenu__sub_8024E3D0();
     TLobby__sub_8026ACDC();
-    TWindowCtrl__active_window = NULL;
+    instance = NULL;
 }

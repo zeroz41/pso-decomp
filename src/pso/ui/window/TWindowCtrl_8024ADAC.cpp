@@ -5,14 +5,14 @@
 
 
 void TWindowCtrl::set_flag_bit2() {
-    if (TWindowCtrl__active_window != NULL) {
-        TWindowCtrl__active_window->flags |= 4;
+    if (instance != NULL) {
+        instance->flags |= 4;
     }
 }
 
 void TWindowCtrl::clear_flag_bit2() {
-    if (TWindowCtrl__active_window != NULL) {
-        TWindowCtrl__active_window->flags &= ~4;
+    if (instance != NULL) {
+        instance->flags &= ~4;
     }
 }
 

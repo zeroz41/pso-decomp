@@ -110,7 +110,6 @@ struct TRaderMapCore : public TObjBase {
     static s32 apply_packed_flags(saddr arg0, s32 arg1, s32 arg2, s32 arg3);
     void gather_player_markers();
     void draw_enemy_gate_markers();
-    s32 get_map_id();
     static void draw_backdrop(TRaderMapCore *self, s32 mode);
     static void pick_target_position(void *, void *);
     static s32 should_show_map();
@@ -147,5 +146,7 @@ extern "C" s32 minimap_render_gate(Vec *pos, u32 color, u16 rot, s16 kind, s32 f
 // when all 128 marker slots are taken.
 extern "C" s32 minimap_render_dot(Vec *pos, s32 color, s16 kind, s32 flags);
 extern "C" s32 add_radar_scaled_marker(Vec *pos, s32 color, s16 kind, s32 flags, f32 scale);
+
+extern "C" void TRaderMapCore__sub_801F95CC(void);
 
 #endif

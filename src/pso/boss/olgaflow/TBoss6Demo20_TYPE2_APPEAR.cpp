@@ -12,7 +12,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/boss/olgaflow/Boss6Type2Appearance.h"
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
-#include "pso/camera/TCameraCtrl_800687BC.h"
+#include "pso/camera/TCameraCtrl.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/unk/text_803D96A8.h"
@@ -261,7 +261,6 @@ TBoss6Demo20_TYPE2_APPEAR::~TBoss6Demo20_TYPE2_APPEAR() {
     }
 }
 
-#include "pso/camera/TCameraCtrl.h"
 
 extern s32 boss6_type1_part_model_ids[]; // model ids, defined in TBoss6Type1.cpp
 extern "C" {
@@ -306,8 +305,8 @@ TBoss6Demo20_TYPE2_APPEAR::TBoss6Demo20_TYPE2_APPEAR(TBoss6PlotFalz *plot) : TOb
         emitters[i] = 0;
     }
     activate_camera_mode(5);
-    set_scripted_camera_pose(&boss6_type2_appear_camera_position, &boss6_type2_appear_camera_position, &boss6_type2_appear_camera_angles);
-    boss6_type2_appear_camera_script.cache_target_and_forward(0x416C);
+    set_scripted_camera_origin(&boss6_type2_appear_camera_position, &boss6_type2_appear_camera_position, &boss6_type2_appear_camera_angles);
+    boss6_type2_appear_camera_script.play(0x416C);
     frame = 0.0f;
     secondary_frame = 0.0f;
     timer = 0;

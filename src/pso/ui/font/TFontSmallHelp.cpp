@@ -30,7 +30,6 @@ static const Vec help_text_forward = {0.0f, 0.0f, -1.0f};
 
 extern "C" {
 extern s32 localized_alphabet_list;
-extern TCameraCtrl *camera_ctrl_instance;
 }
 
 void TWindowSubStatusDisp::render_forward() {
@@ -77,9 +76,9 @@ void TFontSmallHelp::render() {
     rotate_matrix_z(NULL, camera_ctrl_instance->roll);
     rotate_vector_by_matrix(NULL, &forward, &forward);
     pop_matrix();
-    diff.x = pos.x - camera_ctrl_instance->pos_x;
-    diff.y = pos.y - camera_ctrl_instance->pos_y;
-    diff.z = pos.z - camera_ctrl_instance->pos_z;
+    diff.x = pos.x - camera_ctrl_instance->pos.x;
+    diff.y = pos.y - camera_ctrl_instance->pos.y;
+    diff.z = pos.z - camera_ctrl_instance->pos.z;
     {
         f32 xx = diff.x * diff.x;
         f32 yy = diff.y * diff.y;
@@ -95,9 +94,9 @@ void TFontSmallHelp::render() {
     project_world_to_screen(NULL, &pos, screen);
     pop_matrix();
     if (is_split_screen() != 0) {
-        screen[0] -= (f32)TCameraCtrl::get_screen_height();
+        screen[0] -= (f32)TCameraCtrl::get_viewport_x();
         screen[0] /= TCameraCtrl::get_view_scale();
-        screen[1] -= (f32)TCameraCtrl::get_screen_width();
+        screen[1] -= (f32)TCameraCtrl::get_viewport_y();
         screen[1] /= TCameraCtrl::get_fov();
     }
     screen[0] -= 0.5f * text_width;

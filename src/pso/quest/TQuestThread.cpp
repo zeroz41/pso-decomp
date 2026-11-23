@@ -23,6 +23,7 @@
 #include "pso/unk/TUnk_804C8678.h"
 #include "pso/ui/window/TWindowMenuIconLine.h"
 #include "pso/player/TUnk_804B6C24.h"
+#include "pso/player/TObjPlayer.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/ui/window/TWindowCtrl_8024B1A0.h"
 #include "pso/ui/window/TWindowMakeTeam.h"
@@ -47,7 +48,7 @@
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/unk/text_8026CB5C.h"
 #include "pso/map/FloorArea.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/system/ControllerInput.h"
 #include "pso/object/warp/TObjCityMainWarp.h"
 #include "pso/ui/window/TWindowHelpItem_802540AC.h"
 
@@ -60,7 +61,6 @@ struct ByteBlock_20 { u8 bytes[0x20]; };
 struct ByteBlock_100 { u8 bytes[0x100]; };
 
 extern "C" {
-int check_flag_100__10TObjPlayerFPv(void *p);
 void *get_window_layout_position(s32);
 void TQuestThread__sub_801F5D88(void);
 void __dt__16TObjItemOKWindowFv();
@@ -77,7 +77,6 @@ void render_shadows__7TObjectFv();
 extern s32 local_client_id;
 extern s32 game_difficulty_selection;
 extern s32 evt2_random_enemies_mode;
-extern u8 controller_input_state[];
 extern int quest_bin_decompressed_size;
 extern u8 *online_quest_bin_data;
 extern char offline_quest_filename_buffer_a[];
@@ -310,9 +309,9 @@ void TQuestThreadBoard::run_task() {
         TQuestThread::queue_destruction(parent);
         break;
     case QST_WAIT_MESSAGE: {
-        void *player = get_player_by_client_id(local_client_id);
-        if (player != NULL && check_flag_100__10TObjPlayerFPv(player) == 0 &&
-            TWindowShortListCtrl__check_controller_button(controller_input_state + 0x20, 4) != 0) {
+        TObjPlayer *player = get_player_by_client_id(local_client_id);
+        if (player != NULL && player->is_controls_locked() == 0 &&
+            test_pressed_buttons_packed(&controller_input_state.controllers[0], 4) != 0) {
             u16 id = TWindowCtrl::get_window_id();
             if (is_actor_speech_balloon_done(id) == 0) {
                 complete_actor_speech_balloons(id);
@@ -324,10 +323,10 @@ void TQuestThreadBoard::run_task() {
     }
     case QST_WAIT_MESSAGE_QB:
         if (get_player_by_client_id(local_client_id) != NULL &&
-            TWindowShortListCtrl__check_controller_button(controller_input_state + 0x20, 4) != 0) {
+            test_pressed_buttons_packed(&controller_input_state.controllers[0], 4) != 0) {
             state = QST_RUNNING;
         }
-        if (TWindowShortListCtrl__check_controller_button(controller_input_state + 0x20, 8) != 0 ||
+        if (test_pressed_buttons_packed(&controller_input_state.controllers[0], 8) != 0 ||
             TWindowCtrl::has_player_active_menu(local_client_id) == 0) {
             TWindowCtrl::clear_flag();
             TWindowCtrl::clear_flag_2();
@@ -347,7 +346,7 @@ void TQuestThreadBoard::run_task() {
             TWindowCtrl::clear_flag();
             TWindowCtrl::clear_flag_2();
         }
-        if (TWindowShortListCtrl__check_controller_button(controller_input_state + 0x20, 8) != 0 ||
+        if (test_pressed_buttons_packed(&controller_input_state.controllers[0], 8) != 0 ||
             TWindowCtrl::has_player_active_menu(local_client_id) == 0) {
             if (ctx.message_window != NULL) {
                 ((TWindowBase *)ctx.message_window)->close();
@@ -500,9 +499,9 @@ void TQuestThread::run_task() {
         queue_destruction(parent);
         break;
     case QST_WAIT_MESSAGE: {
-        void *player = get_player_by_client_id(local_client_id);
-        if (player != NULL && check_flag_100__10TObjPlayerFPv(player) == 0 &&
-            TWindowShortListCtrl__check_controller_button(controller_input_state + 0x20, 4) != 0) {
+        TObjPlayer *player = get_player_by_client_id(local_client_id);
+        if (player != NULL && player->is_controls_locked() == 0 &&
+            test_pressed_buttons_packed(&controller_input_state.controllers[0], 4) != 0) {
             u16 id = TWindowCtrl::get_window_id();
             if (is_actor_speech_balloon_done(id) == 0) {
                 complete_actor_speech_balloons(id);
@@ -514,11 +513,11 @@ void TQuestThread::run_task() {
     }
     case QST_WAIT_MESSAGE_QB:
         if (get_player_by_client_id(local_client_id) != NULL) {
-            void *pad = controller_input_state + 0x20;
-            if (TWindowShortListCtrl__check_controller_button(pad, 4) != 0) {
+            void *pad = &controller_input_state.controllers[0];
+            if (test_pressed_buttons_packed(pad, 4) != 0) {
                 state = QST_RUNNING;
             }
-            if (TWindowShortListCtrl__check_controller_button(pad, 8) != 0) {
+            if (test_pressed_buttons_packed(pad, 8) != 0) {
                 TLobby::close_windows();
                 ((TObject *)this)->queue_destruction();
             }

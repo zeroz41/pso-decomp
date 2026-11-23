@@ -12,19 +12,16 @@
 #include "pso/system/task/TObject.h"
 #include "pso/object/switch/TSwitch.h"
 #include "pso/network/client_id.h"
+#include "pso/camera/TCameraCtrl.h"
+#include "pso/camera/CameraAngles.h"
+#include "pso/render/render_util.h"
 
 const char *TOSwitchAttack__name = "TOSwitchAttack";
 const char *TOSwitchAttackSub__name = "TOSwitchAttackSub";
 
-extern "C" {
-f32 horizontal_distance_squared(const f32*, const f32*);
-extern u8* camera_ctrl_instance;
-
-}
-
 void TOSwitchAttackSub::run_task() {
     f32 playerDistance;
-    u8* player;
+    TObjPlayer *player;
     if (is_current_floor_switch_set(stopSwitchId) == 1) {
         queue_destruction();
         return;
@@ -33,9 +30,9 @@ void TOSwitchAttackSub::run_task() {
         queue_destruction();
         return;
     }
-    if (particle != 0 && (player = (u8 *)get_player_by_client_id((saddr)local_client_id)) != 0 && camera_ctrl_instance != 0) {
-        playerDistance = horizontal_distance_squared((const f32*)(player + 0x38), (const f32*)(camera_ctrl_instance + 0x178));
-        if (2.0f * horizontal_distance_squared(position, (const f32*)(camera_ctrl_instance + 0x178)) < playerDistance) {
+    if (particle != 0 && (player = get_player_by_client_id(local_client_id)) != 0 && camera_ctrl_instance != NULL) {
+        playerDistance = horizontal_distance_squared(&player->position, &camera_ctrl_instance->pos);
+        if (2.0f * horizontal_distance_squared(&position, &camera_ctrl_instance->pos) < playerDistance) {
             ((TParticleCtrl *)particle)->enable();
             return;
         }
@@ -50,43 +47,37 @@ TOSwitchAttackSub::~TOSwitchAttackSub() {
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-struct Parm_80177608 { s32 a; s32 b; s32 c; };
-
-
-#define object ((u8 *)this)
-TOSwitchAttackSub::TOSwitchAttackSub(TObject *parent, s32 arg2, s32 arg3, u32 arg4, f32 farg0) : TObject(parent) {
-    Parm_80177608 p;
-    u8 *arg1 = (u8 *)parent;
-    *(const char **)(object + 0) = TOSwitchAttackSub__name;
-    ((TObject *)object)->disallow_rendering();
-    *(s16 *)(object + 0x1C) = arg2;
-    *(s16 *)(object + 0x1E) = arg3;
-    *(void **)(object + 0x20) = 0;
-    VecCopy((Vec *)(object + 0x24), (const Vec *)(arg1 + 0x38));
-    // Particle effect id and z rotation per sub type (arg4); the rotation is
-    // the third word of the direction spawn_particle_effect_with_rotation reads.
+TOSwitchAttackSub::TOSwitchAttackSub(TObject *parent, s32 stop_switch, s32 required_switch, u32 type, f32 scale) : TObject(parent) {
+    CameraAngles rotation;
+    m_name = TOSwitchAttackSub__name;
+    disallow_rendering();
+    stopSwitchId = stop_switch;
+    requiredSwitchId = required_switch;
+    particle = 0;
+    VecCopy(&position, &((TOSwitchAttack *)parent)->position);
+    // Particle effect id and roll per sub type; the roll is the third angle
+    // of the rotation spawn_particle_effect_with_rotation reads.
     s32 effect_ids[18] = {132, 149, 175, 196, 207, 223, 225, 371, 430,
                           34, 69, 232, 332, 333, 412, 200, 244, 452};
     s32 rotation_z[18] = {0x8000, 0, 0x8000, 0x8000};
-    if (arg4 < 18) {
-        p.b = 0;
-        p.a = 0;
-        p.c = rotation_z[arg4];
-        *(void **)(object + 0x20) = spawn_particle_effect_with_rotation(object + 0x24, &p, effect_ids[arg4], 0x40);
-        if (*(void **)(object + 0x20) != 0) {
-            if ((s32) arg4 == 10) {
-                ((TParticleCtrl *)(*(void **)(object + 0x20)))->set_scale(1.25f * farg0, 1.25f * farg0);
+    if (type < 18) {
+        rotation.yaw = 0;
+        rotation.pitch = 0;
+        rotation.roll = rotation_z[type];
+        particle = spawn_particle_effect_with_rotation(&position, &rotation, effect_ids[type], 0x40);
+        if (particle != 0) {
+            if ((s32)type == 10) {
+                ((TParticleCtrl *)particle)->set_scale(1.25f * scale, 1.25f * scale);
             } else {
-                ((TParticleCtrl *)(*(void **)(object + 0x20)))->set_scale(farg0, farg0);
+                ((TParticleCtrl *)particle)->set_scale(scale, scale);
             }
         }
     }
 }
-#undef object
 
 
-void TOSwitchAttack::create_sub(saddr parent, s32 arg1, s32 arg2, s32 arg3, f32 farg0) {
-    new TOSwitchAttackSub((TObject *)parent, arg1, arg2, (u32)arg3, farg0);
+void TOSwitchAttack::create_sub(saddr parent, s32 stop_switch, s32 required_switch, s32 type, f32 scale) {
+    new TOSwitchAttackSub((TObject *)parent, stop_switch, required_switch, (u32)type, scale);
 }
 
 extern s32 game_difficulty_selection;

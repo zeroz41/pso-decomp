@@ -10,7 +10,6 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TObject.h"
 #include "pso/player/TObjPlayer_800666B0.h"
-#include "pso/camera/TCameraCtrl_800687BC.h"
 #include "pso/camera/CameraHelpers.h"
 #include "pso/boss/goldragon/TBoss8Dragon_8005D700.h"
 
@@ -46,7 +45,7 @@ TBoss5GryphonDemo::TBoss5GryphonDemo(TObject *parent, s32 *done_flag, f32 frame_
         c.frame = this->frame;
         c.frame_step = this->frame_step;
         activate_camera_mode(5);
-        c.cache_target_and_forward(0x238E);
+        c.play(0x238E);
         break;
     }
 }

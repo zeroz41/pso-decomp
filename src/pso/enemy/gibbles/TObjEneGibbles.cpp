@@ -42,7 +42,6 @@ struct NJS_OBJECT;
 #include "pso/boss/volopt/TBoss3VoloptHiraisin.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
-#include "pso/camera/TCameraCtrl_8006A03C.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"

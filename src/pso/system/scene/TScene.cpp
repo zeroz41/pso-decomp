@@ -31,8 +31,10 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/system/vector.h"
+#include "pso/render/NinjaUtil.h"
 #include <string.h>
 #include "pso/unk/text_803D96A8.h"
+#include "pso/camera/TCameraCtrl.h"
 
 struct SurfaceAreaTable { s32 enabled[36]; };
 
@@ -53,13 +55,6 @@ extern s32 boss_area_id_table[];
 
 extern s32 item_disabled_area_table[];
 
-struct Rec_80203510 { s32 id; f32 pos[3]; u8 pad[0xC]; f32 radius; u8 pad2[0x14]; };
-
-
-struct Root_80203510 { u8 pad[8]; s16 count; u8 pad2[6]; Rec_80203510 *recs; };
-
-
-struct Root_80204024 { u8 pad[0x178]; f32 x; f32 y; f32 z; };
 
 
 struct Inner_802040D4 { u8 pad[0x20]; f32 radius; };
@@ -72,12 +67,6 @@ struct Rec_8020430C { u8 pad0[4]; f32 pos[3]; u8 pad1[0x20]; u32 flags; };
 
 
 struct Root_8020430C { u8 pad[8]; s16 count; u8 pad2[2]; f32 radius; Rec_8020430C *recs; };
-
-
-struct W_8020430C { s32 a, b, c; };
-
-
-struct Cam_8020430C { u8 pad[0x178]; W_8020430C pos; };
 
 
 struct Obj_802040D4;
@@ -119,9 +108,6 @@ struct Root_80203F0C { u8 pad[8]; s16 count; u8 pad2[6]; Group_80203F0C *groups;
 struct W_802043CC { s32 a, b, c; };
 
 
-struct Cam_802043CC { u8 pad[0x178]; Vec pos; u8 pad2[0x10]; s32 angY; u8 pad3[4]; s32 f19C; };
-
-
 struct Ent_802043CC { s32 id; s32 n; s32 start; };
 
 
@@ -135,18 +121,11 @@ void matrix_mult_vec(int, void *, void *);
 
 bool is_in_view_depth__6TSceneFf(f32 farg0);
 
-f32 xyz_distance_squared(u8 *arg0, u8 *arg1);
-
-
 f32 vec3_dot(void *, void *);
 
 f32 project_point_onto_line(void *, void *, void *);
 
-extern Root_80204024 *camera_ctrl_instance;
-
 s32 TScene__sub_80204024(f32 thr, s32 unused, void *a, void *b, Vec *c);
-
-f32 xz_distance_squared(void *, void *);
 
 s32 TScene__sub_802040D4(void *arg0, Obj_802040D4 *o, f32 f0, f32 f1);
 
@@ -243,8 +222,6 @@ s32 TScene__sub_80205874(void*);
 void *get_player_by_client_id(s32 i);
 }
 
-struct Cam_80204688 { u8 pad[0x178]; f32 x; f32 y; f32 z; u8 pad184[0x194 - 0x184]; s32 a194; u8 pad198[4]; s32 a19C; };
-
 struct Task_80204688 { u8 pad[0x1C]; s32 count; };
 
 struct Model_80204688 { u8 pad[0x14]; f32 x, y, z; };
@@ -252,7 +229,6 @@ struct Model_80204688 { u8 pad[0x14]; f32 x, y, z; };
 struct Node_80204688 { u32 flags; Model_80204688 *model; f32 x, y, z; };
 extern Vec lbl_8044A84C[];
 
-#define CAM ((Cam_80204688 *)camera_ctrl_instance)
 #define TEST ((s32 (*)(f32, void *, void *, void *, Vec *))TScene__sub_80204024)
 #define VIS ((s32 (*)(void *, void *, f32, f32))is_in_view_depth__6TSceneFf)
 
@@ -475,19 +451,19 @@ s32 is_current_area_item_enabled() {
     return is_item_area_enabled(get_current_floor_area());
 }
 
-s32 TScene::find_section_at_position() {
-    Rec_80203510 *r;
+s32 find_section_at_position(Vec *pos) {
+    SceneMaterialSection *r;
     s32 best = -1;
     s32 i;
     f32 bestd;
-    if ((*(Root_80203510 * *)&TScene__data_805D5FCC) == NULL) {
+    if (TScene__data_805D5FCC == NULL) {
         return -1;
     }
     bestd = 1000000000.0f;
-    r = (*(Root_80203510 * *)&TScene__data_805D5FCC)->recs;
-    for (i = 0; i < (*(Root_80203510 * *)&TScene__data_805D5FCC)->count; i++, r++) {
+    r = TScene__data_805D5FCC->sections;
+    for (i = 0; i < TScene__data_805D5FCC->count; i++, r++) {
         if (r->id >= 0) {
-            f32 d = xyz_distance_squared((u8 *)this, (u8 *)r->pos);
+            f32 d = xyz_distance_squared(pos, (Vec *)r->position);
             if (!(d > r->radius * r->radius) && d < bestd) {
                 bestd = d;
                 best = r->id;
@@ -497,12 +473,12 @@ s32 TScene::find_section_at_position() {
     return best;
 }
 
-s32 TScene::get_player_ctrl_field(u16 arg0) {
-    uaddr player;
+s32 TScene::find_player_section(u16 client_id) {
+    TObjPlayer *player;
 
-    player = (uaddr)get_player_by_client_id((arg0));
-    if (player != 0U) {
-        return ((TScene *)(player + 0x38))->find_section_at_position();
+    player = (TObjPlayer *)get_player_by_client_id(client_id);
+    if (player != NULL) {
+        return find_section_at_position(&player->position);
     }
     return -1;
 }
@@ -1770,7 +1746,7 @@ void TScene::sub_80204D7C() {
     m_1c = 0;
     far2 = TScene__data_805D5FCC->radius * TScene__data_805D5FCC->radius;
     push_matrix_from(identity_matrix);
-    rotate_matrix_y(0, CAM->a194);
+    rotate_matrix_y(0, camera_ctrl_instance->yaw);
     rotate_vector_by_matrix(0, &up, &dir);
     normalize_vector(&dir);
     pop_matrices(1);
@@ -1786,9 +1762,9 @@ void TScene::sub_80204D7C() {
             p.x = sec->position[0];
             p.y = 0.0f;
             p.z = sec->position[2];
-            d.x = p.x - CAM->x;
+            d.x = p.x - camera_ctrl_instance->pos.x;
             d.y = 0.0f;
-            d.z = p.z - CAM->z;
+            d.z = p.z - camera_ctrl_instance->pos.z;
             dist = d.x * d.x + d.y * d.y + d.z * d.z;
             if (dist < sec->radius * sec->radius) {
                 sec->flags |= 0x10000;
@@ -1805,7 +1781,7 @@ void TScene::sub_80204D7C() {
                     sec++;
                 } else if (dot >= 0.0f && dot < 0.5f) {
                     push_matrix_from(identity_matrix);
-                    rotate_matrix_y(0, CAM->a19C);
+                    rotate_matrix_y(0, camera_ctrl_instance->fov);
                     rotate_vector_by_matrix(0, &dir, &up);
                     normalize_vector(&up);
                     pop_matrices(1);
@@ -1815,7 +1791,7 @@ void TScene::sub_80204D7C() {
                         m_1c++;
                     } else {
                         push_matrix_from(identity_matrix);
-                        rotate_matrix_y(0, -CAM->a19C);
+                        rotate_matrix_y(0, -camera_ctrl_instance->fov);
                         rotate_vector_by_matrix(0, &dir, &up);
                         normalize_vector(&up);
                         pop_matrices(1);
@@ -1931,7 +1907,7 @@ void TScene::cull_sections() {
     }
     task->count = 0;
     push_matrix_from(identity_matrix);
-    rotate_matrix_y(0, CAM->a194);
+    rotate_matrix_y(0, camera_ctrl_instance->yaw);
     rotate_vector_by_matrix(0, &up, &dir);
     normalize_vector(&dir);
     pop_matrix();
@@ -1947,9 +1923,9 @@ void TScene::cull_sections() {
             p.x = sec->position[0];
             p.y = 0.0f;
             p.z = sec->position[2];
-            d.x = p.x - CAM->x;
+            d.x = p.x - camera_ctrl_instance->pos.x;
             d.y = 0.0f;
-            d.z = p.z - CAM->z;
+            d.z = p.z - camera_ctrl_instance->pos.z;
             dist = d.x * d.x + d.y * d.y + d.z * d.z;
             if (dist < sec->radius * sec->radius) {
                 sec->flags |= 0x10000;
@@ -1966,7 +1942,7 @@ void TScene::cull_sections() {
                     sec++;
                 } else if (dot >= 0.0f && dot < 0.5f) {
                     push_matrix_from(identity_matrix);
-                    rotate_matrix_y(0, CAM->a19C);
+                    rotate_matrix_y(0, camera_ctrl_instance->fov);
                     rotate_vector_by_matrix(0, &dir, &up);
                     normalize_vector(&up);
                     pop_matrices(1);
@@ -1976,7 +1952,7 @@ void TScene::cull_sections() {
                         task->count++;
                     } else {
                         push_matrix_from(identity_matrix);
-                        rotate_matrix_y(0, -CAM->a19C);
+                        rotate_matrix_y(0, -camera_ctrl_instance->fov);
                         rotate_vector_by_matrix(0, &dir, &up);
                         normalize_vector(&up);
                         pop_matrices(1);
@@ -2050,7 +2026,7 @@ void TScene::update_room_visibility_from_camera() {
     s32 sec;
     s32 i;
     f32 d;
-    sec = ((TScene *)(&(*(Cam_802043CC * *)&camera_ctrl_instance)->pos))->find_section_at_position();
+    sec = find_section_at_position(&camera_ctrl_instance->pos);
     if (sec < 0) {
         sub_80204D7C();
         return;
@@ -2074,18 +2050,18 @@ void TScene::update_room_visibility_from_camera() {
     for (j = 0; j < e->n; j++) {
         room = find_scene_room_by_id(ids[e->start + j]);
         if (room != NULL) {
-            d = xz_distance_squared(room->position, &(*(Cam_802043CC * *)&camera_ctrl_instance)->pos);
+            d = xz_distance_squared((const Vec *)room->position, &camera_ctrl_instance->pos);
             if (d < room->radius * room->radius) {
                 room->flags |= 0x10000;
             } else {
                 VecCopy((Vec *)(&dir), (const Vec *)room->position);
-                subtract_vector(&dir, &(*(Cam_802043CC * *)&camera_ctrl_instance)->pos);
+                subtract_vector(&dir, &camera_ctrl_instance->pos);
                 normalize_vector((Vec *)(&dir));
                 fwd.x = 0.0f;
                 fwd.y = 0.0f;
                 fwd.z = -1.0f;
                 push_matrix_from(identity_matrix);
-                rotate_matrix_y(0, (*(Cam_802043CC * *)&camera_ctrl_instance)->angY);
+                rotate_matrix_y(0, camera_ctrl_instance->yaw);
                 rotate_vector_by_matrix(0, &fwd, (Vec *)(&out));
                 pop_matrix();
                 normalize_vector((Vec *)(&out));
@@ -2105,7 +2081,7 @@ void TScene::update_room_visibility_from_camera() {
         SceneMaterialSection *s;
         s32 k;
         push_matrix_from(identity_matrix);
-        rotate_matrix_y(0, (*(Cam_802043CC * *)&camera_ctrl_instance)->angY);
+        rotate_matrix_y(0, camera_ctrl_instance->yaw);
         rotate_vector_by_matrix(0, &w, (Vec *)(&out2));
         normalize_vector((Vec *)(&out2));
         pop_matrix();
@@ -2114,7 +2090,7 @@ void TScene::update_room_visibility_from_camera() {
             if (s->flags & 0x80000) {
                 update_room_object_visibility(s);
             } else if (s->id < 0) {
-                check_object_in_view_cone__6TSceneFiPvPvPvi((saddr)this, (Obj_80204B78 *)(s), (Vec *)(&(*(Cam_802043CC * *)&camera_ctrl_instance)->pos), &out2, (s32)((*(Cam_802043CC * *)&camera_ctrl_instance)->f19C));
+                check_object_in_view_cone__6TSceneFiPvPvPvi((saddr)this, (Obj_80204B78 *)(s), &camera_ctrl_instance->pos, &out2, camera_ctrl_instance->fov);
             }
         }
     }
@@ -2126,14 +2102,14 @@ void TScene::update_records_in_range() {
     f32 r2;
     s32 off;
     s32 i;
-    W_8020430C v = (*(Cam_8020430C * *)&camera_ctrl_instance)->pos;
+    Vec v = camera_ctrl_instance->pos;
     i = 0;
     off = 0;
     r = (*(Root_8020430C * *)&TScene__data_805D5FCC)->radius + TScene__visibility_radius_margin;
     r2 = r * r;
     for (; i < (*(Root_8020430C * *)&TScene__data_805D5FCC)->count; i++, off += 0x34) {
         Rec_8020430C *rec = (Rec_8020430C *)((u8 *)(*(Root_8020430C * *)&TScene__data_805D5FCC)->recs + off);
-        if (xz_distance_squared(&v, rec->pos) < r2) {
+        if (xz_distance_squared(&v, (const Vec *)rec->pos) < r2) {
             rec->flags |= 0x10000;
         } else {
             rec->flags &= ~0x10000;
@@ -2176,9 +2152,9 @@ bool is_in_view_depth__6TSceneFf(f32 farg0) {
     return (sp[2] < -farg0) == 0;
 }
 s32 TScene__sub_802040D4(void *arg0, Obj_802040D4 *o, f32 f0, f32 f1) {
-    if (o->inner != NULL && (*(u8 * *)&camera_ctrl_instance) != NULL) {
+    if (o->inner != NULL && camera_ctrl_instance != NULL) {
         void *p = o->pos;
-        if (xz_distance_squared((*(u8 * *)&camera_ctrl_instance) + 0x178, p) < o->inner->radius * o->inner->radius) {
+        if (xz_distance_squared(&camera_ctrl_instance->pos, (const Vec *)p) < o->inner->radius * o->inner->radius) {
             return 1;
         }
         return ((s32 (*)(void *, void *, f32, f32))is_in_view_depth__6TSceneFf)(arg0, p, f0, f1);
@@ -2191,9 +2167,9 @@ s32 TScene__sub_80204024(f32 thr, s32 unused, void *a, void *b, Vec *c) {
     if (vec3_dot(b, c) < 0.0f) {
         return 0;
     }
-    s.p.x = camera_ctrl_instance->x;
+    s.p.x = camera_ctrl_instance->pos.x;
     s.p.y = 0.0f;
-    s.p.z = camera_ctrl_instance->z;
+    s.p.z = camera_ctrl_instance->pos.z;
     s.q.x = c->x;
     s.q.y = c->y;
     s.q.z = c->z;

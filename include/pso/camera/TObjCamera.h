@@ -32,10 +32,12 @@ struct TObjCamera : public TObjMapObject {
     static void *create(void *set_data);
     static void free_resources();
     static void load_resources();
-    static void update_camera_slots(NJS_OBJECT *node);
+    // The model node callback of render: records the view position of each
+    // lamp node in camera_lamp_positions.
+    static void record_lamp_positions(NJS_OBJECT *node);
 
     static BmlResource *model_resource;
-    static s32 camera_slot_scan_index;
+    static s32 node_scan_index; // the model node record_lamp_positions is at
 
     s32 lights_visible;  // 1 while the local player is near enough to see its lights
     TEffStarLight2D *lights[8];  // its TEffStarLight2D lights, none in split screen

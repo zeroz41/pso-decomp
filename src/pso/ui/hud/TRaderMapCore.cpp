@@ -3,7 +3,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/render/GinjaMaterial.h"
 #include "pso/system/NinjaTypes.h"
-#include "pso/camera/TCameraCtrl_803D676C.h"
+#include "pso/render/GinjaView.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "types.h"
 #include "pso/render/Draw2D.h"
@@ -37,13 +37,15 @@
 #include "pso/render/GinjaTexture.h"
 #include "pso/system/TLanguage_801E4874.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/system/ControllerInput.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/math/AngleLookup.h"
+#define PSO_SDK_COMPACT_MATH
+#include <dolphin/gx/GXTransform.h>
+#include <dolphin/gx/GXCull.h>
+#undef PSO_SDK_COMPACT_MATH
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/system/BmlResource.h"
-#include "pso/camera/TCameraCtrl_801A6E60.h"
-#include "pso/ui/hud/TRaderMapCore_801A6CEC.h"
 #include "pso/unk/TLobby_801E2F94.h"
 #include "pso/unk/TLobby_80131794.h"
 
@@ -195,11 +197,6 @@ struct Glob_801F9770 {
     u8 rest[0x44];
 };
 
-struct Pad_801FAF24 {
-    u8 pad0[0x20];
-    u8 ctl[0x30];
-};
-
 struct Radar_801FAF24 {
     u8 pad0[0x184];
     uaddr f184;
@@ -255,12 +252,9 @@ uaddr TRaderMapCore__frame_model_resource;
 uaddr TRaderMapCore__data_805D5F4C;
 saddr TRaderMapCore__map_heap;
 
-void TCameraCtrl__sub_80068EF0(void);
 extern RadarSpriteFrame_801FA6CC lbl_804C87E4[];
 extern f32 lbl_804C87B4[][4];
-s32 GXSetScissorBoxOffset(int, int);
 extern Rect_801F9228 radar_map_view_scissor_table[3];
-extern saddr camera_ctrl_instance;
 struct TRaderMapCoreMapViewState { s32 value; u8 remaining[0x74]; };
 extern TRaderMapCoreMapViewState TRaderMapCore__map_view_state;
 extern RadarViewRect_801FA9D8 radar_map_view_rect_table[3];
@@ -269,11 +263,7 @@ extern s16 *TRaderMapCore__floor_discovery_table[];
 s32 init_radar_floor_flags(s32 floor, RadarInitMap_801F9474 *map);
 void* __ct__5THeapFUli(void*, u32, s32);
 void TRaderMapCore__sub_801F95CC(void);
-void GXSetScissor(u32, u32, u32, u32);
-s32 TCameraCtrl__sub_80069304();
-int check_flag_100__10TObjPlayerFPv(void *p);
 void *get_player_by_client_id(s32 i);
-extern u8 TCameraCtrl__view_state[];
 f32 xz_distance_squared(void *, void *);
 extern Gate_801FA1E0 TRaderMapCore__marker_buffer[128];
 s32 minimap_render_dot(Vec *arg0, s32 arg1, s16 arg2, s32 arg3);
@@ -314,13 +304,11 @@ static const Vec4_801F9E9C radar_player_slot_color_table[4] = {
 };
 extern s32 local_client_id;
 NJS_POINT2 TRaderMapCore__sub_801F9D38(TRaderMapCore *self);
-extern Pad_801FAF24 controller_input_state[];
 void GXSetViewport(f32, f32, f32, f32, f32, f32);
 
 int __dt__5THeapFv(void*, void*);
 s32 is_card_flag_set__19TWindowKeyBoardHardFv(u16);
 }
-void set_camera_look_at(u8 *eye, u8 *target, u8 *up);
 
 #define MAP_801F9C54 ((struct Map_801F9C54 *) TRaderMapCore__floor_map_resource)
 
@@ -402,14 +390,7 @@ Gate_801FA1E0 TRaderMapCore__marker_buffer[128];
 TRaderMapCoreMapViewState TRaderMapCore__map_view_state;
 s16 *TRaderMapCore__floor_discovery_table[18];
 
-struct GRec_801FB490 { u8 pad0[4]; f32 f4; u8 pad8[8]; f32 f10; f32 f14; s32 f18; u8 pad1c[0x28 - 0x1C]; };
-
 struct MRec_801FB490 { f32 v[3]; s32 a0; f32 a4; s16 h[2]; u8 padac[0x28 - 0x18]; };
-extern "C" {
-
-
-s32 fn_803D64F8(void *);
-}
 
 
 struct Ent_801FB798 { s32 a; char *name; };
@@ -526,7 +507,7 @@ extern "C" {
 #pragma push
 #pragma opt_common_subs off
 TRaderMapCore::TRaderMapCore(TObject *parent) : TObjBase(parent) {
-    GRec_801FB490 *g;
+    NJS_CAMERA *g;
     s32 i;
     u32 j;
     m_name = rader_map_core_name_ptr;
@@ -534,12 +515,12 @@ TRaderMapCore::TRaderMapCore(TObject *parent) : TObjBase(parent) {
     m_17c = init_map_ptr(&m_90, 0);
     m_180 = init_map_ptr(&m_90, 1);
     for (i = 0; i < 3; i++) {
-        g = (GRec_801FB490 *)&TRaderMapCore__map_view_state + i;
-        fn_803D64F8(g);
-        g->f4 = lbl_805D35F0;
-        g->f10 = -1.0f;
-        g->f14 = 0.0f;
-        g->f18 = 0x8000;
+        g = (NJS_CAMERA *)&TRaderMapCore__map_view_state + i;
+        init_ninja_camera(g);
+        g->py = lbl_805D35F0;
+        g->vy = -1.0f;
+        g->vz = 0.0f;
+        g->roll = 0x8000;
     }
     m_150 = 500.0f;
     viewport_width = 640.0f;
@@ -668,34 +649,34 @@ void TRaderMapCore::update_pan_zoom_input() {
     s32 k;
     for (i = 0; i < 4; i++) {
         p = (uaddr)get_player_by_client_id(i);
-        if (p != 0 && check_flag_100__10TObjPlayerFPv((void *)p) != 0) {
+        if (p != 0 && ((TObjPlayer *)p)->is_controls_locked() != 0) {
             return;
         }
     }
     if (self->f184 != 0) {
         for (j = 0; j < 4; j++) {
             p = (uaddr)get_player_by_client_id(j);
-            if (p != 0 && TWindowShortListCtrl__check_controller_button(controller_input_state[((TRaderMapCore *)p)->get_map_id()].ctl, 0x200) != 0) {
+            if (p != 0 && test_pressed_buttons_packed(&controller_input_state.controllers[((TObjPlayer *)p)->get_controller_port()], 0x200) != 0) {
                 self->f184 = 0;
                 return;
             }
         }
-        if (test_previous_buttons_packed(controller_input_state[((TRaderMapCore *)(self->f184))->get_map_id()].ctl, 0x10) != 0) {
+        if (test_previous_buttons_packed(&controller_input_state.controllers[((TObjPlayer *)(self->f184))->get_controller_port()], 0x10) != 0) {
             self->f18C += 6.0f;
         }
-        if (test_previous_buttons_packed(controller_input_state[((TRaderMapCore *)(self->f184))->get_map_id()].ctl, 0x20) != 0) {
+        if (test_previous_buttons_packed(&controller_input_state.controllers[((TObjPlayer *)(self->f184))->get_controller_port()], 0x20) != 0) {
             self->f18C -= 6.0f;
         }
-        if (test_previous_buttons_packed(controller_input_state[((TRaderMapCore *)(self->f184))->get_map_id()].ctl, 0x40) != 0) {
+        if (test_previous_buttons_packed(&controller_input_state.controllers[((TObjPlayer *)(self->f184))->get_controller_port()], 0x40) != 0) {
             self->f188 += 6.0f;
         }
-        if (test_previous_buttons_packed(controller_input_state[((TRaderMapCore *)(self->f184))->get_map_id()].ctl, 0x80) != 0) {
+        if (test_previous_buttons_packed(&controller_input_state.controllers[((TObjPlayer *)(self->f184))->get_controller_port()], 0x80) != 0) {
             self->f188 -= 6.0f;
         }
-        if (TRaderMapCore::apply_packed_flags((saddr)controller_input_state[((TRaderMapCore *)(self->f184))->get_map_id()].ctl, 0x20000, 0x27, 1) != 0) {
+        if (TRaderMapCore::apply_packed_flags((saddr)&controller_input_state.controllers[((TObjPlayer *)(self->f184))->get_controller_port()], 0x20000, 0x27, 1) != 0) {
             self->f190 -= 6.0f;
         }
-        if (TRaderMapCore::apply_packed_flags((saddr)controller_input_state[((TRaderMapCore *)(self->f184))->get_map_id()].ctl, 0x10000, 0x27, 1) != 0) {
+        if (TRaderMapCore::apply_packed_flags((saddr)&controller_input_state.controllers[((TObjPlayer *)(self->f184))->get_controller_port()], 0x10000, 0x27, 1) != 0) {
             self->f190 += 6.0f;
         }
         TRaderMapCore::pan_horizontal(self->f188);
@@ -708,8 +689,8 @@ void TRaderMapCore::update_pan_zoom_input() {
     }
     for (k = 0; k < 4; k++) {
         p = (uaddr)get_player_by_client_id(k);
-        if (p != 0 && TWindowShortListCtrl__check_controller_button(controller_input_state[((TRaderMapCore *)p)->get_map_id()].ctl, 0x200) != 0 &&
-            test_flags_04_packed(controller_input_state[((TRaderMapCore *)p)->get_map_id()].ctl, 0x10000) != 0) {
+        if (p != 0 && test_pressed_buttons_packed(&controller_input_state.controllers[((TObjPlayer *)p)->get_controller_port()], 0x200) != 0 &&
+            test_flags_04_packed(&controller_input_state.controllers[((TObjPlayer *)p)->get_controller_port()], 0x10000) != 0) {
             self->f184 = p;
             u8 *cam = (u8 *)&TRaderMapCore__map_view_state;
             *(f32 *)((s8 *)cam + 0x28) = *(f32 *)((s8 *)self->f184 + 0x38);
@@ -741,16 +722,16 @@ s32 TRaderMapCore::is_render_admitted(void *arg1) {
         if (((TObjPlayer *)(((Radar_801FADF0 *)this)->f184))->is_body_collision_inactive() != 0) {
             return 0;
         }
-        if (check_flag_100__10TObjPlayerFPv((void *)(((Radar_801FADF0 *)this)->f184)) != 0 && TRaderMapCore__view_mode != 1) {
+        if (((TObjPlayer *)(((Radar_801FADF0 *)this)->f184))->is_controls_locked() != 0 && TRaderMapCore__view_mode != 1) {
             return 0;
         }
     } else {
         return 0;
     }
-    if (TCameraCtrl__sub_80069304() != 0 && TWindowCtrl::get_flag_bit0() == 0) {
+    if (TCameraCtrl::is_view_override_active() != 0 && TWindowCtrl::get_flag_bit0() == 0) {
         return 0;
     }
-    if (TCameraCtrl__view_state[0] == 5 || TCameraCtrl__view_state[0] == 9) {
+    if (TCameraCtrl::view_state.controller == 5 || TCameraCtrl::view_state.controller == 9) {
         ((Radar_801FADF0 *)this)->f184 = 0;
         return 0;
     }
@@ -759,7 +740,7 @@ s32 TRaderMapCore::is_render_admitted(void *arg1) {
     }
     for (i = 0; i < 4; i++) {
         p = (uaddr)get_player_by_client_id(i);
-        if (p != 0 && check_flag_100__10TObjPlayerFPv((void *)p) != 0 && (saddr)arg1 == 2) {
+        if (p != 0 && ((TObjPlayer *)p)->is_controls_locked() != 0 && (saddr)arg1 == 2) {
             return 0;
         }
     }
@@ -787,7 +768,7 @@ void TRaderMapCore::render() {
         case 1:
             TCameraCtrl::restore_full_screen_view();
             TRaderMapCore::draw_backdrop((TRaderMapCore *)arg0, TRaderMapCore__view_mode);
-            TCameraCtrl__sub_80068EF0();
+            TCameraCtrl::restore_saved_view();
             begin_map_view__13TRaderMapCoreFii((saddr)arg0, (s32)TRaderMapCore__view_mode);
             render_region_records((void *)TRaderMapCore__view_mode);
             ((TRaderMapCore *)arg0)->draw_enemy_gate_markers();
@@ -796,7 +777,7 @@ void TRaderMapCore::render() {
             TCameraCtrl::restore_full_screen_view();
             this->m_174 = 0;
             draw_compass(TRaderMapCore__view_mode);
-            TCameraCtrl__sub_80068EF0();
+            TCameraCtrl::restore_saved_view();
             break;
         case 2:
             TRaderMapCore::draw_backdrop((TRaderMapCore *)arg0, TRaderMapCore__view_mode);
@@ -878,8 +859,8 @@ void begin_map_view__13TRaderMapCoreFii(saddr arg0, s32 arg1) {
 void TRaderMapCore::setup_view(s32 arg1) {
     saddr arg0 = (saddr)this;
     GXSetScissorBoxOffset(0, 0);
-    TCameraCtrl__sub_801E32D8(320.0f, 240.0f);
-    ((TCameraCtrl *)camera_ctrl_instance)->setup_default_view(0);
+    set_screen_center(320.0f, 240.0f);
+    camera_ctrl_instance->setup_default_view(0);
     TRaderMapCore::set_view_scissor((void *)arg0, 0, (void *)((void *) ((u8 *)&radar_map_view_scissor_table + (arg1 * 0x10))));
     TObjLight::apply_distant_light();
     TParticleCtrl::end_effect_render();
@@ -961,13 +942,13 @@ void TRaderMapCore::update_follow_projection(s32 mode) {
         view->z = this->player_marker_records[this->m_134].z;
     }
     if (this->m_168 & 1) {
-        view->rot = 0x8000 - ((TCameraCtrl *)camera_ctrl_instance)->yaw;
+        view->rot = 0x8000 - camera_ctrl_instance->yaw;
         if (get_current_floor_area() == AREA_DE_ROL_LE) {
             free_view->rot = 0;
-            this->m_174 = 0x8000 - ((TCameraCtrl *)camera_ctrl_instance)->yaw;
+            this->m_174 = 0x8000 - camera_ctrl_instance->yaw;
         } else {
             free_view->rot = 0x8000;
-            this->m_174 = -((TCameraCtrl *)camera_ctrl_instance)->yaw;
+            this->m_174 = -camera_ctrl_instance->yaw;
         }
     } else if (get_current_floor_area() == AREA_DE_ROL_LE) {
         view->rot = 0;
@@ -1530,7 +1511,7 @@ void setup_overhead_projection__13TRaderMapCoreFv(s32 arg0, Cam_801F9314 *arg1) 
     rotate_vector_by_matrix(0, &up, &up);
     pop_matrix();
     set_perspective_projection_from_fov((182.04445f * radar_overhead_projection_scale), 1.1333334f, 1.0f, 10000.0f);
-    set_camera_look_at((u8 *)&eye, (u8 *)&at, (u8 *)&up);
+    set_camera_look_at(&eye, &at, &up);
 }
 #pragma fp_contract on
 
@@ -1556,7 +1537,7 @@ void TRaderMapCore::configure_viewport(const RadarViewportParameters* view) {
     GXSetScissorBoxOffset(0, 0);
     offset_x = -(view->center_x - 320.0f);
     offset_y = -(view->center_y - 240.0f);
-    TCameraCtrl__sub_801E32D8(view->center_x, view->center_y);
+    set_screen_center(view->center_x, view->center_y);
     GXSetScissorBoxOffset(offset_x, offset_y);
 }
 #pragma fp_contract reset

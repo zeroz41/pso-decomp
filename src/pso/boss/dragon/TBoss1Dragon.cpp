@@ -86,11 +86,9 @@ struct ByteBlock_C { u8 bytes[0xc]; };
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/network/client_id.h"
 #include "pso/unk/text_800870BC.h"
-#include "pso/camera/TCameraCtrl_800687BC.h"
 #include "pso/render/MaterialAlphaCompare.h"
 #include "pso/object/TObjControl.h"
 #include "pso/render/render_util.h"
-#include "pso/camera/TCameraCtrl_803D749C.h"
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/object/trap/TOTrapAncient01_80226534.h"
@@ -126,7 +124,6 @@ s32 is_split_screen();
 }
 void direction_to_rotation_xz(u8 *dir, s32 *rot_a, s32 *rot_b);
 void dragon_capture_node_points(NJS_OBJECT *);
-extern u8 *camera_ctrl_instance;
 extern "C" {
 u16 get_entity_id(void *);
 extern const Vec boss1_dragon_arena_center = {0.0f, 0.0f, 0.0f};
@@ -245,36 +242,35 @@ TObjMotionAction boss1_dragon_motion_actions[27] = {
     {3, 0, 0, 0.5f, 0x80000000},
     {2, 8, 2, 0.6f, 0},
 };
-static Vec boss1_dragon_follow_camera_offsets[1] = {
+static Vec boss1_dragon_follow_camera_target_offset[1] = {
     {0.0f, 19.8f, -5.0f},
 };
-static Vec boss1_dragon_follow_camera_target[1] = {
+static Vec boss1_dragon_follow_camera_eye_offset[1] = {
     {0.0f, 25.43f, 45.42f},
 };
-static Vec boss1_dragon_follow_camera_phase_positions[3] = {
+static Vec boss1_dragon_follow_camera_phase_target_offsets[3] = {
     {0.0f, 23.0f, -3.0f},
     {0.0f, 32.0f, 0.0f},
     {0.0f, 25.0f, -5.0f},
 };
-static Vec boss1_dragon_follow_camera_phase_targets[3] = {
+static Vec boss1_dragon_follow_camera_phase_eye_offsets[3] = {
     {0.0f, 11.0f, 40.0f},
     {0.0f, 5.0f, 35.0f},
     {0.0f, 50.0f, 60.0f},
 };
-static Vec boss1_dragon_held_camera_positions[4] = {
+static Vec boss1_dragon_held_camera_target_offsets[4] = {
     {0.0f, 20.0f, -120.0f},
     {0.0f, 120.0f, -120.0f},
     {0.0f, 25.0f, -30.0f},
     {0.0f, 50.0f, -80.0f},
 };
-static Vec boss1_dragon_held_camera_targets[4] = {
+static Vec boss1_dragon_held_camera_eye_offsets[4] = {
     {0.0f, 120.0f, 50.0f},
     {0.0f, 300.0f, -30.0f},
     {0.0f, 40.0f, 0.0f},
     {300.0f, 120.0f, 50.0f},
 };
 f32 atan2_float(f32 y, f32 x);
-s32 check_flag_100__10TObjPlayerFPv();
 void subtractive_rng_seed(void *, u32);
 f32 calc_random_ratio__10TObjPlayerFv(void *);
 }
@@ -303,7 +299,6 @@ DragonModelState boss1_dragon_capture_chunk_model;
 Vec boss1_dragon_reference_pos_vec;
 Vec boss1_dragon_forward_reference_vec;
 extern s32 registered_player_count;
-extern s16 TCameraCtrl__camera_mode;
 extern "C" {
 f64 floor(f64);
 }
@@ -407,7 +402,7 @@ f32 floor_to_float(f32 value) {
 int TObjEneDD::get_flag_b4() { return (this->motion_flags >> 4) & 0x1; }
 
 s32 TCameraCtrl::get_camera_mode() {
-    return TCameraCtrl__camera_mode;
+    return TCameraCtrl::camera_mode;
 }
 
 s32 TLobby::get_game_mode() {
@@ -502,24 +497,24 @@ saddr TBoss1Dragon::get_instance() {
     return boss1_dragon_main_instance;
 }
 
-void get_dragon_follow_camera_offsets(Vec *eye, Vec *target) {
+void get_dragon_follow_camera_offsets(Vec *target_offset, Vec *eye_offset) {
     if ((void *) (*(u8 * *)&boss1_dragon_main_instance) == NULL) {
-        VecCopy(eye, boss1_dragon_follow_camera_offsets);
-        VecCopy(target, boss1_dragon_follow_camera_target);
+        VecCopy(target_offset, boss1_dragon_follow_camera_target_offset);
+        VecCopy(eye_offset, boss1_dragon_follow_camera_eye_offset);
         return;
     }
-    ((TBoss1Dragon *)boss1_dragon_main_instance)->calc_follow_camera_offsets(eye, target);
+    ((TBoss1Dragon *)boss1_dragon_main_instance)->calc_follow_camera_offsets(target_offset, eye_offset);
 }
 
 #pragma push
 #pragma fp_contract on
-void TBoss1Dragon::calc_follow_camera_offsets(Vec *eye, Vec *target) {
+void TBoss1Dragon::calc_follow_camera_offsets(Vec *target_offset, Vec *eye_offset) {
     s32 phase;
     Vec *limit;
 
     if (((TBoss1Dragon *)boss1_dragon_main_instance)->mode == 0x16) {
-        VecCopy(eye, boss1_dragon_follow_camera_offsets);
-        VecCopy(target, boss1_dragon_follow_camera_target);
+        VecCopy(target_offset, boss1_dragon_follow_camera_target_offset);
+        VecCopy(eye_offset, boss1_dragon_follow_camera_eye_offset);
         return;
     }
     switch (this->phase) {
@@ -534,31 +529,31 @@ void TBoss1Dragon::calc_follow_camera_offsets(Vec *eye, Vec *target) {
         phase = 2;
         break;
     }
-    VecCopy(eye, boss1_dragon_follow_camera_phase_positions + phase);
-    VecCopy(target, boss1_dragon_follow_camera_phase_targets + phase);
-    if (this->camera_target_raised == 1) {
-        target->y += 10.0f;
-        target->z += 10.0f;
+    VecCopy(target_offset, boss1_dragon_follow_camera_phase_target_offsets + phase);
+    VecCopy(eye_offset, boss1_dragon_follow_camera_phase_eye_offsets + phase);
+    if (this->camera_eye_raised == 1) {
+        eye_offset->y += 10.0f;
+        eye_offset->z += 10.0f;
     }
     if (this->player_controlled != 0 && this->target_client_id == local_client_id) {
         if (this->mode == 0xF) {
-            VecCopy(eye, boss1_dragon_held_camera_positions + 3);
-            limit = boss1_dragon_held_camera_targets + 3;
-            eye->y += (0.5f) * this->height;
-            VecCopy(target, limit);
-            target->x = (0.0f);
-            target->y += this->height;
-            if (target->y > limit->x) {
-                target->y = limit->x;
-            } else if (target->y < 10.0f) {
-                target->y = (1.0f);
+            VecCopy(target_offset, boss1_dragon_held_camera_target_offsets + 3);
+            limit = boss1_dragon_held_camera_eye_offsets + 3;
+            target_offset->y += (0.5f) * this->height;
+            VecCopy(eye_offset, limit);
+            eye_offset->x = (0.0f);
+            eye_offset->y += this->height;
+            if (eye_offset->y > limit->x) {
+                eye_offset->y = limit->x;
+            } else if (eye_offset->y < 10.0f) {
+                eye_offset->y = (1.0f);
             }
         } else {
-            VecCopy(eye, boss1_dragon_held_camera_positions + phase);
-            VecCopy(target, boss1_dragon_held_camera_targets + phase);
+            VecCopy(target_offset, boss1_dragon_held_camera_target_offsets + phase);
+            VecCopy(eye_offset, boss1_dragon_held_camera_eye_offsets + phase);
         }
-        eye->y += 200.0f;
-        target->y += 200.0f;
+        target_offset->y += 200.0f;
+        eye_offset->y += 200.0f;
     }
 }
 
@@ -765,7 +760,7 @@ TBoss1Dragon::TBoss1Dragon(TObject *parent, void *set_data) : TObjEneDD_ST(paren
     this->curve1.reset_coords();
     VecCopy(&this->sound_origin, &this->position);
     VecCopy(&this->last_body_center, &this->position);
-    this->camera_target_raised = 0;
+    this->camera_eye_raised = 0;
     this->airTurnVelocity = 0;
     this->airTurnDirection = 1;
     this->airTurnAcceleration = (0.0f);
@@ -2158,7 +2153,8 @@ void TBoss1Dragon::updateFacingPosition() {
 }
 
 s32 TBoss1Dragon::filter_input_flags(s32 input_flags, s32 mask) {
-    if ((get_player_by_client_id(local_client_id) == NULL) || (check_flag_100__10TObjPlayerFPv() != 0)) {
+    TObjPlayer *player = get_player_by_client_id(local_client_id);
+    if ((player == NULL) || (player->is_controls_locked() != 0)) {
         input_flags &= 0xFFFCF9F9;
     }
     return input_flags & mask;
@@ -2989,7 +2985,7 @@ void TBoss1Dragon::update_spinning_projectile_attack(u32 reason) {
             if (this->frame > 22.0f) {
                 this->action_angle = 0x1000;
                 this->stateStep = 3;
-                this->camera_target_raised = 1;
+                this->camera_eye_raised = 1;
             }
             break;
         case 3: {
@@ -3005,7 +3001,7 @@ void TBoss1Dragon::update_spinning_projectile_attack(u32 reason) {
                 this->action_frames += 1;
                 if (this->action_frames >= 0x28) {
                     this->stateStep = 4;
-                    this->camera_target_raised = 0;
+                    this->camera_eye_raised = 0;
                 }
                 found = 0;
                 if ((this->action_frames & 1) == 0) {
@@ -3087,7 +3083,7 @@ void TBoss1Dragon::update_spinning_projectile_attack(u32 reason) {
     case ENEMY_STATE_LEAVE:
         this->rotation_x = 0;
         this->sub_8002AE64();
-        this->camera_target_raised = 0;
+        this->camera_eye_raised = 0;
         break;
     }
 }
@@ -3977,8 +3973,8 @@ void TBoss1Dragon::update_death_state(u32 reason) {
             cam.frame = (0.0f);
             cam.frame_step = (0.5f);
             activate_camera_mode(5);
-            cam.cache_target_and_forward(0x31C7);
-            set_scripted_camera_pose(&this->position, &this->position, (CameraAngles *)&this->rotation_x);
+            cam.play(0x31C7);
+            set_scripted_camera_origin(&this->position, &this->position, (CameraAngles *)&this->rotation_x);
             break;
         case 1:
             cam.index = 1;
@@ -3987,8 +3983,8 @@ void TBoss1Dragon::update_death_state(u32 reason) {
             cam.frame = (0.0f);
             cam.frame_step = (0.5f);
             activate_camera_mode(5);
-            cam.cache_target_and_forward(0x3333);
-            set_scripted_camera_pose(&this->position, &this->position, (CameraAngles *)&this->rotation_x);
+            cam.play(0x3333);
+            set_scripted_camera_origin(&this->position, &this->position, (CameraAngles *)&this->rotation_x);
             break;
         }
         break;
@@ -5152,7 +5148,7 @@ void TBoss1Dragon::render() {
                     Vec delta;
                     Vec *points[4];
                     Vec probe;
-                    VecCopy(&origin, (Vec *)(camera_ctrl_instance + 0x178));
+                    VecCopy(&origin, &camera_ctrl_instance->pos);
                     origin.y = (0.0f);
                     VecCopy(&delta, &ent->position);
                     subtract_vector(&delta, &origin);

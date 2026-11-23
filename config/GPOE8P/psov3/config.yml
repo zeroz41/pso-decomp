@@ -467,20 +467,20 @@ force_active:
   - TBoss8Dragon__sub_800BB650
   - get_part_set_index__13TUnk_804E4BF0Fl
   - is_hiding_camera_target__12TBoss8DragonFv
-  - TBoss8Dragon__sub_8030B80C
+  - get_player_target__18TObjLiveCameraCtrlFv
   - TBoss8Dragon__sub_8036AF50
   - TCameraCtrl__sub_800677D4
-  - TCameraCtrl__sub_800689E8
-  - TCameraCtrl__sub_8006AA90
+  - clear_pose_snap_flags__11TCameraCtrlFv
+  - __dt__11TCameraCtrlFv
   - TCameraCtrl__sub_8006B358
   - TCameraCtrl__sub_8006B798
   - TCameraCtrl__sub_8006CC30
-  - TCameraCtrl__sub_8006E804
-  - TCameraCtrl__sub_803D65F8
-  - TCameraCtrl__view_matrices
-  - TCameraCtrl__view_matrix
-  - TCameraCtrl__viewport_height
-  - TCameraCtrl__viewport_size
+  - clear__16FollowCameraSlotFv
+  - get_look_at_eye__FP3Vec
+  - view_matrices__11TCameraCtrl
+  - view_matrix__11TCameraCtrl
+  - viewport_height__11TCameraCtrl
+  - viewport_width__11TCameraCtrl
   - TChCrEffCtrlPl__name
   - TChCrEffTagStr__name
   - TChCrEffTag__name
@@ -503,7 +503,7 @@ force_active:
   - TCheckRoomSequence__error_return_state
   - TCheckRoomSequence__error_return_text_id
   - TCheckRoomSequence__sub_80210B34
-  - TCineCtrl__instance
+  - instance__9TCineCtrl
   - __ct__20TContainerAncient01RFP7TObjectPv
   - TContainerAncient01__collision_body_parts
   - __ct__19TContainerAncient01FP7TObjectPv
@@ -1603,9 +1603,9 @@ force_active:
   - __sinit_TObjPlayer_80354EC8_cpp
   - TObjPlayer__sub_80355098
   - TObjPlayer__sub_80363C5C
-  - TObjPlayer__sub_803D6C1C
-  - TObjPlayer__sub_803D7FD0
-  - TObjPlayer__sub_803D7FD8
+  - sample_motion_value_channel__FPv
+  - sample_absent_vector_channel__FPv
+  - sample_absent_angle_channel__FPv
   - TObjPlayer__sub_803D9C60
   - TObjPlayer__sub_803DA808
   - TObjPlayer__sub_803DA84C
@@ -1991,8 +1991,8 @@ force_active:
   - __ct__13TObjTombstoneFP7TObjectlPC19TObjTombstoneRecord
   - __ct__13TObjTreeLobbyFP7TObjectPv
   - __ct__13TObjWarnChimeFP7TObject
-  - __ct__13TUnk_80488B38Fv
-  - __ct__13TUnk_80488B68Fv
+  - __ct__17TCameraDebugOrbitFv
+  - __ct__15TCameraScriptedFv
   - __ct__13TUnk_8048DF58Fv
   - __ct__13TUnk_8049F038FP7TObjectsl
   - __ct__13TUnk_8049F770FP7TObjectPUc
@@ -2378,12 +2378,12 @@ force_active:
   - __dt__13TUnk_804848B8Fv
   - __dt__13TUnk_80484A94Fv
   - __dt__13TUnk_80484AFCFv
-  - __dt__13TUnk_804887C8Fv
-  - __dt__13TUnk_80488AD8Fv
-  - __dt__13TUnk_80488B38Fv
-  - __dt__13TUnk_80488B68Fv
-  - __dt__13TUnk_80488D70Fv
-  - __dt__13TUnk_80488DA0Fv
+  - __dt__13TCameraVolOptFv
+  - __dt__19TCameraConversationFv
+  - __dt__17TCameraDebugOrbitFv
+  - __dt__15TCameraScriptedFv
+  - __dt__18TCameraWatchPlayerFv
+  - __dt__16TCameraDebugViewFv
   - __dt__13TUnk_8048DF58Fv
   - __dt__13TUnk_8048E1A4Fv
   - __dt__13TUnk_8048E6A8Fv
@@ -3182,12 +3182,12 @@ force_active:
   - __vt__13TUnk_804848B8
   - __vt__13TUnk_80484A94
   - __vt__13TUnk_80484AFC
-  - __vt__13TUnk_804887C8
-  - __vt__13TUnk_80488A28
-  - __vt__13TUnk_80488AD8
-  - __vt__13TUnk_80488B38
-  - __vt__13TUnk_80488B68
-  - __vt__13TUnk_80488DA0
+  - __vt__13TCameraVolOpt
+  - __vt__17TCameraController
+  - __vt__19TCameraConversation
+  - __vt__17TCameraDebugOrbit
+  - __vt__15TCameraScripted
+  - __vt__16TCameraDebugView
   - __vt__13TUnk_8048DF58
   - __vt__13TUnk_8048E1A4
   - __vt__13TUnk_8048E6A8
@@ -4186,7 +4186,7 @@ force_active:
   - biri_ball_model_names
   - biri_ball_motion_names
   - bishi_spawn_offset_table
-  - blend_motion_poses__FPvPvPvPvPv
+  - blend_motion_poses__FP10NJS_OBJECTPfPlPfPf
   - blocking_vsync__6TLobbyFPv
   - bm3_fly_collider_params
   - bm3_fly_decision_row
@@ -4818,11 +4818,11 @@ force_active:
   - calc_wall_slide_destination__FP9TObjEneDDP3Vecfff
   - calc_xz_direction_to__16TObjEneBm5GibonUFP3VecP3Vec
   - decode_target__20Boss6Type2FlowActionFP20Boss6Type2MoveTarget
-  - call_null__12TBoss8DragonFv
+  - get_boss_target__18TObjLiveCameraCtrlFv
   - call_state_action__14TBoss6PlotFalzFv
-  - camera_motion_context_table
-  - camera_slot_positions
-  - camera_slot_scan_index__10TObjCamera
+  - motion_contexts
+  - camera_lamp_positions
+  - node_scan_index__10TObjCamera
   - can_action__15TBoss3VoloptP02Fv
   - can_action_wait__15TBoss3VoloptP02Fv
   - can_attack_target__13TObjEneBm3FlyFv
@@ -5094,7 +5094,7 @@ force_active:
   - clamp_partner_counter__Flls
   - clamp_state__12TObjDoorJungFv
   - clamp_to_ground__14TBoss6GravBallFv
-  - clamp_to_target_obstruction__11TCameraCtrlFv
+  - clamp_to_target_obstruction__11TCameraCtrlFP17TCameraController
   - class_name__10TBoss6Rock
   - class_name__11TOBiwaMushi
   - class_name__11TOBoss4Bird
@@ -5273,7 +5273,7 @@ force_active:
   - computer_machine01_collision_body
   - computer_screen_model__13TObjLobbyMain
   - computer_screen_model_b__13TObjLobbyMain
-  - configure_scripted_camera_playback__FPUcl
+  - configure_scripted_camera_playback__FP14CameraPlaybackl
   - confirm_and_close_if_valid__28THunterGuildSeqOnline_ServerFv
   - confirm_and_free__17TWindowSubComCardFv
   - confirm_mode_selection__21TAdMultiChgGameModeGCFv
@@ -5329,7 +5329,7 @@ force_active:
   - context_texture_obj
   - controller_default_pad_state
   - controller_device_id_table
-  - conversation_camera_obstructed__FP16FollowControllerl
+  - is_side_obstructed__13TCameraFollowFl
   - convert_quest_object_rows
   - convert_serial_hex_to_decimal__22TAdEnterSerialAccessGCFPCc
   - copySavedX__12TBoss1DragonFPi
@@ -5410,8 +5410,8 @@ force_active:
   - copy_udp_socket_event_record
   - copy_from__15TBoss6MagMotionFPC15TBoss6MagMotion
   - copy_vec_array__11TBoss6Type2Fv
-  - copy_view_params__11TCameraCtrlFii
-  - copy_view_state__11TCameraCtrlFl
+  - copy_view_params__11TCameraCtrlFP12CameraMatrixPC12CameraMatrix
+  - copy_view_state__16CameraViewParamsFPC16CameraViewParams
   - copy_with_guild_card_tag__13TPlyRecvLoginFPl
   - countModelNodes__12TBoss1DragonFP15DragonModelNode
   - count_active_players__14TBoss4DarkFalzFv
@@ -6201,7 +6201,7 @@ force_active:
   - find_index_in_table__11TBoss6Type2FUl
   - find_indirect_effect_ctrl__Fl
   - find_material_entry_by_id__6TSceneFPvUs
-  - find_motion_key_partition_u16__FPUcUlUlUl
+  - find_motion_key_partition_u16__FPCvUlUlUl
   - find_nearest_enemy__15TObjEnemyCustomFP3Vecf
   - refresh_target__12TObjEneSaverFv
   - find_open_direction__15TObjEneMe1GiGueFP3Vec
@@ -6369,7 +6369,7 @@ force_active:
   - get_warp_string_screen_position
   - fn_8019F9AC
   - alloc_player_ids
-  - __sinit_text_801A3BB8_cpp
+  - __sinit_OfflineGameScene_cpp
   - fn_801C1E98
   - fn_801C1EE8
   - fn_801C1F40
@@ -6735,7 +6735,7 @@ force_active:
   - get_table_entry__19TContainerAncient01Fi
   - get_table_entry_by_clamped_index__10TObjPlayerFv
   - get_table_value__19TAdPlyPltAnimCtrlGCFi
-  - get_target_position__11TCameraCtrlFv
+  - get_demo_camera_position__16TCameraDebugViewFv
   - get_texlist__23TObjSeabedSuisoBrakableFi
   - get_total_materials_used__Fl
   - get_type__15TFontSmallLobbyFPv
@@ -7036,7 +7036,7 @@ force_active:
   - init_collision_params__17TOSymbolchatColliFv
   - __ct__19TBoss8DragonColli_CFP7TObjectlP3Vecf
   - init_control_mode__12TBoss1DragonFv
-  - init_conversation_camera__11TCameraCtrlFlll
+  - __ct__19TCameraConversationFllP7TObject
   - init_ctrl_default__19TPlayerBattleCtrl4PFPv
   - init_cursor_record__18TargetCursorRecordFv
   - init_depth__15TObjEneDelDepthFv
@@ -7244,7 +7244,7 @@ force_active:
   - interact_player_neg1__11TOVS2Wall01Fv
   - interp_position_between_nodes__11TBoss4Type3Fv
   - interpolate_along_curve__18TObjTailsTailsMoveFPf
-  - interpolate_motion_quaternion_keys__FUlUllf
+  - interpolate_motion_quaternion_keys__FPCvUlfPv
   - invoke_callback_16C_and_destroy__23TShopJudgmentItemWindowFv
   - invoke_callback_170_and_destroy__23TShopJudgmentItemWindowFv
   - invoke_callback_174_and_destroy__23TShopJudgmentItemWindowFv
@@ -7286,13 +7286,13 @@ force_active:
   - is_enabled__9TItemDropFv
   - is_end__12TCharaMakingFv
   - is_entity_locally_controlled__Fl
+  - is_manual_camera_held__13TCameraFollowFv
   - is_valid__24ModelNodePositionCaptureFPC22ModelNodePositionEntry
   - is_entry_valid__23TAdSinglePlyChrSelectGCFPvi
   - is_entry_valid__6TLobbyFl
   - is_far_from_origin__10TBoss6MineFv
   - is_field88_zero__15TObjCityMapWarpFv
   - is_field88_zero__15TObjLaboMapWarpFv
-  - is_flag_set__11TCameraCtrlFv
   - is_flag_set__15TObjBoss2TunnelFv
   - is_flag_set__6TLobbyFPv
   - is_grounded__10TObjPlayerFv
@@ -7459,8 +7459,8 @@ force_active:
   - df_demo1_strip_specs
   - df_demo2_zero_camera_angles
   - df_demo3_zero_camera_angles
-  - lbl_80438528
-  - lbl_80438534
+  - follow_camera_init_eye_offset
+  - follow_camera_reset_eye_offset
   - lbl_80439494
   - lbl_804394A4
   - lbl_804394BC
@@ -7770,8 +7770,8 @@ force_active:
   - boss5_gryphon_landing_bezier_points
   - gryphon_left_horn_lightning_offset
   - gryphon_right_horn_lightning_offset
-  - lbl_80488A8C
-  - lbl_80488AC0
+  - camera_controller_factories
+  - __vt__11TCameraCtrl
   - lbl_8048D0B0
   - lbl_8048D108
   - lbl_8048D278
@@ -8163,7 +8163,7 @@ force_active:
   - boss1_dragon_capture_chunk_model
   - boss1_dragon_reference_pos_vec
   - boss1_dragon_forward_reference_vec
-  - lbl_804FF67C
+  - saved_view_params__11TCameraCtrl
   - lbl_804FF82C
   - lbl_805007C8
   - canadin_shared_handler_b_table
@@ -8272,7 +8272,7 @@ force_active:
   - TBoss5GryphonColli__name
   - TBoss5GryphonDemo__name
   - TBoss5GryphonSnarl__name
-  - lbl_805D283C
+  - camera_ctrl_class_name
   - TObjEneRe7BeruraPunch__name
   - lbl_805D2A50
   - TObjEneRe2Flower_EffCurse3__name
@@ -14623,8 +14623,8 @@ force_active:
   - reset_inactive_keys__16KeyboardKeyStateFv
   - reset_indices__11TBoss6Type2Fv
   - reset_keys__16KeyboardKeyStateFv
-  - reset_leader_selection__FPv
-  - reset_leader_selection_static__6TLobbyFv
+  - __ct__15LeaderSelectionFv
+  - __sinit_TFontSmallTask_cpp
   - set_core_color__17TObjEneMe1CanadinFPC8NJS_ARGB
   - reset_matrix__13TObjTombstoneFv
   - reset_obstruction_fade__13TUnk_80490470Fv
@@ -14655,7 +14655,7 @@ force_active:
   - reset_windows__16TAdChrSelBSlotGCFv
   - resolve_active_quest_result__22THunterGuildSeqOfflineFv
   - resolve_actor_sphere_contact__FPUcll
-  - resolve_anchor_obstruction__11TCameraCtrlFv
+  - resolve_anchor_obstruction__11TCameraCtrlFP17TCameraController
   - resolve_color__8TItemMagFv
   - resolve_indirect_node_record
   - resolve_indirect_object_record
@@ -14860,11 +14860,11 @@ force_active:
   - run_task__13TUnk_804848B8Fv
   - run_task__13TUnk_80484A94Fv
   - run_task__13TUnk_80484AFCFv
-  - run_task__13TUnk_804887C8Fv
-  - run_task__13TUnk_80488AD8Fv
-  - run_task__13TUnk_80488B38Fv
-  - run_task__13TUnk_80488B68Fv
-  - run_task__13TUnk_80488DA0Fv
+  - run_task__13TCameraVolOptFv
+  - run_task__19TCameraConversationFv
+  - run_task__17TCameraDebugOrbitFv
+  - run_task__15TCameraScriptedFv
+  - run_task__16TCameraDebugViewFv
   - run_task__13TUnk_8048E6A8Fv
   - run_task__13TUnk_8048E6DCFv
   - run_task__13TUnk_804909C4Fv
@@ -15463,7 +15463,7 @@ force_active:
   - set_owner__18TObjEneBm5WolfNodeFP14TObjEneBm5Wolf
   - set_owner__20TObjEneBm5GibonUNodeFP16TObjEneBm5GibonU
   - set_field90__15TPlyPhotonChairFl
-  - set_field_100__11TCameraCtrlFl
+  - set_close_up__13TCameraFollowFl
   - set_field_4__6TLobbyFl
   - set_field_60__15TWindowCallBackFPvi
   - set_field_74__14TWindowSubItemFs
@@ -15564,7 +15564,7 @@ force_active:
   - set_pick_up__12CursorActionFv
   - set_player_id__11TPlayerSoulFUs
   - set_player_room_control_flag__FP10TObjPlayer
-  - set_pos_target__13TUnk_80488E00FP3VecP3Vecl
+  - set_pos_target__13TCameraFollowFP3VecP3Vecl
   - set_position__15TWindowQuantityFl
   - set_primary_p01s__12TBoss3VoloptFl
   - set_quest_label__15TOQuestTalkBaseFl
@@ -16161,10 +16161,10 @@ force_active:
   - draw_faded_models__11TBoss4Type3Fv
   - is_not_sinking__10TBoss4ZakoFv
   - is_hunting__10TBoss4ZakoFv
-  - sub_8006CDD0__13TUnk_80488E00Fv
-  - sub_8006CF38__13TUnk_80488E00Fv
-  - sub_8006DCC8__13TUnk_80488E00Fv
-  - sub_8006E7FC__13TUnk_80488E00Fv
+  - apply_override_pose__13TCameraFollowFv
+  - update_manual_camera__13TCameraFollowFv
+  - clear_follow_flags__13TCameraFollowFv
+  - get_target_yaw__13TCameraFollowFv
   - sub_80072B70__18TObjChallengeRetryFv
   - sub_80072BB0__18TObjChallengeRetryFv
   - sub_8007313C__18TObjChallengeRetryFv
@@ -16351,7 +16351,7 @@ force_active:
   - sub_80300764__21TAdMultiSelGameModeGCFv
   - apply_variant__14TObjEneDolmOlmFv
   - retarget_attacker__16TObjEneDellBiterFv
-  - sub_8030B818__18TObjLiveCameraCtrlFi
+  - turn_orbit_toward__18TObjLiveCameraCtrlFi
   - sub_8030CBD0__16TAdChrSelASlotGCFv
   - sub_8030CBD4__16TAdChrSelASlotGCFv
   - sub_8030CCE0__16TAdChrSelASlotGCFv
@@ -16728,7 +16728,7 @@ force_active:
   - state_move_forward__17TObjEneMe1CanadinFl
   - update_by_state__9TTecMegidFv
   - update_camera_facing_offset__11TLoadingCurFv
-  - update_camera_slots__10TObjCameraFP10NJS_OBJECT
+  - record_lamp_positions__10TObjCameraFP10NJS_OBJECT
   - update_camera_vec_by_stage__9TObjGrassFP10NJS_OBJECT
   - update_capture__11TBoss4Type3Fv
   - update_capture__14TObjVoloptCageFv
@@ -17612,7 +17612,7 @@ force_active:
   - vfunc_6__12TODoorCave01FPsl
   - display_shop_message__12TQuestListVMFll
   - vfunc_6__13TAdVIConfigGCFv
-  - vfunc_6__13TUnk_80488D70Fv
+  - apply_camera_params__18TCameraWatchPlayerFl
   - vfunc_6__14TOTrapSeabed01FPsl
   - vfunc_6__15TOAttackableColFPsl
   - vfunc_6__15TODoorAncient08FPsl

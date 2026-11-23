@@ -9,7 +9,6 @@
 void clear_shop_armor_flags(void);
 void clear_shop_tool_flags(void);
 void clear_shop_weapon_flags(void);
-extern s32 TLobby__data_805011D8[];
 extern s32 local_client_id;
 extern s32 game_difficulty_selection;
 s32 lbl_805D6238;
@@ -58,7 +57,7 @@ void init_shop_world_context(void) {
     if ((s32) shop_world_player_level > 0xC7) {
         shop_world_player_level = 0xC7;
     }
-    temp_r3_3 = ((TFontSmallTask *)TLobby__data_805011D8)->get_task_id();
+    temp_r3_3 = leader_selection.get_section_id();
     lbl_805D6238 = temp_r3_3;
     if (temp_r3_3 < 0) {
         lbl_805D6238 = 0;

@@ -7,8 +7,6 @@
 #include "pso/player/TObjPlayer.h"
 
 
-int is_quest_active(void);
-
 extern s32 game_difficulty_selection;
 
 s32 TLobby::is_online_ready() {
@@ -23,7 +21,7 @@ s32 TLobby::is_online_ready() {
 
 s32 TLobby::is_camera_ctrl_active() {
     if (TRaderMapCore::is_not_split_screen() == 1) {
-        return TCameraCtrl::get_instance();
+        return TCameraCtrl::get_view_count();
     }
     return 1;
 }

@@ -5,6 +5,7 @@
 #include "pso/system/NinjaTypes.h"
 #include "types.h"
 #include "pso/camera/TCameraCtrl.h"
+#include "pso/camera/CameraViewParams.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/system/vector.h"
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
@@ -23,17 +24,15 @@
 #include "pso/unk/text_803D96A8.h"
 #include "pso/system/task/TObject.h"
 #include "pso/unk/text_803E2F28.h"
+#include "pso/render/Draw2D.h"
 
 extern "C" {
 void post_translate_matrix(void *);
 f32 xyz_distance(void *, void *);
 void TObjPlayer__sub_8030A9B0();
-extern u32 TCameraCtrl__data_804FF634[18];
-void TCameraCtrl__sub_8030ABF4();
 }
 
 void draw_chunk_model(void *);
-extern u8 *camera_ctrl_instance;
 extern u32 saved_model_render_flags;
 extern s32 saved_chunk_polygon_flags_and_mask;
 extern s32 saved_chunk_polygon_flags_or_mask;
@@ -48,7 +47,7 @@ extern u32 model_render_flags;
 
 extern u32 dark_falz_controller_instance;
 
-void TBoss4ZakoDraw::render() { TObjPlayer::toggle_particle_effect(); TCameraCtrl__sub_8030ABF4(); TParticleCtrl::end_effect_render(); }
+void TBoss4ZakoDraw::render() { TObjPlayer::toggle_particle_effect(); TBoss4ZakoDraw::draw_queued(); TParticleCtrl::end_effect_render(); }
 void TBoss4ZakoDraw::run_task() {
     s32 old;
     if (dark_falz_controller_instance == 0U) {
@@ -95,7 +94,7 @@ void TObjPlayer__sub_8030A9B0() {
     e = tbl->entries;
     rot = (TBoss4ZakoDraw__rotation_phase << 16) / 16;
     // The shared camera slot retains its legacy byte-pointer declaration.
-    VecCopy(&pos, (const Vec *)(camera_ctrl_instance + 0x178));
+    VecCopy(&pos, &camera_ctrl_instance->pos);
     i = 0;
     pos.y = zako_draw_height;
     for (; i < tbl->count; i++, e++) {
@@ -160,12 +159,11 @@ __declspec(section ".sdata2") const f32 zako_fade_distance = 75.0f;
 __declspec(section ".sdata2") const f32 zako_fade_full = 1.0f;
 __declspec(section ".sdata2") const f32 zako_fade_color = -1.0f;
 
-void TCameraCtrl__sub_8030ABF4(void) {
+void TBoss4ZakoDraw::draw_queued() {
     if (boss4_zako_draw_buffers[TBoss4ZakoDraw__draw_buffer_index].count != 0) {
-        // The camera owner stores the viewport rectangle at byte offset 0x30.
-        void *rect = &TCameraCtrl__data_804FF634[12];
+        const TileRect *rect = &TCameraCtrl::view_params.scissor;
         if (is_split_screen() == 0) {
-            TCameraCtrl::set_viewport_scissor(2, rect);
+            set_viewport_scissor(2, rect);
         }
         NJS_OBJECT *model = get_bml_model(TBoss4Uro::get_instance_count(), 8);
         model->child->ang[1] = TBoss4ZakoDraw__rotation_phase << 12;

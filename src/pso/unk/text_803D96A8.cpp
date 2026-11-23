@@ -43,6 +43,7 @@ void rotate_matrix_x(Matrix34* matrix, s32 angle) {
         PSMTXConcat(selected->elements, rotation.elements, selected->elements);
     }
 }
+}
 
 #pragma push
 #pragma scheduling off
@@ -64,22 +65,23 @@ void TObjPlayer::concat_matrix(uaddr arg0, uaddr arg1) {
 #pragma push
 #pragma peephole off
 #pragma fp_contract on
-void TCameraCtrl::concat_matrix(uaddr arg0, uaddr arg1) {
-    MtxP var_r4;
-    MtxP elements;
-    var_r4 = (MtxP)arg1;
-    if (arg0 == 0U) {
-        elements = *current_matrix;
+void premultiply_matrix(uaddr dst, uaddr src) {
+    MtxP s;
+    MtxP d;
+    s = (MtxP)src;
+    if (dst == 0U) {
+        d = *current_matrix;
     } else {
-        elements = (MtxP)arg0;
+        d = (MtxP)dst;
     }
-    if (var_r4 == NULL) {
-        var_r4 = *current_matrix;
+    if (s == NULL) {
+        s = *current_matrix;
     }
-    PSMTXConcat(var_r4, elements, elements);
+    PSMTXConcat(s, d, d);
 }
 #pragma pop
 
+extern "C" {
 asm f32 normalize_vector(Vec *v) {
 #include "orig_asm/pso/unk/text_803D96A8/normalize_vector.inc"
 }

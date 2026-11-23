@@ -3,7 +3,6 @@
 #include "pso/unk/TLobby_80227AA0.h"
 #include "pso/unk/text_8023F660.h"
 #include "pso/unk/TLobby.h"
-#include "pso/item/TUnk_804CC048.h"
 #include "pso/map/FloorArea.h"
 #include "pso/unk/TLobby_80207644.h"
 #include "pso/unk/TLobby_8023F734.h"
@@ -62,7 +61,7 @@ void handle_6xB2_play_sound_from_player(void *command) {
 }
 
 s32 TLobby::is_camera_state_active() {
-    if ((TCameraCtrl__sub_8006A5DC() == 5) || (TCameraCtrl__sub_8006A5DC() == 9)) {
+    if ((TCameraCtrl::get_active_controller() == 5) || (TCameraCtrl::get_active_controller() == 9)) {
         return 1;
     }
     return 0;
