@@ -4,6 +4,7 @@
 #include "pso/player/TObjPlayer_801AEB84.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/unk/text_80104FCC.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 // Written from the last function back (deferred code generation), which also
 // puts the vtable before the switch table.
@@ -13,9 +14,6 @@
 extern "C" s16 calc_base_tp_bonus__FUs();
 extern "C" s16 calc_base_hp_bonus__FUs();
 
-extern "C" {
-s32 get_entity_id(void *);
-}
 
 TItem *create_material_item(u8 *item) {
     if (item != NULL) {
@@ -42,13 +40,13 @@ void TUnk_8049FBC0::apply_use_effect() {
         ((TObjPlayer *)(this->owner))->add_evp_material(2);
         break;
     case 3:
-        get_entity_id((void *)this->owner);
+        get_entity_id(this->owner);
         if (calc_base_hp_bonus__FUs() < 0xFA) {
             ((TObjPlayer *)(this->owner))->apply_speed_with_camera_scale((u8)(2));
         }
         break;
     case 4:
-        get_entity_id((void *)this->owner);
+        get_entity_id(this->owner);
         if ((calc_base_tp_bonus__FUs() < 0xFA) && (check_class_equip_permission(this->owner, 0xD7) == 0)) {
             ((TObjPlayer *)(this->owner))->set_speed_scaled_by_camera((u8)(2));
         }
