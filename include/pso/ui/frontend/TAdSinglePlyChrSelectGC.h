@@ -11,6 +11,7 @@ class TAdGuideTxtGC;
 class TAdChrSelPlayerGC;
 class TPlyCharData;
 struct CharacterFile;
+struct CharacterSaveRecord;
 
 struct TAdChrSelASlotGC;
 class TAdSelectCurGC;
@@ -213,7 +214,7 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     static void save_character_file(int arg0);
     static void set_id(void* p, int v);
     static s32 setup_player_battle_ctrls();
-    static s32 update_elapsed_time(void * character_save_record);
+    static s32 update_elapsed_time(CharacterSaveRecord *record);
     static void update_pair(void* p);
     static s32 update_play_time();
     static s32 verify_save_checksum(int arg0);
@@ -269,9 +270,9 @@ extern saddr character_save_file_block_count;
 extern saddr guild_card_save_file_block_count;
 extern saddr system_save_card_channel;
 extern saddr system_save_file_block_count;
-extern uaddr character_save_file_buffer;
-extern uaddr guild_card_save_file_buffer;
-extern uaddr system_save_file_buffer;
+extern u8 *character_save_file_buffer;
+extern u8 *guild_card_save_file_buffer;
+extern u8 *system_save_file_buffer;
 extern s32 chr_select_scene_state;
 
 // Checks the character file loaded from card slot A / B against the system file's card serial.

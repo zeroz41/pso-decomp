@@ -16,18 +16,7 @@
 
 struct Names_801E13C4 { const char* p[6]; };
 
-struct CardSaveHeader {
-    char title[0x20];
-    char comment[0x20];
-    u8 banner[0x1800];
-    u8 icon[0x800];
-    s32 size;
-    u32 crc;
-};
-
 struct Date_801E21A8 { u16 year; u8 mon; u8 mday; u8 hour; u8 min; u8 sec; u8 pad; u8 pad8[4]; };
-LAYOUT_ASSERT(CardSaveHeader_size, sizeof(CardSaveHeader) == 0x2048);
-LAYOUT_ASSERT(CardSaveHeader_crc_offset, offsetof(CardSaveHeader, crc) == 0x2044);
 
 struct Info_801E21A8 { u32 length; s16 blocks; u8 f6; u8 f7; s16 f8; u16 year; u8 mon; u8 mday; u8 hour; u8 min; u8 sec; u8 pad; };
 

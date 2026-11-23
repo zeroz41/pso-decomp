@@ -16,7 +16,10 @@ struct CharacterSaveRecord {
 
     u8 pad_0[0x4];
     s32 pad_4;
-    u8 pad_8[0x14 - 0x8];
+    u8 pad_8[0x4];
+    // Seconds played; update_elapsed_time adds the time since the character was selected.
+    s32 play_time;
+    u8 pad_10[0x4];
     u32 pad_14;
     u8 pad_18[0x248 - 0x18];
     s32 bank_item_count;    // rows of bank_items in use

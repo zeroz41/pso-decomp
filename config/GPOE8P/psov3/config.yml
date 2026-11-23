@@ -16867,7 +16867,7 @@ force_active:
   - update_effect_positions__9TBoss6MagFv
   - update_chase_pl__9TBoss6MagFv
   - update_effects__13TGoGoBallGoalFv
-  - update_elapsed_time__23TAdSinglePlyChrSelectGCFPv
+  - update_elapsed_time__23TAdSinglePlyChrSelectGCFP19CharacterSaveRecord
   - update_burrow__16TObjEneMerillLiaFv
   - update_emergence_state__12TBoss1DragonFUl
   - update_emitter_positions__13TObjLobbyMainFv

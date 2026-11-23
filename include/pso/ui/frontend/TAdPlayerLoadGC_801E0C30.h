@@ -6,6 +6,19 @@
 
 struct CardWriteDate;
 
+// The banner and icon block build_save_file_image writes in front of a save file's data.
+struct CardSaveHeader {
+    char title[0x20];
+    char comment[0x20];
+    u8 banner[0x1800];
+    u8 icon[0x800];
+    s32 size;
+    u32 crc;
+};
+
+LAYOUT_ASSERT(CardSaveHeader_size, sizeof(CardSaveHeader) == 0x2048);
+LAYOUT_ASSERT(CardSaveHeader_crc_offset, offsetof(CardSaveHeader, crc) == 0x2044);
+
 extern "C" {
 void free_banner_buffers(void);
 s32 get_memcard_free_files(s32 chan);
