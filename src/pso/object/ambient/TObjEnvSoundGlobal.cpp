@@ -103,6 +103,7 @@ f32 xyz_distance_squared(void *, void *, void *);
 #include "pso/unk/text_80190940.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/object/trap/TOTrapAncient01_80226534.h"
+#include "pso/unk/TLobby_80207DA8.h"
 
 
 struct Obj_80190AA0 {
@@ -123,8 +124,6 @@ struct Obj_80190AA0 {
 
 void copy_pair__18TObjEnvSoundGlobalFPvPv(void *p, void *q);
 
-s32 set_floor_event_flags(s32 floor, s32 id, s32 flags);
-s32 activate_first_floor_event(s32 idx, s32 id);
 void handle_6x67_trigger_set_event(game_command_header *command) {
     G_FloorEvent_6x67 *pkt = reinterpret_cast<G_FloorEvent_6x67 *>(command);
     pkt->bswap();

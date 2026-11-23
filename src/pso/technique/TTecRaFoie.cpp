@@ -144,6 +144,7 @@ void TTecRaFoie::vfunc_8(void *) {
 #include "pso/technique/TechniqueParams.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/unk/text_803D8F74.h"
+#include "pso/system/task/TMainTask.h"
 
 
 extern "C" {
@@ -250,8 +251,6 @@ void TUnk_804CCB28::run_task() {
 TUnk_804CCB28::~TUnk_804CCB28() {
 
 }
-
-extern TObject *tl_particle;
 
 TUnk_804CCB28::TUnk_804CCB28(Vec *pos, s16 band, s16 level, TObject *parent, f32 radius) : TObject(parent) {
     Vec raised;

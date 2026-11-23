@@ -37,7 +37,6 @@ void draw_weapon_at_joint(saddr arg0, s8 arg1);
 }
 void set_shadow_material_state(void);
 
-void draw_model_motion(void *model, void *motion, f32 frame);
 extern s16 TObjPlayer__weapon_node_ids[];
 extern s16 weapon_node_material_index;
 extern u8 *weapon_render_callback_object;
