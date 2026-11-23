@@ -20,7 +20,7 @@ void TObjPlayer::reset_state() {
     *(s32 *)((s8 *)arg0 + 0x3D4) = 0;
     this->clear_state_flags(0x283);
     this->m_3f4 = 0;
-    *(s32 *)&this->unk_3F0 = 0;
+    this->target_heading = 0;
     this->m_3ec = 0;
     this->move_target.z = (f32) TObjPlayer__data_805DC278;
     this->move_target.y = (f32) TObjPlayer__data_805DC278;

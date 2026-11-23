@@ -896,12 +896,6 @@ typedef struct Player_801BA838 {
     s32 ang;
 } Player_801BA838;
 
-typedef struct Msg1F_801BA8D4 {
-    u8 pad0[2];
-    u16 slot;
-    s32 floor;
-} Msg1F_801BA8D4;
-
 typedef struct Msg20_801BA8D4 {
     u8 pad0[2];
     u16 id;
@@ -938,12 +932,6 @@ struct Sp8Struct_801baa00 {
     s16 fA;
     s32 fC;
 };
-
-typedef struct Msg_801BAA6C {
-    u8 pad0[2];
-    u16 slot;
-    s32 floor;
-} Msg_801BAA6C;
 
 struct Msg_801BAB1C { u16 cmd; u16 id; s32 value; u8 pad8[8]; };
 
@@ -2167,14 +2155,14 @@ void send_6x21_inter_level_warp(TObjPlayer *player, s32 floor) {
 extern "C" {
 
 void handle_6x21_inter_level_warp(void *command) {
-    Msg_801BAA6C m;
+    G_InterLevelWarp_6x21 m;
     void *p;
 
     init_6x21_inter_level_warp_packet((u8 *)&m);
-    ((TObjPlayer *)(&m))->copy_warp_target(command);
+    m = *(G_InterLevelWarp_6x21 *)command;
     ((TObjPlayer *)(&m))->bswap_warp_packet();
-    if (validate_6x21_inter_level_warp((G_ClientIDHeader *)&m) != 0) {
-        p = get_player_by_client_id((u16)m.slot);
+    if (validate_6x21_inter_level_warp(&m.header) != 0) {
+        p = get_player_by_client_id(m.header.client_id);
         if (p != NULL) {
             if ((((TObjChara *)p)->obj_isState2_324() != 0) && (m.floor != ((TObjPlayer *)p)->get_floor())) {
                 ((TObjPlayer *)p)->set_state_flags(0x40000);
@@ -2198,16 +2186,16 @@ void TObjPlayer::apply_state_transform() {
 }
 
 void handle_6x1F_set_player_floor(void *command) {
-    Msg1F_801BA8D4 m;
+    G_SetPlayerFloor_6x1F m;
     Msg_801BA8D4 m2;
     Msg20_801BA8D4 m3;
     void *p;
     Player_801BA8D4 *pl;
     init_6x1F_floor_packet((u8 *)&m);
-    ((TObjPlayer *)(&m))->handle_6x1F_set_floor(command);
+    m = *(G_SetPlayerFloor_6x1F *)command;
     ((TObjPlayer *)(&m))->bswap_set_floor_packet();
-    if (validate_6x1F_set_player_floor((G_ClientIDHeader *)&m) != 0) {
-        p = get_player_by_client_id(m.slot);
+    if (validate_6x1F_set_player_floor(&m.header) != 0) {
+        p = get_player_by_client_id(m.header.client_id);
         if (p != NULL) {
             ((TObjPlayer *)p)->set_floor_index(get_floor_area(m.floor));
             ((TObjPlayer *)p)->set_floor(m.floor);
@@ -2226,7 +2214,7 @@ void handle_6x1F_set_player_floor(void *command) {
                 m2.f8 = ((TObjPlayer *)pl)->get_state_flags();
                 m2.floor = ((TBoss7Crawfish *)pl)->get_floor();
                 m2.speed = ((TObjChara *)pl)->get_frame();
-                ((TObjPlayer *)(&m2))->send_player_floor_packet(m.slot);
+                ((TObjPlayer *)(&m2))->send_player_floor_packet(m.header.client_id);
             }
         }
     }

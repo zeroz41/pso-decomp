@@ -27,7 +27,7 @@ void TObjPlayer::init_action_provider() {
     *(s8 *)&this->unk_33A = 0;
     this->m_339 = 0;
     *(s8 *)&this->unk_338 = 0;
-    *(s32 *)&this->unk_33C = 0;
+    this->action_state = 0;
     this->m_36c = 0;
     this->pad_370 = 0;
     this->reset_entrance_id();
@@ -36,7 +36,7 @@ void TObjPlayer::init_action_provider() {
     *(s32 *)&this->state_flags = 0;
     this->set_input_mode(0);
     this->set_move_mode(0);
-    *(s16 *)&this->unk_3C0 = -1;
+    this->lobby_animation = -1;
     *(f32 *)&this->m_3c4 = (f32) TObjPlayer__data_805DC278;
     this->set_battle_flag(0);
     this->controller_input = NULL;

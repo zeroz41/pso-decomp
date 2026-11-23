@@ -176,8 +176,7 @@ struct TObjPlayer : public TObjChara {
     s8 m_339;
     u8 unk_33A[0x1];
     s8 m_33b;
-    u8 unk_33C[0x2];
-    s16 m_33e;
+    s32 action_state;
     PlayerActionPaletteState action_palette_state;
     PhotonChairSeat chair_seat;
     ContactSurfaceState contact_surface;
@@ -190,7 +189,8 @@ struct TObjPlayer : public TObjChara {
     s32 m_3b4;
     u8 unk_3B8[0x4];
     s32 language;
-    u8 unk_3C0[0x4];
+    s16 lobby_animation;
+    u8 pad_3c2[0x2];
     s32 m_3c4;
     u8 unk_3C8[0x4];
     u32 m_3cc;
@@ -202,7 +202,7 @@ struct TObjPlayer : public TObjChara {
     s32 current_floor;
     u8 unk_3E8[0x4];
     s32 m_3ec;
-    u8 unk_3F0[0x4];
+    s32 target_heading;
     s32 m_3f4;
     Vec move_target;  // (name inferred) run/walk-to target: calc_movement_target and handle_6x40/6x42 set x/z, update_*_movement steer to it
     f32 m_404;
@@ -1315,10 +1315,8 @@ struct TObjPlayer : public TObjChara {
     void send_player_floor_packet(u32 client);
     void send_player_floor_packet_u32x5();
     void bswap_set_floor_packet();
-    void*handle_6x1F_set_floor(void* command);
     void bswap_and_send_set_floor();
     void bswap_warp_packet();
-    void*copy_warp_target(void* command);
     void update_warp_relocation();
     static s32 try_camera_action(saddr player, s32 arg1);
     void bswap_entry_list();

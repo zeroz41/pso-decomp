@@ -9,6 +9,8 @@
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/item/TItemData.h"
 #include "pso/network/protocol/packet_classes.h"
+#include "pso/network/protocol/subcmd_6x.h"
+#include "pso/ui/font/TFontSmallLobby_801C013C.h"
 
 #pragma inline_depth(1)
 #pragma auto_inline off
@@ -25,9 +27,6 @@ struct Pos_801D2964 { u8 bytes[0x8]; };
 struct Pkt_801D2964 { u8 hdr[4]; Pos_801D2964 pos; };
 
 extern "C" {
-s32 copy_subcommand_header(void *, void *);
-#define copy_subcommand_header ((int (*)(void*))copy_subcommand_header)
-void bswap_g_client_id_header(void *p);
 
 extern const f32 TObjPlayer__data_805DC278;
 
@@ -50,7 +49,7 @@ void apply_status_effect__10TObjPlayerFPv(void* p) { ((G_ClientIDHeader *)p)->bs
 #pragma opt_common_subs off
 #pragma pop
 void *TObjPlayer__sub_801C092C(void *arg0, void *arg1) {
-    copy_subcommand_header(arg0);
+    copy_subcommand_header(arg0, arg1);
     ((Pkt_801D2964 *)arg0)->pos = ((Pkt_801D2964 *)arg1)->pos;
     return arg0;
 }
@@ -78,9 +77,6 @@ void TObjPlayer::build_6x2C_impose_hold_packet() {
     *(s8 *)((s8 *)((u8 *)this) + 1) = 5;
 }
 
-#undef copy_subcommand_header
-
-#define copy_subcommand_header ((s32 (*)())copy_subcommand_header)
 #define bswap_pkt_u16x2_u32__10TObjPlayerFPv ((s32 (*)())bswap_pkt_u16x2_u32__10TObjPlayerFPv)
 
 void TObjPlayer::bswap_and_send_packet() {
@@ -95,7 +91,7 @@ void TObjPlayer::bswap_body_dwords() {
     bswap_32((u32 *)(arg0 + 8));
 }
 void *TObjPlayer::copy_pair_fields(void *command) {
-    copy_subcommand_header();
+    copy_subcommand_header(this, command);
     *(s32 *)((s8 *)this + 4) = (s32) *(s32 *)((s8 *)command + 4);
     *(s32 *)((s8 *)this + 8) = (s32) *(s32 *)((s8 *)command + 8);
     return this;
@@ -142,7 +138,7 @@ void TObjPlayer::bswap_body_dwords2() {
     bswap_32((u32 *)(arg0 + 8));
 }
 void *TObjPlayer::copy_pair_fields2(void *arg1) {
-    copy_subcommand_header();
+    copy_subcommand_header(this, arg1);
     *(s32 *)((s8 *)this + 4) = (s32) *(s32 *)((s8 *)arg1 + 4);
     *(s32 *)((s8 *)this + 8) = (s32) *(s32 *)((s8 *)arg1 + 8);
     return this;
@@ -163,7 +159,7 @@ void TObjPlayer::bswap_cmd_u32() {
     bswap_32((u32 *)(arg0 + 4));
 }
 void *TObjPlayer::copy_field_4(void *arg1) {
-    copy_subcommand_header();
+    copy_subcommand_header(this, arg1);
     *(s32 *)((s8 *)this + 4) = (s32) *(s32 *)((s8 *)arg1 + 4);
     return this;
 }
@@ -177,7 +173,6 @@ void init_6x27_use_item_cmd(u8 *arg0) {
 
 void TObjPlayer::send_use_item_cmd() { bswap_cmd_u32(); send_subcommand((u8 *)this); }
 
-#undef copy_subcommand_header
 #undef bswap_pkt_u16x2_u32__10TObjPlayerFPv
 
 #pragma inline_depth(1)
@@ -427,15 +422,17 @@ void TObjPlayer::init_cmd_6x20() {
     *(s8 *)((s8 *)this + 1) = 6;
 }
 
-#define copy_subcommand_header ((int (*)(void*))copy_subcommand_header)
-
 void TObjPlayer::send_player_floor_packet(u32 client) { bswap_pkt_u16x2_u32x2(); ((game_command *)this)->send_to_client(client); }
 
 void TObjPlayer::send_player_floor_packet_u32x5() { bswap_pkt_u32x5(); ((game_command *)this)->send(); }
 
 void TObjPlayer::bswap_set_floor_packet() { ((G_ClientIDHeader *)this)->bswap(); bswap_32((u32 *)((char*)this + 0x4)); }
 
-void*TObjPlayer::handle_6x1F_set_floor(void* command) { copy_subcommand_header(this); *(void**)((char*)this + 0x4) = *(void**)((char*)command + 0x4); return this; }
+G_SetPlayerFloor_6x1F &G_SetPlayerFloor_6x1F::operator=(const G_SetPlayerFloor_6x1F &src) {
+    copy_subcommand_header(this, (void *)&src);
+    floor = src.floor;
+    return *this;
+}
 
 void init_6x1F_floor_packet(u8 *arg0) {
     *(s32 *)((s8 *)arg0 + 4) = 0;
@@ -447,6 +444,8 @@ void TObjPlayer::bswap_and_send_set_floor() { bswap_set_floor_packet(); ((game_c
 
 void TObjPlayer::bswap_warp_packet() { ((G_ClientIDHeader *)this)->bswap(); bswap_32((u32 *)((char*)this + 0x4)); }
 
-void*TObjPlayer::copy_warp_target(void* command) { copy_subcommand_header(this); *(void**)((char*)this + 0x4) = *(void**)((char*)command + 0x4); return this; }
-
-#undef copy_subcommand_header
+G_InterLevelWarp_6x21 &G_InterLevelWarp_6x21::operator=(const G_InterLevelWarp_6x21 &src) {
+    copy_subcommand_header(this, (void *)&src);
+    floor = src.floor;
+    return *this;
+}

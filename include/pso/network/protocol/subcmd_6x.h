@@ -449,6 +449,7 @@ struct G_IncrementEnemyDamage_Extension_6xE4 {
 struct G_InterLevelWarp_6x21 {
  struct G_ClientIDHeader header;
  s32 floor;
+ G_InterLevelWarp_6x21 &operator=(const G_InterLevelWarp_6x21 &src);
 };
 
 struct G_InterLevelWarp_6x94 {
@@ -762,6 +763,7 @@ struct G_SetPlayerBattleTeam_6x90 {
 struct G_SetPlayerFloor_6x1F {
  struct G_ClientIDHeader header;
  s32 floor;
+ G_SetPlayerFloor_6x1F &operator=(const G_SetPlayerFloor_6x1F &src);
 };
 
 struct G_SetPlayerPositionAndAngle_6x56 {
