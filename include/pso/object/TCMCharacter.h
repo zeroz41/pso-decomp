@@ -16,7 +16,7 @@ public:
     void reset_model_parts();
     s32 bind_model_parts(uaddr *selected, const char **names, CreationModelPart *parts, s32 part, s32 model_index);
     void load_model_parts();
-    s32 shape_rel;
+    void *shape_rel;
     s32 shape_rel_size;
     s32 shape_rel_ready;
     u32 unknown108;

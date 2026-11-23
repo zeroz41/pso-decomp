@@ -1,3 +1,4 @@
+#include "pso/unk/text_800FA464.h"
 #include "types.h"
 #include "pso/unk/text_800FA260.h"
 #include "pso/unk/TLobby.h"
@@ -7,8 +8,7 @@ extern "C" {
 
 int __dt__5THeapFv(void*, void*);
 
-    extern saddr async_file_read_sector_buffer;
     extern saddr game_heap;
-void TLobby::destroy_game_heap() { process_pending_resources(); TAdSinglePlyChrSelectGC::safe_free((uaddr)((void*)async_file_read_sector_buffer)); TLobby::free_chr_select_data(); __dt__5THeapFv((void*)game_heap, (void*)1); }
+void TLobby::destroy_game_heap() { process_pending_resources(); TAdSinglePlyChrSelectGC::safe_free(reinterpret_cast<uaddr>(async_file_read_sector_buffer)); TLobby::free_chr_select_data(); __dt__5THeapFv((void*)game_heap, (void*)1); }
 
 }

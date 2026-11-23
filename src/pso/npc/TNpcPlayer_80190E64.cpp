@@ -140,7 +140,7 @@ TNpcPlayerSpawner::TNpcPlayerSpawner(f32 *position, s32 heading, s32 slot, s32 r
     load_state = 0;
     this->mode = mode;
     TNpcPlayer::ensure_rock_singleton();
-    TLobby::request_file_read("npcplayerchar.dat", (s32)npc_player_char_data_buffer, (s32 *)&load_state, (void **)0);
+    TLobby::request_file_read("npcplayerchar.dat", npc_player_char_data_buffer, (s32 *)&load_state, (void **)0);
 }
 
 TNpcPlayerSpawner::~TNpcPlayerSpawner() {

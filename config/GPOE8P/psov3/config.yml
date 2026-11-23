@@ -8847,9 +8847,9 @@ force_active:
   - load_all_floor_event_sets__6TLobbyFv
   - load_and_verify_data
   - load_battle_params__11TBoss6Type2Fv
-  - load_bin_model__11BmlResourceFPvl
+  - load_bin_model__11BmlResourceFPCcl
   - load_bin_model_callback__FP19BmlModelLoadRequest
-  - load_bin_motion__11BmlResourceFPvl
+  - load_bin_motion__11BmlResourceFPCcl
   - load_bin_motion_callback__FP20BmlMotionLoadRequest
   - load_chr_select_slot__23TAdSinglePlyChrSelectGCFv
   - load_downloaded_quest__12TQuestListVMFv
@@ -8897,7 +8897,7 @@ force_active:
   - load_texture__12TItemTexLoadFl
   - load_texture_archive__12TItemTexLoadFv
   - load_texture_sequence_frame
-  - load_texture_sub__11BmlResourceFPvl
+  - load_texture_sub__11BmlResourceFPCcl
   - lobby_buffer_refcount
   - lobby_butterfly_bml_resource
   - lobby_checked_read_ptr_table

@@ -1,22 +1,20 @@
+#include "pso/unk/text_800FA464.h"
+#include "pso/system/Adxf.h"
 #include "pso/system/memory.h"
 #include "pso/system/Adxf.h"
 #include "types.h"
 #include <string.h>
-#include "pso/unk/text_803CC294.h"
 #include "pso/unk/TLobby.h"
 #include "pso/unk/TLobby_800FA848.h"
 
-
-struct Ent_800fa164;
-
-s32 TLobby::create_file_load_entry(saddr name, s32 arg1, u32 arg2, saddr src, void **arg4) {
-    struct Ent_800fa164 *var_r31;
+s32 TLobby::create_file_load_entry(const char *name, NJS_TEXLIST *texture, AsyncFileReadCallback callback, const void *params, void **request) {
+    AsyncFileReadRequest *entry;
     AdxfHandle *file;
 
-    if (arg4 != NULL) {
-        *arg4 = NULL;
+    if (request != NULL) {
+        *request = NULL;
     }
-    file = ADXF_Open((const void *)name, 0);
+    file = ADXF_Open(name, 0);
     if (file == 0) {
         return -2;
     }
@@ -24,23 +22,22 @@ s32 TLobby::create_file_load_entry(saddr name, s32 arg1, u32 arg2, saddr src, vo
         ADXF_Close(file);
         return -3;
     }
-    var_r31 = (struct Ent_800fa164 *)(u8 *)TLobby::alloc_from_heap(0x68);
-    if (var_r31 != NULL) {
-        var_r31 = (struct Ent_800fa164 *)link_into_list(var_r31);
+    entry = static_cast<AsyncFileReadRequest *>(TLobby::alloc_from_heap(sizeof(AsyncFileReadRequest)));
+    if (entry != NULL) {
+        entry = link_into_list(entry);
     }
-    strncpy((char *)var_r31 + 8, (const char *)name, 0x20);
-    *(s32 *)((s8 *)var_r31 + 0) = 2;
-    *(s32 *)((s8 *)var_r31 + 0x3C) = arg1;
-    *(s32 *)((s8 *)var_r31 + 0x30) = ADXF_GetFsizeSct(file);
+    strncpy(entry->name, name, sizeof(entry->name));
+    entry->flags = 2;
+    entry->tex = texture;
+    entry->count = ADXF_GetFsizeSct(file);
     ADXF_Close(file);
-    *(s32 *)((s8 *)var_r31 + 0x34) = 0;
-    *(u32 *)((s8 *)var_r31 + 0x40) = arg2;
-    if (arg2 != 0U) {
-        move_words((u8 *)var_r31 + 0x44, reinterpret_cast<const void *>(src), 8);
+    entry->completion = NULL;
+    entry->callback = callback;
+    if (callback != NULL) {
+        move_words(entry->params, params, 8);
     }
-    if (arg4 != NULL) {
-        *arg4 = var_r31;
+    if (request != NULL) {
+        *request = entry;
     }
     return 0;
 }
-

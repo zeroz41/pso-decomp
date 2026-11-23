@@ -1,3 +1,4 @@
+#include "pso/system/BmlResource.h"
 #include "types.h"
 #include "pso/ui/charcreate/CharacterLoadBuffer.h"
 #include "pso/ui/charcreate/TChCrLoadGmNjReq.h"
@@ -10,14 +11,14 @@ extern "C" {
 
 
 void TChCrLoadGmNjReq::start_character_load_task() {
-    TBinModel *request;
+    BmlResource *request;
 
     if ((TLobby::tmp_buf_is_free() != 0) && (this->try_acquire_slot() != 0)) {
-        request = (TBinModel *)::operator new(0x440);
+        request = static_cast<BmlResource *>(::operator new(sizeof(BmlResource)));
         if (request != NULL) {
-            request = init_bin_model_request(request, 6, model_ids, &model_ids[1], 0, 0, (saddr)get_character_load_buffer(load_slot));
+            request = init_bin_model_request(request, 6, model_ids, &model_ids[1], NULL, NULL, get_character_load_buffer(load_slot));
         }
-        loaded_bml = (BmlResource *)request;
+        loaded_bml = request;
         if (request != NULL) {
             load_timer = 0x12C;
             state = 1;

@@ -6,24 +6,11 @@
 #include "pso/unk/text_800FA464.h"
 #include "pso/unk/TLobby.h"
 #include "pso/unk/TLobby_803DE778.h"
-struct AsyncFileReadRequest {
-    u32 flags;
-    u8 pad04[4];
-    u8 name[0x20];
-    u8 *dst;
-    s32 size;
-    s32 count;
-    u8 pad34[8];
-    NJS_TEXLIST *tex;
-    u8 pad40[0x24];
-    saddr mode;
-};
-
 AsyncFileReadRequest *async_file_read_current_request;
-void *lobby_stack_entry_list_tail;
+AsyncFileReadRequest *lobby_stack_entry_list_tail;
 s32 lobby_list_entry_count;
 s32 async_file_read_state;
-uaddr async_file_read_sector_buffer;
+u8 *async_file_read_sector_buffer;
 AdxfHandle *lobby_download_state_ptr;
 s32 lobby_list_next_id;
 s32 game_heap;
@@ -52,7 +39,7 @@ void process_async_file_reads(void) {
                             ADXF_ReadNw(h, async_file_read_current_request->count - 1, async_file_read_current_request->dst);
                             async_file_read_state = 1;
                         } else {
-                            ADXF_ReadNw(h, 1, (void *)async_file_read_sector_buffer);
+                            ADXF_ReadNw(h, 1, async_file_read_sector_buffer);
                             async_file_read_state = 2;
                         }
                     }
@@ -66,7 +53,7 @@ void process_async_file_reads(void) {
             TLobby::pop_and_close();
             async_file_read_state = 0;
         } else if (ADXF_GetStat(lobby_download_state_ptr) == 3) {
-            ADXF_ReadNw(lobby_download_state_ptr, 1, (void *)async_file_read_sector_buffer);
+            ADXF_ReadNw(lobby_download_state_ptr, 1, async_file_read_sector_buffer);
             async_file_read_state = 2;
         }
         break;
@@ -83,13 +70,13 @@ void process_async_file_reads(void) {
             }
             switch (n & 3) {
             case 0:
-                move_words(reinterpret_cast<void *>(dst), reinterpret_cast<const void *>(async_file_read_sector_buffer), n / 4);
+                move_words(dst, async_file_read_sector_buffer, n / 4);
                 break;
             case 2:
                 ((TLobby *)dst)->copy_u16_array((u16 *)async_file_read_sector_buffer, (s32)(n / 2));
                 break;
             default:
-                move_data((void *)(dst), (const void *)((const void *)async_file_read_sector_buffer), (u32)n);
+                move_data(dst, async_file_read_sector_buffer, (u32)n);
                 break;
             }
             TLobby::destroy_instance();
@@ -108,7 +95,7 @@ void process_async_file_reads(void) {
         }
         break;
     case 4:
-        if (TLobby::load_bml_exec((BmlResource *)async_file_read_current_request->mode, (u8 *)async_file_read_current_request->name) != 0) {
+        if (TLobby::load_bml_exec(async_file_read_current_request->mode, async_file_read_current_request->name) != 0) {
             TLobby::pop_and_close();
             async_file_read_state = 0;
         }

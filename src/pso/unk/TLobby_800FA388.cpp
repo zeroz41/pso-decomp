@@ -1,3 +1,4 @@
+#include "pso/unk/text_800FA464.h"
 #include "pso/system/Adxf.h"
 #include "types.h"
 #include <string.h>
@@ -5,38 +6,39 @@
 #include "pso/unk/TLobby.h"
 #include "pso/unk/TLobby_800FA848.h"
 
+extern "C" {
 
-struct Ent_800fa388;
 
-s32 TLobby::request_file_read(const char *name, s32 arg1, s32 *arg2, void **arg3) {
-    struct Ent_800fa388 *var_r31;
+s32 TLobby::request_file_read(const char *filename, void *destination, s32 *completion, void **request) {
+    AsyncFileReadRequest *entry;
     AdxfHandle *file;
 
-    if (arg3 != NULL) {
-        *arg3 = NULL;
+    if (request != NULL) {
+        *request = NULL;
     }
-    file = ADXF_Open(name, 0);
+    file = ADXF_Open(filename, 0);
     if (file == 0) {
         return -2;
     }
-    var_r31 = (struct Ent_800fa388 *)(u8 *)TLobby::alloc_from_heap(0x68);
-    if (var_r31 != NULL) {
-        var_r31 = (struct Ent_800fa388 *)link_into_list(var_r31);
+    entry = reinterpret_cast<AsyncFileReadRequest *>(TLobby::alloc_from_heap(sizeof(AsyncFileReadRequest)));
+    if (entry != NULL) {
+        entry = link_into_list(entry);
     }
-    strncpy((char *)var_r31 + 8, name, 0x20);
-    *(s32 *)((s8 *)var_r31 + 0) = 1;
-    *(s32 *)((s8 *)var_r31 + 0x28) = arg1;
-    *(s32 *)((s8 *)var_r31 + 0x2C) = ADXF_GetFsizeByte(file);
-    *(s32 *)((s8 *)var_r31 + 0x30) = ADXF_GetFsizeSct(file);
+    strncpy(entry->name, filename, sizeof(entry->name));
+    entry->flags = 1;
+    entry->dst = static_cast<u8 *>(destination);
+    entry->size = ADXF_GetFsizeByte(file);
+    entry->count = ADXF_GetFsizeSct(file);
     ADXF_Close(file);
-    *(s32 **)((s8 *)var_r31 + 0x34) = arg2;
-    if (arg2 != NULL) {
-        *arg2 = 0;
+    entry->completion = completion;
+    if (completion != NULL) {
+        *completion = 0;
     }
-    *(s32 *)((s8 *)var_r31 + 0x40) = 0;
-    if (arg3 != NULL) {
-        *arg3 = var_r31;
+    entry->callback = NULL;
+    if (request != NULL) {
+        *request = entry;
     }
-    return *(s32 *)((s8 *)var_r31 + 0x2C);
+    return entry->size;
 }
 
+}

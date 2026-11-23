@@ -122,12 +122,12 @@ void TSceneSora::load_sky_resources() {
     char name2[0x20];
     char name1[0x20];
     FloorMapSelection ref;
-    char *models[2];
-    char *motions[2];
+    const char *models[2];
+    const char *motions[2];
     Ent_80207478 *tbl;
     s32 ok;
     AdxfHandle *p;
-    TBinModel *o;
+    BmlResource *o;
     TSceneSora::instance = 0;
     TSceneSora__sky_bml_resource = NULL;
     TSceneSora__has_sky_motion = 0;
@@ -159,11 +159,11 @@ void TSceneSora::load_sky_resources() {
         }
         models[1] = NULL;
         motions[1] = NULL;
-        o = (TBinModel *)::operator new(0x440);
+        o = static_cast<BmlResource *>(::operator new(sizeof(BmlResource)));
         if (o != 0) {
-            o = init_bin_model_request(o, 1, models, motions, 0, 0, 0);
+            o = init_bin_model_request(o, 1, models, motions, NULL, NULL, NULL);
         }
-        TSceneSora__sky_bml_resource = reinterpret_cast<BmlResource *>(o);
+        TSceneSora__sky_bml_resource = o;
         TSceneSora::sky_active_flag = 1;
     }
 }
