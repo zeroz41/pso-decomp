@@ -944,5 +944,5 @@ PhotonBlastLoadCallback photon_blast_load_callback_table[10] = {
     { create_mylla_photon_blast_model, destroy_mylla_photon_blast_model },
     { TObjPlayer__sub_801AD480, TObjPlayer__sub_801AD47C },
     { load_photon_rainbow_resources, release_photon_rainbow_resources },
-    { TObjPlayer__sub_801AC440, TObjPlayer__sub_801AC43C },
+    { load_photon_laser_resources, release_photon_laser_resources },
 };

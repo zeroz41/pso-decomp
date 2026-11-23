@@ -8,7 +8,7 @@
 #include "pso/effect/photon/PhotonBlastSummon.h"
 #include "pso/system/MatrixStack.h"
 
-const char *TPhotonFarlla__class_name = "TPhotonFarlla";
+const char *TPhotonFarlla_name = "TPhotonFarlla";
 
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "types.h"
@@ -218,7 +218,7 @@ TPhotonFarlla *TPhotonFarlla__ct(TPhotonFarlla *summon, PhotonSummonParams *para
     TObjCollidable *owner_object;
     __ct__18TPhotonBlastSummonFv(summon);
     *(void ***)((u8 *)summon + 0x18) = lbl_804C3564;
-    summon->m_name = TPhotonFarlla__class_name;
+    summon->m_name = TPhotonFarlla_name;
     summon->blast_kind = 0;
     VecCopy(&summon->position, &params->position);
     summon->owner_id = params->owner_id;

@@ -278,7 +278,7 @@ void TPhotonBlastSummon::update_if_active() {
         restore_camera();
         show_sky();
         restore_fog();
-        TObjPlayer__sub_800D8A6C();
+        enable_player_particle_effect();
     }
     if (tl_05 != 0) {
         tl_05->allow_rendering();
@@ -289,7 +289,7 @@ void TPhotonBlastSummon::enter_scene() {
     setup_photon_blast_camera();
     hide_sky();
     apply_fog();
-    TObjPlayer__sub_800D8A60();
+    disable_player_particle_effect();
     if (tl_05 != NULL) {
         tl_05->disallow_rendering();
     }

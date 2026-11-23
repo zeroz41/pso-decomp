@@ -3,9 +3,8 @@
 
 #include "types.h"
 
-extern "C" {
-void TObjPlayer__sub_800D8A60(void);
-void TObjPlayer__sub_800D8A6C(void);
-}
+// Photon blast summons switch the player particle effects off while they hold the scene.
+void disable_player_particle_effect(void);
+void enable_player_particle_effect(void);
 
 #endif

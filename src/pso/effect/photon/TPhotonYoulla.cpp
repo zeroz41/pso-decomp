@@ -3,6 +3,8 @@
 #include "pso/effect/photon/TPhotonYoulla.h"
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "types.h"
+#include "pso/system/BmlResource.h"
+#include "pso/player/PhotonBlastResults.h"
 #include "pso/render/MaterialColorFade.h"
 #include "pso/boss/derolle/TBoss2DeRolLe.h"
 #include "pso/effect/photon/PhotonBlastSummon.h"
@@ -25,7 +27,7 @@
 #pragma readonly_strings on
 
 
-const char *TPhotonYoulla__name = "TPhotonYoulla";
+const char *TPhotonYoulla_name = "TPhotonYoulla";
 void *youlla_photon_blast_buffer_pair;
 
 
@@ -36,7 +38,6 @@ TObjMotionAction photon_blast_youlla_params[2] = {
     {MOTION_MODE_ONCE, 0, 7, 1.0f, 0},
     {MOTION_MODE_LOOP, 0, 14, 1.0f, 0},
 };
-extern u8 *photon_blast_shared_resource;
 
 void TPhotonYoulla::reset_material_color(u8 count) {
     material_color.a = 0.0f;
@@ -109,7 +110,7 @@ TPhotonYoulla::~TPhotonYoulla() {
 
 TPhotonYoulla::TPhotonYoulla(PhotonSummonParams *params) {
     TObjCollidable *owner_object;
-    m_name = TPhotonYoulla__name;
+    m_name = TPhotonYoulla_name;
     blast_kind = 5;
     VecCopy(&position, &params->position);
     owner_id = params->owner_id;
@@ -118,10 +119,10 @@ TPhotonYoulla::TPhotonYoulla(PhotonSummonParams *params) {
     if (owner_object != NULL) {
         rotation_y = owner_object->rotation_y;
     }
-    model = *(void **)((s8 *)(*(u8 **)((s8 *)photon_blast_shared_resource + 0x42C)) + 0xB8);
-    texlist = *(s32 *)((s8 *)(*(u8 **)((s8 *)photon_blast_shared_resource + 0x42C)) + 0xBC);
+    model = photon_blast_shared_resource->models[11].model;
+    texlist = (saddr)photon_blast_shared_resource->models[11].m_c;
     set_field_d8((saddr)photon_blast_youlla_params);
-    set_field_dc(*(s32 *)((s8 *)photon_blast_shared_resource + 0x430));
+    set_field_dc((saddr)photon_blast_shared_resource->motions);
     requested_action = 1;
     set_animation(requested_action);
     set_field_b8(requested_action);

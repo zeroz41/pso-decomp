@@ -29,10 +29,9 @@ public:
 
 LAYOUT_ASSERT(TPhotonLeilla_size, sizeof(TPhotonLeilla) == 0x1B0);
 
-extern "C" {
-void TObjPlayer__sub_801AC43C(void);
-void TObjPlayer__sub_801AC440(void);
-}
+// TPhotonLaser's slot in the photon blast load callback table; the laser keeps no resources.
+void release_photon_laser_resources(void);
+void load_photon_laser_resources(void);
 
 void destroy_leilla_photon_blast_model(void);
 void create_leilla_photon_blast_model(void);

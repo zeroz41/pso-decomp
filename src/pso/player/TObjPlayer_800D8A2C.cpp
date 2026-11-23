@@ -13,6 +13,6 @@ void TObjPlayer::toggle_particle_effect() {
     TParticleCtrl::begin_effect_render();
 }
 
-void TObjPlayer__sub_800D8A60(void) { player_particle_effect_enabled = 0; }
+void disable_player_particle_effect(void) { player_particle_effect_enabled = 0; }
 
-void TObjPlayer__sub_800D8A6C(void) { player_particle_effect_enabled = 1; }
+void enable_player_particle_effect(void) { player_particle_effect_enabled = 1; }

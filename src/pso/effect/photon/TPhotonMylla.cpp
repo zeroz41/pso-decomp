@@ -6,6 +6,8 @@
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "types.h"
+#include "pso/system/BmlResource.h"
+#include "pso/player/PhotonBlastResults.h"
 #include "pso/effect/photon/TPhotonMylla.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/render/MaterialColorFade.h"
@@ -31,9 +33,8 @@
 #include "pso/render/model_render_state.h"
 #include "pso/unk/text_803D8F74.h"
 
-extern u8 *photon_blast_shared_resource;
 
-const char *TPhotonMylla__class_name = "TPhotonMylla";
+const char *TPhotonMylla_name = "TPhotonMylla";
 
 // Mylla brings Youlla along; the count byte is not the chain's.
 static const PhotonSummonParams photon_mylla_packet_template = { { 0.0f, 0.0f, 0.0f }, 0, 0, 0, { 0 }, 4, 1.0f };
@@ -159,7 +160,7 @@ TObjMotionAction photon_mylla_action_table[2] = {
 TPhotonMylla::TPhotonMylla(PhotonSummonParams *params) {
     Vec pos;
     TObjCollidable *owner_object;
-    m_name = TPhotonMylla__class_name;
+    m_name = TPhotonMylla_name;
     blast_kind = 5;
     VecCopy(&position, &params->position);
     owner_id = params->owner_id;
@@ -167,10 +168,10 @@ TPhotonMylla::TPhotonMylla(PhotonSummonParams *params) {
     if (owner != NULL) {
         rotation_y = owner->rotation_y;
     }
-    model = *(void **)((s8 *)(*(u8 **)((s8 *)photon_blast_shared_resource + 0x42C)) + 0xA8);
-    texlist = *(s32 *)((s8 *)(*(u8 **)((s8 *)photon_blast_shared_resource + 0x42C)) + 0xAC);
+    model = photon_blast_shared_resource->models[10].model;
+    texlist = (saddr)photon_blast_shared_resource->models[10].m_c;
     set_field_d8((saddr)photon_mylla_action_table);
-    set_field_dc(*(s32 *)((s8 *)photon_blast_shared_resource + 0x430));
+    set_field_dc((saddr)photon_blast_shared_resource->motions);
     requested_action = 1;
     set_animation(requested_action);
     set_field_b8(requested_action);

@@ -8302,7 +8302,7 @@ force_active:
   - lbl_805D34C8
   - TPhotonLaser__name
   - photon_rainbow_class_name
-  - TPhotonYoulla__name
+  - TPhotonYoulla_name
   - TCheckRoomSequence__name
   - TTecResta__name
   - TTecSifta__name

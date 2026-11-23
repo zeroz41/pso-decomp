@@ -4,11 +4,13 @@
 #include "pso/effect/photon/PhotonBlastSummon.h"
 #include "pso/system/MatrixStack.h"
 
-const char *TPhotonLeilla__class_name = "TPhotonLeilla";
+const char *TPhotonLeilla_name = "TPhotonLeilla";
 
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "types.h"
+#include "pso/system/BmlResource.h"
+#include "pso/player/PhotonBlastResults.h"
 #include "pso/effect/photon/TPhotonLeilla.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/render/MaterialColorFade.h"
@@ -30,14 +32,13 @@ const char *TPhotonLeilla__class_name = "TPhotonLeilla";
 #include "pso/unk/text_803D8F74.h"
 #include "pso/object/base/CollisionActorLookup.h"
 
-void TObjPlayer__sub_801AC43C(void) {  }
-void TObjPlayer__sub_801AC440(void) {  }
+void release_photon_laser_resources(void) {}
+void load_photon_laser_resources(void) {}
 
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/render/model_render_state.h"
 
 extern "C" s32 scroll_strip_uvs(void *, s16, int);
-extern u8 *photon_blast_shared_resource;
 
 void *leilla_photon_buffer_pair;
 
@@ -134,7 +135,7 @@ TObjMotionAction photon_blast_leilla_params[2] = {
 TPhotonLeilla::TPhotonLeilla(PhotonSummonParams *params) {
     Vec pos;
     TObjCollidable *owner_object;
-    m_name = TPhotonLeilla__class_name;
+    m_name = TPhotonLeilla_name;
     blast_kind = 4;
     VecCopy(&position, &params->position);
     owner_id = params->owner_id;
@@ -142,10 +143,10 @@ TPhotonLeilla::TPhotonLeilla(PhotonSummonParams *params) {
     if (owner_object != NULL) {
         rotation_y = owner_object->rotation_y;
     }
-    model = *(void **)((s8 *)(*(u8 **)((s8 *)photon_blast_shared_resource + 0x42C)) + 0x18);
-    texlist = *(s32 *)((s8 *)(*(u8 **)((s8 *)photon_blast_shared_resource + 0x42C)) + 0x1C);
+    model = photon_blast_shared_resource->models[1].model;
+    texlist = (saddr)photon_blast_shared_resource->models[1].m_c;
     set_field_d8((saddr)photon_blast_leilla_params);
-    set_field_dc(*(s32 *)((s8 *)photon_blast_shared_resource + 0x430));
+    set_field_dc((saddr)photon_blast_shared_resource->motions);
     requested_action = 1;
     set_animation(requested_action);
     set_field_b8(requested_action);
@@ -202,7 +203,7 @@ void destroy_leilla_photon_blast_model(void) {
 void create_leilla_photon_blast_model(void) {
     TLobby *tables = (TLobby *)::operator new(0x14);
     if (tables != NULL) {
-        tables = (TLobby *)tables->alloc_tables(*(s32 *)((s8 *)(*(void **)((s8 *)(*(u8 **)((s8 *)photon_blast_shared_resource + 0x42C)) + 8)) + 0x2C), 0);
+        tables = (TLobby *)tables->alloc_tables((saddr)photon_blast_shared_resource->models[0].model->child, 0);
     }
     leilla_photon_buffer_pair = tables;
 }

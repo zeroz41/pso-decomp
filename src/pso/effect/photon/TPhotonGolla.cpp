@@ -47,7 +47,7 @@ extern "C" s32 scroll_strip_uvs(void *, s16, int);
 
 void *golla_photon_blast_buffer_pair;
 
-const char *TPhotonGolla__class_name = "TPhotonGolla";
+const char *TPhotonGolla_name = "TPhotonGolla";
 extern const PhotonConcentrateParams photon_golla_concentrate_packet = {
     { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 500.0f, 5.0f, 30.0f }, NULL, 0
 };
@@ -297,7 +297,7 @@ TPhotonGolla *TPhotonGolla__ct(TPhotonGolla *summon, PhotonSummonParams *params)
     TObjCollidable *owner_object;
     __ct__18TPhotonBlastSummonFv(summon);
     *(void ***)((u8 *)summon + 0x18) = lbl_804C35F4;
-    summon->m_name = TPhotonGolla__class_name;
+    summon->m_name = TPhotonGolla_name;
     summon->blast_kind = 2;
     VecCopy(&summon->position, &params->position);
     summon->owner_id = params->owner_id;

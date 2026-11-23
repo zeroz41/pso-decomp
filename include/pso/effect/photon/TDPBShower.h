@@ -24,10 +24,6 @@ LAYOUT_ASSERT(TDPBShowerPositionOffset, offsetof(TDPBShower, position) == 0x1C);
 LAYOUT_ASSERT(TDPBShowerCountdownOffset, offsetof(TDPBShower, m_countdown) == 0x28);
 LAYOUT_ASSERT(TDPBShowerEffectOffset, offsetof(TDPBShower, particle_emitter) == 0x2C);
 
-void *create_TDPBShower(void *arg0, void *arg1);
-
-// --- C functions defined in TBoss6DPB.cpp ---
-void *create_TDPBShower(void *arg0, void *arg1);
-// --- end of C functions
+void *create_TDPBShower(void *parent, void *position);
 
 #endif
