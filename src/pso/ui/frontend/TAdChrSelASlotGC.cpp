@@ -31,25 +31,25 @@
 
 static const ChrSelPlateLayout chr_sel_a_slot_plate_layout = { 180.0f, 38.0f, { 0xDD, 0x90, 0x48, 0x00 }, 0 };
 // Plate positions of the four entries (slot kind 0)
-static const CharacterSlotPosition lbl_80475818[4] = {
+static const CharacterSlotPosition chr_sel_a_slot_plate_positions[4] = {
     { 131.0f, 182.0f }, { 131.0f, 225.0f }, { 131.0f, 268.0f }, { 131.0f, 311.0f },
 };
-static const CharacterSlotPosition lbl_80475838 = { 126.0f, 156.0f };
-static const CharacterSlotPosition lbl_80475840 = { 134.0f, 118.0f };
+static const CharacterSlotPosition chr_sel_a_slot_label_pos = { 126.0f, 156.0f };
+static const CharacterSlotPosition chr_sel_a_slot_header_pos = { 134.0f, 118.0f };
 static const ChrSelPlateLayout chr_sel_a_slot_plate_layout_b = { 180.0f, 38.0f, { 0x36, 0xBC, 0x30, 0x01 }, 0 };
-static const CharacterSlotPosition lbl_80475858[4] = {
+static const CharacterSlotPosition chr_sel_a_slot_left_plate_positions[4] = {
     { 28.0f, 182.0f }, { 28.0f, 225.0f }, { 28.0f, 268.0f }, { 28.0f, 311.0f },
 };
-static const CharacterSlotPosition lbl_80475878[3] = {
+static const CharacterSlotPosition chr_sel_a_slot_right_plate_positions[3] = {
     { 234.0f, 182.0f }, { 234.0f, 225.0f }, { 234.0f, 268.0f },
 };
-static const CharacterSlotPosition lbl_80475890 = { 23.0f, 156.0f };
-static const CharacterSlotPosition lbl_80475898 = { 228.0f, 154.0f };
-static const CharacterSlotPosition lbl_804758A0 = { 35.0f, 118.0f };
+static const CharacterSlotPosition chr_sel_a_slot_left_label_pos = { 23.0f, 156.0f };
+static const CharacterSlotPosition chr_sel_a_slot_right_label_pos = { 228.0f, 154.0f };
+static const CharacterSlotPosition chr_sel_a_slot_left_header_pos = { 35.0f, 118.0f };
 // Message window positions passed to copy_vec2
-static const CharacterSlotPosition TAdChrSelASlotGC__data_804758A8 = { 128.0f, 182.0f };
-static const CharacterSlotPosition TAdChrSelASlotGC__data_804758B0 = { 24.0f, 182.0f };
-static const CharacterSlotPosition TAdChrSelASlotGC__data_804758B8 = { 431.0f, 182.0f };
+static const CharacterSlotPosition chr_sel_a_slot_message_pos = { 128.0f, 182.0f };
+static const CharacterSlotPosition chr_sel_a_slot_left_message_pos = { 24.0f, 182.0f };
+static const CharacterSlotPosition chr_sel_b_slot_message_pos = { 431.0f, 182.0f };
 const char *TAdChrSelASlotGC__name = "TAdChrSelASlotGC";
 
 struct S_8030C45C { s32 x; s32 y; s32 state; };
@@ -98,10 +98,10 @@ TWindowBase *TAdChrSelASlotGC::create_format_failed_window(s32 kind) {
     TWindowBase *w;
     switch (kind) {
     case 0:
-        copy_vec2(&pos, (void *)(this->mode == 2 ? &TAdChrSelASlotGC__data_804758B0 : &TAdChrSelASlotGC__data_804758A8));
+        copy_vec2(&pos, (void *)(this->mode == 2 ? &chr_sel_a_slot_left_message_pos : &chr_sel_a_slot_message_pos));
         break;
     case 1:
-        copy_vec2(&pos, (void *)&TAdChrSelASlotGC__data_804758B8);
+        copy_vec2(&pos, (void *)&chr_sel_b_slot_message_pos);
         break;
     }
     w = (TWindowBase *)create_window_menu_default((saddr)&pos, 1);
@@ -117,10 +117,10 @@ TWindowBase *TAdChrSelASlotGC::create_not_formatted_window(s32 kind) {
     TWindowBase *w;
     switch (kind) {
     case 0:
-        copy_vec2(&pos, (void *)(this->mode == 2 ? &TAdChrSelASlotGC__data_804758B0 : &TAdChrSelASlotGC__data_804758A8));
+        copy_vec2(&pos, (void *)(this->mode == 2 ? &chr_sel_a_slot_left_message_pos : &chr_sel_a_slot_message_pos));
         break;
     case 1:
-        copy_vec2(&pos, (void *)&TAdChrSelASlotGC__data_804758B8);
+        copy_vec2(&pos, (void *)&chr_sel_b_slot_message_pos);
         break;
     }
     w = (TWindowBase *)create_window_menu_default((saddr)&pos, 1);
@@ -136,10 +136,10 @@ TWindowBase *TAdChrSelASlotGC::create_formatted_window(s32 kind) {
     TWindowBase *w;
     switch (kind) {
     case 0:
-        copy_vec2(&pos, (void *)(this->mode == 2 ? &TAdChrSelASlotGC__data_804758B0 : &TAdChrSelASlotGC__data_804758A8));
+        copy_vec2(&pos, (void *)(this->mode == 2 ? &chr_sel_a_slot_left_message_pos : &chr_sel_a_slot_message_pos));
         break;
     case 1:
-        copy_vec2(&pos, (void *)&TAdChrSelASlotGC__data_804758B8);
+        copy_vec2(&pos, (void *)&chr_sel_b_slot_message_pos);
         break;
     }
     w = (TWindowBase *)create_window_menu_default((saddr)&pos, 1);
@@ -156,10 +156,10 @@ TWindowMessageYesNo *TAdChrSelASlotGC::open_confirm_message(s32 kind, s32 client
     w = TWindowMessageYesNo::create(this, client_id, 0, 0);
     switch (kind) {
     case 0:
-        copy_vec2(&pos, (void *)(this->mode == 2 ? &TAdChrSelASlotGC__data_804758B0 : &TAdChrSelASlotGC__data_804758A8));
+        copy_vec2(&pos, (void *)(this->mode == 2 ? &chr_sel_a_slot_left_message_pos : &chr_sel_a_slot_message_pos));
         break;
     case 1:
-        copy_vec2(&pos, (void *)&TAdChrSelASlotGC__data_804758B8);
+        copy_vec2(&pos, (void *)&chr_sel_b_slot_message_pos);
         break;
     }
     w->open_yes_no_prompt_with_text(get_localized_text_entry(0x16, kind + 0x25), (saddr)&pos, 190.0f);
@@ -173,10 +173,10 @@ TWindowMessageYesNo *TAdChrSelASlotGC::create_message_window(s32 kind, s32 clien
     w = TWindowMessageYesNo::create(this, client_id, 0, 0);
     switch (kind) {
     case 0:
-        copy_vec2(&pos, (void *)(this->mode == 2 ? &TAdChrSelASlotGC__data_804758B0 : &TAdChrSelASlotGC__data_804758A8));
+        copy_vec2(&pos, (void *)(this->mode == 2 ? &chr_sel_a_slot_left_message_pos : &chr_sel_a_slot_message_pos));
         break;
     case 1:
-        copy_vec2(&pos, (void *)&TAdChrSelASlotGC__data_804758B8);
+        copy_vec2(&pos, (void *)&chr_sel_b_slot_message_pos);
         break;
     }
     w->open_yes_no_prompt_with_text(get_localized_text_entry(0x16, kind + 0x23), (saddr)&pos, 190.0f);
@@ -230,10 +230,10 @@ TWindowBase *TAdChrSelASlotGC::create_slot_message_window(s32 kind, s32 text) {
     TWindowBase *w;
     switch (kind) {
     case 0:
-        copy_vec2(&pos, (void *)(this->mode == 2 ? &TAdChrSelASlotGC__data_804758B0 : &TAdChrSelASlotGC__data_804758A8));
+        copy_vec2(&pos, (void *)(this->mode == 2 ? &chr_sel_a_slot_left_message_pos : &chr_sel_a_slot_message_pos));
         break;
     case 1:
-        copy_vec2(&pos, (void *)&TAdChrSelASlotGC__data_804758B8);
+        copy_vec2(&pos, (void *)&chr_sel_b_slot_message_pos);
         break;
     }
     w = (TWindowBase *)create_window_menu_default((saddr)&pos, 1);
@@ -281,31 +281,31 @@ void TAdChrSelASlotGC::populate_slot_entries() {
     if (this->get_plate_value_for_slot(this->mode) != 0) {
         switch (this->mode) {
         case 0:
-            slot_gc->init_slot_entry(0, (void *)&lbl_80475838);
+            slot_gc->init_slot_entry(0, (void *)&chr_sel_a_slot_label_pos);
             for (i = 0; i < 4; i++) {
-                set_entry_text__15TAdSubPlyItemGCFPvPv(this->player_items, build_slot_entry(i, i, (void *)&lbl_80475818[i]));
+                set_entry_text__15TAdSubPlyItemGCFPvPv(this->player_items, build_slot_entry(i, i, (void *)&chr_sel_a_slot_plate_positions[i]));
                 if (is_character_transferred(i)) {
-                    this->move_plate->add_plate_rect(const_cast<CharacterSlotPosition *>(&lbl_80475818[i]));
+                    this->move_plate->add_plate_rect(const_cast<CharacterSlotPosition *>(&chr_sel_a_slot_plate_positions[i]));
                 }
             }
             break;
         case 1:
-            slot_gc->init_slot_entry(0, (void *)&lbl_80475890);
-            slot_gc->init_slot_entry(1, (void *)&lbl_80475898);
+            slot_gc->init_slot_entry(0, (void *)&chr_sel_a_slot_left_label_pos);
+            slot_gc->init_slot_entry(1, (void *)&chr_sel_a_slot_right_label_pos);
             for (i = 0; i < 4; i++) {
-                set_entry_text__15TAdSubPlyItemGCFPvPv(this->player_items, build_slot_entry(i, i, (void *)&lbl_80475858[i]));
+                set_entry_text__15TAdSubPlyItemGCFPvPv(this->player_items, build_slot_entry(i, i, (void *)&chr_sel_a_slot_left_plate_positions[i]));
                 if (is_character_transferred(i)) {
-                    this->move_plate->add_plate_rect(const_cast<CharacterSlotPosition *>(&lbl_80475858[i]));
+                    this->move_plate->add_plate_rect(const_cast<CharacterSlotPosition *>(&chr_sel_a_slot_left_plate_positions[i]));
                 }
             }
             for (j = 0; j < 3; j++) {
-                set_entry_text__15TAdSubPlyItemGCFPvPv(this->player_items_b, build_slot_entry(j, j + 4, (void *)&lbl_80475878[j]));
+                set_entry_text__15TAdSubPlyItemGCFPvPv(this->player_items_b, build_slot_entry(j, j + 4, (void *)&chr_sel_a_slot_right_plate_positions[j]));
             }
             break;
         case 2:
-            slot_gc->init_slot_entry(1, (void *)&lbl_80475890);
+            slot_gc->init_slot_entry(1, (void *)&chr_sel_a_slot_left_label_pos);
             for (j = 0; j < 3; j++) {
-                set_entry_text__15TAdSubPlyItemGCFPvPv(this->player_items_b, build_slot_entry(j, j + 4, (void *)&lbl_80475858[j]));
+                set_entry_text__15TAdSubPlyItemGCFPvPv(this->player_items_b, build_slot_entry(j, j + 4, (void *)&chr_sel_a_slot_left_plate_positions[j]));
             }
             break;
         }
@@ -317,26 +317,26 @@ void TAdChrSelASlotGC::push_plate_positions() {
     if (this->player_load->get_slot_index() >= 0xC) {
         switch (this->mode) {
         case 0:
-            this->plate_a->push_plate_position(&lbl_80475818[0]);
-            this->plate_a->push_plate_position(&lbl_80475818[1]);
-            this->plate_a->push_plate_position(&lbl_80475818[2]);
-            this->plate_a->push_plate_position(&lbl_80475818[3]);
+            this->plate_a->push_plate_position(&chr_sel_a_slot_plate_positions[0]);
+            this->plate_a->push_plate_position(&chr_sel_a_slot_plate_positions[1]);
+            this->plate_a->push_plate_position(&chr_sel_a_slot_plate_positions[2]);
+            this->plate_a->push_plate_position(&chr_sel_a_slot_plate_positions[3]);
             break;
         case 1:
-            this->plate_a->push_plate_position(&lbl_80475858[0]);
-            this->plate_a->push_plate_position(&lbl_80475858[1]);
-            this->plate_a->push_plate_position(&lbl_80475858[2]);
-            this->plate_a->push_plate_position(&lbl_80475858[3]);
-            this->plate_b->push_plate_position(&lbl_80475878[0]);
-            this->plate_b->push_plate_position(&lbl_80475878[1]);
-            this->plate_b->push_plate_position(&lbl_80475878[2]);
+            this->plate_a->push_plate_position(&chr_sel_a_slot_left_plate_positions[0]);
+            this->plate_a->push_plate_position(&chr_sel_a_slot_left_plate_positions[1]);
+            this->plate_a->push_plate_position(&chr_sel_a_slot_left_plate_positions[2]);
+            this->plate_a->push_plate_position(&chr_sel_a_slot_left_plate_positions[3]);
+            this->plate_b->push_plate_position(&chr_sel_a_slot_right_plate_positions[0]);
+            this->plate_b->push_plate_position(&chr_sel_a_slot_right_plate_positions[1]);
+            this->plate_b->push_plate_position(&chr_sel_a_slot_right_plate_positions[2]);
             this->draw_line[1] = create_draw_line_ctrl(this, 0x12, 0.0f);
             this->draw_line[2] = create_draw_line_ctrl(this, 0x13, 0.0f);
             break;
         case 2:
-            this->plate_b->push_plate_position(&lbl_80475858[0]);
-            this->plate_b->push_plate_position(&lbl_80475858[1]);
-            this->plate_b->push_plate_position(&lbl_80475858[2]);
+            this->plate_b->push_plate_position(&chr_sel_a_slot_left_plate_positions[0]);
+            this->plate_b->push_plate_position(&chr_sel_a_slot_left_plate_positions[1]);
+            this->plate_b->push_plate_position(&chr_sel_a_slot_left_plate_positions[2]);
             break;
         }
         this->state = 0xD;
@@ -647,15 +647,15 @@ void TAdChrSelASlotGC::close_windows() {
     switch (this->mode) {
     case 0:
         this->draw_line[1] = create_draw_line_ctrl(this, 0xC, 0.0f);
-        slot_gc->init_slot(0, (void *)&lbl_80475840);
+        slot_gc->init_slot(0, (void *)&chr_sel_a_slot_header_pos);
         this->draw_line[0] = create_draw_line_ctrl(this, 0xB, 0.0f);
         break;
     case 1:
-        slot_gc->init_slot(0, (void *)&lbl_80475840);
+        slot_gc->init_slot(0, (void *)&chr_sel_a_slot_header_pos);
         this->draw_line[0] = create_draw_line_ctrl(this, 0xB, 0.0f);
         break;
     case 2:
-        slot_gc->init_slot(0, (void *)&lbl_804758A0);
+        slot_gc->init_slot(0, (void *)&chr_sel_a_slot_left_header_pos);
         this->draw_line[0] = create_draw_line_ctrl(this, 0xD, 0.0f);
         this->draw_line[1] = create_draw_line_ctrl(this, 0x14, 0.0f);
         break;
