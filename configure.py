@@ -1511,6 +1511,9 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # -inline off,deferred: __vt__12T_OWEHMS_Exp precedes __vt__24TObjWaitEntryHairMoveSim, which
     # only fits key functions defined in reverse, so the source runs from the last function back.
     "pso/object/TObjWaitEntryHairMoveSim.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
+    # -inline off,deferred: __vt__8TEndingC precedes run_task's jump table, so the source runs
+    # from the last function back.
+    "pso/system/scene/TEndingC_8008D00C.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
     "pso/object/collision/TOSymbolchatColli.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/ui/charcreate/TChCrTagInformationStr.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/quest/challenge/TChallenge4PItemSelect.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},

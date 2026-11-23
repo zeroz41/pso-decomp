@@ -5,6 +5,7 @@
 #include "pso/system/scene/TEndingAB.h"
 #include "pso/system/scene/TEndingPic.h"
 #include "pso/system/scene/TEndingC_8008D00C.h"
+#include "pso/system/scene/TEndingC.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/frontend/TAdMultiChgGameModeGC.h"
 #include "pso/ui/city/THunterGuildSeqOffline.h"
@@ -72,8 +73,7 @@ TEnding::TEnding() : TObject(tl_window) {
     }
     new TEndingPic(tl_01);
     new TEndingAB(this);
-    void *second = TObject::operator new(0x9C);
-    if (second != NULL) __ct__8TEndingCFv((u8 *)second, (u8 *)this);
+    new TEndingC(this);
     ending_frame_counter = 0;
     phase = 0;
     elapsed_ticks = 0;

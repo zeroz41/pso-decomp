@@ -3,34 +3,7 @@
 #include "pso/enemy/balclaw/TObjEneBalClaw.h"
 #include "types.h"
 
-class TEndingC : public TObject {
-public:
-    virtual void render_shadows();
-    virtual void render();
-    virtual void run_task();
-    virtual ~TEndingC();
-
-    u32 phase;
-    s32 elapsed_ticks;
-    s32 cycle_index;
-    f32 primary_opacity;
-    f32 secondary_opacity;
-    u8 render_geometry[0x60];
-    s32 timing_rate;
-    f32 fade_in_ticks;
-    f32 fade_out_ticks;
-};
-#include <stddef.h>
-LAYOUT_ASSERT(TEndingCSize, sizeof(TEndingC) == 0x9C);
-LAYOUT_ASSERT(TEndingC_phase_offset, offsetof(TEndingC, phase) == 0x1C);
-LAYOUT_ASSERT(TEndingC_elapsed_ticks_offset, offsetof(TEndingC, elapsed_ticks) == 0x20);
-LAYOUT_ASSERT(TEndingC_cycle_index_offset, offsetof(TEndingC, cycle_index) == 0x24);
-LAYOUT_ASSERT(TEndingC_primary_opacity_offset, offsetof(TEndingC, primary_opacity) == 0x28);
-LAYOUT_ASSERT(TEndingC_secondary_opacity_offset, offsetof(TEndingC, secondary_opacity) == 0x2C);
-LAYOUT_ASSERT(TEndingC_render_geometry_offset, offsetof(TEndingC, render_geometry) == 0x30);
-LAYOUT_ASSERT(TEndingC_timing_rate_offset, offsetof(TEndingC, timing_rate) == 0x90);
-LAYOUT_ASSERT(TEndingC_fade_in_ticks_offset, offsetof(TEndingC, fade_in_ticks) == 0x94);
-LAYOUT_ASSERT(TEndingC_fade_out_ticks_offset, offsetof(TEndingC, fade_out_ticks) == 0x98);
+#include "pso/system/scene/TEndingC.h"
 #include "pso/enemy/TObjEnemyCustom.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/object/ambient/TObjFish.h"
@@ -38,8 +11,6 @@ LAYOUT_ASSERT(TEndingC_fade_out_ticks_offset, offsetof(TEndingC, fade_out_ticks)
 
 extern "C" {
 int TKeyBoardControl__sub_8000F828(void);
-void __ct__7TObjectFP7TObject(void *, void *);
-extern void *__vt__8TEndingC[];
 extern "C" {
 __declspec(section ".rodata") extern const char lbl_804398E0[] = "ed_128al";
 __declspec(section ".rodata") extern const char lbl_804398EC[] = "ed_512kabe_C";
@@ -48,7 +19,6 @@ __declspec(section ".rodata") extern const char TEndingC__class_name_string[] = 
 NJS_TEXNAME lbl_8048EB18[2] = { {(void *)lbl_804398E0, 0, 0}, {(void *)lbl_804398EC, 0, 0} };
 __declspec(section ".data") NJS_TEXLIST TEndingC__wall_texture_list_entry = { lbl_8048EB18, 2 };
 const char *lbl_805D2960 = TEndingC__class_name_string;
-u8 *__ct__8TEndingCFv(u8 *arg0, u8 *arg1);
 int TEndingC__sub_8008C6F4(void);
 void TEndingAB__sub_8008D5A0(void);
 void TEndingPic__sub_8008D5AC(void);
@@ -60,27 +30,104 @@ s32 set_draw_texture_and_color(s32, s32, f32);
 
 }
 
-void TEndingC::render() {
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(&TEndingC__wall_texture_list_entry));
-    begin_screen_draw(1);
-    set_draw_texture_and_color(1, ((s32) (255.0f * primary_opacity) << 0x18) | 0xFF0000 | 0xFFFF, 255.0f);
-    draw_textured_quad_at_depth((f32 *)(render_geometry + 0x0), 0.98f);
-    draw_textured_quad_at_depth((f32 *)(render_geometry + 0x20), 0.98f);
-    set_draw_texture_and_color(0, ((s32) (255.0f * secondary_opacity) << 0x18) | 0xFF0000 | 0xFFFF, 255.0f);
-    draw_textured_quad_at_depth((f32 *)(render_geometry + 0x40), 0.99f);
-    TWindowSubStatusDisp::get_player();
+// Built with -inline off,deferred: functions are written last to first.
+
+extern "C" {
+void release_texture_list(void*);
+int bind_gvm_texture_list(const char *, NJS_TEXLIST *);
+extern int TEndingPic__animation_state;
+extern int ending_frame_counter;
+}
+
+uaddr TEndingC__wall_texture_list;
+
+s32 TObjEneBalClaw::update_action_hold_status() {
+    saddr arg0 = (saddr)this;
+    if (TObjChara::update_action_hold_status() != 0) {
+        ((TObjEneBalClaw *)arg0)->clear_flag_in_state7();
+        return 1;
+    }
+    return 0;
+}
+
+s32 TObjEneBalClaw::update_movement_status() {
+    saddr arg0 = (saddr)this;
+    if (TObjChara::update_movement_status() != 0) {
+        ((TObjEneBalClaw *)arg0)->clear_flag_in_state7();
+        return 1;
+    }
+    return 0;
+}
+
+void TObjEneBalClaw::clear_flag_in_state7() {
+    u8 *arg0 = (u8 *)this;
+    if (this->next_action == 7) {
+        this->behavior_flags = (s32) (this->behavior_flags & 0xFFFFFFFE);
+        ((TObjEnemyCustom *)arg0)->update_if_active(0);
+    }
 }
 
 extern "C" {
-void __dt__8TEndingCFv(); void run_task__8TEndingCFv(); void render__8TEndingCFv(); void render_shadows__7TObjectFv();
-void *__vt__8TEndingC[6] = {
-    0, 0,
-    (void *)__dt__8TEndingCFv,
-    (void *)run_task__8TEndingCFv,
-    (void *)render__8TEndingCFv,
-    (void *)render_shadows__7TObjectFv,
-};
+int TEnding__sub_8008D5B8(void) {  return ending_frame_counter; }
+
+void TEndingPic__sub_8008D5AC(void) { TEndingPic__animation_state = 1; }
+
+void TEndingAB__sub_8008D5A0(void) { TEndingAB__fade_sequence_state = 1; }
 }
+
+void register_texture_ed_512kabe_c(void) { TEndingC__wall_texture_list = (saddr)&TEndingC__wall_texture_list_entry; bind_gvm_texture_list(lbl_804398EC, &TEndingC__wall_texture_list_entry); }
+
+void TEndingC::release_lobby() {
+    if ((u32) TEndingC__wall_texture_list != 0U) {
+        release_texture_list((void*)TEndingC__wall_texture_list);
+        TEndingC__wall_texture_list = 0U;
+    }
+}
+
+TEndingC::TEndingC(TObject *parent) : TObject(parent) {
+    m_name = lbl_805D2960;
+    elapsed_ticks = 0;
+    phase = 0;
+    primary_opacity = 0.0f;
+    secondary_opacity = 0.0f;
+    cycle_index = 0;
+    render_geometry[0][0] = 228.0f;
+    render_geometry[0][1] = 0.0f;
+    render_geometry[0][2] = 640.0f;
+    render_geometry[0][3] = 480.0f;
+    render_geometry[0][4] = 0.1953125f;
+    render_geometry[0][5] = 0.0f;
+    render_geometry[0][6] = 1.0f;
+    render_geometry[0][7] = 0.9375f;
+    render_geometry[1][0] = 0.0f;
+    render_geometry[1][1] = 0.0f;
+    render_geometry[1][2] = 100.0f;
+    render_geometry[1][3] = 480.0f;
+    render_geometry[1][4] = 0.0f;
+    render_geometry[1][5] = 0.0f;
+    render_geometry[1][6] = 0.1953125f;
+    render_geometry[1][7] = 0.9375f;
+    render_geometry[2][0] = 10.0f;
+    render_geometry[2][1] = 0.0f;
+    render_geometry[2][2] = 340.0f;
+    render_geometry[2][3] = 480.0f;
+    render_geometry[2][4] = 0.0f;
+    render_geometry[2][5] = 0.0f;
+    render_geometry[2][6] = 1.0f;
+    render_geometry[2][7] = 1.0f;
+    switch (TKeyBoardControl__sub_8000F828()) {
+    case 0:
+        timing_rate = 30;
+        break;
+    case 1:
+        timing_rate = 25;
+        break;
+    }
+    fade_in_ticks = 2.0f * (f32)timing_rate;
+    fade_out_ticks = 2.0f * (f32)timing_rate;
+}
+
+TEndingC::~TEndingC() {}
 
 void TEndingC::run_task() {
     f32 temp_f0;
@@ -217,108 +264,13 @@ void TEndingC::run_task() {
     }
 }
 
-TEndingC::~TEndingC() {}
-
-extern "C" {
-u8 *__ct__8TEndingCFv(u8 *object, u8 *arg1) {
-    __ct__7TObjectFP7TObject(object, arg1);
-    *(s32 **)((s8 *)object + 0x18) = (s32 *)__vt__8TEndingC;
-    *(s32 *)((s8 *)object + 0) = (saddr) lbl_805D2960;
-    *(s32 *)((s8 *)object + 0x20) = 0;
-    *(s32 *)((s8 *)object + 0x1C) = 0;
-    *(f32 *)((s8 *)object + 0x28) = 0.0f;
-    *(f32 *)((s8 *)object + 0x2C) = 0.0f;
-    *(s32 *)((s8 *)object + 0x24) = 0;
-    *(f32 *)((s8 *)object + 0x30) = 228.0f;
-    *(f32 *)((s8 *)object + 0x34) = 0.0f;
-    *(f32 *)((s8 *)object + 0x38) = 640.0f;
-    *(f32 *)((s8 *)object + 0x3C) = 480.0f;
-    *(f32 *)((s8 *)object + 0x40) = 0.1953125f;
-    *(f32 *)((s8 *)object + 0x44) = 0.0f;
-    *(f32 *)((s8 *)object + 0x48) = 1.0f;
-    *(f32 *)((s8 *)object + 0x4C) = 0.9375f;
-    *(f32 *)((s8 *)object + 0x50) = 0.0f;
-    *(f32 *)((s8 *)object + 0x54) = 0.0f;
-    *(f32 *)((s8 *)object + 0x58) = 100.0f;
-    *(f32 *)((s8 *)object + 0x5C) = 480.0f;
-    *(f32 *)((s8 *)object + 0x60) = 0.0f;
-    *(f32 *)((s8 *)object + 0x64) = 0.0f;
-    *(f32 *)((s8 *)object + 0x68) = 0.1953125f;
-    *(f32 *)((s8 *)object + 0x6C) = 0.9375f;
-    *(f32 *)((s8 *)object + 0x70) = 10.0f;
-    *(f32 *)((s8 *)object + 0x74) = 0.0f;
-    *(f32 *)((s8 *)object + 0x78) = 340.0f;
-    *(f32 *)((s8 *)object + 0x7C) = 480.0f;
-    *(f32 *)((s8 *)object + 0x80) = 0.0f;
-    *(f32 *)((s8 *)object + 0x84) = 0.0f;
-    *(f32 *)((s8 *)object + 0x88) = 1.0f;
-    *(f32 *)((s8 *)object + 0x8C) = 1.0f;
-    switch (TKeyBoardControl__sub_8000F828()) {
-    case 0:
-        *(s32 *)((s8 *)object + 0x90) = 0x1E;
-        break;
-    case 1:
-        *(s32 *)((s8 *)object + 0x90) = 0x19;
-        break;
-    }
-    *(f32 *)((s8 *)object + 0x94) = (f32) (2.0f * (f32) *(s32 *)((s8 *)object + 0x90));
-    *(f32 *)((s8 *)object + 0x98) = (f32) (2.0f * (f32) *(s32 *)((s8 *)object + 0x90));
-    return object;
-}
-
-void release_lobby__8TEndingCFv(void);
-void release_texture_list(void*);
-
-uaddr TEndingC__wall_texture_list;
-
-void release_lobby__8TEndingCFv(void) {
-    if ((u32) TEndingC__wall_texture_list != 0U) {
-        release_texture_list((void*)TEndingC__wall_texture_list);
-        TEndingC__wall_texture_list = 0U;
-    }
-}
-
-    int bind_gvm_texture_list(const char *, NJS_TEXLIST *);
-}
-void register_texture_ed_512kabe_c(void) { TEndingC__wall_texture_list = (saddr)&TEndingC__wall_texture_list_entry; bind_gvm_texture_list(lbl_804398EC, &TEndingC__wall_texture_list_entry); }
-
-#define CAT2(a, b) a##b
-#define CAT(a, b) CAT2(a, b)
-#define PADV virtual void CAT(pv, __LINE__)();
-#define PADV4 virtual void CAT(pa, __LINE__)(); virtual void CAT(pb, __LINE__)(); virtual void CAT(pc, __LINE__)(); virtual void CAT(pd, __LINE__)();
-extern "C" {
-
-void TEndingAB__sub_8008D5A0(void) { TEndingAB__fade_sequence_state = 1; }
-
-    extern int TEndingPic__animation_state;
-void TEndingPic__sub_8008D5AC(void) { TEndingPic__animation_state = 1; }
-
-    extern int ending_frame_counter;
-int TEnding__sub_8008D5B8(void) {  return ending_frame_counter; }
-
-void TObjEneBalClaw::clear_flag_in_state7() {
-    u8 *arg0 = (u8 *)this;
-    if (this->next_action == 7) {
-        this->behavior_flags = (s32) (this->behavior_flags & 0xFFFFFFFE);
-        ((TObjEnemyCustom *)arg0)->update_if_active(0);
-    }
-}
-
-s32 TObjEneBalClaw::update_movement_status() {
-    saddr arg0 = (saddr)this;
-    if (TObjChara::update_movement_status() != 0) {
-        ((TObjEneBalClaw *)arg0)->clear_flag_in_state7();
-        return 1;
-    }
-    return 0;
-}
-
-s32 TObjEneBalClaw::update_action_hold_status() {
-    saddr arg0 = (saddr)this;
-    if (TObjChara::update_action_hold_status() != 0) {
-        ((TObjEneBalClaw *)arg0)->clear_flag_in_state7();
-        return 1;
-    }
-    return 0;
-}
+void TEndingC::render() {
+    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(&TEndingC__wall_texture_list_entry));
+    begin_screen_draw(1);
+    set_draw_texture_and_color(1, ((s32) (255.0f * primary_opacity) << 0x18) | 0xFF0000 | 0xFFFF, 255.0f);
+    draw_textured_quad_at_depth(render_geometry[0], 0.98f);
+    draw_textured_quad_at_depth(render_geometry[1], 0.98f);
+    set_draw_texture_and_color(0, ((s32) (255.0f * secondary_opacity) << 0x18) | 0xFF0000 | 0xFFFF, 255.0f);
+    draw_textured_quad_at_depth(render_geometry[2], 0.99f);
+    TWindowSubStatusDisp::get_player();
 }

@@ -5,17 +5,18 @@
 
 class TEndingC : public TObject {
 public:
+    TEndingC(TObject *parent);
     virtual void render();
     virtual void run_task();
     virtual ~TEndingC();
-    void release_lobby();
+    static void release_lobby();
 
     u32 phase;
     s32 elapsed_ticks;
     s32 cycle_index;
     f32 primary_opacity;
     f32 secondary_opacity;
-    u8 render_geometry[0x60];
+    f32 render_geometry[3][8];
     s32 timing_rate;
     f32 fade_in_ticks;
     f32 fade_out_ticks;
