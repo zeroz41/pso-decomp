@@ -15,7 +15,7 @@
 #include "pso/ui/window/TWindowMenuIconLine.h"
 #include "pso/ui/window/TWindowSubComCardList.h"
 #include "pso/ui/window/TWindowSubShortCutList.h"
-#include "pso/unk/TUnk_804D1818.h"
+#include "pso/ui/window/TWindowSubOption.h"
 #include "pso/boss/darkfalz/TBoss4Type3.h"
 #include "pso/boss/goldragon/TBoss8Dragon.h"
 #include "pso/ui/window/TWindowDD.h"

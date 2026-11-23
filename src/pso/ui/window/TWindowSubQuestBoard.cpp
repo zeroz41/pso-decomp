@@ -9,7 +9,7 @@
 #include "pso/ui/window/TWindowSubQuestBoard_8027D1E8.h"
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/window/TWindowSubQuestBoardSelect.h"
-#include "pso/unk/TUnk_804D1818.h"
+#include "pso/ui/window/TWindowSubOption.h"
 #include "pso/system/task/TObject.h"
 #include "pso/unk/TLobby.h"
 #include "pso/ui/window/TWindowSubComCard.h"
@@ -33,7 +33,7 @@
 
 struct Ent_8027CFC8 { u8 pad[0x20]; s32 label; };
 
-// The {width, height} of the option value window sub_8027C884 opens.
+// The {width, height} of the option value window create_option_value_window opens.
 __declspec(section ".rodata") static const f32 option_value_window_size[2] ATTRIBUTE_ALIGN(8) = { 302.0f, 148.0f };
 
 extern "C" {
@@ -125,7 +125,7 @@ void TWindowSubQuestBoard::set_board_flags(s32 value) {
     TWindowKeyBoardHard::set_card_window_flags((void*)arg0, value << 0xA, -0x1C01);
 }
 
-TUnk_804D1818::TUnk_804D1818(TWindowMainMenu *parent, s32 client) : TObject(parent) {
+TWindowSubOption::TWindowSubOption(TWindowMainMenu *parent, s32 client) : TObject(parent) {
     this->parent = parent;
     client_id = client;
     menu = (TWindowMenu *)create_option_menu_window();
@@ -133,12 +133,12 @@ TUnk_804D1818::TUnk_804D1818(TWindowMainMenu *parent, s32 client) : TObject(pare
     state = 0;
 }
 
-TUnk_804D1818::~TUnk_804D1818() {
+TWindowSubOption::~TWindowSubOption() {
     if (value_window != 0) { ((TWindowBase *)value_window)->close(); value_window = 0; }
     if (menu != NULL) { ((TWindowBase *)menu)->close(); menu = NULL; }
 }
 
-void TUnk_804D1818::run_task() {
+void TWindowSubOption::run_task() {
     s32 t;
     switch (state) {
     case 0:
@@ -161,7 +161,7 @@ void TUnk_804D1818::run_task() {
         break;
     case 3:
         t = menu->get_selected_value();
-        value_window = sub_8027C884(t);
+        value_window = create_option_value_window(t);
         state = 4;
     case 4:
         this->update_photon_selection();
@@ -173,9 +173,9 @@ void TUnk_804D1818::run_task() {
     }
 }
 
-void TUnk_804D1818::render() {  }
+void TWindowSubOption::render() {  }
 
-saddr TUnk_804D1818::create_option_menu_window() {
+saddr TWindowSubOption::create_option_menu_window() {
     saddr titled_window_menu;
 
     titled_window_menu = create_titled_window_menu((saddr)get_window_layout_position(0x15), 6, (saddr)TWindowSubStatusDisp::get_message_10(0x2A), client_id);
@@ -196,7 +196,7 @@ saddr TUnk_804D1818::create_option_menu_window() {
     return titled_window_menu;
 }
 
-saddr TUnk_804D1818::sub_8027C884(s32 option) {
+saddr TWindowSubOption::create_option_value_window(s32 option) {
     s16 value;
     saddr window;
     s32 flag;
@@ -251,7 +251,7 @@ saddr TUnk_804D1818::sub_8027C884(s32 option) {
     return window;
 }
 
-void TUnk_804D1818::update_quest_board_card_flags() {
+void TWindowSubOption::update_quest_board_card_flags() {
     s32 selected_menu_value;
     s32 value;
 
@@ -279,7 +279,7 @@ void TUnk_804D1818::update_quest_board_card_flags() {
     }
 }
 
-void TUnk_804D1818::update_photon_selection() {
+void TWindowSubOption::update_photon_selection() {
     s32 selected_menu_value;
     s32 value;
 

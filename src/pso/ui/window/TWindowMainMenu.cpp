@@ -23,7 +23,7 @@ struct TWindowSubItem;
 #include "pso/ui/window/TWindowSubEquip_80277E48.h"
 #include "pso/ui/window/TWindowSubGameEnd.h"
 #include "pso/ui/window/TWindowSubQuestBoard.h"
-#include "pso/unk/TUnk_804D1818.h"
+#include "pso/ui/window/TWindowSubOption.h"
 #include "pso/ui/chat/TWindowSubSymbolChat_8028239C.h"
 #include "pso/ui/chat/TWindowSubSymbolChat.h"
 #include "pso/ui/window/TWindowSubTechnique.h"
@@ -328,7 +328,7 @@ void TWindowMainMenu::create_submenu(u32 id) {
         this->m_20 = var_r0_14;
         return;
     case 6:
-        this->m_20 = (saddr)new TUnk_804D1818(this, this->client_index);
+        this->m_20 = (saddr)new TWindowSubOption(this, this->client_index);
         return;
     case 19:
     case 20:
