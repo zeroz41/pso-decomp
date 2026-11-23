@@ -9,22 +9,26 @@
 
 #pragma readonly_strings on
 
-struct Ent_803CE198 { s32 a; s32 b; u8 pad[8]; };
+// AFS-style range pair; consumers of get_entry_pair divide them by 2048 to turn
+// them into stream scroll offset/position.
+struct StreamRangeEntry { s32 startByte; s32 byteLength; u8 pad[8]; };
 
-struct Sub_803CE198 { u8 pad[0x214]; Ent_803CE198 e[1]; };
+struct StreamRangeTable { u8 pad[0x214]; StreamRangeEntry e[1]; };
 
-struct Obj_803CE198 { u8 pad[0xa0]; Sub_803CE198 sub; };
+struct LobbyStreamRanges { u8 pad[0xa0]; StreamRangeTable sub; };
 
 #define READ_BE32(p) (((p)[0] << 24) | ((p)[1] << 16) | ((p)[2] << 8) | (p)[3])
 #define READ_BE16(p) (((p)[0] << 8) | (p)[1])
 
-struct Ent3_803CDEC8 { u8 b; u8 pad[3]; s32 a; u8 pad8[8]; };
+struct AixByteWordBlock { u8 b; u8 pad[3]; s32 a; u8 pad8[8]; };
 
-struct Ent1_803CDEC8 { s32 w[4]; };
+struct AixWordBlock { s32 w[4]; };
 
-struct Ent2_803CDEC8 { s16 h[4]; };
+struct AixShortBlock { s16 h[4]; };
 
-struct Out_803CDEC8 {
+// Decoded AIXF file header: 0x08/0x09 header bytes, big-endian size/sample
+// words, then n1/n2/n3-counted tables of each entry shape.
+struct AixHeaderInfo {
     u8 f0;
     u8 f1;
     u8 pad2[2];
@@ -32,58 +36,65 @@ struct Out_803CDEC8 {
     f32 f8;
     s8 n3;
     u8 padd[3];
-    Ent3_803CDEC8 e3[32];
+    AixByteWordBlock e3[32];
     s32 n1;
-    Ent1_803CDEC8 e1[32];
+    AixWordBlock e1[32];
     s32 n2;
-    Ent2_803CDEC8 e2[1];
+    AixShortBlock e2[1];
 };
 
-struct Stream_803CDB0C;
-struct Chunk_803CDB0C {
+struct ChunkStream;
+
+// Ring-buffer segment handed out by the chunk stream vtable.
+struct StreamChunk {
     u8 *data;
     s32 len;
 };
 
-struct Hdr_803CDB0C {
+// Big-endian AIX packet header parsed out of the source ring stream.
+struct AixPacketHeader {
     u32 magic;
     s32 size;
-    u8 b[2];
-    s16 len;
-    s32 w;
+    u8 channel; // destination channel index (b[0])
+    u8 pad9;
+    s16 dataLen; // payload length following the header
+    s32 w; // 0xC header word, returned as the demux result
 };
 
-struct StreamVt_803CDB0C {
+// Ring-stream ops interface: get/release/commit/avail on chunk segments.
+struct StreamChunkVtbl {
     u8 pad[0x18];
-    void (*get)(Stream_803CDB0C *, s32, s32, Chunk_803CDB0C *);
-    void (*release)(Stream_803CDB0C *, s32, Chunk_803CDB0C *);
-    void (*commit)(Stream_803CDB0C *, s32, Chunk_803CDB0C *);
-    s32 (*avail)(Stream_803CDB0C *, s32);
+    void (*get)(ChunkStream *, s32, s32, StreamChunk *);
+    void (*release)(ChunkStream *, s32, StreamChunk *);
+    void (*commit)(ChunkStream *, s32, StreamChunk *);
+    s32 (*avail)(ChunkStream *, s32);
 };
 
-struct Stream_803CDB0C {
-    StreamVt_803CDB0C *vt;
+struct ChunkStream {
+    StreamChunkVtbl *vt;
 };
 
-struct Obj_803CDB0C {
+// AIX demuxer: one source chunk stream fanned out to nch channel streams.
+struct AixDemuxState {
     u8 f0;
     s8 f1;
     s8 nch;
     u8 pad3;
     s8 f4;
     u8 pad5[3];
-    s32 f8;
+    s32 bytesDelivered; // cumulative payload bytes written into channel streams
     u8 padC[0x10];
-    Stream_803CDB0C *src;
-    Stream_803CDB0C *ch[0x23];
+    ChunkStream *src;
+    ChunkStream *ch[0x23];
     s8 n;
 };
 
 extern "C" {
-s32 parse_aix_header__6TLobbyFPviPv(u8 *arg0, s32 arg1, Out_803CDEC8 *arg2);
+s32 parse_aix_header__6TLobbyFPviPv(u8 *arg0, s32 arg1, AixHeaderInfo *arg2);
 char *cri_copyright_string = "(c)CRI";
 
-struct StreamSlot_803CD99C {
+// Per-frame AIX stream slot (pool lbl_8057FFD0): header phase then demux phase.
+struct AixStreamSlot {
     s8 active;
     s8 phase;
     s8 nch;
@@ -91,22 +102,22 @@ struct StreamSlot_803CD99C {
     u8 pad4[4];
     s32 consumed;
     u8 padC[0x10];
-    Stream_803CDB0C *src;
+    ChunkStream *src;
     u8 pad20[0x80];
-    Out_803CDEC8 aix;
+    AixHeaderInfo aix;
     u8 pad4C0[0x18];
 };
 
-StreamSlot_803CD99C lbl_8057FFD0[4];
+AixStreamSlot lbl_8057FFD0[4];
 
 void TLobby__sub_803CD99C(void) {
-    StreamSlot_803CD99C *slot;
+    AixStreamSlot *slot;
     s32 i;
     s32 size;
-    Stream_803CDB0C *src;
-    Chunk_803CDB0C rest;
+    ChunkStream *src;
+    StreamChunk rest;
     s32 active;
-    Chunk_803CDB0C chunk;
+    StreamChunk chunk;
 
     for (i = 0; i < 4; i++) {
         slot = &lbl_8057FFD0[i];
@@ -138,7 +149,7 @@ void TLobby__sub_803CD99C(void) {
     }
 }
 
-static inline s32 parse_803CDB0C(u8 *data, u32 len, Hdr_803CDB0C *h) {
+static inline s32 parse_803CDB0C(u8 *data, u32 len, AixPacketHeader *h) {
     u8 *p;
     if (len < 0x10) {
         return 0;
@@ -154,7 +165,7 @@ static inline s32 parse_803CDB0C(u8 *data, u32 len, Hdr_803CDB0C *h) {
     p += 2;
     *(s32 *)((u8 *)h + 12) = READ_BE32(p);
     p += 4;
-    if (p - data != sizeof(Hdr_803CDB0C)) {
+    if (p - data != sizeof(AixPacketHeader)) {
         while (1) {
         }
     }
@@ -162,19 +173,19 @@ static inline s32 parse_803CDB0C(u8 *data, u32 len, Hdr_803CDB0C *h) {
 }
 
 s32 TLobby::demux_stream_chunks() {
-    Obj_803CDB0C *o = (Obj_803CDB0C *)this;
-    Stream_803CDB0C *s;
-    Stream_803CDB0C **ch;
+    AixDemuxState *o = (AixDemuxState *)this;
+    ChunkStream *s;
+    ChunkStream **ch;
     s32 n;
     s32 i;
     s32 ret;
     s32 c;
     s32 len;
     s32 j;
-    Hdr_803CDB0C hdr;
-    Chunk_803CDB0C c1;
-    Chunk_803CDB0C c2;
-    Chunk_803CDB0C tmp;
+    AixPacketHeader hdr;
+    StreamChunk c1;
+    StreamChunk c2;
+    StreamChunk tmp;
     ret = -3;
     ch = o->ch;
     n = o->n;
@@ -201,12 +212,12 @@ s32 TLobby::demux_stream_chunks() {
             }
             return ret;
         }
-        c = hdr.b[0];
+        c = hdr.channel;
         if (c >= o->nch) {
             while (1) {
             }
         }
-        if (ch[c]->vt->avail(ch[c], 0) < hdr.len) {
+        if (ch[c]->vt->avail(ch[c], 0) < hdr.dataLen) {
             s->vt->release(s, 1, &c1);
             return ret;
         }
@@ -215,11 +226,11 @@ s32 TLobby::demux_stream_chunks() {
         TLobby__sub_803D3130(&c1, hdr.size + 8, &c1, &c2);
         s->vt->release(s, 1, &c2);
         TLobby__sub_803D3130(&c1, 0x10, &c1, &c2);
-        if (c2.len < hdr.len) {
+        if (c2.len < hdr.dataLen) {
             while (1) {
             }
         }
-        len = hdr.len;
+        len = hdr.dataLen;
         for (j = 0; j < len; j += tmp.len) {
             ch[c]->vt->get(ch[c], 0, c2.len - j, &tmp);
             memcpy(tmp.data, c2.data + j, tmp.len);
@@ -227,13 +238,13 @@ s32 TLobby::demux_stream_chunks() {
         }
         s->vt->commit(s, 0, &c1);
         s->vt->commit(s, 0, &c2);
-        o->f8 = c2.len + (c1.len + o->f8);
+        o->bytesDelivered = c2.len + (c1.len + o->bytesDelivered);
         middleware_interrupt_lock_leave();
     }
     return ret;
 }
 
-s32 parse_aix_header__6TLobbyFPviPv(u8 *arg0, s32 arg1, Out_803CDEC8 *arg2) {
+s32 parse_aix_header__6TLobbyFPviPv(u8 *arg0, s32 arg1, AixHeaderInfo *arg2) {
     s32 len;
     s32 hdr;
     u8 *p;
@@ -282,13 +293,13 @@ s32 parse_aix_header__6TLobbyFPviPv(u8 *arg0, s32 arg1, Out_803CDEC8 *arg2) {
 }
 
 void TLobby::get_entry_pair(s32 i, s32 *a, s32 *b) {
-    Obj_803CE198 *self = (Obj_803CE198 *)this;
-    Sub_803CE198 *s = &self->sub;
+    LobbyStreamRanges *self = (LobbyStreamRanges *)this;
+    StreamRangeTable *s = &self->sub;
     if (a != 0) {
-        *a = s->e[i].a;
+        *a = s->e[i].startByte;
     }
     if (b != 0) {
-        *b = s->e[i].b;
+        *b = s->e[i].byteLength;
     }
 }
 

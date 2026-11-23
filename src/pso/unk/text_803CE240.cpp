@@ -6,7 +6,9 @@
 
 struct VObj_803C9E38;
 
-struct Ent_803CE240 {
+// Per-file ADX stream job (pool lbl_80581330): drives one lobby stream from
+// range lookup through track completion.
+struct FileStreamJob {
     u8 state;
     s8 phase;
     u8 pad2;
@@ -18,20 +20,20 @@ struct Ent_803CE240 {
     u8 f1A8;
     u8 f1A9;
     u8 pad1AA[0x1B0 - 0x1AA];
-    s32 f1B0;
-    s32 f1B4;
+    s32 activeEntryIndex; // range entry actually started (recorded from entryIndex)
+    s32 entryIndex; // requested StreamRangeTable entry index
     u8 pad1B8[0x1C0 - 0x1B8];
 };
 
 extern "C" {
-void TLobby__sub_803CE2A0(Ent_803CE240 *);
+void TLobby__sub_803CE2A0(FileStreamJob *);
 s32 TLobby__sub_803CE1F4(TLobby *);
 s32 TLobby__sub_803CE1D8(TLobby *);
 void TLobby__sub_803C9E38(TLobby *, VObj_803C9E38 *);
 s32 TLobby__sub_803C9CB0(TLobby *);
 void update_file_stream_range(void *context);
 s32 get_field_60__6TLobbyFv(TLobby *);
-Ent_803CE240 lbl_80581330[4];
+FileStreamJob lbl_80581330[4];
 void TLobby__sub_803CE240(void) {
     s32 i;
     TLobby__sub_803CD99C();
@@ -42,7 +44,7 @@ void TLobby__sub_803CE240(void) {
     }
 }
 
-void TLobby__sub_803CE2A0(Ent_803CE240 *ent) {
+void TLobby__sub_803CE2A0(FileStreamJob *ent) {
     TLobby *lobby;
     TLobby **tracks;
     s32 i;
@@ -53,7 +55,7 @@ void TLobby__sub_803CE2A0(Ent_803CE240 *ent) {
     lobby = ent->lobby;
     if (ent->phase == 1) {
         if (TLobby__sub_803CE1F4(lobby) == 2) {
-            lobby->get_entry_pair(ent->f1B0 = ent->f1B4, &a, &b);
+            lobby->get_entry_pair(ent->activeEntryIndex = ent->entryIndex, &a, &b);
             set_scroll_offset__6TLobbyFl(ent->stream, (long long)(a / 2048));
             set_scroll_position__6TLobbyFl(ent->stream, (a + b) / 2048);
             set_adx_stream_completion(ent->stream, update_file_stream_range, ent);

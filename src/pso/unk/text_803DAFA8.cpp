@@ -4,13 +4,17 @@
 #include "pso/unk/text_803DAFA8.h"
 #include "pso/unk/TLobby.h"
 #include "pso/unk/TLobby_803DE778.h"
-struct Obj_803DB20C { u8 pad[0x1c]; void *p; };
+// Holds an allocation at 0x1C; fn_803DB20C releases it back to the locked heap.
+struct HeapBufferHolder { u8 pad[0x1c]; void *buffer; };
 
-struct Tex_803DB15C { u32 fmt; u32 pad4; u32 pad8; u32 w; u32 h; u32 sz; u32 flags; };
+// Texture format record: fmt/width/height fed to GXGetTexBufferSize, flags from
+// the 0x100/0x200/0x800 source attribute bits.
+struct GvmTexFormatHeader { u32 fmt; u32 pad4; u32 pad8; u32 w; u32 h; u32 sz; u32 flags; };
 
-struct Buf_803DB1B4 { u8 pad[0x14]; u32 size; u32 pad18; void *mem; };
+struct HeapBufferRequest { u8 pad[0x14]; u32 size; u32 pad18; void *mem; };
 
-struct Hdr_803DAFA8 {
+// GLPV texture chunk header; fields copied big-endian into the image out record.
+struct GlpvChunkHeader {
     s32 magic;
     s32 size;
     u16 f8;
@@ -20,7 +24,7 @@ struct Hdr_803DAFA8 {
     u8 data[1];
 };
 
-struct Out_803DAFA8 {
+struct GlpvTexImage {
     void *buf;
     u16 f4;
     s16 f6;
@@ -31,17 +35,17 @@ struct Out_803DAFA8 {
 extern "C" {
 extern void *locked_cache_heap_handle;
 void OSFreeToHeap(void *heap, void *p);
-s32 fn_803DB20C(Obj_803DB20C *o);
+s32 fn_803DB20C(HeapBufferHolder *o);
 void GXInitTlutObj(void *, void *, s32, s32, s32);
 void GXLoadTlut(void *, s32);
 s32 GXGetTexBufferSize(u16, u16, u32, u8, u8);
-void fn_803DB15C(Tex_803DB15C *arg0);
+void fn_803DB15C(GvmTexFormatHeader *arg0);
 void *OSAllocFromHeap(void *, u32);
-s32 alloc_buffer_from_heap(Buf_803DB1B4 *arg0);
-s32 fn_803DAFA8(struct Hdr_803DAFA8 *arg0, struct Out_803DAFA8 *arg1);
-s32 init_ginja_texture_header(Tex_803DB15C *arg0, u32 arg1, u32 arg2, u32 arg3);
+s32 alloc_buffer_from_heap(HeapBufferRequest *arg0);
+s32 fn_803DAFA8(struct GlpvChunkHeader *arg0, struct GlpvTexImage *arg1);
+s32 init_ginja_texture_header(GvmTexFormatHeader *arg0, u32 arg1, u32 arg2, u32 arg3);
 
-s32 fn_803DAFA8(struct Hdr_803DAFA8 *arg0, struct Out_803DAFA8 *arg1) {
+s32 fn_803DAFA8(struct GlpvChunkHeader *arg0, struct GlpvTexImage *arg1) {
     s32 sp8;
     TObjPlayer__sub_803DA7E0();
     sp8 = arg0->magic;
@@ -68,7 +72,7 @@ void init_and_load_tlut(s32 arg0, s32 arg1, u16 arg2, void *arg3) {
     GXLoadTlut(sp8, arg0);
 }
 
-s32 init_ginja_texture_header(Tex_803DB15C *arg0, u32 arg1, u32 arg2, u32 arg3) {
+s32 init_ginja_texture_header(GvmTexFormatHeader *arg0, u32 arg1, u32 arg2, u32 arg3) {
     s32 ret = 0;
     u32 flags = 0;
     arg0->fmt = (u8)arg3;
@@ -88,11 +92,11 @@ s32 init_ginja_texture_header(Tex_803DB15C *arg0, u32 arg1, u32 arg2, u32 arg3) 
         flags |= 0x40000000;
     }
     arg0->flags |= flags;
-    arg0->sz = ((s32 (*)(Tex_803DB15C *))fn_803DB15C)(arg0);
+    arg0->sz = ((s32 (*)(GvmTexFormatHeader *))fn_803DB15C)(arg0);
     return ret;
 }
 
-void fn_803DB15C(Tex_803DB15C *arg0) {
+void fn_803DB15C(GvmTexFormatHeader *arg0) {
     u8 mip;
     if (arg0->flags & 0x80000000) {
         mip = 1;
@@ -102,7 +106,7 @@ void fn_803DB15C(Tex_803DB15C *arg0) {
     GXGetTexBufferSize(arg0->w, arg0->h, arg0->fmt, mip, 100);
 }
 
-s32 alloc_buffer_from_heap(Buf_803DB1B4 *arg0) {
+s32 alloc_buffer_from_heap(HeapBufferRequest *arg0) {
     s32 ret = 0;
     void *p = OSAllocFromHeap(locked_cache_heap_handle, arg0->size);
     if (p == 0) {
@@ -116,8 +120,8 @@ s32 alloc_buffer_from_heap(Buf_803DB1B4 *arg0) {
 #pragma push
 #pragma scheduling off
 #pragma peephole off
-s32 fn_803DB20C(Obj_803DB20C *o) {
-    OSFreeToHeap(locked_cache_heap_handle, o->p);
+s32 fn_803DB20C(HeapBufferHolder *o) {
+    OSFreeToHeap(locked_cache_heap_handle, o->buffer);
     return 0;
 }
 #pragma pop

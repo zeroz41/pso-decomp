@@ -4,7 +4,8 @@
 
 struct ByteBlock_8 { u8 bytes[0x8]; };
 
-typedef struct Buf_803D2F1C { u8 *data; s32 size; } Buf_803D2F1C;
+// Pointer+size view of an archive blob walked by the 7-char-name entry scan.
+typedef struct ArchiveBuffer { u8 *data; s32 size; } ArchiveBuffer;
 
 extern "C" {
 u32 lbl_804F9E60[112] = {
@@ -16,7 +17,7 @@ u32 lbl_804F9E60[112] = {
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 10, 11, 12, 13, 14, 15, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 };
-u8 *find_archive_entry__6TLobbyFPvPvPvPv(Buf_803D2F1C *arc, const char *name, const char *stop, Buf_803D2F1C *out);
+u8 *find_archive_entry__6TLobbyFPvPvPvPv(ArchiveBuffer *arc, const char *name, const char *stop, ArchiveBuffer *out);
 
 #define HEX_803D2F1C(p, i) lbl_804F9E60[(s8)(p)[i]]
 #define SIZE_803D2F1C(p) ((((((((((((HEX_803D2F1C(p, 8) << 4) + HEX_803D2F1C(p, 9)) << 4) + HEX_803D2F1C(p, 10)) << 4) + HEX_803D2F1C(p, 11)) << 4) + HEX_803D2F1C(p, 12)) << 4) + HEX_803D2F1C(p, 13)) << 4) + HEX_803D2F1C(p, 14))
@@ -30,7 +31,7 @@ inline s32 size_803D2F1C(u8 *p) {
     v = (v << 4) + HEX_803D2F1C(p, 14);
     return v;
 }
-u8 *find_archive_entry__6TLobbyFPvPvPvPv(Buf_803D2F1C *arc, const char *name, const char *stop, Buf_803D2F1C *out) {
+u8 *find_archive_entry__6TLobbyFPvPvPvPv(ArchiveBuffer *arc, const char *name, const char *stop, ArchiveBuffer *out) {
     u8 *p;
     u8 *end;
     out->data = NULL;

@@ -8,64 +8,69 @@
 #include "pso/unk/TLobby_803DE778.h"
 #include "pso/unk/text_803DA798.h"
 #include <dolphin/os/OSCache.h>
-struct RecoveredFields_803DA84C_arg0 {
+// Buffered chunk head: byte size at 0x14, data base address at 0x1C.
+struct ChunkedBufferHead {
     u8 unknown_0[0x14];
-    u32 field_14;
+    u32 bufferSize;
     u8 unknown_18[0x4];
-    saddr field_1C;
+    saddr bufferBase;
 };
 
-struct S_803DA7E0 { s32 a, b, c, d, e; };
+// Process-wide texture load status: failedIndex + resultCode (see text_803DD5E0 loaders).
+struct GvmLoadStatus { s32 failedIndex, b, resultCode, d, e; };
 
-struct Obj_803DA7A8 { u8 pad[8]; s32 f8; s32 fc; };
+// Chunk descriptor: fc+4 feeds the active address, f8 the active size (set_texture_num).
+struct TexChunkDesc { u8 pad[8]; s32 f8; s32 fc; };
 
-struct Ent_803DA7A8 { s32 a; s32 b; Obj_803DA7A8 *p; };
+struct TexChunkSlot { s32 a; s32 b; TexChunkDesc *p; };
 
-struct Tbl_803DA7A8 { Ent_803DA7A8 *arr; };
+struct TexChunkTable { TexChunkSlot *arr; };
 
-struct G_803DA7A8 { u8 pad[8]; s32 f8; u8 pad2[0xc]; s32 f18; u8 pad3[4]; Tbl_803DA7A8 *f20; };
+// current_render_context view: active chunk address f8, size f18, chunk table f20.
+struct RenderTexContext { u8 pad[8]; s32 f8; u8 pad2[0xc]; s32 f18; u8 pad3[4]; TexChunkTable *f20; };
 
-struct E_803DAB7C { u8 pad[0x18]; };
+struct GvmTexRecord { u8 pad[0x18]; };
 
-struct Ent_803DAB7C { s32 a; s32 b; E_803DAB7C *p; };
+struct GvmTexRefSlot { s32 a; s32 b; GvmTexRecord *p; };
 
-struct Obj_803DAB7C { Ent_803DAB7C *arr; };
+struct GvmTexRefArray { GvmTexRefSlot *arr; };
 
-struct Ent_803DAB9C { u32 a; u32 b; u32 c; u8 *d; u32 e; u32 f; };
+struct TexLoadBufferEntry { u32 a; u32 b; u32 c; u8 *d; u32 e; u32 f; };
 
-struct Inner_803DAD84 {
+struct TexLoadTargetData {
     u8 pad[0x1C];
     u32 flags;
 };
 
-struct Obj_803DAD84 {
+struct TexLoadTarget {
     u8 pad[0xC];
-    struct Inner_803DAD84 *inner;
+    struct TexLoadTargetData *inner;
 };
 
-struct Obj_803DA8E4 { u8 pad[0x24]; s32 refs; };
+// Refcount owner inside record_array_ptr; refs pairs with PlayerRefRecord.cnt.
+struct PlayerRefObject { u8 pad[0x24]; s32 refs; };
 
-struct Rec_803DA8E4 { u32 a; u32 b; u32 c; Obj_803DA8E4 *obj; s32 cnt; s32 v14; };
+struct PlayerRefRecord { u32 a; u32 b; u32 recordId; PlayerRefObject *obj; s32 cnt; s32 v14; };
 
-struct B_803DAE1C { u32 a; u32 b; Obj_803DAD84 *c; };
+struct TexLoadSlotRef { u32 a; u32 b; TexLoadTarget *c; };
 
 extern saddr record_array_ptr;
 extern "C" {
 s32 fn_803DB20C(void *);
 s32 TObjPlayer__sub_803DAD28(u32 arg0);
-extern S_803DA7E0 lbl_8058D470;
-void TObjPlayer__sub_803DAB7C(Obj_803DAB7C *self, s32 i, s32 j);
+extern GvmLoadStatus lbl_8058D470;
+void TObjPlayer__sub_803DAB7C(GvmTexRefArray *self, s32 i, s32 j);
 s32 TObjPlayer__sub_803DAB9C(s32 arg0, s32 arg1);
 s32 TObjPlayer__sub_803DB23C(void *);
 s32 TObjPlayer__sub_803DB244(void);
-s32 TObjPlayer__sub_803DAD84(struct Obj_803DAD84 *arg0, s32 arg1, u32 arg2);
+s32 TObjPlayer__sub_803DAD84(struct TexLoadTarget *arg0, s32 arg1, u32 arg2);
 s32 TObjPlayer__sub_803DA104(int);
 void TObjPlayer__sub_803DAD24(void);
 s32 TObjPlayer__sub_803DA8E4(u32 arg0, u32 arg1, s32 arg2, s32 *arg3);
 s32 TObjPlayer__sub_803D9DA8(int, void *);
 extern s32 player_ref_entry_active_count;
 s32 TObjPlayer__sub_803DAA70(u32 arg0, u32 arg1, s32 *arg2);
-s32 TObjPlayer__sub_803DAC48(Obj_803DAB7C *arg0, s32 arg1, u32 arg2, u32 arg3, s32 *arg4, s32 *arg5);
+s32 TObjPlayer__sub_803DAC48(GvmTexRefArray *arg0, s32 arg1, u32 arg2, u32 arg3, s32 *arg4, s32 *arg5);
 s32 TObjPlayer__sub_803DAE1C(s32 arg0, s32 arg1, u32 arg2);
 s32 TObjFish::set_global_param(GinjaTextureList *texlist) {
     current_render_context->textures = texlist;
@@ -77,16 +82,16 @@ s32 set_texture_num(s32 i);
 #pragma opt_common_subs off
 #pragma scheduling off
 #pragma peephole off
-LAYOUT_ASSERT(RecoveredFields_803DA84C_arg0_14_offset, offsetof(RecoveredFields_803DA84C_arg0, field_14) == 0x14);
-LAYOUT_ASSERT(RecoveredFields_803DA84C_arg0_1C_offset, offsetof(RecoveredFields_803DA84C_arg0, field_1C) == 0x1C);
+LAYOUT_ASSERT(ChunkedBufferHead_size_offset, offsetof(ChunkedBufferHead, bufferSize) == 0x14);
+LAYOUT_ASSERT(ChunkedBufferHead_base_offset, offsetof(ChunkedBufferHead, bufferBase) == 0x1C);
 
 #pragma push
 #pragma scheduling off
 #pragma peephole off
 s32 set_texture_num(s32 i) {
-    Obj_803DA7A8 *o = ((G_803DA7A8 *)current_render_context)->f20->arr[i].p;
-    ((G_803DA7A8 *)current_render_context)->f8 = o->fc + 4;
-    ((G_803DA7A8 *)current_render_context)->f18 = o->f8;
+    TexChunkDesc *o = ((RenderTexContext *)current_render_context)->f20->arr[i].p;
+    ((RenderTexContext *)current_render_context)->f8 = o->fc + 4;
+    ((RenderTexContext *)current_render_context)->f18 = o->f8;
     return 1;
 }
 #pragma pop
@@ -96,9 +101,9 @@ s32 set_texture_num(s32 i) {
 #pragma peephole off
 
 void TObjPlayer__sub_803DA7E0(void) {
-    lbl_8058D470.a = -1;
+    lbl_8058D470.failedIndex = -1;
     lbl_8058D470.b = -1;
-    lbl_8058D470.c = 0;
+    lbl_8058D470.resultCode = 0;
     lbl_8058D470.d = 0;
     lbl_8058D470.e = 0;
 }
@@ -109,25 +114,25 @@ void TObjPlayer__sub_803DA808(void *buf, saddr src, u32 size) {
     DCFlushRange(buf, size);
 }
 
-s32 TObjPlayer__sub_803DA84C(u8 *arg0, s32 arg1, s32 arg2, s32 arg3) {
-    u32 temp_r0;
-    u32 temp_r6;
-    u32 temp_r7;
-    uaddr var_r5;
-    temp_r7 = arg2 & 0xFFFFFFFC;
-    temp_r6 = arg3 & 0xFFFFFFFC;
-    if (temp_r6 == 0) {
+s32 TObjPlayer__sub_803DA84C(u8 *head, s32 src, s32 offsetRaw, s32 lengthRaw) {
+    u32 remaining;
+    u32 copyMax;
+    u32 copyStart;
+    uaddr copyLen;
+    copyStart = offsetRaw & 0xFFFFFFFC;
+    copyMax = lengthRaw & 0xFFFFFFFC;
+    if (copyMax == 0) {
         return 0;
     }
-    temp_r0 = ((RecoveredFields_803DA84C_arg0 *)arg0)->field_14;
-    var_r5 = temp_r0 - temp_r7;
-    if (temp_r7 >= temp_r0) {
+    remaining = ((ChunkedBufferHead *)head)->bufferSize;
+    copyLen = remaining - copyStart;
+    if (copyStart >= remaining) {
         return 7;
     }
-    if (var_r5 > temp_r6) {
-        var_r5 = temp_r6;
+    if (copyLen > copyMax) {
+        copyLen = copyMax;
     }
-    TObjPlayer__sub_803DA808((void *)(temp_r7 + ((RecoveredFields_803DA84C_arg0 *)arg0)->field_1C), arg1, var_r5);
+    TObjPlayer__sub_803DA808((void *)(copyStart + ((ChunkedBufferHead *)head)->bufferBase), src, copyLen);
     return 0;
 }
 #pragma pop
@@ -144,7 +149,7 @@ s32 TObjPlayer__sub_803DA8B4(u8 *arg0, s32 src) {
 #pragma optimize_for_size on
 #pragma use_lmw_stmw off
 s32 TObjPlayer__sub_803DA8E4(u32 arg0, u32 arg1, s32 arg2, s32 *arg3) {
-    Rec_803DA8E4 *sp8;
+    PlayerRefRecord *rec;
     s32 idx;
     s32 r;
     s32 slot;
@@ -156,72 +161,72 @@ s32 TObjPlayer__sub_803DA8E4(u32 arg0, u32 arg1, s32 arg2, s32 *arg3) {
         }
         r = TObjPlayer::find_record_index(arg0, arg1);
         if (r < 0) {
-            slot = TObjPlayer::find_free_slot(&sp8, NULL);
+            slot = TObjPlayer::find_free_slot(&rec, NULL);
             if (slot < 0) {
                 return -1;
             }
-            sp8->c = arg1;
-            sp8->obj = (*(Rec_803DA8E4 **)&record_array_ptr)[idx].obj;
-            sp8->obj->refs++;
-            sp8->cnt = 1;
-            sp8->v14 = (*(Rec_803DA8E4 **)&record_array_ptr)[idx].v14;
-            ((void (*)(Rec_803DA8E4 *)) TObjPlayer__sub_803DAD24)(sp8);
+            rec->recordId = arg1;
+            rec->obj = (*(PlayerRefRecord **)&record_array_ptr)[idx].obj;
+            rec->obj->refs++;
+            rec->cnt = 1;
+            rec->v14 = (*(PlayerRefRecord **)&record_array_ptr)[idx].v14;
+            ((void (*)(PlayerRefRecord *)) TObjPlayer__sub_803DAD24)(rec);
             *arg3 = slot;
             return 1;
         }
         *arg3 = r;
-        (*(Rec_803DA8E4 **)&record_array_ptr)[r].cnt++;
-        (*(Rec_803DA8E4 **)&record_array_ptr)[r].obj->refs++;
+        (*(PlayerRefRecord **)&record_array_ptr)[r].cnt++;
+        (*(PlayerRefRecord **)&record_array_ptr)[r].obj->refs++;
         return 1;
     }
     *arg3 = idx;
     if (idx < 0) {
         return 0;
     }
-    (*(Rec_803DA8E4 **)&record_array_ptr)[idx].cnt++;
-    (*(Rec_803DA8E4 **)&record_array_ptr)[idx].obj->refs++;
+    (*(PlayerRefRecord **)&record_array_ptr)[idx].cnt++;
+    (*(PlayerRefRecord **)&record_array_ptr)[idx].obj->refs++;
     return 1;
 }
 #pragma pop
 
 s32 TObjPlayer__sub_803DAA70(u32 arg0, u32 arg1, s32 *arg2) {
-    u8 *spC;
-    s32 *sp8;
-    s32 temp_r3;
-    temp_r3 = TObjPlayer::find_free_slot(&spC, &sp8);
-    if (temp_r3 < 0) {
+    u8 *entry;
+    s32 *rec;
+    s32 slotIdx;
+    slotIdx = TObjPlayer::find_free_slot(&entry, &rec);
+    if (slotIdx < 0) {
         return -1;
     }
-    *(s32 **)((s8 *)spC + 0xC) = sp8;
-    if (TObjPlayer__sub_803D9DA8((saddr)spC, (void *)arg2) != 1) {
-        *(s32 **)((s8 *)spC + 0xC) = NULL;
+    *(s32 **)((s8 *)entry + 0xC) = rec;
+    if (TObjPlayer__sub_803D9DA8((saddr)entry, (void *)arg2) != 1) {
+        *(s32 **)((s8 *)entry + 0xC) = NULL;
         return -1;
     }
     if ((u32) arg0 != 0xFFFFFFFFU) {
-        *(s32 *)((s8 *)(*(s32 **)((s8 *)spC + 0xC)) + 0) = arg0;
+        *(s32 *)((s8 *)(*(s32 **)((s8 *)entry + 0xC)) + 0) = arg0;
     }
     if (TObjPlayer__sub_803DA104((int) (*(s32 *)((s8 *)arg2 + 0))) != 0) {
-        *(s32 *)((s8 *)spC + 8) = arg1;
+        *(s32 *)((s8 *)entry + 8) = arg1;
     } else {
-        *(s32 *)((s8 *)spC + 8) = -1;
+        *(s32 *)((s8 *)entry + 8) = -1;
     }
-    ((void (*)(u8 *)) TObjPlayer__sub_803DAD24)(spC);
-    *(s32 *)((s8 *)spC + 0x10) = 1;
-    *(s32 *)((s8 *)(*(s32 **)((s8 *)spC + 0xC)) + 0x24) = 1;
+    ((void (*)(u8 *)) TObjPlayer__sub_803DAD24)(entry);
+    *(s32 *)((s8 *)entry + 0x10) = 1;
+    *(s32 *)((s8 *)(*(s32 **)((s8 *)entry + 0xC)) + 0x24) = 1;
     player_ref_entry_active_count += 1;
-    return temp_r3;
+    return slotIdx;
 }
 
 #pragma push
 #pragma scheduling off
 #pragma peephole off
-void TObjPlayer__sub_803DAB7C(Obj_803DAB7C *self, s32 i, s32 j) {
-    self->arr[i].p = (E_803DAB7C *)record_array_ptr + j;
+void TObjPlayer__sub_803DAB7C(GvmTexRefArray *self, s32 i, s32 j) {
+    self->arr[i].p = (GvmTexRecord *)record_array_ptr + j;
 }
 #pragma pop
 
 s32 TObjPlayer__sub_803DAB9C(s32 handle, s32 arg1) {
-    u8 *p = (*(Ent_803DAB9C * *)&record_array_ptr)[handle].d;
+    u8 *p = (*(TexLoadBufferEntry * *)&record_array_ptr)[handle].d;
     if (p == 0) {
         ((s32 *)&lbl_8058D470)[2] = 1;
         return -1;
@@ -243,7 +248,7 @@ void TObjPlayer__sub_803DAC1C(s32 handle) {
 #pragma push
 #pragma optimize_for_size on
 #pragma use_lmw_stmw off
-s32 TObjPlayer__sub_803DAC48(Obj_803DAB7C *list, s32 i, u32 arg2, u32 arg3, s32 *arg4, s32 *arg5) {
+s32 TObjPlayer__sub_803DAC48(GvmTexRefArray *list, s32 i, u32 arg2, u32 arg3, s32 *arg4, s32 *arg5) {
     switch (TObjPlayer__sub_803DA8E4(arg2, arg3, *arg4, arg5)) {
     case -1:
         return -1;
@@ -291,16 +296,16 @@ s32 TObjPlayer__sub_803DAD28(u32 arg0) {
 }
 #pragma pop
 
-s32 TObjPlayer__sub_803DAD84(struct Obj_803DAD84 *arg0, s32 size, u32 arg2) {
-    struct Inner_803DAD84 *p = arg0->inner;
+s32 TObjPlayer__sub_803DAD84(struct TexLoadTarget *arg0, s32 size, u32 arg2) {
+    struct TexLoadTargetData *p = arg0->inner;
     if ((p->flags & 0x80000000) != 0 && arg2 != 0) {
         if (TObjPlayer__sub_803DB23C((u8 *)p + 4) != 0) {
-            lbl_8058D470.c = 8;
+            lbl_8058D470.resultCode = 8;
             return -1;
         }
     } else {
         if (((s32 (*)(u8 *))TObjPlayer__sub_803DA8B4)((u8 *)p + 4) != 0) {
-            lbl_8058D470.c = 8;
+            lbl_8058D470.resultCode = 8;
             return -1;
         }
     }
@@ -309,12 +314,12 @@ s32 TObjPlayer__sub_803DAD84(struct Obj_803DAD84 *arg0, s32 size, u32 arg2) {
     return 1;
 }
 
-struct Obj_803DAD84;
+struct TexLoadTarget;
 s32 TObjPlayer__sub_803DAE1C(s32 arg0, s32 size, u32 arg2) {
     TObjPlayer__sub_803DA7E0();
-    s32 r = TObjPlayer__sub_803DAD84((**(B_803DAE1C ***)(&current_render_context->textures))[arg0].c, size, arg2);
+    s32 r = TObjPlayer__sub_803DAD84((**(TexLoadSlotRef ***)(&current_render_context->textures))[arg0].c, size, arg2);
     if (r < 0) {
-        lbl_8058D470.a = arg0;
+        lbl_8058D470.failedIndex = arg0;
     }
     return r;
 }

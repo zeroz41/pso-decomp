@@ -1,6 +1,8 @@
 #include "types.h"
 #include "pso/unk/TLobby.h"
-struct Obj_803D4540 {
+// RNA sound stream volume/pan control block: sndStream handles h[], per-channel
+// pan, master vol (negative dB index into gcrna_volume_table) and mix feeds.
+struct SndStreamVolumeState {
     u8 pad[8];
     u32 flags;
     u8 padc[4];
@@ -10,13 +12,15 @@ struct Obj_803D4540 {
     u8 pad48[0x10];
     s32 pan[2];
     s32 vol;
-    s32 vol2;
-    s32 x68;
-    s32 x6c;
-    s32 x70;
+    s32 vol2; // mirrors vol when a parameter update fires
+    s32 x68; // kept: feeds volume_table product into mix arg 5, identity unknown
+    s32 x6c; // kept: feeds volume_table product into mix arg 6, identity unknown
+    s32 x70; // kept: inverted (0x7F - x70) into mix arg 4, identity unknown
 };
 
-struct Obj_803D4654 {
+// Same stream object seen by set_stream_frequency: sample rate + play mode
+// drive sndStreamFrq scaling (mode 1 rescales rate by 1125-step table math).
+struct SndStreamFreqState {
     u8 pad[0xC];
     s32 nch;
     u8 pad10[4];
@@ -31,23 +35,18 @@ extern "C" {
 void sndStreamMixParameterEx(s32 h, u8 a, u8 b, u8 c, u8 d, u8 e);
 extern u8 gcrna_volume_table[];
 extern s32 gcrna_pan_table[];
-void set_sound_stream_volume(Obj_803D4540 *o, s32 vol);
+void set_sound_stream_volume(SndStreamVolumeState *o, s32 vol);
 void sndStreamFrq(s32, s32);
-inline s32 stat_803D4540(Obj_803D4540 *o) {
+// flags bit 1 marks a stream playing enough to push mix parameter updates.
+inline s32 stat_803D4448(SndStreamVolumeState *o) {
     if (o == 0) {
         return -1;
     }
     return (o->flags >> 1) & 1;
 }
 
-inline s32 stat_803D4448(Obj_803D4540 *o) {
-    if (o == 0) {
-        return -1;
-    }
-    return (o->flags >> 1) & 1;
-}
 void TLobby::set_stream_channel_pan(s32 ch, s32 pan) {
-    Obj_803D4540 *o = (Obj_803D4540 *)this;
+    SndStreamVolumeState *o = (SndStreamVolumeState *)this;
     if (o == 0) {
         return;
     }
@@ -66,7 +65,7 @@ void TLobby::set_stream_channel_pan(s32 ch, s32 pan) {
                          (u32)(gcrna_volume_table[-o->vol] * gcrna_volume_table[-o->x6c]) >> 7);
 }
 
-void set_sound_stream_volume(Obj_803D4540 *o, s32 vol) {
+void set_sound_stream_volume(SndStreamVolumeState *o, s32 vol) {
     s32 i;
     if (o == 0) {
         return;
@@ -78,7 +77,7 @@ void set_sound_stream_volume(Obj_803D4540 *o, s32 vol) {
     }
     o->vol = vol;
     o->vol2 = o->vol;
-    if (stat_803D4540(o) != 1) {
+    if (stat_803D4448(o) != 1) {
         return;
     }
     for (i = 0; i < o->nch; i++) {
@@ -94,12 +93,12 @@ void TLobby::set_stream_frequency(s32 rate) {
     if (this == 0) {
         return;
     }
-    ((Obj_803D4654 *)this)->rate = rate;
-    for (i = 0; i < ((Obj_803D4654 *)this)->nch; i++) {
-        if (((Obj_803D4654 *)this)->mode == 1) {
-            sndStreamFrq(((Obj_803D4654 *)this)->h[i], (((Obj_803D4654 *)this)->rate * 0x464 + 0x464) / 1125);
+    ((SndStreamFreqState *)this)->rate = rate;
+    for (i = 0; i < ((SndStreamFreqState *)this)->nch; i++) {
+        if (((SndStreamFreqState *)this)->mode == 1) {
+            sndStreamFrq(((SndStreamFreqState *)this)->h[i], (((SndStreamFreqState *)this)->rate * 0x464 + 0x464) / 1125);
         } else {
-            sndStreamFrq(((Obj_803D4654 *)this)->h[i], ((Obj_803D4654 *)this)->rate);
+            sndStreamFrq(((SndStreamFreqState *)this)->h[i], ((SndStreamFreqState *)this)->rate);
         }
     }
 }
