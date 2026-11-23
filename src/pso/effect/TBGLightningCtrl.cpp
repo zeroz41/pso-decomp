@@ -7,6 +7,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/task/TObject.h"
 #include "pso/effect/TBGLightningCtrl.h"
+#include "pso/effect/particle/ParticleStrip.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/render/render_util.h"
 #include "pso/render/GinjaTexture.h"
@@ -18,8 +19,6 @@
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/camera/TCameraCtrl.h"
-
-extern "C" void emit_particle_strip_vertices(LightningVertex *verts, s32 count);
 
 const char *TBGLightning::class_name = "TBGLightning";
 const char *TBGLightningCtrl::class_name = "TBGLightningCtrl";
@@ -129,7 +128,7 @@ void TBGLightning::draw_bolt(Vec *dir) {
 }
 
 void submit_particle_quad(void *owner, f32 *pos, f32 *extent, s32 color) {
-    LightningVertex quad[4];
+    ParticleStripVertex quad[4];
 
     quad[0].x = pos[0];
     quad[0].y = pos[1];

@@ -41,13 +41,6 @@ struct TBGLightningCtrl : public TObjBase {
 
 LAYOUT_ASSERT(TBGLightningCtrl_size, sizeof(TBGLightningCtrl) == 0x94);
 
-// One vertex of the quad strip the lightning sprites are drawn with.
-struct LightningVertex {
-    f32 x, y, z;
-    f32 u, v;
-    s32 color;
-};
-
 void bind_lightning_texture(void);
 void load_bg_lightning(void);
 void submit_particle_quad(void *owner, f32 *pos, f32 *extent, s32 color);
