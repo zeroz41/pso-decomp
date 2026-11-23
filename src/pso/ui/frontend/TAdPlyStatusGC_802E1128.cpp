@@ -16,7 +16,7 @@ saddr TAdPlyStatusGC::get_field_4a4() { return *(s32*)((char*)this + 0x4a4); }
 void*TAdPlyStatusGC::get_status_sub() { return (char*)this + 0x490; }
 
     extern int ply_status_chcr_load_afs;
-void TAdPlyStatusGC::set_status_param(int a0, int a1) { ply_status_chcr_load_afs = a1; }
+void TAdPlyStatusGC::set_status_param(int load_afs) { ply_status_chcr_load_afs = load_afs; }
 
 TAdPlyStatusGC *TAdPlyStatusGC::get_index() {  return ply_status_gc_instance; }
 

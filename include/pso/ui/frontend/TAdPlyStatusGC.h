@@ -23,7 +23,7 @@ struct TAdPlyStatusGC : public TObject {
     void*get_status_data();
     saddr get_field_4a4();
     void*get_status_sub();
-    static void set_status_param(int a0, int a1);
+    void set_status_param(int load_afs);
     static TAdPlyStatusGC *get_index();
     static void set_status_index(int a0, int a1);
     void close_window(s32 arg1);

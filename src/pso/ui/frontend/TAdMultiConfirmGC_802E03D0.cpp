@@ -151,9 +151,9 @@ TAdChrSelPlayerGC::~TAdChrSelPlayerGC() {
     if (m_170 != NULL) {
         free_chcr_resources((u8 *)m_170, 1);
         m_170 = NULL;
-        u32 status = (u32)TAdPlyStatusGC::get_index();
-        if (status != 0) {
-            TAdPlyStatusGC::set_status_param((int)status, (saddr)m_170);
+        TAdPlyStatusGC *status = TAdPlyStatusGC::get_index();
+        if (status != NULL) {
+            status->set_status_param((saddr)m_170);
         }
     }
 }
@@ -161,7 +161,7 @@ TAdChrSelPlayerGC::~TAdChrSelPlayerGC() {
 void TAdChrSelPlayerGC::run_task() {
     u8 *arg0 = (u8 *)this;
     void *p;
-    void *idx;
+    TAdPlyStatusGC *status;
     s32 t;
     switch (F(0xFC, s32)) {
     case 0:
@@ -266,10 +266,10 @@ void TAdChrSelPlayerGC::run_task() {
         }
         break;
     }
-    idx = (void *)TAdPlyStatusGC::get_index();
-    if (idx != NULL) {
-        ((TAdPlyStatusGC *)idx)->set_load_state(F(0xFC, s32));
-        TAdPlyStatusGC::set_status_param((saddr)idx, (saddr)(F(0x170, void *)));
+    status = TAdPlyStatusGC::get_index();
+    if (status != NULL) {
+        status->set_load_state(F(0xFC, s32));
+        status->set_status_param((saddr)(F(0x170, void *)));
     }
 }
 
