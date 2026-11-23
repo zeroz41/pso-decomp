@@ -1,5 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
-#include "pso/unk/TUnk_804999D0.h"
+#include "pso/unk/TScreenFadeOut.h"
 #include "types.h"
 #include "pso/ui/frontend/TAdBackTxtGC.h"
 #include "pso/ui/frontend/TAdBackGC.h"
@@ -151,7 +151,7 @@ void TAdMultiSaveGC::run_task() {
         break;
     case 8:
         {
-            new TUnk_804999D0(tl_fade, TAdMultiSaveGC::queue_destruction);
+            new TScreenFadeOut(tl_fade, TAdMultiSaveGC::queue_destruction);
         }
         break;
     case 9:
@@ -191,7 +191,7 @@ TWindowSubComCardList *TAdMultiSaveGC::sub_802FF170() {
     return menu;
 }
 
-// Fade callback (TUnk_804999D0): the fade passes itself, so this retires
+// Fade callback (TScreenFadeOut): the fade passes itself, so this retires
 // the fade before switching game mode.
 void TAdMultiSaveGC::queue_destruction(TObject *fade) {
     fade->queue_destruction();

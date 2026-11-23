@@ -1,7 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
-#include "pso/unk/TUnk_804999D0.h"
+#include "pso/unk/TScreenFadeOut.h"
 #include "pso/render/GinjaMaterialState.h"
-#include "pso/unk/TUnk_804999B8.h"
+#include "pso/unk/TScreenFadeIn.h"
 #include "pso/ui/frontend/TAdSEGAlogo.h"
 #include "pso/ui/TLogo_8001C134.h"
 #include "types.h"
@@ -71,7 +71,7 @@ void TAdSEGAlogo::run_task() {
     case 1:
         if ((f32)++m_wait_frames > 60.0f) {
             TAdSEGAlogo__state = 2;
-            new TUnk_804999D0(tl_00, TAdSEGAlogo::destroy_and_mark_done);
+            new TScreenFadeOut(tl_00, TAdSEGAlogo::destroy_and_mark_done);
         }
         break;
     case 2:
@@ -87,5 +87,5 @@ TAdSEGAlogo::TAdSEGAlogo(TObject *parent) : TObject(parent) {
     TAdSEGAlogo__state = 0;
     sega_logo_done_flag = 0;
     TAdSinglePlyChrSelectGC::init_logo_state(0);
-    new TUnk_804999B8(tl_00, request_destroy);
+    new TScreenFadeIn(tl_00, request_destroy);
 }

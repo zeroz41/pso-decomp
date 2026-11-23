@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/render/GinjaMaterialState.h"
 #include "pso/render/GinjaTextureInput.h"
 #include "pso/player/TObjPlayer.h"
 
@@ -152,28 +153,26 @@ s32 TObjPlayer::find_record_index(u32 arg0, u32 arg1) {
     return -1;
 }
 
-void TObjPlayer::release_empty_ref_entry() {
-    u8 *arg0 = (u8 *)this;
-    u8 *next;
-    next = (u8 *)this->m_next;
-    if ((s32) *(s32 *)((s8 *)next + 0x24) <= 0) {
-        *(s32 *)((s8 *)next + 0) = -1;
-        *(s32 *)((s8 *)next + 4) = 0;
-        *(s32 *)((s8 *)next + 8) = 0;
-        *(s32 *)((s8 *)next + 0xC) = 0;
-        *(s32 *)((s8 *)next + 0x10) = 0;
-        *(s32 *)((s8 *)next + 0x14) = 0;
-        *(s32 *)((s8 *)next + 0x18) = 0;
-        *(s32 *)((s8 *)next + 0x1C) = 0;
-        *(s32 *)((s8 *)next + 0x20) = 0;
+void clear_unreferenced_texture_entry(GinjaTextureState *texture) {
+    GinjaSurfaceState *surface = texture->surface;
+    if (surface->ref_count <= 0) {
+        surface->id = -1;
+        surface->header.format = 0;
+        surface->header.reserved04 = 0;
+        surface->header.reserved08 = 0;
+        surface->header.width = 0;
+        surface->header.height = 0;
+        surface->header.size = 0;
+        surface->header.flags = 0;
+        surface->header.pixels = NULL;
         player_ref_entry_active_count -= 1;
     }
-    if ((s32) *(s32 *)((s8 *)arg0 + 0x10) <= 0) {
-        *(s32 *)((s8 *)arg0 + 8) = -1;
-        *(s32 *)((s8 *)arg0 + 0) = 0;
-        *(s32 *)((s8 *)arg0 + 4) = 0;
-        this->m_next = NULL;
-        *(s32 *)((s8 *)arg0 + 0x14) = 0;
+    if (texture->ref_count <= 0) {
+        texture->tlut_name = -1;
+        texture->reserved00 = 0;
+        texture->reserved04 = 0;
+        texture->surface = NULL;
+        texture->reserved14 = 0;
     }
 }
 

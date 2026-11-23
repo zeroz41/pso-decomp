@@ -6,9 +6,9 @@
 s32 volopt_fade_out_done;
 s32 volopt_fade_in_done;
 
-TUnk_804999E8::TUnk_804999E8(TObject *parent) : TObject(parent) {}
+TScreenFade::TScreenFade(TObject *parent) : TObject(parent) {}
 
-TUnk_804848B8::TUnk_804848B8(TObject *, VoloptFadeCallback on_done) : TUnk_804999E8(tl_fade) {
+TUnk_804848B8::TUnk_804848B8(TObject *, VoloptFadeCallback on_done) : TScreenFade(tl_fade) {
     this->on_done = on_done;
     alpha = 0.0f;
     color[0] = 255;
@@ -32,7 +32,7 @@ void TUnk_804848B8::run_task() {
     }
 }
 
-TUnk_804848A0::TUnk_804848A0(TObject *, VoloptFadeCallback on_done) : TUnk_804999E8(tl_fade) {
+TUnk_804848A0::TUnk_804848A0(TObject *, VoloptFadeCallback on_done) : TScreenFade(tl_fade) {
     this->on_done = on_done;
     alpha = 255.0f;
     color[0] = 255;
@@ -41,7 +41,7 @@ TUnk_804848A0::TUnk_804848A0(TObject *, VoloptFadeCallback on_done) : TUnk_80499
     volopt_fade_in_done = 0;
 }
 
-TUnk_804999E8::~TUnk_804999E8() {}
+TScreenFade::~TScreenFade() {}
 
 TUnk_804848A0::~TUnk_804848A0() {}
 

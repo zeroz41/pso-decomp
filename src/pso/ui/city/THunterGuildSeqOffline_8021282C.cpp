@@ -1,5 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
-#include "pso/unk/TUnk_804999D0.h"
+#include "pso/unk/TScreenFadeOut.h"
 #include "types.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/quest/TQuestListChallenge.h"
@@ -93,19 +93,19 @@ void THunterGuildSeqOffline::close_window() {
     case 0:
         break;
     case 1:
-        new TUnk_804999D0(tl_00, THunterGuildSeqOffline::set_enemy_mode_0);
+        new TScreenFadeOut(tl_00, THunterGuildSeqOffline::set_enemy_mode_0);
         THunterGuildSeqOffline__sub_8021E180(player->get_entity_id());
         break;
     case 2:
-        new TUnk_804999D0(tl_00, THunterGuildSeqOffline::set_enemy_mode_1);
+        new TScreenFadeOut(tl_00, THunterGuildSeqOffline::set_enemy_mode_1);
         THunterGuildSeqOffline__sub_8021E180(player->get_entity_id());
         break;
     case 3:
-        new TUnk_804999D0(tl_00, TQuestListVM::set_enemy_mode_3);
+        new TScreenFadeOut(tl_00, TQuestListVM::set_enemy_mode_3);
         THunterGuildSeqOffline__sub_8021E180(player->get_entity_id());
         break;
     case 4:
-        new TUnk_804999D0(tl_00, THunterGuildSeqOffline::set_enemy_mode_5);
+        new TScreenFadeOut(tl_00, THunterGuildSeqOffline::set_enemy_mode_5);
         THunterGuildSeqOffline__sub_8021E180(player->get_entity_id());
         break;
     }

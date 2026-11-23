@@ -1,8 +1,8 @@
 #pragma readonly_strings on
 #define TOBJECT_OUT_OF_LINE_HELPERS
 
-#include "pso/unk/TUnk_804999D0.h"
-#include "pso/unk/TUnk_804999B8.h"
+#include "pso/unk/TScreenFadeOut.h"
+#include "pso/unk/TScreenFadeIn.h"
 #include "pso/ui/TLogo_8001C134.h"
 #include "types.h"
 #include "pso/ui/frontend/TAdADXlogo.h"
@@ -40,7 +40,7 @@ void TAdADXlogo::run_task() {
     case 1:
         if ((f32)++m_frames > 60.0f) {
             TAdADXlogo__state = 2;
-            new TUnk_804999D0(tl_00, fade_out_done);
+            new TScreenFadeOut(tl_00, fade_out_done);
         }
         break;
     case 2:
@@ -55,7 +55,7 @@ TAdADXlogo::TAdADXlogo(TObject *parent) : TObject(parent) {
     m_frames = 0;
     TAdADXlogo__state = 0;
     TAdADXlogo__done = 0;
-    new TUnk_804999B8(tl_00, fade_in_done);
+    new TScreenFadeIn(tl_00, fade_in_done);
 }
 
 void free_adx_logo_texture() {

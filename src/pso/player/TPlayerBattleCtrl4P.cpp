@@ -1,5 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
-#include "pso/unk/TUnk_804999D0.h"
+#include "pso/unk/TScreenFadeOut.h"
 #include "pso/npc/TNpcPlayer_802C3CD0.h"
 #include "pso/unk/TUnk_804C8678.h"
 #include "pso/system/CharacterSaveRecordLookup.h"
@@ -680,7 +680,7 @@ void TPlayerBattleCtrl4P::finish_battle_reload() {
 void TPlayerBattleCtrl4P::sub_80311890() {  }
 
 void TPlayerBattleCtrl4P::return_to_hunters_guild() {
-    new TUnk_804999D0(tl_00, TPlayerBattleCtrl4P::reset_random_enemies_mode);
+    new TScreenFadeOut(tl_00, TPlayerBattleCtrl4P::reset_random_enemies_mode);
     queue_destruction();
 }
 

@@ -90,7 +90,7 @@
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/render/NinjaUtil.h"
 #include "pso/object/base/TObjBase.h"
-#include "pso/unk/TUnk_804999D0.h"
+#include "pso/unk/TScreenFadeOut.h"
 #include "pso/player/PlayerSlots.h"
 
 // The original TU was built with deferred codegen: functions below are in reverse
@@ -949,7 +949,7 @@ void TObjAreaWarpEnding::open_confirm_window(s32 client_id) {
 
 void TObjAreaWarpEnding::confirm_area_transfer(TObjPlayer *) {
     play_sound_effect(0x40003205, 0, 0, 0);
-    new TUnk_804999D0(tl_00, TKeyBoardControl::dispatch_select_phase);
+    new TScreenFadeOut(tl_00, TKeyBoardControl::dispatch_select_phase);
 }
 
 void TKeyBoardControl::dispatch_select_phase(TObject *) {

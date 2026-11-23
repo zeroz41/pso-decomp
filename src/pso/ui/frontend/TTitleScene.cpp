@@ -1,6 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
-#include "pso/unk/TUnk_804999D0.h"
-#include "pso/unk/TUnk_804999B8.h"
+#include "pso/unk/TScreenFadeOut.h"
+#include "pso/unk/TScreenFadeIn.h"
 #include "types.h"
 #include "pso/ui/keyboard/TKeyBoardControl_80131C58.h"
 #include "pso/unk/TLobby.h"
@@ -45,7 +45,7 @@ s8 TAdSinglePlyChrSelectGC__sub_8033605C(void) { return 0; }
 
 s32 TTitleScene::start_offline_seq() {
     if (!(transition_flags & 2)) {
-        new TUnk_804999D0(tl_fade, TLobby::queue_destruction_and_cleanup);
+        new TScreenFadeOut(tl_fade, TLobby::queue_destruction_and_cleanup);
         transition_flags |= 2;
     }
     return transition_flags & 4;
@@ -389,7 +389,7 @@ TTitleScene::TTitleScene(TObject *parent) : TObject(parent) {
         transition_children[1] = create_particle_controller(&v, 0x1E4, 1);
         transition_children[2] = create_particle_controller(&v, 0x1E5, 1);
     }
-    new TUnk_804999B8(tl_fade, TLobby::destroy_download_server);
+    new TScreenFadeIn(tl_fade, TLobby::destroy_download_server);
     TItemReverseTechCtrl::create(this);
 }
 

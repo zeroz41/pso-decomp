@@ -1,5 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
-#include "pso/unk/TUnk_804999D0.h"
+#include "pso/unk/TScreenFadeOut.h"
 #include "pso/unk/TUnk_804C8678.h"
 #include "pso/ui/window/WindowMenuFactory.h"
 #include "types.h"
@@ -331,13 +331,13 @@ void THunterGuildSeqOnline_Server::close_window() {
         queue_destruction();
         break;
     case 1:
-        new TUnk_804999D0(tl_00, reset_random_enemies_mode);
+        new TScreenFadeOut(tl_00, reset_random_enemies_mode);
         THunterGuildSeqOffline__sub_8021E180(((TObjBase *)(player))->get_entity_id());
         TShopSequence::close_window();
         queue_destruction();
         break;
     case 2:
-        new TUnk_804999D0(tl_00, set_random_enemies_mode);
+        new TScreenFadeOut(tl_00, set_random_enemies_mode);
         THunterGuildSeqOffline__sub_8021E180(((TObjBase *)(player))->get_entity_id());
         TShopSequence::close_window();
         queue_destruction();

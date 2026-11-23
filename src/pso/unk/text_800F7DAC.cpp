@@ -1,14 +1,14 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/render/Draw2D.h"
-#include "pso/unk/TUnk_804999D0.h"
-#include "pso/unk/TUnk_804999B8.h"
-#include "pso/unk/TUnk_804999A0.h"
-#include "pso/boss/TUnk_804999E8.h"
+#include "pso/unk/TScreenFadeOut.h"
+#include "pso/unk/TScreenFadeIn.h"
+#include "pso/unk/TDeathTintFade.h"
+#include "pso/unk/TScreenFade.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/unk/TUnk_80499988.h"
-#include "pso/unk/TUnk_80499970.h"
+#include "pso/unk/TColorOverlayFade.h"
+#include "pso/unk/TScreenFadeController.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/ui/city/THunterGuildSeqOffline.h"
 #include "pso/unk/TLobby.h"
@@ -36,11 +36,11 @@ u32 prs_decompress(int, int, int, int);
 extern s32 local_client_id;
 }
 
-TUnk_80499970 *screen_fade_controller;
+TScreenFadeController *screen_fade_controller;
 
 #pragma defer_codegen on
 
-void TUnk_804999E8::render() {
+void TScreenFade::render() {
     Quad_800F7E28 q;
     u32 col[4];
     f32 pos[8];
@@ -71,7 +71,7 @@ void TUnk_804999E8::render() {
     TCameraCtrl::restore_saved_view();
 }
 
-TUnk_804999D0::TUnk_804999D0(TObject *parent, void (*callback)(TObject *)) : TUnk_804999E8(tl_fade) {
+TScreenFadeOut::TScreenFadeOut(TObject *parent, void (*callback)(TObject *)) : TScreenFade(tl_fade) {
     this->callback = callback;
     alpha = 0.0f;
     color[0] = 0;
@@ -79,11 +79,11 @@ TUnk_804999D0::TUnk_804999D0(TObject *parent, void (*callback)(TObject *)) : TUn
     color[2] = 0;
 }
 
-TUnk_804999D0::~TUnk_804999D0() {}
+TScreenFadeOut::~TScreenFadeOut() {}
 
 #pragma push
 #pragma opt_common_subs off
-void TUnk_804999D0::run_task() {
+void TScreenFadeOut::run_task() {
     this->alpha += 8.0f;
     if (this->alpha >= (255.0f)) {
         this->alpha = 255.0f;
@@ -95,7 +95,7 @@ void TUnk_804999D0::run_task() {
 }
 #pragma pop
 
-TUnk_804999B8::TUnk_804999B8(TObject *parent, void (*callback)(TObject *)) : TUnk_804999E8(tl_fade) {
+TScreenFadeIn::TScreenFadeIn(TObject *parent, void (*callback)(TObject *)) : TScreenFade(tl_fade) {
     this->callback = callback;
     alpha = 255.0f;
     color[0] = 0;
@@ -103,11 +103,11 @@ TUnk_804999B8::TUnk_804999B8(TObject *parent, void (*callback)(TObject *)) : TUn
     color[2] = 0;
 }
 
-TUnk_804999B8::~TUnk_804999B8() {}
+TScreenFadeIn::~TScreenFadeIn() {}
 
 #pragma push
 #pragma opt_common_subs off
-void TUnk_804999B8::run_task() {
+void TScreenFadeIn::run_task() {
     this->alpha = (f32) (this->alpha - (8.0f));
     if (this->alpha <= 0.0f) {
         this->alpha = 0.0f;
@@ -119,7 +119,7 @@ void TUnk_804999B8::run_task() {
 }
 #pragma pop
 
-TUnk_804999A0::TUnk_804999A0(TObject *parent, void (*callback)(), s32 viewport_index) : TUnk_804999E8(parent) {
+TDeathTintFade::TDeathTintFade(TObject *parent, void (*callback)(), s32 viewport_index) : TScreenFade(parent) {
     this->callback = callback;
     alpha = 0.0f;
     color[1] = 0;
@@ -128,11 +128,11 @@ TUnk_804999A0::TUnk_804999A0(TObject *parent, void (*callback)(), s32 viewport_i
     this->viewport_index = viewport_index;
 }
 
-TUnk_804999A0::~TUnk_804999A0() {
+TDeathTintFade::~TDeathTintFade() {
     TWindowCtrlMain::set_value(viewport_index, 0);
 }
 
-void TUnk_804999A0::run_task() {
+void TDeathTintFade::run_task() {
     alpha += 2.0f;
     if (alpha >= 128.0f) {
         alpha = 128.0f;
@@ -145,9 +145,9 @@ void TUnk_804999A0::run_task() {
     TWindowCtrlMain::set_value(viewport_index, packed_color);
 }
 
-void TUnk_804999A0::render() {  }
+void TDeathTintFade::render() {  }
 
-TUnk_80499988::TUnk_80499988(TObject *parent, s32 unk_1C, s32 duration, u8 c3, u8 c0, u8 c1, u8 c2) : TObject(parent) {
+TColorOverlayFade::TColorOverlayFade(TObject *parent, s32 unk_1C, s32 duration, u8 c3, u8 c0, u8 c1, u8 c2) : TObject(parent) {
     u32 c;
     this->unk_1C = unk_1C;
     frame = 0;
@@ -163,13 +163,13 @@ TUnk_80499988::TUnk_80499988(TObject *parent, s32 unk_1C, s32 duration, u8 c3, u
     target_color[2] = c2;
 }
 
-TUnk_80499988::~TUnk_80499988() {
-    TWindowCtrlMain::set_value((s32)local_client_id, (s32)this->sub_800F8250((1.0f)));
+TColorOverlayFade::~TColorOverlayFade() {
+    TWindowCtrlMain::set_value((s32)local_client_id, (s32)this->lerp_color((1.0f)));
 }
 
-void TUnk_80499988::run_task() {
+void TColorOverlayFade::run_task() {
     s32 next;
-    TWindowCtrlMain::set_value((s32)local_client_id, (s32)(this->sub_800F8250((f32)frame / (f32)duration)));
+    TWindowCtrlMain::set_value((s32)local_client_id, (s32)(this->lerp_color((f32)frame / (f32)duration)));
     next = frame + 1;
     frame = next;
     if (next > duration) {
@@ -179,7 +179,7 @@ void TUnk_80499988::run_task() {
 
 #pragma push
 #pragma fp_contract on
-s32 TUnk_80499988::sub_800F8250(f32 farg0) {
+s32 TColorOverlayFade::lerp_color(f32 farg0) {
     u8 temp_r10;
     u8 temp_r11;
     u8 temp_r12;
@@ -193,12 +193,12 @@ s32 TUnk_80499988::sub_800F8250(f32 farg0) {
 }
 #pragma pop
 
-TUnk_80499970::TUnk_80499970(TObject *parent) : TObject(parent) {
+TScreenFadeController::TScreenFadeController(TObject *parent) : TObject(parent) {
     screen_fade_controller = this;
     mode = 0;
 }
 
-TUnk_80499970::~TUnk_80499970() {
+TScreenFadeController::~TScreenFadeController() {
     screen_fade_controller = NULL;
 }
 
@@ -222,7 +222,7 @@ void TLobby::set_fade_params(void (*callback)()) {
 
 #pragma push
 #pragma opt_common_subs off
-void TUnk_80499970::step_fade_opacity_decrease() {
+void TScreenFadeController::step_fade_opacity_decrease() {
     alpha = (f32)(alpha - 8.0f);
     if (alpha <= 0.0f) {
         alpha = 0.0f;
@@ -247,7 +247,7 @@ void TLobby::init_fadeout_state(void (*callback)()) {
 
 #pragma push
 #pragma opt_common_subs off
-void TUnk_80499970::step_fade_opacity_increase() {
+void TScreenFadeController::step_fade_opacity_increase() {
     alpha += 8.0f;
     if (alpha >= 255.0f) {
         alpha = 255.0f;
@@ -261,7 +261,7 @@ void TUnk_80499970::step_fade_opacity_increase() {
 
 #pragma push
 #pragma opt_common_subs off
-void TUnk_80499970::tick_fade_counter() {
+void TScreenFadeController::tick_fade_counter() {
     alpha += 1.0f;
     if (alpha >= 128.0f) {
         alpha = 128.0f;
@@ -273,7 +273,7 @@ void TUnk_80499970::tick_fade_counter() {
 }
 #pragma pop
 
-void TUnk_80499970::run_task() {
+void TScreenFadeController::run_task() {
     switch (mode) {
     case 1:
         step_fade_opacity_decrease();
@@ -288,7 +288,7 @@ void TUnk_80499970::run_task() {
     }
 }
 
-void TUnk_80499970::render() {
+void TScreenFadeController::render() {
     Quad_800F7E28 q;
     u32 col[4];
     f32 pos[8];

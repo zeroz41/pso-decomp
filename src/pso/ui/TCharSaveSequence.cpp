@@ -1,5 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
-#include "pso/unk/TUnk_804999D0.h"
+#include "pso/unk/TScreenFadeOut.h"
 #include "pso/system/CharacterSaveRecordLookup.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/frontend/TitleBackgroundStorage.h"
@@ -138,7 +138,7 @@ void TCharSaveSequence::handle_retry_menu() {
             state = 0xE;
             close_message_window();
             close_window();
-            new TUnk_804999D0(tl_fade, TAdSinglePlyChrSelectGC__sub_8033B244);
+            new TScreenFadeOut(tl_fade, TAdSinglePlyChrSelectGC__sub_8033B244);
             break;
         }
     }
@@ -159,7 +159,7 @@ void TCharSaveSequence::handle_player_load() {
             case 0:
                 state = 0xE;
                 close_window();
-                new TUnk_804999D0(tl_fade, TAdSinglePlyChrSelectGC__sub_8033B244);
+                new TScreenFadeOut(tl_fade, TAdSinglePlyChrSelectGC__sub_8033B244);
                 break;
             default:
                 state = 0xD;
@@ -336,7 +336,7 @@ void TCharSaveSequence::wait_card_check() {
             state = 0xE;
             close_message_window();
             close_window();
-            new TUnk_804999D0(tl_fade, TAdSinglePlyChrSelectGC__sub_8033B244);
+            new TScreenFadeOut(tl_fade, TAdSinglePlyChrSelectGC__sub_8033B244);
         }
     } else {
         state = 0;

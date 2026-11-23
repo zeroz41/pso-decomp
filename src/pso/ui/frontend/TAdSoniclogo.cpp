@@ -1,6 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
-#include "pso/unk/TUnk_804999D0.h"
-#include "pso/unk/TUnk_804999B8.h"
+#include "pso/unk/TScreenFadeOut.h"
+#include "pso/unk/TScreenFadeIn.h"
 #include "pso/ui/TLogo_8001C134.h"
 #include "pso/ui/frontend/TAdSoniclogo.h"
 
@@ -39,7 +39,7 @@ void TAdSoniclogo::run_task() {
     case 1:
         if (++m_wait_frames > 0x3c) {
             TAdSoniclogo__state = 2;
-            new TUnk_804999D0(tl_00, TLogo::request_exit);
+            new TScreenFadeOut(tl_00, TLogo::request_exit);
         }
         break;
     case 2:
@@ -54,7 +54,7 @@ TAdSoniclogo::TAdSoniclogo(TObject *parent) : TObject(parent) {
     TAdSoniclogo__state = 0;
     TLogo__exit_requested_flag = 0;
     TAdSinglePlyChrSelectGC::init_logo_state(1);
-    new TUnk_804999B8(tl_00, request_destroy);
+    new TScreenFadeIn(tl_00, request_destroy);
 }
 
 

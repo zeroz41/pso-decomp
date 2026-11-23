@@ -33,7 +33,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/player/TObjPlayer_801A5AEC.h"
-#include "pso/unk/TUnk_804999B8.h"
+#include "pso/unk/TScreenFadeIn.h"
 
 
 
@@ -244,7 +244,7 @@ TItemReverseTechPart1::TItemReverseTechPart1(TObject *parent, NJS_TEXLIST *texli
     fade_out_time = 150;
     ring = NULL;
     instance = this;
-    new TUnk_804999B8(tl_00, TItemReverseTechPart2::destroy_and_flag);
+    new TScreenFadeIn(tl_00, TItemReverseTechPart2::destroy_and_flag);
 }
 
 

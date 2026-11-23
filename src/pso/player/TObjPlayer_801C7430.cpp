@@ -29,7 +29,7 @@
 #include "pso/player/PlayerAttackController.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/unk/TUnk_804999A0.h"
+#include "pso/unk/TDeathTintFade.h"
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/effect/enemy/TObjEneHoldEffect.h"
@@ -2663,7 +2663,7 @@ void TObjPlayer::restart_death_pose() {
     death_sink.reset();
     death_sink.calc_height(this);
     if (TObjPlayer::is_locally_controlled(this) != 0) {
-        *(TObject **)((s8 *)arg0 + 0x548) = new TUnk_804999A0(tl_particlemodel, complete_deferred_player_death, get_entity_id());
+        *(TObject **)((s8 *)arg0 + 0x548) = new TDeathTintFade(tl_particlemodel, complete_deferred_player_death, get_entity_id());
     }
 }
 

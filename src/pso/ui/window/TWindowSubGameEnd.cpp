@@ -1,4 +1,4 @@
-#include "pso/unk/TUnk_804999D0.h"
+#include "pso/unk/TScreenFadeOut.h"
 #include "types.h"
 #include "pso/ui/window/TWindowSubGameEnd.h"
 #include "pso/ui/window/TWindowMainMenu.h"
@@ -55,7 +55,7 @@ void TWindowSubGameEnd::run_task() {
             slot = ((TWindowMessageYesNo *)yes_no_window)->get_selected_value();
             if (slot == 0) {
                 if (window_sub_game_end_active_flag != 1) {
-                    new TUnk_804999D0(tl_00, TKeyBoardControl::init_char_select);
+                    new TScreenFadeOut(tl_00, TKeyBoardControl::init_char_select);
                     fn_8024AB54(client);
                     TLobby::send_logout();
                     window_sub_game_end_active_flag = 1;

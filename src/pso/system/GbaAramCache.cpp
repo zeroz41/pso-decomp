@@ -2,7 +2,7 @@
 #include <dolphin/ar.h>
 #include <dolphin/os/OSCache.h>
 #include "pso/system/GbaAramCache.h"
-#include "pso/ui/TUnk_804EDBD0.h"
+#include "pso/system/TGbaAramUploadTask.h"
 #include "pso/ui/frontend/TAdWarningBaseGC.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/system/task/TMainTask.h"
@@ -19,16 +19,16 @@ s32 aram_request_busy_flag;
 
 void TLobby__sub_8032CDEC(void) { TAdWarningBaseGC__aram_alloc_size = 0; warning_aram_load_done_flag = 0; }
 
-void TUnk_804EDBD0::destroy() { queue_destruction(); }
+void TGbaAramUploadTask::destroy() { queue_destruction(); }
 
-void TUnk_804EDBD0::wait_aram_request() {
+void TGbaAramUploadTask::wait_aram_request() {
     if (aram_request_busy_flag == 0) {
         state = 3;
         warning_aram_load_done_flag = 1;
     }
 }
 
-void TUnk_804EDBD0::request_aram_load_state() {
+void TGbaAramUploadTask::request_aram_load_state() {
     QuestDownloadRecord *file = get_quest_download_file_header();
     if (file != NULL) {
         s32 size = file->size;
@@ -43,14 +43,14 @@ void TUnk_804EDBD0::request_aram_load_state() {
     state = 3;
 }
 
-void TUnk_804EDBD0::enter_request_state() { state = 1; }
+void TGbaAramUploadTask::enter_request_state() { state = 1; }
 
-void TUnk_804EDBD0::run_task() {
-    static void (TUnk_804EDBD0::*tbl[4])() = {
-        &TUnk_804EDBD0::enter_request_state,
-        &TUnk_804EDBD0::request_aram_load_state,
-        &TUnk_804EDBD0::wait_aram_request,
-        &TUnk_804EDBD0::destroy,
+void TGbaAramUploadTask::run_task() {
+    static void (TGbaAramUploadTask::*tbl[4])() = {
+        &TGbaAramUploadTask::enter_request_state,
+        &TGbaAramUploadTask::request_aram_load_state,
+        &TGbaAramUploadTask::wait_aram_request,
+        &TGbaAramUploadTask::destroy,
     };
     (this->*tbl[state])();
 }
@@ -90,11 +90,11 @@ s32 TAdWarningBaseGC::post_aram_request(int buf, int size) {
     return 1;
 }
 
-TUnk_804EDBD0::~TUnk_804EDBD0() {}
+TGbaAramUploadTask::~TGbaAramUploadTask() {}
 
-TUnk_804EDBD0::TUnk_804EDBD0(TObject *parent) : TObject(parent) { state = 0; }
+TGbaAramUploadTask::TGbaAramUploadTask(TObject *parent) : TObject(parent) { state = 0; }
 
-void TAdWarningBaseGC::create() { new TUnk_804EDBD0(tl_00); }
+void TAdWarningBaseGC::create() { new TGbaAramUploadTask(tl_00); }
 
 void TAdWarningBaseGC__sub_8032D188(void) {
     TAdWarningBaseGC__aram_capacity = 0;

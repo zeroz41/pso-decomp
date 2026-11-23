@@ -12,7 +12,8 @@ typedef struct GinjaParameter {
 // A texture's GX image: init_ginja_texture_header fills it from the format word of the texture's source.
 typedef struct GinjaTextureHeader {
   u32 format;
-  u8 reserved04[8];
+  u32 reserved04;
+  u32 reserved08;
   u32 width;
   u32 height;
   u32 size; /* GXGetTexBufferSize of the image */
@@ -25,7 +26,8 @@ typedef struct GinjaSurfaceState {
   s32 ref_count; /* textures sharing this surface; freed at 0 */
 } GinjaSurfaceState;
 typedef struct GinjaTextureState {
-  u8 reserved0[8];
+  u32 reserved00;
+  u32 reserved04;
   u32 tlut_name; /* palette bank for GXInitTexObjCI */
   GinjaSurfaceState *surface;
   s32 ref_count; /* decremented on release, entry cleared at 0 */

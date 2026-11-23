@@ -1,14 +1,14 @@
-#ifndef PSO_UI_TUNK_804EDBD0_H
-#define PSO_UI_TUNK_804EDBD0_H
+#ifndef PSO_SYSTEM_TGBAARAMUPLOADTASK_H
+#define PSO_SYSTEM_TGBAARAMUPLOADTASK_H
 #include "types.h"
 #include "pso/system/task/TObject.h"
 
 // The task TAdWarningBaseGC::create starts: it copies the downloaded .gba file
 // into the ARAM block init_heap reserved, one run_task step per state.
-class TUnk_804EDBD0 : public TObject {
+class TGbaAramUploadTask : public TObject {
 public:
-    TUnk_804EDBD0(TObject *parent);
-    virtual ~TUnk_804EDBD0();
+    TGbaAramUploadTask(TObject *parent);
+    virtual ~TGbaAramUploadTask();
     virtual void run_task();
     void enter_request_state();
     void request_aram_load_state();
@@ -16,6 +16,6 @@ public:
     void destroy();
     s32 state; // 0x1C: the run_task table index
 };
-LAYOUT_ASSERT(TUnk_804EDBD0_size, sizeof(TUnk_804EDBD0) == 0x20);
+LAYOUT_ASSERT(TGbaAramUploadTask_size, sizeof(TGbaAramUploadTask) == 0x20);
 
 #endif

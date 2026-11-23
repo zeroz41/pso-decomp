@@ -1,20 +1,20 @@
-#ifndef PSO_BOSS_TUNK_804999E8_H
-#define PSO_BOSS_TUNK_804999E8_H
+#ifndef PSO_UNK_TSCREENFADE_H
+#define PSO_UNK_TSCREENFADE_H
 #include "types.h"
 #include "pso/system/task/TObject.h"
 
 // Base of the screen fade tasks: alpha moves towards its end value and the
 // fade fills the screen with color.
-class TUnk_804999E8 : public TObject {
+class TScreenFade : public TObject {
 public:
-    TUnk_804999E8(TObject *parent);
+    TScreenFade(TObject *parent);
     // render comes first: it is the key function, so the vtable is emitted
     // with it while the destructor is defined with the Vol Opt fades.
     virtual void render();
-    virtual ~TUnk_804999E8();
+    virtual ~TScreenFade();
     f32 alpha;
     union {
-        s32 packed_color; // color[] as one word (inferred name)
+        s32 packed_color; // color[] as one word
         u8 color[4];
     };
 };

@@ -2501,7 +2501,7 @@ force_active:
   - __dt__13TUnk_804ECDC0Fv
   - __dt__15TTelepipeMarkerFv
   - __dt__19TEffIndirectSamplerFv
-  - __dt__13TUnk_804EDBD0Fv
+  - __dt__18TGbaAramUploadTaskFv
   - __dt__13TUnk_804EE470Fv
   - __dt__13TUnk_804EEF80Fv
   - __dt__13TUnk_804EFA88Fv
@@ -3270,7 +3270,7 @@ force_active:
   - __vt__13TUnk_804E6FA8
   - __vt__15TTelepipeMarker
   - __vt__19TEffIndirectSampler
-  - __vt__13TUnk_804EDBD0
+  - __vt__18TGbaAramUploadTask
   - __vt__13TUnk_804EE470
   - __vt__13TUnk_804EFA88
   - __vt__15TItemEffPGModel
@@ -6063,7 +6063,7 @@ force_active:
   - enter_low_flight_mode__13TBoss5GryphonFv
   - enter_offscreen_mode__13TBoss5GryphonFv
   - enter_release_state__11TBoss6Type1Fv
-  - enter_request_state__13TUnk_804EDBD0Fv
+  - enter_request_state__18TGbaAramUploadTaskFv
   - enter_serial_formatted_buffer
   - enter_slime_state__15TObjEneSlimeOneFv
   - enter_state8__15TObjEneDelDepthFv
@@ -14549,7 +14549,7 @@ force_active:
   - request_action__11TObjNpcBaseFl
   - request_action__12TObjNpcEnemyFl
   - request_action__8TItemMagFl
-  - request_aram_load_state__13TUnk_804EDBD0Fv
+  - request_aram_load_state__18TGbaAramUploadTaskFv
   - request_change_game_mode__11TTitleSceneFv
   - request_close__22THunterGuildSeqOfflineFP15TShopWindowBase
   - request_death_effect__18TObjEneRe4SorcererFv
@@ -14894,7 +14894,7 @@ force_active:
   - run_task__13TUnk_804E4BF0Fv
   - run_task__13TUnk_804E71A0Fv
   - run_task__15TTelepipeMarkerFv
-  - run_task__13TUnk_804EDBD0Fv
+  - run_task__18TGbaAramUploadTaskFv
   - run_task__13TUnk_804EE470Fv
   - run_task__13TUnk_804EEF80Fv
   - run_task__15TItemEffPGModelFv
@@ -16110,8 +16110,8 @@ force_active:
   - step_cutscene_frame__10TObjPlayerFP10NJS_OBJECT
   - step_demo_script__16TObjEneDellBiterFP10NJS_OBJECT
   - step_effect_sequence__18TObjEneRe4SorcererFP10NJS_OBJECT
-  - step_fade_opacity_decrease__13TUnk_80499970Fv
-  - step_fade_opacity_increase__13TUnk_80499970Fv
+  - step_fade_opacity_decrease__21TScreenFadeControllerFv
+  - step_fade_opacity_increase__21TScreenFadeControllerFv
   - step_ground_technique_projectile__8TTecShotFv
   - step_line__23TObjOnlineEndingHexLineFv
   - step_placement_search__13TUnk_804C4498Fv
@@ -16225,7 +16225,7 @@ force_active:
   - init_variant__16TObjEneMe3StelthFv
   - is_alternate_variant__16TObjEneMe3StelthFv
   - starts_stealthed__16TObjEneMe3StelthFv
-  - sub_800F8250__13TUnk_80499988Ff
+  - lerp_color__17TColorOverlayFadeFf
   - sub_800FEC40__17TObjEZBoneRotBaseFPUc
   - sub_800FED0C__17TObjEZBoneRotBaseFv
   - sub_8012B1F0__13TUnk_804A4C78Fs
@@ -16509,7 +16509,7 @@ force_active:
   - tick_battle_music_timer__16BattleMusicStateFv
   - tick_countdown__11TBoss6Type1Fv
   - tick_display_timer__15TWindowHelpItemFPv
-  - tick_fade_counter__13TUnk_80499970Fv
+  - tick_fade_counter__21TScreenFadeControllerFv
   - tick_flee_countdown__11TBoss6Type1Fv
   - tick_fullness_timer__8TItemMagFv
   - tick_key_repeat_timer__16KeyboardKeyStateFUc
@@ -17743,7 +17743,7 @@ force_active:
   - vt4__9TBoss4UroFv
   - update_sink_state__9TBoss4UroFv
   - vt6__9TBoss4UroFv
-  - wait_aram_request__13TUnk_804EDBD0Fv
+  - wait_aram_request__18TGbaAramUploadTaskFv
   - wait_for_message__12TQuestListVMFv
   - wait_for_players__12TBoss1DragonFl
   - wait_for_players__13TBoss5GryphonFl

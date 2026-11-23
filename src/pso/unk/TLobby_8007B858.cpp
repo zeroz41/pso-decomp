@@ -2,7 +2,7 @@
 #include "pso/map/FloorResourceCallbacks.h"
 #include "pso/unk/TLobby_8007B858.h"
 #include "pso/ui/window/TWindowCtrl.h"
-#include "pso/unk/TUnk_80499970.h"
+#include "pso/unk/TScreenFadeController.h"
 #include "pso/ui/city/THunterGuildSeqOnlineTask.h"
 #include "pso/system/TLanguage.h"
 #include "pso/object/lobby/LobbyGoGoBall.h"
@@ -133,7 +133,7 @@ void TLobby::create_tasks() {
         __ct__15TWindowCtrlMainFv();
     }
     new TWindowCtrl(tl_00);
-    new TUnk_80499970(tl_fade);
+    new TScreenFadeController(tl_fade);
     TLobby::set_fade_params(0);
     new TCineCtrl(tl_00);
     TRaderMapCore::create();

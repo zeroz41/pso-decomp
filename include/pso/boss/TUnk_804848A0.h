@@ -1,13 +1,13 @@
 #ifndef PSO_BOSS_TUNK_804848A0_H
 #define PSO_BOSS_TUNK_804848A0_H
 #include "types.h"
-#include "pso/boss/TUnk_804999E8.h"
+#include "pso/unk/TScreenFade.h"
 
 typedef void (*VoloptFadeCallback)();
 
 // Fades the screen in from white for Vol Opt: alpha falls from 255 to 0, then
 // on_done runs (or the task ends) and volopt_fade_in_done is set.
-class TUnk_804848A0 : public TUnk_804999E8 {
+class TUnk_804848A0 : public TScreenFade {
 public:
     VoloptFadeCallback on_done;
 
@@ -19,7 +19,7 @@ LAYOUT_ASSERT(TUnk_804848A0_size, sizeof(TUnk_804848A0) == 0x28);
 
 // Fades the screen out to white for Vol Opt: alpha rises from 0 to 255, then
 // on_done runs (or the task ends) and volopt_fade_out_done is set.
-class TUnk_804848B8 : public TUnk_804999E8 {
+class TUnk_804848B8 : public TScreenFade {
 public:
     VoloptFadeCallback on_done;
 

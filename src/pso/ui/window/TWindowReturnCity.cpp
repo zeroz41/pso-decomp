@@ -1,5 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
-#include "pso/unk/TUnk_804999D0.h"
+#include "pso/unk/TScreenFadeOut.h"
 #include "types.h"
 #include "pso/npc/TNpcPlayer.h"
 #include "pso/unk/TLobby_800FD78C.h"
@@ -87,7 +87,7 @@ void TWindowReturnCity::run_task() {
                 selected_value = ((TWindowMessageYesNo *)yes_no_window)->get_selected_value();
                 if (selected_value == 0) {
                     TWindowReturnCity__client_scan_index = client;
-                    new TUnk_804999D0(tl_00, return_to_city_after_defeat);
+                    new TScreenFadeOut(tl_00, return_to_city_after_defeat);
                     state = 2;
                 }
                 if (selected_value == 1) {

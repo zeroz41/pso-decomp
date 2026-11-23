@@ -1,4 +1,4 @@
-#include "pso/unk/TUnk_804999D0.h"
+#include "pso/unk/TScreenFadeOut.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/player/TPlyGuildCardTag_8013ABCC.h"
 #include "pso/ui/window/TWindowBase.h"
@@ -89,7 +89,7 @@ THunterGuildSeqOnlineTask::THunterGuildSeqOnlineTask(TObject *parent) : TObject(
 void handle_6x73_exit_quest(void);
 
 void handle_6x73_exit_quest(void) {
-    new TUnk_804999D0(tl_00, reset_random_enemies_mode);
+    new TScreenFadeOut(tl_00, reset_random_enemies_mode);
 }
 
 void TQuestListOnline::close_windows_and_reset() {

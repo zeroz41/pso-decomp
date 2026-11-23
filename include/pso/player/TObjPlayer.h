@@ -992,7 +992,6 @@ struct TObjPlayer : public TObjChara {
     void init_record_array(s32 arg1);
     static s32 find_table_index_by_id(u32 id);
     static s32 find_record_index(u32 arg0, u32 arg1);
-    void release_empty_ref_entry();
     static void set_global_effect_state(s32 global_effect_state);
     void reload_texture(saddr arg1, u32 arg2, void *arg3);
     static void set_effect_active();

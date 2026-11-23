@@ -276,7 +276,7 @@ s32 TObjPlayer__sub_803DAE98(GinjaTextureState *texture) {
             current_render_context->reserved14 = -1;
         }
     }
-    ((TObjPlayer *)texture)->release_empty_ref_entry();
+    clear_unreferenced_texture_entry(texture);
     return 1;
 }
 #pragma pop

@@ -43,7 +43,7 @@
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/unk/TLobby_8001D6A0.h"
 #include "pso/unk/text_800F7DAC.h"
-#include "pso/unk/TUnk_80499988.h"
+#include "pso/unk/TColorOverlayFade.h"
 #include "pso/object/door/TObjDoor_801F3754.h"
 #include "pso/unk/TLobby_80207644.h"
 #include "pso/object/switch/TSwitch.h"
@@ -111,7 +111,7 @@ int qst_label_address(int label);
 #include "pso/camera/TCameraFollow.h"
 #include "pso/camera/TCameraPan.h"
 #include "pso/system/TTokenList.h"
-#include "pso/unk/TUnk_804999D0.h"
+#include "pso/unk/TScreenFadeOut.h"
 #include "pso/ui/window/TWindowMenuIconLine.h"
 u8 *qst_code;
 s32 *qst_function_table;
@@ -1133,7 +1133,7 @@ void qst_op_add_color_overlay() {
     s32 c = qst_args[2];
     s32 d = qst_args[3];
     s32 e = qst_args[4];
-    new TUnk_80499988(tl_01, 0, e, d, a, b, c);
+    new TColorOverlayFade(tl_01, 0, e, d, a, b, c);
 }
 
 void qst_op_get_chosen_item_id(int a0) { qst_registers[(unsigned char)(a0)] = -1; qst_result_register = a0; qst_suspend_reason = QST_WAIT_ITEM_CHOICE; TWindowCtrl::set_flag_bit2(); close_window_if_active(local_client_id); request_active_window_close(); TWindowCtrl::set_close_flag(); }
@@ -1966,7 +1966,7 @@ void TLobby::reset_random_enemies_mode(TObject *) { TLobby::clear_counter(); evt
 
 void qst_op_qexit() {
     if (is_quest_active() == 1) {
-        new TUnk_804999D0(tl_00, TLobby::reset_random_enemies_mode);
+        new TScreenFadeOut(tl_00, TLobby::reset_random_enemies_mode);
     }
 }
 
