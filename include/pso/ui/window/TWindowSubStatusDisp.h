@@ -10,7 +10,7 @@ struct PageIndicator;
 class ItemListRow;
 
 struct TWindowSubStatusDisp : public TWindowBase {
-    // Challenge-mode record set (inferred names): resolve_player_slot maps RECORD_SET_CURRENT to the running
+    // Challenge-mode record set: resolve_player_slot maps RECORD_SET_CURRENT to the running
     // game's set by selected_episode and is_split_screen; get_layout_id gives the sets 9/5/9/5 stages.
     enum RecordSet {
         RECORD_SET_CURRENT = -1,
@@ -25,7 +25,7 @@ struct TWindowSubStatusDisp : public TWindowBase {
     void calc_row_width();
     virtual void run_task();
     virtual void render();
-    s16 page; // inferred: index into the dispatch_page_init/update page tables
+    s16 page; // index into the dispatch_page_init/update page tables
     u16 m_62;
     u32 m_64;
     PageIndicator *m_68;

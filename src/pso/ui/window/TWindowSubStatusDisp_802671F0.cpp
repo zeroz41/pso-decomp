@@ -42,12 +42,11 @@
 #include "pso/ui/window/TWindowSubStatusDisp_80228F5C.h"
 #include "pso/ui/window/TWindowCtrl_8024A054.h"
 
-// inferred: name from the string the .sdata pointer holds
 const char *TWindowMenuIconLine__name = "TWindowMenuIconLine";
 
 
 void fn_80266BD0(s32 index, u8 *first, u8 *second, s32 player) {
-    // inferred: pairs of entry codes handed to init_entry by TWindowSubShortCutList::draw_entry
+    // pairs of entry codes handed to init_entry by TWindowSubShortCutList::draw_entry
     static const u8 entry_code_pairs[20][2] = {
         {0x33, 0x1C}, {0x33, 0x1E}, {0x33, 0x1F}, {0x33, 0x1D}, {0x1A, 0x1C}, {0x1A, 0x1E}, {0x1A, 0x1F},
         {0x1A, 0x1D}, {0x33, 0x20}, {0x33, 0x21}, {0x33, 0x22}, {0x33, 0x23}, {0x33, 0x24}, {0x33, 0x25},

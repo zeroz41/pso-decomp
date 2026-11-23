@@ -338,7 +338,7 @@ extern "C" {
 void *get_player_by_client_id(s32 i);
 }
 
-// list type of m_68 per page (inferred: the page-flip list kind passed to fn_8026C7AC)
+// list type of m_68 per page: the page-flip list kind passed to fn_8026C7AC
 const u8 lbl_805DD6F4[4] = {3, 4, 4, 0};
 
 TWindowSubStatusDisp::TWindowSubStatusDisp(s32 client)

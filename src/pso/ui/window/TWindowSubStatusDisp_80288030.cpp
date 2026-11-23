@@ -16,7 +16,7 @@ extern const f32 lbl_8044FCF0[2] = { 0.0f, -13.0f };
 void text_builder_reset(void);
 void set_text_entry_string(u8 *arg0, uaddr str, s32 arg2);
 // The HUD palette texture names; load_hud_palette_textures loads the archive into this list.
-NJS_TEXNAME f256_hyouji_texname[13] = { // inferred: the name array of f256_hyouji_texlist
+NJS_TEXNAME f256_hyouji_texname[13] = { // the texture names of f256_hyouji_texlist
     { (void *)"f256_hyouji_a", 0, 0 },
     { (void *)"f256_hyouji_b", 0, 0 },
     { (void *)"f256_hyouji_c", 0, 0 },
