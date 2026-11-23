@@ -16,6 +16,7 @@ struct NJS_OBJECT;
 #include "pso/player/ContactSurfaceState.h"
 #include "pso/player/MovementHold.h"
 #include "pso/player/PhotonChairSeat.h"
+#include "pso/player/PlayerActionPaletteState.h"
 #include "pso/unk/TUnk_804DDD28.h"
 
 struct TItemData;
@@ -171,8 +172,7 @@ struct TObjPlayer : public TObjChara {
     s8 m_33b;
     u8 unk_33C[0x2];
     s16 m_33e;
-    void* m_340;
-    u8 _pad344[0x8];
+    PlayerActionPaletteState action_palette_state;
     PhotonChairSeat chair_seat;
     ContactSurfaceState contact_surface;
     s32 m_36c;
@@ -585,7 +585,6 @@ struct TObjPlayer : public TObjChara {
     s16 get_action_id();
     void*get_sub_object();
     s32 get_lock_timer();
-    void init_tag();
     void set_vec3_const();
     void set_pos_z(f32 v);
     static s32 reset_and_return(saddr arg0);
@@ -602,7 +601,6 @@ struct TObjPlayer : public TObjChara {
     void*init_subobjects();
     void set_speed(f32 farg0);
     void set_scale_xyz(f32 farg0);
-    u8 *init_subobject();
     int sub_802a7290_fwd();
     int is_handle_valid();
     static void forward_801C210C(void *p, int v);

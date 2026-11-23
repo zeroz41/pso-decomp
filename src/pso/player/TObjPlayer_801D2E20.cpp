@@ -460,7 +460,7 @@ s32 *TObjPlayer__sub_801D345C(void *p) { return (s32 *)((CapturedTargetList *)((
 #pragma auto_inline off
 #pragma dont_inline off
 void TObjPlayer::set_action_palette_state_mode(u8 mode) {
-    set_player_action_palette_mode(reinterpret_cast<PlayerActionPaletteState *>(&m_340), mode);
+    set_player_action_palette_mode(&action_palette_state, mode);
 }
 #pragma pop
 

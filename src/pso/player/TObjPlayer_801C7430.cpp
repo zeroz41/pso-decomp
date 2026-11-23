@@ -6002,7 +6002,7 @@ void TObjPlayer::set_float_param(s16 arg1) {
 }
 
 void update_player_action_palette(TObjPlayer *player, u8 slot) {
-    set_player_action_palette_slot(reinterpret_cast<PlayerActionPaletteState *>(&player->m_340), slot);
+    set_player_action_palette_slot(&player->action_palette_state, slot);
 }
 }
 

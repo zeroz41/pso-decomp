@@ -3,10 +3,15 @@
 
 #include "pso/ui/window/ActionPaletteTag.h"
 
-// Borrowed view of the record stored at player offset 0x340.
+// The player's action palette selection (TObjPlayer::action_palette_state):
+// the tag's mode/slot pick the palette entry the player last used.
 struct PlayerActionPaletteState {
     u32 prefix;
     ActionPaletteTag tag;
+
+    PlayerActionPaletteState();
+    virtual ~PlayerActionPaletteState();
+    void init_tag();
 };
 
 LAYOUT_ASSERT(PlayerActionPaletteTagOffset, offsetof(PlayerActionPaletteState, tag) == 4);

@@ -431,13 +431,11 @@ s32 TObjPlayer__sub_801BF95C(void* p) { return *(s32*)((char*)p + 0x0); }
 
 void zero_vec3(void* a0) { *(float*)((char*)a0 + 0x0) = TObjPlayer__data_805DC278; *(float*)((char*)a0 + 0x4) = TObjPlayer__data_805DC278; *(float*)((char*)a0 + 0x8) = TObjPlayer__data_805DC278; }
 
-struct RecoveredGlobal_lbl_804C3E50 { s32 value; u8 remaining[0xC]; };
-extern RecoveredGlobal_lbl_804C3E50 lbl_804C3E50;
-
-void TObjPlayer::init_tag() {
-    s32 *arg0 = (s32 *)this;
-    *arg0 = 0;
-    init__6gc_tagFv((gc_tag *)((char *)arg0 + 4));
+#pragma push
+#pragma dont_inline on
+void PlayerActionPaletteState::init_tag() {
+    prefix = 0;
+    tag.init();
 }
 
 void BattleMusicState::reset_counter_field4() {
@@ -451,16 +449,8 @@ void TObjPlayer::set_vec3_const() { *(float*)((char*)this + 0x0) = TObjPlayer__d
 void TObjPlayer__sub_801BF9E0(void* p, u16 v) { *(s16*)((char*)p + 0x0) = v; }
 void TObjPlayer::set_pos_z(f32 v) { *(f32*)((char*)this + 0x8) = v; }
 
-u8 *TObjPlayer__sub_801BF9F0(u8 *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 8) = &lbl_804C3E50.value;
-        __dt__6gc_tagFv((gc_tag *)(arg0 + 4), -1);
-        if (arg1 > 0) {
-            ::operator delete((arg0));
-        }
-    }
-    return arg0;
-}
+PlayerActionPaletteState::~PlayerActionPaletteState() {}
+#pragma pop
 
 ContactSurfaceState *ContactSurfaceState::fn_801BFA4C(s16 arg) {
     if (this != NULL) {
@@ -597,12 +587,8 @@ ContactSurfaceState *ContactSurfaceState::setup_state() {
 void ContactSurfaceState::setup_state_helper() { ((FlagWord *)&flags)->reset(); }
 
 
-u8 *TObjPlayer::init_subobject() {
-    u8 *arg0 = (u8 *)this;
-    *(s32 * *)&this->m_prev = &lbl_804C3E50.value;
-    __ct__6gc_tagFv((gc_tag *)(arg0 + 4));
-    *(s32 *)((s8 *)arg0 + 0) = 0;
-    return arg0;
+PlayerActionPaletteState::PlayerActionPaletteState() {
+    prefix = 0;
 }
 
 void TObjPlayer__sub_801BFF80(u8 *arg0) {

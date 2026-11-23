@@ -5,7 +5,6 @@
 
 extern "C" {
 void TObjPlayer__sub_801BF9E0(void *p, u16 v);
-u8 *TObjPlayer__sub_801BF9F0(u8 *arg0, s16 arg1);
 }
 
 #endif

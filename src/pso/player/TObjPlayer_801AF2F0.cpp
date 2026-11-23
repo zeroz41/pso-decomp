@@ -4381,8 +4381,8 @@ void *TObjPlayer__sub_801B57E8(TObjPlayer *player) {
     }
     cursor = (saddr)player->lock_on_cursor->action_slots;
     for (i = 0; i < 4; i++) {
-        if (try_move__11TMainCursorFiii(cursor, get_player_action_palette_mode(reinterpret_cast<const PlayerActionPaletteState *>(&player->m_340)),
-                get_player_action_palette_slot(reinterpret_cast<const PlayerActionPaletteState *>(&player->m_340))) != 0) {
+        if (try_move__11TMainCursorFiii(cursor, get_player_action_palette_mode(&player->action_palette_state),
+                get_player_action_palette_slot(&player->action_palette_state)) != 0) {
             return (void *)cursor;
         }
         cursor += 0x124;
@@ -5035,8 +5035,8 @@ s32 TObjPlayer::execute_palette_action(s32 mode, void *target) {
     s16 act;
     kind = ((s32 (*)(void *, s32))TObjPlayer__sub_801B5AF8)(this, mode);
     act = get_action_palette_entry(mode);
-    set_player_action_palette_mode(reinterpret_cast<PlayerActionPaletteState *>(&m_340), kind);
-    set_player_action_palette_slot(reinterpret_cast<PlayerActionPaletteState *>(&m_340), act);
+    set_player_action_palette_mode(&action_palette_state, kind);
+    set_player_action_palette_slot(&action_palette_state, act);
     switch (kind) {
     case 0:
         return 0;

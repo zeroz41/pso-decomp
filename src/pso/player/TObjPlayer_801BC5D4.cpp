@@ -16,7 +16,7 @@ void TObjPlayer::reset_state() {
     movement_hold.reset();
     ((TObjPlayer *)(arg0 + 0x608))->set_vec4_const();
     *(s32 *)&this->unk_548 = 0;
-    ((TObjPlayer *)(arg0 + 0x340))->init_tag();
+    action_palette_state.init_tag();
     *(s32 *)((s8 *)arg0 + 0x3D4) = 0;
     this->clear_state_flags(0x283);
     this->m_3f4 = 0;

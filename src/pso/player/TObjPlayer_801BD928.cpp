@@ -34,7 +34,6 @@ s32 update_body_parts__10TObjPlayerFv(void *, void *);
 extern const char *lbl_805D3530;
 
 TObjPlayer::TObjPlayer(TObject *parent, s32 slot, s32 role, u8 *arg4) : TObjChara(parent) {
-    ((TObjPlayer *)(((u8 *)this) + 0x340))->init_subobject();
     chair_seat.init();
     contact_surface.init_state();
     TObjPlayer__sub_803374C4((void *) (((u8 *)this) + 0x374));
