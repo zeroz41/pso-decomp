@@ -46,7 +46,7 @@ void TLobby::open_scroll_text_window(saddr src) {
         lobby_scroll_text_buffer[0xFFF] = 0;
         lobby_scroll_text_window = new TAdScrollWinGC(tl_window, 2, (saddr)lobby_scroll_text_buffer);
     }
-    data_805D5594 = 0x1A;
+    lobby_state = 0x1A;
 }
 
 void TLobby::render() { { (void)(TAdPlayerLoadGC::get_instance()); return; } }

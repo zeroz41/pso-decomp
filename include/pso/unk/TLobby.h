@@ -1112,7 +1112,7 @@ struct TLobby : public TObject {
     // Lobby state shared by the lobby screens.
     static TProtocol *protocol_instance;
     static TWindowMenuIconLine *list_window;
-    static s32 data_805D5594;
+    static s32 lobby_state;  // the run_task state
     static TWindowMessage *current_dialog_window;
     static TWindowMessage *download_list_window;
     static TWindowMessage *join_entry_window_obj;
@@ -1124,17 +1124,17 @@ struct TLobby : public TObject {
     static TLobby *join_lobby_controller;
     static s16 pending_member_count;
     static s32 idle_timeout_active;
-    static s32 data_805D55AC;
+    static s32 block_number;  // from the 0x67 lobby join packet
     static s32 join_lobby_idle_timer;
     static s32 player_setup_pending;
-    static u32 data_80506A6C[3252];
-    static s16 data_805D558C;
+    static u32 join_entries[3252];  // 12 TPlyJoinLobbyEntry
+    static s16 pending_local_client_id;  // add_lobby_members' client id, for construct_lobby_players
     static s32 date_seconds;
     static s32 card_list_selected_index;
-    static s32 data_805D5588;
+    static s32 room_change_pending;  // set by send_room_change, cleared when the lobby is entered
     static s32 login_pending_flag;
     static s32 lobby_entered_flag;
-    static s32 data_805D55B8;
+    static s32 data_805D55B8;  // the 0x67 lobby join packet's byte after block_number; never read
     static u32 join_entries_dtor_registration[3];
 };
 

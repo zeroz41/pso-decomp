@@ -685,7 +685,7 @@ void TLobby::close_result_windows() {
     text_builder_reset();
     text_builder_append((u8 *)lobby_ship_name);
     text_builder_append((u8 *)":");
-    append_padded_number(data_805D55AC, 2);
+    append_padded_number(block_number, 2);
     text_builder_append((u8 *)"-");
     append_padded_number(lobby_number + 1, 2);
 }

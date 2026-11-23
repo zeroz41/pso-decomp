@@ -337,17 +337,17 @@ LAYOUT_ASSERT(ProtocolEntryCountOffset, offsetof(TProtocol, m_entry_count) == 0x
 LAYOUT_ASSERT(ProtocolInvalidPacketOffset, offsetof(TProtocol, m_is_invalid_packet) == 0x2A);
 TProtocol *TLobby::protocol_instance;
 s32 TLobby::lobby_entered_flag;
-s32 TLobby::data_805D5588;
-s16 TLobby::data_805D558C;
+s32 TLobby::room_change_pending;
+s16 TLobby::pending_local_client_id;
 s16 TLobby::pending_member_count;
 s32 TLobby::deferred_player_setup_state;
-s32 TLobby::data_805D5594;
+s32 TLobby::lobby_state;
 s32 TLobby::join_state_flag;
 s32 TLobby::date_seconds;
 s32 TLobby::event_theme_id;
 s32 TLobby::card_list_selected_index;
 s32 TLobby::idle_timeout_active;
-s32 TLobby::data_805D55AC;
+s32 TLobby::block_number;
 s32 TLobby::lobby_number;
 s32 TLobby::join_lobby_idle_timer;
 s32 TLobby::data_805D55B8;
@@ -386,7 +386,7 @@ Server_801399B8 lbl_804A6FF8[2] = { { join_lobby_ddplanet_server_host, 0x2329 },
 void *lbl_804A7008[6] = { 0, 0, (void *)__dt__13TUnk_804A7008Fv, (void *)TLobby::update_idle_timeout, (void *)TLobby__sub_8013A2DC, (void *)render_shadows__7TObjectFv };
 
 u32 TLobby::join_entries_dtor_registration[3];
-u32 TLobby::data_80506A6C[3252];
+u32 TLobby::join_entries[3252];
 u32 lbl_80509D3C[8];
 u32 lobby_player_status_records[852];
 char lobby_ship_name[0x28];
@@ -526,7 +526,7 @@ void handle_6x71_unblock_game_join(void) {
             if (pend[i] != 0) {
                 TLobby::send_6x70_player_data(i);
                 if (get_player_by_client_id(i) == NULL) {
-                    e = (LEntry_801352C0 *)TLobby::data_80506A6C;
+                    e = (LEntry_801352C0 *)TLobby::join_entries;
                     e += i;
                     p = create_player_object(i, 4, e->body);
                     ((TLobby *)(p + 0xDAC))->copy_header_struct(e);
@@ -541,7 +541,7 @@ void handle_6x71_unblock_game_join(void) {
         }
         TLobby::protocol_instance->send_6F_burst_done();
         TAdSinglePlyChrSelectGC::load_character_from_card(0);
-        TLobby::data_805D5594 = 0xF;
+        TLobby::lobby_state = 0xF;
     }
 }
 
@@ -559,7 +559,7 @@ void handle_6x70_sync_player_disp_and_inventory(Pkt_801354AC *arg0) {
     TObjPlayer *plr;
     Disp_801354AC *disp;
     TObjPlayer *p;
-    if (TLobby__data_805D5CE8 == 0 && (TLobby::data_805D5594 == 0xE || TLobby::data_805D5594 == 0xF)) {
+    if (TLobby__data_805D5CE8 == 0 && (TLobby::lobby_state == 0xE || TLobby::lobby_state == 0xF)) {
         disp = &arg0->disp;
         TLobby::bswap_player_data(disp);
         if (disp->id != local_client_id) {
@@ -593,7 +593,7 @@ void TLobby::send_6x70_player_data(int size) {
 #pragma push
 #pragma peephole off
 void handle_6x6F_set_quest_flags_v2(saddr arg0) {
-    if (((s16) TLobby__data_805D5CE8 == 0) && (((s32) TLobby::data_805D5594 == 0xE) || ((s32) TLobby::data_805D5594 == 0xF))) {
+    if (((s16) TLobby__data_805D5CE8 == 0) && (((s32) TLobby::lobby_state == 0xE) || ((s32) TLobby::lobby_state == 0xF))) {
         memcpy((void *) (&(*(RecoveredGlobal_8013561C_lbl_805127F8 *)&quest_story_flags_by_difficulty).value), (void *)(arg0 + 4), 0x200);
     }
 }
@@ -605,7 +605,7 @@ void handle_6x6E_sync_game_state(Pkt_8013566C *arg0) {
   void *tmp;
   GameStateSyncScratch *buf;
   s32 n;
-  if ((TLobby__data_805D5CE8 == 0) && ((TLobby::data_805D5594 == 0xE) || (TLobby::data_805D5594 == 0xF)))
+  if ((TLobby__data_805D5CE8 == 0) && ((TLobby::lobby_state == 0xE) || (TLobby::lobby_state == 0xF)))
   {
     lobby_debug_printf_stub(lobby_debug_rcv_set_flag_format, arg0->len);
     buf = static_cast<GameStateSyncScratch *>(::operator new(sizeof(GameStateSyncScratch)));
@@ -639,7 +639,7 @@ void handle_6x6D_sync_game_state(Pkt_8013574C *arg0) {
     s32 len;
     u8 *buf;
     void *tmp;
-    if (TLobby__data_805D5CE8 == 0 && (TLobby::data_805D5594 == 0xE || TLobby::data_805D5594 == 0xF)) {
+    if (TLobby__data_805D5CE8 == 0 && (TLobby::lobby_state == 0xE || TLobby::lobby_state == 0xF)) {
         len = arg0->len - 8;
         lobby_debug_printf_stub(lobby_debug_rcv_item_condition_format, arg0->len);
         buf = (u8 *)mem_alloc(0x8000);
@@ -660,7 +660,7 @@ void handle_6x6C_sync_game_state(Pkt_801357F8 *arg0) {
     QuestObjectEntry *p;
     s32 n;
     s32 i;
-    if (TLobby__data_805D5CE8 == 0 && (TLobby::data_805D5594 == 0xE || TLobby::data_805D5594 == 0xF)) {
+    if (TLobby__data_805D5CE8 == 0 && (TLobby::lobby_state == 0xE || TLobby::lobby_state == 0xF)) {
         n = arg0->len - 8;
         lobby_debug_printf_stub(lobby_debug_rcv_object_condition_format, arg0->len);
         p = (QuestObjectEntry *)::operator new(0x7230);
@@ -682,7 +682,7 @@ void handle_6x6B_sync_game_state(Pkt_801358B4 *arg0) {
     S12_801358B4 *p;
     s32 n;
     s32 i;
-    if (TLobby__data_805D5CE8 == 0 && (TLobby::data_805D5594 == 0xE || TLobby::data_805D5594 == 0xF)) {
+    if (TLobby__data_805D5CE8 == 0 && (TLobby::lobby_state == 0xE || TLobby::lobby_state == 0xF)) {
         n = arg0->len - 8;
         lobby_debug_printf_stub(lobby_debug_rcv_enemy_condition_format, arg0->len);
         p = (S12_801358B4 *)::operator new(0x7230);
@@ -850,7 +850,7 @@ void show_card_list_message(void *msg) {
         TLobby::card_list_window->close();
         TLobby::card_list_window = 0;
     }
-    if (TLobby::data_805D5594 == 0x11) {
+    if (TLobby::lobby_state == 0x11) {
         Pair_80135E7C p = lbl_8043EE20[0];
         TLobby::card_list_window = (TWindowMessage *)TWindowMessage::create((const NJS_POINT2 *)(get_window_layout_position(0xC9)), (const f32 *)(&p), 1);
         TLobby::card_list_window->append_line((saddr)((char *)msg + 4), (int)3);
@@ -893,7 +893,7 @@ void show_join_entry_message(s32 id) {
 
 void TLobby::run_task() {
     s32 r;
-    switch ((*(u32 *)&data_805D5594)) {
+    switch ((*(u32 *)&lobby_state)) {
     case 1:
         handle_team_select();
         break;
@@ -1434,7 +1434,7 @@ void TLobby::close_all_windows() {
         lobby_scroll_text_window = NULL;
     }
     TLobby::update_player_window();
-    data_805D5594 = 0;
+    lobby_state = 0;
 }
 void TLobby::destroy_lobby_ui() {
     void *temp;
@@ -1493,19 +1493,19 @@ void TLobby::destroy_lobby_ui() {
         ((s32 (*)(void *))queue_destruction__7TObjectFv)(temp);
         lobby_scroll_text_window = NULL;
     }
-    data_805D5594 = 0xE;
+    lobby_state = 0xE;
 }
 void TLobby::set_menu_mode_0() {
     TLobby::show_seq_phase_message(0);
-    data_805D5594 = 1;
+    lobby_state = 1;
 }
 void TLobby::set_menu_mode_1() {
     TLobby::show_seq_phase_message(1);
-    data_805D5594 = 1;
+    lobby_state = 1;
 }
 void TLobby::set_menu_mode_2() {
     TLobby::show_seq_phase_message(2);
-    data_805D5594 = 0x15;
+    lobby_state = 0x15;
 }
 void TLobby::open_lobby_warp_menu() {
     s32 window_layout_position;
@@ -1525,26 +1525,26 @@ void TLobby::open_lobby_warp_menu() {
     align_menu_entry_positions(TLobby_warp_menu_window);
     TLobby_warp_menu_window->set_ready_flag();
     TLobby::init_player_window_effect();
-    data_805D5594 = 3;
+    lobby_state = 3;
 }
 
 void TLobby__sub_801384E4(void) {
     if (TLobby::join_lobby_controller != NULL) {
         if ((s32) TLobby::player_setup_pending == 0) {
-            if ((s32) TLobby::data_805D5594 != 0xC) {
+            if ((s32) TLobby::lobby_state != 0xC) {
                 sprintf((char *)lobby_join_message_buffer, (const char *)TLobby::get_seq_phase(7), lbl_80509D3C);
                 show_dialog_value_line((saddr)lobby_join_message_buffer);
                 TLobby::current_dialog_window->reparent_to_main_ctrl();
                 TLobby::init_player_window_effect();
                 TLobby::join_lobby_idle_timer = 0;
-                TLobby::data_805D5594 = 0xC;
+                TLobby::lobby_state = 0xC;
                 if (TLobby::protocol_instance != NULL) {
                     TLobby::protocol_instance->m_is_invalid_packet |= 1;
                 }
             }
         } else {
             TLobby::deferred_player_setup_state = 5;
-            TLobby::data_805D5594 = 0x17;
+            TLobby::lobby_state = 0x17;
         }
         lbl_805D55C0 = 1;
     }
@@ -1552,19 +1552,19 @@ void TLobby__sub_801384E4(void) {
 void TLobby::update_state() {
     if (join_lobby_controller != NULL) {
         if ((s32) player_setup_pending == 0) {
-            if ((s32) data_805D5594 != 0xC) {
+            if ((s32) lobby_state != 0xC) {
                 TLobby::show_seq_phase_message(0x21);
                 current_dialog_window->reparent_to_main_ctrl();
                 TLobby::init_player_window_effect();
                 join_lobby_idle_timer = 0;
-                data_805D5594 = 0xC;
+                lobby_state = 0xC;
                 if (protocol_instance != NULL) {
                     protocol_instance->m_is_invalid_packet |= 1;
                 }
             }
         } else {
             deferred_player_setup_state = 5;
-            data_805D5594 = 0x17;
+            lobby_state = 0x17;
         }
         lbl_805D55C0 = 1;
     }
@@ -1573,13 +1573,13 @@ void TLobby::reset_state(int msg) {
     show_join_entry_message(msg);
     TLobby::init_player_window_effect();
     join_lobby_idle_timer = 0;
-    data_805D5594 = 0xC;
+    lobby_state = 0xC;
     lbl_805D55C0 = 1;
 }
 void TLobby::close_and_set_state_13(int msg) {
     show_join_entry_message(msg);
     TLobby::init_player_window_effect();
-    data_805D5594 = 0xD;
+    lobby_state = 0xD;
 }
 void TLobby::create_warp_menu() {
     s32 window_layout_position;
@@ -1591,7 +1591,7 @@ void TLobby::create_warp_menu() {
     lobby_com_card_window->calc_window_size();
     align_menu_entry_positions(lobby_com_card_window);
     lobby_com_card_window->set_ready_flag();
-    data_805D5594 = 4;
+    lobby_state = 4;
 }
 void TLobby::request_game_list() {
     TLobby::show_seq_phase_message(4);
@@ -1604,7 +1604,7 @@ void TLobby::request_game_list() {
         lobby_com_card_window = NULL;
     }
     protocol_instance->send_game_list();
-    data_805D5594 = 6;
+    lobby_state = 6;
 }
 void TLobby::open_menu_window() {
     TWindowMenu *menu = lobby_com_card_window;
@@ -1619,11 +1619,11 @@ void TLobby::open_menu_window() {
     align_menu_entry_positions(lobby_make_team_menu_window);
     lobby_make_team_menu_window->set_ready_flag();
     ((TWindowSubComCardList *)lobby_make_team_menu_window)->set_selected_index(0);
-    data_805D5594 = 0x18;
+    lobby_state = 0x18;
 }
 void TLobby::open_make_team_window(int mode) {
     lobby_make_team_window = new TWindowMakeTeam((TObject *)join_lobby_controller, mode);
-    data_805D5594 = 0xA;
+    lobby_state = 0xA;
 }
 void TLobby::close_all_windows(void *) { TLobby::close_all_windows(); }
 void TLobby::open_warp_menu() {
@@ -1636,7 +1636,7 @@ void TLobby::open_warp_menu() {
     lobby_com_card_window->calc_window_size();
     align_menu_entry_positions(lobby_com_card_window);
     lobby_com_card_window->set_ready_flag();
-    data_805D5594 = 5;
+    lobby_state = 5;
 }
 void TLobby::return_to_main_menu() {
     TWindowBase *t;
@@ -1669,7 +1669,7 @@ void TLobby::return_to_main_menu() {
     }
     protocol_instance->m_recv_handlers.handle_07_A0_A1_recv_dir_list = (recv_packet_handler_handle_07_A0_A1_recv_dir_list)TLobby::open_ship_block_select_menu;
     protocol_instance->send_ship_list_request();
-    data_805D5594 = 7;
+    lobby_state = 7;
 }
 void TLobby::close_menu_windows() {
     TLobby::show_seq_phase_message(6);
@@ -1679,7 +1679,7 @@ void TLobby::close_menu_windows() {
     lobby_com_card_window = NULL;
     protocol_instance->m_recv_handlers.handle_07_A0_A1_recv_dir_list = (recv_packet_handler_handle_07_A0_A1_recv_dir_list)TLobby::open_ship_block_select_menu;
     protocol_instance->send_block_list_request();
-    data_805D5594 = 8;
+    lobby_state = 8;
 }
 void TLobby::close_and_send_text_list() {
     TLobby::close_all_windows();
@@ -1707,18 +1707,18 @@ void TLobby::open_keyboard_window() {
     lobby_keyboard_controller = new TKeyBoardControl(join_lobby_controller, 0x10, 0, 0, local_client_id);
     lobby_keyboard_controller->set_sub_position((u8 *)(get_window_layout_position(0xC4)));
     lobby_keyboard_controller->set_hard_position((u8 *)get_window_layout_position(0xC5));
-    data_805D5594 = 9;
+    lobby_state = 9;
 }
 void TLobby::close_and_set_state_12() {
     TLobby::close_all_windows();
     TLobby::init_player_window_effect();
-    data_805D5594 = 0x12;
+    lobby_state = 0x12;
 }
 void TLobby::send_room_change(int idx) {
-    data_805D5588 = 1;
+    room_change_pending = 1;
     TLobby::init_player_window_effect();
     protocol_instance->send_room_change(idx);
-    data_805D5594 = 0x13;
+    lobby_state = 0x13;
 }
 void TLobby::open_city_warp_menu() {
     s32 window_layout_position;
@@ -1733,7 +1733,7 @@ void TLobby::open_city_warp_menu() {
     lobby_com_card_window->calc_window_size();
     align_menu_entry_positions(lobby_com_card_window);
     lobby_com_card_window->set_ready_flag();
-    data_805D5594 = 0x19;
+    lobby_state = 0x19;
 }
 void TLobby::update_com_card_window() {
     s32 selected_menu_value;
@@ -1772,7 +1772,7 @@ void TLobby__sub_80137C10(s32 arg0) {
         TLobby::download_list_window = (TWindowMessage *)create_message_window_for_size((NJS_POINT2 *)get_window_layout_position(0xc6), &tmp);
     }
     TLobby::download_list_window->append_line((int)arg0, (int)3);
-    TLobby::data_805D5594 = 0x14;
+    TLobby::lobby_state = 0x14;
     TQuestListOnline__sub_8013ACF4(0xb);
 }
 
@@ -1780,17 +1780,17 @@ TLobby::~TLobby() {
     TLobby::destroy_all_objects();
     protocol_instance = NULL;
     lobby_entered_flag = 0;
-    data_805D5588 = 0;
-    data_805D558C = 0;
+    room_change_pending = 0;
+    pending_local_client_id = 0;
     pending_member_count = 0;
     deferred_player_setup_state = 0;
-    data_805D5594 = 0;
+    lobby_state = 0;
     join_state_flag = 1;
     date_seconds = 0;
     event_theme_id = 0;
     card_list_selected_index = 0;
     idle_timeout_active = 0;
-    data_805D55AC = 0;
+    block_number = 0;
     lobby_number = 0;
     join_lobby_idle_timer = 0;
     data_805D55B8 = 0;
@@ -1855,9 +1855,9 @@ void TLobby::reset_state_flags() {
     buffer_reset();
     protocol_instance->m_handle_pings_only = 1;
     player_setup_pending = 1;
-    if ((s32) data_805D5594 == 0xC) {
+    if ((s32) lobby_state == 0xC) {
         deferred_player_setup_state = 5;
-        data_805D5594 = 0x17;
+        lobby_state = 0x17;
     }
     current_dialog_window = 0;
 }
@@ -1866,7 +1866,7 @@ void TLobby::process_deferred_player_setup() {
     switch (deferred_player_setup_state) {
     case 1:
     case 2:
-        construct_lobby_players((Rec_801378AC *)data_80506A6C, pending_member_count, data_805D558C, designated_client_id);
+        construct_lobby_players((Rec_801378AC *)join_entries, pending_member_count, pending_local_client_id, designated_client_id);
         break;
     case 3:
     case 4:
@@ -1882,14 +1882,14 @@ void TLobby::process_deferred_player_setup() {
     }
     deferred_player_setup_state = 0;
     pending_member_count = 0;
-    data_805D558C = 0;
+    pending_local_client_id = 0;
 }
 void TLobby::add_lobby_members(TPlyJoinLobbyEntry *src, int n, int client_id, int leader) {
     s32 i;
     deferred_player_setup_state = 2;
-    data_805D558C = client_id;
+    pending_local_client_id = client_id;
     for (i = pending_member_count; i < pending_member_count + n; i++) {
-        TLobby::copy_member_record(&((TPlyJoinLobbyEntry *)data_80506A6C)[i], &src[i]);
+        TLobby::copy_member_record(&((TPlyJoinLobbyEntry *)join_entries)[i], &src[i]);
     }
     pending_member_count += n;
     designated_client_id = leader;
@@ -2112,7 +2112,7 @@ void TLobby__sub_801371B0(s32 arg0) {
         TLobby::join_entry_window_obj = (TWindowMessage *)create_message_window_for_size((NJS_POINT2 *)get_window_layout_position(0xc8), &tmp);
     }
     TLobby::join_entry_window_obj->append_line((int)arg0, (int)3);
-    TLobby::data_805D5594 = 0x16;
+    TLobby::lobby_state = 0x16;
 }
 void TLobby::disable_window_flags(void*flags) { TWindowCtrl::set_window_flags_off(local_client_id, (saddr)flags); }
 void TLobby::open_ship_block_select_menu(int count, void *entries, void *selected) {
@@ -2258,7 +2258,7 @@ void TLobby::make_players() {
         strncpy(lobby_player_names[local_client_id], p->get_name(), 0x10);
         lobby_debug_printf_stub(lobby_debug_make_player_format, local_client_id);
         protocol_instance->send_6F_burst_done();
-        data_805D5594 = 0xF;
+        lobby_state = 0xF;
         p = (TObjPlayer *)create_player_object(1 - local_client_id, 4, (u8 *)TAdSinglePlyChrSelectGC::get_char_index(0));
         if (p != NULL) {
             init_player_join_record(&hdr);
@@ -2279,7 +2279,7 @@ void TLobby::make_players() {
         strncpy(lobby_player_names[local_client_id], p->get_name(), 0x10);
         lobby_debug_printf_stub(lobby_debug_make_player_format, local_client_id);
         protocol_instance->send_6F_burst_done();
-        data_805D5594 = 0xF;
+        lobby_state = 0xF;
     }
 }
 
@@ -2298,10 +2298,10 @@ void TLobby::handle_lobby_enter(TPlyJoinLobbyEntry *ents, int n, int client_id, 
     lobby_entered_flag = 1;
     join_state_flag = 1;
     lobby_number = arg4;
-    data_805D55AC = arg5;
+    block_number = arg5;
     data_805D55B8 = arg6;
     TLobby::set_player_count(0);
-    data_805D5588 = 0;
+    room_change_pending = 0;
     designated_client_id = leader;
     for (node = (TPacket *)game_protocol_instance->m_down; node != NULL; node = (TPacket *)node->m_next) {
         lobby_debug_printf_stub(lobby_debug_udp_close_ip_format, node->m_dst_addr.addr_bytes[0], node->m_dst_addr.addr_bytes[1], node->m_dst_addr.addr_bytes[2], node->m_dst_addr.addr_bytes[3]);
@@ -2364,7 +2364,7 @@ void construct_lobby_players(Rec_801378AC *records, s32 count, int self_id, s32 
         lobby_player_construction_window->queue_destruction();
         lobby_player_construction_window = NULL;
     }
-    sprintf((char *)lbl_80509D3C, lobby_list_block_range_format, lobby_ship_name, TLobby::data_805D55AC, TLobby::lobby_number + 1);
+    sprintf((char *)lbl_80509D3C, lobby_list_block_range_format, lobby_ship_name, TLobby::block_number, TLobby::lobby_number + 1);
     room = TObject::operator new(sizeof(TWindowRoom));
     if (room != NULL) {
         room = __ct__11TWindowRoomFPc(room, (char *)lbl_80509D3C);
@@ -2378,7 +2378,7 @@ void TLobby::on_game_player_add(TPlyJoinLobbyEntry *entries, int leader_id, int 
     TObjPlayer *p;
     TPacket *n;
     u8 *plr;
-    if (data_805D5594 != 0xE && data_805D5594 != 0xF) {
+    if (lobby_state != 0xE && lobby_state != 0xF) {
         return;
     }
     TLobby__sub_8013AA64((u8 *)&e, (u8 *)entries);
@@ -2443,7 +2443,7 @@ void TLobby::on_game_player_add(TPlyJoinLobbyEntry *entries, int leader_id, int 
         }
     } else {
         game_join_pending_clients[e.client_id] = 1;
-        TLobby::copy_member_record(&((Entry_8013634C *)data_80506A6C)[e.client_id], &e);
+        TLobby::copy_member_record(&((Entry_8013634C *)join_entries)[e.client_id], &e);
     }
     if (local_client_id == designated_client_id) {
         init_6x72_resume_packet(&pkt);
@@ -2476,7 +2476,7 @@ void TLobby::remove_player(unsigned int client, int arg1, int arg2) {
         delete p;
     }
     strncpy(lobby_player_names[client], TLobby__data_805DB0B0, 0x10);
-    if (data_805D5594 == 0xE) {
+    if (lobby_state == 0xE) {
         TLobby__data_805D5CE8 = 1;
     }
     if (current_dialog_window != 0) {
@@ -2565,7 +2565,7 @@ void TLobby::open_download_list_window(int count, void *entries) {
         download_list_window->append_line((saddr)((char *)list + 0x2C), (int)3);
     }
     card_list_selected_index = 0;
-    data_805D5594 = 0x11;
+    lobby_state = 0x11;
 }
 
 #pragma defer_codegen off
@@ -2660,17 +2660,17 @@ TLobby::TLobby(TObject *parent) : TObject(parent) {
     lobby_keyboard_controller = NULL;
     lobby_scroll_text_window = NULL;
     lobby_entered_flag = 0;
-    data_805D5588 = 0;
-    data_805D558C = 0;
+    room_change_pending = 0;
+    pending_local_client_id = 0;
     pending_member_count = 0;
     deferred_player_setup_state = 0;
-    data_805D5594 = 0;
+    lobby_state = 0;
     join_state_flag = 1;
     date_seconds = 0;
     event_theme_id = 0;
     card_list_selected_index = 0;
     idle_timeout_active = 0;
-    data_805D55AC = 0;
+    block_number = 0;
     lobby_number = 0;
     join_lobby_idle_timer = 0;
     data_805D55B8 = 0;
@@ -2739,7 +2739,7 @@ saddr TLobby::get_seq_phase(int id) { return get_online_message_text(id); }
 void TLobby__sub_8013A16C(void) {  }
 void lobby_debug_printf_stub(const char *fmt, ...) {}
 void TLobby::construct_global_arrays() {
-    __construct_array(data_80506A6C, (void *)__ct__18TPlyJoinLobbyEntryFv, (void *)__dt__18TPlyJoinLobbyEntryFv, 0x43C, 0xC);
+    __construct_array(join_entries, (void *)__ct__18TPlyJoinLobbyEntryFv, (void *)__dt__18TPlyJoinLobbyEntryFv, 0x43C, 0xC);
     __register_global_object(0, (void *)TLobby::destroy_join_entries, join_entries_dtor_registration);
     __construct_array(game_join_player_records, (void *)__ct__17TPlyJoinLobbyDataFv, 0, 0x20, 4);
 }
@@ -2748,7 +2748,7 @@ void TLobby::construct_global_arrays() {
 
 TPlyJoinLobbyData::TPlyJoinLobbyData() {}
 void TLobby::destroy_join_entries() {
-    __destroy_arr(data_80506A6C, (void *)__dt__18TPlyJoinLobbyEntryFv, 0x43c, 0xc);
+    __destroy_arr(join_entries, (void *)__dt__18TPlyJoinLobbyEntryFv, 0x43c, 0xc);
 }
 
 

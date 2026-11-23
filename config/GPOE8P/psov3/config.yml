@@ -611,10 +611,10 @@ force_active:
   - card_list_window__6TLobby
   - current_dialog_window__6TLobby
   - lobby_debug_delete_player_format
-  - data_80506A6C__6TLobby
+  - join_entries__6TLobby
   - TLobby__data_80513D10
-  - data_805D5588__6TLobby
-  - data_805D558C__6TLobby
+  - room_change_pending__6TLobby
+  - pending_local_client_id__6TLobby
   - data_805D55B8__6TLobby
   - TLobby__data_805D5EE0
   - deferred_player_setup_state__6TLobby
