@@ -1050,7 +1050,7 @@ s32 TAdSinglePlyChrSelectGC::setup(int quest_download_server) { card_load_channe
 int TAdSinglePlyChrSelectGC__sub_801FD990(s32 chan) {
     system_save_card_channel = chan;
     lbl_805D49B4 = 1;
-    return TAdSinglePlyChrSelectGC::draw_window_bg((s32)chan, (saddr)&pso_system_card_filename, (s32)system_save_file_buffer, (s32)system_save_file_block_count);
+    return TAdSinglePlyChrSelectGC::draw_window_bg((s32)chan, (saddr)&pso_system_card_filename, (saddr)system_save_file_buffer, (s32)system_save_file_block_count);
 }
 
 s32 pso_system_load_gc(void) {
@@ -1079,7 +1079,7 @@ s32 TAdSinglePlyChrSelectGC__sub_801FDA4C(void) {
     if (chr_select_state < 2) {
         TAdSinglePlyChrSelectGC::set_quest_download_server((int)((int) ((s32) chr_select_state)));
         (*(s32 *)&lbl_805D49B4) = 1;
-        var_r0 = ((s32)TAdSinglePlyChrSelectGC::draw_window_bg((s32)character_save_card_slot, (s32)((saddr)pso_character_card_filename.filename), (s32)character_save_file_buffer, (s32)character_save_file_block_count));
+        var_r0 = ((s32)TAdSinglePlyChrSelectGC::draw_window_bg((s32)character_save_card_slot, (s32)((saddr)pso_character_card_filename.filename), (saddr)character_save_file_buffer, (s32)character_save_file_block_count));
     }
     return var_r0;
 }
@@ -1092,7 +1092,7 @@ s32 TAdSinglePlyChrSelectGC__sub_801FDAAC(void) {
     if (chr_select_state < 2) {
         TAdSinglePlyChrSelectGC::set_quest_download_server((int) ((s32) chr_select_state));
         (*(s32 *)&lbl_805D49B4) = 1;
-        var_r4 = ((s32)TAdSinglePlyChrSelectGC::draw_window_bg((s32)character_save_card_slot, (s32)((saddr)pso_character_card_filename.filename), (s32)character_save_file_buffer, (s32)character_save_file_block_count));
+        var_r4 = ((s32)TAdSinglePlyChrSelectGC::draw_window_bg((s32)character_save_card_slot, (s32)((saddr)pso_character_card_filename.filename), (saddr)character_save_file_buffer, (s32)character_save_file_block_count));
     }
     card_load_sequence_state = 0x13;
     return var_r4;
@@ -1740,7 +1740,7 @@ s32 TAdSinglePlyChrSelectGC::check_ready() {
 
     stop_pad_rumble();
     var_r3 = 0;
-    if (((u32) guild_card_save_payload != 0U) && ((u32) guild_card_save_file_buffer != 0U)) {
+    if (((u32) guild_card_save_payload != 0U) && (guild_card_save_file_buffer != NULL)) {
         TAdSinglePlyChrSelectGC__sub_801FFF14();
         var_r3 = 1;
     }
@@ -1753,7 +1753,7 @@ s32 TAdSinglePlyChrSelectGC::try_confirm_selection() {
 
     stop_pad_rumble();
     var_r3 = 0;
-    if (((u32) system_save_payload != 0U) && ((u32) system_save_file_buffer != 0U)) {
+    if (((u32) system_save_payload != 0U) && (system_save_file_buffer != NULL)) {
         TAdSinglePlyChrSelectGC::create_instance();
         var_r3 = 1;
     }
@@ -3113,7 +3113,7 @@ void init_fresh_character_card(void) {
 }
 
 s32 TAdSinglePlyChrSelectGC::free_buffer() {
-    if ((u32) guild_card_save_file_buffer != 0U) {
+    if (guild_card_save_file_buffer != NULL) {
         TAdSinglePlyChrSelectGC::safe_free((uaddr)((void*)guild_card_save_file_buffer));
         guild_card_save_file_buffer = NULL;
         return 1;
@@ -3123,7 +3123,7 @@ s32 TAdSinglePlyChrSelectGC::free_buffer() {
 
 
 s32 TAdSinglePlyChrSelectGC::free_data() {
-    if ((u32) system_save_file_buffer != 0U) {
+    if (system_save_file_buffer != NULL) {
         TAdSinglePlyChrSelectGC::safe_free((uaddr)((void*)system_save_file_buffer));
         system_save_file_buffer = NULL;
         return 1;
@@ -3137,7 +3137,7 @@ extern "C" {
 s32 buffer_init(void) {
     s32 size;
 
-    if ((u32) guild_card_save_file_buffer == 0U) {
+    if (guild_card_save_file_buffer == NULL) {
         size = guild_card_save_file_block_count << 0xD;
         guild_card_save_file_buffer = (u8 *)TQuestVmDownLoadServer::alloc(size);
         memset((void *)guild_card_save_file_buffer, 0, size);
@@ -3150,7 +3150,7 @@ s32 buffer_init(void) {
 s32 alloc_global_buffer(void) {
     s32 size;
 
-    if ((u32) system_save_file_buffer == 0U) {
+    if (system_save_file_buffer == NULL) {
         size = system_save_file_block_count << 0xD;
         system_save_file_buffer = (u8 *)TQuestVmDownLoadServer::alloc(size);
         memset((void *)system_save_file_buffer, 0, size);
@@ -3163,7 +3163,7 @@ s32 alloc_global_buffer(void) {
 }
 
 s32 TAdSinglePlyChrSelectGC::free() {
-    if ((u32) character_save_file_buffer != 0U) {
+    if (character_save_file_buffer != NULL) {
         TAdSinglePlyChrSelectGC::safe_free((uaddr)((void*)character_save_file_buffer));
         character_save_file_buffer = NULL;
         return 1;
@@ -3177,7 +3177,7 @@ extern "C" {
 s32 init_buffer(void) {
     s32 size;
 
-    if ((u32) character_save_file_buffer == 0U) {
+    if (character_save_file_buffer == NULL) {
         size = character_save_file_block_count << 0xD;
         character_save_file_buffer = (u8 *)TQuestVmDownLoadServer::alloc(size);
         memset((void *)character_save_file_buffer, 0, size);
