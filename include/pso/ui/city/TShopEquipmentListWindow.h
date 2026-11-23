@@ -15,7 +15,7 @@ struct TShopEquipmentListWindow : public TShopWindowBase {
     virtual void display_shop_message(s32 id, s32 flags);
     u8 _pad1C[0x4];
     u32 m_20;
-    uaddr m_24;
+    uaddr player;
     TShopWindowBase *sequence;  // the shop sequence that opened it; messages go to it
     TWindowMenu *m_2c;
     uaddr m_30;

@@ -42,7 +42,7 @@ const char *TWindowDeposit::class_name = "TWindowDeposit";
 extern "C" {
 
 void TWindowDeposit::render_status(WindowDrawContext *context) {
-    draw_window_tab(context, &context->inner_x, 3, this->m_60);
+    draw_window_tab(context, &context->inner_x, 3, this->width);
 }
 
 void TWindowDeposit::render() {
@@ -64,12 +64,12 @@ TWindowDeposit::TWindowDeposit(s16 client)
     m_name = class_name;
     text = get_message_text(2);
     text_width = (f32)calc_text_width((char *)text);
-    m_60 = TWindowSubStatusDisp__sub_802877A4(96.0f + (12.0f + text_width));
+    width = TWindowSubStatusDisp__sub_802877A4(96.0f + (12.0f + text_width));
     label = (u8 *)get_array_entry(0);
     amount = (TUnk_804CF998 *)get_array_entry(1);
     set_text_entry_string(label, text, 0);
     amount->x = 96.0f + (12.0f + (8.0f + text_width));
-    target_size[0] = TWindowSubStatusDisp::get_base_y(m_60);
+    target_size[0] = TWindowSubStatusDisp::get_base_y(width);
     save_position();
     if (TCameraCtrl::get_camera_id() > 2) {
         scale[0] = 0.75f;

@@ -15,7 +15,7 @@ void TWindowSubEquip::update_displayed_item() {
     temp_r3 = ((TWindowMenuIconLine *)this->equip_kind_list)->get_cursor_value();
     if (temp_r3 != (s32) this->m_24) {
         this->m_24 = temp_r3;
-        TWindowHelpItem__set_displayed_item_by_id((u8 *)this->m_30, temp_r3);
+        TWindowHelpItem__set_displayed_item_by_id((u8 *)this->window_help_item, temp_r3);
     }
 }
 
@@ -35,7 +35,7 @@ void TWindowSubEquip::update() {
         }
         if (item_id != (s32) this->m_20) {
             this->m_20 = item_id;
-            show_item_by_id__15TWindowHelpItemFPvi((u8 *)this->m_30, item_id);
+            show_item_by_id__15TWindowHelpItemFPvi((u8 *)this->window_help_item, item_id);
         }
     }
 }

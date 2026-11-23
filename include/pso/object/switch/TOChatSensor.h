@@ -8,7 +8,7 @@ struct TOChatSensor : public TObjBase {
     TOChatSensor(TObject *parent, void *arg2);
     virtual ~TOChatSensor();
     u32 m_90;
-    u16 m_94;
+    u16 id;
     u8 unk_96[0x2];
     u32 m_98;
     u8 unk_9C[0x4];

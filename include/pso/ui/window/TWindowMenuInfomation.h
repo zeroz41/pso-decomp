@@ -32,7 +32,7 @@ public:
     void create_sub_window(const char *title);
     u16 m_70;
     s16 next_entry;
-    s16 m_74;
+    s16 index;
     s16 entry_capacity;
     TWindowSubStatusDisp *heading;  // type-1 heading made by create_sub_window
     u8 unk_7C[0x4];

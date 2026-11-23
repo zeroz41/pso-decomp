@@ -60,6 +60,6 @@ void open_yes_no_prompt(TWindowMessageYesNo *dialog, u32 title, s32 text, s32 po
     reinterpret_cast<TWindowSubComCard *>(dialog->message_menu)->calc_layout_height(width);
     dialog->get_choice_menu_position(&position);
     dialog->choice_menu = create_yes_no_window(&position, dialog->client_id,
-                                              reinterpret_cast<const char *>(dialog->m_20),
-                                              reinterpret_cast<const char *>(dialog->m_1c));
+                                              reinterpret_cast<const char *>(dialog->yes_text),
+                                              reinterpret_cast<const char *>(dialog->no_text));
 }

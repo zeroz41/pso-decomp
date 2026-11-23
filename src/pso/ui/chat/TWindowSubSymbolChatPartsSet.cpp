@@ -171,7 +171,7 @@ static const NJS_POINT2 lbl_8044FC30 = {178.0f, 188.0f};
 
 struct Pt_80286120 { u8 pad[8]; f32 f8; f32 fc; };
 
-struct Ps_80286120 { u8 pad[0x69]; s8 f69; u8 pad6a[0xA]; s32 f74; };
+struct Ps_80286120 { u8 pad[0x69]; s8 f69; u8 pad6a[0xA]; s32 index; };
 
 extern "C" {
 void setup_part_sprites__28TWindowSubSymbolChatPartsSetFPvPvPvUsiiii(void *, void *, void *, u16, s32, s32, s32, s32);
@@ -185,7 +185,7 @@ void TWindowSubSymbolChatPartsSet::draw_selected_part_cursor(void *ctx) {
     switch (arg0->f69) {
     case 1:
     case 3:
-        e = (Pt_80286120 *)TWindowSubSymbolChatPartsSet::get_parts_entry(arg0, arg0->f74);
+        e = (Pt_80286120 *)TWindowSubSymbolChatPartsSet::get_parts_entry(arg0, arg0->index);
         sp.x = e->f8 - 3.0f;
         sp.y = e->fc - 3.0f;
         TWindowSubSymbolChatFaceType__sub_80283C84(ctx, &sp, 38.0f, 0.1f);

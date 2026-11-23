@@ -45,10 +45,10 @@ void TObjPlayer::queue_destruction() { TObject::queue_destruction(); }
 
 void TUnk_8048E1A4::update_freeze_shell_timer() {
     u8 *arg0 = (u8 *)this;
-    this->m_340 = (f32) (this->m_340 - 0.4f);
-    if (this->m_340 <= -1.0f) {
+    this->color = (f32) (this->color - 0.4f);
+    if (this->color <= -1.0f) {
         *(s32 *)((s8 *)arg0 + 0x334) = 3;
-        this->m_340 = (f32) -1.0f;
+        this->color = (f32) -1.0f;
     }
 }
 
@@ -192,7 +192,7 @@ void TUnk_8048E1A4::render() {
         case 2:
             saved_model_render_flags = model_render_flags;
             model_render_flags = saved_model_render_flags | 0x8820;
-            set_constant_material((const NJS_ARGB *)((&this->m_340)));
+            set_constant_material((const NJS_ARGB *)((&this->color)));
             draw_ginja_object(this->model);
             model_render_flags &= 0xFFFF77DF;
             set_chunk_material_override_pair(0xFF00, 0);
@@ -279,7 +279,7 @@ void TLobby::load_freeze_ice_resource() {
 
 }
 TUnk_8048E1A4::~TUnk_8048E1A4() {
-    if (this->m_350 != NULL) { TParticleCtrl::release(this->m_350); }
+    if (this->emitter != NULL) { TParticleCtrl::release(this->emitter); }
 }
 
 

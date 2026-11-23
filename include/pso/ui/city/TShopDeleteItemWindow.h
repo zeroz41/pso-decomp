@@ -27,10 +27,10 @@ struct TShopDeleteItemWindow : public TShopWindowBase {
     TWindowMenu *m_34;
     TWindowInputNumber *m_38;
     TWindowHelpItem *m_3c;
-    TItemData m_40;  // the selected item
+    TItemData displayed_item_colored;  // the selected item
     u8 m_54;
     u8 _pad55[0x3];
-    s32 m_58;
+    s32 room_table_entry;
     s32 m_5c;  // quantity
     s32 m_60;  // cursor
     TShopWindowBase *m_64;  // owner

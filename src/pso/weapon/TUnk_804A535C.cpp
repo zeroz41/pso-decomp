@@ -26,7 +26,7 @@
 #include "pso/ui/frontend/TAdRicoRing_8001BEE8.h"
 #include "pso/system/task/TMainTask.h"
 
-struct Ent_8012C384 { u8 pad[0x1c]; u8 f1c[0x10]; };
+struct Ent_8012C384 { u8 pad[0x1c]; u8 position[0x10]; };
 
 struct Mylla_8012C384 { u8 pad[0xa4]; Ent_8012C384 *ents; s32 count; };
 
@@ -39,7 +39,7 @@ void rocket_punch_target_impact(void *self, u32 a, u32 b, s32 idx) {
     rocket_punch_return_timer(a);
     m = find_entity_by_id(b);
     if (m && m->ents && idx < m->count) {
-        spawn_particle_effect((const Vec *)m->ents[idx].f1c, 0x45);
+        spawn_particle_effect((const Vec *)m->ents[idx].position, 0x45);
     }
 }
 

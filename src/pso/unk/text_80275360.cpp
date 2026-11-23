@@ -18,7 +18,7 @@ void TWindowSubComCardList::sub_80275360() {
     saddr msg;
 
     this->reset_entries();
-    index = m_8c->get_type();
+    index = storage->get_type();
     index *= 7;
     for (n = 0; n < 7; n++, index++) {
         if (index >= (s32)this->card_count) {

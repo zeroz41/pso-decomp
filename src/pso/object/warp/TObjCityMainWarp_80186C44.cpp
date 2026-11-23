@@ -25,7 +25,7 @@ struct Obj_80186DA0 {
     u8 padDE[2];
     s16 fE0;
     u8 padE2[0x16C - 0xE2];
-    s32 f16C;
+    s32 id;
 };
 
 extern "C" {
@@ -85,7 +85,7 @@ void TObjCityMainWarp::update_floor_switch_state() {
         arg0->fE0 = 1;
         break;
     case 1:
-        if (arg0->f16C >= 0 && is_current_floor_switch_set((u16)arg0->f16C) == 1) {
+        if (arg0->id >= 0 && is_current_floor_switch_set((u16)arg0->id) == 1) {
             arg0->fDC = 0;
         }
         break;

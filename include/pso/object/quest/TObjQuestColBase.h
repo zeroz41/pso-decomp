@@ -17,7 +17,7 @@ struct TObjQuestColBase : public TObjCollidable {
     s32 update_trigger_state(f32);
     virtual void render();
     f32 radius;  // scale.x; is_within_range tests radius squared (inferred name)
-    u32 m_b0;
+    u32 label;
     u32 m_b4;
     TQuestThread *m_b8;  // the quest thread run_task started, until it is queued for destruction
     s32 is_within_range(f32 farg0);

@@ -42,10 +42,10 @@ struct Door_80289EE0 { u8 pad[0xD8]; saddr sw[8]; };
 
 struct Door_8028A28C {
     u8 pad0[0x24];
-    s32 f24;
+    s32 texlist;
     u8 pad28[0x10];
     u8 f38[0x28];
-    s32 f60;
+    s32 angle;
     u8 pad64[0x24];
     s32 f88;
     u8 pad8c[0x3C];
@@ -172,9 +172,9 @@ void TODoorFourLightRuins::draw_model_and_lights(void *arg0) {
     {
     u8 *p = self->fd4;
     push_matrix();
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(self->f24));
+    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(self->texlist));
     post_translate_matrix(self->f38);
-    rotate_matrix_y(0, self->f60);
+    rotate_matrix_y(0, self->angle);
     draw_ginja_model(*(void **)((s8 *)p + 4));
     draw_ginja_model(*(void **)((s8 *)(*(u8 **)((s8 *)p + 0x2C)) + 4));
     }
@@ -183,7 +183,7 @@ void TODoorFourLightRuins::draw_model_and_lights(void *arg0) {
         if (lit[i] == 1) {
             TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>((saddr)get_green_door_textures()));
         } else {
-            TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(self->f24));
+            TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(self->texlist));
         }
         if (*a != 0) {
             push_matrix();

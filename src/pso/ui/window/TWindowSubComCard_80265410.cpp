@@ -402,7 +402,7 @@ void TWindowSubComCard::calc_layout_height(f32 width) {
     if (this->m_2c & 0x40) {
         h += 6.0f;
     }
-    this->m_38 = width;
+    this->width = width;
     *(f32 *)(((u8 *)this) + 0x3C) = 20.0f + h;
     *(f32 *)(((u8 *)this) + 0x7C) = h;
     ((TWindowBase *)((u8 *)this))->save_position();

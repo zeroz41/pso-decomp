@@ -54,7 +54,7 @@ extern "C" {
 struct Obj_80263D7C; struct Obj_80263DBC;
 }
 
-struct Elt80263D94_80263d94_80263B70 { s16 f0; s16 f2; s32 f4; };
+struct Elt80263D94_80263d94_80263B70 { s16 f0; s16 id; s32 f4; };
 
 struct Obj_80263D7C { u8 pad[0x50]; s16 f50; u8 pad3[0x5c - 0x52]; s32 f5c; };
 
@@ -476,7 +476,7 @@ void TWindowMainMenu::add_menu_entry(s16 id) {
     struct Elt80263D94_80263d94_80263B70 *arr = (struct Elt80263D94_80263d94_80263B70 *)this;
     struct Elt80263D94_80263d94_80263B70 *e = (struct Elt80263D94_80263d94_80263B70 *)((char *)&arr[*(s16 *)((s8 *)((u8 *)this) + 0x50)] + 0x28);
     e->f0 = (s16) *(s16 *)((s8 *)((u8 *)this) + 0x52);
-    e->f2 = id;
+    e->id = id;
     e->f4 = (s32) *(s32 *)((s8 *)((u8 *)this) + 0x5C);
 }
 

@@ -424,7 +424,7 @@ TObjSeabedDolphin::TObjSeabedDolphin(TObject *parent, void *set_data) : TObjPath
   s32 var_r0;
   s32 temp_r3;
   motion_model = get_bml_model((BmlResource *)(*(u8 * *)&seabed_dolphin_bml_archive), 0);
-  m_9c = get_bml_motion((*(u8 * *)&seabed_dolphin_bml_archive), 5);
+  bml_motion = get_bml_motion((*(u8 * *)&seabed_dolphin_bml_archive), 5);
   temp_r3 = set_params[0];
   if (temp_r3 < 0)
   {
@@ -476,7 +476,7 @@ void TObjSeabedDolphin::vfunc_14() {
     rotate_matrix_y(0, this->m_b8);
     rotate_matrix_z(0, this->m_c0);
     set_motion_packed_rotation();
-    draw_model_motion(this->motion_model, (void *)this->m_9c, this->m_a8);
+    draw_model_motion(this->motion_model, (void *)this->bml_motion, this->m_a8);
     clear_motion_packed_rotation();
     pop_matrix();
 }
@@ -605,7 +605,7 @@ TObjJungleEbi::TObjJungleEbi(TObject *parent, void *set_data) : TObjPathObj(pare
   s32 var_r0;
   s32 temp_r3;
   motion_model = get_bml_model((BmlResource *)(*(u8 * *)&jungle_ebi_model_resource), 0);
-  m_9c = get_bml_motion((*(u8 * *)&jungle_ebi_model_resource), 0);
+  bml_motion = get_bml_motion((*(u8 * *)&jungle_ebi_model_resource), 0);
   temp_r3 = set_params[0];
   if (temp_r3 < 0)
   {
@@ -653,9 +653,9 @@ void TObjJungleEbi::vfunc_14() {
     post_translate_matrix((u8 *)&this->position);
     rotate_matrix_y(0, this->rotation_y);
     post_translate_matrix((u8 *)&this->unk_AC);
-    rotate_matrix_y(0, this->m_b8);
+    rotate_matrix_y(0, this->angle);
     rotate_matrix_z(0, this->m_c0);
-    draw_model_motion(this->motion_model, (void *)this->m_9c, this->m_a8);
+    draw_model_motion(this->motion_model, (void *)this->bml_motion, this->m_a8);
     pop_matrix();
 }
 
@@ -666,7 +666,7 @@ s32 TObjJungleEbi::sub_802C2548() {
     s32 tmp;
     s32 r;
     Obj_802C2548 *self = (Obj_802C2548 *)this;
-    this->m_b8 = 0;
+    this->angle = 0;
     self->fBC = 0;
     this->m_c0 = 0;
     self->fC4 = 0;
@@ -680,7 +680,7 @@ s32 TObjJungleEbi::sub_802C2548() {
     VecCopy((Vec *)&d, (const Vec *)&b);
     subtract_vector(&d, &a);
     direction_to_rotation_xz((u8 *)&d, &self->fBC, &tmp);
-    this->m_b8 = (s32)(lbl_80471960[0] * atan2_float(b.x - a.x, b.z - a.z));
+    this->angle = (s32)(lbl_80471960[0] * atan2_float(b.x - a.x, b.z - a.z));
     return r;
 }
 
@@ -722,10 +722,10 @@ s32 TObjJungleEbi::update_path_follow_rotation(void *, f32) {
     direction_to_rotation_xz((u8 *)((Vec *)&d), &tmp, &tmp2);
     }
     self->fBC = approach_angle_limited(self->fBC, tmp, e->e);
-    old = this->m_b8;
+    old = this->angle;
     tmp = (s32)(lbl_80471960[0] * atan2_float(b.x - a.x, b.z - a.z));
     if (!(e->f & 2)) {
-        this->m_b8 = approach_angle_limited(old, tmp, e->e);
+        this->angle = approach_angle_limited(old, tmp, e->e);
     }
     if (!(e->f & 4)) {
         diff = angle_diff_s16(old, tmp);
@@ -794,7 +794,7 @@ TObjJungleBird::TObjJungleBird(TObject *parent, void *set_data) : TObjPathObj(pa
   s32 var_r0;
   s32 temp_r3;
   motion_model = get_bml_model((BmlResource *)(*(u8 * *)&jungle_bird_bml_resource), 0);
-  m_9c = get_bml_motion((*(u8 * *)&jungle_bird_bml_resource), 0);
+  bml_motion = get_bml_motion((*(u8 * *)&jungle_bird_bml_resource), 0);
   temp_r3 = set_params[0];
   if (temp_r3 < 0)
   {
@@ -845,7 +845,7 @@ void TObjJungleBird::vfunc_14() {
     post_translate_matrix((u8 *)&this->unk_AC);
     rotate_matrix_y(0, this->m_b8);
     rotate_matrix_z(0, this->m_c0);
-    draw_model_motion(this->motion_model, (void *)this->m_9c, this->m_a8);
+    draw_model_motion(this->motion_model, (void *)this->bml_motion, this->m_a8);
     pop_matrix();
 }
 

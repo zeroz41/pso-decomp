@@ -15,7 +15,7 @@ struct TWindowMakeTeam : public TObject {
     u8 m_1c;
     u8 m_1d;
     s8 m_1e;
-    s8 m_1f;
+    s8 selected_value;
     s32 m_20;
     char *name;
     char *comment;

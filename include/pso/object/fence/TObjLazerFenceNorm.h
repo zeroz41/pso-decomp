@@ -24,7 +24,7 @@ struct TObjLazerFenceNorm : public TObjCollidable {
     f32 frame;  // the beam motion's frame
     void * m_bc;
     u8 unk_C0[0x4];
-    s32 m_c4;
+    s32 bml_motion;
     u8 unk_C8[0x10];
     void select_models();
     static void *create(void *set_data);

@@ -17,7 +17,7 @@ struct TShopArmorListWindow : public TShopWindowBase {
     virtual void display_shop_message(s32 id, s32 flags);
     u8 _pad1C[0x4];
     u32 m_20;
-    uaddr m_24;
+    uaddr player;
     TShopWindowBase *sequence;  // the shop sequence that opened it; messages go to it
     TWindowBase *item_list;   // 0x2C: create_item_list_window
     TWindowMenu *choice_menu;          // 0x30: create_window_menu / create_yes_no_window
@@ -33,7 +33,7 @@ struct TShopArmorListWindow : public TShopWindowBase {
     u8 unk_76[0x2];
     s16 m_78;
     u8 unk_7A[0x2];
-    s32 m_7c;
+    s32 cursor_value;
     u8 unk_80[0x170];
     u32 m_1f0;
     u32 m_1f4;

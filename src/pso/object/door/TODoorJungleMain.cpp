@@ -118,7 +118,7 @@ struct VObj_8029B428 : VBase_8029B428 {
 struct Door_8029B428 : VObj_8029B428 {
     u8 pad1c[0x38 - 0x1C];
     u8 xf[0x28];
-    s32 f60;
+    s32 angle;
     u8 pad64[0xB4 - 0x64];
     f32 fb4;
     u8 padb8[4];
@@ -293,7 +293,7 @@ void TODoorJungleMain::render() {
         TObjFish::set_global_param(door_jungle_main_gvm_texture);
         push_matrix();
         post_translate_matrix(self->xf);
-        rotate_matrix_y(NULL, self->f60);
+        rotate_matrix_y(NULL, self->angle);
         if (self->flags & 1) {
             draw_ginja_model_with_motion((void *)get_bml_model((BmlResource *)TODoorJungleMain__bml_resource, 3), self->fbc, self->fb4);
         } else {

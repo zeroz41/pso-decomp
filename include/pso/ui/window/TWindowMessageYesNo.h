@@ -16,8 +16,8 @@ struct TWindowMessageYesNo : public TObject {
     void close();
     s32 get_selected_value();
     s32 is_cancelled();
-    u32 m_1c;
-    u32 m_20;
+    u32 no_text;
+    u32 yes_text;
     s32 client_id;
     TWindowMenu *message_menu;
     TWindowMenu *choice_menu;

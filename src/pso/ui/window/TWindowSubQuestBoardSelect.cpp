@@ -82,7 +82,7 @@ void TWindowSubQuestBoardSelect::sub_8027D230() {
     u8 *arg0 = (u8 *)this;
     u8 *str;
     u8 *temp_r3;
-    str = (u8 *)&quest_board_handlers + ((s8) this->m_61 * 0x24);
+    str = (u8 *)&quest_board_handlers + ((s8) this->slot * 0x24);
     temp_r3 = (u8 *)(((TWindowBase *)arg0)->get_array_entry(1));
     set_text_entry_string((u8 *)temp_r3, (uaddr)str, 0);
     measure_message_text_width(temp_r3, 100000.0f);
@@ -120,7 +120,7 @@ void TWindowSubQuestBoardSelect::update_slot_display_flags() {
     } while (var_r30 < 6);
     array_entry = (u16 *)get_array_entry(1);
     if (var_r29 != 0) {
-        *(s8 *)&this->m_61 = -1;
+        *(s8 *)&this->slot = -1;
         *array_entry |= 2;
         this->m_60 = (u8) (this->m_60 | 4);
         return;
@@ -133,14 +133,14 @@ void TWindowSubQuestBoardSelect::update_slot_display_flags() {
 void TWindowSubQuestBoardSelect::select_next() {
     u8 temp_r3;
 
-    if ((this->is_shortcut_active() == 0) && (get_slot_flag(this->m_61) == 0)) {
+    if ((this->is_shortcut_active() == 0) && (get_slot_flag(this->slot) == 0)) {
         do {
-            this->m_61 = (this->m_61 + 1);
-            temp_r3 = this->m_61;
+            this->slot = (this->slot + 1);
+            temp_r3 = this->slot;
             if ((s8) temp_r3 > 6) {
-                this->m_61 = (temp_r3 - 6);
+                this->slot = (temp_r3 - 6);
             }
-        } while (get_slot_flag(this->m_61) == 0);
+        } while (get_slot_flag(this->slot) == 0);
         sub_8027D230();
     }
 }
@@ -162,10 +162,10 @@ void TWindowSubQuestBoardSelect__sub_8027D444(TWindowSubQuestBoardSelect *self, 
     if (ctx->fade < 0) {
         return;
     }
-    if (self->get_slot_flag(self->m_61) == 0) {
+    if (self->get_slot_flag(self->slot) == 0) {
         return;
     }
-    e = (Entry_8027D444 *)self->get_array_entry(self->m_61 + 2);
+    e = (Entry_8027D444 *)self->get_array_entry(self->slot + 2);
     TWindowSubSymbolChatFaceType__sub_80283C84(ctx, &e->x, 56.0f, 0.3f);
     x = ctx->x + e->x;
     y = ctx->y + e->y;
@@ -229,14 +229,14 @@ void TWindowSubQuestBoardSelect::handle_page_input() {
         }
         if (d != 0) {
             do {
-                this->m_61 += d;
-                if (this->m_61 < 0) {
-                    this->m_61 += 6;
+                this->slot += d;
+                if (this->slot < 0) {
+                    this->slot += 6;
                 }
-                if (this->m_61 >= 6) {
-                    this->m_61 -= 6;
+                if (this->slot >= 6) {
+                    this->slot -= 6;
                 }
-            } while (get_slot_flag(this->m_61) == 0);
+            } while (get_slot_flag(this->slot) == 0);
             this->sub_8027D230();
         }
     }
@@ -298,7 +298,7 @@ TWindowSubQuestBoardSelect::TWindowSubQuestBoardSelect() : TWindowBase((u8 *)&TW
     ((TWindowSubComCard *)temp_r30)->get_field_20();
     temp_f2 = (f32) calc_text_width();
     *(f32 *)((s8 *)temp_r30 + 8) = 210.0f - 0.5f * temp_f2;
-    *(s8 *)&this->m_61 = -1;
+    *(s8 *)&this->slot = -1;
     update_slot_display_flags__26TWindowSubQuestBoardSelectFv(this, 0.5f, temp_f2);
     this->select_next();
 }

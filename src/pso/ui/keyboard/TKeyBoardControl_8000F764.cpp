@@ -218,7 +218,7 @@ void TKeyBoardControl__sub_8000F90C(s32 arg0) {
 }
 
 void set_queued_main_phase(s32 queued_main_phase) {
-    main_phase_state.unk8 = queued_main_phase;
+    main_phase_state.queued_main_phase = queued_main_phase;
 }
 
 s32 TKeyBoardControl__sub_8000F92C(void) {
@@ -264,7 +264,7 @@ void clear_keyboard_key_state(void) {
 
 s32 request_queued_main_phase(void) {
     main_phase_state.result = 2;
-    return main_phase_state.next = main_phase_state.unk8;
+    return main_phase_state.next = main_phase_state.queued_main_phase;
 }
 
 void request_main_phase(s32 arg0) {
@@ -274,7 +274,7 @@ void request_main_phase(s32 arg0) {
 
 void TKeyBoardControl__sub_8000F9E4(void) {
     main_phase_state.cur = 1;
-    main_phase_state.unk8 = 1;
+    main_phase_state.queued_main_phase = 1;
     main_phase_state.unkC = 1;
     main_phase_state.prev = 1;
 }

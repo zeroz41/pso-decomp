@@ -12,7 +12,7 @@ struct TWindowSubLog : public TObject {
     u32 m_1c;
     TWindowMainMenu *parent_menu;
     uaddr m_24;
-    uaddr m_28;
+    uaddr chat;
     void* m_2c;
     virtual void render();
     virtual void run_task();

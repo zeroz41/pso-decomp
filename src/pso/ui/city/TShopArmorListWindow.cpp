@@ -124,7 +124,7 @@ u8 *create_item_list_window(s32 arg0, s32 arg1, s32 arg2);
 TShopArmorListWindow::TShopArmorListWindow(saddr parent, saddr arg2, s32 arg3) : TShopWindowBase((TObject *)parent) {
     s32 sp8;
     this->m_name = TShopArmorListWindow__class_name;
-    this->m_24 = arg3;
+    this->player = arg3;
     this->sequence = (TShopWindowBase *)arg2;
     this->item_list = NULL;
     this->choice_menu = 0;
@@ -136,7 +136,7 @@ TShopArmorListWindow::TShopArmorListWindow(saddr parent, saddr arg2, s32 arg3) :
     this->m_48 = 0;
     this->m_1f4 = 0;
     this->m_1f0 = 0;
-    calc_item_count((TObjPlayer *)this->m_24, &sp8);
+    calc_item_count((TObjPlayer *)this->player, &sp8);
     TLobby::set_shop_armor_list_flag(sub_8022397C(), sp8);
 }
 
@@ -365,7 +365,7 @@ void TShopArmorListWindow::open_menu_window() {
     s32 entity_id;
 
     if (this->choice_menu == NULL) {
-        entity_id = ((TObjBase *)(this->m_24))->get_entity_id();
+        entity_id = ((TObjBase *)(this->player))->get_entity_id();
         this->choice_menu = create_window_menu((saddr)get_window_layout_position(0x2B), 2, entity_id);
         this->choice_menu->add_text_entry(get_shop_text(4), 6, 0);
         this->choice_menu->add_text_entry(get_shop_text(5), 6, 1);

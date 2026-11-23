@@ -73,7 +73,7 @@ GinjaTextureList *TODoorLaboNormal__red_texture_list;
 struct Door_802A0670 {
     u8 pad0[0x38];
     u8 f38[0x60 - 0x38];
-    s32 f60;
+    s32 angle;
     u8 pad64[0xC8 - 0x64];
     s32 fC8;
     u8 padCC[0xD0 - 0xCC];
@@ -184,7 +184,7 @@ void TODoorFourLightBase::render_lights() {
     }
     push_matrix();
     post_translate_matrix(self->f38);
-    rotate_matrix_y(0, self->f60);
+    rotate_matrix_y(0, self->angle);
     ((TODoorFourLightBase *)self)->draw_node_tree(self->fD4);
     pop_matrix();
     TParticleCtrl::end_effect_render();

@@ -31,7 +31,7 @@ struct TOAttackableCol : public TObjChara {
     void bswap_state();
     void broadcast_state();
     u8 unk_340[0x4];
-    s32 m_344;
+    s32 label;
     u8 unk_348[0x4];
     s32 m_34c;
 };

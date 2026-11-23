@@ -104,11 +104,11 @@ struct Sw_801936E0 {
     u8 padB4[0xD4 - 0xB4];
     s32 fD4;
     u8 padD8[0xE8 - 0xD8];
-    u16 fE8;
+    u16 slot;
     u8 padEA[0xEC - 0xEA];
     f32 fEC;
     u8 padF0[0x110 - 0xF0];
-    f32 f110;
+    f32 dv;
     u32 f114;
 };
 void PPCSync(void);
@@ -119,14 +119,14 @@ void TLazerFenceSw::draw_laser_beam() {
     s32 i;
 
     for (i = 0; i < 3; i++) {
-        set_ginja_model_texture_slot(lazer_fence_beam_node_table[i], self->fE8);
+        set_ginja_model_texture_slot(lazer_fence_beam_node_table[i], self->slot);
     }
     TObjFish::set_global_param(TLazerFenceSw__texture_list);
-    if (actor_frame_tick != self->f114 && self->f110 >= 1.0f) {
+    if (actor_frame_tick != self->f114 && self->dv >= 1.0f) {
         self->f114 = actor_frame_tick;
-        scroll_ginja_mesh_uvs(reinterpret_cast<NJS_OBJECT *>(lazer_fence_switch_scroll_node)->model, 0, (s32)self->f110, 5, 1);
+        scroll_ginja_mesh_uvs(reinterpret_cast<NJS_OBJECT *>(lazer_fence_switch_scroll_node)->model, 0, (s32)self->dv, 5, 1);
         PPCSync();
-        self->f110 = self->f110 - (f32)(s32)self->f110;
+        self->dv = self->dv - (f32)(s32)self->dv;
     }
     switch (self->fD4) {
     case 0:

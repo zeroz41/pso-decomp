@@ -14,7 +14,7 @@ struct TObjLazerFence4 : public TObjCollidable {
     u32 m_ac;
     u8 _padB0[0x8];
     u16 m_b8;
-    u16 m_ba;
+    u16 id;
     virtual void run_task();
     void init_models();
     void draw();

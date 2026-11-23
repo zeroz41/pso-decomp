@@ -34,7 +34,7 @@ struct TWindowSubComCard : public TObject {
     uaddr m_2c;
     void* m_30;
     u8 unk_34[0x4];
-    f32 m_38;
+    f32 width;
     u8 unk_3C[0x4];
     s32 m_40;
     u8 unk_44[0x4];

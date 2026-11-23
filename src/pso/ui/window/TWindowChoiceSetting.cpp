@@ -39,7 +39,7 @@ void TWindowMenuInfomation::request_close() {
     }
 }
 void TWindowMenuInfomation::draw() {
-    get_array_entry(this->m_74);
+    get_array_entry(this->index);
     if (TWindowSubComCard__sub_8026906C() == 0) {
         play_sound_effect(0x52D01, 0, 0, 0);
         this->m_70 = (u16) (this->m_70 | 2);
@@ -52,7 +52,7 @@ void TWindowMenuInfomation::move_next_choice() {
     s16 var_r31;
 
     play_sound_effect(0x54100, 0, 0, 0);
-    var_r31 = this->m_74;
+    var_r31 = this->index;
 loop_1:
     var_r31 += 1;
     if (var_r31 >= entry_capacity) {
@@ -62,9 +62,9 @@ loop_1:
         }
     } else {
 block_4:
-        if (var_r31 != (s16) this->m_74) {
+        if (var_r31 != (s16) this->index) {
             if (sub_80266B18(var_r31) != 0) {
-                this->m_74 = var_r31;
+                this->index = var_r31;
             } else {
                 goto loop_1;
             }
@@ -75,7 +75,7 @@ void TWindowMenuInfomation::move_cursor_prev() {
     s16 var_r31;
 
     play_sound_effect(0x54100, 0, 0, 0);
-    var_r31 = this->m_74;
+    var_r31 = this->index;
 loop_1:
     var_r31 -= 1;
     if (var_r31 < 0) {
@@ -85,9 +85,9 @@ loop_1:
         }
     } else {
 block_4:
-        if (var_r31 != (s16) this->m_74) {
+        if (var_r31 != (s16) this->index) {
             if (sub_80266B18(var_r31) != 0) {
-                this->m_74 = var_r31;
+                this->index = var_r31;
             } else {
                 goto loop_1;
             }
@@ -154,7 +154,7 @@ void TWindowMenuInfomation::clamp_scroll() {
 void TWindowMenuInfomation::draw_setting(saddr window_key_board_soft) {
     u16 *entry;
 
-    entry = (u16 *)this->get_array_entry(this->m_74);
+    entry = (u16 *)this->get_array_entry(this->index);
     if (*entry & 1) {
         draw_selection_bar(reinterpret_cast<WindowDrawContext *>(window_key_board_soft), (u8 *)entry, this->is_open());
     }
@@ -165,7 +165,7 @@ void TWindowMenuInfomation__ct(TWindowMenuInfomation *window, u32 rows) {
     WindowTextEntry *entry;
     window->m_name = lbl_805D3970;
     window->next_entry = 0;
-    window->m_74 = 0;
+    window->index = 0;
     window->entry_capacity = (s16)rows;
     window->m_70 = 0;
     window->heading = NULL;

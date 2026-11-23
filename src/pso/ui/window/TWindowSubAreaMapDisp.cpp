@@ -170,9 +170,9 @@ void TWindowSubAreaMapDisp::run_task() {
     }
 }
 TWindowSubAreaMapDisp::~TWindowSubAreaMapDisp() {
-    if ((u32) this->m_74 != 0U) {
+    if ((u32) this->title != 0U) {
         mem_free(*(void **)((s8 *)this + 0x74));
-        this->m_74 = 0U;
+        this->title = 0U;
     }
     if ((s32) this->m_6c != 0) {
         TWindowCtrl::clear_active_flag();
@@ -198,12 +198,12 @@ TWindowSubAreaMapDisp::TWindowSubAreaMapDisp() : TWindowBase((u8 *)&TWindowSubAr
         str = (u8 *)(get_floor_destination_name(get_current_floor_area()));
     }
     temp_r3 = (s32)measure_string_len((const char *)str);
-    this->m_74 = (saddr)mem_alloc((temp_r3 + 1));
-    strncpy((char *)this->m_74, (const char *)str, (u32)temp_r3 + 1);
+    this->title = (saddr)mem_alloc((temp_r3 + 1));
+    strncpy((char *)this->title, (const char *)str, (u32)temp_r3 + 1);
     temp_r3_2 = (saddr)::operator new(0x24);
     var_r0 = temp_r3_2;
     if (var_r0 != 0) {
-        var_r0 = (saddr)((TWindowSubStatusDisp *)temp_r3_2)->construct_type1_heading(this->m_74, (int) ((s32) this->client_index));
+        var_r0 = (saddr)((TWindowSubStatusDisp *)temp_r3_2)->construct_type1_heading(this->title, (int) ((s32) this->client_index));
     }
     this->m_70 = var_r0;
     this->m_6c = 0;

@@ -8,7 +8,7 @@ struct TObjRaderCol : public TObjBase {
     TObjRaderCol(TObject *parent, void *set_data);
     virtual ~TObjRaderCol();
     u8 unk_90[0x4];
-    u32 m_94;
+    u32 id;
     u32 m_98;
     u32 m_9c;
     virtual void render();

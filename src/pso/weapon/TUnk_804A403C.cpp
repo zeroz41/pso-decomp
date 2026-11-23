@@ -22,11 +22,11 @@
 #include "pso/system/SoundEffect.h"
 #include "pso/ui/frontend/TAdRicoRing_8001BEE8.h"
 
-struct Elem_80128A74 { u8 pad[0x1c]; u8 f1c[0x2c - 0x1c]; };
+struct Elem_80128A74 { u8 pad[0x1c]; u8 position[0x2c - 0x1c]; };
 
 struct Obj_80128A74 { u8 pad[0xa4]; Elem_80128A74 *elems; s32 count; };
 
-struct Obj_80128E08 { u8 pad[0x184]; void *f184; void *f188; u8 pad2[0x1fc - 0x18c]; u8 f1fc[4]; };
+struct Obj_80128E08 { u8 pad[0x184]; void *f184; void *f188; u8 pad2[0x1fc - 0x18c]; u8 flags[4]; };
 
 extern "C" {
 Obj_80128A74 *find_entity_by_id(s32);
@@ -38,7 +38,7 @@ void TObjPlayer__sub_80128A74(s32 a, uaddr b, s32 c, s32 d) {
     ((TObjPlayer *)b)->clear_rico_ring_flag();
     o = find_entity_by_id(c);
     if (o != 0 && o->elems != 0 && d < o->count) {
-        spawn_particle_effect((const Vec *)o->elems[d].f1c, 0x45);
+        spawn_particle_effect((const Vec *)o->elems[d].position, 0x45);
     }
 }
 
@@ -121,8 +121,8 @@ void TUnk_804A403C::vfunc_60() {
     Obj_80128E08 *self = (Obj_80128E08 *)this;
     switch (TObjPlayer::get_player_list()) {
     case 1:
-        if (test_flags_any((s32 *)self->f1fc, 2) == 0) {
-            if (test_flags_any((s32 *)self->f1fc, 1)) {
+        if (test_flags_any((s32 *)self->flags, 2) == 0) {
+            if (test_flags_any((s32 *)self->flags, 1)) {
                 p = self->f188;
             } else {
                 p = self->f184;

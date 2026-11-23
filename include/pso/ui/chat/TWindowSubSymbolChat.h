@@ -12,7 +12,7 @@ struct TWindowSubSymbolChat : public TObject {
     static const char *class_name;
     void sub_80281CC4();
     void sub_80281C60();
-    u8 m_1c;
+    u8 selected_value;
     u8 _pad1D[0x1];
     s16 symbol_index;
     uaddr m_20;

@@ -21,7 +21,7 @@ struct TWindowSubCustomEquip : public TWindowBase {
     u8 m_64;
     u8 m_65;
     s16 m_66;
-    u32 m_68;
+    u32 angle;
     TWindowSubStatusDisp *m_6c;
     void set_relative_pos(void *relative_pos);
     void layout_selection_parts(void *arg1);

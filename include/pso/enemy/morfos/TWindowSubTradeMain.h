@@ -73,7 +73,7 @@ struct TWindowSubTradeMain : public TObject {
     u8 unk_76[0xA];
     uaddr m_80;
     u8 unk_84[0x4];
-    s16 m_88;
+    s16 trade_state;
     u8 unk_8A[0x1E];
     void forward_to_child(s32 trade_state);
     void notify_child_if_present(s32 trade_state);

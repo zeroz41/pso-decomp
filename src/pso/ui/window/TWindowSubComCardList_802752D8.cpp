@@ -12,7 +12,7 @@ void TWindowSubComCardList::draw_card_list_selection(u8 *window_key_board_soft) 
   u16 *array_entry;
   if (!(actor_frame_tick & 0x10))
   {
-    page_row = (this->get_selected_index()) - (m_8c->get_type() * 7);
+    page_row = (this->get_selected_index()) - (storage->get_type() * 7);
     if ((page_row >= 0) && (page_row < 7))
     {
       array_entry = (u16 *) this->get_array_entry((s32) page_row);

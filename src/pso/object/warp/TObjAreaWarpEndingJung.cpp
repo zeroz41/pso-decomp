@@ -130,7 +130,7 @@ struct VObj_8019CAB0 : VBase_8019CAB0 {
 
 struct Data_8019CAB0 {
     u8 pad0[0xAC];
-    f32 fAC;
+    f32 range;
     void *fB0;
     u8 padB4[0xC0 - 0xB4];
     void *fC0;
@@ -659,7 +659,7 @@ void TObjAreaWarp::handle_area_selection() {
                 }
             }
             for (i = 0; i < 4; i++) {
-                t = find_warp_player_in_range(this, i, d->fAC);
+                t = find_warp_player_in_range(this, i, d->range);
                 if (t != NULL) {
                     found = 1;
                     if (d->fC0 != NULL) {
@@ -677,7 +677,7 @@ void TObjAreaWarp::handle_area_selection() {
                 this->vfunc_14();
             }
         } else {
-            TObjPlayer *t2 = find_warp_player_in_range(this, local_client_id, d->fAC);
+            TObjPlayer *t2 = find_warp_player_in_range(this, local_client_id, d->range);
             if (t2 != NULL) {
                 this->open_confirm_window(local_client_id);
                 if (this->vfunc_18(t2->get_controller_port()) != 0) {

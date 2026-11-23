@@ -16,7 +16,7 @@ struct TWindowSubEquip : public TObject {
     u32 m_24;
     u32 client_id;
     TWindowMainMenu *parent;
-    uaddr m_30;
+    uaddr window_help_item;
     uaddr equip_list;
     uaddr equip_kind_list;
     void update_displayed_item();

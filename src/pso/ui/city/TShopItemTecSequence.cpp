@@ -50,7 +50,7 @@ struct Stack_802202BC
   f32 spC;
 };
 struct W_802200A8 { u8 pad[0x1c0]; void *cb0; };
-struct S_802200A8 { u8 pad[0x24]; s32 f24; };
+struct S_802200A8 { u8 pad[0x24]; s32 player; };
 struct VBase_18_80220110 { char pad[0x18]; };
 struct Base_8021FE80_8021FE6C { char pad[0x18]; };
 typedef struct Stack_802202BC Stack_802202BC;
@@ -184,7 +184,7 @@ void TShopItemTecSequence::update_buy_sell_choice() {
 }
 
 void TShopItemTecSequence::open_item_list_window() {
-    W_802200A8 *o = (W_802200A8 *)new TShopItemListWindow((saddr)tl_05, (saddr)((S_802200A8 *)this), (s32)(((S_802200A8 *)this)->f24));
+    W_802200A8 *o = (W_802200A8 *)new TShopItemListWindow((saddr)tl_05, (saddr)((S_802200A8 *)this), (s32)(((S_802200A8 *)this)->player));
     o->cb0 = (void *)close__20TShopItemTecSequenceFPv;
     reset_controller_input_state();
     this->set_field_20(5);

@@ -156,7 +156,7 @@ void TOChatSensor::run_task() {
             break;
         }
     } else {
-        if (is_current_floor_switch_set(this->m_94) == 0) {
+        if (is_current_floor_switch_set(this->id) == 0) {
             check_player_proximity();
             return;
         }
@@ -190,11 +190,11 @@ void TOChatSensor::init_params() {
     temp_f0 = this->scale.x;
     *(f32 *)&this->unk_9C = (f32) (temp_f0 * temp_f0);
     if ((u32) this->m_90 == 0U) {
-        *(s32 *)&this->m_94 = (s32) this->set_params[0];
+        *(s32 *)&this->id = (s32) this->set_params[0];
     } else {
-        this->m_94 = (u16) this->set_params[0];
-        if ((u16) this->m_94 > 0x100U) {
-            this->m_94 = 0xFFFF;
+        this->id = (u16) this->set_params[0];
+        if ((u16) this->id > 0x100U) {
+            this->id = 0xFFFF;
         }
     }
     *(s32 *)&this->m_cc = (s32) *(s32 *)&this->set_params[1];

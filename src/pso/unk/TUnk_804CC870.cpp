@@ -77,7 +77,7 @@ struct Ctl_80232C50 {
     u8 pad28[4];
     s16 timer;
     u16 id;
-    u8 f30[4];
+    u8 pos[4];
 };
 
 extern "C" {
@@ -166,7 +166,7 @@ void TUnk_804CC888::run_task() {
             dir = -0x100;
             break;
         }
-        new TUnk_804CCA78((Vec *)((Ctl_80232C50 *)this)->f30, 0xF, 0x4002A60D, dir, (TObject *)tl_07);
+        new TUnk_804CCA78((Vec *)((Ctl_80232C50 *)this)->pos, 0xF, 0x4002A60D, dir, (TObject *)tl_07);
         ((TObject *)((Ctl_80232C50 *)this))->queue_destruction();
     }
 }

@@ -51,10 +51,10 @@ struct W_80347C50 {
     s32 depth;
     TWindowDD *child[8];
     u8 pad44[0x88 - 0x44];
-    s32 f88;
-    saddr f8C;
+    s32 entry_id;
+    saddr list_id;
     u8 pad90[0xB0 - 0x90];
-    s32 fB0;
+    s32 window_mode;
 };
 
 struct W_80347B70 {
@@ -346,7 +346,7 @@ TWindowDD *TWindowDD__sub_80347980(TWindowDD *self) {
         child = w->child[w->depth - 1];
         if (child != NULL) {
             self->update((saddr)child);
-            w->f88 = TWindowDD__sub_8034214C((u8 *)child);
+            w->entry_id = TWindowDD__sub_8034214C((u8 *)child);
         }
     }
     return child;
@@ -437,11 +437,11 @@ void TWindowDD::update_selection_state() {
 void TWindowDD__sub_80347C50(W_80347C50 *self) {
     s32 next;
 
-    next = dispatch_by_window_mode((u8 *)self, self->fB0, self->f88,
+    next = dispatch_by_window_mode((u8 *)self, self->window_mode, self->entry_id,
                                                                    self->child[self->depth]->get_field_68());
-    if (next != self->f8C) {
-        self->f8C = next;
-        reinterpret_cast<TWindowDD_WS_Word *>(self->child[self->depth + 1])->init_child(self->f8C);
+    if (next != self->list_id) {
+        self->list_id = next;
+        reinterpret_cast<TWindowDD_WS_Word *>(self->child[self->depth + 1])->init_child(self->list_id);
     }
 }
 

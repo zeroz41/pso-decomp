@@ -189,7 +189,7 @@ typedef struct VObj_18_33b813 VObj_18_33b813;
 struct RecoveredFields_80170F0C_arg0
 {
   u8 unknown_0[0x2A8];
-  saddr field_2A8;
+  saddr player_by_client_id;
   u8 unknown_2AC[0xA0];
   f32 field_34C;
   u8 unknown_350[0xC];
@@ -366,7 +366,7 @@ int TOMine::find_target_player() {
   new_var = -1;
   if (temp_r3 != new_var)
   {
-    ((RecoveredFields_80170F0C_arg0 *) arg0)->field_2A8 = (saddr)get_player_by_client_id(temp_r3);
+    ((RecoveredFields_80170F0C_arg0 *) arg0)->player_by_client_id = (saddr)get_player_by_client_id(temp_r3);
     ((TOMine *)arg0)->update_trigger();
   }
   return ((RecoveredFields_80170F0C_arg0 *) arg0)->field_35C;

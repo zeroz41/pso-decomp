@@ -69,7 +69,7 @@ public:
     virtual void m8(); virtual void m9(); virtual s32 m10();
 };
 
-struct Self_803310BC { u8 pad[0x28]; s32 f28; saddr f2c; };
+struct Self_803310BC { u8 pad[0x28]; s32 client; saddr f2c; };
 
 struct PB_80331178 { u8 pad[0x18]; };
 
@@ -80,7 +80,7 @@ public:
     virtual void m8(); virtual void m9(); virtual s32 m10();
 };
 
-struct Self_80331178 { u8 pad[0x28]; s32 f28; saddr f2c; };
+struct Self_80331178 { u8 pad[0x28]; s32 client; saddr f2c; };
 
 extern "C" {
 saddr get_window_layout_position(s32);
@@ -701,7 +701,7 @@ saddr TWindowSubTradeMain::create_trade_window() {
     if (p == NULL) {
         return 0;
     }
-    w = reinterpret_cast<saddr>(create_equip_kind_window(get_window_layout_position(0x60), &trade_window_pos, ((Self_80331178 *)this)->f28));
+    w = reinterpret_cast<saddr>(create_equip_kind_window(get_window_layout_position(0x60), &trade_window_pos, ((Self_80331178 *)this)->client));
     ((TWindowMenuIconLine *)w)->ensure_status_display(p->m10());
     ((TWindowSubTradeMain *)w)->set_trade_state(0);
     ((TWindowSubTradeMain *)w)->refresh_item_list((void*)(TLobby__sub_802D299C()));
@@ -713,11 +713,11 @@ saddr TWindowSubTradeMain::create_trade_window() {
 saddr TWindowSubTradeMain::open_trade_equip_window() {
     Plr_803310BC *p;
     saddr w;
-    p = get_player_by_client_id(((Self_803310BC *)this)->f28);
+    p = get_player_by_client_id(((Self_803310BC *)this)->client);
     if (p == NULL) {
         return 0;
     }
-    w = reinterpret_cast<saddr>(create_equip_kind_window(get_window_layout_position(0x61), &trade_equip_window_pos, ((Self_803310BC *)this)->f28));
+    w = reinterpret_cast<saddr>(create_equip_kind_window(get_window_layout_position(0x61), &trade_equip_window_pos, ((Self_803310BC *)this)->client));
     ((TWindowMenuIconLine *)w)->ensure_status_display(p->m10());
     ((TWindowSubTradeMain *)w)->set_trade_state(0);
     ((TWindowSubTradeMain *)w)->refresh_item_list((void*)(get_trade_window_state()));

@@ -34,7 +34,7 @@ void TWindowSubShortCutList::refresh_entries() {
     s32 index;
     ((TShopArmorListWindow *)this)->save_cursor_selection();
     reset_list();
-    index = m_88->get_type();
+    index = storage->get_type();
     var_r30 = 0;
     index *= 4;
     do {
@@ -82,20 +82,20 @@ void TWindowSubShortCutList::render() {
     if (status_display != NULL) {
         ((TWindowSubStatusDisp *)((void *)(status_display)))->forward_render((void *)(context));
     }
-    if (m_88 != NULL) {
-        draw_list_page_indicator(m_88, reinterpret_cast<WindowDrawContext *>(context));
+    if (storage != NULL) {
+        draw_list_page_indicator(storage, reinterpret_cast<WindowDrawContext *>(context));
     }
 }
 
 void TWindowSubShortCutList::run_task() {
     TWindowMenuIconLine::run_task();
-    if ((is_decided() == 0) && (handle_list_page_flip_input(this->m_88) != 0)) {
+    if ((is_decided() == 0) && (handle_list_page_flip_input(this->storage) != 0)) {
         refresh_entries();
     }
 }
 
 TWindowSubShortCutList::~TWindowSubShortCutList() {
-    delete_if_allocated(m_88, 1);
+    delete_if_allocated(storage, 1);
 }
 // index: the shortcut slot; its page (index / 4) picks the list page, its column the cursor.
 TWindowSubShortCutList::TWindowSubShortCutList(u8 *parent, s32 index)
@@ -106,7 +106,7 @@ TWindowSubShortCutList::TWindowSubShortCutList(u8 *parent, s32 index)
     row = index / 4;
     col = index % 4;
     ensure_status_display((saddr)(TWindowSubStatusDisp::get_message_10(0x2D)));
-    m_88 = new PageIndicator((s8)row, 5, local_client_id);
+    storage = new PageIndicator((s8)row, 5, local_client_id);
     set_flag70_bit10();
     refresh_entries();
     set_cursor_index(col);

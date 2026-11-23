@@ -152,10 +152,10 @@ s32 get_status_effect_icon_index(u32);
 TWindowLockOn::TWindowLockOn(s32 player, u16 id) : TWindowBase((u8 *)&lbl_804D0268, player, (u8 *)get_window_layout_position(0x1E)) {
     this->m_name = TWindowLockOn__name;
     if (TCameraCtrl::get_camera_id() > 2) {
-        this->m_68 = 0.7f;
+        this->scale = 0.7f;
         this->m_6c = 0.7f;
     } else {
-        this->m_68 = 1.0f;
+        this->scale = 1.0f;
         this->m_6c = 1.0f;
     }
     this->m_60 = 0xFFFF;
@@ -188,7 +188,7 @@ void TWindowLockOn::run_task() {
 void TWindowLockOn::render() {
     saddr context;
 
-    context = reinterpret_cast<saddr>(setup_window_draw_context((f32 *)&m_68));
+    context = reinterpret_cast<saddr>(setup_window_draw_context((f32 *)&scale));
     draw_window_frame((void *)context);
     if (target_position[0] == frame_position[0] && target_position[1] == frame_position[1] && target_size[0] == frame_size[0] && target_size[1] == frame_size[1]) {
         draw_visible_window_entries(

@@ -71,7 +71,7 @@ CollisionBody laser_fence_collision_body_parts[2][3] = {
 GinjaTextureList *lazer_fence_norm_texture_list;
 BmlResource *lazer_fence_norm_bml_resource;
 
-struct Obj_80192554 { u8 pad0[0x38]; u8 f38[0x24]; s32 f5C; s32 f60; u8 pad64[0x48]; s32 fAC; u8 padB0[8]; f32 fB8; s32 fBC; saddr fC0; s32 fC4; saddr fC8[4]; };
+struct Obj_80192554 { u8 pad0[0x38]; u8 f38[0x24]; s32 f5C; s32 f60; u8 pad64[0x48]; s32 fAC; u8 padB0[8]; f32 fB8; s32 fBC; saddr model; s32 fC4; saddr fC8[4]; };
 extern "C" {
 
 void post_translate_matrix(void *);
@@ -91,9 +91,9 @@ static const f32 lbl_805DBE58[1] = {0.0f};
 
 struct Node_80192A3C { u32 flags; void *model; u8 pad8[0x24]; Node_80192A3C *child; Node_80192A3C *sibling; };
 
-struct Fish_80192A3C { u8 pad0[0x8C]; s32 f8C; u8 pad90[0x2C]; Node_80192A3C *fBC; Node_80192A3C *fC0; s32 fC4; void *fC8[4]; };
+struct Fish_80192A3C { u8 pad0[0x8C]; s32 f8C; u8 pad90[0x2C]; Node_80192A3C *fBC; Node_80192A3C *bml_model; s32 fC4; void *fC8[4]; };
 
-struct Obj_80192B5C { u8 pad0[0x38]; u8 f38[0x24]; s32 f5C; s32 f60; u8 pad64[0x48]; s32 fAC; u8 padB0[8]; f32 fB8; saddr fBC; saddr fC0; saddr fC4; saddr fC8[4]; };
+struct Obj_80192B5C { u8 pad0[0x38]; u8 f38[0x24]; s32 f5C; s32 angle; u8 pad64[0x48]; s32 fAC; u8 padB0[8]; f32 frame; saddr fBC; saddr model; saddr motion; saddr fC8[4]; };
 
 
 struct Motion_80192CCC { u8 pad[4]; u32 frames; };
@@ -237,10 +237,10 @@ void TObjLazerFenceNorm::draw_animated_beam() {
     TObjFish::set_global_param(lazer_fence_norm_texture_list);
     push_matrix();
     post_translate_matrix(((Obj_80192B5C *)this)->f38);
-    rotate_matrix_y(NULL, ((Obj_80192B5C *)this)->f60);
+    rotate_matrix_y(NULL, ((Obj_80192B5C *)this)->angle);
     draw_ginja_object((void *)((Obj_80192B5C *)this)->fBC);
     TParticleCtrl::begin_effect_render();
-    draw_ginja_model_with_motion((void *)(((Obj_80192B5C *)this)->fC0), (void *)(((Obj_80192B5C *)this)->fC4), ((Obj_80192B5C *)this)->fB8);
+    draw_ginja_model_with_motion((void *)(((Obj_80192B5C *)this)->model), (void *)(((Obj_80192B5C *)this)->motion), ((Obj_80192B5C *)this)->frame);
     TParticleCtrl::end_effect_render();
     pop_matrix();
 }
@@ -252,18 +252,18 @@ void TObjLazerFenceNorm::select_models() {
     s32 j;
     if (this->set_params[2] % 2 == 0) {
         this->m_bc = (Node_80192A3C *)get_bml_model((BmlResource *)lazer_fence_norm_bml_resource, 1);
-        arg0->fC0 = (Node_80192A3C *)get_bml_model((BmlResource *)lazer_fence_norm_bml_resource, 0);
-        this->m_c4 = (saddr)get_bml_motion(lazer_fence_norm_bml_resource, 0);
+        arg0->bml_model = (Node_80192A3C *)get_bml_model((BmlResource *)lazer_fence_norm_bml_resource, 0);
+        this->bml_motion = (saddr)get_bml_motion(lazer_fence_norm_bml_resource, 0);
     } else {
         this->m_bc = (Node_80192A3C *)get_bml_model((BmlResource *)lazer_fence_norm_bml_resource, 3);
-        arg0->fC0 = (Node_80192A3C *)get_bml_model((BmlResource *)lazer_fence_norm_bml_resource, 2);
-        this->m_c4 = (saddr)get_bml_motion(lazer_fence_norm_bml_resource, 1);
+        arg0->bml_model = (Node_80192A3C *)get_bml_model((BmlResource *)lazer_fence_norm_bml_resource, 2);
+        this->bml_motion = (saddr)get_bml_motion(lazer_fence_norm_bml_resource, 1);
     }
     for (j = 0; j < 4; j++) {
         arg0->fC8[j] = 0;
     }
     i = 0;
-    node = arg0->fC0->child;
+    node = arg0->bml_model->child;
     if (node != 0) {
         arg0->fC8[i++] = node->model;
         node = node->sibling;
@@ -381,7 +381,7 @@ void TObjLazerFenceExtra::draw_lazer_fence_extra_model() {
     rotate_matrix_y(NULL, this->rotation_y);
     draw_ginja_object((void *)this->base_model);
     TParticleCtrl::begin_effect_render();
-    draw_ginja_model_with_motion((void *)arg0->fC0, (void *)this->beam_motion, this->frame);
+    draw_ginja_model_with_motion((void *)arg0->model, (void *)this->beam_motion, this->frame);
     TParticleCtrl::end_effect_render();
     pop_matrix();
 }

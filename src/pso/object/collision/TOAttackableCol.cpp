@@ -87,9 +87,9 @@ void TOAttackableCol::init_params() {
     if ((s32) *(s32 *)&this->unk_340 < 0) {
         *(s32 *)&this->unk_340 = 0;
     }
-    this->m_344 = (s32) *(s32 *)&this->set_params[2];
-    if ((s32) this->m_344 < 0) {
-        this->m_344 = 0;
+    this->label = (s32) *(s32 *)&this->set_params[2];
+    if ((s32) this->label < 0) {
+        this->label = 0;
     }
     this->m_34c = (s32) this->scale.x;
     temp_r0_2 = this->m_34c;
@@ -101,7 +101,7 @@ void TOAttackableCol::init_params() {
     } else {
         clear_player_status_flag(0, 0x08000000);
     }
-    if ((s32) this->m_344 == 0) {
+    if ((s32) this->label == 0) {
         *(s32 *)&this->unk_348 = (s32) this->scale.z;
         temp_r0_3 = *(s32 *)&this->unk_348;
         if ((temp_r0_3 < 0) || (temp_r0_3 >= 0x100)) {
@@ -172,7 +172,7 @@ void TOAttackableCol::send_state_change(u16 state) {
         msg.type = *(s16 *)(parent + 4);
         msg.state = state;
         msg.f0E = this->m_33c;
-        if (this->m_344 == 0 && self->f348 >= 0 && state == 1) {
+        if (this->label == 0 && self->f348 >= 0 && state == 1) {
             msg.f10 = self->f348;
             msg.flag = 1;
         } else {
@@ -234,12 +234,12 @@ f32 TOAttackableCol::apply_hit(saddr player) {
     {
       this->m_33c = 0;
       send_state_change((u16)(1));
-      if ((this->m_344) > 0)
+      if ((this->label) > 0)
       {
         temp_r0_2 = *((s32 *) (((s8 *) arg0) + 0x340));
         if ((((temp_r0_2 >= 0x64) && (temp_r0_2 < 0x3E8)) && ((quest_mission_manager) != 0U)) && (quest_mission_manager->all_parents_unqueued_for_destruction() != 0))
         {
-          var_r0 = (uaddr)new TQuestThread(quest_mission_manager, this->m_344);
+          var_r0 = (uaddr)new TQuestThread(quest_mission_manager, this->label);
           if (var_r0 != 0U)
           {
             ((TObject *)var_r0)->set_parent(tl_00);
@@ -248,7 +248,7 @@ f32 TOAttackableCol::apply_hit(saddr player) {
         else
           if (((quest_area_manager) != 0U) && (quest_area_manager->all_parents_unqueued_for_destruction() != 0))
         {
-          var_r0_2 = (uaddr)new TQuestThread(quest_area_manager, this->m_344);
+          var_r0_2 = (uaddr)new TQuestThread(quest_area_manager, this->label);
           if (var_r0_2 != 0U)
           {
             ((TObject *)var_r0_2)->set_parent(tl_00);
@@ -274,7 +274,7 @@ void TOAttackableCol::check_door_trigger() {
     s32 temp_r0_2;
 
     temp_r0 = this->m_34c;
-    if (((temp_r0 < 0) || (temp_r0 >= 0x100) || (is_current_floor_switch_set((u16) temp_r0) == 1)) && ((submit_cursor_candidate(this, -1), (((s32) *(s32 *)&this->m_33c > 0) == 0)) || (((s32) this->m_344 == 0) && (temp_r0_2 = *(s32 *)&this->unk_348, ((temp_r0_2 < 0) == 0)) && (temp_r0_2 < 0x100) && (is_current_floor_switch_set((u16) temp_r0_2) == 1)))) {
+    if (((temp_r0 < 0) || (temp_r0 >= 0x100) || (is_current_floor_switch_set((u16) temp_r0) == 1)) && ((submit_cursor_candidate(this, -1), (((s32) *(s32 *)&this->m_33c > 0) == 0)) || (((s32) this->label == 0) && (temp_r0_2 = *(s32 *)&this->unk_348, ((temp_r0_2 < 0) == 0)) && (temp_r0_2 < 0x100) && (is_current_floor_switch_set((u16) temp_r0_2) == 1)))) {
         this->m_33c = 0;
         send_state_change((u16)(1));
     }

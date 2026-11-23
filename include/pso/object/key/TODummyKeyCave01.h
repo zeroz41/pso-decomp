@@ -12,9 +12,9 @@ struct TODummyKeyCave01 : public TObjBase {
     void sub_80165940();
     GinjaTextureList *off_textures;
     GinjaTextureList *on_textures;
-    u16 m_98;
+    u16 id;
     u16 m_9a;
-    void* m_9c;
+    void* color;
     u8 unk_A0[0x4];
     f32 m_a4;
     u8 unk_A8[0x4];

@@ -9,7 +9,7 @@
 #include "pso/player/CapturedTargetList.h"
 
 
-struct Self_80127BE0 { u8 pad[0xF0]; saddr fF0; };
+struct Self_80127BE0 { u8 pad[0xF0]; saddr caster; };
 
 
 struct Tec_80127BE0 { s32 kind; u16 a; s16 b; u8 rest[0x58]; };
@@ -22,7 +22,7 @@ void TUnk_804A3640::emit_marker_effects() {
     s32 i;
     Tec_80127BE0 tec;
     u8 buf[0xC];
-    switch (((TObjPlayer *)(((Self_80127BE0 *)this)->fF0))->is_status_subsystem_ready()) {
+    switch (((TObjPlayer *)(((Self_80127BE0 *)this)->caster))->is_status_subsystem_ready()) {
     case 1:
         kind = 8;
         break;
@@ -34,7 +34,7 @@ void TUnk_804A3640::emit_marker_effects() {
         break;
     }
     if (get_joint_position(1, buf) != 0) {
-        ext = ((TObjPlayer *)(((Self_80127BE0 *)this)->fF0))->get_extended_state();
+        ext = ((TObjPlayer *)(((Self_80127BE0 *)this)->caster))->get_extended_state();
         if (ext != 0) {
             for (i = 0; i != ext->get_captured_target_count(); i++) {
                 item = ext->get_captured_target_entry(i);
@@ -43,7 +43,7 @@ void TUnk_804A3640::emit_marker_effects() {
                     tec.kind = 1;
                     tec.a = item->uid;
                     tec.b = item->collider_index;
-                    TTecGiZonde::create((void *)((Self_80127BE0 *)this)->fF0, (Vec *)buf, &tec, kind);
+                    TTecGiZonde::create((void *)((Self_80127BE0 *)this)->caster, (Vec *)buf, &tec, kind);
                 }
             }
         }

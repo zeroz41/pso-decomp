@@ -53,7 +53,7 @@ TWindowSubEquip::TWindowSubEquip(TWindowMainMenu *parent, s32 client) : TObject(
         p = (void *)__ct__15TWindowHelpItemFPvl(p, get_window_layout_position(2), this->client_id);
     }
     *(void **)((s8 *)this + 0x30) = p;
-    ((TWindowBase *)this->m_30)->set_depth(TWindowSubEquip__sub_80263AF8((u8 *)this->parent, 2));
+    ((TWindowBase *)this->window_help_item)->set_depth(TWindowSubEquip__sub_80263AF8((u8 *)this->parent, 2));
     this->equip_kind_list = 0;
     this->m_20 = -1;
     this->m_24 = -1;
@@ -63,7 +63,7 @@ TWindowSubEquip::TWindowSubEquip(TWindowMainMenu *parent, s32 client) : TObject(
 TWindowSubEquip::~TWindowSubEquip() {
     if (*(void **)((s8 *)this + 0x38) != NULL) { ((TWindowBase *)(*(void **)((s8 *)this + 0x38)))->close(); this->equip_kind_list = 0; }
     if (*(void **)((s8 *)this + 0x34) != NULL) { ((TWindowBase *)(*(void **)((s8 *)this + 0x34)))->close(); this->equip_list = 0; }
-    if (*(void **)((s8 *)this + 0x30) != NULL) { ((TWindowBase *)(*(void **)((s8 *)this + 0x30)))->close(); this->m_30 = 0; }
+    if (*(void **)((s8 *)this + 0x30) != NULL) { ((TWindowBase *)(*(void **)((s8 *)this + 0x30)))->close(); this->window_help_item = 0; }
 }
 
 void TWindowSubEquip::run_task() {
@@ -77,7 +77,7 @@ void TWindowSubEquip::run_task() {
             ((TWindowBase *)this->equip_kind_list)->close();
             this->equip_kind_list = 0U;
         }
-        fn_80255A38(this->m_30);
+        fn_80255A38(this->window_help_item);
         this->m_20 = -1;
         this->m_24 = -1;
         ((TWindowSubEquip *)(this->equip_list))->update_window();

@@ -13,7 +13,7 @@ struct Chunk_803CC294 { u16 id; u16 len; s32 off; };
 
 struct Ent_803CC294 {
     struct Ent_803CC294 *next; s32 f4; s32 f8; u16 fc; s8 fe; u8 pad_f; char name[0x100];
-    s32 f110; u16 f114; u16 arr[1];
+    s32 mode; u16 f114; u16 arr[1];
 };
 
 struct Ent_803CD5C4 {
@@ -95,7 +95,7 @@ s32 TLobby::get_afs_file_info(s32 arg0, s32 arg1, char *dest, s32 *arg3, s32 *ar
         for (i = 0; i < e->fc; i++, c++) {
             if (c->id == arg1) {
                 strncpy(dest, e->name, 0x100);
-                *arg3 = e->f110;
+                *arg3 = e->mode;
                 *arg4 = c->off;
                 *arg5 = c->len;
                 return st;
@@ -109,7 +109,7 @@ s32 TLobby::get_afs_file_info(s32 arg0, s32 arg1, char *dest, s32 *arg3, s32 *ar
         sum += arr[i];
     }
     strncpy(dest, e->name, 0x100);
-    *arg3 = e->f110;
+    *arg3 = e->mode;
     *arg4 = sum;
     *arg5 = arr[arg1];
     return st;
@@ -696,7 +696,7 @@ s32 adxf_open_file__6TLobbyFiPviPv(s32 id, const char *name, s32 mode, Ent_803CC
     afs_archive_toc_table[id] = e;
     e->next = NULL;
     strncpy(e->name, name, 0x100);
-    e->f110 = mode;
+    e->mode = mode;
     e->fe = 0;
     buf = (u8 *)((saddr)(adxf_open_file_buffer + 0x20) & ~0x1F);
     lbl_805D75F0 = buf;

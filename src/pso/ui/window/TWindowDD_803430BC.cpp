@@ -29,7 +29,7 @@ struct TWindowDD_803431C0 {
     s32 f8C;
     s32 f90;
     u8 pad94[0xB0 - 0x94];
-    s32 fB0;
+    s32 index;
     u8 padB4[0xBC - 0xB4];
     s32 fBC;
     u8 padC0[0xC6 - 0xC0];
@@ -47,7 +47,7 @@ struct TWindowDD_8034330C {
     s32 f90;
     u8 pad94[0xAC - 0x94];
     s32 fAC;
-    s32 fB0;
+    s32 index;
     u8 padB4[0xBC - 0xB4];
     s32 fBC;
     u8 fC0[4];
@@ -887,7 +887,7 @@ void TWindowDD::apply_entry_layout(void *window) {
     u8 *w;
     u8 *child;
     s32 id;
-    prev = (s32 *)TWindowDD::get_entry(window_dd, window_dd->fB0);
+    prev = (s32 *)TWindowDD::get_entry(window_dd, window_dd->index);
     entry = (s32 *)TWindowDD::get_entry(window_dd, window_dd->ids[window_dd->depth]);
     w = ((TWindowDD *)window_dd)->init_last_child();
     if (w != NULL) {
@@ -946,7 +946,7 @@ void TWindowDD::apply_entry_layout(void *window) {
 void pop_menu_level__9TWindowDDFPv(TWindowDD_803431C0 *window) {
     s32 *entry;
     void *child;
-    TWindowDD::get_entry(window, window->fB0);
+    TWindowDD::get_entry(window, window->index);
     entry = (s32 *)TWindowDD::get_entry(window, window->ids[window->depth]);
     TWindowDD__sub_80347980(window);
     if (*entry & 8) {
@@ -966,8 +966,8 @@ void pop_menu_level__9TWindowDDFPv(TWindowDD_803431C0 *window) {
     window->f90 = window->f8C;
     window->f8C = window->f88;
     window->f88 = TWindowDD__sub_8034214C((u8 *)window->child[window->depth]);
-    window->fB0 = window->ids[window->depth + 1];
-    if (window->fB0 == 0xD) {
+    window->index = window->ids[window->depth + 1];
+    if (window->index == 0xD) {
         window->fC6 = 4;
     }
 }

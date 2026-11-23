@@ -18,7 +18,7 @@ public:
     virtual void vfunc_14();
     // get_bml_model(archive, 0), drawn posed by the m_9c motion (name inferred).
     NJS_OBJECT *motion_model;
-    saddr m_9c;
+    saddr bml_motion;
     u8 unk_A0[0x4];
     f32 m_a4;
     f32 m_a8;

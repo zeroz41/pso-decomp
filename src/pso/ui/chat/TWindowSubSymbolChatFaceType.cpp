@@ -58,7 +58,7 @@ struct Ctx_80283C84 {
 struct Quad_80283C84 { f32 x, y, x2, y2, u, v, u2, v2; };
 
 
-struct Ent_80283FA8 { u8 pad[0x2c]; s32 f2c; };
+struct Ent_80283FA8 { u8 pad[0x2c]; s32 parts_entry; };
 
 extern "C" {
 
@@ -182,7 +182,7 @@ void TWindowSubSymbolChatFaceType::update_parts_entries() {
     s32 i;
     for (i = 0; i < 4; i++) {
         Ent_80283FA8 *e = (Ent_80283FA8 *)get_array_entry(i);
-        e->f2c = TWindowSubSymbolChatPartsSet::get_parts_entry(*m_64);
+        e->parts_entry = TWindowSubSymbolChatPartsSet::get_parts_entry(*m_64);
     }
 }
 

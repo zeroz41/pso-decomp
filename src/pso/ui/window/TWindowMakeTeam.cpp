@@ -44,11 +44,11 @@ TWindowMakeTeam::TWindowMakeTeam(TObject *parent, s32 mode) : TObject(parent) {
     name = 0;
     comment = 0;
     m_1e = 0;
-    m_1f = 0;
+    selected_value = 0;
     if (m_20 == 1 || m_20 == 2) {
         m_menu->set_entry_string_by_id((void *)draw_entry_0x110(m_1e), 2);
     }
-    m_menu->set_entry_string_by_id(TWindowMakeTeam::init_status_disp(m_1f), 3);
+    m_menu->set_entry_string_by_id(TWindowMakeTeam::init_status_disp(selected_value), 3);
 }
 
 TWindowMakeTeam::~TWindowMakeTeam() {
@@ -162,8 +162,8 @@ void TWindowMakeTeam::run_task() {
         if (m_30->is_cancelled() != 0) {
             this->m_1c = 1;
         } else if (m_30->is_decided() != 0) {
-            this->m_1f = m_30->get_selected_value();
-            m_menu->set_entry_string_by_id(TWindowMakeTeam::init_status_disp(this->m_1f), 3);
+            this->selected_value = m_30->get_selected_value();
+            m_menu->set_entry_string_by_id(TWindowMakeTeam::init_status_disp(this->selected_value), 3);
             this->m_1c = 1;
         }
         break;
@@ -268,7 +268,7 @@ s32 TWindowMakeTeam::is_enabled() {
     if ((s8)get_mode() == 1) {
         return (u8)(0U);
     }
-    return (u8)(this->m_1f);
+    return (u8)(this->selected_value);
 }
 
 saddr TWindowMakeTeam::draw_entry_0x110(s8 arg0) {

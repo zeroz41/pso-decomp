@@ -9,7 +9,7 @@ struct TWindowDeposit : public TWindowBase {
     virtual ~TWindowDeposit();
     static const char *class_name;
     virtual void render();
-    f32 m_60;
+    f32 width;
     f32 scale[2];
     void render_status(WindowDrawContext *context);
     virtual void run_task();

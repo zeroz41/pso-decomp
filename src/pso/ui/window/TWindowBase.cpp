@@ -90,7 +90,7 @@ struct Rect_80245F98
   f32 sx;
   f32 sy;
   s32 f30;
-  s32 f34;
+  s32 color;
   f32 depth;
 };
 
@@ -817,7 +817,7 @@ void TWindowBase::draw_window_frame(void *r) {
   f32 rem;
   begin_screen_draw(1);
   TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(*(void * *)&hud_texlist));
-  set_draw_texture_and_color(1, ((Rect_80245F98 *)r)->f34);
+  set_draw_texture_and_color(1, ((Rect_80245F98 *)r)->color);
   n = (s32) ((Card_80245F98 *)this)->f4C;
   n += (4 - (n & 3)) & 3;
   if (((f32) n) < 64.0f)

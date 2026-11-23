@@ -78,7 +78,7 @@ typedef struct Grass_800BE75C {
     Vec pos;
     u8 pad44[0x50 - 0x44];
     u8 mtx50[0x60 - 0x50];
-    s32 f60;
+    s32 angle;
     u8 pad64[0x2A8 - 0x64];
     s32 f2A8;
     u8 pad2AC[0x350 - 0x2AC];
@@ -149,7 +149,7 @@ struct Grass_800BD10C {
     u8 pad44[0x60 - 0x44]; s32 rotY; u8 pad64[0xB4 - 0x64]; u32 fb4; s16 fb8;
     u8 padBA[0x2A8 - 0xBA]; Tgt_800BD10C *target; u8 pad2AC[0x2FC - 0x2AC];
     Vec p2fc; u8 pad308[0x328 - 0x308]; s16 state; u8 pad32A[0x338 - 0x32A];
-    u16 f338; u8 pad33A[2]; s16 timer; u8 pad33E[0x350 - 0x33E]; s32 *f350;
+    u16 client; u8 pad33A[2]; s16 timer; u8 pad33E[0x350 - 0x33E]; s32 *f350;
     u8 pad354[0x380 - 0x354]; Vec p380;
 };
 
@@ -243,7 +243,7 @@ struct Grass_800BD4D8 {
     u8 pad31C[0x328 - 0x31C];
     s16 state;
     u8 pad32A[0x338 - 0x32A];
-    u16 f338;
+    u16 client;
     u8 pad33A[2];
     s16 timer;
     u8 pad33E[0x350 - 0x33E];
@@ -930,7 +930,7 @@ void TObjGrass::sub_800BE75C() {
     v.x = (0.0f);
     v.z = o->f358;
     push_matrix_from(identity_matrix);
-    rotate_matrix_y(0, o->f60);
+    rotate_matrix_y(0, o->angle);
     rotate_vector_by_matrix(0, &v, &v);
     pop_matrices(1);
     vec3_add_to(&v, o->mtx50);
@@ -1201,20 +1201,20 @@ void TObjGrass::sub_800BDD70() {
 #pragma opt_common_subs off
 void TObjGrass::sub_800BD4D8() {
     Grass_800BD4D8 *o = (Grass_800BD4D8 *)this;
-    if (o->f338 < 0x1000) {
-        TObjPlayer *p = get_player_by_client_id(o->f338);
+    if (o->client < 0x1000) {
+        TObjPlayer *p = get_player_by_client_id(o->client);
         if (p != NULL && p->get_floor() == get_current_floor()) {
             o->target = (Tgt_800BD4D8 *)p;
         } else {
             o->target = NULL;
         }
     } else {
-        o->f338 = 0xFFFF;
+        o->client = 0xFFFF;
         o->target = NULL;
     }
     ((TObjBase *)o)->clear_actor_flags(0x40000);
     if (o->target == NULL) {
-        o->f338 = 0xFFFF;
+        o->client = 0xFFFF;
         ((TObjBase *)o)->clear_actor_flags(0x4202000);
         o->timer = 0;
         return;
@@ -1238,7 +1238,7 @@ void TObjGrass::sub_800BD4D8() {
             d = ((TObjEnemy *)o)->turn_toward_direction((s32)((2.0f) * (f32)o->param->turn), (Vec *)&v);
             if (d < ((AttackParams *)(o->f318))->get_attack_angle()) {
                 s32 ang = (s32)((10430.38043493439) * atan2_float(v.x, v.z));
-                o->f398 = (3e+01f) + (newton_sqrtf(TObjPlayer::calc_distance_to_client((saddr)o, o->f338, NULL)) + ((TObjCollidable *)o)->get_collision_body_radius(0));
+                o->f398 = (3e+01f) + (newton_sqrtf(TObjPlayer::calc_distance_to_client((saddr)o, o->client, NULL)) + ((TObjCollidable *)o)->get_collision_body_radius(0));
                 if (o->f398 < (1e+02f)) {
                     o->f398 = (1e+02f);
                 }
@@ -1259,7 +1259,7 @@ void TObjGrass::sub_800BD4D8() {
                     play_sound_effect(((TObjEnemy *)o)->remap_sound_for_area(0x4003A806), &o->pos, 0, 0);
                     TObjPlayer::play_effect_if_v2(-0x200);
                 } else {
-                    if (o->f338 == 0xFFFF) {
+                    if (o->client == 0xFFFF) {
                         o->target = NULL;
                     } else {
                         o->state = 2;
@@ -1324,12 +1324,12 @@ void TObjGrass::sub_800BD4D8() {
             enemy_set_heading_velocity(spd, (TObjEnemy *)(o), o->angle);
             move_with_wall_slide((u8 *)o);
             d2 = horizontal_distance_squared(&o->f29c, &o->p2fc);
-            if (o->f338 == 0xFFFF) {
+            if (o->client == 0xFFFF) {
                 o->f3a4++;
             }
             t = spd + o->body->radius;
             if (d2 < t * t || o->param->range * o->param->range < d2 || (1.5e+02f) < (f32)o->f3a4) {
-                if (o->f338 == 0xFFFF) {
+                if (o->client == 0xFFFF) {
                     o->target = NULL;
                 } else {
                     o->state = 2;
@@ -1369,7 +1369,7 @@ void TObjGrass::sub_800BD4D8() {
         if (o->timer < 0) {
             ((TObjBase *)o)->clear_actor_flags(0x200000);
             o->timer = 0;
-            o->f338 = 0xFFFF;
+            o->client = 0xFFFF;
             o->target = NULL;
         }
         break;
@@ -1384,15 +1384,15 @@ void TObjGrass::update_web_attack() {
     Vec v;
     Vec v2;
     s32 ang[3];
-    if (arg0->f338 < 0x1000) {
-        TObjPlayer *p = get_player_by_client_id(arg0->f338);
+    if (arg0->client < 0x1000) {
+        TObjPlayer *p = get_player_by_client_id(arg0->client);
         if (p != NULL && p->get_floor() == get_current_floor()) {
             arg0->target = (Tgt_800BD10C *)p;
         } else {
             arg0->target = NULL;
         }
     } else {
-        arg0->f338 = 0xFFFF;
+        arg0->client = 0xFFFF;
         arg0->target = NULL;
     }
     ((TObjBase *)arg0)->clear_actor_flags(0x4040000);

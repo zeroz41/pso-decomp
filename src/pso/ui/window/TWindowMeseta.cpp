@@ -19,7 +19,7 @@ extern "C" {
 
 
 s32 TWindowMeseta::get_meseta_value() {
-    TObjPlayer *player = get_player_by_client_id(this->m_64);
+    TObjPlayer *player = get_player_by_client_id(this->client);
     player_stats *stats;
 
     if (player == NULL) {
@@ -32,7 +32,7 @@ s32 TWindowMeseta::get_meseta_value() {
     return stats->meseta;
 }
 void TWindowMeseta::draw_value(WindowDrawContext *context) {
-    draw_window_tab(context, &context->inner_x, 3, m_60);
+    draw_window_tab(context, &context->inner_x, 3, width);
 }
 void TWindowMeseta::render() {
     WindowDrawContext *context = setup_window_draw_context(draw_scale);
@@ -88,7 +88,7 @@ TWindowMeseta::TWindowMeseta(void *position, s32 arg2, s32 str)
     Sub_80269244 *a;
     Sub_80269244 *b;
     m_name = TWindowMeseta__class_name;
-    m_64 = arg2;
+    client = arg2;
     meseta = this->get_meseta_value();
     a = (Sub_80269244 *)get_array_entry(0);
     b = (Sub_80269244 *)get_array_entry(1);
@@ -96,7 +96,7 @@ TWindowMeseta::TWindowMeseta(void *position, s32 arg2, s32 str)
     ((TWindowSubStatusDisp *)b)->set_all_values(meseta);
     target_size[0] = 10.0f + b->x8;
     save_position();
-    m_60 = TWindowSubStatusDisp__sub_802877A4(frame_size[0] - 16.0f);
+    width = TWindowSubStatusDisp__sub_802877A4(frame_size[0] - 16.0f);
     if (TCameraCtrl::get_camera_id() > 2) {
         draw_scale[0] = 0.75f;
         draw_scale[1] = 0.75f;

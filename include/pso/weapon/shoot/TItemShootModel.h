@@ -10,7 +10,7 @@ class TItemShootModel : public TItemShoot {
 public:
  NJS_OBJECT *model;
  GinjaTextureList *texture_list;
- s32   m_60;
+ s32   ang;
  s32   m_64;
  s32   m_68;
 

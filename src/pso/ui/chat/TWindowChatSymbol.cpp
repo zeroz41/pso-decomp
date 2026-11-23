@@ -51,7 +51,7 @@ typedef struct Win_80247F68 {
     f32 h;
 } Win_80247F68;
 
-struct Win_80248374 { u8 pad[0x2C]; int f2c; };
+struct Win_80248374 { u8 pad[0x2C]; int parts_entry; };
 
 extern "C" {
 void setup_part_sprites__28TWindowSubSymbolChatPartsSetFPvPvPvUsiiii(Part_802480EC *arg0, Part_802480EC *arg1, Part_802480EC *arg2, u16 arg3, s32 arg4, s32 arg5, s32 arg6, s32 arg7);
@@ -267,7 +267,7 @@ int set_symbol_chat_face_sprite(void *arg0, u8 b) {
     const NJS_POINT2 *e;
     e = &symbol_chat_face_uv_table[b & 3];
     set_sprite_uv_from_pixels(reinterpret_cast<WindowSpritePart *>(w), (f32)e->x, (f32)e->y);
-    return w->f2c = TWindowSubSymbolChatPartsSet::get_parts_entry((b >> 2) & 7);
+    return w->parts_entry = TWindowSubSymbolChatPartsSet::get_parts_entry((b >> 2) & 7);
 }
 #undef w
 

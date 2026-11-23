@@ -59,7 +59,7 @@ TShopDeleteItemWindow::TShopDeleteItemWindow(void *parent, void *owner, void *pl
     m_38 = 0;
     m_3c = 0;
     m_64 = (TShopWindowBase *)owner;
-    ((TItemData *)(&m_40))->init();
+    ((TItemData *)(&displayed_item_colored))->init();
 }
 
 extern "C" {
@@ -118,8 +118,8 @@ void TShopDeleteItemWindow::sub_80337E2C() {
     s32 i;
     m_5c = 1;
     base = sub_8022397C();
-    m_58 = TCheckRoomSequence::get_room_table_entry(base);
-    if (m_58 == 0) {
+    room_table_entry = TCheckRoomSequence::get_room_table_entry(base);
+    if (room_table_entry == 0) {
         display_shop_message(0x3E, 1);
         set_field_20(6);
         if (m_30 != NULL) {
@@ -165,16 +165,16 @@ void TShopDeleteItemWindow::sub_80337E2C() {
         cursor = ((TShopGetItemWindow *)m_30)->get_cursor_index();
     }
     if (m_3c == NULL) {
-        if (copy_item_record__18TCheckRoomSequenceFiPvi(cursor, &m_40, base) != 0) {
+        if (copy_item_record__18TCheckRoomSequenceFiPvi(cursor, &displayed_item_colored, base) != 0) {
             m_3c = new TWindowHelpItem(get_window_layout_position(0x27), ((TObjBase *)(m_24))->get_entity_id());
             if (m_3c != NULL && TLobby::is_camera_ctrl_active() > 2) {
                 ((TLobby *)m_3c)->set_position(0.75f, 0.75f);
             }
-            m_3c->set_displayed_item_colored((uaddr)&m_40);
+            m_3c->set_displayed_item_colored((uaddr)&displayed_item_colored);
             m_60 = cursor;
         }
-    } else if (copy_item_record__18TCheckRoomSequenceFiPvi(cursor, &m_40, base) != 0) {
-        m_3c->set_displayed_item_colored((uaddr)&m_40);
+    } else if (copy_item_record__18TCheckRoomSequenceFiPvi(cursor, &displayed_item_colored, base) != 0) {
+        m_3c->set_displayed_item_colored((uaddr)&displayed_item_colored);
         m_60 = cursor;
     }
     set_field_20(1);
@@ -197,8 +197,8 @@ void TShopDeleteItemWindow::update_item_select(void *arg0) {
     if (self->m_30 != NULL) {
         cursor = self->m_30->get_cursor_value();
         if (self->m_3c != NULL && cursor != self->m_60) {
-            if (copy_item_record__18TCheckRoomSequenceFiPvi(cursor, &self->m_40, base) != 0) {
-                self->m_3c->set_displayed_item_colored((uaddr)&self->m_40);
+            if (copy_item_record__18TCheckRoomSequenceFiPvi(cursor, &self->displayed_item_colored, base) != 0) {
+                self->m_3c->set_displayed_item_colored((uaddr)&self->displayed_item_colored);
             }
             self->m_60 = cursor;
         }

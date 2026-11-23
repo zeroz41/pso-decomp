@@ -21,9 +21,9 @@ public:
     u8 unk_334[0x4];
     f32 m_338;
     u8 unk_33C[0x4];
-    f32 m_340;
+    f32 color;
     u8 unk_344[0xC];
-    void * m_350;
+    void * emitter;
     s32 m_354;
     u8 unk_358[0x10];
 };

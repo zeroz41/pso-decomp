@@ -16,7 +16,7 @@
 
 #pragma readonly_strings on
 
-struct Col_8019750C { u8 pad0[0x38]; f32 pos[3]; u8 pad44[0x4C]; f32 f90; s32 f94; u8 pad98[4]; s32 f9C; };
+struct Col_8019750C { u8 pad0[0x38]; f32 pos[3]; u8 pad44[0x4C]; f32 f90; s32 id; u8 pad98[4]; s32 f9C; };
 
 struct Ply_8019750C { u8 pad0[0x38]; f32 pos[3]; };
 struct Icon_80197110 { u8 pad0[0x38]; f32 pos[3]; u8 pad44[0x1C]; s32 f60; u8 pad64[0x2C]; s32 f90; s32 f94; s32 f98; f32 f9C; u32 fA0; };
@@ -44,7 +44,7 @@ TObjRaderCol::TObjRaderCol(TObject *parent, void *set_data) : TObjBase(parent) {
     m_name = TObjRaderCol__name;
     apply_object_set_data(set_data);
     *(f32 *)((s8 *)this + 0x90) = (f32) scale.x;
-    m_94 = (s32) set_params[0];
+    id = (s32) set_params[0];
     m_98 = 0;
     m_9c = 3;
     disallow_rendering();
@@ -54,7 +54,7 @@ void TObjRaderCol::run_task() {
 
     switch (this->m_98) {
     case 0:
-        TRaderMapCore::block_region_by_id((s16) this->m_94);
+        TRaderMapCore::block_region_by_id((s16) this->id);
         this->m_98 = 1;
         return;
     case 1:
@@ -84,7 +84,7 @@ void TObjRaderCol::check_local_player_in_range(void *arg0_) {
     }
     if (p != 0) {
         if (xz_distance_squared((Vec *)p->pos, (Vec *)arg0->pos) < arg0->f90 * arg0->f90) {
-            TRaderMapCore::reveal_region_by_id((s16)arg0->f94);
+            TRaderMapCore::reveal_region_by_id((s16)arg0->id);
             ((TObject *)arg0)->queue_destruction();
         }
     }
@@ -111,7 +111,7 @@ void check_any_player_in_range__12TObjRaderColFPv(Col_8019750C *arg0) {
             for (j = 0; j < 4; j++) {
                 p = (Ply_8019750C *)get_player_by_client_id(j);
                 if (p != 0 && xz_distance_squared((Vec *)p->pos, (Vec *)arg0->pos) < arg0->f90 * arg0->f90) {
-                    TRaderMapCore::reveal_region_by_id(arg0->f94);
+                    TRaderMapCore::reveal_region_by_id(arg0->id);
                     ((TObject *)arg0)->queue_destruction();
                     return;
                 }

@@ -12,7 +12,7 @@ struct TNowLoading : public TObject {
     u32 m_20;
     u32 m_24;
     u32 m_28;
-    void* m_2c;
+    void* pos;
     virtual void render();
     virtual void run_task();
     u8 unk_30[0x4];

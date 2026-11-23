@@ -324,7 +324,7 @@ void TObjEneBm3Fly::update_dd_flag(f32 x, f32 z, f32 speed) {
 
 void TObjEneBm3Fly::update_state_flag() {
 
-    if (TObjEneEpsilon__sub_800B92F8(this, ((Bm3FlyMovementParameters *)this->movementParameters)->unknown_08, bm3_fly_lobby_params->unknown_00) != 0) {
+    if (TObjEneEpsilon__sub_800B92F8(this, ((Bm3FlyMovementParameters *)this->movementParameters)->unknown_08, bm3_fly_lobby_params->distance) != 0) {
         this->status_flags |= BM3_FLY_SHADOW;
         return;
     }
@@ -665,10 +665,10 @@ void TObjEneBm3Fly::update_chase_state(s32 msg) {
             off->y = (0.0f);
             off->z = -this->destination_direction.x * s;
         }
-        if (this->moveSpeed > ((Bm3FlyMovementParameters *)this->movementParameters)->unknown_04) {
+        if (this->moveSpeed > ((Bm3FlyMovementParameters *)this->movementParameters)->length) {
             this->moveSpeed *= (0.96f);
         } else {
-            this->moveSpeed = ((Bm3FlyMovementParameters *)this->movementParameters)->unknown_04;
+            this->moveSpeed = ((Bm3FlyMovementParameters *)this->movementParameters)->length;
         }
         vel->x = this->moveDir.x * this->moveSpeed;
         vel->y = (0.0f);
@@ -693,7 +693,7 @@ void TObjEneBm3Fly::update_chase_state(s32 msg) {
         this->play_pitched_cue();
         break;
     case 5:
-        this->moveSpeed = ((Bm3FlyMovementParameters *)this->movementParameters)->unknown_04;
+        this->moveSpeed = ((Bm3FlyMovementParameters *)this->movementParameters)->length;
         break;
     }
 }
@@ -833,7 +833,7 @@ void TObjEneBm3Fly::state_circle_target(s32 msg) {
             circle_destination(this->circle_angle);
             this->update_velocity();
             vertical = (0.0f);
-            speed = ((Bm3FlyMovementParameters *)this->movementParameters)->unknown_04;
+            speed = ((Bm3FlyMovementParameters *)this->movementParameters)->length;
             if (this->destination_distance < (14.0f)) {
                 if (this->random_ratio() > (0.5f)) {
                     this->circle_speed = (s32)(((-65536.0f) * speed) / (439.82288f));
@@ -848,7 +848,7 @@ void TObjEneBm3Fly::state_circle_target(s32 msg) {
             this->swept_angle += this->circle_speed / 2;
             circle_destination(this->circle_angle);
             this->update_velocity();
-            speed = ((Bm3FlyMovementParameters *)this->movementParameters)->unknown_04;
+            speed = ((Bm3FlyMovementParameters *)this->movementParameters)->length;
             vertical = (0.0f);
             if (this->destination_distance < speed) {
                 this->step = 2;
@@ -859,7 +859,7 @@ void TObjEneBm3Fly::state_circle_target(s32 msg) {
             this->swept_angle += this->circle_speed;
             circle_destination(this->circle_angle);
             this->update_velocity();
-            speed = ((Bm3FlyMovementParameters *)this->movementParameters)->unknown_04;
+            speed = ((Bm3FlyMovementParameters *)this->movementParameters)->length;
             vertical = (1e+01f) * sin_table_lookup(this->bob_angle);
             this->bob_angle += 0x380;
             break;
@@ -895,7 +895,7 @@ void TObjEneBm3Fly::update_return_state(s32 msg) {
         this->destination.y = (f32) this->hover_height;
         this->destination.z = (f32) (((3e+01f) * cos_table_lookup(this->hover_angle)) + this->nest_position.z);
         params = (Bm3FlyMovementParameters *)this->movementParameters;
-        this->arrive_distance = 2.0f + TObjBoss2Tunnel::calc_scaled_value(params->unknown_08, params->unknown_04);
+        this->arrive_distance = 2.0f + TObjBoss2Tunnel::calc_scaled_value(params->unknown_08, params->length);
         this->update_velocity();
         break;
     case 3:

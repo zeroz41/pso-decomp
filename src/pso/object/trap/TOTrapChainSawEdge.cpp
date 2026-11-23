@@ -86,9 +86,9 @@ struct Obj_802C8C60 {
     u8 pad74[0xB4 - 0x74];
     f32 fB4;
     f32 fB8;
-    saddr fBC;
+    saddr motion;
     u8 padC0[0xC8 - 0xC0];
-    s32 fC8;
+    s32 model;
     u8 padCC[0xF8 - 0xCC];
     s32 fF8;
 };
@@ -576,8 +576,8 @@ void TOTrapChainSawDamage::vfunc_16() {
     arg0->fF8 = (s32)arg0->f70;
     v = arg0->fF8;
     arg0->fF8 = v < 0 ? 0 : (v > 1 ? 1 : v);
-    arg0->fC8 = (saddr)TOTrapChainSawKey::get_model(a.v[arg0->fF8]);
-    arg0->fBC = (saddr)TOTrapChainSawKey::get_motion(b.v[arg0->fF8]);
+    arg0->model = (saddr)TOTrapChainSawKey::get_model(a.v[arg0->fF8]);
+    arg0->motion = (saddr)TOTrapChainSawKey::get_motion(b.v[arg0->fF8]);
     arg0->f24 = (saddr)fn_802C9924(0);
     arg0->fB4 = (0.0f);
     arg0->fB8 = (1.0f);

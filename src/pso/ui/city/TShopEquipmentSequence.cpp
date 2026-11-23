@@ -44,7 +44,7 @@ struct Stack_8021D948
   f32 spC;
 };
 struct W_8021D750 { u8 pad[0x190]; void *cb0; };
-struct S_8021D750 { u8 pad[0x24]; s32 f24; };
+struct S_8021D750 { u8 pad[0x24]; s32 player; };
 struct Base_8021D7B8 { char pad[0x18]; };
 struct Base_8021D524 { char pad[0x18]; };
 const char *TShopEquipmentSequence__class_name = "TShopEquipmentSequence";
@@ -178,7 +178,7 @@ void TShopEquipmentSequence::update_buy_sell_choice() {
 }
 
 void TShopEquipmentSequence::open_buy_window() {
-    W_8021D750 *o = (W_8021D750 *)new TShopEquipmentListWindow((saddr)tl_05, (saddr)((S_8021D750 *)this), (s32)(((S_8021D750 *)this)->f24));
+    W_8021D750 *o = (W_8021D750 *)new TShopEquipmentListWindow((saddr)tl_05, (saddr)((S_8021D750 *)this), (s32)(((S_8021D750 *)this)->player));
     o->cb0 = (void *)exit__22TShopEquipmentSequenceFPv;
     reset_controller_input_state();
     set_field_20(7);

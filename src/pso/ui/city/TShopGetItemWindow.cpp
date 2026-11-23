@@ -55,7 +55,7 @@ TShopGetItemWindow::TShopGetItemWindow(void *parent, void *owner, void *player) 
     m_30 = 0;
     m_34 = 0;
     m_5c = (TShopWindowBase *)owner;
-    ((TItemData *)(&m_38))->init();
+    ((TItemData *)(&displayed_item_colored))->init();
 }
 
 TShopGetItemWindow::~TShopGetItemWindow() {
@@ -109,8 +109,8 @@ void TShopGetItemWindow::rebuild_item_list() {
     s32 i;
     TWindowHelpItem *help;
     m_54 = 1;
-    m_50 = TCheckRoomSequence::get_room_table_entry(x = sub_8022397C());
-    if (m_50 == 0) {
+    room_table_entry = TCheckRoomSequence::get_room_table_entry(x = sub_8022397C());
+    if (room_table_entry == 0) {
         display_shop_message(0x3E, 1);
         set_field_20(6);
         if (m_28 != NULL) {
@@ -154,7 +154,7 @@ void TShopGetItemWindow::rebuild_item_list() {
         sel = ((TShopGetItemWindow *)m_28)->get_cursor_index();
     }
     if (m_34 == NULL) {
-        if (copy_item_record__18TCheckRoomSequenceFiPvi(sel, &m_38, x) != 0) {
+        if (copy_item_record__18TCheckRoomSequenceFiPvi(sel, &displayed_item_colored, x) != 0) {
             help = (TWindowHelpItem *)TObject::operator new(0xBC);
             if (help != NULL) {
                 id = m_24->get_entity_id();
@@ -164,11 +164,11 @@ void TShopGetItemWindow::rebuild_item_list() {
             if (m_34 != NULL && TLobby::is_camera_ctrl_active() > 2) {
                 ((TLobby *)m_34)->set_position(0.75f, 0.75f);
             }
-            m_34->set_displayed_item_colored((uaddr)&m_38);
+            m_34->set_displayed_item_colored((uaddr)&displayed_item_colored);
             m_58 = sel;
         }
-    } else if (copy_item_record__18TCheckRoomSequenceFiPvi(sel, &m_38, x) != 0) {
-        m_34->set_displayed_item_colored((uaddr)&m_38);
+    } else if (copy_item_record__18TCheckRoomSequenceFiPvi(sel, &displayed_item_colored, x) != 0) {
+        m_34->set_displayed_item_colored((uaddr)&displayed_item_colored);
         m_58 = sel;
     }
     set_field_20(1);
@@ -185,8 +185,8 @@ void TShopGetItemWindow::handle_withdraw_list_input() {
     if (m_28 != NULL) {
         sel = m_28->get_cursor_value();
         if (m_34 != NULL && sel != m_58) {
-            if (copy_item_record__18TCheckRoomSequenceFiPvi(sel, &m_38, x) != 0) {
-                m_34->set_displayed_item_colored((uaddr)&m_38);
+            if (copy_item_record__18TCheckRoomSequenceFiPvi(sel, &displayed_item_colored, x) != 0) {
+                m_34->set_displayed_item_colored((uaddr)&displayed_item_colored);
             }
             m_58 = sel;
         }

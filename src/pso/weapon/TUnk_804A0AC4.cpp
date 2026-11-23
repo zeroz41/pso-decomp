@@ -23,12 +23,12 @@ void TUnk_804A0AA8::render() {
 }
 
 void TUnk_804A0AA8::hook() {
-    m_30 = m_30 + 0x3333;
+    rot_b = rot_b + 0x3333;
 }
 
 TUnk_804A0AA8::TUnk_804A0AA8(void *owner, const Vec *pos, const Vec *dir, f32 life)
     : TItemShootModel(owner, pos, dir, life) {
-    m_30 = 0;
+    rot_b = 0;
 }
 
 saddr TObjPlayer::create_item_shoot_model(void *weapon, const Vec *origin, const Vec *end, f32 frames) {

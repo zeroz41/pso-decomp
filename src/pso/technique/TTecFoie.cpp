@@ -65,7 +65,7 @@ struct RecoveredFields_8022FE84_arg0
   u8 unknown_68[0x8];
   f32 field_70;
   u8 unknown_74[0x50];
-  s16 field_C4;
+  s16 level;
   u8 unknown_C6[0x6];
   f32 field_CC;
   f32 field_D0;
@@ -190,21 +190,21 @@ void TTecFoie::create_particle_emitters() {
 void TTecFoie::init_projectile_params() {
     u8 *arg0 = (u8 *)this;
   TechniqueParams *new_var;
-  new_var = calc_technique_parameters(0, (int) ((RecoveredFields_8022FE84_arg0 *) arg0)->field_C4, 0xFFFF);
+  new_var = calc_technique_parameters(0, (int) ((RecoveredFields_8022FE84_arg0 *) arg0)->level, 0xFFFF);
   ((TechniqueParams *)(arg0 + 0xCC))->copy((TechniqueParams *)new_var);
-  if ((((s16) ((RecoveredFields_8022FE84_arg0 *) arg0)->field_C4) >= 0xF) && (TTecCtrl::is_technique_ready() == 0))
+  if ((((s16) ((RecoveredFields_8022FE84_arg0 *) arg0)->level) >= 0xF) && (TTecCtrl::is_technique_ready() == 0))
   {
-    ((RecoveredFields_8022FE84_arg0 *) arg0)->field_CC = (f32) (tech_high_level_linear_power_table[0].base + (tech_high_level_linear_power_table[0].per_level * ((RecoveredFields_8022FE84_arg0 *) arg0)->field_C4));
+    ((RecoveredFields_8022FE84_arg0 *) arg0)->field_CC = (f32) (tech_high_level_linear_power_table[0].base + (tech_high_level_linear_power_table[0].per_level * ((RecoveredFields_8022FE84_arg0 *) arg0)->level));
   }
   else
   {
-    ((RecoveredFields_8022FE84_arg0 *) arg0)->field_CC = (f32) (((RecoveredFields_8022FE84_arg0 *) arg0)->field_CC + ((f32) (((RecoveredFields_8022FE84_arg0 *) arg0)->field_F0 * ((RecoveredFields_8022FE84_arg0 *) arg0)->field_C4)));
+    ((RecoveredFields_8022FE84_arg0 *) arg0)->field_CC = (f32) (((RecoveredFields_8022FE84_arg0 *) arg0)->field_CC + ((f32) (((RecoveredFields_8022FE84_arg0 *) arg0)->field_F0 * ((RecoveredFields_8022FE84_arg0 *) arg0)->level)));
     if (TTecCtrl::is_technique_ready() != 0)
     {
       ((RecoveredFields_8022FE84_arg0 *) arg0)->field_CC = (f32) (((RecoveredFields_8022FE84_arg0 *) arg0)->field_CC * lbl_804CC55C[0].pad_00);
     }
   }
-  ((RecoveredFields_8022FE84_arg0 *) arg0)->field_64 = (f32) (((RecoveredFields_8022FE84_arg0 *) arg0)->field_D0 + ((f32) clamp_nonnegative_int((((RecoveredFields_8022FE84_arg0 *) arg0)->field_C4 - 4))));
+  ((RecoveredFields_8022FE84_arg0 *) arg0)->field_64 = (f32) (((RecoveredFields_8022FE84_arg0 *) arg0)->field_D0 + ((f32) clamp_nonnegative_int((((RecoveredFields_8022FE84_arg0 *) arg0)->level - 4))));
   ((RecoveredFields_8022FE84_arg0 *) arg0)->field_70 = (f32) ((RecoveredFields_8022FE84_arg0 *) arg0)->field_D4;
 }
 

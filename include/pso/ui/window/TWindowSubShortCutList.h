@@ -12,7 +12,7 @@ struct TWindowSubShortCutList : public TWindowMenuIconLine {
     void set_cursor_index(s16);
     void set_flag70_bit10();
     virtual void render();
-    PageIndicator *m_88;
+    PageIndicator *storage;
     void refresh_entries();
     void *create(void *index);
     virtual void run_task();

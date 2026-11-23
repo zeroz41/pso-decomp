@@ -24,10 +24,10 @@ struct TShopGetItemWindow : public TShopWindowBase {
     TWindowMenu *m_2c;
     TWindowInputNumber *m_30;
     TWindowHelpItem *m_34;
-    TItemData m_38;  // the selected item
+    TItemData displayed_item_colored;  // the selected item
     u8 m_4c;
     u8 _pad4D[0x3];
-    s32 m_50;
+    s32 room_table_entry;
     s32 m_54;  // quantity
     s32 m_58;  // cursor
     TShopWindowBase *m_5c; // owning shop sequence (TCheckRoomSequence::open_get_item_window passes itself)

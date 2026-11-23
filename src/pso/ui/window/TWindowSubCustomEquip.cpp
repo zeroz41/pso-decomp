@@ -399,25 +399,25 @@ void TWindowSubCustomEquip::update_rotate_anim() {
     if ((s8) this->m_62 > 0) {
         var_r4 = 0x13200;
     }
-    temp_r3 = this->m_68;
+    temp_r3 = this->angle;
     if (var_r4 != temp_r3) {
         if ((s32) (u16) (var_r4 - temp_r3) < 0xC00) {
-            this->m_68 = var_r4;
+            this->angle = var_r4;
         } else {
-            this->m_68 = (temp_r3 + 0xC00);
+            this->angle = (temp_r3 + 0xC00);
         }
     }
-    if (this->m_68 & 0x8000) {
+    if (this->angle & 0x8000) {
         this->m_64 = 0;
         this->m_65 = 1;
-        place_bank_slot_on_ring(this->m_68, 9);
-        place_bank_slot_on_ring(this->m_68 + 0x8000, 0);
+        place_bank_slot_on_ring(this->angle, 9);
+        place_bank_slot_on_ring(this->angle + 0x8000, 0);
         return;
     }
     this->m_64 = 1;
     this->m_65 = 0;
-    place_bank_slot_on_ring(this->m_68 + 0x8000, 9);
-    place_bank_slot_on_ring(this->m_68, 0);
+    place_bank_slot_on_ring(this->angle + 0x8000, 9);
+    place_bank_slot_on_ring(this->angle, 0);
 }
 
 void TWindowSubCustomEquip::handle_cancel() {
@@ -534,7 +534,7 @@ TWindowSubCustomEquip::TWindowSubCustomEquip(s32 slot) : TWindowBase((u8 *)&lbl_
     this->m_64 = 0;
     this->m_65 = 1;
     this->m_66 = 0;
-    this->m_68 = 0xB200;
+    this->angle = 0xB200;
     heading = (void *)::operator new(0x24);
     if (heading != NULL) {
         heading = ((TWindowSubStatusDisp *)heading)->construct_type1_heading((saddr)TWindowSubStatusDisp::get_message_10(0x23), this->client_index);

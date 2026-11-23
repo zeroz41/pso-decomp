@@ -70,7 +70,7 @@ struct Strm_803CAB38 {
     u8 f2;
     s8 f3;
     saddr f4;
-    AdxStreamFile *f8;
+    AdxStreamFile *file;
     saddr fc;
     u8 pad10[0x28];
     s32 f38;
@@ -236,8 +236,8 @@ void adxt_stat_decinfo(Strm_803CAB38 *self) {
                 pages = (x + 0x7FF) / 0x800;
                 self->f50 = self->f50 % 0x800;
                 self->f8c = pages;
-                set_scroll_position__6TLobbyFl(self->f8, pages);
-                set_adx_stream_completion(self->f8, TLobby__sub_803CB194, arg0);
+                set_scroll_position__6TLobbyFl(self->file, pages);
+                set_adx_stream_completion(self->file, TLobby__sub_803CB194, arg0);
             }
             s32 e = ((TLobby *)t)->dispatch_field4_event();
             self->f90 = e;
@@ -246,8 +246,8 @@ void adxt_stat_decinfo(Strm_803CAB38 *self) {
             ((TLobby *)t)->set_field_40(0);
             audio_stream_set_notify_callback((u8 *)t, (saddr)adxt_trap_entry_update__6TLobbyFPv, (saddr)arg0);
         } else {
-            if (self->f8 != NULL) {
-                set_scroll_position__6TLobbyFl(self->f8, 0x7FFFFFFF);
+            if (self->file != NULL) {
+                set_scroll_position__6TLobbyFl(self->file, 0x7FFFFFFF);
             }
             ((TLobby *)t)->set_field_3c(((TLobby *)t)->send_packet_by_id());
             ((TLobby *)t)->set_field_44(0);

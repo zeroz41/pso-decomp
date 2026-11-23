@@ -18,7 +18,7 @@ struct TWindowSubQuestBoardSelect : public TWindowBase {
     u8 get_page_index();
     virtual void render();
     u8 m_60;
-    s8 m_61;
+    s8 slot;
     u8 _pad62[0x2];
     TWindowSubStatusDisp *m_64;
     void handle_cancel();

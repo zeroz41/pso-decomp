@@ -88,7 +88,7 @@ struct Shot_802304A0 {
     Vec pos;
     u8 pad2C[0x54 - 0x2C];
     s32 f54;
-    s32 f58;
+    s32 angle;
     s32 f5C;
     u8 pad60[0xC6 - 0x60];
     s16 band;
@@ -206,7 +206,7 @@ void TTecGiBarta::create_particles() {
         } else {
             *(Raw_802304A0 *)&off = *(Raw_802304A0 *)&lbl_8044D288;
             push_matrix_from(identity_matrix);
-            rotate_matrix_y(0, shot->f58);
+            rotate_matrix_y(0, shot->angle);
             matrix_mult_vec(0, &off, &off);
             pop_matrices(1);
             p2.x = shot->pos.x + off.x;

@@ -1060,7 +1060,7 @@ void TObjEneMe3Shinowa::state_sword_attack(s32 reason) {
             this->apply_effect_pair();
             if (this->frame >= 0.0f && this->frame <= 5.0f) {
                 info = TObjEneMe3ShinowaMirage__mirage_info_table[this->kind_index];
-                ((TObjEneDD *)this)->move_to_shot_position(this->destination_direction.x, this->destination_direction.z, info->m_8);
+                ((TObjEneDD *)this)->move_to_shot_position(this->destination_direction.x, this->destination_direction.z, info->dist);
             } else {
                 this->update_ground_contact();
             }

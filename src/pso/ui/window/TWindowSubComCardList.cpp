@@ -46,21 +46,21 @@ void TWindowSubComCardList::render() {
     if (this->heading != 0) {
         this->heading->forward_render((void *)(ctx));
     }
-    if (this->m_8c != 0) {
-        draw_list_page_indicator(this->m_8c, reinterpret_cast<WindowDrawContext *>(ctx));
+    if (this->storage != 0) {
+        draw_list_page_indicator(this->storage, reinterpret_cast<WindowDrawContext *>(ctx));
     }
 }
 
 void TWindowSubComCardList::run_task() {
     TWindowMenu::run_task();
-    if ((is_decided() == 0) && (handle_list_page_flip_input(this->m_8c) != 0)) {
+    if ((is_decided() == 0) && (handle_list_page_flip_input(this->storage) != 0)) {
         set_selected_index(0);
         sub_80275360();
     }
 }
 
 TWindowSubComCardList::~TWindowSubComCardList() {
-    delete_if_allocated(m_8c, 1);
+    delete_if_allocated(storage, 1);
 }
 
 TWindowSubComCardList::TWindowSubComCardList(void *parent) : TWindowMenu(7, 4, (saddr)parent) {
@@ -70,7 +70,7 @@ TWindowSubComCardList::TWindowSubComCardList(void *parent) : TWindowMenu(7, 4, (
     if (n <= 0) {
         n = 1;
     }
-    m_8c = new PageIndicator(0, (s8)n, local_client_id);
+    storage = new PageIndicator(0, (s8)n, local_client_id);
     cards = 0;
     card_slots = (uaddr)TWindowSubComCard::get_card_entry(0);
     card_count = 0xD2;
@@ -89,7 +89,7 @@ TWindowSubComCardList::TWindowSubComCardList(void *parent, s32 card_slot, s32 ar
     if (n <= 0) {
         n = 1;
     }
-    m_8c = new PageIndicator(0, (s8)n, local_client_id);
+    storage = new PageIndicator(0, (s8)n, local_client_id);
     cards = card_slot;
     card_slots = 0;
     card_count = arg3;

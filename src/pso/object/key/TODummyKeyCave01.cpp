@@ -28,14 +28,14 @@ const char *TODummyKeyCave01__class_name = "TODummyKeyCave01";
 const char *TODummyKeyCave01Sound__class_name = "TODummyKeyCave01Sound";
 typedef struct Key_80165940 {
     u8 pad0[0x34];
-    void *f34;
+    void *bml_model;
     u8 pad38[0x84 - 0x38];
     u32 f84;
     u32 f88;
     u32 f8C;
     u32 f90;
     u32 f94;
-    u16 f98;
+    u16 id;
     u16 f9A;
     u8 pad9C[0xBC - 0x9C];
     s32 fBC;
@@ -110,8 +110,8 @@ void TODummyKeyCave01::run_task() {
     if (TObjPlayer::check_demo_mode() == 1) {
         ((TObjBase *)self)->clear_actor_flags(0x08000000);
     }
-    if (this->m_98 < 0x100) {
-        st = is_current_floor_switch_set(this->m_98);
+    if (this->id < 0x100) {
+        st = is_current_floor_switch_set(this->id);
         if (st != this->m_9a) {
             this->m_9a = st;
             skip = 0;
@@ -180,7 +180,7 @@ void TODummyKeyCave01::render() {
             id = model_render_flags;
             saved_model_render_flags = id;
             model_render_flags = id | 0x10;
-            set_constant_material((const NJS_ARGB *)(((f32 *)&this->m_9c)));
+            set_constant_material((const NJS_ARGB *)(((f32 *)&this->color)));
         }
         TParticleCtrl::begin_effect_render();
         node = *(u8 **)(node + 0x2C);
@@ -206,11 +206,11 @@ void TODummyKeyCave01::render() {
 void TODummyKeyCave01::sub_80165940() {
     Key_80165940 *self = (Key_80165940 *)this;
     self->fD0 = 0;
-    self->f98 = self->f84;
-    if (self->f98 < 0x100) {
-        self->f9A = is_current_floor_switch_set(self->f98);
+    self->id = self->f84;
+    if (self->id < 0x100) {
+        self->f9A = is_current_floor_switch_set(self->id);
     } else {
-        self->f98 = 0xFFFF;
+        self->id = 0xFFFF;
         self->f9A = 1;
     }
     self->fBC = self->f88 & 0xFFFF;
@@ -227,7 +227,7 @@ void TODummyKeyCave01::sub_80165940() {
     case AREA_CAVE1:
     case AREA_CAVE2:
     case AREA_CAVE3:
-        self->f34 = (void *)get_bml_model((BmlResource *)TOKeyCave01__resource_bundle, 0);
+        self->bml_model = (void *)get_bml_model((BmlResource *)TOKeyCave01__resource_bundle, 0);
         this->off_textures = TOKeyCave01__texture_lists[0];
         this->on_textures = TOKeyCave01__texture_lists[1];
         break;
@@ -235,14 +235,14 @@ void TODummyKeyCave01::sub_80165940() {
     case AREA_FOREST2:
     case AREA_MINE1:
     case AREA_MINE2:
-        self->f34 = (void *)get_bml_model((BmlResource *)TOKeyMachine01__resource_bundle, 0);
+        self->bml_model = (void *)get_bml_model((BmlResource *)TOKeyMachine01__resource_bundle, 0);
         this->off_textures = TOKeyMachine01__texture_lists[0];
         this->on_textures = TOKeyMachine01__texture_lists[1];
         break;
     case AREA_RUINS1:
     case AREA_RUINS2:
     case AREA_RUINS3:
-        self->f34 = (void *)get_bml_model((BmlResource *)TOKeyAncient03__model_archive, 0);
+        self->bml_model = (void *)get_bml_model((BmlResource *)TOKeyAncient03__model_archive, 0);
         this->off_textures = TOKeyAncient03__texture_variants[0];
         this->on_textures = TOKeyAncient03__texture_variants[1];
         break;
@@ -253,11 +253,11 @@ void TODummyKeyCave01::sub_80165940() {
     case AREA_VR_SPACESHIP_ALPHA:
     case AREA_VR_SPACESHIP_BETA:
         if (self->fBC == 0) {
-            self->f34 = (void *)get_bml_model((BmlResource *)TOKeyCave01__resource_bundle, 0);
+            self->bml_model = (void *)get_bml_model((BmlResource *)TOKeyCave01__resource_bundle, 0);
             this->off_textures = TOKeyCave01__texture_lists[0];
             this->on_textures = TOKeyCave01__texture_lists[1];
         } else {
-            self->f34 = (void *)get_bml_model((BmlResource *)TOKeyMachine01__resource_bundle, 0);
+            self->bml_model = (void *)get_bml_model((BmlResource *)TOKeyMachine01__resource_bundle, 0);
             this->off_textures = TOKeyMachine01__texture_lists[0];
             this->on_textures = TOKeyMachine01__texture_lists[1];
         }
@@ -271,13 +271,13 @@ void TODummyKeyCave01::sub_80165940() {
     case AREA_SEABED_LOWER:
     case AREA_SEASIDE_NIGHT:
     case AREA_TOWER:
-        self->f34 = (void *)get_bml_model((BmlResource *)TOKeyCave01__resource_bundle, 0);
+        self->bml_model = (void *)get_bml_model((BmlResource *)TOKeyCave01__resource_bundle, 0);
         this->off_textures = TOKeyCave01__texture_lists[0];
         this->on_textures = TOKeyCave01__texture_lists[1];
         self->fD0 = 1;
         break;
     default:
-        self->f34 = 0;
+        self->bml_model = 0;
         this->off_textures = 0;
         this->on_textures = 0;
         break;

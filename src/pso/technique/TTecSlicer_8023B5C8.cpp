@@ -292,7 +292,7 @@ struct Slicer_8023BBB4 {
     s32 f110;
     u16 f114;
     u8 pad116[2];
-    s32 f118;
+    s32 id;
     s16 f11c;
     s16 f11e;
     f32 f120;
@@ -500,7 +500,7 @@ TTecSlicer::TTecSlicer(u16 *launch, void *player, Vec *position, int angle) : TO
     self->f110 = init->f8;
     self->f24 = init->f4;
     self->f114 = init->f0;
-    self->f118 = init->fc;
+    self->id = init->fc;
     self->f11c = init->f10;
     self->f11e = init->f12;
     self->f120 = init->f14;
@@ -514,7 +514,7 @@ TTecSlicer::TTecSlicer(u16 *launch, void *player, Vec *position, int angle) : TO
         normalize_vector(&self->dir);
     }
     self->f10c = (saddr)player;
-    self->f108 = (saddr)find_item_by_id(self->f118);
+    self->f108 = (saddr)find_item_by_id(self->id);
     TTecSlicer::init_launch_angles((s32 *)self, (s32 *)self->f10c, init->f28);
     ((TTecSlicer *)self)->set_launch_midpoint((void *)self->f10c, &init->a, &init->b);
     self->fb8 = *get_weapon_range_record(self->f108, 0);

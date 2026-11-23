@@ -255,7 +255,7 @@ extern s32 model_render_flags;
 void direction_to_rotation_yx(u8 *arg0, s32 *arg1, s32 *arg2);
 struct Pkt_8019A098 { u8 cmd; u8 size; u16 id; f32 x; f32 z; s32 flag; };
 struct Player_8019A098 { u8 pad[0x60]; s32 area; };
-struct Win_8019A44C { u8 pad0[0x50]; f32 f50[3]; u8 pad5C[0x2D8]; s32 f334; u8 pad338[0xC]; f32 f344; f32 f348; f32 f34C; u8 pad350[0x40]; f32 f390; f32 f394; f32 f398; f32 f39C; f32 f3A0; };
+struct Win_8019A44C { u8 pad0[0x50]; f32 f50[3]; u8 pad5C[0x2D8]; s32 angle; u8 pad338[0xC]; f32 f344; f32 f348; f32 f34C; u8 pad350[0x40]; f32 f390; f32 f394; f32 f398; f32 f39C; f32 f3A0; };
 struct Tbl_80199F14 { u8 pad[0x14]; s16 limit; u8 pad16[6]; f32 yofs; };
 struct Cfg_8019A104 { u8 pad0[0x1C]; f32 range; u8 pad20[0xC]; Vec p2C; Vec p38; f32 f44; u8 pad48[0xC]; };
 struct State_8019A104 { u8 pad0[0x10]; s16 flags; u8 pad12[0xA]; };
@@ -372,7 +372,7 @@ void TUnk_804B8E18::sub_8019A44C(s32 angle) {
     arg0->f34C = arg0->f390;
     arg0->f3A0 = vector_length(&arg0->f344, (0.1f));
     rotate_vec_xz(&arg0->f344, &arg0->f344, angle);
-    arg0->f334 = angle;
+    arg0->angle = angle;
     VecCopy((Vec *)arg0->f50, (const Vec *)&arg0->f344);
     arg0->f50[1] = (0.0f);
 }

@@ -30,7 +30,7 @@ struct TContainerAncient01R : public TObjChara {
     u8 unk_33A[0x2];
     f32 m_33c;
     f32 m_340;
-    f32 m_344;
+    f32 range;
     Vec lower_effect_position;
     Vec upper_effect_position;
     void init_positions();

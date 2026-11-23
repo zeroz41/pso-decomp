@@ -69,7 +69,7 @@ struct Obj_8018860C {
 struct Obj_80188C8C { u8 pad0[0x38]; u8 pos[0x28]; s32 id; u8 pad1[0x326 - 0x64]; s16 state; };
 struct Obj_8018990C { u8 pad[0x38]; f32 x, y, z; u8 pad44[0x326 - 0x44]; s16 f326; };
 struct Obj_801895A4 { u8 pad0[0x38]; u8 pos[0x4c]; s32 id; };
-struct CE_80189614 { u8 pad[0x34]; saddr f34; u8 f38[0x28]; s32 f60; u8 pad2[0x326 - 0x64]; s16 mode; };
+struct CE_80189614 { u8 pad[0x34]; saddr f34; u8 f38[0x28]; s32 angle; u8 pad2[0x326 - 0x64]; s16 mode; };
 struct Box_80189A50 {
     u8 pad00[0x34];
     saddr model;
@@ -713,7 +713,7 @@ void TObjContainerEnemy::vfunc_81() {
         TObjFish::set_global_param(forest_box_textures);
         push_matrix();
         post_translate_matrix(self->f38);
-        rotate_matrix_y(0, self->f60);
+        rotate_matrix_y(0, self->angle);
         scale_matrix(0, lbl_805DBCFC, lbl_805DBCFC, lbl_805DBCFC);
         draw_ginja_box_tree((u8 *)self->f34);
         pop_matrix();

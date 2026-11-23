@@ -135,7 +135,7 @@ int TShopEquipmentListWindow__sub_8021C85C(int a0) {  return shop_weapon_stock_c
 TShopEquipmentListWindow::TShopEquipmentListWindow(saddr parent, saddr arg2, s32 arg3) : TShopWindowBase((TObject *)parent) {
     s32 sp8;
     this->m_name = TShopEquipmentListWindow__class_name;
-    this->m_24 = arg3;
+    this->player = arg3;
     this->sequence = (TShopWindowBase *)arg2;
     this->m_2c = 0;
     this->m_30 = 0;
@@ -147,7 +147,7 @@ TShopEquipmentListWindow::TShopEquipmentListWindow(saddr parent, saddr arg2, s32
     this->m_4c = 0;
     this->m_20 = 0;
     this->m_190 = 0;
-    calc_item_count((TObjPlayer *)this->m_24, &sp8);
+    calc_item_count((TObjPlayer *)this->player, &sp8);
     TLobby__sub_80225238((sub_8022397C()), (sp8));
 }
 
@@ -355,7 +355,7 @@ void TShopEquipmentListWindow::open_menu_window() {
     s32 entity_id;
 
     if (this->m_2c == NULL) {
-        entity_id = ((TObjBase *)(this->m_24))->get_entity_id();
+        entity_id = ((TObjBase *)(this->player))->get_entity_id();
         this->m_2c = create_window_menu((saddr)get_window_layout_position(0x2B), 2, entity_id);
         this->m_2c->add_text_entry(get_shop_text(4), 6, 0);
         this->m_2c->add_text_entry(get_shop_text(5), 6, 1);

@@ -77,7 +77,7 @@ TObjQuestColBase::TObjQuestColBase(TObject *parent, void *set_data) : TObjCollid
     }
     m_id = quest_collision_next_id++;
     radius = scale.x;
-    m_b0 = set_params[0];
+    label = set_params[0];
     m_b4 = 1;
     m_b8 = NULL;
     TObjQuestColBase__instance_count++;
@@ -144,7 +144,7 @@ int TObjQuestCol::vfunc_15() {
 
 TQuestThread *TObjQuestCol::vfunc_16() {
     TQuestThreadBoard::destroy_board();
-    return TQuestThread::create(m_b0);
+    return TQuestThread::create(label);
 }
 
 void *TObjQuestCol::create(void *set_data) {
@@ -204,7 +204,7 @@ block_12:
 
 TQuestThread *TObjQuestColA::vfunc_16() {
     TQuestThreadBoard::destroy_board();
-    return TQuestThread::create(m_b0);
+    return TQuestThread::create(label);
 }
 
 void *TObjQuestColA::create(void *set_data) {
@@ -281,7 +281,7 @@ block_12:
 
 TQuestThread *TObjQuestColALock::vfunc_16() {
     TQuestThreadBoard::destroy_board();
-    return TQuestThread::create(m_b0);
+    return TQuestThread::create(label);
 }
 
 void TObjQuestColALock::update_room_id_check() {
@@ -325,7 +325,7 @@ int TObjQuestColApc::vfunc_15() {
 
 TQuestThread *TObjQuestColApc::vfunc_16() {
     TQuestThreadBoard::destroy_board();
-    return TQuestThread::create(m_b0);
+    return TQuestThread::create(label);
 }
 
 TObjQuestColApc *fn_801963A8(ObjectSetData *arg, s32 *out_id) {
@@ -369,7 +369,7 @@ int TObjQuestColApcIN::vfunc_15() {
 
 TQuestThread *TObjQuestColApcIN::vfunc_16() {
     TQuestThreadBoard::destroy_board();
-    return TQuestThread::create(m_b0);
+    return TQuestThread::create(label);
 }
 
 TObjQuestColApcIN *fn_80196214(ObjectSetData *arg, s32 *out_id) {
@@ -422,7 +422,7 @@ int TObjQuestColApcINW::vfunc_15() {
 
 TQuestThread *TObjQuestColApcINW::vfunc_16() {
     TQuestThreadBoard::destroy_board();
-    return TQuestThread::create(m_b0);
+    return TQuestThread::create(label);
 }
 
 void fn_8019608C(void) {
@@ -590,7 +590,7 @@ TQuestThread *TObjQuestColALock2::vfunc_16() {
     TQuestThreadBoard::destroy_board();
     thread = NULL;
     if (thread_root != NULL) {
-        thread = new TQuestThread(thread_root, m_b0);
+        thread = new TQuestThread(thread_root, label);
         if (thread != NULL) {
             thread->set_parent(tl_00);
         }
@@ -647,7 +647,7 @@ TQuestThread *TObjQuestCol2::vfunc_16() {
     TQuestThreadBoard::destroy_board();
     thread = NULL;
     if (thread_root != NULL) {
-        thread = new TQuestThread(thread_root, m_b0);
+        thread = new TQuestThread(thread_root, label);
         if (thread != NULL) {
             thread->set_parent(tl_00);
         }

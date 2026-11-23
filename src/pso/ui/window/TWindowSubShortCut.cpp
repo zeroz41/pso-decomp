@@ -28,7 +28,7 @@ struct TWindowShortCut;
 
 #pragma readonly_strings on
 
-struct Win_8027DBB8 { u8 pad[0x20]; saddr f20; };
+struct Win_8027DBB8 { u8 pad[0x20]; saddr client_id; };
 
 extern "C" {
 saddr get_window_layout_position(s32 a0);
@@ -235,7 +235,7 @@ s32 TWindowSubShortCut::open_menu() {
 
 s32 TWindowSubShortCut::open_confirm_prompt() {
     Win_8027DBB8 *arg0 = (Win_8027DBB8 *)this;
-    saddr r = (saddr)TWindowMessageYesNo::create((void *)(arg0), arg0->f20, 0, 0);
+    saddr r = (saddr)TWindowMessageYesNo::create((void *)(arg0), arg0->client_id, 0, 0);
     open_yes_no_prompt(reinterpret_cast<TWindowMessageYesNo *>(r), (uaddr)(TWindowSubStatusDisp::get_message_10(0x20)), (saddr)(TWindowSubStatusDisp::get_message_10(0x3D)), (s32)(get_window_layout_position(0x75)), 205.0f);
     ((TWindowMessageYesNo *)r)->set_choice_menu_flag70_bit10();
     return r;
@@ -244,7 +244,7 @@ s32 TWindowSubShortCut::open_confirm_prompt() {
 s32 TWindowSubShortCut::open_confirm_message() {
     saddr temp_r29;
 
-    temp_r29 = (saddr)TWindowMessageYesNo::create((void *)(this), this->m_20, 0, 0);
+    temp_r29 = (saddr)TWindowMessageYesNo::create((void *)(this), this->client_id, 0, 0);
     open_yes_no_prompt(reinterpret_cast<TWindowMessageYesNo *>(temp_r29), (uaddr)(TWindowSubStatusDisp::get_message_10(0x20)), (saddr)(TWindowSubStatusDisp::get_message_10(0x3e)), (s32)(get_window_layout_position(0x76)), 205.0f);
     ((TWindowMessageYesNo *)temp_r29)->set_menu_selected_index(1);
     ((TWindowMessageYesNo *)temp_r29)->set_choice_menu_flag70_bit10();

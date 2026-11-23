@@ -27,7 +27,7 @@ struct TObjCityMainWarp : public TObjAreaWarp {
     static void update_warp_flags_from_story();
     static void init_visible_mask();
     static s32 get_floor_warp_bit(s32 floor);
-    f32 m_c4;
+    f32 frame;
     // Destination index of each menu entry, built by open_confirm_window from the visible
     // destination mask and read back by vfunc_17 (inferred). Offline / lobby menus keep
     // their own list.

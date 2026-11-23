@@ -12,7 +12,7 @@ struct TOBind : public TObjCollidable {
     void sub_8015860C();
     u8 unk_AC[0x4];
     u32 m_b0;
-    u32 m_b4;
+    u32 index;
     f32 motion_frame;
     f32 m_bc;
     f32 motion_step;

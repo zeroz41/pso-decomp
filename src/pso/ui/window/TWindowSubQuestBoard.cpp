@@ -31,7 +31,7 @@
 
 #pragma readonly_strings on
 
-struct Ent_8027CFC8 { u8 pad[0x20]; s32 f20; };
+struct Ent_8027CFC8 { u8 pad[0x20]; s32 label; };
 
 // The {width, height} of the option value window sub_8027C884 opens.
 __declspec(section ".rodata") static const f32 option_value_window_size[2] ATTRIBUTE_ALIGN(8) = { 302.0f, 148.0f };
@@ -48,7 +48,7 @@ int TWindowSubQuestBoardSelect::sub_8027D1DC() { return this->m_60 & 0x2; }
 
 int TWindowSubQuestBoardSelect::is_open() { return this->m_60 & 0x1; }
 
-u8 TWindowSubQuestBoardSelect::get_page_index() { return this->m_61; }
+u8 TWindowSubQuestBoardSelect::get_page_index() { return this->slot; }
 
 TWindowSubQuestBoard::TWindowSubQuestBoard(TObject *object, void *client) : TObject(object) {
     this->m_name = class_name;
@@ -84,7 +84,7 @@ void TWindowSubQuestBoard::run_task() {
         break;
     case 3:
         this->quest_thread_board = TQuestThreadBoard::create_instance(
-            quest_board_handlers[(s8)select_window->get_page_index()].f20);
+            quest_board_handlers[(s8)select_window->get_page_index()].label);
         this->state = 4;
     case 4:
         if (this->quest_thread_board->all_parents_unqueued_for_destruction() == 0) {

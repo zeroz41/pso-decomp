@@ -74,14 +74,14 @@ void TWindowSubSymbolChat::set_flag_bit9(s32 arg1) {
     if (var_r4 != 0) {
         var_r4 = 1;
     }
-    *(s32 *)&this->m_1c = (s32) (*(s32 *)&this->m_1c & 0xFFFFFDFF);
-    *(s32 *)&this->m_1c = (s32) (*(s32 *)&this->m_1c | (var_r4 << 9));
+    *(s32 *)&this->selected_value = (s32) (*(s32 *)&this->selected_value & 0xFFFFFDFF);
+    *(s32 *)&this->selected_value = (s32) (*(s32 *)&this->selected_value | (var_r4 << 9));
     *(s32 *)&this->m_name = (s32) (*(s32 *)&this->m_name | 1);
 }
 
 void TWindowSubSymbolChat::set_symbol_index(s32 symbol_index) {
-    *(s32 *)&this->m_1c = (s32) (*(s32 *)&this->m_1c & 0xFFFFFE1F);
-    *(s32 *)&this->m_1c = (s32) (*(s32 *)&this->m_1c | (symbol_index << 5));
+    *(s32 *)&this->selected_value = (s32) (*(s32 *)&this->selected_value & 0xFFFFFE1F);
+    *(s32 *)&this->selected_value = (s32) (*(s32 *)&this->selected_value | (symbol_index << 5));
     *(s32 *)&this->m_name = (s32) (*(s32 *)&this->m_name | 1);
 }
 
@@ -170,9 +170,9 @@ void TWindowSubSymbolChat::set_entry_bits(s32 v, s32 a, s32 idx, s32 b, s32 c) {
 }
 
 void TWindowSubSymbolChat::set_symbol_flags(s32 arg1, s32 arg2) {
-    *(s32 *)&this->m_1c = (s32) (*(s32 *)&this->m_1c & 0xFFFFFFE0);
-    *(s32 *)&this->m_1c = (s32) (*(s32 *)&this->m_1c | (arg2 * 4));
-    *(s32 *)&this->m_1c = (s32) (*(s32 *)&this->m_1c | arg1);
+    *(s32 *)&this->selected_value = (s32) (*(s32 *)&this->selected_value & 0xFFFFFFE0);
+    *(s32 *)&this->selected_value = (s32) (*(s32 *)&this->selected_value | (arg2 * 4));
+    *(s32 *)&this->selected_value = (s32) (*(s32 *)&this->selected_value | arg1);
     *(s32 *)&this->m_name = (s32) (*(s32 *)&this->m_name | 1);
 }
 

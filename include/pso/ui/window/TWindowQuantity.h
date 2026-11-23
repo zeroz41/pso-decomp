@@ -8,7 +8,7 @@ struct TWindowQuantity : public TWindowBase {
     TWindowQuantity(s32 client);
     virtual ~TWindowQuantity();
     virtual void render();
-    f32 m_60;
+    f32 width;
     f32 scale[2];
     void set_position(WindowDrawContext *context);
     virtual void run_task();

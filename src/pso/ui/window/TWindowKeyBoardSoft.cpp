@@ -43,7 +43,7 @@ struct RecoveredFields_8026088C_arg0 {
 
 extern "C" {
 
-struct Win_802605DC { u8 p0[0x65]; s8 f65; s8 f66; };
+struct Win_802605DC { u8 p0[0x65]; s8 col; s8 row; };
 
 struct Lines_80261DD8 {
     NJS_POINT2 *verts;
@@ -128,7 +128,7 @@ void TWindowKeyBoardSoft::calc_cursor_step(s32 *arg1, s32 *arg2) {
 #pragma push
 #pragma fp_contract on
 s32 TWindowKeyBoardSoft::sub_802605DC() {
-    s32 idx = calc_key_index((s32)(((Win_802605DC *)this)->f65), (s32)(((Win_802605DC *)this)->f66));
+    s32 idx = calc_key_index((s32)(((Win_802605DC *)this)->col), (s32)(((Win_802605DC *)this)->row));
     return idx + TWindowKeyBoardSoft__data_8044F124[soft_keyboard_key_class[idx]];
 }
 #pragma pop

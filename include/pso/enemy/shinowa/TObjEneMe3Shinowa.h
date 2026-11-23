@@ -11,7 +11,7 @@ class TAttackTraceStrip;
 struct TObjEneMe3ShinowaParams {
     f32 m_0;
     f32 m_4;
-    f32 m_8;
+    f32 dist;
     f32 sword_motion_speed; // motion slot 6 (shinowa_sword_motion) speed, at least 0.1
     f32 m_10;
     u8 unk_14[0x4];

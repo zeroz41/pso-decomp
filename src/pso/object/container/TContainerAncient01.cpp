@@ -556,7 +556,7 @@ void TContainerAncient01::vfunc_6(s16 *arg1, s32 arg2) {
 void TContainerAncient01::init_state_vectors() {
     *(f32 *)&this->m_338 = (f32) (3e+02f + (this->scale.x - TContainerAncient01__data_805DBD10[0]));
     this->m_33c = (f32) (2.1e+02f + (this->scale.y - TContainerAncient01__data_805DBD10[0]));
-    this->m_340 = (f32) (4e+02f + (this->scale.z - TContainerAncient01__data_805DBD10[0]));
+    this->range = (f32) (4e+02f + (this->scale.z - TContainerAncient01__data_805DBD10[0]));
     this->m_36c = (s32) (*(s32 *)&this->set_params[2] + 4);
     VecCopy(&this->lower_effect_position, &this->position);
     this->lower_effect_position.y = (f32) (this->lower_effect_position.y + *(f32 *)((s8 *)&TContainerAncient01__collision_body_parts + 4));
@@ -648,7 +648,7 @@ void TContainerAncient01::sub_8018B284() {
     if (6e+01f < this->frame_timer && phase == 0) {
         spawn_effect(&this->lower_effect_position, 0x7E);
     }
-    TContainerAncient01__sub_8018B180((Obj_8018B180 *)this, this->m_340);
+    TContainerAncient01__sub_8018B180((Obj_8018B180 *)this, this->range);
     if (this->m_33c <= this->frame_timer) {
         this->reset_state();
     }
@@ -850,7 +850,7 @@ void TContainerAncient01R::vfunc_6(s16 *arg1, s32 arg2) {
 void TContainerAncient01R::init_positions() {
     this->m_33c = (f32) (3e+02f + (this->scale.x - TContainerAncient01__data_805DBD10[0]));
     this->m_340 = (f32) (2.1e+02f + (this->scale.y - TContainerAncient01__data_805DBD10[0]));
-    this->m_344 = (f32) (4e+02f + (this->scale.z - TContainerAncient01__data_805DBD10[0]));
+    this->range = (f32) (4e+02f + (this->scale.z - TContainerAncient01__data_805DBD10[0]));
     this->m_370 = (this->set_params[2] + 4);
     VecCopy(&this->lower_effect_position, &this->position);
     this->lower_effect_position.y = (f32) (this->lower_effect_position.y + *(f32 *)((s8 *)&TContainerAncient01__collision_body_parts + 4));
@@ -950,7 +950,7 @@ void TContainerAncient01R::sub_8018A688() {
     if (6e+01f < this->frame_timer && rem == 0) {
         trigger_spawn(&this->lower_effect_position, 0x7E);
     }
-    TContainerAncient01__sub_8018A584((Obj_8018A584 *)this, this->m_344);
+    TContainerAncient01__sub_8018A584((Obj_8018A584 *)this, this->range);
     if (this->m_340 <= this->frame_timer) {
         this->reset_hp();
     }

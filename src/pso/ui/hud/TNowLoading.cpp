@@ -48,24 +48,24 @@ void TNowLoading::run_task() {
     uaddr temp_r3_7;
     uaddr temp_r3_8;
     if (camera_ctrl_instance == NULL) {
-        *(f32 *)&this->m_2c = (f32) ((65.0f * ninja_camera.vx) + ninja_camera.px);
+        *(f32 *)&this->pos = (f32) ((65.0f * ninja_camera.vx) + ninja_camera.px);
         *(f32 *)&this->unk_30 = (f32) ((65.0f * ninja_camera.vy) + ninja_camera.py);
         this->m_34 = (f32) ((65.0f * ninja_camera.vz) + ninja_camera.pz);
         temp_r3 = this->m_1c;
         if (temp_r3 != 0U) {
-            ((TParticleCtrl *)temp_r3)->set_position((u8 *)&this->m_2c);
+            ((TParticleCtrl *)temp_r3)->set_position((u8 *)&this->pos);
         }
         temp_r3_2 = this->m_20;
         if (temp_r3_2 != 0U) {
-            ((TParticleCtrl *)temp_r3_2)->set_position((u8 *)&this->m_2c);
+            ((TParticleCtrl *)temp_r3_2)->set_position((u8 *)&this->pos);
         }
         temp_r3_3 = this->m_24;
         if (temp_r3_3 != 0U) {
-            ((TParticleCtrl *)temp_r3_3)->set_position((u8 *)&this->m_2c);
+            ((TParticleCtrl *)temp_r3_3)->set_position((u8 *)&this->pos);
         }
         temp_r3_4 = this->m_28;
         if (temp_r3_4 != 0U) {
-            ((TParticleCtrl *)temp_r3_4)->set_position((u8 *)&this->m_2c);
+            ((TParticleCtrl *)temp_r3_4)->set_position((u8 *)&this->pos);
         }
     } else {
         stack.x = (65.0f * ninja_camera.vx) + ninja_camera.px;

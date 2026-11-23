@@ -17,7 +17,7 @@ void set_string__20TWindowSubStatusDispFUl(TWindowSubStatusDisp *, void *);
 struct Ent_802684BC { u8 p0[0x1C]; s32 f1C; };
 
 s32 TWindowMenuInfomation::update_selected_entry() {
-    return ((TWindowSubComCard *)get_array_entry(m_74))->get_entry_id();
+    return ((TWindowSubComCard *)get_array_entry(index))->get_entry_id();
 }
 
 s32 TWindowMenuInfomation::find_entry_value_by_id(s32 key) {

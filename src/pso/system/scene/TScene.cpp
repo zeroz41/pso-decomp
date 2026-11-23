@@ -164,7 +164,7 @@ void PPCSync();
 
 struct Node_8020533C { u8 pad0[8]; Vec pos; SceneSectionAngles ang; };
 
-struct Model_8020533C { u8 pad0[4]; TEffIndirect *tex; s32 f8; u8 padC[2]; u8 fE; u8 fF; };
+struct Model_8020533C { u8 pad0[4]; TEffIndirect *tex; s32 sampler; u8 padC[2]; u8 scale; u8 effect_id; };
 
 struct Lobby_8020533C { Vec v; SceneSectionAngles a; void *param; Node_8020533C *node; s16 scene; u8 id; };
 
@@ -1548,7 +1548,7 @@ void TScene::render_static_map_section(SceneMaterialSection *scene_material_sect
             if (e->flags & 0x80) {
                 Model_8020533C *m = (Model_8020533C *)e->node;
                 if (m != NULL) {
-                    play_reflection_particles(m->fF);
+                    play_reflection_particles(m->effect_id);
                 } else {
                     play_reflection_particles(-1);
                 }
@@ -1570,14 +1570,14 @@ void TScene::render_static_map_section(SceneMaterialSection *scene_material_sect
                     l.param = (void *)*(saddr *)((s8 *)scene_material_root + 0x14);
                     l.node = node;
                     l.scene = scene_material_root->flags;
-                    l.id = m->fF;
+                    l.id = m->effect_id;
                     release_indexed_entry__6TLobbyFl(&l);
                 }
             } else {
                 Model_8020533C *m = (Model_8020533C *)e->node;
                 if (m != NULL) {
                     if (m->tex != NULL) {
-                        enable_indirect_tev(tex = m->tex, m->f8, m->fE, 0);
+                        enable_indirect_tev(tex = m->tex, m->sampler, m->scale, 0);
                         TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>((void *)*(saddr *)((s8 *)scene_material_root + 0x14)));
                         set_material_alpha_compare_reference(scene_material_root->flags);
                         draw_ginja_object(node);
@@ -1675,7 +1675,7 @@ void TScene::render_animated_map_section(SceneMaterialSection *scene_material_se
         TEffIndirect *tex = m->tex;
         if (tex != 0)
         {
-          enable_indirect_tev(texture = tex, m->f8, m->fE, 0);
+          enable_indirect_tev(texture = tex, m->sampler, m->scale, 0);
           TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(scene_material_root->texlist));
           set_material_alpha_compare_reference(scene_material_root->flags);
           draw_ginja_model_with_motion(node, e->motion, e->frame);

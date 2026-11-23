@@ -100,9 +100,9 @@ u8 *TOBind__ct(TOBind *bind, saddr set_data) {
     ((TObjCollidable *)bind)->refresh_collision_body_centers();
     ((TObjPlayer *)bind)->register_object_by_id();
     bind->actorFlags = (s32) (bind->actorFlags | 0x40000000);
-    bind->m_b4 = (s32) bind->set_params[0];
-    if ((s32) bind->m_b4 < 0) {
-        bind->m_b4 = 0;
+    bind->index = (s32) bind->set_params[0];
+    if ((s32) bind->index < 0) {
+        bind->index = 0;
     }
     bind->draw_distance = 400.0f;
     bind->m_d4 = 40.0f;

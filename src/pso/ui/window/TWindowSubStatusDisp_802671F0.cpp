@@ -84,7 +84,7 @@ void TWindowSubTradeMain::close() {
 
 }
 
-struct Win_80266CF8 { u8 p0[0x72]; s16 f72; s16 f74; u8 p76[2]; s16 f78; };
+struct Win_80266CF8 { u8 p0[0x72]; s16 f72; s16 f74; u8 p76[2]; s16 index; };
 
 extern "C" {
 
@@ -92,22 +92,22 @@ void TShopArmorListWindow::clamp_selection_to_valid_entry() {
     Win_80266CF8 *w = (Win_80266CF8 *)this;
     void *e;
     if (w->f72 >= 0) {
-        if (w->f78 >= w->f72) {
+        if (w->index >= w->f72) {
             w->f74 = w->f72 - 1;
             return;
         }
-        e = (void *)((TWindowBase *)w)->get_array_entry(w->f78);
+        e = (void *)((TWindowBase *)w)->get_array_entry(w->index);
         while (((TWindowLayoutEntry *)e)->is_flag_4_set() == 0) {
-            w->f78 = w->f78 - 1;
-            e = (void *)((TWindowBase *)w)->get_array_entry(w->f78);
+            w->index = w->index - 1;
+            e = (void *)((TWindowBase *)w)->get_array_entry(w->index);
         }
-        w->f74 = w->f78;
+        w->f74 = w->index;
     }
 }
 
 void TShopArmorListWindow::save_cursor_selection() {
     this->m_78 = (s16) this->m_74;
-    this->m_7c = ((TWindowMenuIconLine *)this)->get_cursor_value();
+    this->cursor_value = ((TWindowMenuIconLine *)this)->get_cursor_value();
 }
 void TWindowMenuIconLine::reset_list() {
     u32 i;

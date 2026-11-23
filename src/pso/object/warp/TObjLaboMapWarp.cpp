@@ -412,7 +412,7 @@ TObjCityMainWarp::TObjCityMainWarp(TObject *parent, void *set_data) : TObjAreaWa
     void *p;
     m_name = TObjCityMainWarp__name;
     warp_range = 25.0f;
-    m_c4 = 0.0f;
+    frame = 0.0f;
     for (i = 0; i < 17; i++) {
         menu_destinations[i] = 0;
     }
@@ -551,9 +551,9 @@ s32 TObjCityMainWarp::is_warp_enabled() {
 void TObjCityMainWarp::run_task() {
     f32 lim = (f32)(city_common_model_archive->motions[7].motion->frameCount - 1);
 
-    m_c4 += 4.0f;
-    if (m_c4 >= lim) {
-        m_c4 -= lim;
+    frame += 4.0f;
+    if (frame >= lim) {
+        frame -= lim;
     }
     handle_area_selection();
 }
@@ -566,7 +566,7 @@ void TObjCityMainWarp::render() {
         rotate_matrix_y(0, this->rotation_y);
         draw_ginja_object((void *)city_common_model_archive->models[12].model);
         TParticleCtrl::begin_effect_render();
-        draw_ginja_model_with_motion((void *)city_common_model_archive->models[0].model, city_common_model_archive->motions[5].motion, this->m_c4);
+        draw_ginja_model_with_motion((void *)city_common_model_archive->models[0].model, city_common_model_archive->motions[5].motion, this->frame);
         TParticleCtrl::end_effect_render();
         pop_matrix();
     }
@@ -589,7 +589,7 @@ void TObjCityMainWarp::debug_print_area_num() {
 TObjCityAreaWarp::TObjCityAreaWarp(TObject *parent, void *set_data) : TObjAreaWarp(parent, set_data) {
     this->m_name = TObjCityAreaWarp__name;
     warp_range = 23.0f;
-    this->m_c4 = 0.0f;
+    this->frame = 0.0f;
     this->dest_floor = 15;
 }
 
@@ -631,7 +631,7 @@ void TObjCityAreaWarp::do_warp() {
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_y(0, this->rotation_y);
         TParticleCtrl::begin_effect_render();
-        draw_ginja_model_with_motion((void *)city_common_model_archive->models[1].model, city_common_model_archive->motions[6].motion, this->m_c4);
+        draw_ginja_model_with_motion((void *)city_common_model_archive->models[1].model, city_common_model_archive->motions[6].motion, this->frame);
         TParticleCtrl::end_effect_render();
         pop_matrix();
     }
