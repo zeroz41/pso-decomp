@@ -455,7 +455,7 @@ s32 TWindowMainMenu::filter_menu_entry(s16 *arg1, s32 *arg2) {
 }
 
 void TWindowMainMenu::update_keyboard_card_state() {
-    if (test_keyboard_card_flag4((void *)(this->client_index)) != 0) {
+    if (test_keyboard_card_flag4((void *)(*(saddr *)((s8 *)this + 0x54))) != 0) {
         *(s16 *)((s8 *)this + 0x52) = 0;
         return;
     }
