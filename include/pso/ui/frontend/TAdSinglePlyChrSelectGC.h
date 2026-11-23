@@ -147,7 +147,7 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     void crypt_data_be(u32 *data, s32 len);
     void append_extension_if_missing(char *name, char *ext);
     static saddr get_char_index(unsigned int);
-    static s32 run_save_load_sequence();
+    static void run_save_load_sequence();
     static s32 init();
     static s32 load_character_from_card(int);
     static void copy_slot_data(void *, void *);
@@ -158,7 +158,7 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     static s32 increment_frame();
     static s32 get_player_count();
     static s32 save_online_character();
-    static s32 reset_character_data();
+    static void reset_character_data();
     static s32 all_players_loaded();
     static void alloc_char_buffers();
     static s32 apply_loaded_character(int arg0);
