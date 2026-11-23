@@ -953,6 +953,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # TObjWarpJungMain.cpp reaches each .rodata object with its own lis/addi: -pool off.
     "pso/object/warp/TObjWarpJungMain.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-pool off")},
     "pso/ui/window/TWindowComCard.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    "pso/ui/window/TWindowComCardFollower.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # .data holds the vtable (0x804D0FF0) ahead of run_task's jump table: deferred generation of the last-to-first source.
     "pso/ui/window/TWindowSubComCard_80271E7C.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
     "pso/ui/window/TWindowSubCustomEquip.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
