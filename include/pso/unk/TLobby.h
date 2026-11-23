@@ -766,7 +766,7 @@ struct TLobby : public TObject {
     static void bswap_entry_words(s32 arg0);
     static void set_lobby_id(int a0);
     static void set_global_805D3614(int a0);
-    void bswap_enemy_set_rows(u32 arg1);
+    void bswap_enemy_set_rows(u32 size);
     static void init_floor_encounter_sections();
     static void handle_msg_type1_for_idle_slots();
     static s32 handle_msg_type2(s32 arg0);

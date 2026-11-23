@@ -50,9 +50,9 @@ void TLobby::refresh_quest_list(const char *path) {
     }
 }
 
-void TLobby::bswap_enemy_set_rows(u32 arg1) {
+void TLobby::bswap_enemy_set_rows(u32 size) {
     Ent_801F3A80* p = (Ent_801F3A80*)this;
-    u32 n = arg1 / sizeof(Ent_801F3A80);
+    u32 n = size / sizeof(Ent_801F3A80);
     u32 i;
     for (i = 0; i < n; i++, p++) {
         bswap_enemy_set_row(p);
