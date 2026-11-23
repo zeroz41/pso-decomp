@@ -102,7 +102,7 @@ struct TWindowSubStatusDisp : public TWindowBase {
     void init_gauge_entry();
     void update_status_entry();
     void update_hp_tp_level();
-    static f32 get_base_y(f32 farg0);
+    static f32 get_base_y(f32 width);
     void update_entry_color();
     void set_entry_state(s8 entry_state);
     void draw_entry_tab(void *arg1);

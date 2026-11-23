@@ -81,8 +81,8 @@ void draw_window_tab(WindowDrawContext *context, f32 *pos, u8 idx, f32 width) {
     TWindowSubStatusDisp::get_player();
 }
 
-f32 TWindowSubStatusDisp::get_base_y(f32 farg0) {
-    return (1.6e+02f) + farg0;
+f32 TWindowSubStatusDisp::get_base_y(f32 width) {
+    return (1.6e+02f) + width;
 }
 
 f32 TWindowSubStatusDisp__sub_802877A4(f32 farg0) {
