@@ -37,6 +37,7 @@
 #include "pso/ui/window/TWindowSubEquip_80263AB0.h"
 #include "pso/ui/window/TWindowHelpItem.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/ui/window/TWindowSubComCard_80265410.h"
 
 #pragma readonly_strings on
 
@@ -55,7 +56,6 @@ saddr get_window_layout_position(s32);
 s32 TObjPlayer__sub_801B7B58(int, int, int);
 }
 
-saddr create_titled_window_menu(saddr position, s32 count, saddr title, s32 client_id);
 void add_item_purpose_actions(TWindowSubItem *arg0, saddr arg1, saddr arg2);
 
 extern "C" {

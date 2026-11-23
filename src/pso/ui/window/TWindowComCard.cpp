@@ -73,7 +73,6 @@ extern "C" {
 s8 TWindowSubComCard__sub_8007B6EC(void *);
 s32 TWindowSubComCard__sub_8007B6F4(void *);
 }
-s32 get_class_name_text(s32 class_index);
 
 extern u8 *text_language_group_table;
 

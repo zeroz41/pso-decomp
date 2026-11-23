@@ -26,6 +26,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/object/TObjLuker_801329B0.h"
 
 
 #pragma readonly_strings on
@@ -143,7 +144,6 @@ extern "C" {
 s16 obj_getS16_2BA(LockOnEnemyView *);
 s32 is_split_screen(void);
 }
-s32 enemy_name_for_rt_index(s32 rt_index);
 extern "C" {
 u32 calc_text_width(int);
 }

@@ -274,7 +274,6 @@ void free_buffers__9TWindowDDFv(void);
 s32 classify_id__9TWindowDDFs();
 }
 
-s32 TWindowDD_check_input_mask(void *input_context, s32 mask);
 
 void clear_window_dd_nodes(void);
 extern "C" {

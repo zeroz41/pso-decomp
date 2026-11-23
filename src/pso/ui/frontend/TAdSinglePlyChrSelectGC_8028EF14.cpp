@@ -258,7 +258,6 @@ struct Sel_802902CC {
 };
 
 }
-extern const char *chara_select_creation_shape_rel_files[];
 void map_shape_region_samples(s32 region, s32 *samples);
 extern CreationShapeBlend creation_shape_blend;
 s32 clear_creation_shape_eval_masks(f32 *dst, const f32 *a, const f32 *b, const f32 *c);

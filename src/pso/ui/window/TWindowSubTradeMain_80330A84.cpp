@@ -127,8 +127,6 @@ struct TWindowSubTradeMain_8033162C {
     void *chat;
     u8 submission[4];
 };
-saddr create_titled_window_menu(saddr position, s32 count, saddr title, s32 client_id);
-void window_request_show(void *);
 extern "C" {
 s32 get_state__19TWindowSubTradeMainFv(void *, void *);
 void TWindowSubTradeMain__sub_803323C8(void *);

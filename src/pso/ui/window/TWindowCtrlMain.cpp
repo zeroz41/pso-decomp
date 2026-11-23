@@ -108,7 +108,6 @@ int TWindowMainMenu__sub_8024E3F4(void *p);
 s32 TWindowMainMenu__sub_8024E3E0(void *);
 saddr get_window_layout_position(s32);
 }
-void window_request_show(void *object);
 struct Ctl_8024E2A8 {
     s32 f0;
     u8 pad4[0x18 - 4];

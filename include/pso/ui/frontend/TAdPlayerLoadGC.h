@@ -22,6 +22,8 @@ struct CardRequestSlot {
     u8 pad65[3];
 };
 
+extern CardRequestSlot load_request_slots[2];
+
 // Memory-card watcher of the character-select screens: run_task steps through the probe,
 // mount and file checks of slot A and, depending on mode, of slot B.
 class TAdPlayerLoadGC : public TObject {

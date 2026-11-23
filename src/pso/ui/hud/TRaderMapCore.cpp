@@ -53,6 +53,7 @@
 #include "pso/unk/text_800F8A18.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
+#include "pso/unk/TLobby_80207DA8.h"
 
 typedef struct RadarInitPiece_801F9474 {
     s16 id, flags;
@@ -395,7 +396,6 @@ struct MRec_801FB490 { f32 v[3]; s32 a0; f32 a4; s16 h[2]; u8 padac[0x28 - 0x18]
 
 
 struct Ent_801FB798 { s32 a; char *name; };
-saddr get_floor_scene_table(s32 area);
 extern "C" {
 void bind_gvm_texture_list(char *, u8 *);
 }

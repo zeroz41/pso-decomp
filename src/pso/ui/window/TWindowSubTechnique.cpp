@@ -24,9 +24,11 @@
 #include "pso/ui/window/TWindowCtrl_8024A054.h"
 #include "pso/ui/window/TWindowMainMenu.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/ui/window/TWindowSubComCard_80265410.h"
+#include "pso/ui/window/TWindowHelpItem_80255AB4.h"
+#include "pso/unk/text_80263A20.h"
 
 
-saddr create_titled_window_menu(saddr position, s32 count, saddr title, s32 client_id);
 extern "C" {
 saddr get_window_layout_position(int);
 }
@@ -123,14 +125,11 @@ u8 *calc_technique_parameters(s16, u8, s32);
 s32 get_cast_technique_level(void *, int);
 s32 validate_and_clear_slot__10TObjPlayerFPvs(void *, int);
 }
-saddr get_help_text_string(s32 id);
 extern "C" {
 s32 try_equip_item__10TObjPlayerFii(saddr, s32);
 void play_sound_effect(s32, s32, s32, s32);
 }
 void text_builder_reset(void);
-void toggle_help_window_on_button(uaddr object, s32 client_index);
-saddr create_titled_window_menu(saddr, s32, saddr, s32);
 
 
 s32 TWindowSubTechnique::open_menu() {

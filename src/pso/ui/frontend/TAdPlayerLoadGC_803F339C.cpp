@@ -7,8 +7,6 @@
 #undef PSO_SDK_COMPACT_MATH
 
 extern "C" {
-extern CardRequestSlot load_request_slots[];
-extern CardFileEntry card_open_files[];
 
 s32 TAdPlayerLoadGC::take_card_read_result(s32 arg0, s32 *card_detail) {
     s32 r;

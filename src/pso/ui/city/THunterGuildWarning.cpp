@@ -2,6 +2,7 @@
 #include "types.h"
 #include "pso/ui/city/THunterGuildSeqOffline.h"
 #include "pso/ui/city/THunterGuildSeqOffline_80213788.h"
+#include "pso/network/client_id.h"
 #include "pso/ui/city/THunterGuildWarning.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TMainTask.h"
@@ -209,8 +210,6 @@ int TLobby::get_selected_quest_id() { return TQuestListOnline::get_selected_ques
 #include "pso/quest/TQuestListOnline.h"
 
 extern "C" {
-extern s32 designated_client_id;
-extern s32 local_client_id;
 s32 THunterGuildSeqOffline__sub_80213458(void);
 }
 

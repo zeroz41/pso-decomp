@@ -41,6 +41,9 @@
 #include "pso/ui/window/TWindowMainMenu.h"
 #include "pso/ui/window/TWindowSubEquip_80263AB0.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/ui/window/TWindowSubComCard_80265410.h"
+#include "pso/ui/window/TWindowHelpItem_80255AB4.h"
+#include "pso/unk/text_80263A20.h"
 
 #pragma readonly_strings on
 
@@ -70,16 +73,11 @@ extern const f32 lbl_8044F9F0[2] = {206.0f, 184.0f};
 extern const f32 lbl_8044F9F8[2] = {308.0f, 124.0f};
 extern const f32 lbl_8044FA00[2] = {214.0f, 184.0f};
 }
-s32 get_help_text_string(s32 id);
 extern "C" {
 s32 create_equip_kind_window(saddr, const f32 *, s32);
 }
-saddr create_titled_window_menu(saddr position, s32 count, saddr title, s32 client_id);
 void append_text_space(void);
 void text_builder_reset(void);
-void window_request_show(void *object);
-void window_request_refresh(u8 *help);
-void toggle_help_window_on_button(uaddr object, s32 client_index);
 
 extern "C" const char lbl_805DD648[] = "";
 // Deferred code generation: the functions are written last to first (see configure.py).

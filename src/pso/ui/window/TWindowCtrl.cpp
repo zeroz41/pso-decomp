@@ -61,6 +61,7 @@
 #include "pso/ui/window/TWindowMainMenu_8024E3CC.h"
 #include "pso/unk/text_8026AC50.h"
 #include "pso/unk/text_8026ACDC.h"
+#include "pso/unk/text_80076BC4.h"
 
 TWindowCtrl *TWindowCtrl::instance;
 u16 lbl_805D63FC;
@@ -204,7 +205,6 @@ s32 apply_default_vec__11TWindowCtrlFll(void *, s32);
 
 }
 
-s32 chat_accept_submission(saddr submission);
 
 typedef struct Win_8024BE80 {
     u8 pad0[0x34];
