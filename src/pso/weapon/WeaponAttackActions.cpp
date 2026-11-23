@@ -791,11 +791,6 @@ void TItemWeapon::sample_dual_muzzles(Vec *primary, Vec *secondary) {
 
 // ---- pso/unk/text_8011FC24
 
-extern "C" {
-
-void TItemEffectWeapon__sub_8036340C(void*);
-void TItemEffectWeapon__sub_80363410(void*);
-
 void TItemWeapon::update_trails() {
     u8 *arg0 = (u8 *)this;
     if (((TItemWeapon *)arg0)->test_weapon_flags(0x400U) != 0U) {
@@ -852,8 +847,6 @@ void TItemWeapon::render_equipped() {
         } while (count != 4);
     }
 }
-
-}
 void TItemWeapon::update_equipped() {
     TItemWeapon* self=this;
     s32 stage;
@@ -883,16 +876,16 @@ void TItemWeapon::update_equipped() {
         if(((TItem *)self)->is_hidden()) {
             count=0;
             do {
-                void* trail=self->trails[count];
-                if(trail) TItemEffectWeapon__sub_8036340C(trail);
+                TItemEffectWeapon* trail=self->trails[count];
+                if(trail) trail->update_hidden();
                 count++;
             } while(count!=4);
             return;
         }
         idle_count=0;
         do {
-            void* trail=self->trails[idle_count];
-            if(trail) TItemEffectWeapon__sub_80363410(trail);
+            TItemEffectWeapon* trail=self->trails[idle_count];
+            if(trail) trail->update_shown();
             idle_count++;
         } while(idle_count!=4);
     }

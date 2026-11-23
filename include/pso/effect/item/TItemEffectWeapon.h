@@ -9,6 +9,8 @@ public:
     TItemEffectWeapon(saddr parent, s32 param);
     virtual ~TItemEffectWeapon();
     void run_task();
+    void update_hidden();  // each frame the weapon is hidden (TItemWeapon::update_equipped)
+    void update_shown();   // each frame the weapon is shown
 public:
     typedef TrailStripVertex TrailVertex;
     void render_trail();

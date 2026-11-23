@@ -21,15 +21,9 @@
 #pragma readonly_strings on
 const char *TItemEffectWeapon::class_name = "TItemEffectWeapon";
 
-extern "C" {
+void TItemEffectWeapon::update_hidden() {}
 
-void TItemEffectWeapon__sub_8036340C(void);
-void TItemEffectWeapon__sub_80363410(void);
-
-
-void TItemEffectWeapon__sub_8036340C(void) {  }
-void TItemEffectWeapon__sub_80363410(void) {  }
-}
+void TItemEffectWeapon::update_shown() {}
 
 void TItemEffectWeapon::run_task() {
     s32 offset;
