@@ -292,7 +292,6 @@ struct TLobby : public TObject {
     u8 normalize_battle_rule_value_b();
     u8 clamp_rule_value_2();
     void reset_settings_to_default();
-    void bswap_cmd_d8_header();
     void bswap_c6_packet();
     void bswap_cmd_c5();
     void bswap_guild_card_meet_user();

@@ -84,6 +84,40 @@ union packet {
     u8 bytes[0x7c00];
 };
 
+// 8A: the name of the lobby the client is in.
+struct TRecvLobbyName {
+    packet_header header;
+    char name[16];
+};
+
+// B1: the server's current time as text; the bytes after it carry the lobby state flags.
+struct TRecvServerTime {
+    packet_header header;
+    char time[0x19];
+    s8 time_flags_low;
+    s8 time_flags_mid;
+    s8 time_flags_high;
+};
+
+// C0: the choice search options the server offers (56 entries of 32 bytes).
+struct TRecvChoiceSearchOptions {
+    packet_header header;
+    u8 entries[56][32];
+};
+
+// D8: the info boards of the players in the lobby.
+struct TInfoBoardEntry {
+    char name[16];
+    char text[0xAC];
+};
+
+struct TRecvInfoBoard {
+    packet_header header;
+    TInfoBoardEntry entries[12];
+
+    void bswap();
+};
+
 #define RECV_PACKET_HANDLERS \
     o(handle_unused_login, void) \
     o(handle_03_recv_regist, u8 state) \
@@ -115,9 +149,9 @@ union packet {
     o(send_96_unused, void) \
     o(handle_97_checksum_reply_packet, u8 flags) \
     o(handle_B1_current_time_packet, void) \
-    o(handle_C0_choice_search_option_packet, void) \
+    o(handle_C0_choice_search_option_packet, TRecvChoiceSearchOptions *options) \
     o(handle_C4_choice_search_reply_packet, void) \
-    o(handle_D8_infoboard_packet, void) \
+    o(handle_D8_infoboard_packet, TRecvInfoBoard *info_board) \
     o(handle_A2_recv_quest_menu_list, TMenuList<QuestListEntry, 30, 0> &quest_list) \
     o(handle_A3_recv_quest_menu_info, TPlyText<288> &info) \
     o(handle_44_recv_download_head, TRecvDownloadHead &download_head) \
@@ -130,7 +164,7 @@ union packet {
     o(handle_1F_recv_text_list, int entry_count, GameListEntry *entries, GameListEntry &entry_0) \
     o(handle_B0_recv_emergency_call, char *mesg) \
     o(handle_88_player_arrow_color_list_packet, void) \
-    o(handle_8A_lobby_name_packet, void) \
+    o(handle_8A_lobby_name_packet, char *name) \
     o(handle_C5_player_challenge_data_packet, void) \
     o(handle_DA_lobby_event_packet, int theme) \
     o(handle_AB_quest_stats_response_packet, void) \

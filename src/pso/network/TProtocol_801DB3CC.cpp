@@ -2,19 +2,11 @@
 #include "pso/network/TProtocol.h"
 #include "pso/unk/text_801DF280.h"
 
-struct TRecvServerTime {
-    packet_header header;
-    char time[0x19];
-    s8 time_flags_low;
-    s8 time_flags_mid;
-    s8 time_flags_high;
-};
-
-
+// The lobby registers a no-argument function as the B1 handler; the protocol passes it the time text.
 typedef void (*server_time_handler)(char *time);
 
 void TProtocol::handle_cmd_B1(packet &pkt) {
-    TRecvServerTime recv = *(TRecvServerTime *)&pkt;
+    TRecvServerTime recv = as(TRecvServerTime &, pkt);
     server_time_handler handler;
     s32 low = recv.time_flags_low;
     s32 mid = recv.time_flags_mid;

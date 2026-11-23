@@ -18,8 +18,6 @@ const char *lobby_server_greeting_text = "DreamCast Lobby Server. Copyright SEGA
 const char *port_map_copyright = "DreamCast Port Map. Copyright SEGA Enterprises. 1999";
 OBJECT_NAME(TProtocol);
 
-struct Text_801DA240 { u32 hdr; char text[0x1000]; };
-struct Pkt_801DA5E4 { u32 hdr; u8 body[0x8D0]; };
 
 #include "types.h"
 #pragma inline_depth(1)
@@ -84,14 +82,11 @@ struct Pkt_801DA734 {
 extern "C" {
 void handle_cmd_D3__9TProtocolFR6packet(u8 *arg0, Pkt_801DA35C *src);
 void send_trade_list__6TLobbyFPvPv(VObj_18_801DA4A0 *obj, Pkt_801DA4A0 *src);
-typedef void (*Fn_801DA240)(char *);
-typedef void (*Fn_801DA5E4)(void *);
 
-void handle_cmd_D5__9TProtocolFR6packet(u8 *arg0, Text_801DA240 *arg1) {
-    Text_801DA240 tmp = *arg1;
-    Fn_801DA240 f = *(Fn_801DA240 *)(arg0 + 0xBBF8);
-    if (f != NULL) {
-        f(tmp.text);
+void TProtocol::handle_cmd_D5(packet &pkt) {
+    TPlyText<0x1000> tmp = as(TPlyText<0x1000> &, pkt);
+    if (m_recv_handlers.handle_1A_D5_recv_text != NULL) {
+        m_recv_handlers.handle_1A_D5_recv_text(tmp.text);
     }
 }
 }
@@ -170,12 +165,11 @@ void TProtocol::send_text_packet_D9(char *str) {
     send((u8 *)&pkt, n);
 }
 
-void handle_cmd_D8__9TProtocolFR6packet(u8 *arg0, Pkt_801DA5E4 *arg1) {
-    Pkt_801DA5E4 tmp = *arg1;
-    ((TLobby *)(&tmp))->bswap_cmd_d8_header();
-    Fn_801DA5E4 f = *(Fn_801DA5E4 *)(arg0 + 0xBC54);
-    if (f != NULL) {
-        f(&tmp);
+void TProtocol::handle_cmd_D8(packet &pkt) {
+    TRecvInfoBoard tmp = as(TRecvInfoBoard &, pkt);
+    tmp.bswap();
+    if (m_recv_handlers.handle_D8_infoboard_packet != NULL) {
+        m_recv_handlers.handle_D8_infoboard_packet(&tmp);
     }
 }
 
