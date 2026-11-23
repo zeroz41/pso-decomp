@@ -209,13 +209,13 @@ TTecLuker::TTecLuker(saddr source, Vec *pos, Vec *target, s32 level) : TTecCircl
     floor = get_current_floor();
     placement = NULL;
     if (this->source != 0) {
-        m_b4 = get_entity_id((void *)this->source);
+        sourceId = get_entity_id((void *)this->source);
     }
     traveller = local_client_id;
-    if (is_split_screen() == 0 && m_b4 != local_client_id) {
+    if (is_split_screen() == 0 && sourceId != local_client_id) {
         VecCopy(&pipe_pos, (const Vec *)((u8 *)this->source + 0x838));
     } else {
-        traveller = m_b4;
+        traveller = sourceId;
         if (level == 10) {
             VecCopy(&pipe_pos, target);
         } else {
@@ -263,7 +263,7 @@ void TTecLuker::run_task() {
     u8 *player;
     u8 *owner;
     TUnk_804C4450 *tgt;
-    source = (uaddr)find_entity_by_id(m_b4);
+    source = (uaddr)find_entity_by_id(sourceId);
     owner = (u8 *)source;
     if (owner == NULL) {
         queue_destruction();
@@ -284,7 +284,7 @@ void TTecLuker::run_task() {
             }
             if (TTecLuker__sub_80235054(tgt) != 0) {
                 VecCopy(&pipe_pos, &((TObjBase *)source)->position);
-                if ((telepipe_record_differs((Rec_8023402C *)((u8 *)source + 0x830), floor, &pipe_pos, traveller) == 0) && ((s8) TTecLuker__visit_counts[m_b4] >= 1)) {
+                if ((telepipe_record_differs((Rec_8023402C *)((u8 *)source + 0x830), floor, &pipe_pos, traveller) == 0) && ((s8) TTecLuker__visit_counts[sourceId] >= 1)) {
                     queue_destruction();
                     return;
                 }
@@ -293,7 +293,7 @@ void TTecLuker::run_task() {
         }
         break;
     case 1:
-        temp_r5 = m_b4;
+        temp_r5 = sourceId;
         if (temp_r5 < 4U) {
             TTecLuker__visit_counts[temp_r5] = TTecLuker__visit_counts[temp_r5] + 1;
         }

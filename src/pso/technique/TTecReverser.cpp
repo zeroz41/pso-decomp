@@ -141,12 +141,12 @@ TTecReverser::TTecReverser(saddr arg1, saddr origin, saddr targets, saddr level)
     __ct__16TargetCursorListFv((tec_reverser + 0xEC));
     ((TTecReverser *)tec_reverser)->m_name = lbl_805D3818;
     ((TechniqueParams *)(tec_reverser + 0x88))->copy(&technique_param_table[17]);
-    ((TTecReverser *)tec_reverser)->sub_8022BE64(tec_reverser + 0x88, level);
+    ((TTecReverser *)tec_reverser)->sub_8022BE64((TechniqueParams *)(tec_reverser + 0x88), level);
     copy_technique_target_list(tec_reverser + 0xEC, (void *)targets);
     play_sound_effect(0x4002A812, tec_reverser + 0x20, 0, 0);
     temp_r3 = ((TTecReverser *)tec_reverser)->source;
     if (temp_r3 != 0U) {
-        ((TTecReverser *)tec_reverser)->m_b4 = get_entity_id(temp_r3);
+        ((TTecReverser *)tec_reverser)->sourceId = get_entity_id(temp_r3);
     }
 }
 #undef tec_reverser
@@ -161,7 +161,7 @@ void TTecReverser::create(void *source, void *origin, void *targets, s32 level) 
 
 void run_task__12TTecReverserFv(u8 *tec_reverser) {
     uaddr entity;
-    ((TTecReverser *)tec_reverser)->source = (uaddr)find_entity_by_id((((TTecReverser *)tec_reverser)->m_b4));
+    ((TTecReverser *)tec_reverser)->source = (uaddr)find_entity_by_id((((TTecReverser *)tec_reverser)->sourceId));
     if ((u32) ((TTecReverser *)tec_reverser)->source == 0U) {
         ((TObject *)tec_reverser)->queue_destruction();
         return;

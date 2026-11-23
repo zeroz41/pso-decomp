@@ -57,9 +57,9 @@ void copy_technique_target_list(void *, void *);
 void TTecJelin::init_tech_params() {
     u8 *arg0 = (u8 *)this;
     TechniqueParams *res;
-    res = calc_technique_parameters(0xB, this->m_78, 0xFFFF);
+    res = calc_technique_parameters(0xB, this->level, 0xFFFF);
     ((TechniqueParams *)(arg0 + 0x88))->copy((TechniqueParams *)res);
-    this->m_88 = (f32) (*(s16 *)&this->m_ac * this->m_78);
+    this->power = (f32) (*(s16 *)&this->m_ac * this->level);
 }
 
 void TTecJelin::vfunc_6(void *target_arg) {
@@ -79,7 +79,7 @@ void TTecJelin::render() {  }
 void TTecJelin::run_task() {
     s32 i;
     uaddr id;
-    source = (uaddr)find_entity_by_id(m_b4);
+    source = (uaddr)find_entity_by_id(sourceId);
     if (source == 0) {
         queue_destruction();
         return;
@@ -108,8 +108,8 @@ TTecJelin::TTecJelin(saddr source, Vec *pos, TargetCursorList *list, s32 level) 
     copy_technique_target_list(&targets, list);
     init_tech_params();
     VecCopy(&position, pos);
-    if (m_e8 != NULL) {
-        m_e8->bodies->radius = m_90;
+    if (collidable != NULL) {
+        collidable->bodies->radius = scope;
     }
     switch (band) {
     case 0:
@@ -132,7 +132,7 @@ TTecJelin::TTecJelin(saddr source, Vec *pos, TargetCursorList *list, s32 level) 
         break;
     }
     if (this->source != 0) {
-        m_b4 = get_entity_id((void *)this->source);
+        sourceId = get_entity_id((void *)this->source);
     }
 }
 
@@ -142,8 +142,8 @@ TTecJelin::TTecJelin(saddr source, Vec *pos, Vec *target, s32 level) : TTecCircl
     has_targets = 0;
     init_tech_params();
     VecCopy(&position, &this->target);
-    if (m_e8 != NULL) {
-        m_e8->bodies->radius = m_90;
+    if (collidable != NULL) {
+        collidable->bodies->radius = scope;
     }
     switch (band) {
     case 0:
@@ -166,6 +166,6 @@ TTecJelin::TTecJelin(saddr source, Vec *pos, Vec *target, s32 level) : TTecCircl
         break;
     }
     if (this->source != 0) {
-        m_b4 = get_entity_id((void *)this->source);
+        sourceId = get_entity_id((void *)this->source);
     }
 }

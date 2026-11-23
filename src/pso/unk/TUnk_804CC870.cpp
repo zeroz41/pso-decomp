@@ -247,15 +247,15 @@ void TUnk_804CC870::render() {
 
 
 void TTecGrants::init_parameters() {
-    TechniqueParams *params = calc_technique_parameters(9, m_78, 0xFFFF);
-    ((TechniqueParams *)&m_88)->copy(params);
-    if (m_78 >= 15 && TTecCtrl::is_technique_ready() == 0) {
-        m_88 = (f32)(tech_high_level_linear_power_table[9].base + tech_high_level_linear_power_table[9].per_level * m_78);
+    TechniqueParams *params = calc_technique_parameters(9, level, 0xFFFF);
+    ((TechniqueParams *)&power)->copy(params);
+    if (level >= 15 && TTecCtrl::is_technique_ready() == 0) {
+        power = (f32)(tech_high_level_linear_power_table[9].base + tech_high_level_linear_power_table[9].per_level * level);
         return;
     }
-    m_88 = m_88 + (f32)(((TechniqueParams *)&m_88)->pad_24 * m_78);
+    power = power + (f32)(((TechniqueParams *)&power)->pad_24 * level);
     if (TTecCtrl::is_technique_ready()) {
-        m_88 = m_88 * lbl_804CC55C[9].pad_00;
+        power = power * lbl_804CC55C[9].pad_00;
     }
 }
 

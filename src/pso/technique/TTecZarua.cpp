@@ -56,9 +56,9 @@ void copy_technique_target_list(void *, void *);
 
 void TTecZarua::calc_range() {
     u8 *arg0 = (u8 *)this;
-    TechniqueParams *params = calc_technique_parameters(0xC, this->m_78, 0xFFFF);
+    TechniqueParams *params = calc_technique_parameters(0xC, this->level, 0xFFFF);
     ((TechniqueParams *)(arg0 + 0x88))->copy(params);
-    this->m_88 = (f32) (*(s16 *)&this->m_ac * this->m_78);
+    this->power = (f32) (*(s16 *)&this->m_ac * this->level);
 }
 
 void TTecZarua::vfunc_6(void *target_arg) {
@@ -78,7 +78,7 @@ void TTecZarua::render() {  }
 void TTecZarua::run_task() {
     s32 i;
     uaddr id;
-    source = (uaddr)find_entity_by_id(m_b4);
+    source = (uaddr)find_entity_by_id(sourceId);
     if (source == 0) {
         queue_destruction();
         return;
@@ -107,8 +107,8 @@ TTecZarua::TTecZarua(saddr source, Vec *pos, TargetCursorList *list, s32 level) 
     copy_technique_target_list(&targets, list);
     calc_range();
     VecCopy(&position, pos);
-    if (m_e8 != NULL) {
-        m_e8->bodies->radius = m_90;
+    if (collidable != NULL) {
+        collidable->bodies->radius = scope;
     }
     switch (band) {
     case 0:
@@ -131,7 +131,7 @@ TTecZarua::TTecZarua(saddr source, Vec *pos, TargetCursorList *list, s32 level) 
         break;
     }
     if (this->source != 0) {
-        m_b4 = get_entity_id((void *)this->source);
+        sourceId = get_entity_id((void *)this->source);
     }
 }
 
@@ -141,8 +141,8 @@ TTecZarua::TTecZarua(saddr source, Vec *pos, Vec *target, s32 level) : TTecCircl
     has_targets = 0;
     calc_range();
     VecCopy(&position, &this->target);
-    if (m_e8 != NULL) {
-        m_e8->bodies->radius = m_90;
+    if (collidable != NULL) {
+        collidable->bodies->radius = scope;
     }
     switch (band) {
     case 0:
@@ -165,6 +165,6 @@ TTecZarua::TTecZarua(saddr source, Vec *pos, Vec *target, s32 level) : TTecCircl
         break;
     }
     if (this->source != 0) {
-        m_b4 = get_entity_id((void *)this->source);
+        sourceId = get_entity_id((void *)this->source);
     }
 }

@@ -7,6 +7,7 @@
 
 #include "pso/system/vector.h"
 #include "pso/technique/TTecReverser.h"
+#include "pso/technique/TechniqueParams.h"
 
 #include "pso/system/task/TObject.h"
 #include "pso/math/MatrixVector.h"
@@ -17,7 +18,7 @@
 // Built with deferred code generation (configure.py): the functions run last to first.
 
 TTecCircle::TTecCircle(saddr source, Vec *pos, Vec *target, s32 level) : TEffect() {
-    this->m_b4 = 0xFFFF;
+    this->sourceId = 0xFFFF;
     VecCopy(&this->position, pos);
     VecCopy(&this->target, target);
     this->scale.x = 1.0f;
@@ -27,13 +28,13 @@ TTecCircle::TTecCircle(saddr source, Vec *pos, Vec *target, s32 level) : TEffect
     this->m_b8 = 0;
     this->source = source;
     if (level < 0) {
-        this->m_78 = 0;
+        this->level = 0;
     } else if (level >= 0x1E) {
-        this->m_78 = 0x1E;
+        this->level = 0x1E;
     } else {
-        this->m_78 = level;
+        this->level = level;
     }
-    this->band = TObjPlayer::get_level_tier(this->m_78);
+    this->band = TObjPlayer::get_level_tier(this->level);
     this->color.a = 0.2f;
     this->color.r = 1.0f;
     this->color.g = 1.0f;
@@ -55,15 +56,15 @@ TTecCircle::TTecCircle(saddr source, Vec *pos, Vec *target, s32 level) : TEffect
     } else {
         this->collisionBody.flags = 0x40007;
     }
-    this->m_e8 = new TObjCollidable(this);
-    if (this->m_e8 != NULL) {
-        init_collision_body_parts(this->m_e8, &this->collisionBody, 1);
+    this->collidable = new TObjCollidable(this);
+    if (this->collidable != NULL) {
+        init_collision_body_parts(this->collidable, &this->collisionBody, 1);
     }
 }
 
-TTecCircle::TTecCircle(saddr arg1, saddr arg2, s32 arg4) : TEffect() {
-    this->m_b4 = 0xFFFF;
-    VecCopy(&this->position, (const Vec *)arg2);
+TTecCircle::TTecCircle(saddr source, saddr pos, s32 level) : TEffect() {
+    this->sourceId = 0xFFFF;
+    VecCopy(&this->position, (const Vec *)pos);
     this->target.x = 0.0f;
     this->target.y = 0.0f;
     this->target.z = 0.0f;
@@ -72,15 +73,15 @@ TTecCircle::TTecCircle(saddr arg1, saddr arg2, s32 arg4) : TEffect() {
     this->scale.y = 1.0f;
     this->scale.z = 1.0f;
     this->m_74 = 0;
-    this->source = arg1;
-    if (arg4 < 0) {
-        this->m_78 = 0;
-    } else if (arg4 >= 0x1E) {
-        this->m_78 = 0x1E;
+    this->source = source;
+    if (level < 0) {
+        this->level = 0;
+    } else if (level >= 0x1E) {
+        this->level = 0x1E;
     } else {
-        this->m_78 = arg4;
+        this->level = level;
     }
-    this->band = TObjPlayer::get_level_tier(this->m_78);
+    this->band = TObjPlayer::get_level_tier(this->level);
     this->color.a = 0.2f;
     this->color.r = 1.0f;
     this->color.g = 1.0f;
@@ -102,15 +103,15 @@ TTecCircle::TTecCircle(saddr arg1, saddr arg2, s32 arg4) : TEffect() {
     } else {
         this->collisionBody.flags = 0x40007;
     }
-    this->m_e8 = new TObjCollidable(this);
-    if (this->m_e8 != NULL) {
-        init_collision_body_parts(this->m_e8, &this->collisionBody, 1);
+    this->collidable = new TObjCollidable(this);
+    if (this->collidable != NULL) {
+        init_collision_body_parts(this->collidable, &this->collisionBody, 1);
     }
 }
 
 TTecCircle::~TTecCircle() {
-    if (this->m_e8 != NULL) {
-        free_collision_body_parts(this->m_e8);
+    if (this->collidable != NULL) {
+        free_collision_body_parts(this->collidable);
     }
 }
 
@@ -161,8 +162,8 @@ void TTecCircle::render() {
     debug_draw_sphere(&this->position, &this->color, this->scale.x);
 }
 
-void TTecReverser::sub_8022BE64(u8 *arg1, s32 arg2) {
-    *(f32 *)((s8 *)arg1 + 0) = (f32) (*(f32 *)((s8 *)arg1 + 0) + (f32) arg2);
-    this->speed = (f32) *(f32 *)((s8 *)arg1 + 4);
-    this->lifetime = *(f32 *)((s8 *)arg1 + 8);
+void TTecReverser::sub_8022BE64(TechniqueParams *params, s32 level) {
+    params->pad_00 = params->pad_00 + (f32)level;
+    this->speed = params->pad_04;
+    this->lifetime = params->pad_08;
 }

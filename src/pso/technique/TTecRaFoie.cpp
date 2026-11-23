@@ -186,15 +186,15 @@ extern s32 model_render_flags;
 #pragma opt_common_subs off
 
 void TTecRaFoie::calc_area_parameters() {
-    TechniqueParams *params = calc_technique_parameters(2, m_78, 0xFFFF);
-    ((TechniqueParams *)&m_88)->copy(params);
-    if (m_78 >= 15 && TTecCtrl::is_technique_ready() == 0) {
-        m_88 = (f32)(tech_high_level_linear_power_table[2].base + tech_high_level_linear_power_table[2].per_level * m_78);
+    TechniqueParams *params = calc_technique_parameters(2, level, 0xFFFF);
+    ((TechniqueParams *)&power)->copy(params);
+    if (level >= 15 && TTecCtrl::is_technique_ready() == 0) {
+        power = (f32)(tech_high_level_linear_power_table[2].base + tech_high_level_linear_power_table[2].per_level * level);
         return;
     }
-    m_88 = m_88 + (f32)(((TechniqueParams *)&m_88)->pad_24 * m_78);
+    power = power + (f32)(((TechniqueParams *)&power)->pad_24 * level);
     if (TTecCtrl::is_technique_ready()) {
-        m_88 = m_88 * lbl_804CC55C[2].pad_00;
+        power = power * lbl_804CC55C[2].pad_00;
     }
 }
 
@@ -380,7 +380,7 @@ TUnk_804CCB28 *create_fire_explosion_effect(u8 *arg0, f32 farg0, const Vec *pos,
 void TTecRaFoie::vfunc_6(void *target) {
     DirectAttackPayload attack;
     attack.kind = 1;
-    attack.power = m_88;
+    attack.power = power;
     ((TObjChara *)target)->receive_direct_attack((void *)source, attack, (void *)m_b8, 2, -1);
 }
 
@@ -388,11 +388,11 @@ void TTecRaFoie::render() {  }
 
 void run_task__10TTecRaFoieFv(TTecRaFoie *self) {
     TObjChara *chara;
-    if (self->m_e8 == 0) {
+    if (self->collidable == 0) {
         self->queue_destruction();
         return;
     }
-    self->source = (uaddr)find_entity_by_id(self->m_b4);
+    self->source = (uaddr)find_entity_by_id(self->sourceId);
     if (self->source == 0) {
         self->queue_destruction();
         return;
@@ -422,7 +422,7 @@ void TTecRaFoie::update_detonation(void *pos) {
     }
     p = TObject::operator new(0x64);
     if (p != NULL) {
-        create_rafoie_explosion((u8 *)p, (s32 *)&target, band, 10, tl_particle, (f32)m_78);
+        create_rafoie_explosion((u8 *)p, (s32 *)&target, band, 10, tl_particle, (f32)level);
     }
     switch (band) {
     case 0:
@@ -477,11 +477,11 @@ TTecRaFoie::TTecRaFoie(saddr source, Vec *origin, Vec *pos, s32 level) : TTecCir
     calc_area_parameters();
     clear_target_cursor_list(&m_targets);
     m_148 = 1;
-    if (m_e8 != NULL) {
-        m_e8->bodies->radius = m_90;
+    if (collidable != NULL) {
+        collidable->bodies->radius = scope;
     }
     if (this->source != 0) {
-        m_b4 = get_entity_id((void *)this->source);
+        sourceId = get_entity_id((void *)this->source);
     }
     vfunc_8(0);
     vfunc_9();
@@ -494,10 +494,10 @@ TTecRaFoie::TTecRaFoie(saddr source, Vec *origin, TargetCursorList *list, s32 le
     m_148 = 0;
     copy_technique_target_list(&m_targets, list);
     if (this->source != 0) {
-        m_b4 = get_entity_id((void *)this->source);
+        sourceId = get_entity_id((void *)this->source);
     }
-    if (m_e8 != NULL) {
-        m_e8->bodies->radius = m_90;
+    if (collidable != NULL) {
+        collidable->bodies->radius = scope;
     }
     vfunc_8(0);
     vfunc_9();

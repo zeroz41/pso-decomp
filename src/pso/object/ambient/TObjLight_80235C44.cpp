@@ -406,11 +406,11 @@ saddr TTecCircle::collect_body_contacts(TObjCollidable *target, CollisionBody *b
 }
 
 void TTecCircle::find_area_contact(saddr arg1) {
-    find_area_technique_contact(this, this->m_e8, &this->collisionBody, (void *)arg1);
+    find_area_technique_contact(this, this->collidable, &this->collisionBody, (void *)arg1);
 }
 
 saddr TTecCircle::collect_body_contacts_for_target(saddr player) {
-    return collect_body_contacts(m_e8, &collisionBody, (void *)player);
+    return collect_body_contacts(collidable, &collisionBody, (void *)player);
 }
 
 saddr TTecPlayerInfluence::find_support_technique_contact_for_target(saddr player) {

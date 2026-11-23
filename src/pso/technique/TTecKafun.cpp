@@ -83,11 +83,11 @@ TTecKafun::~TTecKafun() {
 
 void TTecKafun::render() {  }
 void TTecKafun::run_task() {
-    if (this->m_e8 == NULL) {
+    if (this->collidable == NULL) {
         queue_destruction();
         return;
     }
-    this->source = (uaddr)find_entity_by_id(this->m_b4);
+    this->source = (uaddr)find_entity_by_id(this->sourceId);
     if (this->source == 0U) {
         queue_destruction();
         return;
@@ -108,12 +108,12 @@ TTecKafun::TTecKafun(saddr source, Vec *pos, s32 kind, s32 effect, s32 second_ef
     this->has_second_effect = 1;
     this->effect = effect;
     this->second_effect = second_effect;
-    if (this->m_e8 != NULL) {
-        this->m_e8->bodies->radius = radius;
+    if (this->collidable != NULL) {
+        this->collidable->bodies->radius = radius;
     }
     play_sound_effect(0x4002A50A, &this->position, 0, 0);
     if (this->source != 0U) {
-        this->m_b4 = get_entity_id((TObjBase *)this->source);
+        this->sourceId = get_entity_id((TObjBase *)this->source);
     }
 }
 
@@ -124,11 +124,11 @@ TTecKafun::TTecKafun(saddr source, Vec *pos, s32 kind, s32 effect, s32 level, f3
     this->hit_kind = kind;
     this->has_second_effect = 0;
     this->effect = effect;
-    if (this->m_e8 != NULL) {
-        this->m_e8->bodies->radius = radius;
+    if (this->collidable != NULL) {
+        this->collidable->bodies->radius = radius;
     }
     play_sound_effect(0x4002A50A, &this->position, 0, 0);
     if (this->source != 0U) {
-        this->m_b4 = get_entity_id((TObjBase *)this->source);
+        this->sourceId = get_entity_id((TObjBase *)this->source);
     }
 }

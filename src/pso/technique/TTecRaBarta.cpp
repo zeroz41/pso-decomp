@@ -293,7 +293,7 @@ void TTecRaBarta::vfunc_6(void *target) {
         }
         HitInfo_80237900 tmp;
         tmp.type = 2;
-        tmp.power = this->m_88;
+        tmp.power = this->power;
         HitInfo_80237900 info = tmp;
         ((VObj_80237900 *)target)->m21(self->source, &info, self->contact, 5, -1);
     }
@@ -338,11 +338,11 @@ void TTecRaBarta::render() {  }
 
 void TTecRaBarta::run_task() {
     u8 *arg0 = (u8 *)this;
-    if ((uaddr) this->m_e8 == 0U) {
+    if ((uaddr) this->collidable == 0U) {
         ((TObject *)arg0)->queue_destruction();
         return;
     }
-    this->source = (uaddr)find_entity_by_id((this->m_b4));
+    this->source = (uaddr)find_entity_by_id((this->sourceId));
     if ((u32) this->source == 0U) {
         ((TObject *)arg0)->queue_destruction();
         return;
@@ -363,8 +363,8 @@ TTecRaBarta::TTecRaBarta(saddr source, Vec *origin, Vec *pos, s32 level) : TTecC
     calc_parameters();
     m_f0 = 1;
     VecCopy(&position, VecCopy(&target, pos));
-    if (m_e8 != NULL) {
-        m_e8->bodies->radius = m_90;
+    if (collidable != NULL) {
+        collidable->bodies->radius = scope;
     }
     for (i = 0; i < 32; i++) {
         hit_ids[i] = 0xFFFF;
@@ -373,7 +373,7 @@ TTecRaBarta::TTecRaBarta(saddr source, Vec *origin, Vec *pos, s32 level) : TTecC
     vfunc_8(&position);
     vfunc_9();
     if (this->source != 0) {
-        m_b4 = get_entity_id((void *)this->source);
+        sourceId = get_entity_id((void *)this->source);
     }
 }
 #pragma pop
@@ -383,8 +383,8 @@ TTecRaBarta::TTecRaBarta(saddr source, Vec *origin, s32 level) : TTecCircle(sour
     m_name = TTecRaBarta_class_name;
     m_f0 = 0;
     calc_parameters();
-    if (m_e8 != NULL) {
-        m_e8->bodies->radius = m_90;
+    if (collidable != NULL) {
+        collidable->bodies->radius = scope;
     }
     for (i = 0; i < 32; i++) {
         hit_ids[i] = 0xFFFF;
@@ -393,6 +393,6 @@ TTecRaBarta::TTecRaBarta(saddr source, Vec *origin, s32 level) : TTecCircle(sour
     vfunc_8(0);
     vfunc_9();
     if (this->source != 0) {
-        m_b4 = get_entity_id((void *)this->source);
+        sourceId = get_entity_id((void *)this->source);
     }
 }

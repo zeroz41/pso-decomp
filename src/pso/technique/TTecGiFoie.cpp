@@ -94,8 +94,8 @@ TTecGiFoie::TTecGiFoie(saddr source, Vec *origin, s32 level) : TTecCircle(source
     s32 r;
     this->m_name = TTecGiFoie__name;
     calc_params();
-    if (this->m_e8 != NULL) {
-        this->m_e8->bodies->radius = 5.0f + this->m_90;
+    if (this->collidable != NULL) {
+        this->collidable->bodies->radius = 5.0f + this->scope;
     }
     for (i = 0; i < 32; i++) {
         this->hitIds[i] = 0xFFFF;
@@ -118,7 +118,7 @@ TTecGiFoie::TTecGiFoie(saddr source, Vec *origin, s32 level) : TTecCircle(source
         p.x = this->position.x + v.x;
         p.y = this->position.y + v.y;
         p.z = this->position.z + v.z;
-        this->orbits[k] = new TUnk_804CC800(&p, angle, this->band, this->m_78, tl_07, 0);
+        this->orbits[k] = new TUnk_804CC800(&p, angle, this->band, this->level, tl_07, 0);
     }
     switch (this->band) {
     case 0:
@@ -154,7 +154,7 @@ TTecGiFoie::TTecGiFoie(saddr source, Vec *origin, s32 level) : TTecCircle(source
         break;
     }
     if (this->source != NULL) {
-        this->m_b4 = get_entity_id((TObjBase *)this->source);
+        this->sourceId = get_entity_id((TObjBase *)this->source);
     }
 }
 
@@ -164,22 +164,22 @@ TTecGiFoie::TTecGiFoie(saddr source, Vec *origin, s32 level) : TTecCircle(source
 #pragma opt_dead_assignments off
 void TTecGiFoie::run_task() {
     f32 distance;
-    if (this->m_e8 == NULL) {
+    if (this->collidable == NULL) {
         queue_destruction();
         return;
     }
-    this->source = (uaddr)find_entity_by_id(this->m_b4);
+    this->source = (uaddr)find_entity_by_id(this->sourceId);
     if (this->source == 0) {
         queue_destruction();
         return;
     }
     if (TTecLuker::is_parents_unqueued((uaddr)this->orbits[0]) != 0) {
         distance = newton_sqrtf(horizontal_distance_squared(&this->orbits[0]->pad_2C, &this->position));
-        if (this->m_e8 != NULL) {
-            this->m_e8->bodies->radius = 5.0f + distance;
+        if (this->collidable != NULL) {
+            this->collidable->bodies->radius = 5.0f + distance;
         }
         apply_technique_to_area_targets();
-        if (distance >= this->m_90) {
+        if (distance >= this->scope) {
             queue_destruction();
         }
     }
@@ -215,7 +215,7 @@ void TTecGiFoie::vfunc_6(void *target) {
         }
         HitInfo_8023154C tmp;
         tmp.type = 1;
-        tmp.power = this->m_88;
+        tmp.power = this->power;
         HitInfo_8023154C info = tmp;
         ((VObj_8023154C *)target)->m21((void *)this->source, &info, (void *)this->m_b8, 1, -1);
     }
@@ -362,15 +362,15 @@ void TUnk_804CC800::run_task() {
 }
 
 void TTecGiFoie::calc_params() {
-    TechniqueParams *params = calc_technique_parameters(1, m_78, 0xFFFF);
-    ((TechniqueParams *)&m_88)->copy(params);
-    if (m_78 >= 15 && TTecCtrl::is_technique_ready() == 0) {
-        m_88 = (f32)(tech_high_level_linear_power_table[1].base + tech_high_level_linear_power_table[1].per_level * m_78);
+    TechniqueParams *params = calc_technique_parameters(1, level, 0xFFFF);
+    ((TechniqueParams *)&power)->copy(params);
+    if (level >= 15 && TTecCtrl::is_technique_ready() == 0) {
+        power = (f32)(tech_high_level_linear_power_table[1].base + tech_high_level_linear_power_table[1].per_level * level);
         return;
     }
-    m_88 = m_88 + (f32)(((TechniqueParams *)&m_88)->pad_24 * m_78);
+    power = power + (f32)(((TechniqueParams *)&power)->pad_24 * level);
     if (TTecCtrl::is_technique_ready()) {
-        m_88 = m_88 * lbl_804CC55C[1].pad_00;
+        power = power * lbl_804CC55C[1].pad_00;
     }
 }
 

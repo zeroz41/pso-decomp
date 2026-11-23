@@ -8,7 +8,7 @@
 // TTecRaFoie, TTecRaZonde, TTecGiFoie, TTecLuker and TTecKafun derive from it.
 class TTecCircle : public TEffect {
 public:
-    TTecCircle(saddr arg1, saddr arg2, s32 arg4);
+    TTecCircle(saddr source, saddr pos, s32 level);
     TTecCircle(saddr source, Vec *pos, Vec *target, s32 level);
     virtual ~TTecCircle();
     virtual void vfunc_6(void *);
@@ -25,22 +25,22 @@ public:
     virtual void run_task();
     f32 lifetime;  // tick_lifetime destroys it once age passes this
     s32 m_74;
-    s16 m_78;
+    s16 level;
     s16 band;  // TObjPlayer::get_level_tier(level)
     Vec target;  // sub_8022C008 moves position toward it
-    f32 m_88;
-    u8 unk_8C[0x4];
-    f32 m_90;
-    u8 unk_94[0x14];
+    f32 power;  // the technique parameters (TechniqueParams) start here
+    u8 pad_8C[0x4];
+    f32 scope;  // the radius the area grows to
+    u8 pad_94[0x14];
     s16 m_a8;
-    u8 unk_AA[0x2];
+    u8 pad_AA[0x2];
     s32 m_ac;
-    u8 unk_B0[0x4];
-    u16 m_b4;
-    u8 unk_B6[0x2];
+    u8 pad_B0[0x4];
+    u16 sourceId;
+    u8 pad_B6[0x2];
     saddr m_b8;
     CollisionBody collisionBody;
-    TObjCollidable *m_e8;
+    TObjCollidable *collidable;
 };
 LAYOUT_ASSERT(TTecCircleSize, sizeof(TTecCircle) == 0xEC);
 
