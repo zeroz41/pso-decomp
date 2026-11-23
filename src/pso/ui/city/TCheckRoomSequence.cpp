@@ -466,7 +466,7 @@ void TCheckRoomSequence::open_bank() {
     NJS_POINT2 position;
     position.x = 332.0f;
     position.y = 80.0f;
-    create_message_window((s32)get_window_layout_position(0x2C), (s32)&position);
+    create_message_window((saddr)get_window_layout_position(0x2C), (saddr)&position);
     display_shop_message(0x31, 1);
     meseta_window = create_meseta_window(get_player_entity_id());
     deposit_window = new TWindowDeposit(get_player_entity_id());
@@ -879,7 +879,7 @@ void TCheckRoomSequence::free_bank_item_records() {
 }
 #pragma pop
 
-u32 __construct_new_array(void *, void *, void *, int, int);
+void *__construct_new_array(void *, void *, void *, int, int);
 void TCheckRoomSequence::alloc_item_buffers() {
     s32 i;
     s32 j;
