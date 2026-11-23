@@ -67,7 +67,7 @@ public:
     static void init_particle_buffer();
     static ParticleParam *get_particle_by_index(s32 particle_index);
 
-    void set_scale(f32, f32);
+    void set_scale(f32 x, f32 y);
     // Restarts the emission with entry `index` of particleentry.dat
     // (0x200 and up: the area's entry file).
     void set_param_ptr(s32 index);

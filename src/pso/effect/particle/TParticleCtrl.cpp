@@ -45,103 +45,78 @@ NJS_OBJECT *TParticleCtrl::get_particle_model(s32 model) {
     return 0;
 }
 
-GinjaTextureList *TParticleCtrl::get_instance() {  return texture_list; }
+GinjaTextureList *TParticleCtrl::get_instance() { return texture_list; }
 
-#pragma push
-#pragma opt_propagation off
 TParticleCtrl *create_timed_particle_emitter_with_flags(void *pos, s32 id, s32 delay, s32 duration, u16 flags) {
-    s32 idx = id;
-    if (particle_pool_limit > idx) {
-        return new TParticleCtrl(static_cast<const Vec *>(pos), &particle_global_entry_table[idx], 0, delay, duration, 0, flags);
+    if (particle_pool_limit > id) {
+        return new TParticleCtrl(static_cast<const Vec *>(pos), &particle_global_entry_table[id], 0, delay, duration, 0, flags);
     }
-    if (particle_pool_limit + 0x40 > idx) {
-        idx -= 0x200;
+    if (particle_pool_limit + 0x40 > id) {
+        s32 idx = id - 0x200;
         return new TParticleCtrl(static_cast<const Vec *>(pos), &particle_area_entry_table[idx], 0, delay, duration, 0, flags);
     }
     return 0;
 }
-#pragma pop
-
-#pragma push
-#pragma opt_propagation off
 
 TParticleCtrl *create_timed_particle_emitter(const void *pos, s32 id, s32 delay, s32 duration) {
-    s32 idx = id;
-    if (particle_pool_limit > idx) {
-        return new TParticleCtrl(static_cast<const Vec *>(pos), &particle_global_entry_table[idx], 0, delay, duration, 0);
+    if (particle_pool_limit > id) {
+        return new TParticleCtrl(static_cast<const Vec *>(pos), &particle_global_entry_table[id], 0, delay, duration, 0);
     }
-    if (particle_pool_limit + 0x40 > idx) {
-        idx -= 0x200;
+    if (particle_pool_limit + 0x40 > id) {
+        s32 idx = id - 0x200;
         return new TParticleCtrl(static_cast<const Vec *>(pos), &particle_area_entry_table[idx], 0, delay, duration, 0);
     }
     return 0;
 }
-#pragma pop
 
-#pragma push
-#pragma opt_propagation off
 TParticleCtrl *create_timed_particle_emitter_with_angles(void *pos, void *dir, s32 id, s32 delay, s32 duration, u16 flags) {
-    s32 idx = id;
-    if (particle_pool_limit > idx) {
-        return new TParticleCtrl(static_cast<const Vec *>(pos), static_cast<ParticleAngles *>(dir), &particle_global_entry_table[idx], 0, delay, duration, 0, flags);
+    if (particle_pool_limit > id) {
+        return new TParticleCtrl(static_cast<const Vec *>(pos), static_cast<ParticleAngles *>(dir), &particle_global_entry_table[id], 0, delay, duration, 0, flags);
     }
-    if (particle_pool_limit + 0x40 > idx) {
-        idx -= 0x200;
+    if (particle_pool_limit + 0x40 > id) {
+        s32 idx = id - 0x200;
         return new TParticleCtrl(static_cast<const Vec *>(pos), static_cast<ParticleAngles *>(dir), &particle_area_entry_table[idx], 0, delay, duration, 0, flags);
     }
     return 0;
 }
-#pragma pop
 
-#pragma push
-#pragma opt_propagation off
 TParticleCtrl *create_particle_controller_with_rotation(Vec *pos, ParticleAngles *dir, s32 id, s32 a, s32 b) {
-    s32 idx = id;
-    if (particle_pool_limit > idx) {
-        return new TParticleCtrl(pos, dir, &particle_global_entry_table[idx], 0, a, b, 0);
+    if (particle_pool_limit > id) {
+        return new TParticleCtrl(pos, dir, &particle_global_entry_table[id], 0, a, b, 0);
     }
-    if (particle_pool_limit + 0x40 > idx) {
-        idx -= 0x200;
+    if (particle_pool_limit + 0x40 > id) {
+        s32 idx = id - 0x200;
         return new TParticleCtrl(pos, dir, &particle_area_entry_table[idx], 0, a, b, 0);
     }
     return 0;
 }
-#pragma pop
 
 void TParticleCtrl::release(void *emitter) {
     if (emitter != NULL) {
         ((TParticleCtrl *)emitter)->queue_destruction();
     }
 }
-#pragma push
-#pragma opt_propagation off
 TParticleCtrl *create_oneshot_particle_emitter(void *pos, void *dir, s32 id, u16 flags) {
-    s32 idx = id;
-    if (particle_pool_limit > idx) {
-        return new TParticleCtrl(static_cast<const Vec *>(pos), static_cast<ParticleAngles *>(dir), &particle_global_entry_table[idx], 1, 0, 0, 0, flags);
+    if (particle_pool_limit > id) {
+        return new TParticleCtrl(static_cast<const Vec *>(pos), static_cast<ParticleAngles *>(dir), &particle_global_entry_table[id], 1, 0, 0, 0, flags);
     }
-    if (particle_pool_limit + 0x40 > idx) {
-        idx -= 0x200;
+    if (particle_pool_limit + 0x40 > id) {
+        s32 idx = id - 0x200;
         return new TParticleCtrl(static_cast<const Vec *>(pos), static_cast<ParticleAngles *>(dir), &particle_area_entry_table[idx], 1, 0, 0, 0, flags);
     }
     return 0;
 }
-#pragma pop
 
-#pragma push
-#pragma opt_propagation off
 TParticleCtrl *spawn_directional_particle(void *pos, void *dir, s32 id) {
-    s32 idx = id;
-    if (particle_pool_limit > idx) {
-        return new TParticleCtrl(static_cast<const Vec *>(pos), static_cast<ParticleAngles *>(dir), &particle_global_entry_table[idx], 1, 0, 0, 0);
+    if (particle_pool_limit > id) {
+        return new TParticleCtrl(static_cast<const Vec *>(pos), static_cast<ParticleAngles *>(dir), &particle_global_entry_table[id], 1, 0, 0, 0);
     }
-    if (particle_pool_limit + 0x40 > idx) {
-        idx -= 0x200;
+    if (particle_pool_limit + 0x40 > id) {
+        s32 idx = id - 0x200;
         return new TParticleCtrl(static_cast<const Vec *>(pos), static_cast<ParticleAngles *>(dir), &particle_area_entry_table[idx], 1, 0, 0, 0);
     }
     return 0;
 }
-#pragma pop
 
 TParticleCtrl *create_particle_controller(void *pos, s32 id, s32 use_self) {
     if (particle_pool_limit > id) {
@@ -176,50 +151,38 @@ TParticleCtrl *create_particle_controller_with_angles(void *pos, void *dir, s32 
     return NULL;
 }
 
-#pragma push
-#pragma opt_propagation off
 TParticleCtrl *spawn_particle_effect_with_rotation(void *pos, void *dir, s32 id, u16 flags) {
-    s32 idx = id;
-    if (particle_pool_limit > idx) {
-        return new TParticleCtrl(static_cast<const Vec *>(pos), static_cast<ParticleAngles *>(dir), &particle_global_entry_table[idx], 0, 0, 0, 0, flags);
+    if (particle_pool_limit > id) {
+        return new TParticleCtrl(static_cast<const Vec *>(pos), static_cast<ParticleAngles *>(dir), &particle_global_entry_table[id], 0, 0, 0, 0, flags);
     }
-    if (particle_pool_limit + 0x40 > idx) {
-        idx -= 0x200;
+    if (particle_pool_limit + 0x40 > id) {
+        s32 idx = id - 0x200;
         return new TParticleCtrl(static_cast<const Vec *>(pos), static_cast<ParticleAngles *>(dir), &particle_area_entry_table[idx], 0, 0, 0, 0, flags);
     }
     return 0;
 }
-#pragma pop
 
-#pragma push
-#pragma opt_propagation off
 TParticleCtrl *spawn_continuous_particle_with_direction(void *pos, void *dir, s32 id) {
-    s32 idx = id;
-    if (particle_pool_limit > idx) {
-        return new TParticleCtrl(static_cast<const Vec *>(pos), static_cast<ParticleAngles *>(dir), &particle_global_entry_table[idx], 0x0, 0, 0, 0);
+    if (particle_pool_limit > id) {
+        return new TParticleCtrl(static_cast<const Vec *>(pos), static_cast<ParticleAngles *>(dir), &particle_global_entry_table[id], 0x0, 0, 0, 0);
     }
-    if (particle_pool_limit + 0x40 > idx) {
-        idx -= 0x200;
+    if (particle_pool_limit + 0x40 > id) {
+        s32 idx = id - 0x200;
         return new TParticleCtrl(static_cast<const Vec *>(pos), static_cast<ParticleAngles *>(dir), &particle_area_entry_table[idx], 0x0, 0, 0, 0);
     }
     return 0;
 }
-#pragma pop
 
-#pragma push
-#pragma opt_propagation off
 TParticleCtrl *spawn_particle_effect_with_flags(const Vec *pos, s32 id, u16 flags) {
-    s32 idx = id;
-    if (particle_pool_limit > idx) {
-        return new TParticleCtrl(pos, &particle_global_entry_table[idx], 1, 0, 0, 0, flags);
+    if (particle_pool_limit > id) {
+        return new TParticleCtrl(pos, &particle_global_entry_table[id], 1, 0, 0, 0, flags);
     }
-    if (particle_pool_limit + 0x40 > idx) {
-        idx -= 0x200;
+    if (particle_pool_limit + 0x40 > id) {
+        s32 idx = id - 0x200;
         return new TParticleCtrl(pos, &particle_area_entry_table[idx], 1, 0, 0, 0, flags);
     }
     return 0;
 }
-#pragma pop
 
 TParticleCtrl *spawn_particle_effect(const Vec *pos, s32 id) {
     if (particle_pool_limit > id) {
