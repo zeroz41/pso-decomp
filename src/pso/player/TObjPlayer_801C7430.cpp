@@ -1034,7 +1034,6 @@ s32 clear_velocity(void *);
 s32 add_actor_tp(u8 *arg0, s32 arg1);
 s32 add_actor_hp(u8 *arg0, s16 arg1);
 void set_technique_id__10TObjPlayerFs(void *, s32);
-s32 get_actor_hp__9TObjCharaFv(void * a0 = 0);
 s32 get_current_floor(void);
 f32 atan2_float(f32 y, f32 x);
 f32 newton_sqrtf(f32);
@@ -1068,7 +1067,7 @@ s32 fn_801B0480(int, void *, int);
 s32 draw_player_status(void *, void *, const char *);
 s32 reset_volopt_state__10TObjPlayerFv(void *obj);
 s32 is_in_tl03_state__10TObjPlayerFv(void *);
-void send_6x2F_change_player_hp(u16 arg0, u16 arg1, s32 arg2);
+void send_6x2F_change_player_hp(u16 sender, u16 client, s16 hp);
 s16 calc_scaled_value__10TObjPlayerFii(void *, int);
 void apply_speed_scale__10TObjPlayerFif(saddr arg0, f32 farg0);
 void complete_deferred_player_death();
@@ -2341,7 +2340,7 @@ void TObjPlayer::update_gated_action() {
     if (this->phase == 0) {
         if (((TObjPlayer *)this)->is_status_flag_200() != 0) {
             temp_r31 = this->get_entity_id();
-            send_6x2F_change_player_hp(temp_r31, temp_r31, get_actor_hp__9TObjCharaFv(this));
+            send_6x2F_change_player_hp(temp_r31, temp_r31, get_actor_hp());
             clear_actor_flags((u32)0x200);
             return;
         }
