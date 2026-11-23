@@ -35,14 +35,9 @@ void *TPlyFollowParticleCtrl::get_center() { return 0; }
 
 u16 TPlyFollowParticleCtrl::get_owner_id() { return owner_id; }
 
-void TPlyFollowParticleCtrl__sub_8030A694(void) {  }
+PlayerHandParticlesBase::PlayerHandParticlesBase() {}
 
-saddr __dt__22TPlyFollowParticleCtrlFis(saddr self, s16 flags) {
-    if ((self != 0) && (flags > 0)) {
-        ::operator delete((void *)self);
-    }
-    return self;
-}
+PlayerHandParticlesBase::~PlayerHandParticlesBase() {}
 
 void PlayerFollowParticles::set_owner_id(u16 id) { owner_id = id; }
 
@@ -145,17 +140,12 @@ void emit_player_sprite_particle(s32 owner, saddr position, s32 id) {
     spawn_particle_effect_with_flags((const Vec *)position, id, 0x2000);
 }
 
-void*TObjPlayer::init_follow_particle_ctrl() { TPlyFollowParticleCtrl__sub_8030A694(); *(int*)(this) = 0; *(int*)((char*)this + 0x4) = 0; return this; }
-
-s32 TObjPlayer::dt_follow_particle_ctrl(saddr self, s16 flags) {
-    if (self != 0) {
-        __dt__22TPlyFollowParticleCtrlFis(self, 0);
-        if (flags > 0) {
-            ::operator delete((void *)self);
-        }
-    }
-    return self;
+PlayerHandParticles::PlayerHandParticles() {
+    left_hand = 0;
+    right_hand = 0;
 }
+
+PlayerHandParticles::~PlayerHandParticles() {}
 
 void TObjPlayer::create_left_hand_ptcl(void *owner) {
     ((PlayerHandParticles *)this)->left_hand = new TPlyPtclObjectLeftHand((TObjBase *)owner);
@@ -185,30 +175,20 @@ void emit_idle_water_splash(s32 owner, s32 position) {
 
 s32 TObjPlayer::check_hit_by_id_431(void* p, u16 target_id) { return TObjPlayer::check_hit_by_id((saddr)p, target_id, 431); }
 
-PlayerFollowParticles *init_follow_particle_state(PlayerFollowParticles *state) {
+PlayerFollowParticles::PlayerFollowParticles() {
     s32 i;
     Vec *p;
-    ((TObjPlayer *)&state->hands)->init_follow_particle_ctrl();
-    state->pad_2 = 0xFFFF;
-    state->owner_id = 0xFFFF;
+    pad_2 = 0xFFFF;
+    owner_id = 0xFFFF;
     for (i = 0; i < 3; i++) {
-        p = &state->pad_C[i];
+        p = &pad_C[i];
         p->z = 0.0f;
         p->y = 0.0f;
         p->x = 0.0f;
     }
-    return state;
 }
 
-s32 destroy_follow_particle_state(saddr self, s16 flags) {
-    if (self != 0) {
-        TObjPlayer::dt_follow_particle_ctrl((saddr)&((PlayerFollowParticles *)self)->hands, -1);
-        if (flags > 0) {
-            ::operator delete((void *)self);
-        }
-    }
-    return self;
-}
+PlayerFollowParticles::~PlayerFollowParticles() {}
 
 void TObjPlayer::update_follow_particle(saddr owner) {
     ((PlayerFollowParticles *)this)->set_owner_id(((TObjBase *)owner)->get_entity_id());

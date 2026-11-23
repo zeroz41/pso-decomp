@@ -6,6 +6,7 @@
 struct NJS_OBJECT;
 #include "pso/player/PhotonBlastGauge.h"
 #include "pso/player/TObjPlayer_80337348.h"
+#include "pso/player/PlayerFollowParticles.h"
 #include "pso/player/PlayerClassFlags.h"
 #include "pso/player/PlayerScaleState.h"
 #include "pso/player/RenderMaterialState.h"
@@ -181,18 +182,7 @@ struct TObjPlayer : public TObjChara {
     MaterialUsage materials;
     // Inferred: the action provider init_action_provider creates (TUnk_804DDBF0 or TUnk_804ED7D0).
     TUnk_804DDD28 *action_provider;
-    void* m_384;
-    u8 unk_388[0x4];
-    int m_38c;
-    u8 unk_390[0x4];
-    s32 m_394;
-    u8 unk_398[0x4];
-    s16 m_39c;
-    u8 unk_39E[0x2];
-    float m_3a0;
-    u8 unk_3A4[0x4];
-    s32 m_3a8;
-    u8 unk_3AC[0x8];
+    PlayerFollowParticles follow_particles;
     s32 m_3b4;
     u8 unk_3B8[0x4];
     s32 m_3bc;
@@ -997,7 +987,6 @@ struct TObjPlayer : public TObjChara {
     static s32 check_hit_by_id_431(void* p, u16 target_id);
     void create_right_hand_ptcl(void *owner);
     void create_left_hand_ptcl(void *owner);
-    void*init_follow_particle_ctrl();
     static s32 check_hit_by_id(saddr owner, u16 target_id, s32 id);
     void update_children();
     void process_indexed_element(s32 arg1);
@@ -1391,7 +1380,6 @@ struct TObjPlayer : public TObjChara {
     void *do_action_447();
     // A hit callback of TUnk_804E1CA8 (its pad_208).
     static void do_action_447_from_packet(void *item, void *hit, void *dir);
-    static s32 dt_follow_particle_ctrl(saddr arg0, s16 flags);
     static TItem *create_vtable_variant(u8 *item);
     static TItem *create_state_1536(u8 *item);
     static TItem *create_mode_floats_state(u8 *item);

@@ -3475,15 +3475,15 @@ u8 *TObjPlayer::update_actor_ground_y_at(Vec *pos) {
     temp_r31 = *(s32 *)((s8 *)temp_r3 + 0);
     if (temp_r31 & 0x10) {
         this->contact_surface.check_flag_2();
-        copy_vec_at_18__10TObjPlayerFv((u8 *)&this->m_384, (void *) (*(u8 **)((s8 *)temp_r3 + 4) + 0x1C));
+        copy_vec_at_18__10TObjPlayerFv((u8 *)&this->follow_particles, (void *) (*(u8 **)((s8 *)temp_r3 + 4) + 0x1C));
     }
     if ((temp_r31 & 4) && (player_auxiliary_surfaces_enabled() != 0)) {
         this->contact_surface.set_flag_4();
-        TObjPlayer__sub_801BF3A0((u8 *)&this->m_384, (void *) (*(u8 **)((s8 *)temp_r3 + 4) + 0x38));
+        TObjPlayer__sub_801BF3A0((u8 *)&this->follow_particles, (void *) (*(u8 **)((s8 *)temp_r3 + 4) + 0x38));
     }
     if ((temp_r31 & 2) && (player_auxiliary_surfaces_enabled() != 0)) {
         this->contact_surface.fn_801BF840();
-        TObjPlayer__sub_801BF3A0((u8 *)&this->m_384, (void *) (*(u8 **)((s8 *)temp_r3 + 4) + 0x54));
+        TObjPlayer__sub_801BF3A0((u8 *)&this->follow_particles, (void *) (*(u8 **)((s8 *)temp_r3 + 4) + 0x54));
     }
     if (temp_r31 & 8) {
         this->contact_surface.test_flag_16();

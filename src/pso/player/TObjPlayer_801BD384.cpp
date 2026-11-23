@@ -65,7 +65,6 @@ TObjPlayer::~TObjPlayer() {
     TObjPlayer::dt((saddr)((s8 *)this + 0x550), (s16)(-1));
     __dt__14TPlyDispConfigFv((saddr)((s8 *)this + 0x500), -1);
     TObjPlayer::free_owned_buffer_a((saddr)((s8 *)this + 0x4AC), (s16)(-1));
-    destroy_follow_particle_state((saddr)((s8 *)this + 0x384), -1);
 }
 
 extern "C" {
@@ -79,7 +78,6 @@ extern const char *lbl_805D3530;
 }
 
 TObjPlayer::TObjPlayer(TObject *parent, TUnk_801D8A4C *src) : TObjChara(parent) {
-    init_follow_particle_state((PlayerFollowParticles *)((char *)this + 900));
     __ct__8FlagWordFv(((char *)this + 1052));
     TFontSmallLobby__sub_801C0164(((char *)this + 1064));
     this->photon_blast_gauge.construct_pb_controller();
@@ -120,7 +118,6 @@ TObjPlayer::TObjPlayer(TObject *parent, TUnk_801D8A4C *src) : TObjChara(parent) 
 }
 
 TObjPlayer::TObjPlayer(TObject *parent, void *arg2) : TObjChara(parent) {
-    init_follow_particle_state((PlayerFollowParticles *)((char *)this + 900));
     __ct__8FlagWordFv(((char *)this + 1052));
     TFontSmallLobby__sub_801C0164(((char *)this + 1064));
     this->photon_blast_gauge.construct_pb_controller();

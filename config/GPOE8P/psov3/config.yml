@@ -1662,7 +1662,7 @@ force_active:
   - TPlyCharData__global_character_data
   - TPlyCharData__global_destructor_registration
   - class_name__22TPlyFollowParticleCtrl
-  - TPlyFollowParticleCtrl__sub_8030A694
+  - __ct__23PlayerHandParticlesBaseFv
   - TPlyGuildCardTag__sub_8013ACA4
   - copy_lobby_entry__FPvPv
   - TPlyOnCreated__name
@@ -2885,7 +2885,7 @@ force_active:
   - __dt__22TObjEnePanarmsAtkColliFv
   - __dt__22TObjFogCollisionPoisonFv
   - __dt__22TObjFogCollisionSwitchFv
-  - __dt__22TPlyFollowParticleCtrlFis
+  - __dt__23PlayerHandParticlesBaseFv
   - __dt__22TPlyFollowParticleCtrlFv
   - __dt__22TPlyPtclObjectLeftHandFv
   - __dt__22TQuestVmDownLoadServerFv
@@ -5949,7 +5949,7 @@ force_active:
   - __dt__20TContainerAncient01RFv
   - __dt__22TObjEneSlimeTailAttackFv
   - __dt__22TWindowDD_WS_ScrollBarFv
-  - dt_follow_particle_ctrl__10TObjPlayerFls
+  - __dt__19PlayerHandParticlesFv
   - duel_number_uv_table
   - duel_result_window_layout_table
   - duel_start_countdown_effect_pos
@@ -7060,7 +7060,7 @@ force_active:
   - __ct__13TUnk_804A67D0FP7TObjectPUc
   - init_fields__13TUnk_804F0AF8FlPv
   - init_floor_encounter_sections__6TLobbyFv
-  - init_follow_particle_ctrl__10TObjPlayerFv
+  - __ct__19PlayerHandParticlesFv
   - init_follow_target__10TNpcPlayerFv
   - init_forward__19TItemDisconnectCtrlFv
   - init_fresh_character_slot
