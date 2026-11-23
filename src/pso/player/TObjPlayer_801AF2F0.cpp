@@ -4,6 +4,7 @@
 #include "pso/ui/window/TWindowReturnCity.h"
 #include "pso/object/TActorLight.h"
 #include "pso/unk/TLobby_800FD78C.h"
+#include "pso/network/TPlyOnCountOver.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/render/ChunkMaterialState.h"
 
@@ -1303,7 +1304,7 @@ s32 TObjPlayer__sub_801BD3A4(void *);
 void create_player_instance__10TObjPlayerFll(u16, Rec_801B09A4 *);
 TObjPlayer *get_local_player();
 s32 check_flag_4__10TObjPlayerFv(void *);
-void clear_flag_4000_callback__10TObjPlayerFv(void);
+void clear_flag_4000_callback__10TObjPlayerFv(TObjPlayer *);
 void TObjPlayer__sub_801BE784(void *, s32);
 s32 get_battle_mode__10TObjPlayerFv(void *);
 void TObjPlayer__sub_801BE794(void *, s32);
@@ -1443,7 +1444,6 @@ void TObjPlayer__sub_801C5780(void *, s32, s32);
 int reset_ring__10TObjPlayerFv(void*);
 int clear_target_lock__10TObjPlayerFv(void*);
 s32 set_arrival_override_pos(u16, int, int);
-void create__15TPlyOnCountOverFPvPvPv(u16, s32, void (*)(void));
 void update_player_scale_camera(PlayerScaleState *state);
 void request_player_size_restore(PlayerScaleState *state);
 u32 create_lobby_marker__10TObjPlayerFsSc(u16 a0 = 0, s32 a1 = 0);
@@ -5902,7 +5902,7 @@ void handle_6x24_teleport_player(saddr command) {
     ((TObjChara *)player)->calc_attach_pos();
     ((TObjPlayer *)player)->set_flag_4000();
     ((TObjPlayer *)player)->refresh_equipment_slot();
-    create__15TPlyOnCountOverFPvPvPv(((TObjBase *)player)->get_entity_id(), 2, clear_flag_4000_callback__10TObjPlayerFv);
+    TPlyOnCountOver::create(((TObjBase *)player)->get_entity_id(), 2, clear_flag_4000_callback__10TObjPlayerFv);
     if (TObjPlayer::is_locally_controlled((void *)(player)) != 0) {
         reset_cameras_to_actor((void *)player, 0);
     }

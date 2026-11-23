@@ -341,8 +341,6 @@ void set_arrival_override_coords(u16 arg0, s32 arg1, f32 farg0, f32 farg1, f32 f
 void set_arrival_override_pos(u16 idx, s32 yaw, void *pos);
 void clear_movement_history(MovementHistory *p);
 s16 get_attack_params_atp_max(void *p);
-u8 *__ct__15TPlyOnCountOverFv(u8 *object, s32 arg1, s32 arg2, s32 arg3);
-extern s32 __vt__15TPlyOnCountOver[];
 int copy_subcommand_header(void *);
 }
 void calc_death_sink_offset(void *arg0);
@@ -842,38 +840,27 @@ void TPlyOnCreated::run_task() {
     }
 }
 
-void *TPlyOnCountOver::create(void *arg0, void *arg1, void *arg2) {
-    void *o;
-    o = TObject::operator new(0x24);
-    if (o != NULL) {
-        o = __ct__15TPlyOnCountOverFv((u8 *)o, (saddr)arg0, (saddr)arg1, (saddr)arg2);
-    }
-    return o;
+void *TPlyOnCountOver::create(u16 player_id, s16 count, void (*callback)(TObjPlayer *)) {
+    return new TPlyOnCountOver(player_id, count, callback);
 }
 
-u8 *__ct__15TPlyOnCountOverFv(u8 *object, s32 arg1, s32 arg2, s32 arg3) {
-    __ct__7TObjectFP7TObject(object, (void *)tl_06);
-    *(s32 **)((s8 *)object + 0x18) = __vt__15TPlyOnCountOver;
-    *(s32 *)((s8 *)object + 0) = (saddr) TPlyOnCountOver__name;
-    *(s16 *)((s8 *)object + 0x1C) = arg1;
-    *(s16 *)((s8 *)object + 0x1E) = arg2;
-    *(s32 *)((s8 *)object + 0x20) = arg3;
-    return object;
+TPlyOnCountOver::TPlyOnCountOver(u16 player_id, s16 count, void (*callback)(TObjPlayer *)) : TObject(tl_06) {
+    m_name = TPlyOnCountOver__name;
+    this->player_id = player_id;
+    this->count = count;
+    this->callback = callback;
 }
 
 void TPlyOnCountOver::run_task() {
-    u8 *arg0 = (u8 *)this;
-    void (*cb)(u32);
-    u32 p;
-    p = (uaddr)get_player_by_client_id(*(u16 *)((s8 *)arg0 + 0x1C));
-    if (p == 0U) {
+    TObjPlayer *player = get_player_by_client_id(player_id);
+    if (player == NULL) {
         queue_destruction();
         return;
     }
-    if (--*(s16 *)((s8 *)arg0 + 0x1E) < 0) {
-        cb = *(void (**)(u32))((s8 *)arg0 + 0x20);
-        if (cb != NULL) {
-            cb(p);
+    if (--count < 0) {
+        void (*fn)(TObjPlayer *) = callback;
+        if (fn != NULL) {
+            fn(player);
         }
         queue_destruction();
     }
