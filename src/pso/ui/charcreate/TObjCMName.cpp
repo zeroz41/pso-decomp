@@ -41,6 +41,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/player/TPlyCharData.h"
 #include "pso/system/vector.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/ui/window/TObjBagWarnWin_8006EF24.h"
@@ -300,8 +301,8 @@ void TObjCMMainMenu::run_task() {
 
 #pragma pop
 void TObjCMMainMenu::handle_creation_input() {
-    s32 temp_r0;
-    s32 temp_r3;
+    s32 next;
+    s32 prev;
     if (is_not_dressing_room_mode() != 0) {
         TChCrEffTag::set_eff_tag(1);
     } else {
@@ -311,22 +312,22 @@ void TObjCMMainMenu::handle_creation_input() {
         if (character->section == -1 && creation_buttons_pressed(2) != 0) {
             play_sound_effect(0x53704, 0, 0, 0);
             TObjCMMainMenu__sub_8028D9B4(character);
-            this->delay = 7;
+            delay = 7;
             state = 6;
             return;
         }
         if (creation_direction_repeated(0x20) != 0) {
-            temp_r3 = this->selected_entry + 1;
-            this->selected_entry = temp_r3;
-            if (temp_r3 >= (s32) this->entry_count) {
+            next = selected_entry + 1;
+            selected_entry = next;
+            if (next >= entry_count) {
                 this->selected_entry = 0;
             }
             play_sound_effect(0x54100, 0, 0, 0);
         } else if (creation_direction_repeated(0x10) != 0) {
-            temp_r0 = this->selected_entry - 1;
-            this->selected_entry = temp_r0;
-            if (temp_r0 < 0) {
-                this->selected_entry = (this->entry_count - 1);
+            prev = selected_entry - 1;
+            selected_entry = prev;
+            if (prev < 0) {
+                selected_entry = entry_count - 1;
             }
             play_sound_effect(0x54100, 0, 0, 0);
         }
@@ -848,21 +849,21 @@ void TObjCMMainMenu::confirm_selection() {
 }
 
 s32 TObjCMMainMenu::try_pay_fee() {
-    s32 temp_r4;
-    void *char_index;
+    s32 meseta;
+    TPlyCharData *data;
 
-    if ((void *)TAdSinglePlyChrSelectGC::get_char_index(0xFFFF) == NULL) {
+    if (TAdSinglePlyChrSelectGC::get_char_index(0xFFFF) == NULL) {
         play_sound_effect(0x40018519, 0, 0, 0);
         return 0;
     }
-    char_index = (void *)TAdSinglePlyChrSelectGC::get_char_index(0xFFFF);
-    temp_r4 = *(s32 *)((s8 *)char_index + 0x36C);
-    if (temp_r4 < 0x2710) {
-        *(s32 *)((s8 *)char_index + 0x36C) = 0;
+    data = TAdSinglePlyChrSelectGC::get_char_index(0xFFFF);
+    meseta = data->m_stats.meseta;
+    if (meseta < 10000) {
+        data->m_stats.meseta = 0;
         play_sound_effect(0xB20C, 0, 0, 0);
         return 0;
     }
-    *(s32 *)((s8 *)char_index + 0x36C) = (temp_r4 - 0x2710);
+    data->m_stats.meseta = meseta - 10000;
     play_sound_effect(0x44E03, 0, 0, 0);
     return 1;
 }
@@ -1061,32 +1062,25 @@ void run_task__16TObjCMAssignMenuFv(void *arg0) {
 
 #pragma pop
 void TObjCMAssignMenu::calc_grid_layout() {
-    s32 temp_r0;
-    s32 var_ctr;
-    s32 var_r4;
-    s32 var_r6;
+    s32 index = 0;
 
-    temp_r0 = limit;
-    var_r6 = 0;
-    var_r4 = 0;
-    for (var_ctr = temp_r0; var_ctr > 0; var_ctr--) {
-        if (var_r4 == value) {
+    for (s32 i = 0; i < limit; i++) {
+        if (i == value) {
             break;
         }
-        var_r6 += 1;
-        var_r4 += 1;
+        index++;
     }
     columns = item_count;
     page = 0;
     pages = 1;
     page_columns = item_count;
-    cursor = var_r6;
+    cursor = index;
     if (item_count > 0xA) {
         columns = 9;
-        page = (s32) (var_r6 / 9);
-        pages = (s32) ((s32) (item_count + 8) / 9);
-        cursor = (s32) (var_r6 % 9);
-        page_columns = (s32) (item_count - (page * 9));
+        page = index / 9;
+        pages = (item_count + 8) / 9;
+        cursor = index % 9;
+        page_columns = item_count - page * 9;
         if (page_columns > 9) {
             page_columns = 9;
         }
@@ -1780,77 +1774,77 @@ TObjCMProportion *TObjCMProportion::create(TObject *parent) {
 #pragma push
 #pragma fp_contract on
 void TObjCMProportion::run_task() {
-    TObjCMProportion* arg0=this;
+    TObjCMProportion *self = this;
     s32 angle;
     f32 magnitude;
-    f32 temp_f0;
+    f32 visible;
     f32 height;
     f32 proportion;
-    f32 var_f30;
-    f32 var_f29;
+    f32 d_width;
+    f32 d_height;
     CharacterAppearanceFields *appearance;
-    CharacterAppearanceFields *temp_r3_4;
+    CharacterAppearanceFields *fields;
 
     proportion = TObjCMMainMenu::get_proportion();
-    if ((s32) arg0->active != 0) {
-        if (1.0f == arg0->fade) {
+    if (self->active != 0) {
+        if (1.0f == self->fade) {
             proportion += -0.033333335f;
             if (proportion < 0.0f) {
                 proportion = 0.0f;
             }
         }
     } else {
-        temp_f0 = 1.0f - arg0->fade;
-        proportion = (proportion > temp_f0) ? proportion : temp_f0;
+        visible = 1.0f - self->fade;
+        proportion = (proportion > visible) ? proportion : visible;
     }
     set_creation_projection_center(proportion);
-    if ((s32) arg0->initialized == 0) {
-        arg0->initialized = 1;
+    if (self->initialized == 0) {
+        self->initialized = 1;
         return;
     }
-    if ((s32) arg0->active == 0) {
-        if ((arg0->fade += -0.083333336f) <= 0.0f) {
-            arg0->fade = 0.0f;
-            ((TObject *)arg0)->queue_destruction();
+    if (self->active == 0) {
+        if ((self->fade += -0.083333336f) <= 0.0f) {
+            self->fade = 0.0f;
+            ((TObject *)self)->queue_destruction();
         }
     } else {
-        if ((arg0->fade += 0.16666667f) > 1.0f) {
-            arg0->fade = 1.0f;
+        if ((self->fade += 0.16666667f) > 1.0f) {
+            self->fade = 1.0f;
         }
         get_creation_pad_stick(&angle, &magnitude);
-        var_f30 = 0.016666668f * (magnitude * sin_table_lookup(angle));
-        var_f29 = 0.016666668f * (magnitude * -cos_table_lookup(angle));
-        if (0.0f == (fabs_float(var_f30) + fabs_float(var_f29))) {
+        d_width = 0.016666668f * (magnitude * sin_table_lookup(angle));
+        d_height = 0.016666668f * (magnitude * -cos_table_lookup(angle));
+        if (0.0f == (fabs_float(d_width) + fabs_float(d_height))) {
             if (creation_buttons_held(0x80) != 0) {
-                var_f30 = 0.013333335f;
+                d_width = 0.013333335f;
             } else if (creation_buttons_held(0x40) != 0) {
-                var_f30 = -0.013333335f;
+                d_width = -0.013333335f;
             }
             if (creation_buttons_held(0x20) != 0) {
-                var_f29 = 0.013333335f;
+                d_height = 0.013333335f;
             } else if (creation_buttons_held(0x10) != 0) {
-                var_f29 = -0.013333335f;
+                d_height = -0.013333335f;
             }
         }
-        arg0->appearance->width += var_f30;
-        arg0->appearance->height += var_f29;
-        appearance = arg0->appearance;
+        self->appearance->width += d_width;
+        self->appearance->height += d_height;
+        appearance = self->appearance;
         if (appearance->width > 0.99f) {
             appearance->width -= 0.99f;
         } else if (appearance->width < 0.0f) {
             appearance->width += 0.99f;
         }
-        temp_r3_4 = arg0->appearance;
-        height = temp_r3_4->height;
+        fields = self->appearance;
+        height = fields->height;
         if (height > 0.99f) {
-            temp_r3_4->height = (f32) 0.99f;
+            fields->height = 0.99f;
         } else if (height < 0.0f) {
-            temp_r3_4->height = (f32) 0.0f;
+            fields->height = 0.0f;
         }
         if (creation_buttons_pressed(6) != 0) {
-            ((void (*)(s32, s32, s32, s32))play_sound_effect)(0x53704, 0, 0, 0);
+            play_sound_effect(0x53704, 0, 0, 0);
             TObjCMMainMenu::clear_task_state();
-            arg0->active = 0;
+            self->active = 0;
         }
     }
 }
