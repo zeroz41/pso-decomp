@@ -189,6 +189,7 @@ void start_text_color_transition(Fade_802575C0 *array_entry, u32 rgb, f32 time) 
         array_entry->flags |= 0x40;
     }
 }
+}
 
 #pragma push
 #pragma scheduling off
@@ -317,6 +318,5 @@ TWindowStatusGaugeFeedback *TWindowStatusGaugeFeedback::init_layout_entry_copy(L
     m_2c = color;
     timer = 0;
     return this;
-}
 }
 
