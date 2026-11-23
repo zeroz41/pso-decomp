@@ -12,6 +12,6 @@ struct Vec;
 TParticle *create_radial_particle(ParticleParam *entry, Vec *position, TObject *parent, u16 flags,
                                       u16 target_id);
 TParticle *create_random_particle(void *param, void *pos, void *parent);
-void destroy_keyboard_objects(void *object);
+void destroy_keyboard_objects(TObject *fade);
 
 #endif

@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/unk/TUnk_804999D0.h"
 #include "types.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/quest/TQuestListChallenge.h"
@@ -25,7 +26,7 @@ extern s32 THunterGuildSeqOffline__quest_result_callbacks[];
 void fn_802233F8(void *);
 
     extern int evt2_random_enemies_mode;
-void THunterGuildSeqOffline::set_enemy_mode_0() { TLobby::clear_counter(); evt2_random_enemies_mode = 0; TKeyBoardControl__sub_8000F950(); }
+void THunterGuildSeqOffline::set_enemy_mode_0(TObject *) { TLobby::clear_counter(); evt2_random_enemies_mode = 0; TKeyBoardControl__sub_8000F950(); }
 
 
 void THunterGuildSeqOffline::request_close(TShopWindowBase *) {
@@ -76,7 +77,6 @@ block_8:
 }
 
 void THunterGuildSeqOffline::close_window() {
-    void *o;
     if (m_34 != 0) {
         if (((TObject *)m_34)->all_parents_unqueued_for_destruction() == 1) {
             return;
@@ -93,31 +93,19 @@ void THunterGuildSeqOffline::close_window() {
     case 0:
         break;
     case 1:
-        o = TObject::operator new(0x28);
-        if (o != NULL) {
-            ((THunterGuildSeqOffline *)o)->init(tl_00, (void *)THunterGuildSeqOffline::set_enemy_mode_0);
-        }
+        new TUnk_804999D0(tl_00, THunterGuildSeqOffline::set_enemy_mode_0);
         THunterGuildSeqOffline__sub_8021E180(player->get_entity_id());
         break;
     case 2:
-        o = TObject::operator new(0x28);
-        if (o != NULL) {
-            ((THunterGuildSeqOffline *)o)->init(tl_00, (void *)THunterGuildSeqOffline::set_enemy_mode_1);
-        }
+        new TUnk_804999D0(tl_00, THunterGuildSeqOffline::set_enemy_mode_1);
         THunterGuildSeqOffline__sub_8021E180(player->get_entity_id());
         break;
     case 3:
-        o = TObject::operator new(0x28);
-        if (o != NULL) {
-            ((THunterGuildSeqOffline *)o)->init(tl_00, (void *)TQuestListVM::set_enemy_mode_3);
-        }
+        new TUnk_804999D0(tl_00, TQuestListVM::set_enemy_mode_3);
         THunterGuildSeqOffline__sub_8021E180(player->get_entity_id());
         break;
     case 4:
-        o = TObject::operator new(0x28);
-        if (o != NULL) {
-            ((THunterGuildSeqOffline *)o)->init(tl_00, (void *)THunterGuildSeqOffline::set_enemy_mode_5);
-        }
+        new TUnk_804999D0(tl_00, THunterGuildSeqOffline::set_enemy_mode_5);
         THunterGuildSeqOffline__sub_8021E180(player->get_entity_id());
         break;
     }

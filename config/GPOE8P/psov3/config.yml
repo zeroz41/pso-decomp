@@ -5644,12 +5644,12 @@ force_active:
   - destroy__22TQuestVmDownLoadServerFv
   - destroy_all_objects__6TLobbyFv
   - destroy_and_free__21TObjEneRe2Flower_BombFs
-  - destroy_and_mark_done__11TAdSEGAlogoFv
+  - destroy_and_mark_done__11TAdSEGAlogoFP7TObject
   - __dt__18TPlyDispConfigSmthFv
   - destroy_char_data_array__10TObjPlayerFv
   - destroy_children__15TBoss3VoloptP02Fv
   - __dt__13TUnk_804B5C08Fv
-  - destroy_download_server__6TLobbyFPv
+  - destroy_download_server__6TLobbyFP7TObject
   - destroy_effect_objects__10TObjPlayerFv
   - destroy_effects__12TBoss4ThanksFv
   - destroy_effects__12TBoss6ThanksFv
@@ -5720,7 +5720,7 @@ force_active:
   - dispatch_quest_opcode__Fv
   - dispatch_reaction_state__16TBoss3VoloptCoreFv
   - dispatch_received_ethernet_frame__FPvPvPv
-  - dispatch_select_phase__16TKeyBoardControlFv
+  - dispatch_select_phase__16TKeyBoardControlFP7TObject
   - dispatch_action__14TObjEneRecoboxFUll
   - dispatch_state__13TUnk_804B5BA8Fv
   - dispatch_action__14TObjEneBm5WolfFUll
@@ -7019,7 +7019,7 @@ force_active:
   - init_char_data__23TAdSinglePlyChrSelectGCFPv
   - init_char_data__6TLobbyFPv
   - init_char_record__23TAdSinglePlyChrSelectGCFv
-  - init_char_select__16TKeyBoardControlFv
+  - init_char_select__16TKeyBoardControlFP7TObject
   - init_char_slot_record__23TAdSinglePlyChrSelectGCFv
   - init_charge__11TBoss6Type1Fv
   - init_charge_attack__11TBoss6Type1Fv
@@ -14630,8 +14630,8 @@ force_active:
   - reset_pad_rumble_effects_and_channels__Fs
   - reset_placement_search_ring__13TUnk_804C4498Fv
   - reset_quest_list_vm__22THunterGuildSeqOfflineFv
-  - reset_random_enemies_mode__19TPlayerBattleCtrl4PFv
-  - reset_random_enemies_mode__6TLobbyFv
+  - reset_random_enemies_mode__19TPlayerBattleCtrl4PFP7TObject
+  - reset_random_enemies_mode__6TLobbyFP7TObject
   - reset_request__12TChCrLoadReqFv
   - reset_segment_points__14TBoss2TentacleFv
   - reset_selection__21TWindowSubCustomEquipFv
@@ -14672,7 +14672,7 @@ force_active:
   - resume_challenge_result_processing__FPv
   - retire_lobby_player__6TLobbyFii
   - retry_selection_value_table
-  - return_to_city_after_defeat__Fv
+  - return_to_city_after_defeat__FP7TObject
   - returning_state__14TObjEneBm5WolfFPvi
   - revival_particle_table
   - roaming_state__14TObjEneBm5WolfFi
@@ -15451,7 +15451,7 @@ force_active:
   - set_effect_pos_above_self__16TObjEneDellBiterFv
   - set_effect_pos_above_self__17TObjEneDf2BringerFv
   - set_segment_flags__19TBoss1DragonColli_CFv
-  - set_enemy_mode_0__22THunterGuildSeqOfflineFv
+  - set_enemy_mode_0__22THunterGuildSeqOfflineFP7TObject
   - set_entered_name__17TObjItemNameEntryFPCc
   - set_entry_item__18TChallenge4PResultFPvl
   - set_entry_value_clamped__17TObjEneDf2BringerFlf
@@ -15566,7 +15566,7 @@ force_active:
   - set_primary_p01s__12TBoss3VoloptFl
   - set_quest_label__15TOQuestTalkBaseFl
   - set_quest_list_mode_19__18TCheckRoomSequenceFPv
-  - set_random_enemies_mode__Fv
+  - set_random_enemies_mode__FP7TObject
   - set_random_param__13TBoss5GryphonFP23Boss5GryphonMotionEntry
   - set_random_timer_15__15TObjEneSlimeOneFv
   - set_random_timer__15TObjEneSlimeOneFll

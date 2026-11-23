@@ -1,4 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/unk/TUnk_804999D0.h"
+#include "pso/unk/TUnk_804999B8.h"
 #include "types.h"
 #include "pso/ui/keyboard/TKeyBoardControl_80131C58.h"
 #include "pso/unk/TLobby.h"
@@ -16,6 +18,7 @@
 #include "pso/unk/text_802A1144.h"
 #include "pso/unk/TUnk_804EEF80.h"
 #include "pso/system/task/TObject.h"
+#include "pso/system/task/TMainTask.h"
 #include "pso/ui/frontend/TAdMultiChgGameModeGC.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC.h"
 #include "pso/item/TItemReverseTechCtrl.h"
@@ -39,16 +42,10 @@ int TAdSinglePlyChrSelectGC::get_data() {  return lobby_game_mode_state; }
 
 int TAdSinglePlyChrSelectGC__sub_8033605C(void) { return 0; }
 
-extern s32 queue_destruction_and_cleanup__6TLobbyFv[];
-extern saddr tl_fade;
 
 s32 TTitleScene::start_offline_seq() {
-    s32 *temp_r3;
     if (!(transition_flags & 2)) {
-        temp_r3 = (s32 *) TObject::operator new(0x28);
-        if (temp_r3 != NULL) {
-            ((THunterGuildSeqOffline *)temp_r3)->init((void *)tl_fade, (void *)queue_destruction_and_cleanup__6TLobbyFv);
-        }
+        new TUnk_804999D0(tl_fade, TLobby::queue_destruction_and_cleanup);
         transition_flags |= 2;
     }
     return transition_flags & 4;
@@ -238,21 +235,20 @@ u64 call_funcs_reverse__6TLobbyFPvUi(void *, int);
 void hide_title_layers_and_release(TTitleScene *scene);
 int TKeyBoardControl__sub_8000F828(void);
 void TKeyBoardControl__sub_8000F90C(int);
-extern saddr tl_clipout;
 
 void TWindowOptionCtrl__sub_802273B4(s32 arg0);
 s32 run_load_callback_table(void *, int);
 extern const s32 current_language;
 
-void TLobby::queue_destruction_and_cleanup() {
-    queue_destruction();
+void TLobby::queue_destruction_and_cleanup(TObject *fade) {
+    fade->queue_destruction();
     if (title_scene_instance != NULL) {
         hide_title_layers_and_release(title_scene_instance);
     }
 }
 
-void TLobby::destroy_download_server(void *object) {
-    static_cast<TObject *>(object)->queue_destruction();
+void TLobby::destroy_download_server(TObject *fade) {
+    fade->queue_destruction();
     if (title_scene_instance != NULL) {
         title_scene_instance->set_flag_and_clear_download();
     }
@@ -350,7 +346,6 @@ TTitleScene::~TTitleScene() {
 }
 
 TTitleScene::TTitleScene(TObject *parent) : TObject(parent) {
-    void *p;
 
     title_scene_instance = this;
     m_30 = 0;
@@ -369,7 +364,7 @@ TTitleScene::TTitleScene(TObject *parent) : TObject(parent) {
     }
     title_layer = new TUnk_804EEF80(this);
     transition_controller = new TUnk_804EE458(this);
-    overlay_layer = new TUnk_804EE470(reinterpret_cast<TObject *>(tl_clipout));
+    overlay_layer = new TUnk_804EE470(tl_clipout);
     m_28 = 0;
     if (transition_controller != NULL) {
         transition_controller->suspend_update();
@@ -394,10 +389,7 @@ TTitleScene::TTitleScene(TObject *parent) : TObject(parent) {
         transition_children[1] = create_particle_controller(&v, 0x1E4, 1);
         transition_children[2] = create_particle_controller(&v, 0x1E5, 1);
     }
-    p = TObject::operator new(0x28);
-    if (p != 0) {
-        ((TLobby *)p)->init_fade((void *)tl_fade, (void *)TLobby::destroy_download_server);
-    }
+    new TUnk_804999B8(tl_fade, TLobby::destroy_download_server);
     TItemReverseTechCtrl::create(this);
 }
 

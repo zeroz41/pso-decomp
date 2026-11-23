@@ -1,3 +1,4 @@
+#include "pso/unk/TUnk_804999D0.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/player/TPlyGuildCardTag_8013ABCC.h"
 #include "pso/ui/window/TWindowBase.h"
@@ -16,6 +17,7 @@
 #include "pso/quest/OnlineQuestDownloadState.h"
 #include "pso/render/TDLGraph.h"
 #include "pso/ui/city/THunterGuildSeqOffline.h"
+#include "pso/ui/city/THunterGuildSeqOffline_80213788.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/system/main_loop.h"
@@ -86,14 +88,9 @@ THunterGuildSeqOnlineTask::THunterGuildSeqOnlineTask(TObject *parent) : TObject(
     m_name = THunterGuildSeqOnlineTask__name;
 }
 void handle_6x73_exit_quest(void);
-extern unsigned char reset_random_enemies_mode[];
 
 void handle_6x73_exit_quest(void) {
-    void *o;
-    o = TObject::operator new(0x28);
-    if (o != NULL) {
-        ((THunterGuildSeqOffline *)o)->init(tl_00, reset_random_enemies_mode);
-    }
+    new TUnk_804999D0(tl_00, reset_random_enemies_mode);
 }
 
 void TQuestListOnline::close_windows_and_reset() {

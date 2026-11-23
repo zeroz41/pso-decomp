@@ -1,3 +1,4 @@
+#include "pso/unk/TUnk_804999D0.h"
 #include "types.h"
 #include "pso/ui/window/TWindowSubGameEnd.h"
 #include "pso/ui/window/TWindowMainMenu.h"
@@ -29,7 +30,7 @@ extern "C" {
 saddr get_window_layout_position(s32);
 }
 
-void TKeyBoardControl::init_char_select() {
+void TKeyBoardControl::init_char_select(TObject *) {
     if (is_split_screen() != 0) {
         setup_player_battle_ctrls__23TAdSinglePlyChrSelectGCFv();
         request_main_phase(7);
@@ -43,7 +44,6 @@ void TWindowSubGameEnd::render() {  }
 
 void TWindowSubGameEnd::run_task() {
     s32 slot;
-    void *obj;
     switch (state) {
     case 0:
     case 1:
@@ -55,10 +55,7 @@ void TWindowSubGameEnd::run_task() {
             slot = ((TWindowMessageYesNo *)yes_no_window)->get_selected_value();
             if (slot == 0) {
                 if (window_sub_game_end_active_flag != 1) {
-                    obj = (void *)TObject::operator new(0x28);
-                    if (obj != NULL) {
-                        ((THunterGuildSeqOffline *)obj)->init((void *)tl_00, (void *)((void *)TKeyBoardControl::init_char_select));
-                    }
+                    new TUnk_804999D0(tl_00, TKeyBoardControl::init_char_select);
                     fn_8024AB54(client);
                     TLobby::send_logout();
                     window_sub_game_end_active_flag = 1;

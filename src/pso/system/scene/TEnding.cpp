@@ -1,3 +1,4 @@
+#include "pso/unk/TUnk_804999D0.h"
 #include "pso/system/scene/TEnding.h"
 #include "pso/map/FloorArea.h"
 #include "pso/system/scene/TEndingPicStage.h"
@@ -47,9 +48,7 @@ void TEnding::run_task() {
             s32 ticks = elapsed_ticks + 1;
             elapsed_ticks = ticks;
             if (ticks > timing_rate * 10) {
-                void *child = TObject::operator new(0x28);
-                if (child != NULL)
-                    ((THunterGuildSeqOffline *)child)->init(tl_fade, (void *)destroy_keyboard_objects);
+                new TUnk_804999D0(tl_fade, destroy_keyboard_objects);
                 phase = 2;
             }
         }

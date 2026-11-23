@@ -11,7 +11,7 @@ public:
     virtual ~TAdSoniclogo();
     virtual void run_task();
 public:
-    static void request_destroy();
+    static void request_destroy(TObject *fade);
 
     s32 m_wait_frames; // 0x1C; inferred name: frames counted to 0x3C in run_task before the fade
 };

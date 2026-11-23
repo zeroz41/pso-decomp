@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/unk/TUnk_804999D0.h"
 #include "types.h"
 #include "pso/ui/frontend/TAdBackTxtGC.h"
 #include "pso/ui/frontend/TAdBackGC.h"
@@ -150,10 +151,7 @@ void TAdMultiSaveGC::run_task() {
         break;
     case 8:
         {
-            void *p = TObject::operator new(0x28);
-            if (p != 0) {
-                ((THunterGuildSeqOffline *)p)->init((void *) tl_fade, (void *) TAdMultiSaveGC::queue_destruction);
-            }
+            new TUnk_804999D0(tl_fade, TAdMultiSaveGC::queue_destruction);
         }
         break;
     case 9:
@@ -193,8 +191,8 @@ TWindowSubComCardList *TAdMultiSaveGC::sub_802FF170() {
     return menu;
 }
 
-// Fade-in callback (THunterGuildSeqOffline::init); the fade task calls it with
-// itself in r3, so it retires the fade before switching game mode.
+// Fade callback (TUnk_804999D0): the fade passes itself, so this retires
+// the fade before switching game mode.
 void TAdMultiSaveGC::queue_destruction(TObject *fade) {
     fade->queue_destruction();
     TAdMultiChgGameModeGC::begin_change_game_mode();

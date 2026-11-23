@@ -1,4 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/unk/TUnk_804999D0.h"
+#include "pso/unk/TUnk_804999B8.h"
 #include "pso/ui/frontend/TAdSEGAlogo.h"
 #include "pso/ui/TLogo_8001C134.h"
 #include "types.h"
@@ -8,6 +10,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/unk/TLobby.h"
 #include "pso/system/task/TObject.h"
+#include "pso/system/task/TMainTask.h"
 
 #pragma push
 #pragma readonly_strings on
@@ -46,14 +49,16 @@ const char *TAdSEGAlogo__class_name = "TAdSEGAlogo";
 NJS_TEXLIST *logo_texture_e_handle;
 int TAdSEGAlogo__state;
 int sega_logo_done_flag;
-extern void *tl_00;
-extern "C" {
-int queue_destruction__7TObjectFv(void);
+
+void TAdSEGAlogo::destroy_and_mark_done(TObject *fade) {
+    fade->queue_destruction();
+    sega_logo_done_flag = 1;
 }
 
-void TAdSEGAlogo::destroy_and_mark_done() { queue_destruction__7TObjectFv(); sega_logo_done_flag = 1; }
-
-void TAdSEGAlogo::request_destroy() { queue_destruction__7TObjectFv(); TAdSEGAlogo__state = 1; }
+void TAdSEGAlogo::request_destroy(TObject *fade) {
+    fade->queue_destruction();
+    TAdSEGAlogo__state = 1;
+}
 
 void TAdSEGAlogo::render() {
     render_logo_with_default(logo_texture_e_handle, 8, -1, -150.0f);
@@ -64,12 +69,8 @@ void TAdSEGAlogo::run_task() {
         break;
     case 1:
         if ((f32)++m_wait_frames > 60.0f) {
-            void *p;
             TAdSEGAlogo__state = 2;
-            p = TObject::operator new(0x28);
-            if (p != 0) {
-                ((THunterGuildSeqOffline *)p)->init(tl_00, (void *)TAdSEGAlogo::destroy_and_mark_done);
-            }
+            new TUnk_804999D0(tl_00, TAdSEGAlogo::destroy_and_mark_done);
         }
         break;
     case 2:
@@ -80,14 +81,10 @@ void TAdSEGAlogo::run_task() {
 TAdSEGAlogo::~TAdSEGAlogo() {}
 
 TAdSEGAlogo::TAdSEGAlogo(TObject *parent) : TObject(parent) {
-    void *o;
     m_name = TAdSEGAlogo__class_name;
     m_wait_frames = 0;
     TAdSEGAlogo__state = 0;
     sega_logo_done_flag = 0;
     TAdSinglePlyChrSelectGC::init_logo_state(0);
-    o = TObject::operator new(0x28);
-    if (o != NULL) {
-        ((TLobby *)o)->init_fade(tl_00, (void *)request_destroy);
-    }
+    new TUnk_804999B8(tl_00, request_destroy);
 }

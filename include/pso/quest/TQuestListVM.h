@@ -66,7 +66,7 @@ public:
     u32 get_download_seed();
     s32 update_load_status();
     void close_windows();
-    static void set_enemy_mode_3();
+    static void set_enemy_mode_3(TObject *fade);
     static void load_vm();
     void wait_for_message();
     void invoke_callback_and_queue_destruction();

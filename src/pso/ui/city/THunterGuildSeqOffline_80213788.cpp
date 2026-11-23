@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/unk/TUnk_804999D0.h"
 #include "pso/unk/TUnk_804C8678.h"
 #include "pso/ui/window/WindowMenuFactory.h"
 #include "types.h"
@@ -317,7 +318,6 @@ void THunterGuildSeqOnline_Server::sub_80214254() {
 }
 
 void THunterGuildSeqOnline_Server::close_window() {
-    void *mem;
     if (quest_thread != NULL) {
         if (quest_thread->all_parents_unqueued_for_destruction() != 0) return;
         quest_thread = NULL;
@@ -333,16 +333,14 @@ void THunterGuildSeqOnline_Server::close_window() {
         queue_destruction();
         break;
     case 1:
-        mem = TObject::operator new(0x28);
-        if (mem != NULL) ((THunterGuildSeqOffline *)mem)->init((void *)tl_00, (void *)reset_random_enemies_mode);
-        THunterGuildSeqOffline__sub_8021E180((((TObjBase *)(player))->get_entity_id()));
+        new TUnk_804999D0(tl_00, reset_random_enemies_mode);
+        THunterGuildSeqOffline__sub_8021E180(((TObjBase *)(player))->get_entity_id());
         TShopSequence::close_window();
         queue_destruction();
         break;
     case 2:
-        mem = TObject::operator new(0x28);
-        if (mem != NULL) ((THunterGuildSeqOffline *)mem)->init((void *)tl_00, (void *)set_random_enemies_mode);
-        THunterGuildSeqOffline__sub_8021E180((((TObjBase *)(player))->get_entity_id()));
+        new TUnk_804999D0(tl_00, set_random_enemies_mode);
+        THunterGuildSeqOffline__sub_8021E180(((TObjBase *)(player))->get_entity_id());
         TShopSequence::close_window();
         queue_destruction();
         break;
@@ -406,11 +404,11 @@ void THunterGuildSeqOffline__sub_80213E64(void) {
 
 }
 
-void set_random_enemies_mode(void) { TLobby::set_enemy_mode_flag(); evt2_random_enemies_mode = 2; TKeyBoardControl__sub_8000F950(); }
+void set_random_enemies_mode(TObject *) { TLobby::set_enemy_mode_flag(); evt2_random_enemies_mode = 2; TKeyBoardControl__sub_8000F950(); }
+
+void reset_random_enemies_mode(TObject *) { TLobby::clear_counter(); evt2_random_enemies_mode = 0; TKeyBoardControl__sub_8000F950(); }
 
 extern "C" {
-
-void reset_random_enemies_mode(void) { TLobby::clear_counter(); evt2_random_enemies_mode = 0; TKeyBoardControl__sub_8000F950(); }
 
 THunterGuildSeqOnline_Client::THunterGuildSeqOnline_Client(TObject *parent, TObjPlayer *player) : TShopSequence(parent) {
     m_name = THunterGuildSeqOnline_Client__name;

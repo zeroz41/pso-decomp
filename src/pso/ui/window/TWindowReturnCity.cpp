@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/unk/TUnk_804999D0.h"
 #include "types.h"
 #include "pso/npc/TNpcPlayer.h"
 #include "pso/unk/TLobby_800FD78C.h"
@@ -35,8 +36,7 @@ const char *TWindowReturnCity::class_name = "TWindowReturnCity";
 
 extern s32 lbl_805D55C0;
 int TWindowReturnCity__client_scan_index;
-void return_to_city_after_defeat(void);
-void return_to_city_after_defeat(void) {
+void return_to_city_after_defeat(TObject *) {
     if (((s32) lbl_805D55C0 != 1) && ((s32) (*(s32 *)&TWindowReturnCity__client_scan_index) < 4)) {
         if (((saddr)get_player_by_client_id((s32)((u32) (*(s32 *)&TWindowReturnCity__client_scan_index)))) != 0U) {
             prepare_hospital_return__10TObjPlayerFv();
@@ -87,10 +87,7 @@ void TWindowReturnCity::run_task() {
                 temp_r3 = ((TWindowMessageYesNo *)yes_no_window)->get_selected_value();
                 if (temp_r3 == 0) {
                     TWindowReturnCity__client_scan_index = client;
-                    uaddr task = (uaddr)TObject::operator new(0x28);
-                    if (task != 0U) {
-                        ((THunterGuildSeqOffline *)task)->init((void *)tl_00, (void *)return_to_city_after_defeat);
-                    }
+                    new TUnk_804999D0(tl_00, return_to_city_after_defeat);
                     state = 2;
                 }
                 if (temp_r3 == 1) {

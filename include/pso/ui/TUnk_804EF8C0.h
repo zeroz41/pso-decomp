@@ -48,7 +48,7 @@ public:
 LAYOUT_ASSERT(TUnk_804EF8C0_size, sizeof(TUnk_804EF8C0) == 0x44);
 
 extern "C" {
-int TAdSinglePlyChrSelectGC__sub_8033B244(void *p);
+void TAdSinglePlyChrSelectGC__sub_8033B244(TObject *fade);
 void TAdSinglePlyChrSelectGC__sub_8033B264(void);
 }
 void init_single_player_char_select_scene(void);

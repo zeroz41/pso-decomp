@@ -449,7 +449,7 @@ struct TLobby : public TObject {
     static s32 test_flag_1_at_6c84();
     static void clear_flag_at_6c84();
     static NJS_SPRITE *get_record(int index);
-    void queue_destruction_and_cleanup();
+    static void queue_destruction_and_cleanup(TObject *fade);
     void set_flag_and_clear_download();
     void open_keyboard();
     void request_change_game_mode();
@@ -618,7 +618,6 @@ struct TLobby : public TObject {
     static void set_fade_params(s32 arg0);
     static s32 get_quest_thread_state();
     void*init_entry_fields(int a1, int a2, int a3);
-    void *init_fade(void *arg1, void *arg2);
     u8 *pop_stack_entry(s16 arg1);
     static s32 is_stat_over_limit(s32 arg0);
     s32 write_sync_item_state();
@@ -892,7 +891,7 @@ struct TLobby : public TObject {
     static void finish_chr_select_scene_init();
     void start_duel_battle();
     void update_players();
-    static void destroy_download_server(void* _w0);
+    static void destroy_download_server(TObject *fade);
     void send_compressed_packet_6c();
     void send_cmd_6B();
     u8 *create_new_floor_windows();
@@ -1080,7 +1079,7 @@ struct TLobby : public TObject {
     static void reset(int);
     static void reset();
     static void reset_camera_if_fullscreen(void*);
-    static void reset_random_enemies_mode();
+    static void reset_random_enemies_mode(TObject *fade);
     static void reset_state(int msg);
     static void reset_state_flags();
     static void retire_lobby_player(int, int);

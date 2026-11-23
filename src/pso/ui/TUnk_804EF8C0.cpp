@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/unk/TUnk_804999D0.h"
 #include "pso/system/CharacterSaveRecordLookup.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/frontend/TitleBackgroundStorage.h"
@@ -24,6 +25,7 @@
 #include "pso/ui/frontend/TAdPlayerLoadGC.h"
 #include "pso/ui/city/THunterGuildSeqOffline.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
+#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/unk/TLobby.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/ui/window/TWindowMenu.h"
@@ -62,7 +64,6 @@ extern "C" {
 s32 setup__23TAdSinglePlyChrSelectGCFi(s32);
 s32 TAdSinglePlyChrSelectGC__sub_801FDA4C();
 
-int request_queued_main_phase(void*);
 extern void *character_select_scene_resource_callbacks[];
 int create_window_menu_default(void*, void*);
 u32 __nw__7TObjectFUl(int);
@@ -75,8 +76,6 @@ s32 poll_memcard_result(saddr);
 
 void check_ready__23TAdSinglePlyChrSelectGCFv(void);
 
-s32 TKeyBoardControl__sub_8000F92C();
-s32 request_main_phase(int);
 s8 func_801A5E54__Fv();
 s32 run_save_load_sequence__23TAdSinglePlyChrSelectGCFv();
 }
@@ -84,7 +83,6 @@ void process_async_file_reads(void);
 void update_sound_request_slots(void);
 extern "C" {
 s32 func_803DCDFC__Fv();
-s32 TKeyBoardControl__sub_8000F90C(int);
 s32 run_load_callback_table(void *, int);
 s32 reset_controller_input_state();
 s32 __ct__15TWindowCtrlMainFv(u32);
@@ -149,10 +147,7 @@ void TUnk_804EF8C0::sub_8033AA64() {
             state = 0xE;
             sub_8033B5F0();
             close_window();
-            uaddr o = (uaddr)TObject::operator new(0x28);
-            if (o != 0U) {
-                ((THunterGuildSeqOffline *)o)->init((void *)tl_fade, (void *)TAdSinglePlyChrSelectGC__sub_8033B244);
-            }
+            new TUnk_804999D0(tl_fade, TAdSinglePlyChrSelectGC__sub_8033B244);
             break;
         }
     }
@@ -173,10 +168,7 @@ void TUnk_804EF8C0::handle_player_load() {
             case 0:
                 state = 0xE;
                 close_window();
-                p = (uaddr)TObject::operator new(0x28);
-                if (p != 0) {
-                    ((THunterGuildSeqOffline *)p)->init((void *)tl_fade, (void *)TAdSinglePlyChrSelectGC__sub_8033B244);
-                }
+                new TUnk_804999D0(tl_fade, TAdSinglePlyChrSelectGC__sub_8033B244);
                 break;
             default:
                 state = 0xD;
@@ -356,10 +348,7 @@ void TUnk_804EF8C0::sub_8033B0AC() {
             state = 0xE;
             sub_8033B5F0();
             close_window();
-            o = (uaddr)TObject::operator new(0x28);
-            if (o != 0U) {
-                ((THunterGuildSeqOffline *)o)->init((void *)tl_fade, (void *)TAdSinglePlyChrSelectGC__sub_8033B244);
-            }
+            new TUnk_804999D0(tl_fade, TAdSinglePlyChrSelectGC__sub_8033B244);
         }
     } else {
         state = 0;
@@ -381,7 +370,7 @@ void TUnk_804EF8C0::set_char_slots(s32 message, s32 sub_message) {
         message_window->append_line(get_message_text(sub_message), 8);
     }
 }
-int TAdSinglePlyChrSelectGC__sub_8033B244(void* p) { return request_queued_main_phase(p); }
+void TAdSinglePlyChrSelectGC__sub_8033B244(TObject *) { request_queued_main_phase(); }
 void TAdSinglePlyChrSelectGC__sub_8033B264(void) {
     main_task.delete_layer_children();
     TLobby::stop_audio_streams();

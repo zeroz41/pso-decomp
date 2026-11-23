@@ -84,6 +84,7 @@
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/render/NinjaUtil.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/unk/TUnk_804999D0.h"
 
 // The original TU was built with deferred codegen: functions below are in reverse
 // address order, and the pool (three {3, 2} initializers, then the float literals
@@ -1063,13 +1064,10 @@ void TObjAreaWarpEnding::open_confirm_window(s32 client_id) {
 
 void TObjAreaWarpEnding::confirm_area_transfer(TObjPlayer *) {
     play_sound_effect(0x40003205, 0, 0, 0);
-    uaddr obj = (uaddr)TObject::operator new(0x28);
-    if (obj != 0U) {
-        ((THunterGuildSeqOffline *)obj)->init((void *)tl_00, (void *)((s32 *)TKeyBoardControl::dispatch_select_phase));
-    }
+    new TUnk_804999D0(tl_00, TKeyBoardControl::dispatch_select_phase);
 }
 
-void TKeyBoardControl::dispatch_select_phase() {
+void TKeyBoardControl::dispatch_select_phase(TObject *) {
 
     switch (TAdStorySelectGC::get_story_select()) {
     case 0:

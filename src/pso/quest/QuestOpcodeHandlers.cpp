@@ -105,6 +105,7 @@ int qst_label_address(int label);
 #include "pso/camera/TCameraFollow.h"
 #include "pso/camera/TCameraPan.h"
 #include "pso/system/TTokenList.h"
+#include "pso/unk/TUnk_804999D0.h"
 u8 *qst_code;
 s32 *qst_function_table;
 s32 *qst_registers;
@@ -897,8 +898,6 @@ void request_player_shrink(PlayerScaleState *state);
 Vec * TObjPlayer__sub_801C6FDC(void *);
 s32 send_download_head_d7(TProtocol *, int, int);
 void* __ct__13TQuestBgmCtrlFP7TObject(void*, TObject *);
-}
-extern "C" {
 }
 void play_cue_stream_file(const char *name);
 extern "C" {
@@ -1982,15 +1981,11 @@ void qst_op_stop_animation(s32 reg) {
 void qst_op_use_animation(s32 slot_reg, s32 anim_reg) {
     TNpcPlayer::apply_to_battle_player_slot(qst_registers[(u8)slot_reg], qst_registers[(u8)anim_reg]);
 }
-extern "C" {
-
-void TLobby::reset_random_enemies_mode() { TLobby::clear_counter(); evt2_random_enemies_mode = 0; TKeyBoardControl__sub_8000F950(); }
-}
+void TLobby::reset_random_enemies_mode(TObject *) { TLobby::clear_counter(); evt2_random_enemies_mode = 0; TKeyBoardControl__sub_8000F950(); }
 
 void qst_op_qexit() {
-    void *hunter_guild_seq_offline;
-    if ((is_quest_active() == 1) && ((hunter_guild_seq_offline = (void*)((uaddr (*)(s32))__nw__7TObjectFUl)(0x28)) != 0U)) {
-        ((THunterGuildSeqOffline *)hunter_guild_seq_offline)->init((void *)tl_00, (void *)TLobby::reset_random_enemies_mode);
+    if (is_quest_active() == 1) {
+        new TUnk_804999D0(tl_00, TLobby::reset_random_enemies_mode);
     }
 }
 

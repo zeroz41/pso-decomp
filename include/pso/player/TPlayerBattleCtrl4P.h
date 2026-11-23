@@ -93,7 +93,7 @@ public:
     static void update_all_players();
     void shuffle_order();
     static void update();
-    static void reset_random_enemies_mode();
+    static void reset_random_enemies_mode(TObject *fade);
     static void init_instance_with_text(saddr arg0, saddr arg1);
 public:
     void update_player_alive_flags();

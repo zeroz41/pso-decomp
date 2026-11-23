@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/unk/TUnk_804999D0.h"
 #include "pso/unk/TUnk_804C8678.h"
 #include "pso/system/CharacterSaveRecordLookup.h"
 #include "pso/ui/window/TWindowDuelResult.h"
@@ -709,15 +710,11 @@ void TPlayerBattleCtrl4P::finish_battle_reload() {
 void TPlayerBattleCtrl4P::sub_80311890() {  }
 
 void TPlayerBattleCtrl4P::return_to_hunters_guild() {
-    void *o;
-    o = TObject::operator new(0x28);
-    if (o != NULL) {
-        ((THunterGuildSeqOffline *)o)->init(tl_00, (s32 *)TPlayerBattleCtrl4P::reset_random_enemies_mode);
-    }
+    new TUnk_804999D0(tl_00, TPlayerBattleCtrl4P::reset_random_enemies_mode);
     queue_destruction();
 }
 
-void TPlayerBattleCtrl4P::reset_random_enemies_mode() { TLobby::clear_counter(); evt2_random_enemies_mode = 0; TKeyBoardControl__sub_8000F950(); ((TLobby *)lobby_rule_settings)->reset_settings_to_default(); }
+void TPlayerBattleCtrl4P::reset_random_enemies_mode(TObject *) { TLobby::clear_counter(); evt2_random_enemies_mode = 0; TKeyBoardControl__sub_8000F950(); ((TLobby *)lobby_rule_settings)->reset_settings_to_default(); }
 
 void TPlayerBattleCtrl4P::sub_80311804() {  }
 

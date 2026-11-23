@@ -32,6 +32,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/player/TObjPlayer_801A5AEC.h"
+#include "pso/unk/TUnk_804999B8.h"
 
 
 
@@ -48,7 +49,6 @@ static const f32 lbl_805DAC0C[1] = {480.0f};
 
 
 
-extern s32 destroy_and_flag__21TItemReverseTechPart2Fv[];
 
 const char *TItemReverseTech__name = "TItemReverseTech";
 
@@ -255,7 +255,6 @@ const char *TItemReverseTechPart1__name = "TItemReverseTechPart1";
 
 
 TItemReverseTechPart1::TItemReverseTechPart1(TObject *parent, void *texture_archive) : TObject(parent) {
-    void *fade;
     m_name = TItemReverseTechPart1__name;
     state = 0;
     timer = 0;
@@ -264,10 +263,7 @@ TItemReverseTechPart1::TItemReverseTechPart1(TObject *parent, void *texture_arch
     fade_out_time = 150;
     ring = NULL;
     TItemReverseTechPart1__instance = this;
-    fade = TObject::operator new(0x28);
-    if (fade != NULL) {
-        ((TLobby *)fade)->init_fade(tl_00, destroy_and_flag__21TItemReverseTechPart2Fv);
-    }
+    new TUnk_804999B8(tl_00, TItemReverseTechPart2::destroy_and_flag);
 }
 
 
@@ -319,8 +315,8 @@ void TItemReverseTechPart1::run_task() {
 }
 
 
-void TItemReverseTechPart2::destroy_and_flag() {
-    queue_destruction();
+void TItemReverseTechPart2::destroy_and_flag(TObject *fade) {
+    fade->queue_destruction();
     if (TItemReverseTechPart1__instance != NULL) {
         TItemReverseTechPart1__instance->state = 1;
     }

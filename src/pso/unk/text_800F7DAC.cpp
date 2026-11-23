@@ -6,6 +6,7 @@
 #include "pso/unk/TUnk_804999A0.h"
 #include "pso/boss/TUnk_804999E8.h"
 #include "pso/system/task/TObject.h"
+#include "pso/system/task/TMainTask.h"
 #include "pso/unk/TUnk_80499988.h"
 #include "pso/unk/TUnk_80499970.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
@@ -61,11 +62,8 @@ u32 prs_decompress(int, int, int, int);
 
 extern s32 __vt__13TUnk_80499988[];
 extern s32 __vt__13TUnk_804999A0[];
-extern s32 __vt__13TUnk_804999B8[];
-extern s32 __vt__13TUnk_804999D0[];
 void * screen_fade_controller;
 extern s32 local_client_id;
-extern void *tl_fade;
 }
 
 #pragma defer_codegen on
@@ -102,15 +100,12 @@ void TUnk_804999E8::render() {
     TCameraCtrl::restore_saved_view();
 }
 
-void *THunterGuildSeqOffline::init(void *arg1, void *arg2) {
-    __ct__13TUnk_804999E8FP7TObject(this, tl_fade);
-    *(s32 * *)((u8 *)this + 0x18) = (s32 *)__vt__13TUnk_804999D0;
-    *(void **)((s8 *)this + 0x24) = arg2;
-    *(f32 *)&this->pad_1c = (0.0f);
-    *(u8 *)((s8 *)this + 0x20) = 0;
-    *(u8 *)((s8 *)this + 0x21) = 0;
-    *(u8 *)((s8 *)this + 0x22) = 0;
-    return this;
+TUnk_804999D0::TUnk_804999D0(TObject *parent, void (*callback)(TObject *)) : TUnk_804999E8(tl_fade) {
+    this->callback = callback;
+    alpha = 0.0f;
+    color[0] = 0;
+    color[1] = 0;
+    color[2] = 0;
 }
 
 TUnk_804999D0::~TUnk_804999D0() {}
@@ -118,28 +113,23 @@ TUnk_804999D0::~TUnk_804999D0() {}
 #pragma push
 #pragma opt_common_subs off
 void TUnk_804999D0::run_task() {
-    s32 (*temp_r12)();
     this->alpha += 8.0f;
     if (this->alpha >= (255.0f)) {
         this->alpha = 255.0f;
-        temp_r12 = *(s32 (**)())((s8 *)((u8 *)this) + 0x24);
-        if (temp_r12 != NULL) {
-            temp_r12();
+        if (callback != NULL) {
+            callback(this);
         }
         this->suspend_update();
     }
 }
 #pragma pop
 
-void *TLobby::init_fade(void *arg1, void *arg2) {
-    __ct__13TUnk_804999E8FP7TObject(this, tl_fade);
-    *(s32 **)((s8 *)this + 0x18) = (s32 *)__vt__13TUnk_804999B8;
-    *(void **)((s8 *)this + 0x24) = arg2;
-    *(f32 *)((s8 *)this + 0x1C) = (255.0f);
-    *(u8 *)((s8 *)this + 0x20) = 0;
-    *(u8 *)((s8 *)this + 0x21) = 0;
-    *(u8 *)((s8 *)this + 0x22) = 0;
-    return this;
+TUnk_804999B8::TUnk_804999B8(TObject *parent, void (*callback)(TObject *)) : TUnk_804999E8(tl_fade) {
+    this->callback = callback;
+    alpha = 255.0f;
+    color[0] = 0;
+    color[1] = 0;
+    color[2] = 0;
 }
 
 TUnk_804999B8::~TUnk_804999B8() {}
@@ -147,13 +137,11 @@ TUnk_804999B8::~TUnk_804999B8() {}
 #pragma push
 #pragma opt_common_subs off
 void TUnk_804999B8::run_task() {
-    s32 (*temp_r12)();
     this->alpha = (f32) (this->alpha - (8.0f));
     if (this->alpha <= 0.0f) {
         this->alpha = 0.0f;
-        temp_r12 = *(s32 (**)())((s8 *)((u8 *)this) + 0x24);
-        if (temp_r12 != NULL) {
-            temp_r12();
+        if (callback != NULL) {
+            callback(this);
         }
         this->suspend_update();
     }

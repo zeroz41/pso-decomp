@@ -326,8 +326,8 @@ TParticleRadial::TParticleRadial(void *entry, void *position, void *parent)
 #pragma pop
 
 // Queues object's destruction and returns to main phase 18 with the audio streams stopped.
-void destroy_keyboard_objects(void *object) {
-    ((TObject *)object)->queue_destruction();
+void destroy_keyboard_objects(TObject *fade) {
+    fade->queue_destruction();
     set_queued_main_phase(2);
     request_main_phase(18);
     TLobby::stop_audio_streams();

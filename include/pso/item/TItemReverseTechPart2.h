@@ -12,7 +12,7 @@ public:
     virtual void run_task();
     virtual void render();
 public:
-    void destroy_and_flag();
+    static void destroy_and_flag(TObject *fade);
 
     TItemReverseTech_8011A54C picture_0;
     TItemReverseTech_8011A54C picture_1;

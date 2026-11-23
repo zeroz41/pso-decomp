@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/unk/TUnk_804999D0.h"
 #include "pso/unk/TUnk_804C8678.h"
 #include "pso/ui/window/WindowMenuFactory.h"
 #include "types.h"
@@ -14,6 +15,7 @@
 #include "pso/quest/TQuestThread.h"
 #include "pso/system/task/TObject.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/system/task/TMainTask.h"
 
 struct Base_802133C4_80212D9C { char pad[0x18]; };
 struct VObj_802133C4_80212D9C : Base_802133C4_80212D9C {
@@ -117,10 +119,7 @@ void THunterGuildSeqOnline_Client::close_window() {
     if ((vfunc_10() != 0) && ((sub_80223A48() != 0) || (sub_802239EC() != 0))) {
         switch (pad_34) {
         case 1: {
-            void *o = TObject::operator new(0x28);
-            if (o != NULL) {
-                ((THunterGuildSeqOffline *)o)->init(tl_00, (void *)reset_random_enemies_mode);
-            }
+            new TUnk_804999D0(tl_00, reset_random_enemies_mode);
             THunterGuildSeqOffline__sub_8021E180(((TObjBase *)((saddr)player))->get_entity_id());
             break;
         }
