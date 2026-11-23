@@ -512,7 +512,7 @@ void TObjEneMe3SinowZoa::attack_and_unequip() {
                         pl = current_target;
                         TItem *held;
                         if (TObjPlayer::is_locally_controlled(pl) != 0 && (held = (TItem *)TObjPlayer::get_item_field_6(pl)) != 0) {
-                            TObjPlayer::send_6x26_unequip_item(static_cast<TObjPlayer *>(pl), held->get_item_id());
+                            TObjPlayer::send_6x26_unequip_item(pl, held->get_item_id());
                             ((TObjPlayer *)pl)->get_hand_joint_position((saddr)&hand_position);
                             spawn_particle_effect(&hand_position, 0x1D0);
                         }

@@ -1014,7 +1014,7 @@ void TObjGrass::update_chase_target(void *arg0_) {
 #define TBL TObjGrass__bml_resource
 #define T318 attack_params
 #define IN_RANGE() (dist <= (r + T318->get_attack_range()) * (r + T318->get_attack_range()) && ang <= T318->get_attack_angle())
-#define BIND(n) m_39e = (n); bind_enemy_combat_stats(NULL, TBL[m_39e], NULL); return 1;
+#define BIND(n) m_39e = (n); bind_enemy_combat_stats(NULL, (u8 *)TBL[m_39e], NULL); return 1;
 
 s32 TObjGrass::is_target_in_attack_range() {
     f32 dist;

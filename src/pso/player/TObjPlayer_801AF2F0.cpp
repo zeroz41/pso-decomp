@@ -1267,6 +1267,7 @@ void handle_6xAC(void *arg0);
 void handle_6x29_delete_inventory_item(void *arg0);
 void send_6x29_delete_item__10TObjPlayerFPvii(void *obj, s32 a, s32 b);
 bool is_target_in_facing_cone__10TObjPlayerFPv(Obj_801B92EC *self, Vec *target);
+void unequip_item__10TObjPlayerFiPv(TObjPlayer *player, TItem *item);
 void handle_6x26_unequip_item(void *arg0);
 void handle_6x25_equip_item(void *arg0);
 void handle_state2_transitions__10TObjPlayerFv(u8 *arg0);
@@ -2559,7 +2560,7 @@ void TObjPlayer::equip_item_to_slot(TItem *item, s32 slot) {
         set_equip_slot_entry((s32)equipped_items, slot, (s32)item);
         item->equip();
     } else if (current != item) {
-        unequip_item(current);
+        unequip_item__10TObjPlayerFiPv(this, current);
         set_equip_slot_entry((s32)equipped_items, slot, (s32)item);
         item->equip();
     }
@@ -2568,14 +2569,14 @@ void TObjPlayer::equip_item_to_slot(TItem *item, s32 slot) {
     }
 }
 
-void TObjPlayer::send_6x26_unequip_item(TObjPlayer *player, u32 item_id) {
-    if (player == NULL || player->obj_isState2_324() == 0) {
+void TObjPlayer::send_6x26_unequip_item(void *target, u32 item_id) {
+    if (target == NULL || static_cast<TObjChara *>(target)->obj_isState2_324() == 0) {
         UnequipItemPacket packet;
         ((TObjPlayer *)&packet)->init_cmd_6x26();
-        packet.client = get_entity_id(player);
+        packet.client = ((u16 (*)(void *))get_entity_id)(target);
         packet.item_id = item_id;
         ((TObjPlayer *)&packet)->bswap_body_dwords4_and_send();
-        player->send_unequip_held_item();
+        static_cast<TObjPlayer *>(target)->send_unequip_held_item();
     }
 }
 
@@ -2598,19 +2599,19 @@ void handle_6x26_unequip_item(void *arg0) {
         player = (TObjPlayer *)get_player_by_client_id(m.slot);
         if (player != NULL && (slot = static_cast<TItemList *>(player->inventory_objects->start_inventory_update(m.c))) != NULL &&
             (item = slot->get_owner_if_alive()) != NULL) {
-            player->unequip_item(item);
+            unequip_item__10TObjPlayerFiPv(player, item);
         }
     }
 }
 
-void TObjPlayer::unequip_item(TItem *item) {
-    set_equip_slot_entry((s32)equipped_items, item->get_attach_slot(), 0);
+void unequip_item__10TObjPlayerFiPv(TObjPlayer *player, TItem *item) {
+    set_equip_slot_entry((s32)player->equipped_items, item->get_attach_slot(), 0);
     item->unequip();
     if (item->get_item_type() == 1 && item->get_item_group() == 1) {
-        unequip_all_units();
+        player->unequip_all_units();
     }
-    if (test_action_mask(2) != 0) {
-        set_animation(((s16 (*)(void *))unequip_by_field326__10TObjPlayerFPv)(this));
+    if (player->test_action_mask(2) != 0) {
+        player->set_animation(((s16 (*)(void *))unequip_by_field326__10TObjPlayerFPv)(player));
     }
 }
 
@@ -6429,7 +6430,7 @@ void TLobby::apply_battle_rules_to_players() {
             break;
         }
         if ((weapon = TObjPlayer::get_item_field_6(p)) != NULL && weapon->check_equip_requirements((TObjPlayer *)p, (s16 *)0) == 0) {
-            reinterpret_cast<TObjPlayer *>(p)->unequip_item(weapon);
+            ((void (*)(Pl_801B0B88 *, TItem *))unequip_item__10TObjPlayerFiPv)(p, weapon);
         }
         switch (fn_801D7168(q)) {
         case 1:

@@ -308,7 +308,7 @@ struct TObjPlayer : public TObjChara {
     // The photon blast gauge's charge, 0-100.
     s32 get_photon_blast_charge();
     int is_frozen();
-    static void send_6x26_unequip_item(TObjPlayer *player, u32 item_id);
+    static void send_6x26_unequip_item(void *player, u32 item_id);
     player_class_type get_class_type();
     static void add_angle_clamped(s32 *arg0, s32 arg1, s32 arg2);
     void call_callback_1ec(saddr arg1, saddr arg2);
@@ -1356,7 +1356,6 @@ struct TObjPlayer : public TObjChara {
     void equip_item_to_slot(TItem *item, s32 slot);
     static void bind_saved_inventory_equipment(TObjPlayer *player, TPlyInventoryItem *records, int count);
     static void equip_saved_item_if_slot_empty(TObjPlayer *player, TPlyInventoryItem *record);
-    void unequip_item(TItem *item);
     s32 check_switch_available(s32 item_id);
     s32 end_camera_pan();
     static void freeze_all_players();

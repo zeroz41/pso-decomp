@@ -211,7 +211,7 @@ void TItemList::unequip_invalid_items_recursive() {
             o = n->get_owner_if_alive();
             if ((o != NULL) && (is_item_equipped(o) != 0) && (o->is_unit() == 0) &&
                 (TObjPlayer::get_slot_value(reinterpret_cast<s32 *>(item_reduce_target_player->equipped_items), o->get_attach_slot()) != 0U)) {
-                item_reduce_target_player->unequip_item(o);
+                unequip_item__10TObjPlayerFiPv(item_reduce_target_player, o);
             }
         }
         n->unequip_invalid_items_recursive();
@@ -473,7 +473,7 @@ void TPlyItem::reduce_item_amount(TObjPlayer *player, TItemList *slot, s32 arg3)
             return;
         }
         if (is_item_equipped(item) != 0) {
-            player->unequip_item(item);
+            unequip_item__10TObjPlayerFiPv(player, item);
         }
         count = pad_1C;
         pad_1C = (count - 1);
@@ -489,7 +489,7 @@ void TPlyItem::remove_equipped_item(TObjPlayer *player, TItemList *slot) {
     item = slot->get_owner_if_alive();
     if (item != NULL) {
         if (is_item_equipped(item) != 0) {
-            player->unequip_item(item);
+            unequip_item__10TObjPlayerFiPv(player, item);
         }
         count = pad_1C;
         pad_1C = (count - 1);
@@ -532,7 +532,7 @@ s32 TPlyItem::update_inventory_item(TObjPlayer *player, s32 arg2, f32 *position,
         return 1;
     }
     if (is_item_equipped(item) != 0) {
-        player->unequip_item(item);
+        unequip_item__10TObjPlayerFiPv(player, item);
     }
     *(s16 *)((s8 *)item + 0x28) = ((TObjBase *)player)->get_room();
     item->place_on_ground(client, position, 0);
