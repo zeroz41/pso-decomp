@@ -17,7 +17,6 @@ s32 __ct__9TObjCharaFP7TObject();
 s32 init_player_substructs__10TObjPlayerFv(void *, void *);
 s32 TObjPlayer__sub_801BC8F0(void *);
 s32 TObjPlayer__sub_801BCA14(void *, void *);
-s32 TObjPlayer__sub_801BF660(void *);
 s32 TObjPlayer__sub_801BFB4C(void *);
 s32 TObjPlayer__sub_801C1A00(void *);
 s32 init_player_telepipe_record(void *);
@@ -61,7 +60,7 @@ u8 *TObjPlayer::construct_player_instance(saddr arg1, s32 slot, s32 role, u8 *ar
     ((TObjPlayer *)(((u8 *)this) + 0x66C))->set_vec3_const_wrapper();
     npc_control.reset();
     ((TObjPlayer *)(((u8 *)this) + 0x6AC))->forward_release();
-    TObjPlayer__sub_801BF660((void *) (((u8 *)this) + 0x730));
+    movement_hold.init();
     ((TObjPlayer *)(((u8 *)this) + 0x744))->init_vec_record();
     ((TObjPlayer *)(((u8 *)this) + 0x754))->init_sub_objects();
     TObjPlayer::init_partial((saddr)((((u8 *)this) + 0x7C4)));

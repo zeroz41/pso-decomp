@@ -1,7 +1,6 @@
 #include "types.h"
 #include "pso/system/data/FlagWord.h"
 #include "pso/item/TItemLockCountCtrl_8011E184.h"
-#include "pso/player/TObjPlayer_801BF548.h"
 #include "pso/player/TObjPlayer_801BF918.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/frontend/TAdRicoRing.h"
@@ -14,7 +13,7 @@ void TObjPlayer::reset_state() {
     battle_music.reset_counter_field4();
     protection.reset_type();
     ((TObjPlayer *)(arg0 + 0x7CC))->reset_movement_state();
-    TObjPlayer__sub_801BF690((u8 *)&this->m_730);
+    movement_hold.reset();
     ((TObjPlayer *)(arg0 + 0x608))->set_vec4_const();
     *(s32 *)&this->unk_548 = 0;
     ((TObjPlayer *)(arg0 + 0x340))->init_tag();

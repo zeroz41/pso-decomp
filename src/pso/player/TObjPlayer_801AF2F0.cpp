@@ -490,7 +490,7 @@ struct Obj_801B4FD8 {
     u8 f70[8];
     u8 f78[0x94 - 0x78];
     u8 f94[4];
-    u8 f98[0xAC - 0x98];
+    MovementHold f98;
     s32 fAC;
     s32 fB0;
     s8 fB4[0x13];
@@ -558,7 +558,7 @@ struct Dst_801B4CE4 {
     u8 f70[8];
     u8 f78[0x94 - 0x78];
     u8 f94[4];
-    u8 f98[0xAC - 0x98];
+    MovementHold f98;
     s32 fAC;
     s32 fB0;
     u8 fB4[0x13];
@@ -1313,15 +1313,6 @@ int TObjPlayer__sub_801BF460(void*);
 int TObjPlayer__sub_801BF47C(void*);
 int TObjPlayer__sub_801BF488(void*);
 int TObjPlayer__sub_801BF4A0(void*);
-s32 TObjPlayer__sub_801BF560(s16 *arg0);
-s16 TObjPlayer__sub_801BF57C(void *p);
-void *TObjPlayer__sub_801BF660(void *arg0);
-f32 TObjPlayer__sub_801BF6B0(void *, f32, f32, f32);
-void *TObjPlayer__sub_801BF6B8(void *p);
-void TObjPlayer__sub_801BF6C0(void *p, f32 v);
-void TObjPlayer__sub_801BF6C8(void *p, f32 a, f32 b);
-void TObjPlayer__sub_801BF6D4(void *p, s16 v);
-void TObjPlayer__sub_801BF6DC(void *p, s16 v);
 f32 TObjPlayer__sub_801BF814(void *p);
 s32 set_action_id__10TObjPlayerFs(void *, s32);
 void set_equip_slot_entry(saddr, s32, s32);
@@ -4525,24 +4516,24 @@ void send_6x2C_impose_hold(saddr arg0, Vec *pos, s16 timer, s16 arg3, f32 radius
 
 void handle_6x2C_impose_hold(saddr command) {
     Pkt_801B5254 pkt;
-    saddr player;
+    TObjPlayer * player;
     ((TObjPlayer *)(&pkt))->build_6x2C_impose_hold_packet();
     ((TObjPlayer *)(&pkt))->copy_hold_params((u8 *)command);
     bswap_pkt_u16x2_u32__10TObjPlayerFPv(&pkt);
     if (validate_6x2C_impose_hold((G_ClientIDHeader *)&pkt) == 0) {
         return;
     }
-    player = ((s32 (*)(s32))get_player_by_client_id)(pkt.client);
+    player = get_player_by_client_id(pkt.client);
     if (player == 0) {
         return;
     }
-    TObjPlayer__sub_801BF6DC((void *)(player + 0x730), pkt.f6);
-    TObjPlayer__sub_801BF6D4((void *)(player + 0x730), pkt.f4);
-    TObjPlayer__sub_801BF6C8((void *)(player + 0x730), pkt.f8, pkt.fC);
-    TObjPlayer__sub_801BF6C0((void *)(player + 0x730), pkt.f10);
-    ((TObjPlayer *)player)->set_state_flags(1);
-    if (((s32 (*)(s32))check_flag_4__10TObjPlayerFv)(player) == 0 && ((s32 (*)(s32))is_on_current_floor__10TObjPlayerFi)(player) != 0) {
-        TObjEneHoldEffect::create((void *)player, pkt.f6, pkt.f4);
+    player->movement_hold.set_effect_type(pkt.f6);
+    player->movement_hold.set_frames(pkt.f4);
+    player->movement_hold.set_center(pkt.f8, pkt.fC);
+    player->movement_hold.set_radius_sq(pkt.f10);
+    player->set_state_flags(1);
+    if (player->check_flag_4() == 0 && ((s32 (*)(TObjPlayer *))is_on_current_floor__10TObjPlayerFi)(player) != 0) {
+        TObjEneHoldEffect::create(player, pkt.f6, pkt.f4);
     }
 }
 
@@ -4583,13 +4574,13 @@ s32 TObjPlayer::is_outside_movement_hold(f32 *pos) {
     if (check_player_flag1() == 0) {
         return 0;
     }
-    center = (f32 *)TObjPlayer__sub_801BF6B8(&this->m_730);
+    center = movement_hold.get_center();
     x = center[0];
     y = pos[0];
     z = center[1];
     dx = x - y;
     dz = z - pos[2];
-    return (u32)__cntlzw(TObjPlayer__sub_801BF6B0((u8 *)&this->m_730, z, y, x) > (dx * dx + dz * dz)) >> 5;
+    return (u32)__cntlzw(movement_hold.get_radius_sq() > (dx * dx + dz * dz)) >> 5;
 }
 #pragma pop
 
@@ -4600,7 +4591,7 @@ Obj_801B4FD8 *init_player_join_record(Obj_801B4FD8 *self) {
     TObjPlayer__sub_801C1A00(self->f70);
     init_player_telepipe_record(self->f78);
     __ct__8FlagWordFv((self->f94));
-    TObjPlayer__sub_801BF660(self->f98);
+    self->f98.init();
     init_inventory_list__10TObjPlayerFPv(self->f13C);
     self->f0 = 0xFFFF;
     self->f2 = 0;
@@ -4641,7 +4632,7 @@ void fill_player_record__10TObjPlayerFPvPv(Src_801B4CE4 *src, Dst_801B4CE4 *dst)
     TObjPlayer__sub_801BEF30(dst->f70, src->f828);
     ((TObjPlayer *)(dst->f78))->copy_player_record_header(src->f830);
     TObjPlayer__sub_801BEEE0(dst->f94, src->f858);
-    TObjPlayer__sub_801BEEAC(dst->f98, src->f730);
+    TObjPlayer__sub_801BEEAC(&dst->f98, src->f730);
     dst->fAC = ((TObjPlayer *)src)->get_area();
     dst->f488 = ((TObjPlayer *)src)->get_floor();
     dst->fB0 = src->f334;
@@ -4785,7 +4776,7 @@ void TObjPlayer::update_subsystems() {
         sync_status_effect_flags();
         clear_action_flag();
         this->update_target();
-        if ((this->check_player_flag1() != 0) && (TObjPlayer__sub_801BF57C((void *)(arg0 + 0x730)) >= 0) && (TObjPlayer__sub_801BF560((s16 *)(arg0 + 0x730)) == 0)) {
+        if ((this->check_player_flag1() != 0) && (this->movement_hold.get_frames() >= 0) && (this->movement_hold.count_down() == 0)) {
             TObjPlayer::send_code_45_1(arg0);
         }
         this->battle_music.update_target_lock(this);

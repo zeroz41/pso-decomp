@@ -5,7 +5,6 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/PlayerActionPaletteState.h"
 #include "pso/player/TPlayerLobbyMarker.h"
-#include "pso/player/TObjPlayer_801BF548.h"
 #include "pso/ui/frontend/TAdRicoRing.h"
 #include "pso/ui/window/TWindowActionPalette.h"
 #include "pso/player/TObjPlayer_801BF6B0.h"
@@ -323,15 +322,14 @@ s32 ContactSurfaceState::is_timer_running() {
     return (u8)(timer != -1);
 }
 
-s32 TObjPlayer__sub_801BF560(s16 *arg0) {
-  s16 temp_r4;
-  unsigned int new_var;
-  temp_r4 = (*arg0 = (*arg0) - 1);
-  new_var = (u32) temp_r4;
-  return (new_var >> 0x1FU) ^ 1;
+s32 MovementHold::count_down() {
+    if (--frames < 0) {
+        return 0;
+    }
+    return 1;
 }
 
-s16 TObjPlayer__sub_801BF57C(void* p) { return *(s16*)((char*)p + 0x0); }
+s16 MovementHold::get_frames() { return frames; }
 
 s32 ContactSurfaceState::fn_801BF584() {
     if (fn_801BF5F8(fn_801BF60C()) != 0 && fn_801BF5F8(prev_flags) != 0) {
@@ -353,25 +351,25 @@ s32 ContactSurfaceState::fn_801BF60C() {
 
 int ContactSurfaceState::fn_801BF640() { return TObjPlayer__sub_801BFFA0(&flags); }
 
-void *TObjPlayer__sub_801BF660(void *arg0) {
-    TObjPlayer__sub_801BF690((u8 *)arg0);
-    return arg0;
+MovementHold *MovementHold::init() {
+    reset();
+    return this;
 }
-void TObjPlayer__sub_801BF690(u8 *arg0) {
-    *(s16 *)((s8 *)arg0 + 0) = 0;
-    *(s16 *)((s8 *)arg0 + 2) = 0;
-    *(f32 *)((s8 *)arg0 + 8) = (f32) TObjPlayer__data_805DC278;
-    *(f32 *)((s8 *)arg0 + 0x10) = (f32) TObjPlayer__data_805DC278;
-    *(f32 *)((s8 *)arg0 + 0xC) = (f32) TObjPlayer__data_805DC278;
+void MovementHold::reset() {
+    frames = 0;
+    effect_type = 0;
+    radius_sq = TObjPlayer__data_805DC278;
+    center_z = TObjPlayer__data_805DC278;
+    center_x = TObjPlayer__data_805DC278;
 }
 
 
-f32 TObjPlayer__sub_801BF6B0(void* p) { return *(f32*)((char*)p + 0x8); }
-void* TObjPlayer__sub_801BF6B8(void* p) { return (char*)p + 0xc; }
-void TObjPlayer__sub_801BF6C0(void* p, f32 v) { *(f32*)((char*)p + 0x8) = v; }
-void TObjPlayer__sub_801BF6C8(void* p, f32 a, f32 b) { *(f32*)((char*)p + 0xc) = a; *(f32*)((char*)p + 0x10) = b; }
-void TObjPlayer__sub_801BF6D4(void* p, s16 v) { *(s16*)((char*)p + 0x0) = v; }
-void TObjPlayer__sub_801BF6DC(void* p, s16 v) { *(s16*)((char*)p + 0x2) = v; }
+f32 MovementHold::get_radius_sq() { return radius_sq; }
+f32 *MovementHold::get_center() { return &center_x; }
+void MovementHold::set_radius_sq(f32 v) { radius_sq = v; }
+void MovementHold::set_center(f32 x, f32 z) { center_x = x; center_z = z; }
+void MovementHold::set_frames(s16 v) { frames = v; }
+void MovementHold::set_effect_type(s16 v) { effect_type = v; }
 u8 get_player_action_palette_slot(const PlayerActionPaletteState *state) {
     return get_action_palette_tag_slot(&state->tag);
 }

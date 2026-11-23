@@ -14,6 +14,7 @@ struct NJS_OBJECT;
 #include "pso/player/PlayerStats.h"
 #include "pso/player/BattleMusicState.h"
 #include "pso/player/ContactSurfaceState.h"
+#include "pso/player/MovementHold.h"
 #include "pso/unk/TUnk_804DDD28.h"
 
 struct TItemData;
@@ -250,8 +251,7 @@ struct TObjPlayer : public TObjChara {
     u8 unk_69C[0x10];
     void* m_6ac;
     u8 _pad6B0[0x80];
-    void* m_730;
-    u8 _pad734[0x10];
+    MovementHold movement_hold;
     void* m_744;
     u8 _pad748[0xC];
     void* m_754;

@@ -1078,7 +1078,6 @@ s32 damp_planar_velocity();
 s32 get_vobj_state_28__10TObjPlayerFv(void *);
 s32 check_flag_4__10TObjPlayerFv(void *);
 void TObjPlayer__sub_801BEEE0(void *p, void *q);
-void TObjPlayer__sub_801BF690(u8 *arg0);
 s32 set_anim_state__10TObjPlayerFs(void *, int);
 f32 TObjPlayer__sub_801BF814(void *p);
 s32 zero_vec3(void *);
@@ -1834,7 +1833,7 @@ void TObjPlayer::init_effects() { clear_flag_20000(); clear_state_flags((s32)(5)
 void TObjPlayer__deactivate_off_floor_body(void* p) { ((TObjPlayer *)p)->deactivate_body_collision(); }
 
 void TObjPlayer__enter_off_floor_state(u8 *player) {
-    TObjPlayer__sub_801BF690((player + 0x730));
+    ((TObjPlayer *)player)->movement_hold.reset();
     zero_vec3((void *) (player + 0x5FC));
     ((TObjPlayer *)player)->protection.reset_lobby_model();
     ((TObjPlayer *)player)->set_state_flags(4);

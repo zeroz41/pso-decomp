@@ -9,7 +9,6 @@
 #include "pso/player/TPlyDispConfig_80071F1C.h"
 #include "pso/ui/window/TWindowActionPalette_801C1890.h"
 #include "pso/player/TObjPlayer_801BD384.h"
-#include "pso/player/TObjPlayer_801BF548.h"
 #include "pso/player/TObjPlayer_801BFAD4.h"
 #include "pso/player/TObjPlayer_801BFB1C.h"
 #include "pso/player/TObjPlayer_801BFE50.h"
@@ -131,7 +130,7 @@ TObjPlayer::TObjPlayer(TObject *parent, TUnk_801D8A4C *src) : TObjChara(parent) 
     ((TObjPlayer *)((char *)this + 1644))->set_vec3_const_wrapper();
     npc_control.reset();
     ((TObjPlayer *)((char *)this + 1708))->forward_release();
-    TObjPlayer__sub_801BF660(((char *)this + 1840));
+    movement_hold.init();
     ((TObjPlayer *)((char *)this + 1860))->init_vec_record();
     ((TObjPlayer *)((char *)this + 1876))->init_sub_objects();
     TObjPlayer::init_partial((saddr)(((char *)this + 1988)));
@@ -176,7 +175,7 @@ TObjPlayer::TObjPlayer(TObject *parent, void *arg2) : TObjChara(parent) {
     ((TObjPlayer *)((char *)this + 1644))->set_vec3_const_wrapper();
     npc_control.reset();
     ((TObjPlayer *)((char *)this + 1708))->forward_release();
-    TObjPlayer__sub_801BF660(((char *)this + 1840));
+    movement_hold.init();
     ((TObjPlayer *)((char *)this + 1860))->init_vec_record();
     ((TObjPlayer *)((char *)this + 1876))->init_sub_objects();
     TObjPlayer::init_partial((saddr)(((char *)this + 1988)));
