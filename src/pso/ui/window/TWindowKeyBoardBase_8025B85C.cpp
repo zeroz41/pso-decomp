@@ -571,7 +571,7 @@ void TWindowKeyBoardBase::commit_composition_text() {
     u16 *d;
     if (arg0->m_60 & 4) {
         arg0->sub_8025DBDC(1);
-        src = reinterpret_cast<s8 *>(arg0->m_9c);
+        src = reinterpret_cast<s8 *>(arg0->candidate_buffer);
         i = 0;
         dst = arg0->m_text2.buffer;
         while (*src != 0) {

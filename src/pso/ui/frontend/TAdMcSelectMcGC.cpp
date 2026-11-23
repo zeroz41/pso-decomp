@@ -119,4 +119,4 @@ void TAdMcSelectMcGC::init_memorycard() {
     load_streamed_prs_texture((s32)"f256_memorycard", (s32)&mc_select_memorycard_texture_list);
 }
 
-s32 TAdMcSelectCursorGC::sub_8032AAC4() { return m_20; }
+s32 TAdMcSelectCursorGC::sub_8032AAC4() { return selected_slot; }

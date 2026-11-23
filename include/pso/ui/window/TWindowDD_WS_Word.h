@@ -22,13 +22,13 @@ public:
     void init_and_mark_field8C();
     s32 m_60;
     s32 pad_64; // point table index for the strips; 0 also picks the first v range
-    s32 m_68;
-    s32 m_6c;
+    s32 selected_token_index;
+    s32 selected_row;
     s32 pad_70; // element list id, read by load_element_list
-    s32 m_74;
+    s32 token_count;
     s32 pad_78; // visible row count
-    s32 m_7c;
-    s16 *m_80;
+    s32 visible_entry_count;
+    s16 *token_ids;
     f32 pad_84;
     f32 pad_88; // scroll offset (fraction of a 20-unit row drawn as partial strips)
     s32 m_8c;

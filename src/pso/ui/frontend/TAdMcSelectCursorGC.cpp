@@ -31,7 +31,7 @@ GinjaTextureList *TAdMcSelectCursorGC__texture_entry;
 void TAdMcSelectCursorGC::render_cursor() {
     begin_screen_draw(1);
     TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(TAdMcSelectCursorGC__texture_entry));
-    set_draw_texture_and_color(0, ((this->m_128 << 0x18) | 0xFF0000 | 0xFFFF));
+    set_draw_texture_and_color(0, ((this->cursor_alpha << 0x18) | 0xFF0000 | 0xFFFF));
     draw_textured_quad_at_depth(&quads[0].x0, 0.9f);
     TWindowSubStatusDisp::get_player();
 }
@@ -64,47 +64,47 @@ void TAdMcSelectCursorGC::run_task() {
     TAdMcCheckGC *t1;
     s32 i;
     if (m_1c == 0) {
-        t = TAdMcSelectCursorGC::get_cursor_type(1 - m_20);
+        t = TAdMcSelectCursorGC::get_cursor_type(1 - selected_slot);
         if (TAdMultiPlyChrSelectGC::dispatch_draw_command(reinterpret_cast<s32>(&controller_physical_port_bank.controllers[0]), 0x80, 6, 1) != 0 ||
             test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x80, 6, 1) != 0) {
             if (TAdMcSelectCursorGC__sub_8032A6D8(t) >= 4) {
-                m_20++;
-                if (m_20 > 1) {
-                    m_20 = 1;
+                selected_slot++;
+                if (selected_slot > 1) {
+                    selected_slot = 1;
                 }
             }
         } else if ((TAdMultiPlyChrSelectGC::dispatch_draw_command(reinterpret_cast<s32>(&controller_physical_port_bank.controllers[0]), 0x40, 6, 1) != 0 ||
                     test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x40, 6, 1) != 0) &&
                    TAdMcSelectCursorGC__sub_8032A6D8(t) >= 4) {
-            m_20--;
-            if (m_20 < 0) {
-                m_20 = 0;
+            selected_slot--;
+            if (selected_slot < 0) {
+                selected_slot = 0;
             }
         }
     }
-    t1 = TAdMcSelectCursorGC::get_cursor_type(m_20);
-    t2 = TAdMcSelectCursorGC::get_cursor_type(1 - m_20);
+    t1 = TAdMcSelectCursorGC::get_cursor_type(selected_slot);
+    t2 = TAdMcSelectCursorGC::get_cursor_type(1 - selected_slot);
     if (t1 != 0 && TAdMcSelectCursorGC__sub_8032A6D8(t1) == 0) {
         if (t2 != 0 && TAdMcSelectCursorGC__sub_8032A6D8(t2) == 0) {
-            m_128 = 0;
+            cursor_alpha = 0;
         } else {
-            m_20 = 1 - m_20;
+            selected_slot = 1 - selected_slot;
         }
     } else {
-        m_128 += 0x19;
-        m_128 = m_128 > 0xFF ? 0xFF : m_128;
+        cursor_alpha += 0x19;
+        cursor_alpha = cursor_alpha > 0xFF ? 0xFF : cursor_alpha;
     }
     for (i = 0; i < 8; i++) {
-        quads[i].x0 = 286.0f * m_20 + 51.0f;
+        quads[i].x0 = 286.0f * selected_slot + 51.0f;
         quads[i].y0 = 116.0f;
         quads[i].x1 = 256.0f + quads[i].x0;
         quads[i].y1 = 372.0f;
     }
-    if (m_20 != m_24) {
+    if (selected_slot != previous_slot) {
         play_sound_effect(0x54100, 0, 0, 0);
-        m_128 = 0;
+        cursor_alpha = 0;
     }
-    m_24 = m_20;
+    previous_slot = selected_slot;
 }
 
 }
@@ -119,11 +119,11 @@ TAdMcSelectCursorGC::TAdMcSelectCursorGC(TObject *parent) : TObject(parent) {
     m_138 = 0;
     m_12c = 0;
     m_134 = 0;
-    m_128 = 0;
+    cursor_alpha = 0;
     m_13c = 1;
     m_1c = 0;
-    m_20 = 0;
-    m_24 = m_20;
+    selected_slot = 0;
+    previous_slot = selected_slot;
     for (s32 i = 0; i < 8; i++) {
         quads[i].u0 = 0.0f;
         quads[i].v0 = 0.0f;

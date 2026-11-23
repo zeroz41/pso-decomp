@@ -27,12 +27,12 @@ struct TWindowKeyBoardBase : public TWindowBase {
     KeyboardTextBuffer *m_68;
     KeyboardTextBuffer m_text;
     KeyboardTextBuffer m_text2;
-    u8 *m_9c; // IME candidate buffer
-    u8 *m_a0; // selected candidate
-    u8 *m_a4; // saved candidate
-    s32 m_a8; // candidate index
-    s32 m_ac; // candidate count
-    s32 m_b0; // bytes remaining
+    u8 *candidate_buffer;
+    u8 *current_candidate;
+    u8 *last_candidate;
+    s32 candidate_index;
+    s32 candidate_count;
+    s32 candidate_bytes_remaining;
     u32 m_b4;
     virtual void render();
     virtual void run_task();
@@ -116,7 +116,7 @@ struct TWindowKeyBoardBase : public TWindowBase {
 
 LAYOUT_ASSERT(TWindowKeyBoardBase_size, sizeof(TWindowKeyBoardBase) == 0xB8);
 LAYOUT_ASSERT(TWindowKeyBoardBase_active_text_offset, offsetof(TWindowKeyBoardBase, m_68) == 0x68);
-LAYOUT_ASSERT(TWindowKeyBoardBase_candidate_offset, offsetof(TWindowKeyBoardBase, m_9c) == 0x9C);
+LAYOUT_ASSERT(TWindowKeyBoardBase_candidate_offset, offsetof(TWindowKeyBoardBase, candidate_buffer) == 0x9C);
 LAYOUT_ASSERT(TWindowKeyBoardBase_input_mode_offset, offsetof(TWindowKeyBoardBase, m_input_mode) == 0x64);
 
 #endif

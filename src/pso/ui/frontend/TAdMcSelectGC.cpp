@@ -115,7 +115,7 @@ void TAdMcSelectCursorGC::sub_8032A140() { m_1c = 0; }
 
 TAdMcSelectCursorGC *TAdMcSelectGC::get_mc_count() { return TAdMcSelectCursorGC__instance; }
 
-s32 TAdMcSelectCursorGC::get_slot_index() { return m_20; }
+s32 TAdMcSelectCursorGC::get_slot_index() { return selected_slot; }
 void TAdMcSelectCursorGC::sub_8032A15C() { m_1c = 1; }
 void TAdMcSelectCursorGC::set_field_13c(s32 v) { m_13c = v; }
 void TAdMcSelectMcGC::set_field_0x1c(s32 v) { pad_1c = v; }
