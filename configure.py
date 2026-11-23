@@ -540,7 +540,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # .rodata holds generate_child_default's zero vector and the generator names ahead of
     # apply_particle_model_fade_color's conversion constant, while .sdata2 follows text order:
     # deferred generation of a TU written last to first (0x80085EE4-0x80086884).
-    "pso/effect/particle/TParticleCtrl_80085EE4.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
+    "pso/effect/particle/TParticle.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
     "pso/effect/photon/TPhotonConcentrate.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # TPhotonMylla__ct reaches its packet template with its own lis/addi (no shared .rodata base): -pool off.
     "pso/effect/photon/TPhotonMylla.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-pool off")},

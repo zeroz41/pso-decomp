@@ -1250,7 +1250,7 @@ pso/effect/particle/LightGlare.cpp:
 	.sdata      start:0x805D2930 end:0x805D2938
 	.sdata2     start:0x805D9478 end:0x805D94BC
 
-pso/effect/particle/TParticleCtrl_80085EE4.cpp:
+pso/effect/particle/TParticle.cpp:
 	.text       start:0x80085EE4 end:0x80086884
 	.rodata     start:0x804393F0 end:0x80439420
 	.data       start:0x8048E710 end:0x8048E740
