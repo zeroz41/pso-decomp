@@ -153,7 +153,6 @@ s32 TAdDialingGC__sub_801A4C90();
 s32 TKeyBoardControl__sub_8000F90C(int);
 int set_queued_main_phase(int);
 s32 run_join_lobby_connect__6TLobbyFi(void *);
-void *TLobby__ct(void *, void *);
 s32 TLobby__sub_80146908();
 void TLobby__sub_801A3CF8(void);
 int TLobby__sub_801A3E8C(void);
@@ -746,7 +745,7 @@ void TLobby::update_camera_state() {
 }
 
 void run_online_lobby_scene(void) {
-    void *lobby;
+    TLobby *lobby;
     void *p;
     TLobby__new_game_setup_flags = 0;
     TLobby__lobby_state_flags = 0;
@@ -803,10 +802,7 @@ void run_online_lobby_scene(void) {
         request_main_phase(0x12);
         TLoadCtrl::cleanup_scene();
     } else {
-        lobby = TObject::operator new(0x1C);
-        if (lobby != NULL) {
-            lobby = TLobby__ct(lobby, tl_su);
-        }
+        lobby = new TLobby(tl_su);
         p = TObject::operator new(0x20);
         if (p != NULL) {
             TGameProtocol__ct(p, tl_su);

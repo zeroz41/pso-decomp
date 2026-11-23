@@ -41,7 +41,9 @@ struct TLobby : public TObject {
     // Whether a challenge-mode task is running.
     static s32 is_flag_set();
     static int is_flag_set(void *p);
+    TLobby(TObject *parent);
     virtual ~TLobby();
+    virtual void run_task();
     void try_close(void *);
     static void on_game_player_add(TPlyJoinLobbyEntry *entries, int leader_id, int disable_udp);
     static void forward_8024273C(void *p);

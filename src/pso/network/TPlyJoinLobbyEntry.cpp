@@ -275,11 +275,6 @@ typedef struct {
     u32 w0;
     u32 w1;
 } D_80137384;
-struct RecoveredGlobal_80137B50___vt__6TLobby {
-    s32 value;
-    u8 remaining[0x14];
-};
-LAYOUT_ASSERT(RecoveredGlobal_80137B50___vt__6TLobby_size, sizeof(RecoveredGlobal_80137B50___vt__6TLobby) == 0x18);
 struct Entry_80138B7C { u8 b[0x1C]; };
 struct Card_80138B7C { u8 b[0x98]; };
 struct Lobby_80138B7C { u8 pad[0x2C68]; Card_80138B7C cards[1]; };
@@ -388,7 +383,6 @@ extern const char lobby_msg_login_success[];
 void send_player_data_61__9TProtocolFPvPvPvPvPvPvPv(void *, void *, void *, void *, void *, void *, void *);
 void construct_lobby_players(Rec_801378AC *records, s32 count, int self_id, s32 unused);
 s32 __dt__7TObjectFv(void *, int);
-extern void *__vt__6TLobby[6];
 extern const NJS_POINT2 lbl_8043EE00[1];
 void TQuestListOnline__sub_8013ACF4(s32);
 s32 send_lobby_arrow__9TProtocolFUc(TProtocol *, s32);
@@ -413,7 +407,6 @@ s32 get_link_status__Fv(void);
 s32 poll_memcard_result(saddr);
 s32 TKeyBoardControl__sub_8000F828(void);
 s8 TAdSinglePlyChrSelectGC__sub_8033605C(void);
-void render__6TLobbyFv();
 TProtocol *__ct__9TProtocolFP7TObjectUsiPcPcPc(TProtocol *, void *, s32, s32, char *, char *, char *);
 void TLobby__sub_80134A20();
 void set_lobby_event_theme();
@@ -1011,7 +1004,7 @@ void show_card_list_message(void *msg) {
 #pragma auto_inline off
 #pragma dont_inline off
 
-#define CALL_80139690(f) ((void (*)(void *))f)(self)
+#define CALL_80139690(f) ((void (*)(void *))f)(this)
 
 #pragma pop
 
@@ -1048,7 +1041,7 @@ void show_join_entry_message(s32 arg0) {
     ((TWindowMessage *)TLobby__join_entry_window_obj)->append_line((int)(TLobby::get_seq_phase(arg0)), (int)1);
 }
 
-void run_task__6TLobbyFv(void *self) {
+void TLobby::run_task() {
     s32 r;
     switch ((*(u32 *)&TLobby__data_805D5594)) {
     case 1:
@@ -1938,38 +1931,30 @@ void TLobby__sub_80137C10(s32 arg0) {
     TQuestListOnline__sub_8013ACF4(0xb);
 }
 
-u8 *__dt__6TLobbyFv(u8 *object, s16 arg1) {
-    if (object != NULL) {
-        *(void ***)((s8 *)object + 0x18) = __vt__6TLobby;
-        TLobby::destroy_all_objects();
-        TLobby__protocol_instance = NULL;
-        TLobby__lobby_entered_flag = 0;
-        TLobby__data_805D5588 = 0;
-        TLobby__data_805D558C = 0;
-        TLobby__pending_member_count = 0;
-        TLobby__deferred_player_setup_state = 0;
-        TLobby__data_805D5594 = 0;
-        TLobby__join_state_flag = 1;
-        TLobby__date_seconds = 0;
-        TLobby__event_theme_id = 0;
-        TLobby__card_list_selected_index = 0;
-        TLobby__idle_timeout_active = 0;
-        TLobby__data_805D55AC = 0;
-        TLobby__lobby_number = 0;
-        TLobby__join_lobby_idle_timer = 0;
-        TLobby__data_805D55B8 = 0;
-        TLobby__login_pending_flag = 1;
-        lbl_805D55C0 = 0;
-        TLobby__player_setup_pending = 0;
-        lobby_selected_game_list_index = 0;
-        TLobby__join_lobby_controller = NULL;
-        TLobby__data_805D4E30 = 0;
-        __dt__7TObjectFv(object, 0);
-        if (arg1 > 0) {
-            TObject::operator delete(object);
-        }
-    }
-    return object;
+TLobby::~TLobby() {
+    TLobby::destroy_all_objects();
+    TLobby__protocol_instance = NULL;
+    TLobby__lobby_entered_flag = 0;
+    TLobby__data_805D5588 = 0;
+    TLobby__data_805D558C = 0;
+    TLobby__pending_member_count = 0;
+    TLobby__deferred_player_setup_state = 0;
+    TLobby__data_805D5594 = 0;
+    TLobby__join_state_flag = 1;
+    TLobby__date_seconds = 0;
+    TLobby__event_theme_id = 0;
+    TLobby__card_list_selected_index = 0;
+    TLobby__idle_timeout_active = 0;
+    TLobby__data_805D55AC = 0;
+    TLobby__lobby_number = 0;
+    TLobby__join_lobby_idle_timer = 0;
+    TLobby__data_805D55B8 = 0;
+    TLobby__login_pending_flag = 1;
+    lbl_805D55C0 = 0;
+    TLobby__player_setup_pending = 0;
+    lobby_selected_game_list_index = 0;
+    TLobby__join_lobby_controller = NULL;
+    TLobby__data_805D4E30 = 0;
 }
 void TLobby::destroy_all_objects() {
     if (TLobby__card_list_window != NULL) {
@@ -2819,18 +2804,12 @@ void TLobby::run_join_lobby_connect(int arg0) {
 
 #pragma pop
 
-void *__vt__6TLobby[6] = { 0, 0, (void *)__dt__6TLobbyFv, (void *)run_task__6TLobbyFv, (void *)render__6TLobbyFv, (void *)render_shadows__7TObjectFv };
-
-u8 *TLobby__ct(u8 *object, void *parent) {
-    s32 *access_key;
-    s32 *password;
+TLobby::TLobby(TObject *parent) : TObject(parent) {
     TProtocol *protocol;
 
-    __ct__7TObjectFP7TObject(object, parent);
-    *(s32 **)((s8 *)object + 0x18) = (s32 *)__vt__6TLobby;
     TLobby__sub_8013A16C();
-    ((TObject *)object)->m_name = lobby_class_name;
-    TLobby__join_lobby_controller = (TLobby *)object;
+    m_name = lobby_class_name;
+    TLobby__join_lobby_controller = this;
     TLobby__card_list_window = 0;
     TLobby__download_list_window = 0;
     TLobby__list_window = 0;
@@ -2868,12 +2847,7 @@ u8 *TLobby__ct(u8 *object, void *parent) {
     memset(lbl_80509D3C, 0, 0x20);
     memset(TLobby__player_names, 0, 0xC0);
     memset(lobby_player_status_records, 0, 0xD50);
-    protocol = (TProtocol *)alloc_from_obj_heap(0xBCA4);
-    if (protocol != NULL) {
-        password = TAdEnterPasswordGC__sub_8013ADE4();
-        access_key = get_access_key_input_buffer();
-        protocol = __ct__9TProtocolFP7TObjectUsiPcPcPc(protocol, object, 0x36, current_language, TLobby::init_serial_access(), (char *)access_key, (char *)password);
-    }
+    protocol = new TProtocol(this, 0x36, current_language, TLobby::init_serial_access(), (char *)get_access_key_input_buffer(), (char *)TAdEnterPasswordGC__sub_8013ADE4());
     TLobby__protocol_instance = protocol;
     protocol->m_recv_handlers.handle_unused_login = (recv_packet_handler_handle_unused_login)TLobby::handle_regist_check;
     TLobby__protocol_instance->m_recv_handlers.handle_03_recv_regist = (recv_packet_handler_handle_03_recv_regist)TLobby::handle_register_name_result;
@@ -2924,7 +2898,6 @@ u8 *TLobby__ct(u8 *object, void *parent) {
     TLobby__protocol_instance->m_recv_handlers.handle_DA_lobby_event_packet = set_lobby_event_theme;
     TLobby__protocol_instance->m_recv_handlers.handle_AB_quest_stats_response_packet = TLobby__sub_80134A20;
     TLobby__data_805D4E30 = 0;
-    return object;
 }
 saddr TLobby::get_seq_phase(int id) { return get_online_message_text(id); }
 void TLobby__sub_8013A16C(void) {  }
