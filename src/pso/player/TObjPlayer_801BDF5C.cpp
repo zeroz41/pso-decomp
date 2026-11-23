@@ -3,6 +3,7 @@
 #include "pso/item/TItem.h"
 #include "pso/player/TObjPlayer_801C1FF8.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/system/task/TMainTask.h"
 #include "pso/network/client_id.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/unk/TLobby.h"
@@ -33,12 +34,11 @@
 
 
 extern "C" {
-extern s32 tl_03;
 }
 
 u8 *TObjPlayer::create_player_instance(s32 arg0, saddr player) {
     u8 *p;
-    p = (u8 *)new TObjPlayer((TObject *)tl_03, arg0 & 0xFFFF, get_field_0_s32((void *)player), (u8 *)((TObjPlayer *)player)->get_char_data());
+    p = (u8 *)new TObjPlayer(tl_03, arg0 & 0xFFFF, get_field_0_s32((void *)player), (u8 *)((TObjPlayer *)player)->get_char_data());
     ((TLobby *)(p + 0xDAC))->copy_header_struct((void *)((TObjPlayer *)player)->get_sub_obj());
     ((TObjPlayer *)p)->reset_motion_fields();
     return p;
@@ -46,7 +46,7 @@ u8 *TObjPlayer::create_player_instance(s32 arg0, saddr player) {
 
 u8 *create_player_object(s32 slot, s32 role, u8 *record) {
     decode_created_player_inventory(record);
-    return (u8 *)new TObjPlayer((TObject *)tl_03, slot, role, record);
+    return (u8 *)new TObjPlayer(tl_03, slot, role, record);
 }
 
 extern "C" {
