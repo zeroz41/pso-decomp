@@ -23,6 +23,7 @@ struct TWindowSubItem;
 #include "pso/ui/window/TWindowSubEquip_80277E48.h"
 #include "pso/ui/window/TWindowSubGameEnd.h"
 #include "pso/ui/window/TWindowSubQuestBoard.h"
+#include "pso/unk/TUnk_804D1818.h"
 #include "pso/ui/chat/TWindowSubSymbolChat_8028239C.h"
 #include "pso/ui/chat/TWindowSubSymbolChat.h"
 #include "pso/ui/window/TWindowSubTechnique.h"
@@ -73,7 +74,6 @@ extern "C" {
 s32 __ct__17TWindowSubAreaMapFP7TObjectPv(int, void *, int);
 s32 __ct__17TWindowSubComCardFP7TObjectPv(int, void *, int);
 s32 __ct__13TWindowSubLogFP7TObjectPv(int, void *, int);
-s32 __ct__20TWindowSubQuestBoardFP7TObjectPv(int, void *, int);
 s32 __ct__18TWindowSubShortCutFP7TObjectPv(int, void *, int);
 s32 __ct__26TWindowSubInformationBoardFP7TObjectPv(int, void *, int);
 void *__ct__13TUnk_804E0B28FP7TObjectl(void *, void *, void *);
@@ -248,18 +248,14 @@ void TWindowMainMenu::show_child_window() {
 }
 
 void TWindowMainMenu::create_submenu(u32 id) {
-    s32 temp_r3_10;
     s32 temp_r3_13;
     s32 temp_r3_14;
-    saddr temp_r3_15;
     s32 temp_r3_17;
     s32 temp_r3_18;
     saddr temp_r3_2;
     s32 temp_r3_9;
-    s32 var_r0_10;
     s32 var_r0_13;
     s32 var_r0_14;
-    s32 var_r0_15;
     s32 var_r0_17;
     s32 var_r0_18;
     s32 var_r0_2;
@@ -313,12 +309,7 @@ void TWindowMainMenu::create_submenu(u32 id) {
         return;
     case 15:
     case 16:
-        temp_r3_10 = ((saddr)TObject::operator new(0x30));
-        var_r0_10 = temp_r3_10;
-        if (var_r0_10 != 0) {
-            var_r0_10 = __ct__20TWindowSubQuestBoardFP7TObjectPv(temp_r3_10, this, (int) this->client_index);
-        }
-        this->m_20 = var_r0_10;
+        this->m_20 = reinterpret_cast<saddr>(new TWindowSubQuestBoard(this, reinterpret_cast<void *>(static_cast<saddr>(client_index))));
         return;
     case 3:
     case 4:
@@ -344,12 +335,7 @@ void TWindowMainMenu::create_submenu(u32 id) {
         this->m_20 = var_r0_14;
         return;
     case 6:
-        temp_r3_15 = ((saddr)TObject::operator new(0x30));
-        var_r0_15 = temp_r3_15;
-        if (var_r0_15 != 0) {
-            var_r0_15 = (saddr)TWindowSubQuestBoard__sub_8027CE74((u8 *)temp_r3_15, this, (s32)this->client_index);
-        }
-        this->m_20 = var_r0_15;
+        this->m_20 = (saddr)new TUnk_804D1818(this, this->client_index);
         return;
     case 19:
     case 20:

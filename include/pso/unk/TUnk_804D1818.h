@@ -7,9 +7,10 @@ struct TWindowMainMenu;
 struct TWindowMenu;
 
 // The main menu's pad option sub-window (vtable 0x804D1818, class name unknown): a list of the six
-// options and the value window of the selected one. Field names inferred from their uses.
+// options and the value window of the selected one.
 class TUnk_804D1818 : public TObject {
 public:
+    TUnk_804D1818(TWindowMainMenu *parent, s32 client);
     virtual ~TUnk_804D1818();
     void update_photon_selection();
     saddr create_option_menu_window();
