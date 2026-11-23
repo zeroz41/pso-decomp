@@ -1611,6 +1611,17 @@ struct TObjPlayer : public TObjChara {
     static void sub_803E21DC();
     static void sub_803E2248();
     static s32 sub_803E24E0();
+    s32 can_equip_item(s32 tech);
+    int clear_links();
+    void ensure_default();
+    int get_flag();
+    s32 is_action_channel_available(s32 arg1);
+    void notify_lobby();
+    short query_child_state2();
+    s32 try_assign_battle_ctrl(u16 arg1);
+    s32 update_aim_target();
+    s32 update_combat_stats();
+    void update_timer_state();
     // End of placeholder-named members.
 };
 

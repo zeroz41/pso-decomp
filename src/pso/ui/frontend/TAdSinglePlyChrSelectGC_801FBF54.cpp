@@ -2106,7 +2106,6 @@ struct ByteBlock_C0
 
 extern "C" {
 u8 *TAdSinglePlyChrSelectGC__sub_801FFC74(u8 *arg0, u8 *arg1);
-s32 try_assign_battle_ctrl__10TObjPlayerFiUs(saddr, u16);
 s32 copy_card__17TWindowSubComCardFiPv(saddr arg0, u8 *arg1);
 s32 TAdSinglePlyChrSelectGC__sub_801FFCFC(saddr arg0, saddr arg1);
 s32 copy_card_window_data();
@@ -2144,7 +2143,7 @@ s32 TAdSinglePlyChrSelectGC::setup_player_battle_ctrls(void) {
       char_data = TAdSinglePlyChrSelectGC::get_char_index(var_r31);
       if (char_data != NULL)
       {
-        try_assign_battle_ctrl__10TObjPlayerFiUs((saddr) char_data, (u16) var_r31);
+        ((TObjPlayer *)char_data)->try_assign_battle_ctrl((u16) var_r31);
       }
       character_save_record = (u8 *) get_character_save_record(var_r31);
       if (character_save_record != 0)

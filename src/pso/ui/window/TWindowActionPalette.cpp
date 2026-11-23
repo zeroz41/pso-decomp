@@ -57,7 +57,6 @@ s8 clamp_char_at__10TObjPlayerFl(u32, s32);
 s32 fn_801B7CEC(void *player, s32 kind, u8 group, u8 index);
 u16 select_action_palette_and_apply__10TObjPlayerFlll(TObjPlayer *, int, int, int);
 u16 get_entry_by_index__20TWindowActionPaletteFPll(int, int);
-s32 is_action_channel_available__10TObjPlayerFii(saddr arg0, s32 arg1);
 s32 is_palettex_activated(u16 client_index);
 s32 TObjPlayer__sub_80354C7C(u16);
 extern u32 __vt__20TWindowActionPalette[6];
@@ -306,7 +305,7 @@ void TWindowActionPalette::update_slot_sprites(int idx, u16 mode, u16 slot) {
     player = get_player_by_client_id(client_index);
     if (player != NULL) {
         help = (Icon_80243630 *)get_array_entry(lbl_805DCA10[idx]);
-        if (is_action_channel_available__10TObjPlayerFii((saddr)player, (s32)lbl_805DCA14[idx]) != 0) {
+        if (player->is_action_channel_available((s32)lbl_805DCA14[idx]) != 0) {
             help->color = -1;
         } else {
             help->color = 0xFF404040;

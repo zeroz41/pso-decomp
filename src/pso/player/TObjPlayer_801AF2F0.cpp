@@ -1214,7 +1214,6 @@ void handle_6x2D_release_hold(void *command);
 void handle_6x2C_impose_hold(saddr command);
 void send_6x2C_impose_hold(saddr arg0, Vec *pos, s16 arg2, s16 arg3, f32 radius);
 void *TObjPlayer__sub_801B57E8(TObjPlayer *player);
-s32 is_action_channel_available__10TObjPlayerFii(saddr arg0, s32 arg1);
 void TObjPlayer__sub_801B5A44(saddr arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
 void TObjPlayer__sub_801B5AF8(saddr player, s32 index);
 void damp_planar_velocity(P_801B5FB0 *p);
@@ -1259,7 +1258,6 @@ void TObjPlayer__sub_801BAC48(void);
 void draw_body__10TObjPlayerFPvi(u8 *arg0, s32 arg1);
 void run_task__10TObjPlayerFv(TObjPlayer *player);
 void TObjPlayer__sub_801BBB70(void);
-int clear_links__10TObjPlayerFPv(void* p);
 void TObjPlayer__sub_801BC050(O_801BC050 *p);
 void create_player_instance__10TObjPlayerFll(u16, Rec_801B09A4 *);
 TObjPlayer *get_local_player();
@@ -1707,7 +1705,7 @@ void TObjPlayer::init_collision_body() {
     ((TObjCollidable *)self)->set_collision_body(&self->body);
 }
 
-int clear_links__10TObjPlayerFPv(void* p) { return clear_collision_bodies__14TObjCollidableFv(p); }
+int TObjPlayer::clear_links() { return clear_collision_bodies__14TObjCollidableFv(this); }
 
 void TObjPlayer::create_lockon_cursor() {
     if (is_single_screen() != 0) {
@@ -1931,7 +1929,7 @@ s32 TObjPlayer::setup_control_role(s32 role) {
 }
 
 void TObjPlayer::unregister() {
-    ((s32 (*)(void))clear_links__10TObjPlayerFPv)();
+    clear_links();
     this->unregister_sub();
     ((s32 *)&player_slot_table)[(u16)((TObjBase *)((saddr)this))->get_entity_id()] = 0;
 }
@@ -4318,18 +4316,18 @@ s32 TObjPlayer::is_effect_channel_active(saddr player, s32 index) {
 
 #pragma push
 #pragma fp_contract on
-s32 is_action_channel_available__10TObjPlayerFii(saddr player, s32 arg1) {
+s32 TObjPlayer::is_action_channel_available(s32 arg1) {
     if (arg1 == 1) {
         if (((s32 (*)(void))is_flag_400_set__10TObjPlayerFPv)() != 0) {
             return 1;
         }
-        if (((TObjPlayer *)player)->has_action_palette_entry() != 0) {
+        if (this->has_action_palette_entry() != 0) {
             return 1;
         }
         goto block_5;
     }
 block_5:
-    return is_action_channel_active(((TObjPlayer *)player)->refresh_effect(), arg1);
+    return is_action_channel_active(this->refresh_effect(), arg1);
 }
 #pragma pop
 

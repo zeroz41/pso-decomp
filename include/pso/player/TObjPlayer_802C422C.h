@@ -11,7 +11,6 @@ void export_player_record__10TObjPlayerFPvPv(TObjPlayer *player, u8 *arg1);
 int init_character_action_config(void *p);
 extern "C" {
 s32 sync_state__10TObjPlayerFi(saddr arg0);
-s32 try_assign_battle_ctrl__10TObjPlayerFiUs(saddr arg0, u16 arg1);
 s32 update_battle__10TObjPlayerFi(saddr arg0);
 }
 
