@@ -10,17 +10,17 @@ class TObjPlayer;
 
 // One entry of Unk_8014F844's sorted list of nearby targets.
 struct Unk_8014F844Entry {
-    u32 m_0;  // entity id
-    s32 m_4;  // collision body index
-    f32 m_8;  // squared distance
+    u32 entity_id;
+    s32 collider;     // collision body index
+    f32 distance_sq;  // squared horizontal distance
 };
 
 // The 0x108-byte record TNpcPlayer allocates twice (m_74, m_78).
 struct Unk_8014F844 {
     Unk_8014F844(s32 id);
 
-    s32 m_0;
-    Unk_8014F844Entry m_4[10];
+    s32 target_count;
+    Unk_8014F844Entry targets[10];  // nearest first (quick_sort)
     s32 m_7c;
     s32 m_80;
     s32 m_84;
@@ -39,8 +39,8 @@ struct Unk_8014F844 {
 LAYOUT_ASSERT(Unk_8014F844_size, sizeof(Unk_8014F844) == 0x108);
 
 // Eleven per-action counters the partner AI steps and tests.
-struct Unk_80152A48 {
-    Unk_80152A48();
+struct PartnerCounters {
+    PartnerCounters();
     void clear();
 
     s16 count[11];
@@ -90,7 +90,7 @@ struct TNpcPlayer : public TObject {
     u8 _pad2E[0x2];
     AiParams ai_params;
     f32 m_58;
-    Unk_80152A48 m_5c;
+    PartnerCounters partner_counters;
     u8 _pad72[0x2];
     Unk_8014F844 *m_74;
     Unk_8014F844 *m_78;

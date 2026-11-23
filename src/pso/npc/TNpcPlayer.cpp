@@ -1397,14 +1397,14 @@ void bswap_6x45_packet(void* p) { ((G_ClientIDHeader *)p)->bswap(); bswap_16((u1
 
 void TNpcPlayer::update() { bswap_6x45_packet(this); ((TLobby *)this)->update_players(); }
 
-void Unk_80152A48::clear() {
+void PartnerCounters::clear() {
     s32 i;
     for (i = 0; i < 11; i++) {
         count[i] = 0;
     }
 }
 
-Unk_80152A48::Unk_80152A48() { clear(); }
+PartnerCounters::PartnerCounters() { clear(); }
 
 void TNpcPlayer__sub_80152A34(u8 *arg0, s32 arg1, s32 arg2) {
     *(s32 *)((s8 *)arg0 + 0x80) = (s32) *(s32 *)((s8 *)arg0 + 0x7C);
@@ -1714,15 +1714,15 @@ void TNpcPlayer::run_task() {
         init_state();
         if (!(m_74->m_94->actorFlags & 0x800)) {
             if (m_78->m_94->actorFlags & 0x800) {
-                if (((s32 (*)(void *, int, int))clamp_partner_counter)(m_5c.count, 3, 0x400) != 0) {
+                if (((s32 (*)(void *, int, int))clamp_partner_counter)(partner_counters.count, 3, 0x400) != 0) {
                     request_chatter(5);
-                } else if (((s32 (*)(void *, int, int))is_partner_counter_reached)(m_5c.count, 3, 0) != 0) {
+                } else if (((s32 (*)(void *, int, int))is_partner_counter_reached)(partner_counters.count, 3, 0) != 0) {
                     request_chatter(4);
                 }
-                increment_partner_counter((saddr)m_5c.count, 3);
+                increment_partner_counter((saddr)partner_counters.count, 3);
                 change_ai_state(0);
             } else {
-                reset_partner_counter((saddr)m_5c.count, 3);
+                reset_partner_counter((saddr)partner_counters.count, 3);
                 update_condition_flags();
                 ((s32 (*)(void *))partner_observe_surroundings)(this);
                 decide_action();
@@ -1811,7 +1811,7 @@ void TNpcPlayer::decide_action() {
                 }
             }
         } else if (select_recovery_action(1) != 0) {
-            ((s32 (*)(void *, int))reset_partner_counter)((void *) (m_5c.count), 8);
+            ((s32 (*)(void *, int))reset_partner_counter)((void *) (partner_counters.count), 8);
             temp_r3_3 = m_80;
             if (temp_r3_3 & 0x200) {
                 request_chatter(0x13);
@@ -1893,10 +1893,10 @@ s32 TNpcPlayer::check_return_to_leader() {
     }
     if (m_58 >= r2) {
         m_80 |= 0x100;
-        if (t->m_0 != 0) {
-            ((s32 (*)(void *, s32))increment_partner_counter)(m_5c.count, 5);
-            if (((s32 (*)(void *, int, int))npc_counter_reset_if_reached)(m_5c.count, 5, 3) != 0) {
-                o = (u8 *)find_active_entity_by_id(t->m_4[0].m_0);
+        if (t->target_count != 0) {
+            ((s32 (*)(void *, s32))increment_partner_counter)(partner_counters.count, 5);
+            if (((s32 (*)(void *, int, int))npc_counter_reset_if_reached)(partner_counters.count, 5, 3) != 0) {
+                o = (u8 *)find_active_entity_by_id(t->targets[0].entity_id);
                 m_80 &= ~0x8000;
                 if (o != 0) {
                     if (((f32 (*)(void *, void *))horizontal_distance_squared)(o + 0x38, &m_78->m_94->position) < ai_params.block_range * ai_params.block_range) {
@@ -1919,10 +1919,10 @@ s32 TNpcPlayer::choose_attack_target() {
     Unk_8014F844 *view;
     TObjBase *tgt;
     view = ((Unk_8014F844 *(*)(void *))TNpcPlayer__sub_80152A30)(m_78);
-    if (view->m_0 >= 3) {
+    if (view->target_count >= 3) {
         m_80 |= 0x2000;
-        ((s32 (*)(void *, s32))increment_partner_counter)(m_5c.count, 6);
-        if (((s32 (*)(void *, int, int))npc_counter_reset_if_reached)(m_5c.count, 6, 100) != 0) {
+        ((s32 (*)(void *, s32))increment_partner_counter)(partner_counters.count, 6);
+        if (((s32 (*)(void *, int, int))npc_counter_reset_if_reached)(partner_counters.count, 6, 100) != 0) {
             if (((TNpcPlayer *)m_78)->get_condition() & 8) {
                 request_chatter(1);
             } else {
@@ -1932,11 +1932,11 @@ s32 TNpcPlayer::choose_attack_target() {
     } else {
         m_80 &= ~0x2000;
     }
-    if (view->m_0 != 0) {
-        for (i = 0; i < view->m_0; i++) {
-            if (((s32 (*)(void *, u32))is_target_line_clear__10TNpcPlayerFPvUs)(m_78, view->m_4[i].m_0) != 0) {
-                tgt = (TObjBase *)find_active_entity_by_id(view->m_4[0].m_0);
-                ((void (*)(void *, u32, s32))TNpcPlayer__sub_80152A34)(m_78, view->m_4[i].m_0, view->m_4[i].m_4);
+    if (view->target_count != 0) {
+        for (i = 0; i < view->target_count; i++) {
+            if (((s32 (*)(void *, u32))is_target_line_clear__10TNpcPlayerFPvUs)(m_78, view->targets[i].entity_id) != 0) {
+                tgt = (TObjBase *)find_active_entity_by_id(view->targets[0].entity_id);
+                ((void (*)(void *, u32, s32))TNpcPlayer__sub_80152A34)(m_78, view->targets[i].entity_id, view->targets[i].collider);
                 m_dc.x = tgt->position.x;
                 m_dc.y = m_78->m_94->body_center.y;
                 m_dc.z = tgt->position.z;
@@ -2002,10 +2002,10 @@ s32 TNpcPlayer::select_recovery_action(s32 arg1) {
         flags |= 2;
     }
     tgt = ((Unk_8014F844 *(*)(void *))TNpcPlayer__sub_80152A30)(self->m_78);
-    if (arg1 != 0 && tgt->m_0 != 0 && (flags & 2)) {
-        ((s32 (*)(void *, s32))increment_partner_counter)(self->m_5c.count, 5);
-        if (((s32 (*)(void *, int, int))npc_counter_reset_if_reached)(self->m_5c.count, 5, 0x1E) != 0) {
-            ent = (TObjBase *)find_active_entity_by_id(tgt->m_4[0].m_0);
+    if (arg1 != 0 && tgt->target_count != 0 && (flags & 2)) {
+        ((s32 (*)(void *, s32))increment_partner_counter)(self->partner_counters.count, 5);
+        if (((s32 (*)(void *, int, int))npc_counter_reset_if_reached)(self->partner_counters.count, 5, 0x1E) != 0) {
+            ent = (TObjBase *)find_active_entity_by_id(tgt->targets[0].entity_id);
             self->m_80 &= ~0x8000;
             if (ent != NULL) {
                 if (((f32 (*)(void *, void *))horizontal_distance_squared)(&ent->position, &self->m_78->m_94->position) < self->ai_params.block_range * self->ai_params.block_range) {
@@ -2040,11 +2040,11 @@ s32 TNpcPlayer::select_recovery_action(s32 arg1) {
                     return 1;
                 }
             } else {
-                if (((s16 (*)(void *, int))get_partner_counter)(self->m_5c.count, 8) == 0) {
+                if (((s16 (*)(void *, int))get_partner_counter)(self->partner_counters.count, 8) == 0) {
                     self->request_chatter(0x14);
                 }
-                ((s32 (*)(void *, s32))increment_partner_counter)(self->m_5c.count, 8);
-                ((s32 (*)(void *, int, int))npc_counter_reset_if_reached)(self->m_5c.count, 8, 0x5DC);
+                ((s32 (*)(void *, s32))increment_partner_counter)(self->partner_counters.count, 8);
+                ((s32 (*)(void *, int, int))npc_counter_reset_if_reached)(self->partner_counters.count, 8, 0x5DC);
             }
         } else if (((TNpcPlayer *)self->m_78)->get_condition() & 0x10) {
             if (((TNpcPlayer *)self->m_78)->try_attack(1, 1) != 0) {
@@ -2109,11 +2109,11 @@ s32 TNpcPlayer::select_recovery_action(s32 arg1) {
                     return 1;
                 }
             } else {
-                if (((s16 (*)(void *, int))get_partner_counter)(self->m_5c.count, 8) == 0) {
+                if (((s16 (*)(void *, int))get_partner_counter)(self->partner_counters.count, 8) == 0) {
                     self->request_chatter(0x14);
                 }
-                ((s32 (*)(void *, s32))increment_partner_counter)(self->m_5c.count, 8);
-                ((s32 (*)(void *, int, int))npc_counter_reset_if_reached)(self->m_5c.count, 8, 0x5DC);
+                ((s32 (*)(void *, s32))increment_partner_counter)(self->partner_counters.count, 8);
+                ((s32 (*)(void *, int, int))npc_counter_reset_if_reached)(self->partner_counters.count, 8, 0x5DC);
             }
         } else if (((TNpcPlayer *)self->m_78)->get_condition() & 0x10) {
             if (((TNpcPlayer *)self->m_78)->try_attack(1, 1) != 0) {
@@ -2140,13 +2140,13 @@ void TNpcPlayer::deliver_partner_action() {
     switch (m_7c) {
     case 0:
         VecCopy(&m_ac, VecCopy(&m_d0, &m_dc));
-        increment_partner_counter((saddr)m_5c.count, 4);
-        if ((s16)get_partner_counter((saddr)m_5c.count, 4) == 5401) {
+        increment_partner_counter((saddr)partner_counters.count, 4);
+        if ((s16)get_partner_counter((saddr)partner_counters.count, 4) == 5401) {
             m_80 &= ~4;
             m_24 = 25;
-            set_partner_counter((saddr)m_5c.count, 4, 0);
+            set_partner_counter((saddr)partner_counters.count, 4, 0);
         }
-        if (clamp_partner_counter((saddr)m_5c.count, 4, 5400) != 0) {
+        if (clamp_partner_counter((saddr)partner_counters.count, 4, 5400) != 0) {
             request_chatter(11);
         }
         break;
@@ -2181,15 +2181,15 @@ void TNpcPlayer::deliver_partner_action() {
         break;
     }
     if (m_7c != 2) {
-        reset_partner_counter((saddr)m_5c.count, 1);
-        reset_partner_counter((saddr)m_5c.count, 5);
+        reset_partner_counter((saddr)partner_counters.count, 1);
+        reset_partner_counter((saddr)partner_counters.count, 5);
         m_80 &= ~0x8000;
     }
     if (m_7c != 1) {
         m_80 &= ~8;
     }
     if (m_7c != 0) {
-        reset_partner_counter((saddr)m_5c.count, 4);
+        reset_partner_counter((saddr)partner_counters.count, 4);
     }
 }
 #pragma pop
@@ -2322,23 +2322,23 @@ void TNpcPlayer::update_condition_flags() {
     ((s32 (*)(s32))partner_view_check_moved)((saddr)m_74);
     ((s32 (*)(s32))partner_view_update_conditions)((saddr)m_74);
     if (((TNpcPlayer *)m_74)->get_condition() & 2) {
-        if (((s16 (*)(void *, int))get_partner_counter)(m_5c.count, 0xA) == 0) {
+        if (((s16 (*)(void *, int))get_partner_counter)(partner_counters.count, 0xA) == 0) {
             request_chatter(9);
         }
-        ((s32 (*)(void *, s32))increment_partner_counter)(m_5c.count, 0xA);
+        ((s32 (*)(void *, s32))increment_partner_counter)(partner_counters.count, 0xA);
     } else {
-        ((s32 (*)(void *, s32))reset_partner_counter)(m_5c.count, 0xA);
+        ((s32 (*)(void *, s32))reset_partner_counter)(partner_counters.count, 0xA);
     }
     if (((s32 (*)(s32, f32))check_and_set_reached__10TNpcPlayerFPv)((saddr)m_74, 30.0f) != 0) {
         if (((TNpcPlayer *)m_74)->get_condition() & 8) {
-            if (((s16 (*)(void *, int))get_partner_counter)(m_5c.count, 9) == 0) {
+            if (((s16 (*)(void *, int))get_partner_counter)(partner_counters.count, 9) == 0) {
                 request_chatter(0xC);
             }
-            ((s32 (*)(void *, s32))increment_partner_counter)(m_5c.count, 8);
-            ((s32 (*)(void *, int, int))npc_counter_reset_if_reached)(m_5c.count, 9, 0x2BC);
+            ((s32 (*)(void *, s32))increment_partner_counter)(partner_counters.count, 8);
+            ((s32 (*)(void *, int, int))npc_counter_reset_if_reached)(partner_counters.count, 9, 0x2BC);
             return;
         }
-        ((s32 (*)(void *, s32))reset_partner_counter)(m_5c.count, 9);
+        ((s32 (*)(void *, s32))reset_partner_counter)(partner_counters.count, 9);
     }
 }
 
@@ -2585,15 +2585,15 @@ s32 TNpcPlayer::check_movement_progress() {
     if (temp_r3 > 0x1E) {
         m_8c = 0x1EU;
         m_80 = m_80 | 0x4000;
-        if (((s16 (*)(void *, int))get_partner_counter)(m_5c.count, 7) == 0) {
+        if (((s16 (*)(void *, int))get_partner_counter)(partner_counters.count, 7) == 0) {
             request_chatter(7);
         }
-        ((s32 (*)(void *, int))increment_partner_counter)(m_5c.count, 7);
-        ((s32 (*)(void *, int, int))npc_counter_reset_if_reached)(m_5c.count, 7, 0x12C);
+        ((s32 (*)(void *, int))increment_partner_counter)(partner_counters.count, 7);
+        ((s32 (*)(void *, int, int))npc_counter_reset_if_reached)(partner_counters.count, 7, 0x12C);
         return 0;
     }
     if ((temp_r3 == 0) && (m_80 & 0x4000)) {
-        ((s32 (*)(void *, int))reset_partner_counter)(m_5c.count, 7);
+        ((s32 (*)(void *, int))reset_partner_counter)(partner_counters.count, 7);
         request_chatter(0x18);
         m_80 = m_80 & 0xFFFFBFFF;
     }
@@ -2772,10 +2772,10 @@ Unk_8014F844::Unk_8014F844(s32 id) {
     m_8a = id;
     m_88 = -1;
     m_84 = 0;
-    m_0 = 0;
+    target_count = 0;
     for (i = 0; i < 10; i++) {
-        m_4[i].m_0 = 0xFFFF;
-        m_4[i].m_8 = 0.0f;
+        targets[i].entity_id = 0xFFFF;
+        targets[i].distance_sq = 0.0f;
     }
     m_104 = 0;
     m_ac.offset.x = 0.0f;
@@ -2841,10 +2841,10 @@ s32 scan_nearby_enemies__10TNpcPlayerFPvPvf(Unk_8014F844 *view, void *pos, f32 r
     found = 0;
     ((TObjBase *)(view->m_94))->get_room();
     VecCopy(&origin, (const Vec *)pos);
-    view->m_0 = 0;
+    view->target_count = 0;
     for (j = 0; j < 10; j++) {
-        view->m_4[j].m_0 = 0xFFFF;
-        view->m_4[j].m_8 = 0.0f;
+        view->targets[j].entity_id = 0xFFFF;
+        view->targets[j].distance_sq = 0.0f;
     }
     i = TLobby::get_game_mode();
     range = range * range;
@@ -2863,17 +2863,17 @@ s32 scan_nearby_enemies__10TNpcPlayerFPvPvf(Unk_8014F844 *view, void *pos, f32 r
             d = horizontal_distance_squared(&origin, &actor->bodies[c].center);
             if (d < range) {
                 found = 1;
-                view->m_4[view->m_0].m_0 = actor->get_entity_id();
-                view->m_4[view->m_0].m_8 = d;
-                view->m_4[view->m_0].m_4 = c;
-                if (view->m_0 >= 9) {
+                view->targets[view->target_count].entity_id = actor->get_entity_id();
+                view->targets[view->target_count].distance_sq = d;
+                view->targets[view->target_count].collider = c;
+                if (view->target_count >= 9) {
                     break;
                 }
-                view->m_0++;
+                view->target_count++;
             }
         }
     }
-    TNpcPlayer::quick_sort((saddr)view, (saddr)&view->m_4[0], 0, view->m_0 - 1);
+    TNpcPlayer::quick_sort((saddr)view, (saddr)&view->targets[0], 0, view->target_count - 1);
     return found;
 }
 
@@ -2884,11 +2884,11 @@ s32 find_parts_in_range__10TNpcPlayerFPvPvif(Unk_8014F844 *view, void *pos, u16 
     f32 d;
     s32 j;
 
-    view->m_0 = 0;
+    view->target_count = 0;
     found = 0;
     for (j = 0; j < 10; j++) {
-        view->m_4[j].m_0 = 0xFFFF;
-        view->m_4[j].m_8 = 0.0f;
+        view->targets[j].entity_id = 0xFFFF;
+        view->targets[j].distance_sq = 0.0f;
     }
     actor = find_entity_by_id(id);
     if (((TObjBase *)actor)->is_alive() != 0) {
@@ -2900,17 +2900,17 @@ s32 find_parts_in_range__10TNpcPlayerFPvPvif(Unk_8014F844 *view, void *pos, u16 
             d = horizontal_distance_squared(pos, &actor->bodies[i].center);
             if (d < range) {
                 found = 1;
-                view->m_4[view->m_0].m_0 = actor->get_entity_id();
-                view->m_4[view->m_0].m_8 = d;
-                view->m_4[view->m_0].m_4 = i;
-                if (view->m_0 >= 9) {
+                view->targets[view->target_count].entity_id = actor->get_entity_id();
+                view->targets[view->target_count].distance_sq = d;
+                view->targets[view->target_count].collider = i;
+                if (view->target_count >= 9) {
                     break;
                 }
-                view->m_0++;
+                view->target_count++;
             }
         }
     }
-    TNpcPlayer::quick_sort((saddr)view, (saddr)&view->m_4[0], 0, view->m_0 - 1);
+    TNpcPlayer::quick_sort((saddr)view, (saddr)&view->targets[0], 0, view->target_count - 1);
     return found;
 }
 
@@ -2932,11 +2932,11 @@ s32 partition_sort_entries__10TNpcPlayerFiPvii(s32 self, Unk_8014F844Entry *a, s
 
     j = hi;
     i = lo - 1;
-    pivot = a[hi].m_8;
+    pivot = a[hi].distance_sq;
     for (;;) {
-        while (a[++i].m_8 < pivot) {
+        while (a[++i].distance_sq < pivot) {
         }
-        while (i < --j && pivot < a[j].m_8) {
+        while (i < --j && pivot < a[j].distance_sq) {
         }
         if (i >= j || i >= 10 || j >= 10) {
             break;
@@ -3379,7 +3379,7 @@ void deliver_partner_chatter(TNpcPlayer *self) {
         }
     }
     self->m_80 &= ~4;
-    if (((s32 (*)(void *, s32, s32))npc_counter_reset_if_reached)(self->m_5c.count, 0, 0x190) != 0) {
+    if (((s32 (*)(void *, s32, s32))npc_counter_reset_if_reached)(self->partner_counters.count, 0, 0x190) != 0) {
         self->m_24 = 0x19;
     }
 }

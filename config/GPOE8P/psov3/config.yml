@@ -756,7 +756,7 @@ force_active:
   - TNpcPlayer__name
   - TNpcPlayer__sub_80152A30
   - TNpcPlayer__sub_80152A34
-  - clear__12Unk_80152A48Fv
+  - clear__15PartnerCountersFv
   - __ct__26G_CastTechniqueParams_6x47Fv
   - __ct__13TUnk_804B7C04FPfllllP7TObject
   - TOAirconCave01__model_archive
@@ -6974,7 +6974,7 @@ force_active:
   - info_icon_texture
   - init_6x04_packet__FP25G_SwitchStateChanged_6x05
   - init_6x72_resume_packet
-  - __ct__12Unk_80152A48Fv
+  - __ct__15PartnerCountersFv
   - init__12TQuestListVMFv
   - __ct__13TObjEneMe1GeeFP7TObjectPvl
   - init__13TObjEneRe4BitFPv
