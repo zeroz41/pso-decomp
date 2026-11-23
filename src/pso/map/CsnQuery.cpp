@@ -53,8 +53,8 @@ void csn_debug_hook_group_list(CsnGroup *const *groups) {  }
 // inferred: name - every caller passes its own function name ("csnLookAt()", ...)
 void csn_debug_hook_query_name(const char *name) {  }
 void TObjPlayer__sub_8007911C(void) {  }
-void csn_debug_hook_origin_vector(saddr _w0) {  }
-void csn_debug_hook_segment(void * _w0, void * _w1) {  }
+void csn_debug_hook_origin_vector(saddr origin) {  }
+void csn_debug_hook_segment(void * from, void * to) {  }
 
 #pragma push
 #pragma fp_contract on
@@ -600,8 +600,8 @@ CsnGroup *TObjPlayer__sub_80079DE0(Vec *a, Vec *b) {
 
 #pragma push
 #pragma fp_contract on
-s32 prepare_wall_query_polygons(void *arg0, f32 r, s32 mask) {
-    Vec *pos = (Vec *)arg0;
+s32 prepare_wall_query_polygons(void *origin, f32 r, s32 mask) {
+    Vec *pos = (Vec *)origin;
     s32 i;
     s32 count;
     s32 cnt;

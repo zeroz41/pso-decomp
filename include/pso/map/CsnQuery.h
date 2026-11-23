@@ -43,8 +43,8 @@ void csn_debug_hook_hit_record(CsnHit *hit);
 void csn_debug_hook_group_list(CsnGroup *const *groups);
 void csn_debug_hook_query_name(const char *name);
 void TObjPlayer__sub_8007911C(void);
-void csn_debug_hook_origin_vector(saddr _w0);
-void csn_debug_hook_segment(void *_w0, void *_w1);
+void csn_debug_hook_origin_vector(saddr origin);
+void csn_debug_hook_segment(void *from, void *to);
 s32 get_csn_group_flags(u8 arg0);
 s32 calc_segment_xz_distance_sq(Vec *c, Vec *o, Vec *e, Vec *d, f32 radius, f32 hsq, f32 inv);
 s32 select_deepest_wall_ray(WallRayQuery *query, WallRayResult *result);
@@ -56,7 +56,7 @@ CsnGroup *TObjPlayer__sub_80079DE0(Vec *from, Vec *to);
 CsnGroup *query_collision_segment_groups(Vec *a, Vec *b, u32 mask);
 }
 s32 evaluate_ground_triangles(Vec *origin, u32 mask, CsnGroup **groups);
-s32 prepare_wall_query_polygons(void *arg0, f32 r, s32 mask);
+s32 prepare_wall_query_polygons(void *origin, f32 r, s32 mask);
 void *query_prepared_wall_polygons(void *self);
 s32 query_wall_segment(Vec *from, Vec *to, u32 mask, CsnContact *hit);
 #endif
