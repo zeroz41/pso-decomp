@@ -6,33 +6,33 @@
 
 
 s32 TObjEnemy::mask_sub_flags(s32 mask) {
-    void *set_entry;
+    EnemySetRecord *set_entry;
 
-    set_entry = this->set_entry;
+    set_entry = (EnemySetRecord *)this->set_entry;
     if (set_entry != NULL) {
-        *(s16 *)((s8 *)set_entry + 2) = (s16) (*(s16 *)((s8 *)set_entry + 2) & mask);
+        set_entry->flags &= mask;
         return 1;
     }
     return 0;
 }
 
 s32 TObjBase::set_event_source_flag(s32 event_source_flag) {
-    void *set_entry;
+    FloorObjectSetRow *set_entry;
 
-    set_entry = this->set_entry;
+    set_entry = (FloorObjectSetRow *)this->set_entry;
     if (set_entry != NULL) {
-        *(s16 *)((s8 *)set_entry + 2) = (s16) (*(s16 *)((s8 *)set_entry + 2) | event_source_flag);
+        set_entry->flags |= event_source_flag;
         return 1;
     }
     return 0;
 }
 
 s32 TObjBase::mask_object_set_row_flags(s32 arg1) {
-    void *set_entry;
+    FloorObjectSetRow *set_entry;
 
-    set_entry = this->set_entry;
+    set_entry = (FloorObjectSetRow *)this->set_entry;
     if (set_entry != NULL) {
-        *(s16 *)((s8 *)set_entry + 2) = (s16) (*(s16 *)((s8 *)set_entry + 2) & arg1);
+        set_entry->flags &= arg1;
         return 1;
     }
     return 0;
