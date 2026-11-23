@@ -63,7 +63,6 @@ extern s32 local_client_id;
 extern s32 quest_download_active;
 saddr get_message_text(s32 arg0);
 void *get_window_layout_position(s32);
-extern u8 *TLobby__protocol_instance;
 extern s32 quest_download_received_bytes;
 extern s32 quest_download_graph_current_bytes;
 }
@@ -223,7 +222,7 @@ void TLobby::handle_quest_download_chunk() {
             ((TWindowBase *)TQuestListOnline__download_barrier_window)->set_depth(36000.0f);
             ((TWindowMessage *)TQuestListOnline__download_barrier_window)->complete_reveal();
         }
-        ((TProtocol *)TLobby__protocol_instance)->send_quest_barrier();
+        protocol_instance->send_quest_barrier();
     }
 }
 

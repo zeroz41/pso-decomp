@@ -171,7 +171,6 @@ void TWindowSubComCard__sub_80249144(void *window_choice_setting);
 u32 TWindowSubComCard__sub_80272640(void *);
 u32 TWindowSubComCard__sub_80272A98(void *);
 u32 TWindowSubComCard__sub_8027337C();
-extern saddr TLobby__protocol_instance;
 
 void TWindowSubComCard__sub_80077980(void *);
 }
@@ -753,7 +752,7 @@ void TWindowSubComCard::run_task() {
     case 0x27:
     case 0x33:
         if (TWindowSubComCard::get_chr_select() == 0U) {
-            ((TProtocol *)TLobby__protocol_instance)->send_choice_search_options_request();
+            TLobby::protocol_instance->send_choice_search_options_request();
         }
         if ((u8) this->state == 0x27) {
             this->state = 0x28U;

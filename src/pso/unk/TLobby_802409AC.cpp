@@ -949,7 +949,6 @@ typedef struct Entry_80242380 {
 extern "C" {
 struct RecoveredGlobal_TLobby__data_8050AAAC { s32 value; u8 remaining[0x24]; };
 extern RecoveredGlobal_TLobby__data_8050AAAC TLobby__data_8050AAAC;
-extern uaddr TLobby__protocol_instance;
 char *get_shared_text_buffer();
 void text_builder_append(char *);
 }
@@ -972,9 +971,9 @@ s32 TLobby::get_field_308() { return *(s32*)((char*)this + 0x308); }
 void TLobby::forward_8024273C(void *p) { TLobby__sub_8024273C(p); }
 
 void TLobby::send_find_user_self_tag(s32 gc_num) {
-    if ((u32) TLobby__protocol_instance != 0U) {
-        Tag_802421C4 tag = *(Tag_802421C4 *)((u8 *)TLobby__protocol_instance + 0x1900);
-        ((TProtocol *)TLobby__protocol_instance)->send_find_user(*(TPlyGuildCardTag *)&tag, gc_num);
+    if (protocol_instance != NULL) {
+        Tag_802421C4 tag = *(Tag_802421C4 *)((u8 *)protocol_instance + 0x1900);
+        protocol_instance->send_find_user(*(TPlyGuildCardTag *)&tag, gc_num);
     }
 }
 
@@ -1085,11 +1084,11 @@ char *TLobby::build_text_from_comma_list() {
 }
 
 void TLobby__sub_8024259C(saddr arg0) {
-    if ((u32) TLobby__protocol_instance != 0U) {
+    if (TLobby::protocol_instance != NULL) {
         memset((char *)&TLobby__data_8050AAAC.value, 0, 0x11);
         strncpy((char *)&TLobby__data_8050AAAC.value, (char *)(arg0 + 0x19), 0x10);
         *(s8 *)((s8 *)&TLobby__data_8050AAAC.value + 0x10) = 0;
-        ((TProtocol *)TLobby__protocol_instance)->seq_jump((u8 *)(arg0 + 0x4C), *(TPlyMeetUserExtension *)(arg0 + 0x58));
+        TLobby::protocol_instance->seq_jump((u8 *)(arg0 + 0x4C), *(TPlyMeetUserExtension *)(arg0 + 0x58));
     }
 }
 #pragma pop

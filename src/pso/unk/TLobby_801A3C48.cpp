@@ -225,7 +225,6 @@ Pair_801A3CFC lobby_udp_test_game_entries[2] = {
 void deactivate_keyboard(void);
 void send_keepalive(u8 *arg0);
 extern s32 actor_frame_tick;
-extern uaddr TLobby__protocol_instance;
 extern s32 lobby_state_flags;
 void process_async_file_reads(void);
 void update_sound_request_slots(void);
@@ -794,8 +793,8 @@ void run_online_lobby_scene(void) {
 }
 
 void TLobby::update_periodic_tick() {
-    if ((lobby_state_flags & 1) && ((actor_frame_tick % 900) == 0) && ((u32) TLobby__protocol_instance != 0U)) {
-        send_keepalive((u8 *)TLobby__protocol_instance);
+    if ((lobby_state_flags & 1) && ((actor_frame_tick % 900) == 0) && (protocol_instance != NULL)) {
+        send_keepalive((u8 *)protocol_instance);
     }
 }
 void set_floor_transition_ready(Obj_80515BA0 *transition) { transition->state_flags |= 1; }

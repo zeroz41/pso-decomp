@@ -286,8 +286,6 @@ typedef struct {
     u32 w0;
     u32 w1;
 } D_80137384;
-struct Card_80138B7C { u8 b[0x98]; };
-struct Lobby_80138B7C { u8 pad[0x2C68]; Card_80138B7C cards[1]; };
 typedef struct Date_801399B8 {
     u16 y;
     u8 b[0x16];
@@ -440,7 +438,7 @@ void bswap_telepipe_record(void *);
 LAYOUT_ASSERT(ProtocolGameEntriesOffset, offsetof(TProtocol, m_game_entries) == 0x1DA8);
 LAYOUT_ASSERT(ProtocolEntryCountOffset, offsetof(TProtocol, m_entry_count) == 0x1920);
 LAYOUT_ASSERT(ProtocolInvalidPacketOffset, offsetof(TProtocol, m_is_invalid_packet) == 0x2A);
-TProtocol *TLobby__protocol_instance;
+TProtocol *TLobby::protocol_instance;
 s32 TLobby::lobby_entered_flag;
 s32 TLobby::data_805D5588;
 s16 TLobby::data_805D558C;
@@ -536,7 +534,7 @@ void TLobby::send_game_character() {
     d.h[6] = *(u16 *)(card + 0x21B4);
     d.w0 = *(u32 *)(card + 0x21B8);
     d.w1 = *(u32 *)(card + 0x21BC);
-    send_player_data_98__9TProtocolFPvPvPvPvPvPvPv(TLobby__protocol_instance, (void *)TAdSinglePlyChrSelectGC::get_char_index(0xFFFF), &d, &a, b, e, c);
+    send_player_data_98__9TProtocolFPvPvPvPvPvPvPv(protocol_instance, (void *)TAdSinglePlyChrSelectGC::get_char_index(0xFFFF), &d, &a, b, e, c);
 }
 void TLobby::update_idle_timeout(void *object) {
     Timer_80134F9C *t = (Timer_80134F9C *)object;
@@ -619,7 +617,7 @@ void handle_6x71_unblock_game_join(void) {
 
     if (TLobby__data_805D5CE8 == 0) {
         p = create_player_object(local_client_id, 0, (u8 *)TAdSinglePlyChrSelectGC::get_char_index(0xFFFF));
-        ((TLobby *)(p + 0xDAC))->copy_header_struct((u8 *)TLobby__protocol_instance + 0x1900);
+        ((TLobby *)(p + 0xDAC))->copy_header_struct(&TLobby::protocol_instance->m_guildcard_tag);
         ((VObj_18_9029aa *)p)->m6();
         {
             saddr nm = (saddr)TLobby__player_names;
@@ -644,7 +642,7 @@ void handle_6x71_unblock_game_join(void) {
             }
             pend[i] = 0;
         }
-        ((TLobby *)TLobby__protocol_instance)->send_6F_burst_done();
+        ((TLobby *)TLobby::protocol_instance)->send_6F_burst_done();
         TAdSinglePlyChrSelectGC::load_character_from_card(0);
         TLobby::data_805D5594 = 0xF;
     }
@@ -1105,8 +1103,8 @@ void TLobby::run_task() {
         func_80019A68__Fv();
     }
     r = TLobby::query_task_active();
-    if (TLobby__protocol_instance->m_is_invalid_packet != 0 || get_link_status__Fv() == 0 || r < 0) {
-        TLobby__protocol_instance->m_is_invalid_packet = 0;
+    if (protocol_instance->m_is_invalid_packet != 0 || get_link_status__Fv() == 0 || r < 0) {
+        protocol_instance->m_is_invalid_packet = 0;
         TQuestListOnline::close_windows_and_reset();
         if (r < 0) {
             TLobby::update_state();
@@ -1124,15 +1122,15 @@ void TLobby::handle_team_select() {
             idx = ((TWindowMenuIconLine *)list_window)->get_cursor_value();
             ((TWindowBase *)list_window)->close();
             list_window = 0U;
-            TLobby__protocol_instance->send_action(
-                TLobby__protocol_instance->m_game_entries[idx],
+            protocol_instance->send_action(
+                protocol_instance->m_game_entries[idx],
                 (char *)lobby_window_title_taisen_team, (char *)TLobby__data_805DB0B0);
             ((s32 (*)())TLobby::close_and_set_state_12)();
             return;
         }
         if (controller_input_state.sources[0]->pressed & 0x400) {
             idx = ((TWindowMenuIconLine *)list_window)->get_cursor_value();
-            TLobby__protocol_instance->send_info(TLobby__protocol_instance->m_game_entries[idx].tag);
+            protocol_instance->send_info(protocol_instance->m_game_entries[idx].tag);
         }
     }
 }
@@ -1144,8 +1142,8 @@ void TLobby::handle_game_list_select() {
             cursor_value = ((TWindowMenuIconLine *)list_window)->get_cursor_value();
             ((TWindowBase *)list_window)->close();
             list_window = 0U;
-            TLobby__protocol_instance->send_action(
-                TLobby__protocol_instance->m_game_entries[cursor_value],
+            protocol_instance->send_action(
+                protocol_instance->m_game_entries[cursor_value],
                 (char *)TLobby__data_805DB0B0, (char *)TLobby__data_805DB0B0);
             ((s32 (*)())TLobby::close_and_set_state_12)();
             return;
@@ -1215,12 +1213,12 @@ void TLobby::update_game_list_menu() {
             lobby_selected_game_list_index = ((TWindowMenuIconLine *)list_window)->get_cursor_value();
             ((TWindowBase *)list_window)->close();
             list_window = 0U;
-            if (TLobby__protocol_instance->m_game_entries[lobby_selected_game_list_index].flags & 2) {
+            if (protocol_instance->m_game_entries[lobby_selected_game_list_index].flags & 2) {
                 ((s32 (*)())TLobby::open_keyboard_window)();
                 return;
             }
-            TLobby__protocol_instance->send_action(
-                TLobby__protocol_instance->m_game_entries[lobby_selected_game_list_index],
+            protocol_instance->send_action(
+                protocol_instance->m_game_entries[lobby_selected_game_list_index],
                 (char *)TLobby__data_805DB0B0, (char *)TLobby__data_805DB0B0);
             ((s32 (*)())TLobby::destroy_lobby_ui)();
             return;
@@ -1233,8 +1231,8 @@ void TLobby::update_game_list_menu() {
         }
         if (controller_input_state.sources[0]->pressed & 0x400) {
             lobby_selected_game_list_index = ((TWindowMenuIconLine *)list_window)->get_cursor_value();
-            if (lobby_selected_game_list_index < TLobby__protocol_instance->m_entry_count) {
-                TLobby__protocol_instance->send_info(TLobby__protocol_instance->m_game_entries[lobby_selected_game_list_index].tag);
+            if (lobby_selected_game_list_index < protocol_instance->m_entry_count) {
+                protocol_instance->send_info(protocol_instance->m_game_entries[lobby_selected_game_list_index].tag);
             }
         }
     }
@@ -1268,15 +1266,15 @@ void TLobby::update_ship_select_window() {
             idx = ((TWindowMenuIconLine *)list_window)->get_cursor_value();
             ((TWindowBase *)list_window)->close();
             list_window = 0U;
-            TLobby__protocol_instance->send_action(
-                TLobby__protocol_instance->m_game_entries[idx],
+            protocol_instance->send_action(
+                protocol_instance->m_game_entries[idx],
                 (char *)lobby_window_title_ship_jump, (char *)TLobby__data_805DB0B0);
             TLobby::close_and_set_state_12();
             return;
         }
         if (controller_input_state.sources[0]->pressed & 0x400) {
             idx = ((TWindowMenuIconLine *)list_window)->get_cursor_value();
-            TLobby__protocol_instance->send_info(TLobby__protocol_instance->m_game_entries[idx].tag);
+            protocol_instance->send_info(protocol_instance->m_game_entries[idx].tag);
         }
     }
 }
@@ -1287,15 +1285,15 @@ void TLobby::update_block_jump_list() {
             idx = ((TWindowMenuIconLine *)list_window)->get_cursor_value();
             ((TWindowBase *)list_window)->close();
             list_window = 0U;
-            TLobby__protocol_instance->send_action(
-                TLobby__protocol_instance->m_game_entries[idx],
+            protocol_instance->send_action(
+                protocol_instance->m_game_entries[idx],
                 (char *)lobby_window_title_block_jump, (char *)TLobby__data_805DB0B0);
             TLobby::close_and_set_state_12();
             return;
         }
         if (controller_input_state.sources[0]->pressed & 0x400) {
             idx = ((TWindowMenuIconLine *)list_window)->get_cursor_value();
-            TLobby__protocol_instance->send_info(TLobby__protocol_instance->m_game_entries[idx].tag);
+            protocol_instance->send_info(protocol_instance->m_game_entries[idx].tag);
         }
     }
 }
@@ -1317,7 +1315,7 @@ void TLobby::update() {
                 ((TWindowBase *)join_entry_window_obj)->close();
                 join_entry_window_obj = 0U;
                 TLobby::close_all_windows();
-                ((TProtocol *)(TLobby__protocol_instance))->send_server_time_accepted();
+                protocol_instance->send_server_time_accepted();
             }
         }
     } else {
@@ -1345,7 +1343,7 @@ void TLobby::handle_create_game_window() {
                 difficulty = lobby_make_team_window->is_enabled();
                 challenge_mode = (s8)lobby_make_team_window->get_mode() == 1;
                 episode = get_field_20__15TWindowMakeTeamFv(lobby_make_team_window);
-                TLobby__protocol_instance->send_create_game((char *)name, (char *)password, difficulty, battle_mode, challenge_mode, episode);
+                protocol_instance->send_create_game((char *)name, (char *)password, difficulty, battle_mode, challenge_mode, episode);
                 ((s32 (*)())TLobby::destroy_lobby_ui)();
                 return;
             }
@@ -1410,8 +1408,8 @@ void TLobby::handle_comcard_window() {
         }
         if (lobby_keyboard_controller->is_confirmed() != 0) {
             text = lobby_keyboard_controller->realloc_buffer();
-            TLobby__protocol_instance->send_action(
-                TLobby__protocol_instance->m_game_entries[lobby_selected_game_list_index],
+            protocol_instance->send_action(
+                protocol_instance->m_game_entries[lobby_selected_game_list_index],
                 (char *)TLobby__data_805DB0B0, text);
             mem_free(text);
             lobby_keyboard_controller->queue_destruction();
@@ -1435,8 +1433,8 @@ void TLobby::update_card_list_window() {
         ((TWindowBase *)list_window)->close();
         list_window = 0;
         GameListEntry e;
-        __as__16TPlyGuildCardTagFRC16TPlyGuildCardTag(&e, &((Lobby_80138B7C *)TLobby__protocol_instance)->cards[sel]);
-        TLobby__protocol_instance->send_action(e, (char *)TLobby__data_805DB0B0, (char *)TLobby__data_805DB0B0);
+        __as__16TPlyGuildCardTagFRC16TPlyGuildCardTag(&e, &protocol_instance->m_quest_entries[sel]);
+        protocol_instance->send_action(e, (char *)TLobby__data_805DB0B0, (char *)TLobby__data_805DB0B0);
         if (card_list_window != 0) {
             ((TWindowBase *)card_list_window)->close();
             card_list_window = 0;
@@ -1447,7 +1445,7 @@ void TLobby::update_card_list_window() {
     if (download_list_window != 0) {
         sel = ((TWindowMenuIconLine *)list_window)->get_cursor_value();
         if (sel != card_list_selected_index) {
-            ((TWindowMessage *)download_list_window)->append_line((saddr)(&((Lobby_80138B7C *)TLobby__protocol_instance)->cards[sel].b[0x28]), (int)3);
+            ((TWindowMessage *)download_list_window)->append_line((saddr)protocol_instance->m_quest_entries[sel].short_description, (int)3);
             ((TWindowMessage *)download_list_window)->complete_reveal();
             if (card_list_window != 0) {
                 ((TWindowBase *)card_list_window)->close();
@@ -1461,8 +1459,8 @@ void TLobby::update_card_list_window() {
     if (btn & 0x400) {
         sel = ((TWindowMenuIconLine *)list_window)->get_cursor_value();
         GameListEntry e2;
-        __as__16TPlyGuildCardTagFRC16TPlyGuildCardTag(&e2, &((Lobby_80138B7C *)TLobby__protocol_instance)->cards[sel]);
-        TLobby__protocol_instance->send_info(e2.tag);
+        __as__16TPlyGuildCardTagFRC16TPlyGuildCardTag(&e2, &protocol_instance->m_quest_entries[sel]);
+        protocol_instance->send_info(e2.tag);
     } else if (btn & 2) {
         if (card_list_window != 0) {
             ((TWindowBase *)card_list_window)->close();
@@ -1525,7 +1523,7 @@ void TLobby::update_scroll_close() {
             lobby_scroll_text_window = NULL;
             ((s32 (*)())TLobby::destroy_lobby_ui)();
             reset_controller_input_state();
-            ((TProtocol *)(TLobby__protocol_instance))->send_message_box_closed();
+            protocol_instance->send_message_box_closed();
         }
     } else {
         TLobby::close_all_windows();
@@ -1685,8 +1683,8 @@ void TLobby__sub_801384E4(void) {
                 ((s32 (*)())TLobby::init_player_window_effect)();
                 TLobby::join_lobby_idle_timer = 0;
                 TLobby::data_805D5594 = 0xC;
-                if (TLobby__protocol_instance != NULL) {
-                    *(u8 *)((s8 *)TLobby__protocol_instance + 0x2A) = (u8) (*(u8 *)((s8 *)TLobby__protocol_instance + 0x2A) | 1);
+                if (TLobby::protocol_instance != NULL) {
+                    TLobby::protocol_instance->m_is_invalid_packet |= 1;
                 }
             }
         } else {
@@ -1705,8 +1703,8 @@ void TLobby::update_state() {
                 ((s32 (*)())TLobby::init_player_window_effect)();
                 join_lobby_idle_timer = 0;
                 data_805D5594 = 0xC;
-                if (TLobby__protocol_instance != NULL) {
-                    *(u8 *)((s8 *)TLobby__protocol_instance + 0x2A) = (u8) (*(u8 *)((s8 *)TLobby__protocol_instance + 0x2A) | 1);
+                if (protocol_instance != NULL) {
+                    protocol_instance->m_is_invalid_packet |= 1;
                 }
             }
         } else {
@@ -1750,7 +1748,7 @@ void TLobby::request_game_list() {
         lobby_com_card_window->close();
         lobby_com_card_window = NULL;
     }
-    ((TProtocol *)(TLobby__protocol_instance))->send_game_list();
+    protocol_instance->send_game_list();
     data_805D5594 = 6;
 }
 void TLobby::open_menu_window() {
@@ -1814,8 +1812,8 @@ void TLobby::return_to_main_menu() {
         t->close();
         list_window = 0U;
     }
-    TLobby__protocol_instance->m_recv_handlers.handle_07_A0_A1_recv_dir_list = (recv_packet_handler_handle_07_A0_A1_recv_dir_list)TLobby::open_ship_block_select_menu;
-    ((TProtocol *)(TLobby__protocol_instance))->send_ship_list_request();
+    protocol_instance->m_recv_handlers.handle_07_A0_A1_recv_dir_list = (recv_packet_handler_handle_07_A0_A1_recv_dir_list)TLobby::open_ship_block_select_menu;
+    protocol_instance->send_ship_list_request();
     data_805D5594 = 7;
 }
 void TLobby::close_menu_windows() {
@@ -1824,14 +1822,14 @@ void TLobby::close_menu_windows() {
     TLobby_warp_menu_window = NULL;
     lobby_com_card_window->close();
     lobby_com_card_window = NULL;
-    TLobby__protocol_instance->m_recv_handlers.handle_07_A0_A1_recv_dir_list = (recv_packet_handler_handle_07_A0_A1_recv_dir_list)TLobby::open_ship_block_select_menu;
-    ((TProtocol *)(TLobby__protocol_instance))->send_block_list_request();
+    protocol_instance->m_recv_handlers.handle_07_A0_A1_recv_dir_list = (recv_packet_handler_handle_07_A0_A1_recv_dir_list)TLobby::open_ship_block_select_menu;
+    protocol_instance->send_block_list_request();
     data_805D5594 = 8;
 }
 void TLobby::close_and_send_text_list() {
     TLobby::close_all_windows();
     ((s32 (*)())TLobby::init_player_window_effect)();
-    ((TProtocol *)(TLobby__protocol_instance))->send_text_list();
+    protocol_instance->send_text_list();
 }
 void TLobby::open_keyboard_window() {
     saddr var_r0;
@@ -1864,7 +1862,7 @@ void TLobby::close_and_set_state_12() {
 void TLobby::send_room_change(int idx) {
     data_805D5588 = 1;
     ((s32 (*)())TLobby::init_player_window_effect)();
-    ((TProtocol *)(TLobby__protocol_instance))->send_room_change(idx);
+    protocol_instance->send_room_change(idx);
     data_805D5594 = 0x13;
 }
 void TLobby::open_city_warp_menu() {
@@ -1888,7 +1886,7 @@ void TLobby::update_com_card_window() {
     if (lobby_com_card_window != NULL) {
         selected_menu_value = lobby_com_card_window->get_selected_value();
         if (lobby_com_card_window->is_decided() != 0) {
-            send_lobby_arrow__9TProtocolFUc(TLobby__protocol_instance, selected_menu_value);
+            send_lobby_arrow__9TProtocolFUc(protocol_instance, selected_menu_value);
             TLobby::close_all_windows();
             return;
         }
@@ -1925,7 +1923,7 @@ void TLobby__sub_80137C10(s32 arg0) {
 
 TLobby::~TLobby() {
     TLobby::destroy_all_objects();
-    TLobby__protocol_instance = NULL;
+    protocol_instance = NULL;
     lobby_entered_flag = 0;
     data_805D5588 = 0;
     data_805D558C = 0;
@@ -2000,7 +1998,7 @@ void TLobby::destroy_all_objects() {
 }
 void TLobby::reset_state_flags() {
     buffer_reset();
-    *(s32 *)((s8 *)TLobby__protocol_instance + 0x191C) = 1;
+    protocol_instance->m_handle_pings_only = 1;
     player_setup_pending = 1;
     if ((s32) data_805D5594 == 0xC) {
         deferred_player_setup_state = 5;
@@ -2023,8 +2021,8 @@ void TLobby::process_deferred_player_setup() {
         ((s32 (*)())TLobby__sub_801384E4)();
         break;
     }
-    if (TLobby__protocol_instance != NULL) {
-        *(s32 *)((s8 *)TLobby__protocol_instance + 0x191C) = 0;
+    if (protocol_instance != NULL) {
+        protocol_instance->m_handle_pings_only = 0;
         TLobby::drain_deferred_packets();
     }
     deferred_player_setup_state = 0;
@@ -2044,9 +2042,9 @@ void TLobby::add_lobby_members(TPlyJoinLobbyEntry *src, int n, int client_id, in
 void TLobby::handle_regist_check(int ok) {
     if (ok) {
         lobby_debug_printf_stub(lobby_msg_regist_check_ok);
-        ((TProtocol *)(TLobby__protocol_instance))->send_login2(TLobby::get_option_state());
+        protocol_instance->send_login2(TLobby::get_option_state());
     } else {
-        ((TProtocol *)(TLobby__protocol_instance))->send_regist();
+        protocol_instance->send_regist();
     }
 }
 void TLobby::handle_verify_result(unsigned int arg0) {
@@ -2057,10 +2055,10 @@ void TLobby::handle_verify_result(unsigned int arg0) {
         lobby_debug_printf_stub(lobby_msg_regist_check_ok);
         TLobby::dispatch_by_index(1);
         option_state = TLobby::get_option_state();
-        TLobby::send_login_9e_extended(TLobby__protocol_instance, (void *) (((saddr)(void *)TAdSinglePlyChrSelectGC::get_char_index((u32)(0xFFFF))) + 0x370), (int)option_state);
+        TLobby::send_login_9e_extended(protocol_instance, (void *) (((saddr)(void *)TAdSinglePlyChrSelectGC::get_char_index((u32)(0xFFFF))) + 0x370), (int)option_state);
         return;
     case 1:
-        send_register_9c((u8 *)TLobby__protocol_instance);
+        send_register_9c((u8 *)protocol_instance);
         return;
     case 3:
         TLobby::dispatch_by_index(0);
@@ -2115,7 +2113,7 @@ void TLobby::handle_verify_result(unsigned int arg0) {
 void TLobby::handle_register_name_result(int ok) {
     if (ok) {
         lobby_debug_printf_stub(lobby_msg_registed);
-        ((TProtocol *)(TLobby__protocol_instance))->send_login2(TLobby::get_option_state());
+        protocol_instance->send_login2(TLobby::get_option_state());
     } else {
         lobby_debug_printf_stub(lobby_msg_name_taken);
         TLobby::dispatch_by_index(2);
@@ -2128,7 +2126,7 @@ void TLobby::handle_register_result(int arg0) {
         lobby_debug_printf_stub(lobby_msg_registed);
         get_player_by_client_id(local_client_id);
         opt = TLobby::get_option_state();
-        TLobby::send_login_9e_extended(TLobby__protocol_instance, (u8 *)TAdSinglePlyChrSelectGC::get_char_index(0xFFFF) + 0x370, opt);
+        TLobby::send_login_9e_extended(protocol_instance, (u8 *)TAdSinglePlyChrSelectGC::get_char_index(0xFFFF) + 0x370, opt);
         TLobby::dispatch_by_index(1);
         return;
     }
@@ -2141,10 +2139,10 @@ void TLobby::handle_login_result(unsigned int arg0) {
     switch (arg0) {
     case 0:
         lobby_debug_printf_stub(lobby_msg_login_success);
-        TAdEnterSerialAccessGC::store_serial_access_key((saddr)((char *)TLobby__protocol_instance + 0x3F8A), (saddr)((char *)TLobby__protocol_instance + 0x3F9B), (saddr)((char *)TLobby__protocol_instance + 0x3F3A));
+        TAdEnterSerialAccessGC::store_serial_access_key((saddr)protocol_instance->m_serial_number2, (saddr)protocol_instance->m_access_key2, (saddr)protocol_instance->m_password);
         if (login_pending_flag != 0) {
             event_counter = TAdSinglePlyChrSelectGC::increment_frame();
-            ((TProtocol *)(TLobby__protocol_instance))->send_character_save_info(TAdSinglePlyChrSelectGC::get_player_count(), event_counter);
+            protocol_instance->send_character_save_info(TAdSinglePlyChrSelectGC::get_player_count(), event_counter);
             login_pending_flag = 0;
         }
         break;
@@ -2208,7 +2206,7 @@ void TLobby::send_selected_character() {
     d.h[6] = *(u16 *)(card + 0x21B4);
     d.w0 = *(u32 *)(card + 0x21B8);
     d.w1 = *(u32 *)(card + 0x21BC);
-    send_player_data_61__9TProtocolFPvPvPvPvPvPvPv(TLobby__protocol_instance, (void *)TAdSinglePlyChrSelectGC::get_char_index(0xFFFF), &d, &a, b, e, c);
+    send_player_data_61__9TProtocolFPvPvPvPvPvPvPv(protocol_instance, (void *)TAdSinglePlyChrSelectGC::get_char_index(0xFFFF), &d, &a, b, e, c);
 }
 void TLobby::queue_static_object_destruction() {
     join_lobby_controller->queue_destruction();
@@ -2219,7 +2217,7 @@ void TLobby::send_position_update() {
 
     event_counter = TAdSinglePlyChrSelectGC::increment_frame();
     temp_r4 = TAdSinglePlyChrSelectGC::get_player_count();
-    ((TProtocol *)(TLobby__protocol_instance))->send_character_save_info(temp_r4, event_counter);
+    protocol_instance->send_character_save_info(temp_r4, event_counter);
 }
 void TLobby::handle_state(int arg0) {
     s32 temp_r3;
@@ -2229,7 +2227,7 @@ void TLobby::handle_state(int arg0) {
         temp_r3 = TLobby__sub_80146740();
         switch (temp_r3) {
         case 0:
-            ((TProtocol *)(TLobby__protocol_instance))->send_server_time_request();
+            protocol_instance->send_server_time_request();
             return;
         case 1:
             TLobby::close_and_set_state_13(0x13);
@@ -2400,11 +2398,11 @@ void TLobby::make_players() {
     Ply_80136A8C *q;
     if (TLobby__sub_801A3E8C() != 0) {
         p = (Ply_80136A8C *)create_player_object(local_client_id, 0, (u8 *)TAdSinglePlyChrSelectGC::get_char_index(0xFFFF));
-        ((TLobby *)((u8 *)p + 0xDAC))->copy_header_struct((u8 *)TLobby__protocol_instance + 0x1900);
+        ((TLobby *)((u8 *)p + 0xDAC))->copy_header_struct(&protocol_instance->m_guildcard_tag);
         p->m6();
         strncpy(TLobby__player_names[local_client_id], p->m10(), 0x10);
         lobby_debug_printf_stub(lobby_debug_make_player_format, local_client_id);
-        ((TLobby *)TLobby__protocol_instance)->send_6F_burst_done();
+        ((TLobby *)protocol_instance)->send_6F_burst_done();
         data_805D5594 = 0xF;
         p = (Ply_80136A8C *)create_player_object(1 - local_client_id, 4, (u8 *)TAdSinglePlyChrSelectGC::get_char_index(0));
         if (p != NULL) {
@@ -2421,11 +2419,11 @@ void TLobby::make_players() {
         }
     } else if (local_client_id == designated_client_id) {
         p = (Ply_80136A8C *)create_player_object(local_client_id, 0, (u8 *)TAdSinglePlyChrSelectGC::get_char_index(0xFFFF));
-        ((TLobby *)((u8 *)p + 0xDAC))->copy_header_struct((u8 *)TLobby__protocol_instance + 0x1900);
+        ((TLobby *)((u8 *)p + 0xDAC))->copy_header_struct(&protocol_instance->m_guildcard_tag);
         p->m6();
         strncpy(TLobby__player_names[local_client_id], p->m10(), 0x10);
         lobby_debug_printf_stub(lobby_debug_make_player_format, local_client_id);
-        ((TLobby *)TLobby__protocol_instance)->send_6F_burst_done();
+        ((TLobby *)protocol_instance)->send_6F_burst_done();
         data_805D5594 = 0xF;
     }
 }
@@ -2471,7 +2469,7 @@ void TLobby::handle_lobby_enter(TPlyJoinLobbyEntry *ents, int n, int client_id, 
     set_floor_map_variant((saddr)(get_current_floor()), v4);
     event_theme_id = arg7;
     activate_keyboard();
-    TLobby__protocol_instance->m_recv_handlers.handle_1A_D5_recv_text = (recv_packet_handler_handle_1A_D5_recv_text)TLobby__sub_801371B0;
+    protocol_instance->m_recv_handlers.handle_1A_D5_recv_text = (recv_packet_handler_handle_1A_D5_recv_text)TLobby__sub_801371B0;
 }
 #pragma pop
 
@@ -2506,7 +2504,7 @@ void construct_lobby_players(Rec_801378AC *records, s32 count, int self_id, s32 
             }
         }
     }
-    TLobby__protocol_instance->m_recv_handlers.handle_06_recv_chat = (recv_packet_handler_handle_06_recv_chat)handle_chat_message__11TWindowCtrlFPc;
+    TLobby::protocol_instance->m_recv_handlers.handle_06_recv_chat = (recv_packet_handler_handle_06_recv_chat)handle_chat_message__11TWindowCtrlFPc;
     if (lobby_player_construction_window != NULL) {
         lobby_player_construction_window->queue_destruction();
         lobby_player_construction_window = NULL;
@@ -2719,8 +2717,8 @@ void TLobby::open_download_list_window(int count, void *entries) {
 
 #pragma push
 void TLobby::send_logout() {
-    if (TLobby__protocol_instance != NULL) {
-        TLobby__protocol_instance->send_logout();
+    if (protocol_instance != NULL) {
+        protocol_instance->send_logout();
     }
 }
 
@@ -2730,11 +2728,11 @@ void TLobby::send_logout() {
 
 #define CONNECT_801399B8(res, s)                                                                   \
     if (TKeyBoardControl__sub_8000F828() == 0) {                                                    \
-        res = socket_set_server_info(TLobby__protocol_instance, TLobby__data_805DB0B0, TLobby__data_805DB0B0, \
+        res = socket_set_server_info(TLobby::protocol_instance, TLobby__data_805DB0B0, TLobby__data_805DB0B0, \
                                      TLobby::init_serial_access(), (const char *)get_access_key_input_buffer(), \
                                      s[0].host, s[0].port);                                     \
     } else {                                                                                        \
-        res = socket_set_server_info(TLobby__protocol_instance, TLobby__data_805DB0B0, TLobby__data_805DB0B0, \
+        res = socket_set_server_info(TLobby::protocol_instance, TLobby__data_805DB0B0, TLobby__data_805DB0B0, \
                                      TLobby::init_serial_access(), (const char *)get_access_key_input_buffer(), \
                                      s[1].host, s[1].port);                                     \
     }
@@ -2832,55 +2830,55 @@ TLobby::TLobby(TObject *parent) : TObject(parent) {
     memset(TLobby__player_names, 0, 0xC0);
     memset(lobby_player_status_records, 0, 0xD50);
     protocol = new TProtocol(this, 0x36, current_language, TLobby::init_serial_access(), (char *)get_access_key_input_buffer(), (char *)TAdEnterPasswordGC__sub_8013ADE4());
-    TLobby__protocol_instance = protocol;
+    protocol_instance = protocol;
     protocol->m_recv_handlers.handle_unused_login = (recv_packet_handler_handle_unused_login)TLobby::handle_regist_check;
-    TLobby__protocol_instance->m_recv_handlers.handle_03_recv_regist = (recv_packet_handler_handle_03_recv_regist)TLobby::handle_register_name_result;
-    TLobby__protocol_instance->m_recv_handlers.handle_04_recv_login = (recv_packet_handler_handle_04_recv_login)TLobby::handle_login_result;
-    TLobby__protocol_instance->m_recv_handlers.handle_05_recv_logout = TLobby::queue_static_object_destruction;
-    TLobby__protocol_instance->m_recv_handlers.handle_06_recv_chat = NULL;
-    TLobby__protocol_instance->m_recv_handlers.handle_01_recv_error = (recv_packet_handler_handle_01_recv_error)TLobby__sub_80137C10;
-    TLobby__protocol_instance->m_recv_handlers.handle_07_A0_A1_recv_dir_list = (recv_packet_handler_handle_07_A0_A1_recv_dir_list)TLobby::open_ship_block_select_menu;
-    TLobby__protocol_instance->m_recv_handlers.handle_08_recv_game_list = (recv_packet_handler_handle_08_recv_game_list)TLobby__sub_80136E68;
-    TLobby__protocol_instance->m_recv_handlers.handle_11_recv_message = (recv_packet_handler_handle_11_recv_message)TLobby__sub_80137228;
-    TLobby__protocol_instance->m_recv_handlers.handle_0E_recv_start_game = NULL;
-    TLobby__protocol_instance->m_recv_handlers.unused7 = NULL;
-    TLobby__protocol_instance->m_recv_handlers.handle_64_recv_start_game3 = (recv_packet_handler_handle_64_recv_start_game3)TLobby::handle_game_join;
-    TLobby__protocol_instance->m_recv_handlers.unused8 = NULL;
-    TLobby__protocol_instance->m_recv_handlers.handle_67_recv_start_lobby2 = (recv_packet_handler_handle_67_recv_start_lobby2)TLobby::handle_lobby_enter;
-    TLobby__protocol_instance->m_recv_handlers.handle_1A_D5_recv_text = (recv_packet_handler_handle_1A_D5_recv_text)TLobby::open_scroll_text_window;
-    TLobby__protocol_instance->m_recv_handlers.handle_80_recv_generate_id = (recv_packet_handler_handle_80_recv_generate_id)TLobby__sub_80135FFC;
-    TLobby__protocol_instance->m_recv_handlers.handle_65_recv_burst_game = TLobby::on_game_player_add;
-    TLobby__protocol_instance->m_recv_handlers.handle_66_recv_exit_game = (recv_packet_handler_handle_66_recv_exit_game)TLobby::remove_player;
-    TLobby__protocol_instance->m_recv_handlers.handle_68_recv_burst_lobby = TLobby::on_lobby_player_add;
-    TLobby__protocol_instance->m_recv_handlers.handle_69_recv_exit_lobby = TLobby::retire_lobby_player;
-    TLobby__protocol_instance->m_recv_handlers.handle_81_recv_chat_message = (recv_packet_handler_handle_81_recv_chat_message)try_close__6TLobbyFPv;
-    TLobby__protocol_instance->m_recv_handlers.handle_41_recv_user_ans = (recv_packet_handler_handle_41_recv_user_ans)TLobby::forward_8024273C;
-    TLobby__protocol_instance->m_recv_handlers.handle_18_90_9A_recv_pso_regist_check = (recv_packet_handler_handle_18_90_9A_recv_pso_regist_check)TLobby::handle_verify_result;
-    TLobby__protocol_instance->m_recv_handlers.handle_92_9C_register_response_packet = (recv_packet_handler_handle_92_9C_register_response_packet)TLobby::handle_register_result;
-    TLobby__protocol_instance->m_recv_handlers.handle_95_request_character_data_packet = TLobby::send_selected_character;
-    TLobby__protocol_instance->m_recv_handlers.send_96_unused = TLobby::send_position_update;
-    TLobby__protocol_instance->m_recv_handlers.handle_97_checksum_reply_packet = (recv_packet_handler_handle_97_checksum_reply_packet)TLobby::handle_state;
-    TLobby__protocol_instance->m_recv_handlers.handle_B1_current_time_packet = TLobby::reset_lobby_state;
-    TLobby__protocol_instance->m_recv_handlers.handle_C0_choice_search_option_packet = TLobby__sub_80134DE8;
-    TLobby__protocol_instance->m_recv_handlers.handle_C4_choice_search_reply_packet = TLobby__sub_80134DC8;
-    TLobby__protocol_instance->m_recv_handlers.handle_A2_recv_quest_menu_list = copy_quest_list_data__16TQuestListOnlineFv;
-    TLobby__protocol_instance->m_recv_handlers.handle_A3_recv_quest_menu_info = TQuestListOnline::receive_quest_info;
-    TLobby__protocol_instance->m_recv_handlers.handle_44_recv_download_head = TQuestListOnline::begin_file_download;
-    TLobby__protocol_instance->m_recv_handlers.handle_13_recv_download = (recv_packet_handler_handle_13_recv_download)handle_quest_download_chunk__6TLobbyFv;
-    TLobby__protocol_instance->m_recv_handlers.handle_A4_recv_quest_list = (recv_packet_handler_handle_A4_recv_quest_list)TLobby::open_download_list_window;
-    TLobby__protocol_instance->m_recv_handlers.handle_A5_recv_quest_info = (recv_packet_handler_handle_A5_recv_quest_info)show_card_list_message;
-    TLobby__protocol_instance->m_recv_handlers.handle_A6_recv_vm_download_head = (recv_packet_handler_handle_A6_recv_vm_download_head)begin_file_download__22TQuestVmDownLoadServerFv;
-    TLobby__protocol_instance->m_recv_handlers.handle_A7_recv_vm_download = (recv_packet_handler_handle_A7_recv_vm_download)receive_file_chunk__22TQuestVmDownLoadServerFv;
-    TLobby__protocol_instance->m_recv_handlers.handle_B0_recv_emergency_call = (recv_packet_handler_handle_B0_recv_emergency_call)TLobby::disable_window_flags;
-    TLobby__protocol_instance->m_recv_handlers.handle_1F_recv_text_list = (recv_packet_handler_handle_1F_recv_text_list)TLobby::open_information_list;
-    TLobby__protocol_instance->m_recv_handlers.handle_88_player_arrow_color_list_packet = apply_lobby_markers__6TLobbyFv;
-    TLobby__protocol_instance->m_recv_handlers.handle_C5_player_challenge_data_packet = copy_player_records__6TLobbyFl;
-    TLobby__protocol_instance->m_recv_handlers.handle_D3_execute_trade_packet = handle_trade_received_items;
-    TLobby__protocol_instance->m_recv_handlers.handle_D4_trade_result_packet = (recv_packet_handler_handle_D4_trade_result_packet)TLobby::handle_reset_choice;
-    TLobby__protocol_instance->m_recv_handlers.handle_D1_advance_trade_state_packet = (recv_packet_handler_handle_D1_advance_trade_state_packet)TLobby::apply_trade_items;
-    TLobby__protocol_instance->m_recv_handlers.handle_D8_infoboard_packet = init_once__6TLobbyFPv;
-    TLobby__protocol_instance->m_recv_handlers.handle_DA_lobby_event_packet = set_lobby_event_theme;
-    TLobby__protocol_instance->m_recv_handlers.handle_AB_quest_stats_response_packet = TLobby__sub_80134A20;
+    protocol_instance->m_recv_handlers.handle_03_recv_regist = (recv_packet_handler_handle_03_recv_regist)TLobby::handle_register_name_result;
+    protocol_instance->m_recv_handlers.handle_04_recv_login = (recv_packet_handler_handle_04_recv_login)TLobby::handle_login_result;
+    protocol_instance->m_recv_handlers.handle_05_recv_logout = TLobby::queue_static_object_destruction;
+    protocol_instance->m_recv_handlers.handle_06_recv_chat = NULL;
+    protocol_instance->m_recv_handlers.handle_01_recv_error = (recv_packet_handler_handle_01_recv_error)TLobby__sub_80137C10;
+    protocol_instance->m_recv_handlers.handle_07_A0_A1_recv_dir_list = (recv_packet_handler_handle_07_A0_A1_recv_dir_list)TLobby::open_ship_block_select_menu;
+    protocol_instance->m_recv_handlers.handle_08_recv_game_list = (recv_packet_handler_handle_08_recv_game_list)TLobby__sub_80136E68;
+    protocol_instance->m_recv_handlers.handle_11_recv_message = (recv_packet_handler_handle_11_recv_message)TLobby__sub_80137228;
+    protocol_instance->m_recv_handlers.handle_0E_recv_start_game = NULL;
+    protocol_instance->m_recv_handlers.unused7 = NULL;
+    protocol_instance->m_recv_handlers.handle_64_recv_start_game3 = (recv_packet_handler_handle_64_recv_start_game3)TLobby::handle_game_join;
+    protocol_instance->m_recv_handlers.unused8 = NULL;
+    protocol_instance->m_recv_handlers.handle_67_recv_start_lobby2 = (recv_packet_handler_handle_67_recv_start_lobby2)TLobby::handle_lobby_enter;
+    protocol_instance->m_recv_handlers.handle_1A_D5_recv_text = (recv_packet_handler_handle_1A_D5_recv_text)TLobby::open_scroll_text_window;
+    protocol_instance->m_recv_handlers.handle_80_recv_generate_id = (recv_packet_handler_handle_80_recv_generate_id)TLobby__sub_80135FFC;
+    protocol_instance->m_recv_handlers.handle_65_recv_burst_game = TLobby::on_game_player_add;
+    protocol_instance->m_recv_handlers.handle_66_recv_exit_game = (recv_packet_handler_handle_66_recv_exit_game)TLobby::remove_player;
+    protocol_instance->m_recv_handlers.handle_68_recv_burst_lobby = TLobby::on_lobby_player_add;
+    protocol_instance->m_recv_handlers.handle_69_recv_exit_lobby = TLobby::retire_lobby_player;
+    protocol_instance->m_recv_handlers.handle_81_recv_chat_message = (recv_packet_handler_handle_81_recv_chat_message)try_close__6TLobbyFPv;
+    protocol_instance->m_recv_handlers.handle_41_recv_user_ans = (recv_packet_handler_handle_41_recv_user_ans)TLobby::forward_8024273C;
+    protocol_instance->m_recv_handlers.handle_18_90_9A_recv_pso_regist_check = (recv_packet_handler_handle_18_90_9A_recv_pso_regist_check)TLobby::handle_verify_result;
+    protocol_instance->m_recv_handlers.handle_92_9C_register_response_packet = (recv_packet_handler_handle_92_9C_register_response_packet)TLobby::handle_register_result;
+    protocol_instance->m_recv_handlers.handle_95_request_character_data_packet = TLobby::send_selected_character;
+    protocol_instance->m_recv_handlers.send_96_unused = TLobby::send_position_update;
+    protocol_instance->m_recv_handlers.handle_97_checksum_reply_packet = (recv_packet_handler_handle_97_checksum_reply_packet)TLobby::handle_state;
+    protocol_instance->m_recv_handlers.handle_B1_current_time_packet = TLobby::reset_lobby_state;
+    protocol_instance->m_recv_handlers.handle_C0_choice_search_option_packet = TLobby__sub_80134DE8;
+    protocol_instance->m_recv_handlers.handle_C4_choice_search_reply_packet = TLobby__sub_80134DC8;
+    protocol_instance->m_recv_handlers.handle_A2_recv_quest_menu_list = copy_quest_list_data__16TQuestListOnlineFv;
+    protocol_instance->m_recv_handlers.handle_A3_recv_quest_menu_info = TQuestListOnline::receive_quest_info;
+    protocol_instance->m_recv_handlers.handle_44_recv_download_head = TQuestListOnline::begin_file_download;
+    protocol_instance->m_recv_handlers.handle_13_recv_download = (recv_packet_handler_handle_13_recv_download)handle_quest_download_chunk__6TLobbyFv;
+    protocol_instance->m_recv_handlers.handle_A4_recv_quest_list = (recv_packet_handler_handle_A4_recv_quest_list)TLobby::open_download_list_window;
+    protocol_instance->m_recv_handlers.handle_A5_recv_quest_info = (recv_packet_handler_handle_A5_recv_quest_info)show_card_list_message;
+    protocol_instance->m_recv_handlers.handle_A6_recv_vm_download_head = (recv_packet_handler_handle_A6_recv_vm_download_head)begin_file_download__22TQuestVmDownLoadServerFv;
+    protocol_instance->m_recv_handlers.handle_A7_recv_vm_download = (recv_packet_handler_handle_A7_recv_vm_download)receive_file_chunk__22TQuestVmDownLoadServerFv;
+    protocol_instance->m_recv_handlers.handle_B0_recv_emergency_call = (recv_packet_handler_handle_B0_recv_emergency_call)TLobby::disable_window_flags;
+    protocol_instance->m_recv_handlers.handle_1F_recv_text_list = (recv_packet_handler_handle_1F_recv_text_list)TLobby::open_information_list;
+    protocol_instance->m_recv_handlers.handle_88_player_arrow_color_list_packet = apply_lobby_markers__6TLobbyFv;
+    protocol_instance->m_recv_handlers.handle_C5_player_challenge_data_packet = copy_player_records__6TLobbyFl;
+    protocol_instance->m_recv_handlers.handle_D3_execute_trade_packet = handle_trade_received_items;
+    protocol_instance->m_recv_handlers.handle_D4_trade_result_packet = (recv_packet_handler_handle_D4_trade_result_packet)TLobby::handle_reset_choice;
+    protocol_instance->m_recv_handlers.handle_D1_advance_trade_state_packet = (recv_packet_handler_handle_D1_advance_trade_state_packet)TLobby::apply_trade_items;
+    protocol_instance->m_recv_handlers.handle_D8_infoboard_packet = init_once__6TLobbyFPv;
+    protocol_instance->m_recv_handlers.handle_DA_lobby_event_packet = set_lobby_event_theme;
+    protocol_instance->m_recv_handlers.handle_AB_quest_stats_response_packet = TLobby__sub_80134A20;
     TLobby__data_805D4E30 = 0;
 }
 saddr TLobby::get_seq_phase(int id) { return get_online_message_text(id); }

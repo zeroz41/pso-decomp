@@ -19,7 +19,6 @@ char *fn_80076BC4(s32 *text);
 char *fn_80076BC4(s32 *text) { return (char *)text; }
 }
 extern s32 local_client_id;
-extern void *TLobby__protocol_instance;
 void submit_chat_text(u8 *lobby);
 void submit_chat_text(u8 *lobby) {
     void *player;
@@ -29,7 +28,7 @@ void submit_chat_text(u8 *lobby) {
         if (get_main_phase() == 0xF) {
             const TPlyGuildCardTag &made = TPlyGuildCardTag(0, 0);
             Tag_80076BC8 tmp = *(Tag_80076BC8 *)&made;
-            send_chat__9TProtocolFR16TPlyGuildCardTagPc(TLobby__protocol_instance, (TPlyGuildCardTag *)&tmp, lobby);
+            send_chat__9TProtocolFR16TPlyGuildCardTagPc(TLobby::protocol_instance, (TPlyGuildCardTag *)&tmp, lobby);
         } else {
             TWindowCtrl::open(((TObjBase *)(player))->get_entity_id(), (saddr)lobby, 0xCB);
         }

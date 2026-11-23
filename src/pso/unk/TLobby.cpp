@@ -1,6 +1,7 @@
 #include "types.h"
 #include <string.h>
 #include "pso/unk/TLobby.h"
+#include "pso/network/TProtocol.h"
 #include "pso/system/task/TObject.h"
 #include "pso/ui/frontend/TAdScrollWinGC.h"
 #include "pso/player/TObjPlayer.h"
@@ -20,10 +21,7 @@ extern "C" {
 
 extern u8 lobby_scroll_text_buffer[];
 extern void *lobby_scroll_text_window;
-extern saddr tl_window;
-void handle_game_join__6TLobbyFPv();
 
-extern saddr TLobby__protocol_instance;
 
 void TLobby::dispatch_by_index(s32 arg0) {
     s32 var_r3;
@@ -37,7 +35,7 @@ void TLobby::dispatch_by_index(s32 arg0) {
         clear_state();
         return;
     case 1:
-        TAdEnterSerialAccessGC::store_serial_access_key(TLobby__protocol_instance + 0x3F8A, TLobby__protocol_instance + 0x3F9B, TLobby__protocol_instance + 0x3F3A);
+        TAdEnterSerialAccessGC::store_serial_access_key((saddr)protocol_instance->m_serial_number2, (saddr)protocol_instance->m_access_key2, (saddr)protocol_instance->m_password);
         return;
     case 2:
         TAdEnterSerialAccessGC::clear_serial_buffer();
@@ -50,7 +48,7 @@ void TLobby::open_scroll_text_window(saddr src) {
     if (lobby_scroll_text_window == 0) {
         strncpy((char *)lobby_scroll_text_buffer, (const char *)src, 0x1000);
         lobby_scroll_text_buffer[0xFFF] = 0;
-        lobby_scroll_text_window = new TAdScrollWinGC((TObject *)tl_window, 2, (saddr)lobby_scroll_text_buffer);
+        lobby_scroll_text_window = new TAdScrollWinGC(tl_window, 2, (saddr)lobby_scroll_text_buffer);
     }
     data_805D5594 = 0x1A;
 }
@@ -120,7 +118,7 @@ s32 TLobby::get_option_state() {
 }
 
 void TLobby::install_game_join_handlers() {
-    *(void (**)())(TLobby__protocol_instance + 0xBC04) = handle_game_join__6TLobbyFPv;
-    *(void (**)(TPlyJoinLobbyEntry *, int, int))(TLobby__protocol_instance + 0xBC18) = TLobby::on_game_player_add;
+    protocol_instance->m_recv_handlers.handle_64_recv_start_game3 = (recv_packet_handler_handle_64_recv_start_game3)TLobby::handle_game_join;
+    protocol_instance->m_recv_handlers.handle_65_recv_burst_game = TLobby::on_game_player_add;
 }
 }

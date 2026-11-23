@@ -194,9 +194,9 @@ void TLobby__sub_8001D9E8(void* p) { *(s32*)((char*)p + 0x4) = 0; *(s32*)((char*
 void TLobby::sync_auto_reply_state() {
     if ((auto_reply_flags & 4) || (auto_reply_flags & 1) != ((auto_reply_flags >> 1) & 1)) {
         if (((s32 (*)(void))get_flag_bit0__6TLobbyFv)() != 0) {
-            ((TLobby *)TLobby__protocol_instance)->send_text_packet_c7((char *)(TLobby::get_card_window_area()));
+            ((TLobby *)protocol_instance)->send_text_packet_c7((char *)(TLobby::get_card_window_area()));
         } else {
-            TLobby__protocol_instance->send_disable_auto_reply();
+            protocol_instance->send_disable_auto_reply();
         }
         auto_reply_flags &= ~4;
         auto_reply_flags = ((s32 (*)(void))get_flag_bit0__6TLobbyFv)() != 0 ? (auto_reply_flags | 2) : (auto_reply_flags & ~2);

@@ -188,7 +188,7 @@ void TQuestListOnline::vfunc_11() {
     }
 }
 
-void TQuestListOnline::request_menu() { TLobby__protocol_instance->send_quest_menu_request(); online_quest_bin_data = NULL; quest_bin_decompressed_size = 0; online_quest_dat_buffer = NULL; online_quest_list_decompressed_size = 0; set_state((saddr)((void*)12)); }
+void TQuestListOnline::request_menu() { TLobby::protocol_instance->send_quest_menu_request(); online_quest_bin_data = NULL; quest_bin_decompressed_size = 0; online_quest_dat_buffer = NULL; online_quest_list_decompressed_size = 0; set_state((saddr)((void*)12)); }
 
 void TQuestListOnline::build_list_window() {
     s32 id;
@@ -285,7 +285,7 @@ void TQuestListOnline::handle_list_selection() {
                 online_quest_list_state = 0;
                 break;
             }
-            send_action__9TProtocolFR13GameListEntryUcPcPc(TLobby__protocol_instance, selected_entry, get_unlocked_tier__16TQuestListOnlineFv(this), "", "");
+            send_action__9TProtocolFR13GameListEntryUcPcPc(TLobby::protocol_instance, selected_entry, get_unlocked_tier__16TQuestListOnlineFv(this), "", "");
             if (description_window != NULL) {
                 description_window->close();
                 description_window = NULL;
@@ -298,7 +298,7 @@ void TQuestListOnline::handle_list_selection() {
         } else if (selection_stage == 1) {
             s32 idx = list_window->get_cursor_value();
             __as__16TPlyGuildCardTagFRC16TPlyGuildCardTag(selected_entry, &TQuestListOnline__quest_list_buffer->entries[idx].tag);
-            TLobby__protocol_instance->send_info((TPlyGuildCardTag &)selected_entry);
+            TLobby::protocol_instance->send_info((TPlyGuildCardTag &)selected_entry);
             set_state(0xC);
             selection_stage++;
             return;
@@ -351,7 +351,7 @@ void TQuestListOnline::handle_quest_confirm() {
                 if (this->sequence != NULL) {
                     (*(VObj_18_802178E4 * *)&this->sequence)->m7(0x14, 1);
                 }
-                send_action__9TProtocolFR13GameListEntryUcPcPc(TLobby__protocol_instance, selected_entry, 0, "", "");
+                send_action__9TProtocolFR13GameListEntryUcPcPc(TLobby::protocol_instance, selected_entry, 0, "", "");
                 this->confirm_window->queue_destruction();
                 this->confirm_window = NULL;
                 if (this->info_window != NULL) {

@@ -3,11 +3,11 @@
 #include "pso/player/TPlyGuildCardTag_8007B434.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
 #include "pso/unk/TLobby.h"
+#include "pso/network/TProtocol.h"
 #include "pso/ui/Language.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 
 
-extern u8 *TLobby__protocol_instance;
 void __as__16TPlyGuildCardTagFRC16TPlyGuildCardTag(void *arg0, void *src) {
     *(u8 *)((s8 *)arg0 + 0) = (u8) *(u8 *)((s8 *)src + 0);
     *(u8 *)((s8 *)arg0 + 1) = (u8) *(u8 *)((s8 *)src + 1);
@@ -27,10 +27,10 @@ void TLobby::fill_guild_card_from_char(s32 arg1) {
             *(u8 *)((s8 *)((u8 *)this) + 0x8F) = (u8) *(u8 *)((s8 *)temp_r31 + 0x31);
             *(u8 *)((s8 *)((u8 *)this) + 0x8E) = (u8) *(u8 *)((s8 *)temp_r31 + 0x30);
             *(s8 *)((s8 *)((u8 *)this) + 0x8D) = (s8) current_language;
-            if ((void *) TLobby__protocol_instance != NULL) {
-                u8 *src = TLobby__protocol_instance + 0x1900;
-                if ((u32) *(u32 *)((s8 *)src + 4) != 0U) {
-                    __as__16TPlyGuildCardTagFRC16TPlyGuildCardTag(this, (void *) src);
+            if (protocol_instance != NULL) {
+                TPlyGuildCardTag *src = &protocol_instance->m_guildcard_tag;
+                if (src->m_guildcard_number != 0) {
+                    __as__16TPlyGuildCardTagFRC16TPlyGuildCardTag(this, src);
                 }
             }
         }

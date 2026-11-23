@@ -26,7 +26,6 @@
 extern "C" {
 s32 TProtocol__send_60(int, int, int);
 s32 dispatch_6x_subcommand(void *);
-extern uaddr TLobby__protocol_instance;
 s32 load_texture_list(s32 **);
 s32 append_command_to_batch_buffer(void *, s32);
 u8 *TQuestVmDownLoadServer__sub_8007EBDC(s32, s32);
@@ -47,8 +46,8 @@ void TLobby::send_command(u32 arg1) {
         dispatching_own_subcommand = 0;
         return;
     }
-    if ((u32) TLobby__protocol_instance != 0U) {
-        send_pso_data_long2__9TProtocolFcR17long_game_commandUl((void *)TLobby__protocol_instance, arg1, this, sp8);
+    if (protocol_instance != NULL) {
+        send_pso_data_long2__9TProtocolFcR17long_game_commandUl((void *)protocol_instance, arg1, this, sp8);
     }
 }
 
@@ -63,8 +62,8 @@ void send_subcommand_to_leader(void *cmd) {
         dispatching_own_subcommand = 0;
         return;
     }
-    if ((u32) TLobby__protocol_instance != 0U) {
-        ((TProtocol *)TLobby__protocol_instance)->send_subcommand_to_client((s32)designated_client_id, (s8 *)src, (s32)len);
+    if (TLobby::protocol_instance != NULL) {
+        TLobby::protocol_instance->send_subcommand_to_client((s32)designated_client_id, (s8 *)src, (s32)len);
     }
 }
 
@@ -77,15 +76,15 @@ void TLobby::send_subcommand_to_client(u32 flag) {
         dispatching_own_subcommand = 0;
         return;
     }
-    if ((u32) TLobby__protocol_instance != 0U) {
-        ((TProtocol *)TLobby__protocol_instance)->send_subcommand_to_client((s32)flag, (s8 *)this, (s32)size);
+    if (protocol_instance != NULL) {
+        protocol_instance->send_subcommand_to_client((s32)flag, (s8 *)this, (s32)size);
     }
 }
 
 void TLobby::send_60_sized() {
     int size = ((u8 *)this)[1] * 4;
-    if (TLobby__protocol_instance != 0) {
-        TProtocol__send_60(TLobby__protocol_instance, (saddr)this, size);
+    if (protocol_instance != NULL) {
+        TProtocol__send_60((saddr)protocol_instance, (saddr)this, size);
     }
 }
 
@@ -96,7 +95,7 @@ void send_subcommand(void *cmd) {
     u8 *var_r3;
     u8 *src;
     var_r31 = arg0;
-    src = (u8 *)((*(u8 * *)&TLobby__protocol_instance));
+    src = (u8 *)TLobby::protocol_instance;
     len = *(u8 *)((s8 *)arg0 + 1) * 4;
     if (src != NULL) {
         var_r3 = src;

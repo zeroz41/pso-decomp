@@ -76,7 +76,6 @@ struct List_80214058 { u8 pad[0x28]; void *f28; void *f2c; void *f30; void *f34;
 
 extern "C" {
 
-extern saddr TLobby__protocol_instance;
 
 }
 
@@ -327,7 +326,7 @@ void THunterGuildSeqOnline_Server::close_window() {
     case 0:
         if (sub_80223A48() == 0 && sub_802239EC() == 0) return;
         if (is_quest_active() == 0) {
-            ((TProtocol *)TLobby__protocol_instance)->send_quest_menu_closed();
+            TLobby::protocol_instance->send_quest_menu_closed();
         }
         TShopSequence::close_window();
         queue_destruction();

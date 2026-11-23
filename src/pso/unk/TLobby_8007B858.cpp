@@ -232,7 +232,6 @@ void TLobby__sub_8007BBEC(void) { quest_collision_next_id = 0; }
 
 void TLobby__sub_8007BBF8(void) { quest_collision_next_id = 0; }
 
-extern saddr TLobby__protocol_instance;
 
 saddr TWindowSubComCard::get_card_slot(s32 arg0) {
     s32 state;
@@ -283,5 +282,5 @@ void TLobby::send_status_packet() {
     char lobby[0x84];
 
     ((TLobby *)lobby)->collect_active_card_ids();
-    ((TLobby *)TLobby__protocol_instance)->send_c6_packet((s32 *) lobby);
+    ((TLobby *)protocol_instance)->send_c6_packet((s32 *) lobby);
 }

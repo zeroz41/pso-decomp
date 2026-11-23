@@ -13,6 +13,7 @@ struct ShortMailEntry;
 
 struct NJS_TEXLIST;
 class TObjPlayer;
+class TProtocol;
 s32 pso_load_texture(NJS_TEXLIST *texlist);
 
 struct TLobbyFloorItemEntry {
@@ -1139,6 +1140,7 @@ struct TLobby : public TObject {
     static void update_all(int);
 
     // Lobby state shared by the lobby screens.
+    static TProtocol *protocol_instance;
     static void *list_window;
     static s32 data_805D5594;
     static uaddr current_dialog_window;

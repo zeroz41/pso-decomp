@@ -11,7 +11,6 @@ struct TLobby;
 struct TWindowMakeTeam;
 struct TWindowMenu;
 
-extern TProtocol *TLobby__protocol_instance;
 extern TWindowMenu *TLobby_warp_menu_window;
 extern TWindowMenu *lobby_com_card_window;
 extern TWindowMenu *lobby_make_team_menu_window;

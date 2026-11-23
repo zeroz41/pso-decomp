@@ -586,7 +586,7 @@ void qst_op_prepare_statistic(void) {
 }
 
 void qst_op_send_statistic() {
-    send_statistic_aa(TLobby__protocol_instance, qst_statistic_id, qst_statistic_arg1, qst_statistic_arg2, (void *) qst_args);
+    send_statistic_aa(TLobby::protocol_instance, qst_statistic_id, qst_statistic_arg1, qst_statistic_arg2, (void *) qst_args);
 }
 
 void qst_op_arg_pushs(int a0) { int old = qst_arg_count; qst_arg_count = old + 1; qst_args[old] = a0; }
@@ -2024,7 +2024,7 @@ void qst_op_get_dl_status(s32 reg) {
 }
 
 void qst_op_file_dl_req(void) {
-    send_download_head_d7(TLobby__protocol_instance, (int) ((u8) qst_args[0]), (int) (qst_args[1]));
+    send_download_head_d7(TLobby::protocol_instance, (int) ((u8) qst_args[0]), (int) (qst_args[1]));
     TLobby__sub_801F3614();
     TLobby__sub_8032CDEC();
 }

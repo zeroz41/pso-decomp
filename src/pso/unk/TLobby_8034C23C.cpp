@@ -11,22 +11,21 @@
 extern s32 info_board_state_flags;
 extern u32 information_board_response_buffer;
 
-extern uaddr TLobby__protocol_instance;
 
 void TLobby::init_once_data(u32 arg0) {
     if ((u32) information_board_response_buffer == 0U) {
         information_board_response_buffer = arg0;
         info_board_state_flags &= 0xFFFFFFFD;
-        if ((u32) TLobby__protocol_instance != 0U) {
-            ((TProtocol *)TLobby__protocol_instance)->send_info_board_request();
+        if (protocol_instance != NULL) {
+            protocol_instance->send_info_board_request();
         }
     }
 }
 
 void TLobby::flush_pending_send() {
     if (info_board_state_flags & 1) {
-        if ((u32) TLobby__protocol_instance != 0U) {
-            ((TLobby *)TLobby__protocol_instance)->send_text_packet_D9((char *)(TLobby::get_card_window_field()));
+        if (protocol_instance != NULL) {
+            ((TLobby *)protocol_instance)->send_text_packet_D9((char *)(TLobby::get_card_window_field()));
         }
         info_board_state_flags &= 0xFFFFFFFE;
     }

@@ -96,7 +96,7 @@ void TLobby::update_trade_list_send() {
         break;
     case 6:
         ((TLobby *)sp8)->build_trade_item_list();
-        TLobby::send_trade_list(TLobby__protocol_instance, sp8);
+        TLobby::send_trade_list(protocol_instance, sp8);
         trade_protocol_flags |= 0x400;
         if ((uaddr) trade_main_window != 0U) {
             TWindowSubTradeMain__sub_80330A84((void *)trade_main_window);
@@ -360,7 +360,7 @@ void TLobby::apply_trade_items() {
                 }
                 if ((flag == 0) || (TAdSinglePlyChrSelectGC::load_character_from_card() == 0)) {
                     trade_proposal_state = 8;
-                    TLobby__protocol_instance->send_trade_ready();
+                    protocol_instance->send_trade_ready();
                 }
             }
         }
@@ -433,7 +433,7 @@ void handle_6xA6_modify_trade_proposal(u8 *message_window) {
 
 void TLobby::clear_flag400() {
     if (trade_protocol_flags & 0x400) {
-        TLobby__protocol_instance->send_cancel_trade();
+        protocol_instance->send_cancel_trade();
         trade_protocol_flags &= 0xFFFFFBFF;
     }
 }
@@ -455,7 +455,7 @@ void TLobby::cancel_trade() {
         break;
     case 7:
     case 8:
-        TLobby__protocol_instance->send_cancel_trade();
+        protocol_instance->send_cancel_trade();
         break;
     case 9:
         break;
@@ -731,7 +731,7 @@ void handle_trade_state_cancel__6TLobbyFPv(O_802D33C0 *self) {
     case 3:
         break;
     case 4:
-        TLobby__protocol_instance->send_cancel_trade();
+        TLobby::protocol_instance->send_cancel_trade();
         break;
     }
 }

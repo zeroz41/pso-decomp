@@ -61,7 +61,6 @@ typedef struct Hdr_8022525C
 } Hdr_8022525C;
 
 extern "C" {
-extern u8 *TLobby__protocol_instance;
 
 ShortMailEntry lbl_80513F70[8];
 s32 lbl_805D6270;
@@ -73,15 +72,15 @@ void TLobby::send_simple_mail(s32 arg0, void *src) {
     Tag_80225828 t;
     saddr mode;
     ((TLobby *)(&t))->init_guild_card_tag();
-    if (TLobby__protocol_instance != 0) {
+    if (protocol_instance != NULL) {
         mode = TWindowSubComCard::get_keyboard_mode();
-        __as__16TPlyGuildCardTagFRC16TPlyGuildCardTag(&t.b[4], TLobby__protocol_instance + 0x1900);
+        __as__16TPlyGuildCardTagFRC16TPlyGuildCardTag(&t.b[4], &protocol_instance->m_guildcard_tag);
         strncpy((char *)&t.b[0xC], reinterpret_cast<GuildCardEntry *>(mode)->get_name(), 0x17);
         *(s32 *)&t.b[0x1C] = arg0;
         t.b[0x23] = 0;
         strncpy((char *)&t.b[0x20], (char *)src, 0xAB);
         t.b[0xCB] = 0;
-        ((TProtocol *)TLobby__protocol_instance)->send_simple_mail(*(TChatMessage *)&t);
+        protocol_instance->send_simple_mail(*(TChatMessage *)&t);
     }
 }
 

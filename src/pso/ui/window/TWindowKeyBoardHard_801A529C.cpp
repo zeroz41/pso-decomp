@@ -11,7 +11,6 @@
 
 extern "C" {
 u16 to_be_uint16_t__FUs(u16);
-extern void *TLobby__protocol_instance;
 saddr deferred_packet_buffer;
 s32 deferred_packet_buffer_used;
 s32 lbl_805D5D00;
@@ -56,7 +55,7 @@ void TLobby::drain_deferred_packets() {
         if (p[0] == 0) {
             break;
         }
-        ((TProtocol *)TLobby__protocol_instance)->handle_command((union packet *)p);
+        protocol_instance->handle_command((union packet *)p);
         deferred_packet_buffer_used += n;
     }
 }
