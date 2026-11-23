@@ -901,7 +901,7 @@ void NetDispatchSocketEvent(s16 v, NetSocketEventCallback cb, s32 type, s16 code
 }
 
 s16 TLobby__sub_80422F70(s16 iface, s32 hdr_src, s32 len, saddr buf) {
-    NetBufferRef sp18;
+    NetBufferRef ref;
     s16 first;
     s16 second;
     s16 total;
@@ -910,13 +910,13 @@ s16 TLobby__sub_80422F70(s16 iface, s32 hdr_src, s32 len, saddr buf) {
     }
     total = 0;
     lock_mutex(network_dispatch_state.lock_handle);
-    init_packet_header(&sp18, hdr_src);
-    first = copy_ipv4_interface_addresses(iface, &sp18, (int)len, (void *)buf);
+    init_packet_header(&ref, hdr_src);
+    first = copy_ipv4_interface_addresses(iface, &ref, (int)len, (void *)buf);
     if (first > 0) {
         total = first;
         len -= first * 0x1C;
     }
-    second = TLobby__sub_80412058(iface, &sp18, (int)len, (void *)buf);
+    second = TLobby__sub_80412058(iface, &ref, (int)len, (void *)buf);
     if (second > 0) {
         total += second;
     }

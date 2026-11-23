@@ -120,26 +120,26 @@ asm void transform_point_by_current_matrix(const f32 *src, Vec *dst) {
 
 void TObjPlayer::concat_quaternion_rotation() {
     f32 *arg0 = (f32 *)this;
-    Mtx34 sp18;
+    Mtx34 mtx;
     Q_803D98E4 q;
     q.w = arg0[0];
     q.x = arg0[1];
     q.y = arg0[2];
     q.z = arg0[3];
-    PSMTXQuat(sp18, (const PSQuaternion *)&q);
-    PSMTXConcat(*current_matrix, sp18, *current_matrix);
+    PSMTXQuat(mtx, (const PSQuaternion *)&q);
+    PSMTXConcat(*current_matrix, mtx, *current_matrix);
 }
 }
 
 void apply_quat_rotation(f32 farg0, f32 *xyz) {
-    Mtx34 sp18;
+    Mtx34 mtx;
     Q_803D993C q;
     q.w = farg0;
     q.x = xyz[0];
     q.y = xyz[1];
     q.z = xyz[2];
-    PSMTXQuat(sp18, (const PSQuaternion *)&q);
-    PSMTXConcat(*current_matrix, sp18, *current_matrix);
+    PSMTXQuat(mtx, (const PSQuaternion *)&q);
+    PSMTXConcat(*current_matrix, mtx, *current_matrix);
 }
 
 extern "C" {

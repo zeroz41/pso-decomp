@@ -1308,11 +1308,11 @@ u8 *TObjChara::update_actor_ground_y() {
     Vec stack;
     f32 temp_f1;
     CsnHit *hit;
-    player_stats *temp_r6;
+    player_stats *stat_block;
     stack.x = *(f32 *)((s8 *)((u8 *)this) + 0x38);
-    temp_r6 = this->stat_block;
+    stat_block = this->stat_block;
     temp_f1 = *(f32 *)((s8 *)((u8 *)this) + 0x3C);
-    stack.y = temp_f1 + temp_r6->proportions;
+    stack.y = temp_f1 + stat_block->proportions;
     stack.z = *(f32 *)((s8 *)((u8 *)this) + 0x40);
     hit = csnVectorUnder(&stack, ground_candidates.groups, 0x15);
     if (hit == NULL) {
@@ -1324,13 +1324,13 @@ u8 *TObjChara::update_actor_ground_y() {
 
 u8 *TObjChara::update_actor_ground_y_at(Vec *pos) {
     Vec stack;
-    f32 temp_f1;
+    f32 y;
     CsnHit *hit;
-    player_stats *temp_r6;
+    player_stats *stat_block;
     stack.x = pos->x;
-    temp_r6 = this->stat_block;
-    temp_f1 = pos->y;
-    stack.y = temp_f1 + temp_r6->proportions;
+    stat_block = this->stat_block;
+    y = pos->y;
+    stack.y = y + stat_block->proportions;
     stack.z = pos->z;
     hit = csnVectorUnder(&stack, ground_candidates.groups, 0x15);
     if (hit == NULL) {
@@ -2484,16 +2484,16 @@ void TObjChara::apply_attack_stat_status(void *arg1_arg) {
     StatStatusReceipt_80014E74 *arg1 = (StatStatusReceipt_80014E74 *)arg1_arg;
     f32 var_f31;
     f32 temp_f30;
-    f32 temp_f29;
+    f32 status_effect_amount;
 
     if ((s32) arg1->kind != 0xB) {
         var_f31 = (0.01f) * ((1.3f) * arg1->power + (1e+01f));
     } else {
         var_f31 = (-0.01f) * ((1.3f) * arg1->power + (1e+01f));
     }
-    temp_f29 = this->get_status_effect_amount(2);
+    status_effect_amount = this->get_status_effect_amount(2);
     temp_f30 = ((f32 (*)(f32))fabs_float)(var_f31);
-    if (!(((f32 (*)(f32))fabs_float)(temp_f29) > temp_f30)) {
+    if (!(((f32 (*)(f32))fabs_float)(status_effect_amount) > temp_f30)) {
         temp_f30 = -this->get_status_effect_amount(2);
         {
             f32 v = this->get_base_atp();
@@ -2521,16 +2521,16 @@ void TObjChara::apply_defense_stat_status(void *receipt_arg) {
     StatStatusReceipt_80014E74 *receipt = (StatStatusReceipt_80014E74 *)receipt_arg;
     f32 temp_f31;
     f32 var_f30;
-    f32 temp_f29;
+    f32 status_effect_amount;
 
     if (receipt->kind != 0xC) {
         var_f30 = (0.01f) * ((1.3f) * receipt->power + (1e+01f));
     } else {
         var_f30 = (-0.01f) * ((1.3f) * receipt->power + (1e+01f));
     }
-    temp_f29 = this->get_status_effect_amount(3);
+    status_effect_amount = this->get_status_effect_amount(3);
     temp_f31 = ((f32 (*)(f32))fabs_float)(var_f30);
-    if (!(((f32 (*)(f32))fabs_float)(temp_f29) > temp_f31)) {
+    if (!(((f32 (*)(f32))fabs_float)(status_effect_amount) > temp_f31)) {
         temp_f31 = -this->get_status_effect_amount(3);
         {
             f32 v = this->get_base_dfp();
@@ -3673,7 +3673,7 @@ f32 TObjChara::receive_weapon_special_attack(void *attacker, void *collision) {
 #undef CLEARCOLL_W24
 void apply_actor_gravity(TObjEnemy *enemy, s32 *arg1, f32 hover_height) {
     Vec position;
-    f32 temp_f1;
+    f32 y;
     s32 temp_r31;
     ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&position.x, (u8 *)enemy + 0x38);
     temp_r31 = ((s32 (*)(void *, void *, void *))project_actor_to_ground)(enemy, &position.x, (u8 *)enemy + 0x248);
@@ -3683,10 +3683,10 @@ void apply_actor_gravity(TObjEnemy *enemy, s32 *arg1, f32 hover_height) {
     if (temp_r31 != 0) {
         ((TObjEnemy *)enemy)->velocity.y += (-0.10888889f);
         *(f32 *)((s8 *)enemy + 0x3C) = (f32) (*(f32 *)((s8 *)enemy + 0x3C) + ((TObjEnemy *)enemy)->velocity.y);
-        temp_f1 = position.y + hover_height;
-        position.y = temp_f1;
-        if (*(f32 *)((s8 *)enemy + 0x3C) <= temp_f1) {
-            *(f32 *)((s8 *)enemy + 0x3C) = temp_f1;
+        y = position.y + hover_height;
+        position.y = y;
+        if (*(f32 *)((s8 *)enemy + 0x3C) <= y) {
+            *(f32 *)((s8 *)enemy + 0x3C) = y;
             ((TObjEnemy *)enemy)->velocity.y = 0.0f;
             enemy->actorFlags = (s32) (enemy->actorFlags | 0x800000);
             return;
@@ -3808,16 +3808,16 @@ void TObjPlayer::set_hp_clamped(s16 arg1) {
 }
 
 s32 TObjPlayer::clamp_hp_value(s16 *arg1) {
-    s16 temp_r0;
+    s16 hpmax;
     s16 temp_r5;
     temp_r5 = *arg1;
     if (temp_r5 < 0) {
         *arg1 = 0;
         return 0;
     }
-    temp_r0 = this->hpmax;
-    if (temp_r5 > temp_r0) {
-        *arg1 = temp_r0;
+    hpmax = this->hpmax;
+    if (temp_r5 > hpmax) {
+        *arg1 = hpmax;
         return 0;
     }
     return 1;
@@ -3901,16 +3901,16 @@ int TObjPlayer::get_tp_materials_clamped() {
 }
 
 s32 TObjChara::add_actor_exp(s32 arg1) {
-  player_stats *temp_r3;
+  player_stats *stat_block;
   int new_var;
   player_stats *temp_r6;
   temp_r6 = this->stat_block;
   temp_r6->exp = temp_r6->exp + arg1;
-  temp_r3 = this->stat_block;
+  stat_block = this->stat_block;
   new_var = 99999999;
-  if (new_var < (s32)temp_r3->exp)
+  if (new_var < (s32)stat_block->exp)
   {
-    temp_r3->exp = new_var;
+    stat_block->exp = new_var;
     return 0;
   }
   return 1;
@@ -3951,14 +3951,14 @@ s32 TObjPlayer::add_meseta(s32 amount) {
 }
 
 s32 try_spend_actor_meseta(u8 *player, s32 count) {
-    s32 temp_r0;
-    player_stats *temp_r5;
-    temp_r5 = ((TObjChara *)player)->stat_block;
-    temp_r0 = temp_r5->meseta;
-    if (temp_r0 < count) {
+    s32 meseta;
+    player_stats *stat_block;
+    stat_block = ((TObjChara *)player)->stat_block;
+    meseta = stat_block->meseta;
+    if (meseta < count) {
         return 0;
     }
-    temp_r5->meseta = (s32) (temp_r0 - count);
+    stat_block->meseta = (s32) (meseta - count);
     return 1;
 }
 
@@ -4012,15 +4012,15 @@ void record_attack_source(Obj_80010F54 *self, u16 id) {
 u16 TObjChara::get_local_attacker_id() { return this->local_attacker_id; }
 
 void assign_slots_from_list(void *arg0, saddr arg1) {
-    s32 var_r31;
+    s32 i;
 
     if (arg1 != 0) {
         if (((s32 (*)(void))is_split_screen)() != 0) {
-            var_r31 = 0;
+            i = 0;
             do {
-                ((s32 (*)(void *, s32))add_id_to_slots__10TObjPlayerFiUs)(arg0, ((s32 (*)(s32, s32))obj_getArrU16_FC)(arg1, var_r31));
-                var_r31 += 1;
-            } while (var_r31 != 4);
+                ((s32 (*)(void *, s32))add_id_to_slots__10TObjPlayerFiUs)(arg0, ((s32 (*)(s32, s32))obj_getArrU16_FC)(arg1, i));
+                i += 1;
+            } while (i != 4);
             return;
         }
         if (*(u16 *)((s8 *)arg0 + 0x2D6) == 0xFFFF) {
@@ -4263,14 +4263,14 @@ void TObjChara::apply_anti_technique(s32 arg1) {
 
 s16 TObjChara::clamp_hp() {
     s16 temp_r0;
-    s16 temp_r4;
+    s16 hp;
 
-    temp_r4 = (this->hp);
-    if (temp_r4 < 0) {
+    hp = (this->hp);
+    if (hp < 0) {
         (this->hp) = 0;
     } else {
         temp_r0 = (this->hpmax);
-        if (temp_r0 < temp_r4) {
+        if (temp_r0 < hp) {
             (this->hp) = temp_r0;
         }
     }

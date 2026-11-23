@@ -16,7 +16,7 @@ static const WeaponStarLightParameterWords weapon_star_light_parameters[] = {
 };
 
 void TItemFollowStarLight::run_task() {
-    s32 sp8;
+    s32 position;
     saddr item;
     if (item_generation != (u32)get_item_system_generation()) {
         queue_destruction();
@@ -24,9 +24,9 @@ void TItemFollowStarLight::run_task() {
     }
     if (star_light != NULL) {
         item = ((saddr)find_item_by_id(item_id));
-        if ((item != 0) && (((TItem *)item)->get_mode() == 2) && (((TItemWeapon *)item)->get_joint_position(joint, &sp8) != 0)) {
+        if ((item != 0) && (((TItem *)item)->get_mode() == 2) && (((TItemWeapon *)item)->get_joint_position(joint, &position) != 0)) {
             if (((TItem *)item)->is_hidden() == 0) {
-                star_light->copy_position((const Vec *)&sp8);
+                star_light->copy_position((const Vec *)&position);
                 return;
             }
             star_light->queue_child_destruction();

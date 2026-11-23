@@ -143,8 +143,8 @@ void TObjPlayer::spawn_fire_explosion_at_item(s32 id, saddr arg1) {
 }
 
 void TObjPlayer::spawn_fire_explosion_for_item(s32 id, s32 item) {
-    uaddr temp_r3 = (uaddr)find_item_by_id(id);
-    if (temp_r3 != 0U) {
-        TObjPlayer::spawn_fire_explosion(temp_r3, item);
+    uaddr item_weapon = (uaddr)find_item_by_id(id);
+    if (item_weapon != 0U) {
+        TObjPlayer::spawn_fire_explosion(item_weapon, item);
     }
 }
