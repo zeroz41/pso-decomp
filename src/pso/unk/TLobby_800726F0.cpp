@@ -20,6 +20,7 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/object/warp/TObjCityMainWarp.h"
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
+#include "pso/ui/window/TWindowCtrlMain_8024CB7C.h"
 
 
 #pragma readonly_strings on
@@ -331,7 +332,6 @@ void TObjChallengeRetry::handle_challenge_retry_confirm() {
     }
 }
 
-s32 has_window_task_root(void);
 
 void TObjChallengeRetry::sub_8007313C() {
   s32 area;

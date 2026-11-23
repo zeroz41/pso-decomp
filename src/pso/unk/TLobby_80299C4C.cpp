@@ -30,6 +30,7 @@
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/object/warp/TObjCityMainWarp.h"
 #include "pso/camera/TCameraCtrl.h"
+#include "pso/ui/window/TWindowCtrlMain_8024CB7C.h"
 
 extern "C" {
 s32 load_floor_sound_bank();
@@ -287,7 +288,6 @@ void TObjChallenge4PRetry::handle_retry_menu_select() {
     }
 }
 
-s32 has_window_task_root();
 
 
 

@@ -63,6 +63,7 @@
 #include "pso/map/TSetManager.h"
 #include "pso/player/TObjPlayer_801BDF5C.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/ui/window/TWindowCtrlMain_8024CB7C.h"
 
 struct Entry_8013634C {
     u8 tag[8];
@@ -331,7 +332,6 @@ u8 * get_character_save_record(u32);
 void * get_char_index__23TAdSinglePlyChrSelectGCFUi(u32);
 void * __nw__7TObjectFUl(u32);
 s32 __ct__7TObjectFP7TObject(void *, void *);
-s32 has_window_task_root();
 extern s32 TLobby__data_805D4E30;
 extern u32 *quest_object_entries;
 extern S12_801358B4 *TLobby__data_805D6144;

@@ -16,6 +16,7 @@
 #include <stdio.h>
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/player/TObjPlayer_80011014.h"
+#include "pso/ui/window/TWindowCtrlMain_8024CB7C.h"
 extern "C" { extern const char TObjNewFloorWin__class_name_string[16] = "TObjNewFloorWin"; }
 
 struct TObjNewFloorWin_80073DCC { u8 pad[0x1C]; s32 state; void *window; s32 timer24; s32 timer28; };
@@ -23,7 +24,6 @@ struct TObjNewFloorWin_80073DCC { u8 pad[0x1C]; s32 state; void *window; s32 tim
 extern "C" {
 saddr get_window_layout_position(s32);
 
-s32 has_window_task_root();
 void TShopWindowBase::set_field_20(s32 v) { *(s32 *)&(*(u32 *)((u8 *)this + 0x20)) = v; }
 
 void TObjNewFloorWin::run_task() {

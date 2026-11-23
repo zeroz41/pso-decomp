@@ -4,10 +4,7 @@
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/ui/window/TObjNewFloorWin.h"
 #include "pso/system/task/TObject.h"
-
-extern "C" {
-s32 has_window_task_root(void);
-}
+#include "pso/ui/window/TWindowCtrlMain_8024CB7C.h"
 
 void TObjTagChallenge::run_task() {
     if (has_window_task_root() != 0) {

@@ -8,6 +8,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/player/TObjPlayer_80011014.h"
+#include "pso/ui/window/TWindowCtrlMain_8024CB7C.h"
 
 struct Node_8026CC28 { u8 p0[0xC]; Node_8026CC28 *fC; u8 p10[0x44]; f32 f54; };
 
@@ -28,7 +29,6 @@ struct Node_8026CCA4 {
 struct Grp_8026CCA4 { u8 p0[0x14]; Node_8026CCA4 *head; };
 
 const NJS_POINT2 *get_window_layout_position(s32 idx);
-s32 has_window_task_root(void);
 extern f32 window_depth_order_cursor;
 const NJS_POINT2 *TWindowOptionCtrl::get_option_entry(int a0) { return &window_layout_rect_table[a0]; }
 const NJS_POINT2 *get_window_layout_position(s32 idx) {

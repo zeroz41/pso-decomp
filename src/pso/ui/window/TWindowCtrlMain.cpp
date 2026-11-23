@@ -682,8 +682,8 @@ void draw_menu_backdrop_gradients(s32 viewport_index) {
 }
 #pragma pop
 
-bool has_window_task_root(void) {
-    return TWindowCtrlMain__window_task_root != 0;
+s32 has_window_task_root(void) {
+    return TWindowCtrlMain__window_task_root != NULL ? 1 : 0;
 }
 
 s32 is_window_display_enabled(void) {

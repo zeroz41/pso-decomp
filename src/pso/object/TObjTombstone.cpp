@@ -37,6 +37,7 @@
 #include "pso/unk/TLobby_80291D94.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/player/TObjPlayer_803E1A58.h"
+#include "pso/ui/window/TWindowCtrlMain_8024CB7C.h"
 
 struct Off_800753DC { s16 x, y; };
 
@@ -47,7 +48,6 @@ s32 PPCSync();
 u32 calc_text_width(const char *);
 void draw_menu_font_string(const char *, u32, s32, f32, f32, f32);
 const char *get_message_text(s32);
-s32 has_window_task_root();
 void set_tombstone_position(s32 i, Vec *pos);
 void TObjTombstone__drop_recovery_items(TObjTombstone *self);
 }

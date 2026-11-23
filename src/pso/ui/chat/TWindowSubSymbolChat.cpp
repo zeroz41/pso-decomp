@@ -39,6 +39,7 @@
 #include "pso/system/vector.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80248BE8.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
+#include "pso/ui/window/TWindowCtrlMain_8024CB7C.h"
 #pragma push
 #pragma inline_depth(1)
 #pragma auto_inline off
@@ -101,7 +102,6 @@ extern "C" {
 // 0x58-byte record held in symbol_chat_receive_buffer; its compiler-generated operator= (0x80283850)
 // copies the char array at +4 with __copy and the word array at +0x1C as a block.
 struct Obj_80283850 { s32 value; u8 pad_4[0x17]; u32 pad_1C[0xF]; };
-s32 has_window_task_root();
 extern void *TWindowSubSymbolChat__instance;
 
 s32 fn_80285A28(int, void *);

@@ -17,6 +17,7 @@
 #include <stdio.h>
 #include <string.h>
 #include "pso/ui/window/WindowLayout.h"
+#include "pso/ui/window/TWindowCtrlMain_8024CB7C.h"
 
 extern "C" {
 char *get_message_text(s32);
@@ -27,7 +28,6 @@ char challenge_progress_text_buffer[0x100];
 const char *challenge_grade_letter_table[4] = {"", "B", "A", "S"};
 s32 *TWindowSubStatusDisp__sub_8006F0D8(void *, s32);
 ChallengeStageRank *TWindowSubStatusDisp__sub_8006F134(void *, s32);
-s32 has_window_task_root();
 int TWindowMenu::is_decided() { return (this->m_70 >> 1) & 0x1; }
 
 void TAdSinglePlyChrSelectGC::format_challenge_stage_times(s32 lobby, s32 challenge_id) {

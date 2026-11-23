@@ -12,9 +12,9 @@
 #include <string.h>
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/window/WindowLayout.h"
+#include "pso/ui/window/TWindowCtrlMain_8024CB7C.h"
 extern "C" {
 saddr get_player_by_client_id(s32);
-s32 has_window_task_root();
 extern s32 local_client_id;
 extern const char TObjDeadListWin_class_name[] = "TObjDeadListWin";
 const char* TObjDeadListWin_name = TObjDeadListWin_class_name;

@@ -45,9 +45,9 @@ const char *TObjBagWarnWin4P__name = "TObjBagWarnWin4P";
 #include "pso/unk/TLobby.h"
 #include "pso/system/task/TObject.h"
 #include "pso/ui/city/THunterGuildWarning.h"
+#include "pso/ui/window/TWindowCtrlMain_8024CB7C.h"
 
 extern "C" {
-s32 has_window_task_root();
 
 
 
@@ -79,7 +79,6 @@ struct Ctrl_8006EC20 {
     Sub_8006EC20 *pD00;
 };
 extern "C" {
-s32 has_window_task_root();
 
 
 extern s32 local_client_id;

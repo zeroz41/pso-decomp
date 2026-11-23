@@ -3,12 +3,12 @@
 #include "pso/ui/window/TObjCHTimeWin.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/system/task/TObject.h"
+#include "pso/ui/window/TWindowCtrlMain_8024CB7C.h"
 
 #pragma readonly_strings on
 
 extern "C" {
 
-s32 has_window_task_root();
 
 extern saddr TObjCHTimeWin__timer_value;
 const char *TObjCHTimeWin__class_name = "TObjCHTimeWin";

@@ -14,7 +14,7 @@ TObject *TWindowCtrlMain__sub_8024CDB0(void *p);
 TObject *get_viewport_window_root(s32 viewport_index);
 TObject *TWindowCtrlMain__sub_8024CE24(void);
 TObject *TWindowCtrlMain__sub_8024CE34(void);
-bool has_window_task_root(void);
+s32 has_window_task_root(void);
 }
 void draw_menu_backdrop_gradients(s32 viewport_index);
 extern "C" {
