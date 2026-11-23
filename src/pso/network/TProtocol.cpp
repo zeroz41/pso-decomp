@@ -441,19 +441,19 @@ void bswap__12TRecvPsoDataFv(void *);
 extern const char TProtocol__send_pso_data2_log_format[21] = "SndPsoData2 %d %d %d";
 extern const char TProtocol__send_pso_data_log_format[17] = "SndPsoData %d %d";
 
-void TProtocol::send_subcommand_to_client(s32 flag, s8 *src, s32 len) {
+void TProtocol::send_pso_data2(u32 flags, game_command &packet, u32 size) {
     char buf[0x80];
-    sprintf(buf, TProtocol__send_pso_data2_log_format, *src, len, flag);
+    sprintf(buf, TProtocol__send_pso_data2_log_format, packet.header.command, size, flags);
     if (this->m_connected != 0) {
         Pkt_801DC084 pkt;
-        int size;
+        int packet_size;
         pkt.cmd = 0x62;
-        pkt.flag = flag;
-        pkt.size = len + 4;
-        size = pkt.size;
-        memcpy(pkt.data, src, len);
+        pkt.flag = flags;
+        pkt.size = size + 4;
+        packet_size = pkt.size;
+        memcpy(pkt.data, &packet, size);
         bswap__12TRecvPsoDataFv(&pkt);
-        this->send((u8 *)&pkt, size);
+        this->send((u8 *)&pkt, packet_size);
     }
 }
 

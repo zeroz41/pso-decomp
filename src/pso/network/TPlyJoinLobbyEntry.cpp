@@ -97,11 +97,6 @@ struct GameStateSyncScratch {
 };
 LAYOUT_ASSERT(GameStateSyncScratchSize, sizeof(GameStateSyncScratch) == 0x4008);
 LAYOUT_ASSERT(GameStateSyncPayloadOffset, offsetof(GameStateSyncScratch, payload) == 8);
-struct Stack_80135458 {
-    s8 sp8;
-    s8 sp9;
-    s16 spA;
-};
 struct Stack_80135598 {
     s32 sp8;
     u8 trailing_storage[0x488];
@@ -646,13 +641,13 @@ void handle_6x71_unblock_game_join(void) {
 }
 
 void TLobby::send_6x71_to_player() {
-    saddr arg0 = (saddr)this;
-    Stack_80135458 stack;
-    stack.sp8 = 0x71;
-    stack.sp9 = 1;
-    stack.spA = 0;
-    bswap_client_id_header((G_ClientIDHeader *)&stack.sp8);
-    ((TLobby *)(&stack.sp8))->send_subcommand_to_client(arg0);
+    saddr client_id = (saddr)this;
+    G_ClientIDHeader packet;
+    packet.subcommand = 0x71;
+    packet.size = 1;
+    packet.client_id = 0;
+    bswap_client_id_header(&packet);
+    ((game_command *)&packet)->send_to_client(client_id);
 }
 
 void handle_6x70_sync_player_disp_and_inventory(Pkt_801354AC *arg0) {
@@ -2949,16 +2944,16 @@ void TLobby::set_player_count(int a0) { lobby_player_count = a0; }
 #pragma auto_inline off
 #pragma dont_inline off
 
-void bswap_and_send_extended_subcommand(void *p, u32 size) { bswap_extended_subcommand_header(p); ((TLobby *)p)->send_command(size); }
+void bswap_and_send_extended_subcommand(void *p, u32 client_id) { bswap_extended_subcommand_header(p); ((long_game_command_union *)p)->send_to_client(client_id); }
 
 void bswap_extended_subcommand_header(void* p) { TLobby::bswap_header_fields(p); }
 void TLobby::bswap_header_fields(void *header) {
     bswap_16((u16 *)((u8 *)header + 2));
     bswap_32((u32 *)((u8 *)header + 4));
 }
-void TLobby::bswap_and_handle_packet(void *packet, int size) {
+void TLobby::bswap_and_handle_packet(void *packet, int client_id) {
     bswap_client_id_header((G_ClientIDHeader *)packet);
-    ((TLobby *)packet)->send_subcommand_to_client((u32)size);
+    ((game_command *)packet)->send_to_client(client_id);
 }
 void TLobby__sub_8013A578(void* p) { *(u8*)((char*)p + 0x0) = 111; *(u8*)((char*)p + 0x1) = 129; }
 void TLobby::send_packet_60(void *packet) {

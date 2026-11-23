@@ -41,6 +41,7 @@
 #include "pso/object/warp/TObjCityMainWarp.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/network/protocol/packet_classes.h"
 // The placement ordinals show_score_results prints; their strings open the unit's .sdata2.
 #pragma push
 char *lobby_rank_ordinal_text_table[] = {"1st", "2nd", "3rd", "4th"};
@@ -1421,7 +1422,7 @@ void send_6x7D_set_battle_mode_data(void *) {
         }
     }
     ((TLobby *)(&msg))->send_6x7D_set_battle_mode_data();
-    ((TLobby *)(&msg))->send_60_sized();
+    ((game_command *)&msg)->send();
 }
 
 void TLobby::finish_chr_select_scene_init() {

@@ -33,66 +33,67 @@ s32 distort_texture_wave_image(void *);
 
 extern void *game_protocol_instance;
 
-void TLobby::send_command(u32 arg1) {
-    s32 sp8;
+void long_game_command_union::send_to_client(u32 client_id) {
+    u32 size;
 
-    sp8 = *(s32 *)&this->m_flags;
-    bswap_32((u32 *)&sp8);
-    if ((u32) local_client_id == arg1) {
+    size = ext_game_cmd.header.size;
+    bswap_32(&size);
+    if ((u32) local_client_id == client_id) {
         dispatching_own_subcommand = 1;
         dispatch_6x_subcommand(this);
         dispatching_own_subcommand = 0;
         return;
     }
-    if (protocol_instance != NULL) {
-        protocol_instance->send_pso_data_long2(arg1, *(long_game_command *)this, sp8);
+    if (TLobby::protocol_instance != NULL) {
+        TLobby::protocol_instance->send_pso_data_long2(client_id, game_cmd, size);
     }
 }
 
 void send_subcommand_to_leader(void *cmd) {
-    void *src = cmd;
-    s32 len;
+    s32 size;
+    game_command *packet = (game_command *)cmd;
 
-    len = *(u8 *)((s8 *)src + 1) * 4;
+    size = packet->header.size * 4;
     if (get_main_phase() == 0xE) {
         dispatching_own_subcommand = 1;
-        dispatch_6x_subcommand(src);
+        dispatch_6x_subcommand(packet);
         dispatching_own_subcommand = 0;
         return;
     }
     if (TLobby::protocol_instance != NULL) {
-        TLobby::protocol_instance->send_subcommand_to_client((s32)designated_client_id, (s8 *)src, (s32)len);
+        TLobby::protocol_instance->send_pso_data2(designated_client_id, *packet, size);
     }
 }
 
-void TLobby::send_subcommand_to_client(u32 flag) {
+void game_command::send_to_client(u32 client_id) {
     s32 size;
-    size = *(u8 *)((s8 *)this + 1) * 4;
-    if ((u32) local_client_id == flag) {
+    size = header.size * 4;
+    if ((u32) local_client_id == client_id) {
         dispatching_own_subcommand = 1;
         dispatch_6x_subcommand(this);
         dispatching_own_subcommand = 0;
         return;
     }
-    if (protocol_instance != NULL) {
-        protocol_instance->send_subcommand_to_client((s32)flag, (s8 *)this, (s32)size);
+    if (TLobby::protocol_instance != NULL) {
+        TLobby::protocol_instance->send_pso_data2(client_id, *this, size);
     }
 }
 
-void TLobby::send_60_sized() {
-    int size = ((u8 *)this)[1] * 4;
-    if (protocol_instance != NULL) {
-        protocol_instance->send_pso_data(*(game_command *)this, size);
+void game_command::send() {
+    int size = header.size * 4;
+    if (TLobby::protocol_instance != NULL) {
+        TLobby::protocol_instance->send_pso_data(*this, size);
     }
 }
 
 void send_subcommand(void *cmd) {
-    s32 len = ((u8 *)cmd)[1] * 4;
+    game_command *packet = (game_command *)cmd;
+    s32 size = packet->header.size * 4;
     if (TLobby::protocol_instance != NULL) {
-        TLobby::protocol_instance->send_pso_data(*(game_command *)cmd, len);
+        TLobby::protocol_instance->send_pso_data(*packet, size);
     }
     dispatching_own_subcommand = 1;
-    dispatch_6x_subcommand(cmd);
+    dispatch_6x_subcommand(packet);
     dispatching_own_subcommand = 0;
 }
 

@@ -9,6 +9,7 @@
 #include "pso/unk/TLobby.h"
 #include "pso/player/TObjPlayer.h"
 #include <string.h>
+#include "pso/network/protocol/packet_classes.h"
 
 #pragma inline_depth(1)
 #pragma auto_inline off
@@ -79,7 +80,7 @@ void TFontSmallLobby::init_packet_6x8f_battle_damage() {
     p->b = 2;
 }
 
-void send_6x8F_add_battle_damage_scores(void* p) { ((TFontSmallLobby *)p)->bswap_battle_damage_packet(); ((TLobby *)p)->send_60_sized(); }
+void send_6x8F_add_battle_damage_scores(void* p) { ((TFontSmallLobby *)p)->bswap_battle_damage_packet(); ((game_command *)p)->send(); }
 
 void TFontSmallLobby::bswap_6x90_set_player_battle_team() { ((G_ClientIDHeader *)this)->bswap(); bswap_32((u32 *)((char*)this + 0x4)); }
 

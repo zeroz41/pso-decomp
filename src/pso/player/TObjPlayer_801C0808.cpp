@@ -8,6 +8,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/item/TItemData.h"
+#include "pso/network/protocol/packet_classes.h"
 
 #pragma inline_depth(1)
 #pragma auto_inline off
@@ -428,9 +429,9 @@ void TObjPlayer::init_cmd_6x20() {
 
 #define copy_subcommand_header ((int (*)(void*))copy_subcommand_header)
 
-void TObjPlayer::send_player_floor_packet(u32 client) { bswap_pkt_u16x2_u32x2(); ((TLobby *)this)->send_subcommand_to_client(client); }
+void TObjPlayer::send_player_floor_packet(u32 client) { bswap_pkt_u16x2_u32x2(); ((game_command *)this)->send_to_client(client); }
 
-void TObjPlayer::send_player_floor_packet_u32x5() { bswap_pkt_u32x5(); ((TLobby *)this)->send_60_sized(); }
+void TObjPlayer::send_player_floor_packet_u32x5() { bswap_pkt_u32x5(); ((game_command *)this)->send(); }
 
 void TObjPlayer::bswap_set_floor_packet() { ((G_ClientIDHeader *)this)->bswap(); bswap_32((u32 *)((char*)this + 0x4)); }
 
@@ -442,7 +443,7 @@ void init_6x1F_floor_packet(u8 *arg0) {
     *(s8 *)((s8 *)arg0 + 1) = 2;
 }
 
-void TObjPlayer::bswap_and_send_set_floor() { bswap_set_floor_packet(); ((TLobby *)this)->send_60_sized(); }
+void TObjPlayer::bswap_and_send_set_floor() { bswap_set_floor_packet(); ((game_command *)this)->send(); }
 
 void TObjPlayer::bswap_warp_packet() { ((G_ClientIDHeader *)this)->bswap(); bswap_32((u32 *)((char*)this + 0x4)); }
 

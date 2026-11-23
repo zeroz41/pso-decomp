@@ -739,9 +739,6 @@ struct TLobby : public TObject {
     static s32 set_dns_servers();
     void update_battle_sync(s32 t);
     static void send_battle_mode_data(void * _w0);
-    void send_command(u32 arg1);
-    void send_subcommand_to_client(u32 flag);
-    void send_60_sized();
     void bswap_switch_activate_token();
     static s32 load_texture_pvm_file(const char *name, saddr arg1);
     static unsigned char read_packet_byte();

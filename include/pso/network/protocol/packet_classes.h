@@ -14,7 +14,7 @@
 
 struct game_command_header {
     char command;
-    char size;
+    u8 size;  // in 4-byte words; 0 for an extended command (size in the extended header)
     u16 id;
 
     void bswap() {
@@ -57,6 +57,10 @@ struct game_command {
     void bswap() {
         header.bswap();
     };
+    // Sends the subcommand to one client; this console's own id runs it here instead.
+    void send_to_client(u32 client_id);
+    // Sends the subcommand to the other clients without running it here.
+    void send();
 };
 
 struct extended_game_command {
@@ -100,6 +104,10 @@ union long_game_command_union {
     struct long_game_command game_cmd;
     struct extended_long_game_command ext_game_cmd;
     u8 bytes[1460];
+
+    // Sends an extended subcommand (header already byte-swapped) to one client; this
+    // console's own id runs it here instead.
+    void send_to_client(u32 client_id);
 };
 
 template<size_t size>
