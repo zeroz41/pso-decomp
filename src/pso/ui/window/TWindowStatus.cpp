@@ -17,6 +17,7 @@
 #include "pso/unk/text_80271400.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/ui/window/TWindowSubStatusDisp_8026F6DC.h"
+#include "pso/player/PlayerSlots.h"
 
 
 const char *TWindowStatus__name = "TWindowStatus";

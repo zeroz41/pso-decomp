@@ -25,8 +25,6 @@
 #include "pso/object/base/TObjBase.h"
 const char *TObjEneDD__name = "TObjEneDD";
 const char *TObjEneDD_ST__name = "TObjEneDD_ST";
-extern "C" {
-}
 #include "pso/map/CsnQuery.h"
 
 #include "pso/enemy/epsilon/TObjEneEpsilon_800B92AC.h"

@@ -22,6 +22,7 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/player/PlayerSlots.h"
 
 extern "C" {
 s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);

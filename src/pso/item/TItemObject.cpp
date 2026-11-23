@@ -17,6 +17,7 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/render/render_util.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/player/PlayerSlots.h"
 
 #pragma readonly_strings on
 
@@ -150,7 +151,7 @@ void send_nearby_player_ids(TObjPlayer *self, f32 range) {
         ((TObjPlayer *)&cmd)->set_type_bytes();
         j = 0;
         for (i = 0; i != 4; i++) {
-            player = (TObjPlayer *)get_player_by_client_id(i);
+            player = get_player_by_client_id(i);
             if (player != NULL) {
                 if (horizontal_distance_squared(&self->position, &player->position) < range) {
                     cmd.target_client_ids[j++] = player->get_entity_id();
@@ -171,11 +172,11 @@ void handle_6x66_use_star_atomizer(u8 *arg0) {
     s32 i;
     TObjPlayer *target;
     ((TObjPlayer *)cmd)->bswap_fields_x4();
-    user = (TObjPlayer *)get_player_by_client_id(cmd->target_client_ids[0]);
+    user = get_player_by_client_id(cmd->target_client_ids[0]);
     if (user != NULL) {
         i = 0;
         do {
-            target = (TObjPlayer *)get_player_by_client_id(cmd->target_client_ids[i]);
+            target = get_player_by_client_id(cmd->target_client_ids[i]);
             if (target != NULL && target->has_flag_0x800() == 0) {
                 if (user->get_floor() == target->get_floor()) {
                     target->set_hp_clamped(target->get_hpmax());

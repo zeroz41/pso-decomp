@@ -76,6 +76,7 @@
 #include "pso/player/TObjPlayer_80104860.h"
 #include "pso/effect/TEffIndirectSampler.h"
 #include "pso/unk/TLobby_80207644.h"
+#include "pso/player/PlayerSlots.h"
 
 
 // The two colours of the present box, by wrapping colour (box_color).

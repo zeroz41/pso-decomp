@@ -6,13 +6,13 @@
 #include "pso/ui/chat/TWindowSubSymbolChat.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/player/PlayerSlots.h"
 
 struct TPlyGuildCardTag { u32 a; u32 b; TPlyGuildCardTag(u16, u32); };
 
 struct Tag_80076BC8 { u32 a; u32 b; };
 
 extern "C" {
-void *get_player_by_client_id(s32);
 void send_chat__9TProtocolFR16TPlyGuildCardTagPc(void *, TPlyGuildCardTag *, u8 *);
 char *fn_80076BC4(s32 *text);
 

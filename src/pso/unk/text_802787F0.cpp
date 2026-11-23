@@ -6,6 +6,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TPlyItem.h"
+#include "pso/player/PlayerSlots.h"
 
 struct Wn_802788A8 { u8 pad0[0x20]; s16 f20; u8 pad22[0x50]; s16 f72; };
 
@@ -14,7 +15,6 @@ struct Wn_802787F0 { u8 pad0[0x20]; s16 f20; u8 pad22[0x50]; s16 f72; };
 struct Ent_802787F0 { u32 id; s32 count; };
 
 extern "C" {
-void *get_player_by_client_id(s32 i);
 void build_usable_item_list(Wn_802788A8 *arg0);
 void fill_trade_item_list(Wn_802787F0 *arg0, Ent_802787F0 *arg1);
 

@@ -16,6 +16,7 @@
 #include "pso/player/TObjPlayer_80011014.h"
 extern "C" s32 is_item_area_enabled(s32 area);
 #include "pso/system/task/TMainTask.h"
+#include "pso/player/PlayerSlots.h"
 
 
 const char *item_pro_armor_particle_class_name = "TItemProArmorParticle";

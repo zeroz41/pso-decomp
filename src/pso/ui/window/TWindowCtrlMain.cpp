@@ -45,6 +45,7 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/ui/window/TWindowCtrl_8024A1A8.h"
 #include "pso/ui/window/TWindowCtrl_8024A054.h"
+#include "pso/player/PlayerSlots.h"
 const char *TWindowCtrlMain__name = "TWindowCtrlMain";
 const char *TWindowCtrlScreen__name = "TWindowCtrlScreen";
 const char *TWindowCtrlSub__name = "TWindowCtrlSub";
@@ -100,7 +101,6 @@ struct W_8024DCE8 : WBase_8024DCE8 {
     virtual void m6();
 };
 extern "C" {
-u32 get_player_by_client_id(int);
 s32 bind_target__13TWindowLockOnFUs(void *, s32);
 u32 create_for_target__13TWindowLockOnFlUs(int, s32);
 s32 fn_8002AE08(void *p);
@@ -196,7 +196,7 @@ void TWindowCtrl::run_all_updates() { update_trade_window_visibility(); update_c
 void TWindowCtrl::update_trade_window_visibility() {
     u8 *arg0 = (u8 *)this;
     if ((this->m_30 != NULL) && (((TWindowCtrl *)((void *) this->m_30))->is_flag_2_set() == 0)) {
-        if ((get_player_by_client_id(this->m_24) == 0U) || (((TWindowCtrl *)arg0)->is_visible() != 0) || (fn_8024C7F8() != 0) || ((is_split_screen() != 0) && (get_active_menu() != 0))) {
+        if ((get_player_by_client_id(this->m_24) == NULL) || (((TWindowCtrl *)arg0)->is_visible() != 0) || (fn_8024C7F8() != 0) || ((is_split_screen() != 0) && (get_active_menu() != 0))) {
             ((TWindowLockOn *)(this->m_30))->request_close();
             return;
         }
@@ -208,7 +208,7 @@ void TWindowCtrl::update_child_window_visibility() {
     u8 *arg0 = (u8 *)this;
     u32 player;
     if ((this->m_34 != NULL) && (((TWindowCtrl *)((void *) this->m_34))->is_flag_2_set() == 0)) {
-        player = get_player_by_client_id(this->m_24);
+        player = (uaddr)get_player_by_client_id(this->m_24);
         if ((get_active_menu() != 0) || (((TWindowCtrl *)arg0)->is_visible() != 0) || (((TWindowCtrl *)arg0)->is_enabled() != 0) || (player == 0U)) {
             ((TWindowLockOn *)(this->m_34))->request_close();
             return;
@@ -249,7 +249,7 @@ void TWindowCtrl::update_main_menu_request() {
     if (*(void **)((s8 *)this + 0x28) == NULL) {
         return;
     }
-    p = get_player_by_client_id(this->m_24);
+    p = (uaddr)get_player_by_client_id(this->m_24);
     if (p == 0) {
         return;
     }
@@ -315,7 +315,7 @@ void TWindowCtrl::update_short_list_request() {
         *(void **)((s8 *)this + 0x3C) = NULL;
     }
     if (*(void **)((s8 *)this + 0x34) != NULL && ((TWindowCtrl *)(*(void **)((s8 *)this + 0x34)))->is_flag_2_set() == 0) {
-        if (get_player_by_client_id(*(s32 *)&this->m_24) == 0) {
+        if (get_player_by_client_id(*(s32 *)&this->m_24) == NULL) {
             if (*(void **)((s8 *)this + 0x3C) != NULL) {
                 ((TObject *)(*(void **)((s8 *)this + 0x3C)))->queue_destruction();
                 *(void **)((s8 *)this + 0x3C) = NULL;

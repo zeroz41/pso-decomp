@@ -55,6 +55,7 @@
 #include "pso/object/base/TObjBase.h"
 #include "pso/system/TLanguage_801E4874.h"
 #include "pso/object/lobby/LobbyGoGoBall.h"
+#include "pso/player/PlayerSlots.h"
 BmlResource *gogo_ball_bml_resource;
 #pragma inline_depth(1)
 #pragma auto_inline off

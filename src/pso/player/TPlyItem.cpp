@@ -37,6 +37,7 @@
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/player/PlayerSlots.h"
 
 struct Actor_801D3E20 {
     u8 pad[0x30];

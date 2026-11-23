@@ -13,6 +13,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/network/client_id.h"
+#include "pso/player/PlayerSlots.h"
 
 #pragma readonly_strings on
 

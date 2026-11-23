@@ -6,11 +6,11 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TPlyItem.h"
+#include "pso/player/PlayerSlots.h"
 
 struct Wn_80278DA4 { u8 pad0[0x20]; s16 f20; u8 pad22[0x50]; s16 f72; };
 
 extern "C" {
-void *get_player_by_client_id(s32 i);
 void populate_judgment_item_list(Wn_80278DA4 *arg0);
 
 void add_armor_equip_candidates(u8 *arg0, u16 kind, u16 sub) {

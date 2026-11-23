@@ -149,6 +149,7 @@
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/player/TPlyPhotonChair.h"
 #include "pso/map/CsnGroundQuery.h"
+#include "pso/player/PlayerSlots.h"
 
 // ---- TLobby_80104374.cpp
 

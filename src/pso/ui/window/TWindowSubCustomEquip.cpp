@@ -21,6 +21,7 @@
 #include "pso/ui/window/TWindowActionPalette_801C1890.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/enemy/shinowa/TObjEneMe3ShinowaReal_8002ADD8.h"
+#include "pso/player/PlayerSlots.h"
 
 struct Obj_80275DB4 { u8 pad[0x60]; char f60; u8 pad2[0x6c - 0x61]; void *f6c; };
 
@@ -101,7 +102,6 @@ WindowDescriptor lbl_804D1488 = {
 };
 
 extern "C" {
-void *get_player_by_client_id(s32);
 s32 can_use_palette_action__10TObjPlayerFPvUcUc(void *, u8, u8);
 void update_palette_item_count_label(u8 *, u8 *, s32, s32, s32);
 void draw_action_palette_icon(u8 *, s32, s32);
@@ -209,7 +209,6 @@ s32 TWindowSubCustomEquip::get_saved_slot_for_index(s32 arg0, s8 arg1) {
 
 
 extern "C" {
-void *get_player_by_client_id(s32 i);
 s32 get_slot_type__20TWindowActionPaletteFPvll(s32, s32, s32);
 s32 is_type_valid__21TWindowSubCustomEquipFv(void *, u8);
 s32 get_saved_slot_for_index__21TWindowSubCustomEquipFlSc(void *, u8);

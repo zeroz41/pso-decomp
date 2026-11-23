@@ -2,12 +2,12 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/player/PlayerSlots.h"
 
 extern "C" {
 
 s32 get_game_play_mode();
 s32 reset_volopt_state__10TObjPlayerFv(s32);
-void *get_player_by_client_id(s32 i);
 s32 TObjPlayer__sub_80354C7C(u16);
 s32 is_local_client(u16);
 

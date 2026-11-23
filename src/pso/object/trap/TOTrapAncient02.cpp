@@ -47,6 +47,7 @@
 #include "pso/system/SoundEffect.h"
 #include "pso/system/vector.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/player/PlayerSlots.h"
 
 extern s32 game_difficulty_selection;
 

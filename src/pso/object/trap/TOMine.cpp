@@ -48,6 +48,7 @@ struct game_command_header;
 #include "pso/ui/TLevelSelect.h"
 #include "pso/map/area/AreaScene.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/player/PlayerSlots.h"
 
 // ---- declarations carried over from the fragment TOMineTrapDisp_8016EDC8.cpp
 extern "C" {

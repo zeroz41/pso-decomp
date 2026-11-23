@@ -16,6 +16,7 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/object/TObjRoomId.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/player/PlayerSlots.h"
 
 
 // The class name, then the direction run_task rotates by the object's yaw into normal, the plane

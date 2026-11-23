@@ -10,10 +10,10 @@
 #include "pso/render/ModelDrawContext.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/player/PlayerSlots.h"
 
 
 extern "C" {
-void *get_player_by_client_id(s32 i);
 f32 xz_distance_squared(void *, void *);
 s32 draw_polygon_2d__FP13NJS_POINT2COLlUlf(void *, int, int, f32, f32, f32);
 f32 lbl_805D6800;

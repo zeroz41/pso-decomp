@@ -17,6 +17,7 @@
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/ui/window/TWindowCtrlMain_8024CB7C.h"
+#include "pso/player/PlayerSlots.h"
 extern "C" { extern const char TObjNewFloorWin__class_name_string[16] = "TObjNewFloorWin"; }
 
 struct TObjNewFloorWin_80073DCC { u8 pad[0x1C]; s32 state; void *window; s32 timer24; s32 timer28; };
@@ -87,7 +88,6 @@ TObjNewFloorWin::~TObjNewFloorWin() {}
 
 extern "C" {
 void *__ct__15TObjNewFloorWinFP7TObjectPv(void *arg0, void *arg1, void *arg2);
-s32 get_player_by_client_id(u32);
 
 const char *TObjNewFloorWin__class_name = TObjNewFloorWin__class_name_string;
 
@@ -123,7 +123,7 @@ u8 *TLobby::create_new_floor_windows() {
   var_r30 = 0;
   do
   {
-    if (get_player_by_client_id(var_r30) != 0U)
+    if (get_player_by_client_id(var_r30) != NULL)
     {
       temp_r3_2 = (u8 *) TObject::operator new(0x50);
       var_r0_2 = (u8 *) temp_r3_2;

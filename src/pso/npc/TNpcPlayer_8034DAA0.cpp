@@ -22,6 +22,7 @@
 #include "pso/network/client_id.h"
 #include "pso/player/TObjPlayer_801BDF5C.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/player/PlayerSlots.h"
 
 
 // One TU: TLobby__sub_8034DAA0 (jumptable after the TUnk_804F07C8 vtable in .data),
@@ -38,7 +39,6 @@ struct VObj_18_dac7f3 : VBase_18_dac7f3 {
 struct E_8034E02C { u8 flag; u8 pad[0x35]; };
 
 extern "C" {
-saddr get_player_by_client_id(s32);
 E_8034E02C npc_partner_dialogue_state[25] = { 0 };
 }
 
@@ -244,21 +244,21 @@ s32 TObjPlayer::get_npc_control_state() { return npc_control.state; }
 
 void TNpcPlayer::apply_to_battle_player_slot(u16 arg0, s16 arg1) {
     uaddr temp_r3;
-    if ((arg1 < 0x10) && ((temp_r3 = ((u32)get_player_by_client_id(arg0))) != 0U)) {
+    if ((arg1 < 0x10) && ((temp_r3 = ((uaddr)get_player_by_client_id(arg0))) != 0U)) {
         ((TObjPlayer *)temp_r3)->init_photon_blast(arg1);
     }
 }
 
 void TNpcPlayer::end_camera_pan_for_client(u16 arg0) {
     saddr tmp_player;
-    if ((tmp_player = (s32)get_player_by_client_id(arg0)) != 0U) {
+    if ((tmp_player = (saddr)get_player_by_client_id(arg0)) != 0U) {
         ((TObjPlayer *)tmp_player)->end_camera_pan();
     }
 }
 
 void TNpcPlayer::update_player_field(u16 arg0, s32 frames) {
     uaddr player;
-    player = ((u32)get_player_by_client_id(arg0));
+    player = (uaddr)get_player_by_client_id(arg0);
     if (player != 0U) {
         ((TObjPlayer *)player)->protection.set_frames(frames);
     }
@@ -266,7 +266,7 @@ void TNpcPlayer::update_player_field(u16 arg0, s32 frames) {
 
 void TNpcPlayer::reset_player_lobby_model(u16 arg0) {
     uaddr player;
-    player = ((u32)get_player_by_client_id(arg0));
+    player = (uaddr)get_player_by_client_id(arg0);
     if (player != 0U) {
         ((TObjPlayer *)player)->protection.reset_lobby_model();
     }
@@ -312,7 +312,7 @@ void TNpcPlayer::send_npc_control_notify_players(s32 arg0, s32 arg1, s32 arg2) {
     stack.sp12 = arg2;
     stack.spE = arg1;
 loop_1:
-    if ((tmp_player = (s32)get_player_by_client_id(var_r31)) != 0U) {
+    if ((tmp_player = (saddr)get_player_by_client_id(var_r31)) != 0U) {
         TObjPlayer::notify_field1c(tmp_player);
     } else {
         var_r31 += 1;
@@ -361,7 +361,7 @@ void TNpcPlayer::send_npc_control_create(u16 arg0, u16 arg1, s32 arg2, u8 *arg3,
     stack.sp10 = 3;
     stack.sp12 = arg2;
 loop_1:
-    if ((tmp_player = (s32)get_player_by_client_id(var_r31)) != 0U) {
+    if ((tmp_player = (saddr)get_player_by_client_id(var_r31)) != 0U) {
         TObjPlayer::notify_field1c(tmp_player);
     } else {
         var_r31 += 1;
@@ -424,14 +424,14 @@ void handle_6x69_npc_control(Pkt_8034E814 *pkt) {
         }
         break;
     case 1:
-        p = (TObjPlayer *)get_player_by_client_id(client);
+        p = get_player_by_client_id(client);
         if (p != NULL && p->obj_isState3_324() != 0) {
             p->set_npc_controller(0xFFFF);
         }
         break;
     case 2:
         for (i = 0; i < 4; i++) {
-            p = (TObjPlayer *)get_player_by_client_id(i);
+            p = get_player_by_client_id(i);
             if (p != NULL && p->obj_isState3_324() != 0) {
                 p->set_npc_controller(pkt->client);
             }
@@ -467,7 +467,7 @@ void TNpcPlayer::send_inter_level_warp_all(s32 value) {
     saddr player;
 
     for (i = 0; i < 4; i++) {
-        player = get_player_by_client_id(i);
+        player = (saddr)get_player_by_client_id(i);
         if (player != 0 && reinterpret_cast<TObjPlayer *>(player)->obj_isState3_324() != 0 && ((TObjPlayer *)player)->get_npc_controller() != 0xFFFF) {
             send_6x21_inter_level_warp((void *)player, value);
         }
@@ -479,7 +479,7 @@ void TNpcPlayer::apply_to_players(s32 value, void *arg1, s32 heading) {
     saddr temp_r3;
     var_r31 = 0;
     do {
-        temp_r3 = get_player_by_client_id(var_r31);
+        temp_r3 = (saddr)get_player_by_client_id(var_r31);
         if ((temp_r3 != 0) && (reinterpret_cast<TObjPlayer *>(temp_r3)->obj_isState3_324() != 0) && ((u16) ((TObjPlayer *)temp_r3)->get_npc_controller() != 0xFFFF)) {
             set_arrival_override_coords(((TObjBase *)(temp_r3))->get_entity_id(), heading, *(f32 *)((s8 *)arg1 + 0), *(f32 *)((s8 *)arg1 + 4), *(f32 *)((s8 *)arg1 + 8));
             send_6x21_inter_level_warp((void *)temp_r3, value);
@@ -494,7 +494,7 @@ void TNpcPlayer::send_6x3e_to_all_players(void *pos, s32 arg) {
     saddr p;
     s16 flag;
     for (i = 0; i < 4; i++) {
-        p = get_player_by_client_id(i);
+        p = (saddr)get_player_by_client_id(i);
         if (p != 0 && reinterpret_cast<TObjPlayer *>(p)->obj_isState3_324() != 0 && ((TObjPlayer *)p)->get_npc_controller() != 0xFFFF) {
             flag = 0;
             if (((TObjCollidable *)p)->test_actor_flags(0x100000) != 0) {
@@ -514,7 +514,7 @@ void show_partner_chatter_for_key(s16 key) {
     s32 i;
     saddr player;
     for (i = 0; i < 4; i++) {
-        player = get_player_by_client_id(i);
+        player = (saddr)get_player_by_client_id(i);
         if (player && reinterpret_cast<TObjPlayer *>(player)->obj_isState3_324() && key == ((TObjBase *)player)->get_room()
             && !(lbl_805D6EA0 & 2) && (*(Global_8034E5A8 *)&npc_partner_dialogue_state).f46e) {
             TWindowCtrl::open(((TObjBase *)(player))->get_entity_id(), (saddr)(&(*(Global_8034E5A8 *)&npc_partner_dialogue_state).f46e), 0x1B);
@@ -528,7 +528,7 @@ void notify_partner_room_cleared(s32 arg0) {
     saddr p;
     i = 0;
     do {
-        p = get_player_by_client_id(i);
+        p = (saddr)get_player_by_client_id(i);
         if (p != 0 && reinterpret_cast<TObjPlayer *>(p)->obj_isState3_324() != 0 && arg0 == ((TObjBase *)p)->get_room() && !(lbl_805D6EA0 & 2) && *win != 0) {
             TWindowCtrl::open(((TObjBase *)(p))->get_entity_id(), (saddr)((void *)((saddr)win)), 0x1B);
         }
@@ -538,7 +538,7 @@ void notify_partner_room_cleared(s32 arg0) {
 
 void quest_remove_npc_player(u16 arg0) {
     saddr player;
-    player = ((saddr)((void *)get_player_by_client_id(arg0)));
+    player = (saddr)get_player_by_client_id(arg0);
     if (player != 0) {
         TObjPlayer::send_item_pickup_request(player);
         if ((u32) player != 0U) {
@@ -552,7 +552,7 @@ void TNpcPlayer::enable_all_battle_ctrl() {
     void *player;
     var_r31 = 0;
     do {
-        player = ((void *)get_player_by_client_id(var_r31));
+        player = (void *)get_player_by_client_id(var_r31);
         if ((player != NULL) && (((TObjChara *)player)->obj_isState3_324() != 0) && (player != NULL)) {
             ((VObj_8034E440*)player)->m0(1);
         }
@@ -658,7 +658,7 @@ void quest_player_face_actor(u16 src, u16 dst) {
 void TNpcPlayer::play_effect(int arg0) {
     saddr player;
 
-    player = get_player_by_client_id((u16) arg0);
+    player = (saddr)get_player_by_client_id((u16) arg0);
     if ((player != 0) && (((TObjChara *)player)->obj_isState2_324() == 0)) {
         TObjPlayer::play_effect_default(player, -1);
     }
@@ -667,15 +667,15 @@ void TNpcPlayer::play_effect(int arg0) {
 void TNpcPlayer::send_code_45_to_player(int arg0) {
     saddr player;
 
-    player = get_player_by_client_id((u16) arg0);
+    player = (saddr)get_player_by_client_id((u16) arg0);
     if ((player != 0) && (((TObjChara *)player)->obj_isState2_324() == 0)) {
         TObjPlayer::send_code_45_1(player);
     }
 }
 
 void TNpcPlayer::send_warp_toward_player(u16 id, const Vec *destination) {
-    TObjPlayer *npc = reinterpret_cast<TObjPlayer *>(get_player_by_client_id(id));
-    TObjPlayer *local_player = reinterpret_cast<TObjPlayer *>(get_player_by_client_id(local_client_id));
+    TObjPlayer *npc = get_player_by_client_id(id);
+    TObjPlayer *local_player = get_player_by_client_id(local_client_id);
     if (local_player == NULL || id == 0) {
         return;
     }
@@ -709,7 +709,7 @@ void TObjPlayer::update_4p_battle_ctrls() {
 
     var_r31 = 0;
     do {
-        if ((player = get_player_by_client_id(var_r31)) != 0) {
+        if ((player = ((saddr)get_player_by_client_id(var_r31))) != 0) {
             TObjPlayer::send_item_pickup_request(player);
         }
         var_r31 += 1;
@@ -723,7 +723,7 @@ void TObjPlayer::notify_all_battle_players() {
 
     var_r31 = 0;
     do {
-        if ((tmp_player = (s32)get_player_by_client_id(var_r31)) != 0U) {
+        if ((tmp_player = (saddr)get_player_by_client_id(var_r31)) != 0U) {
             TObjPlayer::notify_field1c(tmp_player);
         }
         var_r31 += 1;

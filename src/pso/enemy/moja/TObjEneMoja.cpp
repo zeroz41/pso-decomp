@@ -61,6 +61,7 @@
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 #include "pso/player/TPlyDispData.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/player/PlayerSlots.h"
 extern "C" {
 s32 spawn_dead_spot_scale15(void *, int);
 void TObjPlayer__sub_800ACA0C(void *);

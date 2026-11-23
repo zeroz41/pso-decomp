@@ -99,6 +99,7 @@ struct Obj_801547E0;
 #include "pso/system/task/TObject.h"
 #include "pso/unk/TLobby.h"
 #include "pso/unk/text_803D96A8.h"
+#include "pso/player/PlayerSlots.h"
 
 union ObjectSavedState_801548A8 {
     u32 word;
@@ -150,7 +151,6 @@ s32 angle_diff_s16(s32 a, s32 b);
 extern saddr TObjPlayer__data_8050D460[];
 void *__construct_new_array(void *, void (*)(void *), void *, s32, s32);
 Part_80156780 *init_collision_body_parts(Obj_80156780 *self, Part_80156780 *src, s32 count);
-void *get_player_by_client_id(u32 id);
 void TLobby__sub_80156BA8(void *p);
 void check_enemy_body_collisions(TObjCollidable *actor);
 extern unsigned char lbl_8050DAD0[];

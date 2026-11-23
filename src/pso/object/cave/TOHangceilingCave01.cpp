@@ -31,6 +31,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/player/PlayerSlots.h"
 
 struct Q_801681D0 { f32 w[4]; };
 

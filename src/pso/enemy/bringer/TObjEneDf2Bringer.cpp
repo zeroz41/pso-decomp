@@ -139,12 +139,11 @@ TObjMotionAction bringer_motion_actions[11] = {
 #include "pso/boss/derolle/TObjBoss2Tunnel_8007E418.h"
 #include "pso/render/StripBufferPair.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/player/PlayerSlots.h"
 
 #pragma defer_codegen on
 
 
-extern "C" {
-}
 
 saddr bringer_boss_stats_handle;
 saddr bringer_boss_stats_ptr_b;

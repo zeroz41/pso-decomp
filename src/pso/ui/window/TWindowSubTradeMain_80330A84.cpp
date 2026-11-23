@@ -86,7 +86,6 @@ extern "C" {
 saddr get_window_layout_position(s32);
 void TWindowSubTradeMain__sub_803323A8(void *);
 void TWindowSubTradeMain__sub_803323B8(void *);
-Plr_803310BC *get_player_by_client_id(s32);
 TWindowHelpItem *__ct__15TWindowHelpItemFPvl(TWindowHelpItem *, void *, u32);
 TWindowInputNumber *__ct__18TWindowInputNumberFPvllls(TWindowInputNumber *, void *, s32, s32, s32, s16);
 }
@@ -95,6 +94,7 @@ TWindowInputNumber *__ct__18TWindowInputNumberFPvllls(TWindowInputNumber *, void
 #include "pso/ui/chat/TWindowChat.h"
 #include "pso/ui/window/TWindowOptionCtrl.h"
 #include "pso/ui/window/TWindowSubItem.h"
+#include "pso/player/PlayerSlots.h"
 
 struct RecoveredFields_80331434_arg0
 {
@@ -128,8 +128,6 @@ struct TWindowSubTradeMain_8033162C {
     void *chat;
     u8 submission[4];
 };
-extern "C" {
-}
 saddr create_titled_window_menu(saddr arg0, s32 arg1, saddr arg2, s32 arg3);
 void window_request_show(void *);
 extern "C" {
@@ -177,7 +175,7 @@ TWindowSubTradeMain::TWindowSubTradeMain(TWindowMainMenu *parent, s32 client) : 
     parent_menu->hide_for_subwindow();
     chat = new TWindowChat(this, &submission);
     fn_8027B2A8(chat);
-    x = get_player_by_client_id(client_id);
+    x = (Plr_803310BC *)get_player_by_client_id(client_id);
     if (x != NULL) {
         ((TObjPlayer *)x)->start_freeze();
     }
@@ -696,7 +694,7 @@ TWindowMessageYesNo *TWindowSubTradeMain::open_confirm_prompt() {
 saddr TWindowSubTradeMain::create_trade_window() {
     Plr_80331178 *p;
     saddr w;
-    p = ((Plr_80331178 *)get_player_by_client_id((s8)TLobby::get_trade_mode()));
+    p = (Plr_80331178 *)get_player_by_client_id((s8)TLobby::get_trade_mode());
     if (p == NULL) {
         return 0;
     }
@@ -712,7 +710,7 @@ saddr TWindowSubTradeMain::create_trade_window() {
 saddr TWindowSubTradeMain::open_trade_equip_window() {
     Plr_803310BC *p;
     saddr w;
-    p = get_player_by_client_id(((Self_803310BC *)this)->client);
+    p = (Plr_803310BC *)get_player_by_client_id(((Self_803310BC *)this)->client);
     if (p == NULL) {
         return 0;
     }

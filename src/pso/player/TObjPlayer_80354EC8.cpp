@@ -92,6 +92,7 @@ void TObjPlayer::destroy_static_array() {
 __declspec(section ".ctors") static void *const __sinit_TObjPlayer_80354EC8_cpp_ref = (void *)__sinit_TObjPlayer_80354EC8_cpp;
 
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
+#include "pso/player/PlayerSlots.h"
 
 extern "C" {
 

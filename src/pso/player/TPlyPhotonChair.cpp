@@ -21,6 +21,7 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/system/vector.h"
 #include "pso/system/task/TObject.h"
+#include "pso/player/PlayerSlots.h"
 
 extern void *__vt__13TUnk_804A7478[];
 extern void *__vt__13TUnk_804A7488[];
@@ -142,7 +143,6 @@ struct Chair_8035B058 {
 };
 
 extern "C" {
-void *get_player_by_client_id(s32 i);
 void TPlyPhotonChair__sub_8035B56C(void* p, f32 v);
 extern uaddr TPlyPhotonChair__shared_model_resource;
 s32 get_bml_motion(int, int);

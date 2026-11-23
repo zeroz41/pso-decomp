@@ -65,6 +65,7 @@
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/unk/text_803D853C.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/player/PlayerSlots.h"
 
 #pragma readonly_strings on
 

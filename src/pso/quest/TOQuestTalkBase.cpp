@@ -17,6 +17,7 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/unk/text_803E2D70.h"
+#include "pso/player/PlayerSlots.h"
 
 
 void TOQuestTalkBase::update_demo() {}

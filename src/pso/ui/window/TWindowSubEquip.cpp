@@ -5,10 +5,10 @@
 #include "pso/ui/window/TWindowMenuIconLine.h"
 #include "pso/ui/window/TWindowHelpItem_802540AC.h"
 #include "pso/ui/window/TWindowHelpItem.h"
+#include "pso/player/PlayerSlots.h"
 
 extern "C" {
 
-void *get_player_by_client_id(s32 i);
 
 void TWindowSubEquip::update_displayed_item() {
     s32 temp_r3;

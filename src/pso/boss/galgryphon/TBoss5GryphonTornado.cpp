@@ -18,6 +18,7 @@
 #include "pso/boss/goldragon/TBoss8Dragon_8005D700.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/map/CsnGroundQuery.h"
+#include "pso/player/PlayerSlots.h"
 
 
 void TBoss5GryphonTornado::get_target_direction(Vec *dir) {

@@ -35,6 +35,7 @@
 #include "pso/unk/text_803D96A8.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/effect/TEF_PvrWave.h"
+#include "pso/player/PlayerSlots.h"
 
 struct SurfaceAreaTable { s32 enabled[36]; };
 
@@ -219,7 +220,6 @@ extern "C" {
 
 s32 TScene__sub_80205874(void*);
 
-void *get_player_by_client_id(s32 i);
 }
 
 struct Task_80204688 { u8 pad[0x1C]; s32 count; };
@@ -480,7 +480,7 @@ s32 find_section_at_position(Vec *pos) {
 s32 TScene::find_player_section(u16 client_id) {
     TObjPlayer *player;
 
-    player = (TObjPlayer *)get_player_by_client_id(client_id);
+    player = get_player_by_client_id(client_id);
     if (player != NULL) {
         return find_section_at_position(&player->position);
     }

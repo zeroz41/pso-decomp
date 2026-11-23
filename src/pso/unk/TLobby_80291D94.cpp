@@ -24,6 +24,7 @@
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC_801E0C30.h"
+#include "pso/player/PlayerSlots.h"
 
 struct G_80070B34 { u8 pad[0x10]; s32 x10; };
 
@@ -234,7 +235,6 @@ void set_challenge_time_window_timer(int);
 extern "C" {
 saddr TWindowSubStatusDisp__sub_8006F134(s32, s32);
 s32 TLobby__sub_802924B4(s32 arg0, u16 arg1);
-uaddr get_player_by_client_id(s32);
 s32 TLobby__sub_802923C4(s32 idx, s32 value, s32 arg);
 s32 TLobby__sub_80292DA0(s32 seed, u16 card);
 #define TLobby__sub_80292DA0 ((s32 (*)(s32, s32))TLobby__sub_80292DA0)
@@ -305,7 +305,7 @@ s32 TLobby__sub_8029204C(void) {
         arr[i] = 0;
     }
     for (i = 0; i < 4; i++) {
-        if (get_player_by_client_id(i) != 0) {
+        if (get_player_by_client_id(i) != NULL) {
             v = ((s32 *)lbl_804DB1F0)[i + 0x1A0];
             if (v == 0) {
                 return -1;
@@ -339,7 +339,7 @@ void TLobby::store_challenge_seeds(s32 seed) {
     s32 i;
     if (is_challenge_mode_active() != 0) {
         for (i = 0; i < 4; i++) {
-            if (get_player_by_client_id(i) != 0) {
+            if (get_player_by_client_id(i) != NULL) {
                 s32 v = mix_seed_checked__6TLobbyFi(seed);
                 if (TLobby::is_value_out_of_range(seed) != 0) {
                     v = mix_seed_checked__6TLobbyFi(0x8C9F);
@@ -515,7 +515,7 @@ void TLobby::rebuild_players_for_stage(s32 arg0) {
         return;
     }
     for (i = 0; i < 4; i++) {
-        p = (TObjPlayer *)get_player_by_client_id(i);
+        p = get_player_by_client_id(i);
         ((TObjPlayer *)(&hdr))->clear_header_struct();
         if (p != NULL) {
             VecCopy((Vec *)&pos, (const Vec *)((u8 *)p + 0x38));
@@ -748,7 +748,7 @@ s32 TLobby::calc_min_challenge_progress() {
     var_r31 = TWindowSubStatusDisp::get_layout_id(TWindowSubStatusDisp::resolve_player_slot(-1));
     var_r30 = 0;
     do {
-        if (get_player_by_client_id(var_r30) != 0U) {
+        if (get_player_by_client_id(var_r30) != NULL) {
             temp_r3 = count_card_layout_entries(var_r30);
             if (var_r31 > temp_r3) {
                 var_r31 = temp_r3;
@@ -969,7 +969,7 @@ void setup_split_screen(void) {
         ((TLobby *)((saddr)"Area00"))->set_split_screen_name();
         var_r31 = 0U;
         do {
-            player = get_player_by_client_id(var_r31);
+            player = (uaddr)get_player_by_client_id(var_r31);
             temp_r4 = (u32)TAdSinglePlyChrSelectGC::get_char_index(var_r31);
             if ((player != 0U) && (temp_r4 != 0U)) {
                 export_character_data__10TObjPlayerFPvPv(player, temp_r4);
@@ -981,7 +981,7 @@ void setup_split_screen(void) {
 extern "C" {
 
 void TLobby__sub_80293218(s32 arg0) {
-    TObjPlayer *p = reinterpret_cast<TObjPlayer *>(get_player_by_client_id(arg0));
+    TObjPlayer *p = reinterpret_cast<TObjPlayer *>(((uaddr)get_player_by_client_id(arg0)));
     if (p != NULL) {
         ChallengeTombstonePlayerSlot *r = &(*(G_80293218 *)&lbl_804DB1F0).r[arg0];
         if (r->active != 0) {
@@ -1021,7 +1021,7 @@ void TLobby::spawn_player_tombstones2() {
     TLobby::reset_tombstone_values();
     for (i = 0; i < 4; i++) {
         r = &((G_802932EC *)lbl_804DB1F0)->recs[i];
-        if (r->active != 0 && get_player_by_client_id(i) != 0) {
+        if (r->active != 0 && get_player_by_client_id(i) != NULL) {
             t = &r->spot;
             if (t->phase == TWindowSubStatusDisp::resolve_player_slot(-1) &&
                 t->layout == ((G_802932EC *)lbl_804DB1F0)->layout &&
@@ -1082,7 +1082,7 @@ void snapshot_player_card_status__6TLobbyFv(void) {
     s32 i;
     TLobby::clear_card_status_flags();
     for (i = 0; i < 4; i++) {
-        if (get_player_by_client_id(i) != 0 && (u8 *)get_character_save_record(i) != NULL) {
+        if (get_player_by_client_id(i) != NULL && (u8 *)get_character_save_record(i) != NULL) {
             ChallengeClientRecords *r = &((ChallengeModeState *)lbl_804DB1F0)->client_records[i];
             r->present = 1;
             r->records = *(ChallengeRecord *)(get_character_save_record(i) + 0x21C4);

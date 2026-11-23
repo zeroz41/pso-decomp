@@ -52,6 +52,7 @@
 #include "pso/system/ControllerInput.h"
 #include "pso/object/warp/TObjCityMainWarp.h"
 #include "pso/ui/window/TWindowHelpItem_802540AC.h"
+#include "pso/player/PlayerSlots.h"
 
 
 #pragma readonly_strings on

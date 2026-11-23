@@ -51,6 +51,7 @@
 #include "pso/unk/TLobby_80131794.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/unk/text_800F8A18.h"
+#include "pso/player/PlayerSlots.h"
 
 typedef struct RadarInitPiece_801F9474 {
     s16 id, flags;
@@ -264,7 +265,6 @@ extern s16 *TRaderMapCore__floor_discovery_table[];
 s32 init_radar_floor_flags(s32 floor, RadarInitMap_801F9474 *map);
 void* __ct__5THeapFUli(void*, u32, s32);
 void TRaderMapCore__sub_801F95CC(void);
-void *get_player_by_client_id(s32 i);
 f32 xz_distance_squared(void *, void *);
 extern Gate_801FA1E0 TRaderMapCore__marker_buffer[128];
 s32 minimap_render_dot(Vec *arg0, s32 arg1, s16 arg2, s32 arg3);

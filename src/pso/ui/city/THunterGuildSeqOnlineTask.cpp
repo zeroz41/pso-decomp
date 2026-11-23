@@ -28,6 +28,7 @@
 #include "pso/system/ControllerInput.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include <string.h>
+#include "pso/player/PlayerSlots.h"
 
 
 struct Pkt_80214F80 {
@@ -58,7 +59,6 @@ extern uaddr TQuestListOnline__download_window;
 extern TWindowMessage *TQuestListOnline__quest_info_window;
 extern void *TQuestListOnline__download_barrier_window;
 void TKeyBoardControl__sub_8000F950();
-void *get_player_by_client_id(s32);
 extern s32 local_client_id;
 extern s32 quest_download_active;
 saddr get_message_text(s32 arg0);

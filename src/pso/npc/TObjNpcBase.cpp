@@ -40,6 +40,7 @@
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/player/PlayerSlots.h"
 
 extern "C" {
 const char *TObjNpcBase__name = "TObjNpcBase";

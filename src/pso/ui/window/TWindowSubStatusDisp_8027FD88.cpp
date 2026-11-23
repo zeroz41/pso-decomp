@@ -320,7 +320,6 @@ typedef struct Entry_80280B1C {
 } Entry_80280B1C;
 extern "C" {
 s32 TLobby__sub_801C2614();
-void *get_player_by_client_id(s32 i);
 void vt11__20TWindowSubStatusDispFv(Wn_80280F14 *arg0);
 }
 void set_text_entry_string(u8 *arg0, uaddr str, s32 arg2);
@@ -333,10 +332,8 @@ const s32 status_disp_vt5_message_ids[4] = {0x91, 0x92, 0x91, 0x92};
 }
 
 #include "types.h"
+#include "pso/player/PlayerSlots.h"
 
-extern "C" {
-void *get_player_by_client_id(s32 i);
-}
 
 // list type of m_68 per page: the page-flip list kind passed to fn_8026C7AC
 const u8 lbl_805DD6F4[4] = {3, 4, 4, 0};
@@ -485,7 +482,7 @@ void vt11__20TWindowSubStatusDispFv(Wn_80280F14 *arg0) {
     VObj_18_eecf68 *p;
     player_stats *q;
     En_80280F14 *e;
-    p = ((VObj_18_eecf68 *)get_player_by_client_id(arg0->f20));
+    p = (VObj_18_eecf68 *)get_player_by_client_id(arg0->f20);
     if (p != NULL) {
         q = reinterpret_cast<player_stats *>(((TObjPlayer *)p)->get_stats());
         if (q != NULL) {

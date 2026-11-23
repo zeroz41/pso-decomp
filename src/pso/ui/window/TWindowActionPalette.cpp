@@ -27,6 +27,7 @@
 #include "pso/system/ControllerInput.h"
 #include "pso/enemy/shinowa/TObjEneMe3ShinowaReal_8002ADD8.h"
 #include "pso/ui/window/WindowLayout.h"
+#include "pso/player/PlayerSlots.h"
 
 // Built with deferred code generation: data come first, functions come out
 // in reverse source order (so they are written last to first).

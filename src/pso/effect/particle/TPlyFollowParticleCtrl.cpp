@@ -21,6 +21,7 @@
 #include "pso/player/TPlyPtclObjectLeftHand.h"
 #include "pso/player/TPlyPtclObjectRightHand.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/player/PlayerSlots.h"
 
 const char *TPlyFollowParticleCtrl::class_name = "TPlyFollowParticleCtrl";
 const char *TPlyPtclObjectLeftHand::class_name = "TPlyPtclObjectLeftHand";
@@ -103,8 +104,6 @@ TParticleCtrl *emit_player_particle(void *owner, const Vec *position, s32 id) { 
 
 // The emitters below take target_id as an int while find_entity_by_id and set_owner_id
 // take u16, and the int is passed on unconverted, so both are called through int prototypes.
-extern "C" {
-}
 
 s32 TObjPlayer::check_hit_by_id(saddr owner, u16 target_id, s32 id) {
     TObjCollidable *target = find_entity_by_id(target_id);

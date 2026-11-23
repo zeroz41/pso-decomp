@@ -12,6 +12,7 @@
 #include "pso/unk/text_8024AD30.h"
 #include "pso/boss/volopt/TObjVoloptCage.h"
 #include "pso/network/client_id.h"
+#include "pso/player/PlayerSlots.h"
 
 struct Pkt_80186CC8 { u8 cmd; u8 size; u16 id; u16 value; u16 pad; };
 

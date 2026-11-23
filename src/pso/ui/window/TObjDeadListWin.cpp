@@ -13,8 +13,8 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/ui/window/TWindowCtrlMain_8024CB7C.h"
+#include "pso/player/PlayerSlots.h"
 extern "C" {
-saddr get_player_by_client_id(s32);
 extern s32 local_client_id;
 extern const char TObjDeadListWin_class_name[] = "TObjDeadListWin";
 const char* TObjDeadListWin_name = TObjDeadListWin_class_name;
@@ -45,7 +45,7 @@ void TObjDeadListWin::build_dead_list_window() {
 void TObjDeadListWin::update_countdown() {
     s32 temp_r0;
     saddr player;
-    player = get_player_by_client_id(local_client_id);
+    player = (saddr)get_player_by_client_id(local_client_id);
     if ((player == 0) || (((TObjCollidable *)player)->test_actor_flags(0x02000000) != 0)) {
         queue_destruction();
         return;
@@ -83,7 +83,7 @@ void TObjDeadListWin::refresh_names() {
 }
 
 void TObjDeadListWin::run_task() {
-    if (get_player_by_client_id(local_client_id) == 0U) {
+    if (get_player_by_client_id(local_client_id) == NULL) {
         queue_destruction();
         return;
     }

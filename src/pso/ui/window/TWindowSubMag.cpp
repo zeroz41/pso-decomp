@@ -40,6 +40,7 @@
 #include "pso/ui/window/TWindowHelpItem_802540AC.h"
 #include "pso/ui/window/TWindowMainMenu.h"
 #include "pso/ui/window/TWindowSubEquip_80263AB0.h"
+#include "pso/player/PlayerSlots.h"
 
 #pragma readonly_strings on
 
@@ -55,7 +56,6 @@ extern "C" {
 s32 calc_text_width();
 s32 text_builder_append();
 saddr get_window_layout_position(s32);
-void *get_player_by_client_id(s32);
 void *__ct__15TWindowHelpItemFPvl(void *, s32, s32);
 s32 play_sound_effect(s32, s32, s32, s32);
 s32 are_status_entries_ready__13TWindowSubMagFi(void *);

@@ -24,6 +24,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp_8024FBA8.h"
 #include "pso/unk/text_80104FCC.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
+#include "pso/player/PlayerSlots.h"
 
 extern "C" {
 void mem_free(void *);
@@ -159,7 +160,6 @@ extern "C" {
 extern const f32 lbl_805DCF04;
 extern const f32 lbl_805DCF08;
 void TWindowSubStatusDisp__sub_80258A28(ItemListRow *row, s32 arg1, s32 arg2);
-void *get_player_by_client_id(s32 i);
 
 void ItemListRow::update_item_icon_colors(void *item) {
     s16 sp8;

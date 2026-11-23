@@ -25,6 +25,7 @@
 #include "pso/unk/text_803D96A8.h"
 #include "pso/render/render_util.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/player/PlayerSlots.h"
 
 
 static const f32 lbl_805DC888[1] = {1.0f};

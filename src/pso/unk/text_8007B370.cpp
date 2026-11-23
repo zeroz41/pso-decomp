@@ -1,6 +1,7 @@
 #include "types.h"
 #include <string.h>
 #include "pso/player/TPlyPhotonChair.h"
+#include "pso/player/PlayerSlots.h"
 
 struct VBase_18_26c590
 {
@@ -23,7 +24,6 @@ struct VObj_18_26c590 : VBase_18_26c590 {
 
 extern "C" {
 s32 TObjPlayer__sub_801AFD8C(u8 *arg0);
-void *get_player_by_client_id(s32 i);
 s32 __as__16TPlyGuildCardTagFRC16TPlyGuildCardTag(void *);
 }
 s32 fill_guild_card_from_player(u8 *arg0, u32 arg1);

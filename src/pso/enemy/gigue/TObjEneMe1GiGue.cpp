@@ -59,6 +59,7 @@
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/npc/TNpcPlayer_800D87A8.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/player/PlayerSlots.h"
 
 s32 get_gigue_int_parameter(TObjEneMe1GiGue *, s32);
 f32 get_gigue_float_parameter(TObjEneMe1GiGue *, s32);

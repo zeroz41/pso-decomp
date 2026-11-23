@@ -18,6 +18,7 @@
 #include "pso/item/TItemData.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/unk/text_80104FCC.h"
+#include "pso/player/PlayerSlots.h"
 
 
 #pragma inline_depth(1)
@@ -209,7 +210,6 @@ s8 lbl_805D6449;
 s8 lbl_805D644A;
 s8 lbl_805D644B;
 
-void *get_player_by_client_id(s32 i);
 void TWindowHelpItem__vt9(HelpItem_80254F18 *self);
 void preview_unequip_stats__10TObjPlayerFv(s32, Stats_802541E0 *, s32);
 s32 preview_equip_stats__10TObjPlayerFv(u8 *arg0, s16 *out, u8 *incoming);

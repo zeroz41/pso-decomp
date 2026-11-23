@@ -69,6 +69,7 @@ s32 select_main_menu_item_10(s32);
 }
 
 #include "pso/ui/window/TWindowMainMenu1P.h"
+#include "pso/player/PlayerSlots.h"
 extern "C" {
 s32 __ct__17TWindowSubAreaMapFP7TObjectPv(int, void *, int);
 s32 __ct__17TWindowSubComCardFP7TObjectPv(int, void *, int);

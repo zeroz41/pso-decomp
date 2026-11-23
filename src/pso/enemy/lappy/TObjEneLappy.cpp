@@ -911,6 +911,7 @@ void *TObjEneLappy::create(void *set) {
 #include "pso/system/TLanguage_801E4874.h"
 #include "pso/ui/TLevelSelect.h"
 #include "pso/network/TPlyJoinLobbyEntry.h"
+#include "pso/player/PlayerSlots.h"
 
 extern "C" {
 __declspec(section ".data") saddr lappy_boss_stats_handles[2];

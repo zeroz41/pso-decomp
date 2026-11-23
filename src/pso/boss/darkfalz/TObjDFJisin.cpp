@@ -91,6 +91,7 @@ Mtx34 df_captured_matrix_pair[2];
 #include "pso/boss/darkfalz/TObjDFUsoTower.h"
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
 #include "pso/ui/TLevelSelect.h"
+#include "pso/player/PlayerSlots.h"
 
 
 // Written last to first: the unit is generated deferred (see configure.py).

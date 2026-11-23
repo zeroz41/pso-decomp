@@ -9,6 +9,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/player/TForceOperate.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/player/PlayerSlots.h"
 
 struct Ent_801BC194 { u8 pad[0x14]; };
 
@@ -19,7 +20,6 @@ s32 get_main_phase();
 void reset_cameras_to_actor(void *actor, s32 arg1);
 extern "C" {
 s32 is_key_machine_ready__10TObjPlayerFv();
-void *get_player_by_client_id(s32);
 u8 *find_player_arrival_set(void *, s32);
 s32 TObjPlayer__sub_801BF954(void *, int);
 s32 TObjPlayer__sub_801BF95C(void *);

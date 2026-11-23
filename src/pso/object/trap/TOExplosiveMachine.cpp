@@ -18,6 +18,7 @@
 #include "pso/unk/text_803D96A8.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/render/render_util.h"
+#include "pso/player/PlayerSlots.h"
 
 extern "C" {
 s32 post_translate_matrix(const Vec *);

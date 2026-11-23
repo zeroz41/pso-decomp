@@ -6,12 +6,12 @@
 #include "pso/unk/TLobby.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/ui/window/TWindowCtrl.h"
+#include "pso/player/PlayerSlots.h"
 
 struct Pkt_80076E98 { u8 pad[4]; s32 f4; u32 f8; };
 
 extern "C" {
 extern u8 *text_language_group_table;
-void *get_player_by_client_id(s32 i);
 SymbolChatPreset symbol_chat_receive_buffer;
 extern s32 local_client_id;
 void handle_6x07_symbol_chat(Pkt_80076E98 *arg0);

@@ -46,6 +46,7 @@
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/task/TObject.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/player/PlayerSlots.h"
 
 
 BmlResource *TOTrapAncient01__bml_resource;

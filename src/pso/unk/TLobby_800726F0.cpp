@@ -21,6 +21,7 @@
 #include "pso/object/warp/TObjCityMainWarp.h"
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/ui/window/TWindowCtrlMain_8024CB7C.h"
+#include "pso/player/PlayerSlots.h"
 
 
 #pragma readonly_strings on
@@ -48,7 +49,6 @@ void TLobby__sub_80072AB8(void *arg0);
 s32 TLobby__sub_8006FBE4();
 saddr get_message_text(s32);
 saddr get_window_layout_position(s32);
-saddr get_player_by_client_id(s32);
 extern saddr local_client_id;
 extern s32 TLobby__designated_client_id;
 u8 is_challenge_lobby__6TLobbyFv(void);
@@ -230,7 +230,7 @@ void TObjChallengeRetry::open_loss_menu() {
 }
 void TLobby::send_45_and_close_windows(void * _w0) {
     saddr player;
-    player = get_player_by_client_id(local_client_id);
+    player = (saddr)get_player_by_client_id(local_client_id);
     if ((player != 0) && (((TObjPlayer *)player)->check_player_flag1() != 0)) {
         TObjPlayer::send_code_45_1(player);
     }
@@ -241,7 +241,7 @@ void TLobby::show_ctrl_and_play_effect(void* a0) { TWindowCtrl::suppress_slot(*(
 void TLobby::play_default_effect(void* a0) { TWindowCtrl::disable_client_main_menu(local_client_id); ((TLobby *)a0)->play_player_default_effect(); }
 void play_player_default_effect__6TLobbyFv(s32 _w0) {
     saddr player;
-    player = get_player_by_client_id(local_client_id);
+    player = (saddr)get_player_by_client_id(local_client_id);
     if ((player != 0) && (((TObjPlayer *)player)->check_player_flag1() == 0)) {
         TObjPlayer::play_effect_default(player, -1);
     }
@@ -324,7 +324,7 @@ block_6:
 void TObjChallengeRetry::handle_challenge_retry_confirm() {
     TObjPlayer *player;
     TLobby::play_default_effect(this);
-    player = (TObjPlayer *)get_player_by_client_id(local_client_id);
+    player = get_player_by_client_id(local_client_id);
     if ((player != NULL) && (player->is_controls_locked() == 0) && (test_pressed_buttons_packed(&controller_input_state.controllers[0], 4) != 0)) {
         TLobby::send_45_and_close_windows(this);
         TLobby::show_ctrl_and_play_effect(this);
@@ -361,7 +361,7 @@ void TObjChallengeRetry::sub_8007313C() {
       var_r31 = 1;
       var_r30 = new_var;
       loop_6:
-      collidable = (u8 *) ((saddr (*)(u32))get_player_by_client_id)(var_r30);
+      collidable = (u8 *)get_player_by_client_id(var_r30);
       if ((collidable != 0) && (((TObjCollidable *)collidable)->test_actor_flags(0x02000000) != 0))
       {
         var_r31 = 0;

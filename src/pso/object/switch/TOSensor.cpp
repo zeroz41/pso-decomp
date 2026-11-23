@@ -12,6 +12,7 @@
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/system/vector.h"
+#include "pso/player/PlayerSlots.h"
 
 const char *TOSensor__class_name = "TOSensor";
 

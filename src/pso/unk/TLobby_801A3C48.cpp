@@ -72,6 +72,7 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/font/TFontSmallTask.h"
 #include "pso/unk/TLobby_800F8AA8.h"
+#include "pso/player/PlayerSlots.h"
 
 
 struct Pair_801A3CFC { s32 f0; s32 f4; };
@@ -124,7 +125,6 @@ extern s32 lbl_805D5718;
 s32 unlock_main_warp_destination();
 s32 TObjPlayer__sub_801B1BA4();
 s32 TObjPlayer__sub_801B1C8C();
-void *get_player_by_client_id(s32);
 s32 load_area_scene_and_init(void *);
 s32 run_load_callback_table(void *, s32);
 void TLobby__sub_801A3E94(void);

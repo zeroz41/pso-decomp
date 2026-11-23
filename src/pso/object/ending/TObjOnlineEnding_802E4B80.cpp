@@ -33,6 +33,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp_80071774.h"
 #include "pso/system/TLoadCtrl_80227390.h"
 #include "pso/camera/TCameraCtrl.h"
+#include "pso/player/PlayerSlots.h"
 
 #pragma readonly_strings on
 

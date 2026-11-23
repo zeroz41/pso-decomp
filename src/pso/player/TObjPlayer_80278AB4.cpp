@@ -5,11 +5,11 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TPlyItem.h"
+#include "pso/player/PlayerSlots.h"
 
 
 extern "C" {
 
-void *get_player_by_client_id(s32 i);
 
 void TObjPlayer::build_shop_item_list() {
     s32 spC[30];

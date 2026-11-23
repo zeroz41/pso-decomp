@@ -33,6 +33,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/player/PlayerSlots.h"
 
 extern NJS_ARGB debug_color_green_half_alpha;
 extern NJS_ARGB debug_color_purple_half_alpha;

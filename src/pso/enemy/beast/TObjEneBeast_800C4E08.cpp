@@ -37,6 +37,7 @@
 #include "pso/math/MatrixTransforms.h"
 #include "pso/math/ScratchVectors.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/player/PlayerSlots.h"
 
 
 extern const Vec beast_zero_vector = { 0.0f, 0.0f, 0.0f };

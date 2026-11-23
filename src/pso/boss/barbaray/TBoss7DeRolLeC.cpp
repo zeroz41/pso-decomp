@@ -150,6 +150,7 @@ extern TObjMotionAction de_rol_le_c_action_table[17];
 #include "pso/render/model_render_state.h"
 #include "pso/map/area/AreaScene.h"
 #include "pso/player/TUnk_804E3BA8.h"
+#include "pso/player/PlayerSlots.h"
 
 // Step of a De Rol Le C action sequence: the action id and its parameter, a
 // duration in seconds (the timer compares against param * 30) or the

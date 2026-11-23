@@ -220,6 +220,7 @@ extern "C" { BmlResource *lbl_805D6808; }
 
 #include "pso/object/seabed/TObjSeabedSuisoBrakable.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/player/PlayerSlots.h"
 
 void TOTrapChainSaw::vfunc_16() {  }
 

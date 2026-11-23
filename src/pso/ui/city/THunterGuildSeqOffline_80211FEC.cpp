@@ -11,6 +11,7 @@
 #include "pso/system/task/TObject.h"
 #include <string.h>
 #include "pso/ui/window/TWindowSubStatusDisp_80248BE8.h"
+#include "pso/player/PlayerSlots.h"
 
 
 struct Seq_80212304 {
@@ -21,7 +22,6 @@ struct Seq_80212304 {
 
 extern "C" {
 f32 xz_distance_squared(void *, void *);
-void *get_player_by_client_id(s32 i);
 extern s32 TLobby__designated_client_id;
 extern s32 local_client_id;
 void *get_window_layout_position(s32);

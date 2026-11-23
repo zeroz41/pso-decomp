@@ -2,6 +2,7 @@
 #include "pso/object/warp/TObjAreaWarp.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/player/PlayerSlots.h"
 
 extern "C" {
 

@@ -38,6 +38,7 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/effect/particle/TTelepipeMarker.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/player/PlayerSlots.h"
 
 struct Stack_802340E4 {
     s32 sp8;
@@ -77,7 +78,6 @@ void TTecLuker__sub_8023503C(void* p);
 void TTecLuker__sub_80235048(void* p);
 int TTecLuker__sub_80235054(void* p);
 int fn_80235078(void *arg0);
-uaddr get_player_by_client_id(s32);
 s32 init_collision_body_parts(void *, void *, int);
 bool TTecLuker__sub_8023401C(u8 *arg0);
 }
@@ -304,7 +304,7 @@ void TTecLuker::run_task() {
             queue_destruction();
             return;
         }
-        if ((get_player_by_client_id(traveller) != 0) && (get_pipe_interaction_latch(field) != 0) && (are_players_gathered_near(&pipe_pos, 0, 10.0f) != 0)) {
+        if ((get_player_by_client_id(traveller) != NULL) && (get_pipe_interaction_latch(field) != 0) && (are_players_gathered_near(&pipe_pos, 0, 10.0f) != 0)) {
             offset_point_toward_camera((u8 *)&pipe_pos, (u8 *)&sp8, 10.0f);
             spawn_particle_effect((const Vec *)&sp8, 0xB3);
             player = (u8 *)get_player_by_client_id(traveller);
@@ -504,7 +504,7 @@ void TUnk_804CCA0C::run_task() {
   {
     for (j = 0; j < 4; j++)
     {
-      pl = get_player_by_client_id(j);
+      pl = (uaddr)get_player_by_client_id(j);
       if (pl != 0)
       {
         d = horizontal_distance_squared(&pos, (void *)(pl + 0x38));
@@ -594,8 +594,8 @@ void handle_6x68_set_telepipe_state(Pkt_802341B0 *pkt) {
     if (is_split_screen() == 0 && pkt->rec.owner == local_client_id) {
         return;
     }
-    other = get_player_by_client_id(pkt->rec.owner);
-    local = get_player_by_client_id(local_client_id);
+    other = (uaddr)get_player_by_client_id(pkt->rec.owner);
+    local = (uaddr)get_player_by_client_id(local_client_id);
     if (other != 0 && local != 0) {
         if (((TObjPlayer *)other)->get_floor() == ((TObjPlayer *)local)->get_floor()) {
             ((TTecLuker *)player)->create(player + 0x38, player + 0x38, 0);
@@ -719,7 +719,7 @@ void create_quest_telepipe_for_client(u16 client) {
 }
 
 void TTecLuker::create_for_player(int arg0, saddr arg1) {
-    uaddr r = get_player_by_client_id((s32)((u16)arg0));
+    uaddr r = (uaddr)get_player_by_client_id((s32)((u16)arg0));
     if (r != 0U) {
         ((TTecLuker *)r)->create((void *)arg1, (void *)arg1, (void *)(0xA));
     }
@@ -731,7 +731,7 @@ void TTecLuker::apply_all_players() {
 
     var_r31 = 0;
     do {
-        player = get_player_by_client_id(var_r31);
+        player = (uaddr)get_player_by_client_id(var_r31);
         if (player != 0U) {
             reset_telepipe_record((O_802340A0 *)(player + 0x830));
         }

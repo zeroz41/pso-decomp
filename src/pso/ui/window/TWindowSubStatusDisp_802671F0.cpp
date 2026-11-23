@@ -40,6 +40,7 @@
 #include "pso/unk/TLobby_8001D6A0.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80228F5C.h"
 #include "pso/ui/window/TWindowCtrl_8024A054.h"
+#include "pso/player/PlayerSlots.h"
 
 const char *TWindowMenuIconLine__name = "TWindowMenuIconLine";
 
@@ -147,7 +148,6 @@ WindowDescriptor lbl_804D0604 = {
 
 s32 clamp_list_scroll_offset(WindowScrollBar *scroll, void *offset, NJS_POINT2 *range);
 void fn_80266BD0(s32 index, u8 *first, u8 *second, s32 player);
-void *get_player_by_client_id(s32 i);
 s32 play_sound_effect(s32, s32, s32, s32);
 s32 is_flag80_set__20TWindowSubStatusDispFv(s32);
 }

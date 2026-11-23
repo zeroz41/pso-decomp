@@ -33,6 +33,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
 #include "pso/player/TPlyDispData.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/player/PlayerSlots.h"
 struct ByteBlock_F8 { u8 bytes[0xf8]; };
 
 struct Stack_802D23E0

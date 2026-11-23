@@ -41,6 +41,7 @@
 #include "pso/map/area/AreaScene.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/ui/window/TWindowCtrl.h"
+#include "pso/player/PlayerSlots.h"
 
 
 #define TOBJECT_OUT_OF_LINE_HELPERS

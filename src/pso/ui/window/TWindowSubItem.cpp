@@ -35,6 +35,7 @@
 #include "pso/ui/window/TWindowMainMenu.h"
 #include "pso/ui/window/TWindowSubEquip_80263AB0.h"
 #include "pso/ui/window/TWindowHelpItem.h"
+#include "pso/player/PlayerSlots.h"
 
 #pragma readonly_strings on
 
@@ -52,7 +53,6 @@ extern "C" {
 void TWindowSubItem__sub_8027AA30(u8 *arg0);
 s32 TWindowSubItem__sub_8027AA78(s32 arg0);
 saddr get_window_layout_position(s32);
-saddr get_player_by_client_id(s32);
 s32 TObjPlayer__sub_801B7B58(int, int, int);
 }
 
@@ -90,7 +90,7 @@ void populate_sub_item_list(Win_8027ABFC *arg0) {
     u32 i;
     void *it;
 
-    pl = reinterpret_cast<TObjPlayer *>(get_player_by_client_id(arg0->id));
+    pl = get_player_by_client_id(arg0->id);
     if (pl != NULL) {
         arg0->n = pl->inventory_objects->run_and_get_result((saddr)ids);
         for (i = 0; i < arg0->n; i++) {
@@ -196,7 +196,7 @@ TWindowSubItem::~TWindowSubItem() {
 void TWindowSubItem::run_task() {
     saddr p;
     s32 idx;
-    p = get_player_by_client_id(this->client_id);
+    p = (saddr)get_player_by_client_id(this->client_id);
     if (p != 0) {
         idx = is_player_input_active(this->client_id);
         switch (this->state) {
@@ -370,7 +370,7 @@ void TWindowSubItem::run_task() {
                 play_sound_effect(0x52F16, 0, 0, 0);
                 this->state = 1;
             }
-            p = get_player_by_client_id(this->client_id);
+            p = (saddr)get_player_by_client_id(this->client_id);
             if (p != 0 && TWindowSubItem::is_usable(p) != 0 && TWindowCtrl__sub_8024A228(this->client_id) != 0) {
                 ((TObjPlayer *)p)->send_trap_packet(((TWindowMenuIconLine *)item_list)->get_cursor_value() & 0xF);
                 this->state = 1;
@@ -384,7 +384,7 @@ void TWindowSubItem::run_task() {
                 play_sound_effect(0x52F16, 0, 0, 0);
                 this->state = 1;
             }
-            p = get_player_by_client_id(this->client_id);
+            p = (saddr)get_player_by_client_id(this->client_id);
             if (p != 0 && TWindowSubItem::is_usable(p) != 0 && TAdSinglePlyChrSelectGC::create_if_key_pressed() != 0) {
                 decrement_clamped((void *)(p + 0x7C8), 1);
                 this->state = 1;
@@ -543,7 +543,7 @@ void add_item_purpose_actions(TWindowSubItem *window_sub_item, saddr list, saddr
       }
       else
       {
-        player = get_player_by_client_id(window_sub_item->client_id);
+        player = (saddr)get_player_by_client_id(window_sub_item->client_id);
         if (player != 0)
         {
           if (((((TItem *)item)->check_equip_requirements((TObjPlayer *)player, (s16 *)(&sp8)) != 0) && (has_armor_with_unit_slot(window_sub_item, (TItem *)item) != 0)) && (get_current_floor_area() != AREA_LOBBY))
@@ -604,7 +604,7 @@ void TWindowSubItem::exec_item_command(saddr item_id, s32 arg2) {
     TItem *item;
     saddr t;
 
-    player = get_player_by_client_id(this->client_id);
+    player = (saddr)get_player_by_client_id(this->client_id);
     if ((player != 0) && (item = find_item_by_id(item_id), ((item == NULL) == 0))) {
         switch (arg2) {
         case 3:
@@ -632,7 +632,7 @@ void TWindowSubItem::exec_item_command(saddr item_id, s32 arg2) {
 }
 
 void TWindowSubItem::close_windows(s32 arg1) {
-    if (get_player_by_client_id(this->client_id) != 0U) {
+    if (get_player_by_client_id(this->client_id) != NULL) {
         switch (arg1) {
         case 0:
             close_sub_window__10TObjPlayerFv();
@@ -657,7 +657,7 @@ void TWindowSubItem::close_windows(s32 arg1) {
 #pragma scheduling off
 void TWindowSubItem::use_selected_item() {
     s32 player;
-    player = get_player_by_client_id(this->client_id);
+    player = (saddr)get_player_by_client_id(this->client_id);
     if (player != 0) {
         TObjPlayer__sub_801B7B58(player, (int) (((TWindowMenuIconLine *)this->item_list)->get_cursor_value()), ((TWindowSubItem *)(this->item_list))->get_selected_entry());
     }
@@ -668,7 +668,7 @@ s32 has_armor_with_unit_slot(TWindowSubItem *window_sub_item, TItem *item) {
     ItemData_80279754 d;
     saddr pl;
     uaddr armor;
-    pl = get_player_by_client_id(window_sub_item->client_id);
+    pl = (saddr)get_player_by_client_id(window_sub_item->client_id);
     if (pl == 0) {
         return 0;
     }

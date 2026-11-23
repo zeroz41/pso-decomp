@@ -23,6 +23,7 @@
 #include "pso/network/TProtocol.h"
 #include "pso/unk/text_803D853C.h"
 #include "pso/system/ControllerInput.h"
+#include "pso/player/PlayerSlots.h"
 
 
 const char *TOKey__class_name = "TOKey";

@@ -24,6 +24,7 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/unk/text_8011085C.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/player/PlayerSlots.h"
 
 extern const char TItemTimerEvent__class_name_string[] = "TItemTimerEvent";
 const char *TItemTimerEvent__class_name = TItemTimerEvent__class_name_string;
@@ -65,7 +66,6 @@ struct Rec_8011D5B4 { s32 k1; s32 v1; s32 k2; f32 v2; };
 struct Timer_8011D5B4 { u8 pad[0x28]; VObj_8011D5B4 *obj; f32 f2c; };
 
 extern "C" {
-u32 get_player_by_client_id(u16);
 TItemLockCountCtrl * item_timer_event_instance;
 s32 is_item_area_enabled(s32 area);
 
@@ -95,13 +95,13 @@ void TItemTimerEvent::clear_active() {
 
 void TItemTimerEvent::notify_if_active(int arg0) {
     uaddr player;
-    if ((player = get_player_by_client_id(arg0)) != 0U) {
+    if ((player = ((uaddr)get_player_by_client_id((u16)arg0))) != 0U) {
         ((TObjPlayer *)player)->set_flag_10000();
     }
 }
 
 void TItemTimerEvent::check_battle_ctrl(int arg0) {
-    uaddr player = get_player_by_client_id(arg0);
+    uaddr player = (uaddr)get_player_by_client_id((u16)arg0);
     if (player != 0U) {
         fn_8011E1D4((TObjPlayer *)player);
     }
@@ -151,7 +151,7 @@ TItemTimerEvent::TItemTimerEvent(TItemHeapObject *parent, u16 client, s32 period
 TItemTimerEvent::~TItemTimerEvent() {}
 
 void TItemTimerEvent::run_task() {
-    this->m_28 = get_player_by_client_id(this->m_1c);
+    this->m_28 = (uaddr)get_player_by_client_id((u16)this->m_1c);
     if ((u32) this->m_28 == 0U) {
         queue_destruction();
         return;

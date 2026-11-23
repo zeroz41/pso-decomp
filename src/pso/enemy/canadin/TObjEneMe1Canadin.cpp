@@ -64,6 +64,7 @@
 #include "pso/render/model_render_state.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/player/PlayerSlots.h"
 
 
 extern "C" {

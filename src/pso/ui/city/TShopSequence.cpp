@@ -9,6 +9,7 @@
 #include "pso/unk/text_8022350C.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/player/PlayerSlots.h"
 
 #pragma readonly_strings on
 
@@ -29,7 +30,6 @@ void set_service_counter_camera(s32 sequence, s32 counter) {
     create_conversation_camera(service_counter_camera_alt_table[counter]);
 }
 
-void *get_player_by_client_id(s32 i);
 s32 is_split_screen();
 
 int TShopSequence::vfunc_10() {

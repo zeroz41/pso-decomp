@@ -28,6 +28,7 @@
 #include "pso/system/ControllerInput.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/player/PlayerSlots.h"
 
 
 #pragma readonly_strings on
@@ -90,7 +91,6 @@ struct Luker_801A1260
 extern "C" {
 s32 play_sound_effect(s32, uaddr, s16, s32);
 void close_windows__9TObjLukerFPv(Obj_801A0DB4 *self);
-Ctrl_801A0E38 *get_player_by_client_id(u16 id);
 s32 is_split_screen(void);
 void *get_window_layout_position(s32 a);
 void *create_window_menu_default(void *p, s32 a);
@@ -164,7 +164,7 @@ void close_windows__9TObjLukerFPv(Obj_801A0DB4 *self) {
 
 void TObjLuker::open_destination_windows() {
     Obj_801A0E38 *self = (Obj_801A0E38 *)this;
-    s32 target = get_player_by_client_id(this->m_a8)->target;
+    s32 target = ((Ctrl_801A0E38 *)get_player_by_client_id(this->m_a8))->target;
     s32 i;
     for (i = 0; i < 4; i++) {
         if (self->wins[i] == 0 && target > 0) {
@@ -203,7 +203,7 @@ s32 are_players_gathered_near(void *arg0, s32 *arg1, f32 range) {
     i = 0;
     range = range * range;
     do {
-        p = (Plr_801A0F34 *)((Ctrl_801A0E38 *(*)(s32))get_player_by_client_id)(i);
+        p = (Plr_801A0F34 *)get_player_by_client_id(i);
         if (p != NULL) {
             pos = p->pos;
             if (!(p->flags & 0x800)) {
@@ -227,7 +227,7 @@ s32 are_players_gathered_near(void *arg0, s32 *arg1, f32 range) {
         s32 found = 0;
         s32 j;
         for (j = 0; j < TCameraCtrl::get_view_count(); j++) {
-            p = (Plr_801A0F34 *)((Ctrl_801A0E38 *(*)(s32))get_player_by_client_id)(TCameraCtrl::get_nth_view_player_id(j));
+            p = (Plr_801A0F34 *)get_player_by_client_id(TCameraCtrl::get_nth_view_player_id(j));
             if (p != NULL &&
                 test_pressed_buttons_packed(&controller_input_state.controllers[((TObjPlayer *)p)->get_controller_port()], 4) != 0) {
                 found = 1;
@@ -247,7 +247,6 @@ s32 are_players_gathered_near(void *arg0, s32 *arg1, f32 range) {
 }
 
 #define DB4_801A10A0 ((void (*)(void *))close_windows__9TObjLukerFPv)
-#define PBC_801A10A0 ((uaddr (*)(s32))get_player_by_client_id)
 
 s32 is_player_in_range__9TObjLukerFv(saddr arg0, f32 farg0) {
     uaddr p;
@@ -255,7 +254,7 @@ s32 is_player_in_range__9TObjLukerFv(saddr arg0, f32 farg0) {
     found = 0;
     if (is_split_screen() != 0) {
         for (saddr i = 0; i < 4; i++) {
-            p = PBC_801A10A0(i);
+            p = (uaddr)get_player_by_client_id(i);
             if (p != 0U) {
                 if (horizontal_distance_squared((void *)(arg0 + 0x38), (void *)(p + 0x38)) < (farg0 * farg0)) {
                     found = 1;
@@ -268,13 +267,13 @@ s32 is_player_in_range__9TObjLukerFv(saddr arg0, f32 farg0) {
             }
         }
         for (saddr i = 0; i < 4; i++) {
-            p = PBC_801A10A0(i);
+            p = (uaddr)get_player_by_client_id(i);
             if ((p != 0U) && (((TObjPlayer *)p)->is_controls_locked() == 1)) {
                 hide_part__9TObjLukerFPvUs((Obj_801A0C38 *)arg0, (((TObjBase *)((saddr)p))->get_entity_id()));
             }
         }
     } else {
-        p = PBC_801A10A0(local_client_id);
+        p = (uaddr)get_player_by_client_id(local_client_id);
         if ((p != 0U) && (horizontal_distance_squared((void *)(p + 0x38), (void *)(arg0 + 0x38)) < (farg0 * farg0))) {
             found = 1;
         }
@@ -309,8 +308,8 @@ void TObjLuker::transfer_to_town() {
   s32 i;
   u8 *p;
   s32 flag;
-  self = (u8 *) ((Ctrl_801A0E38 *(*)(s32)) get_player_by_client_id)(arg0->owner);
-  local = (u8 *) ((Ctrl_801A0E38 *(*)(s32)) get_player_by_client_id)(local_client_id);
+  self = (u8 *)get_player_by_client_id(arg0->owner);
+  local = (u8 *)get_player_by_client_id(local_client_id);
   if ((((get_main_phase() == 0xF) && (lbl_805D55C0 != 0)) || (self == 0)) || (local == 0))
   {
     return;
@@ -319,7 +318,7 @@ void TObjLuker::transfer_to_town() {
   mark_area_change_pending();
   for (i = 0; i < 4; i++)
   {
-    p = (u8 *) ((Ctrl_801A0E38 *(*)(s32)) get_player_by_client_id)(i);
+    p = (u8 *)get_player_by_client_id(i);
     if (p != 0)
     {
       flag = 0x830 * 0;
@@ -343,7 +342,7 @@ void TObjLuker::transfer_to_town() {
   if (local != 0)
   {
     ((TTecLuker *)(local + 0x848))->set_state(arg0->owner);
-    if (((Ctrl_801A0E38 *(*)(s32)) get_player_by_client_id)(arg0->owner) != 0)
+    if (((Ctrl_801A0E38 *)get_player_by_client_id(arg0->owner)) != 0)
     {
       ((TObjMotion *)local)->set_room((s16) (*((s32 *) (((s8 *) self) + 0x834))));
     }
@@ -351,7 +350,7 @@ void TObjLuker::transfer_to_town() {
   }
   if (is_split_screen() != 0)
   {
-    self = (u8 *) ((Ctrl_801A0E38 *(*)(s32)) get_player_by_client_id)(arg0->partner);
+    self = (u8 *)get_player_by_client_id(arg0->partner);
     if (self != 0)
     {
       init_fields__9TTecLukerFs(self + 0x830, arg0->partner);
@@ -369,7 +368,6 @@ void TObjLuker::transfer_to_town() {
 void TObjLuker::render() {  }
 
 
-#define PBC_801A1418(x) (((u8 *(*)(s32))get_player_by_client_id)(x))
 void TObjLuker::run_task() {
     u8 *arg0 = (u8 *)this;
     s32 sp8;
@@ -409,7 +407,7 @@ void TObjLuker::run_task() {
                             this->m_aa = this->m_a8;
                         }
                     } else {
-                        p = PBC_801A1418(local_client_id);
+                        p = (u8 *)get_player_by_client_id(local_client_id);
                         if (p != NULL && ((TObjPlayer *)p)->is_controls_locked() == 0 &&
                             test_pressed_buttons_packed(&controller_input_state.controllers[sp8], 4) != 0) {
                             flag = 1;
@@ -419,7 +417,7 @@ void TObjLuker::run_task() {
                         this->m_b0 = 1;
                         offset_point_toward_camera((u8 *)&this->position, (u8 *)spC, 10.0f);
                         spawn_particle_effect((const Vec *)spC, 0xB3);
-                        p = PBC_801A1418(local_client_id);
+                        p = (u8 *)get_player_by_client_id(local_client_id);
                         if (p != NULL) {
                             TObjPlayer::play_effect_default((saddr)p, 0xA);
                             play_sound_effect(0x40022D1A, (uaddr)(arg0 + 0x38), 0, 0);

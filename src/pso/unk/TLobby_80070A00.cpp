@@ -11,6 +11,7 @@
 #include "pso/quest/challenge/TChallenge.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
+#include "pso/player/PlayerSlots.h"
 
 #pragma readonly_strings on
 
@@ -182,7 +183,6 @@ struct Table_800712D8 {
 struct Tbl_80070DCC { u8 pad[0x680]; s32 f680[4]; };
 
 extern "C" {
-void *get_player_by_client_id(s32 i);
 s32 TLobby__sub_80070F4C(void);
 s32 TLobby__sub_80070FD8(void);
 char challenge_rank_title[0xC];

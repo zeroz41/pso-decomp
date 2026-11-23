@@ -8,6 +8,7 @@
 #include "pso/ui/frontend/TAdEnterSerialAccessGC.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC.h"
 #include "pso/ui/window/TWindowOptionCtrl.h"
+#include "pso/player/PlayerSlots.h"
 
 #pragma inline_depth(1)
 #pragma auto_inline off
@@ -88,7 +89,6 @@ void TLobby::copy_player_record(u8 *challenge) {
 
 struct Ent_80134C44 { u8 pad[4]; u32 key; u32 val; };
 struct Obj_80134C44 { u8 pad0; u8 count; u8 pad2[2]; Ent_80134C44 e[1]; };
-void* get_player_by_client_id(s32);
 void TLobby::apply_lobby_markers() {
     Obj_80134C44 *o = (Obj_80134C44 *)this;
     Ent_80134C44 *e = o->e;

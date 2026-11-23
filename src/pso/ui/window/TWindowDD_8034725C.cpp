@@ -24,6 +24,7 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/vector.h"
+#include "pso/player/PlayerSlots.h"
 
 struct O_80347940 { u8 pad[0x20]; s32 base; void *items[1]; };
 struct E_803478DC { void *p; };
@@ -98,7 +99,6 @@ void TWindowDD__sub_80347CC8(W_80347CC8 *arg0, void *arg1);
 void TWindowDD__sub_80348D90(void *, int);
 extern const f32 TWindowDD__data_805DFB6C;
 extern const f32 TWindowDD__data_805DFB74;
-void *get_player_by_client_id(s32 i);
 s32 is_id_in_special_range__9TWindowDDFs(s16);
 s32 TWindowDD__sub_80347238();
 u8 TWindowDD__sub_80347858(s16 arg0);

@@ -10,6 +10,7 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/player/PlayerSlots.h"
 
 #pragma readonly_strings on
 
@@ -17,7 +18,6 @@
 extern "C" {
 const char *TObjEvtCollision__class_name = "TObjEvtCollision";
 extern s32 local_client_id;
-void *get_player_by_client_id(s32 i);
 
 s32 TObjEvtCollision::is_any_player_in_range(f32 farg0) {
     s32 i;

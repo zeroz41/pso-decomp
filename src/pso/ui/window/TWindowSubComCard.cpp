@@ -50,6 +50,7 @@ class TChCrTagPlBack;
 #include "pso/object/warp/TObjCityMainWarp.h"
 #include "pso/ui/window/TWindowSubComCard_802A5748.h"
 #include "pso/unk/text_802754EC.h"
+#include "pso/player/PlayerSlots.h"
 
 const char *TWindowSubComCard::class_name = "TWindowSubComCard";
 
@@ -73,8 +74,6 @@ struct Ent_80271F04 {
     u32 id;
     u32 value;
 };
-extern "C" {
-}
 s32 *get_selected_guild_card_record(void);
 extern "C" {
 void set_value_by_key(void *, u16, s32);
@@ -127,7 +126,6 @@ extern "C" {
 s32 create_titled_window_menu_default(int, int, void *);
 s32 TWindowSubComCard__sub_80273004(void);
 s32 TWindowSubComCard__sub_802728CC(void);
-void *get_player_by_client_id(s32 i);
 extern s32 local_client_id;
 s32 create_keyboard__17TWindowSubComCardFi(saddr arg0);
 s32 create_keyboard__17TWindowSubComCardFii(saddr parent, saddr card);

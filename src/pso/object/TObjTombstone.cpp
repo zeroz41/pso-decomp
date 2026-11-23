@@ -38,6 +38,7 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/player/TObjPlayer_803E1A58.h"
 #include "pso/ui/window/TWindowCtrlMain_8024CB7C.h"
+#include "pso/player/PlayerSlots.h"
 
 struct Off_800753DC { s16 x, y; };
 

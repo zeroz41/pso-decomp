@@ -42,6 +42,7 @@
 #include "pso/network/client_id.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/render/NinjaUtil.h"
+#include "pso/player/PlayerSlots.h"
 const char *lbl_805D32B8 = "TObjCityMainWarpChallenge";
 static const char lbl_80444A44[] = "<- NEXT STAGE No.%d";
 static const char lbl_80444A58[] = "<- KEY ID : %d";

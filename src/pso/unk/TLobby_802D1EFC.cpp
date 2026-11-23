@@ -5,6 +5,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TPlyItem.h"
 #include "pso/player/TPlyDispData.h"
+#include "pso/player/PlayerSlots.h"
 
 struct Entry_802D20C8 { u32 id; s32 count; };
 
@@ -29,7 +30,6 @@ struct VObj802D1F30 : VBase802D1F30 {
 extern "C" {
 s32 item_identity_matches(u8 *arg0, u8 *arg1);
 s32 TObjPlayer__sub_801C1AC8();
-void *get_player_by_client_id(s32 i);
 int TLobby__sub_802D2358(void*);
 }
 

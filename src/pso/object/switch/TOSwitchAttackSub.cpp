@@ -14,6 +14,7 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/camera/CameraAngles.h"
 #include "pso/render/render_util.h"
+#include "pso/player/PlayerSlots.h"
 
 const char *TOSwitchAttack__name = "TOSwitchAttack";
 const char *TOSwitchAttackSub__name = "TOSwitchAttackSub";

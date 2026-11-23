@@ -2,6 +2,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/PhotonBlastResults.h"
 #include "pso/ui/window/TWindowCtrl.h"
+#include "pso/player/PlayerSlots.h"
 
 
 struct B_80312D4C { char pad[0x18]; };
@@ -15,7 +16,6 @@ extern "C" {
 int TObjPlayer__sub_80313218(void* p);
 u8 *TObjPlayer__sub_80312FB0(TObjPlayer *arg0);
 void append_photon_blast_request(saddr arg0, u16 arg1, s16 arg2);
-void *get_player_by_client_id(s32);
 int TObjPlayer__sub_803131AC(void* a0);
 void TObjPlayer__sub_80312E98(void *o, u16 id);
 void *TObjPlayer__sub_803131B4(void *, int);

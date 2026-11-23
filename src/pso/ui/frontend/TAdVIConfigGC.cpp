@@ -13,6 +13,7 @@
 #include "pso/ui/frontend/TAdVIConfigGC.h"
 #include <string.h>
 #include "pso/system/vector.h"
+#include "pso/player/PlayerSlots.h"
 
 #pragma readonly_strings on
 
@@ -29,7 +30,6 @@ s32 logo_clear_flag = 1;
 const char *TAdVIConfigGC__class_name = "TAdVIConfigGC";
 extern "C" {
 void *VIGetDTVStatus(void *);
-void *get_player_by_client_id(s32 i);
 saddr get_window_layout_position(s32);
 __declspec(section ".data") f32 player_names_window_pos[2] = {229.0f, 104.0f};
 extern s32 local_client_id;

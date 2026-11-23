@@ -24,6 +24,7 @@
 #include "pso/system/vector.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/player/PlayerSlots.h"
 
 // TObjPlayer_80011014.h declares get_entity_id returning u16, but this
 // unit's callers saw a 32-bit return (no zero extension before the

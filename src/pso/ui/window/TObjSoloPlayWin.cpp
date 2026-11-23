@@ -12,9 +12,9 @@
 #include "pso/ui/window/TObjBagWarnWin_8006EF24.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/ui/window/TWindowCtrlMain_8024CB7C.h"
+#include "pso/player/PlayerSlots.h"
 
 extern "C" {
-u32 get_player_by_client_id(s32);
 extern s32 local_client_id;
 extern const char TObjSoloPlayWin_class_name[] = "TObjSoloPlayWin";
 const char* TObjSoloPlayWin_name = TObjSoloPlayWin_class_name;
@@ -33,7 +33,7 @@ s32 TObjSoloPlayWin::area_allows_win_timer() {
     return 1;
 }
 s32 TObjSoloPlayWin::can_start_win_timer() {
-    uaddr player = get_player_by_client_id(local_client_id);
+    uaddr player = (uaddr)get_player_by_client_id(local_client_id);
     if (has_window_task_root() == 1 && area_allows_win_timer() != 0 &&
         player != 0U && ((TObjCollidable *)player)->test_actor_flags(0x02000000) == 0) {
         return 1;

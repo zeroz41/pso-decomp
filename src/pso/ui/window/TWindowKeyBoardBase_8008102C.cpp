@@ -8,11 +8,11 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
+#include "pso/player/PlayerSlots.h"
 
 extern "C" {
 u32 __cvt_fp2unsigned(f32);
 f32 horizontal_distance_squared(s32, s32);
-void *get_player_by_client_id(s32 i);
 }
 
 void KeyboardTextBuffer::init(u32 width, u32 lines) {

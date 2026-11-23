@@ -3,11 +3,11 @@
 
 #include "pso/ui/window/TWindowMainMenu.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/player/PlayerSlots.h"
 
 #pragma readonly_strings on
 
 extern "C" {
-void *get_player_by_client_id(s32 i);
 
 void TWindowMainMenu4P::on_submenu_closed() { if (close_active_submenu() != 0) { this->show_child_window(); } }
 

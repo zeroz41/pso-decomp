@@ -57,12 +57,12 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
+#include "pso/player/PlayerSlots.h"
 
 extern "C" {
 s32 play_persistent_sound(s32, void *, void *, s16, s32);
 void TObjPlayer__sub_801BA42C(void);
 u16 TObjRoomId__sub_801A1DB8(void);
-u8 *get_player_by_client_id(s32);
 s32 submit_cursor_candidate(void *, int);
 }
 
@@ -535,7 +535,7 @@ void TBoss3VoloptP02::update_attack() {
     if (behavior_flags & 0x20000) {
         next_action = 0;
     }
-    target = get_player_by_client_id(targetId);
+    target = (u8 *)get_player_by_client_id(targetId);
     switch ((s32)state) {
     case 0:
         this->requested_action = 0;
@@ -689,7 +689,7 @@ void TBoss3VoloptP02::update_front_attack() {
         next_action = 0;
     }
     duration = max_s32(TBoss3VoloptP02::get_int_param(4) + 120, 10);
-    target = get_player_by_client_id(targetId);
+    target = (u8 *)get_player_by_client_id(targetId);
     switch ((s32)state) {
     case 0:
         this->requested_action = 0;
@@ -859,7 +859,7 @@ void TBoss3VoloptP02::update_back_attack() {
     if (behavior_flags & 0x80000) {
         next_action = 0;
     }
-    target = get_player_by_client_id(targetId);
+    target = (u8 *)get_player_by_client_id(targetId);
     switch ((s32)state) {
     case 0:
         timer = 0x3C;
@@ -1158,7 +1158,7 @@ void TBoss3VoloptP02::spawn_ambient_particles() {
 
 void TBoss3Volopt::create_cage(u16 target_id) {
     targetId = target_id;
-    target = get_player_by_client_id(targetId);
+    target = (u8 *)get_player_by_client_id(targetId);
     if (target != 0) {
         new TObjVoloptCage(this, target_id, volopt_cage_id, volopt_cage_group);
         behavior_flags |= 0x200000;
@@ -1625,7 +1625,7 @@ void TBoss3VoloptP02::update_ring_attack() {
         if (ring_timer <= 0) {
             if (wave_index == 0) {
                 for (i = 0; i < 4; i++) {
-                    u8 *player = get_player_by_client_id(i);
+                    u8 *player = (u8 *)get_player_by_client_id(i);
                     if (player != NULL) {
                         for (j = 0; j < 4; j++) {
                             if (xz_distance_squared((Vec *)(player + 0x38), &ring_positions[j]) <= 100.0f) {

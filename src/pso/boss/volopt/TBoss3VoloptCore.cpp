@@ -31,6 +31,7 @@
 #include "pso/render/model_render_state.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/player/PlayerSlots.h"
 
 struct TBoss3VoloptOrbitSpeeds {
     u8 pad_0[0x18];

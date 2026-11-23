@@ -32,6 +32,7 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/boss/goldragon/TBoss8Dragon_8002CC48.h"
 #include "pso/system/scene/TScene_800838C4.h"
+#include "pso/player/PlayerSlots.h"
 
 extern "C" {
 const char *TObjBoss1Floor__name = "TObjBoss1Floor";

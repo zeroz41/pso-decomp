@@ -179,6 +179,7 @@ void TOTrap::run_task() {
 
 
 #include "pso/object/ambient/TObjFish.h"
+#include "pso/player/PlayerSlots.h"
 
 
 extern "C" {

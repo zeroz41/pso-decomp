@@ -15,6 +15,7 @@
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/unk/TLobby_8001D6A0.h"
 #include "pso/unk/text_80104FCC.h"
+#include "pso/player/PlayerSlots.h"
 struct Stack_80253268 {
     s32 sp8;
     s16 spC;
@@ -45,7 +46,6 @@ struct V3_802532E8 { u8 bytes[0xc]; };
 
 extern "C" {
 s32 build_player_equipment_requirement_stats(int, void *);
-void *get_player_by_client_id(s32 i);
 void draw_action_palette_icon(void *, int, u16);
 void text_builder_append();
 }

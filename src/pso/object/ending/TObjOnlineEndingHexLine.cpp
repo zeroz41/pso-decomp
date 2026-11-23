@@ -12,6 +12,7 @@
 #include "pso/system/vector.h"
 #include "pso/ui/frontend/TAdGameStartGC.h"
 #include "pso/network/client_id.h"
+#include "pso/player/PlayerSlots.h"
 
 struct Desc_802E55B8 { NJS_POINT2 *pts; u32 *cols; s32 z; s32 n; };
 

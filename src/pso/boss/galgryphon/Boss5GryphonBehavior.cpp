@@ -95,6 +95,7 @@
 #include "pso/render/GinjaTextureMatrices.h"
 #include "pso/unk/TLobby_8007C550.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/player/PlayerSlots.h"
 // TObjPlayer_80011014.h declares these too, but its calc_random_ratio prototype takes no rng.
 extern "C" {
 f64 atan2_float(f32, f32);
@@ -2804,7 +2805,7 @@ void TBoss5Gryphon::update_offscreen_dive(u32 event) {
             ang = 65536.0f * calc_random_ratio__10TObjPlayerFv(self->rng);
             r = calc_random_ratio__10TObjPlayerFv(self->rng);
             if (calc_random_ratio__10TObjPlayerFv(self->rng) > 0.5f) {
-                pl = ((TObjPlayer *(*)(u16))get_player_by_client_id)((s32)(gryphon_four * calc_random_ratio__10TObjPlayerFv(self->rng)));
+                pl = get_player_by_client_id((u16)((s32)(gryphon_four * calc_random_ratio__10TObjPlayerFv(self->rng))));
                 if (pl->is_alive() != 0) {
                     CsnHit *hit;
                     r *= gryphon_fifty;

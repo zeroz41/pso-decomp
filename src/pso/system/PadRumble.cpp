@@ -7,6 +7,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerSlots.h"
 
 extern s32 local_client_id;
 

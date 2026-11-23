@@ -9,6 +9,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/player/PlayerSlots.h"
 
 extern "C" {
 
@@ -113,7 +114,6 @@ struct VObj_18_dac7f3 : VBase_18_dac7f3 {
 struct E_801BDC98 { u8 b[0x42C]; };
 
 extern "C" {
-void *get_player_by_client_id(s32 i);
 struct TObjPlayerCharDataArray { s32 value; u8 remaining[0x320C]; };
 extern TObjPlayerCharDataArray TObjPlayer__char_data_array;
 void create__10TObjPlayerFUll(u16, void *);

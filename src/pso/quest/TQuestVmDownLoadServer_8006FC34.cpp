@@ -11,6 +11,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/unk/text_8026A14C.h"
+#include "pso/player/PlayerSlots.h"
 
 struct Table_8006FE7C {
     s32 v0;
@@ -30,7 +31,6 @@ struct Card_8006FC7C {
 struct Unit_8006FC7C { u8 pad[0x370]; s32 f370; };
 
 extern "C" {
-void *get_player_by_client_id(s32);
 extern Table_8006FE7C challenge_mode_state;
 extern void *tl_07;
 char *TLobby__sub_80070ACC(u8, u8, s32);

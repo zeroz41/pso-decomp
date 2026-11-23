@@ -6,8 +6,8 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TPlyItem.h"
+#include "pso/player/PlayerSlots.h"
 extern "C" {
-void *get_player_by_client_id(s32 i);
 void fn_802789E0(u8 *arg0) {
     u32 ids[32];
     u8 *pl;

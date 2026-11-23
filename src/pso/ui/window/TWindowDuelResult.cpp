@@ -12,6 +12,7 @@
 #include "pso/ui/window/TWindowActionPalette_801C1890.h"
 #include "pso/ui/window/TWindowDuelResult_801C2528.h"
 #include "pso/ui/window/WindowLayout.h"
+#include "pso/player/PlayerSlots.h"
 
 
 #pragma readonly_strings on
@@ -26,7 +27,6 @@ extern "C" {
 const char *window_duel_result_class_name = "TWindowDuelResult";
 
 extern const char *window_duel_result_class_name;
-void *get_player_by_client_id(s32 i);
 saddr get_shared_text_buffer(s32);
 void text_builder_append_int(s32);
 s32 text_builder_append(s32);

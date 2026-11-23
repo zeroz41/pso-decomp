@@ -135,6 +135,7 @@ struct Obj_80343C64
 #include "pso/ui/window/TWindowSubItem.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/map/FloorArea.h"
+#include "pso/player/PlayerSlots.h"
 
 struct NumberWindow;
 
@@ -214,7 +215,6 @@ s32 TWindowDD__sub_8034217C(int);
 s32 TWindowDD__sub_803482B0(void *);
 s32 TWindowDD__sub_803484C4(void *);
 void copy_chat_entry__9TWindowDDFPvPv(R_80343BC0 *arg0, R_80343BC0 *arg1);
-void *get_player_by_client_id(s32);
 saddr TWindowDD__sub_80342384(s32 arg0, s32 arg1);
 s32 TWindowDD__sub_8034146C(NJS_POINT2 *arg0, NJS_POINT2 *arg1, s32 arg2, s32 arg3, f32 farg0);
 void TWindowDD__sub_803412A0(TWindowDD_WS_String *self);

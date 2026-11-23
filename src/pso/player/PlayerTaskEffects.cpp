@@ -239,8 +239,6 @@ BOOL fn_801C6F2C(u8 *arg0);
 }
 
 
-extern "C" {
-}
 
 
 extern "C" {
@@ -273,6 +271,7 @@ u8 *__ct__18TPlayerLobbyMarkerFP7TObjectsSc(u8 *arg0, u8 *arg1, s16 arg2, s8 arg
 #include "pso/object/base/TObjMotion.h"
 
 #include "pso/camera/TCameraFollow.h"
+#include "pso/player/PlayerSlots.h"
 extern s32 chunk_polygon_flags_and_mask;
 extern s32 chunk_polygon_flags_or_mask;
 

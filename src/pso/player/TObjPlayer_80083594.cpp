@@ -149,6 +149,7 @@ void load_list_texture(s32 idx, s32 wrapS, s32 wrapT, s32 map);
 #include "pso/system/scene/TScene.h"
 #include "pso/system/main_loop.h"
 #include "pso/render/RenderSbssGlobals.h"
+#include "pso/player/PlayerSlots.h"
 
 extern "C" {
 u8 camera_capture_overlay_alpha = 143;
@@ -202,7 +203,6 @@ uaddr camera_render_target_singleton;
 extern "C" {
 void TObjPlayer__sub_80083FB0(void);
 int TObjPlayer__sub_80083F9C(void);
-void *get_player_by_client_id(s32 i);
 void reset_and_release_capture_texture(void);
 void reset_and_init_capture_texture(void);
 void clear_camera_flag(void);
@@ -481,7 +481,7 @@ s32 TObjPlayer::check_all_players_ready() {
     if (get_main_phase() == 0xF) {
         counter = 0;
         do {
-            TObjPlayer *player = (TObjPlayer *)get_player_by_client_id(counter);
+            TObjPlayer *player = get_player_by_client_id(counter);
             if ((player != NULL) && (player->is_inactive() == 0)) {
                 flag = 0;
             }

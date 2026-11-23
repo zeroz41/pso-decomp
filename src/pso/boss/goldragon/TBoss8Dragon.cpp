@@ -83,6 +83,7 @@
 #include "pso/system/SoundEffect.h"
 #include "pso/camera/CameraHelpers.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/player/PlayerSlots.h"
 
 extern "C" {
 extern s32 local_client_id;

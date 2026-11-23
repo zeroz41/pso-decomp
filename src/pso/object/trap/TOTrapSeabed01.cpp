@@ -47,6 +47,7 @@
 #include <dolphin/base/PPCArch.h>
 #include "pso/system/task/TObject.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/player/PlayerSlots.h"
 
 // One fragment chip play_sounds throws when the trap breaks: model index,
 // position in the trap's frame and the chip's y angle.

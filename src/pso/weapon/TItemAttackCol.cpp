@@ -31,6 +31,7 @@
 #include "pso/ui/frontend/TAdRicoRing_8001BEE8.h"
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/player/PlayerSlots.h"
 
 struct VBase_18_f2ea1e { char pad[0x18]; };
 

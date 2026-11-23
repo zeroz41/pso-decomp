@@ -11,6 +11,7 @@
 #include "pso/system/task/TObject.h"
 
 #include "pso/ui/window/TWindowShortListCtrl.h"
+#include "pso/player/PlayerSlots.h"
 
 struct VBase_18_7b3651 { char pad[0x18]; };
 
@@ -38,7 +39,6 @@ extern "C" {
 s32 get_shared_text_buffer(void);
 char *TWindowSubStatusDisp__sub_80071820(char *);
 s32 TObjPlayer__sub_801AFD8C(void *);
-VObj_18_7b3651 *get_player_by_client_id(s32);
 void text_builder_append_int(s32);
 void text_builder_append(const char *);
 }
@@ -74,7 +74,7 @@ s32 TWindowSubStatusDisp::build_status_text(s32 client_id) {
     s32 lvl;
     VObj_18_7b3651 *p;
     mode = TWindowShortListCtrl::get_card_status_bits(client_id);
-    p = get_player_by_client_id(client_id);
+    p = (VObj_18_7b3651 *)get_player_by_client_id(client_id);
     if (p == NULL) {
         return 0;
     }

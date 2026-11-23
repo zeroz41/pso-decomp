@@ -30,6 +30,7 @@
 #include "pso/ui/TLevelSelect.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/player/PlayerSlots.h"
 
 
 const char *TObjFogCollision__name = "TObjFogCollision";
@@ -67,7 +68,6 @@ extern s32 chunk_polygon_flags_and_mask;
 extern s32 model_render_flags;
 
 f32 horizontal_distance_squared(void *, s32);
-s32 get_player_by_client_id(u16);
 s32 is_split_screen();
 
 // Function definitions in reverse address order (-inline deferred emits them reversed).
@@ -112,7 +112,7 @@ s32 TObjFogCollision::check_collision(u16 client) {
     f32 temp_f31;
     s32 player;
 
-    player = get_player_by_client_id((u16)client);
+    player = (saddr)get_player_by_client_id(client);
     if (player != 0) {
         x = this->scale.x;
         temp_f31 = x * x;
@@ -366,7 +366,7 @@ void TObjFogCollisionPoison::record_poison_hit(u16 client) {
 void TObjFogCollisionPoison::apply_poison_damage(s32 client) {
     saddr p;
     s16 v;
-    p = get_player_by_client_id(client);
+    p = (saddr)get_player_by_client_id(client & 0xFFFF);
     if (((TObjEneDD *)p)->is_valid_target() != 0) {
         v = ((TObjChara *)p)->get_actor_hp() - this->m_98;
         if (v < 0) {

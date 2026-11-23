@@ -34,6 +34,7 @@
 #include "pso/player/PlayerAttackParams.h"
 #include "pso/player/TPlyDispData.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/player/PlayerSlots.h"
 
 struct Ply_800F7118 {
     u8 pad0[0x28];
@@ -187,7 +188,6 @@ s32 draw_player_status(void *, void *, const char *);
 
 s32 submit_cursor_candidate(void *, int);
 
-TObjPlayer *get_player_by_client_id(u16);
 
 s32 minimap_render_dot(void *, int, int, int);
 
@@ -652,7 +652,7 @@ void TObjEnemy::award_enemy_experience(s32 arg1) {
     s32 val;
     TObjPlayer *p;
 
-    if ((u16)arg1 >= 0x1000 || (p = get_player_by_client_id(arg1)) == NULL ||
+    if ((u16)arg1 >= 0x1000 || (p = get_player_by_client_id((u16)arg1)) == NULL ||
         p->test_actor_flags(0x800) != 0 || p->get_floor() != get_current_floor()) {
         return;
     }

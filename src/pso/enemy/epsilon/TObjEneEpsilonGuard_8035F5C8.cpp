@@ -38,6 +38,7 @@ struct NJS_OBJECT;
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 #include "pso/unk/text_803E2F28.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/player/PlayerSlots.h"
 
 #pragma inline_depth(1)
 // Joint index per guard slot and the joint-local point the guard angle is measured from (update_guard_anchor).

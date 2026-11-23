@@ -8,6 +8,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/ui/Language.h"
 #include "pso/player/TPlyItem.h"
+#include "pso/player/PlayerSlots.h"
 
 extern "C" {
 
@@ -31,7 +32,6 @@ s32 sync_state__10TObjPlayerFi(saddr arg0) {
 
 void TObjPlayer::sync_char_select_state() { TAdSinglePlyChrSelectGC::get_char_index((uaddr)(65535)); ((int (*)(void))sync_state__10TObjPlayerFi)(); }
 
-void *get_player_by_client_id(s32 i);
 
 s32 try_assign_battle_ctrl__10TObjPlayerFiUs(saddr arg0, u16 arg1) {
     s32 temp = (saddr)get_player_by_client_id((arg1));

@@ -29,6 +29,7 @@
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/player/TPlyDispData.h"
+#include "pso/player/PlayerSlots.h"
 
 
 extern "C" {

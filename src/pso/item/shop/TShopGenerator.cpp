@@ -33,6 +33,7 @@
 #include "pso/network/client_id.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/player/PlayerSlots.h"
 
 // One shop counter of the generator's set (set_params[0] picks it). Field names follow the targets and the
 // callers: run_fn_table_forward/run_fn_table_reverse call the two hooks, run_task opens the counter's sequence

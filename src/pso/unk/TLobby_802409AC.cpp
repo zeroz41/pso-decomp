@@ -20,6 +20,7 @@
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/render/render_util.h"
 #include "pso/ui/window/TWindowCtrl.h"
+#include "pso/player/PlayerSlots.h"
 
 
 typedef struct Src_8024220C

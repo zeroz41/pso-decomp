@@ -31,6 +31,7 @@
 #include "pso/object/warp/TObjCityMainWarp.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/window/TWindowCtrlMain_8024CB7C.h"
+#include "pso/player/PlayerSlots.h"
 
 extern "C" {
 s32 load_floor_sound_bank();
@@ -108,7 +109,6 @@ extern "C" {
 const char *TObjChallenge4PRetry__class_name = "TObjChallenge4PRetry";
 
 s32 TLobby__sub_80292F5C();
-saddr get_player_by_client_id(int);
 saddr get_message_text(s32);
 saddr get_window_layout_position(s32);
 
@@ -169,7 +169,7 @@ void send_giveup_to_all_players__6TLobbyFv(void) {
     s32 client;
 
     for (client = 0; client < 4; client++) {
-        saddr player = get_player_by_client_id(client);
+        saddr player = (saddr)get_player_by_client_id(client);
         if ((player != 0) && (((TObjPlayer *)player)->check_player_flag1() != 0)) {
             TObjPlayer::send_code_45_1(player);
         }
@@ -189,7 +189,7 @@ void play_effect_all_players__6TLobbyFPv(void*) {
 
     var_r31 = 0;
     do {
-        player = get_player_by_client_id(var_r31);
+        player = (saddr)get_player_by_client_id(var_r31);
         if (player != 0) {
             if (((TObjPlayer *)player)->check_player_flag1() == 0) {
                 TObjPlayer::play_effect_default(player, -1);
@@ -294,7 +294,7 @@ void TObjChallenge4PRetry::handle_retry_menu_select() {
 void TObjChallenge4PRetry::update_challenge_4p_retry() {
     TObjPlayer *player;
     ((s32 (*)())play_all_players_effect__6TLobbyFPv)();
-    player = (TObjPlayer *)get_player_by_client_id(local_client_id);
+    player = get_player_by_client_id(local_client_id);
     if ((player != NULL) && (player->is_controls_locked() == 0) && (test_pressed_buttons_packed(&controller_input_state.controllers[0], 4) != 0)) {
         ((s32 (*)(void *))send_giveup_to_all_players__6TLobbyFv)(this);
         TLobby::close_giveup_window(this);
@@ -317,7 +317,7 @@ void TObjChallenge4PRetry::update_giveup() {
     TLobby::play_effect_all_players(this);
     flag = 1;
     for (i = 0; i < 4; i++) {
-        uaddr ctrl = get_player_by_client_id(i);
+        uaddr ctrl = (saddr)get_player_by_client_id(i);
         if (ctrl != 0U && ((TObjCollidable *)ctrl)->test_actor_flags(0x02000000) != 0) {
             flag = 0;
             break;

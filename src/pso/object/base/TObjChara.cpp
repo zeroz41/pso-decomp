@@ -99,6 +99,7 @@
 #include "pso/unk/text_803D96A8.h"
 #include "pso/player/TPlyDispData.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/player/PlayerSlots.h"
 
 
 struct VBase_800172CC { u8 pad[0x18]; };
@@ -711,7 +712,6 @@ s32 approach_angle_limited(s32, s32, s32);
 void * find_entity_by_id(s32 id);
 s32 project_actor_to_ground(TObjCollidable *actor, Vec *pos, Vec *normal);
 s32 record_damage_stats__10TOMineTrapFUiUis(void *, void *, void *);
-s32 get_player_by_client_id(s32);
 int bswap_16__FPUs(void*);
 s32 play_sound_effect(s32, s32, s32, s32);
 u32 __nw__7TObjectFUl(s32);
@@ -1448,7 +1448,7 @@ f32 TObjPlayer::calc_distance_to_client(saddr actor, u16 client, Vec *delta) {
   var_f31 = (1e+08f);
   if (client < 0x1000U)
   {
-    temp_r3 = ((s32 (*)(u32))get_player_by_client_id)((u32) client);
+    temp_r3 = (saddr)get_player_by_client_id((u32) client);
     if ((temp_r3 != 0) && (!((((TObjPlayer *)temp_r3)->actorFlags) & 0x800)))
     {
       ;
@@ -4071,7 +4071,7 @@ void handle_6x9A_update_entity_stat(Pkt_80010C54 *pkt) {
     if (pkt->client >= 0x1000U) {
         return;
     }
-    player = get_player_by_client_id(pkt->client);
+    player = (saddr)get_player_by_client_id(pkt->client);
     if (player == 0) {
         return;
     }

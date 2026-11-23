@@ -112,6 +112,7 @@ inline f32 xz_length_squared(Vec *v) { return v->x * v->x + v->z * v->z; }
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
+#include "pso/player/PlayerSlots.h"
 
 
 

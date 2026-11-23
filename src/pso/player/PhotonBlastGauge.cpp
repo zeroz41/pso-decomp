@@ -14,6 +14,7 @@
 #include "pso/map/FloorArea.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/ui/window/TWindowCtrl.h"
+#include "pso/player/PlayerSlots.h"
 
 s32 PhotonBlastGauge::fn_801D5DDC() {
     if ((target_count < 0) || (target_count > 0xA)) {
@@ -34,7 +35,6 @@ s16 PhotonBlastGauge::get_valid_index() {
 
 extern "C" {
 s32 get_current_floor();
-void *get_player_by_client_id(s32 i);
 s32 validate_6x39_set_photon_blast_ready_flag(void *);
 s32 validate_6x3B_clear_temporary_photon_blast_state_flags(void *);
 s32 validate_6x3A_clear_photon_blast_ready_flag(void *);
@@ -57,7 +57,7 @@ void handle_6x3B_clear_temporary_photon_blast_state_flags(saddr src) {
     sp8.fn_801D6804((void *)src);
     bswap_g_client_id_header(&sp8);
     if (validate_6x3B_clear_temporary_photon_blast_state_flags(&sp8) != 0) {
-        player = (TObjPlayer *)get_player_by_client_id(sp8.header.client_id);
+        player = get_player_by_client_id(sp8.header.client_id);
         if (player != NULL) {
             player->photon_blast_gauge.clear_photon_blast_state();
             if (TObjPlayer::is_locally_controlled(player) != 0) {
@@ -83,7 +83,7 @@ void handle_6x3A_clear_photon_blast_ready_flag(saddr src) {
     sp8.clear_photon_blast_ready_flag((void *)src);
     bswap_g_client_id_header(&sp8);
     if (validate_6x3A_clear_photon_blast_ready_flag(&sp8) != 0) {
-        player = (TObjPlayer *)get_player_by_client_id(sp8.header.client_id);
+        player = get_player_by_client_id(sp8.header.client_id);
         if (player != NULL) {
             player->photon_blast_gauge.set_bit1_at_40();
         }
@@ -109,7 +109,7 @@ void handle_6x39_set_photon_blast_ready_flag(saddr src) {
     sp8.handle_photon_blast_ready((void *)src);
     bswap_g_client_id_header(&sp8);
     if (validate_6x39_set_photon_blast_ready_flag(&sp8) != 0) {
-        player = (TObjPlayer *)get_player_by_client_id(sp8.header.client_id);
+        player = get_player_by_client_id(sp8.header.client_id);
         if ((player != NULL) && (is_current_area_item_enabled() != 0)) {
             temp_r31 = player->get_floor();
             v = get_current_floor();
@@ -152,7 +152,7 @@ void handle_6x38_donate_to_photon_blast(saddr src) {
     cmd.copy_packet_header_6x38((void *)src);
     cmd.bswap_fields();
     if (validate_6x38_donate_to_photon_blast(&cmd) != 0) {
-        player = (TObjPlayer *)get_player_by_client_id(cmd.header.client_id);
+        player = get_player_by_client_id(cmd.header.client_id);
         if ((player != NULL) && (is_current_area_item_enabled() != 0)) {
             if (get_current_floor() == player->get_floor()) {
                 TObjPlayer::create_photon_blast_party_effects(cmd.header.client_id);

@@ -26,6 +26,7 @@
 #include "pso/ui/Language.h"
 #include "pso/system/task/TObject.h"
 #include "pso/weapon/WeaponSpecialSelection.h"
+#include "pso/player/PlayerSlots.h"
 
 
 struct Win_802758C8 {
@@ -61,7 +62,6 @@ struct Self_80275A8C {
 
 extern "C" {
 s32 *get_shared_text_buffer(void);
-void *get_player_by_client_id(s32 i);
 u8 get_cast_technique_level(void *, s16);
 void text_builder_append_int(s32);
 void text_builder_append();

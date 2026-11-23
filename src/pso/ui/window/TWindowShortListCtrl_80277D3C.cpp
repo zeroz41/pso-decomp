@@ -2,11 +2,11 @@
 #include "pso/item/TItem.h"
 #include "pso/ui/window/TWindowShortListCtrl.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/player/PlayerSlots.h"
 
 
 extern "C" {
 
-void *get_player_by_client_id(s32 i);
 void send_6x25_equip_item(void *arg0, s32 arg1, s32 arg2);
 
 void TWindowShortListCtrl::assign_shortcut(s32 slot, saddr item, s32 client_id) {

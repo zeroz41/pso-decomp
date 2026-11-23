@@ -146,7 +146,6 @@ THunterGuildWarning::THunterGuildWarning(TObject *object, void *arg2) : TObject(
 #include "pso/player/TPlayerBattleCtrl4P.h"
 
 extern "C" {
-TObjPlayer *get_player_by_client_id(s32 id);
 f32 xz_distance_squared(const f32 *a, const f32 *b);
 
 #pragma push
@@ -331,6 +330,7 @@ s32 TLobby__sub_80211D58(s32 arg0) {
 
 
 #include "pso/ui/city/THunterGuildSeqOffline.h"
+#include "pso/player/PlayerSlots.h"
 
 
 void update_hunter_guild_phase(void) {

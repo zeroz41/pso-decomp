@@ -224,6 +224,7 @@ s32 spawn_slime_in_slot(TObjEneSlime *origin, s32 arg1, Vec *arg2, Vec *arg3);
 #include "pso/player/TObjPlayer_800EBE2C.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/render/BlobShadow.h"
+#include "pso/player/PlayerSlots.h"
 
 
 

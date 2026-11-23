@@ -176,10 +176,6 @@ int set_window_flags__11TWindowCtrlFPvll(void*, void*, void*);
 
 }
 
-extern "C" {
-
-
-}
 
 const char *TWindowCtrl__name = "TWindowCtrl";
 /* frame of the open sequence at which each window appears: split screen / single player */
@@ -822,7 +818,7 @@ saddr TWindowCtrl__sub_8024B7D4(s32 n) {
     for (i = 0; i < 3; i++) {
         status = TWindowCtrl::instance->simple_status[i];
         if (status != NULL && status->sub_80244994() != 0 && n-- == 0) {
-            player = (TObjPlayer *)get_player_by_client_id(((TWindowSimpleStatus *)status)->get_width());
+            player = get_player_by_client_id(((TWindowSimpleStatus *)status)->get_width());
             if (player == NULL) {
                 return 0;
             }

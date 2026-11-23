@@ -7,9 +7,9 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowSubEquipKind.h"
+#include "pso/player/PlayerSlots.h"
 
 extern "C" {
-void *get_player_by_client_id(s32 i);
 void mark_unequippable_items(TWindowSubEquipKind *window);
 void mark_unequippable_items(TWindowSubEquipKind *window) {
     u8 sp8[8];

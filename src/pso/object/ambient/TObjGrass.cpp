@@ -50,6 +50,7 @@
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/player/PlayerSlots.h"
 
 
 saddr lbl_805D5140;

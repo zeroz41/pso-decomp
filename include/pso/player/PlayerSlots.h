@@ -5,6 +5,6 @@
 
 struct TObjPlayer;
 
-extern "C" TObjPlayer *get_player_by_client_id(s32 client);
+TObjPlayer *get_player_by_client_id(s32 client);
 
 #endif

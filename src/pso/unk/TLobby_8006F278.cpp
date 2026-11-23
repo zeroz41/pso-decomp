@@ -7,6 +7,7 @@
 #include "pso/unk/TLobby.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80071774.h"
 #include "pso/ui/window/TObjResultWin.h"
+#include "pso/player/PlayerSlots.h"
 
 
 struct RecoveredGlobal_8006F5B0_lbl_8048C9D8 { s32 value; u8 remaining[0x744]; };
@@ -362,7 +363,6 @@ s32 decode_slot__6TLobbyFUi(u32 id) {
 s32 TLobby__sub_8006FBE4(void);
 s32 mix_seed__6TLobbyFUs(u16 arg0);
 u16 TLobby__sub_8006FAE4(void);
-void *get_player_by_client_id(s32 i);
 
 s32 mix_seed__6TLobbyFUs(u16 arg0) {
     s32 temp_r3;

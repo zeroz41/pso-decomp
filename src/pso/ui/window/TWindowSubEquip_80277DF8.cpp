@@ -15,6 +15,7 @@
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/task/TObject.h"
 #include "pso/ui/window/TWindowCtrl_8024A054.h"
+#include "pso/player/PlayerSlots.h"
 
 #pragma readonly_strings on
 
@@ -30,7 +31,6 @@ extern "C" {
 f32 TWindowSubEquip__sub_80263AF8(u8 *arg0, u32 arg1);
 void *get_window_layout_position(int);
 s32 mark_unequippable_items(int);
-void *get_player_by_client_id(s32 i);
 s32 play_sound_effect(s32, s32, s32, s32);
 s32 fn_80255A38(s32);
 s32 TWindowSubEquip__sub_80263AF4(void *, s32);

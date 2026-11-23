@@ -76,6 +76,7 @@
 #include "pso/unk/TLobby_8030A6A8.h"
 #include "pso/network/client_id.h"
 #include "pso/object/warp/TObjLaboMapWarp_80185248.h"
+#include "pso/player/PlayerSlots.h"
 
 s32 get_story_flag(s32);
 

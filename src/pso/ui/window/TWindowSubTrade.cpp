@@ -27,6 +27,7 @@ class TChCrTagPlBack;
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/window/TWindowMessageYesNo.h"
 #include "pso/object/warp/TObjCityMainWarp.h"
+#include "pso/player/PlayerSlots.h"
 
 #pragma readonly_strings on
 

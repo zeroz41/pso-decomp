@@ -20,6 +20,7 @@
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/render/render_util.h"
 #include "pso/player/TObjPlayer_80363BE0.h"
+#include "pso/player/PlayerSlots.h"
 
 // What play_shield_sound_cue reads (TObjPlayer::reset_status_block clears it).
 struct ShieldSoundCue {

@@ -36,6 +36,7 @@
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F764.h"
 #include "pso/unk/TLobby_801461EC.h"
+#include "pso/player/PlayerSlots.h"
 struct CardFileInfo_804C88C0 {
     char filename[0x20];
     char comment[0x20];
@@ -2112,7 +2113,6 @@ struct ByteBlock_C0
 extern "C" {
 u8 *TAdSinglePlyChrSelectGC__sub_801FFC74(u8 *arg0, u8 *arg1);
 s32 try_assign_battle_ctrl__10TObjPlayerFiUs(saddr, u16);
-u32 get_player_by_client_id(s32);
 s32 copy_card__17TWindowSubComCardFiPv(saddr arg0, u8 *arg1);
 s32 TAdSinglePlyChrSelectGC__sub_801FFCFC(saddr arg0, saddr arg1);
 s32 copy_card_window_data();
@@ -2123,7 +2123,7 @@ extern s32 local_client_id;
 s32 TAdSinglePlyChrSelectGC::init(void) {
     stop_pad_rumble();
     if ((selected_character_data != NULL) && (active_character_save_record != 0) && (card_character_save_buffer != 0)) {
-        if ((get_player_by_client_id(local_client_id) != 0U) && (TTecCtrl::is_technique_ready() == 0) && (fn_80203284() != 1)) {
+        if ((get_player_by_client_id(local_client_id) != NULL) && (TTecCtrl::is_technique_ready() == 0) && (fn_80203284() != 1)) {
             TObjPlayer::init_battle_selection();
             TAdSinglePlyChrSelectGC__sub_8028DC14();
         }
@@ -2145,7 +2145,7 @@ s32 TAdSinglePlyChrSelectGC::setup_player_battle_ctrls(void) {
   var_r31 = 0;
   do
   {
-    if (((get_player_by_client_id((s32)((int) var_r31)) != 0U) && (((volatile long)TTecCtrl::is_technique_ready()) == 0)) && (TLobby__sub_8030A770() == 0))
+    if (((get_player_by_client_id((s32)((int) var_r31)) != NULL) && (((volatile long)TTecCtrl::is_technique_ready()) == 0)) && (TLobby__sub_8030A770() == 0))
     {
       char_data = TAdSinglePlyChrSelectGC::get_char_index(var_r31);
       if (char_data != NULL)

@@ -44,6 +44,7 @@
 #include "pso/system/scene/OfflineGameScene.h"
 #include "pso/quest/QuestOpcodeTables.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/player/PlayerSlots.h"
 
 // The Ninja camera the view matrix is built from each frame: position,
 // direction, roll, angle and clip planes.

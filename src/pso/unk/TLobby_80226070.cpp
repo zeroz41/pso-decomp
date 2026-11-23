@@ -14,6 +14,7 @@
 #include "pso/object/trap/TOTrapAncient01.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/camera/TCameraCtrl.h"
+#include "pso/player/PlayerSlots.h"
 
 
 s8 sound_mode_value = 1;
@@ -337,7 +338,6 @@ s32 play_sound_effect(s32 id, Vec *src, s32 a2, s32 flags) {
     }
     return -1;
 }
-void *get_player_by_client_id(s32 i);
 s32 TLobby__sub_8023F880(s32 arg0);
 
 void TLobby::update_lobby_subsystems() { TLobby__sub_8022644C(); stop_cue_stream(); }

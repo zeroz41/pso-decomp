@@ -62,6 +62,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp_80248BE8.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/camera/TCameraCtrl.h"
+#include "pso/player/PlayerSlots.h"
 
 
 #pragma defer_codegen on
@@ -371,7 +372,7 @@ void TObjWarpBoss::update_warp_dialogs() {
             ((THunterGuildSeqOffline *)player_list_window)->advance_matching_entries(player_in_range[j] != 0, j);
       color = 0xF0F0F0FF;
       TObjPlayer *player;
-      if (state == 1 && (player = (TObjPlayer *)get_player_by_client_id(j)) != NULL && player->check_player_flag1() != 0)
+      if (state == 1 && (player = get_player_by_client_id(j)) != NULL && player->check_player_flag1() != 0)
       {
         color = 0xFFFF00FF;
       }

@@ -37,6 +37,7 @@
 #include "pso/player/TObjPlayer_803DC834.h"
 #include <stddef.h>
 #include "pso/network/client_id.h"
+#include "pso/player/PlayerSlots.h"
 
 s32 lbl_805D65F0;
 void *scene_sora_instance;

@@ -14,6 +14,7 @@
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/ui/window/WindowLayout.h"
+#include "pso/player/PlayerSlots.h"
 
 #pragma readonly_strings on
 
@@ -61,7 +62,6 @@ extern "C" {
 s32 draw_window_scrollbar(int, int, void *);
 void draw_cursor_sprite__21TWindowSubCustomEquipFPvPvif(void *, void *, s32, f32);
 s32 play_sound_effect(s32, s32, s32, s32);
-void *get_player_by_client_id(s32 i);
 void *reset_selection__20TWindowSubStatusDispFv(void *, NJS_POINT2 *);
 const char *TWindowSubCustomSelect__class_name = "TWindowSubCustomSelect";
 s32 clamp_list_scroll_offset(void *, void *, void *);
@@ -165,7 +165,7 @@ void TWindowSubCustomSelect::draw_palette_cells(WindowDrawContext *ctx) {
     f32 y;
     f32 fx;
     f32 fy;
-    p = ((saddr)get_player_by_client_id((this->client_index)));
+    p = (saddr)get_player_by_client_id((this->client_index));
     if (p == 0) {
         return;
     }

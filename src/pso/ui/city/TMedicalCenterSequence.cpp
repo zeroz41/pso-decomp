@@ -17,7 +17,6 @@
 #include "pso/object/base/TObjBase.h"
 
 extern "C" {
-void *get_player_by_client_id(s32);
 saddr get_window_layout_position(int, f32);
 void TMedicalCenterMes__sub_80216260(void);
 
@@ -31,6 +30,7 @@ extern s32 local_client_id;
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/system/ControllerInputState.h"
 #include "pso/ui/window/TWindowSubComCard.h"
+#include "pso/player/PlayerSlots.h"
 
 extern "C" {
 s32 TMedicalCenterSequence__data_80513E90[4];
@@ -281,7 +281,7 @@ void TMedicalCenterMes::run_task() {
     switch (state) {
     case 0: {
         if (player == NULL) {
-            player = (TObjPlayer *)get_player_by_client_id(local_client_id);
+            player = get_player_by_client_id(local_client_id);
         }
         THunterGuildSeqOffline__sub_8021E180(player->get_entity_id());
         TWindowCtrl::suppress_slot(player->get_entity_id());

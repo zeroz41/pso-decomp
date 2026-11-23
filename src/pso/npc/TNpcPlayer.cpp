@@ -35,6 +35,7 @@
 #include "pso/unk/TLobby_8013A874.h"
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/player/PlayerSlots.h"
 
 extern "C" {
 void rotate_matrix_y(s32, s32);
@@ -121,7 +122,6 @@ void TFontSmallLobby__sub_80152F28(Obj_80152F28 *self);
 s32 free_collision_body_parts(u32);
 void init_collision_body_parts(void *, void *, s32);
 s32 try_send_6x27_use_item(s32, s32, void *);
-void *get_player_by_client_id(s32 i);
 s8 get_cast_technique_level(void *, s16);
 Tec_80150B90 * calc_technique_parameters(s32, s32, s32);
 void __register_global_object(void *obj, void *dtor, void *link);
@@ -2810,7 +2810,7 @@ Unk_8014F844::Unk_8014F844(s32 id) {
 s32 refresh_npc_view_actor_lost(void *arg0) {
     Unk_8014F844 *view = (Unk_8014F844 *)arg0;
     TObjPlayer *v;
-    view->m_94 = (TObjPlayer *)get_player_by_client_id(view->m_8a);
+    view->m_94 = get_player_by_client_id(view->m_8a);
     v = view->m_94;
     if (v == NULL) {
         return 1;

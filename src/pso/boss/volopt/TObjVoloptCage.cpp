@@ -27,6 +27,7 @@
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/player/PlayerSlots.h"
 
 // TBoss3Volopt::create_breakup_mdl takes saddr; through that declaration CW keeps the param and Vec addresses
 // in saved registers across the two calls, so the call goes through the pointer-typed symbol.

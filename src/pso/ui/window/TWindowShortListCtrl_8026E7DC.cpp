@@ -36,6 +36,7 @@
 #include "pso/enemy/shinowa/TObjEneMe3ShinowaReal_8002ADD8.h"
 #include "pso/ui/window/TWindowCtrl_8024A054.h"
 #include "pso/unk/text_801C53D4.h"
+#include "pso/player/PlayerSlots.h"
 
 
 extern "C" {

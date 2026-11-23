@@ -28,6 +28,7 @@
 #include "pso/object/trap/TOTrapAncient01_80226534.h"
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/player/PlayerSlots.h"
 
 
 const char TBoss6GravBall__class_name_string[] = "TBoss6GravBall";

@@ -60,6 +60,7 @@
 #include "pso/player/TObjPlayer_800F0810.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/player/PlayerSlots.h"
 
 #pragma defer_codegen on
 extern "C" {

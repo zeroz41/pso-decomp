@@ -31,6 +31,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/unk/text_803D8F74.h"
+#include "pso/player/PlayerSlots.h"
 
 // Built with -inline off,deferred: functions are written last to first, so
 // the vtables come out in the original's order.

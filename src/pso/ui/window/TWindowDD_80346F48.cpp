@@ -2,6 +2,7 @@
 #include "pso/ui/window/TWindowDD_80346F48.h"
 #include "pso/ui/window/TWindowDD.h"
 #include <string.h>
+#include "pso/player/PlayerSlots.h"
 
 struct DD_80346FE4 {
     u8 pad[0x10];
@@ -16,7 +17,6 @@ struct DD_80346FE4 {
 };
 
 extern "C" {
-void *get_player_by_client_id(s32 i);
 extern s32 local_client_id;
 extern char **TWindowDD__player_name_buffers;
 extern DD_80346FE4 *TWindowDD__word_select_lists;

@@ -26,6 +26,7 @@
 #include "pso/math/MatrixVector.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/player/PlayerSlots.h"
 
 typedef struct Actor_80193FE8 {
     u8 pad0[0x28];
@@ -66,7 +67,6 @@ typedef struct Light_80193FE8 {
 extern "C" {
 s32 is_split_screen(void);
 f32 xyz_distance_squared(void *, void *);
-Actor_80193FE8 *get_player_by_client_id(s32);
 
 const char *TObjLight__class_name = "TObjLight";
 
@@ -152,7 +152,7 @@ void TObjLight::run_task() {
             }
         }
         for (i = 0; i < 4; i++) {
-            Actor_80193FE8 *a = get_player_by_client_id(i);
+            Actor_80193FE8 *a = (Actor_80193FE8 *)get_player_by_client_id(i);
             if (a != NULL) {
                 f32 d = horizontal_distance_squared(&a->pos, &self->pos);
                 f32 r2 = self->radius * self->radius;

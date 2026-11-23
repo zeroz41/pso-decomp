@@ -9,6 +9,7 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/player/PlayerSlots.h"
 
 // Written from the last function back (deferred code generation), which puts
 // TUnk_8049FEB8's vtable before this class's.
