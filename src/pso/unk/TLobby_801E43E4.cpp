@@ -1,4 +1,5 @@
 #include <string.h>
+#include "pso/network/TGameProtocol.h"
 #include "pso/render/GinjaMaterialState.h"
 #include "pso/render/GvmTextureArchive.h"
 #include "pso/network/protocol/protocol_types.h"
@@ -32,7 +33,6 @@ u8 *TQuestVmDownLoadServer__sub_8007EBDC(s32, s32);
 s32 distort_texture_wave_image(void *);
 }
 
-extern void *game_protocol_instance;
 
 void long_game_command_union::send_to_client(u32 client_id) {
     u32 size;
@@ -99,18 +99,18 @@ void send_subcommand(void *cmd) {
 }
 
 void TLobby::update_players() {
-    void *var_r31;
+    TObject *packet;
     saddr cmd = (saddr)this;
 
     if ((s32) join_state_flag == 1) {
         send_subcommand((u8 *)cmd);
         return;
     }
-    if ((void *) game_protocol_instance != NULL) {
-        var_r31 = *(void **)((s8 *)game_protocol_instance + 0x14);
-        while (var_r31 != NULL) {
-            append_command_to_batch_buffer(var_r31, cmd);
-            var_r31 = *(void **)((s8 *)var_r31 + 0xC);
+    if (game_protocol_instance != NULL) {
+        packet = game_protocol_instance->m_down;
+        while (packet != NULL) {
+            append_command_to_batch_buffer(packet, cmd);
+            packet = packet->m_next;
         }
     }
     dispatching_own_subcommand = 1;

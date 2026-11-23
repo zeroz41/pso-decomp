@@ -18,6 +18,8 @@ extern TWindowMakeTeam *lobby_make_team_window;
 extern TWindowMenu *lobby_keyboard_prompt_window;
 extern TKeyBoardControl *lobby_keyboard_controller;
 extern TAdScrollWinGC *lobby_scroll_text_window;
+// The idle-timeout warning window TLobby::update_idle_timeout opens.
+extern TWindowMessage *TLobby__idle_timeout_object;
 
 extern "C" {
 u8 *init_idle_timeout_timer(u8 *arg0, saddr parent);

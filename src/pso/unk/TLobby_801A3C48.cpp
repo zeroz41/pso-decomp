@@ -151,7 +151,6 @@ void TQuestThread__sub_801F5D88(void);
 void TLobby__sub_8029B2A4(void);
 void reset_globals(void);
 }
-extern saddr game_protocol_instance;
 void init_scene_fog_system(void);
 void clear_received_symbol_chat(void);
 
@@ -266,7 +265,7 @@ void TLobby::start_udp_test_game() {
     msg.lobby_data[1].client_id = 1;
     strcpy(msg.lobby_data[1].name, "UDPTEST-2");
     TLobby::handle_game_join(&msg);
-    ((TObject *)game_protocol_instance)->delete_children();
+    game_protocol_instance->delete_children();
     TLobby::open_udp_socket_for_player(1 - local_client_id);
 }
 

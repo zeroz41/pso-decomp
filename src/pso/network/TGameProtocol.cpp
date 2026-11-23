@@ -31,7 +31,7 @@ struct TBoss3Volopt;
 struct TLobby;
 struct TObjPlayer;
 
-void *game_protocol_instance;
+TObject *game_protocol_instance;
 void *TGameProtocol__instance;
 // The class name opens the unit's .rodata, before the receive log formats of the
 // dispatchers below.
@@ -40,21 +40,6 @@ const char *TGameProtocol__class_name = "TGameProtocol";
 }
 s32 dispatching_own_subcommand;
 
-struct VBase_18_801E4260 { char pad[0x18]; };
-struct Node_801E4260 : VBase_18_801E4260 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-};
-
-struct Head_801E4260 {
-    u8 pad[0x14];
-    Node_801E4260 *first;
-};
 
 void handle_6x05_write_switch_flag(void *arg0);
 void handle_6x06_send_guild_card(s32 packet);
@@ -478,16 +463,16 @@ void dispatch_pso_data_commands(Buf_801E416C *b) {
 }
 
 void TGameProtocol::run_task() {
-    Node_801E4260 *n;
-    for (n = ((Head_801E4260 *)game_protocol_instance)->first; n != 0; n = *(Node_801E4260 **)((u8 *)n + 0xC)) {
-        TLobby__sub_8007EB20("Packet %s %x", *(s32 *)n, n);
-        if (*(s8 *)((u8 *)n + 0x2B) == 0) {
+    TPacket *n;
+    for (n = (TPacket *)game_protocol_instance->m_down; n != 0; n = (TPacket *)n->m_next) {
+        TLobby__sub_8007EB20("Packet %s %x", n->m_name, n);
+        if (n->m_buffer_cleared == 0) {
             dispatch_pso_data_commands((Buf_801E416C *)n);
-            n->m6();
+            n->recv();
         }
-        if (*(u16 *)((u8 *)n + 6) == frame_slot) {
+        if (n->m_id == frame_slot) {
             TLobby__sub_801A54E8((u8 *)n);
-            ((TPacket *)n)->clear_send_buffer();
+            n->clear_send_buffer();
         }
     }
     frame_slot = (frame_slot + 1) & 3;

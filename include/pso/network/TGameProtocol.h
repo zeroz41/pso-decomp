@@ -14,4 +14,7 @@ public:
 };
 LAYOUT_ASSERT(TGameProtocol_size, sizeof(TGameProtocol) == 0x20);
 
+// The TObject whose children are the game packets TGameProtocol::run_task flushes.
+extern TObject *game_protocol_instance;
+
 #endif

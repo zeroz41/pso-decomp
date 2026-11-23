@@ -6,6 +6,7 @@
 #include "pso/map/TSetEvtDestroy.h"
 #include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/ui/window/TWindowMessage.h"
+#include "pso/network/TPlyJoinLobbyEntry.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/item/TItem.h"
 #include "pso/system/task/TObject.h"
@@ -320,12 +321,6 @@ struct Team_801C343C { s32 v[2]; };
 
 typedef struct Cnt_801C3C1C { s32 v[2]; } Cnt_801C3C1C;
 
-struct Base_801C418C { u8 pad[0x18]; };
-
-struct V_801C418C : Base_801C418C {
-    virtual ~V_801C418C();
-};
-
 extern "C" {
 void handle_6x7E(void);
 void TLobby__sub_801C38A4(void);
@@ -382,7 +377,6 @@ void TLobby__sub_801C38E8(void *arg0);
 
 s32 check_team_balance__6TLobbyFPvi(Lobby_801C484C *self, s32 arg1);
 void TKeyBoardControl__sub_8000F950(void);
-extern void *TLobby__idle_timeout_object;
 extern s16 TLobby__data_805D5CE8;
 extern s32 evt2_random_enemies_mode;
 typedef struct Ent_801C32B4 { u16 id; s16 slot; u32 pad; } Ent_801C32B4;
@@ -835,7 +829,7 @@ void TLobby::end_battle_mode_cleanup() {
     switch (*(s32 *)((u8 *)this + 0x20)) {
     case 0:
         if (TLobby__idle_timeout_object != NULL) {
-            delete (V_801C418C *)TLobby__idle_timeout_object;
+            delete TLobby__idle_timeout_object;
             TLobby__idle_timeout_object = NULL;
         }
         TLobby::clear_counter();
