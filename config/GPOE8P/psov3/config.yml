@@ -3852,7 +3852,7 @@ force_active:
   - alloc_boss4rock_buffer__6TLobbyFv
   - alloc_boss_target_slot__16TBoss3VoloptCoreFv
   - alloc_breakup_model__13TUnk_804E3BD8Fl
-  - alloc_breakup_piece_records
+  - alloc_breakup_piece_records__13TUnk_8048FA00FP10NJS_OBJECT
   - alloc_char_records__23TAdSinglePlyChrSelectGCFi
   - alloc_download_buffer__13TUnk_804EF8C0Fv
   - alloc_download_quest__6TLobbyFlPl
@@ -5334,7 +5334,7 @@ force_active:
   - convert_serial_hex_to_decimal__22TAdEnterSerialAccessGCFPCc
   - copySavedX__12TBoss1DragonFPi
   - copy_4word_struct__6TLobbyFPvPv
-  - copy__11TBreakUpMdlFPv
+  - copy__15BreakUpParamRowFP15BreakUpParamRow
   - copy_from__24CharacterPreviewLoadArgsFPC24CharacterPreviewLoadArgs
   - copy__14QuestVmContextFP14QuestVmContext
   - copy__15DepthAlphaStateFP15DepthAlphaState
