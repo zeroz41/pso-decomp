@@ -7977,10 +7977,10 @@ force_active:
   - lbl_804AF218
   - lbl_804B2174
   - lbl_804B4550
-  - lbl_804B8A10
-  - lbl_804B8D80
-  - lbl_804B8D94
-  - lbl_804B8DA0
+  - gogo_ball_configs
+  - gogo_ball_shadow_texanim
+  - three_point_goal_team0
+  - three_point_goal_team1
   - ancient_boss_warp_model_names
   - jungle_boss_warp_model_names
   - __vt__13TPhotonFarlla
