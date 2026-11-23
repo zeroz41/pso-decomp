@@ -5288,7 +5288,7 @@ force_active:
   - construct_card_tags__17TWindowGetComCardFv
   - construct_card_window_array__23TAdSinglePlyChrSelectGCFPv
   - construct_card_window_array__23TAdSinglePlyChrSelectGCFi
-  - construct_city_air_car__FP18TObjCityAirCar_CarPvllf
+  - __ct__18TObjCityAirCar_CarFP7TObjectllf
   - construct_city_vertical_model__FPUcll
   - __ct__13TUnk_804A0FA0FP7TObjectPUc
   - construct_entry_array

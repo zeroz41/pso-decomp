@@ -18,6 +18,7 @@
 #include "pso/unk/TLobby_80226070.h"
 #include "pso/unk/text_8006EBC4.h"
 #include "pso/unk/text_8020EE2C.h"
+#include "pso/object/city/TObjCityAirCar_Ctrl.h"
 
 extern "C" {
 // TCheckRoomSequence.cpp; no header declares them yet.
@@ -25,8 +26,6 @@ void alloc_item_buffers__18TCheckRoomSequenceFv(void);
 void TCheckRoomSequence__free_bank_item_records(void);
 // text_80184C2C.cpp; its header does not declare it yet.
 void TLobby__sub_80184DF4(void);
-// CityTraffic.cpp: builds the 0x78-byte traffic manager object under its parent.
-void *construct_traffic_manager(void *obj, TObject *parent);
 }
 // THunterGuildSeqOnlineTask_802156A0.cpp; no header declares it yet.
 void load_judge_item(void);
@@ -58,7 +57,6 @@ void TLobby::cleanup_boss3_scene() {
 }
 
 s32 TLobby::setup_scene() {
-    void *obj;
     load_floor_sound_bank(get_current_floor_area());
     TLobby__sub_80207E44();
     if (TLobby::check_disconnect_conditions() != 0) {
@@ -71,10 +69,7 @@ s32 TLobby::setup_scene() {
     TLobby::create_tasks();
     TObjBgmColCtrl::create_controller();
     if (get_current_floor_area() == AREA_PIONEER2_EP1) {
-        obj = TObject::operator new(0x78);
-        if (obj != NULL) {
-            construct_traffic_manager(obj, tl_05);
-        }
+        new TObjCityAirCar_Ctrl(tl_05);
     }
     new TQuestBgmCtrl(tl_05);
     fn_8006EBC4((saddr)tl_07);
