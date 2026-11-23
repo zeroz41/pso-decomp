@@ -10,7 +10,6 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/render/render_util.h"
 #include "pso/unk/TLobby.h"
-#include "pso/unk/TTitleScene.h"
 #include "pso/ui/frontend/TAdBackGC.h"
 #include "pso/math/AngleLookup.h"
 
