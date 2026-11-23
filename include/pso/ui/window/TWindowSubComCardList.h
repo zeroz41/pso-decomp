@@ -24,10 +24,10 @@ struct TWindowSubComCardList : public TWindowMenu {
     void set_flag70_bit100();
     virtual void render();
     PageIndicator *m_8c;
-    uaddr m_90;
-    uaddr m_94;
-    u32 m_98;
-    u8 m_9c;
+    uaddr cards;
+    uaddr card_slots;
+    u32 card_count;
+    u8 empty_message;
     virtual void run_task();
     u8 unk_9D[0x3];
 };

@@ -289,7 +289,7 @@ void TAdMultiPlyChrSelectGC::initialize_selection_state(s32 arg1) {
     *(s32 *)&this->unk_88 = v;
     this->m_8c = v;
     *(s32 *)&this->unk_90 = v;
-    *(s32 *)&this->m_94 = v;
+    *(s32 *)&this->yes_no_dialog = v;
     *(s32 *)&this->unk_98 = v;
     this->m_3c = v;
     this->m_40 = v;
@@ -1562,9 +1562,9 @@ void TAdMultiPlyChrSelectGC::close_and_reset() {
         ((TWindowBase *)(*(void * *)&this->unk_80))->close();
         *(u32 *)&this->unk_80 = 0U;
     }
-    if ((u32) this->m_94 != 0U) {
-        ((TWindowMessageYesNo *)(*(void * *)&this->m_94))->close();
-        this->m_94 = 0U;
+    if ((u32) this->yes_no_dialog != 0U) {
+        ((TWindowMessageYesNo *)(*(void * *)&this->yes_no_dialog))->close();
+        this->yes_no_dialog = 0U;
     }
     player_plate->reset_cursor_state();
     if (this->select_cursor != NULL) {
@@ -1660,9 +1660,9 @@ void TAdMultiPlyChrSelectGC::update_input_state() {
 
     if (test_pressed_buttons_packed(&controller_physical_port_bank.controllers[0], 2) != 0) {
         play_sound_effect(0x52F16, 0, 0, 0);
-        if ((u32) this->m_94 != 0U) {
-            ((TWindowMessageYesNo *)(*(void * *)&this->m_94))->close();
-            this->m_94 = 0U;
+        if ((u32) this->yes_no_dialog != 0U) {
+            ((TWindowMessageYesNo *)(*(void * *)&this->yes_no_dialog))->close();
+            this->yes_no_dialog = 0U;
         }
         this->swap_search++;
         this->state = 0x1F;
@@ -1672,22 +1672,22 @@ void TAdMultiPlyChrSelectGC::update_input_state() {
         if (this->a_slot->get_state() < 0xE) {
             this->swap_search = 0;
         }
-        if ((u32) this->m_94 != 0U) {
-            ((TWindowMessageYesNo *)(*(void * *)&this->m_94))->close();
-            this->m_94 = 0U;
+        if ((u32) this->yes_no_dialog != 0U) {
+            ((TWindowMessageYesNo *)(*(void * *)&this->yes_no_dialog))->close();
+            this->yes_no_dialog = 0U;
         }
         this->state = 0x1D;
         return;
     }
-    if (((TWindowMessageYesNo *)(this->m_94))->is_child_visible() != 0) {
-        switch (((TWindowMessageYesNo *)(this->m_94))->get_selected_value()) {
+    if (((TWindowMessageYesNo *)(this->yes_no_dialog))->is_child_visible() != 0) {
+        switch (((TWindowMessageYesNo *)(this->yes_no_dialog))->get_selected_value()) {
         case 0:
             this->state = 0x21;
             return;
         case 1:
-            if ((u32) this->m_94 != 0U) {
-                ((TWindowMessageYesNo *)(*(void * *)&this->m_94))->close();
-                this->m_94 = 0U;
+            if ((u32) this->yes_no_dialog != 0U) {
+                ((TWindowMessageYesNo *)(*(void * *)&this->yes_no_dialog))->close();
+                this->yes_no_dialog = 0U;
             }
             this->swap_search++;
             this->state = 0x1F;
@@ -1750,9 +1750,9 @@ loop_9:
 void TAdMultiPlyChrSelectGC::handle_input() {
     void *context;
 
-    if ((u32) this->m_94 != 0U) {
-        ((TWindowMessageYesNo *)(*(void * *)&this->m_94))->close();
-        this->m_94 = 0U;
+    if ((u32) this->yes_no_dialog != 0U) {
+        ((TWindowMessageYesNo *)(*(void * *)&this->yes_no_dialog))->close();
+        this->yes_no_dialog = 0U;
     }
     if (this->b_slot->get_state() < 0x14) {
         if (this->a_slot->get_state() < 0xE) {

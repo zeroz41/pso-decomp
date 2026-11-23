@@ -71,10 +71,10 @@ TWindowSubComCardList::TWindowSubComCardList(void *parent) : TWindowMenu(7, 4, (
         n = 1;
     }
     m_8c = new PageIndicator(0, (s8)n, local_client_id);
-    m_90 = 0;
-    m_94 = (uaddr)get_card_entry__17TWindowSubComCardFi(0);
-    m_98 = 0xD2;
-    m_9c = 0;
+    cards = 0;
+    card_slots = (uaddr)get_card_entry__17TWindowSubComCardFi(0);
+    card_count = 0xD2;
+    empty_message = 0;
     set_flag70_bit100();
     set_selected_index(0);
     sub_80275360();
@@ -90,10 +90,10 @@ TWindowSubComCardList::TWindowSubComCardList(void *parent, s32 card_slot, s32 ar
         n = 1;
     }
     m_8c = new PageIndicator(0, (s8)n, local_client_id);
-    m_90 = card_slot;
-    m_94 = 0;
-    m_98 = arg3;
-    m_9c = arg4;
+    cards = card_slot;
+    card_slots = 0;
+    card_count = arg3;
+    empty_message = arg4;
     set_flag70_bit100();
     set_selected_index(0);
     sub_80275360();
