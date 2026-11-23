@@ -16,7 +16,7 @@ struct TWindowMessageYesNo : public TObject {
     u32 m_1c;
     u32 m_20;
     s32 client_id;
-    uaddr m_28;
+    TWindowMenu *message_menu;
     TWindowMenu *choice_menu;
     void set_choice_menu_flag70_bit10();
     virtual void render();

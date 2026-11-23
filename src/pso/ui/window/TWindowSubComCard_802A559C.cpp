@@ -12,9 +12,9 @@ void TWindowSubTradeMain__sub_802448E4(void *, void *);
 
 // The yes/no choice menu sits 111 left of and 10 above the message window's bottom-right corner.
 void TWindowMessageYesNo::get_choice_menu_position(NJS_POINT2 *position) {
-    if (reinterpret_cast<TWindowBase *>(m_28) != NULL) {
-        position->x = (reinterpret_cast<TWindowBase *>(m_28)->target_position[0] + reinterpret_cast<TWindowBase *>(m_28)->target_size[0]) - 111.0f;
-        position->y = (reinterpret_cast<TWindowBase *>(m_28)->target_position[1] + reinterpret_cast<TWindowBase *>(m_28)->target_size[1]) - 10.0f;
+    if (message_menu != NULL) {
+        position->x = (message_menu->target_position[0] + message_menu->target_size[0]) - 111.0f;
+        position->y = (message_menu->target_position[1] + message_menu->target_size[1]) - 10.0f;
     }
 }
 
@@ -29,7 +29,7 @@ void TWindowSubComCard::free_windows() {
 
 void TWindowMessageYesNo::move_to(const NJS_POINT2 *position) {
     NJS_POINT2 choice_position;
-    TWindowBase *window = reinterpret_cast<TWindowBase *>(m_28);
+    TWindowBase *window = message_menu;
     if (window != NULL && (window->target_position[0] != position->x || window->target_position[1] != position->y)) {
         TWindowSubTradeMain__sub_802448E4(window, (void *)position);
     }
