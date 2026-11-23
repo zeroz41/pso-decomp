@@ -1,79 +1,41 @@
 #include "types.h"
 #include "pso/effect/TEF_PvrWave.h"
 #include "pso/unk/TUnk_804C57E0.h"
+#include "pso/system/scene/TSceneMaterial.h"
 
-struct Tex_80081A30 {
-    u32 a;
-    u32 b;
-    u32 c;
-};
-
-struct TexList_80081A30 {
-    Tex_80081A30 *entries;
-};
-
-struct Scene_80081A30 {
-    u8 pad0[0x14];
-    TexList_80081A30 *texList;
-};
-
-struct Wave_80081A30 {
-    const char *name;
-    u8 pad4[0x14];
-    void *vtable;
-    void *wave;
-    s32 index;
-    Tex_80081A30 *tex;
-    u8 pad28[4];
-    Tex_80081A30 saved;
-};
-
-extern "C" {
-Scene_80081A30 *TScene__sub_80081B24(void);
-}
+extern "C" void *construct_texture_wave(void *wave, GinjaTextureList *texture_list);
 
 TEF_PvrWave::~TEF_PvrWave() {
-    TexList_80081A30 *list;
-    list = TScene__sub_80081B24()->texList;
-    list->entries[((Wave_80081A30 *)this)->index].c = ((Wave_80081A30 *)this)->saved.c;
-    list->entries[((Wave_80081A30 *)this)->index].b = ((Wave_80081A30 *)this)->saved.b;
-    list->entries[((Wave_80081A30 *)this)->index].a = ((Wave_80081A30 *)this)->saved.a;
-    __dt__13TUnk_804C57E0Fv(((Wave_80081A30 *)this)->wave, 1);
+    GinjaTextureList *list;
+    list = reinterpret_cast<GinjaTextureList *>(get_scene_material_root()->texlist);
+    list->entries[texture_index].texture = saved_entry.texture;
+    list->entries[texture_index].value04 = saved_entry.value04;
+    list->entries[texture_index].name = saved_entry.name;
+    delete wave;
 }
 
-extern "C" {
-void __ct__7TObjectFP7TObject(void *, void *);
-void *construct_texture_wave(void *, void *);
-extern u8 __vt__11TEF_PvrWave[];
-const char *TEF_PvrWave__class_name = "TEF_PvrWave";
-Wave_80081A30 *construct_pvr_wave__6TSceneFPvPvPvii(Wave_80081A30 *self, void *parent, void *image, s32 size, s32 index);
-extern Scene_80081A30 *TScene__data_805D5FCC;
+const char *pvr_wave_class_name = "TEF_PvrWave";
 
-Wave_80081A30 *construct_pvr_wave__6TSceneFPvPvPvii(Wave_80081A30 *self, void *parent, void *image, s32 size, s32 index) {
-    void *p;
-    TexList_80081A30 *list;
-    __ct__7TObjectFP7TObject(self, parent);
-    self->vtable = __vt__11TEF_PvrWave;
-    self->name = TEF_PvrWave__class_name;
-    self->index = index;
-    p = ::operator new(0x54);
-    if (p != NULL) {
-        p = construct_texture_wave(p, &self->tex);
+TEF_PvrWave::TEF_PvrWave(TObject *parent, u8 *image, s32 size, s32 index) : TObject(parent) {
+    void *memory;
+    GinjaTextureList *list;
+    m_name = pvr_wave_class_name;
+    texture_index = index;
+    memory = ::operator new(sizeof(TUnk_804C57E0));
+    if (memory != NULL) {
+        memory = construct_texture_wave(memory, &texture_list);
     }
-    self->wave = p;
-    ((TUnk_804C57E0 *)(self->wave))->init_image_buffer((u8 *)image, (s32)size);
-    list = TScene__sub_80081B24()->texList;
-    self->saved.c = list->entries[index].c;
-    self->saved.b = list->entries[index].b;
-    self->saved.a = list->entries[index].a;
-    list->entries[index].c = self->tex->c;
-    list->entries[index].b = self->tex->b;
-    list->entries[index].a = self->tex->a;
-    return self;
+    wave = (TUnk_804C57E0 *)memory;
+    wave->init_image_buffer(image, size);
+    list = reinterpret_cast<GinjaTextureList *>(get_scene_material_root()->texlist);
+    saved_entry.texture = list->entries[index].texture;
+    saved_entry.value04 = list->entries[index].value04;
+    saved_entry.name = list->entries[index].name;
+    list->entries[index].texture = texture_list.entries->texture;
+    list->entries[index].value04 = texture_list.entries->value04;
+    list->entries[index].name = texture_list.entries->name;
 }
 
-Scene_80081A30 *TScene__sub_80081B24(void) {
-    return TScene__data_805D5FCC;
-}
-
+SceneMaterialRoot *get_scene_material_root() {
+    return scene_material_root;
 }
