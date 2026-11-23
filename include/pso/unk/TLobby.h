@@ -343,7 +343,6 @@ struct TLobby : public TObject {
     static void *create_tl05_object(void *player);
     static void free_global();
     static void clear_flag_if_not_split_screen();
-    void set_position(f32 a, f32 b);
     static int get_shop_value();
     static void free_singleton();
     static void create_named_lobby_object();

@@ -30,8 +30,8 @@ struct TWindowHelpItem : public TWindowBase
     u32 m_9c;
     u32 m_a0;
     u32 m_a4;
-    f32 m_a8;
-    f32 m_ac;
+    f32 scale_x;
+    f32 scale_y;
     struct CallbackWords { u32 words[3]; } m_callback;
 
     TWindowHelpItem(void *position, s32 index);
@@ -46,6 +46,7 @@ struct TWindowHelpItem : public TWindowBase
     void dispatch_item_help();
     void set_displayed_item_colored(uaddr displayed_item_colored);
     void set_displayed_item_by_id(saddr id);
+    void set_scale(f32 x, f32 y);
     void set_displayed_item_data(void* a1, void* a2);
     void set_items_and_refresh(void* a1, void* a2);
     void update_cursor_selection();

@@ -337,11 +337,11 @@ void TWindowSubTradeMain::run_task() {
         }
         o->state = 7;
     case 7:
-        if (((TShopEquipmentSellWindow *)(o->number))->is_confirmed() != 0) {
+        if (((TWindowInputNumber *)(o->number))->is_cancelled() != 0) {
             o->state = 8;
         }
         if (((TWindowInputNumber *)(o->number))->is_confirmed() != 0) {
-            n = ((TShopEquipmentSellWindow *)(o->number))->get_result();
+            n = ((TWindowInputNumber *)(o->number))->get_value();
             TWindowSubTradeMain::draw_request((void *)(((TWindowMenuIconLine *)o->list)->get_cursor_value()), (void *)n);
             o->state = 9;
         }
@@ -409,11 +409,11 @@ void TWindowSubTradeMain::run_task() {
         }
         o->state = 0xE;
     case 14:
-        if (((TShopEquipmentSellWindow *)(o->number))->is_confirmed() != 0) {
+        if (((TWindowInputNumber *)(o->number))->is_cancelled() != 0) {
             o->state = 0xF;
         }
         if (((TWindowInputNumber *)(o->number))->is_confirmed() != 0) {
-            n = ((TShopEquipmentSellWindow *)(o->number))->get_result();
+            n = ((TWindowInputNumber *)(o->number))->get_value();
             TWindowSubTradeMain::draw_offer((void *)(((TWindowMenuIconLine *)o->request)->get_cursor_value()), (void *)n);
             o->state = 0x10;
         }

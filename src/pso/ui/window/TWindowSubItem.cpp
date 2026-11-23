@@ -343,11 +343,11 @@ void TWindowSubItem::run_task() {
             this->state = 0xD;
         }
         case 13:
-            if (((TShopEquipmentSellWindow *)(this->count_input))->is_confirmed() != 0) {
+            if (((TWindowInputNumber *)(this->count_input))->is_cancelled() != 0) {
                 this->state = 3;
             }
             if (((TWindowInputNumber *)(this->count_input))->is_confirmed() != 0) {
-                this->amount = ((TShopEquipmentSellWindow *)(this->count_input))->get_result();
+                this->amount = ((TWindowInputNumber *)(this->count_input))->get_value();
                 this->state = 0xE;
                 return;
             }
@@ -416,11 +416,11 @@ void TWindowSubItem::run_task() {
             this->state = 0x14;
         }
         case 20:
-            if (((TShopEquipmentSellWindow *)(this->count_input))->is_confirmed() != 0) {
+            if (((TWindowInputNumber *)(this->count_input))->is_cancelled() != 0) {
                 this->state = 3;
             }
             if (((TWindowInputNumber *)(this->count_input))->is_confirmed() != 0) {
-                this->amount = ((TShopEquipmentSellWindow *)(this->count_input))->get_result();
+                this->amount = ((TWindowInputNumber *)(this->count_input))->get_value();
                 this->state = 0x15;
                 return;
             }

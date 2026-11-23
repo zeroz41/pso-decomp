@@ -254,7 +254,7 @@ void TShopArmorListWindow::refresh_item_list(void *p) {
         }
         W->help = o;
         if (W->help != NULL && TLobby::is_camera_ctrl_active() > 2) {
-            ((TLobby *)(W->help))->set_position(0.75f, 0.75f);
+            ((TWindowHelpItem *)(W->help))->set_scale(0.75f, 0.75f);
         }
         ((TWindowHelpItem *)((saddr)W->help))->set_displayed_item_colored((uaddr)W->recs);
     }

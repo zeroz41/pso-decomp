@@ -1,18 +1,18 @@
 #include "types.h"
 #include "pso/item/TItem.h"
-#include "pso/ui/city/TShopEquipmentSellWindow.h"
-#include "pso/ui/window/TWindowBase.h"
+#include "pso/ui/window/TWindowQuantity.h"
 
-void TShopEquipmentSellWindow::set_entry_count(void *window, void *item) {
+// Shows how many of the item the player carries (1 for an item that does not stack).
+void TWindowQuantity::set_entry_count(TItem *item) {
     s32 amount;
     void *entry;
 
-    entry = ((TWindowBase *)window)->get_array_entry(1);
+    entry = get_array_entry(1);
     if (item == NULL) {
         *(s32 *)((s8 *)entry + 0x20) = 0;
         return;
     }
-    amount = ((TItem *)item)->get_amount();
+    amount = item->get_amount();
     if (amount <= 0) {
         *(s32 *)((s8 *)entry + 0x20) = 1;
         return;

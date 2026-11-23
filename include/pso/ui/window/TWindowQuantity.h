@@ -4,6 +4,8 @@
 #include "types.h"
 #include "pso/ui/window/TWindowBase.h"
 
+struct TItem;
+
 struct TWindowQuantity : public TWindowBase {
     TWindowQuantity(s32 client);
     virtual ~TWindowQuantity();
@@ -11,6 +13,7 @@ struct TWindowQuantity : public TWindowBase {
     f32 width;
     f32 scale[2];
     void set_position(WindowDrawContext *context);
+    void set_entry_count(TItem *item);
     virtual void run_task();
 };
 

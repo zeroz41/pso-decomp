@@ -174,9 +174,9 @@ void TShopEquipmentGearSequence::open_armor_list_window() {
 }
 
 void TShopEquipmentGearSequence::open_sell_window() {
-    TShopEquipmentSellWindow *o = new TShopEquipmentSellWindow(tl_05, this, player, (void *)0x2a);
-    o->m_3a4 = (uaddr)enter_quest_list;
-    o->m_3a8 = (uaddr)open_gear_shop;
+    TShopEquipmentSellWindow *o = new TShopEquipmentSellWindow(tl_05, this, player, 0x2a);
+    o->on_close = enter_quest_list;
+    o->on_empty = open_gear_shop;
     reset_controller_input_state();
     set_state(5);
 }

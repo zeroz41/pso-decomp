@@ -162,7 +162,7 @@ void TShopGetItemWindow::rebuild_item_list() {
             }
             m_34 = help;
             if (m_34 != NULL && TLobby::is_camera_ctrl_active() > 2) {
-                ((TLobby *)m_34)->set_position(0.75f, 0.75f);
+                ((TWindowHelpItem *)(m_34))->set_scale(0.75f, 0.75f);
             }
             m_34->set_displayed_item_colored((uaddr)&displayed_item_colored);
             m_58 = sel;
@@ -205,7 +205,7 @@ void TShopGetItemWindow::handle_withdraw_list_input() {
                 }
                 m_30 = obj;
                 if (m_30 != NULL && TLobby::is_camera_ctrl_active() > 2) {
-                    ((TCheckRoomSequence *)m_30)->set_position(0.75f, 0.75f);
+                    ((TWindowInputNumber *)(m_30))->set_scale(0.75f, 0.75f);
                 }
                 set_state(2);
                 return;
@@ -229,14 +229,14 @@ void TShopGetItemWindow::update_input_number() {
             ((TWindowMenu *)m_2c)->set_ready_flag();
             ((TWindowAddition *)m_2c)->set_position_xy(get_scale(), get_scale());
         }
-        m_54 = ((TShopEquipmentSellWindow *)m_30)->get_result();
+        m_54 = ((TWindowInputNumber *)m_30)->get_value();
         ((TWindowBase *)m_30)->close();
         m_30 = NULL;
         set_state(3);
         return;
     }
     w = m_30;
-    if (w != NULL && ((TShopEquipmentSellWindow *)w)->is_confirmed() != 0) {
+    if (w != NULL && ((TWindowInputNumber *)w)->is_cancelled() != 0) {
         ((TWindowBase *)m_30)->close();
         m_30 = NULL;
         set_state(4);

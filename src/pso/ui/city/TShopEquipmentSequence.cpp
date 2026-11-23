@@ -184,9 +184,9 @@ void TShopEquipmentSequence::open_buy_window() {
 }
 
 void TShopEquipmentSequence::open_sell_window() {
-    TShopEquipmentSellWindow *o = new TShopEquipmentSellWindow(tl_05, this, player, (void *)0x26);
-    o->m_3a4 = (uaddr)exit__22TShopEquipmentSequenceFPv;
-    o->m_3a8 = (uaddr)init_window__22TShopEquipmentSequenceFPv;
+    TShopEquipmentSellWindow *o = new TShopEquipmentSellWindow(tl_05, this, player, 0x26);
+    o->on_close = exit__22TShopEquipmentSequenceFPv;
+    o->on_empty = init_window__22TShopEquipmentSequenceFPv;
     reset_controller_input_state();
     set_state(7);
 }

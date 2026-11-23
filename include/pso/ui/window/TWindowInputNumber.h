@@ -34,6 +34,9 @@ struct TWindowInputNumber : public TWindowBase {
     void move_cursor_next();
     void set_value(f32 farg0);
     int is_confirmed();
+    int is_cancelled();
+    s32 get_value();
+    void set_scale(f32 x, f32 y);
     void create(s32 title);
     void calc_digit_count();
     virtual void run_task();

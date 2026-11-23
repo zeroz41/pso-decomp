@@ -42,316 +42,230 @@
 
 #pragma dont_inline off
 
-struct ItemData_8021CF04 {
-    u8 b[0xC];
-    s32 id;
-};
-
-struct Entry_8021CF04 {
-    u32 id;
-    ItemData_8021CF04 item;
-    s32 price;
-    s32 index;
-};
-
-struct Owner_8021CF04 {
-    u8 pad0[0xD00];
-    void *inventory;
-};
-
-struct Win_8021CF04 {
-    u8 pad00[0x24];
-    Owner_8021CF04 *owner;
-    Entry_8021CF04 entries[30];
-    u8 pad370[4];
-    s32 count;
-    s32 text;
-    u8 pad37c[4];
-    s32 cursor;
-    u8 pad384[8];
-    void *list_win;
-    u8 pad390[8];
-    void *qty_win;
-    void *help_win;
-    void *cost_win;
-};
-
-struct ItemData_8021CC44 {
-    u8 b[0xC];
-    s32 id;
-};
-
-struct Entry_8021CC44 {
-    u32 id;
-    ItemData_8021CC44 item;
-    s32 price;
-    s32 index;
-};
-
-struct Owner_8021CC44 {
-    u8 pad0[0xD00];
-    void *inventory;
-};
-
-struct Win_8021CC44 {
-    u8 pad0[0x24];
-    Owner_8021CC44 *owner;
-    Entry_8021CC44 entries[30];
-    u8 pad370[0x37C - 0x370];
-    s32 f37c;
-    u8 pad380[4];
-    s32 sel;
-    u8 pad388[4];
-    void *list_win;
-    TWindowMenu *menu_win;
-    void *qty_win;
-    void *status_win;
-    void *help_win;
-    void *cost_win;
-};
-
-struct Rec_8021C968 { saddr item; s32 w[4]; s32 price; s32 w18; };
-
-struct Win_8021C968 {
-    u8 pad00[0x24];
-    saddr player;
-    Rec_8021C968 recs[30];
-    u8 pad370[0x37C - 0x370];
-    s32 count;
-    s32 sel;
-    u8 pad384[0x38C - 0x384];
-    void *list;
-    void *card;
-};
-
 extern "C" {
 const char *TShopEquipmentSellWindow__class_name = "TShopEquipmentSellWindow";
 }
 
-TShopEquipmentSellWindow::TShopEquipmentSellWindow(void *arg1, void *arg2, void *arg3, void *arg4) : TShopWindowBase((TObject *)arg1) {
+TShopEquipmentSellWindow::TShopEquipmentSellWindow(TObject *parent, TShopWindowBase *sequence, TObjPlayer *player, s32 title_text) : TShopWindowBase(parent) {
     this->m_name = TShopEquipmentSellWindow__class_name;
-    this->m_370 = 0;
-    this->m_374 = 0;
-    *(void **)((s8 *)this + 0x378) = arg4;
+    this->pad_370 = 0;
+    this->entry_count = 0;
+    this->title_text = title_text;
     this->state = 0;
-    this->m_37c = 1;
-    this->m_380 = 0;
-    this->m_384 = 0;
-    this->sequence = (TShopWindowBase *)arg2;
-    this->m_38c = 0;
-    this->confirm_menu = 0;
-    this->m_394 = 0;
-    this->m_39c = 0;
-    this->m_398 = 0;
-    this->m_3a0 = 0;
-    *(void **)((s8 *)this + 0x24) = arg3;
-    this->m_3a4 = 0;
-    this->m_3a8 = 0;
-    memset((void *)((char *)this + 40), 0, 840);
+    this->sell_count = 1;
+    this->cursor = 0;
+    this->last_cursor = 0;
+    this->sequence = sequence;
+    this->item_list = NULL;
+    this->confirm_menu = NULL;
+    this->number_input = NULL;
+    this->help_window = NULL;
+    this->owned_window = NULL;
+    this->cost_window = NULL;
+    this->player = player;
+    this->on_close = NULL;
+    this->on_empty = NULL;
+    memset(this->entries, 0, sizeof(this->entries));
 }
 
 extern "C" {
 TShopEquipmentSellWindow::~TShopEquipmentSellWindow() {
-    if (m_38c != NULL) { ((TWindowBase *)m_38c)->close(); m_38c = 0; }
-    if (confirm_menu != NULL) { confirm_menu->close(); confirm_menu = 0; }
-    if (m_394 != NULL) { ((TWindowBase *)m_394)->close(); m_394 = 0; }
-    if (m_39c != NULL) { ((TWindowBase *)m_39c)->close(); m_39c = 0; }
-    if (m_398 != NULL) { ((TWindowBase *)m_398)->close(); m_398 = 0; }
-    if (m_3a0 != NULL) { ((TWindowBase *)m_3a0)->close(); m_3a0 = 0; }
+    if (item_list != NULL) { item_list->close(); item_list = NULL; }
+    if (confirm_menu != NULL) { confirm_menu->close(); confirm_menu = NULL; }
+    if (number_input != NULL) { number_input->close(); number_input = NULL; }
+    if (help_window != NULL) { help_window->close(); help_window = NULL; }
+    if (owned_window != NULL) { owned_window->close(); owned_window = NULL; }
+    if (cost_window != NULL) { cost_window->close(); cost_window = NULL; }
 }
 
 void TShopEquipmentSellWindow::vfunc_11() {
-    u8 *arg0 = (u8 *)this;
-    s32 (*temp_r12)(s32);
-    s32 (*temp_r12_2)(s32);
-    switch (*(u32 *)((s8 *)arg0 + 0x20)) {
+    void (*callback)(TShopWindowBase *);
+    switch (this->state) {
     case 0:
-        ((TShopEquipmentSellWindow *)arg0)->build_sell_list();
+        build_sell_list();
         return;
     case 1:
-        ((TShopEquipmentSellWindow *)arg0)->handle_selection();
+        handle_selection();
         return;
     case 2:
-        ((TShopEquipmentSellWindow *)arg0)->handle_sell_confirm();
+        handle_sell_confirm();
         return;
     case 3:
-        ((TShopEquipmentSellWindow *)arg0)->handle_input_window_result();
+        handle_input_window_result();
         return;
     case 5:
-        ((TShopEquipmentSellWindow *)arg0)->close();
+        close();
         return;
     case 4:
-        ((TShopEquipmentSellWindow *)arg0)->update();
+        update();
         return;
     case 8:
-        temp_r12 = *(s32 (**)(s32))((s8 *)arg0 + 0x3A4);
-        if (temp_r12 != NULL) {
-            temp_r12(*(s32 *)((s8 *)arg0 + 0x388));
+        callback = this->on_close;
+        if (callback != NULL) {
+            callback(this->sequence);
         }
-        ((TObject *)arg0)->queue_destruction();
+        queue_destruction();
         return;
     case 7:
-        temp_r12_2 = *(s32 (**)(s32))((s8 *)arg0 + 0x3A8);
-        if (temp_r12_2 != NULL) {
-            temp_r12_2(*(s32 *)((s8 *)arg0 + 0x388));
+        callback = this->on_empty;
+        if (callback != NULL) {
+            callback(this->sequence);
         }
-        ((TObject *)arg0)->queue_destruction();
+        queue_destruction();
     default:
         return;
     }
 }
 
 void TShopEquipmentSellWindow::build_sell_list() {
-    Win_8021CF04 *self = (Win_8021CF04 *)this;
     uaddr ids[32];
     s32 n;
     s32 i;
     s32 v;
     void *r;
-    n = ((TPlyItem *)(self->owner->inventory))->count_matching_items(ids);
-    self->count = 0;
+    n = this->player->inventory_objects->count_matching_items(ids);
+    this->entry_count = 0;
     for (i = 0; i < n; i++) {
         if (ids[i] != 0) {
             v = TShopEquipmentSellWindow::get_item_data_value(ids[i]);
-            if (v > 0 && ((TItem *)(ids[i]))->copy_to_item_data((TItemData *)&self->entries[self->count].item) != 0) {
-                self->entries[self->count].id = ids[i];
-                self->entries[self->count].price = v / 8;
-                self->entries[self->count].index = i;
-                self->count++;
+            if (v > 0 && ((TItem *)(ids[i]))->copy_to_item_data(&this->entries[this->entry_count].data) != 0) {
+                this->entries[this->entry_count].item = (TItem *)ids[i];
+                this->entries[this->entry_count].data.data2.price = v / 8;
+                this->entries[this->entry_count].index = i;
+                this->entry_count++;
             }
         }
     }
-    if (self->count == 0) {
-        ((TShopWindowBase *)self)->set_state(7);
-        if (self->list_win != NULL) {
-            ((TWindowMenuIconLine *)(self->list_win))->reset_list();
+    if (this->entry_count == 0) {
+        set_state(7);
+        if (this->item_list != NULL) {
+            this->item_list->reset_list();
         }
         return;
     }
-    ((TShopEquipmentSellWindow *)self)->display_shop_message(0xC, 1);
-    ((TShopWindowBase *)self)->set_state(1);
-    if (self->list_win == NULL) {
-        self->list_win = create_item_list_window(get_shop_text(self->text), self->count, ((TObjBase *)((saddr)self->owner))->get_entity_id());
-        for (i = 0; i < self->count; i++) {
-            ((TShopEquipmentSellWindow *)(self->list_win))->add_item(self->entries[i].id, self->entries[i].price, i);
+    display_shop_message(0xC, 1);
+    set_state(1);
+    if (this->item_list == NULL) {
+        this->item_list = (TWindowMenuIconLine *)create_item_list_window(get_shop_text(this->title_text), this->entry_count, this->player->get_entity_id());
+        for (i = 0; i < this->entry_count; i++) {
+            this->item_list->add_item(this->entries[i].item, this->entries[i].data.data2.price, i);
         }
-        ((TWindowMenuIconLine *)self->list_win)->calc_content_extent();
+        this->item_list->calc_content_extent();
     } else {
-        ((TWindowMenuIconLine *)(self->list_win))->reset_list();
-        for (i = 0; i < self->count; i++) {
-            ((TShopEquipmentSellWindow *)(self->list_win))->add_item(self->entries[i].id, self->entries[i].price, i);
+        this->item_list->reset_list();
+        for (i = 0; i < this->entry_count; i++) {
+            this->item_list->add_item(this->entries[i].item, this->entries[i].data.data2.price, i);
         }
-        if (self->cursor > self->count - 1) {
-            self->cursor = self->count - 1;
+        if (this->cursor > this->entry_count - 1) {
+            this->cursor = this->entry_count - 1;
         }
-        ((TWindowMenuIconLine *)self->list_win)->calc_content_extent();
-        ((TWindowSubShortCutList *)(self->list_win))->set_cursor_index(self->cursor);
-        ((TWindowMenuIconLine *)(self->list_win))->clear_decided();
+        this->item_list->calc_content_extent();
+        ((TWindowSubShortCutList *)(this->item_list))->set_cursor_index(this->cursor);
+        this->item_list->clear_decided();
     }
-    if (self->help_win == NULL) {
-        self->help_win = new TWindowHelpItem((void *)get_window_layout_position(0x27), ((TObjBase *)((saddr)self->owner))->get_entity_id());
-        if (self->help_win != NULL && TLobby::is_camera_ctrl_active() > 2) {
-            ((TLobby *)(self->help_win))->set_position(0.75f, 0.75f);
+    if (this->help_window == NULL) {
+        this->help_window = new TWindowHelpItem((void *)get_window_layout_position(0x27), this->player->get_entity_id());
+        if (this->help_window != NULL && TLobby::is_camera_ctrl_active() > 2) {
+            this->help_window->set_scale(0.75f, 0.75f);
         }
-        ((TWindowHelpItem *)self->help_win)->set_displayed_item_by_id(self->entries[0].item.id);
-    } else if (self->list_win != NULL) {
-        v = ((TWindowMenuIconLine *)self->list_win)->get_cursor_value();
-        ((TWindowHelpItem *)self->help_win)->set_displayed_item_by_id(self->entries[v].item.id);
+        this->help_window->set_displayed_item_by_id(this->entries[0].data.id);
+    } else if (this->item_list != NULL) {
+        v = this->item_list->get_cursor_value();
+        this->help_window->set_displayed_item_by_id(this->entries[v].data.id);
     }
-    if (self->qty_win == NULL) {
-        self->qty_win = create_window_quantity((u16)((TShopSequence *)self)->get_child_field1c());
-        r = ((TPlyItem *)(self->owner->inventory))->set_mode_and_refresh_object(&self->entries[0].item);
+    if (this->owned_window == NULL) {
+        this->owned_window = create_window_quantity((u16)((TShopSequence *)this)->get_child_field1c());
+        r = this->player->inventory_objects->set_mode_and_refresh_object(&this->entries[0].data);
         if (r != NULL) {
-            TShopEquipmentSellWindow::set_entry_count(self->qty_win, (void *)((TItemList *)r)->get_owner_if_alive());
+            this->owned_window->set_entry_count((TItem *)((TItemList *)r)->get_owner_if_alive());
         } else {
-            TShopEquipmentSellWindow::set_entry_count(self->qty_win, 0);
+            this->owned_window->set_entry_count(NULL);
         }
-    } else if (self->list_win != NULL) {
-        v = ((TWindowMenuIconLine *)self->list_win)->get_cursor_value();
-        r = ((TPlyItem *)(self->owner->inventory))->set_mode_and_refresh_object(&self->entries[v].item);
+    } else if (this->item_list != NULL) {
+        v = this->item_list->get_cursor_value();
+        r = this->player->inventory_objects->set_mode_and_refresh_object(&this->entries[v].data);
         if (r != NULL) {
-            TShopEquipmentSellWindow::set_entry_count(self->qty_win, (void *)((TItemList *)r)->get_owner_if_alive());
+            this->owned_window->set_entry_count((TItem *)((TItemList *)r)->get_owner_if_alive());
         } else {
-            TShopEquipmentSellWindow::set_entry_count(self->qty_win, 0);
+            this->owned_window->set_entry_count(NULL);
         }
     }
-    if (self->cost_win == NULL) {
-        self->cost_win = create_cost_window(((TObjBase *)((saddr)self->owner))->get_entity_id());
-        if (self->cost_win != NULL && self->entries[0].price > 0) {
-            ((TWindowCost *)self->cost_win)->set_cost(self->entries[0].price);
+    if (this->cost_window == NULL) {
+        this->cost_window = create_cost_window(this->player->get_entity_id());
+        if (this->cost_window != NULL && this->entries[0].data.data2.price > 0) {
+            this->cost_window->set_cost(this->entries[0].data.data2.price);
         }
-    } else if (self->entries[self->cursor].price > 0) {
-        ((TWindowCost *)self->cost_win)->set_cost(self->entries[self->cursor].price);
+    } else if (this->entries[this->cursor].data.data2.price > 0) {
+        this->cost_window->set_cost(this->entries[this->cursor].data.data2.price);
     }
 }
 
 void TShopEquipmentSellWindow::handle_selection() {
-    Win_8021CC44 *w = (Win_8021CC44 *)this;
     s32 i;
     void *n;
     s32 type;
-    if (w->list_win != NULL) {
-        i = ((TWindowMenuIconLine *)(w->list_win))->get_cursor_value();
-        if (w->help_win != NULL && i != w->sel) {
-            ((TWindowHelpItem *)w->help_win)->set_displayed_item_by_id(w->entries[i].item.id);
+    if (this->item_list != NULL) {
+        i = this->item_list->get_cursor_value();
+        if (this->help_window != NULL && i != this->last_cursor) {
+            this->help_window->set_displayed_item_by_id(this->entries[i].data.id);
         }
-        if (w->status_win != NULL && i != w->sel) {
-            n = ((TPlyItem *)(w->owner->inventory))->set_mode_and_refresh_object(&w->entries[i].item);
+        if (this->owned_window != NULL && i != this->last_cursor) {
+            n = this->player->inventory_objects->set_mode_and_refresh_object(&this->entries[i].data);
             if (n != 0) {
-                TShopEquipmentSellWindow::set_entry_count(w->status_win, (void *)((TItemList *)n)->get_owner_if_alive());
+                this->owned_window->set_entry_count((TItem *)((TItemList *)n)->get_owner_if_alive());
             } else {
-                TShopEquipmentSellWindow::set_entry_count(w->status_win, 0);
+                this->owned_window->set_entry_count(NULL);
             }
         }
-        if (w->cost_win != NULL && i != w->sel && w->entries[i].price > 0) {
-            ((TWindowCost *)w->cost_win)->set_cost(w->entries[i].price);
+        if (this->cost_window != NULL && i != this->last_cursor && this->entries[i].data.data2.price > 0) {
+            this->cost_window->set_cost(this->entries[i].data.data2.price);
         }
-        w->sel = i;
+        this->last_cursor = i;
     }
-    if (((TShopWindowBase *)w)->sub_802239EC() != 0) {
-        ((TShopWindowBase *)w)->set_state(8);
+    if (sub_802239EC() != 0) {
+        set_state(8);
         play_sound_effect(0x52D01, 0, 0, 0);
         return;
     }
-    if (((TShopWindowBase *)w)->sub_80223A48() != 0) {
-        w->f37c = 1;
-        i = ((TWindowMenuIconLine *)(w->list_win))->get_cursor_value();
-        if (w->entries[i].item.b[0] == 3) {
-            type = ((TItemData *)&w->entries[i].item)->get_stack_count();
-            if (type > 1 && w->qty_win == NULL) {
-                w->qty_win = new TWindowInputNumber((void *)get_window_layout_position(0x2B), 1, type, 1, ((TShopSequence *)w)->get_child_field1c());
-                if (w->qty_win != NULL && TLobby::is_camera_ctrl_active() > 2) {
-                    ((TCheckRoomSequence *)(w->qty_win))->set_position(0.75f, 0.75f);
+    if (sub_80223A48() != 0) {
+        this->sell_count = 1;
+        i = this->item_list->get_cursor_value();
+        if (this->entries[i].data.data1.data_u8[0] == 3) {
+            type = this->entries[i].data.get_stack_count();
+            if (type > 1 && this->number_input == NULL) {
+                this->number_input = new TWindowInputNumber((void *)get_window_layout_position(0x2B), 1, type, 1, ((TShopSequence *)this)->get_child_field1c());
+                if (this->number_input != NULL && TLobby::is_camera_ctrl_active() > 2) {
+                    this->number_input->set_scale(0.75f, 0.75f);
                 }
-                ((TShopWindowBase *)w)->set_state(3);
+                set_state(3);
                 return;
             }
         }
-        if (w->menu_win == NULL) {
-            w->menu_win = create_window_menu((saddr)get_window_layout_position(0x2B), 2, ((TObjBase *)((saddr)w->owner))->get_entity_id());
-            w->menu_win->add_text_entry(get_shop_text(6), 6, 0);
-            w->menu_win->add_text_entry(get_shop_text(7), 6, 1);
-            w->menu_win->calc_window_size();
-            align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(w->menu_win));
-            w->menu_win->set_ready_flag();
-            w->menu_win->set_position_xy(((TShopWindowBase *)w)->get_scale(), ((TShopWindowBase *)w)->get_scale());
-            ((TShopWindowBase *)w)->set_state(2);
+        if (this->confirm_menu == NULL) {
+            this->confirm_menu = create_window_menu((saddr)get_window_layout_position(0x2B), 2, this->player->get_entity_id());
+            this->confirm_menu->add_text_entry(get_shop_text(6), 6, 0);
+            this->confirm_menu->add_text_entry(get_shop_text(7), 6, 1);
+            this->confirm_menu->calc_window_size();
+            align_menu_entry_positions(this->confirm_menu);
+            this->confirm_menu->set_ready_flag();
+            this->confirm_menu->set_position_xy(get_scale(), get_scale());
+            set_state(2);
         }
     }
 }
 
 void TShopEquipmentSellWindow::close() {
-    if ((u32) this->m_38c != 0U) {
-        ((TWindowMenuIconLine *)(*(void **)((s8 *)this + 0x38C)))->clear_decided();
+    if (this->item_list != NULL) {
+        this->item_list->clear_decided();
     }
     set_state(1);
 }
 
 void TShopEquipmentSellWindow::handle_input_window_result() {
 
-    if (((u32) this->m_394 != 0U) && (((TWindowInputNumber *)(this->m_394))->is_confirmed() != 0)) {
+    if (this->number_input != NULL && this->number_input->is_confirmed() != 0) {
         if (confirm_menu == NULL) {
-            this->confirm_menu = create_window_menu((saddr)get_window_layout_position(0x2B), 2, ((TObjBase *)(saddr)(this->player))->get_entity_id());
+            this->confirm_menu = create_window_menu((saddr)get_window_layout_position(0x2B), 2, this->player->get_entity_id());
             this->confirm_menu->add_text_entry(get_shop_text(6), 6, 0);
             this->confirm_menu->add_text_entry(get_shop_text(7), 6, 1);
             this->confirm_menu->calc_window_size();
@@ -359,50 +273,49 @@ void TShopEquipmentSellWindow::handle_input_window_result() {
             this->confirm_menu->set_ready_flag();
             this->confirm_menu->set_position_xy(get_scale(), get_scale());
         }
-        this->m_37c = ((TShopEquipmentSellWindow *)(this->m_394))->get_result();
-        ((TWindowBase *)this->m_394)->close();
-        this->m_394 = 0U;
+        this->sell_count = this->number_input->get_value();
+        this->number_input->close();
+        this->number_input = NULL;
         set_state(2);
         return;
     }
-    if (((u32) this->m_394 != 0U) && (((TShopEquipmentSellWindow *)(this->m_394))->is_confirmed() != 0)) {
-        ((TWindowBase *)this->m_394)->close();
-        this->m_394 = 0U;
+    if (this->number_input != NULL && this->number_input->is_cancelled() != 0) {
+        this->number_input->close();
+        this->number_input = NULL;
         set_state(5);
     }
 }
 
 void TShopEquipmentSellWindow::handle_sell_confirm() {
-    Win_8021C968 *w = (Win_8021C968 *)this;
     s32 r;
-    if (w->card != NULL && ((TWindowMenu *)(w->card))->is_decided() != 0) {
-        r = ((TWindowMenu *)w->card)->get_selected_value();
+    if (this->confirm_menu != NULL && this->confirm_menu->is_decided() != 0) {
+        r = this->confirm_menu->get_selected_value();
         if (r == 0) {
-            s32 i = ((TWindowMenuIconLine *)w->list)->get_cursor_value();
-            if (((TObjPlayer *)(w->player))->try_add_sale_meseta(((TItem *)(w->recs[i].item))->get_item_id(), w->recs[i].price * w->count, w->count) != 0) {
-                ((TWindowBase *)w->card)->close();
-                w->card = NULL;
-                w->sel = i;
-                ((TShopWindowBase *)w)->set_state(0);
+            s32 i = this->item_list->get_cursor_value();
+            if (this->player->try_add_sale_meseta(this->entries[i].item->get_item_id(), this->entries[i].data.data2.price * this->sell_count, this->sell_count) != 0) {
+                this->confirm_menu->close();
+                this->confirm_menu = NULL;
+                this->cursor = i;
+                set_state(0);
                 return;
             }
-            ((TShopEquipmentSellWindow *)w)->display_shop_message(0x1C, 1);
-            ((TWindowBase *)w->card)->close();
-            w->card = NULL;
-            ((TShopWindowBase *)w)->set_state(4);
+            display_shop_message(0x1C, 1);
+            this->confirm_menu->close();
+            this->confirm_menu = NULL;
+            set_state(4);
             return;
         }
         if (r == 1) {
-            ((TWindowBase *)w->card)->close();
-            w->card = NULL;
-            ((TShopWindowBase *)w)->set_state(5);
+            this->confirm_menu->close();
+            this->confirm_menu = NULL;
+            set_state(5);
             return;
         }
     }
-    if (w->card != NULL && ((TWindowMenu *)(w->card))->is_cancelled() != 0) {
-        ((TWindowBase *)w->card)->close();
-        w->card = NULL;
-        ((TShopWindowBase *)w)->set_state(5);
+    if (this->confirm_menu != NULL && this->confirm_menu->is_cancelled() != 0) {
+        this->confirm_menu->close();
+        this->confirm_menu = NULL;
+        set_state(5);
     }
 }
 

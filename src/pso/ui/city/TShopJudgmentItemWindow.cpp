@@ -256,7 +256,7 @@ void TShopJudgmentItemWindow::create_result_windows() {
         if (this->help_window == NULL) {
             this->help_window = new TWindowHelpItem((void *)get_window_layout_position(0x27), this->player->get_entity_id());
             if ((this->help_window != NULL) && (TLobby::is_camera_ctrl_active() > 2)) {
-                ((TLobby *)this->help_window)->set_position(0.75f, 0.75f);
+                this->help_window->set_scale(0.75f, 0.75f);
             }
             this->help_window->set_displayed_item_colored((uaddr)&judged_item);
         }

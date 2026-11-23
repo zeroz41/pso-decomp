@@ -274,7 +274,7 @@ void accept_meseta_withdrawal__18TCheckRoomSequenceFPv(u8 *arg0) {
     s32 amount;
     s32 slot;
     if (((u32) *(u32 *)((s8 *)arg0 + 0x34) != 0U) && (((s32)((TWindowInputNumber *)(*(uaddr *)((s8 *)arg0 + 0x34)))->is_confirmed()) != 0)) {
-        amount = ((TShopEquipmentSellWindow *)(*(uaddr *)((s8 *)arg0 + 0x34)))->get_result();
+        amount = ((TWindowInputNumber *)(*(uaddr *)((s8 *)arg0 + 0x34)))->get_value();
         slot = ((s32)((TShopWindowBase *)arg0)->sub_8022397C());
         bank_debit_meseta(amount, slot);
         ((TObjPlayer *)(*(saddr *)((s8 *)arg0 + 0x24)))->add_meseta(amount);
@@ -287,7 +287,7 @@ void accept_meseta_withdrawal__18TCheckRoomSequenceFPv(u8 *arg0) {
         ((TWindowBase *)(*(uaddr *)((s8 *)arg0 + 0x34)))->close();
         *(u32 *)((s8 *)arg0 + 0x34) = 0U;
     }
-    if (((u32) *(u32 *)((s8 *)arg0 + 0x34) != 0U) && (((s32)((TShopEquipmentSellWindow *)(*(uaddr *)((s8 *)arg0 + 0x34)))->is_confirmed()) != 0)) {
+    if (((u32) *(u32 *)((s8 *)arg0 + 0x34) != 0U) && (((s32)((TWindowInputNumber *)(*(uaddr *)((s8 *)arg0 + 0x34)))->is_cancelled()) != 0)) {
         ((TShopWindowBase *)arg0)->display_shop_message(0x46, 1);
         ((TShopWindowBase *)arg0)->set_state(0xA);
         ((TWindowBase *)(*(uaddr *)((s8 *)arg0 + 0x34)))->close();
@@ -316,7 +316,7 @@ void begin_meseta_withdrawal__18TCheckRoomSequenceFPv(Seq_8020F478 *self) {
                 }
                 self->f34 = w;
                 if (self->f34 != NULL && TLobby::is_camera_ctrl_active() > 2) {
-                    ((TCheckRoomSequence *)self->f34)->set_position(0.75f, 0.75f);
+                    ((TWindowInputNumber *)(self->f34))->set_scale(0.75f, 0.75f);
                 }
             }
             ((void (*)())reset_controller_input_state)();
@@ -343,7 +343,7 @@ void accept_meseta_deposit__18TCheckRoomSequenceFPv(u8 *arg0) {
     s32 count;
     s32 slot;
     if (((u32) *(u32 *)((s8 *)arg0 + 0x34) != 0U) && (((s32)((TWindowInputNumber *)(*(uaddr *)((s8 *)arg0 + 0x34)))->is_confirmed()) != 0)) {
-        count = ((TShopEquipmentSellWindow *)(*(uaddr *)((s8 *)arg0 + 0x34)))->get_result();
+        count = ((TWindowInputNumber *)(*(uaddr *)((s8 *)arg0 + 0x34)))->get_value();
         slot = ((s32)((TShopWindowBase *)arg0)->sub_8022397C());
         bank_credit_meseta(count, slot);
         try_spend_actor_meseta((u8 *)(*(saddr *)((s8 *)arg0 + 0x24)), (count));
@@ -356,7 +356,7 @@ void accept_meseta_deposit__18TCheckRoomSequenceFPv(u8 *arg0) {
         ((TWindowBase *)(*(uaddr *)((s8 *)arg0 + 0x34)))->close();
         *(u32 *)((s8 *)arg0 + 0x34) = 0U;
     }
-    if (((u32) *(u32 *)((s8 *)arg0 + 0x34) != 0U) && (((s32)((TShopEquipmentSellWindow *)(*(uaddr *)((s8 *)arg0 + 0x34)))->is_confirmed()) != 0)) {
+    if (((u32) *(u32 *)((s8 *)arg0 + 0x34) != 0U) && (((s32)((TWindowInputNumber *)(*(uaddr *)((s8 *)arg0 + 0x34)))->is_cancelled()) != 0)) {
         ((TShopWindowBase *)arg0)->display_shop_message(0x46, 1);
         ((TShopWindowBase *)arg0)->set_state(3);
         ((TWindowBase *)(*(uaddr *)((s8 *)arg0 + 0x34)))->close();
@@ -387,7 +387,7 @@ void begin_meseta_deposit__18TCheckRoomSequenceFPv(Seq_8020F730 *self) {
                 }
                 self->f34 = w;
                 if (self->f34 != NULL && TLobby::is_camera_ctrl_active() > 2) {
-                    ((TCheckRoomSequence *)self->f34)->set_position(0.75f, 0.75f);
+                    ((TWindowInputNumber *)(self->f34))->set_scale(0.75f, 0.75f);
                 }
             }
             ((void (*)())reset_controller_input_state)();

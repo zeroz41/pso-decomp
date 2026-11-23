@@ -102,8 +102,8 @@ TWindowHelpItem::TWindowHelpItem(void *pos, s32 idx) : TWindowBase((u8 *)&window
     this->m_a0 = -1;
     this->m_a4 = -1;
     this->m_callback = __ptmf_null;
-    this->m_a8 = 1.0f;
-    this->m_ac = 1.0f;
+    this->scale_x = 1.0f;
+    this->scale_y = 1.0f;
     this->dispatch_item_help();
     call_if_split_screen((uaddr)this, this->client_index);
 }

@@ -31,6 +31,7 @@ public:
     void reset_list();
     void add_list_entry(u8 icon, s32 src, s32 item);
     void add_list_entry(TItem *item, s32 index);
+    void add_item(TItem *item, s32 price, s32 index);
     saddr get_cursor_value();
     void calc_content_extent();
     void disable_cancel();

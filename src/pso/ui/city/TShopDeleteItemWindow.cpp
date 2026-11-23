@@ -168,7 +168,7 @@ void TShopDeleteItemWindow::sub_80337E2C() {
         if (copy_item_record__18TCheckRoomSequenceFiPvi(cursor, &displayed_item_colored, base) != 0) {
             m_3c = new TWindowHelpItem(get_window_layout_position(0x27), ((TObjBase *)(player))->get_entity_id());
             if (m_3c != NULL && TLobby::is_camera_ctrl_active() > 2) {
-                ((TLobby *)m_3c)->set_position(0.75f, 0.75f);
+                ((TWindowHelpItem *)(m_3c))->set_scale(0.75f, 0.75f);
             }
             m_3c->set_displayed_item_colored((uaddr)&displayed_item_colored);
             m_60 = cursor;
@@ -215,7 +215,7 @@ void TShopDeleteItemWindow::update_item_select(void *arg0) {
                 }
                 self->m_38 = p;
                 if (self->m_38 != NULL && TLobby::is_camera_ctrl_active() > 2) {
-                    ((TCheckRoomSequence *)self->m_38)->set_position(0.75f, 0.75f);
+                    ((TWindowInputNumber *)(self->m_38))->set_scale(0.75f, 0.75f);
                 }
                 self->set_state(2);
             } else {
@@ -244,14 +244,14 @@ void TShopDeleteItemWindow::handle_number_input() {
             ((TWindowSubComCardList *)m_34)->set_selected_index(1);
             ((TWindowAddition *)m_34)->set_position_xy(get_scale(), get_scale());
         }
-        m_5c = ((TShopEquipmentSellWindow *)m_38)->get_result();
+        m_5c = ((TWindowInputNumber *)m_38)->get_value();
         ((TWindowBase *)m_38)->close();
         m_38 = NULL;
         set_state(3);
         display_shop_message(0x4D, 1);
         return;
     }
-    if (m_38 != NULL && ((TShopEquipmentSellWindow *)m_38)->is_confirmed() != 0) {
+    if (m_38 != NULL && ((TWindowInputNumber *)m_38)->is_cancelled() != 0) {
         ((TWindowBase *)m_38)->close();
         m_38 = NULL;
         set_state(4);

@@ -347,13 +347,13 @@ void TWindowSubStatusDisp::add_inventory_item(saddr item, s32 count, s32 sid) {
     }
 }
 
-void TShopEquipmentSellWindow::add_item(saddr item, s32 arg2, s32 arg3) {
-    int index;
-    if (item != 0) {
-        index = this->m_72;
-        if (index < (s16) this->m_76) {
-            ((ItemListRow *)(reinterpret_cast<TWindowBase *>(this)->get_array_entry(index)))->update_from_player((void *)item, (s32)arg2, (s32)arg3);
-            this->m_72 = (this->m_72 + 1);
+void TWindowMenuIconLine::add_item(TItem *item, s32 price, s32 index) {
+    int row;
+    if (item != NULL) {
+        row = entry_count;
+        if (row < entry_capacity) {
+            ((ItemListRow *)get_array_entry(row))->update_from_player(item, price, index);
+            entry_count++;
         }
     }
 }

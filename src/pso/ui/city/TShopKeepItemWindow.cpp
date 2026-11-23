@@ -149,7 +149,7 @@ void TShopKeepItemWindow::rebuild_item_list() {
     if (this->help_window == NULL) {
         this->help_window = new TWindowHelpItem((void *)get_window_layout_position(0x27), this->player->get_entity_id());
         if (this->help_window != NULL && TLobby::is_camera_ctrl_active() > 2) {
-            ((TLobby *)(this->help_window))->set_position(0.75f, 0.75f);
+            this->help_window->set_scale(0.75f, 0.75f);
         }
         this->help_window->set_displayed_item_by_id(this->entries[cur].item->get_item_id());
         this->help_item_index = cur;
@@ -214,7 +214,7 @@ void TShopKeepItemWindow::handle_deposit_list_select() {
     if (count > 1 && this->number_window == NULL) {
         this->number_window = new TWindowInputNumber((void *)get_window_layout_position(0x2B), 1, count, 1, ((TShopSequence *)this)->get_child_field1c());
         if (this->number_window != NULL && TLobby::is_camera_ctrl_active() > 2) {
-            ((TCheckRoomSequence *)this->number_window)->set_position(0.75f, 0.75f);
+            this->number_window->set_scale(0.75f, 0.75f);
         }
         set_state(4);
         return;
@@ -241,14 +241,14 @@ void TShopKeepItemWindow::update_number_input() {
             scale = get_scale();
             ((TWindowAddition *)(this->confirm_window))->set_position_xy(get_scale(), scale);
         }
-        this->deposit_count = ((TShopEquipmentSellWindow *)(this->number_window))->get_result();
+        this->deposit_count = ((TWindowInputNumber *)(this->number_window))->get_value();
         ((TWindowBase *)this->number_window)->close();
         this->number_window = NULL;
         set_state(2);
         return;
     }
     w = this->number_window;
-    if ((w != NULL) && (((TShopEquipmentSellWindow *)w)->is_confirmed() != 0)) {
+    if ((w != NULL) && (((TWindowInputNumber *)w)->is_cancelled() != 0)) {
         ((TWindowBase *)this->number_window)->close();
         this->number_window = NULL;
         set_state(3);

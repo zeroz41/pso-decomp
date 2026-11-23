@@ -206,7 +206,7 @@ void TShopItemListWindow::build_item_list(void *p) {
         }
         W->help = o;
         if (W->help != NULL && TLobby::is_camera_ctrl_active() > 2) {
-            ((TLobby *)(W->help))->set_position(0.75f, 0.75f);
+            ((TWindowHelpItem *)(W->help))->set_scale(0.75f, 0.75f);
         }
         ((TWindowHelpItem *)(W->help))->set_displayed_item_colored((uaddr)window->shop_items);
     }
@@ -321,7 +321,7 @@ void TShopItemListWindow::prepare_tool_purchase() {
         if (count > 1) {
             quantity_input = (uaddr)new TWindowInputNumber((void *)get_window_layout_position(0x2B), 1, count, 1, ((TShopSequence *)this)->get_child_field1c());
             if (quantity_input != 0U && TLobby::is_camera_ctrl_active() > 2) {
-                ((TCheckRoomSequence *)quantity_input)->set_position(0.75f, 0.75f);
+                ((TWindowInputNumber *)(quantity_input))->set_scale(0.75f, 0.75f);
             }
             m_4c = 0;
             set_state(2);
@@ -359,12 +359,12 @@ void TShopItemListWindow::handle_amount_confirm() {
                 f32 scale = get_scale();
                 ((TWindowAddition *)confirm_menu)->set_position_xy(get_scale(), scale);
             }
-            m_50 = ((TShopEquipmentSellWindow *)quantity_input)->get_result();
+            m_50 = ((TWindowInputNumber *)quantity_input)->get_value();
             ((TWindowBase *)quantity_input)->close();
             quantity_input = 0U;
             m_4c = 1;
         }
-        if (quantity_input != 0U && ((TShopEquipmentSellWindow *)quantity_input)->is_confirmed() != 0) {
+        if (quantity_input != 0U && ((TWindowInputNumber *)quantity_input)->is_cancelled() != 0) {
             ((TWindowBase *)quantity_input)->close();
             quantity_input = 0U;
             if (item_list != 0U) {
