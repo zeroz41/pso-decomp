@@ -121,11 +121,10 @@ void PPCSync();
 
 
 
-struct Node_8020533C { u8 pad0[8]; Vec pos; SceneSectionAngles ang; };
 
 struct Model_8020533C { u8 pad0[4]; TEffIndirect *tex; s32 sampler; u8 padC[2]; u8 scale; u8 effect_id; };
 
-struct Lobby_8020533C { Vec v; SceneSectionAngles a; void *param; Node_8020533C *node; s16 scene; u8 id; };
+struct Lobby_8020533C { Vec v; SceneSectionAngles a; void *param; SceneMaterialNode *node; s16 scene; u8 id; };
 
 
 void render_projected_shadow_receiver(void *, void *);
@@ -1424,7 +1423,7 @@ void TScene::render_map_sections() {
 void TScene::render_static_map_section(SceneMaterialSection *scene_material_section, s32 flagged_only) {
     SceneMaterialStatic *e;
     s32 i;
-    Node_8020533C *node;
+    SceneMaterialNode *node;
     TEffIndirect *tex;
 
     for (i = 0, e = scene_material_section->objects; i < scene_material_section->count; i++, e++) {
@@ -1447,31 +1446,31 @@ void TScene::render_static_map_section(SceneMaterialSection *scene_material_sect
             model_render_flags |= 1;
         }
         if (e->flags & 0x10) {
-            Node_8020533C *sh = (Node_8020533C *)resolve_indirect_node_record(this, e);
+            SceneMaterialNode *sh = resolve_indirect_node_record(this, e);
             if (sh != NULL) {
                 Vec v;
                 SceneSectionAngles a;
-                v.x = sh->pos.x;
-                v.y = sh->pos.y;
-                v.z = sh->pos.z;
+                v.x = sh->position[0];
+                v.y = sh->position[1];
+                v.z = sh->position[2];
                 vec3_add_to(&v, scene_material_section->position);
-                a.x = sh->ang.x + scene_material_section->angles[0];
-                a.y = sh->ang.y + scene_material_section->angles[1];
-                a.z = sh->ang.z + scene_material_section->angles[2];
+                a.x = sh->angles[0] + scene_material_section->angles[0];
+                a.y = sh->angles[1] + scene_material_section->angles[1];
+                a.z = sh->angles[2] + scene_material_section->angles[2];
                 render_projected_shadow_receiver(&v, &a);
             }
         }
-        node = (Node_8020533C *)resolve_indirect_node_record(this, e);
+        node = resolve_indirect_node_record(this, e);
         if (map_section_render_callback != NULL) {
             Vec v;
             SceneSectionAngles a;
-            v.x = node->pos.x;
-            v.y = node->pos.y;
-            v.z = node->pos.z;
+            v.x = node->position[0];
+            v.y = node->position[1];
+            v.z = node->position[2];
             vec3_add_to(&v, scene_material_section->position);
-            a.x = node->ang.x + scene_material_section->angles[0];
-            a.y = node->ang.y + scene_material_section->angles[1];
-            a.z = node->ang.z + scene_material_section->angles[2];
+            a.x = node->angles[0] + scene_material_section->angles[0];
+            a.y = node->angles[1] + scene_material_section->angles[1];
+            a.z = node->angles[2] + scene_material_section->angles[2];
             map_section_render_callback(&v, &a, e->flags);
         }
         if (e->flags & 0x200) {
@@ -1490,13 +1489,13 @@ void TScene::render_static_map_section(SceneMaterialSection *scene_material_sect
                 Model_8020533C *m = (Model_8020533C *)e->node;
                 if (m != NULL && TMainTask::get_render_pass() == 1) {
                     Lobby_8020533C l;
-                    l.v.x = node->pos.x;
-                    l.v.y = node->pos.y;
-                    l.v.z = node->pos.z;
+                    l.v.x = node->position[0];
+                    l.v.y = node->position[1];
+                    l.v.z = node->position[2];
                     vec3_add_to(&l.v, scene_material_section->position);
-                    l.a.x = node->ang.x + scene_material_section->angles[0];
-                    l.a.y = node->ang.y + scene_material_section->angles[1];
-                    l.a.z = node->ang.z + scene_material_section->angles[2];
+                    l.a.x = node->angles[0] + scene_material_section->angles[0];
+                    l.a.y = node->angles[1] + scene_material_section->angles[1];
+                    l.a.z = node->angles[2] + scene_material_section->angles[2];
                     l.param = (void *)scene_material_root->texlist;
                     l.node = node;
                     l.scene = scene_material_root->flags;
@@ -1538,7 +1537,7 @@ void TScene::render_animated_map_section(SceneMaterialSection *scene_material_se
   TEffIndirect *texture;
   SceneMaterialAnimated *e;
   s32 i;
-  Node_8020533C *node;
+  SceneMaterialNode *node;
   for (i = 0, e = scene_material_section->animated; i < scene_material_section->animatedCount; i++, e++)
   {
     if ((flagged_only != 0) && (!(e->flags & 0x10000)))
@@ -1569,31 +1568,31 @@ void TScene::render_animated_map_section(SceneMaterialSection *scene_material_se
     {
       model_render_flags |= 1;
     }
-    node = (Node_8020533C *) resolve_indirect_object_record(this, e);
+    node = resolve_indirect_object_record(this, e);
     if (e->flags & 0x10)
     {
       Vec v;
       SceneSectionAngles a;
-      v.x = node->pos.x;
-      v.y = node->pos.y;
-      v.z = node->pos.z;
+      v.x = node->position[0];
+      v.y = node->position[1];
+      v.z = node->position[2];
       vec3_add_to(&v, scene_material_section->position);
-      a.x = node->ang.x + scene_material_section->angles[0];
-      a.y = node->ang.y + scene_material_section->angles[1];
-      a.z = node->ang.z + scene_material_section->angles[2];
+      a.x = node->angles[0] + scene_material_section->angles[0];
+      a.y = node->angles[1] + scene_material_section->angles[1];
+      a.z = node->angles[2] + scene_material_section->angles[2];
       render_projected_shadow_receiver(&v, &a);
     }
     if (map_section_render_callback != 0)
     {
       Vec v;
       SceneSectionAngles a;
-      v.x = node->pos.x;
-      v.y = node->pos.y;
-      v.z = node->pos.z;
+      v.x = node->position[0];
+      v.y = node->position[1];
+      v.z = node->position[2];
       vec3_add_to(&v, scene_material_section->position);
-      a.x = node->ang.x + scene_material_section->angles[0];
-      a.y = node->ang.y + scene_material_section->angles[1];
-      a.z = node->ang.z + scene_material_section->angles[2];
+      a.x = node->angles[0] + scene_material_section->angles[0];
+      a.y = node->angles[1] + scene_material_section->angles[1];
+      a.z = node->angles[2] + scene_material_section->angles[2];
       map_section_render_callback(&v, &a, e->flags);
     }
     if (e->flags & 0x200)

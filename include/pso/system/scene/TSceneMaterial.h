@@ -5,8 +5,8 @@
 #include "pso/system/NinjaTypes.h"
 // A scene model: a Ginja model followed by its bounding sphere.
 struct SceneModel {GinjaModel model;f32 center[3];f32 radius;};
-// The head of a scene record's Ninja object: its model and position.
-struct SceneMaterialNode {u32 flags;SceneModel* model;f32 position[3];};
+// The head of a scene record's Ninja object: its model, position and rotation.
+struct SceneMaterialNode {u32 flags;SceneModel* model;f32 position[3];s32 angles[3];};
 struct SceneMaterialUv {u16 id,texture;f32 u,v,du,dv;void* buffer;};
 struct SceneMaterialCycle {u16 id,reserved,texture;s16 index;s32 timer;};
 struct SceneMaterialStatic {SceneMaterialNode* node;SceneMaterialUv* uv;SceneMaterialCycle* cycle;u32 flags;};
