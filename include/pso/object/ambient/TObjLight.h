@@ -33,10 +33,8 @@ struct TObjLight : public TObjBase {
     void sub_801337F8();
     static void free_shared_data();
     static void apply_distant_light();
-    void set_light(void *arg1, f32 farg0);
     static void find_light_params(f32 *dir, f32 *color, u32 id);
     static void init_light_tables();
-    void bswap_data();
     static void assert_light_id(s32 idx);
     // What register_actor_light hands to an actor in range: the scene light blended toward this one.
     Vec actor_direction; // 0xE4

@@ -39,7 +39,7 @@ extern s32 TObjCMMainMenu__data_805D659C;
 
 void init_creation_menu_scene(void) {
     void *p;
-    init_menu_scene_lights((u8 *)default_scene_light_config, 4);
+    init_menu_scene_lights(&default_scene_light_config, 4);
     TCameraCtrl::reset_view_state();
     TCameraCtrl::init_default_view();
     new TCameraCtrl(tl_camera);

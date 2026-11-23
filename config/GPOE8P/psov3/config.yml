@@ -4683,7 +4683,7 @@ force_active:
   - bswap_and_handle_packet__6TLobbyFii
   - bswap_and_send_extended_subcommand
   - bswap_cmd_88_marker_record__FPv
-  - bswap_data__9TObjLightFv
+  - bswap_data__10LightEntryFv
   - bswap_dragon_boss_fields__10TObjPlayerFv
   - bswap_enemy_set_row_fields__FPv
   - bswap_enemy_set_rows__6TLobbyFUl
@@ -7513,7 +7513,7 @@ force_active:
   - slime_full_scale
   - TObjEneSlimeWaterBomb__class_name_string
   - TObjEneSlimeTailAttack__class_name_string
-  - lbl_8043ED80
+  - light_entry_file_name
   - lbl_8043EDE8
   - lbl_8043EDF0
   - lbl_8043EDF8

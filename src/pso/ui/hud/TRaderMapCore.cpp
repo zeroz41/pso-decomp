@@ -52,6 +52,7 @@
 #include "pso/object/base/TObjBase.h"
 #include "pso/unk/text_800F8A18.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/object/ambient/TObjLight_80133568.h"
 
 typedef struct RadarInitPiece_801F9474 {
     s16 id, flags;
@@ -847,7 +848,7 @@ void begin_map_view__13TRaderMapCoreFii(saddr rader_map_core, s32 arg1) {
     setup_overhead_projection__13TRaderMapCoreFv((s32)rader_map_core, (Cam_801F9314 *)((void *) ((u8 *)TRaderMapCore__map_view_state + (arg1 * 0x28))));
     Vec dir = { 0.0f, -1.0f, 0.0f };
     NJS_ARGB color = { 1.0f, 1.0f, 1.0f, 1.0f };
-    ((TObjLight *)&dir)->set_light(&color, 1.0f);
+    set_light(&dir, &color, 1.0f);
     TParticleCtrl::begin_effect_render();
 }
 #pragma pop

@@ -38,6 +38,9 @@ void *load_nj_chunk_model_resource(u8 *base, u32 *off, u32 *out);
 }
 s32 calc_gvm_entry_stride(u16 flags);
 
+// The five GX light objects (0x40 bytes each), one per light slot: 0 is the scene light, 2..4 the point lights.
+extern s32 gx_light_objects[0x50];
+
 // read_gvrt_file_header reads the first 0x20 bytes of a GVR file here.
 extern u8 gvrt_header_read_buffer[0x20];
 void set_ginja_draw_flags(s32 flags);

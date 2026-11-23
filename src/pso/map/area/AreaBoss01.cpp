@@ -71,7 +71,7 @@ s32 init_dragon_area_scene(void) {
         l.c[2] = 1.0f;
         l.c[3] = 1.0f;
     }
-    init_map_lights((u8 *)&l);
+    init_map_lights((LightEntry *)&l);
     TLobby::create_tasks();
     TLobby::forward_floor_2CB44();
     play_area_music("dragon.adx");

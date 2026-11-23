@@ -18,6 +18,7 @@
 #include "pso/unk/TLobby.h"
 #include "pso/unk/TLobby_800FC3CC.h"
 #include "pso/item/TItemReverseTech.h"
+#include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/system/TLoadCtrl_80227390.h"
 #include <stddef.h>
@@ -73,9 +74,7 @@ void activate_uraending_code(void);
 void process_async_file_reads(void);
 void update_sound_request_slots(void);
 void clear_resource_load_tasks();
-void init_map_lights(u8 *arg0);
 void set_screen_size(f32, f32);
-extern u8 default_scene_light_config[];
 TItemReverseTechSceneHook TItemReverseTech__cleanup_callback_table[7] = {
     {TCameraCtrl::reset_view_state, TCameraCtrl::reset},
     {TCameraCtrl::init_default_view, TCameraCtrl::reset_default_view},
@@ -114,7 +113,7 @@ void TItemReverseTech::init_scene() {
             fn();
         }
     }
-    init_map_lights(default_scene_light_config);
+    init_map_lights(&default_scene_light_config);
     new TCameraCtrl(tl_camera);
     Vec eye = {0.0f, 0.0f, 0.0f};
     Vec at = {0.0f, 0.0f, -100.0f};

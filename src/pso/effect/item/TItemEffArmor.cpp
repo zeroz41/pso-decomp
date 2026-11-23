@@ -61,8 +61,8 @@ TItemEffArmor::TItemEffArmor(TObjPlayer *owner, f32 scale, f32 rise) : TObject(t
     this->rise = rise;
     this->owner = owner;
     angle_y = 0;
-    light_level = default_scene_light_config[8];
-    light_intensity = default_scene_light_config[7];
+    light_level = default_scene_light_config.ambient;
+    light_intensity = default_scene_light_config.intensity;
     light_step = (1.0f - light_level) / 14.5f;
     particle = create_particle_emitter(&this->owner->position, 0x1BA);
     copy_argb(&color, (NJS_ARGB *)&armor_glow_color);

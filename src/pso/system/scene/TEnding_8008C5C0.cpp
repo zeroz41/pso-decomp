@@ -108,7 +108,7 @@ void TEnding::start_ending_scene() {
     set_screen_size(1.0f, 0.85f);
     set_copy_clear_color_argb(0, 0, 0);
     reset_controller_input_state();
-    init_map_lights((u8 *)default_scene_light_config);
+    init_map_lights(&default_scene_light_config);
     new TCameraCtrl(tl_camera);
     Vec a = {0.0f, 0.0f, 0.0f};
     Vec b = {0.0f, 0.0f, -100.0f};

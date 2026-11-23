@@ -84,7 +84,7 @@ void TLogo::init_logo_scene() {
     reset_controller_input_state();
     for (i = 0; i < 0x80; i++) {
     }
-    init_menu_scene_lights((u8 *)default_scene_light_config, 4);
+    init_menu_scene_lights(&default_scene_light_config, 4);
     new TCameraCtrl(tl_camera);
     Vec a = {0.0f, 0.0f, 0.0f};
     Vec b = {0.0f, 0.0f, -100.0f};

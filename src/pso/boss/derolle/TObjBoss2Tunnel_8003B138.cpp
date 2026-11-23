@@ -539,18 +539,18 @@ void TObjBoss2Tunnel::run_task() {
         Boss2TunnelColor *a = &boss2_tunnel_color_table[segment_queue[2]];
         Boss2TunnelColor *b = &boss2_tunnel_color_table[segment_queue[3]];
         if (d <= 200.0f) {
-            TObjBoss2Tunnel__sub_801339EC(a->r, a->g, a->b);
+            set_scene_light_color(a->r, a->g, a->b);
         } else if (d <= 400.0f) {
             f32 u;
             f32 t;
             t = (d - 200.0f) / 200.0f;
             u = 1.0f - t;
-            TObjBoss2Tunnel__sub_801339EC(a->r * u + b->r * t, a->g * u + b->g * t, a->b * u + b->b * t);
+            set_scene_light_color(a->r * u + b->r * t, a->g * u + b->g * t, a->b * u + b->b * t);
         } else {
-            TObjBoss2Tunnel__sub_801339EC(b->r, b->g, b->b);
+            set_scene_light_color(b->r, b->g, b->b);
         }
     } else {
-        TObjBoss2Tunnel__sub_801339EC(boss2_tunnel_color.r, boss2_tunnel_color.g, boss2_tunnel_color.b);
+        set_scene_light_color(boss2_tunnel_color.r, boss2_tunnel_color.g, boss2_tunnel_color.b);
     }
 }
 
