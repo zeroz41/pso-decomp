@@ -10,7 +10,7 @@ struct TItem;
 class TPlyItem;
 struct TObjPlayer;
 class TPlyInventoryItem;
-struct Unk_801C2068;
+struct PendingItemDrop;
 
 class TItemList : public TObject {
 public:
@@ -21,7 +21,7 @@ public:
     static void *create_node(void *arg0, void *arg1, void *arg2, s8 arg3);
     void lookup_entry_by_count(saddr arg1);
     u8 get_item_count();
-    Unk_801C2068 *run_item_count_update();
+    PendingItemDrop *run_item_count_update();
     void set_field_1c(TItem *item);
     TItem *get_owner_if_alive();
     TItemList *find_inventory_item_by_field_d8();
@@ -77,7 +77,7 @@ extern u8 item_reduce_owner_match_field_ec;
 extern u8 reduce_owner_match_id;
 extern s32 *TObjPlayer__owner_field_write_cursor;
 extern TItem **player_owner_collect_cursor;
-extern Unk_801C2068 *player_item_collect_cursor;
+extern PendingItemDrop *player_item_collect_cursor;
 extern TPlyInventoryItem *owned_item_export_cursor;
 extern s32 inventory_update_field_d8_key;
 extern void *inventory_search_item_data;

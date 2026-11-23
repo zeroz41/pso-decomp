@@ -294,9 +294,9 @@ struct TObjPlayer : public TObjChara {
     s32 model_load_flags;  // nonzero while the models load (update_body_parts sets 255); not drawn until 0
     TPlyItem *inventory_objects;  // created by create_inventory
     void *equipped_items[13];  // by equip slot; read through get_equipped_item
-    player_stats unk_D38;
-    AttackParams m_d5c;
-    ActorParamBlock m_d8c;
+    player_stats base_stats;
+    AttackParams attack_stats;
+    ActorParamBlock resistance_stats;
     void* m_dac;
     static void draw_area_chunk_objects();
     static void copy_screen_to_texture(s32 mode, void *src);
@@ -1597,9 +1597,9 @@ LAYOUT_ASSERT(PlayerAttachmentTexturesOffset, offsetof(TObjPlayer, attachment_te
 LAYOUT_ASSERT(PlayerBodyTexturesOffset, offsetof(TObjPlayer, body_textures) == 0xCF4);
 LAYOUT_ASSERT(PlayerModelLoadFlagsOffset, offsetof(TObjPlayer, model_load_flags) == 0xCFC);
 LAYOUT_ASSERT(PlayerInventoryObjectOffset, offsetof(TObjPlayer, inventory_objects) == 0xD00);
-LAYOUT_ASSERT(PlayerBaseStatsOffset, offsetof(TObjPlayer, unk_D38) == 0xD38);
-LAYOUT_ASSERT(PlayerAttackStatsOffset, offsetof(TObjPlayer, m_d5c) == 0xD5C);
-LAYOUT_ASSERT(PlayerResistanceStatsOffset, offsetof(TObjPlayer, m_d8c) == 0xD8C);
+LAYOUT_ASSERT(PlayerBaseStatsOffset, offsetof(TObjPlayer, base_stats) == 0xD38);
+LAYOUT_ASSERT(PlayerAttackStatsOffset, offsetof(TObjPlayer, attack_stats) == 0xD5C);
+LAYOUT_ASSERT(PlayerResistanceStatsOffset, offsetof(TObjPlayer, resistance_stats) == 0xD8C);
 
 LAYOUT_ASSERT(TObjPlayer_area_offset, offsetof(TObjPlayer, current_area) == 0x3E0);
 LAYOUT_ASSERT(TObjPlayer_npc_control_offset, offsetof(TObjPlayer, npc_control) == 0x678);

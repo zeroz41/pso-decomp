@@ -151,17 +151,17 @@ void TObjPlayer::init_player_data(void *src) {
     f32 temp_f31;
     f32 yscale;
 
-    temp_f31 = this->unk_D38.proportions;
-    TLobby::copy_data(&this->unk_D38, src);
-    this->unk_D38.proportions = temp_f31;
-    this->stat_block = &this->unk_D38;
+    temp_f31 = this->base_stats.proportions;
+    TLobby::copy_data(&this->base_stats, src);
+    this->base_stats.proportions = temp_f31;
+    this->stat_block = &this->base_stats;
     this->apply_input_mode();
     this->set_move_mode_from_class_flags();
     this->init_trait_flags();
     ((TLobby *)(arg0 + 0xD5C))->copy_from((void *)(get_class_attack_template(this)));
     ((TLobby *)(arg0 + 0xD8C))->copy_entry((void *)(get_class_defense_template(this)));
     yscale = this->get_tp_class_factor();
-    this->recalc_combat_stats(this->stat_block, &m_d5c, &m_d8c, this->get_class_hp_factor(), yscale);
+    this->recalc_combat_stats(this->stat_block, &attack_stats, &resistance_stats, this->get_class_hp_factor(), yscale);
     *(f32 *)((s8 *)this->bodies + 4) = (f32) (TObjPlayer__data_805DC28C * stat_block->proportions);
 }
 

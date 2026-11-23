@@ -1573,10 +1573,10 @@ force_active:
   - TObjPlayer__sub_801C6FE0
   - TObjPlayer__sub_801C7098
   - TObjPlayer__sub_801D45B0
-  - __dt__13List_801D4744Fv
-  - __ct__13List_801D4744Fl
-  - __ct__12Ent_801D4744Fv
-  - __as__12Ent_801D4744FR12Ent_801D4744
+  - __dt__19InventorySortBufferFv
+  - __ct__19InventorySortBufferFl
+  - __ct__18InventorySortEntryFv
+  - __as__18InventorySortEntryFR18InventorySortEntry
   - TObjPlayer__sub_801D8A38
   - TObjPlayer__sub_801D9C34
   - TObjPlayer__sub_8023E034
@@ -15742,7 +15742,7 @@ force_active:
   - solo_play_result_window_extent
   - some_stub__9TProtocolFv
   - sorcerers_cane_ct__FPUcPUcl
-  - sort_by_key__13List_801D4744Fv
+  - sort_by_key__19InventorySortBufferFv
   - sound_bank_file_crc16
   - sound_bank_filename_a_enemy_pool
   - sound_bank_filename_a_enemy_proj

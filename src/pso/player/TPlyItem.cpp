@@ -58,21 +58,21 @@ s32 poll_memcard_result(saddr);
 extern void *tl_07;
 void *find_placement_obstruction(void *self, CollisionBodySet *s);
 }
-struct Ent_801D4744 {
+struct InventorySortEntry {
     u32 key;
     TItem *val;
-    Ent_801D4744();
+    InventorySortEntry();
     // Non-const source: the original reloads other.val after storing key.
-    Ent_801D4744 &operator=(Ent_801D4744 &other);
+    InventorySortEntry &operator=(InventorySortEntry &other);
 };
 
 // The 8-byte list TObjPlayer__sub_801D4368 allocates with new and frees with
 // delete (the destructor's s16 argument is MWCC's delete flag).
-struct List_801D4744 {
+struct InventorySortBuffer {
     s32 count;
-    Ent_801D4744 *items;
-    List_801D4744(s32 n);
-    ~List_801D4744();
+    InventorySortEntry *items;
+    InventorySortBuffer(s32 n);
+    ~InventorySortBuffer();
     // Bubble-sorts records by key.
     void sort_by_key();
 };
@@ -89,7 +89,7 @@ CollisionBody placement_search_collision_body = {{0.0f, 0.0f, 0.0f}, 0.0f, 0.0f,
 CollisionBodySet placement_search_collision_probe = {&placement_search_collision_body, 1, {0.0f, 0.0f, 0.0f}, 0};
 
 TObjPlayer *item_reduce_target_player;
-Unk_801C2068 *player_item_collect_cursor;
+PendingItemDrop *player_item_collect_cursor;
 s32 inventory_update_field_d8_key;
 s32 *TObjPlayer__owner_field_write_cursor;
 s32 inventory_walk_progress_count;
@@ -383,19 +383,19 @@ TItemList *TPlyItem::set_mode_and_refresh_object(void *data) {
     return find_matching_inventory_item_node(pad_1C4);
 }
 
-TItemList *TPlyItem::find_first_inventory_entry(void *data) {
+TItemList *TPlyItem::find_first_inventory_entry(TItemData *data) {
     inventory_search_item_data = data;
     return pad_1C4->find_inventory_item_matching_data();
 }
 
-s32 TPlyItem::count_items_by_id(void *data) {
-    void *node;
+s32 TPlyItem::count_items_by_id(TItemData *data) {
+    TItemList *node;
     TItem *item;
 
     if (TItemData::lookup_item_def(data) != 0) {
         node = set_mode_and_refresh_object(data);
         if (node != NULL) {
-            item = ((TItemList *)node)->get_owner_if_alive();
+            item = node->get_owner_if_alive();
             if ((item != NULL) && (item->all_parents_unqueued_for_destruction() != 0)) {
                 return item->get_amount();
             }
@@ -427,7 +427,7 @@ int TPlyItem::count_matching_items(TItem **out) {
     return inventory_walk_visit_count;
 }
 
-int TPlyItem::set_globals_and_notify(TObjPlayer *player, Unk_801C2068 *out) {
+int TPlyItem::set_globals_and_notify(TObjPlayer *player, PendingItemDrop *out) {
     player_item_collect_cursor = out;
     inventory_walk_visit_count = 0;
     TObjPlayer__sub_801D52A8(pad_1C4);
@@ -582,18 +582,18 @@ s32 TObjPlayer__sub_801D47EC(TPlyItem *ply_item, s32 key, s32 arg2) {
     return 1;
 }
 
-Ent_801D4744 &Ent_801D4744::operator=(Ent_801D4744 &other) {
+InventorySortEntry &InventorySortEntry::operator=(InventorySortEntry &other) {
     key = other.key;
     val = other.val;
     return *this;
 }
 
-void List_801D4744::sort_by_key() {
-    Ent_801D4744 t;
+void InventorySortBuffer::sort_by_key() {
+    InventorySortEntry t;
     s32 n;
     s32 j;
-    Ent_801D4744 *p;
-    Ent_801D4744 *q;
+    InventorySortEntry *p;
+    InventorySortEntry *q;
     n = count;
     while (--n > 0) {
         p = items;
@@ -608,22 +608,22 @@ void List_801D4744::sort_by_key() {
     }
 }
 
-Ent_801D4744::Ent_801D4744() {
+InventorySortEntry::InventorySortEntry() {
     key = -1;
     val = NULL;
 }
 
-extern "C" void __ct__12Ent_801D4744Fv(void *entry);
+extern "C" void __ct__18InventorySortEntryFv(void *entry);
 
-List_801D4744::List_801D4744(s32 n) {
+InventorySortBuffer::InventorySortBuffer(s32 n) {
     count = n;
     // The runtime stores a 0x10-byte array cookie before the records.
-    items = reinterpret_cast<Ent_801D4744 *>(__construct_new_array(
-        mem_alloc(count * sizeof(*items) + 0x10), __ct__12Ent_801D4744Fv, 0, sizeof(*items), count));
+    items = reinterpret_cast<InventorySortEntry *>(__construct_new_array(
+        mem_alloc(count * sizeof(*items) + 0x10), __ct__18InventorySortEntryFv, 0, sizeof(*items), count));
 }
 
-List_801D4744::~List_801D4744() {
-    Ent_801D4744 *records = items;
+InventorySortBuffer::~InventorySortBuffer() {
+    InventorySortEntry *records = items;
     if (records != NULL) {
         if (records != NULL) {
             mem_free(reinterpret_cast<u8 *>(records) - 0x10);
@@ -648,14 +648,14 @@ void TObjPlayer__sub_801D45B0(s32 *rec, saddr item) {
 }
 
 extern "C" s32 TObjPlayer__sub_801D4368(TPlyItem *ply) {
-    List_801D4744 *recs;
+    InventorySortBuffer *recs;
     s32 filled;
-    Ent_801D4744 *rec;
+    InventorySortEntry *rec;
     s32 counted;
     TItemList *node_assigned;
     TItem *owner;
-    Ent_801D4744 *rec_checked;
-    Ent_801D4744 *rec_assigned;
+    InventorySortEntry *rec_checked;
+    InventorySortEntry *rec_assigned;
     TItemList *node_checked;
     TItemList *node_filled;
     TItemList *node;
@@ -670,7 +670,7 @@ extern "C" s32 TObjPlayer__sub_801D4368(TPlyItem *ply) {
     if (ply->pad_1C > 30 || ply->pad_1C < 1) {
         return 0;
     }
-    recs = new List_801D4744(ply->pad_1C);
+    recs = new InventorySortBuffer(ply->pad_1C);
     if (recs == NULL) {
         return 0;
     }
@@ -944,7 +944,7 @@ void TUnk_804C4480::run_task() {
 
 TUnk_804C4468::TUnk_804C4468(TObject *parent, s32 list, TObjBase *source, const Vec *pos, s8 arg)
     : TUnk_804C4498(parent, source, pos, arg) {
-    Unk_801C2068 *entry;
+    PendingItemDrop *entry;
     this->unk_54 = list;
     sub_801D5884(1);
     reset_placement_search_ring();
@@ -971,7 +971,7 @@ void *TItemList::create_node(void *list, void *source, void *pos, s8 arg3) {
 }
 
 void TUnk_804C4468::run_task() {
-    Unk_801C2068 *r;
+    PendingItemDrop *r;
     TObjPlayer *player;
     switch (this->step_placement_search()) {
     case 0:
@@ -1018,13 +1018,13 @@ void TItemList__sub_801D5804(TUnk_804C4444 *pool) {
     ++pool->count;
 }
 
-void Unk_801C2068::copy_item_data(TItemData *source) {
+void PendingItemDrop::copy_item_data(TItemData *source) {
     item.copy_from(source);
 }
 void TItemList__sub_801D5838(void* p) { *(s32*)((char*)p + 0x0) = 1; }
 int TItemList__sub_801D5844(void* p) { return *(u32*)((char*)p + 0x0) == 0; }
 
-Unk_801C2068 *TItemList__sub_801D5854(TUnk_804C445C *pool, s32 index) {
+PendingItemDrop *TItemList__sub_801D5854(TUnk_804C445C *pool, s32 index) {
     return &pool->records[index];
 }
 
@@ -1043,7 +1043,7 @@ void TItemList__sub_801D58C8(void* p) { *(s32*)((char*)p + 0x0) = 3; }
 u8 TItemList::get_item_count() { return *(u8*)((char*)this + 0x1c); }
 u16 TUnk_804C4468::get_client_id() { return this->client_id; }
 
-Unk_801C2068 *TItemList::run_item_count_update() {
+PendingItemDrop *TItemList::run_item_count_update() {
     return TItemList__sub_801D5854(*(TUnk_804C445C **)((s8 *)this + 0x54), (s8)get_item_count());
 }
 

@@ -3157,7 +3157,7 @@ void handle_6x2A_drop_item(void *command) {
 }
 
 void TObjPlayer::drop_items_on_death() {
-    Unk_801C2068 *record;
+    PendingItemDrop *record;
     s32 count;
     TItemData* item;
     void* equipped;
@@ -3165,7 +3165,7 @@ void TObjPlayer::drop_items_on_death() {
     if (fields->inventory_owner==NULL || this->obj_isState3_324()!=0 || is_script_controlled()!=0) {
         return;
     }
-    Unk_801C2068 records[9];
+    PendingItemDrop records[9];
     count=0;
     if (TTecCtrl::is_technique_ready()!=0) {
         if (((s32 (*)(TObjPlayer*))check_flag_01000000__10TObjPlayerFPv)(this)==0) {
@@ -3173,7 +3173,7 @@ void TObjPlayer::drop_items_on_death() {
         }
         if (obj_getPtr2B0_20((u8 *)this)!=0) {
             record=&records[count];
-            record->set_field4(-1);
+            record->set_source_id(-1);
             item=(TItemData *)get_ptr_8(record);
             ((TObjPlayer *)item)->init_item_data(obj_getPtr2B0_20((u8 *)this));
             count+=1;
@@ -3337,7 +3337,7 @@ void rebuild_player_inventory(TObjPlayer *player) {
     Buf_801B802C buffer;
     if (player->inventory_objects != NULL) {
         init_inventory_list__10TObjPlayerFPv(&buffer);
-        buffer.n = ((s32 (*)(TObjPlayer *, TPlyInventoryItem *))query_state_if_present__10TObjPlayerFPv)(player, buffer.items);
+        buffer.n = query_state_if_present__10TObjPlayerFPv(player, buffer.items);
         player->inventory_objects->destroy_subobjects(player);
         player->inventory_objects->queue_destruction();
         player->inventory_objects = NULL;

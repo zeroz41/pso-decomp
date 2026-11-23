@@ -33,7 +33,7 @@ const Vec lbl_804707F8[12] = {
     { 1.0f, 1.0f, 1.0f }, { 0.8f, 0.9f, 1.0f }, { 0.8f, 0.9f, 1.0f }, { 0.9f, 0.9f, 1.0f },
 };
 
-// Per player class: the TObjPlayer::unk_D38.proportions value the sizes above are for and
+// Per player class: the TObjPlayer::base_stats.proportions value the sizes above are for and
 // how much the footprint grows per unit above it.
 struct FootStampHeightScale {
     f32 base;
@@ -109,77 +109,77 @@ TPlayerFootStamp::TPlayerFootStamp(TObjPlayer *player, s32 side) : TObject(tl_07
         switch (static_cast<s8>(player->get_class_index())) {
         case 1:
             sub_802B0204(0);
-            scale = lbl_80470888[1].rate * (player->unk_D38.proportions - lbl_80470888[1].base) + 1.0f;
+            scale = lbl_80470888[1].rate * (player->base_stats.proportions - lbl_80470888[1].base) + 1.0f;
             length = lbl_804707F8[1].x * scale;
             width = lbl_804707F8[1].y * scale;
             offset = lbl_804707F8[1].z * scale;
             break;
         case 2:
             sub_802B0204(1);
-            scale = lbl_80470888[2].rate * (player->unk_D38.proportions - lbl_80470888[2].base) + 1.0f;
+            scale = lbl_80470888[2].rate * (player->base_stats.proportions - lbl_80470888[2].base) + 1.0f;
             length = lbl_804707F8[2].x * scale;
             width = lbl_804707F8[2].y * scale;
             offset = lbl_804707F8[2].z * scale;
             break;
         case 9:
             sub_802B0204(1);
-            scale = lbl_80470888[3].rate * (player->unk_D38.proportions - lbl_80470888[3].base) + 1.0f;
+            scale = lbl_80470888[3].rate * (player->base_stats.proportions - lbl_80470888[3].base) + 1.0f;
             length = lbl_804707F8[3].x * scale;
             width = lbl_804707F8[3].y * scale;
             offset = lbl_804707F8[3].z * scale;
             break;
         case 3:
             sub_802B0204(0);
-            scale = lbl_80470888[4].rate * (player->unk_D38.proportions - lbl_80470888[4].base) + 1.0f;
+            scale = lbl_80470888[4].rate * (player->base_stats.proportions - lbl_80470888[4].base) + 1.0f;
             length = lbl_804707F8[4].x * scale;
             width = lbl_804707F8[4].y * scale;
             offset = lbl_804707F8[4].z * scale;
             break;
         case 11:
             sub_802B0204(0);
-            scale = lbl_80470888[5].rate * (player->unk_D38.proportions - lbl_80470888[5].base) + 1.0f;
+            scale = lbl_80470888[5].rate * (player->base_stats.proportions - lbl_80470888[5].base) + 1.0f;
             length = lbl_804707F8[5].x * scale;
             width = lbl_804707F8[5].y * scale;
             offset = lbl_804707F8[5].z * scale;
             break;
         case 4:
             sub_802B0204(1);
-            scale = lbl_80470888[6].rate * (player->unk_D38.proportions - lbl_80470888[6].base) + 1.0f;
+            scale = lbl_80470888[6].rate * (player->base_stats.proportions - lbl_80470888[6].base) + 1.0f;
             length = lbl_804707F8[6].x * scale;
             width = lbl_804707F8[6].y * scale;
             offset = lbl_804707F8[6].z * scale;
             break;
         case 5:
             sub_802B0204(1);
-            scale = lbl_80470888[7].rate * (player->unk_D38.proportions - lbl_80470888[7].base) + 1.0f;
+            scale = lbl_80470888[7].rate * (player->base_stats.proportions - lbl_80470888[7].base) + 1.0f;
             length = lbl_804707F8[7].x * scale;
             width = lbl_804707F8[7].y * scale;
             offset = lbl_804707F8[7].z * scale;
             break;
         case 10:
             sub_802B0204(0);
-            scale = lbl_80470888[8].rate * (player->unk_D38.proportions - lbl_80470888[8].base) + 1.0f;
+            scale = lbl_80470888[8].rate * (player->base_stats.proportions - lbl_80470888[8].base) + 1.0f;
             length = lbl_804707F8[8].x * scale;
             width = lbl_804707F8[8].y * scale;
             offset = lbl_804707F8[8].z * scale;
             break;
         case 6:
             sub_802B0204(0);
-            scale = lbl_80470888[9].rate * (player->unk_D38.proportions - lbl_80470888[9].base) + 1.0f;
+            scale = lbl_80470888[9].rate * (player->base_stats.proportions - lbl_80470888[9].base) + 1.0f;
             length = lbl_804707F8[9].x * scale;
             width = lbl_804707F8[9].y * scale;
             offset = lbl_804707F8[9].z * scale;
             break;
         case 7:
             sub_802B0204(0);
-            scale = lbl_80470888[10].rate * (player->unk_D38.proportions - lbl_80470888[10].base) + 1.0f;
+            scale = lbl_80470888[10].rate * (player->base_stats.proportions - lbl_80470888[10].base) + 1.0f;
             length = lbl_804707F8[10].x * scale;
             width = lbl_804707F8[10].y * scale;
             offset = lbl_804707F8[10].z * scale;
             break;
         case 8:
             sub_802B0204(0);
-            scale = lbl_80470888[11].rate * (player->unk_D38.proportions - lbl_80470888[11].base) + 1.0f;
+            scale = lbl_80470888[11].rate * (player->base_stats.proportions - lbl_80470888[11].base) + 1.0f;
             length = lbl_804707F8[11].x * scale;
             width = lbl_804707F8[11].y * scale;
             offset = lbl_804707F8[11].z * scale;
@@ -187,7 +187,7 @@ TPlayerFootStamp::TPlayerFootStamp(TObjPlayer *player, s32 side) : TObject(tl_07
         case 0:
         default:
             sub_802B0204(0);
-            scale = lbl_80470888[0].rate * (player->unk_D38.proportions - lbl_80470888[0].base) + 1.0f;
+            scale = lbl_80470888[0].rate * (player->base_stats.proportions - lbl_80470888[0].base) + 1.0f;
             length = lbl_804707F8[0].x * scale;
             width = lbl_804707F8[0].y * scale;
             offset = lbl_804707F8[0].z * scale;

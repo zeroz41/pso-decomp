@@ -94,9 +94,9 @@ void TOSymbolchatColli::init_collision_params() {
   Obj_8017873C *self = (Obj_8017873C *) this;
   s32 i;
   self->radiusSq = this->scale.x * this->scale.x;
-  memset(&m_348, 0, sizeof(m_348));
-  m_348.proportions = self->y3c / 0.92f;
-  set_motion_params(&m_348);
+  memset(&collision_stats, 0, sizeof(collision_stats));
+  collision_stats.proportions = self->y3c / 0.92f;
+  set_motion_params(&collision_stats);
   for (i = 0; i < 3; i++)
   {
     u32 v = self->ids[i];

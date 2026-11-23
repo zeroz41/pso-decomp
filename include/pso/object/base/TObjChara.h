@@ -8,7 +8,6 @@ struct ActorParamBlock;
 struct AttackParams;
 struct player_stats;
 struct ControllerInputContext;
-struct AttackParams;
 struct CsnGroup;
 
 struct DirectAttackPayload {

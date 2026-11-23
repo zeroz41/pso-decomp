@@ -12,10 +12,10 @@ struct ByteBlock_14 { u8 bytes[0x14]; };
 
 void TObjPlayer::insert_item_node(TUnk_804C445C *pool, Vec *position, TObjPlayer *owner, TItemData *item, s32 id) {
     Unk_801C2098 *slot = TItemList__sub_801D5868(pool, 0);
-    Unk_801C2068 *record = TItemList__sub_801D5854(pool, 0);
+    PendingItemDrop *record = TItemList__sub_801D5854(pool, 0);
     if (TItemList__sub_801D5844(slot) != 0) {
         TItemList__sub_801D5838(slot);
-        record->set_field4(id);
+        record->set_source_id(id);
         record->copy_item_data(item);
         TItemList::create_node(pool, owner, position, 0);
         TItemList__sub_801D5804(pool);
@@ -24,10 +24,10 @@ void TObjPlayer::insert_item_node(TUnk_804C445C *pool, Vec *position, TObjPlayer
 
 extern "C" {
 void create_drop_nodes__9TItemListFPvPvPvPvi(TUnk_804C445C *pool, Vec *position, TObjPlayer *owner,
-                                             Unk_801C2068 *records, s32 count) {
+                                             PendingItemDrop *records, s32 count) {
     s32 i;
     Unk_801C2098 *slot;
-    Unk_801C2068 *entry;
+    PendingItemDrop *entry;
 
     slot = TItemList__sub_801D5868(pool, 0);
     entry = TItemList__sub_801D5854(pool, 0);

@@ -52,8 +52,8 @@ s32 is_field_0_positive(s32 *arg0) {
 }
 
 void* get_ptr_8(void* p) { return (char*)p + 0x8; }
-void Unk_801C2068::set_field4(s32 id) { source_id = id; }
-Unk_801C2068::Unk_801C2068() {}
+void PendingItemDrop::set_source_id(s32 id) { source_id = id; }
+PendingItemDrop::PendingItemDrop() {}
 Unk_801C2098::Unk_801C2098() { state = 0; }
 
 S_801C20A4 *init_player_telepipe_record(S_801C20A4 *arg0) {
