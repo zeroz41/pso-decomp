@@ -222,7 +222,7 @@ struct Self_800FEEA4 {
 
 extern "C" {
 void matrix_mult_vec(s32, void *, void *);
-extern f32 TObjEZBoneRotPlayer__chain_gravity[3];
+extern Vec TObjEZBoneRotPlayer__chain_gravity;
 
 void TObjHMS_EZRope_Player::render() { sub_800FF2D0(); }
 void TObjHMS_EZRope_Player::run_task() {
@@ -260,7 +260,7 @@ void TObjHMS_EZRope_Player::run_task() {
         pd++;
     }
     pop_matrix();
-    ((TObjEZRopeBase *)((Self_800FEEA4 *)this))->sub_800FF788(TObjEZBoneRotPlayer__chain_gravity);
+    ((TObjEZRopeBase *)((Self_800FEEA4 *)this))->sub_800FF788(&TObjEZBoneRotPlayer__chain_gravity);
 }
 
 }

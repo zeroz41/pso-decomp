@@ -37,7 +37,7 @@ NJS_ARGB ezrope_chunk_material_color_table = {0.5f, 1.0f, 1.0f, 0.5f};
 // inferred: the zeroed end and collider each new rope starts from.
 TObjEZRopeEnd ezrope_default_end = {0, {0.0f, 0.0f, 0.0f}};
 TObjEZRopeCollider ezrope_default_collider = {0.0f, {0.0f, 0.0f, 0.0f}};
-f32 TObjEZBoneRotPlayer__chain_gravity[3] = { 0.0f, -0.75f, 0.0f };
+Vec TObjEZBoneRotPlayer__chain_gravity = {0.0f, -0.75f, 0.0f};
 
 extern "C" {
 extern u8 debug_chunk_b_object[];
@@ -49,49 +49,6 @@ extern s32 chunk_polygon_flags_and_mask;
 extern s32 model_render_flags;
 }
 
-
-struct Src_800FF8CC {
-    s8 count;
-    u8 pad[3];
-    Vec rot;
-    u8 pad2[8];
-};
-
-struct Pos_800FF8CC {
-    u32 f0;
-    Vec v;
-};
-
-struct Self_800FF8CC {
-    u8 pad[0x1C];
-    s32 num;
-    Src_800FF8CC *src;
-    Pos_800FF8CC *pos;
-    s32 arg;
-    Vec *out;
-};
-
-struct Seg_800FF788 { s8 n; u8 pad1[3]; Vec dir; u8 pad10[8]; };
-
-struct Src_800FF788 { s32 a; Vec v; };
-
-struct Obj_800FF788 {
-    u8 pad0[0x20];
-    Seg_800FF788 *segs;
-    Src_800FF788 *srcs;
-    uaddr flag;
-    Vec *out;
-};
-
-extern "C" {
-void resolve_collisions(Obj_800FF788 *self, Vec *p, f32 len);
-
-// One of the rope's collision spheres; the list ends at a negative radius.
-struct Collider_800FF580 {
-    f32 radius;
-    Vec center;
-};
-}
 
 // Built with -inline off,deferred: functions are emitted last to first, so they are written in reverse.
 
@@ -108,54 +65,53 @@ TObjEZRopeBase::~TObjEZRopeBase() {
     if (points != nullptr) { TAdSinglePlyChrSelectGC::safe_free((uaddr)points); points = nullptr; }
 }
 
-void TObjEZRopeBase::sub_800FF8CC(void *src_arg, void *pos_arg, s32 arg) {
-    Src_800FF8CC *src = (Src_800FF8CC *)src_arg;
-    Pos_800FF8CC *pos = (Pos_800FF8CC *)pos_arg;
+void TObjEZRopeBase::sub_800FF8CC(TObjEZRopeSegment *segment_list, TObjEZRopeEnd *end_list,
+                                  TObjEZRopeCollider *collider_list) {
     s32 total;
-    Src_800FF8CC *s;
-    Pos_800FF8CC *p;
+    TObjEZRopeSegment *s;
+    TObjEZRopeEnd *p;
     Vec *out;
     s32 n;
     total = 0;
-    ((Self_800FF8CC *)this)->src = src;
-    ((Self_800FF8CC *)this)->pos = pos;
-    ((Self_800FF8CC *)this)->arg = arg;
-    ((Self_800FF8CC *)this)->num = 0;
-    for (s = src; s->count >= 2; s++) {
+    segments = segment_list;
+    ends = end_list;
+    colliders = collider_list;
+    segment_count = 0;
+    for (s = segment_list; s->count >= 2; s++) {
         total += s->count;
-        ((Self_800FF8CC *)this)->num++;
+        segment_count++;
     }
-    ((Self_800FF8CC *)this)->out = (Vec *)TQuestVmDownLoadServer::alloc(total * 0xC);
-    s = ((Self_800FF8CC *)this)->src;
-    p = ((Self_800FF8CC *)this)->pos;
-    out = ((Self_800FF8CC *)this)->out;
+    points = (Vec *)TQuestVmDownLoadServer::alloc(total * sizeof(Vec));
+    s = segments;
+    p = ends;
+    out = points;
     for (; s->count >= 2; s++, p++) {
-        Vec v = p->v;
+        Vec v = p->pos;
         for (n = s->count; n > 0; n--, out++) {
             VecCopy(out, &v);
-            vec3_add_to(&v, &s->rot);
+            vec3_add_to(&v, &s->step);
         }
     }
 }
 
-void TObjEZRopeBase::sub_800FF788(void *mtx) {
-    Seg_800FF788 *seg;
-    Src_800FF788 *src;
+void TObjEZRopeBase::sub_800FF788(Vec *gravity) {
+    TObjEZRopeSegment *seg;
+    TObjEZRopeEnd *end;
     Vec *p;
     s32 n;
     f32 zero;
     f32 len;
     zero = 0.0f;
-    seg = ((Obj_800FF788 *)this)->segs;
-    src = ((Obj_800FF788 *)this)->srcs;
-    p = ((Obj_800FF788 *)this)->out;
-    while (seg->n >= 2) {
-        len = vector_length(&seg->dir);
-        VecCopy(p, &src->v);
+    seg = segments;
+    end = ends;
+    p = points;
+    while (seg->count >= 2) {
+        len = vector_length(&seg->step);
+        VecCopy(p, &end->pos);
         p++;
-        n = seg->n - 1;
+        n = seg->count - 1;
         while (n > 0) {
-            vec3_add_to(p, (Vec *)mtx);
+            vec3_add_to(p, gravity);
             subtract_vector(p, p - 1);
             if (zero == vector_length(p)) {
                 p->x = zero;
@@ -168,22 +124,22 @@ void TObjEZRopeBase::sub_800FF788(void *mtx) {
             p->y *= len;
             p->z *= len;
             vec3_add_to(p, p - 1);
-            if (((Obj_800FF788 *)this)->flag != 0) {
-                resolve_collisions(((Obj_800FF788 *)this), p, len);
+            if (colliders != NULL) {
+                resolve_collisions(p, len);
             }
             n--;
             p++;
         }
         seg++;
-        src++;
+        end++;
     }
 }
 
-void resolve_collisions(Obj_800FF788 *self, Vec *p, f32 len) {
+void TObjEZRopeBase::resolve_collisions(Vec *p, f32 len) {
     Vec v = *p;
     Vec hit;
     s32 iter;
-    Collider_800FF580 *c;
+    TObjEZRopeCollider *c;
     f32 push;
     f32 d;
     f32 best;
@@ -192,7 +148,7 @@ void resolve_collisions(Obj_800FF788 *self, Vec *p, f32 len) {
     iter = 16;
     while (1) {
         best = 0.0f;
-        for (c = (Collider_800FF580 *)self->flag; c->radius >= 0.0f; c++) {
+        for (c = colliders; c->radius >= 0.0f; c++) {
             reach = 0.5f * len + c->radius;
             d = xyz_distance(&v, &c->center);
             if (d < reach && reach - d > best) {
@@ -367,7 +323,7 @@ TObjHMS_EZRope_Player::TObjHMS_EZRope_Player(TObject *parent, TObjHMSRopeSpec *r
         }
         TObjPlayer__sub_800FF1FC(dst, &ezrope_default_collider);
     }
-    sub_800FF8CC(segment_buffer, end_buffer, (saddr)collider_buffer);
+    sub_800FF8CC(segment_buffer, end_buffer, collider_buffer);
 }
 
 TObjHMS_EZRope_Player::~TObjHMS_EZRope_Player() {

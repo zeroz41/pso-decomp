@@ -38,8 +38,11 @@ public:
 public:
     TObjEZRopeBase(TObject *parent);
     virtual ~TObjEZRopeBase();
-    void sub_800FF8CC(void *, void *, s32);
-    void sub_800FF788(void *);
+    // Takes the rope tables and allocates the points; the points start at each end, spaced by step.
+    void sub_800FF8CC(TObjEZRopeSegment *segment_list, TObjEZRopeEnd *end_list, TObjEZRopeCollider *collider_list);
+    // Moves the points by gravity, keeping each rope's spacing, and pushes them out of the colliders.
+    void sub_800FF788(Vec *gravity);
+    void resolve_collisions(Vec *p, f32 len);
 };
 
 LAYOUT_ASSERT(TObjEZRopeSegment_size, sizeof(TObjEZRopeSegment) == 0x18);

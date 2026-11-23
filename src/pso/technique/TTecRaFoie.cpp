@@ -36,10 +36,6 @@ extern "C" {
 s32 is_split_screen();
 
 
-struct RecoveredGlobal_80238388_lbl_8044DAF0 {
-    s32 value;
-    u8 remaining[0xC];
-};
 extern "C" {
 extern const RafoieBurst lbl_8044DA48[1] = {{494, 0, 1.0f}};
 extern const RafoieBurst lbl_8044DA54[2] = {{491, 0, 1.0f}, {494, 0, 1.0f}};
@@ -50,7 +46,8 @@ extern const RafoieBurstList rafoie_burst_table[6] = {
     {lbl_8044DA54, 2}, {lbl_8044DA6C, 2}, {lbl_8044DA84, 4},
 };
 const char *TTecRaFoie_class_name = "TTecRaFoie";
-extern const RecoveredGlobal_80238388_lbl_8044DAF0 lbl_8044DAF0 = {0};
+// The colour the burst fades to (all clear).
+extern const NJS_ARGB lbl_8044DAF0 = {0.0f, 0.0f, 0.0f, 0.0f};
 }
 
 void TUnk_804CCB28::spawn_rafoie_explosion_bursts() {
@@ -147,15 +144,6 @@ void TTecRaFoie::vfunc_8(void *) {
 #include "pso/technique/TechniqueParams.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/unk/text_803D8F74.h"
-struct Stack_80238388 {
-    s32 sp8;
-    s32 spC;
-    s32 sp10;
-    s32 sp14;
-    f32 sp18;
-    f32 sp1C;
-    f32 sp20;
-};
 
 
 extern "C" {
@@ -230,15 +218,8 @@ void TUnk_804CCB28::render() {
 }
 
 void TUnk_804CCB28::run_task() {
-    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_80238388, sp8) == 0x0);
-    LAYOUT_ASSERT(spC_offset, offsetof(Stack_80238388, spC) == 0x4);
-    LAYOUT_ASSERT(sp10_offset, offsetof(Stack_80238388, sp10) == 0x8);
-    LAYOUT_ASSERT(sp14_offset, offsetof(Stack_80238388, sp14) == 0xC);
-    LAYOUT_ASSERT(sp18_offset, offsetof(Stack_80238388, sp18) == 0x10);
-    LAYOUT_ASSERT(sp1C_offset, offsetof(Stack_80238388, sp1C) == 0x14);
-    LAYOUT_ASSERT(sp20_offset, offsetof(Stack_80238388, sp20) == 0x18);
-    Stack_80238388 stack;
-    f32 temp_f1;
+    Vec target;
+    f32 s;
     age = age + 1;
     anim_frame = anim_frame + 1;
     if (anim_frame >= 16) {
@@ -247,23 +228,20 @@ void TUnk_804CCB28::run_task() {
     if (age > 110) {
         queue_destruction();
     }
-    stack.sp8 = *(s32 *)((s8 *)&lbl_8044DAF0.value + 0);
-    stack.spC = *(s32 *)((s8 *)&lbl_8044DAF0.value + 4);
-    stack.sp10 = *(s32 *)((s8 *)&lbl_8044DAF0.value + 8);
-    stack.sp14 = *(s32 *)((s8 *)&lbl_8044DAF0.value + 0xC);
-    temp_f1 = target_scale;
-    stack.sp18 = temp_f1;
-    stack.sp1C = temp_f1;
-    stack.sp20 = temp_f1;
-    if (scale.x >= (temp_f1 - (1.0f))) {
+    NJS_ARGB fade_color = lbl_8044DAF0;
+    s = target_scale;
+    target.x = s;
+    target.y = s;
+    target.z = s;
+    if (scale.x >= s - 1.0f) {
         if (growing != 0) {
             growing = 0;
         }
-        approach_position_if_far(&scale, (Vec *)&stack.sp18, 0.05f);
+        approach_position_if_far(&scale, &target, 0.05f);
     } else {
-        approach_position_if_far(&scale, (Vec *)&stack.sp18, 0.15f);
+        approach_position_if_far(&scale, &target, 0.15f);
     }
-    approach_alpha_clamped(&color.a, (const f32 *)&stack.sp8, 0.035f);
+    approach_alpha_clamped(&color.a, &fade_color.a, 0.035f);
 }
 #pragma pop
 

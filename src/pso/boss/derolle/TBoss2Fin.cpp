@@ -109,7 +109,7 @@ TBoss2Fin::TBoss2Fin(TObject *parent, Vec *first_anchor, Vec *second_anchor) : T
     }
     collider->radius = -1.0f;
     init_link_points();
-    sub_800FF8CC(TBoss2Fin__effect_table, rope_ends, (saddr)rope_colliders);
+    sub_800FF8CC(TBoss2Fin__effect_table, rope_ends, rope_colliders);
 }
 
 void TBoss2Fin::release_effect_table() {}
