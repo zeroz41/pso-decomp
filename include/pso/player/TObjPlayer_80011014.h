@@ -3,6 +3,7 @@
 
 #include "pso/enemy/EnemyTargeting.h"
 #include "types.h"
+#include "pso/unk/TLobby_800FD78C.h"
 
 struct Vec;
 struct TObjEnemy;
@@ -37,8 +38,6 @@ int get_player_data__10TObjPlayerFi(int a0);
 s32 get_type__10TObjPlayerFPv(void *p);
 BOOL is_split_screen(void);
 void main(void);
-// The frame counter main advances once a frame.
-extern s32 actor_frame_tick;
 f32 newton_sqrtf(f32 x);
 int obj_getPtr2B0_20(u8 *p);
 s16 obj_getS16_2BA(u8 *p);

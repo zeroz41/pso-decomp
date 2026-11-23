@@ -1534,7 +1534,6 @@ extern Color_801B6964 player_feedback_light_color[];
 extern void *player_slot_table[];
 extern u8 lobby_rule_settings[];
 const char *lbl_805D3530 = "TObjPlayer";
-extern s32 actor_frame_tick;
 extern s32 lbl_805D55C0;
 extern s32 lobby_player_count;
 extern s32 shared_state_flags;
