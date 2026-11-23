@@ -62,10 +62,6 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     static u8 *get_global_state();
     static int get_state();
     static void safe_free(uaddr emitter);
-    void set_position(void* q);
-    void noop_laser();
-    void forward_to_field_0x14(void* a1);
-    void set_vec3(void* q);
     static void free_resources();
     static void set_slot(int a0);
     static u16 get_char_select_slot();
