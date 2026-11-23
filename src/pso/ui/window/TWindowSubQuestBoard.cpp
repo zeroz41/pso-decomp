@@ -99,7 +99,7 @@ void TWindowSubQuestBoard::run_task() {
 
 void TWindowSubQuestBoard::render() {  }
 
-int TWindowSubQuestBoard::set_card_flags_direct(int a1) { return set_card_window_flags__19TWindowKeyBoardHardFPvll(this, a1, -2); }
+int TWindowSubQuestBoard::set_card_flags_direct(int card_flags_direct) { return set_card_window_flags__19TWindowKeyBoardHardFPvll(this, card_flags_direct, -2); }
 
 void TWindowSubQuestBoard::set_card_flags_scaled(s32 value) {
     saddr arg0 = (saddr)this;

@@ -432,7 +432,7 @@ u8 TWindowSubStatusDisp::calc_gauge_scale(u16 glyph, void *arg1, s32 color) {
     return *(u8 *)((s8 *)cached_glyph + 2);
 }
 
-void TWindowSubStatusDisp::set_gauge_param(s32 _w0) {
+void TWindowSubStatusDisp::set_gauge_param(s32 gauge_param) {
     TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(menu_font_texture_list));
 }
 

@@ -576,12 +576,12 @@ void TWindowDD::apply_input(void* p, void* a1) { TWindowDD__sub_80341AE0((u8 *)a
 void TWindowDD::update(void* p, void* child) { TWindowDD__sub_80341AE0((u8 *)child); ((TWindowDD *)child)->set_mode_2(); }
 
 
-void TWindowDD::update(saddr arg1) {
-    TWindowDD__sub_80341AF8((u8 *)arg1);
-    ((TWindowDD *)arg1)->reset_cursor();
+void TWindowDD::update(saddr window_dd) {
+    TWindowDD__sub_80341AF8((u8 *)window_dd);
+    ((TWindowDD *)window_dd)->reset_cursor();
     if ((u32) this->m_7c != 0U) {
-        ((TWindowDD *)(this->m_7c))->set_scale(((TWindowDD *)arg1)->get_field_0x74(), (s32) lbl_805DFB54);
-        ((TWindowDD *)(this->m_7c))->set_value_f32(TWindowDD__sub_8034217C((u8 *)arg1));
+        ((TWindowDD *)(this->m_7c))->set_scale(((TWindowDD *)window_dd)->get_field_0x74(), (s32) lbl_805DFB54);
+        ((TWindowDD *)(this->m_7c))->set_value_f32(TWindowDD__sub_8034217C((u8 *)window_dd));
     }
 }
 
@@ -644,18 +644,18 @@ int TWindowDD::test_input_flag_4() { return TWindowDD_check_input_mask((char*)th
 
 extern s32 TWindowDD__window_mode;
 
-s32 dispatch_by_window_mode(u8 *window_dd, u32 arg1, s32 entry_id, s32 value_index) {
+s32 dispatch_by_window_mode(u8 *window_dd, u32 window_mode, s32 entry_id, s32 value_index) {
     switch ((s32) TWindowDD__window_mode) {
     case 0:
-        return TWindowDD__sub_80346640(window_dd, arg1, entry_id, value_index);
+        return TWindowDD__sub_80346640(window_dd, window_mode, entry_id, value_index);
     default:
-        return TWindowDD__sub_80346434(window_dd, arg1, entry_id, value_index);
+        return TWindowDD__sub_80346434(window_dd, window_mode, entry_id, value_index);
     case 4:
-        return TWindowDD__sub_80344774(window_dd, arg1, entry_id, value_index);
+        return TWindowDD__sub_80344774(window_dd, window_mode, entry_id, value_index);
     case 2:
-        return TWindowDD__sub_80344568(window_dd, arg1, entry_id, value_index);
+        return TWindowDD__sub_80344568(window_dd, window_mode, entry_id, value_index);
     case 3:
-        return TWindowDD__sub_8034435C(window_dd, arg1, entry_id, value_index);
+        return TWindowDD__sub_8034435C(window_dd, window_mode, entry_id, value_index);
     }
 }
 

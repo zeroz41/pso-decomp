@@ -279,9 +279,9 @@ u8 lbl_805D647C;
 s32 play_sound_effect(s32, s32, s32, s32);
 
 
-void TWindowSubCustomEquip::set_relative_pos(void *arg1) {
-    *(f32 *)&this->m_name = (f32) (*(f32 *)((s8 *)arg1 + 8) - 11.0f);
-    *(f32 *)&this->m_flags = (f32) (*(f32 *)((s8 *)arg1 + 0xC) - 15.0f);
+void TWindowSubCustomEquip::set_relative_pos(void *relative_pos) {
+    *(f32 *)&this->m_name = (f32) (*(f32 *)((s8 *)relative_pos + 8) - 11.0f);
+    *(f32 *)&this->m_flags = (f32) (*(f32 *)((s8 *)relative_pos + 0xC) - 15.0f);
 }
 
 void TWindowSubCustomEquip::layout_selection_parts(void *arg1) {

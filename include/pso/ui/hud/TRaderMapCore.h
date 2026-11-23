@@ -77,7 +77,7 @@ struct TRaderMapCore : public TObjBase {
     static s32 save_floor_discovery(int floor, void *map_data);
     static void free_map_data();
     static void free_heap();
-    static void set_piece_flags(s32 arg0);
+    static void set_piece_flags(s32 piece_flags);
     static void add_zoom_distance(f32 farg0);
     static void open_free_map_view();
     static void pan_vertical(f32 farg0);
@@ -98,7 +98,7 @@ struct TRaderMapCore : public TObjBase {
     void update_pan_zoom_input();
     void update_target();
     static s32 pack_color_bits(s32 input, s32 mask);
-    static void set_mode(int a0);
+    static void set_mode(int mode);
     void advance_scroll();
     static void create();
     static void unload_floor_map();

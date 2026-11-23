@@ -12,7 +12,7 @@ f32 TWindowSubStatusDisp__sub_802877A4(f32 farg0);
 void TWindowSubStatusDisp__sub_802878B8(u8 *arg0, u8 *arg1);
 void TWindowSubStatusDisp__sub_802879B0(void *arg0);
 u8 TWindowSubStatusDisp__sub_80287AC4(u8 *arg0);
-u8 *init_heading_entry__20TWindowSubStatusDispFPvPvici(u8 *window_sub_status_disp, u8 *arg1, saddr title, s8 arg3, s32 client_id);
+u8 *init_heading_entry__20TWindowSubStatusDispFPvPvici(u8 *window_sub_status_disp, u8 *arg1, saddr title, s8 entry_state, s32 client_id);
 }
 
 #endif

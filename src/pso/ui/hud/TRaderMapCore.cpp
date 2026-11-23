@@ -831,7 +831,7 @@ void TRaderMapCore::render_region_records(s32 mode) {
 
 #pragma push
 #pragma opt_common_subs off
-void begin_map_view__13TRaderMapCoreFii(saddr arg0, s32 arg1) {
+void begin_map_view__13TRaderMapCoreFii(saddr rader_map_core, s32 arg1) {
     RadarViewportParameters viewport;
     u8 *temp_r5;
     TCameraCtrl::restore_full_screen_view();
@@ -842,9 +842,9 @@ void begin_map_view__13TRaderMapCoreFii(saddr arg0, s32 arg1) {
     viewport.screen_width = *(f32 *)((s8 *)temp_r5 + 8);
     viewport.screen_height = *(f32 *)((s8 *)temp_r5 + 0xC);
     viewport.value18 = *(f32 *)((s8 *)temp_r5 + 0x10);
-    ((TRaderMapCore*)arg0)->configure_viewport(&viewport);
-    TRaderMapCore::set_view_scissor((void *)arg0, 2, (void *)((void *) ((u8 *)&radar_map_view_scissor_table + (arg1 * 0x10))));
-    setup_overhead_projection__13TRaderMapCoreFv((s32)arg0, (Cam_801F9314 *)((void *) ((u8 *)TRaderMapCore__map_view_state + (arg1 * 0x28))));
+    ((TRaderMapCore*)rader_map_core)->configure_viewport(&viewport);
+    TRaderMapCore::set_view_scissor((void *)rader_map_core, 2, (void *)((void *) ((u8 *)&radar_map_view_scissor_table + (arg1 * 0x10))));
+    setup_overhead_projection__13TRaderMapCoreFv((s32)rader_map_core, (Cam_801F9314 *)((void *) ((u8 *)TRaderMapCore__map_view_state + (arg1 * 0x28))));
     Vec dir = { 0.0f, -1.0f, 0.0f };
     NJS_ARGB color = { 1.0f, 1.0f, 1.0f, 1.0f };
     ((TObjLight *)&dir)->set_light(&color, 1.0f);
@@ -1429,14 +1429,14 @@ void TRaderMapCore__sub_801F967C(TRaderMapCore *self, u32 color) {
     set_constant_material((const NJS_ARGB *)rgba);
 }
 
-void TRaderMapCore::set_piece_flags(s32 arg0) {
+void TRaderMapCore::set_piece_flags(s32 piece_flags) {
     if (TRaderMapCore__floor_map_resource != 0) {
         Map_801F9630* m = (Map_801F9630*)TRaderMapCore__floor_map_resource;
         if (m->pieces != 0) {
             Piece_801F9630* piece = m->pieces;
             s32 i;
             for (i = 0; i < ((Map_801F9630*)TRaderMapCore__floor_map_resource)->count; i++, piece++) {
-                piece->flags |= arg0;
+                piece->flags |= piece_flags;
             }
         }
     }

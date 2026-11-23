@@ -833,36 +833,36 @@ void TMainCursor::setup_action_channel(u8 *player, s32 slot, s32 kind, s32 id) {
 }
 #pragma pop
 
-void TMainCursor::setup_flags(s32 arg0, s32 player, saddr arg2) {
-    ((TMainCursor *)arg2)->set_color(0x2000);
-    ((TMainCursor *)arg2)->set_field_0c(0x3C000);
-    ((TMainCursor *)arg2)->set_color_mode(0x800);
-    ((TMainCursor *)arg2)->set_flags(0xE0000000);
+void TMainCursor::setup_flags(s32 arg0, s32 player, saddr main_cursor) {
+    ((TMainCursor *)main_cursor)->set_color(0x2000);
+    ((TMainCursor *)main_cursor)->set_field_0c(0x3C000);
+    ((TMainCursor *)main_cursor)->set_color_mode(0x800);
+    ((TMainCursor *)main_cursor)->set_flags(0xE0000000);
 }
 
-void TMainCursor::set_display_flags(s32 arg0, saddr player, saddr arg2) {
-    ((TMainCursor *)arg2)->set_color(0x2000);
-    ((TMainCursor *)arg2)->set_color_mode(0x10000000);
-    ((TMainCursor *)arg2)->set_flags(0xE0000800);
+void TMainCursor::set_display_flags(s32 arg0, saddr player, saddr main_cursor) {
+    ((TMainCursor *)main_cursor)->set_color(0x2000);
+    ((TMainCursor *)main_cursor)->set_color_mode(0x10000000);
+    ((TMainCursor *)main_cursor)->set_flags(0xE0000800);
     if (TTecCtrl::is_technique_ready() == 0) {
-        ((TMainCursor *)arg2)->set_field_0c(0x30000);
+        ((TMainCursor *)main_cursor)->set_field_0c(0x30000);
         return;
     }
     if (TObjPlayer__sub_801B066C((void *)player) == 1) {
-        ((TMainCursor *)arg2)->set_field_0c(0x40030000);
+        ((TMainCursor *)main_cursor)->set_field_0c(0x40030000);
         return;
     }
-    ((TMainCursor *)arg2)->set_field_0c(0x40030000);
+    ((TMainCursor *)main_cursor)->set_field_0c(0x40030000);
 }
 
-void TMainCursor::set_cursor_color(s32 arg0, saddr player, saddr arg2) {
+void TMainCursor::set_cursor_color(s32 arg0, saddr player, saddr main_cursor) {
     if (get_type__10TObjPlayerFPv((void *)(player + 0x828)) != 0) {
-        ((TMainCursor *)arg2)->set_color(0xA000);
-        ((TMainCursor *)arg2)->set_color_mode(0x70000000);
+        ((TMainCursor *)main_cursor)->set_color(0xA000);
+        ((TMainCursor *)main_cursor)->set_color_mode(0x70000000);
         return;
     }
-    ((TMainCursor *)arg2)->set_color(0x8000);
-    ((TMainCursor *)arg2)->set_color_mode(0x60000000);
+    ((TMainCursor *)main_cursor)->set_color(0x8000);
+    ((TMainCursor *)main_cursor)->set_color_mode(0x60000000);
 }
 
 s32 TMainCursor::get_action_cursor_priority(void *arg0, saddr player, s32 index) {
@@ -1615,8 +1615,8 @@ s32 TMainCursor::sort_actions_by_priority() {
 
 extern "C" {
 
-TObjPlayer *resolve_player_by_client_id(u16 *arg0) {
-    return get_player_by_client_id(*arg0);
+TObjPlayer *resolve_player_by_client_id(u16 *client_id) {
+    return get_player_by_client_id(*client_id);
 }
 
 }
@@ -1868,7 +1868,7 @@ TUnk_8013E800::~TUnk_8013E800() {}
 
 TUnk_8013E780::~TUnk_8013E780() {}
 
-void TMainCursor::set_offset_y(s16 a1) { TMainCursor__sub_8013E694((char*)this + 0x24, a1); }
+void TMainCursor::set_offset_y(s16 offset_y) { TMainCursor__sub_8013E694((char*)this + 0x24, offset_y); }
 
 void TMainCursor__sub_8013E694(void* p, s16 v) { *(s16*)((char*)p + 0x0) = v; }
 

@@ -23,7 +23,7 @@ struct TWindowSubCustomEquip : public TWindowBase {
     s16 m_66;
     u32 m_68;
     TWindowSubStatusDisp *m_6c;
-    void set_relative_pos(void *arg1);
+    void set_relative_pos(void *relative_pos);
     void layout_selection_parts(void *arg1);
     void layout_entry_group(void *index);
     void reset_selection();

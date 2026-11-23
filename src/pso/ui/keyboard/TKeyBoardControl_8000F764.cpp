@@ -217,8 +217,8 @@ void TKeyBoardControl__sub_8000F90C(s32 arg0) {
     main_phase_state.unkC = arg0;
 }
 
-void set_queued_main_phase(s32 arg0) {
-    main_phase_state.unk8 = arg0;
+void set_queued_main_phase(s32 queued_main_phase) {
+    main_phase_state.unk8 = queued_main_phase;
 }
 
 s32 TKeyBoardControl__sub_8000F92C(void) {

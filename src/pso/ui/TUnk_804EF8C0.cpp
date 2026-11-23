@@ -96,7 +96,7 @@ s32 get_field_118__22TAdEnterSerialAccessGCFv();
 void TAdSinglePlyChrSelectGC::reset_quest_id() {
     single_ply_quest_download_server = 0xFFFF;
 }
-void TAdSinglePlyChrSelectGC::set_quest_download_server(int a0) { (*(int *)&single_ply_quest_download_server) = a0; }
+void TAdSinglePlyChrSelectGC::set_quest_download_server(int quest_download_server) { (*(int *)&single_ply_quest_download_server) = quest_download_server; }
 void TAdSinglePlyChrSelectGC::init_logo_state(s32 arg0) {
     lbl_805D6D88 = 0;
     lbl_805D6D84 = 0;

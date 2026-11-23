@@ -202,7 +202,7 @@ void TWindowMainMenu__sub_802AD74C(void* p) { *(u8*)((char*)p + 0x13) |= 0x2; }
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-void TWindowMainMenu::set_symbol_chat_parts(void * _w1) { copy_vec2(this, _w1); *(unsigned char *)&this->m_down = 8; }
+void TWindowMainMenu::set_symbol_chat_parts(void * symbol_chat_parts) { copy_vec2(this, symbol_chat_parts); *(unsigned char *)&this->m_down = 8; }
 #pragma pop
 
 #pragma push
@@ -482,15 +482,15 @@ s32 append_child_rows__15TWindowMainMenuFPvi(Menu_802ADD38 *arg0, s32 id) {
     return slot;
 }
 
-void TWindowMenuMainMenu::set_target_y(f32 farg0) {
+void TWindowMenuMainMenu::set_target_y(f32 target_y) {
     if (reinterpret_cast<TWindowMainMenu *>(this)->is_not_split_screen() != 0) {
-        farg0 += 51.0f;
+        target_y += 51.0f;
     } else {
-        farg0 += 42.0f;
+        target_y += 42.0f;
     }
-    farg0 += 39.0f;
-    if (target_size[1] != farg0) {
-        target_size[1] = farg0;
+    target_y += 39.0f;
+    if (target_size[1] != target_y) {
+        target_size[1] = target_y;
         tween_ticks = 8;
     }
 }

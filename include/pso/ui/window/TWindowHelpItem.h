@@ -43,7 +43,7 @@ struct TWindowHelpItem : public TWindowBase
     void init_help_texts();
     void invoke_callback_pmf();
     void dispatch_item_help();
-    void set_displayed_item_colored(uaddr arg1);
+    void set_displayed_item_colored(uaddr displayed_item_colored);
     void set_displayed_item_data(void* a1, void* a2);
     void set_items_and_refresh(void* a1, void* a2);
     void update_cursor_selection();

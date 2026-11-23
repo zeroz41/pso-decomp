@@ -419,24 +419,24 @@ void clear_player_sub_object_slots(Obj_801D6A18 *p) {
     p->x14 = 0;
 }
 
-s32 accumulate_damage_stats(u8 *arg0v, s32 arg1, s32 amount) {
+s32 accumulate_damage_stats(u8 *arg0v, s32 collidable, s32 amount) {
   f32 new_var;
   f32 temp_f1;
   new_var = (f32) amount;
   *((f32 *) (((s8 *) arg0v) + 4)) = (f32) ((*((f32 *) (((s8 *) arg0v) + 4))) + new_var);
-  new_var = fn_801D6AB4(arg0v, arg1, amount);
+  new_var = fn_801D6AB4(arg0v, collidable, amount);
   temp_f1 = new_var;
   *((f32 *) (((s8 *) arg0v) + 0)) = (f32) ((*((f32 *) (((s8 *) arg0v) + 0))) + temp_f1);
   return (s32) temp_f1;
 }
 
 #define arg0 ((Rec_801D6AB4 *)arg0v)
-f32 fn_801D6AB4(void *arg0v, saddr arg1, s32 amount) {
+f32 fn_801D6AB4(void *arg0v, saddr collidable, s32 amount) {
     f32 v;
     f32 k = (f32)amount;
 
     v = arg0->a;
-    if (((TObjCollidable *)arg1)->test_actor_flags(0x10000000) != 0) {
+    if (((TObjCollidable *)collidable)->test_actor_flags(0x10000000) != 0) {
         v = arg0->b;
     }
     return k * v;

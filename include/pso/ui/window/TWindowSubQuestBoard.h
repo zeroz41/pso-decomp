@@ -23,7 +23,7 @@ struct TWindowSubQuestBoard : public TObject {
     void set_card_window_flags(s32 value);
     void clear_card_window_flags(s32 value);
     void set_card_flags_scaled(s32 value);
-    int set_card_flags_direct(int a1);
+    int set_card_flags_direct(int card_flags_direct);
     virtual void render();
     virtual void run_task();
 };

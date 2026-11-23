@@ -59,9 +59,9 @@ struct TMainCursor : public TObject {
     void init_slots();
     void set_cursor_pos(u16 arg1, s32 arg2);
     static s32 get_action_cursor_priority(void *arg0, saddr player, s32 index);
-    static void set_cursor_color(s32 arg0, saddr player, saddr arg2);
-    static void set_display_flags(s32 arg0, saddr player, saddr arg2);
-    static void setup_flags(s32 arg0, s32 player, saddr arg2);
+    static void set_cursor_color(s32 arg0, saddr player, saddr main_cursor);
+    static void set_display_flags(s32 arg0, saddr player, saddr main_cursor);
+    static void setup_flags(s32 arg0, s32 player, saddr main_cursor);
     static void sort_list(s32 arg0, s32 arg1);
     s32 is_channel_active();
     int check_visible();
@@ -86,7 +86,7 @@ struct TMainCursor : public TObject {
     void check_flag_4();
     u8 forward_13E338_at_60();
     u8 update_sub_60();
-    void set_offset_y(s16 a1);
+    void set_offset_y(s16 offset_y);
     void init_field_60(u8 v);
     int get_selected_entry();
     u8 get_active();

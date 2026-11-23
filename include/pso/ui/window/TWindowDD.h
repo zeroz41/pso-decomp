@@ -53,9 +53,9 @@ struct TWindowDD : public TObject
     void reset_entries(f32 z, s32 color);
     void set_quad_corners_scaled(f32 x, f32 y, f32 farg2);
     static s32 apply_both_choices(s32 arg0, saddr buttons);
-    void set_clamped_page(s32 arg1);
+    void set_clamped_page(s32 clamped_page);
     void handle_input();
-    void set_clamped_selection(s32 arg1);
+    void set_clamped_selection(s32 clamped_selection);
     static void *create();
     void set_value_f32(s32 arg1);
     void set_scale(s32 arg1, s32 arg2);
@@ -99,7 +99,7 @@ struct TWindowDD : public TObject
     static void refresh_sub(void* p, void* a1);
     static void apply_input(void* p, void* a1);
     static void update(void* p, void* child);
-    void update(saddr arg1);
+    void update(saddr window_dd);
     static void set_default_coords(int a0, void* win);
     static void init_layout(void *window, void *child);
     static void set_default_positions(void *window, void *child);
@@ -156,7 +156,7 @@ s32 TWindowDD_check_input_mask(void *input_context, s32 mask);
 extern "C" {
 void *__dt__21TWindowWordSelectModeFv(void *arg0, s16 arg1);
 void measure_message_text_width_default(void *entry);
-s32 dispatch_by_window_mode(u8 *window_dd, u32 arg1, s32 entry_id, s32 value_index);
+s32 dispatch_by_window_mode(u8 *window_dd, u32 window_mode, s32 entry_id, s32 value_index);
 void TWindowDD__sub_80344114(void);
 }
 

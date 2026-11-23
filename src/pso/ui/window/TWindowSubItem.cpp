@@ -576,8 +576,8 @@ void add_item_purpose_actions(TWindowSubItem *window_sub_item, saddr list, saddr
   }
 }
 
-void TWindowSubItem::set_cursor_row_for_mode(s32 arg1) {
-    switch (arg1) {
+void TWindowSubItem::set_cursor_row_for_mode(s32 mode) {
+    switch (mode) {
     case 3:
         this->state = 0xC;
         return;

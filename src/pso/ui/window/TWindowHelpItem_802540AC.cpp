@@ -1111,13 +1111,13 @@ void show_item_by_id__15TWindowHelpItemFPvi(u8 *window_help_item, saddr id) {
     ((TItem *)item)->copy_to_item_data((TItemData *)(window_help_item + 0x74));
     ((TWindowHelpItem *)window_help_item)->set_items_and_refresh(window_help_item + 0x74, (void*)((void*)((void *) id)));
 }
-void TWindowHelpItem::set_displayed_item_colored(uaddr arg1) {
+void TWindowHelpItem::set_displayed_item_colored(uaddr displayed_item_colored) {
     saddr var_r5;
     var_r5 = -0x100;
-    if (arg1 == 0U) {
+    if (displayed_item_colored == 0U) {
         var_r5 = -1;
     }
-    set_displayed_item_data((void*)arg1, (void*)var_r5);
+    set_displayed_item_data((void*)displayed_item_colored, (void*)var_r5);
 }
 void TWindowHelpItem::set_displayed_item_data(void* a1, void* a2) { *(void* *)&this->m_a4 = a2; *(void* *)&this->m_70 = a1; update_cursor_selection(); dispatch_item_help(); }
 void TWindowHelpItem::set_items_and_refresh(void* a1, void* a2) { *(void* *)&this->m_a0 = a2; *(void* *)&this->m_6c = a1; update_cursor_selection(); dispatch_item_help(); }

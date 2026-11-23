@@ -460,8 +460,8 @@ void *TWindowSubMag::create_learned_blast_toast() {
 }
 #pragma pop
 
-void TWindowSubMag::set_mag_mode(s32 arg1) {
-    switch (arg1) {
+void TWindowSubMag::set_mag_mode(s32 mag_mode) {
+    switch (mag_mode) {
     case 1:
         this->state = 5;
         return;

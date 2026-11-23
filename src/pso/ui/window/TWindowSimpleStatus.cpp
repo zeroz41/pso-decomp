@@ -312,7 +312,7 @@ void TWindowSimpleStatus::update_status_icons(void *ofs) {
 
 #pragma push
 #pragma fp_contract on
-void draw_photon_blast_fan(saddr arg0, NJS_POINT2 *arg1, Params_80270244 *arg2, u32 arg3, f32 arg6, s32 arg4, s32 arg5, f32 arg7) {
+void draw_photon_blast_fan(saddr window_simple_status, NJS_POINT2 *arg1, Params_80270244 *arg2, u32 arg3, f32 arg6, s32 arg4, s32 arg5, f32 arg7) {
     ColorLineVertex verts[3];
     ColorLineList prim;
     u32 colors[3];
@@ -322,7 +322,7 @@ void draw_photon_blast_fan(saddr arg0, NJS_POINT2 *arg1, Params_80270244 *arg2, 
     f32 amp_y;
     f32 depth;
 
-    depth = ((TWindowSimpleStatus *)arg0)->draw_depth + 0.299f * arg6;
+    depth = ((TWindowSimpleStatus *)window_simple_status)->draw_depth + 0.299f * arg6;
     amp_x = arg7 * arg2->f28;
     amp_y = arg7 * arg2->f2c;
     prim.verts = verts;
@@ -480,7 +480,7 @@ void update_status_help_item(saddr arg0) {
 #pragma fp_contract on
 #pragma opt_common_subs off
 extern "C" {
-void draw_photon_blast_gauge_ring(s32 arg0, Params_80270244 *ctx, const NJS_POINT2 *pos, f32 farg0, f32 farg1) {
+void draw_photon_blast_gauge_ring(s32 window_simple_status, Params_80270244 *ctx, const NJS_POINT2 *pos, f32 farg0, f32 farg1) {
     NJS_POINT2 p;
     u32 n;
     if (farg0 > 500.0f) {
@@ -491,8 +491,8 @@ void draw_photon_blast_gauge_ring(s32 arg0, Params_80270244 *ctx, const NJS_POIN
     if (ctx->f30 >= 0) {
         p.x = ctx->x + pos->x;
         p.y = ctx->y + pos->y;
-        draw_photon_blast_fan(arg0, &p, ctx, photon_blast_gauge_ring_color_table[n], 0.0f, 0, 0xD700, farg1);
-        draw_photon_blast_fan(arg0, &p, ctx, photon_blast_gauge_ring_color_table[++n], 0.1f, 55040.0f - 0.01f * (55040.0f * farg0), 0xD700, farg1);
+        draw_photon_blast_fan(window_simple_status, &p, ctx, photon_blast_gauge_ring_color_table[n], 0.0f, 0, 0xD700, farg1);
+        draw_photon_blast_fan(window_simple_status, &p, ctx, photon_blast_gauge_ring_color_table[++n], 0.1f, 55040.0f - 0.01f * (55040.0f * farg0), 0xD700, farg1);
     }
 }
 }

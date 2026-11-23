@@ -34,7 +34,7 @@ struct TWindowSubMag : public TObject {
     void update_mag_help();
     void update_displayed_item();
     s32 count_slots();
-    void set_mag_mode(s32 arg1);
+    void set_mag_mode(s32 mag_mode);
     void *create_learned_blast_toast();
     void *create();
     void *create_action_menu(s32 id);

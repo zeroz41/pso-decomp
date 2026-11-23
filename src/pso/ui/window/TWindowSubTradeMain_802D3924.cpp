@@ -11,6 +11,6 @@ void clear_trade_range_bit(s32 arg0) {
     trade_protocol_flags &= ~(1 << arg0);
 }
 
-void set_trade_range_bit(s32 arg0) {
-    trade_protocol_flags |= 1 << arg0;
+void set_trade_range_bit(s32 trade_range_bit) {
+    trade_protocol_flags |= 1 << trade_range_bit;
 }

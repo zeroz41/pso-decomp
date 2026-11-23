@@ -75,16 +75,16 @@ void TWindowSubComCard::swap_cards(s32 first_index, s32 second_index) {
     copy_card__17TWindowSubComCardFiPv((saddr)first_ptr, (u8 *)second_ptr);
     copy_card__17TWindowSubComCardFiPv((saddr)second_ptr, (u8 *)sp8);
 }
-s32 copy_card__17TWindowSubComCardFiPv(saddr arg0, u8 *arg1) {
-    GuildCardSlot *dest = reinterpret_cast<GuildCardSlot *>(arg0);
+s32 copy_card__17TWindowSubComCardFiPv(saddr guild_card_slot, u8 *arg1) {
+    GuildCardSlot *dest = reinterpret_cast<GuildCardSlot *>(guild_card_slot);
     GuildCardSlot *src = reinterpret_cast<GuildCardSlot *>(arg1);
-    ((s32 (*)(s32))forward_return_arg__17TWindowSubComCardFi)(arg0);
+    ((s32 (*)(s32))forward_return_arg__17TWindowSubComCardFi)(guild_card_slot);
     dest->pad_90[0] = src->pad_90[0];
     dest->pad_90[1] = src->pad_90[1];
     dest->pad_90[2] = src->pad_90[2];
     dest->pad_90[3] = src->pad_90[3];
     dest->note = src->note;
-    return arg0;
+    return guild_card_slot;
 }
 
 }
@@ -364,8 +364,8 @@ void TWindowSubComCard__sub_8007B1AC(void *ply_guild_card_tag, u8 *arg1, s32 cou
     }
 }
 
-void TWindowSubComCard::set_text(void *arg1) {
-    ((s32 (*)(void *, void *, int))strncpy)((void *) (((u8 *)this) + 0x20), arg1, 0x6B);
+void TWindowSubComCard::set_text(void *text) {
+    ((s32 (*)(void *, void *, int))strncpy)((void *) (((u8 *)this) + 0x20), text, 0x6B);
     *(s8 *)((s8 *)((u8 *)this) + 0x8B) = 0;
 }
 

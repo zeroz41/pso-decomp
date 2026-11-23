@@ -61,16 +61,16 @@ void TWindowSubSymbolChat::send_selected_symbol_chat(s32 *arg0) {
 
 int TWindowSubSymbolChat__sub_80076FE0(const SymbolChatPreset *preset) { return (preset->payload.appearance >> 9) & 1; }
 
-void TWindowSubSymbolChat::set_entry_name(void *arg1) {
+void TWindowSubSymbolChat::set_entry_name(void *entry_name) {
     u8 *arg0 = (u8 *)this;
-    strncpy((char *)&this->m_flags, (const char *)arg1, 0x16);
+    strncpy((char *)&this->m_flags, (const char *)entry_name, 0x16);
     *(s8 *)((s8 *)arg0 + 0x1A) = 0;
     *(s32 *)&this->m_name = (s32) (*(s32 *)&this->m_name | 1);
 }
 
-void TWindowSubSymbolChat::set_flag_bit9(s32 arg1) {
+void TWindowSubSymbolChat::set_flag_bit9(s32 flag_bit9) {
     s32 var_r4;
-    var_r4 = arg1;
+    var_r4 = flag_bit9;
     if (var_r4 != 0) {
         var_r4 = 1;
     }
@@ -79,9 +79,9 @@ void TWindowSubSymbolChat::set_flag_bit9(s32 arg1) {
     *(s32 *)&this->m_name = (s32) (*(s32 *)&this->m_name | 1);
 }
 
-void TWindowSubSymbolChat::set_symbol_index(s32 arg1) {
+void TWindowSubSymbolChat::set_symbol_index(s32 symbol_index) {
     *(s32 *)&this->m_1c = (s32) (*(s32 *)&this->m_1c & 0xFFFFFE1F);
-    *(s32 *)&this->m_1c = (s32) (*(s32 *)&this->m_1c | (arg1 << 5));
+    *(s32 *)&this->m_1c = (s32) (*(s32 *)&this->m_1c | (symbol_index << 5));
     *(s32 *)&this->m_name = (s32) (*(s32 *)&this->m_name | 1);
 }
 

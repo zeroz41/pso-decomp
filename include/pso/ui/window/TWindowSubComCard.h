@@ -100,7 +100,7 @@ struct TWindowSubComCard : public TObject {
     s32 send_guild_card();
     static void start_player_data_load(s32 ply_guild_card_tag);
     static s32 count_active_cards();
-    void set_text(void *arg1);
+    void set_text(void *text);
     static void handle_press_a(saddr ply_guild_card_tag, s32 id);
     static void handle_press_b(saddr ply_guild_card_tag, s32 client_id);
     void calc_layout_height(f32 width);
@@ -112,7 +112,7 @@ struct TWindowSubComCard : public TObject {
     s32 create_entry_list_window();
     s32 open_yesno_dialog();
     s32 confirm_and_free();
-    void set_com_param(s32 arg1);
+    void set_com_param(s32 com_param);
     void set_page(s16 v);
     void set_display_page();
     static s32 create_com_card_window(s32 parent);

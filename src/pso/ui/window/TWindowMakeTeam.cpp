@@ -233,8 +233,8 @@ void TWindowMakeTeam::send_state() {
     m_menu->disable_entry_by_id(3);
 }
 
-void TWindowMakeTeam::set_state(s32 arg1) {
-    switch (arg1) {
+void TWindowMakeTeam::set_state(s32 state) {
+    switch (state) {
     case 0:
         this->m_1c = 3;
         return;

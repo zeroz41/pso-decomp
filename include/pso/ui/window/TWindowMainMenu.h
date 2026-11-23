@@ -64,14 +64,14 @@ struct TWindowMainMenu : public TObject {
     void clear_log_active();
     void set_log_active();
     void update_submenu();
-    void close_submenu(void* a1);
-    void refresh_submenu(void* a1);
+    void close_submenu(void* window_main_menu_entry);
+    void refresh_submenu(void* window_main_menu_entry);
     void close();
     virtual void run_task();
     virtual void render();
-    static void set_entry_field_20(saddr arg0, s32 arg1);
+    static void set_entry_field_20(saddr window_base, s32 arg1);
     int is_item_active();
-    void set_symbol_chat_parts(void * _w1);
+    void set_symbol_chat_parts(void * symbol_chat_parts);
     void update_item_tween();
     void init_color();
     void pop_level();

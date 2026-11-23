@@ -259,7 +259,7 @@ void TObjCMMainMenu::set_speed(f32 farg0) {
 
 void TObjCMMainMenu__sub_80298DA0(int a0) { creation_figure_rotation_y = (creation_figure_rotation_y + a0); }
 
-void TObjCMMainMenu::set_selection(int a0) { creation_camera_mode = a0; }
+void TObjCMMainMenu::set_selection(int selection) { creation_camera_mode = selection; }
 
 f32 TObjCMMainMenu::get_proportion() {
     return creation_view_shift;

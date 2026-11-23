@@ -187,11 +187,11 @@ void close_window__18TCheckRoomSequenceFPv(TCheckRoomSequence_8020F070 *self) {
 }
 #pragma pop
 
-void init_check_params__18TCheckRoomSequenceFUi(uaddr arg0) {
+void init_check_params__18TCheckRoomSequenceFUi(uaddr shop_window_base) {
     TCheckRoomSequence__error_return_text_id = 0x46;
     TCheckRoomSequence__error_return_state = 2;
-    if (arg0 != 0U) {
-        ((TShopWindowBase *)arg0)->set_field_20(0x10);
+    if (shop_window_base != 0U) {
+        ((TShopWindowBase *)shop_window_base)->set_field_20(0x10);
     }
 }
 
@@ -207,11 +207,11 @@ void finish_room_check__18TCheckRoomSequenceFPv(u8 *arg0) {
 }
 #pragma pop
 
-void init_check__18TCheckRoomSequenceFUi(uaddr arg0) {
-    if (arg0 != 0U) {
+void init_check__18TCheckRoomSequenceFUi(uaddr shop_window_base) {
+    if (shop_window_base != 0U) {
         TCheckRoomSequence__error_return_text_id = 0x46;
         TCheckRoomSequence__error_return_state = 2;
-        ((TShopWindowBase *)arg0)->set_field_20(0x10);
+        ((TShopWindowBase *)shop_window_base)->set_field_20(0x10);
     }
 }
 

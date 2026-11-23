@@ -944,13 +944,13 @@ void complete_actor_speech_balloons(u16 id) {
     }
 }
 
-void TWindowCtrl::close_windows_by_flags(u16 arg0) {
+void TWindowCtrl::close_windows_by_flags(u16 flags) {
     u32 i;
     void *w;
     if (instance != NULL) {
         for (i = 0; i < 4; i++) {
             w = ((Ctrl_8024B328 *)instance)->win[i];
-            if (w != NULL && ((TObject *)w)->all_parents_unqueued_for_destruction() != 0 && arg0 == reinterpret_cast<TWindowFukidasi *>(w)->get_speaker_id()) {
+            if (w != NULL && ((TObject *)w)->all_parents_unqueued_for_destruction() != 0 && flags == reinterpret_cast<TWindowFukidasi *>(w)->get_speaker_id()) {
                 ((TWindowBase *)w)->close();
             }
         }
@@ -1052,7 +1052,7 @@ void TWindowCtrl::release_slot(s8 *arg0) {
 
 extern "C" {
 
-saddr TWindowCtrl::get_message_by_type(s8 arg0, s32 client_id) {
+saddr TWindowCtrl::get_message_by_type(s8 type, s32 client_id) {
     saddr window;
     s32 var_r3;
 
@@ -1067,7 +1067,7 @@ saddr TWindowCtrl::get_message_by_type(s8 arg0, s32 client_id) {
     } else {
         var_r3 = 0x43;
     }
-    return get_window_layout_position(var_r3 + arg0);
+    return get_window_layout_position(var_r3 + type);
 }
 
 }

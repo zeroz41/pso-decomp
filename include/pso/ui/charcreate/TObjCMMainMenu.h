@@ -65,7 +65,7 @@ public:
     static void clear_task_state();
     static f32 get_scale();
     static f32 get_proportion();
-    static void set_selection(int a0);
+    static void set_selection(int selection);
     static void set_speed(f32 farg0);
     static s32 get_creation_sprite_id(s32 arg0);
 };

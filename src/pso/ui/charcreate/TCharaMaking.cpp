@@ -139,12 +139,12 @@ s32 TCharaMaking::query_state() {
     return TObjCMMainMenu__sub_8028EBCC(creation_main_menu_obj);
 }
 
-s32 calc_section_id_from_name(s8 *arg0) {
+s32 calc_section_id_from_name(s8 *name) {
     s32 sum = 0;
     s32 i;
     s32 r;
-    for (i = 0; i < 12 && arg0[i] != 0; i++) {
-        sum += arg0[i];
+    for (i = 0; i < 12 && name[i] != 0; i++) {
+        sum += name[i];
     }
     sum %= 10;
     if (sum < 0 || sum >= 10) sum = 0;
@@ -360,7 +360,7 @@ s32 validate_player_visual_record(void *arg0) {
 void TCharaMaking::clear_flag_bit0() { restore_alpha_ref(); model_render_flags = (model_render_flags & 0xfffffffe); }
 
 void TCharaMaking::enable_making() { model_render_flags = (model_render_flags | 0x1); set_alpha_ref_override((u8)31); }
-void TCharaMaking__bind_appearance_texture_lists(TextureOutput *output, TextureOutput *arg1, TextureOutput *arg2, CharacterAppearanceFields *appearance) {
+void TCharaMaking__bind_appearance_texture_lists(TextureOutput *output, TextureOutput *texture_output, TextureOutput *arg2, CharacterAppearanceFields *appearance) {
   CharacterClassAppearance *definition;
   CharacterTextureList **temp_r3;
   CharacterTextureList **temp_r3_2;
@@ -380,15 +380,15 @@ void TCharaMaking__bind_appearance_texture_lists(TextureOutput *output, TextureO
       output->loaded = 1;
     }
   }
-  arg1->loaded = 0;
+  texture_output->loaded = 0;
   temp_r3_2 = definition->headTextures;
   if (temp_r3_2 != 0)
   {
     temp_r6_2 = temp_r3_2[appearance->head];
     if (temp_r6_2 != 0)
     {
-      ((TCharaMaking *)arg1)->build_appearance_texture_names(appearance, definition, temp_r6_2);
-      arg1->loaded = 1;
+      ((TCharaMaking *)texture_output)->build_appearance_texture_names(appearance, definition, temp_r6_2);
+      texture_output->loaded = 1;
     }
   }
   ((TCharaMaking *)arg2)->build_appearance_texture_names(appearance, definition, definition->bodyTextures);

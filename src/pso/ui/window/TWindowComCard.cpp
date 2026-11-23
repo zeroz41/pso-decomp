@@ -80,20 +80,20 @@ extern u8 *text_language_group_table;
 
 void*TWindowComCard::get_card_name_ptr() { return (char*)this + 0xa; }
 
-void TWindowComCard::set_help_mode(s32 arg1) {
+void TWindowComCard::set_help_mode(s32 help_mode) {
     const ComCardHelpRect *temp_r4;
 
-    if (arg1 == 0xE) {
+    if (help_mode == 0xE) {
         *(u16 *)&this->m_name = (u16) (*(u16 *)&this->m_name | 2);
         return;
     }
     *(u16 *)&this->m_name = (u16) (*(u16 *)&this->m_name & 0xFFFFFFFD);
-    if (arg1 < 0xA) {
+    if (help_mode < 0xA) {
         reinterpret_cast<WindowSpritePart *>(this)->kind = 1;
     } else {
         reinterpret_cast<WindowSpritePart *>(this)->kind = 2;
     }
-    temp_r4 = &com_card_help_panel_rect_table[arg1];
+    temp_r4 = &com_card_help_panel_rect_table[help_mode];
     set_sprite_uv_from_pixels(reinterpret_cast<WindowSpritePart *>(this), temp_r4->x, temp_r4->y);
 }
 

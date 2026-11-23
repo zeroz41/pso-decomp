@@ -734,11 +734,11 @@ s32 TWindowFukidasi::clamp_position(void *arg1, f32 farg0) {
 
 #pragma pop
 extern "C" {
-void TWindowFukidasi::set_color(u16 arg1) {
+void TWindowFukidasi::set_color(u16 color) {
     this->balloon_color = 0xFFF8F8F8;
     TObjChara *chara;
-    if (((u32)arg1 < 0xCU) && ((chara = get_player_by_client_id((u32)arg1)) != 0) && (chara->obj_isState3_324() == 0)) {
-        this->balloon_color = (s32) TWindowFukidasi__balloon_color_table[(u16)arg1];
+    if (((u32)color < 0xCU) && ((chara = get_player_by_client_id((u32)color)) != 0) && (chara->obj_isState3_324() == 0)) {
+        this->balloon_color = (s32) TWindowFukidasi__balloon_color_table[(u16)color];
     }
 }
 }

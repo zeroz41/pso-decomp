@@ -30,7 +30,7 @@ struct TWindowMakeTeam : public TObject {
     s32 get_field_20();
     int test_flag_1d_bit1();
     int test_flag_1d_bit0();
-    void set_state(s32 arg1);
+    void set_state(s32 state);
     void send_state();
     void update_ok_button();
     TWindowMenu *create_status_menu_window();

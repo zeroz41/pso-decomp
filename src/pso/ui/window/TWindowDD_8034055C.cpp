@@ -41,10 +41,10 @@ TWindowWordSelectMode::TWindowWordSelectMode()
 
 TWindowWordSelectMode::~TWindowWordSelectMode() {}
 
-void TWindowDD::set_clamped_selection(s32 arg1) {
+void TWindowDD::set_clamped_selection(s32 clamped_selection) {
     s32 temp_r0;
     s32 var_r4;
-    var_r4 = arg1;
+    var_r4 = clamped_selection;
     temp_r0 = this->m_64[0];
     if (var_r4 < temp_r0) {
         var_r4 = temp_r0;
@@ -89,16 +89,16 @@ void TWindowDD::handle_input() {
 
 s32 TWindowDD__sub_80340820(void *p) { return ((TWindowWordSelectMode *)p)->pad_68; }
 
-void TWindowDD::set_clamped_page(s32 arg1) {
-    if (arg1 < 0) {
+void TWindowDD::set_clamped_page(s32 clamped_page) {
+    if (clamped_page < 0) {
         this->m_64[0] = 0;
         return;
     }
-    if (arg1 >= 3) {
+    if (clamped_page >= 3) {
         this->m_64[0] = 2;
         return;
     }
-    this->m_64[0] = arg1;
+    this->m_64[0] = clamped_page;
 }
 
 void TWindowWordSelectMode::run_task() {
