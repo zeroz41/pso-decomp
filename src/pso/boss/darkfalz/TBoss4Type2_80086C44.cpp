@@ -8,8 +8,6 @@
 
 
 extern "C" {
-void *__ct__13TParticleCtrlFv(void *self, void *pos, void *dir, void *ent, int a, int b, int c, int d, int e);
-extern s32 particle_pool_limit;
 
 }
 
@@ -20,23 +18,14 @@ void TParticleCtrl::release(void *emitter) {
 }
 #pragma push
 #pragma opt_propagation off
-void *create_oneshot_particle_emitter(void *pos, void *dir, s32 id, s32 flags) {
-    void *p;
+void *create_oneshot_particle_emitter(void *pos, void *dir, s32 id, u16 flags) {
     s32 idx = id;
     if (particle_pool_limit > idx) {
-        p = TObject::operator new(0x78);
-        if (p != 0) {
-            p = __ct__13TParticleCtrlFv(p, pos, dir, &particle_global_entry_table[idx], 1, 0, 0, 0, flags);
-        }
-        return p;
+        return new TParticleCtrl(static_cast<const Vec *>(pos), static_cast<ParticleAngles *>(dir), &particle_global_entry_table[idx], 1, 0, 0, 0, flags);
     }
     if (particle_pool_limit + 0x40 > idx) {
         idx -= 0x200;
-        p = TObject::operator new(0x78);
-        if (p != 0) {
-            p = __ct__13TParticleCtrlFv(p, pos, dir, &particle_area_entry_table[idx], 1, 0, 0, 0, flags);
-        }
-        return p;
+        return new TParticleCtrl(static_cast<const Vec *>(pos), static_cast<ParticleAngles *>(dir), &particle_area_entry_table[idx], 1, 0, 0, 0, flags);
     }
     return 0;
 }

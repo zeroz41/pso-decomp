@@ -3,6 +3,6 @@
 
 #include "types.h"
 
-void *create_oneshot_particle_emitter(void *pos, void *dir, s32 id, s32 flags);
+void *create_oneshot_particle_emitter(void *pos, void *dir, s32 id, u16 flags);
 
 #endif

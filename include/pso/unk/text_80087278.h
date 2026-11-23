@@ -4,7 +4,7 @@
 #include "pso/effect/particle/ParticleFactory.h"
 
 extern "C" {
-TParticleCtrl *spawn_continuous_particle_effect_with_flags(void *parent, s32 idx, s32 flags);
+TParticleCtrl *spawn_continuous_particle_effect_with_flags(void *parent, s32 idx, u16 flags);
 }
 
 #endif

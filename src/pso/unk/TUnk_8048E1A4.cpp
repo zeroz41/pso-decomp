@@ -368,7 +368,7 @@ __declspec(section ".data") const char *bm_eff_ice_motion_names[2] = { "ice_brea
 BmlResourceDescriptor enemy_freeze_ice_resource_descriptor = { "bm_eff_ice.bml", bm_eff_ice_model_names, bm_eff_ice_motion_names, 2, 1 };
 
 void TUnk_8048E1A4::apply_knockback_from_attacker(u8 *, f32) {  }
-void TParticleCtrl::set_scale(f32 a, f32 b) { field_40 = a; field_44 = b; }
+void TParticleCtrl::set_scale(f32 a, f32 b) { scale_x = a; scale_y = b; }
 
 f32 TObjChara::get_frame() { return this->frame; }
 

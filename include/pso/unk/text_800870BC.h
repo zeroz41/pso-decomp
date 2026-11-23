@@ -4,12 +4,12 @@
 #include "types.h"
 
 extern "C" {
-void *spawn_particle_effect_with_rotation(void *pos, void *dir, s32 id, int e);
+void *spawn_particle_effect_with_rotation(void *pos, void *dir, s32 id, s32 flags);
 }
 
 // --- C functions defined in text_800870BC.cpp ---
 extern "C" {
-void *spawn_particle_effect_with_rotation(void *pos, void *dir, s32 id, int e);
+void *spawn_particle_effect_with_rotation(void *pos, void *dir, s32 id, s32 flags);
 }
 // --- end of C functions
 

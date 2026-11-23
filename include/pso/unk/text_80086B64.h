@@ -3,9 +3,7 @@
 
 #include "types.h"
 #include <dolphin/mtx/GeoTypes.h>
-
-class TParticleCtrl;
-struct ParticleAngles { s32 x, y, z; };
+#include "pso/effect/particle/TParticleCtrl.h"
 
 TParticleCtrl *create_particle_controller_with_rotation(Vec *position, ParticleAngles *rotation, s32 id, s32 a, s32 b);
 

@@ -1286,11 +1286,17 @@ pso/unk/text_80087278.cpp:
 	.text       start:0x80087278 end:0x800874F4
 
 pso/effect/particle/TParticleCtrl_800874F4.cpp:
-	.text       start:0x800874F4 end:0x8008877C
-	.rodata     start:0x80439420 end:0x804394E8
-	.data       start:0x8048E740 end:0x8048E778
-	.sdata      start:0x805D2938 end:0x805D2950
+	.text       start:0x800874F4 end:0x80088588
+	.rodata     start:0x80439420 end:0x80439438
+	.data       start:0x8048E740 end:0x8048E758
+	.sdata      start:0x805D2938 end:0x805D2940
 	.sdata2     start:0x805D94E0 end:0x805D94F8
+
+pso/effect/particle/ParticleResources.cpp:
+	.text       start:0x80088588 end:0x8008877C
+	.rodata     start:0x80439438 end:0x804394E8
+	.data       start:0x8048E758 end:0x8048E778
+	.sdata      start:0x805D2940 end:0x805D2950
 
 pso/effect/particle/ParticleBallistic.cpp:
 	.text       start:0x8008877C end:0x80089F7C

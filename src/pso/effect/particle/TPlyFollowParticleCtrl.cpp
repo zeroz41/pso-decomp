@@ -40,7 +40,7 @@ uaddr find_entity_by_id(s32);
 Fol_80309E9C *init_follow_particle_state(Fol_80309E9C *o);
 struct VOff_80309DD0_arg0_80309dd0_80309D80 { char pad_0[0x4]; char f_4[1]; };
 }
-void *create_oneshot_particle_emitter(void *pos, void *dir, s32 id, s32 flags);
+void *create_oneshot_particle_emitter(void *pos, void *dir, s32 id, u16 flags);
 typedef struct Stack_8030A1E4 Stack_8030A1E4;
 
 void *TPlyFollowParticleCtrl::get_center() { return 0; }

@@ -4,18 +4,30 @@
 #include "pso/system/task/TObject.h"
 #include "types.h"
 #include <dolphin/mtx/GeoTypes.h>
+#include "pso/system/NinjaTypes.h"
 
 struct ParticleParam;
 struct NJS_OBJECT;
 struct GinjaTextureList;
+struct BmlResource;
 
+// Emission direction: three Ninja angles.
+struct ParticleAngles { s32 x, y, z; };
+
+// Spawns child particles from an entry of particleentry.dat at a position.
 class TParticleCtrl : public TObject {
 public:
+    TParticleCtrl(const Vec *position, ParticleAngles *direction, ParticleParam *entry, s32 oneshot, s32 delay,
+                  s32 lifetime, s32 use_self, u16 flags);
+    TParticleCtrl(const Vec *position, ParticleAngles *direction, ParticleParam *entry, s32 oneshot, s32 delay,
+                  s32 lifetime, s32 use_self);
+    TParticleCtrl(const Vec *position, ParticleParam *entry, s32 oneshot, s32 delay, s32 lifetime, s32 use_self,
+                  u16 flags);
+    TParticleCtrl(const Vec *position, ParticleParam *entry, s32 oneshot, s32 delay, s32 lifetime, s32 use_self);
     virtual ~TParticleCtrl();
     virtual void run_task();
 public:
     // Moves the emitter.
-    // pos points at a Vec.
     void set_position(void *pos);
     // Queues the emitter's destruction; nothing when it is NULL.
     static void release(void *emitter);
@@ -50,7 +62,6 @@ public:
     u8 *construct_particle_obj(s32 arg1, saddr parent);
     u8 *init_particle_obj(s32 arg1, saddr parent);
     void enable();
-    TParticleCtrl *initialize(const void *position, ParticleParam *entry, s32 field30, s32 field34, s32 field38, s32 use_self);
     void attach_model(s32 arg1, s32 arg2, s32 arg3, s32 arg4, f32 farg0);
     static void free_system();
     static void free_all();
@@ -64,14 +75,32 @@ public:
     // Copies the emission direction; dir points at three words.
     void set_direction(void *dir);
     void set_flags(u16 flags);
-    u8 pad_1c[0xC];
-    ParticleParam *emitter_entry;
-    u8 pad_2c[0x14];
-    f32 field_40;
-    f32 field_44;
-    u8 pad_48[0x18];
-    Vec position;
+    f32 emit_count;               // 0x1C, a particle is spawned for every whole 1.0
+    s32 emit_phase;               // 0x20, angle stepped by the entry's emission frequency
+    f32 emit_rate;                // 0x24, scales the entry's emission rate
+    ParticleParam *emitter_entry; // 0x28
+    // 0x2C: 1 skips the next run, 0x10/0x80 spawn orbit and radial children in those modes, 0x40 emits at any
+    // distance, 0x100 tints the children, 0x200 (0x400) attaches the model (looped), 0x800/0x4000 parent them
+    // under tl_clipout, 0x2000 marks them active.
+    u16 emit_flags;
+    u16 owner_id;                 // 0x2E, 0xFFFF for none
+    s32 oneshot;                  // 0x30, 1: destroyed after its first run
+    s32 delay;                    // 0x34, frames before the first run
+    s32 lifetime;                 // 0x38, frames; 0 runs until released
+    s32 age;                      // 0x3C
+    f32 scale_x;                  // 0x40
+    f32 scale_y;                  // 0x44
+    NJS_COLOR tint;               // 0x48, used when emit_flags & 0x100
+    s32 model;                    // 0x4C
+    s32 texlist;                  // 0x50
+    s32 motion;                   // 0x54
+    TObject *particle_parent;     // 0x58, task the children are created under
+    f32 motion_frame;             // 0x5C
+    Vec position;                 // 0x60
+    ParticleAngles direction;     // 0x6C
 };
+
+LAYOUT_ASSERT(TParticleCtrl_size, sizeof(TParticleCtrl) == 0x78);
 
 // Child generators of an emitter: TParticleCtrl::run_task calls
 // particle_ctrl_generator_table[kind].create(param, &pos, parent).
@@ -83,13 +112,22 @@ struct ParticleGenerator {
 extern ParticleGenerator particle_ctrl_generator_table[];
 
 void *create_timed_particle_emitter_with_angles(void *pos, void *dir, s32 id, s32 a, s32 b, s32 flags);
-TParticleCtrl *create_timed_particle_emitter_with_flags(void *pos, s32 id, s32 delay, s32 duration, s32 flags);
+TParticleCtrl *create_timed_particle_emitter_with_flags(void *pos, s32 id, s32 delay, s32 duration, u16 flags);
+
+// Number of entries in particleentry.dat; ids from 0x200 index the area's entry file.
+extern s32 particle_pool_limit;
+// Loads the area's particle entries, the regular technique models and their textures.
+void load_particle_entry_resources(void);
 
 extern "C" {
+extern BmlResource *TParticleCtrl__regular_bml_resource;
+extern GinjaTextureList *TParticleCtrl__texture_list;
 TParticleCtrl *create_particle_emitter(const void *pos, s32 id);
 TParticleCtrl *create_timed_particle_emitter(const void *pos, s32 id, s32 delay, s32 duration);
-TParticleCtrl *initialize_flagged_particle(void *storage, const void *position, ParticleParam *entry,
-                                           s32 mode, s32 delay, s32 duration, s32 use_self, s32 flags);
+// Helpers on the spawned particle objects.
+void TParticleCtrl__sub_800884F0(void *particle, void *dir);
+void set_particle_tint_color(u8 *particle, NJS_ARGB *rgba);
+void set_particle_draw_scale(void *particle, f32 scale_x, f32 scale_y);
 void *__dt__13TUnk_8048E6A8Fv(void *arg0, s16 arg1);
 void *__dt__13TUnk_8048E6DCFv(void *arg0, s16 arg1);
 }

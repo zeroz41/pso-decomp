@@ -26,37 +26,26 @@
 #include "pso/effect/particle/ParticleOrbit.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/camera/TCameraCtrl.h"
-
-
-struct O_80087638 { u8 pad[0x2e]; u16 x2e; };
-
-
-extern s32 particle_pool_limit;
+#include "pso/player/PlayerSlots.h"
+#include "pso/player/TObjPlayer.h"
+#include "pso/render/render_util.h"
+#include "pso/system/TLoadCtrl.h"
 
 TParticleCtrl *create_particle_emitter(const void *pos, s32 id) {
-    void *p;
     if (particle_pool_limit > id) {
-        p = TObject::operator new(0x78);
-        if (p != 0) {
-            p = ((TParticleCtrl *)p)->initialize(pos, &particle_global_entry_table[id], 0, 0, 0, 0);
-        }
-        return (TParticleCtrl *)p;
+        return new TParticleCtrl(static_cast<const Vec *>(pos), &particle_global_entry_table[id], 0, 0, 0, 0);
     }
     if (particle_pool_limit + 0x40 > id) {
         s32 idx = id - 0x200;
-        p = TObject::operator new(0x78);
-        if (p != 0) {
-            p = ((TParticleCtrl *)p)->initialize(pos, &particle_area_entry_table[idx], 0, 0, 0, 0);
-        }
-        return (TParticleCtrl *)p;
+        return new TParticleCtrl(static_cast<const Vec *>(pos), &particle_area_entry_table[idx], 0, 0, 0, 0);
     }
     return 0;
 }
 
 void TParticleCtrl::set_param_ptr(s32 index) {
-    *(f32 *)((s8 *)this + 0x1C) = 0.0f;
-    *(s32 *)((s8 *)this + 0x20) = 0;
-    *(f32 *)((s8 *)this + 0x24) = 1.0f;
+    emit_count = 0.0f;
+    emit_phase = 0;
+    emit_rate = 1.0f;
     if (index >= 0x200) {
         emitter_entry = &particle_area_entry_table[index - 0x200];
         return;
@@ -65,526 +54,398 @@ void TParticleCtrl::set_param_ptr(s32 index) {
 }
 
 void TParticleCtrl::set_direction(void *dir) {
-    *(u32 *)((char *)this + 0x6C) = *(u32 *)((char *)dir + 0x0);
-    *(u32 *)((char *)this + 0x70) = *(u32 *)((char *)dir + 0x4);
-    *(u32 *)((char *)this + 0x74) = *(u32 *)((char *)dir + 0x8);
+    const ParticleAngles *angles = static_cast<const ParticleAngles *>(dir);
+    direction.x = angles->x;
+    direction.y = angles->y;
+    direction.z = angles->z;
 }
-void TParticleCtrl::set_flags(u16 flags) { *(u16 *)((char *)this + 0x2C) |= flags; }
+
+void TParticleCtrl::set_flags(u16 flags) { emit_flags |= flags; }
 
 void TParticleCtrl::set_owner_id(u16 id) {
-    O_80087638 *self = (O_80087638 *)this;
     if (id != 0xFFFF) {
-        self->x2e = id;
+        owner_id = id;
     }
 }
 
-void TParticleCtrl::set_tint_color(s32 tint) {
-    u8 *arg0 = (u8 *)this;
-    *(u16 *)((s8 *)arg0 + 0x2C) = (u16) (*(u16 *)((s8 *)arg0 + 0x2C) | 0x100);
-    *(s32 *)((s8 *)arg0 + 0x48) = tint;
+void TParticleCtrl::set_tint_color(s32 color) {
+    emit_flags |= 0x100;
+    tint.color = color;
 }
 
-
 void TParticleCtrl::set_position(void *pos) {
-    position.x = ((Vec *)pos)->x;
-    position.y = ((Vec *)pos)->y;
-    position.z = ((Vec *)pos)->z;
+    const Vec *p = static_cast<const Vec *>(pos);
+    position.x = p->x;
+    position.y = p->y;
+    position.z = p->z;
 }
 
 #pragma readonly_strings on
 
 const char *TParticleCtrl__class_name_descriptor[2] = {"TParticleCtrl", 0};
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-
-
-struct Color_8008767C { u8 r, g, b, a; };
-
-struct Ctrl_8008767C {
-    u8 pad0[0x1C];
-    f32 accum;
-    s32 angle;
-    f32 rate;
-    ParticleParam *def;
-    u16 flags;
-    u16 f2E;
-    s32 f30;
-    s32 delay;
-    s32 lifetime;
-    s32 age;
-    f32 sx;
-    f32 sy;
-    Color_8008767C color;
-    s32 model;
-    s32 texlist;
-    s32 motion;
-    uaddr tex;
-    f32 frame;
-    Vec pos;
-    Vec dir;
-};
-
-
-extern "C" {
-void set_particle_tint_color(u8 *arg0, void *arg1);
-s32 release_texture_list(void*);
-extern uaddr TParticleCtrl__regular_bml_resource;
-extern uaddr TParticleCtrl__texture_list;
-// particle_pool_limit: declared s32 above (part 1)
-// particle_global_entry_table: declared s32 above (part 1)
-void VecCopy__FP3VecPC3Vec(void *, const void *);
-void TParticleCtrl__sub_800884F0(void *p, void *dir);
-void set_particle_draw_scale(void* p, f32 a, f32 b);
-s32 TLoadCtrl__sub_8001C60C();
-f32 horizontal_distance_squared(void *, void *);
-u8 *get_player_by_client_id(s32);
-void run_task__13TParticleCtrlFv(Ctrl_8008767C *self);
-void clear_active_flag__13TParticleCtrlFv(void* p);
 
 #pragma push
 #pragma fp_contract on
-#define CREATE6(fn) ((u8 *(*)(void *, void *, void *, u32, u32, u32))fn)
-#define SETUP_8008767C(p, B)                                                            \
-    set_particle_draw_scale(p, self->sx, self->sy);                                   \
-    if (self->flags & 0x100) {                                                        \
-        Color_8008767C c = self->color;                                               \
-        f32 rgba[4];                                                                  \
-        rgba[0] = c.r / 255.0f;                                                 \
-        rgba[1] = c.g / 255.0f;                                                 \
-        rgba[2] = c.B / 255.0f;                                                 \
-        rgba[3] = c.a / 255.0f;                                                 \
-        set_particle_tint_color(p, rgba);                                             \
-    }                                                                                 \
-    if (self->flags & 0x200) {                                                        \
-        if (self->flags & 0x400) {                                                    \
-            ((TParticleCtrl *)p)->attach_model(self->model, self->texlist, self->motion, 1, self->frame); \
-        } else {                                                                      \
-            ((TParticleCtrl *)p)->attach_model(self->model, self->texlist, self->motion, 0, self->frame); \
-        }                                                                             \
-    }
-void run_task__13TParticleCtrlFv(Ctrl_8008767C *self) {
-    ParticleParam *def;
+void TParticleCtrl::run_task() {
     s32 kind;
     u8 *p;
     f32 step;
-    if (((TObject *)self)->all_parents_unqueued_for_destruction() == 0) {
+    if (all_parents_unqueued_for_destruction() == 0) {
         return;
     }
-    if (self->delay-- <= 0) {
-        self->delay = 0;
+    if (delay-- <= 0) {
+        delay = 0;
     } else {
         return;
     }
-    self->age++;
-    if (self->flags & 1) {
-        self->flags &= ~1;
+    age++;
+    if (emit_flags & 1) {
+        emit_flags &= ~1;
         return;
     }
-    if (((self->flags & 0x200) || (self->flags & 0x2000)) && self->tex == (uaddr)tl_07) {
-        self->tex = (uaddr)tl_particlemodel;
+    if (((emit_flags & 0x200) || (emit_flags & 0x2000)) && particle_parent == tl_07) {
+        particle_parent = tl_particlemodel;
     }
-    def = self->def;
-    if (def == NULL) {
+    if (emitter_entry == NULL) {
         return;
     }
-    if (0.0f == def->emission_frequency) {
-        self->accum += def->emission_rate * self->rate;
+    if (0.0f == emitter_entry->emission_frequency) {
+        emit_count += emitter_entry->emission_rate * emit_rate;
     } else {
-        self->angle += (s32)(182.04445f * def->emission_frequency);
-        self->accum += self->rate * (self->def->emission_rate * fabs_float(sin_table_lookup(self->angle)));
+        emit_phase += (s32)(182.04445f * emitter_entry->emission_frequency);
+        emit_count += emit_rate * (emitter_entry->emission_rate * fabs_float(sin_table_lookup(emit_phase)));
     }
-    if (camera_ctrl_instance != NULL && !(self->flags & 0x40)) {
+    if (camera_ctrl_instance != NULL && !(emit_flags & 0x40)) {
         if (is_split_screen() != 0) {
             if (TLoadCtrl__sub_8001C60C() == 0) {
                 f32 lim = 10000.0f;
                 s32 near = 0;
                 s32 i;
                 for (i = 0; i < 4; i++) {
-                    u8 *pl = get_player_by_client_id(i);
-                    if (pl != NULL && horizontal_distance_squared(&self->pos, pl + 0x38) < lim) {
+                    TObjPlayer *pl = get_player_by_client_id(i);
+                    if (pl != NULL && horizontal_distance_squared(&position, &pl->position) < lim) {
                         near = 1;
                     }
                 }
                 if (near == 0) {
-                    self->accum = 0.0f;
+                    emit_count = 0.0f;
                 }
             }
         } else if (TLoadCtrl__sub_8001C60C() == 0) {
-            if (!(horizontal_distance_squared(&self->pos, &camera_ctrl_instance->pos) < 40000.0f)) {
-                self->accum = 0.0f;
+            if (!(horizontal_distance_squared(&position, &camera_ctrl_instance->pos) < 40000.0f)) {
+                emit_count = 0.0f;
             }
         }
     }
     step = 1.0f;
-    while (self->accum >= step) {
-        self->accum -= step;
-        kind = self->def->generator_kind;
+    while (emit_count >= step) {
+        emit_count -= step;
+        kind = emitter_entry->generator_kind;
         if (kind == 0) {
-            u8 *q = CREATE6(create_ballistic_particle)(self->def, &self->pos, &self->dir, self->tex, self->flags, self->f2E);
+            u8 *q = ((u8 *(*)(void *, void *, void *, TObject *, u16, u16))create_ballistic_particle)(
+                emitter_entry, &position, &direction, particle_parent, emit_flags, owner_id);
             if (q != NULL) {
-                SETUP_8008767C(q, b)
+                set_particle_draw_scale(q, scale_x, scale_y);
+                if (emit_flags & 0x100) {
+                    NJS_COLOR c = tint;
+                    NJS_ARGB argb;
+                    argb.a = c.argb.a / 255.0f;
+                    argb.r = c.argb.r / 255.0f;
+                    argb.g = c.argb.g / 255.0f;
+                    argb.b = c.argb.b / 255.0f;
+                    set_particle_tint_color(q, &argb);
+                }
+                if (emit_flags & 0x200) {
+                    if (emit_flags & 0x400) {
+                        ((TParticleCtrl *)q)->attach_model(model, texlist, motion, 1, motion_frame);
+                    } else {
+                        ((TParticleCtrl *)q)->attach_model(model, texlist, motion, 0, motion_frame);
+                    }
+                }
             }
-        } else if (self->flags & 0x10) {
+        } else if (emit_flags & 0x10) {
             if (kind == 1) {
-                p = CREATE6(create_orbit_particle)(self->def, &self->pos, &self->dir, self->tex, 0x10, self->f2E);
+                p = ((u8 *(*)(void *, void *, void *, TObject *, u16, u16))create_orbit_particle)(
+                    emitter_entry, &position, &direction, particle_parent, 0x10, owner_id);
                 if (p != NULL) {
-                    SETUP_8008767C(p, b)
+                    set_particle_draw_scale(p, scale_x, scale_y);
+                    if (emit_flags & 0x100) {
+                        NJS_COLOR c = tint;
+                        NJS_ARGB argb;
+                        argb.a = c.argb.a / 255.0f;
+                        argb.r = c.argb.r / 255.0f;
+                        argb.g = c.argb.g / 255.0f;
+                        argb.b = c.argb.b / 255.0f;
+                        set_particle_tint_color(p, &argb);
+                    }
+                    if (emit_flags & 0x200) {
+                        if (emit_flags & 0x400) {
+                            ((TParticleCtrl *)p)->attach_model(model, texlist, motion, 1, motion_frame);
+                        } else {
+                            ((TParticleCtrl *)p)->attach_model(model, texlist, motion, 0, motion_frame);
+                        }
+                    }
                 }
             } else if (kind == 2) {
-                p = ((u8 *(*)(void *, void *, u32, u32, u32))create_radial_particle)(self->def, &self->pos, self->tex, 0x10, self->f2E);
+                p = ((u8 *(*)(void *, void *, TObject *, u16, u16))create_radial_particle)(
+                    emitter_entry, &position, particle_parent, 0x10, owner_id);
                 if (p != NULL) {
-                    SETUP_8008767C(p, a)
+                    set_particle_draw_scale(p, scale_x, scale_y);
+                    if (emit_flags & 0x100) {
+                        NJS_COLOR c = tint;
+                        NJS_ARGB argb;
+                        argb.a = c.argb.a / 255.0f;
+                        argb.r = c.argb.r / 255.0f;
+                        argb.g = c.argb.b / 255.0f;
+                        argb.b = c.argb.b / 255.0f;
+                        set_particle_tint_color(p, &argb);
+                    }
+                    if (emit_flags & 0x200) {
+                        if (emit_flags & 0x400) {
+                            ((TParticleCtrl *)p)->attach_model(model, texlist, motion, 1, motion_frame);
+                        } else {
+                            ((TParticleCtrl *)p)->attach_model(model, texlist, motion, 0, motion_frame);
+                        }
+                    }
                 }
             }
-        } else if (self->flags & 0x80) {
+        } else if (emit_flags & 0x80) {
             if (kind == 1) {
-                p = CREATE6(create_orbit_particle)(self->def, &self->pos, &self->dir, self->tex, 0x80, 0xFFFF);
+                p = ((u8 *(*)(void *, void *, void *, TObject *, u16, u16))create_orbit_particle)(
+                    emitter_entry, &position, &direction, particle_parent, 0x80, 0xFFFF);
                 if (p != NULL) {
-                    SETUP_8008767C(p, b)
+                    set_particle_draw_scale(p, scale_x, scale_y);
+                    if (emit_flags & 0x100) {
+                        NJS_COLOR c = tint;
+                        NJS_ARGB argb;
+                        argb.a = c.argb.a / 255.0f;
+                        argb.r = c.argb.r / 255.0f;
+                        argb.g = c.argb.g / 255.0f;
+                        argb.b = c.argb.b / 255.0f;
+                        set_particle_tint_color(p, &argb);
+                    }
+                    if (emit_flags & 0x200) {
+                        if (emit_flags & 0x400) {
+                            ((TParticleCtrl *)p)->attach_model(model, texlist, motion, 1, motion_frame);
+                        } else {
+                            ((TParticleCtrl *)p)->attach_model(model, texlist, motion, 0, motion_frame);
+                        }
+                    }
                 }
             } else if (kind == 2) {
-                p = ((u8 *(*)(void *, void *, u32, u32, u32))create_radial_particle)(self->def, &self->pos, self->tex, 0x80, 0xFFFF);
+                p = ((u8 *(*)(void *, void *, TObject *, u16, u16))create_radial_particle)(
+                    emitter_entry, &position, particle_parent, 0x80, 0xFFFF);
                 if (p != NULL) {
-                    SETUP_8008767C(p, b)
+                    set_particle_draw_scale(p, scale_x, scale_y);
+                    if (emit_flags & 0x100) {
+                        NJS_COLOR c = tint;
+                        NJS_ARGB argb;
+                        argb.a = c.argb.a / 255.0f;
+                        argb.r = c.argb.r / 255.0f;
+                        argb.g = c.argb.g / 255.0f;
+                        argb.b = c.argb.b / 255.0f;
+                        set_particle_tint_color(p, &argb);
+                    }
+                    if (emit_flags & 0x200) {
+                        if (emit_flags & 0x400) {
+                            ((TParticleCtrl *)p)->attach_model(model, texlist, motion, 1, motion_frame);
+                        } else {
+                            ((TParticleCtrl *)p)->attach_model(model, texlist, motion, 0, motion_frame);
+                        }
+                    }
                 }
             }
         } else if (kind < 3) {
-            p = (u8 *)particle_ctrl_generator_table[kind].create(self->def, &self->pos, (void *)self->tex);
+            p = (u8 *)particle_ctrl_generator_table[kind].create(emitter_entry, &position, particle_parent);
             if (p != NULL) {
-                set_particle_draw_scale(p, self->sx, self->sy);
-                TParticleCtrl__sub_800884F0(p, &self->dir);
-                if (self->flags & 0x100) {
-                    Color_8008767C c = self->color;
-                    f32 rgba[4];
-                    rgba[0] = c.r / 255.0f;
-                    rgba[1] = c.g / 255.0f;
-                    rgba[2] = c.b / 255.0f;
-                    rgba[3] = c.a / 255.0f;
-                    set_particle_tint_color(p, rgba);
+                set_particle_draw_scale(p, scale_x, scale_y);
+                TParticleCtrl__sub_800884F0(p, &direction);
+                if (emit_flags & 0x100) {
+                    NJS_COLOR c = tint;
+                    NJS_ARGB argb;
+                    argb.a = c.argb.a / 255.0f;
+                    argb.r = c.argb.r / 255.0f;
+                    argb.g = c.argb.g / 255.0f;
+                    argb.b = c.argb.b / 255.0f;
+                    set_particle_tint_color(p, &argb);
                 }
-                if (self->flags & 0x200) {
-                    if (self->flags & 0x400) {
-                        ((TParticleCtrl *)p)->attach_model(self->model, self->texlist, self->motion, 1, self->frame);
+                if (emit_flags & 0x200) {
+                    if (emit_flags & 0x400) {
+                        ((TParticleCtrl *)p)->attach_model(model, texlist, motion, 1, motion_frame);
                     } else {
-                        ((TParticleCtrl *)p)->attach_model(self->model, self->texlist, self->motion, 0, self->frame);
+                        ((TParticleCtrl *)p)->attach_model(model, texlist, motion, 0, motion_frame);
                     }
                 }
-                if (self->flags & 0x2000) {
+                if (emit_flags & 0x2000) {
                     ((TParticleCtrl *)p)->mark_active();
                 }
             }
         }
     }
-    if (self->f30 == 1) {
-        ((TObject *)self)->queue_destruction();
+    if (oneshot == 1) {
+        queue_destruction();
     }
-    if (self->lifetime != 0 && self->age >= self->lifetime) {
-        ((TObject *)self)->queue_destruction();
+    if (lifetime != 0 && age >= lifetime) {
+        queue_destruction();
     }
 }
 #pragma pop
-extern "C" {
-extern u32 bm_tec_regurar_motion_names[1];
-extern const char *bm_tec_regurar_model_names[4];
-extern void *particle_regular_bml_descriptor[4];
-extern const char *TParticleCtrl__particle_entry_path;
-}
 
-void clear_active_flag__13TParticleCtrlFv(void* p) { *(u16*)((char*)p + 0x2c) &= 0xfffe; }
-void TParticleCtrl::enable() { *(u16*)((char*)this + 0x2c) |= 0x1; }
-extern "C" {
-void __dt__7TObjectFv(void *, int);
-void render__7TObjectFv(void);
-void render_shadows__7TObjectFv(void);
-void *__dt__13TParticleCtrlFv(void *self, s16 flag);
-void *__vt__13TParticleCtrl[] = {
-    0,
-    0,
-    (void *)__dt__13TParticleCtrlFv,
-    (void *)run_task__13TParticleCtrlFv,
-    (void *)render__7TObjectFv,
-    (void *)render_shadows__7TObjectFv,
-};
-void *__dt__13TParticleCtrlFv(void *self, s16 flag) {
-    if (self != 0) {
-        *(void **)((u8 *)self + 0x18) = __vt__13TParticleCtrl;
-        __dt__7TObjectFv(self, 0);
-        if (flag > 0) {
-            TObject::operator delete(self);
-        }
-    }
-    return self;
-}
-}
-extern "C" {
-u32 bm_tec_regurar_motion_names[1] = {0};
-const char *bm_tec_regurar_model_names[4] = {"eff_f_foie.gj", "eff_sinowahamon.gj", "jungle_hamon.gj", 0};
-void *particle_regular_bml_descriptor[4] = {(void *)"bm_tec_regurar.bml", bm_tec_regurar_model_names, bm_tec_regurar_motion_names, (void *)0x30000};
-const char *TParticleCtrl__particle_entry_path = "particleentry.dat";
-}
+void TParticleCtrl::clear_active_flag() { emit_flags &= ~1; }
 
-extern "C" {
+void TParticleCtrl::enable() { emit_flags |= 1; }
 
-struct ParticleVec {
-    s32 x;
-    s32 y;
-    s32 z;
-};
+TParticleCtrl::~TParticleCtrl() {}
 
-struct ParticleCtrlData {
-    saddr descriptor;
-    u8 pad04[0x14];
-    void *vtable;
-    f32 field1C;
-    s32 field20;
-    f32 field24;
-    ParticleParam *particle_index;
-    u16 flags;
-    u16 field2E;
-    s32 field30;
-    s32 field34;
-    s32 field38;
-    s32 field3C;
-    f32 field40;
-    f32 field44;
-    s32 field48;
-    s32 field4C;
-    s32 field50;
-    s32 field54;
-    void *owner;
-    u8 pad5C[4];
-    ParticleVec position;
-    ParticleVec direction;
-};
-
-void __ct__7TObjectFP7TObject(void *, void *);
-
-extern void *__vt__13TParticleCtrl[];
-
-#define COPY_PARTICLE_DIRECTION(particle, direction) do {                      \
-    s32 component;                                                             \
-    component = direction->x;                                                  \
-    particle->direction.x = component;                                         \
-    component = direction->z;                                                  \
-    particle->direction.z = component;                                         \
-    component = direction->y;                                                  \
-    particle->direction.y = component;                                         \
-} while (0)
-#define CLEAR_PARTICLE_DIRECTION(particle, unused) do {                        \
-    particle->direction.x = 0;                                                 \
-    particle->direction.y = 0;                                                 \
-    particle->direction.z = 0;                                                 \
-} while (0)
-
-#define INITIALIZE_PARTICLE(particle, position, particle_index, field30,       \
-                            field34, field38, use_self, particle_flags,        \
-                            direction_action, direction_source) do {           \
-    __ct__7TObjectFP7TObject(particle, tl_07);                                 \
-    particle->vtable = __vt__13TParticleCtrl;                                  \
-    particle->descriptor = (saddr)TParticleCtrl__class_name_descriptor[0];                       \
-    particle->field4C = 0;                                                     \
-    particle->field50 = 0;                                                     \
-    particle->field54 = 0;                                                     \
-    particle->field48 = 0;                                                     \
-    particle->field40 = 1.0f;                          \
-    particle->field44 = 1.0f;                          \
-    particle->field1C = 0.0f;                          \
-    particle->field20 = 0;                                                     \
-    particle->field24 = 1.0f;                          \
-    particle->particle_index = particle_index;                                 \
-    VecCopy__FP3VecPC3Vec(&particle->position, position);                      \
-    particle->flags = particle_flags;                                          \
-    particle->field2E = 0xFFFF;                                                \
-    direction_action(particle, direction_source);                              \
-    particle->field30 = field30;                                               \
-    particle->field34 = field34;                                               \
-    particle->field38 = field38;                                               \
-    particle->field3C = 0;                                                     \
-    if (use_self != 0) {                                                       \
-        particle->owner = particle;                                            \
-    } else if (particle->flags & 0x800) {                                      \
-        if (particle->flags & 0x4000) {                                        \
-            particle->owner = tl_clipout;                                      \
-        } else {                                                               \
-            particle->owner = tl_07;                                           \
-        }                                                                      \
-    } else {                                                                   \
-        particle->owner = tl_07;                                               \
-    }                                                                          \
-} while (0)
-
-void *__ct__13TParticleCtrlFv(
-    ParticleCtrlData *particle,
-    const void *position,
-    ParticleVec *direction,
-    ParticleParam *particle_index,
-    s32 field30,
-    s32 field34,
-    s32 field38,
-    s32 use_self,
-    u16 flags)
-{
-    __ct__7TObjectFP7TObject(particle, tl_07);
-    particle->vtable = __vt__13TParticleCtrl;
-    particle->descriptor = (saddr)TParticleCtrl__class_name_descriptor[0];
-    particle->field4C = 0;
-    particle->field50 = 0;
-    particle->field54 = 0;
-    particle->field48 = 0;
-    particle->field40 = 1.0f;
-    particle->field44 = 1.0f;
-    particle->field1C = 0.0f;
-    particle->field20 = 0;
-    particle->field24 = 1.0f;
-    particle->particle_index = particle_index;
-    VecCopy__FP3VecPC3Vec(&particle->position, position);
-    particle->flags = flags;
-    particle->field2E = 0xFFFF;
-    {
-        s32 component;
-        component = direction->x;
-        particle->direction.x = component;
-        component = direction->z;
-        particle->direction.z = component;
-        component = direction->y;
-        particle->direction.y = component;
-    }
-    particle->field30 = field30;
-    particle->field34 = field34;
-    particle->field38 = field38;
-    particle->field3C = 0;
+TParticleCtrl::TParticleCtrl(const Vec *pos, ParticleAngles *dir, ParticleParam *entry, s32 oneshot, s32 delay,
+                             s32 lifetime, s32 use_self, u16 flags)
+    : TObject(tl_07) {
+    m_name = TParticleCtrl__class_name_descriptor[0];
+    model = 0;
+    texlist = 0;
+    motion = 0;
+    tint.color = 0;
+    scale_x = 1.0f;
+    scale_y = 1.0f;
+    emit_count = 0.0f;
+    emit_phase = 0;
+    emit_rate = 1.0f;
+    emitter_entry = entry;
+    VecCopy(&position, pos);
+    emit_flags = flags;
+    owner_id = 0xFFFF;
+    direction.x = dir->x;
+    direction.z = dir->z;
+    direction.y = dir->y;
+    this->oneshot = oneshot;
+    this->delay = delay;
+    this->lifetime = lifetime;
+    age = 0;
     if (use_self != 0) {
-        particle->owner = particle;
-    } else if (particle->flags & 0x800) {
-        if (particle->flags & 0x4000) {
-            particle->owner = tl_clipout;
+        particle_parent = this;
+    } else if (emit_flags & 0x800) {
+        if (emit_flags & 0x4000) {
+            particle_parent = tl_clipout;
         } else {
-            particle->owner = tl_07;
+            particle_parent = tl_07;
         }
     } else {
-        particle->owner = tl_07;
+        particle_parent = tl_07;
     }
-    return particle;
 }
 
-void *initialize_with_direction__13TParticleCtrlFPvPvPviiiii(
-    ParticleCtrlData *particle,
-    const void *position,
-    ParticleVec *direction,
-    ParticleParam *particle_index,
-    s32 field30,
-    s32 field34,
-    s32 field38,
-    s32 use_self)
-{
-    __ct__7TObjectFP7TObject(particle, tl_07);
-    particle->vtable = __vt__13TParticleCtrl;
-    particle->descriptor = (saddr)TParticleCtrl__class_name_descriptor[0];
-    particle->field4C = 0;
-    particle->field50 = 0;
-    particle->field54 = 0;
-    particle->field48 = 0;
-    particle->field40 = 1.0f;
-    particle->field44 = 1.0f;
-    particle->field1C = 0.0f;
-    particle->field20 = 0;
-    particle->field24 = 1.0f;
-    particle->particle_index = particle_index;
-    VecCopy__FP3VecPC3Vec(&particle->position, position);
-    particle->flags = 0;
-    particle->field2E = 0xFFFF;
-    {
-        s32 component;
-        component = direction->x;
-        particle->direction.x = component;
-        component = direction->z;
-        particle->direction.z = component;
-        component = direction->y;
-        particle->direction.y = component;
-    }
-    particle->field30 = field30;
-    particle->field34 = field34;
-    particle->field38 = field38;
-    particle->field3C = 0;
+TParticleCtrl::TParticleCtrl(const Vec *pos, ParticleAngles *dir, ParticleParam *entry, s32 oneshot, s32 delay,
+                             s32 lifetime, s32 use_self)
+    : TObject(tl_07) {
+    m_name = TParticleCtrl__class_name_descriptor[0];
+    model = 0;
+    texlist = 0;
+    motion = 0;
+    tint.color = 0;
+    scale_x = 1.0f;
+    scale_y = 1.0f;
+    emit_count = 0.0f;
+    emit_phase = 0;
+    emit_rate = 1.0f;
+    emitter_entry = entry;
+    VecCopy(&position, pos);
+    emit_flags = 0;
+    owner_id = 0xFFFF;
+    direction.x = dir->x;
+    direction.z = dir->z;
+    direction.y = dir->y;
+    this->oneshot = oneshot;
+    this->delay = delay;
+    this->lifetime = lifetime;
+    age = 0;
     if (use_self != 0) {
-        particle->owner = particle;
-    } else if (particle->flags & 0x800) {
-        if (particle->flags & 0x4000) {
-            particle->owner = tl_clipout;
+        particle_parent = this;
+    } else if (emit_flags & 0x800) {
+        if (emit_flags & 0x4000) {
+            particle_parent = tl_clipout;
         } else {
-            particle->owner = tl_07;
+            particle_parent = tl_07;
         }
     } else {
-        particle->owner = tl_07;
+        particle_parent = tl_07;
     }
-    return particle;
 }
 
-TParticleCtrl *initialize_flagged_particle(void *storage, const void *position, ParticleParam *particle_index,
-                                           s32 field30, s32 field34, s32 field38, s32 use_self, s32 flags) {
-    ParticleCtrlData *particle = static_cast<ParticleCtrlData *>(storage);
-    INITIALIZE_PARTICLE(particle, position, particle_index, field30, field34,
-                        field38, use_self, flags, CLEAR_PARTICLE_DIRECTION,
-                        position);
-    return static_cast<TParticleCtrl *>(storage);
+TParticleCtrl::TParticleCtrl(const Vec *pos, ParticleParam *entry, s32 oneshot, s32 delay, s32 lifetime,
+                             s32 use_self, u16 flags)
+    : TObject(tl_07) {
+    m_name = TParticleCtrl__class_name_descriptor[0];
+    model = 0;
+    texlist = 0;
+    motion = 0;
+    tint.color = 0;
+    scale_x = 1.0f;
+    scale_y = 1.0f;
+    emit_count = 0.0f;
+    emit_phase = 0;
+    emit_rate = 1.0f;
+    emitter_entry = entry;
+    VecCopy(&position, pos);
+    emit_flags = flags;
+    owner_id = 0xFFFF;
+    direction.x = 0;
+    direction.y = 0;
+    direction.z = 0;
+    this->oneshot = oneshot;
+    this->delay = delay;
+    this->lifetime = lifetime;
+    age = 0;
+    if (use_self != 0) {
+        particle_parent = this;
+    } else if (emit_flags & 0x800) {
+        if (emit_flags & 0x4000) {
+            particle_parent = tl_clipout;
+        } else {
+            particle_parent = tl_07;
+        }
+    } else {
+        particle_parent = tl_07;
+    }
 }
 
-TParticleCtrl *TParticleCtrl::initialize(const void *position, ParticleParam *particle_index, s32 field30, s32 field34, s32 field38, s32 use_self) {
-    INITIALIZE_PARTICLE(((ParticleCtrlData *)this), position, particle_index, field30, field34,
-                        field38, use_self, 0, CLEAR_PARTICLE_DIRECTION,
-                        position);
-    return this;
+TParticleCtrl::TParticleCtrl(const Vec *pos, ParticleParam *entry, s32 oneshot, s32 delay, s32 lifetime,
+                             s32 use_self)
+    : TObject(tl_07) {
+    m_name = TParticleCtrl__class_name_descriptor[0];
+    model = 0;
+    texlist = 0;
+    motion = 0;
+    tint.color = 0;
+    scale_x = 1.0f;
+    scale_y = 1.0f;
+    emit_count = 0.0f;
+    emit_phase = 0;
+    emit_rate = 1.0f;
+    emitter_entry = entry;
+    VecCopy(&position, pos);
+    emit_flags = 0;
+    owner_id = 0xFFFF;
+    direction.x = 0;
+    direction.y = 0;
+    direction.z = 0;
+    this->oneshot = oneshot;
+    this->delay = delay;
+    this->lifetime = lifetime;
+    age = 0;
+    if (use_self != 0) {
+        particle_parent = this;
+    } else if (emit_flags & 0x800) {
+        if (emit_flags & 0x4000) {
+            particle_parent = tl_clipout;
+        } else {
+            particle_parent = tl_07;
+        }
+    } else {
+        particle_parent = tl_07;
+    }
 }
 
-}
-
+extern "C" {
 void TParticleCtrl__sub_800884F0(void *p, void *dir) { copy_xyz((char *)p + 0x98, dir); }
 
 void TParticleCtrl::attach_model(s32 arg1, s32 arg2, s32 arg3, s32 arg4, f32 farg0) {
@@ -598,73 +459,10 @@ void TParticleCtrl::attach_model(s32 arg1, s32 arg2, s32 arg3, s32 arg4, f32 far
     *(u16 *)((s8 *)((u8 *)this) + 0x24) = (u16) (*(u16 *)((s8 *)((u8 *)this) + 0x24) | 0x200);
 }
 
-void set_particle_tint_color(u8 *arg0, void *rgba) {
+void set_particle_tint_color(u8 *arg0, NJS_ARGB *rgba) {
     *(u16 *)((s8 *)arg0 + 0x24) = (u16) (*(u16 *)((s8 *)arg0 + 0x24) | 0x100);
-    ((void (*)(void *, void *, void *))copy_argb)(arg0 + 0x48, rgba, arg0);
+    copy_argb((NJS_ARGB *)(arg0 + 0x48), rgba);
 }
 
 void set_particle_draw_scale(void* p, f32 a, f32 b) { *(f32*)((char*)p + 0xa4) = a; *(f32*)((char*)p + 0xa8) = b; }
 }
-u8 *load_gvm_texture_file(saddr arg0);
-void TParticleCtrl::free_system() { mem_free(particle_global_entry_table); particle_global_entry_table = 0; }
-void TParticleCtrl::free_all() {
-    mem_free(particle_area_entry_table);
-    particle_area_entry_table = 0;
-    if ((u32) TParticleCtrl__regular_bml_resource != 0U) {
-        delete (BmlResource *)TParticleCtrl__regular_bml_resource;
-        TParticleCtrl__regular_bml_resource = 0U;
-    }
-    if ((u32) TParticleCtrl__texture_list != 0U) {
-        release_texture_list((void*)TParticleCtrl__texture_list);
-        TAdSinglePlyChrSelectGC::safe_free(TParticleCtrl__texture_list);
-        TParticleCtrl__texture_list = 0U;
-    }
-}
-void TParticleCtrl::init_particle_buffer() {
-    s32 temp_r3;
-    particle_global_entry_table = reinterpret_cast<ParticleParam *>(mem_alloc(0x13000));
-    temp_r3 = read_disc_file((const char *)TParticleCtrl__particle_entry_path, particle_global_entry_table);
-    particle_pool_limit = 0;
-    if (temp_r3 >= 0) {
-        particle_pool_limit = (u32) temp_r3 / 152U;
-    }
-}
-ParticleParam *TParticleCtrl::get_particle_by_index(s32 particle_index) {
-    if (particle_index >= 0x200) {
-        return &particle_area_entry_table[particle_index - 0x200];
-    }
-    return &particle_global_entry_table[particle_index];
-}
-void load_particle_entry_resources(void);
-extern char particle_entry_file_name[];
-extern char particle_area_entry_file_format_0[];
-extern char particle_area_entry_file_format[];
-extern char particle_texture_file_name[];
-void load_particle_entry_resources(void) {
-    char name[0x20];
-    s32 area;
-    void *p;
-    memset(name, 0, 0x20);
-    strcpy(name, particle_entry_file_name);
-    area = get_current_floor_area();
-    if (area < 10) {
-        if (area < 0) {
-            return;
-        }
-        sprintf(name, particle_area_entry_file_format_0, area);
-    } else {
-        sprintf(name, particle_area_entry_file_format, area);
-    }
-    particle_area_entry_table = reinterpret_cast<ParticleParam *>(mem_alloc(0x2600));
-    read_disc_file(name, particle_area_entry_table);
-    p = new BmlResource(1, (BmlResourceDescriptor *)particle_regular_bml_descriptor, 0, 0, NULL);
-    TParticleCtrl__regular_bml_resource = (uaddr)p;
-    TParticleCtrl__texture_list = (uaddr)load_gvm_texture_file((saddr)particle_texture_file_name);
-}
-
-__declspec(section ".rodata") extern char particle_entry_file_name[] = "particleentrya";
-__declspec(section ".rodata") extern char particle_area_entry_file_format_0[] = "particleentrya0%d.dat";
-__declspec(section ".rodata") extern char particle_area_entry_file_format[] = "particleentrya%d.dat";
-__declspec(section ".rodata") extern char particle_texture_file_name[] = "tecregular.gvm";
-
-s32 particle_pool_limit = 1;

@@ -4,26 +4,27 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/task/TObject.h"
 
-
-extern s32 particle_pool_limit;
+// Callers pass the flags as int while the constructor takes u16, so the wrapper
+// hands the int on to it unconverted.
+extern "C" void *__ct__13TParticleCtrlFPC3VecP13ParticleParamllllUs(void *self, const Vec *pos, ParticleParam *entry, s32 oneshot,
+    s32 delay, s32 lifetime, s32 use_self, s32 flags);
 
 #pragma push
 #pragma opt_propagation off
 TParticleCtrl *spawn_particle_effect_with_flags(const Vec *pos, s32 id, s32 flags) {
-    void *p;
     s32 idx = id;
     if (particle_pool_limit > idx) {
-        p = TObject::operator new((u32)(0x78));
+        void *p = TObject::operator new(sizeof(TParticleCtrl));
         if (p != 0) {
-            p = initialize_flagged_particle(p, pos, &particle_global_entry_table[idx], 1, 0, 0, 0, flags);
+            p = __ct__13TParticleCtrlFPC3VecP13ParticleParamllllUs(p, pos, &particle_global_entry_table[idx], 1, 0, 0, 0, flags);
         }
         return static_cast<TParticleCtrl *>(p);
     }
     if (particle_pool_limit + 0x40 > idx) {
         idx -= 0x200;
-        p = TObject::operator new((u32)(0x78));
+        void *p = TObject::operator new(sizeof(TParticleCtrl));
         if (p != 0) {
-            p = initialize_flagged_particle(p, pos, &particle_area_entry_table[idx], 1, 0, 0, 0, flags);
+            p = __ct__13TParticleCtrlFPC3VecP13ParticleParamllllUs(p, pos, &particle_area_entry_table[idx], 1, 0, 0, 0, flags);
         }
         return static_cast<TParticleCtrl *>(p);
     }
@@ -32,40 +33,22 @@ TParticleCtrl *spawn_particle_effect_with_flags(const Vec *pos, s32 id, s32 flag
 #pragma pop
 
 TParticleCtrl *spawn_particle_effect(const Vec *pos, s32 id) {
-    void *p;
     if (particle_pool_limit > id) {
-        p = TObject::operator new((u32)(0x78));
-        if (p != 0) {
-            p = ((TParticleCtrl *)p)->initialize((const void *)pos, &particle_global_entry_table[id], 1, 0, 0, 0);
-        }
-        return static_cast<TParticleCtrl *>(p);
+        return new TParticleCtrl(pos, &particle_global_entry_table[id], 1, 0, 0, 0);
     }
     if (particle_pool_limit + 0x40 > id) {
         s32 idx = id - 0x200;
-        p = TObject::operator new((u32)(0x78));
-        if (p != 0) {
-            p = ((TParticleCtrl *)p)->initialize((const void *)pos, &particle_area_entry_table[idx], 1, 0, 0, 0);
-        }
-        return static_cast<TParticleCtrl *>(p);
+        return new TParticleCtrl(pos, &particle_area_entry_table[idx], 1, 0, 0, 0);
     }
     return 0;
 }
 
-TParticleCtrl *spawn_continuous_particle_effect_with_flags(void *parent, s32 idx, s32 flags) {
-    void *p;
+TParticleCtrl *spawn_continuous_particle_effect_with_flags(void *parent, s32 idx, u16 flags) {
     if (particle_pool_limit > idx) {
-        p = TObject::operator new(0x78);
-        if (p != 0) {
-            p = initialize_flagged_particle(p, parent, &particle_global_entry_table[idx], 0, 0, 0, 0, flags);
-        }
-        return (TParticleCtrl *)p;
+        return new TParticleCtrl(static_cast<const Vec *>(parent), &particle_global_entry_table[idx], 0, 0, 0, 0, flags);
     } else if (particle_pool_limit + 0x40 > idx) {
         s32 j = idx - 0x200;
-        p = TObject::operator new(0x78);
-        if (p != 0) {
-            p = initialize_flagged_particle(p, parent, &particle_area_entry_table[j], 0, 0, 0, 0, flags);
-        }
-        return (TParticleCtrl *)p;
+        return new TParticleCtrl(static_cast<const Vec *>(parent), &particle_area_entry_table[j], 0, 0, 0, 0, flags);
     } else {
         return 0;
     }
