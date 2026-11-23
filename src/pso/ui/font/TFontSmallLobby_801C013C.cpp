@@ -34,10 +34,10 @@ extern "C" {
 
 void bswap_g_client_id_header(void* p) { ((G_ClientIDHeader *)p)->bswap(); }
 
-void *TFontSmallLobby__sub_801C01DC(void *arg0, void *source) {
+void *TFontSmallLobby__sub_801C01DC(G_LevelUpAllTechniques_6x9B *arg0, G_LevelUpAllTechniques_6x9B *source) {
     copy_subcommand_header(arg0, source);
-    *(u8 *)((s8 *)arg0 + 0x4) = *(u8 *)((s8 *)source + 0x4);
-    __copy((void *)((char *)arg0 + 5), (void *)((char *)source + 5), 3);
+    arg0->num_levels = source->num_levels;
+    __copy(arg0->unused, source->unused, 3);
     return arg0;
 }
 
@@ -83,9 +83,9 @@ void send_6x8F_add_battle_damage_scores(void* p) { ((TFontSmallLobby *)p)->bswap
 
 void TFontSmallLobby::bswap_6x90_set_player_battle_team() { ((G_ClientIDHeader *)this)->bswap(); bswap_32((u32 *)((char*)this + 0x4)); }
 
-void *TFontSmallLobby__sub_801C03E0(void *arg0, void *source) {
+void *TFontSmallLobby__sub_801C03E0(G_SetPlayerBattleTeam_6x90 *arg0, G_SetPlayerBattleTeam_6x90 *source) {
     copy_subcommand_header(arg0, source);
-    *(void **)((s8 *)arg0 + 0x4) = *(void **)((s8 *)source + 0x4);
+    arg0->team_number = source->team_number;
     return arg0;
 }
 
@@ -134,11 +134,11 @@ void TObjPlayer::bswap_change_hp_packet() {
     bswap_16((u16 *)((void *)((char *)this + 10)));
 }
 
-void *TObjPlayer__sub_801C06BC(void *arg0, void *source) {
+void *TObjPlayer__sub_801C06BC(G_ChangePlayerHP_6x2F *arg0, G_ChangePlayerHP_6x2F *source) {
     copy_subcommand_header(arg0, source);
-    *(void **)((s8 *)arg0 + 0x4) = *(void **)((s8 *)source + 0x4);
-    *(u16 *)((s8 *)arg0 + 0x8) = *(s16 *)((s8 *)source + 0x8);
-    *(u16 *)((s8 *)arg0 + 0xA) = *(u16 *)((s8 *)source + 0xA);
+    arg0->type = source->type;
+    arg0->amount = source->amount;
+    arg0->client_id = source->client_id;
     return arg0;
 }
 
