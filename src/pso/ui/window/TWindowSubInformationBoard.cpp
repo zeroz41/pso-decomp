@@ -31,7 +31,6 @@ extern "C" {
 s32 play_sound_effect(int, int, int, int);
 s32 set_info_board_text__6TLobbyFv();
 saddr get_window_layout_position(s32);
-s32 __nw__7TObjectFUl(s32);
 int forward_trade_action_default__16TObjCityMainWarpFPviii(void *p, int a1, int a2, int a3);
 void *create_titled_window_menu_default(s32, s32, void *);
 

@@ -127,7 +127,6 @@ static const ArrowUVs arrow_uvs = {{{224.0f, 0.0f}, {240.0f, 0.0f}}};
 
 extern "C" {
 extern s32 hud_texlist;
-void __dl__7TObjectFPv(void *);
 
 void TWindowInputNumber::create(s32 title) {
     uaddr var_r0;

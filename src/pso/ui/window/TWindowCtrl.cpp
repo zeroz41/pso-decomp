@@ -155,7 +155,6 @@ void TWindowCtrl::update_trade_request_window() {
     }
 }
 
-void *__nw__7TObjectFUl(s32);
 void TWindowCtrl::update_com_card_window() {
     TWindowGetComCard *temp_r3;
     uaddr temp_r3_2;

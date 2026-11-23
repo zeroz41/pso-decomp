@@ -1826,7 +1826,7 @@ force_active:
   - __ct__15TWindowQuantityFl
   - TWindowReturnCity__client_scan_index
   - __ct__13TWindowStatusFPvlPUc
-  - TWindowSubComCardList__class_name
+  - class_name__21TWindowSubComCardList
   - TWindowSubComCard__sub_8007AC7C
   - TWindowSubComCard__sub_80245A10
   - TWindowSubComCard__sub_80249220

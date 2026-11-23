@@ -44,7 +44,7 @@
 #pragma auto_inline off
 #pragma dont_inline off
 
-const char *TWindowSubSymbolChat__class_name = "TWindowSubSymbolChat";
+const char *TWindowSubSymbolChat::class_name = "TWindowSubSymbolChat";
 static const f32 lbl_8044FB20[2] = {203.0f, 78.0f};
 __declspec(section ".data") f32 lbl_804D2B48[2] = {193.0f, 128.0f};
 
@@ -167,7 +167,7 @@ SymbolChatPreset *TWindowSubSymbolChat__sub_8028379C(void) {
 }
 
 TWindowSubSymbolChat::TWindowSubSymbolChat(TObject *parent, s32 client) : TObject(parent) {
-    m_name = TWindowSubSymbolChat__class_name;
+    m_name = class_name;
     parent_menu = static_cast<TWindowMainMenu *>(parent);
     m_24 = client;
     m_30 = 0;

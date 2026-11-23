@@ -9,6 +9,7 @@ struct GuildCardSlot;
 struct TWindowSubComCard : public TObject {
     TWindowSubComCard(TObject *object, void *arg2);
     virtual ~TWindowSubComCard();
+    static const char *class_name;
     u32 sub_80272DE0();
     void sub_80271F04(void *, s32, saddr);
     s32 reinit(int);

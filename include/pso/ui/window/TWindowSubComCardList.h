@@ -10,6 +10,7 @@ struct TWindowSubComCardList : public TWindowMenu {
     TWindowSubComCardList(void *parent);
     TWindowSubComCardList(void *parent, s32 card_slot, s32 arg3, s32 arg4);
     virtual ~TWindowSubComCardList();
+    static const char *class_name;
     void sub_80275360();
     void draw_card_list_selection(u8 *);
     s16 get_field_72();

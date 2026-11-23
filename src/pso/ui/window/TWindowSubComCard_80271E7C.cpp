@@ -51,7 +51,7 @@ class TChCrTagPlBack;
 #include "pso/ui/window/TWindowSubComCard_802A5748.h"
 #include "pso/unk/text_802754EC.h"
 
-const char *TWindowSubComCard__class_name = "TWindowSubComCard";
+const char *TWindowSubComCard::class_name = "TWindowSubComCard";
 
 // Window sizes {width, height} passed to TWindowMessage::create / the choice-setting window.
 static const f32 com_card_layout_message_size[2] = {188.0f, 120.0f};
@@ -135,7 +135,6 @@ s32 create_keyboard__17TWindowSubComCardFi(saddr arg0);
 s32 create_keyboard__17TWindowSubComCardFii(saddr parent, saddr card);
 void update_display_value__17TWindowSubComCardFUiUiPv(uaddr list_window, uaddr card_window, s32 *last_selected);
 void update_selection__17TWindowSubComCardFiii(s32 list_window, s32 card_window, s32 last_selected);
-s32 __nw__7TObjectFUl(s32);
 
 struct ComCardRec_80272A98 { u32 id; char name[0xD0]; };
 
@@ -214,7 +213,7 @@ void TWindowSubComCard::set_com_param(s32 arg1) {
 }
 
 TWindowSubComCard::TWindowSubComCard(TObject *object, void *arg2) : TObject(object) {
-    this->m_name = TWindowSubComCard__class_name;
+    m_name = class_name;
     *(void **)((s8 *)this + 0x5C) = object;
     *(void **)((s8 *)this + 0x20) = arg2;
     this->m_60 = 0;
