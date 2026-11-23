@@ -4,20 +4,30 @@
 #include "types.h"
 #include "pso/system/task/TObject.h"
 
+struct TWindowMainMenu;
+struct TWindowMenu;
+struct TWindowMessage;
+
+// Main-menu technique list: a category menu, the technique menu of the chosen
+// category and a help window describing the technique under the cursor.
 struct TWindowSubTechnique : public TObject {
+    TWindowSubTechnique(TWindowMainMenu *parent, s32 client);
     virtual ~TWindowSubTechnique();
     s32 sub_80286AA8();
-    u8 m_1c;
-    u8 _pad1D[0x1];
-    u16 m_1e;
-    void* m_20;
-    void* m_24;
+    u8 state;
+    u8 pad_1d[0x1];
+    s16 help_technique; // technique the help window shows; 0x13 = none
+    s16 m_20;
+    u8 pad_22[0x2];
+    s32 m_24;
     s32 playerIndex;
-    u32 m_2c;
-    uaddr m_30;
-    uaddr m_34;
-    u32 m_38;
-    u32 m_3c;
+    s32 m_2c;
+    TWindowMainMenu *parent_menu;
+    TWindowMenu *category_menu;
+    TWindowMenu *technique_menu;
+    TWindowMessage *help_window;
+
+    static const char *class_name;
 
     void rebuildTechniqueList(saddr list, s32 category);
     s32 open_menu();
@@ -29,7 +39,7 @@ struct TWindowSubTechnique : public TObject {
     static s32 update_selection(s16 *arg0, s32 *arg1, s32 client);
     static void get_current_selection(s16 *arg0, s32 *arg1, s32 client);
     static s32 lookup_technique(s32 arg0, s32 arg1);
-    s32 create_title_window();
+    s32 create_title_window(s32 category);
     static s32 is_technique_available(s32 sub, s32 arg1);
     static void draw_technique_row(s32 id, s32 arg1, s32 list);
 };
@@ -37,9 +47,7 @@ struct TWindowSubTechnique : public TObject {
 LAYOUT_ASSERT(TWindowSubTechnique_size, sizeof(TWindowSubTechnique) == 0x40);
 
 extern "C" {
-void *TWindowSubTechnique__ct(TWindowSubTechnique *window_sub_technique, s32 arg1, s32 arg2);
 saddr get_technique_description_text(s32 arg0);
-void *__dt__19TWindowSubTechniqueFv(TWindowSubTechnique *arg0, s16 arg1);
 }
 
 #endif

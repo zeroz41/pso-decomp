@@ -250,7 +250,6 @@ void TWindowMainMenu::show_child_window() {
 
 void TWindowMainMenu::create_submenu(u32 id) {
     s32 temp_r3_10;
-    saddr window_sub_technique;
     s32 temp_r3_13;
     s32 temp_r3_14;
     saddr temp_r3_15;
@@ -261,7 +260,6 @@ void TWindowMainMenu::create_submenu(u32 id) {
     saddr window_sub_mag;
     s32 temp_r3_9;
     s32 var_r0_10;
-    s32 var_r0_11;
     s32 var_r0_13;
     s32 var_r0_14;
     s32 var_r0_15;
@@ -339,12 +337,7 @@ void TWindowMainMenu::create_submenu(u32 id) {
         return;
     case 3:
     case 4:
-        window_sub_technique = ((saddr)TObject::operator new(0x40));
-        var_r0_11 = window_sub_technique;
-        if (var_r0_11 != 0) {
-            var_r0_11 = (saddr)TWindowSubTechnique__ct((TWindowSubTechnique *)((void *)window_sub_technique), (saddr)this, this->client_index);
-        }
-        this->m_20 = var_r0_11;
+        this->m_20 = (saddr)new TWindowSubTechnique(this, this->client_index);
         return;
     case 18:
         this->m_20 = (saddr)new TWindowSubSymbolChat(this, this->client_index);
