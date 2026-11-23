@@ -225,10 +225,10 @@ void roll_item_channel_below(u32 count, s32 arg1) {
     __cvt_fp2unsigned((f32) count * TObjPlayer::get_drop_random_float(arg1));
 }
 
-void TObjPlayer::drop_item_from_slot(s32 area, s32 arg1, saddr item) {
+void TObjPlayer::drop_item_from_slot(s32 area, s32 slot, saddr item) {
     s32 sp8;
     s32 idx;
-    sp8 = arg1;
+    sp8 = slot;
     if (item_mgr != NULL) {
         normalize_drop_area(&sp8);
         idx = sp8 - 1;
@@ -433,16 +433,16 @@ saddr get_mag_feed_result(s32 feed_table, s32 arg1) {
     return 0;
 }
 
-u8 roll_weapon_special_for_stars(u8 arg0) {
+u8 roll_weapon_special_for_stars(u8 stars) {
     u32 n;
     s32 key;
     u8 result;
     u32 c;
     s32 i;
     result = 0;
-    if (arg0 < 4U) {
-        n = ((u32 (*)(int, int))roll_item_channel_below)(weapon_special_roll_channel_table[arg0], 0xF);
-        key = arg0 + 1;
+    if (stars < 4U) {
+        n = ((u32 (*)(int, int))roll_item_channel_below)(weapon_special_roll_channel_table[stars], 0xF);
+        key = stars + 1;
         c = 0;
         i = 1;
         do {

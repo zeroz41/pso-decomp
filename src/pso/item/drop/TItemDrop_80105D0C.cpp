@@ -801,10 +801,10 @@ void select_weapon_drop__9TItemDropFv(saddr rng, s32 level, u8 *item) {
 
 #pragma push
 #pragma fp_contract on
-void generate_tool_drop__9TItemDropFiiPv(saddr arg0, s32 off, void *item_data) {
+void generate_tool_drop__9TItemDropFiiPv(saddr item_drop, s32 off, void *item_data) {
     u8 var_r3;
     ((TItemData *)item_data)->init();
-    var_r3 = ((s32 (*)(s32, s32, s32, s32, s32))select_weighted_column_u16__9TItemDropFiiiii)(arg0, *(s32 *)((s8 *)TItemDrop__common_probability_table + 0x3C), off, 0x1C, 0xA);
+    var_r3 = ((s32 (*)(s32, s32, s32, s32, s32))select_weighted_column_u16__9TItemDropFiiiii)(item_drop, *(s32 *)((s8 *)TItemDrop__common_probability_table + 0x3C), off, 0x1C, 0xA);
     switch (var_r3) {
     case 0x1A:
         var_r3 = 0x73;
@@ -812,11 +812,11 @@ void generate_tool_drop__9TItemDropFiiPv(saddr arg0, s32 off, void *item_data) {
     }
     find_tool_pmt_base_id(var_r3, item_data);
     if ((u8) *(u8 *)((s8 *)item_data + 1) == 2) {
-        *(u8 *)((s8 *)item_data + 4) = ((u8)((TItemDrop *)arg0)->select_weighted_byte((s32)(*(s32 *)((s8 *)TItemDrop__common_probability_table + 0x40)), off, 0x13, 0xA));
-        *(s8 *)((s8 *)item_data + 2) = ((TItemDrop *)arg0)->roll_technique_level(*(s32 *)((s8 *)TItemDrop__common_probability_table + 0x44), *(u8 *)((s8 *)item_data + 4), off, 0xA);
-        TItemDrop::init_rare_item_data((void *)arg0, (void *)item_data);
+        *(u8 *)((s8 *)item_data + 4) = ((u8)((TItemDrop *)item_drop)->select_weighted_byte((s32)(*(s32 *)((s8 *)TItemDrop__common_probability_table + 0x40)), off, 0x13, 0xA));
+        *(s8 *)((s8 *)item_data + 2) = ((TItemDrop *)item_drop)->roll_technique_level(*(s32 *)((s8 *)TItemDrop__common_probability_table + 0x44), *(u8 *)((s8 *)item_data + 4), off, 0xA);
+        TItemDrop::init_rare_item_data((void *)item_drop, (void *)item_data);
     }
-    TItemDrop::handle_type3((void*)arg0, (void*)item_data);
+    TItemDrop::handle_type3((void*)item_drop, (void*)item_data);
 }
 #pragma pop
 

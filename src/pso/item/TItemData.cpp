@@ -561,43 +561,43 @@ void bswap__9TItemDataFv(saddr arg0) {
 s32 TItemData::get_name_style() { return 0; }
 void TItemData::convert_from_version(s32) {}
 
-void TItemData::unpack_from_item(void *arg1) {
+void TItemData::unpack_from_item(void *item) {
     s32 sp8;
     u8 temp_r0;
 
-    if (arg1 != NULL) {
+    if (item != NULL) {
         init();
-        *(u8 *)((s8 *)this + 0) = (u8) (((u32) *(u32 *)((s8 *)arg1 + 0x30) >> 0x18U) & 0xF);
-        *(u8 *)((s8 *)this + 1) = (u8) ((u32) *(u32 *)((s8 *)arg1 + 0x30) >> 0x10U);
+        *(u8 *)((s8 *)this + 0) = (u8) (((u32) *(u32 *)((s8 *)item + 0x30) >> 0x18U) & 0xF);
+        *(u8 *)((s8 *)this + 1) = (u8) ((u32) *(u32 *)((s8 *)item + 0x30) >> 0x10U);
         temp_r0 = *(u8 *)((s8 *)this + 0);
         if ((temp_r0 == 0) || (temp_r0 == 1)) {
             *(u8 *)((s8 *)this + 1) = (u8) (*(u8 *)((s8 *)this + 1) + 1);
         }
-        *(u8 *)((s8 *)this + 2) = (u8) ((u32) *(u32 *)((s8 *)arg1 + 0x30) >> 8U);
+        *(u8 *)((s8 *)this + 2) = (u8) ((u32) *(u32 *)((s8 *)item + 0x30) >> 8U);
         switch ((s32) (*(u8 *)((s8 *)this + 0))) {
         case 0:
-            *(u8 *)((s8 *)this + 6) = (u8) ((u32) *(u32 *)((s8 *)arg1 + 0x34) >> 8U);
-            *(s8 *)((s8 *)this + 7) = (s8) *(u32 *)((s8 *)arg1 + 0x34);
-            *(s8 *)((s8 *)this + 8) = (s8) ((u32) *(u32 *)((s8 *)arg1 + 0x38) >> 0x18U);
-            *(u8 *)((s8 *)this + 9) = (u8) ((u32) *(u32 *)((s8 *)arg1 + 0x38) >> 0x10U);
-            *(u8 *)((s8 *)this + 0xA) = (u8) ((u32) *(u32 *)((s8 *)arg1 + 0x38) >> 8U);
-            *(s8 *)((s8 *)this + 0xB) = (s8) *(u32 *)((s8 *)arg1 + 0x38);
-            *(s8 *)((s8 *)this + 3) = (s8) ((u32) *(u32 *)((s8 *)arg1 + 0x34) >> 0x18U);
-            *(u8 *)((s8 *)this + 4) = (u8) *(u32 *)((s8 *)arg1 + 0x30);
+            *(u8 *)((s8 *)this + 6) = (u8) ((u32) *(u32 *)((s8 *)item + 0x34) >> 8U);
+            *(s8 *)((s8 *)this + 7) = (s8) *(u32 *)((s8 *)item + 0x34);
+            *(s8 *)((s8 *)this + 8) = (s8) ((u32) *(u32 *)((s8 *)item + 0x38) >> 0x18U);
+            *(u8 *)((s8 *)this + 9) = (u8) ((u32) *(u32 *)((s8 *)item + 0x38) >> 0x10U);
+            *(u8 *)((s8 *)this + 0xA) = (u8) ((u32) *(u32 *)((s8 *)item + 0x38) >> 8U);
+            *(s8 *)((s8 *)this + 0xB) = (s8) *(u32 *)((s8 *)item + 0x38);
+            *(s8 *)((s8 *)this + 3) = (s8) ((u32) *(u32 *)((s8 *)item + 0x34) >> 0x18U);
+            *(u8 *)((s8 *)this + 4) = (u8) *(u32 *)((s8 *)item + 0x30);
             return;
         case 3:
             if ((u8) *(u8 *)((s8 *)this + 1) == 2) {
-                *(u8 *)((s8 *)this + 4) = (u8) *(u32 *)((s8 *)arg1 + 0x30);
+                *(u8 *)((s8 *)this + 4) = (u8) *(u32 *)((s8 *)item + 0x30);
             }
             set_stack_count(1);
             return;
         case 4:
-            *(s32 *)((s8 *)this + 0x10) = (s32) (((u32) *(u32 *)((s8 *)arg1 + 0x34) >> 0x10U) * 0xA);
+            *(s32 *)((s8 *)this + 0x10) = (s32) (((u32) *(u32 *)((s8 *)item + 0x34) >> 0x10U) * 0xA);
             return;
         case 1:
-            *(s8 *)((s8 *)this + 5) = (s8) *(u32 *)((s8 *)arg1 + 0x30);
-            *(s8 *)((s8 *)this + 3) = (s8) ((u32) *(u32 *)((s8 *)arg1 + 0x34) >> 0x18U);
-            *(u8 *)((s8 *)this + 4) = (u8) ((u32) *(u32 *)((s8 *)arg1 + 0x34) >> 0x10U);
+            *(s8 *)((s8 *)this + 5) = (s8) *(u32 *)((s8 *)item + 0x30);
+            *(s8 *)((s8 *)this + 3) = (s8) ((u32) *(u32 *)((s8 *)item + 0x34) >> 0x18U);
+            *(u8 *)((s8 *)this + 4) = (u8) ((u32) *(u32 *)((s8 *)item + 0x34) >> 0x10U);
             return;
         case 2:
             ((MagStats *)(&sp8))->init();
