@@ -50,6 +50,14 @@
 #include "pso/player/TPlyInventory.h"
 #include <stdio.h>
 #include "pso/network/TPlyJoinLobbyEntry.h"
+#include "pso/unk/TLobby_8013A874.h"
+#include "pso/unk/text_8013AAD4.h"
+#include "pso/player/TPlyGuildCardTag_8013ABCC.h"
+#include "pso/player/TPlyGuildCardTag.h"
+#include "pso/quest/TQuestListVM.h"
+#include "pso/unk/TLobby_8013AD38.h"
+#include "pso/ui/frontend/TAdEnterPasswordGC.h"
+#include "pso/system/THeap.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/network/TPlyMeetUserExtension_801DAC6C.h"
 #include "pso/object/warp/TObjCityMainWarp.h"
@@ -301,7 +309,6 @@ void apply_lobby_markers__6TLobbyFv();
 void copy_player_records__6TLobbyFl();
 void init_once__6TLobbyFPv();
 void lobby_debug_printf_stub(const char *fmt, ...);
-void TLobby__sub_8013AA64(void *, void *);
 extern const char TLobby__data_8043EF38[];
 extern const char lobby_debug_burst_player_format[];
 extern const char lobby_debug_udp_close_player_format[];
@@ -319,7 +326,6 @@ void handle_6x70_sync_player_disp_and_inventory(Pkt_801354AC *arg0);
 void handle_6x6D_sync_game_state(Pkt_8013574C *arg0);
 void handle_6x6C_sync_game_state(Pkt_801357F8 *arg0);
 void handle_6x6B_sync_game_state(Pkt_801358B4 *arg0);
-void fn_8013ACE4(s32);
 void *mem_alloc(u32 size);
 void import_sync_records__6TLobbyFPs(void *, u16);
 void clear_enabled_main_warps();
@@ -389,8 +395,6 @@ void set_queued_main_phase(s32);
 void request_main_phase(s32);
 extern const char lobby_window_title_block_jump[];
 extern const char lobby_window_title_ship_jump[];
-s32 *get_access_key_input_buffer(void);
-saddr get_connection_message_text(int);
 const char *TWindowMakeTeam__sub_80264B24(TWindowMakeTeam *window);
 const char *TWindowMakeTeam__sub_80264B38(TWindowMakeTeam *window);
 extern const NJS_POINT2 lbl_8043EDF8[1];
@@ -416,8 +420,6 @@ void handle_trade_received_items();
 void __register_global_object(int, void *, void *);
 void __construct_array(void *, void *, void *, int, int);
 void __destroy_arr(void *arr, void *dtor, u32 size, u32 count);
-void bswap__15disp_data_part2Fv(void *);
-void TLobby__sub_8013A9C0(void *);
 int __ct__12TPlyCharDataFv(void*);
 extern int lobby_player_count;
 extern int item_drop_server_seed;
@@ -2527,7 +2529,7 @@ void TLobby::on_game_player_add(TPlyJoinLobbyEntry *entries, int leader_id, int 
     if (TLobby__data_805D5594 != 0xE && TLobby__data_805D5594 != 0xF) {
         return;
     }
-    TLobby__sub_8013AA64(&e, entries);
+    TLobby__sub_8013AA64((u8 *)&e, (u8 *)entries);
     if (e.client_id == local_client_id) {
         ((TPlyJoinLobbyEntry *)&e)->~TPlyJoinLobbyEntry();
         return;
@@ -2639,7 +2641,7 @@ void TLobby::on_lobby_player_add(TPlyJoinLobbyEntry *entries, int leader_id) {
     Entry_80136080 e;
     Obj_80136080 *p;
     u8 *plr;
-    TLobby__sub_8013AA64(&e, entries);
+    TLobby__sub_8013AA64((u8 *)&e, (u8 *)entries);
     TLobby__designated_client_id = leader_id;
     if (e.client_id == local_client_id) {
         lobby_debug_printf_stub(lobby_debug_burst_overwrite_format, e.client_id);
@@ -2934,7 +2936,7 @@ void TLobby::bswap_player_data(void *data) {
     bswap_32((u32 *)(p + 0xAC));
     bswap_32((u32 *)(p + 0x488));
     bswap_32((u32 *)(p + 0xB0));
-    bswap__15disp_data_part2Fv((void *)(p + 0xC8));
+    bswap__15disp_data_part2Fv((saddr)(p + 0xC8));
     bswap__12player_statsFv((void *)(p + 0x118));
     TLobby::bswap_inventory((void*)(p + 0x13C));
 }
@@ -2982,41 +2984,179 @@ void *TLobby::copy_member_record(void *to, void *from) {
     return dst;
 }
 
-u8 *copy_player_data__9TProtocolFPvPv(u8 *arg0, u8 *arg1) {
+u8 *copy_player_data__9TProtocolFPvPv(u8 *dst, u8 *src) {
     u8 *temp_r4;
     u8 *temp_r4_2;
     u8 *temp_r5;
     u8 *temp_r6;
-    *(u8 *)((s8 *)arg0 + 0) = (u8) *(u8 *)((s8 *)arg1 + 0);
-    *(u8 *)((s8 *)arg0 + 1) = (u8) *(u8 *)((s8 *)arg1 + 1);
-    *(u8 *)((s8 *)arg0 + 2) = (u8) *(u8 *)((s8 *)arg1 + 2);
-    *(u8 *)((s8 *)arg0 + 3) = (u8) *(u8 *)((s8 *)arg1 + 3);
-    *(ByteBlock_348 *)((saddr) arg0 + 4) = *(const ByteBlock_348 *)((saddr) arg1 + 4);
-    temp_r6 = (arg0 + 0x348);
-    temp_r4 = (arg1 + 0x348);
+    *(u8 *)((s8 *)dst + 0) = (u8) *(u8 *)((s8 *)src + 0);
+    *(u8 *)((s8 *)dst + 1) = (u8) *(u8 *)((s8 *)src + 1);
+    *(u8 *)((s8 *)dst + 2) = (u8) *(u8 *)((s8 *)src + 2);
+    *(u8 *)((s8 *)dst + 3) = (u8) *(u8 *)((s8 *)src + 3);
+    *(ByteBlock_348 *)((saddr) dst + 4) = *(const ByteBlock_348 *)((saddr) src + 4);
+    temp_r6 = (dst + 0x348);
+    temp_r4 = (src + 0x348);
     *(ByteBlock_24 *)((saddr) temp_r6 + 4) = *(const ByteBlock_24 *)((saddr) temp_r4 + 4);
-    *(ByteBlock_50 *)((arg0 + 0x36C) + 4) = *(const ByteBlock_50 *)((arg1 + 0x36C) + 4);
-    TObjPlayer__sub_8013A748(arg0 + 0x3C0, arg1 + 0x3C0);
-    temp_r5 = (arg0 + 0x404);
-    temp_r4_2 = (arg1 + 0x404);
+    *(ByteBlock_50 *)((dst + 0x36C) + 4) = *(const ByteBlock_50 *)((src + 0x36C) + 4);
+    TObjPlayer__sub_8013A748(dst + 0x3C0, src + 0x3C0);
+    temp_r5 = (dst + 0x404);
+    temp_r4_2 = (src + 0x404);
     *(ByteBlock_14 *)((saddr) temp_r5 + 4) = *(const ByteBlock_14 *)((saddr) temp_r4_2 + 4);
-    return arg0;
+    return dst;
 }
 
-void *TObjPlayer__sub_8013A748(void *arg0, void *arg1) {
-    TObjPlayer__sub_8013A788(arg0, arg1);
-    ((void (*)(void *, void *))TObjPlayer__sub_8013A788)((void *)((char *)arg0 + 36), (void *)((char *)arg1 + 36));
-    return arg0;
+void *TObjPlayer__sub_8013A748(void *dst, void *src) {
+    TObjPlayer__sub_8013A788(dst, src);
+    ((void (*)(void *, void *))TObjPlayer__sub_8013A788)((void *)((char *)dst + 36), (void *)((char *)src + 36));
+    return dst;
 }
 
 void* TObjPlayer__sub_8013A788(void* p, void* a1) { *(void**)(p) = *(void**)((char*)a1 + 0x0); TObjPlayer__sub_8013A820((void *)((void*)((char*)p + 0x4)), (void *)((void*)((char*)a1 + 0x4))); TObjPlayer__sub_8013A820((void *)((void*)((char*)p + 0x8)), (void *)((void*)((char*)a1 + 0x8))); TObjPlayer__sub_8013A820((void *)((void*)((char*)p + 0xc)), (void *)((void*)((char*)a1 + 0xc))); TObjPlayer__sub_8013A820((void *)((void*)((char*)p + 0x10)), (void *)((void*)((char*)a1 + 0x10))); TObjPlayer__sub_8013A820((void *)((void*)((char*)p + 0x14)), (void *)((void*)((char*)a1 + 0x14))); TObjPlayer__sub_8013A820((void *)((void*)((char*)p + 0x18)), (void *)((void*)((char*)a1 + 0x18))); TObjPlayer__sub_8013A820((void *)((void*)((char*)p + 0x1c)), (void *)((void*)((char*)a1 + 0x1c))); TObjPlayer__sub_8013A820((void *)((void*)((char*)p + 0x20)), (void *)((void*)((char*)a1 + 0x20))); return p; }
-void TObjPlayer__sub_8013A820(void *arg0, void *arg1) {
-    *(u8 *)((s8 *)arg0 + 0) = (u8) *(u8 *)((s8 *)arg1 + 0);
-    *(u8 *)((s8 *)arg0 + 1) = (u8) *(u8 *)((s8 *)arg1 + 1);
-    *(s16 *)((s8 *)arg0 + 2) = (s16) *(s16 *)((s8 *)arg1 + 2);
+void TObjPlayer__sub_8013A820(void *dst, void *src) {
+    *(u8 *)((s8 *)dst + 0) = (u8) *(u8 *)((s8 *)src + 0);
+    *(u8 *)((s8 *)dst + 1) = (u8) *(u8 *)((s8 *)src + 1);
+    *(s16 *)((s8 *)dst + 2) = (s16) *(s16 *)((s8 *)src + 2);
 }
 
 #pragma pop
+
+#pragma push
+#pragma inline_depth(1)
+#pragma auto_inline off
+#pragma dont_inline off
+
+
+void TPlyInventoryItem::bswap() {
+    bswap_32(&m_flags);
+    m_data.bswap();
+}
+
+extern "C" {
+
+void TLobby::bswap_fields() { bswap_16((u16 *)((char*)this + 0x2)); bswap_32((u32 *)((char*)this + 0x4)); }
+
+void TLobby::bswap_header_3words() { bswap_32((u32 *)this); bswap_32((u32 *)((char*)this + 0x4)); bswap_32((u32 *)((char*)this + 0x8)); }
+
+void bswap__15disp_data_part2Fv(saddr part2) {
+    s32 off;
+    s32 i;
+
+    bswap_32((u32 *)(part2 + 0x18));
+    bswap_32((u32 *)(part2 + 0x2C));
+    bswap_32((u32 *)(part2 + 0x34));
+    for (i = 0, off = 0; i < 8; i++, off += 2) {
+        bswap_16((u16 *)((char *)part2 + off + 0x38));
+    }
+    bswap_32((u32 *)(part2 + 0x48));
+    bswap_32((u32 *)(part2 + 0x4C));
+}
+}
+
+void bswap_telepipe_record(void* p) { bswap_16((u16 *)p); bswap_16((u16 *)((char*)p + 0x2)); bswap_32((u32 *)((char*)p + 0x4)); bswap_32((u32 *)((char*)p + 0x8)); bswap_32((u32 *)((char*)p + 0xc)); bswap_32((u32 *)((char*)p + 0x10)); bswap_32((u32 *)((char*)p + 0x14)); bswap_32((u32 *)((char*)p + 0x18)); }
+
+void TLobby__sub_8013A9C0(void* p) { bswap_32((u32 *)p); bswap_32((u32 *)((char*)p + 0x4)); }
+
+void bswap_object_source_record(void* p) { bswap_16((u16 *)p); bswap_16((u16 *)((char*)p + 0x2)); }
+
+void TLobby::bswap_6x6B() { bswap_32((u32 *)this); bswap_16((u16 *)((char*)this + 0x4)); bswap_16((u16 *)((char*)this + 0x6)); }
+u8 *TLobby__sub_8013AA64(u8 *dst, u8 *src) {
+    __ct__16TPlyGuildCardTagFRC16TPlyGuildCardTag(dst, src);
+    *(s32 *)((s8 *)dst + 8) = (s32) *(s32 *)((s8 *)src + 8);
+    *(s32 *)((s8 *)dst + 0xC) = (s32) *(s32 *)((s8 *)src + 0xC);
+    *(ByteBlock_10 *)((saddr) dst + 0x10) = *(const ByteBlock_10 *)((saddr) src + 0x10);
+    fn_8013AAD4((dst + 0x20), (src + 0x20));
+    return dst;
+}
+
+u8 *fn_8013AAD4(u8 *dst, u8 *src) {
+    u8 *temp_r4;
+    u8 *temp_r4_2;
+    u8 *temp_r5;
+    u8 *temp_r6;
+    *(u8 *)((s8 *)dst + 0) = (u8) *(u8 *)((s8 *)src + 0);
+    *(u8 *)((s8 *)dst + 1) = (u8) *(u8 *)((s8 *)src + 1);
+    *(u8 *)((s8 *)dst + 2) = (u8) *(u8 *)((s8 *)src + 2);
+    *(u8 *)((s8 *)dst + 3) = (u8) *(u8 *)((s8 *)src + 3);
+    *(ByteBlock_348 *)((saddr) dst + 4) = *(const ByteBlock_348 *)((saddr) src + 4);
+    temp_r6 = (dst + 0x348);
+    temp_r4 = (src + 0x348);
+    *(ByteBlock_24 *)((saddr) temp_r6 + 4) = *(const ByteBlock_24 *)((saddr) temp_r4 + 4);
+    *(ByteBlock_50 *)((dst + 0x36C) + 4) = *(const ByteBlock_50 *)((src + 0x36C) + 4);
+    ((TPlyGuildCardTag *)(dst + 0x3C0))->copy_full(src + 0x3C0);
+    temp_r5 = (dst + 0x404);
+    temp_r4_2 = (src + 0x404);
+    *(ByteBlock_14 *)((saddr) temp_r5 + 4) = *(const ByteBlock_14 *)((saddr) temp_r4_2 + 4);
+    return dst;
+}
+
+#pragma pop
+
+
+void *TPlyGuildCardTag::copy_full(void *arg1) {
+    copy(arg1);
+    ((TPlyGuildCardTag *)((char *)this + 36))->copy((void *)((char *)arg1 + 36));
+    return this;
+}
+void*TPlyGuildCardTag::copy(void* a1) { *(void**)(this) = *(void**)((char*)a1 + 0x0); TPlyGuildCardTag__sub_8013ACA4((void *)((char*)this + 0x4), (void *)((char*)a1 + 0x4)); TPlyGuildCardTag__sub_8013ACA4((void *)((char*)this + 0x8), (void *)((char*)a1 + 0x8)); TPlyGuildCardTag__sub_8013ACA4((void *)((char*)this + 0xc), (void *)((char*)a1 + 0xc)); TPlyGuildCardTag__sub_8013ACA4((void *)((char*)this + 0x10), (void *)((char*)a1 + 0x10)); TPlyGuildCardTag__sub_8013ACA4((void *)((char*)this + 0x14), (void *)((char*)a1 + 0x14)); TPlyGuildCardTag__sub_8013ACA4((void *)((char*)this + 0x18), (void *)((char*)a1 + 0x18)); TPlyGuildCardTag__sub_8013ACA4((void *)((char*)this + 0x1c), (void *)((char*)a1 + 0x1c)); TPlyGuildCardTag__sub_8013ACA4((void *)((char*)this + 0x20), (void *)((char*)a1 + 0x20)); return this; }
+void TPlyGuildCardTag__sub_8013ACA4(void *dst, void *src) {
+    *(u8 *)((s8 *)dst + 0) = (u8) *(u8 *)((s8 *)src + 0);
+    *(u8 *)((s8 *)dst + 1) = (u8) *(u8 *)((s8 *)src + 1);
+    *(s16 *)((s8 *)dst + 2) = (s16) *(s16 *)((s8 *)src + 2);
+}
+void __ct__16TPlyGuildCardTagFRC16TPlyGuildCardTag(void *dst, void *src) {
+    *(u8 *)((s8 *)dst + 0) = (u8) *(u8 *)((s8 *)src + 0);
+    *(u8 *)((s8 *)dst + 1) = (u8) *(u8 *)((s8 *)src + 1);
+    *(u16 *)((s8 *)dst + 2) = (u16) *(u16 *)((s8 *)src + 2);
+    *(s32 *)((s8 *)dst + 4) = (s32) *(s32 *)((s8 *)src + 4);
+}
+void fn_8013ACE4(int a0) { item_drop_server_seed = a0; }
+void set_area_random_seed(int a0) { area_random_seed = a0; }
+
+void TQuestListOnline__sub_8013ACF4(s32 arg0) {
+    if (TQuestListOnline__instance != NULL) {
+        TQuestListOnline__instance->set_field_20(arg0);
+    }
+}
+
+void TWindowMenu::set_ready_flag() { m_70 |= 0x1; }
+
+extern "C" {
+extern u8 *text_language_group_table;
+
+int TWindowMenuIconLine::is_decided() { return (this->state_flags >> 1) & 0x1; }
+int TWindowMenuIconLine::is_cancelled() { return (this->state_flags >> 2) & 0x1; }
+int TWindowMakeTeam::test_flag_1d_bit1() { return (m_1d >> 1) & 1; }
+s32 TWindowMakeTeam::get_field_20() { return m_20; }
+u8 TWindowMakeTeam::get_mode() { return m_1e; }
+u8 TWindowMakeTeam::read_mode() { return m_1e; }
+int TWindowMakeTeam::test_flag_1d_bit0() { return m_1d & 1; }
+
+s32 *get_access_key_input_buffer(void) {
+    return (s32 *)TAdEnterSerialAccessGC::access_key_input_buffer;
+}
+
+char *TLobby::init_serial_access() { return TAdEnterSerialAccessGC::hex_to_decimal_string((const char *)get_raw_serial_input_buffer()); }
+
+s32 *get_raw_serial_input_buffer(void) {
+    return (s32 *)TAdEnterSerialAccessGC::raw_serial_buffer;
+}
+
+saddr get_connection_message_text(s32 arg0) {
+    return *(s32 *)((s8 *)(*(saddr *)((s8 *)text_language_group_table + 0x30)) + (arg0 * 4));
+}
+
+}
+
+extern u8 *text_language_group_table;
+s32 get_online_message_text(s32 id) {
+    return *(s32 *)((s8 *)(*(saddr *)((s8 *)text_language_group_table + 0x38)) + (id * 4));
+}
+
+s32 *TAdEnterPasswordGC__sub_8013ADE4(void) {
+    return ((s32 *)&TAdEnterPasswordGC__input_buffer);
+}
+
+void *TProtocol::operator new(size_t size) { return obj_heap->heap_alloc(size); }
 
 __declspec(section ".ctors") static void *const __sinit_TPlyJoinLobbyEntry_cpp_ref = (void *)TLobby::construct_global_arrays;
 

@@ -3079,7 +3079,7 @@ pso/unk/TLobby_80134DA0.cpp:
 	.text       start:0x80134DA0 end:0x80134E30
 
 pso/network/TPlyJoinLobbyEntry.cpp:
-	.text       start:0x80134E30 end:0x8013A83C
+	.text       start:0x80134E30 end:0x8013AE18
 	.ctors      start:0x80433F80 end:0x80433F84
 	.rodata     start:0x8043ED98 end:0x8043F090
 	.data       start:0x804A6FD8 end:0x804A7130
@@ -3093,33 +3093,6 @@ pso/network/TPlyJoinLobbyEntryData.cpp:
 
 pso/network/TPlyJoinLobbySdata2.cpp:
 	.sdata2     start:0x805DB0B8 end:0x805DB0C8
-
-pso/player/TPlyInventoryItem.cpp:
-	.text       start:0x8013A83C end:0x8013A874
-
-pso/unk/TLobby_8013A874.cpp:
-	.text       start:0x8013A874 end:0x8013AAD4
-
-pso/unk/text_8013AAD4.cpp:
-	.text       start:0x8013AAD4 end:0x8013ABCC
-
-pso/player/TPlyGuildCardTag_8013ABCC.cpp:
-	.text       start:0x8013ABCC end:0x8013AD28
-
-pso/ui/city/TCheckRoomSequence_8013AD28.cpp:
-	.text       start:0x8013AD28 end:0x8013AD38
-
-pso/unk/TLobby_8013AD38.cpp:
-	.text       start:0x8013AD38 end:0x8013ADD0
-
-pso/unk/text_8013ADD0.cpp:
-	.text       start:0x8013ADD0 end:0x8013ADE4
-
-pso/unk/text_8013ADE4.cpp:
-	.text       start:0x8013ADE4 end:0x8013ADF0
-
-pso/unk/TLobby_8013ADF0.cpp:
-	.text       start:0x8013ADF0 end:0x8013AE18
 
 pso/ui/hud/TMainCursor.cpp:
 	.text       start:0x8013AE18 end:0x8013F264

@@ -680,7 +680,6 @@ pso/ui/chat/TChatMessage.cpp
 pso/ui/chat/TChatMessage_801DF918.cpp
 pso/system/save/TCheckMemoryCard.cpp
 pso/ui/city/TCheckRoomSequence.cpp
-pso/ui/city/TCheckRoomSequence_8013AD28.cpp
 pso/ui/city/TCheckRoomSequence_80211614.cpp
 pso/ui/city/TCheckRoomSequence_8021E464.cpp
 pso/ui/city/TCheckRoomSequence_80222FC0.cpp
@@ -783,9 +782,6 @@ pso/unk/TLobby_80132ED0.cpp
 pso/unk/TLobby_80134D54.cpp
 pso/unk/TLobby_80134D74.cpp
 pso/unk/TLobby_80134DA0.cpp
-pso/unk/TLobby_8013A874.cpp
-pso/unk/TLobby_8013AD38.cpp
-pso/unk/TLobby_8013ADF0.cpp
 pso/unk/TLobby_80140FF4.cpp
 pso/unk/TLobby_80156B18.cpp
 pso/unk/TLobby_80160804.cpp
@@ -1072,10 +1068,8 @@ pso/player/TPlyGuildCardTag.cpp
 pso/player/TPlyGuildCardTag_80077BBC.cpp
 pso/player/TPlyGuildCardTag_8007B434.cpp
 pso/player/TPlyGuildCardTag_8007B7EC.cpp
-pso/player/TPlyGuildCardTag_8013ABCC.cpp
 pso/player/TPlyGuildCardTag_801E0284.cpp
 pso/player/TPlyGuildCardTag_801E09C4.cpp
-pso/player/TPlyInventoryItem.cpp
 pso/player/TPlyInventoryItem_800721D4.cpp
 pso/network/TPlyJoinGame.cpp
 pso/network/TPlyJoinLobby.cpp
@@ -1965,9 +1959,6 @@ pso/unk/text_8010F168.cpp
 pso/unk/text_8010F210.cpp
 pso/unk/text_8011085C.cpp
 pso/unk/text_8011A780.cpp
-pso/unk/text_8013AAD4.cpp
-pso/unk/text_8013ADD0.cpp
-pso/unk/text_8013ADE4.cpp
 pso/unk/text_8013F810.cpp
 pso/unk/text_80145A44.cpp
 pso/unk/text_80145A94.cpp
