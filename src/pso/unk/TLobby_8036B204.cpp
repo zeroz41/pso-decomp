@@ -16,7 +16,7 @@ TSymbolChatCapture *slot_entity_dispatcher_instance;
 
 void TLobby::send_slot_entity_or_local(u16 slot, s32 buf) {
     if (slot_entity_dispatcher_instance != NULL && slot < 4) {
-        slot_entity_dispatcher_instance->send_slot_entity(slot, buf);
+        slot_entity_dispatcher_instance->get_recent_symbol_chat(slot, buf);
         return;
     }
     TLobby__sub_8036B1AC(buf);
@@ -24,11 +24,11 @@ void TLobby::send_slot_entity_or_local(u16 slot, s32 buf) {
 
 void TLobby::dispatch_by_index(u16 slot, int src) {
     if (slot_entity_dispatcher_instance != NULL && slot < 4) {
-        slot_entity_dispatcher_instance->start_entry_timer(slot, src);
+        slot_entity_dispatcher_instance->capture_symbol_chat(slot, src);
     }
 }
 
-void TSymbolChatCapture::send_slot_entity(u16 slot, saddr buf) {
+void TSymbolChatCapture::get_recent_symbol_chat(u16 slot, saddr buf) {
     if (entries != NULL) {
         TLobby::copy_symbol_chat_entry((void *)buf, &entries[slot]);
         return;
@@ -36,7 +36,7 @@ void TSymbolChatCapture::send_slot_entity(u16 slot, saddr buf) {
     TLobby__sub_8036B1AC(buf);
 }
 
-void TSymbolChatCapture::start_entry_timer(u16 slot, saddr src) {
+void TSymbolChatCapture::capture_symbol_chat(u16 slot, saddr src) {
     if (entries != NULL) {
         s32 i = slot;
         TLobby::copy_symbol_chat_entry(&entries[i], (void *)src);

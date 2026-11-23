@@ -15369,7 +15369,7 @@ force_active:
   - send_position_update__6TLobbyFv
   - send_run_request__10TNpcPlayerFv
   - send_selected_character__6TLobbyFv
-  - send_slot_entity__18TSymbolChatCaptureFUsl
+  - get_recent_symbol_chat__18TSymbolChatCaptureFUsl
   - send_srank_stat_extra__13TUnk_804A4948FUll
   - send_srank_stat_extra_to_locks__13TUnk_804A4948Fv
   - send_state_60__10TNpcPlayerFv
@@ -16039,7 +16039,7 @@ force_active:
   - start_download__12TChCrLoadAfsFv
   - start_duel_battle__6TLobbyFv
   - start_effect__14TItemEquipBaseFUlUl
-  - start_entry_timer__18TSymbolChatCaptureFUsl
+  - capture_symbol_chat__18TSymbolChatCaptureFUsl
   - start_fade__9TAdFadeGCFPv
   - start_gba_joyboot__6TLobbyFv
   - start_get_type_async__16TKeyBoardControlFllll
