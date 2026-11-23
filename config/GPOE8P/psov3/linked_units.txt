@@ -2317,7 +2317,6 @@ pso/map/area/AreaVersus01.cpp
 pso/map/area/AreaVersus02.cpp
 pso/unk/TUnk_804CCA78.cpp
 
-pso/ui/window/WindowCtrlCallbackEntries.cpp
 pso/ui/window/WindowHelpItemCallbackEntries.cpp
 pso/quest/QuestOpcodeHandlersData.cpp
 pso/quest/challenge/ChallengeModeData.cpp

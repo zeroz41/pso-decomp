@@ -6629,13 +6629,10 @@ pso/ui/window/TWindowComCardFollower.cpp:
 	.sbss       start:0x805D63F8 end:0x805D6400
 	.sdata2     start:0x805DCBD0 end:0x805DCBD4
 
-pso/ui/window/WindowCtrlCallbackEntries.cpp:
-	.data       start:0x804CE9C8 end:0x804CEAA0
-
 pso/ui/window/TWindowCtrl.cpp:
 	.text       start:0x8024A054 end:0x8024C820
 	.rodata     start:0x8044EBC8 end:0x8044EBF0
-	.data       start:0x804CEAA0 end:0x804CEAB8
+	.data       start:0x804CE9C8 end:0x804CEAB8
 	.sdata      start:0x805D38C8 end:0x805D38D0
 	.sdata2     start:0x805DCBD8 end:0x805DCC18
 

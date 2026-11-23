@@ -21,7 +21,7 @@ struct TWindowCtrl : public TObject {
     static TWindowCtrl *instance;
     u16 flags;
     u16 m_1e;
-    u16 m_20;
+    s16 m_20;
     s16 submit_cooldown;
     u32 m_24;
     u16 window_id;
@@ -108,7 +108,7 @@ struct TWindowCtrl : public TObject {
     static s32 get_flag_bit5();
     static s32 get_display_flag();
     int is_enabled();
-    int is_visible();
+    s32 is_visible();
     s32 get_active_menu();
     void update_short_list_request();
     void show_active_window();
@@ -133,6 +133,22 @@ struct TWindowCtrl : public TObject {
     void clear_flag1e_bit8();
     void set_radar_dirty_flag();
     void clear_flag_bit0();
+    void fn_8024C6CC();
+    void fn_8024C6DC();
+    void fn_8024C6EC();
+    void fn_8024C6FC();
+    void fn_8024C70C();
+    void fn_8024C71C();
+    void fn_8024C72C();
+    void fn_8024C73C();
+    void fn_8024C74C();
+    void fn_8024C75C();
+    s32 fn_8024C7C4();
+    s32 fn_8024C7D4();
+    s32 fn_8024C7E0();
+    s32 fn_8024C7F8();
+    void fn_8024D85C();
+    s32 fn_8024D868();
 };
 
 LAYOUT_ASSERT(WindowCtrlTradeRequestOffset, offsetof(TWindowCtrl, trade_request) == 0x40);

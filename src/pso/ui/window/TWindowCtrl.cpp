@@ -61,7 +61,6 @@
 #include "pso/ui/window/TWindowMainMenu_8024E3CC.h"
 #include "pso/unk/text_8026AC50.h"
 #include "pso/unk/text_8026ACDC.h"
-#include "pso/ui/window/TWindowCtrl_8024C6CC.h"
 
 extern "C" {
 
@@ -116,10 +115,8 @@ void TLobby__sub_8024AAA0(s32 arg0, s32 arg1);
 
 u32 get_window__11TWindowCtrlFl(void);
 s32 update_field28__15TWindowCtrlMainFv(u32 a0 = 0, s32 a1 = 0);
-extern PlayerWindowQuery window_ctrl_main_callback_desc;
 
 void TWindowCtrl__sub_8024A228(saddr arg0);
-extern PlayerWindowCommand window_ctrl_default_call_args;
 
 bool TWindowCtrl__sub_8024A1A8(void);
 
@@ -141,35 +138,6 @@ extern "C" {
 s32 free_member__15TWindowCtrlMainFv(u32 a0 = 0, s32 a1 = 0);
 
 }
-
-extern PlayerWindowCommand window_ctrl_init_params;
-
-extern PlayerWindowCommand TWindowSubComCard__window_ctrl_callback_pmf;
-extern PlayerWindowCommand lbl_804CEA64;
-extern PlayerWindowCommand lbl_804CEA58;
-
-extern PlayerWindowCommand lbl_804CEA4C;
-
-extern PlayerWindowCommand lbl_804CEA40;
-
-extern PlayerWindowCommand player_keyboard_hold_cb;
-
-extern PlayerWindowCommand window_ctrl_end_keyboard_hold_callback_entry;
-
-extern "C" {
-
-extern PlayerWindowCommand lbl_804CEA1C;
-extern PlayerWindowCommand lbl_804CEA10;
-
-}
-
-extern PlayerWindowQuery lbl_804CE9D4;
-extern PlayerWindowQuery window_ctrl_apply_default_vec_callback_entry;
-extern PlayerWindowQuery TWindowCtrl__player_menu_query_cb;
-extern PlayerWindowCommand TWindowCtrl__unsuppress_slot_cb;
-extern PlayerWindowCommand TWindowCtrl__suppress_slot_cb;
-
-extern PlayerWindowQuery window_ctrl_is_visible_callback_entry;
 
 extern "C" {
 
@@ -333,24 +301,24 @@ s32 TWindowSimpleStatus::get_width() { return (s16)(*(s16 *)&this->client_index)
 
 s16 TWindowFukidasi::get_field_20() { return *(s16 *)&(this->client_index); }
 
-int TWindowCtrl::is_visible() { return this->flags & 0x1; }
+s32 TWindowCtrl::is_visible() { return this->flags & 0x1; }
 
-s32 TWindowCtrl__sub_8024C7F8(const TWindowCtrl *window) {
-    return (window->flags >> 4) & 1;
+s32 TWindowCtrl::fn_8024C7F8() {
+    return (this->flags >> 4) & 1;
 }
 
 int TWindowCtrl::is_enabled() { return (this->flags >> 3) & 0x1; }
 
-s32 TWindowCtrl__sub_8024C7E0(const TWindowCtrl *window) {
-    return (window->flags >> 2) & 1;
+s32 TWindowCtrl::fn_8024C7E0() {
+    return (this->flags >> 2) & 1;
 }
 
-s32 TWindowCtrl__sub_8024C7D4(const TWindowCtrl *window) {
-    return (window->flags >> 1) & 1;
+s32 TWindowCtrl::fn_8024C7D4() {
+    return (this->flags >> 1) & 1;
 }
 
-s32 TWindowCtrl__sub_8024C7C4(const TWindowCtrl *window) {
-    return window->m_3c != 0 ? 1 : 0;
+s32 TWindowCtrl::fn_8024C7C4() {
+    return this->m_3c != 0 ? 1 : 0;
 }
 
 void TWindowCtrl::clear_flag_bit0() {
@@ -363,44 +331,44 @@ void TWindowCtrl::set_radar_dirty_flag() {
     TRaderMapCore::hide_radar();
 }
 
-void TWindowCtrl__sub_8024C75C(TWindowCtrl *window) {
-    window->flags &= ~0x10;
+void TWindowCtrl::fn_8024C75C() {
+    this->flags &= ~0x10;
 }
 
-void TWindowCtrl__sub_8024C74C(TWindowCtrl *window) {
-    window->flags |= 0x10;
+void TWindowCtrl::fn_8024C74C() {
+    this->flags |= 0x10;
 }
 
-void TWindowCtrl__sub_8024C73C(TWindowCtrl *window) {
-    window->flags &= ~0x8;
+void TWindowCtrl::fn_8024C73C() {
+    this->flags &= ~0x8;
 }
 
-void TWindowCtrl__sub_8024C72C(TWindowCtrl *window) {
-    window->flags |= 0x8;
+void TWindowCtrl::fn_8024C72C() {
+    this->flags |= 0x8;
 }
 
-void TWindowCtrl__sub_8024C71C(TWindowCtrl *window) {
-    window->flags &= ~0x4;
+void TWindowCtrl::fn_8024C71C() {
+    this->flags &= ~0x4;
 }
 
-void TWindowCtrl__sub_8024C70C(TWindowCtrl *window) {
-    window->flags |= 0x4;
+void TWindowCtrl::fn_8024C70C() {
+    this->flags |= 0x4;
 }
 
-void TWindowCtrl__sub_8024C6FC(TWindowCtrl *window) {
-    window->flags &= ~0x2;
+void TWindowCtrl::fn_8024C6FC() {
+    this->flags &= ~0x2;
 }
 
-void TWindowCtrl__sub_8024C6EC(TWindowCtrl *window) {
-    window->flags |= 0x2;
+void TWindowCtrl::fn_8024C6EC() {
+    this->flags |= 0x2;
 }
 
-void TWindowCtrl__sub_8024C6DC(TWindowCtrl *window) {
-    window->flags &= ~0x40;
+void TWindowCtrl::fn_8024C6DC() {
+    this->flags &= ~0x40;
 }
 
-void TWindowCtrl__sub_8024C6CC(TWindowCtrl *window) {
-    window->flags |= 0x40;
+void TWindowCtrl::fn_8024C6CC() {
+    this->flags |= 0x40;
 }
 
 extern "C" {
@@ -1114,24 +1082,24 @@ s32 TWindowCtrl__sub_8024B098(s32 client_id, PlayerWindowQuery pmf) {
 }
 
 s32 TWindowCtrl::is_slot_visible(s32 local_client_id) {
-    PlayerWindowQuery callback = window_ctrl_is_visible_callback_entry;
+    PlayerWindowQuery callback = &TWindowCtrl::is_visible;
     return TWindowCtrl__sub_8024B098(local_client_id, callback);
 }
 
 int TWindowCtrl__sub_8024B048(void* p) { return (*(u16*)((char*)p + 0x1c) >> 2) & 0x1; }
 
 s32 TWindowCtrl__sub_8024B000(void *window, saddr client_id) {
-    PlayerWindowQuery callback = lbl_804CE9D4;
+    PlayerWindowQuery callback = &TWindowCtrl::fn_8024C7D4;
     return TWindowCtrl__sub_8024B098(client_id, callback);
 }
 
 void TWindowCtrl::apply_default_vec(s32 arg0, saddr client_id) {
-    PlayerWindowQuery callback = window_ctrl_apply_default_vec_callback_entry;
+    PlayerWindowQuery callback = &TWindowCtrl::fn_8024C7C4;
     TWindowCtrl__sub_8024B098(client_id, callback);
 }
 
 s32 TWindowCtrl::has_player_active_menu(s32 local_client_id) {
-    PlayerWindowQuery callback = TWindowCtrl__player_menu_query_cb;
+    PlayerWindowQuery callback = &TWindowCtrl::get_active_menu;
     return TWindowCtrl__sub_8024B098(local_client_id, callback);
 }
 
@@ -1143,12 +1111,12 @@ void call_window_method__11TWindowCtrlFPvi(s32 client_id, PlayerWindowCommand pm
 }
 
 void TWindowCtrl::unsuppress_slot(s32 local_client_id) {
-    PlayerWindowCommand callback = TWindowCtrl__unsuppress_slot_cb;
+    PlayerWindowCommand callback = &TWindowCtrl::clear_flag_bit0;
     call_window_method__11TWindowCtrlFPvi(local_client_id, callback);
 }
 
 void TWindowCtrl::suppress_slot(s32 local_client_id) {
-    PlayerWindowCommand callback = TWindowCtrl__suppress_slot_cb;
+    PlayerWindowCommand callback = &TWindowCtrl::set_radar_dirty_flag;
     call_window_method__11TWindowCtrlFPvi(local_client_id, callback);
 }
 
@@ -1175,7 +1143,7 @@ void TWindowCtrl::init_all_slots() {
 extern "C" {
 
 void TWindowCtrl__sub_8024ADF0(saddr client_id) {
-    PlayerWindowCommand callback = lbl_804CEA10;
+    PlayerWindowCommand callback = &TWindowCtrl::fn_8024C75C;
     call_window_method__11TWindowCtrlFPvi(client_id, callback);
 }
 
@@ -1184,7 +1152,7 @@ void TWindowCtrl__sub_8024ADF0(saddr client_id) {
 extern "C" {
 
 void TWindowCtrl__sub_8024ADAC(saddr client_id) {
-    PlayerWindowCommand callback = lbl_804CEA1C;
+    PlayerWindowCommand callback = &TWindowCtrl::fn_8024C74C;
     call_window_method__11TWindowCtrlFPvi(client_id, callback);
 }
 
@@ -1203,35 +1171,35 @@ void TWindowCtrl::set_flag_bit2() {
 }
 
 void end_player_keyboard_hold(saddr arg0) {
-    call_window_method__11TWindowCtrlFPvi(arg0, window_ctrl_end_keyboard_hold_callback_entry);
+    call_window_method__11TWindowCtrlFPvi(arg0, &TWindowCtrl::fn_8024C73C);
 }
 
 void begin_player_keyboard_hold(saddr arg0) {
-    call_window_method__11TWindowCtrlFPvi(arg0, player_keyboard_hold_cb);
+    call_window_method__11TWindowCtrlFPvi(arg0, &TWindowCtrl::fn_8024C72C);
 }
 
 void TWindowReturnCity__sub_8024ACA8(saddr arg0) {
-    call_window_method__11TWindowCtrlFPvi(arg0, lbl_804CEA40);
+    call_window_method__11TWindowCtrlFPvi(arg0, &TWindowCtrl::fn_8024C71C);
 }
 
 void fn_8024AC64(saddr arg0) {
-    call_window_method__11TWindowCtrlFPvi(arg0, lbl_804CEA4C);
+    call_window_method__11TWindowCtrlFPvi(arg0, &TWindowCtrl::fn_8024C70C);
 }
 
 void TLobby__sub_8024AC20(saddr arg0) {
-    call_window_method__11TWindowCtrlFPvi(arg0, lbl_804CEA58);
+    call_window_method__11TWindowCtrlFPvi(arg0, &TWindowCtrl::fn_8024C6FC);
 }
 
 void TObjPlayer__sub_8024ABDC(saddr arg0) {
-    call_window_method__11TWindowCtrlFPvi(arg0, lbl_804CEA64);
+    call_window_method__11TWindowCtrlFPvi(arg0, &TWindowCtrl::fn_8024C6EC);
 }
 
 void TWindowSubComCard__sub_8024AB98(saddr client_id) {
-    call_window_method__11TWindowCtrlFPvi(client_id, TWindowSubComCard__window_ctrl_callback_pmf);
+    call_window_method__11TWindowCtrlFPvi(client_id, &TWindowCtrl::fn_8024C6DC);
 }
 
 void fn_8024AB54(saddr client_id) {
-    call_window_method__11TWindowCtrlFPvi(client_id, window_ctrl_init_params);
+    call_window_method__11TWindowCtrlFPvi(client_id, &TWindowCtrl::fn_8024C6CC);
 }
 
 void close_window_if_active(void* p) { if (TWindowCtrl::get_flag_bit4() == 0) { TObjPlayer__sub_8024ABDC((saddr)p); } }
@@ -1605,7 +1573,7 @@ bool TWindowCtrl::is_submit_cooldown_clear() {
 extern "C" {
 
 void TWindowCtrl__sub_8024A228(saddr client_id) {
-    PlayerWindowQuery callback = window_ctrl_main_callback_desc;
+    PlayerWindowQuery callback = &TWindowCtrl::fn_8024D868;
     TWindowCtrl__sub_8024B098(client_id, callback);
 }
 
@@ -1624,7 +1592,7 @@ void TWindowCtrl::set_field22() {
 extern "C" {
 
 void TWindowCtrl::call_window_method_with_default_vec(s32 client_id) {
-    PlayerWindowCommand callback = window_ctrl_default_call_args;
+    PlayerWindowCommand callback = &TWindowCtrl::fn_8024D85C;
     call_window_method__11TWindowCtrlFPvi(client_id, callback);
 }
 
