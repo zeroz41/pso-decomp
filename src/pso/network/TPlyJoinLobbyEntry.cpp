@@ -73,7 +73,6 @@
 #include "pso/player/TObjPlayer_801BDF5C.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/ui/window/TWindowCtrlMain_8024CB7C.h"
-#include "pso/network/client_id.h"
 
 struct Entry_8013634C {
     u8 tag[8];
@@ -314,6 +313,7 @@ void lobby_debug_printf_stub(const char *fmt, ...);
 extern const char TLobby__data_8043EF38[];
 extern const char lobby_debug_burst_player_format[];
 extern const char lobby_debug_udp_close_player_format[];
+extern s32 designated_client_id;
 extern saddr local_client_id;
 s32 queue_destruction__7TObjectFv(void *);
 extern const char lobby_window_title_information[];

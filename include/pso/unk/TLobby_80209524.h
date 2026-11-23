@@ -20,9 +20,9 @@ void TLobby__sub_8020A618(ChallengeRandomEvent *dst, ChallengeRandomEvent *src);
 void TLobby__sub_8020A6B0(s32 player);
 s32 TLobby__sub_8020B308(void);
 s32 pick_random_slot__6TLobbyFPv(s16 *arg0);
+extern s32 next_enemy_set_actor_id;
 }
 // --- end of C functions
 
-extern s32 next_enemy_set_actor_id;
 
 #endif

@@ -4,7 +4,6 @@
 #include <string.h>
 #include "pso/network/FloorEventCommand.h"
 #include "pso/unk/TLobby_800FD78C.h"
-#include "pso/network/client_id.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/unk/TUnk_804C8678.h"
 #include "pso/ui/window/TWindowMenu.h"
@@ -981,6 +980,7 @@ void activate_palettex(u16 client_index);
 }
 
 extern E_801EB484 duel_result_table[];
+extern s32 designated_client_id;
 extern int battle_ctrl_default_value;
 extern saddr gba_download_data_buffer;
 extern s32 gba_download_data_size;
