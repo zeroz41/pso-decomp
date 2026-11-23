@@ -1733,8 +1733,8 @@ force_active:
   - TSwitch__name
   - __ct__8TTecAntiFPvPvPvl
   - TTecAnti__self_effect_rows
-  - TTecAnti__spawn_anti_range_effect
-  - TTecAnti__sub_8022AD94
+  - spawn_anti_range_effect__8TTecAntiFv
+  - sub_8022AD94__8TTecAntiFv
   - TTecAnti_name_ref
   - TTecBarta__class_name
   - __ct__9TTecBartaFlPUcPUcl
@@ -1761,7 +1761,7 @@ force_active:
   - __ct__9TTecRestaFPvPvl
   - __ct__12TTecReverserFllll
   - __ct__9TTecSiftaFPvPvPvl
-  - TTecSifta__spawn_sifta_range_effect
+  - spawn_sifta_range_effect__9TTecSiftaFv
   - __ct__9TTecSiftaFPvPvl
   - TTecSlicer__ct
   - __ct__9TTecZondeFlPUcPUcl
@@ -6213,7 +6213,7 @@ force_active:
   - find_player_texture_name_ordinal__FPUc
   - find_random_player__12TBoss3VoloptFv
   - find_strongest_player__12TBoss3VoloptFv
-  - find_support_technique_contact__FPvP14TObjCollidablePvPv
+  - find_support_technique_contact__FP19TTecPlayerInfluenceP14TObjCollidableP13CollisionBodyPv
   - find_table_entry_id
   - find_target_player__16TOTrapAncient02RFv
   - find_target_player__6TOMineFv
@@ -6555,7 +6555,7 @@ force_active:
   - game_start_background_texture_list
   - game_start_player_instance
   - game_state_load
-  - gather_player_contacts__10TObjPlayerFUlll
+  - gather_player_contacts__19TTecPlayerInfluenceFP14TObjCollidableP13CollisionBodyPv
   - gb_advance_collision_body_parts
   - gba_joyboot_transfer_callback__Fll
   - gcci_version_string
@@ -6697,7 +6697,7 @@ force_active:
   - get_player_load_state__Fv
   - get_player_motion_filename
   - get_player_pos_in_arc__13TBoss5GryphonFllP3VecP3Vec
-  - get_pos_ptr__10TObjPlayerFv
+  - get_pos_ptr__8TTecShotFv
   - get_quest_data__16TQuestListOnlineFv
   - get_quest_size__12TQuestListVMFv
   - get_quest_size__16TQuestListOnlineFv

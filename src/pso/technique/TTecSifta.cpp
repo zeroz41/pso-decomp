@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/player/TObjPlayer_80011014.h"
 #include "pso/technique/TechniqueParams.h"
 #include "pso/technique/TTecSifta.h"
 #include "pso/system/task/TObject_80019A50.h"
@@ -27,13 +28,8 @@ const char *TTecSifta__name = "TTecSifta";
 
 
 
-extern "C" {
-int TTecSifta__spawn_sifta_range_effect(void* p);
-s32 is_split_screen();
-void deliver_technique_to_party_targets(void *);
-int spawn_support_tec_range_effect(void*);
 
-int TTecSifta__spawn_sifta_range_effect(void* p) { return spawn_support_tec_range_effect(p); }
+void TTecSifta::spawn_sifta_range_effect() { spawn_support_tec_range_effect(); }
 
 void TTecSifta::play_sifta_cast_sound() {
     s32 r;
@@ -86,7 +82,6 @@ void TTecSifta::apply_to_player(TObjPlayer *player) {
     }
 }
 
-}
 TTecSifta::~TTecSifta() {
 
 }
@@ -117,7 +112,7 @@ void TTecSifta::run_task() {
     } else if (level <= 1) {
         apply_to_player((TObjPlayer *)source);
     } else {
-        deliver_technique_to_party_targets(this);
+        deliver_technique_to_party_targets();
     }
     queue_destruction();
 }
@@ -138,7 +133,7 @@ TTecSifta::TTecSifta(void *owner, void *pos, void *target_list, s32 level) : TTe
         sourceId = ((TObjBase *)(saddr)source)->get_entity_id();
     }
     if (show_effects != 0) {
-        TTecSifta__spawn_sifta_range_effect(this);
+        spawn_sifta_range_effect();
         play_sifta_cast_sound();
     }
 }
@@ -156,7 +151,7 @@ TTecSifta::TTecSifta(void *owner, void *pos, s32 level) : TTecPlayerInfluence(ow
     if (source != 0U) {
         sourceId = ((TObjBase *)(saddr)source)->get_entity_id();
     }
-    TTecSifta__spawn_sifta_range_effect(this);
+    spawn_sifta_range_effect();
     play_sifta_cast_sound();
 }
 

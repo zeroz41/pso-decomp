@@ -13,7 +13,7 @@ struct TTecDeband : public TTecPlayerInfluence {
     virtual void run_task();
     TargetCursorList targets;
     s32 m_13c;
-    int init_params();
+    void init_params();
     void update_effect_params();
     static void create(saddr arg0, saddr arg1, saddr arg2, s32 arg3);
     static void create(void *owner, void *pos, s32 level);

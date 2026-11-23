@@ -8,6 +8,7 @@
 #include "pso/unk/TUnk_804CC9D4.h"
 #include "pso/unk/TLobby_801E43E4.h"
 #include "types.h"
+#include "pso/unk/text_8023601C.h"
 #include "pso/map/FloorArea.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/system/task/TObject.h"
@@ -143,7 +144,6 @@ void create_quest_telepipe_for_client(u16 client);
 void write_telepipe_record(u8 *arg0, u16 arg1, s16 arg2, u8 *arg3, s32 arg4);
 void start_placement_search(saddr arg0, saddr pos, saddr source);
 s32 are_players_gathered_near(void *arg0, s32 *arg1, f32 range);
-void offset_point_toward_camera(u8 *arg0, u8 *arg1, f32 farg0);
 int fn_80235078(void *arg0) {
     return (u8) (*(s32 *)((s8 *)arg0 + 0x0) == 2);
 }
@@ -305,7 +305,7 @@ void TTecLuker::run_task() {
             return;
         }
         if ((get_player_by_client_id(traveller) != NULL) && (get_pipe_interaction_latch(field) != 0) && (are_players_gathered_near(&pipe_pos, 0, 10.0f) != 0)) {
-            offset_point_toward_camera((u8 *)&pipe_pos, (u8 *)&sp8, 10.0f);
+            offset_point_toward_camera(&pipe_pos, (Vec *)&sp8, 10.0f);
             spawn_particle_effect((const Vec *)&sp8, 0xB3);
             player = (u8 *)get_player_by_client_id(traveller);
             if (player != NULL) {

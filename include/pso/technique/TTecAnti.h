@@ -9,6 +9,8 @@ struct TTecAnti : public TTecPlayerInfluence {
     TTecAnti(void *owner, void *pos, void *targets, s32 level);
     virtual ~TTecAnti();
     void play_anti_cast_sound();
+    void spawn_anti_range_effect();
+    void sub_8022AD94();
     virtual void apply_to_player(TObjPlayer *player);
     virtual void run_task();
     TargetCursorList targets;

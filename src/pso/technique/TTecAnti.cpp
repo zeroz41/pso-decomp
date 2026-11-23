@@ -1,6 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
+#include "pso/player/TObjPlayer_80011014.h"
 #include "pso/technique/TTecAnti.h"
 #include "pso/technique/TechniqueParams.h"
 #include "pso/technique/TTecLuker.h"
@@ -36,18 +37,12 @@ struct AntiRow_8022AE10 { s32 a; s32 b; s32 c; s32 flags; };
 
 
 extern "C" {
-int TTecAnti__spawn_anti_range_effect(void* p);
-void TTecAnti__sub_8022AD94(void *);
-void set_owner_id__13TParticleCtrlFUs(void *, s32);
 AntiRow_8022AE10 TTecAnti__self_effect_rows[4] = {
     {0xF, 1, 0x30, 0},
     {0xF, 1, 0x32, 0},
     {0, 0xF, 0x31, 1},
     {0xA, 1, 0x1EC, 1},
 };
-void deliver_technique_to_party_targets(void *);
-s32 is_split_screen();
-int spawn_support_tec_range_effect(void*);
 }
 void TTecAnti::render() {  }
 
@@ -82,7 +77,7 @@ TTecAnti::TTecAnti(void *owner, void *pos, void *target_list, s32 level) : TTecP
     m_13c = 1;
     copy_technique_target_list(&targets, (TargetCursorList *)target_list);
     params.copy(&technique_param_table[16]);
-    TTecAnti__sub_8022AD94(this);
+    sub_8022AD94();
     t = target;
     if (t != NULL) {
         t->bodies->radius = 5.0f + params.pad_08;
@@ -92,7 +87,7 @@ TTecAnti::TTecAnti(void *owner, void *pos, void *target_list, s32 level) : TTecP
     }
     if (show_effects != 0) {
         play_anti_cast_sound();
-        TTecAnti__spawn_anti_range_effect(this);
+        spawn_anti_range_effect();
     }
 }
 
@@ -121,7 +116,7 @@ void TTecAnti::run_task() {
     } else if (level == 0) {
         apply_to_player((TObjPlayer *)source);
     } else {
-        deliver_technique_to_party_targets(this);
+        deliver_technique_to_party_targets();
     }
     queue_destruction();
 }
@@ -192,9 +187,9 @@ TUnk_804CC0E8::~TUnk_804CC0E8() {
 
 void TUnk_804CC0E8::run_task() { queue_destruction(); }
 
-void TTecAnti__sub_8022AD94(void * _w0) {  }
+void TTecAnti::sub_8022AD94() {  }
 
-int TTecAnti__spawn_anti_range_effect(void* p) { return spawn_support_tec_range_effect(p); }
+void TTecAnti::spawn_anti_range_effect() { spawn_support_tec_range_effect(); }
 
 void TTecAnti::play_anti_cast_sound() {
     s32 r;

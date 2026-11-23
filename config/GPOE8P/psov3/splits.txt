@@ -6292,7 +6292,7 @@ pso/technique/TTecMegid_80235B24.cpp:
 	.text       start:0x80235B24 end:0x80235C44
 	.data       start:0x804CCA90 end:0x804CCAA8
 
-pso/object/ambient/TObjLight_80235C44.cpp:
+pso/object/TActorLight.cpp:
 	.text       start:0x80235C44 end:0x80236D60
 	.rodata     start:0x8044D8C8 end:0x8044D8D8
 	.data       start:0x804CCAA8 end:0x804CCAC0

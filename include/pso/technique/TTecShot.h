@@ -30,6 +30,7 @@ public:
     void dispatch_technique_contact(s32);
     u8 *query_technique_player_contacts(saddr);
     u8 *query_technique_enemy_contacts(saddr);
+    Vec *get_pos_ptr();
     f32 range;
     f32 traveled;
     Vec previous;  // position before the last move

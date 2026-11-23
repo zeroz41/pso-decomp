@@ -19,42 +19,7 @@
 #include "pso/player/PlayerSlots.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/TObjPlayer_801542CC.h"
-struct VBase_18_1a504b { char pad[0x18]; };
-
-struct VObj_18_1a504b : VBase_18_1a504b {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5(u32);
-};
-
-struct List_802370D8 { u32 items[32]; s32 count; };
-
-struct Obj_802370D8 : VObj_18_1a504b {
-    void *source;
-};
-
 struct Arr_80236EE8 { TParticleCtrl *w[3]; };
-
-struct Tec_80236EE8 {
-    u8 pad0[0x8A];
-    s16 type;
-    u8 pad8C[0xA4 - 0x8C];
-    s16 level;
-    u8 padA6[2];
-    u16 slot;
-    u8 padAA[2];
-    s32 active;
-};
-
-extern "C" {
-
-List_802370D8 *gather_contacts_for_self__10TObjPlayerFl(void *, u32);
-void deliver_technique_to_party_targets(Obj_802370D8 *arg0);
-void spawn_support_tec_range_effect(Tec_80236EE8 *self);
-}
 
 const char *TTecPlayerInfluence::class_name = "TTecPlayerInfluence";
 
@@ -136,48 +101,48 @@ void TTecPlayerInfluence::render() {
     debug_draw_sphere(&position, &color, scale.x);
 }
 
-void deliver_technique_to_party_targets(Obj_802370D8 *arg0) {
-    List_802370D8 *list;
+void TTecPlayerInfluence::deliver_technique_to_party_targets() {
+    TechniqueContactList *list;
     s32 i;
-    if (*(u32 *)((s8 *)arg0 + 0xDC) == 0) {
-        ((TObject *)arg0)->queue_destruction();
+    if (target == NULL) {
+        queue_destruction();
         return;
     }
-    if (((TObjBase *)(arg0->source))->get_entity_id() < 4) {
-        list = gather_contacts_for_self__10TObjPlayerFl(arg0, *(u32 *)((s8 *)arg0 + 0x1C));
+    if (((TObjBase *)source)->get_entity_id() < 4) {
+        list = gather_contacts_for_self(source);
     } else {
-        list = (List_802370D8 *)((TTecPlayerInfluence *)arg0)->find_support_technique_contact_for_target(*(u32 *)((s8 *)arg0 + 0x1C));
+        list = find_support_technique_contact_for_target(source);
     }
     for (i = 0; i < list->count; i++) {
-        if (TObjPlayer::is_valid_and_active(list->items[i]) != 0) {
-            arg0->m5(list->items[i]);
+        if (TObjPlayer::is_valid_and_active((uaddr)list->actors[i]) != 0) {
+            apply_to_player((TObjPlayer *)list->actors[i]);
         }
     }
 }
 
 const s32 support_tec_range_effect_id_table[4] = {493, 505, 506, 507};
 const Arr_80236EE8 lbl_8044D908 = {{NULL, NULL, NULL}};
-void spawn_support_tec_range_effect(Tec_80236EE8 *self) {
+void TTecPlayerInfluence::spawn_support_tec_range_effect() {
     s16 kind;
     Vec pos;
     s32 i;
-    u32 band;
-    u8 *pl;
+    u32 distanceBand;
+    TObjPlayer *player;
     s32 j;
     s32 k;
-    if (self->active == 0) {
+    if (show_effects == 0) {
         return;
     }
-    if (self->slot >= 4) {
+    if (sourceId >= 4) {
         return;
     }
-    pl = (u8 *)get_player_by_client_id(self->slot);
-    if (pl == NULL) {
+    player = get_player_by_client_id(sourceId);
+    if (player == NULL) {
         return;
     }
     {
-        VecCopy((Vec *)&pos, (const Vec *)(pl + 0x38));
-        switch (self->type) {
+        VecCopy(&pos, &player->position);
+        switch (params.pad_16) {
         case 8:
             break;
         case 6:
@@ -193,11 +158,11 @@ void spawn_support_tec_range_effect(Tec_80236EE8 *self) {
             kind = 0xA;
             break;
         }
-        band = TTecCtrl::classify_distance_band(kind, self->level, self->slot);
+        distanceBand = TTecCtrl::classify_distance_band(kind, level, sourceId);
         {
             Arr_80236EE8 fx = lbl_8044D908;
-            fx.w[0] = spawn_particle_effect(&pos, support_tec_range_effect_id_table[band]);
-            if (band == 3) {
+            fx.w[0] = spawn_particle_effect(&pos, support_tec_range_effect_id_table[distanceBand]);
+            if (distanceBand == 3) {
                 fx.w[1] = spawn_particle_effect(&pos, 0x1F2);
                 fx.w[2] = spawn_particle_effect(&pos, 0x19D);
             }

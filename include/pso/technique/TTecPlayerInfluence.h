@@ -5,6 +5,7 @@
 #include "pso/effect/TEffect.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/technique/TechniqueParams.h"
+#include "pso/technique/TechniqueContact.h"
 
 class TObjPlayer;
 
@@ -16,7 +17,12 @@ struct TTecPlayerInfluence : public TEffect {
     // Gives one player the technique's effect.
     virtual void apply_to_player(TObjPlayer *player);
     void sub_80237258();
-    saddr find_support_technique_contact_for_target(saddr player);
+    // Applies the technique to every player in range (apply_to_player).
+    void deliver_technique_to_party_targets();
+    void spawn_support_tec_range_effect();
+    TechniqueContactList *find_support_technique_contact_for_target(saddr player);
+    TechniqueContactList *gather_player_contacts(TObjCollidable *target, CollisionBody *body, void *player);
+    TechniqueContactList *gather_contacts_for_self(saddr player);
     f32 lifetime;  // tick_lifetime destroys it once age passes this
     TechniqueParams params;  // calc_technique_parameters for the cast's level
     s32 pad_A0;

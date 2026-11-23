@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/player/TObjPlayer_80011014.h"
 #include "pso/technique/TechniqueParams.h"
 #include "pso/technique/TTecDeband.h"
 #include "pso/technique/TTecLuker.h"
@@ -23,12 +24,8 @@ const char *tec_deband_class_name_ptr = "TTecDeband";
 
 
 
-extern "C" {
-s32 deliver_technique_to_party_targets(void *);
-s32 is_split_screen();
-int spawn_support_tec_range_effect(void*);
 
-int TTecDeband::init_params() { return spawn_support_tec_range_effect(this); }
+void TTecDeband::init_params() { spawn_support_tec_range_effect(); }
 
 void TTecDeband::update_effect_params() {
     TechniqueParams *res;
@@ -57,7 +54,6 @@ void TTecDeband::create(void *owner, void *pos, s32 level) {
 }
 void TTecDeband::render() {  }
 
-}
 TTecDeband::~TTecDeband() {
 
 }
@@ -91,7 +87,7 @@ void TTecDeband::run_task() {
     } else if (level <= 1) {
         apply_to_player((TObjPlayer *)source);
     } else {
-        deliver_technique_to_party_targets(this);
+        deliver_technique_to_party_targets();
     }
     queue_destruction();
 }

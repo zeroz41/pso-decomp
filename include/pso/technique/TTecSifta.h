@@ -10,6 +10,7 @@ struct TTecSifta : public TTecPlayerInfluence {
     TTecSifta(void *owner, void *pos, s32 level);
     virtual ~TTecSifta();
     void play_sifta_cast_sound();
+    void spawn_sifta_range_effect();
     virtual void apply_to_player(TObjPlayer *player);
     virtual void run_task();
     TargetCursorList targets;

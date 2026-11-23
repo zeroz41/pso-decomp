@@ -1,6 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
+#include "pso/unk/text_8023601C.h"
 #include "pso/unk/TLobby_800FD78C.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/player/TObjPlayer.h"
@@ -187,7 +188,6 @@ void TObjLuker::open_destination_windows() {
 }
 }
 s32 are_players_gathered_near(void *arg0, s32 *arg1, f32 range);
-void offset_point_toward_camera(u8 *arg0, u8 *arg1, f32 farg0);
 extern s32 local_client_id;
 s32 are_players_gathered_near(void *arg0, s32 *arg1, f32 range) {
     s32 ret;
@@ -415,7 +415,7 @@ void TObjLuker::run_task() {
                     }
                     if (flag != 0) {
                         this->m_b0 = 1;
-                        offset_point_toward_camera((u8 *)&this->position, (u8 *)spC, 10.0f);
+                        offset_point_toward_camera(&this->position, (Vec *)spC, 10.0f);
                         spawn_particle_effect((const Vec *)spC, 0xB3);
                         p = (u8 *)get_player_by_client_id(local_client_id);
                         if (p != NULL) {

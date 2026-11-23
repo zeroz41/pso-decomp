@@ -1,6 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
+#include "pso/player/TObjPlayer_80011014.h"
 #include "pso/technique/TechniqueParams.h"
 #include "pso/technique/TTecResta.h"
 #include "pso/unk/TUnk_804CCBC0.h"
@@ -38,11 +39,6 @@ Row_8023967C TTecResta__self_recovery_effect_table[3] = {
     {0, 1, 0x2D, 1},
     {0x14, 1, 0x2E, 0},
 };
-void deliver_technique_to_party_targets(void *);
-s32 is_split_screen(void);
-int spawn_support_tec_range_effect(void*);
-
-
 }
 void TTecReverser::vfunc_6(void *arg) {
     TObjPlayer *player = (TObjPlayer *)arg;
@@ -122,7 +118,7 @@ void TTecResta::run_task() {
     } else if (level <= 1) {
         apply_to_player((TObjPlayer *)source);
     } else {
-        deliver_technique_to_party_targets(this);
+        deliver_technique_to_party_targets();
     }
     queue_destruction();
 }
@@ -232,4 +228,4 @@ f32 TTecResta::calc_heal_amount(s32 level) {
   return var_f31;
 }
 
-int TTecResta::init_cast() { return spawn_support_tec_range_effect(this); }
+void TTecResta::init_cast() { spawn_support_tec_range_effect(); }

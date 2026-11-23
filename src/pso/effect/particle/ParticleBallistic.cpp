@@ -197,7 +197,7 @@ void TParticleBallistic::run_task() {
         Vec *center = (Vec *)target_obj->get_center();
         if (center != NULL) {
             if (flags & 0x20) {
-                offset_point_toward_camera((u8 *)center, (u8 *)&toward_camera, 8.0f);
+                offset_point_toward_camera(center, &toward_camera, 8.0f);
                 sprite.offset.x = toward_camera.x - origin.x;
                 sprite.offset.y = toward_camera.y - origin.y;
                 sprite.offset.z = toward_camera.z - origin.z;

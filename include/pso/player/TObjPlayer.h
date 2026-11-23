@@ -936,9 +936,6 @@ struct TObjPlayer : public TObjChara {
     static s32 get_level_tier(s32 arg0);
     static void create_tec_jelin(void *source, void *origin, void *targets, s32 level);
     static s32 is_valid_and_active(uaddr arg0);
-    s32 *gather_player_contacts(uaddr arg1, saddr _w2, s32 _w3);
-    void gather_contacts_for_self(s32 arg1);
-    void*get_pos_ptr();
     static void create_tec_zarua(void *source, void *origin, void *targets, s32 level);
     void add_status_line(u8 category_icon, uaddr item, s32 arg3);
     static void clear_state_if_flag80(s32 arg0);

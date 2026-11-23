@@ -1562,7 +1562,7 @@ pso/object/fence/TObjLazerFenceNorm.cpp
 pso/object/ambient/TObjLight.cpp
 pso/object/ambient/TObjLight_80133568.cpp
 pso/object/ambient/TObjLight_8022F9E8.cpp
-pso/object/ambient/TObjLight_80235C44.cpp
+pso/object/TActorLight.cpp
 pso/object/ambient/TObjLight_80236D60.cpp
 pso/object/ambient/TObjLight_803DF220.cpp
 pso/object/lobby/TObjLobbyMain.cpp

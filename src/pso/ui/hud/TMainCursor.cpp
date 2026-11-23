@@ -287,7 +287,6 @@ int TObjPlayer__sub_801B066C(void *p);
     cur->f30 = cos_table_lookup(cur->f38);
 
 }
-void offset_point_toward_camera(u8 *arg0, u8 *arg1, f32 farg0);
 
 struct Rec_8013EB6C { u8 pad[0x124]; };
 struct Obj_8013EB6C { u8 pad[0x5c]; Rec_8013EB6C recs[1]; };
@@ -545,7 +544,7 @@ void TLockOnCursor::renderSecondaryCursor(u8 *body, s32 type, s32 action) {
                 TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(&shared_effect_texture_list));
                 y = *(f32 *)((s8 *)body + 0xC);
                 push_matrix();
-                offset_point_toward_camera(body + 0x1C, (u8 *)&sp8, (f32)y);
+                offset_point_toward_camera((Vec *)(body + 0x1C), (Vec *)&sp8, (f32)y);
                 translate_matrix_vec3((u8 *)(0), (u8 *)&sp8);
                 rotate_matrix_y(0, camera_ctrl_instance->yaw);
                 TParticleCtrl::begin_effect_render();
@@ -1493,7 +1492,7 @@ void render__11TMainCursorFPv(TMainCursor *main_cursor) {
     TParticleCtrl::begin_effect_render();
     y = *(f32 *)((s8 *)main_cursor + 0x30);
     push_matrix();
-    offset_point_toward_camera((u8 *)main_cursor + 0x40, (u8 *)&sp8, main_cursor->m_2c);
+    offset_point_toward_camera((Vec *)((u8 *)main_cursor + 0x40), (Vec *)&sp8, main_cursor->m_2c);
     translate_matrix_vec3((u8 *)(0), (u8 *)&sp8);
     rotate_matrix_y(0, camera_ctrl_instance->yaw);
     push_matrix();

@@ -14,7 +14,7 @@ struct TTecResta : public TTecPlayerInfluence {
     TargetCursorList targets;
     s32 m_13c;
     void play_launch_sound();
-    int init_cast();
+    void init_cast();
     static f32 calc_heal_amount(s32 level);
     void init_parameters();
     static void create(void *owner, void *pos, s32 level);
