@@ -293,7 +293,6 @@ struct TLobby : public TObject {
     u8 clamp_rule_value_2();
     void reset_settings_to_default();
     void bswap_c6_packet();
-    void bswap_cmd_c5();
     void bswap_guild_card_meet_user();
     static void draw_with_camera(NJS_SPRITE *sprite, s32 frame_index, s32 flags, f32 depth);
     static void clear_story_flag_list();

@@ -23,18 +23,6 @@ OBJECT_NAME(TProtocol);
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-struct Pkt_801DA35C {
-    u8 bytes[0x288];
-};
-
-struct PktHdr_801DA35C {
-    u8 cmd;
-    u8 flag;
-    u16 size;
-    u16 a;
-    u16 b;
-};
-
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
@@ -52,17 +40,6 @@ struct VObj_18_801DA4A0 : VBase_18_801DA4A0 {
     virtual void m8(void *, s32);
 };
 
-struct Pkt_801DA4A0 {
-    u8 bytes[0x288];
-};
-
-struct PktHdr_801DA4A0 {
-    u8 cmd;
-    u8 flag;
-    u16 size;
-    u16 a;
-    u16 b;
-};
 
 #include <string.h>
 struct Pkt_801DA548 {
@@ -80,8 +57,7 @@ struct Pkt_801DA734 {
 };
 
 extern "C" {
-void handle_cmd_D3__9TProtocolFR6packet(u8 *arg0, Pkt_801DA35C *src);
-void send_trade_list__6TLobbyFPvPv(VObj_18_801DA4A0 *obj, Pkt_801DA4A0 *src);
+void send_trade_list__6TLobbyFPvPv(VObj_18_801DA4A0 *obj, TTradeList *src);
 
 void TProtocol::handle_cmd_D5(packet &pkt) {
     TPlyText<0x1000> tmp = as(TPlyText<0x1000> &, pkt);
@@ -108,16 +84,13 @@ void TProtocol::recv_trade_result(packet &pkt) {
     }
 }
 
-void handle_cmd_D3__9TProtocolFR6packet(u8 *arg0, Pkt_801DA35C *src) {
-    char buf[0x80];
-    Pkt_801DA35C pkt;
-    void (*cb)(void *);
-    pkt = *src;
-    bswap_cmd_D3_item_bank(&pkt);
-    sprintf(buf, "RcvTradeList %d %d", ((PktHdr_801DA35C *)&pkt)->b, ((PktHdr_801DA35C *)&pkt)->a);
-    cb = *(void (**)(void *))(arg0 + 0xBC98);
-    if (cb != NULL) {
-        cb(&pkt);
+void TProtocol::handle_cmd_D3(packet &pkt) {
+    char message[0x80];
+    TTradeList trade_list = as(TTradeList &, pkt);
+    trade_list.bswap();
+    sprintf(message, "RcvTradeList %d %d", trade_list.item_count, trade_list.target_client_id);
+    if (m_recv_handlers.handle_D3_execute_trade_packet != NULL) {
+        m_recv_handlers.handle_D3_execute_trade_packet(&trade_list);
     }
 }
 void TProtocol::send_trade_ready() {
@@ -139,16 +112,15 @@ void TProtocol::recv_advance_trade_state(packet &pkt) {
 
 extern "C" {
 
-void send_trade_list__6TLobbyFPvPv(VObj_18_801DA4A0 *obj, Pkt_801DA4A0 *src) {
-    char buf[0x80];
-    Pkt_801DA4A0 pkt;
-    sprintf(buf, "SndTradeList %d %d", ((PktHdr_801DA4A0 *)src)->b, ((PktHdr_801DA4A0 *)src)->a);
-    pkt = *src;
-    ((PktHdr_801DA4A0 *)&pkt)->cmd = 0xD0;
-    ((PktHdr_801DA4A0 *)&pkt)->flag = 0;
-    ((PktHdr_801DA4A0 *)&pkt)->size = 0x288;
-    bswap_cmd_D3_item_bank(&pkt);
-    obj->m8(&pkt, 0x288);
+void send_trade_list__6TLobbyFPvPv(VObj_18_801DA4A0 *obj, TTradeList *src) {
+    char message[0x80];
+    sprintf(message, "SndTradeList %d %d", src->item_count, src->target_client_id);
+    TTradeList pkt = *src;
+    pkt.header.command = 0xD0;
+    pkt.header.flags = 0;
+    pkt.header.size = sizeof(pkt);
+    pkt.bswap();
+    obj->m8(&pkt, sizeof(pkt));
 }
 
 void TProtocol::send_text_packet_D9(char *str) {

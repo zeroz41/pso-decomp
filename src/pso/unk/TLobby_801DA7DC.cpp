@@ -9,8 +9,6 @@
 #include "pso/network/protocol/protocol.h"
 #include "pso/network/PSOV3EncryptionTCP.h"
 
-struct Pkt_801DA848 { u8 hdr[4]; u8 body[0xD50]; };
-
 struct Pkt_801DA8C4 {
     u8 cmd;
     u8 flag;
@@ -74,7 +72,6 @@ struct Pkt_801DAA70 {
 };
 
 extern "C" {
-void handle_cmd_C5__9TProtocolFR6packet(u8 *arg0, Pkt_801DA848 *arg1);
 s32 __as__16TPlyClientConfigFRC16TPlyClientConfig(void *, void *);
 s32 __as__21TPlyMeetUserExtensionFRC21TPlyMeetUserExtension(void *, void *);
 extern char *lobby_server_greeting_text;
@@ -88,13 +85,11 @@ void TProtocol::send_c6_packet(void *lobby) {
     }
 }
 
-typedef void (*Fn_801DA848)(void *, u8);
-void handle_cmd_C5__9TProtocolFR6packet(u8 *arg0, Pkt_801DA848 *arg1) {
-    Pkt_801DA848 tmp = *arg1;
-    bswap_cmd_c5(&tmp);
-    Fn_801DA848 f = *(Fn_801DA848 *)(arg0 + 0xBC8C);
-    if (f != NULL) {
-        f(tmp.body, tmp.hdr[1]);
+void TProtocol::handle_cmd_C5(packet &pkt) {
+    TRecvChallengeData tmp = as(TRecvChallengeData &, pkt);
+    tmp.bswap();
+    if (m_recv_handlers.handle_C5_player_challenge_data_packet != NULL) {
+        m_recv_handlers.handle_C5_player_challenge_data_packet(tmp.records, tmp.header.flags);
     }
 }
 

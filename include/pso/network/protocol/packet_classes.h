@@ -580,7 +580,7 @@ public:
 
 struct TPlyChallenge {
 	u8 data[0x11C];
-	void bswap() {};
+	void bswap();
 };
 
 struct TPlyChoiceSearchConfig {

@@ -17,6 +17,7 @@
 #include "pso/player/TPlyClientConfig.h"
 #include "pso/player/TPlyGuildCardTag.h"
 #include "pso/player/TPlySmth.h"
+#include "pso/item/TItemData.h"
 #include "pso/network/TSocket.h"
 #include "pso/network/TTcpSocket.h"
 
@@ -118,6 +119,32 @@ struct TRecvInfoBoard {
     void bswap();
 };
 
+// C5: the challenge mode records of the players in the lobby; header.flags is the record count.
+struct TRecvChallengeData {
+    packet_header header;
+    TPlyChallenge records[12];
+
+    void bswap();
+};
+
+// D0/D3: the items one player offers in a trade.
+struct TTradeList {
+    packet_header header;
+    u16 target_client_id;
+    u16 item_count;
+    TItemData items[32];
+
+    void bswap();
+};
+
+// 9F: the client config the server asked for.
+struct TSendClientConfig {
+    packet_header header;
+    TPlyClientConfig config;
+
+    void bswap();
+};
+
 #define RECV_PACKET_HANDLERS \
     o(handle_unused_login, void) \
     o(handle_03_recv_regist, u8 state) \
@@ -165,10 +192,10 @@ struct TRecvInfoBoard {
     o(handle_B0_recv_emergency_call, char *mesg) \
     o(handle_88_player_arrow_color_list_packet, void) \
     o(handle_8A_lobby_name_packet, char *name) \
-    o(handle_C5_player_challenge_data_packet, void) \
+    o(handle_C5_player_challenge_data_packet, TPlyChallenge *records, u8 count) \
     o(handle_DA_lobby_event_packet, int theme) \
     o(handle_AB_quest_stats_response_packet, void) \
-    o(handle_D3_execute_trade_packet, void) \
+    o(handle_D3_execute_trade_packet, TTradeList *trade_list) \
     o(handle_D4_trade_result_packet, u8 state) \
     o(handle_D1_advance_trade_state_packet, u8 state)
 
@@ -357,7 +384,6 @@ public:
     void send_create_game(char *name, char *password, u8 difficulty, u8 battle_mode, u8 challenge_mode, u8 episode);
 public:
     void bswap_packet();
-    int bswap_packet_header();
 public:
     void bswap_cmd_AB();
     static u8 *copy_player_data(void *, void *);

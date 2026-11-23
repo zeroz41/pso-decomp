@@ -1,6 +1,5 @@
 // ---- pso/network/TProtocol_801D9F50
 #include "types.h"
-#include "pso/network/TProtocol_801D9F50.h"
 #include <string.h>
 #include "pso/network/TProtocol.h"
 
@@ -66,25 +65,17 @@ void send_statistic_aa(VObj_18_801D9FA0 *obj, s16 a, s16 c, s16 d, u32 *src) {
 
 // ---- pso/network/TProtocol_801DA054
 
-#include "pso/network/TProtocol_801DA054.h"
 #include "pso/network/protocol/protocol.h"
+#include "pso/network/TProtocol_801E08CC.h"
 
-struct Cfg_801DA054 { u32 w[8]; };
-
-struct Pkt_801DA054 { u8 cmd; u8 flag; u16 size; struct Cfg_801DA054 cfg; };
-
-extern "C" {
-s32 __as__16TPlyClientConfigFRC16TPlyClientConfig(void *, void *);
-int set_lobby_count_value(void*);
-
-void handle_cmd_9F__9TProtocolFR6packet(u8 *protocol) {
-    struct Pkt_801DA054 pkt;
-    memset(&pkt, 0, 0x24);
-    pkt.cmd = 0x9F;
-    pkt.size = 0x24;
-    __as__16TPlyClientConfigFRC16TPlyClientConfig(&pkt.cfg, protocol + 0x3FAC);
-    ((TProtocol *)(&pkt))->bswap_packet_header();
-    ((TProtocol *)(protocol))->send((u8 *)((s8 *)&pkt), 0x24);
+void TProtocol::handle_cmd_9F(packet &) {
+    TSendClientConfig reply;
+    memset(&reply, 0, sizeof(reply));
+    reply.header.command = 0x9F;
+    reply.header.size = sizeof(reply);
+    reply.config = m_client_config;
+    reply.bswap();
+    send((u8 *)&reply, sizeof(reply));
 }
 
 void TProtocol::handle_cmd_DA(packet &pkt) {
@@ -95,6 +86,6 @@ void TProtocol::handle_cmd_DA(packet &pkt) {
     }
 }
 
-int handle_cmd_D7__9TProtocolFR6packet(void* p) { return set_lobby_count_value(p); }
-
+void TProtocol::handle_cmd_D7(packet &) {
+    set_lobby_count_value();
 }

@@ -1472,9 +1472,7 @@ void TProtocol::bswap_cmd_AB() {
 
 extern "C" {
 
-int bswap__13packet_headerFv(void*);
-
 void TProtocol::bswap_packet() { ((packet_header *)this)->bswap(); bswap_16((u16 *)((char*)this + 0x4)); bswap_16((u16 *)((char*)this + 0x6)); bswap_16((u16 *)((char*)this + 0x8)); bswap_16((u16 *)((char*)this + 0xa)); { int i; for (i = 0; i < 8; i++) { bswap_32((u32 *)((char*)this + 0xc + i * 4)); } } }
-int TProtocol::bswap_packet_header() { return bswap__13packet_headerFv(this); }
+void TSendClientConfig::bswap() { header.bswap(); }
 
 }

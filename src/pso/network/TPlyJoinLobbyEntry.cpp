@@ -300,7 +300,7 @@ extern "C" {
 void try_close__6TLobbyFPv();
 void handle_quest_download_chunk__6TLobbyFv();
 void apply_lobby_markers__6TLobbyFv();
-void copy_player_records__6TLobbyFl();
+void copy_player_records__6TLobbyFl(TPlyChallenge *records, u8 count);
 void init_once__6TLobbyFPv(TRecvInfoBoard *info_board);
 void lobby_debug_printf_stub(const char *fmt, ...);
 extern const char lobby_debug_delete_player_format[];
@@ -406,7 +406,7 @@ void show_card_list_message(void *msg);
 void TLobby__sub_80136E68(s32 count, Ent_80136E68 *entries, Ent_80136E68 *selected);
 void receive_file_chunk__22TQuestVmDownLoadServerFv();
 void begin_file_download__22TQuestVmDownLoadServerFv();
-void handle_trade_received_items();
+void handle_trade_received_items(TTradeList *trade_list);
 void __register_global_object(int, void *, void *);
 void __construct_array(void *, void *, void *, int, int);
 void __destroy_arr(void *arr, void *dtor, u32 size, u32 count);
