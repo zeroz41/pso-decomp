@@ -257,8 +257,8 @@ s32 TLobby__sub_803CC030(int, int);
 void configure_audio_stream_output(Stream_803C9FCC *self);
 s16 TLobby__sub_803C96E0(Obj_803C96E0 *self, s32 i);
 s32 TLobby__sub_803CBF50(void *);
-void TLobby__sub_803CA8B4(Ent_803C9608 *);
-extern Ent_803C9608 adx_stream_player_pool[16];
+void TLobby__sub_803CA8B4(AdxStreamPlayer *);
+extern AdxStreamPlayer adx_stream_player_pool[16];
 
 s32 TLobby__sub_803CBF10(int);
 void TLobby__sub_803C9E38(Obj_803C9E38 *arg0, VObj_803C9E38 *arg1);
@@ -546,7 +546,7 @@ void stop_audio_stream(u8 *arg0);
 #pragma push
 #pragma fp_contract on
 void stop_audio_stream(u8 *arg0) {
-    Ent_803C9608 *player = reinterpret_cast<Ent_803C9608 *>(arg0);
+    AdxStreamPlayer *player = reinterpret_cast<AdxStreamPlayer *>(arg0);
     void **temp_r3;
     void **temp_r3_2;
     void **temp_r3_3;

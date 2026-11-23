@@ -9,16 +9,20 @@ struct LscStream;
 struct SjRingBuffer;
 
 // One ADX stream player slot (adx_stream_player_pool).
-typedef struct Ent_803C9608 {
+typedef struct AdxStreamPlayer {
     char state;
     s8 stat;
-    u8 pad_2[0x4 - 0x2];
+    s8 play_mode;
+    u8 pad_3;
     saddr f4;
     AdxStreamFile *f8;
     saddr fC;
-    u8 pad_10[0x18 - 0x10];
+    s32 file_buffer;
+    SjRingBuffer *input;
     SjRingBuffer *f18[2]; // one per channel; 2 is inferred (stereo), the code only proves the index
-    u8 pad_20[0x48 - 0x20];
+    u8 pad_20[0x3E - 0x20];
+    s16 min_sectors;
+    u8 pad_40[0x48 - 0x40];
     s32 f48;
     u8 pad_4C[0x60 - 0x4C];
     s16 f60;
@@ -27,22 +31,23 @@ typedef struct Ent_803C9608 {
     u8 f71;
     s8 f72;
     u8 pad_73[0x94 - 0x73];
-    LscStream *f94;
-    u8 pad_98[0x9C - 0x98];
+    LscStream *lsc;
+    s8 lsc_started;
+    u8 pad_99[0x9C - 0x99];
     s32 f9C;
     s32 fA0;
     u8 pad_A4[0xA8 - 0xA4];
-} Ent_803C9608;
-LAYOUT_ASSERT(AdxStreamPlayerSize, sizeof(Ent_803C9608) == 0xA8);
-LAYOUT_ASSERT(AdxStreamPlayerFileOffset, offsetof(Ent_803C9608, f8) == 8);
+} AdxStreamPlayer;
+LAYOUT_ASSERT(AdxStreamPlayerSize, sizeof(AdxStreamPlayer) == 0xA8);
+LAYOUT_ASSERT(AdxStreamPlayerFileOffset, offsetof(AdxStreamPlayer, f8) == 8);
 
 extern "C" {
 AdxStreamFile *ADXSTM_OpenFnameEx(const char *name, s32 arg);
 AdxStreamFile *adxstm_open_fname_attr(const char *name, s32 mode, s32 arg);
 AdxStreamFile *adxstm_open_fname_range__6TLobbyFPviiii(const char *name, s32 mode, s32 off, s32 nsect, s32 arg);
 AdxStreamFile *adxstm_open_fname_range_ex_rt__6TLobbyFPviiii(const char *name, s32 mode, s32 off, s32 nsect, saddr arg);
-void TLobby__sub_803C5D00(u8 *arg0);
-void TLobby__sub_803C5D24(u8 *arg0);
+void TLobby__sub_803C5D00(AdxStreamPlayer *player);
+void TLobby__sub_803C5D24(AdxStreamPlayer *player);
 void TLobby__sub_803C5E58(void);
 void TLobby__sub_803C5E68(void);
 void TLobby__sub_803C9350(u8 *arg0, s32 arg1);
@@ -78,8 +83,8 @@ void update_active_stream_reads(void);
 
 // --- C functions of the ADX stream, talk and manager files (AdxStream.cpp to AdxManager.cpp) ---
 extern "C" {
-void TLobby__sub_803C5D00(u8 *arg0);
-void TLobby__sub_803C5D24(u8 *lobby);
+void TLobby__sub_803C5D00(AdxStreamPlayer *player);
+void TLobby__sub_803C5D24(AdxStreamPlayer *player);
 void TLobby__sub_803C5E58(void);
 void TLobby__sub_803C5E68(void);
 void TLobby__sub_803C9350(u8 *arg0, s32 arg1);
