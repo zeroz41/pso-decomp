@@ -10,6 +10,7 @@
 #include <stdlib.h>
 #include "pso/item/TItemData.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
+#include "pso/unk/text_800F9B84.h"
 
 struct SRock_80224544_8022448C;
 
@@ -499,7 +500,6 @@ void roll_shop_weapon_grind(Item_80225064 *it) {
 
 void TLobby__sub_80225238(int a0, int a1) { shop_weapon_stock_level = a1; generate_shop_weapon_stock(a0); }
 }
-saddr create_named_object(saddr arg0);
 
 #pragma push
 #pragma optimization_level 1
@@ -649,19 +649,19 @@ void load_weapon_random_tables(void) {
     s32 j;
     switch (shop_difficulty_tier) {
     case 0:
-        lobby_weapon_random_tables_ptr = create_named_object((saddr)"WeaponRandomNormal.rel");
+        lobby_weapon_random_tables_ptr = create_named_object("WeaponRandomNormal.rel");
         break;
     case 1:
-        lobby_weapon_random_tables_ptr = create_named_object((saddr)"WeaponRandomHard.rel");
+        lobby_weapon_random_tables_ptr = create_named_object("WeaponRandomHard.rel");
         break;
     case 2:
-        lobby_weapon_random_tables_ptr = create_named_object((saddr)"WeaponRandomVeryHard.rel");
+        lobby_weapon_random_tables_ptr = create_named_object("WeaponRandomVeryHard.rel");
         break;
     case 3:
-        lobby_weapon_random_tables_ptr = create_named_object((saddr)"WeaponRandomUltimate.rel");
+        lobby_weapon_random_tables_ptr = create_named_object("WeaponRandomUltimate.rel");
         break;
     default:
-        lobby_weapon_random_tables_ptr = create_named_object((saddr)"WeaponRandomNormal.rel");
+        lobby_weapon_random_tables_ptr = create_named_object("WeaponRandomNormal.rel");
         break;
     }
     for (j = 0; j < 4; j++) {

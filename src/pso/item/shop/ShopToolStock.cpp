@@ -10,6 +10,7 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include <stdlib.h>
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
+#include "pso/unk/text_800F9B84.h"
 
 struct SRock_80224544_8022448C;
 
@@ -442,10 +443,9 @@ void TLobby::free_all_rocks() {
         lobby_tool_random_rel = var_r30;
     }
 }
-saddr create_named_object(saddr arg0);
 void load_tool_random_rel(void) {
     s32 i;
-    (*(s32 *)&lobby_tool_random_rel) = create_named_object((saddr)"ToolRandom.rel");
+    (*(s32 *)&lobby_tool_random_rel) = create_named_object("ToolRandom.rel");
     for (i = 0; i < 4; i++) {
         ((saddr *)&shop_tool_stock_buffers)[i] = 0;
     }

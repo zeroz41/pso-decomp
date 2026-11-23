@@ -59,7 +59,7 @@ void TLobby::create_named_lobby_object() {
     if (((s32) lbl_805D6238 < 0) || ((s32) lbl_805D6238 > 9)) {
         lbl_805D6238 = 0;
     }
-    (*(s32 *)&lbl_805D6258) = create_named_object(((s32 *)text_shop_rel_name_table)[current_language]);
+    (*(s32 *)&lbl_805D6258) = create_named_object(text_shop_rel_name_table[current_language]);
 }
 #pragma push
 #pragma scheduling off

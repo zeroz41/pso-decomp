@@ -30,7 +30,7 @@ void TObjNpcARW00::free_resources() {
 }
 
 void TObjNpcARW00::load_resources() {
-    TObjNpcARW00__static_model = (u32)create_named_object((saddr)"npc_f00_data.rel");
+    TObjNpcARW00__static_model = (u32)create_named_object("npc_f00_data.rel");
     TObjNpcARW00__gvm_texture_handle = (uaddr)load_gvm_texture_file("n_f00_w_body.gvm");
 }
 

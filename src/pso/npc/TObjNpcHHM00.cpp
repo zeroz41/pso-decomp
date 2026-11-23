@@ -33,7 +33,7 @@ void TObjNpcHHM00::free_resources() {
 }
 
 void TObjNpcHHM00::load_resources() {
-    TObjNpcHHM00__model_object = create_named_object((saddr)"npc_a00_data.rel");
+    TObjNpcHHM00__model_object = create_named_object("npc_a00_data.rel");
     TObjNpcHHM00__body_texture_gvm_handle = (uaddr)load_gvm_texture_file("n_a00_w_body.gvm");
 }
 

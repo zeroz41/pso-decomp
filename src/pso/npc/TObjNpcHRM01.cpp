@@ -33,7 +33,7 @@ void TObjNpcHRM01::free_shared_objects() {
 }
 
 void TObjNpcHRM01::load_resources() {
-    TObjNpcHRM01__shared_object_resource = create_named_object((saddr)"npc_d01_data.rel");
+    TObjNpcHRM01__shared_object_resource = create_named_object("npc_d01_data.rel");
     TObjNpcHRM01__body_texture_gvm_handle = (uaddr)load_gvm_texture_file("n_d01_e_body.gvm");
 }
 

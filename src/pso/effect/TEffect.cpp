@@ -92,7 +92,7 @@ void free_effect_resources() {
 
 void load_effect_resources() {
     s32 i;
-    effect_rel = create_named_object((saddr)"EFFECT_NT.REL");
+    effect_rel = create_named_object("EFFECT_NT.REL");
     bind_gvm_texture_list(effect_texture_file.filename, effect_texture_file.texlist);
     for (i = 0; i < 54; i++) {
         particle_texture_id_table[i] = shared_effect_texture_list.entries[i].texture->surface->id;

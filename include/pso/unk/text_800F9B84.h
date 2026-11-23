@@ -4,6 +4,6 @@
 #include "types.h"
 
 void clear_resource_load_tasks(void);
-saddr create_named_object(saddr arg0);
+saddr create_named_object(const char *name);
 
 #endif

@@ -1323,16 +1323,16 @@ void *TLobby__sub_800F9A60(const char *name, u8 *data, s32 size) {
     return apply_rel_relocations(file);
 }
 
-saddr create_named_object(saddr name) {
-    s32 size = get_resource_file_size((const char *)name);
+saddr create_named_object(const char *name) {
+    s32 size = get_resource_file_size(name);
     TUnk_8049C658 *file;
 
     if (size > 0) {
         file = new TUnk_8049C658(&resource_load_task_root);
         memset(file->name, 0, sizeof(file->name));
-        strncpy(file->name, (const char *)name, sizeof(file->name) - 1);
+        strncpy(file->name, name, sizeof(file->name) - 1);
         file->m_name = file->name;
-        file->data = load_disc_file((const char *)name);
+        file->data = load_disc_file(name);
         file->size = size;
         return (saddr)apply_rel_relocations(file);
     }

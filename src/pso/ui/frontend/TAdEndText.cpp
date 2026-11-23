@@ -352,7 +352,7 @@ LAYOUT_ASSERT(RecoveredGlobal_8001B3BC_lbl_804F5800_size, sizeof(RecoveredGlobal
 void TAdEndText::load_ending_font() {
     TAdEndText__loaded_font_texture_list = (uaddr)&TAdEndText__ending_font_texture_list;
     bind_gvm_texture_list(lbl_804347B0, &TAdEndText__ending_font_texture_list);
-    TAdEndText__credit_script_lines = (u32)create_named_object((saddr)lbl_804347C0);
+    TAdEndText__credit_script_lines = (u32)create_named_object(lbl_804347C0);
     TAdEndText__font_loaded_flag = 0;
 }
 

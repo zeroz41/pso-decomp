@@ -135,6 +135,7 @@ void TObjPlayer::free_shared_lobby_data() { TLobby::free_nodes_with_id(player_en
 
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
 #include "pso/player/TPlyInventory.h"
+#include "pso/unk/text_800F9B84.h"
 
 #pragma inline_depth(1)
 #pragma auto_inline off
@@ -145,8 +146,7 @@ extern u8 *TObjPlayer__shared_model_buffer;
 void TObjPlayer__sub_801BFF80(u8 *arg0);
 }
 void create_player_ending_motion(void);
-saddr create_named_object(saddr arg0);
-void create_player_ending_motion(void) { TObjPlayer::alloc_shared_buffers(); player_ending_motion_object = create_named_object((saddr)"PlyEndingMotionData.rel"); }
+void create_player_ending_motion(void) { TObjPlayer::alloc_shared_buffers(); player_ending_motion_object = create_named_object("PlyEndingMotionData.rel"); }
 
 TUnk_804C4540::TUnk_804C4540(TObject *parent, TUnk_801D8A4C *src) : TObjPlayer(parent, src) {
     set_floor_index(1);
