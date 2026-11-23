@@ -227,7 +227,7 @@ force_active:
   - TAdSinglePlyChrSelectGC__sub_80076DF4
   - TAdSinglePlyChrSelectGC__sub_80133530
   - TAdSinglePlyChrSelectGC__sub_801FBC3C
-  - TAdSinglePlyChrSelectGC__sub_801FC8B4
+  - __dt__17CharacterFileSlotFv
   - TAdSinglePlyChrSelectGC__sub_801FCCB4
   - TAdSinglePlyChrSelectGC__sub_801FCCC0
   - TAdSinglePlyChrSelectGC__sub_801FCD04
@@ -7016,9 +7016,9 @@ force_active:
   - init_bolt_points__12TTecZondeEffFv
   - init_buffer
   - init_cast__9TTecRestaFv
-  - init_char_data__23TAdSinglePlyChrSelectGCFPv
+  - __ct__17CharacterFileSlotFv
   - init_char_data__6TLobbyFPv
-  - init_char_record__23TAdSinglePlyChrSelectGCFv
+  - __ct__19CharacterSaveRecordFv
   - init_char_select__16TKeyBoardControlFP7TObject
   - init_char_slot_record__23TAdSinglePlyChrSelectGCFv
   - init_charge__11TBoss6Type1Fv

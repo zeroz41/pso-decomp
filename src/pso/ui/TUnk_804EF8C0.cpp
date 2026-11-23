@@ -31,6 +31,7 @@
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/window/TWindowSubComCardList.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/system/save/CharacterFile.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 
 struct RecoveredGlobal_8033B264_lbl_804EF728 {
@@ -87,8 +88,6 @@ s32 reset_controller_input_state();
 s32 __ct__15TWindowCtrlMainFv(u32);
 
 extern u8 lobby_rule_settings[];
-s32 register_callback__23TAdSinglePlyChrSelectGCFis(int, int);
-u32 init_char_slots__23TAdSinglePlyChrSelectGCFi();
 int TAdSinglePlyChrSelectGC__sub_801FCD3C(void *);
 s32 compare_save_headers__23TAdSinglePlyChrSelectGCFPvPvPvPv(int, int, int, int);
 s32 decrypt_char_data__23TAdSinglePlyChrSelectGCFPv(int);
@@ -258,10 +257,7 @@ void TUnk_804EF8C0::handle_load_result() {
     case 0:
         seed_character_select_serial_rng(get_field_118__22TAdEnterSerialAccessGCFv());
         src = (saddr)download_buffer;
-        obj = (saddr)::operator new(0x1156C);
-        if (obj != 0U) {
-            obj = init_char_slots__23TAdSinglePlyChrSelectGCFi();
-        }
+        obj = (saddr)new CharacterFile;
         memcpy((void *)obj, (void *)(src + 0x2048), 0x1156C);
         decrypt_char_data__23TAdSinglePlyChrSelectGCFPv(obj);
         if (TAdSinglePlyChrSelectGC::init_and_register(obj) == 0) {
@@ -270,7 +266,7 @@ void TUnk_804EF8C0::handle_load_result() {
             state = 0xB;
             init_warp();
             if (obj != 0U) {
-                register_callback__23TAdSinglePlyChrSelectGCFis(obj, 1);
+                delete (CharacterFile *)obj;
             }
         } else {
             r = compare_save_headers__23TAdSinglePlyChrSelectGCFPvPvPvPv(TAdSinglePlyChrSelectGC__sub_801FCD3C((void *)obj), get_character_save_record(0xFFFF), obj, TAdSinglePlyChrSelectGC::get_instance());
@@ -290,7 +286,7 @@ void TUnk_804EF8C0::handle_load_result() {
                 state = 4;
             }
             if (obj != 0U) {
-                register_callback__23TAdSinglePlyChrSelectGCFis(obj, 1);
+                delete (CharacterFile *)obj;
             }
         }
         break;
