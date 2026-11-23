@@ -176,14 +176,12 @@ s32 release_texture_list(void *, s32);
 struct TechniqueRingwaveTextureList { u8 * value; u8 remaining[0x8]; };
 extern TechniqueRingwaveTextureList technique_ringwave_texture_list;
 void bind_gvm_texture_list(const char *, void *);
-void __ct__7TObjectFP7TObject(void *, void *);
 }
 u8 *load_gvm_texture_file(saddr arg0);
 void reset_telepipe_visit_counts(void);
 s8 lbl_805D63A8;
 BmlResource *technique_effect_bml;
 GinjaTextureList *lbl_805D63B0;
-extern s32 __vt__8TTecCtrl[];
 
 #define ONE_SLOT()                                                                       \
     if (((TObjPlayer *)(TObjPlayer__sub_80116620(c->list, 0)))->get_type_id() != 0xFFFF) { \
@@ -247,12 +245,9 @@ void TLobby__sub_8022F068(void) {
     technique_effect_bml = NULL;
 }
 
-void *__ct__8TTecCtrlFv(void *tec_ctrl, void *parent) {
-    __ct__7TObjectFP7TObject(tec_ctrl, parent);
-    *(s32 **)((s8 *)tec_ctrl + 0x18) = __vt__8TTecCtrl;
-    ((TTecCtrl *)tec_ctrl)->m_name = TTecCtrl__name;
-    *(u32 *)((s8 *)tec_ctrl + 0x1C) = 0;
-    return tec_ctrl;
+TTecCtrl::TTecCtrl(TObject *parent) : TObject(parent) {
+    m_name = TTecCtrl__name;
+    pad_1C = 0;
 }
 
 TTecCtrl::~TTecCtrl() {}

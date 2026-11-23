@@ -161,10 +161,7 @@ void TLobby::create_tasks() {
     if ((get_main_phase() == 0xF) && ((get_current_floor_area() == AREA_PIONEER2_EP1) || (get_current_floor_area() == AREA_PIONEER2_EP2))) {
         new THunterGuildSeqOnlineTask((TObject *)tl_01);
     }
-    tmp = (uaddr)TObject::operator new(0x24);
-    if (tmp != 0U) {
-        __ct__8TTecCtrlFv((void *)tmp, (void *)tl_01);
-    }
+    new TTecCtrl((TObject *)tl_01);
 }
 
 void TLobby::clear_session_buffers() {
