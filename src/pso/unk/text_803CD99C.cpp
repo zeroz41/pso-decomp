@@ -1,169 +1,77 @@
 #include <string.h>
 #include "pso/unk/text_803D2F1C.h"
 #include "pso/unk/text_803CD99C.h"
+#include "pso/audio/AixPlayer.h"
 
 #include "pso/system/MiddlewareInterruptLock.h"
 
 #include "types.h"
-#include "pso/unk/TLobby.h"
 
 #pragma readonly_strings on
-
-// AFS-style range pair; consumers of get_entry_pair divide them by 2048 to turn
-// them into stream scroll offset/position.
-struct StreamRangeEntry { s32 startByte; s32 byteLength; u8 pad[8]; };
-
-struct StreamRangeTable { u8 pad[0x214]; StreamRangeEntry e[1]; };
-
-struct LobbyStreamRanges { u8 pad[0xa0]; StreamRangeTable sub; };
 
 #define READ_BE32(p) (((p)[0] << 24) | ((p)[1] << 16) | ((p)[2] << 8) | (p)[3])
 #define READ_BE16(p) (((p)[0] << 8) | (p)[1])
 
-struct AixByteWordBlock { u8 b; u8 pad[3]; s32 a; u8 pad8[8]; };
-
-struct AixWordBlock { s32 w[4]; };
-
-struct AixShortBlock { s16 h[4]; };
-
-// Decoded AIXF file header: 0x08/0x09 header bytes, big-endian size/sample
-// words, then n1/n2/n3-counted tables of each entry shape.
-struct AixHeaderInfo {
-    u8 f0;
-    u8 f1;
-    u8 pad2[2];
-    s32 f4;
-    f32 f8;
-    s8 n3;
-    u8 padd[3];
-    AixByteWordBlock e3[32];
-    s32 n1;
-    AixWordBlock e1[32];
-    s32 n2;
-    AixShortBlock e2[1];
-};
-
-struct ChunkStream;
-
-// Ring-buffer segment handed out by the chunk stream vtable.
-struct StreamChunk {
-    u8 *data;
-    s32 len;
-};
-
-// Big-endian AIX packet header parsed out of the source ring stream.
-struct AixPacketHeader {
-    u32 magic;
-    s32 size;
-    u8 channel; // destination channel index (b[0])
-    u8 pad9;
-    s16 dataLen; // payload length following the header
-    s32 w; // 0xC header word, returned as the demux result
-};
-
-// Ring-stream ops interface: get/release/commit/avail on chunk segments.
-struct StreamChunkVtbl {
-    u8 pad[0x18];
-    void (*get)(ChunkStream *, s32, s32, StreamChunk *);
-    void (*release)(ChunkStream *, s32, StreamChunk *);
-    void (*commit)(ChunkStream *, s32, StreamChunk *);
-    s32 (*avail)(ChunkStream *, s32);
-};
-
-struct ChunkStream {
-    StreamChunkVtbl *vt;
-};
-
-// AIX demuxer: one source chunk stream fanned out to nch channel streams.
-struct AixDemuxState {
-    u8 f0;
-    s8 f1;
-    s8 nch;
-    u8 pad3;
-    s8 f4;
-    u8 pad5[3];
-    s32 bytesDelivered; // cumulative payload bytes written into channel streams
-    u8 padC[0x10];
-    ChunkStream *src;
-    ChunkStream *ch[0x23];
-    s8 n;
-};
-
 extern "C" {
-s32 parse_aix_header__6TLobbyFPviPv(u8 *arg0, s32 arg1, AixHeaderInfo *arg2);
 char *cri_copyright_string = "(c)CRI";
 
-// Per-frame AIX stream slot (pool lbl_8057FFD0): header phase then demux phase.
-struct AixStreamSlot {
-    s8 active;
-    s8 phase;
-    s8 nch;
-    s8 paused;
-    u8 pad4[4];
-    s32 consumed;
-    u8 padC[0x10];
-    ChunkStream *src;
-    u8 pad20[0x80];
-    AixHeaderInfo aix;
-    u8 pad4C0[0x18];
-};
-
-AixStreamSlot lbl_8057FFD0[4];
+AixDemuxer aix_demuxer_pool[4];
 
 void TLobby__sub_803CD99C(void) {
-    AixStreamSlot *slot;
+    AixDemuxer *demuxer;
     s32 i;
     s32 size;
-    ChunkStream *src;
-    StreamChunk rest;
-    s32 active;
-    StreamChunk chunk;
+    SjRingBuffer *input;
+    SjChunk rest;
+    s32 used;
+    SjChunk chunk;
 
     for (i = 0; i < 4; i++) {
-        slot = &lbl_8057FFD0[i];
-        active = slot->active;
-        if (active == 1) {
-            if (slot->phase == 1) {
-                src = slot->src;
-                src->vt->get(src, 1, 0x1800, &chunk);
-                size = TLobby::parse_aix_header(chunk.data, chunk.len, &slot->aix);
+        demuxer = &aix_demuxer_pool[i];
+        used = demuxer->used;
+        if (used == 1) {
+            if (demuxer->state == 1) {
+                input = demuxer->input;
+                input->interface->get_chunk(input, 1, 0x1800, &chunk);
+                size = parse_aix_header(chunk.data, chunk.size, &demuxer->header);
                 if (size == 0) {
-                    src->vt->release(src, 1, &chunk);
+                    input->interface->unget_chunk(input, 1, &chunk);
                 } else {
-                    if (size != chunk.len) {
+                    if (size != chunk.size) {
                         while (1) {
                         }
                     }
                     TLobby__sub_803D3130(&chunk, size, &chunk, &rest);
-                    src->vt->commit(src, 0, &chunk);
-                    src->vt->release(src, 1, &rest);
-                    slot->consumed += size;
-                    slot->phase = 2;
+                    input->interface->put_chunk(input, 0, &chunk);
+                    input->interface->unget_chunk(input, 1, &rest);
+                    demuxer->bytes_consumed += size;
+                    demuxer->state = 2;
                 }
-            } else if (slot->phase == 2 && slot->paused == 0) {
-                if (((TLobby *)slot)->demux_stream_chunks() == -1) {
-                    ((TLobby *)slot)->demux_stream_chunks();
+            } else if (demuxer->state == 2 && demuxer->paused == 0) {
+                if (demux_stream_chunks(demuxer) == -1) {
+                    demux_stream_chunks(demuxer);
                 }
             }
         }
     }
 }
 
-static inline s32 parse_803CDB0C(u8 *data, u32 len, AixPacketHeader *h) {
+static inline s32 parse_aix_packet_header(u8 *data, u32 size, void *out) {
+    AixPacketHeader *header = (AixPacketHeader *)out;
     u8 *p;
-    if (len < 0x10) {
+    if (size < 0x10) {
         return 0;
     }
     p = data;
-    *(u32 *)((u8 *)h + 0) = READ_BE32(p);
+    header->magic = READ_BE32(p);
     p += 4;
-    *(s32 *)((u8 *)h + 4) = READ_BE32(p);
+    header->size = READ_BE32(p);
     p += 4;
-    ((u8 *)h)[8] = *p++;
-    ((u8 *)h)[9] = *p++;
-    *(s16 *)((u8 *)h + 10) = READ_BE16(p);
+    header->layer = *p++;
+    header->layer_count = *p++;
+    header->data_size = READ_BE16(p);
     p += 2;
-    *(s32 *)((u8 *)h + 12) = READ_BE32(p);
+    header->result = READ_BE32(p);
     p += 4;
     if (p - data != sizeof(AixPacketHeader)) {
         while (1) {
@@ -172,134 +80,132 @@ static inline s32 parse_803CDB0C(u8 *data, u32 len, AixPacketHeader *h) {
     return 0x10;
 }
 
-s32 TLobby::demux_stream_chunks() {
-    AixDemuxState *o = (AixDemuxState *)this;
-    ChunkStream *s;
-    ChunkStream **ch;
-    s32 n;
+s32 demux_stream_chunks(AixDemuxer *demuxer) {
+    SjRingBuffer *input;
+    SjRingBuffer **outputs;
+    s32 layer_count;
     s32 i;
     s32 ret;
-    s32 c;
+    s32 layer;
     s32 len;
     s32 j;
-    AixPacketHeader hdr;
-    StreamChunk c1;
-    StreamChunk c2;
-    StreamChunk tmp;
+    AixPacketHeader header;
+    SjChunk packet;
+    SjChunk rest;
+    SjChunk out;
     ret = -3;
-    ch = o->ch;
-    n = o->n;
-    s = o->src;
-    for (i = 0; i < n; i++) {
-        s->vt->get(s, 1, 0x7FFFFFFF, &c1);
-        if (parse_803CDB0C(c1.data, c1.len, &hdr) == 0) {
-            s->vt->release(s, 1, &c1);
+    outputs = demuxer->layer_outputs;
+    layer_count = demuxer->header.layer_count;
+    input = demuxer->input;
+    for (i = 0; i < layer_count; i++) {
+        input->interface->get_chunk(input, 1, 0x7FFFFFFF, &packet);
+        if (parse_aix_packet_header(packet.data, packet.size, &header) == 0) {
+            input->interface->unget_chunk(input, 1, &packet);
             return ret;
         }
-        if (c1.len < hdr.size + 8) {
-            s->vt->release(s, 1, &c1);
+        if (packet.size < header.size + 8) {
+            input->interface->unget_chunk(input, 1, &packet);
             return ret;
         }
-        if (hdr.magic == 0x41495845) {
-            TLobby__sub_803D3130(&c1, hdr.size + 8, &c1, &c2);
-            s->vt->commit(s, 0, &c1);
-            s->vt->release(s, 1, &c2);
-            if (s->vt->avail(s, 1) <= 0) {
-                o->f4 = 0;
+        if (header.magic == 0x41495845) {
+            TLobby__sub_803D3130(&packet, header.size + 8, &packet, &rest);
+            input->interface->put_chunk(input, 0, &packet);
+            input->interface->unget_chunk(input, 1, &rest);
+            if (input->interface->get_available(input, 1) <= 0) {
+                demuxer->continuous = 0;
             }
-            if (o->f4 == 0) {
-                o->f1 = 3;
+            if (demuxer->continuous == 0) {
+                demuxer->state = 3;
             }
             return ret;
         }
-        c = hdr.channel;
-        if (c >= o->nch) {
+        layer = header.layer;
+        if (layer >= demuxer->max_layers) {
             while (1) {
             }
         }
-        if (ch[c]->vt->avail(ch[c], 0) < hdr.dataLen) {
-            s->vt->release(s, 1, &c1);
+        if (outputs[layer]->interface->get_available(outputs[layer], 0) < header.data_size) {
+            input->interface->unget_chunk(input, 1, &packet);
             return ret;
         }
         middleware_interrupt_lock_enter();
-        ret = hdr.w;
-        TLobby__sub_803D3130(&c1, hdr.size + 8, &c1, &c2);
-        s->vt->release(s, 1, &c2);
-        TLobby__sub_803D3130(&c1, 0x10, &c1, &c2);
-        if (c2.len < hdr.dataLen) {
+        ret = header.result;
+        TLobby__sub_803D3130(&packet, header.size + 8, &packet, &rest);
+        input->interface->unget_chunk(input, 1, &rest);
+        TLobby__sub_803D3130(&packet, 0x10, &packet, &rest);
+        if (rest.size < header.data_size) {
             while (1) {
             }
         }
-        len = hdr.dataLen;
-        for (j = 0; j < len; j += tmp.len) {
-            ch[c]->vt->get(ch[c], 0, c2.len - j, &tmp);
-            memcpy(tmp.data, c2.data + j, tmp.len);
-            ch[c]->vt->commit(ch[c], 1, &tmp);
+        len = header.data_size;
+        for (j = 0; j < len; j += out.size) {
+            outputs[layer]->interface->get_chunk(outputs[layer], 0, rest.size - j, &out);
+            memcpy(out.data, rest.data + j, out.size);
+            outputs[layer]->interface->put_chunk(outputs[layer], 1, &out);
         }
-        s->vt->commit(s, 0, &c1);
-        s->vt->commit(s, 0, &c2);
-        o->bytesDelivered = c2.len + (c1.len + o->bytesDelivered);
+        input->interface->put_chunk(input, 0, &packet);
+        input->interface->put_chunk(input, 0, &rest);
+        demuxer->bytes_consumed = rest.size + (packet.size + demuxer->bytes_consumed);
         middleware_interrupt_lock_leave();
     }
     return ret;
 }
 
-s32 parse_aix_header__6TLobbyFPviPv(u8 *arg0, s32 arg1, AixHeaderInfo *arg2) {
+s32 parse_aix_header(u8 *data, s32 size, AixHeader *header) {
     s32 len;
-    s32 hdr;
+    s32 header_size;
     u8 *p;
     s32 i;
     len = strlen(cri_copyright_string);
-    if (arg1 < 0x1800) {
+    if (size < 0x1800) {
         return 0;
     }
-    if (READ_BE32(arg0) != 0x41495846) {
+    if (READ_BE32(data) != 0x41495846) {
         return 0;
     }
-    hdr = READ_BE32(arg0 + 4);
-    if (memcmp(arg0 + (hdr + 8 - len), cri_copyright_string, len) != 0) {
+    header_size = READ_BE32(data + 4);
+    if (memcmp(data + (header_size + 8 - len), cri_copyright_string, len) != 0) {
         return 0;
     }
-    arg2->f0 = arg0[8];
-    arg2->f1 = arg0[9];
-    arg2->f8 = (s32)READ_BE16(arg0 + 0xA);
-    arg2->f4 = READ_BE32(arg0 + 0xC);
-    arg2->n1 = READ_BE16(arg0 + 0x18);
-    p = arg0 + 0x20;
-    for (i = 0; i < arg2->n1; i++) {
-        arg2->e1[i].w[0] = READ_BE32(p);
-        arg2->e1[i].w[1] = READ_BE32(p + 4);
-        arg2->e1[i].w[2] = READ_BE32(p + 8);
-        arg2->e1[i].w[3] = READ_BE32(p + 12);
+    header->f0 = data[8];
+    header->f1 = data[9];
+    header->f8 = (s32)READ_BE16(data + 0xA);
+    header->f4 = READ_BE32(data + 0xC);
+    header->segment_count = READ_BE16(data + 0x18);
+    p = data + 0x20;
+    for (i = 0; i < header->segment_count; i++) {
+        header->segments[i].offset = READ_BE32(p);
+        header->segments[i].size = READ_BE32(p + 4);
+        header->segments[i].sample_count = READ_BE32(p + 8);
+        header->segments[i].sample_rate = READ_BE32(p + 12);
         p += 0x10;
     }
-    arg2->n2 = (s8)p[0];
+    header->info_count = (s8)p[0];
     p += 8;
-    for (i = 0; i < arg2->n2; i++) {
-        arg2->e2[i].h[0] = READ_BE16(p);
-        arg2->e2[i].h[1] = READ_BE16(p + 2);
-        arg2->e2[i].h[2] = READ_BE16(p + 4);
-        arg2->e2[i].h[3] = READ_BE16(p + 6);
+    for (i = 0; i < header->info_count; i++) {
+        header->info[i][0] = READ_BE16(p);
+        header->info[i][1] = READ_BE16(p + 2);
+        header->info[i][2] = READ_BE16(p + 4);
+        header->info[i][3] = READ_BE16(p + 6);
         p += 8;
     }
-    arg2->n3 = p[0];
+    header->layer_count = p[0];
     p += 8;
-    for (i = 0; i < arg2->n3; i++) {
-        arg2->e3[i].a = READ_BE32(p);
-        arg2->e3[i].b = p[4];
+    for (i = 0; i < header->layer_count; i++) {
+        header->layers[i].sample_rate = READ_BE32(p);
+        header->layers[i].channel_count = p[4];
         p += 8;
     }
-    return hdr + 8;
+    return header_size + 8;
 }
 
-void TLobby::get_entry_pair(s32 i, s32 *a, s32 *b) {
-    LobbyStreamRanges *self = (LobbyStreamRanges *)this;
-    StreamRangeTable *s = &self->sub;
-    if (a != 0) {
-        *a = s->e[i].startByte;
+void get_entry_pair(AixDemuxer *demuxer, s32 segment, s32 *offset, s32 *size) {
+    AixHeader *header = &demuxer->header;
+    if (offset != 0) {
+        *offset = header->segments[segment].offset;
     }
-    if (b != 0) {
-        *b = s->e[i].byteLength;
+    if (size != 0) {
+        *size = header->segments[segment].size;
     }
 }
 

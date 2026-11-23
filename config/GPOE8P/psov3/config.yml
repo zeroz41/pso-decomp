@@ -5622,7 +5622,7 @@ force_active:
   - demo_step__16TObjWeddingLobbyFv
   - demo_step__17TObjParticleLobbyFv
   - demo_step__19TObjStendGlassLobbyFv
-  - demux_stream_chunks__6TLobbyFv
+  - demux_stream_chunks
   - depth_buffer_config_copy
   - depth_buffer_settings
   - despawn_state__14TObjEneBm5WolfFl
@@ -8226,8 +8226,8 @@ force_active:
   - lbl_805470AC
   - lbl_80549748
   - lbl_8054AB48
-  - lbl_8057FFD0
-  - lbl_80581330
+  - aix_demuxer_pool
+  - aix_player_pool
   - lbl_8058DC00
   - quest_convert_string
   - lbl_805A9008
@@ -9337,7 +9337,7 @@ force_active:
   - panarms_atk_zero_vec
   - paralysis_curse_timer_ct__FPUclUslf
   - parse_action_packet__11TBoss6Type2FP22OlgaFlowType2ActionMsg
-  - parse_aix_header__6TLobbyFPviPv
+  - parse_aix_header
   - parse_color_code__6TLobbyFPc
   - parse_f_index__Fl
   - parse_hex_string__FPc
