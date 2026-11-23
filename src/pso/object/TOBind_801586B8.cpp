@@ -56,10 +56,10 @@ void TOBind::render() {
     }
 }
 
-void *TOBind::create(void *arg0) {
+void *TOBind::create(void *set_data) {
     void *o = TObject::operator new(0xD8);
     if (o != NULL) {
-        o = TOBind__ct((TOBind *)((u8 *)o), (saddr)arg0);
+        o = TOBind__ct((TOBind *)((u8 *)o), (saddr)set_data);
     }
     return o;
 }

@@ -82,7 +82,7 @@ void TObjEZBoneRotPlayer::advance_bone_rotation() {
     }
 }
 
-void TObjEZBoneRotPlayer::calc_bone_offsets_recursive(void *arg1, s32 arg2, s32 arg3) {
+void TObjEZBoneRotPlayer::calc_bone_offsets_recursive(void *arg1, s32 angle, s32 arg3) {
     s32 k;
     f32 t;
     do {
@@ -91,7 +91,7 @@ void TObjEZBoneRotPlayer::calc_bone_offsets_recursive(void *arg1, s32 arg2, s32 
             return;
         }
         if (k == *(s32 *)((s8 *)this + 0x88)) {
-            t = (f32) arg3 * sin_table_lookup(arg2);
+            t = (f32) arg3 * sin_table_lookup(angle);
             *(s32 *)((s8 *)arg1 + 0x14) = *(s32 *)((s8 *)(*(u8 **)((s8 *)this + 0x90)) + 0) + (s32) (*(f32 *)((s8 *)(*(u8 **)((s8 *)this + 0x8C)) + 4) * t);
             *(s32 *)((s8 *)arg1 + 0x18) = *(s32 *)((s8 *)(*(u8 **)((s8 *)this + 0x90)) + 4) + (s32) (*(f32 *)((s8 *)(*(u8 **)((s8 *)this + 0x8C)) + 8) * t);
             *(s32 *)((s8 *)arg1 + 0x1C) = *(s32 *)((s8 *)(*(u8 **)((s8 *)this + 0x90)) + 8) + (s32) (*(f32 *)((s8 *)(*(u8 **)((s8 *)this + 0x8C)) + 0xC) * t);
@@ -103,7 +103,7 @@ void TObjEZBoneRotPlayer::calc_bone_offsets_recursive(void *arg1, s32 arg2, s32 
         }
         *(s32 *)((s8 *)this + 0x88) = *(s32 *)((s8 *)this + 0x88) + 1;
         if (*(void **)((s8 *)arg1 + 0x2C) != NULL) {
-            calc_bone_offsets_recursive(*(void **)((s8 *)arg1 + 0x2C), arg2 + *(s32 *)((s8 *)(*(u8 **)((s8 *)this + 0x20)) + 8), (s32) (*(f32 *)((s8 *)(*(u8 **)((s8 *)this + 0x20)) + 0xC) * (f32) arg3));
+            calc_bone_offsets_recursive(*(void **)((s8 *)arg1 + 0x2C), angle + *(s32 *)((s8 *)(*(u8 **)((s8 *)this + 0x20)) + 8), (s32) (*(f32 *)((s8 *)(*(u8 **)((s8 *)this + 0x20)) + 0xC) * (f32) arg3));
         }
         arg1 = *(void **)((s8 *)arg1 + 0x30);
     } while (arg1 != NULL);

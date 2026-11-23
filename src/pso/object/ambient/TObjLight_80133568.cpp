@@ -401,29 +401,29 @@ void init_map_lights(u8 *arg0) {
     new TUnk_804A6F78(tl_02);
 }
 
-void init_menu_scene_lights(u8 *arg0, s32 arg1) {
+void init_menu_scene_lights(u8 *default_scene_light_config, s32 arg1) {
     Vec stack;
-    stack.x = *(f32 *)((s8 *)arg0 + 0);
-    stack.y = *(f32 *)((s8 *)arg0 + 4);
-    stack.z = *(f32 *)((s8 *)arg0 + 8);
+    stack.x = *(f32 *)((s8 *)default_scene_light_config + 0);
+    stack.y = *(f32 *)((s8 *)default_scene_light_config + 4);
+    stack.z = *(f32 *)((s8 *)default_scene_light_config + 8);
     if (0.0f != vector_length(&stack.x)) {
         normalize_vector(&stack);
     }
     TObjLight__scene_light_state.direction.x = stack.x;
     TObjLight__scene_light_state.direction.y = stack.y;
     TObjLight__scene_light_state.direction.z = stack.z;
-    TObjLight__scene_light_state.pad_18 = (f32) *(f32 *)((s8 *)arg0 + 0x18);
-    TObjLight__scene_light_state.intensity = (f32) *(f32 *)((s8 *)arg0 + 0x1C);
-    TObjLight__scene_light_state.ambient = (f32) *(f32 *)((s8 *)arg0 + 0x20);
-    TObjLight__scene_light_state.color.r = (f32) *(f32 *)((s8 *)arg0 + 0x28);
-    TObjLight__scene_light_state.color.g = (f32) *(f32 *)((s8 *)arg0 + 0x2C);
-    TObjLight__scene_light_state.color.b = (f32) *(f32 *)((s8 *)arg0 + 0x30);
-    TObjLight__scene_light_state.ambient_color.r = (f32) *(f32 *)((s8 *)arg0 + 0x38);
-    TObjLight__scene_light_state.ambient_color.g = (f32) *(f32 *)((s8 *)arg0 + 0x3C);
-    TObjLight__scene_light_state.ambient_color.b = (f32) *(f32 *)((s8 *)arg0 + 0x40);
-    TObjLight__scene_light_state.view_direction.x = (f32) *(f32 *)((s8 *)arg0 + 0xC);
-    TObjLight__scene_light_state.view_direction.y = (f32) *(f32 *)((s8 *)arg0 + 0x10);
-    TObjLight__scene_light_state.view_direction.z = (f32) *(f32 *)((s8 *)arg0 + 0x14);
+    TObjLight__scene_light_state.pad_18 = (f32) *(f32 *)((s8 *)default_scene_light_config + 0x18);
+    TObjLight__scene_light_state.intensity = (f32) *(f32 *)((s8 *)default_scene_light_config + 0x1C);
+    TObjLight__scene_light_state.ambient = (f32) *(f32 *)((s8 *)default_scene_light_config + 0x20);
+    TObjLight__scene_light_state.color.r = (f32) *(f32 *)((s8 *)default_scene_light_config + 0x28);
+    TObjLight__scene_light_state.color.g = (f32) *(f32 *)((s8 *)default_scene_light_config + 0x2C);
+    TObjLight__scene_light_state.color.b = (f32) *(f32 *)((s8 *)default_scene_light_config + 0x30);
+    TObjLight__scene_light_state.ambient_color.r = (f32) *(f32 *)((s8 *)default_scene_light_config + 0x38);
+    TObjLight__scene_light_state.ambient_color.g = (f32) *(f32 *)((s8 *)default_scene_light_config + 0x3C);
+    TObjLight__scene_light_state.ambient_color.b = (f32) *(f32 *)((s8 *)default_scene_light_config + 0x40);
+    TObjLight__scene_light_state.view_direction.x = (f32) *(f32 *)((s8 *)default_scene_light_config + 0xC);
+    TObjLight__scene_light_state.view_direction.y = (f32) *(f32 *)((s8 *)default_scene_light_config + 0x10);
+    TObjLight__scene_light_state.view_direction.z = (f32) *(f32 *)((s8 *)default_scene_light_config + 0x14);
     new TUnk_804A6F90(tl_02);
     new TUnk_804A6FA8(tl_02);
 }

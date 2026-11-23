@@ -64,8 +64,8 @@ void TOLightMachine01::render() {
     }
 }
 
-void *TOLightMachine01::create(void *arg0) {
-    return new TOLightMachine01(arg0);
+void *TOLightMachine01::create(void *set_data) {
+    return new TOLightMachine01(set_data);
 }
 
 void TOLightMachine01::destroy_instance() {

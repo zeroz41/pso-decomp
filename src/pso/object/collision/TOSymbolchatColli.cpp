@@ -132,8 +132,8 @@ void TOSymbolchatColli::run_task() {
     }
 }
 
-void *TOSymbolchatColli::create(void *arg0) {
-    return new TOSymbolchatColli(tl_05, (saddr)arg0);
+void *TOSymbolchatColli::create(void *set_data) {
+    return new TOSymbolchatColli(tl_05, (saddr)set_data);
 }
 
 void TOSymbolchatColli::free_rock() { mem_free((void *)symbol_chat_colli_entries); symbol_chat_colli_entries = 0; }

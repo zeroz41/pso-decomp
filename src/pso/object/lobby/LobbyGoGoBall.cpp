@@ -357,7 +357,7 @@ TUnk_804B8E18::~TUnk_804B8E18() {
     clear_collision_bodies();
 }
 
-void TUnk_804B8E18::sub_8019A44C(s32 arg1) {
+void TUnk_804B8E18::sub_8019A44C(s32 angle) {
     Win_8019A44C *arg0 = (Win_8019A44C *)this;
     arg0->f390 = ((f32 *)&gogo_ball_configuration)[3];
     arg0->f394 = ((f32 *)&gogo_ball_configuration)[4];
@@ -371,8 +371,8 @@ void TUnk_804B8E18::sub_8019A44C(s32 arg1) {
     arg0->f348 = arg0->f394;
     arg0->f34C = arg0->f390;
     arg0->f3A0 = vector_length(&arg0->f344, (0.1f));
-    rotate_vec_xz(&arg0->f344, &arg0->f344, arg1);
-    arg0->f334 = arg1;
+    rotate_vec_xz(&arg0->f344, &arg0->f344, angle);
+    arg0->f334 = angle;
     VecCopy((Vec *)arg0->f50, (const Vec *)&arg0->f344);
     arg0->f50[1] = (0.0f);
 }
@@ -727,22 +727,22 @@ void draw_shadow_on_ground(u8 *arg0) {
 #define bswap_6x79_gogo_ball__12TWindowTimerFi ((s32 (*)(void))bswap_6x79_gogo_ball__12TWindowTimerFi)
 #define gogo_ball_configuration (*(u8 (*)[1])&gogo_ball_configuration)
 
-void TObjPlayer__sub_801994DC(saddr arg0, void *arg1, void *arg2, s32 angle, void *arg4, f32 farg0) {
+void TObjPlayer__sub_801994DC(saddr arg0, void *pos, void *dir, s32 angle, void *scale, f32 farg0) {
     Ang_801994DC ang;
     Col_801994DC col;
     Fx_801994DC fx;
     if (blob_shadow_texture_list == 0) {
         return;
     }
-    direction_to_rotation_xz((u8 *)arg2, &ang.x, &ang.z);
+    direction_to_rotation_xz((u8 *)dir, &ang.x, &ang.z);
     push_matrix();
-    post_translate_matrix(arg1);
+    post_translate_matrix(pos);
     translate_matrix(0, 0.0f, 0.3f, 0.0f);
     rotate_matrix_z(0, ang.z);
     rotate_matrix_x(0, ang.x);
     rotate_matrix_y(0, angle);
-    if (arg4 != NULL) {
-        scale_current_matrix(arg4);
+    if (scale != NULL) {
+        scale_current_matrix(scale);
     }
     rotate_matrix_x(0, -0x4000);
     fx.a = -5.0f;

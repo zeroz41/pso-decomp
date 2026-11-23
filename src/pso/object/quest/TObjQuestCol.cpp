@@ -471,10 +471,10 @@ void TQuestColCtrl::init() {
     new TQuestColCtrl(tl_05);
 }
 
-void TQuestColCtrl::delete_by_param(s32 arg0) {
+void TQuestColCtrl::delete_by_param(s32 id) {
     TObject *next;
     TObject *cur;
-    if (arg0 < 0) {
+    if (id < 0) {
         return;
     }
     next = quest_collision_task_root->m_down;
@@ -487,7 +487,7 @@ void TQuestColCtrl::delete_by_param(s32 arg0) {
              || ((TUnk_804B6C24 *)cur)->check_value_equals((saddr)obj_quest_col_apc_class_name) != 0
              || ((TUnk_804B6C24 *)cur)->check_value_equals((saddr)TObjQuestColApcIN__name) != 0
              || ((TUnk_804B6C24 *)cur)->check_value_equals((saddr)TObjQuestColApcINW__name) != 0)
-            && cur->m_id == arg0) {
+            && cur->m_id == id) {
             cur->queue_destruction();
             return;
         }

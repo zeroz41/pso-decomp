@@ -20,7 +20,7 @@ void init_area_lights(void);
 void init_map_lights(u8 *arg0);
 extern "C" {
 // Every caller passes 4 as arg1; the body never reads it.
-void init_menu_scene_lights(u8 *arg0, s32 arg1);
+void init_menu_scene_lights(u8 *default_scene_light_config, s32 arg1);
 }
 void load_light_entry_file(void);
 extern "C" {

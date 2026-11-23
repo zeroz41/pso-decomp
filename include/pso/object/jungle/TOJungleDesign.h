@@ -23,8 +23,8 @@ struct TOJungleDesign : public TObjCollidable {
 LAYOUT_ASSERT(TOJungleDesign_size, sizeof(TOJungleDesign) == 0xB4);
 
 extern "C" {
-GinjaTextureList *fn_802FF028(s32 arg0);
-NJS_OBJECT *fn_802FF064(s32 arg0);
+GinjaTextureList *fn_802FF028(s32 index);
+NJS_OBJECT *fn_802FF064(s32 index);
 }
 
 #endif

@@ -488,6 +488,6 @@ TObjLuker::TObjLuker(TObject *parent, void *set_data) : TObjBase(parent) {
 }
 #undef self
 
-void *TObjLuker::create(void *arg0) {
-    return new TObjLuker((TObject *)tl_05, arg0);
+void *TObjLuker::create(void *set_data) {
+    return new TObjLuker((TObject *)tl_05, set_data);
 }

@@ -30,7 +30,7 @@ struct TODummyKeyCave01 : public TObjBase {
     u32 m_d0;
     virtual void render();
     virtual void run_task();
-    static void *create(void *arg0);
+    static void *create(void *set_data);
 };
 
 LAYOUT_ASSERT(TODummyKeyCave01_size, sizeof(TODummyKeyCave01) == 0xD4);

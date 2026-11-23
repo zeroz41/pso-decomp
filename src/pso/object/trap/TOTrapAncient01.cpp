@@ -341,9 +341,9 @@ void TOTrapAncient01::vfunc_82() {
 
 void TOTrapAncient01::vfunc_84() {  }
 
-f32 TOTrapAncient01::receive_physical_attack(void *arg1, f32 farg0) {
+f32 TOTrapAncient01::receive_physical_attack(void *attacker, f32 scale) {
     release_trapped_player();
-    return TOTrap::receive_physical_attack(arg1, farg0);
+    return TOTrap::receive_physical_attack(attacker, scale);
 }
 
 void TOTrapAncient01::play_sounds() {

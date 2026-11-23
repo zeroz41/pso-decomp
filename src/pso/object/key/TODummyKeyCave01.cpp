@@ -99,8 +99,8 @@ TODummyKeyCave01::~TODummyKeyCave01() {
 
 void TODummyKeyCave01__sub_80165E8C(void) {  }
 void TODummyKeyCave01__sub_80165E88(void) {  }
-void *TODummyKeyCave01::create(void *arg0) {
-    return new TODummyKeyCave01(tl_05, arg0);
+void *TODummyKeyCave01::create(void *set_data) {
+    return new TODummyKeyCave01(tl_05, set_data);
 }
 
 void TODummyKeyCave01::run_task() {

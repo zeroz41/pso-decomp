@@ -80,15 +80,15 @@ TOJungleDesign::TOJungleDesign(saddr parent, saddr set_data) : TObjCollidable((T
 }
 
 
-GinjaTextureList *fn_802FF028(s32 arg0) {
+GinjaTextureList *fn_802FF028(s32 index) {
     if (TOJungleDesign__shared_model_resource != NULL) {
-        return (GinjaTextureList *)get_bml_texlist((BmlResource *)TOJungleDesign__shared_model_resource, arg0);
+        return (GinjaTextureList *)get_bml_texlist((BmlResource *)TOJungleDesign__shared_model_resource, index);
     }
     return NULL;
 }
-NJS_OBJECT *fn_802FF064(s32 arg0) {
+NJS_OBJECT *fn_802FF064(s32 index) {
     if (TOJungleDesign__shared_model_resource != NULL) {
-        return (NJS_OBJECT *)get_bml_model((BmlResource *)TOJungleDesign__shared_model_resource, arg0);
+        return (NJS_OBJECT *)get_bml_model((BmlResource *)TOJungleDesign__shared_model_resource, index);
     }
     return NULL;
 }

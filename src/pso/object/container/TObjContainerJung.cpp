@@ -267,9 +267,9 @@ void *TObjContainerJung::create(void *set_data) {
     return new TObjContainerJung(tl_05, set_data);
 }
 
-NJS_OBJECT *TObjContainerJung::get_model_by_index(s32 arg0) {
+NJS_OBJECT *TObjContainerJung::get_model_by_index(s32 index) {
     if (jungle_container_archive != NULL) {
-        return (NJS_OBJECT *)get_bml_model((BmlResource *)jungle_container_archive, arg0);
+        return (NJS_OBJECT *)get_bml_model((BmlResource *)jungle_container_archive, index);
     }
     return NULL;
 }

@@ -150,13 +150,13 @@ void free_buffer_pair_table(void) {
     }
 }
 
-s32 sample_aircar_path_position(s32 arg0, void *arg1, f32 frame) {
+s32 sample_aircar_path_position(s32 lane, void *pos, f32 frame) {
     Vec sp24;
     Vec sp18;
     f32 sp8[4];
     f32 lim;
     s32 r;
-    Info_80181698 *m = ((Info_80181698 * (*)(s32))get_city_common_motion)(city_traffic_path_motion_index_table[arg0]);
+    Info_80181698 *m = ((Info_80181698 * (*)(s32))get_city_common_motion)(city_traffic_path_motion_index_table[lane]);
     u32 n = m->n;
     r = 1;
     lim = (n - 1);
@@ -165,8 +165,8 @@ s32 sample_aircar_path_position(s32 arg0, void *arg1, f32 frame) {
         r = 0;
     }
     bind_motion_context((NJS_MOTION *)m, frame);
-    void *t = ((void * (*)(s32))get_city_common_model)(city_aircar_model_indices[arg0]);
-    sample_motion_node_transform((NJS_OBJECT *)t, (f32 *)arg1, (s32 *)&sp24, &sp18.x, sp8);
+    void *t = ((void * (*)(s32))get_city_common_model)(city_aircar_model_indices[lane]);
+    sample_motion_node_transform((NJS_OBJECT *)t, (f32 *)pos, (s32 *)&sp24, &sp18.x, sp8);
     return r;
 }
 

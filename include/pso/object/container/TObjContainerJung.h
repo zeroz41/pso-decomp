@@ -14,7 +14,7 @@ struct TObjContainerJung : public TUnk_804B6C24 {
     virtual void vfunc_80();
     virtual void vfunc_81();
     virtual void vfunc_6(s16 *, s32);
-    static NJS_OBJECT *get_model_by_index(s32 arg0);
+    static NJS_OBJECT *get_model_by_index(s32 index);
     static void *create(void *arg0);
     static GinjaTextureList *get_textures(s32);
     static void release();

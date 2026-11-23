@@ -294,8 +294,8 @@ TObjDoorKey::TObjDoorKey(TObject *parent, void *set_entry) : TOKey(parent) {
 }
 
 
-void *TObjDoorKey::create(void *arg0) {
-    void *o = (void *)new TObjDoorKey((TObject *)tl_05, (void *)arg0);
+void *TObjDoorKey::create(void *set_entry) {
+    void *o = (void *)new TObjDoorKey((TObject *)tl_05, (void *)set_entry);
     return o;
 }
 

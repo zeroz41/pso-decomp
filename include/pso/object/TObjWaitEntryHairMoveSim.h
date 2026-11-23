@@ -18,7 +18,7 @@ public:
 LAYOUT_ASSERT(TObjWaitEntryHairMoveSimSize, sizeof(TObjWaitEntryHairMoveSim) == 0x20);
 
 extern "C" {
-void TObjWaitEntryHairMoveSim__sub_800FE3BC(int _w0);
+void TObjWaitEntryHairMoveSim__sub_800FE3BC(int bone);
 TObject *fn_800FE73C(TObjPlayer *player);
 void create_hair_effects__24TObjWaitEntryHairMoveSimFPv(TObjWaitEntryHairMoveSim *self);
 int is_move_done__24TObjWaitEntryHairMoveSimFv(void);

@@ -13,7 +13,7 @@ struct TOSymbolchatColli : public TObjChara {
     s32 get_state();
     void init_collision_params();
     virtual void render();
-    static void *create(void *arg0);
+    static void *create(void *set_data);
     static void free_rock();
     static void load_symbol_chat_data();
     f32 radius_sq;            // scale.x squared

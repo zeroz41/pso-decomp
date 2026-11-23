@@ -162,8 +162,8 @@ void TOSwitchAttack::run_task() {
 }
 #pragma pop
 
-void *TOSwitchAttack::create(void *arg0) {
-    return new TOSwitchAttack(tl_05, arg0);
+void *TOSwitchAttack::create(void *set_data) {
+    return new TOSwitchAttack(tl_05, set_data);
 }
 
 void TOSwitchAttack__sub_80177C20(void) {  }

@@ -208,7 +208,7 @@ void TOAttackableCol::vfunc_6(s16 *arg1, s32 arg2) {
 
 int TOAttackableCol::handle_6x91_update_state() { return clear_player_status_flag__14TObjCollidableFlUl(this, 0, 1); }
 
-f32 TOAttackableCol::apply_hit(saddr arg1) {
+f32 TOAttackableCol::apply_hit(saddr player) {
     u8 *arg0 = (u8 *)this;
   s32 temp_r0;
   s32 temp_r0_2;
@@ -218,7 +218,7 @@ f32 TOAttackableCol::apply_hit(saddr arg1) {
   uaddr var_r0;
   uaddr var_r0_2;
   var_r30 = 0;
-  if (((arg1 != 0) && (((TObjBase *)arg1)->get_entity_id() < 4U)) && (TObjPlayer::is_locally_controlled((void *) arg1) != 0))
+  if (((player != 0) && (((TObjBase *)player)->get_entity_id() < 4U)) && (TObjPlayer::is_locally_controlled((void *) player) != 0))
   {
     var_r30 = 1;
   }
@@ -335,11 +335,11 @@ s32 TOAttackableCol::select_melee_contact_body(void *, f32) { return 1; }
 
 int TOAttackableCol::calc_distance_accuracy_penalty(void *, void *, void *, float) { return 1; }
 
-f32 TOAttackableCol::receive_physical_attack(void *_w1, f32) { return this->apply_hit((saddr)_w1); }
+f32 TOAttackableCol::receive_physical_attack(void *player, f32) { return this->apply_hit((saddr)player); }
 
-f32 TOAttackableCol::receive_direct_attack(void *_w1, DirectAttackPayload, void *, s32, s32) { return this->apply_hit((saddr)_w1); }
+f32 TOAttackableCol::receive_direct_attack(void *player, DirectAttackPayload, void *, s32, s32) { return this->apply_hit((saddr)player); }
 
-f32 TOAttackableCol::receive_weapon_special_attack(void *_w1, void *) { return this->apply_hit((saddr)_w1); }
+f32 TOAttackableCol::receive_weapon_special_attack(void *player, void *) { return this->apply_hit((saddr)player); }
 
 void TOAttackableCol::apply_knockback_from_attacker(u8 *, f32) {  }
 

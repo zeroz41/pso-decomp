@@ -4,7 +4,7 @@
 #include "types.h"
 
 extern "C" {
-void TObjPlayer__sub_801994DC(saddr arg0, void *arg1, void *arg2, s32 arg3, void *arg4, f32 farg0);
+void TObjPlayer__sub_801994DC(saddr arg0, void *pos, void *dir, s32 arg3, void *scale, f32 farg0);
 void TWindowTimer__sub_80198D98(void);
 void TWindowTimer__sub_8019A098(void);
 void TWindowTimer__sub_8019A6F8(void *p);

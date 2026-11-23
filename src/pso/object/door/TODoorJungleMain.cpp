@@ -167,32 +167,32 @@ s32 release_texture_list(void*);
 void free_collision_body_parts(void *);
 
 
-u8 *TODoorJungleMain__ct(TODoorJungleMain *arg0, s32 arg1, saddr set_data) {
+u8 *TODoorJungleMain__ct(TODoorJungleMain *actor, s32 arg1, saddr set_data) {
     struct CopyStack_8029B924 { u8 bytes[0x3C]; };
     CopyStack_8029B924 copy_storage_8029B924;
     saddr temp_r4;
-    __ct__10TODoorBaseFP7TObject(arg0);
-    *(s32 **)((s8 *)arg0 + 0x18) = __vt__16TODoorJungleMain;
-    *(saddr *)((s8 *)arg0 + 0) = (saddr) TODoorJungleMain__name;
-    ((TODoorJungleMain *)(arg0))->apply_object_set_data((void *)set_data);
-    arg0->motion = (AnimationMotion *)get_bml_motion(TODoorJungleMain__bml_resource, 0);
-    arg0->animation_step = 1.0f;
-    ((TODoorJungleMain *)arg0)->animation_end_frame = 0.0f;
-    init_collision_body_parts(arg0, (saddr) TODoorJungleMain_collision_body_parts, 1);
-    ((TObjCollidable *)arg0)->refresh_collision_body_centers();
-    ((TObjPlayer *)arg0)->register_object_by_id();
-    arg0->view_range = 800.0f;
+    __ct__10TODoorBaseFP7TObject(actor);
+    *(s32 **)((s8 *)actor + 0x18) = __vt__16TODoorJungleMain;
+    *(saddr *)((s8 *)actor + 0) = (saddr) TODoorJungleMain__name;
+    ((TODoorJungleMain *)(actor))->apply_object_set_data((void *)set_data);
+    actor->motion = (AnimationMotion *)get_bml_motion(TODoorJungleMain__bml_resource, 0);
+    actor->animation_step = 1.0f;
+    ((TODoorJungleMain *)actor)->animation_end_frame = 0.0f;
+    init_collision_body_parts(actor, (saddr) TODoorJungleMain_collision_body_parts, 1);
+    ((TObjCollidable *)actor)->refresh_collision_body_centers();
+    ((TObjPlayer *)actor)->register_object_by_id();
+    actor->view_range = 800.0f;
     temp_r4 = set_data - 4;
-    ((TODoorJungleMain *)arg0)->model_radius = 120.0f;
-    arg0->m_d4 = 0;
-    arg0->m_d8 = 0;
+    ((TODoorJungleMain *)actor)->model_radius = 120.0f;
+    actor->m_d4 = 0;
+    actor->m_d8 = 0;
     *(ByteBlock_3C *)(copy_storage_8029B924.bytes) = *(const ByteBlock_3C *)(temp_r4 + 4);
     (*(f32 *)(copy_storage_8029B924.bytes + 0x24)) = 160.0f;
     (*(f32 *)(copy_storage_8029B924.bytes + 0x28)) = 100.0f;
     (*(f32 *)(copy_storage_8029B924.bytes + 0x2C)) = 40.0f;
     (*(s32 *)(copy_storage_8029B924.bytes + 0x30)) = 2;
-    arg0->m_dc = TObjMapCsn::create(copy_storage_8029B924.bytes);
-    return (u8 *)arg0;
+    actor->m_dc = TObjMapCsn::create(copy_storage_8029B924.bytes);
+    return (u8 *)actor;
 }
 
 }

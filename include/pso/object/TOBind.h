@@ -21,7 +21,7 @@ struct TOBind : public TObjCollidable {
     AnimationMotion *motion;
     virtual void run_task();
     virtual void render();
-    static void *create(void *arg0);
+    static void *create(void *set_data);
     static void free_static_model();
     static void load_static_resource();
     f32 draw_distance;

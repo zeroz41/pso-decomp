@@ -692,7 +692,7 @@ void T_OWEHMS_Exp::run_task() {
     }
 }
 
-void TObjWaitEntryHairMoveSim__sub_800FE3BC(int _w0) {  }
+void TObjWaitEntryHairMoveSim__sub_800FE3BC(int bone) {  }
 
 void T_OWEHMS_Exp::start_bone_rotation() {
     saddr bone = (saddr)player->hair_model;

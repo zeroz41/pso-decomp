@@ -482,19 +482,19 @@ void TOMine::update_trigger() {
         send_object_state_update(&sp8);
     }
 }
-f32 TOMine::receive_direct_attack(void *arg1, DirectAttackPayload payload, void *, s32, s32) {
+f32 TOMine::receive_direct_attack(void *player, DirectAttackPayload payload, void *, s32, s32) {
   s32 temp_r0;
   s32 var_r31;
-  if (arg1 == 0)
+  if (player == 0)
   {
     return 0.0f;
   }
-  if (this->is_target_in_list(arg1) == 1)
+  if (this->is_target_in_list(player) == 1)
   {
     return 0.0f;
   }
   var_r31 = 0;
-  if ((((TObjBase *)arg1)->get_entity_id() < 4U) && (TObjPlayer::is_locally_controlled((void *) arg1) != 0))
+  if ((((TObjBase *)player)->get_entity_id() < 4U) && (TObjPlayer::is_locally_controlled((void *) player) != 0))
   {
     var_r31 = 1;
   }
@@ -525,11 +525,11 @@ f32 TOMine::receive_direct_attack(void *arg1, DirectAttackPayload payload, void 
   }
   return 0.0f;
 }
-f32 TOMine::receive_weapon_special_attack(void *arg1, void *) {
-    if (is_target_in_list(arg1) == 1) {
+f32 TOMine::receive_weapon_special_attack(void *player, void *) {
+    if (is_target_in_list(player) == 1) {
         return 0.0f;
     }
-    if ((TObjPlayer::is_locally_controlled((void *)arg1) != 0) && (((TObjPlayer *)arg1)->obj_getS16_116() != 0)) {
+    if ((TObjPlayer::is_locally_controlled((void *)player) != 0) && (((TObjPlayer *)player)->obj_getS16_116() != 0)) {
         this->receive_physical_attack(0, 1.0f);
     }
     return 0.0f;
