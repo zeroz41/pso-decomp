@@ -926,7 +926,6 @@ int set_quest_exit_callback(void*);
 int set_quest_cancel_callback(void*);
 int set_quest_success_callback(void*);
 int THunterGuildSeqOffline__sub_801F3748(void*);
-void TObjDoor__sub_801F3760(void);
 s32 clear_floor_event_flags();
 s32 is_room_enemy_set_cleared(int, int, void *);
 void unhide_room_set_objects(s32 a, s16 b, s16 c, s32 d);

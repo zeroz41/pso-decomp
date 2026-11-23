@@ -8,11 +8,4 @@ void TObjDoor__sub_801F3754(void);
 void TObjDoor__sub_801F3760(void);
 }
 
-// --- C functions defined in TObjDoor_801F3754.cpp ---
-extern "C" {
-void TObjDoor__sub_801F3754(void);
-void TObjDoor__sub_801F3760(void);
-}
-// --- end of C functions
-
 #endif
