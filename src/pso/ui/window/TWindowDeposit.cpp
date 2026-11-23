@@ -34,11 +34,12 @@ WindowDescriptor window_deposit_layout = {
     {160.0f, 27.0f}, 50100.0f, &window_deposit_layout_entries, 0x82B,
 };
 
-extern "C" {
 #pragma push
 #pragma readonly_strings on
 const char *TWindowDeposit::class_name = "TWindowDeposit";
 #pragma pop
+
+extern "C" {
 
 void TWindowDeposit::render_status(WindowDrawContext *context) {
     draw_window_tab(context, &context->inner_x, 3, this->m_60);
