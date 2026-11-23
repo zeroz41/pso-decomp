@@ -10,7 +10,7 @@ void sndSeqSpeed(u32 seqId, u16 speed) {
 
 void sndSeqContinue(s32 seqId) {
     hwDisableIrq();
-    seqContinue((s32)(seqId));
+    seqContinue(seqId);
     hwEnableIrq();
 }
 
@@ -25,9 +25,10 @@ void sndSeqVolume(u8 volume, u16 time, u32 seqId, u8 mode) {
     seqVolume(volume, time, seqId, mode);
     hwEnableIrq();
 }
-u16 seqGetMIDIPriority(u8 arg0, u8 arg1) {
+
+u16 seqGetMIDIPriority(u8 midiSet, u8 midi) {
     extern RecoveredGlobal_803AA0C0_lbl_80556E88 lbl_80556E88;
-    return *(u16 *)((s8 *)((u8 *)(((u8 *)(&lbl_80556E88.value) + ((arg0 << 5) & 0x1FE0))) + ((arg1 * 2) & 0x1FE)) + 0);
+    return *(u16 *)((s8 *)((u8 *)(((u8 *)(&lbl_80556E88.value) + ((midiSet << 5) & 0x1FE0))) + ((midi * 2) & 0x1FE)) + 0);
 }
 
 }

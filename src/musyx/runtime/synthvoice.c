@@ -1,29 +1,53 @@
-#include "musyx/runtime/musyx_runtime_a.h"
+#include "musyx/musyx.h"
+#include "musyx/runtime/musyx_internal.h"
 
-typedef struct SYNTH_VOICELIST_V {
+typedef struct SynthVoiceList {
     u8 prev;
     u8 next;
     u16 user;
-} SYNTH_VOICELIST_V;
+} SynthVoiceList;
 
-typedef struct SYNTH_ROOTLIST_V {
+typedef struct SynthRootList {
     u16 next;
     u16 prev;
-} SYNTH_ROOTLIST_V;
+} SynthRootList;
 
-static VID_LIST_SV vidList[128];
+static SynthVidList vidList[128];
 static u8 synth_last_started[8][16];
 static u8 synth_last_fxstarted[64];
-static SYNTH_VOICELIST_V voicePrioSortVoices[64];
+static SynthVoiceList voicePrioSortVoices[64];
 static u8 voicePrioSortVoicesRoot[256];
-static SYNTH_ROOTLIST_V voicePrioSortRootList[256];
-static SYNTH_VOICELIST_V voiceList[64];
+static SynthRootList voicePrioSortRootList[256];
+static SynthVoiceList voiceList[64];
 
+#define VID_UNLINK(n)                              \
+    {                                              \
+        SynthVidList *q = (n)->prev;               \
+        if (q != NULL) {                           \
+            q->next = (n)->next;                   \
+        } else {                                   \
+            vidRoot = (n)->next;                   \
+        }                                          \
+    }                                              \
+    {                                              \
+        SynthVidList *q = (n)->next;               \
+        if (q != NULL) {                           \
+            q->prev = (n)->prev;                   \
+        }                                          \
+    }
+
+#define VID_PUSH_FREE(n)                           \
+    (n)->next = vidFree;                           \
+    if (vidFree != NULL) {                         \
+        vidFree->prev = (n);                       \
+    }                                              \
+    (n)->prev = NULL;                              \
+    vidFree = (n);
 
 extern "C" {
 u32 vidCurrentId;
-VID_LIST_SV *vidRoot;
-VID_LIST_SV *vidFree;
+SynthVidList *vidRoot;
+SynthVidList *vidFree;
 u16 voicePrioSortRootListRoot;
 u8 voiceMusicRunning;
 u8 voiceFxRunning;
@@ -34,8 +58,8 @@ extern "C" {
 
 void vidInit(void) {
     s32 i;
-    VID_LIST_SV *n;
-    VID_LIST_SV *prev;
+    SynthVidList *n;
+    SynthVidList *prev;
 
     n = vidList;
     vidFree = n;
@@ -53,8 +77,8 @@ void vidInit(void) {
     prev->next = NULL;
 }
 
-VID_LIST_SV *get_vidlist(u32 key) {
-    VID_LIST_SV *n;
+SynthVidList *get_vidlist(u32 key) {
+    SynthVidList *n;
     for (n = vidRoot; n != 0; n = n->next) {
         if (n->vid == key) {
             return n;
@@ -66,45 +90,45 @@ VID_LIST_SV *get_vidlist(u32 key) {
     return 0;
 }
 
-void vidRemoveVoiceReferences(Prog_803B25CC *p) {
+void vidRemoveVoiceReferences(SynthVoice *p) {
     if (p->id != 0xFFFFFFFF) {
-        voiceResetLastStarted((Obj_803B3B80 *)p);
-        if (p->prevId != 0xFFFFFFFF) {
-            VOICES_803B25CC[(u8)p->prevId].nextId = p->nextId;
-            if (p->nextId != 0xFFFFFFFF) {
-                VOICES_803B25CC[(u8)p->nextId].prevId = p->prevId;
+        voiceResetLastStarted(p);
+        if (p->parent != 0xFFFFFFFF) {
+            synthVoice[(u8)p->parent].child = p->child;
+            if (p->child != 0xFFFFFFFF) {
+                synthVoice[(u8)p->child].parent = p->parent;
             }
-            UNLINK_803B25CC(p->node)
-            PUSH_803B25CC(p->node)
-            p->node = NULL;
-        } else if (p->nextId != 0xFFFFFFFF) {
-            p->node->root = p->nextId;
-            VOICES_803B25CC[(u8)p->nextId].prevId = 0xFFFFFFFF;
-            VOICES_803B25CC[(u8)p->nextId].node2 = p->node2;
-            if (p->node != p->node2) {
-                UNLINK_803B25CC(p->node)
-                PUSH_803B25CC(p->node)
-                p->node = NULL;
+            VID_UNLINK(p->vidList)
+            VID_PUSH_FREE(p->vidList)
+            p->vidList = NULL;
+        } else if (p->child != 0xFFFFFFFF) {
+            p->vidList->root = p->child;
+            synthVoice[(u8)p->child].parent = 0xFFFFFFFF;
+            synthVoice[(u8)p->child].vidMasterList = p->vidMasterList;
+            if (p->vidList != p->vidMasterList) {
+                VID_UNLINK(p->vidList)
+                VID_PUSH_FREE(p->vidList)
+                p->vidList = NULL;
             }
-            p->node = NULL;
-            p->node2 = NULL;
-        } else if (p->node != p->node2) {
-            UNLINK_803B25CC(p->node)
-            PUSH_803B25CC(p->node)
-            p->node = NULL;
-            UNLINK_803B25CC(p->node2)
-            PUSH_803B25CC(p->node2)
-            p->node2 = NULL;
+            p->vidList = NULL;
+            p->vidMasterList = NULL;
+        } else if (p->vidList != p->vidMasterList) {
+            VID_UNLINK(p->vidList)
+            VID_PUSH_FREE(p->vidList)
+            p->vidList = NULL;
+            VID_UNLINK(p->vidMasterList)
+            VID_PUSH_FREE(p->vidMasterList)
+            p->vidMasterList = NULL;
         } else {
-            UNLINK_803B25CC(p->node)
-            PUSH_803B25CC(p->node)
-            p->node = NULL;
-            p->node2 = NULL;
+            VID_UNLINK(p->vidList)
+            VID_PUSH_FREE(p->vidList)
+            p->vidList = NULL;
+            p->vidMasterList = NULL;
         }
     }
 }
 
-u32 vidMakeRoot(SYNTH_VOICE_SV *svoice) {
+u32 vidMakeRoot(SynthVoice *svoice) {
     svoice->vidMasterList = svoice->vidList;
     return svoice->vidList->vid;
 }
@@ -114,7 +138,7 @@ u32 vidMakeRoot(SYNTH_VOICE_SV *svoice) {
 #pragma dont_inline off
 #pragma inline_depth(4)
 
-static inline u32 get_newvid_SV(void) {
+static inline u32 get_newvid(void) {
     u32 vid;
     do {
         vid = vidCurrentId++;
@@ -123,13 +147,13 @@ static inline u32 get_newvid_SV(void) {
     return vid;
 }
 
-u32 vidMakeNew(SYNTH_VOICE_SV *svoice, u32 isMaster) {
+u32 vidMakeNew(SynthVoice *svoice, u32 isMaster) {
     u32 vid;
-    VID_LIST_SV *nvl;
-    VID_LIST_SV *lvl;
-    VID_LIST_SV *vl;
+    SynthVidList *nvl;
+    SynthVidList *lvl;
+    SynthVidList *vl;
 
-    vid = get_newvid_SV();
+    vid = get_newvid();
     lvl = NULL;
     nvl = vidRoot;
 
@@ -139,7 +163,7 @@ u32 vidMakeNew(SYNTH_VOICE_SV *svoice, u32 isMaster) {
         }
 
         if (nvl->vid == vid) {
-            vid = get_newvid_SV();
+            vid = get_newvid();
         }
         lvl = nvl;
         nvl = nvl->next;
@@ -179,8 +203,8 @@ u32 vidMakeNew(SYNTH_VOICE_SV *svoice, u32 isMaster) {
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(4)
-inline VID_LIST_SV *find_node_803B2A30(u32 id) {
-    VID_LIST_SV *p;
+inline SynthVidList *find_vid_node(u32 id) {
+    SynthVidList *p;
     for (p = vidRoot; p != 0; p = p->next) {
         if (p->vid == id) {
             return p;
@@ -191,9 +215,9 @@ inline VID_LIST_SV *find_node_803B2A30(u32 id) {
     }
     return 0;
 }
-u32 vidGetInternalId(u32 id) {
-    if (id != 0xFFFFFFFF) {
-        VID_LIST_SV *p = find_node_803B2A30(id);
+u32 vidGetInternalId(u32 vid) {
+    if (vid != 0xFFFFFFFF) {
+        SynthVidList *p = find_vid_node(vid);
         if (p != 0) {
             return p->root;
         }
@@ -204,9 +228,9 @@ u32 vidGetInternalId(u32 id) {
 
 #pragma push
 #pragma opt_common_subs on
-void voiceRemovePriority(Obj_803B312C *svoice) {
-    SYNTH_VOICELIST_V *vps;
-    SYNTH_ROOTLIST_V *rps;
+void voiceRemovePriority(SynthVoice *svoice) {
+    SynthVoiceList *vps;
+    SynthRootList *rps;
 
     vps = &voicePrioSortVoices[svoice->id & 0xFF];
     if (vps->user != 1) {
@@ -216,13 +240,13 @@ void voiceRemovePriority(Obj_803B312C *svoice) {
     if (vps->prev != 0xFF) {
         voicePrioSortVoices[vps->prev].next = vps->next;
     } else {
-        voicePrioSortVoicesRoot[svoice->grp] = vps->next;
+        voicePrioSortVoicesRoot[svoice->prio] = vps->next;
     }
 
     if (vps->next != 0xFF) {
         voicePrioSortVoices[vps->next].prev = vps->prev;
     } else if (vps->prev == 0xFF) {
-        rps = &voicePrioSortRootList[svoice->grp];
+        rps = &voicePrioSortRootList[svoice->prio];
 
         if (rps->prev != 0xFFFF) {
             voicePrioSortRootList[rps->prev].next = rps->next;
@@ -240,23 +264,22 @@ void voiceRemovePriority(Obj_803B312C *svoice) {
 
 #pragma pop
 
-extern "C" void hwSetPriority(s32 i, s32 v);
 #pragma push
 #pragma opt_common_subs on
 
-void voiceSetPriority(Voice_803B2128 *svoice, u8 prio) {
+void voiceSetPriority(SynthVoice *svoice, u8 prio) {
     u32 v;
     u16 li;
-    SYNTH_VOICELIST_V *vps;
+    SynthVoiceList *vps;
     u16 i;
-    v = svoice->fF4 & 0xFF;
+    v = svoice->id & 0xFF;
     vps = &voicePrioSortVoices[v];
     if (vps->user == 1) {
-        if (svoice->pad10C[0] == prio) {
+        if (svoice->prio == prio) {
             return;
         }
 
-        voiceRemovePriority((Obj_803B312C *)svoice);
+        voiceRemovePriority(svoice);
     }
 
     vps->user = 1;
@@ -292,8 +315,8 @@ void voiceSetPriority(Voice_803B2128 *svoice, u8 prio) {
     }
 
     voicePrioSortVoicesRoot[prio] = v;
-    svoice->pad10C[0] = prio;
-    hwSetPriority(svoice->fF4 & 0xFF, ((u32)prio << 24) | (svoice->f110 >> 15));
+    svoice->prio = prio;
+    hwSetPriority(svoice->id & 0xFF, ((u32)prio << 24) | (svoice->age >> 15));
 }
 
 #pragma pop
@@ -308,7 +331,7 @@ u32 voiceAllocate(u8 priority, u8 maxVoices, u16 allocId, u8 fxFlag) {
     s32 voice;
     u16 p;
     u32 type_alloc;
-    SYNTH_VOICELIST_V *sfv;
+    SynthVoiceList *sfv;
 
     if (!synthIdleWaitActive) {
         if (fxFlag) {
@@ -333,17 +356,17 @@ u32 voiceAllocate(u8 priority, u8 maxVoices, u16 allocId, u8 fxFlag) {
             p = voicePrioSortRootListRoot;
             while (p != 0xFFFF && priority >= p && voice == -1) {
                 for (i = voicePrioSortVoicesRoot[p]; i != 0xff; i = voicePrioSortVoices[i].next) {
-                    if (allocId != SV_VOICES[i].allocId)
+                    if (allocId != synthVoice[i].allocId)
                         continue;
                     ++num;
-                    if (SV_VOICES[i].block)
+                    if (synthVoice[i].block)
                         continue;
 
-                    if (!type_alloc || fxFlag == SV_VOICES[i].fxFlag) {
-                        if ((SV_VOICES[i].cFlags & 2))
+                    if (!type_alloc || fxFlag == synthVoice[i].fxFlag) {
+                        if ((synthVoice[i].cFlags & 2))
                             continue;
                         if (voice != -1) {
-                            if (SV_VOICES[i].age < SV_VOICES[voice].age)
+                            if (synthVoice[i].age < synthVoice[voice].age)
                                 voice = i;
                         } else
                             voice = i;
@@ -358,7 +381,7 @@ u32 voiceAllocate(u8 priority, u8 maxVoices, u16 allocId, u8 fxFlag) {
             while (p != 0xffff && num < maxVoices) {
                 i = voicePrioSortVoicesRoot[p];
                 while (i != 0xff) {
-                    if (allocId == SV_VOICES[i].allocId) {
+                    if (allocId == synthVoice[i].allocId) {
                         num++;
                     }
 
@@ -383,14 +406,14 @@ u32 voiceAllocate(u8 priority, u8 maxVoices, u16 allocId, u8 fxFlag) {
 
                 while (p != 0xFFFF && priority >= p && voice == -1) {
                     for (i = voicePrioSortVoicesRoot[p]; i != 0xff; i = voicePrioSortVoices[i].next) {
-                        if (SV_VOICES[i].block != 0)
+                        if (synthVoice[i].block != 0)
                             continue;
 
-                        if (!type_alloc || fxFlag == SV_VOICES[i].fxFlag) {
-                            if ((SV_VOICES[i].cFlags & 2))
+                        if (!type_alloc || fxFlag == synthVoice[i].fxFlag) {
+                            if ((synthVoice[i].cFlags & 2))
                                 continue;
                             if (voice != -1) {
-                                if (SV_VOICES[voice].age > SV_VOICES[i].age)
+                                if (synthVoice[voice].age > synthVoice[i].age)
                                     voice = i;
                             } else
                                 voice = i;
@@ -404,7 +427,7 @@ u32 voiceAllocate(u8 priority, u8 maxVoices, u16 allocId, u8 fxFlag) {
                 }
 
             _update:
-                if (SV_VOICES_L[voice].prio > priority) {
+                if (synthVoice[voice].prio > priority) {
                     goto _fail;
                 }
             }
@@ -434,7 +457,7 @@ u32 voiceAllocate(u8 priority, u8 maxVoices, u16 allocId, u8 fxFlag) {
             }
 
             sfv->user = 0;
-        } else if (SV_VOICES_L[voice].fxFlag) {
+        } else if (synthVoice[voice].fxFlag) {
             voiceFxRunning--;
         } else {
             voiceMusicRunning--;
@@ -455,14 +478,14 @@ _fail:
 
 #pragma push
 #pragma pool_data off
-void voiceFree(Obj_803B312C *o) {
+void voiceFree(SynthVoice *o) {
     u8 idx;
-    SYNTH_VOICELIST_V *e;
+    SynthVoiceList *e;
 
     macMakeInactive(o, 2);
     voiceRemovePriority(o);
-    o->f34 = 0;
-    o->grp = 0;
+    o->addr = NULL;
+    o->prio = 0;
     idx = o->id;
     e = &voiceList[(u8)o->id];
     if (e->user == 0) {
@@ -477,7 +500,7 @@ void voiceFree(Obj_803B312C *o) {
             voiceListRoot = idx;
         }
         voiceListInsert = idx;
-        if (o->f11d != 0) {
+        if (o->fxFlag != 0) {
             voiceFxRunning--;
         } else {
             voiceMusicRunning--;
@@ -493,7 +516,7 @@ void voiceFree(Obj_803B312C *o) {
 #pragma dont_inline off
 #pragma inline_depth(4)
 
-static inline void voiceInitPrioSort_803B3210(void) {
+static inline void voiceInitPrioSort(void) {
     u32 i;
 
     for (i = 0; i < synthInfo.voiceNum; ++i) {
@@ -507,7 +530,7 @@ static inline void voiceInitPrioSort_803B3210(void) {
     voicePrioSortRootListRoot = 0xffff;
 }
 
-static inline void voiceInitFreeList_803B3210(void) {
+static inline void voiceInitFreeList(void) {
     u32 i;
 
     for (i = 0; i < synthInfo.voiceNum; ++i) {
@@ -523,15 +546,14 @@ static inline void voiceInitFreeList_803B3210(void) {
 }
 
 void synthInitAllocationAids(void) {
-    voiceInitFreeList_803B3210();
-    voiceInitPrioSort_803B3210();
+    voiceInitFreeList();
+    voiceInitPrioSort();
     voiceFxRunning = 0;
     voiceMusicRunning = 0;
 }
 
 #pragma pop
 
-#define svVoice (*(SYNTH_VOICE_SV **)&synthVoice)
 #pragma push
 #pragma opt_common_subs on
 
@@ -539,19 +561,19 @@ u32 voiceBlock(u8 prio) {
     u32 voice;
 
     if ((voice = voiceAllocate(prio, 0xFF, 0xFFFF, 1)) != 0xFFFFFFFF) {
-        svVoice[voice].block = 1;
-        svVoice[voice].fxFlag = 1;
+        synthVoice[voice].block = 1;
+        synthVoice[voice].fxFlag = 1;
 
-        vidRemoveVoiceReferences((Prog_803B25CC *)&svVoice[voice]);
-        svVoice[voice].id = voice | 0xFFFFFF00;
+        vidRemoveVoiceReferences(&synthVoice[voice]);
+        synthVoice[voice].id = voice | 0xFFFFFF00;
 
         if (hwIsActive(voice)) {
             hwBreak(voice);
         }
 
-        macMakeInactive((Obj_803B312C *)&svVoice[voice], 2);
-        svVoice[voice].addr = NULL;
-        voiceSetPriority((Voice_803B2128 *)&svVoice[voice], prio);
+        macMakeInactive(&synthVoice[voice], 2);
+        synthVoice[voice].addr = NULL;
+        voiceSetPriority(&synthVoice[voice], prio);
     }
 
     return voice;
@@ -571,9 +593,9 @@ void voiceUnblock(s32 voice) {
         hwBreak(voice);
     }
 
-    svVoice[voice].id = voice;
-    voiceFree((Obj_803B312C *)&svVoice[voice]);
-    svVoice[voice].block = 0;
+    synthVoice[voice].id = voice;
+    voiceFree(&synthVoice[voice]);
+    synthVoice[voice].block = 0;
 }
 
 #pragma pop
@@ -582,12 +604,12 @@ void voiceUnblock(s32 voice) {
 #pragma opt_common_subs on
 
 void voiceKill(u32 vi) {
-    SYNTH_VOICE_SV *sv = &svVoice[vi];
+    SynthVoice *sv = &synthVoice[vi];
     if (sv->addr != NULL) {
-        vidRemoveVoiceReferences((Prog_803B25CC *)sv);
+        vidRemoveVoiceReferences(sv);
         sv->cFlags &= ~3;
         sv->age = 0;
-        voiceFree((Obj_803B312C *)sv);
+        voiceFree(sv);
     }
 
     if (sv->block != 0) {
@@ -604,8 +626,8 @@ void voiceKill(u32 vi) {
 #pragma dont_inline off
 #pragma inline_depth(4)
 
-static inline u32 vidGetInternalId_803B3748(u32 vid) {
-    VID_LIST_SV *vl;
+static inline u32 vidGetInternalIdInline(u32 vid) {
+    SynthVidList *vl;
 
     if (vid != 0xffffffff) {
         if ((vl = get_vidlist(vid)) != NULL) {
@@ -616,13 +638,13 @@ static inline u32 vidGetInternalId_803B3748(u32 vid) {
     return 0xffffffff;
 }
 
-static inline void voiceKill_803B3748(u32 vi) {
-    SYNTH_VOICE_SV *sv = &svVoice[vi];
+static inline void voiceKillInline(u32 vi) {
+    SynthVoice *sv = &synthVoice[vi];
     if (sv->addr != NULL) {
-        vidRemoveVoiceReferences((Prog_803B25CC *)sv);
+        vidRemoveVoiceReferences(sv);
         sv->cFlags &= ~3;
         sv->age = 0;
-        voiceFree((Obj_803B312C *)sv);
+        voiceFree(sv);
     }
 
     if (sv->block != 0) {
@@ -637,11 +659,11 @@ s32 voiceKillSound(u32 voiceid) {
     u32 next_voiceid;
     u32 i;
     if (sndActive != 0) {
-        for (voiceid = vidGetInternalId_803B3748(voiceid); voiceid != -1; voiceid = next_voiceid) {
+        for (voiceid = vidGetInternalIdInline(voiceid); voiceid != -1; voiceid = next_voiceid) {
             i = voiceid & 0xff;
-            next_voiceid = svVoice[i].child;
-            if (voiceid == svVoice[i].id) {
-                voiceKill_803B3748(i);
+            next_voiceid = synthVoice[i].child;
+            if (voiceid == synthVoice[i].id) {
+                voiceKillInline(i);
                 ret = 0;
             }
         }
@@ -657,13 +679,13 @@ s32 voiceKillSound(u32 voiceid) {
 #pragma dont_inline off
 #pragma inline_depth(4)
 
-static inline void voiceKill_803B3858(u32 vi) {
-    SYNTH_VOICE_SV *sv = &svVoice[vi];
+static inline void voiceKillByMacroInline(u32 vi) {
+    SynthVoice *sv = &synthVoice[vi];
     if (sv->addr != NULL) {
-        vidRemoveVoiceReferences((Prog_803B25CC *)sv);
+        vidRemoveVoiceReferences(sv);
         sv->cFlags &= ~3;
         sv->age = 0;
-        voiceFree((Obj_803B312C *)sv);
+        voiceFree(sv);
     }
 
     if (sv->block != 0) {
@@ -678,8 +700,8 @@ void synthKillVoicesByMacroReferences(u16 *ref) {
     u16 id;
 
     for (i = 0; i < synthInfo.voiceNum; ++i) {
-        if (svVoice[i].addr == NULL && svVoice[i].block == 0) {
-            voiceKill_803B3858(i);
+        if (synthVoice[i].addr == NULL && synthVoice[i].block == 0) {
+            voiceKillByMacroInline(i);
         }
     }
 
@@ -688,8 +710,8 @@ void synthKillVoicesByMacroReferences(u16 *ref) {
             id = *ref & 0x3fff;
             while (id <= ref[1]) {
                 for (i = 0; i < synthInfo.voiceNum; ++i) {
-                    if (svVoice[i].addr != NULL && id == svVoice[i].macroId) {
-                        voiceKill_803B3858(i);
+                    if (synthVoice[i].addr != NULL && id == synthVoice[i].macroId) {
+                        voiceKillByMacroInline(i);
                     }
                 }
                 ++id;
@@ -697,8 +719,8 @@ void synthKillVoicesByMacroReferences(u16 *ref) {
             ref += 2;
         } else {
             for (i = 0; i < synthInfo.voiceNum; ++i) {
-                if (svVoice[i].addr != NULL && *ref == svVoice[i].macroId) {
-                    voiceKill_803B3858(i);
+                if (synthVoice[i].addr != NULL && *ref == synthVoice[i].macroId) {
+                    voiceKillByMacroInline(i);
                 }
             }
             ++ref;
@@ -708,16 +730,14 @@ void synthKillVoicesByMacroReferences(u16 *ref) {
 
 #pragma pop
 
-#undef svVoice
-
 #pragma push
 #pragma pool_data off
-s32 voiceIsLastStarted(Obj_803B3AA8 *arg0) {
-    u32 id = arg0->id;
+s32 voiceIsLastStarted(SynthVoice *svoice) {
+    u32 id = svoice->id;
     if (id != 0xFFFFFFFF) {
-        u8 a = arg0->b121;
+        u8 a = svoice->midi;
         if (a != 0xFF) {
-            u8 b = arg0->b122;
+            u8 b = svoice->midiSet;
             u8 v = id;
             if (b == 0xFF) {
                 if (synth_last_fxstarted[v] == v) {
@@ -731,12 +751,12 @@ s32 voiceIsLastStarted(Obj_803B3AA8 *arg0) {
     return 0;
 }
 
-void voiceSetLastStarted(Obj_803B3B24 *arg0) {
-    u32 id = arg0->id;
+void voiceSetLastStarted(SynthVoice *svoice) {
+    u32 id = svoice->id;
     if (id != 0xFFFFFFFF) {
-        u8 a = arg0->b121;
+        u8 a = svoice->midi;
         if (a != 0xFF) {
-            u8 b = arg0->b122;
+            u8 b = svoice->midiSet;
             u8 v = id;
             if (b == 0xFF) {
                 synth_last_fxstarted[v] = v;
@@ -747,12 +767,12 @@ void voiceSetLastStarted(Obj_803B3B24 *arg0) {
     }
 }
 
-void voiceResetLastStarted(Obj_803B3B80 *arg0) {
-    u32 id = arg0->id;
+void voiceResetLastStarted(SynthVoice *svoice) {
+    u32 id = svoice->id;
     if (id != 0xFFFFFFFF) {
-        u8 a = arg0->b121;
+        u8 a = svoice->midi;
         if (a != 0xFF) {
-            u8 b = arg0->b122;
+            u8 b = svoice->midiSet;
             u8 v = id;
             if (b == 0xFF) {
                 if (synth_last_fxstarted[v] == v) {

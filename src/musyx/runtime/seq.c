@@ -1,14 +1,201 @@
-#include "musyx/runtime/musyx_runtime_a.h"
+#define MUSYX_SEQ_IMPL
+#include "musyx/musyx.h"
+#include "musyx/runtime/musyx_internal.h"
+
+#define ARR_PTR(arr, offset) ((void *)((offset) + (uaddr)(arr)))
+
+typedef struct SynthSeqArr {
+    u32 tTab;
+    u32 pTab;
+    u32 tmTab;
+    u32 mTrack;
+    u32 info;
+    u32 loopPoint[16];
+    u32 tsTab;
+} SynthSeqArr;
+
+typedef struct SynthSeqTrackEntry {
+    u32 time;
+    u8 prgChange;
+    u8 velocity;
+    u8 res[2];
+    u16 pattern;
+    union {
+        struct {
+            s8 transpose;
+            s8 velocityAdd;
+        } note;
+        u16 jumpTarget;
+    } data;
+} SynthSeqTrackEntry;
+
+typedef struct SynthSeqTrack {
+    SynthSeqTrackEntry *base;
+    SynthSeqTrackEntry *addr;
+} SynthSeqTrack;
+
+typedef struct SynthSeqNote {
+    struct SynthSeqNote *next;
+    struct SynthSeqNote *prev;
+    u32 id;
+    s32 endTime;
+    u8 section;
+    u8 timeIndex;
+    u8 reserved[2];
+} SynthSeqNote;
+
+typedef struct SynthSeqCtrlData {
+    u16 time;
+    u8 key;
+    u8 velocity;
+} SynthSeqCtrlData;
+
+typedef struct SynthSeqNoteData {
+    u16 time;
+    u8 key;
+    u8 velocity;
+    u16 length;
+} SynthSeqNoteData;
+
+typedef struct SynthSeqPrgState {
+    u16 macId;
+    u8 priority;
+    u8 maxVoices;
+} SynthSeqPrgState;
+
+typedef struct SynthSeqStream {
+    u8 *nextAddr;
+    u16 value;
+    s16 nextDelta;
+    u32 nextTime;
+} SynthSeqStream;
+
+typedef struct SynthSeqPattern {
+    u32 headerLen;
+    u32 pitchBend;
+    u32 modulation;
+    u32 noteData;
+} SynthSeqPattern;
+
+typedef struct SynthSeqPatternState {
+    u32 lTime;
+    u32 baseTime;
+    SynthSeqNoteData *addr;
+    SynthSeqTrackEntry *patternInfo;
+    SynthSeqStream pitchBend;
+    SynthSeqStream modulation;
+    u8 midi;
+} SynthSeqPatternState;
+
+typedef struct SynthSeqEvent {
+    struct SynthSeqEvent *next;
+    struct SynthSeqEvent *prev;
+    u32 time;
+    union {
+        SynthSeqTrackEntry *trackAddr;
+        struct {
+            SynthSeqNoteData *addr;
+            SynthSeqPatternState *base;
+        } pattern;
+    } info;
+    u8 type;
+    u8 trackId;
+} SynthSeqEvent;
+
+typedef struct SynthSeqMasterTrackEntry {
+    volatile u32 time;
+    u32 bpm;
+} SynthSeqMasterTrackEntry;
+
+typedef struct SynthSeqMasterTrack {
+    SynthSeqMasterTrackEntry *base;
+    SynthSeqMasterTrackEntry *addr;
+} SynthSeqMasterTrack;
+
+typedef struct SynthSeqTicks {
+    u32 low;
+    s32 high;
+} SynthSeqTicks;
+
+typedef struct SynthSeqSection {
+    SynthSeqMasterTrack mTrack;
+    u32 bpm;
+    SynthSeqTicks tickDelta[2];
+    SynthSeqEvent *globalEventRoot;
+    SynthSeqTicks time[2];
+    u8 timeIndex;
+    u16 speed;
+    u16 loopCnt;
+    u8 loopDisable;
+} SynthSeqSection;
+
+typedef struct SynthSeqInstance {
+    struct SynthSeqInstance *next;
+    struct SynthSeqInstance *prev;
+    u8 state;
+    u8 index;
+    u16 groupID;
+    u32 publicId;
+    SynthSeqPage *normtab;
+    u8 normTrans[128];
+    SynthSeqPage *drumtab;
+    u8 drumTrans[128];
+    SynthSeqArr *arrbase;
+    u32 trackMute[2];
+    SynthSeqTrack track[64];
+    u8 trackVolGroup[64];
+    SynthSeqPatternState pattern[64];
+    SynthSeqNote *noteUsed[2];
+    SynthSeqNote *noteKeyOff;
+    SynthSeqPrgState prgState[16];
+    u8 defVGroup;
+    SynthCrossfade syncCrossInfo;
+    u32 *syncSeqIdPtr;
+    u8 syncActive;
+    u8 defStudio;
+    u8 keyOffCheck;
+    SynthSeqEvent event[64];
+    u8 *trackSectionTab;
+    SynthSeqSection section[16];
+} SynthSeqInstance;
+
+typedef struct SynthSeqBss {
+    SynthSeqNote seqNote[256];
+    SynthSeqInstance seqInstance[8];
+    u16 seqMIDIPriority[8][16];
+} SynthSeqBss;
 
 extern "C" {
 
-void ResetNotes(Owner_803A3C24 *o) {
+SynthSeqNote lbl_80549748[256];
+SynthSeqInstance lbl_8054AB48[8];
+u16 lbl_80556E88[8][16];
+
+extern SynthSeqInstance *lbl_805D7360;
+extern SynthSeqNote *lbl_805D7364;
+extern u32 lbl_805D7368;
+extern u8 lbl_805D736C;
+extern u32 lbl_805D7370;
+extern SynthSeqInstance *lbl_805D7374;
+extern SynthSeqInstance *lbl_805D7378;
+extern SynthSeqInstance *lbl_805D737C;
+
+void StartPause(SynthSeqInstance *si);
+void HandleMasterTrack(u8 secIndex);
+SynthSeqEvent *GenerateNextTrackEvent(u8 trackId);
+void InsertGlobalEvent(SynthSeqSection *section, SynthSeqEvent *ev);
+SynthSeqEvent *HandleEvent(SynthSeqEvent *event, u8 secIndex, u32 *loopFlag);
+void InitTrackEvents(void);
+void InitTrackEventsSection(u8 ch);
+u32 HandleTrackEvents(u8 secIndex, u32 deltaTime);
+
+void ResetNotes(SynthSeqInstance *o) {
     u32 i;
-    Node_803A3C24 *p;
-    Node_803A3C24 *q;
+    SynthSeqNote *p;
+    SynthSeqNote *q;
 
     for (i = 0; i < 2; i++) {
-        if ((p = o->lists[i]) != NULL) {
+        if ((p = o->noteUsed[i]) != NULL) {
             while ((q = p->next) != NULL) {
                 p = q;
             }
@@ -16,11 +203,11 @@ void ResetNotes(Owner_803A3C24 *o) {
                 p->next = lbl_805D7364;
                 lbl_805D7364->prev = p;
             }
-            lbl_805D7364 = o->lists[i];
-            o->lists[i] = NULL;
+            lbl_805D7364 = o->noteUsed[i];
+            o->noteUsed[i] = NULL;
         }
     }
-    if ((p = o->head) != NULL) {
+    if ((p = o->noteKeyOff) != NULL) {
         while ((q = p->next) != NULL) {
             p = q;
         }
@@ -28,32 +215,32 @@ void ResetNotes(Owner_803A3C24 *o) {
             p->next = lbl_805D7364;
             lbl_805D7364->prev = p;
         }
-        lbl_805D7364 = o->head;
-        o->head = NULL;
+        lbl_805D7364 = o->noteKeyOff;
+        o->noteKeyOff = NULL;
     }
 }
 
-Node_803A3C24 *AllocateNote(s32 key, u8 ch) {
-    Node_803A3C24 *n = lbl_805D7364;
-    Node_803A3C24 *cur;
-    Node_803A3C24 *prev;
+SynthSeqNote *AllocateNote(s32 endTime, u8 section) {
+    SynthSeqNote *n = lbl_805D7364;
+    SynthSeqNote *cur;
+    SynthSeqNote *prev;
 
     if (n != NULL) {
         if ((lbl_805D7364 = n->next) != NULL) {
             lbl_805D7364->prev = NULL;
         }
-        n->key = key;
-        n->ch = ch;
-        n->grp = lbl_805D7360->chans[ch].grp;
+        n->endTime = endTime;
+        n->section = section;
+        n->timeIndex = lbl_805D7360->section[section].timeIndex;
         prev = NULL;
-        for (cur = lbl_805D7360->lists[n->grp]; cur != NULL; prev = cur, cur = cur->next) {
-            if (cur->key > n->key) {
+        for (cur = lbl_805D7360->noteUsed[n->timeIndex]; cur != NULL; prev = cur, cur = cur->next) {
+            if (cur->endTime > n->endTime) {
                 n->next = cur;
                 n->prev = prev;
                 if (prev != NULL) {
                     prev->next = n;
                 } else {
-                    lbl_805D7360->lists[n->grp] = n;
+                    lbl_805D7360->noteUsed[n->timeIndex] = n;
                 }
                 cur->prev = n;
                 return n;
@@ -63,7 +250,7 @@ Node_803A3C24 *AllocateNote(s32 key, u8 ch) {
         if (prev != NULL) {
             prev->next = n;
         } else {
-            lbl_805D7360->lists[n->grp] = n;
+            lbl_805D7360->noteUsed[n->timeIndex] = n;
         }
         n->next = NULL;
     }
@@ -71,88 +258,89 @@ Node_803A3C24 *AllocateNote(s32 key, u8 ch) {
 }
 
 s32 HandleNotes(void) {
-    Node_803A3C24 *n;
+    SynthSeqNote *n;
     u32 i;
     s32 r;
     for (i = 0; i < 2; i++) {
-        n = lbl_805D7360->lists[i];
+        n = lbl_805D7360->noteUsed[i];
         if (n == NULL) {
             continue;
         }
-        while (n->key <= ((Tbl_803A3A28 *)lbl_805D7360)->ch[n->ch].lim[i].v) {
-            synthSendKeyOff(n->f8);
-            if ((lbl_805D7360->lists[i] = n->next) != NULL) {
-                lbl_805D7360->lists[i]->prev = NULL;
+        while (n->endTime <= lbl_805D7360->section[n->section].time[i].high) {
+            synthSendKeyOff(n->id);
+            if ((lbl_805D7360->noteUsed[i] = n->next) != NULL) {
+                lbl_805D7360->noteUsed[i]->prev = NULL;
             }
-            if ((n->next = lbl_805D7360->head) != NULL) {
-                lbl_805D7360->head->prev = n;
+            if ((n->next = lbl_805D7360->noteKeyOff) != NULL) {
+                lbl_805D7360->noteKeyOff->prev = n;
             }
-            lbl_805D7360->head = n;
-            n = lbl_805D7360->lists[i];
+            lbl_805D7360->noteKeyOff = n;
+            n = lbl_805D7360->noteUsed[i];
             if (n == NULL) {
                 break;
             }
         }
     }
     r = 1;
-    if (lbl_805D7360->lists[0] == NULL && lbl_805D7360->lists[1] == NULL) {
+    if (lbl_805D7360->noteUsed[0] == NULL && lbl_805D7360->noteUsed[1] == NULL) {
         r = 0;
     }
     return r;
 }
 
 void KeyOffNotes(void) {
-    Node_803A3C24 *n;
-    Node_803A3C24 *next;
+    SynthSeqNote *n;
+    SynthSeqNote *next;
     u32 i;
 
     for (i = 0; i < 2; i++) {
-        for (n = lbl_805D7360->lists[i]; n != NULL; n = next) {
+        for (n = lbl_805D7360->noteUsed[i]; n != NULL; n = next) {
             next = n->next;
-            synthSendKeyOff(n->f8);
-            if ((lbl_805D7360->lists[i] = n->next) != NULL) {
-                lbl_805D7360->lists[i]->prev = NULL;
+            synthSendKeyOff(n->id);
+            if ((lbl_805D7360->noteUsed[i] = n->next) != NULL) {
+                lbl_805D7360->noteUsed[i]->prev = NULL;
             }
-            if ((n->next = lbl_805D7360->head) != NULL) {
-                lbl_805D7360->head->prev = n;
+            if ((n->next = lbl_805D7360->noteKeyOff) != NULL) {
+                lbl_805D7360->noteKeyOff->prev = n;
             }
-            lbl_805D7360->head = n;
+            lbl_805D7360->noteKeyOff = n;
         }
     }
 }
 
-void seqFreeKeyOffNote(Node_803A3C24 *arg0) {
-    if (arg0->next != 0) {
-        arg0->next->prev = arg0->prev;
+void seqFreeKeyOffNote(SynthSeqNote *note) {
+    if (note->next != NULL) {
+        note->next->prev = note->prev;
     }
-    if (arg0->prev != 0) {
-        arg0->prev->next = arg0->next;
+    if (note->prev != NULL) {
+        note->prev->next = note->next;
     } else {
-        lbl_805D7360->head = arg0->next;
+        lbl_805D7360->noteKeyOff = note->next;
     }
-    if ((arg0->next = lbl_805D7364) != 0) {
-        lbl_805D7364->prev = arg0;
+    if ((note->next = lbl_805D7364) != NULL) {
+        lbl_805D7364->prev = note;
     }
-    arg0->prev = 0;
-    lbl_805D7364 = arg0;
+    note->prev = NULL;
+    lbl_805D7364 = note;
 }
+
 #pragma push
 #pragma opt_common_subs on
 u32 GetPublicId(u32 seqId) {
     u32 pub_id;
-    SeqInst_803A3C84 *si;
+    SynthSeqInstance *si;
 
     do {
         pub_id = lbl_805D7370++;
         lbl_805D7370 &= ~0x80000000;
 
-        for (si = (SeqInst_803A3C84 *)lbl_805D737C; si != NULL; si = si->next) {
+        for (si = lbl_805D737C; si != NULL; si = si->next) {
             if (si->publicId == pub_id) {
                 pub_id = 0xFFFFFFFF;
                 break;
             }
         }
-        for (si = (SeqInst_803A3C84 *)lbl_805D7378; si != NULL; si = si->next) {
+        for (si = lbl_805D7378; si != NULL; si = si->next) {
             if (si->publicId == pub_id) {
                 pub_id = 0xFFFFFFFF;
                 break;
@@ -160,7 +348,7 @@ u32 GetPublicId(u32 seqId) {
         }
     } while (pub_id == 0xFFFFFFFF);
 
-    lbl_8054AB48[seqId].n.id = pub_id;
+    lbl_8054AB48[seqId].publicId = pub_id;
     return pub_id;
 }
 #pragma pop
@@ -168,13 +356,13 @@ u32 GetPublicId(u32 seqId) {
 #pragma push
 #pragma opt_common_subs on
 u32 seqGetPrivateId(u32 seqId) {
-    SeqInst_803A3D20 *si;
-    for (si = (*(SeqInst_803A3D20 * *)&lbl_805D737C); si != NULL; si = si->next) {
+    SynthSeqInstance *si;
+    for (si = lbl_805D737C; si != NULL; si = si->next) {
         if (si->publicId == (seqId & ~0x80000000)) {
             return si->index | (seqId & 0x80000000);
         }
     }
-    for (si = (*(SeqInst_803A3D20 * *)&lbl_805D7378); si != NULL; si = si->next) {
+    for (si = lbl_805D7378; si != NULL; si = si->next) {
         if (si->publicId == (seqId & ~0x80000000)) {
             return si->index | (seqId & 0x80000000);
         }
@@ -183,18 +371,12 @@ u32 seqGetPrivateId(u32 seqId) {
 }
 #pragma pop
 
-#define ARR_GET_803A3D8C(arr, offset) ((void *)(offset + (uaddr)arr))
-#define SEQ_CUR (*(SEQ_INSTANCE_803A49C8 **)&lbl_805D7360)
-#define SEQ_FREE_LIST ((SEQ_INSTANCE_803A49C8 *)lbl_805D7378)
-#define SEQ_RUN_LIST ((SEQ_INSTANCE_803A49C8 *)lbl_805D737C)
-#define SEQ_RUN_L (*(SEQ_INSTANCE_803A49C8 **)&lbl_805D737C)
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(4)
 #pragma opt_common_subs on
 
-static inline void DoPrgChange_803A3D8C(SEQ_INSTANCE_803A49C8 *seq, u8 prg, u8 midi) {
-    extern u16 lbl_80556E88[8][16];
+static inline void DoPrgChange(SynthSeqInstance *seq, u8 prg, u8 midi) {
     lbl_80556E88[lbl_805D7368][midi] = 0xFFFF;
     if (midi != 9) {
         prg = seq->normTrans[prg];
@@ -216,7 +398,7 @@ static inline void DoPrgChange_803A3D8C(SEQ_INSTANCE_803A49C8 *seq, u8 prg, u8 m
     seq->prgState[midi].maxVoices = seq->drumtab[prg].maxVoices;
 }
 
-static inline void BuildTransTab_803A3D8C(u8 *tab, PAGE_803A49C8 *page) {
+static inline void BuildTransTab(u8 *tab, SynthSeqPage *page) {
     u8 i;
 
     for (i = 0; i < 128; ++i) {
@@ -228,18 +410,13 @@ static inline void BuildTransTab_803A3D8C(u8 *tab, PAGE_803A49C8 *page) {
     }
 }
 
-u32 seqStartPlay(PAGE_803A49C8 *norm, PAGE_803A49C8 *drum, MIDISETUP_803A3D8C *midiSetup, u32 *song,
-                         SND_PLAYPARA_SEQ *para, u8 studio, u16 sgid) {
-    extern u16 lbl_80556E88[8][16];
-    void synthSetMusicVolumeType(u8 i, u8 v);
-    void inpResetMidiCtrl(u8, u8, u8);
-    void inpResetChannelDefaults(u8, u8);
-    void InitTrackEvents(void);
-    ARR_803A49C8 *arr;
+u32 seqStartPlay(SynthSeqPage *norm, SynthSeqPage *drum, SynthMidiSetup *midiSetup, u32 *song,
+                 SynthPlayPara *para, u8 studio, u16 sgid) {
+    SynthSeqArr *arr;
     u32 *tracktab;
     s32 i;
-    SEQ_INSTANCE_803A49C8 *nseq;
-    SEQ_INSTANCE_803A49C8 *oldCSeq;
+    SynthSeqInstance *nseq;
+    SynthSeqInstance *oldCSeq;
     u32 seqId;
     u32 bpm;
 
@@ -249,12 +426,12 @@ u32 seqStartPlay(PAGE_803A49C8 *norm, PAGE_803A49C8 *drum, MIDISETUP_803A3D8C *m
     if ((lbl_805D7374 = nseq->next) != NULL) {
         lbl_805D7374->prev = NULL;
     }
-    if ((nseq->next = SEQ_RUN_L) != NULL) {
-        SEQ_RUN_L->prev = nseq;
+    if ((nseq->next = lbl_805D737C) != NULL) {
+        lbl_805D737C->prev = nseq;
     }
 
     nseq->prev = NULL;
-    SEQ_RUN_L = nseq;
+    lbl_805D737C = nseq;
     nseq->state = 1;
     for (i = 0; i < 16; ++i) {
         nseq->section[i].globalEventRoot = NULL;
@@ -264,10 +441,10 @@ u32 seqStartPlay(PAGE_803A49C8 *norm, PAGE_803A49C8 *drum, MIDISETUP_803A3D8C *m
     nseq->syncActive = 0;
     nseq->normtab = norm;
     nseq->drumtab = drum;
-    nseq->arrbase = (ARR_803A49C8 *)song;
+    nseq->arrbase = (SynthSeqArr *)song;
     nseq->groupID = sgid;
-    BuildTransTab_803A3D8C(nseq->normTrans, nseq->normtab);
-    BuildTransTab_803A3D8C(nseq->drumTrans, nseq->drumtab);
+    BuildTransTab(nseq->normTrans, nseq->normtab);
+    BuildTransTab(nseq->drumTrans, nseq->drumtab);
     nseq->defVGroup = seqId + 23;
     for (i = 0; i < 64; ++i) {
         nseq->trackVolGroup[i] = nseq->defVGroup;
@@ -317,9 +494,9 @@ u32 seqStartPlay(PAGE_803A49C8 *norm, PAGE_803A49C8 *drum, MIDISETUP_803A3D8C *m
         }
     }
 
-    arr = (ARR_803A49C8 *)song;
+    arr = (SynthSeqArr *)song;
     if (arr->info & 0x80000000) {
-        nseq->trackSectionTab = (u8 *)ARR_GET_803A3D8C(arr, arr->tsTab);
+        nseq->trackSectionTab = (u8 *)ARR_PTR(arr, arr->tsTab);
     } else {
         nseq->trackSectionTab = NULL;
     }
@@ -335,7 +512,7 @@ u32 seqStartPlay(PAGE_803A49C8 *norm, PAGE_803A49C8 *drum, MIDISETUP_803A3D8C *m
         synthSetBpm(bpm >> 10, seqId, i);
 
         if (arr->mTrack != 0) {
-            nseq->section[i].mTrack.base = (MTRACK_DATA_803A49C8 *)ARR_GET_803A3D8C(arr, arr->mTrack);
+            nseq->section[i].mTrack.base = (SynthSeqMasterTrackEntry *)ARR_PTR(arr, arr->mTrack);
             nseq->section[i].mTrack.addr = nseq->section[i].mTrack.base;
         } else {
             nseq->section[i].mTrack.base = NULL;
@@ -345,12 +522,12 @@ u32 seqStartPlay(PAGE_803A49C8 *norm, PAGE_803A49C8 *drum, MIDISETUP_803A3D8C *m
         nseq->section[i].loopCnt = 0;
     }
 
-    tracktab = (u32 *)ARR_GET_803A3D8C(arr, arr->tTab);
+    tracktab = (u32 *)ARR_PTR(arr, arr->tTab);
     for (i = 0; i < 64; ++i) {
         synthTrackVolume[i] = 0x7F;
         nseq->pattern[i].addr = NULL;
         if (tracktab[i] != 0) {
-            nseq->track[i].addr = nseq->track[i].base = (TENTRY_803A49C8 *)ARR_GET_803A3D8C(arr, tracktab[i]);
+            nseq->track[i].addr = nseq->track[i].base = (SynthSeqTrackEntry *)ARR_PTR(arr, tracktab[i]);
         } else {
             nseq->track[i].addr = nseq->track[i].base = NULL;
         }
@@ -371,7 +548,7 @@ u32 seqStartPlay(PAGE_803A49C8 *norm, PAGE_803A49C8 *drum, MIDISETUP_803A3D8C *m
     }
     if (midiSetup != NULL) {
         for (i = 0; i < 16; ++i) {
-            DoPrgChange_803A3D8C(nseq, midiSetup->channel[i].program, i);
+            DoPrgChange(nseq, midiSetup->channel[i].program, i);
             inpSetMidiCtrl(7, i, seqId, midiSetup->channel[i].volume);
             inpSetMidiCtrl(10, i, seqId, midiSetup->channel[i].panning);
             inpSetMidiCtrl(0x5B, i, seqId, midiSetup->channel[i].reverb);
@@ -391,13 +568,13 @@ u32 seqStartPlay(PAGE_803A49C8 *norm, PAGE_803A49C8 *drum, MIDISETUP_803A3D8C *m
     nseq->keyOffCheck = 0;
 
     if (para != NULL && (para->flags & 0x10) != 0) {
-        StartPause((Node_803A4964 *)nseq);
+        StartPause(nseq);
     }
 
-    oldCSeq = SEQ_CUR;
-    SEQ_CUR = nseq;
+    oldCSeq = lbl_805D7360;
+    lbl_805D7360 = nseq;
     InitTrackEvents();
-    SEQ_CUR = oldCSeq;
+    lbl_805D7360 = oldCSeq;
     seqId = GetPublicId(seqId);
     return seqId;
 }
@@ -406,14 +583,14 @@ u32 seqStartPlay(PAGE_803A49C8 *norm, PAGE_803A49C8 *drum, MIDISETUP_803A3D8C *m
 #pragma push
 #pragma opt_common_subs on
 void HandleMasterTrack(u8 secIndex) {
-    SEQ_SECTION_803A487C *section;
-    section = &(*(SEQ_INSTANCE_803A487C * *)&lbl_805D7360)->section[secIndex];
+    SynthSeqSection *section;
+    section = &lbl_805D7360->section[secIndex];
     if (section->mTrack.base != NULL) {
         while (section->mTrack.addr->time != -1) {
             if (section->mTrack.addr->time > section->time[section->timeIndex].high) {
                 break;
             }
-            if (((*(SEQ_INSTANCE_803A487C * *)&lbl_805D7360)->arrbase->info & 0x40000000) != 0) {
+            if ((lbl_805D7360->arrbase->info & 0x40000000) != 0) {
                 synthSetBpm((section->bpm = section->mTrack.addr->bpm) >> 10, lbl_805D7368, secIndex);
             } else {
                 synthSetBpm(section->mTrack.addr->bpm, lbl_805D7368, secIndex);
@@ -425,58 +602,61 @@ void HandleMasterTrack(u8 secIndex) {
 }
 #pragma pop
 
-void StartPause(Node_803A4964 *arg0) {
-    if (arg0->prev != 0) {
-        arg0->prev->next = arg0->next;
+void StartPause(SynthSeqInstance *si) {
+    if (si->prev != NULL) {
+        si->prev->next = si->next;
     } else {
-        lbl_805D737C = arg0->next;
+        lbl_805D737C = si->next;
     }
-    if (arg0->next != 0) {
-        arg0->next->prev = arg0->prev;
+    if (si->next != NULL) {
+        si->next->prev = si->prev;
     }
-    if ((arg0->next = lbl_805D7378) != 0) {
-        lbl_805D7378->prev = arg0;
+    if ((si->next = lbl_805D7378) != NULL) {
+        lbl_805D7378->prev = si;
     }
-    arg0->prev = 0;
-    lbl_805D7378 = arg0;
-    arg0->state = 2;
+    si->prev = NULL;
+    lbl_805D7378 = si;
+    si->state = 2;
 }
+
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(4)
 #pragma opt_common_subs on
-static inline u32 seqGetPrivateId_803A49C8(u32 seqId) {
-    SEQ_INSTANCE_803A49C8 *si;
-    for (si = (*(SEQ_INSTANCE_803A49C8 * *)&lbl_805D737C); si != NULL; si = si->next) {
+static inline u32 seqGetPrivateIdInline(u32 seqId) {
+    SynthSeqInstance *si;
+    for (si = lbl_805D737C; si != NULL; si = si->next) {
         if (si->publicId == (seqId & ~0x80000000)) {
             return si->index | (seqId & 0x80000000);
         }
     }
-    for (si = (*(SEQ_INSTANCE_803A49C8 * *)&lbl_805D7378); si != NULL; si = si->next) {
+    for (si = lbl_805D7378; si != NULL; si = si->next) {
         if (si->publicId == (seqId & ~0x80000000)) {
             return si->index | (seqId & 0x80000000);
         }
     }
     return 0xFFFFFFFF;
 }
-static inline void StartPause_803A49C8(SEQ_INSTANCE_803A49C8 *si) {
+
+static inline void StartPauseInline(SynthSeqInstance *si) {
     if (si->prev != NULL) {
         si->prev->next = si->next;
     } else {
-        (*(SEQ_INSTANCE_803A49C8 * *)&lbl_805D737C) = si->next;
+        lbl_805D737C = si->next;
     }
     if (si->next != NULL) {
         si->next->prev = si->prev;
     }
-    if ((si->next = (*(SEQ_INSTANCE_803A49C8 * *)&lbl_805D7378)) != NULL) {
-        (*(SEQ_INSTANCE_803A49C8 * *)&lbl_805D7378)->prev = si;
+    if ((si->next = lbl_805D7378) != NULL) {
+        lbl_805D7378->prev = si;
     }
     si->prev = NULL;
-    (*(SEQ_INSTANCE_803A49C8 * *)&lbl_805D7378) = si;
+    lbl_805D7378 = si;
     si->state = 2;
 }
-static inline void KillNotes_803A49C8(SEQ_INSTANCE_803A49C8 *seq) {
-    NOTE_803A49C8 *n;
+
+static inline void KillNotes(SynthSeqInstance *seq) {
+    SynthSeqNote *n;
     u32 i;
     for (i = 0; i < 2; ++i) {
         for (n = seq->noteUsed[i]; n != NULL; n = n->next) {
@@ -487,21 +667,22 @@ static inline void KillNotes_803A49C8(SEQ_INSTANCE_803A49C8 *seq) {
         voiceKillSound(n->id);
     }
 }
+
 void seqPause(s32 seqId) {
-    SEQ_INSTANCE_803A49C8 *si;
-    seqId = seqGetPrivateId_803A49C8(seqId);
+    SynthSeqInstance *si;
+    seqId = seqGetPrivateIdInline(seqId);
     if (seqId == 0xFFFFFFFF) {
         return;
     }
     if ((seqId & 0x80000000) == 0) {
-        si = &((SEQ_INSTANCE_803A49C8 *)&lbl_8054AB48)[seqId];
+        si = &lbl_8054AB48[seqId];
         if (si->state == 1) {
-            StartPause_803A49C8(si);
-            KillNotes_803A49C8(si);
-            ResetNotes((Owner_803A3C24 *)si);
+            StartPauseInline(si);
+            KillNotes(si);
+            ResetNotes(si);
         }
     } else {
-        si = &((SEQ_INSTANCE_803A49C8 *)&lbl_8054AB48)[seqId & ~0x80000000];
+        si = &lbl_8054AB48[seqId & ~0x80000000];
         if (si->state != 0) {
             si->syncCrossInfo.flags |= 8;
         }
@@ -509,119 +690,34 @@ void seqPause(s32 seqId) {
 }
 #pragma pop
 
-typedef struct PAGE_803A4B7C { u16 macro; u8 prio; u8 maxVoices; u8 index; u8 reserved; } PAGE_803A4B7C;
-typedef struct ARR_803A4B7C { u32 tTab; u32 pTab; u32 tmTab; u32 mTrack; u32 info; u32 loopPoint[16]; u32 tsTab; } ARR_803A4B7C;
-typedef struct TENTRY_803A4B7C { u32 time; u8 prgChange; u8 velocity; u8 res[2]; u16 pattern; s8 transpose; s8 velocityAdd; } TENTRY_803A4B7C;
-typedef struct TRACK_803A4B7C { TENTRY_803A4B7C *base; TENTRY_803A4B7C *addr; } TRACK_803A4B7C;
-typedef struct NOTE_803A4B7C { struct NOTE_803A4B7C *next; struct NOTE_803A4B7C *prev; u32 id; s32 endTime; u8 section; u8 timeIndex; u8 reserved[2]; } NOTE_803A4B7C;
-typedef struct NOTE_DATA_803A4B7C { u16 time; u8 key; u8 velocity; u16 length; } NOTE_DATA_803A4B7C;
-typedef struct PRG_STATE_803A4B7C { u16 macId; u8 priority; u8 maxVoices; } PRG_STATE_803A4B7C;
-typedef struct SEQ_STREAM_803A4B7C { u8 *nextAddr; u16 value; s16 nextDelta; u32 nextTime; } SEQ_STREAM_803A4B7C;
-typedef struct CPAT_803A4B7C { u32 lTime; u32 baseTime; NOTE_DATA_803A4B7C *addr; TENTRY_803A4B7C *patternInfo; SEQ_STREAM_803A4B7C pitchBend; SEQ_STREAM_803A4B7C modulation; u8 midi; } CPAT_803A4B7C;
-typedef struct SEQ_EVENT_803A4B7C {
-    struct SEQ_EVENT_803A4B7C *next; struct SEQ_EVENT_803A4B7C *prev; u32 time;
-    union { TENTRY_803A4B7C *trackAddr; struct { NOTE_DATA_803A4B7C *addr; CPAT_803A4B7C *base; } pattern; } info;
-    u8 type; u8 trackId;
-} SEQ_EVENT_803A4B7C;
-typedef struct MTRACK_DATA_803A4B7C { volatile u32 time; u32 bpm; } MTRACK_DATA_803A4B7C;
-typedef struct MTRACK_803A4B7C { MTRACK_DATA_803A4B7C *base; MTRACK_DATA_803A4B7C *addr; } MTRACK_803A4B7C;
-typedef struct TICKS_803A4B7C { u32 low; s32 high; } TICKS_803A4B7C;
-typedef struct SEQ_SECTION_803A4B7C {
-    MTRACK_803A4B7C mTrack; u32 bpm; TICKS_803A4B7C tickDelta[2]; SEQ_EVENT_803A4B7C *globalEventRoot; TICKS_803A4B7C time[2];
-    u8 timeIndex; u16 speed; u16 loopCnt; u8 loopDisable;
-} SEQ_SECTION_803A4B7C;
-typedef struct SND_CROSSFADE_803A4B7C {
-    u32 seqId1; u16 time1; u32 seqId2; u16 time2; void *arr2; u16 gid2; u16 sid2; u8 vol2; u8 studio2;
-    u32 trackMute2[2]; u16 speed2; u8 flags;
-} SND_CROSSFADE_803A4B7C;
-typedef struct SEQ_INSTANCE_803A4B7C {
-    struct SEQ_INSTANCE_803A4B7C *next; struct SEQ_INSTANCE_803A4B7C *prev; u8 state; u8 index; u16 groupID; u32 publicId;
-    PAGE_803A4B7C *normtab; u8 normTrans[128]; PAGE_803A4B7C *drumtab; u8 drumTrans[128];
-    ARR_803A4B7C *arrbase; u32 trackMute[2]; TRACK_803A4B7C track[64]; u8 trackVolGroup[64]; CPAT_803A4B7C pattern[64];
-    NOTE_803A4B7C *noteUsed[2]; NOTE_803A4B7C *noteKeyOff; PRG_STATE_803A4B7C prgState[16]; u8 defVGroup;
-    SND_CROSSFADE_803A4B7C syncCrossInfo; u32 *syncSeqIdPtr; u8 syncActive; u8 defStudio; u8 keyOffCheck;
-    SEQ_EVENT_803A4B7C event[64]; u8 *trackSectionTab; SEQ_SECTION_803A4B7C section[16];
-} SEQ_INSTANCE_803A4B7C;
-
-typedef struct SeqBss_803A4B7C {
-    NOTE_803A4B7C seqNote[256];
-    SEQ_INSTANCE_803A4B7C seqInstance[8];
-} SeqBss_803A4B7C;
-
-}
-namespace seq_803A4B7C {
-extern "C" NOTE_803A4B7C lbl_80549748[256];
-extern "C" SEQ_INSTANCE_803A4B7C lbl_8054AB48[8];
-extern "C" u16 lbl_80556E88[8][16];
-NOTE_803A4B7C lbl_80549748[256];
-SEQ_INSTANCE_803A4B7C lbl_8054AB48[8];
-u16 lbl_80556E88[8][16];
-extern "C" SEQ_INSTANCE_803A4B7C *lbl_805D7374;
-extern "C" SEQ_INSTANCE_803A4B7C *lbl_805D7378;
-extern "C" SEQ_INSTANCE_803A4B7C *lbl_805D737C;
-}
-extern "C" {
-#define seqInstance_803A4B7C seq_803A4B7C::lbl_8054AB48
-#define SEQ_FREE_803A4B7C seq_803A4B7C::lbl_805D7374
-#define SEQ_PAUSED_803A4B7C seq_803A4B7C::lbl_805D7378
-#define SEQ_RUN_803A4B7C seq_803A4B7C::lbl_805D737C
-
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(4)
 #pragma opt_common_subs on
-static inline u32 seqGetPrivateId_803A4B7C(u32 seqId) {
-    SEQ_INSTANCE_803A4B7C *si;
-    for (si = SEQ_RUN_803A4B7C; si != NULL; si = si->next) {
-        if (si->publicId == (seqId & ~0x80000000)) {
-            return si->index | (seqId & 0x80000000);
-        }
-    }
-    for (si = SEQ_PAUSED_803A4B7C; si != NULL; si = si->next) {
-        if (si->publicId == (seqId & ~0x80000000)) {
-            return si->index | (seqId & 0x80000000);
-        }
-    }
-    return 0xFFFFFFFF;
-}
-
-static inline void KillNotes_803A4B7C(SEQ_INSTANCE_803A4B7C *seq) {
-    NOTE_803A4B7C *n;
-    u32 i;
-    for (i = 0; i < 2; ++i) {
-        for (n = seq->noteUsed[i]; n != NULL; n = n->next) {
-            voiceKillSound(n->id);
-        }
-    }
-    for (n = seq->noteKeyOff; n != NULL; n = n->next) {
-        voiceKillSound(n->id);
-    }
-}
-
 void seqStop(s32 seqId) {
-    SEQ_INSTANCE_803A4B7C *si;
+    SynthSeqInstance *si;
 
-    if ((seqId = seqGetPrivateId_803A4B7C(seqId)) == 0xFFFFFFFF) {
+    if ((seqId = seqGetPrivateIdInline(seqId)) == 0xFFFFFFFF) {
         return;
     }
 
     if ((seqId & 0x80000000) == 0) {
-        si = &seqInstance_803A4B7C[seqId];
+        si = &lbl_8054AB48[seqId];
         switch (si->state) {
         case 1:
             if (si->prev != NULL) {
                 si->prev->next = si->next;
             } else {
-                SEQ_RUN_803A4B7C = si->next;
+                lbl_805D737C = si->next;
             }
-            KillNotes_803A4B7C(&seqInstance_803A4B7C[seqId]);
-            ResetNotes((Owner_803A3C24 *)&seqInstance_803A4B7C[seqId]);
+            KillNotes(&lbl_8054AB48[seqId]);
+            ResetNotes(&lbl_8054AB48[seqId]);
             break;
         case 2:
             if (si->prev != NULL) {
                 si->prev->next = si->next;
             } else {
-                SEQ_PAUSED_803A4B7C = si->next;
+                lbl_805D7378 = si->next;
             }
             break;
         }
@@ -630,14 +726,14 @@ void seqStop(s32 seqId) {
             si->next->prev = si->prev;
         }
         si->state = 0;
-        if (SEQ_FREE_803A4B7C != NULL) {
-            SEQ_FREE_803A4B7C->prev = si;
+        if (lbl_805D7374 != NULL) {
+            lbl_805D7374->prev = si;
         }
-        si->next = SEQ_FREE_803A4B7C;
+        si->next = lbl_805D7374;
         si->prev = NULL;
-        SEQ_FREE_803A4B7C = si;
+        lbl_805D7374 = si;
     } else {
-        si = &seqInstance_803A4B7C[seqId & ~0x80000000];
+        si = &lbl_8054AB48[seqId & ~0x80000000];
         if (si->state != 0) {
             si->syncSeqIdPtr = NULL;
         }
@@ -646,13 +742,13 @@ void seqStop(s32 seqId) {
 #pragma pop
 
 void seqKillInstancesByGroupID(u16 sgid) {
-    SeqInst_803A4D4C *si;
-    for (si = (*(SeqInst_803A4D4C * *)&lbl_805D737C); si != NULL; si = si->next) {
+    SynthSeqInstance *si;
+    for (si = lbl_805D737C; si != NULL; si = si->next) {
         if (si->groupID == sgid) {
             seqStop(si->publicId);
         }
     }
-    for (si = (*(SeqInst_803A4D4C * *)&lbl_805D7378); si != NULL; si = si->next) {
+    for (si = lbl_805D7378; si != NULL; si = si->next) {
         if (si->groupID == sgid) {
             seqStop(si->publicId);
         }
@@ -660,49 +756,45 @@ void seqKillInstancesByGroupID(u16 sgid) {
 }
 
 void seqSpeed(u32 id, s16 v) {
-    u8 *base = lbl_80549748;
-    Node_803A4964 *n;
+    SynthSeqBss *bss = (SynthSeqBss *)lbl_80549748;
+    SynthSeqInstance *n;
     u32 key = id & 0x7FFFFFFF;
     s32 h;
 
     for (n = lbl_805D737C; n != NULL; n = n->next) {
-        if (n->id == key) {
-            h = (n->idx & 0x7FFFFFFF) | (id & 0x80000000);
+        if (n->publicId == key) {
+            h = (n->index & 0x7FFFFFFF) | (id & 0x80000000);
             goto found;
         }
     }
     for (n = lbl_805D7378; n != NULL; n = n->next) {
-        if (n->id == key) {
-            h = (n->idx & 0x7FFFFFFF) | (id & 0x80000000);
+        if (n->publicId == key) {
+            h = (n->index & 0x7FFFFFFF) | (id & 0x80000000);
             goto found;
         }
     }
     h = -1;
 found:
     if (!(h & 0x80000000)) {
-        {
-            Slot_803A4DDC *sl = (Slot_803A4DDC *)(base + h * 0x1868);
-            sl->voices[0].vol = v;
-            sl->voices[1].vol = v;
-            sl->voices[2].vol = v;
-            sl->voices[3].vol = v;
-            sl->voices[4].vol = v;
-            sl->voices[5].vol = v;
-            sl->voices[6].vol = v;
-            sl->voices[7].vol = v;
-            sl->voices[8].vol = v;
-            sl->voices[9].vol = v;
-            sl->voices[10].vol = v;
-            sl->voices[11].vol = v;
-            sl->voices[12].vol = v;
-            sl->voices[13].vol = v;
-            sl->voices[14].vol = v;
-            sl->voices[15].vol = v;
-        }
+        bss->seqInstance[h].section[0].speed = v;
+        bss->seqInstance[h].section[1].speed = v;
+        bss->seqInstance[h].section[2].speed = v;
+        bss->seqInstance[h].section[3].speed = v;
+        bss->seqInstance[h].section[4].speed = v;
+        bss->seqInstance[h].section[5].speed = v;
+        bss->seqInstance[h].section[6].speed = v;
+        bss->seqInstance[h].section[7].speed = v;
+        bss->seqInstance[h].section[8].speed = v;
+        bss->seqInstance[h].section[9].speed = v;
+        bss->seqInstance[h].section[10].speed = v;
+        bss->seqInstance[h].section[11].speed = v;
+        bss->seqInstance[h].section[12].speed = v;
+        bss->seqInstance[h].section[13].speed = v;
+        bss->seqInstance[h].section[14].speed = v;
+        bss->seqInstance[h].section[15].speed = v;
     } else {
-        Slot_803A4DDC *s = (Slot_803A4DDC *)(base + (h & 0x7FFFFFFF) * 0x1868);
-        s->flags |= 0x20;
-        s->f0 = v;
+        bss->seqInstance[h & 0x7FFFFFFF].syncCrossInfo.flags |= 0x20;
+        bss->seqInstance[h & 0x7FFFFFFF].syncCrossInfo.speed2 = v;
     }
 }
 
@@ -711,59 +803,45 @@ found:
 #pragma inline_depth(4)
 #pragma opt_common_subs on
 void seqContinue(s32 seqId) {
-    SEQ_INSTANCE_803A4B7C *si;
+    SynthSeqInstance *si;
 
-    seqId = seqGetPrivateId_803A4B7C(seqId);
+    seqId = seqGetPrivateIdInline(seqId);
 
     if ((seqId & 0x80000000) == 0) {
-        si = &seqInstance_803A4B7C[seqId];
+        si = &lbl_8054AB48[seqId];
 
         if (si->state == 2) {
             if (si->prev != NULL) {
                 si->prev->next = si->next;
             } else {
-                SEQ_PAUSED_803A4B7C = si->next;
+                lbl_805D7378 = si->next;
             }
 
             if (si->next != NULL) {
                 si->next->prev = si->prev;
             }
 
-            if ((si->next = SEQ_RUN_803A4B7C) != NULL) {
-                SEQ_RUN_803A4B7C->prev = si;
+            if ((si->next = lbl_805D737C) != NULL) {
+                lbl_805D737C->prev = si;
             }
 
             si->prev = NULL;
-            SEQ_RUN_803A4B7C = si;
+            lbl_805D737C = si;
             si->state = 1;
         }
     } else {
-        seqInstance_803A4B7C[seqId & ~0x80000000].syncCrossInfo.flags &= ~8;
+        lbl_8054AB48[seqId & ~0x80000000].syncCrossInfo.flags &= ~8;
     }
 }
 #pragma pop
+
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(4)
 #pragma opt_common_subs on
-static inline u32 seqGetPrivateId_803A4FC4(u32 seqId) {
-    SEQ_INSTANCE_803A49C8 *si;
-    for (si = SEQ_RUN_LIST; si != NULL; si = si->next) {
-        if (si->publicId == (seqId & ~0x80000000)) {
-            return si->index | (seqId & 0x80000000);
-        }
-    }
-    for (si = SEQ_FREE_LIST; si != NULL; si = si->next) {
-        if (si->publicId == (seqId & ~0x80000000)) {
-            return si->index | (seqId & 0x80000000);
-        }
-    }
-    return 0xFFFFFFFF;
-}
-
 void seqMute(s32 seqId, s32 mask1, s32 mask2) {
-    SeqBss_803A4FC4 *bss = (SeqBss_803A4FC4 *)lbl_80549748;
-    seqId = seqGetPrivateId_803A4FC4(seqId);
+    SynthSeqBss *bss = (SynthSeqBss *)lbl_80549748;
+    seqId = seqGetPrivateIdInline(seqId);
     if (seqId == 0xFFFFFFFF) {
         return;
     }
@@ -780,107 +858,43 @@ void seqMute(s32 seqId, s32 mask1, s32 mask2) {
 }
 #pragma pop
 
-typedef struct PAGE_803A5078 { u16 macro; u8 prio; u8 maxVoices; u8 index; u8 reserved; } PAGE_803A5078;
-typedef struct ARR_803A5078 { u32 tTab; u32 pTab; u32 tmTab; u32 mTrack; u32 info; u32 loopPoint[16]; u32 tsTab; } ARR_803A5078;
-typedef struct TENTRY_803A5078 { u32 time; u8 prgChange; u8 velocity; u8 res[2]; u16 pattern; s8 transpose; s8 velocityAdd; } TENTRY_803A5078;
-typedef struct TRACK_803A5078 { TENTRY_803A5078 *base; TENTRY_803A5078 *addr; } TRACK_803A5078;
-typedef struct NOTE_803A5078 { struct NOTE_803A5078 *next; struct NOTE_803A5078 *prev; u32 id; s32 endTime; u8 section; u8 timeIndex; u8 reserved[2]; } NOTE_803A5078;
-typedef struct NOTE_DATA_803A5078 { u16 time; u8 key; u8 velocity; u16 length; } NOTE_DATA_803A5078;
-typedef struct PRG_STATE_803A5078 { u16 macId; u8 priority; u8 maxVoices; } PRG_STATE_803A5078;
-typedef struct SEQ_STREAM_803A5078 { u8 *nextAddr; u16 value; s16 nextDelta; u32 nextTime; } SEQ_STREAM_803A5078;
-typedef struct CPAT_803A5078 { u32 lTime; u32 baseTime; NOTE_DATA_803A5078 *addr; TENTRY_803A5078 *patternInfo; SEQ_STREAM_803A5078 pitchBend; SEQ_STREAM_803A5078 modulation; u8 midi; } CPAT_803A5078;
-typedef struct SEQ_EVENT_803A5078 {
-    struct SEQ_EVENT_803A5078 *next; struct SEQ_EVENT_803A5078 *prev; u32 time;
-    union { TENTRY_803A5078 *trackAddr; struct { NOTE_DATA_803A5078 *addr; CPAT_803A5078 *base; } pattern; } info;
-    u8 type; u8 trackId;
-} SEQ_EVENT_803A5078;
-typedef struct MTRACK_DATA_803A5078 { volatile u32 time; u32 bpm; } MTRACK_DATA_803A5078;
-typedef struct MTRACK_803A5078 { MTRACK_DATA_803A5078 *base; MTRACK_DATA_803A5078 *addr; } MTRACK_803A5078;
-typedef struct TICKS_803A5078 { u32 low; s32 high; } TICKS_803A5078;
-typedef struct SEQ_SECTION_803A5078 {
-    MTRACK_803A5078 mTrack; u32 bpm; TICKS_803A5078 tickDelta[2]; SEQ_EVENT_803A5078 *globalEventRoot; TICKS_803A5078 time[2];
-    u8 timeIndex; u16 speed; u16 loopCnt; u8 loopDisable;
-} SEQ_SECTION_803A5078;
-typedef struct SND_CROSSFADE_803A5078 {
-    u32 seqId1; u16 time1; u32 seqId2; u16 time2; void *arr2; u16 gid2; u16 sid2; u8 vol2; u8 studio2;
-    u32 trackMute2[2]; u16 speed2; u8 flags;
-} SND_CROSSFADE_803A5078;
-typedef struct SEQ_INSTANCE_803A5078 {
-    struct SEQ_INSTANCE_803A5078 *next; struct SEQ_INSTANCE_803A5078 *prev; u8 state; u8 index; u16 groupID; u32 publicId;
-    PAGE_803A5078 *normtab; u8 normTrans[128]; PAGE_803A5078 *drumtab; u8 drumTrans[128];
-    ARR_803A5078 *arrbase; u32 trackMute[2]; TRACK_803A5078 track[64]; u8 trackVolGroup[64]; CPAT_803A5078 pattern[64];
-    NOTE_803A5078 *noteUsed[2]; NOTE_803A5078 *noteKeyOff; PRG_STATE_803A5078 prgState[16]; u8 defVGroup;
-    SND_CROSSFADE_803A5078 syncCrossInfo; u32 *syncSeqIdPtr; u8 syncActive; u8 defStudio; u8 keyOffCheck;
-    SEQ_EVENT_803A5078 event[64]; u8 *trackSectionTab; SEQ_SECTION_803A5078 section[16];
-} SEQ_INSTANCE_803A5078;
-
-typedef struct SeqBss_803A5078 {
-    NOTE_803A5078 seqNote[256];
-    SEQ_INSTANCE_803A5078 seqInstance[8];
-} SeqBss_803A5078;
-
-}
-namespace seq_803A5078 {
-extern "C" SEQ_INSTANCE_803A5078 *lbl_805D7378;
-extern "C" SEQ_INSTANCE_803A5078 *lbl_805D737C;
-}
-extern "C" {
-#define seqInstance_803A5078 seq_803A4B7C::lbl_8054AB48
-#define SEQ_FREE_803A5078 seq_803A5078::lbl_805D7378
-#define SEQ_RUN_803A5078 seq_803A5078::lbl_805D737C
-
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(4)
 #pragma opt_common_subs on
-static inline u32 seqGetPrivateId_803A5078(u32 seqId) {
-    SEQ_INSTANCE_803A5078 *si;
-    for (si = SEQ_RUN_803A5078; si != NULL; si = si->next) {
-        if (si->publicId == (seqId & ~0x80000000)) {
-            return si->index | (seqId & 0x80000000);
-        }
-    }
-    for (si = SEQ_FREE_803A5078; si != NULL; si = si->next) {
-        if (si->publicId == (seqId & ~0x80000000)) {
-            return si->index | (seqId & 0x80000000);
-        }
-    }
-    return 0xFFFFFFFF;
-}
-
 void seqVolume(u8 volume, u16 time, u32 seqId, u8 mode) {
     u32 i;
     u32 pub_id;
 
     pub_id = seqId;
-    seqId = seqGetPrivateId_803A5078(seqId);
+    seqId = seqGetPrivateIdInline(seqId);
     if (seqId == 0xFFFFFFFF) {
         return;
     }
 
     if ((seqId & 0x80000000) == 0) {
-        synthVolume(volume, time, seqInstance_803A5078[seqId].defVGroup, mode, pub_id);
+        synthVolume(volume, time, lbl_8054AB48[seqId].defVGroup, mode, pub_id);
         for (i = 0; i < 64; ++i) {
-            if (seqInstance_803A5078[seqId].trackVolGroup[i] != seqInstance_803A5078[seqId].defVGroup) {
-                synthVolume(volume, time, seqInstance_803A5078[seqId].trackVolGroup[i], 0, 0xFFFFFFFF);
+            if (lbl_8054AB48[seqId].trackVolGroup[i] != lbl_8054AB48[seqId].defVGroup) {
+                synthVolume(volume, time, lbl_8054AB48[seqId].trackVolGroup[i], 0, 0xFFFFFFFF);
             }
         }
     } else {
         seqId &= ~0x80000000;
         switch (mode & 0xF) {
         case 0:
-            seqInstance_803A5078[seqId].syncCrossInfo.vol2 = volume;
+            lbl_8054AB48[seqId].syncCrossInfo.vol2 = volume;
             break;
         case 1:
-            seqInstance_803A5078[seqId].syncSeqIdPtr = NULL;
+            lbl_8054AB48[seqId].syncSeqIdPtr = NULL;
             break;
         case 2:
-            seqInstance_803A5078[seqId].syncCrossInfo.flags |= 8;
-            seqInstance_803A5078[seqId].syncCrossInfo.vol2 = volume;
+            lbl_8054AB48[seqId].syncCrossInfo.flags |= 8;
+            lbl_8054AB48[seqId].syncCrossInfo.vol2 = volume;
             break;
         case 3:
-            seqInstance_803A5078[seqId].syncCrossInfo.flags |= 0x80;
-            seqInstance_803A5078[seqId].syncCrossInfo.vol2 = volume;
+            lbl_8054AB48[seqId].syncCrossInfo.flags |= 0x80;
+            lbl_8054AB48[seqId].syncCrossInfo.vol2 = volume;
             break;
         }
     }
@@ -891,21 +905,7 @@ void seqVolume(u8 volume, u16 time, u32 seqId, u8 mode) {
 #pragma dont_inline off
 #pragma inline_depth(4)
 #pragma opt_common_subs on
-static inline u32 seqGetPrivateId_X5214(u32 seqId) {
-    SEQ_INSTANCE_803A49C8 *si;
-    for (si = SEQ_RUN_LIST; si != NULL; si = si->next) {
-        if (si->publicId == (seqId & ~0x80000000)) {
-            return si->index | (seqId & 0x80000000);
-        }
-    }
-    for (si = SEQ_FREE_LIST; si != NULL; si = si->next) {
-        if (si->publicId == (seqId & ~0x80000000)) {
-            return si->index | (seqId & 0x80000000);
-        }
-    }
-    return 0xFFFFFFFF;
-}
-static inline void seqSpeed_X5214(SeqBss_803A4FC4 *bss, u32 seqId, u16 speed) {
+static inline void seqSpeedCrossfade(SynthSeqBss *bss, u32 seqId, u16 speed) {
     u32 i;
 
     seqId = seqGetPrivateId(seqId);
@@ -920,7 +920,7 @@ static inline void seqSpeed_X5214(SeqBss_803A4FC4 *bss, u32 seqId, u16 speed) {
     }
 }
 
-static inline void seqMute_X5214(SeqBss_803A4FC4 *bss, u32 seqId, u32 mask1, u32 mask2) {
+static inline void seqMuteCrossfade(SynthSeqBss *bss, u32 seqId, u32 mask1, u32 mask2) {
     seqId = seqGetPrivateId(seqId);
     if (seqId == 0xFFFFFFFF) {
         return;
@@ -937,17 +937,13 @@ static inline void seqMute_X5214(SeqBss_803A4FC4 *bss, u32 seqId, u32 mask1, u32
     }
 }
 
-void seqCrossFade(SND_CROSSFADE_803A49C8 *ci, u32 *new_seqId, u8 irq_call) {
-    void seqContinue(s32 arg0);
-    u32 seqGetPrivateId(u32 seqId);
-    void sndSeqContinue(s32 arg0);
-    void sndSeqMute(s32 arg0, s32 arg1, s32 arg2);
-    SND_PLAYPARA_SEQ pp;
+void seqCrossFade(SynthCrossfade *ci, u32 *new_seqId, u8 irq_call) {
+    SynthPlayPara pp;
     u32 seqId;
     u16 time;
-    SeqBss_803A4FC4 *bss = (SeqBss_803A4FC4 *)lbl_80549748;
+    SynthSeqBss *bss = (SynthSeqBss *)lbl_80549748;
 
-    seqId = seqGetPrivateId_X5214(ci->seqId1);
+    seqId = seqGetPrivateIdInline(ci->seqId1);
 
     if ((ci->flags & 4) != 0) {
         bss->seqInstance[seqId].syncCrossInfo = *ci;
@@ -982,15 +978,15 @@ void seqCrossFade(SND_CROSSFADE_803A49C8 *ci, u32 *new_seqId, u8 irq_call) {
     }
 
     if ((ci->flags & 2) != 0) {
-        if (seqGetPrivateId_X5214(ci->seqId2) != 0xFFFFFFFF) {
+        if (seqGetPrivateIdInline(ci->seqId2) != 0xFFFFFFFF) {
             if (irq_call) {
                 seqContinue(ci->seqId2);
                 seqVolume(ci->vol2, ci->time2, ci->seqId2, 0);
                 if ((ci->flags & 0x10) != 0) {
-                    seqMute_X5214(bss, ci->seqId2, ci->trackMute2[0], ci->trackMute2[1]);
+                    seqMuteCrossfade(bss, ci->seqId2, ci->trackMute2[0], ci->trackMute2[1]);
                 }
                 if ((ci->flags & 0x20) != 0) {
-                    seqSpeed_X5214(bss, ci->seqId2, ci->speed2);
+                    seqSpeedCrossfade(bss, ci->seqId2, ci->speed2);
                 }
             } else {
                 sndSeqContinue(ci->seqId2);
@@ -1027,7 +1023,7 @@ void seqCrossFade(SND_CROSSFADE_803A49C8 *ci, u32 *new_seqId, u8 irq_call) {
             if ((*new_seqId = seqPlaySong(ci->gid2, ci->sid2, ci->arr2, &pp, 1, ci->studio2)) !=
                     0xFFFFFFFF &&
                 (ci->flags & 0x80) != 0) {
-                seqMute_X5214(bss, *new_seqId, 0, 0);
+                seqMuteCrossfade(bss, *new_seqId, 0, 0);
             }
         } else {
             if ((*new_seqId = sndSeqPlayEx(ci->gid2, ci->sid2, ci->arr2, &pp, ci->studio2)) !=
@@ -1083,19 +1079,19 @@ u8 *GetStreamValue(u8 *stream, u16 *deltaTime, s16 *deltaData) {
 
 #pragma push
 #pragma opt_common_subs on
-Node_803A5A04 *GenerateNextTrackEvent(u8 trackId) {
-    TRACK_803A49C8 *track;
-    CPAT_803A49C8 *pattern;
-    SEQ_EVENT_803A49C8 *ev;
+SynthSeqEvent *GenerateNextTrackEvent(u8 trackId) {
+    SynthSeqTrack *track;
+    SynthSeqPatternState *pattern;
+    SynthSeqEvent *ev;
     u32 patternTime;
     u32 pitchTime;
     u32 modTime;
 
-    track = &SEQ_CUR->track[trackId];
-    pattern = &SEQ_CUR->pattern[trackId];
+    track = &lbl_805D7360->track[trackId];
+    pattern = &lbl_805D7360->pattern[trackId];
 
     if (track->addr != NULL) {
-        ev = &SEQ_CUR->event[trackId];
+        ev = &lbl_805D7360->event[trackId];
         ev->trackId = trackId;
         ev->info.pattern.base = pattern;
 
@@ -1107,27 +1103,27 @@ Node_803A5A04 *GenerateNextTrackEvent(u8 trackId) {
             }
 
             if (track->addr->pattern == 0xfffe) {
-                if (SEQ_CUR->trackSectionTab == NULL) {
-                    if (SEQ_CUR->section[0].loopDisable) {
+                if (lbl_805D7360->trackSectionTab == NULL) {
+                    if (lbl_805D7360->section[0].loopDisable) {
                         track->addr = NULL;
                         return NULL;
                     }
-                } else if (SEQ_CUR->section[SEQ_CUR->trackSectionTab[trackId]].loopDisable) {
+                } else if (lbl_805D7360->section[lbl_805D7360->trackSectionTab[trackId]].loopDisable) {
                     track->addr = NULL;
                     return NULL;
                 }
 
                 ev->type = 3;
                 ev->time = track->addr->time;
-                track->addr = &track->base[*((u16 *)&track->addr->transpose)];
-                return (Node_803A5A04 *)ev;
+                track->addr = &track->base[track->addr->data.jumpTarget];
+                return ev;
             }
 
             ev->type = 4;
             ev->time = track->addr->time;
             ev->info.trackAddr = track->addr;
             ++track->addr;
-            return (Node_803A5A04 *)ev;
+            return ev;
         }
 
         pitchTime = pattern->pitchBend.nextTime;
@@ -1146,15 +1142,15 @@ Node_803A5A04 *GenerateNextTrackEvent(u8 trackId) {
             goto null_pattern_addr;
         }
 
-        ev->info.trackAddr = (TENTRY_803A49C8 *)pattern->addr;
+        ev->info.trackAddr = (SynthSeqTrackEntry *)pattern->addr;
         pattern->lTime = patternTime;
 
         if ((pattern->addr->key & 0x80) != 0) {
-            pattern->addr = (NOTE_DATA_803A49C8 *)((u8 *)pattern->addr + 4);
+            pattern->addr = (SynthSeqNoteData *)((SynthSeqCtrlData *)pattern->addr + 1);
             goto use_pattern_time;
         }
         if ((pattern->addr->key | pattern->addr->velocity) == 0) {
-            pattern->addr = (NOTE_DATA_803A49C8 *)((u8 *)pattern->addr + 4);
+            pattern->addr = (SynthSeqNoteData *)((SynthSeqCtrlData *)pattern->addr + 1);
             goto loop;
         }
         ++pattern->addr;
@@ -1176,53 +1172,50 @@ Node_803A5A04 *GenerateNextTrackEvent(u8 trackId) {
         ev->type = 1;
 
     end:
-        return (Node_803A5A04 *)ev;
+        return ev;
     }
 
     return NULL;
 }
 #pragma pop
 
-void InsertGlobalEvent(List_803A5A04 *arg0, Node_803A5A04 *arg1) {
-    Node_803A5A04 *p = arg0->head;
-    Node_803A5A04 *q = 0;
-    while (p != 0) {
-        if (p->key > arg1->key) {
-            arg1->next = p;
-            arg1->prev = q;
-            if (q != 0) {
-                q->next = arg1;
+void InsertGlobalEvent(SynthSeqSection *section, SynthSeqEvent *ev) {
+    SynthSeqEvent *p = section->globalEventRoot;
+    SynthSeqEvent *q = NULL;
+    while (p != NULL) {
+        if (p->time > ev->time) {
+            ev->next = p;
+            ev->prev = q;
+            if (q != NULL) {
+                q->next = ev;
             } else {
-                arg0->head = arg1;
+                section->globalEventRoot = ev;
             }
-            p->prev = arg1;
+            p->prev = ev;
             return;
         }
         q = p;
         p = p->next;
     }
-    arg1->prev = q;
-    if (q != 0) {
-        q->next = arg1;
+    ev->prev = q;
+    if (q != NULL) {
+        q->next = ev;
     } else {
-        arg0->head = arg1;
+        section->globalEventRoot = ev;
     }
-    arg1->next = 0;
+    ev->next = NULL;
 }
 
-#define ARR_GET_803A5A78(arr, offset) ((void *)(offset + (uaddr)arr))
-#define CSEQ_5A78 (*(SEQ_INSTANCE_803A6364 **)&lbl_805D7360)
-#define NOTEFREE_5A78 (*(NOTE_803A6364 **)&lbl_805D7364)
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(4)
 #pragma opt_common_subs on
 
-static inline void InitStream_803A5A78(SEQ_STREAM_803A6364 *stream, u32 streamDataOffset) {
+static inline void InitStream(SynthSeqStream *stream, u32 streamDataOffset) {
     u16 delta;
     if (streamDataOffset != 0) {
-        if ((stream->nextAddr = GetStreamValue((u8 *)ARR_GET_803A5A78(CSEQ_5A78->arrbase, streamDataOffset), &delta,
-                                                     &stream->nextDelta)) != NULL) {
+        if ((stream->nextAddr = GetStreamValue((u8 *)ARR_PTR(lbl_805D7360->arrbase, streamDataOffset), &delta,
+                                               &stream->nextDelta)) != NULL) {
             stream->nextTime = delta;
         } else {
             stream->nextTime = 0x7fffffff;
@@ -1232,7 +1225,7 @@ static inline void InitStream_803A5A78(SEQ_STREAM_803A6364 *stream, u32 streamDa
     }
 }
 
-static inline u16 HandleStream_803A5A78(SEQ_STREAM_803A6364 *stream) {
+static inline u16 HandleStream(SynthSeqStream *stream) {
     u16 delta;
     stream->value += stream->nextDelta;
     if (stream->nextAddr != NULL) {
@@ -1247,7 +1240,7 @@ static inline u16 HandleStream_803A5A78(SEQ_STREAM_803A6364 *stream) {
     return stream->value;
 }
 
-static inline void DoPrgChange_803A5A78(SeqBss_803A5A78 *bss, SEQ_INSTANCE_803A6364 *seq, u8 prg, u8 midi) {
+static inline void DoPrgChangeBss(SynthSeqBss *bss, SynthSeqInstance *seq, u8 prg, u8 midi) {
     bss->seqMIDIPriority[lbl_805D7368][midi] = 0xFFFF;
     if (midi != 9) {
         prg = seq->normTrans[prg];
@@ -1269,55 +1262,53 @@ static inline void DoPrgChange_803A5A78(SeqBss_803A5A78 *bss, SEQ_INSTANCE_803A6
     seq->prgState[midi].maxVoices = seq->drumtab[prg].maxVoices;
 }
 
-static inline void FreeNote_803A5A78(NOTE_803A6364 *n) {
+static inline void FreeNote(SynthSeqNote *n) {
     if (n->next != NULL) {
         n->next->prev = n->prev;
     }
     if (n->prev != NULL) {
         n->prev->next = n->next;
     } else {
-        CSEQ_5A78->noteUsed[n->timeIndex] = n->next;
+        lbl_805D7360->noteUsed[n->timeIndex] = n->next;
     }
-    if ((n->next = NOTEFREE_5A78) != NULL) {
-        NOTEFREE_5A78->prev = n;
+    if ((n->next = lbl_805D7364) != NULL) {
+        lbl_805D7364->prev = n;
     }
     n->prev = NULL;
-    NOTEFREE_5A78 = n;
+    lbl_805D7364 = n;
 }
 
-SEQ_EVENT_803A6364 *HandleEvent(SEQ_EVENT_803A6364 *event, u8 secIndex, u32 *loopFlag) {
-    u32 synthStartSound(u16 id, u8 prio, u8 max, u8 key, u8 vol, u8 panning, u8 midi, u8 midiSet,
-                             u8 section, u16 step, u16 trackid, u8 vGroup, s16 prioOffset, u8 studio, u32 itd);
-    SeqBss_803A5A78 *bss = (SeqBss_803A5A78 *)lbl_80549748;
-    CPAT_803A6364 *pa;
-    NOTE_DATA_803A6364 *pe;
+SynthSeqEvent *HandleEvent(SynthSeqEvent *event, u8 secIndex, u32 *loopFlag) {
+    SynthSeqBss *bss = (SynthSeqBss *)lbl_80549748;
+    SynthSeqPatternState *pa;
+    SynthSeqNoteData *pe;
     s32 velocity;
     s32 key;
     u8 midi;
     u16 macId;
-    NOTE_803A6364 *note;
-    TENTRY_803A6364 *tEntry;
-    CPAT_803A6364 *pattern;
+    SynthSeqNote *note;
+    SynthSeqTrackEntry *tEntry;
+    SynthSeqPatternState *pattern;
     u32 *pTab;
-    SEQ_PATTERN_803A5A78 *pptr;
+    SynthSeqPattern *pptr;
 
     switch (event->type) {
     case 4:
         tEntry = event->info.trackAddr;
-        pattern = &CSEQ_5A78->pattern[event->trackId];
-        pTab = (u32 *)ARR_GET_803A5A78(CSEQ_5A78->arrbase, CSEQ_5A78->arrbase->pTab);
-        pptr = (SEQ_PATTERN_803A5A78 *)ARR_GET_803A5A78(CSEQ_5A78->arrbase, pTab[tEntry->pattern]);
-        pattern->addr = (NOTE_DATA_803A6364 *)&pptr->noteData;
+        pattern = &lbl_805D7360->pattern[event->trackId];
+        pTab = (u32 *)ARR_PTR(lbl_805D7360->arrbase, lbl_805D7360->arrbase->pTab);
+        pptr = (SynthSeqPattern *)ARR_PTR(lbl_805D7360->arrbase, pTab[tEntry->pattern]);
+        pattern->addr = (SynthSeqNoteData *)&pptr->noteData;
         pattern->lTime = 0;
         pattern->baseTime = tEntry->time;
         pattern->patternInfo = tEntry;
-        InitStream_803A5A78(&pattern->pitchBend, pptr->pitchBend);
+        InitStream(&pattern->pitchBend, pptr->pitchBend);
         pattern->pitchBend.value = 0x2000;
-        InitStream_803A5A78(&pattern->modulation, pptr->modulation);
+        InitStream(&pattern->modulation, pptr->modulation);
         pattern->modulation.value = 0;
-        pattern->midi = ((u8 *)ARR_GET_803A5A78(CSEQ_5A78->arrbase, CSEQ_5A78->arrbase->tmTab))[event->trackId];
+        pattern->midi = ((u8 *)ARR_PTR(lbl_805D7360->arrbase, lbl_805D7360->arrbase->tmTab))[event->trackId];
         if (tEntry->prgChange != 0xff) {
-            DoPrgChange_803A5A78(bss, CSEQ_5A78, tEntry->prgChange, pattern->midi);
+            DoPrgChangeBss(bss, lbl_805D7360, tEntry->prgChange, pattern->midi);
         }
         if (tEntry->velocity != 0xff) {
             inpSetMidiCtrl(7, pattern->midi, lbl_805D7368, tEntry->velocity);
@@ -1334,7 +1325,7 @@ SEQ_EVENT_803A6364 *HandleEvent(SEQ_EVENT_803A6364 *event, u8 secIndex, u32 *loo
         if ((key & 0x80) != 0) {
             switch (velocity) {
             case 0:
-                DoPrgChange_803A5A78(bss, CSEQ_5A78, key & 0x7f, midi);
+                DoPrgChangeBss(bss, lbl_805D7360, key & 0x7f, midi);
                 break;
             case 1:
                 inpSetMidiCtrl(0x82, midi, lbl_805D7368, key & 0x7f);
@@ -1345,9 +1336,9 @@ SEQ_EVENT_803A6364 *HandleEvent(SEQ_EVENT_803A6364 *event, u8 secIndex, u32 *loo
                 }
                 switch (velocity & 0x7f) {
                 case 0x68:
-                    if (CSEQ_5A78->syncActive) {
-                        seqCrossFade((SND_CROSSFADE_803A49C8 *)&CSEQ_5A78->syncCrossInfo, CSEQ_5A78->syncSeqIdPtr, 1);
-                        CSEQ_5A78->syncActive = 0;
+                    if (lbl_805D7360->syncActive) {
+                        seqCrossFade(&lbl_805D7360->syncCrossInfo, lbl_805D7360->syncSeqIdPtr, 1);
+                        lbl_805D7360->syncActive = 0;
                     }
                     break;
                 case 0x69:
@@ -1370,21 +1361,21 @@ SEQ_EVENT_803A6364 *HandleEvent(SEQ_EVENT_803A6364 *event, u8 secIndex, u32 *loo
             break;
         }
 
-        if ((CSEQ_5A78->trackMute[event->trackId / 32] & (1 << (event->trackId & 0x1f))) != 0) {
-            if ((macId = CSEQ_5A78->prgState[midi].macId) != 0xffff) {
-                key += pa->patternInfo->transpose;
+        if ((lbl_805D7360->trackMute[event->trackId / 32] & (1 << (event->trackId & 0x1f))) != 0) {
+            if ((macId = lbl_805D7360->prgState[midi].macId) != 0xffff) {
+                key += pa->patternInfo->data.note.transpose;
                 key = key > 0x7f ? 0x7f : key < 0 ? 0 : key;
 
-                velocity += pa->patternInfo->velocityAdd;
+                velocity += pa->patternInfo->data.note.velocityAdd;
                 velocity = velocity > 0x7f ? 0x7f : velocity < 0 ? 0 : velocity;
 
-                if ((note = (NOTE_803A6364 *)AllocateNote(event->time + pe->length, secIndex)) != NULL) {
+                if ((note = AllocateNote(event->time + pe->length, secIndex)) != NULL) {
                     if ((note->id = synthStartSound(
-                             macId, CSEQ_5A78->prgState[midi].priority, CSEQ_5A78->prgState[midi].maxVoices,
+                             macId, lbl_805D7360->prgState[midi].priority, lbl_805D7360->prgState[midi].maxVoices,
                              key, velocity, 64, midi, lbl_805D7368, secIndex, 0, event->trackId,
-                             CSEQ_5A78->trackVolGroup[event->trackId], lbl_805D736C ? -1 : 0,
-                             CSEQ_5A78->defStudio, synthITDDefault[CSEQ_5A78->defStudio].b0)) == 0xFFFFFFFF) {
-                        FreeNote_803A5A78(note);
+                             lbl_805D7360->trackVolGroup[event->trackId], lbl_805D736C ? -1 : 0,
+                             lbl_805D7360->defStudio, synthITDDefault[lbl_805D7360->defStudio].music)) == 0xFFFFFFFF) {
+                        FreeNote(note);
                     }
                 }
             }
@@ -1393,12 +1384,12 @@ SEQ_EVENT_803A6364 *HandleEvent(SEQ_EVENT_803A6364 *event, u8 secIndex, u32 *loo
 
     case 2:
         pa = event->info.pattern.base;
-        inpSetMidiCtrl14(0x80, pa->midi, lbl_805D7368, HandleStream_803A5A78(&pa->pitchBend));
+        inpSetMidiCtrl14(0x80, pa->midi, lbl_805D7368, HandleStream(&pa->pitchBend));
         break;
 
     case 1:
         pa = event->info.pattern.base;
-        inpSetMidiCtrl14(1, pa->midi, lbl_805D7368, HandleStream_803A5A78(&pa->modulation));
+        inpSetMidiCtrl14(1, pa->midi, lbl_805D7368, HandleStream(&pa->modulation));
         break;
 
     case 3:
@@ -1406,28 +1397,26 @@ SEQ_EVENT_803A6364 *HandleEvent(SEQ_EVENT_803A6364 *event, u8 secIndex, u32 *loo
         return NULL;
     }
 
-    return (SEQ_EVENT_803A6364 *)GenerateNextTrackEvent(event->trackId);
+    return GenerateNextTrackEvent(event->trackId);
 }
 #pragma pop
-#undef CSEQ_5A78
-#undef NOTEFREE_5A78
 
 void InitTrackEvents(void) {
     u32 i;
-    Node_803A5A04 *n;
+    SynthSeqEvent *n;
 
-    if (((Owner_803A61F8 *)lbl_805D7360)->map == NULL) {
+    if (lbl_805D7360->trackSectionTab == NULL) {
         for (i = 0; i < 0x40; i++) {
             n = GenerateNextTrackEvent(i);
             if (n != NULL) {
-                InsertGlobalEvent(&((Owner_803A61F8 *)lbl_805D7360)->chans[0], n);
+                InsertGlobalEvent(&lbl_805D7360->section[0], n);
             }
         }
     } else {
         for (i = 0; i < 0x40; i++) {
             n = GenerateNextTrackEvent(i);
             if (n != NULL) {
-                InsertGlobalEvent(&((Owner_803A61F8 *)lbl_805D7360)->chans[((Owner_803A61F8 *)lbl_805D7360)->map[i]], n);
+                InsertGlobalEvent(&lbl_805D7360->section[lbl_805D7360->trackSectionTab[i]], n);
             }
         }
     }
@@ -1435,21 +1424,21 @@ void InitTrackEvents(void) {
 
 void InitTrackEventsSection(u8 ch) {
     u32 i;
-    Node_803A5A04 *n;
+    SynthSeqEvent *n;
 
-    if (((Owner_803A61F8 *)lbl_805D7360)->map == NULL) {
+    if (lbl_805D7360->trackSectionTab == NULL) {
         for (i = 0; i < 0x40; i++) {
             n = GenerateNextTrackEvent(i);
             if (n != NULL) {
-                InsertGlobalEvent(&((Owner_803A61F8 *)lbl_805D7360)->chans[0], n);
+                InsertGlobalEvent(&lbl_805D7360->section[0], n);
             }
         }
     } else {
         for (i = 0; i < 0x40; i++) {
-            if (ch == ((Owner_803A61F8 *)lbl_805D7360)->map[i]) {
+            if (ch == lbl_805D7360->trackSectionTab[i]) {
                 n = GenerateNextTrackEvent(i);
                 if (n != NULL) {
-                    InsertGlobalEvent(&((Owner_803A61F8 *)lbl_805D7360)->chans[ch], n);
+                    InsertGlobalEvent(&lbl_805D7360->section[ch], n);
                 }
             }
         }
@@ -1460,7 +1449,7 @@ void InitTrackEventsSection(u8 ch) {
 #pragma dont_inline off
 #pragma inline_depth(4)
 #pragma opt_common_subs on
-static inline float fmodf_803A6364(float x, float m) {
+static inline float seqFmodf(float x, float m) {
     float a = __fabsf(m);
     float b = __fabsf(x);
     if (a > b)
@@ -1469,138 +1458,84 @@ static inline float fmodf_803A6364(float x, float m) {
         return x - m * (long long)(x / m);
     }
 }
-static inline void SetTickDelta_803A6364(SEQ_SECTION_803A6364 *section, u32 deltaTime) {
+
+static inline void SetTickDelta(SynthSeqSection *section, u32 deltaTime) {
     float tickDelta = (float)section->bpm * (float)deltaTime * (1.f / (40960000.f));
     tickDelta *= section->speed * (1.f / 256.f);
-    section->tickDelta[section->timeIndex].low = fmodf_803A6364(tickDelta * 65536.f, 65536.f);
+    section->tickDelta[section->timeIndex].low = seqFmodf(tickDelta * 65536.f, 65536.f);
     section->tickDelta[section->timeIndex].high = floorf(tickDelta);
 }
-static inline void RewindMTrack_803A6364(u8 secIndex, u32 deltaTime) {
-    if ((*(SEQ_INSTANCE_803A6364 * *)&lbl_805D7360)->section[secIndex].mTrack.base == NULL) {
+
+static inline void RewindMTrack(u8 secIndex, u32 deltaTime) {
+    if (lbl_805D7360->section[secIndex].mTrack.base == NULL) {
         return;
     }
-    (*(SEQ_INSTANCE_803A6364 * *)&lbl_805D7360)->section[secIndex].mTrack.addr = (*(SEQ_INSTANCE_803A6364 * *)&lbl_805D7360)->section[secIndex].mTrack.base;
+    lbl_805D7360->section[secIndex].mTrack.addr = lbl_805D7360->section[secIndex].mTrack.base;
     HandleMasterTrack(secIndex);
-    SetTickDelta_803A6364((*(SEQ_INSTANCE_803A6364 * *)&lbl_805D7360)->section + secIndex, deltaTime);
+    SetTickDelta(lbl_805D7360->section + secIndex, deltaTime);
 }
-static inline u32 GetNextEventTime_803A6364(SEQ_SECTION_803A6364 *section) {
+
+static inline u32 GetNextEventTime(SynthSeqSection *section) {
     if (section->globalEventRoot == NULL) {
         return 0;
     }
     return section->globalEventRoot->time;
 }
-static inline SEQ_EVENT_803A6364 *GetGlobalEvent_803A6364(SEQ_SECTION_803A6364 *section) {
-    SEQ_EVENT_803A6364 *ev;
+
+static inline SynthSeqEvent *GetGlobalEvent(SynthSeqSection *section) {
+    SynthSeqEvent *ev;
     ev = section->globalEventRoot;
     if (ev != NULL && ((section->globalEventRoot = ev->next) != NULL)) {
         section->globalEventRoot->prev = NULL;
     }
     return ev;
 }
+
 u32 HandleTrackEvents(u8 secIndex, u32 deltaTime) {
-    SEQ_EVENT_803A6364 *ev;
+    SynthSeqEvent *ev;
     u32 loopFlag;
-    SEQ_SECTION_803A6364 *section;
+    SynthSeqSection *section;
     u8 unused[4];
-    section = &(*(SEQ_INSTANCE_803A6364 * *)&lbl_805D7360)->section[secIndex];
+    section = &lbl_805D7360->section[secIndex];
     loopFlag = 0;
-    while (GetNextEventTime_803A6364(section) <= section->time[section->timeIndex].high) {
-        if ((ev = GetGlobalEvent_803A6364(section)) == NULL) {
+    while (GetNextEventTime(section) <= section->time[section->timeIndex].high) {
+        if ((ev = GetGlobalEvent(section)) == NULL) {
             if (!loopFlag) {
                 return 0;
             }
             loopFlag = 0;
             section->timeIndex ^= 1;
-            section->time[section->timeIndex].high = (*(SEQ_INSTANCE_803A6364 * *)&lbl_805D7360)->arrbase->loopPoint[secIndex];
+            section->time[section->timeIndex].high = lbl_805D7360->arrbase->loopPoint[secIndex];
             section->time[section->timeIndex].low = section->time[section->timeIndex ^ 1].low;
-            RewindMTrack_803A6364(secIndex, deltaTime);
+            RewindMTrack(secIndex, deltaTime);
             section->loopCnt += 1;
             InitTrackEventsSection(secIndex);
             continue;
         }
         if ((ev = HandleEvent(ev, secIndex, &loopFlag)) != NULL) {
-            InsertGlobalEvent((List_803A5A04 *)(section), (Node_803A5A04 *)(ev));
+            InsertGlobalEvent(section, ev);
         }
     }
     return 1;
 }
 #pragma pop
 
-typedef struct PAGE_803A65D8 { u16 macro; u8 prio; u8 maxVoices; u8 index; u8 reserved; } PAGE_803A65D8;
-typedef struct ARR_803A65D8 { u32 tTab; u32 pTab; u32 tmTab; u32 mTrack; u32 info; u32 loopPoint[16]; u32 tsTab; } ARR_803A65D8;
-typedef struct TENTRY_803A65D8 { u32 time; u8 prgChange; u8 velocity; u8 res[2]; u16 pattern; s8 transpose; s8 velocityAdd; } TENTRY_803A65D8;
-typedef struct TRACK_803A65D8 { TENTRY_803A65D8 *base; TENTRY_803A65D8 *addr; } TRACK_803A65D8;
-typedef struct NOTE_803A65D8 { struct NOTE_803A65D8 *next; struct NOTE_803A65D8 *prev; u32 id; s32 endTime; u8 section; u8 timeIndex; u8 reserved[2]; } NOTE_803A65D8;
-typedef struct NOTE_DATA_803A65D8 { u16 time; u8 key; u8 velocity; u16 length; } NOTE_DATA_803A65D8;
-typedef struct PRG_STATE_803A65D8 { u16 macId; u8 priority; u8 maxVoices; } PRG_STATE_803A65D8;
-typedef struct SEQ_STREAM_803A65D8 { u8 *nextAddr; u16 value; s16 nextDelta; u32 nextTime; } SEQ_STREAM_803A65D8;
-typedef struct CPAT_803A65D8 { u32 lTime; u32 baseTime; NOTE_DATA_803A65D8 *addr; TENTRY_803A65D8 *patternInfo; SEQ_STREAM_803A65D8 pitchBend; SEQ_STREAM_803A65D8 modulation; u8 midi; } CPAT_803A65D8;
-typedef struct SEQ_EVENT_803A65D8 {
-    struct SEQ_EVENT_803A65D8 *next; struct SEQ_EVENT_803A65D8 *prev; u32 time;
-    union { TENTRY_803A65D8 *trackAddr; struct { NOTE_DATA_803A65D8 *addr; CPAT_803A65D8 *base; } pattern; } info;
-    u8 type; u8 trackId;
-} SEQ_EVENT_803A65D8;
-typedef struct MTRACK_DATA_803A65D8 { volatile u32 time; u32 bpm; } MTRACK_DATA_803A65D8;
-typedef struct MTRACK_803A65D8 { MTRACK_DATA_803A65D8 *base; MTRACK_DATA_803A65D8 *addr; } MTRACK_803A65D8;
-typedef struct TICKS_803A65D8 { u32 low; s32 high; } TICKS_803A65D8;
-typedef struct SEQ_SECTION_803A65D8 {
-    MTRACK_803A65D8 mTrack; u32 bpm; TICKS_803A65D8 tickDelta[2]; SEQ_EVENT_803A65D8 *globalEventRoot; TICKS_803A65D8 time[2];
-    u8 timeIndex; u16 speed; u16 loopCnt; u8 loopDisable;
-} SEQ_SECTION_803A65D8;
-typedef struct SND_CROSSFADE_803A65D8 {
-    u32 seqId1; u16 time1; u32 seqId2; u16 time2; void *arr2; u16 gid2; u16 sid2; u8 vol2; u8 studio2;
-    u32 trackMute2[2]; u16 speed2; u8 flags;
-} SND_CROSSFADE_803A65D8;
-typedef struct SEQ_INSTANCE_803A65D8 {
-    struct SEQ_INSTANCE_803A65D8 *next; struct SEQ_INSTANCE_803A65D8 *prev; u8 state; u8 index; u16 groupID; u32 publicId;
-    PAGE_803A65D8 *normtab; u8 normTrans[128]; PAGE_803A65D8 *drumtab; u8 drumTrans[128];
-    ARR_803A65D8 *arrbase; u32 trackMute[2]; TRACK_803A65D8 track[64]; u8 trackVolGroup[64]; CPAT_803A65D8 pattern[64];
-    NOTE_803A65D8 *noteUsed[2]; NOTE_803A65D8 *noteKeyOff; PRG_STATE_803A65D8 prgState[16]; u8 defVGroup;
-    SND_CROSSFADE_803A65D8 syncCrossInfo; u32 *syncSeqIdPtr; u8 syncActive; u8 defStudio; u8 keyOffCheck;
-    SEQ_EVENT_803A65D8 event[64]; u8 *trackSectionTab; SEQ_SECTION_803A65D8 section[16];
-} SEQ_INSTANCE_803A65D8;
-
-}
-namespace seq_803A65D8 { extern "C" SEQ_INSTANCE_803A65D8 *lbl_805D7360; }
-extern "C" {
-#define SEQ_CUR_803A65D8 seq_803A65D8::lbl_805D7360
-#define SEQ_RUN_803A65D8 (*(SEQ_INSTANCE_803A65D8 **)&lbl_805D737C)
-#define SEQ_FREE_803A65D8 (*(SEQ_INSTANCE_803A65D8 **)&lbl_805D7374)
-
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(4)
 #pragma opt_common_subs on
 
-static inline float fmodf_803A65D8(float x, float m) {
-    float a = __fabsf(m);
-    float b = __fabsf(x);
-    if (a > b)
-        return x;
-    else {
-        return x - m * (long long)(x / m);
-    }
-}
+static inline void HandleMasterTrackInline(u8 secIndex) {
+    SynthSeqSection *section;
 
-static inline void SetTickDelta_803A65D8(SEQ_SECTION_803A65D8 *section, u32 deltaTime) {
-    float tickDelta = (float)section->bpm * (float)deltaTime * (1.f / (40960000.f));
-    tickDelta *= section->speed * (1.f / 256.f);
-
-    section->tickDelta[section->timeIndex].low = fmodf_803A65D8(tickDelta * 65536.f, 65536.f);
-    section->tickDelta[section->timeIndex].high = floorf(tickDelta);
-}
-
-static inline void HandleMasterTrack_803A65D8(u8 secIndex) {
-    SEQ_SECTION_803A65D8 *section;
-
-    section = &SEQ_CUR_803A65D8->section[secIndex];
+    section = &lbl_805D7360->section[secIndex];
     if (section->mTrack.base != NULL) {
         while (section->mTrack.addr->time != -1) {
             if (section->mTrack.addr->time > section->time[section->timeIndex].high) {
                 break;
             }
 
-            if ((SEQ_CUR_803A65D8->arrbase->info & 0x40000000) != 0) {
+            if ((lbl_805D7360->arrbase->info & 0x40000000) != 0) {
                 synthSetBpm((section->bpm = section->mTrack.addr->bpm) >> 10, lbl_805D7368, secIndex);
             } else {
                 synthSetBpm(section->mTrack.addr->bpm, lbl_805D7368, secIndex);
@@ -1612,21 +1547,21 @@ static inline void HandleMasterTrack_803A65D8(u8 secIndex) {
     }
 }
 
-static inline void HandleKeyOffNotes_803A65D8(void) {
-    NOTE_803A65D8 *n;
-    NOTE_803A65D8 *nn;
-    if (!SEQ_CUR_803A65D8->keyOffCheck) {
-        n = SEQ_CUR_803A65D8->noteKeyOff;
+static inline void HandleKeyOffNotes(void) {
+    SynthSeqNote *n;
+    SynthSeqNote *nn;
+    if (!lbl_805D7360->keyOffCheck) {
+        n = lbl_805D7360->noteKeyOff;
         while (n != NULL) {
             nn = n->next;
             if (n->id != 0xFFFFFFFF && sndFXCheck(n->id) == 0xFFFFFFFF) {
-                seqFreeKeyOffNote((Node_803A3C24 *)n);
+                seqFreeKeyOffNote(n);
             }
             n = nn;
         }
     }
 
-    SEQ_CUR_803A65D8->keyOffCheck = (SEQ_CUR_803A65D8->keyOffCheck + 1) % 5;
+    lbl_805D7360->keyOffCheck = (lbl_805D7360->keyOffCheck + 1) % 5;
 }
 
 void seqHandle(u32 deltaTime) {
@@ -1635,50 +1570,50 @@ void seqHandle(u32 deltaTime) {
     u32 j;
     u32 eventsActive;
     u32 notesActive;
-    SEQ_INSTANCE_803A65D8 *si;
-    SEQ_INSTANCE_803A65D8 *nextSi;
+    SynthSeqInstance *si;
+    SynthSeqInstance *nextSi;
     u8 unused[24];
 
     if (deltaTime == 0) {
         return;
     }
 
-    si = SEQ_RUN_803A65D8;
+    si = lbl_805D737C;
     while (si != NULL) {
         nextSi = si->next;
-        SEQ_CUR_803A65D8 = si;
+        lbl_805D7360 = si;
         lbl_805D7368 = si->index;
         lbl_805D736C = synthIsFadeOutActive(si->defVGroup);
 
-        if (SEQ_CUR_803A65D8->trackSectionTab == NULL) {
-            HandleMasterTrack_803A65D8(0);
-            SetTickDelta_803A65D8(SEQ_CUR_803A65D8->section, deltaTime);
+        if (lbl_805D7360->trackSectionTab == NULL) {
+            HandleMasterTrackInline(0);
+            SetTickDelta(lbl_805D7360->section, deltaTime);
             eventsActive = HandleTrackEvents(0, deltaTime);
             notesActive = HandleNotes();
-            HandleKeyOffNotes_803A65D8();
+            HandleKeyOffNotes();
 
             for (i = 0; i < 2; ++i) {
-                x = SEQ_CUR_803A65D8->section[0].time[i].low + SEQ_CUR_803A65D8->section[0].tickDelta[i].low;
-                SEQ_CUR_803A65D8->section[0].time[i].low = x & 0xffff;
+                x = lbl_805D7360->section[0].time[i].low + lbl_805D7360->section[0].tickDelta[i].low;
+                lbl_805D7360->section[0].time[i].low = x & 0xffff;
                 x >>= 16;
-                SEQ_CUR_803A65D8->section[0].time[i].high += x + SEQ_CUR_803A65D8->section[0].tickDelta[i].high;
+                lbl_805D7360->section[0].time[i].high += x + lbl_805D7360->section[0].tickDelta[i].high;
             }
         } else {
             eventsActive = 0;
             for (i = 0; i < 16; ++i) {
-                HandleMasterTrack_803A65D8(i);
-                SetTickDelta_803A65D8(&SEQ_CUR_803A65D8->section[i], deltaTime);
+                HandleMasterTrackInline(i);
+                SetTickDelta(&lbl_805D7360->section[i], deltaTime);
                 eventsActive |= HandleTrackEvents(i, deltaTime);
             }
             notesActive = HandleNotes();
-            HandleKeyOffNotes_803A65D8();
+            HandleKeyOffNotes();
 
             for (i = 0; i < 16; ++i) {
                 for (j = 0; j < 2; ++j) {
-                    x = SEQ_CUR_803A65D8->section[i].time[j].low + SEQ_CUR_803A65D8->section[i].tickDelta[j].low;
-                    SEQ_CUR_803A65D8->section[i].time[j].low = x & 0xffff;
+                    x = lbl_805D7360->section[i].time[j].low + lbl_805D7360->section[i].tickDelta[j].low;
+                    lbl_805D7360->section[i].time[j].low = x & 0xffff;
                     x >>= 16;
-                    SEQ_CUR_803A65D8->section[i].time[j].high += x + SEQ_CUR_803A65D8->section[i].tickDelta[j].high;
+                    lbl_805D7360->section[i].time[j].high += x + lbl_805D7360->section[i].tickDelta[j].high;
                 }
             }
         }
@@ -1687,86 +1622,81 @@ void seqHandle(u32 deltaTime) {
             if (si->prev != NULL) {
                 si->prev->next = nextSi;
             } else {
-                SEQ_RUN_803A65D8 = nextSi;
+                lbl_805D737C = nextSi;
             }
             if (nextSi != NULL) {
                 nextSi->prev = si->prev;
             }
-            ResetNotes((Owner_803A3C24 *)si);
+            ResetNotes(si);
             si->state = 0;
             si->prev = NULL;
-            if ((si->next = SEQ_FREE_803A65D8) != NULL) {
-                SEQ_FREE_803A65D8->prev = si;
+            if ((si->next = lbl_805D7374) != NULL) {
+                lbl_805D7374->prev = si;
             }
-            SEQ_FREE_803A65D8 = si;
+            lbl_805D7374 = si;
         }
         si = nextSi;
     }
 }
 #pragma pop
 
-}
-namespace seq_803A6CA0 { extern "C" NOTE_803A4B7C *lbl_805D7364; }
-extern "C" {
-#define seqNote_803A6CA0 seq_803A4B7C::lbl_80549748
-#define seqInstance_803A6CA0 seq_803A4B7C::lbl_8054AB48
-#define seqMIDIPriority_803A6CA0 seq_803A4B7C::lbl_80556E88
-#define noteFree_803A6CA0 seq_803A6CA0::lbl_805D7364
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(4)
 #pragma opt_common_subs on
-static inline void ClearNotes_803A6CA0(void) {
-    NOTE_803A4B7C *ln = NULL;
+static inline void ClearNotes(void) {
+    SynthSeqNote *ln = NULL;
     s32 i;
 
-    noteFree_803A6CA0 = &seqNote_803A6CA0[0];
+    lbl_805D7364 = &lbl_80549748[0];
     for (i = 0; i < 256; ++i) {
-        seqNote_803A6CA0[i].prev = ln;
+        lbl_80549748[i].prev = ln;
         if (ln != NULL) {
-            ln->next = &seqNote_803A6CA0[i];
+            ln->next = &lbl_80549748[i];
         }
-        ln = &seqNote_803A6CA0[i];
+        ln = &lbl_80549748[i];
     }
 
     ln->next = NULL;
 }
 
-static inline void InitPublicIds_803A6CA0(void) { lbl_805D7370 = 0; }
+static inline void InitPublicIds(void) {
+    lbl_805D7370 = 0;
+}
 
 void seqInit(void) {
     u32 i;
     u32 j;
 
-    SEQ_RUN_803A4B7C = NULL;
-    SEQ_PAUSED_803A4B7C = NULL;
+    lbl_805D737C = NULL;
+    lbl_805D7378 = NULL;
     for (i = 0; i < 8; ++i) {
         if (i == 0) {
-            SEQ_FREE_803A4B7C = &seqInstance_803A6CA0[i];
-            seqInstance_803A6CA0[i].prev = NULL;
+            lbl_805D7374 = &lbl_8054AB48[i];
+            lbl_8054AB48[i].prev = NULL;
         } else {
-            seqInstance_803A6CA0[i - 1].next = &seqInstance_803A6CA0[i];
-            seqInstance_803A6CA0[i].prev = &seqInstance_803A6CA0[i - 1];
+            lbl_8054AB48[i - 1].next = &lbl_8054AB48[i];
+            lbl_8054AB48[i].prev = &lbl_8054AB48[i - 1];
         }
-        seqInstance_803A6CA0[i].index = i;
-        seqInstance_803A6CA0[i].state = 0;
+        lbl_8054AB48[i].index = i;
+        lbl_8054AB48[i].state = 0;
         for (j = 0; j < 0x10; ++j) {
-            seqMIDIPriority_803A6CA0[i][j] = 0xffff;
+            lbl_80556E88[i][j] = 0xffff;
         }
     }
-    seqInstance_803A6CA0[i - 1].next = NULL;
-    ClearNotes_803A6CA0();
-    InitPublicIds_803A6CA0();
+    lbl_8054AB48[i - 1].next = NULL;
+    ClearNotes();
+    InitPublicIds();
 }
 #pragma pop
 
-Owner_803A3C24 *lbl_805D7360;
-Node_803A3C24 *lbl_805D7364;
+SynthSeqInstance *lbl_805D7360;
+SynthSeqNote *lbl_805D7364;
 u32 lbl_805D7368;
 u8 lbl_805D736C;
 u32 lbl_805D7370;
-SEQ_INSTANCE_803A49C8 *lbl_805D7374;
-Node_803A4964 *lbl_805D7378;
-Node_803A4964 *lbl_805D737C;
+SynthSeqInstance *lbl_805D7374;
+SynthSeqInstance *lbl_805D7378;
+SynthSeqInstance *lbl_805D737C;
 
 }

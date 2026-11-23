@@ -1,20 +1,22 @@
-#include "musyx/runtime/musyx_runtime_a.h"
+#include <string.h>
+#include "musyx/musyx.h"
+#include "musyx/runtime/musyx_internal.h"
 
 extern "C" {
 
 static u32 synthTicksPerSecond[9][16];
-static SYNTH_JOBTAB_SV synthJobTable[32];
-SynthInfo_SV synthInfo;
-SYNTHMasterFader_SV synthMasterFader[32];
+static SynthJobTab synthJobTable[32];
+SynthInfo synthInfo;
+SynthMasterFader synthMasterFader[32];
 u8 synthTrackVolume[64];
 void *synthAuxAUser[8];
 SND_AUX_CALLBACK synthAuxACallback[8];
 void *synthAuxBUser[8];
 SND_AUX_CALLBACK synthAuxBCallback[8];
-Tbl_803AA1E0 synthITDDefault[8];
+SynthITDInfo synthITDDefault[8];
 s32 synthGlobalVariable[16];
-CTRL_DEST_SV inpAuxB[8][4];
-CTRL_DEST_SV inpAuxA[8][4];
+CtrlDest inpAuxB[8][4];
+CtrlDest inpAuxA[8][4];
 u8 sndActive;
 u8 synthJobTableIndex;
 u8 synthAuxBMIDISet[8];
@@ -24,60 +26,57 @@ u8 synthAuxAMIDI[8];
 u32 synthMasterFaderPauseActiveFlags;
 u32 synthMasterFaderActiveFlags;
 s32 synthFlags;
-Rec_803A8D2C *synthVoice;
+SynthVoice *synthVoice;
 void (*synthMessageCallback)(u32, s32);
 u8 synthIdleWaitActive;
 s64 synthRealTime;
-#define synthInfo (*(SynthInfo_SV *)&synthInfo)
 
-void synthSetBpm(s32 arg0, u8 arg1, u8 arg2) {
-    if (arg1 == 0xFF) {
-        arg1 = 8;
+void synthSetBpm(s32 bpm, u8 set, u8 section) {
+    if (set == 0xFF) {
+        set = 8;
     }
-    synthTicksPerSecond[arg1][arg2] = (u32)((arg0 << 3) * 0x600) / 240;
+    synthTicksPerSecond[set][section] = (u32)((bpm << 3) * 0x600) / 240;
 }
 
-s32 synthGetTicksPerSecond(Obj_803A6F18 *arg0) {
-    u32 r = arg0->b122;
+s32 synthGetTicksPerSecond(SynthVoice *svoice) {
+    u32 r = svoice->midiSet;
     if (r == 0xFF) {
         r = 8;
     }
-    return synthTicksPerSecond[r][arg0->b123];
+    return synthTicksPerSecond[r][svoice->section];
 }
 
-void synthInitPortamento(Obj_803A6F4C *arg0) {
-    u64 fl = *(u64 *)&arg0->fh;
+void synthInitPortamento(SynthVoice *svoice) {
+    u64 fl = svoice->cFlags;
     if ((fl & 0x20000) == 0) {
-        if (arg0->b131 == 1) {
+        if (svoice->portType == 1) {
             if ((fl & 0x1000) == 0) {
-                arg0->i13C = 0;
+                svoice->portTime = 0;
             } else {
-                arg0->i13C = arg0->i134;
+                svoice->portTime = svoice->portDuration;
             }
         } else {
-            arg0->i13C = arg0->i134;
+            svoice->portTime = svoice->portDuration;
         }
-        arg0->i138 = arg0->b130 << 16;
+        svoice->portCurPitch = svoice->lastNote << 16;
     }
 }
 
 #pragma push
 #pragma opt_common_subs on
 u32 do_voice_portamento(u8 key, u8 midi, u8 midiSet, u32 isMaster, u32 *rejected) {
-    void inpSetMidiLastNote(u8 midi, u8 midiSet, u8 key);
-    u32 vidMakeNew(SYNTH_VOICE_SV *svoice, u32 isMaster);
     u32 i;
     u32 vid;
     u32 id;
-    SYNTH_VOICE_SV *sv;
-    SYNTH_VOICE_SV *last_sv;
+    SynthVoice *sv;
+    SynthVoice *last_sv;
     u32 legatoVoiceIsStarting;
 
     legatoVoiceIsStarting = 0;
     vid = 0xFFFFFFFF;
 
     i = 0;
-    sv = SV_VOICES;
+    sv = synthVoice;
     while (i < synthInfo.voiceNum) {
         if (sv->block == 0 && sv->id != 0xFFFFFFFF && sv->midi == midi && sv->midiSet == midiSet) {
             if ((sv->cFlags & 2) != 0) {
@@ -96,17 +95,17 @@ u32 do_voice_portamento(u8 key, u8 midi, u8 midiSet, u32 isMaster, u32 *rejected
                 sv->curDetune = 0;
                 sv->portTime = 0;
                 sv->cFlags |= 0x20000;
-                vidRemoveVoiceReferences((Prog_803B25CC *)&SV_VOICES[i]);
+                vidRemoveVoiceReferences(&synthVoice[i]);
                 if (vid == 0xFFFFFFFF) {
                     sv->child = 0xFFFFFFFF;
                     sv->parent = 0xFFFFFFFF;
-                    vid = vidMakeNew(&SV_VOICES[i], isMaster);
+                    vid = vidMakeNew(&synthVoice[i], isMaster);
                     id = sv->id;
                 } else {
-                    SV_VOICES[id & 0xff].child = sv->id;
+                    synthVoice[id & 0xff].child = sv->id;
                     sv->parent = id;
                     id = sv->id;
-                    vidMakeNew(&SV_VOICES[i], 0);
+                    vidMakeNew(&synthVoice[i], 0);
                 }
             }
         }
@@ -115,7 +114,7 @@ u32 do_voice_portamento(u8 key, u8 midi, u8 midiSet, u32 isMaster, u32 *rejected
     }
 
     if (vid != 0xFFFFFFFF) {
-        voiceSetLastStarted((Obj_803B3B24 *)last_sv);
+        voiceSetLastStarted(last_sv);
         inpSetMidiLastNote(last_sv->midi, last_sv->midiSet, last_sv->curNote);
         *rejected = 0;
     } else {
@@ -130,7 +129,7 @@ u32 do_voice_portamento(u8 key, u8 midi, u8 midiSet, u32 isMaster, u32 *rejected
 #pragma inline_depth(4)
 #pragma opt_common_subs on
 
-static inline u32 check_portamento_SV(u8 key, u8 midi, u8 midiSet, u32 newVID, u32 *vid) {
+static inline u32 check_portamento(u8 key, u8 midi, u8 midiSet, u32 newVID, u32 *vid) {
     u32 rejected;
 
     if (inpGetMidiCtrl(65, midi, midiSet) > 8064) {
@@ -142,16 +141,12 @@ static inline u32 check_portamento_SV(u8 key, u8 midi, u8 midiSet, u32 newVID, u
 }
 
 u32 StartLayer(u16 layerID, s16 prio, u8 maxVoices, u16 allocId, u8 key, u8 vol, u8 panning, u8 midi,
-                         u8 midiSet, u8 section, u16 step, u16 trackid, u32 vidFlag, u8 vGroup, u8 studio, u32 itd) {
-    u32 macStart(u16 macid, u8 priority, u8 maxVoices, u16 allocId, u8 key, u8 vol, u8 panning, u8 midi,
-                          u8 midiSet, u8 section, u16 step, u16 trackid, u8 new_vid, u8 vGroup, u8 studio, u32 itd);
-    u32 StartKeymap(u16 keymapID, s16 prio, u8 maxVoices, u16 allocId, u8 key, u8 vol, u8 panning, u8 midi,
-                             u8 midiSet, u8 section, u16 step, u16 trackid, u32 vidFlag, u8 vGroup, u8 studio, u32 itd);
+               u8 midiSet, u8 section, u16 step, u16 trackid, u32 vidFlag, u8 vGroup, u8 studio, u32 itd) {
     u16 n;
     u32 vid;
     u32 new_id;
     u32 id;
-    LAYER_SV *l;
+    SynthLayer *l;
     s32 p;
     s32 k;
     u8 v;
@@ -169,10 +164,10 @@ u32 StartLayer(u16 layerID, s16 prio, u8 maxVoices, u16 allocId, u8 key, u8 vol,
         }
 
         k = mKey + l->transpose;
-        k = CLAMP_SV(k, 0, 127);
+        k = MUSYX_CLAMP(k, 0, 127);
 
         if ((l->id & 0xC000) == 0) {
-            if (check_portamento_SV(k, midi, midiSet, 0, &new_id)) {
+            if (check_portamento(k, midi, midiSet, 0, &new_id)) {
                 if (new_id != 0xFFFFFFFF) {
                     goto apply_new_id;
                 } else {
@@ -186,27 +181,27 @@ u32 StartLayer(u16 layerID, s16 prio, u8 maxVoices, u16 allocId, u8 key, u8 vol,
         if ((l->panning & 0x80) == 0) {
             p = l->panning - 0x40;
             p += panning;
-            p = CLAMP_INV_SV(p, 0, 0x7f);
+            p = MUSYX_CLAMP_INV(p, 0, 0x7f);
         } else {
             p = 0x80;
         }
 
         v = (vol * l->volume) / 0x7f;
         prio += l->prioOffset;
-        prio = CLAMP_SV(prio, 0, 0xff);
+        prio = MUSYX_CLAMP(prio, 0, 0xff);
 
         switch (l->id & 0xC000) {
         case 0:
             new_id = macStart(l->id, prio, maxVoices, allocId, k | (key & 0x80), v, p, midi, midiSet,
-                                       section, step, trackid, 0, vGroup, studio, itd);
+                              section, step, trackid, 0, vGroup, studio, itd);
             break;
         case 0x4000:
             new_id = StartKeymap(l->id, prio, maxVoices, allocId, k | (key & 0x80), v, p, midi, midiSet,
-                                          section, step, trackid, 0, vGroup, studio, itd);
+                                 section, step, trackid, 0, vGroup, studio, itd);
             break;
         case 0x8000:
             new_id = StartLayer(l->id, prio, maxVoices, allocId, k | (key & 0x80), v, p, midi, midiSet,
-                                          section, step, trackid, 0, vGroup, studio, itd);
+                                section, step, trackid, 0, vGroup, studio, itd);
             break;
         }
 
@@ -214,20 +209,20 @@ u32 StartLayer(u16 layerID, s16 prio, u8 maxVoices, u16 allocId, u8 key, u8 vol,
         apply_new_id:
             if (vid == 0xFFFFFFFF) {
                 if (vidFlag != 0) {
-                    vid = vidMakeRoot(&SV_VOICES[new_id & 0xff]);
+                    vid = vidMakeRoot(&synthVoice[new_id & 0xff]);
                 } else {
                     vid = new_id;
                 }
             } else {
-                SV_VOICES[id & 0xff].child = new_id;
-                SV_VOICES[new_id & 0xff].parent = id;
+                synthVoice[id & 0xff].child = new_id;
+                synthVoice[new_id & 0xff].parent = id;
             }
             id = new_id;
-            while (SV_VOICES[id & 0xff].child != 0xFFFFFFFF) {
-                SV_VOICES[id & 0xff].block = 1;
-                id = SV_VOICES[id & 0xff].child;
+            while (synthVoice[id & 0xff].child != 0xFFFFFFFF) {
+                synthVoice[id & 0xff].block = 1;
+                id = synthVoice[id & 0xff].child;
             }
-            SV_VOICES[id & 0xff].block = 1;
+            synthVoice[id & 0xff].block = 1;
         }
     }
 
@@ -243,11 +238,9 @@ end:
 #pragma optimization_level 2
 u32 StartKeymap(u16 keymapID, s16 prio, u8 maxVoices, u16 allocId, u8 key, u8 vol, u8 panning, u8 midi,
                 u8 midiSet, u8 section, u16 step, u16 trackid, u32 vidFlag, u8 vGroup, u8 studio, u32 itd) {
-    u32 macStart(u16 macid, u8 priority, u8 maxVoices, u16 allocId, u8 key, u8 vol, u8 panning, u8 midi,
-                 u8 midiSet, u8 section, u16 step, u16 trackid, u8 new_vid, u8 vGroup, u8 studio, u32 itd);
     s32 k;
     u8 o;
-    KEYMAP_SV *keymap;
+    SynthKeymap *keymap;
     s32 p;
     u32 vid;
 
@@ -269,13 +262,13 @@ u32 StartKeymap(u16 keymapID, s16 prio, u8 maxVoices, u16 allocId, u8 key, u8 vo
             }
 
             k = (key & 0x7f) + keymap[o].transpose;
-            k = CLAMP_SV(k, 0, 127);
+            k = MUSYX_CLAMP(k, 0, 127);
 
             prio += keymap[o].prioOffset;
-            prio = CLAMP_SV(prio, 0, 0xff);
+            prio = MUSYX_CLAMP(prio, 0, 0xff);
 
             if ((keymap[o].id & 0xc000) == 0) {
-                if (!check_portamento_SV(k & 0xff, midi, midiSet, vidFlag, &vid)) {
+                if (!check_portamento(k & 0xff, midi, midiSet, vidFlag, &vid)) {
                     return 0xffffffff;
                 }
                 if (vid != 0xffffffff) {
@@ -294,31 +287,27 @@ u32 StartKeymap(u16 keymapID, s16 prio, u8 maxVoices, u16 allocId, u8 key, u8 vo
 }
 
 #pragma pop
-static inline void unblockAllAllocatedVoices_SV(u32 vid) {
+static inline void unblockAllAllocatedVoices(u32 vid) {
     u32 id;
 
     id = vidGetInternalId(vid);
     while (id != 0xFFFFFFFF) {
-        SV_VOICES[id & 0xff].block = 0;
-        id = SV_VOICES[id & 0xff].child;
+        synthVoice[id & 0xff].block = 0;
+        id = synthVoice[id & 0xff].child;
     }
 }
 
 u32 synthStartSound(u16 id, u8 prio, u8 max, u8 key, u8 vol, u8 panning, u8 midi, u8 midiSet, u8 section,
                     u16 step, u16 trackid, u8 vGroup, s16 prioOffset, u8 studio, u32 itd) {
-    u32 macStart(u16 macid, u8 priority, u8 maxVoices, u16 allocId, u8 key, u8 vol, u8 panning, u8 midi,
-                 u8 midiSet, u8 section, u16 step, u16 trackid, u8 new_vid, u8 vGroup, u8 studio, u32 itd);
-    u32 StartKeymap(u16 keymapID, s16 prio, u8 maxVoices, u16 allocId, u8 key, u8 vol, u8 panning, u8 midi,
-                    u8 midiSet, u8 section, u16 step, u16 trackid, u32 vidFlag, u8 vGroup, u8 studio, u32 itd);
     u16 allocId = id;
 
     prio += prioOffset;
-    prio = CLAMP_SV(prio, 0, 0xff);
+    prio = MUSYX_CLAMP(prio, 0, 0xff);
 
     switch (id & 0xC000) {
     case 0: {
         u32 vid;
-        if (!check_portamento_SV(key, midi, midiSet, 1, &vid)) {
+        if (!check_portamento(key, midi, midiSet, 1, &vid)) {
             return 0xFFFFFFFF;
         }
         if (vid != 0xFFFFFFFF) {
@@ -331,7 +320,7 @@ u32 synthStartSound(u16 id, u8 prio, u8 max, u8 key, u8 vol, u8 panning, u8 midi
         u32 vid = StartKeymap(id, prio, max, allocId, key, vol, panning, midi, midiSet, section, step, trackid,
                               1, vGroup, studio, itd);
         if (vid != 0xFFFFFFFF) {
-            unblockAllAllocatedVoices_SV(vid);
+            unblockAllAllocatedVoices(vid);
         }
         return vid;
     }
@@ -339,7 +328,7 @@ u32 synthStartSound(u16 id, u8 prio, u8 max, u8 key, u8 vol, u8 panning, u8 midi
         u32 vid = StartLayer(id, prio, max, allocId, key, vol, panning, midi, midiSet, section, step, trackid,
                              1, vGroup, studio, itd);
         if (vid != 0xFFFFFFFF) {
-            unblockAllAllocatedVoices_SV(vid);
+            unblockAllAllocatedVoices(vid);
         }
         return vid;
     }
@@ -353,7 +342,7 @@ u32 synthStartSound(u16 id, u8 prio, u8 max, u8 key, u8 vol, u8 panning, u8 midi
 #pragma inline_depth(4)
 #pragma opt_common_subs on
 
-static inline u32 apply_portamento_SV(SYNTH_VOICE_SV *svoice, u32 ccents, u32 deltaTime) {
+static inline u32 apply_portamento(SynthVoice *svoice, u32 ccents, u32 deltaTime) {
     u32 old_portCurPitch;
 
     if ((svoice->cFlags & 0x400) != 0 && (int)((svoice->portDuration - svoice->portTime) >> 8) > 0) {
@@ -372,7 +361,7 @@ static inline u32 apply_portamento_SV(SYNTH_VOICE_SV *svoice, u32 ccents, u32 de
     return ccents;
 }
 
-static inline void synthInitPortamento_SV(SYNTH_VOICE_SV *svoice) {
+static inline void synthInitPortamentoInline(SynthVoice *svoice) {
     if (svoice->cFlags & 0x20000) {
         return;
     }
@@ -390,7 +379,7 @@ static inline void synthInitPortamento_SV(SYNTH_VOICE_SV *svoice) {
     svoice->portCurPitch = svoice->lastNote << 16;
 }
 
-static inline u32 convert_cents_SV(SYNTH_VOICE_SV *svoice, u32 ccents) {
+static inline u32 convert_cents(SynthVoice *svoice, u32 ccents) {
     u32 curDetune;
     u32 cpitch;
 
@@ -401,7 +390,7 @@ static inline u32 convert_cents_SV(SYNTH_VOICE_SV *svoice, u32 ccents) {
     return cpitch;
 }
 
-static inline void UpdateTimeMIDICtrl_SV(SYNTH_VOICE_SV *sv) {
+static inline void UpdateTimeMIDICtrl(SynthVoice *sv) {
     if (!sv->timeUsedByInput) {
         return;
     }
@@ -418,7 +407,7 @@ void LowPrecisionHandler(u32 i) {
     u16 Modulation;
     u16 portamento;
     u32 lowDeltaTime;
-    SYNTH_VOICE_SV *sv;
+    SynthVoice *sv;
     u32 cntDelta;
     u32 addFactor;
     u16 adsr_start;
@@ -426,7 +415,7 @@ void LowPrecisionHandler(u32 i) {
     s32 vrange;
     s32 voff;
 
-    sv = &SV_VOICES[i];
+    sv = &synthVoice[i];
     if (!hwIsActive(i) && sv->addr == NULL) {
         goto end;
     }
@@ -481,7 +470,7 @@ void LowPrecisionHandler(u32 i) {
             sv->panTime[j] = 0;
         } else {
             sv->panning[j] = sv->panTarget[j] - (sv->panTime[j] / 256) * sv->panDelta[j];
-            sv->panning[j] = CLAMP_INV_SV((s32)sv->panning[j], 0, 0x7f0000u);
+            sv->panning[j] = MUSYX_CLAMP_INV((s32)sv->panning[j], 0, 0x7f0000u);
         }
 
         sv->cFlags |= 0x200000000000;
@@ -533,7 +522,7 @@ void LowPrecisionHandler(u32 i) {
                 sv->cFlags &= ~0x400;
             } else {
                 if ((sv->cFlags & 0x400) == 0) {
-                    synthInitPortamento_SV(sv);
+                    synthInitPortamentoInline(sv);
                 }
                 sv->cFlags |= 0x400;
             }
@@ -542,12 +531,12 @@ void LowPrecisionHandler(u32 i) {
         }
     }
 
-    ccents = apply_portamento_SV(sv, ccents, lowDeltaTime);
+    ccents = apply_portamento(sv, ccents, lowDeltaTime);
     if ((sv->cFlags & 0x20000000000) != 0) {
         ccents += sv->pitchADSRRange * (sv->pitchADSR.currentVolume >> 16) >> 7;
     }
 
-    cpitch = convert_cents_SV(sv, ccents);
+    cpitch = convert_cents(sv, ccents);
     cpitch += sv->sweepOff[0] + sv->sweepOff[1];
     cpitch = ((cpitch >> 16) * inpGetDoppler(sv)) >> 13;
     sv->curPitch = cpitch;
@@ -556,20 +545,10 @@ void LowPrecisionHandler(u32 i) {
     synthAddJob(sv, 0, 0xf00);
 
 end:
-    UpdateTimeMIDICtrl_SV(sv);
+    UpdateTimeMIDICtrl(sv);
 }
 #pragma pop
 
-u16 inpGetTremolo(SYNTH_VOICE_SV *svoice);
-u16 inpGetPanning(SYNTH_VOICE_SV *svoice);
-u16 inpGetSurPanning(SYNTH_VOICE_SV *svoice);
-u16 inpGetVolume(SYNTH_VOICE_SV *svoice);
-u16 inpGetReverb(SYNTH_VOICE_SV *svoice);
-u16 inpGetPreAuxA(SYNTH_VOICE_SV *svoice);
-u16 inpGetPostAuxB(SYNTH_VOICE_SV *svoice);
-u16 inpGetPreAuxB(SYNTH_VOICE_SV *svoice);
-void hwSetPriority(u32 v, u32 prio);
-u8 hwGetTimeOffset(void);
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(4)
@@ -577,7 +556,7 @@ u8 hwGetTimeOffset(void);
 #pragma bool off
 
 void ZeroOffsetHandler(u32 i) {
-    SYNTH_VOICE_SV *sv;
+    SynthVoice *sv;
     u32 lowDeltaTime;
     u16 Modulation;
     f32 vol;
@@ -593,7 +572,7 @@ void ZeroOffsetHandler(u32 i) {
     f32 preVol;
     f32 postVol;
 
-    sv = &SV_VOICES[i];
+    sv = &synthVoice[i];
     if (!hwIsActive(i) && sv->addr == NULL) {
         goto end;
     }
@@ -658,7 +637,7 @@ void ZeroOffsetHandler(u32 i) {
         if ((sv->cFlags & 0x200000000000) != 0 || (sv->midiDirtyFlags & 0x6) != 0) {
             sv->cFlags &= ~0x200000000000;
             pan = sv->panning[0] + (inpGetPanning(sv) - 8192) * 0x200;
-            sv->lastPan = CLAMP_INV_SV(pan, 0, 0x7f0000);
+            sv->lastPan = MUSYX_CLAMP_INV(pan, 0, 0x7f0000);
 
             if ((synthFlags & 2) != 0) {
                 if ((sv->lastSPan = sv->panning[1] + inpGetSurPanning(sv) * 512) > 0x7f0000) {
@@ -700,40 +679,40 @@ void ZeroOffsetHandler(u32 i) {
     synthAddJob(sv, 1, (5 - hwGetTimeOffset()) * 256);
 
 end:
-    UpdateTimeMIDICtrl_SV(sv);
+    UpdateTimeMIDICtrl(sv);
 }
 #pragma pop
 
-void EventHandler(s32 arg0) {
-    Ch_803A897C *o = (Ch_803A897C *)&synthVoice[arg0];
+void EventHandler(u32 voice) {
+    SynthVoice *sv = &synthVoice[voice];
 
-    if (hwIsActive(arg0) != 0 || o->f34 != 0) {
-        macSetPedalState((Voice_803B1C98 *)o, (u32)(0x1F80 - inpGetPedal(o)) >> 31);
-        if ((o->flags & 0x20) != 0) {
-            o->flags &= ~0x20ULL;
-            o->flags |= 0x10;
-            hwStart(arg0, o->f11F);
+    if (hwIsActive(voice) != 0 || sv->addr != NULL) {
+        macSetPedalState(sv, (u32)(0x1F80 - inpGetPedal(sv)) >> 31);
+        if ((sv->cFlags & 0x20) != 0) {
+            sv->cFlags &= ~0x20ULL;
+            sv->cFlags |= 0x10;
+            hwStart(voice, sv->studio);
         }
-        if ((o->flags & 0x10000000090ULL) == 0x90) {
-            o->flags &= ~0x90ULL;
-            hwKeyOff(arg0);
-            if ((o->flags & 0x20000000000ULL) != 0 && (u32)adsrRelease((struct Envelope_803B431C *)o->env) != 0) {
-                o->flags &= ~0x20000000000ULL;
+        if ((sv->cFlags & 0x10000000090ULL) == 0x90) {
+            sv->cFlags &= ~0x90ULL;
+            hwKeyOff(voice);
+            if ((sv->cFlags & 0x20000000000ULL) != 0 && (u32)adsrRelease((MusyxEnvelope *)&sv->pitchADSR) != 0) {
+                sv->cFlags &= ~0x20000000000ULL;
             }
         }
     }
-    if (o->fA8 != 0) {
-        o->fA8 = 0;
-        o->f214 = 0x1FFF;
+    if (sv->timeUsedByInput != 0) {
+        sv->timeUsedByInput = 0;
+        sv->midiDirtyFlags = 0x1FFF;
     }
 }
 #pragma push
 #pragma opt_common_subs on
-void synthAddJob(SYNTH_VOICE_SV *svoice, s32 jobType, u32 deltaTime) {
-    SYNTH_QUEUE_SV *newJq;
-    SYNTH_QUEUE_SV **root;
+void synthAddJob(SynthVoice *svoice, s32 jobType, u32 deltaTime) {
+    SynthQueue *newJq;
+    SynthQueue **root;
     u8 jobTabIndex;
-    SYNTH_JOBTAB_SV *jobTab;
+    SynthJobTab *jobTab;
 
     jobTabIndex = ((deltaTime / 256) + synthJobTableIndex) & 0x1f;
     jobTab = &synthJobTable[jobTabIndex];
@@ -793,37 +772,36 @@ void synthAddJob(SYNTH_VOICE_SV *svoice, s32 jobType, u32 deltaTime) {
 }
 #pragma pop
 
-void synthStartSynthJobHandling(Obj_803A8C5C* voice) {
-    voice->p24 = synthRealTime;
-    voice->p2C = synthRealTime;
-    synthAddJob((SYNTH_VOICE_SV *)voice, 0, 0);
-    synthAddJob((SYNTH_VOICE_SV *)voice, 1, 0);
+void synthStartSynthJobHandling(SynthVoice *voice) {
+    voice->lastLowCallTime = synthRealTime;
+    voice->lastZeroCallTime = synthRealTime;
+    synthAddJob(voice, 0, 0);
+    synthAddJob(voice, 1, 0);
 }
 
-void synthForceLowPrecisionUpdate(void *svoice) {
-    synthAddJob((SYNTH_VOICE_SV *)svoice, 0, 0);
-    synthAddJob((SYNTH_VOICE_SV *)svoice, 1, 0);
+void synthForceLowPrecisionUpdate(SynthVoice *svoice) {
+    synthAddJob(svoice, 0, 0);
+    synthAddJob(svoice, 1, 0);
 }
 
-void synthKeyStateUpdate(saddr svoice, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6) {
-    synthAddJob((SYNTH_VOICE_SV *) (svoice), (int) (2), (int) (0));
+void synthKeyStateUpdate(SynthVoice *svoice) {
+    synthAddJob(svoice, 2, 0);
 }
 
-void HandleJobQueue(Node_803A8D2C **list, void (*cb)(u8)) {
-    Node_803A8D2C *n;
-    Node_803A8D2C *next;
+void HandleJobQueue(SynthQueue **list, void (*cb)(u32)) {
+    SynthQueue *n;
+    SynthQueue *next;
     for (n = *list; n != NULL; n = next) {
         next = n->next;
-        n->f9 = 0xFF;
-        if (synthVoice[n->idx].busy == 0) {
-            cb(n->idx);
+        n->jobTabIndex = 0xFF;
+        if (synthVoice[n->voice].block == 0) {
+            cb(n->voice);
         }
     }
     *list = NULL;
 }
 
-void HandleFaderTermination(u8 *arg0) {
-    SYNTHMasterFader_SV *smf = (SYNTHMasterFader_SV *)arg0;
+void HandleFaderTermination(SynthMasterFader *smf) {
     switch (smf->seqMode) {
     case 1:
         seqStop(smf->seqId);
@@ -837,24 +815,21 @@ void HandleFaderTermination(u8 *arg0) {
     }
 }
 
-u16 inpGetAuxA(u8 studio, u8 index, u8 midi, u8 midiSet);
-u16 inpGetAuxB(u8 studio, u8 index, u8 midi, u8 midiSet);
-void hwFrameDone(void);
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(4)
 #pragma opt_common_subs on
 #pragma bool off
 
-static inline void HandleVoices_SV(void) {
-    SYNTH_JOBTAB_SV *jTab = &synthJobTable[synthJobTableIndex];
-    HandleJobQueue((Node_803A8D2C **)&jTab->lowPrecision, (void (*)(u8))LowPrecisionHandler);
-    HandleJobQueue((Node_803A8D2C **)&jTab->event, (void (*)(u8))EventHandler);
-    HandleJobQueue((Node_803A8D2C **)&jTab->zeroOffset, (void (*)(u8))ZeroOffsetHandler);
+static inline void HandleVoices(void) {
+    SynthJobTab *jTab = &synthJobTable[synthJobTableIndex];
+    HandleJobQueue(&jTab->lowPrecision, LowPrecisionHandler);
+    HandleJobQueue(&jTab->event, EventHandler);
+    HandleJobQueue(&jTab->zeroOffset, ZeroOffsetHandler);
     synthJobTableIndex = (synthJobTableIndex + 1) & 0x1f;
 }
 
-static inline void HandleFaderTermination_SV(SYNTHMasterFader_SV *smf) {
+static inline void HandleFaderTerminationInline(SynthMasterFader *smf) {
     switch (smf->seqMode) {
     case 1:
         seqStop(smf->seqId);
@@ -871,7 +846,7 @@ static inline void HandleFaderTermination_SV(SYNTHMasterFader_SV *smf) {
 void synthHandle(u32 deltaTime) {
     u32 i;
     u32 s;
-    SYNTHMasterFader_SV *smf;
+    SynthMasterFader *smf;
     u32 testFlag;
 
     if (synthInfo.numSamples == 0) {
@@ -879,7 +854,7 @@ void synthHandle(u32 deltaTime) {
     }
 
     macHandle(deltaTime);
-    HandleVoices_SV();
+    HandleVoices();
 
     if (hwGetTimeOffset() == 0) {
         if ((synthMasterFaderActiveFlags | synthMasterFaderPauseActiveFlags) != 0) {
@@ -888,7 +863,7 @@ void synthHandle(u32 deltaTime) {
                     smf->volume = smf->target - smf->time * (smf->target - smf->start);
                     if ((smf->time -= smf->deltaTime) <= 0.f) {
                         smf->volume = smf->target;
-                        HandleFaderTermination_SV(smf);
+                        HandleFaderTerminationInline(smf);
                         if ((synthMasterFaderActiveFlags &= ~testFlag) == 0 && synthMasterFaderPauseActiveFlags == 0) {
                             break;
                         }
@@ -933,16 +908,16 @@ void synthHandle(u32 deltaTime) {
 
 u32 synthFXStart(u16 fid, u8 vol, u8 pan, u8 studio, u32 itd) {
     u32 ret = 0xFFFFFFFF;
-    Se_803A9144 *p = dataGetFX(fid);
+    FX_TAB *p = dataGetFX(fid);
     if (p != NULL) {
         if (vol == 0xFF) {
-            vol = p->b6;
+            vol = p->volume;
         }
         if (pan == 0xFF) {
-            pan = p->b7;
+            pan = p->panning;
         }
-        ret = synthStartSound(p->id, p->b5, p->b4, p->b8 | 0x80, vol, pan, 0xFF, 0xFF,
-                                   0, 0, 0xFF, p->b9, 0, studio, itd);
+        ret = synthStartSound(p->macro, p->priority, p->maxVoices, p->key | 0x80, vol, pan, 0xFF, 0xFF,
+                              0, 0, 0xFF, p->vGroup, 0, studio, itd);
     }
     return ret;
 }
@@ -958,14 +933,14 @@ s32 synthFXSetCtrl(u32 vid, u8 ctrl, u8 value) {
 
     while (vid != 0xFFFFFFFF) {
         i = vid & 0xff;
-        if (vid == SV_VOICES[i].id) {
-            if ((SV_VOICES[i].cFlags & 0x2) != 0) {
-                inpSetMidiCtrl(ctrl, i, SV_VOICES[i].setup.midiSet, value);
+        if (vid == synthVoice[i].id) {
+            if ((synthVoice[i].cFlags & 0x2) != 0) {
+                inpSetMidiCtrl(ctrl, i, synthVoice[i].setup.midiSet, value);
             } else {
-                inpSetMidiCtrl(ctrl, i, SV_VOICES[i].midiSet, value);
+                inpSetMidiCtrl(ctrl, i, synthVoice[i].midiSet, value);
             }
 
-            vid = SV_VOICES[i].child;
+            vid = synthVoice[i].child;
             ret = 1;
         } else {
             return ret;
@@ -979,7 +954,6 @@ s32 synthFXSetCtrl(u32 vid, u8 ctrl, u8 value) {
 #pragma push
 #pragma opt_common_subs on
 s32 synthFXSetCtrl14(u32 vid, u8 ctrl, u16 value) {
-    void inpSetMidiCtrl14(u8 ctrl, u8 channel, u8 set, u16 value);
     u32 i;
     u32 ret;
 
@@ -988,14 +962,14 @@ s32 synthFXSetCtrl14(u32 vid, u8 ctrl, u16 value) {
 
     while (vid != 0xFFFFFFFF) {
         i = vid & 0xff;
-        if (vid == SV_VOICES[i].id) {
-            if ((SV_VOICES[i].cFlags & 0x2) != 0) {
-                inpSetMidiCtrl14(ctrl, i, SV_VOICES[i].setup.midiSet, value);
+        if (vid == synthVoice[i].id) {
+            if ((synthVoice[i].cFlags & 0x2) != 0) {
+                inpSetMidiCtrl14(ctrl, i, synthVoice[i].setup.midiSet, value);
             } else {
-                inpSetMidiCtrl14(ctrl, i, SV_VOICES[i].midiSet, value);
+                inpSetMidiCtrl14(ctrl, i, synthVoice[i].midiSet, value);
             }
 
-            vid = SV_VOICES[i].child;
+            vid = synthVoice[i].child;
             ret = 1;
         } else {
             return ret;
@@ -1006,12 +980,12 @@ s32 synthFXSetCtrl14(u32 vid, u8 ctrl, u16 value) {
 }
 #pragma pop
 
-void synthFXCloneMidiSetup(u8 *dvoice, u8 *svoice) {
-    inpFXCopyCtrl(7U, dvoice, svoice);
-    inpFXCopyCtrl(0xAU, dvoice, svoice);
-    inpFXCopyCtrl(0x5BU, dvoice, svoice);
-    inpFXCopyCtrl(0x80U, dvoice, svoice);
-    inpFXCopyCtrl(0x84U, dvoice, svoice);
+void synthFXCloneMidiSetup(SynthVoice *dst, SynthVoice *src) {
+    inpFXCopyCtrl(7U, dst, src);
+    inpFXCopyCtrl(0xAU, dst, src);
+    inpFXCopyCtrl(0x5BU, dst, src);
+    inpFXCopyCtrl(0x80U, dst, src);
+    inpFXCopyCtrl(0x84U, dst, src);
 }
 
 s32 synthSendKeyOff(int id) {
@@ -1019,14 +993,14 @@ s32 synthSendKeyOff(int id) {
     s32 found = 0;
     u32 cur;
     if (sndActive != 0) {
-        cur = vidGetInternalId((u32)(id));
+        cur = vidGetInternalId((u32)id);
         while (cur != 0xFFFFFFFF) {
             idx = cur;
-            if (cur == (*(Rec_803A9454 * *)&synthVoice)[idx].id) {
-                macSetExternalKeyoff(&(*(Rec_803A9454 * *)&synthVoice)[idx]);
+            if (cur == synthVoice[idx].id) {
+                macSetExternalKeyoff(&synthVoice[idx]);
                 found = 1;
             }
-            cur = (*(Rec_803A9454 * *)&synthVoice)[idx].next;
+            cur = synthVoice[idx].child;
         }
     }
     return found;
@@ -1037,7 +1011,7 @@ s32 synthSendKeyOff(int id) {
 #pragma inline_depth(4)
 #pragma opt_common_subs on
 
-static inline void SetupFader_803A94E0(SYNTHMasterFader_SV *smf, u8 volume, u32 time, u8 seqMode, u32 seqId) {
+static inline void SetupFader(SynthMasterFader *smf, u8 volume, u32 time, u8 seqMode, u32 seqId) {
     smf->seqMode = seqMode;
     smf->seqId = seqId;
     if (time != 0) {
@@ -1048,7 +1022,7 @@ static inline void SetupFader_803A94E0(SYNTHMasterFader_SV *smf, u8 volume, u32 
     } else {
         smf->volume = smf->target = (f32)volume * (1.f / 127.f);
         if (smf->seqId != 0xFFFFFFFF) {
-            HandleFaderTermination((u8 *)smf);
+            HandleFaderTermination(smf);
         }
     }
 }
@@ -1057,7 +1031,7 @@ void synthVolume(u8 volume, u16 time, u8 vGroup, s8 seqMode, s32 seqId) {
     u32 ltime;
     u32 i;
     u8 type;
-    SYNTHMasterFader_SV *smf;
+    SynthMasterFader *smf;
 
     if ((ltime = time) != 0) {
         sndConvertMs(&ltime);
@@ -1067,7 +1041,7 @@ void synthVolume(u8 volume, u16 time, u8 vGroup, s8 seqMode, s32 seqId) {
     case 0xFF:
         for (smf = synthMasterFader, i = 0; i < 32; ++i, ++smf) {
             if (smf->type == 0 || smf->type == 1) {
-                SetupFader_803A94E0(smf, volume, ltime, seqMode, 0xFFFFFFFF);
+                SetupFader(smf, volume, ltime, seqMode, 0xFFFFFFFF);
                 synthMasterFaderActiveFlags |= 1 << i;
             }
         }
@@ -1076,7 +1050,7 @@ void synthVolume(u8 volume, u16 time, u8 vGroup, s8 seqMode, s32 seqId) {
     case 0xFC:
         for (smf = synthMasterFader, i = 0; i < 32; ++i, ++smf) {
             if (smf->type == 2 || smf->type == 3) {
-                SetupFader_803A94E0(smf, volume, ltime, seqMode, 0xFFFFFFFF);
+                SetupFader(smf, volume, ltime, seqMode, 0xFFFFFFFF);
                 synthMasterFaderActiveFlags |= 1 << i;
             }
         }
@@ -1101,14 +1075,14 @@ void synthVolume(u8 volume, u16 time, u8 vGroup, s8 seqMode, s32 seqId) {
     setup_type:
         for (smf = synthMasterFader, i = 0; i < 32; ++i, ++smf) {
             if (smf->type == type) {
-                SetupFader_803A94E0(smf, volume, ltime, seqMode, 0xFFFFFFFF);
+                SetupFader(smf, volume, ltime, seqMode, 0xFFFFFFFF);
                 synthMasterFaderActiveFlags |= 1 << i;
             }
         }
         return;
 
     default:
-        SetupFader_803A94E0(&synthMasterFader[vGroup], volume, ltime, seqMode, seqId);
+        SetupFader(&synthMasterFader[vGroup], volume, ltime, seqMode, seqId);
         synthMasterFaderActiveFlags |= 1 << vGroup;
         return;
     }
@@ -1117,9 +1091,9 @@ void synthVolume(u8 volume, u16 time, u8 vGroup, s8 seqMode, s32 seqId) {
 
 #pragma push
 #pragma opt_common_subs on
-s32 synthIsFadeOutActive(u8 defVGroup) {
-    if (synthMasterFader[defVGroup].type != 4 && (synthMasterFaderActiveFlags & (1 << defVGroup)) &&
-        synthMasterFader[defVGroup].start > synthMasterFader[defVGroup].target) {
+s32 synthIsFadeOutActive(u8 vGroup) {
+    if (synthMasterFader[vGroup].type != 4 && (synthMasterFaderActiveFlags & (1 << vGroup)) &&
+        synthMasterFader[vGroup].start > synthMasterFader[vGroup].target) {
         return 1;
     }
     return 0;
@@ -1136,10 +1110,10 @@ s32 synthHWMessageHandler(s32 op, u32 idx) {
     s32 ret = 0;
     switch (op) {
     case 0:
-        if ((*(Rec_803A996C * *)&synthVoice)[(u8)idx].busy == 0) {
+        if (synthVoice[(u8)idx].block == 0) {
             vsSampleEndNotify(hwGetVirtualSampleID(idx));
-            if (idx == (*(Rec_803A996C * *)&synthVoice)[(u8)idx].id) {
-                macSampleEndNotify(&(*(Rec_803A996C * *)&synthVoice)[(u8)idx]);
+            if (idx == synthVoice[(u8)idx].id) {
+                macSampleEndNotify(&synthVoice[(u8)idx]);
             }
         }
         break;
@@ -1156,22 +1130,19 @@ s32 synthHWMessageHandler(s32 op, u32 idx) {
     return ret;
 }
 
-void inpInit(u8 *svoice);
-void synthInitAllocationAids(void);
-void hwSetMesgCallback(s32 arg0);
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(4)
 #pragma opt_common_subs on
 
-static inline void synthSetBpm_SV(u32 bpm, u8 set, u8 section) {
+static inline void synthSetBpmInline(u32 bpm, u8 set, u8 section) {
     if (set == 0xFF) {
         set = 8;
     }
     synthTicksPerSecond[set][section] = ((bpm << 3) * 1536) / 240;
 }
 
-static inline void synthInitJobQueue_SV(void) {
+static inline void synthInitJobQueue(void) {
     u8 i;
 
     for (i = 0; i < 32; ++i) {
@@ -1188,48 +1159,48 @@ void synthInit(u32 mixFrq, u32 numVoices) {
 
     synthRealTime = 0;
     synthInfo.mixFrq = mixFrq;
-    synthSetBpm_SV(120, 255, 0);
+    synthSetBpmInline(120, 255, 0);
     synthFlags = 0;
     synthMessageCallback = NULL;
 
-    SV_VOICES_L = (SYNTH_VOICE_SV *)salMalloc(numVoices * sizeof(SYNTH_VOICE_SV));
-    memset(synthVoice, 0, numVoices * sizeof(SYNTH_VOICE_SV));
+    synthVoice = (SynthVoice *)salMalloc(numVoices * sizeof(SynthVoice));
+    memset(synthVoice, 0, numVoices * sizeof(SynthVoice));
 
     for (i = 0; i < numVoices; ++i) {
-        SV_VOICES[i].id = 0xffffffff;
-        SV_VOICES[i].cFlags = 0;
-        SV_VOICES[i].age = 0;
-        SV_VOICES[i].prio = 0;
-        SV_VOICES[i].midi = 0xff;
-        SV_VOICES[i].volume = 0;
-        SV_VOICES[i].volTable = 0;
-        SV_VOICES[i].revVolScale = 128;
-        SV_VOICES[i].revVolOffset = 0;
-        SV_VOICES[i].panning[0] = SV_VOICES[i].panTarget[0] = 0x400000;
-        SV_VOICES[i].panning[1] = SV_VOICES[i].panTarget[1] = 0;
-        SV_VOICES[i].sweepOff[0] = 0;
-        SV_VOICES[i].sweepOff[1] = 0;
-        SV_VOICES[i].sweepNum[0] = 0;
-        SV_VOICES[i].sweepNum[1] = 0;
-        SV_VOICES[i].block = 0;
-        SV_VOICES[i].vGroup = 23;
-        SV_VOICES[i].keyGroup = 0;
-        SV_VOICES[i].itdMode = 1;
-        SV_VOICES[i].lfo[0].period = 0;
-        SV_VOICES[i].lfo[0].value = 0;
-        SV_VOICES[i].lfo[0].lastValue = 0x7fff;
-        SV_VOICES[i].lfo[1].period = 0;
-        SV_VOICES[i].lfo[1].value = 0;
-        SV_VOICES[i].lfo[1].lastValue = 0x7fff;
-        SV_VOICES[i].portTime = 25600;
-        SV_VOICES[i].portType = 0;
-        SV_VOICES[i].studio = 0;
-        SV_VOICES[i].lowPrecisionJob.voice = i;
-        SV_VOICES[i].lowPrecisionJob.jobTabIndex = 0xff;
-        SV_VOICES[i].zeroOffsetJob.voice = i;
-        SV_VOICES[i].zeroOffsetJob.jobTabIndex = 0xff;
-        SV_VOICES[i].eventJob.voice = i;
-        SV_VOICES[i].eventJob.jobTabIndex = 0xff;
+        synthVoice[i].id = 0xffffffff;
+        synthVoice[i].cFlags = 0;
+        synthVoice[i].age = 0;
+        synthVoice[i].prio = 0;
+        synthVoice[i].midi = 0xff;
+        synthVoice[i].volume = 0;
+        synthVoice[i].volTable = 0;
+        synthVoice[i].revVolScale = 128;
+        synthVoice[i].revVolOffset = 0;
+        synthVoice[i].panning[0] = synthVoice[i].panTarget[0] = 0x400000;
+        synthVoice[i].panning[1] = synthVoice[i].panTarget[1] = 0;
+        synthVoice[i].sweepOff[0] = 0;
+        synthVoice[i].sweepOff[1] = 0;
+        synthVoice[i].sweepNum[0] = 0;
+        synthVoice[i].sweepNum[1] = 0;
+        synthVoice[i].block = 0;
+        synthVoice[i].vGroup = 23;
+        synthVoice[i].keyGroup = 0;
+        synthVoice[i].itdMode = 1;
+        synthVoice[i].lfo[0].period = 0;
+        synthVoice[i].lfo[0].value = 0;
+        synthVoice[i].lfo[0].lastValue = 0x7fff;
+        synthVoice[i].lfo[1].period = 0;
+        synthVoice[i].lfo[1].value = 0;
+        synthVoice[i].lfo[1].lastValue = 0x7fff;
+        synthVoice[i].portTime = 25600;
+        synthVoice[i].portType = 0;
+        synthVoice[i].studio = 0;
+        synthVoice[i].lowPrecisionJob.voice = i;
+        synthVoice[i].lowPrecisionJob.jobTabIndex = 0xff;
+        synthVoice[i].zeroOffsetJob.voice = i;
+        synthVoice[i].zeroOffsetJob.jobTabIndex = 0xff;
+        synthVoice[i].eventJob.voice = i;
+        synthVoice[i].eventJob.jobTabIndex = 0xff;
     }
 
     for (i = 0; i < 32; ++i) {
@@ -1255,8 +1226,8 @@ void synthInit(u32 mixFrq, u32 numVoices) {
         synthAuxAMIDI[i] = 0xff;
         synthAuxBCallback[i] = NULL;
         synthAuxBMIDI[i] = 0xff;
-        synthITDDefault[i].b1 = 0;
-        synthITDDefault[i].b0 = 0;
+        synthITDDefault[i].sfx = 0;
+        synthITDDefault[i].music = 0;
     }
 
     macInit();
@@ -1268,7 +1239,7 @@ void synthInit(u32 mixFrq, u32 numVoices) {
     }
 
     voiceInitLastStarted();
-    synthInitJobQueue_SV();
+    synthInitJobQueue();
     hwSetMesgCallback((saddr)synthHWMessageHandler);
 }
 #pragma pop

@@ -1,13 +1,14 @@
 #include "musyx/runtime/musyx_runtime_a.h"
+#include "musyx/runtime/musyx_internal.h"
 
 extern "C" {
 
-u32 adsrConvertTimeCents(s32 arg0) {
-    return (u32)(1000.0f * powf(2.0f, 1.27156579e-08f * (f32)arg0));
+u32 adsrConvertTimeCents(s32 timeCents) {
+    return (u32)(1000.0f * powf(2.0f, 1.27156579e-08f * (f32)timeCents));
 }
 
-s32 salChangeADSRState(void *a0) {
-    ADSR_VARS_803B41C8 *adsr = (ADSR_VARS_803B41C8 *)a0;
+s32 salChangeADSRState(void *adsrPtr) {
+    ADSRVars *adsr = (ADSRVars *)adsrPtr;
     s32 ret;
     s32 index;
     u32 aTime;
@@ -102,14 +103,14 @@ s32 salChangeADSRState(void *a0) {
     return ret;
 }
 
-u32 adsrSetup(u8 *arg0) {
-    ((ADSR_VARS_803B41C8 *)arg0)->state = 0;
-    return salChangeADSRState(arg0);
+u32 adsrSetup(u8 *adsrPtr) {
+    ((ADSRVars *)adsrPtr)->state = 0;
+    return salChangeADSRState(adsrPtr);
 }
 #pragma push
 #pragma opt_common_subs on
 
-u32 adsrStartRelease(ADSR_VARS_803B41C8 *adsr, u32 rtime) {
+u32 adsrStartRelease(ADSRVars *adsr, u32 rtime) {
     switch (adsr->mode) {
     case 0:
         adsr->state = 4;
@@ -143,20 +144,20 @@ u32 adsrStartRelease(ADSR_VARS_803B41C8 *adsr, u32 rtime) {
 
 #pragma pop
 
-s32 adsrRelease(struct Envelope_803B431C *e) {
+s32 adsrRelease(MusyxEnvelope *e) {
     switch (e->mode) {
     case 0:
     case 1:
-        return adsrStartRelease((ADSR_VARS_803B41C8 *)e, e->release);
+        return adsrStartRelease((ADSRVars *)e, e->release);
     default:
         return 0;
     }
 }
 
-u32 adsrHandle(void *arg0, void *arg1, void *arg2) {
-    ADSR_VARS_803B41C8 *e = (ADSR_VARS_803B41C8 *)arg0;
-    u16 *out = (u16 *)arg1;
-    u16 *dlt = (u16 *)arg2;
+u32 adsrHandle(void *adsrPtr, void *adsrOut, void *adsrDelta) {
+    ADSRVars *e = (ADSRVars *)adsrPtr;
+    u16 *out = (u16 *)adsrOut;
+    u16 *dlt = (u16 *)adsrDelta;
     s32 ret = 0;
     s32 old;
     s32 d;
@@ -212,11 +213,11 @@ u32 adsrHandle(void *arg0, void *arg1, void *arg2) {
     return ret;
 }
 
-u32 adsrHandleLowPrecision(void *pitchADSR, void *arg1, void *arg2) {
+u32 adsrHandleLowPrecision(void *adsrPtr, void *adsrOut, void *adsrDelta) {
     u8 i;
 
     for (i = 0; i < 15; i++) {
-        if (adsrHandle(pitchADSR, arg1, arg2) != 0) {
+        if (adsrHandle(adsrPtr, adsrOut, adsrDelta) != 0) {
             return 1;
         }
     }
