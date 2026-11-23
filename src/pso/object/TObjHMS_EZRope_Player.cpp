@@ -30,7 +30,6 @@ const char *TObjHMS_EZRope_Player__name = "TObjHMS_EZRope_Player";
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-struct ByteBlock_C { u8 bytes[0xc]; };
 
 // The colour the debug spheres of the colliders are drawn with.
 NJS_ARGB ezrope_chunk_material_color_table = {0.5f, 1.0f, 1.0f, 0.5f};
@@ -260,21 +259,16 @@ void *TObjPlayer::create_hairmove(void *arg1, void *arg2) {
     return new TObjHMS_EZRope_Player(this, static_cast<TObjHMSRopeSpec *>(arg1), static_cast<TObjHMSColliderSpec *>(arg2));
 }
 
-void TObjPlayer__sub_800FF244(TObjEZRopeSegment *dst, TObjEZRopeSegment *src) {
-    dst->count = src->count;
-    *(ByteBlock_C *)&dst->step = *(ByteBlock_C *)&src->step;
-    dst->body_model = src->body_model;
-    dst->tip_model = src->tip_model;
+void copy_ezrope_segment(TObjEZRopeSegment *dst, TObjEZRopeSegment *src) {
+    *dst = *src;
 }
 
-void TObjPlayer__sub_800FF220(TObjEZRopeEnd *dst, TObjEZRopeEnd *src) {
-    dst->twist = src->twist;
-    *(ByteBlock_C *)&dst->pos = *(ByteBlock_C *)&src->pos;
+void copy_ezrope_end(TObjEZRopeEnd *dst, TObjEZRopeEnd *src) {
+    *dst = *src;
 }
 
-void TObjPlayer__sub_800FF1FC(TObjEZRopeCollider *dst, TObjEZRopeCollider *src) {
-    dst->radius = src->radius;
-    *(ByteBlock_C *)&dst->center = *(ByteBlock_C *)&src->center;
+void copy_ezrope_collider(TObjEZRopeCollider *dst, TObjEZRopeCollider *src) {
+    *dst = *src;
 }
 
 TObjHMS_EZRope_Player::TObjHMS_EZRope_Player(TObject *parent, TObjHMSRopeSpec *ropes, TObjHMSColliderSpec *colliders)
@@ -310,8 +304,8 @@ TObjHMS_EZRope_Player::TObjHMS_EZRope_Player(TObject *parent, TObjHMSRopeSpec *r
         spec = rope_specs;
         end = end_buffer;
         for (; spec->bone >= 0; spec++, segment++, end++) {
-            TObjPlayer__sub_800FF244(segment, spec->segment);
-            TObjPlayer__sub_800FF220(end, &ezrope_default_end);
+            copy_ezrope_segment(segment, spec->segment);
+            copy_ezrope_end(end, &ezrope_default_end);
         }
         segment->count = -1;
     }
@@ -319,9 +313,9 @@ TObjHMS_EZRope_Player::TObjHMS_EZRope_Player(TObject *parent, TObjHMSRopeSpec *r
         TObjHMSColliderSpec *spec = collider_specs;
         TObjEZRopeCollider *dst = collider_buffer;
         for (; spec->bone >= 0; spec++, dst++) {
-            TObjPlayer__sub_800FF1FC(dst, &ezrope_default_collider);
+            copy_ezrope_collider(dst, &ezrope_default_collider);
         }
-        TObjPlayer__sub_800FF1FC(dst, &ezrope_default_collider);
+        copy_ezrope_collider(dst, &ezrope_default_collider);
     }
     sub_800FF8CC(segment_buffer, end_buffer, collider_buffer);
 }

@@ -9,9 +9,9 @@ struct TObjEZRopeCollider;
 
 // --- C functions defined in TObjHMS_EZRope_Player.cpp ---
 extern "C" {
-void TObjPlayer__sub_800FF1FC(TObjEZRopeCollider *dst, TObjEZRopeCollider *src);
-void TObjPlayer__sub_800FF220(TObjEZRopeEnd *dst, TObjEZRopeEnd *src);
-void TObjPlayer__sub_800FF244(TObjEZRopeSegment *dst, TObjEZRopeSegment *src);
+void copy_ezrope_collider(TObjEZRopeCollider *dst, TObjEZRopeCollider *src);
+void copy_ezrope_end(TObjEZRopeEnd *dst, TObjEZRopeEnd *src);
+void copy_ezrope_segment(TObjEZRopeSegment *dst, TObjEZRopeSegment *src);
 }
 // --- end of C functions
 

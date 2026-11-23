@@ -1534,9 +1534,9 @@ force_active:
   - TObjPlayer__sub_800E85BC
   - begin_alt_model_draw__10TObjPlayerFv
   - TObjPlayer__sub_800F08AC
-  - TObjPlayer__sub_800FF1FC
-  - TObjPlayer__sub_800FF220
-  - TObjPlayer__sub_800FF244
+  - copy_ezrope_collider
+  - copy_ezrope_end
+  - copy_ezrope_segment
   - __ct__13TUnk_804A1B40FP7TObjectPUc
   - __dt__20TItemFollowStarLightFv
   - __ct__13TUnk_804A204CFP7TObjectPUc
