@@ -45,7 +45,7 @@ pso/system/task/TObject_80019A50.cpp:
 	.text       start:0x80019A60 end:0x80019A8C
 
 pso/ui/frontend/DrawLine.cpp:
-	.text       start:0x80019A8C end:0x8001A430
+	.text       start:0x80019A8C end:0x8001A468
 	.rodata     start:0x804340D8 end:0x80434118
 	.data       start:0x80480908 end:0x80480938
 	.sdata      start:0x805D2608 end:0x805D2610
@@ -54,15 +54,6 @@ pso/ui/frontend/DrawLine.cpp:
 
 pso/system/scene/EndingSceneTables.cpp:
 	.rodata     start:0x80434118 end:0x80434580
-
-pso/system/task/TMainTask_8001A430.cpp:
-	.text       start:0x8001A430 end:0x8001A438
-
-pso/object/TObjLuker_8001A438.cpp:
-	.text       start:0x8001A438 end:0x8001A448
-
-pso/system/task/TObject_8001A448.cpp:
-	.text       start:0x8001A448 end:0x8001A468
 
 pso/item/mag/TItemMag_8001A468.cpp:
 	.text       start:0x8001A468 end:0x8001A4CC
@@ -1939,7 +1930,7 @@ pso/enemy/panarms/TObjEnePanarms_800F5E90.cpp:
 	.text       start:0x800F5E90 end:0x800F5EE0
 
 pso/object/TObjControl.cpp:
-	.text       start:0x800F5EE0 end:0x800F794C
+	.text       start:0x800F5EE0 end:0x800F795C
 	.rodata     start:0x8043D760 end:0x8043D788
 	.data       start:0x80497C60 end:0x80497DC4
 	.sdata      start:0x805D2B00 end:0x805D2B08
@@ -1948,9 +1939,6 @@ pso/object/TObjControl.cpp:
 
 pso/enemy/EnemyFactoryTables.cpp:
 	.data       start:0x80497DC8 end:0x80498F28
-
-pso/system/task/TObject_800F794C.cpp:
-	.text       start:0x800F794C end:0x800F795C
 
 pso/unk/TLobby_800F795C.cpp:
 	.text       start:0x800F795C end:0x800F7BCC

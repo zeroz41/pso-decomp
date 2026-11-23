@@ -32,6 +32,16 @@ DRAW_LINE_CONST extern const f32 lbl_805D7DDC;
 DRAW_LINE_CONST extern const f32 lbl_805D7DE0;
 DRAW_LINE_CONST extern const f32 lbl_805D7DE4;
 
+// The TObject and TMainTask accessors whose kept out-of-line copies sit at
+// the end of this file; deferred code generation emits them last.
+void TObject::disallow_rendering() { m_flags |= DISALLOW_RENDER; }
+
+void TObject::allow_rendering() { m_flags &= ~DISALLOW_RENDER; }
+
+void TObject::suspend_update() { m_flags |= SUSPEND_UPDATE; }
+
+s32 TMainTask::get_render_pass() { return render_pass; }
+
 TAdDrawLineTask *create_draw_line_task(TObject *parent, const DrawLineRecord *record, TAdDrawLineCtrl *controller) {
     if (record != NULL && lbl_805D7DDC != record->speed) {
         return new TAdDrawLineTask(parent, record, controller);

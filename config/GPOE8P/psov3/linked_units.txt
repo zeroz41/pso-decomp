@@ -923,7 +923,6 @@ pso/ui/hud/TMainCursor.cpp
 pso/ui/hud/TMainCursor_80154090.cpp
 pso/ui/hud/TMainCursor_801D7A78.cpp
 pso/ui/hud/TMainCursor_801D7AC8.cpp
-pso/system/task/TMainTask_8001A430.cpp
 pso/map/TMapCsnCtrl.cpp
 pso/ui/city/TMedicalCenterSequence.cpp
 pso/ui/window/TMessageBox.cpp
@@ -1605,7 +1604,6 @@ pso/object/ambient/TObjLight_80236D60.cpp
 pso/object/ambient/TObjLight_803DF220.cpp
 pso/object/lobby/TObjLobbyMain.cpp
 pso/object/TObjLuker.cpp
-pso/object/TObjLuker_8001A438.cpp
 pso/object/TObjLuker_801329B0.cpp
 pso/map/TObjMapCsn.cpp
 pso/object/base/TObjMapObject.cpp
@@ -1651,8 +1649,6 @@ pso/object/warp/TObjWarpLobby.cpp
 pso/object/lobby/TObjWeddingLobby.cpp
 pso/system/task/TObject.cpp
 pso/system/task/TObject_80019A50.cpp
-pso/system/task/TObject_8001A448.cpp
-pso/system/task/TObject_800F794C.cpp
 pso/weapon/TUnk_804A6DC0.cpp
 pso/player/PhotonBlastResults.cpp
 pso/player/PlayerClassStats.cpp

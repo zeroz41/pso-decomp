@@ -230,6 +230,8 @@ const char *TObjEnemy_class_name = "TObjEnemy";
 const char *TObjControl__name = "TObjControl";
 #pragma pop
 
+void TObject::resume_update() { m_flags &= ~PAUSE_UPDATE; }
+
 void TObjCollidable::set_shadow_flag() { this->m_flags |= 0x400; }
 
 void TObjCollidable::clear_shadow_flag() { this->m_flags &= 0xfffffbff; }
