@@ -16507,7 +16507,7 @@ force_active:
   - throw_gogo_ball__12TWindowTimerFll
   - tick_attack_sequence__11TBoss6Type1Fv
   - update_shoot__9TBoss6MagFv
-  - tick_battle_music_timer
+  - tick_battle_music_timer__16BattleMusicStateFv
   - tick_countdown__11TBoss6Type1Fv
   - tick_display_timer__15TWindowHelpItemFPv
   - tick_fade_counter__13TUnk_80499970Fv

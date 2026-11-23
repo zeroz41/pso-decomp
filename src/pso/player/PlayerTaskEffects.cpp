@@ -153,7 +153,6 @@ s32 TObjPlayer__sub_801C6DAC(u8 *arg0);
 
 extern "C" {
 
-int TObjPlayer__sub_801C6F90(void* p);
 void TObjPlayer__sub_801C6FCC(void* p, f32 v);
 void set_stat_scale__10TObjPlayerFPvf(void* p, f32 v);
 void __dl__7TObjectFPv(void *);
@@ -247,7 +246,6 @@ BOOL fn_801C6F2C(u8 *arg0);
 
 
 extern "C" {
-int TObjPlayer__sub_801C6F90(void* p);
 }
 
 
@@ -279,6 +277,7 @@ int TObjPlayer__sub_801C7098(void* p);
 #include "pso/unk/TLobby_801E43E4.h"
 #include "pso/system/byteswap.h"
 #include "pso/player/TObjPlayer_801C721C.h"
+#include "pso/unk/text_8020C354.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/object/base/TObjMotion.h"
 
@@ -312,7 +311,6 @@ typedef struct Out_801C58CC {
     f32 v;
 } Out_801C58CC;
 
-struct Obj_801C5C38 { u8 pad[4]; s32 n; };
 
 struct Arrival_801C5F84 {
     s32 active;
@@ -329,10 +327,7 @@ extern "C" {
 void calc_death_pose_height_offset(Out_801C58CC *arg0, Actor_801C58CC *arg1);
 s32 set_flag_2000000_alt__10TObjPlayerFv();
 void *find_entity_by_id();
-s32 tick_battle_music_timer(Obj_801C5C38 *p);
 s32 get_current_floor();
-s32 is_room_free_of_active_enemies(s32, s32);
-s32 get_room__8TObjBaseFv(s32);
 void set_params__10TObjPlayerFPvPvPviPv(void *arg0, void *arg1, void *arg2, saddr arg3, void *arg4);
 void init_shield_params(void *out, void *player, void *stats, s32 level, void *extra);
 s16 obj_getS16_2BA(u8 *p);
@@ -430,28 +425,16 @@ void TPlayerSoul::set_player_id(u16 value) { player_id = value; }
 void TPlayerSoul::set_particle(TParticleCtrl*value) { particle = value; }
 
 
-extern "C" {
-int TObjPlayer__sub_801C6F90(void* p) { return test_flags_any((s32 *)p, 2); }
-
-}
+int BattleMusicState::fn_801C6F90() { return test_flags_any(&flags, 2); }
 
 
-extern "C" {
-int TObjPlayer::set_lock_flag() { return test_flags_any((s32 *)this, 1); }
-
-}
+int BattleMusicState::set_lock_flag() { return test_flags_any(&flags, 1); }
 
 
-extern "C" {
-void TObjPlayer::clear_target_lock_flag() { ((FlagWord *)this)->clear(1); }
-
-}
+void BattleMusicState::clear_target_lock_flag() { ((FlagWord *)&flags)->clear(1); }
 
 
-extern "C" {
-void TObjPlayer::set_lock_timer(s32 v) { *(s32*)((char*)this + 0x4) = v; }
-
-}
+void BattleMusicState::set_lock_timer(s32 v) { timer = v; }
 
 
 extern "C" {
@@ -952,34 +935,33 @@ s32 TObjPlayer::decrement_clamp(s32 *arg0, s32 arg1) {
     return 1;
 }
 
-void update_target_lock(saddr arg0, s32 player) {
-
-    if (TObjPlayer__sub_801C6F90((void *)arg0) == 0) {
-        if (is_room_free_of_active_enemies(get_current_floor(), get_room__8TObjBaseFv(player)) != 0) {
-            if (((TObjPlayer *)arg0)->set_lock_flag() != 0) {
-                ((TObjPlayer *)arg0)->clear_target_lock_flag();
-                ((TObjPlayer *)arg0)->set_lock_timer(0x5A);
+void BattleMusicState::update_target_lock(TObjPlayer *player) {
+    if (fn_801C6F90() == 0) {
+        if (is_room_free_of_active_enemies(get_current_floor(), player->get_room()) != 0) {
+            if (set_lock_flag() != 0) {
+                clear_target_lock_flag();
+                set_lock_timer(0x5A);
                 return;
             }
-            if (tick_battle_music_timer((Obj_801C5C38 *)(arg0)) == 0) {
-                ((TObjPlayer *)arg0)->reset_ring();
+            if (tick_battle_music_timer() == 0) {
+                reset_ring();
             }
-        } else if (((TObjPlayer *)arg0)->set_lock_flag() == 0) {
-            ((TObjPlayer *)arg0)->clear_target_lock();
+        } else if (set_lock_flag() == 0) {
+            clear_target_lock();
         }
     }
 }
 
-s32 tick_battle_music_timer(Obj_801C5C38 *p) {
-    if (p->n < 0) {
+s32 BattleMusicState::tick_battle_music_timer() {
+    if (timer < 0) {
         return 1;
     }
-    return --p->n < 0 ? 0 : 1;
+    return --timer < 0 ? 0 : 1;
 }
 
-void TObjPlayer::clear_target_lock() { ((FlagWord *)this)->set((uaddr)(1)); TLobby::set_target_id((saddr)(1)); }
+void BattleMusicState::clear_target_lock() { ((FlagWord *)&flags)->set(1); TLobby::set_target_id(1); }
 
-void TObjPlayer::reset_ring() { ((FlagWord *)this)->clear(1); set_lock_timer(-1); TLobby::set_target_id((saddr)((void*)0)); }
+void BattleMusicState::reset_ring() { ((FlagWord *)&flags)->clear(1); set_lock_timer(-1); TLobby::set_target_id(0); }
 
 void TObjPlayer::set_vec4_const() { *(float*)((char*)this + 0x1c) = 1.0f; *(float *)&this->m_20 = 1.0f; *(float *)&this->texlist = 1.0f; *(float *)&this->room = 1.0f; }
 

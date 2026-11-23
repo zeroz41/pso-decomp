@@ -12,6 +12,7 @@ struct NJS_OBJECT;
 #include "pso/object/base/TObjChara.h"
 #include "pso/player/PlayerAttackController.h"
 #include "pso/player/PlayerStats.h"
+#include "pso/player/BattleMusicState.h"
 #include "pso/unk/TUnk_804DDD28.h"
 
 struct TItemData;
@@ -234,8 +235,7 @@ struct TObjPlayer : public TObjChara {
     u8 unk_628[0xC];
     void* m_634;
     u8 _pad638[0x4];
-    void* m_63c;
-    u8 _pad640[0x4];
+    BattleMusicState battle_music;
     ProtectionTimer protection;  // frames the player cannot be hurt
     u8 _pad648[0x4];
     StickEscapeDetector stick_escape_detector;
@@ -317,8 +317,6 @@ struct TObjPlayer : public TObjChara {
     void enter_battle_state();
     void write_ids();
     void set_vec4_const();
-    void reset_ring();
-    void clear_target_lock();
     static void init_matrix_stack(s32 arg0, s32 arg1);
     void draw_shadow_quad(s32 arg1, s32 flags);
     static void render_tree(void *model);
@@ -360,8 +358,6 @@ struct TObjPlayer : public TObjChara {
     int emit_grass_footstep_particle(int a1);
     void emit_photon_blast_feedback_from_packet();
     int copy_vec_at_18();
-    void clear_flag0_bit1();
-    void set_flag_2();
     s32 get_attacker_id();
     void set_attacker_id(u16 id);
     s32 is_local_player();
@@ -595,7 +591,6 @@ struct TObjPlayer : public TObjChara {
     void*get_sub_object();
     s32 get_lock_timer();
     void init_tag();
-    void reset_counter_field4();
     void set_vec3_const();
     void set_pos_z(f32 v);
     static s32 free_if_valid(s32 arg0, s16 arg1);
@@ -605,7 +600,6 @@ struct TObjPlayer : public TObjChara {
     void*set_vec3_const_wrapper();
     void reset_scale_vector();
     u8 *construct_hurt_timer();
-    void*reset_and_clear();
     void*wrap_update();
     void*set_vec4_const_wrapper();
     void*init_members();
@@ -1229,7 +1223,7 @@ struct TObjPlayer : public TObjChara {
     s32 dispatch_palette_action(u32 act);
     s32 handle_palette_button_input();
     s32 execute_palette_action(s32 mode, void *target);
-    int attach_battle_ctrl_sub();
+    void attach_battle_ctrl_sub();
     void forward_1BF500_at_63c();
     s32 classify_action_state();
     void update_foot_stamp(int arg1);
@@ -1502,9 +1496,6 @@ struct TObjPlayer : public TObjChara {
     s32 get_quest_thread_id();
     u16 get_obj_type();
     void set_ring_action(s32 v);
-    int set_lock_flag();
-    void clear_target_lock_flag();
-    void set_lock_timer(s32 v);
     static void heap_alloc(void* a0);
     static u8 *create_lobby_marker(s16 arg0, s8 arg1);
     void handle_6x87_shrink(f32 scalar);

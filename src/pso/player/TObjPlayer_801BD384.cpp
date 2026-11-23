@@ -124,7 +124,7 @@ TObjPlayer::TObjPlayer(TObject *parent, TUnk_801D8A4C *src) : TObjChara(parent) 
     ((TObjPlayer *)((char *)this + 1532))->init_members();
     ((TObjPlayer *)((char *)this + 1544))->set_vec4_const_wrapper();
     ((TObjPlayer *)((char *)this + 1588))->wrap_update();
-    ((TObjPlayer *)((char *)this + 1596))->reset_and_clear();
+    battle_music.reset_and_clear();
     ((TObjPlayer *)((char *)this + 1604))->construct_hurt_timer();
     stick_escape_detector.reset_fields();
     ((TObjPlayer *)((char *)this + 1624))->reset_scale_vector();
@@ -169,7 +169,7 @@ TObjPlayer::TObjPlayer(TObject *parent, void *arg2) : TObjChara(parent) {
     ((TObjPlayer *)((char *)this + 1532))->init_members();
     ((TObjPlayer *)((char *)this + 1544))->set_vec4_const_wrapper();
     ((TObjPlayer *)((char *)this + 1588))->wrap_update();
-    ((TObjPlayer *)((char *)this + 1596))->reset_and_clear();
+    battle_music.reset_and_clear();
     ((TObjPlayer *)((char *)this + 1604))->construct_hurt_timer();
     stick_escape_detector.reset_fields();
     ((TObjPlayer *)((char *)this + 1624))->reset_scale_vector();

@@ -11,7 +11,7 @@ extern const f32 TObjPlayer__data_805DC278;
 void TObjPlayer::reset_state() {
     u8 *arg0 = (u8 *)this;
     ((FlagWord *)(arg0 + 0x858))->clear(2);
-    ((TObjPlayer *)(arg0 + 0x63C))->reset_counter_field4();
+    battle_music.reset_counter_field4();
     protection.reset_type();
     ((TObjPlayer *)(arg0 + 0x7CC))->reset_movement_state();
     TObjPlayer__sub_801BF690((u8 *)&this->m_730);

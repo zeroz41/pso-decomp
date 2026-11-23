@@ -54,7 +54,7 @@ u8 *TObjPlayer::construct_player_instance(saddr arg1, s32 slot, s32 role, u8 *ar
     ((TObjPlayer *)(((u8 *)this) + 0x5FC))->init_members();
     ((TObjPlayer *)(((u8 *)this) + 0x608))->set_vec4_const_wrapper();
     ((TObjPlayer *)(((u8 *)this) + 0x634))->wrap_update();
-    ((TObjPlayer *)(((u8 *)this) + 0x63C))->reset_and_clear();
+    battle_music.reset_and_clear();
     ((TObjPlayer *)(((u8 *)this) + 0x644))->construct_hurt_timer();
     stick_escape_detector.reset_fields();
     ((TObjPlayer *)(((u8 *)this) + 0x658))->reset_scale_vector();

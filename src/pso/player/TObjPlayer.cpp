@@ -315,8 +315,8 @@ void set_player_action_palette_slot(PlayerActionPaletteState *state, u8 slot) {
 void set_player_action_palette_mode(PlayerActionPaletteState *state, u8 mode) {
     set_action_palette_tag_mode(&state->tag, mode);
 }
-void TObjPlayer::clear_flag0_bit1() { ((FlagWord *)this)->clear(2); }
-void TObjPlayer::set_flag_2() { ((FlagWord *)this)->set(2); }
+void BattleMusicState::clear_flag0_bit1() { ((FlagWord *)&flags)->clear(2); }
+void BattleMusicState::set_flag_2() { ((FlagWord *)&flags)->set(2); }
 
 extern "C" {
 extern const f32 TObjPlayer__data_805DC278;
@@ -449,9 +449,9 @@ void TObjPlayer::init_tag() {
     init__6gc_tagFv((gc_tag *)((char *)arg0 + 4));
 }
 
-void TObjPlayer::reset_counter_field4() {
-    *(s32 *)((s8 *)this + 4) = 0;
-    ((FlagWord *)this)->FlagWord::reset();
+void BattleMusicState::reset_counter_field4() {
+    timer = 0;
+    ((FlagWord *)&flags)->reset();
 }
 
     extern const float TObjPlayer__data_805DC294;
@@ -545,7 +545,7 @@ u8 *TObjPlayer::construct_hurt_timer() {
     return arg0;
 }
 
-void*TObjPlayer::reset_and_clear() { __ct__8FlagWordFv(this); reset_counter_field4(); return this; }
+BattleMusicState *BattleMusicState::reset_and_clear() { __ct__8FlagWordFv(&flags); reset_counter_field4(); return this; }
 void*TObjPlayer::wrap_update() { TObjPlayer__sub_801BFC90((O_801BFC90 *)(this)); return this; }
 
 void TObjPlayer__sub_801BFC90(O_801BFC90 *p) {
