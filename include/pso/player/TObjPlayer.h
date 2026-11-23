@@ -22,6 +22,7 @@ class TPlyItem;
 struct TechniqueContactList;
 struct TUnk_801D8A4C;
 struct TLockOnCursor;
+struct TUnk_8012AF00;
 
 // The frames a player stays protected from hits (after getting up, being
 // hurt, or a mag's invincibility).
@@ -496,7 +497,7 @@ struct TObjPlayer : public TObjChara {
     void set_model_param(s16 v);
     void set_model_id(s16 v);
     s16 is_status_subsystem_ready();
-    void*get_extended_state();
+    TUnk_8012AF00 *get_extended_state();
     f32 query_extended_state();
     int test_flag30_bit0x100000();
     void set_action_type(s16 v);
@@ -1184,7 +1185,6 @@ struct TObjPlayer : public TObjChara {
     void spawn_cane_effect(TItem* item, s32 attachment);
     void spawn_cane_effects(TItem* item, s32 first_attachment, s32 second_attachment);
     int is_flag_b0_4();
-    u16 get_uid();
     static u32 spawn_shot_effect(saddr arg0, saddr arg1, saddr arg2, f32 farg0);
     void clear_rico_ring_flag();
     static void start_photon_blast(s32 kind, s32 client_id);

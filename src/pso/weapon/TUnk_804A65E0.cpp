@@ -11,30 +11,29 @@
 #include "pso/unk/text_8011B620.h"
 #include "pso/weapon/TUnk_804A66D8.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/player/TUnk_8012AF00.h"
 
 extern "C" {
 
-u8 *get_captured_target_entry(s32, s32);
-s32 get_captured_target_count();
 
 void TUnk_804A65E0::emit_marker_effects() {
-    saddr state;
+    TUnk_8012AF00 *state;
     TargetCursorRecord *record;
     s32 i;
-    u8 *entry;
+    TUnk_8012AF50 *entry;
 
     if (is_mode_two_and_ready() != 0) {
         get_joint_position(0, &cast_point);
-        state = (saddr)((TObjPlayer *)owner)->get_extended_state();
+        state = ((TObjPlayer *)owner)->get_extended_state();
         if (state != 0) {
-            targets.count = get_captured_target_count();
+            targets.count = state->get_captured_target_count();
             record = targets.records;
             i = 0;
             do {
-                entry = get_captured_target_entry(state, i);
+                entry = state->get_captured_target_entry(i);
                 if (entry != NULL) {
-                    record->id = *(u16 *)(entry + 0);
-                    record->flag = *(s16 *)(entry + 2);
+                    record->id = entry->uid;
+                    record->flag = entry->collider_index;
                     record++;
                 }
                 i += 1;

@@ -6,6 +6,7 @@
 #include "pso/system/memory.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/technique/TTecLuker.h"
+#include "pso/player/TUnk_8012AF00.h"
 
 struct E_801C2154 { u8 pad[7]; char v; u8 pad2[0x14]; };
 
@@ -33,14 +34,13 @@ void __dt__18PhotonBlastRequestFv(void);
 extern const f32 TObjPlayer__data_805DC278;
 S_801C20A4 *init_player_telepipe_record(S_801C20A4 *arg0);
 s32 test_flags_any(s32 *flags, s32 mask);
-void TObjPlayer__sub_8012AF00(void *);
 int fn_8035B00C(void*);
 
 extern const f32 TObjPlayer__data_805DC294;
 
 void *TObjPlayer::init() {
     __ct__8FlagWordFv(((char *)this + 12));
-    TObjPlayer__sub_8012AF00((void *)((char *)this + 48));
+    TObjPlayer__sub_8012AF00((TUnk_8012AF00 *)((char *)this + 48));
     *(f32 *)((s8 *)this + 0x8) = TObjPlayer__data_805DC294;
     reset_movement_state();
     return this;

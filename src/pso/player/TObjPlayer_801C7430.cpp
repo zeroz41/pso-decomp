@@ -49,6 +49,7 @@
 #include "pso/player/PhotonBlastResults.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/ui/window/TWindowCtrl.h"
+#include "pso/player/TUnk_8012AF00.h"
 
 
 #pragma readonly_strings on
@@ -1038,9 +1039,7 @@ s32 TObjPlayer__sub_80082300(void *);
 s32 check_value_equals__13TUnk_804B6C24CFl(saddr, void *);
 s32 init_entry_fields__6TLobbyFiii(int, int, void *, int);
 s32 spawn_appearance_effect__10TObjPlayerFUs();
-s32 get_captured_target_count(s32 *arg0);
 s32 copy_attack_targets(void *, void *);
-int TObjPlayer__sub_8012AF00(void*);
 s32 publish_actor_light_scalars(u32, f32, f32);
 s32 canSetMenuCursorAction(void *, void *, s32, u8);
 void TMainCursor__sub_8013DFC4(u8 *arg0);
@@ -4814,12 +4813,12 @@ int TObjPlayer::deliver_attack_hits(f32 damage_scale) {
     s32 count;
     s32 i;
     int hit = 0;
-    s32 *entry;
-    count = get_captured_target_count((s32 *)((TObjPlayer *)&attack_state)->get_state_ptr());
-    entry = get_captured_target_entry(((TObjPlayer *)&attack_state)->get_state_ptr(), 0);
+    TUnk_8012AF50 *entry;
+    count = ((TUnk_8012AF00 *)((TObjPlayer *)&attack_state)->get_state_ptr())->get_captured_target_count();
+    entry = ((TUnk_8012AF00 *)((TObjPlayer *)&attack_state)->get_state_ptr())->get_captured_target_entry(0);
     for (i = 0; i < count; i++) {
-        u16 uid = ((TObjPlayer *)entry)->get_uid();
-        s16 collider = get_captured_target_collider_index(entry);
+        u16 uid = entry->get_uid();
+        s16 collider = entry->get_captured_target_collider_index();
         TObjChara *target = (TObjChara *)resolve_hittable_target(uid, collider);
         if (target == NULL) {
             continue;
@@ -6498,7 +6497,7 @@ void *TObjPlayer__sub_801D2348(void *arg0, void *arg1) {
 
 void TObjPlayer::bswap_field4_sub() { ((G_ClientIDHeader *)this)->bswap(); ((TObjPlayer *)((char*)this + 0x4))->bswap_u16_pair_list(); }
 
-void*TObjPlayer::build_packet_header() { TObjPlayer__sub_8012AF00((char*)this + 0x4); *(unsigned char*)(this) = 70; *(unsigned char*)((char*)this + 0x1) = 12; return this; }
+void*TObjPlayer::build_packet_header() { TObjPlayer__sub_8012AF00((TUnk_8012AF00 *)((char*)this + 0x4)); *(unsigned char*)(this) = 70; *(unsigned char*)((char*)this + 0x1) = 12; return this; }
 
 void send_6x46_attack_finished(u8 *arg0) {
     *(s8 *)((s8 *)arg0 + 1) = (s8) ((((u32 (*)(void))get_6x46_strike_packet_size)() >> 2U) & 0x3F);
@@ -6519,7 +6518,7 @@ void TObjPlayer__sub_801D2448(void* p) { ((G_ClientIDHeader *)p)->bswap(); ((TOb
 #pragma auto_inline off
 #pragma dont_inline off
 u8 get_6x46_strike_packet_size(saddr arg0) {
-    return (u8) (0x30 - ((0xA - get_captured_target_count((s32 *)((void *) (arg0 + 4)))) * 4));
+    return (u8) (0x30 - ((0xA - ((TUnk_8012AF00 *)(arg0 + 4))->get_captured_target_count()) * 4));
 }
 extern int fold_flush_14;
 #pragma pop

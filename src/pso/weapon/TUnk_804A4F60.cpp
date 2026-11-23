@@ -14,9 +14,9 @@
 #include "pso/system/MatrixOps.h"
 #include "pso/system/vector.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/player/TUnk_8012AF00.h"
 
 extern "C" {
-s32 get_captured_target_entry(void *, s32);
 }
 
 void TUnk_804A4F60::activate_effect(s32 effect) {
@@ -38,16 +38,16 @@ void TUnk_804A4F60::activate_effect(s32 effect) {
 }
 
 void TUnk_804A4F60::psycho_wand_roll_extra() {
-    void *ext;
-    saddr target;
+    TUnk_8012AF00 *ext;
+    TUnk_8012AF50 *target;
 
     get_joint_position(4, &cast_point);
     ext = owner->get_extended_state();
-    target = get_captured_target_entry(ext, 0);
-    if (get_captured_target_count((s32 *)ext) != 0) {
+    target = ext->get_captured_target_entry(0);
+    if (ext->get_captured_target_count() != 0) {
         targets.count = 1;
-        targets.records[0].id = ((TObjPlayer *)target)->get_uid();
-        targets.records[0].flag = get_captured_target_collider_index((void *)target);
+        targets.records[0].id = target->get_uid();
+        targets.records[0].flag = target->get_captured_target_collider_index();
     } else {
         targets.count = 0;
     }

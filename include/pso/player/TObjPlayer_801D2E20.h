@@ -2,14 +2,13 @@
 #define PSO_PLAYER_TOBJPLAYER_801D2E20_H
 
 #include "types.h"
+#include "pso/player/TUnk_8012AF00.h"
 #include <dolphin/mtx.h>
 
 class TObjPlayer;
 struct PlayerAttackController;
 
-struct Ent_801D32A0 { u16 a; s16 b; };
-
-struct Self_801D32A0 { u8 pad[0x20]; f32 f20; f32 f24; f32 f28; f32 f2c; s32 count; Ent_801D32A0 ents[1]; };
+struct Self_801D32A0 { u8 pad[0x20]; f32 f20; f32 f24; f32 f28; f32 f2c; TUnk_8012AF00 targets; };
 
 struct Cur_801D32A0 { u8 pad[0x28]; f32 x28; f32 x2c; f32 x30; u8 pad2[8]; f32 x3c; u8 pad3[0x5C]; u8 lock[4]; };
 
@@ -22,15 +21,12 @@ void* get_anim_field_c__10TObjPlayerFPv(void* p);
 void VecCopy__FP3VecPC3Vec(void *, void *);
 s16 get_type_id__10TObjPlayerFv(void* p);
 void * TObjPlayer__sub_80116620(void *, s32);
-s32 *get_captured_target_entry(void *, int);
-void TObjPlayer__sub_8012AF80(void *);
 u16 get_action_palette_entry__10TObjPlayerFl(void *, s32);
 }
 
 extern "C" {
 
 // --- functions defined in TObjPlayer_801D2E20.cpp ---
-void clear_lockon_list__10TObjPlayerFPvPvff(s32 *arg0, void * _w1, f32 _w2, f32 _w3);
 s16 get_validated_attack_stage(u8 *arg0);
 s32 TObjPlayer__sub_801D2EE8(s16 arg0);
 s16 TObjPlayer__sub_801D2F0C(void *arg0);

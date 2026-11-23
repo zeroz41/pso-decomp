@@ -78,9 +78,6 @@ struct RecoveredFields_8012ABCC_arg0
 
 extern "C" {
 u32 *copy_attack_targets(u32 *dst, u32 *src);
-s32 get_captured_target_collider_index(s32);
-s32 get_captured_target_entry(void *, s32);
-s32 get_captured_target_count(void *);
 extern saddr tl_05;
 
 typedef struct RecoveredFields_8012ABCC_arg0 RecoveredFields_8012ABCC_arg0;
@@ -109,14 +106,14 @@ void TUnk_804A4B80::activate_effect(s32 arg1) {
 
 void TUnk_804A4B80::heaven_punisher_strike_locks() {
     Vec muzzle;
-    s16 v;
+    s32 v;
     s32 i;
-    saddr e;
-    if (get_captured_target_count(captured_targets) > 0) {
-        for (i = 0; i != get_captured_target_count(captured_targets); i++) {
-            e = get_captured_target_entry(captured_targets, i);
-            v = get_captured_target_collider_index(e);
-            spawn_heaven_effect((TObject *)tl_05, owner, ((TObjPlayer *)e)->get_uid(), v);
+    TUnk_8012AF50 *e;
+    if (captured_targets.get_captured_target_count() > 0) {
+        for (i = 0; i != captured_targets.get_captured_target_count(); i++) {
+            e = captured_targets.get_captured_target_entry(i);
+            v = e->get_captured_target_collider_index();
+            spawn_heaven_effect((TObject *)tl_05, owner, e->get_uid(), v);
         }
     } else {
         get_gun_point(&muzzle);
@@ -128,7 +125,7 @@ void TUnk_804A4B80::emit_marker_effects() {
     Vec sp8;
     s32 effect;
     if (is_mode_two_and_ready() != 0) {
-        copy_attack_targets(captured_targets, reinterpret_cast<u32 *>(owner->get_extended_state()));
+        copy_attack_targets((u32 *)&captured_targets, (u32 *)owner->get_extended_state());
         get_gun_point(&captured_muzzle);
         effect = 0;
         if (!((TLobby::get_internet_beat() / 100) & 1)) {
@@ -157,12 +154,9 @@ u32 *copy_attack_targets(u32 *dst, u32 *src) {
 
 }
 
-struct Obj_8012AF00;
-
 extern "C" {
 
 void __ct__11TItemWeaponFP7TObjectPUc(void *, s32, s32);
-Obj_8012AF00 *TObjPlayer__sub_8012AF00(Obj_8012AF00 *self);
 }
 
 extern s32 __vt__13TUnk_804A4B80[];
@@ -170,7 +164,7 @@ extern s32 __vt__13TUnk_804A4B80[];
 void *heaven_punisher_ct(void *player, s32 parent, s32 item) {
     __ct__11TItemWeaponFP7TObjectPUc(player, parent, item);
     *(s32 **)((s8 *)player + 0x18) = __vt__13TUnk_804A4B80;
-    TObjPlayer__sub_8012AF00((Obj_8012AF00 *)((char *)player + 504));
+    TObjPlayer__sub_8012AF00((TUnk_8012AF00 *)((char *)player + 504));
     ((TItemWeapon *)player)->set_weapon_flags(34);
     return player;
 }
@@ -191,32 +185,21 @@ TItem *create_heaven_punisher(u8 *item) {
 
 TUnk_804A4B80::~TUnk_804A4B80() {}
 
-struct Elem_8012AF00 { u8 b[4]; };
-
-struct Obj_8012AF00 { u32 f0; Elem_8012AF00 arr[10]; };
-
-struct Obj_8012AF80 { u16 a; u16 b; };
-
 extern "C" {
 void *__construct_array(void *, void *, void *, u32, u32);
-void clear_lockon_list__10TObjPlayerFPvPvff(void *p);
-Obj_8012AF80 *TObjPlayer__sub_8012AF50(Obj_8012AF80 *self);
-Obj_8012AF00 *TObjPlayer__sub_8012AF00(Obj_8012AF00 *self) {
-    __construct_array(self->arr, (void *)TObjPlayer__sub_8012AF50, 0, 4, 10);
-    clear_lockon_list__10TObjPlayerFPvPvff(self);
+TUnk_8012AF00 *TObjPlayer__sub_8012AF00(TUnk_8012AF00 *self) {
+    __construct_array(self->entries, (void *)TObjPlayer__sub_8012AF50, 0, 4, 10);
+    self->clear_lockon_list();
     return self;
 }
 
-void TObjPlayer__sub_8012AF80(Obj_8012AF80 *self);
-
-Obj_8012AF80 *TObjPlayer__sub_8012AF50(Obj_8012AF80 *self) {
-    TObjPlayer__sub_8012AF80(self);
+TUnk_8012AF50 *TObjPlayer__sub_8012AF50(TUnk_8012AF50 *self) {
+    self->fn_8012AF80();
     return self;
 }
-
-void TObjPlayer__sub_8012AF80(Obj_8012AF80 *self) {
-    self->a = 0xffff;
-    self->b = 0;
 }
 
+void TUnk_8012AF50::fn_8012AF80() {
+    uid = 0xffff;
+    collider_index = 0;
 }

@@ -7,6 +7,7 @@
 #include "pso/item/TItem.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/player/TargetCursorList.h"
+#include "pso/player/TUnk_8012AF00.h"
 
 struct Rec_80127694 {
     s32 kind;
@@ -16,11 +17,10 @@ struct Rec_80127694 {
 };
 
 extern "C" {
-void *get_captured_target_entry(void *, int);
 void TUnk_804A3358::emit_marker_effects() {
     u8 pos[12];
     Rec_80127694 rec;
-    void *st;
+    TUnk_8012AF00 *st;
     get_joint_position(2, pos);
     spawn_particle_effect((const Vec *)pos, 0x1BE);
     get_joint_position(3, pos);
@@ -29,12 +29,12 @@ void TUnk_804A3358::emit_marker_effects() {
     if (owner->is_status_subsystem_ready() == 2) {
         if (is_identified() == 1) {
             st = owner->get_extended_state();
-            if (get_captured_target_count((s32 *)st) != 0) {
-                void *e = get_captured_target_entry(st, 0);
+            if (st->get_captured_target_count() != 0) {
+                TUnk_8012AF50 *e = st->get_captured_target_entry(0);
                 __ct__16TargetCursorListFv((&rec));
                 rec.kind = 1;
-                rec.uid = ((TObjPlayer *)e)->get_uid();
-                rec.sub = get_captured_target_collider_index(e);
+                rec.uid = e->get_uid();
+                rec.sub = e->get_captured_target_collider_index();
                 TObjPlayer::create_tec_zonde(owner, pos, &rec, 3);
             }
         }

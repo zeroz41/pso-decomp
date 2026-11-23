@@ -62,17 +62,14 @@ struct Slot_801D3224 { s16 a; s16 idx; };
 #pragma auto_inline off
 #pragma dont_inline off
 
-void clear_lockon_list__10TObjPlayerFPvPvff(s32 *arg0, void * _w1, f32 _w2, f32 _w3) {
-    s32 var_r31;
-    u8 *var_r30;
-    var_r30 = (u8 *)((void *)((u8 *)(arg0) + 4));
-    var_r31 = 0;
-    *(s32 *)((s8 *)arg0 + 0) = 0;
-    do {
-        TObjPlayer__sub_8012AF80(var_r30);
-        var_r31 += 1;
-        var_r30 = (u8 *)((void *)((u8 *)(var_r30) + 4));
-    } while (var_r31 < 0xA);
+void TUnk_8012AF00::clear_lockon_list() {
+    s32 i;
+    TUnk_8012AF50 *entry = entries;
+    count = 0;
+    for (i = 0; i < 10; i++) {
+        entry->fn_8012AF80();
+        entry++;
+    }
 }
 #pragma pop
 
@@ -320,7 +317,7 @@ void begin_player_attack(u8 *player, s32 arg1, s16 arg2, s32 arg3) {
 
 s32 get_first_target_position__10TObjPlayerFPvPv(void *arg0, Vec *out) {
     Slot_801D3224 *s = (Slot_801D3224 *)TObjPlayer__sub_801D345C((void*)(arg0));
-    u16 uid = ((TObjPlayer *)s)->get_uid();
+    u16 uid = ((TUnk_8012AF50 *)s)->get_uid();
     Obj_801D3224 *o;
     if (uid == 0xFFFF) {
         return 0;
@@ -347,11 +344,11 @@ s32 get_first_target_position__10TObjPlayerFPvPv(void *arg0, Vec *out) {
 void *capture_lockon_targets(Self_801D32A0 *self, Pl_801D32A0 *player) {
     Cur_801D32A0 *cur;
     s32 n;
-    Ent_801D32A0 *e;
+    TUnk_8012AF50 *e;
     s32 i;
     void *obj;
     if (player->cursor == 0) return 0;
-    ((void (*)(void *))clear_lockon_list__10TObjPlayerFPvPvff)(&self->count);
+    self->targets.clear_lockon_list();
     cur = TObjPlayer__sub_801B57E8(player);
     if (cur == 0) return 0;
     if (get_cursor_palette_mode(cur) != 2) return 0;
@@ -360,16 +357,16 @@ void *capture_lockon_targets(Self_801D32A0 *self, Pl_801D32A0 *player) {
     self->f28 = cur->x30;
     self->f2c = cur->x3c;
     n = ((TLockOnCursor *)(cur->lock))->get_target();
-    e = self->ents;
-    ((TNpcPlayer *)(&self->count))->set_state(n);
+    e = self->targets.entries;
+    ((TNpcPlayer *)(&self->targets))->set_state(n);
     for (i = 0; i != n; i++) {
         obj = TObjPlayer__sub_80116620(cur->lock, i);
         ((TNpcPlayer *)e)->set_field_0(get_type_id__10TObjPlayerFv(obj));
         ((TNpcPlayer *)e)->set_field2(((TObjPlayer *)obj)->get_obj_id());
         e++;
     }
-    ((TMainCursor *)(player->cursor))->set_cursor_pos(self->ents[0].a, self->ents[0].b);
-    return &self->count;
+    ((TMainCursor *)(player->cursor))->set_cursor_pos(self->targets.entries[0].uid, self->targets.entries[0].collider_index);
+    return &self->targets;
 }
 #pragma pop
 
@@ -396,7 +393,7 @@ void TObjPlayer::reset_movement_state() {
     *(f32 *)((s8 *)((u8 *)this) + 0x24) = 1.0f;
     *(f32 *)((s8 *)((u8 *)this) + 0x28) = 1.0f;
     *(f32 *)((s8 *)((u8 *)this) + 0x2C) = 0.0f;
-    clear_lockon_list__10TObjPlayerFPvPvff((s32 *)((void *)(((u8 *)this) + 0x30)), (void *)this, 20.0f, 1.0f);
+    ((TUnk_8012AF00 *)((u8 *)this + 0x30))->clear_lockon_list();
 }
 #pragma pop
 
@@ -449,7 +446,7 @@ int TObjPlayer::is_flag32_clear() { return (((int (*)(void*, int))test_flags_any
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-s32 *TObjPlayer__sub_801D345C(void *p) { return get_captured_target_entry((char*)p + 0x30, 0); }
+s32 *TObjPlayer__sub_801D345C(void *p) { return (s32 *)((TUnk_8012AF00 *)((char*)p + 0x30))->get_captured_target_entry(0); }
 #pragma pop
 
 #pragma push

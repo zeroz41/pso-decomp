@@ -158,6 +158,7 @@ void fn_8023B590(TTecSlicerTargets_8023B454 *o, u16 v, s8 b) {
 #include "pso/ui/frontend/TAdRicoRing_8001BEE8.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/math/MatrixVector.h"
+#include "pso/player/TUnk_8012AF00.h"
 
 
 struct RecoveredFields_8023B770_var_r29
@@ -307,9 +308,6 @@ s32 subtract_vector(s32, s32);
 void destroy_if_set__10TTecSlicerFv(u32);
 
 f32 *get_weapon_range_record(s32, s32);
-s8 get_captured_target_collider_index(s32);
-s32 get_captured_target_entry(s32, s32);
-s32 get_captured_target_count(s32);
 u32 csnVector(s32, s32, s32);
 
 TTecSlicerTargets_8023B454::TTecSlicerTargets_8023B454() { count = 0; idx = 0; }
@@ -492,10 +490,10 @@ TTecSlicer::~TTecSlicer() {
 #pragma opt_common_subs off
 #pragma opt_loop_invariants off
 TTecSlicer::TTecSlicer(u16 *launch, void *player, Vec *position, int angle) : TObjBase(tl_05) {
-    s32 c;
-    saddr ext;
+    s8 c;
+    TUnk_8012AF00 *ext;
     s32 i;
-    saddr e;
+    TUnk_8012AF50 *e;
     self->name = TTecSlicer__name;
     ((TObject *)((TObject *)self))->TObject::disallow_rendering();
     ((TObjBase *)self)->set_entity_id(pop_free_entity_id());
@@ -524,15 +522,15 @@ TTecSlicer::TTecSlicer(u16 *launch, void *player, Vec *position, int angle) : TO
     VecCopy((Vec *)((saddr)self + 0x9C), (const Vec *)((saddr)self + 0x38));
     VecCopy((Vec *)((saddr)self + 0xA8), (const Vec *)((saddr)self + 0x38));
     self->fbc = 0.0f;
-    ext = (saddr)((TObjPlayer *)self->f10c)->get_extended_state();
+    ext = ((TObjPlayer *)self->f10c)->get_extended_state();
     if (ext != 0) {
-        if (get_captured_target_count(ext) == 0) {
+        if (ext->get_captured_target_count() == 0) {
             ((FlagWord *)((saddr)self->fwd))->set(1);
         } else {
-            for (i = 0; i != get_captured_target_count(ext); i++) {
-                e = get_captured_target_entry(ext, i);
-                c = get_captured_target_collider_index(e);
-                fn_8023B590((TTecSlicerTargets_8023B454 *)self->fc8, ((TObjPlayer *)e)->get_uid(), c);
+            for (i = 0; i != ext->get_captured_target_count(); i++) {
+                e = ext->get_captured_target_entry(i);
+                c = e->get_captured_target_collider_index();
+                fn_8023B590((TTecSlicerTargets_8023B454 *)self->fc8, e->get_uid(), c);
             }
         }
     }
