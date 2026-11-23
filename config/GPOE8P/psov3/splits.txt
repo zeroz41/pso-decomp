@@ -6681,47 +6681,8 @@ pso/ui/window/TWindowCtrl_8024AEAC.cpp:
 pso/ui/window/TWindowCtrl_8024B048.cpp:
 	.text       start:0x8024B048 end:0x8024B054
 
-pso/ui/window/TWindowCtrl_8024B054.cpp:
-	.text       start:0x8024B054 end:0x8024B0E0
-
-pso/ui/window/TWindowCtrl_8024B0E0.cpp:
-	.text       start:0x8024B0E0 end:0x8024B1A0
-
-pso/ui/window/TWindowCtrl_8024B1A0.cpp:
-	.text       start:0x8024B1A0 end:0x8024B558
-
-pso/ui/window/TWindowCtrl_8024B558.cpp:
-	.text       start:0x8024B558 end:0x8024B5E0
-
-pso/ui/window/TWindowCtrl_8024B5E0.cpp:
-	.text       start:0x8024B5E0 end:0x8024B604
-
-pso/ui/window/TWindowCtrl_8024B604.cpp:
-	.text       start:0x8024B604 end:0x8024B650
-
-pso/ui/window/TWindowCtrl_8024B650.cpp:
-	.text       start:0x8024B650 end:0x8024B694
-
-pso/ui/window/TWindowCtrl_8024B694.cpp:
-	.text       start:0x8024B694 end:0x8024B6B8
-
-pso/ui/window/TWindowCtrl_8024B6B8.cpp:
-	.text       start:0x8024B6B8 end:0x8024B704
-
-pso/ui/window/TWindowCtrl_8024B704.cpp:
-	.text       start:0x8024B704 end:0x8024B728
-
-pso/ui/window/TWindowCtrl_8024B728.cpp:
-	.text       start:0x8024B728 end:0x8024B760
-
-pso/ui/window/TWindowCtrl_8024B760.cpp:
-	.text       start:0x8024B760 end:0x8024B794
-
-pso/ui/window/TWindowCtrl_8024B794.cpp:
-	.text       start:0x8024B794 end:0x8024B7D4
-
 pso/ui/window/TWindowCtrl.cpp:
-	.text       start:0x8024B7D4 end:0x8024C820
+	.text       start:0x8024B054 end:0x8024C820
 	.rodata     start:0x8044EBC8 end:0x8044EBF0
 	.data       start:0x804CEAA0 end:0x804CEAB8
 	.sdata      start:0x805D38C8 end:0x805D38D0
