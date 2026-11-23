@@ -2,19 +2,13 @@
 #include "pso/player/TObjPlayer_803E21B8.h"
 #include "pso/player/TObjPlayer_803E20B0.h"
 #include "pso/effect/particle/TParticleCtrl.h"
+#include "pso/effect/particle/ParticleStrip.h"
 #include "pso/player/TObjPlayer.h"
 
 #pragma scheduling off
 
-struct Particle_803E2A1C {
-    f32 x, y, z;
-    f32 u, v;
-    u32 color;
-};
-
 extern "C" {
 s32 GXBegin(int, int, u16);
-void emit_particle_strip_vertices(Particle_803E2A1C *p, s32 n);
 
 void TParticleCtrl::reset_particles() {
     TObjPlayer__sub_803E2248();
@@ -30,7 +24,7 @@ typedef union {
     f32 f32;
 } WGPipe_803E2A1C;
 #define GXWGFifo_803E2A1C (*(volatile WGPipe_803E2A1C *)0xCC008000)
-void emit_particle_strip_vertices(Particle_803E2A1C *p, s32 n) {
+void emit_particle_strip_vertices(ParticleStripVertex *p, s32 n) {
     s32 i;
     GXBegin(0x98, 4, n);
     for (i = 0; i < n; i++) {

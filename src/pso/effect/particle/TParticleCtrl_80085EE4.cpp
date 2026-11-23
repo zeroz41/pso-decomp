@@ -21,7 +21,8 @@
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 
-#include "pso/effect/particle/TParticleCtrl_80327D30.h"
+#include "pso/unk/TUnk_804ED5B0.h"
+#include "pso/effect/particle/ParticleStrip.h"
 #include "pso/player/TObjPlayer_80083594.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/unk/text_803DC86C.h"
@@ -38,7 +39,6 @@ struct Ctrl_80086418 {
     Col_80086418 color;
 };
 
-struct Vtx_80086248 { f32 x, y, z, u, v; u32 color; };
 
 typedef struct Quad_80085EE4 { f32 x, y, z, ax, ay, bx, by, pad1C; f32 u, v, du, k0, k1, dv; f32 pad38[2]; } Quad_80085EE4;
 
@@ -71,10 +71,8 @@ s32 GXSetNumTexGens(int);
 s32 GXSetTevOp(int, int);
 s32 GXSetNumTevStages(int);
 s32 post_translate_matrix(void *);
-s32 emit_particle_strip_vertices(void *, int);
 }
 void load_projected_texture_matrix(f32 farg0);
-void play_indirect_effect_recipe(u8 arg0, u16 sampler, s32 second);
 s32 set_texture_num(s32 i);
 
 
@@ -213,7 +211,7 @@ void TUnk_8048E728::apply_particle_model_fade_color(s32 mode) {
 void TUnk_8048E728::draw_particle_refraction_quad() {
     Ctrl_80086248 *self = (Ctrl_80086248 *)this;
     Vec p;
-    Vtx_80086248 v[4];
+    ParticleStripVertex v[4];
     s32 frame;
     const f32 *uv;
     frame = self->frame;

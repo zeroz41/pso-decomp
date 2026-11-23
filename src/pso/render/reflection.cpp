@@ -25,7 +25,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/scene/TScene.h"
 #include "pso/unk/TUnk_804DC7C4.h"
-#include "pso/unk/text_803281B8.h"
+#include "pso/unk/TUnk_804ED5B0.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/system/task/TObject.h"
 #include "pso/math/MatrixVector.h"
@@ -90,7 +90,6 @@ s32 fn_8029E7BC(saddr arg0, u8 *arg1) {
 
 extern "C" {
 s32 GXSetScissor(s32, s32, s32, s32);
-s32 reset_ind_tev_stages__13TParticleCtrlFPv();
 }
 
 s32 push_player_reflection_matrix(u16 client_id, s32 clip) {
@@ -171,19 +170,20 @@ s32 set_reflection_scissor(void *point, s32 _w1) {
 }
 
 void reset_reflection_tev_stages() {
-    if (((uaddr) scene_sora_instance != 0U) && (((TSceneSora *)scene_sora_instance)->get_state() != 0U)) {
-        reset_ind_tev_stages__13TParticleCtrlFPv();
+    if (scene_sora_instance != NULL) {
+        // get_state() reads the word at 0x20, which is TUnk_804DC7C4::indirect_effect.
+        TUnk_804ED5B0 *indirect = (TUnk_804ED5B0 *)((TSceneSora *)scene_sora_instance)->get_state();
+        if (indirect != NULL) {
+            indirect->reset_ind_tev_stages();
+        }
     }
 }
 
-extern "C" s32 play_particle__13TParticleCtrlFls(u32, s32, s32);
-
-void play_reflection_particles(s32 effect_id) {
-    u32 temp_r31;
-    if ((uaddr) scene_sora_instance != 0U) {
-        temp_r31 = ((TSceneSora *)scene_sora_instance)->get_state();
-        if (temp_r31 != 0U) {
-            play_particle__13TParticleCtrlFls(temp_r31, 0, effect_id);
+void play_reflection_particles(s16 effect_id) {
+    if (scene_sora_instance != NULL) {
+        TUnk_804ED5B0 *indirect = (TUnk_804ED5B0 *)((TSceneSora *)scene_sora_instance)->get_state();
+        if (indirect != NULL) {
+            indirect->play_particle(0, effect_id);
         }
     }
 }
@@ -488,8 +488,6 @@ TUnk_804DC7C4::~TUnk_804DC7C4() {
 }
 
 TUnk_804DC7C4::TUnk_804DC7C4(TObject *parent) : TObject(parent) {
-    void *obj;
-
     scene_sora_reflect_active = 0;
     scene_sora_recon_active_flag = 0;
     if (scene_sora_instance != NULL) {
@@ -497,11 +495,7 @@ TUnk_804DC7C4::TUnk_804DC7C4(TObject *parent) : TObject(parent) {
     }
     scene_sora_instance = this;
     recon_object = scene_sora_recon_object;
-    obj = TObject::operator new(0x20);
-    if (obj != NULL) {
-        obj = construct_indirect_effect_task((u8 *)obj, 0x28, 1, (u8 *)tl_05);
-    }
-    indirect_effect = (TObject *)obj;
+    indirect_effect = new TUnk_804ED5B0(0x28, 1, tl_05);
     reflect_pos.x = 0.0f;
     reflect_pos.y = 0.0f;
     reflect_pos.z = 0.0f;

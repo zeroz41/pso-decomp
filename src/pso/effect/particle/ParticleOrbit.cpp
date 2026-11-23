@@ -21,7 +21,7 @@
 
 #include "types.h"
 #include <stdlib.h>
-#include "pso/effect/particle/TParticleCtrl_80327D30.h"
+#include "pso/unk/TUnk_804ED5B0.h"
 #include "pso/player/TObjPlayer_80083594.h"
 #include "pso/system/task/TObject.h"
 #include "pso/camera/TCameraCtrl.h"

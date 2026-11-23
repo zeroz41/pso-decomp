@@ -53,8 +53,6 @@ public:
     static void append_node_to_tail(void *list, void *node);
     static void reset_emitter_table();
     static void create_quad_sprites();
-    static void reset_ind_tev_stages(void * _w0);
-    void play_particle(s32 arg1, s16 arg2);
     static void reset_particles();
     static void setup_particle_draw(s32 arg0);
 public:

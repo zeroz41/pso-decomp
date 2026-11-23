@@ -37,6 +37,7 @@
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/camera/TCameraCtrl.h"
+#include "pso/unk/TUnk_804ED598.h"
 
 struct Stack_802340E4 {
     s32 sp8;
@@ -145,7 +146,6 @@ void write_telepipe_record(u8 *arg0, u16 arg1, s16 arg2, u8 *arg3, s32 arg4);
 void start_placement_search(saddr arg0, saddr arg1, saddr arg2);
 s32 are_players_gathered_near(void *arg0, s32 *arg1, f32 range);
 void offset_point_toward_camera(u8 *arg0, u8 *arg1, f32 farg0);
-u8 *create_telepipe_marker(u8 *arg0, saddr arg1, s8 arg2, s8 arg3, saddr arg4, s32 arg5, s32 arg6, f32 farg0, f32 farg1);
 int fn_80235078(void *arg0) {
     return (u8) (*(s32 *)((s8 *)arg0 + 0x0) == 2);
 }
@@ -429,7 +429,6 @@ TUnk_804CCA0C::TUnk_804CCA0C(Vec *at, u32 id, TObject *parent) : TObject(parent)
   Vec v2;
   long long off;
   CsnHit *hit;
-  void *p;
   const s32 *row;
   s32 i;
   const u8 *pt;
@@ -469,12 +468,7 @@ TUnk_804CCA0C::TUnk_804CCA0C(Vec *at, u32 id, TObject *parent) : TObject(parent)
   v2.y += 15.0f;
   if (is_split_screen() == 0)
   {
-    p = TObject::operator new(0x44);
-    if (p != 0)
-    {
-      p = create_telepipe_marker((u8 *)p, (saddr)&v2, (s8)(0x1F), (s8)(4), (saddr)tl_particlemodel, 0, 0, 1.9f, 1.9f);
-    }
-    marker = p;
+    marker = new TUnk_804ED598(&v2, 0x1F, 4, tl_particlemodel, 0, 0, 1.9f, 1.9f);
   }
   else
   {
