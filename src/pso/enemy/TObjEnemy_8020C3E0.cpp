@@ -41,9 +41,9 @@ s32 TLobby::clear_record_flags_a() {
     s32 i;
     s32 j;
     s32 k;
-    if (TLobby__data_805D6114 != NULL) {
+    if (current_floor_enemy_set_rows != NULL) {
         for (i = 0; i < current_floor_enemy_set_count; i++) {
-            TLobby__data_805D6114[i].flags = 0;
+            current_floor_enemy_set_rows[i].flags = 0;
         }
     }
     for (k = 0; k < 0x12; k++) {
@@ -59,9 +59,9 @@ s32 TLobby::clear_record_flags_b() {
     s32 i;
     s32 j;
     s32 k;
-    if (TLobby__data_805D610C != NULL) {
+    if (current_floor_object_set_rows != NULL) {
         for (i = 0; i < current_floor_object_set_count; i++) {
-            TLobby__data_805D610C[i].flags = 0;
+            current_floor_object_set_rows[i].flags = 0;
         }
     }
     for (k = 0; k < 0x12; k++) {

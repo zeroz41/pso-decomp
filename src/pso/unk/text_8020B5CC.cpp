@@ -14,10 +14,8 @@ extern TObject *tl_02;
 extern TObject *tl_05;
 extern TObject *tl_06;
 extern TObject *tl_07;
-void archive_pool_free(u32, void *);
-void *archive_pool_alloc(u32, u32);
-extern uaddr TLobby__data_805D6104;
-extern uaddr TLobby__data_805D6108;
+void archive_pool_free(void *pool, void *node);
+void *archive_pool_alloc(void *pool, u32 size);
 
 // The header is followed by the s16 flags of every object set, then of every enemy set.
 int TLobby__sub_8020B5CC(FloorSetFlagsPayload *buf) {
@@ -31,7 +29,7 @@ int TLobby__sub_8020B5CC(FloorSetFlagsPayload *buf) {
             FloorSavedSetRow *e = floor_enemy_group_table[i].object_rows;
             s32 n = floor_enemy_group_table[i].object_count;
             if (get_current_floor() == i) {
-                FloorObjectSetRow *s = TLobby__data_805D610C;
+                FloorObjectSetRow *s = current_floor_object_set_rows;
                 if (s != NULL) {
                     for (s32 j = 0; j < n; j++) {
                         s16 flags = s->flags & ~2;
@@ -60,7 +58,7 @@ int TLobby__sub_8020B5CC(FloorSetFlagsPayload *buf) {
             FloorSavedSetRow *e = floor_enemy_group_table[i].enemy_rows;
             s32 n = floor_enemy_group_table[i].enemy_count;
             if (get_current_floor() == i) {
-                EnemySetRecord *s = TLobby__data_805D6114;
+                EnemySetRecord *s = current_floor_enemy_set_rows;
                 if (s != NULL) {
                     for (s32 j = 0; j < n; j++) {
                         s16 flags = s->flags & ~2;
@@ -89,7 +87,7 @@ int TLobby__sub_8020B5CC(FloorSetFlagsPayload *buf) {
 #pragma push
 #pragma opt_propagation off
 s32 init_quest_floor_enemies(s32 idx, EnemySetRecord *src, u32 size) {
-    if (TLobby__data_805D6108 != 0 && TLobby__data_805D6104 != 0) {
+    if (floor_saved_row_heap != 0 && floor_set_archive_pool != 0) {
     uaddr sz = size;
     s32 n = (0, sz / 72);
     LobbyFloorRows *t = &floor_enemy_group_table[idx];
@@ -105,7 +103,7 @@ s32 init_quest_floor_enemies(s32 idx, EnemySetRecord *src, u32 size) {
         }
         s++;
     }
-    t->enemy_rows = (FloorSavedSetRow *)((THeap *)TLobby__data_805D6108)->heap_alloc(t->enemy_count * 8);
+    t->enemy_rows = (FloorSavedSetRow *)floor_saved_row_heap->heap_alloc(t->enemy_count * 8);
     memset(t->enemy_rows, 0, t->enemy_count * 8);
     s = src;
     d = t->enemy_rows;
@@ -118,19 +116,19 @@ s32 init_quest_floor_enemies(s32 idx, EnemySetRecord *src, u32 size) {
         }
         s++;
     }
-    if (TLobby__data_80513A40[idx].enemies != NULL) {
-        archive_pool_free(TLobby__data_805D6104, TLobby__data_80513A40[idx].enemies);
+    if (floor_set_archives[idx].enemies != NULL) {
+        archive_pool_free(floor_set_archive_pool, floor_set_archives[idx].enemies);
     }
-    TLobby__data_80513A40[idx].enemies = archive_pool_alloc(TLobby__data_805D6104, sz);
+    floor_set_archives[idx].enemies = archive_pool_alloc(floor_set_archive_pool, sz);
     if ((uaddr)src & 0x1F) {
         buf = TQuestVmDownLoadServer::alloc(sz);
         memcpy(buf, src, sz);
-        if (TLobby__data_80513A40[idx].enemies != NULL) {
-            TLobby::send_or_handle_packet((void *)TLobby__data_805D6104, (void *)buf, TLobby__data_80513A40[idx].enemies, (void *)sz, (u32)0);
+        if (floor_set_archives[idx].enemies != NULL) {
+            TLobby::send_or_handle_packet(floor_set_archive_pool, (void *)buf, floor_set_archives[idx].enemies, (void *)sz, (u32)0);
         }
         TAdSinglePlyChrSelectGC::safe_free((uaddr)buf);
-    } else if (TLobby__data_80513A40[idx].enemies != NULL) {
-        TLobby::send_or_handle_packet((void *)TLobby__data_805D6104, (void *)src, TLobby__data_80513A40[idx].enemies, (void *)sz, (u32)0);
+    } else if (floor_set_archives[idx].enemies != NULL) {
+        TLobby::send_or_handle_packet(floor_set_archive_pool, (void *)src, floor_set_archives[idx].enemies, (void *)sz, (u32)0);
     }
     return 1;
     }
@@ -141,7 +139,7 @@ s32 init_quest_floor_enemies(s32 idx, EnemySetRecord *src, u32 size) {
 #pragma push
 #pragma opt_propagation off
 s32 load_floor_enemy_group_entries__6TLobbyFiPvUi(s32 idx, FloorObjectSetRow *src, u32 size) {
-    if (TLobby__data_805D6108 != 0 && TLobby__data_805D6104 != 0) {
+    if (floor_saved_row_heap != 0 && floor_set_archive_pool != 0) {
     uaddr sz = size;
     s32 n = sz / 68;
     LobbyFloorRows *t = &floor_enemy_group_table[idx];
@@ -157,7 +155,7 @@ s32 load_floor_enemy_group_entries__6TLobbyFiPvUi(s32 idx, FloorObjectSetRow *sr
         }
         s++;
     }
-    t->object_rows = (FloorSavedSetRow *)((THeap *)TLobby__data_805D6108)->heap_alloc(t->object_count * 8);
+    t->object_rows = (FloorSavedSetRow *)floor_saved_row_heap->heap_alloc(t->object_count * 8);
     memset(t->object_rows, 0, t->object_count * 8);
     s = src;
     d = t->object_rows;
@@ -170,19 +168,19 @@ s32 load_floor_enemy_group_entries__6TLobbyFiPvUi(s32 idx, FloorObjectSetRow *sr
         }
         s++;
     }
-    if (TLobby__data_80513A40[idx].objects != NULL) {
-        archive_pool_free(TLobby__data_805D6104, TLobby__data_80513A40[idx].objects);
+    if (floor_set_archives[idx].objects != NULL) {
+        archive_pool_free(floor_set_archive_pool, floor_set_archives[idx].objects);
     }
-    TLobby__data_80513A40[idx].objects = archive_pool_alloc(TLobby__data_805D6104, sz);
+    floor_set_archives[idx].objects = archive_pool_alloc(floor_set_archive_pool, sz);
     if ((uaddr)src & 0x1F) {
         buf = TQuestVmDownLoadServer::alloc(sz);
         memcpy(buf, src, sz);
-        if (TLobby__data_80513A40[idx].objects != NULL) {
-            TLobby::send_or_handle_packet((void *)TLobby__data_805D6104, (void *)buf, TLobby__data_80513A40[idx].objects, (void *)sz, (u32)0);
+        if (floor_set_archives[idx].objects != NULL) {
+            TLobby::send_or_handle_packet(floor_set_archive_pool, (void *)buf, floor_set_archives[idx].objects, (void *)sz, (u32)0);
         }
         TAdSinglePlyChrSelectGC::safe_free((uaddr)buf);
-    } else if (TLobby__data_80513A40[idx].objects != NULL) {
-        TLobby::send_or_handle_packet((void *)TLobby__data_805D6104, (void *)src, TLobby__data_80513A40[idx].objects, (void *)sz, (u32)0);
+    } else if (floor_set_archives[idx].objects != NULL) {
+        TLobby::send_or_handle_packet(floor_set_archive_pool, (void *)src, floor_set_archives[idx].objects, (void *)sz, (u32)0);
     }
     return 1;
     }
@@ -193,7 +191,7 @@ s32 load_floor_enemy_group_entries__6TLobbyFiPvUi(s32 idx, FloorObjectSetRow *sr
 void TLobby__sub_8020BB18(void) {
     FloorObjectSetRow *p = floor_decoration_rows;
     s32 i;
-    for (i = 0; i < TLobby__data_805D6120; i++, p++) {
+    for (i = 0; i < floor_decoration_row_count; i++, p++) {
         if (p->object != 0) {
             TLobby::destroy_child_recursive(tl_02, p->object);
             TLobby::destroy_child_recursive(tl_05, p->object);

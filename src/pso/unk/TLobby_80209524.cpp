@@ -678,8 +678,8 @@ void TLobby__sub_8020A6B0(s32 player) {
     MapSetVariant *variants;
     MapSetEntry *entries;
 
-    variants = TLobby__data_805D6068[area].variants;
-    if (variants == NULL || TLobby__data_805D6068[area].count - 1 < terrain) {
+    variants = map_set_areas[area].variants;
+    if (variants == NULL || map_set_areas[area].count - 1 < terrain) {
         return;
     }
     entries = variants[terrain].entries;
@@ -761,7 +761,6 @@ s32 load_object_set_file(s32 idx, const char *filename) {
     return 1;
 }
 
-extern s16 TLobby__data_805D6134;
 
 void load_map_set_data(s32 idx, const char *filename) {
     map_set_data_handle_a = 0;
@@ -771,7 +770,7 @@ void load_map_set_data(s32 idx, const char *filename) {
     map_object_id_counter = 0;
     map_set_enemy_id_counter = 0;
     copy_name("SET");
-    TLobby__data_805D6134 = 0;
+    floor_set_flags = 0;
     if (TLobby::init_handle(0x8000) != 0) {
         load_object_set_file(idx, filename);
         load_enemy_set_file(idx, filename);
@@ -780,7 +779,7 @@ void load_map_set_data(s32 idx, const char *filename) {
         advance_enemy_id_counter((u16) map_set_enemy_id_counter);
         enemy_condition_count = next_enemy_set_actor_id;
         TLobby::free_data_60F0();
-        TLobby__data_805D6134 |= 1;
+        floor_set_flags |= 1;
     }
     copy_name("..");
 }
@@ -848,8 +847,8 @@ s32 load_area_enemy_set(s32 floor, s32 area, s32 terrain, s32 entities) {
     s32 i;
     MapSetVariant *t2;
     MapSetEntry *t3;
-    t2 = TLobby__data_805D6068[area].variants;
-    if (t2 == NULL || TLobby__data_805D6068[area].count - 1 < terrain) {
+    t2 = map_set_areas[area].variants;
+    if (t2 == NULL || map_set_areas[area].count - 1 < terrain) {
         TLobby::debug_print("NOT FOUND SET");
         return 0;
     }
@@ -914,8 +913,8 @@ s32 load_area_object_set(s32 arg0, saddr lobby, s32 terrain, s32 entities) {
     Rec_8020AD40 *r;
     s32 n;
     s32 i;
-    subs = TLobby__data_805D6068[lobby].variants;
-    if (subs == NULL || TLobby__data_805D6068[lobby].count - 1 < terrain) {
+    subs = map_set_areas[lobby].variants;
+    if (subs == NULL || map_set_areas[lobby].count - 1 < terrain) {
         TLobby::debug_print("NOT FOUND SET");
         return 0;
     }
@@ -1047,13 +1046,13 @@ void TLobby::load_set_gsl_files() {
     map_object_id_counter = 0;
     map_set_enemy_id_counter = 0;
     map_set_file_buffer_size = 0;
-    TLobby__data_805D6134 = 0;
+    floor_set_flags = 0;
     if (TLobby::init_handle(0x8000) != 0) {
         open_gsl_archive("gsl_set_object.gsl");
         if (TLobby::load_all_floor_object_sets() == 0) {
             close_gsl_archive();
             TLobby::free_data_60F0();
-            TLobby__data_805D6134 |= 1;
+            floor_set_flags |= 1;
             return;
         }
         close_gsl_archive();
@@ -1061,12 +1060,12 @@ void TLobby::load_set_gsl_files() {
         if (TLobby::load_all_floor_enemy_sets() == 0) {
             close_gsl_archive();
             TLobby::free_data_60F0();
-            TLobby__data_805D6134 |= 1;
+            floor_set_flags |= 1;
             return;
         }
         close_gsl_archive();
         TLobby::free_data_60F0();
-        TLobby__data_805D6134 |= 1;
+        floor_set_flags |= 1;
     }
 }
 
@@ -1111,13 +1110,13 @@ s32 TLobby::set_room_group_flags(s32 floor, s16 room, s16 group, s32 bits) {
 s32 TLobby::sum_floor_enemy_counts() {
     s32 sum = 0;
     s32 i;
-    for (i = 0; i < 18; i++) sum += TLobby__data_80513CC8[i];
+    for (i = 0; i < 18; i++) sum += floor_enemy_set_counts[i];
     return sum;
 }
 s32 TLobby__sub_8020B308(void) {
     s32 sum = 0;
     s32 i;
-    for (i = 0; i < 18; i++) sum += TLobby__data_80513C80[i];
+    for (i = 0; i < 18; i++) sum += floor_object_set_counts[i];
     return sum;
 }
 
@@ -1134,25 +1133,25 @@ FloorObjectSetRow *get_active_floor_object_rows(s32) { return get_loaded_object_
 // ---- pso/unk/text_8020B374
 s32 TLobby::init_floor_enemy_count(s32 floor, u8 *source, u32 size) {
     if (init_quest_floor_enemies(floor, (EnemySetRecord *)source, size) == 1) {
-        TLobby__data_80513CC8[floor] = size / 72U;
+        floor_enemy_set_counts[floor] = size / 72U;
         return 1;
     }
-    TLobby__data_80513CC8[floor] = -1;
+    floor_enemy_set_counts[floor] = -1;
     return 0;
 }
 
 s32 TLobby::load_object_set_entries(s32 arg0, u8 *rows, u32 byte_size) {
     if (TLobby::load_floor_enemy_group_entries(arg0, (FloorObjectSetRow *)rows, byte_size) == 1) {
-        TLobby__data_80513C80[arg0] = byte_size / 68U;
+        floor_object_set_counts[arg0] = byte_size / 68U;
         return 1;
     }
-    TLobby__data_80513C80[arg0] = -1;
+    floor_object_set_counts[arg0] = -1;
     return 0;
 }
 
-int TLobby::get_object_type(int a0) {  return TLobby__data_80513CC8[a0]; }
+int TLobby::get_object_type(int a0) {  return floor_enemy_set_counts[a0]; }
 
-int TLobby::get_obj_table_entry(int a0) {  return TLobby__data_80513C80[a0]; }
+int TLobby::get_obj_table_entry(int a0) {  return floor_object_set_counts[a0]; }
 
 // ---- pso/unk/text_8020B47C
 // Copies the received object and enemy set flags of every floor into the floor tables.

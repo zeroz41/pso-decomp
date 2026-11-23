@@ -454,7 +454,7 @@ s32 TLobby::get_drop_item_mode() {
 
 saddr load_relocatable_file(saddr name, saddr arg1);
 
-MapSetArea *TLobby__data_805D6068;
+MapSetArea *map_set_areas;
 // inferred: first word of the loaded SetDataTable*.rel module (update_drop_item/load_item_data)
 MapSetArea *forest_rel_set_data_table;
 // inferred: the SetDataTable*.rel module load_relocatable_file returns
@@ -476,7 +476,7 @@ void TLobby::update_drop_item() {
             if (temp_r3 != NULL) {
                 areas = temp_r3->areas;
                 forest_rel_set_data_table = areas;
-                TLobby__data_805D6068 = areas;
+                map_set_areas = areas;
             }
         }
     }
@@ -490,7 +490,7 @@ void TLobby__sub_802083C0(void) {
         forest_rel_work_buffer = 0U;
         forest_rel_module = 0;
         forest_rel_set_data_table = 0;
-        TLobby__data_805D6068 = 0;
+        map_set_areas = 0;
     }
 }
 }
@@ -530,7 +530,7 @@ void TLobby::load_item_data() {
             if (temp_r3_2 != NULL) {
                 areas = temp_r3_2->areas;
                 forest_rel_set_data_table = areas;
-                TLobby__data_805D6068 = areas;
+                map_set_areas = areas;
             }
         }
     }

@@ -28,7 +28,6 @@ struct VObj : VBase {
 };
 
 
-extern s32 TLobby__data_805D60FC;
 extern s32 TLobby__data_805D6144;
 
 s32 TLobby::link_matching_objects(s16 arg0, s16 arg1) {
@@ -41,11 +40,11 @@ s32 TLobby::link_matching_objects(s16 arg0, s16 arg1) {
     u8 *temp_r3_2;
 
     var_r30 = 0;
-    if ((s32) TLobby__data_805D60FC < 0) {
+    if ((s32) active_set_floor < 0) {
         return 0;
     }
-    row = reinterpret_cast<u8 *>(get_active_floor_enemy_rows(TLobby__data_805D60FC));
-    object_type = TLobby::get_object_type(TLobby__data_805D60FC);
+    row = reinterpret_cast<u8 *>(get_active_floor_enemy_rows(active_set_floor));
+    object_type = TLobby::get_object_type(active_set_floor);
     for (k = 0; k < object_type; k += 1, row += 0x48) {
         temp_r3 = *(s16 *)((s8 *)row + 2);
         if (!(temp_r3 & 8) && !(temp_r3 & 2) && ((s16) *(s16 *)((s8 *)row + 0xC) == arg0) && ((s16) *(s16 *)((s8 *)row + 0xE) == arg1)) {

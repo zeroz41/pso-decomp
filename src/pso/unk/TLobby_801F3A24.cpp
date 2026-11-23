@@ -2,6 +2,7 @@
 #include "pso/system/ResourceFile.h"
 #include "types.h"
 #include "pso/unk/TLobby_801F3A24.h"
+#include "pso/map/FloorPopulation.h"
 #include "pso/unk/TLobby_80207644.h"
 #include "pso/unk/TLobby_80207DA8.h"
 #include "pso/system/TGStream.h"
@@ -110,7 +111,6 @@ void TLobby::handle_msg_type1_for_idle_slots() {
 
 }
 
-extern s16 TLobby__data_805D6134;
 
 void TLobby::rebuild_all(u8 *quest) {
     TLobby__data_805D5EE0 = quest;
@@ -121,7 +121,7 @@ void TLobby::rebuild_all(u8 *quest) {
     TLobby::free_boss4rock();
     TLobby::rebuild_entry();
     TLobby::init_id_tables();
-    TLobby__data_805D6134 = 1;
+    floor_set_flags = 1;
     TLobby__data_805D5EE0 = NULL;
 }
 
@@ -351,7 +351,7 @@ void TLobby::update_and_reset(u8 *quest) {
     TLobby__data_805D5EE0 = quest;
     populate_quest_floor_sets();
     TLobby::init_id_tables();
-    TLobby__data_805D6134 = 1;
+    floor_set_flags = 1;
     TLobby__data_805D5EE0 = NULL;
 }
 
@@ -373,7 +373,7 @@ void TLobby::open_session(const char *path) {
             read_disc_file(path, quest);
             populate_quest_floor_sets();
             TLobby::init_id_tables();
-            TLobby__data_805D6134 = 1;
+            floor_set_flags = 1;
             TAdSinglePlyChrSelectGC::safe_free(reinterpret_cast<uaddr>(TLobby__data_805D5EE0));
             TLobby__data_805D5EE0 = NULL;
         }

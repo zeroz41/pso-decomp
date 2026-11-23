@@ -1,3 +1,4 @@
+#include "pso/map/FloorPopulation.h"
 #include "types.h"
 #include "pso/unk/TLobby_8020B334.h"
 #include "pso/unk/TLobby.h"
@@ -14,7 +15,6 @@ struct VObj8020 {
     virtual void m3();
     virtual void m4(s32, s32);
 };
-extern saddr TLobby__data_805D60FC;
 extern s32 quest_object_entries;
 
 s32 TLobby::spawn_objects_at_pos(s16 arg0, s16 arg1) {
@@ -27,8 +27,8 @@ s32 TLobby::spawn_objects_at_pos(s16 arg0, s16 arg1) {
     u8 *set_object;
 
     var_r30 = 0;
-    var_r29 = reinterpret_cast<u8 *>(get_active_floor_object_rows(TLobby__data_805D60FC));
-    obj_table_entry = TLobby::get_obj_table_entry(TLobby__data_805D60FC);
+    var_r29 = reinterpret_cast<u8 *>(get_active_floor_object_rows(active_set_floor));
+    obj_table_entry = TLobby::get_obj_table_entry(active_set_floor);
     for (k = 0; k < obj_table_entry; k++, var_r29 += 0x44) {
         temp_r3 = *(s16 *)((s8 *)var_r29 + 2);
         if (!(temp_r3 & 8) && !(temp_r3 & 2) && ((s16) *(s16 *)((s8 *)var_r29 + 0xC) == arg0) && ((s16) *(s16 *)((s8 *)var_r29 + 0xA) == arg1)) {

@@ -67,8 +67,8 @@ void handle_6x76_set_entity_set_flags(Pkt_8020BD50 *pkt) {
         }
         if (pkt->area == get_current_floor()) {
             for (i = 0; i < current_floor_enemy_set_count; i++) {
-                if (pkt->id == TLobby__data_805D6114[i].id) {
-                    TLobby__data_805D6114[i].flags |= pkt->flags;
+                if (pkt->id == current_floor_enemy_set_rows[i].id) {
+                    current_floor_enemy_set_rows[i].flags |= pkt->flags;
                     break;
                 }
             }
@@ -88,8 +88,8 @@ void handle_6x76_set_entity_set_flags(Pkt_8020BD50 *pkt) {
         }
         if (pkt->area == get_current_floor()) {
             for (i = 0; i < current_floor_object_set_count; i++) {
-                if (pkt->id == TLobby__data_805D610C[i].placement.entity_id) {
-                    TLobby__data_805D610C[i].flags |= pkt->flags;
+                if (pkt->id == current_floor_object_set_rows[i].placement.entity_id) {
+                    current_floor_object_set_rows[i].flags |= pkt->flags;
                     break;
                 }
             }
