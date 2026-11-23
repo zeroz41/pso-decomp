@@ -14,8 +14,8 @@ public:
     virtual ~TUnk_804999E8();
     f32 alpha;
     union {
-        s32 m_20;
-        u8 color[3];
+        s32 packed_color; // color[] as one word (inferred name)
+        u8 color[4];
     };
 };
 

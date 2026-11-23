@@ -5,7 +5,6 @@
 
 extern "C" {
 void run_task__13TUnk_80499988Fv(u8 *arg0);
-void *TLobby__sub_800F8498(void *arg0, void *arg1, s32 arg2, s32 arg3, u8 arg4, u8 arg5, u8 arg6, u8 arg7);
 void render__13TUnk_804999A0Fv(void);
 void run_task__13TUnk_804999B8Fv(u8 *arg0);
 void run_task__13TUnk_804999D0Fv(u8 *arg0);

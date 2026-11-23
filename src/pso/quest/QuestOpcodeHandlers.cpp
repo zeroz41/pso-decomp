@@ -41,6 +41,7 @@
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/unk/TLobby_8001D6A0.h"
 #include "pso/unk/text_800F7DAC.h"
+#include "pso/unk/TUnk_80499988.h"
 #include "pso/object/door/TObjDoor_801F3754.h"
 #include "pso/unk/TLobby_80207644.h"
 #include "pso/object/switch/TSwitch.h"
@@ -1143,10 +1144,7 @@ void qst_op_add_color_overlay() {
     s32 c = qst_args[2];
     s32 d = qst_args[3];
     s32 e = qst_args[4];
-    uaddr obj = ((u32 (*)(u32))__nw__7TObjectFUl)(0x30);
-    if (obj != 0) {
-        TLobby__sub_800F8498((void *)obj, (void *)(*(saddr *)&tl_01), 0, (s32)e, (u8)((u8)d), (u8)((u8)a), (u8)((u8)b), (u8)((u8)c));
-    }
+    new TUnk_80499988(tl_01, 0, e, d, a, b, c);
 }
 
 void qst_op_get_chosen_item_id(int a0) { qst_registers[(unsigned char)(a0)] = -1; qst_result_register = a0; qst_suspend_reason = QST_WAIT_ITEM_CHOICE; TWindowCtrl::set_flag_bit2(); close_window_if_active((void *)((*(saddr *)&local_client_id))); request_active_window_close(); TWindowCtrl::set_close_flag(); }

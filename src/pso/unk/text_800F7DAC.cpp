@@ -36,31 +36,14 @@ struct Fade_800F7E28 {
     } u;
 };
 
-struct Quad_800F88D8 {
-    f32 *pos;
-    u32 *col;
-    s32 start;
-    s32 count;
-};
-
-struct Fade_800F88D8 {
-    u8 pad[0x1C];
-    f32 level;
-    union {
-        u32 color;
-        u8 c[4];
-    } u;
-};
 extern "C" {
 
 void __ct__13TUnk_804999E8FP7TObject(void *, void *);
 u32 prs_decompress_buffer(s32 arg0, s32 arg1);
-void * TLobby__sub_800F8498(void *arg0, void *arg1, s32 arg2, s32 arg3, u8 arg4, u8 arg5, u8 arg6, u8 arg7);
 void __ct__7TObjectFP7TObject(void *);
 s32 TWindowCtrlMain__sub_8024CD5C(s32 viewport_index);
 u32 prs_decompress(int, int, int, int);
 
-extern s32 __vt__13TUnk_80499988[];
 extern s32 __vt__13TUnk_804999A0[];
 void * screen_fade_controller;
 extern s32 local_client_id;
@@ -69,8 +52,7 @@ extern s32 local_client_id;
 #pragma defer_codegen on
 
 void TUnk_804999E8::render() {
-    Fade_800F88D8 *self = (Fade_800F88D8 *)this;
-    Quad_800F88D8 q;
+    Quad_800F7E28 q;
     u32 col[4];
     f32 pos[8];
 
@@ -81,20 +63,20 @@ void TUnk_804999E8::render() {
     q.col = col;
     q.start = 0;
     q.count = 4;
-    self->u.c[3] = (s32)self->level;
+    color[3] = (s32)alpha;
     q.pos[0] = (0.0f);
     q.pos[1] = (0.0f);
-    q.col[0] = self->u.color;
+    q.col[0] = packed_color;
     q.pos[2] = (6.4e+02f);
     q.pos[3] = (0.0f);
-    q.col[1] = self->u.color;
+    q.col[1] = packed_color;
     q.pos[4] = (6.4e+02f);
     q.pos[5] = (4.8e+02f);
-    q.col[2] = self->u.color;
+    q.col[2] = packed_color;
     q.pos[6] = (0.0f);
     q.pos[7] = (4.8e+02f);
-    q.col[3] = self->u.color;
-    if ((0.0f) != (f32)self->u.c[3]) {
+    q.col[3] = packed_color;
+    if ((0.0f) != (f32)color[3]) {
         draw_polygon_2d((NJS_POINT2COL *)&q, 4, 0x16, (-1e+01f));
     }
     TCameraCtrl::restore_saved_view();
@@ -167,28 +149,25 @@ void TUnk_804999A0::run_task() {
         this->suspend_update();
     }
     *(s8 *)((s8 *)arg0 + 0x23) = (s8) this->alpha;
-    TWindowCtrlMain::set_value((s32)(*(s32 *)((s8 *)arg0 + 0x24)), this->m_20);
+    TWindowCtrlMain::set_value((s32)(*(s32 *)((s8 *)arg0 + 0x24)), this->packed_color);
 }
 
 void TUnk_804999A0::render() {  }
 
-void *TLobby__sub_800F8498(void *arg0, void *arg1, s32 arg2, s32 arg3, u8 arg4, u8 arg5, u8 arg6, u8 arg7) {
+TUnk_80499988::TUnk_80499988(TObject *parent, s32 unk_1C, s32 duration, u8 c3, u8 c0, u8 c1, u8 c2) : TObject(parent) {
     u32 c;
-    ((void (*)(void *, void *))__ct__7TObjectFP7TObject)(arg0, arg1);
-    *(s32 **)((s8 *)arg0 + 0x18) = (s32 *)__vt__13TUnk_80499988;
-    *(s32 *)((s8 *)arg0 + 0x1C) = arg2;
-    *(s32 *)((s8 *)arg0 + 0x20) = 0;
-    *(s32 *)((s8 *)arg0 + 0x24) = arg3;
+    this->unk_1C = unk_1C;
+    frame = 0;
+    this->duration = duration;
     c = TWindowCtrlMain__sub_8024CD5C(local_client_id);
-    *(u8 *)((s8 *)arg0 + 0x2B) = c;
-    *(u8 *)((s8 *)arg0 + 0x2A) = c >> 8;
-    *(u8 *)((s8 *)arg0 + 0x29) = c >> 16;
-    *(u8 *)((s8 *)arg0 + 0x28) = c >> 24;
-    *(u8 *)((s8 *)arg0 + 0x2F) = arg4;
-    *(u8 *)((s8 *)arg0 + 0x2C) = arg5;
-    *(u8 *)((s8 *)arg0 + 0x2D) = arg6;
-    *(u8 *)((s8 *)arg0 + 0x2E) = arg7;
-    return arg0;
+    start_color[3] = c;
+    start_color[2] = c >> 8;
+    start_color[1] = c >> 16;
+    start_color[0] = c >> 24;
+    target_color[3] = c3;
+    target_color[0] = c0;
+    target_color[1] = c1;
+    target_color[2] = c2;
 }
 
 TUnk_80499988::~TUnk_80499988() {
@@ -196,11 +175,11 @@ TUnk_80499988::~TUnk_80499988() {
 }
 
 void TUnk_80499988::run_task() {
-    s32 temp_r3;
-    TWindowCtrlMain::set_value((s32)local_client_id, (s32)(this->sub_800F8250((f32) this->m_20 / (f32) *(s32 *)((s8 *)((u8 *)this) + 0x24))));
-    temp_r3 = this->m_20 + 1;
-    this->m_20 = temp_r3;
-    if (temp_r3 > (s32) *(s32 *)((s8 *)((u8 *)this) + 0x24)) {
+    s32 next;
+    TWindowCtrlMain::set_value((s32)local_client_id, (s32)(this->sub_800F8250((f32)frame / (f32)duration)));
+    next = frame + 1;
+    frame = next;
+    if (next > duration) {
         queue_destruction();
     }
 }
@@ -213,11 +192,11 @@ s32 TUnk_80499988::sub_800F8250(f32 farg0) {
     u8 temp_r12;
     u8 temp_r31;
 
-    temp_r10 = *(u8 *)((s8 *)this + 0x29);
-    temp_r12 = *(u8 *)((s8 *)this + 0x2A);
-    temp_r11 = *(u8 *)((s8 *)this + 0x28);
-    temp_r31 = *(u8 *)((s8 *)this + 0x2B);
-    return (((((((s32) ((farg0 * (f32) (*(u8 *)((s8 *)this + 0x2C) - temp_r11)) + (f32) temp_r11) << 0x18)) | (((s32) ((farg0 * (f32) (*(u8 *)((s8 *)this + 0x2D) - temp_r10)) + (f32) temp_r10) << 0x10) & 0xFF0000 & ~0xFF000000)) & ~0xFF00) | (((s32) ((farg0 * (f32) (*(u8 *)((s8 *)this + 0x2E) - temp_r12)) + (f32) temp_r12) << 8) & 0xFF00)) & ~0xFF) | ((s32) ((farg0 * (f32) (*(u8 *)((s8 *)this + 0x2F) - temp_r31)) + (f32) temp_r31) & 0xFF);
+    temp_r10 = start_color[1];
+    temp_r12 = start_color[2];
+    temp_r11 = start_color[0];
+    temp_r31 = start_color[3];
+    return (((((((s32) ((farg0 * (f32) (target_color[0] - temp_r11)) + (f32) temp_r11) << 0x18)) | (((s32) ((farg0 * (f32) (target_color[1] - temp_r10)) + (f32) temp_r10) << 0x10) & 0xFF0000 & ~0xFF000000)) & ~0xFF00) | (((s32) ((farg0 * (f32) (target_color[2] - temp_r12)) + (f32) temp_r12) << 8) & 0xFF00)) & ~0xFF) | ((s32) ((farg0 * (f32) (target_color[3] - temp_r31)) + (f32) temp_r31) & 0xFF);
 }
 #pragma pop
 
