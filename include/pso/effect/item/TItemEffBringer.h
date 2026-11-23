@@ -5,17 +5,20 @@
 #include "types.h"
 #include "dolphin/mtx.h"
 
+// A Bringer's rifle shot: a row of particles along the shot's step, more of them the
+// more the shot crosses the view.
 class TItemEffBringer : public TItemShoot {
 public:
- void *m_particles[10];
- s32 m_particle_count;
- Vec m_84;
-
-public:
+    TItemEffBringer(void *owner, const Vec *pos, const Vec *dir, f32 life);
     virtual ~TItemEffBringer();
     virtual void hook();
-public:
-    static void *create(u32 arg0, saddr arg1, s32 arg2, f32 farg0);
+
+    static void *create(u32 owner, saddr pos, s32 dir, f32 life);
+    static const char *class_name;
+
+    void *particles[10];
+    s32 particle_count;
+    Vec particle_step;  // the shot's step divided among the particles
 };
 
 #endif
