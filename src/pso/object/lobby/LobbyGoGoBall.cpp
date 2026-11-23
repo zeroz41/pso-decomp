@@ -290,11 +290,12 @@ s16 TWindowTimer::get_timer_value(s32 i) {
 void TWindowTimer__sub_8019A6F8(void* p) { *(u8*)((char*)p + 0x0) = 121; *(u8*)((char*)p + 0x1) = 6; }
 
 void bswap_6x79_gogo_ball__12TWindowTimerFi(saddr packet) {
-    ((G_ClientIDHeader *)packet)->bswap();
-    bswap_32((u32 *)(packet + 4));
-    bswap_32((u32 *)(packet + 8));
-    bswap_32((u32 *)(packet + 0xC));
-    bswap_32((u32 *)(packet + 0x10));
+    G_GoGoBall_6x79 *cmd = (G_GoGoBall_6x79 *)packet;
+    cmd->header.bswap();
+    bswap_32((u32 *)&cmd->sequence);
+    bswap_32((u32 *)&cmd->angle);
+    bswap_32((u32 *)&cmd->x);
+    bswap_32((u32 *)&cmd->z);
 }
 
 void TWindowTimer::send_gogo_ball() {
@@ -755,15 +756,16 @@ void TObjPlayer__sub_801994DC(saddr arg0, void *pos, void *dir, s32 angle, void 
     pop_matrix();
 }
 
-void handle_6x79_gogo_ball(u8 *arg0) {
+void handle_6x79_gogo_ball(u8 *packet) {
+    G_GoGoBall_6x79 *cmd = (G_GoGoBall_6x79 *)packet;
     bswap_6x79_gogo_ball__12TWindowTimerFi();
     gogo_ball_sync_state.applied = 0;
-    gogo_ball_sync_state.position.x = *(f32 *)((s8 *)arg0 + 0xC);
+    gogo_ball_sync_state.position.x = cmd->x;
     gogo_ball_sync_state.position.y = 0.0f;
-    gogo_ball_sync_state.position.z = *(f32 *)((s8 *)arg0 + 0x10);
-    gogo_ball_sync_state.angle = *(s32 *)((s8 *)arg0 + 8);
-    gogo_ball_sync_state.mode = *(u8 *)((s8 *)arg0 + 0x14);
-    gogo_ball_sync_state.sequence = *(s32 *)((s8 *)arg0 + 4);
+    gogo_ball_sync_state.position.z = cmd->z;
+    gogo_ball_sync_state.angle = cmd->angle;
+    gogo_ball_sync_state.mode = cmd->mode;
+    gogo_ball_sync_state.sequence = cmd->sequence;
 }
 
 

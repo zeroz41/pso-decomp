@@ -3,6 +3,18 @@
 
 #include "types.h"
 #include "dolphin/mtx/GeoTypes.h"
+#include "pso/network/protocol/protocol_types.h"
+
+// 6x79: where the lobby Go-Go ball was thrown from.
+struct G_GoGoBall_6x79 {
+    G_ClientIDHeader header;
+    s32 sequence;
+    s32 angle;
+    f32 x;
+    f32 z;
+    u8 mode;
+};
+LAYOUT_ASSERT(G_GoGoBall_6x79_size, sizeof(G_GoGoBall_6x79) == 0x18);
 
 // The lobby Go-Go ball as last received from the 6x79 subcommand, plus the goals it scored.
 struct GoGoBallSyncState {
