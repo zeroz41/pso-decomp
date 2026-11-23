@@ -8,21 +8,21 @@
 
 
 // The spread of the five needles (launch_shot angles).
-const s32 lbl_8043E968[6] = {0, 2184, -2184, 4551, -4551, 0};
+const s32 needle_spread_angles[6] = {0, 2184, -2184, 4551, -4551, 0};
 
 void TUnk_804A4648::emit_marker_effects() {
     WeaponVector pos;
     TObjPlayer__sub_80128A70();
     get_joint_position(1, &pos);
-    launch_shot((u8 *)&pos, 0, lbl_8043E968[0], 1);
+    launch_shot((u8 *)&pos, 0, needle_spread_angles[0], 1);
     get_joint_position(1, &pos);
-    launch_shot((u8 *)&pos, 1, lbl_8043E968[1], 1);
+    launch_shot((u8 *)&pos, 1, needle_spread_angles[1], 1);
     get_joint_position(1, &pos);
-    launch_shot((u8 *)&pos, 2, lbl_8043E968[2], 1);
+    launch_shot((u8 *)&pos, 2, needle_spread_angles[2], 1);
     get_joint_position(1, &pos);
-    launch_shot((u8 *)&pos, 3, lbl_8043E968[3], 1);
+    launch_shot((u8 *)&pos, 3, needle_spread_angles[3], 1);
     get_joint_position(1, &pos);
-    launch_shot((u8 *)&pos, 4, lbl_8043E968[4], 1);
+    launch_shot((u8 *)&pos, 4, needle_spread_angles[4], 1);
 }
 
 TUnk_804A4648::TUnk_804A4648(TObject *parent, u8 *item) : TUnk_804A4948(parent, item) {

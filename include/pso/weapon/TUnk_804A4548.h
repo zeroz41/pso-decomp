@@ -3,7 +3,7 @@
 #include "types.h"
 #include "pso/weapon/TUnk_804A4948.h"
 
-// The S-rank bazooka-type weapon class (vtable 0x804A4548): after a shot
+// The S-rank bazooka-type weapon class: after a shot
 // (vfunc_62) update_weapon slides the barrel back and returns it.
 class TUnk_804A4548 : public TUnk_804A4948 {
 public:

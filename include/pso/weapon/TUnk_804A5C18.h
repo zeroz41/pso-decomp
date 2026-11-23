@@ -3,7 +3,7 @@
 #include "types.h"
 #include "pso/weapon/TItemWeapon.h"
 
-// A five-muzzle gun weapon class (vtable 0x804A5C18; old names
+// A five-muzzle gun weapon class (old names
 // TObjPlayer::apply_frame_camera_shake, TObjPlayer::update_approach_value,
 // construct_shot_weapon): emit_marker_effects fires a shot from each muzzle
 // joint; update_idle/update_attack open and close barrel_angle and

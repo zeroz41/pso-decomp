@@ -4,7 +4,7 @@
 #include "pso/weapon/TItemWeapon.h"
 #include "pso/player/TargetCursorList.h"
 
-// Weapon class with vtable 0x804A65E0 (old ctor name TObjPlayer::initialize_effect_object):
+// Weapon class (old ctor name TObjPlayer::initialize_effect_object):
 // its special casts Gizonde from joint 0 at the owner's captured targets. Made by
 // TObjPlayer::create_effect_object.
 class TUnk_804A65E0 : public TItemWeapon {

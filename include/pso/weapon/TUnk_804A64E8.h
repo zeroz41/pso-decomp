@@ -4,7 +4,7 @@
 #include "pso/weapon/TItemWeapon.h"
 #include <dolphin/mtx/GeoTypes.h>
 
-// Slicer weapon class with vtable 0x804A64E8 (old ctor name init_position_state): its special
+// Slicer weapon class (old ctor name init_position_state): its special
 // throws TTecSlicer from joints 5 and 4. Made by TObjPlayer::create_position_state.
 class TUnk_804A64E8 : public TItemWeapon {
 public:

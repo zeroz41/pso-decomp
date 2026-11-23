@@ -3,7 +3,7 @@
 #include "types.h"
 #include "pso/weapon/TItemWeapon.h"
 
-// The Yamigarasu weapon class (vtable 0x804A3738; old names
+// The Yamigarasu weapon class (old names
 // yamigarasu_start_timers, init_vtable_804A3738): its equip hook (slot 57) starts the
 // confusion curse timer and a 90-frame timer event on the equip effect
 // objects. Made by yamigarasu_create.

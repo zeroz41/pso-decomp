@@ -10,6 +10,6 @@ public:
     virtual void emit_marker_effects();
 };
 
-TItem *create_agito_weapon(u8 *arg0);
+TItem *create_agito_weapon(u8 *item);
 
 #endif

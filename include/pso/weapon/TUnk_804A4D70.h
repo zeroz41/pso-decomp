@@ -3,7 +3,7 @@
 #include "types.h"
 #include "pso/weapon/TItemWeapon.h"
 
-// The partisan weapon class (vtable 0x804A4D70, partisan_weapon_vtable
+// The partisan weapon class (partisan_weapon_vtable
 // before; written as TItemWeaponPartisan): item index 6 spends meseta for
 // its special and spins rotation with the owner's meseta, index 5 slides
 // and scales its model nodes. Made by create_partisan_weapon.

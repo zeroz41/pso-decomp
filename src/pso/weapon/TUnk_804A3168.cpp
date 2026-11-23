@@ -10,13 +10,12 @@
 
 
 void TUnk_804A3168::emit_marker_effects() {
-    saddr arg0 = (saddr)this;
     if (is_mode_two_and_ready() != 0) {
-        ((TItemWeapon *)arg0)->drain_owner_hp_fraction(0.05f);
-        ((TItemWeapon *)arg0)->launch_rare_weapon_special(0, 1, 1.1666666f);
+        drain_owner_hp_fraction(0.05f);
+        launch_rare_weapon_special(0, 1, 1.1666666f);
         return;
     }
-    ((TItemWeapon *)arg0)->update_active_game_effect();
+    update_active_game_effect();
 }
 
 

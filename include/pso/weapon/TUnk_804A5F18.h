@@ -3,7 +3,7 @@
 #include "types.h"
 #include "pso/weapon/TItemWeapon.h"
 
-// The S-Red's Blade weapon class (vtable 0x804A5F18; old names
+// The S-Red's Blade weapon class (old names
 // TObjPlayer::cast_shifta_deband, s_red_blade_equip_rolls,
 // s_red_blade_turn_node, TObjPlayer::init_variant_a): emit_marker_effects
 // casts Deband or Shifta on the owner, update_idle/update_attack swing

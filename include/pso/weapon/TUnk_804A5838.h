@@ -3,7 +3,7 @@
 #include "types.h"
 #include "pso/weapon/TItemWeapon.h"
 
-// The Soul Eater weapon class (vtable 0x804A5838; old names
+// The Soul Eater weapon class (old names
 // construct_soul_eater_weapon, TObjPlayer::trigger_megid_special):
 // update_attack swings rotation_z over the attack's frames, the model hook (slot 60) turns
 // model node 0 by it, emit_marker_effects casts Megid from joint 2 and

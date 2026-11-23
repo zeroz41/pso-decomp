@@ -14,7 +14,7 @@ public:
     virtual void on_equipped();
     virtual void deliver_hit(TObjPlayer *attacker, TObjChara *target, s32 attack_kind, f32 scale, s32 body);
     void set_special_selector(u8);
-    // First virtual of its own; the empty base body sits at the end of TUnk_804A3A20's text (0x801283B8).
+    // First virtual of its own; the empty base body sits at the end of TUnk_804A3A20's text.
     virtual void vfunc_62();
 
     s32 kind;  // get_item_index()

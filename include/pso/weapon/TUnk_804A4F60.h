@@ -5,7 +5,7 @@
 #include "pso/player/TargetCursorList.h"
 #include <dolphin/mtx/GeoTypes.h>
 
-// The Psycho Wand weapon class (vtable 0x804A4F60; old names psycho_wand_ct,
+// The Psycho Wand weapon class (old names psycho_wand_ct,
 // psycho_wand_equip/unequip, psycho_wand_node_callback): refunds spent TP
 // out of the owner's HP, and its extra technique roll casts Zonde, Foie or
 // Barta from joint 4 at the owner's first locked target. Made by

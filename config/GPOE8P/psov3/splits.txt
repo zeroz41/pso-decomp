@@ -2528,7 +2528,7 @@ pso/weapon/TUnk_804A0BC0.cpp:
 	.data       start:0x804A0BC0 end:0x804A0CB8
 	.sdata2     start:0x805DACC8 end:0x805DACD0
 
-pso/weapon/TUnk_804A0CB8.cpp:
+pso/weapon/TItemWeaponBelraCannon.cpp:
 	.text       start:0x80121CB8 end:0x80122014
 	.data       start:0x804A0CB8 end:0x804A0DB0
 	.sdata2     start:0x805DACD0 end:0x805DACD8
@@ -2565,7 +2565,7 @@ pso/weapon/TUnk_804A1380.cpp:
 	.text       start:0x80122B74 end:0x80122CDC
 	.data       start:0x804A1380 end:0x804A1478
 
-pso/weapon/TUnk_804A1478.cpp:
+pso/weapon/TItemWeaponWand.cpp:
 	.text       start:0x80122CDC end:0x80122E24
 	.data       start:0x804A1478 end:0x804A1570
 
@@ -2578,7 +2578,7 @@ pso/weapon/TUnk_804A1668.cpp:
 	.text       start:0x80123044 end:0x80123184
 	.data       start:0x804A1668 end:0x804A1760
 
-pso/weapon/TUnk_804A1760.cpp:
+pso/weapon/TItemWeaponTwinChakram.cpp:
 	.text       start:0x80123184 end:0x8012327C
 	.data       start:0x804A1760 end:0x804A1858
 
@@ -2599,7 +2599,7 @@ pso/weapon/TUnk_804A1B40.cpp:
 	.text       start:0x80123864 end:0x801239A8
 	.data       start:0x804A1B40 end:0x804A1C38
 
-pso/weapon/TUnk_804A1C38.cpp:
+pso/weapon/TItemWeaponClaw.cpp:
 	.text       start:0x801239A8 end:0x80123AE8
 	.data       start:0x804A1C38 end:0x804A1D30
 
@@ -2614,7 +2614,7 @@ pso/weapon/TUnk_804A1E28.cpp:
 	.data       start:0x804A1E28 end:0x804A1F20
 	.sdata2     start:0x805DAD20 end:0x805DAD24
 
-pso/weapon/TUnk_804A1F20.cpp:
+pso/weapon/TItemWeaponDelsabersBuster.cpp:
 	.text       start:0x80123F88 end:0x801240C0
 	.data       start:0x804A1F20 end:0x804A2018
 
@@ -2673,7 +2673,7 @@ pso/weapon/TUnk_804A2960.cpp:
 	.data       start:0x804A2960 end:0x804A2A58
 	.sdata2     start:0x805DAD70 end:0x805DAD78
 
-pso/weapon/TUnk_804A2A58.cpp:
+pso/weapon/TItemWeaponBaranzLauncher.cpp:
 	.text       start:0x80126460 end:0x80126798
 	.data       start:0x804A2A58 end:0x804A2B50
 	.sdata2     start:0x805DAD78 end:0x805DAD80
@@ -2684,7 +2684,7 @@ pso/weapon/TItemWeaponFist.cpp:
 	.sbss       start:0x805D5518 end:0x805D5520
 	.sdata2     start:0x805DAD80 end:0x805DAD98
 
-pso/weapon/TUnk_804A2C90.cpp:
+pso/weapon/TItemWeaponHandgun.cpp:
 	.text       start:0x80126AE4 end:0x80126D30
 	.data       start:0x804A2C90 end:0x804A2E80
 
@@ -2730,7 +2730,7 @@ pso/weapon/TUnk_804A3640.cpp:
 	.text       start:0x80127BE0 end:0x80127DC4
 	.data       start:0x804A3640 end:0x804A3738
 
-pso/weapon/TUnk_804A3738.cpp:
+pso/weapon/TItemWeaponYamigarasu.cpp:
 	.text       start:0x80127DC4 end:0x80127F8C
 	.data       start:0x804A3738 end:0x804A3830
 	.sdata2     start:0x805DADD8 end:0x805DADDC
@@ -2760,7 +2760,7 @@ pso/weapon/TUnk_804A3D20.cpp:
 	.text       start:0x80128630 end:0x80128728
 	.data       start:0x804A3D20 end:0x804A3E20
 
-pso/weapon/TUnk_804A3E20.cpp:
+pso/weapon/TItemWeaponSRankHarisen.cpp:
 	.text       start:0x80128728 end:0x801288A0
 	.data       start:0x804A3E20 end:0x804A3F20
 	.sdata2     start:0x805DADF0 end:0x805DADF8
@@ -2780,12 +2780,12 @@ pso/weapon/TUnk_804A4138.cpp:
 	.data       start:0x804A4138 end:0x804A4238
 	.sdata2     start:0x805DAE00 end:0x805DAE18
 
-pso/weapon/TUnk_804A4238.cpp:
+pso/weapon/TItemWeaponSRankJCutter.cpp:
 	.text       start:0x801293FC end:0x80129648
 	.data       start:0x804A4238 end:0x804A4338
 	.sdata2     start:0x805DAE18 end:0x805DAE30
 
-pso/weapon/TUnk_804A4338.cpp:
+pso/weapon/TItemWeaponSRankSlicer.cpp:
 	.text       start:0x80129648 end:0x8012981C
 	.data       start:0x804A4338 end:0x804A4438
 	.sdata2     start:0x805DAE30 end:0x805DAE40
@@ -2872,7 +2872,7 @@ pso/weapon/TUnk_804A5458.cpp:
 	.text       start:0x8012CA20 end:0x8012CB84
 	.data       start:0x804A5458 end:0x804A5550
 
-pso/weapon/TUnk_804A5550.cpp:
+pso/weapon/TItemWeaponSaber.cpp:
 	.text       start:0x8012CB84 end:0x8012CCCC
 	.data       start:0x804A5550 end:0x804A5648
 
@@ -2891,12 +2891,12 @@ pso/weapon/TUnk_804A5838.cpp:
 	.data       start:0x804A5838 end:0x804A5930
 	.sdata2     start:0x805DAF00 end:0x805DAF1C
 
-pso/weapon/TUnk_804A5930.cpp:
+pso/weapon/TItemWeaponSealedJSword.cpp:
 	.text       start:0x8012D468 end:0x8012D708
 	.data       start:0x804A5930 end:0x804A5A28
 	.sdata2     start:0x805DAF20 end:0x805DAF24
 
-pso/weapon/TUnk_804A5A28.cpp:
+pso/weapon/TItemWeaponFlightCutter.cpp:
 	.text       start:0x8012D708 end:0x8012D900
 	.data       start:0x804A5A28 end:0x804A5B20
 	.sdata2     start:0x805DAF28 end:0x805DAF38
@@ -2927,7 +2927,7 @@ pso/weapon/TUnk_804A5F18.cpp:
 	.text       start:0x8012EAA8 end:0x8012ECFC
 	.data       start:0x804A5F18 end:0x804A6010
 
-pso/weapon/TUnk_804A6010.cpp:
+pso/weapon/TItemWeaponTwinkleStar.cpp:
 	.text       start:0x8012ECFC end:0x8012EEC0
 	.data       start:0x804A6010 end:0x804A6108
 
@@ -2940,7 +2940,7 @@ pso/weapon/TUnk_804A6200.cpp:
 	.data       start:0x804A6200 end:0x804A62F8
 	.sdata2     start:0x805DAF98 end:0x805DAFB4
 
-pso/weapon/TUnk_804A62F8.cpp:
+pso/weapon/TItemWeaponSword.cpp:
 	.text       start:0x8012F2F0 end:0x8012F4D0
 	.data       start:0x804A62F8 end:0x804A63F0
 
@@ -10179,7 +10179,7 @@ pso/enemy/epsilon/TObjEneEpsilon.cpp:
 	.sbss       start:0x805D6FA0 end:0x805D6FAC
 	.sdata2     start:0x805E0248 end:0x805E0258
 
-pso/weapon/TUnk_804F26E0.cpp:
+pso/weapon/TItemWeaponSRankKnuckle.cpp:
 	.text       start:0x80362C28 end:0x80362DE8
 	.data       start:0x804F26E0 end:0x804F27DC
 	.sdata2     start:0x805E0258 end:0x805E0260

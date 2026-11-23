@@ -3,7 +3,7 @@
 #include "types.h"
 #include "pso/weapon/TItemWeapon.h"
 
-// Weapon class with vtable 0x804A62F8, made by create_sword_weapon (old ctor name
+// Weapon class made by create_sword_weapon (old ctor name
 // TObjPlayer::init_from_item).
 class TUnk_804A62F8 : public TItemWeapon {
 public:

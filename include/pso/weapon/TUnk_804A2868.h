@@ -4,7 +4,7 @@
 #include "types.h"
 #include "pso/weapon/TItemWeapon.h"
 
-// The weapon class whose effect descriptor carries spawn_flame_effect (vtable 0x804A2868).
+// The weapon class whose effect descriptor carries spawn_flame_effect.
 // Made by TObjPlayer__sub_80126054 (weapon_factory_table+0x54).
 class TUnk_804A2868 : public TItemWeapon {
 public:

@@ -18,6 +18,6 @@ public:
     u8 pad_1fe[0x2];
 };
 
-TItem *dark_bridge_create(u8 *arg0);
+TItem *dark_bridge_create(u8 *item);
 
 #endif

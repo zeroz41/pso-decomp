@@ -3,7 +3,7 @@
 #include "types.h"
 #include "pso/weapon/TItemWeapon.h"
 
-// Needle-shooting weapon class with vtable 0x804A5E20 (old ctor name init_state_2): fires five
+// Needle-shooting weapon class (old ctor name init_state_2): fires five
 // needles from joint 1. Made by TObjPlayer::create_init_state_2.
 class TUnk_804A5E20 : public TItemWeapon {
 public:

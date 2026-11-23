@@ -26,9 +26,10 @@ struct SlicerLaunchState {
 };
 
 // The defaults of a SlicerLaunchState. TUnk_804A4238.cpp keeps the copy the
-// game links (0x801295FC); TUnk_804A5B20's TU compiled this inline body too:
+// game links; TUnk_804A5B20's TU compiled this inline body too:
 // its literal pool opens with these 1.0/0.0, emitted with the weak copy right
 // after emit_marker_effects, ahead of update_idle's literals.
+#ifndef SLICER_LAUNCH_STATE_OUT_OF_LINE
 inline void init_slicer_launch_state(void *state) {
     SlicerLaunchState *s = (SlicerLaunchState *)state;
     s->player_id = 0xFFFF;
@@ -43,5 +44,8 @@ inline void init_slicer_launch_state(void *state) {
     s->color.a = 0.0f;
     s->spin_velocity = -0x2AAA;
 }
+#else
+void init_slicer_launch_state(void *state);
+#endif
 
 #endif

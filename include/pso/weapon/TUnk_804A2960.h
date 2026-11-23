@@ -3,7 +3,7 @@
 #include "types.h"
 #include "pso/weapon/TItemWeapon.h"
 
-// The frozen shooter weapon class (vtable 0x804A2960), made by frozen_shooter_create.
+// The frozen shooter weapon class, made by frozen_shooter_create.
 class TUnk_804A2960 : public TItemWeapon {
 public:
     TUnk_804A2960(TObject *parent, u8 *item);

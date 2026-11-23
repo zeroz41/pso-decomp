@@ -18,6 +18,6 @@ public:
 };
 
 // Factory
-extern "C" TItem *TObjPlayer__sub_801228CC(u8 *arg0);
+extern "C" TItem *TObjPlayer__sub_801228CC(u8 *item);
 
 #endif

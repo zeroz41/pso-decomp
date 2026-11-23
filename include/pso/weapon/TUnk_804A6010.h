@@ -3,7 +3,7 @@
 #include "types.h"
 #include "pso/weapon/TItemWeapon.h"
 
-// The Twinkle Star weapon class (vtable 0x804A6010): update_weapon spins the
+// The Twinkle Star weapon class: update_weapon spins the
 // stars, vfunc_60 turns model nodes 1 and 3 by star_angle. Made by
 // TObjPlayer::create_state_0.
 class TUnk_804A6010 : public TItemWeapon {

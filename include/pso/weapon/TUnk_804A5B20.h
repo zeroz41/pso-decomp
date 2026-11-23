@@ -3,7 +3,7 @@
 #include "types.h"
 #include "pso/weapon/TItemWeapon.h"
 
-// The Slicer-type weapon class (vtable 0x804A5B20; old names
+// The Slicer-type weapon class (old names
 // launch_slicer_shot, construct_slicer_weapon): emit_marker_effects throws
 // a TTecSlicer from the weapon's two blade joints; item variants 5 and 7
 // rotate and scale their blade model while attacking. Made by

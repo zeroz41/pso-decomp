@@ -6,16 +6,16 @@
 #include "pso/system/task/TMainTask.h"
 
 void TUnk_804A3548::emit_marker_effects() {
-    s32 origin;
-    TObjPlayer *owner;
+    Vec pos;
+    TObjPlayer *player;
 
     if (is_mode_two_and_ready() != 0) {
-        if (get_joint_position(1, &origin) != 0) {
-            owner = this->owner;
-            TTecFoie::create(owner, &origin, *(saddr *)((s8 *)owner + 0x60), 5);
+        if (get_joint_position(1, &pos) != 0) {
+            player = owner;
+            TTecFoie::create(player, &pos, player->rotation_y, 5);
         }
     } else {
-        ((TItemWeapon *)this)->update_active_game_effect();
+        update_active_game_effect();
     }
 }
 
