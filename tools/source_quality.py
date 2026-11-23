@@ -216,8 +216,6 @@ CATALOG: tuple[Pattern, ...] = (
        r"(?!\s*[:=]\s*\d)", "advisory"),
     _p("zero_u_compare", "Compares with 0U", "p != 0U", r"[!=]=\s*0[uU][lL]?\b|\b0[uU][lL]?\s*[!=]=", "advisory",
        needle=r"0[uU]"),
-    _p("param_name_mismatch", "Parameters named differently in prototype and definition",
-       "f(int count); / f(int size) {", _NEVER, "advisory"),
 )
 BY_KEY = {p.key: p for p in CATALOG}
 ADVISORY = {p.key for p in CATALOG if p.group == "advisory"}   # reported beside the debt, not in its total
@@ -972,9 +970,8 @@ def block_decls(text: str, blanked: "_Blanked") -> list[tuple[int, str]]:
 
 # --- parameter names and class names, compared across files ------------------------------------------------------
 # A prototype pairs with the one definition of the same qualified name and parameter count. A parameter named by a
-# placeholder on one side and a real name on the other is debt (param_name_split); two different real names are
-# advisory (param_name_mismatch, clang-tidy's readability-inconsistent-declaration-parameter-name). A constructor
-# that sets m_name (the game's own name for the class) to a string other than its class's name is ctor_name_string.
+# placeholder on one side and a real name on the other is debt (param_name_split). A constructor that sets m_name
+# (the game's own name for the class) to a string other than its class's name is ctor_name_string.
 
 LIBRARY_ROOTS = ("libs",)   # read to pair a prototype with its definition, never counted
 _PARAM_PLACEHOLDER = re.compile(
@@ -1014,8 +1011,7 @@ def signatures(blanked: "_Blanked") -> list[tuple[bool, str, tuple[tuple[str, in
 
 
 def param_names(files: Iterable[tuple[str, list]], counted: Container[str]) -> dict[str, list[Finding]]:
-    """param_name_split and param_name_mismatch by the file holding the line to fix (the placeholder's; the
-    prototype's for a mismatch), for files in `counted`."""
+    """param_name_split by the file holding the line to fix (the placeholder's), for files in `counted`."""
     defined, declared = collections.defaultdict(list), collections.defaultdict(list)
     for rel, sigs in files:
         for definition, name, params in sigs:
@@ -1031,11 +1027,7 @@ def param_names(files: Iterable[tuple[str, list]], counted: Container[str]) -> d
                 if not dn or not fn or dn == fn:
                     continue
                 weak = [n for n, o in ((dn, fn), (fn, dn)) if _placeholder(n, o)]
-                if len(weak) == 2:
-                    continue
-                if not weak:
-                    if rel in counted:
-                        out[rel].append(Finding("param_name_mismatch", f"{dn} ({fn} at {_base(def_rel)}:{fl})", dl))
+                if len(weak) != 1:
                     continue
                 site, line, good, other, other_line = (rel, dl, fn, def_rel, fl) if weak[0] == dn else \
                     (def_rel, fl, dn, rel, dl)
@@ -1052,12 +1044,11 @@ def _base(rel: str) -> str:
 
 
 _PARTNER_LINE = re.compile(r":\d+\)$")
-PARAM_CHECKS = {"param_name_split", "param_name_mismatch"}
 
 
 def identity(f: Finding) -> tuple[str, str]:
     """What a finding is matched by between revisions: (key, text), less a partner's line (other edits move it)."""
-    return (f.key, _PARTNER_LINE.sub(")", f.text)) if f.key in PARAM_CHECKS else (f.key, f.text)
+    return (f.key, _PARTNER_LINE.sub(")", f.text)) if f.key == "param_name_split" else (f.key, f.text)
 
 
 _STRING = re.compile(r'\s*"((?:\\.|[^"\\\n])*)"\s*')
@@ -1123,7 +1114,7 @@ PARSED = {
     "local_class": lambda rel, text, blanked: local_classes(rel, blanked),
 }
 # Checks judged over the whole tree (see relations()): they depend on more than one file, or on the config.
-TREE_CHECKS = {"duplicate_class", "header_extern_c", "param_name_split", "param_name_mismatch", "ctor_name_string"}
+TREE_CHECKS = {"duplicate_class", "header_extern_c", "param_name_split", "ctor_name_string"}
 CONFIG_CHECKS = {"c_name_in_cpp"}   # read from symbols.txt and splits.txt
 
 

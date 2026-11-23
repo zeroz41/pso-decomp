@@ -109,7 +109,7 @@ functions counts as neither added nor removed.
 | `register_name`, `decomp_label`, `permuter_var`, `no_op` | register-style names `f32 f31;` and `u16 f4;`, `goto block_12;`, `new_var2`, `phi_r3`, `x = x;`, `if (1)` | names for what they hold, structured control flow, nothing |
 | `address_comment` | comments naming an address in the executable or a placeholder: `// moved from 0x8043E828`, `// was fn_80123456` | nothing; see the comment rule below |
 | `data_label`, `function_placeholder`, `address_in_name`, `address_type`, `address_ident` | names built from addresses: `lbl_8045A010`, `fn_80123456`, `TEnemy__sub_80123456`, `TUnk_804806E8`, and any other identifier holding one, `Thing_80123456` | a name from evidence; without evidence, keep the placeholder |
-| `param_name_split` | a parameter with a placeholder name on one side and a real name on the other, in a prototype and its definition: `void f(int arg0);` with `void f(int count) {` | the real name on both sides |
+| `param_name_split` | a parameter with a placeholder name on one side and a real name on the other, in a prototype and its definition: `void f(int arg0);` with `void f(int count) {` | the real name on both sides; if that name is `self`, don't copy it (`self_param` flags it): make the function a member of that class instead |
 | `ctor_name_string` | a constructor that sets `m_name` to a string other than its class's name: `TWidget::TWidget() { m_name = "TButton"; }` | the game's string is the class's name: rename the class, or move the code to the class it names |
 | `vtable_symbol`, `hand_vtable`, `filler_virtual`, `slot_name`, `local_virtual` | vtables written by hand, `vfunc_67`, virtual functions declared in a source file | virtual functions declared in the class's header |
 | `address_unit` | units and headers named after an address: `TEnemy_80123456.cpp`, `TEnemy_80123456.h`, a piece of code not yet in the unit that owns it | fold it into its unit, or name the unit from evidence |
@@ -125,7 +125,6 @@ only in C files is not a duplicate.
 |---|---|---|
 | `offset_suffix_name` | names ending in an offset or a hex number: `get_flag_c8`, `value_2e` | real names end in numbers too (`state_2`, `mtx44`) |
 | `zero_u_compare` | `p != 0U` | m2c's spelling, but also how a `u32` test is written |
-| `param_name_mismatch` | a parameter with two different real names in a prototype and its definition: `void f(int count);` with `void f(int size) {` | many are one name abbreviated (`index` / `i`); fix the ones that disagree |
 
 **Members in the wrong class** are reported next to the total, not in it:
 
