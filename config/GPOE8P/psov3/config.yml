@@ -539,9 +539,9 @@ force_active:
   - fn_800FBA54__8TFogCtrlFv
   - fn_800FBAAC__8TFogCtrlFv
   - assign_subcommand_header
-  - TFontSmallLobby__sub_801D677C
-  - TFontSmallLobby__sub_801D67AC
-  - TFontSmallLobby__sub_801D67C8
+  - fn_801D677C__16PhotonBlastGaugeFv
+  - fn_801D67AC__16PhotonBlastGaugeFv
+  - fn_801D67C8__16PhotonBlastGaugeFv
   - sub_80213980__28THunterGuildSeqOnline_ClientFv
   - sub_80213B18__28THunterGuildSeqOnline_ClientFv
   - THunterGuildSeqOffline__sub_80213E64
@@ -6737,7 +6737,7 @@ force_active:
   - get_demo_camera_position__16TCameraDebugViewFv
   - get_texlist__23TObjSeabedSuisoBrakableFi
   - get_total_materials_used__Fl
-  - get_type__15TFontSmallLobbyFPv
+  - get_type__16PhotonBlastGaugeFv
   - get_type__23TAdSinglePlyChrSelectGCFPv
   - get_vidlist
   - get_viewport_offset__17WindowDrawContextFl
@@ -7153,7 +7153,7 @@ force_active:
   - init_rare_item_data__9TItemDropFPvPv
   - init_render_flags__12TObjEneSaverFv
   - init_render_globals__10TObjPlayerFv
-  - init_reset_fields__15TFontSmallLobbyFv
+  - init_reset_fields__12Obj_801D67D4Fv
   - init_result_state__18TChallenge4PResultFv
   - init_s_rank_knuckle__FPvlPv
   - load_params__17TObjEneDarkGunnerFv
@@ -14638,7 +14638,7 @@ force_active:
   - reset_state
   - reset_state__13TObjWarnChimeFv
   - reset_state__14TBoss7TentacleFv
-  - reset_state__15TFontSmallLobbyFv
+  - reset_state__16PhotonBlastGaugeFv
   - reset_state__16KeyboardKeyStateFv
   - reset_state__19TContainerAncient01Fv
   - reset_state__6TLobbyFi
@@ -16903,7 +16903,7 @@ force_active:
   - update_fall__10TBoss6RockFv
   - update_fall_to_ground__15TObjEneDelDepthFv
   - update_farthest_target__18TObjEneRe4SorcererFP9TObjCharaPf
-  - update_field_40__15TFontSmallLobbyFv
+  - update_field_40__16PhotonBlastGaugeFv
   - update_flag_0x3C0__17TObjEneDf2BringerFv
   - update_flags
   - update_flight__21TObjEneRe7BeruraPunchFv

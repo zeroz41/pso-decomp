@@ -144,7 +144,6 @@ __declspec(section ".ctors") static void *const __sinit_TObjPlayer_801BDF5C_cpp_
 
 extern "C" {
 
-int subtract_photon_blast_charge(void*, f32);
 int add_photon_blast_chain_charge(void*);
 
 s32 destroy_char_data__10TObjPlayerFis(saddr arg0, s16 arg1) {
@@ -161,7 +160,7 @@ void TObjPlayer::get_pos(saddr out) {
     this->get_anim_node_position(0x3A, (Vec *)out);
 }
 
-void TObjPlayer::spend_photon_blast_charge(f32 charge) { subtract_photon_blast_charge((char*)this + 0x4ac, charge); }
+void TObjPlayer::spend_photon_blast_charge(f32 charge) { photon_blast_gauge.subtract_photon_blast_charge(charge); }
 
 void TObjPlayer::gain_photon_blast_chain_charge() { add_photon_blast_chain_charge((char*)this + 0x4ac); }
 

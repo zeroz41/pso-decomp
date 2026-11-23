@@ -760,7 +760,7 @@ struct TObjPlayer : public TObjChara {
     void select_hit_action();
     static void create_photon_blast_party_effects(u16 arg0);
     static u8 *find_photon_blast_by_section_id(u16 section_id);
-    static s32 get_current_target_id();
+    static u16 get_current_target_id();
     static void update_photon_blast_state();
     static void apply_photon_blast(s32 id, s32 kind);
     void update_active_instance(int index);
@@ -899,12 +899,6 @@ struct TObjPlayer : public TObjChara {
     void increment_run_counter();
     int bswap_field_u32();
     void *copy_packet_pos_6x42(void *pkt);
-    void clear_photon_blast_state();
-    void trigger_photon_blast();
-    void check_photon_blast_flag();
-    void set_field_3c(f32 v);
-    void start_photon_blast_action();
-    f32 get_dist();
     void bswap_u16_pair_list();
     void bswap_u16_pair();
     void set_technique_state(s32 v);
@@ -1028,7 +1022,6 @@ struct TObjPlayer : public TObjChara {
     void*init_follow_particle_ctrl();
     static s32 check_hit_by_id(saddr arg0, u16 arg1, s32 arg2);
     void update_children();
-    int query_field40();
     void process_indexed_element(s32 arg1);
     void check_flag_at_4();
     void set_field_0(u16 v);

@@ -703,7 +703,7 @@ pso/effect/enemy/TEneParticleCtrl.cpp
 pso/render/TFogCtrl.cpp
 pso/ui/font/TFontSmallHelp.cpp
 pso/ui/font/TFontSmallLobby_801C013C.cpp
-pso/ui/font/TFontSmallLobby.cpp
+pso/player/PhotonBlastGauge.cpp
 pso/ui/city/THunterGuildSeqOffline.cpp
 pso/ui/city/THunterGuildSeqOffline_801F3718.cpp
 pso/ui/city/THunterGuildSeqOffline_80211FEC.cpp

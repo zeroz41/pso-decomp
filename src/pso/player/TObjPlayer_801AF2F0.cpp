@@ -1461,7 +1461,6 @@ s32 run_state_query__8TPlyItemFi(s32, void *);
 
 void TLobby__sub_801D4C28(TPlyItem *, Pl_801B0B88 *, s32, s32);
 void *find_first_inventory_entry__8TPlyItemFi(TPlyItem *, void *);
-s32 draw_party_label__15TFontSmallLobbyFiUiUs(saddr, s32, s32);
 s32 accumulate_damage_stats(saddr, saddr, s32);
 s32 TObjPlayer__sub_801D6D28(s32 *);
 s32 get_validated_array_value(s32 *, s32);
@@ -1579,7 +1578,6 @@ void init_6x21_inter_level_warp_packet(u8 *arg0);
 void refill_trap_counts(saddr arg0, s32 arg1, s32 arg2);
 void update_player_appear_fade(u8 *arg0);
 void save_render_material_state(u8 *arg0);
-void reinit_photon_blast_gauge(u16 *arg0);
 u8 *get_ply_level_table_row(s8 arg0, s32 arg1);
 s32 player_auxiliary_surfaces_enabled();
 void text_builder_reset(void);
@@ -1841,10 +1839,10 @@ void TObjPlayer::sub_801BB950() {
   {
     if (is_current_area_item_enabled() == 0)
     {
-      ((PhotonBlastGauge *)(arg0 + 0x4AC))->clear_charge();
+      this->photon_blast_gauge.clear_charge();
     }
-    reinit_photon_blast_gauge((u16 *)(arg0 + 0x4AC));
-    ((TFontSmallLobby *)(arg0 + 0x4AC))->update_if_ready();
+    this->photon_blast_gauge.reinit_photon_blast_gauge();
+    this->photon_blast_gauge.update_if_ready();
     TObjPlayer::update_photon_blast_state();
   }
   if (TFontSmallLobby::is_lobby_floor_15() != 0)
@@ -4843,17 +4841,17 @@ s32 TObjPlayer::is_target_valid() {
 }
 
 void TObjPlayer::update_target() {
-    s32 current_target_id;
+    u16 current_target_id;
     saddr arg0 = (saddr)this;
 
     current_target_id = TObjPlayer::get_current_target_id();
-    if (((u16)current_target_id == 0xFFFF) || ((u16)current_target_id == ((TObjBase *)(arg0))->get_entity_id())) {
-        ((TFontSmallLobby *)(arg0 + 0x4AC))->reset_targets();
+    if ((current_target_id == 0xFFFF) || (current_target_id == ((TObjBase *)(arg0))->get_entity_id())) {
+        this->photon_blast_gauge.reset_targets();
         return;
     }
     fn_801C1F1C(arg0 + 0x4AC);
     if (this->can_use_action() != 0) {
-        draw_party_label__15TFontSmallLobbyFiUiUs(arg0 + 0x4AC, arg0, current_target_id);
+        this->photon_blast_gauge.draw_party_label(this, current_target_id);
     }
 }
 
@@ -4869,7 +4867,7 @@ s32 TObjPlayer::can_use_action() {
     if (this->test_action_mask(0x200) != 0) {
         return 0;
     }
-    return ((TFontSmallLobby *)((saddr)this + 0x4AC))->is_ready() != 0 ? 1 : 0;
+    return this->photon_blast_gauge.is_ready() != 0 ? 1 : 0;
 }
 
 s32 TObjPlayer::get_recovery_need_flags() {

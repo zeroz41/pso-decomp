@@ -5111,7 +5111,7 @@ pso/player/TPlyItem.cpp:
 pso/ui/frontend/TAdSinglePlyChrSelectGC_801D5DAC.cpp:
 	.text       start:0x801D5DAC end:0x801D5DDC
 
-pso/ui/font/TFontSmallLobby.cpp:
+pso/player/PhotonBlastGauge.cpp:
 	.text       start:0x801D5DDC end:0x801D6B3C
 	.rodata     start:0x80447170 end:0x80447178
 	.sdata2     start:0x805DC3D8 end:0x805DC3F0

@@ -46,7 +46,7 @@ u8 *TObjPlayer::construct_player_instance(saddr arg1, s32 slot, s32 role, u8 *ar
     init_follow_particle_state((void *) (((u8 *)this) + 0x384));
     __ct__8FlagWordFv((((u8 *)this) + 0x41C));
     TFontSmallLobby__sub_801C0164((void *) (((u8 *)this) + 0x428));
-    ((TFontSmallLobby *)(((u8 *)this) + 0x4AC))->construct_pb_controller();
+    this->photon_blast_gauge.construct_pb_controller();
     __ct__14TPlyDispConfigFv((void *) (((u8 *)this) + 0x500));
     TObjPlayer__sub_80351974((void *) (((u8 *)this) + 0x550));
     ((TObjPlayer *)(((u8 *)this) + 0x5B0))->init_subobjects();

@@ -172,10 +172,16 @@ struct G_ClearNegativeStatusEffects_6x0E {
 
 struct G_ClearPhotonBlastReadyFlag_6x3A {
  struct G_ClientIDHeader header;
+ void *clear_photon_blast_ready_flag(void *src);
+ void init_6x3A_packet();
+ void draw_and_send();
 };
 
 struct G_ClearTemporaryPhotonBlastStateFlags_6x3B {
  struct G_ClientIDHeader header;
+ void *fn_801D6804(void *src);
+ void init_pkt_cmd_3B();
+ void update_and_send();
 };
 
 struct G_CreateInventoryItem_DC_6x2B {
@@ -256,7 +262,11 @@ struct G_DisableStealthSuitEffect_6x7B {
 struct G_DonateToPhotonBlast_6x38 {
  struct G_ClientIDHeader header;
  u16 target_client_id;
- u16 unused;
+ s16 unused;
+ void bswap_fields();
+ void *copy_packet_header_6x38(void *src);
+ void fn_801D698C();
+ void send_state();
 };
 
 struct G_DoneLoadingIntoGame_6x72 {
@@ -727,6 +737,9 @@ struct G_SetOrClearPlayerFlags_6x2E {
 
 struct G_SetPhotonBlastReadyFlag_6x39 {
  struct G_ClientIDHeader header;
+ void *handle_photon_blast_ready(void *src);
+ void init_6x39_packet();
+ void update_and_send_60();
 };
 
 struct G_SetPlayerAngle_6x51 {

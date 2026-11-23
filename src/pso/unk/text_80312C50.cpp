@@ -37,8 +37,8 @@ void release_photon_blast_requests(void *registry) {
         if (player != 0xFFFF) {
             owner = (u8 *)get_player_by_client_id(player);
             if (owner != NULL) {
-                ((TObjPlayer *)(owner + 0x4AC))->check_photon_blast_flag();
-                ((TObjPlayer *)(owner + 0x4AC))->trigger_photon_blast();
+                ((PhotonBlastGauge *)(owner + 0x4AC))->check_photon_blast_flag();
+                ((PhotonBlastGauge *)(owner + 0x4AC))->trigger_photon_blast();
             }
         }
     }
@@ -69,7 +69,7 @@ void TObjPlayer::create_party_effects(u16 id) {
         e = (u8 *)TObjPlayer::get_element(this, i);
         sec = get_client_id__18PhotonBlastRequestFv(e);
         ent = (Ply_80312D4C *)get_player_by_client_id(sec);
-        if (ent != NULL && id != sec && ((TObjPlayer *)((u8 *)ent + 0x4AC))->query_field40() != 0) {
+        if (ent != NULL && id != sec && ((TObjPlayer *)ent)->photon_blast_gauge.query_field40() != 0) {
             TWindowCtrl::create_party_effect(id, sec);
             TObjPlayer__sub_80313010(e, id);
             ent->m75(10.0f);
@@ -87,7 +87,7 @@ u16 TObjPlayer::find_first_valid_target_id() {
     for (i = 0; i < n; i++) {
         e = (u8 *)TObjPlayer::get_element(this, i);
         ent = (u8 *)get_player_by_client_id(((SectionFn_80312E0C)get_client_id__18PhotonBlastRequestFv)(e));
-        if (ent != NULL && ((TObjPlayer *)(ent + 0x4AC))->query_field40() != 0) {
+        if (ent != NULL && ((TObjPlayer *)ent)->photon_blast_gauge.query_field40() != 0) {
             return ((SectionFn_80312E0C)get_client_id__18PhotonBlastRequestFv)(e);
         }
     }

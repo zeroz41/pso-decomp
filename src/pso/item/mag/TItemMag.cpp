@@ -542,7 +542,7 @@ void TItemMag::on_unequip() {
         } while (slot != 3);
         if (owner->is_flag_20000_set() == 0) {
             owner->photon_blast_gauge.clear_charge();
-            send_6x3A_clear_photon_blast_ready_flag((u16 *)&owner->photon_blast_gauge);
+            owner->photon_blast_gauge.send_6x3A_clear_photon_blast_ready_flag();
         }
     }
     end_invincibility();

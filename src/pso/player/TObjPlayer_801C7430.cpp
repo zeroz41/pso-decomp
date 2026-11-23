@@ -1282,8 +1282,6 @@ void TObjPlayer__sub_801D2CAC(u8 *arg0);
 void TObjPlayer__sub_801D2CC4(void* p, f32 v);
 void* get_technique_data__10TObjPlayerFPv(void* p);
 int on_attack_finished__10TObjPlayerFPv(void* p);
-s16 TAdSinglePlyChrSelectGC__sub_801D5DDC(void *);
-s32 reset_photon_blast_gauge(void *);
 int is_pb_palette_bank_empty(void*);
 s32 get_getup_protection_ticks__10TObjPlayerFv(void *);
 u8 *TObjPlayer__sub_801D8DCC(TObjPlayer *arg0);
@@ -1317,11 +1315,9 @@ u8 get_6x46_strike_packet_size(saddr arg0);
 void add_death_sink_progress(u8 *arg0, f32 farg0);
 f32 get_attack_controller_rate(void* p);
 void emit_heavy_attack_particles(saddr arg0, u16 arg1);
-void add_photon_blast_charge(u8 *arg0, f32 farg0);
 void create_technique_charge_light(u32 kind, void *owner);
 void release_photon_blast_requests(void *registry);
 extern "C" {
-s32 find_first_valid_target_id__10TObjPlayerFv(void*);
 void TObjPlayer__sub_80312E98(void *, s32);
 s32 append_photon_blast_request(uaddr, s32, s32);
 s32 is_palettex_activated(u16);
@@ -2607,7 +2603,7 @@ void TObjPlayer::send_6x4F_revived() {
     } else {
         TObjPlayer__sub_801B4430(arg0);
     }
-    ((TFontSmallLobby *)(arg0 + 0x4AC))->update_if_ready();
+    ((TObjPlayer *)arg0)->photon_blast_gauge.update_if_ready();
     if ((arg0 == 0U) || (this->obj_isState2_324() == 0)) {
         ((TObjPlayer *)((s32 *)&sp8))->set_revived_state();
         sp8.fieldA = ((TObjBase *)arg0)->get_entity_id();
@@ -2891,7 +2887,7 @@ void TObjPlayer::enter_death_state() {
     } else {
         this->set_action_state(0xF, this->get_model_field_m25());
     }
-    ((TObjPlayer *)(arg0 + 0x4AC))->clear_photon_blast_state();
+    ((TObjPlayer *)arg0)->photon_blast_gauge.clear_photon_blast_state();
     if (TTecCtrl::is_technique_ready() != 0) {
         entity = find_entity_by_id(this->get_attacker_id());
         if (entity != NULL) {
@@ -3635,9 +3631,9 @@ u8 *TObjPlayer::find_photon_blast_by_section_id(u16 section_id) {
     return NULL;
 }
 
-s32 TObjPlayer::get_current_target_id() {
+u16 TObjPlayer::get_current_target_id() {
     if ((u32) (*(u32 *)&TObjPlayer__shared_photon_blast_state) != 0U) {
-        return find_first_valid_target_id__10TObjPlayerFv((void*)(*(uaddr *)&TObjPlayer__shared_photon_blast_state));
+        return ((TObjPlayer *)TObjPlayer__shared_photon_blast_state)->find_first_valid_target_id();
     }
     return 0xFFFF;
 }
@@ -3686,7 +3682,7 @@ void TObjPlayer::gain_photon_blast_charge(f32 amount) {
         is_current_area_item_enabled() == 0) {
         return;
     }
-    add_photon_blast_charge((u8 *)(arg0 + 0x4AC), amount);
+    this->photon_blast_gauge.add_photon_blast_charge(amount);
 }
 
 f32 TObjPlayer::calc_photon_blast_charge(void *player, s32 damage) {
@@ -3754,8 +3750,8 @@ void handle_6x37_photon_blast(saddr command) {
     if (validate_6x37_photon_blast((G_ClientIDHeader *)(&pkt)) != 0) {
         temp_r3 = reinterpret_cast<u8 *>(get_player_by_client_id(pkt.player));
         if ((temp_r3 != NULL) && (((s32 (*)(void))check_flag_4__10TObjPlayerFv)() == 0) && ((u32) *(u32 *)((s8 *)temp_r3 + 0x10) == (u32) tl_03) && (((s32 (*)(int))reset_volopt_state__10TObjPlayerFv)((saddr) (temp_r3)) != 0)) {
-            ((TObjPlayer *)(temp_r3 + 0x4AC))->check_photon_blast_flag();
-            ((TObjPlayer *)(temp_r3 + 0x4AC))->trigger_photon_blast();
+            ((PhotonBlastGauge *)(temp_r3 + 0x4AC))->check_photon_blast_flag();
+            ((PhotonBlastGauge *)(temp_r3 + 0x4AC))->trigger_photon_blast();
         }
     }
 }
@@ -3788,7 +3784,7 @@ void TObjPlayer::exit_photon_blast_action() {
     if (temp_r4 != NULL) {
         *(u16 *)((s8 *)temp_r4 + 0x508) = 0xFFFF;
     }
-    reset_photon_blast_gauge((void *) (arg0 + 0x4AC));
+    this->photon_blast_gauge.reset_photon_blast_gauge();
     if (TObjPlayer::is_final_phase() != 0) {
         this->get_entity_id();
         ((s32 (*)(void))remove_photon_blast_participant)();
@@ -3813,7 +3809,7 @@ void TObjPlayer::update_photon_blast_action() {
     {
       this->phase = 1;
       this->motion_flags = (s32) ((this->motion_flags) | 0x40);
-      this->photon_blast_gauge.set_field8((int) (*((s16 *) (((s8 *) get_photon_blast_entry(((TFontSmallLobby *)(arg0 + 0x4AC))->get_valid_index())) + 0x12))));
+      this->photon_blast_gauge.set_field8((int) (*((s16 *) (((s8 *) get_photon_blast_entry(((TObjPlayer *)arg0)->photon_blast_gauge.get_valid_index())) + 0x12))));
       this->photon_blast_gauge.set_field_0c(-0.2f);
     }
       play_persistent_sound(0x4002A823, (saddr)arg0, 0, 0, 0);
@@ -3850,7 +3846,7 @@ void TObjPlayer::update_photon_blast_action() {
       this->phase = 4;
       this->clear_state_flags(0x80);
       ((s32 (*)(void *))clear_status_bit6__10TObjPlayerFPv)(this);
-      this->update_active_instance(((TFontSmallLobby *)(arg0 + 0x4AC))->get_valid_index());
+      this->update_active_instance(((TObjPlayer *)arg0)->photon_blast_gauge.get_valid_index());
     }
       break;
   }
@@ -3893,7 +3889,7 @@ void TObjPlayer::enter_photon_blast_action() {
     *(s16 *)(arg0 + 0x328) = 0;
     ((TObjPlayer *)arg0)->set_action_state(9, ((TObjPlayer *)arg0)->query_equip());
     ((TObjPlayer *)arg0)->set_state_flags(0x80);
-    TObjPlayer::start_photon_blast(((TFontSmallLobby *)(arg0 + 0x4AC))->get_valid_index(), (u16)((TObjBase *)arg0)->get_entity_id());
+    TObjPlayer::start_photon_blast(((TObjPlayer *)arg0)->photon_blast_gauge.get_valid_index(), (u16)((TObjBase *)arg0)->get_entity_id());
 }
 
 void handle_6x49_execute_photon_blast(void *command) {
@@ -3910,11 +3906,11 @@ void handle_6x49_execute_photon_blast(void *command) {
                 s32 count;
                 PhotonBlastTarget *dst;
                 u32 *src;
-                ((TObjPlayer *)(p->pb))->start_photon_blast_action();
+                ((PhotonBlastGauge *)p->pb)->start_photon_blast_action();
                 TObjPlayer::apply_photon_blast(m.id, m.kind);
                 set_photon_blast_kind(p->pb, m.kind);
                 count = m.count;
-                ((TFontSmallLobby *)(p->pb))->set_section_index(count);
+                ((PhotonBlastGauge *)p->pb)->set_section_index(count);
                 ((TObjPlayer *)p)->set_float_param(m.param);
                 dst = ((TObjPlayer *)p)->photon_blast_gauge.fn_801D2AB0(0);
                 src = m.techs;
@@ -3941,7 +3937,7 @@ void TObjPlayer::prepare_photon_blast_action() {
     u8 *arg0 = (u8 *)this;
     if (((s32 (*)(void))reset_volopt_state__10TObjPlayerFv)() != 0) {
         ((ProtectionTimer *)(arg0 + 0x644))->set_frames(0x708);
-        capture_technique_targets__10TObjPlayerFv(((TFontSmallLobby *)(arg0 + 0x4AC))->get_valid_index(), arg0);
+        capture_technique_targets__10TObjPlayerFv(this->photon_blast_gauge.get_valid_index(), arg0);
         if (this->lock_on_cursor != NULL) {
             PhotonBlastTarget *e = this->photon_blast_gauge.fn_801D2AB0(0);
             ((TMainCursor *)this->lock_on_cursor)->set_cursor_pos(e->entity_id, e->index);
@@ -3949,8 +3945,8 @@ void TObjPlayer::prepare_photon_blast_action() {
         if (arg0 == NULL || ((TObjChara *)arg0)->obj_isState2_324() == 0) {
             ((TObjPlayer *)(&pkt))->init_6x49_packet();
             pkt.client = ((TObjBase *)arg0)->get_entity_id();
-            pkt.index = ((TFontSmallLobby *)(arg0 + 0x4AC))->get_valid_index();
-            pkt.count = n = ((s32 (*)(void *))TAdSinglePlyChrSelectGC__sub_801D5DDC)(arg0 + 0x4AC);
+            pkt.index = this->photon_blast_gauge.get_valid_index();
+            pkt.count = n = this->photon_blast_gauge.fn_801D5DDC();
             pkt.sub = ((TObjPlayer *)arg0)->get_photon_blast_charge();
             src = this->photon_blast_gauge.fn_801D2AB0(0);
             dst = pkt.tech;
@@ -3965,7 +3961,7 @@ void TObjPlayer::prepare_photon_blast_action() {
 void TObjPlayer::update_band_state() {
     u8 *arg0 = (u8 *)this;
     if ((s16) this->phase == 2) {
-        if (is_passing_frame(((TObjPlayer *)(arg0 + 0x4AC))->get_dist()) != 0) {
+        if (is_passing_frame(this->photon_blast_gauge.get_dist()) != 0) {
             this->phase = 3;
             set_action_flag_40();
         }
@@ -3979,7 +3975,7 @@ void TObjPlayer::update_target_approach() {
         return;
     }
     if ((s16) this->phase == 2) {
-        if (is_passing_frame(((TObjPlayer *)(arg0 + 0x4AC))->get_dist()) != 0) {
+        if (is_passing_frame(this->photon_blast_gauge.get_dist()) != 0) {
             this->phase = 3;
             set_action_flag_40();
             send_6x37_photon_blast();
@@ -6029,7 +6025,7 @@ int copy_position__10TObjPlayerFPv(void* p) { return ((int (*)(void*))VecCopy__F
 
 void TObjPlayer::set_float_param(s16 arg1) {
     saddr arg0 = (saddr)this;
-    ((TObjPlayer *)(arg0 + 0x4AC))->set_field_3c((f32) (s32) arg1);
+    ((TObjPlayer *)arg0)->photon_blast_gauge.set_field_3c((f32) (s32) arg1);
 }
 
 void update_player_action_palette(TObjPlayer *player, u8 slot) {
@@ -6928,7 +6924,7 @@ extern int fold_flush_22;
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-void TObjPlayer::clear_photon_blast_state() { ((FlagWord *)((char*)this + 0x40))->clear(62); }
+void PhotonBlastGauge::clear_photon_blast_state() { ((FlagWord *)&flags)->clear(62); }
 #pragma pop
 
 #pragma push
@@ -6941,7 +6937,7 @@ void TObjPlayer::clear_photon_blast_state() { ((FlagWord *)((char*)this + 0x40))
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-void TObjPlayer::trigger_photon_blast() { ((FlagWord *)((char*)this + 0x40))->clear(4); }
+void PhotonBlastGauge::trigger_photon_blast() { ((FlagWord *)&flags)->clear(4); }
 #pragma pop
 
 #pragma push
@@ -6954,7 +6950,7 @@ void TObjPlayer::trigger_photon_blast() { ((FlagWord *)((char*)this + 0x40))->cl
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-void TObjPlayer::check_photon_blast_flag() { ((FlagWord *)((void*)((char*)this + 0x40)))->set(8); }
+void PhotonBlastGauge::check_photon_blast_flag() { ((FlagWord *)&flags)->set(8); }
 #pragma pop
 
 #pragma push
@@ -7090,7 +7086,7 @@ extern int fold_flush_24;
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-void TObjPlayer::set_field_3c(f32 v) { *(f32*)((char*)this + 0x3c) = v; }
+void PhotonBlastGauge::set_field_3c(f32 v) { charge = v; }
 #pragma pop
 
 #pragma push
@@ -7103,7 +7099,7 @@ void TObjPlayer::set_field_3c(f32 v) { *(f32*)((char*)this + 0x3c) = v; }
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-void TObjPlayer::start_photon_blast_action() { ((FlagWord *)((void*)((char*)this + 0x40)))->set(4); }
+void PhotonBlastGauge::start_photon_blast_action() { ((FlagWord *)&flags)->set(4); }
 #pragma pop
 
 #pragma push
@@ -7116,7 +7112,7 @@ void TObjPlayer::start_photon_blast_action() { ((FlagWord *)((void*)((char*)this
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-f32 TObjPlayer::get_dist() { return *(f32*)((char*)this + 0x10); }
+f32 PhotonBlastGauge::get_dist() { return complete_threshold; }
 #pragma pop
 
 #pragma push
