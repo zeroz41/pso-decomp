@@ -577,7 +577,7 @@ void TWindowFukidasi::init_balloon(u16 speaker, s32 str, s32 client, f32 scale) 
 void TWindowFukidasi::init_flags(s32 flags) {
     this->m_58 = 0.0f;
     this->set_depth(60000.0f);
-    if (this->sub_80246948() != 0) {
+    if (this->is_closed() != 0) {
         this->window_flags = (s32) (this->window_flags | 1);
     }
     this->m_71 = (u8) (this->m_71 & ~0x50);
@@ -1276,7 +1276,7 @@ s32 TWindowFukidasi::check_card_match_enabled(saddr arg1) {
 void TWindowFukidasi::rearm_balloon(saddr flags) {
     u32 n;
 
-    if (sub_80246948() != 0) {
+    if (is_closed() != 0) {
         *(s8 *)((s8 *)((u8 *)this) + 0x70) = 5;
     }
     init_flags(flags);

@@ -52,7 +52,7 @@ struct PhotonBlastGauge {
     void set_field_0c(f32 v);
     void set_field8(s32 v);
     PhotonBlastTarget *get_target(s32 i);
-    int fn_801C1F50();
+    int has_ready_flag();
     s32 get_target_count();
     s16 get_valid_index();
     void set_section_index(s16 count);

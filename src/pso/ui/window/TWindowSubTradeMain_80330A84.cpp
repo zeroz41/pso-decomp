@@ -282,10 +282,10 @@ void TWindowSubTradeMain::run_task() {
             ((TWindowBase *)o->menu)->request_close();
         }
         if (o->offer != 0) {
-            ((TWindowBase *)o->offer)->sub_802448E4((f32 *)get_window_layout_position(0x62));
+            ((TWindowBase *)o->offer)->slide_to((f32 *)get_window_layout_position(0x62));
         }
         if (o->request != 0) {
-            ((TWindowBase *)o->request)->sub_802448E4((f32 *)get_window_layout_position(0x63));
+            ((TWindowBase *)o->request)->slide_to((f32 *)get_window_layout_position(0x63));
         }
         if (o->list == 0) {
             o->list = (void *)((TWindowSubTradeMain *)o)->create_list();
@@ -313,10 +313,10 @@ void TWindowSubTradeMain::run_task() {
             o->list = 0;
         }
         if (o->offer != 0) {
-            ((TWindowBase *)o->offer)->sub_802448E4((f32 *)get_window_layout_position(0x60));
+            ((TWindowBase *)o->offer)->slide_to((f32 *)get_window_layout_position(0x60));
         }
         if (o->request != 0) {
-            ((TWindowBase *)o->request)->sub_802448E4((f32 *)get_window_layout_position(0x61));
+            ((TWindowBase *)o->request)->slide_to((f32 *)get_window_layout_position(0x61));
         }
         o->state = 1;
         break;
@@ -889,7 +889,7 @@ void TWindowSubTradeMain::set_child_windows_enabled(s32 on) {
 
 void TWindowSubTradeMain::update_position_if_changed(saddr owner, u8 *window, u8 *position) {
     if ((*(f32 *)((s8 *)window + 0x30) != *(f32 *)((s8 *)position + 0)) || (*(f32 *)((s8 *)window + 0x34) != *(f32 *)((s8 *)position + 4))) {
-        ((TWindowBase *)window)->sub_802448E4((f32 *)position);
+        ((TWindowBase *)window)->slide_to((f32 *)position);
     }
 }
 

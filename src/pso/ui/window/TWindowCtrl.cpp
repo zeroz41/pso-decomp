@@ -297,13 +297,13 @@ s16 TWindowFukidasi::get_field_20() { return *(s16 *)&(this->client_index); }
 
 s32 TWindowCtrl::is_visible() { return this->flags & 0x1; }
 
-s32 TWindowCtrl::fn_8024C7F8() {
+s32 TWindowCtrl::is_status_window_hidden() {
     return (this->flags >> 4) & 1;
 }
 
 int TWindowCtrl::is_enabled() { return (this->flags >> 3) & 0x1; }
 
-s32 TWindowCtrl::fn_8024C7E0() {
+s32 TWindowCtrl::is_lock_on_window_hidden() {
     return (this->flags >> 2) & 1;
 }
 
@@ -325,11 +325,11 @@ void TWindowCtrl::set_radar_dirty_flag() {
     TRaderMapCore::hide_radar();
 }
 
-void TWindowCtrl::fn_8024C75C() {
+void TWindowCtrl::show_status_window() {
     this->flags &= ~0x10;
 }
 
-void TWindowCtrl::fn_8024C74C() {
+void TWindowCtrl::hide_status_window() {
     this->flags |= 0x10;
 }
 
@@ -341,11 +341,11 @@ void TWindowCtrl::begin_keyboard_hold() {
     this->flags |= 0x8;
 }
 
-void TWindowCtrl::fn_8024C71C() {
+void TWindowCtrl::show_lock_on_window() {
     this->flags &= ~0x4;
 }
 
-void TWindowCtrl::fn_8024C70C() {
+void TWindowCtrl::hide_lock_on_window() {
     this->flags |= 0x4;
 }
 
@@ -1137,7 +1137,7 @@ void TWindowCtrl::init_all_slots() {
 extern "C" {
 
 void TWindowCtrl__sub_8024ADF0(saddr client_id) {
-    PlayerWindowCommand callback = &TWindowCtrl::fn_8024C75C;
+    PlayerWindowCommand callback = &TWindowCtrl::show_status_window;
     TWindowCtrl::call_window_method(client_id, callback);
 }
 
@@ -1146,7 +1146,7 @@ void TWindowCtrl__sub_8024ADF0(saddr client_id) {
 extern "C" {
 
 void TWindowCtrl__sub_8024ADAC(saddr client_id) {
-    PlayerWindowCommand callback = &TWindowCtrl::fn_8024C74C;
+    PlayerWindowCommand callback = &TWindowCtrl::hide_status_window;
     TWindowCtrl::call_window_method(client_id, callback);
 }
 
@@ -1173,11 +1173,11 @@ void begin_player_keyboard_hold(saddr client_id) {
 }
 
 void TWindowReturnCity__sub_8024ACA8(saddr client_id) {
-    TWindowCtrl::call_window_method(client_id, &TWindowCtrl::fn_8024C71C);
+    TWindowCtrl::call_window_method(client_id, &TWindowCtrl::show_lock_on_window);
 }
 
 void fn_8024AC64(saddr client_id) {
-    TWindowCtrl::call_window_method(client_id, &TWindowCtrl::fn_8024C70C);
+    TWindowCtrl::call_window_method(client_id, &TWindowCtrl::hide_lock_on_window);
 }
 
 void TWindowCtrl::enable_client_main_menu(s32 client) {

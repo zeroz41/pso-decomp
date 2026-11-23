@@ -21,7 +21,7 @@ struct TWindowSubShortMail : public TObject {
     static saddr open_confirm_prompt(void *parent, int client_id);
     saddr open_confirm_dialog();
     saddr open_delete_confirm_dialog();
-    void sub_8027E620();
+    void find_target_user();
     static s32 is_active();
     void close();
     void update_mail_count();

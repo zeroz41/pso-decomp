@@ -195,17 +195,17 @@ void TWindowBase::save_position() {
     frame_size[1] = target_size[1];
 }
 
-void TWindowBase::sub_802448E4(f32 *pos) {
+void TWindowBase::slide_to(f32 *pos) {
     copy_vec2(target_position, pos);
     tween_ticks = 3;
 }
 
-void TWindowBase::sub_8024491C(f32 *size) {
+void TWindowBase::set_size(f32 *size) {
     copy_vec2(target_size, size);
     copy_vec2(frame_size, target_size);
 }
 
-void TWindowBase::sub_80244958(f32 *pos) {
+void TWindowBase::snap_to(f32 *pos) {
     copy_vec2(target_position, pos);
     copy_vec2(frame_position, target_position);
 }
@@ -213,7 +213,7 @@ void TWindowBase::sub_80244958(f32 *pos) {
 #pragma push
 #pragma fp_contract on
 s32 TWindowBase::sub_80244994() {
-    if (this->sub_80246948() != 0) {
+    if (this->is_closed() != 0) {
         return 0;
     }
     return (s32) ((u32) __cntlzw(this->window_flags & 4) >> 5);
@@ -914,7 +914,7 @@ void TWindowSubComCard::update_open_close() {
     }
     state_flags = *(s32 *)&this->m_2c;
     if (!(state_flags & 2)) {
-        if ((state_flags & 0x10) && (((TWindowBase *)arg0)->sub_80246948() != 0)) {
+        if ((state_flags & 0x10) && (((TWindowBase *)arg0)->is_closed() != 0)) {
             ((TObject *)arg0)->queue_destruction();
         }
     } else if (state_flags & 1) {
@@ -1042,7 +1042,7 @@ __declspec(section ".rodata") const char lbl_8044E734[] = "f256_duelcount.gvp";
 __declspec(section ".rodata") const char lbl_8044E748[] = "f256_carsol.gvp";
 __declspec(section ".rodata") const char lbl_8044E758[] = "f256_hyouji";
 
-s32 TWindowBase::sub_80246948() {
+s32 TWindowBase::is_closed() {
     return (u8)(!(window_flags & 1));
 }
 

@@ -157,7 +157,7 @@ void update_password_input__18TAdEnterPasswordGCFPv(Pw_8032B6A0 *self) {
   if ((((TAdSelectCurGC *)(self->serial))->confirmation_result() == 1) && (password_entry_keyboard_control->is_confirmed() != 0))
   {
     strncpy((char *)&TAdEnterPasswordGC__input_buffer.value, (const char *)buf, 9);
-    TAdEnterSerialAccessGC::sub_80322418(get_field_118__22TAdEnterSerialAccessGCFv(), 2);
+    TAdEnterSerialAccessGC::set_entered_value(get_field_118__22TAdEnterSerialAccessGCFv(), 2);
     self->f20 = 3;
     password_entry_dispatch_state = 4;
   }

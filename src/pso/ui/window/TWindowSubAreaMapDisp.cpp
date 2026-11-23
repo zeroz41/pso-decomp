@@ -31,12 +31,12 @@ extern "C" {
 
 void TWindowSubAreaMapDisp::update_visibility() {
     if ((s32) this->m_6c != 0) {
-        if (this->sub_80246948() != 0) {
+        if (this->is_closed() != 0) {
             this->m_6c = 0;
             TWindowCtrl::clear_active_flag();
             TRaderMapCore::clear();
         }
-    } else if (!(this->window_flags & 2) && (this->sub_80246948() == 0)) {
+    } else if (!(this->window_flags & 2) && (this->is_closed() == 0)) {
         this->m_6c = 1;
         TRaderMapCore::open_free_map_view();
         TRaderMapCore::show_radar();

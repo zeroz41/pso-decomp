@@ -4154,12 +4154,12 @@ void TObjPlayer::update_ground_contact() {
     if (TObjPlayer::is_locally_controlled(this) != 0) {
         if (pad_binding.is_button_held(fn_8002AE08(((TObjBase *)(arg0))->get_entity_id())) != 0) {
             set_primary_action_palette_bank(arg0 + 0x500);
-            if (this->photon_blast_gauge.fn_801C1F50() != 0) {
+            if (this->photon_blast_gauge.has_ready_flag() != 0) {
                 set_secondary_action_palette_bank(arg0 + 0x500);
             }
         } else {
             clear_primary_action_palette_bank(arg0 + 0x500);
-            if (this->photon_blast_gauge.fn_801C1F50() != 0) {
+            if (this->photon_blast_gauge.has_ready_flag() != 0) {
                 clear_secondary_action_palette_bank(arg0 + 0x500);
             }
         }
@@ -4213,7 +4213,7 @@ void TObjPlayer::select_contextual_pickup_action() {
 
 saddr TObjPlayer::refresh_effect() {
     saddr arg0 = (saddr)this;
-    if (this->photon_blast_gauge.fn_801C1F50() != 0) {
+    if (this->photon_blast_gauge.has_ready_flag() != 0) {
         if (test_photon_blast_modifier(arg0 + 0x500) != 0) {
             return ref_primary_action_palette(arg0 + 0x500);
         }

@@ -32,13 +32,13 @@ public:
     s32 sub_80244994();
     void save_position();
     f32 get_scale();
-    s32 sub_80246948();
+    s32 is_closed();
     void *get_array_entry(int index);
     virtual void render();
     virtual void run_task();
-    void sub_802448E4(f32 *pos);
-    void sub_8024491C(f32 *size);
-    void sub_80244958(f32 *pos);
+    void slide_to(f32 *pos);
+    void set_size(f32 *size);
+    void snap_to(f32 *pos);
 
     static const char *class_name;
 

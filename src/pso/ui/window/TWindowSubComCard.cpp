@@ -453,7 +453,7 @@ void TWindowSubComCard::run_task() {
             this->m_24 = ((TWindowMenu *)this->m_84)->get_selected_value();
             this->m_74 = (uaddr)send_command(this->m_24);
         }
-        ((TWindowBase *)this->message_window)->sub_80244958((f32 *)get_window_layout_position(0x99));
+        ((TWindowBase *)this->message_window)->snap_to((f32 *)get_window_layout_position(0x99));
         ((TWindowLockOn *)(this->message_window))->request_close();
         ((TWindowMenu *)(this->m_84))->clear_flag_and_release();
         this->state = 0xCU;

@@ -14,7 +14,7 @@ struct TWindowSubQuestBoardSelect : public TWindowBase {
     int is_shortcut_active();
     void sub_8027D230();
     int is_open();
-    int sub_8027D1DC();
+    int is_cancelled();
     u8 get_page_index();
     virtual void render();
     u8 m_60;

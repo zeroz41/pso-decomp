@@ -115,7 +115,7 @@ s32 is_palette_entry_displayable__10TObjPlayerFv(u8 *player, u8 kind, u8 sub) {
         }
         return 1;
     case 5:
-        if (((TObjPlayer *)player)->photon_blast_gauge.fn_801C1F50() == 0 || ((TObjCollidable *)player)->test_actor_flags(0x20006) != 0 || ((TObjPlayer *)player)->get_camera_field() == 0) {
+        if (((TObjPlayer *)player)->photon_blast_gauge.has_ready_flag() == 0 || ((TObjCollidable *)player)->test_actor_flags(0x20006) != 0 || ((TObjPlayer *)player)->get_camera_field() == 0) {
             return 0;
         }
         return 1;

@@ -613,7 +613,7 @@ Rect_802AE2B0 *setup_content_frame__15TWindowMainMenuFPv(u8 *window_menu_main_me
 }
 
 void TWindowMenuMainMenu::update_slide_position() {
-    if (((TWindowBase *)this)->sub_80246948() != 0) {
+    if (((TWindowBase *)this)->is_closed() != 0) {
         set_target_y(0.0f);
         this->tween_ticks = (u32) (4.5f - (f32) this->closing_tick);
         return;

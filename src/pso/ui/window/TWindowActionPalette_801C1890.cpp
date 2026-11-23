@@ -214,7 +214,7 @@ void fn_801C1F40(s32 *arg0) {
     *arg0 -= 1;
 }
 
-int PhotonBlastGauge::fn_801C1F50() { return test_flags_any(&flags.bits, 2); }
+int PhotonBlastGauge::has_ready_flag() { return test_flags_any(&flags.bits, 2); }
 
 void TObjPlayer__sub_801C1F78(void* p, u16 v) { *(s16*)((char*)p + 0x0) = v; }
 

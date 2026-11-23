@@ -44,7 +44,7 @@ int set_card_window_flags__19TWindowKeyBoardHardFPvll(void*, int, int);
 
 const char *TWindowSubQuestBoard::class_name = "TWindowSubQuestBoard";
 
-int TWindowSubQuestBoardSelect::sub_8027D1DC() { return this->m_60 & 0x2; }
+int TWindowSubQuestBoardSelect::is_cancelled() { return this->m_60 & 0x2; }
 
 int TWindowSubQuestBoardSelect::is_open() { return this->m_60 & 0x1; }
 
@@ -73,7 +73,7 @@ void TWindowSubQuestBoard::run_task() {
         fn_8027D1E8((saddr)select_window);
         this->state = 2;
     case 2:
-        if (select_window->sub_8027D1DC() != 0) {
+        if (select_window->is_cancelled() != 0) {
             parent_menu->on_submenu_closed();
             this->state = 5;
             break;

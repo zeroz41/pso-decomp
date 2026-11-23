@@ -63,7 +63,7 @@ void TAdSinglePlyChrSelectGC::render() {
 TWindowMenu *TAdSinglePlyChrSelectGC::create_chr_warp(s32 pos) {
     TWindowMenu *menu;
 
-    if (sub_802D4D9C() != 0) {
+    if (can_pay_fee() != 0) {
         menu = (TWindowMenu *)create_window_menu_default(pos, 4);
         menu->add_text_entry(get_localized_text_entry(0x1E, 1), 6, 0);
         menu->add_text_entry(get_localized_text_entry(0x1E, 2), 6, 1);
@@ -537,7 +537,7 @@ void TAdSinglePlyChrSelectGC::run_task() {
     prev_state = state;
 }
 
-s32 TAdSinglePlyChrSelectGC::sub_802D4D9C() {
+s32 TAdSinglePlyChrSelectGC::can_pay_fee() {
     player_stats stats = TAdSinglePlyChrSelectGC::get_char_index(0xFFFF)->m_stats;
     if (stats.meseta >= 10000) {
         return 1;

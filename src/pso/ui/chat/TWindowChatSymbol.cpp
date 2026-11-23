@@ -359,7 +359,7 @@ WindowDescriptor window_chat_symbol_settings = {
 
 TWindowChatSymbol::TWindowChatSymbol(saddr arg1, saddr arg2) : TWindowBase((u8 *)&window_chat_symbol_settings, (s16)4, (u8 *)arg1) {
     this->m_name = TWindowChatSymbol__name;
-    sub_8024491C((f32 *)arg2);
+    set_size((f32 *)arg2);
     this->selected_preset = 0;
     this->m_64 = 0;
 }

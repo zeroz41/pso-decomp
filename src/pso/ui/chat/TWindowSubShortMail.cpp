@@ -269,7 +269,7 @@ void TWindowSubShortMail::run_task() {
         }
         break;
     case 15:
-        sub_8027E620();
+        find_target_user();
         state = 0x10;
     case 16:
         state = 1;
@@ -596,7 +596,7 @@ void TWindowSubShortMail::close() {
     }
 }
 
-void TWindowSubShortMail::sub_8027E620() {
+void TWindowSubShortMail::find_target_user() {
     TWindowSubComCard::get_card_entry(((TWindowMenuIconLine *)mail_list)->get_cursor_value());
     TLobby::send_find_user_self_tag(target_card_id);
 }

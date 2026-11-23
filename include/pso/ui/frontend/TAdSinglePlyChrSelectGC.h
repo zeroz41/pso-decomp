@@ -35,7 +35,7 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     explicit TAdSinglePlyChrSelectGC(TObject *parent);
     virtual ~TAdSinglePlyChrSelectGC();
     void sub_802D4E08();
-    static s32 sub_802D4D9C();
+    static s32 can_pay_fee();
     virtual void render();
     s32 state_timer;                       // 0x1C  frames spent in the current state
     s32 state;                             // 0x20  index into the run_task handler table

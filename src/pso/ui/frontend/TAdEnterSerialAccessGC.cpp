@@ -54,7 +54,7 @@ __declspec(section ".data") char TAdEnterSerialAccessGC::access_key_input_buffer
 
 void TAdSelectCurGC::request_navigation_unlock() { pending_command = 3; }
 
-void TAdEnterSerialAccessGC::sub_80322418(u32 value, s32 field) {
+void TAdEnterSerialAccessGC::set_entered_value(u32 value, s32 field) {
     serial_access_entered_value_table[field] = value;
 }
 
@@ -82,7 +82,7 @@ TAdEnterSerialAccessGC::TAdEnterSerialAccessGC(TObject *parent) : TAdEnterBaseGC
     keyboard_control = NULL;
     if (*(s8 *)(TAdSinglePlyChrSelectGC::get_instance() + 0x1152C) != 0) {
         initialize_serial_input((const char *)TAdSinglePlyChrSelectGC::get_instance() + 0x1152C);
-        sub_8032190C((const char *)(TAdSinglePlyChrSelectGC::get_instance() + 0x1153C));
+        set_access_key((const char *)(TAdSinglePlyChrSelectGC::get_instance() + 0x1153C));
         init_state();
         queue_destruction();
         return;
@@ -90,9 +90,9 @@ TAdEnterSerialAccessGC::TAdEnterSerialAccessGC(TObject *parent) : TAdEnterBaseGC
     serial[0] = 0;
     if (((TAdSinglePlyChrSelectGC *)serial)->load_and_verify_character_save(access_key) != 0 && serial[0] != 0) {
         initialize_serial_input(serial);
-        sub_8032190C(access_key);
-        sub_80322418(get_field_118__22TAdEnterSerialAccessGCFv(), 1);
-        sub_80322418(get_field_118__22TAdEnterSerialAccessGCFv(), 0);
+        set_access_key(access_key);
+        set_entered_value(get_field_118__22TAdEnterSerialAccessGCFv(), 1);
+        set_entered_value(get_field_118__22TAdEnterSerialAccessGCFv(), 0);
     }
     new TAdBackGC(this);
     new TAdBackTxtGC(this);
@@ -137,7 +137,7 @@ void TAdEnterSerialAccessGC::run_task() {
         input_state = 2;
         break;
     case 2:
-        sub_80321F3C();
+        update_serial_input();
         break;
     case 3:
         input_valid = 0;
@@ -153,7 +153,7 @@ void TAdEnterSerialAccessGC::run_task() {
         input_state = 4;
         break;
     case 4:
-        sub_80321F18();
+        update_access_key_input();
         break;
     case 5:
         if ((f32)++state_timer > 4.5f) {
@@ -180,11 +180,11 @@ void TAdEnterSerialAccessGC::run_task() {
     }
 }
 
-void TAdEnterSerialAccessGC::sub_80321F3C() { sub_80321B28(0); }
+void TAdEnterSerialAccessGC::update_serial_input() { update_text_input(0); }
 
-void TAdEnterSerialAccessGC::sub_80321F18() { sub_80321B28(1); }
+void TAdEnterSerialAccessGC::update_access_key_input() { update_text_input(1); }
 
-void TAdEnterSerialAccessGC::sub_80321B28(s32 field) {
+void TAdEnterSerialAccessGC::update_text_input(s32 field) {
     char *text = keyboard_control->realloc_buffer();
     if ((serial_length == 0 && test_pressed_buttons_packed(&controller_physical_port_bank.controllers[0], 2) != 0) ||
         (serial_length == 0 && test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0)) {
@@ -285,7 +285,7 @@ void TAdEnterSerialAccessGC::sub_80321B28(s32 field) {
                 keyboard_control = NULL;
             }
             strncpy(raw_serial_buffer, text, 0xB);
-            sub_80322418(get_field_118__22TAdEnterSerialAccessGCFv(), 0);
+            set_entered_value(get_field_118__22TAdEnterSerialAccessGCFv(), 0);
             next_state = 3;
             input_state = 5;
             break;
@@ -295,7 +295,7 @@ void TAdEnterSerialAccessGC::sub_80321B28(s32 field) {
                 keyboard_control = NULL;
             }
             strncpy(access_key_input_buffer, text, 0xD);
-            sub_80322418(get_field_118__22TAdEnterSerialAccessGCFv(), 1);
+            set_entered_value(get_field_118__22TAdEnterSerialAccessGCFv(), 1);
             next_state = 7;
             input_state = 5;
             break;
@@ -336,19 +336,19 @@ char *TAdEnterSerialAccessGC::convert_serial_hex_to_decimal(const char *serial) 
 
 #pragma push
 #pragma opt_common_subs off
-void TAdEnterSerialAccessGC::sub_8032195C(const char *serial) {
+void TAdEnterSerialAccessGC::set_raw_serial(const char *serial) {
     memset(raw_serial_buffer, 0, 0xB);
     strncpy(raw_serial_buffer, serial, 0xB);
 }
 #pragma pop
 
-void TAdEnterSerialAccessGC::sub_8032190C(const char *key) {
+void TAdEnterSerialAccessGC::set_access_key(const char *key) {
     memset(access_key_input_buffer, 0, 0xD);
     strncpy(access_key_input_buffer, key, 0xD);
 }
 
 void TAdEnterSerialAccessGC::initialize_serial_input(const char *serial) {
-    sub_8032195C(serial_to_hex_string(serial));
+    set_raw_serial(serial_to_hex_string(serial));
 }
 
 char *TAdEnterSerialAccessGC__sub_80321874(void) {

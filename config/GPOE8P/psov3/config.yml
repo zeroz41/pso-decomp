@@ -156,11 +156,11 @@ force_active:
   - input_state__22TAdEnterSerialAccessGC
   - keyboard_control__22TAdEnterSerialAccessGC
   - TAdEnterSerialAccessGC__name
-  - sub_8032190C__22TAdEnterSerialAccessGCFPCc
-  - sub_8032195C__22TAdEnterSerialAccessGCFPCc
-  - sub_80321B28__22TAdEnterSerialAccessGCFl
-  - sub_80321F18__22TAdEnterSerialAccessGCFv
-  - sub_80321F3C__22TAdEnterSerialAccessGCFv
+  - set_access_key__22TAdEnterSerialAccessGCFPCc
+  - set_raw_serial__22TAdEnterSerialAccessGCFPCc
+  - update_text_input__22TAdEnterSerialAccessGCFl
+  - update_access_key_input__22TAdEnterSerialAccessGCFv
+  - update_serial_input__22TAdEnterSerialAccessGCFv
   - TAdEnterSerialAccessGC_serial_buffer
   - TAdEp3Exist__name
   - TAdEp3Exist__sub_8036F0AC
@@ -1850,7 +1850,7 @@ force_active:
   - TWindowSubMag__sub_8027C0E8
   - TWindowSubQuestBoardSelect__sub_8027D444
   - TWindowSubShortCutList__ct
-  - sub_8027E620__19TWindowSubShortMailFv
+  - find_target_user__19TWindowSubShortMailFv
   - set_replied__14ShortMailEntryFv
   - TWindowSubStatusDisp__sub_8025AF0C
   - TWindowSubStatusDisp__sub_8025B2DC

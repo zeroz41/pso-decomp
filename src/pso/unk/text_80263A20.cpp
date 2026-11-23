@@ -9,7 +9,7 @@
 
 void toggle_help_window_on_button(uaddr object, s32 client_index) {
     if ((is_split_screen() != 0) && (object != 0U) && (test_pressed_buttons_packed(&controller_input_state.controllers[is_player_input_active(client_index)], 0x400) != 0)) {
-        if (((TWindowBase *)object)->sub_80246948() != 0) {
+        if (((TWindowBase *)object)->is_closed() != 0) {
             window_request_show((void *)object);
             return;
         }
