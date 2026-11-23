@@ -183,7 +183,7 @@ struct TBoss6Type2 : public TObjEnemy
     void request_player_camera_offsets(f32 a, f32 b);
     void init_parts();
     s32 turn_toward_target_position();
-    static u8 *create_dpb(saddr parent, saddr position, f32 farg0);
+    static u8 *create_dpb(saddr parent, saddr position, f32 radius);
     s32 get_phase();
     static s32 is_player_in_rock_area(u16 client_id);
     void spawn_hit_effects();
