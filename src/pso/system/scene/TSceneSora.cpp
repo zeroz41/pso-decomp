@@ -34,13 +34,13 @@ struct Ent_80207478 { s32 f0; char *name; };
 
 #pragma readonly_strings on
 
-extern "C" {
 s32 TSceneSora__sky_active_flag = 1;
 const char *TSceneSora__name = "TSceneSora";
 TSceneSora *TSceneSora__instance;
 BmlResource *TSceneSora__sky_bml_resource;
 s32 TSceneSora__has_sky_motion;
 
+extern "C" {
 void TSceneSora__sub_80207430(void);
 u8 *__ct__10TSceneSoraFl(TSceneSora *arg0, s32 _w1);
 s32 rotate_matrix_y(int, int);
