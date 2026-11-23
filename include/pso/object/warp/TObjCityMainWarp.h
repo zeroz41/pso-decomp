@@ -5,13 +5,14 @@
 #include "pso/object/warp/TObjAreaWarp.h"
 
 struct TObjCityMainWarp : public TObjAreaWarp {
+    static const char *class_name;
     TObjCityMainWarp(TObject *parent, void *set_data);
     virtual ~TObjCityMainWarp();
-    virtual void vfunc_14();
+    virtual void close_menu();
     virtual void open_confirm_window(s32 client_id);
     virtual s32 is_warp_enabled();
-    virtual s32 vfunc_17();
-    virtual s32 vfunc_18(s32);
+    virtual s32 is_choice_confirmed();
+    virtual s32 is_choice_confirmed_by(s32);
     virtual void debug_print_area_num();
     void run_task();
     static void update_unlock_flags();
@@ -29,7 +30,7 @@ struct TObjCityMainWarp : public TObjAreaWarp {
     static s32 get_floor_warp_bit(s32 floor);
     f32 frame;
     // Destination index of each menu entry, built by open_confirm_window from the visible
-    // destination mask and read back by vfunc_17 (inferred). Offline / lobby menus keep
+    // destination mask and read back by is_choice_confirmed (inferred). Offline / lobby menus keep
     // their own list.
     s32 menu_destinations[17];
     s32 lobby_menu_destinations[17];

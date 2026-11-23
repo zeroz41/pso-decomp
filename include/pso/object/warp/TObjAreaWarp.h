@@ -5,6 +5,7 @@
 #include "pso/object/warp/TObjWarpBase.h"
 
 struct TObjAreaWarp : public TObjWarpBase {
+    static const char *class_name;
     TObjAreaWarp(TObject *parent, void *set_data);
     virtual ~TObjAreaWarp();
     void handle_area_selection();

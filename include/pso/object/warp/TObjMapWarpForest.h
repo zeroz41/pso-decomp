@@ -7,6 +7,7 @@ struct GinjaTextureList;
 struct NJS_OBJECT;
 
 struct TObjMapWarpForest : public TObjMapWarp {
+    static const char *class_name;
     TObjMapWarpForest(TObject *parent, void *set_data);
     f32 frame;
     NJS_OBJECT *baseModel;              // forest warp model 4, fs_obj_warp_n.gj

@@ -159,7 +159,7 @@ const s32 city_warp_floor_destination_table[16] = {
     1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 16, 17,
 };
 
-// inferred: the lobby counterpart of city_warp_floor_destination_table; TObjCityMainWarp::vfunc_17 reads it
+// inferred: the lobby counterpart of city_warp_floor_destination_table; TObjCityMainWarp::is_choice_confirmed reads it
 // when TLobby::get_instance() != 0, indexed by the f10C list the lobby branch of __vt13 fills.
 const s32 city_warp_floor_destination_table_b[17] = {
     1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17,
@@ -169,10 +169,10 @@ const s32 city_warp_floor_destination_table_b[17] = {
 // name tables), indexed by set_params[2] in TObjLaboMapWarp__vt13 and TObjCityMapWarp__vt13.
 const s32 map_warp_dest_text_ids[3] = {0x22, 0x23, 0x10};
 
-const char *TObjCityMainWarp__name = "TObjCityMainWarp";
-const char *TObjCityAreaWarp__name = "TObjCityAreaWarp";
-const char *TObjCityMapWarp__name = "TObjCityMapWarp";
-const char *TObjLaboMapWarp__name = "TObjLaboMapWarp";
+const char *TObjCityMainWarp::class_name = "TObjCityMainWarp";
+const char *TObjCityAreaWarp::class_name = "TObjCityAreaWarp";
+const char *TObjCityMapWarp::class_name = "TObjCityMapWarp";
+const char *TObjLaboMapWarp::class_name = "TObjLaboMapWarp";
 
 extern "C" {
 
@@ -411,7 +411,7 @@ TObjCityMainWarp::TObjCityMainWarp(TObject *parent, void *set_data) : TObjAreaWa
     s32 i;
     s32 j;
     void *p;
-    m_name = TObjCityMainWarp__name;
+    m_name = class_name;
     warp_range = 25.0f;
     frame = 0.0f;
     for (i = 0; i < 17; i++) {
@@ -523,9 +523,9 @@ void TObjCityMainWarp::open_confirm_window(s32 client_id) {
 }
 #pragma pop
 
-void TObjCityMainWarp::vfunc_14() { if (menu_window != 0) { TObjWarpBase::vfunc_14(); TWindowCtrl::clear_flag(); } }
+void TObjCityMainWarp::close_menu() { if (menu_window != 0) { TObjWarpBase::close_menu(); TWindowCtrl::clear_flag(); } }
 
-s32 TObjCityMainWarp::vfunc_17() {
+s32 TObjCityMainWarp::is_choice_confirmed() {
     if (TLobby::get_instance() == 0) {
         if (menu_window != 0 && ((TWindowMenu *)menu_window)->is_decided() != 0) {
             dest_floor = city_warp_floor_destination_table[menu_destinations[((TWindowMenu *)menu_window)->get_selected_value()]];
@@ -540,7 +540,7 @@ s32 TObjCityMainWarp::vfunc_17() {
     return 0;
 }
 
-s32 TObjCityMainWarp::vfunc_18(s32) { return vfunc_17(); }
+s32 TObjCityMainWarp::is_choice_confirmed_by(s32) { return is_choice_confirmed(); }
 
 s32 TObjCityMainWarp::is_warp_enabled() {
     if ((get_game_play_mode() == 1) && (is_quest_active() == 0)) {
@@ -588,7 +588,7 @@ void TObjCityMainWarp::debug_print_area_num() {
 }
 
 TObjCityAreaWarp::TObjCityAreaWarp(TObject *parent, void *set_data) : TObjAreaWarp(parent, set_data) {
-    this->m_name = TObjCityAreaWarp__name;
+    this->m_name = class_name;
     warp_range = 23.0f;
     this->frame = 0.0f;
     this->dest_floor = 15;
@@ -648,7 +648,7 @@ void TObjCityAreaWarp::confirm_area_transfer(TObjPlayer *) {
 }
 
 TObjCityMapWarp::TObjCityMapWarp(TObject *parent, void *set_data) : TObjMapWarp(parent, set_data) {
-    m_name = TObjCityMapWarp__name;
+    m_name = class_name;
     clamp_destination_index();
     warp_range = 23.0f;
     *(f32 *)((s8 *)this + 0xFC) = 0.0f;
@@ -735,7 +735,7 @@ void TObjCityMapWarp::draw_debug_destinations() {
 }
 
 TObjLaboMapWarp::TObjLaboMapWarp(TObject *parent, void *set_data) : TObjMapWarp(parent, set_data) {
-    m_name = TObjLaboMapWarp__name;
+    m_name = class_name;
     clamp_index();
     warp_range = 23.0f;
     animation_frame = 0.0f;

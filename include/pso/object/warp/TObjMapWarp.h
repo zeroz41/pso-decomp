@@ -6,14 +6,15 @@
 class TWindowMenu;
 
 struct TObjMapWarp : public TObjWarpBase {
+    static const char *class_name;
     TObjMapWarp(TObject *parent, void *set_data);
     virtual ~TObjMapWarp();
-    virtual void vfunc_14();
+    virtual void close_menu();
     virtual void draw_debug_destinations();
     virtual void closePlayerWindow(u16);
     Vec destinations[4];
     TWindowMenu *playerPopups[4];
-    static u8 can_warp(s32 arg0, u16 arg1);
+    s32 can_warp(u16 client_id);
     virtual void open_confirm_window(s32 player);  // the slot TObjWarpBase leaves pure; opens player's warp menu
     void process_player_warps();
 };

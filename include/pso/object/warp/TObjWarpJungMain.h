@@ -10,9 +10,9 @@ struct TObjWarpJungMain : public TObjAreaWarp {
     virtual void debug_print_area_num();
     TObjWarpJungMain(TObject *parent, void *set_data);
     virtual ~TObjWarpJungMain();
-    virtual void vfunc_14();
+    virtual void close_menu();
     virtual void open_confirm_window(s32 client_id);
-    virtual s32 vfunc_18(s32);
+    virtual s32 is_choice_confirmed_by(s32);
     virtual void confirm_area_transfer(TObjPlayer *player);
     void render();
     void run_task();

@@ -6,6 +6,7 @@
 // The warp id text ("%xF") a forced map warp shows: fades in, holds, fades out.
 class TObjWarpString : public TObject {
 public:
+    static const char *class_name;
     TObjWarpString(TObject *parent, char *text, u16 client_id);
     virtual ~TObjWarpString();
     void delay_before_fade_in();

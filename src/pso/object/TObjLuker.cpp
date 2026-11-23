@@ -5,6 +5,7 @@
 #include "pso/object/base/TObjChara.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/TObjLuker.h"
+#include "pso/object/TObjLuker_801329B0.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/ui/hud/TRaderMapCore.h"
@@ -94,7 +95,6 @@ void close_windows__9TObjLukerFPv(Obj_801A0DB4 *self);
 s32 is_split_screen(void);
 void *get_window_layout_position(s32 a);
 void *create_window_menu_default(void *p, s32 a);
-s32 get_floor_destination_name(s32 f);
 void hide_part__9TObjLukerFPvUs(Obj_801A0C38 *self, u16 i);
 f32 horizontal_distance_squared(void *, void *);
 s32 play_persistent_sound(int, void *, void *, int, int);

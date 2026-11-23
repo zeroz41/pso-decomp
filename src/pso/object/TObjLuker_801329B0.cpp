@@ -19,13 +19,11 @@ const s32 floor_destination_text_id_table[36] = {
     0x16, 0x17, 0x18, 0x19, 0x1A, 0x1B, 0x1C, 0x1D, 0x1E, 0x1F, 0x20, 0x21,
 };
 
-void get_floor_destination_name(u32 arg0) {
-    u32 var_r3;
-    var_r3 = arg0;
-    if ((var_r3 == 0xB) && ((s32) game_difficulty_selection >= 3)) {
-        var_r3 = 0xE;
+saddr get_floor_destination_name(u32 area) {
+    if ((area == 0xB) && (game_difficulty_selection >= 3)) {
+        area = 0xE;
     }
-    get_localized_text_entry(9, floor_destination_text_id_table[var_r3]);
+    return get_localized_text_entry(9, floor_destination_text_id_table[area]);
 }
 
 const char *TObjLuker::get_stat_table_entry(int a0) { return luker_stat_entry_ptr_table[a0]; }

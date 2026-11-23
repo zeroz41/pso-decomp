@@ -42,7 +42,7 @@ __declspec(section ".data") const char *bm_obj_lobby_warp_motion_names[2] = {"de
 BmlResourceDescriptor warp_lobby_resource_descriptor = {
     "bm_obj_lobby_warp.bml", bm_obj_lobby_warp_model_names, bm_obj_lobby_warp_motion_names, 1, 1,
 };
-const char *TObjWarpLobby__name = "TObjWarpLobby";
+const char *TObjWarpLobby::class_name = "TObjWarpLobby";
 BmlResource *lobby_warp_bml_resource;
 
 
@@ -145,7 +145,7 @@ TObjWarpLobby::~TObjWarpLobby() {
 
 TObjWarpLobby::TObjWarpLobby(TObject *parent, void *set_data) : TObjAreaWarp(parent, set_data) {
 
-    m_name = TObjWarpLobby__name;
+    m_name = class_name;
     this->beam_frame = 0.0f;
     beam_phase = 0.0f;
     this->menu_window = 0;

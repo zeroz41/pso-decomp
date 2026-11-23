@@ -7,6 +7,7 @@
 struct AnimationMotion;
 
 struct TObjWarpLobby : public TObjAreaWarp {
+    static const char *class_name;
     TObjWarpLobby(TObject *parent, void *set_data);
     virtual ~TObjWarpLobby();
     virtual void debug_print_area_num();

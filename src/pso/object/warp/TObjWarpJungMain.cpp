@@ -105,7 +105,7 @@ void TObjWarpJungMain::render() {
 }
 
 // Returns 1 once the destination menu is decided, with dest_floor set to the chosen area.
-s32 TObjWarpJungMain::vfunc_18(s32) {
+s32 TObjWarpJungMain::is_choice_confirmed_by(s32) {
     if (menu_window != 0 && ((TWindowMenu *)menu_window)->is_decided() != 0) {
         dest_floor = jungle_warp_destination_ids[((TWindowMenu *)menu_window)->get_selected_value()];
         return 1;
@@ -115,7 +115,7 @@ s32 TObjWarpJungMain::vfunc_18(s32) {
 
 void TObjWarpJungMain::confirm_area_transfer(TObjPlayer *player) { TObjAreaWarp::confirm_area_transfer(player); }
 
-void TObjWarpJungMain::vfunc_14() { TObjWarpBase::vfunc_14(); TWindowCtrl::clear_flag(); }
+void TObjWarpJungMain::close_menu() { TObjWarpBase::close_menu(); TWindowCtrl::clear_flag(); }
 
 // Opens the three-entry destination menu for the player with this client id.
 void TObjWarpJungMain::open_confirm_window(s32 client_id) {

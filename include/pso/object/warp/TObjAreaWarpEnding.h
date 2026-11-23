@@ -9,6 +9,7 @@ struct GinjaTextureList;
 struct NJS_OBJECT;
 
 struct TObjAreaWarpEnding : public TObjAreaWarp {
+    static const char *class_name;
     TObjAreaWarpEnding(TObject *parent, void *set_data);
     virtual ~TObjAreaWarpEnding();
     virtual void debug_print_area_num();

@@ -1,6 +1,7 @@
 #include "types.h"
 #include "pso/ui/window/WindowDrawContext.h"
 #include "pso/ui/window/TWindowSubAreaMapDisp.h"
+#include "pso/object/TObjLuker_801329B0.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/ui/window/TWindowBase.h"
@@ -65,7 +66,6 @@ WindowDescriptor TWindowSubAreaMapDisp__window_parameters = {
 
 extern "C" {
 extern RecoveredGlobal_80271C6C___vt__21TWindowSubAreaMapDisp __vt__21TWindowSubAreaMapDisp;
-u8 *get_floor_destination_name(s32);
 }
 void text_builder_reset(void);
 extern "C" {
