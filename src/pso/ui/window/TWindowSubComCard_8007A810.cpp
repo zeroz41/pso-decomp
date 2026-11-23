@@ -19,8 +19,8 @@ void TWindowSubComCard::set_card_text(saddr src) {
     if (src != 0) {
         slot = get_card_entry__17TWindowSubComCardFi(static_cast<s32>(reinterpret_cast<saddr>(this)));
         if (slot != NULL) {
-            strncpy(slot->note, reinterpret_cast<const char *>(src), 0x6B);
-            slot->note[0x6B] = 0;
+            strncpy(slot->note.text, reinterpret_cast<const char *>(src), 0x6B);
+            slot->note.text[0x6B] = 0;
         }
     }
 }
@@ -29,7 +29,7 @@ u8 *TWindowSubComCard::get_card_entry_data() {
     if (slot == NULL) {
         return NULL;
     }
-    return reinterpret_cast<u8 *>(slot->note);
+    return reinterpret_cast<u8 *>(slot->note.text);
 }
 
 GuildCardSlot *TWindowSubComCard::find_card_by_id(u32 id) {
@@ -59,8 +59,6 @@ GuildCardSlot *get_card_entry__17TWindowSubComCardFi(s32 index) {
 #pragma auto_inline off
 #pragma dont_inline off
 
-struct ByteBlock_6C { u8 bytes[0x6C]; };
-
 extern "C" {
 struct S_8007AA70;
 s32 forward_return_arg__17TWindowSubComCardFi(saddr, S_8007AA70 *);
@@ -78,16 +76,14 @@ void TWindowSubComCard::swap_cards(s32 first_index, s32 second_index) {
     copy_card__17TWindowSubComCardFiPv((saddr)second_ptr, (u8 *)sp8);
 }
 s32 copy_card__17TWindowSubComCardFiPv(saddr arg0, u8 *arg1) {
-    saddr dest_tail;
-    u8 *src_tail;
+    GuildCardSlot *dest = reinterpret_cast<GuildCardSlot *>(arg0);
+    GuildCardSlot *src = reinterpret_cast<GuildCardSlot *>(arg1);
     ((s32 (*)(s32))forward_return_arg__17TWindowSubComCardFi)(arg0);
-    dest_tail = arg0 + 0x90;
-    src_tail = (arg1 + 0x90);
-    *(u8 *)((s8 *)arg0 + 0x90) = (u8) *(u8 *)((s8 *)arg1 + 0x90);
-    *(u8 *)((s8 *)arg0 + 0x91) = (u8) *(u8 *)((s8 *)arg1 + 0x91);
-    *(u8 *)((s8 *)arg0 + 0x92) = (u8) *(u8 *)((s8 *)arg1 + 0x92);
-    *(u8 *)((s8 *)arg0 + 0x93) = (u8) *(u8 *)((s8 *)arg1 + 0x93);
-    *(ByteBlock_6C *)(dest_tail + 4) = *(const ByteBlock_6C *)((saddr) src_tail + 4);
+    dest->unknown_90[0] = src->unknown_90[0];
+    dest->unknown_90[1] = src->unknown_90[1];
+    dest->unknown_90[2] = src->unknown_90[2];
+    dest->unknown_90[3] = src->unknown_90[3];
+    dest->note = src->note;
     return arg0;
 }
 
@@ -171,7 +167,7 @@ void TWindowSubComCard::remove_card_at(s32 i) {
         move_words(slot, slot + 1, (0xD1 - i) * sizeof(*slot) / 4);
     }
     TWindowSubComCard__sub_8007B26C(&slots[0xD1].entry);
-    slots[0xD1].note[0] = 0;
+    slots[0xD1].note.text[0] = 0;
 }
 
 s32 TWindowSubComCard__sub_8007AC7C(Card_8007AC7C *self, GuildCardSlot *cards, s32 count) {
