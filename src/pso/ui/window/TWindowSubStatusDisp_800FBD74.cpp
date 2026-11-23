@@ -14,6 +14,7 @@
 #include "pso/object/collision/TObjFogCollisionPoison.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/render/render_util.h"
+#include "pso/effect/sprite/TQuadSprite.h"
 
 struct O_800FB400 { u8 pad[0x174]; s32 arr[1]; };
 
@@ -47,17 +48,6 @@ struct FogCtrl_800FB134 {
     f32 width;
 };
 
-struct ScreenQuadDrawRecord {
-    f32 x0;
-    f32 y0;
-    f32 x1;
-    f32 y1;
-    f32 u0;
-    f32 v0;
-    f32 u1;
-    f32 v1;
-};
-
 struct Pos_800FBEA8 {
     f32 x;
     f32 y;
@@ -86,38 +76,30 @@ void build_small_font_glyph_quad(u8 c, Quad_800FC310 *q);
 #pragma auto_inline off
 #pragma dont_inline off
 
-void TWindowSubStatusDisp__sub_800FBD74(s32 text_color, f32 farg0, f32 farg1, f32 farg2) {
-    LAYOUT_ASSERT(sp8_offset, offsetof(ScreenQuadDrawRecord, x0) == 0x0);
-    LAYOUT_ASSERT(spC_offset, offsetof(ScreenQuadDrawRecord, y0) == 0x4);
-    LAYOUT_ASSERT(sp10_offset, offsetof(ScreenQuadDrawRecord, x1) == 0x8);
-    LAYOUT_ASSERT(sp14_offset, offsetof(ScreenQuadDrawRecord, y1) == 0xC);
-    LAYOUT_ASSERT(sp18_offset, offsetof(ScreenQuadDrawRecord, u0) == 0x10);
-    LAYOUT_ASSERT(sp1C_offset, offsetof(ScreenQuadDrawRecord, v0) == 0x14);
-    LAYOUT_ASSERT(sp20_offset, offsetof(ScreenQuadDrawRecord, u1) == 0x18);
-    LAYOUT_ASSERT(sp24_offset, offsetof(ScreenQuadDrawRecord, v1) == 0x1C);
-    ScreenQuadDrawRecord stack;
+void TWindowSubStatusDisp__sub_800FBD74(s32 text_color, f32 x, f32 y, f32 depth) {
+    QuadSpriteRect quad;
     set_default_alpha_blend();
     begin_screen_draw(1);
     TWindowSubStatusDisp::render_forward();
-    set_draw_texture_and_color(0, (text_color));
-    stack.x0 = farg0;
-    stack.y0 = farg1;
-    stack.x1 = (109.0f) + farg0;
-    stack.y1 = (12.0f) + farg1;
-    stack.u0 = (0.00390625f);
-    stack.v0 = (0.921875f);
-    stack.u1 = (0.4296875f);
-    stack.v1 = (0.96875f);
-    draw_textured_quad_at_depth((&stack.x0), farg2);
-    stack.x0 += (114.0f);
-    stack.y0 += (-3.0f);
-    stack.x1 = (15.0f) + stack.x0;
-    stack.y1 = (14.0f) + stack.y0;
-    stack.u0 = (0.4453125f);
-    stack.v0 = (0.92578125f);
-    stack.u1 = (0.50390625f);
-    stack.v1 = (0.98046875f);
-    draw_textured_quad_at_depth((&stack.x0), farg2);
+    set_draw_texture_and_color(0, text_color);
+    quad.x0 = x;
+    quad.y0 = y;
+    quad.x1 = 109.0f + x;
+    quad.y1 = 12.0f + y;
+    quad.u0 = 0.00390625f;
+    quad.v0 = 0.921875f;
+    quad.u1 = 0.4296875f;
+    quad.v1 = 0.96875f;
+    draw_textured_quad_at_depth(&quad.x0, depth);
+    quad.x0 += 114.0f;
+    quad.y0 += -3.0f;
+    quad.x1 = 15.0f + quad.x0;
+    quad.y1 = 14.0f + quad.y0;
+    quad.u0 = 0.4453125f;
+    quad.v0 = 0.92578125f;
+    quad.u1 = 0.50390625f;
+    quad.v1 = 0.98046875f;
+    draw_textured_quad_at_depth(&quad.x0, depth);
     TWindowSubStatusDisp::get_player();
 }
 
