@@ -538,9 +538,9 @@ void TLobby::load_item_data() {
     }
 }
 
-saddr wave_event_stream_base;
+u8 *wave_event_stream_base;
 s32 wave_event_stream_cursor;
-int wave_event_stop_requested;
+s32 wave_event_stop_requested;
 s32 wave_event_trigger_count;
 s32 wave_event_first_switch_set;
 void TLobby::relink_objects(s16 a, s16 b) { link_matching_objects(a, b); wave_event_stop_requested = 1; }
@@ -655,7 +655,7 @@ u16 read_stream_u16(void) {
     u16 sp8;
     s32 temp_r4;
 
-    ((s32 (*)(u16 *, s32, s32))memcpy)(&sp8, wave_event_stream_base + wave_event_stream_cursor, 2);
+    memcpy(&sp8, wave_event_stream_base + wave_event_stream_cursor, 2);
     temp_r4 = wave_event_stream_cursor;
     wave_event_stream_cursor = temp_r4 + 2;
     ((s32 (*)(u16 *, s32))bswap_16__FPUs)(&sp8, temp_r4);
@@ -663,12 +663,9 @@ u16 read_stream_u16(void) {
 }
 
 unsigned char read_stream_u8(void);
-#define wave_event_stop_requested (*(s32 *)&wave_event_stop_requested)
 
 s32 run_wave_event_actions(void);
 
-#define wave_event_stream_base (*(unsigned char * *)&wave_event_stream_base)
-#define wave_event_stream_cursor (*(int *)&wave_event_stream_cursor)
 unsigned char read_stream_u8(void) { return wave_event_stream_base[wave_event_stream_cursor++]; }
 
 s32 run_wave_event_actions(void) {
@@ -682,7 +679,5 @@ s32 run_wave_event_actions(void) {
     return wave_event_trigger_count;
 }
 
-#undef wave_event_stream_base
-#undef wave_event_stream_cursor
 
-void TLobby__sub_80208884(void *a0) { wave_event_stream_base = *(s32 *)((char *)a0 + 0x0); wave_event_stream_cursor = *(s32 *)((char *)a0 + 0x4); }
+void TLobby__sub_80208884(void *a0) { wave_event_stream_base = *(u8 **)((char *)a0 + 0x0); wave_event_stream_cursor = *(s32 *)((char *)a0 + 0x4); }
