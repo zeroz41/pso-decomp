@@ -299,7 +299,6 @@ extern "C" {
 void try_close__6TLobbyFPv();
 void handle_quest_download_chunk__6TLobbyFv();
 void apply_lobby_markers__6TLobbyFv();
-void init_once__6TLobbyFPv(TRecvInfoBoard *info_board);
 void lobby_debug_printf_stub(const char *fmt, ...);
 extern const char lobby_debug_delete_player_format[];
 extern const char lobby_debug_burst_player_format[];
@@ -397,9 +396,6 @@ s32 poll_memcard_result(saddr);
 s32 TKeyBoardControl__sub_8000F828(void);
 s8 TAdSinglePlyChrSelectGC__sub_8033605C(void);
 void TLobby__sub_80134A20();
-void set_lobby_event_theme(int theme);
-void TLobby__sub_80134DC8();
-void TLobby__sub_80134DE8(TRecvChoiceSearchOptions *options);
 void show_card_list_message(void *msg);
 void TLobby__sub_80136E68(s32 count, Ent_80136E68 *entries, Ent_80136E68 *selected);
 void receive_file_chunk__22TQuestVmDownLoadServerFv();
@@ -2849,8 +2845,8 @@ TLobby::TLobby(TObject *parent) : TObject(parent) {
     protocol_instance->m_recv_handlers.send_96_unused = TLobby::send_position_update;
     protocol_instance->m_recv_handlers.handle_97_checksum_reply_packet = (recv_packet_handler_handle_97_checksum_reply_packet)TLobby::handle_state;
     protocol_instance->m_recv_handlers.handle_B1_current_time_packet = TLobby::reset_lobby_state;
-    protocol_instance->m_recv_handlers.handle_C0_choice_search_option_packet = TLobby__sub_80134DE8;
-    protocol_instance->m_recv_handlers.handle_C4_choice_search_reply_packet = TLobby__sub_80134DC8;
+    protocol_instance->m_recv_handlers.handle_C0_choice_search_option_packet = TLobby::handle_choice_search_options;
+    protocol_instance->m_recv_handlers.handle_C4_choice_search_reply_packet = TLobby::handle_choice_search_results;
     protocol_instance->m_recv_handlers.handle_A2_recv_quest_menu_list = copy_quest_list_data__16TQuestListOnlineFv;
     protocol_instance->m_recv_handlers.handle_A3_recv_quest_menu_info = TQuestListOnline::receive_quest_info;
     protocol_instance->m_recv_handlers.handle_44_recv_download_head = TQuestListOnline::begin_file_download;
@@ -2866,8 +2862,8 @@ TLobby::TLobby(TObject *parent) : TObject(parent) {
     protocol_instance->m_recv_handlers.handle_D3_execute_trade_packet = handle_trade_received_items;
     protocol_instance->m_recv_handlers.handle_D4_trade_result_packet = (recv_packet_handler_handle_D4_trade_result_packet)TLobby::handle_reset_choice;
     protocol_instance->m_recv_handlers.handle_D1_advance_trade_state_packet = (recv_packet_handler_handle_D1_advance_trade_state_packet)TLobby::apply_trade_items;
-    protocol_instance->m_recv_handlers.handle_D8_infoboard_packet = init_once__6TLobbyFPv;
-    protocol_instance->m_recv_handlers.handle_DA_lobby_event_packet = set_lobby_event_theme;
+    protocol_instance->m_recv_handlers.handle_D8_infoboard_packet = TLobby::handle_info_board;
+    protocol_instance->m_recv_handlers.handle_DA_lobby_event_packet = TLobby::set_lobby_event_theme;
     protocol_instance->m_recv_handlers.handle_AB_quest_stats_response_packet = TLobby__sub_80134A20;
     TLobby__data_805D4E30 = 0;
 }

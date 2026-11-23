@@ -16,6 +16,9 @@ struct NJS_TEXLIST;
 class TObjPlayer;
 class TProtocol;
 struct TPlyChallenge;
+struct TRecvInfoBoard;
+struct TRecvChoiceSearchOptions;
+struct ChoiceSearchResultList;
 s32 pso_load_texture(NJS_TEXLIST *texlist);
 
 struct TLobbyFloorItemEntry {
@@ -141,7 +144,6 @@ struct TLobby : public TObject {
     void copy_header_struct(void* q);
     static void set_enemy_mode_flag();
     static TObjTombstone *create_tombstone(TObject *parent, s32 client, const TObjTombstoneSpot *spot);
-    static void free_static_windows();
     void collect_active_card_ids();
     static void send_status_packet();
     static void destroy_global_singleton();
@@ -453,7 +455,7 @@ struct TLobby : public TObject {
     static void *create_object(void *tbl);
     static void free_global_object();
     static void update_menu_cursor_selection();
-    static void init_once(s32 src);
+    static void init_once(TRecvInfoBoard *info_board);
     static void *get_info_board_ptr();
     static void init_once_data(u32 arg0);
     static void flush_pending_send();
@@ -720,6 +722,11 @@ struct TLobby : public TObject {
     static s32 create_file_load_entry(saddr name, s32 arg1, u32 arg2, saddr src, void **arg4);
     static s32 request_file_read(const char *name, s32 arg1, s32 *arg2, void **arg3);
     static void reset_lobby_state();
+    // Receive handlers for DA (lobby event), D8 (info boards), C4 (choice search results), C0 (choice search options).
+    static void set_lobby_event_theme(int theme);
+    static void handle_info_board(TRecvInfoBoard *info_board);
+    static void handle_choice_search_results(ChoiceSearchResultList *results);
+    static void handle_choice_search_options(TRecvChoiceSearchOptions *options);
     static void init_keyboard_buffer();
     static s32 poll_connect();
     static void flush_pending_flag2();

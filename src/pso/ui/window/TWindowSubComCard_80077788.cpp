@@ -2,6 +2,7 @@
 #include "pso/ui/window/TWindowSubComCard_80077788.h"
 #include "pso/system/memory.h"
 #include "pso/ui/window/TWindowSubComCard.h"
+#include "pso/network/protocol/choice_search.h"
 #include "pso/ui/chat/TWindowSubSymbolChat.h"
 
 #pragma inline_depth(1)
@@ -27,8 +28,8 @@ struct Tbl_800777C4 { u8 f0; u8 count; u8 pad[2]; Ent_800777C4 e[1]; };
 
 struct Out_800778B4 { s32 a; s32 b; };
 
-saddr lbl_805D4E58;
-s32 lbl_805D4E5C;
+TRecvChoiceSearchOptions *choice_search_options;
+ChoiceSearchResultList *choice_search_results;
 extern "C" {
 void set_value_by_key(S_80077814 *arr, u16 key, s32 val);
 void TLobby__sub_80077798(S_80077798 *src, DO_80077798 *dst);
@@ -90,16 +91,16 @@ s32 TWindowSubComCard::find_value_by_key(u16 key) {
 }
 
 saddr TWindowSubComCard::get_com_count() {
-    return lbl_805D4E5C;
+    return (saddr)choice_search_results;
 }
 void TWindowSubComCard::release() {
-    if ((u32) (*(u32 *)&lbl_805D4E5C) != 0U) {
-        ::operator delete((void *)(*(uaddr *)&lbl_805D4E5C));
-        (*(u32 *)&lbl_805D4E5C) = 0U;
+    if (choice_search_results != NULL) {
+        delete choice_search_results;
+        choice_search_results = NULL;
     }
 }
 saddr TWindowSubComCard::get_chr_select() {
-    return lbl_805D4E58;
+    return (saddr)choice_search_options;
 }
 
 void TWindowSubComCard__sub_800778B4(Out_800778B4 *arr, Tbl_800777C4 *chr_select) {

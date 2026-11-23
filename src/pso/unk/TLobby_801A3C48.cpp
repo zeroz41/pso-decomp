@@ -65,7 +65,7 @@
 #include "pso/ui/chat/TWindowChat_800774C0.h"
 #include "pso/system/byteswap.h"
 #include "pso/system/main_loop.h"
-#include "pso/unk/TLobby_80077B60.h"
+#include "pso/network/protocol/choice_search.h"
 #include "pso/unk/TLobby_801C25B4.h"
 #include "pso/object/key/TOKeyJungleMain.h"
 #include "pso/unk/TLobby_802D3970.h"
@@ -193,7 +193,7 @@ FloorResourceCallbacks online_lobby_scene_callback_table[43] = {
     {(FloorResourceCallback)TWindowGetComCard__sub_8007B67C, (FloorResourceCallback)TWindowGetComCard__sub_8007B65C},
     {TLobby__sub_8024285C, TLobby::reset_state},
     {clear_received_symbol_chat, TLobby__sub_80077608},
-    {TLobby__sub_80077BAC, TLobby::free_static_windows},
+    {reset_choice_search_data, free_choice_search_data},
     {TWindowDD__sub_80344114, TWindowDD::free_buffers},
     {reset_globals, NULL},
     {TLobby::init_char_slots, TLobby__sub_801C3A40},

@@ -139,12 +139,6 @@ struct TRecvServerTime {
     s8 time_flags_high;
 };
 
-// C0: the choice search options the server offers (56 entries of 32 bytes).
-struct TRecvChoiceSearchOptions {
-    packet_header header;
-    u8 entries[56][32];
-};
-
 // D8: the info boards of the players in the lobby.
 struct TInfoBoardEntry {
     char name[16];
@@ -216,7 +210,7 @@ struct TSendClientConfig {
     o(handle_97_checksum_reply_packet, u8 flags) \
     o(handle_B1_current_time_packet, void) \
     o(handle_C0_choice_search_option_packet, TRecvChoiceSearchOptions *options) \
-    o(handle_C4_choice_search_reply_packet, void) \
+    o(handle_C4_choice_search_reply_packet, ChoiceSearchResultList *results) \
     o(handle_D8_infoboard_packet, TRecvInfoBoard *info_board) \
     o(handle_A2_recv_quest_menu_list, TMenuList<QuestListEntry, 30, 0> &quest_list) \
     o(handle_A3_recv_quest_menu_info, TPlyText<288> &info) \

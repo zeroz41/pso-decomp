@@ -20,6 +20,19 @@ struct ChoiceSearchPacket {
     ChoiceSearchParameters parameters;
 };
 
+// C0: one choice the server offers; parent_choice_id 0 marks a category.
+struct ChoiceSearchOption {
+    u16 parent_choice_id;
+    u16 choice_id;
+    char text[0x1C];
+};
+
+// C0: the choice search options the server offers; header.flags is the entry count.
+struct TRecvChoiceSearchOptions {
+    packet_header header;
+    ChoiceSearchOption entries[56];
+};
+
 // C4: one player the choice search found.
 struct ChoiceSearchResult {
     ChoiceSearchResult();
@@ -40,6 +53,17 @@ struct ChoiceSearchResultList {
     ChoiceSearchResult entries[32];
 };
 
+// The last C0 options and C4 results the server sent (allocated on first receipt).
+extern TRecvChoiceSearchOptions *choice_search_options;
+extern ChoiceSearchResultList *choice_search_results;
+
+void store_choice_search_options(TRecvChoiceSearchOptions *options);
+void store_choice_search_results(ChoiceSearchResultList *results);
+// Scene setup / teardown of the two buffers.
+void reset_choice_search_data();
+void free_choice_search_data();
+
+LAYOUT_ASSERT(ChoiceSearchOptionsSize, sizeof(TRecvChoiceSearchOptions) == 0x704);
 LAYOUT_ASSERT(ChoiceSearchParametersSize, sizeof(ChoiceSearchParameters) == 0x18);
 LAYOUT_ASSERT(ChoiceSearchEntriesOffset, offsetof(ChoiceSearchParameters, entries) == 4);
 LAYOUT_ASSERT(ChoiceSearchPacketSize, sizeof(ChoiceSearchPacket) == 0x1C);
