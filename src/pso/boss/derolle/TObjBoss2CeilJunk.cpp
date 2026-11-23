@@ -195,13 +195,15 @@ extern const f32 lbl_805D85A0 = 6.0f;
 #pragma push
 #pragma opt_dead_assignments off
 TObjBoss2CeilJunk::TObjBoss2CeilJunk(TObject *parent, const Vec *position) : TObjBase(parent) {
+    const volatile f32 *scale;
     f32 fraction;
     f32 random;
     m_name = TObjBoss2CeilJunk__name;
     VecCopy(&this->position, position);
     random = (f32) rand();
     fraction = 3.0517578e-05f * random;
-    kind = (s32) (*(const volatile f32 *)&lbl_805D85A0 * fraction);
+    scale = &lbl_805D85A0;
+    kind = (s32) (*scale * fraction);
     if (TObjBoss2Tunnel::spawn_effect(&this->position, &prev_position, &ground_normal) == 0) {
         state = 0;
     } else {

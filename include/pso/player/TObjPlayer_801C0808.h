@@ -3,6 +3,16 @@
 
 #include "types.h"
 
+struct SubcmdBodyCopy78 {
+    u8 bytes[0x78];
+};
+
+struct SubcmdPacketCopy6xAC {
+    u8 header[4];
+    s32 count;
+    SubcmdBodyCopy78 body;
+};
+
 extern "C" {
 void *TObjPlayer__sub_801C092C(void *arg0, void *arg1);
 void TObjPlayer__sub_801C0C04(u8 *arg0);

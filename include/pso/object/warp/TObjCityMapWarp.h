@@ -15,7 +15,7 @@ struct TObjCityMapWarp : public TObjMapWarp {
     int is_field88_zero();
     void clamp_destination_index();
     static void *create(void *set_data);
-    u8 unk_FC[0x4];
+    f32 animation_frame;
 };
 
 LAYOUT_ASSERT(TObjCityMapWarp_size, sizeof(TObjCityMapWarp) == 0x100);
