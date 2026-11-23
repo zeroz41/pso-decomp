@@ -8,6 +8,7 @@ struct NJS_OBJECT;
 class TUnk_804E0988 : public TObjPathObj {
 public:
     TUnk_804E0988(TObject *parent, void *set_data);
+    static void *create(void *set_data);
     virtual ~TUnk_804E0988();
     s32 sub_802C2C48();
     s32 sub_802C2A10();

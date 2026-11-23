@@ -15,7 +15,6 @@ struct TObjAreaWarpForest : public TObjAreaWarp {
     virtual void debug_print_area_num();
     void render();
     void run_task();
-    void *alloc_and_init();
     f32 m_c4;
     u32 beam_rotation;
     NJS_OBJECT *warp_model;                // forest warp model 0, fs_obj_warp.gj

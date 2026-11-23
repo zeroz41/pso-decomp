@@ -595,7 +595,7 @@ void TObjPlayer__sub_802C2900(void) {
     }
 }
 
-void *TObjPlayer__sub_802C28B4(void *set_data) {
+void *TUnk_804E0988::create(void *set_data) {
     return new TUnk_804E0988(tl_05, set_data);
 }
 #pragma pop

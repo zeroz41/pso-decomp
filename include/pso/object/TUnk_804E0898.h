@@ -6,6 +6,7 @@
 class TUnk_804E0898 : public TObjPathObj {
 public:
     TUnk_804E0898(TObject *parent, void *set_data);
+    static void *create(void *set_data);
     virtual ~TUnk_804E0898();
     s32 initialize_lobby_pigeon_path();
     s32 advance_lobby_pigeon_path();
