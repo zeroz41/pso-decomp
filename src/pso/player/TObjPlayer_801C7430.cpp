@@ -3606,13 +3606,13 @@ s32 TObjPlayer::check_conditions() {
 
 void TObjPlayer::exit_photon_blast_action() {
     u8 *arg0 = (u8 *)this;
-    u8 *lock_on_cursor;
+    TLockOnCursor *lock_on_cursor;
     this->motion_flags &= ~0x40;
     this->clear_state_flags(0x80);
     this->clear_actor_flags((u32)(0x400000));
-    lock_on_cursor = (unsigned char *)this->lock_on_cursor;
+    lock_on_cursor = this->lock_on_cursor;
     if (lock_on_cursor != NULL) {
-        *(u16 *)((s8 *)lock_on_cursor + 0x508) = 0xFFFF;
+        lock_on_cursor->unk_508.unk_0 = 0xFFFF;
     }
     this->photon_blast_gauge.reset_photon_blast_gauge();
     if (TObjPlayer::is_final_phase() != 0) {
@@ -4292,13 +4292,13 @@ void TObjPlayer::dispatch_technique_cast_state(s16 phase) {
 }
 
 void TObjPlayer::reset_linked_obj() {
-    void *lock_on_cursor;
+    TLockOnCursor *lock_on_cursor;
 
     ((s32 (*)(void))clear_velocity)();
     ((s32 (*)(void *))clear_status_bit6__10TObjPlayerFPv)(this);
     lock_on_cursor = this->lock_on_cursor;
     if (lock_on_cursor != NULL) {
-        *(u16 *)((s8 *)lock_on_cursor + 0x508) = 0xFFFF;
+        lock_on_cursor->unk_508.unk_0 = 0xFFFF;
     }
 }
 
@@ -4340,10 +4340,10 @@ void TObjPlayer::send_attack_stage3_request() {
     void *position;
     s32 var_r4;
     u8 *temp_r3;
-    u8 *lock_on_cursor;
-    lock_on_cursor = (u8 *)this->lock_on_cursor;
+    TLockOnCursor *lock_on_cursor;
+    lock_on_cursor = this->lock_on_cursor;
     if (lock_on_cursor != NULL) {
-        temp_r3 = (u8 *)(resolve_hittable_target(*(u16 *)((s8 *)lock_on_cursor + 0x508), *(s16 *)((s8 *)lock_on_cursor + 0x50A)));
+        temp_r3 = (u8 *)(resolve_hittable_target(lock_on_cursor->unk_508.unk_0, lock_on_cursor->unk_508.unk_2));
         if (temp_r3 != NULL) {
             position = this->get_position_ptr();
             var_r4 = calc_angle_to((Vec *)position, (Vec *)&((Rec_801CDBA0 *)(*(u8 **)((s8 *)temp_r3 + 0xA4)))[*(s16 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0x424)) + 0x50A)].pos);
@@ -4415,13 +4415,13 @@ void TObjPlayer::run_attack_stage3_phase(s16 phase) {
 }
 
 void TObjPlayer::reset_target_link() {
-    void *lock_on_cursor;
+    TLockOnCursor *lock_on_cursor;
 
     ((s32 (*)(void))clear_velocity)();
     ((s32 (*)(void *))clear_status_bit6__10TObjPlayerFPv)(this);
     lock_on_cursor = this->lock_on_cursor;
     if (lock_on_cursor != NULL) {
-        *(u16 *)((s8 *)lock_on_cursor + 0x508) = 0xFFFF;
+        lock_on_cursor->unk_508.unk_0 = 0xFFFF;
     }
 }
 
@@ -4463,10 +4463,10 @@ void TObjPlayer::send_attack_stage2_request() {
     void *position;
     s32 var_r4;
     u8 *temp_r3;
-    u8 *lock_on_cursor;
-    lock_on_cursor = (u8 *)this->lock_on_cursor;
+    TLockOnCursor *lock_on_cursor;
+    lock_on_cursor = this->lock_on_cursor;
     if (lock_on_cursor != NULL) {
-        temp_r3 = (u8 *)(resolve_hittable_target(*(u16 *)((s8 *)lock_on_cursor + 0x508), *(s16 *)((s8 *)lock_on_cursor + 0x50A)));
+        temp_r3 = (u8 *)(resolve_hittable_target(lock_on_cursor->unk_508.unk_0, lock_on_cursor->unk_508.unk_2));
         if (temp_r3 != NULL) {
             position = this->get_position_ptr();
             var_r4 = calc_angle_to((Vec *)position, (Vec *)&((Rec_801CDF9C *)(*(u8 **)((s8 *)temp_r3 + 0xA4)))[*(s16 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0x424)) + 0x50A)].pos);
@@ -4902,13 +4902,13 @@ void update_action_state__10TObjPlayerFPv(u8 *player) {
 }
 
 void TObjPlayer::reset_lockon() {
-    void *lock_on_cursor;
+    TLockOnCursor *lock_on_cursor;
 
     ((s32 (*)(void))clear_velocity)();
     ((s32 (*)(void *))clear_status_bit6__10TObjPlayerFPv)(this);
     lock_on_cursor = this->lock_on_cursor;
     if (lock_on_cursor != NULL) {
-        *(u16 *)((s8 *)lock_on_cursor + 0x508) = 0xFFFF;
+        lock_on_cursor->unk_508.unk_0 = 0xFFFF;
     }
 }
 

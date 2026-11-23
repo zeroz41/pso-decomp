@@ -103,7 +103,7 @@ public:
 class TUnk_8013EF3C {
 public:
     u16 unk_0;
-    u16 unk_2;
+    s16 unk_2;
     u16 unk_4;
 
     TUnk_8013EF3C();
