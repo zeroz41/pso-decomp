@@ -374,8 +374,6 @@ TWindowFukidasi *TWindowFukidasi::find_balloon_overlap_for(TWindowFukidasi *firs
 }
 
 void TWindowBase::sub_80244F2C(u8 *descriptor, u8 *parent, s16 client) {
-    s32 flags;
-    s32 flags_2;
     m_name = TWindowBase__name;
     ((s32 (*)(void *, void *))copy_vec2__FPvPv)(target_position, parent);
     ((s32 (*)(void *, void *))copy_vec2__FPvPv)(target_size, descriptor);
@@ -389,12 +387,10 @@ void TWindowBase::sub_80244F2C(u8 *descriptor, u8 *parent, s16 client) {
     init_window_layout_entries(&entry_list, *(const void **)((s8 *)descriptor + 0xC), (int) (client_index));
     open_tick = 0;
     closing_tick = 0;
-    flags = window_flags;
-    if (!(flags & 1) && !(flags & 2)) {
+    if (!(window_flags & 1) && !(window_flags & 2)) {
         disallow_rendering();
     }
-    flags_2 = window_flags;
-    if ((flags_2 & 1) && (flags_2 & 2) && !(flags_2 & 0x20)) {
+    if ((window_flags & 1) && (window_flags & 2) && !(window_flags & 0x20)) {
         ((s32 (*)(int, int, int, int))play_sound_effect)(0x53703, 0, 0, 0);
     }
     if (TWindowSubStatusDisp::get_card_window_scale((int) (client_index)) <= 0.0f) {

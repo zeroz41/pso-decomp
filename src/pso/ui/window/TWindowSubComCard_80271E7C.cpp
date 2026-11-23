@@ -87,7 +87,7 @@ void text_builder_reset();
 extern "C" {
 void load_selected_guild_card_record(int, int);
 
-void update_selection__17TWindowSubComCardFUiUiPvi(uaddr list_window, uaddr card_window, s32 *arg2, s32 cards);
+void update_selection__17TWindowSubComCardFUiUiPvi(uaddr list_window, uaddr card_window, s32 *last_selected, s32 cards);
 void TWindowComCard__sub_80249920(saddr window, s32 card_index, s32 cards);
 }
 
@@ -133,8 +133,8 @@ extern s32 local_client_id;
 void rebuild_com_card_list__17TWindowSubComCardFii(s32 arg0, saddr list_window);
 s32 create_keyboard__17TWindowSubComCardFi(saddr arg0);
 s32 create_keyboard__17TWindowSubComCardFii(saddr parent, saddr card);
-void update_display_value__17TWindowSubComCardFUiUiPv(uaddr list_window, uaddr card_window, s32 *arg2);
-void update_selection__17TWindowSubComCardFiii(s32 list_window, s32 card_window, s32 selected_out);
+void update_display_value__17TWindowSubComCardFUiUiPv(uaddr list_window, uaddr card_window, s32 *last_selected);
+void update_selection__17TWindowSubComCardFiii(s32 list_window, s32 card_window, s32 last_selected);
 s32 __nw__7TObjectFUl(s32);
 
 struct ComCardRec_80272A98 { u32 id; char name[0xD0]; };
@@ -1640,32 +1640,32 @@ s32 create_keyboard__17TWindowSubComCardFii(saddr parent, saddr card) {
     return keyboard;
 }
 
-void update_display_value__17TWindowSubComCardFUiUiPv(uaddr list_window, uaddr card_window, s32 *arg2) {
+void update_display_value__17TWindowSubComCardFUiUiPv(uaddr list_window, uaddr card_window, s32 *last_selected) {
   saddr card_entry;
     s32 selected_value;
 
     card_entry = reinterpret_cast<saddr>(get_card_entry__17TWindowSubComCardFi(0));
     if ((list_window != 0U) && (card_window != 0U)) {
         selected_value = ((TWindowMenu *)list_window)->get_selected_value();
-        if (selected_value != (s32) *arg2) {
-            *arg2 = selected_value;
+        if (selected_value != (s32) *last_selected) {
+            *last_selected = selected_value;
             ((TWindowComCard *)card_window)->set_display_value(selected_value, card_entry);
         }
     }
 }
 
-void update_selection__17TWindowSubComCardFiii(s32 list_window, s32 card_window, s32 selected_out) {
+void update_selection__17TWindowSubComCardFiii(s32 list_window, s32 card_window, s32 last_selected) {
     s32 tmp = TWindowSubComCard::get_card_slot(0);
-    ((s32 (*)(s32, s32, s32, s32))update_selection__17TWindowSubComCardFUiUiPvi)(list_window, card_window, selected_out, tmp);
+    ((s32 (*)(s32, s32, s32, s32))update_selection__17TWindowSubComCardFUiUiPvi)(list_window, card_window, last_selected, tmp);
 }
 
-void update_selection__17TWindowSubComCardFUiUiPvi(uaddr list_window, uaddr card_window, s32 *arg2, s32 cards) {
+void update_selection__17TWindowSubComCardFUiUiPvi(uaddr list_window, uaddr card_window, s32 *last_selected, s32 cards) {
     s32 selected_value;
 
     if ((list_window != 0U) && (card_window != 0U)) {
         selected_value = ((TWindowMenu *)list_window)->get_selected_value();
-        if (selected_value != (s32) *arg2) {
-            *arg2 = selected_value;
+        if (selected_value != (s32) *last_selected) {
+            *last_selected = selected_value;
             TWindowComCard__sub_80249920(card_window, selected_value, cards);
         }
     }
