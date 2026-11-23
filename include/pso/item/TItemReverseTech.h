@@ -7,9 +7,10 @@
 
 class TItemReverseTech : public TObject {
 public:
+    TItemReverseTech(TObject *parent);
     virtual ~TItemReverseTech();
     virtual void run_task();
-    u32 unknown_1c;
+    u32 pad_1C;
     TObject *part_one;
     TObject *part_two;
 public:
@@ -23,9 +24,5 @@ public:
 
 LAYOUT_ASSERT(ReverseTechPartOneOffset, offsetof(TItemReverseTech, part_one) == 0x20);
 LAYOUT_ASSERT(ReverseTechPartTwoOffset, offsetof(TItemReverseTech, part_two) == 0x24);
-
-extern "C" {
-void *TItemReverseTech__ct(void *item_reverse_tech, void *parent);
-}
 
 #endif
