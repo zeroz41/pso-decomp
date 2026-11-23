@@ -33,10 +33,10 @@ class TScene : public TObject
 public:
     u32 visible_section_count; // sections the culling pass marked visible this frame
     u8 _pad20[0x10];
-    u32 m_30;
-    u32 m_34;
-    u32 m_38;
-    u32 m_3c;
+    u32 pad_30;  // pad_30-pad_3C: 0, 0, 50, 0 from the constructor
+    u32 pad_34;
+    u32 pad_38;
+    u32 pad_3C;
 
     TScene(TObject *parent);
     void initialize_fmt2_materials();
@@ -71,8 +71,8 @@ public:
     // The map section the player with client_id stands in, or -1.
     static s32 find_player_section(u16 client_id);
     void render_map_sections();
-    void render_static_map_section(SceneMaterialSection *arg1, s32 arg2);
-    void render_animated_map_section(SceneMaterialSection *arg1, s32 arg2);
+    void render_static_map_section(SceneMaterialSection *section, s32 flagged_only);
+    void render_animated_map_section(SceneMaterialSection *section, s32 flagged_only);
     void update_room_object_visibility(SceneMaterialSection *room);
     void set_field4();
     void advance_scene_object_animations();
@@ -111,10 +111,6 @@ public:
 #include <stddef.h>
 LAYOUT_ASSERT(TScene_size, sizeof(TScene) == 0x40);
 LAYOUT_ASSERT(TScene_field_1c_offset, offsetof(TScene, visible_section_count) == 0x1C);
-LAYOUT_ASSERT(TScene_field_30_offset, offsetof(TScene, m_30) == 0x30);
-LAYOUT_ASSERT(TScene_field_34_offset, offsetof(TScene, m_34) == 0x34);
-LAYOUT_ASSERT(TScene_field_38_offset, offsetof(TScene, m_38) == 0x38);
-LAYOUT_ASSERT(TScene_field_3c_offset, offsetof(TScene, m_3c) == 0x3C);
 
 void load_scene_collision_file(saddr scene_file_index);
 // The id of the nearest map section whose radius holds pos, or -1.

@@ -76,7 +76,7 @@ extern "C" {
 
 SceneMaterialSection *find_scene_room_by_id(s32 id);
 
-bool is_in_view_depth__6TSceneFf(f32 farg0);
+bool is_in_view_depth__6TSceneFf(f32 depth);
 
 s32 TScene__sub_802040D4(void *self, SceneMaterialNode *node, f32 depth, f32 near_depth);
 
@@ -296,7 +296,7 @@ s32 scene_file_buffer_size;
 extern "C" {
 s32 load_texture_sequence_frame(void *task, Cyc_80205D24 *c);
 }
-void load_scene_map_file(saddr arg0);
+void load_scene_map_file(saddr name);
 void load_scene_collision_file(saddr name);
 void load_floor_scene(void);
 
@@ -971,12 +971,12 @@ void load_scene_collision_file(saddr name) {
     }
 }
 
-void load_scene_map_file(saddr arg0) {
+void load_scene_map_file(saddr name) {
     u8 id[0x20];
     Ent_802066BC *e;
     scene_material_root = NULL;
     scene_format_index = -1;
-    TLobby::replace_file_extension((char *)((s32 *)id), (char *)arg0, (char *)((s32 *)"n.rel"));
+    TLobby::replace_file_extension((char *)((s32 *)id), (char *)name, (char *)((s32 *)"n.rel"));
     if (get_resource_file_size((const char *)id) <= map_rel_load_size_limit && map_rel_load_buffer != 0) {
         scene_material_root = (SceneMaterialRoot *)load_relocatable_file((saddr)((s32 *)id), map_rel_load_buffer);
     }
@@ -1025,10 +1025,10 @@ void TScene::create() {
 TScene::TScene(TObject *parent) : TObject(parent) {
     m_name = class_name;
     visible_section_count = 0;
-    m_30 = 0;
-    m_34 = 0;
-    m_38 = 0x32;
-    m_3c = 0;
+    pad_30 = 0;
+    pad_34 = 0;
+    pad_38 = 0x32;
+    pad_3C = 0;
     initialize_materials();
     if ((get_current_floor_area() == AREA_FOREST1) && ((u32) texture_wave_resource != 0U) && (scene_material_root != NULL) && (scene_material_root->texlist != 0)) {
         TScene::create_texture_wave_tasks(this);
@@ -1423,14 +1423,14 @@ void TScene::render_map_sections() {
         end_ginja_model_draw();
     }
 }
-void TScene::render_static_map_section(SceneMaterialSection *scene_material_section, s32 arg2) {
+void TScene::render_static_map_section(SceneMaterialSection *scene_material_section, s32 flagged_only) {
     SceneMaterialStatic *e;
     s32 i;
     Node_8020533C *node;
     TEffIndirect *tex;
 
     for (i = 0, e = scene_material_section->objects; i < scene_material_section->count; i++, e++) {
-        if (arg2 != 0 && !(e->flags & 0x10000)) {
+        if (flagged_only != 0 && !(e->flags & 0x10000)) {
             continue;
         }
         if (e->node == NULL) {
@@ -1536,14 +1536,14 @@ void TScene::render_static_map_section(SceneMaterialSection *scene_material_sect
     }
 }
 void draw_ginja_model_with_motion(void *, void *, f32);
-void TScene::render_animated_map_section(SceneMaterialSection *scene_material_section, s32 arg2) {
+void TScene::render_animated_map_section(SceneMaterialSection *scene_material_section, s32 flagged_only) {
   TEffIndirect *texture;
   SceneMaterialAnimated *e;
   s32 i;
   Node_8020533C *node;
   for (i = 0, e = scene_material_section->animated; i < scene_material_section->animatedCount; i++, e++)
   {
-    if ((arg2 != 0) && (!(e->flags & 0x10000)))
+    if ((flagged_only != 0) && (!(e->flags & 0x10000)))
     {
       continue;
     }
@@ -2059,22 +2059,22 @@ void TScene::update_room_object_visibility(SceneMaterialSection *room) {
     }
 }
 extern "C" {
-bool is_in_view_depth__6TSceneFf(f32 farg0) {
+bool is_in_view_depth__6TSceneFf(f32 depth) {
     f32 sp[6];
     void *unused;
     matrix_mult_vec(0, unused, &sp[0]);
     if (sp[2] > 0.0f) {
         return 0;
     }
-    return (sp[2] < -farg0) == 0;
+    return (sp[2] < -depth) == 0;
 }
-s32 TScene__sub_802040D4(void *arg0, SceneMaterialNode *node, f32 f0, f32 f1) {
+s32 TScene__sub_802040D4(void *scene, SceneMaterialNode *node, f32 f0, f32 f1) {
     if (node->model != NULL && camera_ctrl_instance != NULL) {
         Vec *pos = (Vec *)node->position;
         if (xz_distance_squared(&camera_ctrl_instance->pos, pos) < node->model->radius * node->model->radius) {
             return 1;
         }
-        return ((s32 (*)(void *, void *, f32, f32))is_in_view_depth__6TSceneFf)(arg0, pos, f0, f1);
+        return ((s32 (*)(void *, void *, f32, f32))is_in_view_depth__6TSceneFf)(scene, pos, f0, f1);
     }
     return 0;
 }
