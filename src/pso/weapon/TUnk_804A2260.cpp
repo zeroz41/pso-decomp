@@ -16,7 +16,7 @@
 #include "pso/effect/item/TItemEffLavis.h"
 #include "pso/player/TObjPlayer_803E1A58.h"
 #include "pso/object/base/TObjBase.h"
-#include "pso/player/TUnk_8012AF00.h"
+#include "pso/player/CapturedTargetList.h"
 
 struct Hit_80124C90 { u8 pad0[4]; Vec *pos; };
 
@@ -36,9 +36,9 @@ f32 *get_weapon_range_record(void *, s32);
 s32 transform_point_by_current_matrix(void *, void *);
 void TUnk_804A2260::sub_80124C90() {
     Me_80124C90 *me = (Me_80124C90 *)this;
-    TUnk_8012AF00 *ext;
+    CapturedTargetList *ext;
     Vec *pos;
-    TUnk_8012AF50 *e;
+    CapturedTarget *e;
     Tgt_80124C90 *t;
     s32 found;
     Unk_8010340C atk;
@@ -82,7 +82,7 @@ void TUnk_804A2260::sub_80124C90() {
         t = (Tgt_80124C90 *)resolve_hittable_target(e->get_uid(), e->get_captured_target_collider_index());
         if (t != NULL) {
             Part_80124C90 *part = &t->parts[e->get_captured_target_collider_index()];
-            TUnk_8012AF50 *e2 = ext->get_captured_target_entry(i);
+            CapturedTarget *e2 = ext->get_captured_target_entry(i);
             atk.reserved = 0;
             atk.kind = 1;
             atk.source = ((TObjBase *)(me->pl))->get_entity_id();

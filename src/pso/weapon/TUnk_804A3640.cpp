@@ -6,7 +6,7 @@
 #include "pso/item/TItemEquipVariant_80120CF8.h"
 #include "pso/item/TItem.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/player/TUnk_8012AF00.h"
+#include "pso/player/CapturedTargetList.h"
 
 
 struct Self_80127BE0 { u8 pad[0xF0]; saddr fF0; };
@@ -16,9 +16,9 @@ struct Tec_80127BE0 { s32 kind; u16 a; s16 b; u8 rest[0x58]; };
 
 extern "C" {
 void TUnk_804A3640::emit_marker_effects() {
-    TUnk_8012AF50 *item;
+    CapturedTarget *item;
     saddr kind;
-    TUnk_8012AF00 *ext;
+    CapturedTargetList *ext;
     s32 i;
     Tec_80127BE0 tec;
     u8 buf[0xC];

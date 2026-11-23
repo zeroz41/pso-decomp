@@ -7,7 +7,7 @@
 #include "pso/item/TItem.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/player/TargetCursorList.h"
-#include "pso/player/TUnk_8012AF00.h"
+#include "pso/player/CapturedTargetList.h"
 
 struct Rec_80127694 {
     s32 kind;
@@ -20,7 +20,7 @@ extern "C" {
 void TUnk_804A3358::emit_marker_effects() {
     u8 pos[12];
     Rec_80127694 rec;
-    TUnk_8012AF00 *st;
+    CapturedTargetList *st;
     get_joint_position(2, pos);
     spawn_particle_effect((const Vec *)pos, 0x1BE);
     get_joint_position(3, pos);
@@ -30,7 +30,7 @@ void TUnk_804A3358::emit_marker_effects() {
         if (is_identified() == 1) {
             st = owner->get_extended_state();
             if (st->get_captured_target_count() != 0) {
-                TUnk_8012AF50 *e = st->get_captured_target_entry(0);
+                CapturedTarget *e = st->get_captured_target_entry(0);
                 __ct__16TargetCursorListFv((&rec));
                 rec.kind = 1;
                 rec.uid = e->get_uid();

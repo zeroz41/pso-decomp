@@ -158,7 +158,7 @@ void fn_8023B590(TTecSlicerTargets_8023B454 *o, u16 v, s8 b) {
 #include "pso/ui/frontend/TAdRicoRing_8001BEE8.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/math/MatrixVector.h"
-#include "pso/player/TUnk_8012AF00.h"
+#include "pso/player/CapturedTargetList.h"
 
 
 struct RecoveredFields_8023B770_var_r29
@@ -491,9 +491,9 @@ TTecSlicer::~TTecSlicer() {
 #pragma opt_loop_invariants off
 TTecSlicer::TTecSlicer(u16 *launch, void *player, Vec *position, int angle) : TObjBase(tl_05) {
     s8 c;
-    TUnk_8012AF00 *ext;
+    CapturedTargetList *ext;
     s32 i;
-    TUnk_8012AF50 *e;
+    CapturedTarget *e;
     self->name = TTecSlicer__name;
     ((TObject *)((TObject *)self))->TObject::disallow_rendering();
     ((TObjBase *)self)->set_entity_id(pop_free_entity_id());

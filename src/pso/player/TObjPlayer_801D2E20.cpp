@@ -62,9 +62,9 @@ struct Slot_801D3224 { s16 a; s16 idx; };
 #pragma auto_inline off
 #pragma dont_inline off
 
-void TUnk_8012AF00::clear_lockon_list() {
+void CapturedTargetList::clear_lockon_list() {
     s32 i;
-    TUnk_8012AF50 *entry = entries;
+    CapturedTarget *entry = entries;
     count = 0;
     for (i = 0; i < 10; i++) {
         entry->fn_8012AF80();
@@ -317,7 +317,7 @@ void begin_player_attack(u8 *player, s32 arg1, s16 arg2, s32 arg3) {
 
 s32 get_first_target_position__10TObjPlayerFPvPv(void *arg0, Vec *out) {
     Slot_801D3224 *s = (Slot_801D3224 *)TObjPlayer__sub_801D345C((void*)(arg0));
-    u16 uid = ((TUnk_8012AF50 *)s)->get_uid();
+    u16 uid = ((CapturedTarget *)s)->get_uid();
     Obj_801D3224 *o;
     if (uid == 0xFFFF) {
         return 0;
@@ -344,7 +344,7 @@ s32 get_first_target_position__10TObjPlayerFPvPv(void *arg0, Vec *out) {
 void *capture_lockon_targets(Self_801D32A0 *self, Pl_801D32A0 *player) {
     Cur_801D32A0 *cur;
     s32 n;
-    TUnk_8012AF50 *e;
+    CapturedTarget *e;
     s32 i;
     void *obj;
     if (player->cursor == 0) return 0;
@@ -393,7 +393,7 @@ void TObjPlayer::reset_movement_state() {
     *(f32 *)((s8 *)((u8 *)this) + 0x24) = 1.0f;
     *(f32 *)((s8 *)((u8 *)this) + 0x28) = 1.0f;
     *(f32 *)((s8 *)((u8 *)this) + 0x2C) = 0.0f;
-    ((TUnk_8012AF00 *)((u8 *)this + 0x30))->clear_lockon_list();
+    ((CapturedTargetList *)((u8 *)this + 0x30))->clear_lockon_list();
 }
 #pragma pop
 
@@ -446,7 +446,7 @@ int TObjPlayer::is_flag32_clear() { return (((int (*)(void*, int))test_flags_any
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-s32 *TObjPlayer__sub_801D345C(void *p) { return (s32 *)((TUnk_8012AF00 *)((char*)p + 0x30))->get_captured_target_entry(0); }
+s32 *TObjPlayer__sub_801D345C(void *p) { return (s32 *)((CapturedTargetList *)((char*)p + 0x30))->get_captured_target_entry(0); }
 #pragma pop
 
 #pragma push

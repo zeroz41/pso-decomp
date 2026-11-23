@@ -22,7 +22,7 @@ class TPlyItem;
 struct TechniqueContactList;
 struct TUnk_801D8A4C;
 struct TLockOnCursor;
-struct TUnk_8012AF00;
+struct CapturedTargetList;
 
 // The frames a player stays protected from hits (after getting up, being
 // hurt, or a mag's invincibility).
@@ -497,7 +497,7 @@ struct TObjPlayer : public TObjChara {
     void set_model_param(s16 v);
     void set_model_id(s16 v);
     s16 is_status_subsystem_ready();
-    TUnk_8012AF00 *get_extended_state();
+    CapturedTargetList *get_extended_state();
     f32 query_extended_state();
     int test_flag30_bit0x100000();
     void set_action_type(s16 v);

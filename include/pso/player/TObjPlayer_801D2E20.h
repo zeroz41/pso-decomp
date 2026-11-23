@@ -2,13 +2,13 @@
 #define PSO_PLAYER_TOBJPLAYER_801D2E20_H
 
 #include "types.h"
-#include "pso/player/TUnk_8012AF00.h"
+#include "pso/player/CapturedTargetList.h"
 #include <dolphin/mtx.h>
 
 class TObjPlayer;
 struct PlayerAttackController;
 
-struct Self_801D32A0 { u8 pad[0x20]; f32 f20; f32 f24; f32 f28; f32 f2c; TUnk_8012AF00 targets; };
+struct Self_801D32A0 { u8 pad[0x20]; f32 f20; f32 f24; f32 f28; f32 f2c; CapturedTargetList targets; };
 
 struct Cur_801D32A0 { u8 pad[0x28]; f32 x28; f32 x2c; f32 x30; u8 pad2[8]; f32 x3c; u8 pad3[0x5C]; u8 lock[4]; };
 

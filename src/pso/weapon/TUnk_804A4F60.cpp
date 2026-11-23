@@ -14,7 +14,7 @@
 #include "pso/system/MatrixOps.h"
 #include "pso/system/vector.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/player/TUnk_8012AF00.h"
+#include "pso/player/CapturedTargetList.h"
 
 extern "C" {
 }
@@ -38,8 +38,8 @@ void TUnk_804A4F60::activate_effect(s32 effect) {
 }
 
 void TUnk_804A4F60::psycho_wand_roll_extra() {
-    TUnk_8012AF00 *ext;
-    TUnk_8012AF50 *target;
+    CapturedTargetList *ext;
+    CapturedTarget *target;
 
     get_joint_position(4, &cast_point);
     ext = owner->get_extended_state();

@@ -28,7 +28,7 @@
 #include "pso/player/TObjPlayer_8012121C.h"
 #include "pso/unk/text_803E2D70.h"
 #include "pso/system/MatrixStack.h"
-#include "pso/player/TUnk_8012AF00.h"
+#include "pso/player/CapturedTargetList.h"
 
 
 // ---- pso/unk/text_80120908
@@ -315,7 +315,7 @@ void set_weapon_trail_joints(saddr weapon, s32 trail, s32 start_joint, s32 end_j
 void TObjPlayer::set_model_param(s16 v) { *(s16 *)&this->unk_118 = v; }
 void TObjPlayer::set_model_id(s16 v) { this->m_116 = v; }
 s16 TObjPlayer::is_status_subsystem_ready() { return TObjPlayer__sub_801D2F4C((s16 *)((char*)this + 0x7cc)); }
-TUnk_8012AF00 *TObjPlayer::get_extended_state() { return (TUnk_8012AF00 *)((TObjPlayer *)((char*)this + 0x7cc))->get_state_ptr(); }
+CapturedTargetList *TObjPlayer::get_extended_state() { return (CapturedTargetList *)((TObjPlayer *)((char*)this + 0x7cc))->get_state_ptr(); }
 f32 TObjPlayer::query_extended_state() { return get_attack_damage_scale((s16 *)((char*)this + 0x7cc)); }
 int TObjPlayer::test_flag30_bit0x100000() { return test_actor_flags((uaddr)((void*)1048576)); }
 }
@@ -361,15 +361,15 @@ void reset_model_node_counter(void) { model_node_counter = 0; }
 
 int TObjPlayer::is_flag_b0_4() { return this->motion_flags & 0x4; }
 void TObjPlayer__sub_80121228(void* p, u32 v) { *(u32*)((char*)p + 0x28) |= v; }
-s16 TUnk_8012AF50::get_captured_target_collider_index() { return collider_index; }
-u16 TUnk_8012AF50::get_uid() { return uid; }
+s16 CapturedTarget::get_captured_target_collider_index() { return collider_index; }
+u16 CapturedTarget::get_uid() { return uid; }
 
 
-TUnk_8012AF50 *TUnk_8012AF00::get_captured_target_entry(s32 i) {
+CapturedTarget *CapturedTargetList::get_captured_target_entry(s32 i) {
     return &entries[i];
 }
 
-s32 TUnk_8012AF00::get_captured_target_count() {
+s32 CapturedTargetList::get_captured_target_count() {
     s32 n;
     n = count;
     if ((n < 0) || (n > 0xA)) {

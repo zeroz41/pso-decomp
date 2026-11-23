@@ -11,7 +11,7 @@
 #include "pso/item/TUnk_804A0628.h"
 #include "pso/item/TUnk_804A0648.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/player/TUnk_8012AF00.h"
+#include "pso/player/CapturedTargetList.h"
 
 struct VBase_18_24931d
 {
@@ -294,9 +294,9 @@ void TUnk_804A4948::send_srank_stat_extra(uaddr target, s32 body) {
     }
 }
 void TUnk_804A4948::send_srank_stat_extra_to_locks() {
-  TUnk_8012AF00 *st;
+  CapturedTargetList *st;
   s32 i;
-  TUnk_8012AF50 *e;
+  CapturedTarget *e;
   u16 uid;
   s32 r;
   s32 v;

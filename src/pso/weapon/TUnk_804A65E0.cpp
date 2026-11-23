@@ -11,16 +11,16 @@
 #include "pso/unk/text_8011B620.h"
 #include "pso/weapon/TUnk_804A66D8.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/player/TUnk_8012AF00.h"
+#include "pso/player/CapturedTargetList.h"
 
 extern "C" {
 
 
 void TUnk_804A65E0::emit_marker_effects() {
-    TUnk_8012AF00 *state;
+    CapturedTargetList *state;
     TargetCursorRecord *record;
     s32 i;
-    TUnk_8012AF50 *entry;
+    CapturedTarget *entry;
 
     if (is_mode_two_and_ready() != 0) {
         get_joint_position(0, &cast_point);

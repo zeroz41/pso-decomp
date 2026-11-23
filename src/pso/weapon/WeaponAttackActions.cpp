@@ -51,7 +51,7 @@ struct NJS_OBJECT;
 #include "pso/object/ambient/TObjLight_80235C44.h"
 #include "pso/ui/frontend/TAdRicoRing_8001BEE8.h"
 #include "pso/object/base/TObjBase.h"
-#include "pso/player/TUnk_8012AF00.h"
+#include "pso/player/CapturedTargetList.h"
 
 
 // ---- pso/item/WeaponAttackActions
@@ -335,8 +335,8 @@ void TItemWeapon::fire_shot_at_target(void *origin, void *model, s32 angle) {
     Vec v;
     Desc_8011E5C4 atk;
     f32 *scale;
-    TUnk_8012AF00 *state;
-    TUnk_8012AF50 *item;
+    CapturedTargetList *state;
+    CapturedTarget *item;
     u8 *ph;
     u8 *hit;
     s32 off;
@@ -389,7 +389,7 @@ void TItemWeapon::fill_status_info(S_802E451C *params) {
 }
 
 void TItemWeapon::launch_rare_weapon_special(void *origin, s32 enable, f32 scale) {
-    TUnk_8012AF00 *ext;
+    CapturedTargetList *ext;
     Vec pos;
     f32 dist;
     s32 found;
@@ -406,7 +406,7 @@ void TItemWeapon::launch_rare_weapon_special(void *origin, s32 enable, f32 scale
     }
     found = 0;
     if (ext->get_captured_target_count() != 0) {
-        TUnk_8012AF50 *e = ext->get_captured_target_entry(ext->get_captured_target_count() - 1);
+        CapturedTarget *e = ext->get_captured_target_entry(ext->get_captured_target_count() - 1);
         Obj_8011EDFC *t = ((Obj_8011EDFC *(*)(u16, s16))resolve_hittable_target)(e->get_uid(), e->get_captured_target_collider_index());
         if (t != NULL) {
             Part_8011EDFC *part = &t->parts[e->get_captured_target_collider_index()];
@@ -436,11 +436,11 @@ void TItemWeapon::launch_rare_weapon_special(void *origin, s32 enable, f32 scale
     }
     if (enable != 0) {
         for (s32 i = 0; i != ext->get_captured_target_count(); i++) {
-            TUnk_8012AF50 *e = ext->get_captured_target_entry(i);
+            CapturedTarget *e = ext->get_captured_target_entry(i);
             Obj_8011EDFC *t = ((Obj_8011EDFC *(*)(u16, s16))resolve_hittable_target)(e->get_uid(), e->get_captured_target_collider_index());
             if (t != NULL) {
                 Part_8011EDFC *part = &t->parts[e->get_captured_target_collider_index()];
-                TUnk_8012AF50 *e2 = ext->get_captured_target_entry(i);
+                CapturedTarget *e2 = ext->get_captured_target_entry(i);
                 Unk_8010340C sp;
                 sp.reserved = 0;
                 sp.kind = 1;
@@ -473,9 +473,9 @@ s32 TItemWeapon::launch_shot(u8 *arg1, s32 i, s32 arg3, s32 arg4) {
     f32 var_f31;
     s16 temp_r29;
     s32 var_r23;
-    TUnk_8012AF50 *temp_r22;
-    TUnk_8012AF50 *temp_r22_3;
-    TUnk_8012AF00 *temp_r3;
+    CapturedTarget *temp_r22;
+    CapturedTarget *temp_r22_3;
+    CapturedTargetList *temp_r3;
     s32 temp_r6;
     u8 *temp_r22_2;
     u8 *temp_r3_3;
@@ -557,9 +557,9 @@ s32 TItemWeapon::launch_shot(u8 *arg1, s32 i, s32 arg3, s32 arg4) {
 void TUnk_804A69DC::for_each_target_in_range(f32 range) {
     TObjChara *target;
     u16 uid;
-    TUnk_8012AF00 *state;
+    CapturedTargetList *state;
     s32 i;
-    TUnk_8012AF50 *entry;
+    CapturedTarget *entry;
     s32 body;
     s32 attack_kind;
     if (is_active_in_game() != 0) {
