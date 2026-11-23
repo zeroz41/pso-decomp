@@ -26,8 +26,8 @@ LAYOUT_ASSERT(ParticleDefinition_size, sizeof(ParticleDefinition) == 0x28);
 LAYOUT_ASSERT(ParticleDefinition_uv_count_offset, offsetof(ParticleDefinition, uv_count) == 0xC);
 
 extern "C" {
-extern ParticleDefinition lbl_804C5820[0x6C];
-extern TUnk_804C57F0 *TParticleCtrl__data_80511F70[0x6C];
+extern ParticleDefinition particle_definitions[0x6C];
+extern TUnk_804C57F0 *particle_sprites[0x6C];
 }
 
 #endif

@@ -194,8 +194,8 @@ void TUnk_8048E6DC::render() {
     }
     set_additive_blend();
     begin_screen_draw(1);
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(lbl_804C5820[31].texlist));
-    set_draw_texture_and_color(lbl_804C5820[31].texture, -1);
+    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(particle_definitions[31].texlist));
+    set_draw_texture_and_color(particle_definitions[31].texture, -1);
     if (self->f94 < 0.0f) {
         color.a = 0;
     } else if (self->f94 <= 0.5f) {
@@ -217,8 +217,8 @@ void TUnk_8048E6DC::render() {
         color.g = 0x80;
         color.b = 0x40;
     }
-    w = lbl_804C5820[31].width;
-    h = lbl_804C5820[31].height;
+    w = particle_definitions[31].width;
+    h = particle_definitions[31].height;
     s = 0.5f * self->f90;
     w *= s;
     h *= s;

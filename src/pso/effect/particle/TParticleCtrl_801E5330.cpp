@@ -11,27 +11,27 @@
 #include "pso/effect/sprite/TQuadSpriteSclColRot.h"
 #include "pso/system/task/TMainTask.h"
 
-GinjaTextureList *lbl_805D35A0[2] = { (GinjaTextureList *)&shared_effect_texture_list, 0 };
+GinjaTextureList *particle_texture_lists[2] = { (GinjaTextureList *)&shared_effect_texture_list, 0 };
 
 
 extern f32 particle_sprite_atlas_uv_rects[0x10][4];
-extern f32 lbl_804C6900[1][4];
+extern f32 particle_full_texture_uv[1][4];
 
 void TParticleCtrl::reset_emitter_table() {
     s32 i;
     for (i = 0; i < 0x6C; i++) {
-        lbl_804C5820[i].texlist = NULL;
-        TParticleCtrl__data_80511F70[i] = 0;
+        particle_definitions[i].texlist = NULL;
+        particle_sprites[i] = 0;
     }
     for (i = 0; i < 0x6C; i++) {
-        lbl_804C5820[i].texlist = NULL;
+        particle_definitions[i].texlist = NULL;
     }
 }
 
 void TParticleCtrl::create_quad_sprites() {
     s32 index = 0;
-    ParticleDefinition *definitions = lbl_804C5820;
-    TUnk_804C57F0 **sprites = TParticleCtrl__data_80511F70;
+    ParticleDefinition *definitions = particle_definitions;
+    TUnk_804C57F0 **sprites = particle_sprites;
     TUnk_804C57F0 *sprite;
 
     do {
@@ -87,55 +87,55 @@ void init_particle_sprite_atlas(void) {
         }
     }
     for (i = 0; i < 0x6C; i++) {
-        lbl_804C5820[i].texlist = lbl_805D35A0[lbl_804C5820[i].texlist_index];
-        TParticleCtrl__data_80511F70[i] = 0;
+        particle_definitions[i].texlist = particle_texture_lists[particle_definitions[i].texlist_index];
+        particle_sprites[i] = 0;
     }
 }
 
-TUnk_804C57F0 *TParticleCtrl__data_80511F70[0x6C];
+TUnk_804C57F0 *particle_sprites[0x6C];
 f32 particle_sprite_atlas_uv_rects[0x10][4];
 
-ParticleDefinition lbl_804C5820[0x6C] = {
-    {2, &shared_effect_texture_list, 0, 1, lbl_804C6900, 4.0f, 4.0f, 0xFFFFFFFF, 0, 4},
-    {1, &shared_effect_texture_list, 1, 1, lbl_804C6900, 16.0f, 16.0f, 0xFFFFFFFF, 0, 3},
-    {2, &shared_effect_texture_list, 2, 1, lbl_804C6900, 16.0f, 16.0f, 0xFFFFFFFF, 0, 3},
-    {1, &shared_effect_texture_list, 3, 1, lbl_804C6900, 16.0f, 16.0f, 0xFFFFFFFF, 0, 4},
-    {2, &shared_effect_texture_list, 4, 1, lbl_804C6900, 16.0f, 16.0f, 0xFFFFFFFF, 0, 3},
-    {1, &shared_effect_texture_list, 5, 1, lbl_804C6900, 16.0f, 16.0f, 0xFFFFFFFF, 0, 4},
-    {1, &shared_effect_texture_list, 6, 1, lbl_804C6900, 16.0f, 16.0f, 0xFFFFFFFF, 0, 3},
-    {1, &shared_effect_texture_list, 7, 1, lbl_804C6900, 16.0f, 16.0f, 0xFFFFFFFF, 0, 3},
-    {1, &shared_effect_texture_list, 8, 1, lbl_804C6900, 16.0f, 16.0f, 0xFFFFFFFF, 0, 3},
-    {1, &shared_effect_texture_list, 9, 1, lbl_804C6900, 16.0f, 16.0f, 0xFFFFFFFF, 0, 3},
-    {1, &shared_effect_texture_list, 10, 1, lbl_804C6900, 16.0f, 16.0f, 0xFFFFFFFF, 0, 3},
-    {1, &shared_effect_texture_list, 11, 1, lbl_804C6900, 16.0f, 16.0f, 0xFFFFFFFF, 0, 3},
-    {1, &shared_effect_texture_list, 12, 1, lbl_804C6900, 16.0f, 16.0f, 0xFFFFFFFF, 0, 3},
-    {1, &shared_effect_texture_list, 13, 1, lbl_804C6900, 16.0f, 16.0f, 0xFFFFFFFF, 0, 3},
-    {1, &shared_effect_texture_list, 14, 1, lbl_804C6900, 16.0f, 16.0f, 0xFFFFFFFF, 0, 3},
-    {1, &shared_effect_texture_list, 15, 1, lbl_804C6900, 16.0f, 16.0f, 0xFFFFFFFF, 0, 3},
-    {1, &shared_effect_texture_list, 16, 1, lbl_804C6900, 16.0f, 16.0f, 0xFFFFFFFF, 0, 3},
-    {1, &shared_effect_texture_list, 17, 1, lbl_804C6900, 16.0f, 16.0f, 0xFFFFFFFF, 0, 3},
-    {1, &shared_effect_texture_list, 18, 1, lbl_804C6900, 16.0f, 16.0f, 0xFFFFFFFF, 0, 4},
-    {1, &shared_effect_texture_list, 19, 1, lbl_804C6900, 16.0f, 16.0f, 0xFFFFFFFF, 0, 3},
-    {1, &shared_effect_texture_list, 20, 1, lbl_804C6900, 16.0f, 16.0f, 0xFFFFFFFF, 0, 4},
-    {1, &shared_effect_texture_list, 21, 1, lbl_804C6900, 16.0f, 16.0f, 0xFFFFFFFF, 0, 4},
-    {1, &shared_effect_texture_list, 22, 1, lbl_804C6900, 16.0f, 16.0f, 0xFFFFFFFF, 0, 3},
-    {1, &shared_effect_texture_list, 23, 1, lbl_804C6900, 16.0f, 16.0f, 0xFFFFFFFF, 0, 3},
-    {1, &shared_effect_texture_list, 24, 1, lbl_804C6900, 16.0f, 16.0f, 0xFFFFFFFF, 0, 3},
-    {1, &shared_effect_texture_list, 25, 1, lbl_804C6900, 32.0f, 32.0f, 0xFFFFFFFF, 0, 4},
-    {1, &shared_effect_texture_list, 26, 1, lbl_804C6900, 32.0f, 32.0f, 0xFFFFFFFF, 0, 4},
-    {1, &shared_effect_texture_list, 27, 1, lbl_804C6900, 32.0f, 32.0f, 0xFFFFFFFF, 0, 4},
-    {1, &shared_effect_texture_list, 28, 1, lbl_804C6900, 32.0f, 32.0f, 0xFFFFFFFF, 0, 4},
-    {1, &shared_effect_texture_list, 29, 1, lbl_804C6900, 32.0f, 32.0f, 0xFFFFFFFF, 0, 4},
-    {1, &shared_effect_texture_list, 30, 1, lbl_804C6900, 32.0f, 32.0f, 0xFFFFFFFF, 0, 3},
-    {1, &shared_effect_texture_list, 31, 1, lbl_804C6900, 32.0f, 32.0f, 0xFFFFFFFF, 0, 3},
-    {1, &shared_effect_texture_list, 32, 1, lbl_804C6900, 32.0f, 32.0f, 0xFFFFFFFF, 0, 4},
-    {1, &shared_effect_texture_list, 33, 1, lbl_804C6900, 32.0f, 32.0f, 0xFFFFFFFF, 0, 4},
+ParticleDefinition particle_definitions[0x6C] = {
+    {2, &shared_effect_texture_list, 0, 1, particle_full_texture_uv, 4.0f, 4.0f, 0xFFFFFFFF, 0, 4},
+    {1, &shared_effect_texture_list, 1, 1, particle_full_texture_uv, 16.0f, 16.0f, 0xFFFFFFFF, 0, 3},
+    {2, &shared_effect_texture_list, 2, 1, particle_full_texture_uv, 16.0f, 16.0f, 0xFFFFFFFF, 0, 3},
+    {1, &shared_effect_texture_list, 3, 1, particle_full_texture_uv, 16.0f, 16.0f, 0xFFFFFFFF, 0, 4},
+    {2, &shared_effect_texture_list, 4, 1, particle_full_texture_uv, 16.0f, 16.0f, 0xFFFFFFFF, 0, 3},
+    {1, &shared_effect_texture_list, 5, 1, particle_full_texture_uv, 16.0f, 16.0f, 0xFFFFFFFF, 0, 4},
+    {1, &shared_effect_texture_list, 6, 1, particle_full_texture_uv, 16.0f, 16.0f, 0xFFFFFFFF, 0, 3},
+    {1, &shared_effect_texture_list, 7, 1, particle_full_texture_uv, 16.0f, 16.0f, 0xFFFFFFFF, 0, 3},
+    {1, &shared_effect_texture_list, 8, 1, particle_full_texture_uv, 16.0f, 16.0f, 0xFFFFFFFF, 0, 3},
+    {1, &shared_effect_texture_list, 9, 1, particle_full_texture_uv, 16.0f, 16.0f, 0xFFFFFFFF, 0, 3},
+    {1, &shared_effect_texture_list, 10, 1, particle_full_texture_uv, 16.0f, 16.0f, 0xFFFFFFFF, 0, 3},
+    {1, &shared_effect_texture_list, 11, 1, particle_full_texture_uv, 16.0f, 16.0f, 0xFFFFFFFF, 0, 3},
+    {1, &shared_effect_texture_list, 12, 1, particle_full_texture_uv, 16.0f, 16.0f, 0xFFFFFFFF, 0, 3},
+    {1, &shared_effect_texture_list, 13, 1, particle_full_texture_uv, 16.0f, 16.0f, 0xFFFFFFFF, 0, 3},
+    {1, &shared_effect_texture_list, 14, 1, particle_full_texture_uv, 16.0f, 16.0f, 0xFFFFFFFF, 0, 3},
+    {1, &shared_effect_texture_list, 15, 1, particle_full_texture_uv, 16.0f, 16.0f, 0xFFFFFFFF, 0, 3},
+    {1, &shared_effect_texture_list, 16, 1, particle_full_texture_uv, 16.0f, 16.0f, 0xFFFFFFFF, 0, 3},
+    {1, &shared_effect_texture_list, 17, 1, particle_full_texture_uv, 16.0f, 16.0f, 0xFFFFFFFF, 0, 3},
+    {1, &shared_effect_texture_list, 18, 1, particle_full_texture_uv, 16.0f, 16.0f, 0xFFFFFFFF, 0, 4},
+    {1, &shared_effect_texture_list, 19, 1, particle_full_texture_uv, 16.0f, 16.0f, 0xFFFFFFFF, 0, 3},
+    {1, &shared_effect_texture_list, 20, 1, particle_full_texture_uv, 16.0f, 16.0f, 0xFFFFFFFF, 0, 4},
+    {1, &shared_effect_texture_list, 21, 1, particle_full_texture_uv, 16.0f, 16.0f, 0xFFFFFFFF, 0, 4},
+    {1, &shared_effect_texture_list, 22, 1, particle_full_texture_uv, 16.0f, 16.0f, 0xFFFFFFFF, 0, 3},
+    {1, &shared_effect_texture_list, 23, 1, particle_full_texture_uv, 16.0f, 16.0f, 0xFFFFFFFF, 0, 3},
+    {1, &shared_effect_texture_list, 24, 1, particle_full_texture_uv, 16.0f, 16.0f, 0xFFFFFFFF, 0, 3},
+    {1, &shared_effect_texture_list, 25, 1, particle_full_texture_uv, 32.0f, 32.0f, 0xFFFFFFFF, 0, 4},
+    {1, &shared_effect_texture_list, 26, 1, particle_full_texture_uv, 32.0f, 32.0f, 0xFFFFFFFF, 0, 4},
+    {1, &shared_effect_texture_list, 27, 1, particle_full_texture_uv, 32.0f, 32.0f, 0xFFFFFFFF, 0, 4},
+    {1, &shared_effect_texture_list, 28, 1, particle_full_texture_uv, 32.0f, 32.0f, 0xFFFFFFFF, 0, 4},
+    {1, &shared_effect_texture_list, 29, 1, particle_full_texture_uv, 32.0f, 32.0f, 0xFFFFFFFF, 0, 4},
+    {1, &shared_effect_texture_list, 30, 1, particle_full_texture_uv, 32.0f, 32.0f, 0xFFFFFFFF, 0, 3},
+    {1, &shared_effect_texture_list, 31, 1, particle_full_texture_uv, 32.0f, 32.0f, 0xFFFFFFFF, 0, 3},
+    {1, &shared_effect_texture_list, 32, 1, particle_full_texture_uv, 32.0f, 32.0f, 0xFFFFFFFF, 0, 4},
+    {1, &shared_effect_texture_list, 33, 1, particle_full_texture_uv, 32.0f, 32.0f, 0xFFFFFFFF, 0, 4},
     {1, &shared_effect_texture_list, 34, 16, particle_sprite_atlas_uv_rects, 8.0f, 8.0f, 0xFFFFFFFF, 0, 3},
-    {1, &shared_effect_texture_list, 35, 1, lbl_804C6900, 32.0f, 32.0f, 0xFFFFFFFF, 0, 3},
-    {1, &shared_effect_texture_list, 36, 1, lbl_804C6900, 32.0f, 32.0f, 0xFFFFFFFF, 0, 3},
-    {1, &shared_effect_texture_list, 37, 1, lbl_804C6900, 32.0f, 32.0f, 0xFFFFFFFF, 0, 3},
-    {1, &shared_effect_texture_list, 38, 1, lbl_804C6900, 32.0f, 32.0f, 0xFFFFFFFF, 0, 3},
-    {1, &shared_effect_texture_list, 39, 1, lbl_804C6900, 32.0f, 32.0f, 0xFFFFFFFF, 0, 3},
+    {1, &shared_effect_texture_list, 35, 1, particle_full_texture_uv, 32.0f, 32.0f, 0xFFFFFFFF, 0, 3},
+    {1, &shared_effect_texture_list, 36, 1, particle_full_texture_uv, 32.0f, 32.0f, 0xFFFFFFFF, 0, 3},
+    {1, &shared_effect_texture_list, 37, 1, particle_full_texture_uv, 32.0f, 32.0f, 0xFFFFFFFF, 0, 3},
+    {1, &shared_effect_texture_list, 38, 1, particle_full_texture_uv, 32.0f, 32.0f, 0xFFFFFFFF, 0, 3},
+    {1, &shared_effect_texture_list, 39, 1, particle_full_texture_uv, 32.0f, 32.0f, 0xFFFFFFFF, 0, 3},
     {1, &shared_effect_texture_list, 40, 16, particle_sprite_atlas_uv_rects, 16.0f, 16.0f, 0xFFFFFFFF, 0, 3},
     {2, &shared_effect_texture_list, 41, 16, particle_sprite_atlas_uv_rects, 16.0f, 16.0f, 0xFFFFFFFF, 0, 3},
     {1, &shared_effect_texture_list, 42, 16, particle_sprite_atlas_uv_rects, 16.0f, 16.0f, 0xFFFFFFFF, 0, 3},
@@ -147,49 +147,49 @@ ParticleDefinition lbl_804C5820[0x6C] = {
     {1, &shared_effect_texture_list, 48, 16, particle_sprite_atlas_uv_rects, 16.0f, 16.0f, 0xFFFFFFFF, 0, 3},
     {1, &shared_effect_texture_list, 49, 16, particle_sprite_atlas_uv_rects, 16.0f, 16.0f, 0xFFFFFFFF, 0, 4},
     {1, &shared_effect_texture_list, 50, 16, particle_sprite_atlas_uv_rects, 32.0f, 32.0f, 0xFFFFFFFF, 0, 4},
-    {2, &shared_effect_texture_list, 51, 1, lbl_804C6900, 8.0f, 8.0f, 0xFFFFFFFF, 0, 4},
-    {1, &shared_effect_texture_list, 52, 1, lbl_804C6900, 16.0f, 16.0f, 0xFFFFFFFF, 0, 3},
-    {2, &shared_effect_texture_list, 53, 1, lbl_804C6900, 32.0f, 32.0f, 0xFFFFFFFF, 0, 4},
-    {6, &shared_effect_texture_list, 0, 1, lbl_804C6900, 4.0f, 4.0f, 0xFFFFFFFF, 0, 4},
-    {5, &shared_effect_texture_list, 1, 1, lbl_804C6900, 16.0f, 16.0f, 0xFFFFFFFF, 0, 3},
-    {6, &shared_effect_texture_list, 2, 1, lbl_804C6900, 16.0f, 16.0f, 0xFFFFFFFF, 0, 3},
-    {5, &shared_effect_texture_list, 3, 1, lbl_804C6900, 16.0f, 16.0f, 0xFFFFFFFF, 0, 4},
-    {6, &shared_effect_texture_list, 4, 1, lbl_804C6900, 16.0f, 16.0f, 0xFFFFFFFF, 0, 3},
-    {5, &shared_effect_texture_list, 5, 1, lbl_804C6900, 16.0f, 16.0f, 0xFFFFFFFF, 0, 4},
-    {5, &shared_effect_texture_list, 6, 1, lbl_804C6900, 16.0f, 16.0f, 0xFFFFFFFF, 0, 3},
-    {5, &shared_effect_texture_list, 7, 1, lbl_804C6900, 16.0f, 16.0f, 0xFFFFFFFF, 0, 3},
-    {5, &shared_effect_texture_list, 8, 1, lbl_804C6900, 16.0f, 16.0f, 0xFFFFFFFF, 0, 3},
-    {5, &shared_effect_texture_list, 9, 1, lbl_804C6900, 16.0f, 16.0f, 0xFFFFFFFF, 0, 3},
-    {5, &shared_effect_texture_list, 10, 1, lbl_804C6900, 16.0f, 16.0f, 0xFFFFFFFF, 0, 3},
-    {5, &shared_effect_texture_list, 11, 1, lbl_804C6900, 16.0f, 16.0f, 0xFFFFFFFF, 0, 3},
-    {5, &shared_effect_texture_list, 12, 1, lbl_804C6900, 16.0f, 16.0f, 0xFFFFFFFF, 0, 3},
-    {5, &shared_effect_texture_list, 13, 1, lbl_804C6900, 16.0f, 16.0f, 0xFFFFFFFF, 0, 3},
-    {5, &shared_effect_texture_list, 14, 1, lbl_804C6900, 16.0f, 16.0f, 0xFFFFFFFF, 0, 3},
-    {5, &shared_effect_texture_list, 15, 1, lbl_804C6900, 16.0f, 16.0f, 0xFFFFFFFF, 0, 3},
-    {5, &shared_effect_texture_list, 16, 1, lbl_804C6900, 16.0f, 16.0f, 0xFFFFFFFF, 0, 3},
-    {5, &shared_effect_texture_list, 17, 1, lbl_804C6900, 16.0f, 16.0f, 0xFFFFFFFF, 0, 3},
-    {5, &shared_effect_texture_list, 18, 1, lbl_804C6900, 16.0f, 16.0f, 0xFFFFFFFF, 0, 4},
-    {5, &shared_effect_texture_list, 19, 1, lbl_804C6900, 16.0f, 16.0f, 0xFFFFFFFF, 0, 3},
-    {5, &shared_effect_texture_list, 20, 1, lbl_804C6900, 16.0f, 16.0f, 0xFFFFFFFF, 0, 4},
-    {5, &shared_effect_texture_list, 21, 1, lbl_804C6900, 16.0f, 16.0f, 0xFFFFFFFF, 0, 4},
-    {5, &shared_effect_texture_list, 22, 1, lbl_804C6900, 16.0f, 16.0f, 0xFFFFFFFF, 0, 3},
-    {5, &shared_effect_texture_list, 23, 1, lbl_804C6900, 16.0f, 16.0f, 0xFFFFFFFF, 0, 3},
-    {5, &shared_effect_texture_list, 24, 1, lbl_804C6900, 16.0f, 16.0f, 0xFFFFFFFF, 0, 3},
-    {5, &shared_effect_texture_list, 25, 1, lbl_804C6900, 32.0f, 32.0f, 0xFFFFFFFF, 0, 4},
-    {5, &shared_effect_texture_list, 26, 1, lbl_804C6900, 32.0f, 32.0f, 0xFFFFFFFF, 0, 4},
-    {5, &shared_effect_texture_list, 27, 1, lbl_804C6900, 32.0f, 32.0f, 0xFFFFFFFF, 0, 4},
-    {5, &shared_effect_texture_list, 28, 1, lbl_804C6900, 32.0f, 32.0f, 0xFFFFFFFF, 0, 4},
-    {5, &shared_effect_texture_list, 29, 1, lbl_804C6900, 32.0f, 32.0f, 0xFFFFFFFF, 0, 4},
-    {5, &shared_effect_texture_list, 30, 1, lbl_804C6900, 32.0f, 32.0f, 0xFFFFFFFF, 0, 3},
-    {5, &shared_effect_texture_list, 31, 1, lbl_804C6900, 32.0f, 32.0f, 0xFFFFFFFF, 0, 3},
-    {5, &shared_effect_texture_list, 32, 1, lbl_804C6900, 32.0f, 32.0f, 0xFFFFFFFF, 0, 4},
-    {5, &shared_effect_texture_list, 33, 1, lbl_804C6900, 32.0f, 32.0f, 0xFFFFFFFF, 0, 4},
+    {2, &shared_effect_texture_list, 51, 1, particle_full_texture_uv, 8.0f, 8.0f, 0xFFFFFFFF, 0, 4},
+    {1, &shared_effect_texture_list, 52, 1, particle_full_texture_uv, 16.0f, 16.0f, 0xFFFFFFFF, 0, 3},
+    {2, &shared_effect_texture_list, 53, 1, particle_full_texture_uv, 32.0f, 32.0f, 0xFFFFFFFF, 0, 4},
+    {6, &shared_effect_texture_list, 0, 1, particle_full_texture_uv, 4.0f, 4.0f, 0xFFFFFFFF, 0, 4},
+    {5, &shared_effect_texture_list, 1, 1, particle_full_texture_uv, 16.0f, 16.0f, 0xFFFFFFFF, 0, 3},
+    {6, &shared_effect_texture_list, 2, 1, particle_full_texture_uv, 16.0f, 16.0f, 0xFFFFFFFF, 0, 3},
+    {5, &shared_effect_texture_list, 3, 1, particle_full_texture_uv, 16.0f, 16.0f, 0xFFFFFFFF, 0, 4},
+    {6, &shared_effect_texture_list, 4, 1, particle_full_texture_uv, 16.0f, 16.0f, 0xFFFFFFFF, 0, 3},
+    {5, &shared_effect_texture_list, 5, 1, particle_full_texture_uv, 16.0f, 16.0f, 0xFFFFFFFF, 0, 4},
+    {5, &shared_effect_texture_list, 6, 1, particle_full_texture_uv, 16.0f, 16.0f, 0xFFFFFFFF, 0, 3},
+    {5, &shared_effect_texture_list, 7, 1, particle_full_texture_uv, 16.0f, 16.0f, 0xFFFFFFFF, 0, 3},
+    {5, &shared_effect_texture_list, 8, 1, particle_full_texture_uv, 16.0f, 16.0f, 0xFFFFFFFF, 0, 3},
+    {5, &shared_effect_texture_list, 9, 1, particle_full_texture_uv, 16.0f, 16.0f, 0xFFFFFFFF, 0, 3},
+    {5, &shared_effect_texture_list, 10, 1, particle_full_texture_uv, 16.0f, 16.0f, 0xFFFFFFFF, 0, 3},
+    {5, &shared_effect_texture_list, 11, 1, particle_full_texture_uv, 16.0f, 16.0f, 0xFFFFFFFF, 0, 3},
+    {5, &shared_effect_texture_list, 12, 1, particle_full_texture_uv, 16.0f, 16.0f, 0xFFFFFFFF, 0, 3},
+    {5, &shared_effect_texture_list, 13, 1, particle_full_texture_uv, 16.0f, 16.0f, 0xFFFFFFFF, 0, 3},
+    {5, &shared_effect_texture_list, 14, 1, particle_full_texture_uv, 16.0f, 16.0f, 0xFFFFFFFF, 0, 3},
+    {5, &shared_effect_texture_list, 15, 1, particle_full_texture_uv, 16.0f, 16.0f, 0xFFFFFFFF, 0, 3},
+    {5, &shared_effect_texture_list, 16, 1, particle_full_texture_uv, 16.0f, 16.0f, 0xFFFFFFFF, 0, 3},
+    {5, &shared_effect_texture_list, 17, 1, particle_full_texture_uv, 16.0f, 16.0f, 0xFFFFFFFF, 0, 3},
+    {5, &shared_effect_texture_list, 18, 1, particle_full_texture_uv, 16.0f, 16.0f, 0xFFFFFFFF, 0, 4},
+    {5, &shared_effect_texture_list, 19, 1, particle_full_texture_uv, 16.0f, 16.0f, 0xFFFFFFFF, 0, 3},
+    {5, &shared_effect_texture_list, 20, 1, particle_full_texture_uv, 16.0f, 16.0f, 0xFFFFFFFF, 0, 4},
+    {5, &shared_effect_texture_list, 21, 1, particle_full_texture_uv, 16.0f, 16.0f, 0xFFFFFFFF, 0, 4},
+    {5, &shared_effect_texture_list, 22, 1, particle_full_texture_uv, 16.0f, 16.0f, 0xFFFFFFFF, 0, 3},
+    {5, &shared_effect_texture_list, 23, 1, particle_full_texture_uv, 16.0f, 16.0f, 0xFFFFFFFF, 0, 3},
+    {5, &shared_effect_texture_list, 24, 1, particle_full_texture_uv, 16.0f, 16.0f, 0xFFFFFFFF, 0, 3},
+    {5, &shared_effect_texture_list, 25, 1, particle_full_texture_uv, 32.0f, 32.0f, 0xFFFFFFFF, 0, 4},
+    {5, &shared_effect_texture_list, 26, 1, particle_full_texture_uv, 32.0f, 32.0f, 0xFFFFFFFF, 0, 4},
+    {5, &shared_effect_texture_list, 27, 1, particle_full_texture_uv, 32.0f, 32.0f, 0xFFFFFFFF, 0, 4},
+    {5, &shared_effect_texture_list, 28, 1, particle_full_texture_uv, 32.0f, 32.0f, 0xFFFFFFFF, 0, 4},
+    {5, &shared_effect_texture_list, 29, 1, particle_full_texture_uv, 32.0f, 32.0f, 0xFFFFFFFF, 0, 4},
+    {5, &shared_effect_texture_list, 30, 1, particle_full_texture_uv, 32.0f, 32.0f, 0xFFFFFFFF, 0, 3},
+    {5, &shared_effect_texture_list, 31, 1, particle_full_texture_uv, 32.0f, 32.0f, 0xFFFFFFFF, 0, 3},
+    {5, &shared_effect_texture_list, 32, 1, particle_full_texture_uv, 32.0f, 32.0f, 0xFFFFFFFF, 0, 4},
+    {5, &shared_effect_texture_list, 33, 1, particle_full_texture_uv, 32.0f, 32.0f, 0xFFFFFFFF, 0, 4},
     {5, &shared_effect_texture_list, 34, 16, particle_sprite_atlas_uv_rects, 8.0f, 8.0f, 0xFFFFFFFF, 0, 3},
-    {5, &shared_effect_texture_list, 35, 1, lbl_804C6900, 32.0f, 32.0f, 0xFFFFFFFF, 0, 3},
-    {5, &shared_effect_texture_list, 36, 1, lbl_804C6900, 32.0f, 32.0f, 0xFFFFFFFF, 0, 3},
-    {5, &shared_effect_texture_list, 37, 1, lbl_804C6900, 32.0f, 32.0f, 0xFFFFFFFF, 0, 3},
-    {5, &shared_effect_texture_list, 38, 1, lbl_804C6900, 32.0f, 32.0f, 0xFFFFFFFF, 0, 3},
-    {5, &shared_effect_texture_list, 39, 1, lbl_804C6900, 32.0f, 32.0f, 0xFFFFFFFF, 0, 3},
+    {5, &shared_effect_texture_list, 35, 1, particle_full_texture_uv, 32.0f, 32.0f, 0xFFFFFFFF, 0, 3},
+    {5, &shared_effect_texture_list, 36, 1, particle_full_texture_uv, 32.0f, 32.0f, 0xFFFFFFFF, 0, 3},
+    {5, &shared_effect_texture_list, 37, 1, particle_full_texture_uv, 32.0f, 32.0f, 0xFFFFFFFF, 0, 3},
+    {5, &shared_effect_texture_list, 38, 1, particle_full_texture_uv, 32.0f, 32.0f, 0xFFFFFFFF, 0, 3},
+    {5, &shared_effect_texture_list, 39, 1, particle_full_texture_uv, 32.0f, 32.0f, 0xFFFFFFFF, 0, 3},
     {5, &shared_effect_texture_list, 40, 16, particle_sprite_atlas_uv_rects, 16.0f, 16.0f, 0xFFFFFFFF, 0, 3},
     {6, &shared_effect_texture_list, 41, 16, particle_sprite_atlas_uv_rects, 16.0f, 16.0f, 0xFFFFFFFF, 0, 3},
     {5, &shared_effect_texture_list, 42, 16, particle_sprite_atlas_uv_rects, 16.0f, 16.0f, 0xFFFFFFFF, 0, 3},
@@ -201,10 +201,10 @@ ParticleDefinition lbl_804C5820[0x6C] = {
     {5, &shared_effect_texture_list, 48, 16, particle_sprite_atlas_uv_rects, 16.0f, 16.0f, 0xFFFFFFFF, 0, 3},
     {5, &shared_effect_texture_list, 49, 16, particle_sprite_atlas_uv_rects, 16.0f, 16.0f, 0xFFFFFFFF, 0, 4},
     {5, &shared_effect_texture_list, 50, 16, particle_sprite_atlas_uv_rects, 32.0f, 32.0f, 0xFFFFFFFF, 0, 4},
-    {6, &shared_effect_texture_list, 51, 1, lbl_804C6900, 8.0f, 8.0f, 0xFFFFFFFF, 0, 4},
-    {5, &shared_effect_texture_list, 52, 1, lbl_804C6900, 16.0f, 16.0f, 0xFFFFFFFF, 0, 3},
-    {6, &shared_effect_texture_list, 53, 1, lbl_804C6900, 32.0f, 32.0f, 0xFFFFFFFF, 0, 4},
+    {6, &shared_effect_texture_list, 51, 1, particle_full_texture_uv, 8.0f, 8.0f, 0xFFFFFFFF, 0, 4},
+    {5, &shared_effect_texture_list, 52, 1, particle_full_texture_uv, 16.0f, 16.0f, 0xFFFFFFFF, 0, 3},
+    {6, &shared_effect_texture_list, 53, 1, particle_full_texture_uv, 32.0f, 32.0f, 0xFFFFFFFF, 0, 4},
 };
 
 // Full-texture rect for the single-frame kinds.
-f32 lbl_804C6900[1][4] = {{0.0f, 0.0f, 1.0f, 1.0f}};
+f32 particle_full_texture_uv[1][4] = {{0.0f, 0.0f, 1.0f, 1.0f}};

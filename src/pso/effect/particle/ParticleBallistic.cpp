@@ -306,7 +306,7 @@ void TUnk_8048E778::run_task() {
     } else {
         t[1] = fade_out;
     }
-    if (TParticleCtrl__data_80511F70[sprite_index]->definition->flags & 1) {
+    if (particle_sprites[sprite_index]->definition->flags & 1) {
         if (flags & 0x100) {
             ch[0] = fade_particle_channel(p->color_rate[0] * t[0] + color_base[0], t[1]);
             ch[1] = fade_particle_channel(p->color_rate[1] * t[0] + color_base[1], t[1]);
@@ -347,7 +347,7 @@ void TUnk_8048E778::run_task() {
             m_96 -= (s32)(182.04445f * tilt);
         }
     }
-    frames = TParticleCtrl__data_80511F70[sprite_index]->definition->uv_count;
+    frames = particle_sprites[sprite_index]->definition->uv_count;
     if (param->flags & 0x10) {
         frame = age * (frames - 1);
     } else {
@@ -532,9 +532,9 @@ void TUnk_8048E778::render() {
         restore_saved_depth_alpha_state();
     } else if (p->def->flags & 0x20) {
         id = p->tex + 0x36;
-        append_node_to_tail__13TParticleCtrlFPvPv(((s32 *)&TParticleCtrl__data_80511F70)[id], p->f6C);
+        append_node_to_tail__13TParticleCtrlFPvPv(((s32 *)&particle_sprites)[id], p->f6C);
     } else {
-        append_node_to_tail__13TParticleCtrlFPvPv(((s32 *)&TParticleCtrl__data_80511F70)[p->tex], p->f6C);
+        append_node_to_tail__13TParticleCtrlFPvPv(((s32 *)&particle_sprites)[p->tex], p->f6C);
     }
 }
 
@@ -578,7 +578,7 @@ TUnk_8048E778::TUnk_8048E778(void *a1, void *a2, void *a3, saddr parent, u16 arg
     p->field_2C = p->field_28;
     temp_r0 = (s32)(((f32)d->field_4C * (3.0517578e-05f * (f32)rand())) + (f32)d->field_48);
     if (d->field_88 & 1) {
-        p->field_5C = 1.0f / (f32)((s32 **)(((void **)&TParticleCtrl__data_80511F70)[p->field_1C]))[0x28 / 4][0xC / 4];
+        p->field_5C = 1.0f / (f32)((s32 **)(((void **)&particle_sprites)[p->field_1C]))[0x28 / 4][0xC / 4];
     } else {
         p->field_5C = 1.0f / (f32)temp_r0;
     }
@@ -643,7 +643,7 @@ TUnk_8048E778::TUnk_8048E778(void *a1, void *a2, void *a3)
     p->field_2C = p->field_28;
     temp_r0 = (s32)(((f32)d->field_4C * (3.0517578e-05f * (f32)rand())) + (f32)d->field_48);
     if (d->field_88 & 1) {
-        p->field_5C = 1.0f / (f32)((s32 **)(((void **)&TParticleCtrl__data_80511F70)[p->field_1C]))[0x28 / 4][0xC / 4];
+        p->field_5C = 1.0f / (f32)((s32 **)(((void **)&particle_sprites)[p->field_1C]))[0x28 / 4][0xC / 4];
     } else {
         p->field_5C = 1.0f / (f32)temp_r0;
     }

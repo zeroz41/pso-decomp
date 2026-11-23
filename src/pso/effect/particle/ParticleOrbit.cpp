@@ -329,7 +329,7 @@ void TUnk_8048E790::run_task() {
     } else {
         t[1] = fade_out;
     }
-    if (TParticleCtrl__data_80511F70[sprite_index]->definition->flags & 1) {
+    if (particle_sprites[sprite_index]->definition->flags & 1) {
         if (flags & 0x100) {
             ch[0] = fade_particle_channel(p->orbit_red_rate * t[0] + color_base[0], t[1]);
             ch[1] = fade_particle_channel(p->unk_38 * t[0] + color_base[1], t[1]);
@@ -367,7 +367,7 @@ void TUnk_8048E790::run_task() {
     } else {
         m_96 -= (s32)(182.04445f * tilt);
     }
-    frames = TParticleCtrl__data_80511F70[sprite_index]->definition->uv_count;
+    frames = particle_sprites[sprite_index]->definition->uv_count;
     if (param->flags & 0x10) {
         frame = age * (frames - 1);
     } else {
@@ -457,10 +457,10 @@ void TUnk_8048E790::render() {
                 return;
             }
             if (*(u8 *)((s8 *)this->param + 0x88) & 0x20) {
-                append_node_to_tail__13TParticleCtrlFPvPv(((s32 *)((u8 *)&TParticleCtrl__data_80511F70 + 0xD8))[this->sprite_index], (u8 *)&this->unk_6C);
+                append_node_to_tail__13TParticleCtrlFPvPv(((s32 *)((u8 *)&particle_sprites + 0xD8))[this->sprite_index], (u8 *)&this->unk_6C);
                 return;
             }
-            append_node_to_tail__13TParticleCtrlFPvPv(((s32 *)&TParticleCtrl__data_80511F70)[this->sprite_index], (u8 *)&this->unk_6C);
+            append_node_to_tail__13TParticleCtrlFPvPv(((s32 *)&particle_sprites)[this->sprite_index], (u8 *)&this->unk_6C);
         }
     }
 }
@@ -493,7 +493,7 @@ TUnk_8048E790::TUnk_8048E790(u8 *src, u8 *arg2, u8 *arg3, saddr parent, u16 arg5
     o->f2C = o->f28;
     temp_r0 = (s32)((f32)d->f4C * (3.0517578e-05f * (f32)rand()) + (f32)d->f48);
     if (d->f88 & 1) {
-        o->f5C = 1.0f / (f32)*(s32 *)((s8 *)(*(void **)((s8 *)(*(saddr *)((s8 *)TParticleCtrl__data_80511F70 + (o->f1C * 4))) + 0x28)) + 0xC);
+        o->f5C = 1.0f / (f32)*(s32 *)((s8 *)(*(void **)((s8 *)(*(saddr *)((s8 *)particle_sprites + (o->f1C * 4))) + 0x28)) + 0xC);
     } else {
         o->f5C = 1.0f / (f32)temp_r0;
     }
@@ -534,7 +534,7 @@ TUnk_8048E790::TUnk_8048E790(void *src, void *pos, void *dir, void *parent)
     o->f2C = o->f28;
     temp_r0 = (s32)((f32)d->f4C * (3.0517578e-05f * (f32)rand()) + (f32)d->f48);
     if (d->f88 & 1) {
-        o->f5C = 1.0f / (f32)*(s32 *)((s8 *)(*(void **)((s8 *)(*(saddr *)((s8 *)((s32 *)&TParticleCtrl__data_80511F70) + (o->f1C * 4))) + 0x28)) + 0xC);
+        o->f5C = 1.0f / (f32)*(s32 *)((s8 *)(*(void **)((s8 *)(*(saddr *)((s8 *)((s32 *)&particle_sprites) + (o->f1C * 4))) + 0x28)) + 0xC);
     } else {
         o->f5C = 1.0f / (f32)temp_r0;
     }

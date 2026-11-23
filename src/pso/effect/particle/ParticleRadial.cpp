@@ -208,7 +208,7 @@ void TUnk_8048E7A8::run_task() {
         fade_out = rest * fade_out_scale;
     }
     t[1] = (fade_in < fade_out) ? fade_in : fade_out;
-    if (TParticleCtrl__data_80511F70[sprite_index]->definition->flags & 1) {
+    if (particle_sprites[sprite_index]->definition->flags & 1) {
         if (flags & 0x100) {
             ch[0] = fade_particle_channel(p->color_rate[0] * t[0] + color_base[0], t[1]);
             ch[1] = fade_particle_channel(p->color_rate[1] * t[0] + color_base[1], t[1]);
@@ -233,7 +233,7 @@ void TUnk_8048E7A8::run_task() {
     col.argb.g = 254.0f * ch[1];
     col.argb.b = 254.0f * ch[2];
     color = col.color;
-    frames = TParticleCtrl__data_80511F70[sprite_index]->definition->uv_count;
+    frames = particle_sprites[sprite_index]->definition->uv_count;
     if (param->flags & 0x10) {
         frame = age * (frames - 1);
     } else {
@@ -365,10 +365,10 @@ void TUnk_8048E7A8::render() {
             return;
         }
         if (*(u8 *)((s8 *)this->param + 0x88) & 0x20) {
-            append_node_to_tail__13TParticleCtrlFPvPv(((s32 *)((u8 *)&TParticleCtrl__data_80511F70 + 0xD8))[this->sprite_index], (u8 *)&this->unk_6C);
+            append_node_to_tail__13TParticleCtrlFPvPv(((s32 *)((u8 *)&particle_sprites + 0xD8))[this->sprite_index], (u8 *)&this->unk_6C);
             return;
         }
-        append_node_to_tail__13TParticleCtrlFPvPv(((s32 *)&TParticleCtrl__data_80511F70)[this->sprite_index], (u8 *)&this->unk_6C);
+        append_node_to_tail__13TParticleCtrlFPvPv(((s32 *)&particle_sprites)[this->sprite_index], (u8 *)&this->unk_6C);
     }
 }
 
@@ -400,7 +400,7 @@ TUnk_8048E7A8::TUnk_8048E7A8(u8 *src, u8 *arg2, saddr parent, u16 arg4, s16 arg5
     ((Fields_arg0*)this)->field_2C = (f32) ((Fields_arg0*)this)->field_28;
     temp_r0 = (s32) (((f32) ((Fields_arg1*)src)->field_4C * (3.0517578e-05f * (f32) rand())) + (f32) ((Fields_arg1*)src)->field_48);
     if (((Fields_arg1*)src)->field_88 & 1) {
-        ((Fields_arg0*)this)->field_5C = (f32) (1.0f / (f32) *(s32 *)((s8 *)(*(void **)((s8 *)(*(saddr *)((s8 *)&TParticleCtrl__data_80511F70 + (((Fields_arg0*)this)->field_1C * 4))) + 0x28)) + 0xC));
+        ((Fields_arg0*)this)->field_5C = (f32) (1.0f / (f32) *(s32 *)((s8 *)(*(void **)((s8 *)(*(saddr *)((s8 *)&particle_sprites + (((Fields_arg0*)this)->field_1C * 4))) + 0x28)) + 0xC));
     } else {
         ((Fields_arg0*)this)->field_5C = (f32) (1.0f / (f32) temp_r0);
     }
@@ -430,7 +430,7 @@ TUnk_8048E7A8::TUnk_8048E7A8(void *src, void *arg2, void *parent)
     ((Fields_arg0*)((u8 *)this))->field_2C = (f32) ((Fields_arg0*)((u8 *)this))->field_28;
     temp_r0 = (s32) (((f32) ((Fields_arg1*)src)->field_4C * (3.0517578e-05f * (f32) rand())) + (f32) ((Fields_arg1*)src)->field_48);
     if (((Fields_arg1*)src)->field_88 & 1) {
-        ((Fields_arg0*)((u8 *)this))->field_5C = (f32) (1.0f / (f32) *(s32 *)((s8 *)(*(void **)((s8 *)(*(saddr *)((s8 *)TParticleCtrl__data_80511F70 + (((Fields_arg0*)((u8 *)this))->field_1C * 4))) + 0x28)) + 0xC));
+        ((Fields_arg0*)((u8 *)this))->field_5C = (f32) (1.0f / (f32) *(s32 *)((s8 *)(*(void **)((s8 *)(*(saddr *)((s8 *)particle_sprites + (((Fields_arg0*)((u8 *)this))->field_1C * 4))) + 0x28)) + 0xC));
     } else {
         ((Fields_arg0*)((u8 *)this))->field_5C = (f32) (1.0f / (f32) temp_r0);
     }

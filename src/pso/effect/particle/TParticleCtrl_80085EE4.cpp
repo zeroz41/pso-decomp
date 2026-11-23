@@ -222,7 +222,7 @@ void TUnk_8048E728::draw_particle_refraction_quad() {
         return;
     }
     TParticleCtrl::begin_effect_render();
-    uv = lbl_804C5820[self->tex].uvs[frame];
+    uv = particle_definitions[self->tex].uvs[frame];
     p.x = self->pos.x + self->ofs.x;
     p.y = self->pos.y + self->ofs.y;
     p.z = self->pos.z + self->ofs.z;
@@ -235,7 +235,7 @@ void TUnk_8048E728::draw_particle_refraction_quad() {
     rotate_matrix_y(0, camera_ctrl_instance->yaw);
     rotate_matrix_x(0, camera_ctrl_instance->pitch);
     load_projected_texture_matrix(1.1333334f);
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(lbl_804C5820[9].texlist));
+    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(particle_definitions[9].texlist));
     set_texture_num(self->tex);
     TParticleCtrl::setup_particle_draw(1);
     GXSetNumTevStages(2);
@@ -257,7 +257,7 @@ void TParticleCtrl::mark_active() {
 }
 
 s32 TUnk_8048E728::is_particle_sprite_additive(s32) {
-    return TParticleCtrl__data_80511F70[sprite_index]->definition->flags & 1;
+    return particle_sprites[sprite_index]->definition->flags & 1;
 }
 
 #pragma push
@@ -280,7 +280,7 @@ void TUnk_8048E778::draw_sprite_quad(s32 kind) {
     f32 a;
     f32 b;
 
-    flags = lbl_804C5820[kind].flags;
+    flags = particle_definitions[kind].flags;
     if (flags & 2) {
         if (flags & 4) {
             set_inverse_alpha_blend();
@@ -298,9 +298,9 @@ void TUnk_8048E778::draw_sprite_quad(s32 kind) {
     sx = sy * (480.0f / (480.0f * screen_projection.width));
     TParticleCtrl::begin_effect_render();
     begin_screen_draw(1);
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(lbl_804C5820[kind].texlist));
-    set_draw_texture_and_color(lbl_804C5820[kind].texture, lbl_804C5820[kind].color);
-    uv = lbl_804C5820[kind].uvs[p->f94];
+    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(particle_definitions[kind].texlist));
+    set_draw_texture_and_color(particle_definitions[kind].texture, particle_definitions[kind].color);
+    uv = particle_definitions[kind].uvs[p->f94];
     quad.u = uv[0];
     quad.v = uv[1];
     quad.du = uv[2] - uv[0];
@@ -332,8 +332,8 @@ void TUnk_8048E778::draw_sprite_quad(s32 kind) {
             x = view.x;
             y = view.y;
         }
-        sx *= lbl_804C5820[kind].width;
-        sy *= lbl_804C5820[kind].height;
+        sx *= particle_definitions[kind].width;
+        sy *= particle_definitions[kind].height;
         sx *= p->f88;
         sy *= p->f8C;
         c = cos_table_lookup(p->f96);
