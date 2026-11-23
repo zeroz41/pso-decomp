@@ -129,7 +129,6 @@ extern s32 model_render_flags;
 CharacterAppearanceFields *creation_player_character;
 TObjCMMainMenu *creation_main_menu_obj;
 extern "C" {
-s32 calc_section_id_from_name(s8 *name);
 s32 release_texture_list(void *);
 
 
@@ -513,7 +512,6 @@ void TCharaMaking__sub_8028E790(void) {  }
 }
 
 extern saddr tl_03;
-extern s32 creation_dressing_room_mode_flag;
 
 void TCharaMaking::update_light_direction() {
     f32 temp_f31;

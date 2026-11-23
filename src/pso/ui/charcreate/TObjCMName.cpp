@@ -42,6 +42,13 @@
 #include <string.h>
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/vector.h"
+#include "pso/system/SoundEffect.h"
+#include "pso/ui/window/TObjBagWarnWin_8006EF24.h"
+#include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
+#include "pso/ui/charcreate/TObjCMMainMenu_8028EA88.h"
+#include "pso/ui/charcreate/TObjCMHexTile.h"
+#include "pso/unk/text_802993F0.h"
+#include "pso/object/TCMCharacter.h"
 
 
 struct Menu_80296D68
@@ -66,57 +73,15 @@ struct Menu_80296D68
 
 
 
-typedef void (TObjCMMainMenu::*MenuFn_802987AC)();
-
-struct Making_802952E0
-{
-  u8 pad0[0x38];
-  s16 sel[5];
-  s16 color[3];
-  f32 shape[2];
-};
-
-struct Limits_802952E0
-{
-  s16 lim[22];
-};
-
-struct Auto_802952E0
-{
-  u8 pad0[0x1C];
-  Making_802952E0 *app;
-  s32 state;
-  s32 ticks;
-  s16 color[3];
-  u8 pad2E[2];
-  f32 shape[2];
-  f32 fade;
-};
+typedef void (TObjCMMainMenu::*MainMenuStateHandler)();
 
 extern "C" {
-s32 play_sound_effect(s32, s32, s32, s32);
 void run_task__16TObjCMAssignMenuFv(void *arg0);
-saddr get_message_text(s32 arg0);
-u32 calc_text_width(char *s);
-int TAdSinglePlyChrSelectGC__get_char_creation_figure_draw_flag(void);
 }
 
-extern s32 creation_resource_ready_state;
 s32 creation_menu_selected_entry;
 s32 TObjCMMainMenu::state;
-void request_creation_motion(s32 arg0);
 
-struct Quad_80297DB8 {
-    ColorLineVertex p[4];
-};
-
-struct Cols_80297DB8 {
-    u32 c[4];
-};
-
-
-// One entry of the creation main menu: the TObjCMAssignMenu kind it opens and the member it runs
-// when chosen (name inferred from its uses).
 
 struct CreationMenuModeList {
     s32 count;
@@ -127,18 +92,6 @@ struct CreationMenuModeList {
 
 extern "C" {
 void copy_player_visual_record(void *, void *);
-u8 calc_section_id_from_name();
-void fn_802947A8(void);
-void fn_802993F0(void);
-u32 __cvt_fp2unsigned(f32);
-extern Cols_80297DB8 footer_divider_colors[2];
-extern Quad_80297DB8 footer_divider_vertices[2];
-struct CharacterCreationNameBuffer { s32 value; u8 remaining[0x14]; };
-extern CharacterCreationNameBuffer character_creation_name_buffer;
-extern f32 ui_sprite_scale;
-extern s32 creation_dressing_room_mode_flag;
-extern int creation_figure_rotation_y;
-extern void *creation_figure_object;
 
 const char *TObjCMMainMenu::class_name = "TObjCMMainMenu";
 
@@ -194,16 +147,16 @@ void restore_saved_depth_alpha_state();
 }
 
 s32 *TObjCMMainMenu::get_name_buffer() {
-    return &character_creation_name_buffer.value;
+    return (s32 *)character_creation_name_buffer;
 }
 
 s32 TObjCMMainMenu::is_not_dressing_room_mode() {
     return creation_dressing_room_mode_flag == 0;
 }
 
-void TObjCMMainMenu::set_speed(f32 farg0) {
-    if ((void *) creation_figure_object != NULL) {
-        *(f32 *)((s8 *)creation_figure_object + 0x38) = farg0;
+void TObjCMMainMenu::set_speed(f32 x) {
+    if (creation_figure_object != NULL) {
+        creation_figure_object->position.x = x;
     }
 }
 
@@ -289,7 +242,7 @@ void TObjCMMainMenu::run_task() {
     update_menu_reveal(reveal_ticks++);
     update_submenu_fade();
     update_slide_offset();
-    static MenuFn_802987AC table[7] = {
+    static MainMenuStateHandler table[7] = {
         &TObjCMMainMenu::handle_creation_input, &TObjCMMainMenu::sub_8029862C, &TObjCMMainMenu::update_confirmation,
         &TObjCMMainMenu::sub_8029862C, &TObjCMMainMenu::sub_8029862C, &TObjCMMainMenu::finish_confirmation,
         &TObjCMMainMenu::finish_cancel,
@@ -308,7 +261,7 @@ void TObjCMMainMenu::run_task() {
         }
         break;
     default:
-        if (TAdSinglePlyChrSelectGC::is_active() != 0 && TAdSinglePlyChrSelectGC__get_char_creation_figure_draw_flag() != 0) {
+        if (TAdSinglePlyChrSelectGC::is_active() != 0 && get_char_creation_figure_draw_flag() != 0) {
             if (this->preview < 1.0f) {
                 f32 step = 0.083333336f;
                 if (this->preview > 0.5833333f) {
@@ -599,13 +552,13 @@ void TObjCMMainMenu::draw_confirmation() {
     draw_menu_text(263.0f, 247.0f * scale, section_name, ((u32)(255.0f * section_alpha) << 24) | 0xFFFFFF);
     TCameraCtrl::restore_saved_view();
 }
-Cols_80297DB8 footer_divider_colors[2] = {
-    {{0x00C7C7C7, 0x80C7C7C7, 0x80C7C7C7, 0x00C7C7C7}},
-    {{0x80C7C7C7, 0x80C7C7C7, 0x80C7C7C7, 0x80C7C7C7}},
+u32 footer_divider_colors[2][4] = {
+    {0x00C7C7C7, 0x80C7C7C7, 0x80C7C7C7, 0x00C7C7C7},
+    {0x80C7C7C7, 0x80C7C7C7, 0x80C7C7C7, 0x80C7C7C7},
 };
-Quad_80297DB8 footer_divider_vertices[2] = {
-    {{{275.0f, 0.0f}, {400.0f, 0.0f}, {400.0f, 0.0f}, {275.0f, 0.0f}}},
-    {{{400.0f, 0.0f}, {640.0f, 0.0f}, {640.0f, 0.0f}, {400.0f, 0.0f}}},
+ColorLineVertex footer_divider_vertices[2][4] = {
+    {{275.0f, 0.0f}, {400.0f, 0.0f}, {400.0f, 0.0f}, {275.0f, 0.0f}},
+    {{400.0f, 0.0f}, {640.0f, 0.0f}, {640.0f, 0.0f}, {400.0f, 0.0f}},
 };
 
 
@@ -615,25 +568,25 @@ void TObjCMMainMenu::draw_footer_divider() {
     f32 s = TObjCMMainMenu::get_scale();
     f32 top = 416.0f * s;
     f32 bot = top + 3.0f * s;
-    Cols_80297DB8 *src;
-    Quad_80297DB8 *q;
+    u32 *src;
+    ColorLineVertex *q;
     s32 i;
     s32 j;
     prim.tex = NULL;
     prim.count = 4;
     for (i = 0; i < 2; i++) {
-        q = &footer_divider_vertices[i];
-        src = &footer_divider_colors[i];
-        q->p[1].y = top;
-        q->p[0].y = top;
-        q->p[3].y = bot;
-        q->p[2].y = bot;
+        q = footer_divider_vertices[i];
+        src = footer_divider_colors[i];
+        q[1].y = top;
+        q[0].y = top;
+        q[3].y = bot;
+        q[2].y = bot;
         for (j = 0; j < 4; j++) {
-            u32 c = src->c[j];
-            cols[j] = (c & 0x00FFFFFF) | (__cvt_fp2unsigned((f32)(c >> 24) * reveal) << 24);
+            u32 c = src[j];
+            cols[j] = (c & 0x00FFFFFF) | ((u32)((f32)(c >> 24) * reveal) << 24);
         }
         prim.colors = cols;
-        prim.verts = q->p;
+        prim.verts = q;
         prim.draw_strip_swap_color(4, 6, -1.8125f);
     }
 }
@@ -884,7 +837,7 @@ void TObjCMMainMenu::confirm_selection() {
     }
     play_sound_effect(0x52D01, 0, 0, 0);
     if (character->section == -1) {
-        character->section = calc_section_id_from_name();
+        character->section = calc_section_id_from_name((s8 *)character->name);
     } else {
         try_pay_fee();
     }
@@ -1405,14 +1358,14 @@ void TObjCMHairMenu::run_task() {
             if (temp_r0 >= 4) {
                 selection = 0;
             }
-            ((s32 (*)(int, int, int, int))play_sound_effect)(0x54100, 0, 0, 0);
+            play_sound_effect(0x54100, 0, 0, 0);
         } else if (creation_direction_repeated(0x10) != 0) {
             temp_r0_2 = selection - 1;
             selection = temp_r0_2;
             if (temp_r0_2 < 0) {
                 selection = 3;
             }
-            ((s32 (*)(int, int, int, int))play_sound_effect)(0x54100, 0, 0, 0);
+            play_sound_effect(0x54100, 0, 0, 0);
         }
         temp_r3 = selection;
         if (temp_r3 == 0) {
@@ -1421,12 +1374,12 @@ void TObjCMHairMenu::run_task() {
                 if (++app->hair >= count) {
                     app->hair = 0;
                 }
-                ((s32 (*)(int, int, int, int))play_sound_effect)(0x54100, 0, 0, 0);
+                play_sound_effect(0x54100, 0, 0, 0);
             } else if (creation_direction_repeated(0x40) != 0) {
                 if (--app->hair < 0) {
                     app->hair = count - 1;
                 }
-                ((s32 (*)(int, int, int, int))play_sound_effect)(0x54100, 0, 0, 0);
+                play_sound_effect(0x54100, 0, 0, 0);
             }
         } else {
             app = appearance;
@@ -1448,7 +1401,7 @@ void TObjCMHairMenu::run_task() {
             }
         }
         if (creation_buttons_pressed(6) != 0) {
-            ((s32 (*)(int, int, int, int))play_sound_effect)(0x53704, 0, 0, 0);
+            play_sound_effect(0x53704, 0, 0, 0);
             TObjCMMainMenu::clear_task_state();
             active = 0;
         }
@@ -1671,18 +1624,17 @@ TObjCMAutoMkData *TObjCMAutoMkData::create(TObject *parent) {
 #pragma push
 #pragma fp_contract on
 void TObjCMAutoMkData::run_task() {
-    Auto_802952E0 *self = (Auto_802952E0 *)this;
   f32 x;
   f32 t;
   s16 *lim;
   s16 *sel;
   s32 i;
   s32 v;
-  Making_802952E0 **new_var;
+  CharacterAppearanceFields **new_var;
   x = TObjCMMainMenu::get_proportion();
-  if (self->state != 2)
+  if (state != 2)
   {
-    if (1.0f == self->fade)
+    if (1.0f == fade)
     {
       x += -0.033333335f;
       if (x < 0.0f)
@@ -1693,24 +1645,24 @@ void TObjCMAutoMkData::run_task() {
   }
   else
   {
-    x = (x > (1.0f - self->fade)) ? (x) : (1.0f - self->fade);
+    x = (x > (1.0f - fade)) ? (x) : (1.0f - fade);
   }
   set_creation_projection_center(x);
-  new_var = &self->app;
-  if (self->state == 2)
+  new_var = &appearance;
+  if (state == 2)
   {
-    if ((self->fade += -0.083333336f) <= 0.0f)
+    if ((fade += -0.083333336f) <= 0.0f)
     {
-      self->fade = 0.0f;
-      ((TObject *)self)->queue_destruction();
+      fade = 0.0f;
+      queue_destruction();
     }
     return;
   }
-  if ((self->fade += 0.16666667f) > 1.0f)
+  if ((fade += 0.16666667f) > 1.0f)
   {
-    self->fade = 1.0f;
+    fade = 1.0f;
   }
-  switch (self->state)
+  switch (state)
   {
     case 1:
     {
@@ -1724,25 +1676,25 @@ void TObjCMAutoMkData::run_task() {
       TObjCMIcon::reset_icon_flags();
       break;
   }
-  switch (self->state)
+  switch (state)
   {
     case 0:
-      self->state = 1;
+      state = 1;
       break;
     case 1:
       if (creation_buttons_pressed(2) != 0)
     {
       play_sound_effect(0x53704, 0, 0, 0);
       TObjCMMainMenu::clear_task_state();
-      self->state = 2;
+      state = 2;
       break;
     }
       if (creation_buttons_pressed(4) == 0)
     {
       break;
     }
-      lim = ((Limits_802952E0 *)&class_appearance_table)[character_display_index((uaddr)self->app)].lim;
-      sel = (*new_var)->sel;
+      lim = class_appearance_table[character_display_index((uaddr)appearance)].counts;
+      sel = &appearance->costume;
       for (i = 0; i <= 4; i++, lim++, sel++)
     {
       if ((*lim) >= 2)
@@ -1759,40 +1711,40 @@ void TObjCMAutoMkData::run_task() {
         *sel = v;
       }
     }
-      self->color[0] = (u8) ((s32) ((128.0f * (3.0517578e-05f * ((f32) ((int)rand())))) + (self->color[0] + 0x40)));
-      self->color[1] = (u8) ((s32) ((128.0f * (3.0517578e-05f * ((f32) ((int)rand())))) + (self->color[1] + 0x40)));
-      self->color[2] = (u8) ((s32) ((128.0f * (3.0517578e-05f * ((f32) ((int)rand())))) + (self->color[2] + 0x40)));
-      if ((self->shape[0] += (0.5f * (3.0517578e-05f * ((f32) ((int)rand())))) + 0.25f) >= 1.0f)
+      red = (u8) ((s32) ((128.0f * (3.0517578e-05f * ((f32) ((int)rand())))) + (red + 0x40)));
+      green = (u8) ((s32) ((128.0f * (3.0517578e-05f * ((f32) ((int)rand())))) + (green + 0x40)));
+      blue = (u8) ((s32) ((128.0f * (3.0517578e-05f * ((f32) ((int)rand())))) + (blue + 0x40)));
+      if ((width += (0.5f * (3.0517578e-05f * ((f32) ((int)rand())))) + 0.25f) >= 1.0f)
     {
-      self->shape[0] -= 1.0f;
+      width -= 1.0f;
     }
-      if ((self->shape[1] += (0.5f * (3.0517578e-05f * ((f32) ((int)rand())))) + 0.25f) >= 1.0f)
+      if ((height += (0.5f * (3.0517578e-05f * ((f32) ((int)rand())))) + 0.25f) >= 1.0f)
     {
-      self->shape[1] -= 1.0f;
+      height -= 1.0f;
     }
       play_sound_effect(0x52D01, 0, 0, 0);
-      self->ticks = 0;
-      self->state = 3;
+      ticks = 0;
+      state = 3;
       break;
     case 2:
       break;
     case 3:
-      self->ticks++;
-      t = ((f32) self->ticks) / 30.0f;
-      (*new_var)->color[0] = (s32) (((f32) self->app->color[0]) + (t * ((f32) (self->color[0] - (*new_var)->color[0]))));
-      self->app->color[1] = (s32) (((f32) (*new_var)->color[1]) + (t * ((f32) (self->color[1] - self->app->color[1]))));
-      self->app->color[2] = (s32) (((f32) self->app->color[2]) + (t * ((f32) (self->color[2] - (*new_var)->color[2]))));
-      (*new_var)->shape[0] = (t * (self->shape[0] - self->app->shape[0])) + self->app->shape[0];
-      self->app->shape[1] = (t * (self->shape[1] - (*new_var)->shape[1])) + self->app->shape[1];
-      if (self->ticks >= 30)
+      ticks++;
+      t = ((f32) ticks) / 30.0f;
+      (*new_var)->red = (s32) (((f32) appearance->red) + (t * ((f32) (red - (*new_var)->red))));
+      appearance->green = (s32) (((f32) (*new_var)->green) + (t * ((f32) (green - appearance->green))));
+      appearance->blue = (s32) (((f32) appearance->blue) + (t * ((f32) (blue - (*new_var)->blue))));
+      (*new_var)->width = (t * (width - appearance->width)) + appearance->width;
+      appearance->height = (t * (height - (*new_var)->height)) + appearance->height;
+      if (ticks >= 30)
     {
       if (creation_resource_ready_state == 2)
       {
         play_sound_effect(0x52802, 0, 0, 0);
-        self->state = 1;
+        state = 1;
       }
       else
-        if (self->ticks >= 150)
+        if (ticks >= 150)
       {
         return;
       }

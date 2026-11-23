@@ -43,7 +43,7 @@ void reset_creation_shape_set(saddr arg0);
 s32 char_select_active_flag;
 int char_creation_figure_draw_flag;
 u32 creation_figure_rotation_y;
-uaddr creation_figure_object;
+TCMCharacter *creation_figure_object;
 CreationTextureCacheEntry *char_select_current_entry;
 uaddr chara_select_hair_node_a;
 uaddr chara_select_hair_node_b;
@@ -83,7 +83,6 @@ s32 creation_resource_ready_state;
 void translate_matrix_vec3(u8 *arg0, u8 *arg1);
 void rotate_matrix_y(int, u32);
 int fn_8001ED90(void *p);
-int TAdSinglePlyChrSelectGC__get_char_creation_figure_draw_flag(void);
 s32 release_texture_list(void *);
 
 #pragma push
@@ -259,7 +258,6 @@ struct Sel_802902CC {
 };
 
 }
-void request_creation_motion(s32 arg0);
 extern const char *chara_select_creation_shape_rel_files[];
 void map_shape_region_samples(s32 region, s32 *samples);
 extern CreationShapeBlend creation_shape_blend;
@@ -283,7 +281,7 @@ TCMCharacter::TCMCharacter(TObject *parent) : TObjMotion(parent) {
     cm = creation_player_character;
     char_select_active_flag = 0;
     char_creation_figure_draw_flag = 0;
-    creation_figure_object = (uaddr)this;
+    creation_figure_object = this;
     res = (saddr)new BmlResource(6, ((BmlResourceDescriptor **)character_making_resource_descriptor_table)[character_display_index((uaddr)cm)], 0, 0, NULL);
     chara_select_preview_resource = res;
     for (p = ((CreationTextureCacheEntry *)creation_texture_cache); p < ((CreationTextureCacheEntry *)creation_texture_cache) + 0x80; p++) {
@@ -401,7 +399,7 @@ void TCMCharacter::reset_model_parts() {
 s32 TAdSinglePlyChrSelectGC::is_active() {
     return (u8)((u8) (char_select_active_flag == 1));
 }
-int TAdSinglePlyChrSelectGC__get_char_creation_figure_draw_flag(void) {  return char_creation_figure_draw_flag; }
+int get_char_creation_figure_draw_flag(void) { return char_creation_figure_draw_flag; }
 void TAdSinglePlyChrSelectGC__sub_802905A4(void* p, void* q) { *(u32*)((char*)p + 0x0) = *(u32*)((char*)q + 0x0); *(u32*)((char*)p + 0x4) = *(u32*)((char*)q + 0x4); }
 }
 void reset_creation_shape_set(saddr arg0) {
@@ -595,11 +593,11 @@ void TCMCharacter::update_chara_preview() {
     this->advance_animation();
 }
 
-void request_creation_motion(s32 arg0) {
+void request_creation_motion(s32 motion) {
     if (creation_figure_object == 0 || creation_player_character == 0) {
         return;
     }
-    ((TObjMotion *)creation_figure_object)->set_requested_action(arg0 * 3 + creation_motion_group(creation_player_character));
+    creation_figure_object->set_requested_action(motion * 3 + creation_motion_group(creation_player_character));
 }
 
 void TCMCharacter::draw_player_model() { set_motion_interpolation_flag(); draw_saving_joints_checked(); }

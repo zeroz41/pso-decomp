@@ -15,6 +15,8 @@ extern const s32 lbl_8045122C[19];
 
 extern "C" {
 void TCharaMaking__sub_8028E790(void);
+// The section id a character name hashes to.
+s32 calc_section_id_from_name(s8 *name);
 }
 
 struct CharacterClassAppearance;

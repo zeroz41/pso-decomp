@@ -36,6 +36,8 @@ void draw_ui_sprite_scaled(s32 sprite_id, const vec2f* position, const vec2f* sc
 }
 void draw_ui_sprite_opaque(s32 sprite_id, const vec2f* position, const vec2f* scale,
                            f32 depth);
+// The UI scale TObjCMMainMenu::get_scale returns.
+extern f32 ui_sprite_scale;
 extern "C" {
 void draw_ui_sprite(s32 sprite_id, const vec2f* position, f32 depth, f32 alpha);
 // Points *table at the cell table of sprite *id; ids from 143 on index the language's own table.
