@@ -3,6 +3,7 @@
 
 #include "types.h"
 #include "pso/ui/window/TWindowBase.h"
+#include "pso/item/TItemData.h"
 #include <stddef.h>
 
 struct PageIndicator;
@@ -24,7 +25,8 @@ struct TWindowHelpItem : public TWindowBase
     uaddr m_68;
     u32 m_6c;
     uaddr m_70;
-    u8 _pad74[0x28];
+    u8 _pad74[0x14];
+    TItemData displayed_item;
     u32 m_9c;
     u32 m_a0;
     u32 m_a4;
@@ -44,6 +46,7 @@ struct TWindowHelpItem : public TWindowBase
     void invoke_callback_pmf();
     void dispatch_item_help();
     void set_displayed_item_colored(uaddr displayed_item_colored);
+    void set_displayed_item_by_id(saddr id);
     void set_displayed_item_data(void* a1, void* a2);
     void set_items_and_refresh(void* a1, void* a2);
     void update_cursor_selection();

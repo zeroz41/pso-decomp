@@ -5,6 +5,7 @@
 #include "pso/system/task/TObject.h"
 
 struct TWindowMainMenu;
+struct TWindowHelpItem;
 
 struct TWindowSubItem : public TObject {
     TWindowSubItem(TWindowMainMenu *parent, s32 client);
@@ -19,7 +20,7 @@ struct TWindowSubItem : public TObject {
     uaddr purpose_menu;
     uaddr confirm_menu;
     uaddr count_input;
-    uaddr help_window;
+    TWindowHelpItem *help_window;
 
     static const char *class_name;
     void set_displayed_item(s32 arg1);

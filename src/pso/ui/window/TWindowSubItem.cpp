@@ -38,6 +38,12 @@
 
 #pragma readonly_strings on
 
+#pragma inline_depth(1)
+
+#pragma auto_inline off
+
+#pragma dont_inline off
+
 struct ItemData_80279754 {
     u8 b[0x14];
 };
@@ -63,10 +69,7 @@ void populate_sub_item_list(Win_8027ABFC *arg0);
 void decrement_clamped(void *, s32);
 void play_sound_effect(s32, s32, s32, s32);
 s32 TWindowCtrl__sub_8024A228(saddr);
-u32 __nw__7TObjectFUl(u32);
-u32 __ct__15TWindowHelpItemFPvl(u32, s32, s32);
 s32 send_6x25_equip_item(s32, s32, s32);
-s32 TWindowHelpItem__set_displayed_item_by_id(u32);
 s32 close_sub_window__10TObjPlayerFv();
 s32 try_send_6x27_use_item(s32, s32);
 s32 create_sub_item_list_window(saddr, const f32 *, s32);
@@ -191,7 +194,6 @@ TWindowSubItem::~TWindowSubItem() {
 }
 
 void TWindowSubItem::run_task() {
-    u32 w;
     saddr p;
     s32 idx;
     p = get_player_by_client_id(this->client_id);
@@ -213,11 +215,7 @@ void TWindowSubItem::run_task() {
                 this->purpose_menu = 0;
             }
             if (this->help_window == 0) {
-                w = __nw__7TObjectFUl(0xBC);
-                if (w != 0) {
-                    w = __ct__15TWindowHelpItemFPvl(w, get_window_layout_position(2), this->client_id);
-                }
-                this->help_window = w;
+                this->help_window = new TWindowHelpItem((void *)get_window_layout_position(2), this->client_id);
                 ((TWindowBase *)this->help_window)->set_depth(TWindowSubEquip__sub_80263AF8((u8 *)this->parent_menu, 4));
                 this->displayed_item = -1;
             }
@@ -690,9 +688,9 @@ s32 has_armor_with_unit_slot(TWindowSubItem *window_sub_item, TItem *item) {
 
 extern "C" {
 void TWindowSubItem::set_displayed_item(s32 arg1) {
-    if (((u32) this->help_window != 0U) && (arg1 != (s32) this->displayed_item)) {
+    if ((this->help_window != NULL) && (arg1 != (s32) this->displayed_item)) {
         this->displayed_item = arg1;
-        TWindowHelpItem__set_displayed_item_by_id(this->help_window);
+        this->help_window->set_displayed_item_by_id(arg1);
     }
 }
 }

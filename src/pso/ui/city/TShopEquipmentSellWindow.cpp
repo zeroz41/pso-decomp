@@ -125,7 +125,6 @@ struct Win_8021C968 {
 };
 
 extern "C" {
-void TWindowHelpItem__set_displayed_item_by_id(void *arg0, saddr arg1);
 const char *TShopEquipmentSellWindow__class_name = "TShopEquipmentSellWindow";
 }
 
@@ -254,10 +253,10 @@ void TShopEquipmentSellWindow::build_sell_list() {
         if (self->help_win != NULL && TLobby::is_camera_ctrl_active() > 2) {
             ((TLobby *)(self->help_win))->set_position(0.75f, 0.75f);
         }
-        TWindowHelpItem__set_displayed_item_by_id(self->help_win, self->entries[0].item.id);
+        ((TWindowHelpItem *)self->help_win)->set_displayed_item_by_id(self->entries[0].item.id);
     } else if (self->list_win != NULL) {
         v = ((TWindowMenuIconLine *)self->list_win)->get_cursor_value();
-        TWindowHelpItem__set_displayed_item_by_id(self->help_win, self->entries[v].item.id);
+        ((TWindowHelpItem *)self->help_win)->set_displayed_item_by_id(self->entries[v].item.id);
     }
     if (self->qty_win == NULL) {
         self->qty_win = create_window_quantity((u16)((TShopSequence *)self)->get_child_field1c());
@@ -294,7 +293,7 @@ void TShopEquipmentSellWindow::handle_selection() {
     if (w->list_win != NULL) {
         i = ((TWindowMenuIconLine *)(w->list_win))->get_cursor_value();
         if (w->help_win != NULL && i != w->sel) {
-            TWindowHelpItem__set_displayed_item_by_id(w->help_win, w->entries[i].item.id);
+            ((TWindowHelpItem *)w->help_win)->set_displayed_item_by_id(w->entries[i].item.id);
         }
         if (w->status_win != NULL && i != w->sel) {
             n = ((TPlyItem *)(w->owner->inventory))->set_mode_and_refresh_object(&w->entries[i].item);

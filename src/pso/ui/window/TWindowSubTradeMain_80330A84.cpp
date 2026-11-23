@@ -88,7 +88,6 @@ void TWindowSubTradeMain__sub_803323A8(void *);
 void TWindowSubTradeMain__sub_803323B8(void *);
 Plr_803310BC *get_player_by_client_id(s32);
 TWindowHelpItem *__ct__15TWindowHelpItemFPvl(TWindowHelpItem *, void *, u32);
-s32 TWindowHelpItem__set_displayed_item_by_id(u32);
 TWindowInputNumber *__ct__18TWindowInputNumberFPvllls(TWindowInputNumber *, void *, s32, s32, s32, s16);
 }
 
@@ -197,9 +196,9 @@ TWindowSubTradeMain::~TWindowSubTradeMain() {
         chat->queue_destruction();
         chat = NULL;
     }
-    if ((u32) this->help_item != 0U) {
+    if (this->help_item != NULL) {
         ((TWindowBase *)this->help_item)->close();
-        this->help_item = 0U;
+        this->help_item = NULL;
     }
     if ((u32) this->input_number != 0U) {
         ((TWindowBase *)this->input_number)->close();
@@ -756,9 +755,9 @@ TWindowHelpItem *TWindowSubTradeMain::create_help_item() {
 }
 
 void TWindowSubTradeMain::set_displayed_item(s32 arg1) {
-    if (((u32) this->help_item != 0U) && (arg1 != (s32) this->displayed_item)) {
+    if ((this->help_item != NULL) && (arg1 != (s32) this->displayed_item)) {
         this->displayed_item = arg1;
-        TWindowHelpItem__set_displayed_item_by_id(this->help_item);
+        this->help_item->set_displayed_item_by_id(arg1);
     }
 }
 
@@ -792,7 +791,7 @@ void TWindowSubTradeMain::set_labels(s32 labels) {
     if ((u32) this->input_number != 0U) {
         TWindowSubTradeMain::update_position_if_changed((saddr)this, (u8 *)this->input_number, (u8 *)((saddr)(get_window_layout_position(labels + 0x5D))));
     }
-    if ((u32) this->help_item != 0U) {
+    if (this->help_item != NULL) {
         TWindowSubTradeMain::update_position_if_changed((saddr)this, (u8 *)this->help_item, (u8 *)((saddr)(get_window_layout_position(labels + 0x65))));
     }
 }

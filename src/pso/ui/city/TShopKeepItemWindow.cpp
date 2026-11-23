@@ -42,7 +42,6 @@ s32 delete_item(TObjPlayer *, s32, s32);
 s32 store_item_in_bank(u8 *item, s32 arg1, s32 slot);
 void copy_bank_to_card_window(s32 slot);
 s32 play_sound_effect(s32, s32, s32, s32);
-void TWindowHelpItem__set_displayed_item_by_id(TWindowHelpItem *, s32);
 TWindowMenuIconLine *create_item_list_window(s32, s32, s32);
 void sort_bank_items(s32 slot);
 s32 get_bank_deposit_capacity_for_item(TItemData *item, s32 slot);
@@ -152,10 +151,10 @@ void TShopKeepItemWindow::rebuild_item_list() {
         if (this->help_window != NULL && TLobby::is_camera_ctrl_active() > 2) {
             ((TLobby *)(this->help_window))->set_position(0.75f, 0.75f);
         }
-        TWindowHelpItem__set_displayed_item_by_id(this->help_window, this->entries[cur].item->get_item_id());
+        this->help_window->set_displayed_item_by_id(this->entries[cur].item->get_item_id());
         this->help_item_index = cur;
     } else {
-        TWindowHelpItem__set_displayed_item_by_id(this->help_window, this->entries[cur].item->get_item_id());
+        this->help_window->set_displayed_item_by_id(this->entries[cur].item->get_item_id());
         this->help_item_index = cur;
     }
 }
@@ -169,7 +168,7 @@ void TShopKeepItemWindow::handle_deposit_list_select() {
     if (this->item_list_window != NULL) {
         cur = this->item_list_window->get_cursor_value();
         if (this->help_window != NULL && cur != this->help_item_index) {
-            TWindowHelpItem__set_displayed_item_by_id(this->help_window, this->entries[cur].item->get_item_id());
+            this->help_window->set_displayed_item_by_id(this->entries[cur].item->get_item_id());
             this->help_item_index = cur;
         }
     }

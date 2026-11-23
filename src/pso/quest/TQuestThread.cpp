@@ -5,6 +5,7 @@
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/window/ProgressMessageWindow.h"
 #include "pso/ui/window/TWindowBase.h"
+#include "pso/ui/window/TWindowHelpItem.h"
 #include <string.h>
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/task/TObject.h"
@@ -396,7 +397,7 @@ void TQuestThreadBoard::run_task() {
         s32 item = ((TWindowMenuIconLine *)ctx.pack_select_window)->get_cursor_value();
         if (item != ctx.registers[ctx.result_register]) {
             ctx.registers[ctx.result_register] = item;
-            TWindowHelpItem__set_displayed_item_by_id((u8 *)ctx.pack_select_help_window, item);
+            ((TWindowHelpItem *)ctx.pack_select_help_window)->set_displayed_item_by_id(item);
         }
         if (((TWindowMenuIconLine *)ctx.pack_select_window)->is_decided() != 0) {
             ((TWindowBase *)ctx.pack_select_window)->close();
@@ -568,7 +569,7 @@ void TQuestThread::run_task() {
         s32 item = ((TWindowMenuIconLine *)ctx.pack_select_window)->get_cursor_value();
         if (item != ctx.registers[ctx.result_register]) {
             ctx.registers[ctx.result_register] = item;
-            TWindowHelpItem__set_displayed_item_by_id((u8 *)ctx.pack_select_help_window, item);
+            ((TWindowHelpItem *)ctx.pack_select_help_window)->set_displayed_item_by_id(item);
         }
         if (((TWindowMenuIconLine *)ctx.pack_select_window)->is_decided() != 0 ||
             ((TWindowMenuIconLine *)ctx.pack_select_window)->is_cancelled() != 0) {

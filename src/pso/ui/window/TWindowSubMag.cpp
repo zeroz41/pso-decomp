@@ -495,7 +495,7 @@ void TWindowSubMag::update_displayed_item() {
     temp_r3 = ((TWindowMenuIconLine *)this->list)->get_cursor_value();
     if (temp_r3 != (s32) this->displayed_item) {
         this->displayed_item = temp_r3;
-        TWindowHelpItem__set_displayed_item_by_id((u8 *)this->help, temp_r3);
+        ((TWindowHelpItem *)this->help)->set_displayed_item_by_id(temp_r3);
     }
 }
 

@@ -1083,19 +1083,19 @@ void TWindowHelpItem::dispatch_item_help() {
 #undef lbl_804CF7A8
 #undef lbl_804CF7F0
 
-void TWindowHelpItem__set_displayed_item_by_id(u8 *window_help_item, saddr id) {
-    u8 *item;
+void TWindowHelpItem::set_displayed_item_by_id(saddr id) {
+    TItem *item;
     if (id == -1) {
-        ((TWindowHelpItem *)window_help_item)->set_displayed_item_data(NULL, (void*)((void*)((void *)-1)));
+        set_displayed_item_data(NULL, (void *)-1);
         return;
     }
-    item = (u8 *)(find_item_by_id(id));
+    item = find_item_by_id(id);
     if (item == NULL) {
-        ((TWindowHelpItem *)window_help_item)->set_displayed_item_data(NULL, (void*)((void*)((void *) id)));
+        set_displayed_item_data(NULL, (void *)id);
         return;
     }
-    ((TItem *)item)->copy_to_item_data((TItemData *)(window_help_item + 0x88));
-    ((TWindowHelpItem *)window_help_item)->set_displayed_item_data(window_help_item + 0x88, (void*)((void*)((void *) id)));
+    item->copy_to_item_data(&displayed_item);
+    set_displayed_item_data(&displayed_item, (void *)id);
 }
 void show_item_by_id__15TWindowHelpItemFPvi(u8 *window_help_item, saddr id) {
     u8 *item;

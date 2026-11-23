@@ -37,7 +37,7 @@ struct TWindowSubTradeMain : public TObject {
     uaddr request;
     uaddr list;
     uaddr input_number;
-    uaddr help_item;
+    TWindowHelpItem *help_item;
     TWindowChat *chat;
     void *submission;
     void clear_trade_flag();

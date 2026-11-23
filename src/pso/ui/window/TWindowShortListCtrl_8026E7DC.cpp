@@ -3,6 +3,7 @@
 #include "types.h"
 #include "pso/ui/window/TWindowShortListCtrl_8026E7DC.h"
 #include "pso/ui/window/TWindowBase.h"
+#include "pso/ui/window/TWindowHelpItem.h"
 #include "pso/ui/window/TWindowSubItem.h"
 #include "pso/ui/window/TWindowSubTechnique.h"
 #include "pso/ui/window/TWindowMenu.h"
@@ -47,7 +48,6 @@ void *__ct__15TWindowHelpItemFPvl(void *, s32, s32);
 saddr get_window_layout_position(int);
 s32 end_player_keyboard_hold(saddr);
 s32 TWindowCtrl__sub_8024A1A8();
-s32 TWindowHelpItem__set_displayed_item_by_id(void *);
 }
 
 // The class name TObject::m_name points at.
@@ -451,6 +451,6 @@ s32 TWindowShortListCtrl::is_technique_usable() {
 void TWindowShortListCtrl::set_displayed_item(s32 item_id) {
     if (help_window != NULL && item_id != help_item_id) {
         help_item_id = item_id;
-        TWindowHelpItem__set_displayed_item_by_id(help_window);
+        ((TWindowHelpItem *)help_window)->set_displayed_item_by_id(item_id);
     }
 }
