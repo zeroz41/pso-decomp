@@ -95,8 +95,8 @@ void project_world_to_screen(u8 *mtx, Vec *pos, f32 *out) {
 
 #pragma push
 #pragma scheduling off
-void rotate_vector_by_matrix(uaddr arg0, const Vec *src, Vec *dst) {
-    MtxP m = (MtxP)arg0;
+void rotate_vector_by_matrix(uaddr matrix, const Vec *src, Vec *dst) {
+    MtxP m = (MtxP)matrix;
     if (m == NULL) {
         m = *current_matrix;
     }
