@@ -10,7 +10,7 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/task/TObject.h"
 
-const char *TItemEffCane__class_name = "TItemEffCane";
+const char *TItemEffCane::class_name = "TItemEffCane";
 
 void TItemEffCane::run_task() {
     f32 position[3];
@@ -35,7 +35,7 @@ TItemEffCane::~TItemEffCane() {
 TItemEffCane::TItemEffCane(TObject* parent, TItem* item, s32 attachment, s32 effect_id)
     : TObject(parent) {
     f32 position[3];
-    m_name = TItemEffCane__class_name;
+    m_name = class_name;
     item_id = ((TItem *)item)->get_item_id();
     attachment_index = attachment;
     ((TItemWeapon *)item)->get_joint_position(attachment_index, position);

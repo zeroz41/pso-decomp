@@ -10,7 +10,7 @@
 #include "pso/system/SoundEffect.h"
 #include <stdlib.h>
 
-const char *TItemEffFlame__class_name = "TItemEffFlame";
+const char *TItemEffFlame::class_name = "TItemEffFlame";
 
 static void release_flame(TObject *flame);
 
@@ -41,7 +41,7 @@ TItemEffFlame::~TItemEffFlame() {
 }
 
 TItemEffFlame::TItemEffFlame(TObject *parent, ActorBodyHit *hit) : TObject(parent) {
-    m_name = TItemEffFlame__class_name;
+    m_name = class_name;
     target_id = get_entity_id(hit->target);
     body_index = hit->body;
     emitter = create_particle_emitter(&hit->target->bodies[body_index].center, 0x1BB);

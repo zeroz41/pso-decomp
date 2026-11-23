@@ -1,6 +1,6 @@
 #include "pso/effect/item/TItemEffLavis.h"
 
-const char *TItemEffLavis__class_name = "TItemEffLavis";
+const char *TItemEffLavis::class_name = "TItemEffLavis";
 
 void TItemEffLavis::hook() {}
 TItemEffLavis::~TItemEffLavis() {}
@@ -8,7 +8,7 @@ TItemEffLavis::~TItemEffLavis() {}
 TItemEffLavis::TItemEffLavis(void* owner, const Vec* start,
                            const Vec* endpoint, f32 life)
     : TItemShootModel(owner, start, endpoint, life) {
-    m_name = TItemEffLavis__class_name;
+    m_name = class_name;
 }
 
 TItemEffLavis* create_lavis_shot(void* owner, const Vec* start,

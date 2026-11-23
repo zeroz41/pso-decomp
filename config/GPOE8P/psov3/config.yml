@@ -559,11 +559,11 @@ force_active:
   - TItemDrop__gsl_entry_count
   - __ct__13TItemEffArmorFP10TObjPlayerff
   - __ct__13TItemEffEquipFP7TObjectUslll
-  - TItemEffFlame__class_name
-  - TItemEffHeaven__class_name
-  - TItemEffNeedleBase__class_name
-  - TItemEffNeedlePos__class_name
-  - TItemEffNeedle__class_name
+  - class_name__13TItemEffFlame
+  - class_name__14TItemEffHeaven
+  - class_name__18TItemEffNeedleBase
+  - class_name__17TItemEffNeedlePos
+  - class_name__14TItemEffNeedle
   - __ct__20TItemEffOrgaFlowShotFP7TObjectP18OrgaFlowShotParams
   - class_name__17TItemEffectWeapon
   - remove_freeze_immunity

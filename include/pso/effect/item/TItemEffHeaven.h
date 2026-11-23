@@ -26,6 +26,8 @@ public:
     f32 rise_speed;
     TObjPlayer *attacker;
     Vec position;
+
+    static const char *class_name;
 };
 
 LAYOUT_ASSERT(TItemEffHeavenSize, sizeof(TItemEffHeaven) == 0x4C);

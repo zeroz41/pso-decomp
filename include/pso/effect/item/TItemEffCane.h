@@ -15,6 +15,8 @@ public:
     s32 attachment_index;
     void* effect;
     s32 item_id;
+
+    static const char *class_name;
 };
 
 LAYOUT_ASSERT(CaneAttachmentOffset, offsetof(TItemEffCane, attachment_index) == 0x1C);

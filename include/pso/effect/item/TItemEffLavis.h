@@ -8,6 +8,8 @@ public:
     TItemEffLavis(void* owner, const Vec* start, const Vec* endpoint, f32 life);
     virtual ~TItemEffLavis();
     virtual void hook();
+
+    static const char *class_name;
 };
 
 LAYOUT_ASSERT(LavisEffectSize, sizeof(TItemEffLavis) == 0x6C);
