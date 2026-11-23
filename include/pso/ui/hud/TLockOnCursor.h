@@ -72,15 +72,15 @@ struct TUnk_8013F000 {
 };
 
 // TLockOnCursor +0x5C, four of them.
-class TUnk_8013EFB8 {
+class LockOnActionSlot {
 public:
     gc_tag unk_0;
     u8 pad_4[0x3C];
     u8 target_list[0x5C]; // a TargetCursorList, built by its constructor
     TUnk_8013F000 target_records;
 
-    TUnk_8013EFB8();
-    ~TUnk_8013EFB8();
+    LockOnActionSlot();
+    ~LockOnActionSlot();
 };
 
 // TLockOnCursor::selection. When the player confirms a lock-on candidate, its
@@ -135,7 +135,7 @@ struct TLockOnCursor : public TObject {
     TUnk_8013F0A0 unk_24;
     TUnk_8013F08C tasks;
     TUnk_804A7254 unk_48;
-    TUnk_8013EFB8 action_slots[4]; // inferred: one action palette tag and its targets each (find_by_pos)
+    LockOnActionSlot action_slots[4]; // inferred: one action palette tag and its targets each (find_by_pos)
     TUnk_8013EF6C selection;
     TUnk_8013EF3C unk_508;
     TUnk_8013EF0C nearest_target;
@@ -166,7 +166,7 @@ struct TLockOnCursor : public TObject {
     TObject *get_start_task();
     void reset_and_spawn_cursors();
     static void *init_sub(void* p);
-    TUnk_8013EFB8 *find_by_pos(s16 mode, s16 kind);
+    LockOnActionSlot *find_by_pos(s16 mode, s16 kind);
 };
 
 LAYOUT_ASSERT(TLockOnCursor_size, sizeof(TLockOnCursor) == 0x52C);

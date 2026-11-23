@@ -590,7 +590,7 @@ void launch_technique(s32 tech, s32 level, TObjPlayer *pl) {
 }
 
 void capture_technique_targets(int kind, TObjPlayer *owner) {
-    TUnk_8013EFB8 *c;
+    LockOnActionSlot *c;
     PlayerTechniqueState *slots;
     if (owner == NULL) {
         return;

@@ -14,7 +14,7 @@ void *TObjPlayer__sub_80116620(void *, s32);
 #pragma push
 #pragma scheduling off
 void TUnk_8049F8E0::apply_use_effect() {
-    TUnk_8013EFB8 *slot;
+    LockOnActionSlot *slot;
     TLockOnCursor *cursor;
     if (((TObjPlayer *)this->owner)->sub_801A1DDC() != 0) {
         cursor = this->owner->lock_on_cursor;

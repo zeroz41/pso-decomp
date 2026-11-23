@@ -127,7 +127,7 @@ void *TItemObject::get_center() {
 
 void send_star_atomizer_targets(TObjPlayer *player) {
     G_UseStarAtomizer_6x66 cmd;
-    TUnk_8013EFB8 *slot;
+    LockOnActionSlot *slot;
     s32 i;
     if (player != NULL && ((TObjPlayer *)player)->sub_801A1DDC() != 0 && player->lock_on_cursor != NULL) {
         slot = player->lock_on_cursor->find_by_pos(4, 0xA);

@@ -5122,7 +5122,7 @@ s32 TObjPlayer::can_use_camera_field() {
 }
 
 s32 TObjPlayer::can_use_item(void *item) {
-    TUnk_8013EFB8 *slot;
+    LockOnActionSlot *slot;
     if (TTecCtrl::is_technique_ready() != 0 && ((u8 (*)(void *))fn_801D7168)(lobby_rule_settings) == 2) {
         return 0;
     }

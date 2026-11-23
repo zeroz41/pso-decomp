@@ -959,9 +959,9 @@ void TMainCursor::bind_action_channels() {
     }
 }
 
-TUnk_8013EFB8 *TLockOnCursor::find_by_pos(s16 mode, s16 kind) {
+LockOnActionSlot *TLockOnCursor::find_by_pos(s16 mode, s16 kind) {
     s32 i;
-    TUnk_8013EFB8 *slot;
+    LockOnActionSlot *slot;
 
     i = 0;
     slot = action_slots;
@@ -2033,7 +2033,7 @@ TUnk_8013F114::~TUnk_8013F114() {}
 
 TUnk_8013F08C::~TUnk_8013F08C() {}
 
-TUnk_8013EFB8::~TUnk_8013EFB8() {
+LockOnActionSlot::~LockOnActionSlot() {
     destroy_target_records((saddr)&target_records, -1);
 }
 
@@ -2123,7 +2123,7 @@ int TLockOnCursor__sub_8013F000(void *self) {
 
 }
 
-TUnk_8013EFB8::TUnk_8013EFB8() {
+LockOnActionSlot::LockOnActionSlot() {
     __ct__16TargetCursorListFv(target_list);
     TLockOnCursor__sub_8013F000(&target_records);
     ((TMainCursor *)this)->reset_state();
