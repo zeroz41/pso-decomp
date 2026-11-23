@@ -24,6 +24,10 @@
 #include "pso/ui/window/TWindowSubItem.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/window/TWindowInputNumber.h"
+#include "pso/ui/window/TWindowHelpItem.h"
+#include "pso/ui/window/WindowLayout.h"
+#include "pso/ui/city/TShopJudgmentItemWindow_8026DF00.h"
+#include "pso/system/SoundEffect.h"
 #include "pso/system/task/TObject.h"
 #include <string.h>
 #include "pso/player/TPlyItem.h"
@@ -31,6 +35,12 @@
 #include "pso/object/base/TObjBase.h"
 
 #pragma readonly_strings on
+
+#pragma inline_depth(1)
+
+#pragma auto_inline off
+
+#pragma dont_inline off
 
 struct ItemData_8021CF04 {
     u8 b[0xC];
@@ -115,16 +125,7 @@ struct Win_8021C968 {
 };
 
 extern "C" {
-void *create_item_list_window(s32, s32, s32);
-saddr get_window_layout_position(s32);
-void *__ct__15TWindowHelpItemFPvl(void *, s32, s32);
 void TWindowHelpItem__set_displayed_item_by_id(void *arg0, saddr arg1);
-s32 play_sound_effect(s32, s32, s32, s32);
-void *__ct__18TWindowInputNumberFPvllls(void *, s32, s32, s32, s32, s16);
-
-void __dl__7TObjectFPv(void *);
-
-extern s32 __vt__24TShopEquipmentSellWindow[];
 const char *TShopEquipmentSellWindow__class_name = "TShopEquipmentSellWindow";
 }
 
@@ -207,7 +208,6 @@ void TShopEquipmentSellWindow::build_sell_list() {
     s32 n;
     s32 i;
     s32 v;
-    void *p;
     void *r;
     n = ((TPlyItem *)(self->owner->inventory))->count_matching_items(ids);
     self->count = 0;
@@ -250,11 +250,7 @@ void TShopEquipmentSellWindow::build_sell_list() {
         ((TWindowMenuIconLine *)(self->list_win))->clear_decided();
     }
     if (self->help_win == NULL) {
-        p = TObject::operator new(0xBC);
-        if (p != NULL) {
-            p = __ct__15TWindowHelpItemFPvl(p, get_window_layout_position(0x27), ((TObjBase *)((saddr)self->owner))->get_entity_id());
-        }
-        self->help_win = p;
+        self->help_win = new TWindowHelpItem((void *)get_window_layout_position(0x27), ((TObjBase *)((saddr)self->owner))->get_entity_id());
         if (self->help_win != NULL && TLobby::is_camera_ctrl_active() > 2) {
             ((TLobby *)(self->help_win))->set_position(0.75f, 0.75f);
         }
@@ -324,11 +320,7 @@ void TShopEquipmentSellWindow::handle_selection() {
         if (w->entries[i].item.b[0] == 3) {
             type = ((TItemData *)&w->entries[i].item)->get_stack_count();
             if (type > 1 && w->qty_win == NULL) {
-                n = TObject::operator new(0x7C);
-                if (n != NULL) {
-                    n = __ct__18TWindowInputNumberFPvllls(n, get_window_layout_position(0x2B), 1, type, 1, ((TShopSequence *)w)->get_child_field1c());
-                }
-                w->qty_win = n;
+                w->qty_win = new TWindowInputNumber((void *)get_window_layout_position(0x2B), 1, type, 1, ((TShopSequence *)w)->get_child_field1c());
                 if (w->qty_win != NULL && TLobby::is_camera_ctrl_active() > 2) {
                     ((TCheckRoomSequence *)(w->qty_win))->set_position(0.75f, 0.75f);
                 }

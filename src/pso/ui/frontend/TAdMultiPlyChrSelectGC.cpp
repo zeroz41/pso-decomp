@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/ui/frontend/TAdTitleTexGC.h"
+#include "pso/ui/frontend/TAdFadeGC.h"
 #include "pso/ui/frontend/TAdTitleGC.h"
 #include "pso/ui/frontend/TAdBackTxtGC.h"
 #include "pso/ui/frontend/TAdBackGC.h"
@@ -95,7 +96,6 @@ struct Stack_802DDF40 {
 
 extern "C" {
 saddr TAdMultiPlyChrSelectGC__get_last_selected_player(void);
-u32 __ct__9TAdFadeGCFP7TObjectPv(u32, TObject *, s32);
 s32 *TAdSinglePlyChrSelectGC__sub_801FE3E4(u32 i);
 s32 TAdSinglePlyChrSelectGC__sub_801FE800(u32 i);
 void load_tables(int a0);
@@ -272,7 +272,7 @@ void TAdMultiPlyChrSelectGC::initialize_selection_state(s32 arg1) {
     exit_action = 2;
     v = 0;
     this->mode = arg1;
-    *(s32 *)&this->m_74 = v;
+    this->fade = reinterpret_cast<TAdFadeGC *>(v);
     lbl_805D68C8 = v;
     *(s32 *)&this->unk_50 = v;
     this->m_54 = 1;
@@ -597,7 +597,6 @@ void TAdMultiPlyChrSelectGC::sub_802DE7D0() {
     s32 temp_r30;
     s32 var_r30;
     s32 var_r3;
-    u32 var_r0;
     if ((u32) *(u32 *)((s8 *)this + 0x90) != 0U) {
         ((TWindowMessageYesNo *)(*(void **)((s8 *)this + 0x90)))->close();
         *(u32 *)((s8 *)this + 0x90) = 0U;
@@ -614,9 +613,9 @@ void TAdMultiPlyChrSelectGC::sub_802DE7D0() {
         ((TWindowMessageYesNo *)(*(void **)((s8 *)this + 0x98)))->close();
         *(u32 *)((s8 *)this + 0x98) = 0U;
     }
-    if ((u32) this->m_74 != 0U) {
-        ((TObject *)(*(void **)((s8 *)this + 0x74)))->queue_destruction();
-        this->m_74 = 0U;
+    if (this->fade != NULL) {
+        this->fade->queue_destruction();
+        this->fade = NULL;
     }
     if (TAdMultiPlyChrSelectGC__count_selected_slots() > 0) {
         var_r3 = test_pressed_buttons_packed(&controller_physical_port_bank.controllers[TAdMultiPlyChrSelectGC__get_last_selected_player()], 2);
@@ -683,11 +682,7 @@ void TAdMultiPlyChrSelectGC::sub_802DE7D0() {
             }
             if (is_slot_active__23TAdSinglePlyChrSelectGCFUi(temp_r30) != 0) {
                 if (this->a_slot->is_character_transferred(player_plate->get_active_card_slot()) != 0) {
-                    var_r0 = reinterpret_cast<uaddr>(TObject::operator new(0x38));
-                    if (var_r0 != 0U) {
-                        var_r0 = __ct__9TAdFadeGCFP7TObjectPv(var_r0, tl_fade, 0);
-                    }
-                    this->m_74 = var_r0;
+                    this->fade = new TAdFadeGC(tl_fade, 0);
                     this->m_8c = this->a_slot->open_yes_no_window((saddr)((s32 *)&lbl_80472850), TAdMultiPlyChrSelectGC::get_clamped_cursor());
                     this->state = 7;
                     return;
@@ -900,9 +895,9 @@ void TAdMultiPlyChrSelectGC::close_windows() {
         ((TWindowMessageYesNo *)(*(void **)((s8 *)this + 0x8C)))->close();
         this->m_8c = 0U;
     }
-    if ((u32) this->m_74 != 0U) {
-        ((TObject *)(*(void **)((s8 *)this + 0x74)))->queue_destruction();
-        this->m_74 = 0U;
+    if (this->fade != NULL) {
+        this->fade->queue_destruction();
+        this->fade = NULL;
     }
     if (this->a_slot->get_state() == 1) {
         TAdMultiPlyChrSelectGC::reset_slot_selections();
@@ -1083,7 +1078,6 @@ void TAdMultiPlyChrSelectGC::sub_802DDBA8() {
 void TAdMultiPlyChrSelectGC::update_select() {
     s32 temp_r30;
     s32 instance;
-    u32 var_r0;
 
     if ((u32) *(u32 *)&this->unk_90 != 0U) {
         ((TWindowMessageYesNo *)(*(void * *)&this->unk_90))->close();
@@ -1093,9 +1087,9 @@ void TAdMultiPlyChrSelectGC::update_select() {
         ((TWindowMessageYesNo *)(*(void * *)&this->m_8c))->close();
         *(u32 *)&this->m_8c = 0U;
     }
-    if ((u32) this->m_74 != 0U) {
-        ((TObject *)(*(void * *)&this->m_74))->queue_destruction();
-        this->m_74 = 0U;
+    if (this->fade != NULL) {
+        this->fade->queue_destruction();
+        this->fade = NULL;
     }
     instance = player_plate->get_instance();
     if (test_pressed_buttons_packed(&controller_physical_port_bank.controllers[instance], 2) != 0) {
@@ -1148,11 +1142,7 @@ void TAdMultiPlyChrSelectGC::update_select() {
                 this->state = 0xF;
                 return;
             }
-            var_r0 = (uaddr)TObject::operator new(0x38);
-            if (var_r0 != 0U) {
-                var_r0 = __ct__9TAdFadeGCFP7TObjectPv(var_r0, tl_fade, 0);
-            }
-            this->m_74 = var_r0;
+            this->fade = new TAdFadeGC(tl_fade, 0);
             *(u32 *)&this->m_8c = this->a_slot->open_yes_no_window((saddr)lbl_80472860, player_plate->get_instance());
             this->state = 0x10;
             return;

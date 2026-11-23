@@ -159,7 +159,6 @@ struct M_80298450 { u8 pad[0x38]; f32 f38; };
 
 extern "C" {
 void copy_player_visual_record(void *, void *);
-void __ct__7TObjectFP7TObject(void *);
 u8 calc_section_id_from_name();
 void fn_802947A8(void);
 int TObjCMName__sub_802948F4(TObjCMName *, char *);

@@ -3,13 +3,12 @@
 #include "pso/unk/TLobby_80132ED0.h"
 #include "pso/ui/frontend/TAdPsoPassSaveGC.h"
 #include "pso/system/task/TObject.h"
+#include "pso/ui/frontend/TAdTitleGC.h"
 
 #pragma readonly_strings on
 
 s32 TAdPsoPassSaveGC__data_805D6E80;
 extern "C" {
-
-void *__ct__10TAdTitleGCFP7TObjectl(void *, void *, int);
 
 void TAdPsoPassSaveGC::render() {
     vfunc_12();
@@ -42,12 +41,8 @@ TAdPsoPassSaveGC::~TAdPsoPassSaveGC() {
 const char *TAdPsoPassSaveGC__name = "TAdPsoPassSaveGC";
 
 TAdPsoPassSaveGC::TAdPsoPassSaveGC(TObject *parent) : TAdYesNoBaseGC(parent) {
-    void *o;
     m_name = TAdPsoPassSaveGC__name;
-    o = TObject::operator new(0x138);
-    if (o != NULL) {
-        __ct__10TAdTitleGCFP7TObjectl(o, this, 18);
-    }
+    new TAdTitleGC(this, 18);
 }
 
 }

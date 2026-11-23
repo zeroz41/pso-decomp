@@ -8,6 +8,7 @@
 struct TAdChrSelASlotGC;
 struct TAdChrSelBSlotGC;
 class TAdSelectCurGC;
+class TAdFadeGC;
 class TAdGuideTxtGC;
 class TAdGameStartGC;
 struct TAdChrSelPlyPlateGC;
@@ -113,7 +114,7 @@ struct TAdMultiPlyChrSelectGC : public TObject {
     TAdChrSelASlotGC *a_slot;        // 0x68  get_or_create_slot_window
     TAdChrSelBSlotGC *b_slot;        // 0x6C  TAdChrSelBSlotGC::create
     TAdSelectCurGC *select_cursor;   // 0x70
-    u32 m_74;
+    TAdFadeGC *fade;
     TAdGameStartGC *game_start;
     s32 m_7c;
     u8 unk_80[0x4];

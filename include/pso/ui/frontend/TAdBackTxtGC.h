@@ -14,18 +14,15 @@ public:
     void set_field_24(s32 v);
     void set_depth(f32 v);
 
-    s32 m_1c;
+    s32 frame;
     f32 m_depth;
     s32 m_24;
 };
 
 LAYOUT_ASSERT(TAdBackTxtGC_size, sizeof(TAdBackTxtGC) == 0x28);
 
-class TAdBackTxtGC;
 extern "C" {
 void register_texture_f256_backtext(void);
-void render__12TAdBackTxtGCFv(TAdBackTxtGC *arg0);
-void run_task__12TAdBackTxtGCFv(void *arg0);
 }
 
 #endif

@@ -16,7 +16,6 @@ s32 draw_textured_quad_at_depth(void *, f32, f32, f32);
 void set_draw_texture_and_color(s32 idx, s32 arg1);
 saddr TAdBackTxtGC__backtext_texture_list;
 void TAdBackTxtGC::draw_character_background_frame(s32 arg1, s32 arg2) {
-    u8 *arg0 = (u8 *)this;
   f32 buffer_8[8];
   begin_screen_draw(1);
   TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>((void *) TAdBackTxtGC__backtext_texture_list));
@@ -28,42 +27,36 @@ void TAdBackTxtGC::draw_character_background_frame(s32 arg1, s32 arg2) {
   buffer_8[4] = 0.0f;
   buffer_8[5] = 0.0f;
   buffer_8[7] = (buffer_8[6] = 1.0f);
-  draw_textured_quad_at_depth(&buffer_8[0], (f32) (*((f32 *) (((s8 *) arg0) + 0x20))), 639.0f, 0.0f);
+  draw_textured_quad_at_depth(&buffer_8[0], m_depth, 639.0f, 0.0f);
   TWindowSubStatusDisp::get_player();
 }
 
 #pragma readonly_strings on
-void __ct__7TObjectFP7TObject(void *);
-s32 defer_render__7TObjectFv();
-
-void render__12TAdBackTxtGCFv(TAdBackTxtGC *ad_back_txt_gc) {
-    if ((s32) *(s32 *)((s8 *)ad_back_txt_gc + 0x24) == 0) {
-        if (defer_render__7TObjectFv() == 0) {
-            set_depth_buffer_settings_2();
-            goto block_4;
+void TAdBackTxtGC::render() {
+    if (m_24 == 0) {
+        if (defer_render() != 0) {
+            return;
         }
-    } else if (TMainTask::get_render_pass() != 1) {
-block_4:
-        set_color_blending_mode(0, 8);
-        set_color_blending_mode(1, 0xA);
-        ad_back_txt_gc->draw_character_background_frame((s32) *(s32 *)((s8 *)ad_back_txt_gc + 0x1C) / 3, -1);
-        set_color_blending_mode(0, 8);
-        set_color_blending_mode(1, 6);
-        if ((s32) *(s32 *)((s8 *)ad_back_txt_gc + 0x24) == 0) {
-            restore_saved_depth_alpha_state();
-        }
+        set_depth_buffer_settings_2();
+    } else if (TMainTask::get_render_pass() == 1) {
+        return;
+    }
+    set_color_blending_mode(0, 8);
+    set_color_blending_mode(1, 0xA);
+    draw_character_background_frame(frame / 3, -1);
+    set_color_blending_mode(0, 8);
+    set_color_blending_mode(1, 6);
+    if (m_24 == 0) {
+        restore_saved_depth_alpha_state();
     }
 }
 
-void run_task__12TAdBackTxtGCFv(void *arg0) {
-    s32 temp_r4;
-
-    temp_r4 = *(s32 *)((s8 *)arg0 + 0x1C);
-    if (temp_r4 >= 0xE) {
-        *(s32 *)((s8 *)arg0 + 0x1C) = 0;
+void TAdBackTxtGC::run_task() {
+    if (frame >= 0xE) {
+        frame = 0;
         return;
     }
-    *(s32 *)((s8 *)arg0 + 0x1C) = (temp_r4 + 1);
+    frame = frame + 1;
 }
 
 extern const char *TAdBackTxtGC__name;
@@ -76,7 +69,7 @@ extern "C" {
 
 TAdBackTxtGC::TAdBackTxtGC(TObject *parent) : TObject(parent) {
     m_name = TAdBackTxtGC__name;
-    m_1c = -1;
+    frame = -1;
     m_depth = 0.0025641026f;
     m_24 = 1;
 }
