@@ -403,10 +403,6 @@ struct TLobby : public TObject {
     static void destroy_global();
     static void destroy_tombstone();
     static void spawn_player_tombstones2();
-    static void create_time_window2(void * _w0);
-    static void clear_card_status_flags();
-    s32 check_destruction_by_phase();
-    void maybe_handle_destruction();
     static void copy_global_value_block();
     static void free_chr_select_slots();
     static void free_dialog_global();
@@ -1103,14 +1099,12 @@ struct TLobby : public TObject {
     static void set_slot_position(int, int);
     static void set_validated_field_0x1(void *, u8);
     static void show_seq_phase_message(int);
-    static void snapshot_player_card_status();
     static void update(void *);
     static void update();
     static void update_and_reset(u8 *quest);
     static void update_block_jump_list();
     static void update_card_list_window();
     static void update_com_card_window();
-    static void update_destruction_countdown(void *);
     static void update_duel_result(void *);
     static void update_game_list_menu();
     static void update_idle_timeout(void *);

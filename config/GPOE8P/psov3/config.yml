@@ -497,7 +497,7 @@ force_active:
   - is_selected__8TChCrTagFv
   - TChallenge4PItemSelect__item_table
   - TChallenge4PResult__slot_entries
-  - TChallenge4P__ct
+  - __ct__12TChallenge4PFP7TObject
   - __ct__12TCharaMakingFP7TObject
   - TCheckRoomSequence__active_instance
   - TCheckRoomSequence__error_return_state
@@ -694,8 +694,8 @@ force_active:
   - TLobby__sub_80292DA0
   - TLobby__sub_80292F34
   - TLobby__sub_80293218
-  - TLobby__sub_802933FC
-  - TLobby__sub_802936AC
+  - refresh_challenge_windows__12TChallenge4PFv
+  - __dt__12TChallenge4PFv
   - TLobby__sub_8029A16C
   - TLobby__sub_802A7640
   - zero_pair_fields
@@ -4989,7 +4989,7 @@ force_active:
   - check_client_connections__22TQuestVmDownLoadServerFv
   - check_death__12TBoss1DragonFv
   - check_death_trigger__13TObjEneMe1GeeFv
-  - check_destruction_by_phase__6TLobbyFv
+  - destroy_on_phase_change__12TChallenge4PFv
   - check_door_trigger__15TOAttackableColFv
   - check_event_theme__13TObjLobbyMainFv
   - check_finished__6TMovieFv
@@ -5141,7 +5141,7 @@ force_active:
   - clear_battle_player_ready_flags
   - clear_bit__16Boss6WaveArcMaskFl
   - clear_buffer__13TUnk_804EF8C0Fv
-  - clear_card_status_flags__6TLobbyFv
+  - clear_four_slots__12TChallenge4PFv
   - clear_charge_hits__14TObjEneIllGillFv
   - clear_child_flag__15TObjEneSlimeOneFv
   - clear_counter__6TLobbyFPv
@@ -5467,7 +5467,7 @@ force_active:
   - create_cane_if_ready__10TObjPlayerFlPv
   - create_card_action_window__17TWindowSubComCardFv
   - create_ch_cr_tag_occ_header__Fl
-  - create_challenge4p__6TLobbyFv
+  - create__12TChallenge4PFv
   - create_chat_symbol_window__20TWindowSubSymbolChatFll
   - create_children__16TAdChrSelASlotGCFl
   - create_chr_warp__23TAdSinglePlyChrSelectGCFl
@@ -5521,7 +5521,7 @@ force_active:
   - create_single_entry_window__17TWindowSubComCardFv
   - create_symbol_list_card__20TWindowSubSymbolChatFv
   - create_texture_wave_tasks__6TSceneFP7TObject
-  - create_time_window2__6TLobbyFPv
+  - create_time_window__12TChallenge4PFv
   - create_time_window__10TChallengeFv
   - create_title_window__19TWindowSubTechniqueFl
   - create_trade_menu__19TWindowSubTradeMainFv
@@ -8970,7 +8970,7 @@ force_active:
   - mark_done__12TBoss4ThanksFv
   - mark_done__12TBoss6ThanksFv
   - matrix_identity
-  - maybe_handle_destruction__6TLobbyFv
+  - update_active__12TChallenge4PFv
   - mc_select_cursor_texture_list
   - mc_select_memorycard_texture_list
   - mcmdLoop
@@ -15731,7 +15731,7 @@ force_active:
   - snap_to_ground__21TObjEneRe7BeruraPunchFv
   - snap_to_ground__5TItemFv
   - snap_to_owner__8TItemMagFv
-  - snapshot_player_card_status__6TLobbyFv
+  - restore_challenge_from_save__12TChallenge4PFv
   - sndStreamAllocLength
   - snd_handle_irq
   - sock_status_names
@@ -16833,7 +16833,7 @@ force_active:
   - update_demo__17TOBarrierEnergy01Fv
   - update_demo__19TOMonumentAncient01Fv
   - update_destroy_countdown__18TObjChallengeRetryFv
-  - update_destruction_countdown__6TLobbyFPv
+  - run_task__12TChallenge4PFv
   - update_detonation__10TTecRaFoieFPv
   - update_dialing_display__12TAdDialingGCFi
   - update_direction__15TObjEneMe1GiGueFv
