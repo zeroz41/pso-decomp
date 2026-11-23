@@ -159,7 +159,7 @@ s32 get_item_icon_index();
 void TLobby__sub_80104464(void);
 int fn_80077788(void);
 int fn_80077790(void);
-void send_6x25_equip_item(void *arg0, s32 arg1, s32 arg2);
+void send_6x25_equip_item(void *player, s32 item_id, s32 slot);
 extern s32 local_client_id;
 extern s32 designated_client_id;
 s32 TItemDropSub__sub_80107B74();

@@ -154,8 +154,8 @@ struct TNpcPlayer : public TObject {
     static s32 send_command(s32 arg0, s8 count, s32 arg2, s32 arg3, s8 *arg4);
     static u8 *get_lobby_entry_ptr();
     static void send_warp_toward_player(u16 id, const Vec *destination);
-    static void send_code_45_to_player(int arg0);
-    static void play_effect(int arg0);
+    static void send_code_45_to_player(int client);
+    static void play_effect(int client);
     static void send_stop_at_position(u16 id, void *pos, s32 arg);
     static void enable_partner_chatter();
     static void disable_partner_chatter();
@@ -170,10 +170,10 @@ struct TNpcPlayer : public TObject {
     static void create_default_companion(u16 leader, s32 appearance, u8 *pos, s32 heading);
     static void send_npc_control_notify_players(s32 arg0, s32 arg1, s32 arg2);
     static void send_npc_create(s32 arg0, s32 arg1);
-    static void reset_player_lobby_model(u16 arg0);
-    static void update_player_field(u16 arg0, s32 frames);
-    static void end_camera_pan_for_client(u16 arg0);
-    static void apply_to_battle_player_slot(u16 arg0, s16 arg1);
+    static void reset_player_lobby_model(u16 client);
+    static void update_player_field(u16 client, s32 frames);
+    static void end_camera_pan_for_client(u16 client);
+    static void apply_to_battle_player_slot(u16 client, s16 arg1);
     void byteswap_header();
     void send_state_60();
     void update_combat_action();

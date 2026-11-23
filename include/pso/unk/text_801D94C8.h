@@ -5,7 +5,7 @@
 
 // --- C functions defined in text_801D94C8.cpp ---
 extern "C" {
-f32 get_class_technique_boost(s8 arg0, s16 arg1);
+f32 get_class_technique_boost(s8 cls, s16 technique);
 }
 // --- end of C functions
 

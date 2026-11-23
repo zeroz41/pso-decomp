@@ -22,7 +22,7 @@ void apply_actor_gravity(TObjEnemy *enemy, s32 *arg1, f32 hover_height);
 extern "C" {
 void assign_slots_from_list(void *arg0, saddr arg1);
 f32 atan2_float(f32 y, f32 x);
-void attach_mine_trap__10TObjPlayerFiUi(saddr arg0, u32 arg1);
+void attach_mine_trap__10TObjPlayerFiUi(saddr object, u32 arg1);
 f32 calc_random_ratio__10TObjPlayerFv(void);
 f32 calc_xz_distance_sq(TObjBase *actor, TObjBase *other, Vec *offset);
 s32 damage_hp__10TObjPlayerFii(saddr arg0, saddr arg1);

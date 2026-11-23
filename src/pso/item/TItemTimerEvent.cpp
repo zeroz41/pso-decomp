@@ -93,15 +93,15 @@ void TItemTimerEvent::clear_active() {
     item_timer_event_instance = NULL;
 }
 
-void TItemTimerEvent::notify_if_active(int arg0) {
+void TItemTimerEvent::notify_if_active(int client) {
     uaddr player;
-    if ((player = ((uaddr)get_player_by_client_id((u16)arg0))) != 0U) {
+    if ((player = ((uaddr)get_player_by_client_id((u16)client))) != 0U) {
         ((TObjPlayer *)player)->set_flag_10000();
     }
 }
 
-void TItemTimerEvent::check_battle_ctrl(int arg0) {
-    uaddr player = (uaddr)get_player_by_client_id((u16)arg0);
+void TItemTimerEvent::check_battle_ctrl(int client) {
+    uaddr player = (uaddr)get_player_by_client_id((u16)client);
     if (player != 0U) {
         fn_8011E1D4((TObjPlayer *)player);
     }

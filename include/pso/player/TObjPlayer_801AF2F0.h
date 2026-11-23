@@ -20,7 +20,7 @@ void unequip_item__10TObjPlayerFiPv(saddr player, void *item);
 void rebuild_player_inventory(void *player);
 // Restores the player to full health and clears its status effects.
 void recover_player_full(void *player);
-void send_6x25_equip_item(void *player, s32 item_id, s32 arg2);
+void send_6x25_equip_item(void *player, s32 item_id, s32 slot);
 }
 
 #endif

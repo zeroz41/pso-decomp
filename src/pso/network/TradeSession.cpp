@@ -377,7 +377,7 @@ typedef struct S_802D2BC0 {
 
 extern "C" {
 
-void handle_trade_received_items(S_802D2BC0 *arg0);
+void handle_trade_received_items(S_802D2BC0 *trade_list);
 
 void TLobby::handle_reset_choice(s32 arg0) {
     if ((s8) trade_proposal_state != 0) {
@@ -394,12 +394,12 @@ void TLobby::handle_reset_choice(s32 arg0) {
     }
 }
 
-void handle_trade_received_items(S_802D2BC0 *arg0) {
+void handle_trade_received_items(S_802D2BC0 *trade_list) {
     s32 i;
     E_802D2BC0 *p;
-    if ((s32)trade_proposal_state == 8 && arg0 != 0) {
-        p = arg0->e;
-        for (i = 0; i < arg0->count; i++, p++) {
+    if ((s32)trade_proposal_state == 8 && trade_list != 0) {
+        p = trade_list->e;
+        for (i = 0; i < trade_list->count; i++, p++) {
             buy_item_for_client((TItemData *)p, local_client_id);
         }
         trade_proposal_state = 9;

@@ -3,6 +3,6 @@
 
 #include "types.h"
 
-s32 fill_guild_card_from_player(u8 *arg0, u32 arg1);
+s32 fill_guild_card_from_player(u8 *ply_guild_card_tag, u32 client);
 
 #endif

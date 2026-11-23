@@ -2594,15 +2594,15 @@ void handle_6x72_done_loading_into_game(void) {
     }
     main_task.resume_layers();
 }
-void TLobby::remove_player(unsigned int arg0, int arg1, int arg2) {
+void TLobby::remove_player(unsigned int client, int arg1, int arg2) {
     Obj_801361E8 *p;
     Node_801361E8 *n;
     designated_client_id = arg1;
     join_state_flag = arg2;
-    p = (Obj_801361E8 *)get_player_by_client_id(arg0);
+    p = (Obj_801361E8 *)get_player_by_client_id(client);
     if (p != NULL) {
         for (n = game_protocol_instance->head; n != NULL; n = n->next) {
-            if (n->id == arg0) {
+            if (n->id == client) {
                 lobby_debug_printf_stub(lobby_debug_udp_close_ip_format, n->b1c, n->b1d, n->b1e, n->b1f);
                 delete (Obj_801361E8 *)n;
                 break;
@@ -2610,7 +2610,7 @@ void TLobby::remove_player(unsigned int arg0, int arg1, int arg2) {
         }
         delete p;
     }
-    strncpy(lobby_player_names[arg0], TLobby__data_805DB0B0, 0x10);
+    strncpy(lobby_player_names[client], TLobby__data_805DB0B0, 0x10);
     if (data_805D5594 == 0xE) {
         TLobby__data_805D5CE8 = 1;
     }

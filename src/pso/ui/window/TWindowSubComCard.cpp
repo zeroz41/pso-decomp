@@ -162,9 +162,9 @@ s32 TWindowSubComCard__sub_800778B4(void *, int);
 void TWindowSubComCard__sub_8007AF10(s32 client_id);
 s32 play_sound_effect(int, int, int, int);
 s32 TLobby__sub_8024259C();
-void fn_802449E0(u8 *arg0);
+void fn_802449E0(u8 *object);
 }
-void window_request_show(void *arg0);
+void window_request_show(void *object);
 s32 is_com_card_active();
 extern "C" {
 void TWindowSubComCard__sub_80249144(void *window_choice_setting);

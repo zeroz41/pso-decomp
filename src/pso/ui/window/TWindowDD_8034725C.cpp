@@ -128,11 +128,11 @@ s32 TWindowDD::classify_id(s16 id) {
     return var_r3;
 }
 
-s32 TWindowDD::get_player_battle_flag_state(u16 arg0) {
+s32 TWindowDD::get_player_battle_flag_state(u16 client) {
     s32 class_flags;
     void *player;
 
-    player = get_player_by_client_id((u16) arg0);
+    player = get_player_by_client_id((u16) client);
     if (player != NULL) {
         class_flags = ((TObjPlayer *)player)->class_flags;
         if (class_flags & CLASS_FLAG_MALE) {

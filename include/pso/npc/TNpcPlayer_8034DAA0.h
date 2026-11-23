@@ -5,7 +5,7 @@
 
 // --- C functions defined in TNpcPlayer_8034DAA0.cpp ---
 extern "C" {
-void TLobby__sub_8034DAA0(s32 arg0, u32 arg1);
+void TLobby__sub_8034DAA0(s32 client, u32 arg1);
 s32 TNpcPlayer__get_lobby_entry_yaw(void);
 void TNpcPlayer__sub_8034EDB8(void);
 }

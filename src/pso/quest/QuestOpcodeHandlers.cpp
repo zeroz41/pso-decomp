@@ -1338,7 +1338,7 @@ void update_gba_joyboot_transfer();
 s32 update_challenge_result_player_locks();
 void quest_player_face_actor(u16, u16);
 void quest_player_look_at_partner(u16);
-void quest_remove_npc_player(u16 arg0);
+void quest_remove_npc_player(u16 client);
 void qst_op_get_lang_setting(void) {
     qst_registers[qst_args[0]] = current_language;
 }

@@ -33,8 +33,8 @@ s32 sync_state__10TObjPlayerFi(saddr arg0) {
 void TObjPlayer::sync_char_select_state() { TAdSinglePlyChrSelectGC::get_char_index((uaddr)(65535)); ((int (*)(void))sync_state__10TObjPlayerFi)(); }
 
 
-s32 TObjPlayer::try_assign_battle_ctrl(u16 arg1) {
-    s32 temp = (saddr)get_player_by_client_id((arg1));
+s32 TObjPlayer::try_assign_battle_ctrl(u16 client) {
+    s32 temp = (saddr)get_player_by_client_id((client));
     if (temp == 0) {
         return 0;
     }

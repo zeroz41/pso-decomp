@@ -118,8 +118,8 @@ s16 PlayerAttackController::get_validated_attack_stage() {
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-s32 TObjPlayer__sub_801D2EE8(s16 arg0) {
-    if ((arg0 < 0) || (arg0 >= 3)) {
+s32 TObjPlayer__sub_801D2EE8(s16 stage) {
+    if ((stage < 0) || (stage >= 3)) {
         return 0;
     }
     return 1;

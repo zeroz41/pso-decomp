@@ -26,14 +26,14 @@ struct VObj_18_26c590 : VBase_18_26c590 {
 extern "C" {
 s32 __as__16TPlyGuildCardTagFRC16TPlyGuildCardTag(void *);
 }
-s32 fill_guild_card_from_player(u8 *arg0, u32 arg1);
+s32 fill_guild_card_from_player(u8 *ply_guild_card_tag, u32 client);
 typedef struct VBase_18_26c590 VBase_18_26c590;
 typedef struct VObj_18_26c590 VObj_18_26c590;
-s32 fill_guild_card_from_player(u8 *ply_guild_card_tag, u32 arg1) {
+s32 fill_guild_card_from_player(u8 *ply_guild_card_tag, u32 client) {
   unsigned char new_var;
   saddr player;
   u8 *temp_r4;
-  player = (saddr)get_player_by_client_id(arg1);
+  player = (saddr)get_player_by_client_id(client);
   if (player == 0)
   {
     return 0;

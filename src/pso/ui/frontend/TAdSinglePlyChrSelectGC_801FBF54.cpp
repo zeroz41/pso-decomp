@@ -1324,12 +1324,12 @@ s32 TAdSinglePlyChrSelectGC::is_same_slot_entry(void *src_file, int src_slot, vo
 
 }
 
-s32 TAdSinglePlyChrSelectGC::check_page_cross(CharacterFile *arg1, int arg2, CharacterFile *arg3, int arg4) {
-    if ((arg2 >= 4) && (arg4 <= 3)) {
-        return TAdSinglePlyChrSelectGC::check_slot_swap_allowed(arg1, arg2, arg3, arg4);
+s32 TAdSinglePlyChrSelectGC::check_page_cross(CharacterFile *arg1, int src_slot, CharacterFile *dst_file, int dst_slot) {
+    if ((src_slot >= 4) && (dst_slot <= 3)) {
+        return TAdSinglePlyChrSelectGC::check_slot_swap_allowed(arg1, src_slot, dst_file, dst_slot);
     }
-    if ((arg2 <= 3) && (arg4 >= 4)) {
-        return TAdSinglePlyChrSelectGC::is_same_slot_entry(arg1, arg2, arg3, arg4);
+    if ((src_slot <= 3) && (dst_slot >= 4)) {
+        return TAdSinglePlyChrSelectGC::is_same_slot_entry(arg1, src_slot, dst_file, dst_slot);
     }
     return 0;
 }
@@ -2421,7 +2421,7 @@ struct Str_80200A44 {
 };
 
 extern "C" {
-s32 reinit__17TWindowSubComCardFi(s32 arg0);
+s32 reinit__17TWindowSubComCardFi(s32 object);
 s32 init_character_stats_for_level(u8, void *, s32);
 void init_class_starting_inventory(void *arg0);
 void TLobby__sub_801F494C(u16 client);

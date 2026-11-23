@@ -14,10 +14,10 @@ void __as__16TPlyGuildCardTagFRC16TPlyGuildCardTag(void *arg0, void *src) {
     *(u16 *)((s8 *)arg0 + 2) = (u16) *(u16 *)((s8 *)src + 2);
     *(s32 *)((s8 *)arg0 + 4) = (s32) *(s32 *)((s8 *)src + 4);
 }
-void TLobby::fill_guild_card_from_char(s32 arg1) {
+void TLobby::fill_guild_card_from_char(s32 index) {
     uaddr temp_r3;
     u8 *temp_r31;
-    temp_r3 = (uaddr)TAdSinglePlyChrSelectGC::get_char_index(arg1);
+    temp_r3 = (uaddr)TAdSinglePlyChrSelectGC::get_char_index(index);
     if (temp_r3 != 0U) {
         temp_r31 = (unsigned char *) (temp_r3 + 0x370);
         if (temp_r31 != NULL) {

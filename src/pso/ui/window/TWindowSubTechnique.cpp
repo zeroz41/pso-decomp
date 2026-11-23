@@ -52,38 +52,38 @@ s32 add_text_entry__11TWindowMenuFlll(s32, s32, s32, s16);
 
 void TWindowSubTechnique::get_current_selection(s16 *arg0, s32 *arg1, s32 client) { TWindowSubTechnique::get_selection(arg0, arg1, client); }
 
-s32 TWindowSubTechnique::is_technique_available(s32 sub, s32 arg1) {
+s32 TWindowSubTechnique::is_technique_available(s32 sub, s32 client) {
     saddr player;
-    player = (saddr)get_player_by_client_id(arg1);
+    player = (saddr)get_player_by_client_id(client);
     if (player == 0) {
         return 0;
     }
     if (is_current_area_item_enabled() == 0) {
         return 0;
     }
-    if (TWindowSubTechnique::lookup_technique(sub, arg1) != 0) {
+    if (TWindowSubTechnique::lookup_technique(sub, client) != 0) {
         return is_palette_entry_displayable__10TObjPlayerFv((u8 *)player, (u8)(3), (u8)((u8) sub));
     }
     return 0;
 }
 
-s32 TWindowSubTechnique::lookup_technique(s32 arg0, s32 arg1) {
-    u32 temp = (uaddr)get_player_by_client_id(arg1);
+s32 TWindowSubTechnique::lookup_technique(s32 arg0, s32 client) {
+    u32 temp = (uaddr)get_player_by_client_id(client);
     if (temp == 0U) {
         return 0;
     }
     return can_use_palette_action__10TObjPlayerFPvUcUc(temp, 3, (u8) arg0);
 }
-void TWindowSubTechnique::draw_technique_row(s32 id, s32 arg1, s32 list) {
+void TWindowSubTechnique::draw_technique_row(s32 id, s32 client, s32 list) {
     s32 technique_name;
     void add_gray_text_entry(s32, s32, s32, s16);
 
     technique_name = get_technique_name(id);
-    if (TWindowSubTechnique::lookup_technique(id, arg1) == 0) {
+    if (TWindowSubTechnique::lookup_technique(id, client) == 0) {
         add_gray_text_entry(list, technique_name, 6, id);
         return;
     }
-    if (TWindowSubTechnique::is_technique_available(id, arg1) == 0) {
+    if (TWindowSubTechnique::is_technique_available(id, client) == 0) {
         add_text_entry__11TWindowMenuFllll(list, technique_name, 0x16, id, 0xFFFD3901);
         return;
     }
@@ -129,7 +129,7 @@ s32 try_equip_item__10TObjPlayerFii(saddr, s32);
 void play_sound_effect(s32, s32, s32, s32);
 }
 void text_builder_reset(void);
-void toggle_help_window_on_button(uaddr arg0, s32 client_index);
+void toggle_help_window_on_button(uaddr object, s32 client_index);
 saddr create_titled_window_menu(saddr, s32, saddr, s32);
 
 

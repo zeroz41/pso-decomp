@@ -543,7 +543,7 @@ void ItemListRow::set_inventory_item(void *item, s32 count, s32 sid) {
     this->flags |= 0x45;
 }
 
-void ItemListRow::update_from_player(void *item, s32 arg2, s32 arg3) {
+void ItemListRow::update_from_player(void *item, s32 price, s32 index) {
     s32 temp_r31;
     s32 temp_r30;
     s32 item_data;
@@ -554,11 +554,11 @@ void ItemListRow::update_from_player(void *item, s32 arg2, s32 arg3) {
     this->label = (char *)replace_owned_string((saddr)((TItem *)item)->get_name(), (saddr)this->label, 8, 1);
     if (TCameraCtrl::get_camera_id() <= 2) {
         text_builder_reset();
-        text_builder_append_int(arg2);
+        text_builder_append_int(price);
         this->suffix = (char *)replace_owned_string(get_shared_text_buffer(), (saddr)this->suffix, 0x10, 1);
     }
     update_item_icon_colors(item);
-    this->item = arg3;
+    this->item = index;
     this->flags |= 0x45;
 }
 void ItemListRow::init_item_row(void *item, s32 arg2) {
@@ -581,7 +581,7 @@ void ItemListRow::init_item_row(void *item, s32 arg2) {
 
     extern const float lbl_805DCF08;
 
-void ItemListRow::set_item_info(void *a1, s32 a2, s32 count) {
+void ItemListRow::set_item_info(void *a1, s32 index, s32 count) {
     saddr item_data;
     saddr temp_r3;
 
@@ -595,7 +595,7 @@ void ItemListRow::set_item_info(void *a1, s32 a2, s32 count) {
     update_stat_line_if_positive(count);
     update_item_colors((saddr)a1);
     this->suffix_style = this->style;
-    this->item = a2;
+    this->item = index;
     this->flags = (this->flags | 0x45);
 }
 
@@ -617,7 +617,7 @@ extern const f32 lbl_805DCF10;
 extern const f32 lbl_805DCF18;
 extern "C" {
 
-void ItemListRow::set_ground_item(void *it, s32 arg2) {
+void ItemListRow::set_ground_item(void *it, s32 index) {
     s32 item_data;
 
     this->x = (f32) lbl_805DCF08;
@@ -632,7 +632,7 @@ void ItemListRow::set_ground_item(void *it, s32 arg2) {
         this->suffix = (char *)replace_owned_string(get_shared_text_buffer(), (saddr)this->suffix, 0x10, 1);
     }
     update_item_colors((saddr)it);
-    this->item = arg2;
+    this->item = index;
     this->flags |= 0x45;
 }
 

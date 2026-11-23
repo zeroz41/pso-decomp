@@ -10,7 +10,7 @@ int fn_800779A0(void*);
 int TAdSinglePlyChrSelectGC__sub_80077AE8(void*);
 int init_once__6TLobbyFl(void*);
 
-void set_lobby_event_theme(int a0) { TLobby::event_theme_id = a0; }
+void set_lobby_event_theme(int theme) { TLobby::event_theme_id = theme; }
 
 int init_once__6TLobbyFPv(void* p) { return init_once__6TLobbyFl(p); }
 int TLobby__sub_80134DC8(void* p) { return fn_800779A0(p); }

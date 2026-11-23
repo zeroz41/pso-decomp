@@ -1131,7 +1131,7 @@ void handle_6x9B_level_up_all_techniques(void *command);
 void TObjPlayer__sub_801AF554(void *arg0, s8 arg1);
 void play_voice_pair__10TObjPlayerFPv(TObjPlayer *player);
 int TObjPlayer__sub_801AF694(void* p);
-void set_flags_a00__10TObjPlayerFPv(void *arg0);
+void set_flags_a00__10TObjPlayerFPv(void *object);
 void TObjPlayer__sub_801AF904(s32 arg0);
 void clamp_stats__10TObjPlayerFiPv(saddr arg0, void *arg1);
 s8 get_class_index__10TObjPlayerFv(u8 *arg0);
@@ -1245,7 +1245,7 @@ bool is_target_in_facing_cone__10TObjPlayerFPv(void *self, Vec *target);
 void unequip_item__10TObjPlayerFiPv(saddr player, void *arg1);
 void handle_6x26_unequip_item(void *command);
 void handle_6x25_equip_item(void *command);
-void send_6x25_equip_item(void *arg0, s32 arg1, s32 arg2);
+void send_6x25_equip_item(void *player, s32 item_id, s32 slot);
 void TObjPlayer__sub_801BA42C(void);
 void handle_6xAE_set_animation_state(void *command);
 void handle_6x20_set_position(void *command);
@@ -2471,12 +2471,12 @@ call3:
     }
 }
 
-void send_6x25_equip_item(void *player, s32 arg1, s32 slot) {
+void send_6x25_equip_item(void *player, s32 item_id, s32 slot) {
     L_801BA0F0 sp8;
     if (((s32 (*)(void))check_switch_available__6TLobbyFPvi)() != 0 && (player == 0 || ((TObjChara *)player)->obj_isState2_324() == 0)) {
         ((TObjPlayer *)(&sp8))->init_command();
         sp8.f2 = ((TObjBase *)(player))->get_entity_id();
-        sp8.f4 = arg1;
+        sp8.f4 = item_id;
         sp8.f8 = slot;
         ((TObjPlayer *)(&sp8))->bswap_body_dwords5_and_send();
     }

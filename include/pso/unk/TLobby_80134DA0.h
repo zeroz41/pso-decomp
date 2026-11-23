@@ -7,7 +7,7 @@ extern "C" {
 int TLobby__sub_80134DC8(void *p);
 int TLobby__sub_80134DE8(void *p);
 int init_once__6TLobbyFPv(void *p);
-void set_lobby_event_theme(int a0);
+void set_lobby_event_theme(int theme);
 }
 
 // --- C functions defined in TLobby_80134DA0.cpp ---
@@ -15,7 +15,7 @@ extern "C" {
 int TLobby__sub_80134DC8(void *p);
 int TLobby__sub_80134DE8(void *p);
 int init_once__6TLobbyFPv(void *p);
-void set_lobby_event_theme(int a0);
+void set_lobby_event_theme(int theme);
 }
 // --- end of C functions
 

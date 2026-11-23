@@ -27,7 +27,7 @@ u16 get_action_palette_entry__10TObjPlayerFl(void *, s32);
 extern "C" {
 
 // --- functions defined in TObjPlayer_801D2E20.cpp ---
-s32 TObjPlayer__sub_801D2EE8(s16 arg0);
+s32 TObjPlayer__sub_801D2EE8(s16 stage);
 s16 TObjPlayer__sub_801D2F0C(void *arg0);
 s16 TObjPlayer__sub_801D2F4C(s16 *arg0);
 s32 TObjPlayer__sub_801D2F8C(s16 arg0);

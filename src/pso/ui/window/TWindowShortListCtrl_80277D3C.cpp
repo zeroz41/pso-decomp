@@ -7,7 +7,7 @@
 
 extern "C" {
 
-void send_6x25_equip_item(void *arg0, s32 arg1, s32 arg2);
+void send_6x25_equip_item(void *player, s32 item_id, s32 slot);
 
 void TWindowShortListCtrl::assign_shortcut(s32 slot, saddr item, s32 client_id) {
     uaddr slot_value;

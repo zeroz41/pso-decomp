@@ -369,7 +369,7 @@ s32 VecCopy__FP3VecPC3Vec(s32, s32);
 void subtract_vector(void *a, void *b);
 f32 calc_xz_distance_sq(saddr actor, uaddr other, void *offset);
 void activate_switch_attacks__10TObjPlayerFii(saddr arg0, saddr pos);
-void attach_mine_trap__10TObjPlayerFiUi(saddr arg0, u32 arg1);
+void attach_mine_trap__10TObjPlayerFiUi(saddr object, u32 arg1);
 s32 add_actor_hp(u8 *arg0, s16 arg1);
 s32 TObjectV8047c128_subtract_hp(u8 *arg0, s16 arg1);
 s32 get_type__10TObjPlayerFPv(void* p);
@@ -3990,9 +3990,9 @@ f32 TObjChara::random_ratio() {
 
 void TObjChara::refresh_target() {  }
 
-void attach_mine_trap__10TObjPlayerFiUi(saddr arg0, u32 arg1) {
+void attach_mine_trap__10TObjPlayerFiUi(saddr object, u32 arg1) {
     if (arg1 != 0U) {
-        record_attack_source((Obj_80010F54 *)arg0, ((TObjBase *)(arg1))->get_entity_id());
+        record_attack_source((Obj_80010F54 *)object, ((TObjBase *)(arg1))->get_entity_id());
     }
 }
 

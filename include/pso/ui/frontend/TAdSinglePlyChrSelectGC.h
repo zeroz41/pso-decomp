@@ -173,7 +173,7 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     static s32 apply_loaded_character(int arg0);
     static void build_default_save_file();
     static void build_save_file();
-    static s32 check_page_cross(CharacterFile *arg1, int arg2, CharacterFile *arg3, int arg4);
+    static s32 check_page_cross(CharacterFile *arg1, int src_slot, CharacterFile *dst_file, int dst_slot);
     static s32 check_system_file_status();
     static void clear_load_buffers();
     static void clear_slot_body(int i);

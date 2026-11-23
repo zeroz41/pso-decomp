@@ -197,9 +197,9 @@ TWindowMessage *TWindowSubTrade::open_player_message_window(s32 player, s32 arg2
     return window;
 }
 
-TWindowMessageYesNo *TWindowSubTrade::open_trade_confirm_prompt(s32 arg1) {
+TWindowMessageYesNo *TWindowSubTrade::open_trade_confirm_prompt(s32 client) {
     TWindowMessageYesNo *prompt;
-    TObjPlayer *player = get_player_by_client_id(arg1);
+    TObjPlayer *player = get_player_by_client_id(client);
     text_builder_reset();
     if (player != NULL) {
         player->get_name();

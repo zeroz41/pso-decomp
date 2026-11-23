@@ -1619,14 +1619,14 @@ void TLobby::send_card_window_state() {
 
 extern "C" {
 
-s32 is_player_input_active(s32 param_1) {
-    if (param_1 >= 4) {
+s32 is_player_input_active(s32 client) {
+    if (client >= 4) {
         return 0;
     }
     if (TAdMultiChgGameModeGC::is_input_phase_active() != 0) {
-        return get_multiplayer_controller_active_index(param_1);
+        return get_multiplayer_controller_active_index(client);
     }
-    TObjPlayer *player = get_player_by_client_id(param_1);
+    TObjPlayer *player = get_player_by_client_id(client);
     if (player == NULL) {
         return 0;
     }

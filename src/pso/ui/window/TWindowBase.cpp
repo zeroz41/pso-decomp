@@ -141,7 +141,7 @@ struct Rect_802455CC { f32 x, y, w, h; u8 pad10[0x20 - 0x10]; f32 px, py, sx, sy
 s32 play_sound_effect(s32, s32, s32, s32);
 int TWindowSubComCard__sub_80244774(void);
 f32 TWindowSubComCard__sub_80244784(TWindowSubComCard *window_sub_com_card);
-void fn_802449E0(u8 *arg0);
+void fn_802449E0(u8 *object);
 int TWindowFukidasi__sub_8024695C(void *p);
 
 extern int lbl_805D3614;
@@ -257,7 +257,7 @@ u16 window_ui_theme_index;
 s16 lbl_805D63F6;
 void draw_window_scanlines(u8 *arg0, u8 *arg1);
 void window_request_refresh(u8 *help);
-void window_request_show(void *arg0);
+void window_request_show(void *object);
 bool is_balloon_overlapping(u8 *balloon, u8 *position, u8 *size);
 void window_request_refresh(u8 *help) {
     if (!((f32) *(s32 *)((s8 *)help + 0x5C) >= 7.5f)) {

@@ -475,16 +475,16 @@ s32 TObjPlayer__sub_801C6DAC(u8 *arg0) {
 
 
 extern "C" {
-u8 *TObjPlayer::create_lobby_marker(s16 arg0, s8 arg1) {
+u8 *TObjPlayer::create_lobby_marker(s16 client, s8 arg1) {
     u8 *e;
     u8 *p;
-    e = (u8 *)get_player_by_client_id((u16)arg0);
+    e = (u8 *)get_player_by_client_id((u16)client);
     if (e == NULL) {
         return NULL;
     }
     p = (u8 *)TObject::operator new(0x24);
     if (p != NULL) {
-        p = __ct__18TPlayerLobbyMarkerFP7TObjectsSc(p, e, arg0, arg1);
+        p = __ct__18TPlayerLobbyMarkerFP7TObjectsSc(p, e, client, arg1);
     }
     return p;
 }

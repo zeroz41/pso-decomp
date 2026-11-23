@@ -857,8 +857,8 @@ s32 TLobby__sub_801C417C(void) {
     return *(s32 *)((s8 *)(*(void * *)&battle_config_ptr) + 0x24) * 0x3C;
 }
 
-void TLobby::close_and_play_effect(int arg0, s32 arg1) {
-    u32 temp = (uaddr)get_player_by_client_id((u16)arg0);
+void TLobby::close_and_play_effect(int client, s32 arg1) {
+    u32 temp = (uaddr)get_player_by_client_id((u16)client);
     if (temp != 0U) {
         TObjPlayer::play_effect_default(temp, -1);
     }
@@ -869,9 +869,9 @@ void TLobby::close_and_play_effect(int arg0, s32 arg1) {
     }
 }
 
-void TLobby::handle_battle_result(int arg0, s32 arg1) {
+void TLobby::handle_battle_result(int client, s32 arg1) {
     s32 player;
-    if ((player = (saddr)get_player_by_client_id((u16)arg0)) != 0U) {
+    if ((player = (saddr)get_player_by_client_id((u16)client)) != 0U) {
         TObjPlayer::send_code_45_1(player);
     }
     if (arg1 != 0) {

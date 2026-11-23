@@ -32,8 +32,8 @@ const f32 *class_technique_boost_table[12] = {
     lbl_80449434, lbl_80449480, lbl_804494CC, lbl_804493E8, lbl_80449518, lbl_804493E8,
 };
 
-f32 get_class_technique_boost(s8 cls, s16 arg1) {
-    return class_technique_boost_table[TObjPlayer__sub_801AFDBC(cls)][arg1];
+f32 get_class_technique_boost(s8 cls, s16 technique) {
+    return class_technique_boost_table[TObjPlayer__sub_801AFDBC(cls)][technique];
 }
 
 }

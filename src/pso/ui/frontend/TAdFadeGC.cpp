@@ -155,13 +155,13 @@ TAdFadeGC::TAdFadeGC(TObject *object, void *arg2) : TObject(object) {
 #pragma opt_common_subs off
 #pragma opt_propagation off
 #pragma opt_dead_assignments off
-bool TObjTradeCollision::is_player_outside_trade_radius(u32 arg1) {
+bool TObjTradeCollision::is_player_outside_trade_radius(u32 client) {
     u8 *arg0 = (u8 *)this;
     f32 temp_f0;
     f32 temp_f31;
     s32 temp_r31;
     saddr player;
-    player = (saddr)get_player_by_client_id(arg1);
+    player = (saddr)get_player_by_client_id(client);
     if (player == 0) {
         return 0;
     }

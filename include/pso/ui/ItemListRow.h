@@ -41,10 +41,10 @@ public:
   void init_list_entry(u8 icon, s32 src, s32 arg3);
   void init_status_entry(u8 category_icon, u32 src, s32 item);
   void set_inventory_item(void *item, s32 count, s32 sid);
-  void update_from_player(void *item, s32 arg2, s32 arg3);
+  void update_from_player(void *item, s32 price, s32 index);
   void init_item_row(void *item, s32 arg2);
-  void set_item_info(void *a1, s32 a2, s32 count);
-  void set_ground_item(void *arg1, s32 arg2);
+  void set_item_info(void *a1, s32 index, s32 count);
+  void set_ground_item(void *it, s32 index);
   void init_display(s32 src, s32 arg2);
   saddr replace_owned_string(saddr src, saddr buf, s32 mask, s32 copy);
   void calc_row_width();

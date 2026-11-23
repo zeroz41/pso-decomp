@@ -272,13 +272,13 @@ void TChallenge4PResult::clear_slot_entries() {
         ((s32 *)&TChallenge4PResult__slot_entries)[i] = 0;
     }
 }
-void TChallenge4PResult::create(int arg0, s32 arg1) {
+void TChallenge4PResult::create(int client, s32 arg1) {
     void *temp;
 
-    if (get_player_by_client_id((u16)arg0) != NULL) {
+    if (get_player_by_client_id((u16)client) != NULL) {
         temp = (void *) TObject::operator new(0x7C);
         if (temp != NULL) {
-            __ct__18TChallenge4PResultFP7TObjectUsl(temp, tl_01, arg0, arg1);
+            __ct__18TChallenge4PResultFP7TObjectUsl(temp, tl_01, client, arg1);
         }
     }
 }

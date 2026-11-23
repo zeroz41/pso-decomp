@@ -5,13 +5,13 @@
 
 extern "C" {
 void TWindowCtrl__sub_8024A08C(void);
-s32 is_player_input_active(s32 param_1);
+s32 is_player_input_active(s32 client);
 }
 
 // --- C functions defined in TWindowCtrl.cpp ---
 extern "C" {
 void TWindowCtrl__sub_8024A08C(void);
-s32 is_player_input_active(s32 param_1);
+s32 is_player_input_active(s32 client);
 }
 // --- end of C functions
 

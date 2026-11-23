@@ -48,12 +48,12 @@ struct TAdMultiPlyChrSelectGC : public TObject {
     void initialize_selection_state(s32 arg1);
     static TAdChrSelPlyPlateGC *get_card_instance();
     static void reset_slot_selection_table();
-    static void split_slot_index(s32 arg0, s32 *arg1, s32 *arg2);
+    static void split_slot_index(s32 slot, s32 *arg1, s32 *arg2);
     static void init();
     static s32 get_status();
     static s32 is_selection_confirmed();
     static s32 count_ready();
-    static void remove_selected_slot(s32 arg0);
+    static void remove_selected_slot(s32 slot);
     static void add_selected_slot();
     static s32 get_clamped_cursor();
     static void reset_slot_selections();

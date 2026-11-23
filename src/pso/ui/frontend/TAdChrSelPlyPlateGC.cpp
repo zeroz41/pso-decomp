@@ -260,11 +260,11 @@ saddr TAdMultiPlyChrSelectGC::get_last_selected_player(void) {
     return 0;
 }
 
-void TAdMultiPlyChrSelectGC::remove_selected_slot(s32 arg0) {
+void TAdMultiPlyChrSelectGC::remove_selected_slot(s32 slot) {
     u32 i;
     u32 j;
     for (i = 0; i < 4; i++) {
-        if (arg0 == TAdMultiPlyChrSelectGC__selected_slot_order[i]) {
+        if (slot == TAdMultiPlyChrSelectGC__selected_slot_order[i]) {
             for (j = i; j < 4; j++) {
                 if (j < 3) {
                     TAdMultiPlyChrSelectGC__selected_slot_order[j] = TAdMultiPlyChrSelectGC__selected_slot_order[j + 1];
@@ -276,11 +276,11 @@ void TAdMultiPlyChrSelectGC::remove_selected_slot(s32 arg0) {
     }
 }
 
-s32 TAdMultiPlyChrSelectGC::is_controller_connected(s32 arg0) {
-    if ((arg0 < 0) || (arg0 > 3)) {
+s32 TAdMultiPlyChrSelectGC::is_controller_connected(s32 port) {
+    if ((port < 0) || (port > 3)) {
         return 0;
     }
-    return *(s32 *)((s8 *)(*(s32 **)((s8 *)(get_pad_slot(multiplayer_controller_device_codes[arg0])) + 0x30)) + 0) & 1;
+    return *(s32 *)((s8 *)(*(s32 **)((s8 *)(get_pad_slot(multiplayer_controller_device_codes[port])) + 0x30)) + 0) & 1;
 }
 
 #pragma push
@@ -318,23 +318,23 @@ void TAdChrSelPlyPlateGC::show_selected_slot_tags() {
 }
 #pragma pop
 
-void TAdMultiPlyChrSelectGC::deselect_slot(s32 arg0) {
+void TAdMultiPlyChrSelectGC::deselect_slot(s32 slot) {
     s32 c;
     s32 r;
-    multi_ply_chr_select_tag_shown[arg0] = 0;
-    multi_ply_chr_select_tag_alpha[arg0] = 0.0f;
-    TAdMultiPlyChrSelectGC::split_slot_index(arg0, &c, &r);
+    multi_ply_chr_select_tag_shown[slot] = 0;
+    multi_ply_chr_select_tag_alpha[slot] = 0.0f;
+    TAdMultiPlyChrSelectGC::split_slot_index(slot, &c, &r);
     s32 ri = r + 1;
     s32 ci = c + 1;
     multi_ply_chr_select_slot_table[ri][ci] = multi_ply_chr_select_default_slot_table[ri][ci];
-    multi_ply_chr_select_player_slot[arg0] = -1;
-    TAdMultiPlyChrSelectGC::remove_selected_slot(arg0);
+    multi_ply_chr_select_player_slot[slot] = -1;
+    TAdMultiPlyChrSelectGC::remove_selected_slot(slot);
 }
 
-s32 TAdMultiPlyChrSelectGC::get_multiplayer_character_slot(s32 arg0) {
+s32 TAdMultiPlyChrSelectGC::get_multiplayer_character_slot(s32 slot) {
     s32 temp_r3;
     s32 var_r3;
-    var_r3 = arg0;
+    var_r3 = slot;
     if ((var_r3 > 3) || (var_r3 < 0)) {
         var_r3 = 3;
     }
@@ -607,9 +607,9 @@ void TAdChrSelPlyPlateGC::find_first_open_cell(u32 *cell) {
     }
 }
 
-void TAdMultiPlyChrSelectGC::split_slot_index(s32 arg0, s32 *arg1, s32 *arg2) {
+void TAdMultiPlyChrSelectGC::split_slot_index(s32 slot, s32 *arg1, s32 *arg2) {
     s32 var_r3;
-    var_r3 = TAdMultiPlyChrSelectGC::get_multiplayer_character_slot(arg0);
+    var_r3 = TAdMultiPlyChrSelectGC::get_multiplayer_character_slot(slot);
     *arg1 = var_r3 > 3;
     if (var_r3 > 3) {
         var_r3 -= 4;

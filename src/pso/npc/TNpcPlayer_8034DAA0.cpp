@@ -214,7 +214,7 @@ f32 atan2_float(f32, f32);
 void handle_6x69_npc_control(Pkt_8034E814 *pkt);
 
 }
-void quest_remove_npc_player(u16 arg0);
+void quest_remove_npc_player(u16 client);
 extern struct Slot_8034EDC4 partner_dialogue_table[];
 extern s32 TNpcPlayer__data_805D5864;
 void init_partner_dialogue(void);
@@ -241,31 +241,31 @@ void TObjPlayer::set_npc_control_state(s32 state) { npc_control.state = state; }
 
 s32 TObjPlayer::get_npc_control_state() { return npc_control.state; }
 
-void TNpcPlayer::apply_to_battle_player_slot(u16 arg0, s16 arg1) {
+void TNpcPlayer::apply_to_battle_player_slot(u16 client, s16 arg1) {
     uaddr player;
-    if ((arg1 < 0x10) && ((player = ((uaddr)get_player_by_client_id(arg0))) != 0U)) {
+    if ((arg1 < 0x10) && ((player = ((uaddr)get_player_by_client_id(client))) != 0U)) {
         ((TObjPlayer *)player)->init_photon_blast(arg1);
     }
 }
 
-void TNpcPlayer::end_camera_pan_for_client(u16 arg0) {
+void TNpcPlayer::end_camera_pan_for_client(u16 client) {
     saddr tmp_player;
-    if ((tmp_player = (saddr)get_player_by_client_id(arg0)) != 0U) {
+    if ((tmp_player = (saddr)get_player_by_client_id(client)) != 0U) {
         ((TObjPlayer *)tmp_player)->end_camera_pan();
     }
 }
 
-void TNpcPlayer::update_player_field(u16 arg0, s32 frames) {
+void TNpcPlayer::update_player_field(u16 client, s32 frames) {
     uaddr player;
-    player = (uaddr)get_player_by_client_id(arg0);
+    player = (uaddr)get_player_by_client_id(client);
     if (player != 0U) {
         ((TObjPlayer *)player)->protection.set_frames(frames);
     }
 }
 
-void TNpcPlayer::reset_player_lobby_model(u16 arg0) {
+void TNpcPlayer::reset_player_lobby_model(u16 client) {
     uaddr player;
-    player = (uaddr)get_player_by_client_id(arg0);
+    player = (uaddr)get_player_by_client_id(client);
     if (player != 0U) {
         ((TObjPlayer *)player)->protection.reset_lobby_model();
     }
@@ -535,9 +535,9 @@ void notify_partner_room_cleared(s32 arg0) {
     } while (i < 4);
 }
 
-void quest_remove_npc_player(u16 arg0) {
+void quest_remove_npc_player(u16 client) {
     saddr player;
-    player = (saddr)get_player_by_client_id(arg0);
+    player = (saddr)get_player_by_client_id(client);
     if (player != 0) {
         TObjPlayer::send_item_pickup_request(player);
         if ((u32) player != 0U) {
@@ -654,19 +654,19 @@ void quest_player_face_actor(u16 src, u16 dst) {
     ((TNpcPlayer *)(&pkt))->send_6x3E();
 }
 
-void TNpcPlayer::play_effect(int arg0) {
+void TNpcPlayer::play_effect(int client) {
     saddr player;
 
-    player = (saddr)get_player_by_client_id((u16) arg0);
+    player = (saddr)get_player_by_client_id((u16) client);
     if ((player != 0) && (((TObjChara *)player)->obj_isState2_324() == 0)) {
         TObjPlayer::play_effect_default(player, -1);
     }
 }
 
-void TNpcPlayer::send_code_45_to_player(int arg0) {
+void TNpcPlayer::send_code_45_to_player(int client) {
     saddr player;
 
-    player = (saddr)get_player_by_client_id((u16) arg0);
+    player = (saddr)get_player_by_client_id((u16) client);
     if ((player != 0) && (((TObjChara *)player)->obj_isState2_324() == 0)) {
         TObjPlayer::send_code_45_1(player);
     }
@@ -811,9 +811,9 @@ TUnk_804F07C8::~TUnk_804F07C8() {
 
 void TUnk_804F07C8::run_task() {  }
 
-void TLobby__sub_8034DAA0(s32 arg0, u32 arg1) {
+void TLobby__sub_8034DAA0(s32 client, u32 arg1) {
     Player_8034DAA0 *p;
-    p = (Player_8034DAA0 *)get_player_by_client_id(arg0);
+    p = (Player_8034DAA0 *)get_player_by_client_id(client);
     if (p == NULL) {
         return;
     }

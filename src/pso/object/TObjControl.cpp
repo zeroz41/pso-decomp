@@ -648,16 +648,16 @@ void TObjEnemy::update_prev_position() {
 }
 
 #pragma pop
-void TObjEnemy::award_enemy_experience(s32 arg1) {
+void TObjEnemy::award_enemy_experience(s32 client) {
     s32 val;
     TObjPlayer *p;
 
-    if ((u16)arg1 >= 0x1000 || (p = get_player_by_client_id((u16)arg1)) == NULL ||
+    if ((u16)client >= 0x1000 || (p = get_player_by_client_id((u16)client)) == NULL ||
         p->test_actor_flags(0x800) != 0 || p->get_floor() != get_current_floor()) {
         return;
     }
     val = this->stat_block->exp;
-    if ((u16)arg1 == this->attacker_id) {
+    if ((u16)client == this->attacker_id) {
         if (((TLobby *)lobby_rule_settings)->get_rule_field_0() == 1) {
             fn_801B0480(p, this, 1);
             draw_player_status(p, p, "\tC1");
