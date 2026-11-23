@@ -140,7 +140,7 @@ s32 lbl_805D5B30;
 StripBufferPair *lbl_805D5B34;
 BmlResource *lbl_805D5B38;
 saddr lbl_805D5B3C;
-s32 lbl_805D5B40;
+saddr lbl_805D5B40;
 GinjaTextureList *lbl_805D5B44;
 StripBufferPair *lbl_805D5B48;
 
