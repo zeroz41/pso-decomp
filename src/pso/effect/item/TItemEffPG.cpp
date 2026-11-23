@@ -37,7 +37,7 @@
 const char *TItemEffPG::class_name = "TItemEffPG";
 
 ItemEffPGParams *ItemEffPGParams::init_params() {
-    TObjPlayer__sub_802E451C(this);
+    reset_attack_params(this);
     hits = 10;
     max_radius = 50.0f;
     required_charge = 1.0f;

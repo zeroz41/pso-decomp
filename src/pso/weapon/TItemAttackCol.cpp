@@ -342,7 +342,7 @@ s32 TUnk_804E355C::resolve_attack_col_hit(ActorBodyHit *hit) {
     return 0;
 }
 
-void TObjPlayer__sub_802E451C(S_802E451C *s_802_e451_c) {
+void reset_attack_params(S_802E451C *s_802_e451_c) {
     s_802_e451_c->position.x = 0.0f;
     s_802_e451_c->position.y = 0.0f;
     s_802_e451_c->position.z = 0.0f;
@@ -357,7 +357,7 @@ void TObjPlayer__sub_802E451C(S_802E451C *s_802_e451_c) {
 }
 
 Desc_8011E5C4 *TObjPlayer__sub_802E449C(Desc_8011E5C4 *params) {
-    TObjPlayer__sub_802E451C(params);
+    reset_attack_params(params);
     params->flags = 0;
     params->model = NULL;
     params->texlist = 0;

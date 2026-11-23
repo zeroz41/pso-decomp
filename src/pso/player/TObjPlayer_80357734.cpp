@@ -86,7 +86,7 @@ void TUnk_804F14A8::init_weapon_effect_descriptor(Desc_8011E5C4 *desc) {
 }
 
 OrgaFlowShotParams *OrgaFlowShotParams::reset_defaults() {
-    TObjPlayer__sub_802E451C(this);
+    reset_attack_params(this);
     rotation_y = 0;
     return this;
 }
