@@ -10,7 +10,7 @@
 #include "pso/math/FloatRounding.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
-#include "pso/effect/TUnk_80494968.h"
+#include "pso/effect/TAttackTrace.h"
 #include "pso/system/vector.h"
 #include "types.h"
 #include "pso/player/TObjPlayer.h"
@@ -324,8 +324,8 @@ void TObjEneMe3Shinowa::init_enemy() {
     attack_count = 0;
     mirage_index = 0;
     m_3dc = evp;
-    attack_traces[0] = TUnk_80494968::create((u32)0xFF0000FF, (u32)0xA08000A0);
-    attack_traces[1] = TUnk_80494968::create((u32)0xFF0000FF, (u32)0xA08000A0);
+    attack_traces[0] = TAttackTraceStrip::create((u32)0xFF0000FF, (u32)0xA08000A0);
+    attack_traces[1] = TAttackTraceStrip::create((u32)0xFF0000FF, (u32)0xA08000A0);
     fade.reset_obstruction_fade();
     state_step = 0;
     state_timer = 0;

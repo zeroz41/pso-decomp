@@ -30,7 +30,7 @@
 #include "pso/technique/TTecMegid.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
-#include "pso/effect/TUnk_80494968.h"
+#include "pso/effect/TAttackTrace.h"
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlResourceDescriptor.h"
@@ -194,7 +194,7 @@ TObjEneMoja::TObjEneMoja(TObject *parent, void *setData) : TObjEnemy(parent) {
     add_flags_2e4(1);
     actorFlags |= 0x40000;
     sinkOffset = 0.0f;
-    unknown_398 = TUnk_80494968::create(0xFF303030, 0x0A303030);
+    unknown_398 = TAttackTraceStrip::create(0xFF303030, 0x0A303030);
     for (s32 i = 0; i < 4; i++) {
         unknown_39C[i].activate_and_dispatch();
     }
@@ -928,7 +928,7 @@ void TObjEneMoja::update_punch_attack() {
     s32 n;
     s32 i;
     TObjChara *p;
-    TUnk_80494968 *trace;
+    TAttackTraceStrip *trace;
     Vec *e;
     switch (phase) {
     case 0:

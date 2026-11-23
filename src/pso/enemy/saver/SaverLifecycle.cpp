@@ -41,7 +41,7 @@
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
 
 #include "pso/unk/TLobby.h"
-#include "pso/effect/TUnk_80494968.h"
+#include "pso/effect/TAttackTrace.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/boss/volopt/TBoss3VoloptHiraisin.h"
 #include "pso/object/TObjControl.h"
@@ -682,9 +682,9 @@ TObjEneSaver::TObjEneSaver(TObject *parent, void *set_data) : TObjEnemy(parent) 
     particle_type = 0x101;
     particle_type_b = 0x101;
     particle_ctrl = new TEneParticleCtrl(this, particle_type);
-    attack_traces[0] = TUnk_80494968::create(0xA0303030, 0xFFFF0088);
-    attack_traces[1] = TUnk_80494968::create(0xA0303030, 0xFFFF0088);
-    attack_traces[2] = TUnk_80494968::create(0xA0303030, 0xFF303030);
+    attack_traces[0] = TAttackTraceStrip::create(0xA0303030, 0xFFFF0088);
+    attack_traces[1] = TAttackTraceStrip::create(0xA0303030, 0xFFFF0088);
+    attack_traces[2] = TAttackTraceStrip::create(0xA0303030, 0xFF303030);
     clear_lobby_object_state();
 }
 

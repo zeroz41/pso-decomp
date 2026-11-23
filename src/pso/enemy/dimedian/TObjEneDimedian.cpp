@@ -39,7 +39,7 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/unk/text_803E2D70.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
-#include "pso/effect/TUnk_80494968.h"
+#include "pso/effect/TAttackTrace.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/render/model_render_state.h"
 #include "pso/unk/text_803D853C.h"
@@ -117,7 +117,7 @@ void TObjEneDimedian::update_attack_trail() {
     Vec a;
     Vec *e;
     s32 idx;
-    TUnk_80494968 *eff;
+    TAttackTraceStrip *eff;
     if (!(this->frame < 12.0f)) {
         return;
     }
@@ -546,8 +546,8 @@ TObjEneDimedian::TObjEneDimedian(TObject *parent, void *set_data) : TUnk_8049345
             break;
         }
     }
-    attack_trails[0] = TUnk_80494968::create(0xA0303030, color);
-    attack_trails[1] = TUnk_80494968::create(0xA0303030, color);
+    attack_trails[0] = TAttackTraceStrip::create(0xA0303030, color);
+    attack_trails[1] = TAttackTraceStrip::create(0xA0303030, color);
     appearing = 1;
     far_move_speed = dimedian_buffer_ptr[subtype][0];
     far_anim_speed = dimedian_buffer_ptr[subtype][1];

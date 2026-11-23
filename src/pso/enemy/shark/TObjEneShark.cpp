@@ -9,7 +9,7 @@
 #include "pso/render/RenderFadeState.h"
 #include "pso/render/model_render_state.h"
 #include "pso/system/task/TObject.h"
-#include "pso/effect/TUnk_80494968.h"
+#include "pso/effect/TAttackTrace.h"
 #include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "types.h"
@@ -97,7 +97,7 @@ void TObjEneShark::update_attack_trail() {
     Vec a;
     Vec *e;
     s32 idx;
-    TUnk_80494968 *trail;
+    TAttackTraceStrip *trail;
     if (!(frame < 12.0f)) {
         return;
     }
@@ -597,8 +597,8 @@ TObjEneShark::TObjEneShark(TObject *parent, void *setData) : TUnk_80493450(paren
     }
     fade.reset_obstruction_fade();
     appearing = 1;
-    attack_trails[0] = TUnk_80494968::create((u32)0xA0303030, (u32)color);
-    attack_trails[1] = TUnk_80494968::create((u32)0xA0303030, (u32)color);
+    attack_trails[0] = TAttackTraceStrip::create((u32)0xA0303030, (u32)color);
+    attack_trails[1] = TAttackTraceStrip::create((u32)0xA0303030, (u32)color);
     far_move_speed = ((f32 *)shark_resource_buffer[subtype])[0];
     far_anim_speed = ((f32 *)shark_resource_buffer[subtype])[1];
     near_move_speed = ((f32 *)shark_resource_buffer[subtype])[2];

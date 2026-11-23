@@ -16,7 +16,7 @@
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/unk/text_803D853C.h"
 
-#include "pso/effect/TUnk_80494968.h"
+#include "pso/effect/TAttackTrace.h"
 #include "types.h"
 
 #include "pso/player/TObjPlayer.h"
@@ -49,7 +49,7 @@
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/enemy/lappy/TObjEneLappy.h"
 #include "pso/enemy/panarms/TObjEnePanarms.h"
-#include "pso/effect/TUnk_80494968.h"
+#include "pso/effect/TAttackTrace.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/system/MatrixStack.h"
@@ -100,7 +100,7 @@ void TObjEneBeast::update_attack_trail() {
     Vec pos;
     Vec *entry;
     s32 idx;
-    TUnk_80494968 *eff;
+    TAttackTraceStrip *eff;
     if (this->frame < 12.0f) {
         switch (this->requested_action) {
         case 3:
@@ -423,8 +423,8 @@ TObjEneBeast::TObjEneBeast(TObject *parent, void *set_data) : TUnk_80493450(pare
     add_flags_2e4(1);
     obj_setFlags30(this, 0x40000);
     corpse_offset_y = 0.0f;
-    attack_trails[0] = TUnk_80494968::create(0xA0303030, 0xFF303030);
-    attack_trails[1] = TUnk_80494968::create(0xA0303030, 0xFF303030);
+    attack_trails[0] = TAttackTraceStrip::create(0xA0303030, 0xFF303030);
+    attack_trails[1] = TAttackTraceStrip::create(0xA0303030, 0xFF303030);
     far_move_speed = boss4_rock_shared_handler_ids[subtype][0];
     far_anim_speed = boss4_rock_shared_handler_ids[subtype][1];
     near_move_speed = boss4_rock_shared_handler_ids[subtype][2];

@@ -446,8 +446,8 @@ TObjGrass::TObjGrass(TObject *parent, void *set_data) : TObjEnemy(parent) {
     obj_setFlags30(this, 0x04040000);
     fade.reset_obstruction_fade();
     m_3ac = 1;
-    savers[0] = TUnk_80494968::create(0xA0303030, 0xFFFF0088);
-    savers[1] = TUnk_80494968::create(0xA0303030, 0xFFFF0088);
+    savers[0] = TAttackTraceStrip::create(0xA0303030, 0xFFFF0088);
+    savers[1] = TAttackTraceStrip::create(0xA0303030, 0xFFFF0088);
     m_3a8 = 0;
     clear_lobby_object_state();
 }

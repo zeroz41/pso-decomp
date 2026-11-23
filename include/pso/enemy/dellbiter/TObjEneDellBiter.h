@@ -12,7 +12,7 @@ class TNowLoading;
 class TParticleCtrl;
 class AreaAttackHistory;
 class TUnk_804928CC;
-class TUnk_80494968;
+class TAttackTraceStrip;
 
 struct DelbiterInitialParameters {
     f32 max_distance;
@@ -80,7 +80,7 @@ struct TObjEneDellBiter : public TObjEneDD_ST {
     TUnk_804928CC *attack_bodies[2];
     TObjCollidable *rush_body;
     AreaAttackHistory *attack_history;
-    TUnk_80494968 *saver;
+    TAttackTraceStrip *saver;
     f32 howl_chance;
     f32 confuse_chance;
     f32 confuse_distance;

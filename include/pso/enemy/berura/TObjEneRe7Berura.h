@@ -8,7 +8,7 @@
 #include "pso/system/NinjaTypes.h"
 
 class TParticleCtrl;
-class TUnk_80494968;
+class TAttackTraceStrip;
 struct TObjEneRe7BeruraPunch;
 
 // What TObjEnemy::movementParameters points at for the Berura.
@@ -119,7 +119,7 @@ struct TObjEneRe7Berura : public TObjEneDD_ST {
     u32 arm_flags[2];            // BERURA_ARM_*
     Vec hand_positions[2];       // the hand emitters follow these
     TParticleCtrl *hand_emitters[2];
-    TUnk_80494968 *attack_trails[2];
+    TAttackTraceStrip *attack_trails[2];
     RenderFadeState camera_fades[4];
     s32 turn_limit;              // turning this far in total makes it dizzy (state 7)
     s32 turn_total;

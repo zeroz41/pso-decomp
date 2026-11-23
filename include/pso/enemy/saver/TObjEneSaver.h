@@ -7,7 +7,7 @@
 
 struct TObjPlayer;
 struct TEneParticleCtrl;
-class TUnk_80494968;
+class TAttackTraceStrip;
 
 // What TObjEnemy::movementParameters points at for a Saver (saver_move_params): the GibblesMoveParams layout.
 struct SaverMoveParams {
@@ -68,7 +68,7 @@ struct TObjEneSaver : public TObjEnemy {
     s32 facing_angle;
     TEneParticleCtrl *particle_ctrl;
     TUnk_80490470 body_fade;
-    TUnk_80494968 *attack_traces[3];
+    TAttackTraceStrip *attack_traces[3];
 };
 
 LAYOUT_ASSERT(TObjEneSaver_size, sizeof(TObjEneSaver) == 0x3CC);

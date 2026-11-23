@@ -9,7 +9,7 @@
 class AreaAttackHistory;
 class TUnk_804928CC;
 class TObjEneDf2Bringer_Eff_TpAbsorb1;
-class TUnk_80494968;
+class TAttackTraceStrip;
 class TParticleCtrl;
 
 // The Bringer's tuning row (TLobby::dispatch_shared_handler_a(0xD)).
@@ -84,7 +84,7 @@ struct TObjEneDf2Bringer : public TObjEneDD_ST {
     TUnk_804928CC *collider;  // built over the Bringer's collision bodies
     AreaAttackHistory *attack_history;
     TObjEneDf2Bringer_Eff_TpAbsorb1 *shot_launcher;
-    TUnk_80494968 *attack_trail;
+    TAttackTraceStrip *attack_trail;
     s32 texture_scroll;
     s32 step;
     s32 counter;

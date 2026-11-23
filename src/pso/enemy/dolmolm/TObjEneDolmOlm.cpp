@@ -46,7 +46,7 @@
 #include "pso/unk/TLobby.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/boss/volopt/TBoss3VoloptHiraisin.h"
-#include "pso/effect/TUnk_80494968.h"
+#include "pso/effect/TAttackTrace.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/effect/GroundContactSound.h"
@@ -193,8 +193,8 @@ TObjEneDolmOlm::TObjEneDolmOlm(TObject *parent, void *set_data) : TUnk_80493450(
     }
     fade.reset_obstruction_fade();
     appearing = 1;
-    attack_traces[0] = TUnk_80494968::create(0xA0303030, col);
-    attack_traces[1] = TUnk_80494968::create(0xA0303030, col);
+    attack_traces[0] = TAttackTraceStrip::create(0xA0303030, col);
+    attack_traces[1] = TAttackTraceStrip::create(0xA0303030, col);
     far_move_speed = TObjEneDolmOlm__behavior_params_by_variant[variant]->params[0];
     far_anim_speed = TObjEneDolmOlm__behavior_params_by_variant[variant]->params[1];
     near_move_speed = TObjEneDolmOlm__behavior_params_by_variant[variant]->params[2];
@@ -854,7 +854,7 @@ void TObjEneDolmOlm::update_attack_trail() {
     Vec a;
     Vec *e;
     s32 idx;
-    TUnk_80494968 *eff;
+    TAttackTraceStrip *eff;
     if (!(this->frame < 12.0f)) {
         return;
     }

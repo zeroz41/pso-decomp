@@ -9,7 +9,7 @@
 #include "pso/npc/NpcAnimationBinding.h"
 #include "pso/unk/SampledMotionPoints.h"
 #include "pso/player/PlayerAttackParams.h"
-#include "pso/effect/TUnk_80494968.h"
+#include "pso/effect/TAttackTrace.h"
 #include "types.h"
 #include "pso/render/NinjaUtil.h"
 #include "pso/object/base/TObjMotion.h"
@@ -245,7 +245,7 @@ TObjEneDubchik::TObjEneDubchik(TObject *parent, void *set_data) : TObjEnemyCusto
     } else {
         set_param(24);
     }
-    saver = TUnk_80494968::create(0x00FFFFFF, 0xA0707070);
+    saver = TAttackTraceStrip::create(0x00FFFFFF, 0xA0707070);
     if (*(s16 *)((u8 *)set_data + 0xA) != 0) {
         start_appear();
     }

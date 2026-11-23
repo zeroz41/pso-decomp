@@ -26,7 +26,7 @@
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/unk/SampledMotionPoints.h"
 #include "pso/math/FloatRounding.h"
-#include "pso/effect/TUnk_80494968.h"
+#include "pso/effect/TAttackTrace.h"
 #include "pso/enemy/berura/TObjEneRe7BeruraPunch.h"
 #include "pso/animation/MotionContext.h"
 #include "pso/render/NinjaUtil.h"
@@ -333,8 +333,8 @@ void TObjEneRe7Berura::init_enemy() {
         VecCopy(&hand_positions[i], &position);
         hand_emitters[i] = 0;
     }
-    attack_trails[0] = TUnk_80494968::create(0xFF00FF00, 0xA0703030);
-    attack_trails[1] = TUnk_80494968::create(0xFF00FF00, 0xA0703030);
+    attack_trails[0] = TAttackTraceStrip::create(0xFF00FF00, 0xA0703030);
+    attack_trails[1] = TAttackTraceStrip::create(0xFF00FF00, 0xA0703030);
     for (j = 0; j < 4; j++) {
         camera_fades[j].activate_and_dispatch();
     }

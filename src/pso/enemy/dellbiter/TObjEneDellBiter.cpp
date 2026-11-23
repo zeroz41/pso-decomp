@@ -9,7 +9,7 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
 #include "pso/player/TObjPlayer_803E4954.h"
-#include "pso/effect/TUnk_80494968.h"
+#include "pso/effect/TAttackTrace.h"
 #include "pso/render/reflection.h"
 #include "pso/system/vector.h"
 #include "pso/effect/particle/TParticleCtrl.h"
@@ -238,7 +238,7 @@ void TObjEneDellBiter::init_params() {
     rush_body = new TObjCollidable(NULL);
     init_collision_body_parts(rush_body, &dell_biter_collision_bodies[3], 1);
     attack_history = new AreaAttackHistory(8);
-    saver = TUnk_80494968::create(0xFF5050FF, 0x80000080);
+    saver = TAttackTraceStrip::create(0xFF5050FF, 0x80000080);
     state_timer = 0;
     step = 0;
     drained_tp = 0;

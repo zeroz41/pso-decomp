@@ -4,7 +4,7 @@
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/render/RenderFadeState.h"
 
-class TUnk_80494968;
+class TAttackTraceStrip;
 
 struct MojaBattleStat {
     u8 unknown_00[0x18];
@@ -56,7 +56,7 @@ struct TObjEneMoja : public TObjEnemy {
     f32 sinkOffset;
     f32 techniqueChance;
     f32 jumpChance;
-    TUnk_80494968 *unknown_398;
+    TAttackTraceStrip *unknown_398;
     RenderFadeState unknown_39C[4];
     static void *create(void *setData);
     static void free_resources();

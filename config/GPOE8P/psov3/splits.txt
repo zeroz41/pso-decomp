@@ -1754,14 +1754,10 @@ pso/enemy/sinowzoa/TObjEneMe3SinowZoa_800D72A4.cpp:
 	.data       start:0x80494938 end:0x80494964
 	.sdata2     start:0x805DA348 end:0x805DA364
 
-pso/effect/TUnk_80494968.cpp:
-	.text       start:0x800D7690 end:0x800D7A2C
-	.data       start:0x80494968 end:0x80494988
-
 pso/effect/TAttackTrace.cpp:
-	.text       start:0x800D7A2C end:0x800D7AD0
+	.text       start:0x800D7690 end:0x800D7AD0
 	.rodata     start:0x8043C700 end:0x8043C710
-	.data       start:0x80494988 end:0x804949A0
+	.data       start:0x80494968 end:0x804949A0
 	.sdata      start:0x805D2A90 end:0x805D2A98
 
 pso/render/RenderFadeState.cpp:

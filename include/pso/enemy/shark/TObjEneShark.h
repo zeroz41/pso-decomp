@@ -6,7 +6,7 @@
 #include "pso/render/TUnk_80494938.h"
 #include "pso/render/RenderFadeState.h"
 
-class TUnk_80494968;
+class TAttackTraceStrip;
 
 class TObjEneShark : public TUnk_80493450 {
 public:
@@ -27,7 +27,7 @@ public:
     void apply_clamped_mode_param();
 
     TUnk_80494938 fade;
-    TUnk_80494968 *attack_trails[2];  // fed the sampled attack-motion points by update_attack_trail
+    TAttackTraceStrip *attack_trails[2];  // fed the sampled attack-motion points by update_attack_trail
     RenderFadeState camera_fades[4];
 };
 

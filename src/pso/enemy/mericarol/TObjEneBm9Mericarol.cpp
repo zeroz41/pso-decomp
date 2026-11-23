@@ -62,7 +62,7 @@
 
 
 
-// inferred: the per-phase colour the constructor gives its two TUnk_80494968 effects.
+// inferred: the per-phase colour the constructor gives its two TAttackTraceStrip effects.
 static const u32 mericarol_phase_effect_colors[3] = { 0xFFFD42E3, 0xFF39374B, 0xFFDEFB46 };
 
 TObjEneBm9MericarolMovementParameters mericarol_movement_params = {
@@ -208,8 +208,8 @@ TObjEneBm9Mericarol::TObjEneBm9Mericarol(TObject *parent, void *set_data) : TObj
     set_requested_action(requested_action);
     ph = get_phase();
     reset_hp(bm9_mericarol_phase_hp_table[ph], bm9_mericarol_phase_attack_table[ph], bm9_mericarol_phase_resist_table[ph]);
-    trails[0] = TUnk_80494968::create(0xA0303030, mericarol_phase_effect_colors[ph]);
-    trails[1] = TUnk_80494968::create(0xA0303030, mericarol_phase_effect_colors[ph]);
+    trails[0] = TAttackTraceStrip::create(0xA0303030, mericarol_phase_effect_colors[ph]);
+    trails[1] = TAttackTraceStrip::create(0xA0303030, mericarol_phase_effect_colors[ph]);
     add_flags_2e4(0x12);
     movementParameters = &mericarol_movement_params;
     switch (get_phase()) {

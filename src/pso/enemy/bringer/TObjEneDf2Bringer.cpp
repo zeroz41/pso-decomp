@@ -43,7 +43,7 @@
 #include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
 
 #include "pso/player/TObjPlayer_800D8FDC.h"
-#include "pso/effect/TUnk_80494968.h"
+#include "pso/effect/TAttackTrace.h"
 #include "pso/system/vector.h"
 
 
@@ -342,7 +342,7 @@ void TObjEneDf2Bringer::init_enemy() {
     this->collider = new TUnk_804928CC(this, this, &bringer_collision_bodies[1], 2);
     this->attack_history = new AreaAttackHistory(8);
     this->shot_launcher = new TObjEneDf2Bringer_Eff_TpAbsorb1(this, this, this->attack_history);
-    this->attack_trail = TUnk_80494968::create(0xFF5050FF, 0x80000080);
+    this->attack_trail = TAttackTraceStrip::create(0xFF5050FF, 0x80000080);
     this->texture_scroll = 0;
     this->step = 0;
     this->counter = 0;
