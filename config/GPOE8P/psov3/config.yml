@@ -513,8 +513,8 @@ force_active:
   - TContainerAncient01__sub_8018B180
   - TContainerAncient01__sub_8018BE90
   - __ct__10TDPBShowerFP7TObjectPv
-  - TEffGuard__class_name
-  - TEffHit__class_name
+  - class_name__9TEffGuard
+  - class_name__7TEffHit
   - __ct__16TEffIndirectCtrlFlP7TObject
   - class_name__16TEffIndirectCtrl
   - source_buffers__16TEffIndirectCtrl
@@ -524,7 +524,7 @@ force_active:
   - TEffStarLight2D_class_name
   - TEffStarLightChild__name
   - TEffStarLightChild_class_name
-  - TEffect__class_name
+  - class_name__7TEffect
   - TEndingAB__sub_8008D5A0
   - TEndingC__wall_texture_list
   - TEndingPic__sub_8008D5AC

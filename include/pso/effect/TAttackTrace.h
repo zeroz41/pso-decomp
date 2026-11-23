@@ -8,6 +8,9 @@ class TAttackTrace : public TObject {
 public:
     TAttackTrace(TObject *parent);
     virtual ~TAttackTrace();
+    static const char *class_name;
+
+    s32 segment_count;
 };
 
 #endif

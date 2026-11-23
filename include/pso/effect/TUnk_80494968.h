@@ -16,7 +16,6 @@ public:
     void set_edge_colors(u32 color_a, u32 color_b);
     virtual void render();
     virtual void run_task();
-    s32 segment_count;
     TrailStripVertex vertices[16]; // two per segment: edge a, edge b
     u32 edge_colors[2];
 };

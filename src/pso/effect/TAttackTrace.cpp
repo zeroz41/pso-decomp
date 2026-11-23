@@ -7,10 +7,10 @@ TAttackTrace::~TAttackTrace() {}
 #pragma readonly_strings on
 
 
-const char *lbl_805D2A90 = "TAttackTrace";
+const char *TAttackTrace::class_name = "TAttackTrace";
 
 
 TAttackTrace::TAttackTrace(TObject *parent) : TObject(parent) {
-    m_name = lbl_805D2A90;
-    *(u32 *)((s8 *)this + 0x1C) = 0;
+    m_name = class_name;
+    segment_count = 0;
 }

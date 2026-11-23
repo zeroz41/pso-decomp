@@ -5,7 +5,7 @@
 #include "pso/system/vector.h"
 #include "pso/system/task/TObject.h"
 #pragma readonly_strings on
-const char* TEffHit__class_name = "TEffHit";
+const char *TEffHit::class_name = "TEffHit";
 
 void TEffHit::run_task() {
     Vec shifted_position;
@@ -40,7 +40,7 @@ void TEffHit::run_task() {
 TEffHit::~TEffHit() {}
 
 TEffHit::TEffHit(const Vec* initial_position) : TEffect() {
-    m_name = TEffHit__class_name;
+    m_name = class_name;
     VecCopy(&position, initial_position);
     state = 0;
 }

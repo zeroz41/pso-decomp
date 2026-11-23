@@ -7,6 +7,7 @@ public:
     TEffHit(const Vec* position);
     virtual ~TEffHit();
     virtual void run_task();
+    static const char *class_name;
 
     s32 state;
 };

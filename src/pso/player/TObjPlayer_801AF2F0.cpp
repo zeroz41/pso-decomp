@@ -2798,7 +2798,7 @@ void TObjPlayer::use_current_item() {
         return;
     }
     this->get_anim_node_position(0x24, (Vec *)&sp8);
-    TEffGuard::create((const Vec*)(&sp8));
+    TEffGuard::create((Vec *)&sp8);
 }
 
 void TObjPlayer::get_anim_node_position(s32 arg1, Vec *arg2) {
