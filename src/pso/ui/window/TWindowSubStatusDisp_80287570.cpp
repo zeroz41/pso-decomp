@@ -5,12 +5,7 @@
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/ui/window/TWindowSubStatusDisp_8024FBA8.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
-
-struct HeadingTextPos
-{
-  f32 x;
-  f32 y;
-};
+#include "pso/system/NinjaTypes.h"
 
 typedef struct Entry_802877C8 {
     u8 pad0[0x14];
@@ -131,7 +126,6 @@ void TWindowSubStatusDisp::set_entry_state(s8 arg1) {
     update_entry_color();
 }
 
-typedef struct HeadingTextPos HeadingTextPos;
 #pragma fp_contract on
 
 void TWindowSubStatusDisp::draw_entry_tab(void *arg1) {
@@ -143,18 +137,13 @@ void TWindowSubStatusDisp::draw_entry_tab(void *arg1) {
 }
 
 void TWindowSubStatusDisp__sub_802878B8(u8 *arg0, u8 *arg1) {
-  HeadingTextPos stack;
-  f32 new_var;
+  NJS_POINT2 pos;
   if (((s32) (*((s32 *) (((s8 *) arg1) + 0x30)))) >= 0)
   {
-    if ((0.5f) && (0.5f))
-    {
-    }
-    stack.x = -(((0.5f) * (*((f32 *) (((s8 *) arg0) + 0x10)))) - (((0.5f) * ((1.6e+02f) + (*((f32 *) (((s8 *) arg0) + 0xC))))) + ((*((f32 *) (((s8 *) arg1) + 0))) + (*((f32 *) (((s8 *) arg0) + 4))))));
-    stack.y = (4.0f) + (*((f32 *) (((s8 *) arg1) + 4)) + (*((f32 *) (((s8 *) arg0) + 8))));
+    pos.x = -(((0.5f) * (*((f32 *) (((s8 *) arg0) + 0x10)))) - (((0.5f) * ((1.6e+02f) + (*((f32 *) (((s8 *) arg0) + 0xC))))) + ((*((f32 *) (((s8 *) arg1) + 0))) + (*((f32 *) (((s8 *) arg0) + 4))))));
+    pos.y = (4.0f) + (*((f32 *) (((s8 *) arg1) + 4)) + (*((f32 *) (((s8 *) arg0) + 8))));
     set_text_draw_params(reinterpret_cast<WindowDrawContext *>(arg1), 0, 1, (f32) ((-1.0f) / ((0.0598f) + (*((f32 *) (((s8 *) arg1) + 0x38))))), 100000.0f);
-    new_var = *((f32 *) (((s8 *) arg0) + 0x1C));
-    draw_window_text((&stack.x), (const char *)(*((saddr *) (((s8 *) arg0) + 0))), (*((s32 *) (((s8 *) arg0) + 0x14))), 1, (f32) new_var);
+    draw_window_text(&pos.x, (const char *)(*((saddr *) (((s8 *) arg0) + 0))), (*((s32 *) (((s8 *) arg0) + 0x14))), 1, *((f32 *) (((s8 *) arg0) + 0x1C)));
   }
 }
 
