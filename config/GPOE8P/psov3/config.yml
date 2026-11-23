@@ -5870,7 +5870,7 @@ force_active:
   - enable_at__20TBoss5GryphonColli_CFP3Vecl
   - draw_model__18TObjLazerFenceNormFv
   - draw_model__8TObjDoorFv
-  - draw_model_and_lights__20TODoorFourLightRuinsFPv
+  - draw_model_and_lights__20TODoorFourLightRuinsFv
   - draw_model_motion_blend__9TBoss6MagFv
   - draw_model_node_tree__FP10NJS_OBJECT
   - draw_model_set__11TBoss4Type3FPClf

@@ -40,22 +40,6 @@ struct Tbl_80289EE0 { s32 v[8]; };
 
 struct Door_80289EE0 { u8 pad[0xD8]; saddr sw[8]; };
 
-struct Door_8028A28C {
-    u8 pad0[0x24];
-    s32 texlist;
-    u8 pad28[0x10];
-    u8 f38[0x28];
-    s32 angle;
-    u8 pad64[0x24];
-    s32 f88;
-    u8 pad8c[0x3C];
-    s32 fc8;
-    u8 padcc[4];
-    s32 fd0;
-    u8 *fd4;
-    u8 *fd8[4];
-    u8 *fe8[4];
-};
 
 extern "C" {
 s32 init_collision_body_parts(void *, void *, int);
@@ -69,7 +53,6 @@ void free_collision_body_parts(void *);
 
 
 struct Tbl_8028A5C4 { s32 v[8]; };
-struct Door_8028A5C4 { u8 pad[0xD8]; saddr sw[8]; };
 
 const char *TODoorFourLightRuins__class_name = "TODoorFourLightRuins";
 const Tbl_8028A5C4 door_four_light_ruins_index_table = {3, 4, 6, 8, 2, 5, 7, 9};
@@ -97,7 +80,7 @@ TODoorFourLightRuins::TODoorFourLightRuins(saddr parent, saddr set_data) : TODoo
     {
         Tbl_8028A5C4 t = door_four_light_ruins_index_table;
         for (i = 0; i < 8; i++) {
-            ((Door_8028A5C4 *)this)->sw[i] = (saddr)find_object_node((NJS_OBJECT *)(this->m_d4), t.v[i]);
+            this->light_nodes[i] = find_object_node((NJS_OBJECT *)(this->m_d4), t.v[i]);
         }
     }
 }
@@ -135,7 +118,7 @@ void TODoorFourLightRuins::render() {
         case 0:
             cc = this->lock_mode;
             if ((cc == 2) || (cc == 3)) {
-                TODoorFourLightRuins::draw_model_and_lights(arg0);
+                draw_model_and_lights();
                 return;
             }
             push_matrix();
@@ -149,61 +132,59 @@ void TODoorFourLightRuins::render() {
     }
 }
 
-#define self ((Door_8028A28C *)arg0)
-void TODoorFourLightRuins::draw_model_and_lights(void *arg0) {
+void TODoorFourLightRuins::draw_model_and_lights() {
     s32 lit[4];
-    u8 **a;
-    u8 **b;
+    NJS_OBJECT **lamp;
+    NJS_OBJECT **glow;
     for (s32 k = 0; k < 4; k++) {
         lit[k] = 1;
     }
-    if (!(self->fd0 & 1)) {
+    if (!(this->door_flags & DOOR_FLAG_UNLOCKED)) {
         s32 j;
-        for (j = 0; j < self->f88; j++) {
-            if (is_current_floor_switch_set(self->fc8 + j) == 1) {
+        for (j = 0; j < this->set_params[1]; j++) {
+            if (is_current_floor_switch_set(this->switch_id + j) == 1) {
                 lit[j] = 1;
             } else {
                 lit[j] = 0;
             }
         }
     }
-    a = self->fd8;
-    b = self->fe8;
+    lamp = &this->light_nodes[0];
+    glow = &this->light_nodes[4];
     {
-    u8 *p = self->fd4;
+    NJS_OBJECT *body = (NJS_OBJECT *)this->m_d4;
     push_matrix();
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(self->texlist));
-    post_translate_matrix(self->f38);
-    rotate_matrix_y(0, self->angle);
-    draw_ginja_model(*(void **)((s8 *)p + 4));
-    draw_ginja_model(*(void **)((s8 *)(*(u8 **)((s8 *)p + 0x2C)) + 4));
+    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(this->texlist));
+    post_translate_matrix(&this->position);
+    rotate_matrix_y(0, this->rotation_y);
+    draw_ginja_model(body->model);
+    draw_ginja_model(body->child->model);
     }
     TParticleCtrl::begin_effect_render();
     for (s32 i = 0; i < 4; i++) {
         if (lit[i] == 1) {
             TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>((saddr)get_green_door_textures()));
         } else {
-            TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(self->texlist));
+            TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(this->texlist));
         }
-        if (*a != 0) {
+        if (*lamp != 0) {
             push_matrix();
-            post_translate_matrix(*a + 8);
-            draw_ginja_model(*(void **)((s8 *)(*a) + 4));
+            post_translate_matrix((*lamp)->pos);
+            draw_ginja_model((*lamp)->model);
             pop_matrix();
         }
-        if (*b != 0) {
+        if (*glow != 0) {
             push_matrix();
-            post_translate_matrix(*b + 8);
-            draw_ginja_model(*(void **)((s8 *)(*b) + 4));
+            post_translate_matrix((*glow)->pos);
+            draw_ginja_model((*glow)->model);
             pop_matrix();
         }
-        a++;
-        b++;
+        lamp++;
+        glow++;
     }
     TParticleCtrl::end_effect_render();
     pop_matrix();
 }
-#undef self
 
 void TODoorFourLightRuins::update_door_switch_state() {
     u8 *arg0 = (u8 *)this;
