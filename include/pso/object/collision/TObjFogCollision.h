@@ -15,8 +15,10 @@ struct TObjFogCollision : public TObjBase {
     u32 m_94;
     virtual void run_task();
     s32 check_collision(u16 client);
-    int fn_80153F70();  // always 0; render shows the debug text when set
-    int fn_80153F68();  // always 0; render draws the volume when set
+    // Debug switches, 0 in the retail game: render prints the debug text and draws the
+    // volume when they are set, and the collision checks are skipped.
+    int debug_text_enabled();
+    int debug_draw_enabled();
     static void *create(void *set_data);
 };
 

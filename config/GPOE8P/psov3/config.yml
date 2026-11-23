@@ -1375,8 +1375,8 @@ force_active:
   - __ct__22TObjFogCollisionPoisonFP7TObjectPv
   - TObjFogCollisionPoison__instances
   - __ct__22TObjFogCollisionSwitchFP7TObjectPv
-  - fn_80153F68__16TObjFogCollisionFv
-  - fn_80153F70__16TObjFogCollisionFv
+  - debug_draw_enabled__16TObjFogCollisionFv
+  - debug_text_enabled__16TObjFogCollisionFv
   - TObjGrassWeb__sub_800BC798
   - TObjGrass__bml_resource
   - TObjGrass__class_name

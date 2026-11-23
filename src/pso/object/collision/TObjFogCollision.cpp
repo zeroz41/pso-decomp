@@ -89,8 +89,8 @@ TObjFogCollision::~TObjFogCollision() {
 
 }
 
-int TObjFogCollision::fn_80153F70() { return 0; }
-int TObjFogCollision::fn_80153F68() { return 0; }
+int TObjFogCollision::debug_text_enabled() { return 0; }
+int TObjFogCollision::debug_draw_enabled() { return 0; }
 
 
 
@@ -131,7 +131,7 @@ block_5:
 
 void TObjFogCollision::run_task() {
     u16 i;
-    if (fn_80153F70() == 0 && fn_80153F68() == 0) {
+    if (debug_text_enabled() == 0 && debug_draw_enabled() == 0) {
         for (i = 0; i != 4; i++) {
             if (check_collision(i) != 0) {
                 record_fog_collision_hit(i, this->set_params[0], this->set_params[1] == 0);
@@ -152,10 +152,10 @@ void TObjFogCollision::vfunc_14() {
 }
 
 void TObjFogCollision::render() {
-    if (fn_80153F70() != 0) {
+    if (debug_text_enabled() != 0) {
         this->vfunc_14();
     }
-    if (fn_80153F68() != 0) {
+    if (debug_draw_enabled() != 0) {
         this->draw_volume();
     }
 }
@@ -235,7 +235,7 @@ s32 TObjFogCollisionSwitch::get_switch_mode() {
 void TObjFogCollisionSwitch::run_task() {
     s32 st;
     u16 i;
-    if (fn_80153F70() == 0 && fn_80153F68() == 0) {
+    if (debug_text_enabled() == 0 && debug_draw_enabled() == 0) {
         st = get_switch_mode();
         if (st == is_current_floor_switch_set(set_params[2])) {
             for (i = 0; i != 4; i++) {
@@ -305,10 +305,10 @@ void TObjFogCollisionPoison::vfunc_13(s32) {
 }
 
 void TObjFogCollisionPoison::run_task() {
-    if (fn_80153F70()) {
+    if (debug_text_enabled()) {
         return;
     }
-    if (fn_80153F68()) {
+    if (debug_draw_enabled()) {
         return;
     }
 }
