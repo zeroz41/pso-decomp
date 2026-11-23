@@ -94,7 +94,7 @@ TSlicerHistory::TSlicerHistory(TTecSlicer *slicer, u32 texlist, NJS_ARGB *color,
         this->color.g = 0.0f;
         this->color.b = 0.0f;
     }
-    model = (void *)slicer->get_field_110();
+    model = slicer->get_field_110();
     VecCopy(&scale, &slicer->scale);
     this->weapon_handle = weapon_handle;
 }
@@ -548,7 +548,7 @@ TTecSlicer::TTecSlicer(u16 *launch, void *player, Vec *position, int angle) : TO
 
 TSlicerHistory::~TSlicerHistory() {}
 
-s32 TTecSlicer::get_field_110() { return *(s32 *)&this->model; }
+void *TTecSlicer::get_field_110() { return model; }
 s16 TTecSlicer::get_remain_count() { return *(s16*)((char*)this + 0x11e); }
 void TTecSlicer::destroy_if_set() {
     uaddr arg0 = (uaddr)this;

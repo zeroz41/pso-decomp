@@ -1310,7 +1310,7 @@ u32 __nw__7TObjectFUl(s32);
 void capture_technique_targets__10TObjPlayerFv(int kind, void *owner);
 void launch_technique__10TObjPlayerFv(s32, s32, void *);
 Rec_801CCEDC * calc_technique_parameters(s32 tech, s32 level, s32 id);
-s32 construct_actor_light_task(void *, f32 *, f32 *, int, void *, f32, s32);
+s32 construct_actor_light_task(void *, f32 *, f32 *, int, void *, f32, TObject *);
 void TObjPlayer__sub_8024ABDC(saddr arg0);
 void TLobby__sub_8024AC20(saddr arg0);
 }
@@ -1373,7 +1373,7 @@ extern void *player_slot_table[];
 extern const char *lbl_805D3530;
 extern u8 *TObjPlayer__shared_photon_blast_state;
 extern u32 tl_03;
-extern s32 tl_07;
+extern TObject *tl_07;
 extern s32 tl_particlemodel;
 
 void handle_6xB0_turn_or_move_lobby_chair(void *command) {
@@ -2576,7 +2576,7 @@ void TObjPlayer::init_action() {
     this->set_action_state(0x12, (s16) ((s32 (*)(void))ret_801D26AC)());
     disable_motion_blend();
     if (is_current_area_item_enabled() != 0) {
-        new TUnk_804CCC28(this, (TObject *)tl_07);
+        new TUnk_804CCC28(this, tl_07);
     }
     if ((u32) *(u32 *)((s8 *)arg0 + 0x548) != 0U) {
         ((TObject *)(*(void **)((s8 *)arg0 + 0x548)))->queue_destruction();

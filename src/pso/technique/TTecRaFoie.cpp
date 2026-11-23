@@ -273,9 +273,9 @@ TUnk_804CCB28::~TUnk_804CCB28() {
 
 }
 
+extern TObject *tl_particle;
 extern "C" {
 void run_task__10TTecRaFoieFv(TTecRaFoie *arg0);
-extern s32 tl_particle;
 void copy_technique_target_list(void *, void *);
 }
 
@@ -370,7 +370,7 @@ void TTecRaFoie::update_detonation(void *pos) {
     if (age != 10) {
         return;
     }
-    new TUnk_804CCB28((Vec *)&target, band, 10, (TObject *)tl_particle, (f32)level);
+    new TUnk_804CCB28((Vec *)&target, band, 10, tl_particle, (f32)level);
     switch (band) {
     case 0:
         h = play_sound_effect(0x4002A803, &target, 0, 0);

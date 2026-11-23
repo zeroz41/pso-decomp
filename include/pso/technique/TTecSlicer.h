@@ -45,7 +45,7 @@ public:
     f32 argb[4];
     s32 spinVelocity;
     s32 useColorOverride;
-    s32 get_field_110();
+    void *get_field_110();
     s16 get_remain_count();
     void destroy_if_set();
     void deliver_target_hit();
