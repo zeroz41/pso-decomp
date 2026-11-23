@@ -25,10 +25,8 @@ struct Ctx_8026D790 {
 
 extern "C" {
 void __dl__FPv(void);
-s32 clamp_list_scroll_offset(Scroll_8026D790 *scroll, NJS_POINT2 *offset, NJS_POINT2 *range);
 void draw_window_scrollbar(Scroll_8026D790 *scroll, Ctx_8026D790 *c, f32 *offset);
 extern void *hud_texlist;
-}
 
 s32 clamp_list_scroll_offset(Scroll_8026D790 *scroll, NJS_POINT2 *offset, NJS_POINT2 *range) {
     f32 room;
@@ -42,6 +40,7 @@ s32 clamp_list_scroll_offset(Scroll_8026D790 *scroll, NJS_POINT2 *offset, NJS_PO
         return 1;
     }
     return 0;
+}
 }
 
 void draw_window_scrollbar(Scroll_8026D790 *scroll, Ctx_8026D790 *c, f32 *offset) {
