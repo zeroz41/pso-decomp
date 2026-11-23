@@ -2633,10 +2633,14 @@ pso/weapon/TUnk_804A1F20.cpp:
 	.text       start:0x80123F88 end:0x801240C0
 	.data       start:0x804A1F20 end:0x804A2018
 
-pso/weapon/SpecialProjectileWeapons.cpp:
-	.text       start:0x801240C0 end:0x80124760
+pso/item/TUnk_804A2018.cpp:
+	.text       start:0x801240C0 end:0x801242F0
 	.rodata     start:0x8043E940 end:0x8043E958
-	.data       start:0x804A2018 end:0x804A2148
+	.data       start:0x804A2018 end:0x804A2030
+
+pso/weapon/SpecialProjectileWeapons.cpp:
+	.text       start:0x801242F0 end:0x80124760
+	.data       start:0x804A2030 end:0x804A2148
 
 pso/weapon/SpecialProjectileWeapons_80124760.cpp:
 	.text       start:0x80124760 end:0x80124C90

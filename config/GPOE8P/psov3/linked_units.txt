@@ -451,6 +451,7 @@ pso/quest/challenge/ChallengeRangerLoadouts.cpp
 pso/unk/TUnk_804D1AD0.cpp
 pso/weapon/TUnk_804A4238.cpp
 pso/weapon/TUnk_804A4338.cpp
+pso/item/TUnk_804A2018.cpp
 pso/weapon/SpecialProjectileWeapons.cpp
 pso/weapon/SpecialProjectileWeapons_80124760.cpp
 pso/item/TItem.cpp
