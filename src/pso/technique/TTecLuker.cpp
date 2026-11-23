@@ -710,9 +710,9 @@ const Vec *consume_telepipe_arrival(u16 slot, s32 *heading) {
     return 0;
 }
 
-void create_quest_telepipe_for_client(u16 arg0) {
+void create_quest_telepipe_for_client(u16 client) {
     u8 *player;
-    player = (u8 *)get_player_by_client_id((s32)((u32) arg0));
+    player = (u8 *)get_player_by_client_id((s32)((u32) client));
     if (player != NULL) {
         ((TTecLuker *)player)->create(player + 0x38, player + 0x2FC, NULL);
     }
