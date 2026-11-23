@@ -783,7 +783,7 @@ void TScene::load_scene_data(saddr name) {
     TLobby::debug_print("TScene : CANNOT LOAD COLLISION DATA");
 }
 
-void TScene::load_scene_rel_file(saddr arg0) {
+void TScene::load_scene_rel_file(saddr ent) {
     u8 id[0x28];
     s32 area;
     s32 size;
@@ -794,11 +794,11 @@ void TScene::load_scene_rel_file(saddr arg0) {
     TScene__map_rel_load_size_limit = 0;
     TScene__data_805D5FE8 = -1;
     if (TRaderMapCore::is_not_split_screen() == 1) {
-        TLobby::replace_file_extension((char *)((s32 *)id), (char *)arg0, (char *)((s32 *)"nm.rel"));
+        TLobby::replace_file_extension((char *)((s32 *)id), (char *)ent, (char *)((s32 *)"nm.rel"));
         size = get_resource_file_size((const char *)id);
     }
     if (size <= 0) {
-        TLobby::replace_file_extension((char *)((s32 *)id), (char *)arg0, (char *)((s32 *)"n.rel"));
+        TLobby::replace_file_extension((char *)((s32 *)id), (char *)ent, (char *)((s32 *)"n.rel"));
         size = get_resource_file_size((const char *)id);
     }
     if (area == AREA_LOBBY) {
@@ -1803,7 +1803,7 @@ void TScene::sub_80204D7C() {
 }
 
 
-s32 check_object_in_view_cone__6TSceneFiPvPvPvi(s32 unused, Obj_80204B78 *obj, Vec *pos, void *arg3, s32 arg4) {
+s32 check_object_in_view_cone__6TSceneFiPvPvPvi(s32 unused, Obj_80204B78 *obj, Vec *pos, void *arg3, s32 angle) {
     Vec c;
     Vec a;
     Vec b;
@@ -1842,7 +1842,7 @@ s32 check_object_in_view_cone__6TSceneFiPvPvPvi(s32 unused, Obj_80204B78 *obj, V
     }
     if (d >= 0.0f && d < 0.5f) {
         push_matrix_from(identity_matrix);
-        rotate_matrix_y(0, arg4);
+        rotate_matrix_y(0, angle);
         rotate_vector_by_matrix(0, arg3, &c);
         normalize_vector(&c);
         pop_matrix();
@@ -1851,7 +1851,7 @@ s32 check_object_in_view_cone__6TSceneFiPvPvPvi(s32 unused, Obj_80204B78 *obj, V
             return 1;
         }
         push_matrix_from(identity_matrix);
-        rotate_matrix_y(0, -arg4);
+        rotate_matrix_y(0, -angle);
         rotate_vector_by_matrix(0, arg3, &c);
         normalize_vector(&c);
         pop_matrix();

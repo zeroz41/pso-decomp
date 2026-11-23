@@ -27,8 +27,8 @@ public:
 
 public:
     void close_and_advance(s32 message);
-    void set_message_by_index(s32 arg1);
-    void open_message_window(u32 arg1);
+    void set_message_by_index(s32 message);
+    void open_message_window(u32 text);
     void destroy_if_keyboard_idle();
     void save_if_dirty();
     void close_and_advance_to_3();

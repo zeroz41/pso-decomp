@@ -13,8 +13,8 @@ s32 GXCopyTex(s32, s32);
 s32 GXSetZMode(s32, s32, s32);
 s32 GXSetTexCoordGen2(s32, s32, s32, s32, s32, s32);
 
-void fn_8029F5B0(s32 a0, s32 a1, s32 a2, s32 a3) {
-    GXSetTexCoordGen2(a0, a1, a2, a3, 0, 0x7D);
+void fn_8029F5B0(s32 a0, s32 func, s32 a2, s32 mtx) {
+    GXSetTexCoordGen2(a0, func, a2, mtx, 0, 0x7D);
 }
 
     extern int TScene__data_805D5FE0;

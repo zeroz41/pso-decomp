@@ -89,17 +89,17 @@ void gba_joyboot_transfer_callback(s32 arg0, s32 arg1) {
     }
 }
 
-void TLobby::send_data(saddr arg0) {
+void TLobby::send_data(saddr filename) {
     u32 temp_r3;
 
-    temp_r3 = get_resource_file_size((const char *)arg0);
+    temp_r3 = get_resource_file_size((const char *)filename);
     gba_download_data_size = temp_r3;
     if (temp_r3 > 0x40000U) {
         gba_download_data_size = 0U;
         return;
     }
     if ((u32) gba_download_data_buffer != 0U) {
-        read_disc_file((const char *)arg0, (void *)gba_download_data_buffer);
+        read_disc_file((const char *)filename, (void *)gba_download_data_buffer);
         return;
     }
     gba_download_data_size = 0U;

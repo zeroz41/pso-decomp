@@ -9,7 +9,7 @@ s32 init_and_load_tlut(s32, u16, s16, u16 *);
 
 s32 DCStoreRange(u16 *, s32);
 
-void TLanguage::decode_font_data(void *arg0, void *arg1, s32 arg2, s32 arg3) {
+void TLanguage::decode_font_data(void *arg0, void *arg1, s32 arg2, s32 tlut_name) {
     s32 n;
     s32 i;
     u16 *p;
@@ -29,7 +29,7 @@ void TLanguage::decode_font_data(void *arg0, void *arg1, s32 arg2, s32 arg3) {
         p += 1;
     }
     DCStoreRange(*(u16 **)((s8 *)arg1 + 0), 0x40000);
-    init_and_load_tlut(arg3, *(u16 *)((s8 *)arg1 + 4), *(s16 *)((s8 *)arg1 + 0xA), *(u16 **)((s8 *)arg1 + 0));
+    init_and_load_tlut(tlut_name, *(u16 *)((s8 *)arg1 + 4), *(s16 *)((s8 *)arg1 + 0xA), *(u16 **)((s8 *)arg1 + 0));
     GXDrawDone();
 }
 

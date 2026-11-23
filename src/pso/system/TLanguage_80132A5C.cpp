@@ -127,8 +127,8 @@ void TLanguage::load_fonts(s32 language) {
     TLanguage::set_entry_index(LANGUAGE_SPANISH, 3);
 }
 
-void TLanguage::load_text_resources(s32 arg0) {
-    switch (arg0) {
+void TLanguage::load_text_resources(s32 current_language) {
+    switch (current_language) {
     case LANGUAGE_JAPANESE:
         (*(u8 * *)&TWindowKeyBoardSoft__text_resource) = (u8 *)load_text_resource_pair((saddr)TextJapanese);
         break;

@@ -159,17 +159,17 @@ void TSaveChCr::close_and_advance(s32 message) {
     close_window();
     set_message_by_index(message);
 }
-void TSaveChCr::set_message_by_index(s32 arg1) {
+void TSaveChCr::set_message_by_index(s32 message) {
     SaveChCrMessageText texts[4] = {{0x20, 0}, {0xB, 0x62}, {0xB, 0xC}, {0xB, 0xB}};
-    SaveChCrMessageText *text = &texts[arg1];
+    SaveChCrMessageText *text = &texts[message];
     open_message_window((u32)get_localized_text_entry(text->group, text->entry));
 }
-void TSaveChCr::open_message_window(u32 arg1) {
+void TSaveChCr::open_message_window(u32 text) {
     if ((uaddr) this->owned_window == 0U) {
         *(u32 *)&this->owned_window = (uaddr)create_message_window_for_size((NJS_POINT2 *)&save_ch_cr_message_window_pos, (NJS_POINT2 *)&save_ch_cr_message_window_size);
         if ((uaddr) this->owned_window != 0U) {
-            if (arg1 != 0U) {
-                owned_window->append_line(arg1, 3);
+            if (text != 0U) {
+                owned_window->append_line(text, 3);
             }
             owned_window->complete_reveal();
         }

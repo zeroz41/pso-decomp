@@ -67,7 +67,7 @@ public:
     static void load_floor_bin_file(saddr arg0);
     static void load_map_texture_archive(saddr arg0);
     static void load_supplementary_t_rel(saddr arg0);
-    static void load_scene_rel_file(saddr arg0);
+    static void load_scene_rel_file(saddr ent);
     static void load_scene_data(saddr arg0);
     static void load_current_floor();
     void offset_position(s32 arg1, s32 arg2);
