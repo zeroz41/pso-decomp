@@ -418,7 +418,7 @@ void TObjEneDarkGunner::cleanup_effects() {
         TObjEneDarkGunner__effect_resource = 0U;
     }
     TObjPlayer::reset_effect_count();
-    TEneEffHamon::sub_800A380C();
+    TEneEffHamon::free_fish_effects();
 }
 
 void *TObjEneDarkGunner::create(void *set_data) {

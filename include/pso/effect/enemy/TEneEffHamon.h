@@ -17,9 +17,9 @@ public:
     virtual void run_task();
     virtual void render();
     static void init_fish_effects();
-    // Empty; DarkGunner's cleanup_effects calls it after freeing its
-    // resources (inferred: the release counterpart of init_fish_effects).
-    static void sub_800A380C();
+    // Empty: the fish model and texlist point into DarkGunner's bml, which
+    // cleanup_effects frees itself.
+    static void free_fish_effects();
 
     static const char *class_name;
     static NJS_OBJECT *fish_model;

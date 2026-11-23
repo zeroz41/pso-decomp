@@ -71,7 +71,7 @@ void TEneEffHamon::run_task() {
     }
 }
 
-void TEneEffHamon::sub_800A380C() {  }
+void TEneEffHamon::free_fish_effects() {  }
 
 void TEneEffHamon::init_fish_effects() {
     fish_model = get_bml_model(TObjEneDarkGunner__bml_resource, 3);
