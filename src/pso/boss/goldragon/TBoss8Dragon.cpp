@@ -348,7 +348,7 @@ extern "C" {
 NJS_OBJECT *TBoss8Dragon::clone_node_tree(NJS_OBJECT *src, NJS_OBJECT *dst, NJS_CNK_MODEL *model) {
     NJS_OBJECT *cur = dst;
     dst = dst + 1;
-    copy_model_node((u8 *)cur, (u8 *)src);
+    copy_model_node(cur, src);
     cur->model = model;
     if (src->child != NULL) {
         cur->child = dst;

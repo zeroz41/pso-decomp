@@ -73,7 +73,6 @@ struct NJS_OBJECT;
 #include "pso/boss/derolle/TObjBoss2Tunnel_8007E418.h"
 #include "pso/unk/TLobby_8007C550.h"
 #include "pso/player/PlayerSlots.h"
-struct ByteBlock_C { u8 bytes[0xc]; };
 #include "types.h"
 #include "pso/camera/CameraPlayback.h"
 #include "pso/system/PadRumble.h"
@@ -430,21 +429,14 @@ s32 TBoss1Dragon::countModelNodes(DragonModelNode* source) {
     return count;
 }
 
-void copy_model_node(u8 *dst, u8 *src) {
-    *(s32 *)((s8 *)dst + 0) = (s32) *(s32 *)((s8 *)src + 0);
-    *(s32 *)((s8 *)dst + 4) = (s32) *(s32 *)((s8 *)src + 4);
-    *(ByteBlock_C *)((saddr) dst + 8) = *(const ByteBlock_C *)((saddr) src + 8);
-    *(ByteBlock_C *)((saddr) dst + 0x14) = *(const ByteBlock_C *)((saddr) src + 0x14);
-    *(ByteBlock_C *)((saddr) dst + 0x20) = *(const ByteBlock_C *)((saddr) src + 0x20);
-    *(s32 *)((s8 *)dst + 0x2C) = (s32) *(s32 *)((s8 *)src + 0x2C);
-    *(s32 *)((s8 *)dst + 0x30) = (s32) *(s32 *)((s8 *)src + 0x30);
-    *(f32 *)((s8 *)dst + 0x34) = (f32) *(f32 *)((s8 *)src + 0x34);
+void copy_model_node(NJS_OBJECT *dst, NJS_OBJECT *src) {
+    *dst = *src;
 }
 
 DragonModelNode* TBoss1Dragon::cloneModelHierarchy(DragonModelNode* source, DragonModelNode* output, void* model) {
     DragonModelNode* current = output;
     ++output;
-    copy_model_node((u8*)current, (u8*)source);
+    copy_model_node((NJS_OBJECT *)current, (NJS_OBJECT *)source);
     current->model = model;
     if (source->child != 0) {
         current->child = output;

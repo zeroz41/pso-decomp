@@ -108,12 +108,12 @@ void TODoorAncient06::load_resources() {
     texture_lists[1] = load_gvm_texture_file("fs_obj_door07_m_02_g.gvm");
     model_nodes = (NJS_OBJECT *)mem_alloc(3 * sizeof(NJS_OBJECT));
     if (bml_resource != NULL && model_nodes != NULL) {
-        copy_model_node((u8 *)&model_nodes[0], (u8 *)bml_resource->models[0].model);
+        copy_model_node(&model_nodes[0], bml_resource->models[0].model);
         model_nodes[0].child = NULL;
         model_nodes[0].evalflags |= NJD_EVAL_BREAK;
-        copy_model_node((u8 *)&model_nodes[1], (u8 *)((NJS_OBJECT *)bml_resource->models[0].model)->child);
+        copy_model_node(&model_nodes[1], ((NJS_OBJECT *)bml_resource->models[0].model)->child);
         model_nodes[1].sibling = NULL;
-        copy_model_node((u8 *)&model_nodes[2], (u8 *)((NJS_OBJECT *)bml_resource->models[0].model)->child->sibling);
+        copy_model_node(&model_nodes[2], ((NJS_OBJECT *)bml_resource->models[0].model)->child->sibling);
     }
 }
 

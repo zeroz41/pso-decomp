@@ -410,14 +410,14 @@ void TBoss2Tentacle::load_shared_model() {
     TBoss2Tentacle__motion_data = ((DragonMotionEntry *)boss2_derolle_resource->motions)[17].motion;
     boss2_tentacle_texlist = (saddr)boss2_derolle_resource->models[2].texlist;
     for (i = 0; i < 12; i++) {
-        copy_model_node((u8 *)dst, (u8 *)src);
+        copy_model_node((NJS_OBJECT *)dst, (NJS_OBJECT *)src);
         dst->child = dst + 1;
         dst++;
         src = src->child;
     }
-    copy_model_node((u8 *)dst, (u8 *)src);
+    copy_model_node((NJS_OBJECT *)dst, (NJS_OBJECT *)src);
     dst->sibling = dst + 1;
-    copy_model_node((u8 *)&dst[1], (u8 *)src->sibling);
+    copy_model_node((NJS_OBJECT *)&dst[1], (NJS_OBJECT *)src->sibling);
     for (i = 0; i < 14; i++) {
         tentacle_model_nodes[i].flags &= ~3;
         TBoss2Tentacle__segment_points[i].x = (f64)tentacle_model_nodes[i].position.x;

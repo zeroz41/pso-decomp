@@ -45,7 +45,8 @@ struct DragonModelEntry { u8 unknown00[8]; DragonModelNode *root; NJS_TEXLIST *t
 struct DragonResource { u8 unknown00[0x42C]; DragonModelEntry *models; DragonMotionEntry *motions; };
 LAYOUT_ASSERT(DragonPositionKeySize, sizeof(DragonPositionKey) == 0x10);
 
-extern "C" void copy_model_node(u8 *dst, u8 *src);
+struct NJS_OBJECT;
+extern "C" void copy_model_node(NJS_OBJECT *dst, NJS_OBJECT *src);
 
 struct TBoss1Dragon : public TObjEneDD_ST {
     TBoss1Dragon(TObject *parent, void *set_data);
