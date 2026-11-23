@@ -568,7 +568,7 @@ s32 TObjSeabedDolphin::sub_802C2A10() {
     return r;
 }
 
-void TObjPlayer::load_seabed_dolphin() {
+void TObjSeabedDolphin::load_static_resource() {
     Obj_802C2958 *o = (Obj_802C2958 *)new BmlResource(5, &bm_obj_seabed_dolphin_resource_descriptor, 0, 0, NULL);
     (*(Obj_802C2958 * *)&seabed_dolphin_bml_archive) = o;
     seabed_dolphin_texture_handle = (saddr)load_gvm_texture_file((saddr)("obj_seabed_dolphin.gvm"));
@@ -583,7 +583,7 @@ void TObjPlayer::load_seabed_dolphin() {
 #pragma push
 #pragma fp_contract on
 
-void TObjPlayer__sub_802C2900(void) {
+void TObjSeabedDolphin::destroy_instance() {
     if ((u32) (*(uaddr *)&seabed_dolphin_texture_handle) != 0U) {
         release_texture_list((void*)(*(uaddr *)&seabed_dolphin_texture_handle));
         TAdSinglePlyChrSelectGC::safe_free((*(uaddr *)&seabed_dolphin_texture_handle));
@@ -768,14 +768,14 @@ s32 TUnk_804E094C::update_path_follow_rotation(void *, f32) {
     return r;
 }
 
-void TObjPlayer::load_jungle_ebi_resources() {
+void TUnk_804E094C::load_static_resource() {
     saddr var_r0;
     var_r0 = (saddr)new BmlResource(5, &bm_obj_jungle_ebi_resource_descriptor, 0, 0, NULL);
     (*(saddr *)&jungle_ebi_model_resource) = var_r0;
     (*(u8 * *)&jungle_ebi_texture_gvm_handle) = load_gvm_texture_file((saddr)("obj_jungle_ebi.gvm"));
 }
 
-void TObjPlayer::free_chr_select() {
+void TUnk_804E094C::destroy_instance() {
     if ((u32) jungle_ebi_texture_gvm_handle != 0U) {
         release_texture_list((void*)jungle_ebi_texture_gvm_handle);
         TAdSinglePlyChrSelectGC::safe_free(jungle_ebi_texture_gvm_handle);
@@ -787,7 +787,7 @@ void TObjPlayer::free_chr_select() {
     }
 }
 
-void *TObjPlayer::create_path_obj(void *set_data) {
+void *TUnk_804E094C::create(void *set_data) {
     return new TUnk_804E094C(tl_05, set_data);
 }
 
@@ -936,14 +936,14 @@ s32 TUnk_804E0910::sub_802C1BFC() {
     return r;
 }
 
-void TObjPlayer::load_jungle_bird_resources() {
+void TUnk_804E0910::load_static_resource() {
     saddr var_r0;
     var_r0 = (saddr)new BmlResource(5, &bm_obj_jungle_bird_resource_descriptor, 0, 0, NULL);
     (*(saddr *)&jungle_bird_bml_resource) = var_r0;
     (*(u8 * *)&lobby_pigeon_texture_gvm) = load_gvm_texture_file((saddr)("obj_jungle_bird.gvm"));
 }
 
-void TObjPlayer::free_statics() {
+void TUnk_804E0910::destroy_instance() {
     if ((u32) lobby_pigeon_texture_gvm != 0U) {
         release_texture_list((void*)lobby_pigeon_texture_gvm);
         TAdSinglePlyChrSelectGC::safe_free(lobby_pigeon_texture_gvm);
@@ -959,7 +959,7 @@ void TObjPlayer::free_statics() {
 #pragma push
 #pragma fp_contract on
 
-void *create__10TObjPlayerFPv(void *set_data) {
+void *TUnk_804E0910::create(void *set_data) {
     return new TUnk_804E0910(tl_05, set_data);
 }
 #pragma pop
@@ -1114,7 +1114,7 @@ s32 TUnk_804E08D4::update_path_steering() {
     return r;
 }
 
-void TObjPlayer::load_kamome_resources() {
+void TUnk_804E08D4::load_static_resource() {
     saddr temp_r3;
     s32 var_r0;
     var_r0 = (saddr)new BmlResource(5, &bm_obj_jungle_kamome_resource_descriptor, 0, 0, NULL);
@@ -1122,7 +1122,7 @@ void TObjPlayer::load_kamome_resources() {
     (*(u8 * *)&lobby_kamome_texture_gvm_handle) = load_gvm_texture_file((saddr)("obj_jungle_kamome.gvm"));
 }
 
-void TObjPlayer::destroy_instance() {
+void TUnk_804E08D4::destroy_instance() {
     if ((u32) lobby_kamome_texture_gvm_handle != 0U) {
         release_texture_list((void*)lobby_kamome_texture_gvm_handle);
         TAdSinglePlyChrSelectGC::safe_free(lobby_kamome_texture_gvm_handle);
@@ -1134,7 +1134,7 @@ void TObjPlayer::destroy_instance() {
     }
 }
 
-void *TObjPlayer::create_child_object(void *set_data) {
+void *TUnk_804E08D4::create(void *set_data) {
     return new TUnk_804E08D4(tl_05, set_data);
 }
 
@@ -1366,13 +1366,13 @@ s32 filter_lobby_pigeon_theme(void *) {
     return filtered_event_theme;
 }
 
-void TObjPlayer::load_lobby_pigeon_resource() {
+void TObjLobbyPigeon::load_static_resource() {
     saddr temp_r3;
     lobby_pigeon_bml_archive = new BmlResource(5, &bm_obj_lobby_pigeon_resource_descriptor, 0, 0, NULL);
     lobby_pigeon_lobby_type = TLobby::get_lobby_texlist();
 }
 
-void TObjPlayer::free_static_instance() {
+void TObjLobbyPigeon::destroy_instance() {
     if (lobby_pigeon_bml_archive != NULL) {
         delete (BmlResource *)lobby_pigeon_bml_archive;
         lobby_pigeon_bml_archive = NULL;

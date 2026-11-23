@@ -5,8 +5,6 @@
 
 // --- C functions defined in LobbyPigeonPath.cpp ---
 extern "C" {
-void TObjPlayer__sub_802C2900(void);
-void *create__10TObjPlayerFPv(void *arg0);
 void draw_line_strip__10TObjPlayerFPviif(u8 *path_obj, s32 arg1, s32 arg2, f32 farg0);
 }
 s32 filter_lobby_pigeon_theme(void *);

@@ -9,6 +9,8 @@ class TObjSeabedDolphin : public TObjPathObj {
 public:
     TObjSeabedDolphin(TObject *parent, void *set_data);
     static void *create(void *set_data);
+    static void load_static_resource();
+    static void destroy_instance();
     virtual ~TObjSeabedDolphin();
     s32 sub_802C2C48();
     s32 sub_802C2A10();

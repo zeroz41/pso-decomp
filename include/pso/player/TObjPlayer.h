@@ -992,7 +992,6 @@ struct TObjPlayer : public TObjChara {
     void initialize_player_data();
     void init_item_counts_max();
     static void play_particle_at_active_slot(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5);
-    static void free_static_instance();
     void clear_30_slots();
     static void setup_effect_slots(s32 arg0, saddr arg1);
     static void begin_action_from_char_select();
@@ -1158,7 +1157,6 @@ struct TObjPlayer : public TObjChara {
     void copy_all_technique_entries(void *arg1);
     void reset_all_tech_slots();
     void reset_tech_state();
-    static void load_lobby_pigeon_resource();
     static TItem *create_object_by_type(u8 *item);
     void *find_by_section_id(u16 section);
     void create_party_effects(u16 id);
@@ -1185,15 +1183,6 @@ struct TObjPlayer : public TObjChara {
     u8 *construct_freeze_shell(u8 *arg1, u8 *arg2);
     static void create_tec_zonde(void *source, void *origin, void *targets, s32 level);
     TechniqueContactList *collect_technique_contacts(void *src);
-    static void *create_child_object(void *arg0);
-    static void destroy_instance();
-    static void load_kamome_resources();
-    static void free_statics();
-    static void load_jungle_bird_resources();
-    static void *create_path_obj(void *arg0);
-    static void free_chr_select();
-    static void load_jungle_ebi_resources();
-    static void load_seabed_dolphin();
     static void new_child_object(u16 arg0);
     void create_item_eff_cane(TItem* item, s32 attachment, s32 effect_id);
     void spawn_cane_effect(TItem* item, s32 attachment);

@@ -8,6 +8,9 @@ struct NJS_OBJECT;
 class TUnk_804E094C : public TObjPathObj {
 public:
     TUnk_804E094C(TObject *parent, void *set_data);
+    static void *create(void *set_data);
+    static void load_static_resource();
+    static void destroy_instance();
     virtual ~TUnk_804E094C();
     s32 sub_802C2548();
     s32 update_path_follow_rotation(void *, f32);

@@ -7,6 +7,8 @@ class TObjLobbyPigeon : public TObjPathObj {
 public:
     TObjLobbyPigeon(TObject *parent, void *set_data);
     static void *create(void *set_data);
+    static void load_static_resource();
+    static void destroy_instance();
     virtual ~TObjLobbyPigeon();
     s32 initialize_lobby_pigeon_path();
     s32 advance_lobby_pigeon_path();
