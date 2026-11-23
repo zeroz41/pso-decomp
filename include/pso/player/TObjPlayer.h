@@ -337,11 +337,8 @@ struct TObjPlayer : public TObjChara {
     void bswap_status_effect_data();
     void *copy_6x0d_status_effect_packet(void *command);
     void copy_player_record_header(u8 *arg1);
-    void prepare_heavy_attack_particles_default();
     int emit_zalure_support_effect_at();
     int emit_deband_support_effect_at();
-    void emit_jellen_support_effect_default();
-    void emit_shifta_support();
     int emit_movement_effect_at();
     int check_hit_by_id_276(u16 target_id);
     void check_hit_by_id_431_from_packet();

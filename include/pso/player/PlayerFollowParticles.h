@@ -17,6 +17,9 @@ struct PlayerHandParticlesBase {
 struct PlayerHandParticles : PlayerHandParticlesBase {
     PlayerHandParticles();
     ~PlayerHandParticles();
+    void prepare_heavy_attack_particles();
+    void emit_jellen_support_effect();
+    void emit_shifta_support_effect();
 
     TPlyPtclObjectLeftHand *left_hand;
     TPlyPtclObjectRightHand *right_hand;
@@ -32,6 +35,9 @@ struct PlayerFollowParticles {
     PlayerFollowParticles();
     ~PlayerFollowParticles();
     void set_owner_id(u16 id);
+    void prepare_heavy_attack_particles_default();
+    void emit_jellen_support_effect_default();
+    void emit_shifta_support();
 };
 
 LAYOUT_ASSERT(PlayerFollowParticles_size, sizeof(PlayerFollowParticles) == 0x30);

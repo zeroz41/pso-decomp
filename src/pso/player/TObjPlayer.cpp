@@ -23,6 +23,8 @@
 #include "pso/boss/barbaray/TBoss7Crawfish.h"
 #include "pso/unk/TLobby.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/player/TPlyPtclObjectLeftHand.h"
+#include "pso/player/TPlyPtclObjectRightHand.h"
 
 
 #define TOBJECT_OUT_OF_LINE_HELPERS
@@ -74,9 +76,6 @@ void emit_sand_step_particles(saddr owner, saddr position);
 void emit_sand_footstep_effect(saddr arg0);
 void emit_idle_water_splash(s32 owner, saddr position);
 void emit_photon_blast_feedback_effects(saddr owner, u16 target_id);
-void prepare_heavy_attack_particles(u8 *owner);
-void emit_jellen_support_effect(u8 *owner);
-void emit_shifta_support_effect(u8 *owner);
 extern "C" {
 int copy_subcommand_header(void*);
 void TObjPlayer__sub_801BF47C(void* p);
@@ -339,31 +338,31 @@ void emit_idle_water_effect(saddr arg0) {
 
 #pragma push
 #pragma fp_contract on
-void emit_shifta_support_effect(u8 *owner) {
-    if ((u32) *(u32 *)((s8 *)owner + 0) != 0U) {
-        TObjPlayer::check_hit_by_id((saddr)owner, ((TObjBase *)((saddr)*(u32 *)((s8 *)owner + 0)))->get_entity_id(), 0x1C);
+void PlayerHandParticles::emit_shifta_support_effect() {
+    if (left_hand != NULL) {
+        TObjPlayer::check_hit_by_id((saddr)this, left_hand->get_entity_id(), 0x1C);
     }
-    if ((u32) *(u32 *)((s8 *)owner + 4) != 0U) {
-        TObjPlayer::check_hit_by_id((saddr)owner, ((TObjBase *)((saddr)*(u32 *)((s8 *)owner + 4)))->get_entity_id(), 0x1C);
+    if (right_hand != NULL) {
+        TObjPlayer::check_hit_by_id((saddr)this, right_hand->get_entity_id(), 0x1C);
     }
 }
 #pragma pop
 
-void TObjPlayer::emit_shifta_support() { emit_shifta_support_effect((u8 *)((char*)this + 0x4)); }
+void PlayerFollowParticles::emit_shifta_support() { hands.emit_shifta_support_effect(); }
 
 #pragma push
 #pragma fp_contract on
-void emit_jellen_support_effect(u8 *owner) {
-    if ((u32) *(u32 *)((s8 *)owner + 0) != 0U) {
-        create_attached_oneshot_emitter(owner, ((TObjBase *)((saddr)*(u32 *)((s8 *)owner + 0)))->get_entity_id(), 0x1C);
+void PlayerHandParticles::emit_jellen_support_effect() {
+    if (left_hand != NULL) {
+        create_attached_oneshot_emitter(this, left_hand->get_entity_id(), 0x1C);
     }
-    if ((u32) *(u32 *)((s8 *)owner + 4) != 0U) {
-        create_attached_oneshot_emitter(owner, ((TObjBase *)((saddr)*(u32 *)((s8 *)owner + 4)))->get_entity_id(), 0x1C);
+    if (right_hand != NULL) {
+        create_attached_oneshot_emitter(this, right_hand->get_entity_id(), 0x1C);
     }
 }
 #pragma pop
 
-void TObjPlayer::emit_jellen_support_effect_default() { emit_jellen_support_effect((u8 *)((char*)this + 0x4)); }
+void PlayerFollowParticles::emit_jellen_support_effect_default() { hands.emit_jellen_support_effect(); }
 
 int emit_deband_support_effect(void* p, u16 target_id) { return TObjPlayer::check_hit_by_id((saddr)p, target_id, 508); }
 
@@ -377,15 +376,15 @@ int TObjPlayer::emit_zalure_support_effect_at() {
 
 #pragma push
 #pragma fp_contract on
-void prepare_heavy_attack_particles(u8 *owner) {
-    if (*(u32 *)((s8 *)owner + 4) != 0U) {
-        TObjPlayer::check_hit_by_id((saddr)owner, ((TObjBase *)((saddr)*(u32 *)((s8 *)owner + 4)))->get_entity_id(), 0x11);
-        TObjPlayer::check_hit_by_id((saddr)owner, ((TObjBase *)((saddr)*(u32 *)((s8 *)owner + 4)))->get_entity_id(), 0x12);
+void PlayerHandParticles::prepare_heavy_attack_particles() {
+    if (right_hand != NULL) {
+        TObjPlayer::check_hit_by_id((saddr)this, right_hand->get_entity_id(), 0x11);
+        TObjPlayer::check_hit_by_id((saddr)this, right_hand->get_entity_id(), 0x12);
     }
 }
 #pragma pop
 
-void TObjPlayer::prepare_heavy_attack_particles_default() { prepare_heavy_attack_particles((u8 *)((char*)this + 0x4)); }
+void PlayerFollowParticles::prepare_heavy_attack_particles_default() { hands.prepare_heavy_attack_particles(); }
 
 void TObjPlayer__sub_801BEF60(void* p, s32 v) { *(s32*)((char*)p + 0xc) = v; }
 

@@ -23,7 +23,7 @@ void TObjPlayer::init_local_pad_binding() {
 }
 
 void TObjPlayer::stop_force_if_alive() { if (TObjPlayer::is_locally_controlled(this) != 0) { TObjPlayer__sub_801BEF60((char*)this + 0x550, (saddr)(0)); } }
-void TObjPlayer::update_battle_control_if_unlocked() { if (this->is_body_collision_inactive() == 0) { ((TObjPlayer *)((char*)this + 0x384))->prepare_heavy_attack_particles_default(); } }
+void TObjPlayer::update_battle_control_if_unlocked() { if (this->is_body_collision_inactive() == 0) { follow_particles.prepare_heavy_attack_particles_default(); } }
 
 void TObjPlayer::enemy_spawn_zalure_effect() {
     if (this->is_body_collision_inactive() != 0 || check_flag_800000__10TObjPlayerFPv((saddr)this) != 0) {
@@ -43,13 +43,13 @@ void TObjPlayer::enemy_spawn_jellen_effect() {
     if (this->is_body_collision_inactive() != 0 || check_flag_800000__10TObjPlayerFPv((saddr)this) != 0) {
         return;
     }
-    ((TObjPlayer *)(((u8 *)this) + 0x384))->emit_jellen_support_effect_default();
+    follow_particles.emit_jellen_support_effect_default();
 }
 void TObjPlayer::apply_switch_attack() {
     if (this->is_body_collision_inactive() != 0 || check_flag_800000__10TObjPlayerFPv((saddr)this) != 0) {
         return;
     }
-    ((TObjPlayer *)(((u8 *)this) + 0x384))->emit_shifta_support();
+    follow_particles.emit_shifta_support();
 }
 
 }

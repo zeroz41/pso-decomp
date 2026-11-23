@@ -5956,7 +5956,7 @@ force_active:
   - eff_indirect_update_and_flush__16TEffIndirectCtrlFv
   - emit_deband_support_effect__FPvUs
   - emit_grass_footstep_particle__10TObjPlayerFi
-  - emit_jellen_support_effect__FPUc
+  - emit_jellen_support_effect__19PlayerHandParticlesFv
   - emit_marker_effects__13TUnk_804A0DB0Fv
   - emit_marker_effects__13TUnk_804A204CFv
   - emit_marker_effects__13TUnk_804A2164Fv
@@ -5979,7 +5979,7 @@ force_active:
   - emit_photon_blast_feedback_effects__FlUs
   - emit_player_model_particle__Fllll
   - emit_player_sprite_particle__Flll
-  - emit_shifta_support_effect__FPUc
+  - emit_shifta_support_effect__19PlayerHandParticlesFv
   - emit_zalure_support_effect__FPvUs
   - empty_post_damage_hook__FPvPv
   - empty_state__14TObjEneBm5WolfFl
@@ -13839,7 +13839,7 @@ force_active:
   - post_message__6TLobbyFlll
   - pppoe_discovery_name_storage
   - prepare_flight_destination__12TBoss1DragonFP3Vec
-  - prepare_heavy_attack_particles__FPUc
+  - prepare_heavy_attack_particles__19PlayerHandParticlesFv
   - prepare_save_data__23TAdSinglePlyChrSelectGCFv
   - present_frame_and_wait_vsync__Fv
   - process_download_entry__12TQuestListVMFv
