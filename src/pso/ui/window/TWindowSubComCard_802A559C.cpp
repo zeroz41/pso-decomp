@@ -8,7 +8,6 @@
 #include "pso/ui/frontend/TAdChrSelASlotGC.h"
 
 extern "C" {
-void TWindowSubTradeMain__sub_802448E4(void *, void *);
 
 // The yes/no choice menu sits 111 left of and 10 above the message window's bottom-right corner.
 void TWindowMessageYesNo::get_choice_menu_position(NJS_POINT2 *position) {
@@ -31,13 +30,13 @@ void TWindowMessageYesNo::move_to(const NJS_POINT2 *position) {
     NJS_POINT2 choice_position;
     TWindowBase *window = message_menu;
     if (window != NULL && (window->target_position[0] != position->x || window->target_position[1] != position->y)) {
-        TWindowSubTradeMain__sub_802448E4(window, (void *)position);
+        window->sub_802448E4((f32 *)position);
     }
     if (choice_menu != NULL) {
         get_choice_menu_position(&choice_position);
         window = choice_menu;
         if (window->target_position[0] != choice_position.x || window->target_position[1] != choice_position.y) {
-            TWindowSubTradeMain__sub_802448E4(window, &choice_position);
+            window->sub_802448E4((f32 *)&choice_position);
         }
     }
 }

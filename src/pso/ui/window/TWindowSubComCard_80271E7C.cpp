@@ -168,7 +168,6 @@ s32 TWindowSubComCard__sub_800778B4(void *, int);
 void TWindowSubComCard__sub_8007AF10(s32 client_id);
 s32 play_sound_effect(int, int, int, int);
 s32 TLobby__sub_8024259C();
-s32 fn_80244958(int, int);
 void fn_802449E0(u8 *arg0);
 }
 void window_request_show(void *arg0);
@@ -461,7 +460,7 @@ void TWindowSubComCard::run_task() {
             this->m_24 = ((TWindowMenu *)this->m_84)->get_selected_value();
             this->m_74 = (uaddr)send_command(this->m_24);
         }
-        fn_80244958(this->message_window, (int) (get_window_layout_position(0x99)));
+        ((TWindowBase *)this->message_window)->sub_80244958((f32 *)get_window_layout_position(0x99));
         ((TWindowLockOn *)(this->message_window))->request_close();
         ((TWindowMenu *)(this->m_84))->clear_flag_and_release();
         this->state = 0xCU;

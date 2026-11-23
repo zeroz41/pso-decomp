@@ -84,7 +84,6 @@ struct Self_80331178 { u8 pad[0x28]; s32 f28; saddr f2c; };
 
 extern "C" {
 saddr get_window_layout_position(s32);
-s32 TWindowSubTradeMain__sub_802448E4(void *, void *);
 void TWindowSubTradeMain__sub_803323A8(void *);
 void TWindowSubTradeMain__sub_803323B8(void *);
 Plr_803310BC *get_player_by_client_id(s32);
@@ -288,10 +287,10 @@ void TWindowSubTradeMain::run_task() {
             ((TWindowBase *)o->menu)->request_close();
         }
         if (o->offer != 0) {
-            ((void (*)(void *, s32))TWindowSubTradeMain__sub_802448E4)(o->offer, ((s32 (*)(int))get_window_layout_position)(0x62));
+            ((TWindowBase *)o->offer)->sub_802448E4((f32 *)get_window_layout_position(0x62));
         }
         if (o->request != 0) {
-            ((void (*)(void *, s32))TWindowSubTradeMain__sub_802448E4)(o->request, ((s32 (*)(int))get_window_layout_position)(0x63));
+            ((TWindowBase *)o->request)->sub_802448E4((f32 *)get_window_layout_position(0x63));
         }
         if (o->list == 0) {
             o->list = (void *)((TWindowSubTradeMain *)o)->create_list();
@@ -319,10 +318,10 @@ void TWindowSubTradeMain::run_task() {
             o->list = 0;
         }
         if (o->offer != 0) {
-            ((void (*)(void *, s32))TWindowSubTradeMain__sub_802448E4)(o->offer, ((s32 (*)(int))get_window_layout_position)(0x60));
+            ((TWindowBase *)o->offer)->sub_802448E4((f32 *)get_window_layout_position(0x60));
         }
         if (o->request != 0) {
-            ((void (*)(void *, s32))TWindowSubTradeMain__sub_802448E4)(o->request, ((s32 (*)(int))get_window_layout_position)(0x61));
+            ((TWindowBase *)o->request)->sub_802448E4((f32 *)get_window_layout_position(0x61));
         }
         o->state = 1;
         break;
@@ -896,7 +895,7 @@ void TWindowSubTradeMain::set_child_windows_enabled(s32 on) {
 
 void TWindowSubTradeMain::update_position_if_changed(saddr owner, u8 *window, u8 *position) {
     if ((*(f32 *)((s8 *)window + 0x30) != *(f32 *)((s8 *)position + 0)) || (*(f32 *)((s8 *)window + 0x34) != *(f32 *)((s8 *)position + 4))) {
-        TWindowSubTradeMain__sub_802448E4(window, position);
+        ((TWindowBase *)window)->sub_802448E4((f32 *)position);
     }
 }
 

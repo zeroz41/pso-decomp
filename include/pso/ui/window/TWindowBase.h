@@ -36,6 +36,11 @@ public:
     void *get_array_entry(int index);
     virtual void render();
     virtual void run_task();
+    void sub_802448E4(f32 *pos);
+    void sub_8024491C(f32 *size);
+    void sub_80244958(f32 *pos);
+
+    static const char *class_name;
 
     f32 sort_depth;
     s16 client_index;

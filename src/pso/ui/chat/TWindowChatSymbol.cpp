@@ -351,7 +351,6 @@ void TWindowChatSymbol::run_task() {
 }
 
 extern "C" {
-s32 fn_8024491C(void *, void *);
 
 TWindowChatSymbol::~TWindowChatSymbol() {}
 
@@ -361,7 +360,7 @@ WindowDescriptor window_chat_symbol_settings = {
 
 TWindowChatSymbol::TWindowChatSymbol(saddr arg1, saddr arg2) : TWindowBase((u8 *)&window_chat_symbol_settings, (s16)4, (u8 *)arg1) {
     this->m_name = TWindowChatSymbol__name;
-    fn_8024491C((void *)this, (void *)arg2);
+    sub_8024491C((f32 *)arg2);
     this->selected_preset = 0;
     this->m_64 = 0;
 }

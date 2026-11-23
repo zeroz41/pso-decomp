@@ -28,6 +28,7 @@
 #include "pso/ui/window/TWindowHelpItem.h"
 #include "pso/ui/chat/TWindowSubShortMail.h"
 #include "pso/ui/window/TWindowSubComCard_80244774.h"
+#include "pso/system/vector.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/ui/window/TWindowCtrlMain_8024CB7C.h"
 
@@ -36,7 +37,7 @@ struct UV_8024503C { f32 u, v; };
 
 struct UVPair_8024503C { UV_8024503C e[2]; };
 
-const char *TWindowBase__name = "TWindowBase";
+const char *TWindowBase::class_name = "TWindowBase";
 static const UVPair_8024503C selection_bar_texture_coordinates = {{{151.0f, 57.0f}, {151.0f, 76.0f}}};
 
 struct Quad_80245D64
@@ -132,21 +133,15 @@ void reset_line_width(void);
 void set_line_width(int a0);
 extern "C" {
 void TWindowSubComCard__sub_80245A10(u8 *arg0, s32 row, WindowDrawContext *r, f32 len);
-struct VOff_8024491C_arg0_card_1 { char pad_0[0x38]; char f_38[1]; };
 
-struct VOff_80244958_arg0_card_1 { char pad_0[0x30]; char f_30[1]; };
 
 
 
 struct Rect_802455CC { f32 x, y, w, h; u8 pad10[0x20 - 0x10]; f32 px, py, sx, sy; u8 pad30[0x38 - 0x30]; f32 depth; };
 
-int copy_vec2__FPvPv(void*);
 s32 play_sound_effect(s32, s32, s32, s32);
 int TWindowSubComCard__sub_80244774(void);
 f32 TWindowSubComCard__sub_80244784(TWindowSubComCard *arg0);
-void TWindowSubTradeMain__sub_802448E4(void *arg0);
-void fn_8024491C(void *arg0);
-void fn_80244958(void *arg0);
 void fn_802449E0(u8 *arg0);
 int TWindowFukidasi__sub_8024695C(void *p);
 
@@ -201,21 +196,19 @@ void TWindowBase::save_position() {
     frame_size[1] = target_size[1];
 }
 
-void TWindowSubTradeMain__sub_802448E4(void *arg0) {
-    copy_vec2__FPvPv((void*)((void *)((char *)arg0 + 48)));
-    *(u32 *)((s8 *)arg0 + 0x50) = 3;
+void TWindowBase::sub_802448E4(f32 *pos) {
+    copy_vec2(target_position, pos);
+    tween_ticks = 3;
 }
 
-void fn_8024491C(void *arg0) {
-    struct VOff_8024491C_arg0_card_1 *self = (struct VOff_8024491C_arg0_card_1 *)arg0;
-    copy_vec2__FPvPv(self->f_38);
-    ((void (*)(void *, void *))copy_vec2__FPvPv)((void *)((char *)arg0 + 72), self->f_38);
+void TWindowBase::sub_8024491C(f32 *size) {
+    copy_vec2(target_size, size);
+    copy_vec2(frame_size, target_size);
 }
 
-void fn_80244958(void *arg0) {
-    struct VOff_80244958_arg0_card_1 *self = (struct VOff_80244958_arg0_card_1 *)arg0;
-    copy_vec2__FPvPv(self->f_30);
-    ((void (*)(void *, void *))copy_vec2__FPvPv)((void *)((char *)arg0 + 64), self->f_30);
+void TWindowBase::sub_80244958(f32 *pos) {
+    copy_vec2(target_position, pos);
+    copy_vec2(frame_position, target_position);
 }
 
 #pragma push
@@ -374,9 +367,9 @@ TWindowFukidasi *TWindowFukidasi::find_balloon_overlap_for(TWindowFukidasi *firs
 }
 
 void TWindowBase::sub_80244F2C(u8 *descriptor, u8 *parent, s16 client) {
-    m_name = TWindowBase__name;
-    ((s32 (*)(void *, void *))copy_vec2__FPvPv)(target_position, parent);
-    ((s32 (*)(void *, void *))copy_vec2__FPvPv)(target_size, descriptor);
+    m_name = class_name;
+    copy_vec2(target_position, parent);
+    copy_vec2(target_size, descriptor);
     save_position();
     sort_depth = *(f32 *)((s8 *)descriptor + 8);
     draw_depth = -10000.0f;
@@ -959,8 +952,6 @@ void TWindowSubComCard::update_open_close() {
 
 extern "C" {
 TObject *TWindowCtrlMain__sub_8024CDB0(void *p);
-s32 __ct__7TObjectFP7TObject(void *, void *);
-extern s32 __vt__11TWindowBase[];
 int update_open_close__17TWindowSubComCardFv(void*);
 
 void TWindowDD::update_com_card() { TWindowSubComCard__sub_8024634C(); }
@@ -969,7 +960,7 @@ void TWindowBase::render() {  }
 void TWindowBase::run_task() {  }
 
 TWindowBase::~TWindowBase() {
-    reinterpret_cast<WindowLayoutEntries *>(((s8 *)this + 0x24))->destroy_all_items();
+    entry_list.destroy_all_items();
     sub_8026CC28();
 }
 TWindowBase::TWindowBase(u8 *descriptor, s16 client, u8 *parent)
