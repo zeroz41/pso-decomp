@@ -88,7 +88,7 @@ void remove_poison_immunity(int arg0) {
 void remove_status_cleanse(int arg0) {
     uaddr temp = get_player_by_client_id(arg0);
     if (temp != 0U) {
-        ((TObjBase *)temp)->obj_clearFlags30(0x40);
+        ((TObjBase *)temp)->clear_actor_flags(0x40);
     }
 }
 

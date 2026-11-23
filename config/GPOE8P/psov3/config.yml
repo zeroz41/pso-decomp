@@ -1410,7 +1410,7 @@ force_active:
   - TObjMapCsn__ct
   - __ct__18TObjMapWarpAncientFP7TObjectPv
   - TObjMapWarp__name
-  - TObjMotion__class_name
+  - class_name__10TObjMotion
   - TObjNpcAHM01__name
   - TObjNpcAHM01__shared_object
   - TObjNpcAHM01__texture_handle

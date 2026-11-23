@@ -306,7 +306,7 @@ void TItemWeapon::create_weapon_trail_effects() {
                 }
                 ((Pl_8011E950 *)this)->eff[i] = p;
             }
-            if (((Pl_8011E950 *)this)->eff[i] != NULL && ((TObjCollidable *)((Pl_8011E950 *)this))->obj_testFlags30(0x2000) != 0) {
+            if (((Pl_8011E950 *)this)->eff[i] != NULL && ((TObjCollidable *)((Pl_8011E950 *)this))->test_actor_flags(0x2000) != 0) {
                 TObjPlayer__sub_80121228(((Pl_8011E950 *)this)->eff[i], 1);
             }
         }

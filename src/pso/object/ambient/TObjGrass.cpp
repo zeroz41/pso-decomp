@@ -679,7 +679,7 @@ void TObjGrass::refresh_target() {
             this->target = NULL;
             return;
         }
-        if (((TObjCollidable *)arg0)->obj_testFlags30(0x10) != 0) {
+        if (((TObjCollidable *)arg0)->test_actor_flags(0x10) != 0) {
             i = 0;
             best_id = 0xFFFF;
             Vec v = lbl_8043B790;
@@ -714,7 +714,7 @@ void TObjGrass::refresh_target() {
             if (q != NULL) {
                 if (q->get_floor() == get_current_floor()) {
                     this->target = (u8 *)q;
-                    ((TObjBase *)arg0)->obj_clearFlags30(0x04040000);
+                    ((TObjBase *)arg0)->clear_actor_flags(0x04040000);
                     return;
                 }
             }
@@ -723,7 +723,7 @@ void TObjGrass::refresh_target() {
         }
         if (tid < 0x4000U) {
             this->target = get_enemy_entity(tid);
-            ((TObjBase *)arg0)->obj_clearFlags30(0x04040000);
+            ((TObjBase *)arg0)->clear_actor_flags(0x04040000);
         }
     }
 }
@@ -736,7 +736,7 @@ s32 TObjGrass::update_action_hold_status() {
             this->m_3ac = 0;
             this->phase = 2;
             this->requested_action = 1;
-            obj_clearFlags30((u32)(0x04040000));
+            clear_actor_flags((u32)(0x04040000));
         }
         return 1;
     }
@@ -751,7 +751,7 @@ s32 TObjGrass::update_movement_status() {
             this->m_3ac = 0;
             this->phase = 2;
             this->requested_action = 1;
-            obj_clearFlags30((u32)(0x04040000));
+            clear_actor_flags((u32)(0x04040000));
         }
         return 1;
     }
@@ -810,7 +810,7 @@ void TObjGrass::update_ai(void *arg0) {
     default:
         o->state = 2;
     case 2:
-        ((TObjBase *)o)->obj_clearFlags30(0x04040000);
+        ((TObjBase *)o)->clear_actor_flags(0x04040000);
         switch (o->f39C) {
         case 1:
             o->fB8 = 1;
@@ -899,7 +899,7 @@ void TObjGrass::update_ai(void *arg0) {
         break;
     }
     minimap_render_dot(&o->pos, -0x5DB4, 1, 0);
-    ((TObjBase *)o)->obj_clearFlags30(0x200000);
+    ((TObjBase *)o)->clear_actor_flags(0x200000);
 }
 #undef o
 #pragma pop
@@ -916,7 +916,7 @@ void TObjGrass::run_move_action() {
             this->mode = 2;
         }
         this->phase = 0;
-        obj_clearFlags30((u32)(0x04040000));
+        clear_actor_flags((u32)(0x04040000));
     }
 }
 
@@ -955,7 +955,7 @@ void TObjGrass::update_chase_target(void *arg0_) {
     f32 dist;
     s32 turn;
     Param_800BE4C0 *prm;
-    ((TObjBase *)arg0)->obj_clearFlags30(0x04040000);
+    ((TObjBase *)arg0)->clear_actor_flags(0x04040000);
     prm = *(Param_800BE4C0 **)((s8 *)arg0 + 0x350);
     speed = prm->f4;
     turn = prm->f8;
@@ -1027,7 +1027,7 @@ s32 TObjGrass::is_target_in_attack_range() {
 
     tgt = this->target;
     if (tgt != NULL && T318 != NULL && !(*(s32 *)((s8 *)tgt + 0x30) & 0x02000800)) {
-    if (obj_testFlags30(0x2000) != 0) {
+    if (test_actor_flags(0x2000) != 0) {
         BIND(2)
     }
     dist = calc_xz_distance_sq((saddr)this, (uaddr)this->target, (void *)&v);
@@ -1041,7 +1041,7 @@ s32 TObjGrass::is_target_in_attack_range() {
     kind = get_entity_id(t);
     if (kind < 0x1000) {
         t = this->target;
-        if (((TObjPlayer *)t)->check_player_flag1() == 1 || (enable_v2_features == 1 && ((TObjCollidable *)t)->obj_testFlags30(0x20) != 0)) {
+        if (((TObjPlayer *)t)->check_player_flag1() == 1 || (enable_v2_features == 1 && ((TObjCollidable *)t)->test_actor_flags(0x20) != 0)) {
             T318 = (AttackParams *)TBL[0];
             if (IN_RANGE()) {
                 BIND(0)
@@ -1100,7 +1100,7 @@ void TObjGrass::sub_800BDD70() {
     s32 ang;
     Vec *ent;
     s32 idx;
-    ((TObjBase *)arg0)->obj_clearFlags30(0x04040000);
+    ((TObjBase *)arg0)->clear_actor_flags(0x04040000);
     ((TObjMotion *)arg0)->advance_animation();
     switch (this->phase) {
     default:
@@ -1214,10 +1214,10 @@ void TObjGrass::sub_800BD4D8() {
         o->f338 = 0xFFFF;
         o->target = NULL;
     }
-    ((TObjBase *)o)->obj_clearFlags30(0x40000);
+    ((TObjBase *)o)->clear_actor_flags(0x40000);
     if (o->target == NULL) {
         o->f338 = 0xFFFF;
-        ((TObjBase *)o)->obj_clearFlags30(0x4202000);
+        ((TObjBase *)o)->clear_actor_flags(0x4202000);
         o->timer = 0;
         return;
     }
@@ -1225,7 +1225,7 @@ void TObjGrass::sub_800BD4D8() {
     default:
         o->state = 0;
     case 0:
-        ((TObjBase *)o)->obj_clearFlags30(0x4000000);
+        ((TObjBase *)o)->clear_actor_flags(0x4000000);
         ((TObjCollidable *)o)->clear_player_status_flag(0, 0x80);
         play_persistent_sound(((TObjEnemy *)(o))->remap_sound_for_area(0x4003A801), (saddr)o, (uaddr)&o->pos, 0, 0);
         TObjPlayer::play_effect_if_v2(-0x200);
@@ -1281,14 +1281,14 @@ void TObjGrass::sub_800BD4D8() {
         if (o->fb4 != 0x20) {
             o->state = 1;
             o->fb8 = 1;
-            ((TObjBase *)o)->obj_clearFlags30(0x4000000);
+            ((TObjBase *)o)->clear_actor_flags(0x4000000);
             ((TObjCollidable *)o)->clear_player_status_flag(0, 0x80);
         }
         break;
     case 1: {
         s32 k;
         s32 i;
-        ((TObjBase *)o)->obj_clearFlags30(0x4000000);
+        ((TObjBase *)o)->clear_actor_flags(0x4000000);
         ((TObjCollidable *)o)->clear_player_status_flag(0, 0x80);
         o->fc8 = (2.0f) * o->anims[o->fb8].f8;
         ((TObjMotion *)o)->advance_animation();
@@ -1362,14 +1362,14 @@ void TObjGrass::sub_800BD4D8() {
         break;
     }
     case 2:
-        ((TObjBase *)o)->obj_clearFlags30(0x4000000);
+        ((TObjBase *)o)->clear_actor_flags(0x4000000);
         ((TObjCollidable *)o)->clear_player_status_flag(0, 0x80);
         o->fc8 = (2.0f) * o->anims[o->fb8].f8;
         ((TObjMotion *)o)->advance_animation();
         apply_actor_gravity((TObjEnemy *)o, (s32 *)(0), (0.0f));
         o->timer--;
         if (o->timer < 0) {
-            ((TObjBase *)o)->obj_clearFlags30(0x200000);
+            ((TObjBase *)o)->clear_actor_flags(0x200000);
             o->timer = 0;
             o->f338 = 0xFFFF;
             o->target = NULL;
@@ -1397,7 +1397,7 @@ void TObjGrass::update_web_attack() {
         arg0->f338 = 0xFFFF;
         arg0->target = NULL;
     }
-    ((TObjBase *)arg0)->obj_clearFlags30(0x4040000);
+    ((TObjBase *)arg0)->clear_actor_flags(0x4040000);
     ((TObjMotion *)arg0)->advance_animation();
     switch (arg0->state) {
     case 0:
@@ -1432,7 +1432,7 @@ void TObjGrass::update_web_attack() {
                 ang[1] = 0;
                 ang[2] = -(s32)((10430.38043493439) * atan2_float(v2.x, v2.y));
                 spawn_directional_particle(&arg0->p380, ang, 0xCA);
-                if (arg0->fb4 != 4 && ((TObjCollidable *)arg0->target)->obj_testFlags30(0x4000000) == 0) {
+                if (arg0->fb4 != 4 && ((TObjCollidable *)arg0->target)->test_actor_flags(0x4000000) == 0) {
                     if (enable_v2_features == 1 && game_difficulty_selection == 3) {
                         arg0->target->m46(0);
                     } else {
@@ -1478,7 +1478,7 @@ void TObjGrass::update() {
     u8 *arg0 = (u8 *)this;
     s16 temp_r4;
 
-    ((TObjBase *)arg0)->obj_clearFlags30((u32)(0x04040000));
+    ((TObjBase *)arg0)->clear_actor_flags((u32)(0x04040000));
     ((TObjMotion *)arg0)->advance_animation();
     if (!(this->actorFlags & 0x800000)) {
         apply_actor_gravity((TObjEnemy *)arg0, (s32 *)(0), (0.0f));
@@ -1508,7 +1508,7 @@ void TObjGrass::run_hit_reaction() {
 void TObjGrass::sub_800BCE44() {
     u8 *arg0 = (u8 *)this;
   u8 *temp_r3;
-  ((TObjBase *)arg0)->obj_clearFlags30((u32)(0x04040000));
+  ((TObjBase *)arg0)->clear_actor_flags((u32)(0x04040000));
   ((TObjMotion *)arg0)->advance_animation();
   this->velocity.z = (f32) (0.0f);
   *((f32 *) (((s8 *) arg0) + 0x308)) = (f32) (0.0f);
@@ -1706,7 +1706,7 @@ void TObjGrassWeb::apply_to_player() {
 
     this->m_90 = 1;
     player = get_player_by_client_id(this->m_a4);
-    if ((player != NULL) && (TObjPlayer::is_locally_controlled(player) != 0) && (player->all_parents_unqueued_for_destruction() != 0) && (player->obj_testFlags30(0x800) == 0)) {
+    if ((player != NULL) && (TObjPlayer::is_locally_controlled(player) != 0) && (player->all_parents_unqueued_for_destruction() != 0) && (player->test_actor_flags(0x800) == 0)) {
         TObjPlayer::play_effect((saddr)player, this->set_params[0], 1);
     }
 }

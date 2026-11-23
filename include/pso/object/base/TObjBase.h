@@ -18,7 +18,8 @@ public:
     virtual s32 update_object_view_visibility(f32, f32);
     virtual s32 classify_actor_view_detail(f32, f32, f32);
     virtual const char *get_name();
-    void obj_clearFlags30(u32);
+    // actorFlags &= ~flags.
+    void clear_actor_flags(u32 flags);
     s16 get_room();
     void set_room(s16 room);
     // Gives it count + 1 consecutive ids from the pool its actorFlags type

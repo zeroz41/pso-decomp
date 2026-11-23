@@ -584,7 +584,7 @@ void TBoss7TentacleNeedle::damage_nearby_players() {
             if (timer == 0 && player->roll_physical_accuracy(m_up, 0, 10.0f) != 0) {
                 player->receive_physical_attack(m_up, 1.0f);
             }
-            if (player->obj_testFlags30(0x801) == 0) {
+            if (player->test_actor_flags(0x801) == 0) {
                 DirectAttackPayload hit;
                 hit.kind = 15;
                 hit.power = 100.0f;

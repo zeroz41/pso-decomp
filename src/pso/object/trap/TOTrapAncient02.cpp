@@ -385,8 +385,8 @@ void TOTrapAncient02::vfunc_82() {
     case 2:
         if (target != NULL) {
             obj_setFlags30(target, 0x200);
-            ((TObjChara *)target)->sub_8002AE64();
-            ((TObjChara *)target)->sub_800A7798(1.0f);
+            ((TObjChara *)target)->enable_motion_blend();
+            ((TObjChara *)target)->set_override_speed(1.0f);
             timer--;
             if (timer < 0) {
                 phase = 3;

@@ -557,7 +557,7 @@ void TItemMag::render_equipped() {
     s32 i;
     f32 scale;
 
-    if (owner != NULL && obj_testFlags30(0x08000000) == 0 && is_hidden() == 0) {
+    if (owner != NULL && test_actor_flags(0x08000000) == 0 && is_hidden() == 0) {
         scaled = owner->scale_state.is_scaled();
         scale = owner->scale_state.get_scalar();
         push_matrix();
@@ -587,7 +587,7 @@ void TItemMag::render_equipped_shadow() {
     s32 i;
     f32 scale;
 
-    if (owner != NULL && obj_testFlags30(0x08000000) == 0 && is_hidden() == 0) {
+    if (owner != NULL && test_actor_flags(0x08000000) == 0 && is_hidden() == 0) {
         scaled = owner->scale_state.is_scaled();
         scale = owner->scale_state.get_scalar();
         push_matrix();
@@ -669,7 +669,7 @@ void TItemMag::update_idle_action() {
     if (0.0f < cooldown) {
         action_cooldown = cooldown - 1.0f;
     }
-    if (obj_testFlags30(0x08000000) == 0) {
+    if (test_actor_flags(0x08000000) == 0) {
         set_subs_visible(1);
         return;
     }

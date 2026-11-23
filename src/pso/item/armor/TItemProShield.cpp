@@ -198,8 +198,8 @@ void TItemProShield::on_update_equipped() {}
 void TItemProShield::request_equipped_model() { request_item_model(); }
 
 void TItemProShield::draw_at_joint(s32 joint) {
-    if ((item_model != NULL) && (owner != NULL) && (obj_testFlags30(0x08000000) == 0) && (is_hidden() == 0)) {
-        push_matrix_from((void *)owner->get_item_ptr(joint));
+    if ((item_model != NULL) && (owner != NULL) && (test_actor_flags(0x08000000) == 0) && (is_hidden() == 0)) {
+        push_matrix_from((void *)owner->get_joint_matrix(joint));
         TObjPlayer__sub_80364198();
         model_render_flags &= ~0x10;
         TObjPlayer::set_model_fade_alpha(get_owner_alpha());

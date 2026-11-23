@@ -497,7 +497,7 @@ void TObjNpcBase::run_task() {
     if (m_3a8 > 0 && TRaderMapCore::is_not_split_screen() == 0) {
         submit_cursor_candidate((void *) this, -1);
     }
-    obj_clearFlags30(0x1B3FU);
+    clear_actor_flags(0x1B3FU);
 }
 
 }

@@ -530,7 +530,7 @@ void TObjEneGyaranzo::run_hit_reaction() {
             behavior_flags |= 1;
             return;
         }
-        obj_clearFlags30(0x200200);
+        clear_actor_flags(0x200200);
     }
 }
 
@@ -826,7 +826,7 @@ void TObjEneGyaranzo::select_targets() {
     TObjGyaranzoMissile_target_slots[0].distance_squared = 0.0f;
     n = 0;
     best = 0;
-    k = obj_testFlags30(0x10);
+    k = test_actor_flags(0x10);
     count = registered_player_count;
     if (k != 0) {
         count += registered_enemy_count;

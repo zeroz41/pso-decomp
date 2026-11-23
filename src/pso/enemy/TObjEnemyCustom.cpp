@@ -434,7 +434,7 @@ void TObjEnemyCustom::move_along_ground_avoiding_walls(Vec dest, f32 speed, f32 
 }
 
 BOOL TObjEnemyCustom::find_target_in_range(f32 radius) {
-    if (obj_testFlags30(0x10) != 0) {
+    if (test_actor_flags(0x10) != 0) {
         return select_nearest_target(radius);
     }
     targetId = find_nearest_visible_player(this, NULL, radius);
@@ -511,7 +511,7 @@ void TObjEneDubchik::target_nearest_player(f32 radius) {
     TObjEnemyCustom *entity;
     best_distance = radius * radius;
     best = 0xFFFF;
-    if (obj_testFlags30(0x10) != 0) {
+    if (test_actor_flags(0x10) != 0) {
         count = registered_player_count + registered_enemy_count;
     } else {
         count = registered_player_count;
@@ -539,7 +539,7 @@ u16 TObjEnemyCustom::pick_random_nearby_player(f32 radius) {
     TObjEnemyCustom *entity;
     radius_sq = radius * radius;
     found = 0;
-    if (obj_testFlags30(0x10) != 0) {
+    if (test_actor_flags(0x10) != 0) {
         count = registered_player_count + registered_enemy_count;
     } else {
         count = registered_player_count;

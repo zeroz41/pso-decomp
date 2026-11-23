@@ -108,7 +108,7 @@ void TODummyKeyCave01::run_task() {
     u32 st;
     u8 skip;
     if (TObjPlayer::check_demo_mode() == 1) {
-        ((TObjBase *)self)->obj_clearFlags30(0x08000000);
+        ((TObjBase *)self)->clear_actor_flags(0x08000000);
     }
     if (this->m_98 < 0x100) {
         st = is_current_floor_switch_set(this->m_98);

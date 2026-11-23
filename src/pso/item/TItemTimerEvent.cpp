@@ -174,7 +174,7 @@ void TUnk_804A0688::vfunc_7() {
 }
 
 void TUnk_804A0688::vfunc_6() {
-        if ((is_item_area_enabled(((TObjPlayer *)(this->m_28))->get_area()) == 1) && (((TObjChara *)this->m_28)->obj_isState3_324() == 0) && (((TObjCollidable *)this->m_28)->obj_testFlags30(0x800) == 0)) {
+        if ((is_item_area_enabled(((TObjPlayer *)(this->m_28))->get_area()) == 1) && (((TObjChara *)this->m_28)->obj_isState3_324() == 0) && (((TObjCollidable *)this->m_28)->test_actor_flags(0x800) == 0)) {
         TObjectV8047c128_subtract_hp((u8 *)this->m_28, 1);
     }
 }
@@ -186,19 +186,19 @@ void TUnk_804A0668::vfunc_7() {
 }
 
 void TUnk_804A0668::vfunc_6() {
-        if ((is_item_area_enabled(((TObjPlayer *)(this->m_28))->get_area()) == 1) && (((TObjChara *)this->m_28)->obj_isState3_324() == 0) && (((TObjCollidable *)this->m_28)->obj_testFlags30(0x800) == 0)) {
+        if ((is_item_area_enabled(((TObjPlayer *)(this->m_28))->get_area()) == 1) && (((TObjChara *)this->m_28)->obj_isState3_324() == 0) && (((TObjCollidable *)this->m_28)->test_actor_flags(0x800) == 0)) {
         ((TObjChara *)(this->m_28))->subtract_actor_tp(1);
     }
 }
 
 void TUnk_804A0648::vfunc_6() {
-    if (((TObjCollidable *)this->m_28)->obj_testFlags30(0x800) == 0) {
+    if (((TObjCollidable *)this->m_28)->test_actor_flags(0x800) == 0) {
         add_actor_hp((u8 *)this->m_28, 1);
     }
 }
 
 void TUnk_804A0628::vfunc_6() {
-    if (((TObjCollidable *)this->m_28)->obj_testFlags30(0x800) == 0) {
+    if (((TObjCollidable *)this->m_28)->test_actor_flags(0x800) == 0) {
         add_actor_tp((u8 *)this->m_28, 1);
     }
 }
@@ -206,7 +206,7 @@ void TUnk_804A0628::vfunc_6() {
 void TUnk_804A0608::vfunc_6() {
     struct VObj_8011D94C_8011D414 *o;
 
-    if (((TObjCollidable *)this->m_28)->obj_testFlags30(0x800) == 0) {
+    if (((TObjCollidable *)this->m_28)->test_actor_flags(0x800) == 0) {
         o = (struct VObj_8011D94C_8011D414 *)this->m_28;
         o->m73(1.0f);
     }
@@ -228,7 +228,7 @@ void TUnk_804A05C8::vfunc_6() {
     TParticleCtrl *particle;
 
     if ((((TObjPlayer *)this->m_28)->is_body_collision_inactive() == 0) && (((TObjPlayer *)(this->m_28))->is_flag_20000_set() == 0)) {
-                if ((is_item_area_enabled(((TObjPlayer *)(this->m_28))->get_area()) == 1) && (((TObjCollidable *)((void *)this->m_28))->obj_testFlags30(0x800) == 0)) {
+                if ((is_item_area_enabled(((TObjPlayer *)(this->m_28))->get_area()) == 1) && (((TObjCollidable *)((void *)this->m_28))->test_actor_flags(0x800) == 0)) {
             particle = spawn_particle_effect_with_flags((const Vec *)(*(saddr *)&this->m_28 + 0x2FC), this->unk_2C, 0x10);
             if (particle != 0) {
                 particle->set_owner_id(get_entity_id((TObjBase *)this->m_28));

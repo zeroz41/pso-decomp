@@ -451,14 +451,14 @@ void *TBoss3Volopt::create(void *set_data) {
 }
 
 void TBoss3Volopt::run_task() {
-    if (obj_testFlags30(0x800) != 0) {
+    if (test_actor_flags(0x800) != 0) {
         queue_destruction();
         return;
     }
-    if (obj_testFlags30(0x4000) != 0) {
+    if (test_actor_flags(0x4000) != 0) {
         if (this->add_status_effect_timer(4, -1) <= 0) {
             status_effects[4].clear();
-            obj_clearFlags30(0x4000);
+            clear_actor_flags(0x4000);
         }
     } else {
         if (next_action != mode) {

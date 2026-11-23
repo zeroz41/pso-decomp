@@ -238,15 +238,15 @@ void TWindowLockOn::bind_target(u16 id) {
 
 void TWindowLockOn::update_for_target(TObjCollidable *actor) {
     reinterpret_cast<WindowLayoutEntries *>(&entry_list)->destroy_all_items();
-    if (actor->obj_testFlags30(0x10000000) != 0) {
+    if (actor->test_actor_flags(0x10000000) != 0) {
         update_for_other_player(actor);
         return;
     }
-    if (actor->obj_testFlags30(0x80000000) != 0) {
+    if (actor->test_actor_flags(0x80000000) != 0) {
         update_for_item((TItem *)actor);
         return;
     }
-    if (actor->obj_testFlags30(0x20000000) != 0) {
+    if (actor->test_actor_flags(0x20000000) != 0) {
         update_for_enemy((TObjChara *)actor);
     }
 }
@@ -411,14 +411,14 @@ s32 TWindowLockOn::is_lockable_target(TObjCollidable *actor) {
     if (actor == NULL) {
         return 0;
     }
-    if (actor->obj_testFlags30(0x10000000) != 0) {
+    if (actor->test_actor_flags(0x10000000) != 0) {
         if (((TObjChara *)actor)->obj_isState3_324() != 0 || ((TObjPlayer *)actor)->is_script_controlled() != 0) {
             return 0;
         }
         return 1;
     }
-    if (actor->obj_testFlags30(0x20000000) != 0) {
-        if (actor->obj_testFlags30(0x40000000) != 0) {
+    if (actor->test_actor_flags(0x20000000) != 0) {
+        if (actor->test_actor_flags(0x40000000) != 0) {
             return 0;
         }
         if (((TWindowLockOn *)actor)->get_target_id() != 0) {
@@ -426,7 +426,7 @@ s32 TWindowLockOn::is_lockable_target(TObjCollidable *actor) {
         }
         return 0;
     }
-    if (actor->obj_testFlags30(0x80000000) != 0) {
+    if (actor->test_actor_flags(0x80000000) != 0) {
         return 1;
     }
     return 0;
@@ -443,15 +443,15 @@ void TWindowLockOn::validate_target() {
             if ((f32)m_64 > 15.0f) {
                 m_64 = 0xF;
             }
-        } else if (target->obj_testFlags30(0x10000000) == 0) {
-            if (target->obj_testFlags30(0x20000000) != 0) {
+        } else if (target->test_actor_flags(0x10000000) == 0) {
+            if (target->test_actor_flags(0x20000000) != 0) {
                 if (((TObjChara *)target)->has_flag_0x800() != 0) {
                     m_60 = 0xFFFF;
                     if ((f32)m_64 > 15.0f) {
                         m_64 = 0xF;
                     }
                 }
-            } else if (target->obj_testFlags30(0x80000000) != 0 && ((TItem *)target)->get_mode() != 0) {
+            } else if (target->test_actor_flags(0x80000000) != 0 && ((TItem *)target)->get_mode() != 0) {
                 m_60 = 0xFFFF;
                 if ((f32)m_64 > 15.0f) {
                     m_64 = 0xF;

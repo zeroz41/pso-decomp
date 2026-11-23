@@ -183,7 +183,7 @@ void TOCtrlDubchik::run_task() {
         run_demo_task();
         return;
     }
-    if (obj_testFlags30(0x800) != 0) {
+    if (test_actor_flags(0x800) != 0) {
         mode = 6;
     } else if (update_movement_status() != 0) {
         refresh_collision_body_centers();
@@ -226,7 +226,7 @@ void TOCtrlDubchik::update_waiting() {
     apply_actor_gravity(this, (s32 *)&shadow_pos, hover_height);
     for (i = registered_player_count; i < registered_player_count + registered_enemy_count; i++) {
         p = (TObjEnemy *)TObjPlayer::get_player_data(i);
-        if (p != NULL && p != this && p->obj_testFlags30(0x800) != 0 &&
+        if (p != NULL && p != this && p->test_actor_flags(0x800) != 0 &&
             ((TUnk_804B6C24 *)p)->check_value_equals((saddr)TObjEneDubchik__class_name) != 0 &&
             p->variant == 0 && room == p->room) {
             mode = 1;

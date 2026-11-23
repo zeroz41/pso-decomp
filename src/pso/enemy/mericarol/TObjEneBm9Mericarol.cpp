@@ -247,7 +247,7 @@ TObjEneBm9Mericarol::TObjEneBm9Mericarol(TObject *parent, void *set_data) : TObj
     transform_part_positions();
     mode = 0;
     dispatch_action(mode, 4);
-    sub_8002AE64();
+    enable_motion_blend();
     for (i = 0; i < 4; i++) {
         camera_fades[i].activate_and_dispatch();
     }

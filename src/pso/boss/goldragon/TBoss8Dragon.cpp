@@ -2581,7 +2581,7 @@ void TBoss8Dragon::update_spinning_projectile_attack(s32 event) {
         break;
     case 5:
         this->rotation_x = 0;
-        this->sub_8002AE64();
+        this->enable_motion_blend();
         this->camera_eye_raised = 0;
         break;
     }

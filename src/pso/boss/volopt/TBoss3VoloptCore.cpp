@@ -180,15 +180,15 @@ void TBoss3VoloptCore::run_task() {
         run_death_reaction();
     } else if (test_flag30_512() != 0) {
         if (hit_cooldown > 0) {
-            obj_clearFlags30(0x200);
+            clear_actor_flags(0x200);
         } else {
             run_hit_reaction();
         }
     }
-    if (obj_testFlags30(0x4000) != 0) {
+    if (test_actor_flags(0x4000) != 0) {
         if (this->add_status_effect_timer(4, -1) <= 0) {
             status_effects[4].clear();
-            obj_clearFlags30(0x4000);
+            clear_actor_flags(0x4000);
         }
     } else {
         if (mode != next_action) {
@@ -335,10 +335,10 @@ void TBoss3VoloptCore::update_charge_state() {
 void TBoss3VoloptCore::update_grabbed_state() {
     switch (state) {
     case 0:
-        if (obj_testFlags30(0x02000000) != 0) {
+        if (test_actor_flags(0x02000000) != 0) {
             behavior_flags |= 0x40000;
         }
-        obj_clearFlags30(0x02200200);
+        clear_actor_flags(0x02200200);
         referenceHp = hp;
         this->requested_action = 3;
         play_sound_effect(0x4003A81F, NULL, 0, 0);
@@ -511,7 +511,7 @@ s32 TBoss3VoloptCore::calc_hit_zone_index() {
 }
 
 void TBoss3VoloptCore::set_boss_target_pos(s32 slot, s32 moves, s32 delay_frames) {
-    if (obj_testFlags30(0x800) == 0) {
+    if (test_actor_flags(0x800) == 0) {
         behavior_flags |= 0x20000;
         target_slot = slot;
         moves_left = moves;

@@ -257,7 +257,7 @@ void TBoss3VoloptMonitor::run_task() {
     }
     dispatch_state();
     update_prev_position();
-    if (obj_testFlags30(0x800) == 0) {
+    if (test_actor_flags(0x800) == 0) {
         ((TBoss3VoloptHiraisin *)this)->copy_position();
         submit_cursor_candidate(this, -1);
         minimap_render_dot(&position, -0x5DB4, 1, 0);
@@ -368,7 +368,7 @@ void TBoss3VoloptMonitor::update_hit() {
         break;
     case 1:
         if (--timer <= 0) {
-            obj_clearFlags30(0x200200);
+            clear_actor_flags(0x200200);
             this->update_if_active(0);
             behavior_flags &= ~1;
         }

@@ -201,7 +201,7 @@ TObjEneDolmOlm::TObjEneDolmOlm(TObject *parent, void *set_data) : TUnk_80493450(
     near_anim_speed = TObjEneDolmOlm__behavior_params_by_variant[variant]->params[3];
     requested_action = 1;
     retreat_distance = 0.0f;
-    sub_8002AE64();
+    enable_motion_blend();
     clear_lobby_object_state();
 }
 TObjEneDolmOlm::~TObjEneDolmOlm() {
@@ -555,7 +555,7 @@ void TObjEneDolmOlm::update_retreat() {
     case 2:
         mode = 3;
         requested_action = 2;
-        obj_clearFlags30(0x04040000);
+        clear_actor_flags(0x04040000);
         clear_player_status_flag(0, 0x0A000000);
         update_target_near_flag();
         select_move_speed();
@@ -563,7 +563,7 @@ void TObjEneDolmOlm::update_retreat() {
     }
     update_collisions();
     minimap_render_dot(&position, -0x5DB4, 1, 0);
-    obj_clearFlags30(0x200000);
+    clear_actor_flags(0x200000);
 }
 #pragma pop
 #pragma push
@@ -584,7 +584,7 @@ void TObjEneDolmOlm::update_special_attack() {
         targetId = 0xFFFF;
         target = 0;
     }
-    obj_clearFlags30(0x4040000);
+    clear_actor_flags(0x4040000);
     advance_animation();
     switch (phase) {
     case 0:
@@ -608,7 +608,7 @@ void TObjEneDolmOlm::update_special_attack() {
                     phase = 1;
                     requested_action = 2;
                     actorFlags &= ~0x200000;
-                    obj_clearFlags30(0x4040000);
+                    clear_actor_flags(0x4040000);
                     clear_player_status_flag(0, 0xA000000);
                 }
             } else {
@@ -647,11 +647,11 @@ void TObjEneDolmOlm::update_special_attack() {
             t = TObjEneDolmOlm__behavior_params_by_variant[variant];
             if (a < t->special_angle && d < t->special_range * t->special_range) {
                 u16 id = get_entity_id((TObjBase *)target);
-                if (((TObjCollidable *)target)->obj_testFlags30(0x4000000) == 0) {
+                if (((TObjCollidable *)target)->test_actor_flags(0x4000000) == 0) {
                     TObjPlayer *pl = get_player_by_client_id(id);
                     if (pl != 0 && TObjPlayer::is_locally_controlled(pl) != 0 &&
                         pl->all_parents_unqueued_for_destruction() != 0 &&
-                        pl->obj_testFlags30(0x800) == 0 && pl->check_player_flag1() == 0) {
+                        pl->test_actor_flags(0x800) == 0 && pl->check_player_flag1() == 0) {
                         TObjPlayer::play_effect((saddr)pl, (s32)(30.0f * (f32)TObjEneDolmOlm__behavior_params_by_variant[variant]->special_power), 2);
                     }
                 }
@@ -667,7 +667,7 @@ void TObjEneDolmOlm::update_special_attack() {
         mode = 3;
         phase = 1;
         requested_action = 2;
-        obj_clearFlags30(0x4040000);
+        clear_actor_flags(0x4040000);
         clear_player_status_flag(0, 0xA000000);
         break;
     }
@@ -709,7 +709,7 @@ void TObjEneDolmOlm::run_idle_action() {
     }
 }
 void TObjEneDolmOlm::run_move_action() {
-    if (obj_testFlags30(0x1000U) != 0) {
+    if (test_actor_flags(0x1000U) != 0) {
         mode = 4;
     }
     switch (mode) {
@@ -722,7 +722,7 @@ void TObjEneDolmOlm::run_move_action() {
             mode = 2;
             requested_action = 0xA;
         }
-        obj_clearFlags30(0x04040000U);
+        clear_actor_flags(0x04040000U);
         clear_player_status_flag(0, 0x0A000000U);
         return;
     case 4:
@@ -732,7 +732,7 @@ void TObjEneDolmOlm::run_move_action() {
         mode = 3;
         phase = 1;
         requested_action = 2;
-        obj_clearFlags30(0x04040000U);
+        clear_actor_flags(0x04040000U);
         clear_player_status_flag(0, 0x0A000000U);
         return;
     case 2:
@@ -763,7 +763,7 @@ void TObjEneDolmOlm::run_attack_action() {
             mode = 2;
             requested_action = 0xA;
         }
-        obj_clearFlags30(0x04040000);
+        clear_actor_flags(0x04040000);
         clear_player_status_flag(0, 0x0A000000);
         break;
     default:
@@ -792,7 +792,7 @@ void TObjEneDolmOlm::run_attack_action() {
             mode = 0xB;
             phase = 0;
             obj_setFlags30(this, 0x200000);
-            obj_clearFlags30(0x04040000);
+            clear_actor_flags(0x04040000);
             clear_player_status_flag(0, 0x0A000000);
             return;
         }
@@ -805,7 +805,7 @@ void TObjEneDolmOlm::run_attack_action() {
                 requested_action = 4;
             }
             obj_setFlags30(this, 0x200000);
-            obj_clearFlags30(0x04040000);
+            clear_actor_flags(0x04040000);
             clear_player_status_flag(0, 0x0A000000);
         }
         break;

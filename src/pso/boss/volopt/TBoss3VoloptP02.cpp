@@ -366,10 +366,10 @@ void TBoss3VoloptP02::run_task() {
                 run_hit_reaction();
             }
         }
-        if (obj_testFlags30(0x4000) != 0) {
+        if (test_actor_flags(0x4000) != 0) {
             if (this->add_status_effect_timer(4, -1) <= 0) {
                 status_effects[4].clear();
-                obj_clearFlags30(0x4000);
+                clear_actor_flags(0x4000);
             }
         } else {
             if (mode != next_action) {
@@ -438,7 +438,7 @@ void TBoss3VoloptP02::render() {
 }
 
 void TBoss3VoloptP02::set_action(u16 target_id) {
-    if ((obj_testFlags30(0x800) == 0) && !(behavior_flags & 0x20000) && (mode != 2)) {
+    if ((test_actor_flags(0x800) == 0) && !(behavior_flags & 0x20000) && (mode != 2)) {
         check_and_notify();
         targetId = target_id;
         behavior_flags &= ~1;
@@ -447,7 +447,7 @@ void TBoss3VoloptP02::set_action(u16 target_id) {
 }
 
 void TBoss3VoloptP02::check_and_trigger() {
-    if ((obj_testFlags30(0x800) == 0) && !(behavior_flags & 0x40000)) {
+    if ((test_actor_flags(0x800) == 0) && !(behavior_flags & 0x40000)) {
         check_and_notify();
         behavior_flags &= ~1;
         this->update_if_active(0xB);
@@ -455,7 +455,7 @@ void TBoss3VoloptP02::check_and_trigger() {
 }
 
 void TBoss3VoloptP02::set_motion(u16 target_id) {
-    if ((obj_testFlags30(0x800) == 0) && !(behavior_flags & 0x10000) && (mode != 9)) {
+    if ((test_actor_flags(0x800) == 0) && !(behavior_flags & 0x10000) && (mode != 9)) {
         targetId = target_id;
         behavior_flags &= ~1;
         this->update_if_active(9);
@@ -463,7 +463,7 @@ void TBoss3VoloptP02::set_motion(u16 target_id) {
 }
 
 void TBoss3VoloptP02::set_action_wait(u16 target_id) {
-    if ((obj_testFlags30(0x800) == 0) && !(behavior_flags & 0x80000) && (mode != 0xA)) {
+    if ((test_actor_flags(0x800) == 0) && !(behavior_flags & 0x80000) && (mode != 0xA)) {
         check_and_notify();
         if (target_id != 0xFFFF) {
             targetId = target_id;
@@ -1531,7 +1531,7 @@ void TBoss3VoloptP02::copy_phase2_positions_to_global(const VoloptPhase2Message 
 }
 
 void TBoss3VoloptP02::apply_hit_reaction(f32 delay) {
-    if ((obj_testFlags30(0x800) == 0) && !(behavior_flags & 0x20000) && (mode != 0xC)) {
+    if ((test_actor_flags(0x800) == 0) && !(behavior_flags & 0x20000) && (mode != 0xC)) {
         check_and_notify();
         ring_radius = 55.0f + delay;
         behavior_flags &= ~1;

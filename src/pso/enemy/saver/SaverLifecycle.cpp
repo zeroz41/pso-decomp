@@ -939,7 +939,7 @@ void TObjEneSaver::refresh_target() {
     if (is_actor_cadence_frame(0x1E) == 0) {
         return;
     }
-    if (obj_testFlags30(0x10) != 0) {
+    if (test_actor_flags(0x10) != 0) {
         s32 best_id;
         s32 i;
         TObjPlayer *p;
@@ -1056,7 +1056,7 @@ s32 TObjEneSaver::update_action_hold_status() {
                 mode = 3;
                 phase = 0;
                 requested_action = 1;
-                obj_clearFlags30(0x06240000);
+                clear_actor_flags(0x06240000);
             }
             break;
         }
@@ -1078,7 +1078,7 @@ s32 TObjEneSaver::update_movement_status() {
                 mode = 3;
                 phase = 0;
                 requested_action = 1;
-                obj_clearFlags30(0x06240000);
+                clear_actor_flags(0x06240000);
             }
             break;
         }
@@ -1094,7 +1094,7 @@ void TObjEneSaver::run_idle_action() {
             mode = 0xB;
             phase = 0;
             requested_action = 0;
-            obj_clearFlags30(0x200000);
+            clear_actor_flags(0x200000);
             obj_setFlags30(this, 0x06040000);
             state_flags &= 0xFFFF0000;
             state_flags |= 0x40;
@@ -1111,7 +1111,7 @@ void TObjEneSaver::run_idle_action() {
         mode = 0xB;
         phase = 0;
         requested_action = 0;
-        obj_clearFlags30(0x200000);
+        clear_actor_flags(0x200000);
         obj_setFlags30(this, 0x06040000);
         state_flags &= 0xFFFF0000;
         state_flags |= 0x40;
@@ -1277,7 +1277,7 @@ void TObjEneSaver::update_move_toward_target() {
         switch (phase) {
         case 0: {
             if (select_enemy_destination(this, ((TObjChara *)t)->body_center, 1) != 0) {
-                sub_800A7798(saver_ai_params[3]);
+                set_override_speed(saver_ai_params[3]);
                 phase = 1;
                 copy_position_if_valid(this, body_center);
                 apply_actor_gravity(this, NULL, 0.0f);
@@ -1367,7 +1367,7 @@ void TObjEneSaver::run_attack_action() {
         if ((s32)(10430.38043493439 * a) < 0x10) {
             phase = 1;
             requested_action = 2;
-            sub_800A7798(*saver_ai_params);
+            set_override_speed(*saver_ai_params);
         } else {
             phase = 0;
             requested_action = 1;
@@ -1397,7 +1397,7 @@ void TObjEneSaver::damage_targets_in_reach() {
     s32 limit;
     s32 i;
     TObjChara *p;
-    if (obj_testFlags30(0x10) != 0) {
+    if (test_actor_flags(0x10) != 0) {
         limit = 0x4000;
         n = registered_player_count + registered_enemy_count;
     } else {
@@ -1450,7 +1450,7 @@ void TObjEneSaver::state_attack() {
             if (a < 0x10) {
                 phase = 1;
                 requested_action = 2;
-                sub_800A7798(saver_ai_params[0]);
+                set_override_speed(saver_ai_params[0]);
                 if (check_path_obstructed(this, &((TObjChara *)target)->body_center) == 1) {
                     velocity.x = velocity.y = velocity.z = 0.0f;
                 } else {

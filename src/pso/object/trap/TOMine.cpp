@@ -861,7 +861,7 @@ void TOMineTrap::run_task() {
         }
         for (i = 0; i < lbl_805D5868; i++) {
             p = TObjPlayer::get_player_data(i);
-            if (p == NULL || p == (TObjChara *)this || p->obj_testFlags30(0x4000800) != 0) {
+            if (p == NULL || p == (TObjChara *)this || p->test_actor_flags(0x4000800) != 0) {
                 continue;
             }
             if (p->alt_room != alt_room && p->room != room && p->room != alt_room) {
@@ -947,7 +947,7 @@ s32 TOMineTrap::find_target_in_range() {
     }
     for (i = 0; i < registered_player_count + registered_enemy_count; i++) {
         actor = TObjPlayer::get_player_data(i);
-        if (actor == NULL || actor == this || actor->obj_testFlags30(0x800) != 0) {
+        if (actor == NULL || actor == this || actor->test_actor_flags(0x800) != 0) {
             continue;
         }
         id = get_entity_id(actor);

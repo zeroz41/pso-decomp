@@ -24,7 +24,7 @@
 void TObjEneHoldEffect::run_task() {
     TObjPlayer *player = get_player_by_client_id(target_id);
     if (player != NULL && player->all_parents_unqueued_for_destruction() != 0 &&
-        player->obj_testFlags30(0x800) == 0 && particle != NULL &&
+        player->test_actor_flags(0x800) == 0 && particle != NULL &&
         particle->all_parents_unqueued_for_destruction() != 0) {
         if (effect == 0x20F && is_split_screen() == 0) {
             Vec to_camera;
@@ -51,7 +51,7 @@ void TObjEneHoldEffect::run_task() {
 void TObjEneHoldEffect::render() {
     TObjPlayer *player = get_player_by_client_id(target_id);
     if (player != NULL && player->all_parents_unqueued_for_destruction() != 0 &&
-        player->obj_testFlags30(0x800) == 0 && particle != NULL &&
+        player->test_actor_flags(0x800) == 0 && particle != NULL &&
         particle->all_parents_unqueued_for_destruction() != 0) {
         Vec to_camera;
         Vec pos;

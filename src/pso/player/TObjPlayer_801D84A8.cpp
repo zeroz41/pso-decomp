@@ -56,7 +56,7 @@ s32 is_palette_entry_displayable__10TObjPlayerFv(u8 *player, u8 kind, u8 sub) {
     case 1:
         return 1;
     case 2:
-        if (((TObjCollidable *)player)->obj_testFlags30(0x20006) != 0 || is_current_area_item_enabled() == 0 || ((TObjPlayer *)player)->get_camera_field() == 0) {
+        if (((TObjCollidable *)player)->test_actor_flags(0x20006) != 0 || is_current_area_item_enabled() == 0 || ((TObjPlayer *)player)->get_camera_field() == 0) {
             return 0;
         }
         if ((u8)sub == 2) {
@@ -71,7 +71,7 @@ s32 is_palette_entry_displayable__10TObjPlayerFv(u8 *player, u8 kind, u8 sub) {
         }
         return 1;
     case 3:
-        if (((TObjPlayer *)(player + 0x428))->test_bit1_at_10() != 0 || ((TObjCollidable *)player)->obj_testFlags30(0x20006) != 0 || ((TObjPlayer *)player)->get_camera_field() == 0) {
+        if (((TObjPlayer *)(player + 0x428))->test_bit1_at_10() != 0 || ((TObjCollidable *)player)->test_actor_flags(0x20006) != 0 || ((TObjPlayer *)player)->get_camera_field() == 0) {
             return 0;
         }
         if (*(s16 *)(player + 0x32E) - calc_technique_parameters(tec = sub, get_cast_technique_level(player + 0x428, sub), ((s32 (*)(void *))get_entity_id)(player))->cost < 0) {
@@ -116,7 +116,7 @@ s32 is_palette_entry_displayable__10TObjPlayerFv(u8 *player, u8 kind, u8 sub) {
         }
         return 1;
     case 5:
-        if (TObjPlayer__sub_801C1F50(player + 0x4AC) == 0 || ((TObjCollidable *)player)->obj_testFlags30(0x20006) != 0 || ((TObjPlayer *)player)->get_camera_field() == 0) {
+        if (TObjPlayer__sub_801C1F50(player + 0x4AC) == 0 || ((TObjCollidable *)player)->test_actor_flags(0x20006) != 0 || ((TObjPlayer *)player)->get_camera_field() == 0) {
             return 0;
         }
         return 1;

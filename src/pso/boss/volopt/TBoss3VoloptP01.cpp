@@ -205,10 +205,10 @@ void TBoss3VoloptP01::run_task() {
     } else if (test_flag30_512() != 0 && !(actorFlags & 0x04000000)) {
         run_hit_reaction();
     }
-    if (obj_testFlags30(0x4000) != 0) {
+    if (test_actor_flags(0x4000) != 0) {
         if (this->add_status_effect_timer(4, -1) <= 0) {
             status_effects[4].clear();
-            obj_clearFlags30(0x4000);
+            clear_actor_flags(0x4000);
         }
     } else {
         if (mode != next_action) {
@@ -667,7 +667,7 @@ s32 TBoss3VoloptP01::update_sink() {
 #pragma pop
 
 void TBoss3VoloptP01::enter_state_machine() {
-    if (obj_testFlags30(0x04000800) == 0) {
+    if (test_actor_flags(0x04000800) == 0) {
         this->update_if_active(9);
     }
 }
@@ -712,7 +712,7 @@ void TBoss3VoloptP01::push_nearby_players() {
 }
 
 void TBoss3VoloptP01::set_primary(s32 primary) {
-    if (obj_testFlags30(0x800) == 0) {
+    if (test_actor_flags(0x800) == 0) {
         behavior_flags &= ~1;
         this->update_if_active(2);
         is_primary = primary;

@@ -177,7 +177,7 @@ void shutdown_and_reset_system(void) {
     xfree((void*)lbl_805D49A0);
     xfree((void*)lbl_805D49A4);
     xfree(resource_decompress_buffer);
-    xfree((void*)lbl_805D5680);
+    xfree((void*)motion_blend_buffer);
     xfree((void*)anim_model_matrix_array);
     xfree((void*)player_matrix_stack_buffer);
     VISetBlack((void*)1);
@@ -310,7 +310,7 @@ void init_game_systems(void) {
     init_light_globals(0, 0);
     set_model_render_flags(0x100000);
     resource_decompress_buffer = (u8 *)xmalloc(0x80000);
-    lbl_805D5680 = (void *)xmalloc(0x6000);
+    motion_blend_buffer = (void *)xmalloc(0x6000);
     anim_model_matrix_array = (Mtx34 *)xmalloc(0x14A0);
     TObjPlayer__sub_803E492C((saddr)resource_decompress_buffer, 0x2000);
     TKeyBoardControl::set_key_state((saddr)TKeyBoardControl__sub_8000F764);
@@ -321,7 +321,7 @@ void init_game_systems(void) {
     TObjBoss2Tunnel::enable_and_trigger();
     init_pad_rumble();
     TKeyBoardControl::init_pad_state();
-    TObjPlayer::set_global_7778((saddr)lbl_805D5680);
+    TObjPlayer::set_global_7778((saddr)motion_blend_buffer);
     keyboard_input_buffer = (saddr)xmalloc(0x1000);
     init_debug_text_buffer(keyboard_input_buffer, 0x80, 0x800);
     TObjNpcEnemy::set_global_count(-1);

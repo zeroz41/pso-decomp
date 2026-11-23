@@ -308,13 +308,13 @@ void TAdChrSelPlayerGC::update_chara_making() {
     rotate_matrix_y(0, rotation_y);
     TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>((saddr)m_170->get_status_sub()));
     draw_model_with_arg((void *)m_170->get_field_4a4());
-    push_matrix_from((void *)get_item_ptr(0x3A));
+    push_matrix_from((void *)get_joint_matrix(0x3A));
     TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>((saddr)m_170->get_status_data()));
     m_170->get_field_4a0();
     ((s32 (*)())play_phase_transition_sound__10TObjPlayerFl)();
     pop_matrix();
     if (m_170->get_field_49c() != 0U) {
-        push_matrix_from((void *)get_item_ptr(0x3B));
+        push_matrix_from((void *)get_joint_matrix(0x3B));
         TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>((saddr)m_170->get_chara_making_data()));
         TCharaMaking::enable_making();
         m_170->get_field_49c();
@@ -323,7 +323,7 @@ void TAdChrSelPlayerGC::update_chara_making() {
         pop_matrix();
     }
     if (m_170->get_field_498() != 0U) {
-        push_matrix_from((void *)get_item_ptr(0x3B));
+        push_matrix_from((void *)get_joint_matrix(0x3B));
         TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>((saddr)m_170->get_chara_making_data()));
         TCharaMaking::enable_making();
         TObjPlayer__sub_802E0580(this, m_170->get_field_498(), visual_record);

@@ -17,7 +17,7 @@ void TObjEnemy::set_param(s32 v) { *(s32 *)&this->control = v; }
 void initialize_enemy_photon_effect(void* p) { ((TBoss3Volopt *)p)->reset_photon_effect(); }
 
 void TObjEnemy::render_shadows() {
-    if (obj_testFlags30(0x800) == 0) {
+    if (test_actor_flags(0x800) == 0) {
         this->set_shadow_flag();
         model_render_flags |= 0xC10;
         set_chunk_material_override_pair(-1, 0x800);

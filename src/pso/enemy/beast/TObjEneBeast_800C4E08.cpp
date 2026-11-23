@@ -75,7 +75,7 @@ extern const Vec beast_zero_vector = { 0.0f, 0.0f, 0.0f };
 extern "C" s32 link_chain_nodes__10TObjPlayerFPvPvPv(void *, void *, void *);
 
 void TUnk_80493450::select_move_speed() {
-    if (obj_testFlags30(0x100000) != 0) {
+    if (test_actor_flags(0x100000) != 0) {
         move_speed = near_move_speed;
         play_speed = near_anim_speed;
         return;
@@ -89,7 +89,7 @@ void TUnk_80493450::update_target_near_flag() {
     f32 dist;
 
     if (target == NULL) {
-        obj_clearFlags30(0x100000);
+        clear_actor_flags(0x100000);
         return;
     }
     if (get_entity_id((TObjBase *)target) < 0x1000 && is_actor_cadence_frame(0x1E) != 0) {
@@ -97,18 +97,18 @@ void TUnk_80493450::update_target_near_flag() {
         dist = horizontal_distance_squared(&player->position, &position);
         switch (player->class_flags & CLASS_FLAG_TYPE_MASK) {
         case CLASS_FLAG_HUNTER:
-            if (obj_testFlags30(0x100000) != 0) {
+            if (test_actor_flags(0x100000) != 0) {
                 if (BEAST_HUNTER_NEAR_EXIT_DISTANCE_SQ < dist) {
-                    obj_clearFlags30(0x100000);
+                    clear_actor_flags(0x100000);
                 }
             } else if (dist < BEAST_HUNTER_NEAR_ENTER_DISTANCE_SQ) {
                 obj_setFlags30(this, 0x100000);
             }
             break;
         default:
-            if (obj_testFlags30(0x100000) != 0) {
+            if (test_actor_flags(0x100000) != 0) {
                 if (BEAST_OTHER_NEAR_EXIT_DISTANCE_SQ < dist) {
-                    obj_clearFlags30(0x100000);
+                    clear_actor_flags(0x100000);
                 }
             } else if (dist < BEAST_OTHER_NEAR_ENTER_DISTANCE_SQ) {
                 obj_setFlags30(this, 0x100000);
@@ -134,7 +134,7 @@ void TUnk_80493450::beast_update_dead() {
         move_with_wall_slide((u8 *)this);
         velocity.x *= BEAST_HORIZONTAL_SPEED_DAMPING;
         velocity.z *= BEAST_HORIZONTAL_SPEED_DAMPING;
-    } else if (obj_testFlags30(0x800000) == 0) {
+    } else if (test_actor_flags(0x800000) == 0) {
         apply_actor_gravity(this, NULL, BEAST_GROUND_HEIGHT_OFFSET);
     }
     corpse_offset_y -= corpse_sink_speed;
@@ -178,11 +178,11 @@ void TUnk_80493450::beast_update_hurt() {
         play_hurt_sound();
     }
     if (action_flags != 8) {
-        obj_clearFlags30(0x600);
+        clear_actor_flags(0x600);
         clear_player_status_flag(0, 0x04000000);
         if ((s32)subtype == 0) {
             if ((f32)hp < (f32)hpmax * parameters[0]) {
-                obj_clearFlags30(0x1000);
+                clear_actor_flags(0x1000);
                 retreat_timer = (s16)(BEAST_TARGET_HOLD_BASE_FRAMES * (BEAST_TARGET_HOLD_BASE_SCALE + parameters[0]));
             }
         }
@@ -195,10 +195,10 @@ void TUnk_80493450::run_hit_reaction() {
         mode = 7;
         requested_action = 6;
     }
-    obj_clearFlags30(0x240000);
+    clear_actor_flags(0x240000);
 }
 void TUnk_80493450::vfunc_89() {  }
-void TUnk_80493450::run_miss_reaction() { obj_clearFlags30(256); }
+void TUnk_80493450::run_miss_reaction() { clear_actor_flags(256); }
 
 void TUnk_80493450::beast_update_attack() {
     if (targetId < 0x1000) {
@@ -235,7 +235,7 @@ void TUnk_80493450::beast_update_attack() {
     case 2:
         timer--;
         if (timer < 0) {
-            obj_clearFlags30(0x200000);
+            clear_actor_flags(0x200000);
             timer = 0;
             select_post_attack_mode();
         }
@@ -260,7 +260,7 @@ void TUnk_80493450::run_attack_action() {
             mode = 2;
             requested_action = 10;
         }
-        obj_clearFlags30(0x04040000);
+        clear_actor_flags(0x04040000);
         clear_player_status_flag(0, 0x0A000000);
         break;
     case 2:
@@ -274,7 +274,7 @@ void TUnk_80493450::run_attack_action() {
             requested_action = 4;
         }
         obj_setFlags30(this, 0x200000);
-        obj_clearFlags30(0x04040000);
+        clear_actor_flags(0x04040000);
         clear_player_status_flag(0, 0x0A000000);
         break;
     }
@@ -288,7 +288,7 @@ s32 TUnk_80493450::update_movement_status() {
             mode = 1;
             phase = 0;
             requested_action = 0;
-            obj_clearFlags30(0x04040000);
+            clear_actor_flags(0x04040000);
             clear_player_status_flag(0, 0x0A000000);
             break;
         }
@@ -305,7 +305,7 @@ s32 TUnk_80493450::update_action_hold_status() {
             mode = 1;
             phase = 0;
             requested_action = 0;
-            obj_clearFlags30(0x04040000);
+            clear_actor_flags(0x04040000);
             clear_player_status_flag(0, 0x0A000000);
             break;
         }
@@ -331,7 +331,7 @@ void TUnk_80493450::beast_update_group_chase() {
         if (d < r * r) {
             mode = 3;
             phase = 0;
-            obj_clearFlags30(0x1000);
+            clear_actor_flags(0x1000);
             retreat_timer = 0;
         }
     }
@@ -382,7 +382,7 @@ void TUnk_80493450::beast_update_approach() {
     }
     update_collisions();
     minimap_render_dot(&position, -0x5DB4, 1, 0);
-    obj_clearFlags30(0x200000);
+    clear_actor_flags(0x200000);
 }
 
 void TUnk_80493450::update_turn_toward_target() {
@@ -437,7 +437,7 @@ void TUnk_80493450::update_turn_toward_target() {
 }
 
 void TUnk_80493450::run_move_action() {
-    if (obj_testFlags30(0x1000) != 0) {
+    if (test_actor_flags(0x1000) != 0) {
         mode = 4;
     }
     switch (mode) {
@@ -450,7 +450,7 @@ void TUnk_80493450::run_move_action() {
             mode = 2;
             requested_action = 0xA;
         }
-        obj_clearFlags30(0x04040000);
+        clear_actor_flags(0x04040000);
         clear_player_status_flag(0, 0x0A000000);
         break;
     case 2:
@@ -463,7 +463,7 @@ void TUnk_80493450::run_move_action() {
         mode = 3;
         phase = 1;
         requested_action = 2;
-        obj_clearFlags30(0x04040000);
+        clear_actor_flags(0x04040000);
         clear_player_status_flag(0, 0x0A000000);
         break;
     }
@@ -568,12 +568,12 @@ void TUnk_80493450::beast_idle_update() {
         request_stand_action();
     }
 end:
-    if (obj_testFlags30(0x800000) == 0) {
+    if (test_actor_flags(0x800000) == 0) {
         apply_actor_gravity(this, NULL, BEAST_GROUND_HEIGHT_OFFSET);
     }
     refresh_collision_body_centers();
     minimap_render_dot(&position, -0x5DB4, 1, 0);
-    obj_clearFlags30(0x04240000);
+    clear_actor_flags(0x04240000);
     clear_player_status_flag(0, 0x0A000000);
 }
 
@@ -619,7 +619,7 @@ void TUnk_80493450::refresh_target() {
     if (appearing == 1) {
         targetId = 0xFFFF;
         obj_setFlags30(this, 0x04040000);
-    } else if (obj_testFlags30(0x1000) != 0) {
+    } else if (test_actor_flags(0x1000) != 0) {
         if (--retreat_timer < 0) {
             targetId = 0xFFFF;
             retreat_timer = 0;
@@ -627,7 +627,7 @@ void TUnk_80493450::refresh_target() {
         } else {
             targetId = find_nearest_visible_player(this, NULL, ((BeastMovementParams *)movementParameters)->detectionRadius);
         }
-    } else if (obj_testFlags30(0x10) != 0) {
+    } else if (test_actor_flags(0x10) != 0) {
         if (is_actor_cadence_frame(0x1E) != 0) {
             s32 i = 0;
             best = 0xFFFF;
@@ -639,7 +639,7 @@ void TUnk_80493450::refresh_target() {
                     break;
                 }
                 id = get_entity_id(player);
-                if (id < 0x4000 && id != entity_id && player->obj_testFlags30(0x03000800) == 0) {
+                if (id < 0x4000 && id != entity_id && player->test_actor_flags(0x03000800) == 0) {
                     VecCopy(&d, &player->body_center);
                     subtract_vector(&d, &body_center);
                     dist = d.x * d.x + d.z * d.z;

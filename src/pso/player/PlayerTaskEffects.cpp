@@ -1060,7 +1060,7 @@ void update_player_appear_fade(u8 *arg0) {
                     }
                     *(s32 *)((s8 *)arg0 + 4) = 1;
                     ((TObjPlayer *)temp_r3)->activate_body_collision();
-                    if (((TObjCollidable *)temp_r3)->obj_testFlags30(0x800) == 0) {
+                    if (((TObjCollidable *)temp_r3)->test_actor_flags(0x800) == 0) {
                         TObjPlayer::spawn_appearance_effect((int) (*(u16 *)((s8 *)arg0 + 0)));
                     }
                     ((TObjPlayer *)temp_r3)->render_material_state.alpha = 0.0f;

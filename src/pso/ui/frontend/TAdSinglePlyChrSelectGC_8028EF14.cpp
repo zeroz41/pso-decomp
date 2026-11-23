@@ -674,14 +674,14 @@ void TAdSinglePlyChrSelectGC::draw_creation_figure() {
         rotate_matrix_y(0, creation_figure_rotation_y);
         TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>((u8 *)char_select_current_entry + 0x460));
         this->draw_player_model();
-        push_matrix_from((void *)((TObjMotion *)this)->get_item_ptr(0x3A));
+        push_matrix_from((void *)((TObjMotion *)this)->get_joint_matrix(0x3A));
         TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>((u8 *)char_select_current_entry + 0x2EC));
         TObjPlayer::play_phase_transition_sound(creation_head_model_parts[*(s16 *)((s8 *)char_select_current_entry + 0xA)].model);
         pop_matrix();
         v = creation_cap_model_parts[*(s16 *)((s8 *)char_select_current_entry + 0xC)].model;
         if (v != 0) {
             TCharaMaking::enable_making();
-            push_matrix_from((void *)((TObjMotion *)this)->get_item_ptr(0x3B));
+            push_matrix_from((void *)((TObjMotion *)this)->get_joint_matrix(0x3B));
             TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>((u8 *)char_select_current_entry + 0x178));
             TObjPlayer::play_phase_transition_sound(v);
             pop_matrix();
@@ -690,7 +690,7 @@ void TAdSinglePlyChrSelectGC::draw_creation_figure() {
         v = creation_hair_model_parts[*(s16 *)((s8 *)char_select_current_entry + 0xC)].model;
         if (v != 0) {
             TCharaMaking::enable_making();
-            push_matrix_from((void *)((TObjMotion *)this)->get_item_ptr(0x3B));
+            push_matrix_from((void *)((TObjMotion *)this)->get_joint_matrix(0x3B));
             TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>((u8 *)char_select_current_entry + 0x178));
             TCharaMaking::setup_from_data(v, creation_player_character);
             pop_matrix();

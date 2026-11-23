@@ -188,7 +188,7 @@ void TObjEneDubchik::set_invuln_flags() {
 
 void TObjEneDubchik::clear_flag_04000000() {
     bodies->flags &= 0xF5FFFFFF;
-    obj_clearFlags30(0x04000000U);
+    clear_actor_flags(0x04000000U);
 }
 
 void AttackParams::set_attack_range(f32 range) { attack_range = range; }
@@ -407,7 +407,7 @@ void TObjEneDubchik::run_task() {
     undo_large_move();
     update_prev_position();
     VecCopy(&center, &body_center);
-    if (obj_testFlags30(0x04000000) == 0) {
+    if (test_actor_flags(0x04000000) == 0) {
         submit_cursor_candidate(this, -1);
     }
     minimap_render_dot(&position, -0x5DB4, 1, 0);
@@ -664,7 +664,7 @@ void TObjEneDubchik::update_knockback() {
         break;
     case -1:
         clear_flag_04000000();
-        obj_clearFlags30(0x200);
+        clear_actor_flags(0x200);
         behavior_flags &= ~1;
         referenceHp = hp;
         update_if_active(1);
@@ -777,11 +777,11 @@ void TObjEneDubchik::update_fall_apart() {
     }
     case 4:
         advance_animation();
-        if (obj_testFlags30(0x800) == 0 && frame >= 25.0f) {
+        if (test_actor_flags(0x800) == 0 && frame >= 25.0f) {
             clear_flag_04000000();
         }
         if (action_flags != 8) {
-            obj_clearFlags30(0xA00);
+            clear_actor_flags(0xA00);
             hp = referenceHp = hpmax;
             clear_harmful_statuses();
             behavior_flags &= ~1;
@@ -790,7 +790,7 @@ void TObjEneDubchik::update_fall_apart() {
         }
         break;
     case -1:
-        obj_clearFlags30(0x200);
+        clear_actor_flags(0x200);
         break;
     }
     apply_actor_gravity(this, NULL, 0.0f);

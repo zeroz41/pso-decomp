@@ -24,7 +24,7 @@ void TObjPlayer::update_action_animation() {
     }
     if (is_on_current_floor__10TObjPlayerFi(arg0) != 0) {
         this->clear_state_flags(4);
-        if (this->obj_testFlags30(0x800) != 0) {
+        if (this->test_actor_flags(0x800) != 0) {
             run_action_state_phase(0xF, 0);
             if (test_flags_any((u8 *)&this->m_858, 1) != 0) {
                 this->requested_action = this->get_action_animation();

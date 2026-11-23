@@ -14,7 +14,6 @@ struct CameraAngles;
 // The derived destructors still written out by hand call the base ones by
 // their symbols.
 extern "C" void *__dt__8TObjBaseFv(void *, s16);
-extern "C" void *__dt__14TObjCollidableFv(void *, s16);
 
 // One collision body of an actor (TObjCollidable::bodies points at the actor's
 // array of them); init_collision_body_parts copies a static table of these.
@@ -39,7 +38,8 @@ public:
     void*find_actor_body_contact(u8*, f32);
     void set_indexed_flags(s32, s32);
     void clear_player_status_flag(s32, u32);
-    s32 obj_testFlags30(u32);
+    // actorFlags & flags.
+    s32 test_actor_flags(u32 flags);
     s32 access_object_saved_state(void *, s16);
     void sub_80156A68();
     void*set_collision_body(void*);
@@ -80,7 +80,7 @@ struct ActorBodyHit {
     TObjCollidable *target;
     s32 body;  // index into target->bodies
 };
-extern "C" void copy_actor_body_hit(ActorBodyHit *destination, const ActorBodyHit *source);
+void copy_actor_body_hit(ActorBodyHit *destination, const ActorBodyHit *source);
 
 // One entry of TObjMotion::action_table: what an action plays and how.
 struct TObjMotionAction {
@@ -136,8 +136,10 @@ public:
     void set_action_table(saddr);
     void set_motion_list(saddr);
     void set_requested_action(s16);
-    void sub_8002AE64();
-    void sub_800A7798(f32);
+    // Clears MOTION_NO_BLEND.
+    void enable_motion_blend();
+    // Plays the next action at this speed (MOTION_OVERRIDE_SPEED).
+    void set_override_speed(f32 speed);
     void set_motion_flags(u32 flags);
     TObjMotionAction *get_anim_entry(int action);
     int test_motion_flags(s32 flags);
@@ -149,7 +151,8 @@ public:
     f32 get_action_frame_count(s16 action);
     // Makes the action's motion current.
     void set_action_motion(s32 action);
-    saddr get_item_ptr(s32);
+    // The matrix draw_saving_joints stored for the node (joint_matrices[joint]).
+    saddr get_joint_matrix(s32 joint);
     void set_motion_interpolation_flag();
     // Sets both tables and starts the action.
     void init_motion(TObjMotionAction *actions, BmlMotionEntry *motions, s16 action);
@@ -157,9 +160,9 @@ public:
     // side or MOTION_NO_BLEND forbids it.
     void change_action(s16 action);
     // Clears MOTION_BLENDING and sets MOTION_NO_BLEND.
-    void fn_800660B8();
-    // Calls fn_800660B8, switches to the action, then
-    // runs sub_8002AE64. Its one out-of-line copy sits in the Panarms unit.
+    void disable_motion_blend();
+    // Calls disable_motion_blend, switches to the action, then
+    // runs enable_motion_blend. Its one out-of-line copy sits in the Panarms unit.
     void init(s16 action);
     // Steps the frame and the play mode; every actor calls it each update.
     void advance_animation();
@@ -199,6 +202,8 @@ public:
     s16 play_mode;          // MOTION_MODE_*
     s16 next_play_mode;     // the play mode after a blend
     NJS_MOTION *current_motion;
+    // The name every TObjMotion constructor gives the object.
+    static const char *class_name;
 };
 
 // Empty in the release build; TObjMotion::draw brackets its draw with them.
@@ -232,11 +237,9 @@ extern NodeFlagEntry *node_flag_cursor;
 extern Mtx34 *anim_model_matrix_array;
 // Where save_joint_matrix_callback stores the next node's matrix.
 extern Mtx34 *player_joint_matrix_write_ptr;
-// A 0x6000-byte buffer init_game_systems allocates.
-extern void *lbl_805D5680;
-
-// The name every TObjMotion constructor gives the object.
-extern const char *TObjMotion__class_name;
+// The 0x6000 bytes init_game_systems allocates for the motion data
+// TObjPlayer blends from two motions' keys (TObjPlayer::set_global_7778).
+extern void *motion_blend_buffer;
 
 LAYOUT_ASSERT(TObjBaseSize, sizeof(TObjBase)==0x90);
 LAYOUT_ASSERT(TObjCollidableSize, sizeof(TObjCollidable)==0xAC);

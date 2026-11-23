@@ -318,7 +318,7 @@ void TOTrapSeabed01::vfunc_81() {
         calc_attach_pos();
         clear_player_status_flag(0, 0x08001F04);
         set_indexed_flags(0, 0x8003);
-        obj_clearFlags30(0x40000);
+        clear_actor_flags(0x40000);
         check_hold_player();
     }
 }

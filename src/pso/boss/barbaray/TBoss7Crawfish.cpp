@@ -330,7 +330,7 @@ void TBoss7Crawfish::change_state(s32 state) {
 }
 
 void TBoss7Crawfish::run_task() {
-    if ((mode != 5) && (obj_testFlags30(0x800) != 0)) {
+    if ((mode != 5) && (test_actor_flags(0x800) != 0)) {
         change_state(4);
     }
     switch (mode) {

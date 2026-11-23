@@ -364,7 +364,7 @@ void TObjChallengeRetry::sub_8007313C() {
       var_r30 = new_var;
       loop_6:
       collidable = (u8 *) ((saddr (*)(u32))get_player_by_client_id)(var_r30);
-      if ((collidable != 0) && (((TObjCollidable *)collidable)->obj_testFlags30(0x02000000) != 0))
+      if ((collidable != 0) && (((TObjCollidable *)collidable)->test_actor_flags(0x02000000) != 0))
       {
         var_r31 = 0;
       }

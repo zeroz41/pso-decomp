@@ -446,7 +446,7 @@ void TObjEneMoja::refresh_target() {
     u8 *q;
     u16 tid;
     if (appearance != 1 && ((mode != 0 && target == NULL) || is_actor_cadence_frame(0x1E) != 0)) {
-        if (obj_testFlags30(0x10) != 0) {
+        if (test_actor_flags(0x10) != 0) {
             i = 0;
             best_id = 0xFFFF;
             Vec v = { 0.0f, 0.0f, 0.0f };
@@ -508,7 +508,7 @@ s32 TObjEneMoja::update_action_hold_status() {
             (this->timer) = 0;
             this->appearance = 0;
             this->requested_action = 2;
-            obj_clearFlags30(0x06040000);
+            clear_actor_flags(0x06040000);
             bodies->flags |= 1;
             break;
         }
@@ -529,7 +529,7 @@ s32 TObjEneMoja::update_movement_status() {
             (this->timer) = 0;
             this->appearance = 0;
             this->requested_action = 2;
-            obj_clearFlags30(0x06040000);
+            clear_actor_flags(0x06040000);
             bodies->flags |= 1;
             break;
         }
@@ -586,7 +586,7 @@ void TObjEneMoja::update_idle_state() {
         break;
     }
     refresh_collision_body_centers();
-    obj_clearFlags30(0x200000);
+    clear_actor_flags(0x200000);
 }
 
 void TObjEneMoja::update_appearance_jump() {
@@ -787,7 +787,7 @@ void TObjEneMoja::update_approach_state() {
             TObjPlayer::play_effect_if_v2(-0x200);
         }
         if (action_flags != 0x20U) {
-            sub_800A7798(*(f32 *)((s8 *)moja_behavior_params[variant] + 0xC));
+            set_override_speed(*(f32 *)((s8 *)moja_behavior_params[variant] + 0xC));
             requested_action = 2;
             {
             Vec v = ((TObjChara *)target)->body_center;
@@ -931,7 +931,7 @@ void TObjEneMoja::update_punch_attack() {
     Vec *e;
     switch (phase) {
     case 0:
-        sub_800A7798(*(f32 *)moja_behavior_params[variant]);
+        set_override_speed(*(f32 *)moja_behavior_params[variant]);
         phase = 1;
     case 1:
         advance_animation();
@@ -940,7 +940,7 @@ void TObjEneMoja::update_punch_attack() {
             TObjPlayer::play_effect_if_v2(-0x300);
         }
         if (is_passing_frame(12.0f) != 0) {
-            t = obj_testFlags30(0x10);
+            t = test_actor_flags(0x10);
             n = registered_player_count;
             if (t != 0) {
                 n += registered_enemy_count;

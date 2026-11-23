@@ -257,11 +257,11 @@ s32 TUnk_804E355C::try_add_hit_target(const ActorBodyHit *hit) {
         return 0;
     }
     ok = 1;
-    if (TTecCtrl::is_technique_ready() == 0 && ((TObjCollidable *)hit->target)->obj_testFlags30(0x60000000) == 0x20000000
+    if (TTecCtrl::is_technique_ready() == 0 && ((TObjCollidable *)hit->target)->test_actor_flags(0x60000000) == 0x20000000
         && this->room != ((TObjBase *)(hit->target))->get_room()) {
         ok = 0;
     }
-    if (((TObjCollidable *)hit->target)->obj_testFlags30(0x04000000) != 0
+    if (((TObjCollidable *)hit->target)->test_actor_flags(0x04000000) != 0
         || ((flags = hit->target->bodies[hit->body].flags) & 0x02000000)
         || (flags & 0x1000) || (flags & 0x80)) {
         ok = 0;

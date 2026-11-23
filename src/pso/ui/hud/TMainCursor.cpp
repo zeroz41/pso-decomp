@@ -1076,14 +1076,14 @@ s32 try_add_target_candidate__11TMainCursorFPvPvPvPv(u8 *cursor, u8 *player, u8 
             return 0;
         }
     }
-    if (((TObjCollidable *)target)->obj_testFlags30(0xA00) != 0) {
+    if (((TObjCollidable *)target)->test_actor_flags(0xA00) != 0) {
         return 0;
     }
     if (player == NULL || ((TObject *)player)->all_parents_unqueued_for_destruction() == 0) {
         return 0;
     }
-    if (((TObjCollidable *)player)->obj_testFlags30(((TMainCursor *)cursor)->get_actor_include_mask()) == 0 ||
-        ((TObjCollidable *)player)->obj_testFlags30(((TMainCursor *)cursor)->get_actor_exclude_mask()) != 0) {
+    if (((TObjCollidable *)player)->test_actor_flags(((TMainCursor *)cursor)->get_actor_include_mask()) == 0 ||
+        ((TObjCollidable *)player)->test_actor_flags(((TMainCursor *)cursor)->get_actor_exclude_mask()) != 0) {
         return 0;
     }
     yaw = *(s32 *)(target + 0x60);
@@ -1431,7 +1431,7 @@ void TMainCursor::validate_target() {
             this->update_target_sub();
             return;
         }
-        if (((TObjPlayer *)t)->is_controls_locked() == 0 && ((TObjCollidable *)t)->obj_testFlags30(0x20006) != 0) {
+        if (((TObjPlayer *)t)->is_controls_locked() == 0 && ((TObjCollidable *)t)->test_actor_flags(0x20006) != 0) {
             this->update_target_sub();
             return;
         }
@@ -1478,7 +1478,7 @@ s32 TMainCursor::check_can_pickup() {
     saddr arg0 = (saddr)this;
 
     entity = (saddr)find_entity_by_id(((TMainCursor *)(arg0 + 0x60))->get_id());
-    if ((entity != 0) && ((u32) (((TObjCollidable *)entity)->obj_testFlags30(0x80000000) + 0x80000000) == 0U) && ((temp_r3b = ((TMainCursor *)arg0)->check_field_24()) != 0U) && (((TObjPlayer *)temp_r3b)->can_pickup_item_by_id((TItem *)entity) == 0)) {
+    if ((entity != 0) && ((u32) (((TObjCollidable *)entity)->test_actor_flags(0x80000000) + 0x80000000) == 0U) && ((temp_r3b = ((TMainCursor *)arg0)->check_field_24()) != 0U) && (((TObjPlayer *)temp_r3b)->can_pickup_item_by_id((TItem *)entity) == 0)) {
         return 1;
     }
     return 0;

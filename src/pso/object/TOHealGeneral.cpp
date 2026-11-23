@@ -104,7 +104,7 @@ void TOHealGeneral::apply_heal_to_target() {
     u32 id = heal_target;
     if (id != 0xFFFF && id < 0x1000) {
         player = get_player_by_client_id(id);
-        if (player != NULL && player->obj_testFlags30(0x800) == 0 &&
+        if (player != NULL && player->test_actor_flags(0x800) == 0 &&
             horizontal_distance_squared(&player->position, &position) < 225.0f) {
             add_actor_hp((u8 *)player, 9);
             add_actor_tp((u8 *)player, 9);

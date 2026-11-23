@@ -378,7 +378,7 @@ void TObjMotion::set_motion_list(saddr v) { *(saddr *)&this->motion_list = v; }
 
 void TObjMotion::set_requested_action(s16 v) { this->requested_action = v; }
 
-void TObjMotion::sub_8002AE64() {
+void TObjMotion::enable_motion_blend() {
     this->motion_flags = (s32) (this->motion_flags & 0xFFFFFFFE);
 }
 
@@ -3079,7 +3079,7 @@ void TBoss1Dragon::update_spinning_projectile_attack(u32 reason) {
         break;
     case ENEMY_STATE_LEAVE:
         this->rotation_x = 0;
-        this->sub_8002AE64();
+        this->enable_motion_blend();
         this->camera_eye_raised = 0;
         break;
     }

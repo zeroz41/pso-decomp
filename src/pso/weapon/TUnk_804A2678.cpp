@@ -49,7 +49,7 @@ void TUnk_804A2660::run_task() {
             var_r31 = 1;
             if (((TItemWeapon *)item)->get_joint_position(this->m_20, sp8) != 0) {
                 ((TParticleCtrl *)*(uaddr *)&this->unk_24)->set_position(sp8);
-                if ((((TItem *)item)->is_hidden() == 0) || (((TObjCollidable *)item)->obj_testFlags30(0x08000000) == 0)) {
+                if ((((TItem *)item)->is_hidden() == 0) || (((TObjCollidable *)item)->test_actor_flags(0x08000000) == 0)) {
                     ((TParticleCtrl *)(*(uaddr *)&this->unk_24))->clear_active_flag();
                 } else {
                     ((TParticleCtrl *)(*(uaddr *)&this->unk_24))->enable();

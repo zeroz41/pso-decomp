@@ -430,7 +430,7 @@ void TObjEneGibbles::refresh_target() {
     if (is_actor_cadence_frame(0x1E) == 0) {
         return;
     }
-    if (obj_testFlags30(0x10) != 0) {
+    if (test_actor_flags(0x10) != 0) {
         s32 best_id;
         s32 i;
         TObjPlayer *p;
@@ -547,7 +547,7 @@ s32 TObjEneGibbles::update_action_hold_status() {
                 this->mode = 3;
                 this->phase = 0;
                 this->requested_action = 1;
-                obj_clearFlags30(0x06240000);
+                clear_actor_flags(0x06240000);
             }
             break;
         }
@@ -569,7 +569,7 @@ s32 TObjEneGibbles::update_movement_status() {
                 this->mode = 3;
                 this->phase = 0;
                 this->requested_action = 1;
-                obj_clearFlags30(0x06240000);
+                clear_actor_flags(0x06240000);
             }
             break;
         }
@@ -585,7 +585,7 @@ void TObjEneGibbles::run_idle_action() {
             this->mode = 0xA;
             this->phase = 0;
             this->requested_action = 0;
-            obj_clearFlags30(0x200000);
+            clear_actor_flags(0x200000);
             obj_setFlags30(this, 0x06040000);
             this->status_flags &= 0xFFFF0000;
             this->bodies->flags &= 0xFFFFFFFE;
@@ -621,7 +621,7 @@ void TObjEneGibbles::update_wander() {
     if (target != NULL) {
         mode = 3;
         phase = 0;
-        obj_clearFlags30(0x06240000);
+        clear_actor_flags(0x06240000);
         status_flags &= 0xFFFF0000;
         status_flags |= 4;
         bodies->flags |= 1;
@@ -633,7 +633,7 @@ void TObjEneGibbles::update_wander() {
     check_object_collisions();
     check_enemy_body_collisions(this);
     update_enemy_collision_flags();
-    obj_clearFlags30(0x200000);
+    clear_actor_flags(0x200000);
     play_ground_contact_sound();
     minimap_render_dot(&position, -0x5DB4, 1, 0);
     submit_cursor_candidate(this, -1);

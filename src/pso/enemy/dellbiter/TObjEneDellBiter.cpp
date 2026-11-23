@@ -449,7 +449,7 @@ s32 TObjEneDellBiter::check_rush_collisions() {
                     attack.power = TObjEneDellBiter__movement_params->attack_power;
                 }
                 target->receive_direct_attack(this, attack, NULL, -1, -1);
-                if (target->obj_testFlags30(0x04000000) == 0) {
+                if (target->test_actor_flags(0x04000000) == 0) {
                     obj_setFlags30(target, 0x600);
                 }
                 new TObjEneDellBiter_Eff_Rush(this, this, target, 12.0f);

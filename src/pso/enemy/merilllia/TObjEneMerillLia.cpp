@@ -438,7 +438,7 @@ void TObjEneMerillLia::beast_update_approach() {
     update_collisions();
     update_enemy_collision_flags();
     minimap_render_dot(&position, -0x5DB4, 1, 0);
-    obj_clearFlags30(0x200000);
+    clear_actor_flags(0x200000);
 }
 
 void TObjEneMerillLia::beast_update_appear() {
@@ -465,7 +465,7 @@ void TObjEneMerillLia::beast_update_appear() {
             appearing = 0;
             requested_action = 0;
             clear_player_status_flag(0, 0xA000000);
-            obj_clearFlags30(0x4000000);
+            clear_actor_flags(0x4000000);
         }
         break;
     case 2:
@@ -543,7 +543,7 @@ void TObjEneMerillLia::beast_update_group_chase() {
         start_burrow();
         break;
     case 2:
-        obj_clearFlags30(0x1000);
+        clear_actor_flags(0x1000);
         if (is_actor_cadence_frame(0x1E) != 0) {
             targetId = find_nearest_visible_player(this, NULL, ((BeastMovementParams *)movementParameters)->detectionRadius);
         }
@@ -554,7 +554,7 @@ void TObjEneMerillLia::beast_update_group_chase() {
                 mode = 1;
                 phase = 0;
                 requested_action = 0xA;
-                obj_clearFlags30(0x4040000);
+                clear_actor_flags(0x4040000);
                 clear_player_status_flag(0, 0xA000000);
                 break;
             }
@@ -676,12 +676,12 @@ void TObjEneMerillLia::beast_idle_update() {
         start_burrow();
     }
     }
-    if (obj_testFlags30(0x800000) == 0) {
+    if (test_actor_flags(0x800000) == 0) {
         apply_actor_gravity(this, NULL, 0.0f);
     }
     refresh_collision_body_centers();
     minimap_render_dot(&position, -0x5DB4, 1, 0);
-    obj_clearFlags30(0x04240000);
+    clear_actor_flags(0x04240000);
     clear_player_status_flag(0, 0x0A000000);
 }
 #pragma pop
@@ -715,7 +715,7 @@ void TObjEneMerillLia::beast_update_hurt() {
         play_hurt_sound();
     }
     if (action_flags != 8) {
-        obj_clearFlags30(0x600);
+        clear_actor_flags(0x600);
         clear_player_status_flag(0, 0x04000000);
         if ((f32)hp <= (f32)hpmax * react_hp_ratio) {
             select_hurt_action();
@@ -734,7 +734,7 @@ void TObjEneMerillLia::update_kafun_attack() {
         phase = 1;
         requested_action = 0xC;
         obj_setFlags30(this, 0x200000);
-        obj_clearFlags30(0x04040000);
+        clear_actor_flags(0x04040000);
         clear_player_status_flag(0, 0x0A000000);
         break;
     case 1:
@@ -763,7 +763,7 @@ void TObjEneMerillLia::update_kafun_attack() {
     case 2:
         timer--;
         if (timer < 0) {
-            obj_clearFlags30(0x200000);
+            clear_actor_flags(0x200000);
             timer = 0;
             if (random_ratio() <= retreat_chance) {
                 start_retreat();
@@ -802,7 +802,7 @@ void TObjEneMerillLia::update_burrow() {
             phase = 2;
             appearing = 1;
             clear_player_status_flag(0, 0x0A000000);
-            obj_clearFlags30(0x04040000);
+            clear_actor_flags(0x04040000);
         }
         break;
     case 2:
@@ -863,7 +863,7 @@ void TObjEneMerillLia::start_kafun_attack() {
     mode = 0xA;
     phase = 0;
     obj_setFlags30(this, 0x200000);
-    obj_clearFlags30(0x04040000);
+    clear_actor_flags(0x04040000);
     clear_player_status_flag(0, 0x0A000000);
 }
 
@@ -871,7 +871,7 @@ void TObjEneMerillLia::start_retreat() {
     mode = 4;
     phase = 0;
     retreat_timer = retreat_frames;
-    obj_clearFlags30(0x04240000);
+    clear_actor_flags(0x04240000);
     clear_player_status_flag(0, 0x0A000000);
 }
 
@@ -924,7 +924,7 @@ void TObjEneMerillLia::run_attack_action() {
             mode = 2;
             requested_action = 10;
         }
-        obj_clearFlags30(0x4040000);
+        clear_actor_flags(0x4040000);
         clear_player_status_flag(0, 0xA000000);
         break;
     default:
@@ -936,14 +936,14 @@ void TObjEneMerillLia::run_attack_action() {
             requested_action = 4;
         }
         obj_setFlags30(this, 0x200000);
-        obj_clearFlags30(0x4040000);
+        clear_actor_flags(0x4040000);
         clear_player_status_flag(0, 0xA000000);
         break;
     }
 }
 
 void TObjEneMerillLia::run_move_action() {
-    if (obj_testFlags30(0x1000) != 0) {
+    if (test_actor_flags(0x1000) != 0) {
         mode = 4;
     }
     switch (mode) {
@@ -964,7 +964,7 @@ void TObjEneMerillLia::run_move_action() {
             mode = 2;
             requested_action = 10;
         }
-        obj_clearFlags30(0x4040000);
+        clear_actor_flags(0x4040000);
         clear_player_status_flag(0, 0xA000000);
         break;
     case 4:
@@ -974,7 +974,7 @@ void TObjEneMerillLia::run_move_action() {
         mode = 3;
         phase = 1;
         requested_action = 2;
-        obj_clearFlags30(0x4040000);
+        clear_actor_flags(0x4040000);
         clear_player_status_flag(0, 0xA000000);
         break;
     }

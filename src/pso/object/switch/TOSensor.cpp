@@ -35,7 +35,7 @@ s32 TOSensor::is_confirm_pressed() {
         player = get_player_by_client_id(local_client_id);
         switch (mode) {
         case 1:
-            if (player != NULL && player->obj_testFlags30(0x400000) != 0) {
+            if (player != NULL && player->test_actor_flags(0x400000) != 0) {
                 if (horizontal_distance_squared(&player->position, &position) < activate_range * activate_range) {
                     is_on = 1;
                 }

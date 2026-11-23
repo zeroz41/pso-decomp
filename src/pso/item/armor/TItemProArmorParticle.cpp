@@ -130,7 +130,7 @@ void TItemEffArmorParticle::run_task() {
         if (player != NULL) {
             if (item != NULL) {
                 if (item->get_mode() == 2) {
-                    if (player->obj_testFlags30(0x800) == 0) {
+                    if (player->test_actor_flags(0x800) == 0) {
                         if (item->is_hidden() == 0) {
                             particle->clear_active_flag();
                         } else {

@@ -1356,7 +1356,7 @@ f32 TObjEneEpsilonBody::receive_weapon_special_attack(void *src, void *hit) {
             show_miss_popup(&position.x);
             return 0.0f;
         }
-        if (obj_testFlags30(0x04000000) != 0) {
+        if (test_actor_flags(0x04000000) != 0) {
             strong = 1;
         }
         if (hit != NULL && (((CollisionBody *)hit)->flags & 0x02000000)) {

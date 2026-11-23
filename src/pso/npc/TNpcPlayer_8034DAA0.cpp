@@ -507,7 +507,7 @@ void TNpcPlayer::send_6x3e_to_all_players(void *pos, s32 arg) {
         p = get_player_by_client_id(i);
         if (p != 0 && reinterpret_cast<TObjPlayer *>(p)->obj_isState3_324() != 0 && ((TObjPlayer *)p)->get_npc_controller() != 0xFFFF) {
             flag = 0;
-            if (((TObjCollidable *)p)->obj_testFlags30(0x100000) != 0) {
+            if (((TObjCollidable *)p)->test_actor_flags(0x100000) != 0) {
                 flag = 1;
             }
             ((TNpcPlayer *)(&pkt))->init_6x3E_packet();
@@ -582,7 +582,7 @@ void TNpcPlayer::send_stop_at_position(u16 id, void *pos, s32 arg) {
     p = (u8 *) get_player_by_client_id(id);
     flag = 0;
     if (p != NULL) {
-        if (((TObjCollidable *)p)->obj_testFlags30(0x100000) != 0) {
+        if (((TObjCollidable *)p)->test_actor_flags(0x100000) != 0) {
             flag = 1;
         }
         pkt.id = id;
@@ -628,7 +628,7 @@ void quest_player_look_at_partner(u16 src) {
     }
     ((TNpcPlayer *)(&pkt))->init_6x3E_packet();
     flag = 0;
-    if (((TObjCollidable *)a)->obj_testFlags30(0x100000) != 0) {
+    if (((TObjCollidable *)a)->test_actor_flags(0x100000) != 0) {
         flag = 1;
     }
     heading = (s32) ((65536.0 / (2.0 * 3.141592f)) * atan2_float(c->x - a->x, c->z - a->z));
@@ -657,7 +657,7 @@ void quest_player_face_actor(u16 src, u16 dst) {
         return;
     }
     ((TNpcPlayer *)(&pkt))->init_6x3E_packet();
-    ((TObjCollidable *)a)->obj_testFlags30(0x100000);
+    ((TObjCollidable *)a)->test_actor_flags(0x100000);
     heading = (s32) ((65536.0 / (2.0 * 3.141592f)) * atan2_float(c->x - a->x, c->z - a->z));
     pkt.id = src;
     VecCopy((Vec *)&pkt.x, (const Vec *)&a->x);

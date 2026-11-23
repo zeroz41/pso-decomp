@@ -339,7 +339,7 @@ void *resolve_hittable_target(u16 actorId, s16 collider) {
     if (target == NULL) {
         return NULL;
     }
-    if (((TObject *)target)->all_parents_unqueued_for_destruction() == 0 || ((TObjCollidable *)target)->obj_testFlags30(0x04040800) != 0) {
+    if (((TObject *)target)->all_parents_unqueued_for_destruction() == 0 || ((TObjCollidable *)target)->test_actor_flags(0x04040800) != 0) {
         return NULL;
     }
     if (((TUnk_80493450 *)target)->test_elt_flag(collider, 1) == 0) {
@@ -853,7 +853,7 @@ s32 test_player_overlap_with_players(void *arg0, Obj_801559D0 *self, Vec *pos, v
         a.facing = self->f60;
         for (i = registered_player_count; i < lbl_805D5868; i++) {
             o = (Obj_801559D0 *)TObjPlayer::get_player_data(i);
-            if (o != 0 && o != self && ((TObjCollidable *)o)->obj_testFlags30(0x80000800) == 0 && o->a4 != 0 &&
+            if (o != 0 && o != self && ((TObjCollidable *)o)->test_actor_flags(0x80000800) == 0 && o->a4 != 0 &&
                 horizontal_distance_squared(&self->pos, &o->pos) < 10000.0f) {
                 b.colliders = o->a4;
                 b.count = o->a8;

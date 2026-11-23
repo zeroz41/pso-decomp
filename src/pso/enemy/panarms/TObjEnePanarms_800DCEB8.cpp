@@ -185,9 +185,9 @@ s32 TObjEnePanBARA::is_dying() {
 }
 
 void TObjMotion::init(s16 action) {
-    fn_800660B8();
+    disable_motion_blend();
     change_action(action);
-    sub_8002AE64();
+    enable_motion_blend();
 }
 
 static void __sinit_TObjEnePanarms_800DCEB8_cpp() {
@@ -741,7 +741,7 @@ void TObjEnePanarms::enter_rise() {
     this->shadow_visible = 1;
     this->visible = 1;
     this->collision_body_parts->flags &= ~1;
-    obj_clearFlags30(0x40000U);
+    clear_actor_flags(0x40000U);
     obj_setFlags30(this, (int)(0x04000000U));
 }
 
@@ -785,7 +785,7 @@ void TObjEnePanarms::enter_move() {
     this->move_count += 1;
     this->collision_body_parts->flags &= ~0x08000000;
     this->collision_body_parts->flags |= 1;
-    this->obj_clearFlags30(0x04040000);
+    this->clear_actor_flags(0x04040000);
     this->state_timer = (s32) (49.999996f * (f32) ((s32) (1.99f * random_ratio()) + 1));
     set_requested_action((s16)action);
 }
@@ -928,7 +928,7 @@ void TObjEnePanarms::update_dead() {
 
 void TObjEnePanarms::enter_charge_beam_up() {
     this->collision_body_parts->flags |= 1;
-    obj_clearFlags30(0x04040000U);
+    clear_actor_flags(0x04040000U);
     set_requested_action(6);
 }
 
@@ -952,7 +952,7 @@ void TObjEnePanarms::enter_beam_up() {
     Vec direction;
     s32 angle;
     this->collision_body_parts->flags |= 1;
-    this->obj_clearFlags30(0x04040000U);
+    this->clear_actor_flags(0x04040000U);
     angle = this->rotation_y + 0x4000;
     angles[1] = 0;
     angles[0] = angle;
@@ -982,7 +982,7 @@ void TObjEnePanarms::update_beam_up() {
 
 void TObjEnePanarms::enter_charge_beam_down() {
     this->collision_body_parts->flags |= 1;
-    obj_clearFlags30(0x04040000U);
+    clear_actor_flags(0x04040000U);
     set_requested_action(8);
 }
 
@@ -1006,7 +1006,7 @@ void TObjEnePanarms::enter_beam_down() {
     Vec direction;
     s32 angle;
     this->collision_body_parts->flags |= 1;
-    this->obj_clearFlags30(0x04040000U);
+    this->clear_actor_flags(0x04040000U);
     spawn_directional_particle(&draw_positions[4], &rotation_x, 0x109);
     angle = this->rotation_y - 0x4000;
     angles[1] = 0;
@@ -1041,7 +1041,7 @@ void TObjEnePanarms::update_beam_down() {
 
 void TObjEnePanarms::enter_split() {
     this->collision_body_parts->flags &= ~1;
-    this->obj_clearFlags30((u32)(0x40000));
+    this->clear_actor_flags((u32)(0x40000));
     obj_setFlags30(this, 0x04000000);
     spawn_split_effect(0x22, 0x3C);
     play_sound_effect(this->remap_sound_for_area(0x4003BC2D), &this->draw_positions[1], 0, 0);
@@ -1062,7 +1062,7 @@ void TObjEnePanarms::update_split() {
 
 void TObjEnePanarms::enter_separated() {
     this->collision_body_parts->flags &= ~1;
-    this->obj_clearFlags30((u32)(0x40000));
+    this->clear_actor_flags((u32)(0x40000));
     obj_setFlags30(this, 0x04000000);
     this->visible = 0;
     this->state_timer = 0x384;
@@ -1122,7 +1122,7 @@ void TObjEnePanarms::update_separated() {
 void TObjEnePanarms::enter_merge() {
     this->visible = 0;
     this->collision_body_parts->flags &= ~1;
-    obj_clearFlags30(0x40000U);
+    clear_actor_flags(0x40000U);
     obj_setFlags30(this, (int)(0x04000000U));
     spawn_split_effect(0x2D, 0x25);
     this->hp = (s16) (this->halves[0]->hp + this->halves[1]->hp);
@@ -1149,7 +1149,7 @@ void TObjEnePanarms::update_merge() {
 void TObjEnePanarms::enter_rejoin() {
     this->visible = 1;
     this->collision_body_parts->flags &= ~1;
-    this->obj_clearFlags30((u32)(0x40000));
+    this->clear_actor_flags((u32)(0x40000));
     obj_setFlags30(this, 0x04000000);
     play_sound_effect(this->remap_sound_for_area(0x4003BC31), &this->draw_positions[1], 0, 0);
     play_sound_effect(this->remap_sound_for_area(0x4003BC30), &this->draw_positions[3], 0, 0);
@@ -1169,7 +1169,7 @@ void TObjEnePanarms::update_rejoin() {
 
 void TObjEnePanarms::enter_spin() {
     this->collision_body_parts->flags |= 1;
-    obj_clearFlags30(0x04040000U);
+    clear_actor_flags(0x04040000U);
     this->state_timer = 0x1E;
     this->spin_count = this->spin_count + 1;
     set_requested_action(0xB);

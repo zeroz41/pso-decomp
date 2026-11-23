@@ -1080,7 +1080,7 @@ s32 TPlayerBattleCtrl4P::check_all_players_flag() {
     var_r31 = 0;
 loop_1:
     player = get_player_by_client_id(var_r31);
-    if ((player != 0U) && (((TObjCollidable *)player)->obj_testFlags30(0x02000000) != 0)) {
+    if ((player != 0U) && (((TObjCollidable *)player)->test_actor_flags(0x02000000) != 0)) {
         return 0;
     }
     var_r31 += 1;

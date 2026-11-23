@@ -436,7 +436,7 @@ f32 fn_801D6AB4(void *arg0v, saddr arg1, s32 amount) {
     f32 k = (f32)amount;
 
     v = arg0->a;
-    if (((TObjCollidable *)arg1)->obj_testFlags30(0x10000000) != 0) {
+    if (((TObjCollidable *)arg1)->test_actor_flags(0x10000000) != 0) {
         v = arg0->b;
     }
     return k * v;

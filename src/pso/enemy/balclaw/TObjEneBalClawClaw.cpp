@@ -642,7 +642,7 @@ void TObjEneBalClawClaw::attach() {
 
 void TObjEneBalClawClaw::detach() {
     behavior_flags &= 0xEFFFFFFF;
-    obj_clearFlags30(0x06040000);
+    clear_actor_flags(0x06040000);
     next_action = 0xB;
 }
 

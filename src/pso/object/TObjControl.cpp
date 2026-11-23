@@ -651,7 +651,7 @@ void TObjEnemy::award_enemy_experience(s32 arg1) {
     TObjPlayer *p;
 
     if ((u16)arg1 >= 0x1000 || (p = get_player_by_client_id(arg1)) == NULL ||
-        p->obj_testFlags30(0x800) != 0 || p->get_floor() != get_current_floor()) {
+        p->test_actor_flags(0x800) != 0 || p->get_floor() != get_current_floor()) {
         return;
     }
     val = *(s32 *)(this->stat_block + 0x1C);
@@ -753,16 +753,16 @@ void TObjEnemy::apply_hit_message_flags(void *arg1_arg) {
         flags = arg1->flags & ~0x3F;
     } else {
         flags = arg1->flags;
-        if ((flags & 2) && obj_testFlags30(2) == 0) {
+        if ((flags & 2) && test_actor_flags(2) == 0) {
             this->apply_paralysis();
         }
-        if ((flags & 4) && obj_testFlags30(4) == 0) {
+        if ((flags & 4) && test_actor_flags(4) == 0) {
             this->apply_shock_status();
         }
-        if ((flags & 0x10) && obj_testFlags30(0x10) == 0) {
+        if ((flags & 0x10) && test_actor_flags(0x10) == 0) {
             this->apply_confusion_status();
         }
-        if ((flags & 0x20) && obj_testFlags30(0x20) == 0) {
+        if ((flags & 0x20) && test_actor_flags(0x20) == 0) {
             this->apply_movement_ailment(0);
         }
     }
@@ -896,11 +896,11 @@ void handle_6x9C_set_enemy_low_game_flags_ultimate(Msg_800F62E0 *arg0) {
     if (e->all_parents_unqueued_for_destruction() == 0) {
         return;
     }
-    if (e->obj_testFlags30(0x800) != 0) {
+    if (e->test_actor_flags(0x800) != 0) {
         return;
     }
     flags = arg0->flags;
-    if (e->obj_testFlags30(flags) != 0) {
+    if (e->test_actor_flags(flags) != 0) {
         return;
     }
     obj_setFlags30(e, flags);

@@ -285,7 +285,7 @@ void obj_set_flag_20000(TObjBase *actor) {
 }
 
 void obj_clear_flag30_20000(TObjBase *actor) {
-    actor->obj_clearFlags30(0x20000);
+    actor->clear_actor_flags(0x20000);
 }
 
 s32 TObjPlayer::check_player_flag1() {

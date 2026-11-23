@@ -399,7 +399,7 @@ void attach_particle_model(void *particle, NJS_OBJECT *model, GinjaTextureList *
 }
 
 extern "C" void load_boss5_gryphon_resources(void);
-void TObjMotion::fn_800660B8() {
+void TObjMotion::disable_motion_blend() {
     motion_flags &= ~MOTION_BLENDING;
     motion_flags |= MOTION_NO_BLEND;
 }
@@ -2797,7 +2797,7 @@ void TBoss5Gryphon::update_offscreen_dive(u32 event) {
             self->rotation_z += 0x3311;
             if (self->dive.frame >= self->dive.frame_limit) {
                 self->requested_action = 0x16;
-                self->fn_800660B8();
+                self->disable_motion_blend();
                 self->dive.step = 1;
             }
             found = 0;

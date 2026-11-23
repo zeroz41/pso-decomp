@@ -307,7 +307,7 @@ void TObjEneLappy::sub_800BFF54() {}
 
 void TObjEneLappy::render() {
     s32 detail;
-    if (obj_testFlags30(0x02000000) == 0) {
+    if (test_actor_flags(0x02000000) == 0) {
         if (this->lappy_flags & LAPPY_NODE_VISIBLE) {
             *rappy_visibility_node &= 0xFFFFFFF7;
         } else {
@@ -346,7 +346,7 @@ void TObjEneLappy::render() {
             pop_matrix();
             restore_scene_lighting();
             TParticleCtrl::end_effect_render();
-            if (!(this->actorFlags & 0x800) && (obj_testFlags30(0x800000) != 0)) {
+            if (!(this->actorFlags & 0x800) && (test_actor_flags(0x800000) != 0)) {
                 this->TObjEnemy::draw_ground_shadow(0, 0);
             }
         }
@@ -431,7 +431,7 @@ void TObjEneLappy::run_hit_reaction() {
     TObjPlayer *attacker;
     this->actorFlags = (s32) (this->actorFlags & 0xFFDFFFFF);
     if (this->lappy_flags & LAPPY_FLEEING) {
-        this->obj_clearFlags30(0x23F);
+        this->clear_actor_flags(0x23F);
         return;
     }
     if ((s16) this->mode != 4) {
@@ -523,7 +523,7 @@ void TObjEneLappy::update_attacking() {
 
 void TObjEneLappy::run_attack_action() {
     u16 id;
-    if (!(this->lappy_flags & (LAPPY_FLEEING | LAPPY_FALLING)) && (obj_testFlags30(0xA02) == 0) && ((s16) this->mode != 2)) {
+    if (!(this->lappy_flags & (LAPPY_FLEEING | LAPPY_FALLING)) && (test_actor_flags(0xA02) == 0) && ((s16) this->mode != 2)) {
         this->mode = 2;
         this->requested_action = 5;
         this->phase = 0;
@@ -565,7 +565,7 @@ void TObjEneLappy::update_moving() {
             chased = target;
             if (chased != NULL) {
                 dist = update_enemy_wander_move(this, ((TObjChara *)chased)->body_center, 1, ((LappyMovementParameters *)movementParameters)->move_speed);
-                if ((obj_testFlags30(2) == 0) && (dist < 10000.0f)) {
+                if ((test_actor_flags(2) == 0) && (dist < 10000.0f)) {
                     move_phase = 1;
                     pad_398 = 0;
                     random_ratio();
@@ -754,7 +754,7 @@ void TObjEneLappy::run_idle_action() {
     if (!(flags & 2) && !(this->actorFlags & 0xA00)) {
         if (flags & 0x20) {
             this->lappy_flags = flags & ~0x20;
-            this->obj_clearFlags30(0x02000000);
+            this->clear_actor_flags(0x02000000);
             Vec v = position;
             if (project_actor_to_ground(this, &v, 0) == 1) {
                 position.y = 300.0f + v.y;
@@ -790,7 +790,7 @@ void TObjEneLappy::refresh_target() {
             } else {
                 targetId = find_nearest_visible_player(this, NULL, ((LappyMovementParameters *)movementParameters)->target_range);
             }
-        } else if (obj_testFlags30(0x10) != 0) {
+        } else if (test_actor_flags(0x10) != 0) {
             i = 0;
             best_id = 0xFFFF;
             Vec v = lappy_target_zero_vec;
@@ -869,7 +869,7 @@ void TObjEneLappy::run_task() {
     }
     update_prev_position();
     VecCopy(&center, &body_center);
-    if ((obj_testFlags30(0x06000000) == 0) && !(lappy_flags & 4)) {
+    if ((test_actor_flags(0x06000000) == 0) && !(lappy_flags & 4)) {
         submit_cursor_candidate((u8 *)this, -1);
     }
     minimap_render_dot(&position, -0x5DB4, 1, 0);
@@ -885,7 +885,7 @@ void TObjEneLappy::run_task() {
             bodies->flags |= 1;
         }
     }
-    if ((obj_testFlags30(0x800) != 0) && !(lappy_flags & 2)) {
+    if ((test_actor_flags(0x800) != 0) && !(lappy_flags & 2)) {
         down_timer++;
         if ((is_actor_cadence_frame(0x1E) != 0) && (((u16)find_nearest_visible_player(this, NULL, 120.0f) == 0xFFFFU) || (down_timer >= 0x384))) {
             start_fleeing();

@@ -103,7 +103,7 @@ void TOExplosiveMachine::render() {
 void TOExplosiveMachine::run_task() {
     for (s32 client = 0; client < TLobby::get_game_mode(); client++) {
         TObjPlayer *player = get_player_by_client_id(client);
-        if (player != NULL && !player->obj_testFlags30(0x800) &&
+        if (player != NULL && !player->test_actor_flags(0x800) &&
             horizontal_distance_squared(&player->position, &position) <= trigger_radius * trigger_radius) {
             const TObjChipParams first = {
                 {0.5f, 0.03f, 0.2f}, {position.x, position.y, position.z}, {3, 5, 3},

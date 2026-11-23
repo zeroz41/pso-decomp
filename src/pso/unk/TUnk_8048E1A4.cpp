@@ -90,8 +90,8 @@ void TUnk_8048E1A4::freeze_shell_hold() {
         return;
     }
     this->rotation_y += 0x10;
-    if (((TObjCollidable *)p)->obj_testFlags30(0x800) == 0) {
-        if (((TObjCollidable *)p)->obj_testFlags30(0x20) != 0) {
+    if (((TObjCollidable *)p)->test_actor_flags(0x800) == 0) {
+        if (((TObjCollidable *)p)->test_actor_flags(0x20) != 0) {
             return;
         }
     }

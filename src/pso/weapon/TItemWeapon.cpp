@@ -57,7 +57,7 @@ void TItemWeapon::draw_weapon_model() {
             var_r30 = this->update_object_view_visibility(400.0f, 20.0f);
         }
         set_texlist((int) (this->texlist));
-        push_matrix_from((void *)((TObjMotion *)(this->owner))->get_item_ptr((s8)get_attach_joint()));
+        push_matrix_from((void *)((TObjMotion *)(this->owner))->get_joint_matrix((s8)get_attach_joint()));
         if ((var_r30 != 0) && (this->is_hidden() == 0)) {
             weapon_render_callback_object = (u8 *)this;
             weapon_node_material_index = *(s16 *)((s8 *)this + 0x1CC);
@@ -316,7 +316,7 @@ void TObjPlayer::set_model_id(s16 v) { this->m_116 = v; }
 s16 TObjPlayer::is_status_subsystem_ready() { return TObjPlayer__sub_801D2F4C((s16 *)((char*)this + 0x7cc)); }
 void*TObjPlayer::get_extended_state() { return ((TObjPlayer *)((char*)this + 0x7cc))->get_state_ptr(); }
 f32 TObjPlayer::query_extended_state() { return get_attack_damage_scale((s16 *)((char*)this + 0x7cc)); }
-int TObjPlayer::test_flag30_bit0x100000() { return obj_testFlags30((uaddr)((void*)1048576)); }
+int TObjPlayer::test_flag30_bit0x100000() { return test_actor_flags((uaddr)((void*)1048576)); }
 }
 void* get_model_joint_matrix(void* a0, int a1) {  return (char*)(*(saddr *)((char*)a0 + 0xdb4)) + a1 * 48; }
 void TObjPlayer::set_action_type(s16 v) { *(s16*)((char*)this + 0x0) = v; }

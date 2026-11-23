@@ -323,7 +323,7 @@ void TObjChallenge4PRetry::update_giveup() {
     flag = 1;
     for (i = 0; i < 4; i++) {
         uaddr ctrl = get_player_by_client_id(i);
-        if (ctrl != 0U && ((TObjCollidable *)ctrl)->obj_testFlags30(0x02000000) != 0) {
+        if (ctrl != 0U && ((TObjCollidable *)ctrl)->test_actor_flags(0x02000000) != 0) {
             flag = 0;
             break;
         }

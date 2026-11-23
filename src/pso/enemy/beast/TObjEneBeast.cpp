@@ -172,7 +172,7 @@ void TObjEneBeast::beast_update_appear() {
             appearing = 0;
             requested_action = 0;
             clear_player_status_flag(0, 0x0A000000);
-            obj_clearFlags30(0x04000000);
+            clear_actor_flags(0x04000000);
         }
         break;
     case 2:

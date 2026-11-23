@@ -438,7 +438,7 @@ s32 TObjTombstone::check_all_players_active() {
     i = 0;
 loop_3:
     player = get_player_by_client_id(i);
-    if (player != NULL && player->obj_testFlags30(0x02000000) != 0) {
+    if (player != NULL && player->test_actor_flags(0x02000000) != 0) {
         return 0;
     }
     i += 1;

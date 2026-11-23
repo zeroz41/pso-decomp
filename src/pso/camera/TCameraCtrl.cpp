@@ -619,7 +619,7 @@ void TCameraCtrl::cycle_spectate_target() {
         }
         candidate = get_player_by_client_id(slot);
         if (candidate != 0) {
-            if (candidate->get_floor() == local->get_floor() && candidate->obj_testFlags30(0x02000000) == 0) {
+            if (candidate->get_floor() == local->get_floor() && candidate->test_actor_flags(0x02000000) == 0) {
                 TCameraCtrl::view_state.spectate_client = slot;
                 reset_cameras_to_actor(candidate, 0);
                 for (i = 0; i < 4; i++) {

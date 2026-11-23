@@ -102,7 +102,7 @@ TUnk_804C4540 *TUnk_804C4540::create(TPlyCharData *data) {
 }
 
 void TUnk_804C4540::render() {
-    if ((obj_testFlags30(0x02000000) == 0) && ((s32)model_load_flags == 0)) {
+    if ((test_actor_flags(0x02000000) == 0) && ((s32)model_load_flags == 0)) {
         select_actor_lighting(this);
         push_matrix();
         translate_matrix_vec3(0, (u8 *)&position);

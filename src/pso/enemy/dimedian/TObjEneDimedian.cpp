@@ -60,7 +60,7 @@ s16 TObjPlayer::get_atp() { return this->atp; }
 s16 TObjPlayer::get_atp_range() { return this->atp_range; }
 void TObjPlayer__sub_800A7774(TObjBase *object, const Vec *position) { VecCopy(&object->position, position); }
 
-void TObjMotion::sub_800A7798(f32 farg0) {
+void TObjMotion::set_override_speed(f32 farg0) {
     this->override_speed = farg0;
     set_motion_flags(MOTION_OVERRIDE_SPEED);
 }

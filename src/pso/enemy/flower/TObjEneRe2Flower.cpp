@@ -197,7 +197,7 @@ TObjEneRe2Flower::TObjEneRe2Flower(TObject *parent, void *setData) : TObjEneDD_S
     requested_action = 1;
     set_animation(requested_action);
     set_requested_action(requested_action);
-    sub_8002AE64();
+    enable_motion_blend();
     if (is_tower_variant()) {
         variant = 2;
     } else if (is_rare_variant()) {
