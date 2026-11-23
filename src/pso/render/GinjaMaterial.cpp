@@ -383,7 +383,7 @@ void apply_ginja_material_params(const GinjaDrawRecord *record) {
                     0.0f != model_material_color.a) {
                     opaque = 0;
                 }
-                const u32 &format = current_render_context->textures->entries[texture].texture->surface->format;
+                const u32 &format = current_render_context->textures->entries[texture].texture->surface->header.format;
                 GXSetZCompLoc(GX_FALSE);
                 if (opaque) {
                     GXSetZMode(GX_TRUE, GX_LEQUAL, GX_FALSE);
@@ -406,8 +406,8 @@ void apply_ginja_material_params(const GinjaDrawRecord *record) {
         } else if (mode != GX_BM_NONE) {
             surface = current_render_context->textures->entries[
                 ginja_material_cache.texture & 0x1FFF].texture->surface;
-            if (ginja_material_cache.textured != 0 && surface->format == GX_TF_CMPR &&
-                source == GX_BL_SRCALPHA && destination == GX_BL_INVSRCALPHA && (surface->flags & 0x40000000) != 0) {
+            if (ginja_material_cache.textured != 0 && surface->header.format == GX_TF_CMPR &&
+                source == GX_BL_SRCALPHA && destination == GX_BL_INVSRCALPHA && (surface->header.flags & 0x40000000) != 0) {
                 if ((u32)(ginja_draw_list_state & 8) == 0 &&
                     (u32)(ginja_draw_list_state & 2) != 0 && (ginja_draw_list_mask & 2)) {
                     ginja_draw_list_state |= 4;
@@ -439,7 +439,7 @@ void apply_ginja_material_params(const GinjaDrawRecord *record) {
         } else {
             surface = current_render_context->textures->entries[
                 ginja_material_cache.texture & 0x1FFF].texture->surface;
-            if (surface->format == GX_TF_CMPR && (surface->flags & 0x40000000) == 0) {
+            if (surface->header.format == GX_TF_CMPR && (surface->header.flags & 0x40000000) == 0) {
                 GXSetBlendMode(GX_BM_NONE, GX_BL_SRCALPHA, GX_BL_INVSRCALPHA, GX_LO_SET);
                 GXSetZCompLoc(GX_TRUE);
                 GXSetZMode(GX_TRUE, GX_LESS, GX_TRUE);

@@ -102,7 +102,7 @@ void load_menu_font(void) {
     }
     load_texture_list(menu_font_texture_list);
     for (m = 0; m < 2; m++) {
-        *(menu_font_glyph_pixel_buffers + m) = menu_font_texture_list[0].entries[m].texture->surface->pixels;
+        *(menu_font_glyph_pixel_buffers + m) = menu_font_texture_list[0].entries[m].texture->surface->header.pixels;
         clear_words_80145804(*(menu_font_glyph_pixel_buffers + m), 0x2000);
     }
     menu_font_palette = (s16 *)mem_alloc(0x100);

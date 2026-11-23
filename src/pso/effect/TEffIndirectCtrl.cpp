@@ -366,7 +366,7 @@ TEffIndirectCtrl::TEffIndirectCtrl(s32 kind, TObject *parent) : TObject(parent) 
     texture_info->set_render_rect(NULL, 1, 0x40, 0x40);
     set_texture_name(&texture_entry, texture_info, global_index, 0x8800000);
     load_texture_list(texture_list);
-    pixels = (u8 *)texture_list->entries->texture->surface->pixels;
+    pixels = (u8 *)texture_list->entries->texture->surface->header.pixels;
     copy_and_flush_texture(get_indirect_source_pixels(source_index));
 }
 

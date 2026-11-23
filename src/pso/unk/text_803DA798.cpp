@@ -341,7 +341,7 @@ s32 TObjPlayer__sub_803DAE98(GinjaTextureState *texture) {
     if (surface->ref_count > 0) {
         surface->ref_count--;
         if (texture->surface->ref_count == 0) {
-            fn_803DB20C(&texture->surface->format);
+            fn_803DB20C(&texture->surface->header.format);
             *(s32 *)((s8 *)current_render_context + 0x14) = -1;
         }
     }
