@@ -37,13 +37,6 @@ struct S_8022B3E8 { s32 f0; Sub_8022B3E8 sub; };
 
 struct AntiRow_8022AE10 { s32 a; s32 b; s32 c; s32 flags; };
 
-struct Obj_8022AE10 {
-    u8 pad0[0x18];
-    void *vtbl;
-    u8 pad1C[0x30 - 0x1C];
-    Vec body;
-    Vec ground;
-};
 
 struct Target_8022B150 { u16 id; u8 pad[6]; };
 
@@ -60,7 +53,6 @@ struct Anti_8022B150 {
     s32 captured;
 };
 
-struct Obj_8022AE10;
 struct Hit_8022AEF8 {
     s32 type;
     f32 power;
@@ -113,15 +105,12 @@ int TTecAnti__spawn_anti_range_effect(void* p);
 void TTecAnti__sub_8022AD94(void *);
 S_8022B3E8 *copy_technique_target_list(S_8022B3E8 *d, S_8022B3E8 *s);
 void set_owner_id__13TParticleCtrlFUs(void *, s32);
-void __ct__7TObjectFP7TObject(void *, void *);
 AntiRow_8022AE10 TTecAnti__self_effect_rows[4] = {
     {0xF, 1, 0x30, 0},
     {0xF, 1, 0x32, 0},
     {0, 0xF, 0x31, 1},
     {0xA, 1, 0x1EC, 1},
 };
-extern s32 __vt__13TUnk_804CC0E8[];
-Obj_8022AE10 *construct_self_effect__8TTecAntiFPvPvPviPv(Obj_8022AE10 *self, const Vec *body, const Vec *ground, s32 actor, void *parent);
 void deliver_technique_to_party_targets(void *);
 void run_task__8TTecAntiFv(Anti_8022B150 *self);
 s32 is_split_screen();
@@ -234,10 +223,7 @@ void TTecAnti::vfunc_7(void *pl_arg) {
     }
     if ((u16)get_entity_id((saddr)self->caster) == (u16)get_entity_id((saddr)pl)) {
         if (self->xAC != 0) {
-            o = TObject::operator new(0x48);
-            if (o != NULL) {
-                construct_self_effect__8TTecAntiFPvPvPviPv((Obj_8022AE10 *)o, (const Vec *)pl->x2FC, (const Vec *)pl->pos, get_entity_id((saddr)pl), tl_07);
-            }
+            new TUnk_804CC0E8((Vec *)pl->x2FC, (Vec *)pl->pos, get_entity_id((saddr)pl), tl_07);
         }
     } else if (self->xAC != 0) {
         o = spawn_particle_effect_with_flags((const Vec *)pl->x2FC, 0x1F8, 0x10);
@@ -254,28 +240,25 @@ void TTecAnti::vfunc_7(void *pl_arg) {
     }
 }
 
-Obj_8022AE10 *construct_self_effect__8TTecAntiFPvPvPviPv(Obj_8022AE10 *self, const Vec *body, const Vec *ground, s32 actor, void *parent) {
+TUnk_804CC0E8::TUnk_804CC0E8(Vec *body_pos, Vec *ground_pos, s32 owner_id, TObject *parent) : TObject(parent) {
     s32 i;
-    __ct__7TObjectFP7TObject(self, parent);
-    self->vtbl = __vt__13TUnk_804CC0E8;
-    VecCopy((Vec *)&self->body, (const Vec *)body);
-    VecCopy((Vec *)&self->ground, (const Vec *)ground);
+    VecCopy(&m_body_pos, body_pos);
+    VecCopy(&m_ground_pos, ground_pos);
     for (i = 0; i < 4; i++) {
         AntiRow_8022AE10 *row = &TTecAnti__self_effect_rows[i];
-        void *p;
+        TParticleCtrl *p;
         if (row->flags & 1) {
-            p = create_timed_particle_emitter_with_flags(&self->ground, row->c, row->a, row->b, 0x10);
+            p = create_timed_particle_emitter_with_flags(&m_ground_pos, row->c, row->a, row->b, 0x10);
             if (p != NULL) {
-                set_owner_id__13TParticleCtrlFUs(p, actor);
+                set_owner_id__13TParticleCtrlFUs(p, owner_id);
             }
         } else {
-            p = create_timed_particle_emitter_with_flags(&self->body, row->c, row->a, row->b, 0x10);
+            p = create_timed_particle_emitter_with_flags(&m_body_pos, row->c, row->a, row->b, 0x10);
             if (p != NULL) {
-                set_owner_id__13TParticleCtrlFUs(p, actor);
+                set_owner_id__13TParticleCtrlFUs(p, owner_id);
             }
         }
     }
-    return self;
 }
 
 TUnk_804CC0E8::~TUnk_804CC0E8() {

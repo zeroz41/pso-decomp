@@ -15,6 +15,7 @@
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/unk/TUnk_804DDD28.h"
+#include "pso/unk/TUnk_804CCC28.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/PlayerActionPaletteState.h"
@@ -1310,7 +1311,6 @@ void capture_technique_targets__10TObjPlayerFv(int kind, void *owner);
 void launch_technique__10TObjPlayerFv(s32, s32, void *);
 Rec_801CCEDC * calc_technique_parameters(s32 tech, s32 level, s32 id);
 s32 construct_actor_light_task(void *, f32 *, f32 *, int, void *, f32, s32);
-s32 construct_revival_particle_effect(void *, void *, s32);
 void TObjPlayer__sub_8024ABDC(saddr arg0);
 void TLobby__sub_8024AC20(saddr arg0);
 }
@@ -2576,10 +2576,7 @@ void TObjPlayer::init_action() {
     this->set_action_state(0x12, (s16) ((s32 (*)(void))ret_801D26AC)());
     disable_motion_blend();
     if (is_current_area_item_enabled() != 0) {
-        void *new_obj = (void *)(size_t)__nw__7TObjectFUl(0x38);
-        if (new_obj != 0U) {
-            construct_revival_particle_effect(new_obj, arg0, tl_07);
-        }
+        new TUnk_804CCC28(this, (TObject *)tl_07);
     }
     if ((u32) *(u32 *)((s8 *)arg0 + 0x548) != 0U) {
         ((TObject *)(*(void **)((s8 *)arg0 + 0x548)))->queue_destruction();

@@ -5308,8 +5308,8 @@ force_active:
   - construct_rappys_fan__13TUnk_804F0908FlPv
   - __ct__13TUnk_804A4238FP7TObjectPUc
   - __ct__13TUnk_804A4338FP7TObjectPUc
-  - construct_self_effect__8TTecAntiFPvPvPviPv
-  - construct_self_recovery__9TTecRestaFPvPviPv
+  - __ct__13TUnk_804CC0E8FP3VecP3VeclP7TObject
+  - __ct__13TUnk_804CCBC0FP3VeclP7TObject
   - __ct__13TUnk_804A5C18FP7TObjectPUc
   - __ct__13TUnk_804A5B20FP7TObjectPUc
   - __ct__13TUnk_804A5838FP7TObjectPUc

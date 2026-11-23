@@ -28,7 +28,6 @@ const char *TTecResta__name = "TTecResta";
 
 struct Row_8023967C { s32 delay; s32 duration; s32 entry; u32 flags; };
 
-struct Resta_8023967C { u8 pad[0x18]; s32 *vt; void *emitters[3]; s32 owner; s32 x2c; };
 
 struct Target_802399F8 { u16 id; u8 pad[6]; };
 
@@ -45,7 +44,6 @@ struct Resta_802399F8 {
     s32 captured;
 };
 
-struct Resta_8023967C;
 struct HitInfo_8023985C { s32 type; f32 power; };
 
 struct VBase_8023985C { char pad[0x18]; };
@@ -108,15 +106,12 @@ struct Obj_80239CF4 { u8 pad[0x1C]; void *source; u8 pad20[0x88 - 0x20]; f32 pow
 
 extern "C" {
 saddr get_entity_id(int);
-extern s32 __vt__13TUnk_804CCBC0[];
 Row_8023967C TTecResta__self_recovery_effect_table[3] = {
     {0x14, 1, 0x2C, 0},
     {0, 1, 0x2D, 1},
     {0x14, 1, 0x2E, 0},
 };
-void __ct__7TObjectFP7TObject(void *, void *);
 void set_owner_id__13TParticleCtrlFUs(void *, s32);
-Resta_8023967C *construct_self_recovery__9TTecRestaFPvPviPv(Resta_8023967C *self, Vec *pos, s32 owner, void *parent);
 void deliver_technique_to_party_targets(void *);
 void run_task__9TTecRestaFv(Resta_802399F8 *self);
 s32 is_split_screen(void);
@@ -240,10 +235,7 @@ void TTecResta::vfunc_7(void *arg1_arg) {
     player->m21((void *)arg0->source, &c, 0, 0xF, -1);
     if ((u16)get_entity_id(arg0->source) == (u16)get_entity_id((saddr)player)) {
         if (*(s32 *)&arg0->m_ac != 0) {
-            void *o = TObject::operator new(0x30);
-            if (o != NULL) {
-                construct_self_recovery__9TTecRestaFPvPviPv((Resta_8023967C *)o, (Vec *)((u8 *)player + 0x2FC), arg0->source, tl_07);
-            }
+            new TUnk_804CCBC0((Vec *)((u8 *)player + 0x2FC), arg0->source, tl_07);
         }
     } else if (*(s32 *)&arg0->m_ac != 0) {
         void *e = spawn_particle_effect_with_flags((const Vec *)((u8 *)player + 0x2FC), 0x1F6, 0x10);
@@ -271,33 +263,30 @@ void TTecResta::create(void *source, void *origin, void *targets, s32 level) {
 
 #pragma push
 #pragma opt_common_subs off
-Resta_8023967C *construct_self_recovery__9TTecRestaFPvPviPv(Resta_8023967C *self, Vec *pos, s32 owner, void *parent) {
+TUnk_804CCBC0::TUnk_804CCBC0(Vec *pos, s32 owner, TObject *parent) : TObject(parent) {
     Vec v;
     s32 i;
     Row_8023967C *row;
-    __ct__7TObjectFP7TObject(self, parent);
-    self->vt = ((s32 *)&__vt__13TUnk_804CCBC0);
-    self->x2c = 0;
+    m_timer = 0;
     for (i = 0; i < 3; i++) {
-        self->emitters[i] = 0;
+        m_emitters[i] = 0;
     }
-    self->owner = owner;
+    m_owner = owner;
     for (i = 0; i < 3; i++) {
-        VecCopy((Vec *)&v, (const Vec *)pos);
+        VecCopy(&v, pos);
         row = &TTecResta__self_recovery_effect_table[i];
         if (row->flags & 1) {
             v.y -= 5.0f;
         }
         if (i == 2) {
-            self->emitters[i] = create_timed_particle_emitter_with_flags(&v, row->entry, row->delay, row->duration, 0x30);
+            m_emitters[i] = create_timed_particle_emitter_with_flags(&v, row->entry, row->delay, row->duration, 0x30);
         } else {
-            self->emitters[i] = create_timed_particle_emitter_with_flags(&v, row->entry, row->delay, row->duration, 0x10);
+            m_emitters[i] = create_timed_particle_emitter_with_flags(&v, row->entry, row->delay, row->duration, 0x10);
         }
-        if (self->emitters[i] != 0) {
-            set_owner_id__13TParticleCtrlFUs(self->emitters[i], get_entity_id(self->owner));
+        if (m_emitters[i] != 0) {
+            set_owner_id__13TParticleCtrlFUs(m_emitters[i], get_entity_id(m_owner));
         }
     }
-    return self;
 }
 #pragma pop
 
@@ -306,11 +295,7 @@ TUnk_804CCBC0::~TUnk_804CCBC0() {
 }
 
 void TUnk_804CCBC0::run_task() {
-    s32 temp_r4;
-
-    temp_r4 = this->m_2c;
-    this->m_2c = (temp_r4 + 1);
-    if (temp_r4 > 0xB4) {
+    if (m_timer++ > 180) {
         queue_destruction();
     }
 }

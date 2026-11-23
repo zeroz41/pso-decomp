@@ -23,15 +23,6 @@
 
 struct Entry_80239E44 { s32 a; s32 b; s32 c; s32 pad; };
 
-struct Player_80239E44 { u8 pad[0x2FC]; Vec pos; };
-
-struct Obj_80239E44 {
-    u8 pad[0x18];
-    void *vtable;
-    void *parts[3];
-    s32 f28;
-    Vec pos;
-};
 
 struct Rev_8023A364 {
     u8 pad[0xcc];
@@ -52,14 +43,11 @@ void run_task__12TTecReverserFv(u8 *arg0);
 s32 get_entity_id(int);
 s32 copy_technique_target_list(void *, void *);
 const char *lbl_805D3818 = "TTecReverser";
-void __ct__7TObjectFP7TObject(void *self, void *parent);
-extern s32 __vt__13TUnk_804CCC28[];
 Entry_80239E44 revival_particle_table[3] = {
     {0, 0x1E, 0x35, 0},
     {0x23, 1, 0x36, 0},
     {0x2D, 1, 0x37, 0},
 };
-Obj_80239E44 *construct_revival_particle_effect(Obj_80239E44 *self, Player_80239E44 *player, void *parent);
 s32 get_type__10TObjPlayerFPv(void *p);
 
 }
@@ -179,33 +167,29 @@ void run_task__12TTecReverserFv(u8 *tec_reverser) {
 
 void TTecReverser::render() {  }
 
-Obj_80239E44 *construct_revival_particle_effect(Obj_80239E44 *self, Player_80239E44 *player, void *parent) {
+TUnk_804CCC28::TUnk_804CCC28(TObjChara *chara, TObject *parent) : TObject(parent) {
     s32 i;
-    __ct__7TObjectFP7TObject(self, parent);
-    self->vtable = __vt__13TUnk_804CCC28;
-    self->f28 = 0;
-    VecCopy((Vec *)&self->pos, (const Vec *)&player->pos);
+    m_timer = 0;
+    VecCopy(&m_pos, &chara->body_center);
     for (i = 0; i < 3; i++) {
         if (i == 0) {
             Vec v;
-            VecCopy((Vec *)&v, (const Vec *)&self->pos);
+            VecCopy(&v, &m_pos);
             v.y += 20.0f;
-            self->parts[i] = create_timed_particle_emitter(&v, revival_particle_table[i].c, revival_particle_table[i].a, revival_particle_table[i].b);
+            m_emitters[i] = create_timed_particle_emitter(&v, revival_particle_table[i].c, revival_particle_table[i].a, revival_particle_table[i].b);
         } else {
-            self->parts[i] = create_timed_particle_emitter(&self->pos, revival_particle_table[i].c, revival_particle_table[i].a, revival_particle_table[i].b);
+            m_emitters[i] = create_timed_particle_emitter(&m_pos, revival_particle_table[i].c, revival_particle_table[i].a, revival_particle_table[i].b);
         }
     }
-    return self;
 }
 
 void TUnk_804CCC28::run_task() {
-    u8 *arg0 = (u8 *)this;
-    this->m_28 = (this->m_28 + 1);
-    if ((s32) this->m_28 == 0xA) {
-        spawn_particle_effect((const Vec *)&this->unk_2C, 0x38);
+    m_timer = m_timer + 1;
+    if (m_timer == 10) {
+        spawn_particle_effect(&m_pos, 0x38);
     }
-    if ((s32) this->m_28 > 0xC8) {
-        ((TObject *)arg0)->queue_destruction();
+    if (m_timer > 200) {
+        queue_destruction();
     }
 }
 
