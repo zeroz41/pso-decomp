@@ -8,7 +8,7 @@
 extern "C" s32 GXBegin(int, int, u16);
 
 void TObjBoss2Tunnel::reset_player_state() {
-    TObjPlayer::sub_803E2248();
+    end_primitive_draw();
 }
 
 #pragma push
@@ -47,7 +47,7 @@ void TObjBoss2Tunnel::draw_projected_quads(ProjectedVertex *p, s32 n) {
 void TObjBoss2Tunnel::setup_projected_color_draw(s32 mode) {
     TObjPlayer::load_screen_space_matrix();
     if (mode != 0) {
-        TObjPlayer::sub_803E21DC();
+        setup_blended_color_draw();
         return;
     }
     setup_opaque_color_draw();

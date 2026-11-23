@@ -562,7 +562,7 @@ void TItemMag::render_equipped() {
         scaled = owner->scale_state.is_scaled();
         scale = owner->scale_state.get_scalar();
         push_matrix();
-        TObjPlayer::sub_80364198();
+        TObjPlayer::save_model_render_state();
         TObjPlayer::set_model_fade_alpha(get_owner_alpha());
         for (i = 0; i != 2; i++) {
             if (children[i] != NULL && children[i]->is_growth_inactive() != 0) {
@@ -577,7 +577,7 @@ void TItemMag::render_equipped() {
             }
         }
         TObjPlayer::warn_if_gauge_low();
-        TObjPlayer::sub_8036414C();
+        TObjPlayer::restore_model_render_state();
         pop_matrix();
     }
 }

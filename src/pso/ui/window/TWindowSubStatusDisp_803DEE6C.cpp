@@ -27,7 +27,7 @@ void begin_screen_draw(s32 mode) {
 }
 
 void TWindowSubStatusDisp::get_player() {
-    TObjPlayer::sub_803E2248();
+    end_primitive_draw();
 }
 
 #define FIFO_803DEECC (*(volatile Pipe_803DEECC *)0xCC008000)

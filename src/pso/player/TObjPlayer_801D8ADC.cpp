@@ -117,7 +117,7 @@ s32 *TObjPlayer::get_hurt_protection_ticks() {
     return var_r3;
 }
 
-s32 TObjPlayer::sub_801D8C3C() {
+s32 TObjPlayer::get_lobby_entry_yaw() {
     return *(s32 *)((s8 *)lbl_80449254 + (TLobby::get_instance() * 4));
 }
 
@@ -146,7 +146,7 @@ const TPlyInventoryItem *get_class_starting_inventory(s32 cls) {
     return class_starting_inventory_table[(s8)cls];
 }
 
-u8 * TObjPlayer::sub_801D8DCC() {
+u8 * TObjPlayer::get_cast_motion_record() {
   s32 temp_r31;
   s8 *new_var;
   temp_r31 = this->get_handle_value() * 0x14;
@@ -333,7 +333,7 @@ PlayerLevelTableRow *get_ply_level_table_row(s32 cls, s32 level) {
     return &table[(s8)TObjPlayer__sub_801AFDBC(cls)][TObjPlayer::clamp_index_to_max(level)];
 }
 
-void TObjPlayer::sub_801D92A4() { TLobby::free_nodes_with_id(ply_level_table); }
+void free_ply_level_tbl() { TLobby::free_nodes_with_id(ply_level_table); }
 
 void load_ply_level_tbl(void) { ply_level_table = load_encrypted_archive_data("PlyLevelTbl.cpt"); }
 

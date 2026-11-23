@@ -40,7 +40,7 @@ void TObjPlayer::place_on_area_entry() {
         this->check_flag(0x100000) == 0 && is_key_machine_ready__10TObjPlayerFv() != 0) {
         this->set_state_flags(0x100000);
         this->set_position_from(this->get_lobby_entry_ptr());
-        this->rotation_y = ((TObjPlayer *)arg0)->sub_801D8C3C();
+        this->rotation_y = ((TObjPlayer *)arg0)->get_lobby_entry_yaw();
         TObjPlayer::play_effect_default((saddr)arg0, (int)0x1E);
         TObjPlayer::set_camera_mode(3);
         new TForceOperate(tl_02, ((TObjBase *)(arg0))->get_entity_id());

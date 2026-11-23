@@ -16,7 +16,7 @@ extern s32 player_shared_buffer_base;
 
 void TObjPlayer::init_data_table_ptr() {
     ((TObjPlayer *)this)->create_inventory();
-    set_action_provider_variant(sub_801C2114());
+    set_action_provider_variant(default_action_provider_variant());
     this->m_db4 = (s32) (player_shared_buffer_base + (this->get_entity_id() * 0x600));
 }
 
@@ -25,7 +25,7 @@ void TObjPlayer::init_data_table_ptr() {
 void TObjPlayer::init_from_source(u8 *arg1) {
     this->inventory_objects = 0;
     ((TObjPlayer *)this)->create_inventory();
-    set_action_provider_variant((s16) sub_801C2114());
+    set_action_provider_variant((s16) default_action_provider_variant());
     bind_saved_inventory_equipment(this, reinterpret_cast<TPlyInventoryItem *>(arg1 + 0x140), *(s32 *)((s8 *)arg1 + 0x13C));
     this->m_db4 = (s32) (player_shared_buffer_base + (this->get_entity_id() * 0x600));
 }

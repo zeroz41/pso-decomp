@@ -201,7 +201,7 @@ void TItemProShield::request_equipped_model() { request_item_model(); }
 void TItemProShield::draw_at_joint(s32 joint) {
     if ((item_model != NULL) && (owner != NULL) && (test_actor_flags(0x08000000) == 0) && (is_hidden() == 0)) {
         push_matrix_from((void *)owner->get_joint_matrix(joint));
-        TObjPlayer::sub_80364198();
+        TObjPlayer::save_model_render_state();
         model_render_flags &= ~0x10;
         TObjPlayer::set_model_fade_alpha(get_owner_alpha());
         if (shield_flags & SHIELD_FLAG_EFFECT_RENDER) {
@@ -213,7 +213,7 @@ void TItemProShield::draw_at_joint(s32 joint) {
             TParticleCtrl::end_effect_render();
         }
         TObjPlayer::warn_if_gauge_low();
-        TObjPlayer::sub_8036414C();
+        TObjPlayer::restore_model_render_state();
         pop_matrix();
     }
 }

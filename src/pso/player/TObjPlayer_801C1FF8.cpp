@@ -69,7 +69,7 @@ S_801C20A4 *init_player_telepipe_record(S_801C20A4 *arg0) {
 }
 
 void set_field_0_s32(void* p, s32 v) { *(s32*)((char*)p + 0x0) = v; }
-int TObjPlayer::sub_801C2114() { return 0; }
+int TObjPlayer::default_action_provider_variant() { return 0; }
 u8 get_field_5__10TObjPlayerFv(const PlayerLevelTableRow *row) { return row->growth[5]; }
 u8 get_byte_4__10TObjPlayerFv(const PlayerLevelTableRow *row) { return row->growth[4]; }
 u8 get_byte_3(const PlayerLevelTableRow *row) { return row->growth[3]; }

@@ -8,6 +8,7 @@
 #include "pso/unk/TLobby.h"
 #include "pso/map/TSetManager.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/player/PlayerLevelTable.h"
 #include "pso/render/render_util.h"
 #include "pso/render/TFogCtrl.h"
 #include "pso/effect/TEffect.h"
@@ -178,7 +179,7 @@ void shutdown_and_reset_system(void) {
     TParticleCtrl::reset_emitter_table();
     free_effect_resources();
     TAdSinglePlyChrSelectGC::free_resources();
-    TObjPlayer::sub_801D92A4();
+    free_ply_level_tbl();
     free_item_drop_memory_pool();
     TWindowSnapShot__sub_802A7DA0();
     TAdWarningBaseGC__sub_8032D188();

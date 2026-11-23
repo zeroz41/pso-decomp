@@ -4,5 +4,5 @@
 #include "pso/player/TObjPlayer.h"
 
 void TLobby::reset_player_state() {
-    TObjPlayer::sub_803E2248();
+    end_primitive_draw();
 }

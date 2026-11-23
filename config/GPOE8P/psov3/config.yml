@@ -539,9 +539,9 @@ force_active:
   - fn_800FBA54__8TFogCtrlFv
   - fn_800FBAAC__8TFogCtrlFv
   - assign_subcommand_header
-  - fn_801D677C__16PhotonBlastGaugeFv
+  - set_charge_capped__16PhotonBlastGaugeFv
   - is_photon_blast_charge_full__16PhotonBlastGaugeFv
-  - fn_801D67C8__16PhotonBlastGaugeFv
+  - reset_blast__16PhotonBlastGaugeFv
   - sub_80213980__28THunterGuildSeqOnline_ClientFv
   - sub_80213B18__28THunterGuildSeqOnline_ClientFv
   - THunterGuildSeqOffline__sub_80213E64
@@ -1571,7 +1571,7 @@ force_active:
   - TObjPlayer__sub_801C1A30
   - set_unscaled_speed__15PlayerMoveSpeedFf
   - set__18PlayerCameraOffsetFfff
-  - fn_801C7098__19ContactSurfaceStateFv
+  - has_grass_ground_flag__19ContactSurfaceStateFv
   - TObjPlayer__sub_801D45B0
   - __dt__19InventorySortBufferFv
   - __ct__19InventorySortBufferFl
@@ -1613,7 +1613,7 @@ force_active:
   - TObjPlayer__sub_803DAA70
   - TObjPlayer__sub_803DAD84
   - load_texture_entry
-  - sub_803E24E0__10TObjPlayerFv
+  - apply_opaque_blend_mode__Fv
   - TObjPlayer__sub_803E500C
   - TObjPlayer__sub_803E5378
   - TObjPlayer__sub_803E53F8
@@ -7153,7 +7153,7 @@ force_active:
   - init_rare_item_data__9TItemDropFPvPv
   - init_render_flags__12TObjEneSaverFv
   - init_render_globals__10TObjPlayerFv
-  - init_reset_fields__12Obj_801D67D4Fv
+  - init_reset_fields__19PhotonBlastDonationFv
   - init_result_state__18TChallenge4PResultFv
   - init_s_rank_knuckle__FPvlPv
   - load_params__17TObjEneDarkGunnerFv

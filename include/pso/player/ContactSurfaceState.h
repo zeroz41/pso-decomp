@@ -43,7 +43,7 @@ struct ContactSurfaceState : ContactSurfaceFlags {
     s32 get_contact_surface_type();
     int set_action_flag16();
     int test_flag_8();
-    int fn_801C7098();
+    int has_grass_ground_flag();
 };
 
 #endif

@@ -17,16 +17,16 @@ struct PhotonBlastTarget {
     s16 index;
 };
 
-// The 8-byte state at PhotonBlastGauge + 0x4C. draw_party_label (the 6x38
-// donate path) sets the first word to 8 and adds one to the second; is_ready
-// needs the second below 3 (inferred: a donation cooldown and count).
-struct Obj_801D67D4 {
+// The photon blast donation state at PhotonBlastGauge + 0x4C. draw_party_label
+// (the 6x38 donate path) sets state to 8 and adds one to count; is_ready needs
+// count below 3.
+struct PhotonBlastDonation {
     void reset_fields();
     s32 get_state();
     s32 get_field_04();
     void set_target_count(s32 v);
     void set_target_index(s32 v);
-    void fn_801D671C(int n);
+    void add_count(int n);
     void *init_reset_fields();
 
     s32 state;
@@ -44,16 +44,16 @@ struct PhotonBlastGauge {
     // The equipped mag's level for blast (0-5), -1 when no mag holds it.
     void set_blast_level(s16 blast, s8 level);
     int check_flag_clear();
-    int fn_801D2A50();
-    void fn_801D2A78(f32 threshold);
-    s32 fn_801D2A80();
-    void fn_801D2A88();
-    f32 fn_801D2A98();
+    int is_blast_launched();
+    void set_complete_threshold(f32 threshold);
+    s32 get_countdown();
+    void decrement_countdown();
+    f32 get_frame_step();
     void set_field_0c(f32 v);
     void set_field8(s32 v);
-    PhotonBlastTarget *fn_801D2AB0(s32 i);
+    PhotonBlastTarget *get_target(s32 i);
     int fn_801C1F50();
-    s32 fn_801D5DDC();
+    s32 get_target_count();
     s16 get_valid_index();
     void set_section_index(s16 count);
     void reinit_photon_blast_gauge();
@@ -74,10 +74,10 @@ struct PhotonBlastGauge {
     void check_flag_at_40();
     void set_flag_40_bit5();
     void update_field_40();
-    void fn_801D677C();
+    void set_charge_capped();
     u16 get_type();
     s32 is_photon_blast_charge_full();
-    void fn_801D67C8();
+    void reset_blast();
     void clear_photon_blast_state();
     void trigger_photon_blast();
     void check_photon_blast_flag();
@@ -104,7 +104,7 @@ struct PhotonBlastGauge {
     FlagWord flags;
     s8 blast_levels[6];
     u8 pad_4a[0x2];
-    Obj_801D67D4 donation;
+    PhotonBlastDonation donation;
 };
 
 LAYOUT_ASSERT(PhotonBlastGaugeSize, sizeof(PhotonBlastGauge) == 0x54);

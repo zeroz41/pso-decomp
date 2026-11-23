@@ -3213,13 +3213,13 @@ void TObjPlayer::create_inventory() {
 
 void TObjPlayer::bind_saved_inventory_equipment(TObjPlayer *player, TPlyInventoryItem *records, int count) {
     if (records != NULL) {
-        player->set_action_provider_variant((s16)TObjPlayer::sub_801C2114());
+        player->set_action_provider_variant((s16)TObjPlayer::default_action_provider_variant());
         for (s32 i = 0; i < count; i++) {
             equip_saved_item_if_slot_empty(player, records);
             ++records;
         }
         if (is_current_area_item_enabled() == 0) {
-            player->set_action_provider_variant((s16)TObjPlayer::sub_801C2114());
+            player->set_action_provider_variant((s16)TObjPlayer::default_action_provider_variant());
         }
     }
 }
@@ -3644,7 +3644,7 @@ void *TObjPlayer::apply_wall_response() {
 }
 
 void TObjPlayer::get_hand_joint_position(saddr arg1) {
-    this->get_anim_node_position(*(s32 *)(sub_801D8DCC() + 0x10), (Vec *)arg1);
+    this->get_anim_node_position(*(s32 *)(get_cast_motion_record() + 0x10), (Vec *)arg1);
 }
 
 void TObjPlayer::init_effect_5f0() {

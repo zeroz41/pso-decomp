@@ -16,7 +16,7 @@
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/player/PlayerSlots.h"
 
-s32 PhotonBlastGauge::fn_801D5DDC() {
+s32 PhotonBlastGauge::get_target_count() {
     if ((target_count < 0) || (target_count > 0xA)) {
         set_section_index(0);
     }
@@ -167,7 +167,7 @@ void PhotonBlastGauge::draw_party_label(TObjChara *target, u16 effect) {
     set_flag_40_bit5();
     subtract_photon_blast_charge(10.0f);
     donation.set_target_index(8);
-    donation.fn_801D671C(1);
+    donation.add_count(1);
     TWindowCtrl::create_party_effect(target->get_entity_id(), effect);
     if ((target == NULL) || (target->obj_isState2_324() == 0)) {
         pkt.init_subcommand_6x38();
@@ -214,7 +214,7 @@ void add_photon_blast_chain_charge(PhotonBlastGauge *gauge, f32 amount) {
         if (gauge->charge >= 400.0f) {
             gauge->charge = 400.0f;
             gauge->update_ready();
-            gauge->fn_801D677C();
+            gauge->set_charge_capped();
         }
     }
 }
@@ -242,7 +242,7 @@ void PhotonBlastGauge::send_photon_blast_ready() {
 void PhotonBlastGauge::update_if_ready() { if (is_photon_blast_charge_full() != 0) { update_ready(); } }
 void PhotonBlastGauge::reset_photon_blast_gauge() {
     s32 i;
-    fn_801D67C8();
+    reset_blast();
     set_section_index(0);
     for (i = 0; i < 10; i++) {
         targets[i].reset();
@@ -306,28 +306,28 @@ int PhotonBlastGauge::is_valid_index(s16 index) {
     return valid;
 }
 
-void Obj_801D67D4::reset_fields() { state = 0; count = 0; }
+void PhotonBlastDonation::reset_fields() { state = 0; count = 0; }
 void PhotonBlastGauge::set_bit1_at_40() { flags.clear(2); }
 void *G_ClearPhotonBlastReadyFlag_6x3A::clear_photon_blast_ready_flag(void *src) { copy_subcommand_header(this, src); return this; }
 void PhotonBlastGauge::update_ready() { flags.set(2); }
 
-s32 Obj_801D67D4::get_state() { return state; }
-s32 Obj_801D67D4::get_field_04() { return count; }
+s32 PhotonBlastDonation::get_state() { return state; }
+s32 PhotonBlastDonation::get_field_04() { return count; }
 void PhotonBlastGauge::check_flag_at_40() { flags.clear(32); }
-void Obj_801D67D4::set_target_count(s32 v) { count = v; }
-void Obj_801D67D4::set_target_index(s32 v) { state = v; }
-void Obj_801D67D4::fn_801D671C(int n) { count = count + n; }
+void PhotonBlastDonation::set_target_count(s32 v) { count = v; }
+void PhotonBlastDonation::set_target_index(s32 v) { state = v; }
+void PhotonBlastDonation::add_count(int n) { count = count + n; }
 void PhotonBlastGauge::set_flag_40_bit5() { flags.set(32); }
 void PhotonBlastGauge::update_field_40() { flags.clear(16); }
-void PhotonBlastGauge::fn_801D677C() { flags.set(16); }
+void PhotonBlastGauge::set_charge_capped() { flags.set(16); }
 u16 PhotonBlastGauge::get_type() { return client_id; }
 
 s32 PhotonBlastGauge::is_photon_blast_charge_full() {
     return charge >= 100.0f;
 }
 
-void PhotonBlastGauge::fn_801D67C8() { blast = 6; }
-void *Obj_801D67D4::init_reset_fields() { reset_fields(); return this; }
+void PhotonBlastGauge::reset_blast() { blast = 6; }
+void *PhotonBlastDonation::init_reset_fields() { reset_fields(); return this; }
 void *G_ClearTemporaryPhotonBlastStateFlags_6x3B::load_subcommand_header(void *src) { copy_subcommand_header(this, src); return this; }
 void G_ClearTemporaryPhotonBlastStateFlags_6x3B::init_pkt_cmd_3B() { header.subcommand = 59; header.size = 1; }
 void G_ClearTemporaryPhotonBlastStateFlags_6x3B::update_and_send() { bswap_g_client_id_header(this); send_subcommand(this); }

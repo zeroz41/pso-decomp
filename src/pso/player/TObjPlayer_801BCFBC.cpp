@@ -220,7 +220,7 @@ extern "C" {
 void TObjPlayer::update_input_and_draw() {
     saddr ctl = (saddr)this;
     if (is_current_area_item_enabled() == 0) {
-        ((TObjPlayer *)ctl)->set_action_provider_variant((int) (sub_801C2114()));
+        ((TObjPlayer *)ctl)->set_action_provider_variant((int) (default_action_provider_variant()));
     }
     ((TObjPlayer *)ctl)->init_idle_animation();
     ((TObjPlayer *)ctl)->draw();

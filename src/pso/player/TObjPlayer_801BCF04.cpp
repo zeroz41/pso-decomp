@@ -18,7 +18,7 @@ void TObjPlayer::load_character_state(u8 *player) {
     count = *player;
     records = static_cast<TPlyInventoryItem *>(reinterpret_cast<TObjPlayer *>(player)->get_ptr_4());
     create_inventory();
-    set_action_provider_variant((s16) sub_801C2114());
+    set_action_provider_variant((s16) default_action_provider_variant());
     if ((obj_isState2_324() == 0) || (is_lobby_floor_15__15TFontSmallLobbyFv() == 0)) {
         if (!(shared_state_flags & 1)) {
             assign_inventory_item_ids(this, records, count);

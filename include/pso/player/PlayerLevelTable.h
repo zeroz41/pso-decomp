@@ -17,6 +17,8 @@ LAYOUT_ASSERT(PlayerLevelTableRowSize, sizeof(PlayerLevelTableRow) == 0xC);
 LAYOUT_ASSERT(PlayerLevelTableExperienceOffset, offsetof(PlayerLevelTableRow, experience) == 0x8);
 
 PlayerLevelTableRow *get_ply_level_table_row(s32 class_index, s32 level);
+void load_ply_level_tbl(void);
+void free_ply_level_tbl(void);
 
 extern "C" {
 stats *get_class_base_stats(s32 class_index);

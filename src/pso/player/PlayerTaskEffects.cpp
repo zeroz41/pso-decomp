@@ -345,7 +345,7 @@ void TPlayerSoul::set_player_id(u16 value) { player_id = value; }
 void TPlayerSoul::set_particle(TParticleCtrl*value) { particle = value; }
 
 
-int BattleMusicState::fn_801C6F90() { return test_flags_any(&flags, 2); }
+int BattleMusicState::is_quest_held() { return test_flags_any(&flags, 2); }
 
 
 int BattleMusicState::set_lock_flag() { return test_flags_any(&flags, 1); }
@@ -369,7 +369,7 @@ TForceOperate::~TForceOperate() {}
 
 
 s32 ContactSurfaceState::get_contact_surface_type() {
-    if (fn_801C7098() != 0) {
+    if (has_grass_ground_flag() != 0) {
         return 1;
     }
     if (has_water_ground_flag() != 0) {
@@ -838,7 +838,7 @@ s32 TObjPlayer::decrement_clamp(s32 *arg0, s32 arg1) {
 }
 
 void BattleMusicState::update_target_lock(TObjPlayer *player) {
-    if (fn_801C6F90() == 0) {
+    if (is_quest_held() == 0) {
         if (is_room_free_of_active_enemies(get_current_floor(), player->get_room()) != 0) {
             if (set_lock_flag() != 0) {
                 clear_target_lock_flag();
@@ -982,7 +982,7 @@ int ContactSurfaceState::set_action_flag16() { return test_flags_any(&word.bits,
 int ContactSurfaceState::test_flag_8() { return test_flags_any(&word.bits, 8); }
 
 
-int ContactSurfaceState::fn_801C7098() { return test_flags_any(&word.bits, 2); }
+int ContactSurfaceState::has_grass_ground_flag() { return test_flags_any(&word.bits, 2); }
 
 
 #pragma defer_codegen on

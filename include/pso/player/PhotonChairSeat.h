@@ -15,7 +15,7 @@ struct PhotonChairSeat {
     s16 delay_6xB0;   // frames until the next 6xB0 may be sent
     u8 pad_A[0x2];
     s32 target_angle; // the rotation_y the seated player turns towards
-    s32 pad_10;       // set from the 6xB0 packet
+    s32 move_angle;   // the stick angle a 6xB0 packet carries
 
     PhotonChairSeat();
     void reset();
@@ -23,7 +23,7 @@ struct PhotonChairSeat {
     void set_owner_id(u16 id);
     void fn_8035AF14();
     int create_chair();
-    void fn_801D1024(s32 v);
+    void set_move_angle(s32 v);
     void set_target_angle(s32 angle);
     s32 get_target_angle();
     s16 get_animation();
