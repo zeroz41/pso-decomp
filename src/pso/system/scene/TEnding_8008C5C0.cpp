@@ -97,7 +97,6 @@ void run_game_frame(void) {
 extern "C" {
 void run_load_callback_table(void *, int);
 }
-extern s32 ending_scene_active;
 
 void TEnding::set_flag_and_advance() {
     ending_scene_active = 1;
