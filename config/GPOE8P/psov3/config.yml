@@ -4778,7 +4778,7 @@ force_active:
   - calc_i8_tiled_texel_offset__FUcUcUl
   - calc_joyboot_checksum__6TLobbyFv
   - calc_large_tp__13TUnk_8049FE00Fv
-  - calc_lightning_scatter_direction__12TTecZondeEffFlPv
+  - calc_lightning_scatter_direction__12TTecZondeEffFlP3Vec
   - calc_loading_cursor_pos
   - calc_lunge_aim__14TObjEneBm5WolfFPv
   - calc_move_state__12TObjEneSaverFv

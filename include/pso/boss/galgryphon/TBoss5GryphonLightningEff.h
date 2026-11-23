@@ -2,22 +2,15 @@
 #define PSO_BOSS_GALGRYPHON_TBOSS5GRYPHONLIGHTNINGEFF_H
 
 #include "pso/technique/TTecZondeEff.h"
+#include "pso/effect/particle/ParticleStrip.h"
 #include "pso/boss/galgryphon/TBoss5GryphonLightning.h"
 #include "types.h"
 
-// One vertex of the bolt's triangle strip; TTecZondeEff::build_lightning_strip fills the
-// positions, calc_segment_uvs the texture coordinates.
-struct LightningStripVertex {
-    Vec pos;
-    f32 u;
-    f32 v;
-    u32 color;
-};
-
 // The strip's two vertices at one bolt point (upper gets the texture row's top v).
+// TTecZondeEff::build_lightning_strip fills the positions, calc_segment_uvs the texture coordinates.
 struct LightningStripSegment {
-    LightningStripVertex upper;
-    LightningStripVertex lower;
+    ParticleStripVertex upper;
+    ParticleStripVertex lower;
 };
 
 class TBoss5GryphonLightningEff : public TTecZondeEff {

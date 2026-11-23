@@ -2,6 +2,7 @@
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/technique/TTecZondeEff.h"
+#include "pso/effect/particle/ParticleStrip.h"
 #include "pso/render/MaterialColorFade.h"
 #include "pso/render/render_util.h"
 #include "pso/system/vector.h"
@@ -24,107 +25,18 @@
 
 #pragma readonly_strings on
 
-
-struct P_8023DBB4 { void *vt; s32 n; };
-
-struct Rec_8023D4A8 { f32 a, b, c; };
-
-struct Obj_8023D4A8 {
-    u8 pad0[0x38];
-    s32 count;
-    u8 pad3c[0x174 - 0x3C];
-    Rec_8023D4A8 recs[1];
-    u8 pad180[0x210 - 0x180];
-    f32 w[1];
-};
-
-struct Obj_8023D568 {
-    u8 pad0[0x1C];
-    Vec a;
-    Vec d;
-    f32 len;
-    s32 count;
-    Vec pts[1];
-};
-
-struct C_8023D7A0 { s32 v; };
-
-struct B_8023D7A0 { u8 pad[0xc]; C_8023D7A0 *c; };
-
-struct E_8023D7A0 { u8 pad[8]; B_8023D7A0 *b; };
-
-struct Zonde_8023D7A0 {
-    u8 pad0[0x38];
-    s32 count;
-    Vec base[(0xD8 - 0x3C) / 12];
-    Vec pos[(0x174 - 0xD8) / 12];
-    Vec dir[(0x210 - 0x174) / 12];
-    f32 w[(0x248 - 0x210) / 4];
-    s32 timer;
-    u32 power;
-    s32 idx;
-    u32 decay;
-    s32 start;
-    u8 pad25c[2];
-    s16 active;
-};
-
-struct Zonde_8023D6B0 {
-    u8 pad[0x38];
-    s32 count;
-    u8 pad3c[0x25e - 0x3c];
-    s16 active;
-};
-
-struct Obj_8023D128
-{
-  u8 pad0[0x38];
-  s32 count;
-  u8 pad3c[0xD8 - 0x3C];
-  Vec pts[16];
-  u8 pad198[0x244 - 0x198];
-  f32 f244;
-};
-
-struct Vtx_8023CED4
-{
-  f32 x;
-  f32 y;
-  f32 z;
-  f32 u;
-  f32 v;
-  u32 color;
-};
-
-struct Obj_8023CED4
-{
-  u8 pad0[0x38];
-  s32 count;
-  u8 pad3C[0x24C - 0x3C];
-  u32 color;
-};
-
-extern "C" {
 const char *TTecZondeEff_class_name = "TTecZondeEff";
-P_8023DBB4 tec_zonde_effect_task_list;
-extern char lbl_804CC8C8[];
+GinjaTextureList tec_zonde_texture_list;
+extern GinjaTextureEntry lbl_804CC8C8[];
 s32 TTecZondeEff__beam_vertex_data;
-s32 project_lightning_points(Obj_8023D128 *self, Vec *out, f32 *a, f32 *b);
-struct Obj_8023D294 { u8 pad[0x28]; Vec d; };
 
-extern "C" {
 
 
 #pragma push
 #pragma fp_contract on
-typedef struct Obj_8023D128 Obj_8023D128;
 
-typedef struct Obj_8023CED4 Obj_8023CED4;
-typedef struct Vtx_8023CED4 Vtx_8023CED4;
 #pragma fp_contract on
-s32 TTecZondeEff::build_lightning_strip(void *out_arg, void *pts_arg, f32 *widths, f32 *heights) {
-    Vtx_8023CED4 *out = (Vtx_8023CED4 *)out_arg;
-    Vec *pts = (Vec *)pts_arg;
+s32 TTecZondeEff::build_lightning_strip(ParticleStripVertex *out, Vec *pts, f32 *widths, f32 *heights) {
   f32 px;
   f32 py;
   f32 pz;
@@ -138,7 +50,7 @@ s32 TTecZondeEff::build_lightning_strip(void *out_arg, void *pts_arg, f32 *width
   f32 oy;
   f32 scale;
   u32 color;
-  Vtx_8023CED4 *o;
+  ParticleStripVertex *o;
   Vec *p;
   s32 i;
   v = 0.0f;
@@ -146,10 +58,10 @@ s32 TTecZondeEff::build_lightning_strip(void *out_arg, void *pts_arg, f32 *width
   px = pts->x;
   py = pts->y;
   pz = pts->z;
-  color = 0xFFFFFF | ((Obj_8023CED4 *)this)->color;
+  color = 0xFFFFFF | power;
   p = pts + 1;
   o = out;
-  for (i = 0; i < (((Obj_8023CED4 *)this)->count - 1); i++)
+  for (i = 0; i < (point_count - 1); i++)
   {
     ny = p->y;
     nx = p->x;
@@ -161,7 +73,6 @@ s32 TTecZondeEff::build_lightning_strip(void *out_arg, void *pts_arg, f32 *width
     }
     inv = 1.0f / newton_sqrtf((dx * dx) + (dy * dy));
     dx *= inv;
-    p->z = p->z;
     dy *= inv;
     ox = scale * (dy * widths[i]);
     oy = scale * ((-dx) * heights[i]);
@@ -184,8 +95,8 @@ s32 TTecZondeEff::build_lightning_strip(void *out_arg, void *pts_arg, f32 *width
     pz = p->z;
     p++;
   }
-  ox = scale * (dy * widths[((Obj_8023CED4 *)this)->count - 1]);
-  oy = scale * ((-dx) * heights[((Obj_8023CED4 *)this)->count - 1]);
+  ox = scale * (dy * widths[point_count - 1]);
+  oy = scale * ((-dx) * heights[point_count - 1]);
   o[0].x = px + ox;
   o[0].y = py + oy;
   o[0].z = pz;
@@ -201,7 +112,7 @@ s32 TTecZondeEff::build_lightning_strip(void *out_arg, void *pts_arg, f32 *width
   return 1;
 }
 
-s32 project_lightning_points(Obj_8023D128 *self, Vec *out, f32 *a, f32 *b) {
+s32 TTecZondeEff::project_lightning_points(Vec *out, f32 *strip_widths, f32 *strip_heights) {
   f32 sy0;
   f32 sx0;
   f32 cx;
@@ -211,16 +122,16 @@ s32 project_lightning_points(Obj_8023D128 *self, Vec *out, f32 *a, f32 *b) {
   sx0 = screen_projection.distance * (480.0f / (480.0f * screen_projection.width));
   cx = screen_projection.center_x;
   cy = screen_projection.center_y;
-  for (i = 0; i < self->count; i++)
+  for (i = 0; i < point_count; i++)
   {
     Vec v;
     f32 w;
     f32 sx;
     f32 sy;
-    matrix_mult_vec(0, &self->pts[i], &v);
+    matrix_mult_vec(0, &points[i], &v);
     if (v.z >= 1.0f)
     {
-      self->f244 = self->f244;
+      scale = scale;
       v.z = 1.0f;
     }
     w = 1.0f / (-v.z);
@@ -230,8 +141,8 @@ s32 project_lightning_points(Obj_8023D128 *self, Vec *out, f32 *a, f32 *b) {
     out[i].x = (v.x * sx) + cx;
     out[i].y = (v.y * sy) + cy;
     out[i].z = w;
-    a[i] = sx * self->f244;
-    b[i] = 1.8f * sy;
+    strip_widths[i] = sx * scale;
+    strip_heights[i] = 1.8f * sy;
   }
   return 1;
 }
@@ -239,56 +150,52 @@ s32 project_lightning_points(Obj_8023D128 *self, Vec *out, f32 *a, f32 *b) {
 
 #pragma push
 #pragma fp_contract on
-void TTecZondeEff::calc_lightning_scatter_direction(s32 axis, void *arg2) {
-    void *arg0 = (void *)this;
-    Obj_8023D294 *o = (Obj_8023D294 *)arg0;
-    Vec *out = (Vec *)arg2;
+void TTecZondeEff::calc_lightning_scatter_direction(s32 axis, Vec *out) {
 
     switch (axis) {
     case 0: {
         f32 a, inv, q, p, b;
-        inv = 1.0f / o->d.x;
-        p = o->d.y;
-        q = o->d.z;
+        inv = 1.0f / direction.x;
+        p = direction.y;
+        q = direction.z;
         a = 10.0f * rand_signed_unit();
         b = 10.0f * rand_signed_unit();
         out->y = a;
         out->z = b;
         out->x = inv * (a * p + b * q);
-        normalize_vector_safe((Vec *)out);
+        normalize_vector_safe(out);
         break;
     }
     case 1: {
         f32 a, inv, q, p, b;
-        inv = 1.0f / o->d.y;
-        p = o->d.z;
-        q = o->d.x;
+        inv = 1.0f / direction.y;
+        p = direction.z;
+        q = direction.x;
         a = 10.0f * rand_signed_unit();
         b = 10.0f * rand_signed_unit();
         out->z = a;
         out->x = b;
         out->y = inv * (a * p + b * q);
-        normalize_vector_safe((Vec *)out);
+        normalize_vector_safe(out);
         break;
     }
     case 2: {
         f32 a, inv, q, p, b;
-        inv = 1.0f / o->d.z;
-        p = o->d.x;
-        q = o->d.y;
+        inv = 1.0f / direction.z;
+        p = direction.x;
+        q = direction.y;
         a = 10.0f * rand_signed_unit();
         b = 10.0f * rand_signed_unit();
         out->x = a;
         out->y = b;
         out->z = inv * (a * p + b * q);
-        normalize_vector_safe((Vec *)out);
+        normalize_vector_safe(out);
         break;
     }
     }
 }
 #pragma pop
 
-}
 
 s32 TTecZondeEff::calc_dominant_axis() {
     f32 temp_f1;
@@ -311,58 +218,55 @@ s32 TTecZondeEff::calc_dominant_axis() {
 }
 
 void TTecZondeEff::randomize_bolt_jitter() {
-    Rec_8023D4A8 *p;
+    Vec *dir;
     s32 axis;
     s32 i;
     f32 k;
-    Obj_8023D4A8 *arg0 = (Obj_8023D4A8 *)this;
-    axis = ((TTecZondeEff *)arg0)->calc_dominant_axis();
-    p = arg0->recs;
-    for (i = 0; i < arg0->count; i++, p++) {
-        ((TTecZondeEff *)arg0)->calc_lightning_scatter_direction(axis, p);
+    axis = calc_dominant_axis();
+    dir = jitter_dirs;
+    for (i = 0; i < point_count; i++, dir++) {
+        calc_lightning_scatter_direction(axis, dir);
     }
     k = 8.0f;
-    for (i = 1; i < arg0->count - 1; i++) {
-        arg0->w[i] = k * rand_signed_unit();
+    for (i = 1; i < point_count - 1; i++) {
+        widths[i] = k * rand_signed_unit();
     }
-    arg0->w[0] = 0.0f;
-    arg0->w[arg0->count - 1] = 0.0f;
+    widths[0] = 0.0f;
+    widths[point_count - 1] = 0.0f;
 }
 
 #pragma push
 #pragma fp_contract on
 void TTecZondeEff::init_bolt_points() {
-    Obj_8023D568 *o = (Obj_8023D568 *)this;
-    f32 x0 = o->a.x;
-    f32 y0 = o->a.y;
-    f32 z0 = o->a.z;
-    f32 dx = o->d.x;
-    f32 dy = o->d.y;
-    f32 dz = o->d.z;
+    f32 x0 = origin.x;
+    f32 y0 = origin.y;
+    f32 z0 = origin.z;
+    f32 dx = direction.x;
+    f32 dy = direction.y;
+    f32 dz = direction.z;
     s32 i;
-    for (i = 0; i < o->count; i++) {
-        f32 t = (o->len * (f32)i) / (o->count - 1);
-        o->pts[i].x = dx * t + x0;
-        o->pts[i].y = dy * t + y0;
-        o->pts[i].z = dz * t + z0;
+    for (i = 0; i < point_count; i++) {
+        f32 t = (length * (f32)i) / (point_count - 1);
+        base_points[i].x = dx * t + x0;
+        base_points[i].y = dy * t + y0;
+        base_points[i].z = dz * t + z0;
         if (is_split_screen() == 0) {
-            spawn_particle_effect(&o->pts[i], 0x1F0);
+            spawn_particle_effect(&base_points[i], 0x1F0);
         }
     }
 }
 #pragma pop
 
 void TTecZondeEff::render() {
-    Zonde_8023D6B0 *self = (Zonde_8023D6B0 *)this;
-    u32 verts[0x270 / 4];
-    u32 m70[0x9c / 4];
-    u32 m3c[0x34 / 4];
-    u32 m8[0x34 / 4];
+    ParticleStripVertex verts[26];
+    Vec screen_points[13];
+    f32 strip_widths[13];
+    f32 strip_heights[13];
     u32 id;
-    if (self->active == 0 || get_current_floor_area() == AREA_PIONEER2_EP1 || get_current_floor_area() == AREA_LOBBY) {
+    if (active == 0 || get_current_floor_area() == AREA_PIONEER2_EP1 || get_current_floor_area() == AREA_LOBBY) {
         return;
     }
-    if (((TObject *)self)->all_parents_unqueued_for_destruction() == 0) {
+    if (all_parents_unqueued_for_destruction() == 0) {
         return;
     }
     id = model_render_flags;
@@ -370,9 +274,9 @@ void TTecZondeEff::render() {
     model_render_flags = id | 0x10;
     TParticleCtrl::begin_effect_render();
     set_depth_buffer_settings_1();
-    if (project_lightning_points((Obj_8023D128 *)(self), (Vec *)(m70), (f32 *)m3c, (f32 *)m8) != 0 && ((TTecZondeEff *)self)->build_lightning_strip((Vtx_8023CED4 *)(verts), (Vec *)(m70), (f32 *)m3c, (f32 *)m8) != 0) {
+    if (project_lightning_points(screen_points, strip_widths, strip_heights) != 0 && build_lightning_strip(verts, screen_points, strip_widths, strip_heights) != 0) {
         set_additive_blend();
-        ((TWindowDD *)verts)->draw_transformed_primitive(self->count * 2, TTecZondeEff__beam_vertex_data, 1);
+        ((TWindowDD *)verts)->draw_transformed_primitive(point_count * 2, TTecZondeEff__beam_vertex_data, 1);
         set_default_alpha_blend();
     }
     TParticleCtrl::end_effect_render();
@@ -384,48 +288,42 @@ void TTecZondeEff::render() {
 #pragma push
 #pragma fp_contract on
 void TTecZondeEff::run_task() {
-    Zonde_8023D7A0 *arg0 = (Zonde_8023D7A0 *)this;
     s32 i;
     f32 s;
-    E_8023D7A0 *e;
-    e = (E_8023D7A0 *)tec_zonde_effect_task_list.vt;
-    e += arg0->idx;
-    TTecZondeEff__beam_vertex_data = e->b->c->v;
-    if (arg0->timer > 0x78) {
-        ((TObject *)arg0)->queue_destruction();
+    TTecZondeEff__beam_vertex_data = tec_zonde_texture_list.entries[idx].texture->surface->id;
+    if (timer > 0x78) {
+        queue_destruction();
         return;
     }
-    for (i = 0; i < arg0->count; i++) {
-        arg0->w[i] -= 0.05f;
-        if (arg0->w[i] <= 1.0f) {
-            arg0->w[i] = 1.0f;
+    for (i = 0; i < point_count; i++) {
+        widths[i] -= 0.05f;
+        if (widths[i] <= 1.0f) {
+            widths[i] = 1.0f;
         }
     }
-    for (i = 0; i < arg0->count; i++) {
-        s = arg0->w[i];
-        arg0->pos[i].x = arg0->dir[i].x * s + arg0->base[i].x;
-        arg0->pos[i].y = arg0->dir[i].y * s + arg0->base[i].y;
-        arg0->pos[i].z = arg0->dir[i].z * s + arg0->base[i].z;
+    for (i = 0; i < point_count; i++) {
+        s = widths[i];
+        points[i].x = jitter_dirs[i].x * s + base_points[i].x;
+        points[i].y = jitter_dirs[i].y * s + base_points[i].y;
+        points[i].z = jitter_dirs[i].z * s + base_points[i].z;
     }
-    arg0->active = 1;
-    if (arg0->timer > arg0->start) {
-        if (arg0->power > arg0->decay) {
-            arg0->power -= arg0->decay;
-            if ((f32)arg0->power <= 0.0f) {
-                arg0->power = 0;
+    active = 1;
+    if (timer > start) {
+        if (power > decay) {
+            power -= decay;
+            if ((f32)power <= 0.0f) {
+                power = 0;
             }
         } else {
-            arg0->power = 0;
-            arg0->timer = 0x79;
+            power = 0;
+            timer = 0x79;
         }
     }
-    arg0->timer++;
+    timer++;
 }
 #pragma pop
 
 TTecZondeEff::~TTecZondeEff() {}
-}
-void clear_zonde_beam_vertex_pointer(void);
 TTecZondeEff::TTecZondeEff(TObject *parent, s32 decay, s32 start, f32 scale) : TObject(parent) {
     m_name = TTecZondeEff_class_name;
     this->scale = scale;
@@ -479,7 +377,7 @@ void clear_zonde_beam_vertex_pointer(void) {
     TTecZondeEff__beam_vertex_data = 0;
 }
 void TTecZondeEff::init_resources() {
-    tec_zonde_effect_task_list.vt = lbl_804CC8C8;
-    tec_zonde_effect_task_list.n = 0x10;
+    tec_zonde_texture_list.entries = lbl_804CC8C8;
+    tec_zonde_texture_list.count = 0x10;
     TTecZondeEff__beam_vertex_data = shared_effect_texture_list.entries[16].texture->surface->id;
 }

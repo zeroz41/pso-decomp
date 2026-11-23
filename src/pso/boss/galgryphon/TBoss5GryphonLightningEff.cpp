@@ -21,7 +21,6 @@
 extern "C" {
 const char *gryphon_lightning_eff_name = "TBoss5GryphonLightningEff";
 GinjaTextureList *inazuma_texture_list;  // f512_inazuma.gvm: two bolt textures
-s32 project_lightning_points(void *, void *, void *, void *);
 
 void TBoss5GryphonLightningEff::set_two_sided() { this->two_sided = 1; }
 
@@ -54,7 +53,7 @@ s32 TBoss5GryphonLightningEff::calc_segment_uvs(void *vertices) {
 }
 
 void TBoss5GryphonLightningEff::render() {
-    LightningStripSegment strip[13];
+    ParticleStripVertex strip[26];
     Vec points[13];
     f32 widths[13];
     f32 heights[13];
@@ -66,7 +65,7 @@ void TBoss5GryphonLightningEff::render() {
     TParticleCtrl::begin_effect_render();
     set_depth_buffer_settings_1();
     set_additive_blend();
-    project_lightning_points(this, points, widths, heights);
+    project_lightning_points(points, widths, heights);
     build_lightning_strip(strip, points, widths, heights);
     ((TWindowDD *)strip)->draw_transformed_primitive(this->point_count * 2, calc_segment_uvs(strip), 1);
     if (this->two_sided == 1) {

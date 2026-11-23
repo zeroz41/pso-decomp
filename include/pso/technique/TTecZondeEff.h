@@ -5,6 +5,8 @@
 #include "types.h"
 #include <dolphin/mtx/GeoTypes.h>
 
+struct ParticleStripVertex;
+
 class TTecZondeEff : public TObject {
 public:
     TTecZondeEff(TObject *parent, s32 decay, s32 start, f32 scale);
@@ -12,8 +14,9 @@ public:
     TTecZondeEff(TObject *parent, Vec *from, Vec *dir, f32 length);
     virtual ~TTecZondeEff();
     void randomize_bolt_jitter();
-    void calc_lightning_scatter_direction(s32, void *);
-    s32 build_lightning_strip(void *, void *, f32 *, f32 *);
+    void calc_lightning_scatter_direction(s32 axis, Vec *out);
+    s32 build_lightning_strip(ParticleStripVertex *out, Vec *points, f32 *widths, f32 *heights);
+    s32 project_lightning_points(Vec *out, f32 *strip_widths, f32 *strip_heights);
     virtual void run_task();
     virtual void render();
 public:
