@@ -124,10 +124,10 @@ void TUnk_804F0A00::init_weapon_effect_descriptor(Desc_8011E5C4 *desc) {
     desc->flags |= 0x80;
 }
 
-void TObjPlayer::spawn_fire_explosion(uaddr a0, saddr a1) {
+void TObjPlayer::spawn_fire_explosion(uaddr item_weapon, saddr a1) {
     Desc_8011E5C4 info;
     TObjPlayer__sub_802E449C(&info);
-    ((TItemWeapon *)a0)->fill_status_info(&info);
+    ((TItemWeapon *)item_weapon)->fill_status_info(&info);
     VecCopy(&info.position, (const Vec *)a1);
     info.hits = 10;
     new TUnk_804A2548(tl_05, &info);
@@ -142,9 +142,9 @@ void TObjPlayer::spawn_fire_explosion_at_item(s32 id, saddr arg1) {
     }
 }
 
-void TObjPlayer::spawn_fire_explosion_for_item(s32 id, s32 arg1) {
+void TObjPlayer::spawn_fire_explosion_for_item(s32 id, s32 item) {
     uaddr temp_r3 = (uaddr)find_item_by_id(id);
     if (temp_r3 != 0U) {
-        TObjPlayer::spawn_fire_explosion(temp_r3, arg1);
+        TObjPlayer::spawn_fire_explosion(temp_r3, item);
     }
 }

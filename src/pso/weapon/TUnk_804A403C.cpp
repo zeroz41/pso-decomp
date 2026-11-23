@@ -44,9 +44,9 @@ void TObjPlayer__sub_80128A74(s32 a, uaddr b, s32 c, s32 d) {
 
 }
 
-void TObjPlayer::notify_hit_target(u32 arg0, uaddr arg1, u32 arg2, uaddr arg3) {
-    if ((arg1 != 0U) && (arg3 != 0U)) {
-        ((TObjPlayer *)arg1)->clear_rico_ring_flag();
+void TObjPlayer::notify_hit_target(u32 arg0, uaddr player, u32 arg2, uaddr arg3) {
+    if ((player != 0U) && (arg3 != 0U)) {
+        ((TObjPlayer *)player)->clear_rico_ring_flag();
         spawn_particle_effect((const Vec *)arg3, 0x45);
         play_sound_effect(0x4001C112, 0, 0, 0);
     }
