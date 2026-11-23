@@ -46,7 +46,4 @@ public:
 
 LAYOUT_ASSERT(TPhotonConcentrate_size, sizeof(TPhotonConcentrate) == 0x10C);
 
-extern "C" u8 *__ct__18TPhotonConcentrateFP23PhotonConcentrateParamsP7TObjectUs(
-    u8 *photon_concentrate, u8 *params, s32 parent, s32 owner_id);
-
 #endif
