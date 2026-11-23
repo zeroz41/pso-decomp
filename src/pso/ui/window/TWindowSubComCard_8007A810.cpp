@@ -266,14 +266,14 @@ s32 TWindowSubComCard__sub_8007B010(Card_8007B010 *p, s32 n);
 
 #pragma push
 #pragma fp_contract on
-void TWindowSubComCard__sub_8007AF10(saddr subcommand_data) {
+void TWindowSubComCard__sub_8007AF10(saddr client_id) {
     Big spC;
     s32 sp8;
     s32 temp;
     ((TWindowSubComCard *)(&sp8))->init_guild_card();
     temp = TWindowSubComCard::get_keyboard_mode();
     ((s32 (*)(Big *, s32))copy_struct__17TWindowSubComCardFPvPv)(&spC, temp);
-    ((TWindowSubComCard *)(&sp8))->init_card((void*)subcommand_data);
+    ((TWindowSubComCard *)(&sp8))->init_card((void*)client_id);
 }
 #pragma pop
 

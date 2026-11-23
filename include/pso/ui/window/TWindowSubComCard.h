@@ -80,7 +80,7 @@ struct TWindowSubComCard : public TObject {
     void update_open_close();
     void set_entry_value_clear_flag(s32 idx, s32 val);
     s32 get_entry_id();
-    static s32 create_card_list(saddr parent, s32 card_slot, s32 count, s32 flag);
+    static s32 create_card_list(saddr parent, s32 card_slot, s32 count, s32 empty_message);
     void free_windows();
     void update_card_slot();
     void notify_trade_main();
@@ -104,9 +104,9 @@ struct TWindowSubComCard : public TObject {
     static void handle_press_b(saddr ply_guild_card_tag, s32 client_id);
     void calc_layout_height(f32 width);
 
-    void set_card_index(s32 entry_id);
-    void set_selected_card(s32 entry_id);
-    void set_help_message(s32 entry_id);
+    void set_card_index(s32 card_index);
+    void set_selected_card(s32 card_index);
+    void set_help_message(s32 help_index);
     static s32 create_card_action_window();
     s32 create_entry_list_window();
     s32 open_yesno_dialog();

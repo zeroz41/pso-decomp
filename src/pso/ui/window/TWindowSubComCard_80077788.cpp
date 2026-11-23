@@ -128,8 +128,8 @@ void TWindowSubComCard__sub_800778B4(Out_800778B4 *arr, Tbl_800777C4 *chr_select
     }
 }
 
-u8 * copy_struct28__17TWindowSubComCardFii(saddr dest, saddr arr) {
-    *(ByteBlock_28 *)(dest) = *(const ByteBlock_28 *)(arr);
+u8 * copy_struct28__17TWindowSubComCardFii(saddr dest, saddr src) {
+    *(ByteBlock_28 *)(dest) = *(const ByteBlock_28 *)(src);
     return (u8 *)dest;
 }
 void TWindowSubComCard__sub_80077980(S_80077980 *arr) {

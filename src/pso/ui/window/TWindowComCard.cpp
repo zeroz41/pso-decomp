@@ -289,9 +289,9 @@ u8 *TWindowComCard::create_for_card(s32 position, s32 index, s32 records) {
     return (u8 *)new TWindowComCard((void *)position, (void *)data);
 }
 
-void TWindowComCard::set_display_value(s32 arg1, s32 arg2) {
+void TWindowComCard::set_display_value(s32 card_index, s32 cards) {
     saddr arg0 = (saddr)this;
-    saddr temp = arg2 + (arg1 << 8);
+    saddr temp = cards + (card_index << 8);
     if (temp != 0) {
         update_com_card_display((ComCardDisplay *)(arg0 + 0x24), (void *)temp);
     }

@@ -165,7 +165,7 @@ s32 create_window_menu_default(void *, int);
 s32 TWindowSubComCard__sub_8027353C(void);
 s32 TWindowSubComCard__sub_8027346C(void);
 s32 TWindowSubComCard__sub_800778B4(void *, int);
-void TWindowSubComCard__sub_8007AF10(s32 subcommand_data);
+void TWindowSubComCard__sub_8007AF10(s32 client_id);
 s32 play_sound_effect(int, int, int, int);
 s32 TLobby__sub_8024259C();
 s32 fn_80244958(int, int);
@@ -1699,10 +1699,10 @@ void TWindowSubComCard::set_selected_card(s32 card_index) {
     }
 }
 
-void TWindowSubComCard::set_card_index(s32 card_record) {
-    if ((s32) this->m_28 != card_record) {
-        this->m_28 = card_record;
-        ((TWindowMessage *)(this->message_window))->append_line((saddr)((TWindowSubComCard *)(saddr)card_record)->get_card_entry_data(), 0x82);
+void TWindowSubComCard::set_card_index(s32 card_index) {
+    if ((s32) this->m_28 != card_index) {
+        this->m_28 = card_index;
+        ((TWindowMessage *)(this->message_window))->append_line((saddr)((TWindowSubComCard *)(saddr)card_index)->get_card_entry_data(), 0x82);
     }
 }
 }
