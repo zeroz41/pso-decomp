@@ -7,7 +7,6 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/render/MaterialColorFade.h"
 #include "pso/boss/goldragon/TBoss8Dragon_80065C90.h"
-#include "pso/effect/particle/TParticleCtrl_800867E4.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/system/task/TObject_8001A448.h"
 #include "pso/render/ChunkMaterialState.h"

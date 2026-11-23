@@ -6,7 +6,6 @@
 #include "types.h"
 #include <stdio.h>
 #include <string.h>
-#include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/boss/darkfalz/TBoss4Type2.h"
 #include "pso/ui/hud/TNowLoading.h"
@@ -145,7 +144,6 @@ const char *TParticleCtrl__class_name_descriptor[2] = {"TParticleCtrl", 0};
 #pragma auto_inline off
 #pragma dont_inline off
 
-typedef u8 *(*Gen_8008767C)(void *, void *, u32);
 
 struct Color_8008767C { u8 r, g, b, a; };
 
@@ -173,7 +171,6 @@ struct Ctrl_8008767C {
     Vec dir;
 };
 
-struct GenEntry_8008767C { s32 id; Gen_8008767C fn; };
 
 extern "C" {
 void set_particle_tint_color(u8 *arg0, void *arg1);
@@ -188,7 +185,6 @@ void set_particle_draw_scale(void* p, f32 a, f32 b);
 s32 TLoadCtrl__sub_8001C60C();
 f32 horizontal_distance_squared(void *, void *);
 u8 *get_player_by_client_id(s32);
-extern GenEntry_8008767C particle_ctrl_generator_table[];
 void run_task__13TParticleCtrlFv(Ctrl_8008767C *self);
 void clear_active_flag__13TParticleCtrlFv(void* p);
 
@@ -300,7 +296,7 @@ void run_task__13TParticleCtrlFv(Ctrl_8008767C *self) {
                 }
             }
         } else if (kind < 3) {
-            p = particle_ctrl_generator_table[kind].fn(self->def, &self->pos, self->tex);
+            p = (u8 *)particle_ctrl_generator_table[kind].create(self->def, &self->pos, (void *)self->tex);
             if (p != NULL) {
                 set_particle_draw_scale(p, self->sx, self->sy);
                 TParticleCtrl__sub_800884F0(p, &self->dir);

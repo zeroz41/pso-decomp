@@ -71,7 +71,21 @@ public:
     Vec position;
 };
 
+// Child generators of an emitter: TParticleCtrl::run_task calls
+// particle_ctrl_generator_table[kind].create(param, &pos, parent).
+struct ParticleGenerator {
+    const char *name;
+    void *(*create)(void *param, void *pos, void *parent);
+};
+
+extern ParticleGenerator particle_ctrl_generator_table[];
+
+void *create_timed_particle_emitter_with_angles(void *pos, void *dir, s32 id, s32 a, s32 b, s32 flags);
+TParticleCtrl *create_timed_particle_emitter_with_flags(void *pos, s32 id, s32 delay, s32 duration, s32 flags);
+
 extern "C" {
+TParticleCtrl *create_particle_emitter(const void *pos, s32 id);
+TParticleCtrl *create_timed_particle_emitter(const void *pos, s32 id, s32 delay, s32 duration);
 TParticleCtrl *initialize_flagged_particle(void *storage, const void *position, ParticleParam *entry,
                                            s32 mode, s32 delay, s32 duration, s32 use_self, s32 flags);
 void *__dt__13TUnk_8048E6A8Fv(void *arg0, s16 arg1);

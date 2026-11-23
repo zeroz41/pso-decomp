@@ -101,7 +101,6 @@ int qst_label_address(int label);
 #include "pso/player/TPlyPhotonChair.h"
 #include "pso/player/TPlyItem.h"
 #include "pso/item/TItemList.h"
-#include "pso/effect/particle/TParticleCtrl_800867E4.h"
 #include "pso/camera/TCameraFollow.h"
 #include "pso/camera/TCameraPan.h"
 #include "pso/system/TTokenList.h"

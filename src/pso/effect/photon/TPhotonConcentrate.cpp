@@ -25,7 +25,6 @@ void render__18TPhotonConcentrateFv(void) { TParticleCtrl::begin_effect_render()
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/unk/TLobby.h"
 #include "pso/ui/hud/TNowLoading.h"
-#include "pso/effect/particle/TParticleCtrl_800874F4.h"
 
 extern "C" {
 

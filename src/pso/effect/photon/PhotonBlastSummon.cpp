@@ -22,7 +22,6 @@ struct NJS_OBJECT;
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/render/render_util.h"
-#include "pso/effect/particle/TParticleCtrl_800867E4.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/system/MatrixStack.h"
 

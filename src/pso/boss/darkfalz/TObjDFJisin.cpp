@@ -1,7 +1,6 @@
 #include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/boss/darkfalz/TObjDFHorming.h"
-#include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/system/BmlResource.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"

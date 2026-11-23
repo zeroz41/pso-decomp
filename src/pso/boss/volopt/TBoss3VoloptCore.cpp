@@ -25,7 +25,6 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/effect/particle/TParticleCtrl.h"
-#include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/network/client_id.h"
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/player/TObjPlayer_801542CC.h"

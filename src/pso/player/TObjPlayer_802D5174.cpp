@@ -18,7 +18,6 @@
 #include "pso/item/TItem.h"
 #include "pso/item/TItemLoad.h"
 #include "pso/effect/particle/TParticleCtrl.h"
-#include "pso/effect/particle/TParticleCtrl_800867E4.h"
 #include "pso/effect/item/TItemEffNeedle.h"
 #include "pso/boss/goldragon/TBoss8Dragon_80065C90.h"
 #include "pso/object/trap/TOTrap.h"

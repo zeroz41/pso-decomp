@@ -2,7 +2,6 @@
 #include "pso/effect/particle/ParticleFactory.h"
 
 #define TOBJECT_OUT_OF_LINE_HELPERS
-#include "pso/effect/particle/TParticleCtrl_800867E4.h"
 
 #include "pso/animation/MotionContext.h"
 #include "pso/unk/text_803D853C.h"
@@ -119,7 +118,6 @@ extern TObjMotionAction de_rol_le_c_action_table[17];
 
 #include "pso/unk/text_803D96A8.h"
 
-#include "pso/effect/particle/TParticleCtrl_800874F4.h"
 
 #include "pso/object/base/TObjChara.h"
 

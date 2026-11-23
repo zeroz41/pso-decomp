@@ -20,7 +20,6 @@
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/math/AngleLookup.h"
-#include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/unk/TLobby.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/boss/dragon/TBoss1DragonColli.h"

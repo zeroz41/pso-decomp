@@ -5,7 +5,7 @@
 #include "pso/technique/TechniqueParams.h"
 #include "pso/technique/TTecLuker.h"
 #include "pso/unk/TUnk_804CC0E8.h"
-#include "pso/effect/particle/TParticleCtrl_800867E4.h"
+#include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/system/vector.h"
 

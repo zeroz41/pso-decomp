@@ -2,7 +2,6 @@
 #include "pso/unk/text_803D96A8.h"
 #include "pso/unk/TUnk_804C57F0.h"
 #include "pso/render/render_util.h"
-#include "pso/effect/particle/TParticleCtrl_80085EE4.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "types.h"

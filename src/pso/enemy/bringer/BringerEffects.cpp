@@ -12,7 +12,7 @@
 #include "pso/math/AngleLookup.h"
 #include "pso/math/FloatRounding.h"
 #include "pso/math/MatrixTransforms.h"
-#include "pso/effect/particle/TParticleCtrl_800867E4.h"
+#include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/MatrixStack.h"

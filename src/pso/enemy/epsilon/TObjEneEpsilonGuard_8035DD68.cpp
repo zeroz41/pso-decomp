@@ -20,7 +20,6 @@ struct NJS_OBJECT;
 #include "pso/system/MatrixOps.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/math/AngleLookup.h"
-#include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/render/RenderFadeState.h"

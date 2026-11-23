@@ -6,8 +6,6 @@
 #include "types.h"
 #include "pso/boss/goldragon/TBoss8Dragon_80065C90.h"
 #include "pso/unk/TLobby_8001EF5C.h"
-#include "pso/effect/particle/TParticleCtrl_800874F4.h"
-#include "pso/effect/particle/TParticleCtrl_800867E4.h"
 #include "pso/technique/TTecGiZonde_8023A4CC.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/unk/text_800871A0.h"

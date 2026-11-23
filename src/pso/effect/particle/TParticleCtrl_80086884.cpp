@@ -1,7 +1,6 @@
 #include "pso/system/BmlAccessors.h"
 #include "pso/effect/particle/ParticleParam.h"
 #include "types.h"
-#include "pso/effect/particle/TParticleCtrl_800867E4.h"
 
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/task/TObject.h"

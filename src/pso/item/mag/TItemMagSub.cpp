@@ -5,7 +5,6 @@
 #include <string.h>
 #include "pso/system/task/TObject.h"
 #include "pso/effect/particle/TParticleCtrl.h"
-#include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
 #include "pso/item/TItem.h"
 #include "pso/item/mag/TItemMag.h"

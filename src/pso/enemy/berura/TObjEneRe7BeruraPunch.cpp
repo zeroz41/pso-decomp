@@ -12,7 +12,6 @@
 #include "pso/math/AngleLookup.h"
 #include "pso/map/CsnQuery.h"
 #include "pso/unk/text_80086B64.h"
-#include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/enemy/AttackTargetHistory.h"
 #include "pso/system/task/TObject.h"
 #include "pso/object/base/TObjMotion.h"

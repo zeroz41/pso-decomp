@@ -26,7 +26,6 @@ struct NJS_OBJECT;
 #include "pso/math/AngleLookup.h"
 #include "pso/unk/text_803D853C.h"
 #include "pso/unk/text_803D96A8.h"
-#include "pso/effect/particle/TParticleCtrl_800874F4.h"
 
 
 #include "pso/system/vector.h"

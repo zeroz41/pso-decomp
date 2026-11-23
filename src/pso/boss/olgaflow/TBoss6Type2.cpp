@@ -38,7 +38,6 @@
 #include "pso/system/SoundEffect.h"
 #include <stdlib.h>
 #include "pso/render/render_util.h"
-#include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 
 #include "pso/object/TObjControl.h"

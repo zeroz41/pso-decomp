@@ -6,7 +6,6 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/task/TObject.h"
 #include "pso/effect/particle/TParticleCtrl.h"
-#include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/map/FloorArea.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/ui/hud/TRaderMapCore.h"

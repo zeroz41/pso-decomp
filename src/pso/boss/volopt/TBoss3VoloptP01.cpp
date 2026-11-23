@@ -10,7 +10,6 @@
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/boss/volopt/TBoss3VoloptHiraisin.h"
 #include "pso/boss/darkfalz/TBoss4Type2.h"
-#include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/enemy/TObjEnemyCustom.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/math/MatrixTransforms.h"

@@ -45,7 +45,6 @@
 #include "pso/render/render_util.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/math/MatrixVector.h"
-#include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/render/MaterialColorFade.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/system/SoundEffect.h"

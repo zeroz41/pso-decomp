@@ -15,7 +15,6 @@
 
 #include "pso/boss/olgaflow/TBoss6PlotFalz.h"
 #include "pso/unk/TLobby.h"
-#include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/boss/darkfalz/TBoss4Type2.h"
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/ui/frontend/TAdLdQuestPrtGC.h"

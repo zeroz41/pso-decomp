@@ -27,8 +27,6 @@
 #include "pso/unk/TLobby_80226070.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/effect/particle/TParticleCtrl_800867E4.h"
-#include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/object/base/CollisionActorLookup.h"
 

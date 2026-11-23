@@ -60,7 +60,6 @@
 #include "pso/render/ModelDrawContext.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/effect/particle/TParticleCtrl_800867E4.h"
 #include "pso/enemy/epsilon/TObjEneEpsilon_800B92AC.h"
 #include "pso/enemy/dd/TObjEneDD_800B9A34.h"
 #include "pso/render/GinjaView.h"

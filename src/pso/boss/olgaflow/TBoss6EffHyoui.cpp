@@ -2,7 +2,6 @@
 #include "pso/boss/olgaflow/TBoss6EffHyoui.h"
 #include "pso/boss/olgaflow/TBoss6PlotFalz.h"
 #include "pso/effect/particle/TParticleCtrl.h"
-#include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 

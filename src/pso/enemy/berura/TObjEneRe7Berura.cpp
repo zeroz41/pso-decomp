@@ -17,7 +17,6 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/math/AngleLookup.h"
-#include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/animation/ActorAnimationState.h"

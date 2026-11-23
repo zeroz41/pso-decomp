@@ -5,7 +5,6 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/animation/ActorAnimationState.h"
 #include "pso/boss/darkfalz/TBoss4Type2.h"
-#include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/unk/TLobby.h"
 #include "pso/unk/TLobbyEventTheme.h"

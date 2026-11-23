@@ -15,10 +15,8 @@
 #include "pso/technique/TTecAnti.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/unk/TLobby_80226070.h"
-#include "pso/effect/particle/TParticleCtrl_800867E4.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/unk/text_800871A0.h"
-#include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/object/base/CollisionActorLookup.h"
 
 struct HitInfo_8022B8F4 { s32 type; f32 power; };

@@ -9,7 +9,7 @@
 #include "pso/map/FloorArea.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/system/BmlResourceDescriptor.h"
-#include "pso/effect/particle/TParticleCtrl_800867E4.h"
+#include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/object/TDeadSpot.h"
 #include "pso/unk/TUnk_804949D8.h"
 #include "pso/player/TObjPlayer_800D8FDC.h"

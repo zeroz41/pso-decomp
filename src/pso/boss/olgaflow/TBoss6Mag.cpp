@@ -19,7 +19,6 @@
 #include <stdlib.h>
 #include "pso/render/render_util.h"
 #include "pso/unk/text_803D96A8.h"
-#include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/system/task/TObject.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/ui/hud/TRaderMapCore.h"

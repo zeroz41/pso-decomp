@@ -23,7 +23,6 @@
 #include "pso/system/task/TObject.h"
 #include "pso/render/ModelDrawContext.h"
 #include "pso/player/TObjPlayer_803E1A58.h"
-#include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/system/SoundEffect.h"

@@ -50,7 +50,6 @@ extern const f32 lbl_805D9FC4;
 extern const f32 lbl_805D9FD4;
 
 #include "pso/enemy/epsilon/TObjEneEpsilon.h"
-#include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/system/SoundEffect.h"
 extern const f32 re2_flower_acquire_range;
 

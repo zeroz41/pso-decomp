@@ -2,7 +2,6 @@
 #include "pso/system/BmlAccessors.h"
 #include "pso/system/BmlResource.h"
 #include <stdlib.h>
-#include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/system/BmlResource.h"
 #include "pso/unk/TLobby_8001EF5C.h"

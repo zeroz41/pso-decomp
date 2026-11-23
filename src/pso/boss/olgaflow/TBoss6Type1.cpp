@@ -39,7 +39,6 @@
 #include "pso/unk/text_803D8F74.h"
 #include <stdlib.h>
 #include "pso/render/render_util.h"
-#include "pso/effect/particle/TParticleCtrl_800874F4.h"
 
 
 #include <stddef.h>

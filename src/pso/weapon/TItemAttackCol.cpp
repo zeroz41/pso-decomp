@@ -22,7 +22,6 @@
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/math/AngleLookup.h"
-#include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/unk/text_80087278.h"
 #include "pso/item/TItemMenuCtrl_80115AF0.h"
 #include "pso/unk/text_80086B64.h"

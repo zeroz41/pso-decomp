@@ -1,6 +1,5 @@
 #include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
-#include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/unk/text_80087278.h"
 #include "pso/system/BmlResource.h"
 #include "pso/object/ambient/TObjFish_8001ED90.h"

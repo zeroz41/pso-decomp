@@ -59,7 +59,6 @@ struct NJS_OBJECT;
 
 #include "pso/unk/text_803D96A8.h"
 
-#include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/object/trap/TOTrapAncient01_80226534.h"

@@ -12,7 +12,6 @@
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/MatrixStack.h"
-#include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/unk/text_803D8F74.h"

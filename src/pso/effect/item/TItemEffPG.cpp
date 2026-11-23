@@ -30,7 +30,6 @@
 #include "pso/item/TUnk_804E355C.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/system/task/TObject.h"
-#include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/unk/text_803D8F74.h"
 

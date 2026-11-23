@@ -133,7 +133,6 @@ TObjMotionAction bringer_motion_actions[11] = {
 #include "pso/math/MatrixTransforms.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/unk/text_803D853C.h"
-#include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/render/model_render_state.h"
 #include "pso/object/trap/TOTrapAncient01_80226534.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel_8007E418.h"

@@ -8,7 +8,6 @@
 #include "pso/camera/CameraHelpers.h"
 #include "pso/camera/CameraPlayback.h"
 #include "pso/system/PadRumble.h"
-#include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/unk/text_803D96A8.h"

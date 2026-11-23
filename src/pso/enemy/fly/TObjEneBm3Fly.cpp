@@ -14,7 +14,6 @@
 #include "pso/math/AngleLookup.h"
 #include "pso/unk/text_803E2D70.h"
 #include "pso/unk/text_803D96A8.h"
-#include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/enemy/dd/TObjEneDD_ST.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/vector.h"

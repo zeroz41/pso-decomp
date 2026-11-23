@@ -45,13 +45,11 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/system/MatrixOps.h"
-#include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/enemy/deldepth/DelDepthData.h"
 #include "pso/boss/volopt/TBoss3VoloptP01.h"
 #include "pso/effect/TBreakUpMdl.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/effect/particle/TParticleCtrl_800867E4.h"
 #include "pso/object/base/CollisionActorLookup.h"
 
 #pragma readonly_strings on

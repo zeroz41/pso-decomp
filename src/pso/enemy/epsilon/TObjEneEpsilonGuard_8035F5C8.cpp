@@ -21,7 +21,6 @@ struct NJS_OBJECT;
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/unk/text_803D96A8.h"
-#include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/map/CsnQuery.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/boss/volopt/TBoss3VoloptP01.h"

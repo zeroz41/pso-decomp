@@ -11,7 +11,6 @@
 #include "pso/system/task/TObject.h"
 #include "pso/technique/TTecCtrl.h"
 
-#include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/unk/TLobby_80226070.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/system/vector.h"

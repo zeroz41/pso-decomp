@@ -5,7 +5,6 @@
 #include "pso/boss/darkfalz/TObjDFDemo1.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
-#include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/boss/darkfalz/TBoss4Uro.h"
 #include "pso/enemy/sorcerer/TObjEneRe4Sorcerer_801E3F14.h"
 #include "pso/math/AngleLookup.h"

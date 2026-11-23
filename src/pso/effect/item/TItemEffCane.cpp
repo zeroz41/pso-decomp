@@ -1,6 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/item/TItemEffCane.h"
-#include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/item/TItem.h"
 #include "pso/weapon/TItemWeapon.h"
 #include "pso/system/task/TObject_80019A50.h"

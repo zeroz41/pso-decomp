@@ -28,7 +28,6 @@
 #include "pso/render/render_util.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/math/MatrixVector.h"
-#include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/animation/ActorAnimationState.h"
 #include "pso/system/task/TObject.h"

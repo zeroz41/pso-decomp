@@ -28,7 +28,6 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/item/TItemEquipBase.h"
-#include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/unk/text_800870BC.h"
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/player/TObjPlayer_801D2E20.h"

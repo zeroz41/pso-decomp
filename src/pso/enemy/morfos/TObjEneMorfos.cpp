@@ -23,7 +23,6 @@
 #include "pso/player/TObjPlayer_800D8FDC.h"
 #include "pso/render/reflection.h"
 #include "pso/math/AngleLookup.h"
-#include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/enemy/dd/TObjEneDD_ST.h"
 #include "pso/object/base/TObjMotion.h"

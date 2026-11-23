@@ -10,7 +10,6 @@
 #include "pso/object/trap/TOTrapAncient01_80226534.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/system/vector.h"
-#include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/camera/CameraHelpers.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/player/TObjPlayer_803E4954.h"

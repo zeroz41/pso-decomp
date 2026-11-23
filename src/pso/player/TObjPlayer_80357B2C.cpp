@@ -1,7 +1,6 @@
 #include "pso/system/BmlAccessors.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
-#include "pso/effect/particle/TParticleCtrl_800867E4.h"
 #include "pso/unk/TUnk_804CCB28.h"
 #include "types.h"
 #include <stdlib.h>

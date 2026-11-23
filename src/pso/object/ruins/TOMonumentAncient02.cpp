@@ -4,7 +4,6 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/network/TProtocol.h"
-#include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/map/FloorArea.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/unk/TLobby_8030A6A8.h"

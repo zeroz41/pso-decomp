@@ -15,7 +15,6 @@
 #include "pso/unk/text_801AB370.h"
 #include "pso/unk/text_801ABE14.h"
 #include "pso/unk/text_801AE1F8.h"
-#include "pso/effect/particle/TParticleCtrl_800867E4.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/unk/TUnk_804C349C.h"
 #include "pso/player/PhotonBlastResults.h"

@@ -9,7 +9,7 @@
 #include "pso/unk/text_801255EC.h"
 #include "pso/item/TItem.h"
 #include "pso/system/vector.h"
-#include "pso/effect/particle/TParticleCtrl_800867E4.h"
+#include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/item/TItemEquipVariant_80120CF8.h"
 #include "pso/player/TObjPlayer_80125780.h"
 #include "pso/render/GinjaMaterial.h"

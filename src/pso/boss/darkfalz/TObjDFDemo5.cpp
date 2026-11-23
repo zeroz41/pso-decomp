@@ -4,7 +4,6 @@
 #include "types.h"
 #include "pso/boss/darkfalz/TObjDFDemo5.h"
 #include "pso/effect/particle/TParticleCtrl.h"
-#include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
 #include "pso/boss/darkfalz/TBoss4Uro.h"
 #include "pso/camera/CameraHelpers.h"

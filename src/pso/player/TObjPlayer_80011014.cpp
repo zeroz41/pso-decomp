@@ -1,7 +1,6 @@
 #include "pso/enemy/EnemyMovement.h"
 #include "pso/enemy/EnemyTargeting.h"
 #include "pso/effect/particle/ParticleFactory.h"
-#include "pso/effect/particle/TParticleCtrl_800867E4.h"
 
 #include "pso/map/CsnGroundQuery.h"
 #include "pso/player/TObjPlayer_800F0810.h"

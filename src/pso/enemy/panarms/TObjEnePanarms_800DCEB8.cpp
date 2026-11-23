@@ -39,7 +39,6 @@
 #include "pso/system/SoundEffect.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/unk/text_803D96A8.h"
-#include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/camera/TCameraCtrl.h"
 
 

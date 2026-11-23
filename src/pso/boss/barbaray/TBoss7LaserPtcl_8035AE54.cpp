@@ -2,7 +2,7 @@
 #include "types.h"
 #include "pso/boss/barbaray/TBoss7LaserPtcl_8035AE54.h"
 #include "pso/boss/TUnk_804F1C88.h"
-#include "pso/effect/particle/TParticleCtrl_800867E4.h"
+#include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/vector.h"
 
 TUnk_804F1C88::TUnk_804F1C88(TObject *parent, const Vec *origin) : TObject(parent) {

@@ -14,7 +14,6 @@
 #include "pso/unk/TLobby.h"
 #include "pso/boss/dragon/ObjBoss1CommonResource.h"
 #include "pso/system/BmlResource.h"
-#include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include <stdlib.h>

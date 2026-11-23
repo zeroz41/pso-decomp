@@ -1,6 +1,5 @@
 #include "pso/effect/particle/ParticleDefinition.h"
 #include "pso/render/render_util.h"
-#include "pso/effect/particle/TParticleCtrl_80085EE4.h"
 #include "pso/unk/TUnk_8048E6A8.h"
 #include "pso/unk/TUnk_8048E6DC.h"
 #include "pso/system/NinjaTypes.h"

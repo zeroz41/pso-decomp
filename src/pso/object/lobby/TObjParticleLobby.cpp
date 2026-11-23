@@ -3,7 +3,6 @@
 #include "pso/object/lobby/TObjParticleLobby.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/boss/darkfalz/TBoss4Type2.h"
-#include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/unk/TLobby.h"
 #include "pso/player/TObjPlayer.h"
 

@@ -17,8 +17,6 @@
 #include "pso/effect/item/TItemEffShield.h"
 #include "pso/system/vector.h"
 #include "pso/item/armor/TItemProShield.h"
-#include "pso/effect/particle/TParticleCtrl_800867E4.h"
-#include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/player/PlayerSlots.h"
 
