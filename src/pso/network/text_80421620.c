@@ -84,7 +84,7 @@ const char avetcp_module_list[] =
     "tcp_keep_ooo_segment tcp_sack tcp_large_window dns module(s).";
 const u8 *const avetcp_version_banner_ptr = avetcp_version_banner;
 const char lbl_804800F0[] = "<< Network SDK - avetcp.a  Ver.1.16.1 build:Oct 23 2002 17:47:54>>\n";
-u32 TLobby__network_stack_init_count;
+u32 network_stack_init_count;
 /* This C library caller passes a full register for the handle and a signed halfword length. */
 s16 TLobby__sub_8041DBD4(s32 handle, NetBufferRef *destination, s16 len, TcpCompletion callback);
 void TLobby__sub_8041E2EC(int, void *, void *); /* declared here with an s32 1st argument; the definition takes s16 */
@@ -125,10 +125,10 @@ s16 init_network_stack(void) {
     if ((s32) *avetcp_version_banner_ptr != 0xA) {
         return -1;
     }
-    if ((u32) TLobby__network_stack_init_count == 0U) {
+    if ((u32) network_stack_init_count == 0U) {
         OSReport(lbl_804800F0);
     }
-    ++TLobby__network_stack_init_count;
+    ++network_stack_init_count;
     result = TLobby__sub_80419A34();
     if (result >= 0) {
         result = TLobby__sub_80415690();

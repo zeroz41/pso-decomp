@@ -120,7 +120,7 @@ TObjTombstone::TObjTombstone(TObject *parent, s32 client, const TObjTombstoneRec
     setup(client, src);
     init_parts();
     this->m_234 = 0;
-    if (local_client_id != TLobby__designated_client_id) {
+    if (local_client_id != designated_client_id) {
         this->m_234 = 1;
     }
 }
@@ -196,7 +196,7 @@ s32 TObjTombstone::is_player_nearby() {
     TObjPlayer *player;
     if (this->m_234 != 0) {
         return 0;
-    } else if (local_client_id != TLobby__designated_client_id) {
+    } else if (local_client_id != designated_client_id) {
         this->m_234 = 1;
         return 0;
     }

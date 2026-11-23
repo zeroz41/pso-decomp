@@ -410,7 +410,7 @@ s32 parse_r_index(const char *text) {
 }
 }
 
-u8 *TLobby__quest_script_read_ptr;
+u8 *quest_script_read_ptr;
 
 void append_split_screen_hero_name(void) {
     char buf[0x40];
@@ -470,14 +470,14 @@ void append_hero_name(void) {
 extern "C" {
 
 u8 is_message_source_exhausted(void) {
-    return (u8) ((s8) *TLobby__quest_script_read_ptr == 0);
+    return (u8) ((s8) *quest_script_read_ptr == 0);
 }
 
 u8 read_byte_advance__6TLobbyFv(void) {
     u8 *temp_r3;
 
-    temp_r3 = TLobby__quest_script_read_ptr;
-    TLobby__quest_script_read_ptr = temp_r3 + 1;
+    temp_r3 = quest_script_read_ptr;
+    quest_script_read_ptr = temp_r3 + 1;
     return *temp_r3;
 }
 
@@ -510,7 +510,7 @@ s32 TObjPlayer__sub_801C1AC8();
 extern "C" {
 void begin_message_substitution(u8 *a0, char *a1);
 
-void begin_message_substitution(u8 *a0, char *a1) { TLobby__quest_script_read_ptr = a0; quest_string_append_cursor = a1; }
+void begin_message_substitution(u8 *a0, char *a1) { quest_script_read_ptr = a0; quest_string_append_cursor = a1; }
 }
 
 void qst_op_olga_flow_is_dead(s32 reg) {
@@ -979,9 +979,9 @@ void TObjPlayer__sub_80354DAC(u16 client_index);
 void activate_palettex(u16 client_index);
 }
 
-extern E_801EB484 TLobby__duel_result_table[];
-extern s32 TLobby__designated_client_id;
-extern int TLobby__battle_ctrl_default_value;
+extern E_801EB484 duel_result_table[];
+extern s32 designated_client_id;
+extern int battle_ctrl_default_value;
 extern saddr gba_download_data_buffer;
 extern s32 gba_download_data_size;
 int quest_active_flag;
@@ -2626,17 +2626,17 @@ void qst_op_get_player_state(s32 slot_reg, saddr dst) {
     qst_registers[(u8)dst] = 0;
 }
 
-void qst_op_disable_win_pfx(void) { TLobby__battle_ctrl_default_value = 0; }
+void qst_op_disable_win_pfx(void) { battle_ctrl_default_value = 0; }
 
-void qst_op_enable_win_pfx(void) { TLobby__battle_ctrl_default_value = 1; }
+void qst_op_enable_win_pfx(void) { battle_ctrl_default_value = 1; }
 
 void qst_op_ba_get_score(u8 src, u8 dst) {
-    E_801EB484 e = TLobby__duel_result_table[qst_registers[src]];
+    E_801EB484 e = duel_result_table[qst_registers[src]];
     qst_registers[dst] = e.b;
 }
 
 void qst_op_ba_get_place(u8 a0, u8 a1) {
-    E_801EB4C4 e = ((E_801EB4C4 *)&TLobby__duel_result_table)[qst_registers[a0]];
+    E_801EB4C4 e = ((E_801EB4C4 *)&duel_result_table)[qst_registers[a0]];
     qst_registers[a1] = e.b;
 }
 
@@ -3689,7 +3689,7 @@ void qst_op_update_switch_flag(s32 regs) {
 }
 
 void qst_op_get_leader_id(u8 reg) {
-    qst_registers[reg] = TLobby__designated_client_id;
+    qst_registers[reg] = designated_client_id;
 }
 
 void qst_op_get_client_id(u8 reg) {

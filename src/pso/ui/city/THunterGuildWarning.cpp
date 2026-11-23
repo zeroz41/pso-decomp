@@ -209,7 +209,7 @@ int TLobby::get_selected_quest_id() { return TQuestListOnline::get_selected_ques
 #include "pso/quest/TQuestListOnline.h"
 
 extern "C" {
-extern s32 TLobby__designated_client_id;
+extern s32 designated_client_id;
 extern s32 local_client_id;
 s32 THunterGuildSeqOffline__sub_80213458(void);
 }
@@ -218,7 +218,7 @@ s32 TLobby__sub_80211C3C(void) {
     if (get_main_phase() != 0xF) {
         return 3;
     }
-    if (TLobby__designated_client_id == local_client_id) {
+    if (designated_client_id == local_client_id) {
         switch (TQuestListOnline::get_list_state()) {
         case 0:
             return 3;
@@ -251,7 +251,7 @@ s32 TLobby::handle_main_phase(saddr player) {
         return (saddr)THunterGuildSeqOffline::create((void *)player);
     }
     if (get_main_phase() == 0xF) {
-        if ((s32) local_client_id == (s32) TLobby__designated_client_id) {
+        if ((s32) local_client_id == (s32) designated_client_id) {
             return (saddr)TLobby::create_tl05_object((void *)player);
         }
         return (saddr)create_lobby_object_05((void *)player);

@@ -20,8 +20,8 @@ uaddr gba_download_data_buffer;
 uaddr gba_download_graph;
 u32 gba_download_data_size;
 s32 TLobby__data_805D6CCC;
-s32 gba_joyboot_send_buffer;
-u8 *TLobby__gba_joyboot_send_buffer;
+s32 gba_joyboot_send_length;
+u8 *gba_joyboot_send_buffer;
 u8 gba_joyboot_status;
 unsigned char lbl_805D6CD9;
 short lbl_805D6CDA;
@@ -158,7 +158,7 @@ void stamp_joyboot_image(s32 arg0, s32 arg1) {
     u8 *obj;
     u8 *st;
     memset(&rec, 0, 0xC);
-    obj = TLobby__gba_joyboot_send_buffer;
+    obj = gba_joyboot_send_buffer;
     st = TAdSinglePlyChrSelectGC::get_global_state();
     if (st != 0) {
         if (arg1 != 0) {
@@ -177,7 +177,7 @@ void stamp_joyboot_image(s32 arg0, s32 arg1) {
 void TLobby::calc_joyboot_checksum() {
     u8 *q;
     s32 i;
-    u8 *data = TLobby__gba_joyboot_send_buffer;
+    u8 *data = gba_joyboot_send_buffer;
     s32 k;
     u8 c;
     for (i = 0; i < 4; i++) {
@@ -194,7 +194,7 @@ void TLobby::calc_joyboot_checksum() {
 }
 
 s32 TLobby::start_gba_joyboot() {
-    if (GBAJoyBootAsync(3, 0, 4, TLobby__gba_joyboot_send_buffer, gba_joyboot_send_buffer, &gba_joyboot_status, gba_joyboot_transfer_callback) == 0) {
+    if (GBAJoyBootAsync(3, 0, 4, gba_joyboot_send_buffer, gba_joyboot_send_length, &gba_joyboot_status, gba_joyboot_transfer_callback) == 0) {
         TLobby__data_805D6CCC = 3;
         return 1;
     }
@@ -263,8 +263,8 @@ void update_gba_joyboot_transfer(void) {
 #pragma dont_inline on
 
 void TLobby::set_send_buffer(u8 *arg0, s32 arg1) {
-    TLobby__gba_joyboot_send_buffer = arg0;
-    gba_joyboot_send_buffer = arg1;
+    gba_joyboot_send_buffer = arg0;
+    gba_joyboot_send_length = arg1;
     gba_joyboot_status = 0;
     reset_joyboot_state(TLobby__data_805434A8);
     TLobby__data_805D6CCC = 0;

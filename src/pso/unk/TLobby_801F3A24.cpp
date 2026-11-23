@@ -311,13 +311,13 @@ block_6:
 
 extern s32 evt2_random_enemies_mode;
 extern s32 map_set_object_id_counter;
-extern s32 TLobby__next_enemy_set_actor_id;
+extern s32 next_enemy_set_actor_id;
 extern s32 map_object_id_counter;
 extern s32 map_set_enemy_id_counter;
 
 void TLobby::setup_quest_list() {
     map_set_object_id_counter = 0;
-    TLobby__next_enemy_set_actor_id = 0;
+    next_enemy_set_actor_id = 0;
     map_object_id_counter = 0;
     map_set_enemy_id_counter = 0;
     switch ((s32) evt2_random_enemies_mode) {
@@ -340,7 +340,7 @@ void TLobby::setup_quest_list() {
     advance_object_id_counter((u16) map_object_id_counter);
     advance_enemy_id_counter((u16) map_set_enemy_id_counter);
     object_condition_count = map_set_object_id_counter;
-    enemy_condition_count = TLobby__next_enemy_set_actor_id;
+    enemy_condition_count = next_enemy_set_actor_id;
     TLobby__sub_8020B308(map_set_object_id_counter);
     TLobby::sum_floor_enemy_counts();
 }

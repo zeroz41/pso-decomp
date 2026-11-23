@@ -123,7 +123,7 @@ struct Ctx_8001F128 {
 
 void reset_gstream_globals(void);
 extern "C" {
-char TLobby__tmp_buf_name[0x20];
+char tmp_buf_name[0x20];
 u8 bml_load_state;
 u8 *lobby_download_buffer;
 s32 lbl_805D4AD0;
@@ -170,9 +170,9 @@ void TLobby__sub_8001EDD8(BmlResource *self, void *item) {
 }
 
 void TLobby::tmp_buf_release_if_owner(const char *name) {
-    if (((s32) tmp_buf_in_use_flag == 0) && (strcmp(TLobby__tmp_buf_name, name) == 0)) {
+    if (((s32) tmp_buf_in_use_flag == 0) && (strcmp(tmp_buf_name, name) == 0)) {
         tmp_buf_in_use_flag = 1;
-        TLobby__tmp_buf_name[0] = 0;
+        tmp_buf_name[0] = 0;
     }
 }
 
@@ -182,13 +182,13 @@ s32 TLobby::tmp_buf_release(const char *name) {
             TLobby::debug_print("TmpBufRelease(%s) Bad Release", name);
             return 0;
         }
-        if (strcmp(TLobby__tmp_buf_name, name) != 0) {
-            TLobby::debug_print("TmpBufRelease(%s) keycode no-match(%s)", name, TLobby__tmp_buf_name);
+        if (strcmp(tmp_buf_name, name) != 0) {
+            TLobby::debug_print("TmpBufRelease(%s) keycode no-match(%s)", name, tmp_buf_name);
             return 0;
         }
     }
     tmp_buf_in_use_flag = 1;
-    TLobby__tmp_buf_name[0] = 0;
+    tmp_buf_name[0] = 0;
     return 1;
 }
 
@@ -198,7 +198,7 @@ s32 TLobby::tmp_buf_is_free() {
 u8 *TLobby::tmp_buf_use_req(const char *name) {
     if (tmp_buf_in_use_flag != 0) {
         tmp_buf_in_use_flag = 0;
-        strncpy(TLobby__tmp_buf_name, name, 0x20);
+        strncpy(tmp_buf_name, name, 0x20);
         return lobby_download_buffer;
     }
     TLobby::debug_print("TmpBufUseReq(%s) can't use");
@@ -478,7 +478,7 @@ void TLobby::init_download_buffers() {
     lobby_download_buffer = (u8 *)TQuestVmDownLoadServer::alloc(0x40000);
     reset_gstream_globals();
     tmp_buf_in_use_flag = 1;
-    TLobby__tmp_buf_name[0] = 0;
+    tmp_buf_name[0] = 0;
 }
 
 void check_bin_model_loaded__6TLobbyFPvPv(BmlResource *resource, void *) {

@@ -13,7 +13,7 @@ LAYOUT_ASSERT(TradeStateOffset, offsetof(packet_header, flags) == 1);
 packet *server_packet;
 u32 new_ip_addr;
 u16 new_port;
-s32 TLobby__lobby_state_flags;
+s32 lobby_state_flags;
 const char *lobby_server_greeting_text = "DreamCast Lobby Server. Copyright SEGA Enterprises. 1999";
 const char *port_map_copyright = "DreamCast Port Map. Copyright SEGA Enterprises. 1999";
 OBJECT_NAME(TProtocol);

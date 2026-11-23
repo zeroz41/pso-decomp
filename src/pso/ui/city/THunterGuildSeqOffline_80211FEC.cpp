@@ -22,7 +22,7 @@ struct Seq_80212304 {
 
 extern "C" {
 f32 xz_distance_squared(void *, void *);
-extern s32 TLobby__designated_client_id;
+extern s32 designated_client_id;
 extern s32 local_client_id;
 void *get_window_layout_position(s32);
 __declspec(section ".data") f32 member_name_window_pos[2] = {219.0f, 100.0f};
@@ -44,7 +44,7 @@ s32 THunterGuildSeqOffline__sub_80212074(void) {
     saddr player;
     saddr temp_r3_2;
     s32 area;
-    if ((s32) TLobby__designated_client_id == (s32) local_client_id) {
+    if ((s32) designated_client_id == (s32) local_client_id) {
         return 0;
     }
     player = (saddr)get_player_by_client_id(local_client_id);
@@ -55,7 +55,7 @@ s32 THunterGuildSeqOffline__sub_80212074(void) {
     if ((area != 0x12) && ((area >= 0x12) || (area != 0))) {
         return 0;
     }
-    temp_r3_2 = (saddr)get_player_by_client_id(TLobby__designated_client_id);
+    temp_r3_2 = (saddr)get_player_by_client_id(designated_client_id);
     if (temp_r3_2 == 0) {
         return 0;
     }
@@ -88,10 +88,10 @@ s32 THunterGuildSeqOffline::check_party_gathered() {
         }
     }
     result = 1;
-    me = (saddr)get_player_by_client_id(TLobby__designated_client_id);
+    me = (saddr)get_player_by_client_id(designated_client_id);
     lim = 625.0f;
     for (j = 0; j < 4; j++) {
-        if (j != TLobby__designated_client_id) {
+        if (j != designated_client_id) {
             p = (saddr)get_player_by_client_id(j);
             if (p != 0 && xz_distance_squared((void *)(me + 0x38), (void *)(p + 0x38)) > lim) {
                 result = 0;
@@ -106,10 +106,10 @@ void TMemberCheck::update_member_proximity() {
     saddr player;
     s32 var_r30;
     if (this->m_1C != 0U) {
-        temp_r31 = (saddr)get_player_by_client_id(TLobby__designated_client_id);
+        temp_r31 = (saddr)get_player_by_client_id(designated_client_id);
         var_r30 = 0;
         do {
-            if (var_r30 != (s32) TLobby__designated_client_id) {
+            if (var_r30 != (s32) designated_client_id) {
                 player = (saddr)get_player_by_client_id(var_r30);
                 if (player != 0) {
                     if (xz_distance_squared((void *)(temp_r31 + 0x38), (void *)(player + 0x38)) <= 625.0f) {

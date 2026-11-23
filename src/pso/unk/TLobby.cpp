@@ -104,13 +104,13 @@ void TLobby::apply_lobby_markers() {
     }
 }
 
-extern s32 TLobby__net_session_mode;
+extern s32 net_session_mode;
 
 s32 TLobby::get_option_state() {
 
     switch (TWindowOptionCtrl::get_option_field_C()) {
     case 0:
-        return TLobby__net_session_mode;
+        return net_session_mode;
     case 1:
         return 0;
     case 2:

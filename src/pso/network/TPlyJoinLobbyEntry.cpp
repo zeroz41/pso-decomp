@@ -313,7 +313,7 @@ void lobby_debug_printf_stub(const char *fmt, ...);
 extern const char TLobby__data_8043EF38[];
 extern const char lobby_debug_burst_player_format[];
 extern const char lobby_debug_udp_close_player_format[];
-extern s32 TLobby__designated_client_id;
+extern s32 designated_client_id;
 extern saddr local_client_id;
 s32 queue_destruction__7TObjectFv(void *);
 extern const char lobby_window_title_information[];
@@ -2013,7 +2013,7 @@ void TLobby::process_deferred_player_setup() {
     switch (TLobby__deferred_player_setup_state) {
     case 1:
     case 2:
-        construct_lobby_players((Rec_801378AC *)TLobby__data_80506A6C, TLobby__pending_member_count, TLobby__data_805D558C, TLobby__designated_client_id);
+        construct_lobby_players((Rec_801378AC *)TLobby__data_80506A6C, TLobby__pending_member_count, TLobby__data_805D558C, designated_client_id);
         break;
     case 3:
     case 4:
@@ -2039,7 +2039,7 @@ void TLobby::add_lobby_members(TPlyJoinLobbyEntry *src, int n, int client_id, in
         TLobby::copy_member_record(&((TPlyJoinLobbyEntry *)TLobby__data_80506A6C)[i], &src[i]);
     }
     TLobby__pending_member_count += n;
-    TLobby__designated_client_id = leader;
+    designated_client_id = leader;
 }
 void TLobby::handle_regist_check(int ok) {
     if (ok) {
@@ -2363,7 +2363,7 @@ void TLobby::handle_game_join(void *data) {
     TLobby::destroy_all_objects();
     lobby_debug_printf_stub(lobby_debug_game_start_format, pkt->client_id);
     local_client_id = pkt->client_id;
-    TLobby__designated_client_id = pkt->leader_id;
+    designated_client_id = pkt->leader_id;
     TLobby__join_state_flag = pkt->b106;
     TLobby::set_player_count(pkt->count);
     TLobby__data_805D4E30 = pkt->b10b;
@@ -2419,7 +2419,7 @@ void TLobby::make_players() {
                 q->m6();
             }
         }
-    } else if (local_client_id == TLobby__designated_client_id) {
+    } else if (local_client_id == designated_client_id) {
         p = (Ply_80136A8C *)create_player_object(local_client_id, 0, (u8 *)TAdSinglePlyChrSelectGC::get_char_index(0xFFFF));
         ((TLobby *)((u8 *)p + 0xDAC))->copy_header_struct((u8 *)TLobby__protocol_instance + 0x1900);
         p->m6();
@@ -2449,7 +2449,7 @@ void TLobby::handle_lobby_enter(TPlyJoinLobbyEntry *ents, int n, int client_id, 
     TLobby__data_805D55B8 = arg6;
     TLobby::set_player_count(0);
     TLobby__data_805D5588 = 0;
-    TLobby__designated_client_id = leader;
+    designated_client_id = leader;
     for (node = game_protocol_instance->head; node != NULL; node = node->next) {
         lobby_debug_printf_stub(lobby_debug_udp_close_ip_format, node->b1c, node->b1d, node->b1e, node->b1f);
         delete (Obj_801368B0 *)node;
@@ -2558,7 +2558,7 @@ void TLobby::on_game_player_add(TPlyJoinLobbyEntry *entries, int leader_id, int 
     main_task.render_screen_overlay();
     render_tick();
     main_task.toggle_pause_layers();
-    TLobby__designated_client_id = leader_id;
+    designated_client_id = leader_id;
     p = (Obj_801361E8 *)get_player_by_client_id(e.client_id);
     if (p != NULL) {
         for (n = game_protocol_instance->head; n != NULL; n = n->next) {
@@ -2571,7 +2571,7 @@ void TLobby::on_game_player_add(TPlyJoinLobbyEntry *entries, int leader_id, int 
         delete p;
         lobby_debug_printf_stub(TLobby__data_8043EF38, e.client_id);
     }
-    if (local_client_id == TLobby__designated_client_id) {
+    if (local_client_id == designated_client_id) {
         ((TLobby *)(e.client_id))->send_6x6D_item_state();
         ((TLobby *)(e.client_id))->send_cmd_6B();
         ((TLobby *)(e.client_id))->send_compressed_packet_6c();
@@ -2592,7 +2592,7 @@ void TLobby::on_game_player_add(TPlyJoinLobbyEntry *entries, int leader_id, int 
         game_join_pending_clients[e.client_id] = 1;
         TLobby::copy_member_record(&((Entry_8013634C *)TLobby__data_80506A6C)[e.client_id], &e);
     }
-    if (local_client_id == TLobby__designated_client_id) {
+    if (local_client_id == designated_client_id) {
         init_6x72_resume_packet(&pkt);
         TLobby::send_packet_60(&pkt);
     }
@@ -2609,7 +2609,7 @@ void handle_6x72_done_loading_into_game(void) {
 void TLobby::remove_player(unsigned int arg0, int arg1, int arg2) {
     Obj_801361E8 *p;
     Node_801361E8 *n;
-    TLobby__designated_client_id = arg1;
+    designated_client_id = arg1;
     TLobby__join_state_flag = arg2;
     p = (Obj_801361E8 *)get_player_by_client_id(arg0);
     if (p != NULL) {
@@ -2641,7 +2641,7 @@ void TLobby::on_lobby_player_add(TPlyJoinLobbyEntry *entries, int leader_id) {
     Obj_80136080 *p;
     u8 *plr;
     TLobby__sub_8013AA64((u8 *)&e, (u8 *)entries);
-    TLobby__designated_client_id = leader_id;
+    designated_client_id = leader_id;
     if (e.client_id == local_client_id) {
         lobby_debug_printf_stub(lobby_debug_burst_overwrite_format, e.client_id);
         ((TPlyJoinLobbyEntry *)&e)->~TPlyJoinLobbyEntry();
@@ -2661,7 +2661,7 @@ void TLobby::on_lobby_player_add(TPlyJoinLobbyEntry *entries, int leader_id) {
 }
 void TLobby::retire_lobby_player(int idx, int v) {
     Obj_80136000 *p;
-    TLobby__designated_client_id = v;
+    designated_client_id = v;
     p = (Obj_80136000 *)get_player_by_client_id(idx);
     if (p) {
         delete p;
@@ -2827,7 +2827,7 @@ TLobby::TLobby(TObject *parent) : TObject(parent) {
     lobby_login_result_flag = 0;
     TLobby__player_setup_pending = 0;
     local_client_id = 0;
-    TLobby__designated_client_id = 0;
+    designated_client_id = 0;
     memset(lbl_80509D3C, 0, 0x20);
     memset(TLobby__player_names, 0, 0xC0);
     memset(lobby_player_status_records, 0, 0xD50);

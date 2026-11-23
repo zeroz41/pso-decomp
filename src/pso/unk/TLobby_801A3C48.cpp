@@ -152,7 +152,7 @@ void TLobby__sub_8029B2A4(void);
 void reset_globals(void);
 }
 void clear_floor_population();
-extern s32 TLobby__designated_client_id;
+extern s32 designated_client_id;
 extern saddr game_protocol_instance;
 void init_scene_fog_system(void);
 void init_item_drop_tables(void);
@@ -228,15 +228,15 @@ void deactivate_keyboard(void);
 void send_keepalive(u8 *arg0);
 extern s32 actor_frame_tick;
 extern uaddr TLobby__protocol_instance;
-extern s32 TLobby__lobby_state_flags;
+extern s32 lobby_state_flags;
 void process_async_file_reads(void);
 void update_sound_request_slots(void);
 extern s32 TLobby__idle_timeout_active;
 extern s32 lbl_805D55C0;
 s16 TLobby__data_805D5CE8;
-int TLobby__new_game_setup_flags;
+int new_game_setup_flags;
 s32 online_lobby_scene_handle;
-s32 TLobby__online_lobby_frame_counter;
+s32 online_lobby_frame_counter;
 void clear_resource_load_tasks(void);
 extern s32 local_client_id;
 void process_pending_resources(void);
@@ -250,7 +250,7 @@ void reload_lobby_floor_scene(void);
 void init_area_lights(void);
 void load_floor_scene(void);
 void arrive_floor_population(void);
-void TLobby::set_flag_and_update() { TLobby__new_game_setup_flags = (TLobby__new_game_setup_flags | 0x1); set_floor_transition_ready(&floor_transition_state); }
+void TLobby::set_flag_and_update() { new_game_setup_flags = (new_game_setup_flags | 0x1); set_floor_transition_ready(&floor_transition_state); }
 
 void TLobby::init_chr_select() { TKeyBoardControl::reset(); TLobby::send_logout(); TAdSinglePlyChrSelectGC::init(); set_queued_main_phase(9); request_main_phase(18); }
 void TLobby::reset_to_chr_select() { reset_controller_input_state(); TLobby::send_logout(); TLobby::free_objects(); TKeyBoardControl__sub_8000F95C(); TLobby::clear_counter(); TAdSinglePlyChrSelectGC::init(); set_queued_main_phase(9); request_main_phase(18); }
@@ -262,7 +262,7 @@ void TLobby::start_udp_test_game() {
     TPlyJoinGame msg;
     memset(&msg, 0, sizeof(msg));
     msg.client_id = local_client_id;
-    msg.leader_id = TLobby__designated_client_id;
+    msg.leader_id = designated_client_id;
     msg.disable_udp = 0;
     msg.lobby_data[0].tag.m_tag2 = 1;
     msg.lobby_data[0].tag.m_guildcard_number = 0x013158B7;
@@ -301,7 +301,7 @@ void reload_lobby_floor_scene(void) {
     TLobby::send_game_character();
     render_tick();
     render_tick();
-    leader_selection.find_leader_section_id(TLobby__designated_client_id);
+    leader_selection.find_leader_section_id(designated_client_id);
     TLobby::free_objects();
     main_task.delete_layer_children();
     main_task.resume_layers();
@@ -443,7 +443,7 @@ void start_quest_mission(void) {
     reset_controller_input_state();
     render_tick();
     render_tick();
-    leader_selection.find_leader_section_id(TLobby__designated_client_id);
+    leader_selection.find_leader_section_id(designated_client_id);
     for (i = 0; i < 12; i++) {
         p = (VObj_18_801A4268 *) get_player_by_client_id(i);
         if (p != NULL) {
@@ -504,7 +504,7 @@ void change_floor_reload_area(void) {
     reset_controller_input_state();
     render_tick();
     render_tick();
-    leader_selection.find_leader_section_id(TLobby__designated_client_id);
+    leader_selection.find_leader_section_id(designated_client_id);
     for (i = 0; i < 12; i++) {
         p = (VObj_18_801A441C *) get_player_by_client_id(i);
         if (p != NULL) {
@@ -518,8 +518,8 @@ void change_floor_reload_area(void) {
     TLobby::create_map_csn_ctrl();
     TParticleCtrl::create_quad_sprites();
     TLoadCtrl::start_loading(2);
-    if (TLobby__new_game_setup_flags & 1) {
-        TLobby__new_game_setup_flags &= ~1;
+    if (new_game_setup_flags & 1) {
+        new_game_setup_flags &= ~1;
         reset_enemy_and_object_ids();
         TAdDialingGC__sub_801A4C90();
         TLobby__sub_80207E24(game_variations, 0x80);
@@ -593,7 +593,7 @@ void cleanup_online_lobby_scene(void) {
     TLobby::call_funcs_reverse(lobby_area_reload_callbacks, sizeof(lobby_area_reload_callbacks));
     TLobby::call_funcs_reverse(online_lobby_scene_callback_table, sizeof(online_lobby_scene_callback_table));
     local_client_id = 0;
-    TLobby__lobby_state_flags = 0;
+    lobby_state_flags = 0;
     clear_resource_load_tasks();
     TKeyBoardControl::update();
     render_tick();
@@ -616,10 +616,10 @@ void TLobby::run_lobby_frame() {
     take_snapshot();
     if (((s32) lbl_805D55C0 == 0) && (poll_memcard_result((int) ((s8)TAdSinglePlyChrSelectGC::get_chr_select_state())) != -1)) {
         if (TAdPlayerLoadGC::probe_card_slot((s8)TAdSinglePlyChrSelectGC::get_chr_select_state()) != 0) {
-            TLobby__online_lobby_frame_counter = 0;
+            online_lobby_frame_counter = 0;
         } else {
-            temp_r0 = TLobby__online_lobby_frame_counter + 1;
-            TLobby__online_lobby_frame_counter = temp_r0;
+            temp_r0 = online_lobby_frame_counter + 1;
+            online_lobby_frame_counter = temp_r0;
             if (temp_r0 > 0xC) {
                 TLobby::disconnect_protocol();
             }
@@ -666,10 +666,10 @@ void TLobby::run_main_frame() {
     TLobby__sub_8006EF90();
     if (((s32) lbl_805D55C0 == 0) && (poll_memcard_result((int) ((s8)TAdSinglePlyChrSelectGC::get_chr_select_state())) != -1)) {
         if (TAdPlayerLoadGC::probe_card_slot((s8)TAdSinglePlyChrSelectGC::get_chr_select_state()) != 0) {
-            TLobby__online_lobby_frame_counter = 0;
+            online_lobby_frame_counter = 0;
         } else {
-            temp_r0 = TLobby__online_lobby_frame_counter + 1;
-            TLobby__online_lobby_frame_counter = temp_r0;
+            temp_r0 = online_lobby_frame_counter + 1;
+            online_lobby_frame_counter = temp_r0;
             if (temp_r0 > 0xC) {
                 TLobby::disconnect_protocol();
             }
@@ -711,8 +711,8 @@ void TLobby::update_camera_state() {
 
 void run_online_lobby_scene(void) {
     TLobby *lobby;
-    TLobby__new_game_setup_flags = 0;
-    TLobby__lobby_state_flags = 0;
+    new_game_setup_flags = 0;
+    lobby_state_flags = 0;
     set_copy_clear_color_argb(0, 0, 0);
     TKeyBoardControl::update();
     TLobby__sub_801F3774();
@@ -793,12 +793,12 @@ void run_online_lobby_scene(void) {
     }
     actor_frame_tick = 0;
     TLobby__data_805D5CE8 = 0;
-    TLobby__online_lobby_frame_counter = 0;
+    online_lobby_frame_counter = 0;
     render_tick();
 }
 
 void TLobby::update_periodic_tick() {
-    if ((TLobby__lobby_state_flags & 1) && ((actor_frame_tick % 900) == 0) && ((u32) TLobby__protocol_instance != 0U)) {
+    if ((lobby_state_flags & 1) && ((actor_frame_tick % 900) == 0) && ((u32) TLobby__protocol_instance != 0U)) {
         send_keepalive((u8 *)TLobby__protocol_instance);
     }
 }

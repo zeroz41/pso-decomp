@@ -1941,14 +1941,14 @@ u16 TBoss1Dragon::find_player_on_floor() {
     TObjPlayer *p;
     u16 idx;
     u16 i;
-    p = get_player_by_client_id(TLobby__designated_client_id);
+    p = get_player_by_client_id(designated_client_id);
     if (p != NULL) {
         if (p->get_floor() == get_current_floor()) {
-            return TLobby__designated_client_id;
+            return designated_client_id;
         }
     }
     for (i = 0; i < 4; i++) {
-        idx = (TLobby__designated_client_id + i + 1) % 4;
+        idx = (designated_client_id + i + 1) % 4;
         p = get_player_by_client_id(idx);
         if (p != NULL) {
             if (p->get_floor() == get_current_floor()) {

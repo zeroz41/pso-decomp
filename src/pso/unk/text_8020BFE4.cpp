@@ -38,7 +38,7 @@ void TLobby__sub_8020C07C(s32 pl, s16 b, s16 a, s32 mask, s32 set) {
     if (pl == get_current_floor()) {
         FloorObjectSetRow *p = TLobby__data_805D610C;
         s32 i;
-        for (i = 0; i < TLobby__current_floor_object_set_count; i++, p++) {
+        for (i = 0; i < current_floor_object_set_count; i++, p++) {
             if (p->placement.room == b && p->placement.wave == a) {
                 p->flags &= mask;
                 p->flags |= set;
@@ -52,7 +52,7 @@ s32 TLobby::count_quest_enemies_flag8() {
     s32 i;
     s32 j;
     if (TLobby__data_805D6114 != NULL) {
-        for (j = 0; j < TLobby__current_floor_enemy_set_count; j++) {
+        for (j = 0; j < current_floor_enemy_set_count; j++) {
             EnemySetRecord *a = &TLobby__data_805D6114[j];
             if (a->type != -1 && (a->flags & 8)) {
                 n++;
@@ -61,7 +61,7 @@ s32 TLobby::count_quest_enemies_flag8() {
     }
     for (i = 0; i < 0x12; i++) {
         if (i != get_current_floor()) {
-            LobbyFloorRows *t = &TLobby__floor_enemy_group_table[i];
+            LobbyFloorRows *t = &floor_enemy_group_table[i];
             FloorSavedSetRow *b = t->enemy_rows;
             if (b != NULL) {
                 for (j = 0; j < t->enemy_count; j++) {
@@ -80,7 +80,7 @@ s32 is_room_enemy_set_cleared(s32 floor, s16 room) {
     s32 i;
     if (floor == get_current_floor()) {
         if (TLobby__data_805D6114 != NULL) {
-            for (i = 0; i < TLobby__current_floor_enemy_set_count; i++) {
+            for (i = 0; i < current_floor_enemy_set_count; i++) {
                 EnemySetRecord *row = &TLobby__data_805D6114[i];
                 if (room == row->room && !(row->flags & 8)) {
                     return 0;
@@ -89,7 +89,7 @@ s32 is_room_enemy_set_cleared(s32 floor, s16 room) {
         }
         return 1;
     } else {
-        LobbyFloorRows *saved = &TLobby__floor_enemy_group_table[floor];
+        LobbyFloorRows *saved = &floor_enemy_group_table[floor];
         FloorSavedSetRow *row = saved->enemy_rows;
         if (row != NULL) {
             for (i = 0; i < saved->enemy_count; i++, row++) {

@@ -80,10 +80,10 @@ extern s32 TLobby__data_805D6120;
 TObjBase *call_area_set_factory(TSetManager *manager, FloorObjectSetRow *row);
 void destroy_child_recursive__6TLobbyFPvPv(TObject *root, TObject *object);
 extern EnemySetRecord *TLobby__data_805D6114;
-extern s32 TLobby__current_floor_object_set_count;
-extern s32 TLobby__current_floor_enemy_set_count;
+extern s32 current_floor_object_set_count;
+extern s32 current_floor_enemy_set_count;
 extern LobbyPoolEntry TLobby__data_80513A40[18];
-extern LobbyFloorRows TLobby__floor_enemy_group_table[18];
+extern LobbyFloorRows floor_enemy_group_table[18];
 extern s32 TLobby__data_80513C80[18];
 extern s32 TLobby__data_80513CC8[18];
 

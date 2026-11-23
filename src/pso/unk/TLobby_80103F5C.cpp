@@ -96,7 +96,7 @@ struct Save_801039BC {
 
 extern "C" {
 void mem_free(void *p);
-uaddr TLobby__floor_item_entry_pool;
+uaddr floor_item_entry_pool;
 Ent_801037A0 **floor_item_row_table;
 saddr floor_item_counts_by_floor;
 saddr floor_item_free_id_stack;
@@ -111,7 +111,7 @@ void TLobby__sub_801041D8(void);
 }
 void bswap_sync_item_state_header(G_SyncItemState_6x6D_Decompressed *header);
 extern s32 local_client_id;
-extern s32 TLobby__designated_client_id;
+extern s32 designated_client_id;
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
@@ -153,7 +153,7 @@ void evict_lowest_key_floor_item(s32 n) {
     u16 bestKey;
     s32 i;
     s32 v;
-    if (local_client_id == TLobby__designated_client_id) {
+    if (local_client_id == designated_client_id) {
         bestKey = 0xFFFF;
         best = 0;
         for (i = 0; i != (*(s32 * *)&floor_item_counts_by_floor)[n]; i++) {
@@ -423,8 +423,8 @@ void TLobby::reset_floor_items() {
     s32 j;
     s32 k;
     for (i = 0; i != 0xD80; i++) {
-        if (*(Ent_80103F68 **)&TLobby__floor_item_entry_pool != NULL) {
-            ((FloorItem *)(&(*(Ent_80103F68 **)&TLobby__floor_item_entry_pool)[i]))->clear();
+        if (*(Ent_80103F68 **)&floor_item_entry_pool != NULL) {
+            ((FloorItem *)(&(*(Ent_80103F68 **)&floor_item_entry_pool)[i]))->clear();
         }
     }
     for (j = 0; j < 0x12; j++) {
@@ -433,8 +433,8 @@ void TLobby::reset_floor_items() {
         }
     }
     for (k = 0; k < 0x12; k++) {
-        if (floor_item_row_table != NULL && *(Ent_80103F68 **)&TLobby__floor_item_entry_pool != NULL && *(s32 **)&floor_item_counts_by_floor != NULL) {
-            floor_item_row_table[k] = (Ent_801037A0 *)&(*(Ent_80103F68 **)&TLobby__floor_item_entry_pool)[k * 0xC0];
+        if (floor_item_row_table != NULL && *(Ent_80103F68 **)&floor_item_entry_pool != NULL && *(s32 **)&floor_item_counts_by_floor != NULL) {
+            floor_item_row_table[k] = (Ent_801037A0 *)&(*(Ent_80103F68 **)&floor_item_entry_pool)[k * 0xC0];
             (*(s32 **)&floor_item_counts_by_floor)[k] = 0;
         }
     }
@@ -451,14 +451,14 @@ void TLobby::free_boss_rocks() {
     floor_item_counts_by_floor = 0;
     mem_free((void *)floor_item_row_table);
     floor_item_row_table = 0;
-    if ((u32) TLobby__floor_item_entry_pool != 0U) {
-        mem_free((void *)(TLobby__floor_item_entry_pool - 0x10));
+    if ((u32) floor_item_entry_pool != 0U) {
+        mem_free((void *)(floor_item_entry_pool - 0x10));
     }
-    TLobby__floor_item_entry_pool = 0U;
+    floor_item_entry_pool = 0U;
     lbl_805D5430.reset();
 }
 void TLobby::alloc_objects() {
-    (*(s32 *)&TLobby__floor_item_entry_pool) = __construct_new_array(mem_alloc(0x1E610), __ct__9FloorItemFv, 0, 0x24, 0xD80);
+    (*(s32 *)&floor_item_entry_pool) = __construct_new_array(mem_alloc(0x1E610), __ct__9FloorItemFv, 0, 0x24, 0xD80);
     floor_item_row_table = (Ent_801037A0 **)mem_alloc(0x48);
     floor_item_counts_by_floor = mem_alloc(0x48);
     floor_item_free_id_stack = mem_alloc(0x40);

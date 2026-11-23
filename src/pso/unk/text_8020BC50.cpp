@@ -55,7 +55,7 @@ void handle_6x76_set_entity_set_flags(Pkt_8020BD50 *pkt) {
     ((TLobby *)pkt)->bswap_player_fields();
     id = pkt->id;
     if (id >= 0x1000 && id < 0x4000) {
-        a = &TLobby__floor_enemy_group_table[pkt->area];
+        a = &floor_enemy_group_table[pkt->area];
         if (a->enemy_rows != NULL) {
             e = a->enemy_rows;
             for (i = 0; i < a->enemy_count; i++, e++) {
@@ -66,7 +66,7 @@ void handle_6x76_set_entity_set_flags(Pkt_8020BD50 *pkt) {
             }
         }
         if (pkt->area == get_current_floor()) {
-            for (i = 0; i < TLobby__current_floor_enemy_set_count; i++) {
+            for (i = 0; i < current_floor_enemy_set_count; i++) {
                 if (pkt->id == TLobby__data_805D6114[i].id) {
                     TLobby__data_805D6114[i].flags |= pkt->flags;
                     break;
@@ -76,7 +76,7 @@ void handle_6x76_set_entity_set_flags(Pkt_8020BD50 *pkt) {
     }
     id = pkt->id;
     if (id >= 0x4000 && id < 0xFFFF) {
-        a2 = &TLobby__floor_enemy_group_table[pkt->area];
+        a2 = &floor_enemy_group_table[pkt->area];
         if (a2->object_rows != NULL) {
             e2 = a2->object_rows;
             for (i = 0; i < a2->object_count; i++, e2++) {
@@ -87,7 +87,7 @@ void handle_6x76_set_entity_set_flags(Pkt_8020BD50 *pkt) {
             }
         }
         if (pkt->area == get_current_floor()) {
-            for (i = 0; i < TLobby__current_floor_object_set_count; i++) {
+            for (i = 0; i < current_floor_object_set_count; i++) {
                 if (pkt->id == TLobby__data_805D610C[i].placement.entity_id) {
                     TLobby__data_805D610C[i].flags |= pkt->flags;
                     break;

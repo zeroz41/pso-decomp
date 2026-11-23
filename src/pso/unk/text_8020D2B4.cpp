@@ -185,7 +185,7 @@ void TSetManager::apply_floor_set_rows() {
     LobbyFloorRows *floor;
     current_floor = get_current_floor();
     TLobby__data_805D60FC = current_floor;
-    floor = &TLobby__floor_enemy_group_table[current_floor];
+    floor = &floor_enemy_group_table[current_floor];
     if (!(floor->object_placement & 2)) {
         apply_room_transform_to_object_rows(TLobby__data_805D610C, floor->object_count);
         floor->object_placement |= 2U;

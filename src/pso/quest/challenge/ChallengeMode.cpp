@@ -239,7 +239,7 @@ void TChallenge::update_quest_challenge_state() {
     s32 n;
 
     n = 0;
-    if (local_client_id == TLobby__designated_client_id) {
+    if (local_client_id == designated_client_id) {
         switch (TQuestListOnline::get_list_state()) {
         case 1:
             break;

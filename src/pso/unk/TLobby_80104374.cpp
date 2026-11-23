@@ -161,7 +161,7 @@ int fn_80077788(void);
 int fn_80077790(void);
 void send_6x25_equip_item(void *arg0, s32 arg1, s32 arg2);
 extern s32 local_client_id;
-extern s32 TLobby__designated_client_id;
+extern s32 designated_client_id;
 s32 TItemDropSub__sub_80107B74();
 }
 
@@ -465,7 +465,7 @@ void TLobby::forward_to_player(int id, void *item) {
     TObjPlayer *player;
     if (item != NULL) {
         player = get_player_by_client_id((u16)id);
-        if ((player != NULL) && ((TObjPlayer::is_locally_controlled(player) == 1) || ((player->obj_isState3_324() == 1) && ((s32) local_client_id == (s32) TLobby__designated_client_id)) || ((player->is_script_controlled() == 1) && ((s32) local_client_id == (s32) TLobby__designated_client_id)))) {
+        if ((player != NULL) && ((TObjPlayer::is_locally_controlled(player) == 1) || ((player->obj_isState3_324() == 1) && ((s32) local_client_id == (s32) designated_client_id)) || ((player->is_script_controlled() == 1) && ((s32) local_client_id == (s32) designated_client_id)))) {
             player->request_inventory_item((TItemData*)item);
             send_6x25_equip_item((void *)player, *(s32 *)((s8 *)item + 0xC), 0);
         }
@@ -475,7 +475,7 @@ void TLobby::handle_player_event(s32 arg0, s32 arg1) {
     TObjPlayer *player;
     TItem *item;
     player = get_player_by_client_id((u16)arg0);
-    if ((player != NULL) && ((TObjPlayer::is_locally_controlled(player) == 1) || ((player->obj_isState3_324() == 1) && ((s32) local_client_id == (s32) TLobby__designated_client_id)) || ((player->is_script_controlled() == 1) && ((s32) local_client_id == (s32) TLobby__designated_client_id)))) {
+    if ((player != NULL) && ((TObjPlayer::is_locally_controlled(player) == 1) || ((player->obj_isState3_324() == 1) && ((s32) local_client_id == (s32) designated_client_id)) || ((player->is_script_controlled() == 1) && ((s32) local_client_id == (s32) designated_client_id)))) {
         item = NULL;
         switch (arg1) {
         case 0:
@@ -1224,12 +1224,12 @@ void send_6x60_standard_drop_item_request(Obj_80105538 *self) {
     void *p1;
     void *p2;
     if (self != 0) {
-        p1 = get_player_by_client_id(TLobby__designated_client_id);
+        p1 = get_player_by_client_id(designated_client_id);
         p2 = get_player_by_client_id(local_client_id);
         if (p1 != 0 && p2 != 0) {
             if (is_valid_drop_floor(get_current_floor()) != 0 &&
                 (((TObjPlayer *)p1)->get_floor() != ((TObjPlayer *)p2)->get_floor() ||
-                 TLobby__designated_client_id == local_client_id)) {
+                 designated_client_id == local_client_id)) {
                 if (self->f2c != -1) {
                     Rec_80105538 e = TLobby__data_805D6144[self->f2c];
                     if (e.b != 0xFFFF) {
@@ -1260,11 +1260,11 @@ void TObjChara::request_box_item_drop(const Vec *, s32 random_item) {
     void *p1;
     void *p2;
     if (this != NULL) {
-        p1 = get_player_by_client_id(TLobby__designated_client_id);
+        p1 = get_player_by_client_id(designated_client_id);
         p2 = get_player_by_client_id(local_client_id);
         if (p1 != 0 && p2 != 0 && TObjPlayer__sub_80104840(get_current_floor_area()) != AREA_PIONEER2_EP1 &&
             (((TObjPlayer *)p1)->get_floor() != ((TObjPlayer *)p2)->get_floor() ||
-             TLobby__designated_client_id == local_client_id)) {
+             designated_client_id == local_client_id)) {
             if (this->set_index != -1) {
                 Entry_8010567C e = quest_object_entries[this->set_index];
                 if (e.b != 0xFFFF) {

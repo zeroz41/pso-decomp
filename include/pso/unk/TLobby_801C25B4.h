@@ -83,9 +83,9 @@ void update_player_battle_ctrl_state(void *player_battle_ctrl);
 }
 // --- end of C functions
 
-// TLobby__duel_result_table: layout known from its uses only.
+// duel_result_table: layout known from its uses only.
 struct TLobbyDuelResultTable { s32 value; u8 remaining[0x1C]; };
-extern TLobbyDuelResultTable TLobby__duel_result_table;
+extern TLobbyDuelResultTable duel_result_table;
 
 // Plays the result jingle and shows the duel result window for duration frames.
 void play_duel_result_stream(const char *file, saddr duration);

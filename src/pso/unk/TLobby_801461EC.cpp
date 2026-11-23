@@ -41,10 +41,10 @@ s32 lbl_805D56E8;
 s32 lbl_805D56EC;
 s32 lbl_805D56F0;
 s32 lbl_805D56F4;
-s32 TLobby__connect_pending_flags;
-s32 TLobby__battle_flag;
+s32 connect_pending_flags;
+s32 battle_flag;
 uaddr lbl_805D5700;
-s32 TLobby__net_session_mode;
+s32 net_session_mode;
 int lbl_805D5708;
 s32 lbl_805D570C;
 s32 lobby_connect_active_flag;
@@ -189,15 +189,15 @@ loop_1:
 
 
 void TLobby::flush_pending_flag2() {
-    if (TLobby__connect_pending_flags & 2) {
-        TLobby__sub_804219D0(0, 0, TLobby__battle_flag);
-        TLobby__connect_pending_flags &= 0xFFFFFFFD;
+    if (connect_pending_flags & 2) {
+        TLobby__sub_804219D0(0, 0, battle_flag);
+        connect_pending_flags &= 0xFFFFFFFD;
     }
 }
 
 void TLobby::set_battle_flag(s32 gateway) {
-    TLobby__battle_flag = gateway;
-    TLobby__connect_pending_flags |= 2;
+    battle_flag = gateway;
+    connect_pending_flags |= 2;
     net_add_ipv4_route(0, 0, gateway);
 }
 
@@ -215,7 +215,7 @@ s32 connect_pppoe(s32 *out_value) {
     s32 result;
 
     id = init_net_session();
-    TLobby__connect_pending_flags |= 4;
+    connect_pending_flags |= 4;
     lobby_net_session_id = id;
     if (id == -1) {
         return 9;
@@ -319,7 +319,7 @@ s32 TLobby__sub_801465C0(s32 *netmask) {
         return 0xC;
     }
     Sub_801465C0 *sub = (Sub_801465C0 *)&lbl_8050CCE8;
-    TLobby__connect_pending_flags |= 0x10;
+    connect_pending_flags |= 0x10;
     lobby_connect_active_flag = 1;
     char *name = sub->name;
     if (*name != 0 && TLobby__sub_8042455C(name) < 0) {
@@ -378,7 +378,7 @@ int TLobby::get_link_status_value() { return TLobby__sub_80145DB4(4); }
 
 int get_link_status() {
     NetLinkStatus link;
-    if (TLobby__net_session_mode == 0) {
+    if (net_session_mode == 0) {
         if (NetGetLinkStatus(&link) < 0) {
             return 0;
         }
@@ -396,21 +396,21 @@ int get_link_status() {
         if (actor_frame_tick % 900 == 0 && (s16)TLobby::get_link_status_value() == 0) {
             return 0;
         }
-        if ((TLobby__connect_pending_flags & 1) && query_link_status() == 0) {
+        if ((connect_pending_flags & 1) && query_link_status() == 0) {
             return 0;
         }
     }
     return 1;
 }
 void TLobby::cleanup() {
-    if ((s32) TLobby__net_session_mode != 0) {
+    if ((s32) net_session_mode != 0) {
         TLobby__sub_801469B8(this);
     } else {
         TLobby__sub_80147284();
     }
-    if (TLobby__connect_pending_flags & 8) {
+    if (connect_pending_flags & 8) {
         cleanup_subsystems();
-        TLobby__connect_pending_flags &= 0xFFFFFFF7;
+        connect_pending_flags &= 0xFFFFFFF7;
     }
     if ((u32) lbl_805D5700 != 0U) {
         xfree((void*)lbl_805D5700);
@@ -432,10 +432,10 @@ s32 TLobby__sub_80146908() {
         layout_net_params_buffer((u8 *)lbl_805D5700, size);
     }
     init_network_stack();
-    TLobby__connect_pending_flags |= 8;
+    connect_pending_flags |= 8;
     lobby_connect_active_flag = 0;
     lbl_805D570C = 0;
-    if (TLobby__net_session_mode != 0) {
+    if (net_session_mode != 0) {
         return TLobby::run_connect_sequence();
     }
     return TLobby__sub_801478C4(init_net_session());
@@ -446,12 +446,12 @@ void TLobby::flush_pending_flags() {
     NetLinkStatus status;
     NetWaitParam stop;
 
-    TLobby__connect_pending_flags &= 0xFFFFFFFE;
+    connect_pending_flags &= 0xFFFFFFFE;
     TLobby::teardown_boss2();
     if (TLobby__sub_80145EE4() != 0) {
-        if (TLobby__connect_pending_flags & 0x10) {
+        if (connect_pending_flags & 0x10) {
             dhcp_release_blocking((s16) lobby_net_session_id, lobby_local_ip_addr, 3);
-            TLobby__connect_pending_flags &= 0xFFFFFFEF;
+            connect_pending_flags &= 0xFFFFFFEF;
             dhcp_stop();
         }
     } else if (TLobby::is_state_active() != 0) {
@@ -464,23 +464,23 @@ void TLobby::flush_pending_flags() {
                 TLobby::send_and_handle();
             } while (status.state != 0);
         }
-        if (TLobby__connect_pending_flags & 4) {
+        if (connect_pending_flags & 4) {
             TLobby__sub_803FAFDC();
-            TLobby__connect_pending_flags &= 0xFFFFFFFB;
+            connect_pending_flags &= 0xFFFFFFFB;
         }
     }
     lobby_net_session_id = -1;
-    if (TLobby__connect_pending_flags & 0x20) {
+    if (connect_pending_flags & 0x20) {
         loopback_shutdown();
-        TLobby__connect_pending_flags &= 0xFFFFFFDF;
+        connect_pending_flags &= 0xFFFFFFDF;
     }
-    if (TLobby__connect_pending_flags & 0x40) {
+    if (connect_pending_flags & 0x40) {
         flush_flags_step();
-        TLobby__connect_pending_flags &= 0xFFFFFFBF;
+        connect_pending_flags &= 0xFFFFFFBF;
     }
-    if (TLobby__connect_pending_flags & 0x80) {
+    if (connect_pending_flags & 0x80) {
         TLobby__sub_80407358();
-        TLobby__connect_pending_flags &= 0xFFFFFF7F;
+        connect_pending_flags &= 0xFFFFFF7F;
     }
 }
 
@@ -489,13 +489,13 @@ s32 TLobby::run_connect_sequence() {
     s32 id;
     s32 r;
     s16 ok;
-    TLobby__connect_pending_flags &= ~1;
+    connect_pending_flags &= ~1;
     fn_80147A68();
     if (*(s32 *)((u8 *)&lbl_8050CCE8 + 0x120) != 0) {
         TLobby__sub_804073B8();
-        TLobby__connect_pending_flags |= 0x80;
+        connect_pending_flags |= 0x80;
         id = run_connect_step();
-        TLobby__connect_pending_flags |= 0x40;
+        connect_pending_flags |= 0x40;
         r = TLobby::poll_connect();
         if (r == 0) {
             return 0xF;
@@ -503,10 +503,10 @@ s32 TLobby::run_connect_sequence() {
         if (r == 1) {
             return 0x11;
         }
-        TLobby__connect_pending_flags |= 1;
+        connect_pending_flags |= 1;
         set_connect_mode(4);
         ok = init_loopback();
-        TLobby__connect_pending_flags |= 0x20;
+        connect_pending_flags |= 0x20;
         lobby_connect_active_flag = 0;
         if (ok != 0) {
             return 0xE;
@@ -625,7 +625,7 @@ void TLobby::load_network_configs() {
         lobby_account_entries[2].valid = 0;
     }
     C_80146D7C.f120 = 0;
-    if (TLobby__net_session_mode == 1 && init_struct((u8 *)&info) == 0) {
+    if (net_session_mode == 1 && init_struct((u8 *)&info) == 0) {
         C_80146D7C.f0 = info.f4;
         C_80146D7C.f4 = info.fA8;
         C_80146D7C.f8 = info.fAC;
@@ -702,9 +702,9 @@ s32 TLobby__sub_80147284(void) {
         NetLinkDisconnect(&stop);
     }
     TLobby::flush_pending_flag2();
-    if (TLobby__connect_pending_flags & 4) {
+    if (connect_pending_flags & 4) {
         TLobby__sub_803FAFDC();
-        TLobby__connect_pending_flags &= 0xFFFFFFFB;
+        connect_pending_flags &= 0xFFFFFFFB;
     }
     TLobby::teardown_boss2();
     lobby_net_session_id = -1;
@@ -864,7 +864,7 @@ s32 connect_modem(s32 idx, s16 id) {
     cfg.w54 = 0;
     cfg.w58 = 0;
     NetLinkConnect(&cfg);
-    TLobby__connect_pending_flags |= 4;
+    connect_pending_flags |= 4;
     state = -1;
     cancel = 0;
     result = 0x10;
@@ -958,10 +958,10 @@ void TLobby::init_account_entries() {
     lobby_account_entries[1].valid = 0;
     lobby_account_entries[2].valid = 0;
     lbl_805D5714 = 0;
-    TLobby__net_session_mode = 0;
-    TLobby__connect_pending_flags = 0;
+    net_session_mode = 0;
+    connect_pending_flags = 0;
     if (TLobby__sub_8014618C() != 0) {
-        TLobby__net_session_mode = 1;
+        net_session_mode = 1;
     }
     TLobby::load_network_configs();
     memset(lbl_8050CE14, 0, 0x20);

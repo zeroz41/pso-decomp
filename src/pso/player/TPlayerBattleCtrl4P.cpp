@@ -128,7 +128,7 @@ s64 OSGetTime(void);
 void obj_clear_flag30_20000(TObjBase *actor);
 s32 TObjEneRe4Sorcerer__sub_801E3F14(int);
 void TObjEneRe4Sorcerer__sub_801E3F18(void);
-extern s32 TLobby__battle_ctrl_default_value;
+extern s32 battle_ctrl_default_value;
 s32 set_player_team_id(void *, int);
 s32 fn_801D6D8C(void *, u8, int);
 s32 fn_801D726C(void *, s32);
@@ -152,7 +152,7 @@ void request_active_window_close(void);
 extern const char *TPlayerBattleCtrl4P_player_name_formats[];
 extern s16 battle_event_second_table[];
 extern s32 local_client_id;
-extern s32 TLobby__designated_client_id;
+extern s32 designated_client_id;
 void reset_cameras_to_actor(void *actor, s32 view_unused);
 s32 TPlayerBattleCtrl4P__init_flag;
 typedef struct Ctl_80310F10 Ctl_80310F10;
@@ -746,7 +746,7 @@ void TPlayerBattleCtrl4P::start_duel() {
             ((O_80311618 *)this)->flags[j] = 0;
         }
     }
-    ((O_80311618 *)this)->v = TLobby__battle_ctrl_default_value;
+    ((O_80311618 *)this)->v = battle_ctrl_default_value;
 }
 
 void TPlayerBattleCtrl4P::update() {
@@ -1118,7 +1118,7 @@ void TPlayerBattleCtrl4P::update_timed_events(s32 frames) {
     s32 i;
     switch (((Ctl_80310910 *)this)->state) {
     case 0:
-        if (local_client_id == TLobby__designated_client_id) {
+        if (local_client_id == designated_client_id) {
             for (i = 0; i < 8; i++) {
                 if (((Ctl_80310910 *)this)->flags[i] != 0 && frames / 60 == battle_event_second_table[i]) {
                     ((Ctl_80310910 *)this)->flags[i] = 0;

@@ -99,7 +99,7 @@ LobbyLoadCallback lobby_load_callback_table[4] = {
 typedef void (TTitleScene::*TitleStateHandler)();
 
 // Indexed by lobby_game_mode_state (each handler stores its own index).
-TitleStateHandler TLobby__state_handler_pmf_table[4] = {
+TitleStateHandler state_handler_pmf_table[4] = {
     &TTitleScene::enter_chg_game_mode,
     &TTitleScene::enter_game_mode_change,
     &TTitleScene::request_change_game_mode,
@@ -291,7 +291,7 @@ void TLobby__sub_803362A4(TTitleScene *scene) {
         TKeyBoardControl__sub_8000F90C(2);
         if (scene->start_offline_seq() != 0) {
             ((void (*)(void *))TLobby__sub_803361FC)(scene);
-            TitleStateHandler handler = TLobby__state_handler_pmf_table[TLobby__sub_80336030(scene)];
+            TitleStateHandler handler = state_handler_pmf_table[TLobby__sub_80336030(scene)];
             (scene->*handler)();
         }
     }

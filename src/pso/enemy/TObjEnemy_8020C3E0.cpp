@@ -42,14 +42,14 @@ s32 TLobby::clear_record_flags_a() {
     s32 j;
     s32 k;
     if (TLobby__data_805D6114 != NULL) {
-        for (i = 0; i < TLobby__current_floor_enemy_set_count; i++) {
+        for (i = 0; i < current_floor_enemy_set_count; i++) {
             TLobby__data_805D6114[i].flags = 0;
         }
     }
     for (k = 0; k < 0x12; k++) {
-        if (TLobby__floor_enemy_group_table[k].enemy_rows != NULL) {
-            for (j = 0; j < TLobby__floor_enemy_group_table[k].enemy_count; j++) {
-                TLobby__floor_enemy_group_table[k].enemy_rows[j].flags = 0;
+        if (floor_enemy_group_table[k].enemy_rows != NULL) {
+            for (j = 0; j < floor_enemy_group_table[k].enemy_count; j++) {
+                floor_enemy_group_table[k].enemy_rows[j].flags = 0;
             }
         }
     }
@@ -60,14 +60,14 @@ s32 TLobby::clear_record_flags_b() {
     s32 j;
     s32 k;
     if (TLobby__data_805D610C != NULL) {
-        for (i = 0; i < TLobby__current_floor_object_set_count; i++) {
+        for (i = 0; i < current_floor_object_set_count; i++) {
             TLobby__data_805D610C[i].flags = 0;
         }
     }
     for (k = 0; k < 0x12; k++) {
-        if (TLobby__floor_enemy_group_table[k].object_rows != NULL) {
-            for (j = 0; j < TLobby__floor_enemy_group_table[k].object_count; j++) {
-                TLobby__floor_enemy_group_table[k].object_rows[j].flags = 0;
+        if (floor_enemy_group_table[k].object_rows != NULL) {
+            for (j = 0; j < floor_enemy_group_table[k].object_count; j++) {
+                floor_enemy_group_table[k].object_rows[j].flags = 0;
             }
         }
     }

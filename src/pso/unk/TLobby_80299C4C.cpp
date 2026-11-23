@@ -200,10 +200,10 @@ void play_effect_all_players__6TLobbyFPv(void*) {
 }
 
 
-extern s32 TLobby__designated_client_id;
+extern s32 designated_client_id;
 
 u8 TLobby__sub_8029A16C(void) {
-    return (u8) (local_client_id == TLobby__designated_client_id);
+    return (u8) (local_client_id == designated_client_id);
 }
 
 void TObjChallenge4PRetry::countdown_and_destroy() {

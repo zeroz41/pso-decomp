@@ -31,8 +31,8 @@ ModemSessionState lobby_net_session_state;
 s32 lobby_buffer_pool_state;
 s32 lbl_805D7C24;
 s32 lbl_805D7C20;
-saddr TLobby__buffer_pool_limit;
-uaddr TLobby__buffer_pool_start;
+saddr buffer_pool_limit;
+uaddr buffer_pool_start;
 uaddr lbl_805D7C14;
 uaddr lbl_805D7C10;
 s32 lbl_805D7C0C;
@@ -694,14 +694,14 @@ void reset_buffer_pool(void) {
     if (lbl_805D7C04 != NULL) {
         lbl_805D7C10 = (uaddr)lbl_805D7C04;
         lbl_805D7C14 = (uaddr)lbl_805D7C04;
-        TLobby__buffer_pool_start = (uaddr)lbl_805D7C04;
-        TLobby__buffer_pool_limit = (saddr)(lbl_805D7C04 + lbl_805D7C08);
+        buffer_pool_start = (uaddr)lbl_805D7C04;
+        buffer_pool_limit = (saddr)(lbl_805D7C04 + lbl_805D7C08);
         lbl_805D7C20 = lbl_805D7C08;
         return;
     }
     lbl_805D7C10 = 0U;
     lbl_805D7C14 = 0U;
-    TLobby__buffer_pool_start = 0U;
-    TLobby__buffer_pool_limit = 0;
+    buffer_pool_start = 0U;
+    buffer_pool_limit = 0;
     lbl_805D7C20 = 0;
 }

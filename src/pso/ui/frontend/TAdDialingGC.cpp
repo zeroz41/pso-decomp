@@ -26,7 +26,7 @@ struct Obj_803285C0 { u8 pad[0x20]; s32 mode; u8 pad2[0xC]; s16 state; };
 TAdDialingGC *TAdDialingGC__instance;
 extern "C" {
 s8 func_801A5E54__Fv();
-extern s32 TLobby__net_session_mode;
+extern s32 net_session_mode;
 }
 
 struct Obj_80328874 { u8 pad[0x9C]; s32 state; };
@@ -363,7 +363,7 @@ void TAdDialingGC::update_state_display() {
 
 void TAdDialingGC::update_selection() {
     *(s16 *)&this->m_68 = (s16) *(s16 *)&this->m_30;
-    if ((s32) TLobby__net_session_mode != 0) {
+    if ((s32) net_session_mode != 0) {
         *(s16 *)&this->m_30 = 0;
         return;
     }

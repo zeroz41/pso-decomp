@@ -6,7 +6,7 @@
 // This console's client slot in the current game.
 extern s32 local_client_id;
 // The client slot the lobby designates (leader checks compare against it).
-extern s32 TLobby__designated_client_id;
+extern s32 designated_client_id;
 // Nonzero while this console runs a subcommand it sent itself.
 extern s32 dispatching_own_subcommand;
 

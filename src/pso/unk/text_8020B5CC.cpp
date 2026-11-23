@@ -27,9 +27,9 @@ int TLobby__sub_8020B5CC(FloorSetFlagsPayload *buf) {
     s16 *p = buf->flags;
     out->object_offset = sizeof(FloorSetFlagsHeader);
     for (s32 i = 0; i < 18; i++) {
-        if (TLobby__floor_enemy_group_table[i].object_count > 0) {
-            FloorSavedSetRow *e = TLobby__floor_enemy_group_table[i].object_rows;
-            s32 n = TLobby__floor_enemy_group_table[i].object_count;
+        if (floor_enemy_group_table[i].object_count > 0) {
+            FloorSavedSetRow *e = floor_enemy_group_table[i].object_rows;
+            s32 n = floor_enemy_group_table[i].object_count;
             if (get_current_floor() == i) {
                 FloorObjectSetRow *s = TLobby__data_805D610C;
                 if (s != NULL) {
@@ -56,9 +56,9 @@ int TLobby__sub_8020B5CC(FloorSetFlagsPayload *buf) {
     out->object_count = objects;
     out->enemy_offset = out->object_count * 2 + 0x10;
     for (s32 i = 0; i < 18; i++) {
-        if (TLobby__floor_enemy_group_table[i].enemy_count > 0) {
-            FloorSavedSetRow *e = TLobby__floor_enemy_group_table[i].enemy_rows;
-            s32 n = TLobby__floor_enemy_group_table[i].enemy_count;
+        if (floor_enemy_group_table[i].enemy_count > 0) {
+            FloorSavedSetRow *e = floor_enemy_group_table[i].enemy_rows;
+            s32 n = floor_enemy_group_table[i].enemy_count;
             if (get_current_floor() == i) {
                 EnemySetRecord *s = TLobby__data_805D6114;
                 if (s != NULL) {
@@ -92,7 +92,7 @@ s32 init_quest_floor_enemies(s32 idx, EnemySetRecord *src, u32 size) {
     if (TLobby__data_805D6108 != 0 && TLobby__data_805D6104 != 0) {
     uaddr sz = size;
     s32 n = (0, sz / 72);
-    LobbyFloorRows *t = &TLobby__floor_enemy_group_table[idx];
+    LobbyFloorRows *t = &floor_enemy_group_table[idx];
     EnemySetRecord *s;
     FloorSavedSetRow *d;
     s32 i;
@@ -144,7 +144,7 @@ s32 load_floor_enemy_group_entries__6TLobbyFiPvUi(s32 idx, FloorObjectSetRow *sr
     if (TLobby__data_805D6108 != 0 && TLobby__data_805D6104 != 0) {
     uaddr sz = size;
     s32 n = sz / 68;
-    LobbyFloorRows *t = &TLobby__floor_enemy_group_table[idx];
+    LobbyFloorRows *t = &floor_enemy_group_table[idx];
     FloorObjectSetRow *s;
     FloorSavedSetRow *d;
     s32 i;

@@ -606,7 +606,7 @@ force_active:
   - TLanguage__read_cursor
   - TLazerFenceSw__class_name
   - TLoadCtrl__ct
-  - TLobby__battle_team_table
+  - battle_team_table
   - TLobby__card_list_selected_index
   - TLobby__card_list_window
   - TLobby__current_dialog_window
@@ -618,8 +618,8 @@ force_active:
   - TLobby__data_805D55B8
   - TLobby__data_805D5EE0
   - TLobby__deferred_player_setup_state
-  - TLobby__disk_error_msg_last
-  - TLobby__disk_error_msg_table
+  - disk_error_msg_last
+  - disk_error_msg_table
   - TLobby__download_list_window
   - TLobby__join_entries_dtor_registration
   - TLobby__join_entry_window_obj
@@ -631,7 +631,7 @@ force_active:
   - TLobby__pending_member_count
   - TLobby__player_names
   - TLobby__player_setup_pending
-  - TLobby__state_handler_pmf_table
+  - state_handler_pmf_table
   - TLobby__sub_8001D9E8
   - TLobby__sub_8001DBD8
   - TLobby__sub_8001DF58

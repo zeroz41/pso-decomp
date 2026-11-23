@@ -42,9 +42,9 @@ s32 lbl_805D6100;
 void *TLobby__data_805D6104;
 THeap *TLobby__data_805D6108;
 FloorObjectSetRow *TLobby__data_805D610C;
-s32 TLobby__current_floor_object_set_count;
+s32 current_floor_object_set_count;
 EnemySetRecord *TLobby__data_805D6114;
-s32 TLobby__current_floor_enemy_set_count;
+s32 current_floor_enemy_set_count;
 FloorObjectSetRow *floor_decoration_rows;
 s32 TLobby__data_805D6120;
 uaddr TLobby__data_805D6124;
@@ -85,7 +85,7 @@ TSetManager::TSetManager(TObject *parent) : TObject(parent) {
 extern "C" {
 
 LobbyPoolEntry TLobby__data_80513A40[18];
-LobbyFloorRows TLobby__floor_enemy_group_table[18];
+LobbyFloorRows floor_enemy_group_table[18];
 s32 TLobby__data_80513C80[18];
 s32 TLobby__data_80513CC8[18];
 u32 TLobby__data_80513D10[9];
@@ -265,22 +265,22 @@ void clear_floor_population(void) {
         }
     }
     for (s32 i = 17; i >= 0; i--) {
-        if (TLobby__floor_enemy_group_table[i].enemy_rows != NULL) {
-            TLobby__data_805D6108->heap_free(TLobby__floor_enemy_group_table[i].enemy_rows);
-            TLobby__floor_enemy_group_table[i].enemy_rows = NULL;
+        if (floor_enemy_group_table[i].enemy_rows != NULL) {
+            TLobby__data_805D6108->heap_free(floor_enemy_group_table[i].enemy_rows);
+            floor_enemy_group_table[i].enemy_rows = NULL;
         }
     }
     for (s32 i = 17; i >= 0; i--) {
-        if (TLobby__floor_enemy_group_table[i].object_rows != NULL) {
-            TLobby__data_805D6108->heap_free(TLobby__floor_enemy_group_table[i].object_rows);
-            TLobby__floor_enemy_group_table[i].object_rows = NULL;
+        if (floor_enemy_group_table[i].object_rows != NULL) {
+            TLobby__data_805D6108->heap_free(floor_enemy_group_table[i].object_rows);
+            floor_enemy_group_table[i].object_rows = NULL;
         }
     }
-    memset(TLobby__floor_enemy_group_table, 0, sizeof(TLobby__floor_enemy_group_table));
+    memset(floor_enemy_group_table, 0, sizeof(floor_enemy_group_table));
 }
 
 void depart_floor_population(int unused) {
-    LobbyFloorRows *area = &TLobby__floor_enemy_group_table[get_current_floor()];
+    LobbyFloorRows *area = &floor_enemy_group_table[get_current_floor()];
     if (TLobby__data_805D610C != 0) {
         FloorObjectSetRow *s = TLobby__data_805D610C;
         FloorSavedSetRow *d = area->object_rows;
@@ -350,10 +350,10 @@ void arrive_floor_population(void) {
     s32 j;
     TLobby__data_805D610C = 0;
     TLobby__data_805D6114 = 0;
-    TLobby__current_floor_object_set_count = 0;
-    TLobby__current_floor_enemy_set_count = 0;
+    current_floor_object_set_count = 0;
+    current_floor_enemy_set_count = 0;
     index = get_current_floor();
-    floor = &TLobby__floor_enemy_group_table[index];
+    floor = &floor_enemy_group_table[index];
     bytes = floor->object_count * 0x44;
     if (bytes > 0) {
         bytes = (bytes + 0x1F) & ~0x1F;
@@ -369,7 +369,7 @@ void arrive_floor_population(void) {
             }
         }
         floor->object_placement &= ~2U;
-        TLobby__current_floor_object_set_count = floor->object_count;
+        current_floor_object_set_count = floor->object_count;
     }
     bytes = floor->enemy_count * 0x48;
     if (bytes > 0) {
@@ -386,7 +386,7 @@ void arrive_floor_population(void) {
             }
         }
         floor->enemy_placement &= ~4U;
-        TLobby__current_floor_enemy_set_count = floor->enemy_count;
+        current_floor_enemy_set_count = floor->enemy_count;
     }
 }
 
@@ -410,7 +410,7 @@ void init_item_drop_tables(void) {
         TLobby__data_80513A40[i].enemies = NULL;
     }
     TLobby__data_805D6108 = new THeap(0xA000, 0x20);
-    memset(TLobby__floor_enemy_group_table, 0, 0x1B0);
+    memset(floor_enemy_group_table, 0, 0x1B0);
     memset(TLobby__data_80513C80, 0, 0x48);
     memset(TLobby__data_80513CC8, 0, 0x48);
     memset(TLobby__data_80513D10, 0, 0x24);

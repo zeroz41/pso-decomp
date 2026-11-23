@@ -122,7 +122,7 @@ extern Vec *boss8_dragon_capture_points_out;
 extern s32 boss8_dragon_capture_flags;
 extern NJS_OBJECT *boss8_dragon_capture_model;
 extern TBoss8Dragon *boss8_dragon_main_instance;
-extern s32 TLobby__designated_client_id;
+extern s32 designated_client_id;
 extern s32 boss8_dragon_breath_node;
 extern f32 boss8_dragon_visibility_distance;
 
@@ -1529,14 +1529,14 @@ u16 TBoss8Dragon::find_player_on_floor() {
     TObjPlayer *p;
     u16 idx;
     u16 i;
-    p = get_player_by_client_id(TLobby__designated_client_id);
+    p = get_player_by_client_id(designated_client_id);
     if (p != NULL) {
         if (p->get_floor() == get_current_floor()) {
-            return TLobby__designated_client_id;
+            return designated_client_id;
         }
     }
     for (i = 0; i < 4; i++) {
-        idx = (TLobby__designated_client_id + i + 1) % 4;
+        idx = (designated_client_id + i + 1) % 4;
         p = get_player_by_client_id(idx);
         if (p != NULL) {
             if (p->get_floor() == get_current_floor()) {

@@ -152,7 +152,7 @@ void TLobby__sub_80240F3C(SoundRequestVoice *);
 u32 sndFXStartParaInfo(u16, u8, u8, u8, Params_80240B64 *);
 u32 sndFXCheck(u32);
 extern s8 TLobby__data_805434A8[];
-extern s32 TLobby__lobby_state_flags;
+extern s32 lobby_state_flags;
 void TLobby__sub_80241798(Sound_80241798 *arg0);
 }
 void calc_sound_spatial_params(SoundRequestVoice *);
@@ -202,12 +202,12 @@ s32 tick_sound_voice(SoundRequestVoice *v) {
         params.ctl = ctl;
         ctl[0].type = 0x80;
         ctl[0].value = v->pitch;
-        if (!(TLobby__lobby_state_flags & 2) && TLobby__data_805434A8[7] == 0) {
+        if (!(lobby_state_flags & 2) && TLobby__data_805434A8[7] == 0) {
             level = OSDisableInterrupts();
         }
         v->token = sndFXStartParaInfo(v->effect, 0x7F, v->pan, v->studio, &params);
         send_voice_controller_updates((u8 *)v);
-        if (!(TLobby__lobby_state_flags & 2) && TLobby__data_805434A8[7] == 0) {
+        if (!(lobby_state_flags & 2) && TLobby__data_805434A8[7] == 0) {
             OSRestoreInterrupts(level);
         }
         send_sound_request_reverb((SoundRequestVoice *)(v));

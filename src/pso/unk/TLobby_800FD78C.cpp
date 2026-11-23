@@ -14,7 +14,7 @@ s32 actor_frame_tick;
 // Never stored: the control role create_player_object hands each local player (base + split-screen slot)
 // to setup_control_role; name inferred from that use.
 s32 player_control_role_base;
-s32 TLobby__designated_client_id;
+s32 designated_client_id;
 s32 lbl_805D53B0;
 
 void Obj_80515BA0::init_range(s32 floor) {

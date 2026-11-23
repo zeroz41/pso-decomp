@@ -326,7 +326,7 @@ public:
 
 extern "C" {
 void bswap_cmd_AB__9TProtocolFv(void *p);
-extern s32 TLobby__lobby_state_flags;
+extern s32 lobby_state_flags;
 }
 
 #endif

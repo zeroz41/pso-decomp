@@ -331,7 +331,7 @@ void load_battle_param_entry(void) {
   {
     read_disc_file(name, file);
     idx = battle_parameter_difficulty;
-    new_var = (dst = TLobby__battle_parameter_buffer);
+    new_var = (dst = battle_parameter_buffer);
     move_data((void *)((dst->stats)), (const void *)(file->stats[idx]), sizeof(dst->stats));
     {
       Stats_8001DC30 *p = ((0, dst))->stats;
@@ -387,13 +387,13 @@ void load_battle_param_entry(void) {
   }
 }
 
-void TLobby::broadcast(void* a0) { ((int (*)(void*, void*))broadcast_to_players__6TLobbyFii)((void*)TLobby__lobby_instance, a0); }
+void TLobby::broadcast(void* a0) { ((int (*)(void*, void*))broadcast_to_players__6TLobbyFii)((void*)lobby_instance, a0); }
 
-void TLobby__sub_8001DE30(void* a0) { ((int (*)(void*, void*))TLobby__sub_8001DF58)((void*)TLobby__lobby_instance, a0); }
+void TLobby__sub_8001DE30(void* a0) { ((int (*)(void*, void*))TLobby__sub_8001DF58)((void*)lobby_instance, a0); }
 
-void TLobby::copy_all_entries(void* a0) { ((int (*)(void*, void*))copy_all_entries__6TLobbyFii)((void*)TLobby__lobby_instance, a0); }
+void TLobby::copy_all_entries(void* a0) { ((int (*)(void*, void*))copy_all_entries__6TLobbyFii)((void*)lobby_instance, a0); }
 
-void TLobby::copy_data(void* a0) { ((int (*)(void*, void*))copy_all_data__6TLobbyFii)((void*)TLobby__lobby_instance, a0); }
+void TLobby::copy_data(void* a0) { ((int (*)(void*, void*))copy_all_data__6TLobbyFii)((void*)lobby_instance, a0); }
 
 #pragma inline_depth(1)
 #pragma auto_inline off
@@ -406,7 +406,7 @@ extern "C" {
 Obj_8001DF0C *copy_pair__6TLobbyFPvPv(Obj_8001DF0C *d, Obj_8001DF0C *s);
 
 void TLobby__sub_8001DEA8(s32 arg0) {
-    TLobby__lobby_instance = arg0;
+    lobby_instance = arg0;
 }
 
 void broadcast_to_players__6TLobbyFii(s32 arg0, saddr arg1) {
@@ -527,11 +527,11 @@ void* get_player_entry__6TLobbyFii(int a0, int a1) {  return battle_param_moveme
 
 void*TLobby::register_object(s32 index) { return TLobby::get_entry(battle_parameter_difficulty, index); }
 
-void* get_entry__6TLobbyFii(int a0, int a1) {  return TLobby__battle_param_resistances + a1 * 32; }
+void* get_entry__6TLobbyFii(int a0, int a1) {  return battle_param_resistances + a1 * 32; }
 
 void*TLobby::dispatch_shared_handler_b(s32 index) { return TLobby__sub_8001E270(battle_parameter_difficulty, index); }
 
-void* TLobby__sub_8001E270(int a0, int a1) {  return TLobby__battle_param_attacks + a1 * 48; }
+void* TLobby__sub_8001E270(int a0, int a1) {  return battle_param_attacks + a1 * 48; }
 
 void*TLobby::register_boss(s32 index) { return TLobby__sub_8001E2A8(battle_parameter_difficulty, index); }
 
@@ -576,13 +576,13 @@ void TLobby::update_difficulty() {
 }
 
 void TLobby::free_boss4_rock() {
-    if (TLobby__battle_parameter_buffer != NULL) {
-        mem_free(TLobby__battle_parameter_buffer);
-        TLobby__battle_parameter_buffer = NULL;
+    if (battle_parameter_buffer != NULL) {
+        mem_free(battle_parameter_buffer);
+        battle_parameter_buffer = NULL;
     }
     battle_param_stats = NULL;
-    TLobby__battle_param_attacks = NULL;
-    TLobby__battle_param_resistances = NULL;
+    battle_param_attacks = NULL;
+    battle_param_resistances = NULL;
     battle_param_movement = NULL;
 }
 }
@@ -593,16 +593,16 @@ void alloc_battle_param_tables(void) {
     for (i = 0; i < 0x3d80; i++) {
         buf[i] = 0;
     }
-    TLobby__battle_parameter_buffer = (Params_8001DC30 *)buf;
+    battle_parameter_buffer = (Params_8001DC30 *)buf;
     battle_param_stats = buf;
-    TLobby__battle_param_attacks = buf + 0xd80;
-    TLobby__battle_param_resistances = buf + 0x1f80;
+    battle_param_attacks = buf + 0xd80;
+    battle_param_resistances = buf + 0x1f80;
     battle_param_movement = buf + 0x2b80;
     TLobby::clamp_difficulty(game_difficulty_selection);
     TLobby::get_instance();
     ((s32 (*)(void))set_difficulty__6TLobbyFi)();
     load_battle_param_entry();
-    TLobby__lobby_instance = 0;
+    lobby_instance = 0;
 }
 extern "C" {
 

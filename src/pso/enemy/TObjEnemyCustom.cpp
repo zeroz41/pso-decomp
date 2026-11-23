@@ -578,14 +578,14 @@ extern "C" u8 is_local_client_floor_leader(void) {
     s32 id;
     s32 i;
     if (get_main_phase() == 15) {
-        player = get_player_by_client_id(TLobby__designated_client_id);
+        player = get_player_by_client_id(designated_client_id);
         if (player != NULL) {
             if (player->get_floor() == get_current_floor()) {
-                return local_client_id == TLobby__designated_client_id;
+                return local_client_id == designated_client_id;
             }
         }
         for (i = 0; i < 4; i++) {
-            id = (TLobby__designated_client_id + i + 1) % 4;
+            id = (designated_client_id + i + 1) % 4;
             player = get_player_by_client_id(id);
             if (player != NULL) {
                 if (player->get_floor() == get_current_floor()) {

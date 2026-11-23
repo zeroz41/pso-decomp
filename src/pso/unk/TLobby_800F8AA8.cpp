@@ -97,14 +97,14 @@ typedef struct {
     f32 y;
 } Msg_800F8FB8;
 
-Msg_800F8FB8 TLobby__disk_error_msg_table[5] = {
+Msg_800F8FB8 disk_error_msg_table[5] = {
     { "An error has occurred.\nTurn the power off and refer to the Nintendo\nGameCube Instruction Booklet \nfor more information.", 80.0f, 230.0f },
     { "Please insert the PSO Episode 1 & 2 Plus Game Disc.", 80.0f, 230.0f },
     { "The Disc Cover is open. \nIf you want to continue the game,\nplease close the Disc Cover.", 80.0f, 230.0f },
     { "This is not the PSO Episode 1 & 2 Plus Game Disc.\nPlease insert the PSO Episode 1 & 2 Plus Game Disc.", 80.0f, 230.0f },
     { "The Game Disc could not be read.\nPlease read the Nintendo GameCube Instruction\nBooklet for more information.", 80.0f, 230.0f },
 };
-void *TLobby__disk_error_msg_last[4] = {
+void *disk_error_msg_last[4] = {
     (void *)"Ths Disc Cover is open,\nconnection has been lost.", (void *)0x43020000, (void *)0x43700000, (void *)0x0,
 };
 void *lobby_font_texture_prs_data[2768] = {
@@ -1003,7 +1003,7 @@ s32 DVDGetDriveStatus(void);
 s8 func_801A5E54__Fv(void);
 s32 DVDCheckDisk(void);
 
-#define TLobby__disk_error_msg_last ((Msg_800F8FB8 *)TLobby__disk_error_msg_last)
+#define disk_error_msg_last ((Msg_800F8FB8 *)disk_error_msg_last)
 #define show_msg_800F8FB8(arr, i) draw_menu_text(arr[i].x, arr[i].y, arr[i].str, 0x8FFFFFFF)
 
 #pragma push
@@ -1048,7 +1048,7 @@ s32 TLobby::run_disk_error_check() {
         if (lobby_font_texture_loaded != 0) {
             ((TLobby *)0)->draw_fullscreen_texture_quad();
         } else {
-            show_msg_800F8FB8(TLobby__disk_error_msg_table, 0);
+            show_msg_800F8FB8(disk_error_msg_table, 0);
         }
         break;
     case 1:
@@ -1064,7 +1064,7 @@ s32 TLobby::run_disk_error_check() {
         if (lobby_font_texture_loaded != 0) {
             ((TLobby *)1)->draw_fullscreen_texture_quad();
         } else {
-            show_msg_800F8FB8(TLobby__disk_error_msg_table, 1);
+            show_msg_800F8FB8(disk_error_msg_table, 1);
         }
         if (TKeyBoardControl::check_reset_button() != 0 || func_801A5E54__Fv() != 0) {
             system_reset();
@@ -1077,9 +1077,9 @@ s32 TLobby::run_disk_error_check() {
         if (lobby_font_texture_loaded != 0) {
             ((TLobby *)2)->draw_fullscreen_texture_quad();
         } else if (get_main_phase() == 0xF) {
-            show_msg_800F8FB8(TLobby__disk_error_msg_last, 0);
+            show_msg_800F8FB8(disk_error_msg_last, 0);
         } else {
-            show_msg_800F8FB8(TLobby__disk_error_msg_table, 2);
+            show_msg_800F8FB8(disk_error_msg_table, 2);
         }
         if (TKeyBoardControl::check_reset_button() != 0 || func_801A5E54__Fv() != 0) {
             system_reset();
@@ -1092,7 +1092,7 @@ s32 TLobby::run_disk_error_check() {
         if (lobby_font_texture_loaded != 0) {
             ((TLobby *)3)->draw_fullscreen_texture_quad();
         } else {
-            show_msg_800F8FB8(TLobby__disk_error_msg_table, 3);
+            show_msg_800F8FB8(disk_error_msg_table, 3);
         }
         if (TKeyBoardControl::check_reset_button() != 0 || func_801A5E54__Fv() != 0) {
             system_reset();
@@ -1106,7 +1106,7 @@ s32 TLobby::run_disk_error_check() {
         if (lobby_font_texture_loaded != 0) {
             ((TLobby *)4)->draw_fullscreen_texture_quad();
         } else {
-            show_msg_800F8FB8(TLobby__disk_error_msg_table, 4);
+            show_msg_800F8FB8(disk_error_msg_table, 4);
         }
         if (TKeyBoardControl::check_reset_button() != 0 || func_801A5E54__Fv() != 0) {
             system_reset();

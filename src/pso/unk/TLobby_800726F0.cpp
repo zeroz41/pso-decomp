@@ -50,7 +50,7 @@ s32 TLobby__sub_8006FBE4();
 saddr get_message_text(s32);
 saddr get_window_layout_position(s32);
 extern saddr local_client_id;
-extern s32 TLobby__designated_client_id;
+extern s32 designated_client_id;
 u8 is_challenge_lobby__6TLobbyFv(void);
 s32 TLobby__sub_80070DA8();
 void play_player_default_effect__6TLobbyFv(s32 _w0);
@@ -247,7 +247,7 @@ void play_player_default_effect__6TLobbyFv(s32 _w0) {
     }
 }
 u8 is_challenge_lobby__6TLobbyFv(void) {
-    return (u8) (local_client_id == TLobby__designated_client_id);
+    return (u8) (local_client_id == designated_client_id);
 }
 void TObjChallengeRetry::update_destroy_countdown() {
     s32 temp_r0;
