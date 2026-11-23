@@ -117,6 +117,7 @@ struct TWindowCtrl : public TObject {
     void update_child_window_visibility();
     void update_trade_window_visibility();
     void run_all_updates();
+    void update_countdown();
     static TWindowMessageLog *get_field44();
     static void set_flag_active();
     static void clear_flag_8();

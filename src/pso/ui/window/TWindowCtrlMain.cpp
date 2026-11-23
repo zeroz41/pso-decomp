@@ -106,7 +106,6 @@ u32 create_for_target__13TWindowLockOnFlUs(int, s32);
 s32 fn_8002AE08(void *p);
 u16 get_current_target_id__10TObjPlayerFv();
 int TWindowMainMenu__sub_8024E3F4(void *p);
-void TWindowCtrl__sub_8024DAAC(void *arg0);
 s32 TWindowMainMenu__sub_8024E3E0(void *);
 saddr get_window_layout_position(s32);
 }
@@ -192,7 +191,7 @@ void TWindowCtrlPlayer::sub_8024E0F0() {
 }
 #pragma pop
 
-void TWindowCtrl::run_all_updates() { update_trade_window_visibility(); update_child_window_visibility(); update_target_info_window(); update_main_menu_request(); show_active_window(); update_short_list_request(); TWindowCtrl__sub_8024DAAC(this); }
+void TWindowCtrl::run_all_updates() { update_trade_window_visibility(); update_child_window_visibility(); update_target_info_window(); update_main_menu_request(); show_active_window(); update_short_list_request(); update_countdown(); }
 
 void TWindowCtrl::update_trade_window_visibility() {
     u8 *arg0 = (u8 *)this;
@@ -341,12 +340,9 @@ void TWindowCtrl::update_short_list_request() {
     }
 }
 
-void TWindowCtrl__sub_8024DAAC(void *arg0) {
-    s32 temp_r4;
-
-    temp_r4 = *(s16 *)((s8 *)arg0 + 0x20);
-    if (temp_r4 > 0) {
-        *(s16 *)((s8 *)arg0 + 0x20) = (temp_r4 - 1);
+void TWindowCtrl::update_countdown() {
+    if (countdown > 0) {
+        countdown--;
     }
 }
 
