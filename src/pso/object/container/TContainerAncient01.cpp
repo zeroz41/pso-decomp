@@ -216,7 +216,6 @@ s32 scale_current_matrix(void *);
 s32 post_translate_matrix(void *);
 
 
-void *TContainerAncient01R__create(void *arg0);
 
 void TContainerAncient01R__sub_8018AF74(void);
 
@@ -720,7 +719,7 @@ void TContainerAncient01R::init_table_entries() {
 
 void TContainerAncient01R__sub_8018AF74(void) { TContainerAncient01R__bml_resource = NULL; }
 
-void *TContainerAncient01R__create(void *parent) {
+void *TContainerAncient01R::create(void *parent) {
     return new TContainerAncient01R(tl_05, parent);
 }
 

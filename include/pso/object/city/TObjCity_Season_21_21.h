@@ -18,6 +18,7 @@ struct TObjCity_Season_21_21 : public TUnk_804B5E48 {
     // Particle emitter created at the decoration (create_particle_emitter id
     // 0x90) and queued for destruction by the destructor (name inferred).
     TParticleCtrl *emitter;
+    static void *create(void *set_data);
 };
 
 LAYOUT_ASSERT(TObjCity_Season_21_21_size, sizeof(TObjCity_Season_21_21) == 0xBC);

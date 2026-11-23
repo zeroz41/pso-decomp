@@ -14,6 +14,7 @@ struct TODoorFourLightRuins : public TODoorBase {
     static void draw_model_and_lights(void *arg0);
     virtual void render();
     u8 unk_D8[0x20];
+    static void *create(void *set_data);
 };
 
 LAYOUT_ASSERT(TODoorFourLightRuins_size, sizeof(TODoorFourLightRuins) == 0xF8);

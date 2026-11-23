@@ -52,7 +52,6 @@ struct O_80153D98 { u8 pad[0x88]; s32 mode; };
 
 extern "C" {
 
-void *TObjFogCollision__create(void *set);
 
 void record_fog_collision_hit(s32 arg0, s32 arg1, s32 arg2);
 u8 is_current_floor_switch_set(u16);
@@ -73,7 +72,7 @@ s32 get_player_by_client_id(u16);
 s32 is_split_screen();
 
 // Function definitions in reverse address order (-inline deferred emits them reversed).
-void *TObjFogCollision__create(void *set) {
+void *TObjFogCollision::create(void *set) {
     void *o = (void *)new TObjFogCollision(tl_05, set);
     return o;
 }
@@ -201,7 +200,7 @@ void TObjFogCollision::draw_volume() {
     }
 }
 
-void *TObjFogCollisionSwitch__create(void *set) {
+void *TObjFogCollisionSwitch::create(void *set) {
     return new TObjFogCollisionSwitch(tl_05, set);
 }
 

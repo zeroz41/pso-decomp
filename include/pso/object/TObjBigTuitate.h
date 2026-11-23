@@ -12,12 +12,12 @@ struct TObjBigTuitate : public TObjCollidable {
     void run_task();
     static void free_instance();
     u8 unk_B0[0x1C];
+    static void *create(void *set_data);
 };
 
 LAYOUT_ASSERT(TObjBigTuitate_size, sizeof(TObjBigTuitate) == 0xCC);
 
 extern "C" {
-void *TObjBigTuitate__create(void *arg0);
 void *__dt__14TObjBigTuitateFv(void *arg0, s16 arg1);
 }
 

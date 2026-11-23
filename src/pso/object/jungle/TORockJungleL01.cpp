@@ -304,7 +304,7 @@ TORockJungleL01::~TORockJungleL01() {
     free_collision_body_parts(this);
 }
 
-void *TORockJungleL01__create(void *set_data) {
+void *TORockJungleL01::create(void *set_data) {
     return new TORockJungleL01(set_data);
 }
 

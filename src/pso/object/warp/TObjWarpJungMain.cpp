@@ -64,7 +64,6 @@ saddr get_localized_text_entry(s32, s32);
 void request_active_window_close(void);
 s32 get_window_layout_position(s32);
 
-void * TObjWarpJung__create(void *arg0);
 s32 get_game_play_mode(void);
 
 void TObjWarpJungMain::render() {
@@ -165,7 +164,7 @@ TObjWarpJungMain::TObjWarpJungMain(TObject *parent, void *set_data) : TObjAreaWa
     }
 }
 
-void *TObjWarpJung__create(void *set_data) {
+void *TObjWarpJung::create(void *set_data) {
     return new TObjWarpJung(tl_05, set_data);
 }
 

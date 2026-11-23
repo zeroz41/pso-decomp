@@ -9,6 +9,7 @@ struct TObjCity_Season_HalloweenPumpkin : public TObjBase {
     virtual ~TObjCity_Season_HalloweenPumpkin();
     virtual void render();
     virtual void run_task();
+    static void *create(void *set_data);
 };
 
 LAYOUT_ASSERT(TObjCity_Season_HalloweenPumpkin_size, sizeof(TObjCity_Season_HalloweenPumpkin) == 0x90);

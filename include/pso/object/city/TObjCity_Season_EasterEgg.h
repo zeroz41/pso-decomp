@@ -18,6 +18,7 @@ struct TObjCity_Season_EasterEgg : public TUnk_804B5E48 {
     TParticleCtrl *emitter;
     // Second emitter, 25 units above the egg (id 0x91; name inferred).
     TParticleCtrl *upper_emitter;
+    static void *create(void *set_data);
 };
 
 LAYOUT_ASSERT(TObjCity_Season_EasterEgg_size, sizeof(TObjCity_Season_EasterEgg) == 0xC0);

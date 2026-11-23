@@ -25,6 +25,7 @@ struct TObjMapWarpAncient : public TObjMapWarp {
     GinjaTextureList *ksita_textures;            // TObjGoalWarpAncient::get_archive_textures(0)
     GinjaTextureList *nsita_textures;            // TObjGoalWarpAncient::get_archive_textures(4)
     AnimationMotion *beam_motion;  // motion 1, de_obj1_swarp_beam_n.njm
+    static void *create(void *set_data);
 };
 
 LAYOUT_ASSERT(TObjMapWarpAncient_size, sizeof(TObjMapWarpAncient) == 0x11C);

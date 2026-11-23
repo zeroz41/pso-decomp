@@ -38,6 +38,7 @@ struct TContainerAncient01R : public TObjChara {
     s32 m_360;
     Vec open_scale;
     u32 m_370;
+    static void *create(void *set_data);
 };
 
 LAYOUT_ASSERT(TContainerAncient01R_size, sizeof(TContainerAncient01R) == 0x374);

@@ -441,7 +441,7 @@ TObjFish::TObjFish(TObject *parent, void *set_data) : TObjBase(parent) {
     }
 }
 
-void *TObjFish__create(void *set_data) {
+void *TObjFish::create(void *set_data) {
     if (is_split_screen() != 0) {
         return NULL;
     }

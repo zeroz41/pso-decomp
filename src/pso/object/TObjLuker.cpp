@@ -103,7 +103,6 @@ s32 is_player_in_range__9TObjLukerFv(saddr arg0, f32 farg0);
 void send_6x21_inter_level_warp(void *obj, s32 value);
 s32 init_fields__9TTecLukerFs(void *, int);
 extern s32 lbl_805D55C0;
-void *TObjLuker__create(void *arg0);
 
 void hide_part__9TObjLukerFPvUs(Obj_801A0C38 *self, u16 i) {
     if (self->parts[i] != 0) {
@@ -490,6 +489,6 @@ TObjLuker::TObjLuker(TObject *parent, void *set_data) : TObjBase(parent) {
 }
 #undef self
 
-void *TObjLuker__create(void *arg0) {
+void *TObjLuker::create(void *arg0) {
     return new TObjLuker((TObject *)tl_05, arg0);
 }

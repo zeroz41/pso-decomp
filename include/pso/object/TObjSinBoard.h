@@ -9,12 +9,12 @@ struct TObjSinBoard : public TObjBase {
     virtual ~TObjSinBoard();
     virtual void render();
     virtual void run_task();
+    static void *create(void *set_data);
 };
 
 LAYOUT_ASSERT(TObjSinBoard_size, sizeof(TObjSinBoard) == 0x90);
 
 extern "C" {
-void *TObjSinBoard__create(void *set_data);
 void TLobby__sub_80197F74(void);
 // Copies a size-byte signboard picture into a fresh buffer and makes it the
 // signboard's texture (quest opcode call_image_data, load_memcard_file).

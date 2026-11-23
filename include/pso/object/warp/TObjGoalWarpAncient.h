@@ -30,6 +30,7 @@ struct TObjGoalWarpAncient : public TObjAreaWarp {
     GinjaTextureList *naka_textures;             // get_archive_textures(5)
     AnimationMotion *beam_motion;  // motion 0, de_obj2_swarp_beam.njm
     AnimationMotion *naka_motion;  // motion 2, fe_obj3_swarp_naka.njm
+    static void *create(void *set_data);
 };
 
 LAYOUT_ASSERT(TObjGoalWarpAncient_size, sizeof(TObjGoalWarpAncient) == 0xEC);

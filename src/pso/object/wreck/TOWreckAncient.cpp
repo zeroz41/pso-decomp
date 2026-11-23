@@ -197,7 +197,7 @@ TOWreckAncient01::TOWreckAncient01(void *set_data) : TOWreckAncient(1) {
 TOWreckAncient01::~TOWreckAncient01() {
 }
 
-void *TOWreckAncient01__create(void *set_data) {
+void *TOWreckAncient01::create(void *set_data) {
     return new TOWreckAncient01(set_data);
 }
 
@@ -213,7 +213,7 @@ TOWreckAncient04::TOWreckAncient04(void *set_data) : TOWreckAncient(4) {
 TOWreckAncient04::~TOWreckAncient04() {
 }
 
-void *TOWreckAncient04__create(void *set_data) {
+void *TOWreckAncient04::create(void *set_data) {
     return new TOWreckAncient04(set_data);
 }
 
@@ -229,7 +229,7 @@ TOWreckAncient05::TOWreckAncient05(void *set_data) : TOWreckAncient(3) {
 TOWreckAncient05::~TOWreckAncient05() {
 }
 
-void *TOWreckAncient05__create(void *set_data) {
+void *TOWreckAncient05::create(void *set_data) {
     return new TOWreckAncient05(set_data);
 }
 
@@ -245,7 +245,7 @@ TOWreckAncient06::TOWreckAncient06(void *set_data) : TOWreckAncient(6) {
 TOWreckAncient06::~TOWreckAncient06() {
 }
 
-void *TOWreckAncient06__create(void *set_data) {
+void *TOWreckAncient06::create(void *set_data) {
     return new TOWreckAncient06(set_data);
 }
 
@@ -261,7 +261,7 @@ TOWreckAncient07::TOWreckAncient07(void *set_data) : TOWreckAncient(5) {
 TOWreckAncient07::~TOWreckAncient07() {
 }
 
-void *TOWreckAncient07__create(void *set_data) {
+void *TOWreckAncient07::create(void *set_data) {
     return new TOWreckAncient07(set_data);
 }
 
@@ -346,6 +346,6 @@ TOWreckAncientBrakable05::TOWreckAncientBrakable05(void *set_data) : TOWreckAnci
 TOWreckAncientBrakable05::~TOWreckAncientBrakable05() {
 }
 
-void *TOWreckAncientBrakable05__create(void *set_data) {
+void *TOWreckAncientBrakable05::create(void *set_data) {
     return new TOWreckAncientBrakable05(set_data);
 }

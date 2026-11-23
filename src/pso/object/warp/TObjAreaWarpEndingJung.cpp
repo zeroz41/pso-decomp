@@ -145,7 +145,6 @@ extern "C" {
 s32 get_floor_destination_name();
 s32 debug_draw_line(void *, void *, u32, u32);
 s32 fn_80141CB4(void *, f32);
-void * TObjAreaWarpEndingJung__create(void *arg0);
 s64 get_warp_string_screen_position(void *arg0, u16 client_id);
 void fade_and_destroy__14TObjWarpStringFPv(u8 *arg0);
 void TObjWarpString__delay_before_fade_out(void *arg0);
@@ -1359,6 +1358,6 @@ void TObjAreaWarpEndingJung::debug_print_area_num() {
     TObjNpcEnemy::set_global_count(0xF0F0F0FF);
 }
 
-void *TObjAreaWarpEndingJung__create(void *set_data) {
+void *TObjAreaWarpEndingJung::create(void *set_data) {
     return new TObjAreaWarpEndingJung(tl_05, set_data);
 }

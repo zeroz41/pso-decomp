@@ -18,7 +18,6 @@ extern "C" {
 const char *TObjEvtCollision__class_name = "TObjEvtCollision";
 u8 *__ct__16TObjEvtCollisionFll(TObjEvtCollision *arg0, s32 arg1, s32 arg2);
 extern s32 local_client_id;
-void *TObjEvtCollision__create(void *arg0);
 void *get_player_by_client_id(s32 i);
 
 s32 TObjEvtCollision::is_any_player_in_range(f32 farg0) {
@@ -44,7 +43,7 @@ block_10:
 }
 
 
-void *TObjEvtCollision__create(void *arg0) {
+void *TObjEvtCollision::create(void *arg0) {
     void *o = TObject::operator new(0xB8);
     if (o != NULL) {
         o = __ct__16TObjEvtCollisionFll((TObjEvtCollision *)((u8 *)o), (saddr)tl_05, (saddr)arg0);

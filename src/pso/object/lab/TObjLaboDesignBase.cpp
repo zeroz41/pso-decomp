@@ -31,7 +31,6 @@
 struct ByteBlock_3C { u8 bytes[0x3C]; };
 
 extern "C" {
-void *TObjLaboDesignBase__create(void *arg0);
 void *TObjLaboDesignBase__sub_80364D38(void *arg0);
 void *alloc_and_construct__18TObjLaboDesignBaseFPv(void *arg0);
 void *create_instance__18TObjLaboDesignBaseFPv(void *arg0);
@@ -143,7 +142,7 @@ void *alloc_and_construct__18TObjLaboDesignBaseFPv(void *set_data) {
     return new TObjLaboDesignBase((TObject *)tl_05, set_data, 1);
 }
 
-void *TObjLaboDesignBase__create(void *set_data) {
+void *TObjLaboDesignBase::create(void *set_data) {
     return new TObjLaboDesignBase((TObject *)tl_05, set_data, 0);
 }
 

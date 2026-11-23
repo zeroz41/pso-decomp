@@ -13,6 +13,7 @@ struct TObjContainerAbeEnemy : public TUnk_804B6C24 {
     virtual void vfunc_80();
     virtual void vfunc_6(s16 *, s32);
     virtual f32 receive_physical_attack(void *, f32);
+    static void *create(void *set_data);
 };
 
 LAYOUT_ASSERT(TObjContainerAbeEnemy_size, sizeof(TObjContainerAbeEnemy) == 0x368);

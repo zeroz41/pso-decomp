@@ -7,12 +7,9 @@
 struct TOWreckAncientBrakable05 : public TOWreckAncientBrakable {
     TOWreckAncientBrakable05(void *set_data);
     virtual ~TOWreckAncientBrakable05();
+    static void *create(void *set_data);
 };
 
 LAYOUT_ASSERT(TOWreckAncientBrakable05_size, sizeof(TOWreckAncientBrakable05) == 0xBC);
-
-extern "C" {
-void *TOWreckAncientBrakable05__create(void *set_data);
-}
 
 #endif

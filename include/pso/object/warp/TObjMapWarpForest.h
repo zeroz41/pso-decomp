@@ -17,6 +17,7 @@ struct TObjMapWarpForest : public TObjMapWarp {
     virtual void render();
     // Declared after run_task, the key function that places the vtable.
     virtual ~TObjMapWarpForest();
+    static void *create(void *set_data);
 };
 LAYOUT_ASSERT(ForestWarpSize, sizeof(TObjMapWarpForest)==0x110);
 #endif

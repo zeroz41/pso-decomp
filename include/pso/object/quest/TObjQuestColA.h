@@ -8,6 +8,7 @@ struct TObjQuestColA : public TObjQuestColBase {
     TObjQuestColA(TObject *parent, void *set_data);
     virtual int vfunc_15();
     virtual TQuestThread *vfunc_16();
+    static void *create(void *set_data);
 };
 
 LAYOUT_ASSERT(TObjQuestColA_size, sizeof(TObjQuestColA) == 0xBC);

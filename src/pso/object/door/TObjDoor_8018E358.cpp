@@ -78,11 +78,9 @@ f32 xyz_distance_squared(u8 *arg0, u8 *arg1);
 s32 project_world_to_screen(int, void *, void *);
 s32 free_collision_body_parts(void *);
 extern s32 __vt__8TObjDoor[];
-void *TObjDoor__create(void *arg0);
 extern GinjaTextureList *TObjDoor__resource_param;
 extern BmlResource *door_resource_handle;
 u8 *TObjDoorJung__ct(u8 *arg0, saddr arg1, saddr arg2);
-void *TObjDoorJung__create(void *arg0);
 void update_opening_glow__8TObjDoorFPv(u8 *arg0);
 extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
@@ -530,7 +528,7 @@ void *TObjDoor__ct(void *arg0, void *arg1, void *set_data) {
     return d;
 }
 
-void *TObjDoor__create(void *arg0) {
+void *TObjDoor::create(void *arg0) {
     void *o = TObject::operator new(0xD4);
     if (o != NULL) {
         o = TObjDoor__ct(o, tl_05, arg0);
@@ -560,7 +558,7 @@ void TObjDoor::load_resources() {
     TObjDoor__motion_table[1] = (DoorMotionHeader *)get_bml_motion(door_resource_handle, 1);
 }
 
-void *TObjDoorJung__create(void *arg0) {
+void *TObjDoorJung::create(void *arg0) {
     void *o = TObject::operator new(0xD8);
     if (o != NULL) {
         o = TObjDoorJung__ct((u8 *)o, (saddr)tl_05, (saddr)arg0);

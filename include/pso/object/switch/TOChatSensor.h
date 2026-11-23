@@ -32,9 +32,9 @@ struct TOChatSensor : public TObjBase {
     void send_state();
     void swap_state_endian();
     void init_packet_type();
+    static void *create(void *set_data);
 };
 
 LAYOUT_ASSERT(TOChatSensor_size, sizeof(TOChatSensor) == 0xD0);
-extern "C" void *TOChatSensor__create(void *set);
 
 #endif

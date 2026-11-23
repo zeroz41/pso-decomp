@@ -14,6 +14,7 @@ public:
     s32 is_target_in_range(f32 radius_squared);
     void run_task();
     void bswap_6x78();
+    static void *create(void *set_data);
 };
 
 #include <stddef.h>

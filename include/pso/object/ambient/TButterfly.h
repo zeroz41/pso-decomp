@@ -26,6 +26,7 @@ struct TButterfly : public TObjBase {
     static void destroy_instance();
     void draw_model();
     u8 unk_BB[0x1];
+    static void *create(void *set_data);
 };
 
 LAYOUT_ASSERT(TButterfly_size, sizeof(TButterfly) == 0xBC);
@@ -35,7 +36,6 @@ void *__dt__10TButterflyFv(void *arg0, s16 arg1);
 }
 
 extern "C" {
-void *TButterfly__create(void *arg0);
 void *__ct__10TButterflyFP7TObjectPv(void *butterfly, void *arg1, void *arg2);
 }
 

@@ -4,7 +4,6 @@
 #include "types.h"
 
 extern "C" {
-void *TObjFogCollisionSwitch__create(void *arg0);
 int TObjFogCollision__sub_80153F68(void *self);
 int TObjFogCollision__sub_80153F70(void *self);
 void *__dt__22TObjFogCollisionSwitchFv(void *arg0, s16 arg1);

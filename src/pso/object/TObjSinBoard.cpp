@@ -171,6 +171,6 @@ TObjSinBoard::TObjSinBoard(TObject *parent, void *set_data) : TObjBase(parent) {
     apply_object_set_data(set_data);
 }
 
-void *TObjSinBoard__create(void *set_data) {
+void *TObjSinBoard::create(void *set_data) {
     return new TObjSinBoard(tl_05, set_data);
 }

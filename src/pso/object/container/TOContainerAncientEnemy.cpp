@@ -521,7 +521,7 @@ TOContainerAncientEnemyCommon::TOContainerAncientEnemyCommon(void *set_data) : T
 TOContainerAncientEnemyCommon::~TOContainerAncientEnemyCommon() {
 }
 
-void *TOContainerAncientEnemyCommon__create(void *set_data) {
+void *TOContainerAncientEnemyCommon::create(void *set_data) {
     if (((s32) enable_v2_features == 1) && (get_game_play_mode() == 1) && (is_quest_active() == 1)) {
         return new TOContainerAncientEnemyCommon(set_data);
     }

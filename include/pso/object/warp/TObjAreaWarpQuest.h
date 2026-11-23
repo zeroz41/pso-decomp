@@ -22,6 +22,7 @@ struct TObjAreaWarpQuest : public TObjAreaWarp {
     NJS_OBJECT *beam_model;                // model 1, fs_obj_warp_beam.gj
     AnimationMotion *beam_motion;  // motion 0, fs_obj_warp_beam.njm
     GinjaTextureList *textures;                  // get_forest_warp_textures(), fs_obj_warp.gvm
+    static void *create(void *set_data);
 };
 
 LAYOUT_ASSERT(TObjAreaWarpQuest_size, sizeof(TObjAreaWarpQuest) == 0xE0);

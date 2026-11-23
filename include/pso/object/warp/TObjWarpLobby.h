@@ -21,6 +21,7 @@ struct TObjWarpLobby : public TObjAreaWarp {
     u8 unused_D0[0x8];
     AnimationMotion *beam_motion;
     u8 unused_DC[0x4];
+    static void *create(void *set_data);
 };
 
 LAYOUT_ASSERT(TObjWarpLobby_size, sizeof(TObjWarpLobby) == 0xE0);

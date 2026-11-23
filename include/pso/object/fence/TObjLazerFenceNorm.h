@@ -27,6 +27,7 @@ struct TObjLazerFenceNorm : public TObjCollidable {
     s32 m_c4;
     u8 unk_C8[0x10];
     void select_models();
+    static void *create(void *set_data);
 };
 
 LAYOUT_ASSERT(TObjLazerFenceNorm_size, sizeof(TObjLazerFenceNorm) == 0xD8);
@@ -34,7 +35,6 @@ LAYOUT_ASSERT(TObjLazerFenceNorm_size, sizeof(TObjLazerFenceNorm) == 0xD8);
 extern "C" {
 extern BmlResource *lazer_fence_norm_bml_resource;
 extern GinjaTextureList *lazer_fence_norm_texture_list;
-void *TObjLazerFenceNorm__create(void *set_data);
 }
 
 // Loads the fence models (episode 2 areas get fe_obj_lazer2_2); undone by TObjLazerFenceNorm::free_resources.

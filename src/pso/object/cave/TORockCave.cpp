@@ -299,7 +299,7 @@ TORockCaveS01::~TORockCaveS01() {
     free_collision_body_parts(this);
 }
 
-void *TORockCaveS01__create(void *set_data) {
+void *TORockCaveS01::create(void *set_data) {
     return new TORockCaveS01(set_data);
 }
 
@@ -319,7 +319,7 @@ TORockCaveM01::~TORockCaveM01() {
     free_collision_body_parts(this);
 }
 
-void *TORockCaveM01__create(void *set_data) {
+void *TORockCaveM01::create(void *set_data) {
     return new TORockCaveM01(set_data);
 }
 
@@ -339,7 +339,7 @@ TORockCaveL01::~TORockCaveL01() {
     free_collision_body_parts(this);
 }
 
-void *TORockCaveL01__create(void *set_data) {
+void *TORockCaveL01::create(void *set_data) {
     return new TORockCaveL01(set_data);
 }
 
@@ -359,7 +359,7 @@ TORockCaveS02::~TORockCaveS02() {
     free_collision_body_parts(this);
 }
 
-void *TORockCaveS02__create(void *set_data) {
+void *TORockCaveS02::create(void *set_data) {
     return new TORockCaveS02(set_data);
 }
 
@@ -379,7 +379,7 @@ TORockCaveM02::~TORockCaveM02() {
     free_collision_body_parts(this);
 }
 
-void *TORockCaveM02__create(void *set_data) {
+void *TORockCaveM02::create(void *set_data) {
     return new TORockCaveM02(set_data);
 }
 
@@ -399,7 +399,7 @@ TORockCaveL02::~TORockCaveL02() {
     free_collision_body_parts(this);
 }
 
-void *TORockCaveL02__create(void *set_data) {
+void *TORockCaveL02::create(void *set_data) {
     return new TORockCaveL02(set_data);
 }
 
@@ -419,7 +419,7 @@ TORockCaveSS02::~TORockCaveSS02() {
     free_collision_body_parts(this);
 }
 
-void *TORockCaveSS02__create(void *set_data) {
+void *TORockCaveSS02::create(void *set_data) {
     return new TORockCaveSS02(set_data);
 }
 
@@ -439,7 +439,7 @@ TORockCaveSM02::~TORockCaveSM02() {
     free_collision_body_parts(this);
 }
 
-void *TORockCaveSM02__create(void *set_data) {
+void *TORockCaveSM02::create(void *set_data) {
     return new TORockCaveSM02(set_data);
 }
 
@@ -459,7 +459,7 @@ TORockCaveSL02::~TORockCaveSL02() {
     free_collision_body_parts(this);
 }
 
-void *TORockCaveSL02__create(void *set_data) {
+void *TORockCaveSL02::create(void *set_data) {
     return new TORockCaveSL02(set_data);
 }
 
@@ -479,7 +479,7 @@ TORockCaveS03::~TORockCaveS03() {
     free_collision_body_parts(this);
 }
 
-void *TORockCaveS03__create(void *set_data) {
+void *TORockCaveS03::create(void *set_data) {
     return new TORockCaveS03(set_data);
 }
 
@@ -499,7 +499,7 @@ TORockCaveM03::~TORockCaveM03() {
     free_collision_body_parts(this);
 }
 
-void *TORockCaveM03__create(void *set_data) {
+void *TORockCaveM03::create(void *set_data) {
     return new TORockCaveM03(set_data);
 }
 
@@ -519,7 +519,7 @@ TORockCaveL03::~TORockCaveL03() {
     free_collision_body_parts(this);
 }
 
-void *TORockCaveL03__create(void *set_data) {
+void *TORockCaveL03::create(void *set_data) {
     return new TORockCaveL03(set_data);
 }
 
@@ -543,7 +543,7 @@ TORockCaveBL01::~TORockCaveBL01() {
     free_collision_body_parts(this);
 }
 
-void *TORockCaveBL01__create(void *set_data) {
+void *TORockCaveBL01::create(void *set_data) {
     return new TORockCaveBL01(set_data);
 }
 
@@ -567,7 +567,7 @@ TORockCaveBL02::~TORockCaveBL02() {
     free_collision_body_parts(this);
 }
 
-void *TORockCaveBL02__create(void *set_data) {
+void *TORockCaveBL02::create(void *set_data) {
     return new TORockCaveBL02(set_data);
 }
 
@@ -591,6 +591,6 @@ TORockCaveBL03::~TORockCaveBL03() {
     free_collision_body_parts(this);
 }
 
-void *TORockCaveBL03__create(void *set_data) {
+void *TORockCaveBL03::create(void *set_data) {
     return new TORockCaveBL03(set_data);
 }

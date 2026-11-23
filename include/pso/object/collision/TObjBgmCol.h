@@ -14,6 +14,7 @@ struct TObjBgmCol : public TObjBase {
     s32 check();
     virtual void run_task();
     s32 is_within_distance(f32 farg0);
+    static void *create(void *set_data);
 };
 
 LAYOUT_ASSERT(TObjBgmCol_size, sizeof(TObjBgmCol) == 0xA0);

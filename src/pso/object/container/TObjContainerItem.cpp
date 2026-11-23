@@ -1018,7 +1018,7 @@ void TObjContainerBase::vfunc_6(s16 *arg1, s32 arg2) {
     }
 }
 
-extern "C" void *TObjContainerBase__create(void *set_data) {
+void *TObjContainerBase::create(void *set_data) {
     return new TObjContainerBase(tl_05, set_data);
 }
 

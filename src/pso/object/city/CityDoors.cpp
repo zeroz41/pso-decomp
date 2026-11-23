@@ -285,7 +285,7 @@ TObjCityDoor_Shop::TObjCityDoor_Shop(TObject *parent, void *set)
 TObjCityDoor_Shop::~TObjCityDoor_Shop() {
 }
 
-extern "C" void *TObjCityDoor_Shop__create(void *set) {
+void *TObjCityDoor_Shop::create(void *set) {
     return new TObjCityDoor_Shop(tl_05, set);
 }
 
@@ -313,7 +313,7 @@ TObjCityDoor_Guild::TObjCityDoor_Guild(TObject *parent, void *set)
 TObjCityDoor_Guild::~TObjCityDoor_Guild() {
 }
 
-extern "C" void *TObjCityDoor_Guild__create(void *set) {
+void *TObjCityDoor_Guild::create(void *set) {
     return new TObjCityDoor_Guild(tl_05, set);
 }
 
@@ -341,7 +341,7 @@ TObjCityDoor_Warp::TObjCityDoor_Warp(TObject *parent, void *set)
 TObjCityDoor_Warp::~TObjCityDoor_Warp() {
 }
 
-extern "C" void *TObjCityDoor_Warp__create(void *set) {
+void *TObjCityDoor_Warp::create(void *set) {
     return new TObjCityDoor_Warp(tl_05, set);
 }
 
@@ -410,7 +410,7 @@ TObjCityDoor_Med::TObjCityDoor_Med(TObject *parent, void *set)
 TObjCityDoor_Med::~TObjCityDoor_Med() {
 }
 
-extern "C" void *TObjCityDoor_Med__create(void *set) {
+void *TObjCityDoor_Med::create(void *set) {
     return new TObjCityDoor_Med(tl_05, set);
 }
 
@@ -457,7 +457,7 @@ TObjCityDoor_Lobby::~TObjCityDoor_Lobby() {
     }
 }
 
-extern "C" void *TObjCityDoor_Lobby__create(void *set) {
+void *TObjCityDoor_Lobby::create(void *set) {
     if (is_split_screen() != 0) {
         return NULL;
     }

@@ -85,7 +85,6 @@ extern "C" {
 
 void TLobby__sub_8029B2A4(void* p);
 
-void *TODoorJungleMain__create(void *arg0);
 
 
 }
@@ -326,7 +325,7 @@ void TODoorJungleMain::free_static_resources() {
     }
 }
 
-void *TODoorJungleMain__create(void *arg0) {
+void *TODoorJungleMain::create(void *arg0) {
     void *o = TObject::operator new(0xE0);
     if (o != NULL) {
         o = ((void * (*)(void *, void *, void *))TODoorJungleMain__ct)(o, tl_05, arg0);

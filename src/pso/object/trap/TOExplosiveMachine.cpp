@@ -145,7 +145,7 @@ TOExplosiveMachine01::TOExplosiveMachine01(void *set_data) {
 
 TOExplosiveMachine01::~TOExplosiveMachine01() {}
 
-void *TOExplosiveMachine01__create(void *set_data) {
+void *TOExplosiveMachine01::create(void *set_data) {
     return new TOExplosiveMachine01(set_data);
 }
 
@@ -163,7 +163,7 @@ TOExplosiveMachine02::TOExplosiveMachine02(void *set_data) {
 
 TOExplosiveMachine02::~TOExplosiveMachine02() {}
 
-void *TOExplosiveMachine02__create(void *set_data) {
+void *TOExplosiveMachine02::create(void *set_data) {
     return new TOExplosiveMachine02(set_data);
 }
 
@@ -181,7 +181,7 @@ TOExplosiveMachine03::TOExplosiveMachine03(void *set_data) {
 
 TOExplosiveMachine03::~TOExplosiveMachine03() {}
 
-void *TOExplosiveMachine03__create(void *set_data) {
+void *TOExplosiveMachine03::create(void *set_data) {
     return new TOExplosiveMachine03(set_data);
 }
 #pragma pop

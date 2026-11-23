@@ -16,13 +16,13 @@ struct TShopGenerator : public TObjBase {
     static void clear_slot_active(s32 client);
     static void run_fn_table_reverse();
     static void run_fn_table_forward();
+    static void *create(void *set_data);
 };
 
 LAYOUT_ASSERT(TShopGenerator_size, sizeof(TShopGenerator) == 0x98);
 
 extern "C" {
 void THunterGuildSeqOffline__sub_8021E180(s32 client);
-void *TShopGenerator__create(void *arg0);
 }
 
 // One flag per client, indexed by TShopGenerator__sub_80222DAC(entity id).

@@ -7,12 +7,9 @@
 struct TOWreckAncient06 : public TOWreckAncient {
     TOWreckAncient06(void *set_data);
     virtual ~TOWreckAncient06();
+    static void *create(void *set_data);
 };
 
 LAYOUT_ASSERT(TOWreckAncient06_size, sizeof(TOWreckAncient06) == 0xB4);
-
-extern "C" {
-void *TOWreckAncient06__create(void *set_data);
-}
 
 #endif

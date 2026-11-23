@@ -147,7 +147,7 @@ void TObjLazerFenceNorm::free_resources() {
 }
 
 
-void *TObjLazerFenceNorm__create(void *set_data) {
+void *TObjLazerFenceNorm::create(void *set_data) {
     return new TObjLazerFenceNorm(tl_05, set_data);
 }
 
@@ -275,7 +275,7 @@ void TObjLazerFenceNorm::select_models() {
 }
 
 
-void *TObjLazerFenceExtra__create(void *set_data) {
+void *TObjLazerFenceExtra::create(void *set_data) {
     return new TObjLazerFenceExtra(tl_05, set_data);
 }
 

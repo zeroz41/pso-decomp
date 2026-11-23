@@ -12,6 +12,7 @@ struct TObjDoorJung : public TODoorBase {
     virtual void render();
     u8 unk_D4[0x4];
     static void free_buffers();
+    static void *create(void *set_data);
 };
 
 extern "C" void set_material_texture_slot_on_neighbours(TObject *node, void *slot);

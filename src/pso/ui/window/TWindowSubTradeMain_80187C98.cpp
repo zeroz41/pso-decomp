@@ -23,7 +23,7 @@ void TWindowSubTradeMain::set_visible() { this->m_70 |= 0x40; }
 
 extern void *tl_05;
 
-void *TObjGbAdvance__create(void *placement) {
+void *TObjGbAdvance::create(void *placement) {
     return new TObjGbAdvance(static_cast<TObject *>(tl_05), static_cast<ObjectSetData *>(placement));
 }
 

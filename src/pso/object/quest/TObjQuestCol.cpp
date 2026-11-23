@@ -42,10 +42,6 @@ void debug_draw_sphere(const Vec *pos, const NJS_ARGB *color, f32 radius);
 // only a third argument explains, though debug_draw_uniform_scaled never reads r5 (TObjRoomId passes nothing there).
 void debug_draw_uniform_scaled(const Vec *pos, const NJS_ARGB *color, CollisionBody *body, f32 size);
 void enable_action_input__10TObjPlayerFPv(void *p);
-void *TObjQuestCol__create(void *arg0);
-void *TObjQuestColA__create(void *arg0);
-void *TObjQuestColALock2__create(void *arg0);
-void *TObjQuestCol2__create(void *arg0);
 }
 
 u16 quest_collision_next_id;
@@ -150,7 +146,7 @@ TQuestThread *TObjQuestCol::vfunc_16() {
     return TQuestThread::create(m_b0);
 }
 
-void *TObjQuestCol__create(void *set_data) {
+void *TObjQuestCol::create(void *set_data) {
     return new TObjQuestCol(quest_collision_task_root, set_data);
 }
 
@@ -210,7 +206,7 @@ TQuestThread *TObjQuestColA::vfunc_16() {
     return TQuestThread::create(m_b0);
 }
 
-void *TObjQuestColA__create(void *set_data) {
+void *TObjQuestColA::create(void *set_data) {
     return new TObjQuestColA(quest_collision_task_root, set_data);
 }
 
@@ -608,7 +604,7 @@ void TObjQuestColALock2::update_room_id_check() {
     }
 }
 
-void *TObjQuestColALock2__create(void *set_data) {
+void *TObjQuestColALock2::create(void *set_data) {
     return new TObjQuestColALock2(quest_collision_task_root, set_data);
 }
 
@@ -658,6 +654,6 @@ TQuestThread *TObjQuestCol2::vfunc_16() {
     return thread;
 }
 
-void *TObjQuestCol2__create(void *set_data) {
+void *TObjQuestCol2::create(void *set_data) {
     return new TObjQuestCol2(quest_collision_task_root, set_data);
 }

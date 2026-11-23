@@ -42,6 +42,7 @@ struct TObjFish : public TObjBase {
     static void free_resource();
     static void load_area_resource();
     static s32 set_global_param(GinjaTextureList *texlist);
+    static void *create(void *set_data);
 };
 
 LAYOUT_ASSERT(TObjFishEntry_size, sizeof(TObjFishEntry) == 0x44);

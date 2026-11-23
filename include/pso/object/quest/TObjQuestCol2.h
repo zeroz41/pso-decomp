@@ -12,6 +12,7 @@ struct TObjQuestCol2 : public TObjQuestColBase {
     virtual ~TObjQuestCol2();
     TUnk_804C8678 *thread_root;  // quest_mission_manager or quest_area_manager, per m_c0 (inferred name)
     s32 m_c0;
+    static void *create(void *set_data);
 };
 
 LAYOUT_ASSERT(TObjQuestCol2_size, sizeof(TObjQuestCol2) == 0xC4);

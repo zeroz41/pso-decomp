@@ -18,6 +18,7 @@ struct TODoorJungleMain : public TODoorBase {
     static void load_resources();
     virtual void render();
     virtual void run_task();
+    static void *create(void *set_data);
 };
 
 LAYOUT_ASSERT(TODoorJungleMain_size, sizeof(TODoorJungleMain) == 0xE0);

@@ -151,7 +151,7 @@ void TOHangceilingCave01::destroy_instance() {
     }
 }
 
-void *TOHangceilingCave01__create(void *set_data) {
+void *TOHangceilingCave01::create(void *set_data) {
     if (set_data != NULL) {
         switch (*(s32 *)((u8 *)set_data + 0x38)) {
         case 0:

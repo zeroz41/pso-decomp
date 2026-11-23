@@ -132,7 +132,7 @@ void TObjMapWarpAncient::render() {
     }
 }
 
-extern "C" void *TObjMapWarpAncient__create(void *set_data) {
+void *TObjMapWarpAncient::create(void *set_data) {
     return new TObjMapWarpAncient(tl_05, set_data);
 }
 
@@ -210,6 +210,6 @@ void TObjGoalWarpAncient::render() {
     }
 }
 
-extern "C" void *TObjGoalWarpAncient__create(void *set_data) {
+void *TObjGoalWarpAncient::create(void *set_data) {
     return new TObjGoalWarpAncient(tl_05, set_data);
 }

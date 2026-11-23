@@ -22,6 +22,7 @@ struct TObjLaboDesignBase : public TObjCollidable {
     f32 xB4;
     f32 xB8;
     TObjMapCsn *map_csn;
+    static void *create(void *set_data);
 };
 
 LAYOUT_ASSERT(TObjLaboDesignBase_size, sizeof(TObjLaboDesignBase) == 0xC0);

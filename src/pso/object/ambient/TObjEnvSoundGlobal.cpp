@@ -88,7 +88,6 @@ const Row_80190AA0 *environment_sound_tables_by_area[36] = {
 
 f32 xz_distance_squared(void *, void *);
 void run_task__14TObjEnvSoundExFv(Env_80190624 *o);
-void * TObjEnvSoundEx__create(void *arg0);
 
 
 #define F(o) (*(f32 *)(self + (o)))
@@ -198,7 +197,7 @@ void TObjEnvSound::run_task() {
 
 void TObjEnvSound::render() {  }
 
-void * TObjEnvSound__create(void *rader_map_core) {
+void *TObjEnvSound::create(void *rader_map_core) {
     if (TRaderMapCore::is_not_split_screen() == 1) {
         return NULL;
     }
@@ -300,7 +299,7 @@ s32 TObjEnvSoundEx::init_sound_params() {
     return var_r31;
 }
 
-void * TObjEnvSoundEx__create(void *rader_map_core) {
+void *TObjEnvSoundEx::create(void *rader_map_core) {
     if (TRaderMapCore::is_not_split_screen() == 1) {
         return NULL;
     }

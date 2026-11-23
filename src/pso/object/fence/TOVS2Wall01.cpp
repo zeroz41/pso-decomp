@@ -355,7 +355,7 @@ TOVS2Wreck01::TOVS2Wreck01(void *set_data) : TOVS2(set_data, 0) {
 
 TOVS2Wreck01::~TOVS2Wreck01() {}
 
-void *TOVS2Wreck01__create(void *set_data) {
+void *TOVS2Wreck01::create(void *set_data) {
     return new TOVS2Wreck01(set_data);
 }
 TOVS2Wreck02::TOVS2Wreck02(void *set_data) : TOVS2(set_data, 1) {
@@ -364,7 +364,7 @@ TOVS2Wreck02::TOVS2Wreck02(void *set_data) : TOVS2(set_data, 1) {
 
 TOVS2Wreck02::~TOVS2Wreck02() {}
 
-void *TOVS2Wreck02__create(void *set_data) {
+void *TOVS2Wreck02::create(void *set_data) {
     return new TOVS2Wreck02(set_data);
 }
 TOVS2Wreck03::TOVS2Wreck03(void *set_data) : TOVS2(set_data, 2) {
@@ -373,7 +373,7 @@ TOVS2Wreck03::TOVS2Wreck03(void *set_data) : TOVS2(set_data, 2) {
 
 TOVS2Wreck03::~TOVS2Wreck03() {}
 
-void *TOVS2Wreck03__create(void *set_data) {
+void *TOVS2Wreck03::create(void *set_data) {
     return new TOVS2Wreck03(set_data);
 }
 TOVS2Wreck04::TOVS2Wreck04(void *set_data) : TOVS2(set_data, 3) {
@@ -382,7 +382,7 @@ TOVS2Wreck04::TOVS2Wreck04(void *set_data) : TOVS2(set_data, 3) {
 
 TOVS2Wreck04::~TOVS2Wreck04() {}
 
-void *TOVS2Wreck04__create(void *set_data) {
+void *TOVS2Wreck04::create(void *set_data) {
     return new TOVS2Wreck04(set_data);
 }
 TOVS2Wreck05::TOVS2Wreck05(void *set_data) : TOVS2(set_data, 4) {
@@ -391,7 +391,7 @@ TOVS2Wreck05::TOVS2Wreck05(void *set_data) : TOVS2(set_data, 4) {
 
 TOVS2Wreck05::~TOVS2Wreck05() {}
 
-void *TOVS2Wreck05__create(void *set_data) {
+void *TOVS2Wreck05::create(void *set_data) {
     return new TOVS2Wreck05(set_data);
 }
 TOVS2Wreck06::TOVS2Wreck06(void *set_data) : TOVS2(set_data, 5) {
@@ -400,7 +400,7 @@ TOVS2Wreck06::TOVS2Wreck06(void *set_data) : TOVS2(set_data, 5) {
 
 TOVS2Wreck06::~TOVS2Wreck06() {}
 
-void *TOVS2Wreck06__create(void *set_data) {
+void *TOVS2Wreck06::create(void *set_data) {
     return new TOVS2Wreck06(set_data);
 }
 #pragma push

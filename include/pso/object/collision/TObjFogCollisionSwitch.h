@@ -11,6 +11,7 @@ struct TObjFogCollisionSwitch : public TObjFogCollision {
     virtual void vfunc_14();
     virtual void vfunc_13(s32);
     virtual void run_task();
+    static void *create(void *set_data);
 };
 
 LAYOUT_ASSERT(TObjFogCollisionSwitch_size, sizeof(TObjFogCollisionSwitch) == 0x98);

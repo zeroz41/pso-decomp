@@ -294,7 +294,7 @@ TObjDoorKey::TObjDoorKey(TObject *parent, void *set_entry) : TOKey(parent) {
 }
 
 
-void *TObjDoorKey__create(void *arg0) {
+void *TObjDoorKey::create(void *arg0) {
     void *o = (void *)new TObjDoorKey((TObject *)tl_05, (void *)arg0);
     return o;
 }
@@ -321,7 +321,7 @@ void TObjDoorKey::load_resources() {
     TObjDoorKey__data_805D5C04 = 0;
 }
 
-void * TObjEnvSoundGlobal__create(void *rader_map_core) {
+void *TObjEnvSoundGlobal::create(void *rader_map_core) {
     if (TRaderMapCore::is_not_split_screen() == 1) {
         return NULL;
     }

@@ -97,7 +97,7 @@ void TOChatSensor::destroy_global() {
     }
 }
 
-void *TOChatSensor__create(void *set) {
+void *TOChatSensor::create(void *set) {
     u32 temp_r3;
     u32 temp_r3_2;
     u32 var_r0;

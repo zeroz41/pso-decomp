@@ -10,6 +10,7 @@ struct TObjAreaWarpEndingJung : public TObjAreaWarpEnding {
     virtual void debug_print_area_num();
     void render();
     void run_task();
+    static void *create(void *set_data);
 };
 
 LAYOUT_ASSERT(TObjAreaWarpEndingJung_size, sizeof(TObjAreaWarpEndingJung) == 0xDC);

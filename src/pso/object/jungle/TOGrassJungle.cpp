@@ -25,7 +25,7 @@ BmlResourceDescriptor ograss_jungle_resource_descriptor = { "bm_o_grass_jungle.b
 const char *grass_jungle_class_name = "TOGrassJungle";
 
 
-void *TOGrassJungle__create(void *arg0) {
+void *TOGrassJungle::create(void *arg0) {
     void *o = TObject::operator new(0x94);
     if (o != NULL) {
         o = TOGrassJungle__ct((TOGrassJungle *)((u8 *)o), (saddr)tl_05, (saddr)arg0);

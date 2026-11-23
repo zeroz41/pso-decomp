@@ -10,12 +10,9 @@ struct TOGrassJungle : public TObjBase {
     static void release_static_instance();
     static void load_resources();
     virtual void render();
+    static void *create(void *set_data);
 };
 
 LAYOUT_ASSERT(TOGrassJungle_size, sizeof(TOGrassJungle) == 0x94);
-
-extern "C" {
-void *TOGrassJungle__create(void *arg0);
-}
 
 #endif

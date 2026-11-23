@@ -15,18 +15,17 @@ struct TObjRaderIcon : public TObjBase {
     virtual void render();
     virtual void run_task();
     void initialize_from_placement();
+    static void *create(void *set_data);
 };
 
 LAYOUT_ASSERT(TObjRaderIcon_size, sizeof(TObjRaderIcon) == 0xA4);
 
 extern "C" {
-void *TObjRaderIcon__create(void *arg0);
 void *__dt__13TObjRaderIconFv(void *arg0, s16 arg1);
 }
 
 // --- C functions defined in TObjRaderIcon.cpp ---
 extern "C" {
-void *TObjRaderIcon__create(void *arg0);
 void *__dt__13TObjRaderIconFv(void *arg0, s16 arg1);
 }
 // --- end of C functions

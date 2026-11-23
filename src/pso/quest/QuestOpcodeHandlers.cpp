@@ -2266,7 +2266,7 @@ void qst_op_set_chat_callback_no_filter(u8 i) {
     s.position.z = qst_registers[i++];
     s.scale.x = qst_registers[i++];
     s.set_params[0] = qst_registers[i];
-    TOChatSensor__create(&s);
+    TOChatSensor::create(&s);
 }
 
 void qst_op_write_flag_buf_to_event_flags(u8 reg) {
@@ -2489,7 +2489,7 @@ void qst_op_set_chat_callback() {
     s.position.z = qst_registers[i++];
     s.scale.x = qst_registers[i++];
     s.set_params[0] = qst_registers[i];
-    sensor = static_cast<TOChatSensor *>(TOChatSensor__create(&s));
+    sensor = static_cast<TOChatSensor *>(TOChatSensor::create(&s));
     if (sensor != NULL) {
         sensor->set_trigger_text((void *)arg);
     }

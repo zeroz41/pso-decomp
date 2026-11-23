@@ -16,6 +16,7 @@ struct TObjEnvSoundEx : public TObjBase {
     s32 init_sound_params();
     virtual void render();
     u8 unk_A4[0x4];
+    static void *create(void *set_data);
 };
 
 LAYOUT_ASSERT(TObjEnvSoundEx_size, sizeof(TObjEnvSoundEx) == 0xA8);

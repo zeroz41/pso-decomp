@@ -17,6 +17,7 @@ struct TObjWarpJungMain : public TObjAreaWarp {
     void render();
     void run_task();
     f32 m_c4;
+    static void *create(void *set_data);
 };
 
 LAYOUT_ASSERT(TObjWarpJungMain_size, sizeof(TObjWarpJungMain) == 0xC8);

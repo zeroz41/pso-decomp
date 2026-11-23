@@ -12,6 +12,7 @@ struct TObjRaderHideCol : public TObjBase {
 
     f32 hide_radius;
     u32 radar_hidden;
+    static void *create(void *set_data);
 };
 
 LAYOUT_ASSERT(TObjRaderHideCol_radius_offset, offsetof(TObjRaderHideCol, hide_radius) == 0x90);

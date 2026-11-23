@@ -137,7 +137,7 @@ TObjCity_Season_EasterEgg::~TObjCity_Season_EasterEgg() {
 }
 
 
-void *TObjCity_Season_EasterEgg__create(void *set) {
+void *TObjCity_Season_EasterEgg::create(void *set) {
     return new TObjCity_Season_EasterEgg(tl_05, set);
 }
 void TObjCity_Season_EasterEgg::run_task() {
@@ -182,7 +182,7 @@ TObjCity_Season_ValentineHeart::~TObjCity_Season_ValentineHeart() {
 }
 
 
-void *TObjCity_Season_ValentineHeart__create(void *set) {
+void *TObjCity_Season_ValentineHeart::create(void *set) {
     return new TObjCity_Season_ValentineHeart(tl_05, set);
 }
 void TObjCity_Season_ValentineHeart::run_task() { advance_anim_time(1, 0.2f); }
@@ -219,7 +219,7 @@ TObjCity_Season_XmasTree::~TObjCity_Season_XmasTree() {
 }
 
 
-void *TObjCity_Season_XmasTree__create(void *set) {
+void *TObjCity_Season_XmasTree::create(void *set) {
     return new TObjCity_Season_XmasTree(tl_05, set);
 }
 void TObjCity_Season_XmasTree::run_task() { advance_anim_time(1, 0.2f); }
@@ -247,7 +247,7 @@ TObjCity_Season_XmasWreath::TObjCity_Season_XmasWreath(TObject *parent, void *se
 TObjCity_Season_XmasWreath::~TObjCity_Season_XmasWreath() {}
 
 
-void *TObjCity_Season_XmasWreath__create(void *set) {
+void *TObjCity_Season_XmasWreath::create(void *set) {
     return new TObjCity_Season_XmasWreath(tl_05, set);
 }
 void TObjCity_Season_XmasWreath::render() {
@@ -271,7 +271,7 @@ TObjCity_Season_HalloweenPumpkin::TObjCity_Season_HalloweenPumpkin(TObject *pare
 TObjCity_Season_HalloweenPumpkin::~TObjCity_Season_HalloweenPumpkin() {}
 
 
-void *TObjCity_Season_HalloweenPumpkin__create(void *set) {
+void *TObjCity_Season_HalloweenPumpkin::create(void *set) {
     return new TObjCity_Season_HalloweenPumpkin(tl_05, set);
 }
 void TObjCity_Season_HalloweenPumpkin::run_task() {
@@ -315,7 +315,7 @@ TObjCity_Season_21_21::~TObjCity_Season_21_21() {
 }
 
 
-void *TObjCity_Season_21_21__create(void *set) {
+void *TObjCity_Season_21_21::create(void *set) {
     return new TObjCity_Season_21_21(tl_05, set);
 }
 void TObjCity_Season_21_21::run_task() {
@@ -350,7 +350,7 @@ TObjCity_Season_SonicAdv2::TObjCity_Season_SonicAdv2(TObject *parent, void *set_
 TObjCity_Season_SonicAdv2::~TObjCity_Season_SonicAdv2() {}
 
 
-void *TObjCity_Season_SonicAdv2__create(void *set) {
+void *TObjCity_Season_SonicAdv2::create(void *set) {
     return new TObjCity_Season_SonicAdv2(tl_05, set);
 }
 s32 TObjCity_Season_SonicAdv2::sub_80183C38() {
@@ -406,7 +406,7 @@ TObjCity_Season_Board::TObjCity_Season_Board(TObject *parent, void *set_data) : 
 TObjCity_Season_Board::~TObjCity_Season_Board() {}
 
 
-void *TObjCity_Season_Board__create(void *set) {
+void *TObjCity_Season_Board::create(void *set) {
     return new TObjCity_Season_Board(tl_05, set);
 }
 void TObjCity_Season_Board::run_task() {
@@ -437,7 +437,7 @@ TObjCity_Season_FireWorkCtrl::TObjCity_Season_FireWorkCtrl(TObject *parent, void
 TObjCity_Season_FireWorkCtrl::~TObjCity_Season_FireWorkCtrl() {}
 
 
-void *TObjCity_Season_FireWorkCtrl__create(void *set) {
+void *TObjCity_Season_FireWorkCtrl::create(void *set) {
     return new TObjCity_Season_FireWorkCtrl(tl_05, set);
 }
 #pragma push
