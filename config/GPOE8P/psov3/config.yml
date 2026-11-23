@@ -5638,7 +5638,7 @@ force_active:
   - __dt__16TObjOnlineEndingFv
   - __dt__19TBoss8DragonColli_CFv
   - __dt__17TWindowDD_WS_WordFv
-  - destroy__19TPlayerBattleCtrl4PFs
+  - __dt__19TPlayerBattleCtrl4PFv
   - destroy__19TQuestListChallengeFv
   - destroy__21TShopDeleteItemWindowFv
   - destroy__22TQuestVmDownLoadServerFv

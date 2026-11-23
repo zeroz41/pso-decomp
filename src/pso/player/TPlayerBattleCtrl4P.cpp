@@ -149,7 +149,6 @@ void begin_player_keyboard_hold(saddr arg0);
 void request_active_window_close(void);
 }
 extern const char *TPlayerBattleCtrl4P_player_name_formats[];
-extern void *__vt__19TPlayerBattleCtrl4P[6];
 extern s16 battle_event_second_table[];
 extern s32 local_client_id;
 extern s32 TLobby__designated_client_id;
@@ -194,13 +193,7 @@ s32 update_all_players__19TPlayerBattleCtrl4PFv();
 typedef void (TPlayerBattleCtrl4P::*BattleAction)();
 extern "C" {
 s32 lbl_805D6AB0;
-void *destroy__19TPlayerBattleCtrl4PFs(void *arg0, s16 arg1);
-s32 __dt__7TObjectFv(void *, s32);
-void run_task__19TPlayerBattleCtrl4PFv(TPlayerBattleCtrl4P *self);
-void render__7TObjectFv();
-void render_shadows__7TObjectFv();
 // Japanese text (shift-JIS)
-s32 __ct__7TObjectFP7TObject(void *, void *);
 void export_character_data__10TObjPlayerFPvPv(u8 *arg0, u8 *arg1);
 const char *TPlayerBattleCtrl4P__message_table_language0[7] = {
     "\x82\xE0\x82\xA4\x88\xEA\x93\x78\x81\x41\x93\xAF\x82\xB6\x83\x8B\x81\x5B\x83\x8B\x82\xC5\n\x8C\x88\x93\xAC\x82\xF0\x8D\x73\x82\xA2\x82\xDC\x82\xB7\x82\xA9\x81\x48", // もう一度、同じルールで 決闘を行いますか？
@@ -226,10 +219,7 @@ const char *TPlayerBattleCtrl4P__name = "TPlayerBattleCtrl4P";
 
 void TPlayerBattleCtrl4P::init_instance_with_text(saddr arg0, saddr arg1) {
     if (TPlayerBattleCtrl4P__instance == NULL) {
-        void *mem = TObject::operator new(0x2A0);
-        if (mem != NULL) {
-            ((TPlayerBattleCtrl4P *)mem)->construct(tl_00);
-        }
+        new TPlayerBattleCtrl4P(tl_00);
     }
     if (TPlayerBattleCtrl4P__instance != NULL) {
         strncpy(TPlayerBattleCtrl4P__instance->intro_text, (const char *)arg1, 0x200);
@@ -237,12 +227,10 @@ void TPlayerBattleCtrl4P::init_instance_with_text(saddr arg0, saddr arg1) {
     }
 }
 
-TPlayerBattleCtrl4P* TPlayerBattleCtrl4P::construct(TObject* parent) {
+TPlayerBattleCtrl4P::TPlayerBattleCtrl4P(TObject *parent) : TObject(parent) {
     s32 i;
     const char **p;
 
-    __ct__7TObjectFP7TObject(this, parent);
-    *(void **)((s8 *)((void *)this) + 0x18) = __vt__19TPlayerBattleCtrl4P;
     m_name = TPlayerBattleCtrl4P__name;
     set_split_screen_battle_phase(0);
     this->intro_window = 0;
@@ -261,28 +249,19 @@ TPlayerBattleCtrl4P* TPlayerBattleCtrl4P::construct(TObject* parent) {
     }
     TPlayerBattleCtrl4P__instance = this;
     this->rule_data = 0;
-    return this;
 }
 
-TPlayerBattleCtrl4P* TPlayerBattleCtrl4P::destroy(s16 should_free) {
-    if (this != NULL) {
-        *(void ***)((s8 *)((void *)this) + 0x18) = __vt__19TPlayerBattleCtrl4P;
-        if ((uaddr) this->intro_window != 0U) {
-            ((TWindowBase *)this->intro_window)->close();
-            this->intro_window = 0U;
-        }
-        if ((uaddr) this->menu_window != 0U) {
-            ((TWindowBase *)this->menu_window)->close();
-            this->menu_window = 0U;
-        }
-        close_player_windows();
-        TPlayerBattleCtrl4P__instance = 0;
-        __dt__7TObjectFv(this, 0);
-        if (should_free > 0) {
-            TObject::operator delete(this);
-        }
+TPlayerBattleCtrl4P::~TPlayerBattleCtrl4P() {
+    if (intro_window != NULL) {
+        ((TWindowBase *)intro_window)->close();
+        intro_window = NULL;
     }
-    return this;
+    if (menu_window != NULL) {
+        ((TWindowBase *)menu_window)->close();
+        menu_window = NULL;
+    }
+    close_player_windows();
+    TPlayerBattleCtrl4P__instance = 0;
 }
 
 void TPlayerBattleCtrl4P::run_task() {
@@ -319,11 +298,6 @@ void TPlayerBattleCtrl4P::update_reload_phase() {
 
 const char *TPlayerBattleCtrl4P_player_name_formats[4] = {
     "1st", "2nd", "3rd", "4th",
-};
-
-void *__vt__19TPlayerBattleCtrl4P[6] = {
-    (void *)0x0, (void *)0x0, (void *)&destroy__19TPlayerBattleCtrl4PFs, (void *)&run_task__19TPlayerBattleCtrl4PFv,
-    (void *)&render__7TObjectFv, (void *)&render_shadows__7TObjectFv,
 };
 
 void TPlayerBattleCtrl4P::open_intro_window() {
