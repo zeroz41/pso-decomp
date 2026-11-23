@@ -28,6 +28,7 @@ struct FlareGlareColor {
 struct TEF_LensFlare : public TObjBase {
     static const char *class_name;
     TEF_LensFlare(TObject *parent, void *set_data);
+    static void *create(void *set_data);
     virtual ~TEF_LensFlare();
     virtual void render();
     virtual void run_task();

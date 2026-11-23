@@ -235,13 +235,13 @@
 #include "pso/object/warp/TObjWarpBoss.h"
 #include "pso/object/ambient/TObjLight.h"
 #include "pso/object/TObjParticle.h"
+#include "pso/effect/TEF_LensFlare.h"
+#include "pso/object/city/CityVerticalModel.h"
 extern "C" {
 void* TODoorFourLightSeabed__create(void* placement);
 void* TODoorFourLightSeabedU__create(void* placement);
 void* TODoorLabo__create(void* placement);
 void* TODoorLaboNormal__create(void* placement);
-void* TEF_LensFlare__create(void* placement);
-void* create_city_vertical_model(void* placement);
 void* create__10TObjPlayerFPv(void* placement);
 void* TObjPlayer__sub_802C28B4(void* placement);
 void* alloc_and_init__18TObjAreaWarpForestFv(void* placement);
@@ -314,7 +314,7 @@ ObjectFactoryEntry object_factories_floor_01[63] = {
     { 0x0007, TObjFogCollision::create, 250000.0f, 0 },
     { 0x000E, TObjRoomId::create, 250000.0f, 0 },
     { 0x0008, TObjEvtCollision::create, 250000.0f, 0 },
-    { 0x0011, TEF_LensFlare__create, 100000000.0f, 0 },
+    { 0x0011, TEF_LensFlare::create, 100000000.0f, 0 },
     { 0x0012, TObjQuestCol::create, 250000.0f, 0 },
     { 0x0015, TObjQuestColA::create, 250000.0f, 0 },
     { 0x02B8, TObjQuestColALock2::create, 250000.0f, 0 },
@@ -380,7 +380,7 @@ ObjectFactoryEntry object_factories_floor_02[64] = {
     { 0x0007, TObjFogCollision::create, 250000.0f, 0 },
     { 0x000E, TObjRoomId::create, 250000.0f, 0 },
     { 0x0008, TObjEvtCollision::create, 250000.0f, 0 },
-    { 0x0011, TEF_LensFlare__create, 100000000.0f, 0 },
+    { 0x0011, TEF_LensFlare::create, 100000000.0f, 0 },
     { 0x0012, TObjQuestCol::create, 250000.0f, 0 },
     { 0x0015, TObjQuestColA::create, 250000.0f, 0 },
     { 0x02B8, TObjQuestColALock2::create, 250000.0f, 0 },
@@ -443,7 +443,7 @@ ObjectFactoryEntry object_factories_floor_03[59] = {
     { 0x0006, TObjEnvSound::create, 250000.0f, 0 },
     { 0x0009, TObjCollision::create, 250000.0f, 0 },
     { 0x0014, reinterpret_cast<ObjectFactoryFunction>(TObjMapCsn::create), 250000.0f, 0 },
-    { 0x0011, TEF_LensFlare__create, 100000000.0f, 0 },
+    { 0x0011, TEF_LensFlare::create, 100000000.0f, 0 },
     { 0x0002, TObjAreaWarpForest::create, 250000.0f, 0 },
     { 0x0003, TObjMapWarpForest::create, 250000.0f, 0 },
     { 0x001B, TObjAreaWarpQuest::create, 250000.0f, 0 },
@@ -507,7 +507,7 @@ ObjectFactoryEntry object_factories_floor_04[75] = {
     { 0x0029, TObjEnvSoundGlobal::create, 1.0e12f, 0 },
     { 0x0009, TObjCollision::create, 250000.0f, 0 },
     { 0x0014, reinterpret_cast<ObjectFactoryFunction>(TObjMapCsn::create), 250000.0f, 0 },
-    { 0x0011, TEF_LensFlare__create, 100000000.0f, 0 },
+    { 0x0011, TEF_LensFlare::create, 100000000.0f, 0 },
     { 0x0002, TObjAreaWarpForest::create, 250000.0f, 0 },
     { 0x0003, TObjMapWarpForest::create, 250000.0f, 0 },
     { 0x001B, TObjAreaWarpQuest::create, 250000.0f, 0 },
@@ -797,7 +797,7 @@ ObjectFactoryEntry object_factories_floor_08[71] = {
     { 0x0015, TObjQuestColA::create, 250000.0f, 0 },
     { 0x02B8, TObjQuestColALock2::create, 250000.0f, 0 },
     { 0x02BA, TObjQuestCol2::create, 250000.0f, 0 },
-    { 0x0011, TEF_LensFlare__create, 100000000.0f, 0 },
+    { 0x0011, TEF_LensFlare::create, 100000000.0f, 0 },
     { 0x0016, TObjItemLight::create, 250000.0f, 0 },
     { 0x0017, TObjRaderCol::create, 250000.0f, 0 },
     { 0x0018, TObjFogCollisionSwitch::create, 250000.0f, 0 },
@@ -1071,7 +1071,7 @@ ObjectFactoryEntry object_factories_floor_14[22] = {
     { 0x0170, TOBoss4Bird::create, 250000.0f, 0 },
     { 0x0171, TOBoss4Tower::create, 250000.0f, 0 },
     { 0x0172, TOBoss4Rock::create, 2250000.0f, 0 },
-    { 0x0011, TEF_LensFlare__create, 100000000.0f, 0 },
+    { 0x0011, TEF_LensFlare::create, 100000000.0f, 0 },
     { -1, 0, 250000.0f, 0 },
 };
 
