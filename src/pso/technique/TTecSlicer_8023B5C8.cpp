@@ -39,33 +39,30 @@ const s32 TTecSlicer__launch_angle_table[18] = {
 const char *TTecSlicer__name = "TTecSlicer";
 const char *TSlicerHistory__name = "TSlicerHistory";
 
-extern "C" {
-
 void TSlicerHistory::render() {
-    u8 *arg0 = (u8 *)this;
-    if ((s32)this->all_parents_unqueued_for_destruction() == 0 || find_equipped_item((int) (*(s32 *)((s8 *)arg0 + 0x58))) == 0U) {
+    if (all_parents_unqueued_for_destruction() == 0 || find_equipped_item(weapon_handle) == NULL) {
         return;
     }
     {
         saved_model_render_flags = model_render_flags;
-        Col_8023B220 col = *(Col_8023B220 *)((s8 *)arg0 + 0x3C);
-        if ((s32) *(s32 *)((s8 *)arg0 + 0x5C) != 0) {
+        NJS_ARGB col = color;
+        if (has_color != 0) {
             model_render_flags |= 0x10;
         } else {
             model_render_flags |= 0x20;
-            col.r -= 1.0f;
+            col.a -= 1.0f;
         }
-        if (((u32) *(u32 *)((s8 *)arg0 + 0x38) != 0U) && ((u32) *(u32 *)((s8 *)arg0 + 0x34) != 0U)) {
-            set_texlist(*(u32 *)((s8 *)arg0 + 0x38));
+        if (texlist != 0 && model != NULL) {
+            set_texlist(texlist);
             TParticleCtrl::begin_effect_render();
             push_matrix();
-            post_translate_matrix((f32 *)(arg0 + 0x28));
-            rotate_matrix_y(0, (int) (*(s32 *)((s8 *)arg0 + 0x20)));
-            rotate_matrix_z(0, (int) (*(s32 *)((s8 *)arg0 + 0x24)));
-            rotate_matrix_x(0, (int) (*(s32 *)((s8 *)arg0 + 0x1C)));
-            scale_current_matrix((f32 *)(arg0 + 0x4C));
-            set_constant_material((const NJS_ARGB *)(((f32 *)&col)));
-            draw_ginja_object((void *)(*(uaddr *)((s8 *)arg0 + 0x34)));
+            post_translate_matrix((f32 *)&position);
+            rotate_matrix_y(0, rotation_y);
+            rotate_matrix_z(0, rotation_z);
+            rotate_matrix_x(0, rotation_x);
+            scale_current_matrix((f32 *)&scale);
+            set_constant_material(&col);
+            draw_ginja_object(model);
             set_constant_material(&chunk_material_color_half_alpha_f32);
             TParticleCtrl::end_effect_render();
         }
@@ -75,42 +72,31 @@ void TSlicerHistory::render() {
 }
 
 void TSlicerHistory::run_task() {
-    u8 *arg0 = (u8 *)this;
-  *((f32 *) (((s8 *) arg0) + 0x3c)) = (f32) ((*((f32 *) (((s8 *) arg0) + 0x3c))) - 0.2f);
-  if ((*((f32 *) (((s8 *) arg0) + 0x3c))) < 0.0f)
-  {
-    *((f32 *) (((s8 *) arg0) + 0x3c)) = 0.0f;
-    ((TObject *)arg0)->queue_destruction();
-  }
-}
-
-s32 __ct__7TObjectFP7TObject();
-
-extern s32 __vt__14TSlicerHistory[];
-
-u8 *__ct__14TSlicerHistoryFv(u8 *object, u8 *tec_slicer, s32 arg2, u8 *arg3, s32 arg4) {
-    __ct__7TObjectFP7TObject();
-    *(s32 **)((s8 *)object + 0x18) = __vt__14TSlicerHistory;
-    ((TObject *)object)->m_name = TSlicerHistory__name;
-    copy_xyz(object + 0x1C, tec_slicer + 0x5C);
-    VecCopy((Vec *)(object + 0x28), (const Vec *)(tec_slicer + 0x38));
-    *(s32 *)((s8 *)object + 0x38) = arg2;
-    if (arg3 != 0U) {
-        *(s32 *)((s8 *)object + 0x5C) = 1;
-        copy_argb((NJS_ARGB *)(object + 0x3C), (NJS_ARGB *)arg3);
-    } else {
-        *(s32 *)((s8 *)object + 0x5C) = 0;
-        *(f32 *)((s8 *)object + 0x3C) = 1.0f;
-        *(f32 *)((s8 *)object + 0x40) = 0.0f;
-        *(f32 *)((s8 *)object + 0x44) = 0.0f;
-        *(f32 *)((s8 *)object + 0x48) = 0.0f;
+    color.a = color.a - 0.2f;
+    if (color.a < 0.0f) {
+        color.a = 0.0f;
+        queue_destruction();
     }
-    *(s32 *)((s8 *)object + 0x34) = ((TTecSlicer *)tec_slicer)->get_field_110();
-    VecCopy((Vec *)(object + 0x4C), (const Vec *)(tec_slicer + 0x68));
-    *(s32 *)((s8 *)object + 0x58) = arg4;
-    return object;
 }
 
+TSlicerHistory::TSlicerHistory(TTecSlicer *slicer, u32 texlist, NJS_ARGB *color, u32 weapon_handle) : TObject(slicer) {
+    m_name = TSlicerHistory__name;
+    copy_xyz(&rotation_x, &slicer->rotation_x);
+    VecCopy(&position, &slicer->position);
+    this->texlist = texlist;
+    if (color != NULL) {
+        has_color = 1;
+        copy_argb(&this->color, color);
+    } else {
+        has_color = 0;
+        this->color.a = 1.0f;
+        this->color.r = 0.0f;
+        this->color.g = 0.0f;
+        this->color.b = 0.0f;
+    }
+    model = (void *)slicer->get_field_110();
+    VecCopy(&scale, &slicer->scale);
+    this->weapon_handle = weapon_handle;
 }
 
 
@@ -463,7 +449,6 @@ void TTecSlicer::render() {
 void TTecSlicer::run_task() {
     s32 temp_r4;
     u8 *var_r31;
-    void *new_obj;
     *(u32 *)((s8 *)object + 0x10C) = (uaddr)get_player_by_client_id(*(u16 *)((s8 *)object + 0x114));
     *(u32 *)((s8 *)object + 0x108) = (saddr)find_equipped_item(((TTecSlicer *)object)->weaponHandle);
     if (((u32) *(u32 *)((s8 *)object + 0x108) == 0U) || ((u32) *(u32 *)((s8 *)object + 0x10C) == 0U)) {
@@ -476,10 +461,7 @@ void TTecSlicer::run_task() {
     } else {
         var_r31 = NULL;
     }
-    new_obj = (void *)TObject::operator new(0x60);
-    if (new_obj != 0U) {
-        __ct__14TSlicerHistoryFv((u8 *)new_obj, object, ((TTecSlicer *)object)->texlist, var_r31, ((TTecSlicer *)object)->weaponHandle);
-    }
+    new TSlicerHistory((TTecSlicer *)object, ((TTecSlicer *)object)->texlist, (NJS_ARGB *)var_r31, ((TTecSlicer *)object)->weaponHandle);
     if (test_flags_any((s32 *)(object + 0xC0), 1) == 0) {
         ((TTecSlicer *)object)->update();
     }
