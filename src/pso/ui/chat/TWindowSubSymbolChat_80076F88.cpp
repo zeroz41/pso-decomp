@@ -68,9 +68,9 @@ void TWindowSubSymbolChat::set_entry_name(void *entry_name) {
     *(s32 *)&this->m_name = (s32) (*(s32 *)&this->m_name | 1);
 }
 
-void TWindowSubSymbolChat::set_flag_bit9(s32 flag_bit9) {
+void TWindowSubSymbolChat::set_flag_bit9(s32 arg1) {
     s32 var_r4;
-    var_r4 = flag_bit9;
+    var_r4 = arg1;
     if (var_r4 != 0) {
         var_r4 = 1;
     }

@@ -142,8 +142,8 @@ s32 TWindowSubSymbolChat::commit(s32 *src) {
     return (saddr)this;
 }
 
-void TWindowSubSymbolChat::set_flag_bit1(s32 *flag_bit1) {
-    *flag_bit1 |= 1;
+void TWindowSubSymbolChat::set_flag_bit1(s32 *arg0) {
+    *arg0 |= 1;
 }
 unsigned char TWindowSubSymbolChat::get_global_4e54() {  return pending_symbol_chat_count; }
 void*TWindowSubSymbolChat::get_keyboard_ptr() { return (char*)this + 0x4; }

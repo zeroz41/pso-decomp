@@ -39,7 +39,7 @@ struct TWindowSubSymbolChat : public TObject {
     static unsigned char get_global_4e54();
     static void send_selected_symbol_chat(s32 *arg0);
     void set_entry_name(void *entry_name);
-    void set_flag_bit9(s32 flag_bit9);
+    void set_flag_bit9(s32 arg1);
     void set_symbol_index(s32 symbol_index);
     s32 count_empty_slots();
     s32 count_used_slots();
@@ -85,7 +85,7 @@ struct TWindowSubSymbolChat : public TObject {
     void clear_flag60_bit2();
     void clear_flag60_bit4();
     void set_pos_and_flag(s32 arg1, s32 arg2);
-    static void set_flag_bit1(s32 *flag_bit1);
+    static void set_flag_bit1(s32 *arg0);
     s32 commit(s32 *src);
     void set_flag60_bit1();
     void set_flag60_bit2();

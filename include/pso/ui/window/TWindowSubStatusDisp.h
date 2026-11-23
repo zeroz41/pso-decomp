@@ -97,7 +97,7 @@ struct TWindowSubStatusDisp : public TWindowBase {
     void init_scroll_pos();
     int is_flag80_set();
     void add_text_entry(s32 arg1, s32 arg2);
-    void set_entry1_field20(s32 entry1_field20);
+    void set_entry1_field20(s32 arg1);
     void start_hp_text_color_transition();
     void init_gauge_entry();
     void update_status_entry();
