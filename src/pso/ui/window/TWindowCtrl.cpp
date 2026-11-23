@@ -1185,12 +1185,12 @@ void fn_8024AC64(saddr arg0) {
     TWindowCtrl::call_window_method(arg0, &TWindowCtrl::fn_8024C70C);
 }
 
-void TLobby__sub_8024AC20(saddr arg0) {
-    TWindowCtrl::call_window_method(arg0, &TWindowCtrl::enable_main_menu);
+void TWindowCtrl::enable_client_main_menu(s32 client) {
+    TWindowCtrl::call_window_method(client, &TWindowCtrl::enable_main_menu);
 }
 
-void TObjPlayer__sub_8024ABDC(saddr arg0) {
-    TWindowCtrl::call_window_method(arg0, &TWindowCtrl::disable_main_menu);
+void TWindowCtrl::disable_client_main_menu(s32 client) {
+    TWindowCtrl::call_window_method(client, &TWindowCtrl::disable_main_menu);
 }
 
 void TWindowSubComCard__sub_8024AB98(saddr client_id) {
@@ -1201,7 +1201,7 @@ void fn_8024AB54(saddr client_id) {
     TWindowCtrl::call_window_method(client_id, &TWindowCtrl::fn_8024C6CC);
 }
 
-void close_window_if_active(void* p) { if (TWindowCtrl::get_flag_bit4() == 0) { TObjPlayer__sub_8024ABDC((saddr)p); } }
+void close_window_if_active(void* p) { if (TWindowCtrl::get_flag_bit4() == 0) { TWindowCtrl::disable_client_main_menu((saddr)p); } }
 
 extern "C" {
 

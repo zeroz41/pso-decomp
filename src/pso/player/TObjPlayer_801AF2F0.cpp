@@ -1495,7 +1495,6 @@ void text_builder_append(u8 *str);
 u32 __nw__7TObjectFUl(s32);
 u8 * __ct__7TObjectFP7TObject(void *, void *);
 void construct_actor_light_task(void *, Color_801B6964 *, Vec *, s32, s32, s32, f32);
-void TLobby__sub_8024AC20(saddr);
 s32 get_battle_ctrl_default__6TLobbyFv();
 s32 get_party_yaw();
 u8 *get_party_position(void);
@@ -1947,7 +1946,7 @@ void TObjPlayer::reset_motion_fields() {
     }
     if ((TObjPlayer::is_locally_controlled(this) != 0) && (this->check_flag(0x800) != 0)) {
         this->clear_state_flags(0x800);
-        ((s32 (*)(s32))TLobby__sub_8024AC20)(this->get_entity_id());
+        TWindowCtrl::enable_client_main_menu(this->get_entity_id());
         TObjPlayer::play_effect_default((saddr)this, 0xF);
         this->update_position_from_target();
         ((s32 (*)(void *))send_code_49_1__10TObjPlayerFi)(this);
@@ -6560,7 +6559,7 @@ void TLobby__sub_801B09A4(void) {
     for (i = 0; i < 12; i++) {
         if (players[i] != NULL) {
             create_player_instance__10TObjPlayerFll(i, &lobby_char_slot_array[i]);
-            TLobby__sub_8024AC20(i);
+            TWindowCtrl::enable_client_main_menu(i);
         }
     }
     shared_state_flags &= ~1;

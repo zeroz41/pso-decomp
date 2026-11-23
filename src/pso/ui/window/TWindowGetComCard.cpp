@@ -30,6 +30,7 @@
 #include "pso/network/client_id.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
+#include "pso/ui/window/TWindowCtrl.h"
 
 const char *TWindowGetComCard::class_name = "TWindowGetComCard";
 __declspec(section ".data") NJS_POINT2 TWindowGetComCard::window_rect = {152.0f, 370.0f};
@@ -126,7 +127,7 @@ TWindowGetComCard::~TWindowGetComCard() {
         message = NULL;
     }
     TWindowReturnCity__sub_8024ACA8(local_client_id);
-    TLobby__sub_8024AC20(local_client_id);
+    TWindowCtrl::enable_client_main_menu(local_client_id);
     if ((TWindowCtrl__sub_8024A314() == 0) && ((player = get_player_by_client_id(local_client_id)) != NULL)) {
         player->init_parts();
     }
@@ -153,7 +154,7 @@ TWindowGetComCard::TWindowGetComCard(TObject *parent) : TObject(parent) {
     if ((player = get_player_by_client_id(local_client_id)) != NULL) {
         player->reset_equip_slots();
     }
-    TObjPlayer__sub_8024ABDC((local_client_id));
+    TWindowCtrl::disable_client_main_menu(local_client_id);
     fn_8024AC64((local_client_id));
     state = 0;
 }

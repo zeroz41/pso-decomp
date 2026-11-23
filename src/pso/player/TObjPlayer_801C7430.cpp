@@ -47,6 +47,7 @@
 #include "pso/weapon/WeaponSpecialSelection.h"
 #include "pso/player/PhotonBlastResults.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/ui/window/TWindowCtrl.h"
 
 
 #pragma readonly_strings on
@@ -1310,8 +1311,6 @@ void capture_technique_targets__10TObjPlayerFv(int kind, void *owner);
 void launch_technique__10TObjPlayerFv(s32, s32, void *);
 Rec_801CCEDC * calc_technique_parameters(s32 tech, s32 level, u16 id);
 s32 construct_actor_light_task(void *, f32 *, f32 *, int, void *, f32, TObject *);
-void TObjPlayer__sub_8024ABDC(saddr arg0);
-void TLobby__sub_8024AC20(saddr arg0);
 }
 void increment_burst_counter(u8 *arg0);
 s32 get_burst_counter(void *);
@@ -2552,7 +2551,7 @@ void TObjPlayer::run_service_hold_state_phase(s16 phase) {
 
 void notify_lobby__10TObjPlayerFi(s32 arg0) {
     ((s32 (*)(void))clear_status_bit6__10TObjPlayerFPv)();
-    TLobby__sub_8024AC20(((TObjBase *)(saddr)arg0)->get_entity_id());
+    TWindowCtrl::enable_client_main_menu(((TObjBase *)(saddr)arg0)->get_entity_id());
 }
 
 void ensure_default__10TObjPlayerFPv(void *player) {
@@ -2966,7 +2965,7 @@ void TObjPlayer::prepare_death() {
     Cmd_801CA7BC c1;
     Cmd2_801CA7BC c2;
     if (TObjPlayer::is_locally_controlled(arg0) != 0) {
-        TObjPlayer__sub_8024ABDC((u16)((TObjBase *)arg0)->get_entity_id());
+        TWindowCtrl::disable_client_main_menu((u16)((TObjBase *)arg0)->get_entity_id());
         *(s32 *)(arg0 + 0x36C) = 0;
         *(s32 *)(arg0 + 0x548) = 0;
         ((FlagWord *)(arg0 + 0x858))->clear(4);
@@ -3014,7 +3013,7 @@ void TObjPlayer::check_reopen_return_city_window() {
   unsigned short new_var;
   uaddr temp_r3;
   new_var = (s32) this->get_entity_id();
-  TObjPlayer__sub_8024ABDC(new_var);
+  TWindowCtrl::disable_client_main_menu(new_var);
   temp_r3 = this->m_36c;
   new_var = 0U;
   if ((temp_r3 != new_var) && ((((TObject *)temp_r3)->all_parents_unqueued_for_destruction() == 0) || (check_value_equals__13TUnk_804B6C24CFl(this->m_36c, (void *)TWindowReturnCity::class_name) == 0)))

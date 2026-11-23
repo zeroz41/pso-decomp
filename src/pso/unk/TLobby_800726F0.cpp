@@ -47,10 +47,8 @@ void TLobby__sub_80072AB8(void *arg0);
 s32 TLobby__sub_8006FBE4();
 saddr get_message_text(s32);
 saddr get_window_layout_position(s32);
-void TLobby__sub_8024AC20(saddr arg0);
 saddr get_player_by_client_id(s32);
 extern saddr local_client_id;
-void TObjPlayer__sub_8024ABDC(saddr arg0);
 extern s32 TLobby__designated_client_id;
 u8 is_challenge_lobby__6TLobbyFv(void);
 s32 TLobby__sub_80070DA8();
@@ -236,10 +234,10 @@ void TLobby::send_45_and_close_windows(void * _w0) {
         TObjPlayer::send_code_45_1(player);
     }
     TWindowCtrl::unsuppress_slot(local_client_id);
-    TLobby__sub_8024AC20(local_client_id);
+    TWindowCtrl::enable_client_main_menu(local_client_id);
 }
 void TLobby::show_ctrl_and_play_effect(void* a0) { TWindowCtrl::suppress_slot(*(int *)&local_client_id); ((TLobby *)a0)->play_player_default_effect(); }
-void TLobby::play_default_effect(void* a0) { TObjPlayer__sub_8024ABDC(((*(int *)&local_client_id))); ((TLobby *)a0)->play_player_default_effect(); }
+void TLobby::play_default_effect(void* a0) { TWindowCtrl::disable_client_main_menu(local_client_id); ((TLobby *)a0)->play_player_default_effect(); }
 void play_player_default_effect__6TLobbyFv(s32 _w0) {
     saddr player;
     player = get_player_by_client_id(local_client_id);

@@ -342,7 +342,7 @@ void TQuestThreadBoard::run_task() {
             ((TWindowBase *)ctx.list_window)->close();
             ctx.list_window = NULL;
             state = QST_RUNNING;
-            TLobby__sub_8024AC20(local_client_id);
+            TWindowCtrl::enable_client_main_menu(local_client_id);
             TWindowCtrl::clear_flag();
             TWindowCtrl::clear_flag_2();
         }
@@ -404,7 +404,7 @@ void TQuestThreadBoard::run_task() {
             ((TWindowBase *)ctx.pack_select_help_window)->close();
             ctx.pack_select_help_window = NULL;
             state = QST_RUNNING;
-            TLobby__sub_8024AC20(local_client_id);
+            TWindowCtrl::enable_client_main_menu(local_client_id);
             TWindowCtrl::clear_flag_bit2();
         }
         break;
@@ -529,7 +529,7 @@ void TQuestThread::run_task() {
             ((TWindowBase *)ctx.list_window)->close();
             ctx.list_window = NULL;
             state = QST_RUNNING;
-            TLobby__sub_8024AC20(local_client_id);
+            TWindowCtrl::enable_client_main_menu(local_client_id);
             TWindowCtrl::clear_flag();
             TWindowCtrl::clear_flag_2();
         }
@@ -580,7 +580,7 @@ void TQuestThread::run_task() {
             ((TWindowBase *)ctx.pack_select_help_window)->close();
             ctx.pack_select_help_window = NULL;
             state = QST_RUNNING;
-            TLobby__sub_8024AC20(local_client_id);
+            TWindowCtrl::enable_client_main_menu(local_client_id);
             TWindowCtrl::clear_flag_bit2();
             TWindowCtrl::clear_flag();
             TWindowCtrl::clear_flag_2();

@@ -3838,9 +3838,9 @@ void qst_op_start_battlebgm() {
     }
 }
 
-void qst_op_disable_mainmenu(void) { TObjPlayer__sub_8024ABDC(((*(int *)&local_client_id))); }
+void qst_op_disable_mainmenu(void) { TWindowCtrl::disable_client_main_menu(local_client_id); }
 
-void qst_op_enable_mainmenu() { TLobby__sub_8024AC20(((*(int *)&local_client_id))); }
+void qst_op_enable_mainmenu() { TWindowCtrl::enable_client_main_menu(local_client_id); }
 
 void qst_op_nop_BC(void) {  }
 
@@ -4933,7 +4933,7 @@ void qst_op_winend(void) {
         qst_message_window = NULL;
     }
     TWindowCtrl::clear_flag_bit2();
-    TLobby__sub_8024AC20((local_client_id));
+    TWindowCtrl::enable_client_main_menu(local_client_id);
     TWindowCtrl::clear_flag();
     TWindowCtrl::clear_flag_2();
 }
@@ -4946,7 +4946,7 @@ void qst_op_mesend(void) {
     s32 i;
     s32 f;
     s32 v;
-    TLobby__sub_8024AC20(local_client_id);
+    TWindowCtrl::enable_client_main_menu(local_client_id);
     TWindowCtrl::clear_flag();
     TWindowCtrl::clear_flag_2();
     id = qst_message_speaker;

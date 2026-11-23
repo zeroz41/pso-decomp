@@ -76,6 +76,8 @@ struct TWindowCtrl : public TObject {
     static void init_all_slots2();
     static void suppress_slot(s32 client);
     static void unsuppress_slot(s32 client);
+    static void disable_client_main_menu(s32 client);
+    static void enable_client_main_menu(s32 client);
     static s32 has_player_active_menu(s32 client);
     static void apply_default_vec(s32 arg0, saddr client_id);
     static s32 is_slot_visible(s32 client);

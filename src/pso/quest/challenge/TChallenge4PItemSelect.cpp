@@ -19,7 +19,7 @@
 #include "pso/player/PlayerSlots.h"
 #include "pso/ui/window/TWindowMessagePage.h"
 #include "pso/ui/window/TWindowCtrl.h"
-#include "pso/unk/text_8024AB98.h"
+#include "pso/player/TObjPlayer_80011014.h"
 #include "pso/map/FloorArea.h"
 #include "pso/system/task/TObject.h"
 #include "pso/item/TItemData.h"
@@ -299,7 +299,7 @@ s32 update_challenge_result_player_locks() {
                 get_player_result__18TChallenge4PResultFPv(player, 2);
                 get_player_result__18TChallenge4PResultFPv(player, 3);
                 if (((TObjPlayer *)player)->check_flag_0x40000000() == 0) fn_8034BE48(player);
-                TObjPlayer__sub_8024ABDC(player->get_entity_id());
+                TWindowCtrl::disable_client_main_menu(player->get_entity_id());
                 request_active_window_close();
                 TWindowCtrl::set_close_flag();
             }
@@ -312,7 +312,7 @@ s32 update_challenge_result_player_locks() {
                 obj_clear_flag30_20000(player);
                 ((TChallenge4PResult *)player)->get_player_rank();
                 if (((TObjPlayer *)player)->check_flag_0x40000000()) fn_8034BE38(player);
-                TLobby__sub_8024AC20(player->get_entity_id());
+                TWindowCtrl::enable_client_main_menu(player->get_entity_id());
                 TWindowCtrl::clear_flag();
                 TWindowCtrl::clear_flag_2();
             }

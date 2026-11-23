@@ -5,7 +5,8 @@
 #include "pso/unk/TLobby.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/object/base/TObjBase.h"
-#include "pso/unk/text_8024AB98.h"
+#include "pso/ui/window/TWindowCtrl.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 extern "C" {
 u8 *get_player_by_client_id(s32);
@@ -20,7 +21,7 @@ void fn_802233F8(void) {
                 p = get_player_by_client_id(i);
                 if (p != NULL && ((TObjPlayer *)p)->check_player_flag1() != 0) {
                     TObjPlayer::send_code_45_1((saddr)p);
-                    TLobby__sub_8024AC20(((TObjBase *)(p))->get_entity_id());
+                    TWindowCtrl::enable_client_main_menu(((TObjBase *)(p))->get_entity_id());
                 }
             }
         }
@@ -37,7 +38,7 @@ void fn_80223480(void) {
                 p = get_player_by_client_id(i);
                 if (p != NULL && ((TObjPlayer *)p)->check_player_flag1() == 0) {
                     TObjPlayer::play_effect_default((saddr)p, (int)(-1));
-                    TObjPlayer__sub_8024ABDC(((TObjBase *)(p))->get_entity_id());
+                    TWindowCtrl::disable_client_main_menu(((TObjBase *)(p))->get_entity_id());
                 }
             }
         }
