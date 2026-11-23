@@ -86,7 +86,6 @@ extern "C" {
 saddr get_window_layout_position(s32);
 void TWindowSubTradeMain__sub_803323A8(void *);
 void TWindowSubTradeMain__sub_803323B8(void *);
-TWindowHelpItem *__ct__15TWindowHelpItemFPvl(TWindowHelpItem *, void *, u32);
 TWindowInputNumber *__ct__18TWindowInputNumberFPvllls(TWindowInputNumber *, void *, s32, s32, s32, s16);
 }
 
@@ -744,10 +743,7 @@ TWindowInputNumber *TWindowSubTradeMain::create_input_number(s32 maximum) {
 }
 
 TWindowHelpItem *TWindowSubTradeMain::create_help_item() {
-    TWindowHelpItem *window = (TWindowHelpItem *)TObject::operator new(sizeof(TWindowHelpItem));
-    if (window != NULL) {
-        window = __ct__15TWindowHelpItemFPvl(window, (void *)get_window_layout_position(2), client_id);
-    }
+    TWindowHelpItem *window = new TWindowHelpItem((void *)get_window_layout_position(2), client_id);
     displayed_item = -1;
     return window;
 }

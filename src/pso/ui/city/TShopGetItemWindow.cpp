@@ -28,7 +28,6 @@ extern "C" {
 
 saddr get_window_layout_position(s32);
 TWindowInputNumber *__ct__18TWindowInputNumberFPvllls(void *, s32, s32, s32, s32, s16);
-TWindowHelpItem *__ct__15TWindowHelpItemFPvl(void *, s32, s32);
 }
 
 extern const char *TShopGetItemWindow__class_name;
@@ -96,11 +95,9 @@ void TShopGetItemWindow::update_state() {
 }
 
 void TShopGetItemWindow::rebuild_item_list() {
-    s32 id;
     s32 x;
     s32 sel;
     s32 i;
-    TWindowHelpItem *help;
     withdraw_count = 1;
     room_table_entry = TCheckRoomSequence::get_room_table_entry(x = get_split_screen_slot());
     if (room_table_entry == 0) {
@@ -148,12 +145,7 @@ void TShopGetItemWindow::rebuild_item_list() {
     }
     if (help_window == NULL) {
         if (TCheckRoomSequence::copy_item_record(sel, &displayed_item_colored, x) != 0) {
-            help = (TWindowHelpItem *)TObject::operator new(0xBC);
-            if (help != NULL) {
-                id = player->get_entity_id();
-                help = __ct__15TWindowHelpItemFPvl(help, get_window_layout_position(0x27), id);
-            }
-            help_window = help;
+            help_window = new TWindowHelpItem((void *)get_window_layout_position(0x27), player->get_entity_id());
             if (help_window != NULL && TLobby::is_camera_ctrl_active() > 2) {
                 help_window->set_scale(0.75f, 0.75f);
             }

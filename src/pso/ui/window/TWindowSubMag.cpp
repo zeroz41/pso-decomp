@@ -56,7 +56,6 @@ extern "C" {
 s32 calc_text_width();
 s32 text_builder_append();
 saddr get_window_layout_position(s32);
-void *__ct__15TWindowHelpItemFPvl(void *, s32, s32);
 s32 play_sound_effect(s32, s32, s32, s32);
 s32 are_status_entries_ready__13TWindowSubMagFi(void *);
 int TWindowSubMag__sub_8027C0E8(void* p);
@@ -159,7 +158,6 @@ TWindowSubMag::~TWindowSubMag() {
 }
 
 void TWindowSubMag::run_task() {
-    void *w;
     void *player;
     s32 port;
     player = get_player_by_client_id(client_id);
@@ -175,11 +173,7 @@ void TWindowSubMag::run_task() {
             card = NULL;
         }
         if (help == NULL) {
-            w = TObject::operator new(0xBC);
-            if (w != NULL) {
-                w = __ct__15TWindowHelpItemFPvl(w, get_window_layout_position(9), client_id);
-            }
-            help = w;
+            help = new TWindowHelpItem((void *)get_window_layout_position(9), client_id);
             ((TWindowBase *)help)->set_depth(TWindowSubEquip__sub_80263AF8((u8 *)parent, 5));
         }
         if (slotwin == NULL) {

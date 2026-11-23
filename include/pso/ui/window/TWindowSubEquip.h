@@ -4,6 +4,7 @@
 #include "types.h"
 #include "pso/system/task/TObject.h"
 
+struct TWindowHelpItem;
 struct TWindowMainMenu;
 
 struct TWindowSubEquip : public TObject {
@@ -16,7 +17,7 @@ struct TWindowSubEquip : public TObject {
     u32 m_24;
     u32 client_id;
     TWindowMainMenu *parent;
-    uaddr window_help_item;
+    TWindowHelpItem *window_help_item;
     uaddr equip_list;
     uaddr equip_kind_list;
     void update_displayed_item();

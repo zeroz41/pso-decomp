@@ -16,6 +16,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/ui/window/TWindowCtrl_8024A054.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/ui/window/TWindowHelpItem.h"
 
 #pragma readonly_strings on
 
@@ -32,28 +33,22 @@ f32 TWindowSubEquip__sub_80263AF8(u8 *arg0, u32 arg1);
 void *get_window_layout_position(int);
 s32 mark_unequippable_items(int);
 s32 play_sound_effect(s32, s32, s32, s32);
-s32 fn_80255A38(s32);
+void fn_80255A38(TWindowHelpItem *item);
 s32 TWindowSubEquip__sub_80263AF4(void *, s32);
-saddr __ct__15TWindowHelpItemFPvl(void *, void *, s32);
 s32 create_equip_list_window(void *, const NJS_POINT2 *, s32);
 }
 
 // Built with deferred code generation (the vtable precedes the switch table
 // in .data), so the functions are written from the last one back.
 TWindowSubEquip::TWindowSubEquip(TWindowMainMenu *parent, s32 client) : TObject(parent) {
-    void *p;
     m_name = TWindowSubEquip__class_name;
     this->parent = parent;
     this->client_id = client;
     this->equip_list = create_equip_list_window(get_window_layout_position(0), &equip_list_window_size, this->client_id);
     ((TWindowBase *)this->equip_list)->set_depth(TWindowSubEquip__sub_80263AF8((u8 *)this->parent, 0));
     ((TWindowSubShortCutList *)(this->equip_list))->set_flag70_bit10();
-    p = TObject::operator new(0xBC);
-    if (p != 0) {
-        p = (void *)__ct__15TWindowHelpItemFPvl(p, get_window_layout_position(2), this->client_id);
-    }
-    *(void **)((s8 *)this + 0x30) = p;
-    ((TWindowBase *)this->window_help_item)->set_depth(TWindowSubEquip__sub_80263AF8((u8 *)this->parent, 2));
+    this->window_help_item = new TWindowHelpItem(get_window_layout_position(2), this->client_id);
+    this->window_help_item->set_depth(TWindowSubEquip__sub_80263AF8((u8 *)this->parent, 2));
     this->equip_kind_list = 0;
     this->m_20 = -1;
     this->m_24 = -1;
@@ -63,7 +58,7 @@ TWindowSubEquip::TWindowSubEquip(TWindowMainMenu *parent, s32 client) : TObject(
 TWindowSubEquip::~TWindowSubEquip() {
     if (*(void **)((s8 *)this + 0x38) != NULL) { ((TWindowBase *)(*(void **)((s8 *)this + 0x38)))->close(); this->equip_kind_list = 0; }
     if (*(void **)((s8 *)this + 0x34) != NULL) { ((TWindowBase *)(*(void **)((s8 *)this + 0x34)))->close(); this->equip_list = 0; }
-    if (*(void **)((s8 *)this + 0x30) != NULL) { ((TWindowBase *)(*(void **)((s8 *)this + 0x30)))->close(); this->window_help_item = 0; }
+    if (this->window_help_item != NULL) { this->window_help_item->close(); this->window_help_item = NULL; }
 }
 
 void TWindowSubEquip::run_task() {
