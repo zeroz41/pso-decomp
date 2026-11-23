@@ -2196,7 +2196,6 @@ pso/weapon/TUnk_804F26E0.cpp
 pso/unk/text_8036A3CC.cpp
 pso/network/PSOV3Encryption_8036AE2C.cpp
 pso/unk/text_8036B748.cpp
-pso/effect/enemy/TObjEneHoldEffect_8036BBF4.cpp
 pso/unk/text_8036BDA0.cpp
 pso/unk/text_8036BF10.cpp
 pso/effect/enemy/TObjEneHoldEffect_8036D0C0.cpp

@@ -23,6 +23,7 @@
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/effect/enemy/TObjEneHoldEffect.h"
+#include "pso/network/protocol/subcommand_validation_photon_blast.h"
 #include "pso/ui/font/TFontSmallLobby.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "pso/unk/TLobby.h"
@@ -3923,7 +3924,7 @@ void handle_6x49_execute_photon_blast(void *command) {
     ((TObjPlayer *)(&m))->init_6x49_packet();
     ((void (*)(void *, void *))copy_photon_blast_data__10TObjPlayerFiPv)(&m, command);
     ((TObjPlayer *)(&m))->byteswap_6x49_packet();
-    if (((TObjEneHoldEffect *)(&m))->validate_6x49_packet() != 0) {
+    if (validate_6x49_execute_photon_blast((G_ExecutePhotonBlast_6x49 *)&m) != 0) {
         p = ((Player_801CC6B8 * (*)(s32))get_player_by_client_id)(m.id);
         if (p != NULL && ((TObjPlayer *)p)->test_action_mask(0x8000) == 0 && is_current_area_item_enabled() != 0) {
             if (get_current_floor() == ((TObjPlayer *)p)->get_floor()) {

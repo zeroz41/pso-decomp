@@ -14,7 +14,6 @@ struct TObjEneHoldEffect : public TObjBase {
     u32 m_9c;
     virtual void render();
     static void create(void *parent, s32 type, s32 arg2);
-    s32 validate_6x49_packet();
 };
 
 LAYOUT_ASSERT(TObjEneHoldEffect_size, sizeof(TObjEneHoldEffect) == 0xA0);

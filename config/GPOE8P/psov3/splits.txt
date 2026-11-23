@@ -10580,11 +10580,8 @@ pso/unk/text_8036B748.cpp:
 pso/network/protocol/subcommand_validation_actions.cpp:
 	.text       start:0x8036B7E8 end:0x8036BBF4
 
-pso/effect/enemy/TObjEneHoldEffect_8036BBF4.cpp:
-	.text       start:0x8036BBF4 end:0x8036BC88
-
 pso/network/protocol/subcommand_validation_photon_blast.cpp:
-	.text       start:0x8036BC88 end:0x8036BDA0
+	.text       start:0x8036BBF4 end:0x8036BDA0
 
 pso/unk/text_8036BDA0.cpp:
 	.text       start:0x8036BDA0 end:0x8036BE38
