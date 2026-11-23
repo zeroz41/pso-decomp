@@ -230,7 +230,6 @@ typedef struct {
 
 extern "C" {
 void request_main_phase(s32 arg0);
-extern s32 __vt__11TTitleScene[];
 TTitleScene *title_scene_instance;
 int lobby_game_mode_state;
 GinjaTextureList *lobby_title_texture_list;
@@ -240,7 +239,6 @@ u64 call_funcs_reverse__6TLobbyFPvUi(void *, int);
 void hide_title_layers_and_release(TTitleScene *scene);
 int TKeyBoardControl__sub_8000F828(void);
 void TKeyBoardControl__sub_8000F90C(int);
-void __ct__7TObjectFP7TObject(void *);
 extern saddr tl_clipout;
 
 void TWindowOptionCtrl__sub_802273B4(s32 arg0);
@@ -289,7 +287,7 @@ void TTitleScene::set_flag_and_clear_download() {
 }
 
 void TLobby__sub_803361FC(void) {  }
-void TTitleScene::open_keyboard() { lobby_game_mode_state = 3; request_main_phase((s32)((void*)19)); }
+void TTitleScene::open_keyboard() { lobby_game_mode_state = 3; request_main_phase(19); }
 void TTitleScene::request_change_game_mode() { lobby_game_mode_state = 2; TAdMultiChgGameModeGC::set_mode_change_state(); }
 void TTitleScene::enter_game_mode_change() { lobby_game_mode_state = 1; TAdMultiChgGameModeGC::set_game_mode_state(); }
 void TTitleScene::enter_chg_game_mode() { lobby_game_mode_state = 0; TAdMultiChgGameModeGC::set_mode_0x15(); }
@@ -352,11 +350,9 @@ TTitleScene::~TTitleScene() {
     TLobby::stop_audio_streams();
 }
 
-TTitleScene *TTitleScene::construct_title_scene() {
+TTitleScene::TTitleScene(TObject *parent) : TObject(parent) {
     void *p;
 
-    __ct__7TObjectFP7TObject(this);
-    *(s32 **)((s8 *)this + 0x18) = __vt__11TTitleScene;
     title_scene_instance = this;
     m_30 = 0;
     attract_tick = 0;
@@ -404,7 +400,6 @@ TTitleScene *TTitleScene::construct_title_scene() {
         ((TLobby *)p)->init_fade((void *)tl_fade, (void *)TLobby::destroy_download_server);
     }
     TItemReverseTechCtrl::create(this);
-    return this;
 }
 
 void TLobby::destroy_global_object() {

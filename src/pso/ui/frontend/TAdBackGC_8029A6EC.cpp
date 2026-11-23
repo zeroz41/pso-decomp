@@ -53,7 +53,6 @@ void TAdBackGC::sub_8029A6EC() {
 }
 
 extern "C" {
-void __ct__7TObjectFP7TObject(void *);
 
 void TAdBackGC::render() {
     u8 *arg0 = (u8 *)this;

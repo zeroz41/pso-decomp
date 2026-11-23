@@ -11,10 +11,10 @@ class TUnk_804EEF80;
 
 class TTitleScene : public TObject {
 public:
+    TTitleScene(TObject *parent);
     virtual ~TTitleScene();
     virtual void run_task();
     virtual void render();
-    TTitleScene *construct_title_scene();
     void set_flag_and_clear_download();
     s32 start_offline_seq();
     void enter_chg_game_mode();
@@ -36,11 +36,11 @@ public:
 };
 LAYOUT_ASSERT(TTitleScene_size, sizeof(TTitleScene) == 0x4C);
 
-typedef char TTitleScene_title_layer_offset[offsetof(TTitleScene, title_layer) == 0x1C ? 1 : -1];
-typedef char TTitleScene_controller_offset[offsetof(TTitleScene, transition_controller) == 0x24 ? 1 : -1];
-typedef char TTitleScene_auxiliary_window_offset[offsetof(TTitleScene, auxiliary_window) == 0x2C ? 1 : -1];
-typedef char TTitleScene_attract_tick_offset[offsetof(TTitleScene, attract_tick) == 0x34 ? 1 : -1];
-typedef char TTitleScene_flags_offset[offsetof(TTitleScene, transition_flags) == 0x3C ? 1 : -1];
-typedef char TTitleScene_children_offset[offsetof(TTitleScene, transition_children) == 0x40 ? 1 : -1];
+LAYOUT_ASSERT(TTitleScene_title_layer_offset, offsetof(TTitleScene, title_layer) == 0x1C);
+LAYOUT_ASSERT(TTitleScene_controller_offset, offsetof(TTitleScene, transition_controller) == 0x24);
+LAYOUT_ASSERT(TTitleScene_auxiliary_window_offset, offsetof(TTitleScene, auxiliary_window) == 0x2C);
+LAYOUT_ASSERT(TTitleScene_attract_tick_offset, offsetof(TTitleScene, attract_tick) == 0x34);
+LAYOUT_ASSERT(TTitleScene_flags_offset, offsetof(TTitleScene, transition_flags) == 0x3C);
+LAYOUT_ASSERT(TTitleScene_children_offset, offsetof(TTitleScene, transition_children) == 0x40);
 
 #endif

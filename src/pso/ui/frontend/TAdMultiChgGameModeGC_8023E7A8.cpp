@@ -80,10 +80,10 @@
 #include "pso/ui/frontend/TAdSelectGameModeGC.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/unk/TLobby_800F8AA8.h"
+#include "pso/unk/TTitleScene.h"
 
 extern "C" {
 u8 *TAdSinglePlyChrSelectGC__ct(u8 *arg0, void *parent);
-void *construct_title_scene__11TTitleSceneFv(void *, TObject *);
 void run_load_callback_table(void *, s32);
 }
 void clear_resource_load_tasks(void);
@@ -340,11 +340,7 @@ void TAdMultiChgGameModeGC::create_mode_scene() {
     }
     switch (multi_chg_game_mode_state) {
     case 0:
-        p = TObject::operator new(0x4C);
-        if (p != NULL) {
-            p = construct_title_scene__11TTitleSceneFv(p, tl_01);
-        }
-        game_mode_scene_instance = (TObject *)p;
+        game_mode_scene_instance = new TTitleScene(tl_01);
         break;
     case 4:
         game_mode_scene_instance = new TAdStorySelectGC(tl_01);

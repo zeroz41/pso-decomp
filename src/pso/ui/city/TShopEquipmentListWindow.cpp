@@ -18,6 +18,7 @@
 #include "pso/ui/city/TShopGetItemWindow.h"
 #include "pso/ui/city/TShopGetItemWindow_8021EEE4.h"
 #include "pso/ui/window/TWindowHelpItem.h"
+#include "pso/ui/window/WindowLayout.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/ui/window/TWindowSubItem.h"
@@ -103,7 +104,6 @@ struct Win_8021C160 {
 
 extern "C" {
 void TLobby__sub_80225238(int a0, int a1);
-extern s32 __vt__24TShopEquipmentListWindow[];
 const char *TShopEquipmentListWindow__class_name = "TShopEquipmentListWindow";
 int obj_getPtr2B0_20(u8 *p);
 s32 check_equip_requirements(void *self, TItemData *p, s32 *out);
@@ -111,8 +111,6 @@ s32 get_entity_id(s32);
 s32 get_shop_weapon_stock_item(void *, int, s32);
 int TShopEquipmentListWindow__sub_8021C85C(int a0);
 s32 get_shop_text(s32);
-void *__ct__15TWindowHelpItemFPvUs(void *, s32, u16);
-saddr get_window_layout_position(s32);
 void *create_item_list_window(s32, s32, u16);
 s32 advance_item_id_counter(u16);
 void try_buy_item(void *, void *);
@@ -212,8 +210,6 @@ void TShopEquipmentListWindow::vfunc_11() {
 extern "C" {
 void TShopEquipmentListWindow::create_buy_list_windows(void *p) {
     Rec_8021C408 tmp;
-    u16 id;
-    void *o;
     s32 i;
     Rec_8021C408 *r;
     s32 j;
@@ -249,12 +245,7 @@ void TShopEquipmentListWindow::create_buy_list_windows(void *p) {
         ((TShopArmorListWindow *)(W->list))->clamp_selection_to_valid_entry();
     }
     if (W->help == NULL) {
-        o = TObject::operator new(0xBC);
-        if (o != NULL) {
-            id = get_entity_id(W->player);
-            o = __ct__15TWindowHelpItemFPvUs(o, get_window_layout_position(0x27), id);
-        }
-        W->help = o;
+        W->help = new TWindowHelpItem((void *)get_window_layout_position(0x27), get_entity_id(W->player));
         if (W->help != NULL && TLobby::is_camera_ctrl_active() > 2) {
             ((TLobby *)(W->help))->set_position(0.75f, 0.75f);
         }
