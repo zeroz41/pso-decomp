@@ -31,7 +31,7 @@ struct SceneSectionAngles { s32 x, y, z; };
 class TScene : public TObject
 {
 public:
-    u32 m_1c;
+    u32 visible_section_count; // sections the culling pass marked visible this frame
     u8 _pad20[0x10];
     u32 m_30;
     u32 m_34;
@@ -110,7 +110,7 @@ public:
 
 #include <stddef.h>
 LAYOUT_ASSERT(TScene_size, sizeof(TScene) == 0x40);
-LAYOUT_ASSERT(TScene_field_1c_offset, offsetof(TScene, m_1c) == 0x1C);
+LAYOUT_ASSERT(TScene_field_1c_offset, offsetof(TScene, visible_section_count) == 0x1C);
 LAYOUT_ASSERT(TScene_field_30_offset, offsetof(TScene, m_30) == 0x30);
 LAYOUT_ASSERT(TScene_field_34_offset, offsetof(TScene, m_34) == 0x34);
 LAYOUT_ASSERT(TScene_field_38_offset, offsetof(TScene, m_38) == 0x38);

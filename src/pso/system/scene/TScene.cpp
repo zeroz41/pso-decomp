@@ -1024,7 +1024,7 @@ void TScene::create() {
 
 TScene::TScene(TObject *parent) : TObject(parent) {
     m_name = class_name;
-    m_1c = 0;
+    visible_section_count = 0;
     m_30 = 0;
     m_34 = 0;
     m_38 = 0x32;
@@ -1660,7 +1660,7 @@ void TScene::sub_80204D7C() {
     if (scene_material_root == NULL) {
         return;
     }
-    m_1c = 0;
+    visible_section_count = 0;
     far2 = scene_material_root->radius * scene_material_root->radius;
     push_matrix_from(identity_matrix);
     rotate_matrix_y(0, camera_ctrl_instance->yaw);
@@ -1686,7 +1686,7 @@ void TScene::sub_80204D7C() {
             if (dist < sec->radius * sec->radius) {
                 sec->flags |= 0x10000;
                 sec++;
-                m_1c++;
+                visible_section_count++;
             } else if (dist > far2) {
                 sec->flags &= ~0x10000;
                 sec++;
@@ -1705,7 +1705,7 @@ void TScene::sub_80204D7C() {
                     if (is_within_view_edge(&p, &d, &up, sec->radius) != 0) {
                         sec->flags |= 0x10000;
                         sec++;
-                        m_1c++;
+                        visible_section_count++;
                     } else {
                         push_matrix_from(identity_matrix);
                         rotate_matrix_y(0, -camera_ctrl_instance->fov);
@@ -1715,7 +1715,7 @@ void TScene::sub_80204D7C() {
                         if (is_within_view_edge(&p, &d, &up, sec->radius) != 0) {
                             sec->flags |= 0x10000;
                             sec++;
-                            m_1c++;
+                            visible_section_count++;
                         } else {
                             goto clear;
                         }
@@ -1723,7 +1723,7 @@ void TScene::sub_80204D7C() {
                 } else {
                     sec->flags |= 0x10000;
                     sec++;
-                    m_1c++;
+                    visible_section_count++;
                 }
             }
         }
@@ -1821,7 +1821,7 @@ void TScene::cull_sections() {
         s_near = 600.0f;
         s_far = scene_material_root->radius;
     }
-    m_1c = 0;
+    visible_section_count = 0;
     push_matrix_from(identity_matrix);
     rotate_matrix_y(0, camera_ctrl_instance->yaw);
     rotate_vector_by_matrix(0, &up, &dir);
@@ -1846,7 +1846,7 @@ void TScene::cull_sections() {
             if (dist < sec->radius * sec->radius) {
                 sec->flags |= 0x10000;
                 sec++;
-                m_1c++;
+                visible_section_count++;
             } else if (dist > s_far * s_far) {
                 sec->flags &= ~0x10000;
                 sec++;
@@ -1865,7 +1865,7 @@ void TScene::cull_sections() {
                     if (is_within_view_edge(&p, &d, &up, sec->radius) != 0) {
                         sec->flags |= 0x10000;
                         sec++;
-                        m_1c++;
+                        visible_section_count++;
                     } else {
                         push_matrix_from(identity_matrix);
                         rotate_matrix_y(0, -camera_ctrl_instance->fov);
@@ -1875,7 +1875,7 @@ void TScene::cull_sections() {
                         if (is_within_view_edge(&p, &d, &up, sec->radius) != 0) {
                             sec->flags |= 0x10000;
                             sec++;
-                            m_1c++;
+                            visible_section_count++;
                         } else {
                             goto clear;
                         }
@@ -1883,7 +1883,7 @@ void TScene::cull_sections() {
                 } else {
                     sec->flags |= 0x10000;
                     sec++;
-                    m_1c++;
+                    visible_section_count++;
                 }
             }
         }
