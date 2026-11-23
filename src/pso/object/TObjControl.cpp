@@ -31,6 +31,7 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/unk/TLobby_80291D94.h"
+#include "pso/player/PlayerAttackParams.h"
 
 struct Ply_800F7118 {
     u8 pad0[0x28];
@@ -149,7 +150,6 @@ u16 obj_getArrU16_FC(void *, int);
 s16 get_attack_params_atp_min(void *);
 
 
-s16 TObjPlayer__sub_800194E8(void *);
 
 s16 get_attack_params_atp_max(void *);
 
@@ -345,7 +345,7 @@ block_14:
     temp_r0_4 = *(s16 *)(this->stat_block + 8) + *(s32 *)((s8 *)(*(u8 **)((s8 *)((u8 *)this) + 0x31C)) + 0x1C);
     this->dfp = temp_r0_4;
     this->base_dfp = temp_r0_4;
-    this->ata = (s16) (*(s16 *)(this->stat_block + 0xA) + TObjPlayer__sub_800194E8(*(u8 **)((s8 *)((u8 *)this) + 0x318)));
+    this->ata = (s16) (*(s16 *)(this->stat_block + 0xA) + this->attack_params->get_ata());
     this->lck = (s16) *(s16 *)(this->stat_block + 0xC);
     this->m_2f2 = (s16) *(s16 *)((s8 *)(*(u8 **)((s8 *)((u8 *)this) + 0x31C)) + 2);
     this->m_2f4 = (s16) *(s16 *)((s8 *)(*(u8 **)((s8 *)((u8 *)this) + 0x31C)) + 6);

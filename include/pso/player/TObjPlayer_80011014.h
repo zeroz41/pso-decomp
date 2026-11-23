@@ -12,8 +12,6 @@ class TObjChara;
 extern "C" {
 void obj_setFlags30(void *object, u32 flags);
 void clear_velocity(u8 *arg0);
-s16 TObjPlayer__sub_800194E8(void *p);
-void TObjPlayer__sub_8001951C(void *p);
 s32 TObjectV8047c128_subtract_hp(u8 *owner, s16 arg1);
 void activate_switch_attacks__10TObjPlayerFii(saddr arg0, saddr arg1);
 s32 add_actor_hp(u8 *arg0, s16 amount);
@@ -32,7 +30,6 @@ s32 damage_hp__10TObjPlayerFii(saddr arg0, saddr arg1);
 void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 heading);
 extern "C" {
 f32 fabs_float(f32 x);
-u16 fn_80010F4C(void *p);
 s16 get_attack_params_atp_max(void *p);
 s16 get_attack_params_atp_min(void *p);
 s32 get_current_floor(void);
@@ -48,10 +45,7 @@ s16 obj_getS16_2BA(u8 *p);
 s16 get_actor_hp__9TObjCharaFv(void *object);
 s16 get_actor_tp(void *object);
 s32 obj_is_hit_receivable(u8 *target);
-void play_shock_feedback__10TObjPlayerFii(saddr arg0, s32 arg1);
 void show_meseta_label(saddr arg0, u32 arg1, s32 arg2, s32 arg3);
-void spawn_poison_effect__10TObjPlayerFii(saddr arg0, s32 arg1);
-void spawn_slow_effect__10TObjPlayerFii(saddr arg0, s32 arg1);
 s32 try_spend_actor_meseta(u8 *player, s32 count);
 s32 update_slow_status__9TObjCharaFv(u8 *player);
 s32 update_attack_stat_status__9TObjCharaFv(u8 *player);

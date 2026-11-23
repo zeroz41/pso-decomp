@@ -1495,11 +1495,11 @@ force_active:
   - __ct__12TObjParticleFP7TObjectP15ParticleSetData
   - __ct__11TObjPathObjFP7TObjectPv
   - __ct__13TObjPlayerSetFP7TObjectPv
-  - TObjPlayer__sub_800181DC
+  - select_destination_away_from
   - set_status_effect_timer__9TObjCharaFll
   - set_status_effect_type__9TObjCharaFll
   - set_status_effect_amount__9TObjCharaFlf
-  - TObjPlayer__sub_8001951C
+  - clear_immunity_flags__9TObjCharaFv
   - TObjPlayer__sub_8002ECC4
   - TObjPlayer__sub_8002ED48
   - TObjPlayer__sub_80082C30
@@ -6303,7 +6303,7 @@ force_active:
   - flush_pending__6TLobbyFv
   - flush_pending_effect__13TBoss5GryphonFv
   - fly_nest_vertex_table
-  - fn_80010F4C
+  - get_local_attacker_id__9TObjCharaFv
   - create__16TBoss3VoloptCoreFP12TBoss3VoloptUsl
   - get_monitor_hp__Fl
   - update_ring_attack__15TBoss3VoloptP02Fv
@@ -15967,7 +15967,7 @@ force_active:
   - spawn_breakup_models__15TBoss3VoloptP02Fv
   - spawn_child__17TObjEneBm3FlyNestFv
   - spawn_concentrate__12TPhotonGollaFv
-  - spawn_confusion_feedback_effect__Fll
+  - spawn_confusion_feedback_effect__9TObjCharaFl
   - spawn_dead_spot__10TObjPlayerFlllf
   - spawn_debris__22TOWreckAncientBrakableFv
   - spawn_decorations_in_range__FP11TSetManager
@@ -16001,7 +16001,7 @@ force_active:
   - spawn_line__13TPhotonEstllaFv
   - spawn_mirages__21TObjEneMe3ShinowaRealFv
   - spawn_offset_particle__17TObjEneDf2BringerFv
-  - spawn_paralysis_feedback_effect__Fll
+  - spawn_paralysis_feedback_effect__9TObjCharaFl
   - spawn_particle_at_entity_slot__10TObjPlayerFllll
   - spawn_particle_emitters__9TTecMegidFv
   - spawn_particle_if_in_band__17TObjEneDf2BringerFv
@@ -16009,7 +16009,7 @@ force_active:
   - spawn_parts__12TBoss3VoloptFv
   - spawn_player_hit_effects__14TBoss6PlotFalzFv
   - spawn_player_tombstones2__6TLobbyFv
-  - spawn_poison_effect__10TObjPlayerFii
+  - spawn_poison_effect__9TObjCharaFl
   - spawn_rafoie_explosion_bursts__13TUnk_804CCB28Fv
   - spawn_random_effect__11TBoss4Type3Fv
   - spawn_recipe_particles__14TItemEffShieldFv
@@ -16019,7 +16019,7 @@ force_active:
   - spawn_segment_row_a__15TObjBoss7TunnelFv
   - spawn_segment_row_b__15TObjBoss7TunnelFv
   - spawn_slime_in_slot
-  - spawn_slow_effect__10TObjPlayerFii
+  - spawn_slow_effect__9TObjCharaFl
   - spawn_sub_objects__15TBoss3VoloptP02Fv
   - spawn_targeted_beam__16TObjEneNanoDragoFl
   - spawn_title_screen__12TAdDialingGCFv
@@ -16125,8 +16125,8 @@ force_active:
   - store_position__13TObjEneBm3FlyFv
   - stream_read_be32
   - strstr
-  - sub_80010DE8__9TObjCharaFUsUcUc
-  - sub_800194C4__9TObjCharaFv
+  - send_update_entity_stat__9TObjCharaFUsUcUc
+  - get_attack_params_ata__9TObjCharaFv
   - sub_8001CCD4__11TLoadingCurFv
   - sub_8002E1CC__13TObjBoss1RockFPUcPUcl
   - enter_sway__14TBoss2TentacleFv

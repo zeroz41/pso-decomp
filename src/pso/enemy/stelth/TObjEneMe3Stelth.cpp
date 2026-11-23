@@ -168,10 +168,10 @@ void TObjEneMe3Stelth::draw_model() {
     this->draw_ginja_motion_model();
 }
 void TObjEneDD_ST::sub_800F5874(s32 mask) {
-    this->m_11c = (s16) (this->m_11c | mask);
+    this->immunity_flags = (s16) (this->immunity_flags | mask);
 }
 void TObjEneDD_ST::sub_800F5864(s32 mask) {
-    this->m_11c = (s16) (this->m_11c & ~mask);
+    this->immunity_flags = (s16) (this->immunity_flags & ~mask);
 }
 void TObjEneMe3Stelth::load_shared_resources() {
     s32 i;

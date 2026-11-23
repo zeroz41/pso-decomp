@@ -362,8 +362,6 @@ struct Layout_80019038 {
     u8 pad11a[0x254 - 0x11A];
 };
 extern "C" {
-void spawn_slow_effect__10TObjPlayerFii(saddr arg0, s32 arg1);
-void play_shock_feedback__10TObjPlayerFii(saddr arg0, s32 arg1);
 s32 VecCopy__FP3VecPC3Vec(s32, s32);
 void subtract_vector(void *a, void *b);
 f32 calc_xz_distance_sq(saddr arg0, uaddr arg1, void *arg2);
@@ -386,7 +384,6 @@ int obj_getPtr2B0_20(u8* p);
 s16 obj_getS16_2BA(u8* p);
 void send_6x2F_change_player_hp(u16, u16, s16);
 void dispatch_weapon_special_effect(void *, void *, void *, s32);
-void TObjPlayer__sub_8001951C(void* p);
 void __construct_array(void *, void *, void *, u32, u32);
 }
 
@@ -683,23 +680,20 @@ struct Player_80018990 {
 void shutdown_and_reset_system(void);
 void init_game_systems(void);
 extern "C" {
-void spawn_poison_effect__10TObjPlayerFii(saddr arg0, s32 arg1);
 void clear_velocity(u8 *arg0);
 void add_id_to_slots__10TObjPlayerFiUs(s32 arg0, u16 arg1);
 void handle_6x9A_update_entity_stat(Pkt_80010C54 *pkt);
-void sub_80010DE8__9TObjCharaFUsUcUc(Obj_80010DE8 *self, u16 a, u8 b, u8 c);
-u16 fn_80010F4C(void* p);
+void send_update_entity_stat__9TObjCharaFUsUcUc(Obj_80010DE8 *self, u16 a, u8 b, u8 c);
 void record_attack_source(Obj_80010F54 *self, s32 id);
 s32 add_actor_tp_bonus(O_80011274 *self, s32 x);
 s32 add_actor_hp_bonus(O_80011378 *self, s32 x);
-s32 TObjPlayer__sub_800181DC(TObjChara *chara, Vec point);
+s32 select_destination_away_from(TObjChara *chara, Vec point);
 s32 check_path_obstructed(TObjChara *chara, Vec *target);
 void enemy_turn_half_toward_dest(TObjChara *chara);
 void obj_setArrS16_FC(ObjArrFC* p, int i, s16 v);
 u16 obj_getArrU16_FC(ObjArrFC* p, int i);
 s16 get_actor_attack_params_atp_min__9TObjCharaFv(void* p);
 s16 get_attack_params_atp_min(void* p);
-s16 TObjPlayer__sub_800194E8(void* p);
 s16 get_attack_params_atp_max(void* p);
 u16 get_entity_id(ObjFlags* p);
 void obj_setFlags30(ObjFlags* p, u32 mask);
@@ -791,8 +785,6 @@ static const f32 lbl_805D7D3C = 65536.0f;
 }
 void apply_actor_gravity(TObjEnemy *arg0, s32 *arg1, f32 farg0);
 void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 heading);
-void spawn_confusion_feedback_effect(saddr arg0, s32 arg1);
-void spawn_paralysis_feedback_effect(saddr arg0, s32 arg1);
 s32 is_entity_locally_controlled(s32 id);
 void move_with_wall_slide(u8 *arg0);
 void obj_clearArrS16_FC(ObjArrFC* p, int i);
@@ -827,7 +819,7 @@ struct O_800112D4;
 #define MISS_W24(s, v) (((TObjChara *)(s))->show_miss_popup((const float *)(v)))
 #define APPLYDMG_W24(s, v, d) (((TObjChara *)(s))->try_apply_damage((const Vec *)(v), (d)))
 #define DISPATCH_W24(a, s, v) dispatch_weapon_special_effect((a), (s), (v), 1)
-#define SUB10DE8_W24(p, id, k, v) ((void (*)(void *, u16, s32, s32))sub_80010DE8__9TObjCharaFUsUcUc)((p), (id), (k), (v))
+#define SUB10DE8_W24(p, id, k, v) ((void (*)(void *, u16, s32, s32))send_update_entity_stat__9TObjCharaFUsUcUc)((p), (id), (k), (v))
 #define SUBHP_W24(p, v) ((s32 (*)(void *, s32))TObjectV8047c128_subtract_hp)((p), (v))
 #define ADDHP_W24(p, v) ((s32 (*)(void *, s32))add_actor_hp)((p), (v))
 #define SUBTP_W24(p, v) ((TObjChara *)p)->subtract_actor_tp((s32)((v)))
@@ -1092,15 +1084,15 @@ StatusEffect::StatusEffect() { clear(); }
 
 void TObjChara::add_flags_2e4(u32 v) { (this->target_attribute_mask) |= v; }
 
-void TObjPlayer__sub_8001951C(void* p) { *(s16*)((char*)p + 0x11c) = 0; }
+void TObjChara::clear_immunity_flags() { this->immunity_flags = 0; }
 
 s16 get_attack_params_atp_max(void* p) { return *(s16*)((char*)p + 0x2); }
 
 s16 TObjChara::get_stats_atp_max() { return get_attack_params_atp_max(this->attack_params); }
 
-s16 TObjPlayer__sub_800194E8(void* p) { return *(s16*)((char*)p + 0x4); }
+s16 AttackParams::get_ata() { return this->ata; }
 
-s16 TObjChara::sub_800194C4() { return TObjPlayer__sub_800194E8(this->attack_params); }
+s16 TObjChara::get_attack_params_ata() { return this->attack_params->get_ata(); }
 
 s32 TObjChara::add_status_effect_timer(s32 i, s32 v) {
     return this->status_effects[i].timer += v;
@@ -1122,7 +1114,7 @@ s32 TObjChara::get_status_effect_timer(s32 i) {
 }
 #pragma pop
 s16 TObjChara::test_immunity_flags(s32 arg1) {
-    return (s16) (this->m_11c & arg1);
+    return (s16) (this->immunity_flags & arg1);
 }
 
 void TObjChara::set_status_effect_amount(s32 i, f32 amount) {
@@ -1323,7 +1315,7 @@ TObjChara::TObjChara(TObject *parent) : TObjMotion(parent) {
     TObjPlayer::clear_s16_arrays(this);
     *(s32 *)((s8 *)this + 0x330) = 0;
     obj_setField96_1((ObjFlags*)((ObjFlags *)this));
-    TObjPlayer__sub_8001951C(this);
+    clear_immunity_flags();
 }
 
 #pragma pop
@@ -1435,7 +1427,7 @@ s32 TObjChara::recalc_combat_stats(void *motion_arg, void *arg2, void *bonus_arg
     ((Player_80018990 *)this)->f2c2 = ((Player_80018990 *)this)->f2ca = this->get_stats_atp_max() - this->get_actor_attack_params_atp_min();
     ((Player_80018990 *)this)->f2c4 = ((Player_80018990 *)this)->f2cc = ((Player_80018990 *)this)->motion->f4 + ((Player_80018990 *)this)->bonus->f0;
     ((Player_80018990 *)this)->f2c6 = ((Player_80018990 *)this)->f2ce = ((Player_80018990 *)this)->motion->f8 + ((Player_80018990 *)this)->bonus->f1c;
-    ((Player_80018990 *)this)->f2d0 = (0.1f) * (f32)(((Player_80018990 *)this)->motion->fa + sub_800194C4());
+    ((Player_80018990 *)this)->f2d0 = (0.1f) * (f32)(((Player_80018990 *)this)->motion->fa + get_attack_params_ata());
     ((Player_80018990 *)this)->f2d2 = ((Player_80018990 *)this)->motion->fc;
     ((Player_80018990 *)this)->f2f2 = ((Player_80018990 *)this)->bonus->f2;
     ((Player_80018990 *)this)->f2f4 = ((Player_80018990 *)this)->bonus->f6;
@@ -1618,7 +1610,7 @@ s32 select_enemy_destination(TObjChara *chara, Vec dest, s32 flags) {
     return 0;
 }
 
-s32 TObjPlayer__sub_800181DC(TObjChara *chara, Vec point) {
+s32 select_destination_away_from(TObjChara *chara, Vec point) {
     Vec d;
     VecCopy(&d, &point);
     subtract_vector(&d, &chara->body_center);
@@ -1773,7 +1765,7 @@ f32 TObjEnemy::enemy_wander_home(f32 farg0, f32 farg1, f32 farg2, s32 turn) {
 }
 
 f32 enemy_backstep_from_point(TObjEnemy *enemy, Vec point, f32 speed) {
-    if (TObjPlayer__sub_800181DC(enemy, point) != 0) {
+    if (select_destination_away_from(enemy, point) != 0) {
         copy_position_if_valid(enemy, enemy->body_center);
         calc_velocity_toward_destination(enemy, enemy->move_origin, enemy->move_destination, speed);
         move_with_wall_slide((u8 *)enemy);
@@ -1919,7 +1911,7 @@ s32 TObjChara::update_poison_status() {
 
     if (this->obj_testFlags30(1) != 0) {
         if ((this->add_status_effect_timer(0, 1) % 45) == 0) {
-            ((s32 (*)(void *, int))spawn_poison_effect__10TObjPlayerFii)(((u8 *)this), 1);
+            this->spawn_poison_effect(1);
             this->set_status_effect_timer(0, 0);
             dmg = (s32) ((0.006666667f) * (f32) get_actor_hp());
             if ((s16) dmg < 1) {
@@ -1953,7 +1945,7 @@ s32 TObjChara::update_action_hold_status() {
         temp_r31 = this->add_status_effect_timer(0, -1);
         if ((u16) this->entity_id < 0x1000U) {
             if (temp_r31 <= 0) {
-                ((s32 (*)(void *, int))spawn_paralysis_feedback_effect)((void *) (((u8 *)this)), 1);
+                this->spawn_paralysis_feedback_effect(1);
                 this->set_status_effect_timer(0, 0x2D);
             }
             return 1;
@@ -1962,7 +1954,7 @@ s32 TObjChara::update_action_hold_status() {
             ((TObjBase *)((u8 *)this))->obj_clearFlags30((u32)(3));
             ((s32 (*)(void *, s32))obj_setFlags30)((void *) (((u8 *)this)), 2);
             if ((temp_r31 % 45) == 0) {
-                ((s32 (*)(void *, int))spawn_paralysis_feedback_effect)((void *) (((u8 *)this)), 1);
+                this->spawn_paralysis_feedback_effect(1);
             }
             return 1;
         }
@@ -1986,7 +1978,7 @@ s32 TObjChara::update_slow_status() {
         temp_ret = this->add_status_effect_timer(1, -1);
         if (temp_ret > 0) {
             if ((temp_ret % 45) == 0) {
-                ((s32 (*)(void *, s32))spawn_slow_effect__10TObjPlayerFii)(((u8 *)this), 1);
+                this->spawn_slow_effect(1);
             }
             return 1;
         }
@@ -2008,7 +2000,7 @@ s32 TObjChara::update_flag30_timer() {
             this->obj_clearFlags30((u32)0x3C);
             ((s32 (*)(void *, s32))obj_setFlags30)(this, 0x10);
             if ((temp_ret % 45) == 0) {
-                ((s32 (*)(void *, s32))spawn_confusion_feedback_effect)(this, 1);
+                this->spawn_confusion_feedback_effect(1);
             }
             return 1;
         }
@@ -2058,7 +2050,7 @@ s32 TObjChara::update_shock_clock() {
             this->obj_clearFlags30((u32)0x3C);
             ((void (*)(void *, s32))obj_setFlags30)(this, 4);
             if ((temp_ret % 45) == 0) {
-                ((void (*)(void *, s32))play_shock_feedback__10TObjPlayerFii)(this, 1);
+                this->play_shock_feedback(1);
             }
             return 1;
         }
@@ -2365,7 +2357,7 @@ void TObjChara::apply_poison_status() {
     f32 temp_f31;
 
     if ((this->obj_testFlag_2E4(4) == 0) && ((u16) this->entity_id < 0x1000U) && (this->test_immunity_flags(1) == 0)) {
-        ((s32 (*)(void *, s32))spawn_poison_effect__10TObjPlayerFii)(this, 0);
+        this->spawn_poison_effect(0);
         if (this->get_status_effect_type(0) == 0x10) {
             f32 temp_d4;
             temp_f31 = -this->get_status_effect_amount(0);
@@ -2382,7 +2374,7 @@ void TObjChara::apply_poison_status() {
 
 void TObjChara::apply_paralysis() {
     if ((this->obj_testFlag_2E4(4U) == 0) && (this->obj_testFlags30(0x01000000U) == 0) && (this->test_immunity_flags(2) == 0)) {
-        spawn_paralysis_feedback_effect((saddr) this, 0);
+        this->spawn_paralysis_feedback_effect(0);
         if (this->get_status_effect_type(0) == 0x10) {
             adjust_evp((s32) ((f32) this->get_base_evp() * -this->get_status_effect_amount(0)));
         }
@@ -2403,7 +2395,7 @@ void TObjChara::apply_paralysis() {
 void TObjChara::apply_slow_status() {
     f32 temp_f31;
     if (((u16) this->entity_id <= 0x1000U) && (this->test_immunity_flags(8) == 0)) {
-        ((void (*)(void *, s32))spawn_slow_effect__10TObjPlayerFii)(this, 0);
+        this->spawn_slow_effect(0);
         switch (this->get_status_effect_type(1)) {
         case 2:
         case 3:
@@ -2422,7 +2414,7 @@ void TObjChara::apply_confusion_status() {
     f32 temp_f31;
 
     if ((this->obj_testFlag_2E4(0x10) == 0) && (this->test_immunity_flags(0x10) == 0)) {
-        ((s32 (*)(void *, s32))spawn_confusion_feedback_effect)(this, 0);
+        this->spawn_confusion_feedback_effect(0);
         switch (this->get_status_effect_type(1)) {
         case 2:
         case 3:
@@ -2472,7 +2464,7 @@ void TObjChara::apply_shock_status() {
     }
     if (ok != 0) {
         if (this->obj_testFlags30(0x02000000) == 0) {
-            ((void (*)(void *, int))play_shock_feedback__10TObjPlayerFii)(this, 1);
+            this->play_shock_feedback(1);
         }
         switch (this->get_status_effect_type(1)) {
         case 2:
@@ -3211,7 +3203,7 @@ f32 TObjChara::receive_direct_attack(void *att, DirectAttackPayload payload, voi
 #define MISS_W24(s, v) (((TObjChara *)(s))->show_miss_popup((const float *)(v)))
 #define APPLYDMG_W24(s, v, d) (((TObjChara *)(s))->try_apply_damage((const Vec *)(v), (d)))
 #define DISPATCH_W24(a, s, v) dispatch_weapon_special_effect((a), (s), (v), 1)
-#define SUB10DE8_W24(p, id, k, v) ((void (*)(void *, u16, s32, s32))sub_80010DE8__9TObjCharaFUsUcUc)((p), (id), (k), (v))
+#define SUB10DE8_W24(p, id, k, v) ((void (*)(void *, u16, s32, s32))send_update_entity_stat__9TObjCharaFUsUcUc)((p), (id), (k), (v))
 #define SUBHP_W24(p, v) ((s32 (*)(void *, s32))TObjectV8047c128_subtract_hp)((p), (v))
 #define ADDHP_W24(p, v) ((s32 (*)(void *, s32))add_actor_hp)((p), (v))
 #define SUBTP_W24(p, v) ((TObjChara *)p)->subtract_actor_tp((s32)((v)))
@@ -4078,7 +4070,7 @@ void record_attack_source(Obj_80010F54 *self, s32 id) {
     }
 }
 
-u16 fn_80010F4C(void* p) { return *(u16*)((char*)p + 0x2d6); }
+u16 TObjChara::get_local_attacker_id() { return this->local_attacker_id; }
 
 void assign_slots_from_list(void *arg0, saddr arg1) {
     s32 var_r31;
@@ -4093,7 +4085,7 @@ void assign_slots_from_list(void *arg0, saddr arg1) {
             return;
         }
         if (*(u16 *)((s8 *)arg0 + 0x2D6) == 0xFFFF) {
-            *(u16 *)((s8 *)arg0 + 0x2D6) = fn_80010F4C((void*)arg1);
+            *(u16 *)((s8 *)arg0 + 0x2D6) = ((TObjChara *)arg1)->get_local_attacker_id();
         }
     }
 }
@@ -4119,13 +4111,13 @@ void record_local_damage_if_enabled(void *mine_trap, void *att, saddr arg2) {
 #pragma pop
 void empty_post_damage_hook(void *defender, void *attacker) {  }
 
-void TObjChara::sub_80010DE8(u16 a, u8 b, u8 c) {
+void TObjChara::send_update_entity_stat(u16 target, u8 which, u8 amount) {
     Pkt_80010DE8 pkt;
     ((TObjPlayer *)(&pkt))->init_packet_9a();
     pkt.f2 = ((Obj_80010DE8 *)this)->f1c;
-    pkt.f4 = a;
-    pkt.f6 = b;
-    pkt.f7 = c;
+    pkt.f4 = target;
+    pkt.f6 = which;
+    pkt.f7 = amount;
     ((TObjPlayer *)(&pkt))->send_head();
 }
 
@@ -4201,31 +4193,29 @@ s32 is_entity_locally_controlled(s32 id) {
 
 void TObjChara::apply_switch_attack() {
     TParticleCtrl *particle_effect_with_flags;
-    saddr arg0 = (saddr)this;
 
-    particle_effect_with_flags = spawn_particle_effect_with_flags((const Vec *)(arg0 + 0x2FC), 0x1FD, 0x50);
+    particle_effect_with_flags = spawn_particle_effect_with_flags(&this->body_center, 0x1FD, 0x50);
     if (particle_effect_with_flags != 0) {
-        particle_effect_with_flags->set_owner_id(get_entity_id((ObjFlags *)arg0));
+        particle_effect_with_flags->set_owner_id(get_entity_id((ObjFlags *)this));
     }
 }
 
 void TObjChara::enemy_spawn_jellen_effect() {
     Stack_80010B44 stack;
     saddr oneshot_particle_emitter;
-    saddr arg0 = (saddr)this;
     stack.spC = 0;
     stack.sp8 = 0;
     stack.sp10 = -0x8000;
-    oneshot_particle_emitter = (saddr)create_oneshot_particle_emitter((void *)(arg0 + 0x2FC), &stack.sp8, 0x1FD, 0x50);
+    oneshot_particle_emitter = (saddr)create_oneshot_particle_emitter(&this->body_center, &stack.sp8, 0x1FD, 0x50);
     if (oneshot_particle_emitter != 0) {
-        ((TParticleCtrl *)oneshot_particle_emitter)->set_owner_id(get_entity_id((ObjFlags *)arg0));
+        ((TParticleCtrl *)oneshot_particle_emitter)->set_owner_id(get_entity_id((ObjFlags *)this));
     }
 }
 
 void TObjChara::trigger_switch_attack() {
     TParticleCtrl *particle_effect_with_flags;
 
-    particle_effect_with_flags = spawn_particle_effect_with_flags((const Vec *)((saddr)this + 0x2FC), 0x1FE, 0x50);
+    particle_effect_with_flags = spawn_particle_effect_with_flags(&this->body_center, 0x1FE, 0x50);
     if (particle_effect_with_flags != 0) {
         particle_effect_with_flags->set_owner_id(get_entity_id((ObjFlags *)this));
     }
@@ -4234,13 +4224,12 @@ void TObjChara::trigger_switch_attack() {
 void TObjChara::enemy_spawn_zalure_effect() {
     Stack_80010A84 stack;
     saddr oneshot_particle_emitter;
-    saddr arg0 = (saddr)this;
     stack.spC = 0;
     stack.sp8 = 0;
     stack.sp10 = -0x8000;
-    oneshot_particle_emitter = (saddr)create_oneshot_particle_emitter((void *)(arg0 + 0x2FC), &stack.sp8, 0x1FE, 0x50);
+    oneshot_particle_emitter = (saddr)create_oneshot_particle_emitter(&this->body_center, &stack.sp8, 0x1FE, 0x50);
     if (oneshot_particle_emitter != 0) {
-        ((TParticleCtrl *)oneshot_particle_emitter)->set_owner_id(get_entity_id((ObjFlags *)arg0));
+        ((TParticleCtrl *)oneshot_particle_emitter)->set_owner_id(get_entity_id((ObjFlags *)this));
     }
 }
 
@@ -4410,67 +4399,67 @@ s32 calc_freeze_chance(TObjPlayer *actor, TObjPlayer *arg1, TObjPlayer *arg2, f3
     return ((TObjChara *)actor)->random_ratio() < var_f31;
 }
 
-void spawn_poison_effect__10TObjPlayerFii(saddr arg0, s32 arg1) {
-    TParticleCtrl *particle_effect_with_flags;
-    if (((s32)((TObjCollidable *)arg0)->obj_testFlags30(0x02000000)) == 0) {
-        particle_effect_with_flags = spawn_particle_effect_with_flags((const Vec *)(arg0 + 0x2FC), 0x25, 0x50);
-        if (particle_effect_with_flags != 0) {
-            particle_effect_with_flags->set_owner_id(get_entity_id((ObjFlags *)arg0));
+void TObjChara::spawn_poison_effect(s32 play_sound) {
+    TParticleCtrl *effect;
+    if (this->obj_testFlags30(0x02000000) == 0) {
+        effect = spawn_particle_effect_with_flags(&this->body_center, 0x25, 0x50);
+        if (effect != 0) {
+            effect->set_owner_id(get_entity_id((ObjFlags *)this));
         }
-        if (arg1 != 0) {
-            play_sound_effect(0xCD0B, arg0 + 0x38, 0, 0);
-        }
-    }
-}
-
-void spawn_paralysis_feedback_effect(saddr arg0, s32 arg1) {
-    TParticleCtrl *particle_effect_with_flags;
-    if (((s32)((TObjCollidable *)arg0)->obj_testFlags30(0x02000000)) == 0) {
-        particle_effect_with_flags = spawn_particle_effect_with_flags((const Vec *)(arg0 + 0x2FC), 0x26, 0x50);
-        if (particle_effect_with_flags != 0) {
-            particle_effect_with_flags->set_owner_id(get_entity_id((ObjFlags *)arg0));
-        }
-        if (arg1 != 0) {
-            play_sound_effect(0xB20C, arg0 + 0x38, 0, 0);
+        if (play_sound != 0) {
+            play_sound_effect(0xCD0B, (saddr)&this->position, 0, 0);
         }
     }
 }
 
-void spawn_slow_effect__10TObjPlayerFii(saddr arg0, s32 arg1) {
-    TParticleCtrl *particle_effect_with_flags;
-    if (((s32)((TObjCollidable *)arg0)->obj_testFlags30(0x02000000)) == 0) {
-        particle_effect_with_flags = spawn_particle_effect_with_flags((const Vec *)(arg0 + 0x2FC), 0x27, 0x50);
-        if (particle_effect_with_flags != 0) {
-            particle_effect_with_flags->set_owner_id(get_entity_id((ObjFlags *)arg0));
+void TObjChara::spawn_paralysis_feedback_effect(s32 play_sound) {
+    TParticleCtrl *effect;
+    if (this->obj_testFlags30(0x02000000) == 0) {
+        effect = spawn_particle_effect_with_flags(&this->body_center, 0x26, 0x50);
+        if (effect != 0) {
+            effect->set_owner_id(get_entity_id((ObjFlags *)this));
         }
-        if (arg1 != 0) {
-            play_sound_effect(0xB20D, arg0 + 0x38, 0, 0);
+        if (play_sound != 0) {
+            play_sound_effect(0xB20C, (saddr)&this->position, 0, 0);
         }
     }
 }
 
-void spawn_confusion_feedback_effect(saddr arg0, s32 arg1) {
-    TParticleCtrl *particle_effect_with_flags;
-    if (((s32)((TObjCollidable *)arg0)->obj_testFlags30(0x02000000)) == 0) {
-        particle_effect_with_flags = spawn_particle_effect_with_flags((const Vec *)(arg0 + 0x2FC), 0x24, 0x50);
-        if (particle_effect_with_flags != 0) {
-            particle_effect_with_flags->set_owner_id(get_entity_id((ObjFlags *)arg0));
+void TObjChara::spawn_slow_effect(s32 play_sound) {
+    TParticleCtrl *effect;
+    if (this->obj_testFlags30(0x02000000) == 0) {
+        effect = spawn_particle_effect_with_flags(&this->body_center, 0x27, 0x50);
+        if (effect != 0) {
+            effect->set_owner_id(get_entity_id((ObjFlags *)this));
         }
-        if (arg1 != 0) {
-            play_sound_effect(0xB20E, arg0 + 0x38, 0, 0);
+        if (play_sound != 0) {
+            play_sound_effect(0xB20D, (saddr)&this->position, 0, 0);
+        }
+    }
+}
+
+void TObjChara::spawn_confusion_feedback_effect(s32 play_sound) {
+    TParticleCtrl *effect;
+    if (this->obj_testFlags30(0x02000000) == 0) {
+        effect = spawn_particle_effect_with_flags(&this->body_center, 0x24, 0x50);
+        if (effect != 0) {
+            effect->set_owner_id(get_entity_id((ObjFlags *)this));
+        }
+        if (play_sound != 0) {
+            play_sound_effect(0xB20E, (saddr)&this->position, 0, 0);
         }
     }
 }
 extern "C" {
-void play_shock_feedback__10TObjPlayerFii(saddr arg0, s32 arg1) {
-    TParticleCtrl *particle_effect_with_flags;
-    if (((s32)((TObjCollidable *)arg0)->obj_testFlags30(0x02000000)) == 0) {
-        particle_effect_with_flags = spawn_particle_effect_with_flags((const Vec *)(arg0 + 0x2FC), 0x21, 0x50);
-        if (particle_effect_with_flags != 0) {
-            particle_effect_with_flags->set_owner_id(get_entity_id((ObjFlags *)arg0));
+void TObjChara::play_shock_feedback(s32 play_sound) {
+    TParticleCtrl *effect;
+    if (this->obj_testFlags30(0x02000000) == 0) {
+        effect = spawn_particle_effect_with_flags(&this->body_center, 0x21, 0x50);
+        if (effect != 0) {
+            effect->set_owner_id(get_entity_id((ObjFlags *)this));
         }
-        if (arg1 != 0) {
-            play_sound_effect(0xB210, arg0 + 0x38, 0, 0);
+        if (play_sound != 0) {
+            play_sound_effect(0xB210, (saddr)&this->position, 0, 0);
         }
     }
 }

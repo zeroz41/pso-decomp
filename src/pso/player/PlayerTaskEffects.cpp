@@ -342,7 +342,6 @@ extern Arrival_801C5F84 TObjPlayer__arrival_override_table[12];
 void set_arrival_override_coords(u16 arg0, s32 arg1, f32 farg0, f32 farg1, f32 farg2);
 void set_arrival_override_pos(u16 idx, s32 yaw, void *pos);
 void clear_movement_history(Obj_801C5FCC *p);
-s16 TObjPlayer__sub_800194E8(s32, s16);
 s16 get_attack_params_atp_max(void *p);
 u8 *__ct__15TPlyOnCountOverFv(u8 *object, s32 arg1, s32 arg2, s32 arg3);
 u8 *__ct__13TPlyOnCreatedFv(u8 *object, s32 arg1, s32 arg2);
@@ -941,7 +940,7 @@ void set_params__10TObjPlayerFPvPvPviPv(void *arg0, void *arg1, void *stats, sad
     temp_r4 = *(s16 *)((s8 *)stats + 8);
     *(s16 *)((s8 *)arg0 + 2) = (s16) (temp_r4 + *(s32 *)((s8 *)arg4 + 0x1C));
     *(s16 *)((s8 *)arg0 + 4) = (s16) *(s16 *)((s8 *)stats + 2);
-    *(s16 *)((s8 *)arg0 + 6) = (s16) (0.1f * (f32) (*(s16 *)((s8 *)stats + 0xA) + TObjPlayer__sub_800194E8(level, temp_r4)));
+    *(s16 *)((s8 *)arg0 + 6) = (s16) (0.1f * (f32) (*(s16 *)((s8 *)stats + 0xA) + ((AttackParams *)level)->get_ata()));
     *(s16 *)((s8 *)arg0 + 8) = (s16) (*(s16 *)((s8 *)stats + 4) + *(s16 *)((s8 *)arg4 + 0));
     *(s16 *)((s8 *)arg0 + 0xA) = (s16) *(s16 *)((s8 *)stats + 0xC);
     *(s16 *)((s8 *)arg0 + 0xC) = (s16) *(s16 *)((s8 *)arg4 + 2);

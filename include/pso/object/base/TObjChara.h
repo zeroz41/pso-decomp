@@ -46,7 +46,7 @@ public:
     // Alive and nothing blocks the line from `from` to its body centre (csnLookAt).
     s32 is_target_unobstructed(const Vec *from);
     s16 get_stats_atp_max();
-    s16 sub_800194C4();
+    s16 get_attack_params_ata();
     f32 get_attack_range();
     s32 get_attack_angle();
     s16 test_immunity_flags(s32);
@@ -77,7 +77,17 @@ public:
     s32 subtract_actor_tp(s32);
     // Spends dmg of its TP (subtract_actor_tp) unless it is in state 2; 0 when it cannot act.
     s32 check_can_act(s32 dmg);
-    void sub_80010DE8(u16, u8, u8);
+    // Tells the other clients (6x9A) that `target` changed this one's HP,
+    // TP or meseta (`which` 0-4) by `amount`.
+    void send_update_entity_stat(u16 target, u8 which, u8 amount);
+    u16 get_local_attacker_id();
+    void clear_immunity_flags();
+    // Status-effect particles at body_center; play_sound adds the cue.
+    void spawn_poison_effect(s32 play_sound);
+    void spawn_paralysis_feedback_effect(s32 play_sound);
+    void spawn_slow_effect(s32 play_sound);
+    void spawn_confusion_feedback_effect(s32 play_sound);
+    void play_shock_feedback(s32 play_sound);
     s16 clamp_hp();
     void spawn_freeze_shell_effect(u32, s32);
     s32 check_heavy_damage_flag(f32);
@@ -160,7 +170,7 @@ public:
     s16 m_116;
     u8 unk_118[0x2];
     s16 m_11a;
-    s16 m_11c;
+    s16 immunity_flags;  // test_immunity_flags
     u8 pad_11E[0x1];
     u8 m_11f;
     CsnGroundCandidates ground_candidates;  // ground_cache points here

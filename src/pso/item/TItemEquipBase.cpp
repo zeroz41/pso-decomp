@@ -27,7 +27,7 @@ extern "C" {
 // returning int: the stat helpers take the values without re-extending them.
 s32 get_attack_params_atp_min(AttackParams *params);
 s32 get_attack_params_atp_max(AttackParams *params);
-s32 TObjPlayer__sub_800194E8(AttackParams *params);
+s32 get_ata__12AttackParamsFv(AttackParams *params);
 void *resolve_hittable_target(u16 actor_id, s32 collider);
 s32 add_actor_hp_bonus(void *actor, s32 amount);
 s32 add_actor_tp_bonus(void *actor, s32 amount);
@@ -209,7 +209,7 @@ void TItemEquipBase::subtract_equip_stats(void *atp, s16 *stats, s16 *stats2) {
     if (attack != NULL) {
         attack->sub_atp_min(get_attack_params_atp_min(&attack_bonus));
         attack->sub_atp_max(get_attack_params_atp_max(&attack_bonus));
-        attack->sub_ata(TObjPlayer__sub_800194E8(&attack_bonus));
+        attack->sub_ata(get_ata__12AttackParamsFv(&attack_bonus));
     }
     if (params != NULL) {
         params->values[0] -= param_bonus.values[0];
@@ -308,7 +308,7 @@ void TItemEquipBase::add_equip_stats(s32 apply) {
         if (attack != NULL) {
             attack->add_atp_min(get_attack_params_atp_min(&attack_bonus));
             attack->add_atp_max(get_attack_params_atp_max(&attack_bonus));
-            attack->add_ata(TObjPlayer__sub_800194E8(&attack_bonus));
+            attack->add_ata(get_ata__12AttackParamsFv(&attack_bonus));
         }
         params = get_actor_param_block(owner);
         if (params != NULL) {
