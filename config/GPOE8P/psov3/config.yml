@@ -1491,7 +1491,7 @@ force_active:
   - TObjOnlineEndingHexLine_corner_offsets
   - TObjOnlineEndingHexMove__ct
   - TObjOnlineEndingHexMove__default_move_params
-  - TObjOnlineEnding__ct
+  - __ct__16TObjOnlineEndingFP7TObject
   - __ct__12TObjParticleFP7TObjectP15ParticleSetData
   - __ct__11TObjPathObjFP7TObjectPv
   - __ct__13TObjPlayerSetFP7TObjectPv
@@ -5635,7 +5635,7 @@ force_active:
   - __dt__15TORockJungleL01Fv
   - destroy__15TWindowHelpItemFPvs
   - __dt__20TObjEneBm5GibonUNodeFv
-  - destroy__16TObjOnlineEndingFPvs
+  - __dt__16TObjOnlineEndingFv
   - __dt__19TBoss8DragonColli_CFv
   - __dt__17TWindowDD_WS_WordFv
   - destroy__19TPlayerBattleCtrl4PFs

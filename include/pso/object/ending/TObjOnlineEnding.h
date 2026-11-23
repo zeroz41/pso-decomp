@@ -24,6 +24,7 @@ struct OnlineEndingPlayer {
 LAYOUT_ASSERT(OnlineEndingPlayerSize, sizeof(OnlineEndingPlayer) == 0x28);
 
 struct TObjOnlineEnding : public TObjBase {
+    TObjOnlineEnding(TObject *parent);
     virtual ~TObjOnlineEnding();
     virtual void render();
     virtual void run_task();
