@@ -6,7 +6,7 @@
 
 void *TLobby::create_dialing_message_window(void *arg0, void *arg1) {
     void *o;
-    o = (void *)new TAdDialingMessageWindow(arg0, arg1);
+    o = (void *)new TAdDialingMessageWindow((const char *)arg0, (u32)arg1);
     return o;
 }
 
