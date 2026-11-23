@@ -13,6 +13,7 @@
 #include "pso/ui/window/TWindowAddition.h"
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/window/TWindowMenuIconLine.h"
+#include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/quest/TQuestListOnline.h"
 #include "pso/quest/OnlineQuestMenuRecords.h"
 #include "pso/quest/OnlineQuestDownloadState.h"
@@ -113,6 +114,17 @@ s32 get_guild_text(s32 arg0);
 struct Obj_802181B0 { u8 pad[0x20]; u32 state; };
 
 extern s32 __vt__16TQuestListOnline[];
+
+void TWindowMenu::clear_flag_and_release() {
+    uaddr temp;
+    m_70 &= ~2;
+    temp = reinterpret_cast<uaddr>(heading);
+    if (temp != 0U) {
+        ((TWindowSubStatusDisp *)temp)->set_entry_state(1);
+    }
+}
+
+s32 TQuestListOnline::get_selection_stage() { return selection_stage; }
 
 void *TQuestListOnline__ct(TQuestListOnline *quest_list_online, void *parent, void *arg2, void *arg3) {
     __ct__15TShopWindowBaseFP7TObject(quest_list_online, (TObject *)parent);

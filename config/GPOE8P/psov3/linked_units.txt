@@ -1334,7 +1334,6 @@ pso/ui/window/TWindowSoundBalance.cpp
 pso/ui/window/TWindowStatus.cpp
 pso/ui/window/TWindowSubAreaMap.cpp
 pso/ui/window/TWindowSubAreaMapDisp.cpp
-pso/quest/TQuestListOnline_802183B4.cpp
 pso/ui/window/TWindowSubComCardList.cpp
 pso/ui/window/TWindowSubComCard_8007341C.cpp
 pso/ui/window/TWindowSubComCard_80073DB8.cpp
