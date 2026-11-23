@@ -89,7 +89,6 @@ extern const f32 TObjPlayer__data_805DC278;
 extern const float TObjPlayer__data_805DC294;
 
 #pragma defer_codegen on
-extern "C" {
 ContactSurfaceFlags::~ContactSurfaceFlags() {}
 
 ContactSurfaceState::~ContactSurfaceState() {}
@@ -479,7 +478,6 @@ void TObjPlayer::set_shared_count(int a0) { lbl_805D5D70 = a0; }
 
 void TObjPlayer::set_shared_flag(int a0) { shared_flag = a0; }
 
-}
 #pragma defer_codegen off
 #pragma push
 #pragma dont_inline on

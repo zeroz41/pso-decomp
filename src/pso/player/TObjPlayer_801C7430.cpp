@@ -3048,7 +3048,7 @@ void TObjPlayer::complete_fall_reaction() {
         break;
     case 2:
         if (this->motion_flags & 0x10) {
-            ((ProtectionTimer *)(arg0 + 0x644))->set_frames((int) (get_getup_protection_ticks()));
+            ((ProtectionTimer *)(arg0 + 0x644))->set_frames((saddr)get_getup_protection_ticks());
             update_position_from_target();
         }
         break;
