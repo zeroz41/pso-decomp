@@ -6,6 +6,7 @@
 struct NJS_OBJECT;
 #include "pso/player/PhotonBlastGauge.h"
 #include "pso/player/PlayerTechniqueState.h"
+#include "pso/player/PlayerPadBinding.h"
 #include "pso/player/TPlyDispConfig.h"
 #include "pso/player/TObjPlayer_80337348.h"
 #include "pso/player/PlayerFollowParticles.h"
@@ -211,8 +212,7 @@ struct TObjPlayer : public TObjChara {
     TPlyDispConfig action_palettes;
     u8 unk_548[0x4];
     saddr m_54c;
-    void* m_550;
-    u8 _pad554[0x5C];
+    PlayerPadBinding pad_binding;
     PlayerScaleState scale_state;
     void* m_5e0;
     u8 _pad5E4[0xC];
@@ -494,7 +494,6 @@ struct TObjPlayer : public TObjChara {
     static s32 check_flags(s32 flags, s32 arg1);
     static void reset();
     static void set_camera_mode(s32 camera_mode);
-    void reset_state_block();
     s16 get_evp();
     int check_flag_0x80();
     static s32 is_final_phase();
@@ -984,13 +983,6 @@ struct TObjPlayer : public TObjChara {
     void copy_node_record(saddr arg1);
     static void notify_all_battle_players();
     static void update_4p_battle_ctrls();
-    s32 get_target_field_1c();
-    f32 get_attached_float_24();
-    s32 try_ground_action(s32 arg1);
-    s32 check_action_usable(s32 arg1);
-    static s32 dt(saddr arg0, s16 arg1);
-    int get_flag_1();
-    int is_grounded();
     void set_player_index(s32 v);
     void set_flag0_bits01();
     int clear_lock_flag();
@@ -1600,7 +1592,7 @@ struct TObjPlayer : public TObjChara {
 #include <stddef.h>
 LAYOUT_ASSERT(PlayerPaletteModifierOffset, offsetof(TObjPlayer, photon_blast_gauge) == 0x4AC);
 LAYOUT_ASSERT(PlayerActionPalettesOffset, offsetof(TObjPlayer, action_palettes) == 0x500);
-LAYOUT_ASSERT(PlayerStateAfterPalettes, offsetof(TObjPlayer, m_550) == 0x550);
+LAYOUT_ASSERT(PlayerStateAfterPalettes, offsetof(TObjPlayer, pad_binding) == 0x550);
 LAYOUT_ASSERT(PlayerHairSelectorOffset, offsetof(TObjPlayer, m_878) == 0x878);
 LAYOUT_ASSERT(PlayerHairFlagsOffset, offsetof(TObjPlayer, m_88e) == 0x88E);
 LAYOUT_ASSERT(PlayerHairModelOffset, offsetof(TObjPlayer, hair_model) == 0x8AC);

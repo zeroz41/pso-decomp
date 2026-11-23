@@ -1357,19 +1357,19 @@ void TObjPlayer__sub_801C7874(TObjPlayer *player) {
     s32 target;
     f32 amount;
     if (player->is_controls_locked() == 0 && ((Player_801C7874 *)player)->f328 != 0 &&
-        (((TObjPlayer *)&player->m_550)->check_action_usable(2) != 0 ||
+        (player->pad_binding.is_button_pressed(2) != 0 ||
          (player->is_action_flag_28() == 0 && TKeyBoardControl__sub_801A58B0() != 0 && TKeyBoardControl::is_key_down(0x24) != 0) ||
          (player->is_action_flag_28() != 0 && TKeyBoardControl__sub_801A58B0() != 0 && TKeyBoardControl::is_key_down(0x18) != 0))) {
         player->run_action_state_phase(1, 5);
         return;
     }
-    target = ((TObjPlayer *)&player->m_550)->get_target_field_1c();
-    amount = ((TObjPlayer *)&player->m_550)->get_attached_float_24();
+    target = player->pad_binding.get_stick_angle();
+    amount = player->pad_binding.get_stick_magnitude();
     if (player->chair_seat.is_delay_6xB0_over() == 0) {
         player->chair_seat.tick_delay_6xB0();
         return;
     }
-    if (player->is_controls_locked() == 0 && ((TObjPlayer *)&player->m_550)->check_action_usable(4) != 0) {
+    if (player->is_controls_locked() == 0 && player->pad_binding.is_button_pressed(4) != 0) {
         if (player == NULL || player->obj_isState2_324() == 0) {
             player->chair_seat.start_delay_6xB0();
             ((s32 (*)(void *))TObjPlayer__sub_801D1144)(&a);
@@ -1437,10 +1437,10 @@ s16 TObjPlayer::select_idle_action() {
         return -1;
     }
     if ((TObjPlayer::get_hold_effect_count() == 0) && (TFontSmallLobby::is_lobby_floor_15() != 0)) {
-        if (((TKeyBoardControl__sub_801A58B0() != 0) && (TKeyBoardControl::is_key_down(0x24) != 0)) || ((is_controls_locked() == 0) && (((TObjPlayer *)(arg0 + 0x550))->try_ground_action(0x400) != 0) && (((TObjPlayer *)(arg0 + 0x550))->check_action_usable(4) != 0))) {
+        if (((TKeyBoardControl__sub_801A58B0() != 0) && (TKeyBoardControl::is_key_down(0x24) != 0)) || ((is_controls_locked() == 0) && (pad_binding.is_button_held(0x400) != 0) && (pad_binding.is_button_pressed(4) != 0))) {
             return ((VObj_8_1cc697 *)((u8 *)(*(u8 **)((s8 *)arg0 + 0x380))))->m65();
         }
-        if (((TKeyBoardControl__sub_801A58B0() != 0) && (TKeyBoardControl::is_key_down(0x18) != 0)) || ((is_controls_locked() == 0) && (((TObjPlayer *)(arg0 + 0x550))->try_ground_action(0x400) != 0) && (((TObjPlayer *)(arg0 + 0x550))->check_action_usable(2) != 0))) {
+        if (((TKeyBoardControl__sub_801A58B0() != 0) && (TKeyBoardControl::is_key_down(0x18) != 0)) || ((is_controls_locked() == 0) && (pad_binding.is_button_held(0x400) != 0) && (pad_binding.is_button_pressed(2) != 0))) {
             return ((VObj_8_1cc697 *)((u8 *)(*(u8 **)((s8 *)arg0 + 0x380))))->m66();
         }
         if (TKeyBoardControl__sub_801A58B0() != 0) {
@@ -2158,7 +2158,7 @@ void TObjPlayer::send_name_and_state() {
     MsgA_801C9400 a;
     MsgB_801C9400 b;
     if (((TObjPlayer *)this)->is_frozen() == 0) {
-        init_stick_escape_detector(&stick_escape_detector, static_cast<const ControllerInputContext *>(TObjPlayer__sub_801D2878(&m_550)));
+        init_stick_escape_detector(&stick_escape_detector, static_cast<const ControllerInputContext *>(TObjPlayer__sub_801D2878(&pad_binding)));
     }
     if ((arg0 == NULL) || (this->obj_isState2_324() == 0)) {
         ((TObjPlayer *)(&a))->set_type_53();
@@ -2858,7 +2858,7 @@ void TObjPlayer::check_reopen_return_city_window() {
   {
     this->m_36c = 0U;
   }
-  if (((((((TObjPlayer *)(arg0 + 0x550))->check_action_usable(4) != 0) && (TObjPlayer::is_camera_mode_active() == 0)) && (TTecCtrl::is_technique_ready() == 0)) && ((TObjPlayer::check_camera_mode() == 0) || ((TObjPlayer::check_camera_mode() != 0) && (get_main_phase() == 0xF)))) && (is_controls_locked() == 0))
+  if (((((pad_binding.is_button_pressed(4) != 0) && (TObjPlayer::is_camera_mode_active() == 0)) && (TTecCtrl::is_technique_ready() == 0)) && ((TObjPlayer::check_camera_mode() == 0) || ((TObjPlayer::check_camera_mode() != 0) && (get_main_phase() == 0xF)))) && (is_controls_locked() == 0))
   {
     this->create_return_city_window();
   }
@@ -4799,14 +4799,14 @@ void TObjPlayer::send_attack_target_packet() {
 
 s32 TObjPlayer::sub_801CEAC8() {
     s32 r = -1;
-    if (TObjPlayer__sub_801B5AF8(((u8 *)this), 1) == 2 && ((TObjPlayer *)(((u8 *)this) + 0x550))->check_action_usable(4) != 0) {
+    if (TObjPlayer__sub_801B5AF8(((u8 *)this), 1) == 2 && pad_binding.is_button_pressed(4) != 0) {
         r = 1;
     }
-    if (TObjPlayer__sub_801B5AF8(((u8 *)this), 2) == 2 && ((TObjPlayer *)(((u8 *)this) + 0x550))->check_action_usable(0x400) != 0 &&
+    if (TObjPlayer__sub_801B5AF8(((u8 *)this), 2) == 2 && pad_binding.is_button_pressed(0x400) != 0 &&
         is_palettex_activated(this->get_entity_id()) == 0) {
         r = 2;
     }
-    if (TObjPlayer__sub_801B5AF8(((u8 *)this), 3) == 2 && ((TObjPlayer *)(((u8 *)this) + 0x550))->check_action_usable(2) != 0) {
+    if (TObjPlayer__sub_801B5AF8(((u8 *)this), 3) == 2 && pad_binding.is_button_pressed(2) != 0) {
         r = 3;
     }
     return this->check_mode_action(get_action_palette_entry__10TObjPlayerFl(((u8 *)this), r)) != 0 ? r : -1;
@@ -5182,8 +5182,8 @@ void TObjPlayer::select_run_request() {
     f32 temp_f31;
     s32 temp_r31;
     s32 temp_r31_2;
-    temp_r31 = ((TObjPlayer *)(arg0 + 0x550))->get_target_field_1c();
-    temp_f31 = ((TObjPlayer *)(arg0 + 0x550))->get_attached_float_24();
+    temp_r31 = pad_binding.get_stick_angle();
+    temp_f31 = pad_binding.get_stick_magnitude();
     if ((this->handle_palette_button_input() == 0) || (this->check_flag_48() == 0)) {
         if (temp_f31 < 0.1f) {
             if (test_flags_any(arg0 + 0x5EC, 4) != 0) {
@@ -5466,8 +5466,8 @@ void TObjPlayer::select_walk_request() {
     s32 temp_r31;
     s32 temp_r31_2;
 
-    temp_r31 = ((TObjPlayer *)(arg0 + 0x550))->get_target_field_1c();
-    temp_f31 = ((TObjPlayer *)(arg0 + 0x550))->get_attached_float_24();
+    temp_r31 = pad_binding.get_stick_angle();
+    temp_f31 = pad_binding.get_stick_magnitude();
     if ((this->handle_palette_button_input() == 0) || (this->check_flag_48() == 0)) {
         if (temp_f31 < 0.1f) {
             if (test_flags_any(arg0 + 0x5EC, 4) != 0) {
@@ -5680,8 +5680,8 @@ void TObjPlayer::check_idle_movement_request() {
     f32 temp_f31;
     s32 temp_r31;
     u8 *arg0 = (u8 *)this;
-    temp_f31 = ((TObjPlayer *)(arg0 + 0x550))->get_attached_float_24();
-    temp_r31 = ((TObjPlayer *)(arg0 + 0x550))->get_target_field_1c();
+    temp_f31 = pad_binding.get_stick_magnitude();
+    temp_r31 = pad_binding.get_stick_angle();
     if ((this->handle_palette_button_input() == 0) || (this->check_flag_48() == 0)) {
         *(s16 *)((s8 *)arg0 + 0x3C0) = this->select_idle_action();
         if (is_action_id_none((int) (*(s16 *)((s8 *)arg0 + 0x3C0))) == 0) {

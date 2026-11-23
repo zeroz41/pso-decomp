@@ -684,7 +684,6 @@ union U_801E8854 { s32 i; f32 f; };
 
 union U_801E87B8 { s32 i; f32 f; };
 
-struct E_801E93B4 { u8 pad[0x20]; s32 f20; u8 pad24[4]; s32 f28; u8 pad2c[0x24]; };
 
 union U_801E8888 { s32 i; f32 f; };
 
@@ -989,7 +988,6 @@ extern Pair_801F1838 lbl_80449A38[];
 struct RecoveredGlobal_lbl_8050D3E0 { s32 value; u8 remaining[0x4C]; };
 extern RecoveredGlobal_lbl_8050D3E0 lbl_8050D3E0;
 extern s32 symbolchat_colli_param_table[];
-extern E_801E93B4 controller_input_state[];
 extern s16 battle_event_second_table[];
 struct QuestPlayerNameBuffer { s32 value; u8 remaining[0xC]; };
 extern QuestPlayerNameBuffer quest_player_name_buffer;
@@ -1829,11 +1827,11 @@ void qst_op_get_vector_from_path() {
 }
 
 void qst_op_get_pressed_buttons(u8 a0, u8 a1) {
-    qst_registers[a1] = controller_input_state[qst_registers[a0]].f28;
+    qst_registers[a1] = controller_input_state.controllers[qst_registers[a0]].pressed_buttons;
 }
 
 void qst_op_get_held_buttons(u8 src, u8 dst) {
-    qst_registers[dst] = controller_input_state[qst_registers[src]].f20;
+    qst_registers[dst] = controller_input_state.controllers[qst_registers[src]].buttons;
 }
 
 void qst_op_default_camera_pos2(void* p) { reset_camera_to_local_player(); }

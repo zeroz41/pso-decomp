@@ -42,6 +42,8 @@
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/network/protocol/packet_classes.h"
+#include "pso/system/ControllerInputState.h"
+#include "pso/ui/keyboard/TKeyBoardControl_803DE9C4.h"
 // The placement ordinals show_score_results prints; their strings open the unit's .sdata2.
 #pragma push
 char *lobby_rank_ordinal_text_table[] = {"1st", "2nd", "3rd", "4th"};
@@ -213,10 +215,6 @@ struct Stack_801C3CFC {
 
 typedef struct Pair_801C3AF4 { u32 a; u32 b; } Pair_801C3AF4;
 
-typedef struct Flags_801C3AF4 {
-    u8 pad0[0x10];
-    u32 flags;
-} Flags_801C3AF4;
 
 typedef struct Lobby_801C3AF4 {
     u8 pad0[0x20];
@@ -349,7 +347,6 @@ s32 destroy_char_data__10TObjPlayerFis(saddr arg0, s16 arg1);
 void init_char_data__10TObjPlayerFv(void);
 
 void *get_window_layout_position(s32);
-extern Flags_801C3AF4 *controller_input_state[];
 void TLobby__sub_801C3AF4(Lobby_801C3AF4 *self);
 
 
@@ -408,7 +405,6 @@ void record_local_battle_placement(void *arg0);
 
 #define CFG (*(Cfg_801C3D50 **)&battle_config_ptr)
 
-#define G28 (((u32 *)controller_input_state)[10])
 
 void update_player_battle_ctrl_state(void *player_battle_ctrl);
 
@@ -713,7 +709,7 @@ void update_duel_result__6TLobbyFPv(u8 *arg0) {
         *(s32 *)((s8 *)arg0 + 0x20) = 5;
         break;
     case 5:
-        if (G28 & 2) {
+        if (controller_input_state.controllers[0].pressed_buttons & 2) {
             TLobby::handle_battle_result((u16)local_client_id, 1);
             ((TWindowBase *)(*(void **)((s8 *)arg0 + 0x54)))->close();
             *(void **)((s8 *)arg0 + 0x54) = NULL;
@@ -791,7 +787,7 @@ void update_duel_result__6TLobbyFPv(u8 *arg0) {
             TLobby::send_battle_mode_params(5, 1, 0);
         } else {
             p = (void *)get_player_by_client_id(local_client_id);
-            if (p != NULL && ((TObjPlayer *)p)->is_controls_locked() == 0 && (G28 & 6)) {
+            if (p != NULL && ((TObjPlayer *)p)->is_controls_locked() == 0 && (controller_input_state.controllers[0].pressed_buttons & 6)) {
                 *(s32 *)((s8 *)arg0 + 0x20) = 6;
             }
         }
@@ -821,7 +817,7 @@ void update_duel_result__6TLobbyFPv(u8 *arg0) {
     }
     if (*(s32 *)((s8 *)arg0 + 0x20) == 6 || *(s32 *)((s8 *)arg0 + 0x20) == 8) {
         p = (void *)(saddr)get_local_player();
-        if (p != NULL && ((TObjPlayer *)p)->is_controls_locked() == 0 && TWindowCtrl::has_player_active_menu(local_client_id) == 0 && (G28 & 0x400)) {
+        if (p != NULL && ((TObjPlayer *)p)->is_controls_locked() == 0 && TWindowCtrl::has_player_active_menu(local_client_id) == 0 && (controller_input_state.controllers[0].pressed_buttons & 0x400)) {
             if (*(void **)((s8 *)arg0 + 0x4C) != NULL) {
                 ((TWindowBase *)(*(void **)((s8 *)arg0 + 0x4C)))->close();
                 *(void **)((s8 *)arg0 + 0x4C) = NULL;
@@ -1013,7 +1009,7 @@ void TLobby__sub_801C3AF4(Lobby_801C3AF4 *self) {
         break;
     }
     case 1:
-        if (controller_input_state[0]->flags & 8) {
+        if (controller_input_state.sources[0]->pressed & 8) {
             self->next = 4;
         }
         break;

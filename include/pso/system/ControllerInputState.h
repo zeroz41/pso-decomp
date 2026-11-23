@@ -6,6 +6,11 @@
 
 struct ControllerInputContext {
     s32 poll_key_state();
+    // Clears the buttons, triggers and sticks.
+    void reset();
+    // Whether a button in mask is held / went down this frame.
+    s32 is_held(s32 mask);
+    s32 is_pressed(s32 mask);
 
     u32 buttons;
     u32 not_held;  // ~buttons

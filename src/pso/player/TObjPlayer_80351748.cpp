@@ -1,88 +1,75 @@
 #include "types.h"
 #include "pso/system/ControllerInputState.h"
 #include "pso/quest/TQuestListVM_8007EAF8.h"
-#include "pso/player/TObjPlayer_80351748.h"
-#include "pso/player/TObjPlayer.h"
+#include "pso/player/PlayerPadBinding.h"
 
-struct P_80351974 { u16 a; s16 b; s32 c; s32 d; s32 e; u8 sub[1]; };
-
-extern "C" {
-P_80351974 *TObjPlayer__sub_80351974(P_80351974 *arg0);
-s32 TObjPlayer::get_target_field_1c() {
-    if ((void *) this->m_next == NULL) {
+s32 PlayerPadBinding::get_stick_angle() {
+    if (controller == NULL) {
         return 0;
     }
-    if (get_flag_1() != 0) {
-        return *(s32 *)((s8 *)this->m_next + 0x1C);
+    if (stick_enabled() != 0) {
+        return controller->stick_angle;
     }
     return 0;
 }
 
 
-f32 TObjPlayer::get_attached_float_24() {
-    if ((void *) this->m_next == NULL) {
+f32 PlayerPadBinding::get_stick_magnitude() {
+    if (controller == NULL) {
         return 0.0f;
     }
-    if (get_flag_1() != 0) {
-        return *(f32 *)((s8 *)this->m_next + 0x24);
+    if (stick_enabled() != 0) {
+        return controller->stick_magnitude;
     }
     return 0.0f;
 }
-s32 TObjPlayer::try_ground_action(s32 arg1) {
-    if ((u32) *(u32 *)((s8 *)this + 0xC) == 0U) {
+s32 PlayerPadBinding::is_button_held(s32 mask) {
+    if (controller == NULL) {
         return 0;
     }
-    if ((is_grounded() == 0) || (TObjPlayer__sub_803519D8((u8 *)this, (s32)arg1) == 0)) {
+    if ((buttons_enabled() == 0) || (is_button_enabled(mask) == 0)) {
         return 0;
     }
-    return fn_803519FC((s32 *)(*(uaddr *)((s8 *)this + 0xC)), arg1);
+    return controller->is_held(mask);
 }
-s32 TObjPlayer::check_action_usable(s32 arg1) {
-    if ((u32) *(u32 *)((s8 *)this + 0xC) == 0U) {
+s32 PlayerPadBinding::is_button_pressed(s32 mask) {
+    if (controller == NULL) {
         return 0;
     }
-    if ((is_grounded() == 0) || (TObjPlayer__sub_803519D8((u8 *)this, (s32)arg1) == 0)) {
+    if ((buttons_enabled() == 0) || (is_button_enabled(mask) == 0)) {
         return 0;
     }
-    return fn_80351A14((u8 *)(*(uaddr *)((s8 *)this + 0xC)), arg1);
+    return controller->is_pressed(mask);
 }
 
-void init_pad_binding(u8 *arg0, u16 arg1, s16 arg2) {
-    *(s16 *)((s8 *)arg0 + 0) = arg1;
-    *(s16 *)((s8 *)arg0 + 2) = arg2;
-    *(s32 *)((s8 *)arg0 + 4) = -1;
-    *(s32 *)((s8 *)arg0 + 8) = -1;
-    *(u8 **)((s8 *)arg0 + 0xC) = (u8 *)&controller_input_state.controllers[*(s16 *)((s8 *)arg0 + 2)];
-    ((TObjPlayer *)(arg0 + 0x10))->reset_state_block();
+void PlayerPadBinding::init(u16 entity_id, s16 port) {
+    this->entity_id = entity_id;
+    this->port = port;
+    flags = -1;
+    enabled_buttons = -1;
+    controller = &controller_input_state.controllers[this->port];
+    state.reset();
 }
 
-s32 TObjPlayer::dt(saddr arg0, s16 arg1) {
-    if ((arg0 != 0) && (arg1 > 0)) {
-        __dl__FPv();
-    }
-    return arg0;
+PlayerPadBinding::~PlayerPadBinding() {}
+
+PlayerPadBinding::PlayerPadBinding() {
+    entity_id = 0xFFFF;
+    port = 0;
+    flags = -1;
+    enabled_buttons = -1;
+    controller = NULL;
+    state.reset();
 }
 
-P_80351974 *TObjPlayer__sub_80351974(P_80351974 *arg0) {
-    arg0->a = 0xFFFF;
-    arg0->b = 0;
-    arg0->c = -1;
-    arg0->d = -1;
-    arg0->e = 0;
-    ((TObjPlayer *)(arg0->sub))->reset_state_block();
-    return arg0;
+int PlayerPadBinding::stick_enabled() { return (flags >> 1) & 0x1; }
+s32 PlayerPadBinding::is_button_enabled(s32 mask) {
+    return (u8)((enabled_buttons & mask) != 0);
 }
-
-int TObjPlayer::get_flag_1() { return (*(u32*)((char*)this + 0x4) >> 1) & 0x1; }
-s32 TObjPlayer__sub_803519D8(u8 *arg0, s32 arg1) {
-    return (u8) ((*(s32 *)((s8 *)arg0 + 8) & arg1) != 0);
+int PlayerPadBinding::buttons_enabled() { return flags & 0x1; }
+s32 ControllerInputContext::is_held(s32 mask) {
+    return (u8)((buttons & mask) != 0);
 }
-int TObjPlayer::is_grounded() { return *(u32*)((char*)this + 0x4) & 0x1; }
-s32 fn_803519FC(s32 *arg0, s32 arg1) {
-    return (u8) ((*arg0 & arg1) != 0);
-}
-int fn_80351A14(u8 *arg0, s32 arg1) {
-    return (u8) ((*(s32 *)((s8 *)arg0 + 0x8) & arg1) != 0);
-}
-
+s32 ControllerInputContext::is_pressed(s32 mask) {
+    return (u8)((pressed_buttons & mask) != 0);
 }

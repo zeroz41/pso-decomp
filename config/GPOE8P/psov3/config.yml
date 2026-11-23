@@ -1599,7 +1599,7 @@ force_active:
   - TObjPlayer__sub_80312FB0
   - TObjPlayer__sub_80313010
   - __ct__13TUnk_804ECFB0FP7TObjectPUc
-  - TObjPlayer__sub_803519D8
+  - is_button_enabled__16PlayerPadBindingFl
   - __sinit_TObjPlayer_80354EC8_cpp
   - TObjPlayer__sub_80355098
   - TObjPlayer__sub_80363C5C
@@ -6437,8 +6437,8 @@ force_active:
   - receive_direct_attack__9TBoss6MagFPv19DirectAttackPayloadPvll
   - __dt__9TBoss6MagFv
   - fn_80339D78__9TSaveChCrFv
-  - fn_803519FC
-  - fn_80351A14
+  - is_held__22ControllerInputContextFl
+  - is_pressed__22ControllerInputContextFl
   - __ct__13TUnk_804F1EC8FP7TObjectPUc
   - get_flag_word_mask__FlPUl
   - get_texture_buffer_size
@@ -6631,7 +6631,7 @@ force_active:
   - get_field_2__9TTecLukerFPv
   - prompt_was_accepted__16TCheckMemoryCardFv
   - get_flags__14ShortMailEntryFv
-  - get_flag_1__10TObjPlayerFv
+  - stick_enabled__16PlayerPadBindingFv
   - get_flag_bit0__14TObjEneBm5WolfFPv
   - get_flag_or_zero__20TWindowSubStatusDispFPvSc
   - get_floor_surface_type__10TObjPlayerFv
@@ -7292,7 +7292,7 @@ force_active:
   - is_field88_zero__15TObjLaboMapWarpFv
   - is_flag_set__15TObjBoss2TunnelFv
   - is_active__14ShortMailEntryFv
-  - is_grounded__10TObjPlayerFv
+  - buttons_enabled__16PlayerPadBindingFv
   - is_growth_inactive__11TItemMagSubFv
   - is_id_out_of_range__6TLobbyFi
   - is_in_camera_range__18TObjBoss7TunnelColFv

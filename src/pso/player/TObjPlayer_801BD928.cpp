@@ -22,12 +22,10 @@ u8 get_byte_13b(void *);
 u8 get_byte_11f(void *);
 u8 get_byte_103(void *);
 u8 get_byte_e7(void *);
-s32 TObjPlayer__sub_80351974(void *);
 
 extern const char *lbl_805D3530;
 
 TObjPlayer::TObjPlayer(TObject *parent, s32 slot, s32 role, u8 *record) : TObjChara(parent) {
-    TObjPlayer__sub_80351974((void *) (((u8 *)this) + 0x550));
     ((TObjPlayer *)(((u8 *)this) + 0x5B0))->init_subobjects();
     ((TObjPlayer *)(((u8 *)this) + 0x5E0))->init_sub();
     ((TObjPlayer *)(((u8 *)this) + 0x5F0))->init_wrapper();

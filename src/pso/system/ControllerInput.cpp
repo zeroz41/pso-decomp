@@ -769,4 +769,19 @@ s32 input_press_or_repeat(ControllerInputContext *pad, u32 mask, s32 delay, s32 
 
 }
 
-void TObjPlayer::reset_state_block() { *(int*)((char*)this + 0x0) = 0; *(int*)((char*)this + 0x4) = -1; *(int*)((char*)this + 0x8) = 0; *(int*)((char*)this + 0xc) = 0; *(short*)((char*)this + 0x10) = 0; *(short*)((char*)this + 0x12) = 0; *(short*)((char*)this + 0x14) = 0; *(short*)((char*)this + 0x16) = 0; *(short*)((char*)this + 0x18) = 0; *(short*)((char*)this + 0x1a) = 0; *(int*)((char*)this + 0x1c) = 0; *(int *)&this->m_20 = 0; *(float *)&this->texlist = 0.0f; *(float *)&this->room = 0.0f; }
+void ControllerInputContext::reset() {
+    buttons = 0;
+    not_held = -1;
+    pressed_buttons = 0;
+    released = 0;
+    trigger_r = 0;
+    trigger_l = 0;
+    stick_x = 0;
+    stick_y = 0;
+    cstick_x = 0;
+    cstick_y = 0;
+    stick_angle = 0;
+    cstick_angle = 0;
+    stick_magnitude = 0.0f;
+    cstick_magnitude = 0.0f;
+}

@@ -4185,7 +4185,7 @@ s32 TObjPlayer::check_actor_blocking_move() {
 void TObjPlayer::update_ground_contact() {
     saddr arg0 = (saddr)this;
     if (TObjPlayer::is_locally_controlled(this) != 0) {
-        if (((TObjPlayer *)(arg0 + 0x550))->try_ground_action(fn_8002AE08(((TObjBase *)(arg0))->get_entity_id())) != 0) {
+        if (pad_binding.is_button_held(fn_8002AE08(((TObjBase *)(arg0))->get_entity_id())) != 0) {
             set_primary_action_palette_bank(arg0 + 0x500);
             if (this->photon_blast_gauge.fn_801C1F50() != 0) {
                 set_secondary_action_palette_bank(arg0 + 0x500);
@@ -4226,7 +4226,7 @@ void TObjPlayer::select_contextual_pickup_action() {
                                 }
                             } else {
                                 type = 0;
-                                if (is_controls_locked() == 0 && ((TObjPlayer *)(((u8 *)this) + 0x550))->check_action_usable(4) != 0) {
+                                if (is_controls_locked() == 0 && pad_binding.is_button_pressed(4) != 0) {
                                     play_sound_effect(0x3816, (saddr)((TObjPlayer *)ent)->get_position_ptr(), 0, 1);
                                 }
                             }
@@ -4793,7 +4793,7 @@ void TObjPlayer::update_target() {
 void TObjPlayer::play_photon_blast_feedback() { ((TObjPlayer *)((char*)this + 0x384))->emit_photon_blast_feedback_from_packet(); this->play_sound_if_on_floor(142625); }
 
 s32 TObjPlayer::can_use_action() {
-    if (((TObjPlayer *)((saddr)this + 0x550))->check_action_usable(0x200) == 0) {
+    if (pad_binding.is_button_pressed(0x200) == 0) {
         return 0;
     }
     if (is_controls_locked() != 0) {
@@ -5027,8 +5027,8 @@ s32 TObjPlayer::execute_palette_action(s32 mode, void *target) {
     case 2:
         ((TObjPlayer *)(self + 0x7CC))->set_action_type(act);
         if (this->check_mode_action(act) != 0) {
-            if (((TObjPlayer *)(self + 0x550))->get_attached_float_24() >= lbl_805DC290) {
-                ((Player_801B3DD4 *)this)->f60 = ((s32 (*)(void *, s32))calc_scaled_value__10TObjPlayerFii)(this, ((TObjPlayer *)(self + 0x550))->get_target_field_1c());
+            if (pad_binding.get_stick_magnitude() >= lbl_805DC290) {
+                ((Player_801B3DD4 *)this)->f60 = ((s32 (*)(void *, s32))calc_scaled_value__10TObjPlayerFii)(this, pad_binding.get_stick_angle());
             }
             run_action_state_phase(5, 5);
             return 1;
@@ -5066,7 +5066,7 @@ s32 TObjPlayer::execute_palette_action(s32 mode, void *target) {
 
 s32 TObjPlayer::handle_palette_button_input() {
     u8 *arg0 = (u8 *)this;
-    if (((TObjPlayer *)(arg0 + 0x550))->check_action_usable(4) != 0 && ((int (*)(void *, s32))get_result_entry__18TChallenge4PResultFPv)(arg0, 1) != 0) {
+    if (pad_binding.is_button_pressed(4) != 0 && ((int (*)(void *, s32))get_result_entry__18TChallenge4PResultFPv)(arg0, 1) != 0) {
         s32 mode;
         void *target;
         if (has_action_palette_entry() != 0) {
@@ -5080,7 +5080,7 @@ s32 TObjPlayer::handle_palette_button_input() {
             TWindowCtrl::dispatch_to_child(((TObjBase *)(arg0))->get_entity_id(), 1);
             return 1;
         }
-    } else if (((TObjPlayer *)(arg0 + 0x550))->check_action_usable(0x400) != 0 && ((int (*)(void *, s32))get_result_entry__18TChallenge4PResultFPv)(arg0, 2) != 0) {
+    } else if (pad_binding.is_button_pressed(0x400) != 0 && ((int (*)(void *, s32))get_result_entry__18TChallenge4PResultFPv)(arg0, 2) != 0) {
         if (is_palettex_activated(((TObjBase *)(arg0))->get_entity_id()) != 0 && ((TWindowActionPalette *)(arg0 + 0x500))->handle_input_forward() != 0) {
             if (TObjPlayer::is_player_valid_target(((TObjBase *)(arg0))->get_entity_id()) != 0) {
                 run_palettex_callback(((TObjBase *)(arg0))->get_entity_id());
@@ -5089,7 +5089,7 @@ s32 TObjPlayer::handle_palette_button_input() {
             TWindowCtrl::dispatch_to_child(((TObjBase *)(arg0))->get_entity_id(), 2);
             return 1;
         }
-    } else if (((TObjPlayer *)(arg0 + 0x550))->check_action_usable(2) != 0 && ((int (*)(void *, s32))get_result_entry__18TChallenge4PResultFPv)(arg0, 3) != 0 &&
+    } else if (pad_binding.is_button_pressed(2) != 0 && ((int (*)(void *, s32))get_result_entry__18TChallenge4PResultFPv)(arg0, 3) != 0 &&
                this->execute_palette_action(3, 0) != 0) {
         TWindowCtrl::dispatch_to_child(((TObjBase *)(arg0))->get_entity_id(), 3);
         return 1;

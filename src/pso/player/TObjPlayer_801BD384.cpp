@@ -60,7 +60,6 @@ TObjPlayer::~TObjPlayer() {
     TObjPlayer::free_owned_buffer_b((saddr)((s8 *)this + 0x7CC), (s16)(-1));
     destroy__10TObjPlayerFis((saddr)((s8 *)this + 0x754), -1);
     TObjPlayer__sub_801BFAD4((s8 *)this + 0x644, -1);
-    TObjPlayer::dt((saddr)((s8 *)this + 0x550), (s16)(-1));
 }
 
 extern "C" {
@@ -69,12 +68,10 @@ void init_session_technique_caps__10TObjPlayerFPvPv(void *, void *);
 void TObjPlayer__sub_801BCAB0(void *, void *);
 void init_player_telepipe_record(void *);
 void TObjPlayer__sub_801BBB70(void *, void *);
-void TObjPlayer__sub_80351974(void *);
 extern const char *lbl_805D3530;
 }
 
 TObjPlayer::TObjPlayer(TObject *parent, TUnk_801D8A4C *src) : TObjChara(parent) {
-    TObjPlayer__sub_80351974((void *)((char *)this + 1360));
     ((TObjPlayer *)((char *)this + 1456))->init_subobjects();
     ((TObjPlayer *)((char *)this + 1504))->init_sub();
     ((TObjPlayer *)((char *)this + 1520))->init_wrapper();
@@ -110,7 +107,6 @@ TObjPlayer::TObjPlayer(TObject *parent, TUnk_801D8A4C *src) : TObjChara(parent) 
 }
 
 TObjPlayer::TObjPlayer(TObject *parent, void *arg2) : TObjChara(parent) {
-    TObjPlayer__sub_80351974((void *)((char *)this + 1360));
     ((TObjPlayer *)((char *)this + 1456))->init_subobjects();
     ((TObjPlayer *)((char *)this + 1504))->init_sub();
     ((TObjPlayer *)((char *)this + 1520))->init_wrapper();

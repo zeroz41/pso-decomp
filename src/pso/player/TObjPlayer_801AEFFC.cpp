@@ -1,5 +1,4 @@
 #include "pso/system/CharacterSaveRecordLookup.h"
-#include "pso/player/TObjPlayer_80351748.h"
 #include "types.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
 #include "pso/player/TObjPlayer.h"
@@ -19,7 +18,7 @@ s32 TObjPlayer::get_card_window_field_244() {
 
 void TObjPlayer::init_local_pad_binding() {
     if (((s32)TObjPlayer::is_locally_controlled(this)) != 0) {
-        init_pad_binding((u8 *)this + 0x550, (this->get_entity_id()), (int) ((s16) this->controller_port));
+        pad_binding.init(this->get_entity_id(), this->controller_port);
     }
 }
 
