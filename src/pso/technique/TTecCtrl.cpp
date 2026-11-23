@@ -48,6 +48,7 @@
 #include "pso/unk/text_803D853C.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/object/base/CollisionActorLookup.h"
 #include "pso/system/TLanguage_801E4874.h"
 
 TechniqueParams calculated_technique_params;
@@ -59,48 +60,17 @@ extern "C" {
 f32 get_battle_value__10TObjPlayerFlil(void *, s32, s16);
 }
 
-typedef struct Owner_8022CDE8 {
-    u8 pad0[0x424];
-    TLockOnCursor *f424;  // TObjPlayer::lock_on_cursor
-    u8 slots[0x10];
-} Owner_8022CDE8;
-
-typedef struct Cursor_8022CDE8 {
-    u8 pad0[0x9C];
-    u8 list[0x10];
-} Cursor_8022CDE8;
-
-
 struct Target_8022D27C { u16 id; s16 part; };
 
-struct Coll_8022D27C { u8 pad0[0x1C]; Vec pos; u8 pad28[0x2C - 0x28]; };
-
-struct Ent_8022D27C { u8 pad0[0xA4]; Coll_8022D27C *colls; };
-
-struct Player_8022D27C {
-    u8 pad0[0x38];
-    Vec pos;
-    u8 pad44[0x60 - 0x44];
-    saddr rotY;
-    u8 pad64[0x428 - 0x64];
-    u8 tech[1];
-};
-
-
-
-typedef struct Params_8022C738 { u8 pad0[0x12]; s16 f12; u8 pad14[0x20 - 0x14]; s16 f20; } Params_8022C738;
 
 extern "C" {
 void *TObjPlayer__sub_80116620(void *, int);
 s32 get_obj_id__10TObjPlayerFv(void *);
 void set_slot_type_state__10TObjPlayerFllss(void *, int, u16, s32);
-void capture_technique_targets__10TObjPlayerFv(int kind, Owner_8022CDE8 *owner);
 s32 is_split_screen();
-Ent_8022D27C *find_entity_by_id(u16);
 void get_hand_joint_position__10TObjPlayerFl(void *, void *);
 Target_8022D27C *get_technique_data__10TObjPlayerFPv(void *);
 u8 get_cast_technique_level(void *, int);
-void launch_technique__10TObjPlayerFv(s32 tech, s32 unused, Player_8022D27C *pl);
 }
 extern u8 identity_matrix[];
 extern s32 local_client_id;
@@ -181,10 +151,10 @@ BmlResource *technique_effect_bml;
 GinjaTextureList *technique_texture_list;
 
 #define ONE_SLOT()                                                                       \
-    if (((TObjPlayer *)(TObjPlayer__sub_80116620(c->list, 0)))->get_type_id() != 0xFFFF) { \
+    if (((TObjPlayer *)(TObjPlayer__sub_80116620(&c->target_records, 0)))->get_type_id() != 0xFFFF) { \
         set_slot_type_state__10TObjPlayerFllss(slots, 0,                                                \
-            ((TObjPlayer *)(TObjPlayer__sub_80116620(c->list, 0)))->get_type_id(),           \
-            get_obj_id__10TObjPlayerFv(TObjPlayer__sub_80116620(c->list, 0)));           \
+            ((TObjPlayer *)(TObjPlayer__sub_80116620(&c->target_records, 0)))->get_type_id(),           \
+            get_obj_id__10TObjPlayerFv(TObjPlayer__sub_80116620(&c->target_records, 0)));           \
         ((TObjPlayer *)slots)->set_tech_level(1);                                      \
     }
 
@@ -207,10 +177,10 @@ GinjaTextureList *technique_texture_list;
     if (ent == NULL) {                                                  \
         return;                                                         \
     }                                                                   \
-    if (ent->colls == NULL) {                                           \
+    if (ent->bodies == NULL) {                                          \
         return;                                                         \
     }                                                                   \
-    VecCopy((Vec *)(&aim), (const Vec *)(&ent->colls[targets->part].pos));
+    VecCopy(&aim, &ent->bodies[targets->part].center);
 
 // This unit was built with deferred inlining, which emits functions in reverse
 // order: they are defined here from the last address to the first.
@@ -254,7 +224,7 @@ void TTecCtrl::run_task() {
     reset_telepipe_visit_counts();
 }
 
-void* get_technique_base_params(int kind) {  return &technique_param_table[kind]; }
+TechniqueParams *get_technique_base_params(int kind) {  return &technique_param_table[kind]; }
 
 s32 clamp_nonnegative_int(s32 x) {
     if (x <= 0) {
@@ -467,7 +437,7 @@ TechniqueParams *calc_technique_parameters(s32 technique, s32 level, u16 client)
 
 void TTecCtrl::render() {  }
 
-void launch_technique__10TObjPlayerFv(s32 tech, s32 unused, Player_8022D27C *pl) {
+void launch_technique(s32 tech, s32 level, TObjPlayer *pl) {
     Vec aim;
     Vec hand;
     Vec ofs;
@@ -476,7 +446,7 @@ void launch_technique__10TObjPlayerFv(s32 tech, s32 unused, Player_8022D27C *pl)
     s32 n;
     Target_8022D27C *targets;
     s32 i;
-    Ent_8022D27C *ent;
+    TObjCollidable *ent;
     ofs.x = 0.0f;
     ofs.y = 0.0f;
     ofs.z = 100.0f;
@@ -500,19 +470,19 @@ void launch_technique__10TObjPlayerFv(s32 tech, s32 unused, Player_8022D27C *pl)
             return;
         }
     }
-    td = pl->tech;
+    td = pl->technique_levels;
     targets = get_technique_data__10TObjPlayerFPv(td);
     if (targets == NULL) {
         return;
     }
     n = ((TObjPlayer *)td)->get_section_clamped();
     push_matrix_from(identity_matrix);
-    rotate_matrix_y(0, pl->rotY);
+    rotate_matrix_y(0, pl->rotation_y);
     matrix_mult_vec(0, &ofs, &ofs);
     pop_matrices(1);
-    ofs.x += pl->pos.x;
-    ofs.y += pl->pos.y;
-    ofs.z += pl->pos.z;
+    ofs.x += pl->position.x;
+    ofs.y += pl->position.y;
+    ofs.z += pl->position.z;
     get_hand_joint_position__10TObjPlayerFl(pl, &hand);
     switch (tech) {
     case 0:
@@ -520,7 +490,7 @@ void launch_technique__10TObjPlayerFv(s32 tech, s32 unused, Player_8022D27C *pl)
             AIM_8022D27C()
             TTecFoie::create_ex(pl, &hand, &aim, get_cast_technique_level(td, 0));
         } else {
-            TTecFoie::create(pl, &hand, pl->rotY, get_cast_technique_level(td, 0));
+            TTecFoie::create(pl, &hand, pl->rotation_y, get_cast_technique_level(td, 0));
         }
         break;
     case 1:
@@ -536,9 +506,9 @@ void launch_technique__10TObjPlayerFv(s32 tech, s32 unused, Player_8022D27C *pl)
     case 3:
         if (n != 0) {
             AIM_8022D27C()
-            TTecBarta::create(pl, &pl->pos, &aim, get_cast_technique_level(td, 3));
+            TTecBarta::create(pl, &pl->position, &aim, get_cast_technique_level(td, 3));
         } else {
-            TTecBarta::create_ex(pl, &pl->pos, pl->rotY, get_cast_technique_level(td, 3));
+            TTecBarta::create_ex(pl, &pl->position, pl->rotation_y, get_cast_technique_level(td, 3));
         }
         break;
     case 4:
@@ -546,7 +516,7 @@ void launch_technique__10TObjPlayerFv(s32 tech, s32 unused, Player_8022D27C *pl)
             AIM_8022D27C()
             TTecGiBarta::create(pl, &hand, &aim, get_cast_technique_level(td, 4));
         } else {
-            TTecGiBarta::create_ex(pl, &hand, pl->rotY, get_cast_technique_level(td, 4));
+            TTecGiBarta::create_ex(pl, &hand, pl->rotation_y, get_cast_technique_level(td, 4));
         }
         break;
     case 5:
@@ -595,7 +565,7 @@ void launch_technique__10TObjPlayerFv(s32 tech, s32 unused, Player_8022D27C *pl)
     case 14:
         if (is_split_screen() != 0) {
             ((TTecLuker *)pl)->create(&hand, &ofs, 0);
-        } else if (local_client_id == ((TObjBase *)(pl))->get_entity_id()) {
+        } else if (local_client_id == pl->get_entity_id()) {
             ((TTecLuker *)pl)->create(&hand, &ofs, 0);
         }
         break;
@@ -619,27 +589,27 @@ void launch_technique__10TObjPlayerFv(s32 tech, s32 unused, Player_8022D27C *pl)
             AIM_8022D27C()
             TTecMegid::create((saddr)pl, (saddr)&hand, (saddr)&aim, (s32)(get_cast_technique_level(td, 18)));
         } else {
-            TTecMegid::create_ex((saddr)pl, (saddr)&hand, pl->rotY, (s32)(get_cast_technique_level(td, 18)));
+            TTecMegid::create_ex((saddr)pl, (saddr)&hand, pl->rotation_y, (s32)(get_cast_technique_level(td, 18)));
         }
         break;
     }
 }
 
-void capture_technique_targets__10TObjPlayerFv(int kind, Owner_8022CDE8 *owner) {
-    Cursor_8022CDE8 *c;
+void capture_technique_targets(int kind, TObjPlayer *owner) {
+    TUnk_8013EFB8 *c;
     void *slots;
     if (owner == NULL) {
         return;
     }
-    if (owner->f424 == NULL) {
+    if (owner->lock_on_cursor == NULL) {
         return;
     }
-    slots = owner->slots;
+    slots = owner->technique_levels;
     if (slots == NULL) {
         return;
     }
-    ((TObjPlayer *)(owner->slots))->reset_slots();
-    c = (Cursor_8022CDE8 *)owner->f424->find_by_pos(3, kind);
+    ((TObjPlayer *)(owner->technique_levels))->reset_slots();
+    c = owner->lock_on_cursor->find_by_pos(3, kind);
     if (c == NULL) {
         return;
     }
@@ -662,11 +632,11 @@ void capture_technique_targets__10TObjPlayerFv(int kind, Owner_8022CDE8 *owner) 
     case 7: {
         int n = 0;
         int i;
-        for (i = 0; i < ((TLockOnCursor *)(c->list))->get_target(); i++) {
-            if (((TObjPlayer *)(TObjPlayer__sub_80116620(c->list, n)))->get_type_id() != 0xFFFF) {
+        for (i = 0; i < ((TLockOnCursor *)(&c->target_records))->get_target(); i++) {
+            if (((TObjPlayer *)(TObjPlayer__sub_80116620(&c->target_records, n)))->get_type_id() != 0xFFFF) {
                 set_slot_type_state__10TObjPlayerFllss(slots, n,
-                    ((TObjPlayer *)(TObjPlayer__sub_80116620(c->list, n)))->get_type_id(),
-                    get_obj_id__10TObjPlayerFv(TObjPlayer__sub_80116620(c->list, n)));
+                    ((TObjPlayer *)(TObjPlayer__sub_80116620(&c->target_records, n)))->get_type_id(),
+                    get_obj_id__10TObjPlayerFv(TObjPlayer__sub_80116620(&c->target_records, n)));
                 n++;
             }
         }
@@ -684,10 +654,10 @@ void capture_technique_targets__10TObjPlayerFv(int kind, Owner_8022CDE8 *owner) 
     case 16: {
         int i;
         int n = 0;
-        for (i = 0; i < ((TLockOnCursor *)(c->list))->get_target(); i++) {
+        for (i = 0; i < ((TLockOnCursor *)(&c->target_records))->get_target(); i++) {
             set_slot_type_state__10TObjPlayerFllss(slots, n,
-                ((TObjPlayer *)(TObjPlayer__sub_80116620(c->list, n)))->get_type_id(),
-                get_obj_id__10TObjPlayerFv(TObjPlayer__sub_80116620(c->list, n)));
+                ((TObjPlayer *)(TObjPlayer__sub_80116620(&c->target_records, n)))->get_type_id(),
+                get_obj_id__10TObjPlayerFv(TObjPlayer__sub_80116620(&c->target_records, n)));
             n++;
         }
         ((TObjPlayer *)slots)->set_tech_level(n);
@@ -715,8 +685,8 @@ void capture_technique_targets__10TObjPlayerFv(int kind, Owner_8022CDE8 *owner) 
         }                                                                                        \
     }
 void create_technique_charge_light(u32 kind, void *owner) {
-    Params_8022C738 *p = (Params_8022C738 *)get_technique_base_params(kind);
-    s32 base = p->f12 + p->f20 + 50;
+    TechniqueParams *p = get_technique_base_params(kind);
+    s32 base = p->pad_12 + p->pad_20 + 50;
     switch (kind) {
     case 1:
         CHARGE_LIGHT_8022C738(1.0f, 1.0f, 0.5f, 0.0f, TUnk_804CC794)

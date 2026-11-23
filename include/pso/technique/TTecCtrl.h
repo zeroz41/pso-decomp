@@ -5,6 +5,8 @@
 #include "types.h"
 
 struct BmlResource;
+struct TechniqueParams;
+struct TObjPlayer;
 
 class TTecCtrl : public TObject {
 public:
@@ -32,6 +34,11 @@ extern GinjaTextureList *technique_texture_list;
 extern "C" {
 void TLobby__sub_8022F068(void);
 }
-void *get_technique_base_params(int kind);
+// Row `kind` of technique_param_table.
+TechniqueParams *get_technique_base_params(int kind);
+// Casts technique `tech` from `pl` at the targets its technique data holds.
+void launch_technique(s32 tech, s32 level, TObjPlayer *pl);
+// Copies the lock-on cursor's targets for technique `kind` into owner's technique data.
+void capture_technique_targets(int kind, TObjPlayer *owner);
 
 #endif

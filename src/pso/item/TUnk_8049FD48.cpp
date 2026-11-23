@@ -1,13 +1,11 @@
 #include "types.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/item/TUnk_8049FD48.h"
+#include "pso/technique/TTecCtrl.h"
 
-extern "C" {
-s32 launch_technique__10TObjPlayerFv(s32, s32, s32);
-}
 
 void TUnk_8049FD48::apply_use_effect() {
-    launch_technique__10TObjPlayerFv(0xE, 0, (saddr)this->owner);
+    launch_technique(0xE, 0, this->owner);
 }
 
 TUnk_8049FD48::~TUnk_8049FD48() {}

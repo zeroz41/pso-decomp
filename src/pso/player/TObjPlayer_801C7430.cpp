@@ -1279,8 +1279,6 @@ int bswap_16__FPUs(void*);
 int bswap_32__FPUl(void*);
 u8 * get_character_save_record(u16);
 s32 play_persistent_sound(s32 id, saddr actor, uaddr src, s32 a3, s32 flags);
-void capture_technique_targets__10TObjPlayerFv(int kind, void *owner);
-void launch_technique__10TObjPlayerFv(s32, s32, void *);
 Rec_801CCEDC * calc_technique_parameters(s32 tech, s32 level, u16 id);
 }
 void increment_burst_counter(u8 *counter);
@@ -3910,7 +3908,7 @@ void TObjPlayer::prepare_photon_blast_action() {
     u8 *arg0 = (u8 *)this;
     if (((s32 (*)(void))reset_volopt_state__10TObjPlayerFv)() != 0) {
         ((ProtectionTimer *)(arg0 + 0x644))->set_frames(0x708);
-        capture_technique_targets__10TObjPlayerFv(this->photon_blast_gauge.get_valid_index(), arg0);
+        capture_technique_targets(this->photon_blast_gauge.get_valid_index(), this);
         if (this->lock_on_cursor != NULL) {
             PhotonBlastTarget *e = this->photon_blast_gauge.fn_801D2AB0(0);
             ((TMainCursor *)this->lock_on_cursor)->set_cursor_pos(e->entity_id, e->index);
@@ -4077,13 +4075,13 @@ inline void tail_801CCD38(Player_801CCD38 *p, s32 t, s8 lvl) {
     case 16:
         ((TObjPlayer *)(p->techs))->set_technique_state(((Rec_801CCD38 *)calc_technique_parameters(t, lvl, ((TObjBase *)p)->get_entity_id()))->state);
         p->f328 = 4;
-        launch_technique__10TObjPlayerFv(t, lvl, p);
+        launch_technique(t, lvl, (TObjPlayer *)p);
         return;
     }
     if (((TObjPlayer *)p)->check_flag_4() == 0 && p->f10 == tl_03) {
         ((TObjPlayer *)(p->techs))->set_technique_state(((Rec_801CCD38 *)calc_technique_parameters(t, lvl, ((TObjBase *)p)->get_entity_id()))->state);
         p->f328 = 4;
-        launch_technique__10TObjPlayerFv(t, lvl, p);
+        launch_technique(t, lvl, (TObjPlayer *)p);
     }
 }
 extern int fold_flush_3;
@@ -4364,7 +4362,7 @@ void TObjPlayer::request_technique_cast() {
     TechData_801CD424 *src;
     u32 *dst;
     Player_801CD72C *self = (Player_801CD72C *)this;
-    capture_technique_targets__10TObjPlayerFv(((TObjPlayer *)(self->techs))->get_or_init_field_4(), self);
+    capture_technique_targets(((TObjPlayer *)(self->techs))->get_or_init_field_4(), this);
     if (self->cursor != NULL) {
         td = ((TechData_801CD424 * (*)(void *))get_technique_data__10TObjPlayerFPv)(self->techs);
         ((TMainCursor *)(self->cursor))->set_cursor_pos(td->target, td->node);
