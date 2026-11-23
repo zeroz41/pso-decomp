@@ -1538,8 +1538,8 @@ force_active:
   - TObjPlayer__sub_800FF220
   - TObjPlayer__sub_800FF244
   - __ct__13TUnk_804A1B40FP7TObjectPUc
-  - __dt__13TUnk_804A2018Fv
-  - TObjPlayer__sub_80124694
+  - __dt__20TItemFollowStarLightFv
+  - __ct__13TUnk_804A204CFP7TObjectPUc
   - __ct__13TUnk_804A2260FP7TObjectPUc
   - TObjPlayer__sub_80125FD8
   - __ct__13TUnk_804A3168FP7TObjectPUc
@@ -2008,7 +2008,7 @@ force_active:
   - __ct__13TUnk_8049FEB8FP7TObjectP10TObjPlayer
   - __ct__13TUnk_8049FED0FP7TObjectPUc
   - __ct__13TUnk_8049FF88FP7TObjectPUc
-  - __ct__13TUnk_804A2018FP7TObjectll
+  - __ct__20TItemFollowStarLightFP7TObjectll
   - __ct__13TUnk_804A3260FlPUc
   - __ct__13TUnk_804A6DC0FP7TObjectPUc
   - __ct__13TUnk_804C8678FP7TObjectPCc
@@ -3217,7 +3217,7 @@ force_active:
   - __vt__13TUnk_804A0DB0
   - __vt__13TUnk_804A1570
   - __vt__13TUnk_804A1D30
-  - __vt__13TUnk_804A2018
+  - __vt__20TItemFollowStarLight
   - __vt__13TUnk_804A204C
   - __vt__13TUnk_804A2148
   - __vt__13TUnk_804A2164
@@ -5299,7 +5299,7 @@ force_active:
   - construct_global_arrays__6TLobbyFv
   - __ct__13TUnk_804CC870FlP7TObjectP3Vecf
   - __ct__13TUnk_804A2C90FP7TObjectPUc
-  - __ct__13TUnk_804A2660FP7TObjectP11TItemWeaponll
+  - __ct__17TItemFollowEffectFP7TObjectP11TItemWeaponll
   - construct_lobby_players
   - construct_nug2000_bazooka__13TUnk_804E71F8FlPv
   - construct_panzer_faust__FPUcPUcl
@@ -5483,7 +5483,7 @@ force_active:
   - create_entry_list_window__17TWindowSubComCardFv
   - create_hair_effects__24TObjWaitEntryHairMoveSimFPv
   - create_help_item__19TWindowSubTradeMainFv
-  - create_icon__10TObjPlayerFiii
+  - spawn_item_follow_star_light__FP7TObjectll
   - create_input_number__19TWindowSubTradeMainFl
   - create_instance__23TAdSinglePlyChrSelectGCFv
   - create_inward_orbit_effect__FPUclPUcl
@@ -5655,7 +5655,7 @@ force_active:
   - destroy_effects__12TBoss6ThanksFv
   - destroy_free_buffers__20TWindowSubStatusDispFPvs
   - destroy_if_keyboard_idle__9TSaveChCrFv
-  - __dt__13TUnk_804A2660Fv
+  - __dt__17TItemFollowEffectFv
   - destroy_join_entries__6TLobbyFv
   - destroy_lobby_ui__6TLobbyFv
   - destroy_matching_children__19TPlayerBattleCtrl4PFPvPv
@@ -7376,7 +7376,7 @@ force_active:
   - item_eff_armor_particle_class_name
   - item_effect_object_table
   - item_equip_base_class_name
-  - __vt__13TUnk_804A2660
+  - __vt__17TItemFollowEffect
   - item_help_level_requirement_callback
   - item_id_counters
   - item_kt_archive_filename
@@ -14871,8 +14871,8 @@ force_active:
   - run_task__19TItemEffEquipAnchorFv
   - run_task__19TItemEffShieldPulseFv
   - run_task__13TUnk_8049FEB8Fv
-  - run_task__13TUnk_804A2018Fv
-  - run_task__13TUnk_804A2660Fv
+  - run_task__20TItemFollowStarLightFv
+  - run_task__17TItemFollowEffectFv
   - run_task__13TUnk_804A5D10Fv
   - run_task__13TUnk_804B5C08Fv
   - run_task__13TUnk_804B7C04Fv
@@ -15993,7 +15993,7 @@ force_active:
   - spawn_hit_particles_at_vec__10TObjPlayerFiii
   - spawn_impact_crater__12TBoss1DragonFP3Vec
   - spawn_item__10TObjPlayerFi
-  - spawn_item_follow_effect__FlUlll
+  - spawn_item_follow_effect__FP7TObjectP11TItemWeaponll
   - spawn_landing_effect__16TObjEneBm5GibonUFP3Vec
   - spawn_laser__12TPhotonPillaFv
   - spawn_lightning_at_angle__16TBGLightningCtrlFl

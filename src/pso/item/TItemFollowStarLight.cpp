@@ -1,4 +1,4 @@
-#include "pso/item/TUnk_804A2018.h"
+#include "pso/item/TItemFollowStarLight.h"
 #include "pso/effect/TEffStarLight2D.h"
 #include "pso/item/TItem.h"
 #include "pso/item/TItemMenuCtrl_80115AF0.h"
@@ -15,7 +15,7 @@ static const WeaponStarLightParameterWords weapon_star_light_parameters[] = {
     { { 0x40400000, 0x40E00000, 0xB4FF0019, 0, 0x41A00000 } }
 };
 
-void TUnk_804A2018::run_task() {
+void TItemFollowStarLight::run_task() {
     s32 sp8;
     saddr item;
     if (item_generation != (u32)get_item_system_generation()) {
@@ -36,9 +36,9 @@ void TUnk_804A2018::run_task() {
     queue_destruction();
 }
 
-TUnk_804A2018::~TUnk_804A2018() {}
+TItemFollowStarLight::~TItemFollowStarLight() {}
 
-TUnk_804A2018::TUnk_804A2018(TObject *parent, s32 item_id, s32 joint) : TObject(parent) {
+TItemFollowStarLight::TItemFollowStarLight(TObject *parent, s32 item_id, s32 joint) : TObject(parent) {
     StarLightPosition v;
     void *p;
     this->item_id = item_id;
@@ -53,8 +53,8 @@ TUnk_804A2018::TUnk_804A2018(TObject *parent, s32 item_id, s32 joint) : TObject(
 }
 
 
-void create_icon__10TObjPlayerFiii(saddr parent, s32 arg1, s32 arg2) {
-    if (parent != 0) {
-        new TUnk_804A2018((TObject *)parent, arg1, arg2);
+void spawn_item_follow_star_light(TObject *parent, s32 item_id, s32 joint) {
+    if (parent != NULL) {
+        new TItemFollowStarLight(parent, item_id, joint);
     }
 }

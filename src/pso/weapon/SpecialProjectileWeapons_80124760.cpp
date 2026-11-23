@@ -5,7 +5,7 @@
 #include "pso/weapon/TUnk_804A2164.h"
 #include "types.h"
 #include "pso/system/data/FlagWord.h"
-#include "pso/item/TUnk_804A2018.h"
+#include "pso/item/TItemFollowStarLight.h"
 #include "pso/weapon/shoot/TItemShoot.h"
 #include "pso/system/task/TObject.h"
 

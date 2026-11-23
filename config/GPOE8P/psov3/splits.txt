@@ -2618,7 +2618,7 @@ pso/weapon/TUnk_804A1F20.cpp:
 	.text       start:0x80123F88 end:0x801240C0
 	.data       start:0x804A1F20 end:0x804A2018
 
-pso/item/TUnk_804A2018.cpp:
+pso/item/TItemFollowStarLight.cpp:
 	.text       start:0x801240C0 end:0x801242F0
 	.rodata     start:0x8043E940 end:0x8043E958
 	.data       start:0x804A2018 end:0x804A2030
@@ -2651,7 +2651,7 @@ pso/player/TUnk_804A2548.cpp:
 	.data       start:0x804A2548 end:0x804A265C
 	.sdata2     start:0x805DAD50 end:0x805DAD64
 
-pso/weapon/TUnk_804A2660.cpp:
+pso/weapon/TItemFollowEffect.cpp:
 	.text       start:0x8012599C end:0x80125BE4
 	.data       start:0x804A2660 end:0x804A2678
 

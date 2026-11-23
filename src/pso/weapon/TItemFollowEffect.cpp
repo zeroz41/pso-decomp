@@ -1,13 +1,12 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
-#include "pso/system/TUnk_804A2660.h"
-#include "pso/system/ItemEffects.h"
+#include "pso/weapon/TItemFollowEffect.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/item/TItem.h"
 #include "pso/weapon/TItemWeapon.h"
 #include "pso/object/base/TObjMotion.h"
 #include "types.h"
 
-void TUnk_804A2660::run_task() {
+void TItemFollowEffect::run_task() {
     s32 sp8[5];
     s32 var_r31;
     saddr item;
@@ -38,13 +37,13 @@ void TUnk_804A2660::run_task() {
     }
 }
 
-TUnk_804A2660::~TUnk_804A2660() {
+TItemFollowEffect::~TItemFollowEffect() {
     if (particle != NULL) {
         particle->queue_destruction();
     }
 }
 
-TUnk_804A2660::TUnk_804A2660(TObject *parent, TItemWeapon *weapon, s32 joint, s32 effect_id) : TObject(parent) {
+TItemFollowEffect::TItemFollowEffect(TObject *parent, TItemWeapon *weapon, s32 joint, s32 effect_id) : TObject(parent) {
     Vec position;
     disallow_rendering();
     item_id = weapon->get_item_id();
@@ -54,8 +53,8 @@ TUnk_804A2660::TUnk_804A2660(TObject *parent, TItemWeapon *weapon, s32 joint, s3
     item_generation = get_item_system_generation();
 }
 
-void spawn_item_follow_effect(saddr parent, uaddr weapon, s32 joint, s32 effect_id) {
-    if (parent != 0 && weapon != 0) {
-        new TUnk_804A2660((TObject *)parent, (TItemWeapon *)weapon, joint, effect_id);
+void spawn_item_follow_effect(TObject *parent, TItemWeapon *weapon, s32 joint, s32 effect_id) {
+    if (parent != NULL && weapon != NULL) {
+        new TItemFollowEffect(parent, weapon, joint, effect_id);
     }
 }

@@ -78,6 +78,7 @@
 #include "pso/unk/text_80355C1C.h"
 #include "pso/unk/text_8035D444.h"
 #include "pso/weapon/SpecialProjectileWeapons.h"
+#include "pso/weapon/TUnk_804A204C.h"
 #include "pso/weapon/TItemWeaponMechgun.h"
 #include "pso/weapon/TUnk_804A07C0.h"
 #include "pso/weapon/TUnk_804A0CB8.h"
@@ -253,7 +254,7 @@ ItemCreateFunction weapon_factory_table[170] = {
     create_panzer_faust,
     create_common_weapon,
     TObjPlayer::create_state_35_alt,
-    TObjPlayer__sub_80124708,
+    TUnk_804A204C::create,
     TObjPlayer::create_obj_80125F60,
     TObjPlayer::create_enter_state_804A0BC0,
     TObjPlayer__sub_801228CC,

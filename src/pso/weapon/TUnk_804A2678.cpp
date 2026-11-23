@@ -6,7 +6,7 @@
 #include "pso/weapon/TItemWeapon.h"
 #include "pso/item/TItemEquipBase.h"
 #include "pso/item/TItem.h"
-#include "pso/system/ItemEffects.h"
+#include "pso/weapon/TItemFollowEffect.h"
 #include "pso/map/FloorArea.h"
 #include "dolphin/mtx.h"
 #include "pso/player/TObjPlayer.h"
@@ -49,8 +49,8 @@ void TUnk_804A2678::update_weapon() {
     if ((area != floor_area) && (this->is_model_shown() != 0)) {
         floor_area = area;
         if (is_item_area_enabled(area) != 0) {
-            spawn_item_follow_effect((saddr)tl_05, (uaddr)this, 1, 0x1AE);
-            spawn_item_follow_effect((saddr)tl_05, (uaddr)this, 2, 0x1AE);
+            spawn_item_follow_effect(tl_05, this, 1, 0x1AE);
+            spawn_item_follow_effect(tl_05, this, 2, 0x1AE);
         }
     }
 }
