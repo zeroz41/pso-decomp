@@ -633,7 +633,7 @@ struct Req_803E67D4 { s32 id; s32 a; s32 b; };
 
 struct Req_803E67A0 { s32 id; s32 a; s32 b; };
 
-struct Req_803E6808 { s32 id; s32 a; s32 b; };
+struct Req_803E6808 { s32 id; const char *a; const char *b; };
 
 struct Req_803E6908 { s32 id; s32 a; s32 b; };
 
@@ -718,7 +718,7 @@ void TWindowKeyBoardSoft__sub_803E67D4(s32 a, s32 b) {
     ((TWindowKeyBoardSoft *)(&req))->dispatch_by_index();
 }
 
-s32 TWindowKeyBoardSoft::dispatch_request_0x20(saddr a, saddr b) {
+s32 TWindowKeyBoardSoft::dispatch_request_0x20(const char *a, const char *b) {
     Req_803E6808 req;
     req.id = 0x20;
     req.a = a;

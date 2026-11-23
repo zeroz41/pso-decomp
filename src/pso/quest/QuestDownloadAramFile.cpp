@@ -25,7 +25,7 @@ s32 start_askdic(void) {
     quest_download_initialized = 1;
     lbl_805D7908 = 0;
     lbl_805D790C = 0;
-    result = TWindowKeyBoardSoft::dispatch_request_0x20((saddr)"Dummy", (saddr)"");
+    result = TWindowKeyBoardSoft::dispatch_request_0x20("Dummy", "");
     if (result == 0) {
         result = TWindowKeyBoardSoft::dispatch_request_0x1c();
     }
