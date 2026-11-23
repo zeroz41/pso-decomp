@@ -374,8 +374,6 @@ void handle_chat_message__11TWindowCtrlFPc(char *);
 extern const NJS_POINT2 lbl_8043EE10[1];
 extern const NJS_POINT2 lbl_8043EE08[1];
 s32 TLobby__sub_80146740();
-s32 increment_frame__23TAdSinglePlyChrSelectGCFv();
-s32 get_player_count__23TAdSinglePlyChrSelectGCFv();
 extern const char lobby_msg_registed[];
 extern const char lobby_msg_name_taken[];
 extern const char lobby_msg_regist_check_ok[];
@@ -2151,8 +2149,8 @@ void TLobby::handle_login_result(unsigned int arg0) {
         lobby_debug_printf_stub(lobby_msg_login_success);
         TAdEnterSerialAccessGC::store_serial_access_key((saddr)((char *)TLobby__protocol_instance + 0x3F8A), (saddr)((char *)TLobby__protocol_instance + 0x3F9B), (saddr)((char *)TLobby__protocol_instance + 0x3F3A));
         if (TLobby__login_pending_flag != 0) {
-            temp_r31 = increment_frame__23TAdSinglePlyChrSelectGCFv();
-            ((TProtocol *)(TLobby__protocol_instance))->send_character_save_info(get_player_count__23TAdSinglePlyChrSelectGCFv(), temp_r31);
+            temp_r31 = TAdSinglePlyChrSelectGC::increment_frame();
+            ((TProtocol *)(TLobby__protocol_instance))->send_character_save_info(TAdSinglePlyChrSelectGC::get_player_count(), temp_r31);
             TLobby__login_pending_flag = 0;
         }
         break;
@@ -2225,8 +2223,8 @@ void TLobby::send_position_update() {
     s32 temp_r31;
     s32 temp_r4;
 
-    temp_r31 = increment_frame__23TAdSinglePlyChrSelectGCFv();
-    temp_r4 = get_player_count__23TAdSinglePlyChrSelectGCFv();
+    temp_r31 = TAdSinglePlyChrSelectGC::increment_frame();
+    temp_r4 = TAdSinglePlyChrSelectGC::get_player_count();
     ((TProtocol *)(TLobby__protocol_instance))->send_character_save_info(temp_r4, temp_r31);
 }
 void TLobby::handle_state(int arg0) {

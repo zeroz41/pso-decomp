@@ -23,6 +23,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/system/vector.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 
 static const ChrSelPlateLayout chr_sel_b_slot_plate_layout = { 180.0f, 38.0f, { 0xBC, 0x98, 0x36, 0x00 }, 0 };
 // Plate positions of the four entries
@@ -75,8 +76,8 @@ void TAdChrSelBSlotGC::set_load_state() {
     }
 }
 void TAdChrSelBSlotGC::init() {
-    encrypt_and_save__23TAdSinglePlyChrSelectGCFv();
-    open_confirm_window__23TAdSinglePlyChrSelectGCFv();
+    TAdSinglePlyChrSelectGC::encrypt_and_save();
+    TAdSinglePlyChrSelectGC::open_confirm_window();
     state = 0x1C;
 }
 void TAdChrSelBSlotGC::reset_load_state() {
@@ -101,13 +102,13 @@ void TAdChrSelBSlotGC::update_load_state() {
     }
 }
 void TAdChrSelBSlotGC::set_state_confirm() {
-    encrypt_and_save__23TAdSinglePlyChrSelectGCFv();
-    open_confirm_window__23TAdSinglePlyChrSelectGCFv();
+    TAdSinglePlyChrSelectGC::encrypt_and_save();
+    TAdSinglePlyChrSelectGC::open_confirm_window();
     state = 0x1A;
 }
 void TAdChrSelBSlotGC::enter_state17() {
-    encrypt_and_save__23TAdSinglePlyChrSelectGCFv();
-    open_confirm_window__23TAdSinglePlyChrSelectGCFv();
+    TAdSinglePlyChrSelectGC::encrypt_and_save();
+    TAdSinglePlyChrSelectGC::open_confirm_window();
     state = 0x17;
 }
 void TAdChrSelBSlotGC::sub_8030E620() {  }

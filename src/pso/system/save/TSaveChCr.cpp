@@ -50,7 +50,6 @@ extern s32 pso_system_card_filename[];
 extern s32 pso_guildcard_card_filename[];
 s32 poll_memcard_result(saddr);
 s32 poll_memcard_status__23TAdSinglePlyChrSelectGCFv();
-s32 load_character_from_card__23TAdSinglePlyChrSelectGCFi(s32 arg0);
 extern void *tl_03;
 }
 
@@ -193,7 +192,7 @@ void TSaveChCr::create_backgrounds() {
 s32 TSaveChCr::sub_8033A138() { return TAdSinglePlyChrSelectGC::load_character_from_card(0); }
 s32 TSaveChCr::save_character() {
     TObjPlayer::begin_action_from_char_select();
-    return load_character_from_card__23TAdSinglePlyChrSelectGCFi(1);
+    return TAdSinglePlyChrSelectGC::load_character_from_card(1);
 }
 
 void TSaveChCr::set_state(s32 next_state) {

@@ -27,6 +27,7 @@
 #include "pso/system/SoundEffect.h"
 #include "pso/object/warp/TObjCityMainWarp.h"
 #include "pso/ui/window/TWindowMenu.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 
 static const ChrSelPlateLayout chr_sel_a_slot_plate_layout = { 180.0f, 38.0f, { 0xDD, 0x90, 0x48, 0x00 }, 0 };
 // Plate positions of the four entries (slot kind 0)
@@ -256,7 +257,7 @@ void TAdChrSelASlotGC::update_load_state() {
     }
 }
 void TAdChrSelASlotGC::set_state() {
-    write_encrypted_save__23TAdSinglePlyChrSelectGCFv();
+    TAdSinglePlyChrSelectGC::write_encrypted_save();
     TAdSinglePlyChrSelectGC__sub_801FDAAC();
     this->state = 0x12;
 }
@@ -266,7 +267,7 @@ void TAdChrSelASlotGC::check_load_state() {
     }
 }
 void TAdChrSelASlotGC::init_selection() {
-    write_encrypted_save__23TAdSinglePlyChrSelectGCFv();
+    TAdSinglePlyChrSelectGC::write_encrypted_save();
     TAdSinglePlyChrSelectGC__sub_801FDAAC();
     this->state = 0x10;
 }

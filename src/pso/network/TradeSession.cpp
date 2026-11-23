@@ -32,6 +32,7 @@
 #include "pso/unk/text_801D40D4.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
 #include "pso/player/TPlyDispData.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 struct ByteBlock_F8 { u8 bytes[0xf8]; };
 
 struct Stack_802D23E0
@@ -356,7 +357,7 @@ void TLobby::apply_trade_items() {
                         }
                     }
                 }
-                if ((flag == 0) || (load_character_from_card__23TAdSinglePlyChrSelectGCFv() == 0)) {
+                if ((flag == 0) || (TAdSinglePlyChrSelectGC::load_character_from_card() == 0)) {
                     TLobby__trade_proposal_state = 8;
                     TLobby__protocol_instance->send_trade_ready();
                 }

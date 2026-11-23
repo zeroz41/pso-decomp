@@ -38,7 +38,7 @@ TAdMultiSaveGC::TAdMultiSaveGC(TObject *parent) : TObject(parent) {
     retry_menu = NULL;
     void *o = new TAdBackGC(this);
     void *o2 = new TAdBackTxtGC(this);
-    copy_chr_slots_from_request__23TAdSinglePlyChrSelectGCFv();
+    TAdSinglePlyChrSelectGC::copy_chr_slots_from_request();
 }
 
 TAdMultiSaveGC::~TAdMultiSaveGC() {
@@ -125,7 +125,7 @@ void TAdMultiSaveGC::run_task() {
         }
         break;
     case 4:
-        write_encrypted_save__23TAdSinglePlyChrSelectGCFv();
+        TAdSinglePlyChrSelectGC::write_encrypted_save();
         saving_window = sub_802FF1F4();
         m_state = 5U;
         return;

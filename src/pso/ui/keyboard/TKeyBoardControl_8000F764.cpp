@@ -188,7 +188,7 @@ void shutdown_and_reset_system(void) {
     TLobby::destroy_game_heap();
     TLobby__sub_8022809C();
     TLobby::shutdown_buffers();
-    release_all__23TAdSinglePlyChrSelectGCFv();
+    TAdSinglePlyChrSelectGC::release_all();
     TWindowSubStatusDisp__sub_803386F0();
     reset_display_copy_filter();
     TLobby__sub_80147978();
@@ -357,7 +357,7 @@ void init_game_systems(void) {
     load_menu_font();
     TLobby::load_now_loading_texture();
     TCharaMaking__sub_8028E790();
-    init_char_select_globals__23TAdSinglePlyChrSelectGCFv();
+    TAdSinglePlyChrSelectGC::init_char_select_globals();
     TLobby__sub_80226BA4();
     TLobby::wait_for_sound_init();
     load_info_icon();

@@ -86,7 +86,6 @@ u8 *TAdSinglePlyChrSelectGC__sub_802908CC(u8 *arg0, s16 arg1);
 void translate_matrix_vec3(u8 *arg0, u8 *arg1);
 void rotate_matrix_y(int, u32);
 int fn_8001ED90(void *p);
-void update_pair__23TAdSinglePlyChrSelectGCFPv(void* p);
 int TAdSinglePlyChrSelectGC__get_char_creation_figure_draw_flag(void);
 void close_if_active__23TAdSinglePlyChrSelectGCFv(u8 * _w0);
 s32 release_texture_list(void *);
@@ -383,7 +382,11 @@ u8 *TAdSinglePlyChrSelectGC__sub_802908CC(u8 *arg0, s16 arg1) {
     }
     return arg0;
 }
-void update_pair__23TAdSinglePlyChrSelectGCFPv(void* p) { TAdSinglePlyChrSelectGC::init_entry_tables(p); ((TCMCharacter *)p)->load_model_parts(); }
+}
+
+void TAdSinglePlyChrSelectGC::update_pair(void* p) { TAdSinglePlyChrSelectGC::init_entry_tables(p); ((TCMCharacter *)p)->load_model_parts(); }
+
+extern "C" {
 void TAdSinglePlyChrSelectGC__sub_80290884(void* p, void* q) { *(u32*)((char*)p + 0x0) = *(u32*)((char*)q + 0x0); *(u32*)((char*)p + 0x4) = *(u32*)((char*)q + 0x4); }
 void TAdSinglePlyChrSelectGC::init_entry_tables(void* _w0) {
     for (s32 i = 0; i < 10; i++) {
@@ -602,7 +605,7 @@ void TCMCharacter::apply_character_appearance() {
     if (fn_8001ED90((void *)chara_select_preview_resource) == 0 || this->shape_rel_ready == 0) {
         return;
     }
-    update_pair__23TAdSinglePlyChrSelectGCFPv(this);
+    TAdSinglePlyChrSelectGC::update_pair(this);
     raw = (CharacterAppearanceFields *)creation_player_character;
     app = (struct Opaque_80290088 *)raw;
     hair = raw->hair;

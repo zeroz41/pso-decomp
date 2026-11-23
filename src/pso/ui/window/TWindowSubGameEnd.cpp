@@ -32,7 +32,7 @@ saddr get_window_layout_position(s32);
 
 void TKeyBoardControl::init_char_select(TObject *) {
     if (is_split_screen() != 0) {
-        setup_player_battle_ctrls__23TAdSinglePlyChrSelectGCFv();
+        TAdSinglePlyChrSelectGC::setup_player_battle_ctrls();
         request_main_phase(7);
         return;
     }

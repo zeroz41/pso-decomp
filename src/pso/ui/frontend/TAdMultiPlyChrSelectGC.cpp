@@ -114,7 +114,6 @@ void TAdChrSelPlyPlateGC__start_selected_slot_anim(TAdChrSelPlyPlateGC *);
 void TAdChrSelPlyPlateGC__select_slot_at_cursor(TAdChrSelPlyPlateGC *);
 extern s32 lbl_80472850[];
 extern s32 lbl_80472858[];
-void clear_slot_body__23TAdSinglePlyChrSelectGCFi(s32 i);
 struct MultiPlayChrSelectSlotPositions { s32 value; u8 remaining[0x14]; };
 
 extern MultiPlayChrSelectSlotPositions multi_play_chr_select_slot_positions;
@@ -851,7 +850,7 @@ void TAdMultiPlyChrSelectGC::update_card_select() {
                 ((TWindowMessageYesNo *)(*(void **)((s8 *)this + 0x98)))->close();
                 *(u32 *)((s8 *)this + 0x98) = 0U;
             }
-            clear_slot_body__23TAdSinglePlyChrSelectGCFi(player_plate->get_active_card_slot() + 4);
+            TAdSinglePlyChrSelectGC::clear_slot_body(player_plate->get_active_card_slot() + 4);
             this->a_slot->set_state(0xF);
             this->state = 8;
             break;
@@ -1254,7 +1253,7 @@ void TAdMultiPlyChrSelectGC::update_card_select_state() {
             this->state = 0xE;
             return;
         case 0:
-            clear_slot_entry__23TAdSinglePlyChrSelectGCFi(player_plate->get_active_card_slot());
+            TAdSinglePlyChrSelectGC::clear_slot_entry(player_plate->get_active_card_slot());
             this->b_slot->set_state(0x16);
             this->state = 0x14;
             break;

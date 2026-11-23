@@ -49,7 +49,6 @@ s32 start_load__23TAdSinglePlyChrSelectGCFv(void);
 s32 load_guild_card_save(void);
 s32 load_system_file(s32 arg0);
 int TAdSinglePlyChrSelectGC__sub_801FD990(s32 chan);
-void reset_save_header__23TAdSinglePlyChrSelectGCFv(void);
 void init_timestamped_data(void);
 extern char pso_system_card_filename[];
 extern char pso_character_card_filename[];
@@ -429,7 +428,7 @@ void TAdTimeSetGC::update_char_timer() {
 }
 
 void TAdTimeSetGC::init_screen() {
-    reset_save_header__23TAdSinglePlyChrSelectGCFv();
+    TAdSinglePlyChrSelectGC::reset_save_header();
     if (try_confirm_selection__23TAdSinglePlyChrSelectGCFv() == 0) {
         change_state(0);
         return;

@@ -231,7 +231,7 @@ void TWindowSubComCard::start_player_data_load(s32 ply_guild_card_tag) {
     if (((s32 (*)(int))TWindowSubComCard__sub_8007B070)(ply_guild_card_tag) == 0) {
         temp = reinterpret_cast<uaddr>(TWindowSubComCard::get_card_entry(0));
         ((s32 (*)(s32, s32, s32))forward_to_matching_card__17TWindowSubComCardFPvPvi)(ply_guild_card_tag, (s32) temp, 0xD2);
-        load_player_data__23TAdSinglePlyChrSelectGCFv();
+        TAdSinglePlyChrSelectGC::load_player_data();
     }
 }
 }

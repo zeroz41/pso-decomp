@@ -111,7 +111,9 @@ s32 TAdSinglePlyChrSelectGC__sub_80202A68(u8 *arg0) {
     return *(s32 *)((s8 *)arg0 + 0x194AC);
 }
 
-s32 destroy_chardata_array__23TAdSinglePlyChrSelectGCFis(saddr arg0, s16 arg1) {
+}
+
+s32 TAdSinglePlyChrSelectGC::destroy_chardata_array(int arg0, s16 arg1) {
     if (arg0 != 0) {
         __destroy_arr(arg0 + 4, (s32 *)TAdSinglePlyChrSelectGC::free_chardata, 0x39b4, 7);
         if (arg1 > 0) {
@@ -120,6 +122,8 @@ s32 destroy_chardata_array__23TAdSinglePlyChrSelectGCFis(saddr arg0, s16 arg1) {
     }
     return arg0;
 }
+
+extern "C" {
 
 s32 TAdSinglePlyChrSelectGC::free_chardata(saddr arg0, s16 arg1) {
     if (arg0 != 0) {

@@ -28,6 +28,7 @@ LAYOUT_ASSERT(RecoveredGlobal_8036E8DC_lbl_804C89BC_size, sizeof(RecoveredGlobal
 #include "pso/ui/frontend/TAdPlayerLoadGC.h"
 #include "pso/unk/TLobby.h"
 #include "pso/ui/window/TWindowSubComCard.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 struct Stack_8036EA24 {
     s32 sp8;
     s32 spC;
@@ -53,8 +54,6 @@ struct Self_8036E2AC {
 
 extern "C" {
 s32 load_system_file(s32 arg0);
-void refresh_char_slots__23TAdSinglePlyChrSelectGCFv(void);
-s32 encrypt_save_and_write__23TAdSinglePlyChrSelectGCFv();
 s32 poll_memcard_result(saddr);
 extern RecoveredGlobal_8036E8DC_lbl_804C88C0 pso_character_card_filename;
 struct PsoSystemCardFilename { char value[0xB]; };
@@ -62,7 +61,6 @@ extern PsoSystemCardFilename pso_system_card_filename;
 extern RecoveredGlobal_8036E8DC_lbl_804C89BC pso_guildcard_card_filename;
 u32 load_system_file_flag__23TAdSinglePlyChrSelectGCFv(void);
 void *create_window_menu_default(void *, s32);
-s32 all_players_loaded__23TAdSinglePlyChrSelectGCFv();
 s32 TAdPlayerLoadGC__sub_801FD770();
 void TKeyBoardControl__sub_8000F90C(s32 arg0);
 
@@ -440,8 +438,8 @@ void TAdMultiChgGameModeGC::sub_8036E6EC() {  }
 void TAdMultiChgGameModeGC::update_mode_selection_and_save() {
     s32 arg0 = (saddr)this;
     if (((int)handle_mode_selection()) == 0) {
-        refresh_char_slots__23TAdSinglePlyChrSelectGCFv();
-        if (encrypt_save_and_write__23TAdSinglePlyChrSelectGCFv() != 0) {
+        TAdSinglePlyChrSelectGC::refresh_char_slots();
+        if (TAdSinglePlyChrSelectGC::encrypt_save_and_write() != 0) {
             set_state((s32)((saddr)((void*)(7))));
             return;
         }
@@ -459,7 +457,7 @@ void TAdMultiChgGameModeGC::check_player_load_result() {
     }
     switch (TAdPlayerLoadGC__sub_801FD770()) {
     case 5:
-        if (all_players_loaded__23TAdSinglePlyChrSelectGCFv() != 0) {
+        if (TAdSinglePlyChrSelectGC::all_players_loaded() != 0) {
             set_state(3);
         } else {
             set_state(8);
@@ -505,7 +503,7 @@ void TAdMultiChgGameModeGC::set_state(s32 arg1) {
     }
 }
 
-s32 check_system_file_status__23TAdSinglePlyChrSelectGCFv(void) {
+s32 TAdSinglePlyChrSelectGC::check_system_file_status() {
     if (TAdPlayerLoadGC::probe_card_slot(0) == 0) {
         return 1;
     }
@@ -536,7 +534,7 @@ void TUnk_804F3A20::run_task() {
     LAYOUT_ASSERT(sp10_offset, offsetof(Stack_8036EA24, sp10) == 0x8);
     Stack_8036EA24 stack;
     u8 *temp_r6;
-    this->m_20 = check_system_file_status__23TAdSinglePlyChrSelectGCFv();
+    this->m_20 = TAdSinglePlyChrSelectGC::check_system_file_status();
     if (this->m_20 & 1) {
         ((TAdMultiChgGameModeGC *)arg0)->set_state(9);
     }
@@ -562,7 +560,7 @@ TUnk_804F3A20::TUnk_804F3A20(TObject *object) : TObject(object) {
     *(s32 *)((s8 *)this + 0x34) = 0;
     this->m_28 = 0;
     *(s32 *)((s8 *)this + 0x2C) = 0;
-    this->m_20 = ((s32 (*)(void *))check_system_file_status__23TAdSinglePlyChrSelectGCFv)(this);
+    this->m_20 = ((s32 (*)(void *))TAdSinglePlyChrSelectGC::check_system_file_status)(this);
     if (this->m_20 & 1) {
         ((TAdMultiChgGameModeGC *)this)->set_state(0);
     } else {

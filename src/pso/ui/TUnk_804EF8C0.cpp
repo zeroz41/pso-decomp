@@ -77,7 +77,6 @@ s32 poll_memcard_result(saddr);
 void check_ready__23TAdSinglePlyChrSelectGCFv(void);
 
 s8 func_801A5E54__Fv();
-s32 run_save_load_sequence__23TAdSinglePlyChrSelectGCFv();
 }
 void process_async_file_reads(void);
 void update_sound_request_slots(void);
@@ -94,8 +93,6 @@ int TAdSinglePlyChrSelectGC__sub_801FCD3C(void *);
 s32 compare_save_headers__23TAdSinglePlyChrSelectGCFPvPvPvPv(int, int, int, int);
 s32 decrypt_char_data__23TAdSinglePlyChrSelectGCFPv(int);
 s32 encrypt_save_data__23TAdSinglePlyChrSelectGCFPvPv(int);
-s32 save_character_file__23TAdSinglePlyChrSelectGCFi(int);
-s32 init_and_register__23TAdSinglePlyChrSelectGCFi(int);
 s32 get_field_118__22TAdEnterSerialAccessGCFv();
 
 void TAdSinglePlyChrSelectGC::reset_quest_id() {
@@ -268,7 +265,7 @@ void TUnk_804EF8C0::handle_load_result() {
         }
         memcpy((void *)obj, (void *)(src + 0x2048), 0x1156C);
         decrypt_char_data__23TAdSinglePlyChrSelectGCFPv(obj);
-        if (init_and_register__23TAdSinglePlyChrSelectGCFi(obj) == 0) {
+        if (TAdSinglePlyChrSelectGC::init_and_register(obj) == 0) {
             lbl_805D6D90 &= ~1;
             message_window->append_line(get_message_text(0x6D), 1);
             state = 0xB;
@@ -290,7 +287,7 @@ void TUnk_804EF8C0::handle_load_result() {
             } else {
                 seed_character_select_serial_rng(get_field_118__22TAdEnterSerialAccessGCFv());
                 encrypt_save_data__23TAdSinglePlyChrSelectGCFPvPv(TAdSinglePlyChrSelectGC::get_instance());
-                save_character_file__23TAdSinglePlyChrSelectGCFi(1);
+                TAdSinglePlyChrSelectGC::save_character_file(1);
                 state = 4;
             }
             if (obj != 0U) {
@@ -393,7 +390,7 @@ void TAdSinglePlyChrSelectGC::run_frame() {
     main_task.render_screen_overlay();
     process_async_file_reads();
     update_sound_request_slots();
-    run_save_load_sequence__23TAdSinglePlyChrSelectGCFv();
+    TAdSinglePlyChrSelectGC::run_save_load_sequence();
     TAdSinglePlyChrSelectGC::noop();
     if (!(lbl_805D6D90 & 1)) {
         if (func_801A5E54__Fv() != 0) {

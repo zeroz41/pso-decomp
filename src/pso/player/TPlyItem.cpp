@@ -962,7 +962,7 @@ TUnk_804C4468::TUnk_804C4468(TObject *parent, s32 list, TObjBase *source, const 
         entry = (TItemList *)((TItemList *)this)->run_item_count_update();
         if (fn_801D4270(*(s32 *)((s8 *)entry + 4)) != 0) {
             remove_list_entry_by_id(*(s32 *)((s8 *)entry + 4));
-            if (load_character_from_card__23TAdSinglePlyChrSelectGCFv() != 0) {
+            if (TAdSinglePlyChrSelectGC::load_character_from_card() != 0) {
                 queue_destruction();
                 return;
             }

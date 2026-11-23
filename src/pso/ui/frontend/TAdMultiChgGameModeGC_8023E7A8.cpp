@@ -118,7 +118,7 @@ FloorResourceCallbacks game_mode_select_scene_callbacks[23] = {
     {fn_802E10D8, TAdChrSelPlayerGC__sub_802E10A0},
     {TAdTimeSetGC::sub_802E34A8, TAdTimeSetGC::sub_802E34A4},
     {register_texture_f512_multiplay, TAdGameStartSubGC::destroy_instance},
-    {alloc_char_buffers__23TAdSinglePlyChrSelectGCFv, free_callbacks__23TAdSinglePlyChrSelectGCFv},
+    {TAdSinglePlyChrSelectGC::alloc_char_buffers, TAdSinglePlyChrSelectGC::free_callbacks},
     {fn_802FFC7C, fn_802FFC78},
     {load_multi_confirm_textures, free_multi_confirm_textures},
     {register_texture_logo_e, TLogo::free_held_object},
@@ -525,7 +525,7 @@ void run_game_mode_select_frame(void) {
     main_task.render_screen_overlay();
     process_async_file_reads();
     update_sound_request_slots();
-    run_save_load_sequence__23TAdSinglePlyChrSelectGCFv();
+    TAdSinglePlyChrSelectGC::run_save_load_sequence();
     TAdSinglePlyChrSelectGC::noop();
     if (TAdPlayerLoadGC::get_instance() == 0) {
         if (func_801A5E54__Fv() != 0) {

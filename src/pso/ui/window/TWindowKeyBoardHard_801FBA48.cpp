@@ -113,8 +113,8 @@ void TAdSinglePlyChrSelectGC__sub_801FBC3C(void *arg0) {
     subtractive_rng_make_shuffle((s32 *)chr_select_rng_state);
     subtractive_rng_unshuffle((void *)chr_select_rng_state, (const u8 *)a, (u8 *)b, (u32)(0x194B0));
     copy_save_data__23TAdSinglePlyChrSelectGCFPvPv(arg0, b);
-    destroy_chardata_array__23TAdSinglePlyChrSelectGCFis((saddr)b, (s16)(1));
-    destroy_chardata_array__23TAdSinglePlyChrSelectGCFis((saddr)a, (s16)(1));
+    TAdSinglePlyChrSelectGC::destroy_chardata_array((saddr)b, (s16)(1));
+    TAdSinglePlyChrSelectGC::destroy_chardata_array((saddr)a, (s16)(1));
     subtractive_rng_seed(chr_select_rng_state, chr_select_serial_seeds[0]);
     ((TAdSinglePlyChrSelectGC *)chr_select_rng_state)->apply_rng_cipher((u32 *)arg0, 0x194B0);
     subtractive_rng_seed(chr_select_rng_state, TAdSinglePlyChrSelectGC__sub_80202A68((u8 *)arg0));
@@ -167,7 +167,7 @@ s32 TAdSinglePlyChrSelectGC::wait_for_card_load(s32 chan) {
         if (TAdPlayerLoadGC::probe_card_slot(chan) != 1) {
             return 0;
         }
-        render_frame__23TAdSinglePlyChrSelectGCFv();
+        TAdSinglePlyChrSelectGC::render_frame();
         render_tick();
     }
     return 1;
