@@ -63,6 +63,7 @@
 #include "pso/item/TItem.h"
 #include "pso/item/armor/TItemProShield.h"
 #include "pso/camera/TCameraCtrl.h"
+#include "pso/unk/text_8011A780.h"
 #include "pso/ui/charcreate/TCharaMaking.h"
 #include "pso/ui/font/TFontSmallLobby.h"
 #include "pso/unk/TLobby.h"
@@ -143,7 +144,6 @@ extern "C" {
 s32 calc_stat_threshold__10TObjPlayerFPv(void *player);
 s32 preview_equip_stats__10TObjPlayerFv(u8 *player, s16 *out, u8 *incoming);
 u8 is_volopt_phase_final__10TObjPlayerFv(TObjPlayer *player);
-s32 advance_item_id_counter(int);
 extern u32 local_client_id;
 s32 is_item_equipped(TItem *item);
 s32 preview_unequip_stats__10TObjPlayerFv(Self_801B96BC *self, Out_801B96BC *out, s32 key);
@@ -3145,7 +3145,7 @@ void TObjPlayer::request_inventory_item(TItemData* item) {
     InventoryCreatePacket_801B849C packet;
     if (((s32 (*)(void))is_volopt_phase_final__10TObjPlayerFv)() == 0) {
         if ((s32)item->id == -1) {
-            item->id = ((u32 (*)(u16))advance_item_id_counter)((u16)local_client_id);
+            item->id = advance_item_id_counter((u16)local_client_id);
         }
         if (player == 0 || ((TObjChara *)player)->obj_isState2_324() == 0) {
             ((TObjPlayer *)(&packet))->init_pkt_6x2B();
@@ -3244,7 +3244,7 @@ void assign_inventory_item_ids(TObjPlayer *player, TPlyInventoryItem *records, s
     if (records != NULL) {
         client = ((TObjBase *)(player))->get_entity_id();
         for (i = 0; i < count; i++) {
-            records->m_data.id = ((s32 (*)(u16))advance_item_id_counter)(client);
+            records->m_data.id = advance_item_id_counter(client);
             ++records;
         }
     }
