@@ -703,7 +703,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/object/lobby/LobbyPigeonPath.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-sdata 4", "-str reuse,readonly")},
     "pso/boss/olgaflow/TBoss6Tube.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/object/jungle/TOJungleDesign.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
-    "pso/ui/frontend/TAdSinglePlyChrSelectGC_80336054.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    "pso/ui/frontend/TTitleScene.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/unk/TLobby_801461EC.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # load_area_enemy_set/load_area_object_set reach each .rodata object with their own lis/addi: -pool off.
     "pso/unk/TLobby_80209524.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-pool off")},

@@ -2,7 +2,6 @@
 #include "types.h"
 #include "pso/ui/keyboard/TKeyBoardControl_80131C58.h"
 #include "pso/unk/TLobby.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_80336054.h"
 #include "pso/ui/frontend/TitleSceneTables.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/ui/city/THunterGuildSeqOffline.h"
