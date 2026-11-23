@@ -12,12 +12,13 @@
 #include "pso/item/TUnk_804A0648.h"
 #include "pso/system/task/TMainTask.h"
 
-struct VBase_18_24931d
-{
-  char pad[0x18];
-};
+// The (kind, value) pair send_srank_stat_extra hands to its target.
+struct StatExtraParam { s32 kind; f32 val; };
 
-struct VObj_18_24931d : VBase_18_24931d {
+struct StatExtraTargetBase { char pad[0x18]; };
+
+// View onto the stat-extra target: recs is its per-body record table, 0x2C a record.
+struct StatExtraTargetView : StatExtraTargetBase {
     virtual void m0();
     virtual void m1();
     virtual void m2();
@@ -39,98 +40,19 @@ struct VObj_18_24931d : VBase_18_24931d {
     virtual void m18();
     virtual void m19();
     virtual void m20();
-    virtual void m21();
-    virtual void m22();
-    virtual void m23();
-    virtual void m24();
-    virtual void m25();
-    virtual void m26();
-    virtual void m27();
-    virtual void m28();
-    virtual void m29();
-    virtual s32 m30();
-    virtual void m31();
-    virtual void m32();
-    virtual void m33();
-    virtual void m34();
-    virtual void m35();
-    virtual void m36();
-    virtual void m37();
-    virtual void m38();
-    virtual void m39();
-    virtual void m40();
-    virtual void m41();
-    virtual void m42();
-    virtual void m43();
-    virtual void m44();
-    virtual void m45();
-    virtual void m46();
-    virtual void m47();
-    virtual void m48();
-    virtual s32 m49(s32 *, s32, s32, s32);
-    virtual void m50();
-    virtual void m51();
-    virtual void m52();
-    virtual void m53();
-    virtual void m54();
-    virtual void m55();
-    virtual void m56();
-    virtual void m57();
-    virtual void m58();
-    virtual void m59();
-    virtual s32 m60();
-};
-
-struct Param_8012A508 { s32 kind; f32 val; };
-
-struct VBase_8012A508 { char pad[0x18]; };
-
-struct VObj_8012A508 : VBase_8012A508 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual void m19();
-    virtual void m20();
-    virtual void m21(u32, Param_8012A508 *, u8 *, s32, s32);
+    virtual void m21(u32, StatExtraParam *, u8 *, s32, s32);
     u8 pad1c[0xA4 - 0x1C];
     u8 *recs;
 };
-
-struct Self_8012A508 { u8 pad[0xF0]; u32 fF0; u8 padF4[0x1F8 - 0xF4]; s32 mode; };
-
-typedef struct Pl_8012A470
-{
-  u8 pad[0xF0];
-  void *f0;
-} Pl_8012A470;
 
 extern "C" {
 
 s32 get_captured_target_collider_index(s32);
 s32 get_captured_target_entry(s32, s32);
-s32 get_captured_target_count(s32 *arg0);
+s32 get_captured_target_count(s32 *state);
 s32 resolve_hittable_target(s32, s32);
 
-
 }
-typedef struct VBase_18_24931d VBase_18_24931d;
-typedef struct VObj_18_24931d VObj_18_24931d;
 
 
 TItem *TObjPlayer::create_srank_common_weapon(u8 *item) {
@@ -209,41 +131,41 @@ void TUnk_804A4948::on_equipped() {
 }
 
 void TUnk_804A4948::emit_marker_effects() {
-    u8 *arg0 = (u8 *)this;
-  Vec sp8;
-  s32 temp_r0;
+  u8 *self_bytes = (u8 *)this;
+  Vec gun_point;
+  s32 weapon_kind;
   s32 attack_flags;
   s32 new_var;
   (this->vfunc_62());
   attack_flags = (this->get_attack_flags());
   if (attack_flags & 1)
   {
-    temp_r0 = this->kind;
-    if (temp_r0 < 3)
+    weapon_kind = this->kind;
+    if (weapon_kind < 3)
     {
-      if (temp_r0 < 1)
+      if (weapon_kind < 1)
       {
-        if ((arg0 && arg0) && arg0)
+        if ((self_bytes && self_bytes) && self_bytes)
         {
         }
         goto block_7;
       }
-      if (((TItemWeapon *)arg0)->is_mode_two_and_ready() != 0)
+      if (((TItemWeapon *)self_bytes)->is_mode_two_and_ready() != 0)
       {
-        ((TUnk_804A4948 *)arg0)->send_srank_stat_extra_to_locks();
+        ((TUnk_804A4948 *)self_bytes)->send_srank_stat_extra_to_locks();
         return;
       }
-      ((TItemWeapon *)arg0)->update_active_game_effect();
+      ((TItemWeapon *)self_bytes)->update_active_game_effect();
       return;
     }
     block_7:
-    ((TItemWeapon *)arg0)->update_active_game_effect();
+    ((TItemWeapon *)self_bytes)->update_active_game_effect();
     return;
   }
   if ((new_var = attack_flags) & 2)
   {
-    ((TItemWeapon *)arg0)->get_gun_point(&sp8);
-    (this->launch_shot((u8 *)(&sp8), (0), (0), (1)));
+    ((TItemWeapon *)self_bytes)->get_gun_point(&gun_point);
+    (this->launch_shot((u8 *)(&gun_point), (0), (0), (1)));
   }
 }
 
@@ -271,25 +193,24 @@ void TUnk_804A4948::deliver_hit(TObjPlayer *attacker, TObjChara *target, s32 att
 
 
 void TUnk_804A4948::send_srank_stat_extra(uaddr target, s32 body) {
-    Self_8012A508 *self = (Self_8012A508 *)this;
-    VObj_8012A508 *obj = (VObj_8012A508 *)target;
-    u32 f;
-    Param_8012A508 t1;
-    Param_8012A508 t2;
-    if (obj != NULL && (f = self->fF0) != 0) {
-        switch (self->mode) {
+    StatExtraTargetView *obj = (StatExtraTargetView *)target;
+    u32 sender;
+    StatExtraParam t1;
+    StatExtraParam t2;
+    if (obj != NULL && (sender = (u32)owner) != 0) {
+        switch (kind) {
         case 1: {
             t1.kind = 0xB;
             t1.val = 16.0f;
-            Param_8012A508 p = t1;
-            obj->m21(f, &p, obj->recs + body * 0x2C, -1, -1);
+            StatExtraParam p = t1;
+            obj->m21(sender, &p, obj->recs + body * 0x2C, -1, -1);
             break;
         }
         case 2: {
             t2.kind = 0xC;
             t2.val = 32.0f;
-            Param_8012A508 p = t2;
-            obj->m21(f, &p, obj->recs + body * 0x2C, -1, -1);
+            StatExtraParam p = t2;
+            obj->m21(sender, &p, obj->recs + body * 0x2C, -1, -1);
             break;
         }
         }
@@ -302,10 +223,10 @@ void TUnk_804A4948::send_srank_stat_extra_to_locks() {
   u16 uid;
   s32 r;
   s32 v;
-  st = (saddr)((TObjPlayer *)(((Pl_8012A470 *)this)->f0))->get_extended_state();
+  st = (saddr)owner->get_extended_state();
   if (st != 0)
   {
-    for (i = 0; i != get_captured_target_count((s32 *)((((((((((((st & 0xFFFFFFFFFFFFFFFF) & 0xFFFFFFFFFFFFFFFF) & 0xFFFFFFFFFFFFFFFF) & 0xFFFFFFFFFFFFFFFF) & 0xFFFFFFFFFFFFFFFF) & 0xFFFFFFFFFFFFFFFF) & 0xFFFFFFFFFFFFFFFF) & 0xFFFFFFFFFFFFFFFF) & 0xFFFFFFFFFFFFFFFF) & 0xFFFFFFFFFFFFFFFF) & 0xFFFFFFFFFFFFFFFF) & 0xFFFFFFFFFFFFFFFF)); i++)
+    for (i = 0; i != get_captured_target_count((s32 *)st); i++)
     {
       e = get_captured_target_entry(st, i);
       uid = ((TObjPlayer *)e)->get_uid();

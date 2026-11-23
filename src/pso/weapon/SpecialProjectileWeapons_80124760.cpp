@@ -37,27 +37,11 @@ struct RecoilWeaponView : TItemWeapon {
     s32 recoilPhase;
 };
 
-typedef struct MegidWeaponRenderView { u8 pad[0x200]; s32 f200; } MegidWeaponRenderView;
-
-
-struct WeaponStarLightParameterWords { u32 w[5]; };
-
-struct StarLightFollowerView {
-    u8 pad0[0x18];
-    void *vtbl;
-    s32 f1c;
-    s32 f20;
-    s32 f24;
-    s32 f28;
-};
-
 LAYOUT_ASSERT(RecoilVisibleOffset, offsetof(RecoilWeaponView, projectileVisible) == 0x1F8);
 LAYOUT_ASSERT(RecoilSpinOffset, offsetof(RecoilWeaponView, projectileSpin) == 0x1FC);
 LAYOUT_ASSERT(RecoilAngleOffset, offsetof(RecoilWeaponView, recoilAngle) == 0x200);
 LAYOUT_ASSERT(RecoilPhaseOffset, offsetof(RecoilWeaponView, recoilPhase) == 0x204);
 LAYOUT_ASSERT(RecoilWeaponExtent, sizeof(RecoilWeaponView) == 0x208);
-LAYOUT_ASSERT(WeaponStarLightParameterWordsExtent, sizeof(WeaponStarLightParameterWords) == 0x14);
-LAYOUT_ASSERT(StarLightFollowerExtent, sizeof(StarLightFollowerView) == 0x2C);
 
 extern "C" {
 
@@ -65,39 +49,38 @@ void __ct__11TItemWeaponFP7TObjectPUc(void *);
 s32 post_translate_matrix(void *);
 
 void __ct__15TItemShootModelFPvPC3VecPC3Vecf(void *);
-typedef u8 *(*Fn_80124694_3)(void *, s32, void *);
-typedef s32 (*Fn_80124810_5)(s32, s32, s32, s32, f32);
+typedef s32 (*ShootInitFn)(s32, s32, s32, s32, f32);
 }
-s32 drill_launcher_create_shot(s32 arg0, s32 arg1, s32 arg2, f32 farg0);
+s32 drill_launcher_create_shot(s32 owner, s32 pos, s32 dir, f32 life);
 
-void* drill_launcher_ct(void* a0, s32, void *);
+void *drill_launcher_ct(void *weapon, s32 task_layer, void *item);
 extern s32 tl_05;
-TItem *create_drill_launcher(u8 *arg0);
-void drill_launcher_return_timer(void *arg0);
+TItem *create_drill_launcher(u8 *item);
+void drill_launcher_return_timer(void *weapon);
 extern void *__vt__13TUnk_804A2148[];
 extern void *__vt__13TUnk_804A2164[];
 #define __vt__13TUnk_804A2148 ((s32 *)__vt__13TUnk_804A2148)
 
 
 void TUnk_804A2148::render() {
-    u8 *arg0 = (u8 *)this;
-    u8 *temp_r31;
-    u8 *temp_r3;
+    u8 *self_bytes = (u8 *)this;
+    u8 *render_node;
+    u8 *object;
 
     if (TItemShootModel::is_owner_alive() != 0) {
-        temp_r3 = (unsigned char *) (this->model);
-        if ((temp_r3 != NULL) && ((uaddr) this->texture_list != 0U)) {
-            temp_r31 = (unsigned char *) (*(void **)((s8 *)((unsigned char *) (*(void **)((s8 *)temp_r3 + 0x2C))) + 0x30));
-            *(s32 *)((s8 *)temp_r31 + 0) = (s32) (*(s32 *)((s8 *)temp_r31 + 0) & 0xFFFFFFFB);
-            *(f32 *)((s8 *)temp_r31 + 0x20) = (f32) 10.0f;
+        object = (unsigned char *) (this->model);
+        if ((object != NULL) && ((uaddr) this->texture_list != 0U)) {
+            render_node = (unsigned char *) (*(void **)((s8 *)((unsigned char *) (*(void **)((s8 *)object + 0x2C))) + 0x30));
+            *(s32 *)((s8 *)render_node + 0) = (s32) (*(s32 *)((s8 *)render_node + 0) & 0xFFFFFFFB);
+            *(f32 *)((s8 *)render_node + 0x20) = (f32) 10.0f;
             push_matrix();
             set_texlist((uaddr)this->texture_list);
-            post_translate_matrix(arg0 + 0x1C);
+            post_translate_matrix(self_bytes + 0x1C);
             rotate_matrix_y(0, this->m_count);
             rotate_matrix_x(0, this->m_28 - 0x4000);
             draw_ginja_object((this->model));
             pop_matrix();
-            *(f32 *)((s8 *)temp_r31 + 0x20) = (f32) 1.0f;
+            *(f32 *)((s8 *)render_node + 0x20) = (f32) 1.0f;
         }
     }
 }
@@ -111,49 +94,49 @@ void *ct_shoot_model__10TObjPlayerFPv(void *item_shoot_model) {
 }
 
 s32 drill_launcher_create_shot(s32 owner, s32 pos, s32 dir, f32 life) {
-    saddr var_r0;
-    s32 var_r31;
+    saddr created;
+    s32 shot;
 
-    var_r31 = 0;
+    shot = 0;
     if (owner != 0) {
-        var_r0 = (saddr)TObject::operator new(0x6C);
-        if (var_r0 != 0) {
-            var_r0 = ((Fn_80124810_5)ct_shoot_model__10TObjPlayerFPv)(var_r0, owner, pos, dir, life);
+        created = (saddr)TObject::operator new(0x6C);
+        if (created != 0) {
+            created = ((ShootInitFn)ct_shoot_model__10TObjPlayerFPv)(created, owner, pos, dir, life);
         }
-        var_r31 = var_r0;
+        shot = created;
     }
-    var_r0 = (uaddr)TObjPlayer::spawn_shoot_particle(owner, pos, dir, life);
-    if (var_r0 != 0U) {
-        ((TItemShootParticle *)var_r0)->spawn_slot_emitter(0x1BB, 0);
+    created = (uaddr)TObjPlayer::spawn_shoot_particle(owner, pos, dir, life);
+    if (created != 0U) {
+        ((TItemShootParticle *)created)->spawn_slot_emitter(0x1BB, 0);
     }
-    return var_r31;
+    return shot;
 }
 LAYOUT_ASSERT(BurstReadyOffset, offsetof(RecoilWeaponView, projectileVisible)==0x1F8);
 LAYOUT_ASSERT(BurstModeOffset, offsetof(RecoilWeaponView, recoilPhase)==0x204);
 
 void TUnk_804A2164::emit_marker_effects() {
-    Vec sp8;
-    saddr temp_r31;
-    s32 var_r30;
+    Vec gun_point;
+    saddr burst_slot;
+    s32 burst_added;
     if ((s32) ((RecoilWeaponView *)this)->projectileVisible == 1) {
         TItemAttacker::spawn_item_timer((RecoilWeaponView *)this, (ItemTimerCallback)drill_launcher_return_timer, 0x1E);
         ((RecoilWeaponView *)this)->projectileVisible = 0;
     }
     ((RecoilWeaponView *)this)->recoilPhase = 2;
-    temp_r31 = (saddr)((RecoilWeaponView *)this)->owner + 0x7CC;
-    if (get_burst_counter((void*)temp_r31) == 0) {
-        var_r30 = 0;
+    burst_slot = (saddr)((RecoilWeaponView *)this)->owner + 0x7CC;
+    if (get_burst_counter((void*)burst_slot) == 0) {
+        burst_added = 0;
         do {
-            increment_burst_counter((u8 *)temp_r31);
-            var_r30 += 1;
-        } while (var_r30 != 2);
+            increment_burst_counter((u8 *)burst_slot);
+            burst_added += 1;
+        } while (burst_added != 2);
     }
-    ((TItemWeapon *)((RecoilWeaponView *)this))->get_gun_point(&sp8);
+    ((TItemWeapon *)((RecoilWeaponView *)this))->get_gun_point(&gun_point);
     if (((RecoilWeaponView *)this)->is_mode_two_and_ready() != 0) {
-        ((TItemWeapon *)((RecoilWeaponView *)this))->launch_rare_weapon_special(&sp8, 1, (f32) (1.0f));
+        ((TItemWeapon *)((RecoilWeaponView *)this))->launch_rare_weapon_special(&gun_point, 1, (f32) (1.0f));
         return;
     }
-    ((RecoilWeaponView *)this)->launch_shot((u8 *)&sp8, 0, 0, 1);
+    ((RecoilWeaponView *)this)->launch_shot((u8 *)&gun_point, 0, 0, 1);
 }
 void TUnk_804A2164::vfunc_60() {
     s32 player_list;
@@ -172,14 +155,14 @@ void TUnk_804A2164::vfunc_60() {
 }
 
 void TUnk_804A2164::update_weapon() {
-    void *temp_r4;
-    void *temp_r4_2;
+    void *second;
+    void *angled;
     this->m_1fc = (this->m_1fc + 0x1999);
-    temp_r4 = this->second_model;
-    if (temp_r4 != NULL) {
-        temp_r4_2 = *(void **)((s8 *)temp_r4 + 0x2C);
-        *(s32 *)((s8 *)temp_r4_2 + 0) = (s32) (*(s32 *)((s8 *)temp_r4_2 + 0) & 0xFFFFFFFD);
-        *(s32 *)((s8 *)temp_r4_2 + 0x18) = (s32) this->m_1fc;
+    second = this->second_model;
+    if (second != NULL) {
+        angled = *(void **)((s8 *)second + 0x2C);
+        *(s32 *)((s8 *)angled + 0) = (s32) (*(s32 *)((s8 *)angled + 0) & 0xFFFFFFFD);
+        *(s32 *)((s8 *)angled + 0x18) = (s32) this->m_1fc;
     }
     switch (this->m_204) {
     case 1:
@@ -205,17 +188,17 @@ void TUnk_804A2164::update_weapon() {
 TUnk_804A2164::~TUnk_804A2164() {
 
 }
-void* drill_launcher_ct(void* a0, s32 _w1, void * _w2) { __ct__11TItemWeaponFP7TObjectPUc(a0); *(int*)((char*)a0 + 0x18) = (saddr)((unsigned char *)__vt__13TUnk_804A2164); *(int*)((char*)a0 + 0x1f0) = (saddr)drill_launcher_create_shot; *(float*)((char*)a0 + 0x1e4) = 9.0f; ((TItemWeapon *)a0)->set_weapon_flags((saddr)((void*)34)); *(int*)((char*)a0 + 0x1f8) = 1; ((TUnk_804A2164 *)a0)->m_1fc = 0; *(int*)((char*)a0 + 0x200) = 0; return a0; }
-TItem *create_drill_launcher(u8 *arg0) {
-    u8 *temp_r3;
-    u8 *var_r0;
-    if (arg0 != NULL) {
-        temp_r3 = (u8 *)((u8 *)TItem::operator new(0x208));
-        var_r0 = temp_r3;
-        if (var_r0 != NULL) {
-            var_r0 = (u8 *)(((u8 *)drill_launcher_ct(temp_r3, tl_05, arg0)));
+void* drill_launcher_ct(void* weapon, s32, void *) { __ct__11TItemWeaponFP7TObjectPUc(weapon); *(int*)((char*)weapon + 0x18) = (saddr)((unsigned char *)__vt__13TUnk_804A2164); ((TItemWeapon *)weapon)->shot_callback = (WeaponShotCallback)drill_launcher_create_shot; ((TItemWeapon *)weapon)->shot_speed = 9.0f; ((TItemWeapon *)weapon)->set_weapon_flags((saddr)((void*)34)); *(int*)((char*)weapon + 0x1f8) = 1; ((TUnk_804A2164 *)weapon)->m_1fc = 0; *(int*)((char*)weapon + 0x200) = 0; return weapon; }
+TItem *create_drill_launcher(u8 *item) {
+    u8 *raw;
+    u8 *created;
+    if (item != NULL) {
+        raw = (u8 *)((u8 *)TItem::operator new(0x208));
+        created = raw;
+        if (created != NULL) {
+            created = (u8 *)(((u8 *)drill_launcher_ct(raw, tl_05, item)));
         }
-        return reinterpret_cast<TItem *>(var_r0);
+        return reinterpret_cast<TItem *>(created);
     }
     return NULL;
 }
@@ -223,9 +206,9 @@ TItem *create_drill_launcher(u8 *arg0) {
 TUnk_804A2148::~TUnk_804A2148() {
 
 }
-void drill_launcher_return_timer(void *arg0) {
-    if (arg0 != NULL) {
-        *(s32 *)((s8 *)arg0 + 0x1F8) = 1;
+void drill_launcher_return_timer(void *weapon) {
+    if (weapon != NULL) {
+        *(s32 *)((s8 *)weapon + 0x1F8) = 1;
     }
 }
 

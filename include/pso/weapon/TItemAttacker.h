@@ -9,20 +9,20 @@ typedef void (*ItemTimerCallback)(TObject *object);
 
 class TItemAttacker : public TObject {
 public:
-    TItemAttacker(saddr parent, saddr arg2, s32 arg3, saddr arg4);
+    TItemAttacker(saddr parent, saddr position, s32 frames, saddr attack_record);
     virtual ~TItemAttacker();
     virtual void run_task();
 public:
-    void copy_from(void *arg1);
+    void copy_from(void *source_record);
     // Calls expire(object) after frames frames unless object is destroyed
     // first; nothing when object is NULL.
     static void spawn_item_timer(TObject *object, ItemTimerCallback expire, s32 frames);
 };
 
 extern "C" {
-void TItemAttacker__sub_8010349C(uaddr arg0);
+void TItemAttacker__sub_8010349C(uaddr attacker);
 void TItemBuff__ct(void);
-u8 *__ct__13TItemAttackerFllll(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
+u8 *__ct__13TItemAttackerFllll(u8 *object, s32 parent, s32 position, s32 frames, s32 attack_record);
 }
 s32 create_item_buff(s32 size);
 saddr get_item_chunk_buffer(int a0);
