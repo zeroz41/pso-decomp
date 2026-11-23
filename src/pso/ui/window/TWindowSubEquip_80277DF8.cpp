@@ -27,7 +27,6 @@ static const NJS_POINT2 equip_kind_window_size = {308.0f, 124.0f};
 
 
 extern "C" {
-s32 set_depth__11TWindowBaseFf(int);
 f32 TWindowSubEquip__sub_80263AF8(u8 *arg0, u32 arg1);
 void *get_window_layout_position(int);
 s32 mark_unequippable_items(int);
@@ -137,8 +136,7 @@ s32 TWindowSubEquip::open_equip_kind_list(u32 arg1) {
     saddr equip_kind_window;
     equip_kind_window = reinterpret_cast<saddr>(create_equip_kind_window(
         reinterpret_cast<saddr>(get_window_layout_position(1)), &equip_kind_window_size, this->client_id));
-    TWindowSubEquip__sub_80263AF8((u8 *)this->parent, 1);
-    set_depth__11TWindowBaseFf(equip_kind_window);
+    ((TWindowBase *)equip_kind_window)->set_depth(TWindowSubEquip__sub_80263AF8((u8 *)this->parent, 1));
     ((TWindowMenuIconLine *)equip_kind_window)->ensure_status_display((saddr) (TWindowSubStatusDisp::get_message_10(0x24)));
     ((TWindowSubShortCutList *)equip_kind_window)->set_flag70_bit10();
     switch (arg1) {

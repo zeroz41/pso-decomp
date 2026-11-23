@@ -65,7 +65,6 @@ u8 get_cast_technique_level(void *, s16);
 void text_builder_append_int(s32);
 void text_builder_append();
 u8 *calc_technique_parameters(u16, u8, s32);
-s32 set_depth__11TWindowBaseFf(void *);
 }
 
 void text_builder_reset();
@@ -99,11 +98,9 @@ void *TWindowSubEquip__sub_80275CB0(void *arg0, void *arg1, s32 arg2) {
     self->x20 = arg2;
     p = new TWindowSubCustomEquip(self->x20);
     self->custom = p;
-    TWindowSubEquip__sub_80263AF8((u8 *)self->parent, 0);
-    set_depth__11TWindowBaseFf(self->custom);
+    ((TWindowBase *)self->custom)->set_depth(TWindowSubEquip__sub_80263AF8((u8 *)self->parent, 0));
     self->list = TWindowMessage::create((saddr)(get_window_layout_position(0x11)), (const f32 *)lbl_8044F718, 1, (s32)self->x20);
-    TWindowSubEquip__sub_80263AF8((u8 *)self->parent, 2);
-    set_depth__11TWindowBaseFf(self->list);
+    ((TWindowBase *)self->list)->set_depth(TWindowSubEquip__sub_80263AF8((u8 *)self->parent, 2));
     call_if_split_screen((uaddr)self->list, self->x20);
     self->x2c = 0;
     self->x34 = 0;
@@ -153,8 +150,7 @@ void TUnk_804D1160::run_task() {
         break;
     case 3:
         self->f2c = new TWindowSubCustomSelect(m_20);
-        TWindowSubEquip__sub_80263AF8((u8 *)self->f24, 1);
-        set_depth__11TWindowBaseFf(self->f2c);
+        ((TWindowBase *)self->f2c)->set_depth(TWindowSubEquip__sub_80263AF8((u8 *)self->f24, 1));
         self->state = 4;
     case 4:
         ((TUnk_804D1160 *)self)->update_customize_help_text(static_cast<TWindowSubCustomSelect *>(self->f2c)->get_selected_action());

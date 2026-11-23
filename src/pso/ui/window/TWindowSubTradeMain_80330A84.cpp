@@ -87,7 +87,6 @@ saddr get_window_layout_position(s32);
 void TWindowSubTradeMain__sub_803323A8(void *);
 void TWindowSubTradeMain__sub_803323B8(void *);
 Plr_803310BC *get_player_by_client_id(s32);
-s32 set_depth__11TWindowBaseFf(s32);
 TWindowHelpItem *__ct__15TWindowHelpItemFPvUs(TWindowHelpItem *, void *, u32);
 s32 TWindowHelpItem__set_displayed_item_by_id(u32);
 TWindowInputNumber *__ct__18TWindowInputNumberFPvllls(TWindowInputNumber *, void *, s32, s32, s32, s16);
@@ -734,8 +733,7 @@ saddr TWindowSubTradeMain::create_list() {
     equip_kind_window = reinterpret_cast<saddr>(create_equip_kind_window(get_window_layout_position(0x64), &trade_list_window_pos, this->client_id));
     ((TWindowMenuIconLine *)equip_kind_window)->ensure_status_display((saddr)TWindowSubStatusDisp::get_message_10(0x24));
     ((TWindowSubTradeMain *)equip_kind_window)->refresh_item_list((void*)(TLobby__sub_802D298C()));
-    TWindowSubEquip__sub_80263AF8(reinterpret_cast<u8 *>(parent_menu), 2);
-    set_depth__11TWindowBaseFf(equip_kind_window);
+    ((TWindowBase *)equip_kind_window)->set_depth(TWindowSubEquip__sub_80263AF8(reinterpret_cast<u8 *>(parent_menu), 2));
     return equip_kind_window;
 }
 

@@ -134,7 +134,6 @@ struct Slice_802523CC { f32 x; u8 pad4[8]; f32 width; u8 pad10[4]; f32 lean; u8 
 struct Ctx_802523CC { u8 pad0[0x20]; f32 pivot; u8 pad24[4]; f32 scale; };
 Ent_802511E4 * find_entity_by_id(u16);
 s32 play_sound_effect(int, int, int, int);
-s32 sub_80246948__11TWindowBaseFv(void *);
 void TWindowSubSymbolChat__sub_802483F0(int a0, void *a1);
 s32 draw_resolved_window__15TWindowFukidasiFllll(Fuki_80250F70 *, f32 *, f32 *, s32);
 }
@@ -1278,7 +1277,7 @@ s32 TWindowFukidasi::check_card_match_enabled(saddr arg1) {
 void TWindowFukidasi::rearm_balloon(saddr flags) {
     u32 n;
 
-    if (((s32 (*)(void))sub_80246948__11TWindowBaseFv)() != 0) {
+    if (sub_80246948() != 0) {
         *(s8 *)((s8 *)((u8 *)this) + 0x70) = 5;
     }
     ((s32 (*)(void *, void *))init_flags__15TWindowFukidasiFPvi)(this, (void *)flags);
