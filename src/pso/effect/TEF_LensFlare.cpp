@@ -40,30 +40,6 @@ TEF_LensFlare::~TEF_LensFlare() {
 
 }
 
-// A screen sprite node as TQuadSpriteSclColRot::render reads it; render() only
-// fills it on the stack, so the link and type byte stay unset.
-struct FlareSprite {
-    FlareSprite *next;
-    Vec pos;
-    Vec offset;
-    f32 scale_x;
-    f32 scale_y;
-    u32 color;
-    u8 frame;
-    u8 type;
-    u16 angle;
-};
-
-// The flare colour, copied into the sprite as a whole word.
-struct FlareColor {
-    struct { u8 a, r, g, b; } argb;
-} ATTRIBUTE_ALIGN(4);
-
-// The glare colour: its alpha goes through a signed int before it is cut to a byte.
-struct FlareGlareColor {
-    struct { signed int a : 8; u8 r, g, b; } argb;
-};
-
 #pragma push
 #pragma opt_propagation off
 void TEF_LensFlare::render() {
@@ -86,7 +62,7 @@ void TEF_LensFlare::render() {
         set_additive_blend();
         if (scale.x >= 0.0f) {
             f32 range = 10.0f * scale.x;
-            if (is_player_near(range * range)) {
+            if (is_player_out_of_range(range * range)) {
                 return;
             }
         }

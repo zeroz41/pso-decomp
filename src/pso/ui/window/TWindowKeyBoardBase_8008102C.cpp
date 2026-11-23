@@ -51,7 +51,7 @@ KeyboardTextBuffer::KeyboardTextBuffer() {
     init(0, 0);
 }
 
-int TEF_LensFlare::is_player_near(f32 farg0) {
+int TEF_LensFlare::is_player_out_of_range(f32 farg0) {
     s32 arg0 = (saddr)this;
     u32 player;
 
