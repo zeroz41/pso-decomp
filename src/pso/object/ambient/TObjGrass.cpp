@@ -1093,7 +1093,7 @@ void TObjGrass::run_attack_action() {
 void TObjGrass::sub_800BDD70() {
     u8 *arg0 = (u8 *)this;
     Vec sp20;
-    Vec sp14;
+    Vec dst;
     Vec sp8;
     s32 ang;
     Vec *ent;
@@ -1169,10 +1169,10 @@ void TObjGrass::sub_800BDD70() {
                 post_translate_matrix((u8 *)&this->position);
                 rotate_matrix_y(0, this->rotation_y);
                 scale_matrix(0, (1.3f), (1.3f), (1.3f));
-                matrix_mult_vec_array(NULL, ent, &sp14, 2);
+                matrix_mult_vec_array(NULL, ent, &dst, 2);
                 pop_matrix();
                 if (((VObj_800BDD70 **)(arg0 + 0x3CC))[idx] != NULL) {
-                    ((VObj_800BDD70 **)(arg0 + 0x3CC))[idx]->m4((s32 *)&sp14, (s32 *)&sp20);
+                    ((VObj_800BDD70 **)(arg0 + 0x3CC))[idx]->m4((s32 *)&dst, (s32 *)&sp20);
                 }
             }
         }

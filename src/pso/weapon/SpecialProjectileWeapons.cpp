@@ -62,11 +62,11 @@ s32 is_item_area_enabled();
 
 void TUnk_804A204C::emit_marker_effects() {
     s32 sp8;
-    void *temp_r31;
+    void *source;
     if (is_mode_two_and_ready() != 0) {
         if (get_joint_position(5, &sp8) != 0) {
-            temp_r31 = this->owner;
-            TTecMegid::create_ex((saddr)temp_r31, (saddr)(&sp8), (s32)(*(s32 *)((s8 *)temp_r31 + 0x60)), (s32)(((TItemWeapon *)this)->get_tp()));
+            source = this->owner;
+            TTecMegid::create_ex((saddr)source, (saddr)(&sp8), (s32)(*(s32 *)((s8 *)source + 0x60)), (s32)(((TItemWeapon *)this)->get_tp()));
             this->roll_technique();
         }
     } else {

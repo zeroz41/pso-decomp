@@ -278,7 +278,7 @@ void TWindowMainMenu::pop_level() {
 #pragma dont_inline off
 void park_selection__15TWindowMainMenuFPv(Menu_802AD980 *arg0) {
     Col_802ADA48 buf;
-    u8 sp8[8];
+    u8 symbol_chat_parts[8];
     s32 i;
     Col_802ADA48 *slot;
     copy_color_entry__15TWindowMainMenuFPvPv(&buf, arg0->slots[arg0->cur]);
@@ -288,10 +288,10 @@ void park_selection__15TWindowMainMenuFPv(Menu_802AD980 *arg0) {
             arg0->slots[i] = NULL;
         }
     }
-    ((s32 (*)(void *, void *, s32))get_row_position__15TWindowMainMenuFiPvi)(arg0, sp8, arg0->count);
+    ((s32 (*)(void *, void *, s32))get_row_position__15TWindowMainMenuFiPvi)(arg0, symbol_chat_parts, arg0->count);
     slot = (Col_802ADA48 *)((TWindowMainMenu *)arg0)->find_free_slot();
     copy_color_entry__15TWindowMainMenuFPvPv(slot, &buf);
-    ((TWindowMainMenu *)slot)->set_symbol_chat_parts(sp8);
+    ((TWindowMainMenu *)slot)->set_symbol_chat_parts(symbol_chat_parts);
     ((u8 *)slot)[0x12] = 2;
     arg0->flags |= 4;
     arg0->count++;
@@ -459,23 +459,23 @@ s32 TWindowMainMenu::update_if_active(s32 id) {
 }
 
 s32 append_child_rows__15TWindowMainMenuFPvi(Menu_802ADD38 *arg0, s32 id) {
-    u8 sp8[8];
+    u8 symbol_chat_parts[8];
     s32 n;
     saddr slot;
     n = ((s32 (*)(void))find_free_item_slot__15TWindowMainMenuFPv)();
     if (n >= 8) {
         return 0;
     }
-    ((s32 (*)(void *, void *, s32))get_row_position__15TWindowMainMenuFiPvi)(arg0, sp8, n + arg0->count);
+    ((s32 (*)(void *, void *, s32))get_row_position__15TWindowMainMenuFiPvi)(arg0, symbol_chat_parts, n + arg0->count);
     slot = ((s32 (*)(void *, s32))find_active_item_by_id__15TWindowMainMenuFii)(arg0, id);
     if (slot == 0) {
         slot = ((TWindowMainMenu *)arg0)->find_free_slot();
         if (slot == 0) {
             return 0;
         }
-        ((s32 (*)(s32, void *, s8, s8))init_row_entry__15TWindowMainMenuFPvicc)(slot, sp8, id, -(n * 2));
+        ((s32 (*)(s32, void *, s8, s8))init_row_entry__15TWindowMainMenuFPvicc)(slot, symbol_chat_parts, id, -(n * 2));
     } else {
-        ((TWindowMainMenu *)slot)->set_symbol_chat_parts(sp8);
+        ((TWindowMainMenu *)slot)->set_symbol_chat_parts(symbol_chat_parts);
     }
     arg0->slots[n] = slot;
     arg0->flags &= ~4;

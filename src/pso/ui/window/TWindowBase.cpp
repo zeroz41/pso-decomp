@@ -996,18 +996,18 @@ void TWindowCtrlMain::free_window() {
 }
 
 void load_hud_palette_textures(void) {
-    s32 sp8[3];
-    sp8[0] = (saddr)TLobby::tmp_buf_use_req("TWindowBase");
-    TLanguage::draw_string((void *)lbl_8044E688, (void *)sp8, 0x40);
-    TLanguage::draw_string((void *)hud_palette_texture_filename, (void *)sp8, 0x41);
-    TLanguage::draw_string((void *)lbl_8044E6B0, (void *)sp8, 0x42);
-    TLanguage::draw_string((void *)lbl_8044E6C4, (void *)sp8, 0x44);
-    TLanguage::draw_string((void *)lbl_8044E6D8, (void *)sp8, 0x45);
-    TLanguage::draw_string((void *)lbl_8044E6F0, (void *)sp8, 0x46);
-    TLanguage::draw_string((void *)lbl_8044E708, (void *)sp8, 0x47);
-    TLanguage::draw_string((void *)lbl_8044E720, (void *)sp8, 1);
-    TLanguage::draw_string((void *)lbl_8044E734, (void *)sp8, 0x4A);
-    TLanguage::draw_string((void *)lbl_8044E748, (void *)sp8, 0x43);
+    s32 palette[3];
+    palette[0] = (saddr)TLobby::tmp_buf_use_req("TWindowBase");
+    TLanguage::draw_string((void *)lbl_8044E688, (void *)palette, 0x40);
+    TLanguage::draw_string((void *)hud_palette_texture_filename, (void *)palette, 0x41);
+    TLanguage::draw_string((void *)lbl_8044E6B0, (void *)palette, 0x42);
+    TLanguage::draw_string((void *)lbl_8044E6C4, (void *)palette, 0x44);
+    TLanguage::draw_string((void *)lbl_8044E6D8, (void *)palette, 0x45);
+    TLanguage::draw_string((void *)lbl_8044E6F0, (void *)palette, 0x46);
+    TLanguage::draw_string((void *)lbl_8044E708, (void *)palette, 0x47);
+    TLanguage::draw_string((void *)lbl_8044E720, (void *)palette, 1);
+    TLanguage::draw_string((void *)lbl_8044E734, (void *)palette, 0x4A);
+    TLanguage::draw_string((void *)lbl_8044E748, (void *)palette, 0x43);
     TLobby::tmp_buf_release("TWindowBase");
     load_disc_prs_texture((saddr)lbl_8044E758, (saddr)f256_hyouji_texlist);
     hud_texlist = (uaddr)f256_hyouji_texlist;

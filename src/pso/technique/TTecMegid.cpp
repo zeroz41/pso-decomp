@@ -209,10 +209,10 @@ void TTecMegid::spawn_particle_emitters() {
   u32 i;
   long long new_var;
   s32 mode;
-  Arg_802351B4 sp8;
-  sp8.a = self->f54;
-  sp8.b = 0;
-  sp8.c = self->f5c;
+  Arg_802351B4 dir;
+  dir.a = self->f54;
+  dir.b = 0;
+  dir.c = self->f5c;
   self->emitters = mem_alloc(TTecMegid__emitter_bands[this->band].count * 4, self->f54);
   for (i = 0; i < ((Data_802351B4 *) TTecMegid__emitter_bands)[this->band].count; i++)
   {
@@ -225,7 +225,7 @@ void TTecMegid::spawn_particle_emitters() {
     }
     if (flags & 2)
     {
-      self->emitters[i] = spawn_particle_effect_with_rotation(&self->pos, &sp8, row->entry, mode | 0x1000);
+      self->emitters[i] = spawn_particle_effect_with_rotation(&self->pos, &dir, row->entry, mode | 0x1000);
     }
     else
     {

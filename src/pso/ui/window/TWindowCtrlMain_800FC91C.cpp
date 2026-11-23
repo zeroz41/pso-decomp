@@ -128,7 +128,7 @@ void *TFontSmallLobby::create(s32 id) {
 void TUnk_8049CA54::run_task() {
     s32 card_status_bits;
     s32 temp_r4;
-    uaddr temp_r3_3;
+    uaddr text_source;
     saddr player;
 
     player = (saddr)get_player_by_client_id(*(s32 *)&this->player_id);
@@ -139,9 +139,9 @@ void TUnk_8049CA54::run_task() {
     card_status_bits = TWindowShortListCtrl::get_card_status_bits(*(s32 *)&this->player_id);
     if ((s32) *(s32 *)&this->unk_60 != card_status_bits) {
         *(s32 *)&this->unk_60 = card_status_bits;
-        temp_r3_3 = (u32)TWindowSubStatusDisp::build_status_text(*(s32 *)&this->player_id);
-        set_help_text((const char *)temp_r3_3);
-        if (temp_r3_3 != 0U) {
+        text_source = (u32)TWindowSubStatusDisp::build_status_text(*(s32 *)&this->player_id);
+        set_help_text((const char *)text_source);
+        if (text_source != 0U) {
             if ((s32) *(s32 *)&this->unk_60 == 3) {
                 temp_r4 = *(s32 *)&this->player_id;
                 set_color(get_status_index_or_default__20TWindowSubStatusDispFPUs((s8 *)lobby_player_status_records + (temp_r4 * 0x11C) + 4, temp_r4));

@@ -165,7 +165,7 @@ void ItemListRow::update_item_icon_colors(void *item) {
     s16 sp8;
     s32 temp_r26;
     s32 temp_r27;
-    s32 temp_r28;
+    s32 usable_action_flags;
     s32 temp_r28_2;
     saddr player;
 
@@ -176,10 +176,10 @@ void ItemListRow::update_item_icon_colors(void *item) {
     player = (saddr)get_player_by_client_id(this->client);
     if (player != 0) {
         temp_r26 = ((TItem *)item)->test_item_flags(8);
-        temp_r28 = ((TItem *)item)->get_usable_action_flags(0x10, (TObjPlayer *)player);
+        usable_action_flags = ((TItem *)item)->get_usable_action_flags(0x10, (TObjPlayer *)player);
         temp_r27 = ((TItem *)item)->check_equip_requirements((TObjPlayer *)player, (s16 *)(&sp8));
         temp_r28_2 = ((VObj18B_802582c4_80257784 *) item)->vm8C();
-        if (temp_r28 != 0) {
+        if (usable_action_flags != 0) {
             if (temp_r26 != 0) {
                 this->status_icon = 0x30;
             } else {
@@ -238,7 +238,7 @@ void ItemListRow::update_item_icon_colors(void *item) {
 }
 
 void ItemListRow::update_item_colors(saddr item) {
-    s32 sp8;
+    s32 requirement;
     s32 temp_r29;
     s32 temp_r30;
     saddr player;
@@ -249,12 +249,12 @@ void ItemListRow::update_item_colors(saddr item) {
     }
     player = (saddr)get_player_by_client_id(this->client);
     if (player != 0) {
-        temp_r29 = check_equip_requirements((void *)player, (TItemData *)item, &sp8);
+        temp_r29 = check_equip_requirements((void *)player, (TItemData *)item, &requirement);
         temp_r30 = ((TItemData *)item)->check_item_flags();
         if ((u8) this->status_icon == 0x33) {
             if ((temp_r30 == 0) && (TItemData::is_rare_item((u8 *)item) != 0)) {
                 this->status_icon = 0x19U;
-            } else if (sp8 & 1) {
+            } else if (requirement & 1) {
                 this->status_icon = 0x13U;
             }
             this->status_style = -1;
@@ -289,7 +289,7 @@ void ItemListRow::update_item_colors(saddr item) {
             this->style = -1;
             return;
         }
-        if (sp8 & 1) {
+        if (requirement & 1) {
             this->style = 0xFF909090;
             this->category_style = 0xFFAAAAAA;
             return;

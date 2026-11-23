@@ -132,11 +132,11 @@ void TObjLight::init_light_tables() {
 }
 
 void register_actor_light(s32 arg0, TObjLight *light) {
-    u8 *temp_r5;
+    u8 *dst;
     if ((s32) TObjLight__actor_light_count < 0x20) {
-        temp_r5 = (u8 *)TObjLight__actor_light_table + (TObjLight__actor_light_count * 0x2C);
-        *(s32 *)((s8 *)temp_r5 + 0x28) = arg0;
-        VecCopy((Vec *)(temp_r5), &light->actor_direction);
+        dst = (u8 *)TObjLight__actor_light_table + (TObjLight__actor_light_count * 0x2C);
+        *(s32 *)((s8 *)dst + 0x28) = arg0;
+        VecCopy((Vec *)(dst), &light->actor_direction);
         copy_argb((NJS_ARGB *)((u8 *)TObjLight__actor_light_table + (TObjLight__actor_light_count * 0x2C) + 0xC), &light->actor_color);
         TObjLight__actor_light_count += 1;
     }

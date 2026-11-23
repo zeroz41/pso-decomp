@@ -43,7 +43,7 @@ int THunterGuildSeqOffline__sub_80212060(int a0) {  return THunterGuildSeqOfflin
 s32 THunterGuildSeqOffline__sub_80212074(void) {
     saddr player;
     saddr temp_r3_2;
-    s32 temp_r3_3;
+    s32 area;
     if ((s32) TLobby__designated_client_id == (s32) local_client_id) {
         return 0;
     }
@@ -51,8 +51,8 @@ s32 THunterGuildSeqOffline__sub_80212074(void) {
     if (player == 0) {
         return 0;
     }
-    temp_r3_3 = ((TObjPlayer *)player)->get_area();
-    if ((temp_r3_3 != 0x12) && ((temp_r3_3 >= 0x12) || (temp_r3_3 != 0))) {
+    area = ((TObjPlayer *)player)->get_area();
+    if ((area != 0x12) && ((area >= 0x12) || (area != 0))) {
         return 0;
     }
     temp_r3_2 = (saddr)get_player_by_client_id(TLobby__designated_client_id);

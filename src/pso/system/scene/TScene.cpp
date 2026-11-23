@@ -845,7 +845,7 @@ void TScene::load_supplementary_t_rel(saddr name) {
 }
 
 void TScene::load_map_texture_archive(saddr name) {
-    char sp8[0x20];
+    char filename[0x20];
     s32 area;
     s32 var_r30;
     uaddr temp_r3;
@@ -856,19 +856,19 @@ void TScene::load_map_texture_archive(saddr name) {
     var_r30 = 0;
     lbl_805D6018 = 0;
     if (TRaderMapCore::is_not_split_screen() == 1) {
-        TLobby::replace_file_extension((char *)(sp8), (char *)(name), (char *)("m.tam"));
-        var_r30 = get_resource_file_size((const char *)sp8);
+        TLobby::replace_file_extension((char *)(filename), (char *)(name), (char *)("m.tam"));
+        var_r30 = get_resource_file_size((const char *)filename);
     }
     if (var_r30 <= 0) {
-        TLobby::replace_file_extension((char *)(sp8), (char *)(name), (char *)(".tam"));
-        var_r30 = get_resource_file_size((const char *)sp8);
+        TLobby::replace_file_extension((char *)(filename), (char *)(name), (char *)(".tam"));
+        var_r30 = get_resource_file_size((const char *)filename);
     }
     if (area == AREA_LOBBY) {
         if ((var_r30 > 0) && ((u32) var_r30 <= 0x100U)) {
             temp_r3 = (saddr)TQuestVmDownLoadServer::alloc(0x100);
             TScene__texture_animation_buffer = temp_r3;
             if (temp_r3 != 0U) {
-                read_disc_file((const char *)sp8, (void *)temp_r3);
+                read_disc_file((const char *)filename, (void *)temp_r3);
                 lbl_805D6018 = 0x100;
             }
         }
@@ -876,56 +876,56 @@ void TScene::load_map_texture_archive(saddr name) {
         temp_r3_2 = (saddr)TQuestVmDownLoadServer::alloc(var_r30);
         TScene__texture_animation_buffer = temp_r3_2;
         if (temp_r3_2 != 0U) {
-            read_disc_file((const char *)sp8, (void *)temp_r3_2);
+            read_disc_file((const char *)filename, (void *)temp_r3_2);
             lbl_805D6018 = var_r30;
         }
     }
 }
 
 void TScene::load_floor_bin_file(saddr name) {
-    u8 sp8[0x20];
+    u8 filename[0x20];
     s32 size;
     TScene__data_805D6020 = 0U;
     floor_bin_file_size = 0;
     if (TRaderMapCore::is_not_split_screen() == 1) {
-        TLobby::replace_file_extension((char *)((s32 *)sp8), (char *)name, (char *)((s32 *)"bm.bin"));
+        TLobby::replace_file_extension((char *)((s32 *)filename), (char *)name, (char *)((s32 *)"bm.bin"));
     } else {
-        TLobby::replace_file_extension((char *)((s32 *)sp8), (char *)name, (char *)((s32 *)"b.bin"));
+        TLobby::replace_file_extension((char *)((s32 *)filename), (char *)name, (char *)((s32 *)"b.bin"));
     }
-    size = get_resource_file_size((const char *)sp8);
+    size = get_resource_file_size((const char *)filename);
     if (get_current_floor_area() == AREA_LOBBY) {
         if (size > 0 && (u32)size <= 0x100U) {
             TScene__data_805D6020 = (saddr)TQuestVmDownLoadServer::alloc(0x100);
             if (TScene__data_805D6020 != 0U) {
-                read_disc_file((const char *)sp8, (void *)TScene__data_805D6020);
+                read_disc_file((const char *)filename, (void *)TScene__data_805D6020);
                 floor_bin_file_size = 0x100;
             }
         }
     } else if (size > 0) {
         TScene__data_805D6020 = (saddr)TQuestVmDownLoadServer::alloc(size);
         if (TScene__data_805D6020 != 0U) {
-            read_disc_file((const char *)sp8, (void *)TScene__data_805D6020);
+            read_disc_file((const char *)filename, (void *)TScene__data_805D6020);
             floor_bin_file_size = size;
         }
     }
 }
 
 void TScene::load_file_to_buffer(saddr name) {
-    s32 sp8[8];
+    s32 filename[8];
     s32 temp_r31;
     uaddr temp_r3;
     uaddr temp_r3_2;
 
     TScene__material_info_buffer = 0U;
     scene_file_buffer_size = 0;
-    TLobby::replace_file_extension((char *)(sp8), (char *)(name), (char *)("i.bin"));
-    temp_r31 = get_resource_file_size((const char *)sp8);
+    TLobby::replace_file_extension((char *)(filename), (char *)(name), (char *)("i.bin"));
+    temp_r31 = get_resource_file_size((const char *)filename);
     if (get_current_floor_area() == AREA_LOBBY) {
         if ((temp_r31 > 0) && ((u32) temp_r31 <= 0x100U)) {
             temp_r3 = (saddr)TQuestVmDownLoadServer::alloc(0x100);
             TScene__material_info_buffer = temp_r3;
             if (temp_r3 != 0U) {
-                read_disc_file((const char *)sp8, (void *)temp_r3);
+                read_disc_file((const char *)filename, (void *)temp_r3);
                 scene_file_buffer_size = 0x100;
             }
         }
@@ -933,7 +933,7 @@ void TScene::load_file_to_buffer(saddr name) {
         temp_r3_2 = (saddr)TQuestVmDownLoadServer::alloc(temp_r31);
         TScene__material_info_buffer = temp_r3_2;
         if (temp_r3_2 != 0U) {
-            read_disc_file((const char *)sp8, (void *)temp_r3_2);
+            read_disc_file((const char *)filename, (void *)temp_r3_2);
             scene_file_buffer_size = temp_r31;
         }
     }
@@ -1066,11 +1066,11 @@ void load_scene_map_file(saddr arg0) {
 }
 
 void TScene::load_tam_file(saddr name) {
-    u8 sp8[0x20];
-    TLobby::replace_file_extension((char *)((s32 *)sp8), (char *)name, (char *)((s32 *)".tam"));
-    if (get_resource_file_size((const char *)sp8) <= lbl_805D6018) {
+    u8 filename[0x20];
+    TLobby::replace_file_extension((char *)((s32 *)filename), (char *)name, (char *)((s32 *)".tam"));
+    if (get_resource_file_size((const char *)filename) <= lbl_805D6018) {
         if (TScene__texture_animation_buffer != 0U) {
-            read_disc_file((const char *)sp8, (void *)TScene__texture_animation_buffer);
+            read_disc_file((const char *)filename, (void *)TScene__texture_animation_buffer);
         } else {
             TScene__texture_animation_buffer = 0;
         }

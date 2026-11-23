@@ -285,8 +285,8 @@ void TWindowSubComCard::run_task() {
     saddr temp_r29_8;
     saddr keyboard_mode;
     s32 idle_ticks;
-    s32 var_r29;
-    s32 temp_r29_6;
+    s32 record;
+    s32 selected_value;
     s32 temp_r30_3;
     switch (this->state) {
     case 0x0:
@@ -661,8 +661,8 @@ void TWindowSubComCard::run_task() {
             this->m_68 = 0U;
         }
         if ((u32) this->m_78 == 0U) {
-            var_r29 = ((s32 (*)(void))get_selected_guild_card_record)();
-            this->m_78 = (uaddr)new TWindowUserSort(get_window_layout_position(0x8A), reinterpret_cast<GuildCardRecord *>(var_r29));
+            record = ((s32 (*)(void))get_selected_guild_card_record)();
+            this->m_78 = (uaddr)new TWindowUserSort(get_window_layout_position(0x8A), reinterpret_cast<GuildCardRecord *>(record));
         }
         if ((u32) this->m_64 == 0U) {
             this->m_64 = ((s32 (*)(void *)) TWindowSubComCard__sub_8027346C)((void *)this);
@@ -872,9 +872,9 @@ void TWindowSubComCard::run_task() {
             this->message_window = 0U;
         }
         if ((u32) this->m_64 == 0U) {
-            temp_r29_6 = ((TWindowMenu *)this->m_68)->get_selected_value();
+            selected_value = ((TWindowMenu *)this->m_68)->get_selected_value();
             ComList_8027375C *cl = (ComList_8027375C *) TWindowSubComCard::get_com_count();
-            ((s32 (*)(void*))load_selected_guild_card_record)(&cl->entries[temp_r29_6]);
+            ((s32 (*)(void*))load_selected_guild_card_record)(&cl->entries[selected_value]);
             this->m_64 = ((u32 (*)(void*))TWindowSubComCard::create_menu_window)((void *)this);
         }
         this->state = 0x32U;

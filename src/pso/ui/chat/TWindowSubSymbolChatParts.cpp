@@ -154,19 +154,19 @@ void select_symbol_chat_slot(TWindowSubSymbolChatParts *parts) {
     s32 j;
     s32 i;
     s32 temp_r3;
-    struct TWSC *temp_r29;
+    struct TWSC *preset;
     i = parts->calc_symbol_index();
-    temp_r29 = get_instance__20TWindowSubSymbolChatFv();
+    preset = get_instance__20TWindowSubSymbolChatFv();
     temp_r3 = TWindowSubSymbolChat::calc_remaining_slots();
     if (temp_r3 > i) {
-        ((TWindowSubSymbolChat *)temp_r29)->remove_slot_shift_down(i);
+        ((TWindowSubSymbolChat *)preset)->remove_slot_shift_down(i);
         return;
     }
     i -= temp_r3;
     for (j = 0; j < 4; j += 1) {
-        if (TWindowSubSymbolChat__sub_800771C4(reinterpret_cast<SymbolChatPreset *>(temp_r29), j) != 0) {
+        if (TWindowSubSymbolChat__sub_800771C4(reinterpret_cast<SymbolChatPreset *>(preset), j) != 0) {
             if (i-- <= 0) {
-                TWindowSubSymbolChat__sub_800771B0(reinterpret_cast<SymbolChatPreset *>(temp_r29), j);
+                TWindowSubSymbolChat__sub_800771B0(reinterpret_cast<SymbolChatPreset *>(preset), j);
                 return;
             }
         }

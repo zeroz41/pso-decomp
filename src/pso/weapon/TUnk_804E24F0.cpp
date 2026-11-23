@@ -21,10 +21,10 @@ void TUnk_804E24F0::vfunc_60() {
 }
 
 void TUnk_804E24F0::init_weapon_effect_descriptor(Desc_8011E5C4 *desc) {
-    u8 sp8[16];
+    u8 src[16];
     desc->flags |= 0x11C;
-    get_weapon_color__11TItemWeaponFPv(sp8, this);
-    copy_argb(&desc->color, (NJS_ARGB *)sp8);
+    get_weapon_color__11TItemWeaponFPv(src, this);
+    copy_argb(&desc->color, (NJS_ARGB *)src);
     desc->model = second_model;
     desc->hits = 4;
     desc->scale = 2.0f;

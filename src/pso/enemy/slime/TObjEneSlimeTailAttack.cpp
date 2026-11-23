@@ -585,9 +585,9 @@ void TObjEneSlimeOne::run_task() {
 }
 void TObjEneSlimeOne::render() {
     TObjEneSlimeOne *ene_slime_one = this;
-    s32 temp_r31;
+    s32 deferred;
     if ((TObjPlayer::check_demo_mode() == 0) && !(ene_slime_one->alpha <= 0.0f) && (((TObjEneSlimeOne *)(ene_slime_one))->update_object_view_visibility(500.0f, 20.0f) != 0)) {
-        temp_r31 = ene_slime_one->defer_render();
+        deferred = ene_slime_one->defer_render();
         if (ene_slime_one->alpha < 1.0f) {
             push_material_fade(ene_slime_one->alpha);
         }
@@ -600,7 +600,7 @@ void TObjEneSlimeOne::render() {
         }
         rotate_matrix_y(0, ene_slime_one->rotation_y);
         scale_matrix_vec3(0, (u8 *)&ene_slime_one->draw_scale);
-        ene_slime_one->animation->draw(temp_r31);
+        ene_slime_one->animation->draw(deferred);
         pop_matrix();
         TParticleCtrl::end_effect_render();
         if (ene_slime_one->alpha < 1.0f) {

@@ -284,11 +284,11 @@ void TObjDoaEx01::free_resource() {
     }
 }
 void TObjDoaEx01::load_resources() {
-    saddr var_r0;
+    saddr resource;
     u8 *temp_r3_2;
-    var_r0 = (saddr)new BmlResource(1, &TObjDoaEx01__resource_descriptor, 0, 0, NULL);
-    (*(u8 * *)&TObjDoaEx01__resource_bundle) = (unsigned char *) ((void *) var_r0);
-    temp_r3_2 = (u8 *)(*(void **)((s8 *)(*(void **)((s8 *)(*(void **)((s8 *)(*(void **)((s8 *)(get_bml_model((BmlResource *)(void *) var_r0, 0)) + 0x2C)) + 0x30)) + 0x2C)) + 0x2C));
+    resource = (saddr)new BmlResource(1, &TObjDoaEx01__resource_descriptor, 0, 0, NULL);
+    (*(u8 * *)&TObjDoaEx01__resource_bundle) = (unsigned char *) ((void *) resource);
+    temp_r3_2 = (u8 *)(*(void **)((s8 *)(*(void **)((s8 *)(*(void **)((s8 *)(*(void **)((s8 *)(get_bml_model((BmlResource *)(void *) resource, 0)) + 0x2C)) + 0x30)) + 0x2C)) + 0x2C));
     TObjDoaEx01__alpha_model_node = temp_r3_2;
     TObjDoaEx01__alpha_model_sibling = (u8 *)*(saddr *)((s8 *)temp_r3_2 + 0x30);
 }

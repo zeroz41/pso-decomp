@@ -376,14 +376,14 @@ void TChallenge4PItemSelect::run_task() {
 
 void TChallenge4PItemSelect::open_menu() {
     s32 temp_r0;
-    u16 temp_r30;
+    u16 client_id;
     s32 var_r29;
 
     temp_r0 = waitFrames - 1;
     waitFrames = temp_r0;
     if (temp_r0 <= 0) {
-        temp_r30 = fn_8034BE30(result);
-        (uaddr &)menu_window = (uaddr)create_window_menu((saddr)get_window_layout_position(0x42), 8, temp_r30);
+        client_id = fn_8034BE30(result);
+        (uaddr &)menu_window = (uaddr)create_window_menu((saddr)get_window_layout_position(0x42), 8, client_id);
         if ((uaddr)menu_window != 0U) {
             var_r29 = 0;
             do {

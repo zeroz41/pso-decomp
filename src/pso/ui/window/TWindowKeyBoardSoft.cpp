@@ -137,13 +137,13 @@ s32 TWindowKeyBoardSoft::sub_802605DC() {
 #pragma fp_contract on
 f32 TWindowKeyBoardSoft::calc_key_x(s32 col, s32 row) {
   f32 new_var;
-  s32 sp8;
+  s32 count;
   s32 temp_r31;
   s32 key;
   key = calc_key_index(col, row);
   temp_r31 = col + TWindowKeyBoardSoft__data_8044F124[soft_keyboard_key_class[key]];
-  sub_80260760((int) key, &sp8, NULL);
-  new_var = calc_key_coord(sp8);
+  sub_80260760((int) key, &count, NULL);
+  new_var = calc_key_coord(count);
   return 1.0f + ((19.0f * ((f32) temp_r31)) + (0.5f * new_var));
 }
 #pragma pop

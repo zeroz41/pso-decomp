@@ -242,13 +242,13 @@ s32 TWindowSubShortCut::open_confirm_prompt() {
 }
 
 s32 TWindowSubShortCut::open_confirm_message() {
-    saddr temp_r29;
+    saddr dialog;
 
-    temp_r29 = (saddr)TWindowMessageYesNo::create((void *)(this), this->client_id, 0, 0);
-    open_yes_no_prompt(reinterpret_cast<TWindowMessageYesNo *>(temp_r29), (uaddr)(TWindowSubStatusDisp::get_message_10(0x20)), (saddr)(TWindowSubStatusDisp::get_message_10(0x3e)), (s32)(get_window_layout_position(0x76)), 205.0f);
-    ((TWindowMessageYesNo *)temp_r29)->set_menu_selected_index(1);
-    ((TWindowMessageYesNo *)temp_r29)->set_choice_menu_flag70_bit10();
-    return temp_r29;
+    dialog = (saddr)TWindowMessageYesNo::create((void *)(this), this->client_id, 0, 0);
+    open_yes_no_prompt(reinterpret_cast<TWindowMessageYesNo *>(dialog), (uaddr)(TWindowSubStatusDisp::get_message_10(0x20)), (saddr)(TWindowSubStatusDisp::get_message_10(0x3e)), (s32)(get_window_layout_position(0x76)), 205.0f);
+    ((TWindowMessageYesNo *)dialog)->set_menu_selected_index(1);
+    ((TWindowMessageYesNo *)dialog)->set_choice_menu_flag70_bit10();
+    return dialog;
 }
 
 int TWindowSubQuestBoardSelect::is_shortcut_active() { return this->m_60 & 0x4; }

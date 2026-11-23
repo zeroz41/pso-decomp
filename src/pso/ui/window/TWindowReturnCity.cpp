@@ -59,7 +59,7 @@ s32 TWindowReturnCity::query_battle_state() {
 void TWindowReturnCity::render() {  }
 
 void TWindowReturnCity::run_task() {
-    s32 temp_r3;
+    s32 selected_value;
     if ((s32) lbl_805D55C0 != 1) {
         switch (state) {
         case 2:
@@ -84,13 +84,13 @@ void TWindowReturnCity::run_task() {
                 return;
             }
             if (yes_no_window->is_child_visible() != 0) {
-                temp_r3 = ((TWindowMessageYesNo *)yes_no_window)->get_selected_value();
-                if (temp_r3 == 0) {
+                selected_value = ((TWindowMessageYesNo *)yes_no_window)->get_selected_value();
+                if (selected_value == 0) {
                     TWindowReturnCity__client_scan_index = client;
                     new TUnk_804999D0(tl_00, return_to_city_after_defeat);
                     state = 2;
                 }
-                if (temp_r3 == 1) {
+                if (selected_value == 1) {
                     TWindowReturnCity::clear_flag_bit5();
                     TWindowReturnCity__sub_8024ACA8(client);
                     TWindowCtrl::clear_flag_2();

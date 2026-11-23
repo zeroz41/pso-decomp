@@ -487,12 +487,12 @@ TKeyBoardControl *TWindowSubShortMail::create_keyboard() {
 }
 
 saddr TWindowSubShortMail::open_confirm_prompt(void *parent, int client_id) {
-    saddr temp_r29;
-    temp_r29 = (saddr)TWindowMessageYesNo::create(parent, client_id, 0, 0);
-    open_yes_no_prompt(reinterpret_cast<TWindowMessageYesNo *>(temp_r29), (uaddr)((saddr)TWindowSubStatusDisp::get_message_10(0x20)), (saddr)((saddr)TWindowSubStatusDisp::get_message_10(0x3f)), (s32)(get_window_layout_position(0x9e)), 205.0f);
-    ((TWindowMessageYesNo *)temp_r29)->set_menu_selected_index(0);
-    ((TWindowMessageYesNo *)temp_r29)->set_choice_menu_flag70_bit10();
-    return temp_r29;
+    saddr dialog;
+    dialog = (saddr)TWindowMessageYesNo::create(parent, client_id, 0, 0);
+    open_yes_no_prompt(reinterpret_cast<TWindowMessageYesNo *>(dialog), (uaddr)((saddr)TWindowSubStatusDisp::get_message_10(0x20)), (saddr)((saddr)TWindowSubStatusDisp::get_message_10(0x3f)), (s32)(get_window_layout_position(0x9e)), 205.0f);
+    ((TWindowMessageYesNo *)dialog)->set_menu_selected_index(0);
+    ((TWindowMessageYesNo *)dialog)->set_choice_menu_flag70_bit10();
+    return dialog;
 }
 
 saddr TWindowSubShortMail::create_confirm_menu_window(void) {
@@ -541,23 +541,23 @@ saddr TWindowSubShortMail::open_menu(void) {
 }
 
 saddr TWindowSubShortMail::open_confirm_dialog() {
-    saddr temp_r29;
+    saddr dialog;
 
-    temp_r29 = (saddr)TWindowMessageYesNo::create((void *)(this), this->client_id, 0, 0);
-    open_yes_no_prompt(reinterpret_cast<TWindowMessageYesNo *>(temp_r29), (uaddr)((saddr)TWindowSubStatusDisp::get_message_10(0x20)), (saddr)((saddr)TWindowSubStatusDisp::get_message_10(0x3e)), (s32)(get_window_layout_position(0x9f)), 206.0f);
-    ((TWindowMessageYesNo *)temp_r29)->set_menu_selected_index(0);
-    ((TWindowMessageYesNo *)temp_r29)->set_choice_menu_flag70_bit10();
-    return temp_r29;
+    dialog = (saddr)TWindowMessageYesNo::create((void *)(this), this->client_id, 0, 0);
+    open_yes_no_prompt(reinterpret_cast<TWindowMessageYesNo *>(dialog), (uaddr)((saddr)TWindowSubStatusDisp::get_message_10(0x20)), (saddr)((saddr)TWindowSubStatusDisp::get_message_10(0x3e)), (s32)(get_window_layout_position(0x9f)), 206.0f);
+    ((TWindowMessageYesNo *)dialog)->set_menu_selected_index(0);
+    ((TWindowMessageYesNo *)dialog)->set_choice_menu_flag70_bit10();
+    return dialog;
 }
 
 saddr TWindowSubShortMail::open_delete_confirm_dialog() {
-    saddr temp_r29;
+    saddr dialog;
 
-    temp_r29 = (saddr)TWindowMessageYesNo::create((void *)(this), this->client_id, 0, 0);
-    open_yes_no_prompt(reinterpret_cast<TWindowMessageYesNo *>(temp_r29), (uaddr)((saddr)TWindowSubStatusDisp::get_message_10(0x20)), (saddr)((saddr)TWindowSubStatusDisp::get_message_10(0x104)), (s32)(get_window_layout_position(0xa3)), 206.0f);
-    ((TWindowMessageYesNo *)temp_r29)->set_menu_selected_index(0);
-    ((TWindowMessageYesNo *)temp_r29)->set_choice_menu_flag70_bit10();
-    return temp_r29;
+    dialog = (saddr)TWindowMessageYesNo::create((void *)(this), this->client_id, 0, 0);
+    open_yes_no_prompt(reinterpret_cast<TWindowMessageYesNo *>(dialog), (uaddr)((saddr)TWindowSubStatusDisp::get_message_10(0x20)), (saddr)((saddr)TWindowSubStatusDisp::get_message_10(0x104)), (s32)(get_window_layout_position(0xa3)), 206.0f);
+    ((TWindowMessageYesNo *)dialog)->set_menu_selected_index(0);
+    ((TWindowMessageYesNo *)dialog)->set_choice_menu_flag70_bit10();
+    return dialog;
 }
 
 void TWindowSubShortMail::update_mail_count() {

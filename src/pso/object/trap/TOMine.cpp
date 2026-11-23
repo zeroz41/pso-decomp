@@ -359,14 +359,14 @@ void TOMine::run_task() {
 }
 int TOMine::find_target_player() {
     u8 *arg0 = (u8 *)this;
-  u16 temp_r3;
+  u16 client;
   unsigned short new_var;
   ((RecoveredFields_80170F0C_arg0 *) arg0)->field_35C = find_nearest_visible_player((void *) arg0, 0, (f32) ((RecoveredFields_80170F0C_arg0 *) arg0)->field_34C);
-  temp_r3 = ((RecoveredFields_80170F0C_arg0 *) arg0)->field_35C;
+  client = ((RecoveredFields_80170F0C_arg0 *) arg0)->field_35C;
   new_var = -1;
-  if (temp_r3 != new_var)
+  if (client != new_var)
   {
-    ((RecoveredFields_80170F0C_arg0 *) arg0)->player_by_client_id = (saddr)get_player_by_client_id(temp_r3);
+    ((RecoveredFields_80170F0C_arg0 *) arg0)->player_by_client_id = (saddr)get_player_by_client_id(client);
     ((TOMine *)arg0)->update_trigger();
   }
   return ((RecoveredFields_80170F0C_arg0 *) arg0)->field_35C;

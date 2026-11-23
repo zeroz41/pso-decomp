@@ -210,7 +210,7 @@ int TOAttackableCol::handle_6x91_update_state() { return clear_player_status_fla
 
 f32 TOAttackableCol::apply_hit(saddr player) {
     u8 *arg0 = (u8 *)this;
-  s32 temp_r0;
+  s32 id;
   s32 temp_r0_2;
   s32 var_r30;
   u32 temp_r3;
@@ -224,8 +224,8 @@ f32 TOAttackableCol::apply_hit(saddr player) {
   }
   if (var_r30 != 0)
   {
-    temp_r0 = this->m_34c;
-    if (((temp_r0 >= 0) && (temp_r0 < 0x100)) && (is_current_floor_switch_set(((u16) temp_r0)) == 0))
+    id = this->m_34c;
+    if (((id >= 0) && (id < 0x100)) && (is_current_floor_switch_set(((u16) id)) == 0))
     {
       return 0.0f;
     }

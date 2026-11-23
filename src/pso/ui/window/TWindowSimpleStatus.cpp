@@ -377,25 +377,25 @@ void TWindowSubStatusDisp::update_hp_tp_level() {
 
 void TWindowLockOn::update_for_player_index(s32 id) {
     saddr str;
-    struct VObj_8026ff0c *temp_r30;
+    struct VObj_8026ff0c *player;
     u8 *temp_r29;
 
-    temp_r30 = (VObj_8026ff0c *)get_player_by_client_id(id);
-    if (temp_r30 == NULL) {
+    player = (VObj_8026ff0c *)get_player_by_client_id(id);
+    if (player == NULL) {
         ((TWindowHelpItem *)((u8 *)this))->set_flag0_bit2();
         return;
     }
-    temp_r29 = (u8 *)temp_r30 + 0x85C;
+    temp_r29 = (u8 *)player + 0x85C;
     if (temp_r29 == NULL) {
         ((TWindowHelpItem *)((u8 *)this))->set_flag0_bit2();
         return;
     }
-    str = temp_r30->m10();
+    str = player->m10();
     if (str == 0) {
         ((TWindowHelpItem *)((u8 *)this))->set_flag0_bit2();
         return;
     }
-    if (((TObjPlayer *)temp_r30)->is_inactive() == 0) {
+    if (((TObjPlayer *)player)->is_inactive() == 0) {
         ((TWindowHelpItem *)((u8 *)this))->set_flag0_bit2();
         return;
     }
@@ -403,7 +403,7 @@ void TWindowLockOn::update_for_player_index(s32 id) {
     if ((((TWindowSubComCard *)((u8 *)this))->get_field_20() == 0U) || (strcmp((const char *)((TWindowSubComCard *)((u8 *)this))->get_field_20(), (const char *)str) != 0)) {
         set_text_entry_string(((u8 *)this), str, 0x20);
     }
-    if (temp_r30->m31() != 0) {
+    if (player->m31() != 0) {
         *(s32 *)&this->entry_list = 0xFFFF0000;
         return;
     }

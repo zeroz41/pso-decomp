@@ -475,20 +475,20 @@ s32 TItemWeapon::launch_shot(u8 *arg1, s32 i, s32 arg3, s32 arg4) {
     s32 var_r23;
     CapturedTarget *temp_r22;
     CapturedTarget *temp_r22_3;
-    CapturedTargetList *temp_r3;
+    CapturedTargetList *extended_state;
     s32 temp_r6;
     u8 *temp_r22_2;
     u8 *temp_r3_3;
     u8 *var_r29;
     var_r31 = 0;
     if (is_active_in_game() != 0) {
-        temp_r3 = ((TObjPlayer *)(this->owner))->get_extended_state();
-        if (temp_r3 != 0) {
+        extended_state = ((TObjPlayer *)(this->owner))->get_extended_state();
+        if (extended_state != 0) {
             var_r23 = 0;
             var_r29 = NULL;
             ShotVector endpoint = *(ShotVector *)arg1;
-            if (i < temp_r3->get_captured_target_count()) {
-                temp_r22 = temp_r3->get_captured_target_entry(i);
+            if (i < extended_state->get_captured_target_count()) {
+                temp_r22 = extended_state->get_captured_target_entry(i);
                 var_r29 = (u8 *)(((TObjChara *(*)(u16, s16))resolve_hittable_target)(temp_r22->get_uid(),temp_r22->get_captured_target_collider_index()));
                 if (var_r29 != NULL) {
                     temp_r22_2 = (u8 *)&(*(Rec_8011F108 **)((s8 *)var_r29 + 0xA4))[temp_r22->get_captured_target_collider_index()];
@@ -519,7 +519,7 @@ s32 TItemWeapon::launch_shot(u8 *arg1, s32 i, s32 arg3, s32 arg4) {
             temp_r3_3 = (u8 *)(csnVector(&rayOrigin.x, &endpoint.x, 0x8100));
             if (temp_r3_3 == NULL) {
                 if (var_r29 != NULL) {
-                    temp_r22_3 = temp_r3->get_captured_target_entry(i);
+                    temp_r22_3 = extended_state->get_captured_target_entry(i);
                     temp_r22_2 = (u8 *)&(*(Rec_8011F108 **)((s8 *)var_r29 + 0xA4))[temp_r22_3->get_captured_target_collider_index()];
                     var_f31 = xyz_distance(arg1, (void *) &((Rec_8011F108 *)temp_r22_2)->pos) / shot_speed;
                     if (arg4 != 0) {
@@ -1023,16 +1023,16 @@ void TItemWeapon::write_item_data(TItemData *data) {
 
 void TItemWeapon::remove_owner_bonuses() {
     s32 i;
-    void *temp_r3;
+    void *attribute_entry;
 
     ((TObjPlayer *)(this->owner))->set_model_id(0);
     ((TObjPlayer *)(this->owner))->set_model_param(0);
     i = 0;
     do {
-        temp_r3 = ((TObjPlayer *)(this->owner))->get_attribute_entry(i);
-        *(s8 *)((s8 *)temp_r3 + 0) = 0;
+        attribute_entry = ((TObjPlayer *)(this->owner))->get_attribute_entry(i);
+        *(s8 *)((s8 *)attribute_entry + 0) = 0;
         i += 1;
-        *(s8 *)((s8 *)temp_r3 + 1) = 0;
+        *(s8 *)((s8 *)attribute_entry + 1) = 0;
     } while (i != 3);
 }
 

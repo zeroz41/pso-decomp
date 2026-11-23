@@ -431,12 +431,12 @@ TLockOnCursor::~TLockOnCursor() {
 }
 
 void load_target_cursor_models(void) {
-    saddr var_r0;
+    saddr resource;
     if ((void *) lock_on_cursor_bml_resource == NULL) {
-        var_r0 = (saddr)new BmlResource(5, (BmlResourceDescriptor *)&target_cursor_resource_descriptor, 0, 0, NULL);
-        lock_on_cursor_bml_resource = (unsigned char *) ((void *) var_r0);
-        if ((u32) var_r0 != 0U) {
-            lock_on_cursor_model = (saddr)get_bml_model((BmlResource *)(void *) var_r0, 0);
+        resource = (saddr)new BmlResource(5, (BmlResourceDescriptor *)&target_cursor_resource_descriptor, 0, 0, NULL);
+        lock_on_cursor_bml_resource = (unsigned char *) ((void *) resource);
+        if ((u32) resource != 0U) {
+            lock_on_cursor_model = (saddr)get_bml_model((BmlResource *)(void *) resource, 0);
             TLockOnCursor__target_cursor_model = (saddr)get_bml_model((BmlResource *)lock_on_cursor_bml_resource, 0);
             main_cursor_model = (saddr)get_bml_model((BmlResource *)lock_on_cursor_bml_resource, 2);
         }
@@ -1487,29 +1487,29 @@ extern "C" {
 
 void render__11TMainCursorFPv(TMainCursor *main_cursor) {
     s32 sp8;
-    f32 temp_f31;
+    f32 y;
 
     TParticleCtrl::begin_effect_render();
-    temp_f31 = *(f32 *)((s8 *)main_cursor + 0x30);
+    y = *(f32 *)((s8 *)main_cursor + 0x30);
     push_matrix();
     offset_point_toward_camera((u8 *)main_cursor + 0x40, (u8 *)&sp8, main_cursor->m_2c);
     translate_matrix_vec3((u8 *)(0), (u8 *)&sp8);
     rotate_matrix_y(0, camera_ctrl_instance->yaw);
     push_matrix();
     rotate_matrix_z(0, 0x2AAA);
-    translate_matrix(0, TMainCursor__data_805DB0C0, temp_f31, TMainCursor__data_805DB0C0);
+    translate_matrix(0, TMainCursor__data_805DB0C0, y, TMainCursor__data_805DB0C0);
     main_cursor->update_photon_chair();
     main_cursor->update_chair();
     pop_matrix();
     push_matrix();
     rotate_matrix_z(0, 0x7FFF);
-    translate_matrix(0, TMainCursor__data_805DB0C0, temp_f31, TMainCursor__data_805DB0C0);
+    translate_matrix(0, TMainCursor__data_805DB0C0, y, TMainCursor__data_805DB0C0);
     main_cursor->update_photon_chair();
     main_cursor->update_chair();
     pop_matrix();
     push_matrix();
     rotate_matrix_z(0, 0xD554);
-    translate_matrix(0, TMainCursor__data_805DB0C0, temp_f31, TMainCursor__data_805DB0C0);
+    translate_matrix(0, TMainCursor__data_805DB0C0, y, TMainCursor__data_805DB0C0);
     main_cursor->update_photon_chair();
     main_cursor->update_chair();
     pop_matrix();

@@ -289,12 +289,12 @@ TUnk_804949F4::~TUnk_804949F4() {}
 void TUnk_804949F4::vfunc_6() {
   Vec stack;
   f32 temp_f1;
-  s32 temp_r3;
-  temp_r3 = TObjPlayer::calc_random_scaled();
-  temp_f1 = radius * sin_table_lookup((int) (temp_r3 & 0xFFFFFFFFu));
+  s32 angle;
+  angle = TObjPlayer::calc_random_scaled();
+  temp_f1 = radius * sin_table_lookup((int) (angle & 0xFFFFFFFFu));
   stack.y = lbl_805DA380;
   stack.x = temp_f1;
-  stack.z = radius * cos_table_lookup((int) temp_r3);
+  stack.z = radius * cos_table_lookup((int) angle);
   vec3_add_to(&stack.x, (u8 *)&position);
   emitter->set_position(&stack.x);
 }
@@ -321,12 +321,12 @@ TUnk_804949D8::~TUnk_804949D8() {}
 void TUnk_804949D8::vfunc_6() {
     Vec stack;
     f32 temp_f1;
-    s32 temp_r3;
-    temp_r3 = TObjPlayer::calc_random_scaled();
-    temp_f1 = radius * sin_table_lookup(temp_r3);
+    s32 angle;
+    angle = TObjPlayer::calc_random_scaled();
+    temp_f1 = radius * sin_table_lookup(angle);
     stack.y = lbl_805DA380;
     stack.x = temp_f1;
-    stack.z = radius * cos_table_lookup(temp_r3);
+    stack.z = radius * cos_table_lookup(angle);
     vec3_add_to(&stack.x, (u8 *)&position);
     TObjBoss2Tunnel::adjust_to_ground(&stack, &stack);
     emitter->set_position(&stack.x);

@@ -378,11 +378,11 @@ void TObjCityMainWarp::update_warp_flags_from_story() {
 }
 
 void TObjCityMainWarp::clear_active_bit(s32 floor) {
-    saddr temp_r3;
+    saddr floor_warp_bit;
 
-    temp_r3 = TObjCityMainWarp::get_floor_warp_bit(floor);
-    if (temp_r3 >= 0) {
-        TObjCityMainWarp__enabled_destinations &= ~(1 << temp_r3);
+    floor_warp_bit = TObjCityMainWarp::get_floor_warp_bit(floor);
+    if (floor_warp_bit >= 0) {
+        TObjCityMainWarp__enabled_destinations &= ~(1 << floor_warp_bit);
     }
 }
 

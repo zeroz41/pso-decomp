@@ -116,20 +116,20 @@ void TUnk_804A5D10::run_task() {
 
 
 void TUnk_804A5D10::render() {
-    uaddr temp_r31;
+    uaddr child;
     u8 *equipped_item;
 
     equipped_item = (u8 *)find_equipped_item(item_id);
     if (equipped_item != NULL) {
-        temp_r31 = *(u32 *)((s8 *)equipped_item + 0x188);
-        if (temp_r31 != 0U) {
+        child = *(u32 *)((s8 *)equipped_item + 0x188);
+        if (child != 0U) {
             set_texlist(((TItem *)equipped_item)->get_texlist());
             push_matrix();
             post_translate_matrix(&position);
             rotate_matrix_y(0, rotation_y);
             rotate_matrix_x(0, rotation_x);
             rotate_matrix_z(0, rotation_z);
-            draw_ginja_object((void *)temp_r31);
+            draw_ginja_object((void *)child);
             pop_matrix();
         }
     }

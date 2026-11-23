@@ -76,21 +76,21 @@ s32 TWindowChat::sub_80247080() {
 }
 
 s32 TWindowChat::sub_80247128() {
-    s32 temp_r3_2;
+    s32 mode_code;
     uaddr temp_r3;
     temp_r3 = *(u32 *)&this->wordSelectWindow;
     if (temp_r3 == 0U) {
         return 0;
     }
-    temp_r3_2 = ((TWindowDD *)temp_r3)->get_mode_code();
-    if (temp_r3_2 == 0) {
+    mode_code = ((TWindowDD *)temp_r3)->get_mode_code();
+    if (mode_code == 0) {
         return 0;
     }
-    if (temp_r3_2 == 2) {
+    if (mode_code == 2) {
         this->set_input_active();
         return 1;
     }
-    if (temp_r3_2 != 1) {
+    if (mode_code != 1) {
         return 0;
     }
     this->set_active_flag();

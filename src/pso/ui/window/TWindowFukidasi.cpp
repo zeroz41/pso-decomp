@@ -1219,14 +1219,14 @@ void TWindowFukidasi::request_balloon_hide() {
 }
 
 s32 TWindowFukidasi::approach(f32 farg0) {
-    f32 temp_f31;
+    f32 x;
 
-    temp_f31 = 0.47f * (farg0 - this->tail_scale);
-    if (fabs_float(temp_f31) < 0.011f) {
+    x = 0.47f * (farg0 - this->tail_scale);
+    if (fabs_float(x) < 0.011f) {
         this->tail_scale = farg0;
         return 1;
     }
-    this->tail_scale = (f32) (this->tail_scale + temp_f31);
+    this->tail_scale = (f32) (this->tail_scale + x);
     return 0;
 }
 

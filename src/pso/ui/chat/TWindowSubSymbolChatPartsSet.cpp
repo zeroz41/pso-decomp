@@ -22,7 +22,7 @@ extern "C" {
 #pragma opt_lifetimes off
 #pragma opt_loop_invariants off
 s32 TWindowSubSymbolChatPartsSet::select_symbol_chat_record(s8 *arg1, s32 *arg2) {
-    SymbolChatPayload *temp_r28;
+    SymbolChatPayload *data_ptr;
     s32 var_r31;
     s16 temp_r0;
     s32 temp_r3_2;
@@ -37,12 +37,12 @@ s32 TWindowSubSymbolChatPartsSet::select_symbol_chat_record(s8 *arg1, s32 *arg2)
     m_84 = arg2;
     *(m_84) = 0;
     instance = reinterpret_cast<SymbolChatPreset *>(TWindowSubSymbolChat::get_instance());
-    temp_r28 = instance->get_data_ptr();
+    data_ptr = instance->get_data_ptr();
     temp_r3_2 = TWindowSubSymbolChat::calc_remaining_slots();
     temp_r0 = *(s16 *)((s8 *)((u8 *)this) + 0x6E);
     if (temp_r3_2 > temp_r0) {
         m_94 = 2.0f;
-        part = &temp_r28->parts[temp_r0];
+        part = &data_ptr->parts[temp_r0];
         first_part_index = (s32) *(s16 *)((s8 *)((u8 *)this) + 0x6E);
         second_part_index = instance->find_free_entry(0);
         var_r31 = 0;
@@ -71,7 +71,7 @@ s32 TWindowSubSymbolChatPartsSet::select_symbol_chat_record(s8 *arg1, s32 *arg2)
         if (TWindowSubSymbolChat__sub_800771C4(instance, var_r31) != 0) {
             if (var_r29-- <= 0) {
                 temp_r4 = (u32) var_r31 >> 0x1FU;
-                temp_r8 = temp_r28->facial_parts[var_r31];
+                temp_r8 = data_ptr->facial_parts[var_r31];
                 first_part_index = var_r31;
                 second_part_index = var_r31;
                 *(s16 *)((s8 *)((u8 *)this) + 0x6A) = (s16) (((var_r31 & 1) ^ temp_r4) - temp_r4);

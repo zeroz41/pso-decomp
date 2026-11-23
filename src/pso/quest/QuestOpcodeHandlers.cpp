@@ -1282,13 +1282,13 @@ void qst_op_get_player_hp_tp(void) {
 }
 
 void qst_op_get_section_id() {
-  uaddr temp_r3;
+  uaddr player;
   u8 temp_r31;
-  temp_r3 = ((uaddr)get_player_by_client_id((s32)((int) qst_args[0])));
+  player = ((uaddr)get_player_by_client_id((s32)((int) qst_args[0])));
   temp_r31 = (u8) qst_args[1];
-  if (temp_r3 != 0U)
+  if (player != 0U)
   {
-    qst_registers[(u8)temp_r31] = (volatile unsigned long)((TPlyPhotonChair *)temp_r3)->get_actor_section_id();
+    qst_registers[(u8)temp_r31] = (volatile unsigned long)((TPlyPhotonChair *)player)->get_actor_section_id();
     return;
   }
   qst_registers[(u8)temp_r31] = -1;
@@ -2047,11 +2047,11 @@ int qst_op_write_flag_buf_to_event_flags2(void* p) { return ((int (*)(void*))qst
 
 void qst_op_load_guild_card_file_creation_time_to_flag_buf() {
     s32 var_r0;
-    void *temp_r3;
+    void *state;
 
-    temp_r3 = (void *)(saddr)TAdSinglePlyChrSelectGC::get_state();
-    if (temp_r3 != NULL) {
-        var_r0 = *(s32 *)((s8 *)temp_r3 + 0xE284);
+    state = (void *)(saddr)TAdSinglePlyChrSelectGC::get_state();
+    if (state != NULL) {
+        var_r0 = *(s32 *)((s8 *)state + 0xE284);
     } else {
         var_r0 = 0;
     }
@@ -2739,10 +2739,10 @@ void qst_op_kill_player(s32 slot_reg) {
 }
 
 void qst_op_get_guild_card_file_creation_time(s32 reg) {
-    u8 *temp_r3;
-    temp_r3 = (u8 *)(saddr)TAdSinglePlyChrSelectGC::get_state();
-    if (temp_r3 != NULL) {
-        qst_registers[(u8)reg] = *(s32 *)((s8 *)temp_r3 + 0xE284);
+    u8 *state;
+    state = (u8 *)(saddr)TAdSinglePlyChrSelectGC::get_state();
+    if (state != NULL) {
+        qst_registers[(u8)reg] = *(s32 *)((s8 *)state + 0xE284);
         return;
     }
     qst_registers[(u8)reg] = 0;
@@ -3497,19 +3497,19 @@ void qst_op_nop_F821(u8 regs) {
 
 void qst_op_cmode_stage() {
     u32 temp_r30;
-    u32 temp_r31;
+    u32 layout_id;
 
     temp_r30 = (u32)qst_args[0];
-    temp_r31 = TWindowSubStatusDisp::get_layout_id(-1);
+    layout_id = TWindowSubStatusDisp::get_layout_id(-1);
     if (is_split_screen() == 1) {
-        if (temp_r30 < temp_r31) {
+        if (temp_r30 < layout_id) {
             TLobby::clamp_and_store_layout_index(temp_r30);
             return;
         }
         TLobby::clamp_and_store_layout_index(0U);
         return;
     }
-    if (temp_r30 < temp_r31) {
+    if (temp_r30 < layout_id) {
         TLobby::set_selected_layout(temp_r30);
         return;
     }
@@ -4145,10 +4145,10 @@ void qst_op_clear_mainwarp() {
 }
 
 void qst_op_set_mainwarp(void) {
-    s32 temp_r31;
-    temp_r31 = qst_args[0];
+    s32 main_warp_id;
+    main_warp_id = qst_args[0];
     TObjCityMainWarp::set_active_bit((int) (qst_args[0]));
-    TObjDoor::set_main_warp_id(temp_r31);
+    TObjDoor::set_main_warp_id(main_warp_id);
 }
 
 void qst_op_set_bgm() {
@@ -4334,10 +4334,10 @@ void qst_op_at_coords_call(u8 regs) {
 #pragma fp_contract on
 void qst_op_gettime(u8 reg) {
     s32 spC;
-    s32 sp8;
+    s32 seconds;
     getDateStamp((DateStamp *)(&spC));
-    DateToSeconds((DateStamp *)(&spC), (int *)(&sp8));
-    qst_registers[reg] = sp8;
+    DateToSeconds((DateStamp *)(&spC), (int *)(&seconds));
+    qst_registers[reg] = seconds;
 }
 #pragma pop
 

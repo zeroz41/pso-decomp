@@ -453,13 +453,13 @@ s32 TWindowKeyBoardHard::sub_8025F4A0(u8 arg1) {
 
 void TWindowKeyBoardHard::process_key_input(u8 arg1) {
     u16 sp8;
-    s32 temp_r31;
+    s32 mode;
 
     if (sub_8025F4A0(arg1) != 0) {
         *(s32 *)((s8 *)this + 0x6C) = 7;
         return;
     }
-    temp_r31 = translate_key_char(arg1, &sp8);
+    mode = translate_key_char(arg1, &sp8);
     if (sp8 == 0x1F) {
         *(s32 *)((s8 *)this + 0x6C) = 7;
         return;
@@ -474,7 +474,7 @@ block_7:
         if ((sub_80260438() != 0) && ((s32) sp8 >= 0x61) && ((s32) sp8 <= 0x7A)) {
             sp8 -= 0x20;
         }
-        m_control->set_input_mode(temp_r31);
+        m_control->set_input_mode(mode);
         m_control->insert_character(sp8);
     }
 }

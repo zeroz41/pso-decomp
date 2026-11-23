@@ -620,12 +620,12 @@ void TItemDrop::init_rare_item_data(void *arg0, void *item_data) {
 void TItemDrop::handle_type3(void* p, void* a1) { if (*(unsigned char*)(a1) == 3) { ((TItemData *)a1)->set_stack_count(1); } }
 
 void TItemDrop::apply_item_data(void *arg0, void *item) {
-    s32 sp8;
+    s32 mag;
 
     if ((u8) *(u8 *)((s8 *)item + 0) == 2) {
-        ((MagStats *)(&sp8))->init();
+        ((MagStats *)(&mag))->init();
         *(s8 *)((s8 *)item + 1) = 0;
-        TItemData::serialize_mag(item, &sp8);
+        TItemData::serialize_mag(item, &mag);
     }
 }
 

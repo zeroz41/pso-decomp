@@ -109,21 +109,21 @@ void TWindowSnapShot::play_open_sound() {
 
 void TWindowSnapShot::render() {
     Stack_802A7F00 stack;
-    u8 *temp_r3;
-    temp_r3 = reinterpret_cast<u8 *>(draw_default_entry());
-    draw_window_frame(temp_r3);
+    u8 *context;
+    context = reinterpret_cast<u8 *>(draw_default_entry());
+    draw_window_frame(context);
     draw_visible_window_entries(
         this,
         &this->entry_list,
-        reinterpret_cast<WindowDrawContext *>(temp_r3));
+        reinterpret_cast<WindowDrawContext *>(context));
     if (!(m_60 & 2)) {
-        if ((s32) *(s32 *)((s8 *)temp_r3 + 0x30) > 0) {
-            stack.sp8 = 18.0f + *(f32 *)((s8 *)temp_r3 + 0x10);
-            stack.spC = *(f32 *)((s8 *)temp_r3 + 0x14);
+        if ((s32) *(s32 *)((s8 *)context + 0x30) > 0) {
+            stack.sp8 = 18.0f + *(f32 *)((s8 *)context + 0x10);
+            stack.spC = *(f32 *)((s8 *)context + 0x14);
             draw_screen_snapshot(&stack.sp8, 18.0f);
         }
     } else {
-        draw_window_text((f32 *)(temp_r3 + 0x10), (const char *)(get_localized_text_entry(0x24, 7)), -1, 0, 1000000.0f);
+        draw_window_text((f32 *)(context + 0x10), (const char *)(get_localized_text_entry(0x24, 7)), -1, 0, 1000000.0f);
     }
 }
 

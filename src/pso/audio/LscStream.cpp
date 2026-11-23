@@ -135,25 +135,25 @@ s32 lsc_get_state(LscStream *lsc_stream) {
 }
 
 void lsc_poll_all(void) {
-    u8 sp8[8];
+    u8 lock[8];
     s32 i;
-    lsc_interrupt_lock_enter(sp8);
+    lsc_interrupt_lock_enter(lock);
     for (i = 0; i < 16; i++) {
         if ((s32)lsc_slot_table[i].in_use == 1) {
             lsc_poll(&lsc_slot_table[i]);
         }
     }
-    lsc_interrupt_lock_leave(sp8);
+    lsc_interrupt_lock_leave(lock);
 }
 
 void lsc_stop(LscStream *lsc_stream) {
-    s32 sp8;
+    s32 lock;
     if (lsc_stream == NULL) {
         TLobby::log_printf("E0003: Illigal parameter lsc=NULL");
         return;
     }
     if ((s8) lsc_stream->state != 0) {
-        lsc_interrupt_lock_enter(&sp8);
+        lsc_interrupt_lock_enter(&lock);
         lsc_stream->state = 0U;
         if (lsc_stream->file_handle != NULL) {
             if ((s32) lsc_stream->read_started == 1) {
@@ -172,7 +172,7 @@ void lsc_stop(LscStream *lsc_stream) {
             lsc_stream->queued_count = 0;
         }
         lsc_stream->field_34 = 0;
-        lsc_interrupt_lock_leave(&sp8);
+        lsc_interrupt_lock_leave(&lock);
     }
 }
 

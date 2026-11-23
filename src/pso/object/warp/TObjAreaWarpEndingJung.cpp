@@ -592,7 +592,7 @@ TObjAreaWarp::~TObjAreaWarp() {
 }
 
 void TObjAreaWarp::open_confirm_window(s32 arg1) {
-    uaddr temp_r3;
+    uaddr player;
 
     if ((u32) this->menu_window == 0U) {
         this->menu_window = (uaddr)create_window_menu((saddr)get_window_layout_position(0x33), 1, arg1);
@@ -607,9 +607,9 @@ void TObjAreaWarp::open_confirm_window(s32 arg1) {
         ((TWindowMenu *)(this->menu_window))->set_flag70_bit10();
         ((TAdChrSelASlotGC *)(this->menu_window))->set_flag_40();
         this->user_client_id = arg1;
-        temp_r3 = (uaddr)get_player_by_client_id(this->user_client_id);
-        if (temp_r3 != 0U) {
-            mask_action_buttons((void *)(temp_r3 + 0x550), 4);
+        player = (uaddr)get_player_by_client_id(this->user_client_id);
+        if (player != 0U) {
+            mask_action_buttons((void *)(player + 0x550), 4);
         }
     }
 }

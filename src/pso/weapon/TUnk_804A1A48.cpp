@@ -22,26 +22,26 @@ void TUnk_804A1A48::reserved_53() {
     Sp8Type_80123524 sp8;
     s32 temp_r3;
     void *temp_r5;
-    void *temp_r31;
+    void *child;
     void *temp_r30;
     void *temp_r29;
 
     if ((*(void **)&(*(s16 *)((u8 *)this + 0xF4)) != NULL) && (((TItem *)this)->is_hidden() == 0)) {
         temp_r5 = *(void **)&(*(s16 *)((u8 *)this + 0xF4));
-        temp_r31 = *(void **)((s8 *)temp_r5 + 0x2C);
-        *(s32 *)((s8 *)temp_r31 + 0) = (s32) (*(s32 *)((s8 *)temp_r31 + 0) | 8);
-        temp_r30 = *(void **)((s8 *)temp_r31 + 0x2C);
+        child = *(void **)((s8 *)temp_r5 + 0x2C);
+        *(s32 *)((s8 *)child + 0) = (s32) (*(s32 *)((s8 *)child + 0) | 8);
+        temp_r30 = *(void **)((s8 *)child + 0x2C);
         *(s32 *)((s8 *)temp_r30 + 0) = (s32) (*(s32 *)((s8 *)temp_r30 + 0) | 8);
         temp_r29 = *(void **)((s8 *)temp_r30 + 0x30);
         *(s32 *)((s8 *)temp_r29 + 0) = (s32) (*(s32 *)((s8 *)temp_r29 + 0) | 8);
         draw_weapon_at_joint(this, 0x30, temp_r5);
-        *(s32 *)((s8 *)temp_r31 + 0) = (s32) (*(s32 *)((s8 *)temp_r31 + 0) & 0xFFFFFFF7);
+        *(s32 *)((s8 *)child + 0) = (s32) (*(s32 *)((s8 *)child + 0) & 0xFFFFFFF7);
         *(s32 *)((s8 *)temp_r30 + 0) = (s32) (*(s32 *)((s8 *)temp_r30 + 0) & 0xFFFFFFF7);
         *(s32 *)((s8 *)temp_r29 + 0) = (s32) (*(s32 *)((s8 *)temp_r29 + 0) & 0xFFFFFFF7);
         TObjPlayer__sub_80364198();
         model_render_flags &= 0xFFFFFFEF;
         TObjPlayer::set_model_fade_alpha((f32)this->get_owner_alpha());
-        *(s32 *)((s8 *)temp_r31 + 0) = (s32) (*(s32 *)((s8 *)temp_r31 + 0) | 1);
+        *(s32 *)((s8 *)child + 0) = (s32) (*(s32 *)((s8 *)child + 0) | 1);
         *(s32 *)((s8 *)temp_r30 + 0) = (s32) (*(s32 *)((s8 *)temp_r30 + 0) & 0xFFFFFFFD);
         *(s32 *)((s8 *)temp_r30 + 0x18) = (s32) (*(s32 *)((s8 *)temp_r30 + 0x18) + this->swing_angle);
         *(s32 *)((s8 *)temp_r29 + 0) = (s32) (*(s32 *)((s8 *)temp_r29 + 0) & 0xFFFFFFFD);
@@ -50,10 +50,10 @@ void TUnk_804A1A48::reserved_53() {
             push_matrix();
             post_translate_matrix(&sp8);
             rotate_matrix_y(0, *(s32 *)((s8 *)(*(void * *)&(*(NJS_MOTION_LINK *)((u8 *)this + 0xE4)).frame[1]) + 0x60));
-            draw_ginja_object(temp_r31);
+            draw_ginja_object(child);
             pop_matrix();
         }
-        *(s32 *)((s8 *)temp_r31 + 0) = (s32) (*(s32 *)((s8 *)temp_r31 + 0) & 0xFFFFFFFE);
+        *(s32 *)((s8 *)child + 0) = (s32) (*(s32 *)((s8 *)child + 0) & 0xFFFFFFFE);
         *(s32 *)((s8 *)temp_r30 + 0) = (s32) (*(s32 *)((s8 *)temp_r30 + 0) | 2);
         *(s32 *)((s8 *)temp_r30 + 0x18) = (s32) (*(s32 *)((s8 *)temp_r30 + 0x18) - this->swing_angle);
         *(s32 *)((s8 *)temp_r29 + 0) = (s32) (*(s32 *)((s8 *)temp_r29 + 0) | 2);

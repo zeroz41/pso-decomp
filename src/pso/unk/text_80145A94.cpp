@@ -227,16 +227,16 @@ s32 TLobby__sub_80145EE4(void) {
 
 
 s32 init_struct(u8 *arg0) {
-    u8 sp8;
+    u8 dst;
 
     if (!(lbl_805D56CC & 1)) {
         return 0;
     }
     memset((void *)((saddr)arg0), 0, 0x26C);
-    if (TLobby__sub_803F5678(&sp8) != 0) {
+    if (TLobby__sub_803F5678(&dst) != 0) {
         return 0;
     }
-    *(s32 *)((s8 *)arg0 + 4) = (s32) sp8;
+    *(s32 *)((s8 *)arg0 + 4) = (s32) dst;
     TLobby__sub_803F5748(arg0 + 0xA8);
     TLobby__sub_803F5824(arg0 + 0xAC);
     TLobby__sub_803F5900(arg0 + 0xBC);

@@ -372,9 +372,9 @@ void TObjPathObj::render() {
 #pragma push
 #pragma fp_contract on
 s32 sample_clamped_path_position(void *arg0, saddr node, void *motion, saddr pos, f32 farg0) {
-  s32 sp24[3];
-  s32 sp18[3];
-  s32 sp8[4];
+  s32 ang[3];
+  s32 scl[3];
+  s32 quat[4];
   f32 frame;
   s32 var_r31;
   u32 temp_r7;
@@ -387,7 +387,7 @@ s32 sample_clamped_path_position(void *arg0, saddr node, void *motion, saddr pos
     frame = (f32)temp_r7;
   }
   bind_motion_context((NJS_MOTION *)motion, frame);
-  sample_motion_node_transform((NJS_OBJECT *)node, (f32 *)pos, sp24, (f32 *)sp18, (f32 *)sp8);
+  sample_motion_node_transform((NJS_OBJECT *)node, (f32 *)pos, ang, (f32 *)scl, (f32 *)quat);
   return var_r31;
 }
 #pragma pop

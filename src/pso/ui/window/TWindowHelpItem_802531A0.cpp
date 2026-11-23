@@ -103,7 +103,7 @@ void TWindowHelpItem__sub_80253268(u8 *window_base) {
 }
 
 void TWindowHelpItem::update_tech_disk_details() {
-    s32 sp8;
+    s32 requirement;
     saddr player;
     u8 *e0;
     u8 *e1;
@@ -135,8 +135,8 @@ void TWindowHelpItem::update_tech_disk_details() {
         e4 = (u8 *)((TWindowBase *)this)->get_array_entry(4);
         e5 = (u8 *)((TWindowBase *)this)->get_array_entry(5);
         e6 = (u8 *)((TWindowBase *)this)->get_array_entry(6);
-        check_equip_requirements((void *)player, (TItemData *)(*(void **)(((u8 *)this) + 0x68)), &sp8);
-        if (sp8 & 1) {
+        check_equip_requirements((void *)player, (TItemData *)(*(void **)(((u8 *)this) + 0x68)), &requirement);
+        if (requirement & 1) {
             set_sprite_uv_from_pixels(reinterpret_cast<WindowSpritePart *>(e1), TWindowHelpItem__data_805DCDE4, 152.0f);
             ((TWindowHelpItem *)e2)->set_flag0_bit2();
             ((TWindowHelpItem *)e3)->set_flag0_bit2();

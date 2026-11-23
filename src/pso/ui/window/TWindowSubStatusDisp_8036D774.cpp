@@ -179,10 +179,10 @@ void TLobby::free_singleton_805D7018() {
     }
 }
 void TBGMulti__ct(void) {
-    s32 sp8[4];
+    s32 palette[4];
     if (TCameraCtrl::get_camera_id() == 3) {
-        sp8[0] = (saddr)TLobby::tmp_buf_use_req("TBGMulti");
-        TLanguage::draw_string((void *)"f128_gr.gvp", sp8, 0x4D);
+        palette[0] = (saddr)TLobby::tmp_buf_use_req("TBGMulti");
+        TLanguage::draw_string((void *)"f128_gr.gvp", palette, 0x4D);
         TLobby::tmp_buf_release("TBGMulti");
         TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>((*(s32 *)&TBGMulti__textures) = (saddr)load_gvm_texture_file("bg_multi.gvm")));
         TLanguage::set_entry_index(0, 0x4D);

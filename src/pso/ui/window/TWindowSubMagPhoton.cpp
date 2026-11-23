@@ -142,9 +142,9 @@ void TWindowSubMagPhoton::update_selection_input() {
 }
 
 void TWindowSubMagPhoton::draw_cursor(void *arg1) {
-    u8 sp8[16];
-    get_cursor_origin(sp8);
-    ((void (*)(f32, void *, void *, int))draw_cursor_sprite__21TWindowSubCustomEquipFPvPvif)(0.8f, arg1, sp8, ((Win_8027C4C8 *)this)->f62);
+    u8 xy[16];
+    get_cursor_origin(xy);
+    ((void (*)(f32, void *, void *, int))draw_cursor_sprite__21TWindowSubCustomEquipFPvPvif)(0.8f, arg1, xy, ((Win_8027C4C8 *)this)->f62);
 }
 
 void TWindowSubMagPhoton::render() {

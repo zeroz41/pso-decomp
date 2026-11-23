@@ -278,7 +278,7 @@ TOWreckAncientBrakable::~TOWreckAncientBrakable() {
 }
 
 void TOWreckAncientBrakable::run_task() {
-    s32 temp_r0_2;
+    s32 id;
 
     if (TObjPlayer::check_demo_mode() == 1) {
         TOWreckAncientBrakable__sub_8017D444(this);
@@ -288,8 +288,8 @@ void TOWreckAncientBrakable::run_task() {
     default:
         state = 0;
     case 0:
-        temp_r0_2 = switch_id;
-        if ((temp_r0_2 >= 0) && (temp_r0_2 < 0x100) && (is_current_floor_switch_set((u16) temp_r0_2) == 1)) {
+        id = switch_id;
+        if ((id >= 0) && (id < 0x100) && (is_current_floor_switch_set((u16) id) == 1)) {
             state = 1;
             play_sound_effect(0x43C11, (u8 *)&this->position, 0, 0);
             spawn_particle_effect(&this->position, 0x45);

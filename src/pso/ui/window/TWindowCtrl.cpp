@@ -693,13 +693,13 @@ extern "C" {
 
 void TWindowCtrl::update_com_card_window() {
     TWindowGetComCard *temp_r3;
-    uaddr temp_r3_2;
+    uaddr chat;
     TWindowGetComCard *temp_r3_3;
     temp_r3 = this->m_3c;
     if ((temp_r3 != NULL) && (temp_r3->all_parents_unqueued_for_destruction() == 0)) {
         this->m_3c = NULL;
     }
-    if ((is_guild_card_receive_active() == 0) || (TWindowCtrl::has_player_active_menu(local_client_id) != 0) || (TWindowCtrl::is_slot_visible(local_client_id) != 0) || (TWindowCtrl::get_flag_bit5() != 0) || (trade_request != NULL) || ((temp_r3_2 = this->m_38, ((temp_r3_2 == 0U) == 0)) && (TWindowCtrl__sub_8024701C(reinterpret_cast<TWindowChat *>((void *)temp_r3_2)) != 0))) {
+    if ((is_guild_card_receive_active() == 0) || (TWindowCtrl::has_player_active_menu(local_client_id) != 0) || (TWindowCtrl::is_slot_visible(local_client_id) != 0) || (TWindowCtrl::get_flag_bit5() != 0) || (trade_request != NULL) || ((chat = this->m_38, ((chat == 0U) == 0)) && (TWindowCtrl__sub_8024701C(reinterpret_cast<TWindowChat *>((void *)chat)) != 0))) {
         temp_r3_3 = this->m_3c;
         if (temp_r3_3 != NULL) {
             temp_r3_3->queue_destruction();

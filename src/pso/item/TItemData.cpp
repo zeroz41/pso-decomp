@@ -562,7 +562,7 @@ s32 TItemData::get_name_style() { return 0; }
 void TItemData::convert_from_version(s32) {}
 
 void TItemData::unpack_from_item(void *item) {
-    s32 sp8;
+    s32 mag;
     u8 temp_r0;
 
     if (item != NULL) {
@@ -600,8 +600,8 @@ void TItemData::unpack_from_item(void *item) {
             this->data1.data_u8[4] = (u8) ((u32) *(u32 *)((s8 *)item + 0x34) >> 0x10U);
             return;
         case 2:
-            ((MagStats *)(&sp8))->init();
-            TItemData::serialize_mag(this, &sp8);
+            ((MagStats *)(&mag))->init();
+            TItemData::serialize_mag(this, &mag);
             break;
         }
     }

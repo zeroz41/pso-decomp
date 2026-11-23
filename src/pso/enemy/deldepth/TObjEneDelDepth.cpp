@@ -949,7 +949,7 @@ void TObjEneDelDepth::init_move() {
 #pragma opt_common_subs off
 void TObjEneDelDepth::update_death_fade() {
     u8 *enemy = (u8 *)this;
-    s32 sp8;
+    s32 record;
     switch (this->actionPhase) {
     case 0:
         if (--this->timer <= 0) {
@@ -968,10 +968,10 @@ void TObjEneDelDepth::update_death_fade() {
         break;
     case 2:
     default:
-        sp8 = 0x800;
-        ((TObjEnemy *)enemy)->send_6x0A_enemy_state(&sp8);
-        ((TObjEnemy *)enemy)->exchange_object_state(&sp8, 0);
-        apply_enemy_state(&sp8);
+        record = 0x800;
+        ((TObjEnemy *)enemy)->send_6x0A_enemy_state(&record);
+        ((TObjEnemy *)enemy)->exchange_object_state(&record, 0);
+        apply_enemy_state(&record);
         ((TObjEnemy *)enemy)->send_entity_set_flags();
         TObjPlayer::apply_effect_variant_a((saddr)((u8 *)&this->position), 0);
         this->queue_destruction();

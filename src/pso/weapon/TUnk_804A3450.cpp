@@ -13,7 +13,7 @@ void TUnk_804A3450::on_equipped() {
 
 void TUnk_804A3450::emit_marker_effects() {
     saddr owner;
-    saddr temp_r3_2;
+    saddr source;
     saddr temp_r4;
     saddr temp_r4_2;
 
@@ -26,9 +26,9 @@ void TUnk_804A3450::emit_marker_effects() {
             temp_r4 = owner + 0x38;
             TTecJelin::create(owner, temp_r4, temp_r4, 4);
         } else {
-            temp_r3_2 = (saddr)this->owner;
-            temp_r4_2 = temp_r3_2 + 0x38;
-            TTecZarua::create_instance(temp_r3_2, (Vec *)temp_r4_2, (Vec *)temp_r4_2, 4);
+            source = (saddr)this->owner;
+            temp_r4_2 = source + 0x38;
+            TTecZarua::create_instance(source, (Vec *)temp_r4_2, (Vec *)temp_r4_2, 4);
         }
         roll_technique();
         return;
