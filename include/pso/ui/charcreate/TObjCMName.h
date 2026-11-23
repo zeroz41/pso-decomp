@@ -24,6 +24,10 @@ public:
     virtual void run_task();
     virtual void render();
     static TObjCMName *create(TObject *parent);
+    // A non-zero result rejects the entered name: run_task keeps the old one and plays 0x52608.
+    s32 is_name_rejected(char *name);
+
+    static const char *class_name;
 };
 
 LAYOUT_ASSERT(TObjCMNameSize, sizeof(TObjCMName) == 0x34);

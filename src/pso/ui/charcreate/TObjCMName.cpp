@@ -111,12 +111,11 @@ void run_task__16TObjCMAssignMenuFv(void *arg0);
 saddr get_message_text(s32 arg0);
 u32 calc_text_width(char *s);
 int TAdSinglePlyChrSelectGC__get_char_creation_figure_draw_flag(void);
-void TObjCMMainMenu__sub_80298DA0(int a0);
 }
 
 extern s32 creation_resource_ready_state;
 s32 creation_menu_selected_entry;
-s32 TObjCMMainMenu__data_805D659C;
+s32 TObjCMMainMenu::state;
 void request_creation_motion(s32 arg0);
 
 struct Quad_80297DB8 {
@@ -159,12 +158,6 @@ extern "C" {
 void copy_player_visual_record(void *, void *);
 u8 calc_section_id_from_name();
 void fn_802947A8(void);
-int TObjCMName__sub_802948F4(TObjCMName *, char *);
-void fn_802972BC(void);
-void fn_802972C0(void);
-void TObjCMMainMenu__sub_80298310(void);
-u8 is_not_dressing_room_mode__14TObjCMMainMenuFv(void);
-s32 * TObjCMMainMenu__sub_80298DD4(void);
 void fn_802993F0(void);
 u32 __cvt_fp2unsigned(f32);
 extern Cols_80297DB8 footer_divider_colors[2];
@@ -176,11 +169,11 @@ extern s32 creation_dressing_room_mode_flag;
 extern int creation_figure_rotation_y;
 extern void *creation_figure_object;
 
-const char *TObjCMMainMenu__name = "TObjCMMainMenu";
+const char *TObjCMMainMenu::class_name = "TObjCMMainMenu";
 
 const vec2f main_menu_icon_position = {614.0f, 434.0f};
 
-CreationMenuEntry TObjCMMainMenu__data_804DB9C8[10] = {
+CreationMenuEntry TObjCMMainMenu::menu_entries[10] = {
     {3, &TObjCMMainMenu::open_assign_menu},
     {2, &TObjCMMainMenu::open_assign_menu},
     {4, &TObjCMMainMenu::open_hair_menu},
@@ -227,15 +220,14 @@ union HairBarColor {
 
 extern "C" {
 void restore_saved_depth_alpha_state();
-void update_menu_reveal__14TObjCMMainMenuFv(M_80298450 *self);
 }
 
-s32 *TObjCMMainMenu__sub_80298DD4(void) {
+s32 *TObjCMMainMenu::get_name_buffer() {
     return &character_creation_name_buffer.value;
 }
 
-u8 is_not_dressing_room_mode__14TObjCMMainMenuFv(void) {
-    return (u8) (creation_dressing_room_mode_flag == 0);
+s32 TObjCMMainMenu::is_not_dressing_room_mode() {
+    return creation_dressing_room_mode_flag == 0;
 }
 
 void TObjCMMainMenu::set_speed(f32 farg0) {
@@ -244,7 +236,7 @@ void TObjCMMainMenu::set_speed(f32 farg0) {
     }
 }
 
-void TObjCMMainMenu__sub_80298DA0(int a0) { creation_figure_rotation_y = (creation_figure_rotation_y + a0); }
+void TObjCMMainMenu::rotate_figure(s32 delta) { creation_figure_rotation_y += delta; }
 
 void TObjCMMainMenu::set_selection(int selection) { creation_camera_mode = selection; }
 
@@ -256,15 +248,15 @@ f32 TObjCMMainMenu::get_scale() {
     return ui_sprite_scale;
 }
 
-void TObjCMMainMenu::clear_task_state() { (*(int *)&TObjCMMainMenu__data_805D659C) = 0; }
+void TObjCMMainMenu::clear_task_state() { state = 0; }
 
 TObjCMMainMenu::TObjCMMainMenu(TObject *parent) : TObject(parent) {
-    m_name = TObjCMMainMenu__name;
+    m_name = class_name;
     character = creation_player_character;
     if (!(character->flags & 0xA) && character->classId == TObjCMMainMenu__sub_8028D9A8()->classId) {
         copy_player_visual_record(character, TObjCMMainMenu__sub_8028D9A8());
     }
-    strncpy(character->name, (const char *)TObjCMMainMenu__sub_80298DD4(), 0xC);
+    strncpy(character->name, (const char *)get_name_buffer(), 0xC);
     character->name[0xC] = 0;
     character->extraModel = 0;
     character->flags &= ~0xA;
@@ -285,7 +277,7 @@ TObjCMMainMenu::TObjCMMainMenu(TObject *parent) : TObject(parent) {
     }
     entry_count = creation_menu_mode_lists[mode].count;
     entries = creation_menu_mode_lists[mode].entries;
-    TObjCMMainMenu__data_805D659C = 0;
+    state = 0;
     selected_entry = 0;
     creation_menu_selected_entry = entries[selected_entry];
     fn_802993F0();
@@ -323,19 +315,19 @@ void TObjCMMainMenu::run_task() {
 
     TChCrCharSelect::reset_proportions();
     rand();
-    ((void (*)(void *, int))update_menu_reveal__14TObjCMMainMenuFv)(this, this->reveal_ticks++);
+    update_menu_reveal(reveal_ticks++);
     update_submenu_fade();
     update_slide_offset();
     static MenuFn_802987AC table[7] = {
-        &TObjCMMainMenu::handle_creation_input, &TObjCMMainMenu::sub_8029862C, &TObjCMMainMenu::sub_80298534,
-        &TObjCMMainMenu::sub_8029862C, &TObjCMMainMenu::sub_8029862C, &TObjCMMainMenu::sub_80298518,
-        &TObjCMMainMenu::sub_802984FC,
+        &TObjCMMainMenu::handle_creation_input, &TObjCMMainMenu::sub_8029862C, &TObjCMMainMenu::update_confirmation,
+        &TObjCMMainMenu::sub_8029862C, &TObjCMMainMenu::sub_8029862C, &TObjCMMainMenu::finish_confirmation,
+        &TObjCMMainMenu::finish_cancel,
     };
-    (this->*table[TObjCMMainMenu__data_805D659C])();
+    (this->*table[state])();
     creation_menu_selected_entry = this->entries[this->selected_entry];
     TObjCMMainMenu::update_random_proportion_action(this);
-    ((void (*)(void *))TObjCMMainMenu__sub_80298310)(this);
-    switch (TObjCMMainMenu__data_805D659C) {
+    sub_80298310();
+    switch (state) {
     case 4:
     case 6:
         if (this->preview > 0.0f) {
@@ -379,14 +371,14 @@ void TObjCMMainMenu::run_task() {
         }
     }
     ((TObject *)(this->nodes))->run_tasks();
-    ((void (*)(void *))fn_802972C0)(this);
+    sub_802972C0();
 }
 
 #pragma pop
 void TObjCMMainMenu::handle_creation_input() {
     s32 temp_r0;
     s32 temp_r3;
-    if (((s32 (*)(void))is_not_dressing_room_mode__14TObjCMMainMenuFv)() != 0) {
+    if (is_not_dressing_room_mode() != 0) {
         TChCrEffTag::set_eff_tag(1);
     } else {
         TChCrEffTag::set_eff_tag(2);
@@ -396,7 +388,7 @@ void TObjCMMainMenu::handle_creation_input() {
             play_sound_effect(0x53704, 0, 0, 0);
             TObjCMMainMenu__sub_8028D9B4(character);
             this->delay = 7;
-            TObjCMMainMenu__data_805D659C = 6;
+            state = 6;
             return;
         }
         if (creation_direction_repeated(0x20) != 0) {
@@ -415,7 +407,7 @@ void TObjCMMainMenu::handle_creation_input() {
             play_sound_effect(0x54100, 0, 0, 0);
         }
         if (creation_buttons_pressed(4) != 0) {
-            CreationMenuEntry *entry = &TObjCMMainMenu__data_804DB9C8[entries[selected_entry]];
+            CreationMenuEntry *entry = &menu_entries[entries[selected_entry]];
             (this->*entry->select)();
         }
     }
@@ -425,7 +417,7 @@ void TObjCMMainMenu::sub_8029862C() {  }
 
 #pragma push
 #pragma fp_contract on
-void TObjCMMainMenu::sub_80298534() {
+void TObjCMMainMenu::update_confirmation() {
     f32 progress;
     f32 fv;
     s32 delay;
@@ -447,7 +439,7 @@ void TObjCMMainMenu::sub_80298534() {
         if (creation_buttons_pressed(4) != 0) {
             play_sound_effect(0x52D01, 0, 0, 0);
             this->delay = 7;
-            TObjCMMainMenu__data_805D659C = 5;
+            state = 5;
             TObjCMMainMenu::create_fade((void *)7, (void *)1);
         }
     } else {
@@ -459,30 +451,30 @@ void TObjCMMainMenu::sub_80298534() {
 }
 
 #pragma pop
-void TObjCMMainMenu::sub_80298518() {
+void TObjCMMainMenu::finish_confirmation() {
     s32 delay;
 
     delay = this->delay - 1;
     this->delay = delay;
     if (delay < 0) {
-        TObjCMMainMenu__data_805D659C = 3;
+        state = 3;
     }
 }
 
-void TObjCMMainMenu::sub_802984FC() {
+void TObjCMMainMenu::finish_cancel() {
     s32 delay;
 
     delay = this->delay - 1;
     this->delay = delay;
     if (delay < 0) {
-        TObjCMMainMenu__data_805D659C = 4;
+        state = 4;
     }
 }
 
 #pragma push
 #pragma fp_contract on
-void TObjCMMainMenu::update_menu_reveal() {
-    switch (TObjCMMainMenu__data_805D659C) {
+void TObjCMMainMenu::update_menu_reveal(s32 ticks) {
+    switch (state) {
     case 3:
     case 4:
     case 5:
@@ -505,7 +497,7 @@ void TObjCMMainMenu::update_menu_reveal() {
 
 #pragma pop
 void TObjCMMainMenu::update_submenu_fade() {
-    switch (TObjCMMainMenu__data_805D659C) {
+    switch (state) {
     case 0:
         if ((submenu_fade += 0.083333336f) > 1.0f) {
             submenu_fade = 1.0f;
@@ -520,7 +512,7 @@ void TObjCMMainMenu::update_submenu_fade() {
 }
 
 void TObjCMMainMenu::update_slide_offset() {
-    switch (TObjCMMainMenu__data_805D659C) {
+    switch (state) {
     case 1:
         if ((slide_offset += -0.22222222f) < 0.0f) {
             slide_offset = 0.0f;
@@ -538,20 +530,20 @@ void TObjCMMainMenu::update_random_proportion_action(void * _w0) {
     f32 right_trigger_ratio;
     f32 ratio;
     if (TAdSinglePlyChrSelectGC::is_active() != 0) {
-        switch (TObjCMMainMenu__data_805D659C) {
+        switch (state) {
         case 0:
         case 1:
             right_trigger_ratio = TObjCMProportion::get_right_trigger_ratio();
             ratio = TObjCMProportion::get_ratio() - right_trigger_ratio;
             if (fabs_float(ratio) > 0.05f) {
-                TObjCMMainMenu__sub_80298DA0((s32) (1092.0f * ratio));
+                rotate_figure((s32) (1092.0f * ratio));
             }
             break;
         }
     }
 }
 
-void TObjCMMainMenu__sub_80298310(void) {  }
+void TObjCMMainMenu::sub_80298310() {  }
 
 void TObjCMMainMenu::render() {
     set_depth_buffer_settings_1();
@@ -561,13 +553,13 @@ void TObjCMMainMenu::render() {
     ((TObject *)nodes)->render_nodes();
     draw_root_menu();
     static void (TObjCMMainMenu::*table[7])() = {
-        &TObjCMMainMenu::sub_802981BC, 0, &TObjCMMainMenu::sub_80297EF4,
+        &TObjCMMainMenu::sub_802981BC, 0, &TObjCMMainMenu::draw_confirmation,
         0, 0, 0, 0,
     };
-    void (TObjCMMainMenu::*action)() = table[TObjCMMainMenu__data_805D659C];
+    void (TObjCMMainMenu::*action)() = table[state];
     if (action) (this->*action)();
     restore_saved_depth_alpha_state();
-    ((void (*)(void*))fn_802972BC)(this);
+    sub_802972BC();
 }
 
 void TObjCMMainMenu::sub_802981BC() {  }
@@ -579,7 +571,7 @@ const char *creation_class_names[13] = {
 s32 section_id_sprites[10] = {42, 43, 44, 45, 46, 47, 48, 49, 50, 51};
 char unknown_section_name[4] = "???";
 
-void TObjCMMainMenu::sub_80297EF4() {
+void TObjCMMainMenu::draw_confirmation() {
     f32 scale = get_scale();
     f32 alpha;
     if (progress >= 0.8f) {
@@ -698,7 +690,7 @@ void TObjCMMainMenu::draw_name_warning_and_icons() {
             y += step;
         }
     }
-    switch (TObjCMMainMenu__data_805D659C) {
+    switch (state) {
     case 0:
         if (TAdSinglePlyChrSelectGC::is_active() != 0) {
             if (m->ids[m->sel] == 9 && TObjCMMainMenu::validate_character_name((s8 *)m->f1C) == 0) {
@@ -744,8 +736,8 @@ void TObjCMMainMenu::draw_name_warning_and_icons() {
 #pragma pop
 void TObjCMMainMenu::draw_character_name() {
     char *name = character->name;
-    if ((TObjCMMainMenu__data_805D659C == 0 ||
-         (TObjCMMainMenu__data_805D659C == 1 && entries[selected_entry] != 7)) &&
+    if ((state == 0 ||
+         (state == 1 && entries[selected_entry] != 7)) &&
         validate_character_name((s8 *)name)) {
         if ((unknown44 += 0.16666667f) > 1.0f) {
             unknown44 = 1.0f;
@@ -890,31 +882,31 @@ void TObjCMMainMenu::draw_root_menu() {
 #pragma pop
 void TObjCMMainMenu::open_assign_menu() {
     play_sound_effect(0x52D01, 0, 0, 0);
-    TObjCMMainMenu__data_805D659C = 1;
-    TObjCMAssignMenu::create(nodes, TObjCMMainMenu__data_804DB9C8[entries[selected_entry]].kind);
+    state = 1;
+    TObjCMAssignMenu::create(nodes, menu_entries[entries[selected_entry]].kind);
 }
 
 void TObjCMMainMenu::open_hair_menu() {
     play_sound_effect(0x52D01, 0, 0, 0);
-    TObjCMMainMenu__data_805D659C = 1;
+    state = 1;
     TObjCMHairMenu::create(nodes);
 }
 
 void TObjCMMainMenu::open_auto_mk_menu() {
     play_sound_effect(0x52D01, 0, 0, 0);
-    TObjCMMainMenu__data_805D659C = 1;
+    state = 1;
     TObjCMAutoMkData::create(nodes);
 }
 
 void TObjCMMainMenu::open_proportion_menu() {
     play_sound_effect(0x52D01, 0, 0, 0);
-    TObjCMMainMenu__data_805D659C = 1;
+    state = 1;
     TObjCMProportion::create(nodes);
 }
 
 void TObjCMMainMenu::open_name_menu() {
     play_sound_effect(0x52D01, 0, 0, 0);
-    TObjCMMainMenu__data_805D659C = 1;
+    state = 1;
     TObjCMName::create(nodes);
 }
 
@@ -932,7 +924,7 @@ void TObjCMMainMenu::confirm_selection() {
     set_selection(1);
     reset_character_creation_figure_rotation();
     delay = 60;
-    TObjCMMainMenu__data_805D659C = 2;
+    state = 2;
 }
 
 s32 TObjCMMainMenu::try_pay_fee() {
@@ -957,9 +949,9 @@ s32 TObjCMMainMenu::try_pay_fee() {
 
 void TObjCMMainMenu::sub_802972C4() {  }
 
-void fn_802972C0(void) {  }
+void TObjCMMainMenu::sub_802972C0() {  }
 
-void fn_802972BC(void) {  }
+void TObjCMMainMenu::sub_802972BC() {  }
 
 const char *TObjCMAssignMenu__name = "TObjCMAssignMenu";
 
@@ -1990,10 +1982,10 @@ void TObjCMProportion::render() {
 }
 
 #pragma pop
-const char *TObjCMName__name = "TObjCMName";
+const char *TObjCMName::class_name = "TObjCMName";
 
 TObjCMName::TObjCMName(TObject *parent) : TObject(parent) {
-    m_name = TObjCMName__name;
+    m_name = class_name;
     appearance = creation_player_character;
     initialized = 0;
     ticks = 0;
@@ -2050,7 +2042,7 @@ void TObjCMName::run_task() {
             if (TObjCMMainMenu::validate_character_name((s8 *)name) == 0) {
                 sound = 0x5280D;
             }
-            if (TObjCMName__sub_802948F4(this, name) != 0) {
+            if (is_name_rejected(name) != 0) {
                 sound = 0x52608;
                 strncpy(name, (char *)appearance->name, 12);
                 name[12] = 0;
@@ -2103,4 +2095,4 @@ void TObjCMName::render()
 #pragma pop
 
 
-int TObjCMName__sub_802948F4(TObjCMName *, char *) { return 0; }
+s32 TObjCMName::is_name_rejected(char *name) { return 0; }

@@ -35,7 +35,6 @@ extern "C" {
 }
 BmlResource *creation_menu_main_obj;
 int creation_dressing_room_mode_flag;
-extern s32 TObjCMMainMenu__data_805D659C;
 
 void init_creation_menu_scene(void) {
     void *p;
@@ -76,15 +75,15 @@ void init_creation_menu_scene(void) {
 }
 
 s32 TObjCMMainMenu__sub_8028EBCC(TObjCMMainMenu *menu) {
-    return TObjCMMainMenu__data_804DB9C8[menu->entries[menu->selected_entry]].kind;
+    return TObjCMMainMenu::menu_entries[menu->entries[menu->selected_entry]].kind;
 }
 
 s32 TObjCMMainMenu::is_state_4() {
-    return TObjCMMainMenu__data_805D659C == 4;
+    return TObjCMMainMenu::state == 4;
 }
 
 s32 TObjCMMainMenu::is_state_3() {
-    return TObjCMMainMenu__data_805D659C == 3;
+    return TObjCMMainMenu::state == 3;
 }
 
 void TObjCMMainMenu__sub_8028EC18(void) { creation_dressing_room_mode_flag = 1; }

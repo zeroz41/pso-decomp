@@ -8,23 +8,41 @@
 extern s32 creation_menu_selected_entry;
 u32 get_character_creation_selected_entry_id();
 
+class TObjCMMainMenu;
+
+// The action and optional assign-menu kind for one character creation choice.
+struct CreationMenuEntry {
+    s32 kind;
+    void (TObjCMMainMenu::*select)();
+};
+
+LAYOUT_ASSERT(CreationMenuEntrySize, sizeof(CreationMenuEntry) == 0x10);
+LAYOUT_ASSERT(CreationMenuEntrySelectOffset, offsetof(CreationMenuEntry, select) == 4);
+
 class TObjCMMainMenu : public TObject {
 public:
     TObjCMMainMenu(TObject *parent);
     virtual ~TObjCMMainMenu();
-    void update_menu_reveal();
+    void update_menu_reveal(s32 ticks);
     void draw_name_warning_and_icons();
     void draw_character_name();
     virtual void run_task();
     virtual void render();
     void handle_creation_input();
     void sub_8029862C();
-    void sub_80298534();
-    void sub_80298518();
-    void sub_802984FC();
+    // State 2, after confirm_selection: waits for the figure, then fades out on the decide button.
+    void update_confirmation();
+    // State 5: counts the delay down, then moves to state 3.
+    void finish_confirmation();
+    // State 6: counts the delay down, then moves to state 4.
+    void finish_cancel();
     void sub_802981BC();
-    void sub_80297EF4();
+    // Draws the class, name and section id being confirmed.
+    void draw_confirmation();
     void sub_802972C4();
+    void sub_802972C0();
+    void sub_802972BC();
+    void sub_80298310();
     CharacterAppearanceFields *character;
     s32 mode;
     s32* entries;
@@ -68,6 +86,17 @@ public:
     static void set_selection(int selection);
     static void set_speed(f32 farg0);
     static s32 get_creation_sprite_id(s32 sprite_id);
+    static s32 is_not_dressing_room_mode();
+    // Turns the creation figure by delta.
+    static void rotate_figure(s32 delta);
+    static s32 *get_name_buffer();
+
+    static const char *class_name;
+    // Which run_task handler runs: 0 is the root menu, 1 a submenu, 2 the confirmation (is_state_3/4
+    // read 3 and 4).
+    static s32 state;
+    // What each main menu entry opens.
+    static CreationMenuEntry menu_entries[10];
 };
 LAYOUT_ASSERT(CreationMainMenuSize, sizeof(TObjCMMainMenu)==0x58);
 LAYOUT_ASSERT(CreationMainMenu_character_offset, offsetof(TObjCMMainMenu,character)==0x1C);
@@ -85,17 +114,5 @@ LAYOUT_ASSERT(CreationMainMenu_progress_offset, offsetof(TObjCMMainMenu,progress
 LAYOUT_ASSERT(CreationMainMenu_idle_ticks_offset, offsetof(TObjCMMainMenu,idle_ticks)==0x4C);
 LAYOUT_ASSERT(CreationMainMenu_nodes_offset, offsetof(TObjCMMainMenu,nodes)==0x50);
 LAYOUT_ASSERT(CreationMainMenu_preview_offset, offsetof(TObjCMMainMenu,preview)==0x54);
-// The action and optional assign-menu kind for one character creation choice.
-struct CreationMenuEntry {
-    s32 kind;
-    void (TObjCMMainMenu::*select)();
-};
-
-LAYOUT_ASSERT(CreationMenuEntrySize, sizeof(CreationMenuEntry) == 0x10);
-LAYOUT_ASSERT(CreationMenuEntrySelectOffset, offsetof(CreationMenuEntry, select) == 4);
-
-extern "C" {
-extern CreationMenuEntry TObjCMMainMenu__data_804DB9C8[10];
-}
 
 #endif
