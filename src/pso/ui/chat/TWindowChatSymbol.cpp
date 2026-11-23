@@ -271,8 +271,8 @@ int set_symbol_chat_face_sprite(void *arg0, u8 b) {
 }
 #undef w
 
-void fn_802483C8(void *entries, u8 appearance) {
-    set_symbol_chat_face_sprite((void *)((void*)(*(saddr *)((s8 *)(*(void **)((s8 *)entries + 0x4)) + 0x0))), appearance);
+void fn_802483C8(WindowLayoutEntries *entries, u8 appearance) {
+    set_symbol_chat_face_sprite(entries->items[0], appearance);
 }
 
 void TWindowSubSymbolChat__sub_802483F0(int a0, void* a1) { *(float*)((char*)a1 + 0x0) = 136.0f; *(float*)((char*)a1 + 0x4) = 90.0f; }
