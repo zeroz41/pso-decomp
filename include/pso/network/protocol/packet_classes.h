@@ -602,16 +602,7 @@ public:
 	u32 auto_reply_enabled;
 	char auto_reply[512];
 public:
-	void bswap() {
-		header.bswap();
-		char_data.bswap();
-		challenge.bswap();
-		choice_search_config.bswap();
-		for (int i = 0; i < 30; ++i) {
-			bswap_32(&blocked_senders[i]);
-		}
-		bswap_32(&auto_reply_enabled);
-	};
+	void bswap();
 };
 
 #endif

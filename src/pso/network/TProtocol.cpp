@@ -221,7 +221,6 @@ void TProtocol::handle_cmd_90(packet &pkt) {
 #include <global_types.h>
 #include "pso/network/TPlyJoinLobbyEntry.h"
 
-#include "pso/unk/text_801DFC3C.h"
 #include "pso/system/byteswap.h"
 
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
@@ -481,7 +480,7 @@ void send_player_data_98__9TProtocolFPvPvPvPvPvPvPv(Proto_801DC1E4 *self, u8 *ch
         const int packet_size = strlen(tmp.auto_reply) + 0x680;
         tmp.header.size = packet_size & ~3;
         encode_uploaded_player_inventory(&tmp.char_data);
-        bswap_player_record_upload((u8 *)&tmp);
+        tmp.bswap();
         ((TProtocol *)self)->send((u8 *)&tmp, packet_size & ~3);
     }
 }
@@ -512,7 +511,7 @@ void send_player_data_61__9TProtocolFPvPvPvPvPvPvPv(Proto_801DC34C *self, u8 *ch
         const int packet_size = strlen(tmp.auto_reply) + 0x680;
         tmp.header.size = packet_size & ~3;
         encode_uploaded_player_inventory(&tmp.char_data);
-        bswap_player_record_upload((u8 *)&tmp);
+        tmp.bswap();
         ((TProtocol *)self)->send((u8 *)&tmp, packet_size & ~3);
     }
 }
