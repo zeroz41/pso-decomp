@@ -4,7 +4,6 @@
 #include "types.h"
 
 extern "C" {
-void *TObjPlayer__sub_80363C5C(void *a0);
 void TObjPlayer__sub_8036414C(void);
 void TObjPlayer__sub_80364198(void);
 void *__dt__13TUnk_804F29F8Fv(void *arg0, s16 arg1);
@@ -16,7 +15,6 @@ s32 run_and_return_arg__10TObjPlayerFl(s32 arg0);
 
 // --- C functions defined in TObjPlayer_80363BE0.cpp ---
 extern "C" {
-void *TObjPlayer__sub_80363C5C(void *a0);
 void TObjPlayer__sub_8036414C(void);
 void TObjPlayer__sub_80364198(void);
 void *__dt__13TUnk_804F29F8Fv(void *arg0, s16 arg1);

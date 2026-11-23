@@ -21,14 +21,9 @@
 #pragma defer_codegen on
 
 extern "C" {
-void* init_vtable_804F2A10__13TUnk_804F2A10Fv(void*);
-extern s32 __vt__13TUnk_804F29F8[];
-extern s32 __vt__13TUnk_804F2A10[];
 u8 * lbl_805D6FB8;
 EquippedItemDrawQueue *player_item_id_list;
-int __ct__7TObjectFP7TObject(void);
 extern u8 *lbl_805D6FB8;
-void* init_vtable_804F2A10__13TUnk_804F2A10Fv(void* a0);
 }
 
 struct VBase_18_1419ea { char pad[0x18]; };
@@ -157,15 +152,9 @@ void TObjPlayer::warn_if_gauge_low() {
     }
 }
 
-#define init_vtable_804F2A10__13TUnk_804F2A10Fv ((void * (*)(void *, void *))init_vtable_804F2A10__13TUnk_804F2A10Fv)
 void TObjPlayer::spawn_cleanup_helper(void *arg0) {
-    void *o;
-    o = TObject::operator new(0x1C);
-    if (o != NULL) {
-        init_vtable_804F2A10__13TUnk_804F2A10Fv(o, arg0);
-    }
+    new TUnk_804F2A10((TObject *)arg0);
 }
-#undef init_vtable_804F2A10__13TUnk_804F2A10Fv
 
 
 void TObjPlayer::push_id_to_list(s32 id) {
@@ -174,7 +163,9 @@ void TObjPlayer::push_id_to_list(s32 id) {
     }
     ((TObjPlayer *)(*(void **)&lbl_805D6FB8))->push_to_list(id);
 }
-void*TUnk_804F2A10::init_vtable_804F2A10() { __ct__7TObjectFP7TObject(); *(int*)((char*)this + 0x18) = (saddr)__vt__13TUnk_804F2A10; reset_id_array__10TObjPlayerFPv((void*)((*(saddr *)&lbl_805D6FB8))); return this; }
+TUnk_804F2A10::TUnk_804F2A10(TObject *parent) : TObject(parent) {
+    reset_id_array__10TObjPlayerFPv(lbl_805D6FB8);
+}
 
 TUnk_804F2A10::~TUnk_804F2A10() {
 
@@ -239,16 +230,12 @@ void TObjPlayer::free_static_buffer() {
         (*(u32 *)&player_item_id_list) = 0U;
     }
 }
-#define TObjPlayer__sub_80363C5C ((void * (*)(void *, void *))TObjPlayer__sub_80363C5C)
 void TObjPlayer::create_cleanup_object(void *arg0) {
-    void *o;
-    o = TObject::operator new(0x1C);
-    if (o != NULL) {
-        TObjPlayer__sub_80363C5C(o, arg0);
-    }
+    new TUnk_804F29F8((TObject *)arg0);
 }
-#undef TObjPlayer__sub_80363C5C
-void* TObjPlayer__sub_80363C5C(void* a0) { __ct__7TObjectFP7TObject(); *(int*)((char*)a0 + 0x18) = (saddr)__vt__13TUnk_804F29F8; reset_id_array__10TObjPlayerFPv((void*)player_item_id_list); return a0; }
+TUnk_804F29F8::TUnk_804F29F8(TObject *parent) : TObject(parent) {
+    reset_id_array__10TObjPlayerFPv(player_item_id_list);
+}
 
 TUnk_804F29F8::~TUnk_804F29F8() {
 
