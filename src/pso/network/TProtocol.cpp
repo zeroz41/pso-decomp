@@ -61,17 +61,11 @@ void TProtocol::send_quest_menu_closed() {
 
 
 void TProtocol::handle_cmd_97(packet &pkt) {
-    s32 *arg1 = (s32 *)&pkt;
-    s32 sp8;
-    u8 temp_r3;
-    s32 (*temp_r12)(u8);
-
-    sp8 = *arg1;
-    ((packet_header *)(&sp8))->bswap();
-    temp_r3 = *(u8 *)((s8 *)&sp8 + 1);
-    temp_r12 = *(s32 (**)(u8))((s8 *)this + 0xBC44);
-    if (temp_r12 != NULL) {
-        temp_r12(temp_r3);
+    packet_header header = pkt.pkt.header;
+    header.bswap();
+    u8 flags = header.flags;
+    if (m_recv_handlers.handle_97_checksum_reply_packet != NULL) {
+        m_recv_handlers.handle_97_checksum_reply_packet(flags);
     }
 }
 
@@ -161,28 +155,18 @@ void TProtocol::send_simple_mail(TChatMessage &message) {
 
 
 void TProtocol::handle_cmd_95(packet &pkt) {
-    s32 *arg1 = (s32 *)&pkt;
-    s32 sp8;
-    s32 (*temp_r12)();
-
-    sp8 = *arg1;
-    ((packet_header *)(&sp8))->bswap();
-    temp_r12 = *(s32 (**)())((s8 *)this + 0xBC34);
-    if (temp_r12 != NULL) {
-        temp_r12();
+    packet_header header = pkt.pkt.header;
+    header.bswap();
+    if (m_recv_handlers.handle_95_request_character_data_packet != NULL) {
+        m_recv_handlers.handle_95_request_character_data_packet();
     }
 }
 void TProtocol::handle_cmd_92(packet &pkt) {
-    s32 *arg1 = (s32 *)&pkt;
-    u8 *arg0 = (u8 *)this;
-    s32 sp8;
-    s32 (*temp_r12)(u8);
-    sp8 = *(s32 *)((s8 *)arg1 + 0);
-    ((packet_header *)(&sp8))->bswap();
-    this->m_regist_state = (s32) *(u8 *)((s8 *)&sp8 + 0x1);
-    temp_r12 = *(s32 (**)(u8))((s8 *)arg0 + 0xBC2C);
-    if (temp_r12 != NULL) {
-        temp_r12(*(u8 *)((s8 *)&sp8 + 0x1));
+    packet_header header = pkt.pkt.header;
+    header.bswap();
+    m_regist_state = header.flags;
+    if (m_recv_handlers.handle_92_9C_register_response_packet != NULL) {
+        m_recv_handlers.handle_92_9C_register_response_packet(header.flags);
     }
 }
 
@@ -225,16 +209,11 @@ void TProtocol::send_register_9c() {
 
 
 void TProtocol::handle_cmd_90(packet &pkt) {
-    s32 *arg1 = (s32 *)&pkt;
-    u8 *arg0 = (u8 *)this;
-    s32 sp8;
-    s32 (*temp_r12)(u8);
-    sp8 = *(s32 *)((s8 *)arg1 + 0);
-    ((packet_header *)(&sp8))->bswap();
-    this->m_regist_state = (s32) *(u8 *)((s8 *)&sp8 + 0x1);
-    temp_r12 = *(s32 (**)(u8))((s8 *)arg0 + 0xBC28);
-    if (temp_r12 != NULL) {
-        temp_r12(*(u8 *)((s8 *)&sp8 + 0x1));
+    packet_header header = pkt.pkt.header;
+    header.bswap();
+    m_regist_state = header.flags;
+    if (m_recv_handlers.handle_18_90_9A_recv_pso_regist_check != NULL) {
+        m_recv_handlers.handle_18_90_9A_recv_pso_regist_check(header.flags);
     }
 }
 

@@ -107,13 +107,13 @@ union packet {
     o(handle_68_recv_burst_lobby, TPlyJoinLobbyEntry *entries, int leader_id) \
     o(handle_69_recv_exit_lobby, int client_id, int leader_id) \
     o(handle_18_90_9A_recv_pso_regist_check, u8 state) \
-    o(handle_92_9C_register_response_packet, void) \
+    o(handle_92_9C_register_response_packet, u8 state) \
     o(unused10, void) \
     o(handle_95_request_character_data_packet, void) \
     o(handle_81_recv_chat_message, TChatMessage &chat_message) \
     o(handle_41_recv_user_ans, TUserAns &user_ans) \
     o(send_96_unused, void) \
-    o(handle_97_checksum_reply_packet, void) \
+    o(handle_97_checksum_reply_packet, u8 flags) \
     o(handle_B1_current_time_packet, void) \
     o(handle_C0_choice_search_option_packet, void) \
     o(handle_C4_choice_search_reply_packet, void) \
@@ -132,7 +132,7 @@ union packet {
     o(handle_88_player_arrow_color_list_packet, void) \
     o(handle_8A_lobby_name_packet, void) \
     o(handle_C5_player_challenge_data_packet, void) \
-    o(handle_DA_lobby_event_packet, void) \
+    o(handle_DA_lobby_event_packet, int theme) \
     o(handle_AB_quest_stats_response_packet, void) \
     o(handle_D3_execute_trade_packet, void) \
     o(handle_D4_trade_result_packet, u8 state) \

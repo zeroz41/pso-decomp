@@ -79,15 +79,12 @@ Ext_801DAC6C *__as__21TPlyMeetUserExtensionFRC21TPlyMeetUserExtension(Ext_801DAC
     return ext;
 }
 
-void handle_cmd_9A__9TProtocolFR6packet(u8 *arg0, s32 *arg1) {
-    s32 sp8;
-    s32 (*temp_r12)(u8);
-    sp8 = *(s32 *)((s8 *)arg1 + 0);
-    ((packet_header *)(&sp8))->bswap();
-    *(s32 *)((s8 *)arg0 + 0x190C) = (s32) *(u8 *)((s8 *)&sp8 + 0x1);
-    temp_r12 = *(s32 (**)(u8))((s8 *)arg0 + 0xBC28);
-    if (temp_r12 != NULL) {
-        temp_r12(*(u8 *)((s8 *)&sp8 + 0x1));
+void TProtocol::handle_cmd_9A(packet &pkt) {
+    packet_header header = pkt.pkt.header;
+    header.bswap();
+    m_regist_state = header.flags;
+    if (m_recv_handlers.handle_18_90_9A_recv_pso_regist_check != NULL) {
+        m_recv_handlers.handle_18_90_9A_recv_pso_regist_check(header.flags);
     }
 }
 

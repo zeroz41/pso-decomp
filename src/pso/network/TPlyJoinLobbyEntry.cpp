@@ -399,7 +399,7 @@ s32 poll_memcard_result(saddr);
 s32 TKeyBoardControl__sub_8000F828(void);
 s8 TAdSinglePlyChrSelectGC__sub_8033605C(void);
 void TLobby__sub_80134A20();
-void set_lobby_event_theme();
+void set_lobby_event_theme(int theme);
 void TLobby__sub_80134DC8();
 void TLobby__sub_80134DE8();
 void show_card_list_message(void *msg);

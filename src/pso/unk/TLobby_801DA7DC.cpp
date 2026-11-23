@@ -2,7 +2,6 @@
 #include <string.h>
 #include "pso/player/TPlySmth.h"
 #include "pso/network/TRecvPsoRegistConnect.h"
-#include "pso/unk/TLobby_801DA7DC.h"
 #include "pso/unk/TLobby_801DEFC4.h"
 #include "pso/player/TPlyGuildCardTag_8007B434.h"
 #include "pso/unk/TLobby.h"
@@ -126,15 +125,12 @@ s32 TProtocol::send_login_9e_extended(void *player_name, int udp_disabled) {
     return 0;
 }
 
-void handle_cmd_9C__9TProtocolFR6packet(u8 *arg0, s32 *arg1) {
-    s32 sp8;
-    s32 (*temp_r12)(u8);
-    sp8 = *(s32 *)((s8 *)arg1 + 0);
-    ((packet_header *)(&sp8))->bswap();
-    *(s32 *)((s8 *)arg0 + 0x190C) = (s32) *(u8 *)((s8 *)&sp8 + 0x1);
-    temp_r12 = *(s32 (**)(u8))((s8 *)arg0 + 0xBC2C);
-    if (temp_r12 != NULL) {
-        temp_r12(*(u8 *)((s8 *)&sp8 + 0x1));
+void TProtocol::handle_cmd_9C(packet &pkt) {
+    packet_header header = pkt.pkt.header;
+    header.bswap();
+    m_regist_state = header.flags;
+    if (m_recv_handlers.handle_92_9C_register_response_packet != NULL) {
+        m_recv_handlers.handle_92_9C_register_response_packet(header.flags);
     }
 }
 void handle_cmd_02__9TProtocolFR6packet(u8 *arg0, Recv_801DAA70 *arg1) {
