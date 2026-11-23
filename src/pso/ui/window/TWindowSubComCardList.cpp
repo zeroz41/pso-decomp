@@ -45,8 +45,8 @@ void TWindowSubComCardList::render() {
         reinterpret_cast<WindowDrawContext *>(ctx));
     ((TWindowMenu *)this)->render_selected_entry(ctx);
     this->draw_card_list_selection((u8 *)ctx);
-    if (this->m_88 != 0) {
-        this->m_88->forward_render((void *)(ctx));
+    if (this->heading != 0) {
+        this->heading->forward_render((void *)(ctx));
     }
     if (this->m_8c != 0) {
         draw_list_page_indicator(this->m_8c, reinterpret_cast<WindowDrawContext *>(ctx));

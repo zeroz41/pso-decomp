@@ -14,7 +14,7 @@
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/window/TWindowHelpItem.h"
 #include "pso/ui/window/WindowDrawContext.h"
-#include "pso/unk/TUnk_804CFA28.h"
+#include "pso/ui/window/WindowTextEntry.h"
 #include "pso/unk/text_803D619C.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 
@@ -485,7 +485,7 @@ void TWindowDD__sub_80341674(TWindowDD_WS_Word *self, WindowDrawContext *rect) {
 void TWindowDD_WS_Word::render() {
     TWindowDD_WS_Word *self = this;
     WindowDrawContext *entry;
-    TUnk_804CFA28 *item;
+    WindowTextEntry *item;
     s32 idx;
     s32 i;
     s32 j;
@@ -496,7 +496,7 @@ void TWindowDD_WS_Word::render() {
         self->m_8c = 0;
         idx = self->selected_token_index - self->selected_row;
         for (i = 0; i < self->visible_entry_count; i++, idx++) {
-            item = (TUnk_804CFA28 *)self->get_array_entry(i);
+            item = (WindowTextEntry *)self->get_array_entry(i);
             set_text_entry_string((u8 *)item, get_word_select_token_text(self->token_ids[idx]), 0xC0);
             item->y = (f32)(i * 20);
             measure_message_text_width_default(item);
@@ -505,7 +505,7 @@ void TWindowDD_WS_Word::render() {
         }
         if (self->sub_80342254() != 0) {
             for (j = 0; j < self->visible_entry_count; j++) {
-                item = (TUnk_804CFA28 *)self->get_array_entry(j);
+                item = (WindowTextEntry *)self->get_array_entry(j);
                 if (j == self->selected_row) {
                     item->color = lbl_805DFC18;
                 }

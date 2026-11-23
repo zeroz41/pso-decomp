@@ -45,8 +45,8 @@ struct TWindowMenu : public TWindowAddition {
     u8 unk_7A[0x2];
     f32 layout_height;
     TWindowMenuRow *rows;
-    u32 m_84;
-    TWindowSubStatusDisp *m_88;
+    u32 scroll_bar;  // the list scroll bar, made on demand by sub_8026556C
+    TWindowSubStatusDisp *heading;  // type-1 heading made by create_titled_window_menu
     void set_active_flag();
     void confirm_selection();
     void select_next_item();

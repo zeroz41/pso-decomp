@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/unk/TUnk_804CF998.h"
-#include "pso/unk/TUnk_804CFA28.h"
+#include "pso/ui/window/WindowTextEntry.h"
 #include "pso/ui/window/TWindowSubStatusDisp_8024FBA8.h"
 #include "pso/ui/window/TWindowSubStatusDisp_8025A9B4.h"
 #include "pso/system/memory.h"
@@ -24,7 +24,7 @@ s32 TWindowSubStatusDisp__sub_800FC248(u8);
 char *parse_text_control_codes(char *, s32 *, s32);
 u8 get_font_char_advance(u16);
 u16 map_char_to_font_code(u16);
-void measure_message_text_width(TUnk_804CFA28 *msg, f32 maxw);
+void measure_message_text_width(WindowTextEntry *msg, f32 maxw);
 void render_text_entry(Win_8025AD5C *arg0, Ref_8025AD5C *arg1);
 
 void *lbl_804CFA28[6] = {
@@ -56,7 +56,7 @@ extern const u32 lbl_805DCFC4 = 0x3F000000;
 
 #pragma push
 #pragma fp_contract on
-void measure_message_text_width(TUnk_804CFA28 *msg, f32 maxw) {
+void measure_message_text_width(WindowTextEntry *msg, f32 maxw) {
     s32 sjis;
     f32 adv;
     f32 lineh;
@@ -238,9 +238,9 @@ void *TWindowSubStatusDisp__sub_8025AF0C(void *window_sub_status_disp, s16 arg1)
     if (window_sub_status_disp != NULL) {
         *(void ***)((s8 *)window_sub_status_disp + 4) = lbl_804CFA28;
         if ((u32) *(u32 *)((s8 *)window_sub_status_disp + 0x20) != 0U) {
-            temp_r3 = ((TUnk_804CFA28 *)window_sub_status_disp)->flags;
+            temp_r3 = ((WindowTextEntry *)window_sub_status_disp)->flags;
             if (temp_r3 & 0x20) {
-                ((TUnk_804CFA28 *)window_sub_status_disp)->flags = (u16) (temp_r3 & 0xFFFFFFDF);
+                ((WindowTextEntry *)window_sub_status_disp)->flags = (u16) (temp_r3 & 0xFFFFFFDF);
                 mem_free((void *)(*(uaddr *)((s8 *)window_sub_status_disp + 0x20)));
             }
         }

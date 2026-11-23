@@ -24,7 +24,7 @@
 #include "pso/ui/window/TWindowHelpItem.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/unk/WindowLayoutRecord.h"
-#include "pso/unk/TUnk_804CFA28.h"
+#include "pso/ui/window/WindowTextEntry.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
@@ -115,7 +115,7 @@ void TWindowMenuInfomation::clear_flag_and_release2() {
 void TWindowSubComCardList::update_scroll_target_position() {
     f32 position[2];
     u8 *window_menu;
-    window_menu = (u8 *)(*(u8 * *)&this->m_84);
+    window_menu = (u8 *)(*(u8 * *)&this->scroll_bar);
     if (window_menu != NULL) {
         position[0] = ((this->frame_size[0]) - 4.0f) - 9.0f;
         position[1] = (f32) ((*(s16 *)&this->m_72 * 0x14) - 2);
@@ -126,25 +126,25 @@ void TWindowSubComCardList::update_scroll_target_position() {
 void TWindowSubComCard__sub_80265500(TWindowMenu *menu) {
     f32 scroll_range[2];
     f32 max_scroll_y;
-    if (menu->m_84 != 0U) {
+    if (menu->scroll_bar != 0U) {
         scroll_range[0] = 0.0f;
         max_scroll_y = menu->frame_size[1] - 20.0f;
         scroll_range[1] = max_scroll_y;
-        if (menu->m_88 != NULL) {
+        if (menu->heading != NULL) {
             scroll_range[1] = max_scroll_y - 6.0f;
         }
-        clamp_list_scroll_offset(menu->m_84, menu->scroll_offset, scroll_range);
+        clamp_list_scroll_offset(menu->scroll_bar, menu->scroll_offset, scroll_range);
     }
 }
 
 void TWindowSubComCardList::sub_8026556C() {
     f32 extent[2];
     f32 extent_x;
-    if ((u32) this->m_84 == 0U) {
+    if ((u32) this->scroll_bar == 0U) {
         extent_x = this->target_size[0] - 8.0f;
         extent[1] = 0.0f;
         extent[0] = extent_x;
-        this->m_84 = reinterpret_cast<uaddr>(new Scroll_8026D790(extent));
+        this->scroll_bar = reinterpret_cast<uaddr>(new Scroll_8026D790(extent));
         this->window_flags = (s32) (this->window_flags | 0x80);
     }
 }
@@ -171,7 +171,7 @@ s32 TWindowSubComCard__sub_80265660(TWindowMenu *menu, s16 row) {
 }
 
 void TWindowSubComCard__sub_80265680(TWindowMenu *menu, s16 row) {
-    TUnk_804CFA28 *entry = static_cast<TUnk_804CFA28 *>(menu->get_array_entry(row));
+    WindowTextEntry *entry = static_cast<WindowTextEntry *>(menu->get_array_entry(row));
     TWindowMenuRow *state = &menu->rows[row];
     entry->color = 0xFF909090;
     state->flags |= 0x10;
@@ -221,7 +221,7 @@ void TWindowMenu::confirm_selection() {
                 play_sound_effect(0x52D01, 0, 0, 0);
             }
             this->m_70 = (u16) (this->m_70 | 2);
-            window_sub_status_disp = (u8 *)this->m_88;
+            window_sub_status_disp = (u8 *)this->heading;
             if (window_sub_status_disp != NULL) {
                 ((TWindowSubStatusDisp *)window_sub_status_disp)->set_entry_state(2);
             }
@@ -284,10 +284,10 @@ void TWindowMenu::update_target_y() {
     f32 v;
     f32 t;
     f32 base;
-    if (*(u32 *)(arg0 + 0x84) != 0 && *(u32 *)(arg0 + 0x50) == 0) {
+    if (scroll_bar != 0 && *(u32 *)(arg0 + 0x50) == 0) {
         v = 9.0f + (f32)(*(s16 *)(arg0 + 0x78) * 0x14);
         v -= 0.5f * (*(f32 *)(arg0 + 0x4C) - 20.0f);
-        if (*(u32 *)(arg0 + 0x88) != 0) {
+        if (heading != NULL) {
             v -= 3.0f;
         }
         t = *(f32 *)(arg0 + 0x6C);
@@ -299,14 +299,14 @@ void TWindowMenu::update_target_y() {
 void TWindowMenu::clamp_menu_choice_scroll() {
     f32 scroll_range[2];
     f32 max_scroll_y;
-    if ((u32) this->m_84 != 0U) {
+    if ((u32) this->scroll_bar != 0U) {
         scroll_range[0] = 0.0f;
         max_scroll_y = this->frame_size[1] - 20.0f;
         scroll_range[1] = max_scroll_y;
-        if (this->m_88 != 0) {
+        if (this->heading != 0) {
             scroll_range[1] = max_scroll_y - 6.0f;
         }
-        clamp_list_scroll_offset(this->m_84, scroll_offset, scroll_range);
+        clamp_list_scroll_offset(this->scroll_bar, scroll_offset, scroll_range);
     }
 }
 
@@ -502,12 +502,12 @@ void TWindowMenu::clear_transition_flag() {
 
 void TWindowOptionCtrl::open() {
     u16 open_flags;
-    TUnk_804CFA28 *selected_entry;
+    WindowTextEntry *selected_entry;
 
     open_flags = *(u16 *)((s8 *)this + 0x70);
     if (!(open_flags & 0x20)) {
         *(u16 *)((s8 *)this + 0x70) = (u16) (open_flags | 0x20);
-        selected_entry = static_cast<TUnk_804CFA28 *>(((TWindowMenu *)this)->get_selected_entry());
+        selected_entry = static_cast<WindowTextEntry *>(((TWindowMenu *)this)->get_selected_entry());
         *(f32 *)&this->m_3c = (f32) (20.0f + selected_entry->height);
         if (*(s32 *)&this->m_2c & 0x40) {
             *(f32 *)&this->m_3c += 6.0f;
@@ -621,7 +621,7 @@ saddr create_titled_window_menu(saddr position, s32 count, saddr title, s32 clie
     if (var_r0 != 0) {
         var_r0 = (saddr)((TWindowSubStatusDisp *)heading_window)->construct_type1_heading(title, client_id);
     }
-    *(s32 *)((s8 *)menu + 0x88) = var_r0;
+    reinterpret_cast<TWindowMenu *>(menu)->heading = reinterpret_cast<TWindowSubStatusDisp *>(var_r0);
     *(s32 *)((s8 *)menu + 0x2C) = (s32) (*(s32 *)((s8 *)menu + 0x2C) | 0x40);
     return menu;
 }
@@ -666,11 +666,11 @@ void TWindowMenu::render() {
         this->render_selected_entry(ctx);
         this->draw_selected_bar((u8 *)ctx);
     }
-    if (this->m_88 != 0) {
-        this->m_88->forward_render((void *)(ctx));
+    if (this->heading != 0) {
+        this->heading->forward_render((void *)(ctx));
     }
-    if ((u32) this->m_84 != 0U) {
-        draw_window_scrollbar(this->m_84, ctx, (u8 *)this + 0x68);
+    if ((u32) this->scroll_bar != 0U) {
+        draw_window_scrollbar(this->scroll_bar, ctx, (u8 *)this + 0x68);
     }
 }
 
@@ -713,11 +713,11 @@ void TWindowMenu::run_task() {
         }
     }
     if ((f32) *(s32 *)&this->open_tick >= 7.5f) {
-        if (this->m_88 != 0) {
-            this->m_88->update_subwindow();
+        if (this->heading != 0) {
+            this->heading->update_subwindow();
         }
-        if ((u32) this->m_84 != 0U) {
-            ((TWindowSubStatusDisp *)(*(void * *)&this->m_84))->increment_counter();
+        if ((u32) this->scroll_bar != 0U) {
+            ((TWindowSubStatusDisp *)(*(void * *)&this->scroll_bar))->increment_counter();
         }
     }
     ((TWindowDD *)arg0)->initialize_subwindow();
@@ -730,9 +730,9 @@ void TWindowMenu::run_task() {
 }
 
 TWindowMenu::~TWindowMenu() {
-    TWindowSubStatusDisp::destroy_allocation((saddr)(*(void **)((s8 *)this + 0x84)), (s16)1);
-    TWindowSubStatusDisp::destroy_status_display((saddr)(*(void **)((s8 *)this + 0x88)), (s16)1);
-    mem_free(*(void **)((s8 *)this + 0x80));
+    TWindowSubStatusDisp::destroy_allocation((saddr)scroll_bar, (s16)1);
+    TWindowSubStatusDisp::destroy_status_display((saddr)heading, (s16)1);
+    mem_free(rows);
 }
 
 TWindowMenu::TWindowMenu(u32 count, s32 client, saddr parent) : TWindowAddition((u8 *)&lbl_804D05CC, (s16)client, (u8 *)parent) {
