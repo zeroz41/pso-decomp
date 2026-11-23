@@ -332,17 +332,17 @@ extern "C" QuestDownloadTextNode *advance_quest_text_entries(QuestDownloadTextNo
     return p;
 }
 
-s32 measure_entry_group_len(QuestDownloadTextNode *arg0) {
+s32 measure_entry_group_len(QuestDownloadTextNode *quest_download_text_node) {
     s32 n;
-    if (arg0->flags == 0x80) {
+    if (quest_download_text_node->flags == 0x80) {
         return quest_text_entry_len * 2;
     }
-    n = (quest_text_entry_len - arg0->len) * 2;
-    while (arg0->flags & 1) {
-        n += strlen(reinterpret_cast<const char *>(arg0) + 1);
-        arg0 = arg0->next;
+    n = (quest_text_entry_len - quest_download_text_node->len) * 2;
+    while (quest_download_text_node->flags & 1) {
+        n += strlen(reinterpret_cast<const char *>(quest_download_text_node) + 1);
+        quest_download_text_node = quest_download_text_node->next;
     }
-    return n + strlen(reinterpret_cast<const char *>(arg0) + 1);
+    return n + strlen(reinterpret_cast<const char *>(quest_download_text_node) + 1);
 }
 
 extern "C" s32 count_quest_text_entries(const QuestDownloadTextNode *p) {
@@ -377,16 +377,16 @@ extern "C" QuestDownloadTextNode *detach_quest_text_tail(QuestDownloadTextNode *
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(1)
-inline s32 Conv_803EB8BC(s32 start, s32 arg1, QuestDownloadTextNode *arg2, u16 *arg3) {
+inline s32 Conv_803EB8BC(s32 start, s32 arg1, QuestDownloadTextNode *quest_download_text_node, u16 *arg3) {
     s32 n;
     QuestDownloadTextNode *p;
     u16 *b = arg3;
     s32 lim = arg1;
     u8 unused[8];
-    if (arg2 == NULL || (arg2->flags & 0x80)) {
+    if (quest_download_text_node == NULL || (quest_download_text_node->flags & 0x80)) {
         return TQuestVmDownLoadServer__sub_803E6970(start, lim, b, 0);
     }
-    p = arg2;
+    p = quest_download_text_node;
     n = 0;
     for (;;) {
         n += TQuestVmDownLoadServer__convert_quest_text_u8_to_u16(b + n, reinterpret_cast<u8 *>(p) + 1, 6);
@@ -396,7 +396,7 @@ inline s32 Conv_803EB8BC(s32 start, s32 arg1, QuestDownloadTextNode *arg2, u16 *
         p = p->next;
     }
     b += n;
-    return n + TQuestVmDownLoadServer__sub_803E6970((s32)(start + arg2->len), (s32)(lim - arg2->len), b, 0);
+    return n + TQuestVmDownLoadServer__sub_803E6970((s32)(start + quest_download_text_node->len), (s32)(lim - quest_download_text_node->len), b, 0);
 }
 inline s32 Find_803EB8BC(u8 *key, s32 len) {
     s32 l;
