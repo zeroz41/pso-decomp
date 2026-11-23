@@ -73,3 +73,5 @@ void load_adx_logo_texture() {
 }
 
 void TObject::queue_destruction() { m_flags |= QUEUE_DESTRUCTION; }
+
+NJS_TEXLIST *get_logo_texture_e_handle() { return logo_texture_e_handle; }

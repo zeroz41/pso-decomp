@@ -34,7 +34,7 @@ pso/object/base/TObjCharaData.cpp:
 	.rodata     start:0x80434090 end:0x804340C0
 
 pso/ui/frontend/TAdADXlogo.cpp:
-	.text       start:0x80019848 end:0x80019A60
+	.text       start:0x80019848 end:0x80019A68
 	.rodata     start:0x804340C0 end:0x804340D8
 	.data       start:0x804808F0 end:0x80480908
 	.sdata      start:0x805D2600 end:0x805D2608
@@ -42,7 +42,7 @@ pso/ui/frontend/TAdADXlogo.cpp:
 	.sdata2     start:0x805D7DD0 end:0x805D7DD8
 
 pso/system/task/TObject_80019A50.cpp:
-	.text       start:0x80019A60 end:0x80019A8C
+	.text       start:0x80019A68 end:0x80019A8C
 
 pso/ui/frontend/DrawLine.cpp:
 	.text       start:0x80019A8C end:0x8001A468

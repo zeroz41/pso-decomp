@@ -7,7 +7,6 @@ extern "C" {
 void copy_line_vertex(void *p, void *q);
 void func_80019A68__Fv(void);
 }
-s32 get_logo_texture_e_handle(void);
 extern "C" {
 void queue_destruction__7TObjectFv(void *arg0);
 }
