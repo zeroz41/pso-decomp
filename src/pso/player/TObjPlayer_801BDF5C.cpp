@@ -677,7 +677,7 @@ void TObjPlayer::set_control_role(s32 v) { *(s32 *)&this->unk_3E8 = v; }
 u8 TObjPlayer__sub_801BEB3C(void* p) { return *(u8*)((char*)p + 0x2e7); }
 u8 TObjPlayer__sub_801BEB44(void* p) { return *(u8*)((char*)p + 0x2cb); }
 u8 TObjPlayer__sub_801BEB4C(void* p) { return *(u8*)((char*)p + 0x2af); }
-void TObjPlayer::set_play_time(s32 v) { this->m_3bc = v; }
+void TObjPlayer::set_language(s32 v) { this->language = v; }
 void TObjPlayer::reset_entrance_id() { *(s32*)((char*)this + 0x3c8) = -1; }
 void TObjPlayer::set_luck_materials_used(u8 v) { materials.set_luck_used(v); }
 u8 TObjPlayer__sub_801BEB8C(void* p) { return *(u8*)((char*)p + 0x293); }

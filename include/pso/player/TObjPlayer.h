@@ -189,7 +189,7 @@ struct TObjPlayer : public TObjChara {
     PlayerFollowParticles follow_particles;
     s32 m_3b4;
     u8 unk_3B8[0x4];
-    s32 m_3bc;
+    s32 language;
     u8 unk_3C0[0x4];
     s32 m_3c4;
     u8 unk_3C8[0x4];
@@ -557,7 +557,7 @@ struct TObjPlayer : public TObjChara {
     void clear_flag_0x2();
     int unregister_sub();
     void set_control_role(s32 v);
-    void set_play_time(s32 v);
+    void set_language(s32 v);
     void reset_entrance_id();
     void set_equip_flags(u8 v);
     void set_inventory_state(u8 v);

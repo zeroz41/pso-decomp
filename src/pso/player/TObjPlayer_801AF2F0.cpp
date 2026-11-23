@@ -1706,7 +1706,7 @@ void TObjPlayer::setup_fresh_player_state(u8 *arg1) {
     if (is_alive_and_ready() != 0) {
         refill_traps();
     }
-    this->set_play_time((int) (*(u8 *)((s8 *)arg1 + 3)));
+    this->set_language((int) (*(u8 *)((s8 *)arg1 + 3)));
     scale_state.set_actor_id(this->get_entity_id());
     TObjPlayer::disable_drop_weapon_on_death(this);
     *(s8 *)&this->unk_338 = get_byte_173(arg1);
@@ -6778,7 +6778,7 @@ s32 TObjPlayer::get_class_flags() { return this->class_flags; }
 
 s32 TObjPlayer::get_language() {
     s32 temp_r3;
-    temp_r3 = this->m_3bc;
+    temp_r3 = this->language;
     if ((temp_r3 < 0) || (temp_r3 >= 5)) {
         return 1;
     }
