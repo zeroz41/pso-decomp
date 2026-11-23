@@ -61,10 +61,10 @@ void TWindowKeyBoardBase::sub_8025B92C() {
     if (temp_r4 & 2) {
         if (!(temp_r4 & 4)) {
             convert_input_text();
-            var_r3 = *(s32 *)((s8 *)this + 0xAC);
+            var_r3 = this->candidate_count;
             if (!(*(u16 *)((s8 *)this + 0x60) & 0x10)) {
                 do {
-                    *(s32 *)((s8 *)this + 0xAC) = var_r3;
+                    this->candidate_count = var_r3;
                     var_r3 = TWindowKeyBoardSoft__sub_803E67D4(sp8, sp108);
                 } while (var_r3 != 0);
                 sub_8025CFA8((s32 *)sp8);
@@ -74,7 +74,7 @@ void TWindowKeyBoardBase::sub_8025B92C() {
             }
         } else {
 block_5:
-            if ((s32) *(s32 *)((s8 *)this + 0xA8) != 0xF1) {
+            if ((s32) this->candidate_index != 0xF1) {
                 set_kana_mode();
                 return;
             }
@@ -159,10 +159,10 @@ void TWindowKeyBoardBase::vt9() {
         if (temp_r4 & 2) {
             if (!(temp_r4 & 4)) {
                 convert_input_text();
-                var_r3 = *(s32 *)((s8 *)this + 0xAC);
+                var_r3 = this->candidate_count;
                 if (!(*(u16 *)((s8 *)this + 0x60) & 0x10)) {
                     do {
-                        *(s32 *)((s8 *)this + 0xAC) = var_r3;
+                        this->candidate_count = var_r3;
                         var_r3 = TWindowKeyBoardSoft__sub_803E67D4(sp8, sp108);
                     } while (var_r3 != 0);
                     sub_8025CFA8((s32 *)sp8);
@@ -191,10 +191,10 @@ void TWindowKeyBoardBase::vt8() {
         if (temp_r4 & 2) {
             if (!(temp_r4 & 4)) {
                 convert_input_text();
-                var_r3 = *(s32 *)((s8 *)this + 0xAC);
+                var_r3 = this->candidate_count;
                 if (!(*(u16 *)((s8 *)this + 0x60) & 0x10)) {
                     do {
-                        *(s32 *)((s8 *)this + 0xAC) = var_r3;
+                        this->candidate_count = var_r3;
                         var_r3 = TWindowKeyBoardSoft__sub_803E67D4(sp8, sp108);
                     } while (var_r3 != 0);
                     sub_8025CFA8((s32 *)sp8);

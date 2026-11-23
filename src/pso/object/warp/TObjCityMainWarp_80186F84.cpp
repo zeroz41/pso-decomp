@@ -35,14 +35,14 @@ void TObjCityMainWarp::update_state() {
         *(s16 *)((s8 *)this + 0xE0) = 1;
         *(s16 *)((s8 *)this + 0xE2) = (s16) (*(s16 *)((s8 *)this + 0xE2) | 1);
         *(NJS_OBJECT **)((s8 *)this + 0xD0) = city_common_model_archive->models[0].model;
-        *(s32 *)((s8 *)this + 0xD4) = (saddr) city_common_model_archive->motions[5].motion;
+        this->menu_destinations[3] = (saddr) city_common_model_archive->motions[5].motion;
         return;
     case 1:
         if (TObjCityMainWarp::get_phase_flag() == 0) {
             player = find_local_city_warp_player(this, warp_range);
             if (player != NULL) {
                 TObjCityMainWarp::notify_player_warp(this, local_client_id);
-                *(s32 *)((s8 *)this + 0xBC) = (s32) city_main_warp_destination_id;
+                this->dest_floor = (s32) city_main_warp_destination_id;
                 this->confirm_area_transfer(player);
                 *(s16 *)((s8 *)this + 0xE0) = 2;
             }

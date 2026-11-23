@@ -262,7 +262,7 @@ void add_battle_stat_entry(void *arg0, s32 arg1, s32 arg2, s32 arg3) {
 
 void TWindowCheckBox::advance_all_entries(s32 arg1) {
     s32 i;
-    get_array_entry(*(s16 *)(((u8 *)this) + 0x74));
+    get_array_entry(this->cursor);
     if (((s32 (*)(void))is_flag80_set__20TWindowSubStatusDispFv)() == 0) {
         if (arg1 != 0) {
             play_sound_effect(0x52D01, 0, 0, 0);
@@ -270,7 +270,7 @@ void TWindowCheckBox::advance_all_entries(s32 arg1) {
         for (i = 0; i < this->entry_capacity; i++) {
             ((ItemListRow *)get_array_entry(i))->advance_state();
         }
-        ((ItemListRow *)get_array_entry(*(s16 *)(((u8 *)this) + 0x74)))->finalize_state();
+        ((ItemListRow *)get_array_entry(this->cursor))->finalize_state();
     }
 }
 
@@ -600,22 +600,22 @@ void TWindowMenuIconLine::update_scroll_offset() {
   u32 n;
   if ((this->state_flags) & 0x20)
   {
-    new_var = ((s8 *) ((u16 *)get_array_entry(*((s16 *) (((s8 *) this) + 0x74))))) + 0xC;
+    new_var = ((s8 *) ((u16 *)get_array_entry(this->cursor))) + 0xC;
     var_f4 = *((f32 *) new_var);
   }
   else
   {
     var_f4 = 0.0f;
   }
-  n = *((u32 *) (((s8 *) this) + 0x50));
+  n = this->tween_ticks;
   if (n == 0)
   {
-    *((f32 *) (((s8 *) this) + 0x6C)) = var_f4;
+    this->scroll_offset[1] = var_f4;
   }
   else
   {
-    var_f4 += 0.5f * ((*((f32 *) (((s8 *) this) + 0x3C))) - (*((f32 *) (((s8 *) this) + 0x4C))));
-    *((f32 *) (((s8 *) this) + 0x6C)) += (var_f4 - (*((f32 *) (((s8 *) this) + 0x6C)))) / ((f32) n);
+    var_f4 += 0.5f * ((this->target_size[1]) - (this->frame_size[1]));
+    this->scroll_offset[1] += (var_f4 - (this->scroll_offset[1])) / ((f32) n);
   }
 }
 

@@ -32,7 +32,7 @@ extern "C" {
 
 void TObjCityMainWarpChallenge::close_windows() {
     if ((u32) *(u32 *)((s8 *)this + 0x168) != 0U) {
-        ((TWindowMessageYesNo *)(*(void **)((s8 *)this + 0x168)))->close();
+        ((TWindowMessageYesNo *)(this->yes_no_window))->close();
         *(u32 *)((s8 *)this + 0x168) = 0U;
     }
     if (this->menu_window != 0U) {
@@ -40,7 +40,7 @@ void TObjCityMainWarpChallenge::close_windows() {
         (this->menu_window) = 0U;
     }
     if ((u32) *(u32 *)((s8 *)this + 0x164) != 0U) {
-        ((TWindowBase *)(*(void **)((s8 *)this + 0x164)))->close();
+        ((TWindowBase *)(this->player_list_window))->close();
         *(u32 *)((s8 *)this + 0x164) = 0U;
     }
     end_player_keyboard_hold(local_client_id);

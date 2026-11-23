@@ -1443,9 +1443,9 @@ void TMainCursor::validate_target() {
             this->update_target_sub();
             return;
         }
-        if (t->f32E - *(s16 *)((u8 *)calc_technique_parameters(TMainCursor__sub_8013E338(((u8 *)this) + 0x60),
+        if (t->f32E - (calc_technique_parameters(TMainCursor__sub_8013E338(((u8 *)this) + 0x60),
                                                       get_cast_technique_level((u8 *)t + 0x428, TMainCursor__sub_8013E338(((u8 *)this) + 0x60)),
-                                                      ((TObjBase *)t)->get_entity_id()) + 0x10) < 0) {
+                                                      ((TObjBase *)t)->get_entity_id()))->tp_cost < 0) {
             this->update_target_sub();
             return;
         }
@@ -1975,7 +1975,7 @@ void TLockOnCursor::update_ring() { ((FlagWord *)((char*)this + 0x8))->clear(1);
 
 void TLockOnCursor::is_bit1_set() { ((FlagWord *)((char*)this + 0x8))->set(2); }
 
-int TLockOnCursor::is_inactive() { return (test_flags_any((s32 *)((char*)this + 0x1c), 2)) == 0; }
+int TLockOnCursor::is_inactive() { return (test_flags_any(&this->flags.bits, 2)) == 0; }
 
 void TLockOnCursor::update_ring_sub() { ((FlagWord *)((char*)this + 0x8))->clear(2); }
 

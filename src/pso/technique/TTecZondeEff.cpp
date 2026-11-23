@@ -295,9 +295,9 @@ s32 TTecZondeEff::calc_dominant_axis() {
     f32 temp_f30;
     f32 temp_f31;
 
-    temp_f30 = fabs_float(*(f32 *)((s8 *)this + 0x28));
-    temp_f31 = fabs_float(*(f32 *)((s8 *)this + 0x2C));
-    temp_f1 = fabs_float(*(f32 *)((s8 *)this + 0x30));
+    temp_f30 = fabs_float(this->direction.x);
+    temp_f31 = fabs_float(this->direction.y);
+    temp_f1 = fabs_float(this->direction.z);
     if (temp_f30 > temp_f31) {
         if (temp_f30 > temp_f1) {
             return 0;

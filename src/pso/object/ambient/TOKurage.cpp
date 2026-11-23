@@ -330,7 +330,7 @@ TOKurage::TOKurage(TObject *parent, void *set_data) : TObjMapObject(parent) {
     motion = get_bml_motion(TOKurage__bml_resource, 0);
     motion2 = get_bml_motion(TOKurage__bml_resource, 1);
     animation_step = 0.5f;
-    animation_end_frame = (f32)*(u32 *)((s8 *)motion + 4) - 1.0f;
+    animation_end_frame = (f32)motion->frameCount - 1.0f;
     view_range = 500.0f;
     model_radius = 100.0f;
     init();

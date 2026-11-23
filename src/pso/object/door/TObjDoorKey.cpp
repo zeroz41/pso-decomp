@@ -287,7 +287,7 @@ TObjDoorKey::TObjDoorKey(TObject *parent, void *set_entry) : TOKey(parent) {
     init_collision_body_parts(this, TObjDoorKey__collision_body_parts, 1);
     this->actorFlags |= 0x40000000;
     this->register_object_by_id();
-    Vec pos = *(Vec *)((s8 *)this + 0x38);
+    Vec pos = this->position;
     pos.y += 10.0f;
     this->m_f8 = (saddr)spawn_continuous_particle_effect_with_flags(&pos, 0x60, 0x40);
     this->cursor_action.set_use();

@@ -906,7 +906,7 @@ void TObjEneSlimeOne::update_scan() {
     }
     this->motion_phase -= 0x600;
     if (this->motion_phase <= 0) {
-        n = (f32)*(u32 *)((s8 *)(get_bml_motion(model_archive, 10)) + 4) / 0.5f;
+        n = (f32)(get_bml_motion(model_archive, 10))->frameCount / 0.5f;
         this->motion_phase = 0;
         if (this->target_client_id != 0xFFFF) {
             direction.x = 1.0f;

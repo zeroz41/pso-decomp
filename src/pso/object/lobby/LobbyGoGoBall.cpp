@@ -1012,7 +1012,7 @@ void TUnk_804B8DE8::run_task() {
 
 #pragma pop
 void TUnk_804B8DE8::render() {
-    if (((gogo_ball_bml_resource != NULL) || (lobby_gvm_texture_handles[4] != NULL)) && ((u16) *(u16 *)((s8 *)&gogo_ball_configuration + 0x48) != 6)) {
+    if (((gogo_ball_bml_resource != NULL) || (lobby_gvm_texture_handles[4] != NULL)) && ((u16) (&gogo_ball_configuration)->mode != 6)) {
         if (this->unk_50 == 1) {
             TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(lobby_gvm_texture_handles[4]));
         } else {
@@ -1057,12 +1057,12 @@ void TUnk_804B8DD0::update_effects() {
     Vec v2b;
     Vec vda;
     Vec vdb;
-    if (*(u16 *)((s8 *)&gogo_ball_configuration + 0x48) == 0) {
+    if ((&gogo_ball_configuration)->mode == 0) {
         (this->m_30)++;
         if (this->m_30 == 1) {
             new TUnk_804B8DE8(&this->pos, *(s16 *)((s8 *)&gogo_ball_configuration + 0x14), this->m_28, this->m_40, tl_06);
         }
-    } else if (*(u16 *)((s8 *)&gogo_ball_configuration + 0x48) == 6) {
+    } else if ((&gogo_ball_configuration)->mode == 6) {
         (this->m_30)++;
         if (this->m_30 % 5 == 0 && this->m_30 <= 0x1E) {
             VecCopy((Vec *)&v6, &this->pos);
@@ -1070,7 +1070,7 @@ void TUnk_804B8DD0::update_effects() {
             spawn_particle_effect_with_flags(&v6, 0x20D, 0x40);
             play_sound_effect(0x4001A82E, (u8 *)&this->pos, 0, 0);
         }
-    } else if (*(u16 *)((s8 *)&gogo_ball_configuration + 0x48) == 2) {
+    } else if ((&gogo_ball_configuration)->mode == 2) {
         (this->m_30)++;
         if (this->m_28 != 0) {
             if (this->m_30 == 1) {
@@ -1091,7 +1091,7 @@ void TUnk_804B8DD0::update_effects() {
                 play_sound_effect(0x4001C112, (u8 *)&this->pos, 0, 0);
             }
         }
-    } else if (*(u16 *)((s8 *)&gogo_ball_configuration + 0x48) != 0) {
+    } else if ((&gogo_ball_configuration)->mode != 0) {
         (this->m_30)++;
         if (this->m_28 != 0) {
             if (this->m_30 % 5 == 0 && this->m_30 <= 0x32) {

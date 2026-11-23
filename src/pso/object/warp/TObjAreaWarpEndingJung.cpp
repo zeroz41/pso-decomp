@@ -839,7 +839,7 @@ TObjAreaWarpQuest::TObjAreaWarpQuest(TObject *parent, void *set_data) : TObjArea
     temp_r0 = *(u32 *)((s8 *)this + 0x8C);
     temp_r4 = temp_r0 >> 0x1FU;
     *(u32 *)((s8 *)this + 0x8C) = (u32) (((temp_r0 & 1) ^ temp_r4) - temp_r4);
-    this->player_set_id = (s32) *(f32 *)((s8 *)this + 0x68);
+    this->player_set_id = (s32) this->scale.x;
     warp_model = get_forest_warp_model(0);
     beam_model = get_forest_warp_model(1);
     beam_motion = get_forest_warp_motion(0);

@@ -212,7 +212,7 @@ void TObjEneMorfos::init_instance() {
     set_state_8();
     this->movementParameters = lbl_804EE0C0;
     initialize_enemy_state(0x42);
-    *(f32 *)((s8 *)this + 0x37C) = 10.0f;
+    this->wall_reach = 10.0f;
     enemy_init_acquire_period(0x3C);
     enemy_init_validate_period(0x3C);
     morfos_flags = 0;
@@ -373,7 +373,7 @@ void TObjEneMorfos::set_hover_target_position() {
     VecCopy(&center, &body_center);
 }
 void TObjEneMorfos::update_body_colliders() {
-    *(f32 *)((s8 *)this->bodies + 4) = (f32) (this->body_center.y - position.y);
+    this->bodies->offset.y = (f32) (this->body_center.y - position.y);
 }
 
 #pragma push

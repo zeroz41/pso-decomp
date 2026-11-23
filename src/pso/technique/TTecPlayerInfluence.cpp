@@ -194,7 +194,7 @@ void TTecPlayerInfluence::run_task() {
     this->tick_lifetime();
 }
 
-void TTecPlayerInfluence::sub_80237258() { this->m_bc = *(f32*)((char*)this + 0x3c); }
+void TTecPlayerInfluence::sub_80237258() { this->m_bc = this->scale.x; }
 
 void TTecPlayerInfluence::tick_lifetime() {
     u8 *arg0 = (u8 *)this;
@@ -218,7 +218,7 @@ void deliver_technique_to_party_targets(Obj_802370D8 *arg0) {
         ((TObject *)arg0)->queue_destruction();
         return;
     }
-    if (((TObjBase *)(*(void **)((s8 *)arg0 + 0x1C)))->get_entity_id() < 4) {
+    if (((TObjBase *)(arg0->source))->get_entity_id() < 4) {
         list = gather_contacts_for_self__10TObjPlayerFl(arg0, *(u32 *)((s8 *)arg0 + 0x1C));
     } else {
         list = (List_802370D8 *)((TTecPlayerInfluence *)arg0)->find_support_technique_contact_for_target(*(u32 *)((s8 *)arg0 + 0x1C));

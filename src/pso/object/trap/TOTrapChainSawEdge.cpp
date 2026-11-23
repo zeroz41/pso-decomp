@@ -329,7 +329,7 @@ void TOTrapChainSaw::decode_params() {
     u32 var_r0_2;
     u32 temp_r3_2;
 
-    *(s32 *)((s8 *)this + 0xE8) = (s32) (u16) *(s32 *)((s8 *)this + 0x84);
+    *(s32 *)((s8 *)this + 0xE8) = (s32) (u16) this->set_params[0];
     temp_r3 = *(s32 *)((s8 *)this + 0xE8);
     if (temp_r3 < 0) {
         var_r0 = 0;
@@ -565,7 +565,7 @@ void *TOTrapChainSawDamage::create(void *set_data) {
 
 void TOTrapChainSawDamage::decode_params() {
     TOTrapChainSaw::decode_params();
-    *(f32 *)((s8 *)this + 0xFC) = (f32) *(f32 *)((s8 *)this + 0x6C);
+    *(f32 *)((s8 *)this + 0xFC) = (f32) this->scale.y;
 }
 
 void TOTrapChainSawDamage::vfunc_16() {
@@ -605,7 +605,7 @@ void TOTrapChainSawDamage::vfunc_25() {
     push_matrix();
     rotate_matrix_y(0, *(void **)((s8 *)this + 0x60));
     rotate_matrix_y(0, *(void **)((s8 *)this + 0xD4));
-    draw_ginja_model_with_motion(*(void **)((s8 *)this + 0xC8), *(void **)((s8 *)this + 0xBC), *(f32 *)((s8 *)this + 0xB4));
+    draw_ginja_model_with_motion(*(void **)((s8 *)this + 0xC8), *(void **)((s8 *)this + 0xBC), this->animation_end_frame);
     pop_matrix();
     pop_matrix();
 }
@@ -719,7 +719,7 @@ void TOTrapChainSawKey::vfunc_25() {
     rotate_matrix_y(0, *(void **)((s8 *)this + 0x60));
     rotate_matrix_y(0, *(void **)((s8 *)this + 0xD4));
     set_model_node_callback(TParticleCtrl__sub_802C8464);
-    draw_ginja_motion(*(NJS_OBJECT **)((s8 *)this + 0xC8), *(NJS_MOTION **)((s8 *)this + 0xBC), *(f32 *)((s8 *)this + 0xB4));
+    draw_ginja_motion(*(NJS_OBJECT **)((s8 *)this + 0xC8), *(NJS_MOTION **)((s8 *)this + 0xBC), this->animation_end_frame);
     set_model_node_callback(0);
     if (*(s32 *)((s8 *)this + 0xF0) == 1) {
         TParticleCtrl::begin_effect_render();
@@ -817,7 +817,7 @@ void TOTrapChainSawEdge::vfunc_25() {
     push_matrix();
     rotate_matrix_y(0, *(void **)((s8 *)this + 0x60));
     rotate_matrix_y(0, *(void **)((s8 *)this + 0xD4));
-    draw_ginja_model_with_motion(*(void **)((s8 *)this + 0xC8), *(void **)((s8 *)this + 0xBC), *(f32 *)((s8 *)this + 0xB4));
+    draw_ginja_model_with_motion(*(void **)((s8 *)this + 0xC8), *(void **)((s8 *)this + 0xBC), this->animation_end_frame);
     pop_matrix();
     pop_matrix();
 }
@@ -826,12 +826,12 @@ void TOTrapChainSawEdge::vfunc_16() {
     Pair_802C80F0 a = *(Pair_802C80F0 *)lbl_80471F70;
     Pair_802C80F0 b = *(Pair_802C80F0 *)lbl_80471F78;
     s32 x;
-    *(s32 *)((s8 *)this + 0xFC) = (s32) *(f32 *)((s8 *)this + 0x70);
+    *(s32 *)((s8 *)this + 0xFC) = (s32) this->scale.z;
     x = *(s32 *)((s8 *)this + 0xFC);
     *(s32 *)((s8 *)this + 0xFC) = x < 0 ? 0 : (x > 1 ? 1 : x);
     *(s32 *)((s8 *)this + 0xC8) = (saddr)TOTrapChainSawKey::get_model(a.v[*(s32 *)((s8 *)this + 0xFC)]);
     *(s32 *)((s8 *)this + 0xBC) = (saddr)TOTrapChainSawKey::get_motion(b.v[*(s32 *)((s8 *)this + 0xFC)]);
-    *(saddr *)((s8 *)this + 0x24) = (saddr)fn_802C9924(0);
-    *(f32 *)((s8 *)this + 0xB4) = (0.0f);
-    *(f32 *)((s8 *)this + 0xB8) = (1.0f);
+    this->texlist = (saddr)fn_802C9924(0);
+    this->animation_end_frame = (0.0f);
+    this->animation_step = (1.0f);
 }

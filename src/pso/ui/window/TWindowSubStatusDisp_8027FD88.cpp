@@ -370,7 +370,7 @@ void TWindowSubStatusDisp::run_task() {
       arg0->page = *(s16 *)&arg0->m_62;
       fn_8026C7AC(arg0->m_68, lbl_805DD6F4[arg0->page]);
     }
-    reinterpret_cast<WindowLayoutEntries *>((((u8 *) arg0) + 0x24))->destroy_all_items();
+    arg0->entry_list.destroy_all_items();
     arg0->dispatch_page_init();
   }
   arg0->dispatch_page_update();
@@ -382,7 +382,7 @@ void TWindowSubStatusDisp::render() {
     saddr temp_r3;
 
     if (get_player_by_client_id(this->client_index) != 0U) {
-        temp_r3 = reinterpret_cast<saddr>(this->setup_window_draw_context((f32 *)(((u8 *)this) + 0x6C)));
+        temp_r3 = reinterpret_cast<saddr>(this->setup_window_draw_context(&this->scale_x));
         draw_window_frame((void *)temp_r3);
         draw_visible_window_entries(
             this,

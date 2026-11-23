@@ -1171,7 +1171,7 @@ void TOMineDisp::run_task() {
         break;
     case 2:
         get_player_state__6TOMineFv(mine, this->m_a8);
-        VecCopy((Vec *)(((u8 *)this) + 0x38), (const Vec *)(((TOMineTrap *)mine)->get_mine_data_ptr()));
+        VecCopy(&this->position, (const Vec *)(((TOMineTrap *)mine)->get_mine_data_ptr()));
         break;
     }
 }

@@ -1552,7 +1552,7 @@ void TScene::render_static_map_section(SceneMaterialSection *scene_material_sect
                 } else {
                     play_reflection_particles(-1);
                 }
-                TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>((void *)*(saddr *)((s8 *)scene_material_root + 0x14)));
+                TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>((void *)scene_material_root->texlist));
                 set_material_alpha_compare_reference(scene_material_root->flags);
                 draw_ginja_object(node);
                 reset_reflection_tev_stages();
@@ -1567,7 +1567,7 @@ void TScene::render_static_map_section(SceneMaterialSection *scene_material_sect
                     l.a.x = node->ang.x + scene_material_section->angles[0];
                     l.a.y = node->ang.y + scene_material_section->angles[1];
                     l.a.z = node->ang.z + scene_material_section->angles[2];
-                    l.param = (void *)*(saddr *)((s8 *)scene_material_root + 0x14);
+                    l.param = (void *)scene_material_root->texlist;
                     l.node = node;
                     l.scene = scene_material_root->flags;
                     l.id = m->effect_id;
@@ -1578,7 +1578,7 @@ void TScene::render_static_map_section(SceneMaterialSection *scene_material_sect
                 if (m != NULL) {
                     if (m->tex != NULL) {
                         enable_indirect_tev(tex = m->tex, m->sampler, m->scale, 0);
-                        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>((void *)*(saddr *)((s8 *)scene_material_root + 0x14)));
+                        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>((void *)scene_material_root->texlist));
                         set_material_alpha_compare_reference(scene_material_root->flags);
                         draw_ginja_object(node);
                         disable_indirect_tev(tex, 0);

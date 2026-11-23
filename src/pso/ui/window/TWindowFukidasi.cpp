@@ -566,7 +566,7 @@ void TWindowFukidasi::init_balloon(u16 arg1, s32 str, s32 arg3, f32 scale) {
         this->name = 0;
     }
     set_color(arg1);
-    *(f32 *)((s8 *)this + 0x80) = 0.0f;
+    this->tail_scale = 0.0f;
     this->m_7c = scale;
     this->frame_size[0] = 0.0f;
     this->frame_size[1] = 0.0f;
@@ -1221,16 +1221,16 @@ void TWindowFukidasi::request_balloon_hide() {
 s32 TWindowFukidasi::approach(f32 farg0) {
     f32 temp_f31;
 
-    temp_f31 = 0.47f * (farg0 - *(f32 *)((s8 *)this + 0x80));
+    temp_f31 = 0.47f * (farg0 - this->tail_scale);
     if (fabs_float(temp_f31) < 0.011f) {
-        *(f32 *)((s8 *)this + 0x80) = farg0;
+        this->tail_scale = farg0;
         return 1;
     }
-    *(f32 *)((s8 *)this + 0x80) = (f32) (*(f32 *)((s8 *)this + 0x80) + temp_f31);
+    this->tail_scale = (f32) (this->tail_scale + temp_f31);
     return 0;
 }
 
-void TWindowFukidasi::sync_display_pos() { *(f32*)((char*)this + 0x60) = *(f32*)((char*)this + 0x80); *(f32*)((char*)this + 0x64) = *(f32*)((char*)this + 0x80); }
+void TWindowFukidasi::sync_display_pos() { this->content_scale[0] = this->tail_scale; this->content_scale[1] = this->tail_scale; }
 
 void TWindowFukidasi::calc_text_size(f32 *out) {
     Entry_80250380 *e;

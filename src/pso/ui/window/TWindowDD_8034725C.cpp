@@ -925,7 +925,7 @@ void TWindowDD__sub_80348A2C(WindowDrawContext *context, WindowVertex *vertices)
   *((f32 *) (((s8 *) vertices) + 0x18)) = temp_f2_2;
   temp_f1_2 = temp_f2_2 + var_f0;
   temp_f0_2 = temp_f4 - var_f0;
-  *((f32 *) (((s8 *) vertices) + 0)) = temp_f2_2;
+  vertices->x = temp_f2_2;
   *((f32 *) (((s8 *) vertices) + 0x48)) = temp_f1_2;
   *((f32 *) (((s8 *) vertices) + 0x30)) = temp_f1_2;
   new_var = (s8 *) vertices;

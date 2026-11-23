@@ -155,7 +155,7 @@ void TUnk_804A403C::reserved_53() {
 TUnk_804A403C::~TUnk_804A403C() {}
 
 TUnk_804A403C::TUnk_804A403C(TObject *parent, u8 *item) : TUnk_804A4948(parent, item) {
-    ((FlagWord *)((char *)this + 376))->set(32);
+    this->effect_flags.set(32);
     set_weapon_flags(515);
     impact_callback = (WeaponHitCallback)TObjPlayer::notify_hit_target;
     hit_callback = (WeaponHitCallback)TObjPlayer__sub_80128A74;

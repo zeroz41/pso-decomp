@@ -247,7 +247,7 @@ void TUnk_804F01A8::run_task() {
     }
 }
 
-void TUnk_804F01A8::render() { if (*(int*)((char*)this + 0x1c) == 6) { TLobby::update_pulse_colors((saddr)((void*)1)); TLobby__sub_80338534(); } }
+void TUnk_804F01A8::render() { if (this->state == 6) { TLobby::update_pulse_colors((saddr)((void*)1)); TLobby__sub_80338534(); } }
 
 void TUnk_804F01A8::set_option_and_confirm(s32 arg1, s32 arg2) {
     if (arg1 != (s32) this->m_28) {

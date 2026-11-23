@@ -527,13 +527,13 @@ void run_task__25TWindowSubSymbolChatPartsFv(Parts_80285B84 *arg0) {
     if (((TWindowSubSymbolChatParts *)(arg0))->sub_80283974() == 0) {
         ((TWindowSubSymbolChatParts *)arg0)->sub_80285054();
         pad = ((u8 *)&controller_input_state) + 0x20;
-        if (test_pressed_buttons_packed(pad, 4) != 0 || (s32)test_controller_flag_4c_color((ControllerInputContext *)(((u8 *)&controller_input_state) + 0x160), 4) != 0) {
+        if (test_pressed_buttons_packed(pad, 4) != 0 || (s32)test_controller_flag_4c_color(&(&controller_input_state)->keyboard, 4) != 0) {
             ((TWindowSubSymbolChatParts *)arg0)->handle_add();
         }
         if (test_pressed_buttons_packed(pad, 0x400) != 0) {
             ((TWindowSubSymbolChatParts *)arg0)->add_part();
         }
-        if (test_pressed_buttons_packed(pad, 2) != 0 || (s32)test_controller_flag_4c_color((ControllerInputContext *)(((u8 *)&controller_input_state) + 0x160), 2) != 0) {
+        if (test_pressed_buttons_packed(pad, 2) != 0 || (s32)test_controller_flag_4c_color(&(&controller_input_state)->keyboard, 2) != 0) {
             ((TWindowSubSymbolChatParts *)arg0)->handle_cancel();
         }
     }

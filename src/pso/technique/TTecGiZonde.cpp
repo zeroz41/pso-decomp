@@ -273,7 +273,7 @@ void TTecGiZonde::run_task() {
         queue_destruction();
         return;
     }
-    if ((s32) *(s32 *)((s8 *)this + 0x130) == 0) {
+    if ((s32) this->targetList.count == 0) {
         queue_destruction();
         return;
     }

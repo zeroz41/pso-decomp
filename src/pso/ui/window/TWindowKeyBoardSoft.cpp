@@ -545,8 +545,8 @@ void TWindowKeyBoardSoft::spawn_key_effect(s32 col, s32 row) {
     s16 kind;
 
     sub_80260760(calc_key_index(col, row), &type, 0);
-    pos.x = *(f32 *)(((u8 *)this) + 0x40) + calc_key_x(col, row);
-    pos.y = 26.0f + (10.0f + (19.0f * (f32)row + *(f32 *)(((u8 *)this) + 0x44)));
+    pos.x = this->frame_position[0] + calc_key_x(col, row);
+    pos.y = 26.0f + (10.0f + (19.0f * (f32)row + this->frame_position[1]));
     switch (type) {
     case 1:
         kind = 3;

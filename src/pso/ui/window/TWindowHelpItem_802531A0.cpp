@@ -68,7 +68,7 @@ void TWindowHelpItem__sub_802531A0(void) {  }
 void TWindowHelpItem::init_text(void *str) {
     u8 *e;
     init_window_layout_entries(
-        reinterpret_cast<WindowLayoutEntries *>(((u8 *)this) + 0x24),
+        &this->entry_list,
         reinterpret_cast<const void *>(TWindowHelpItem__description_text_layout),
         this->client_index);
     *(V3_802531A4 *)(((u8 *)this) + 0xB0) = TWindowHelpItem__description_update_callback;
@@ -115,7 +115,7 @@ void TWindowHelpItem::update_tech_disk_details() {
     player = (saddr)get_player_by_client_id(this->client_index);
     if (player != 0) {
         init_window_layout_entries(
-            reinterpret_cast<WindowLayoutEntries *>(((u8 *)this) + 0x24),
+            &this->entry_list,
             reinterpret_cast<const void *>(help_item_tech_disk_window_layout_table),
             this->client_index);
         *(V3_802532E8 *)(((u8 *)this) + 0xB0) = item_help_tech_disk_stats_callback;
@@ -157,7 +157,7 @@ void TWindowHelpItem::sub_802534B0() {
     u8 *e;
     u8 *e2;
     init_window_layout_entries(
-        reinterpret_cast<WindowLayoutEntries *>(((u8 *)this) + 0x24),
+        &this->entry_list,
         reinterpret_cast<const void *>(window_help_item_layout_entries),
         this->client_index);
     *(V3_802534B0 *)(((u8 *)this) + 0xB0) = item_help_description_idle_callback;

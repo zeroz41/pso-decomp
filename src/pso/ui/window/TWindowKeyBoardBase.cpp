@@ -549,7 +549,7 @@ void TWindowKeyBoardBase::convert_input_text() {
     if (!(*(u16 *)((s8 *)this + 0x60) & 0x80)) {
         sub_8025DBDC(1);
     }
-    var_r3 = *(u16 **)((s8 *)this + 0x84);
+    var_r3 = this->m_text2.buffer;
     var_r4 = candidate_buffer;
     while ((temp_r0 = *var_r3) != 0) {
         *var_r4 = (u8) (temp_r0 >> 8);

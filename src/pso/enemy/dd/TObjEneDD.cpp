@@ -1166,7 +1166,7 @@ void TObjEneDD_ST::enemy_copy_target_destination() {
     }
 }
 
-void TObjEneDD_ST::set_target_destination(const Vec *position) { VecCopy((Vec *)((char *)this + 0x394), position); }
+void TObjEneDD_ST::set_target_destination(const Vec *position) { VecCopy(&this->destination, position); }
 
 void TObjEneDD_ST::enemy_init_validate_period(s32 period) {
     validate_period = period;

@@ -547,7 +547,7 @@ TTecSlicer::TTecSlicer(u16 *launch, void *player, Vec *position, int angle) : TO
 TSlicerHistory::~TSlicerHistory() {}
 
 void *TTecSlicer::get_field_110() { return model; }
-s16 TTecSlicer::get_remain_count() { return *(s16*)((char*)this + 0x11e); }
+s16 TTecSlicer::get_remain_count() { return this->comboStage; }
 void TTecSlicer::destroy_if_set() {
     uaddr arg0 = (uaddr)this;
     if (arg0 != 0U) {

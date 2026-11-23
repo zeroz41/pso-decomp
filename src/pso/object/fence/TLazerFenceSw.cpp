@@ -311,10 +311,10 @@ TLazerFenceSw::TLazerFenceSw(TObject *parent, void *set_entry) : TOKey(parent) {
     __ct__18CameraDistanceFadeFv((u8 *)this + 0xF0);
     *(saddr *)((s8 *)this + 0) = (saddr)TLazerFenceSw__class_name;
     init_key(set_entry);
-    if (*(s32 *)((s8 *)this + 0x8C) < 0) {
-        *(s32 *)((s8 *)this + 0x8C) = 0;
+    if (this->set_params[2] < 0) {
+        this->set_params[2] = 0;
     }
-    *(u16 *)((s8 *)this + 0xE8) = lbl_80445CB8[*(s32 *)((s8 *)this + 0x8C) % 4];
+    *(u16 *)((s8 *)this + 0xE8) = lbl_80445CB8[this->set_params[2] % 4];
     this->animation_step = 2.0f;
     *(f32 *)((s8 *)this + 0xEC) = 0.0f;
     init_collision_body_parts(this, lazer_fence_sw_collision_body_part, 1);

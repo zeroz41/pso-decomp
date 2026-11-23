@@ -63,7 +63,7 @@ void TLobby::drain_deferred_packets() {
 void copy_packet(packet *pkt) {
     s32 len;
 
-    len = (u16) to_be_uint16_t__FUs(*(u16 *)((s8 *)pkt + 2));
+    len = (u16) to_be_uint16_t__FUs(pkt->pkt.header.size);
     if (deferred_packet_buffer_used + len <= 0x10000) {
         memcpy((void *)(deferred_packet_buffer + deferred_packet_buffer_used), pkt, len);
         deferred_packet_buffer_used += len;

@@ -359,7 +359,7 @@ void TWindowSimpleStatus::apply_random_shake() {
         ang = (s32)(65536.0f * (3.0517578e-05f * (f32)rand()));
         dist = 5.0f * (3.0517578e-05f * (f32)rand());
         this->frame_position[0] += dist * cos_table_lookup(ang);
-        *(f32 *)(((u8 *)this) + 0x44) += dist * sin_table_lookup(ang);
+        this->frame_position[1] += dist * sin_table_lookup(ang);
     }
 }
 #pragma pop
