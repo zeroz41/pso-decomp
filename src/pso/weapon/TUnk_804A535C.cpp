@@ -30,27 +30,34 @@
 #include "pso/system/MatrixOps.h"
 #include "pso/ui/frontend/TAdRicoRing_8001BEE8.h"
 
-struct Ent_8012C384 { u8 pad[0x1c]; u8 f1c[0x10]; };
+struct TargetEntityPosition {
+    u8 pad[0x1c];
+    u8 position[0x10];
+};
 
-struct Mylla_8012C384 { u8 pad[0xa4]; Ent_8012C384 *ents; s32 count; };
+struct TargetEntityManager {
+    u8 pad[0xa4];
+    TargetEntityPosition *ents;
+    s32 count;
+};
 
 extern "C" {
-Mylla_8012C384 *find_entity_by_id(u32);
+TargetEntityManager *find_entity_by_id(u32);
 }
 
-void rocket_punch_target_impact(void *self, u32 a, u32 b, s32 idx) {
-    Mylla_8012C384 *m;
-    rocket_punch_return_timer(a);
-    m = find_entity_by_id(b);
-    if (m && m->ents && idx < m->count) {
-        spawn_particle_effect((const Vec *)m->ents[idx].f1c, 0x45);
+void rocket_punch_target_impact(void *self, u32 weapon, u32 target, s32 extra) {
+    TargetEntityManager *m;
+    rocket_punch_return_timer(weapon);
+    m = find_entity_by_id(target);
+    if (m && m->ents && extra < m->count) {
+        spawn_particle_effect((const Vec *)m->ents[extra].position, 0x45);
     }
 }
 
-void rocket_punch_wall_impact(u32 arg0, u32 arg1, u32 arg2, uaddr arg3) {
-    if ((arg1 != 0U) && (arg3 != 0U)) {
-        rocket_punch_return_timer(arg1);
-        spawn_particle_effect((const Vec *)arg3, 0x45);
+void rocket_punch_wall_impact(u32 layer, u32 weapon, u32 target, uaddr extra) {
+    if ((weapon != 0U) && (extra != 0U)) {
+        rocket_punch_return_timer(weapon);
+        spawn_particle_effect((const Vec *)extra, 0x45);
         play_sound_effect(0x4001C112, 0, 0, 0);
     }
 }
@@ -58,11 +65,11 @@ extern "C" {
 
 s32 post_translate_matrix(void *);
 void TUnk_804A5340::render() {
-    u8 *arg0 = (u8 *)this;
+    u8 *self = (u8 *)this;
     if ((TItemShootModel::is_owner_alive() != 0) && ((uaddr) this->model != 0U) && ((uaddr) this->texture_list != 0U)) {
         push_matrix();
         set_texlist((uaddr)this->texture_list);
-        post_translate_matrix(arg0 + 0x1C);
+        post_translate_matrix(self + 0x1C);
         rotate_matrix_y(0, this->m_count);
         rotate_matrix_x(0, this->m_28 - 0x4000);
         draw_ginja_object(this->model);
@@ -75,13 +82,16 @@ void TUnk_804A5340::render() {
 
 void TUnk_804A5340::hook() {  }
 
-struct Obj_8012C4E4 { u8 pad[0x18]; void *vt; };
+struct RocketPunchShot {
+    u8 pad[0x18];
+    void *vt;
+};
 
 extern "C" {
 void __ct__15TItemShootModelFPvPC3VecPC3Vecf(void *self, void *owner, const void *a, const void *b, f32 f);
 extern char __vt__13TUnk_804A5340[];
-Obj_8012C4E4 *TObjPlayer__sub_8012C4E4(Obj_8012C4E4 *self, void *owner, const void *a, const void *b, f32 f);
-Obj_8012C4E4 *TObjPlayer__sub_8012C4E4(Obj_8012C4E4 *self, void *owner, const void *a, const void *b, f32 f) {
+RocketPunchShot *TObjPlayer__sub_8012C4E4(RocketPunchShot *self, void *owner, const void *a, const void *b, f32 f);
+RocketPunchShot *TObjPlayer__sub_8012C4E4(RocketPunchShot *self, void *owner, const void *a, const void *b, f32 f) {
     __ct__15TItemShootModelFPvPC3VecPC3Vecf(self, owner, a, b, f);
     self->vt = __vt__13TUnk_804A5340;
     ((TItemShootModel *)self)->set_render_model((NJS_OBJECT *)((TObjPlayer *)owner)->get_hp_by_flag(), (GinjaTextureList *)((TObjBase *)owner)->get_texlist());
@@ -91,58 +101,64 @@ Obj_8012C4E4 *TObjPlayer__sub_8012C4E4(Obj_8012C4E4 *self, void *owner, const vo
 }
 
 uaddr rocket_punch_create_shot(saddr owner, saddr pos, saddr dir, f32 life) {
-    uaddr var_r31;
-    uaddr temp_r30;
+    uaddr shot;
+    uaddr particle;
 
-    var_r31 = 0U;
+    shot = 0U;
     if (owner != 0) {
-        var_r31 = (uaddr)TObject::operator new(0x6C);
-        if (var_r31 != 0U) {
-            var_r31 = (uaddr)TObjPlayer__sub_8012C4E4((Obj_8012C4E4 *)var_r31, (void *)owner, (const void *)pos, (const void *)dir, life);
+        shot = (uaddr)TObject::operator new(0x6C);
+        if (shot != 0U) {
+            shot = (uaddr)TObjPlayer__sub_8012C4E4((RocketPunchShot *)shot, (void *)owner, (const void *)pos, (const void *)dir, life);
         }
-        temp_r30 = (uaddr)TObjPlayer::spawn_shoot_particle(owner, pos, dir, life);
-        if ((var_r31 != 0U) && (temp_r30 != 0U)) {
-            ((TItemShootParticle *)temp_r30)->spawn_slot_emitter(0x1BB, 0);
-            ((TObject *)temp_r30)->set_parent((TObject *)var_r31);
+        particle = (uaddr)TObjPlayer::spawn_shoot_particle(owner, pos, dir, life);
+        if ((shot != 0U) && (particle != 0U)) {
+            ((TItemShootParticle *)particle)->spawn_slot_emitter(0x1BB, 0);
+            ((TObject *)particle)->set_parent((TObject *)shot);
         }
     }
-    return var_r31;
+    return shot;
 }
 
-struct Obj_8012C714 { u8 pad[0x184]; void *f184; void *f188; u8 pad2[0x1f8 - 0x18c]; u8 f1f8[4]; };
+struct RocketPunchWeaponView {
+    u8 pad[0x184];
+    void *f184;
+    void *f188;
+    u8 pad2[0x1f8 - 0x18c];
+    u8 f1f8[4];
+};
 
 extern "C" {
 
 void TUnk_804A535C::emit_marker_effects() {
-    saddr temp_r31;
-    s32 var_r30;
-    u32 temp_r3;
-    u8 *arg0 = (u8 *)this;
-    temp_r3 = *(u32 *)((s8 *)arg0 + 0xF0);
-    if (temp_r3 == 0U) return;
-    temp_r31 = temp_r3 + 0x7CC;
-    if (get_burst_counter((void *)temp_r31) == 0) {
-        var_r30 = 0;
+    saddr burst_counter;
+    s32 burst_count;
+    u32 owner;
+    u8 *self = (u8 *)this;
+    owner = *(u32 *)((s8 *)self + 0xF0);
+    if (owner == 0U) return;
+    burst_counter = owner + 0x7CC;
+    if (get_burst_counter((void *)burst_counter) == 0) {
+        burst_count = 0;
         do {
-            increment_burst_counter((u8 *)temp_r31);
-            var_r30 += 1;
-        } while (var_r30 != 2);
-        ((FlagWord *)(arg0 + 0x1F8))->set(2);
-        TItemAttacker::spawn_item_timer((TObject *)arg0, (ItemTimerCallback)rocket_punch_return_timer, 0x3C);
-        ((FlagWord *)(arg0 + 0x1F8))->set(4);
-        if (this->launch_shot(arg0 + 0x1FC, 0, 0, 1) == 1) {
-            ((FlagWord *)(arg0 + 0x1F8))->clear(4);
-            this->launch_shot(arg0 + 0x208, 0, 0, 0);
+            increment_burst_counter((u8 *)burst_counter);
+            burst_count += 1;
+        } while (burst_count != 2);
+        ((FlagWord *)(self + 0x1F8))->set(2);
+        TItemAttacker::spawn_item_timer((TObject *)self, (ItemTimerCallback)rocket_punch_return_timer, 0x3C);
+        ((FlagWord *)(self + 0x1F8))->set(4);
+        if (this->launch_shot(self + 0x1FC, 0, 0, 1) == 1) {
+            ((FlagWord *)(self + 0x1F8))->clear(4);
+            this->launch_shot(self + 0x208, 0, 0, 0);
             return;
         }
-        ((FlagWord *)(arg0 + 0x1F8))->clear(4);
-        this->launch_shot(arg0 + 0x208, 0, 0, 1);
+        ((FlagWord *)(self + 0x1F8))->clear(4);
+        this->launch_shot(self + 0x208, 0, 0, 1);
     }
 }
 
 void TUnk_804A535C::vfunc_60() {
     void *p;
-    Obj_8012C714 *self = (Obj_8012C714 *)this;
+    RocketPunchWeaponView *self = (RocketPunchWeaponView *)this;
     switch (TObjPlayer::get_player_list()) {
     case 1:
         if (test_flags_any((s32 *)self->f1f8, 2) == 0) {
@@ -162,18 +178,18 @@ void TUnk_804A535C::vfunc_60() {
 }
 
 void TUnk_804A535C::reserved_53() {
-    s32 temp_r31;
-    u8 *arg0 = (u8 *)this;
+    s32 saved_model;
+    u8 *self = (u8 *)this;
 
-    temp_r31 = *(s32 *)((s8 *)arg0 + 0xF4);
-    ((FlagWord *)(arg0 + 0x1F8))->set(1);
-    ((TItemWeapon *)arg0)->draw_weapon_model();
-    ((TItemWeapon *)arg0)->get_joint_position(1, (arg0 + 0x1FC));
-    *(s32 *)((s8 *)arg0 + 0xF4) = (s32) *(s32 *)((s8 *)arg0 + 0x180);
-    ((FlagWord *)(arg0 + 0x1F8))->clear(1);
-    draw_weapon_at_joint((saddr)arg0, 0x23);
-    ((TItemWeapon *)arg0)->get_joint_position(1, (arg0 + 0x208));
-    *(s32 *)((s8 *)arg0 + 0xF4) = temp_r31;
+    saved_model = *(s32 *)((s8 *)self + 0xF4);
+    ((FlagWord *)(self + 0x1F8))->set(1);
+    ((TItemWeapon *)self)->draw_weapon_model();
+    ((TItemWeapon *)self)->get_joint_position(1, (self + 0x1FC));
+    *(s32 *)((s8 *)self + 0xF4) = (s32) *(s32 *)((s8 *)self + 0x180);
+    ((FlagWord *)(self + 0x1F8))->clear(1);
+    draw_weapon_at_joint((saddr)self, 0x23);
+    ((TItemWeapon *)self)->get_joint_position(1, (self + 0x208));
+    *(s32 *)((s8 *)self + 0xF4) = saved_model;
 }
 
 extern s32 __vt__13TUnk_804A535C[];
@@ -186,10 +202,13 @@ extern "C" {
 
 void __ct__11TItemWeaponFP7TObjectPUc(void *);
 
-struct VOff_8012C868_arg0_8012c868 { char pad_0[0x1F8]; char f_1F8[1]; };
+struct WeaponFlagWordView {
+    char pad_0[0x1F8];
+    char f_1F8[1];
+};
 
 void *TUnk_804A535C::init_trade_action() {
-    struct VOff_8012C868_arg0_8012c868 *self = (struct VOff_8012C868_arg0_8012c868 *)this;
+    struct WeaponFlagWordView *self = (struct WeaponFlagWordView *)this;
     __ct__11TItemWeaponFP7TObjectPUc(this);
     *(s32 **)((s8 *)this + 0x18) = __vt__13TUnk_804A535C;
     __ct__8FlagWordFv((self->f_1F8));
@@ -206,15 +225,15 @@ void *TUnk_804A535C::init_trade_action() {
 u8 * init_trade_action__13TUnk_804A535CFv(void *, s32, s32);
 extern s32 tl_05;
 TItem *TObjPlayer::create_trade_action_state(u8 *item) {
-    u8 *temp_r3;
-    u8 *var_r0;
+    u8 *weapon;
+    u8 *initialized;
     if (item != NULL) {
-        temp_r3 = (u8 *)TItem::operator new(0x214);
-        var_r0 = temp_r3;
-        if (var_r0 != NULL) {
-            var_r0 = (u8 *)(init_trade_action__13TUnk_804A535CFv(temp_r3, tl_05, (saddr)item));
+        weapon = (u8 *)TItem::operator new(0x214);
+        initialized = weapon;
+        if (initialized != NULL) {
+            initialized = (u8 *)(init_trade_action__13TUnk_804A535CFv(weapon, tl_05, (saddr)item));
         }
-        return reinterpret_cast<TItem *>(var_r0);
+        return reinterpret_cast<TItem *>(initialized);
     }
     return NULL;
 }
@@ -224,16 +243,16 @@ TItem *TObjPlayer::create_trade_action_state(u8 *item) {
 TUnk_804A5340::~TUnk_804A5340() {
 
 }
-void rocket_punch_return_timer(uaddr arg0) {
-    if (arg0 != 0U) {
-        ((FlagWord *)(arg0 + 0x1F8))->clear(2);
+void rocket_punch_return_timer(uaddr weapon) {
+    if (weapon != 0U) {
+        ((FlagWord *)(weapon + 0x1F8))->clear(2);
     }
 }
 
 saddr TObjPlayer::get_hp_by_flag() {
-    u8 *arg0 = (u8 *)this;
+    u8 *self = (u8 *)this;
     if (test_flags_any((s32 *)&this->unk_1F8, 4) != 0) {
-        return *(s32 *)((s8 *)arg0 + 0x188);
+        return *(s32 *)((s8 *)self + 0x188);
     }
     return this->m_184;
 }
