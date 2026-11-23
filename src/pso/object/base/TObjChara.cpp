@@ -332,7 +332,7 @@ struct Layout_80019038 {
 extern "C" {
 s32 VecCopy__FP3VecPC3Vec(s32, s32);
 void subtract_vector(void *a, void *b);
-f32 calc_xz_distance_sq(saddr actor, uaddr other, void *offset);
+f32 calc_xz_distance_sq(TObjBase *actor, TObjBase *other, Vec *offset);
 void activate_switch_attacks__10TObjPlayerFii(saddr arg0, saddr pos);
 void attach_mine_trap__10TObjPlayerFiUi(saddr object, u32 arg1);
 s32 add_actor_hp(u8 *arg0, s16 arg1);
@@ -435,12 +435,6 @@ struct VObj_800163F8 : Base_800163F8 {
     virtual void m23();
     virtual void m24();
     virtual s32 m25();
-};
-
-struct Stack_80018780
-{
-  s32 sp8;
-  u8 trailing_storage[0x8];
 };
 
 struct RecoveredGlobal_8001806C_lbl_8058D490 { s32 value; u8 remaining[0x2C]; };
@@ -575,7 +569,6 @@ struct Obj_80018660;
 typedef struct Hit_80017E6C Hit_80017E6C;
 typedef struct Obj_80017E6C Obj_80017E6C;
 typedef struct Plane_80017E6C Plane_80017E6C;
-typedef struct Stack_80018780 Stack_80018780;
 
 struct Obj_80018F64 {
     u8 pad0[0x104]; Vec v104;
@@ -1362,7 +1355,7 @@ s32 TObjChara::set_motion_params(player_stats *base_stats) {
 
 #define VCOPY(d, s) ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)((d), (s))
 f32 TObjPlayer::calc_distance_to_client(saddr actor, u16 client, Vec *delta) {
-  Stack_80018780 stack;
+  Vec offset;
   f32 var_f31;
   s32 temp_r31;
   saddr temp_r3;
@@ -1375,10 +1368,10 @@ f32 TObjPlayer::calc_distance_to_client(saddr actor, u16 client, Vec *delta) {
       ;
       if (((TObjPlayer *)temp_r3)->get_floor() == get_current_floor())
       {
-        var_f31 = calc_xz_distance_sq(actor, (u32)((u32) temp_r3), &stack.sp8);
+        var_f31 = calc_xz_distance_sq((TObjBase *)actor, (TObjBase *)temp_r3, &offset);
         if (delta != NULL)
         {
-          VecCopy__FP3VecPC3Vec((saddr)delta, (saddr)&stack.sp8);
+          VecCopy__FP3VecPC3Vec((saddr)delta, (saddr)&offset);
         }
       }
     }
@@ -1386,12 +1379,12 @@ f32 TObjPlayer::calc_distance_to_client(saddr actor, u16 client, Vec *delta) {
   return var_f31;
 }
 
-f32 calc_xz_distance_sq(saddr actor, uaddr other, void *offset) {
+f32 calc_xz_distance_sq(TObjBase *actor, TObjBase *other, Vec *offset) {
     Vec diff;
     f32 dist;
-    if (other != 0U) {
-        ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&diff, (void *)(other + 0x38));
-        ((void (*)(void *, void *))subtract_vector)(&diff, (void *)(actor + 0x38));
+    if (other != NULL) {
+        ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&diff, &other->position);
+        ((void (*)(void *, void *))subtract_vector)(&diff, &actor->position);
         diff.y = (0.01f);
         dist = (diff.x * diff.x) + (diff.z * diff.z);
         if (offset != NULL) {
@@ -1747,7 +1740,7 @@ s32 TObjChara::is_target_in_attack_range() {
                     }
                 }
             } else {
-                dist = calc_xz_distance_sq((s32)((saddr)p), (u32)((uaddr)t), &out);
+                dist = calc_xz_distance_sq((TObjBase *)p, (TObjBase *)t, &out);
                 ang = ((s32)angle_difference_abs(this->rotation_y, (s32)(TObjPlayer__data_804340B8 * ((f64 (*)(f32, f32))atan2_float)(out.x, out.z))));
                 if (p->target->parts != NULL) {
                     prod = (p->target->parts->radius + ((TObjChara *)p)->get_attack_range()) * (p->target->parts->radius + ((TObjChara *)p)->get_attack_range());
@@ -2145,7 +2138,7 @@ void show_meseta_label(saddr player, u32 arg1, s32 arg2, s32 arg3) {
         if (TObjPlayer::is_locally_controlled((void *)(player)) != 0) {
             size <<= 1;
         }
-        ((void (*)(u32, s32, s32, s32, void *, s16, u16))create_font_small_task)(arg1, -0x100, size, arg2, lbl_804340A8, arg3, ((TObjBase *)(player))->get_entity_id());
+        create_font_small_task(arg1, -0x100, size, arg2, (s32 *)lbl_804340A8, arg3, ((TObjBase *)(player))->get_entity_id());
     }
 }
 
