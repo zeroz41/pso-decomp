@@ -116,10 +116,13 @@ struct TPlyText {
     packet_header header;
     char text[size];
 
-    void bswap() {
-        header.bswap();
-    };
+    void bswap();
 };
+
+// Out of line with the protocol's other packet helpers: info board text (D9), quest info (A3/A5), auto-reply (C7).
+template <> void TPlyText<172>::bswap();
+template <> void TPlyText<288>::bswap();
+template <> void TPlyText<512>::bswap();
 
 class TPlyJoinLobbyData {
 public:

@@ -1,7 +1,6 @@
 #include "types.h"
 #include <string.h>
 #include "pso/player/TPlySmth.h"
-#include "pso/unk/TLobby_801DEFC4.h"
 #include "pso/player/TPlyGuildCardTag_8007B434.h"
 #include "pso/unk/TLobby.h"
 #include "pso/network/TProtocol.h"

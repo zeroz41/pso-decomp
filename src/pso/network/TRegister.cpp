@@ -29,13 +29,7 @@ s32 __ct__9TRegisterFv(saddr arg0) {
 
 }
 
-template <unsigned long size> struct TPlyText;
-template <> struct TPlyText<288> {
-    packet_header header;
-    char text[288];
-    void bswap();
-};
-void TPlyText<288>::bswap() {
+template <> void TPlyText<288>::bswap() {
     header.bswap();
 }
 

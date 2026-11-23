@@ -1,5 +1,4 @@
 #include "types.h"
-#include "pso/unk/TLobby_801DEFC4.h"
 #include "pso/network/TProtocol_801E08CC.h"
 #include "pso/network/TProtocol.h"
 #include "pso/system/byteswap.h"
@@ -17,9 +16,9 @@ void TTradeList::bswap() {
         items[i].bswap();
     }
 }
-void TLobby__sub_801DF024(void *p) { ((packet_header *)p)->bswap(); }
+template <> void TPlyText<172>::bswap() { header.bswap(); }
 void TRecvInfoBoard::bswap() { header.bswap(); }
-void TLobby__sub_801DF064(void *p) { ((packet_header *)p)->bswap(); }
+template <> void TPlyText<512>::bswap() { header.bswap(); }
 void TBlockedSenders::bswap() {
     header.bswap();
     for (int i = 0; i < 30; ++i) {

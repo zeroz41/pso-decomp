@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include "pso/network/TProtocol.h"
-#include "pso/unk/TLobby_801DEFC4.h"
 #include "pso/unk/TLobby.h"
 #include <stddef.h>
 LAYOUT_ASSERT(TradeResultCallbackOffset, offsetof(TProtocol, m_recv_handlers) + offsetof(recv_packet_handlers, handle_D4_trade_result_packet) == 0xBC9C);
@@ -42,20 +41,6 @@ struct VObj_18_801DA4A0 : VBase_18_801DA4A0 {
 
 
 #include <string.h>
-struct Pkt_801DA548 {
-    u8 cmd;
-    u8 flag;
-    u16 size;
-    char text[0xac];
-};
-
-struct Pkt_801DA734 {
-    u8 cmd;
-    u8 flag;
-    u16 size;
-    char text[0x1fc];
-};
-
 extern "C" {
 void send_trade_list__6TLobbyFPvPv(VObj_18_801DA4A0 *obj, TTradeList *src);
 
@@ -124,16 +109,16 @@ void send_trade_list__6TLobbyFPvPv(VObj_18_801DA4A0 *obj, TTradeList *src) {
 }
 
 void TProtocol::send_text_packet_D9(char *str) {
-    Pkt_801DA548 pkt;
+    TPlyText<172> pkt;
     s32 n;
-    memset(&pkt, 0, 0xB0);
-    pkt.cmd = 0xD9;
-    pkt.flag = 0;
+    memset(&pkt, 0, sizeof(pkt));
+    pkt.header.command = 0xD9;
+    pkt.header.flags = 0;
     char *t = pkt.text;
-    strncpy(t, str, 0xAC);
+    strncpy(t, str, sizeof(pkt.text));
     n = (strlen(t) + 8) & ~3;
-    pkt.size = n;
-    TLobby__sub_801DF024(&pkt);
+    pkt.header.size = n;
+    pkt.bswap();
     send((u8 *)&pkt, n);
 }
 
@@ -167,16 +152,16 @@ void TProtocol::send_disable_auto_reply() {
 }
 void TProtocol::send_text_packet_c7(char *str) {
     if (m_connected != 0) {
-    Pkt_801DA734 pkt;
+    TPlyText<512> pkt;
     s32 n;
-    memset(&pkt, 0, 0x204);
-    pkt.cmd = 0xC7;
-    pkt.flag = 0;
+    memset(&pkt, 0, sizeof(pkt));
+    pkt.header.command = 0xC7;
+    pkt.header.flags = 0;
     char *t = pkt.text;
-    strncpy(t, str, 0x1FF);
+    strncpy(t, str, sizeof(pkt.text) - 1);
     n = (strlen(t) + 8) & ~3;
-    pkt.size = n;
-    TLobby__sub_801DF064(&pkt);
+    pkt.header.size = n;
+    pkt.bswap();
     send((u8 *)&pkt, n);
     }
 }
