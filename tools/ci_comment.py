@@ -135,14 +135,16 @@ def render_quality(quality: dict | None, repo: str) -> list[str]:
         return code(label)
 
     rows = [r for r in listed(quality, "categories") if counts(r, "base", "head", "added", "removed")]
-    debt = [r for r in rows if r.get("group") != "ownership"]
+    debt = [r for r in rows if r.get("group") not in ("ownership", "advisory")]
     owned = [r for r in rows if r.get("group") == "ownership"]
+    advisory = [r for r in rows if r.get("group") == "advisory"]
     base, after, added, removed = total
     files = number(quality.get("files_changed")) or 0
     total_row = f"| **Total debt** | **{base:,} → {after:,}** | **{removed:,}** | **{added:,}** |"
     owned_title = "**Members in the wrong class**, read from the class declarations (not in the total):"
+    advisory_title = "**Advisory checks**, signs worth a look that also fire on clean code (not in the total):"
     moved = [r for r in debt if changed(r)]
-    if not moved and not any(changed(r) for r in owned):
+    if not moved and not any(changed(r) for r in owned + advisory):
         lines += ["", f"Advisory: never fails a pull request. **No change in any check**; the tree stays at {after:,}."]
     else:
         lines += ["", f"Advisory: never fails a pull request. **Debt {signed(after - base).strip('*')}**: "
@@ -153,11 +155,16 @@ def render_quality(quality: dict | None, repo: str) -> list[str]:
                                       categories=False) + [total_row]
     if any(changed(r) for r in owned):
         lines += ["", owned_title, ""] + quality_table([r for r in owned if changed(r)], categories=False)
+    if any(changed(r) for r in advisory):
+        lines += ["", advisory_title, ""] + quality_table([r for r in advisory if changed(r)], categories=False)
     if debt:   # every check with the tree's count, one click away
-        lines += ["", f"<details><summary>All {len(debt) + len(owned)} checks by category</summary>", ""]
+        lines += ["", f"<details><summary>All {len(debt) + len(owned) + len(advisory)} checks by category"
+                  "</summary>", ""]
         lines += quality_table(debt) + [total_row]
         if owned:
             lines += ["", owned_title, ""] + quality_table(owned, categories=False)
+        if advisory:
+            lines += ["", advisory_title, ""] + quality_table(advisory, categories=False)
         lines.append("</details>")
 
     new = listed(quality, "new")

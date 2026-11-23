@@ -85,30 +85,48 @@ compares your change with the commit it branched from on `master`:
 CI runs the same script on every pull request and adds the result to the CI comment: a table of the checks the
 change moved, with what it removed and added, and every check by category in a collapsed table under it. It never
 fails a pull request. Aim to remove more than you add and to add
-nothing on the lines you write. Every check is an exact pattern, a file name, or a relation read from the
-declarations, so a finding is never a guess. Code that only moves between files or functions counts as neither
-added nor removed.
+nothing on the lines you write. Every debt check is an exact pattern, a file name, or a relation read from the
+declarations, `symbols.txt` and `splits.txt`, so a finding is never a guess. Code that only moves between files or
+functions counts as neither added nor removed.
 
 **Debt**, the total:
 
 | Check | Finds | Write instead |
 |---|---|---|
-| `extern_c`, `local_decl` | `extern "C"` declarations, prototypes and `extern` data written in a source file, of what another file defines | include the owner's header |
+| `extern_c`, `local_decl` | `extern "C"` declarations, prototypes and `extern` data written in a source file (also inside a function body), of what another file defines | include the owner's header |
+| `header_extern_c` | `extern "C"` in a header on a function a C++ unit defines, read from `symbols.txt` and `splits.txt`: `extern "C" void widget_update(TWidget *);` | declare it with C++ linkage, as a member where it is one |
+| `c_name_in_cpp` | functions of C++ units whose symbol in `symbols.txt` is a C name: `widget_update` in `TWidget.cpp` | the CodeWarrior name of the member or C++ function, `update__7TWidgetFv` |
+| `self_param` | `self` receivers in C++ files: `void widget_update(TWidget *self)` | a member function using `this` |
 | `mangled_member`, `mangled_free`, `mangled_itanium` | hand-mangled names in source: `update__6TEnemyFv(p)` | the member: `p->update()` |
 | `flat_name` | members spelled as C names: `TEnemy__update(void *self)`, `TEnemy__instance` | a member or static member of the class |
 | `raw_offset`, `offset_cast`, `punned_deref` | `(u8 *)p + 0x30`, `(Vec *)(p + 0x178)`, `*(f32 *)(p + 0x18)`, `*(s32 *)&x` | a field of the right type |
-| `offset_member` | fields named after their offset: `unk_30`, `m_30c`, `field_96`, `set_field_378` | a name from evidence, or `pad_<offset>` for bytes nothing uses |
+| `offset_member` | fields named after their offset: `unk_30`, `m_30c`, `field_96`, `set_field_378`, `p->x7A`, `s.f3A` | a name from evidence, or `pad_<offset>` for bytes nothing uses |
+| `pad_access` | `pad_<offset>` fields the code reads or writes: `p->pad_3E = 0` | a named field: bytes the code uses are not padding |
+| `size_assert`, `blob_type` | hand-written `typedef char check[sizeof(T) == 8 ? 1 : -1];`, size-named copy types `struct Bytes_28 { u8 b[0x28]; };` | `LAYOUT_ASSERT` from `types.h`; the real type being copied |
 | `fp_cast`, `string_cast` | calls through function-pointer casts, string literals cast to integers: `(saddr)"file.gvm"` | a declared function or a typed pointer; a `const char *` parameter |
+| `this_alias`, `alias_macro`, `ptr_int_roundtrip` | `TWidget *self = (TWidget *)this;`, lower-case object macros `#define obj ((T *)this)`, pointers round-tripped through integers `(T *)(u32)p` | `this` and the class's fields; real declarations; the pointer's real type |
 | `decomp_temp`, `stack_local`, `arg_name`, `ghidra_temp`, `ghidra_type`, `m2c_macro` | `temp_r3`, `sp1C`, `arg0`, `iVar1`, `undefined4`, `M2C_FIELD` | names for what they hold, real types |
-| `address_comment` | comments naming an address in the executable: `// moved from 0x8043E828` | nothing; see the comment rule below |
-| `data_label`, `function_placeholder`, `address_in_name`, `address_type` | names built from addresses: `lbl_8045A010`, `fn_80123456`, `TEnemy__sub_80123456`, `TUnk_804806E8` | a name from evidence; without evidence, keep the placeholder |
+| `register_name`, `decomp_label`, `permuter_var`, `no_op` | register-style names `f32 f31;` and `u16 f4;`, `goto block_12;`, `new_var2`, `phi_r3`, `x = x;`, `if (1)` | names for what they hold, structured control flow, nothing |
+| `address_comment` | comments naming an address in the executable or a placeholder: `// moved from 0x8043E828`, `// was fn_80123456` | nothing; see the comment rule below |
+| `data_label`, `function_placeholder`, `address_in_name`, `address_type`, `address_ident` | names built from addresses: `lbl_8045A010`, `fn_80123456`, `TEnemy__sub_80123456`, `TUnk_804806E8`, and any other identifier holding one, `Thing_80123456` | a name from evidence; without evidence, keep the placeholder |
 | `vtable_symbol`, `hand_vtable`, `filler_virtual`, `slot_name`, `local_virtual` | vtables written by hand, `vfunc_67`, virtual functions declared in a source file | virtual functions declared in the class's header |
-| `address_unit` | units named after an address: `TEnemy_80123456.cpp`, a piece of code not yet in the unit that owns it | fold it into its unit, or name the unit from evidence |
+| `address_unit` | units and headers named after an address: `TEnemy_80123456.cpp`, `TEnemy_80123456.h`, a piece of code not yet in the unit that owns it | fold it into its unit, or name the unit from evidence |
 | `local_class`, `duplicate_class` | classes declared in a C++ source file, and classes declared in more than one file: stand-in views such as `struct EnemyView { u8 pad_0[0x30]; f32 speed; };` | one declaration per class, in its header; a view's fields belong in the class it views |
 | `retype_macro`, `inline_asm` | `#define` re-typings of globals, assembly in source | real declarations; see the assembly rule below |
 
 C files may keep a struct that only that file uses, so `local_class` counts C++ source files, and a name declared
 only in C files is not a duplicate.
+
+**Advisory**, reported next to the total, not in it: signs worth a look that also fire on clean code.
+
+| Check | Finds | Why it is not debt |
+|---|---|---|
+| `offset_suffix_name` | names ending in an offset or a hex number: `get_flag_c8`, `value_2e` | real names end in numbers too (`state_2`, `mtx44`) |
+| `cast_call` | member calls through a cast: `((T *)p)->update()` | a downcast to the right class is real code |
+| `zero_u_compare` | `p != 0U` | m2c's spelling, but also how a `u32` test is written |
+| `pad_shape` | padding arrays: `u8 reserved[8];`, `u8 pad30[0x34 - 0x30];` | most padding is real; `pad_access` counts the padding the code uses |
+| `offset_symbol` | symbols in `symbols.txt` named after an offset: `set_field_1c__7TWidgetFv` | the source name is already counted; this is the symbol it produces |
+| `void_ptr_param` | `void *` parameters in member symbols: `create__7TWidgetFPv` | many APIs really take `void *` |
 
 **Members in the wrong class** are reported next to the total, not in it:
 
@@ -120,8 +138,8 @@ only in C files is not a duplicate.
   `TEnemy__set_task((char *)this + 0x3C, task)`. It is a member of whatever object lives at that offset:
   declare the field with its class and call `tasks.set_task(task)`.
 
-**Symbols.** Renamed or new names in `symbols.txt` are flagged when they are flat C names, still built from an
-address, or members of a class still named after one. A member's symbol is its CodeWarrior name,
+**Symbols.** Renamed or new names in `symbols.txt` are flagged when they are flat C names, C names of functions in
+a C++ unit, still built from an address, or members of a class still named after one. A member's symbol is its CodeWarrior name,
 `poll_default__9TLoadCtrlFv`, which the compiler produces once the function is a real member. New or renamed
 symbols that leave a `force_active` entry in `config.yml` naming nothing are listed too: rename both together.
 
