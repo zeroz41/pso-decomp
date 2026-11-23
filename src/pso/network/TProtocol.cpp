@@ -438,12 +438,10 @@ struct Pkt_801DC084 {
 
 extern "C" {
 void bswap__12TRecvPsoDataFv(void *);
-extern const char TProtocol__send_pso_data2_log_format[21] = "SndPsoData2 %d %d %d";
-extern const char TProtocol__send_pso_data_log_format[17] = "SndPsoData %d %d";
 
 void TProtocol::send_pso_data2(u32 flags, game_command &packet, u32 size) {
     char buf[0x80];
-    sprintf(buf, TProtocol__send_pso_data2_log_format, packet.header.command, size, flags);
+    sprintf(buf, "SndPsoData2 %d %d %d", packet.header.command, size, flags);
     if (this->m_connected != 0) {
         Pkt_801DC084 pkt;
         int packet_size;
@@ -459,7 +457,7 @@ void TProtocol::send_pso_data2(u32 flags, game_command &packet, u32 size) {
 
 void TProtocol::send_pso_data(game_command &packet, u32 size) {
     char buf[0x80];
-    sprintf(buf, TProtocol__send_pso_data_log_format, packet.header.command, size);
+    sprintf(buf, "SndPsoData %d %d", packet.header.command, size);
     if (this->m_connected != 0) {
         Pkt_801DC084 pkt;
         int packet_size;
