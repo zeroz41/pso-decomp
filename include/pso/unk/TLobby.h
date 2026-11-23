@@ -575,6 +575,8 @@ struct TLobby : public TObject {
     s32 get_table_entry_by_index();
     static void open_challenge_window(s32 arg0, s32 arg1);
     void open_challenge_progress_window(void *arg1);
+    void show_challenge_record_window(s32 mode);
+    void clear_challenge_record_window();
     static s32 get_flagged_table_entry(s32 arg0);
     static s32 get_flag_value_if_set();
     void add_status_disp_entry(s32 arg1, s32 arg2);

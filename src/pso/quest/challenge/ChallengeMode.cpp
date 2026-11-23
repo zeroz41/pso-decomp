@@ -86,7 +86,6 @@ struct Q_80070078 { u8 pad[0x48]; s32 x48; };
 struct L_80070078 { u8 pad[0x2C]; s32 x2C; };
 extern "C" {
 extern s32 local_client_id;
-void TLobby__sub_800738F4(void *, s32);
 }
 void *create_obj_tag_challenge(void *arg0);
 extern saddr tl_07;
@@ -97,7 +96,6 @@ extern void *challenge_mode_state[];
 void TChallenge__request_missing_challenge_records(L_80070254 *arg0);
 void render__10TChallengeFv(void);
 
-s32 TLobby__sub_800739BC(void *);
 s32 TLobby__sub_8026A328();
 
 
@@ -391,7 +389,7 @@ void TLobby::set_challenge_record_page(s32 v) {
         return;
     }
     if ((*(G_80070024 *)&challenge_mode_state).x48 != v) {
-        TLobby__sub_800738F4(this, v);
+        show_challenge_record_window(v);
         (*(G_80070024 *)&challenge_mode_state).x48 = v;
     }
 }
@@ -544,7 +542,7 @@ void TChallenge::wait_for_quest() {
         TLobby::update_quest_challenge_state(arg0);
         if (is_quest_active() != 0) {
             ((s32)TAdSinglePlyChrSelectGC::init());
-            ((s32)TLobby__sub_800739BC(arg0));
+            ((TLobby *)arg0)->clear_challenge_record_window();
             ((s32)TLobby__sub_8026A328());
             TObjWarnChime::create((TObject*)arg0);
             this->state = 2;
