@@ -85,9 +85,9 @@ void TLobby::send_simple_mail(s32 arg0, void *src) {
 }
 
 void TLobby__sub_802258C8(void) {
-  s32 var_r31;
+  s32 i;
   ShortMailEntry *entry;
-  var_r31 = 0;
+  i = 0;
   entry = lbl_80513F70;
   do
   {
@@ -95,10 +95,10 @@ void TLobby__sub_802258C8(void) {
     {
       entry->clear_unread();
     }
-    var_r31 += 1;
+    i += 1;
     entry++;
   }
-  while (var_r31 < 8);
+  while (i < 8);
 }
 
 ShortMailEntry *TLobby::find_short_mail_by_id(u32 id) {

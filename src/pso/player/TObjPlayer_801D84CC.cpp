@@ -175,14 +175,14 @@ void*TObjPlayer::init_inventory() { TObjPlayer::init_inventory_items((s32)((sadd
 
 s32 TObjPlayer::init_inventory_items(saddr arg0) {
     s32 var_r30;
-    s32 var_r31;
+    s32 i;
 
-    var_r31 = 0;
+    i = 0;
     var_r30 = 0;
     do {
         ((TPlyInventoryItem *)(arg0 + var_r30))->init();
-        var_r31 += 1;
+        i += 1;
         var_r30 += 0x1C;
-    } while (var_r31 < 2);
+    } while (i < 2);
     return arg0;
 }

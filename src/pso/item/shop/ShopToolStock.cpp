@@ -425,7 +425,7 @@ void TLobby::generate_shop_inventory(s32 idx) {
 }
 
 void TLobby::free_all_rocks() {
-    s32 var_r28 = 3;
+    s32 i = 3;
     saddr *var_r29 = shop_tool_stock_buffers;
     s32 var_r30 = 0;
     s32 var_r31 = 3;
@@ -435,9 +435,9 @@ void TLobby::free_all_rocks() {
             mem_free((void *)v);
             var_r29[var_r31] = (s32)var_r30;
         }
-        var_r28 -= 1;
+        i -= 1;
         var_r31 -= 1;
-    } while (var_r28 >= 0);
+    } while (i >= 0);
     if ((u32) lobby_tool_random_rel != 0U) {
         TLobby::free_nodes_with_id(lobby_tool_random_rel);
         lobby_tool_random_rel = var_r30;

@@ -726,17 +726,17 @@ void TTecLuker::create_for_player(int arg0, saddr arg1) {
 }
 
 void TTecLuker::apply_all_players() {
-    s32 var_r31;
+    s32 i;
     uaddr player;
 
-    var_r31 = 0;
+    i = 0;
     do {
-        player = (uaddr)get_player_by_client_id(var_r31);
+        player = (uaddr)get_player_by_client_id(i);
         if (player != 0U) {
             reset_telepipe_record((O_802340A0 *)(player + 0x830));
         }
-        var_r31 += 1;
-    } while (var_r31 < 4);
+        i += 1;
+    } while (i < 4);
 }
 
 TUnk_804CC9D4::TUnk_804CC9D4(Vec *pos, TObject *parent, s32 always) : TObjCollidable(parent) {

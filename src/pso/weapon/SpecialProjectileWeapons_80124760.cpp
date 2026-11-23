@@ -84,7 +84,7 @@ saddr drill_launcher_create_shot(saddr owner, saddr pos, saddr dir, f32 life) {
 void TUnk_804A2164::emit_marker_effects() {
     Vec origin;
     saddr temp_r31;
-    s32 var_r30;
+    s32 i;
     if (projectile_visible == 1) {
         TItemAttacker::spawn_item_timer(this, (ItemTimerCallback)drill_launcher_return_timer, 0x1E);
         projectile_visible = 0;
@@ -92,11 +92,11 @@ void TUnk_804A2164::emit_marker_effects() {
     recoil_phase = 2;
     temp_r31 = (saddr)owner + 0x7CC;
     if (get_burst_counter((void*)temp_r31) == 0) {
-        var_r30 = 0;
+        i = 0;
         do {
             increment_burst_counter((u8 *)temp_r31);
-            var_r30 += 1;
-        } while (var_r30 != 2);
+            i += 1;
+        } while (i != 2);
     }
     get_gun_point(&origin);
     if (is_mode_two_and_ready() != 0) {

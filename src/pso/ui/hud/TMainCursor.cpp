@@ -1039,16 +1039,16 @@ s32 quick_sort_partition__11TMainCursorFiPvii(saddr self, Ent_8013C678 *a, s32 l
 
 void TMainCursor::reset_cursor_parts() {
     u8 *arg0 = (u8 *)this;
-    s32 var_r30;
+    s32 i;
 
     TMainCursor__sub_8013F170(((u8 *)&this->m_40), 0);
-    var_r30 = 0;
+    i = 0;
     *(f32 *)((s8 *)arg0 + 0x18) = (f32) TMainCursor__data_805DB0C0;
     do {
-        ((TMainCursor *)TMainCursor::get_record_at((u8 *)&this->m_40, var_r30))->set_size(TMainCursor__data_805DB0C0);
-        set_cursor_id__11TMainCursorFs((void *)TMainCursor::get_record_at((u8 *)&this->m_40, var_r30), 0xFFFF);
-        var_r30 += 1;
-    } while (var_r30 < 0xA);
+        ((TMainCursor *)TMainCursor::get_record_at((u8 *)&this->m_40, i))->set_size(TMainCursor__data_805DB0C0);
+        set_cursor_id__11TMainCursorFs((void *)TMainCursor::get_record_at((u8 *)&this->m_40, i), 0xFFFF);
+        i += 1;
+    } while (i < 0xA);
 }
 
 extern "C" {

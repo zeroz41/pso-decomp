@@ -1281,15 +1281,15 @@ extern s32 lbl_805D6EA0;
 
 void TUnk_804AF7B0::run_task() {
     s32 temp_r0;
-    saddr temp_r31;
+    saddr up;
 
-    temp_r31 = (saddr)m_up;
-    if (((TObjFogCollisionPoison *)temp_r31)->check_switch() != 0) {
-        if (((TObjFogCollision *)temp_r31)->check_collision(client) != 0) {
-            ((TObjFogCollisionPoison *)temp_r31)->record_poison_hit(client);
+    up = (saddr)m_up;
+    if (((TObjFogCollisionPoison *)up)->check_switch() != 0) {
+        if (((TObjFogCollision *)up)->check_collision(client) != 0) {
+            ((TObjFogCollisionPoison *)up)->record_poison_hit(client);
             damage_timer++;
             if (damage_timer >= damage_interval) {
-                ((TObjFogCollisionPoison *)temp_r31)->apply_poison_damage(client);
+                ((TObjFogCollisionPoison *)up)->apply_poison_damage(client);
                 damage_timer = 0;
                 damage_interval = 0x1E;
             }
@@ -1300,11 +1300,11 @@ void TUnk_804AF7B0::run_task() {
         }
         temp_r0 = contact_ticks;
         if (temp_r0 == 1) {
-            TObjFogCollisionPoison__sub_801535D0(temp_r31);
+            TObjFogCollisionPoison__sub_801535D0(up);
             return;
         }
         if (temp_r0 > 0x3C) {
-            TObjFogCollisionPoison__sub_80153520(temp_r31);
+            TObjFogCollisionPoison__sub_80153520(up);
         }
     }
 }

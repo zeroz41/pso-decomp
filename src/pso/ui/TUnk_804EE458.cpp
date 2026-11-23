@@ -89,7 +89,7 @@ void TUnk_804EE458::render() {
     u8 *arg0 = (u8 *)this;
     s32 temp_r0;
     s32 temp_r31;
-    s32 var_r31;
+    s32 i;
     if (TMainTask::get_render_pass() != 0) {
         TParticleCtrl::begin_effect_render();
         TCameraCtrl::restore_full_screen_view();
@@ -103,11 +103,11 @@ void TUnk_804EE458::render() {
         }
         temp_r0 = state;
         if ((temp_r0 == 1) || (temp_r0 == 2)) {
-            var_r31 = 0xB;
+            i = 0xB;
             do {
-                draw_record_with_camera(var_r31, var_r31);
-                var_r31 += 1;
-            } while (var_r31 != 0xF);
+                draw_record_with_camera(i, i);
+                i += 1;
+            } while (i != 0xF);
             bind_title_texture_list();
             set_additive_blend();
             temp_r31 = sub_8033596C();

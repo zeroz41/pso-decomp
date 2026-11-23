@@ -591,21 +591,21 @@ void TLobby::clamp_and_store_layout_index(s32 arg0) {
 
 s32 TLobby__sub_8029299C(void) {
     s32 var_r31;
-    u32 var_r30;
+    u32 i;
     u8 *player;
     if ((u32) challenge_retry_object == 0U) {
         return 0;
     }
     var_r31 = 0;
-    var_r30 = 0;
+    i = 0;
     do {
-        player = (u8 *)(((saddr)get_player_by_client_id(var_r30)));
+        player = (u8 *)(((saddr)get_player_by_client_id(i)));
         if ((player != NULL) && (((int)((TLobby *)player)->check_player_state_flag_2()) != 0)) {
-            TLobby__sub_80293218((s32) var_r30);
+            TLobby__sub_80293218((s32) i);
             var_r31 = 1;
         }
-        var_r30 += 1;
-    } while ((s32) var_r30 < 4);
+        i += 1;
+    } while ((s32) i < 4);
     if (var_r31 != 0) {
         *(s32 *)((s8 *)&lbl_804DB1F0 + 0x20) = 1;
         return 1;
@@ -743,19 +743,19 @@ s32 TLobby__sub_80292BB8(s32, u16, s32);
 s32 TLobby::calc_min_challenge_progress() {
     s32 temp_r3;
     s32 var_r31;
-    s32 var_r30;
+    s32 i;
 
     var_r31 = TWindowSubStatusDisp::get_layout_id(TWindowSubStatusDisp::resolve_player_slot(-1));
-    var_r30 = 0;
+    i = 0;
     do {
-        if (get_player_by_client_id(var_r30) != NULL) {
-            temp_r3 = count_card_layout_entries(var_r30);
+        if (get_player_by_client_id(i) != NULL) {
+            temp_r3 = count_card_layout_entries(i);
             if (var_r31 > temp_r3) {
                 var_r31 = temp_r3;
             }
         }
-        var_r30 += 1;
-    } while (var_r30 < 4);
+        i += 1;
+    } while (i < 4);
     return var_r31;
 }
 s32 TLobby__sub_80292DA0(s32 seed, u16 card) {
@@ -948,7 +948,7 @@ void setup_split_screen(void);
 #define lbl_804DB1F0 (*(s32 (*)[422])lbl_804DB1F0)
 
 void setup_split_screen(void) {
-    u32 var_r31;
+    u32 i;
     u32 player;
     u32 char_index;
 
@@ -967,15 +967,15 @@ void setup_split_screen(void) {
         split_screen_challenge_created = 1;
         split_screen_flag = 0;
         ((TLobby *)((saddr)"Area00"))->set_split_screen_name();
-        var_r31 = 0U;
+        i = 0U;
         do {
-            player = (uaddr)get_player_by_client_id(var_r31);
-            char_index = (u32)TAdSinglePlyChrSelectGC::get_char_index(var_r31);
+            player = (uaddr)get_player_by_client_id(i);
+            char_index = (u32)TAdSinglePlyChrSelectGC::get_char_index(i);
             if ((player != 0U) && (char_index != 0U)) {
                 export_character_data__10TObjPlayerFPvPv(player, char_index);
             }
-            var_r31 += 1;
-        } while (var_r31 != 4U);
+            i += 1;
+        } while (i != 4U);
     }
 }
 extern "C" {

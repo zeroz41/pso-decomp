@@ -102,7 +102,7 @@ TObjNewFloorWin::TObjNewFloorWin(TObject *object, void *arg2) : TObject(object) 
 }
 
 u8 *TLobby::create_new_floor_windows() {
-  uaddr var_r30;
+  uaddr i;
   u8 *temp_r3;
   u8 *temp_r3_2;
   u8 *var_r0;
@@ -120,23 +120,23 @@ u8 *TLobby::create_new_floor_windows() {
     return var_r0;
   }
   var_r31 = (u8 *) 0;
-  var_r30 = 0;
+  i = 0;
   do
   {
-    if (get_player_by_client_id(var_r30) != NULL)
+    if (get_player_by_client_id(i) != NULL)
     {
       temp_r3_2 = (u8 *) TObject::operator new(0x50);
       var_r0_2 = (u8 *) temp_r3_2;
       if (var_r0_2 != 0)
       {
-        var_r31 = ((u8 *)__ct__15TObjNewFloorWinFP7TObjectPv((void *)temp_r3_2, (void *)arg0, (void *)((saddr) var_r30)));
+        var_r31 = ((u8 *)__ct__15TObjNewFloorWinFP7TObjectPv((void *)temp_r3_2, (void *)arg0, (void *)((saddr) i)));
         var_r0_2 = (u8 *) var_r31;
       }
       var_r31 = (u8 *) var_r0_2;
     }
-    var_r30 += 1;
+    i += 1;
   }
-  while (((s32) var_r30) < 4);
+  while (((s32) i) < 4);
   return var_r31;
 }
 

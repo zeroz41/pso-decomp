@@ -501,15 +501,15 @@ void TWindowMenuMainMenu::update_scaled_position() {
 
 void TWindowMainMenu::draw_entries_reversed(u8 *frame) {
     saddr arg0 = (saddr)this;
-    s32 var_r31;
+    s32 i;
     u8 *var_r30;
     var_r30 = (u8 *)(arg0 + 0x10C);
-    var_r31 = 0;
+    i = 0;
     do {
         ((void (*)(void *, void *))draw_item_labels__15TWindowMainMenuFv)(var_r30, frame);
-        var_r31 += 1;
+        i += 1;
         var_r30 -= 0x18;
-    } while (var_r31 < 8);
+    } while (i < 8);
 }
 
 extern s32 hud_texlist;

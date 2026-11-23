@@ -69,15 +69,15 @@ u8 TObjPlayer::get_castable_technique_level() {
 }
 
 void TObjPlayer::update_all_units(s32 levels, s32 level) {
-    s32 var_r31;
+    s32 i;
 
-    var_r31 = 0;
+    i = 0;
     do {
-        if (is_invalid_slot__10TObjPlayerFUc(get_cast_technique_level(levels, (s16) var_r31)) == 0) {
-            set_technique_level_entry(levels, (s16) var_r31, level);
+        if (is_invalid_slot__10TObjPlayerFUc(get_cast_technique_level(levels, (s16) i)) == 0) {
+            set_technique_level_entry(levels, (s16) i, level);
         }
-        var_r31 += 1;
-    } while (var_r31 < 0x13);
+        i += 1;
+    } while (i < 0x13);
 }
 
 void TObjPlayer::level_up_all_techniques(s32 add) {

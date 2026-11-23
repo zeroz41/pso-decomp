@@ -120,17 +120,17 @@ void TObjLazerFence4::draw_model() {
   void **new_var;
   u16 *new_var2;
   s32 var_r31;
-  s32 var_r30;
-  var_r30 = 0;
+  s32 i;
+  i = 0;
   new_var2 = (u16 *) (((s8 *) arg0) + 0xB8);
   var_r31 = 0;
   do
   {
     set_ginja_model_texture_slot(reinterpret_cast<void *>((*((s32 *) ((arg0 + var_r31) + 0xC8)))), (*new_var2));
-    var_r30 += 1;
+    i += 1;
     var_r31 += 4;
   }
-  while (var_r30 < 0xC);
+  while (i < 0xC);
   TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(lazer_fence_norm_texture_list));
   push_matrix();
   post_translate_matrix((u8 *)&this->position);

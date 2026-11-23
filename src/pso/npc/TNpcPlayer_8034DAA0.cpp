@@ -547,16 +547,16 @@ void quest_remove_npc_player(u16 client) {
 }
 
 void TNpcPlayer::enable_all_battle_ctrl() {
-    s32 var_r31;
+    s32 i;
     void *player;
-    var_r31 = 0;
+    i = 0;
     do {
-        player = (void *)get_player_by_client_id(var_r31);
+        player = (void *)get_player_by_client_id(i);
         if ((player != NULL) && (((TObjChara *)player)->obj_isState3_324() != 0) && (player != NULL)) {
             ((VObj_8034E440*)player)->m0(1);
         }
-        var_r31 += 1;
-    } while (var_r31 < 4);
+        i += 1;
+    } while (i < 4);
 }
 
 void TNpcPlayer::disable_partner_chatter() { lbl_805D6EA0 = (lbl_805D6EA0 | 0x2); }
@@ -703,30 +703,30 @@ void set_partner_common_remark(s32 kind, const char *text) {
 
 
 void TObjPlayer::update_4p_battle_ctrls() {
-    s32 var_r31;
+    s32 i;
     uaddr player;
 
-    var_r31 = 0;
+    i = 0;
     do {
-        if ((player = ((saddr)get_player_by_client_id(var_r31))) != 0) {
+        if ((player = ((saddr)get_player_by_client_id(i))) != 0) {
             TObjPlayer::send_item_pickup_request(player);
         }
-        var_r31 += 1;
-    } while (var_r31 < 4);
+        i += 1;
+    } while (i < 4);
 }
 
 void TObjPlayer::notify_all_battle_players() {
     s32 tmp_player;
-    s32 var_r31;
+    s32 i;
     uaddr player;
 
-    var_r31 = 0;
+    i = 0;
     do {
-        if ((tmp_player = (saddr)get_player_by_client_id(var_r31)) != 0U) {
+        if ((tmp_player = (saddr)get_player_by_client_id(i)) != 0U) {
             TObjPlayer::notify_field1c(tmp_player);
         }
-        var_r31 += 1;
-    } while (var_r31 < 4);
+        i += 1;
+    } while (i < 4);
 }
 
 s32 TTecReverser::is_active() {
@@ -783,12 +783,12 @@ TUnk_804F07C8::TUnk_804F07C8(TObject *parent) : TObject(parent) {
 }
 
 TUnk_804F07C8::~TUnk_804F07C8() {
-  s32 var_r31;
+  s32 i;
   u8 *player;
-  var_r31 = 0;
+  i = 0;
     do
     {
-      player = (u8 *) get_player_by_client_id(var_r31);
+      player = (u8 *) get_player_by_client_id(i);
       if (player != 0)
       {
         if (reinterpret_cast<TObjPlayer *>(player)->is_script_controlled() != 0)
@@ -804,9 +804,9 @@ TUnk_804F07C8::~TUnk_804F07C8() {
           PSO_VCALL_VObj_18_dac7f3_m0(player, 1);
         }
       }
-      var_r31 += 1;
+      i += 1;
     }
-    while (var_r31 < 4);
+    while (i < 4);
 }
 
 void TUnk_804F07C8::run_task() {  }

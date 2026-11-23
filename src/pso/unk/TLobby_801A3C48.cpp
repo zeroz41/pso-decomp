@@ -554,7 +554,7 @@ void change_floor_reload_area(void) {
 
 void cleanup_online_lobby_scene(void) {
     s32 *var_r3;
-    s32 var_r31;
+    s32 i;
     TLobby::stop_audio_streams();
     TLobby::update_lobby_subsystems();
     TLobby::send_logout();
@@ -568,11 +568,11 @@ void cleanup_online_lobby_scene(void) {
     var_r3 = (s32 *)tl_su;
     ((TObject *)var_r3)->delete_children();
     PPCSync();
-    var_r31 = 0;
+    i = 0;
     do {
         render_tick();
-        var_r31 += 1;
-    } while (var_r31 < 0x1E);
+        i += 1;
+    } while (i < 0x1E);
     cleanup__6TLobbyFv();
     if ((s32) online_lobby_scene_handle == 0) {
         var_r3 = (s32 *)&floor_transition_state;

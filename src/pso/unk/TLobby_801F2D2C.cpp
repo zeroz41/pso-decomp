@@ -289,16 +289,16 @@ int TLobby::copy_position() { return VecCopy__FP3VecPC3Vec(this); }
 void TLobby::bswap_entry_words(s32 arg0) {
     s32 var_r31;
     saddr temp_r30;
-    s32 var_r29;
-    var_r29 = 0;
+    s32 i;
+    i = 0;
     var_r31 = 0;
     do {
         temp_r30 = arg0 + var_r31;
         bswap_32__FPUl((void*)temp_r30);
         bswap_32__FPUl((void*)(temp_r30 + 0x18));
-        var_r29 += 1;
+        i += 1;
         var_r31 += 4;
-    } while (var_r29 < 6);
+    } while (i < 6);
 }
 #pragma pop
 

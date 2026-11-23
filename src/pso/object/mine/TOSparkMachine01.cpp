@@ -51,13 +51,13 @@ void TOSparkMachine01::update_spark_toggle(s32 i) {
 }
 
 void TOSparkMachine01::run_task() {
-    s32 var_r31;
+    s32 i;
     if (0.0f < this->scale.y) {
-        var_r31 = 0;
+        i = 0;
         do {
-            update_spark_toggle(var_r31);
-            var_r31 += 1;
-        } while (var_r31 < 4);
+            update_spark_toggle(i);
+            i += 1;
+        } while (i < 4);
         return;
     }
     spark_on[3] = 0;

@@ -104,27 +104,27 @@ s32 THunterGuildSeqOffline::check_party_gathered() {
 void TMemberCheck::update_member_proximity() {
     saddr temp_r31;
     saddr player;
-    s32 var_r30;
+    s32 i;
     if (this->m_1C != 0U) {
         temp_r31 = (saddr)get_player_by_client_id(designated_client_id);
-        var_r30 = 0;
+        i = 0;
         do {
-            if (var_r30 != (s32) designated_client_id) {
-                player = (saddr)get_player_by_client_id(var_r30);
+            if (i != (s32) designated_client_id) {
+                player = (saddr)get_player_by_client_id(i);
                 if (player != 0) {
                     if (xz_distance_squared((void *)(temp_r31 + 0x38), (void *)(player + 0x38)) <= 625.0f) {
-                        ((THunterGuildSeqOffline *)(this->m_1C))->advance_matching_entries(1, var_r30);
+                        ((THunterGuildSeqOffline *)(this->m_1C))->advance_matching_entries(1, i);
                     } else {
-                        ((THunterGuildSeqOffline *)(this->m_1C))->advance_matching_entries(0, var_r30);
+                        ((THunterGuildSeqOffline *)(this->m_1C))->advance_matching_entries(0, i);
                     }
                 } else {
-                    ((THunterGuildSeqOffline *)(this->m_1C))->advance_matching_entries(0, var_r30);
+                    ((THunterGuildSeqOffline *)(this->m_1C))->advance_matching_entries(0, i);
                 }
             } else {
-                ((THunterGuildSeqOffline *)(this->m_1C))->advance_matching_entries(1, var_r30);
+                ((THunterGuildSeqOffline *)(this->m_1C))->advance_matching_entries(1, i);
             }
-            var_r30 += 1;
-        } while (var_r30 < 4);
+            i += 1;
+        } while (i < 4);
     }
 }
 void TMemberCheck::open_member_name_window() {

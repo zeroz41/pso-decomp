@@ -17,18 +17,18 @@ s32 set_story_flag_or_send_quest_flag(s32);
 LAYOUT_ASSERT(Induction_80219EE8_var_r31_size_check, sizeof(Induction_80219EE8_var_r31) == 0x8);
 s32 should_record_episode1_quest_completion(void) {
     s32 var_r29;
-    s32 var_r28;
+    s32 i;
     if (get_story_flag(0x3FE) == 1) {
         return 0;
     }
     var_r29 = 1;
-    var_r28 = 0;
+    i = 0;
         do {
-        if (get_story_flag((*(s32 *)((s8 *)(((saddr)&((Induction_80219EE8_var_r31 *)episode1_story_quest_flag_pairs)[var_r28])) + 4))) == 0) {
+        if (get_story_flag((*(s32 *)((s8 *)(((saddr)&((Induction_80219EE8_var_r31 *)episode1_story_quest_flag_pairs)[i])) + 4))) == 0) {
             var_r29 = 0;
         }
-        var_r28 += 1;
-    } while (var_r28 < 0x1A);
+        i += 1;
+    } while (i < 0x1A);
     return var_r29;
 }
 s32 are_all_story_quests_complete(void) {
@@ -53,17 +53,17 @@ s32 are_all_story_quests_complete(void) {
     return 1;
 }
 void clear_episode1_quest_availability(void* unusedDifficulty) {
-    s32 var_r29;
+    s32 i;
     const s32 *var_r30;
     s32 var_r31;
-    var_r29 = 0;
+    i = 0;
     var_r30 = episode1_story_quest_flag_pairs;
     var_r31 = 0;
     do {
         clear_story_flag(var_r30[var_r31]);
-        var_r29 += 1;
+        i += 1;
         var_r31 += 2;
-    } while (var_r29 < 0x1A);
+    } while (i < 0x1A);
 }
 void apply_story_quest_unlock_rules(void* unusedDifficulty) {
     set_story_flag_or_send_quest_flag(0x64);

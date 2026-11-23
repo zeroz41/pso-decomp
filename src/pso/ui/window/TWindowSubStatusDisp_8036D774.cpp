@@ -118,12 +118,12 @@ void TWindowSubStatusDisp__sub_8036D994(void) {
 #pragma pop
 
 void TWindowSubStatusDisp::draw_bottom_bar() {
-  s32 var_r31;
+  s32 i;
   f32 buffer_8[8];
   begin_screen_draw(1);
   TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>((void *) TBGMulti__textures));
   set_draw_texture_and_color(0, -1);
-  var_r31 = 0;
+  i = 0;
   ;
   buffer_8[0] = (0.0f);
   buffer_8[1] = (352.0f);
@@ -136,11 +136,11 @@ void TWindowSubStatusDisp::draw_bottom_bar() {
   do
   {
     draw_textured_quad_at_depth((&buffer_8[0]), (f32) (0.5f));
-    var_r31 += 1;
+    i += 1;
     buffer_8[0] += (64.0f);
     buffer_8[2] += (64.0f);
   }
-  while (var_r31 < 0xA);
+  while (i < 0xA);
   TWindowSubStatusDisp::get_player();
 }
 void TWindowSubStatusDisp::draw_split_screen_hud() {

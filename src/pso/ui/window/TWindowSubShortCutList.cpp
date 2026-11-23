@@ -30,12 +30,12 @@ s32 get_symbol_chat_data__20TWindowSubSymbolChatFv();
 void TWindowSubShortCutList::refresh_entries() {
     s32 *chat_shortcut;
     s32 temp_r0;
-    s32 var_r30;
+    s32 i;
     s32 index;
     save_cursor_selection();
     reset_list();
     index = storage->get_type();
-    var_r30 = 0;
+    i = 0;
     index *= 4;
     do {
         chat_shortcut = (s32 *)get_chat_shortcut(index);
@@ -58,9 +58,9 @@ void TWindowSubShortCutList::refresh_entries() {
             break;
         }
         }
-        var_r30 += 1;
+        i += 1;
         index += 1;
-    } while (var_r30 < 4);
+    } while (i < 4);
     clamp_selection_to_valid_entry();
 }
 

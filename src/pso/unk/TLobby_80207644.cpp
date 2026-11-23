@@ -413,7 +413,7 @@ void TLobby::copy_table_entries(u32 size) {
 void randomize_adventure_maps(void) {
   FloorMapSelection *var_r31;
   s32 main_phase;
-  s32 var_r29;
+  s32 i;
   var_r31 = floor_map_registry;
   TAdStorySelectGC::set_state((saddr)((void*)((*(saddr *)&selected_episode))));
   main_phase = get_main_phase();
@@ -421,7 +421,7 @@ void randomize_adventure_maps(void) {
   {
     main_phase = 0xF;
   }
-  var_r29 = 0;
+  i = 0;
   do
   {
     if (var_r31->area >= 0)
@@ -442,10 +442,10 @@ void randomize_adventure_maps(void) {
           break;
       }
     }
-    var_r29 += 1;
+    i += 1;
     ++var_r31;
   }
-  while (var_r29 < 0x12);
+  while (i < 0x12);
 }
 
 #pragma push

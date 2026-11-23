@@ -266,19 +266,19 @@ void TItemDrop::select_unit_drop(u8 kind, u8 *item) {
 }
 
 void TItemDrop::init_drop_table() {
-    s32 var_r31;
+    s32 i;
     s8 temp_r0;
     u8 *var_r30;
     u8 item_star_count;
     u8 temp_r4;
     u8 temp_r5;
 
-    var_r31 = 0;
+    i = 0;
     var_r30 = TItemDrop__unit_star_classes;
     do {
-        item_star_count = get_item_star_count(var_r31 + 0x2AF);
+        item_star_count = get_item_star_count(i + 0x2AF);
         temp_r5 = item_star_count;
-        var_r31 += 1;
+        i += 1;
         temp_r4 = temp_r5 - 1;
         *(u8 *)((s8 *)var_r30 + 0) = temp_r4;
         temp_r0 = temp_r5 + 1;
@@ -287,11 +287,11 @@ void TItemDrop::init_drop_table() {
         *(s8 *)((s8 *)var_r30 + 3) = temp_r0;
         *(s8 *)((s8 *)var_r30 + 4) = temp_r0;
         var_r30 += 5;
-    } while (var_r31 != 0x10);
-    while (var_r31 != 0x48) {
-        *var_r30 = get_item_star_count(var_r31 + 0x2AF);
+    } while (i != 0x10);
+    while (i != 0x48) {
+        *var_r30 = get_item_star_count(i + 0x2AF);
         var_r30 += 1;
-        var_r31 += 1;
+        i += 1;
     }
 }
 void TItemDrop::count_unit_star_buckets() {

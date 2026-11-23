@@ -496,28 +496,28 @@ void TPlayerBattleCtrl4P::wait_before_recording_results() {
 s32 check_player_flag1__10TObjPlayerFv();
 
 void TPlayerBattleCtrl4P::open_result_windows() {
-  u32 var_r31;
+  u32 i;
   saddr player;
   if (!((saddr)this))
   {
   }
   close_player_windows();
   create_result_windows();
-  var_r31 = 0;
+  i = 0;
   do
   {
-    player = (saddr)get_player_by_client_id(var_r31);
+    player = (saddr)get_player_by_client_id(i);
     if (player != 0)
     {
       if (check_player_flag1__10TObjPlayerFv() == 0)
       {
-        TPlayerBattleCtrl4P::remove_player((void *) ((saddr)this), (int) ((u16) var_r31), 1);
+        TPlayerBattleCtrl4P::remove_player((void *) ((saddr)this), (int) ((u16) i), 1);
       }
       ((TObjPlayer *)player)->release_attached_resource();
     }
-    var_r31 += 1;
+    i += 1;
   }
-  while (((s32) var_r31) < 4);
+  while (((s32) i) < 4);
   set_score((saddr)((4)));
 }
 
@@ -567,7 +567,7 @@ void TPlayerBattleCtrl4P::update_rematch_menu() {
 
 void TPlayerBattleCtrl4P::close_rematch_menu() {
     void *player;
-    u32 var_r31;
+    u32 i;
     uaddr p;
     if ((uaddr) this->intro_window != 0U) {
         ((TWindowBase *)this->intro_window)->close();
@@ -577,14 +577,14 @@ void TPlayerBattleCtrl4P::close_rematch_menu() {
         ((TWindowBase *)this->menu_window)->close();
         this->menu_window = 0U;
     }
-    var_r31 = 0;
+    i = 0;
     do {
-        TObjPlayer *player = get_player_by_client_id(var_r31);
+        TObjPlayer *player = get_player_by_client_id(i);
         if (player != NULL && player->check_player_flag1() != 0) {
-            send_code_45_to_window__19TPlayerBattleCtrl4PFPvii((this), ((u16) var_r31), 1);
+            send_code_45_to_window__19TPlayerBattleCtrl4PFPvii((this), ((u16) i), 1);
         }
-        var_r31 += 1;
-    } while ((s32) var_r31 < 4);
+        i += 1;
+    } while ((s32) i < 4);
     set_score((saddr)((7)));
 }
 
@@ -640,17 +640,17 @@ void TPlayerBattleCtrl4P::close_battle_results() {
 }
 
 void TPlayerBattleCtrl4P::begin_battle_reload() {
-    s32 var_r31;
+    s32 i;
     u32 ret;
 
-    var_r31 = 0;
+    i = 0;
     do {
-        ret = (uaddr)get_player_by_client_id(var_r31);
+        ret = (uaddr)get_player_by_client_id(i);
         if (ret != 0U) {
             TObjPlayer::play_effect_default(ret, -1);
         }
-        var_r31 += 1;
-    } while (var_r31 < 4);
+        i += 1;
+    } while (i < 4);
     frame_timer = 0xF;
     set_score((saddr)((1)));
 }
@@ -748,30 +748,30 @@ void TPlayerBattleCtrl4P::start_duel() {
 }
 
 void TPlayerBattleCtrl4P::update() {
-    s32 var_r31;
-    s32 var_r31_2;
+    s32 i;
+    s32 j;
     uaddr player;
 
     ((s32 (*)())refresh_split_screen_battle_alive_flags)();
-    var_r31 = 0;
+    i = 0;
     do {
-        if (get_player_by_client_id(var_r31) != NULL) {
+        if (get_player_by_client_id(i) != NULL) {
             obj_set_flag_20000();
         }
-        var_r31 += 1;
-    } while (var_r31 < 4);
+        i += 1;
+    } while (i < 4);
     queue_destroy_event_descendants(tl_01);
     TQuestThread::destroy_all_in(tl_00);
     TLobby__sub_8020BCE4();
     TLobby__sub_8020BB18();
-    var_r31_2 = 0;
+    j = 0;
     do {
-        player = (uaddr)get_player_by_client_id(var_r31_2);
+        player = (uaddr)get_player_by_client_id(j);
         if (player != 0U) {
             clear_trap_counts((s8 *)(player + 0x7C4));
         }
-        var_r31_2 += 1;
-    } while (var_r31_2 < 4);
+        j += 1;
+    } while (j < 4);
 }
 
 void TPlayerBattleCtrl4P::shuffle_order() {
@@ -838,16 +838,16 @@ void destroy_matching_children__19TPlayerBattleCtrl4PFPvPv(void *self, Par_80311
 }
 
 void TPlayerBattleCtrl4P::update_all_players() {
-    s32 var_r31;
+    s32 i;
     uaddr p;
 
-    var_r31 = 0;
+    i = 0;
     do {
-        if ((p = (uaddr)get_player_by_client_id(var_r31)) != 0U) {
+        if ((p = (uaddr)get_player_by_client_id(i)) != 0U) {
             ((TObjPlayer *)p)->release_attached_resource();
         }
-        var_r31 += 1;
-    } while (var_r31 < 4);
+        i += 1;
+    } while (i < 4);
 }
 
 void TPlayerBattleCtrl4P::set_split_screen_battle_phase(s32 arg1) {
@@ -1159,17 +1159,17 @@ void TPlayerBattleCtrl4P::start_match() {
 #pragma pool_data reset
 
 void TPlayerBattleCtrl4P::update_players() {
-    s32 var_r31;
+    s32 i;
     void *player;
 
-    var_r31 = 0;
+    i = 0;
     do {
-        player = get_player_by_client_id(var_r31);
+        player = get_player_by_client_id(i);
         if ((player != NULL) && (*(s32 *)((s8 *)player + 0x30) & 0x800)) {
             ((VObj_803107D0_8031058C *)player)->v64();
         }
-        var_r31 += 1;
-    } while (var_r31 < 4);
+        i += 1;
+    } while (i < 4);
 }
 
 s32 TPlayerBattleCtrl4P::set_state() {

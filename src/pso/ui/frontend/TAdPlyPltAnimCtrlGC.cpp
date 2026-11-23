@@ -113,17 +113,17 @@ void TAdPlyPltAnimCtrlGC::run_task() {
 void TAdPlyPltAnimCtrlGC::init(void* a1) { TAdPlyPltAnimCtrlGC__sub_80355168((u8 *)this); copy_vec2(((char*)this + 0x24), a1); this->m_1c = 1; }
 
 void TAdPlyPltAnimCtrlGC__sub_80355168(u8 *arg0) {
-    s32 var_r31;
-    var_r31 = 0;
+    s32 i;
+    i = 0;
     *(s32 *)((s8 *)arg0 + 0x1C) = 0;
     *(s32 *)((s8 *)arg0 + 0x20) = -1;
     do {
-        TAdPlyPltAnimGC *anim = TAdPlyPltAnimCtrlGC::get_table_value(var_r31);
+        TAdPlyPltAnimGC *anim = TAdPlyPltAnimCtrlGC::get_table_value(i);
         if (anim != NULL) {
             anim->sub_80355D38();
         }
-        var_r31 += 1;
-    } while (var_r31 < 5);
+        i += 1;
+    } while (i < 5);
 }
 
 s32 TAdPlyPltAnimCtrlGC__sub_80355148(O_80355148 *self) {

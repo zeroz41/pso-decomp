@@ -101,23 +101,23 @@ s32 TWindowSubQuestBoardSelect::get_slot_flag(s8 slot) {
 }
 
 void TWindowSubQuestBoardSelect::update_slot_display_flags() {
-    s32 var_r30;
+    s32 i;
     s32 var_r29;
     u16 *temp_r31;
     u16 *array_entry;
 
     var_r29 = 1;
-    var_r30 = 0;
+    i = 0;
     do {
-        temp_r31 = (u16 *)get_array_entry(var_r30 + 2);
-        if (get_slot_flag((s8) var_r30) == 0) {
+        temp_r31 = (u16 *)get_array_entry(i + 2);
+        if (get_slot_flag((s8) i) == 0) {
             *temp_r31 |= 2;
         } else {
             var_r29 = 0;
             *temp_r31 &= 0xFFFFFFFD;
         }
-        var_r30 += 1;
-    } while (var_r30 < 6);
+        i += 1;
+    } while (i < 6);
     array_entry = (u16 *)get_array_entry(1);
     if (var_r29 != 0) {
         *(s8 *)&this->slot = -1;

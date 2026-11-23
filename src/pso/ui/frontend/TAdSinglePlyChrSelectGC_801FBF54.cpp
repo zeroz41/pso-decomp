@@ -618,8 +618,8 @@ void TAdSinglePlyChrSelectGC::alloc_char_records(void *arg0) {
   s32 var_r0_2;
   s32 var_r31;
   u8 *temp_r30;
-  s32 var_r29;
-  var_r29 = 0;
+  s32 i;
+  i = 0;
   var_r31 = 0;
   do
   {
@@ -636,10 +636,10 @@ void TAdSinglePlyChrSelectGC::alloc_char_records(void *arg0) {
     *((s32 *) (((s8 *) temp_r30) + 0x10)) = var_r0_2;
     memset(*(void **)temp_r30, 0, 0x41C);
     memset(*(void **)(temp_r30 + 0x10), 0, 0x2370);
-    var_r29 += 1;
+    i += 1;
     var_r31 += 4;
   }
-  while (var_r29 < 4);
+  while (i < 4);
 }
 
 void TAdSinglePlyChrSelectGC__sub_801FCCB4(u8 *arg0, s32 arg1) {
@@ -2116,30 +2116,30 @@ s32 TAdSinglePlyChrSelectGC::init(void) {
 
 s32 TAdSinglePlyChrSelectGC::setup_player_battle_ctrls(void) {
   TPlyCharData *char_data;
-  u32 var_r31;
+  u32 i;
   u8 *character_save_record;
   stop_pad_rumble();
   get_character_select_request_buffer();
-  var_r31 = 0;
+  i = 0;
   do
   {
-    if (((get_player_by_client_id((s32)((int) var_r31)) != NULL) && (((volatile long)TTecCtrl::is_technique_ready()) == 0)) && (TLobby__sub_8030A770() == 0))
+    if (((get_player_by_client_id((s32)((int) i)) != NULL) && (((volatile long)TTecCtrl::is_technique_ready()) == 0)) && (TLobby__sub_8030A770() == 0))
     {
-      char_data = TAdSinglePlyChrSelectGC::get_char_index(var_r31);
+      char_data = TAdSinglePlyChrSelectGC::get_char_index(i);
       if (char_data != NULL)
       {
-        ((TObjPlayer *)char_data)->try_assign_battle_ctrl((u16) var_r31);
+        ((TObjPlayer *)char_data)->try_assign_battle_ctrl((u16) i);
       }
-      character_save_record = (u8 *) get_character_save_record(var_r31);
+      character_save_record = (u8 *) get_character_save_record(i);
       if (character_save_record != 0)
       {
         TAdSinglePlyChrSelectGC::update_elapsed_time(character_save_record);
       }
     }
     TAdSinglePlyChrSelectGC::clear_flags(3);
-    var_r31 += 1;
+    i += 1;
   }
-  while (((s32) var_r31) < 4);
+  while (((s32) i) < 4);
   return 0xFFFF0000;
 }
 
@@ -2764,17 +2764,17 @@ void TAdSinglePlyChrSelectGC::save_character_file(int arg0) {
 }
 
 void TAdSinglePlyChrSelectGC::reset_character_data(void) {
-    s32 var_r31;
+    s32 i;
     saddr var_r30;
 
     if ((void *) selected_character_data != NULL) {
         var_r30 = (saddr)((TObjPlayer *)TAdSinglePlyChrSelectGC__sub_801FCD04(card_character_save_buffer))->get_ptr_4();
-        var_r31 = 0;
+        i = 0;
         do {
             ((TAdSinglePlyChrSelectGC *)var_r30)->clear_inventory_slot();
-            var_r31 += 1;
+            i += 1;
             var_r30 += 0x1C;
-        } while (var_r31 < 0x1E);
+        } while (i < 0x1E);
         *(s8 *)((s8 *)selected_character_data + 0) = 0;
         init_class_starting_inventory((void *)selected_character_data);
         init_character_stats_for_level(*(u8 *)((s8 *)selected_character_data + 0x3A1), (void *)selected_character_data, *(s32 *)((s8 *)selected_character_data + 0x364));

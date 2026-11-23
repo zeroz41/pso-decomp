@@ -184,19 +184,19 @@ void close_giveup_window__6TLobbyFPv(void* a0) { TWindowCtrl::suppress_slot(loca
 void play_all_players_effect__6TLobbyFPv(void* a0) { TWindowCtrl::disable_client_main_menu(local_client_id); TLobby::play_effect_all_players(a0); }
 
 void play_effect_all_players__6TLobbyFPv(void*) {
-    s32 var_r31;
+    s32 i;
     saddr player;
 
-    var_r31 = 0;
+    i = 0;
     do {
-        player = (saddr)get_player_by_client_id(var_r31);
+        player = (saddr)get_player_by_client_id(i);
         if (player != 0) {
             if (((TObjPlayer *)player)->check_player_flag1() == 0) {
                 TObjPlayer::play_effect_default(player, -1);
             }
         }
-        var_r31 += 1;
-    } while (var_r31 < 4);
+        i += 1;
+    } while (i < 4);
 }
 
 

@@ -1115,23 +1115,23 @@ void TWindowCtrl::suppress_slot(s32 local_client_id) {
 }
 
 void TWindowCtrl::init_all_slots2() {
-    saddr var_r31;
+    saddr i;
 
-    var_r31 = 0;
+    i = 0;
     do {
-        TWindowCtrl::unsuppress_slot(var_r31);
-        var_r31 += 1;
-    } while (var_r31 < 0xC);
+        TWindowCtrl::unsuppress_slot(i);
+        i += 1;
+    } while (i < 0xC);
 }
 
 void TWindowCtrl::init_all_slots() {
-    saddr var_r31;
+    saddr i;
 
-    var_r31 = 0;
+    i = 0;
     do {
-        TWindowCtrl::suppress_slot(var_r31);
-        var_r31 += 1;
-    } while (var_r31 < 0xC);
+        TWindowCtrl::suppress_slot(i);
+        i += 1;
+    } while (i < 0xC);
 }
 
 extern "C" {

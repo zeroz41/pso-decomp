@@ -494,7 +494,7 @@ block_19:
 }
 
 void TAdMultiPlyChrSelectGC::sub_802DEDA8() {
-    s32 var_r30;
+    s32 i;
     player_preview->set_index_and_close_status(0);
     if ((test_pressed_buttons_packed(&controller_physical_port_bank.controllers[0], 2) != 0) && (TAdMultiPlyChrSelectGC::get_chr_select_state() == 0) && (TAdMultiPlyChrSelectGC::count_selected_slots() < 1)) {
         play_sound_effect(0x52F16, 0, 0, 0);
@@ -515,15 +515,15 @@ void TAdMultiPlyChrSelectGC::sub_802DEDA8() {
     player_plate->add_slot_position((void *) ((u8 *)&multi_play_chr_select_slot_positions.value + 8), 1);
     player_plate->add_slot_position((void *) ((u8 *)&multi_play_chr_select_slot_positions.value + 0x10), 1);
     player_plate->set_cursor_fields(0, 1);
-    var_r30 = 0;
+    i = 0;
     do {
-        if (is_multiplayer_character_slot_selected(var_r30) != 0) {
-            if (TAdSinglePlyChrSelectGC::is_slot_active(TAdMultiPlyChrSelectGC::get_multiplayer_character_slot(var_r30)) == 0) {
+        if (is_multiplayer_character_slot_selected(i) != 0) {
+            if (TAdSinglePlyChrSelectGC::is_slot_active(TAdMultiPlyChrSelectGC::get_multiplayer_character_slot(i)) == 0) {
                 TAdMultiPlyChrSelectGC::reset_slot_selections();
             }
         }
-        var_r30 += 1;
-    } while (var_r30 < 4);
+        i += 1;
+    } while (i < 4);
     player_plate->show_selected_slot_tags();
     this->state = 3;
 }
@@ -561,7 +561,7 @@ void TAdMultiPlyChrSelectGC::update_button_input() {
 void TAdMultiPlyChrSelectGC::sub_802DE7D0() {
     Stack_802DE7D0 stack;
     s32 temp_r30;
-    s32 var_r30;
+    s32 i;
     s32 var_r3;
     if (this->create_prompt != NULL) {
         this->create_prompt->close();
@@ -601,13 +601,13 @@ void TAdMultiPlyChrSelectGC::sub_802DE7D0() {
             this->state = 0x1B;
         }
     } else {
-        var_r30 = 0;
+        i = 0;
         do {
-            if ((is_multiplayer_character_slot_selected(var_r30) != 0) && (TAdMultiPlyChrSelectGC::is_controller_connected(var_r30) == 0)) {
-                TAdMultiPlyChrSelectGC::deselect_slot(var_r30);
+            if ((is_multiplayer_character_slot_selected(i) != 0) && (TAdMultiPlyChrSelectGC::is_controller_connected(i) == 0)) {
+                TAdMultiPlyChrSelectGC::deselect_slot(i);
             }
-            var_r30 += 1;
-        } while (var_r30 < 4);
+            i += 1;
+        } while (i < 4);
         if (this->a_slot->get_state() == 1) {
             TAdMultiPlyChrSelectGC::reset_slot_selections();
             this->state = 0;

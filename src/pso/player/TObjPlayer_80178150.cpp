@@ -47,7 +47,7 @@ void TOSwitchTimer::send_switch_states() {
     LAYOUT_ASSERT(sp1C_offset, offsetof(Stack_801781D8, sp1C) == 0x14);
     Stack_801781D8 stack;
     u16 *var_r30;
-    s32 var_r29;
+    s32 i;
     if ((u32) this->m_98 == 0U) {
         if ((u16) this->m_a8 < 0x100U) {
             ((TOChatSensor *)(&stack.sp14))->init_packet_type();
@@ -59,7 +59,7 @@ void TOSwitchTimer::send_switch_states() {
         }
     } else {
         var_r30 = (u16 *)(arg0 + 0xAA);
-        var_r29 = 0;
+        i = 0;
         do {
             if ((u16) *var_r30 < 0x100U) {
                 ((TOChatSensor *)(&stack.sp8))->init_packet_type();
@@ -68,9 +68,9 @@ void TOSwitchTimer::send_switch_states() {
                 stack.sp10 = 1;
                 ((TOChatSensor *)(&stack.sp8))->send_state();
             }
-            var_r29 += 1;
+            i += 1;
             var_r30 = (u16 *)((u8 *)var_r30 + (2));
-        } while (var_r29 != 3);
+        } while (i != 3);
     }
 }
 }

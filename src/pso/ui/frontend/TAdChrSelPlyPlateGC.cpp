@@ -356,15 +356,15 @@ s32 TAdMultiPlyChrSelectGC::count_selected_slots(void) {
 
 s32 TAdMultiPlyChrSelectGC::count_ready() {
     s32 var_r31;
-    s32 var_r30;
+    s32 i;
     var_r31 = 0;
-    var_r30 = 0;
+    i = 0;
     do {
-        if (TAdMultiPlyChrSelectGC::is_controller_connected(var_r30) != 0) {
+        if (TAdMultiPlyChrSelectGC::is_controller_connected(i) != 0) {
             var_r31 += 1;
         }
-        var_r30 += 1;
-    } while (var_r30 < 4);
+        i += 1;
+    } while (i < 4);
     return var_r31;
 }
 

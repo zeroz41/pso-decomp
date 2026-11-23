@@ -149,15 +149,15 @@ void TObjPlayer::create_active_players() {
 }
 
 void TObjPlayer::refresh_player_lobby_headers() {
-  s32 var_r31;
+  s32 i;
   u8 *player;
   s32 *var_r29;
-  var_r31 = 0;
+  i = 0;
   var_r29 = &TObjPlayer__char_data_array.value;
   do
   {
     ((TObjPlayer *)var_r29)->init_select_txt();
-    player = (u8 *) get_player_by_client_id(var_r31);
+    player = (u8 *) get_player_by_client_id(i);
     if (player != 0)
     {
       if (TObjPlayer::is_locally_controlled(player) != 0)
@@ -169,10 +169,10 @@ void TObjPlayer::refresh_player_lobby_headers() {
         PSO_VCALL_VObj_18_dac7f3_m0(player, 1);
       }
     }
-    var_r31 += 1;
+    i += 1;
     var_r29 = (s32 *) (((u8 *) var_r29) + 0x42C);
   }
-  while (var_r31 < 0xC);
+  while (i < 0xC);
 }
 
 }

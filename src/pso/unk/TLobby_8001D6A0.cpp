@@ -410,14 +410,14 @@ void TLobby__sub_8001DEA8(s32 arg0) {
 }
 
 void broadcast_to_players__6TLobbyFii(s32 arg0, saddr arg1) {
-    s32 var_r31;
+    s32 i;
 
     if (((s32 (*)(void))is_valid_player_index__6TLobbyFi)() != 0) {
-        var_r31 = 0;
+        i = 0;
         do {
-            TLobby::copy_pair((Obj_8001DF0C *)(((saddr (*)(s32, s32))get_player_entry__6TLobbyFii)(var_r31, arg0)), (Obj_8001DF0C *)(arg1));
-            var_r31 += 1;
-        } while (var_r31 < 4);
+            TLobby::copy_pair((Obj_8001DF0C *)(((saddr (*)(s32, s32))get_player_entry__6TLobbyFii)(i, arg0)), (Obj_8001DF0C *)(arg1));
+            i += 1;
+        } while (i < 4);
     }
 }
 Obj_8001DF0C *copy_pair__6TLobbyFPvPv(Obj_8001DF0C *d, Obj_8001DF0C *s) {
@@ -427,14 +427,14 @@ Obj_8001DF0C *copy_pair__6TLobbyFPvPv(Obj_8001DF0C *d, Obj_8001DF0C *s) {
 }
 
 void TLobby__sub_8001DF58(s32 arg0, saddr ent) {
-    s32 var_r31;
+    s32 i;
 
     if (((s32 (*)(void))is_valid_player_index__6TLobbyFi)() != 0) {
-        var_r31 = 0;
+        i = 0;
         do {
-            ((TLobby *)(((saddr (*)(s32, s32))get_entry__6TLobbyFii)(var_r31, arg0)))->copy_entry((void *)ent);
-            var_r31 += 1;
-        } while (var_r31 < 4);
+            ((TLobby *)(((saddr (*)(s32, s32))get_entry__6TLobbyFii)(i, arg0)))->copy_entry((void *)ent);
+            i += 1;
+        } while (i < 4);
     }
 }
 
@@ -453,14 +453,14 @@ void TLobby::copy_entry(void *ent) {
 }
 
 void copy_all_entries__6TLobbyFii(s32 arg0, saddr arg1) {
-    s32 var_r31;
+    s32 i;
 
     if (((s32 (*)(void))is_valid_player_index__6TLobbyFi)() != 0) {
-        var_r31 = 0;
+        i = 0;
         do {
-            ((TLobby *)(((saddr (*)(s32, s32))TLobby__sub_8001E270)(var_r31, arg0)))->copy_from((void *)arg1);
-            var_r31 += 1;
-        } while (var_r31 < 4);
+            ((TLobby *)(((saddr (*)(s32, s32))TLobby__sub_8001E270)(i, arg0)))->copy_from((void *)arg1);
+            i += 1;
+        } while (i < 4);
     }
 }
 
@@ -484,14 +484,14 @@ void TLobby::copy_from(void *arg1) {
 }
 
 void copy_all_data__6TLobbyFii(s32 arg0, saddr src) {
-    s32 var_r31;
+    s32 i;
 
     if (((s32 (*)(void))is_valid_player_index__6TLobbyFi)() != 0) {
-        var_r31 = 0;
+        i = 0;
         do {
-            TLobby::copy_data((void *)(((saddr (*)(s32, s32))TLobby__sub_8001E2A8)(var_r31, arg0)), (void *)src);
-            var_r31 += 1;
-        } while (var_r31 < 4);
+            TLobby::copy_data((void *)(((saddr (*)(s32, s32))TLobby__sub_8001E2A8)(i, arg0)), (void *)src);
+            i += 1;
+        } while (i < 4);
     }
 }
 

@@ -202,14 +202,14 @@ void TLanguage::load_container_fragment_textures() {
 #pragma fp_contract on
 void free_ancient_container_resources(void) {
     extern BmlResource *ancient_container_resource_bundle;
-    s32 var_r30;
+    s32 i;
     void *p;
     if (ancient_container_fragment_texture_lists != NULL) {
-        var_r30 = 0;
+        i = 0;
         do {
-            TObjPlayer::free_if_valid((saddr)ancient_container_fragment_texture_lists[var_r30]);
-            var_r30 += 1;
-        } while (var_r30 < 3);
+            TObjPlayer::free_if_valid((saddr)ancient_container_fragment_texture_lists[i]);
+            i += 1;
+        } while (i < 3);
         p = ancient_container_fragment_texture_lists;
         if (p != NULL) {
             mem_free(p);

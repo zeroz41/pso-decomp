@@ -168,20 +168,20 @@ void TWindowInputNumber::align_digits() {
 #pragma pop
 
 void TWindowInputNumber::refresh_digit_entries() {
-  s32 var_r30;
+  s32 i;
   u8 *entry;
   s32 var_r29;
-  var_r30 = 0;
+  i = 0;
   var_r29 = this->value;
   do
   {
-    entry = (u8 *) ((TWindowBase *)((u8 *)this))->get_array_entry(var_r30);
+    entry = (u8 *) ((TWindowBase *)((u8 *)this))->get_array_entry(i);
     *((s32 *) (((s8 *) entry) + 0x20)) = (s32) (var_r29 % 10);
     draw_right_aligned_number(entry);
     var_r29 = var_r29 / 10;
-    var_r30 += 1;
+    i += 1;
   }
-  while (((u32) var_r30) < 6U);
+  while (((u32) i) < 6U);
 }
 
 void TWindowInputNumber::calc_digit_count() {

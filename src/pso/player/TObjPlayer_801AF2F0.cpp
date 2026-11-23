@@ -2570,18 +2570,18 @@ void unequip_item__10TObjPlayerFiPv(saddr player, void *item) {
 
 void TObjPlayer::unequip_all_units() {
     saddr arg0 = (saddr)this;
-    s32 var_r31;
+    s32 i;
     void *slot_value;
 
-    var_r31 = 9;
+    i = 9;
     do {
-        slot_value = (void *)TObjPlayer::get_slot_value((s32 *)(arg0 + 0xD04), var_r31);
+        slot_value = (void *)TObjPlayer::get_slot_value((s32 *)(arg0 + 0xD04), i);
         if (slot_value != NULL) {
-            set_equip_slot_entry(arg0 + 0xD04, var_r31, 0);
+            set_equip_slot_entry(arg0 + 0xD04, i, 0);
             ((TItem *)slot_value)->unequip();
         }
-        var_r31 += 1;
-    } while (var_r31 <= 0xC);
+        i += 1;
+    } while (i <= 0xC);
 }
 
 #pragma push
@@ -3755,9 +3755,9 @@ void TObjPlayer::check_level_up() {
     struct Buf1C sp40;
     struct Buf1C sp24;
     struct Buf1C sp8;
-    s32 var_r31;
+    s32 i;
     u8 *temp_r31;
-    s32 var_r30;
+    s32 j;
     s32 lvl;
     u8 *temp_r30_2;
     if ((TObjPlayer::is_locally_controlled(this) != 0) && (is_current_area_item_enabled() != 0)) {
@@ -3767,25 +3767,25 @@ void TObjPlayer::check_level_up() {
                 ((TObjPlayer *)(&sp40))->reset_sub_status_disp();
                 ((TObjPlayer *)(&sp24))->reset_sub_status_disp();
                 ((TObjPlayer *)(&sp8))->reset_sub_status_disp();
-                var_r30 = 0;
+                j = 0;
                 do {
-                    temp_r31 = (u8 *)TObjPlayer::get_slot_value((s32 *)this->equipped_items, var_r30);
+                    temp_r31 = (u8 *)TObjPlayer::get_slot_value((s32 *)this->equipped_items, j);
                     if ((((s32 (*)(void))can_destroy_with_parents__10TObjPlayerFUi)() != 0) && (is_item_equipped((TItem *)temp_r31) != 0)) {
                         ((TItem *)temp_r31)->remove_equip_stats(1);
                     }
-                    var_r30 += 1;
-                } while (var_r30 < 0xD);
+                    j += 1;
+                } while (j < 0xD);
                 init_shield_params(&sp40, (u8 *)this, this->stat_block, this->attack_params, *(void **)((s8 *)this + 0x31C));
                 this->apply_exp_level_growth();
                 init_shield_params(&sp24, (u8 *)this, this->stat_block, this->attack_params, *(void **)((s8 *)this + 0x31C));
-                var_r31 = 0;
+                i = 0;
                 do {
-                    temp_r30_2 = (u8 *)TObjPlayer::get_slot_value((s32 *)this->equipped_items, var_r31);
+                    temp_r30_2 = (u8 *)TObjPlayer::get_slot_value((s32 *)this->equipped_items, i);
                     if ((((s32 (*)(void))can_destroy_with_parents__10TObjPlayerFUi)() != 0) && (is_item_equipped((TItem *)temp_r30_2) != 0)) {
                         ((TItem *)temp_r30_2)->add_equip_stats(1);
                     }
-                    var_r31 += 1;
-                } while (var_r31 < 0xD);
+                    i += 1;
+                } while (i < 0xD);
                 ((TObjPlayer *)(&sp40))->calc_pos_delta(&sp24, &sp8);
                 TWindowCtrl::create_level_up_window((saddr)&sp8, ((TObjBase *)this)->get_entity_id());
                 send_6x30_change_player_level((Player_801B6C30 *)((struct Player_801B6C30 *) ((u8 *)this)));
@@ -5975,13 +5975,13 @@ void TObjPlayer::for_each_player_slot(void (*callback)(void *)) {
 
 void foreach_player__10TObjPlayerFv(s32 (*arg0)(u32)) {
     s32 (*var_r27)(u32);
-    s32 var_r29;
+    s32 i;
     s32 *var_r30;
     s32 var_r31;
     uaddr player;
 
     var_r27 = arg0;
-    var_r29 = 0;
+    i = 0;
     var_r30 = ((s32 *)&player_slot_table);
     var_r31 = 0;
     do {
@@ -5989,9 +5989,9 @@ void foreach_player__10TObjPlayerFv(s32 (*arg0)(u32)) {
         if ((player != 0U) && (TObjPlayer::is_locally_controlled((void *)(player)) != 0)) {
             var_r27(player);
         }
-        var_r29 += 1;
+        i += 1;
         var_r31 += 1;
-    } while (var_r29 < 0xC);
+    } while (i < 0xC);
 }
 
 s32 reset_volopt_state__10TObjPlayerFv(TObjPlayer *player) { return is_item_area_enabled(player->get_area()); }

@@ -24,7 +24,7 @@ void render__19TWindowMenuMainMenuFv(saddr arg0) {
 }
 
 void TWindowMenuMainMenu::run_task() {
-    s32 var_r31;
+    s32 i;
     u8 temp_r3;
     u8 temp_r3_2;
     u8 *var_r30;
@@ -34,12 +34,12 @@ void TWindowMenuMainMenu::run_task() {
         this->m_60 = (u8) (temp_r3 | 4);
     }
     var_r30 = (u8 *)this + 0x64;
-    var_r31 = 0;
+    i = 0;
     do {
         ((TWindowMainMenu *)var_r30)->update_item_tween();
-        var_r31 += 1;
+        i += 1;
         var_r30 += 0x18;
-    } while (var_r31 < 8);
+    } while (i < 8);
     this->handle_navigation_input();
     ((TWindowDD *)this)->initialize_subwindow();
     this->update_slide_position();

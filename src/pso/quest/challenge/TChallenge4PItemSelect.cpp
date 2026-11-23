@@ -323,7 +323,7 @@ s32 update_challenge_result_player_locks() {
 
 
 void update_entries__18TChallenge4PResultFii(saddr arg0, s32 arg1) {
-    s32 var_r29 = 0;
+    s32 i = 0;
     s32 *var_r30 = TChallenge4PResult__slot_entries;
     s32 var_r31 = 0;
     do {
@@ -331,9 +331,9 @@ void update_entries__18TChallenge4PResultFii(saddr arg0, s32 arg1) {
         if (v != 0U) {
             ((TChallenge4PResult *)v)->set_entry_item((void *)arg0, arg1);
         }
-        var_r29 += 1;
+        i += 1;
         var_r31 += 1;
-    } while (var_r29 < 4);
+    } while (i < 4);
 }
 
 void resume_challenge_result_processing(void *arg0) {
@@ -377,7 +377,7 @@ void TChallenge4PItemSelect::run_task() {
 void TChallenge4PItemSelect::open_menu() {
     s32 temp_r0;
     u16 client_id;
-    s32 var_r29;
+    s32 i;
 
     temp_r0 = waitFrames - 1;
     waitFrames = temp_r0;
@@ -385,11 +385,11 @@ void TChallenge4PItemSelect::open_menu() {
         client_id = fn_8034BE30(result);
         (uaddr &)menu_window = (uaddr)create_window_menu((saddr)get_window_layout_position(0x42), 8, client_id);
         if ((uaddr)menu_window != 0U) {
-            var_r29 = 0;
+            i = 0;
             do {
-                ((TWindowMenu *)menu_window)->add_text_entry(get_text_collection(challenge4p_item_select_text_ids[var_r29]), 6, var_r29);
-                var_r29 += 1;
-            } while (var_r29 < 8);
+                ((TWindowMenu *)menu_window)->add_text_entry(get_text_collection(challenge4p_item_select_text_ids[i]), 6, i);
+                i += 1;
+            } while (i < 8);
             ((TWindowSubComCardList *)menu_window)->set_scroll_target(252.0f, 1.4e+02f);
             TWindowSubComCard__sub_80265500((u32 &)menu_window);
             ((TWindowBase *)menu_window)->set_depth(3.9e+04f);

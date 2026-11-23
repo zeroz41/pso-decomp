@@ -23,7 +23,7 @@ extern "C" {
 #pragma opt_loop_invariants off
 s32 TWindowSubSymbolChatPartsSet::select_symbol_chat_record(s8 *arg1, s32 *arg2) {
     SymbolChatPayload *data_ptr;
-    s32 var_r31;
+    s32 i;
     s16 temp_r0;
     s32 temp_r3_2;
     s32 var_r29;
@@ -45,37 +45,37 @@ s32 TWindowSubSymbolChatPartsSet::select_symbol_chat_record(s8 *arg1, s32 *arg2)
         part = &data_ptr->parts[temp_r0];
         first_part_index = (s32) *(s16 *)((s8 *)((u8 *)this) + 0x6E);
         second_part_index = instance->find_free_entry(0);
-        var_r31 = 0;
+        i = 0;
         *(s16 *)((s8 *)((u8 *)this) + 0x6E) = (s16) part->id;
         *(s16 *)((s8 *)((u8 *)this) + 0x6A) = (s16) part->x;
         *(s16 *)((s8 *)((u8 *)this) + 0x6C) = (s16) part->y;
         *m_7c = part->flags & 1;
         *m_80 = ((u8) part->flags >> 1U) & 1;
         do {
-            part_flags = get_parts_entry(this, var_r31);
-            temp_r29_2 = get_parts_entry((saddr)var_r31);
-            temp_r3_3 = TWindowSubSymbolChatPartsSet__sub_802482B8(this, var_r31);
-            var_r31 += 1;
+            part_flags = get_parts_entry(this, i);
+            temp_r29_2 = get_parts_entry((saddr)i);
+            temp_r3_3 = TWindowSubSymbolChatPartsSet__sub_802482B8(this, i);
+            i += 1;
             *part_flags |= 2;
             *temp_r29_2 |= 2;
             *temp_r3_3 |= 2;
-        } while (var_r31 < 4);
+        } while (i < 4);
         selection_mode = 2;
         return 0;
     }
     m_70 = arg1;
-    var_r31 = 0;
+    i = 0;
     selection_mode = 3;
     var_r29 = *(s16 *)((s8 *)((u8 *)this) + 0x6E) - temp_r3_2;
-    for (; var_r31 < 4; var_r31++) {
-        if (TWindowSubSymbolChat__sub_800771C4(instance, var_r31) != 0) {
+    for (; i < 4; i++) {
+        if (TWindowSubSymbolChat__sub_800771C4(instance, i) != 0) {
             if (var_r29-- <= 0) {
-                temp_r4 = (u32) var_r31 >> 0x1FU;
-                temp_r8 = data_ptr->facial_parts[var_r31];
-                first_part_index = var_r31;
-                second_part_index = var_r31;
-                *(s16 *)((s8 *)((u8 *)this) + 0x6A) = (s16) (((var_r31 & 1) ^ temp_r4) - temp_r4);
-                *(s16 *)((s8 *)((u8 *)this) + 0x6C) = (s16) (var_r31 / 2);
+                temp_r4 = (u32) i >> 0x1FU;
+                temp_r8 = data_ptr->facial_parts[i];
+                first_part_index = i;
+                second_part_index = i;
+                *(s16 *)((s8 *)((u8 *)this) + 0x6A) = (s16) (((i & 1) ^ temp_r4) - temp_r4);
+                *(s16 *)((s8 *)((u8 *)this) + 0x6C) = (s16) (i / 2);
                 *(s16 *)((s8 *)((u8 *)this) + 0x6E) = (s16) (u8) temp_r8;
                 *m_70 = (temp_r8 >> 8U) & 7;
                 *m_7c = (temp_r8 >> 0xBU) & 1;

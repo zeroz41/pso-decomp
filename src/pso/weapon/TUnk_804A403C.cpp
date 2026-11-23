@@ -90,7 +90,7 @@ void clear_rico_ring_flag__10TObjPlayerFv(u32);
 
 void TUnk_804A403C::emit_marker_effects() {
     saddr temp_r31;
-    s32 var_r30;
+    s32 i;
     u32 temp_r3;
     u8 *arg0 = (u8 *)this;
     TObjPlayer__sub_80128A70();
@@ -98,11 +98,11 @@ void TUnk_804A403C::emit_marker_effects() {
     if (temp_r3 == 0U) return;
     temp_r31 = temp_r3 + 0x7CC;
     if (get_burst_counter((void *)temp_r31) == 0) {
-        var_r30 = 0;
+        i = 0;
         do {
             increment_burst_counter((u8 *)temp_r31);
-            var_r30 += 1;
-        } while (var_r30 != 2);
+            i += 1;
+        } while (i != 2);
         this->flags.set(2);
         TItemAttacker::spawn_item_timer((TObject *)arg0, (ItemTimerCallback)clear_rico_ring_flag__10TObjPlayerFv, 0x3C);
         this->flags.set(4);

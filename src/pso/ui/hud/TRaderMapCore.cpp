@@ -571,7 +571,7 @@ TRaderMapCore::~TRaderMapCore() {
 void TRaderMapCore::run_task() {
     saddr player;
     s32 temp_r4;
-    s32 var_r31;
+    s32 i;
     if ((uaddr) TRaderMapCore__floor_map_resource != 0U) {
         temp_r4 = m_90;
         if (temp_r4 > 0) {
@@ -595,14 +595,14 @@ void TRaderMapCore::run_task() {
         }
         update_follow_projection((saddr)((void *)TRaderMapCore__view_mode));
         if (TRaderMapCore::is_not_split_screen() == 1) {
-            var_r31 = 0;
+            i = 0;
             do {
-                player = (saddr)get_player_by_client_id(var_r31);
+                player = (saddr)get_player_by_client_id(i);
                 if (player != 0) {
                     update_radar_auto_discovery(this, 0, (void *)(player + 0x38));
                 }
-                var_r31 += 1;
-            } while (var_r31 < 4);
+                i += 1;
+            } while (i < 4);
         } else {
             update_radar_auto_discovery(this, 0, (void *) ((u8 *)this + m_134 * 0x28 + 0x94));
         }
@@ -1006,7 +1006,7 @@ void TRaderMapCore::update_follow_projection(s32 mode) {
 
 void TRaderMapCore::draw_player_markers() {
     u8 *var_r31;
-    s32 var_r30;
+    s32 i;
     saved_model_render_flags = model_render_flags;
     copy_argb((NJS_ARGB *)&saved_model_draw_color, (NJS_ARGB *)&model_material_color);
     saved_chunk_polygon_flags_and_mask = chunk_polygon_flags_and_mask;
@@ -1014,7 +1014,7 @@ void TRaderMapCore::draw_player_markers() {
     model_render_flags |= this->m_194;
     set_chunk_material_override_pair(-0xFF01, 0x100);
     var_r31 = ((u8 *)&this->player_marker_records);
-    var_r30 = 0;
+    i = 0;
     do {
         if ((s16) *(s16 *)((s8 *)var_r31 + 0x16) != -1) {
             set_constant_material((const NJS_ARGB *)((var_r31 + 0x18)));
@@ -1026,9 +1026,9 @@ void TRaderMapCore::draw_player_markers() {
             pop_matrix();
             set_constant_material(&chunk_material_color_half_alpha_f32);
         }
-        var_r30 += 1;
+        i += 1;
         var_r31 = (var_r31 + 0x28);
-    } while (var_r30 < 4);
+    } while (i < 4);
     chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
     chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
     copy_argb((NJS_ARGB *)&model_material_color, (NJS_ARGB *)&saved_model_draw_color);

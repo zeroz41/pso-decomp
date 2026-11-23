@@ -44,7 +44,7 @@ void snapshot_player_trade_inventory(saddr arg0, s32 client) {
     s32 var_r31;
     u8 *trade_obj_ptr;
     u8 *player;
-    s32 var_r26;
+    s32 i;
     u8 *temp_r3_2;
     player_stats *temp_r3_3;
     u8 *var_r25;
@@ -53,18 +53,18 @@ void snapshot_player_trade_inventory(saddr arg0, s32 client) {
     if (player != NULL) {
         temp_r29 = ((TPlyItem *)(((TObjPlayer *)player)->inventory_objects))->run_and_get_result((saddr)((void *) ids));
         var_r25 = (unsigned char *) (arg0 + 0xF8);
-        var_r26 = 0;
-        while (var_r26 < temp_r29) {
-            temp_r3_2 = ((u8 *(*)(s32)) find_item_by_id)(ids[var_r26]);
+        i = 0;
+        while (i < temp_r29) {
+            temp_r3_2 = ((u8 *(*)(s32)) find_item_by_id)(ids[i]);
             if (temp_r3_2 != NULL) {
-                *(s32 *)((s8 *)var_r25 + 0) = ids[var_r26];
+                *(s32 *)((s8 *)var_r25 + 0) = ids[i];
                 *(s32 *)((s8 *)var_r25 + 4) = ((VObj802D1F30 *)temp_r3_2)->m34();
                 if ((s32) *(s32 *)((s8 *)var_r25 + 4) <= 0) {
                     *(s32 *)((s8 *)var_r25 + 4) = 1;
                 }
                 var_r25 += 8;
             }
-            var_r26 += 1;
+            i += 1;
         }
         trade_obj_ptr = (u8 *) ((TLobby *)(arg0 + 0xF8))->get_trade_obj_ptr();
         temp_r3_3 = ((TObjPlayer *)player)->get_stats();
@@ -81,18 +81,18 @@ void TLobby::update_both_halves() { TLobby__sub_802D2358(this); TLobby__sub_802D
 
 void TLobby::clear_stale_entries(u8 *tail) {
     u8 *var_r29;
-    s32 var_r28;
+    s32 i;
 
     var_r29 = tail;
-    var_r28 = 0;
+    i = 0;
     do {
         if (((u32) (*(s32 *)((s8 *)var_r29 + 0) + 0x10000) != 0xFFFFU) && ((find_item_by_id(*(s32 *)((s8 *)var_r29 + 0)) == NULL) || ((s32) *(s32 *)((s8 *)var_r29 + 4) <= 0))) {
             *(s32 *)((s8 *)var_r29 + 0) = -1;
             *(s32 *)((s8 *)var_r29 + 4) = 0;
         }
-        var_r28 += 1;
+        i += 1;
         var_r29 += 8;
-    } while (var_r28 < 0x1E);
+    } while (i < 0x1E);
 }
 s32 TLobby::add_trade_item(u32 arg1, s32 cnt) {
     ItemB_802D20C8 a;
