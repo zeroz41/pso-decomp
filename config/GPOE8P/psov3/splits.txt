@@ -6358,14 +6358,14 @@ pso/technique/TTecSifta.cpp:
 	.sdata      start:0x805D3820 end:0x805D3828
 	.sdata2     start:0x805DC940 end:0x805DC948
 
-pso/technique/TTecSlicer_8023B5C8.cpp:
+pso/technique/TTecSlicer.cpp:
 	.text       start:0x8023B220 end:0x8023BE9C
 	.rodata     start:0x8044DC20 end:0x8044DC88
 	.data       start:0x804CCCB0 end:0x804CCCFC
 	.sdata      start:0x805D3828 end:0x805D3830
 	.sdata2     start:0x805DC948 end:0x805DC968
 
-pso/technique/TTecSlicer.cpp:
+pso/technique/TechniqueChargeLight.cpp:
 	.text       start:0x8023BE9C end:0x8023C024
 	.data       start:0x804CCD00 end:0x804CCD28
 

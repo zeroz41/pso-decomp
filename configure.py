@@ -936,7 +936,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/technique/TTecGiBarta.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/technique/TTecFoie.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # Its class-name strings "TTecSlicer"/"TSlicerHistory" sit in .rodata (8044DC68), not .data.
-    "pso/technique/TTecSlicer_8023B5C8.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    "pso/technique/TTecSlicer.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # -fp_contract on: TUnk_804CC800::run_task fuses its three orbit sums (radius * cos + centre) into
     # fmadds; the unit's other functions are the same either way.
     # TTecGiFoie.cpp keeps its class name string in .rodata (-str readonly) and reaches each .rodata

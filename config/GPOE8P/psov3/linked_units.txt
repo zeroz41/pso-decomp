@@ -1169,8 +1169,8 @@ pso/technique/TTecRaZonde_80238C6C.cpp
 pso/technique/TTecResta.cpp
 pso/technique/TTecReverser.cpp
 pso/technique/TTecSifta.cpp
+pso/technique/TechniqueChargeLight.cpp
 pso/technique/TTecSlicer.cpp
-pso/technique/TTecSlicer_8023B5C8.cpp
 pso/technique/TTecZarua.cpp
 pso/technique/TTecZonde.cpp
 pso/technique/TTecZondeEff.cpp
