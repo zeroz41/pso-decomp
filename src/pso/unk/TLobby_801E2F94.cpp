@@ -22,6 +22,7 @@
 #include "pso/unk/TLobby.h"
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/effect/particle/ParticleStrip.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
@@ -45,16 +46,14 @@ void TLobby::draw_with_camera(s32 sprite, s32 frame_index, s32 flags, f32 depth)
 }
 }
 
-typedef struct Vtx_801E2FEC { f32 x, y, z; f32 u, v; u32 color; } Vtx_801E2FEC;
 typedef struct Rect_801E2FEC { s16 x, y, w, h; u8 pad8[8]; s16 tex; } Rect_801E2FEC;
 typedef struct Self_801E2FEC { f32 x, y, z; u8 padC[0xC]; s32 param; Rect_801E2FEC *rect; } Self_801E2FEC;
 
 s32 set_texture_num(s32 i);
-void draw_particle_strip(void *arg0, void *arg1, void *arg2);
 
 void TObjPlayer::draw_shadow_quad(s32 arg1, s32 flags) {
     Self_801E2FEC *self = (Self_801E2FEC *)this;
-    Vtx_801E2FEC v[4];
+    ParticleStripVertex v[4];
     f32 ey, ex, cx, cy, z;
     f32 u0, v0, u1, v1;
 
@@ -101,7 +100,7 @@ void TObjPlayer::draw_shadow_quad(s32 arg1, s32 flags) {
     v[2].color = 0xFF000000;
     v[3].z = z;
     v[3].color = 0xFF000000;
-    draw_particle_strip((void *)v, (void *)(4), (void *)(1));
+    draw_particle_strip(v, 4, 1);
 }
 
 extern "C" {

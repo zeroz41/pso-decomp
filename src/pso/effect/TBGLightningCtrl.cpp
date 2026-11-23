@@ -15,6 +15,7 @@
 #include "pso/system/vector.h"
 #include "pso/system/TLanguage_801E4874.h"
 #include "pso/unk/text_803DA798.h"
+#include "pso/effect/particle/ParticleStrip.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"

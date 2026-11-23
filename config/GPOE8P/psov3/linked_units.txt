@@ -242,6 +242,7 @@ pso/boss/darkfalz/TBoss4Type1.cpp
 pso/boss/darkfalz/TBoss4Type2_8004A978.cpp
 pso/boss/darkfalz/TBoss4Type2_80086C44.cpp
 pso/effect/GroundContactSound.cpp
+pso/effect/particle/ParticleStrip.cpp
 pso/effect/particle/TParticleCtrl_800874F4.cpp
 pso/effect/particle/ParticleResources.cpp
 pso/boss/darkfalz/TBoss4Type3.cpp
@@ -1045,7 +1046,6 @@ pso/effect/particle/TParticleCtrl_801D6B3C.cpp
 pso/effect/particle/TParticleCtrl_801E2EFC.cpp
 pso/effect/particle/ParticleDefinition.cpp
 pso/effect/particle/TParticleCtrl_80327D30.cpp
-pso/effect/particle/TParticleCtrl_803E29FC.cpp
 pso/effect/photon/TPhotonConcentrate.cpp
 pso/effect/photon/TPhotonEstlla.cpp
 pso/effect/photon/TPhotonFarlla.cpp
@@ -2232,7 +2232,6 @@ pso/unk/text_803DEE48.cpp
 pso/unk/text_803DF204.cpp
 pso/unk/text_803E2070.cpp
 pso/player/TObjPlayer_803E20B0.cpp
-pso/unk/text_803E29B0.cpp
 pso/unk/text_803E2D70.cpp
 pso/unk/text_803E2F28.cpp
 pso/unk/text_803E4CE8.cpp

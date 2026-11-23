@@ -12004,11 +12004,8 @@ pso/player/TObjPlayer_803E2810.cpp:
 	.text       start:0x803E2810 end:0x803E29B0
 	.sdata2     start:0x805E1078 end:0x805E107C
 
-pso/unk/text_803E29B0.cpp:
-	.text       start:0x803E29B0 end:0x803E29FC
-
-pso/effect/particle/TParticleCtrl_803E29FC.cpp:
-	.text       start:0x803E29FC end:0x803E2BAC
+pso/effect/particle/ParticleStrip.cpp:
+	.text       start:0x803E29B0 end:0x803E2BAC
 
 pso/boss/derolle/TObjBoss2Tunnel_803E2BAC.cpp:
 	.text       start:0x803E2BAC end:0x803E2D50
