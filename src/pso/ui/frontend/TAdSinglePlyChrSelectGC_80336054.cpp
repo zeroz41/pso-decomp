@@ -372,11 +372,7 @@ TTitleScene *TTitleScene::construct_title_scene() {
     } else {
         m_38 = 0x320;
     }
-    p = TObject::operator new(sizeof(TUnk_804EEF80));
-    if (p != NULL) {
-        p = static_cast<TUnk_804EEF80 *>(p)->construct(this);
-    }
-    title_layer = static_cast<TUnk_804EEF80 *>(p);
+    title_layer = new TUnk_804EEF80(this);
     transition_controller = new TUnk_804EE458(this);
     overlay_layer = new TUnk_804EE470(reinterpret_cast<TObject *>(tl_clipout));
     m_28 = 0;
