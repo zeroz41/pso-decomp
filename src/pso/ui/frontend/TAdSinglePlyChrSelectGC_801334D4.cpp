@@ -6,7 +6,7 @@
 s32 TAdSelectCurGC::confirmation_result() const { return confirmation; }
 s32 TAdSelectCurGC::selection_index() const { return selected_index; }
 void TAdSinglePlyChrSelectGC__sub_801334E4(void) {  }
-void TAdSinglePlyChrSelectGC::set_position(void* q) { *(f32 *)&this->m_20 = *(f32*)((char*)q + 0x4); *(f32 *)&this->m_24 = *(f32*)((char*)q + 0x8); *(f32 *)&this->m_28 = *(f32*)((char*)q + 0xc); }
+void TAdSinglePlyChrSelectGC::set_position(void* q) { *(f32 *)&this->state = *(f32*)((char*)q + 0x4); *(f32 *)&this->prev_state = *(f32*)((char*)q + 0x8); *(f32 *)&this->slot_window = *(f32*)((char*)q + 0xc); }
 void TAdSinglePlyChrSelectGC::noop_laser() {  }
 void TAdSinglePlyChrSelectGC__sub_80133508(void *light) {  }
 void TAdSinglePlyChrSelectGC::forward_to_field_0x14(void* a1) { TAdSinglePlyChrSelectGC__sub_80133530((void*)((char*)this + 0x14), a1); }

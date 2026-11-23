@@ -12,7 +12,12 @@ class TAdChrSelPlayerGC;
 class TPlyCharData;
 struct CharacterFile;
 
-struct TCheckMemoryCard;
+struct TAdChrSelASlotGC;
+class TAdSelectCurGC;
+class TWindowBase;
+struct TWindowMenu;
+struct TWindowMessageYesNo;
+class TAdFadeGC;
 
 // The blocks TAdSinglePlyChrSelectGC::init_windows constructs in a 0xE28C-byte buffer.
 struct CardList_801FFDFC {
@@ -31,13 +36,13 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     virtual ~TAdSinglePlyChrSelectGC();
     void sub_802D4E08();
     virtual void render();
-    u32 m_1c;
-    u32 m_20;
-    uaddr m_24;
-    uaddr m_28;
-    uaddr m_2c;
-    TAdChrSelPlayerGC *m_30;
-    TAdGuideTxtGC *m_34;
+    s32 state_timer;                       // 0x1C  frames spent in the current state
+    s32 state;                             // 0x20  index into the run_task handler table
+    s32 prev_state;                        // 0x24
+    TAdChrSelASlotGC *slot_window;         // 0x28
+    TAdSelectCurGC *cursor;                // 0x2C
+    TAdChrSelPlayerGC *player;             // 0x30
+    TAdGuideTxtGC *guide;                  // 0x34
     void init_item_entry();
     static void try_load_system_file();
     static s32 wait_for_card_load(s32 arg0);
@@ -118,7 +123,7 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     void update_char_panels();
     static void free_global();
     static void render(void *self);
-    static s32 create_chr_warp(s32 arg0, s32 arg1);
+    TWindowMenu *create_chr_warp(s32 pos);
     void close_and_change_scene();
     void handle_card_select();
     void handle_card_select2();
@@ -135,16 +140,16 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     static int get_selected_count();
     static int get_data();
     static void permute_save_blocks(void* stream, const u8* source, u8* destination, u32 size);
-    u8 unk_38[0x4];
-    s32 m_3c;
-    TCheckMemoryCard *memory_card_check;
-    saddr m_44;
-    u8 unk_48[0x4];
-    saddr m_4c;
-    u8 unk_50[0x4];
-    uaddr m_54;
-    u8 unk_58[0x4];
-    s32 m_5c;
+    TWindowMenu *chr_menu;                 // 0x38  play / meseta / delete / back menu of an occupied slot
+    TWindowBase *card_check_message;       // 0x3C  shown while the card is polled for the guild card file
+    TWindowBase *card_load_message;        // 0x40  shown while the guild card file is read
+    TWindowMessageYesNo *create_prompt;    // 0x44  empty slot: create a character?
+    TWindowMessageYesNo *transfer_prompt;  // 0x48  transferred character confirmation
+    TWindowMessageYesNo *meseta_prompt;    // 0x4C  menu entry 1, costs 10000 meseta
+    TWindowMessageYesNo *replace_prompt;   // 0x50  menu entry 3
+    TAdFadeGC *fade;                       // 0x54
+    s32 last_cursor_index;                 // 0x58
+    s32 menu_choice;                       // 0x5C  chr_menu entry that decides where the scene goes next
     static void free_all_resources();
     s32 load_and_verify_character_save(char *desc);
     static void remove_matching_entries(s32 arg0);
@@ -250,10 +255,11 @@ struct TAdSinglePlyChrSelectGC : public TObject {
 };
 
 LAYOUT_ASSERT(TAdSinglePlyChrSelectGC_size, sizeof(TAdSinglePlyChrSelectGC) == 0x60);
-LAYOUT_ASSERT(TAdSinglePlyChrSelectGC_m_28_offset, offsetof(TAdSinglePlyChrSelectGC, m_28) == 0x28);
-LAYOUT_ASSERT(TAdSinglePlyChrSelectGC_m_2c_offset, offsetof(TAdSinglePlyChrSelectGC, m_2c) == 0x2C);
-LAYOUT_ASSERT(TAdSinglePlyChrSelectGC_m_30_offset, offsetof(TAdSinglePlyChrSelectGC, m_30) == 0x30);
-LAYOUT_ASSERT(TAdSinglePlyChrSelectGC_m_34_offset, offsetof(TAdSinglePlyChrSelectGC, m_34) == 0x34);
+LAYOUT_ASSERT(TAdSinglePlyChrSelectGC_slot_window_offset, offsetof(TAdSinglePlyChrSelectGC, slot_window) == 0x28);
+LAYOUT_ASSERT(TAdSinglePlyChrSelectGC_cursor_offset, offsetof(TAdSinglePlyChrSelectGC, cursor) == 0x2C);
+LAYOUT_ASSERT(TAdSinglePlyChrSelectGC_player_offset, offsetof(TAdSinglePlyChrSelectGC, player) == 0x30);
+LAYOUT_ASSERT(TAdSinglePlyChrSelectGC_guide_offset, offsetof(TAdSinglePlyChrSelectGC, guide) == 0x34);
+LAYOUT_ASSERT(TAdSinglePlyChrSelectGC_menu_choice_offset, offsetof(TAdSinglePlyChrSelectGC, menu_choice) == 0x5C);
 
 // Memory-card save state of the character select scene (.sbss of TAdSinglePlyChrSelectGC_801FBF54.cpp,
 // in definition order). The buffers hold heap addresses as words: every test of them against 0 is a cmplwi.

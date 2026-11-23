@@ -184,13 +184,13 @@ TWindowMessageYesNo *TAdChrSelASlotGC::create_message_window(s32 kind, s32 clien
     return w;
 }
 
-s32 TAdChrSelASlotGC::create_format_message_window(saddr arg0, s32 arg1, s32 arg2) {
-    saddr w;
-    w = (saddr)TWindowMessageYesNo::create((void *)(arg0), arg2, 0, 0);
+TWindowMessageYesNo *TAdChrSelASlotGC::create_format_message_window(s32 pos, s32 client_id) {
+    TWindowMessageYesNo *w;
+    w = TWindowMessageYesNo::create(this, client_id, 0, 0);
     memset(char_select_format_message_buffer, 0, 0x100);
-    sprintf(char_select_format_message_buffer, (const char *)get_localized_text_entry(0x16, 0x1E), 0x2710);
-    ((TWindowMessageYesNo *)w)->open_yes_no_prompt_with_text((saddr)char_select_format_message_buffer, (s32)arg1, 193.0f);
-    ((TWindowMessageYesNo *)w)->set_menu_selected_index(1);
+    sprintf(char_select_format_message_buffer, (const char *)get_localized_text_entry(0x16, 0x1E), 10000);
+    w->open_yes_no_prompt_with_text((saddr)char_select_format_message_buffer, pos, 193.0f);
+    w->set_menu_selected_index(1);
     return w;
 }
 

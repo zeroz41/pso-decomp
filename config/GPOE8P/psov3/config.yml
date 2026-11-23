@@ -5470,7 +5470,7 @@ force_active:
   - create_challenge4p__6TLobbyFv
   - create_chat_symbol_window__20TWindowSubSymbolChatFll
   - create_children__16TAdChrSelASlotGCFl
-  - create_chr_warp__23TAdSinglePlyChrSelectGCFll
+  - create_chr_warp__23TAdSinglePlyChrSelectGCFl
   - create_confirm_menu_window__19TWindowSubShortMailFv
   - create_confirm_window__20TWindowSubSymbolChatFv
   - create_count_input__14TWindowSubItemFl
