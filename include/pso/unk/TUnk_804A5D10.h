@@ -2,18 +2,24 @@
 #define PSO_UNK_TUNK_804A5D10_H
 #include "types.h"
 #include "pso/system/task/TObject.h"
+#include <dolphin/mtx.h>
 
+class TItem;
+
+// Weapon casing ejected by the Inferno Bazooka; falls under gravity until the
+// weapon is no longer equipped.
 class TUnk_804A5D10 : public TObject {
 public:
+    TUnk_804A5D10(TObject *parent, TItem *item, Vec *position, Vec *velocity, s32 *rotation);
     virtual ~TUnk_804A5D10();
     virtual void render();
     virtual void run_task();
-    u8 unk_1C[0x8];
-    f32 m_24;
-    u8 unk_28[0x10];
-    s32 m_38;
-    u8 unk_3C[0x4];
-    s32 m_40;
+    s32 item_id;
+    Vec velocity;
+    Vec position;
+    s32 rotation_x;
+    s32 rotation_y;
+    s32 rotation_z;
 };
 LAYOUT_ASSERT(TUnk_804A5D10_size, sizeof(TUnk_804A5D10) == 0x44);
 

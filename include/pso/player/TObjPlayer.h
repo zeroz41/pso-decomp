@@ -1467,7 +1467,6 @@ struct TObjPlayer : public TObjChara {
     static TItem *create_action(u8 *item);
     static TItem *create_state_8012a418(u8 *item);
     static TItem *create_trade_action_state(u8 *item);
-    u8 *construct_weapon_casing(u8 *arg1, u8 *arg2, u8 *arg3, u8 *arg4, u8 *arg5);
     static TItem *create_effect_object(u8 *item);
     static TItem *create_fields_state(u8 *item);
     static TItem *create_state_35_alt(u8 *item);

@@ -5316,7 +5316,7 @@ force_active:
   - __ct__10TTecRaFoieFlP3VecP16TargetCursorListl
   - __ct__9TTecBartaFlP3Vecll
   - __ct__22TWindowDD_WS_ScrollBarFv
-  - construct_weapon_casing__10TObjPlayerFPUcPUcPUcPUcPUc
+  - __ct__13TUnk_804A5D10FP7TObjectP5TItemP3VecP3VecPl
   - __ct__13TUnk_804A5458FP7TObjectPUc
   - construct_with_index__22TObjFogCollisionPoisonFPUcl
   - __ct__20ItemModelChunkLoaderFPCcll

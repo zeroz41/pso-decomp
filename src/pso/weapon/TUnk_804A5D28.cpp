@@ -91,60 +91,44 @@ void TUnk_804A5D28::vfunc_60() {
     }
 }
 
-struct RecoveredGlobal_8012E414_lbl_804A5D10 {
-    s32 value;
-    u8 remaining[0x14];
-};
-
-extern "C" {
-void __ct__7TObjectFP7TObject(void *, void *);
-extern RecoveredGlobal_8012E414_lbl_804A5D10 __vt__13TUnk_804A5D10;
-
 #pragma push
 #pragma opt_common_subs off
 #pragma fp_contract on
-u8 *TObjPlayer::construct_weapon_casing(u8 *parent, u8 *arg2, u8 *arg3, u8 *arg4, u8 *arg5) {
-    __ct__7TObjectFP7TObject(this, parent);
-    *(s32 **)((s8 *)((u8 *)this) + 0x18) = &__vt__13TUnk_804A5D10.value;
-    *(s32 *)((s8 *)((u8 *)this) + 0x1C) = ((TItem *)arg2)->get_item_id();
-    VecCopy((Vec *)(((u8 *)this) + 0x2C), (const Vec *)arg3);
-    copy_xyz(((u8 *)this) + 0x38, arg5);
-    VecCopy((Vec *)(((u8 *)this) + 0x20), (const Vec *)arg4);
-    *(f32 *)&this->m_20 = (f32) (*(f32 *)&this->m_20 * ((0.5f * (3.0517578e-05f * (f32) rand())) + 0.5f));
-    *(f32 *)&this->texlist = (f32) (*(f32 *)&this->texlist * ((0.5f * (3.0517578e-05f * (f32) rand())) + 0.5f));
-    *(f32 *)&this->room = (f32) (*(f32 *)&this->room * ((0.5f * (3.0517578e-05f * (f32) rand())) + 0.5f));
-    return ((u8 *)this);
+TUnk_804A5D10::TUnk_804A5D10(TObject *parent, TItem *item, Vec *position, Vec *velocity, s32 *rotation) : TObject(parent) {
+    item_id = item->get_item_id();
+    VecCopy(&this->position, position);
+    copy_xyz(&rotation_x, rotation);
+    VecCopy(&this->velocity, velocity);
+    this->velocity.x *= 0.5f * (3.0517578e-05f * (f32)rand()) + 0.5f;
+    this->velocity.y *= 0.5f * (3.0517578e-05f * (f32)rand()) + 0.5f;
+    this->velocity.z *= 0.5f * (3.0517578e-05f * (f32)rand()) + 0.5f;
 }
 #pragma pop
 
-}
-
 void TUnk_804A5D10::run_task() {
-    u8 *arg0 = (u8 *)this;
-    if (find_equipped_item(*(s32 *)((s8 *)arg0 + 0x1C)) == 0U) {
-        ((TObject *)arg0)->queue_destruction();
+    if (find_equipped_item(item_id) == 0U) {
+        queue_destruction();
         return;
     }
-    vec3_add_to(arg0 + 0x2C, arg0 + 0x20);
-    this->m_24 += -0.2f;
+    vec3_add_to(&position, &velocity);
+    velocity.y += -0.2f;
 }
 
 
 void TUnk_804A5D10::render() {
-    u8 *arg0 = (u8 *)this;
     uaddr temp_r31;
     u8 *equipped_item;
 
-    equipped_item = (u8 *)find_equipped_item(*(s32 *)((s8 *)arg0 + 0x1C));
+    equipped_item = (u8 *)find_equipped_item(item_id);
     if (equipped_item != NULL) {
         temp_r31 = *(u32 *)((s8 *)equipped_item + 0x188);
         if (temp_r31 != 0U) {
             set_texlist(((TItem *)equipped_item)->get_texlist());
             push_matrix();
-            post_translate_matrix(arg0 + 0x2C);
-            rotate_matrix_y(0, *(s32 *)&this->unk_3C);
-            rotate_matrix_x(0, this->m_38);
-            rotate_matrix_z(0, this->m_40);
+            post_translate_matrix(&position);
+            rotate_matrix_y(0, rotation_y);
+            rotate_matrix_x(0, rotation_x);
+            rotate_matrix_z(0, rotation_z);
             draw_ginja_object((void *)temp_r31);
             pop_matrix();
         }
@@ -156,10 +140,7 @@ void TObjPlayer::launch_weapon_casing(saddr arg0, uaddr arg1, s32 joint, uaddr a
     u8 sp8[0x18];
     void *object;
     if ((arg0 != 0) && (arg1 != 0U) && (arg3 != 0U) && (angle != 0U) && (((TItemWeapon *)arg1)->get_joint_position(joint, sp8) != 0)) {
-        object = TObject::operator new(0x44);
-        if (object != NULL) {
-            object = ((TObjPlayer *)object)->construct_weapon_casing((u8 *)arg0, (u8 *)arg1, (u8 *)sp8, (u8 *)arg3, (u8 *)angle);
-        }
+        object = new TUnk_804A5D10((TObject *)arg0, (TItem *)arg1, (Vec *)sp8, (Vec *)arg3, (s32 *)angle);
         TItemAttacker::spawn_item_timer((TObject *)object, (ItemTimerCallback)expire_weapon_casing, 0xF);
     }
 }
@@ -167,10 +148,7 @@ void TObjPlayer::launch_weapon_casing(saddr arg0, uaddr arg1, s32 joint, uaddr a
 void TObjPlayer::spawn_weapon_casing(saddr arg0, uaddr arg1, uaddr pos, uaddr arg3, uaddr angle) {
     void *p;
     if ((arg0 != 0) && (arg1 != 0U) && (pos != 0U) && (arg3 != 0U) && (angle != 0U)) {
-        p = TObject::operator new(0x44);
-        if (p != 0) {
-            p = ((TObjPlayer *)p)->construct_weapon_casing((u8 *)arg0, (u8 *)arg1, (u8 *)pos, (u8 *)arg3, (u8 *)angle);
-        }
+        p = new TUnk_804A5D10((TObject *)arg0, (TItem *)arg1, (Vec *)pos, (Vec *)arg3, (s32 *)angle);
         TItemAttacker::spawn_item_timer((TObject *)p, (ItemTimerCallback)expire_weapon_casing, 0xF);
     }
 }
