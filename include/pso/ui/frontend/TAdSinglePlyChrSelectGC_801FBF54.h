@@ -7,8 +7,6 @@
 class TPlyCharData;
 
 extern "C" {
-s32 TAdPlayerLoadGC__sub_801FD770(void);
-s32 TAdPlayerLoadGC__sub_801FD814(void);
 u16 TAdSinglePlyChrSelectGC__sub_801FC36C(int arg0);
 void TAdSinglePlyChrSelectGC__sub_801FCCB4(u8 *arg0, s32 arg1);
 s32 TAdSinglePlyChrSelectGC__sub_801FCCC0(u8 *arg0);

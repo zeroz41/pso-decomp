@@ -61,7 +61,6 @@ extern PsoSystemCardFilename pso_system_card_filename;
 extern RecoveredGlobal_8036E8DC_lbl_804C89BC pso_guildcard_card_filename;
 u32 load_system_file_flag__23TAdSinglePlyChrSelectGCFv(void);
 void *create_window_menu_default(void *, s32);
-s32 TAdPlayerLoadGC__sub_801FD770();
 void TKeyBoardControl__sub_8000F90C(s32 arg0);
 
 // Message text by id: table_a holds the English text, table_b the Japanese.
@@ -455,7 +454,7 @@ void TAdMultiChgGameModeGC::check_player_load_result() {
     if (TAdPlayerLoadGC::get_instance() != 0) {
         return;
     }
-    switch (TAdPlayerLoadGC__sub_801FD770()) {
+    switch (check_slot_a_card_save()) {
     case 5:
         if (TAdSinglePlyChrSelectGC::all_players_loaded() != 0) {
             set_state(3);

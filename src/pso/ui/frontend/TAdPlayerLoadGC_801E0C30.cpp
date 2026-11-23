@@ -331,26 +331,27 @@ void TAdPlayerLoadGC::load_banner_files() {
         }
     }
 }
+}
 
-void TAdPlayerLoadGC__sub_801E14E4(CardSaveDescriptor *) {}
+void fn_801E14E4(CardSaveDescriptor *) {}
 
 
-void TAdPlayerLoadGC__sub_801E14E8(CardSaveDescriptor *file, s32 index) {
+void set_card_banner_and_icon(CardSaveDescriptor *file, s32 index) {
     if (index < 6) {
         file->banner = banner_file_buf;
         file->icon = banner_buffers[index];
     }
 }
 
-int TAdPlayerLoadGC__sub_801E1510(void) {  return lbl_805D5E44; }
-s32 TAdPlayerLoadGC__sub_801E1518(void *arg0, s32 arg1, u32 arg2) {
+int fn_801E1510(void) {  return lbl_805D5E44; }
+s32 card_blocks_for_size(void *arg0, s32 arg1, u32 arg2) {
     return (s32) (((arg2 >> 0xDU) + 3) << 0xD) / 8192;
 }
 s32 TAdPlayerLoadGC::get_load_result(s32) {
     return card_result_code;
 }
 
-s32 TAdPlayerLoadGC__sub_801E1538(CardSaveDescriptor *file, void *image) {
+s32 verify_card_save_header(CardSaveDescriptor *file, void *image) {
     CardSaveHeader *h = (CardSaveHeader *)image;
     u32 crc = h->crc;
     u32 calc;
@@ -365,6 +366,7 @@ s32 TAdPlayerLoadGC__sub_801E1538(CardSaveDescriptor *file, void *image) {
     return 0;
 }
 
+extern "C" {
 s32 start_memcard_write(s32 chan, const char *name, void *buf, s32 blocks, CardWriteDate *date, u32 flags) {
     u32 size;
     if (chan >= 2) {

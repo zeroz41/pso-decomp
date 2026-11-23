@@ -554,7 +554,7 @@ void TQuestVmDownLoadServer::count_download_file_blocks() {
     this->file_count = 0;
     s = &TQuestVmDownLoadServer__download_file_state;
     if (s->size > 0) {
-        n = (u32)TAdPlayerLoadGC__sub_801E1518((void *)1, 0, s->size);
+        n = (u32)card_blocks_for_size((void *)1, 0, s->size);
         if (n != 0xFFFFFF00) {
             this->total_blocks += n;
             this->state_file_blocks = n;
@@ -566,7 +566,7 @@ void TQuestVmDownLoadServer::count_download_file_blocks() {
     }
     s = &quest_download_file_slot;
     if (s->size > 0) {
-        n = (u32)TAdPlayerLoadGC__sub_801E1518((void *)1, 0, s->size);
+        n = (u32)card_blocks_for_size((void *)1, 0, s->size);
         if (n != 0xFFFFFF00) {
             this->total_blocks += n;
             this->slot_file_blocks = n;
@@ -578,7 +578,7 @@ void TQuestVmDownLoadServer::count_download_file_blocks() {
     }
     s = &quest_download_file_info;
     if (s->size > 0) {
-        n = (u32)TAdPlayerLoadGC__sub_801E1518((void *)1, 0, s->size);
+        n = (u32)card_blocks_for_size((void *)1, 0, s->size);
         if (n != 0xFFFFFF00) {
             this->total_blocks += n;
             this->info_file_blocks = n;
@@ -814,9 +814,9 @@ void TQuestVmDownLoadServer::build_file_slot_image() {
                 req.omit_title_space = 1;
                 req.data = quest_download_file_slot.data;
                 req.size = quest_download_file_slot.size;
-                TAdPlayerLoadGC__sub_801E14E8(&req, 3);
+                set_card_banner_and_icon(&req, 3);
                 r = TAdPlayerLoadGC::build_save_file_image(this->save_image, &req);
-                TAdPlayerLoadGC__sub_801E14E4(&req);
+                fn_801E14E4(&req);
                 switch (r) {
                 case -0x100:
                     this->state = 0x11;
@@ -883,9 +883,9 @@ void TQuestVmDownLoadServer::write_memcard_file() {
                 req.omit_title_space = 1;
                 req.data = TQuestVmDownLoadServer__download_file_state.data;
                 req.size = TQuestVmDownLoadServer__download_file_state.size;
-                TAdPlayerLoadGC__sub_801E14E8(&req, 3);
+                set_card_banner_and_icon(&req, 3);
                 r = TAdPlayerLoadGC::build_save_file_image(this->save_image, &req);
-                TAdPlayerLoadGC__sub_801E14E4(&req);
+                fn_801E14E4(&req);
                 switch (r) {
                 case -0x100:
                     this->state = 0x11;
@@ -960,9 +960,9 @@ void TQuestVmDownLoadServer::build_file_info_image() {
                     req.omit_title_space = 1;
                     req.data = quest_download_file_info.data;
                     req.size = quest_download_file_info.size;
-                    TAdPlayerLoadGC__sub_801E14E8(&req, 3);
+                    set_card_banner_and_icon(&req, 3);
                     r = TAdPlayerLoadGC::build_save_file_image(this->save_image, &req);
-                    TAdPlayerLoadGC__sub_801E14E4(&req);
+                    fn_801E14E4(&req);
                     switch (r) {
                     case -0x100:
                         this->state = 0x11;

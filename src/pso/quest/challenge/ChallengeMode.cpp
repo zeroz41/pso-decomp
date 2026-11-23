@@ -369,7 +369,7 @@ TChallenge::~TChallenge() {
 
 void TChallenge::run_task() {
     TChallenge *self = this;
-    if (TAdPlayerLoadGC__sub_801E1510() == 1) {
+    if (fn_801E1510() == 1) {
         return;
     }
     self->request_missing_challenge_records();

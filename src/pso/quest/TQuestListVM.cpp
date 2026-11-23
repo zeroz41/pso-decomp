@@ -316,7 +316,7 @@ void TQuestListVM::process_download_entry() {
     QuestBinHeader *header;
 
     if (poll_memcard_result(entries[entry_count].card_slot) == 0) {
-        switch (TAdPlayerLoadGC__sub_801E1538(&file, card_buffer)) {
+        switch (verify_card_save_header(&file, card_buffer)) {
         case 0:
             seed_download_rng(get_download_seed());
             TQuestVmDownLoadServer::unshuffle_and_decrypt(file.data, file.size);
@@ -473,7 +473,7 @@ void TQuestListVM::poll_quest_download() {
     u32 size;
     if (list_window != NULL) {
         if (poll_memcard_result(entries[list_window->get_cursor_value()].card_slot) == 0) {
-            switch (TAdPlayerLoadGC__sub_801E1538(&file, card_buffer)) {
+            switch (verify_card_save_header(&file, card_buffer)) {
             case 0:
                 seed_download_rng(get_download_seed());
                 TQuestVmDownLoadServer::unshuffle_and_decrypt(file.data, file.size);
@@ -603,7 +603,7 @@ void TQuestListVM::load_downloaded_quest() {
     u32 size;
     if (list_window != NULL) {
         if (poll_memcard_result(entries[list_window->get_cursor_value()].card_slot) == 0) {
-            switch (TAdPlayerLoadGC__sub_801E1538(&file, card_buffer)) {
+            switch (verify_card_save_header(&file, card_buffer)) {
             case 0:
                 seed_download_rng(get_download_seed());
                 TQuestVmDownLoadServer::unshuffle_and_decrypt(file.data, file.size);

@@ -5,7 +5,7 @@
 
 struct CardSaveDescriptor;
 
-// One pending memory-card request per slot (A, B), stepped by TAdPlayerLoadGC__sub_803F2F1C.
+// One pending memory-card request per slot (A, B), stepped by update_card_requests.
 struct CardRequestSlot {
     void *buffer;    // read/write data
     char name[0x20];

@@ -16,7 +16,7 @@ inline s32 reset_connect_param(const char *name) {
     memset(&lbl_805D7CC0->connect_param, 0, sizeof(SharedMemoryConnectParam));
     lbl_805D7CC0->connect_param_size = 0x674;
     sprintf(lbl_805D7CC4->name, name);
-    TAdPlayerLoadGC__sub_8042F108(0);
+    fn_8042F108(0);
     TAdTrialModemChkGC__sub_8042F0D4(3);
     set_modem_trial_param(1);
     TAdTrialModemChkGC__sub_8042F080(3);

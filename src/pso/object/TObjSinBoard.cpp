@@ -89,7 +89,7 @@ void load_memcard_file(void) {
     while (poll_memcard_result(slot) != 0) {
         TLobby::run_frame();
     }
-    if (TAdPlayerLoadGC__sub_801E1538(&hdr, buf) != 0) {
+    if (verify_card_save_header(&hdr, buf) != 0) {
         TAdSinglePlyChrSelectGC::safe_free((uaddr)buf);
         return;
     }

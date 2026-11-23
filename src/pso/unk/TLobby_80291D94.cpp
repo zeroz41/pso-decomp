@@ -22,6 +22,7 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/camera/TCameraCtrl.h"
+#include "pso/ui/frontend/TAdPlayerLoadGC_801E0C30.h"
 
 struct G_80070B34 { u8 pad[0x10]; s32 x10; };
 
@@ -954,7 +955,6 @@ void TLobby__sub_80293218(s32 arg0);
 void copy_challenge_info(void *, void *);
 void snapshot_player_card_status__6TLobbyFv(void);
 void TLobby__sub_802933FC(void *arg0);
-int TAdPlayerLoadGC__sub_801E1510(void);
 s32 export_character_data__10TObjPlayerFPvPv(u32, u32);
 #define create_challenge4p__6TLobbyFv ((u32 (*)())create_challenge4p__6TLobbyFv)
 
@@ -1124,7 +1124,7 @@ s32 TLobby::check_destruction_by_phase() {
 void TLobby::maybe_handle_destruction() { if (check_destruction_by_phase() == 0) { TLobby__sub_802933FC(this); } }
 
 void update_destruction_countdown__6TLobbyFPv(TLobby *lobby) {
-    if (TAdPlayerLoadGC__sub_801E1510() != 1) {
+    if (fn_801E1510() != 1) {
         if (lobby->check_destruction_by_phase() == 1) {
             lobby->queue_destruction();
         }

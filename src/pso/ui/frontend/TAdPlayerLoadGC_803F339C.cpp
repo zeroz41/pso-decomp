@@ -166,8 +166,9 @@ s32 TAdPlayerLoadGC::take_card_mount_result(s32 arg0, s32 *arg1) {
     }
     return r;
 }
+}
 
-s32 TAdPlayerLoadGC__sub_803F3998(s32 chan) {
+s32 request_card_mount(s32 chan) {
     s32 r;
     if (TAdPlayerLoadGC::get_load_state() < 1) {
         return -1;
@@ -183,6 +184,7 @@ s32 TAdPlayerLoadGC__sub_803F3998(s32 chan) {
     return r;
 }
 
+extern "C" {
 s32 TAdPlayerLoadGC::take_card_find_result(s32 arg0, s32 *arg1) {
     s32 r;
     s32 t;

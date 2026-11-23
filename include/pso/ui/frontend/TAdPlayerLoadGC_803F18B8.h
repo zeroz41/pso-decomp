@@ -3,21 +3,15 @@
 
 #include "types.h"
 
-extern "C" {
-s32 TAdPlayerLoadGC__sub_803F31BC(void);
-}
-
-// --- C functions defined in TAdPlayerLoadGC_803F18B8.cpp ---
-extern "C" {
-void TAdPlayerLoadGC__sub_803F1908(s32 card_channel);
-void TAdPlayerLoadGC__sub_803F2240(s32 file);
-void TAdPlayerLoadGC__sub_803F2610(s32 file);
-void TAdPlayerLoadGC__sub_803F282C(s32 file);
-void TAdPlayerLoadGC__sub_803F2A4C(s32 file);
-s32 TAdPlayerLoadGC__sub_803F2F1C(void);
-s32 TAdPlayerLoadGC__sub_803F31BC(void);
-s32 TAdPlayerLoadGC__sub_803F31D8(void *work_area);
-}
-// --- end of C functions
+void update_card_find(s32 card_channel);
+void update_card_write(s32 file);
+void update_card_read(s32 file);
+void update_card_open(s32 file);
+void update_card_create(s32 file);
+void card_check_callback(s32 card_channel, s32 result);
+void update_card_mount(s32 card_channel);
+s32 update_card_requests(void);
+s32 check_card_lib_ready(void);
+s32 init_card_lib(void *work_area);
 
 #endif

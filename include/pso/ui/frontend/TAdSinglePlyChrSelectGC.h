@@ -238,6 +238,10 @@ extern uaddr character_save_file_buffer;
 extern uaddr guild_card_save_file_buffer;
 extern uaddr system_save_file_buffer;
 extern s32 chr_select_scene_state;
+
+// Checks the character file loaded from card slot A / B against the system file's card serial.
+s32 check_slot_a_card_save(void);
+s32 check_slot_b_card_save(void);
 extern s32 chr_select_game_mode;
 extern s32 chr_select_save_slot;
 #endif

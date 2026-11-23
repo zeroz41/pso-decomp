@@ -14,7 +14,6 @@ struct CardSlotInfo { s32 state; s32 mem_size; u32 sector_size; };
 typedef void (*CardSlotChangeCallback)(s32 channel, s32 memory_size, u32 sector_size);
 LAYOUT_ASSERT(CardSlotInfoSize, (sizeof(CardSlotInfo) == 0xC));
 
-extern "C" {
 // memory-card library version banner
 static const char *const mcfs_version = "\nmcFsGc Ver 1.10.00 Build:Sep 17 2002 20:22:41\n";
 // inferred: the DVDDiskID gameName/company pair CARDSetDiskID is given in place of the disk's own
@@ -33,9 +32,9 @@ enum {
 };
 
 s32 player_load_channel_flags[2] = {0, 0};
-// inferred: set to 1 by the init function (TAdPlayerLoadGC__sub_803F31D8) and checked first by every entry point
+// inferred: set to 1 by the init function (init_card_lib) and checked first by every entry point
 s32 card_lib_state;
-// inferred: re-entrancy count of the card poll (TAdPlayerLoadGC__sub_803F2F1C), raised on entry, dropped on exit
+// inferred: re-entrancy count of the card poll (update_card_requests), raised on entry, dropped on exit
 u8 card_poll_depth;
 // inferred: called when a slot's probe turns ready (0), with the card's sizes
 CardSlotChangeCallback card_attach_callback;
@@ -80,7 +79,7 @@ static inline void get_game_name_and_company(s32 card_channel, u8 *game_name, u8
     }
 }
 
-void TAdPlayerLoadGC__sub_803F1908(s32 card_channel) {
+void update_card_find(s32 card_channel) {
     s32 i;
     s32 found;
     CARDStat stat;
@@ -302,7 +301,7 @@ void TAdPlayerLoadGC::update_card_rename(s32 card_channel) {
 #pragma push
 #pragma opt_propagation off
 #pragma opt_lifetimes off
-void TAdPlayerLoadGC__sub_803F2240(s32 file) {
+void update_card_write(s32 file) {
     s32 id;
     s32 *channel;
     s32 off;
@@ -430,7 +429,7 @@ void TAdPlayerLoadGC__sub_803F2240(s32 file) {
 
 #pragma push
 #pragma opt_propagation off
-void TAdPlayerLoadGC__sub_803F2610(s32 file) {
+void update_card_read(s32 file) {
     s32 id;
     s32 *channel;
     s32 *st;
@@ -506,7 +505,7 @@ void TAdPlayerLoadGC__sub_803F2610(s32 file) {
 
 #pragma push
 #pragma opt_propagation off
-void TAdPlayerLoadGC__sub_803F282C(s32 file) {
+void update_card_open(s32 file) {
     s32 *channel;
     s32 *st;
     s32 id;
@@ -580,7 +579,7 @@ void TAdPlayerLoadGC__sub_803F282C(s32 file) {
 
 #pragma push
 #pragma opt_propagation off
-void TAdPlayerLoadGC__sub_803F2A4C(s32 file) {
+void update_card_create(s32 file) {
   s32 *channel;
   s32 off;
   s32 *st;
@@ -687,7 +686,7 @@ void TAdPlayerLoadGC__sub_803F2A4C(s32 file) {
 }
 #pragma pop
 
-void TAdPlayerLoadGC__sub_803F2CD0(s32 card_channel, s32 result) {
+void card_check_callback(s32 card_channel, s32 result) {
     load_request_slots[card_channel].result = result;
     switch (result) {
     default:
@@ -702,7 +701,7 @@ void TAdPlayerLoadGC__sub_803F2CD0(s32 card_channel, s32 result) {
 }
 
 
-void TAdPlayerLoadGC__sub_803F2D20(s32 card_channel) {
+void update_card_mount(s32 card_channel) {
 
     switch (load_request_slots[card_channel].step) {
     case 1:
@@ -725,7 +724,7 @@ void TAdPlayerLoadGC__sub_803F2D20(s32 card_channel) {
             break;
         }
     case 3:
-        load_request_slots[card_channel].result = CARDCheckAsync(card_channel, TAdPlayerLoadGC__sub_803F2CD0);
+        load_request_slots[card_channel].result = CARDCheckAsync(card_channel, card_check_callback);
         if (load_request_slots[card_channel].result < 0) {
             load_request_slots[card_channel].status = -201;
             load_request_slots[card_channel].step = 0x18;
@@ -761,7 +760,7 @@ void TAdPlayerLoadGC__sub_803F2D20(s32 card_channel) {
     }
 }
 
-s32 TAdPlayerLoadGC__sub_803F2F1C(void) {
+s32 update_card_requests(void) {
     s32 i;
     s32 result;
     s32 mem_size;
@@ -831,19 +830,19 @@ s32 TAdPlayerLoadGC__sub_803F2F1C(void) {
     for (i = 0; i < 2; i++) {
         switch (load_request_slots[i].kind) {
         case 1:
-            TAdPlayerLoadGC__sub_803F2D20(i);
+            update_card_mount(i);
             break;
         case 2:
-            TAdPlayerLoadGC__sub_803F2A4C(load_request_slots[i].file_index);
+            update_card_create(load_request_slots[i].file_index);
             break;
         case 3:
-            TAdPlayerLoadGC__sub_803F282C(load_request_slots[i].file_index);
+            update_card_open(load_request_slots[i].file_index);
             break;
         case 5:
-            TAdPlayerLoadGC__sub_803F2240(load_request_slots[i].file_index);
+            update_card_write(load_request_slots[i].file_index);
             break;
         case 4:
-            TAdPlayerLoadGC__sub_803F2610(load_request_slots[i].file_index);
+            update_card_read(load_request_slots[i].file_index);
             break;
         case 6:
             TAdPlayerLoadGC::update_card_rename(i);
@@ -855,7 +854,7 @@ s32 TAdPlayerLoadGC__sub_803F2F1C(void) {
             TAdPlayerLoadGC::step_set_attributes(i);
             break;
         case 9:
-            TAdPlayerLoadGC__sub_803F1908(i);
+            update_card_find(i);
             break;
         }
     }
@@ -863,14 +862,14 @@ s32 TAdPlayerLoadGC__sub_803F2F1C(void) {
     return 0;
 }
 
-s32 TAdPlayerLoadGC__sub_803F31BC(void) {
+s32 check_card_lib_ready(void) {
     if (card_lib_state == 0) {
         return -1;
     }
     return 0;
 }
 
-s32 TAdPlayerLoadGC__sub_803F31D8(void *work_area) {
+s32 init_card_lib(void *work_area) {
     s32 i;
 
     mcfs_version_ref = mcfs_version;
@@ -920,5 +919,4 @@ s32 TAdPlayerLoadGC::close_card_slot(s32 arg0) {
         s->channel = 2;
     }
     return ret;
-}
 }

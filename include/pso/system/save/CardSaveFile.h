@@ -22,10 +22,8 @@ LAYOUT_ASSERT(CardSaveDescriptor_banner_offset, offsetof(CardSaveDescriptor, ban
 LAYOUT_ASSERT(CardSaveDescriptor_data_offset, offsetof(CardSaveDescriptor, data) == 0x58);
 LAYOUT_ASSERT(CardSaveDescriptor_size, sizeof(CardSaveDescriptor) == 0x60);
 
-extern "C" {
-void TAdPlayerLoadGC__sub_801E14E8(CardSaveDescriptor *file, s32 index);
-s32 TAdPlayerLoadGC__sub_801E1538(CardSaveDescriptor *file, void *image);
-void TAdPlayerLoadGC__sub_801E14E4(CardSaveDescriptor *file);
-}
+void set_card_banner_and_icon(CardSaveDescriptor *file, s32 index);
+s32 verify_card_save_header(CardSaveDescriptor *file, void *image);
+void fn_801E14E4(CardSaveDescriptor *file);
 
 #endif
