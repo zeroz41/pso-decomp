@@ -520,7 +520,7 @@ force_active:
   - source_buffers__16TEffIndirectCtrl
   - resume_indirect_effect__16TEffIndirectCtrlFv
   - get_indirect_kind__16TEffIndirectCtrlFv
-  - star_light_2d_class_name
+  - class_name__15TEffStarLight2D
   - TEffStarLight2D_class_name
   - class_name__18TEffStarLightChild
   - TEffStarLightChild_class_name
