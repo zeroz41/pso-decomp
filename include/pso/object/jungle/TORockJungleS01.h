@@ -2,6 +2,8 @@
 #define PSO_OBJECT_JUNGLE_TOROCKJUNGLES01_H
 
 #include "types.h"
+
+struct NJS_TEXLIST;
 #include "pso/object/cave/TORockCaveBrakable.h"
 
 struct TObjMapCsn;
@@ -20,6 +22,6 @@ struct TORockJungleS01 : public TORockCaveBrakable {
 
 LAYOUT_ASSERT(TORockJungleS01_size, sizeof(TORockJungleS01) == 0xC0);
 
-s32 get_jungle_rock_texture_resource(s32 index);
+NJS_TEXLIST *get_jungle_rock_texture_resource(s32 index);
 
 #endif

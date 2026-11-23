@@ -45,7 +45,7 @@ NJS_TEXLIST **TODoorAncient08::texture_lists;
 TODoorAncient08::TODoorAncient08(TObject *parent, void *set_data) : TODoorBase(parent) {
     m_name = door_ancient08_class_name;
     apply_object_set_data(set_data);
-    texlist = (saddr)texture_lists[0];
+    texlist = texture_lists[0];
     model = (void *)bml_resource->models[0].model;
     motion = bml_resource->motions[0].motion;
     animation_end_frame = (f32)motion->frameCount - 1.0f;
@@ -102,7 +102,7 @@ void *TODoorAncient08::create(void *set_data) {
 void TODoorAncient08::update_closed() {
     if ((door_flags & 1) && is_any_player_within_radius_xz(4900.0f) == 1) {
         object_state = 1;
-        texlist = (saddr)texture_lists[0];
+        texlist = texture_lists[0];
         set_indexed_flags(0, 8);
         is_open = 1;
         switch (get_current_floor_area()) {
@@ -129,7 +129,7 @@ void TODoorAncient08::update_closed() {
 
 void TODoorAncient08::update_open() {
     if (door_flags & 1) {
-        texlist = (saddr)texture_lists[0];
+        texlist = texture_lists[0];
         if (is_any_player_within_radius_xz(10000.0f) == 1) {
             return;
         }
@@ -157,7 +157,7 @@ void TODoorAncient08::update_open() {
         }
     } else {
         object_state = 3;
-        texlist = (saddr)texture_lists[1];
+        texlist = texture_lists[1];
         clear_player_status_flag(0, 8);
         is_open = 0;
     }

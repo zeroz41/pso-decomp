@@ -139,7 +139,7 @@ void TObjEneIllGill::load_shared_resources() {
         NpcAnimationBinding pos = illGillAnimBinding;
         resource = illGillResource;
         pos.motions = reinterpret_cast<BmlMotionEntry *>(resource->motions);
-        NpcModelRegistry::register_animated_chunk((s16)0x43, reinterpret_cast<void *>(resource->models->model), reinterpret_cast<void *>(((saddr)resource->models->texlist)), &pos, illGillCollisionBody.radius, 0.0f);
+        NpcModelRegistry::register_animated_chunk((s16)0x43, reinterpret_cast<void *>(resource->models->model), resource->models->texlist, &pos, illGillCollisionBody.radius, 0.0f);
     }
 }
 
@@ -157,7 +157,7 @@ TObjEneIllGill::TObjEneIllGill(TObject *parent, void *setData) : TObjEnemy(paren
     init_position_vectors();
     apply_actor_gravity((TObjEnemy *)self, (s32 *)(0), 0.0f);
     model = (void *)illGillResource->models->model;
-    texlist = (saddr)illGillResource->models->texlist;
+    texlist = illGillResource->models->texlist;
     motion_list = illGillResource->motions;
     action_table = illGillActions;
     this->set_action_table((saddr)action_table);

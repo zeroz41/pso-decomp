@@ -239,7 +239,7 @@ void TObjEnePanarms::load_and_spawn_npc() {
         NpcAnimationBinding binding = panarms_npc_spawn_descriptor;
         binding.motions = resource->motions;
         NpcModelRegistry::register_animated_chunk(0x23, reinterpret_cast<void *>(resource->models[0].model),
-            reinterpret_cast<void *>(resource->models[0].texlist), &binding, 12.5f, 0.0f);
+            resource->models[0].texlist, &binding, 12.5f, 0.0f);
         TObjEnePanarms::spawn_npc_pair();
     }
 }
@@ -258,7 +258,7 @@ TObjEnePanarms::TObjEnePanarms(TObject *parent, void *setData) : TObjEnemy(paren
     add_flags_2e4(2);
     apply_set_data(setData);
     clear_lobby_object_state();
-    texlist = (saddr)get_bml_texlist((BmlResource *)TObjEnePanarms__entry_params_resource, 0);
+    texlist = get_bml_texlist((BmlResource *)TObjEnePanarms__entry_params_resource, 0);
     model = (void *)get_bml_model((BmlResource *)TObjEnePanarms__entry_params_resource, 0);
     VecCopy(&prev_position, VecCopy(&home_position, VecCopy(&center, &position)));
     collision_body_parts = init_collision_body_parts(this, panarms_collision_body, 1);

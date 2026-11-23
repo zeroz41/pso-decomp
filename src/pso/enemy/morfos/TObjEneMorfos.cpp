@@ -200,7 +200,7 @@ void TObjEneMorfos::init_instance() {
 
     init_position_vectors();
     model = TObjEneMorfos__instance->models[1].model;
-    this->texlist = (saddr)TObjEneMorfos__instance->models[1].texlist;
+    this->texlist = TObjEneMorfos__instance->models[1].texlist;
     init_model(morfos_collision_bodies, 1);
     set_action_table((saddr)morfos_motion_param_table);
     set_motion_list((saddr)TObjEneMorfos__instance->motions);

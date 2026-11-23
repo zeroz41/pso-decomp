@@ -363,7 +363,7 @@ void TObjEneRecon::state_death(s32 reason) {
             spawn_particle_effect_with_flags(&position, 0x45, 0x40);
             spawn_particle_effect_with_flags(&position, 0x46, 0x40);
             play_sound_effect(TObjEneRecobox::remap_area_sound_id(0x4003A80D), &position, 0, 0);
-            TBoss3Volopt::create_breakup_mdl((saddr)boss3_volopt_instance, (saddr)&recon_breakup_params, (s32)(texlist), (saddr)&body_center, (s32)(rotation_y));
+            TBoss3Volopt::create_breakup_mdl((saddr)boss3_volopt_instance, (saddr)&recon_breakup_params, (texlist), (saddr)&body_center, (s32)(rotation_y));
             break;
         }
         break;
@@ -1157,7 +1157,7 @@ extern "C" {
 void TObjEneRecon::init_state() {
     init_position_vectors();
     model = TObjEneRecon__recobox_static_instance->models->model;
-    texlist = (saddr)TObjEneRecon__recobox_static_instance->models->texlist;
+    texlist = TObjEneRecon__recobox_static_instance->models->texlist;
     init_model(&TObjEneRecon__collision_body_template, 1);
     set_action_table((saddr)TObjEneRecon__animation_entries);
     set_motion_list((saddr)TObjEneRecon__recobox_static_instance->motions);

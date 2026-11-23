@@ -192,7 +192,7 @@ f32 atan2_float(f32 y, f32 x);
 s32 lappy_variant_id;
 BmlResource *rappy_bml_resource;
 s32 *rappy_visibility_node;
-uaddr rappy_alternate_texture_list;
+NJS_TEXLIST *rappy_alternate_texture_list;
 }
 
 void TObjEneLappy::clear_flags_60() {
@@ -922,13 +922,13 @@ __declspec(section ".data") f32 *lappy_variant_speed_ptr_table[2];
 
 void TObjEneLappy::free_resources() {
     if (TLobby::get_instance() == 0) {
-        if (rappy_alternate_texture_list != 0) {
-            release_texture_list((NJS_TEXLIST *)rappy_alternate_texture_list);
-            TAdSinglePlyChrSelectGC::safe_free(rappy_alternate_texture_list);
-            rappy_alternate_texture_list = 0;
+        if (rappy_alternate_texture_list != NULL) {
+            release_texture_list(rappy_alternate_texture_list);
+            TAdSinglePlyChrSelectGC::safe_free((uaddr)rappy_alternate_texture_list);
+            rappy_alternate_texture_list = NULL;
         }
     } else {
-        rappy_alternate_texture_list = 0;
+        rappy_alternate_texture_list = NULL;
     }
     if (rappy_bml_resource != NULL) {
         delete rappy_bml_resource;
@@ -987,12 +987,12 @@ void TObjEneLappy::load_resources() {
     }
     if (TLobby::get_instance() == 0) {
         if (rare) {
-            rappy_alternate_texture_list = (uaddr)load_gvm_texture_file(re3_b_lappy_base_niji_gvm);
+            rappy_alternate_texture_list = load_gvm_texture_file(re3_b_lappy_base_niji_gvm);
         } else {
-            rappy_alternate_texture_list = (uaddr)load_gvm_texture_file(re3_b_lappy_base_ao_gvm);
+            rappy_alternate_texture_list = load_gvm_texture_file(re3_b_lappy_base_ao_gvm);
         }
     } else {
-        rappy_alternate_texture_list = (uaddr)rappy_bml_resource->models[1].texlist;
+        rappy_alternate_texture_list = rappy_bml_resource->models[1].texlist;
     }
     rappy_visibility_node = (s32 *)find_model_node((uaddr)rappy_bml_resource->models[0].model, 0x12);
     for (i = 0; i < 2; i++) {
@@ -1007,7 +1007,7 @@ void TObjEneLappy::load_resources() {
         d.motions = res->motions;
         NpcModelRegistry::register_animated_chunk(5, rappy_bml_resource->models[0].model, rappy_bml_resource->models[0].texlist, &d, 10.0f, 0.0f);
         if (TLobby::get_instance() == 0) {
-            NpcModelRegistry::register_animated_chunk(6, rappy_bml_resource->models[0].model, (void *)rappy_alternate_texture_list, &d, 10.0f, 0.0f);
+            NpcModelRegistry::register_animated_chunk(6, rappy_bml_resource->models[0].model, rappy_alternate_texture_list, &d, 10.0f, 0.0f);
         } else {
             NpcModelRegistry::register_animated_chunk(6, rappy_bml_resource->models[1].model, rappy_bml_resource->models[1].texlist, &d, 10.0f, 0.0f);
         }
@@ -1049,9 +1049,9 @@ void TObjEneLappy::set_speed_params(s32 variant) {
     if (variant == 0) {
         textures = rappy_bml_resource->models[0].texlist;
     } else {
-        textures = (NJS_TEXLIST *)rappy_alternate_texture_list;
+        textures = rappy_alternate_texture_list;
     }
-    texlist = (saddr)textures;
+    texlist = textures;
 }
 
 int TObjEneLappy::test_flag_256() { return 0; }

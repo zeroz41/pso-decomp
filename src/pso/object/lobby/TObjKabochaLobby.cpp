@@ -18,7 +18,7 @@ __declspec(section ".data") const char *bm_obj_lobby_kabocha_model_names[2] = { 
 BmlResourceDescriptor lobby_pumpkin_resource_descriptor = { "bm_obj_lobby_kabocha.bml", bm_obj_lobby_kabocha_model_names, bm_obj_lobby_kabocha_motion_names, 1, 0 };
 const char *obj_kabocha_lobby_class_name = "TObjKabochaLobby";
 BmlResource *TObjKabochaLobby::model_resource;
-u32 TObjKabochaLobby::lobby_texlist;
+NJS_TEXLIST *TObjKabochaLobby::lobby_texlist;
 
 void TObjKabochaLobby::render() {
     if (state != 0 && lobby_texlist != 0 && update_object_view_visibility(view_range, model_radius) != 0) {

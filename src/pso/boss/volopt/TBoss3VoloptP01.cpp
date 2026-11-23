@@ -89,7 +89,7 @@ void TObjVoloptShutter::close() {
 
 void TBoss3VoloptP01::load_model(s32 index) {
     model = (void *)TBoss3VoloptP01__resource_bundle->models[index].model;
-    texlist = (saddr)TBoss3VoloptP01__resource_bundle->models[index].texlist;
+    texlist = TBoss3VoloptP01__resource_bundle->models[index].texlist;
 }
 
 s32 TBoss3VoloptP01::get_shared_value(s32 index) {

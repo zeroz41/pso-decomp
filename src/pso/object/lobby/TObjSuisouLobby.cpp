@@ -25,7 +25,7 @@ const char *obj_suisou_lobby_class_name = "TObjSuisouLobby";
 const Vec obj_suisou_lobby_front_bubbles = { 0.0f, 0.0f, 60.0f };
 const Vec obj_suisou_lobby_back_bubbles = { 0.0f, 0.0f, -60.0f };
 BmlResource *TObjSuisouLobby::model_resource;
-u32 TObjSuisouLobby::lobby_texlist;
+NJS_TEXLIST *TObjSuisouLobby::lobby_texlist;
 
 void TObjSuisouLobby::demo_step() {}
 

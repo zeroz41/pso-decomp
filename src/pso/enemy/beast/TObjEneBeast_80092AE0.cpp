@@ -6,5 +6,5 @@ extern BmlResource *ene_beast_bml_resource;
 
 void TObjEneBeast::select_model_record(s32 i) {
     model = ene_beast_bml_resource->models[i].model;
-    texlist = (saddr)ene_beast_bml_resource->models[i].texlist;
+    texlist = ene_beast_bml_resource->models[i].texlist;
 }

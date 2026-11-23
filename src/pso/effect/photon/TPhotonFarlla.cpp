@@ -71,7 +71,7 @@ TPhotonFarlla::TPhotonFarlla(PhotonSummonParams *params) : TPhotonBlastSummon() 
         rotation_y = owner->rotation_y;
     }
     model = photon_blast_shared_resource->models[0].model;
-    texlist = (saddr)photon_blast_shared_resource->models[0].texlist;
+    texlist = photon_blast_shared_resource->models[0].texlist;
     set_action_table((saddr)photon_blast_farlla_params);
     set_motion_list((saddr)photon_blast_shared_resource->motions);
     requested_action = 1;

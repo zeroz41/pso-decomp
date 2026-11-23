@@ -21,7 +21,7 @@ void TObjPlayer::init_render_target() {
     reinterpret_cast<GinjaTextureInput *>(input)->set_render_rect(NULL, 4, 0x280, 0x1E0);
     set_texture_name(*reinterpret_cast<NJS_TEXNAME **>(arg0 + 0x1C),
         reinterpret_cast<GinjaTextureInput *>(input), 0x901, 0x08800000);
-    this->texlist = load_texture_list((u8 *)&this->entity_id);
+    this->texlist = (NJS_TEXLIST *)load_texture_list((u8 *)&this->entity_id);
 }
 
 }

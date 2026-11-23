@@ -161,7 +161,7 @@ void TObjEneMe1Gee::load_resources() {
     {
         NpcAnimationBinding params = { NULL, reinterpret_cast<TObjMotionAction *>(TObjEneMe1Gee__motion_parameters), 0, 0, 4 };
         params.motions = reinterpret_cast<BmlMotionEntry *>(TObjEneMe1Gee__resource_bundle->motions);
-        NpcModelRegistry::register_animated_chunk((s16)0x10, reinterpret_cast<void *>(TObjEneMe1Gee__resource_bundle->models->model), reinterpret_cast<void *>(TObjEneMe1Gee__resource_bundle->models->texlist), &params, 8.0f, 15.0f);
+        NpcModelRegistry::register_animated_chunk((s16)0x10, reinterpret_cast<void *>(TObjEneMe1Gee__resource_bundle->models->model), TObjEneMe1Gee__resource_bundle->models->texlist, &params, 8.0f, 15.0f);
     }
 }
 
@@ -365,7 +365,7 @@ void TObjEneMe1Gee::apply_parameters() {
 #pragma pop
 void TObjEneMe1Gee::select_model() {
     this->model = (void *)TObjEneMe1Gee__resource_bundle->models->model;
-    this->texlist = (saddr)TObjEneMe1Gee__resource_bundle->models->texlist;
+    this->texlist = TObjEneMe1Gee__resource_bundle->models->texlist;
 }
 #pragma push
 #pragma fp_contract on
@@ -1875,7 +1875,7 @@ void TObjEneMe1GeeLeader::run_task() {
 
 void TObjEneMe1GeeLeader::select_model() {
     this->model = (void *)TObjEneMe1Gee__resource_bundle->models->model;
-    this->texlist = (saddr)TObjEneMe1Gee__resource_bundle->models->texlist;
+    this->texlist = TObjEneMe1Gee__resource_bundle->models->texlist;
 }
 
 void TObjEneMe1GeeLeader::select_next_attack_state() {

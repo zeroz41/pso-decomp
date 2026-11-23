@@ -7,6 +7,8 @@ struct NJS_OBJECT;
 #include <stddef.h>
 #include <dolphin/mtx/GeoTypes.h>
 
+struct NJS_TEXLIST;
+
 class TObjPlayer;
 struct TItemMag;
 
@@ -55,7 +57,7 @@ public:
     TItemMag *item;
     TObjPlayer *owner;
     void *model, *animation;
-    u32 textures;
+    NJS_TEXLIST *textures;
     MagFollowParameters* motion;
     s32 rotation_delta[3];
     s32 rotation_phase[3];
@@ -96,7 +98,7 @@ public:
     void set_flags(u32 value);
     void set_node_id(s32 index, s32 id);
     void set_material_node(s32 node, void* parameters);
-    void set_model(void* model, u32 textures, void* animation);
+    void set_model(void* model, NJS_TEXLIST *textures, void* animation);
     void scale_owner_height(f32 factor);
     int is_growth_inactive();
     u32 test_flags(u32 mask);

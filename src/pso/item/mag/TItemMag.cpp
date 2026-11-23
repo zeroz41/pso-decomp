@@ -385,7 +385,7 @@ int TItemMagSub::is_growth_inactive() { return test_flags(0x40) == 0; }
 
 void TItemMagSub::scale_owner_height(f32 factor) { owner_height_scale *= factor; }
 
-void TItemMagSub::set_model(void *model_arg, u32 textures_arg, void *animation_arg) {
+void TItemMagSub::set_model(void *model_arg, NJS_TEXLIST *textures_arg, void *animation_arg) {
     model = model_arg;
     textures = textures_arg;
     animation = animation_arg;

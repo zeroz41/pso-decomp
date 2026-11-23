@@ -55,7 +55,7 @@ void TObjPlayer::notify_hit_target(u32 arg0, uaddr player, u32 arg2, uaddr pos) 
 void TUnk_804A4020::render() {
     if ((is_owner_alive() != 0) && ((uaddr)model != 0U) && ((uaddr)texture_list != 0U)) {
         push_matrix();
-        set_texlist((uaddr)texture_list);
+        set_texlist(texture_list);
         post_translate_matrix(&m_pos.x);
         rotate_matrix_y(NULL, m_count);
         rotate_matrix_x(NULL, m_28 - 0x4000);

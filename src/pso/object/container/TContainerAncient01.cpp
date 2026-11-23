@@ -376,7 +376,7 @@ TContainerAncient01::TContainerAncient01(TObject *parent, void *set_data) : TObj
     m_name = TContainerAncient01__name;
     this->apply_object_set_data(set_data);
     this->model = reinterpret_cast<NJS_OBJECT *>(get_bml_model((BmlResource *)TContainerAncient01__bml_resource, 0));
-    this->texlist = (saddr)get_bml_texlist((BmlResource *)TContainerAncient01__bml_resource, 0);
+    this->texlist = get_bml_texlist((BmlResource *)TContainerAncient01__bml_resource, 0);
     this->action_table = TContainerAncient01__anim_table;
     this->set_action_table((saddr)((void *) (this->action_table)));
     this->motion_list = TContainerAncient01__bml_resource->motions;

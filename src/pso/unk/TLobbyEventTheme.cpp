@@ -40,7 +40,7 @@ s32 TLobbyEventTheme::started() {
     return 0;
 }
 
-int TLobby::get_lobby_texlist() { return (saddr)lobby_main_texture_gvm; }
+NJS_TEXLIST *TLobby::get_lobby_texlist() { return lobby_main_texture_gvm; }
 
 void TLobbyEventTheme::run_task() {
     s32 current = TLobby::get_filtered_event_theme();

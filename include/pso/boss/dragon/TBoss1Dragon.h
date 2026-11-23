@@ -2,6 +2,8 @@
 #define PSO_BOSS_DRAGON_TBOSS1DRAGON_H
 
 #include "types.h"
+
+struct NJS_TEXLIST;
 #include "pso/render/RenderFadeState.h"
 #include "pso/boss/derolle/AccelerationCurve.h"
 #include "pso/enemy/dd/TObjEneDD_ST.h"
@@ -38,7 +40,7 @@ struct DragonMotionEntry { u32 unknown00; DragonMotion* motion; };
 struct DragonAnimationEntry { u32 unknown00; s32 motionIndex; u8 unknown08[8]; };
 
 // One model of the Dragon's resource: [0] the body the ctor clones, [1] the one render_shadows draws.
-struct DragonModelEntry { u8 unknown00[8]; DragonModelNode *root; saddr texlist; };
+struct DragonModelEntry { u8 unknown00[8]; DragonModelNode *root; NJS_TEXLIST *texlist; };
 struct DragonResource { u8 unknown00[0x42C]; DragonModelEntry *models; DragonMotionEntry *motions; };
 LAYOUT_ASSERT(DragonPositionKeySize, sizeof(DragonPositionKey) == 0x10);
 

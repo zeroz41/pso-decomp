@@ -124,7 +124,7 @@ void TObjCGrass::load_resources() {
     NpcAnimationBinding binding = cgrass_anim_binding;
     binding.motions = TObjCGrass_bml_resource->motions;
     BmlModelEntry *model = TObjCGrass_bml_resource->models;
-    NpcModelRegistry::register_animated_chunk(0x36, reinterpret_cast<void *>(model->model), reinterpret_cast<void *>(model->texlist), &binding, 2.0f, 0.0f);
+    NpcModelRegistry::register_animated_chunk(0x36, reinterpret_cast<void *>(model->model), model->texlist, &binding, 2.0f, 0.0f);
 }
 
 }
@@ -144,7 +144,7 @@ TObjCGrass::TObjCGrass(Vec origin, s32 count, s32 lifetime) : TObjMotion(tl_06) 
         VecCopy(&position, &origin);
     }
     model = (void *)TObjCGrass_bml_resource->models[0].model;
-    texlist = (saddr)TObjCGrass_bml_resource->models[0].texlist;
+    texlist = TObjCGrass_bml_resource->models[0].texlist;
     motion_list = TObjCGrass_bml_resource->motions;
     action_table = cgrass_action_desc;
     set_action_table((saddr)action_table);

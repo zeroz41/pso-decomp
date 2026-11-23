@@ -15527,7 +15527,7 @@ force_active:
   - __ct__13TUnk_804ED298FP7TObjectPUc
   - set_mode_index_from_state__13TObjLobbyMainFv
   - __ct__13TUnk_804A6200FP7TObjectPUc
-  - set_model__11TItemMagSubFPvUlPv
+  - set_model__11TItemMagSubFPvP11NJS_TEXLISTPv
   - set_model__19TBoss3VoloptMonitorFl
   - set_motion_by_state__18TObjEneRe4SorcererFPv
   - set_motion_row_stride__Fl

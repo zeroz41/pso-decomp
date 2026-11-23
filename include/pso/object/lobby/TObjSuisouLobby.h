@@ -29,7 +29,7 @@ struct TObjSuisouLobby : public TObjMapObject {
     static void load_resources();
 
     static BmlResource *model_resource;
-    static u32 lobby_texlist;  // the lobby's shared texture list
+    static NJS_TEXLIST *lobby_texlist;  // the lobby's shared texture list
 };
 
 LAYOUT_ASSERT(TObjSuisouLobby_size, sizeof(TObjSuisouLobby) == 0xDC);

@@ -113,7 +113,7 @@ struct TBoss3Volopt : public TObjEnemyCustom {
 
     // Defined in other units; most are helpers of other classes filed under
     // TBoss3Volopt.
-    static void create_breakup_mdl(saddr model, saddr params, s32 texlist, saddr position, s32 rotation_y);
+    static void create_breakup_mdl(saddr model, saddr params, NJS_TEXLIST *texlist, saddr position, s32 rotation_y);
     static s32 remap_area_sound_id(s32 sound_id);
     void create_cage(u16 target_id);
 

@@ -230,8 +230,8 @@ void TObjEneBm5Wolf::load_resources() {
     {
     NpcAnimationBinding sp = bm5_wolf_spawn_descriptor;
     sp.motions = reinterpret_cast<BmlMotionEntry *>(TObjEneBm5Wolf__bml_resource->motions);
-    NpcModelRegistry::register_animated_chunk(9, reinterpret_cast<void *>(TObjEneBm5Wolf__bml_resource->models[1].model), reinterpret_cast<void *>(TObjEneBm5Wolf__bml_resource->models[0].texlist), &sp, TObjEneBm5Wolf__collider_params[0].radius, 0.0f);
-    NpcModelRegistry::register_animated_chunk(10, reinterpret_cast<void *>(TObjEneBm5Wolf__bml_resource->models[0].model), reinterpret_cast<void *>(TObjEneBm5Wolf__bml_resource->models[0].texlist), &sp, TObjEneBm5Wolf__collider_params[0].radius, 0.0f);
+    NpcModelRegistry::register_animated_chunk(9, reinterpret_cast<void *>(TObjEneBm5Wolf__bml_resource->models[1].model), TObjEneBm5Wolf__bml_resource->models[0].texlist, &sp, TObjEneBm5Wolf__collider_params[0].radius, 0.0f);
+    NpcModelRegistry::register_animated_chunk(10, reinterpret_cast<void *>(TObjEneBm5Wolf__bml_resource->models[0].model), TObjEneBm5Wolf__bml_resource->models[0].texlist, &sp, TObjEneBm5Wolf__collider_params[0].radius, 0.0f);
     }
 }
 
@@ -435,12 +435,12 @@ void TObjEneBm5Wolf::select_subtype() {
     if (this->parameters[1] >= 1.0f) {
         this->is_leader = 1;
         this->model = (void *)TObjEneBm5Wolf__bml_resource->models[1].model;
-        this->texlist = (saddr)TObjEneBm5Wolf__bml_resource->models[0].texlist;
+        this->texlist = TObjEneBm5Wolf__bml_resource->models[0].texlist;
         return;
     }
     this->is_leader = 0;
     this->model = (void *)TObjEneBm5Wolf__bml_resource->models[0].model;
-    this->texlist = (saddr)TObjEneBm5Wolf__bml_resource->models[0].texlist;
+    this->texlist = TObjEneBm5Wolf__bml_resource->models[0].texlist;
 }
 
 void TObjEneBm5Wolf::advance_pose_turn(s32 target) {

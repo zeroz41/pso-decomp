@@ -107,7 +107,7 @@ TOKeyAncient01::TOKeyAncient01(TObject *parent, void *set_data) : TOKey(parent) 
     } else if (set_params[1] > 3) {
         set_params[1] = 3;
     }
-    texlist = (saddr)TOKeyAncient01__texture_lists[set_params[1]];
+    texlist = TOKeyAncient01__texture_lists[set_params[1]];
     model = (void *)TOKeyAncient01__shared_resource_object->models[0].model;
     motion = TOKeyAncient01__shared_resource_object->motions[0].motion;
     animation_end_frame = (f32)motion->frameCount - 1.0f;

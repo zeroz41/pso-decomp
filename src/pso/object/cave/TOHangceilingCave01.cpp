@@ -446,7 +446,7 @@ void TOHangceilingCave01Normal::vfunc_80() {
 
 void TOHangceilingCave01Normal::vfunc_79() {
     current_motion = (NJS_MOTION *)get_bml_motion(TOHangceilingCave01__model_archive, hanging_ceiling_motion_index);
-    texlist = (saddr)turiten_singo_texture_lists[0];
+    texlist = turiten_singo_texture_lists[0];
     m_354 = 4.0f * m_350;
     sub_801682E4(0);
     bodies->flags |= hang_flag_8;
@@ -494,7 +494,7 @@ void TOHangceilingCave01Key::vfunc_80() {
 }
 
 void TOHangceilingCave01Key::vfunc_79() {
-    texlist = (saddr)turiten_singo_texture_lists[1];
+    texlist = turiten_singo_texture_lists[1];
     current_motion = (NJS_MOTION *)get_bml_motion(TOHangceilingCave01__model_archive, 1);
     m_354 = 0.0f;
     sub_801682E4(3);
@@ -563,7 +563,7 @@ void TOHangceilingCave01KeyQuick::vfunc_80() {
 }
 
 void TOHangceilingCave01KeyQuick::vfunc_79() {
-    texlist = (saddr)turiten_singo_texture_lists[1];
+    texlist = turiten_singo_texture_lists[1];
     current_motion = (NJS_MOTION *)get_bml_motion(TOHangceilingCave01__model_archive, 1);
     m_354 = 0.0f;
     sub_801682E4(3);

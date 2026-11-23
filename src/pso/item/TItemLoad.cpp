@@ -556,7 +556,7 @@ TItemModelLoadTask::~TItemModelLoadTask() {
         break;
     }
     if ((resource.texlist != NULL) && (resource.texlist->textures->texture != NULL)) {
-        free_texture_if_valid((uaddr)resource.texlist);
+        free_texture_if_valid(resource.texlist);
     }
 }
 

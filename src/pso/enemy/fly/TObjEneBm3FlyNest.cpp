@@ -250,7 +250,7 @@ void TObjEneBm3FlyNest::load_resources() {
         NpcAnimationBinding anim = { NULL, reinterpret_cast<TObjMotionAction *>(bm3_flynest_hit_action_table), 0, 8, 10 };
         anim.motions = reinterpret_cast<BmlMotionEntry *>(bm3_fly_nest_bml->motions);
         models = bm3_fly_nest_bml->models;
-        NpcModelRegistry::register_animated_chunk(8, reinterpret_cast<void *>(models[1].model), reinterpret_cast<void *>(models[0].texlist), &anim, bm3_flynest_collider_params[0].radius, 0.0f);
+        NpcModelRegistry::register_animated_chunk(8, reinterpret_cast<void *>(models[1].model), models[0].texlist, &anim, bm3_flynest_collider_params[0].radius, 0.0f);
     }
 }
 
@@ -277,7 +277,7 @@ TObjEneBm3FlyNest::TObjEneBm3FlyNest(TObject *parent, Bm3FlyNestSetData *set_dat
     invoke_initialization_hook(set_data);
     init_position_vectors();
     model = (void *)bm3_fly_nest_bml->models[1].model;
-    texlist = (saddr)bm3_fly_nest_bml->models[0].texlist;
+    texlist = bm3_fly_nest_bml->models[0].texlist;
     init_model(bm3_flynest_collider_params, 1);
     body_center.y = 20.0f + position.y;
     update_body_colliders();

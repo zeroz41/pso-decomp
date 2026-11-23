@@ -60,7 +60,7 @@ void TItemEquipBase::bind_loaded_resources() {
             if (resource != NULL) {
                 item_model = resource->models[0];
                 second_model = resource->models[1];
-                texlist = (saddr)resource->texlist;
+                texlist = resource->texlist;
                 model_motion = resource->motion;
                 model_data[0] = resource->models[2];
                 model_data[1] = resource->models[3];

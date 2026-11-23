@@ -54,20 +54,18 @@ const char *TObjNpcConnoisseur__name = "TObjNpcConnoisseur";
 
 
 s32 lbl_805D5748;
-uaddr TObjNpcConnoisseur__instance;
+BmlResource *TObjNpcConnoisseur__instance;
 
 void TObjNpcConnoisseur::destroy_instance() {
-    if ((u32) TObjNpcConnoisseur__instance != 0U) {
-        delete (BmlResource *)TObjNpcConnoisseur__instance;
-        TObjNpcConnoisseur__instance = 0U;
+    if (TObjNpcConnoisseur__instance != NULL) {
+        delete TObjNpcConnoisseur__instance;
+        TObjNpcConnoisseur__instance = NULL;
     }
 }
 
 void TObjNpcConnoisseur::load_section_motion() {
-    void *o;
     lbl_805D5748 = leader_selection.get_section_id();
-    o = new BmlResource(1, (BmlResourceDescriptor *)tekker_descriptor_selector_table[lbl_805D5748], 0, 0, NULL);
-    TObjNpcConnoisseur__instance = (uaddr)o;
+    TObjNpcConnoisseur__instance = new BmlResource(1, (BmlResourceDescriptor *)tekker_descriptor_selector_table[lbl_805D5748], 0, 0, NULL);
 }
 
 TObjNpcConnoisseur::~TObjNpcConnoisseur() {}
@@ -77,8 +75,8 @@ TObjNpcConnoisseur::TObjNpcConnoisseur(TObject *parent, void *arg2) : TUnk_804A9
     ((TObjNpcConnoisseur *)this)->m_name = TObjNpcConnoisseur__name;
     ((TObjNpcConnoisseur *)this)->apply_set_data(arg2);
     init_position_vectors();
-    *(s32 *)((s8 *)this + 0x34) = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)(*(u8 * *)&TObjNpcConnoisseur__instance) + 0x42C)) + 8);
-    ((TObjNpcConnoisseur *)this)->texlist = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)(*(u8 * *)&TObjNpcConnoisseur__instance) + 0x42C)) + 0xC);
+    model = TObjNpcConnoisseur__instance->models->model;
+    texlist = TObjNpcConnoisseur__instance->models->texlist;
     ((TObjNpcBase *)this)->setup_common();
 }
 

@@ -134,7 +134,7 @@ CollisionBody merill_lia_collision_bodies[3] = {
 // functions below are defined from the last one in the DOL (select_model_record) back to the first (run_demo_task).
 void TObjEneMerillLia::select_model_record(s32 i) {
     model = merill_lia_bml_resource->models[i].model;
-    texlist = (saddr)merill_lia_bml_resource->models[i].texlist;
+    texlist = merill_lia_bml_resource->models[i].texlist;
 }
 
 TObjEneMerillLia::TObjEneMerillLia(TObject *parent, void *setData) : TUnk_80493450(parent) {

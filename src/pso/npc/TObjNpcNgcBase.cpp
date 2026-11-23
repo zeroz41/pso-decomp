@@ -19,7 +19,7 @@ TObjNpcNgcBase::TObjNpcNgcBase(TObject *parent, void *set_data, void *resource) 
     apply_set_data(set_data);
     init_position_vectors();
     *(s32 *)((s8 *)this + 0x34) = (saddr)get_bml_model((BmlResource *)resource, 0);
-    texlist = (saddr)get_bml_texlist((BmlResource *)resource, 0);
+    texlist = get_bml_texlist((BmlResource *)resource, 0);
     setup_common();
 }
 void fn_803594B4(TBoss4Fade *fade, s32 color, f32 alpha) {

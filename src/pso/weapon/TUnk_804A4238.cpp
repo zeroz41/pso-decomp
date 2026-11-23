@@ -18,7 +18,7 @@ struct Self_801293FC { u8 pad0[0x24]; s32 f24; u8 pad28[0xF0 - 0x28]; Owner_8012
 struct Tec_801293FC {
     s16 id;
     u8 pad2[2];
-    s32 f4;
+    NJS_TEXLIST *texlist;
     s32 f8;
     s32 item_id;
     s16 f10;
@@ -46,7 +46,7 @@ void TUnk_804A4238::emit_marker_effects() {
     init_slicer_launch_state(&tec);
     tec.id = ((TObjBase *)(self->owner))->get_entity_id();
     tec.item_id = ((TItem *)self)->get_item_id();
-    tec.f4 = this->texlist;
+    tec.texlist = this->texlist;
     tec.f8 = self->f188;
     tec.f10 = TObjPlayer__sub_801D2F4C((s16 *)((u8 *)self->owner + 0x7CC));
     tec.validated_attack_stage = owner->attack_state.get_validated_attack_stage();

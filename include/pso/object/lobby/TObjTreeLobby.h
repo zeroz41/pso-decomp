@@ -20,7 +20,7 @@ struct TObjTreeLobby : public TObjMapObject {
     f32 fade_scale;  // 0..1, the xz scale it fades in and out with
 
     static BmlResource *model_resource;
-    static u32 lobby_texlist;  // the lobby's shared texture list
+    static NJS_TEXLIST *lobby_texlist;  // the lobby's shared texture list
 };
 
 LAYOUT_ASSERT(TObjTreeLobby_size, sizeof(TObjTreeLobby) == 0xD0);

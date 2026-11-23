@@ -196,7 +196,7 @@ s32 TObjVoloptCage::get_int_param(s32 index) {
 
 void TBoss3VoloptP02::load_params_from_table(s32 index) {
     model = (void *)volopt_p02_resources->models[index].model;
-    texlist = (saddr)volopt_p02_resources->models[index].texlist;
+    texlist = volopt_p02_resources->models[index].texlist;
 }
 
 f32 TBoss3VoloptP02::get_float_param(s32 index) {

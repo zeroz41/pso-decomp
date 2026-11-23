@@ -50,7 +50,7 @@ TODoorAncient04::TODoorAncient04(TObject *parent, void *set_data) : TODoorBase(p
     m_name = TODoorAncient04_name;
     apply_object_set_data(set_data);
     model = (void *)door_ancient04_archive->models[0].model;
-    texlist = (saddr)door_ancient04_texlists[1];
+    texlist = door_ancient04_texlists[1];
     motion = door_ancient04_archive->motions[0].motion;
     animation_end_frame = (f32)motion->frameCount - 1.0f;
     animation_step = animation_end_frame / 30.0f;

@@ -93,7 +93,7 @@ uaddr lobby_kamome_model_resource;
 NJS_TEXLIST *lobby_kamome_texture_gvm_handle;
 struct BmlResource;
 BmlResource *lobby_pigeon_bml_archive;
-u32 lobby_pigeon_lobby_type;
+NJS_TEXLIST *lobby_pigeon_lobby_type;
 
 // TObjPathObj's class name.
 const char *TObjPathObj__name = "TObjPathObj";
@@ -1230,9 +1230,9 @@ void TObjLobbyPigeon::vfunc_14() {
       TMainTask::get_render_pass() == 0)
     draw_line_strip__10TObjPlayerFPviif((u8 *)(self), (saddr)(self->model),
                                         (saddr)(self->path), (1.0f));
-  if (self->phase == 0 || lobby_pigeon_lobby_type == 0)
+  if (self->phase == 0 || lobby_pigeon_lobby_type == NULL)
     return;
-  TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(lobby_pigeon_lobby_type));
+  TObjFish::set_global_param(lobby_pigeon_lobby_type);
   push_matrix();
   post_translate_matrix((void *)(self->position));
   rotate_matrix_y(0, (s32)(self->facing));

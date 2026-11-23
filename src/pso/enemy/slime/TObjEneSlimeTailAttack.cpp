@@ -104,7 +104,7 @@ extern const char TObjEneSlimeWaterBomb__class_name_string[] = "TObjEneSlimeWate
 }
 SlimeTailNodeCapture slime_tail_node_capture;
 extern "C" {
-void *slime_bml_resource;
+BmlResource *slime_bml_resource;
 int slime_tail_node_index;  // capture_slime_tail_node's count of the nodes drawn
 
 extern void *slime_model_name_ptr_table[7];
@@ -256,21 +256,15 @@ s32 TObjEneSlime::create(saddr set_data) {
 }
 
 void TObjEneSlime::spawn_pair() {
-    void *resource;
-    void *models;
-
-    resource = new BmlResource(1, (BmlResourceDescriptor *)slime_pair_resource_descriptor, 0, 0, NULL);
-    slime_bml_resource = resource;
-    models = *(void **)((s8 *)resource + 0x42C);
-    TObjEneSlime::spawn_child(0x28, *(s32 *)((s8 *)models + 0x48), *(s32 *)((s8 *)models + 0x4C), 10.0f, 0.0f);
-    models = *(void **)((s8 *)slime_bml_resource + 0x42C);
-    TObjEneSlime::spawn_child(0x29, *(s32 *)((s8 *)models + 0x58), *(s32 *)((s8 *)models + 0x5C), 10.0f, 0.0f);
+    slime_bml_resource = new BmlResource(1, (BmlResourceDescriptor *)slime_pair_resource_descriptor, 0, 0, NULL);
+    TObjEneSlime::spawn_child(0x28, slime_bml_resource->models[4].model, slime_bml_resource->models[4].texlist, 10.0f, 0.0f);
+    TObjEneSlime::spawn_child(0x29, slime_bml_resource->models[5].model, slime_bml_resource->models[5].texlist, 10.0f, 0.0f);
 }
 
 void TObjEneSlime::free_instance() {
-    if ((uaddr) slime_bml_resource != 0U) {
-        delete (BmlResource *)slime_bml_resource;
-        slime_bml_resource = 0U;
+    if (slime_bml_resource != NULL) {
+        delete slime_bml_resource;
+        slime_bml_resource = NULL;
     }
 }
 
@@ -323,19 +317,19 @@ void TObjEneSlime::render() {
         push_matrix();
         model_index = *(s32 *)((s8 *)((u8 *)slime_model_index_by_type + type_offset) + 0);
         post_translate_matrix(&position.x);
-        TObjFish::set_global_param(get_bml_texlist((BmlResource *)slime_bml_resource, model_index));
+        TObjFish::set_global_param(get_bml_texlist(slime_bml_resource, model_index));
         if (deferred != 0) {
             model_render_flags |= 0x400000;
             set_chunk_render_flags(1);
-            draw_chunk_object((void *)get_bml_model((BmlResource *)slime_bml_resource, model_index));
+            draw_chunk_object((void *)get_bml_model(slime_bml_resource, model_index));
             clear_chunk_render_flags();
             model_render_flags &= 0xFFBFFFFF;
         } else {
             set_chunk_render_flags(2);
             set_cull_back();
-            draw_chunk_object((void *)get_bml_model((BmlResource *)slime_bml_resource, model_index));
+            draw_chunk_object((void *)get_bml_model(slime_bml_resource, model_index));
             set_cull_front();
-            draw_chunk_object((void *)get_bml_model((BmlResource *)slime_bml_resource, model_index));
+            draw_chunk_object((void *)get_bml_model(slime_bml_resource, model_index));
             set_cull_none();
             clear_chunk_render_flags();
         }
@@ -513,7 +507,7 @@ void TObjEneSlimeOne::initialize_slime_instance_state() {
 
     s32 *variant = &actor->variant;
     s32 id = ((s32 *)slime_one_model_by_variant)[*variant];
-    actor->texlist = (saddr)get_bml_texlist(actor->model_archive, id);
+    actor->texlist = get_bml_texlist(actor->model_archive, id);
     actor->model = reinterpret_cast<void *>(get_bml_model(actor->model_archive, id));
     VecCopy(&actor->prev_position, VecCopy(&actor->home_position, VecCopy(&actor->center, &actor->position)));
     actor->collision_body_parts = init_collision_body_parts(actor, slime_one_collision_body, 1);
@@ -1420,7 +1414,7 @@ TObjEneSlimeTailAttack::TObjEneSlimeTailAttack(TObject *parent, const Vec *posit
     this->owner = owner;
     BmlResource *resource = reinterpret_cast<BmlResource *>(TObjEneSlimeOne::get_instance());
     u32 id = slime_tail_model_by_target[this->owner->get_attack_target()];
-    texlist = (saddr)get_bml_texlist(resource, id);
+    texlist = get_bml_texlist(resource, id);
     model = (void *)get_bml_model(resource, id);
     action_table = (TObjMotionAction *)slime_motion_action_table;
     set_action_table((saddr)slime_motion_action_table);

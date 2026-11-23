@@ -87,7 +87,7 @@ TPhotonPilla::TPhotonPilla(PhotonSummonParams *params) : TPhotonBlastSummon() {
         rotation_y = owner->rotation_y;
     }
     model = photon_blast_shared_resource->models[3].model;
-    texlist = (saddr)photon_blast_shared_resource->models[3].texlist;
+    texlist = photon_blast_shared_resource->models[3].texlist;
     set_action_table((saddr)photon_pilla_action_table);
     set_motion_list((saddr)photon_blast_shared_resource->motions);
     requested_action = 1;

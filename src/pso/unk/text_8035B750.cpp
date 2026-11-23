@@ -45,12 +45,12 @@ void fn_8035B788(void) {
     {
         NpcAnimationBinding r = lbl_804798CC;
         r.motions = reinterpret_cast<BmlMotionEntry *>(o->x430);
-        NpcModelRegistry::register_animated_chunk((s16)0x11, reinterpret_cast<void *>(o->x42c->x8), reinterpret_cast<void *>(o->x42c->texlist), &r, 10.0f, 0.0f);
+        NpcModelRegistry::register_animated_chunk((s16)0x11, reinterpret_cast<void *>(o->x42c->x8), o->x42c->texlist, &r, 10.0f, 0.0f);
     }
     {
         NpcAnimationBinding r = lbl_804798DC;
         r.motions = reinterpret_cast<BmlMotionEntry *>(lbl_805D6F50->x430);
-        NpcModelRegistry::register_animated_chunk((s16)0x12, reinterpret_cast<void *>(lbl_805D6F50->x42c->x8), reinterpret_cast<void *>(lbl_805D6F50->x42c->texlist), &r, 10.0f, 0.0f);
+        NpcModelRegistry::register_animated_chunk((s16)0x12, reinterpret_cast<void *>(lbl_805D6F50->x42c->x8), lbl_805D6F50->x42c->texlist, &r, 10.0f, 0.0f);
     }
 }
 

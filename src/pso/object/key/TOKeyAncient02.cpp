@@ -158,7 +158,7 @@ TOKeyAncient02::TOKeyAncient02(TObject *parent, void *set_data) : TOKey(parent) 
     apply_object_set_data(set_data);
     init_switch_id();
     model = (void *)get_bml_model((BmlResource *)TOKeyAncient02__model_archive, 1);
-    texlist = (saddr)get_bml_texlist((BmlResource *)TOKeyAncient02__model_archive, 1);
+    texlist = get_bml_texlist((BmlResource *)TOKeyAncient02__model_archive, 1);
     init_collision_body_parts(this, key_ancient02_collision_body, 1);
     refresh_collision_body_centers();
     register_object_by_id();

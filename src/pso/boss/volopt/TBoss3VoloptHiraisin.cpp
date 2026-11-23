@@ -144,7 +144,7 @@ void TBoss3VoloptHiraisin::start_attack() {
     s16 max_hp;
     u32 flags;
     TBoss3Volopt::create_breakup_mdl((saddr)volopt_hiraisin_breakup_model, (saddr)&volopt_hiraisin_breakup_params,
-                                     (saddr)get_bml_texlist((BmlResource *)volopt_hiraisin_resources, 0x10), (saddr)&body_center, rotation_y);
+                                     get_bml_texlist((BmlResource *)volopt_hiraisin_resources, 0x10), (saddr)&body_center, rotation_y);
     trigger_dell_biter_events(&body_center);
     play_sound_effect(0x4001C112, &position, 0, 0);
     behavior_flags &= ~1;
@@ -390,5 +390,5 @@ void TBoss3VoloptHiraisin::copy_position() {
 
 void TBoss3VoloptHiraisin::load_params_from_table(s32 index) {
     model = (void *)volopt_hiraisin_resources->models[index].model;
-    texlist = (saddr)volopt_hiraisin_resources->models[index].texlist;
+    texlist = volopt_hiraisin_resources->models[index].texlist;
 }

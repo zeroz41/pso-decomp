@@ -29,7 +29,7 @@ TOMineIcon04::TOMineIcon04(TObject *parent, void *set_data) : TOMine(parent) {
     init_position_vectors();
     calc_attach_pos();
     model = (void *)get_bml_model((BmlResource *)lbl_805D5A50, 7);
-    texlist = (saddr)get_bml_texlist((BmlResource *)lbl_805D5A50, 7);
+    texlist = get_bml_texlist((BmlResource *)lbl_805D5A50, 7);
     light_model = (NJS_OBJECT *)get_bml_model((BmlResource *)lbl_805D5A50, 3);
     light_textures = get_bml_texlist((BmlResource *)lbl_805D5A50, 3);
     mode = 0;

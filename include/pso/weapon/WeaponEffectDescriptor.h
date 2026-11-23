@@ -13,7 +13,7 @@ struct Desc_8011E5C4 : S_802E451C {
     f32 range;
     u32 flags;
     NJS_OBJECT *model;
-    uaddr texlist;
+    NJS_TEXLIST *texlist;
     f32 scale;
     s32 spin[3];
     f32 star_width;

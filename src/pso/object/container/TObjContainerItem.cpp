@@ -638,11 +638,11 @@ void TObjContainerItem::vfunc_79() const {
         VecCopy((Vec *)a.pos, (const Vec *)&self->x);
         a.floor_y = self->y;
         a.model = (saddr)get_forest_box_model(2);
-        a.textures = (saddr)forest_box_textures;
+        a.textures = forest_box_textures;
         VecCopy((Vec *)b.pos, (const Vec *)&self->x);
         b.floor_y = self->y;
         b.model = (saddr)get_forest_box_model(0);
-        b.textures = (saddr)forest_box_textures;
+        b.textures = forest_box_textures;
         spawn_particle_effect_with_flags((const Vec *)&self->x, 0x45, 0x40);
         spawn_particle_effect_with_flags((const Vec *)&self->x, 0x46, 0x40);
         new TObjChip(tl_05, &a);
@@ -756,11 +756,11 @@ void TObjContainerEnemy::vfunc_79() const {
         VecCopy((Vec *)a.pos, (const Vec *)&self->x);
         a.floor_y = self->y;
         a.model = (saddr)get_forest_box_model(2);
-        a.textures = (saddr)forest_box_textures;
+        a.textures = forest_box_textures;
         VecCopy((Vec *)b.pos, (const Vec *)&self->x);
         b.floor_y = self->y;
         b.model = (saddr)get_forest_box_model(0);
-        b.textures = (saddr)forest_box_textures;
+        b.textures = forest_box_textures;
         spawn_particle_effect_with_flags((const Vec *)&self->x, 0x45, 0x40);
         spawn_particle_effect_with_flags((const Vec *)&self->x, 0x46, 0x40);
         new TObjChip(tl_05, &a);
@@ -858,11 +858,11 @@ void TObjContainerNoItem::vfunc_79() const {
         VecCopy((Vec *)a.pos, (const Vec *)&self->x);
         a.floor_y = self->y;
         a.model = (saddr)get_forest_box_model(2);
-        a.textures = (saddr)forest_box_textures;
+        a.textures = forest_box_textures;
         VecCopy((Vec *)b.pos, (const Vec *)&self->x);
         b.floor_y = self->y;
         b.model = (saddr)get_forest_box_model(0);
-        b.textures = (saddr)forest_box_textures;
+        b.textures = forest_box_textures;
         spawn_particle_effect_with_flags((const Vec *)&self->x, 0x45, 0x40);
         spawn_particle_effect_with_flags((const Vec *)&self->x, 0x46, 0x40);
         new TObjChip(tl_05, &a);
@@ -950,7 +950,7 @@ void TObjContainerBase::vfunc_79() const {
     a.pos[2] = za;
     a.floor_y = ya;
     a.model = (saddr)get_container_breakup_model(0);
-    a.textures = (saddr)container_breakup_textures;
+    a.textures = container_breakup_textures;
     TObjChipParams b = container_break_small_debris_parameters;
     f32 zb;
     f32 yb;
@@ -963,7 +963,7 @@ void TObjContainerBase::vfunc_79() const {
     b.pos[2] = zb;
     b.floor_y = yb;
     b.model = (saddr)get_container_breakup_model(1);
-    b.textures = (saddr)container_breakup_textures;
+    b.textures = container_breakup_textures;
     spawn_particle_effect_with_flags(&position, 0x45, 0x40);
     spawn_particle_effect_with_flags(&position, 0x46, 0x40);
     new TObjChip(tl_05, &a);
@@ -1082,7 +1082,7 @@ void TObjContainerAbeEnemy::vfunc_79() const {
         a.pos[2] = za;
         a.floor_y = ya;
         a.model = (saddr)get_container_breakup_model(0);
-        a.textures = (saddr)container_breakup_textures;
+        a.textures = container_breakup_textures;
         TObjChipParams b = lbl_80444EA8;
         f32 zb;
         f32 yb;
@@ -1095,7 +1095,7 @@ void TObjContainerAbeEnemy::vfunc_79() const {
         b.pos[2] = zb;
         b.floor_y = yb;
         b.model = (saddr)get_container_breakup_model(1);
-        b.textures = (saddr)container_breakup_textures;
+        b.textures = container_breakup_textures;
         spawn_particle_effect_with_flags(&self->pos, 0x45, 0x40);
         spawn_particle_effect_with_flags(&self->pos, 0x46, 0x40);
         new TObjChip(tl_05, &a);

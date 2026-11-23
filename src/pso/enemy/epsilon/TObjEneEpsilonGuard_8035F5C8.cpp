@@ -113,7 +113,7 @@ TObjEneEpsilonBody::TObjEneEpsilonBody(TObject *parent, void *set_data) : TObjEn
     flags = 0;
     flags |= 2;
     set_guard_state();
-    texlist = (saddr)get_bml_texlist(epsilon_bml_resource, 0);
+    texlist = get_bml_texlist(epsilon_bml_resource, 0);
     set_action_table((saddr)epsilon_body_action_table);
     set_motion_list((saddr)epsilon_bml_resource->motions);
     set_animation(requested_action);
@@ -869,7 +869,7 @@ void TObjEneEpsilonBody::action_destroy(s32 reason) {
             action_timer++;
             if (action_timer >= 0x14) {
                 set_intangible();
-                TBoss3Volopt::create_breakup_mdl((saddr)epsilon_body_breakup_model, (saddr)&epsilon_guard_destroy_breakup_params, (s32)texlist, (saddr)&body_center, (s32)rotation_y);
+                TBoss3Volopt::create_breakup_mdl((saddr)epsilon_body_breakup_model, (saddr)&epsilon_guard_destroy_breakup_params, texlist, (saddr)&body_center, (s32)rotation_y);
                 play_sound_effect(0x4003AD4C, &body_center, 0, 0);
                 trigger_dell_biter_events(&body_center);
                 flags |= 1;

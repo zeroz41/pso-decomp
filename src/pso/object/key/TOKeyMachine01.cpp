@@ -231,7 +231,7 @@ TOKeyMachine01::TOKeyMachine01(TObject *parent, void *set_data) : TOKey(parent) 
     m_name = TOKeyMachine01__class_name;
     apply_object_set_data(set_data);
     init_switch_id();
-    texlist = (saddr)TOKeyMachine01__texture_lists[0];
+    texlist = TOKeyMachine01__texture_lists[0];
     model = (void *)TOKeyMachine01__resource_bundle->models[0].model;
     view_range = 400.0f;
     model_radius = 10.0f;

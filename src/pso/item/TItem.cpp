@@ -1484,7 +1484,7 @@ void TItem::render_model() {
     if (model != NULL) {
         set_draw_list_mask(3);
         TParticleCtrl::begin_effect_render();
-        set_texlist((uaddr)texture);
+        set_texlist(texture);
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, rotation_y);
@@ -1510,7 +1510,7 @@ void TItem::render_present_box() {
         model_render_flags |= 0x10;
         set_draw_list_mask(3);
         TParticleCtrl::begin_effect_render();
-        set_texlist((uaddr)texture);
+        set_texlist(texture);
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, rotation_y);

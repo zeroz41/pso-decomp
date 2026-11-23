@@ -107,7 +107,7 @@ TObjDFUsoTower *TObjDFUsoTower::create(TObject *parent) {
 TObjDFUsoTower::TObjDFUsoTower(TObject *parent) : TObjBase(parent) {
     m_name = TObjDFUsoTower__name;
     model = (void *)(get_bml_model(TOBoss4::model_resource, 5));
-    this->texlist = (saddr)get_bml_texlist(TOBoss4::model_resource, 5);
+    this->texlist = get_bml_texlist(TOBoss4::model_resource, 5);
     VecCopy(&position, &uso_tower_start_position);
     fade_alpha = 0.0f;
     fade_state = 0;

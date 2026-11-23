@@ -484,7 +484,7 @@ void TObjSeabedSuisoBrakable::vfunc_16() {
     params.floor_y = position.y;
     params.scale = 1.0f;
     params.model = 0;
-    params.textures = (saddr)get_texlist(0);
+    params.textures = get_texlist(0);
     params.flags = 17;
     piece = seabed_suiso_break_sets[kind].chips;
     for (i = 0; i < 17; i++, piece++) {
@@ -500,7 +500,7 @@ void TObjSeabedSuisoBrakable::vfunc_16() {
 
 void TObjSeabedSuisoBrakable::init_model() {
     model = get_model(seabed_suiso_break_sets[kind].whole.model);
-    texlist = (saddr)get_texlist(0);
+    texlist = get_texlist(0);
     m_b0 = 40.0f;
 }
 

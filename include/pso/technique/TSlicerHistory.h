@@ -11,7 +11,7 @@ class TTecSlicer;
 // slicer's pose that fades out.
 class TSlicerHistory : public TObject {
 public:
-    TSlicerHistory(TTecSlicer *slicer, u32 texlist, NJS_ARGB *color, u32 weapon_handle);
+    TSlicerHistory(TTecSlicer *slicer, NJS_TEXLIST *texlist, NJS_ARGB *color, u32 weapon_handle);
     static const char *class_name;
     virtual ~TSlicerHistory();
     virtual void run_task();
@@ -22,7 +22,7 @@ public:
     s32 rotation_z;
     Vec position;
     void *model;
-    u32 texlist;
+    NJS_TEXLIST *texlist;
     NJS_ARGB color;     // alpha drops by 0.2 a frame; gone below zero
     Vec scale;
     u32 weapon_handle;  // the slicer weapon's item id; the copy hides once it is unequipped

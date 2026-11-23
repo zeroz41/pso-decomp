@@ -193,7 +193,7 @@ TOKeyAncient03::TOKeyAncient03(TObject *parent, void *set_data) : TOKey(parent) 
     m_name = TOKeyAncient03__class_name;
     apply_object_set_data(set_data);
     init_switch_id();
-    texlist = (saddr)TOKeyAncient03__texture_variants[0];
+    texlist = TOKeyAncient03__texture_variants[0];
     model = (void *)TOKeyAncient03__model_archive->models[0].model;
     view_range = 400.0f;
     model_radius = ((GinjaModelBounds *)((NJS_OBJECT *)model)->model)->radius;

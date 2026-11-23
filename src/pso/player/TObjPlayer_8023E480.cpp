@@ -1,4 +1,5 @@
 #include "pso/render/GvmTextureArchive.h"
+#include "pso/render/GinjaTexture.h"
 #include "pso/system/Adxf.h"
 #include "pso/system/ResourceFile.h"
 #include "types.h"
@@ -25,16 +26,15 @@ extern char texture_prs_stream_filename_buffer[];
 extern char texture_prs_disc_filename_buffer[];
 extern saddr lbl_805D63C0;
 extern s32 lbl_805D63C4;
-int release_texture_list();
 s32 load_texture_list();
 
 }
 
-s32 set_texlist(u32 texlist) {
-    if (texlist == 0U) {
+s32 set_texlist(NJS_TEXLIST *texlist) {
+    if (texlist == NULL) {
         return 0;
     }
-    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
+    TObjFish::set_global_param(texlist);
     return 1;
 }
 
@@ -100,11 +100,11 @@ s32 bind_gvm_texture_list(const char *name, NJS_TEXLIST *texlist) {
     return 1;
 }
 
-s32 free_texture_if_valid(u32 texlist) {
-    if (texlist == 0U) {
+s32 free_texture_if_valid(NJS_TEXLIST *texlist) {
+    if (texlist == NULL) {
         return 0;
     }
-    release_texture_list();
+    release_texture_list(texlist);
     return 1;
 }
 

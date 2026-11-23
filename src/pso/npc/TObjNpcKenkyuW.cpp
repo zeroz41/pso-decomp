@@ -99,7 +99,7 @@ TObjNpcKenkyuW::TObjNpcKenkyuW(TObject *parent, void *arg2) : TUnk_804A9F50(pare
     ((TObjNpcKenkyuW *)this)->apply_set_data(arg2);
     init_position_vectors();
     model = get_bml_model(TObjNpcKenkyuW__model_resource, 0);
-    texlist = (saddr)get_bml_texlist(TObjNpcKenkyuW__model_resource, 0);
+    texlist = get_bml_texlist(TObjNpcKenkyuW__model_resource, 0);
     ((TObjNpcBase *)this)->setup_common();
 }
 

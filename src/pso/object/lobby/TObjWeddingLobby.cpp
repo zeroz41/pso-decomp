@@ -23,7 +23,7 @@ __declspec(section ".data") const char *bm_obj_lobby_bell_motion_names[2] = { "l
 BmlResourceDescriptor bm_obj_lobby_bell_resource_descriptor = { "bm_obj_lobby_bell.bml", bm_obj_lobby_bell_model_names, bm_obj_lobby_bell_motion_names, 2, 1 };
 const char *obj_wedding_lobby_class_name = "TObjWeddingLobby";
 BmlResource *TObjWeddingLobby::resource_bundle;
-u32 TObjWeddingLobby::lobby_texlist;
+NJS_TEXLIST *TObjWeddingLobby::lobby_texlist;
 
 void TObjWeddingLobby::demo_step() {}
 

@@ -176,12 +176,12 @@ void TObjEneDelDepth::load_assets() {
     {
         NpcAnimationBinding info = { NULL, deldepth_motion_actions, 0, 0, 6 };
         info.motions = reinterpret_cast<BmlMotionEntry *>(TObjEneDelDepth__shared_resource->motions);
-        NpcModelRegistry::register_animated_chunk((s16)0x47, reinterpret_cast<void *>(TObjEneDelDepth__shared_resource->models[0].model), reinterpret_cast<void *>(TObjEneDelDepth__shared_resource->models[0].texlist), &info, TObjEneDelDepth_collision_body_parts[0].radius, 0.0f);
+        NpcModelRegistry::register_animated_chunk((s16)0x47, reinterpret_cast<void *>(TObjEneDelDepth__shared_resource->models[0].model), TObjEneDelDepth__shared_resource->models[0].texlist, &info, TObjEneDelDepth_collision_body_parts[0].radius, 0.0f);
     }
     {
         NpcAnimationBinding info = { NULL, deldepth_motion_actions_b, 0, 0, 1 };
         info.motions = reinterpret_cast<BmlMotionEntry *>(TObjEneDelDepth__shared_resource->motions);
-        NpcModelRegistry::register_animated_chunk((s16)0x48, reinterpret_cast<void *>(TObjEneDelDepth__shared_resource->models[1].model), reinterpret_cast<void *>(TObjEneDelDepth__shared_resource->models[1].texlist), &info, TObjEneDelDepth_collision_body_parts[0].radius, 0.0f);
+        NpcModelRegistry::register_animated_chunk((s16)0x48, reinterpret_cast<void *>(TObjEneDelDepth__shared_resource->models[1].model), TObjEneDelDepth__shared_resource->models[1].texlist, &info, TObjEneDelDepth_collision_body_parts[0].radius, 0.0f);
     }
     TObjEneDelDepth__tune_params = (DelDepthParameters *)TLobby::dispatch_shared_handler_a(0x30);
 }
@@ -205,7 +205,7 @@ TObjEneDelDepth::TObjEneDelDepth(TObject *parent, void *setData) : TObjEnemy(par
 
 void TObjEneDelDepth::init() {
     u8 *self = (u8 *)this;
-    this->texlist = (saddr)get_bml_texlist((BmlResource *)(TObjEneDelDepth__shared_resource = TObjEneDelDepth::get_data()), 0);
+    this->texlist = get_bml_texlist((BmlResource *)(TObjEneDelDepth__shared_resource = TObjEneDelDepth::get_data()), 0);
     this->model = (void *)get_bml_model((BmlResource *)TObjEneDelDepth__shared_resource, 0);
     VecCopy(&this->prev_position, (const Vec *)(VecCopy(&this->home_position, (const Vec *)(VecCopy(&this->center, &this->position)))));
     this->collisionBody = (CollisionBody *)init_collision_body_parts(self, TObjEneDelDepth_collision_body_parts, 1);

@@ -73,7 +73,7 @@ TODoorFourLightRuins::TODoorFourLightRuins(saddr parent, saddr set_data) : TODoo
     ((TObjCollidable *)this)->refresh_collision_body_centers();
     ((TObjPlayer *)this)->register_object_by_id();
     this->m_d4 = (saddr)fn_8028A78C(0);
-    this->texlist = (saddr)fn_8028A750(0);
+    this->texlist = fn_8028A750(0);
     *(u8 **)((s8 *)this + 0xBC) = fn_8028A714(0);
     this->animation_end_frame = (f32) ((f32) *(u32 *)((s8 *)(*(u8 **)((s8 *)this + 0xBC)) + 4) - 1.0f);
     this->animation_step = 0.5f;
@@ -277,7 +277,7 @@ TODoorFourLightSpace::TODoorFourLightSpace(saddr parent, saddr set_data) : TODoo
     ((TObjCollidable *)this)->refresh_collision_body_centers();
     ((TObjPlayer *)this)->register_object_by_id();
     this->m_d4 = (saddr)fn_8028A78C(0);
-    this->texlist = (saddr)fn_8028A750(0);
+    this->texlist = fn_8028A750(0);
     *(u8 **)((s8 *)this + 0xBC) = fn_8028A714(0);
     this->animation_end_frame = (f32) ((f32) *(u32 *)((s8 *)(*(u8 **)((s8 *)this + 0xBC)) + 4) - 1.0f);
     this->animation_step = 0.5f;

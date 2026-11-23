@@ -196,7 +196,7 @@ TItemShootModel::TItemShootModel(void *owner, const Vec *pos, const Vec *dir, f3
 void TItemShootModel::render() {
     if (is_owner_alive()) {
         if (model != NULL) {
-            set_texlist((uaddr)texture_list);
+            set_texlist(texture_list);
             TParticleCtrl::begin_effect_render();
             push_matrix();
             post_translate_matrix(&m_pos.x);
@@ -305,7 +305,7 @@ void TItemShootGun::render() {
     if (is_owner_alive()) {
         if (model != NULL) {
             set_ginja_model_texture_slot(model->model, m_70 & 0xFFFF);
-            set_texlist((uaddr)texture_list);
+            set_texlist(texture_list);
             TParticleCtrl::begin_effect_render();
             push_matrix();
             post_translate_matrix(&m_pos.x);
@@ -337,7 +337,7 @@ void TItemShootModelRotZ::hook() {
 void TItemShootModelRotZ::render() {
     if (is_owner_alive()) {
         if (model != NULL) {
-            set_texlist((uaddr)texture_list);
+            set_texlist(texture_list);
             TParticleCtrl::begin_effect_render();
             push_matrix();
             post_translate_matrix(&m_pos.x);

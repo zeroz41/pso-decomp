@@ -6,6 +6,7 @@
 #include <dolphin/mtx/GeoTypes.h>
 
 struct CameraAngles;
+struct NJS_TEXLIST;
 
 class TObjBase : public TObject {
 public:
@@ -34,12 +35,12 @@ public:
     int set_position_from(void *pos);
     void save_previous_position();
     CameraAngles *get_rotation();
-    saddr get_texlist();
+    NJS_TEXLIST *get_texlist();
     s32 is_alive();
     u16 entity_id;  // the object table id, 0xFFFF while unregistered
     s16 visibility; // update_object_view_visibility: 0 culled, 1 visible, 2 near
     s32 m_20;
-    saddr texlist;  // its texture list, made current before it draws
+    NJS_TEXLIST *texlist;  // its texture list, made current before it draws
     // Copied from the object's set entry when it is spawned; see
     // TLobby::link_matching_objects.
     s16 room;

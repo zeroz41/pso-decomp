@@ -70,7 +70,7 @@ TObjEneMorfosArm::TObjEneMorfosArm(TObject *parent, void *owner) : TObjMotion(pa
     rotation_y = morfos->get_rotation_y();
     model = TObjEneMorfosArm__parent_morfos_instance->models[0].model;
     resource = TObjEneMorfosArm__parent_morfos_instance->models;
-    texlist = (saddr)resource->texlist;
+    texlist = resource->texlist;
     set_action_table((saddr)morfos_arm_motion_params);
     set_motion_list((saddr)TObjEneMorfosArm__parent_morfos_instance->motions);
     requested_action = 0;

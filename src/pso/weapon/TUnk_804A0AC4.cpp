@@ -13,7 +13,7 @@ void TUnk_804A0AA8::render() {
     if ((is_owner_alive() != 0) && ((uaddr)model != 0U) && ((uaddr)texture_list != 0U)) {
         push_matrix();
         TParticleCtrl::begin_effect_render();
-        set_texlist((uaddr)texture_list);
+        set_texlist(texture_list);
         post_translate_matrix(&m_pos.x);
         rotate_matrix_by_node_angles(&m_28, 1);
         draw_ginja_object(model);

@@ -56,7 +56,7 @@ void TUnk_804A5340::render() {
     u8 *arg0 = (u8 *)this;
     if ((TItemShootModel::is_owner_alive() != 0) && ((uaddr) this->model != 0U) && ((uaddr) this->texture_list != 0U)) {
         push_matrix();
-        set_texlist((uaddr)this->texture_list);
+        set_texlist(this->texture_list);
         post_translate_matrix(arg0 + 0x1C);
         rotate_matrix_y(0, this->m_count);
         rotate_matrix_x(0, this->m_28 - 0x4000);

@@ -78,7 +78,7 @@ TPhotonGolla::TPhotonGolla(PhotonSummonParams *params) : TPhotonBlastSummon() {
         rotation_y = 0;
     }
     model = photon_blast_shared_resource->models[4].model;
-    texlist = (saddr)photon_blast_shared_resource->models[4].texlist;
+    texlist = photon_blast_shared_resource->models[4].texlist;
     set_action_table((saddr)photon_blast_golla_params);
     set_motion_list((saddr)photon_blast_shared_resource->motions);
     requested_action = 1;

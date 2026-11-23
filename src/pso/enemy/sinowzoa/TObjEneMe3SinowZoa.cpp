@@ -231,10 +231,10 @@ void TObjEneMe3SinowZoa::load_resources() {
         info.motions = reinterpret_cast<BmlMotionEntry *>(TObjEneMe3SinowZoa__bml_resource->motions);
         NpcAnimationBinding info_b = sinow_zoa_attack_binding_desc_b;
         info_b.motions = reinterpret_cast<BmlMotionEntry *>(TObjEneMe3SinowZoa__bml_resource->motions);
-        NpcModelRegistry::register_animated_chunk(0x49, reinterpret_cast<void *>(TObjEneMe3SinowZoa__bml_resource->models->model), reinterpret_cast<void *>(TObjEneMe3SinowZoa__bml_resource->models->texlist), &info, 12.0f, 0.0f);
-        NpcModelRegistry::register_animated_chunk(0x4A, reinterpret_cast<void *>(TObjEneMe3SinowZoa__bml_resource->models->model), reinterpret_cast<void *>(&TObjEneMe3SinowZoa__alternate_texture_list), &info, 12.0f, 0.0f);
-        NpcModelRegistry::register_animated_chunk(0x4B, reinterpret_cast<void *>(TObjEneMe3SinowZoa__bml_resource->models->model), reinterpret_cast<void *>(TObjEneMe3SinowZoa__bml_resource->models->texlist), &info_b, 12.0f, 0.0f);
-        NpcModelRegistry::register_animated_chunk(0x4C, reinterpret_cast<void *>(TObjEneMe3SinowZoa__bml_resource->models->model), reinterpret_cast<void *>(&TObjEneMe3SinowZoa__alternate_texture_list), &info_b, 12.0f, 0.0f);
+        NpcModelRegistry::register_animated_chunk(0x49, reinterpret_cast<void *>(TObjEneMe3SinowZoa__bml_resource->models->model), TObjEneMe3SinowZoa__bml_resource->models->texlist, &info, 12.0f, 0.0f);
+        NpcModelRegistry::register_animated_chunk(0x4A, reinterpret_cast<void *>(TObjEneMe3SinowZoa__bml_resource->models->model), &TObjEneMe3SinowZoa__alternate_texture_list, &info, 12.0f, 0.0f);
+        NpcModelRegistry::register_animated_chunk(0x4B, reinterpret_cast<void *>(TObjEneMe3SinowZoa__bml_resource->models->model), TObjEneMe3SinowZoa__bml_resource->models->texlist, &info_b, 12.0f, 0.0f);
+        NpcModelRegistry::register_animated_chunk(0x4C, reinterpret_cast<void *>(TObjEneMe3SinowZoa__bml_resource->models->model), &TObjEneMe3SinowZoa__alternate_texture_list, &info_b, 12.0f, 0.0f);
     }
 }
 
@@ -600,12 +600,12 @@ s32 TObjEneMe3SinowZoa::is_alternate_variant() {
 
 void TObjEneMe3SinowZoa::init_variant() {
     if (is_alternate_variant() != 0) {
-        texlist = (saddr)&TObjEneMe3SinowZoa__alternate_texture_list;
+        texlist = &TObjEneMe3SinowZoa__alternate_texture_list;
         initialize_enemy_state(0x46);
         this->kind_index = 1;
         return;
     }
-    texlist = (saddr)TObjEneMe3SinowZoa__bml_resource->models->texlist;
+    texlist = TObjEneMe3SinowZoa__bml_resource->models->texlist;
     initialize_enemy_state(0x45);
     this->kind_index = 0;
 }
@@ -1568,7 +1568,7 @@ void TObjEneMe3SinowZoa::state_death(s32 mode) {
             if (this->state_timer >= 0x14) {
                 this->state_step = 2;
                 this->behavior_flags |= 2;
-                TBoss3Volopt::create_breakup_mdl((saddr)TObjEneMe3SinowZoa__breakup_model, (saddr)&sinow_zoa_breakup_params, (s32)this->texlist, (saddr)&this->position, this->rotation_y);
+                TBoss3Volopt::create_breakup_mdl((saddr)TObjEneMe3SinowZoa__breakup_model, (saddr)&sinow_zoa_breakup_params, this->texlist, (saddr)&this->position, this->rotation_y);
                 VecCopy(&p, &this->position);
                 p.x += 20.0f * sin_table_lookup(this->rotation_y);
                 p.z += 20.0f * cos_table_lookup(this->rotation_y);

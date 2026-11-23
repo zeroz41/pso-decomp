@@ -196,7 +196,7 @@ void AttackParams::set_attack_range(f32 range) { attack_range = range; }
 
 void TObjEneDubchik::init_level_stats(s32 variant) {
     model = dubchik_resource->models[0].model;
-    texlist = variant == 0 ? (saddr)dubchik_resource->models[0].texlist : (saddr)dubchik_variant_texlist;
+    texlist = variant == 0 ? dubchik_resource->models[0].texlist : dubchik_variant_texlist;
 }
 
 s32 TObjEneDubchik::get_int_parameter(s32 i) {

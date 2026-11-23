@@ -87,7 +87,7 @@ void TObjEneBalClaw::set_attack_distance_flag() { this->behavior_flags |= 0x1000
 // Picks this part's model and texture list (index into the Bal Claw BML models).
 void TObjEneBalClaw::set_model(s32 i) {
     model = (void *)balclaw_bml_resource->models[i].model;
-    texlist = (saddr)balclaw_bml_resource->models[i].texlist;
+    texlist = balclaw_bml_resource->models[i].texlist;
 }
 
 TObjEneBalClawBody::TObjEneBalClawBody(TObject *parent, void *set_data) : TObjEneBalClaw(parent) {
@@ -1161,7 +1161,7 @@ void TObjEneBalClawBody::load_params() {
 // Registers the combined body's model (bcbody) and action table with the NPC model registry.
 void TObjEneBalClawBody::load_resources() {
     NpcAnimationBinding params = { reinterpret_cast<BmlMotionEntry *>(balclaw_bml_resource->motions), reinterpret_cast<TObjMotionAction *>(balclaw_body_actions), 0, 1, 12 };
-    NpcModelRegistry::register_animated_chunk(0x13, reinterpret_cast<void *>(balclaw_bml_resource->models[1].model), reinterpret_cast<void *>(balclaw_bml_resource->models[1].texlist), &params,
+    NpcModelRegistry::register_animated_chunk(0x13, reinterpret_cast<void *>(balclaw_bml_resource->models[1].model), balclaw_bml_resource->models[1].texlist, &params,
                             balclaw_body_collision.radius, 15.0f);
 }
 

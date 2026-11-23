@@ -13,7 +13,7 @@
 
 const char *TObjNpcNFW01__name = "TObjNpcNFW01";
 uaddr TObjNpcNFW01__shared_object_resource;
-uaddr TObjNpcNFW01__texture_gvm;
+NJS_TEXLIST *TObjNpcNFW01__texture_gvm;
 
 void *TObjNpcNFW01__create(void *set_data) {
     TObjControl *control = new TObjControl(tl_04);
@@ -21,10 +21,10 @@ void *TObjNpcNFW01__create(void *set_data) {
 }
 
 void TObjNpcNFW01::free_resources() {
-    if (TObjNpcNFW01__texture_gvm != 0) {
-        release_texture_list((NJS_TEXLIST *)TObjNpcNFW01__texture_gvm);
-        TAdSinglePlyChrSelectGC::safe_free(TObjNpcNFW01__texture_gvm);
-        TObjNpcNFW01__texture_gvm = 0;
+    if (TObjNpcNFW01__texture_gvm != NULL) {
+        release_texture_list(TObjNpcNFW01__texture_gvm);
+        TAdSinglePlyChrSelectGC::safe_free((uaddr)TObjNpcNFW01__texture_gvm);
+        TObjNpcNFW01__texture_gvm = NULL;
     }
     if (TObjNpcNFW01__shared_object_resource != 0) {
         TLobby::free_nodes_with_id(TObjNpcNFW01__shared_object_resource);
@@ -34,7 +34,7 @@ void TObjNpcNFW01::free_resources() {
 
 void TObjNpcNFW01::load_resources() {
     TObjNpcNFW01__shared_object_resource = create_named_object("npc_i01_data.rel");
-    TObjNpcNFW01__texture_gvm = (uaddr)load_gvm_texture_file("n_i01_e_body.gvm");
+    TObjNpcNFW01__texture_gvm = load_gvm_texture_file("n_i01_e_body.gvm");
 }
 
 TObjNpcNFW01::~TObjNpcNFW01() {}

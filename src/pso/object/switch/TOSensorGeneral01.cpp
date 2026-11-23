@@ -123,7 +123,7 @@ TOSensorGeneral01::TOSensorGeneral01(TObject *parent, void *set_data) : TOSensor
     m_name = TOSensorGeneral01__class_name;
     apply_object_set_data(set_data);
     init_switch_id();
-    texlist = (saddr)TOSensorGeneral01__texture_lists[0];
+    texlist = TOSensorGeneral01__texture_lists[0];
     model = (void *)sensor_general_shared_bml_archive->models[0].model;
     view_range = 400.0f;
     model_radius = ((GinjaModelBounds *)((NJS_OBJECT *)model)->model)->radius;

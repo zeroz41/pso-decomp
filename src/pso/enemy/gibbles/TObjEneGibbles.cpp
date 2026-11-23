@@ -124,7 +124,7 @@ s32 TObjEneGibbles__render_rotation_x;
 // reverse of the order they are written in.
 void TObjEneGibbles::select_model_record(s32 i) {
     model = TObjEneGibbles__resource_bundle->models[i].model;
-    texlist = (saddr)TObjEneGibbles__resource_bundle->models[i].texlist;
+    texlist = TObjEneGibbles__resource_bundle->models[i].texlist;
 }
 
 void *TObjEneGibbles::get_center() { return &body_center; }

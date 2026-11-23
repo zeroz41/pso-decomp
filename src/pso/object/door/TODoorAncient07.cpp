@@ -55,7 +55,7 @@ void TODoorAncient07::render() {
 
 void TODoorAncient07::update_open() {
     if (door_flags & 1) {
-        texlist = (saddr)texture_lists[1];
+        texlist = texture_lists[1];
         if (is_any_player_within_radius_xz(10000.0f) != 1) {
             object_state = 3;
             clear_player_status_flag(0, 8);
@@ -63,7 +63,7 @@ void TODoorAncient07::update_open() {
         }
     } else {
         object_state = 3;
-        texlist = (saddr)texture_lists[0];
+        texlist = texture_lists[0];
         clear_player_status_flag(0, 8);
         play_sound_effect(0x4004B708, &position, 0, 0);
     }
@@ -71,14 +71,14 @@ void TODoorAncient07::update_open() {
 
 void TODoorAncient07::update_closed() {
     if (door_flags & 1) {
-        texlist = (saddr)texture_lists[1];
+        texlist = texture_lists[1];
         if (is_any_player_within_radius_xz(4900.0f) == 1) {
             object_state = 1;
             set_indexed_flags(0, 8);
             play_sound_effect(0x4004B708, &position, 0, 0);
         }
     } else {
-        texlist = (saddr)texture_lists[0];
+        texlist = texture_lists[0];
     }
 }
 
@@ -131,7 +131,7 @@ TODoorAncient07::TODoorAncient07(TObject *parent, void *set_data) : TODoorBase(p
     m_name = door_ancient07_class_name;
     apply_object_set_data(set_data);
     model = (void *)bml_resource->models[0].model;
-    texlist = (saddr)texture_lists[0];
+    texlist = texture_lists[0];
     motion = bml_resource->motions[0].motion;
     animation_end_frame = (f32)motion->frameCount - 1.0f;
     animation_step = animation_end_frame / 30.0f;

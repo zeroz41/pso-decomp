@@ -253,7 +253,7 @@ TObjEnePanBARA::TObjEnePanBARA(TObject *parent, void *setData, s32 index) : TObj
         this->exchange_object_state(&objectState, 0);
     }
     half_index = index;
-    texlist = (saddr)get_bml_texlist((BmlResource *)TObjEnePanarms__entry_params_resource, panbara_model_index_by_half[half_index]);
+    texlist = get_bml_texlist((BmlResource *)TObjEnePanarms__entry_params_resource, panbara_model_index_by_half[half_index]);
     model = (void *)get_bml_model((BmlResource *)TObjEnePanarms__entry_params_resource, panbara_model_index_by_half[half_index]);
     VecCopy(&prev_position, VecCopy(&home_position, VecCopy(&center, &position)));
     collision_body_parts = init_collision_body_parts(this, panbara_collision_body, 1);
@@ -1363,9 +1363,9 @@ void TObjEnePanarms::spawn_npc_pair() {
     NpcAnimationBinding binding_b = { NULL, reinterpret_cast<TObjMotionAction *>(panbara_par_motion_params), 0, 1, 10 };
     binding_b.motions = reinterpret_cast<BmlMotionEntry *>(motions);
     BmlModelEntry *models = TObjEnePanarms__entry_params_resource->models;
-    NpcModelRegistry::register_animated_chunk(0x24, reinterpret_cast<void *>(models[1].model), reinterpret_cast<void *>(models[1].texlist), &binding_a, 7.5f, 0.0f);
+    NpcModelRegistry::register_animated_chunk(0x24, reinterpret_cast<void *>(models[1].model), models[1].texlist, &binding_a, 7.5f, 0.0f);
     models = TObjEnePanarms__entry_params_resource->models;
-    NpcModelRegistry::register_animated_chunk(0x25, reinterpret_cast<void *>(models[2].model), reinterpret_cast<void *>(models[2].texlist), &binding_b, 7.5f, 0.0f);
+    NpcModelRegistry::register_animated_chunk(0x25, reinterpret_cast<void *>(models[2].model), models[2].texlist, &binding_b, 7.5f, 0.0f);
 }
 
 int TObjEnePanarms::find_nearest_enemy_with_flag(Vec *direction, f32 range) {

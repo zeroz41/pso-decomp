@@ -62,7 +62,7 @@ void TAdEndText::draw_end_font_text(s32 col, char *str, f32 x, f32 y, f32 depth)
     cur_row = 0xFE;
     set_default_alpha_blend();
     begin_screen_draw(1);
-    set_texlist((uaddr)loaded_font_texture_list);
+    set_texlist(loaded_font_texture_list);
     raised_y = scroll_step + y;
     while (*str) {
         ch[0] = *(str++);

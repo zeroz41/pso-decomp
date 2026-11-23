@@ -163,7 +163,7 @@ TODoorVS2Door01::TODoorVS2Door01(TObject *parent, void *set_data) : TODoorBase(p
     m_name = door_vs2door01_class_name;
     apply_object_set_data(set_data);
     model = (void *)bml_resource->models[0].model;
-    texlist = (saddr)texture_lists[1];
+    texlist = texture_lists[1];
     animation_end_frame = 30.0f;
     animation_step = SLIDE_DISTANCE / animation_end_frame;
     slide_offset = 0.0f;

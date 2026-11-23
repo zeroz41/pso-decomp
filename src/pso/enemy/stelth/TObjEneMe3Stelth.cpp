@@ -562,12 +562,12 @@ s32 TObjEneMe3Stelth::is_alternate_variant() {
 }
 void TObjEneMe3Stelth::init_variant() {
     if (is_alternate_variant() != 0) {
-        texlist = (saddr)&TObjEneMe3Stelth__alternate_texture_list;
+        texlist = &TObjEneMe3Stelth__alternate_texture_list;
         initialize_enemy_state(0x3F);
         variant_index = 1;
         return;
     }
-    texlist = (saddr)TObjEneMe3Stelth__bml_resource->models->texlist;
+    texlist = TObjEneMe3Stelth__bml_resource->models->texlist;
     initialize_enemy_state(0x3E);
     variant_index = 0;
 }
@@ -1452,7 +1452,7 @@ void TObjEneMe3Stelth::state_death(s32 reason) {
             if (state_timer >= 0x14) {
                 state_step = 2;
                 behavior_flags |= 2;
-                TBoss3Volopt::create_breakup_mdl((saddr)TObjEneMe3Stelth__breakup_model, (saddr)&me3_stelth_breakup_params, (s32)texlist, (saddr)&position, (s32)rotation_y);
+                TBoss3Volopt::create_breakup_mdl((saddr)TObjEneMe3Stelth__breakup_model, (saddr)&me3_stelth_breakup_params, texlist, (saddr)&position, (s32)rotation_y);
                 VecCopy((Vec *)&v, (const Vec *)&position);
                 v.x += 20.0f * sin_table_lookup(rotation_y);
                 v.z += 20.0f * cos_table_lookup(rotation_y);

@@ -13,7 +13,7 @@
 
 const char *TObjNpcNFM00__name = "TObjNpcNFM00";
 uaddr TObjNpcNFM00__shared_named_model_object;
-uaddr TObjNpcNFM00__texture_gvm_handle;
+NJS_TEXLIST *TObjNpcNFM00__texture_gvm_handle;
 
 void *TObjNpcNFM00__create(void *set_data) {
     TObjControl *control = new TObjControl(tl_04);
@@ -21,10 +21,10 @@ void *TObjNpcNFM00__create(void *set_data) {
 }
 
 void TObjNpcNFM00::free_resources() {
-    if (TObjNpcNFM00__texture_gvm_handle != 0) {
-        release_texture_list((NJS_TEXLIST *)TObjNpcNFM00__texture_gvm_handle);
-        TAdSinglePlyChrSelectGC::safe_free(TObjNpcNFM00__texture_gvm_handle);
-        TObjNpcNFM00__texture_gvm_handle = 0;
+    if (TObjNpcNFM00__texture_gvm_handle != NULL) {
+        release_texture_list(TObjNpcNFM00__texture_gvm_handle);
+        TAdSinglePlyChrSelectGC::safe_free((uaddr)TObjNpcNFM00__texture_gvm_handle);
+        TObjNpcNFM00__texture_gvm_handle = NULL;
     }
     if (TObjNpcNFM00__shared_named_model_object != 0) {
         TLobby::free_nodes_with_id(TObjNpcNFM00__shared_named_model_object);
@@ -34,7 +34,7 @@ void TObjNpcNFM00::free_resources() {
 
 void TObjNpcNFM00::load_assets() {
     TObjNpcNFM00__shared_named_model_object = create_named_object("npc_h00_data.rel");
-    TObjNpcNFM00__texture_gvm_handle = (uaddr)load_gvm_texture_file("n_h00_body.gvm");
+    TObjNpcNFM00__texture_gvm_handle = load_gvm_texture_file("n_h00_body.gvm");
 }
 
 TObjNpcNFM00::~TObjNpcNFM00() {}

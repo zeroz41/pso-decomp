@@ -82,7 +82,7 @@ NJS_TEXLIST *get_title_texture_list(void) {
 NJS_SPRITE *TLobby::get_record(int index) { return &lobby_record_table[index]; }
 
 void bind_title_texture_list(void) {
-    set_texlist((uaddr)&title_texture_list);
+    set_texlist(&title_texture_list);
 }
 
 int TLobby__sub_80336030(TTitleScene *scene) {

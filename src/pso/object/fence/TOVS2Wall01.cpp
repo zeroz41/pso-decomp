@@ -203,7 +203,7 @@ void TOVS2Wall01::spawn_debris(s32 index) {
     params.pos[2] = body_center.z;
     params.floor_y = position.y;
     params.model = (saddr)get_bml_model((BmlResource *)TOVS2Wall01__bml_resource, index);
-    params.textures = (saddr)get_bml_texlist((BmlResource *)TOVS2Wall01__bml_resource, index);
+    params.textures = get_bml_texlist((BmlResource *)TOVS2Wall01__bml_resource, index);
     new TObjChip(tl_05, &params);
 }
 
@@ -310,7 +310,7 @@ TOVS2::TOVS2(void *set_data, s32 index) : TObjMapObject((TObject *)tl_05) {
     apply_object_set_data(set_data);
     model = (void *)get_bml_model((BmlResource *)TOVS2Wall01__bml_resource, index);
     model_radius = 50.0f + static_cast<GinjaModelBounds *>(static_cast<NJS_OBJECT *>(model)->model)->radius;
-    texlist = (saddr)get_bml_texlist((BmlResource *)TOVS2Wall01__bml_resource, index);
+    texlist = get_bml_texlist((BmlResource *)TOVS2Wall01__bml_resource, index);
     init_collision_body_parts(this, &ovs2wall01_collision_parts[index], 1);
     register_object_by_id();
     m_c8 = TObjMapCsn::create(set_data);
@@ -413,7 +413,7 @@ TOVS2Wall01::TOVS2Wall01(void *set_data) : TObjChara((TObject *)tl_05) {
     calc_attach_pos();
     set_actor_flags(0x60000000);
     model = (void *)get_bml_model((BmlResource *)TOVS2Wall01__bml_resource, 6);
-    texlist = (saddr)get_bml_texlist((BmlResource *)TOVS2Wall01__bml_resource, 6);
+    texlist = get_bml_texlist((BmlResource *)TOVS2Wall01__bml_resource, 6);
     init_collision_body_parts(this, &ovs2wall01_collision_parts[6], 1);
     set_indexed_flags(0, 0x08000000);
     register_object_by_id();

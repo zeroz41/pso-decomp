@@ -186,7 +186,7 @@ void TItemReverseTech::load_textures() {
 #pragma pop
 
 void TItemReverseTech::free() {
-    free_texture_if_valid((uaddr)texture_list);
+    free_texture_if_valid(texture_list);
     mem_free(name_buffer);
     name_buffer = NULL;
     mem_free(texnames);
@@ -492,7 +492,7 @@ void TItemReverseTechBG::run_task() {
 
 void TItemReverseTechBG::render() {
     set_default_alpha_blend();
-    set_texlist((uaddr)texlist);
+    set_texlist(texlist);
     begin_screen_draw(1);
     set_draw_texture_and_color(texture, color);
     draw_textured_quad_at_depth((f32 *)&quad, depth);

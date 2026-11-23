@@ -33,7 +33,7 @@ void TItemTexLoad::load_texture_archive() {
 }
 
 void TItemTexLoad::unload_texture() {
-    if (m_state == 2) free_texture_if_valid((uaddr)&m_texture_list);
+    if (m_state == 2) free_texture_if_valid(&m_texture_list);
     if (m_state == 1) ADXF_Close(m_archive_handle);
     m_state = 0;
     m_texture_index = -1;

@@ -582,7 +582,7 @@ TBoss5Gryphon::TBoss5Gryphon(TObject *parent, void *data) : TObjEneDD_ST(parent)
     } else {
         this->model = boss5_gryphon_body_bml_resource->models[0].model;
     }
-    this->texlist = (saddr)boss5_gryphon_body_bml_resource->models[0].texlist;
+    this->texlist = boss5_gryphon_body_bml_resource->models[0].texlist;
     ((TObjEneDD *)this)->init_model((CollisionBody *)boss5_gryphon_collision_body_parts, (s32)10);
     this->motion_flags = 0;
     this->set_action_table((saddr)boss5_gryphon_action_table);

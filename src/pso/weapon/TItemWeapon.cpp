@@ -56,7 +56,7 @@ void TItemWeapon::draw_weapon_model() {
         } else {
             var_r30 = this->update_object_view_visibility(400.0f, 20.0f);
         }
-        set_texlist((int) (this->texlist));
+        set_texlist((this->texlist));
         push_matrix_from((void *)((TObjMotion *)(this->owner))->get_joint_matrix((s8)get_attach_joint()));
         if ((var_r30 != 0) && (this->is_hidden() == 0)) {
             weapon_render_callback_object = (u8 *)this;

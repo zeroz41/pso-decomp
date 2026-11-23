@@ -3,6 +3,8 @@
 
 #include "types.h"
 
+struct NJS_TEXLIST;
+
 // What TObjChip::construct_debris copies into a new debris chip.
 struct TObjChipParams {
     f32 bounce;             // a piece hitting floor_y keeps -bounce of its fall speed
@@ -16,7 +18,7 @@ struct TObjChipParams {
     f32 floor_y;
     f32 scale;              // drawn scale of each piece
     saddr model;
-    s32 textures;
+    NJS_TEXLIST *textures;
     s32 flags;              // 2: bounce on floor_y, 4: fade out after life; 8 and 0x10 pick the draw
 };
 

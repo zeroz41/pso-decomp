@@ -23,7 +23,7 @@ const char *bm_n_trunk_i_body_motion_names[1] = { NULL };
 __declspec(section ".data") const char *bm_n_trunk_i_body_model_names[2] = { "n_trunk_i_body.nj", NULL };
 BmlResourceDescriptor bm_n_trunk_i_body_resource_descriptor = { "bm_n_trunk_i_body.bml", bm_n_trunk_i_body_model_names, bm_n_trunk_i_body_motion_names, 1, 0 };
 const char *TObjNpcCloakroomBase__name = "TObjNpcCloakroomBase";
-uaddr TObjNpcCloakroomBase__static_instance;
+BmlResource *TObjNpcCloakroomBase__static_instance;
 s32 play_sound_effect(s32, s32, s32, s32);
 
 void TObjNpcCloakroomBase::play_voice() {
@@ -42,17 +42,14 @@ void *TObjNpcCloakroomBase::create(void *set_data) {
 }
 
 void TObjNpcCloakroomBase::destroy_static_instance() {
-    if ((u32) TObjNpcCloakroomBase__static_instance != 0U) {
-        delete (BmlResource *)TObjNpcCloakroomBase__static_instance;
-        TObjNpcCloakroomBase__static_instance = 0U;
+    if (TObjNpcCloakroomBase__static_instance != NULL) {
+        delete TObjNpcCloakroomBase__static_instance;
+        TObjNpcCloakroomBase__static_instance = NULL;
     }
 }
 
 void TObjNpcCloakroomBase::load_shared_resource() {
-    saddr temp_r3;
-    s32 var_r0;
-    var_r0 = (saddr)new BmlResource(1, &bm_n_trunk_i_body_resource_descriptor, 0, 0, NULL);
-    (*(s32 *)&TObjNpcCloakroomBase__static_instance) = var_r0;
+    TObjNpcCloakroomBase__static_instance = new BmlResource(1, &bm_n_trunk_i_body_resource_descriptor, 0, 0, NULL);
 }
 
 }
@@ -63,8 +60,8 @@ TObjNpcCloakroomBase::TObjNpcCloakroomBase(TObject *parent, void *arg2) : TUnk_8
     *(s32 *)((s8 *)this + 0) = (saddr) TObjNpcCloakroomBase__name;
     ((TObjNpcCloakroomBase *)this)->apply_set_data(arg2);
     init_position_vectors();
-    *(s32 *)((s8 *)this + 0x34) = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)(*(u8 * *)&TObjNpcCloakroomBase__static_instance) + 0x42C)) + 8);
-    ((TObjNpcCloakroomBase *)this)->texlist = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)(*(u8 * *)&TObjNpcCloakroomBase__static_instance) + 0x42C)) + 0xC);
+    model = TObjNpcCloakroomBase__static_instance->models->model;
+    texlist = TObjNpcCloakroomBase__static_instance->models->texlist;
     ((TObjNpcBase *)this)->setup_common();
 }
 

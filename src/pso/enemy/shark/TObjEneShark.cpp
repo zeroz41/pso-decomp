@@ -530,7 +530,7 @@ void TObjPlayer__sub_800ACA0C(void) {  }
 
 void TObjEneShark::sub_800AC9DC(s32 i) {
     model = shark_bml_resource->models[i].model;
-    texlist = (saddr)shark_bml_resource->models[i].texlist;
+    texlist = shark_bml_resource->models[i].texlist;
 }
 
 void TUnk_80493450::play_group_chase_sound() {  }

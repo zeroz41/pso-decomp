@@ -38,6 +38,6 @@ TObjNpcMaleMacho::TObjNpcMaleMacho(TObject *parent, void *set_data) : TUnk_804A9
     this->apply_set_data(set_data);
     init_position_vectors();
     this->model = (void *)TObjNpcMaleMacho__static_model_resource->models->model;
-    this->texlist = (saddr)TObjNpcMaleMacho__static_model_resource->models->texlist;
+    this->texlist = TObjNpcMaleMacho__static_model_resource->models->texlist;
     this->setup_common();
 }

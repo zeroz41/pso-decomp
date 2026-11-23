@@ -94,7 +94,7 @@ TOFenceAncient03::TOFenceAncient03(TObject *parent, void *set_data) : TOFenceBas
     m_name = class_name;
     apply_object_set_data(set_data);
     model = (void *)model_resource->models[0].model;
-    texlist = (saddr)texlists[read_texture_variant()];
+    texlist = texlists[read_texture_variant()];
     motion = model_resource->motions[0].motion;
     animation_end_frame = (f32)motion->frameCount - 1.0f;
     init_collision_body_parts(this, fence_ancient03_collision_bodies, 8);

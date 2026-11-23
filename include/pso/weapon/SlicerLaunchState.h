@@ -12,7 +12,7 @@
 struct SlicerLaunchState {
     u16 player_id;           // get_entity_id(owner), 0xFFFF for none
     u8 pad_2[2];
-    s32 texlist;             // the weapon's texture list
+    NJS_TEXLIST *texlist;    // the weapon's texture list
     NJS_OBJECT *model;       // the weapon's second_model
     s32 item_id;             // get_item_id(), -1 for none
     s16 attack_kind;         // -1 for none

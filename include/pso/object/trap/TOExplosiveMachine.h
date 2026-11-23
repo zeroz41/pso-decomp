@@ -21,7 +21,7 @@ struct TOExplosiveMachine : public TObjBase {
     f32 view_radius;
     f32 trigger_radius;
     void *debris_models[2];
-    s32 debris_textures[2];
+    NJS_TEXLIST *debris_textures[2];
 };
 
 LAYOUT_ASSERT(TOExplosiveMachine_size, sizeof(TOExplosiveMachine) == 0xAC);

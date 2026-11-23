@@ -604,7 +604,7 @@ TBoss7DeRolLeC::TBoss7DeRolLeC(TObject *parent, void *set_data) : TObjEneDD_ST(p
     }
     init_position_vectors();
     model = (void *)get_bml_model(boss7_derolle_c_bml_resource, 0);
-    texlist = (saddr)get_bml_texlist(boss7_derolle_c_bml_resource, 0);
+    texlist = get_bml_texlist(boss7_derolle_c_bml_resource, 0);
     save_joint_polygons();
     copy_collision_body(&collision_body, &boss7_derolle_c_collision_body);
     set_collision_body(&collision_body);

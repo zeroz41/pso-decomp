@@ -60,7 +60,7 @@ void NpcModelRegistry::register_animated_ginja(s16 id, NJS_OBJECT *model, NJS_TE
         entry->kind = 3;
         entry->y_offset = y_offset;
         entry->model = reinterpret_cast<saddr>(model);
-        entry->texlist = reinterpret_cast<saddr>(textures);
+        entry->texlist = textures;
         entry->radius = radius;
         entry->animation = *animation;
     }
@@ -85,7 +85,7 @@ void TMotorcycle::add_entry(s16 id, NJS_OBJECT *model, NJS_TEXLIST *textures, f3
         entry->kind = 2;
         entry->y_offset = y_offset;
         entry->model = reinterpret_cast<saddr>(model);
-        entry->texlist = reinterpret_cast<saddr>(textures);
+        entry->texlist = textures;
         entry->radius = radius;
         entry->animation.motions = 0;
         entry->animation.actions = 0;
@@ -95,7 +95,7 @@ void TMotorcycle::add_entry(s16 id, NJS_OBJECT *model, NJS_TEXLIST *textures, f3
     }
 }
 
-void NpcModelRegistry::register_animated_chunk(s16 id, void *model, void *texlist,
+void NpcModelRegistry::register_animated_chunk(s16 id, void *model, NJS_TEXLIST *texlist,
                                                const NpcAnimationBinding *animation, f32 radius, f32 y_offset) {
     TObjNpcEnemyEntry *entry = TObjNpcEnemy::insert_slot_by_id(id);
     if (entry != NULL) {
@@ -103,19 +103,19 @@ void NpcModelRegistry::register_animated_chunk(s16 id, void *model, void *texlis
         entry->kind = 1;
         entry->y_offset = y_offset;
         entry->model = reinterpret_cast<saddr>(model);
-        entry->texlist = (saddr)texlist;
+        entry->texlist = texlist;
         entry->radius = radius;
         entry->animation = *animation;
     }
 }
 
-void TObjEneSlime::spawn_child(s16 id, s32 model, s32 texlist, f32 radius, f32 y_offset) {
+void TObjEneSlime::spawn_child(s16 id, void *model, NJS_TEXLIST *texlist, f32 radius, f32 y_offset) {
     TObjNpcEnemyEntry *entry = TObjNpcEnemy::insert_slot_by_id(id);
     if (entry != NULL) {
         entry->id = id;
         entry->kind = 0;
         entry->y_offset = y_offset;
-        entry->model = model;
+        entry->model = reinterpret_cast<saddr>(model);
         entry->texlist = texlist;
         entry->radius = radius;
         entry->animation.motions = 0;

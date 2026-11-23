@@ -124,7 +124,7 @@ void TODummyKeyCave01::run_task() {
         }
     }
     if (this->m_9a == 1) {
-        this->texlist = (saddr)this->on_textures;
+        this->texlist = this->on_textures;
         f32 lo = (-0.7f);
         if (lo < self->fB0) {
             self->fB0 += (-0.023333333f);
@@ -136,7 +136,7 @@ void TODummyKeyCave01::run_task() {
             *(s32 *)&this->m_cc = *(s32 *)&this->m_cc + 0x333;
         }
     } else {
-        this->texlist = (saddr)this->off_textures;
+        this->texlist = this->off_textures;
         if (self->fB0 < (0.0f)) {
             self->fB0 = self->fB0 - (-0.023333333f);
             if ((0.0f) < self->fB0) {
@@ -164,11 +164,11 @@ void TODummyKeyCave01::run_task() {
 
 void TODummyKeyCave01::render() {
     u8 *arg0 = (u8 *)this;
-    u32 v;
+    NJS_TEXLIST *v;
     u8 *node;
     s32 id;
     if (this->update_object_view_visibility((4e+02f), (2e+01f)) != 0 && this->model != NULL &&
-        (v = *(u32 *)(arg0 + 0x24)) != 0) {
+        (v = this->texlist) != NULL) {
         set_texlist(v);
         push_matrix();
         post_translate_matrix((u8 *)&this->position);

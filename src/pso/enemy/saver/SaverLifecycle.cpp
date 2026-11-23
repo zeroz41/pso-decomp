@@ -621,7 +621,7 @@ void TObjEneSaver::state_nail() {
 
 void TObjEneSaver::select_model_record(s32 i) {
     model = saver_bml_resource->models[i].model;
-    texlist = (saddr)saver_bml_resource->models[i].texlist;
+    texlist = saver_bml_resource->models[i].texlist;
 }
 
 void *TObjEneSaver::get_center() { return &body_center; }

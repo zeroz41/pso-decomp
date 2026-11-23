@@ -23,7 +23,7 @@ __declspec(section ".data") const char *bm_obj_lobby_tree_model_names[2] = { "lo
 BmlResourceDescriptor bm_obj_lobby_tree_resource_descriptor = { "bm_obj_lobby_tree.bml", bm_obj_lobby_tree_model_names, bm_obj_lobby_tree_motion_names, 1, 0 };
 const char *obj_tree_lobby_class_name = "TObjTreeLobby";
 BmlResource *TObjTreeLobby::model_resource;
-u32 TObjTreeLobby::lobby_texlist;
+NJS_TEXLIST *TObjTreeLobby::lobby_texlist;
 
 TQuestDamageTask::TQuestDamageTask(u16 client_id, TObject *parent, f32 damage) : TObject(parent) {
     this->damage = damage;

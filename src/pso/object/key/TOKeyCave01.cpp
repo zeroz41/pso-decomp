@@ -254,7 +254,7 @@ TOKeyCave01::TOKeyCave01(TObject *parent, void *set_data) : TOKey(parent) {
     m_name = TOKeyCave01__class_name;
     apply_object_set_data(set_data);
     init_switch_id();
-    texlist = (saddr)TOKeyCave01__texture_lists[0];
+    texlist = TOKeyCave01__texture_lists[0];
     model = (void *)TOKeyCave01__resource_bundle->models[0].model;
     view_range = 400.0f;
     model_radius = 20.0f;

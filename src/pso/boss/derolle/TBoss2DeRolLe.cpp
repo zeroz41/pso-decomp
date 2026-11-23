@@ -582,7 +582,7 @@ TBoss2DeRolLe::TBoss2DeRolLe(TObject *parent, void *set_data) : TObjEneDD_ST(par
     }
     init_position_vectors();
     model = boss2_derolle_resource->models[2].model;
-    texlist = (saddr)boss2_derolle_resource->models[2].texlist;
+    texlist = boss2_derolle_resource->models[2].texlist;
     init_model(boss2_derolle_collision_bodies, 3);
     motion_flags = 0;
     set_action_table((saddr)boss2_derolle_action_table);

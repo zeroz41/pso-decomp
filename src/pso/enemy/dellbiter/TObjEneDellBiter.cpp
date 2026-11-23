@@ -171,7 +171,7 @@ void TObjEneDellBiter::load_resources() {
         TObjEneDellBiter__scrolling_uv_polygon_list = (saddr)((NJS_CNK_MODEL *)object->child->model)->polygon_list;
         TObjEneDellBiter__last_uv_scroll_tick = 0;
         NpcAnimationBinding attack = { reinterpret_cast<BmlMotionEntry *>(resource->motions), reinterpret_cast<TObjMotionAction *>(dell_biter_param_table), 0, 1, 10 };
-        NpcModelRegistry::register_animated_chunk((s16)0x46, reinterpret_cast<void *>(resource->models->model), reinterpret_cast<void *>(resource->models->texlist),
+        NpcModelRegistry::register_animated_chunk((s16)0x46, reinterpret_cast<void *>(resource->models->model), resource->models->texlist,
             &attack, dell_biter_collision_bodies[0].radius, 0.0f);
     }
 }
@@ -205,7 +205,7 @@ void TObjEneDellBiter::init_params() {
     s32 i;
     init_position_vectors();
     model = (void *)((BmlResource *)TObjEneDellBiter__shared_model_resource)->models->model;
-    texlist = (saddr)((BmlResource *)TObjEneDellBiter__shared_model_resource)->models->texlist;
+    texlist = ((BmlResource *)TObjEneDellBiter__shared_model_resource)->models->texlist;
     init_model((CollisionBody *)dell_biter_collision_bodies, 1);
     bodies->flags |= 0x400000;
     set_action_table((saddr)&dell_biter_param_table);

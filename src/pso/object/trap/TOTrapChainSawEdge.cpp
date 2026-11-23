@@ -832,7 +832,7 @@ void TOTrapChainSawEdge::vfunc_16() {
     *(s32 *)((s8 *)this + 0xFC) = x < 0 ? 0 : (x > 1 ? 1 : x);
     *(s32 *)((s8 *)this + 0xC8) = (saddr)TOTrapChainSawKey::get_model(a.v[*(s32 *)((s8 *)this + 0xFC)]);
     *(s32 *)((s8 *)this + 0xBC) = (saddr)TOTrapChainSawKey::get_motion(b.v[*(s32 *)((s8 *)this + 0xFC)]);
-    this->texlist = (saddr)fn_802C9924(0);
+    this->texlist = fn_802C9924(0);
     this->animation_end_frame = (0.0f);
     this->animation_step = (1.0f);
 }

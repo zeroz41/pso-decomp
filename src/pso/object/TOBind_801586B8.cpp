@@ -89,7 +89,7 @@ u8 *TOBind__ct(TOBind *bind, saddr set_data) {
     ((TOBind *)(bind))->apply_object_set_data((void *)set_data);
     bind->m_b0 = 0;
     bind->model = reinterpret_cast<NJS_OBJECT *>(get_bml_model((BmlResource *)TOBind__static_model_resource, 0));
-    bind->texlist = (saddr)get_bml_texlist((BmlResource *)TOBind__static_model_resource, 0);
+    bind->texlist = get_bml_texlist((BmlResource *)TOBind__static_model_resource, 0);
     bind->animated_model = reinterpret_cast<NJS_OBJECT *>(get_bml_model((BmlResource *)TOBind__static_model_resource, 1));
     bind->animated_textures = reinterpret_cast<NJS_TEXLIST *>(get_bml_texlist((BmlResource *)TOBind__static_model_resource, 1));
     bind->motion = get_bml_motion(TOBind__static_model_resource, 0);

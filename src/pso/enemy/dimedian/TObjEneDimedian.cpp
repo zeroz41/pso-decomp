@@ -484,7 +484,7 @@ SampledMotionPoints *dimedian_attack_right_trail;
 #pragma defer_codegen on
 void TObjEneDimedian::load_dimedian_param_entry(s32 i) {
     model = dimedian_resource_ptr->models[i].model;
-    texlist = (saddr)dimedian_resource_ptr->models[i].texlist;
+    texlist = dimedian_resource_ptr->models[i].texlist;
 }
 
 TObjEneDimedian::TObjEneDimedian(TObject *parent, void *set_data) : TUnk_80493450(parent) {

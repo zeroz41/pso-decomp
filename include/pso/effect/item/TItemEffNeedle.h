@@ -26,7 +26,7 @@ public:
     s32 item_id;              // the weapon that fired it
     Vec position;
     NJS_OBJECT *model;
-    s32 texlist;
+    NJS_TEXLIST *texlist;
     s32 rotation[3];
 
     static const char *class_name;

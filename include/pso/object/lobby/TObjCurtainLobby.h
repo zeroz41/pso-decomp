@@ -24,7 +24,7 @@ struct TObjCurtainLobby : public TObjMapObject {
     f32 scale;  // the scale it grows and shrinks by
 
     static BmlResource *model_resource;
-    static u32 lobby_texlist;  // the lobby's shared texture list
+    static NJS_TEXLIST *lobby_texlist;  // the lobby's shared texture list
 };
 
 LAYOUT_ASSERT(TObjCurtainLobby_size, sizeof(TObjCurtainLobby) == 0xD0);

@@ -488,7 +488,7 @@ void TObjGrass::load_resources() {
         NpcAnimationBinding binding = grass_spawn_descriptor;
         binding.motions = TObjGrass__resource_bundle->motions;
         NpcModelRegistry::register_animated_chunk(0x35, reinterpret_cast<void *>(TObjGrass__resource_bundle->models[0].model),
-            reinterpret_cast<void *>(TObjGrass__resource_bundle->models[0].texlist), &binding, 10.0f, 0.0f);
+            TObjGrass__resource_bundle->models[0].texlist, &binding, 10.0f, 0.0f);
     }
 }
 

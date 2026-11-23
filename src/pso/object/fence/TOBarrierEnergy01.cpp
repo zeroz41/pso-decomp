@@ -57,7 +57,7 @@ TOBarrierEnergy01::TOBarrierEnergy01(TObject *parent, void *set_data) : TODoorBa
     m_name = TOBarrierEnergy01_name;
     apply_object_set_data(set_data);
     model = (void *)get_bml_model((BmlResource *)barrier_energy_shared_bml_archive, 1);
-    texlist = (saddr)barrier_energy_texlists[0];
+    texlist = barrier_energy_texlists[0];
     motion = get_bml_motion(barrier_energy_shared_bml_archive, 0);
     animation_end_frame = (f32)motion->frameCount - 1.0f;
     animation_step = 2.0f;
@@ -123,7 +123,7 @@ void TOBarrierEnergy01::update_closed() {
     if (door_flags & DOOR_FLAG_UNLOCKED) {
         object_state = DOOR_OPENING;
         set_indexed_flags(0, 8);
-        texlist = (saddr)barrier_energy_texlists[1];
+        texlist = barrier_energy_texlists[1];
     }
 }
 
@@ -139,7 +139,7 @@ void TOBarrierEnergy01::update_open() {
     if (!(door_flags & DOOR_FLAG_UNLOCKED)) {
         object_state = DOOR_CLOSING;
         clear_player_status_flag(0, 8);
-        texlist = (saddr)barrier_energy_texlists[0];
+        texlist = barrier_energy_texlists[0];
     }
 }
 

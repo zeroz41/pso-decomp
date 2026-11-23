@@ -88,7 +88,7 @@ void TSlicerHistory::run_task() {
     }
 }
 
-TSlicerHistory::TSlicerHistory(TTecSlicer *slicer, u32 texlist, NJS_ARGB *color, u32 weapon_handle) : TObject(slicer) {
+TSlicerHistory::TSlicerHistory(TTecSlicer *slicer, NJS_TEXLIST *texlist, NJS_ARGB *color, u32 weapon_handle) : TObject(slicer) {
     m_name = class_name;
     copy_xyz(&rotation_x, &slicer->rotation_x);
     VecCopy(&position, &slicer->position);

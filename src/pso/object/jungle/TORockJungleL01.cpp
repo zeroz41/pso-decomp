@@ -85,7 +85,7 @@ void TORockJungleS01::load_resources() {
         break;
     }
     TMotorcycle::add_entry(0x3E, reinterpret_cast<NJS_OBJECT *>(get_model(0)),
-                           reinterpret_cast<NJS_TEXLIST *>(get_jungle_rock_texture_resource(0)), 5.0f, 0.0f);
+                           get_jungle_rock_texture_resource(0), 5.0f, 0.0f);
 }
 #pragma pool_data reset
 
@@ -109,11 +109,11 @@ saddr TORockJungleS01::get_model(s32 index) {
 }
 
 // Every rock uses the floor's one texture list, whatever its model.
-s32 get_jungle_rock_texture_resource(s32 index) {
+NJS_TEXLIST *get_jungle_rock_texture_resource(s32 index) {
     if (TORockJungleS01__texture_resource != NULL) {
-        return (saddr)TORockJungleS01__texture_resource;
+        return TORockJungleS01__texture_resource;
     }
-    return 0;
+    return NULL;
 }
 
 TORockJungleS01::TORockJungleS01(void *set_data) {

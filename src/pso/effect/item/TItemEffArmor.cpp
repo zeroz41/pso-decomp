@@ -108,7 +108,7 @@ void TItemEffArmor::render() {
     model_render_flags |= 0x10;
     copy_argb(&saved_model_draw_color, &model_material_color);
     set_constant_material(&color);
-    set_texlist((uaddr)texture_list);
+    set_texlist(texture_list);
     draw_ginja_model_with_motion(model, motion, frame);
     copy_argb(&model_material_color, &saved_model_draw_color);
     model_render_flags = saved_model_render_flags;

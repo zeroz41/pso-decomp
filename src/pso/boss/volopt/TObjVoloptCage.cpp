@@ -31,8 +31,8 @@
 
 // TBoss3Volopt::create_breakup_mdl takes saddr; through that declaration CW keeps the param and Vec addresses
 // in saved registers across the two calls, so the call goes through the pointer-typed symbol.
-extern "C" void create_breakup_mdl__12TBoss3VoloptFlllll(TBreakUpMdlData *model, VoloptBreakUpParams *params,
-                                                         s32 textures, Vec *pos, s32 angle);
+extern "C" void create_breakup_mdl__12TBoss3VoloptFllP11NJS_TEXLISTll(TBreakUpMdlData *model, VoloptBreakUpParams *params,
+                                                         NJS_TEXLIST *textures, Vec *pos, s32 angle);
 
 extern BmlResource *volopt_p02_resources;
 
@@ -52,7 +52,7 @@ void *volopt_cage_combat_stats;
 VoloptCageParams *volopt_cage_params;
 static TBreakUpMdlData *volopt_cage_breakup_model;
 static saddr volopt_cage_model;
-static s32 volopt_cage_textures;
+static NJS_TEXLIST *volopt_cage_textures;
 
 void TObjVoloptCage::damage_caged_player() {
     DirectAttackPayload attack = {0, 0.0f};
@@ -75,9 +75,9 @@ void TObjVoloptCage::update_breakup() {
         break;
     case 0:
         play_sound_effect(0x4001C112, &position, 0, 0);
-        create_breakup_mdl__12TBoss3VoloptFlllll(volopt_cage_breakup_model, &volopt_cage_breakup_params,
+        create_breakup_mdl__12TBoss3VoloptFllP11NJS_TEXLISTll(volopt_cage_breakup_model, &volopt_cage_breakup_params,
                                                  volopt_cage_textures, &body_center, rotation_y);
-        create_breakup_mdl__12TBoss3VoloptFlllll(volopt_cage_breakup_model, &volopt_cage_breakup_params,
+        create_breakup_mdl__12TBoss3VoloptFllP11NJS_TEXLISTll(volopt_cage_breakup_model, &volopt_cage_breakup_params,
                                                  volopt_cage_textures, &body_center, rotation_y);
         trigger_dell_biter_events(&body_center);
         timer = 12;
@@ -184,7 +184,7 @@ void TObjVoloptCage::init_break_model() {
 
 void TObjVoloptCage::render() {
     if (update_object_view_visibility(400.0f, 40.0f) != 0) {
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(volopt_cage_textures));
+        TObjFish::set_global_param(volopt_cage_textures);
         push_matrix();
         model_render_flags &= ~0x400;
         post_translate_matrix(&position.x);
@@ -274,7 +274,7 @@ TObjVoloptCage::TObjVoloptCage(TObjEnemy *boss, u16 target, u16 id, s32 group) :
     actorFlags &= ~0xA00;
     next_action = 7;
     mode = 7;
-    volopt_cage_textures = (saddr)volopt_p02_resources->models[0x12].texlist;
+    volopt_cage_textures = volopt_p02_resources->models[0x12].texlist;
     status = 0;
 }
 

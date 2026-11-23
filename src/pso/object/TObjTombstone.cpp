@@ -145,7 +145,7 @@ TObjTombstone::TObjTombstone(TObject *parent, s32 client, const TObjTombstoneSpo
 }
 
 void TObjTombstone::setup(s32 client, const TObjTombstoneRecord *src) {
-    this->texlist = (saddr)get_bml_texlist((BmlResource *)TObjTombstone__shared_resource_object, 0);
+    this->texlist = get_bml_texlist((BmlResource *)TObjTombstone__shared_resource_object, 0);
     *(saddr *)&this->model = (saddr)get_bml_model((BmlResource *)TObjTombstone__shared_resource_object, 0);
     this->client_id = client;
     this->record = *src;

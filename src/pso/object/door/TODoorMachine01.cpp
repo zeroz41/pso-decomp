@@ -251,7 +251,7 @@ TODoorMachine01::TODoorMachine01(TObject *parent, void *set_data) : TODoorBase(p
     m_name = door_machine01_class_name;
     apply_object_set_data(set_data);
     model = (void *)bml_resource->models[0].model;
-    texlist = (saddr)bml_resource->models[0].texlist;
+    texlist = bml_resource->models[0].texlist;
     motion = bml_resource->motions[0].motion;
     animation_end_frame = (f32)motion->frameCount - 1.0f;
     animation_step = 0.5f;

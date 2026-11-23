@@ -11,9 +11,9 @@ u8 *fn_8028A714(s32 index) {
     }
     return NULL;
 }
-u8 *fn_8028A750(s32 index) {
+NJS_TEXLIST *fn_8028A750(s32 index) {
     if (green_door_bml_resource != NULL) {
-        return (u8 *)get_bml_texlist((BmlResource *)green_door_bml_resource, index);
+        return get_bml_texlist((BmlResource *)green_door_bml_resource, index);
     }
     return NULL;
 }

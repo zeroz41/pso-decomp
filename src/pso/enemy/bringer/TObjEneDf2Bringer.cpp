@@ -305,7 +305,7 @@ void TObjEneDf2Bringer::init_enemy() {
 
     init_position_vectors();
     this->model = TObjEneDf2Bringer__resource_bundle->models[0].model;
-    this->texlist = (saddr)TObjEneDf2Bringer__resource_bundle->models[0].texlist;
+    this->texlist = TObjEneDf2Bringer__resource_bundle->models[0].texlist;
     init_model(bringer_collision_bodies, 1);
     set_action_table((saddr)bringer_motion_actions);
     set_motion_list((saddr)TObjEneDf2Bringer__resource_bundle->motions);

@@ -42,7 +42,7 @@ void TObjVoloptPillar::spawn_debris_chips() {
         4, 60,
         0.0f, 1.0f,
         (saddr)boss3_volopt_resources->models[0xE].model,
-        (saddr)boss3_volopt_resources->models[0xE].texlist,
+        boss3_volopt_resources->models[0xE].texlist,
         2,
     };
     new TObjChip(tl_05, (TObjChipParams *)&params);

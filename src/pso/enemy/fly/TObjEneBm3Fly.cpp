@@ -84,7 +84,7 @@ void TObjEneBm3Fly::load_resources() {
     {
         NpcAnimationBinding binding = bm3_fly_resource_binding_desc;
         binding.motions = reinterpret_cast<BmlMotionEntry *>(bm3_fly_nest_resources->motions);
-        NpcModelRegistry::register_animated_chunk(7, reinterpret_cast<void *>(bm3_fly_nest_resources->models[0].model), reinterpret_cast<void *>(bm3_fly_nest_resources->models[0].texlist), &binding, bm3_fly_collider_params[0].radius, 15.0f);
+        NpcModelRegistry::register_animated_chunk(7, reinterpret_cast<void *>(bm3_fly_nest_resources->models[0].model), bm3_fly_nest_resources->models[0].texlist, &binding, bm3_fly_collider_params[0].radius, 15.0f);
     }
 }
 
@@ -116,7 +116,7 @@ TObjEneBm3Fly::TObjEneBm3Fly(TObject *parent, TObjEneBm3FlyNest *nest, s32 entit
 void TObjEneBm3Fly::init_child_params() {
     init_position_vectors();
     this->model = (void *)bm3_fly_nest_resources->models[0].model;
-    this->texlist = (saddr)bm3_fly_nest_resources->models[0].texlist;
+    this->texlist = bm3_fly_nest_resources->models[0].texlist;
     this->init_model(bm3_fly_collider_params, 1);
     set_action_table((saddr)bm3_fly_action_table);
     set_motion_list((saddr)bm3_fly_nest_resources->motions);
@@ -1139,7 +1139,7 @@ void TObjEneBm3Fly::render_demo() {
 
 void TObjEneMoja::bindModel(int index) {
     model = (void *)moja_bml_resource->models[index].model;
-    texlist = (saddr)moja_bml_resource->models[index].texlist;
+    texlist = moja_bml_resource->models[index].texlist;
 }
 
 f32 AttackParams::get_damage_radius() { return damage_radius; }

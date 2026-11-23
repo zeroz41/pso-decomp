@@ -152,7 +152,7 @@ CollisionBody dolmolm_collision_bodies[2] = {
 
 void TObjEneDolmOlm::load_params_from_table(s32 i) {
     model = TObjEneDolmOlm__resource_bundle->models[i].model;
-    texlist = (saddr)TObjEneDolmOlm__resource_bundle->models[i].texlist;
+    texlist = TObjEneDolmOlm__resource_bundle->models[i].texlist;
 }
 TObjEneDolmOlm::TObjEneDolmOlm(TObject *parent, void *set_data) : TUnk_80493450(parent) {
     u32 col;

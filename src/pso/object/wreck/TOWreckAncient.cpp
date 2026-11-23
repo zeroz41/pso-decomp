@@ -144,7 +144,7 @@ s32 post_translate_matrix(void *);
 TOWreckAncient::TOWreckAncient(s32 model_index) : TObjCollidable(tl_05) {
     m_name = TOWreckAncient__name;
     model = (void *)get_bml_model((BmlResource *)wreck_ancient_bml_resource, model_index);
-    texlist = (saddr)get_bml_texlist((BmlResource *)wreck_ancient_bml_resource, model_index);
+    texlist = get_bml_texlist((BmlResource *)wreck_ancient_bml_resource, model_index);
     view_far_depth = 400.0f;
     view_radius = 40.0f;
 }
@@ -322,7 +322,7 @@ void TOWreckAncientBrakable::spawn_debris() {
         VecCopy((Vec *)p.pos, &position);
         vec3_add_to((Vec *)p.pos, &tmp);
         p.model = (saddr)get_bml_model((BmlResource *)wreck_ancient_brakable_bml_resource, i);
-        p.textures = (saddr)get_bml_texlist((BmlResource *)wreck_ancient_brakable_bml_resource, i);
+        p.textures = get_bml_texlist((BmlResource *)wreck_ancient_brakable_bml_resource, i);
         new TObjChip(tl_05, &p);
     }
 }
