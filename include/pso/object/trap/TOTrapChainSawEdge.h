@@ -34,7 +34,7 @@ void update_state__14TOTrapChainSawFv(u8 *arg0);
 // The unit's C-named helpers (formerly the text_802C9924 / text_802C99D8 /
 // TOTrapChainSawDamage_802C9BF8 sub files).
 extern "C" {
-GinjaTextureList *fn_802C9924(s32 arg0);
+GinjaTextureList *fn_802C9924(s32 index);
 void TOTrapChainSawDamage__sub_802C9C00(u8 *arg0, s32 arg1);
 }
 

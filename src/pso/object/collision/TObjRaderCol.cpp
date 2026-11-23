@@ -226,6 +226,6 @@ void TObjRaderIcon::run_task() {
 void TObjRaderIcon::render() {  }
 
 
-void *TObjRaderIcon::create(void *arg0) {
-    return new TObjRaderIcon(tl_05, arg0);
+void *TObjRaderIcon::create(void *set_data) {
+    return new TObjRaderIcon(tl_05, set_data);
 }

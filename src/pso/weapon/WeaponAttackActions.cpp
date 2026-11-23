@@ -653,7 +653,7 @@ struct Obj_8011F710 { u8 pad[0x1D1]; u8 cur; u8 pad2[0x1DC - 0x1D2]; Stats_8011F
 
 extern "C" {
 s32 play_weapon_hit_sound(void *);
-void apply_camera_shake__10TObjPlayerFiii(s32 arg0, saddr arg1, s32 arg2);
+void apply_camera_shake__10TObjPlayerFiii(s32 player, saddr target, s32 damage);
 void play_weapon_owner_sounds(void*);
 
 s32 add_weapon_grind(Obj_8011F710 *weapon, s32 amount);

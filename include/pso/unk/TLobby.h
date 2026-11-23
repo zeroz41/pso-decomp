@@ -183,7 +183,7 @@ struct TLobby : public TObject {
     static int get_drop_flag();
     static void handle_select_confirm();
     static void forward_to_player(int id, void *arg1);
-    static void handle_player_event(s32 arg0, s32 arg1);
+    static void handle_player_event(s32 client, s32 arg1);
     void dispatch_packet_wrapper();
     void process_and_dispatch_packet();
     void bswap_6xa2_fields();

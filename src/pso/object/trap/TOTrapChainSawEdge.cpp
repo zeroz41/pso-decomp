@@ -54,7 +54,7 @@
 
 #pragma readonly_strings on
 extern "C" {
-GinjaTextureList *fn_802C9924(s32 arg0);
+GinjaTextureList *fn_802C9924(s32 index);
 
 
 typedef struct P_802C86D4 {
@@ -288,23 +288,23 @@ void TOTrapChainSaw::unload_static_data() {
     }
 }
 
-NJS_OBJECT *TOTrapChainSawKey::get_model(s32 arg0) {
+NJS_OBJECT *TOTrapChainSawKey::get_model(s32 index) {
     if (lbl_805D6808 != NULL) {
-        return (NJS_OBJECT *)get_bml_model((BmlResource *)lbl_805D6808, arg0);
+        return (NJS_OBJECT *)get_bml_model((BmlResource *)lbl_805D6808, index);
     }
     return NULL;
 }
 
-AnimationMotion *TOTrapChainSawKey::get_motion(s32 arg0) {
+AnimationMotion *TOTrapChainSawKey::get_motion(s32 index) {
     if (lbl_805D6808 != NULL) {
-        return get_bml_motion(lbl_805D6808, arg0);
+        return get_bml_motion(lbl_805D6808, index);
     }
     return NULL;
 }
 
-GinjaTextureList *fn_802C9924(s32 arg0) {
+GinjaTextureList *fn_802C9924(s32 index) {
     if (lbl_805D6808 != NULL) {
-        return (GinjaTextureList *)get_bml_texlist((BmlResource *)lbl_805D6808, arg0);
+        return (GinjaTextureList *)get_bml_texlist((BmlResource *)lbl_805D6808, index);
     }
     return NULL;
 }

@@ -148,7 +148,7 @@ extern "C" {
 
 s32 play_weapon_hit_sound(void *);
 
-void apply_camera_shake__10TObjPlayerFiii(s32 arg0, saddr arg1, s32 arg2);
+void apply_camera_shake__10TObjPlayerFiii(s32 player, saddr target, s32 damage);
 
 Hit_802E3D8C *csnVector(void *, void *, s32);
 

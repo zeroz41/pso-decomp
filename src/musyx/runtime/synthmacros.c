@@ -10,7 +10,7 @@
 #undef varSet32
 #undef inpSetExCtrl
 extern "C" {
-void varSet32(Obj_803B0004 *arg0, u32 arg1, u8 arg2, s32 arg3);
+void varSet32(Obj_803B0004 *svoice, u32 arg1, u8 arg2, s32 arg3);
 void inpSetExCtrl(void *svoice, u8 ctrl, s16 v);
 struct Voice_803AEEF0;
 void synthKeyStateUpdate(Voice_803AEEF0 *svoice);
@@ -936,14 +936,14 @@ s32 varGet32(Obj_803AFF38 *arg0, u32 arg1, u32 arg2) {
     return synthGlobalVariable[arg2 - 16];
 }
 
-s16 varGet(Obj_803AFF9C *arg0, u32 arg1, u32 arg2) {
+s16 varGet(Obj_803AFF9C *svoice, u32 arg1, u32 arg2) {
     s32 r;
     if (arg1 != 0) {
-        r = (u16)inpGetExCtrl(arg0, arg2);
+        r = (u16)inpGetExCtrl(svoice, arg2);
     } else {
         arg2 = arg2 & 0x1F;
         if (arg2 < 0x10) {
-            r = arg0->v[arg2];
+            r = svoice->v[arg2];
         } else {
             r = synthGlobalVariable[arg2 - 16];
         }
@@ -951,14 +951,14 @@ s16 varGet(Obj_803AFF9C *arg0, u32 arg1, u32 arg2) {
     return r;
 }
 
-void varSet32(Obj_803B0004 *arg0, u32 arg1, u8 arg2, s32 arg3) {
+void varSet32(Obj_803B0004 *svoice, u32 arg1, u8 arg2, s32 arg3) {
     if (arg1 != 0) {
-        inpSetExCtrl(arg0, arg2, arg3);
+        inpSetExCtrl(svoice, arg2, arg3);
         return;
     }
     arg2 &= 0x1F;
     if (arg2 < 0x10) {
-        arg0->v[arg2] = arg3;
+        svoice->v[arg2] = arg3;
         return;
     }
     synthGlobalVariable[arg2 - 16] = arg3;
@@ -1090,7 +1090,7 @@ typedef struct Voice_803B0068 {
 struct Obj_803AFF38;
 struct Obj_803B0004;
 s32 varGet32(Obj_803AFF38 *arg0, u32 arg1, u32 arg2);
-void varSet32(Obj_803B0004 *arg0, u32 arg1, u8 arg2, s32 arg3);
+void varSet32(Obj_803B0004 *svoice, u32 arg1, u8 arg2, s32 arg3);
 
 #pragma push
 #pragma opt_common_subs on
@@ -2574,7 +2574,7 @@ void macMakeInactive(Obj_803B312C *ov, s32 state) {
 
 #define HEAD (*(Voice_803B2128 **)&lbl_805D741C)
 
-u32 macStart(u16 arg0, u8 arg1, u8 maxVoices, u16 allocId, u8 arg4, u8 arg5, u8 arg6, u8 arg7,
+u32 macStart(u16 mid, u8 arg1, u8 maxVoices, u16 allocId, u8 arg4, u8 arg5, u8 arg6, u8 arg7,
                       u8 arg8, u8 arg9, u16 arg10, u16 arg11, u8 isMaster, u8 arg13, u8 arg14, u32 arg15) {
     u32 macro;
     s32 flag;
@@ -2583,7 +2583,7 @@ u32 macStart(u16 arg0, u8 arg1, u8 maxVoices, u16 allocId, u8 arg4, u8 arg5, u8 
     Voice_803B2128 *v;
     u32 vid;
 
-    macro = dataGetMacro(arg0);
+    macro = dataGetMacro(mid);
     if (macro != 0) {
         flag = arg4 & 0x80;
         if (flag == 0) {
@@ -2629,7 +2629,7 @@ u32 macStart(u16 arg0, u8 arg1, u8 maxVoices, u16 allocId, u8 arg4, u8 arg5, u8 
                 v->f20B = arg8;
                 v->f20C = arg9;
             }
-            v->f102 = arg0;
+            v->f102 = mid;
             v->f100 = allocId;
             v->f110 = 0x75300000;
             v->f10E = 0x400;
@@ -2652,7 +2652,7 @@ u32 macStart(u16 arg0, u8 arg1, u8 maxVoices, u16 allocId, u8 arg4, u8 arg5, u8 
             v->f3EE = 0;
             v->f3ED = 0;
             v->f3EC = 0;
-            v->fF4 = id | ((arg0 << 16) | ((arg4 << 8) & 0xFF00));
+            v->fF4 = id | ((mid << 16) | ((arg4 << 8) & 0xFF00));
             voiceSetPriority(v, arg1);
             vid = vidMakeNew((SYNTH_VOICE_SV *)v, isMaster);
             if (vid != 0xFFFFFFFF) {

@@ -471,10 +471,10 @@ void TLobby::forward_to_player(int id, void *item) {
         }
     }
 }
-void TLobby::handle_player_event(s32 arg0, s32 arg1) {
+void TLobby::handle_player_event(s32 client, s32 arg1) {
     TObjPlayer *player;
     TItem *item;
-    player = get_player_by_client_id((u16)arg0);
+    player = get_player_by_client_id((u16)client);
     if ((player != NULL) && ((TObjPlayer::is_locally_controlled(player) == 1) || ((player->obj_isState3_324() == 1) && ((s32) local_client_id == (s32) designated_client_id)) || ((player->is_script_controlled() == 1) && ((s32) local_client_id == (s32) designated_client_id)))) {
         item = NULL;
         switch (arg1) {

@@ -7,11 +7,11 @@
 class TPlyCharData;
 
 extern "C" {
-u16 TAdSinglePlyChrSelectGC__sub_801FC36C(int arg0);
+u16 TAdSinglePlyChrSelectGC__sub_801FC36C(int client);
 void TAdSinglePlyChrSelectGC__sub_801FCCB4(u8 *arg0, s32 arg1);
 s32 TAdSinglePlyChrSelectGC__sub_801FCCC0(u8 *arg0);
 s32 TAdSinglePlyChrSelectGC__sub_801FCE6C(void);
-int TAdSinglePlyChrSelectGC__sub_801FD990(s32 a0);
+int TAdSinglePlyChrSelectGC__sub_801FD990(s32 chan);
 s32 TAdSinglePlyChrSelectGC__sub_801FDA4C(void);
 s32 TAdSinglePlyChrSelectGC__sub_801FDAAC(void);
 void TAdSinglePlyChrSelectGC__sub_801FDC14(void);

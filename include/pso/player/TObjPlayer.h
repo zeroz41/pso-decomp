@@ -1154,7 +1154,7 @@ struct TObjPlayer : public TObjChara {
     void deactivate_body_collision();
     void send_field_state();
     void play_photon_blast_feedback();
-    static void spawn_effect(saddr arg0);
+    static void spawn_effect(saddr player);
     void draw();
     static void draw(void *player, f32 at_frame);
     void set_state_flag_604B();
@@ -1163,7 +1163,7 @@ struct TObjPlayer : public TObjChara {
     void set_state_flag_6043();
     static void notify_field1c(saddr arg0);
     int get_field_828();
-    static void play_phase_transition_sound(saddr arg0);
+    static void play_phase_transition_sound(saddr child);
     int check_flag_40000();
     s32 is_in_tl03_state();
     void sync_status_effect_flags();
@@ -1194,7 +1194,7 @@ struct TObjPlayer : public TObjChara {
     s32 can_use_action();
     s32 is_target_valid();
     void update_subsystems();
-    static s32 get_battle_ctrl_id(u16 arg0);
+    static s32 get_battle_ctrl_id(u16 client);
     void clear_action_flag();
     void apply_material_color_override();
     static s32 get_battle_ctrl_flag(u16 id);

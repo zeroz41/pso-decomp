@@ -339,7 +339,7 @@ void TObjPlayer__sub_802E0580(void * _w0, int _w1, void * _w2) {
     ((s32 (*)(f32))TObjPlayer__sub_802E0468)(1.0f);
 }
 
-void TObjPlayer__sub_802E0468(long long arg1, u8 *arg2, f32 farg0) {
+void TObjPlayer__sub_802E0468(long long child, u8 *arg2, f32 farg0) {
   Stack_802E0468 stack;
   int new_var;
   saved_model_render_flags = model_render_flags;
@@ -356,7 +356,7 @@ void TObjPlayer__sub_802E0468(long long arg1, u8 *arg2, f32 farg0) {
   stack.sp10 = 0.003921569f * ((f32) (*((s16 *) (((s8 *) arg2) + 0x44))));
   stack.sp14 = 0.003921569f * ((f32) (*((s16 *) (((s8 *) arg2) + 0x46))));
   set_constant_material((const NJS_ARGB *)((&stack.sp8)));
-  TObjPlayer::play_phase_transition_sound(arg1);
+  TObjPlayer::play_phase_transition_sound(child);
   chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
   chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
   model_render_flags = saved_model_render_flags;

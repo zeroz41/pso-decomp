@@ -215,24 +215,24 @@ loop_2:
     }
 }
 
-void TLobby__sub_803C60F0(u8 *arg0, s32 arg1, s32 arg2, s32 arg3) {
-    *(s32 *)((s8 *)arg0 + 0x58) = arg1;
-    *(s32 *)((s8 *)arg0 + 0x5C) = arg2;
-    *(s32 *)((s8 *)arg0 + 0x3C) = arg3;
-    *(s32 *)((s8 *)arg0 + 0x60) = arg3;
-    *(s32 *)((s8 *)arg0 + 0x48) = 0x11C;
+void TLobby__sub_803C60F0(u8 *ctx, s32 arg1, s32 arg2, s32 arg3) {
+    *(s32 *)((s8 *)ctx + 0x58) = arg1;
+    *(s32 *)((s8 *)ctx + 0x5C) = arg2;
+    *(s32 *)((s8 *)ctx + 0x3C) = arg3;
+    *(s32 *)((s8 *)ctx + 0x60) = arg3;
+    *(s32 *)((s8 *)ctx + 0x48) = 0x11C;
 }
 
-void TLobby__sub_803C610C(u8 *arg0) {
-    *(s8 *)((s8 *)arg0 + 3) = 1;
+void TLobby__sub_803C610C(u8 *ctx) {
+    *(s8 *)((s8 *)ctx + 3) = 1;
 }
 
-void TLobby__sub_803C6118(u8 *arg0) {
-    *(s32 *)((s8 *)arg0 + 0x28) = 0;
-    *(s32 *)((s8 *)arg0 + 0x2C) = 0;
-    *(s32 *)((s8 *)arg0 + 0x30) = 0;
-    *(s8 *)((s8 *)arg0 + 3) = 0;
-    *(s8 *)((s8 *)arg0 + 1) = 1;
+void TLobby__sub_803C6118(u8 *ctx) {
+    *(s32 *)((s8 *)ctx + 0x28) = 0;
+    *(s32 *)((s8 *)ctx + 0x2C) = 0;
+    *(s32 *)((s8 *)ctx + 0x30) = 0;
+    *(s8 *)((s8 *)ctx + 3) = 0;
+    *(s8 *)((s8 *)ctx + 1) = 1;
 }
 
 void TLobby__sub_803C6138(S_803C6138 *arg0) {
