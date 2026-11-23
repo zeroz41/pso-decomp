@@ -58,52 +58,11 @@ extern s32 item_disabled_area_table[];
 
 
 
-struct Inner_802040D4 { u8 pad[0x20]; f32 radius; };
-
-
-struct Obj_802040D4 { u8 pad[4]; Inner_802040D4 *inner; u8 pos[1]; };
-
-
-struct Rec_8020430C { u8 pad0[4]; f32 pos[3]; u8 pad1[0x20]; u32 flags; };
-
-
-struct Root_8020430C { u8 pad[8]; s16 count; u8 pad2[2]; f32 radius; Rec_8020430C *recs; };
-
-
-struct Obj_802040D4;
-
-
-struct Obj_80204B78 { u8 pad0[4]; f32 x; f32 y; f32 z; u8 pad10[0xC]; f32 radius; u8 pad20[0x10]; u32 flags; };
-
 
 typedef void (*RecoveredCallback_2be3cacebb2e)(void);
 
 struct SceneMaterialRoot;
 
-struct Motion_80203F0C { u8 pad[4]; u32 frames; };
-
-
-struct Anim_80203F0C {
-    u8 pad0[4];
-    Motion_80203F0C *motion;
-    u8 pad8[4];
-    f32 frame;
-    f32 speed;
-    u8 pad14[8];
-    u32 flags;
-};
-
-
-struct Group_80203F0C {
-    u8 pad0[0x24];
-    Anim_80203F0C *anims;
-    u8 pad28[4];
-    s32 count;
-    u8 pad30[4];
-};
-
-
-struct Root_80203F0C { u8 pad[8]; s16 count; u8 pad2[6]; Group_80203F0C *groups; };
 
 
 struct W_802043CC { s32 a, b, c; };
@@ -117,18 +76,18 @@ extern "C" {
 
 SceneMaterialSection *find_scene_room_by_id(s32 id);
 
+bool is_in_view_depth__6TSceneFf(f32 farg0);
+
+s32 TScene__sub_802040D4(void *self, SceneMaterialNode *node, f32 depth, f32 near_depth);
+
 void matrix_mult_vec(int, void *, void *);
 
 
-bool is_in_view_depth__6TSceneFf(f32 farg0);
 
 f32 vec3_dot(void *, void *);
 
 f32 project_point_onto_line(void *, void *, void *);
 
-s32 TScene__sub_80204024(f32 thr, s32 unused, void *a, void *b, Vec *c);
-
-s32 TScene__sub_802040D4(void *arg0, Obj_802040D4 *o, f32 f0, f32 f1);
 
 
 SceneMaterialNode* resolve_indirect_node_record(void*,SceneMaterialStatic*);
@@ -145,7 +104,6 @@ void rotate_matrix_y(s32, s32);
 void rotate_vector_by_matrix(saddr, void *, Vec *);
 
 
-s32 check_object_in_view_cone__6TSceneFiPvPvPvi(s32 arg0, Obj_80204B78 *obj, Vec *pos, void *arg3, s32 arg4);
 
 extern s32 model_render_flags;
 
@@ -214,7 +172,6 @@ struct SceneDispatchPrefix {
 
 LAYOUT_ASSERT(SceneDispatchPrefix_size, sizeof(SceneDispatchPrefix) == 0x78);
 
-struct Task_80204688;
 extern "C" {
 
 
@@ -222,15 +179,8 @@ s32 TScene__sub_80205874(void*);
 
 }
 
-struct Task_80204688 { u8 pad[0x1C]; s32 count; };
-
-struct Model_80204688 { u8 pad[0x14]; f32 x, y, z; };
-
-struct Node_80204688 { u32 flags; Model_80204688 *model; f32 x, y, z; };
 extern Vec lbl_8044A84C[];
 
-#define TEST ((s32 (*)(f32, void *, void *, void *, Vec *))TScene__sub_80204024)
-#define VIS ((s32 (*)(void *, void *, f32, f32))is_in_view_depth__6TSceneFf)
 
 struct Ent_80205AA8 { u16 id; u8 pad[6]; };
 
@@ -1770,7 +1720,7 @@ void TScene::sub_80204D7C() {
                     rotate_vector_by_matrix(0, &dir, &up);
                     normalize_vector(&up);
                     pop_matrices(1);
-                    if (TEST(sec->radius, this, &p, &d, &up) != 0) {
+                    if (is_within_view_edge(&p, &d, &up, sec->radius) != 0) {
                         sec->flags |= 0x10000;
                         sec++;
                         m_1c++;
@@ -1780,7 +1730,7 @@ void TScene::sub_80204D7C() {
                         rotate_vector_by_matrix(0, &dir, &up);
                         normalize_vector(&up);
                         pop_matrices(1);
-                        if (TEST(sec->radius, this, &p, &d, &up) != 0) {
+                        if (is_within_view_edge(&p, &d, &up, sec->radius) != 0) {
                             sec->flags |= 0x10000;
                             sec++;
                             m_1c++;
@@ -1803,7 +1753,7 @@ void TScene::sub_80204D7C() {
 }
 
 
-s32 check_object_in_view_cone__6TSceneFiPvPvPvi(s32 unused, Obj_80204B78 *obj, Vec *pos, void *arg3, s32 angle) {
+s32 TScene::check_object_in_view_cone(SceneMaterialSection *section, Vec *pos, Vec *dir, s32 angle) {
     Vec c;
     Vec a;
     Vec b;
@@ -1815,60 +1765,59 @@ s32 check_object_in_view_cone__6TSceneFiPvPvPvi(s32 unused, Obj_80204B78 *obj, V
     f32 dist2;
     f32 d;
     k = 0.0f;
-    x = obj->x;
+    x = section->position[0];
     a.x = x;
     a.y = k;
-    z = obj->z;
+    z = section->position[2];
     a.z = z;
     b.x = x - pos->x;
     b.y = k;
     b.z = z - pos->z;
     dist2 = b.x * b.x + b.y * b.y + b.z * b.z;
-    r2 = obj->radius * obj->radius;
+    r2 = section->radius * section->radius;
     g2 = scene_material_root->radius * scene_material_root->radius;
     if (dist2 < r2) {
-        obj->flags |= 0x10000;
+        section->flags |= 0x10000;
         return 1;
     }
     if (dist2 > g2) {
-        obj->flags &= ~0x10000;
+        section->flags &= ~0x10000;
         return 0;
     }
     normalize_vector(&b);
-    d = vec3_dot(arg3, &b);
+    d = vec3_dot(dir, &b);
     if (d < 0.0f) {
-        obj->flags &= ~0x10000;
+        section->flags &= ~0x10000;
         return 0;
     }
     if (d >= 0.0f && d < 0.5f) {
         push_matrix_from(identity_matrix);
         rotate_matrix_y(0, angle);
-        rotate_vector_by_matrix(0, arg3, &c);
+        rotate_vector_by_matrix(0, dir, &c);
         normalize_vector(&c);
         pop_matrix();
-        if (TScene__sub_80204024(obj->radius, unused, &a, &b, &c) != 0) {
-            obj->flags |= 0x10000;
+        if (is_within_view_edge(&a, &b, &c, section->radius) != 0) {
+            section->flags |= 0x10000;
             return 1;
         }
         push_matrix_from(identity_matrix);
         rotate_matrix_y(0, -angle);
-        rotate_vector_by_matrix(0, arg3, &c);
+        rotate_vector_by_matrix(0, dir, &c);
         normalize_vector(&c);
         pop_matrix();
-        if (TScene__sub_80204024(obj->radius, unused, &a, &b, &c) != 0) {
-            obj->flags |= 0x10000;
+        if (is_within_view_edge(&a, &b, &c, section->radius) != 0) {
+            section->flags |= 0x10000;
             return 1;
         }
     } else {
-        obj->flags |= 0x10000;
+        section->flags |= 0x10000;
         return 1;
     }
-    obj->flags &= ~0x10000;
+    section->flags &= ~0x10000;
     return 0;
 }
 
 void TScene::cull_sections() {
-    Task_80204688 *task = (Task_80204688*)this;
     static f32 s_near = 520.0f;
     static f32 s_far = 800.0f;
     static f32 s_pad = 80.0f;
@@ -1890,7 +1839,7 @@ void TScene::cull_sections() {
         s_near = 600.0f;
         s_far = scene_material_root->radius;
     }
-    task->count = 0;
+    m_1c = 0;
     push_matrix_from(identity_matrix);
     rotate_matrix_y(0, camera_ctrl_instance->yaw);
     rotate_vector_by_matrix(0, &up, &dir);
@@ -1900,7 +1849,7 @@ void TScene::cull_sections() {
     sec = scene_material_root->sections;
     for (i = 0; i < scene_material_root->count; i++) {
         if (sec->flags & 0x80000) {
-            ((TScene *)task)->update_room_object_visibility(sec);
+            update_room_object_visibility(sec);
             sec++;
         } else {
             f32 dist;
@@ -1915,7 +1864,7 @@ void TScene::cull_sections() {
             if (dist < sec->radius * sec->radius) {
                 sec->flags |= 0x10000;
                 sec++;
-                task->count++;
+                m_1c++;
             } else if (dist > s_far * s_far) {
                 sec->flags &= ~0x10000;
                 sec++;
@@ -1931,20 +1880,20 @@ void TScene::cull_sections() {
                     rotate_vector_by_matrix(0, &dir, &up);
                     normalize_vector(&up);
                     pop_matrices(1);
-                    if (TEST(sec->radius, task, &p, &d, &up) != 0) {
+                    if (is_within_view_edge(&p, &d, &up, sec->radius) != 0) {
                         sec->flags |= 0x10000;
                         sec++;
-                        task->count++;
+                        m_1c++;
                     } else {
                         push_matrix_from(identity_matrix);
                         rotate_matrix_y(0, -camera_ctrl_instance->fov);
                         rotate_vector_by_matrix(0, &dir, &up);
                         normalize_vector(&up);
                         pop_matrices(1);
-                        if (TEST(sec->radius, task, &p, &d, &up) != 0) {
+                        if (is_within_view_edge(&p, &d, &up, sec->radius) != 0) {
                             sec->flags |= 0x10000;
                             sec++;
-                            task->count++;
+                            m_1c++;
                         } else {
                             goto clear;
                         }
@@ -1952,7 +1901,7 @@ void TScene::cull_sections() {
                 } else {
                     sec->flags |= 0x10000;
                     sec++;
-                    task->count++;
+                    m_1c++;
                 }
             }
         }
@@ -1968,11 +1917,11 @@ void TScene::cull_sections() {
             SceneMaterialStatic *st = sec->objects;
             s32 j;
             for (j = 0; j < sec->count; j++, st++) {
-                Node_80204688 *n = (Node_80204688 *)resolve_indirect_node_record(task, st);
-                v.x = n->model->x + (sec->position[0] + n->x);
-                v.y = n->model->y + (sec->position[1] + n->y);
-                v.z = n->model->z + (sec->position[2] + n->z);
-                if (VIS(task, &v, s_near + s_pad, 100.0f) != 0) {
+                SceneMaterialNode *n = resolve_indirect_node_record(this, st);
+                v.x = n->model->center[0] + (sec->position[0] + n->position[0]);
+                v.y = n->model->center[1] + (sec->position[1] + n->position[1]);
+                v.z = n->model->center[2] + (sec->position[2] + n->position[2]);
+                if (((s32 (*)(void *, void *, f32, f32))is_in_view_depth__6TSceneFf)(this, &v, s_near + s_pad, 100.0f) != 0) {
                     st->flags |= 0x10000;
                 } else {
                     st->flags &= ~0x10000;
@@ -1981,11 +1930,11 @@ void TScene::cull_sections() {
             {
                 SceneMaterialAnimated *an = sec->animated;
                 for (j = 0; j < sec->animatedCount; j++, an++) {
-                    Node_80204688 *n = (Node_80204688 *)resolve_indirect_object_record(task, an);
-                    v.x = sec->position[0] + n->x;
-                    v.y = sec->position[1] + n->y;
-                    v.z = sec->position[2] + n->z;
-                    if (VIS(task, &v, s_near + s_pad, 100.0f) != 0) {
+                    SceneMaterialNode *n = resolve_indirect_object_record(this, an);
+                    v.x = sec->position[0] + n->position[0];
+                    v.y = sec->position[1] + n->position[1];
+                    v.z = sec->position[2] + n->position[2];
+                    if (((s32 (*)(void *, void *, f32, f32))is_in_view_depth__6TSceneFf)(this, &v, s_near + s_pad, 100.0f) != 0) {
                         an->flags |= 0x10000;
                     } else {
                         an->flags &= ~0x10000;
@@ -2075,7 +2024,7 @@ void TScene::update_room_visibility_from_camera() {
             if (s->flags & 0x80000) {
                 update_room_object_visibility(s);
             } else if (s->id < 0) {
-                check_object_in_view_cone__6TSceneFiPvPvPvi((saddr)this, (Obj_80204B78 *)(s), &camera_ctrl_instance->pos, &out2, camera_ctrl_instance->fov);
+                check_object_in_view_cone(s, &camera_ctrl_instance->pos, &out2, camera_ctrl_instance->fov);
             }
         }
     }
@@ -2090,11 +2039,11 @@ void TScene::update_records_in_range() {
     Vec v = camera_ctrl_instance->pos;
     i = 0;
     off = 0;
-    r = (*(Root_8020430C * *)&scene_material_root)->radius + visibility_radius_margin;
+    r = scene_material_root->radius + visibility_radius_margin;
     r2 = r * r;
-    for (; i < (*(Root_8020430C * *)&scene_material_root)->count; i++, off += 0x34) {
-        Rec_8020430C *rec = (Rec_8020430C *)((u8 *)(*(Root_8020430C * *)&scene_material_root)->recs + off);
-        if (xz_distance_squared(&v, (const Vec *)rec->pos) < r2) {
+    for (; i < scene_material_root->count; i++, off += sizeof(SceneMaterialSection)) {
+        SceneMaterialSection *rec = (SceneMaterialSection *)((u8 *)scene_material_root->sections + off);
+        if (xz_distance_squared(&v, (const Vec *)rec->position) < r2) {
             rec->flags |= 0x10000;
         } else {
             rec->flags &= ~0x10000;
@@ -2110,7 +2059,7 @@ void TScene::update_room_object_visibility(SceneMaterialSection *room) {
     room->flags |= 0x10000;
     for (object = room->objects; i < room->count; i++, object++) {
         if (object->node != NULL) {
-            if (TScene__sub_802040D4(this, (Obj_802040D4 *)((SceneMaterialNode *)resolve_indirect_node_record(this, (SceneMaterialStatic*)(object))), 10000.0f, 100.0f) != 0) {
+            if (TScene__sub_802040D4(this, resolve_indirect_node_record(this, object), 10000.0f, 100.0f) != 0) {
                 object->flags |= 0x10000;
             } else {
                 object->flags &= ~0x10000;
@@ -2119,7 +2068,7 @@ void TScene::update_room_object_visibility(SceneMaterialSection *room) {
     }
     for (anim = room->animated, i = 0; i < room->animatedCount; i++, anim++) {
         if (anim->node != NULL) {
-            if (TScene__sub_802040D4(this, (Obj_802040D4 *)((SceneMaterialNode *)resolve_indirect_object_record(this, (SceneMaterialAnimated*)(anim))), 10000.0f, 100.0f) != 0) {
+            if (TScene__sub_802040D4(this, resolve_indirect_object_record(this, anim), 10000.0f, 100.0f) != 0) {
                 anim->flags |= 0x10000;
             } else {
                 anim->flags &= ~0x10000;
@@ -2127,6 +2076,7 @@ void TScene::update_room_object_visibility(SceneMaterialSection *room) {
         }
     }
 }
+extern "C" {
 bool is_in_view_depth__6TSceneFf(f32 farg0) {
     f32 sp[6];
     void *unused;
@@ -2136,52 +2086,54 @@ bool is_in_view_depth__6TSceneFf(f32 farg0) {
     }
     return (sp[2] < -farg0) == 0;
 }
-s32 TScene__sub_802040D4(void *arg0, Obj_802040D4 *o, f32 f0, f32 f1) {
-    if (o->inner != NULL && camera_ctrl_instance != NULL) {
-        void *p = o->pos;
-        if (xz_distance_squared(&camera_ctrl_instance->pos, (const Vec *)p) < o->inner->radius * o->inner->radius) {
+s32 TScene__sub_802040D4(void *arg0, SceneMaterialNode *node, f32 f0, f32 f1) {
+    if (node->model != NULL && camera_ctrl_instance != NULL) {
+        Vec *pos = (Vec *)node->position;
+        if (xz_distance_squared(&camera_ctrl_instance->pos, pos) < node->model->radius * node->model->radius) {
             return 1;
         }
-        return ((s32 (*)(void *, void *, f32, f32))is_in_view_depth__6TSceneFf)(arg0, p, f0, f1);
+        return ((s32 (*)(void *, void *, f32, f32))is_in_view_depth__6TSceneFf)(arg0, pos, f0, f1);
     }
     return 0;
 }
-s32 TScene__sub_80204024(f32 thr, s32 unused, void *a, void *b, Vec *c) {
-    struct { Vec p, q; } s;
-    Vec o;
-    if (vec3_dot(b, c) < 0.0f) {
+}
+
+s32 TScene::is_within_view_edge(Vec *pos, Vec *dir, Vec *edge, f32 radius) {
+    struct { Vec origin, direction; } line;
+    Vec closest;
+    if (vec3_dot(dir, edge) < 0.0f) {
         return 0;
     }
-    s.p.x = camera_ctrl_instance->pos.x;
-    s.p.y = 0.0f;
-    s.p.z = camera_ctrl_instance->pos.z;
-    s.q.x = c->x;
-    s.q.y = c->y;
-    s.q.z = c->z;
-    return project_point_onto_line(a, &s, &o) <= thr;
+    line.origin.x = camera_ctrl_instance->pos.x;
+    line.origin.y = 0.0f;
+    line.origin.z = camera_ctrl_instance->pos.z;
+    line.direction.x = edge->x;
+    line.direction.y = edge->y;
+    line.direction.z = edge->z;
+    return project_point_onto_line(pos, &line, &closest) <= radius;
 }
 void TScene::advance_scene_object_animations() {
-    Group_80203F0C *g;
+    SceneMaterialSection *g;
     s32 i;
-    Anim_80203F0C *a;
+    SceneMaterialAnimated *a;
     s32 j;
-    if ((*(Root_80203F0C **)&scene_material_root) == NULL) {
+    if (scene_material_root == NULL) {
         return;
     }
-    g = (*(Root_80203F0C **)&scene_material_root)->groups;
-    for (i = 0; i < (*(Root_80203F0C **)&scene_material_root)->count; i++, g++) {
-        a = g->anims;
-        for (j = 0; j < g->count; j++, a++) {
+    g = scene_material_root->sections;
+    for (i = 0; i < scene_material_root->count; i++, g++) {
+        a = g->animated;
+        for (j = 0; j < g->animatedCount; j++, a++) {
             a->flags &= ~0x40000;
         }
     }
-    g = (*(Root_80203F0C **)&scene_material_root)->groups;
-    for (i = 0; i < (*(Root_80203F0C **)&scene_material_root)->count; i++, g++) {
-        a = g->anims;
-        for (j = 0; j < g->count; j++, a++) {
+    g = scene_material_root->sections;
+    for (i = 0; i < scene_material_root->count; i++, g++) {
+        a = g->animated;
+        for (j = 0; j < g->animatedCount; j++, a++) {
             if (!(a->flags & 0x40000)) {
                 a->frame += a->speed;
-                if (a->motion != NULL && a->frame > (a->motion->frames - 1)) {
+                if (a->motion != NULL && a->frame > (a->motion->nbFrame - 1)) {
                     a->frame = 0.0f;
                 }
                 a->flags |= 0x40000;

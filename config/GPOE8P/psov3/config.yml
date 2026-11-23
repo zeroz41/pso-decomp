@@ -1712,7 +1712,7 @@ force_active:
   - map_section_render_callback
   - material_info_buffer
   - render_callback
-  - TScene__sub_80204024
+  - is_within_view_edge__6TSceneFP3VecP3VecP3Vecf
   - TScene__sub_802040D4
   - TScene__sub_80205874
   - TScene__sub_80205AE8
@@ -5010,7 +5010,7 @@ force_active:
   - check_memcard_slot__22TQuestVmDownLoadServerFv
   - check_memcard_space__13TUnk_804EF8C0Fv
   - check_movement_progress__10TNpcPlayerFv
-  - check_object_in_view_cone__6TSceneFiPvPvPvi
+  - check_object_in_view_cone__6TSceneFP20SceneMaterialSectionP3VecP3Vecl
   - check_open_trigger__20TContainerAncient01RFv
   - check_owner__13TObjTombstoneFv
   - check_page_cross__23TAdSinglePlyChrSelectGCFP13CharacterFileiP13CharacterFilei

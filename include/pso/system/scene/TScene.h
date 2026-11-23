@@ -27,6 +27,8 @@ public:
     virtual void render();
     void sub_80204D7C();
     void cull_sections();
+    s32 is_within_view_edge(Vec *pos, Vec *dir, Vec *edge, f32 radius);
+    s32 check_object_in_view_cone(SceneMaterialSection *section, Vec *pos, Vec *dir, s32 angle);
     void update_room_visibility_from_camera();
     void update_records_in_range();
 
