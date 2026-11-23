@@ -544,13 +544,13 @@ char *get_modem_phone_number(s32 idx) {
     return lobby_account_entries[2].phone[idx].number;
 }
 
-void TLobby::set_ppp_password(saddr src) {
+void TLobby::set_ppp_password(const char *src) {
     u8 *temp_r31;
     TLobby__sub_8014618C();
     TLobby::is_state_active();
     temp_r31 = (u8 *)&lbl_8050CCE8 + 0xFC;
     memset(temp_r31, 0, 0x20);
-    strncpy((char *)temp_r31, (const char *)src, 0x1F);
+    strncpy((char *)temp_r31, src, 0x1F);
 }
 
 

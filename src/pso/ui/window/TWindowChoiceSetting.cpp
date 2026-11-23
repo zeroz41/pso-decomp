@@ -94,13 +94,13 @@ block_4:
         }
     }
 }
-void TWindowMenuInfomation::create_sub_window(s32 title) {
+void TWindowMenuInfomation::create_sub_window(const char *title) {
     TWindowSubStatusDisp *heading;
 
     if (this->heading == NULL) {
         heading = (TWindowSubStatusDisp *)::operator new(0x24);
         if (heading != NULL) {
-            heading = (TWindowSubStatusDisp *)heading->construct_type1_heading(title, this->client_index);
+            heading = (TWindowSubStatusDisp *)heading->construct_type1_heading((saddr)title, this->client_index);
         }
         this->heading = heading;
         this->window_flags |= 0x40;
@@ -198,7 +198,7 @@ TWindowMenuInfomation *create_information_counter_window(s32 rows) {
 
     fn_80268C5C(&lbl_8044F3A0, rows);
     window = new TWindowMenuInfomation((void *)get_window_layout_position(0xAE), rows);
-    window->create_sub_window((saddr)"Information Counter");
+    window->create_sub_window("Information Counter");
     return window;
 }
 

@@ -1295,6 +1295,7 @@ struct TObjPlayer : public TObjChara {
     void update_aim_angle(s32 aim);
     void copy_stats(void *arg1);
     static void notify_volopt_if_ready(void* p);
+    void spawn_level_change_feedback(const char *message);
     void *copy_fields(void *arg1);
     s32 apply_exp_level_growth();
     void update_status_effects();

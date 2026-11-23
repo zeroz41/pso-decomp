@@ -15549,7 +15549,7 @@ force_active:
   - set_particle__11TPlayerSoulFP13TParticleCtrl
   - set_draw_scale__9TParticleFff
   - set_tint_color__9TParticleFP8NJS_ARGB
-  - set_password__17TAdEnterPPPPassGCFi
+  - set_password__17TAdEnterPPPPassGCFPCc
   - set_password__18TAdEnterPasswordGCFi
   - set_path_points__9TBoss6MagFP3Vecl
   - set_percentage_rows__15TWindowHelpItemFPvPvi

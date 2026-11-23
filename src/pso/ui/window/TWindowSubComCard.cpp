@@ -1382,7 +1382,7 @@ u32 TWindowSubComCard::sub_80272DE0() {
     Ent_80272CB0 *e;
     List_80272CB0 *l;
     w = (saddr)create_choice_setting_window__17TWindowSubComCardFiii((const NJS_POINT2 *)get_window_layout_position(0x8C), (const NJS_POINT2 *)com_card_choice_list_size, 6);
-    ((TWindowMenuInfomation *)w)->create_sub_window(get_message_text(0x49));
+    ((TWindowMenuInfomation *)w)->create_sub_window((const char *)get_message_text(0x49));
     l = (List_80272CB0 *)this->chr_select;
     idx = 0;
     count = l->count;
@@ -1414,7 +1414,7 @@ s32 TWindowSubComCard::create_entry_list_window() {
     card = (u8 *)get_character_save_record(0xFFFF);
     hard = TLobby::open_hard_keyboard(*(void **)(((u8 *)this) + 0x20));
     w = (saddr)create_choice_setting_window__17TWindowSubComCardFiii((const NJS_POINT2 *)get_window_layout_position(0x8C), (const NJS_POINT2 *)com_card_entry_list_size, 6);
-    ((TWindowMenuInfomation *)w)->create_sub_window((saddr)((void*)TWindowSubStatusDisp::get_message_10(0x6D)));
+    ((TWindowMenuInfomation *)w)->create_sub_window((const char *)TWindowSubStatusDisp::get_message_10(0x6D));
     ((TWindowMenuInfomation *)w)->update_next_entry((saddr)((void*)TWindowSubStatusDisp::get_message_10(0x6D)), (saddr)this->get_message_10(hard), 0);
     l = *(List_80272CB0 **)(((u8 *)this) + 0x58);
     idx = -1;

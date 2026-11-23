@@ -75,7 +75,7 @@ void update_password_input__17TAdEnterPPPPassGCFPv(u8 *ad_enter_serial_access_gc
     if ((((TAdEnterPPPPassGC *)ad_enter_serial_access_gc)->m_40 == 0 && test_pressed_buttons_packed(&controller_physical_port_bank.controllers[0], 2) != 0) ||
         (((TAdEnterPPPPassGC *)ad_enter_serial_access_gc)->m_40 == 0 && test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0)) {
         mem_free(buf);
-        set_password__17TAdEnterPPPPassGCFi((saddr)"");
+        TAdEnterPPPPassGC::set_password("");
         *(s32 *)&((TAdEnterSerialAccessGC *)ad_enter_serial_access_gc)->m_20 = 2;
         password_entry_dispatch_state = 4;
         return;
@@ -119,7 +119,7 @@ void update_password_input__17TAdEnterPPPPassGCFPv(u8 *ad_enter_serial_access_gc
     }
     if (((TAdSelectCurGC *)(*(saddr *)((s8 *)ad_enter_serial_access_gc + 0x2C)))->confirmation_result() == 1 &&
         password_entry_keyboard_control->is_confirmed() != 0) {
-        set_password__17TAdEnterPPPPassGCFi((saddr)buf);
+        TAdEnterPPPPassGC::set_password(buf);
         *(s32 *)&((TAdEnterSerialAccessGC *)ad_enter_serial_access_gc)->m_20 = 3;
         password_entry_dispatch_state = 4;
     }
@@ -163,13 +163,13 @@ void TAdEnterPPPPassGC::run_task() {
     }
 }
 
-void set_password__17TAdEnterPPPPassGCFi(saddr arg0) {
+void TAdEnterPPPPassGC::set_password(const char *password) {
     if ((TLobby__sub_8014618C() != 0) && (TLobby::is_state_active() != 0)) {
-        TLobby::set_ppp_password(arg0);
+        TLobby::set_ppp_password(password);
         return;
     }
     memset(ppp_password_buffer, 0, 0x20);
-    strncpy((char *)ppp_password_buffer, (const char *)arg0, 0x1F);
+    strncpy((char *)ppp_password_buffer, password, 0x1F);
 }
 
 TAdEnterPPPPassGC::~TAdEnterPPPPassGC() {}

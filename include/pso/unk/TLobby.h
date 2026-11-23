@@ -748,7 +748,7 @@ struct TLobby : public TObject {
     static void flush_pending_flags();
     static s32 run_connect_sequence();
     static void call_146CA0_with_5708();
-    static void set_ppp_password(saddr src);
+    static void set_ppp_password(const char *src);
     static void load_network_configs();
     static void teardown_boss2();
     static s32 set_dns_servers();

@@ -40,6 +40,7 @@
 
 #include "pso/boss/barbaray/TBoss7Crawfish.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/ui/font/TFontSmallHelp.h"
 #include "pso/player/PlayerActionPaletteState.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/player/TObjPlayer_801D3554.h"
@@ -1133,7 +1134,6 @@ void obj_clear_flag30_20000(TObjBase *actor);
 void copy_player_visual_record(void *, void *);
 s32 is_in_shadow_range(u8 *arg0, f32 farg0);
 void draw_blob_shadow(s32);
-void __ct__14TFontSmallHelpFUlUllUl(void *, u32, s32, s32, s32);
 s32 set_tp__10TObjPlayerFs(void * a0 = 0, s16 a1 = 0);
 saddr TObjPlayer__sub_80116620(void *, int);
 void restore_scene_lighting(void);
@@ -1249,7 +1249,6 @@ void TObjPlayer__sub_801B5A44(saddr arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4
 void TObjPlayer__sub_801B5AF8(saddr arg0, s32 arg1);
 void damp_planar_velocity(P_801B5FB0 *p);
 void handle_6x2E_set_or_clear_player_flags(void *arg0);
-void spawn_level_change_feedback__10TObjPlayerFv(saddr arg0, s32 arg1);
 void handle_6x30_change_player_level(void *arg0);
 void send_6x30_change_player_level(Player_801B6C30 *arg0);
 void calc_move_velocity__10TObjPlayerFPvPvf(void *arg0, void *arg1, f32 farg0);
@@ -3956,29 +3955,25 @@ void handle_6x30_change_player_level(void *command) {
     }
     if (((s32 (*)(Plr_801B6A5C *))check_flag_4__10TObjPlayerFv)(p) == 0) {
         if (pkt.kind == 1) {
-            spawn_level_change_feedback__10TObjPlayerFv((saddr)p, (saddr)"Level Down");
+            ((TObjPlayer *)p)->spawn_level_change_feedback("Level Down");
         } else {
-            spawn_level_change_feedback__10TObjPlayerFv((saddr)p, (saddr)"Level Up");
+            ((TObjPlayer *)p)->spawn_level_change_feedback("Level Up");
         }
     }
 }
 
-void spawn_level_change_feedback__10TObjPlayerFv(saddr arg0, s32 arg1) {
-    void *p;
-    TObjPlayer::notify_volopt_if_ready((void *)arg0);
-    p = ((void * (*)(u32))__nw__7TObjectFUl)(0x60);
-    if (p != NULL) {
-        __ct__14TFontSmallHelpFUlUllUl(p, ((TObjBase *)(arg0))->get_entity_id(), -1, 0x3C, arg1);
-    }
-    TObjPlayer::new_child_object(((TObjBase *)(arg0))->get_entity_id());
+void TObjPlayer::spawn_level_change_feedback(const char *message) {
+    notify_volopt_if_ready(this);
+    new TFontSmallHelp(get_entity_id(), -1, 0x3C, (uaddr)message);
+    new_child_object(get_entity_id());
     scratch_vec[0].x = TObjPlayer__data_805DC278;
     scratch_vec[0].y = lbl_805DC2A0;
     scratch_vec[0].z = TObjPlayer__data_805DC278;
     player_feedback_light_color[0].g = player_feedback_light_color[0].r = TObjPlayer__data_805DC294;
     player_feedback_light_color[0].b = lbl_805DC2A4;
     player_feedback_light_color[0].a = lbl_805DC2A8;
-    new TActorLight(lbl_805DC2AC, (NJS_ARGB *)player_feedback_light_color, scratch_vec, 10, (TObjBase *)arg0, tl_07);
-    publish_actor_light_scalars(((TObjBase *)(arg0))->get_entity_id(), TObjPlayer__data_805DC294, TObjPlayer__data_805DC28C);
+    new TActorLight(lbl_805DC2AC, (NJS_ARGB *)player_feedback_light_color, scratch_vec, 10, this, tl_07);
+    publish_actor_light_scalars(get_entity_id(), TObjPlayer__data_805DC294, TObjPlayer__data_805DC28C);
 }
 
 void TObjPlayer::notify_volopt_if_ready(void* p) { if (TObjPlayer::is_locally_controlled(p) != 0) { ((int (*)(void*, void*, void*, void*))play_sound_effect)((void*)335646, (void*)0, (void*)0, (void*)0); } }

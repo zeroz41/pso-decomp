@@ -14,6 +14,7 @@ struct TAdEnterPPPPassGC : public TAdEnterBaseGC {
     void request_transition(void *);
     void forward_chg_game_mode(void *);
     void close_windows_and_advance(void *);
+    static void set_password(const char *password);
     s32 input_valid;
     s32 prev_input_valid;
     s32 m_40;
@@ -27,7 +28,6 @@ void close_windows_and_advance__17TAdEnterPPPPassGCFPv(u8 *arg0);
 void forward_chg_game_mode__17TAdEnterPPPPassGCFPv(void *p);
 void open_keyboard_window__17TAdEnterPPPPassGCFPv(u8 *ad_enter_serial_access_gc);
 void request_transition__17TAdEnterPPPPassGCFPv(void *p);
-void set_password__17TAdEnterPPPPassGCFi(saddr arg0);
 void update_password_input__17TAdEnterPPPPassGCFPv(u8 *ad_enter_serial_access_gc);
 }
 // --- end of C functions
