@@ -40,6 +40,7 @@ public:
     void refresh_judgment_item_list();
     void refresh_armor_equip_list(u16 kind, u16 sub);
     saddr get_cursor_value();
+    s16 get_cursor_index();
     void calc_content_extent();
     void disable_cancel();
     void advance_line(s32 message);

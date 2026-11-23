@@ -17,24 +17,23 @@ struct TShopGetItemWindow : public TShopWindowBase {
     virtual void vfunc_11();
     virtual void display_message(const char *text, s32 flags);
     virtual void display_shop_message(s32 id, s32 flags);
-    TWindowMenuIconLine *m_28;
-    TWindowMenu *m_2c;
-    TWindowInputNumber *m_30;
-    TWindowHelpItem *m_34;
-    TItemData displayed_item_colored;  // the selected item
-    u8 m_4c;
+    TWindowMenuIconLine *item_list;     // the bank's items
+    TWindowMenu *confirm_menu;          // withdraw yes / no
+    TWindowInputNumber *number_input;   // how many of a stacked tool to withdraw
+    TWindowHelpItem *help_window;
+    TItemData displayed_item_colored;   // the selected item
+    u8 pad_4C;
     u8 _pad4D[0x3];
     s32 room_table_entry;
-    s32 m_54;  // quantity
-    s32 m_58;  // cursor
-    TShopWindowBase *m_5c; // owning shop sequence (TCheckRoomSequence::open_get_item_window passes itself)
-    void (*m_60)(TShopWindowBase *);  // called when the player leaves
-    void (*m_64)(TShopWindowBase *);  // called when there is nothing to list
+    s32 withdraw_count;
+    s32 last_cursor;                    // the entry the help window shows
+    TShopWindowBase *sequence;          // the bank sequence that opened it; messages go to it
+    void (*on_close)(TShopWindowBase *sequence);  // called when the player leaves
+    void (*on_empty)(TShopWindowBase *sequence);  // called when there is nothing to list
     void close();
     void update_input_number();
     void handle_withdraw_list_input();
     void rebuild_item_list();
-    s16 get_cursor_index();
     void handle_withdraw_confirm();
 };
 

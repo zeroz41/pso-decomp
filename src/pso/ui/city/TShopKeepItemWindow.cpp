@@ -134,7 +134,7 @@ void TShopKeepItemWindow::rebuild_item_list() {
             this->item_list_window->add_list_entry(this->entries[j].item, j);
         }
         this->item_list_window->calc_content_extent();
-        cur = ((TShopGetItemWindow *)(this->item_list_window))->get_cursor_index();
+        cur = this->item_list_window->get_cursor_index();
     } else {
         ((TWindowMenuIconLine *)(this->item_list_window))->save_cursor_selection();
         this->item_list_window->reset_list();
@@ -144,7 +144,7 @@ void TShopKeepItemWindow::rebuild_item_list() {
         ((TWindowMenuIconLine *)(this->item_list_window))->clamp_selection_to_valid_entry();
         this->item_list_window->calc_content_extent();
         this->item_list_window->clear_decided();
-        cur = ((TShopGetItemWindow *)(this->item_list_window))->get_cursor_index();
+        cur = this->item_list_window->get_cursor_index();
     }
     if (this->help_window == NULL) {
         this->help_window = new TWindowHelpItem((void *)get_window_layout_position(0x27), this->player->get_entity_id());

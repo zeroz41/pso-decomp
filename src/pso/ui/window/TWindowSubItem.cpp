@@ -289,7 +289,7 @@ void TWindowSubItem::run_task() {
             }
             break;
         case 8: {
-            s16 cur = ((TShopGetItemWindow *)item_list)->get_cursor_index();
+            s16 cur = ((TWindowMenuIconLine *)item_list)->get_cursor_index();
             ((TWindowSubItem *)item_list)->refresh();
             TWindowSubItem__sub_8027AB10((Wn_8027AB10 *) item_list);
             ((TWindowSubItem *)item_list)->gray_out_unusable_entries();
