@@ -5,6 +5,17 @@
 
 typedef u32 SND_SEQID;
 
+typedef struct SND_FVECTOR {
+    f32 x;
+    f32 y;
+    f32 z;
+} SND_FVECTOR;
+
+typedef struct SND_FMATRIX {
+    f32 m[3][3];
+    f32 t[3];
+} SND_FMATRIX;
+
 typedef struct SND_AUX_INFO {
     union SND_AUX_DATA {
         struct SND_AUX_BUFFERUPDATE {

@@ -115,128 +115,6 @@ struct Slot_803BD138 {
     u8 fec; u8 pad_ed[0xf4 - 0xed];
 };
 
-
-
-typedef struct Lob_803BBFB8 {
-    u8 pad0[0x121];
-    u8 b121;
-    u8 b122;
-    u8 pad123[0x214 - 0x123];
-    s32 flags;
-    u8 pad218[0x238 - 0x218];
-    u16 v;
-} Lob_803BBFB8;
-
-typedef struct Lob_803BC000 {
-    u8 pad0[0x121];
-    u8 b121;
-    u8 b122;
-    u8 pad123[0x214 - 0x123];
-    s32 flags;
-    u8 pad218[0x25C - 0x218];
-    u16 v;
-} Lob_803BC000;
-
-typedef struct Lob_803BC048 {
-    u8 pad0[0x121];
-    u8 b121;
-    u8 b122;
-    u8 pad123[0x214 - 0x123];
-    s32 flags;
-    u8 pad218[0x280 - 0x218];
-    u16 v;
-} Lob_803BC048;
-
-typedef struct Lob_803BC090 {
-    u8 pad0[0x121];
-    u8 b121;
-    u8 b122;
-    u8 pad123[0x214 - 0x123];
-    s32 flags;
-    u8 pad218[0x2A4 - 0x218];
-    u16 v;
-} Lob_803BC090;
-
-typedef struct Lob_803BC0D8 {
-    u8 pad0[0x121];
-    u8 b121;
-    u8 b122;
-    u8 pad123[0x214 - 0x123];
-    s32 flags;
-    u8 pad218[0x2C8 - 0x218];
-    u16 v;
-} Lob_803BC0D8;
-
-typedef struct Lob_803BC120 {
-    u8 pad0[0x121];
-    u8 b121;
-    u8 b122;
-    u8 pad123[0x214 - 0x123];
-    s32 flags;
-    u8 pad218[0x2EC - 0x218];
-    u16 v;
-} Lob_803BC120;
-
-typedef struct Lob_803BC168 {
-    u8 pad0[0x121];
-    u8 b121;
-    u8 b122;
-    u8 pad123[0x214 - 0x123];
-    s32 flags;
-    u8 pad218[0x310 - 0x218];
-    u16 v;
-} Lob_803BC168;
-
-typedef struct Lob_803BC1B0 {
-    u8 pad0[0x121];
-    u8 b121;
-    u8 b122;
-    u8 pad123[0x214 - 0x123];
-    s32 flags;
-    u8 pad218[0x358 - 0x218];
-    u16 v;
-} Lob_803BC1B0;
-
-typedef struct Lob_803BC1F8 {
-    u8 pad0[0x121];
-    u8 b121;
-    u8 b122;
-    u8 pad123[0x214 - 0x123];
-    s32 flags;
-    u8 pad218[0x37C - 0x218];
-    u16 v;
-} Lob_803BC1F8;
-
-typedef struct Lob_803BC240 {
-    u8 pad0[0x121];
-    u8 b121;
-    u8 b122;
-    u8 pad123[0x214 - 0x123];
-    s32 flags;
-    u8 pad218[0x3A0 - 0x218];
-    u16 v;
-} Lob_803BC240;
-
-typedef struct Lob_803BC288 {
-    u8 pad0[0x121];
-    u8 b121;
-    u8 b122;
-    u8 pad123[0x214 - 0x123];
-    s32 flags;
-    u8 pad218[0x3C4 - 0x218];
-    u16 v;
-} Lob_803BC288;
-
-typedef struct Lob_803BC2D0 {
-    u8 pad0[0x121];
-    u8 b121;
-    u8 b122;
-    u8 pad123[0x214 - 0x123];
-    s32 flags;
-    u8 pad218[0x3E8 - 0x218];
-    u16 v;
-} Lob_803BC2D0;
-
 struct Slot_803BCEC8 {
     u8 pad_0[0x24]; u32 f24[0x1f];
     u8 pad_a0[0xec - 0xa0]; u8 fec; u8 ffd; u8 fee; u8 pad_ef[5];
@@ -369,40 +247,56 @@ struct Work_803BF884 {
 };
 
 
-typedef struct Src_803BBB30 {
+typedef struct CTRL_SOURCE {
     u8 midiCtrl;
     u8 combine;
-    u8 pad2[2];
     s32 scale;
-} Src_803BBB30;
+} CTRL_SOURCE;
 
-typedef struct Inp_803BBB30 {
-    Src_803BBB30 source[4];
+typedef struct CTRL_DEST {
+    CTRL_SOURCE source[4];
     u16 oldValue;
     u8 numSource;
-} Inp_803BBB30;
+} CTRL_DEST;
 
-typedef struct Lfo_803BBB30 {
-    u8 pad0[8];
+typedef struct SYNTH_LFO {
+    u32 time;
+    u32 period;
     s16 value;
-    u8 padA[2];
-} Lfo_803BBB30;
+    s16 lastValue;
+} SYNTH_LFO;
 
-typedef struct Voice_803BBB30 {
-    u8 pad0[0x90];
+typedef struct SYNTH_VOICE {
+    u8 pad_0[0x90];
     u64 time;
-    u8 pad98[0xA8 - 0x98];
+    u8 pad_98[0xA8 - 0x98];
     u8 timeUsedByInput;
-    u8 padA9[0x12F - 0xA9];
+    u8 pad_a9[0x121 - 0xA9];
+    u8 midi;
+    u8 midiSet;
+    u8 pad_123[0x12F - 0x123];
     u8 b12F;
-    u8 pad130[0x158 - 0x130];
+    u8 pad_130[0x158 - 0x130];
     u32 w158;
-    u8 pad15C[0x1BC - 0x15C];
-    Lfo_803BBB30 lfo[2];
+    u8 pad_15c[0x1BC - 0x15C];
+    SYNTH_LFO lfo[2];
     u8 lfoUsedByInput[2];
-} Voice_803BBB30;
-
-struct Vec_803BAD1C { f32 x; f32 y; f32 z; };
+    u8 pad_1d6[0x214 - 0x1D6];
+    u32 midiDirtyFlags;
+    CTRL_DEST inpVolume;
+    CTRL_DEST inpPanning;
+    CTRL_DEST inpSurroundPanning;
+    CTRL_DEST inpPitchBend;
+    CTRL_DEST inpDoppler;
+    CTRL_DEST inpModulation;
+    CTRL_DEST inpPedal;
+    CTRL_DEST inpPortamento;
+    CTRL_DEST inpPreAuxA;
+    CTRL_DEST inpReverb;
+    CTRL_DEST inpPreAuxB;
+    CTRL_DEST inpPostAuxB;
+    CTRL_DEST inpTremolo;
+} SYNTH_VOICE;
 
 extern "C" {
 extern s8 salTimeOffset;
@@ -521,8 +415,8 @@ void inpFXCopyCtrl(u8 ctrl, SynthVoice_803BADF8 *dvoice, SynthVoice_803BADF8 *sv
 #define lbl_8056E118 ((u8 *)inpFXChannelDefaults)
 u8 *inpGetChannelDefaults(u8 a, u8 b);
 struct Ent_803BC490 { u8 pad[0x22]; u8 f22; u8 pad23; };
-extern Inp_803BBB30 inpAuxB[8][4];
-extern Inp_803BBB30 inpAuxA[8][4];
+extern CTRL_DEST inpAuxB[8][4];
+extern CTRL_DEST inpAuxA[8][4];
 extern u32 lbl_804F7120[];
 extern u32 lbl_804F7130[];
 void inpSetGlobalMIDIDirtyFlag(u8 a, u8 b, u32 v);
@@ -569,18 +463,18 @@ void hwRemoveInput(u8 studio, SND_STUDIO_INPUT *in_desc);
 void inpResetChannelDefaults(u8 arg0, u8 arg1);
 void inpSetMidiLastNote(u8 arg0, u8 arg1, u8 arg2);
 u8 inpGetMidiLastNote(u8 midi, u8 midiSet);
-u16 inpGetVolume(Lob_803BBFB8 *svoice);
-u16 inpGetPanning(Lob_803BC000 *svoice);
-u16 inpGetSurPanning(Lob_803BC048 *svoice);
-u16 inpGetPitchBend(Lob_803BC090 *svoice);
-u16 inpGetDoppler(Lob_803BC0D8 *svoice);
-u16 inpGetModulation(Lob_803BC120 *svoice);
-u16 inpGetPedal(Lob_803BC168 *svoice);
-u16 inpGetPreAuxA(Lob_803BC1B0 *svoice);
-u16 inpGetReverb(Lob_803BC1F8 *svoice);
-u16 inpGetPreAuxB(Lob_803BC240 *svoice);
-u16 inpGetPostAuxB(Lob_803BC288 *svoice);
-u16 inpGetTremolo(Lob_803BC2D0 *svoice);
+u16 inpGetVolume(SYNTH_VOICE *svoice);
+u16 inpGetPanning(SYNTH_VOICE *svoice);
+u16 inpGetSurPanning(SYNTH_VOICE *svoice);
+u16 inpGetPitchBend(SYNTH_VOICE *svoice);
+u16 inpGetDoppler(SYNTH_VOICE *svoice);
+u16 inpGetModulation(SYNTH_VOICE *svoice);
+u16 inpGetPedal(SYNTH_VOICE *svoice);
+u16 inpGetPreAuxA(SYNTH_VOICE *svoice);
+u16 inpGetReverb(SYNTH_VOICE *svoice);
+u16 inpGetPreAuxB(SYNTH_VOICE *svoice);
+u16 inpGetPostAuxB(SYNTH_VOICE *svoice);
+u16 inpGetTremolo(SYNTH_VOICE *svoice);
 extern s16 lbl_804F7168[];
 s16 sndSin(s32 angle);
 u32 synthGetTicksPerSecond(void *);
@@ -668,21 +562,21 @@ extern u32 synthInfo[];
 extern const f32 lbl_805E0C48;
 u32 hwFrq2Pitch(u32 frq);
 void sndSetHooks(SND_HOOKS *hooks);
-s16 varGet(Voice_803BBB30 *, u32, u32);
+s16 varGet(SYNTH_VOICE *, u32, u32);
 u16 inpGetMidiCtrl(u8 arg0, u8 channel, u8 set);
 extern u64 synthRealTime;
-u16 _GetInputValue(Voice_803BBB30 *svoice, Inp_803BBB30 *inp, u8 midi, u8 midiSet);
+u16 _GetInputValue(SYNTH_VOICE *svoice, CTRL_DEST *inp, u8 midi, u8 midiSet);
 void inpSetMidiCtrl(u8 ctrl, u8 channel, u8 set, u8 value);
 void inpSetMidiCtrl14(u8 ctrl, u8 channel, u8 set, u16 value);
 void *sndBSearch(void *key, void *base, s32 num, s32 len, s32 (*cmp)(void *, void *));
-f32 salNormalizeVector(Vec_803BAD1C *vec);
+f32 salNormalizeVector(SND_FVECTOR *vec);
 }
 
 extern "C" {
 
 void sndConvertMs(s32 *time);
 u32 sndConvert2Ms(u32 time);
-void salApplyMatrix(u8 *mat, u8 *pos, u8 *arg2);
+void salApplyMatrix(const SND_FMATRIX *mat, const SND_FVECTOR *in, SND_FVECTOR *out);
 LAYOUT_ASSERT(RecoveredGlobal_803BD5C4_lbl_805663D8_size, sizeof(RecoveredGlobal_803BD5C4_lbl_805663D8) == 0x6E0);
 extern "C" {
 f32 powf(f32, f32);
@@ -726,8 +620,8 @@ typedef struct AuxChorus_803BFBF0 {
 }
 
 extern "C" {
-void salApplyMatrix(u8 *mat, u8 *pos, u8 *arg2);
-f32 salNormalizeVector(Vec_803BAD1C *vec);
+void salApplyMatrix(const SND_FMATRIX *mat, const SND_FVECTOR *in, SND_FVECTOR *out);
+f32 salNormalizeVector(SND_FVECTOR *vec);
 void inpSetGlobalMIDIDirtyFlag(u8 a, u8 b, u32 v);
 void inpSetMidiCtrl(u8 ctrl, u8 channel, u8 set, u8 value);
 void inpSetMidiCtrl14(u8 ctrl, u8 channel, u8 set, u16 value);
@@ -739,22 +633,22 @@ void inpAddCtrl(Obj_803BB8F0 *ch, u8 arg1, s32 arg2, u8 x, u32 arg4);
 void inpFXCopyCtrl(u8 ctrl, SynthVoice_803BADF8 *dvoice, SynthVoice_803BADF8 *svoice);
 void inpSetMidiLastNote(u8 arg0, u8 arg1, u8 arg2);
 u8 inpGetMidiLastNote(u8 midi, u8 midiSet);
-u16 _GetInputValue(Voice_803BBB30 *svoice, Inp_803BBB30 *inp, u8 midi, u8 midiSet);
-u16 inpGetVolume(Lob_803BBFB8 *svoice);
-u16 inpGetPanning(Lob_803BC000 *svoice);
-u16 inpGetSurPanning(Lob_803BC048 *svoice);
-u16 inpGetPitchBend(Lob_803BC090 *svoice);
-u16 inpGetDoppler(Lob_803BC0D8 *svoice);
-u16 inpGetModulation(Lob_803BC120 *svoice);
-u16 inpGetPedal(Lob_803BC168 *svoice);
-u16 inpGetPreAuxA(Lob_803BC1B0 *svoice);
-u16 inpGetReverb(Lob_803BC1F8 *svoice);
-u16 inpGetPreAuxB(Lob_803BC240 *svoice);
-u16 inpGetPostAuxB(Lob_803BC288 *svoice);
-u16 inpGetTremolo(Lob_803BC2D0 *svoice);
+u16 _GetInputValue(SYNTH_VOICE *svoice, CTRL_DEST *inp, u8 midi, u8 midiSet);
+u16 inpGetVolume(SYNTH_VOICE *svoice);
+u16 inpGetPanning(SYNTH_VOICE *svoice);
+u16 inpGetSurPanning(SYNTH_VOICE *svoice);
+u16 inpGetPitchBend(SYNTH_VOICE *svoice);
+u16 inpGetDoppler(SYNTH_VOICE *svoice);
+u16 inpGetModulation(SYNTH_VOICE *svoice);
+u16 inpGetPedal(SYNTH_VOICE *svoice);
+u16 inpGetPreAuxA(SYNTH_VOICE *svoice);
+u16 inpGetReverb(SYNTH_VOICE *svoice);
+u16 inpGetPreAuxB(SYNTH_VOICE *svoice);
+u16 inpGetPostAuxB(SYNTH_VOICE *svoice);
+u16 inpGetTremolo(SYNTH_VOICE *svoice);
 u16 inpGetAuxA(u8 studio, u8 index, u8 midi, u8 midiSet);
 u16 inpGetAuxB(u8 studio, u8 index, u8 midi, u8 midiSet);
-void inpInit(u8 *svoice);
+void inpInit(SYNTH_VOICE *svoice);
 u8 inpTranslateExCtrl(u8 arg0);
 u16 inpGetExCtrl(Obj_803BC7E4 *arg0, u8 arg1);
 void inpSetExCtrl(Obj_803BC884 *svoice, u8 arg1, s16 arg2);
