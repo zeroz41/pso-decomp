@@ -393,10 +393,7 @@ void TObjChallengeRetry::sub_8007313C() {
 }
 
 void *fn_800733C4(void *arg0);
-void *__ct__7TObjectFP7TObject(void *, void *);
-extern s32 __vt__18TObjChallengeRetry[];
 extern const char *TObjChallengeRetry__class_name;
-void *TObjChallengeRetry__ct(void *, void *);
 void TObjChallengeRetry::run_task() {
     u8 *arg0 = (u8 *)this;
     this->m_20 = ((s32 (*)(void *))is_challenge_lobby__6TLobbyFv)(arg0);
@@ -431,24 +428,17 @@ TObjChallengeRetry::~TObjChallengeRetry() {
     }
 }
 
-void *TObjChallengeRetry__ct(void *challenge_retry, void *parent) {
-    __ct__7TObjectFP7TObject(challenge_retry, parent);
-    *(s32 **)((s8 *)challenge_retry + 0x18) = __vt__18TObjChallengeRetry;
-    *(s32 *)((s8 *)challenge_retry + 0) = (s32) ((saddr)TObjChallengeRetry__class_name);
-    ((TObjChallengeRetry *)challenge_retry)->m_20 = ((s32 (*)(void *))is_challenge_lobby__6TLobbyFv)(challenge_retry);
-    ((TObjChallengeRetry *)challenge_retry)->m_24 = 0;
-    ((TObjChallengeRetry *)challenge_retry)->menu = NULL;
-    ((TObjChallengeRetry *)challenge_retry)->message = NULL;
-    ((TObjChallengeRetry *)challenge_retry)->state = 0;
-    return challenge_retry;
+TObjChallengeRetry::TObjChallengeRetry(TObject *parent) : TObject(parent) {
+    m_name = TObjChallengeRetry__class_name;
+    m_20 = ((s32 (*)(void *))is_challenge_lobby__6TLobbyFv)(this);
+    m_24 = 0;
+    menu = NULL;
+    message = NULL;
+    state = 0;
 }
 
 void *fn_800733C4(void *parent) {
-    void *o = TObject::operator new(0x34);
-    if (o != NULL) {
-        o = TObjChallengeRetry__ct(o, parent);
-    }
-    return o;
+    return new TObjChallengeRetry((TObject *)parent);
 }
 
 }
