@@ -583,9 +583,6 @@ struct TObjPlayer : public TObjChara {
     void*init_members();
     void*init_wrapper();
     void*init_sub();
-    void*init_subobjects();
-    void set_speed(f32 farg0);
-    void set_scale_xyz(f32 farg0);
     int sub_802a7290_fwd();
     int is_handle_valid();
     static void forward_801C210C(void *p, int v);
@@ -1267,7 +1264,6 @@ struct TObjPlayer : public TObjChara {
     void send_respawn_position();
     void init_battle(void *data);
     void reset_area_entry_state();
-    void*init_pair();
     u8 *copy_hold_params(u8 *arg1);
     void init_cmd_6x24();
     void send_lobby_update();
@@ -1440,12 +1436,9 @@ struct TObjPlayer : public TObjChara {
     static void spawn_hit_particles_at(s32 arg0, saddr hit, saddr dir);
     static void spawn_hit_particles_at_vec(s32 arg0, saddr arg1, saddr dir);
     s32 get_quest_thread_id();
-    u16 get_obj_type();
     void set_ring_action(s32 v);
     static void heap_alloc(void* a0);
     static u8 *create_lobby_marker(s16 client, s8 arg1);
-    void handle_6x87_shrink(f32 scalar);
-    void clear_shrink_flag();
     void reset_stat_scale_and_ring();
     static void apply_stats_and_update(void* p);
     static void apply_stat_multipliers_and_reset(void* p);

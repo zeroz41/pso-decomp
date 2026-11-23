@@ -125,9 +125,9 @@ s32 TObjPlayer::get_lock_timer() { return *(s32*)((char*)this + 0x4); }
 
 void*TObjPlayer::get_sub_object() { return (char*)this + 0x8; }
 
-void TObjPlayer__sub_801BF93C(void* p, s16 v) { *(s16*)((char*)p + 0x0) = v; }
+void PlayerScaleState::set_actor_id(u16 id) { actor_id = id; }
 
-void* TObjPlayer__sub_801BF934(void* p) { return (char*)p + 0xc; }
+Vec *PlayerScaleState::get_scale() { return &scale; }
 
 s16 TObjPlayer::get_action_id() { return *(s16*)((char*)this + 0x2); }
 
@@ -553,35 +553,35 @@ void*TObjPlayer::init_members() { zero_vec3(this); return this; }
 void*TObjPlayer::init_wrapper() { TObjPlayer__sub_801BFD3C(this); return this; }
 void TObjPlayer__sub_801BFD3C(void* p) { *(s16*)((char*)p + 0x0) = 0; *(s16*)((char*)p + 0x2) = 0; *(s32*)((char*)p + 0x4) = 0; *(s16*)((char*)p + 0x8) = 0; }
 void*TObjPlayer::init_sub() { __ct__8FlagWordFv(((char*)this + 0xc)); reset_stat_scale_and_ring(); return this; }
-void*TObjPlayer::init_subobjects() { __ct__8FlagWordFv(((char*)this + 0x4)); ((TObjPlayer *)((char*)this + 0x18))->init_pair(); init_player_scale_state(this); return this; }
+PlayerScaleState::PlayerScaleState() { init(); }
 }
-void init_player_scale_state(TObjPlayer *player) {
-    *(u16 *)player = 0xFFFF;
-    ((FlagWord *)((u8 *)player + 4))->reset();
-    player->set_speed(lbl_805DC2DC);
-}
-
-
-void TObjPlayer::set_speed(f32 farg0) {
-    *(f32 *)((s8 *)this + 8) = farg0;
-    set_scale_xyz(farg0);
+void PlayerScaleState::init() {
+    actor_id = 0xFFFF;
+    flags.reset();
+    set_scalar(lbl_805DC2DC);
 }
 
 
-void TObjPlayer::set_scale_xyz(f32 farg0) {
-    *(f32 *)((s8 *)this + 0x14) = farg0;
-    *(f32 *)((s8 *)this + 0x10) = farg0;
-    *(f32 *)((s8 *)this + 0xC) = farg0;
+void PlayerScaleState::set_scalar(f32 scalar) {
+    this->scalar = scalar;
+    set_scale(scalar);
 }
 
 
-void*TObjPlayer::init_pair() { TObjPlayer__sub_801BFE88((u8 *)this); TObjPlayer__sub_801BFE88((u8 *)((char*)this + 0xc)); return this; }
+void PlayerScaleState::set_scale(f32 scale) {
+    this->scale.z = scale;
+    this->scale.y = scale;
+    this->scale.x = scale;
+}
 
 
-void TObjPlayer__sub_801BFE88(u8 *arg0) {
-    *(f32 *)((s8 *)arg0 + 8) = (f32) TObjPlayer__data_805DC278;
-    *(f32 *)((s8 *)arg0 + 4) = (f32) TObjPlayer__data_805DC278;
-    *(f32 *)((s8 *)arg0 + 0) = (f32) TObjPlayer__data_805DC278;
+PlayerCameraOffsets::PlayerCameraOffsets() {}
+
+
+PlayerCameraOffset::PlayerCameraOffset() {
+    z = TObjPlayer__data_805DC278;
+    y = TObjPlayer__data_805DC278;
+    x = TObjPlayer__data_805DC278;
 }
 
 ContactSurfaceState::ContactSurfaceState() {

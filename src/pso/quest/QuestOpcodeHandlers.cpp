@@ -894,9 +894,6 @@ void delete_item(void *, s32, s32);
 void send_6x29_delete_item__10TObjPlayerFPvii(void *obj, s32 a, s32 b);
 u32 TObjPlayer__sub_801BFFA0(void *);
 void TFontSmallLobby__sub_801C013C(void *p);
-void request_player_size_restore(PlayerScaleState *state);
-void request_player_shrink(PlayerScaleState *state);
-Vec * TObjPlayer__sub_801C6FDC(void *);
 s32 send_download_head_d7(TProtocol *, int, int);
 }
 void play_cue_stream_file(const char *name);
@@ -2207,7 +2204,7 @@ void qst_op_set_shrink_size(s32 player_variable, saddr size_variable) {
         s32 whole = qst_registers[(u8)size_variable++];
         s32 numerator = qst_registers[(u8)size_variable++];
         s32 denominator = qst_registers[(u8)size_variable];
-        ((TObjPlayer *)(&player->scale_state))->set_speed(denominator > 0 ? (f32)whole + (f32)numerator / (f32)denominator : (f32)whole);
+        player->scale_state.set_scalar(denominator > 0 ? (f32)whole + (f32)numerator / (f32)denominator : (f32)whole);
     }
 }
 
@@ -3283,32 +3280,32 @@ int qst_op_enable_npc_visual(void* p) { return TNpcPlayer__sub_8014DC30(p); }
 
 void qst_op_set_shrink_cam2(u8 regs) {
     Vec pos;
-    u8 *player;
+    TObjPlayer *player;
     Vec *cur;
-    player = (u8 *)get_player_by_client_id(qst_registers[regs++]);
+    player = get_player_by_client_id(qst_registers[regs++]);
     if (player != NULL) {
-        cur = TObjPlayer__sub_801C6FDC(player + 0x5D4);
+        cur = player->scale_state.camera.target.get();
         if (cur != NULL) {
             pos.x = cur->x + (f32)qst_registers[regs++];
             pos.y = cur->y + (f32)qst_registers[regs++];
             pos.z = cur->z + (f32)qst_registers[regs];
-            copy_position__6TLobbyFv(player + 0x5D4, &pos);
+            copy_position__6TLobbyFv(&player->scale_state.camera.target, &pos);
         }
     }
 }
 
 void qst_op_set_shrink_cam1(u8 regs) {
     Vec pos;
-    u8 *player;
+    TObjPlayer *player;
     Vec *cur;
-    player = (u8 *)get_player_by_client_id(qst_registers[regs++]);
+    player = get_player_by_client_id(qst_registers[regs++]);
     if (player != NULL) {
-        cur = ((Vec *)TObjPlayer__sub_801C6FDC(player + 0x5C8));
+        cur = player->scale_state.camera.position.get();
         if (cur != NULL) {
             pos.x = cur->x + (f32)qst_registers[regs++];
             pos.y = cur->y + (f32)qst_registers[regs++];
             pos.z = cur->z + (f32)qst_registers[regs];
-            copy_position__6TLobbyFv((void *)(player + 0x5C8), (Vec *)(&pos));
+            copy_position__6TLobbyFv(&player->scale_state.camera.position, &pos);
         }
     }
 }
@@ -3317,7 +3314,7 @@ void qst_op_unshrink(s32 slot_reg) {
     saddr player;
     player = ((s32)((uaddr)get_player_by_client_id((int)(qst_registers[(u8)slot_reg]))));
     if ((player != 0) && (((TObjChara *)player)->obj_isState2_324() == 0)) {
-        request_player_size_restore((PlayerScaleState *)(player + 0x5B0));
+        ((TObjPlayer *)player)->scale_state.request_size_restore();
     }
 }
 
@@ -3325,7 +3322,7 @@ void qst_op_shrink(s32 slot_reg) {
     saddr player;
     player = ((s32)((uaddr)get_player_by_client_id((int)(qst_registers[(u8)slot_reg]))));
     if ((player != 0) && (((TObjChara *)player)->obj_isState2_324() == 0)) {
-        request_player_shrink((PlayerScaleState *)(player + 0x5B0));
+        ((TObjPlayer *)player)->scale_state.request_shrink();
     }
 }
 

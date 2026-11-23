@@ -1294,8 +1294,6 @@ void set_equip_slot_entry(saddr, s32, s32);
 void TObjPlayer__sub_801BF8F8(s32 *p);
 void *TObjPlayer__sub_801BF914(void *);
 s32 TObjPlayer__sub_801BF918(void *);
-void *TObjPlayer__sub_801BF934(void *p);
-s32 TObjPlayer__sub_801BF93C(void *, u16);
 u32 TObjPlayer__sub_801BFFA0(void *);
 s32 is_action_id_none(s32);
 u8 TObjPlayer__sub_801C0124(void *, s16);
@@ -1376,8 +1374,6 @@ void fn_801C5420(void *, s32);
 int fn_801C543C(void*);
 void TObjPlayer__sub_801C5780(void *, s32, s32);
 s32 set_arrival_override_pos(u16, int, int);
-void update_player_scale_camera(PlayerScaleState *state);
-void request_player_size_restore(PlayerScaleState *state);
 u32 create_lobby_marker__10TObjPlayerFsSc(u16 a0 = 0, s32 a1 = 0);
 void release_all_players_control_lock(void);
 s32 check_conditions__10TObjPlayerFv(void *, s16);
@@ -1742,7 +1738,7 @@ void TObjPlayer::setup_fresh_player_state(u8 *arg1) {
         refill_traps();
     }
     this->set_play_time((int) (*(u8 *)((s8 *)arg1 + 3)));
-    TObjPlayer__sub_801BF93C(((u8 *)this) + 0x5B0, this->get_entity_id());
+    scale_state.set_actor_id(this->get_entity_id());
     TObjPlayer::disable_drop_weapon_on_death(this);
     *(s8 *)&this->unk_338 = get_byte_173(arg1);
     this->m_339 = get_byte_18f(arg1);
@@ -1787,9 +1783,9 @@ void TObjPlayer::sub_801BB950() {
     {
       ((s32 (*)(void *))draw_small_label__15TFontSmallLobbyFi)(this);
     }
-    if (((PlayerScaleState *)(arg0  + 0x5B0))->is_scaled() != 0)
+    if (scale_state.is_scaled() != 0)
     {
-      request_player_size_restore((PlayerScaleState *)(arg0 + 0x5B0));
+      scale_state.request_size_restore();
     }
   }
   TFontSmallLobby__sub_801C013C(&this->technique_state);
@@ -2084,15 +2080,15 @@ void draw_body__10TObjPlayerFPvi(u8 *player, s32 arg1) {
     LAYOUT_ASSERT(sp8_offset, offsetof(Stack_801BAD60, sp8) == 0x0);
     LAYOUT_ASSERT(spC_offset, offsetof(Stack_801BAD60, spC) == 0x4);
     Stack_801BAD60 stack;
-    u8 *temp_r3;
+    Vec *scale;
     push_matrix();
     VecCopy((Vec *)(&stack.sp8), (const Vec *)(player + 0x38));
     stack.spC += *(f32 *)((s8 *)player + 0x5FC);
     translate_matrix_vec3((u8 *)(0), (u8 *)&stack.sp8);
     ((s32 (*)(int, int))rotate_matrix_y)(0, (int) (((TObjPlayer *)player)->rotation_y));
-    if (((PlayerScaleState *)(player  + 0x5B0))->is_scaled() != 0) {
-        temp_r3 = (u8 *)(TObjPlayer__sub_801BF934(player + 0x5B0));
-        ((s32 (*)(int, f32, f32, f32))scale_matrix)(0, (f32) (*(f32 *)((s8 *)temp_r3 + 0)), (f32) (*(f32 *)((s8 *)temp_r3 + 4)), (f32) (*(f32 *)((s8 *)temp_r3 + 8)));
+    if (((PlayerScaleState *)(player + 0x5B0))->is_scaled() != 0) {
+        scale = ((PlayerScaleState *)(player + 0x5B0))->get_scale();
+        ((s32 (*)(int, f32, f32, f32))scale_matrix)(0, scale->x, scale->y, scale->z);
     }
     save_render_material_state((player + 0x608));
     set_model_render_flags(8);
@@ -2115,8 +2111,8 @@ void draw_body__10TObjPlayerFPvi(u8 *player, s32 arg1) {
     ((TObjPlayer *)player)->draw_head_attachments();
     ((TObjPlayer *)(player + 0x608))->write_ids();
     pop_matrix();
-    if (((PlayerScaleState *)(player  + 0x5B0))->is_scaled() != 0) {
-        ((s32 (*)(void *, void *, int))draw_projected_shadow__10TObjPlayerFPvPvi)(player, (void *) (TObjPlayer__sub_801BF934(player + 0x5B0)), 0);
+    if (((PlayerScaleState *)(player + 0x5B0))->is_scaled() != 0) {
+        ((s32 (*)(void *, void *, int))draw_projected_shadow__10TObjPlayerFPvPvi)(player, ((PlayerScaleState *)(player + 0x5B0))->get_scale(), 0);
         return;
     }
     ((s32 (*)(void *, void *, int))draw_projected_shadow__10TObjPlayerFPvPvi)(player, NULL, 0);
@@ -4757,8 +4753,8 @@ void TObjPlayer::update_subsystems() {
             TObjPlayer::send_code_45_1(arg0);
         }
         this->battle_music.update_target_lock(this);
-        if (((PlayerScaleState *)(arg0  + 0x5B0))->is_scaled() != 0) {
-            update_player_scale_camera((PlayerScaleState *)(arg0 + 0x5B0));
+        if (scale_state.is_scaled() != 0) {
+            scale_state.update_camera();
         }
     }
 }

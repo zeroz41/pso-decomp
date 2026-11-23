@@ -335,7 +335,7 @@ u32 MagOwnerWatch::test_flags(u32 mask) { return flags & mask; }
 void MagOwnerWatch::set_flags(u32 mask) { flags |= mask; }
 void MagOwnerWatch::clear_flags(u32 mask) { flags &= ~mask; }
 
-int PlayerScaleState::is_scaled() { return test_flags_any(&flags, 1); }
+int PlayerScaleState::is_scaled() { return test_flags_any(&flags.bits, 1); }
 f32 PlayerScaleState::get_scalar() { return scalar; }
 
 s32 ProtectionTimer::get_frames() { return frames; }

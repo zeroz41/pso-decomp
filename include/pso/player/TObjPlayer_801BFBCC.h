@@ -7,6 +7,5 @@ struct TObjPlayer;
 extern "C" {
 void TObjPlayer__sub_801BFD3C(void *p);
 }
-void init_player_scale_state(TObjPlayer *player);
 
 #endif

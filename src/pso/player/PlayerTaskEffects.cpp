@@ -102,8 +102,6 @@ s32 is_flag30_8_set__10TObjPlayerFi(saddr);
 
 extern "C" {
 extern s32 local_client_id;
-void request_player_shrink(PlayerScaleState* state);
-void request_player_size_restore(PlayerScaleState* state);
 void *TObjPlayer__sub_801C7360(void *arg0, void *arg1);
 int validate_6x87_shrink_player(PlayerShrinkPacket*);
 void handle_6x87_shrink_player(const PlayerShrinkPacket* input);
@@ -111,7 +109,6 @@ void restore_shrunken_font__10TObjPlayerFv(PlayerRestoreSizePacket*, const Playe
 void bswap_g_client_id_header(void *p);
 int validate_6x88_restore_shrunken_player(PlayerRestoreSizePacket*);
 void handle_6x88_restore_shrunken_player(const PlayerRestoreSizePacket* input);
-void update_player_scale_camera(PlayerScaleState *state);
 }
 
 extern "C" {
@@ -201,29 +198,17 @@ void apply_stat_multipliers_default__10TObjPlayerFv(void);
 }
 
 
-extern "C" {
-void update_player_scale_camera(PlayerScaleState *state);
-}
-
 
 extern "C" {
 void handle_6x88_restore_shrunken_player(const PlayerRestoreSizePacket* input);
 }
 
 
-extern "C" {
-void request_player_size_restore(PlayerScaleState* state);
-}
-
 
 extern "C" {
 void handle_6x87_shrink_player(const PlayerShrinkPacket* input);
 }
 
-
-extern "C" {
-void request_player_shrink(PlayerScaleState* state);
-}
 
 
 extern "C" {
@@ -373,19 +358,19 @@ u8 *__ct__18TPlayerLobbyMarkerFP7TObjectsSc(u8 *player_lobby_marker, u8 *parent,
 
 
 extern "C" {
-u16 TObjPlayer::get_obj_type() { return *(u16*)((char*)this + 0x0); }
+u16 PlayerScaleState::get_actor_id() { return actor_id; }
 
 }
 
 
 extern "C" {
-void TObjPlayer__sub_801C6FE0(Vec *v, f32 x, f32 y, f32 z) { v->x = x; v->y = y; v->z = z; }
+void PlayerCameraOffset::set(f32 x, f32 y, f32 z) { this->x = x; this->y = y; this->z = z; }
 
 }
 
 
 extern "C" {
-Vec *TObjPlayer__sub_801C6FDC(Vec *v) { return v; }
+Vec *PlayerCameraOffset::get() { return this; }
 
 }
 
@@ -524,15 +509,15 @@ u8 TPlayerLobbyMarker::get_material_index() {
 
 
 extern "C" {
-void request_player_shrink(PlayerScaleState* state) {
-    TObjPlayer* player = get_player_by_client_id(((TObjPlayer *)state)->get_obj_type());
+void PlayerScaleState::request_shrink() {
+    TObjPlayer* player = get_player_by_client_id(get_actor_id());
     if (!player || !((TObjChara *)player)->obj_isState2_324()) {
-        if (local_client_id == ((TObjPlayer *)state)->get_obj_type())
-            update_player_scale_camera((PlayerScaleState *)(state));
+        if (local_client_id == get_actor_id())
+            update_camera();
         PlayerShrinkPacket packet;
         ((TObjPlayer *)(&packet))->init_shrink_effect();
-        packet.actor_id = ((TObjPlayer *)state)->get_obj_type();
-        packet.scalar = state->scalar;
+        packet.actor_id = get_actor_id();
+        packet.scalar = scalar;
         ((TObjPlayer *)(&packet))->update_and_send_60();
     }
 }
@@ -541,9 +526,9 @@ void request_player_shrink(PlayerScaleState* state) {
 
 
 extern "C" {
-void TObjPlayer::handle_6x87_shrink(f32 scalar) {
-    ((FlagWord *)(((u8 *)this) + 4))->set(1);
-    *(f32 *)((s8 *)((u8 *)this) + 8) = scalar;
+void PlayerScaleState::shrink(f32 scalar) {
+    flags.set(1);
+    this->scalar = scalar;
 }
 
 }
@@ -558,7 +543,7 @@ void handle_6x87_shrink_player(const PlayerShrinkPacket* input) {
     if (validate_6x87_shrink_player(&packet)) {
         TObjPlayer* player = get_player_by_client_id(packet.actor_id);
         if (player && TObjPlayer::check_camera_mode())
-            ((TObjPlayer *)((u8 *)&player->scale_state))->handle_6x87_shrink(packet.scalar);
+            player->scale_state.shrink(packet.scalar);
     }
 }
 
@@ -566,12 +551,12 @@ void handle_6x87_shrink_player(const PlayerShrinkPacket* input) {
 
 
 extern "C" {
-void request_player_size_restore(PlayerScaleState* state) {
-    TObjPlayer* player = get_player_by_client_id(((TObjPlayer *)state)->get_obj_type());
+void PlayerScaleState::request_size_restore() {
+    TObjPlayer* player = get_player_by_client_id(get_actor_id());
     if (!player || !((TObjChara *)player)->obj_isState2_324()) {
         PlayerRestoreSizePacket packet;
         ((TObjPlayer *)(&packet))->init_6x88_packet();
-        packet.actor_id = ((TObjPlayer *)state)->get_obj_type();
+        packet.actor_id = get_actor_id();
         ((TObjPlayer *)(&packet))->send_font_update_60();
     }
 }
@@ -580,7 +565,7 @@ void request_player_size_restore(PlayerScaleState* state) {
 
 
 extern "C" {
-void TObjPlayer::clear_shrink_flag() { ((FlagWord *)((char*)this + 0x4))->clear(1); }
+void PlayerScaleState::clear_shrink_flag() { flags.clear(1); }
 
 }
 
@@ -594,7 +579,7 @@ void handle_6x88_restore_shrunken_player(const PlayerRestoreSizePacket* input) {
     if (validate_6x88_restore_shrunken_player(&packet)) {
         TObjPlayer* player = get_player_by_client_id(packet.actor_id);
         if (player && TObjPlayer::check_camera_mode())
-            ((TObjPlayer *)(&player->scale_state))->clear_shrink_flag();
+            player->scale_state.clear_shrink_flag();
     }
 }
 
@@ -602,10 +587,10 @@ void handle_6x88_restore_shrunken_player(const PlayerRestoreSizePacket* input) {
 
 
 extern "C" {
-void update_player_scale_camera(PlayerScaleState *state) {
-  TObjPlayer__sub_801C6FE0(&state->camera_position, 0.0f, 0.6f * (25.43f * state->get_scalar()), 45.42f * state->get_scalar());
-  TObjPlayer__sub_801C6FE0(&state->camera_target, 0.0f, 19.8f * state->get_scalar(), -5.0f);
-  request_follow_camera_offsets(TObjPlayer__sub_801C6FDC(&state->camera_target), TObjPlayer__sub_801C6FDC(&state->camera_position), 0xFFFF);
+void PlayerScaleState::update_camera() {
+  camera.position.set(0.0f, 0.6f * (25.43f * get_scalar()), 45.42f * get_scalar());
+  camera.target.set(0.0f, 19.8f * get_scalar(), -5.0f);
+  request_follow_camera_offsets(camera.target.get(), camera.position.get(), 0xFFFF);
 }
 
 }
