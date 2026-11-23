@@ -142,7 +142,7 @@ void TObjBoss2CeilJunk::run_task() {
             for (i = 0; i < n; i++) {
                 pl = TObjPlayer::get_player_data(i);
                 if (((TObjEneDD *)pl)->is_valid_target() != 0) {
-                    h = pl->m_d48 + pl->position.y;
+                    h = pl->base_stats.proportions + pl->position.y;
                     if (top > h && bottom < h) {
                         VecCopy(&d, &pl->position);
                         subtract_vector(&d, &position);

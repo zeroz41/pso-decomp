@@ -5,6 +5,8 @@
 #include "pso/system/CharacterSaveRecordLookup.h"
 #include "pso/ui/frontend/CharacterSelectionRequest.h"
 #include "pso/system/save/CardSaveFile.h"
+#include "pso/player/TObjPlayer_802C367C.h"
+#include "pso/player/TPlyCharData.h"
 #include "types.h"
 #include "pso/ui/window/TWindowKeyBoardHard_801A529C.h"
 #include "pso/ui/window/TWindowShortListCtrl_8026E7DC.h"
@@ -674,7 +676,6 @@ bool is_entry_valid__23TAdSinglePlyChrSelectGCFPvi(Obj_801FCCDC *self, s32 i);
 s32 __dt__12TPlyCharDataFv(s32 arg0, s16 arg1);
 void free_char_data_slots__23TAdSinglePlyChrSelectGCFPv(Obj_801FCBA0* arg0);
 s32 all_players_loaded__23TAdSinglePlyChrSelectGCFv(void);
-int init_new_character_data(void *p);
 void init_fresh_character_slot(s32 arg0);
 s32 compare_save_headers__23TAdSinglePlyChrSelectGCFPvPvPvPv(A_801FD8B8 *a, A_801FD8B8 *b, C_801FD8B8 *c, C_801FD8B8 *d);
 s32 init_and_register__23TAdSinglePlyChrSelectGCFi(s32);
@@ -2736,7 +2737,6 @@ void TAdSinglePlyChrSelectGC__sub_80200418(void);
 void *copy_char_slot_data__23TAdSinglePlyChrSelectGCFPvPv(void *, void *);
 s32 copy_save_data__23TAdSinglePlyChrSelectGCFii(saddr arg0, saddr arg1);
 saddr TAdSinglePlyChrSelectGC__sub_801FCD04(saddr);
-s32 init_character_stats_for_level(u8, void *, s32);
 void init_class_starting_inventory(void *arg0);
 s32 memset(void *, s32, s32);
 void subtractive_rng_unshuffle(void *, s32, s32, s32);
@@ -3221,7 +3221,8 @@ void reset_character_data__23TAdSinglePlyChrSelectGCFv(void) {
         } while (var_r31 < 0x1E);
         *(s8 *)((s8 *)selected_character_data + 0) = 0;
         init_class_starting_inventory((void *)selected_character_data);
-        init_character_stats_for_level(*(u8 *)((s8 *)selected_character_data + 0x3A1), (void *)selected_character_data, *(s32 *)((s8 *)selected_character_data + 0x364));
+        TPlyCharData *character = (TPlyCharData *)selected_character_data;
+        init_character_stats_for_level(character->m_disp_part2.char_class, character, character->m_stats.level);
         ((TObjPlayer *)selected_character_data)->reset_action_palette();
         ((TObjPlayer *)selected_character_data)->m_36c = 0;
     }

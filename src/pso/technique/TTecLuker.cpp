@@ -5,6 +5,7 @@
 #include "pso/network/protocol/protocol_types.h"
 
 #include "pso/player/TObjPlayer.h"
+#include "pso/player/TObjPlayer_801D3554.h"
 #include "pso/unk/TUnk_804CC9D4.h"
 #include "pso/unk/TLobby_801E43E4.h"
 #include "types.h"
@@ -142,7 +143,6 @@ extern u8 identity_matrix[];
 void init_telepipe_packet_header(void* p);
 void create_quest_telepipe_for_client(u16 arg0);
 void write_telepipe_record(u8 *arg0, u16 arg1, s16 arg2, u8 *arg3, s32 arg4);
-void start_placement_search(saddr arg0, saddr arg1, saddr arg2);
 s32 are_players_gathered_near(void *arg0, s32 *arg1, f32 range);
 void offset_point_toward_camera(u8 *arg0, u8 *arg1, f32 farg0);
 int fn_80235078(void *arg0) {
@@ -230,7 +230,7 @@ TTecLuker::TTecLuker(saddr source, Vec *pos, Vec *target, s32 level) : TTecCircl
                 v.x += owner->position.x;
                 v.y += 20.0f + owner->position.y;
                 v.z += owner->position.z;
-                start_placement_search((saddr)placement, (saddr)&v, (saddr)owner);
+                start_placement_search(placement, &v, owner);
             }
         }
     }

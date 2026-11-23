@@ -2773,12 +2773,11 @@ void qst_op_get_guild_card_file_creation_time(s32 reg) {
 }
 
 extern "C" {
-s32 try_spend_actor_meseta(u8 *arg0, s32 arg1);
 }
 void qst_op_take_slot_meseta(s32 regs, s32 dst) {
     TObjPlayer *player = get_player_by_client_id(qst_registers[(u8)regs++]);
     if (player != NULL) {
-        if (try_spend_actor_meseta((u8 *)player, qst_registers[(u8)regs]) != 0) {
+        if (try_spend_actor_meseta(player, qst_registers[(u8)regs]) != 0) {
             qst_registers[(u8)dst] = 1;
         } else {
             qst_registers[(u8)dst] = 0;

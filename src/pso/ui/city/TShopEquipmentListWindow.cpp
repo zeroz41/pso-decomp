@@ -116,7 +116,6 @@ saddr get_window_layout_position(s32);
 void *create_item_list_window(s32, s32, u16);
 s32 advance_item_id_counter(u16);
 void try_buy_item(void *, void *);
-void send_6x25_equip_item(void *, s32, s32);
 }
 
 s32 is_single_purchase_shop_item(u8 *p);
@@ -394,9 +393,9 @@ void TShopEquipmentListWindow::handle_buy_confirm() {
                 try_buy_item(w->player, &it);
                 item = find_item_by_id(it.id);
                 if (item != NULL && (e = (uaddr)((TObjPlayer *)w->player)->get_equipped_item(item->get_attach_slot())) != 0) {
-                    TObjPlayer::send_6x26_unequip_item((void *)(w->player), ((TItem *)e)->get_item_id());
+                    TObjPlayer::send_6x26_unequip_item((TObjPlayer *)(w->player), ((TItem *)e)->get_item_id());
                 }
-                send_6x25_equip_item(w->player, it.id, 0);
+                send_6x25_equip_item(reinterpret_cast<TObjPlayer *>(w->player), it.id, 0);
                 update_list(&w->recs[i]);
                 if (is_single_purchase_shop_item((u8 *)&w->recs[i]) != 0) {
                     TLobby::clear_slot_field_f10(i, ((TShopWindowBase *)w)->sub_8022397C());

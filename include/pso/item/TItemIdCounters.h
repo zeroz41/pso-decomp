@@ -10,4 +10,7 @@ struct TItemIdCounters {
     ~TItemIdCounters();
 };
 
+extern s32 *item_id_counter_table;
+extern s32 *item_sync_counter_table;
+
 #endif

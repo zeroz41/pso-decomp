@@ -1042,20 +1042,20 @@ s32 TObjGrass::is_target_in_attack_range() {
     if (kind < 0x1000) {
         t = this->target;
         if (((TObjPlayer *)t)->check_player_flag1() == 1 || (enable_v2_features == 1 && ((TObjCollidable *)t)->obj_testFlags30(0x20) != 0)) {
-            T318 = (AttackParams *)TBL[0];
+            T318 = TBL[0];
             if (IN_RANGE()) {
                 BIND(0)
             }
             return 0;
         }
         for (i = 0; i < 2; i++) {
-            T318 = (AttackParams *)TBL[i];
+            T318 = TBL[i];
             if (IN_RANGE()) {
                 BIND(i)
             }
         }
     } else if (kind < 0x4000) {
-        T318 = (AttackParams *)TBL[0];
+        T318 = TBL[0];
         if (IN_RANGE()) {
             BIND(0)
         }

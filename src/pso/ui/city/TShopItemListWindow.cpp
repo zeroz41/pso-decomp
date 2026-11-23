@@ -212,7 +212,7 @@ void TShopItemListWindow::build_item_list(void *p) {
     }
     if (W->status == NULL) {
         W->status = create_window_quantity((u16)((TShopSequence *)W)->get_child_field1c());
-        n = static_cast<TPlyItem *>(reinterpret_cast<TObjPlayer *>(W->player)->inventory_objects)->count_items_by_id(reinterpret_cast<saddr>(&window->shop_items[0]));
+        n = static_cast<TPlyItem *>(reinterpret_cast<TObjPlayer *>(W->player)->inventory_objects)->count_items_by_id(&window->shop_items[0]);
         ((TWindowSubStatusDisp *)(W->status))->set_entry1_field20(n);
     }
     if (W->cost == NULL) {
@@ -255,7 +255,7 @@ void TShopItemListWindow::handle_tool_list_select(void *p) {
             ((TWindowHelpItem *)(W->help))->set_displayed_item_colored((uaddr)&window->shop_items[i]);
         }
         if (W->status != NULL && i != W->cur) {
-            n = static_cast<TPlyItem *>(reinterpret_cast<TObjPlayer *>(W->player)->inventory_objects)->count_items_by_id(reinterpret_cast<saddr>(&window->shop_items[i]));
+            n = static_cast<TPlyItem *>(reinterpret_cast<TObjPlayer *>(W->player)->inventory_objects)->count_items_by_id(&window->shop_items[i]);
             ((TWindowSubStatusDisp *)(W->status))->set_entry1_field20(n);
         }
         if (W->sell != NULL && i != W->cur && (entry = (u8 *)W + i * sizeof(TItemData), *(s32 *)(entry + shop_price_offset) > 0)) {
@@ -386,7 +386,7 @@ void TShopItemListWindow::handle_amount_confirm() {
                     }
                     try_buy_item(m_24, &item);
                     if (status_window != 0U) {
-                        n = static_cast<TPlyItem *>(reinterpret_cast<TObjPlayer *>(m_24)->inventory_objects)->count_items_by_id(reinterpret_cast<saddr>(&shop_items[sel]));
+                        n = static_cast<TPlyItem *>(reinterpret_cast<TObjPlayer *>(m_24)->inventory_objects)->count_items_by_id(&shop_items[sel]);
                         ((TWindowSubStatusDisp *)status_window)->set_entry1_field20(n);
                     }
                     if (is_single_purchase_shop_item((u8 *)&shop_items[sel]) != 0) {

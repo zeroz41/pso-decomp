@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/player/TPlyDispData.h"
 #include "pso/ui/city/TMedicalCenterMes.h"
 #include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/unk/text_8026934C.h"
@@ -42,7 +43,6 @@ TObject *set_service_counter_camera(void *, int);
 extern const char *TMedicalCenterSequence__class_name;
 
 s32 play_sound_effect(s32, s32, s32, s32);
-s32 try_spend_actor_meseta(TObjPlayer *player, s32 amount);
 int obj_getPtr2B0_20(TObjPlayer *player);
 void send_code50_packet__10TObjPlayerFi(TObjPlayer *player);
 void send_code_49_1__10TObjPlayerFi(TObjPlayer *player);

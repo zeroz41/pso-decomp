@@ -205,19 +205,19 @@ void TShopEquipmentSellWindow::vfunc_11() {
 
 void TShopEquipmentSellWindow::build_sell_list() {
     Win_8021CF04 *self = (Win_8021CF04 *)this;
-    uaddr ids[32];
+    TItem *items[32];
     s32 n;
     s32 i;
     s32 v;
     void *p;
     void *r;
-    n = ((TPlyItem *)(self->owner->inventory))->count_matching_items(ids);
+    n = ((TPlyItem *)(self->owner->inventory))->count_matching_items(items);
     self->count = 0;
     for (i = 0; i < n; i++) {
-        if (ids[i] != 0) {
-            v = TShopEquipmentSellWindow::get_item_data_value(ids[i]);
-            if (v > 0 && ((TItem *)(ids[i]))->copy_to_item_data((TItemData *)&self->entries[self->count].item) != 0) {
-                self->entries[self->count].id = ids[i];
+        if (items[i] != NULL) {
+            v = TShopEquipmentSellWindow::get_item_data_value(reinterpret_cast<uaddr>(items[i]));
+            if (v > 0 && items[i]->copy_to_item_data((TItemData *)&self->entries[self->count].item) != 0) {
+                self->entries[self->count].id = reinterpret_cast<uaddr>(items[i]);
                 self->entries[self->count].price = v / 8;
                 self->entries[self->count].index = i;
                 self->count++;

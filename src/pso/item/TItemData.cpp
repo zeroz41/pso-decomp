@@ -1023,7 +1023,7 @@ s32 TItemData::calc_action_flags(s32 mask, u8 *player) {
         tech = (u8 *) calc_technique_parameters(((u8 *)this)[4], lvl, 0xFFFF);
         if (tech != 0)
         {
-          if ((*((s16 *) (((TObjPlayer *)player)->get_stats() + 2))) < (*((s16 *)(tech + 0x14))))
+          if (((TObjPlayer *)player)->get_stats()->stats.mst < (*((s16 *)(tech + 0x14))))
           {
             result |= 0x10001;
           }
@@ -1060,26 +1060,26 @@ s32 TItemData::calc_action_flags(s32 mask, u8 *player) {
       }
       case 11:
       {
-        u8 *quest = ((TObjPlayer *)player)->get_stats();
+        player_stats *quest = ((TObjPlayer *)player)->get_stats();
         if (quest != 0)
         {
           hit = 0;
           switch (((u8 *)this)[2])
           {
             case 0:
-              if ((((s16 *)TObjPlayer::get_class_stat_entry((u8 *)player))[0 / 2] <= ((s16 *) quest)[0 / 2]) || (((TObjPlayer *)player)->can_use_more_materials_for_class() != 0))
+              if ((((s16 *)TObjPlayer::get_class_stat_entry((u8 *)player))[0 / 2] <= quest->stats.atp) || (((TObjPlayer *)player)->can_use_more_materials_for_class() != 0))
             {
               hit = 1;
             }
               break;
             case 1:
-              if ((((s16 *)TObjPlayer::get_class_stat_entry((u8 *)player))[2 / 2] <= ((s16 *) quest)[2 / 2]) || (((TObjPlayer *)player)->can_use_more_materials_for_class() != 0))
+              if ((((s16 *)TObjPlayer::get_class_stat_entry((u8 *)player))[2 / 2] <= quest->stats.mst) || (((TObjPlayer *)player)->can_use_more_materials_for_class() != 0))
             {
               hit = 1;
             }
               break;
             case 2:
-              if ((((s16 *)TObjPlayer::get_class_stat_entry((u8 *)player))[4 / 2] <= ((s16 *) quest)[4 / 2]) || (((TObjPlayer *)player)->can_use_more_materials_for_class() != 0))
+              if ((((s16 *)TObjPlayer::get_class_stat_entry((u8 *)player))[4 / 2] <= quest->stats.evp) || (((TObjPlayer *)player)->can_use_more_materials_for_class() != 0))
             {
               hit = 1;
             }
@@ -1097,7 +1097,7 @@ s32 TItemData::calc_action_flags(s32 mask, u8 *player) {
             }
               break;
             case 5:
-              if ((((s16 *)TObjPlayer::get_class_stat_entry((u8 *)player))[8 / 2] <= ((s16 *) quest)[8 / 2]) || (((TObjPlayer *)player)->can_use_more_materials_for_class() != 0))
+              if ((((s16 *)TObjPlayer::get_class_stat_entry((u8 *)player))[8 / 2] <= quest->stats.dfp) || (((TObjPlayer *)player)->can_use_more_materials_for_class() != 0))
             {
               hit = 1;
             }

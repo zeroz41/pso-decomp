@@ -44,7 +44,6 @@ extern RecoveredGlobal_8019118C_lbl_804B7C1C __vt__13TUnk_804B7C1C;
 u8 *TLobby__sub_8019118C(u8 *arg0, s32 arg1, saddr arg2);
 void __ct__7TObjectFP7TObject(void *, void *);
 extern s32 __vt__13TUnk_804B7C04[];
-extern s32 npc_player_char_data_buffer;
 Npc_80190F3C *init_npc_player_char_loader(Npc_80190F3C *arg0, void *arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, void *arg6);
 void free_collision_body_parts(void *);
 f32 horizontal_distance_squared(void *, void *);

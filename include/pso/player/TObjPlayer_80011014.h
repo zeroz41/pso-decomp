@@ -52,7 +52,6 @@ void play_shock_feedback__10TObjPlayerFii(saddr arg0, s32 arg1);
 void show_meseta_label(saddr arg0, u32 arg1, s32 arg2, s32 arg3);
 void spawn_poison_effect__10TObjPlayerFii(saddr arg0, s32 arg1);
 void spawn_slow_effect__10TObjPlayerFii(saddr arg0, s32 arg1);
-s32 try_spend_actor_meseta(u8 *player, s32 count);
 s32 update_slow_status__9TObjCharaFv(u8 *player);
 s32 update_attack_stat_status__9TObjCharaFv(u8 *player);
 // 1 when csnLookAt finds a wall between the body centre and `target` (a far target is

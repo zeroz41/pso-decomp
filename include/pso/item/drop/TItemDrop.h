@@ -46,4 +46,8 @@ struct TItemDrop : public TObject {
 };
 
 LAYOUT_ASSERT(TItemDrop_size, sizeof(TItemDrop) == 0x24);
+
+struct TItemData;
+extern "C" void select_enemy_drop__9TItemDropFPviiPv(u8 *self, s32 area, s32 idx, TItemData *item);
+
 #endif

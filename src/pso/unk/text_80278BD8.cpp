@@ -4,13 +4,13 @@
 #include "pso/item/TItem.h"
 #include "pso/ui/city/TShopJudgmentItemWindow.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
+#include "pso/player/PlayerSlots.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TPlyItem.h"
 
 struct Wn_80278DA4 { u8 pad0[0x20]; s16 f20; u8 pad22[0x50]; s16 f72; };
 
 extern "C" {
-void *get_player_by_client_id(s32 i);
 void populate_judgment_item_list(Wn_80278DA4 *arg0);
 
 void add_armor_equip_candidates(u8 *arg0, u16 kind, u16 sub) {
@@ -18,10 +18,10 @@ void add_armor_equip_candidates(u8 *arg0, u16 kind, u16 sub) {
     u8 *item;
     u32 n;
     u32 i;
-    u8 *pl;
-    pl = (u8 *)get_player_by_client_id(*(s16 *)(arg0 + 0x20));
+    TObjPlayer *pl;
+    pl = get_player_by_client_id(*(s16 *)(arg0 + 0x20));
     if (pl != NULL) {
-        n = ((TPlyItem *)(*(saddr *)(pl + 0xD00)))->run_and_get_result((saddr)ids);
+        n = pl->inventory_objects->run_and_get_result(ids);
         for (i = 0; i < n; i++) {
             item = (u8 *)find_item_by_id(ids[i]);
             if (item != NULL && kind == ((TItem *)item)->get_item_type() && sub == ((TItem *)item)->get_item_group() &&
@@ -41,10 +41,10 @@ void build_mag_item_candidates(void *arg0, u16 arg1) {
     u8 *item;
     u32 n;
     u32 i;
-    u8 *pl;
-    pl = (u8 *)get_player_by_client_id(*(s16 *)((s8 *)arg0 + 0x20));
+    TObjPlayer *pl;
+    pl = get_player_by_client_id(*(s16 *)((s8 *)arg0 + 0x20));
     if (pl != NULL) {
-        n = ((TPlyItem *)(*(saddr *)((s8 *)pl + 0xD00)))->run_and_get_result((saddr)ids);
+        n = pl->inventory_objects->run_and_get_result(ids);
         for (i = 0; i < n; i++) {
             item = (u8 *)find_item_by_id(ids[i]);
             if ((item != 0) && (arg1 == ((TItem *)item)->get_item_type()) && (((TItem *)item)->get_usable_action_flags(8, 0) != 0U)) {
@@ -63,10 +63,10 @@ void populate_judgment_item_list(Wn_80278DA4 *arg0) {
     u8 *id;
     u32 i;
     u32 count;
-    u8 *p;
-    p = (u8 *)get_player_by_client_id(arg0->f20);
+    TObjPlayer *p;
+    p = get_player_by_client_id(arg0->f20);
     if (p != NULL) {
-        count = ((TPlyItem *)(*(saddr *)(p + 0xD00)))->run_and_get_result((saddr)list);
+        count = p->inventory_objects->run_and_get_result(list);
         for (i = 0; i < count; i++) {
             id = (u8 *)find_item_by_id(list[i]);
             if (id != NULL) {

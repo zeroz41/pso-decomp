@@ -18,6 +18,6 @@ void handle_6x5C_destroy_floor_item(void *arg0);
 void handle_6x60_standard_drop_item_request(void *arg0);
 void handle_6x62(void);
 void handle_6xA2_specializable_item_drop_request(void *arg0);
-void process_enemy_drop_request(s8 area, s16 source, int client, s16 room, int slot, f32 x, f32 z);
+void process_enemy_drop_request(s32 area, s16 source, int client, s16 room, int slot, f32 x, f32 z);
 
 #endif

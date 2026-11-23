@@ -4,6 +4,7 @@
 #include "pso/item/TItem.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TPlyItem.h"
+#include "pso/player/PlayerSlots.h"
 
 struct Entry_802D20C8 { u32 id; s32 count; };
 
@@ -28,7 +29,6 @@ struct VObj802D1F30 : VBase802D1F30 {
 extern "C" {
 s32 item_identity_matches(u8 *arg0, u8 *arg1);
 s32 TObjPlayer__sub_801C1AC8();
-void *get_player_by_client_id(s32 i);
 int TLobby__sub_802D2358(void*);
 }
 
@@ -42,15 +42,15 @@ void snapshot_player_trade_inventory(saddr arg0, s32 arg1) {
     s32 temp_r29;
     s32 var_r31;
     u8 *temp_r31;
-    u8 *player;
+    TObjPlayer *player;
     s32 var_r26;
     u8 *temp_r3_2;
-    u8 *temp_r3_3;
+    player_stats *temp_r3_3;
     u8 *var_r25;
     ((TLobby *)arg0)->update_both_halves();
-    player = (u8 *)get_player_by_client_id(arg1);
+    player = get_player_by_client_id(arg1);
     if (player != NULL) {
-        temp_r29 = ((TPlyItem *)(((TObjPlayer *)player)->inventory_objects))->run_and_get_result((saddr)((void *) ids));
+        temp_r29 = player->inventory_objects->run_and_get_result(ids);
         var_r25 = (unsigned char *) (arg0 + 0xF8);
         var_r26 = 0;
         while (var_r26 < temp_r29) {
@@ -66,10 +66,10 @@ void snapshot_player_trade_inventory(saddr arg0, s32 arg1) {
             var_r26 += 1;
         }
         temp_r31 = (u8 *) ((TLobby *)(arg0 + 0xF8))->get_trade_obj_ptr();
-        temp_r3_3 = ((TObjPlayer *)player)->get_stats();
+        temp_r3_3 = player->get_stats();
         *(s32 *)((s8 *)temp_r31 + 0) = -0xFF;
         if (temp_r3_3 != NULL) {
-            *(s32 *)((s8 *)temp_r31 + 4) = (s32) *(s32 *)((s8 *)temp_r3_3 + 0x20);
+            *(s32 *)((s8 *)temp_r31 + 4) = (s32) temp_r3_3->meseta;
             return;
         }
         *(s32 *)((s8 *)temp_r31 + 4) = 0;

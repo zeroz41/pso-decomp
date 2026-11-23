@@ -148,7 +148,7 @@ s32 TObjEneBm5GibonU__render_joint_y_rotation;
 extern "C" {
 
 s32 TObjEneBm5GibonU::get_clamped_level() {
-    player_stats *p = (player_stats *)stat_block;
+    player_stats *p = stat_block;
     s32 v = 0;
     if (p != 0) {
         v = p->level;

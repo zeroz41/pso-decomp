@@ -267,7 +267,7 @@ TObjVoloptCage::TObjVoloptCage(TObjEnemy *boss, u16 target, u16 id, s32 group) :
     ((TBoss3Volopt *)this)->reset_photon_effect();
     set_param(0x2E);
     position.y = -25.0f;
-    recalc_combat_stats(volopt_cage_combat_stats, NULL, NULL, 1.0f, 1.0f);
+    recalc_combat_stats((player_stats *)volopt_cage_combat_stats, NULL, NULL, 1.0f, 1.0f);
     actorFlags |= 0x40000 | 0x8000;
     actorFlags &= ~0xA00;
     next_action = 7;

@@ -1,3 +1,5 @@
+#include "pso/player/PlayerLevelTable.h"
+#include "pso/player/TPlyCharData.h"
 #include "types.h"
 #include "pso/player/TObjPlayer_802C367C.h"
 #include "pso/unk/text_802C3AC0.h"
@@ -8,27 +10,7 @@ typedef struct S_802C3720 {
     u32 f3A4;
 } S_802C3720;
 
-struct Stats_802C38B4 { s16 atp, mst, evp, hp, dfp, ata, lck; };
-
-struct Char_802C38B4 {
-    u8 pad0;
-    s8 f1;
-    s8 f2;
-    u8 pad3[0x34C - 3];
-    Stats_802C38B4 stats;
-    s16 f35A;
-    u8 pad35C[4];
-    f32 f360;
-    s32 level;
-    s32 exp;
-    s32 meseta;
-};
-
 extern "C" {
-void apply_class_level_growth(s32, s32, Stats_802C38B4 *);
-s32 get_current_state_field__10TObjPlayerFScl(s32, s32);
-void *get_class_base_stats(s32);
-void init_character_stats_for_level(s32 cls, Char_802C38B4 *c, s32 level);
 int TObjPlayer__sub_802C456C(void*, s32, void*);
 }
 int init_character_action_config(void*);
@@ -76,27 +58,27 @@ void TObjPlayer::setup_effect_slots(s32 arg0, saddr arg1) {
     TObjPlayer__sub_802C46E0(arg1, 0, 3, 3, 0);
 }
 
-void init_character_stats_for_level(s32 cls, Char_802C38B4 *c, s32 level) {
-    Stats_802C38B4 st;
+void init_character_stats_for_level(s32 cls, TPlyCharData *c, s32 level) {
+    struct stats st;
     level = TObjPlayer::clamp_index_to_max(level);
-    ((TObjPlayer *)(&st))->copy_stats(get_class_base_stats(cls));
+    copy_stats__10TObjPlayerFPv(&st, get_class_base_stats(cls));
     if (level != 0) {
         apply_class_level_growth(cls, level, &st);
     }
-    c->stats.atp = st.atp;
-    c->stats.mst = st.mst;
-    c->stats.evp = st.evp;
-    c->stats.hp = st.hp;
-    c->stats.dfp = st.dfp;
-    c->stats.ata = st.ata;
-    c->stats.lck = st.lck;
-    c->f35A = 0x28;
-    c->f360 = 10.0f;
-    c->level = level;
-    c->exp = get_current_state_field__10TObjPlayerFScl(cls, level);
-    c->meseta = 300;
-    c->f1 = 0;
-    c->f2 = 0;
+    c->m_stats.stats.atp = st.atp;
+    c->m_stats.stats.mst = st.mst;
+    c->m_stats.stats.evp = st.evp;
+    c->m_stats.stats.hp = st.hp;
+    c->m_stats.stats.dfp = st.dfp;
+    c->m_stats.stats.ata = st.ata;
+    c->m_stats.stats.lck = st.lck;
+    c->m_stats.mbr_0xe = 0x28;
+    c->m_stats.mbr_0x14 = 10.0f;
+    c->m_stats.level = level;
+    c->m_stats.exp = TObjPlayer::get_current_state_field(cls, level);
+    c->m_stats.meseta = 300;
+    c->m_inventory.m_hp_materials_used = 0;
+    c->m_inventory.m_tp_materials_used = 0;
     ((TObjPlayer *)c)->set_flag_e7(0);
     ((TObjPlayer *)c)->set_flag_103(0);
     ((TObjPlayer *)c)->set_action_flags(0);
@@ -104,7 +86,7 @@ void init_character_stats_for_level(s32 cls, Char_802C38B4 *c, s32 level) {
     ((TObjPlayer *)c)->set_field_157(0);
 }
 
-void init_new_character_stats(void *player) {
-    init_character_stats_for_level(*(u8 *)((s8 *)player + 0x3A1), (Char_802C38B4 *)(player), 0);
+void init_new_character_stats(TPlyCharData *character) {
+    init_character_stats_for_level(character->m_disp_part2.char_class, character, 0);
 }
 }

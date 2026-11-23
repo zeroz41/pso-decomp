@@ -111,7 +111,6 @@ extern "C" {
 saddr get_window_layout_position(s32);
 extern const s32 local_client_id;
 s32 play_sound_effect(int, int, int, int);
-void send_6x25_equip_item(void *arg0, s32 arg1, s32 arg2);
 void handle_buy_confirm__20TShopArmorListWindowFv(Win_8021A634 *w);
 s32 TLobby__sub_8021B274();
 s32 get_shop_text(s32);
@@ -394,9 +393,9 @@ void handle_buy_confirm__20TShopArmorListWindowFv(Win_8021A634 *w) {
                 try_buy_item(w->player, &it);
                 item = find_item_by_id(it.id);
                 if (item != NULL && (e = (uaddr)((TObjPlayer *)w->player)->get_equipped_item(item->get_attach_slot())) != 0) {
-                    TObjPlayer::send_6x26_unequip_item((void *)(w->player), ((TItem *)e)->get_item_id());
+                    TObjPlayer::send_6x26_unequip_item((TObjPlayer *)(w->player), ((TItem *)e)->get_item_id());
                 }
-                send_6x25_equip_item((void *)w->player, it.id, 0);
+                send_6x25_equip_item((TObjPlayer *)w->player, it.id, 0);
                 ((TShopArmorListWindow *)w)->update_selection(&w->recs[i]);
                 if (is_single_purchase_shop_item((u8 *)&w->recs[i]) != 0) {
                     TLobby::clear_shop_entry_value((s32)i, (saddr)((void *)base));
