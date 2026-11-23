@@ -1,19 +1,19 @@
-#ifndef PSO_OBJECT_TUNK_804E0910_H
-#define PSO_OBJECT_TUNK_804E0910_H
+#ifndef PSO_OBJECT_TOBJJUNGLEBIRD_H
+#define PSO_OBJECT_TOBJJUNGLEBIRD_H
 #include "types.h"
 #include "pso/object/TObjPathObj.h"
 
 struct NJS_OBJECT;
 
-class TUnk_804E0910 : public TObjPathObj {
+class TObjJungleBird : public TObjPathObj {
 public:
-    TUnk_804E0910(TObject *parent, void *set_data);
+    TObjJungleBird(TObject *parent, void *set_data);
     static void *create(void *set_data);
     static void load_static_resource();
     static void destroy_instance();
-    virtual ~TUnk_804E0910();
+    virtual ~TObjJungleBird();
     s32 sub_802C1E34();
-    s32 sub_802C1BFC();
+    s32 update_path_steering();
     virtual void vfunc_13();
     virtual void vfunc_14();
     // get_bml_model(archive, 0), drawn posed by the m_9c motion (name inferred).
@@ -29,6 +29,6 @@ public:
     u8 unk_C4[0x4];
     s32 m_c8;
 };
-LAYOUT_ASSERT(TUnk_804E0910_size, sizeof(TUnk_804E0910) == 0xCC);
+LAYOUT_ASSERT(TObjJungleBird_size, sizeof(TObjJungleBird) == 0xCC);
 
 #endif

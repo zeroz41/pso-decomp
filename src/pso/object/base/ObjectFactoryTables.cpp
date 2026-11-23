@@ -241,9 +241,9 @@
 #include "pso/object/TObjParticle.h"
 #include "pso/effect/TEF_LensFlare.h"
 #include "pso/object/TObjSeabedDolphin.h"
-#include "pso/object/TUnk_804E08D4.h"
-#include "pso/object/TUnk_804E0910.h"
-#include "pso/object/TUnk_804E094C.h"
+#include "pso/object/TObjJungleKamome.h"
+#include "pso/object/TObjJungleBird.h"
+#include "pso/object/TObjJungleEbi.h"
 #include "pso/object/TObjLobbyPigeon.h"
 #include "pso/unk/text_802F0F04.h"
 #include "pso/object/city/CityVerticalModel.h"
@@ -1449,7 +1449,7 @@ ObjectFactoryEntry object_factories_floor_23[65] = {
     { 0x020F, TOTrapChainSawDamage::create, 250000.0f, 0 },
     { 0x0210, TOTrapChainSawKey::create, 250000.0f, 0 },
     { 0x0211, TOBiwaMushi::create, 250000.0f, 0 },
-    { 0x0212, TUnk_804E08D4::create, 250000.0f, 0 },
+    { 0x0212, TObjJungleKamome::create, 250000.0f, 0 },
     { 0x0023, TOAttackableCol::create, 250000.0f, 0 },
     { 0x0027, TObjRaderIcon::create, 250000.0f, 0 },
     { 0x0024, TOSwitchAttack::create, 250000.0f, 0 },
@@ -1506,8 +1506,8 @@ ObjectFactoryEntry object_factories_floor_24[67] = {
     { 0x0152, TContainerAncient01::create, 250000.0f, 0 },
     { 0x02B0, TContainerAncient01R::create, 250000.0f, 0 },
     { 0x0220, TObjFish::create, 250000.0f, 0 },
-    { 0x020C, TUnk_804E094C::create, 250000.0f, 0 },
-    { 0x020D, TUnk_804E0910::create, 250000.0f, 0 },
+    { 0x020C, TObjJungleEbi::create, 250000.0f, 0 },
+    { 0x020D, TObjJungleBird::create, 250000.0f, 0 },
     { 0x0229, TOCapsuleLabo::create, 250000.0f, 0 },
     { 0x0228, TOTrapSeabed01::create, 250000.0f, 0 },
     { 0x020E, TObjContainerJungEnemy::create, 250000.0f, 0 },
@@ -1518,7 +1518,7 @@ ObjectFactoryEntry object_factories_floor_24[67] = {
     { 0x020F, TOTrapChainSawDamage::create, 250000.0f, 0 },
     { 0x0210, TOTrapChainSawKey::create, 250000.0f, 0 },
     { 0x0211, TOBiwaMushi::create, 250000.0f, 0 },
-    { 0x0212, TUnk_804E08D4::create, 250000.0f, 0 },
+    { 0x0212, TObjJungleKamome::create, 250000.0f, 0 },
     { 0x0213, TOJungleDesign::create, 250000.0f, 0 },
     { 0x0023, TOAttackableCol::create, 250000.0f, 0 },
     { 0x0027, TObjRaderIcon::create, 250000.0f, 0 },
@@ -1575,8 +1575,8 @@ ObjectFactoryEntry object_factories_floor_25[66] = {
     { 0x020A, TObjWarpJungMain::create, 250000.0f, 0 },
     { 0x0152, TContainerAncient01::create, 250000.0f, 0 },
     { 0x02B0, TContainerAncient01R::create, 250000.0f, 0 },
-    { 0x020C, TUnk_804E094C::create, 250000.0f, 0 },
-    { 0x020D, TUnk_804E0910::create, 250000.0f, 0 },
+    { 0x020C, TObjJungleEbi::create, 250000.0f, 0 },
+    { 0x020D, TObjJungleBird::create, 250000.0f, 0 },
     { 0x0229, TOCapsuleLabo::create, 250000.0f, 0 },
     { 0x0228, TOTrapSeabed01::create, 250000.0f, 0 },
     { 0x020E, TObjContainerJungEnemy::create, 250000.0f, 0 },
@@ -1587,7 +1587,7 @@ ObjectFactoryEntry object_factories_floor_25[66] = {
     { 0x020F, TOTrapChainSawDamage::create, 250000.0f, 0 },
     { 0x0210, TOTrapChainSawKey::create, 250000.0f, 0 },
     { 0x0211, TOBiwaMushi::create, 250000.0f, 0 },
-    { 0x0212, TUnk_804E08D4::create, 250000.0f, 0 },
+    { 0x0212, TObjJungleKamome::create, 250000.0f, 0 },
     { 0x0213, TOJungleDesign::create, 250000.0f, 0 },
     { 0x0023, TOAttackableCol::create, 250000.0f, 0 },
     { 0x0027, TObjRaderIcon::create, 250000.0f, 0 },
@@ -1653,7 +1653,7 @@ ObjectFactoryEntry object_factories_floor_26[63] = {
     { 0x02B9, TObjMapForceWarp::create, 250000.0f, 0 },
     { 0x020F, TOTrapChainSawDamage::create, 250000.0f, 0 },
     { 0x0210, TOTrapChainSawKey::create, 250000.0f, 0 },
-    { 0x0212, TUnk_804E08D4::create, 250000.0f, 0 },
+    { 0x0212, TObjJungleKamome::create, 250000.0f, 0 },
     { 0x0213, TOJungleDesign::create, 250000.0f, 0 },
     { 0x0023, TOAttackableCol::create, 250000.0f, 0 },
     { 0x0027, TObjRaderIcon::create, 250000.0f, 0 },
@@ -1711,8 +1711,8 @@ ObjectFactoryEntry object_factories_floor_27[66] = {
     { 0x0152, TContainerAncient01::create, 250000.0f, 0 },
     { 0x02B0, TContainerAncient01R::create, 250000.0f, 0 },
     { 0x0220, TObjFish::create, 250000.0f, 0 },
-    { 0x020C, TUnk_804E094C::create, 250000.0f, 0 },
-    { 0x020D, TUnk_804E0910::create, 250000.0f, 0 },
+    { 0x020C, TObjJungleEbi::create, 250000.0f, 0 },
+    { 0x020D, TObjJungleBird::create, 250000.0f, 0 },
     { 0x0229, TOCapsuleLabo::create, 250000.0f, 0 },
     { 0x0228, TOTrapSeabed01::create, 250000.0f, 0 },
     { 0x020E, TObjContainerJungEnemy::create, 250000.0f, 0 },
@@ -1722,7 +1722,7 @@ ObjectFactoryEntry object_factories_floor_27[66] = {
     { 0x02B9, TObjMapForceWarp::create, 250000.0f, 0 },
     { 0x020F, TOTrapChainSawDamage::create, 250000.0f, 0 },
     { 0x0210, TOTrapChainSawKey::create, 250000.0f, 0 },
-    { 0x0212, TUnk_804E08D4::create, 250000.0f, 0 },
+    { 0x0212, TObjJungleKamome::create, 250000.0f, 0 },
     { 0x0213, TOJungleDesign::create, 250000.0f, 0 },
     { 0x0023, TOAttackableCol::create, 250000.0f, 0 },
     { 0x0027, TObjRaderIcon::create, 250000.0f, 0 },
@@ -1776,7 +1776,7 @@ ObjectFactoryEntry object_factories_floor_34[61] = {
     { 0x020A, TObjWarpJungMain::create, 250000.0f, 0 },
     { 0x02B0, TContainerAncient01R::create, 250000.0f, 0 },
     { 0x0220, TObjFish::create, 250000.0f, 0 },
-    { 0x020C, TUnk_804E094C::create, 250000.0f, 0 },
+    { 0x020C, TObjJungleEbi::create, 250000.0f, 0 },
     { 0x0229, TOCapsuleLabo::create, 250000.0f, 0 },
     { 0x0228, TOTrapSeabed01::create, 250000.0f, 0 },
     { 0x020E, TObjContainerJungEnemy::create, 250000.0f, 0 },
@@ -1835,8 +1835,8 @@ ObjectFactoryEntry object_factories_floor_35[64] = {
     { 0x0205, TOKeyJungleMain::create, 250000.0f, 0 },
     { 0x020A, TObjWarpJungMain::create, 250000.0f, 0 },
     { 0x02B0, TContainerAncient01R::create, 250000.0f, 0 },
-    { 0x020C, TUnk_804E094C::create, 250000.0f, 0 },
-    { 0x020D, TUnk_804E0910::create, 250000.0f, 0 },
+    { 0x020C, TObjJungleEbi::create, 250000.0f, 0 },
+    { 0x020D, TObjJungleBird::create, 250000.0f, 0 },
     { 0x0229, TOCapsuleLabo::create, 250000.0f, 0 },
     { 0x0228, TOTrapSeabed01::create, 250000.0f, 0 },
     { 0x020E, TObjContainerJungEnemy::create, 250000.0f, 0 },
@@ -1846,7 +1846,7 @@ ObjectFactoryEntry object_factories_floor_35[64] = {
     { 0x0019, TObjWarpBoss::create, 250000.0f, 0 },
     { 0x020F, TOTrapChainSawDamage::create, 250000.0f, 0 },
     { 0x0210, TOTrapChainSawKey::create, 250000.0f, 0 },
-    { 0x0212, TUnk_804E08D4::create, 250000.0f, 0 },
+    { 0x0212, TObjJungleKamome::create, 250000.0f, 0 },
     { 0x0023, TOAttackableCol::create, 250000.0f, 0 },
     { 0x0027, TObjRaderIcon::create, 250000.0f, 0 },
     { 0x0024, TOSwitchAttack::create, 250000.0f, 0 },

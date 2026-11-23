@@ -1,19 +1,19 @@
-#ifndef PSO_OBJECT_TUNK_804E094C_H
-#define PSO_OBJECT_TUNK_804E094C_H
+#ifndef PSO_OBJECT_TOBJJUNGLEKAMOME_H
+#define PSO_OBJECT_TOBJJUNGLEKAMOME_H
 #include "types.h"
 #include "pso/object/TObjPathObj.h"
 
 struct NJS_OBJECT;
 
-class TUnk_804E094C : public TObjPathObj {
+class TObjJungleKamome : public TObjPathObj {
 public:
-    TUnk_804E094C(TObject *parent, void *set_data);
+    TObjJungleKamome(TObject *parent, void *set_data);
     static void *create(void *set_data);
     static void load_static_resource();
     static void destroy_instance();
-    virtual ~TUnk_804E094C();
-    s32 sub_802C2548();
-    s32 update_path_follow_rotation(void *, f32);
+    virtual ~TObjJungleKamome();
+    s32 sub_802C1660();
+    s32 update_path_steering();
     virtual void vfunc_13();
     virtual void vfunc_14();
     // get_bml_model(archive, 0), drawn posed by the m_9c motion (name inferred).
@@ -28,7 +28,8 @@ public:
     s32 m_c0;
     u8 unk_C4[0x4];
     s32 m_c8;
+    u8 unk_CC[0x4];
 };
-LAYOUT_ASSERT(TUnk_804E094C_size, sizeof(TUnk_804E094C) == 0xCC);
+LAYOUT_ASSERT(TObjJungleKamome_size, sizeof(TObjJungleKamome) == 0xD0);
 
 #endif

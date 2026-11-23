@@ -15,9 +15,9 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/object/TObjSeabedDolphin.h"
-#include "pso/object/TUnk_804E094C.h"
-#include "pso/object/TUnk_804E0910.h"
-#include "pso/object/TUnk_804E08D4.h"
+#include "pso/object/TObjJungleEbi.h"
+#include "pso/object/TObjJungleBird.h"
+#include "pso/object/TObjJungleKamome.h"
 #include "pso/object/TObjLobbyPigeon.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/system/SoundEffect.h"
@@ -330,7 +330,6 @@ typedef struct { f32 f0, f4, f8, fC; s32 f10; } Ent_802C17FC;
 typedef struct { u8 pad[4]; u32 n; } Anim_802C17FC;
 
 s32 debug_draw_line(s32 *, s32 *, s32, s32);
-s32 sub_802C1BFC__13TUnk_804E0910Fv(Obj_802C1BFC *self);
 void matrix_mult_vec(void *, void *, void *);
 
 s32 release_texture_list(void*);
@@ -602,7 +601,7 @@ void *TObjSeabedDolphin::create(void *set_data) {
 
 #pragma push
 #pragma fp_contract on
-TUnk_804E094C::TUnk_804E094C(TObject *parent, void *set_data) : TObjPathObj(parent, set_data) {
+TObjJungleEbi::TObjJungleEbi(TObject *parent, void *set_data) : TObjPathObj(parent, set_data) {
   s32 var_r0;
   s32 temp_r3;
   motion_model = get_bml_model((BmlResource *)(*(u8 * *)&jungle_ebi_model_resource), 0);
@@ -627,15 +626,15 @@ TUnk_804E094C::TUnk_804E094C(TObject *parent, void *set_data) : TObjPathObj(pare
   sub_802C2548();
 }
 
-TUnk_804E094C::~TUnk_804E094C() {}
+TObjJungleEbi::~TObjJungleEbi() {}
 
-void TUnk_804E094C::vfunc_13() {
+void TObjJungleEbi::vfunc_13() {
     Pl_802C26E4 *arg0 = (Pl_802C26E4 *)this;
     Ent_802C26E4 *e = (Ent_802C26E4 *)jungle_ebi_path_profiles;
     e += arg0->idx;
     f32 ox = arg0->x;
     arg0->x = ox + e->b;
-    if (((TUnk_804E094C *)arg0)->update_path_follow_rotation((Ent_802C26E4 *)(e), ox) == 0) {
+    if (((TObjJungleEbi *)arg0)->update_path_follow_rotation((Ent_802C26E4 *)(e), ox) == 0) {
         arg0->x = (0.0f);
     }
     arg0->y = arg0->y + jungle_ebi_path_profiles[arg0->idx].c;
@@ -644,7 +643,7 @@ void TUnk_804E094C::vfunc_13() {
     }
 }
 
-void TUnk_804E094C::vfunc_14() {
+void TObjJungleEbi::vfunc_14() {
     u8 *arg0 = (u8 *)this;
     if ((TObjPlayer::check_demo_mode() == 1) && (TMainTask::get_render_pass() == 0)) {
         ((s32 (*)(void *, s32, s32, f32))draw_line_strip__10TObjPlayerFPviif)(arg0, *(s32 *)&this->motion_model, *(s32 *)((s8 *)arg0 + 0xA0), (1.0f));
@@ -660,7 +659,7 @@ void TUnk_804E094C::vfunc_14() {
     pop_matrix();
 }
 
-s32 TUnk_804E094C::sub_802C2548() {
+s32 TObjJungleEbi::sub_802C2548() {
     Vec a;
     Vec b;
     Vec d;
@@ -685,7 +684,7 @@ s32 TUnk_804E094C::sub_802C2548() {
     return r;
 }
 
-s32 TUnk_804E094C::update_path_follow_rotation(void *, f32) {
+s32 TObjJungleEbi::update_path_follow_rotation(void *, f32) {
     s32 r;
     Obj_802C22A4 *self = (Obj_802C22A4 *)this;
     const Entry_802C2548 *e;
@@ -768,14 +767,14 @@ s32 TUnk_804E094C::update_path_follow_rotation(void *, f32) {
     return r;
 }
 
-void TUnk_804E094C::load_static_resource() {
+void TObjJungleEbi::load_static_resource() {
     saddr var_r0;
     var_r0 = (saddr)new BmlResource(5, &bm_obj_jungle_ebi_resource_descriptor, 0, 0, NULL);
     (*(saddr *)&jungle_ebi_model_resource) = var_r0;
     (*(u8 * *)&jungle_ebi_texture_gvm_handle) = load_gvm_texture_file((saddr)("obj_jungle_ebi.gvm"));
 }
 
-void TUnk_804E094C::destroy_instance() {
+void TObjJungleEbi::destroy_instance() {
     if ((u32) jungle_ebi_texture_gvm_handle != 0U) {
         release_texture_list((void*)jungle_ebi_texture_gvm_handle);
         TAdSinglePlyChrSelectGC::safe_free(jungle_ebi_texture_gvm_handle);
@@ -787,11 +786,11 @@ void TUnk_804E094C::destroy_instance() {
     }
 }
 
-void *TUnk_804E094C::create(void *set_data) {
-    return new TUnk_804E094C(tl_05, set_data);
+void *TObjJungleEbi::create(void *set_data) {
+    return new TObjJungleEbi(tl_05, set_data);
 }
 
-TUnk_804E0910::TUnk_804E0910(TObject *parent, void *set_data) : TObjPathObj(parent, set_data) {
+TObjJungleBird::TObjJungleBird(TObject *parent, void *set_data) : TObjPathObj(parent, set_data) {
   s32 var_r0;
   s32 temp_r3;
   motion_model = get_bml_model((BmlResource *)(*(u8 * *)&jungle_bird_bml_resource), 0);
@@ -816,16 +815,16 @@ TUnk_804E0910::TUnk_804E0910(TObject *parent, void *set_data) : TObjPathObj(pare
   sub_802C1E34();
 }
 
-TUnk_804E0910::~TUnk_804E0910() {}
+TObjJungleBird::~TObjJungleBird() {}
 
-void TUnk_804E0910::vfunc_13() {
+void TObjJungleBird::vfunc_13() {
     Pl_802C1FD0 *arg0 = (Pl_802C1FD0 *)this;
     u8 *t = (u8 *)lobby_pigeon_path_parameters;
     t = t + arg0->idx * 0x14;
     Ent_802C1FD0 *e = (Ent_802C1FD0 *)t;
     f32 ox = arg0->x;
     arg0->x = ox + e->b;
-    if (((s32 (*)(Pl_802C1FD0 *, Ent_802C1FD0 *, f32))sub_802C1BFC__13TUnk_804E0910Fv)(arg0, e, ox) == 0) {
+    if (((TObjJungleBird *)arg0)->update_path_steering() == 0) {
         arg0->x = (0.0f);
     }
     arg0->y = arg0->y + lobby_pigeon_path_parameters[arg0->idx].c;
@@ -834,7 +833,7 @@ void TUnk_804E0910::vfunc_13() {
     }
 }
 
-void TUnk_804E0910::vfunc_14() {
+void TObjJungleBird::vfunc_14() {
     u8 *arg0 = (u8 *)this;
     if ((TObjPlayer::check_demo_mode() == 1) && (TMainTask::get_render_pass() == 0)) {
         ((s32 (*)(void *, s32, s32, f32))draw_line_strip__10TObjPlayerFPviif)(arg0, *(s32 *)&this->motion_model, *(s32 *)((s8 *)arg0 + 0xA0), (1.0f));
@@ -850,7 +849,7 @@ void TUnk_804E0910::vfunc_14() {
     pop_matrix();
 }
 
-s32 TUnk_804E0910::sub_802C1E34() {
+s32 TObjJungleBird::sub_802C1E34() {
     Vec a;
     Vec b;
     Vec d;
@@ -875,7 +874,7 @@ s32 TUnk_804E0910::sub_802C1E34() {
     return r;
 }
 
-s32 TUnk_804E0910::sub_802C1BFC() {
+s32 TObjJungleBird::update_path_steering() {
     Vec a;
     Vec b;
     Vec d;
@@ -936,14 +935,14 @@ s32 TUnk_804E0910::sub_802C1BFC() {
     return r;
 }
 
-void TUnk_804E0910::load_static_resource() {
+void TObjJungleBird::load_static_resource() {
     saddr var_r0;
     var_r0 = (saddr)new BmlResource(5, &bm_obj_jungle_bird_resource_descriptor, 0, 0, NULL);
     (*(saddr *)&jungle_bird_bml_resource) = var_r0;
     (*(u8 * *)&lobby_pigeon_texture_gvm) = load_gvm_texture_file((saddr)("obj_jungle_bird.gvm"));
 }
 
-void TUnk_804E0910::destroy_instance() {
+void TObjJungleBird::destroy_instance() {
     if ((u32) lobby_pigeon_texture_gvm != 0U) {
         release_texture_list((void*)lobby_pigeon_texture_gvm);
         TAdSinglePlyChrSelectGC::safe_free(lobby_pigeon_texture_gvm);
@@ -959,14 +958,14 @@ void TUnk_804E0910::destroy_instance() {
 #pragma push
 #pragma fp_contract on
 
-void *TUnk_804E0910::create(void *set_data) {
-    return new TUnk_804E0910(tl_05, set_data);
+void *TObjJungleBird::create(void *set_data) {
+    return new TObjJungleBird(tl_05, set_data);
 }
 #pragma pop
 
 #pragma push
 #pragma fp_contract on
-TUnk_804E08D4::TUnk_804E08D4(TObject *parent, void *set_data) : TObjPathObj(parent, set_data) {
+TObjJungleKamome::TObjJungleKamome(TObject *parent, void *set_data) : TObjPathObj(parent, set_data) {
     s32 temp_r3;
     s32 var_r0;
 
@@ -983,15 +982,15 @@ TUnk_804E08D4::TUnk_804E08D4(TObject *parent, void *set_data) : TObjPathObj(pare
     *(s32 *)((s8 *)this + 0xCC) = (s32) (((3e+01f) * ((4.0f) * ((3.0517578e-05f) * (f32) rand()))) + (1.5e+02f));
 }
 
-TUnk_804E08D4::~TUnk_804E08D4() {}
+TObjJungleKamome::~TObjJungleKamome() {}
 
-void TUnk_804E08D4::vfunc_13() {
+void TObjJungleKamome::vfunc_13() {
     u8 *arg0 = (u8 *)this;
     Mtx_802C17FC m;
     s32 temp_r0;
 
     this->m_a4 += jungle_seagull_path_profiles[this->m_c8].b;
-    if (((TUnk_804E08D4 *)arg0)->update_path_steering() == 0) {
+    if (((TObjJungleKamome *)arg0)->update_path_steering() == 0) {
         this->m_a4 = (0.0f);
     }
     this->m_a8 += jungle_seagull_path_profiles[this->m_c8].c;
@@ -1012,7 +1011,7 @@ void TUnk_804E08D4::vfunc_13() {
     }
 }
 
-void TUnk_804E08D4::vfunc_14() {
+void TObjJungleKamome::vfunc_14() {
     u8 *arg0 = (u8 *)this;
     if ((TObjPlayer::check_demo_mode() == 1) && (TMainTask::get_render_pass() == 0)) {
         ((s32 (*)(void *, s32, s32, f32))draw_line_strip__10TObjPlayerFPviif)(arg0, *(s32 *)&this->motion_model, *(s32 *)((s8 *)arg0 + 0xA0), (1.0f));
@@ -1028,7 +1027,7 @@ void TUnk_804E08D4::vfunc_14() {
     pop_matrix();
 }
 
-s32 TUnk_804E08D4::sub_802C1660() {
+s32 TObjJungleKamome::sub_802C1660() {
     Vec a;
     Vec b;
     Vec d;
@@ -1053,7 +1052,7 @@ s32 TUnk_804E08D4::sub_802C1660() {
     return r;
 }
 
-s32 TUnk_804E08D4::update_path_steering() {
+s32 TObjJungleKamome::update_path_steering() {
     Vec a;
     Vec b;
     Vec d;
@@ -1114,7 +1113,7 @@ s32 TUnk_804E08D4::update_path_steering() {
     return r;
 }
 
-void TUnk_804E08D4::load_static_resource() {
+void TObjJungleKamome::load_static_resource() {
     saddr temp_r3;
     s32 var_r0;
     var_r0 = (saddr)new BmlResource(5, &bm_obj_jungle_kamome_resource_descriptor, 0, 0, NULL);
@@ -1122,7 +1121,7 @@ void TUnk_804E08D4::load_static_resource() {
     (*(u8 * *)&lobby_kamome_texture_gvm_handle) = load_gvm_texture_file((saddr)("obj_jungle_kamome.gvm"));
 }
 
-void TUnk_804E08D4::destroy_instance() {
+void TObjJungleKamome::destroy_instance() {
     if ((u32) lobby_kamome_texture_gvm_handle != 0U) {
         release_texture_list((void*)lobby_kamome_texture_gvm_handle);
         TAdSinglePlyChrSelectGC::safe_free(lobby_kamome_texture_gvm_handle);
@@ -1134,8 +1133,8 @@ void TUnk_804E08D4::destroy_instance() {
     }
 }
 
-void *TUnk_804E08D4::create(void *set_data) {
-    return new TUnk_804E08D4(tl_05, set_data);
+void *TObjJungleKamome::create(void *set_data) {
+    return new TObjJungleKamome(tl_05, set_data);
 }
 
 TObjLobbyPigeon::TObjLobbyPigeon(TObject *parent, void *set_data) : TObjPathObj(parent, set_data) {

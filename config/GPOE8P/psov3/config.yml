@@ -1583,9 +1583,9 @@ force_active:
   - TObjPlayer__sub_802A1588
   - clear_indirect_effect_ctrl_table__Fv
   - reset_indirect_effect_ctrl_table__Fv
-  - __ct__13TUnk_804E08D4FP7TObjectPv
-  - __ct__13TUnk_804E0910FP7TObjectPv
-  - __ct__13TUnk_804E094CFP7TObjectPv
+  - __ct__16TObjJungleKamomeFP7TObjectPv
+  - __ct__14TObjJungleBirdFP7TObjectPv
+  - __ct__13TObjJungleEbiFP7TObjectPv
   - __ct__17TObjSeabedDolphinFP7TObjectPv
   - TObjPlayer__sub_802C4648
   - TObjPlayer__sub_802E0468
@@ -16324,10 +16324,10 @@ force_active:
   - update_camera__11TBoss6Type2Fv
   - update_head_aim__11TBoss6Type2Fv
   - decay_glow_and_calc_hp_ratio__11TBoss6Type2Fv
-  - sub_802C1660__13TUnk_804E08D4Fv
-  - sub_802C1BFC__13TUnk_804E0910Fv
-  - sub_802C1E34__13TUnk_804E0910Fv
-  - sub_802C2548__13TUnk_804E094CFv
+  - sub_802C1660__16TObjJungleKamomeFv
+  - update_path_steering__14TObjJungleBirdFv
+  - sub_802C1E34__14TObjJungleBirdFv
+  - sub_802C2548__13TObjJungleEbiFv
   - sub_802C2A10__17TObjSeabedDolphinFv
   - sub_802C2C48__17TObjSeabedDolphinFv
   - clear_state7_flag__15TObjEneMe1GiGueFv
@@ -17099,9 +17099,9 @@ force_active:
   - update_parts_flags__11TBoss6Type2Fv
   - update_password_input__17TAdEnterPPPPassGCFPv
   - update_password_input__18TAdEnterPasswordGCFPv
-  - update_path_follow_rotation__13TUnk_804E094CFPvf
+  - update_path_follow_rotation__13TObjJungleEbiFPvf
   - update_path_motion__18TObjCityAirCar_CarFv
-  - update_path_steering__13TUnk_804E08D4Fv
+  - update_path_steering__16TObjJungleKamomeFv
   - update_periodic_tick__6TLobbyFv
   - update_phase1__12TBoss3VoloptFv
   - update_phase2__12TBoss3VoloptFv
