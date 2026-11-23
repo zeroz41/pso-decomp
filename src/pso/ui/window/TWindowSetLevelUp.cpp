@@ -2,6 +2,7 @@
 #include "types.h"
 #include "pso/system/task/TObject.h"
 #include "pso/ui/window/TWindowSetLevelUp.h"
+#include "pso/ui/window/TWindowShop.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/player/TObjPlayer.h"
@@ -16,7 +17,7 @@ void text_builder_reset(void);
 
 const char *TWindowSetLevelUp::class_name = "TWindowSetLevelUp";
 
-extern "C" void TWindowSetLevelUp__sub_8026DE28(void* p, s32 v) { *(s32*)((char*)p + 0x88) = v; }
+void TWindowShop::set_capacity(s32 capacity) { this->capacity = capacity; }
 
 void TWindowSetLevelUp::copy_stat_block(saddr stats) {
     saddr arg0 = (saddr)this;

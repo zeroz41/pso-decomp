@@ -127,7 +127,7 @@ void TShopDeleteItemWindow::sub_80337E2C() {
         TItemData item;
         s32 count;
         item_list = create_item_list_window(get_shop_text(0x30), 200, ((TObjBase *)(player))->get_entity_id());
-        TWindowSetLevelUp__sub_8026DE28(item_list, 200);
+        item_list->set_capacity(200);
         for (i = 0; i < 200; i++) {
             if (copy_bank_item_with_stack_limit(i, &item, &count, base) != 0) {
                 if (count > 1) {

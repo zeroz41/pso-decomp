@@ -272,7 +272,7 @@ s32 CharacterSaveRecord::find_bank_item(saddr item) {
     entry = bank_items;
     i = 0;
     do {
-        if ((is_item_record_empty(entry) == 0) && (item_identity_matches((u8 *)item, entry->item.data1.data_u8) != 0)) {
+        if ((entry->is_empty() == 0) && (item_identity_matches((u8 *)item, entry->item.data1.data_u8) != 0)) {
             return 1;
         }
         i++;
@@ -288,7 +288,7 @@ s32 CharacterSaveRecord::register_in_free_room_slot(saddr item) {
     i = 0;
     entry = bank_items;
     do {
-        if (is_item_record_empty(entry) != 0) {
+        if (entry->is_empty() != 0) {
             TCheckRoomSequence::copy_item_to_bank_entry(entry, (TItemData *)item);
             bank_item_count++;
             return 1;

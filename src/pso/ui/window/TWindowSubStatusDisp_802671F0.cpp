@@ -196,12 +196,12 @@ void TWindowMenuIconLine::advance_line(s32 message) {
     }
 }
 
-void advance_status_disp_entry(TWindowBase *window_base, s32 arg1) {
+void TWindowMenuIconLine::advance_status_disp_entry(s32 message) {
     int index;
-    index = *(s16 *)((s8 *)window_base + 0x72);
-    if (index < (s16) *(s16 *)((s8 *)window_base + 0x76)) {
-        ((ItemListRow *)(window_base->get_array_entry(index)))->setup_entry_msg_d0(arg1);
-        *(s16 *)((s8 *)window_base + 0x72) = (s16) (*(s16 *)((s8 *)window_base + 0x72) + 1);
+    index = entry_count;
+    if (index < entry_capacity) {
+        ((ItemListRow *)get_array_entry(index))->setup_entry_msg_d0(message);
+        entry_count++;
     }
 }
 
@@ -225,34 +225,33 @@ void TWindowSubShortCutList::draw_entry(s32 index, s32 status_style, s32 arg3, s
     }
 }
 
-void push_status_disp_entry(void *arg0, s32 count, s32 id) {
-    TWindowMenuIconLine *list = (TWindowMenuIconLine *)arg0;
-    if (list->entry_count < list->entry_capacity) {
-        TWindowSubStatusDisp__sub_80258A28((ItemListRow *)list->get_array_entry(list->entry_count), count, id);
-        list->entry_count++;
+void TWindowMenuIconLine::push_status_disp_entry(s32 count, s32 id) {
+    if (entry_count < entry_capacity) {
+        TWindowSubStatusDisp__sub_80258A28((ItemListRow *)get_array_entry(entry_count), count, id);
+        entry_count++;
     }
 }
 
-void add_battle_stat_entry(void *arg0, s32 arg1, s32 arg2, s32 arg3) {
-    s32 var_r31;
-    u16 *temp_r30;
+void TWindowMenuIconLine::add_battle_stat_entry(s32 stat, s32 item, s32 gray_out) {
+    s32 value;
+    ItemListRow *row;
     uaddr player;
 
-    if ((s16) *(s16 *)((s8 *)arg0 + 0x72) < (s16) *(s16 *)((s8 *)arg0 + 0x76)) {
-        player = (uaddr)get_player_by_client_id(*(s16 *)((s8 *)arg0 + 0x20));
+    if (entry_count < entry_capacity) {
+        player = (uaddr)get_player_by_client_id(client_index);
         if (player != 0U) {
-            if (arg1 == 4) {
-                var_r31 = fn_801C5404((s32 *)(player + 0x7C8));
+            if (stat == 4) {
+                value = fn_801C5404((s32 *)(player + 0x7C8));
             } else {
-                var_r31 = (s8)((TObjPlayer *)(player + 0x7C4))->clamp_char_at(arg1);
+                value = (s8)((TObjPlayer *)(player + 0x7C4))->clamp_char_at(stat);
             }
-            if (var_r31 > 0) {
-                temp_r30 = (u16 *)((TWindowBase *)arg0)->get_array_entry((s16)(*(s16 *)((s8 *)arg0 + 0x72)));
-                ((ItemListRow *)temp_r30)->setup_stat_line(get_localized_text_entry(0x10, arg1 + 0x13), var_r31, arg2);
-                if ((arg3 != 0) && ((is_current_area_item_enabled() == 0) || (is_boss_area() != 0))) {
-                    *temp_r30 |= 0x80;
+            if (value > 0) {
+                row = (ItemListRow *)get_array_entry(entry_count);
+                row->setup_stat_line(get_localized_text_entry(0x10, stat + 0x13), value, item);
+                if ((gray_out != 0) && ((is_current_area_item_enabled() == 0) || (is_boss_area() != 0))) {
+                    row->flags |= 0x80;
                 }
-                *(s16 *)((s8 *)arg0 + 0x72) = (s16) (*(s16 *)((s8 *)arg0 + 0x72) + 1);
+                entry_count++;
             }
         }
     }

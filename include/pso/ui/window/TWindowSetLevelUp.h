@@ -31,8 +31,4 @@ public:
 
 LAYOUT_ASSERT(TWindowSetLevelUp_size, sizeof(TWindowSetLevelUp) == 0x40);
 
-extern "C" {
-void TWindowSetLevelUp__sub_8026DE28(void *p, s32 v);
-}
-
 #endif

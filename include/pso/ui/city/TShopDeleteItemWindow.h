@@ -7,7 +7,7 @@
 
 struct TObjPlayer;
 struct TWindowMenu;
-class TWindowMenuIconLine;
+class TWindowShop;
 struct TWindowInputNumber;
 struct TWindowHelpItem;
 
@@ -20,7 +20,7 @@ struct TShopDeleteItemWindow : public TShopWindowBase {
     virtual void display_shop_message(s32 id, s32 flags);
     void (*on_close)(TShopWindowBase *sequence);  // called when the player leaves
     void (*on_empty)(TShopWindowBase *sequence);  // called when there is nothing to list
-    TWindowMenuIconLine *item_list;     // the bank's items
+    TWindowShop *item_list;     // the bank's items
     TWindowMenu *confirm_menu;          // delete yes / no
     TWindowInputNumber *number_input;   // how many of a stacked tool to delete
     TWindowHelpItem *help_window;

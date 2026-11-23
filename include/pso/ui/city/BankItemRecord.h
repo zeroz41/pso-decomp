@@ -10,6 +10,7 @@ struct BankItemRecord {
     void init();
     BankItemRecord &operator=(BankItemRecord &src);
     void swap_item_data(BankItemRecord *other);
+    s32 is_empty();
 
     TItemData item;
     s16 amount;     // the stack held

@@ -100,11 +100,11 @@ void populate_sub_item_list(Win_8027ABFC *arg0) {
             }
         }
         for (i = 0; i < 5; i++) {
-            add_battle_stat_entry(arg0, i, TWindowSubItem__sub_8027AA78(i), 0);
+            ((TWindowMenuIconLine *)arg0)->add_battle_stat_entry(i, TWindowSubItem__sub_8027AA78(i), 0);
         }
         q = (Quest_8027ABFC *)pl->get_stats();
         if (q != NULL && q->count > 0) {
-            push_status_disp_entry(arg0, q->count, -0xFF);
+            ((TWindowMenuIconLine *)arg0)->push_status_disp_entry(q->count, -0xFF);
         }
         if (arg0->sel <= 0) {
             ((TWindowMenuIconLine *)arg0)->add_list_entry(-1);

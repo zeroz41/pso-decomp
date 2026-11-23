@@ -29,7 +29,6 @@ extern "C" {
 saddr get_window_layout_position(s32);
 TWindowInputNumber *__ct__18TWindowInputNumberFPvllls(void *, s32, s32, s32, s32, s16);
 TWindowHelpItem *__ct__15TWindowHelpItemFPvl(void *, s32, s32);
-void TWindowSetLevelUp__sub_8026DE28(TWindowMenuIconLine *, s32);
 }
 
 extern const char *TShopGetItemWindow__class_name;
@@ -115,7 +114,7 @@ void TShopGetItemWindow::rebuild_item_list() {
         TItemData item;
         s32 count;
         item_list = create_item_list_window(get_shop_text(0x30), 0xC8, player->get_entity_id());
-        TWindowSetLevelUp__sub_8026DE28(item_list, 0xC8);
+        item_list->set_capacity(0xC8);
         for (i = 0; i < 0xC8; i++) {
             if (copy_bank_item_with_stack_limit(i, &item, &count, x) != 0) {
                 if (count > 1) {

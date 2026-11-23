@@ -7,7 +7,7 @@
 
 struct TObjPlayer;
 struct TWindowMenu;
-class TWindowMenuIconLine;
+class TWindowShop;
 struct TWindowInputNumber;
 struct TWindowHelpItem;
 
@@ -17,7 +17,7 @@ struct TShopGetItemWindow : public TShopWindowBase {
     virtual void update_state();
     virtual void display_message(const char *text, s32 flags);
     virtual void display_shop_message(s32 id, s32 flags);
-    TWindowMenuIconLine *item_list;     // the bank's items
+    TWindowShop *item_list;     // the bank's items
     TWindowMenu *confirm_menu;          // withdraw yes / no
     TWindowInputNumber *number_input;   // how many of a stacked tool to withdraw
     TWindowHelpItem *help_window;

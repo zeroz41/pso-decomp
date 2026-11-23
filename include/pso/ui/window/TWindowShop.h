@@ -11,6 +11,7 @@ public:
     void init_list_window(s32 title);
     virtual void render();
     virtual void run_task();
+    void set_capacity(s32 capacity);
     s32 capacity;  // drawn as the list's capacity when > 0 (the bank's 200 rows)
 };
 LAYOUT_ASSERT(TWindowShop_size, sizeof(TWindowShop) == 0x8C);

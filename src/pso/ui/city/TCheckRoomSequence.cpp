@@ -614,9 +614,9 @@ void TCheckRoomSequence::compact_items(int slot) {
     BankItemRecord *base;
     base = bank_item_records_by_slot[slot];
     for (a = base; a < base + 199; a++) {
-        if (is_item_record_empty(a) != 0) {
+        if (a->is_empty() != 0) {
             for (b = a + 1; b < base + 200; b++) {
-                if (is_item_record_empty(b) == 0) {
+                if (b->is_empty() == 0) {
                     *a = *b;
                     TCheckRoomSequence::init_item_entry(b);
                     break;
@@ -644,7 +644,7 @@ s32 get_bank_deposit_capacity_for_item(TItemData *item, s32 slot) {
         return 0;
     }
     for (i = 0; i < 200; i++) {
-        if (is_item_record_empty(&recs[i]) == 0 &&
+        if (recs[i].is_empty() == 0 &&
             item->data1.data_u8[0] == recs[i].item.data1.data_u8[0] && item->data1.data_u8[1] == recs[i].item.data1.data_u8[1] &&
             item->data1.data_u8[2] == recs[i].item.data1.data_u8[2] && item->data1.data_u8[4] == recs[i].item.data1.data_u8[4]) {
             return recs[i].item.get_max_stack_size() - recs[i].amount;
@@ -670,7 +670,7 @@ s32 TCheckRoomSequence__sub_80210B34(TItemData *item, s32 amount, s32 slot) {
         return 0;
     }
     for (i = 0; i < 200; i++) {
-        if (is_item_record_empty(&recs[i]) == 0 &&
+        if (recs[i].is_empty() == 0 &&
             item->data1.data_u8[0] == recs[i].item.data1.data_u8[0] && item->data1.data_u8[1] == recs[i].item.data1.data_u8[1] && item->data1.data_u8[2] == recs[i].item.data1.data_u8[2]) {
             recs[i].amount += amount;
             if (recs[i].amount > recs[i].item.get_max_stack_size()) {
@@ -680,7 +680,7 @@ s32 TCheckRoomSequence__sub_80210B34(TItemData *item, s32 amount, s32 slot) {
         }
     }
     for (i = 0; i < 200; i++) {
-        if (is_item_record_empty(&recs[i]) != 0) {
+        if (recs[i].is_empty() != 0) {
             TCheckRoomSequence::copy_item_to_bank_entry(&recs[i], item);
             recs[i].amount = amount;
             bank_item_count_by_slot[slot]++;
@@ -717,7 +717,7 @@ s32 TCheckRoomSequence__delete_bank_item(u8 *item, s32 slot) {
     BankItemRecord *rec = bank_item_records_by_slot[slot];
     s32 i;
     for (i = 0; i < 200; i++, rec++) {
-        if (is_item_record_empty(rec) == 0 &&
+        if (rec->is_empty() == 0 &&
             rec->item.data1.data_u8[0] == item[0] && rec->item.data1.data_u8[1] == item[1] && rec->item.data1.data_u8[2] == item[2] &&
             rec->item.data1.data_u8[3] == item[3] && rec->item.data1.data_u8[4] == item[4] && rec->item.data1.data_u8[5] == item[5]) {
             TCheckRoomSequence::init_item_entry(rec);
@@ -740,7 +740,7 @@ void TCheckRoomSequence::remove_bank_item_amount(int idx, int amount, int slot) 
             TCheckRoomSequence::init_item_entry(&recs[idx]);
             bank_item_count_by_slot[slot]--;
             copy_bank_to_card_window(slot);
-        } else if (is_item_record_empty(&recs[idx]) == 0) {
+        } else if (recs[idx].is_empty() == 0) {
             n = recs[idx].amount;
             n -= amount;
             if (n >= 0) {
@@ -768,7 +768,7 @@ s32 copy_bank_item_with_stack_limit(s32 idx, void *data, s32 *out, s32 slot) {
   {
     return 0;
   }
-  if (is_item_record_empty((BankItemRecord *)(base + (idx * 0x18))) != 0)
+  if (((BankItemRecord *)(base + (idx * 0x18)))->is_empty() != 0)
   {
     return 0;
   }
@@ -798,7 +798,7 @@ s32 TCheckRoomSequence::copy_item_record(int idx, void *data, int slot) {
     if (idx > 199) {
         return 0;
     }
-    if (is_item_record_empty(&recs[idx]) != 0) {
+    if (recs[idx].is_empty() != 0) {
         return 0;
     }
     TCheckRoomSequence::copy_data(&recs[idx], data);
@@ -818,7 +818,7 @@ s32 store_item_in_bank(TItemData *item, s32 amount, s32 slot) {
         return 0;
     }
     for (i = 0; i < 200; i++) {
-        if (is_item_record_empty(&recs[i]) != 0) {
+        if (recs[i].is_empty() != 0) {
             TCheckRoomSequence::copy_item_to_bank_entry(&recs[i], item);
             bank_item_count_by_slot[slot]++;
             copy_bank_to_card_window(slot);
@@ -929,8 +929,8 @@ void TCheckRoomSequence::copy_item_to_bank_entry(BankItemRecord *entry, TItemDat
 }
 #pragma pop
 
-s32 is_item_record_empty(BankItemRecord *record) {
-    return (u8)(record->used == 0);
+s32 BankItemRecord::is_empty() {
+    return (u8)(used == 0);
 }
 
 #pragma push

@@ -67,6 +67,12 @@ public:
     void calc_content_extent();
     void disable_cancel();
     void advance_line(s32 message);
+    void advance_status_disp_entry(s32 message);
+    void push_status_disp_entry(s32 count, s32 id);
+    // Append a row for one of the player's five battle items (stat 0-4) when
+    // they hold any; gray_out greys it where items cannot be used.
+    void add_battle_stat_entry(s32 stat, s32 item, s32 gray_out);
+    void refresh_battle_stat_list();
     u16 state_flags;
     s16 entry_count;
     s16 cursor;
