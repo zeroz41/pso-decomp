@@ -309,11 +309,6 @@ void TObjLight::free_shared_data() {
     }
 }
 
-// The entry is copied as raw bytes: it is still big-endian until bswap_data.
-struct LightEntryBytes {
-    u8 bytes[sizeof(LightEntry)];
-};
-
 void init_area_lights(void) {
     LightEntry entry;
     s32 area;

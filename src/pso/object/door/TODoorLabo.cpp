@@ -89,11 +89,6 @@ s32 scale_current_matrix(void *);
 f32 post_translate_matrix(void *);
 }
 
-// The light nodes a four-light door picks out of its model with find_object_node.
-struct FourLightNodeTable {
-    s32 node[8];
-};
-
 const char *TODoorFourLightBase__class_name = "TODoorFourLightBase";
 
 

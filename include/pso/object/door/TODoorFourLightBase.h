@@ -4,6 +4,12 @@
 #include "types.h"
 #include "pso/object/door/TODoorBase.h"
 
+// The node indices a four-light door looks up with find_object_node to fill
+// light_nodes.
+struct FourLightNodeTable {
+    s32 node[8];
+};
+
 struct TODoorFourLightBase : public TODoorBase {
     TODoorFourLightBase(TObject *parent, void *set_data);
     virtual ~TODoorFourLightBase();
