@@ -94,7 +94,7 @@ s32 try_buy_item(saddr arg0, void *item);
 }
 
 TShopItemListWindow::TShopItemListWindow(saddr parent, saddr arg2, s32 arg3) : TShopWindowBase((TObject *)parent) {
-    s32 sp8;
+    s32 count;
     this->m_name = TShopItemListWindow__class_name;
     this->m_24 = arg3;
     this->sequence = (TShopWindowBase *)arg2;
@@ -110,8 +110,8 @@ TShopItemListWindow::TShopItemListWindow(saddr parent, saddr arg2, s32 arg3) : T
     this->m_1c0 = 0;
     this->m_4c = 0;
     this->m_54 = 0;
-    calc_item_count((TObjPlayer *)this->m_24, &sp8);
-    TLobby::set_6264_and_call_2244B0(sub_8022397C(), sp8);
+    calc_item_count((TObjPlayer *)this->m_24, &count);
+    TLobby::set_6264_and_call_2244B0(sub_8022397C(), count);
 }
 
 TShopItemListWindow::~TShopItemListWindow() {

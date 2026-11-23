@@ -526,16 +526,16 @@ s32 TWindowMainMenu::close_active_submenu() {
 
 void TWindowMainMenu::try_open_battle_menu(s16 key) {
     s32 spC;
-    s16 sp8;
+    s16 id;
     TObjPlayer *player;
 
-    sp8 = key;
+    id = key;
     player = get_player_by_client_id(this->client_index);
-    if ((player != 0) && !(*(s32 *)((s8 *)this + 0x4C) & 1) && (filter_menu_entry(&sp8, &spC) != 0) && (spC != 0)) {
+    if ((player != 0) && !(*(s32 *)((s8 *)this + 0x4C) & 1) && (filter_menu_entry(&id, &spC) != 0) && (spC != 0)) {
         *(s32 *)((s8 *)this + 0x4C) = (s32) (*(s32 *)((s8 *)this + 0x4C) | 1);
         *(s32 *)((s8 *)this + 0x5C) = 0;
-        open_menu_with_entry(sp8);
-        this->create_submenu(sp8);
+        open_menu_with_entry(id);
+        this->create_submenu(id);
         ((TObjPlayer *)player)->reset_equip_slots();
         this->on_menu_opened();
     }

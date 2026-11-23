@@ -16,12 +16,12 @@ void draw_chcr_tag_heading_frame(void) {
 void TChCrEffTag::draw_chcr_tag_frame() {
     A_8029A9B8 *arg0 = (A_8029A9B8 *)this;
     vec2f position;
-    vec2f scale;
+    vec2f sp8;
     position.y = 37.0f;
     position.x = 0.0f;
-    scale.x = arg0->f20 / 32.0f;
-    scale.y = 1.0f;
-    draw_ui_sprite_opaque(0x34, &position, &scale, -3.0625f);
+    sp8.x = arg0->f20 / 32.0f;
+    sp8.y = 1.0f;
+    draw_ui_sprite_opaque(0x34, &position, &sp8, -3.0625f);
     position.x = arg0->f20;
     TChCrEffWall::draw_default_sprite(0x35, &position, -3.0625f);
 }

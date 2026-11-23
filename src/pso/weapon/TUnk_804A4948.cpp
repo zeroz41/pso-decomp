@@ -208,7 +208,7 @@ void TUnk_804A4948::on_equipped() {
 
 void TUnk_804A4948::emit_marker_effects() {
     u8 *arg0 = (u8 *)this;
-  Vec sp8;
+  Vec origin;
   s32 temp_r0;
   s32 attack_flags;
   s32 new_var;
@@ -240,8 +240,8 @@ void TUnk_804A4948::emit_marker_effects() {
   }
   if ((new_var = attack_flags) & 2)
   {
-    ((TItemWeapon *)arg0)->get_gun_point(&sp8);
-    (this->launch_shot((u8 *)(&sp8), (0), (0), (1)));
+    ((TItemWeapon *)arg0)->get_gun_point(&origin);
+    (this->launch_shot((u8 *)(&origin), (0), (0), (1)));
   }
 }
 

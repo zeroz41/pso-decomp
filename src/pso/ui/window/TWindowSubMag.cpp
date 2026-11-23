@@ -500,17 +500,17 @@ void TWindowSubMag::update_displayed_item() {
 }
 
 void TWindowSubMag::update_mag_help() {
-    s32 temp_r3;
+    s32 selected_blast;
 
     toggle_help_window_on_button((uaddr)this->message, this->client_id);
-    temp_r3 = ((TWindowSubMag *)(this->photon))->get_selected_blast();
-    if (temp_r3 != (s8) this->m_1d) {
-        this->m_1d = (u8) temp_r3;
-        if (temp_r3 == -1) {
+    selected_blast = ((TWindowSubMag *)(this->photon))->get_selected_blast();
+    if (selected_blast != (s8) this->m_1d) {
+        this->m_1d = (u8) selected_blast;
+        if (selected_blast == -1) {
             ((TWindowMessage *)(this->message))->append_line((saddr)((s32 *)lbl_805DD648), (int)0x80);
             return;
         }
-        ((TWindowMessage *)(this->message))->append_line((int)(get_help_text_string(temp_r3 + 0x27)), (int)0x80);
+        ((TWindowMessage *)(this->message))->append_line((int)(get_help_text_string(selected_blast + 0x27)), (int)0x80);
     }
 }
 

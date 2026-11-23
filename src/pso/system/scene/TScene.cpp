@@ -747,8 +747,8 @@ void TScene::load_current_floor() {
 }
 
 void TScene::load_scene_data(saddr name) {
-    struct Sp8Buf20_80206494 sp8;
-    s32 temp_r31;
+    struct Sp8Buf20_80206494 filename;
+    s32 size;
     u32 temp_r3;
     u32 temp_r3_2;
 
@@ -756,23 +756,23 @@ void TScene::load_scene_data(saddr name) {
     scene_collision_data = NULL;
     TScene__collision_file_buffer = 0U;
     lbl_805D6014 = 0;
-    TLobby::replace_file_extension((char *)((s32 *)((s32 *)&sp8)), (char *)(name), (char *)("c.rel"));
-    temp_r31 = get_resource_file_size((const char *)&sp8);
+    TLobby::replace_file_extension((char *)((s32 *)((s32 *)&filename)), (char *)(name), (char *)("c.rel"));
+    size = get_resource_file_size((const char *)&filename);
     if (get_current_floor_area() == AREA_LOBBY) {
-        if ((temp_r31 > 0) && ((u32) temp_r31 <= 0x10000U)) {
+        if ((size > 0) && ((u32) size <= 0x10000U)) {
             temp_r3 = (saddr)TQuestVmDownLoadServer::alloc(0x10000);
             TScene__collision_file_buffer = temp_r3;
             if (temp_r3 != 0U) {
-                scene_collision_data = (CsnGroup **)load_relocatable_file((saddr)((s32 *)&sp8), temp_r3);
+                scene_collision_data = (CsnGroup **)load_relocatable_file((saddr)((s32 *)&filename), temp_r3);
                 lbl_805D6014 = 0x10000;
             }
         }
-    } else if (temp_r31 > 0) {
-        temp_r3_2 = (saddr)TQuestVmDownLoadServer::alloc(temp_r31);
+    } else if (size > 0) {
+        temp_r3_2 = (saddr)TQuestVmDownLoadServer::alloc(size);
         TScene__collision_file_buffer = temp_r3_2;
         if (temp_r3_2 != 0U) {
-            scene_collision_data = (CsnGroup **)load_relocatable_file((saddr)((s32 *)&sp8), temp_r3_2);
-            lbl_805D6014 = temp_r31;
+            scene_collision_data = (CsnGroup **)load_relocatable_file((saddr)((s32 *)&filename), temp_r3_2);
+            lbl_805D6014 = size;
         }
     }
     if ((scene_collision_data != NULL) && (TObjMapCsn::get_collision_controller() != NULL)) {
@@ -912,16 +912,16 @@ void TScene::load_floor_bin_file(saddr name) {
 
 void TScene::load_file_to_buffer(saddr name) {
     s32 filename[8];
-    s32 temp_r31;
+    s32 size;
     uaddr temp_r3;
     uaddr temp_r3_2;
 
     TScene__material_info_buffer = 0U;
     scene_file_buffer_size = 0;
     TLobby::replace_file_extension((char *)(filename), (char *)(name), (char *)("i.bin"));
-    temp_r31 = get_resource_file_size((const char *)filename);
+    size = get_resource_file_size((const char *)filename);
     if (get_current_floor_area() == AREA_LOBBY) {
-        if ((temp_r31 > 0) && ((u32) temp_r31 <= 0x100U)) {
+        if ((size > 0) && ((u32) size <= 0x100U)) {
             temp_r3 = (saddr)TQuestVmDownLoadServer::alloc(0x100);
             TScene__material_info_buffer = temp_r3;
             if (temp_r3 != 0U) {
@@ -929,12 +929,12 @@ void TScene::load_file_to_buffer(saddr name) {
                 scene_file_buffer_size = 0x100;
             }
         }
-    } else if (temp_r31 > 0) {
-        temp_r3_2 = (saddr)TQuestVmDownLoadServer::alloc(temp_r31);
+    } else if (size > 0) {
+        temp_r3_2 = (saddr)TQuestVmDownLoadServer::alloc(size);
         TScene__material_info_buffer = temp_r3_2;
         if (temp_r3_2 != 0U) {
             read_disc_file((const char *)filename, (void *)temp_r3_2);
-            scene_file_buffer_size = temp_r31;
+            scene_file_buffer_size = size;
         }
     }
 }
@@ -1029,11 +1029,11 @@ void load_floor_scene(void) {
 }
 
 void load_scene_collision_file(saddr name) {
-    struct Sp8Buf20_80206494 sp8;
-    TLobby::replace_file_extension((char *)((s32 *)&sp8), (char *)name, (char *)"c.rel");
-    if (get_resource_file_size((const char *)&sp8) <= lbl_805D6014) {
+    struct Sp8Buf20_80206494 filename;
+    TLobby::replace_file_extension((char *)((s32 *)&filename), (char *)name, (char *)"c.rel");
+    if (get_resource_file_size((const char *)&filename) <= lbl_805D6014) {
         if (TScene__collision_file_buffer != 0U) {
-            scene_collision_data = (CsnGroup **)load_relocatable_file((saddr)((s32 *)&sp8), TScene__collision_file_buffer);
+            scene_collision_data = (CsnGroup **)load_relocatable_file((saddr)((s32 *)&filename), TScene__collision_file_buffer);
             if (scene_collision_data != NULL && TObjMapCsn::get_collision_controller() != NULL) {
                 TMapCsnCtrl *csn = TObjMapCsn::get_collision_controller();
                 collect_collision_groups(csn, *scene_collision_data);

@@ -49,7 +49,7 @@ TWindowEffectParty::~TWindowEffectParty() {
 }
 
 void TWindowEffectParty::run_task() {
-    s32 sp8;
+    s32 pos;
     u8 temp_r3;
 
     void *window;
@@ -82,8 +82,8 @@ void TWindowEffectParty::run_task() {
         break;
     }
     if (this->m_particle != NULL) {
-        calc_effect_position(&sp8);
-        this->m_particle->set_position(&sp8);
+        calc_effect_position(&pos);
+        this->m_particle->set_position(&pos);
     }
 }
 

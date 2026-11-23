@@ -14,7 +14,7 @@ void TUnk_804E71F8::init_weapon_effect_descriptor(Desc_8011E5C4 *desc) {
 }
 
 void TUnk_804E71F8::emit_marker_effects() {
-    s32 sp8;
-    get_joint_position(1, &sp8);
-    fire_shot_at_target(&sp8, second_model, 0);
+    s32 origin;
+    get_joint_position(1, &origin);
+    fire_shot_at_target(&origin, second_model, 0);
 }

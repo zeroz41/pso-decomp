@@ -540,7 +540,7 @@ void TWindowKeyBoardBase::update() {
 
 void TWindowKeyBoardBase::convert_input_text() {
     s8 sp108[0x100];
-    s8 sp8[0x100];
+    s8 name[0x100];
     u16 *var_r3;
     int temp_r0;
     u8 *var_r4;
@@ -566,17 +566,17 @@ void TWindowKeyBoardBase::convert_input_text() {
         *(u16 *)((s8 *)this + 0x60) = (u16) (*(u16 *)((s8 *)this + 0x60) | 0x10);
         candidate_count = 1;
         candidate_index = 1;
-        strncpy((char *)sp8, (const char *)candidate_buffer, 0x100);
+        strncpy((char *)name, (const char *)candidate_buffer, 0x100);
         sp108[0] = 0;
     } else {
         *(u16 *)((s8 *)this + 0x60) = (u16) (*(u16 *)((s8 *)this + 0x60) & 0xFFFFFFEF);
-        candidate_count = dispatch_request_0x13__19TWindowKeyBoardSoftFlll(candidate_buffer, (s32 *)sp8, sp108);
+        candidate_count = dispatch_request_0x13__19TWindowKeyBoardSoftFlll(candidate_buffer, (s32 *)name, sp108);
         candidate_index = 1;
-        sub_8025CFA8((s32 *)sp8);
+        sub_8025CFA8((s32 *)name);
     }
     candidate_bytes_remaining = 0x94;
-    if (sub_8025D544((s32 *)sp8, sp108) != 0) {
-        write_name_and_text((char *)((s32 *)sp8), (char *)(sp108));
+    if (sub_8025D544((s32 *)name, sp108) != 0) {
+        write_name_and_text((char *)((s32 *)name), (char *)(sp108));
         *(u16 *)((s8 *)this + 0x60) = (u16) (*(u16 *)((s8 *)this + 0x60) | 4);
     }
 }

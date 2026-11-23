@@ -217,12 +217,12 @@ void TWindowSubStatusDisp::add_list_entry(s32 arg1) {
 }
 
 void TWindowSubShortCutList::draw_entry(s32 index, s32 status_style, s32 arg3, s32 item) {
-    u8 sp9;
-    u8 sp8;
+    u8 status_icon;
+    u8 category_icon;
 
     if ((s16) this->entry_count < (s16) this->entry_capacity) {
-        fn_80266BD0(index, &sp9, &sp8, this->client_index);
-        ((ItemListRow *)get_array_entry(this->entry_count))->init_entry(sp9, sp8, status_style, arg3, item);
+        fn_80266BD0(index, &status_icon, &category_icon, this->client_index);
+        ((ItemListRow *)get_array_entry(this->entry_count))->init_entry(status_icon, category_icon, status_style, arg3, item);
         this->entry_count = (this->entry_count + 1);
     }
 }

@@ -82,7 +82,7 @@ saddr drill_launcher_create_shot(saddr owner, saddr pos, saddr dir, f32 life) {
 }
 
 void TUnk_804A2164::emit_marker_effects() {
-    Vec sp8;
+    Vec origin;
     saddr temp_r31;
     s32 var_r30;
     if (projectile_visible == 1) {
@@ -98,12 +98,12 @@ void TUnk_804A2164::emit_marker_effects() {
             var_r30 += 1;
         } while (var_r30 != 2);
     }
-    get_gun_point(&sp8);
+    get_gun_point(&origin);
     if (is_mode_two_and_ready() != 0) {
-        launch_rare_weapon_special(&sp8, 1, (f32) (1.0f));
+        launch_rare_weapon_special(&origin, 1, (f32) (1.0f));
         return;
     }
-    launch_shot((u8 *)&sp8, 0, 0, 1);
+    launch_shot((u8 *)&origin, 0, 0, 1);
 }
 void TUnk_804A2164::vfunc_60() {
     s32 player_list;

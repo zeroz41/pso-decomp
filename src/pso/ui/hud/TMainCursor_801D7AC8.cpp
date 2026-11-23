@@ -8,7 +8,7 @@ extern "C" {
 s32 TWindowActionPalette__sub_801C1C68(s32, s32);
 
 s32 TMainCursor::find_action_slot(s32 arg0, void *arg1, s16 type, s32 enabled, s32 arg4) {
-    saddr temp_r31;
+    saddr tag;
     s32 var_r30;
     saddr var_r29;
     u32 temp_r3;
@@ -16,15 +16,15 @@ s32 TMainCursor::find_action_slot(s32 arg0, void *arg1, s16 type, s32 enabled, s
     if (arg1 != NULL) {
         temp_r3 = *(u32 *)((s8 *)arg1 + 0x424);
         if (temp_r3 != 0U) {
-            temp_r31 = temp_r3 + 0x520;
-            if (TObjPlayer__sub_801D84F0((void *)temp_r31) != 0) {
-                if (get_action_palette_tag_mode(reinterpret_cast<const ActionPaletteTag *>(temp_r31)) == 1) {
-                    if (type == (s32) get_action_palette_tag_mode(reinterpret_cast<const ActionPaletteTag *>(temp_r31))) {
+            tag = temp_r3 + 0x520;
+            if (TObjPlayer__sub_801D84F0((void *)tag) != 0) {
+                if (get_action_palette_tag_mode(reinterpret_cast<const ActionPaletteTag *>(tag)) == 1) {
+                    if (type == (s32) get_action_palette_tag_mode(reinterpret_cast<const ActionPaletteTag *>(tag))) {
                         return 0;
                     }
                     goto block_8;
                 }
-                if (matches_type_and_enabled(reinterpret_cast<const ActionPaletteTag *>(temp_r31), (u8) type, (u8) enabled) != 0) {
+                if (matches_type_and_enabled(reinterpret_cast<const ActionPaletteTag *>(tag), (u8) type, (u8) enabled) != 0) {
                     return 0;
                 }
                 goto block_8;

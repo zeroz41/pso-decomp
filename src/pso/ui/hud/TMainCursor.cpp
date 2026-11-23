@@ -533,7 +533,7 @@ void render__13TLockOnCursorFv(saddr arg0) {
 void TLockOnCursor::renderSecondaryCursor(u8 *body, s32 type, s32 action) {
     const saddr arg0 = (saddr)this;
     f32 sp8[3];
-    f32 temp_f31;
+    f32 y;
     s32 temp_r3_2;
     uaddr player;
     if (is_inactive() != 0) {
@@ -542,14 +542,14 @@ void TLockOnCursor::renderSecondaryCursor(u8 *body, s32 type, s32 action) {
             temp_r3_2 = check_visible__11TMainCursorFv((void *)(player + 0x500), (void *)player, type, action);
             if (temp_r3_2 != -1) {
                 TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(&shared_effect_texture_list));
-                temp_f31 = *(f32 *)((s8 *)body + 0xC);
+                y = *(f32 *)((s8 *)body + 0xC);
                 push_matrix();
-                offset_point_toward_camera(body + 0x1C, (u8 *)&sp8, (f32)temp_f31);
+                offset_point_toward_camera(body + 0x1C, (u8 *)&sp8, (f32)y);
                 translate_matrix_vec3((u8 *)(0), (u8 *)&sp8);
                 rotate_matrix_y(0, camera_ctrl_instance->yaw);
                 TParticleCtrl::begin_effect_render();
                 push_matrix();
-                translate_matrix(0, TMainCursor__data_805DB0C0, temp_f31, TMainCursor__data_805DB0C0);
+                translate_matrix(0, TMainCursor__data_805DB0C0, y, TMainCursor__data_805DB0C0);
                 save_model_draw_state((void *)(arg0 + 0x48));
                 begin_constant_color_draw((void *)(arg0 + 0x48), (const NJS_ARGB *)((void *)target_cursor_color_table[5]));
                 TMainCursor::get_cursor_state();

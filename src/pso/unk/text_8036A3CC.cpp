@@ -204,7 +204,7 @@ void unlock_music_flag(s32 flag) {
 }
 
 s32 check_flag_index_set(s32 flag) {
-    s32 mask;
+    s32 sp8;
     s32 *flag_word_mask;
 
     if (flag < 0) {
@@ -213,11 +213,11 @@ s32 check_flag_index_set(s32 flag) {
     if (flag >= 0x31) {
         return 0;
     }
-    flag_word_mask = (s32 *)get_flag_word_mask(flag, (u32 *)&mask);
+    flag_word_mask = (s32 *)get_flag_word_mask(flag, (u32 *)&sp8);
     if (flag_word_mask == NULL) {
         return 0;
     }
-    return (*flag_word_mask & mask) != 0;
+    return (*flag_word_mask & sp8) != 0;
 }
 
 

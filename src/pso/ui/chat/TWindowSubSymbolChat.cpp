@@ -249,7 +249,7 @@ TWindowSubSymbolChat::~TWindowSubSymbolChat() {
 
 void TWindowSubSymbolChat::run_task() {
     u8 *arg0 = (u8 *)this;
-    saddr temp_r3_2;
+    saddr entry_name;
     u8 *temp_r5;
     switch (this->selected_value) {
     case 0:
@@ -737,9 +737,9 @@ void TWindowSubSymbolChat::run_task() {
             return;
         }
         if (((TKeyBoardControl *)(this->m_58))->is_confirmed() != 0) {
-            temp_r3_2 = (saddr)((TKeyBoardControl *)(this->m_58))->realloc_buffer();
-            ((TWindowSubSymbolChat *)(this->m_28))->set_entry_name((void *)temp_r3_2);
-            mem_free((void *)temp_r3_2);
+            entry_name = (saddr)((TKeyBoardControl *)(this->m_58))->realloc_buffer();
+            ((TWindowSubSymbolChat *)(this->m_28))->set_entry_name((void *)entry_name);
+            mem_free((void *)entry_name);
             this->selected_value = 4U;
         }
         break;

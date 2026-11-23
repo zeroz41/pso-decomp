@@ -519,16 +519,16 @@ void TObjGrass::run_task() {
     u8 *arg0 = (u8 *)this;
     s16 temp_r0;
     s32 temp_r30;
-    u16 temp_r3;
+    u16 client;
     TObjPlayer *temp_r3_2;
     u8 *temp_r4;
     if (TObjPlayer::check_demo_mode() == 1) {
         TObjGrass__sub_800BCA2C(arg0);
         return;
     }
-    temp_r3 = this->targetId;
-    if (temp_r3 < 0x1000U) {
-        temp_r3_2 = get_player_by_client_id(temp_r3);
+    client = this->targetId;
+    if (client < 0x1000U) {
+        temp_r3_2 = get_player_by_client_id(client);
         if (temp_r3_2 != NULL) {
             if (temp_r3_2->get_floor() == get_current_floor()) {
                 this->target = (u8 *)temp_r3_2;
@@ -537,8 +537,8 @@ void TObjGrass::run_task() {
         }
         this->target = NULL;
     done:;
-    } else if (temp_r3 < 0x4000U) {
-        this->target = get_enemy_entity(temp_r3);
+    } else if (client < 0x4000U) {
+        this->target = get_enemy_entity(client);
     } else {
         this->targetId = 0xFFFFU;
         this->target = NULL;

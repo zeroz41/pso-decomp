@@ -3517,13 +3517,13 @@ void qst_op_cmode_stage() {
 }
 
 void qst_op_ba_start(void) {
-    s32 temp_r31;
-    temp_r31 = qst_args[0];
+    s32 src;
+    src = qst_args[0];
     if (TRaderMapCore::is_not_split_screen() == 1) {
-        TPlayerBattleCtrl4P::init_instance_with_text((saddr)&battle_rules, temp_r31);
+        TPlayerBattleCtrl4P::init_instance_with_text((saddr)&battle_rules, src);
         return;
     }
-    TLobby::init_battle_ctrl((saddr)&battle_rules, temp_r31);
+    TLobby::init_battle_ctrl((saddr)&battle_rules, src);
 }
 
 void qst_op_ba_teams() {
@@ -4333,10 +4333,10 @@ void qst_op_at_coords_call(u8 regs) {
 #pragma push
 #pragma fp_contract on
 void qst_op_gettime(u8 reg) {
-    s32 spC;
+    s32 date;
     s32 seconds;
-    getDateStamp((DateStamp *)(&spC));
-    DateToSeconds((DateStamp *)(&spC), (int *)(&seconds));
+    getDateStamp((DateStamp *)(&date));
+    DateToSeconds((DateStamp *)(&date), (int *)(&seconds));
     qst_registers[reg] = seconds;
 }
 #pragma pop

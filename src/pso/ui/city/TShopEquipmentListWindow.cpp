@@ -133,7 +133,7 @@ int TShopEquipmentListWindow__sub_8021C85C(int a0) {  return shop_weapon_stock_c
 }
 
 TShopEquipmentListWindow::TShopEquipmentListWindow(saddr parent, saddr arg2, s32 arg3) : TShopWindowBase((TObject *)parent) {
-    s32 sp8;
+    s32 count;
     this->m_name = TShopEquipmentListWindow__class_name;
     this->player = arg3;
     this->sequence = (TShopWindowBase *)arg2;
@@ -147,8 +147,8 @@ TShopEquipmentListWindow::TShopEquipmentListWindow(saddr parent, saddr arg2, s32
     this->m_4c = 0;
     this->m_20 = 0;
     this->m_190 = 0;
-    calc_item_count((TObjPlayer *)this->player, &sp8);
-    TLobby__sub_80225238((sub_8022397C()), (sp8));
+    calc_item_count((TObjPlayer *)this->player, &count);
+    TLobby__sub_80225238((sub_8022397C()), (count));
 }
 
 extern "C" {

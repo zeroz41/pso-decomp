@@ -122,7 +122,7 @@ void TUnk_804A4B80::heaven_punisher_strike_locks() {
 }
 
 void TUnk_804A4B80::emit_marker_effects() {
-    Vec sp8;
+    Vec origin;
     s32 effect;
     if (is_mode_two_and_ready() != 0) {
         copy_attack_targets((u32 *)&captured_targets, (u32 *)owner->get_extended_state());
@@ -134,8 +134,8 @@ void TUnk_804A4B80::emit_marker_effects() {
         send_activate_effect(effect);
         return;
     }
-    this->get_gun_point(&sp8);
-    this->launch_shot((u8 *)&sp8, 0, 0, 1);
+    this->get_gun_point(&origin);
+    this->launch_shot((u8 *)&origin, 0, 0, 1);
 }
 u32 *copy_attack_targets(u32 *dst, u32 *src) {
     u32 *d = dst;

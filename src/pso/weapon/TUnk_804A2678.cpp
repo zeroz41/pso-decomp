@@ -24,10 +24,10 @@ extern "C" s32 is_item_area_enabled(s32 area);
 
 
 void TUnk_804A2678::emit_marker_effects() {
-    s32 sp8;
+    s32 origin;
     if (is_mode_two_and_ready() != 0) {
-        if ((((TObjPlayer *)((u8 *)this->owner + 0x7CC))->get_stage_strike_count() == 0) && (get_joint_position(0, &sp8) != 0)) {
-            TTecGiFoie::create(this->owner, &sp8, ((TItemWeapon *)this)->get_tp());
+        if ((((TObjPlayer *)((u8 *)this->owner + 0x7CC))->get_stage_strike_count() == 0) && (get_joint_position(0, &origin) != 0)) {
+            TTecGiFoie::create(this->owner, &origin, ((TItemWeapon *)this)->get_tp());
             roll_technique();
         }
     } else {

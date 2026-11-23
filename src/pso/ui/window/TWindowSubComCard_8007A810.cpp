@@ -64,16 +64,16 @@ struct S_8007AA70;
 s32 forward_return_arg__17TWindowSubComCardFi(saddr, S_8007AA70 *);
 
 void TWindowSubComCard::swap_cards(s32 first_index, s32 second_index) {
-    s32 sp8[64];
+    s32 src[64];
     GuildCardSlot *first_ptr;
     GuildCardSlot *second_ptr;
 
-    ((s32 (*)(s32 *))reinit__17TWindowSubComCardFi)(sp8);
+    ((s32 (*)(s32 *))reinit__17TWindowSubComCardFi)(src);
     first_ptr = TWindowSubComCard::get_card_entry(first_index);
     second_ptr = TWindowSubComCard::get_card_entry(second_index);
-    copy_card__17TWindowSubComCardFiPv((saddr)sp8, (u8 *)first_ptr);
+    copy_card__17TWindowSubComCardFiPv((saddr)src, (u8 *)first_ptr);
     copy_card__17TWindowSubComCardFiPv((saddr)first_ptr, (u8 *)second_ptr);
-    copy_card__17TWindowSubComCardFiPv((saddr)second_ptr, (u8 *)sp8);
+    copy_card__17TWindowSubComCardFiPv((saddr)second_ptr, (u8 *)src);
 }
 s32 copy_card__17TWindowSubComCardFiPv(saddr guild_card_slot, u8 *arg1) {
     GuildCardSlot *dest = reinterpret_cast<GuildCardSlot *>(guild_card_slot);

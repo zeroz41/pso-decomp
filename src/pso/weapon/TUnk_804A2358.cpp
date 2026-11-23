@@ -12,13 +12,13 @@
 extern "C" {
 
 void TUnk_804A2358::emit_marker_effects() {
-    s32 sp8;
+    s32 origin;
     void *owner;
 
     if (is_mode_two_and_ready() != 0) {
-        if (get_joint_position(0, &sp8) != 0) {
+        if (get_joint_position(0, &origin) != 0) {
             owner = this->owner;
-            TTecFoie::create(owner, &sp8, *(saddr *)((s8 *)owner + 0x60), ((TItemWeapon *)this)->get_tp() + 2);
+            TTecFoie::create(owner, &origin, *(saddr *)((s8 *)owner + 0x60), ((TItemWeapon *)this)->get_tp() + 2);
             roll_technique();
         }
     } else {
