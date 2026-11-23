@@ -2,6 +2,7 @@
 #include "pso/system/CharacterSaveRecordLookup.h"
 #include "pso/unk/text_8026934C.h"
 #include "types.h"
+#include "pso/ui/window/TWindowDeposit.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/city/TShopWindowBase.h"
 #include "pso/system/task/TObject.h"
@@ -152,7 +153,6 @@ void open_deposit_item_window__18TCheckRoomSequenceFv(u8 *arg0);
 void handle_withdraw_choice__18TCheckRoomSequenceFv(u8 *arg0);
 void handle_deposit_choice__18TCheckRoomSequenceFv(u8 *arg0);
 s32 set_service_counter_camera(void *, int);
-void *TWindowDeposit__ct(void *, s32);
 void open_bank__18TCheckRoomSequenceFv(u8 *arg0);
 void remove_bank_item_amount__18TCheckRoomSequenceFiii(s32 idx, s32 amount, s32 slot);
 void copy_bank_to_card_window(s32 slot);
@@ -642,11 +642,7 @@ void open_bank__18TCheckRoomSequenceFv(u8 *arg0) {
     ((TShopSequence *)arg0)->create_message_window((s32)(get_window_layout_position(0x2C)), (saddr)&v);
     ((TShopWindowBase *)arg0)->display_shop_message(0x31, 1);
     *(s32 *)((s8 *)arg0 + 0x38) = (saddr)create_meseta_window((u16)((TShopSequence *)arg0)->get_child_field1c());
-    w = TObject::operator new(0x6C);
-    if (w != NULL) {
-        w = TWindowDeposit__ct(w, (s16)((TShopSequence *)arg0)->get_child_field1c());
-    }
-    *(void **)((s8 *)arg0 + 0x40) = w;
+    *(void **)((s8 *)arg0 + 0x40) = new TWindowDeposit((s16)((TShopSequence *)arg0)->get_child_field1c());
     TWindowMainMenu::set_entry_field_20(*(s32 *)((s8 *)arg0 + 0x40), TCheckRoomSequence::get_room_data(((TShopWindowBase *)arg0)->sub_8022397C()));
     *(s32 *)((s8 *)arg0 + 0x2C) = 0;
     *(s32 *)((s8 *)arg0 + 0x48) = set_service_counter_camera(arg0, 6);

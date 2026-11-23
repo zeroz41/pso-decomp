@@ -5,7 +5,9 @@
 #include "pso/ui/window/TWindowBase.h"
 
 struct TWindowDeposit : public TWindowBase {
+    TWindowDeposit(s16 client);
     virtual ~TWindowDeposit();
+    static const char *class_name;
     virtual void render();
     f32 m_60;
     f32 scale[2];
@@ -15,14 +17,5 @@ struct TWindowDeposit : public TWindowBase {
 
 LAYOUT_ASSERT(TWindowDeposit_size, sizeof(TWindowDeposit) == 0x6C);
 
-extern "C" {
-u8 *TWindowDeposit__ct(u8 *arg0, s16 client);
-}
-
-// --- C functions defined in TWindowDeposit.cpp ---
-extern "C" {
-u8 *TWindowDeposit__ct(u8 *arg0, s16 client);
-}
-// --- end of C functions
 
 #endif
