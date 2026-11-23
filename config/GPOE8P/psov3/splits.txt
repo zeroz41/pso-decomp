@@ -5484,7 +5484,7 @@ pso/ui/frontend/TAdSinglePlyChrSelectGC_801E4CF0.cpp:
 	.text       start:0x801E4CF0 end:0x801E4E7C
 	.data       start:0x804C57E0 end:0x804C57F0
 
-pso/effect/sprite/TUnk_804C57F0.cpp:
+pso/effect/sprite/TQuadSprite.cpp:
 	.text       start:0x801E4E7C end:0x801E4FEC
 	.data       start:0x804C57F0 end:0x804C5808
 

@@ -3,7 +3,7 @@
 #include "types.h"
 #include "pso/effect/particle/ParticleParam.h"
 #include "pso/system/task/TObject.h"
-#include "pso/unk/TUnk_804C57F0.h"
+#include "pso/effect/sprite/TQuadSprite.h"
 #include "pso/system/NinjaTypes.h"
 #include <dolphin/mtx.h>
 

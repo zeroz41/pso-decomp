@@ -2,7 +2,7 @@
 #define PSO_EFFECT_TDUELEFFECTNUMBER_H
 
 #include "pso/system/task/TObject.h"
-#include "pso/unk/TUnk_804C57F0.h"
+#include "pso/effect/sprite/TQuadSprite.h"
 #include "types.h"
 
 

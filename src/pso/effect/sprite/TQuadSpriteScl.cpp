@@ -3,7 +3,7 @@
 #include "pso/effect/particle/ParticleDefinition.h"
 #include "pso/effect/sprite/TQuadSpriteScl.h"
 #include "pso/system/vector.h"
-#include "pso/unk/TUnk_804C57F0.h"
+#include "pso/effect/sprite/TQuadSprite.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/object/ambient/TObjFish.h"
@@ -110,6 +110,6 @@ TQuadSpriteScl::~TQuadSpriteScl() {
 const char *quad_sprite_scl_class_name = "TQuadSpriteScl";
 
 TQuadSpriteScl::TQuadSpriteScl(TObject *parent, ParticleDefinition *sprite_definition)
-    : TUnk_804C57F0(parent, sprite_definition) {
+    : TQuadSprite(parent, sprite_definition) {
     m_name = quad_sprite_scl_class_name;
 }

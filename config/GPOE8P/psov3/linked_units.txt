@@ -2055,7 +2055,7 @@ pso/unk/text_801E051C.cpp
 pso/unk/text_801E078C.cpp
 pso/unk/text_801E0C08.cpp
 pso/unk/text_801E4BCC.cpp
-pso/effect/sprite/TUnk_804C57F0.cpp
+pso/effect/sprite/TQuadSprite.cpp
 pso/unk/text_801F3774.cpp
 pso/unk/text_801F43A8.cpp
 pso/unk/text_801F43B4.cpp

@@ -1,5 +1,5 @@
-#ifndef PSO_UNK_TUNK_804C57F0_H
-#define PSO_UNK_TUNK_804C57F0_H
+#ifndef PSO_EFFECT_SPRITE_TQUADSPRITE_H
+#define PSO_EFFECT_SPRITE_TQUADSPRITE_H
 #include "types.h"
 #include <dolphin/mtx/GeoTypes.h>
 #include "pso/system/task/TObject.h"
@@ -29,10 +29,10 @@ struct QuadSpriteRect {
 
 // Base of the TQuadSprite* classes: one list of queued sprites per uv cell of
 // its ParticleDefinition, drawn and emptied once a frame.
-class TUnk_804C57F0 : public TObject {
+class TQuadSprite : public TObject {
 public:
-    TUnk_804C57F0(TObject *parent, ParticleDefinition *sprite_definition);
-    virtual ~TUnk_804C57F0();
+    TQuadSprite(TObject *parent, ParticleDefinition *sprite_definition);
+    virtual ~TQuadSprite();
     // Queues node at the end of the list of its uv cell.
     void append_node_to_tail(QuadSpriteNode *node);
     void quad_sprite_reset_entries();

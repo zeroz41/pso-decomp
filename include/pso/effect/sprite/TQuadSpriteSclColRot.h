@@ -2,7 +2,7 @@
 #define PSO_EFFECT_SPRITE_TQUADSPRITESCLCOLROT_H
 
 #include "types.h"
-#include "pso/unk/TUnk_804C57F0.h"
+#include "pso/effect/sprite/TQuadSprite.h"
 
 // The rotated sprite DVDConvertEntrynumToPath draws: a corner at depth, the two
 // screen edges from it, then the texture corner and the matching uv edges.
@@ -24,7 +24,7 @@ struct RotatedQuadSpriteRect {
     u8 pad_38[0x8];
 };
 
-struct TQuadSpriteSclColRot : public TUnk_804C57F0 {
+struct TQuadSpriteSclColRot : public TQuadSprite {
     TQuadSpriteSclColRot(TObject *parent, ParticleDefinition *sprite_definition);
     virtual ~TQuadSpriteSclColRot();
     virtual void render();

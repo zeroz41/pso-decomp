@@ -30,7 +30,7 @@
 #include "pso/player/PlayerSlots.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/math/MatrixVector.h"
-#include "pso/unk/TUnk_804C57F0.h"
+#include "pso/effect/sprite/TQuadSprite.h"
 
 #pragma defer_codegen on
 

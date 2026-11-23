@@ -1,9 +1,9 @@
 #include "types.h"
 #include "pso/effect/particle/ParticleDefinition.h"
-#include "pso/unk/TUnk_804C57F0.h"
+#include "pso/effect/sprite/TQuadSprite.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 
-void TUnk_804C57F0::append_node_to_tail(QuadSpriteNode *node) {
+void TQuadSprite::append_node_to_tail(QuadSpriteNode *node) {
     s32 i = node->uv_index;
     node->next = NULL;
     tails[i]->next = node;
@@ -11,7 +11,7 @@ void TUnk_804C57F0::append_node_to_tail(QuadSpriteNode *node) {
     queued = 1;
 }
 
-void TUnk_804C57F0::quad_sprite_reset_entries() {
+void TQuadSprite::quad_sprite_reset_entries() {
     s32 i;
     for (i = 0; i < definition->uv_count; i++) {
         lists[i].next = NULL;
@@ -20,14 +20,14 @@ void TUnk_804C57F0::quad_sprite_reset_entries() {
     queued = 0;
 }
 
-TUnk_804C57F0::~TUnk_804C57F0() {
+TQuadSprite::~TQuadSprite() {
     mem_free(tails);
     tails = NULL;
     mem_free(lists);
     lists = NULL;
 }
 
-TUnk_804C57F0::TUnk_804C57F0(TObject *parent, ParticleDefinition *sprite_definition) : TObject(parent) {
+TQuadSprite::TQuadSprite(TObject *parent, ParticleDefinition *sprite_definition) : TObject(parent) {
     s32 count;
 
     definition = sprite_definition;

@@ -30,8 +30,8 @@ void TParticleCtrl::reset_emitter_table() {
 void TParticleCtrl::create_quad_sprites() {
     s32 index = 0;
     ParticleDefinition *definitions = particle_definitions;
-    TUnk_804C57F0 **sprites = particle_sprites;
-    TUnk_804C57F0 *sprite;
+    TQuadSprite **sprites = particle_sprites;
+    TQuadSprite *sprite;
 
     do {
         ParticleDefinition *definition = &definitions[index];
@@ -91,7 +91,7 @@ void init_particle_sprite_atlas(void) {
     }
 }
 
-TUnk_804C57F0 *particle_sprites[0x6C];
+TQuadSprite *particle_sprites[0x6C];
 f32 particle_sprite_atlas_uv_rects[0x10][4];
 
 ParticleDefinition particle_definitions[0x6C] = {

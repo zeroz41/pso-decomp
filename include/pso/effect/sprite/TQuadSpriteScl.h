@@ -2,9 +2,9 @@
 #define PSO_EFFECT_SPRITE_TQUADSPRITESCL_H
 
 #include "types.h"
-#include "pso/unk/TUnk_804C57F0.h"
+#include "pso/effect/sprite/TQuadSprite.h"
 
-struct TQuadSpriteScl : public TUnk_804C57F0 {
+struct TQuadSpriteScl : public TQuadSprite {
     TQuadSpriteScl(TObject *parent, ParticleDefinition *sprite_definition);
     virtual ~TQuadSpriteScl();
     virtual void render();

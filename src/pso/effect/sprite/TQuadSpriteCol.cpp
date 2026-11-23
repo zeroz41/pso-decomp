@@ -3,7 +3,7 @@
 #include "pso/effect/particle/ParticleDefinition.h"
 #include "pso/effect/sprite/TQuadSpriteCol.h"
 #include "pso/system/vector.h"
-#include "pso/unk/TUnk_804C57F0.h"
+#include "pso/effect/sprite/TQuadSprite.h"
 
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
@@ -15,7 +15,7 @@
 
 #pragma readonly_strings on
 
-void TUnk_804C57F0::render() {
+void TQuadSprite::render() {
 }
 
 #pragma push
@@ -112,6 +112,6 @@ TQuadSpriteCol::~TQuadSpriteCol() {
 const char *quad_sprite_col_class_name = "TQuadSpriteCol";
 
 TQuadSpriteCol::TQuadSpriteCol(TObject *parent, ParticleDefinition *sprite_definition)
-    : TUnk_804C57F0(parent, sprite_definition) {
+    : TQuadSprite(parent, sprite_definition) {
     m_name = quad_sprite_col_class_name;
 }

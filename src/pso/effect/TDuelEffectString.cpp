@@ -11,7 +11,7 @@
 #include "pso/render/render_util.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TObject_80019A50.h"
-#include "pso/unk/TUnk_804C57F0.h"
+#include "pso/effect/sprite/TQuadSprite.h"
 
 extern "C" {
 extern s32 hud_texlist;
