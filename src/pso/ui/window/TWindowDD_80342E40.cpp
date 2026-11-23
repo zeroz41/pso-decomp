@@ -32,7 +32,6 @@ s32 TWindowDD__sub_803482B0(void *);
 s32 TWindowDD__sub_80348424(void *, s16);
 s16 TWindowDD__sub_80348448(void *, s32);
 s32 push_recent_id(s32);
-s32 apply_entry_layout__9TWindowDDFPv(void *);
 s32 TWindowDD__sub_803484C4(void *);
 
 void TWindowDD::update() {
@@ -50,7 +49,7 @@ void TWindowDD::update() {
     }
     if (TWindowDD__sub_803482B0(this) != 0) {
         TWindowDD::play_se();
-        apply_entry_layout__9TWindowDDFPv(this);
+        TWindowDD::apply_entry_layout(this);
     }
 }
 

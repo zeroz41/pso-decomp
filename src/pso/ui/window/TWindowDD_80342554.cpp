@@ -4,7 +4,6 @@
 extern "C" {
 
 s32 update_numeric_parameter_input__9TWindowDDFPv();
-s32 apply_entry_layout__9TWindowDDFPv(void *);
 s32 TWindowDD__sub_803435A0(void *);
 s32 TWindowDD__sub_80347C50();
 s32 TWindowDD__sub_803482B0(void *);
@@ -22,7 +21,7 @@ void TWindowDD::enter_state_19() {
             var_r31 = TWindowDD::update_close_flag(this) == 0;
         } else if (TWindowDD__sub_803482B0(this) != 0) {
             TWindowDD::play_se();
-            apply_entry_layout__9TWindowDDFPv(this);
+            TWindowDD::apply_entry_layout(this);
         }
         break;
     case 1:
@@ -48,7 +47,7 @@ void TWindowDD::enter_state_18() {
             var_r31 = TWindowDD::update_close_flag(this) == 0;
         } else if (TWindowDD__sub_803482B0(this) != 0) {
             TWindowDD::play_se();
-            apply_entry_layout__9TWindowDDFPv(this);
+            TWindowDD::apply_entry_layout(this);
         }
         break;
     case 1:

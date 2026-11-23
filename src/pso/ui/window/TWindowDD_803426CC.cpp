@@ -3,7 +3,6 @@
 #include "pso/ui/window/TWindowDD.h"
 
 extern "C" {
-s32 apply_entry_layout__9TWindowDDFPv(void *);
 s32 TWindowDD__sub_803435A0(void *);
 s32 TWindowDD__sub_80347C50();
 s32 TWindowDD__sub_803482B0(void *);
@@ -26,7 +25,7 @@ void TWindowDD::enter_state_16(void *window_dd) {
             var_r31 = TWindowDD::update_close_flag(window_dd) == 0;
         } else if (TWindowDD__sub_803482B0(window_dd) != 0) {
             TWindowDD::play_se();
-            apply_entry_layout__9TWindowDDFPv(window_dd);
+            TWindowDD::apply_entry_layout(window_dd);
         }
         break;
     case 1:
@@ -50,7 +49,7 @@ void TWindowDD::update_state(void *window_dd) {
     }
     if (TWindowDD__sub_803482B0(window_dd) != 0) {
         TWindowDD::play_se();
-        apply_entry_layout__9TWindowDDFPv(window_dd);
+        TWindowDD::apply_entry_layout(window_dd);
     }
 }
 
@@ -85,7 +84,7 @@ void TWindowDD__sub_80342800(u8 *arg0) {
     if (TWindowDD__sub_803482B0(window_dd) != 0) {
         TWindowDD::play_se();
         window_dd = var_r31;
-        apply_entry_layout__9TWindowDDFPv(window_dd);
+        TWindowDD::apply_entry_layout(window_dd);
     }
 }
 
@@ -118,7 +117,7 @@ void update__9TWindowDDFi(saddr window_dd) {
     }
     if (TWindowDD__sub_803482B0((void *)window_dd) != 0) {
         TWindowDD::play_se();
-        apply_entry_layout__9TWindowDDFPv((void *)window_dd);
+        TWindowDD::apply_entry_layout((void *)window_dd);
     }
 }
 void TWindowDD__sub_803429B0(u8 *window_dd) {
@@ -133,7 +132,7 @@ void TWindowDD__sub_803429B0(u8 *window_dd) {
             var_r31 = TWindowDD::update_close_flag(window_dd) == 0;
         } else if (TWindowDD__sub_803482B0(window_dd) != 0) {
             TWindowDD::play_se();
-            apply_entry_layout__9TWindowDDFPv(window_dd);
+            TWindowDD::apply_entry_layout(window_dd);
         }
         break;
     case 1:

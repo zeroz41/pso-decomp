@@ -139,6 +139,7 @@ struct TWindowDD : public TObject
     void update_selection_state();
     static void update_draw(void *p);
     static void enter_state_16(void *window_dd);
+    static void apply_entry_layout(void *window_dd);
     static void update_state(void *window_dd);
     static s32 update_close_flag(void *window_dd);
 };

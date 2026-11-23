@@ -201,7 +201,6 @@ extern const f32 TWindowDD__data_805DFBFC;
 extern const f32 lbl_805DFC0C;
 
 extern const f32 TWindowDD__data_805DFC10;
-void apply_entry_layout__9TWindowDDFPv(TWindowDD_8034330C *arg0);
 void TWindowDD__sub_80347A4C(u8 *arg0, saddr arg1);
 u8 *TWindowDD__sub_80347AD4(void *, s32, s32);
 s32 TWindowDD__sub_80347E04(void *, int);
@@ -881,7 +880,8 @@ void TWindowDD__sub_803434F4(u8 *arg0) {
     *(u8 **)((s8 *)var_r31 + 0x90) = (unsigned char *) ((void *)-1);
 }
 
-void apply_entry_layout__9TWindowDDFPv(TWindowDD_8034330C *window_dd) {
+void TWindowDD::apply_entry_layout(void *window) {
+    TWindowDD_8034330C *window_dd = (TWindowDD_8034330C *)window;
     s32 *prev;
     s32 *entry;
     u8 *w;
