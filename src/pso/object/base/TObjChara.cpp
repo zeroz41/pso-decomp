@@ -730,7 +730,7 @@ extern int TObjPlayer__data_8050D460[];
 extern const f64 lbl_80434098;
 extern const f64 lbl_804340A0;
 extern u8 lbl_804340A8[];
-extern s32 lbl_804340B0[];
+extern const char lbl_804340B0[];
 extern Vec scratch_vec;
 struct LobbyRuleSettings { s32 value; u8 remaining[0x2C]; };
 extern LobbyRuleSettings lobby_rule_settings;
@@ -2194,7 +2194,7 @@ void TObjPlayer::show_miss_for_collider(s32 collider) {
 void TObjChara::show_miss_popup(const float *pos) {
     if (this->test_actor_flags(0x02000000) == 0 && TObjPlayer::is_locally_controlled((void *)(this)) == 0 && pos != NULL) {
         if (TObjPlayer::get_player_count() == 0 || this->entity_id >= 0x1000) {
-            TOCtrlDubchik::create_font((saddr)pos, 0xFFFF0000, 0x14, (saddr)lbl_804340B0);
+            TOCtrlDubchik::create_font((saddr)pos, 0xFFFF0000, 0x14, lbl_804340B0);
         }
     }
 }

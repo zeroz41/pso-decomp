@@ -249,7 +249,7 @@ s32 TObjEneEpsilonGuard::create_damage_font(s32 arg0, s32 arg1, s32 arg2, s32 ar
     return var_r31;
 }
 
-saddr TOCtrlDubchik::create_font(saddr pos, s32 color, s32 life, saddr text) {
+saddr TOCtrlDubchik::create_font(saddr pos, s32 color, s32 life, const char *text) {
     saddr task;
 
     text_builder_reset();

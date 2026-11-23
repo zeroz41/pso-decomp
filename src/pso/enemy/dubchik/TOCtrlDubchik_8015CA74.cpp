@@ -326,7 +326,7 @@ f32 TOCtrlDubchik::receive_weapon_special_attack(void *attacker, void *hit) {
         } else {
             VecCopy(&pos, &body_center);
         }
-        TOCtrlDubchik::create_font((saddr)&pos, (s32)0xFFFF0000, 0x14, (saddr)"MISS");
+        TOCtrlDubchik::create_font((saddr)&pos, (s32)0xFFFF0000, 0x14, "MISS");
     }
     return 0.0f;
 }
