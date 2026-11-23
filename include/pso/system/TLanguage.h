@@ -20,7 +20,6 @@ struct TLanguage
     void set_index(s32 x);
     static void set_entry_index(s32 i, s32 x);
     static void load_container_fragment_textures();
-    static void load_lobby_textures();
 };
 
 #endif

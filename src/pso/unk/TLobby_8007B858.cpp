@@ -5,6 +5,8 @@
 #include "pso/unk/TUnk_80499970.h"
 #include "pso/ui/city/THunterGuildSeqOnlineTask.h"
 #include "pso/system/TLanguage.h"
+#include "pso/object/lobby/LobbyGoGoBall.h"
+#include "pso/unk/TUnk_804B8E00.h"
 #include "pso/npc/TNpcPlayer.h"
 #include "pso/unk/TUnk_804F07C8.h"
 #include "pso/map/TSetManager.h"
@@ -62,13 +64,11 @@ s32 run_load_callback_table(void *, int);
 void TSceneSora__sub_80207430(void);
 void TTecLuker__sub_80234F08(void);
 void TTecLuker__sub_80234F48(void);
-void fn_80198E84(void);
 s32 create_area_fog_ctrl();
 s32 activate_triggered_floor_events();
 s32 cleanup_game_objects__9TMainTaskFv();
 s32 restore_floor_telepipes();
 s32 __ct__15TWindowCtrlMainFv();
-s32 TWindowTimer__sub_80198D98();
 
 extern saddr tl_00;
 extern saddr tl_01;
@@ -149,7 +149,7 @@ void TLobby::create_tasks() {
         TLobbyEventTheme::create();
     }
     if ((get_current_floor_area() == AREA_LOBBY) && (TLobby::is_scene_ready() != 0)) {
-        TWindowTimer__sub_80198D98();
+        TUnk_804B8E00::create();
     }
     if ((get_main_phase() == 0xF) && ((get_current_floor_area() == AREA_PIONEER2_EP1) || (get_current_floor_area() == AREA_PIONEER2_EP2))) {
         new THunterGuildSeqOnlineTask((TObject *)tl_01);
@@ -160,7 +160,7 @@ void TLobby::create_tasks() {
 void TLobby::clear_session_buffers() {
     if (get_current_floor_area() == AREA_LOBBY) {
         TLobby::free_dialing_gc();
-        fn_80198E84();
+        free_lobby_textures();
         free_obj_lobby_main();
     }
     if ((get_current_floor_area() != AREA_PIONEER2_EP1) && (get_current_floor_area() != AREA_LOBBY) && (get_current_floor_area() != AREA_PIONEER2_EP2)) {
@@ -184,7 +184,7 @@ s32 TLobby::run_lobby_load_tables() {
     }
     if (get_current_floor_area() == AREA_LOBBY) {
         load_obj_lobby_main();
-        TLanguage::load_lobby_textures();
+        load_lobby_textures();
         TLobby__sub_802A5154();
     }
     return 1;

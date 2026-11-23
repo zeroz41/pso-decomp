@@ -55,4 +55,19 @@ LAYOUT_ASSERT(GoGoBallConfig_size, sizeof(GoGoBallConfig) == 0x54);
 extern GoGoBallConfig gogo_ball_configuration;
 extern GoGoBallSyncState gogo_ball_sync_state;
 
+// The two teams' scores, shown in the lobby timer window.
+s16 get_gogo_ball_score(s32 team);
+void set_gogo_ball_score(s32 team, s32 score);
+void add_gogo_ball_one_point_score(s32 team);
+void add_gogo_ball_three_point_score(s32 team);
+void close_gogo_ball_timer();
+
+// Sends the 6x79 throw of the ball at position; handle_6x79_gogo_ball receives it.
+void throw_gogo_ball(Vec *position, s32 angle, s32 sequence);
+void handle_6x79_gogo_ball(u8 *packet);
+
+// The Go-Go ball's model and the lobby textures (biri_ball.bml, robby_*.gvm, ...).
+void load_lobby_textures();
+void free_lobby_textures();
+
 #endif

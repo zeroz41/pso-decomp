@@ -1553,7 +1553,7 @@ force_active:
   - TObjPlayer__sub_80155028
   - TObjPlayer__sub_801550B8
   - __dt__13TUnk_804B5BA8Fv
-  - TObjPlayer__sub_801994DC
+  - draw_shadow_quads__13TUnk_804B8E18FP3VecP3VeclP3Vecf
   - __ct__22PhotonBlastRequestSlotFv
   - __as__22PhotonBlastRequestSlotFR22PhotonBlastRequestSlot
   - TObjPlayer__sub_801BD384
@@ -1876,10 +1876,10 @@ force_active:
   - TWindowTimer__sub_801988E8
   - TWindowTimer__sub_80198CF8
   - TWindowTimer__sub_80199410
-  - TWindowTimer__sub_8019A098
+  - send_local_player_walk__13TUnk_804B8E18Fv
   - TWindowTimer__sub_8019A574
   - init__15G_GoGoBall_6x79Fv
-  - TWindowTimer__sub_8019A770
+  - close_gogo_ball_timer__Fv
   - TextEnglish
   - TextFrench
   - TextGerman
@@ -5900,7 +5900,7 @@ force_active:
   - draw_serial_chars__22TAdEnterSerialAccessGCFPv
   - draw_serial_plates__22TAdEnterSerialAccessGCFv
   - draw_serial_separators__22TAdEnterSerialAccessGCFv
-  - draw_shadow_on_ground__FPUc
+  - draw_shadow_on_ground__13TUnk_804B8E18Fv
   - draw_shadowed_node_tree__FP10NJS_OBJECT
   - draw_slot__14TWindowSubItemFlll
   - draw_slot_icons__15TAdChrSelSlotGCFv
@@ -15613,7 +15613,7 @@ force_active:
   - set_telepipe__12CursorActionFv
   - set_tev_passclr__10TObjPlayerFv
   - set_tev_stage_mode__Fl
-  - set_timer_value__12TWindowTimerFii
+  - set_gogo_ball_score__Fll
   - set_triggers__8TItemMagFPCUcPCUc
   - set_type__15TPlyPhotonChairFl
   - set_owner_id__21PlayerFollowParticlesFUs
@@ -16504,7 +16504,7 @@ force_active:
   - texture_lists__15TODoorVS2Door01
   - texture_prs_disc_filename_buffer
   - texture_prs_stream_filename_buffer
-  - throw_gogo_ball__12TWindowTimerFll
+  - throw_gogo_ball__FP3Vecll
   - tick_attack_sequence__11TBoss6Type1Fv
   - update_shoot__9TBoss6MagFv
   - tick_battle_music_timer__16BattleMusicStateFv

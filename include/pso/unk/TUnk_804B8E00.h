@@ -6,6 +6,7 @@
 // Gogo-ball round controller: creates the timer window, spawns the goal markers on the beat.
 class TUnk_804B8E00 : public TObject {
 public:
+    static void create();
     TUnk_804B8E00(TObject *parent);
     virtual ~TUnk_804B8E00();
     virtual void run_task();

@@ -14,6 +14,9 @@ public:
     void sub_8019A44C(s32);
     void update_goal_checks(u16);
     void update_best_time();
+    void send_local_player_walk();
+    void draw_shadow_on_ground();
+    void draw_shadow_quads(Vec *pos, Vec *dir, s32 angle, Vec *scale, f32 alpha);
     s32 unk_334;
     s32 unk_338;
     f32 gravity; // inferred: run_task adds it to velocity.y every frame

@@ -25,6 +25,7 @@
 #include <stdio.h>
 #include "pso/boss/derolle/TBoss2DeRolLe.h"
 #include "pso/quest/TQuestListVM_8007EAF8.h"
+#include "pso/object/lobby/LobbyGoGoBall.h"
 
 struct TBoss3Volopt;
 struct TLobby;
@@ -148,7 +149,6 @@ void handle_6x74_word_select(u8 *arg0);
 void handle_6x75_update_quest_flag_dc(TLobby *arg0);
 extern "C" void handle_6x76_set_entity_set_flags();
 void handle_6x78(void *arg0);
-void handle_6x79_gogo_ball(u8 *arg0);
 extern "C" void handle_6x7A_enable_stealth_suit_effect(void *arg0);
 extern "C" void handle_6x7B_disable_stealth_suit_effect(void *arg0);
 extern "C" void handle_6x7C_set_challenge_records();
