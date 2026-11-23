@@ -3,10 +3,15 @@
 
 #include "types.h"
 
-extern "C" {
-u8 *create_radial_particle(u8 *param, u8 *pos, s32 parent, u16 flags, s16 target_id);
-}
-void *create_random_particle(void *param, void *pos, void *parent);
+class TObject;
+class TUnk_8048E728;
+struct ParticleParam;
+struct Vec;
+
+// A child particle of an emitter that moves out from its spawn point.
+TUnk_8048E728 *create_radial_particle(ParticleParam *entry, Vec *position, TObject *parent, u16 flags,
+                                      u16 target_id);
+TUnk_8048E728 *create_random_particle(void *param, void *pos, void *parent);
 void destroy_keyboard_objects(void *object);
 
 #endif

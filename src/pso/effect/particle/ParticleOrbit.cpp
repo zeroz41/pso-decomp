@@ -41,11 +41,12 @@
 #include "pso/render/model_render_state.h"
 
 
-u8 *create_orbit_particle(u8 *param, u8 *pos, u8 *dir, s32 parent, u16 flags, s16 target_id) {
-    return (u8 *)new TUnk_8048E790(param, pos, dir, parent, flags, target_id);
+TUnk_8048E728 *create_orbit_particle(ParticleParam *entry, Vec *position, ParticleAngles *direction,
+                                     TObject *parent, u16 flags, u16 target_id) {
+    return new TUnk_8048E790(entry, position, direction, parent, flags, target_id);
 }
 
-void *TParticleCtrl::alloc_child_particle(void *param, void *pos, void *dir, void *parent) {
+TUnk_8048E728 *TParticleCtrl::alloc_child_particle(void *param, void *pos, void *dir, void *parent) {
     return new TUnk_8048E790(param, pos, dir, parent);
 }
 
@@ -147,9 +148,9 @@ void TUnk_8048E790::run_task() {
     }
     if (particle_sprites[sprite_index]->definition->flags & 1) {
         if (flags & 0x100) {
-            ch[0] = fade_particle_channel(p->orbit_red_rate * t[0] + color_base[0], t[1]);
-            ch[1] = fade_particle_channel(p->orbit_green_rate * t[0] + color_base[1], t[1]);
-            ch[2] = fade_particle_channel(p->orbit_blue_rate * t[0] + color_base[2], t[1]);
+            ch[0] = fade_particle_channel(p->orbit_red_rate * t[0] + tint.r, t[1]);
+            ch[1] = fade_particle_channel(p->orbit_green_rate * t[0] + tint.g, t[1]);
+            ch[2] = fade_particle_channel(p->orbit_blue_rate * t[0] + tint.b, t[1]);
         } else {
             ch[0] = fade_particle_channel(p->orbit_red_rate * t[0] + p->color_base[0], t[1]);
             ch[1] = fade_particle_channel(p->orbit_green_rate * t[0] + p->color_base[1], t[1]);
@@ -158,9 +159,9 @@ void TUnk_8048E790::run_task() {
         t[1] = 1.0f;
     } else {
         if (flags & 0x100) {
-            ch[0] = clamp_particle_channel(p->orbit_red_rate * t[0] + color_base[0]);
-            ch[1] = clamp_particle_channel(p->orbit_green_rate * t[0] + color_base[1]);
-            ch[2] = clamp_particle_channel(p->orbit_blue_rate * t[0] + color_base[2]);
+            ch[0] = clamp_particle_channel(p->orbit_red_rate * t[0] + tint.r);
+            ch[1] = clamp_particle_channel(p->orbit_green_rate * t[0] + tint.g);
+            ch[2] = clamp_particle_channel(p->orbit_blue_rate * t[0] + tint.b);
         } else {
             ch[0] = clamp_particle_channel(p->orbit_red_rate * t[0] + p->color_base[0]);
             ch[1] = clamp_particle_channel(p->orbit_green_rate * t[0] + p->color_base[1]);
@@ -283,38 +284,36 @@ TUnk_8048E790::~TUnk_8048E790() {}
 
 #pragma push
 #pragma fp_contract on
-TUnk_8048E790::TUnk_8048E790(u8 *entry, u8 *position, u8 *direction, saddr parent, u16 particle_flags, s16 target)
-    : TUnk_8048E728((ParticleParam *)entry, (TObject *)parent) {
-    ParticleParam *src = (ParticleParam *)entry;
-    Vec *at = (Vec *)position;
-    ParticleAngles *dir = (ParticleAngles *)direction;
+TUnk_8048E790::TUnk_8048E790(ParticleParam *entry, Vec *position, ParticleAngles *direction, TObject *parent,
+                             u16 particle_flags, u16 target)
+    : TUnk_8048E728(entry, parent) {
     s32 life;
-    rot_x = dir->x;
-    rot_y = dir->y;
-    rot_z = dir->z;
-    orbit_center_x = (2.0f * src->spawn_spread.x) * ((3.0517578e-05f * (f32)rand()) - 0.5f) + at->x;
-    orbit_center_z = (2.0f * src->spawn_spread.z) * ((3.0517578e-05f * (f32)rand()) - 0.5f) + at->z;
-    pos.y = (2.0f * src->spawn_spread.y) * ((3.0517578e-05f * (f32)rand()) - 0.5f) + at->y;
-    origin.x = at->x;
-    origin.z = at->z;
+    rot_x = direction->x;
+    rot_y = direction->y;
+    rot_z = direction->z;
+    orbit_center_x = (2.0f * entry->spawn_spread.x) * ((3.0517578e-05f * (f32)rand()) - 0.5f) + position->x;
+    orbit_center_z = (2.0f * entry->spawn_spread.z) * ((3.0517578e-05f * (f32)rand()) - 0.5f) + position->z;
+    pos.y = (2.0f * entry->spawn_spread.y) * ((3.0517578e-05f * (f32)rand()) - 0.5f) + position->y;
+    origin.x = position->x;
+    origin.z = position->z;
     origin.y = pos.y;
     flags = particle_flags;
     if (flags & 0x80) {
         screen_space = 1;
     }
     target_id = target;
-    size_x = src->size_range * (3.0517578e-05f * (f32)rand()) + src->size_min;
+    size_x = entry->size_range * (3.0517578e-05f * (f32)rand()) + entry->size_min;
     size_y = size_x;
-    life = (s32)((f32)src->life_range * (3.0517578e-05f * (f32)rand()) + (f32)src->life_min);
-    if (src->flags & 1) {
+    life = (s32)((f32)entry->life_range * (3.0517578e-05f * (f32)rand()) + (f32)entry->life_min);
+    if (entry->flags & 1) {
         age_rate = 1.0f / (f32)particle_sprites[sprite_index]->definition->uv_count;
     } else {
         age_rate = 1.0f / (f32)life;
     }
-    step.x = src->orbit.angular_speed_range * (3.0517578e-05f * (f32)rand()) + src->speed_min;
-    step.y = src->orbit_rise_range * (3.0517578e-05f * (f32)rand()) + src->rise_min;
+    step.x = entry->orbit.angular_speed_range * (3.0517578e-05f * (f32)rand()) + entry->speed_min;
+    step.y = entry->orbit_rise_range * (3.0517578e-05f * (f32)rand()) + entry->rise_min;
     orbit_angle = (s32)(182.04445f * (360.0f * (3.0517578e-05f * (f32)rand())));
-    orbit_radius = src->orbit_radius_range * (3.0517578e-05f * (f32)rand()) + src->orbit_radius_min;
+    orbit_radius = entry->orbit_radius_range * (3.0517578e-05f * (f32)rand()) + entry->orbit_radius_min;
     pulse_angle = (s32)(182.04445f * (360.0f * (3.0517578e-05f * (f32)rand())));
     roll = orbit_angle;
     speed = (3.0517578e-05f * (f32)rand()) - 0.5f;

@@ -10,6 +10,8 @@ struct ParticleParam;
 struct NJS_OBJECT;
 struct GinjaTextureList;
 struct BmlResource;
+class THeap;
+class TUnk_8048E728;
 
 // Emission direction: three Ninja angles.
 struct ParticleAngles { s32 x, y, z; };
@@ -35,13 +37,12 @@ public:
     void set_owner_id(u16 id);
     void set_tint_color(s32 tint);
     void clear_active_flag();
-    static void *create_random_spread(void *arg0, void *pos, void *parent);
-    static u8 *create_particle_obj_90(s32 arg0);
-    static u8 *create_particle_obj_ac(s32 arg0);
-    void mark_active();
+    static TUnk_8048E728 *create_random_spread(void *param, void *pos, void *parent);
+    // The fallback pool particles are allocated from when the alt heap is full.
+    static THeap *heap;
     static void free_heap();
     static void init_heap(u32 size);
-    static void *generate_child_default(void *param, void *pos, void *parent);
+    static TUnk_8048E728 *generate_child_default(void *param, void *pos, void *parent);
     static NJS_OBJECT *get_particle_model(s32 model);
     // The particle texture list.
     static GinjaTextureList *get_instance();
@@ -56,11 +57,8 @@ public:
     static void reset_particles();
     static void setup_particle_draw(s32 arg0);
 public:
-    static void *alloc_child_particle(void *param, void *pos, void *dir, void *parent);
-    u8 *construct_particle_obj(s32 arg1, saddr parent);
-    u8 *init_particle_obj(s32 arg1, saddr parent);
+    static TUnk_8048E728 *alloc_child_particle(void *param, void *pos, void *dir, void *parent);
     void enable();
-    void attach_model(s32 arg1, s32 arg2, s32 arg3, s32 arg4, f32 farg0);
     static void free_system();
     static void free_all();
     static void init_particle_buffer();
@@ -89,9 +87,9 @@ public:
     f32 scale_x;                  // 0x40
     f32 scale_y;                  // 0x44
     NJS_COLOR tint;               // 0x48, used when emit_flags & 0x100
-    s32 model;                    // 0x4C
-    s32 texlist;                  // 0x50
-    s32 motion;                   // 0x54
+    void *model;                  // 0x4C, given to the children (emit_flags & 0x200)
+    GinjaTextureList *texlist;    // 0x50
+    NJS_MOTION *motion;           // 0x54
     TObject *particle_parent;     // 0x58, task the children are created under
     f32 motion_frame;             // 0x5C
     Vec position;                 // 0x60
@@ -104,7 +102,7 @@ LAYOUT_ASSERT(TParticleCtrl_size, sizeof(TParticleCtrl) == 0x78);
 // particle_ctrl_generator_table[kind].create(param, &pos, parent).
 struct ParticleGenerator {
     const char *name;
-    void *(*create)(void *param, void *pos, void *parent);
+    TUnk_8048E728 *(*create)(void *param, void *pos, void *parent);
 };
 
 extern ParticleGenerator particle_ctrl_generator_table[];
@@ -122,12 +120,6 @@ extern BmlResource *TParticleCtrl__regular_bml_resource;
 extern GinjaTextureList *TParticleCtrl__texture_list;
 TParticleCtrl *create_particle_emitter(const void *pos, s32 id);
 TParticleCtrl *create_timed_particle_emitter(const void *pos, s32 id, s32 delay, s32 duration);
-// Helpers on the spawned particle objects.
-void TParticleCtrl__sub_800884F0(void *particle, void *dir);
-void set_particle_tint_color(u8 *particle, NJS_ARGB *rgba);
-void set_particle_draw_scale(void *particle, f32 scale_x, f32 scale_y);
-void *__dt__13TUnk_8048E6A8Fv(void *arg0, s16 arg1);
-void *__dt__13TUnk_8048E6DCFv(void *arg0, s16 arg1);
 }
 
 // Sets the colour the frame is cleared to from a packed ARGB value, with depth cleared to the far plane. Only the

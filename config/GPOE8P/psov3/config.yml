@@ -1653,7 +1653,7 @@ force_active:
   - TObjWarpString__delay_before_fade_out
   - TObject_name
   - TParticleCtrl__particle_entry_path
-  - TParticleCtrl__sub_800884F0
+  - set_rotation__13TUnk_8048E728FP14ParticleAngles
   - TParticleCtrl__sub_802C8464
   - color_palette__18TPhotonMagicSquare
   - photon_magic_square_class_name
@@ -4137,7 +4137,7 @@ force_active:
   - assign_player_id__6TLobbyFv
   - at_end__24TMessageWindowControllerFv
   - attach_mine_trap__10TObjPlayerFiUi
-  - attach_model__13TParticleCtrlFllllf
+  - attach_model__13TUnk_8048E728FPvP16GinjaTextureListP10NJS_MOTIONlf
   - attack_default__13TBoss5GryphonFv
   - attack_target__15TObjIllGillKageFv
   - attack_target_history_contains__FPvPv
@@ -5304,7 +5304,7 @@ force_active:
   - construct_lobby_players
   - construct_nug2000_bazooka__13TUnk_804E71F8FlPv
   - construct_panzer_faust__FPUcPUcl
-  - construct_particle_obj__13TParticleCtrlFll
+  - __ct__13TUnk_8048E6A8FPvP7TObject
   - __ct__13TUnk_804C4498FP7TObjectP8TObjBasePC3VecSc
   - construct_rappys_fan__13TUnk_804F0908FlPv
   - __ct__13TUnk_804A4238FP7TObjectPUc
@@ -7138,7 +7138,7 @@ force_active:
   - init_params__20TBoss3VoloptHiraisinFv
   - init_behavior_params__16TObjEneMerillLiaFv
   - init_particle_effect__10TObjPlayerFv
-  - init_particle_obj__13TParticleCtrlFll
+  - __ct__13TUnk_8048E6DCFPvP7TObject
   - init_parts__11TBoss6Type2Fv
   - init_parts__13TObjTombstoneFv
   - init_parts__13TUnk_804A7488Fv
@@ -15551,8 +15551,8 @@ force_active:
   - set_page__17TWindowSubComCardFs
   - set_params__12TBoss1DragonFPv
   - set_particle__11TPlayerSoulFP13TParticleCtrl
-  - set_particle_draw_scale
-  - set_particle_tint_color
+  - set_draw_scale__13TUnk_8048E728Fff
+  - set_tint_color__13TUnk_8048E728FP8NJS_ARGB
   - set_password__17TAdEnterPPPPassGCFi
   - set_password__18TAdEnterPasswordGCFi
   - set_path_points__9TBoss6MagFP3Vecl

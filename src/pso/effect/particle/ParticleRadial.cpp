@@ -44,11 +44,12 @@
 static const ParticleAngles radial_particle_zero_angles = { 0, 0, 0 };
 
 
-u8 *create_radial_particle(u8 *param, u8 *pos, s32 parent, u16 flags, s16 target_id) {
-    return (u8 *)new TUnk_8048E7A8(param, pos, parent, flags, target_id);
+TUnk_8048E728 *create_radial_particle(ParticleParam *entry, Vec *position, TObject *parent, u16 flags,
+                                      u16 target_id) {
+    return new TUnk_8048E7A8(entry, position, parent, flags, target_id);
 }
 
-void *create_random_particle(void *param, void *pos, void *parent) {
+TUnk_8048E728 *create_random_particle(void *param, void *pos, void *parent) {
     return new TUnk_8048E7A8(param, pos, parent);
 }
 
@@ -95,9 +96,9 @@ void TUnk_8048E7A8::run_task() {
     t[1] = (fade_in < fade_out) ? fade_in : fade_out;
     if (particle_sprites[sprite_index]->definition->flags & 1) {
         if (flags & 0x100) {
-            ch[0] = fade_particle_channel(p->color_rate[0] * t[0] + color_base[0], t[1]);
-            ch[1] = fade_particle_channel(p->color_rate[1] * t[0] + color_base[1], t[1]);
-            ch[2] = fade_particle_channel(p->color_rate[2] * t[0] + color_base[2], t[1]);
+            ch[0] = fade_particle_channel(p->color_rate[0] * t[0] + tint.r, t[1]);
+            ch[1] = fade_particle_channel(p->color_rate[1] * t[0] + tint.g, t[1]);
+            ch[2] = fade_particle_channel(p->color_rate[2] * t[0] + tint.b, t[1]);
         } else {
             ch[0] = fade_particle_channel(p->color_rate[0] * t[0] + p->color_base[0], t[1]);
             ch[1] = fade_particle_channel(p->color_rate[1] * t[0] + p->color_base[1], t[1]);
@@ -105,9 +106,9 @@ void TUnk_8048E7A8::run_task() {
         }
         t[1] = 1.0f;
     } else if (flags & 0x100) {
-        ch[0] = clamp_particle_channel(p->color_rate[0] * t[0] + color_base[0]);
-        ch[1] = clamp_particle_channel(p->color_rate[1] * t[0] + color_base[1]);
-        ch[2] = clamp_particle_channel(p->color_rate[2] * t[0] + color_base[2]);
+        ch[0] = clamp_particle_channel(p->color_rate[0] * t[0] + tint.r);
+        ch[1] = clamp_particle_channel(p->color_rate[1] * t[0] + tint.g);
+        ch[2] = clamp_particle_channel(p->color_rate[2] * t[0] + tint.b);
     } else {
         ch[0] = clamp_particle_channel(p->color_rate[0] * t[0] + p->color_base[0]);
         ch[1] = clamp_particle_channel(p->color_rate[1] * t[0] + p->color_base[1]);
@@ -263,31 +264,30 @@ TUnk_8048E7A8::~TUnk_8048E7A8() {}
 
 #pragma push
 #pragma fp_contract on
-TUnk_8048E7A8::TUnk_8048E7A8(u8 *entry, u8 *position, saddr parent, u16 particle_flags, s16 target)
-    : TUnk_8048E728((ParticleParam *)entry, (TObject *)parent) {
-    ParticleParam *src = (ParticleParam *)entry;
-    Vec *at = (Vec *)position;
+TUnk_8048E7A8::TUnk_8048E7A8(ParticleParam *entry, Vec *position, TObject *parent, u16 particle_flags,
+                             u16 target)
+    : TUnk_8048E728(entry, parent) {
     s32 life;
-    pos.x = (src->spawn_spread.x * ((3.0517578e-05f * (f32)rand()) - 0.5f)) + at->x;
-    pos.y = (src->spawn_spread.y * ((3.0517578e-05f * (f32)rand()) - 0.5f)) + at->y;
-    pos.z = (src->spawn_spread.z * ((3.0517578e-05f * (f32)rand()) - 0.5f)) + at->z;
+    pos.x = (entry->spawn_spread.x * ((3.0517578e-05f * (f32)rand()) - 0.5f)) + position->x;
+    pos.y = (entry->spawn_spread.y * ((3.0517578e-05f * (f32)rand()) - 0.5f)) + position->y;
+    pos.z = (entry->spawn_spread.z * ((3.0517578e-05f * (f32)rand()) - 0.5f)) + position->z;
     flags = particle_flags;
     if (flags & 0x80) {
         screen_space = 1;
     }
     target_id = target;
-    origin.x = at->x;
-    origin.y = at->y;
-    origin.z = at->z;
-    size_x = (src->size_range * (3.0517578e-05f * (f32)rand())) + src->size_min;
+    origin.x = position->x;
+    origin.y = position->y;
+    origin.z = position->z;
+    size_x = (entry->size_range * (3.0517578e-05f * (f32)rand())) + entry->size_min;
     size_y = size_x;
-    life = (s32)(((f32)src->life_range * (3.0517578e-05f * (f32)rand())) + (f32)src->life_min);
-    if (src->flags & 1) {
+    life = (s32)(((f32)entry->life_range * (3.0517578e-05f * (f32)rand())) + (f32)entry->life_min);
+    if (entry->flags & 1) {
         age_rate = 1.0f / (f32)particle_sprites[sprite_index]->definition->uv_count;
     } else {
         age_rate = 1.0f / (f32)life;
     }
-    speed = (src->speed_range * (3.0517578e-05f * (f32)rand())) + src->speed_min;
+    speed = (entry->speed_range * (3.0517578e-05f * (f32)rand())) + entry->speed_min;
     step.x = 0.0f;
     step.y = 0.0f;
     step.z = 0.0f;

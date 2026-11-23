@@ -7,6 +7,8 @@
 #include <dolphin/mtx.h>
 
 struct GinjaTextureList;
+struct ParticleAngles;
+class TParticleCtrl;
 
 class TUnk_8048E728 : public TObject {
 public:
@@ -17,6 +19,15 @@ public:
     void apply_particle_model_fade_color(s32);
     void draw_particle_refraction_quad();
     s32 is_particle_sprite_additive(s32 render_flags);
+    // Sets flags 0x2000 and requests indirect effect 0x1F (the refraction quad).
+    void mark_active();
+    // Sets the model rotation angles.
+    void set_rotation(ParticleAngles *rotation);
+    // Draws model (texlist, motion) instead of the sprite; loop repeats the motion.
+    void attach_model(void *model, GinjaTextureList *texlist, NJS_MOTION *motion, s32 loop, f32 speed);
+    // Tints the particle by rgba (flags 0x100).
+    void set_tint_color(NJS_ARGB *rgba);
+    void set_draw_scale(f32 x, f32 y);
     u16 sprite_index;          // 0x1C, index into the particle sprite table
     u8 pad_1e[0x2];
     ParticleParam *param;      // 0x20
@@ -26,8 +37,7 @@ public:
     f32 size_y;                // 0x2C
     Vec origin;                // 0x30
     Vec step;                  // 0x3C, last movement
-    f32 unk_48;
-    f32 color_base[3];         // 0x4C, used when flags & 0x100
+    NJS_ARGB tint;             // 0x48, used when flags & 0x100
     f32 age;                   // 0x58, 0..1 over the lifetime
     f32 age_rate;              // 0x5C
     f32 fade_in_scale;         // 0x60
@@ -47,12 +57,13 @@ public:
     s32 rot_z;                 // 0xA0
     f32 scale_x;               // 0xA4, multiplies the drawn size
     f32 scale_y;               // 0xA8
-    u8 from_particle_heap;     // 0xAC, set by operator new: 1 = TParticleCtrl__heap
+    u8 from_particle_heap;     // 0xAC, set by operator new: 1 = TParticleCtrl::heap
     u8 pad_ad[0x3];
     void *model;               // 0xB0, the Ginja model drawn when flags & 0x200
     GinjaTextureList *texlist; // 0xB4, textures of model
     NJS_MOTION *motion;        // 0xB8
     f32 motion_frame;          // 0xBC
+    f32 motion_speed;          // 0xC0, motion frames per frame
 };
 
 #endif

@@ -126,11 +126,11 @@
 #include "pso/player/TObjPlayerSet.h"
 #include "pso/camera/TObjLiveCamera.h"
 #include "pso/effect/TBGLightningCtrl.h"
+#include "pso/unk/TUnk_8048E6A8.h"
+#include "pso/unk/TUnk_8048E6DC.h"
 
 extern "C" {
 void* TEF_LensFlare__create(void* placement);
-void* create_particle_obj_90__13TParticleCtrlFl(void* placement);
-void* create_particle_obj_ac__13TParticleCtrlFl(void* placement);
 void* create__22TObjFogCollisionPoisonFPv(void* placement);
 void* TObjFogCollisionSwitch__create(void* placement);
 void* TObjFogCollision__create(void* placement);
@@ -343,7 +343,7 @@ ObjectFactoryEntry object_factories_floor_01[63] = {
     { 0x0017, TObjRaderCol__create, 250000.0f, 0 },
     { 0x0018, TObjFogCollisionSwitch__create, 250000.0f, 0 },
     { 0x001D, TEffStarLight2D_Base::create, 250000.0f, 0 },
-    { 0x001E, create_particle_obj_ac__13TParticleCtrlFl, 100000000.0f, 0 },
+    { 0x001E, TUnk_8048E6DC::create, 100000000.0f, 0 },
     { 0x0080, TObjDoor__create, 250000.0f, 0 },
     { 0x0081, TObjDoorKey__create, 250000.0f, 0 },
     { 0x0082, TObjLazerFenceNorm__create, 250000.0f, 0 },
@@ -408,7 +408,7 @@ ObjectFactoryEntry object_factories_floor_02[64] = {
     { 0x0016, TObjItemLight__create, 250000.0f, 0 },
     { 0x0017, TObjRaderCol__create, 250000.0f, 0 },
     { 0x0018, TObjFogCollisionSwitch__create, 250000.0f, 0 },
-    { 0x001E, create_particle_obj_ac__13TParticleCtrlFl, 100000000.0f, 0 },
+    { 0x001E, TUnk_8048E6DC::create, 100000000.0f, 0 },
     { 0x0080, TObjDoor__create, 250000.0f, 0 },
     { 0x0081, TObjDoorKey__create, 250000.0f, 0 },
     { 0x0082, TObjLazerFenceNorm__create, 250000.0f, 0 },
@@ -1170,8 +1170,8 @@ ObjectFactoryEntry object_factories_floor_17[50] = {
     { 0x0028, TObjEnvSoundEx__create, 250000.0f, 0 },
     { 0x0029, TObjEnvSoundGlobal__create, 1.0e12f, 0 },
     { 0x0007, TObjFogCollision__create, 250000.0f, 0 },
-    { 0x001E, create_particle_obj_ac__13TParticleCtrlFl, 100000000.0f, 0 },
-    { 0x01A8, create_particle_obj_90__13TParticleCtrlFl, 250000.0f, 0 },
+    { 0x001E, TUnk_8048E6DC::create, 100000000.0f, 0 },
+    { 0x01A8, TUnk_8048E6A8::create, 250000.0f, 0 },
     { 0x0001, TObjParticle__create, 160000.0f, 0 },
     { 0x01A0, TODoorVS2Door01::create, 250000.0f, 0 },
     { 0x01A1, TOVS2Wreck01__create, 250000.0f, 0 },
@@ -1383,8 +1383,8 @@ ObjectFactoryEntry object_factories_floors_19_20[66] = {
     { 0x0163, TOContainerAncientEnemyCommon__create, 250000.0f, 0 },
     { 0x0164, TOContainerAncientEnemyRare__create, 250000.0f, 0 },
     { 0x0165, TOContainerAncientItemNone::create, 250000.0f, 0 },
-    { 0x001E, create_particle_obj_ac__13TParticleCtrlFl, 100000000.0f, 0 },
-    { 0x01A8, create_particle_obj_90__13TParticleCtrlFl, 250000.0f, 0 },
+    { 0x001E, TUnk_8048E6DC::create, 100000000.0f, 0 },
+    { 0x01A8, TUnk_8048E6A8::create, 250000.0f, 0 },
     { 0x01A1, TOVS2Wreck01__create, 250000.0f, 0 },
     { 0x01A2, TOVS2Wreck02__create, 250000.0f, 0 },
     { 0x01A3, TOVS2Wreck03__create, 250000.0f, 0 },
@@ -2078,12 +2078,12 @@ ObjectFactoryEntry object_factories_floor_32[24] = {
     { 0x0161, create__28TOContainerAncientItemCommonFv, 250000.0f, 0 },
     { 0x0162, TOContainerAncientItemRare__create, 250000.0f, 0 },
     { 0x0027, TObjRaderIcon__create, 250000.0f, 0 },
-    { 0x001E, create_particle_obj_ac__13TParticleCtrlFl, 100000000.0f, 0 },
-    { 0x01A8, create_particle_obj_90__13TParticleCtrlFl, 250000.0f, 0 },
+    { 0x001E, TUnk_8048E6DC::create, 100000000.0f, 0 },
+    { 0x01A8, TUnk_8048E6A8::create, 250000.0f, 0 },
     { 0x0229, TOCapsuleLabo::create, 250000.0f, 0 },
     { 0x0024, TOSwitchAttack::create, 250000.0f, 0 },
-    { 0x001E, create_particle_obj_ac__13TParticleCtrlFl, 100000000.0f, 0 },
-    { 0x01A8, create_particle_obj_90__13TParticleCtrlFl, 250000.0f, 0 },
+    { 0x001E, TUnk_8048E6DC::create, 100000000.0f, 0 },
+    { 0x01A8, TUnk_8048E6A8::create, 250000.0f, 0 },
     { 0x0280, alloc_and_init__18TObjAreaWarpForestFv, 250000.0f, 0 },
     { -1, 0, 250000.0f, 0 },
 };

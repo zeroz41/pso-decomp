@@ -1,3 +1,6 @@
+#define PSO_SDK_COMPACT_MATH
+#include <dolphin/gx.h>
+#undef PSO_SDK_COMPACT_MATH
 #include "pso/effect/particle/ParticleDefinition.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/unk/TUnk_804C57F0.h"
@@ -11,8 +14,6 @@
 #include "pso/system/vector.h"
 #include "pso/unk/TUnk_8048E728.h"
 #include "pso/unk/TUnk_8048E778.h"
-#include "pso/unk/TUnk_8048E6DC.h"
-#include "pso/unk/TUnk_8048E6A8.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/effect/particle/ParticleRadial.h"
 #include "pso/system/THeap.h"
@@ -31,57 +32,13 @@
 #include "pso/system/MatrixOps.h"
 #include "pso/unk/text_803D853C.h"
 #include "pso/camera/TCameraCtrl.h"
+#include "pso/effect/sprite/TQuadSpriteSclColRot.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/unk/text_803DA798.h"
 
-struct Col_80086418 { u8 a, r, g, b; };
+THeap *TParticleCtrl::heap;
 
-struct Ctrl_80086418 {
-    u8 pad0[0x90];
-    Col_80086418 color;
-};
-
-
-typedef struct Quad_80085EE4 { f32 x, y, z, ax, ay, bx, by, pad1C; f32 u, v, du, k0, k1, dv; f32 pad38[2]; } Quad_80085EE4;
-
-typedef struct Particle_80085EE4 {
-    u8 pad0[0x70];
-    Vec pos;
-    Vec off;
-    f32 f88;
-    f32 f8C;
-    s32 f90;
-    s8 f94;
-    s8 f95;
-    s16 f96;
-} Particle_80085EE4;
-
-struct Ctrl_80086248 {
-    u8 pad0[0x1C];
-    u16 tex;
-    u8 pad1E[0x70 - 0x1E];
-    Vec pos;
-    Vec ofs;
-    f32 w;
-    f32 h;
-    u32 color;
-    s8 frame;
-};
-
-extern "C" {
-s32 GXSetNumTexGens(int);
-s32 GXSetTevOp(int, int);
-s32 GXSetNumTevStages(int);
-s32 post_translate_matrix(void *);
-}
-void load_projected_texture_matrix(f32 farg0);
-s32 set_texture_num(s32 i);
-
-
-THeap *TParticleCtrl__heap;
-
-// Built -inline off,deferred: the functions below are written last to first
-// (see configure.py).
-
-void *TParticleCtrl::generate_child_default(void *param, void *pos, void *parent) {
+TUnk_8048E728 *TParticleCtrl::generate_child_default(void *param, void *pos, void *parent) {
     Vec dir = {0.0f, 0.0f, 0.0f};
     return alloc_child_particle(param, pos, &dir, parent);
 }
@@ -95,23 +52,23 @@ ParticleGenerator particle_ctrl_generator_table[] = {
 #pragma readonly_strings reset
 
 void TParticleCtrl::init_heap(u32 size) {
-    if (TParticleCtrl__heap == NULL) {
-        TParticleCtrl__heap = new THeap(size, 16);
+    if (heap == NULL) {
+        heap = new THeap(size, 16);
     }
 }
 
 void TParticleCtrl::free_heap() {
-    if (TParticleCtrl__heap != NULL) {
-        delete TParticleCtrl__heap;
-        TParticleCtrl__heap = NULL;
+    if (heap != NULL) {
+        delete heap;
+        heap = NULL;
     }
 }
 
 void *TUnk_8048E728::operator new(size_t size) {
     TUnk_8048E728 *p = (TUnk_8048E728 *)alt_heap->heap_alloc(size);
     if (p == NULL) {
-        if (TParticleCtrl__heap != NULL) {
-            p = (TUnk_8048E728 *)TParticleCtrl__heap->heap_alloc(size);
+        if (TParticleCtrl::heap != NULL) {
+            p = (TUnk_8048E728 *)TParticleCtrl::heap->heap_alloc(size);
             if (p != NULL) {
                 p->from_particle_heap = 1;
             }
@@ -125,7 +82,7 @@ void *TUnk_8048E728::operator new(size_t size) {
 void TUnk_8048E728::operator delete(void *p) {
     if (p != NULL) {
         if (((TUnk_8048E728 *)p)->from_particle_heap != 0) {
-            TParticleCtrl__heap->heap_free(p);
+            TParticleCtrl::heap->heap_free(p);
             return;
         }
         alt_heap->heap_free(p);
@@ -138,10 +95,10 @@ TUnk_8048E728::TUnk_8048E728(ParticleParam *src, TObject *parent) : TObject(pare
     texlist = NULL;
     motion = NULL;
     motion_frame = 0.0f;
-    unk_48 = 0.0f;
-    color_base[0] = 0.0f;
-    color_base[1] = 0.0f;
-    color_base[2] = 0.0f;
+    tint.a = 0.0f;
+    tint.r = 0.0f;
+    tint.g = 0.0f;
+    tint.b = 0.0f;
     rot_x = 0;
     rot_y = 0;
     rot_z = 0;
@@ -188,56 +145,56 @@ TUnk_8048E728::~TUnk_8048E728() {
 }
 
 void TUnk_8048E728::apply_particle_model_fade_color(s32 mode) {
-    Ctrl_80086418 *self = (Ctrl_80086418 *)this;
     NJS_ARGB f;
     if (mode != 0) {
         set_color_blend_mode(1, 4, 1, 0);
-        Col_80086418 c = self->color;
+        NJS_COLOR c;
+        c.color = color;
         f.a = 0.0f;
-        f.r = -(1.0f - c.r / 255.0f);
-        f.g = -(1.0f - c.g / 255.0f);
-        f.b = -(1.0f - c.b / 255.0f);
+        f.r = -(1.0f - c.argb.r / 255.0f);
+        f.g = -(1.0f - c.argb.g / 255.0f);
+        f.b = -(1.0f - c.argb.b / 255.0f);
     } else {
         set_color_blend_mode(1, 4, 5, 0);
-        Col_80086418 c = self->color;
-        f.a = -(1.0f - c.a / 255.0f);
+        NJS_COLOR c;
+        c.color = color;
+        f.a = -(1.0f - c.argb.a / 255.0f);
         f.r = 0.0f;
         f.g = 0.0f;
         f.b = 0.0f;
     }
-    set_constant_material((const NJS_ARGB *)(((f32 *)&f)));
+    set_constant_material(&f);
 }
 
 void TUnk_8048E728::draw_particle_refraction_quad() {
-    Ctrl_80086248 *self = (Ctrl_80086248 *)this;
     Vec p;
     ParticleStripVertex v[4];
-    s32 frame;
+    s32 cell;
     const f32 *uv;
-    frame = self->frame;
+    cell = frame;
     if (is_split_screen() != 0) {
         return;
     }
     TParticleCtrl::begin_effect_render();
-    uv = particle_definitions[self->tex].uvs[frame];
-    p.x = self->pos.x + self->ofs.x;
-    p.y = self->pos.y + self->ofs.y;
-    p.z = self->pos.z + self->ofs.z;
-    v[0].x = 10.0f * self->w; v[0].y = 10.0f * self->h; v[0].z = 0.0f; v[0].u = uv[0]; v[0].v = uv[1]; v[0].color = self->color;
-    v[1].x = 10.0f * self->w; v[1].y = -10.0f * self->h; v[1].z = 0.0f; v[1].u = uv[2]; v[1].v = uv[1]; v[1].color = self->color;
-    v[2].x = -10.0f * self->w; v[2].y = 10.0f * self->h; v[2].z = 0.0f; v[2].u = uv[0]; v[2].v = uv[3]; v[2].color = self->color;
-    v[3].x = -10.0f * self->w; v[3].y = -10.0f * self->h; v[3].z = 0.0f; v[3].u = uv[2]; v[3].v = uv[3]; v[3].color = self->color;
+    uv = particle_definitions[sprite_index].uvs[cell];
+    p.x = pos.x + attach.x;
+    p.y = pos.y + attach.y;
+    p.z = pos.z + attach.z;
+    v[0].x = 10.0f * draw_scale_x; v[0].y = 10.0f * draw_scale_y; v[0].z = 0.0f; v[0].u = uv[0]; v[0].v = uv[1]; v[0].color = color;
+    v[1].x = 10.0f * draw_scale_x; v[1].y = -10.0f * draw_scale_y; v[1].z = 0.0f; v[1].u = uv[2]; v[1].v = uv[1]; v[1].color = color;
+    v[2].x = -10.0f * draw_scale_x; v[2].y = 10.0f * draw_scale_y; v[2].z = 0.0f; v[2].u = uv[0]; v[2].v = uv[3]; v[2].color = color;
+    v[3].x = -10.0f * draw_scale_x; v[3].y = -10.0f * draw_scale_y; v[3].z = 0.0f; v[3].u = uv[2]; v[3].v = uv[3]; v[3].color = color;
     push_matrix();
-    post_translate_matrix(&p);
+    post_translate_matrix(&p.x);
     rotate_matrix_y(0, camera_ctrl_instance->yaw);
     rotate_matrix_x(0, camera_ctrl_instance->pitch);
     load_projected_texture_matrix(1.1333334f);
     TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(particle_definitions[9].texlist));
-    set_texture_num(self->tex);
+    set_texture_num(sprite_index);
     TParticleCtrl::setup_particle_draw(1);
     GXSetNumTevStages(2);
     GXSetNumTexGens(2);
-    GXSetTevOp(0, 0);
+    GXSetTevOp(GX_TEVSTAGE0, GX_MODULATE);
     play_indirect_effect_recipe(0x1F, 0, 1);
     TObjPlayer::setup_tev_stage();
     emit_particle_strip_vertices(v, 4);
@@ -248,8 +205,8 @@ void TUnk_8048E728::draw_particle_refraction_quad() {
     TParticleCtrl::end_effect_render();
 }
 
-void TParticleCtrl::mark_active() {
-    *(u16 *)((s8 *)this + 0x24) = (u16) (*(u16 *)((s8 *)this + 0x24) | 0x2000);
+void TUnk_8048E728::mark_active() {
+    flags |= 0x2000;
     request_indirect_effect(0x1F);
 }
 
@@ -260,10 +217,9 @@ s32 TUnk_8048E728::is_particle_sprite_additive(s32) {
 #pragma push
 #pragma fp_contract on
 void TUnk_8048E778::draw_sprite_quad(s32 kind) {
-    Particle_80085EE4 *p = (Particle_80085EE4 *)this;
     Vec view;
     Vec world;
-    Quad_80085EE4 quad;
+    RotatedQuadSpriteRect quad;
     const f32 *uv;
     f32 sx;
     f32 sy;
@@ -297,24 +253,24 @@ void TUnk_8048E778::draw_sprite_quad(s32 kind) {
     begin_screen_draw(1);
     TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(particle_definitions[kind].texlist));
     set_draw_texture_and_color(particle_definitions[kind].texture, particle_definitions[kind].color);
-    uv = particle_definitions[kind].uvs[p->f94];
+    uv = particle_definitions[kind].uvs[frame];
     quad.u = uv[0];
     quad.v = uv[1];
-    quad.du = uv[2] - uv[0];
-    quad.k1 = quad.k0 = 0.0f;
-    quad.dv = uv[3] - uv[1];
-    world.x = p->pos.x + p->off.x;
-    world.y = p->pos.y + p->off.y;
-    world.z = p->pos.z + p->off.z;
-    if (p->f95 != 1) {
+    quad.edge_a_u = uv[2] - uv[0];
+    quad.edge_b_u = quad.edge_a_v = 0.0f;
+    quad.edge_b_v = uv[3] - uv[1];
+    world.x = pos.x + attach.x;
+    world.y = pos.y + attach.y;
+    world.z = pos.z + attach.z;
+    if (screen_space != 1) {
         matrix_mult_vec(0, &world, &view);
         view.y = -view.y;
     } else {
-        VecCopy((Vec *)&view, (const Vec *)&world);
+        VecCopy(&view, &world);
     }
-    if (view.z <= -1.0f || p->f95 == 1) {
-        set_constant_material_color(p->f90);
-        if (p->f95 != 1) {
+    if (view.z <= -1.0f || screen_space == 1) {
+        set_constant_material_color(color);
+        if (screen_space != 1) {
             z = 1.0f / -view.z;
             a = sx * z;
             b = sy * z;
@@ -331,20 +287,20 @@ void TUnk_8048E778::draw_sprite_quad(s32 kind) {
         }
         sx *= particle_definitions[kind].width;
         sy *= particle_definitions[kind].height;
-        sx *= p->f88;
-        sy *= p->f8C;
-        c = cos_table_lookup(p->f96);
-        s = -sin_table_lookup(p->f96);
-        quad.z = z;
+        sx *= draw_scale_x;
+        sy *= draw_scale_y;
+        c = cos_table_lookup(roll);
+        s = -sin_table_lookup(roll);
+        quad.depth = z;
         quad.x = x - (sx * c + sy * s);
         quad.y = y - (-sx * s + sy * c);
         sy = sy + sy;
         sx = sx + sx;
-        quad.ax = sx * c;
-        quad.ay = -sx * s;
-        quad.bx = sy * s;
-        quad.by = sy * c;
-        DVDConvertEntrynumToPath((f32 *)&quad);
+        quad.edge_a_x = sx * c;
+        quad.edge_a_y = -sx * s;
+        quad.edge_b_x = sy * s;
+        quad.edge_b_y = sy * c;
+        DVDConvertEntrynumToPath(&quad.x);
     }
     TWindowSubStatusDisp::get_player();
     TParticleCtrl::end_effect_render();

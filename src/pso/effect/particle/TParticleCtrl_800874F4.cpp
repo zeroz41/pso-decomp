@@ -88,7 +88,7 @@ const char *TParticleCtrl__class_name_descriptor[2] = {"TParticleCtrl", 0};
 #pragma fp_contract on
 void TParticleCtrl::run_task() {
     s32 kind;
-    u8 *p;
+    TUnk_8048E728 *p;
     f32 step;
     if (all_parents_unqueued_for_destruction() == 0) {
         return;
@@ -142,10 +142,10 @@ void TParticleCtrl::run_task() {
         emit_count -= step;
         kind = emitter_entry->generator_kind;
         if (kind == 0) {
-            u8 *q = ((u8 *(*)(void *, void *, void *, TObject *, u16, u16))create_ballistic_particle)(
+            TUnk_8048E728 *q = create_ballistic_particle(
                 emitter_entry, &position, &direction, particle_parent, emit_flags, owner_id);
             if (q != NULL) {
-                set_particle_draw_scale(q, scale_x, scale_y);
+                q->set_draw_scale(scale_x, scale_y);
                 if (emit_flags & 0x100) {
                     NJS_COLOR c = tint;
                     NJS_ARGB argb;
@@ -153,22 +153,22 @@ void TParticleCtrl::run_task() {
                     argb.r = c.argb.r / 255.0f;
                     argb.g = c.argb.g / 255.0f;
                     argb.b = c.argb.b / 255.0f;
-                    set_particle_tint_color(q, &argb);
+                    q->set_tint_color(&argb);
                 }
                 if (emit_flags & 0x200) {
                     if (emit_flags & 0x400) {
-                        ((TParticleCtrl *)q)->attach_model(model, texlist, motion, 1, motion_frame);
+                        q->attach_model(model, texlist, motion, 1, motion_frame);
                     } else {
-                        ((TParticleCtrl *)q)->attach_model(model, texlist, motion, 0, motion_frame);
+                        q->attach_model(model, texlist, motion, 0, motion_frame);
                     }
                 }
             }
         } else if (emit_flags & 0x10) {
             if (kind == 1) {
-                p = ((u8 *(*)(void *, void *, void *, TObject *, u16, u16))create_orbit_particle)(
+                p = create_orbit_particle(
                     emitter_entry, &position, &direction, particle_parent, 0x10, owner_id);
                 if (p != NULL) {
-                    set_particle_draw_scale(p, scale_x, scale_y);
+                    p->set_draw_scale(scale_x, scale_y);
                     if (emit_flags & 0x100) {
                         NJS_COLOR c = tint;
                         NJS_ARGB argb;
@@ -176,21 +176,21 @@ void TParticleCtrl::run_task() {
                         argb.r = c.argb.r / 255.0f;
                         argb.g = c.argb.g / 255.0f;
                         argb.b = c.argb.b / 255.0f;
-                        set_particle_tint_color(p, &argb);
+                        p->set_tint_color(&argb);
                     }
                     if (emit_flags & 0x200) {
                         if (emit_flags & 0x400) {
-                            ((TParticleCtrl *)p)->attach_model(model, texlist, motion, 1, motion_frame);
+                            p->attach_model(model, texlist, motion, 1, motion_frame);
                         } else {
-                            ((TParticleCtrl *)p)->attach_model(model, texlist, motion, 0, motion_frame);
+                            p->attach_model(model, texlist, motion, 0, motion_frame);
                         }
                     }
                 }
             } else if (kind == 2) {
-                p = ((u8 *(*)(void *, void *, TObject *, u16, u16))create_radial_particle)(
+                p = create_radial_particle(
                     emitter_entry, &position, particle_parent, 0x10, owner_id);
                 if (p != NULL) {
-                    set_particle_draw_scale(p, scale_x, scale_y);
+                    p->set_draw_scale(scale_x, scale_y);
                     if (emit_flags & 0x100) {
                         NJS_COLOR c = tint;
                         NJS_ARGB argb;
@@ -198,23 +198,23 @@ void TParticleCtrl::run_task() {
                         argb.r = c.argb.r / 255.0f;
                         argb.g = c.argb.b / 255.0f;
                         argb.b = c.argb.b / 255.0f;
-                        set_particle_tint_color(p, &argb);
+                        p->set_tint_color(&argb);
                     }
                     if (emit_flags & 0x200) {
                         if (emit_flags & 0x400) {
-                            ((TParticleCtrl *)p)->attach_model(model, texlist, motion, 1, motion_frame);
+                            p->attach_model(model, texlist, motion, 1, motion_frame);
                         } else {
-                            ((TParticleCtrl *)p)->attach_model(model, texlist, motion, 0, motion_frame);
+                            p->attach_model(model, texlist, motion, 0, motion_frame);
                         }
                     }
                 }
             }
         } else if (emit_flags & 0x80) {
             if (kind == 1) {
-                p = ((u8 *(*)(void *, void *, void *, TObject *, u16, u16))create_orbit_particle)(
+                p = create_orbit_particle(
                     emitter_entry, &position, &direction, particle_parent, 0x80, 0xFFFF);
                 if (p != NULL) {
-                    set_particle_draw_scale(p, scale_x, scale_y);
+                    p->set_draw_scale(scale_x, scale_y);
                     if (emit_flags & 0x100) {
                         NJS_COLOR c = tint;
                         NJS_ARGB argb;
@@ -222,21 +222,21 @@ void TParticleCtrl::run_task() {
                         argb.r = c.argb.r / 255.0f;
                         argb.g = c.argb.g / 255.0f;
                         argb.b = c.argb.b / 255.0f;
-                        set_particle_tint_color(p, &argb);
+                        p->set_tint_color(&argb);
                     }
                     if (emit_flags & 0x200) {
                         if (emit_flags & 0x400) {
-                            ((TParticleCtrl *)p)->attach_model(model, texlist, motion, 1, motion_frame);
+                            p->attach_model(model, texlist, motion, 1, motion_frame);
                         } else {
-                            ((TParticleCtrl *)p)->attach_model(model, texlist, motion, 0, motion_frame);
+                            p->attach_model(model, texlist, motion, 0, motion_frame);
                         }
                     }
                 }
             } else if (kind == 2) {
-                p = ((u8 *(*)(void *, void *, TObject *, u16, u16))create_radial_particle)(
+                p = create_radial_particle(
                     emitter_entry, &position, particle_parent, 0x80, 0xFFFF);
                 if (p != NULL) {
-                    set_particle_draw_scale(p, scale_x, scale_y);
+                    p->set_draw_scale(scale_x, scale_y);
                     if (emit_flags & 0x100) {
                         NJS_COLOR c = tint;
                         NJS_ARGB argb;
@@ -244,22 +244,22 @@ void TParticleCtrl::run_task() {
                         argb.r = c.argb.r / 255.0f;
                         argb.g = c.argb.g / 255.0f;
                         argb.b = c.argb.b / 255.0f;
-                        set_particle_tint_color(p, &argb);
+                        p->set_tint_color(&argb);
                     }
                     if (emit_flags & 0x200) {
                         if (emit_flags & 0x400) {
-                            ((TParticleCtrl *)p)->attach_model(model, texlist, motion, 1, motion_frame);
+                            p->attach_model(model, texlist, motion, 1, motion_frame);
                         } else {
-                            ((TParticleCtrl *)p)->attach_model(model, texlist, motion, 0, motion_frame);
+                            p->attach_model(model, texlist, motion, 0, motion_frame);
                         }
                     }
                 }
             }
         } else if (kind < 3) {
-            p = (u8 *)particle_ctrl_generator_table[kind].create(emitter_entry, &position, particle_parent);
+            p = particle_ctrl_generator_table[kind].create(emitter_entry, &position, particle_parent);
             if (p != NULL) {
-                set_particle_draw_scale(p, scale_x, scale_y);
-                TParticleCtrl__sub_800884F0(p, &direction);
+                p->set_draw_scale(scale_x, scale_y);
+                p->set_rotation(&direction);
                 if (emit_flags & 0x100) {
                     NJS_COLOR c = tint;
                     NJS_ARGB argb;
@@ -267,17 +267,17 @@ void TParticleCtrl::run_task() {
                     argb.r = c.argb.r / 255.0f;
                     argb.g = c.argb.g / 255.0f;
                     argb.b = c.argb.b / 255.0f;
-                    set_particle_tint_color(p, &argb);
+                    p->set_tint_color(&argb);
                 }
                 if (emit_flags & 0x200) {
                     if (emit_flags & 0x400) {
-                        ((TParticleCtrl *)p)->attach_model(model, texlist, motion, 1, motion_frame);
+                        p->attach_model(model, texlist, motion, 1, motion_frame);
                     } else {
-                        ((TParticleCtrl *)p)->attach_model(model, texlist, motion, 0, motion_frame);
+                        p->attach_model(model, texlist, motion, 0, motion_frame);
                     }
                 }
                 if (emit_flags & 0x2000) {
-                    ((TParticleCtrl *)p)->mark_active();
+                    p->mark_active();
                 }
             }
         }
@@ -445,24 +445,25 @@ TParticleCtrl::TParticleCtrl(const Vec *pos, ParticleParam *entry, s32 oneshot, 
     }
 }
 
-extern "C" {
-void TParticleCtrl__sub_800884F0(void *p, void *dir) { copy_xyz((char *)p + 0x98, dir); }
+void TUnk_8048E728::set_rotation(ParticleAngles *rotation) { copy_xyz(&rot_x, rotation); }
 
-void TParticleCtrl::attach_model(s32 arg1, s32 arg2, s32 arg3, s32 arg4, f32 farg0) {
-    *(s32 *)((s8 *)((u8 *)this) + 0xB0) = arg1;
-    *(s32 *)((s8 *)((u8 *)this) + 0xB4) = arg2;
-    *(s32 *)((s8 *)((u8 *)this) + 0xB8) = arg3;
-    *(f32 *)((s8 *)((u8 *)this) + 0xC0) = farg0;
-    if (arg4 != 0) {
-        *(u16 *)((s8 *)((u8 *)this) + 0x24) = (u16) (*(u16 *)((s8 *)((u8 *)this) + 0x24) | 0x400);
+void TUnk_8048E728::attach_model(void *model, GinjaTextureList *texlist, NJS_MOTION *motion, s32 loop, f32 speed) {
+    this->model = model;
+    this->texlist = texlist;
+    this->motion = motion;
+    motion_speed = speed;
+    if (loop != 0) {
+        flags |= 0x400;
     }
-    *(u16 *)((s8 *)((u8 *)this) + 0x24) = (u16) (*(u16 *)((s8 *)((u8 *)this) + 0x24) | 0x200);
+    flags |= 0x200;
 }
 
-void set_particle_tint_color(u8 *arg0, NJS_ARGB *rgba) {
-    *(u16 *)((s8 *)arg0 + 0x24) = (u16) (*(u16 *)((s8 *)arg0 + 0x24) | 0x100);
-    copy_argb((NJS_ARGB *)(arg0 + 0x48), rgba);
+void TUnk_8048E728::set_tint_color(NJS_ARGB *rgba) {
+    flags |= 0x100;
+    copy_argb(&tint, rgba);
 }
 
-void set_particle_draw_scale(void* p, f32 a, f32 b) { *(f32*)((char*)p + 0xa4) = a; *(f32*)((char*)p + 0xa8) = b; }
+void TUnk_8048E728::set_draw_scale(f32 x, f32 y) {
+    scale_x = x;
+    scale_y = y;
 }
