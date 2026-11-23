@@ -20,45 +20,43 @@ extern s32 model_render_flags;
 
 void TUnk_804A1A48::reserved_53() {
     Sp8Type_80123524 sp8;
-    s32 temp_r3;
-    void *temp_r5;
-    void *child;
-    void *temp_r30;
-    void *temp_r29;
+    NJS_OBJECT *model;
+    NJS_OBJECT *child;
+    NJS_OBJECT *grandchild;
+    NJS_OBJECT *sibling;
 
-    if ((*(void **)&(*(s16 *)((u8 *)this + 0xF4)) != NULL) && (((TItem *)this)->is_hidden() == 0)) {
-        temp_r5 = *(void **)&(*(s16 *)((u8 *)this + 0xF4));
-        child = *(void **)((s8 *)temp_r5 + 0x2C);
-        *(s32 *)((s8 *)child + 0) = (s32) (*(s32 *)((s8 *)child + 0) | 8);
-        temp_r30 = *(void **)((s8 *)child + 0x2C);
-        *(s32 *)((s8 *)temp_r30 + 0) = (s32) (*(s32 *)((s8 *)temp_r30 + 0) | 8);
-        temp_r29 = *(void **)((s8 *)temp_r30 + 0x30);
-        *(s32 *)((s8 *)temp_r29 + 0) = (s32) (*(s32 *)((s8 *)temp_r29 + 0) | 8);
-        draw_weapon_at_joint(this, 0x30, temp_r5);
-        *(s32 *)((s8 *)child + 0) = (s32) (*(s32 *)((s8 *)child + 0) & 0xFFFFFFF7);
-        *(s32 *)((s8 *)temp_r30 + 0) = (s32) (*(s32 *)((s8 *)temp_r30 + 0) & 0xFFFFFFF7);
-        *(s32 *)((s8 *)temp_r29 + 0) = (s32) (*(s32 *)((s8 *)temp_r29 + 0) & 0xFFFFFFF7);
+    if (item_model != NULL && is_hidden() == 0) {
+        model = item_model;
+        child = model->child;
+        child->evalflags |= NJD_EVAL_HIDE;
+        grandchild = child->child;
+        grandchild->evalflags |= NJD_EVAL_HIDE;
+        sibling = grandchild->sibling;
+        sibling->evalflags |= NJD_EVAL_HIDE;
+        draw_weapon_at_joint(this, 0x30, model);
+        child->evalflags &= ~NJD_EVAL_HIDE;
+        grandchild->evalflags &= ~NJD_EVAL_HIDE;
+        sibling->evalflags &= ~NJD_EVAL_HIDE;
         TObjPlayer::save_model_render_state();
         model_render_flags &= 0xFFFFFFEF;
         TObjPlayer::set_model_fade_alpha((f32)this->get_owner_alpha());
-        *(s32 *)((s8 *)child + 0) = (s32) (*(s32 *)((s8 *)child + 0) | 1);
-        *(s32 *)((s8 *)temp_r30 + 0) = (s32) (*(s32 *)((s8 *)temp_r30 + 0) & 0xFFFFFFFD);
-        *(s32 *)((s8 *)temp_r30 + 0x18) = (s32) (*(s32 *)((s8 *)temp_r30 + 0x18) + this->swing_angle);
-        *(s32 *)((s8 *)temp_r29 + 0) = (s32) (*(s32 *)((s8 *)temp_r29 + 0) & 0xFFFFFFFD);
-        *(s32 *)((s8 *)temp_r29 + 0x18) = (s32) (*(s32 *)((s8 *)temp_r29 + 0x18) - this->swing_angle);
+        child->evalflags |= NJD_EVAL_UNIT_POS;
+        grandchild->evalflags &= ~NJD_EVAL_UNIT_ANG;
+        grandchild->ang[1] += this->swing_angle;
+        sibling->evalflags &= ~NJD_EVAL_UNIT_ANG;
+        sibling->ang[1] -= this->swing_angle;
         if (this->get_joint_position(1, &sp8) != 0) {
             push_matrix();
             post_translate_matrix(&sp8);
-            rotate_matrix_y(0, *(s32 *)((s8 *)(*(void * *)&(*(NJS_MOTION_LINK *)((u8 *)this + 0xE4)).frame[1]) + 0x60));
+            rotate_matrix_y(0, owner->rotation_y);
             draw_ginja_object(child);
             pop_matrix();
         }
-        *(s32 *)((s8 *)child + 0) = (s32) (*(s32 *)((s8 *)child + 0) & 0xFFFFFFFE);
-        *(s32 *)((s8 *)temp_r30 + 0) = (s32) (*(s32 *)((s8 *)temp_r30 + 0) | 2);
-        *(s32 *)((s8 *)temp_r30 + 0x18) = (s32) (*(s32 *)((s8 *)temp_r30 + 0x18) - this->swing_angle);
-        *(s32 *)((s8 *)temp_r29 + 0) = (s32) (*(s32 *)((s8 *)temp_r29 + 0) | 2);
-        temp_r3 = *(s32 *)((s8 *)temp_r29 + 0x18);
-        *(s32 *)((s8 *)temp_r29 + 0x18) = (s32) (temp_r3 + this->swing_angle);
+        child->evalflags &= ~NJD_EVAL_UNIT_POS;
+        grandchild->evalflags |= NJD_EVAL_UNIT_ANG;
+        grandchild->ang[1] -= this->swing_angle;
+        sibling->evalflags |= NJD_EVAL_UNIT_ANG;
+        sibling->ang[1] += this->swing_angle;
         TObjPlayer::warn_if_gauge_low();
         TObjPlayer::restore_model_render_state();
     }
