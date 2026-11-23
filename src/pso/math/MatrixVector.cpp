@@ -10,9 +10,9 @@ void GXGetViewportv(f32 *vp);
 void GXProject(f32 x, f32 y, f32 z, f32 mtx[3][4], f32 *pm, f32 *vp, f32 *sx, f32 *sy, f32 *sz);
 void project_world_to_screen(u8 *mtx, Vec *pos, f32 *out);
 
-void scale_matrix_vec3(u8 *arg0, u8 *arg1) {
+void scale_matrix_vec3(u8 *matrix, u8 *arg1) {
     const Vec *scale = (const Vec *)arg1;
-    scale_matrix((MtxP)arg0, scale->x, scale->y, scale->z);
+    scale_matrix((MtxP)matrix, scale->x, scale->y, scale->z);
 }
 
 asm f32 vector_length(const Vec *v) {
