@@ -32,11 +32,10 @@
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/player/TObjPlayer_801AC0D8.h"
 #include "pso/player/TObjPlayer_801AE48C.h"
-#include "pso/player/TObjPlayer_801ACA6C.h"
 #include "pso/player/TObjPlayer_801AB608.h"
 #include "pso/player/TObjPlayer_801AADE8.h"
 #include "pso/effect/photon/TPhotonYoulla.h"
-#include "pso/player/TObjPlayer_801ADC6C.h"
+#include "pso/effect/photon/TPhotonMylla.h"
 #include "pso/player/TObjPlayer_801AD47C.h"
 #include "pso/effect/photon/TPhotonRainbow.h"
 #include "pso/effect/photon/TPhotonLeilla.h"
@@ -88,8 +87,6 @@ void set_type__10TObjPlayerFs(void *, s16);
 s32 TObjPlayer__sub_801AA528(saddr arg0, s16 arg1);
 void *TObjPlayer__sub_801AA66C(void *, void *);
 s16 TObjPlayer__sub_80313114(u8 *arg0);
-u8 *TPhotonLeilla__ct(u8 *self, u8 *params);
-u8 *TPhotonMylla__ct(u8 *self, u8 *params);
 
 }
 extern s32 photon_blast_donation_flags[];
@@ -630,11 +627,7 @@ void TUnk_804C349C::step_photon_blast_sequence() {
             this->summon = new TPhotonPilla(&params);
             break;
         case 4:
-            summon = (u8 *)TObject::operator new(0x1B0);
-            if (summon != NULL) {
-                summon = TPhotonLeilla__ct(summon, (u8 *)&params);
-            }
-            this->summon = (TObject *)summon;
+            this->summon = new TPhotonLeilla(&params);
             for (j = 0; j < 4; j++) {
                 if (this->participants[j] < 4) {
                     queue_photon_blast_support(this->participants[j], 4, 1);
@@ -652,11 +645,7 @@ void TUnk_804C349C::step_photon_blast_sequence() {
             this->summon = new TPhotonEstlla(&params);
             break;
         case 5:
-            summon = (u8 *)TObject::operator new(0x1A8);
-            if (summon != NULL) {
-                summon = TPhotonMylla__ct(summon, (u8 *)&params);
-            }
-            this->summon = (TObject *)summon;
+            this->summon = new TPhotonMylla(&params);
             for (j = 0; j < 4; j++) {
                 if (this->participants[j] < 4) {
                     queue_photon_blast_support(this->participants[j], 5, 1);
@@ -948,11 +937,11 @@ void load_photon_blast_resources(void) {
 PhotonBlastLoadCallback photon_blast_load_callback_table[10] = {
     { create_golla_photon_blast_model, TObjPlayer::destroy_static_buffer_pair },
     { create_pilla_photon_blast_model, TObjPlayer::free_buffer_pair },
-    { create_leilla_photon_blast_model, TObjPlayer::destroy_buffer_pair_instance },
+    { create_leilla_photon_blast_model, destroy_leilla_photon_blast_model },
     { create_farlla_photon_blast_model, TObjPlayer::destroy_buffers },
     { create_estlla_photon_blast_model, TObjPlayer::destroy_global_buffer },
-    { TObjPlayer__sub_801AEB80, TObjPlayer__sub_801AEB74 },
-    { TObjPlayer__sub_801ADC78, TObjPlayer__sub_801ADC6C },
+    { create_youlla_photon_blast_model, destroy_youlla_photon_blast_model },
+    { create_mylla_photon_blast_model, destroy_mylla_photon_blast_model },
     { TObjPlayer__sub_801AD480, TObjPlayer__sub_801AD47C },
     { load_photon_rainbow_resources, release_photon_rainbow_resources },
     { TObjPlayer__sub_801AC440, TObjPlayer__sub_801AC43C },

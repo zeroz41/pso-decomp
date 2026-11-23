@@ -23,7 +23,6 @@ const char *TPhotonLeilla__class_name = "TPhotonLeilla";
 #include "pso/player/TObjPlayer.h"
 #include "pso/unk/text_800F5BC0.h"
 #include "pso/unk/TLobby.h"
-#include "pso/player/TObjPlayer_801ACA6C.h"
 #include "pso/unk/TLobby_802268F4.h"
 #include "pso/map/FloorArea.h"
 #include "pso/math/MatrixTransforms.h"
@@ -31,74 +30,47 @@ const char *TPhotonLeilla__class_name = "TPhotonLeilla";
 #include "pso/unk/text_803D8F74.h"
 #include "pso/object/base/CollisionActorLookup.h"
 
-
 void TObjPlayer__sub_801AC43C(void) {  }
 void TObjPlayer__sub_801AC440(void) {  }
 
-void TPhotonLeilla::sub_801AC444() { *(float *)&this->m_180 = 0.0f; *(float*)((char*)this + 0x184) = 0.0f; this->m_188 = 0.0f; *(float *)&this->unk_18C = 0.0f; }
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/render/model_render_state.h"
 
-struct Stack_801AC574 {
-    s32 sp8;
-    f32 spC;
-    u8 trailing_storage[0x4];
-};
+extern "C" s32 scroll_strip_uvs(void *, s16, int);
+extern u8 *photon_blast_shared_resource;
 
-struct Self_801AC45C {
-    u8 pad0[0x24];
-    s32 f24;
-    u8 pad1[0x38 - 0x28];
-    Vec pos;
-    u8 pad2[0x60 - 0x44];
-    s32 f60;
-    u8 pad3[0x14C - 0x64];
-    s16 f14C;
-    u8 pad4[0x180 - 0x14E];
-    NJS_ARGB color;
-    u8 pad5[0x19C - 0x190];
-    s32 started;
-};
-
-extern "C" {
-u16 get_entity_id(void *);
-}
-extern "C" {
-u8 *__nw__7TObjectFUl(s32, f32);
-
-s32 scroll_strip_uvs(void *, s16, int);
-extern NJS_ARGB saved_model_draw_color;
-extern NJS_ARGB model_material_color;
-extern s32 saved_model_render_flags;
-extern s32 saved_chunk_polygon_flags_and_mask;
-extern s32 saved_chunk_polygon_flags_or_mask;
 void *leilla_photon_buffer_pair;
-extern s32 chunk_polygon_flags_or_mask;
-extern s32 chunk_polygon_flags_and_mask;
-extern s32 model_render_flags;
+
+void TPhotonLeilla::reset_material_color(u8 count) {
+    material_color.a = 0.0f;
+    material_color.r = 0.0f;
+    material_color.g = 0.0f;
+    material_color.b = 0.0f;
+}
 
 void TPhotonLeilla::render() {
-    Self_801AC45C *self = (Self_801AC45C *)this;
-    if (*(s32 *)&this->m_19c != 0) {
-        scroll_strip_uvs(leilla_photon_buffer_pair, self->f14C, 0);
+    if (visible != 0) {
+        scroll_strip_uvs(leilla_photon_buffer_pair, uv_scroll, 0);
         TParticleCtrl::begin_effect_render();
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(this->texlist));
+        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
         push_matrix();
-        translate_matrix(0, self->pos.x, self->pos.y, self->pos.z);
-        rotate_matrix_y(0, this->rotation_y);
+        translate_matrix(0, position.x, position.y, position.z);
+        rotate_matrix_y(0, rotation_y);
         saved_model_render_flags = model_render_flags;
-        copy_argb((NJS_ARGB *)&saved_model_draw_color, (NJS_ARGB *)&model_material_color);
+        copy_argb(&saved_model_draw_color, &model_material_color);
         saved_chunk_polygon_flags_and_mask = chunk_polygon_flags_and_mask;
         saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;
         model_render_flags |= 0x200820;
         set_motion_packed_rotation();
         set_chunk_material_override_pair(-1, 0x800);
-        set_constant_material((const NJS_ARGB *)(((f32 *)&self->color)));
-        ((TPhotonBlastSummon *)self)->set_photon_blast_joint_callback();
-        ((TObjMotion *)self)->draw();
+        set_constant_material(&material_color);
+        set_photon_blast_joint_callback();
+        draw();
         clear_motion_packed_rotation();
-        ((TPhotonBlastSummon *)self)->clear_photon_blast_joint_callback();
+        clear_photon_blast_joint_callback();
         chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
         chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
-        copy_argb((NJS_ARGB *)&model_material_color, (NJS_ARGB *)&saved_model_draw_color);
+        copy_argb(&model_material_color, &saved_model_draw_color);
         model_render_flags = saved_model_render_flags;
         pop_matrix();
         TParticleCtrl::end_effect_render();
@@ -106,52 +78,47 @@ void TPhotonLeilla::render() {
 }
 
 void TPhotonLeilla::run_task() {
-    u8 *arg0 = (u8 *)this;
-    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_801AC574, sp8) == 0x0);
-    LAYOUT_ASSERT(spC_offset, offsetof(Stack_801AC574, spC) == 0x4);
-    Stack_801AC574 stack;
-    f32 temp_f1_2;
-    u8 *entity;
-    u8 *temp_r3_3;
-    *(s32 *)&this->m_1ac = (s32) (*(s32 *)&this->m_1ac + 1);
-    if (((s32) *(s32 *)&this->m_1ac == 0x32) && ((s32) *(s32 *)&this->m_19c == 0)) {
-        *(s32 *)&this->m_19c = 1;
-        *(s32 *)&this->m_1ac = 0;
-        entity = (u8 *)(find_entity_by_id(this->m_17c));
-        if (entity != NULL) {
-            VecCopy((Vec *)(&stack.sp8), (const Vec *)(entity + 0x38));
+    Vec square_pos;
+    f32 alpha;
+    TObjCollidable *owner_object;
+    frame = frame + 1;
+    if ((frame == 0x32) && (visible == 0)) {
+        visible = 1;
+        frame = 0;
+        owner_object = find_entity_by_id(owner_id);
+        if (owner_object != NULL) {
+            VecCopy(&square_pos, &owner_object->position);
         }
-        stack.spC += 3e+01f;
-        new TPhotonMagicSquare((TObject *)arg0, 4, (Vec *)&stack.sp8, 0x78);
+        square_pos.y += 3e+01f;
+        new TPhotonMagicSquare(this, 4, &square_pos, 0x78);
     }
-    if ((5e+01f == (f32) *(s32 *)&this->m_1ac) && ((s16) this->requested_action == 1)) {
-        ((TPhotonBlastSummon *)arg0)->begin_photon_summon_camera(2);
-        *(s32 *)&this->m_1ac = 0;
-        ((TObjMotion *)arg0)->set_field_b8(0);
-        ((TPhotonBlastSummon *)arg0)->spawn_photon_blast_attachment_effects(4);
+    if ((5e+01f == (f32)frame) && (requested_action == 1)) {
+        begin_photon_summon_camera(2);
+        frame = 0;
+        set_field_b8(0);
+        spawn_photon_blast_attachment_effects(4);
     }
-    *(s16 *)&this->m_190 = (s16) this->requested_action;
-    ((TPhotonBlastSummon *)arg0)->update_state();
-    ((TObjMotion *)arg0)->advance_animation();
-    ((TPhotonBlastSummon *)arg0)->update_photon_blast_attachments();
-    *(s16 *)((s8 *)arg0 + 0x14C) = (s16) (*(s16 *)((s8 *)arg0 + 0x14C) + 0xF);
-    *(s16 *)((s8 *)arg0 + 0x14C) = (s16) (u8) *(s16 *)((s8 *)arg0 + 0x14C);
-    if (1.3e+02f == (f32) *(s32 *)&this->m_1ac) {
-        temp_r3_3 = (u8 *)(find_entity_by_id(this->m_17c));
-        if (temp_r3_3 != NULL) {
-            queue_photon_blast_hit((get_entity_id(temp_r3_3)), 4, 0, this->power);
+    last_action = requested_action;
+    update_state();
+    advance_animation();
+    update_photon_blast_attachments();
+    uv_scroll = uv_scroll + 0xF;
+    uv_scroll = (u8)uv_scroll;
+    if (1.3e+02f == (f32)frame) {
+        owner_object = find_entity_by_id(owner_id);
+        if (owner_object != NULL) {
+            queue_photon_blast_hit(get_entity_id(owner_object), 4, 0, power);
         }
     }
-    if ((f32) *(s32 *)&this->m_1ac > 109.0f) {
-        temp_f1_2 = *(f32 *)&this->m_180;
-        if (temp_f1_2 > (-1.0f)) {
-            *(f32 *)&this->m_180 = (f32) ((f64) temp_f1_2 - 0.15);
+    if ((f32)frame > 109.0f) {
+        alpha = material_color.a;
+        if (alpha > -1.0f) {
+            material_color.a = alpha - 0.15;
         }
     }
-    if ((s32) *(s32 *)&this->m_19c != 0) {
-        play_persistent_sound(0x4002462F, (saddr)arg0, (u32)(0U), 0, 0);
+    if (visible != 0) {
+        play_persistent_sound(0x4002462F, (saddr)this, 0, 0, 0);
     }
-}
 }
 
 TPhotonLeilla::~TPhotonLeilla() {
@@ -159,105 +126,73 @@ TPhotonLeilla::~TPhotonLeilla() {
     free_photon();
 }
 
-#define NEW_801AC808(n) (((u8 *(*)(int))__nw__7TObjectFUl)(n))
-#define F_801AC808(o, t, off) (*(t *)((u8 *)(o) + (off)))
-struct Pkt_801AC808 {
-    Vec pos;
-    u16 owner;
-    s32 first;
-    s32 more;
-    u8 pad18[0x1C - 0x18];
-    u8 count;
-    f32 f20;
-};
-struct VBase_801AC808 { u8 pad[0x18]; };
-struct Leilla_801AC808 : VBase_801AC808 {
-    virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3();
-    virtual void m4(); virtual void m5(); virtual void m6(); virtual void m7();
-    virtual void m8(); virtual void m9(); virtual void m10(); virtual void m11();
-    virtual void m12();
-    u8 pad1C[0x38 - 0x1C];
-    Vec pos;
-};
-struct Res_801AC808 { u8 pad[0x18]; s32 f18; s32 f1C; };
-struct Game_801AC808 { u8 pad[0x42C]; Res_801AC808 *res; s32 f430; };
-
-extern "C" {
-void sub_801AC444__13TPhotonLeillaFv(void *, u8);
-extern s32 __vt__13TPhotonLeilla[];
-extern Game_801AC808 *photon_blast_shared_resource;
-
 TObjMotionAction photon_blast_leilla_params[2] = {
     {MOTION_MODE_ONCE, 0, 1, 1.0f, 0},
     {MOTION_MODE_LOOP, 0, 9, 1.0f, 0},
 };
 
-void *TPhotonLeilla__ct(Leilla_801AC808 *self, Pkt_801AC808 *pkt) {
-    Vec v;
-    u8 *owner;
-    __ct__18TPhotonBlastSummonFv(self);
-    *(void **)((u8 *)self + 0x18) = __vt__13TPhotonLeilla;
-    F_801AC808(self, const char *, 0) = TPhotonLeilla__class_name;
-    F_801AC808(self, s32, 0x138) = 4;
-    VecCopy((Vec *)&self->pos, (const Vec *)pkt);
-    F_801AC808(self, u16, 0x17C) = pkt->owner;
-    owner = (u8 *)find_entity_by_id(F_801AC808(self, u16, 0x17C));
-    if (owner != NULL) {
-        F_801AC808(self, s32, 0x60) = F_801AC808(owner, s32, 0x60);
+TPhotonLeilla::TPhotonLeilla(PhotonSummonParams *params) {
+    Vec pos;
+    TObjCollidable *owner_object;
+    m_name = TPhotonLeilla__class_name;
+    blast_kind = 4;
+    VecCopy(&position, &params->position);
+    owner_id = params->owner_id;
+    owner_object = find_entity_by_id(owner_id);
+    if (owner_object != NULL) {
+        rotation_y = owner_object->rotation_y;
     }
-    F_801AC808(self, s32, 0x34) = photon_blast_shared_resource->res->f18;
-    F_801AC808(self, s32, 0x24) = photon_blast_shared_resource->res->f1C;
-    ((TObjMotion *)self)->set_field_d8((saddr)photon_blast_leilla_params);
-    ((TObjMotion *)self)->set_field_dc(photon_blast_shared_resource->f430);
-    F_801AC808(self, s16, 0xB8) = 1;
-    ((TObjMotion *)self)->set_animation(F_801AC808(self, s16, 0xB8));
-    ((TObjMotion *)self)->set_field_b8(F_801AC808(self, s16, 0xB8));
-    F_801AC808(self, s16, 0x190) = 1;
-    F_801AC808(self, s32, 0x194) = pkt->first;
-    F_801AC808(self, s32, 0x198) = pkt->more;
-    F_801AC808(self, s32, 0x19C) = 0;
-    F_801AC808(self, s32, 0x134) = 2;
-    self->m12();
-    F_801AC808(self, s32, 0x1AC) = 0;
+    model = *(void **)((s8 *)(*(u8 **)((s8 *)photon_blast_shared_resource + 0x42C)) + 0x18);
+    texlist = *(s32 *)((s8 *)(*(u8 **)((s8 *)photon_blast_shared_resource + 0x42C)) + 0x1C);
+    set_field_d8((saddr)photon_blast_leilla_params);
+    set_field_dc(*(s32 *)((s8 *)photon_blast_shared_resource + 0x430));
+    requested_action = 1;
+    set_animation(requested_action);
+    set_field_b8(requested_action);
+    last_action = 1;
+    is_first = params->is_first;
+    has_more = params->has_more;
+    visible = 0;
+    camera_script = 2;
+    enter_scene();
+    frame = 0;
     switch (get_current_floor_area()) {
     case AREA_DRAGON:
     case AREA_DE_ROL_LE:
     case AREA_VOL_OPT:
     case AREA_DARK_FALZ:
-        new TPhotonRainbow((TObject *)self, &self->pos, 1);
+        new TPhotonRainbow(this, &position, 1);
         break;
     default:
-        new TPhotonRainbow((TObject *)self, &self->pos, 0);
+        new TPhotonRainbow(this, &position, 0);
         break;
     }
-    sub_801AC444__13TPhotonLeillaFv(self, pkt->count);
-    if (F_801AC808(self, s32, 0x198) == 1) {
-        F_801AC808(self, u32, 0x154) |= 1;
+    reset_material_color(params->count);
+    if (has_more == 1) {
+        summon_flags |= 1;
     }
-    F_801AC808(self, f32, 0x150) = pkt->f20;
-    if (F_801AC808(self, s32, 0x194) == 0) {
-        ((TObjMotion *)self)->set_field_b8(0);
-        ((TPhotonBlastSummon *)self)->begin_photon_summon_camera(2);
-        F_801AC808(self, s32, 0x194) = 1;
-        F_801AC808(self, s16, 0x190) = 0;
-        F_801AC808(self, s32, 0x19C) = 1;
-        owner = (u8 *)find_entity_by_id(F_801AC808(self, u16, 0x17C));
-        if (owner != NULL) {
-            VecCopy((Vec *)&v, (const Vec *)(owner + 0x38));
+    power = params->level;
+    if (is_first == 0) {
+        set_field_b8(0);
+        begin_photon_summon_camera(2);
+        is_first = 1;
+        last_action = 0;
+        visible = 1;
+        owner_object = find_entity_by_id(owner_id);
+        if (owner_object != NULL) {
+            VecCopy(&pos, &owner_object->position);
         }
-        v.y += 3e+01f;
-        new TPhotonMagicSquare((TObject *)self, 4, &v, 0x78);
-        ((TPhotonBlastSummon *)self)->spawn_photon_blast_attachment_effects(4);
+        pos.y += 3e+01f;
+        new TPhotonMagicSquare(this, 4, &pos, 0x78);
+        spawn_photon_blast_attachment_effects(4);
         play_cue_stream_file((saddr)"reila2.adx");
     } else {
-        spawn_photon_blast_opening_effects(4, F_801AC808(self, u16, 0x17C));
+        spawn_photon_blast_opening_effects(4, owner_id);
         play_cue_stream_file((saddr)"reila.adx");
     }
-    return self;
-}
 }
 
-void TObjPlayer::destroy_buffer_pair_instance() {
+void destroy_leilla_photon_blast_model(void) {
     if (leilla_photon_buffer_pair != NULL) {
         destroy_buffer_pair(leilla_photon_buffer_pair, 1);
     }
@@ -265,12 +200,9 @@ void TObjPlayer::destroy_buffer_pair_instance() {
 }
 
 void create_leilla_photon_blast_model(void) {
-    saddr temp_r3;
-    saddr var_r0;
-    temp_r3 = (saddr)::operator new(0x14);
-    var_r0 = temp_r3;
-    if (var_r0 != 0) {
-        var_r0 = (long) (((TLobby *)temp_r3)->alloc_tables(*(s32 *)((s8 *)(*(void **)((s8 *)(*(u8 **)((s8 *)photon_blast_shared_resource + 0x42C)) + 8)) + 0x2C), 0));
+    TLobby *tables = (TLobby *)::operator new(0x14);
+    if (tables != NULL) {
+        tables = (TLobby *)tables->alloc_tables(*(s32 *)((s8 *)(*(void **)((s8 *)(*(u8 **)((s8 *)photon_blast_shared_resource + 0x42C)) + 8)) + 0x2C), 0);
     }
-    leilla_photon_buffer_pair = (void *)var_r0;
+    leilla_photon_buffer_pair = tables;
 }

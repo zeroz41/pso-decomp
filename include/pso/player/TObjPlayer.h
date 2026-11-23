@@ -519,7 +519,6 @@ struct TObjPlayer : public TObjChara {
     static void destroy_global_buffer();
     static void destroy_buffers();
     static void destroy_static_buffer_pair();
-    static void destroy_buffer_pair_instance();
     int check_flag_0x80();
     static void free_buffer_pair();
     static s32 is_final_phase();

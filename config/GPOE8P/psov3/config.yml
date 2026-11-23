@@ -8375,7 +8375,7 @@ force_active:
   - lbl_805D5A90
   - lbl_805D5A94
   - lbl_805D5A98
-  - lbl_805D5D60
+  - youlla_photon_blast_buffer_pair
   - lbl_805D5DD8
   - lbl_805D5FF8
   - lbl_805D600C
@@ -16263,8 +16263,8 @@ force_active:
   - reset_color__13TPhotonEstllaFUc
   - sub_801AAE6C__13TPhotonFarllaFv
   - sub_801AB688__12TPhotonGollaFv
-  - sub_801AC444__13TPhotonLeillaFv
-  - sub_801AD4A8__12TPhotonMyllaFv
+  - reset_material_color__13TPhotonLeillaFUc
+  - reset_material_color__12TPhotonMyllaFUc
   - reset_color__12TPhotonPillaFUc
   - check_dismiss_to_close_input__22TQuestVmDownLoadServerFv
   - handle_download_done_input__22TQuestVmDownLoadServerFv
