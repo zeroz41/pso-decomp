@@ -55,27 +55,13 @@ struct VObj_18_b27ba1 : VBase_18_b27ba1 {
 
 struct Obj_8023AE8C { u8 pad[0x1C]; u8 *source; u8 pad20[0x74 - 0x20]; f32 power; };
 
-struct Target_8023AF94 { u16 id; u8 pad[6]; };
 
-struct Sifta_8023AF94 {
-    u8 pad0[0x1C];
-    uaddr source;
-    u8 pad1[0xA4 - 0x20];
-    s16 level;
-    u8 pad2[0xA8 - 0xA6];
-    u16 source_id;
-    u8 pad3[0xE0 - 0xAA];
-    s32 count;
-    Target_8023AF94 targets[11];
-    s32 captured;
-};
 
 extern "C" {
 saddr get_entity_id(int);
 int TTecSifta__spawn_sifta_range_effect(void* p);
 s32 is_split_screen();
 void deliver_technique_to_party_targets(void *);
-void run_task__9TTecSiftaFv(Sifta_8023AF94 *self);
 int spawn_support_tec_range_effect(void*);
 
 int TTecSifta__spawn_sifta_range_effect(void* p) { return spawn_support_tec_range_effect(p); }
@@ -142,34 +128,34 @@ TTecSifta::~TTecSifta() {
 }
 
 
-void run_task__9TTecSiftaFv(Sifta_8023AF94 *self) {
+void TTecSifta::run_task() {
     uaddr target;
     s32 i;
-    self->source = (uaddr)find_entity_by_id(self->source_id);
-    if (self->source == 0) {
-        ((TObject *)self)->queue_destruction();
+    source = (uaddr)find_entity_by_id(m_a8);
+    if (source == 0) {
+        queue_destruction();
         return;
     }
-    if (self->captured != 0) {
-        if (self->level <= 1) {
-            ((TTecSifta *)self)->vfunc_7((void *)self->source);
+    if (m_13c != 0) {
+        if (m_a4 <= 1) {
+            vfunc_7((void *)source);
         } else {
-            ((TTecSifta *)self)->vfunc_7((void *)self->source);
-            if (self->count != 0) {
-                for (i = 0; i < self->count; i++) {
-                    target = (uaddr)find_entity_by_id(self->targets[i].id);
+            vfunc_7((void *)source);
+            if (targets.count != 0) {
+                for (i = 0; i < targets.count; i++) {
+                    target = (uaddr)find_entity_by_id(targets.records[i].id);
                     if (TTecLuker::is_parents_unqueued(target) != 0) {
-                        ((TTecSifta *)self)->vfunc_7((void *)target);
+                        vfunc_7((void *)target);
                     }
                 }
             }
         }
-    } else if (self->level <= 1) {
-        ((TTecSifta *)self)->vfunc_7((void *)self->source);
+    } else if (m_a4 <= 1) {
+        vfunc_7((void *)source);
     } else {
-        deliver_technique_to_party_targets(self);
+        deliver_technique_to_party_targets(this);
     }
-    ((TObject *)self)->queue_destruction();
+    queue_destruction();
 }
 
 #pragma push
