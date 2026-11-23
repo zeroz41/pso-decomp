@@ -29,7 +29,6 @@ s32 __ct__9TAdFadeGCFP7TObjectPv(int, int, int);
 s32 TLoadCtrl__loading_mode;
 saddr TLoadCtrl__fade_task;
 extern s32 tl_fade;
-bool TLoadCtrl__sub_8001C60C(void);
 void TNowLoading__sub_8001D4D4(void);
 void TLoadCtrl__sub_80226DA0(s32 index);
 void fn_8034AD2C(void);
@@ -42,8 +41,8 @@ s32 __ct__14TAdFloorLoadGCFP7TObjectPv(s32, void *, int);
 void TNowLoading__sub_8001D4D0(void);
 void fn_8034AD28(void);
 
-bool TLoadCtrl__sub_8001C60C(void) {
-    return (*(s32 *)&TLoadCtrl__instance) != 0;
+BOOL TLoadCtrl::is_loading() {
+    return TLoadCtrl__instance ? TRUE : FALSE;
 }
 
 void TLoadCtrl::render() {  }

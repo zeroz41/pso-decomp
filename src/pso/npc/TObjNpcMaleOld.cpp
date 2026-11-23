@@ -38,6 +38,6 @@ TObjNpcMaleOld::TObjNpcMaleOld(TObject *parent, void *set_data) : TUnk_804A9F50(
     this->apply_set_data(set_data);
     init_position_vectors();
     this->model = (void *)TObjNpcMaleOld__shared_model_resource->models->model;
-    this->texlist = (saddr)TObjNpcMaleOld__shared_model_resource->models->m_c;
+    this->texlist = (saddr)TObjNpcMaleOld__shared_model_resource->models->texlist;
     this->setup_common();
 }

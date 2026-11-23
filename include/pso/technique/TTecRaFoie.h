@@ -2,11 +2,11 @@
 #define PSO_TECHNIQUE_TTECRAFOIE_H
 
 #include "types.h"
-#include "pso/effect/TUnk_804CC148.h"
+#include "pso/technique/TTecCircle.h"
 #include "pso/player/TargetCursorList.h"
 
 
-struct TTecRaFoie : public TUnk_804CC148 {
+struct TTecRaFoie : public TTecCircle {
     virtual void vfunc_9();
     virtual void vfunc_8(void *);
     virtual void vfunc_6(void *);

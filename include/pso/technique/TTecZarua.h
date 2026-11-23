@@ -2,10 +2,10 @@
 #define PSO_TECHNIQUE_TTECZARUA_H
 
 #include "types.h"
-#include "pso/effect/TUnk_804CC148.h"
+#include "pso/technique/TTecCircle.h"
 #include "pso/player/TargetCursorList.h"
 
-struct TTecZarua : public TUnk_804CC148 {
+struct TTecZarua : public TTecCircle {
     TTecZarua(saddr source, Vec *pos, TargetCursorList *list, s32 level);
     TTecZarua(saddr source, Vec *pos, Vec *target, s32 level);
     virtual ~TTecZarua();

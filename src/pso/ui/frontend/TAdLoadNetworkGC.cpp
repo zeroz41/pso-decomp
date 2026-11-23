@@ -2,8 +2,6 @@
 #include "pso/ui/frontend/TAdLoadNetworkGC.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/task/TObject_80019A50.h"
-#include "pso/unk/text_80086FE0.h"
-#include "pso/unk/text_80086B64.h"
 #include "pso/system/vector.h"
 #include "pso/boss/darkfalz/TBoss4Type2.h"
 #include "pso/ui/hud/TNowLoading.h"
@@ -56,7 +54,7 @@ TAdLoadNetworkGC::TAdLoadNetworkGC(TObject *parent, Vec *pos) : TObject(parent) 
     self->pos.z = 100.0f * ninja_camera.vz + ninja_camera.pz;
     for (i = 0; i < 5; i++) {
         self->obj[i] = 0;
-        self->obj[i] = fn_80086FE0(&self->pos, &TAdLoadNetworkGC__object_offset_table[i], load_network_object_id_table[i], 1);
+        self->obj[i] = create_particle_controller_with_angles(&self->pos, &TAdLoadNetworkGC__object_offset_table[i], load_network_object_id_table[i], 1);
     }
 }
 #undef self

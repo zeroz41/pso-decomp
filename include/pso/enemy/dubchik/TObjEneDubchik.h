@@ -5,7 +5,7 @@
 #include "pso/render/TUnk_80494938.h"
 
 class TParticleCtrl;
-class TUnk_80494968;
+class TAttackTraceStrip;
 
 class TUnk_80491478;
 
@@ -72,7 +72,7 @@ public:
     u8 pad_3A3[0x1];
     f32 chase_distance;  // 0x3A4: distance walked while chasing; past a threshold it may switch target (inferred)
     TParticleCtrl *effect;  // 0x3A8: particle 0x119 while it falls apart (inferred)
-    TUnk_80494968 *saver;
+    TAttackTraceStrip *saver;
     TUnk_80494938 fade;
     s32 knockback_timer;  // 0x3CC: frames update_knockback waits before set_invuln_flags
     f32 search_range;  // 0x3D0: passed to find_target_in_range (inferred)

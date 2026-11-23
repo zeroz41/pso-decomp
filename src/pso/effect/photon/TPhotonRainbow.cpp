@@ -1,80 +1,69 @@
 #include "types.h"
 #include "pso/effect/photon/TPhotonRainbow.h"
-#include "pso/unk/text_803D96A8.h"
-#include "pso/unk/text_803E2D70.h"
+#include "pso/camera/TCameraCtrl.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/object/ambient/TObjFish.h"
-#include "pso/effect/photon/TPhotonRainbow_801AE640.h"
+#include "pso/player/PhotonBlastResults.h"
+#include "pso/system/BmlResource.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/system/vector.h"
-#include "pso/camera/TCameraCtrl.h"
-
-extern "C" {
-
-s32 post_translate_matrix(void *);
-s32 rotate_matrix_y(s32, s32);
+#include "pso/unk/text_803D8F74.h"
+#include "pso/unk/text_803D96A8.h"
+#include "pso/unk/text_803E2D70.h"
+#include "pso/unk/text_803E2F28.h"
 
 void TPhotonRainbow::render() {
     if (camera_ctrl_instance != NULL) {
-        this->position.x = camera_ctrl_instance->pos.x;
-        this->position.z = camera_ctrl_instance->pos.z;
+        position.x = camera_ctrl_instance->pos.x;
+        position.z = camera_ctrl_instance->pos.z;
     }
     TParticleCtrl::begin_effect_render();
     push_matrix();
-    this->texlist = (s32) this->m_90;
-    post_translate_matrix((u8 *)&this->position);
-    rotate_matrix_y(0, (s32) this->rotation_y / 2);
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(this->texlist));
-    draw_chunk_object((void *)this->m_98);
+    texlist = (saddr)ring_texlist[0];
+    post_translate_matrix(&position.x);
+    rotate_matrix_y(0, rotation_y / 2);
+    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
+    draw_chunk_object(ring_model[0]);
     pop_matrix();
     push_matrix();
-    this->texlist = (s32) this->m_94;
-    post_translate_matrix((u8 *)&this->position);
-    rotate_matrix_y(0, 0x10000 - this->rotation_y);
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(this->texlist));
-    draw_chunk_object((void *)this->m_9c);
+    texlist = (saddr)ring_texlist[1];
+    post_translate_matrix(&position.x);
+    rotate_matrix_y(0, 0x10000 - rotation_y);
+    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
+    draw_chunk_object(ring_model[1]);
     pop_matrix();
     TParticleCtrl::end_effect_render();
 }
 
 void TPhotonRainbow::run_task() {
-    this->rotation_y = (this->rotation_y + 0xB6);
+    rotation_y = rotation_y + 0xB6;
 }
 
-
-}
 TPhotonRainbow::~TPhotonRainbow() {
-
 }
+
 #pragma readonly_strings on
 
-extern "C" {
-const char *TPhotonRainbow__name = "TPhotonRainbow";
-s32 __ct__8TObjBaseFP7TObject();
+const char *photon_rainbow_class_name = "TPhotonRainbow";
 
-extern void *__vt__14TPhotonRainbow[];
-extern const char *TPhotonRainbow__name;
-extern u8 *photon_blast_shared_resource;
-
-u8 *TPhotonRainbow__ct(u8 *photon_rainbow, s32 arg1_unused, saddr arg2) {
-    __ct__8TObjBaseFP7TObject();
-    *(s32 **)((s8 *)photon_rainbow + 0x18) = (s32 *)&__vt__14TPhotonRainbow;
-    *(s32 *)((s8 *)photon_rainbow + 0) = (s32) ((saddr)TPhotonRainbow__name);
-    if ((s32) ((TPhotonRainbow *)photon_rainbow)->m_a8 == 1) {
-        ((TPhotonRainbow *)photon_rainbow)->m_90 = (s32) *(s32 *)((s8 *)(*(void **)((s8 *)photon_blast_shared_resource + 0x42C)) + 0x6C);
-        ((TPhotonRainbow *)photon_rainbow)->m_94 = (s32) *(s32 *)((s8 *)(*(void **)((s8 *)photon_blast_shared_resource + 0x42C)) + 0x8C);
-        ((TPhotonRainbow *)photon_rainbow)->m_98 = (s32) *(s32 *)((s8 *)(*(void **)((s8 *)photon_blast_shared_resource + 0x42C)) + 0x68);
-        ((TPhotonRainbow *)photon_rainbow)->m_9c = (s32) *(s32 *)((s8 *)(*(void **)((s8 *)photon_blast_shared_resource + 0x42C)) + 0x88);
+TPhotonRainbow::TPhotonRainbow(TObject *parent, const Vec *pos, s32 boss_area) : TObjBase(parent) {
+    m_name = photon_rainbow_class_name;
+    if (this->boss_area == 1) {
+        ring_texlist[0] = photon_blast_shared_resource->models[6].texlist;
+        ring_texlist[1] = photon_blast_shared_resource->models[8].texlist;
+        ring_model[0] = photon_blast_shared_resource->models[6].model;
+        ring_model[1] = photon_blast_shared_resource->models[8].model;
     } else {
-        ((TPhotonRainbow *)photon_rainbow)->m_90 = (s32) *(s32 *)((s8 *)(*(void **)((s8 *)photon_blast_shared_resource + 0x42C)) + 0x5C);
-        ((TPhotonRainbow *)photon_rainbow)->m_94 = (s32) *(s32 *)((s8 *)(*(void **)((s8 *)photon_blast_shared_resource + 0x42C)) + 0x7C);
-        ((TPhotonRainbow *)photon_rainbow)->m_98 = (s32) *(s32 *)((s8 *)(*(void **)((s8 *)photon_blast_shared_resource + 0x42C)) + 0x58);
-        ((TPhotonRainbow *)photon_rainbow)->m_9c = (s32) *(s32 *)((s8 *)(*(void **)((s8 *)photon_blast_shared_resource + 0x42C)) + 0x78);
+        ring_texlist[0] = photon_blast_shared_resource->models[5].texlist;
+        ring_texlist[1] = photon_blast_shared_resource->models[7].texlist;
+        ring_model[0] = photon_blast_shared_resource->models[5].model;
+        ring_model[1] = photon_blast_shared_resource->models[7].model;
     }
-    VecCopy((Vec *)(photon_rainbow + 0x38), (const Vec *)arg2);
-    return photon_rainbow;
+    VecCopy(&position, pos);
 }
 
-void TObjPlayer__sub_801AE724(void) {  }
-void TObjPlayer__sub_801AE728(void) {  }
+void release_photon_rainbow_resources(void) {
+}
 
+void load_photon_rainbow_resources(void) {
 }

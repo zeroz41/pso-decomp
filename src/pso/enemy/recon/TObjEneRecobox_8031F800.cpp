@@ -180,7 +180,7 @@ void TObjEneRecobox::load_resources() {
     {
         NpcAnimationBinding binding = recobox_resource_binding_desc;
         binding.motions = TObjEneRecobox__static_instance->motions;
-        NpcModelRegistry::register_animated_chunk(0xD, TObjEneRecobox__static_instance->models[1].model, TObjEneRecobox__static_instance->models[1].m_c, &binding, recobox_collision_body.radius, 0.0f);
+        NpcModelRegistry::register_animated_chunk(0xD, TObjEneRecobox__static_instance->models[1].model, TObjEneRecobox__static_instance->models[1].texlist, &binding, recobox_collision_body.radius, 0.0f);
     }
 }
 
@@ -225,15 +225,15 @@ TObjEneRecobox::TObjEneRecobox(TObject *parent, void *set_data) : TObjEneDD_ST(p
     invoke_initialization_hook(set_data);
     init_position_vectors();
     model = TObjEneRecobox__static_instance->models[1].model;
-    texlist = (saddr)TObjEneRecobox__static_instance->models[1].m_c;
+    texlist = (saddr)TObjEneRecobox__static_instance->models[1].texlist;
     init_model(&recobox_collision_body, 1);
     body_center.y = 20.0f + position.y;
     update_body_colliders();
-    set_field_d8((saddr)TObjEneRecobox__animation_entries);
-    set_field_dc((saddr)TObjEneRecobox__static_instance->motions);
+    set_action_table((saddr)TObjEneRecobox__animation_entries);
+    set_motion_list((saddr)TObjEneRecobox__static_instance->motions);
     requested_action = 0;
     set_animation(requested_action);
-    set_field_b8(requested_action);
+    set_requested_action(requested_action);
     reset_hp((u8 *)recobox_boss_register_id, (u8 *)recobox_attack_params, (u8 *)TObjEneRecobox__shared_object_handle);
     set_state_flag_4();
     movementParameters = TObjEneRecobox__attack_params;
@@ -601,17 +601,17 @@ void TObjEneRecobox::spawn_debris_chips() {
     const TObjChipParams chip0 = {
         {0.5f, 0.07f, 0.26f}, {this->position.x, this->position.y, this->position.z},
         {5.0f, 5.0f, 5.0f}, {0x400, 0x100, 0x400}, {5, 50}, {this->position.y, 0.6f},
-        (saddr)TObjEneRecobox__static_instance->models[3].model, (saddr)TObjEneRecobox__static_instance->models[3].m_c, 20,
+        (saddr)TObjEneRecobox__static_instance->models[3].model, (saddr)TObjEneRecobox__static_instance->models[3].texlist, 20,
     };
     const TObjChipParams chip1 = {
         {0.5f, 0.07f, 0.26f}, {this->position.x, this->position.y, this->position.z},
         {4.0f, 4.5f, 4.0f}, {0x200, 0x100, 0x200}, {6, 50}, {this->position.y, 0.5f},
-        (saddr)TObjEneRecobox__static_instance->models[4].model, (saddr)TObjEneRecobox__static_instance->models[3].m_c, 20,
+        (saddr)TObjEneRecobox__static_instance->models[4].model, (saddr)TObjEneRecobox__static_instance->models[3].texlist, 20,
     };
     const TObjChipParams chip2 = {
         {0.5f, 0.07f, 0.26f}, {this->position.x, this->position.y, this->position.z},
         {4.0f, 4.5f, 4.0f}, {0x200, 0x100, 0x200}, {6, 50}, {this->position.y, 0.5f},
-        (saddr)TObjEneRecobox__static_instance->models[5].model, (saddr)TObjEneRecobox__static_instance->models[3].m_c, 20,
+        (saddr)TObjEneRecobox__static_instance->models[5].model, (saddr)TObjEneRecobox__static_instance->models[3].texlist, 20,
     };
     spawn_particle_effect_with_flags(&this->position, 0x45, 0x40);
     spawn_particle_effect_with_flags(&this->position, 0x46, 0x40);

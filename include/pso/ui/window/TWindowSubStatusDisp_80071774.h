@@ -5,7 +5,7 @@
 
 // slot: a TWindowSubStatusDisp::RecordSet
 extern "C" {
-s32 *TWindowSubStatusDisp__sub_80071820(uaddr arg0);
+char *TWindowSubStatusDisp__sub_80071820(uaddr arg0);
 s32 TWindowSubStatusDisp__sub_80071868(u16 id, s32 slot);
 s32 TWindowSubStatusDisp__sub_800718D0(void);
 s32 TWindowSubStatusDisp__sub_80071988(u16 arg0, saddr slot);

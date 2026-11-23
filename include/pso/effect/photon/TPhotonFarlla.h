@@ -1,34 +1,36 @@
 #ifndef PSO_EFFECT_PHOTON_TPHOTONFARLLA_H
 #define PSO_EFFECT_PHOTON_TPHOTONFARLLA_H
 #include "types.h"
-#include "pso/unk/TUnk_804C3248.h"
+#include "pso/effect/photon/PhotonBlastSummon.h"
 
-class TPhotonFarlla : public TUnk_804C3248 {
+// Farlla, the photon blast summon that strikes every enemy inside its collision body.
+class TPhotonFarlla : public TPhotonBlastSummon {
 public:
+    static const char *class_name;
+
+    TPhotonFarlla(PhotonSummonParams *params);
     virtual ~TPhotonFarlla();
-    void update_all_slots();
-    void sub_801AAE6C();
+    // The constructor passes the chain's summon count; the body ignores it.
+    void reset_material_color(u8 count);
+    void collect_hit_targets();
     virtual void render();
     virtual void run_task();
-    u8 unk_158[0x24];
-    u16 m_17c;
-    u8 unk_17E[0x2];
-    u8 * m_180;
-    f32 m_184;
-    u8 unk_188[0x4];
-    float m_18c;
-    u8 unk_190[0x4];
-    s16 m_194;
-    u8 unk_196[0x2];
-    s32 m_198;
-    u8 unk_19C[0x4];
-    s32 m_1a0;
-    u8 unk_1A4[0x4];
+
+    u8 pad_158[0x24];
+    u16 owner_id;
+    u8 pad_17E[2];
+    TObjCollidable *owner;
+    NJS_ARGB material_color;  // run_task fades its alpha out at the end
+    s16 last_action;
+    u8 pad_196[2];
+    s32 is_first;
+    s32 has_more;
+    s32 visible;
+    s32 frame;
 };
 LAYOUT_ASSERT(TPhotonFarlla_size, sizeof(TPhotonFarlla) == 0x1A8);
 
-extern "C" {
-void *destroy__13TPhotonFarllaFPvs(void *arg0, s16 arg1);
-}
+void destroy_farlla_photon_blast_model(void);
+void create_farlla_photon_blast_model(void);
 
 #endif

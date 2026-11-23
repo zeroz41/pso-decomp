@@ -2,6 +2,7 @@
 #include "pso/system/data/FlagWord.h"
 #include "pso/player/TObjPlayer_803130BC.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/player/PhotonBlastResults.h"
 
 struct T_803131B4 { u8 pad[0x8]; s32 arr[1]; };
 
@@ -10,25 +11,22 @@ struct Ids_80313138 { u16 a; s16 b; };
 extern "C" {
 s32 *TObjPlayer__sub_803131B4(T_803131B4 *self, s32 i);
 s32 test_flags_any(s32 *flags, s32 mask);
-int TObjPlayer__sub_801AA64C(void* a0 = 0);
 
-void TObjPlayer::update_children() { { int n = TObjPlayer::get_max_children(this); int i; for (i = 0; i < n; i++) { TObjPlayer__sub_801AA64C((char*)this + 0x8 + i * 4); } } }
+void TObjPlayer::update_children() { { int n = TObjPlayer::get_max_children(this); int i; for (i = 0; i < n; i++) { ((PhotonBlastRequestSlot *)((char*)this + 0x8 + i * 4))->clear(); } } }
 
-s16 TObjPlayer__sub_80313114(u8 *players) {
-    s16 temp_r3;
-    temp_r3 = *(s16 *)((s8 *)players + 2);
-    if (((temp_r3 < 0) || (temp_r3 >= 6)) && (temp_r3 != -1)) {
+s16 PhotonBlastRequest::get_kind() {
+    if ((kind < 0 || kind >= 6) && kind != -1) {
         return 0;
     }
-    return temp_r3;
+    return kind;
 }
 
-void TObjPlayer::reset_id_entry() {
+void PhotonBlastRequest::reset() {
     Ids_80313138 *o = (Ids_80313138 *)this;
     o->a = 0xFFFF;
     o->b = -1;
     ((FlagWord *)((u8 *)o + 4))->reset();
-    update_children();
+    ((TObjPlayer *)this)->update_children();
 }
 
 int TObjPlayer::query_field40() { return test_flags_any((s32 *)((char*)this + 0x40), 4); }
@@ -40,7 +38,7 @@ s32 *TObjPlayer__sub_803131B4(T_803131B4 *self, s32 i) {
 
 void TObjPlayer::process_indexed_element(s32 arg1) {
     saddr arg0 = (saddr)this;
-    ((TObjPlayer *)(arg0 + (arg1 * 0x18)))->reset_id_entry();
+    ((PhotonBlastRequest *)(arg0 + (arg1 * 0x18)))->reset();
 }
 
 void TObjPlayer::check_flag_at_4() { ((FlagWord *)((char*)this + 0x4))->set(1); }

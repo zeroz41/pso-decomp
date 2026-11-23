@@ -2,7 +2,7 @@
 
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/task/TObject.h"
-#include "pso/unk/text_803E29B0.h"
+#include "pso/effect/particle/ParticleStrip.h"
 #include "pso/boss/goldragon/TBoss8Dragon_8002CC48.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/object/TDeadSpot.h"
@@ -218,14 +218,14 @@ void run_task__9TDeadSpotFv(Obj_800D8228 *arg0) {
     }
 }
 #pragma pop
-void render__9TDeadSpotFv(u8 *arg0) {
-    if ((TMainTask::get_render_pass() != 1) && (*(f32 *)((s8 *)arg0 + 0xC4) > 0.0f) && (horizontal_distance_squared((const Vec *)(arg0 + 0x7C), &camera_ctrl_instance->pos) < 22500.0f)) {
+void TDeadSpot::render() {
+    if ((TMainTask::get_render_pass() != 1) && (scale > 0.0f) && (horizontal_distance_squared(&center, &camera_ctrl_instance->pos) < 22500.0f)) {
         saved_model_render_flags = model_render_flags;
         set_default_alpha_blend();
         setup_alpha_test_render_state(0x8F);
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(*(s32 *)((s8 *)arg0 + 0xB8)));
-        set_texture_num(*(s32 *)((s8 *)arg0 + 0xBC));
-        draw_particle_strip(arg0 + 0x1C, (void *)(4), (void *)(1));
+        TObjFish::set_global_param(texture);
+        set_texture_num(selector);
+        draw_particle_strip(verts, 4, 1);
         restore_saved_depth_alpha_state();
         model_render_flags = saved_model_render_flags;
     }

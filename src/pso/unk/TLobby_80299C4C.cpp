@@ -17,6 +17,7 @@
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
 
 #include "types.h"
+#include "pso/unk/TLobby_802268F4.h"
 
 #include "pso/system/task/TObject.h"
 #include "pso/object/base/TObjMotion.h"
@@ -226,7 +227,6 @@ void TObjChallenge4PRetry::countdown_and_destroy() {
 
 void TKeyBoardControl__sub_8000F950(void);
 s32 play_sound_effect(s32, s32, s32, s32);
-void play_cue_stream_file(saddr name);
 s32 TLobby__sub_80291F9C();
 }
 
@@ -237,7 +237,7 @@ void giveup_window_handle_select(void *arg0) {
     ((s32 (*)())play_effect_all_players__6TLobbyFPv)();
     switch (TLobby__sub_80291F9C()) {
     case 0:
-        play_cue_stream_file((saddr)"lose.adx");
+        play_cue_stream_file("lose.adx");
         ((s32 (*)(void *))send_giveup_to_all_players__6TLobbyFv)(arg0);
         ((TObjChallenge4PRetry *)arg0)->close_window();
         ((TObjChallenge4PRetry *)arg0)->close_window_field30();

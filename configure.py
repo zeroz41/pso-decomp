@@ -448,7 +448,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/system/data/pso_const_ids4.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
     # .rodata holds render's scale vector ahead of the int-to-float constant the earlier
     # TTecReverser::sub_8022BE64 uses: deferred generation of the last-to-first source.
-    "pso/unk/text_8022BE64.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
+    "pso/technique/TTecCircle.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
     "pso/effect/TDuelEffectCtrl.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/effect/TDuelEffectNumber.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/effect/TDuelEffectString.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-fp_contract on")},
@@ -530,7 +530,6 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/effect/item/TItemEffBringer.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/effect/item/TItemEffCane.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/effect/item/TItemEffEquip.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
-    "pso/effect/item/TItemEffLandHit.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/effect/item/TItemEffLavis.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/effect/photon/TPhotonEstlla.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/effect/photon/TPhotonFarlla.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
@@ -541,7 +540,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # .rodata holds generate_child_default's zero vector and the generator names ahead of
     # apply_particle_model_fade_color's conversion constant, while .sdata2 follows text order:
     # deferred generation of a TU written last to first (0x80085EE4-0x80086884).
-    "pso/effect/particle/TParticleCtrl_80085EE4.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
+    "pso/effect/particle/TParticle.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
     "pso/effect/photon/TPhotonConcentrate.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # TPhotonMylla__ct reaches its packet template with its own lis/addi (no shared .rodata base): -pool off.
     "pso/effect/photon/TPhotonMylla.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-pool off")},
@@ -561,10 +560,10 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # TItemTimerEvent: written last to first, deferred.
     "pso/item/TItemTimerEvent.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
     # vtables come out 0810, 0908, 0A00, 0AF8 then 0BF0: written last to first, deferred.
-    # TItemEffPG_8034EFDC/_8034F470 were cut from TItemEffPG.cpp at the .sdata2 pads
-    # (0x805DFDFC, 0x805DFE04); all three keep its deferred backwards source.
-    "pso/effect/item/TItemEffPG_8034EFDC.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
-    "pso/effect/item/TItemEffPG_8034F470.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
+    # The TUnk_804F0908 (Rappy's Fan) and TUnk_804F0AF8 (with the Gi-Gue bazooka) units end at
+    # .sdata2 pads (0x805DFDFC, 0x805DFE04) before TItemEffPG; all three keep deferred backwards source.
+    "pso/weapon/TUnk_804F0908.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
+    "pso/weapon/TUnk_804F0AF8.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
     "pso/effect/item/TItemEffPG.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
     # vtables come out TUnk_804A2548 then TUnk_804A2564: written last to first, deferred.
     "pso/player/TUnk_804A2548.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
@@ -954,6 +953,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # TObjWarpJungMain.cpp reaches each .rodata object with its own lis/addi: -pool off.
     "pso/object/warp/TObjWarpJungMain.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-pool off")},
     "pso/ui/window/TWindowComCard.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    "pso/ui/window/TWindowComCardFollower.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # .data holds the vtable (0x804D0FF0) ahead of run_task's jump table: deferred generation of the last-to-first source.
     "pso/ui/window/TWindowSubComCard_80271E7C.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
     "pso/ui/window/TWindowSubCustomEquip.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
@@ -1066,7 +1066,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # -inline off,deferred: the Vec initialiser objects 0x804359C0..E4 lie in reverse order of their
     # functions while the codegen literals after them lie in forward order: data in parse order, code deferred.
     "pso/boss/derolle/TBoss2DeRolLe.cpp": {"mw_version": "GC/2.0", "cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
-    "pso/effect/TEffIndirectCtrl.cpp": {"mw_version": "GC/2.0", "cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
+    "pso/effect/TEffIndirectCtrl.cpp": {"mw_version": "GC/2.0", "cflags": [*_switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly"), "-DPSO_SDK_COMPACT_MATH"]},
     "pso/boss/darkfalz/TObjDFDemo1.cpp": {"cflags": _switch(cflags_pso, "-sdata 4")},
     "pso/boss/darkfalz/TObjDFDemo4.cpp": {"cflags": _switch(cflags_pso, "-inline deferred", "-sdata 4")},
     # -sdata 4: the 8-byte motion id table 0x804EF9D8 sits in .data, the 4-byte class name in .sdata.
@@ -1506,7 +1506,6 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/ui/frontend/TAdChrSelMovePlateGC.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/ui/frontend/TAdFloorLoadCamGC.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/boss/galgryphon/TBoss5GryphonLightningEff.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
-    "pso/effect/enemy/TObjEneHoldEffect_8036D0C0.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/object/TObjWaitEntryHairMoveSim.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/object/collision/TOSymbolchatColli.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/ui/charcreate/TChCrTagInformationStr.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},

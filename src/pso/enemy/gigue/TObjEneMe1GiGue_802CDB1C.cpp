@@ -14,7 +14,6 @@
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/map/FloorArea.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/unk/text_80086B64.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/system/SoundEffect.h"
@@ -25,7 +24,6 @@
 #include "pso/math/MatrixTransforms.h"
 #include "pso/unk/text_803D853C.h"
 #include "pso/math/AngleUnits.h"
-#include "pso/unk/text_800870BC.h"
 #include "pso/network/client_id.h"
 #include "pso/npc/TNpcPlayer_800D87A8.h"
 

@@ -4,17 +4,14 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/effect/enemy/TEneParticleCtrl.h"
-#include "pso/unk/text_80087278.h"
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/player/TObjPlayer_80011014.h"
 
-// inferred: TEneParticleCtrl__collision_body, the one body the constructor registers.
-CollisionBody TEneParticleCtrl__collision_body = {{0.0f, 0.0f, 0.0f}, 20.0f, 0.0f, 0, 0x10003, {0.0f, 0.0f, 0.0f}, 0.0f};
+CollisionBody TEneParticleCtrl::collision_body = {{0.0f, 0.0f, 0.0f}, 20.0f, 0.0f, 0, 0x10003, {0.0f, 0.0f, 0.0f}, 0.0f};
 
-const char *TEneParticleCtrl__name = "TEneParticleCtrl";
+const char *TEneParticleCtrl::class_name = "TEneParticleCtrl";
 
-
-void *TEneParticleCtrl::get_center() { return get_field_38_ptr(); }
+void *TEneParticleCtrl::get_center() { return get_position_ptr(); }
 
 void TEneParticleCtrl::set_param(s32 index) { if (particle) particle->set_param_ptr(index); }
 void TEneParticleCtrl::free_particle_ctrl() { if (particle) particle->enable(); }
@@ -28,8 +25,8 @@ TEneParticleCtrl::~TEneParticleCtrl() {
 }
 
 TEneParticleCtrl::TEneParticleCtrl(TObjChara *owner, s32 effect_index) : TObjCollidable(owner) {
-    m_name = TEneParticleCtrl__name;
-    init_collision_body_parts(this, &TEneParticleCtrl__collision_body, 1);
+    m_name = class_name;
+    init_collision_body_parts(this, &collision_body, 1);
     register_object_by_id();
     bodies->flags &= ~1;
     owner_id = get_entity_id(owner);
@@ -42,4 +39,4 @@ TEneParticleCtrl::TEneParticleCtrl(TObjChara *owner, s32 effect_index) : TObjCol
     }
 }
 
-void *TEneParticleCtrl::get_field_38_ptr() { return &position; }
+void *TEneParticleCtrl::get_position_ptr() { return &position; }

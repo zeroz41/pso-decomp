@@ -1,6 +1,6 @@
 #include "pso/system/BmlAccessors.h"
 #include "types.h"
-#include "pso/unk/text_80087278.h"
+#include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/object/trap/TOMine.h"

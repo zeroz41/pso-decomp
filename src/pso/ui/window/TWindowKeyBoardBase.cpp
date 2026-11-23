@@ -646,7 +646,7 @@ void fn_8025DE10(WindowDrawContext *context, NJS_POINT2 *cursor) {
     depth = 0.1794f + context->depth;
     d.verts = pos;
     d.colors = col;
-    d.unk_8 = 0;
+    d.tex = NULL;
     d.count = 4;
     d.colors[0] = 0xFF0080;
     d.colors[1] = 0xFF0080;
@@ -682,7 +682,7 @@ void TWindowKeyBoardBase::draw_text_glyphs(WindowDrawContext *context, NJS_POINT
     depth = 0.0598f + context->depth;
     d.verts = pos;
     d.colors = col;
-    d.unk_8 = 0;
+    d.tex = NULL;
     d.count = 4;
     while (*p != 0) {
         ci = (p == reinterpret_cast<char *>(current_candidate)) ? 1 : 2;
@@ -739,7 +739,7 @@ void TWindowKeyBoardBase::draw_composition_background(WindowDrawContext *box, NJ
     depth = 0.0598f + box->depth;
     d.verts = pos;
     d.colors = col;
-    d.unk_8 = 0;
+    d.tex = NULL;
     d.count = 4;
     d.colors[0] = lbl_804CFA84[2];
     d.colors[1] = d.colors[0];

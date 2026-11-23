@@ -23,7 +23,10 @@ struct ShieldPmtEntry {
 
 // One entry of ItemShieldEntry.dat (byte-swapped by load_data).
 struct ShieldEffectEntry {
-    u32 words[11];
+    s32 particle_ids[8];  // played together at each burst, -1 for none
+    s32 first_delay;      // frames before the first burst
+    s32 interval;         // frames between the later bursts
+    s32 burst_count;
 };
 
 // TItemProShield::shield_flags bits.
@@ -58,7 +61,7 @@ struct TItemProShield : public TItemEquipBase {
     // The shield entries of the item class load/unload table.
     static void free();
     static void load_data();
-    static void create_shield_effect(s32 parent, u16 client, u32 entry);
+    static void create_shield_effect(TObject *parent, u16 client, ShieldEffectEntry *entry);
     // Sets the attach joint and shield_flags the item index and the PMT
     // model type ask for.
     void apply_shield_effect_flags();

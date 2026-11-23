@@ -81,7 +81,7 @@ TOCtrlDubchik::TOCtrlDubchik(TObject *parent, void *set_data) : TObjEnemy(parent
     apply_set_data(set_data);
     init_position_vectors();
     model = TOCtrlDubchik__shared_resource->models[0].model;
-    texlist = (saddr)TOCtrlDubchik__shared_resource->models[0].m_c;
+    texlist = (saddr)TOCtrlDubchik__shared_resource->models[0].texlist;
     init_collision_body_parts(this, &TOCtrlDubchik__collision_body, 1);
     refresh_collision_body_centers();
     register_object_by_id();

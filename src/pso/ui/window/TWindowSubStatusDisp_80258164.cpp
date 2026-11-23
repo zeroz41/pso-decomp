@@ -158,13 +158,10 @@ struct VObj18B_802582c4_80257784 : VBase18B_802582c4_80257784 {
     virtual s32 vm8C();
 };
 
-struct Obj_80258BB8 { u8 pad[8]; f32 f8; };
-
 extern "C" {
 extern const f32 lbl_805DCF04;
 extern const f32 lbl_805DCF08;
 void TWindowSubStatusDisp__sub_80258A28(u8 *arg0, s32 arg1, s32 arg2);
-void init_status_entry__20TWindowSubStatusDispFPvcUii(u8 *arg0, s8 arg1, u32 arg2, s32 arg3);
 void select_item_icon__20TWindowSubStatusDispFPviUcUci(void *arg0, s32 arg1, u8 arg2, u8 arg3, s32 arg4);
 void *get_player_by_client_id(s32 i);
 
@@ -441,9 +438,15 @@ void TWindowSubStatusDisp::setup_stat_line(s32 src, s32 arg2, s32 arg3) {
     }
     reinterpret_cast<ItemListRow *>(this)->suffix_style = (s32) *(s32 *)((s8 *)this + 0x30);
 }
-void TWindowSubStatusDisp::init_status_entry_by_flag(s32 x) {
-    ((void (*)(Obj_80258BB8 *, s32))init_status_entry__20TWindowSubStatusDispFPvcUii)(((Obj_80258BB8 *)this), x ? 0x14 : 0x15);
-    ((Obj_80258BB8 *)this)->f8 = lbl_805DCF04;
+void TWindowSubStatusDisp::init_status_entry_by_flag(ItemListRow *row, s32 flag, u32 src, s32 item) {
+    u8 category_icon;
+    if (flag) {
+        category_icon = 0x14;
+    } else {
+        category_icon = 0x15;
+    }
+    init_status_entry(row, category_icon, src, item);
+    row->x = lbl_805DCF04;
 }
 
 void TWindowSubStatusDisp::init_list_entry(u8 arg1, s32 src, s32 arg3) {
@@ -468,17 +471,16 @@ void TWindowSubStatusDisp::init_list_entry(u8 arg1, s32 src, s32 arg3) {
         *(s32 *)((s8 *)this + 0x30) = 0xFF909090;
     }
 }
-void init_status_entry__20TWindowSubStatusDispFPvcUii(u8 *window_sub_status_disp, s8 arg1, u32 src, s32 arg3) {
-    ItemListRow *row = (ItemListRow *)window_sub_status_disp;
+void TWindowSubStatusDisp::init_status_entry(ItemListRow *row, u8 category_icon, u32 src, s32 item) {
     row->x = lbl_805DCF04;
     row->status_icon = 0x33;
-    *(s8 *)&row->category_icon = arg1;
+    row->category_icon = category_icon;
     row->status_style = -1;
     row->category_style = -1;
     row->label = (char *)replace_owned_string__20TWindowSubStatusDispFPviiii(row, src, (saddr)row->label, 8, 1);
     row->style = -1;
     row->suffix_style = -1;
-    row->item = arg3;
+    row->item = item;
     row->flags |= 0x45;
 }
 
@@ -699,7 +701,7 @@ void calc_row_width__20TWindowSubStatusDispFv(ItemListRow *arg0) {
 
 void*TWindowSubStatusDisp::get_entry_ptr(int a0) {  return (char*)status_disp_item_icon_coord_table + (unsigned char)(a0) * 8; }
 
-extern s32 lbl_805D63F0;
+extern s32 hud_texlist;
 extern const f32 lbl_805DCF1C;
 
 void draw_item_list_icon(WindowDrawContext *win, ItemListPosition *pos, s32 icon, s32 style, f32 depth) {
@@ -713,7 +715,7 @@ void draw_item_list_icon(WindowDrawContext *win, ItemListPosition *pos, s32 icon
     if ((u8)icon != 0x33) {
         p = pos;
         begin_screen_draw(1);
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(lbl_805D63F0));
+        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(hud_texlist));
         set_draw_texture_and_color(1, style);
         entry = (f32 *)TWindowSubStatusDisp::get_entry_ptr(icon);
         offset = lbl_805DCF14;

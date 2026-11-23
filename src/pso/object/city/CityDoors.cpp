@@ -16,6 +16,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/vector.h"
 #include "pso/unk/TLobby.h"
+#include "pso/quest/challenge/TChallenge.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/object/TUnk_804B5C08.h"
@@ -145,7 +146,6 @@ __declspec(section ".sdata") extern const char *TObjCityDoor_Guild__name;
 __declspec(section ".sdata") extern const char *TObjCityDoor_Warp__name;
 __declspec(section ".sdata") extern const char *TObjCityDoor_Med__name;
 __declspec(section ".sdata") extern CityDoorClassTag TObjCityDoor_Lobby__name;
-extern void *challenge_task;
 
 struct BmObjCityCommonResourceDescriptor {
     BmlResourceDescriptor archive;
@@ -158,7 +158,7 @@ extern "C" s32 TLobby__sub_80182E60(void) {
     if (challenge_task == NULL) {
         return -1;
     }
-    return *(s32 *)((s8 *)challenge_task + 0x1C);
+    return challenge_task->state;
 }
 
 TUnk_804B5BA8::TUnk_804B5BA8(TObject *parent, void *set, const CityDoorParams *params)

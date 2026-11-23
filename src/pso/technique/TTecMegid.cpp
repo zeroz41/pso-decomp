@@ -6,7 +6,7 @@
 #include "pso/technique/TechniqueParams.h"
 #include "types.h"
 #include "pso/boss/goldragon/TBoss8Dragon_80065C90.h"
-#include "pso/effect/TUnk_804CCC68.h"
+#include "pso/technique/TTecShot.h"
 #include "pso/technique/TTecMegid.h"
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/technique/TTecAnti.h"
@@ -170,8 +170,6 @@ u32 get_technique_caster_flags(s32 technique, u16 actor);
 extern "C" {
 void run_task__9TTecMegidFv(Obj_80235740 *self);
 
-void *spawn_particle_effect_with_rotation(void *, void *, u32, u16);
-void *spawn_continuous_particle_effect_with_flags(void *, u32, u16);
 void **mem_alloc(u32, s32);
 
 void TTecMegid::update_by_state() {
@@ -356,13 +354,13 @@ void run_task__9TTecMegidFv(Obj_80235740 *self) {
             ((TParticleCtrl *)self->emitters[i])->set_position(&self->pos);
         }
     }
-    ((TUnk_804CCC68 *)self)->move_technique_projectile();
-    ((TUnk_804CCC68 *)self)->advance_lifetime_or_destroy();
-    ((TUnk_804CCC68 *)self)->dispatch_technique_contact(1);
+    ((TTecShot *)self)->move_technique_projectile();
+    ((TTecShot *)self)->advance_lifetime_or_destroy();
+    ((TTecShot *)self)->dispatch_technique_contact(1);
 }
 
 // The aimed form: the technique flies from `pos` towards `target`.
-TTecMegid::TTecMegid(saddr source, u8 *pos, u8 *target, s32 level) : TUnk_804CCC68(source, pos, target, level) {
+TTecMegid::TTecMegid(saddr source, u8 *pos, u8 *target, s32 level) : TTecShot(source, pos, target, level) {
     s32 i;
     m_name = TTecMegid__class_name;
     init_parameters();
@@ -380,7 +378,7 @@ TTecMegid::TTecMegid(saddr source, u8 *pos, u8 *target, s32 level) : TUnk_804CCC
 }
 
 // The facing form: the technique starts at `pos` and flies along the y angle `angle`.
-TTecMegid::TTecMegid(saddr source, Vec *pos, s32 angle, s32 level) : TUnk_804CCC68(source, pos, angle, level) {
+TTecMegid::TTecMegid(saddr source, Vec *pos, s32 angle, s32 level) : TTecShot(source, pos, angle, level) {
     s32 i;
     m_name = TTecMegid__class_name;
     init_parameters();

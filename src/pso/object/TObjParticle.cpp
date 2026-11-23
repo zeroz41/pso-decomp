@@ -5,8 +5,6 @@
 #include "pso/render/NinjaUtil.h"
 #include "pso/map/FloorArea.h"
 #include "pso/camera/TCameraCtrl.h"
-#include "pso/unk/text_800870BC.h"
-#include "pso/unk/text_800871A0.h"
 #include "pso/system/task/TMainTask.h"
 
 extern "C" {
@@ -54,9 +52,8 @@ TObjParticle::~TObjParticle() {
 TObjParticle::TObjParticle(TObject *parent, ParticleSetData *set_data) : TObjBase(parent) {
     u32 i;
     s32 entry;
-    s32 flags;
-    s32 base;
-    // Compose flag words in 16 bits, then pass the shared API its full-width int.
+    u16 flags;
+    u16 base;
     s32 continuous_flags = 0;
     m_name = obj_particle_class_name;
     VecCopy(&position, &set_data->position);
@@ -78,7 +75,7 @@ TObjParticle::TObjParticle(TObject *parent, ParticleSetData *set_data) : TObjBas
         }
         flags = base;
         if (set_params[1] == 1) {
-            flags = (base | 0x2000) & 0xFFFF;
+            flags = base | 0x2000;
         }
         emitter = (TParticleCtrl *)spawn_particle_effect_with_rotation(&position, &rotation_x, entry, flags);
     } else if ((s32)scale.z == 2) {
@@ -87,7 +84,7 @@ TObjParticle::TObjParticle(TObject *parent, ParticleSetData *set_data) : TObjBas
             flags = 0x48;
         }
         if (set_params[1] == 1) {
-            flags = (flags | 0x2000) & 0xFFFF;
+            flags |= 0x2000;
         }
         emitter = (TParticleCtrl *)spawn_particle_effect_with_rotation(&position, &rotation_x, entry, flags);
     } else if ((s32)scale.z == 3) {
@@ -96,7 +93,7 @@ TObjParticle::TObjParticle(TObject *parent, ParticleSetData *set_data) : TObjBas
             flags = 0x44;
         }
         if (set_params[1] == 1) {
-            flags = (flags | 0x2000) & 0xFFFF;
+            flags |= 0x2000;
         }
         emitter = (TParticleCtrl *)spawn_particle_effect_with_rotation(&position, &rotation_x, entry, flags);
     } else {
@@ -107,7 +104,7 @@ TObjParticle::TObjParticle(TObject *parent, ParticleSetData *set_data) : TObjBas
             continuous_flags = (continuous_flags | 0x2000) & 0xFFFF;
         }
         if (set_params[0] == 1 || set_params[1] == 1) {
-            emitter = (TParticleCtrl *)spawn_particle_effect_with_rotation(&position, &rotation_x, entry, continuous_flags & 0xFFFF);
+            emitter = (TParticleCtrl *)spawn_particle_effect_with_rotation(&position, &rotation_x, entry, continuous_flags);
         } else {
             emitter = (TParticleCtrl *)spawn_continuous_particle_with_direction(&position, &rotation_x, entry);
         }

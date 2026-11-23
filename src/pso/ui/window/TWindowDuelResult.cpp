@@ -36,7 +36,7 @@ void text_builder_reset(void);
 extern "C" {
 extern u8 lobby_rule_settings[];
 
-extern "C" u8 lbl_805D63F0[];
+extern "C" u8 hud_texlist[];
 extern "C" const char lbl_805DCCA8[] = ":";
 void *TWindowDuelResult__layout_entries[140] = {
     (void *)0x13, (void *)0x1, (void *)0x3, (void *)0x0,
@@ -71,7 +71,7 @@ void *TWindowDuelResult__layout_entries[140] = {
     (void *)0x42a00000, (void *)0x3f000000, (void *)0xffffffff, (void *)0x0,
     (void *)0x0, (void *)0x6, (void *)0x428c0000, (void *)0x43040000,
     (void *)0x41900000, (void *)0x41900000, (void *)0x43320000, (void *)0x434b0000,
-    (void *)0x3f000000, (void *)0xffffffff, (void *)&lbl_805D63F0, (void *)0x0,
+    (void *)0x3f000000, (void *)0xffffffff, (void *)&hud_texlist, (void *)0x0,
     (void *)0x14, (void *)0x3, (void *)0x42b00000, (void *)0x43040000,
     (void *)0x3f000000, (void *)0xffffffff, (void *)0x100, (void *)0x0,
 };
@@ -103,7 +103,7 @@ void *duel_result_window_layout_table[119] = {
     (void *)0x3f000000, (void *)0xffffffff, (void *)0x0, (void *)0x0,
     (void *)0x6, (void *)0x428c0000, (void *)0x43040000, (void *)0x41900000,
     (void *)0x41900000, (void *)0x43320000, (void *)0x434b0000, (void *)0x3f000000,
-    (void *)0xffffffff, (void *)&lbl_805D63F0, (void *)0x0, (void *)0x14,
+    (void *)0xffffffff, (void *)&hud_texlist, (void *)0x0, (void *)0x14,
     (void *)0x3, (void *)0x42b00000, (void *)0x43040000, (void *)0x3f000000,
     (void *)0xffffffff, (void *)0x100, (void *)0x0,
 };

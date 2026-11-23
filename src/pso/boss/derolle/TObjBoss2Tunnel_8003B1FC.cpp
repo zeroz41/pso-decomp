@@ -9,22 +9,22 @@
 #include "pso/system/task/TObject.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/effect/particle/TParticleCtrl.h"
-#include "pso/unk/TUnk_8048E728.h"
+#include "pso/effect/particle/TParticle.h"
 
 
 TObject *TObjBoss2Tunnel_parent_object;
 
 void TObjBoss2Tunnel::detach_children(TParticleCtrl *particle, const Vec *offset) {
-    TUnk_8048E728 *child;
-    while ((child = (TUnk_8048E728 *)particle->m_down) != NULL) {
+    TParticle *child;
+    while ((child = (TParticle *)particle->m_down) != NULL) {
         vec3_add_to(&child->step, offset);
         child->set_parent(TObjBoss2Tunnel_parent_object);
     }
 }
 
 void TObjBoss2Tunnel::release_children(TParticleCtrl *particle, f32 speed) {
-    TUnk_8048E728 *child;
-    while ((child = (TUnk_8048E728 *)particle->m_down) != NULL) {
+    TParticle *child;
+    while ((child = (TParticle *)particle->m_down) != NULL) {
         child->step.z = child->step.z + speed;
         child->set_parent(TObjBoss2Tunnel_parent_object);
     }

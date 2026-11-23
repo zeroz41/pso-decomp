@@ -55,7 +55,6 @@ struct TLobby : public TObject {
     static void free_nodes_with_id(uaddr arg0);
     static void create_time_window(void * _w0);
     void update_battle_cleanup_flag();
-    void set_challenge_record_page(s32 v);
     static void update_quest_challenge_state(void *arg0_);
     s32 destroy_on_phase_change();
     void copy_challenge_settings(u8 *settings);
@@ -147,7 +146,6 @@ struct TLobby : public TObject {
     static void send_status_packet();
     static void destroy_global_singleton();
     static void load_freeze_ice_resource();
-    void *alloc_tables(s32 arg1, s32 arg2);
     static void clear_flag_on_phase_e();
     void bswap_field();
     void broadcast_state();
@@ -547,8 +545,6 @@ struct TLobby : public TObject {
     static void shutdown_cleanup();
     static void invalidate_cache(void *start, u32 length);
     s32 get_scroll_offset();
-    void set_flag_4(s8 arg1);
-    void set_client_slot(s8 arg1);
     static void update_scroll_impl();
     static void set_callback(uaddr arg0, s32 arg1);
     u32 get_packet_size();
@@ -575,7 +571,6 @@ struct TLobby : public TObject {
     static void drain_deferred_packets();
     s32 get_table_entry_by_index();
     static void open_challenge_window(s32 arg0, s32 arg1);
-    void open_challenge_progress_window(void *arg1);
     static s32 get_flagged_table_entry(s32 arg0);
     static s32 get_flag_value_if_set();
     void add_status_disp_entry(s32 arg1, s32 arg2);
@@ -668,8 +663,6 @@ struct TLobby : public TObject {
     static s32 get_afs_file_info(s32 arg0, s32 arg1, char *arg2, s32 *arg3, s32 *arg4, s32 *arg5);
     static void release_used_slots();
     static s32 read_afs_toc(s32 id);
-    s32 demux_stream_chunks();
-    void get_entry_pair(s32 i, s32 *a, s32 *b);
 
     static void log_printf(const char *fmt, ...);
     static void init_callback_tables();
@@ -681,9 +674,6 @@ struct TLobby : public TObject {
     static void SVM_DelCbSvr(s32 arg0, s32 arg1);
     static s32 svm_set_cb_svr(s32 group, AdxWorkerCallback callback, s32 context);
     static void set_message_and_notify(char *src);
-    void set_stream_channel_pan(s32 ch, s32 pan);
-    static void update_active_streams();
-    void update_stream_buffers();
     static void bswap32_in_place(u32 *p);
     static void seek_gvrt_chunk();
     static void bswap_u32(u32 *p);
@@ -887,7 +877,6 @@ struct TLobby : public TObject {
     static s32 unhide_enemies_at(s32 arg0, s32 arg1, s32 arg2);
     void transfer_trade_item_amount(u32 arg1, s32 arg2);
     void move_trade_item_amount(u32 arg1, s32 arg2);
-    void set_stream_frequency(s32 rate);
     s32 copy_current_entry_name(s32 len);
     void capture_chat_sensor();
     static void parse_message_tag();
@@ -959,7 +948,6 @@ struct TLobby : public TObject {
     void show_score_results();
     static s32 check_all_players_ready(void *);
     static s32 assign_player_id(void *);
-    void send_neg50(void* a1);
     static void init_and_set_flag();
     static void init_battle_ctrl(s32 arg0, saddr src);
     static void init_char_slots();
@@ -1018,7 +1006,6 @@ struct TLobby : public TObject {
     static void destroy_join_entries();
     static void destroy_lobby_ui();
     static void disable_window_flags(void*);
-    static u8 *find_archive_entry(void *, void *, void *, void *);
     static void *find_chunk_by_id(void *, int);
     static void *find_free_pool_entry(void *);
     static void *find_free_trade_slot(void *);
@@ -1079,7 +1066,6 @@ struct TLobby : public TObject {
     static void open_session(const char *path);
     static void open_ship_block_select_menu(int, void *, void *);
     static void open_warp_menu();
-    static s32 parse_aix_header(void *, int, void *);
     static char *parse_csv_token(void *, void *);
     static s32 pick_random_slot(void *);
     static void play_all_players_effect(void*);

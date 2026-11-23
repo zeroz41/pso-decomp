@@ -17,7 +17,6 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/math/AngleLookup.h"
-#include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/animation/ActorAnimationState.h"
@@ -27,7 +26,7 @@
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/unk/SampledMotionPoints.h"
 #include "pso/math/FloatRounding.h"
-#include "pso/effect/TUnk_80494968.h"
+#include "pso/effect/TAttackTrace.h"
 #include "pso/enemy/berura/TObjEneRe7BeruraPunch.h"
 #include "pso/animation/MotionContext.h"
 #include "pso/render/NinjaUtil.h"
@@ -49,12 +48,11 @@
 #include "pso/object/trap/TOTrapAncient01_80226534.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel_8007E418.h"
 #include "pso/player/TObjPlayer_801542CC.h"
-#include "pso/unk/text_800F5BC0.h"
+#include "pso/render/StripBufferPair.h"
 #include "pso/unk/text_803E2F28.h"
 
 #pragma defer_codegen on
 extern "C" {
-s32 scroll_strip_uvs(s32, int, int);
 extern TObjEneRe7BeruraPart TObjEneRe7Berura__detached_part_states[];
 u8 * TObjEneRe7Berura__stat_handle_table[1];
 u8 * TObjEneRe7Berura__shared_object_handles[1];
@@ -70,7 +68,7 @@ TUnk_80490470 * TObjEneRe7Berura__demo_target;
 u8 * re7_berura_static_buffer;
 s32 * berura_node_matrix_ptr_a;
 s16 * berura_node_matrix_ptr_b;
-uaddr belra_uv_animation_buffer;
+StripBufferPair *belra_uv_animation_buffer;
 s32 berura_attack_node_range_start;
 s32 berura_attack_node_range_end;
 u8 * TObjEneRe7Berura__node_matrix_cursor;
@@ -227,11 +225,7 @@ void TObjEneRe7Berura::load_static_resources() {
     }
     berura_node_matrix_ptr_a = (s32 *)(((NJS_CNK_MODEL *)((NJS_OBJECT *)find_model_node(m, 2))->model)->polygon_list + 4);
     berura_node_matrix_ptr_b = ((NJS_CNK_MODEL *)((NJS_OBJECT *)find_model_node(m, 1))->model)->polygon_list + 4;
-    p = ::operator new(0x14);
-    if (p != NULL) {
-        p = ((TLobby *)p)->alloc_tables((saddr)TObjEneRe7Berura__shared_resource->models->model, 2);
-    }
-    belra_uv_animation_buffer = (uaddr)p;
+    belra_uv_animation_buffer = new StripBufferPair(TObjEneRe7Berura__shared_resource->models->model, 2);
     SampledMotionPoints *sampled = new SampledMotionPoints(4, 14.0f, 17.0f, 0.8f);
     belra_trail_buffer = sampled;
     pair[0] = 0x2E;
@@ -261,7 +255,7 @@ void TObjEneRe7Berura::load_static_resources() {
     {
         NpcAnimationBinding atk = ene_re7_berura_attack_def;
         atk.motions = reinterpret_cast<BmlMotionEntry *>(TObjEneRe7Berura__shared_resource->motions);
-        NpcModelRegistry::register_animated_chunk(0x15, reinterpret_cast<void *>(TObjEneRe7Berura__shared_resource->models->model), reinterpret_cast<void *>(TObjEneRe7Berura__shared_resource->models->m_c), &atk, 8.0f, 0.0f);
+        NpcModelRegistry::register_animated_chunk(0x15, reinterpret_cast<void *>(TObjEneRe7Berura__shared_resource->models->model), reinterpret_cast<void *>(TObjEneRe7Berura__shared_resource->models->texlist), &atk, 8.0f, 0.0f);
     }
 }
 
@@ -274,9 +268,9 @@ void TObjEneRe7Berura::destroy_children() {
         delete belra_trail_buffer;
         belra_trail_buffer = NULL;
     }
-    if ((u32) belra_uv_animation_buffer != 0U) {
-        destroy_buffer_pair((void *)belra_uv_animation_buffer, 1);
-        belra_uv_animation_buffer = 0U;
+    if (belra_uv_animation_buffer != NULL) {
+        delete belra_uv_animation_buffer;
+        belra_uv_animation_buffer = NULL;
     }
     if (re7_berura_static_buffer != NULL) {
         mem_free(re7_berura_static_buffer);
@@ -300,13 +294,13 @@ void TObjEneRe7Berura::init_enemy() {
     s32 j;
     init_position_vectors();
     model = (void *)TObjEneRe7Berura__shared_resource->models->model;
-    texlist = (saddr)TObjEneRe7Berura__shared_resource->models->m_c;
+    texlist = (saddr)TObjEneRe7Berura__shared_resource->models->texlist;
     init_model(&berura_collision_body, 1);
-    set_field_d8((saddr)TObjEneRe7Berura__animation_definitions);
-    set_field_dc((saddr)TObjEneRe7Berura__shared_resource->motions);
+    set_action_table((saddr)TObjEneRe7Berura__animation_definitions);
+    set_motion_list((saddr)TObjEneRe7Berura__shared_resource->motions);
     requested_action = 0;
     set_animation(requested_action);
-    set_field_b8(requested_action);
+    set_requested_action(requested_action);
     reset_hp(TObjEneRe7Berura__stat_handle_table[TObjEneRe7Berura__base_stat_rows[0]],
         TObjEneRe7Berura__attack_stat_handles[TObjEneRe7Berura__attack_stat_rows[0]],
         TObjEneRe7Berura__shared_object_handles[TObjEneRe7Berura__resist_stat_rows[0]]);
@@ -334,8 +328,8 @@ void TObjEneRe7Berura::init_enemy() {
         VecCopy(&hand_positions[i], &position);
         hand_emitters[i] = 0;
     }
-    attack_trails[0] = TUnk_80494968::create(0xFF00FF00, 0xA0703030);
-    attack_trails[1] = TUnk_80494968::create(0xFF00FF00, 0xA0703030);
+    attack_trails[0] = TAttackTraceStrip::create(0xFF00FF00, 0xA0703030);
+    attack_trails[1] = TAttackTraceStrip::create(0xFF00FF00, 0xA0703030);
     for (j = 0; j < 4; j++) {
         camera_fades[j].activate_and_dispatch();
     }
@@ -539,7 +533,7 @@ void TObjEneRe7Berura::draw_saved_node_tree(NJS_OBJECT *obj, u8 *matrices) {
 void TObjEneRe7Berura::draw_arm(s32 arm) {
     TObjEneRe7BeruraPart *part;
 
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(TObjEneRe7Berura__shared_resource->models->m_c));
+    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(TObjEneRe7Berura__shared_resource->models->texlist));
     part = &TObjEneRe7Berura__detached_part_states[arm];
     draw_saved_node_tree(&part->object, part->node_matrices);
 }
@@ -1423,7 +1417,7 @@ void TObjEneRe7Berura::render() {
         *berura_node_matrix_ptr_a = node2_color;
         berura_node_matrix_ptr_b[0] = node1_color;
         berura_node_matrix_ptr_b[1] = node1_color >> 16;
-        scroll_strip_uvs(belra_uv_animation_buffer, (s16)texture_scroll, 0);
+        belra_uv_animation_buffer->scroll_uvs(texture_scroll, 0);
         fade = &camera_fades[cam];
         fade->update();
         cam = fade->updateFromCamera(&body_center.x);

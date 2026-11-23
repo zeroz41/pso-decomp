@@ -7,7 +7,7 @@ struct NJS_OBJECT;
 #include "pso/enemy/TUnk_80493450.h"
 #include "pso/render/TUnk_80494938.h"
 
-class TUnk_80494968;
+class TAttackTraceStrip;
 
 struct TObjEneDolmOlm : public TUnk_80493450 {
     TObjEneDolmOlm(TObject *parent, void *set_data);
@@ -35,7 +35,7 @@ struct TObjEneDolmOlm : public TUnk_80493450 {
     virtual void spawn_death_effect();
     virtual void update_attack_trail();
     TUnk_80494938 fade;
-    TUnk_80494968 *attack_traces[2]; // driven by update_attack_trail
+    TAttackTraceStrip *attack_traces[2]; // driven by update_attack_trail
     f32 retreat_chance;        // 0.3 + parameters[2]: select_post_attack_mode's odds of mode 10 (update_retreat)
     f32 special_attack_chance; // 0.3 + parameters[3]: run_attack_action's odds of mode 11 (update_special_attack)
     f32 retreat_distance;      // how far update_retreat has backed away; it stops at 50

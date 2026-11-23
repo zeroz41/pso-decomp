@@ -4,8 +4,8 @@
 #include "pso/technique/TTecKafun.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TObject_80019A50.h"
-#include "pso/unk/text_80087278.h"
-#include "pso/effect/TUnk_804CC148.h"
+#include "pso/effect/particle/TParticleCtrl.h"
+#include "pso/technique/TTecCircle.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/player/TObjPlayer_801542CC.h"
@@ -83,11 +83,11 @@ TTecKafun::~TTecKafun() {
 
 void TTecKafun::render() {  }
 void TTecKafun::run_task() {
-    if (this->m_e8 == NULL) {
+    if (this->collidable == NULL) {
         queue_destruction();
         return;
     }
-    this->source = (uaddr)find_entity_by_id(this->m_b4);
+    this->source = (uaddr)find_entity_by_id(this->sourceId);
     if (this->source == 0U) {
         queue_destruction();
         return;
@@ -101,34 +101,34 @@ void TTecKafun::run_task() {
 }
 
 TTecKafun::TTecKafun(saddr source, Vec *pos, s32 kind, s32 effect, s32 second_effect, s32 level, f32 value, f32 radius)
-    : TUnk_804CC148(source, pos, pos, level) {
+    : TTecCircle(source, pos, pos, level) {
     this->m_name = tec_kafun_class_name_ptr;
     this->hit_value = value;
     this->hit_kind = kind;
     this->has_second_effect = 1;
     this->effect = effect;
     this->second_effect = second_effect;
-    if (this->m_e8 != NULL) {
-        this->m_e8->bodies->radius = radius;
+    if (this->collidable != NULL) {
+        this->collidable->bodies->radius = radius;
     }
     play_sound_effect(0x4002A50A, &this->position, 0, 0);
     if (this->source != 0U) {
-        this->m_b4 = get_entity_id((TObjBase *)this->source);
+        this->sourceId = get_entity_id((TObjBase *)this->source);
     }
 }
 
 TTecKafun::TTecKafun(saddr source, Vec *pos, s32 kind, s32 effect, s32 level, f32 value, f32 radius)
-    : TUnk_804CC148(source, pos, pos, level) {
+    : TTecCircle(source, pos, pos, level) {
     this->m_name = tec_kafun_class_name_ptr;
     this->hit_value = value;
     this->hit_kind = kind;
     this->has_second_effect = 0;
     this->effect = effect;
-    if (this->m_e8 != NULL) {
-        this->m_e8->bodies->radius = radius;
+    if (this->collidable != NULL) {
+        this->collidable->bodies->radius = radius;
     }
     play_sound_effect(0x4002A50A, &this->position, 0, 0);
     if (this->source != 0U) {
-        this->m_b4 = get_entity_id((TObjBase *)this->source);
+        this->sourceId = get_entity_id((TObjBase *)this->source);
     }
 }

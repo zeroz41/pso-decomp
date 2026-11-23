@@ -624,9 +624,9 @@ void set_chunk_blend_depth_mode(s32 header, s32 arg1) {
         if (((u32) (id & 0x20) != 0) && (0.0f != model_material_color.a)) {
             var_r28 = 0U;
         }
-        if (alpha_surface->format == 0xEU) {
+        if (alpha_surface->header.format == 0xEU) {
             if ((u32) (id & 0x400000) != 0) {
-                if ((u32) (alpha_surface->flags & 0x40000000) != 0) {
+                if ((u32) (alpha_surface->header.flags & 0x40000000) != 0) {
                     var_r6 |= texture_alpha_reason;
                 }
             } else {
@@ -675,7 +675,7 @@ void set_chunk_blend_depth_mode(s32 header, s32 arg1) {
             chunk_render_flags |= 0x400;
         }
         zcomp_surface = current_render_context->textures->entries[chunk_texture_record_index].texture->surface;
-        if ((zcomp_surface->format == 0xEU) && ((u32) (zcomp_surface->flags & 0x40000000) != 0)) {
+        if ((zcomp_surface->header.format == 0xEU) && ((u32) (zcomp_surface->header.flags & 0x40000000) != 0)) {
             set_chunk_alpha_compare_ref(0x1F);
             GXSetBlendMode(0, temp_r30, temp_r29, 0);
             GXSetZCompLoc(0);

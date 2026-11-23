@@ -180,7 +180,7 @@ TUnk_8049442C::TUnk_8049442C(TObjBase *owner, Vec *pos, s32 angle, s32 spin) : T
     probe_position.y += 5.0f;
     this->spin = spin;
     mine_model = gyaranzo_bml_resource->models[5].model;
-    mine_textures = (saddr)gyaranzo_bml_resource->models[5].m_c;
+    mine_textures = (saddr)gyaranzo_bml_resource->models[5].texlist;
     room = owner->room;
     owner_id = get_entity_id(owner);
     pad_B8 = 0;

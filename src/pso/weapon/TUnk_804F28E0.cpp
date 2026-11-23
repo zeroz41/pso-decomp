@@ -7,7 +7,6 @@
 #include "pso/weapon/TItemWeapon.h"
 #include "pso/weapon/TUnk_804F28E0.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/effect/item/TItemEffectWeapon_803632B4.h"
 #include "pso/effect/item/TItemEffOrgaFlowShot.h"
 #include "pso/system/task/TMainTask.h"
 

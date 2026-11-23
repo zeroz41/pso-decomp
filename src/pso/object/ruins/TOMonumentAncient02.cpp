@@ -4,7 +4,6 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/network/TProtocol.h"
-#include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/map/FloorArea.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/unk/TLobby_8030A6A8.h"
@@ -212,7 +211,7 @@ TOMonumentAncient02::TOMonumentAncient02(TObject *parent, void *set_data) : TObj
     m_name = TOMonumentAncient02__class_name;
     apply_object_set_data(set_data);
     model = (void *)TOMonumentAncient02__bml_resource->models[0].model;
-    texlist = (saddr)TOMonumentAncient02__bml_resource->models[0].m_c;
+    texlist = (saddr)TOMonumentAncient02__bml_resource->models[0].texlist;
     init_collision_body_parts(this, monument_ancient02_collision_parts, 1);
     refresh_collision_body_centers();
     register_object_by_id();

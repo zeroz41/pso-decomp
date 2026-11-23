@@ -8,7 +8,7 @@
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/system/vector.h"
-#include "pso/effect/TUnk_804CC148.h"
+#include "pso/technique/TTecCircle.h"
 
 #include "pso/technique/TTecAnti.h"
 #include "pso/technique/TTecLuker.h"
@@ -21,8 +21,6 @@
 #include "pso/render/render_util.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/unk/text_800870BC.h"
-#include "pso/unk/text_800871A0.h"
 #include "pso/unk/TLobby_80226070.h"
 
 extern "C" {
@@ -87,15 +85,15 @@ static const u8 orbit_counts[6] = {1, 1, 1, 2, 2, 3};
 
 void TTecGiFoie::render() {  }
 
-TTecGiFoie::TTecGiFoie(saddr source, Vec *origin, s32 level) : TUnk_804CC148(source, origin, origin, level) {
+TTecGiFoie::TTecGiFoie(saddr source, Vec *origin, s32 level) : TTecCircle(source, origin, origin, level) {
     s32 i;
     s32 j;
     s32 k;
     s32 r;
     this->m_name = TTecGiFoie__name;
     calc_params();
-    if (this->m_e8 != NULL) {
-        this->m_e8->bodies->radius = 5.0f + this->m_90;
+    if (this->collidable != NULL) {
+        this->collidable->bodies->radius = 5.0f + this->scope;
     }
     for (i = 0; i < 32; i++) {
         this->hitIds[i] = 0xFFFF;
@@ -118,7 +116,7 @@ TTecGiFoie::TTecGiFoie(saddr source, Vec *origin, s32 level) : TUnk_804CC148(sou
         p.x = this->position.x + v.x;
         p.y = this->position.y + v.y;
         p.z = this->position.z + v.z;
-        this->orbits[k] = new TUnk_804CC800(&p, angle, this->band, this->m_78, tl_07, 0);
+        this->orbits[k] = new TUnk_804CC800(&p, angle, this->band, this->level, tl_07, 0);
     }
     switch (this->band) {
     case 0:
@@ -154,7 +152,7 @@ TTecGiFoie::TTecGiFoie(saddr source, Vec *origin, s32 level) : TUnk_804CC148(sou
         break;
     }
     if (this->source != NULL) {
-        this->m_b4 = get_entity_id((TObjBase *)this->source);
+        this->sourceId = get_entity_id((TObjBase *)this->source);
     }
 }
 
@@ -164,22 +162,22 @@ TTecGiFoie::TTecGiFoie(saddr source, Vec *origin, s32 level) : TUnk_804CC148(sou
 #pragma opt_dead_assignments off
 void TTecGiFoie::run_task() {
     f32 distance;
-    if (this->m_e8 == NULL) {
+    if (this->collidable == NULL) {
         queue_destruction();
         return;
     }
-    this->source = (uaddr)find_entity_by_id(this->m_b4);
+    this->source = (uaddr)find_entity_by_id(this->sourceId);
     if (this->source == 0) {
         queue_destruction();
         return;
     }
     if (TTecLuker::is_parents_unqueued((uaddr)this->orbits[0]) != 0) {
         distance = newton_sqrtf(horizontal_distance_squared(&this->orbits[0]->pad_2C, &this->position));
-        if (this->m_e8 != NULL) {
-            this->m_e8->bodies->radius = 5.0f + distance;
+        if (this->collidable != NULL) {
+            this->collidable->bodies->radius = 5.0f + distance;
         }
         apply_technique_to_area_targets();
-        if (distance >= this->m_90) {
+        if (distance >= this->scope) {
             queue_destruction();
         }
     }
@@ -215,7 +213,7 @@ void TTecGiFoie::vfunc_6(void *target) {
         }
         HitInfo_8023154C tmp;
         tmp.type = 1;
-        tmp.power = this->m_88;
+        tmp.power = this->power;
         HitInfo_8023154C info = tmp;
         ((VObj_8023154C *)target)->m21((void *)this->source, &info, (void *)this->m_b8, 1, -1);
     }
@@ -256,7 +254,7 @@ TUnk_804CC800::TUnk_804CC800(Vec *pos, s32 angle, s32 band, s32 level, TObject *
             r.y = 0;
             r.z = 0x4000;
             p = &TTecGiFoie__emitter_profile_table[this->pad_44].parts[i];
-            this->pad_1C[i] = (TParticleCtrl *)spawn_particle_effect_with_rotation(&this->pad_20, &r, p->id, (p->flags & 0x1000) ? 0x2000 : 0);
+            this->pad_1C[i] = (TParticleCtrl *)spawn_particle_effect_with_rotation(&this->pad_20, &r, p->id, (p->flags & 0x1000) ? (u16)0x2000 : (u16)0);
             if (this->pad_44 == 2) {
                 if (level >= 0xF && level < 0x19) {
                     if (i <= 1 && this->pad_1C[i] != NULL) {
@@ -362,15 +360,15 @@ void TUnk_804CC800::run_task() {
 }
 
 void TTecGiFoie::calc_params() {
-    TechniqueParams *params = calc_technique_parameters(1, m_78, 0xFFFF);
-    ((TechniqueParams *)&m_88)->copy(params);
-    if (m_78 >= 15 && TTecCtrl::is_technique_ready() == 0) {
-        m_88 = (f32)(tech_high_level_linear_power_table[1].base + tech_high_level_linear_power_table[1].per_level * m_78);
+    TechniqueParams *params = calc_technique_parameters(1, level, 0xFFFF);
+    ((TechniqueParams *)&power)->copy(params);
+    if (level >= 15 && TTecCtrl::is_technique_ready() == 0) {
+        power = (f32)(tech_high_level_linear_power_table[1].base + tech_high_level_linear_power_table[1].per_level * level);
         return;
     }
-    m_88 = m_88 + (f32)(((TechniqueParams *)&m_88)->pad_24 * m_78);
+    power = power + (f32)(((TechniqueParams *)&power)->pad_24 * level);
     if (TTecCtrl::is_technique_ready()) {
-        m_88 = m_88 * lbl_804CC55C[1].pad_00;
+        power = power * lbl_804CC55C[1].pad_00;
     }
 }
 

@@ -40,7 +40,7 @@ void DelDepthMotion::set_motion(s32 arg1) {
         if (flag != 0) {
             actor->init((s16)id);
         } else {
-            actor->set_field_b8((s16)id);
+            actor->set_requested_action((s16)id);
         }
     } else if (id < 0xA) {
         saddr data = (saddr)TObjEneDelDepth::get_data();

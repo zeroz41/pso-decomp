@@ -4,6 +4,7 @@
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/unk/TLobby_801E43E4.h"
 #include "types.h"
+#include "pso/unk/TLobby_802268F4.h"
 #include "pso/system/byteswap.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/unk/TLobby.h"
@@ -55,7 +56,6 @@ u8 is_challenge_lobby__6TLobbyFv(void);
 s32 TLobby__sub_80070DA8();
 void play_player_default_effect__6TLobbyFv(s32 _w0);
 s32 play_sound_effect(s32, s32, s32, s32);
-void play_cue_stream_file(saddr name);
 s32 challenge_retry_cmd_table[3] = { 1, 0, 0 };
 __declspec(section ".data") f32 challenge_retry_window_pos[2] = { 360.0f, 125.0f };
 
@@ -267,7 +267,7 @@ void TObjChallengeRetry::handle_loss_sequence() {
     ((TLobby *)this)->play_player_default_effect();
     switch (TLobby__sub_80070DA8()) {
     case 0:
-        play_cue_stream_file((saddr)(s32 *)"lose.adx");
+        play_cue_stream_file("lose.adx");
         TLobby::send_45_and_close_windows(this);
         close_window_2c();
         sub_80072B70();

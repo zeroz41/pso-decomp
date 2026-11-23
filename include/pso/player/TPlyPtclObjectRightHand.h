@@ -9,9 +9,9 @@ struct TPlyPtclObjectRightHand : public TPlyFollowParticleCtrl {
     virtual ~TPlyPtclObjectRightHand();
     // vtable slot 9 (TObjBase::get_center)
     virtual void *get_center();
-};
 
-extern const char *TPlyPtclObjectRightHand__class_name;
+    static const char *class_name;
+};
 
 LAYOUT_ASSERT(TPlyPtclObjectRightHand_size, sizeof(TPlyPtclObjectRightHand) == 0xB0);
 

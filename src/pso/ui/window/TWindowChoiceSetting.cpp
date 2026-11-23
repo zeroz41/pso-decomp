@@ -13,7 +13,7 @@
 #include "pso/enemy/morfos/TWindowSubTradeMain.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 
-#include "pso/unk/TUnk_804CFA28.h"
+#include "pso/ui/window/WindowTextEntry.h"
 #include "pso/unk/WindowLayoutRecord.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/ControllerInput.h"
@@ -163,7 +163,7 @@ void TWindowMenuInfomation::draw_setting(saddr window_key_board_soft) {
 
 void TWindowMenuInfomation__ct(TWindowMenuInfomation *window, u32 rows) {
     u32 i;
-    TUnk_804CFA28 *entry;
+    WindowTextEntry *entry;
     window->m_name = lbl_805D3970;
     window->next_entry = 0;
     window->m_74 = 0;
@@ -172,7 +172,7 @@ void TWindowMenuInfomation__ct(TWindowMenuInfomation *window, u32 rows) {
     window->heading = NULL;
     *(s32 *)window->unk_7C = 0;
     for (i = 0; i < rows; i++) {
-        entry = static_cast<TUnk_804CFA28 *>(window->get_array_entry(i));
+        entry = static_cast<WindowTextEntry *>(window->get_array_entry(i));
         entry->y = (f32)(i * 0x14);
     }
     window->set_depth(39000.0f);

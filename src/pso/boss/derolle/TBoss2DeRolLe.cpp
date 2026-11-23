@@ -53,13 +53,11 @@ struct NJS_OBJECT;
 
 #include "pso/math/AngleLookup.h"
 
-#include "pso/unk/text_80087278.h"
 
 #include "pso/unk/text_803E2D70.h"
 
 #include "pso/unk/text_803D96A8.h"
 
-#include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/object/trap/TOTrapAncient01_80226534.h"
@@ -301,7 +299,6 @@ NJS_OBJECT *derolle_breakup_node;        // body node 0x4D; its children are swa
 NJS_OBJECT *derolle_breakup_node_child;  // the node's own first child
 
 
-void *create_particle_controller_with_angles(void *arg0, void *arg1, s32 arg2, s32 arg3, u16 arg4);
 
 Vec TBoss2DeRolLe__mine_ground_targets[5];
 
@@ -591,14 +588,14 @@ TBoss2DeRolLe::TBoss2DeRolLe(TObject *parent, void *set_data) : TObjEneDD_ST(par
     }
     init_position_vectors();
     model = boss2_derolle_resource->models[2].model;
-    texlist = (saddr)boss2_derolle_resource->models[2].m_c;
+    texlist = (saddr)boss2_derolle_resource->models[2].texlist;
     init_model(boss2_derolle_collision_bodies, 3);
     motion_flags = 0;
-    set_field_d8((saddr)boss2_derolle_action_table);
-    set_field_dc((saddr)boss2_derolle_resource->motions);
+    set_action_table((saddr)boss2_derolle_action_table);
+    set_motion_list((saddr)boss2_derolle_resource->motions);
     requested_action = 0;
     set_animation(requested_action);
-    set_field_b8(requested_action);
+    set_requested_action(requested_action);
     reset_hp((u8 *)TBoss2DeRolLe__base_params[0], (u8 *)TBoss2DeRolLe__attack_params_table[0], (u8 *)TBoss2DeRolLe__resistance_params[0]);
     set_state_flag_2();
     movementParameters = &boss2_derolle_movement;
@@ -3587,7 +3584,7 @@ void TBoss2DeRolLe::handle_death_state(u32 reason) {
         switch (state_step) {
         case 0:
             if (is_passing_frame(27.0f) != 0) {
-                play_cue_stream_file((saddr)"deldeath.adx");
+                play_cue_stream_file("deldeath.adx");
             } else if (is_passing_frame(20.0f) != 0) {
                 play_sound_effect(0x4003AD11, 0, 0, 0);
             } else if (is_passing_frame(99.0f) != 0) {

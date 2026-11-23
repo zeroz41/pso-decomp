@@ -1,7 +1,9 @@
 #include "types.h"
 #include "pso/effect/particle/ParticleDefinition.h"
 #include "pso/effect/TEF_LensFlare.h"
+#include "pso/effect/sprite/TQuadSprite.h"
 #include "pso/effect/TEF_PvrWave.h"
+#include "pso/unk/TTextureWave.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/math/MatrixVector.h"
@@ -18,16 +20,10 @@
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/vector.h"
 
-struct Base_8008194C_80081278 { char pad[0x50]; };
-struct VObj_8008194C_80081278 : Base_8008194C_80081278 {
-    virtual void m0();
-    virtual void m1();
-};
+__declspec(section ".rodata") extern const char lens_flare_class_name_string[] = "TEF_LensFlare";
+const char *TEF_LensFlare::class_name = lens_flare_class_name_string;
 
-__declspec(section ".rodata") extern const char TEF_LensFlare__class_name_string[] = "TEF_LensFlare";
-const char *TEF_LensFlare__class_name = TEF_LensFlare__class_name_string;
-
-// The reflections TEF_LensFlare__ct hands to every flare (render() draws the first nine).
+// The reflections the constructor hands to every flare (render() draws the first nine).
 LensFlareElement lens_flare_reflected_element_descriptors[10] = {
     {1, 0.1f, 0.8f, 0.0f, 0.7f, -10.0f},
     {2, 0.4f, 0.6f, 0.5f, 0.7f, -10.1f},
@@ -41,47 +37,17 @@ LensFlareElement lens_flare_reflected_element_descriptors[10] = {
     {2, 0.0f, 4.0f, 2.0f, 0.4f, -10.9f},
 };
 
-extern "C" {
-s32 __ct__8TObjBaseFP7TObject(void *, void *);
-extern s32 __vt__13TEF_LensFlare[];
-u8 *TEF_LensFlare__ct(u8 *arg0, saddr arg1, saddr arg2);
-
-}
 TEF_LensFlare::~TEF_LensFlare() {
 
 }
-
-// A screen sprite node as TQuadSpriteSclColRot::render reads it; render() only
-// fills it on the stack, so the link and type byte stay unset.
-struct FlareSprite {
-    FlareSprite *next;
-    Vec pos;
-    Vec offset;
-    f32 scale_x;
-    f32 scale_y;
-    u32 color;
-    u8 frame;
-    u8 type;
-    u16 angle;
-};
-
-// The flare colour, copied into the sprite as a whole word.
-struct FlareColor {
-    struct { u8 a, r, g, b; } argb;
-} ATTRIBUTE_ALIGN(4);
-
-// The glare colour: its alpha goes through a signed int before it is cut to a byte.
-struct FlareGlareColor {
-    struct { signed int a : 8; u8 r, g, b; } argb;
-};
 
 #pragma push
 #pragma opt_propagation off
 void TEF_LensFlare::render() {
     Vec *sprite_pos;
     if (TMainTask::get_render_pass() != 0 && camera_ctrl_instance != NULL) {
-        FlareSprite sprite_storage;
-        FlareSprite *sprite = &sprite_storage;
+        QuadSpriteNode sprite_storage;
+        QuadSpriteNode *sprite = &sprite_storage;
         sprite->pos.x = 0.0f;
         sprite->pos.y = 0.0f;
         sprite->pos.z = 0.0f;
@@ -91,13 +57,13 @@ void TEF_LensFlare::render() {
         sprite->scale_x = 0.0f;
         sprite->scale_y = 0.0f;
         sprite->color = 0;
-        sprite->frame = 0;
+        sprite->uv_index = 0;
         sprite->angle = 0;
         sprite_pos = &sprite_storage.pos;
         set_additive_blend();
         if (scale.x >= 0.0f) {
             f32 range = 10.0f * scale.x;
-            if (is_player_near(range * range)) {
+            if (is_player_out_of_range(range * range)) {
                 return;
             }
         }
@@ -139,14 +105,14 @@ void TEF_LensFlare::render() {
                 sprite->scale_x = 20.0f * s;
                 sprite->scale_y = sprite->scale_x;
                 begin_screen_draw(1);
-                TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(lbl_804C5820[15].texlist));
-                set_draw_texture_and_color(lbl_804C5820[15].texture, -1);
+                TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(particle_definitions[15].texlist));
+                set_draw_texture_and_color(particle_definitions[15].texture, -1);
                 f32 x = at.x;
                 f32 y = at.y;
                 f32 sx;
                 f32 two;
-                f32 w = lbl_804C5820[15].width;
-                f32 h = lbl_804C5820[15].height;
+                f32 w = particle_definitions[15].width;
+                f32 h = particle_definitions[15].height;
                 two = 2.0f;
                 sx = two * sprite->scale_x;
                 f32 sy = two * sprite->scale_y;
@@ -189,14 +155,14 @@ void TEF_LensFlare::render() {
             sprite->scale_x = 1.0f;
             sprite->scale_y = sprite->scale_x;
             begin_screen_draw(1);
-            TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(lbl_804C5820[9].texlist));
-            set_draw_texture_and_color(lbl_804C5820[9].texture, -1);
+            TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(particle_definitions[9].texlist));
+            set_draw_texture_and_color(particle_definitions[9].texture, -1);
             f32 x = at.x;
             f32 y = at.y;
             f32 sx;
             f32 two;
-            f32 w = lbl_804C5820[9].width;
-            f32 h = lbl_804C5820[9].height;
+            f32 w = particle_definitions[9].width;
+            f32 h = particle_definitions[9].height;
             two = 2.0f;
             sx = two * sprite->scale_x;
             f32 sy = two * sprite->scale_y;
@@ -236,14 +202,14 @@ void TEF_LensFlare::render() {
                 sprite->scale_x = size;
                 sprite->scale_y = sprite->scale_x;
                 begin_screen_draw(1);
-                GinjaTextureList *texlist = lbl_804C5820[9 + e->sprite].texlist;
+                GinjaTextureList *texlist = particle_definitions[9 + e->sprite].texlist;
                 TObjFish::set_global_param(texlist);
-                set_draw_texture_and_color(lbl_804C5820[9 + e->sprite].texture, -1);
+                set_draw_texture_and_color(particle_definitions[9 + e->sprite].texture, -1);
                 f32 sy;
                 f32 sx = 2.0f * sprite->scale_x;
                 const f32 x = at.x;
-                f32 w = lbl_804C5820[9 + e->sprite].width;
-                f32 h = lbl_804C5820[9 + e->sprite].height;
+                f32 w = particle_definitions[9 + e->sprite].width;
+                f32 h = particle_definitions[9 + e->sprite].height;
                 sy = 2.0f * sprite->scale_y;
                 h *= sy;
                 f32 quad[8];
@@ -269,20 +235,16 @@ void TEF_LensFlare::render() {
 #pragma pop
 
 
-u8 *TEF_LensFlare__ct(u8 *ef_lens_flare, saddr parent, saddr set_data) {
-    __ct__8TObjBaseFP7TObject((void *)ef_lens_flare, (void *)parent);
-    *(s32 **)((s8 *)ef_lens_flare + 0x18) = __vt__13TEF_LensFlare;
-    ((TEF_LensFlare *)ef_lens_flare)->m_name = TEF_LensFlare__class_name;
-    ((TEF_LensFlare *)(ef_lens_flare))->apply_object_set_data((void *)set_data);
-    ((TEF_LensFlare *)ef_lens_flare)->elements = lens_flare_reflected_element_descriptors;
-    return ef_lens_flare;
+TEF_LensFlare::TEF_LensFlare(TObject *parent, void *set_data) : TObjBase(parent) {
+    m_name = class_name;
+    apply_object_set_data(set_data);
+    elements = lens_flare_reflected_element_descriptors;
 }
 
 void TEF_LensFlare::run_task() {  }
 void TEF_PvrWave::render() {  }
 
 void TEF_PvrWave::run_task() {
-    struct VObj_8008194C_80081278 *o = (struct VObj_8008194C_80081278 *)*(void **)((s8 *)this + 0x1C);
-    o->m1();
+    wave->update_texture_wave_image();
 }
 

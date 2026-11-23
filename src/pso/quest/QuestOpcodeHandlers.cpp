@@ -101,7 +101,6 @@ int qst_label_address(int label);
 #include "pso/player/TPlyPhotonChair.h"
 #include "pso/player/TPlyItem.h"
 #include "pso/item/TItemList.h"
-#include "pso/effect/particle/TParticleCtrl_800867E4.h"
 #include "pso/camera/TCameraFollow.h"
 #include "pso/camera/TCameraPan.h"
 #include "pso/system/TTokenList.h"
@@ -902,6 +901,7 @@ void* __ct__13TQuestBgmCtrlFP7TObject(void*, TObject *);
 extern "C" {
 void reset_random_enemies_mode__6TLobbyFv(void);
 }
+void play_cue_stream_file(const char *name);
 extern "C" {
 s32 TLobby__sub_801F3314(int);
 int TLobby__sub_801F3384(void *p);
@@ -936,7 +936,6 @@ void unhide_room_set_objects(s32 a, s16 b, s16 c, s32 d);
 s32 TCheckRoomSequence__delete_bank_item(u8 *item, s32 slot);
 void try_close__6TLobbyFPv(void *p);
 s32 play_sound_effect(int, int, int, int);
-void play_cue_stream_file(saddr name);
 int TLobby__sub_802272B4(void*);
 int TLobby__sub_8022733C(void*);
 void * __nw__7TObjectFUl(u32);
@@ -5029,7 +5028,7 @@ void qst_op_window_msg(void) {
 }
 
 void qst_op_bgm(void) {
-    play_cue_stream_file((saddr)qst_bgm_filename_table[qst_args[0]]);
+    play_cue_stream_file(qst_bgm_filename_table[qst_args[0]]);
 }
 
 void qst_op_se(void) {

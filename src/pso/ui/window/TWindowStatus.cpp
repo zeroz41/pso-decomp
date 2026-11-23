@@ -34,7 +34,7 @@ void draw_photon_blast_gauge_ring(s32, void *, const f32 *, f32, f32);
 void begin_screen_draw(s32 arg0);
 s32 draw_textured_quad_at_depth(void *, f32);
 void set_draw_texture_and_color(s32 idx, s32 arg1);
-extern s32 lbl_805D63F0;
+extern s32 hud_texlist;
 
 s32 draw_right_aligned_number(void *);
 void update_hp_tp_values__20TWindowSubStatusDispFPv(u8 *arg0);
@@ -70,7 +70,7 @@ struct StatusWindowLayout {
 
 StatusWindowLayout lbl_804D0D98 = {
     15, 1,
-    {6, {27.0f, 16.0f}, {34.0f, 29.0f}, 112.0f, 84.0f, 0.5f, -1, &lbl_805D63F0, 0, 4},
+    {6, {27.0f, 16.0f}, {34.0f, 29.0f}, 112.0f, 84.0f, 0.5f, -1, &hud_texlist, 0, 4},
     {3, {124.0f, 67.0f}, 0.5f, 0xFFFFFFFF, 4, NULL},
     {4, {82.0f, 59.0f}, 0.5f, 0xFFFFFFFF, 4, 1},
     {{2, {90.0f, 24.0f}, 0.5f, 0xFF00FF15, 0x20, 120.0f, 0, 0}, 0xFF00CA9E, 0xFFFF2924},
@@ -149,7 +149,7 @@ void TWindowStatus::draw_background(u8 *ctx) {
         draw_photon_blast_gauge_ring((saddr)this, ctx, pos, *(s32 *)((s8 *)e + 0x20), 26.0f);
     }
     begin_screen_draw(1);
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(lbl_805D63F0));
+    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(hud_texlist));
     set_draw_texture_and_color(0xB, *(s32 *)((s8 *)ctx + 0x34));
     { f32 r = TWindowSubComCard__sub_80244784((TWindowSubComCard *)this);
     s = -1.0f / (0.0598f + this->draw_depth);

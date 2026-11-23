@@ -859,13 +859,13 @@ void TWindowDD::append_string(const char *str, char *buf, s32 *pos) {
     }
 }
 
-extern saddr lbl_805D63F0;
+extern saddr hud_texlist;
 
 void TWindowDD_WS_String::draw(saddr ctx, s32 idx, f32 offset) {
     Buf sp8;
     s32 draw_count;
 
-    draw_count = TWindowDD::get_draw_count((void **)(lbl_805D63F0));
+    draw_count = TWindowDD::get_draw_count((void **)(hud_texlist));
     ((TWindowDD *)(&sp8))->reset_entries(TWindowDD__sub_80348AD4(draw_depth, offset), -1);
     ((TWindowDD *)(&sp8))->copy_point_table(idx);
     TWindowDD__sub_80348A2C(reinterpret_cast<WindowDrawContext *>(ctx), reinterpret_cast<WindowVertex *>(&sp8));

@@ -186,9 +186,9 @@ public:
     void draw();
     virtual void reset_motion_fields();
     void set_animation(s16 action);
-    void set_field_d8(saddr);
-    void set_field_dc(saddr);
-    void set_field_b8(s16);
+    void set_action_table(saddr);
+    void set_motion_list(saddr);
+    void set_requested_action(s16);
     void sub_8002AE64();
     void sub_800A7798(f32);
     void set_motion_flags(u32 flags);

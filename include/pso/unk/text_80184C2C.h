@@ -19,5 +19,12 @@ void TLobby__sub_80184CE0(void *p);
 }
 BmlResource *get_season_model_resource(int a0);
 
+extern StripBufferPair *lbl_805D5B34;
+extern BmlResource *lbl_805D5B38;
+extern saddr lbl_805D5B3C;
+extern saddr lbl_805D5B40;
+extern GinjaTextureList *lbl_805D5B44;
+extern StripBufferPair *lbl_805D5B48;
+
 
 #endif

@@ -6,7 +6,6 @@
 
 extern "C" {
 
-s32 init_status_entry__20TWindowSubStatusDispFPvcUii(void *, u8, s32, s32);
 
 
 void TObjPlayer::add_status_line(u8 arg1, uaddr item, s32 arg3) {
@@ -14,7 +13,7 @@ void TObjPlayer::add_status_line(u8 arg1, uaddr item, s32 arg3) {
 
     temp_r31 = (void *)((TWindowBase *)this)->get_array_entry(*(s16 *)((s8 *)this + 0x72));
     if (item == 0U) {
-        init_status_entry__20TWindowSubStatusDispFPvcUii(temp_r31, arg1, 0, arg3);
+        TWindowSubStatusDisp::init_status_entry((ItemListRow *)temp_r31, arg1, 0, arg3);
         *(f32 *)((s8 *)temp_r31 + 8) += 18.0f;
         reinterpret_cast<ItemListRow *>(temp_r31)->category_style = 0xFFAAAAAA;
     } else {

@@ -2,136 +2,92 @@
 #include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
 #include "pso/system/task/TObject.h"
-
-const char *TPhotonLine__class_name = "TPhotonLine";
-
 #include "pso/effect/photon/TPhotonLine.h"
+#include "pso/effect/photon/PhotonBlastSummon.h"
 #include "pso/system/vector.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/object/base/TObjChara.h"
-
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/system/MatrixOps.h"
 
-struct Line_801ACD14 {
-    const char *f0;
-    u8 pad4[0x18 - 4];
-    void *vt18;
-    u8 pad1C[0x38 - 0x1C];
-    Vec f38;
-    u8 pad44[0x50 - 0x44];
-    Vec f50;
-    u8 pad5C[0x334 - 0x5C];
-    Vec f334;
-    u8 pad340[4];
-    f32 f344;
-    u8 pad348[0x350 - 0x348];
-    void *f350;
-    u16 f354[10];
-    s16 f368;
-};
+const char *TPhotonLine::class_name = "TPhotonLine";
 
-struct Flags_801ACB14 {
-    u8 pad0[0x18];
-    u32 f18;
-};
-
-struct Line_801ACB14 {
-    u8 pad0[0x38];
-    Vec pos;
-    u8 pad44[0xA4 - 0x44];
-    Flags_801ACB14 *fA4;
-    u8 padA8[0x2FC - 0xA8];
-    Vec f2FC;
-    u8 pad308[0x334 - 0x308];
-    Vec vel;
-    u8 pad340[4];
-    f32 f344;
-    u8 pad348[0x354 - 0x348];
-    u16 ids[10];
-    u16 count;
-};
-
-extern "C" {
-void init_collision_body_parts(void *, void *, s32);
 CollisionBody photon_line_collision_body_part[1] = {
     { { 0.0f, 0.0f, 0.0f }, 30.0f, 30.0f, 1, 0x8007, { 0.0f, 0.0f, 0.0f }, 0.0f },
 };
-s32 check_path_obstructed(void *, Vec *);
-u16 get_entity_id(void *);
+
+void TPhotonLine::render() {
+    TParticleCtrl::begin_effect_render();
+    TParticleCtrl::end_effect_render();
 }
-void queue_photon_blast_hit(u32 identity, s32 kind, s32 allow_duplicate, f32 scale);
-extern "C" {
-void run_task__11TPhotonLineFv(Line_801ACB14 *self);
-s32 free_collision_body_parts(void *);
 
-void TPhotonLine::render() { TParticleCtrl::begin_effect_render(); TParticleCtrl::end_effect_render(); }
-
-void run_task__11TPhotonLineFv(Line_801ACB14 *self) {
-    Vec v = self->pos;
+void TPhotonLine::run_task() {
+    Vec next = position;
     s32 i;
-    u8 *p;
+    TObjBase *player;
     s32 j;
-    vec3_add_to(&v, &self->vel);
-    VecCopy((Vec *)&self->f2FC, (const Vec *)&self->pos);
-    self->f2FC.y += 60.0f;
-    v.y += 60.0f;
-    if (check_path_obstructed(self, &v) == 1) {
-        ((TObject *)self)->queue_destruction();
+
+    vec3_add_to(&next, &vel);
+    VecCopy(&body_center, &position);
+    body_center.y += 60.0f;
+    next.y += 60.0f;
+    if (check_path_obstructed(this, &next) == 1) {
+        queue_destruction();
         return;
     }
     TObjPlayer::init_all_slots();
-    ((TObjCollidable *)self)->mark_enemy_body_contacts();
-    if (self->fA4->f18 & 0x100000) {
+    mark_enemy_body_contacts();
+    if (bodies->flags & 0x100000) {
         for (i = 0; i < 16; i++) {
-            p = (u8 *)TObjPlayer::get_battle_param(i);
-            if (p == NULL) {
+            player = (TObjBase *)TObjPlayer::get_battle_param(i);
+            if (player == NULL) {
                 break;
             }
-            for (j = 0; j < self->count; j++) {
-                if (self->ids[j] == get_entity_id(p)) {
+            for (j = 0; j < hit_count; j++) {
+                if (hit_ids[j] == get_entity_id(player)) {
                     break;
                 }
             }
-            if (j == self->count) {
-                self->ids[self->count++] = get_entity_id(p);
-                if ((s32)self->count >= 9) {
+            if (j == hit_count) {
+                hit_ids[hit_count++] = get_entity_id(player);
+                if ((s32)hit_count >= 9) {
                     break;
                 }
-                queue_photon_blast_hit(get_entity_id(p), 1, 0, self->f344);
-                spawn_particle_effect((const Vec *)(p + 0x38), 0x162);
-                spawn_particle_effect((const Vec *)(p + 0x38), 0x163);
+                queue_photon_blast_hit(get_entity_id(player), 1, 0, power);
+                spawn_particle_effect(&player->position, 0x162);
+                spawn_particle_effect(&player->position, 0x163);
             }
         }
     }
-    self->pos.x += self->vel.x;
-    self->pos.z += self->vel.z;
+    position.x += vel.x;
+    position.z += vel.z;
 }
-}
+
 TPhotonLine::~TPhotonLine() {
-    this->unregister_object_by_id();
+    unregister_object_by_id();
     free_collision_body_parts(this);
 }
 
-TPhotonLine::TPhotonLine(PhotonLineParams *p, TObject *parent, u16 arg3) : TObjChara(parent) {
-    Line_801ACD14 *self = (Line_801ACD14 *)this;
+TPhotonLine::TPhotonLine(PhotonLineParams *params, TObject *parent, u16 owner_id) : TObjChara(parent) {
     s32 i;
-    self->f0 = TPhotonLine__class_name;
-    VecCopy((Vec *)&self->f50, (const Vec *)(VecCopy((Vec *)((Vec *)&self->f38), (const Vec *)((const Vec *)&p->pos))));
-    VecCopy((Vec *)&self->f334, (const Vec *)&p->dir);
-    self->f334.x *= p->scale;
-    self->f334.y *= p->scale;
-    self->f334.z *= p->scale;
-    self->f344 = p->power;
-    self->f350 = find_entity_by_id(arg3);
-    init_collision_body_parts(self, photon_line_collision_body_part, 1);
-    ((TObjCollidable *)self)->refresh_collision_body_centers();
-    ((TObjPlayer *)self)->register_object_by_id();
-    for (i = 0; i < 10; i++) {
-        self->f354[i] = 0xFFFF;
-    }
-    self->f368 = 0;
-}
 
+    m_name = class_name;
+    VecCopy(&home_position, VecCopy(&position, &params->pos));
+    VecCopy(&vel, &params->dir);
+    vel.x *= params->speed;
+    vel.y *= params->speed;
+    vel.z *= params->speed;
+    power = params->power;
+    owner = find_entity_by_id(owner_id);
+    init_collision_body_parts(this, photon_line_collision_body_part, 1);
+    refresh_collision_body_centers();
+    register_object_by_id();
+    for (i = 0; i < 10; i++) {
+        hit_ids[i] = 0xFFFF;
+    }
+    hit_count = 0;
+}

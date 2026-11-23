@@ -63,7 +63,7 @@ void TOFenceAncient01::load_resources() {
     model_resource = resource;
     GinjaTextureList **lists = (GinjaTextureList **)mem_alloc(4 * sizeof(GinjaTextureList *));
     texlists = lists;
-    lists[0] = (GinjaTextureList *)model_resource->models[0].m_c;
+    lists[0] = (GinjaTextureList *)model_resource->models[0].texlist;
     texlists[1] = (GinjaTextureList *)load_gvm_texture_file((saddr)texture_file_b);
     texlists[2] = (GinjaTextureList *)load_gvm_texture_file((saddr)texture_file_g);
     texlists[3] = (GinjaTextureList *)load_gvm_texture_file((saddr)texture_file_p);

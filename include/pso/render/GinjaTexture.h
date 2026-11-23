@@ -5,13 +5,17 @@
 
 struct GinjaTextureError {
     s32 entry_index;
-    s32 field_04;
+    s32 pad_04;
     s32 code;
-    s32 field_0c;
-    s32 field_10;
+    s32 pad_0C;
+    s32 pad_10;
 };
 
 LAYOUT_ASSERT(GinjaTextureErrorPrefixSize, sizeof(GinjaTextureError) == 0x14);
+
+extern GinjaTextureError lbl_8058D470;
+// The loaded textures: one GinjaTextureState per slot, record_array_count slots.
+extern GinjaTextureState *record_array_ptr;
 
 extern "C" {
 s32 TObjPlayer__sub_803DAE98(GinjaTextureState *texture);

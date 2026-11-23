@@ -1,7 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/enemy/AttackTargetHistory.h"
 #include "pso/boss/DragonAttackParams.h"
-#include "pso/unk/text_80087278.h"
 #include "pso/system/BmlResourceLoader.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/EnemyBmlResource.h"
@@ -85,7 +84,6 @@ struct ByteBlock_C { u8 bytes[0xc]; };
 #include <stddef.h>
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/network/client_id.h"
-#include "pso/unk/text_800870BC.h"
 #include "pso/render/MaterialAlphaCompare.h"
 #include "pso/object/TObjControl.h"
 #include "pso/render/render_util.h"
@@ -375,11 +373,11 @@ void ProtectionTimer::reset_type() { frames = 0; }
 
 void ProtectionTimer::reset_lobby_model() { reset_type(); }
 
-void TObjMotion::set_field_d8(saddr v) { (*(saddr *)&this->action_table) = v; }
+void TObjMotion::set_action_table(saddr v) { (*(saddr *)&this->action_table) = v; }
 
-void TObjMotion::set_field_dc(saddr v) { *(saddr *)&this->motion_list = v; }
+void TObjMotion::set_motion_list(saddr v) { *(saddr *)&this->motion_list = v; }
 
-void TObjMotion::set_field_b8(s16 v) { this->requested_action = v; }
+void TObjMotion::set_requested_action(s16 v) { this->requested_action = v; }
 
 void TObjMotion::sub_8002AE64() {
     this->motion_flags = (s32) (this->motion_flags & 0xFFFFFFFE);
@@ -722,11 +720,11 @@ TBoss1Dragon::TBoss1Dragon(TObject *parent, void *set_data) : TObjEneDD_ST(paren
     this->texlist = ((DragonResource *)boss1_dragon_resource)->models[0].texlist;
     this->init_model((CollisionBody *)boss1_dragon_collision_body_parts, (s32)7);
     this->motion_flags = 0;
-    this->set_field_d8((saddr)boss1_dragon_motion_actions);
-    this->set_field_dc((saddr)((DragonResource *)boss1_dragon_resource)->motions);
+    this->set_action_table((saddr)boss1_dragon_motion_actions);
+    this->set_motion_list((saddr)((DragonResource *)boss1_dragon_resource)->motions);
     this->requested_action = 0;
     this->set_animation(this->requested_action);
-    this->set_field_b8(this->requested_action);
+    this->set_requested_action(this->requested_action);
     this->reset_hp(boss1_dragon_base_params[boss1_dragon_base_stat_indices[0]], boss1_dragon_part_hp_stats[boss1_dragon_attack_stat_indices[0]], boss1_dragon_resistance_params[boss1_dragon_resistance_stat_indices[0]]);
     this->set_state_flag_1();
     this->movementParameters = boss1_dragon_init_params;
@@ -3329,7 +3327,7 @@ void TBoss1Dragon::update_stretch_state(u32 reason) {
     case ENEMY_STATE_UPDATE:
         advance_animation();
         if (this->is_passing_frame((20.0f)) != 0) {
-            play_cue_stream_file((saddr)"draroar.adx");
+            play_cue_stream_file("draroar.adx");
             return;
         }
         break;
@@ -3349,7 +3347,7 @@ void TBoss1Dragon::update_roar_state(u32 reason) {
         this->set_flight_height();
         this->flags |= 0xC00;
         this->flags &= ~0x280;
-        play_cue_stream_file((saddr)"draroar.adx");
+        play_cue_stream_file("draroar.adx");
         this->set_invulnerable();
         this->stateStep = 0;
         return;
@@ -3963,7 +3961,7 @@ void TBoss1Dragon::update_death_state(u32 reason) {
         this->impactAge = 0;
         this->fallVelocity = (0.0f);
         this->breath_particles[0] = 0;
-        play_cue_stream_file((saddr)"dradeath.adx");
+        play_cue_stream_file("dradeath.adx");
         TWindowCtrl::init_all_slots();
         switch (TBoss1Dragon::isV2Mode()) {
         case 0:
@@ -4808,7 +4806,7 @@ void TBoss1Dragon::update_appearance_state(u32 reason) {
                 break;
             case 4:
                 if (this->is_passing_frame((f32)(105.0f)) != 0) {
-                    play_cue_stream_file((saddr)"dradeath.adx");
+                    play_cue_stream_file("dradeath.adx");
                     this->action_frames++;
                     this->impactAge = 0;
                 }
@@ -4874,7 +4872,7 @@ void TBoss1Dragon::update_appearance_state(u32 reason) {
                 break;
             case 3:
                 if (this->is_passing_frame((f32)(120.0f)) != 0) {
-                    play_cue_stream_file((saddr)"dradeath.adx");
+                    play_cue_stream_file("dradeath.adx");
                     this->action_frames++;
                     this->impactAge = 0;
                 }
@@ -4937,7 +4935,7 @@ void TBoss1Dragon::update_appearance_state(u32 reason) {
                 break;
             case 4:
                 if (this->is_passing_frame((f32)(105.0f)) != 0) {
-                    play_cue_stream_file((saddr)"dradeath.adx");
+                    play_cue_stream_file("dradeath.adx");
                     this->action_frames++;
                     this->impactAge = 0;
                 }

@@ -6,8 +6,8 @@
 #include "pso/boss/goldragon/TBoss8Dragon_80065C90.h"
 #include "pso/unk/TLobby_8001EF5C.h"
 #include "pso/technique/TTecBarta.h"
-#include "pso/effect/TUnk_804CC148.h"
-#include "pso/effect/TUnk_804CCC68.h"
+#include "pso/technique/TTecCircle.h"
+#include "pso/technique/TTecShot.h"
 #include "pso/system/task/TObject.h"
 #include "pso/technique/TTecCtrl.h"
 
@@ -15,10 +15,7 @@
 #include "pso/technique/TTecAnti.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/unk/TLobby_80226070.h"
-#include "pso/effect/particle/TParticleCtrl_800867E4.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
-#include "pso/unk/text_800871A0.h"
-#include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/object/base/CollisionActorLookup.h"
 
 struct HitInfo_8022B8F4 { s32 type; f32 power; };
@@ -112,10 +109,9 @@ const TechniqueEmitterSourceTable TTecBarta__emitter_bands[6] = {
     {lbl_8044CCE4, 4}, {lbl_8044CD14, 4}, {lbl_8044CD44, 7},
 };
 const char *TTecBarta__class_name = "TTecBarta";
-void move_ground_technique_projectile(void *p);
 extern "C" {
 s32 get_type__10TObjPlayerFPv(void *);
-List_8022BD74 *find_area_contact__13TUnk_804CC148Fl(Tec_8022BD74 *, void *);
+List_8022BD74 *find_area_contact__10TTecCircleFl(Tec_8022BD74 *, void *);
 s32 play_sound_effect(s32, s32, s32, s32);
 
 void TTecBarta::update_technique_by_state() {
@@ -279,7 +275,7 @@ void TTecBarta::run_task() {
             attach_particle_model((u8 *)e, get_bml_model(technique_effect_bml, 5), lbl_805D63B0, 0, 0, 1.0f);
         }
     }
-    move_ground_technique_projectile(this);
+    move_ground_technique_projectile();
     advance_lifetime_or_destroy();
     dispatch_all_technique_contacts();
 }
@@ -289,7 +285,7 @@ void TTecBarta::render() {  }
 }
 
 TTecBarta::TTecBarta(saddr source, u8 *pos, u8 *target, s32 level)
-    : TUnk_804CCC68(source, pos, target, level) {
+    : TTecShot(source, pos, target, level) {
     s32 i;
     m_name = TTecBarta__class_name;
     init_parameters();
@@ -307,7 +303,7 @@ TTecBarta::TTecBarta(saddr source, u8 *pos, u8 *target, s32 level)
 
 // The facing form starts 5 units higher.
 TTecBarta::TTecBarta(saddr source, Vec *pos, s32 angle, s32 level)
-    : TUnk_804CCC68(source, pos, angle, level) {
+    : TTecShot(source, pos, angle, level) {
     s32 i;
     m_name = TTecBarta__class_name;
     init_parameters();
@@ -324,9 +320,9 @@ TTecBarta::TTecBarta(saddr source, Vec *pos, s32 angle, s32 level)
     }
 }
 
-void TUnk_804CCC68::vfunc_6() {  }
+void TTecShot::vfunc_6() {  }
 struct TechniqueParticleEmitter;
-void TUnk_804CC148::apply_technique_to_area_targets() {
+void TTecCircle::apply_technique_to_area_targets() {
     List_8022BD74 *list;
     s32 i;
     u32 id;
@@ -338,7 +334,7 @@ void TUnk_804CC148::apply_technique_to_area_targets() {
         if (get_type__10TObjPlayerFPv((u8 *)((Tec_8022BD74 *)this)->owner + 0x828) != 0) {
             list = (List_8022BD74 *)collect_body_contacts_for_target((saddr)((Tec_8022BD74 *)this)->owner);
         } else {
-            list = find_area_contact__13TUnk_804CC148Fl(((Tec_8022BD74 *)this), ((Tec_8022BD74 *)this)->owner);
+            list = find_area_contact__10TTecCircleFl(((Tec_8022BD74 *)this), ((Tec_8022BD74 *)this)->owner);
         }
     } else {
         list = (List_8022BD74 *)collect_body_contacts_for_target((saddr)((Tec_8022BD74 *)this)->owner);

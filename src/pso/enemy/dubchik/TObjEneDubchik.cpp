@@ -9,7 +9,7 @@
 #include "pso/npc/NpcAnimationBinding.h"
 #include "pso/unk/SampledMotionPoints.h"
 #include "pso/player/PlayerAttackParams.h"
-#include "pso/effect/TUnk_80494968.h"
+#include "pso/effect/TAttackTrace.h"
 #include "types.h"
 #include "pso/render/NinjaUtil.h"
 #include "pso/object/base/TObjMotion.h"
@@ -45,7 +45,6 @@
 #include "pso/unk/text_803E2D70.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/math/MatrixVector.h"
-#include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/enemy/TObjEnemyCustom.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/object/base/TObjMotion.h"
@@ -196,7 +195,7 @@ void AttackParams::set_attack_range(f32 range) { attack_range = range; }
 
 void TObjEneDubchik::init_level_stats(s32 variant) {
     model = dubchik_resource->models[0].model;
-    texlist = variant == 0 ? (saddr)dubchik_resource->models[0].m_c : (saddr)dubchik_variant_texlist;
+    texlist = variant == 0 ? (saddr)dubchik_resource->models[0].texlist : (saddr)dubchik_variant_texlist;
 }
 
 s32 TObjEneDubchik::get_int_parameter(s32 i) {
@@ -221,14 +220,14 @@ TObjEneDubchik::TObjEneDubchik(TObject *parent, void *set_data) : TObjEnemyCusto
     state36C = *(s16 *)((u8 *)set_data + 0x3E);
     init_level_stats(variant);
     action_table = dubchik_action_table;
-    set_field_d8((saddr)action_table);
+    set_action_table((saddr)action_table);
     init_collision_body_parts(this, dubchik_collision_body, 1);
     movementParameters = &dubchik_movement;
     bind_enemy_combat_stats(dubchik_base_params_by_variant[variant], dubchik_attack_params_by_variant[variant], dubchik_resistance_params_by_variant[variant]);
     load_params();
     requested_action = 5;
     set_animation(requested_action);
-    set_field_b8(requested_action);
+    set_requested_action(requested_action);
     hp = hpmax;
     tp = tpmax;
     referenceHp = hp;
@@ -246,7 +245,7 @@ TObjEneDubchik::TObjEneDubchik(TObject *parent, void *set_data) : TObjEnemyCusto
     } else {
         set_param(24);
     }
-    saver = TUnk_80494968::create(0x00FFFFFF, 0xA0707070);
+    saver = TAttackTraceStrip::create(0x00FFFFFF, 0xA0707070);
     if (*(s16 *)((u8 *)set_data + 0xA) != 0) {
         start_appear();
     }
@@ -292,7 +291,7 @@ void TObjEneDubchik::load_resources() {
         p = new BmlResource(5, &bm_ene_dubchik_resource_descriptor, 0, 0, NULL);
         dubchik_resource = (BmlResource *)p;
     }
-    dubchik_texlist = (NJS_TEXLIST *)dubchik_resource->models[1].m_c;
+    dubchik_texlist = (NJS_TEXLIST *)dubchik_resource->models[1].texlist;
     if (TObjEneDD::check_v2_mode() != 0) {
         dubchik_variant_texlist = (NJS_TEXLIST *)load_gvm_texture_file((saddr)dubchik_v2_gvm_filename());
     } else {
@@ -304,7 +303,7 @@ void TObjEneDubchik::load_resources() {
     lbl_805D509C = (NJS_OBJECT *)find_model_node((uaddr)dubchik_resource->models[0].model, 0x15);
     lbl_805D50A0 = (NJS_OBJECT *)find_model_node((uaddr)dubchik_resource->models[0].model, 0x2A);
     ((NJS_OBJECT *)find_model_node((uaddr)dubchik_resource->models[1].model, 0x15))->evalflags |= NJD_EVAL_HIDE;
-    p = new TUnk_8048FA00((saddr)dubchik_resource->models[0].model);
+    p = new TBreakUpMdlData((saddr)dubchik_resource->models[0].model);
     breakup_model_ptr = p;
     p = new SampledMotionPoints(2, 28.0f, 35.0f, 1.0f);
     dubchik_scratch_trail0_points[0] = (SampledMotionPoints *)p;
@@ -340,7 +339,7 @@ void TObjEneDubchik::load_resources() {
         d.motions = dubchik_resource->motions;
         for (j = 0; j < 2; j++) {
             BmlModelEntry *e = &dubchik_resource->models[j];
-            NpcModelRegistry::register_animated_chunk(ids[j], e->model, e->m_c, &d, 5.0f, 0.0f);
+            NpcModelRegistry::register_animated_chunk(ids[j], e->model, e->texlist, &d, 5.0f, 0.0f);
         }
     }
 }
@@ -348,7 +347,7 @@ void TObjEneDubchik::load_resources() {
 
 void TObjEneDubchik::free_resources() {
     if (breakup_model_ptr != NULL) {
-        delete (TUnk_8048FA00 *)breakup_model_ptr;
+        delete (TBreakUpMdlData *)breakup_model_ptr;
         breakup_model_ptr = NULL;
     }
     if (dubchik_resource != NULL) {

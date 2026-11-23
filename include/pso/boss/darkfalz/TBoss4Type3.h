@@ -16,7 +16,7 @@ class TObjDFYutai;
 
 struct SampledMotionPoints;
 class TParticleCtrl;
-class TUnk_80494968;
+class TAttackTraceStrip;
 struct CollisionBody;
 struct TBoss4DarkFalz;
 
@@ -79,7 +79,7 @@ struct TBoss4Type3 : public TObjEnemy {
     ModelNodePositionCapture *render_lists[3];
     Vec node_positions[3][6];   // render_lists' captured node positions
     SampledMotionPoints *trail_samples[2];
-    TUnk_80494968 *trails[2];
+    TAttackTraceStrip *trails[2];
     s32 camera_mode;            // 1 for the close follow camera
 
     void update_libera();

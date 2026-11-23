@@ -2,9 +2,9 @@
 #define PSO_EFFECT_SPRITE_TQUADSPRITENORMAL_H
 
 #include "types.h"
-#include "pso/unk/TUnk_804C57F0.h"
+#include "pso/effect/sprite/TQuadSprite.h"
 
-struct TQuadSpriteNormal : public TUnk_804C57F0 {
+struct TQuadSpriteNormal : public TQuadSprite {
     TQuadSpriteNormal(TObject *parent, ParticleDefinition *sprite_definition);
     virtual ~TQuadSpriteNormal();
     virtual void render();

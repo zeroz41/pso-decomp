@@ -2,31 +2,50 @@
 #define PSO_EFFECT_ENEMY_TENEFAKETECTHUNDEREFF_H
 #include "types.h"
 #include "pso/system/task/TObject.h"
+#include <dolphin/mtx/GeoTypes.h>
 
+// A screen-space vertex of the bolt's strip.
+struct TeneFakeTecThunderVertex {
+    f32 x;
+    f32 y;
+    f32 z;
+    f32 u;
+    f32 v;
+    u32 color;
+};
+
+// An enemy's lightning bolt (Dark Gunner, Dubchik): a jittering strip of up
+// to 17 points from *from to *to, drawn additively while active.
 class TeneFakeTecThunderEff : public TObject {
 public:
+    TeneFakeTecThunderEff(TObject *parent, Vec *from, Vec *to, s32 point_count);
     virtual ~TeneFakeTecThunderEff();
     virtual void render();
     virtual void run_task();
+    void build_beam_points();
     void set_cancel_flag();
     void clear_counter();
-    u8 unk_1C[0x1C];
-    s32 m_38;
-    u8 unk_3C[0x2EC];
-    s32 m_328;
-    u8 unk_32C[0x4];
-    s32 m_330;
-    u8 unk_334[0x4];
-    s32 m_338;
-    u8 unk_33C[0x4];
-    s32 m_340;
-    u8 unk_344[0x4];
+
+    static const char *class_name;
+
+    Vec origin;
+    Vec delta;            // from origin to the far end
+    f32 segment_length;
+    s32 point_count;
+    Vec base_points[17];  // evenly spaced along delta
+    Vec points[17];       // base_points pushed out along jitter_dirs
+    Vec jitter_dirs[17];  // unit vectors across the bolt
+    f32 spacing[17];
+    f32 jitter[17];       // how far each point is pushed out
+    s32 timer;
+    u32 color;
+    s32 texture;  // index into fake_tec_texlist
+    s32 pad_334;
+    Vec *from;
+    Vec *to;
+    s32 active;  // drawn and updated only while set
+    s32 target_point_count;
 };
 LAYOUT_ASSERT(TeneFakeTecThunderEff_size, sizeof(TeneFakeTecThunderEff) == 0x348);
-
-extern "C" {
-u8 *TObjPlayer__sub_800A4204(u8 *effect, u8 *parent, s32 target, s32 arg3, s32 arg4);
-void *__dt__21TeneFakeTecThunderEffFv(void *arg0, s16 arg1);
-}
 
 #endif

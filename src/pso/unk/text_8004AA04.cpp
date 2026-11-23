@@ -1,7 +1,7 @@
 #include "pso/system/BmlAccessors.h"
 #include "types.h"
 #include "pso/render/NinjaUtil.h"
-#include "pso/unk/text_800F5BC0.h"
+#include "pso/render/StripBufferPair.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/boss/darkfalz/TBoss4Uro.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
@@ -13,7 +13,7 @@ void ModelNodeTables::destroy() {
     s32 i;
     for (i = 0; i < count; i++) {
         if (items[i] != 0) {
-            destroy_buffer_pair(items[i], 1);
+            delete items[i];
             items[i] = 0;
         }
     }
@@ -25,8 +25,7 @@ void ModelNodeTables::init(const ModelNodeSpec *specs, s32 spec_count) {
     BmlResource *h;
     s32 i;
     const ModelNodeSpec *r;
-    s32 t;
-    saddr p;
+    NJS_OBJECT *t;
     s32 j;
     h = TBoss4Uro::get_instance_count();
     if (h == 0 || specs == NULL || spec_count < 1) {
@@ -34,7 +33,7 @@ void ModelNodeTables::init(const ModelNodeSpec *specs, s32 spec_count) {
     }
     count = spec_count;
     items = NULL;
-    items = (void **)mem_alloc(count * 4);
+    items = (StripBufferPair **)mem_alloc(count * 4);
     scroll_u = 0;
     scroll_v = 0;
     for (j = 0; j < count; j++) {
@@ -42,11 +41,7 @@ void ModelNodeTables::init(const ModelNodeSpec *specs, s32 spec_count) {
     }
     for (i = 0; i < count; i++) {
         r = &specs[i];
-        t = (s32)find_model_node((saddr)get_bml_model(h, r->model), r->node);
-        p = (saddr)::operator new(0x14);
-        if (p != 0) {
-            p = (saddr)((TLobby *)p)->alloc_tables(t, r->count);
-        }
-        items[i] = (void *)p;
+        t = (NJS_OBJECT *)find_model_node((saddr)get_bml_model(h, r->model), r->node);
+        items[i] = new StripBufferPair(t, r->texture_filter);
     }
 }

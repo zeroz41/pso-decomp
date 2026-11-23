@@ -110,7 +110,7 @@ TORainbowCave01::TORainbowCave01(TObject *parent, void *set_data) : TObjMapObjec
     m_name = TORainbowCave01__class_name;
     apply_object_set_data(set_data);
     model = (void *)TORainbowCave01__bml_resource->models[0].model;
-    texlist = (saddr)TORainbowCave01__bml_resource->models[0].m_c;
+    texlist = (saddr)TORainbowCave01__bml_resource->models[0].texlist;
     view_range = 400.0f;
     model_radius = 40000.0f;
     fade = 0.0f;

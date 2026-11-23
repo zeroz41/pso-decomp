@@ -18,13 +18,12 @@
 #include "pso/item/TItem.h"
 #include "pso/item/TItemLoad.h"
 #include "pso/effect/particle/TParticleCtrl.h"
-#include "pso/effect/particle/TParticleCtrl_800867E4.h"
 #include "pso/effect/item/TItemEffNeedle.h"
 #include "pso/boss/goldragon/TBoss8Dragon_80065C90.h"
 #include "pso/object/trap/TOTrap.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_80011014.h"
-#include "pso/player/TObjPlayer_8032E4C8.h"
+#include "pso/effect/item/TItemWpnCardEffect.h"
 #include "pso/unk/text_80120908.h"
 #include "pso/weapon/TItemWeapon.h"
 #include "pso/weapon/TUnk_804E1BB0.h"
@@ -104,7 +103,7 @@ TUnk_804E23F0::TUnk_804E23F0(TObject *parent, u8 *item) : TItemWeapon(parent, it
     set_weapon_flags(3);
     pad_1f8 = 0;
     effect_id = 445;
-    pad_204 = (void *)TObjPlayer__sub_8032E648;
+    pad_204 = (void *)start_wall_card;
     pad_208 = (void *)TObjPlayer::create_network_object;
     pad_200 = 4.0f;
 }
@@ -220,7 +219,7 @@ TUnk_804E1E08::TUnk_804E1E08(TObject *parent, u8 *item) : TUnk_804E23F0(parent, 
 
 TUnk_804E1F04::TUnk_804E1F04(TObject *parent, u8 *item) : TUnk_804E23F0(parent, item) {
     effect_id = 341;
-    pad_204 = (void *)TItemWpnCardEffect__sub_8032E588;
+    pad_204 = (void *)start_red_wall_card;
     pad_208 = (void *)TObjPlayer::create_aux_object;
 }
 
@@ -400,7 +399,7 @@ void spawn_hit_particles__10TObjPlayerFiPv(saddr pos, const Vec *dir) {
     angles[1] = (s32)(lbl_804725B8[0] * atan2_float(dir->x, dir->z));
     angles[2] = 0;
     {
-        TParticleCtrl *particle = (TParticleCtrl *)create_timed_particle_emitter_with_angles((void *)pos, angles, 0x1B8, 0, 0xF, 4);
+        TParticleCtrl *particle = create_timed_particle_emitter_with_angles((void *)pos, angles, 0x1B8, 0, 0xF, 4);
         if (particle != NULL) {
             particle->set_scale(1.5f, 1.5f);
         }

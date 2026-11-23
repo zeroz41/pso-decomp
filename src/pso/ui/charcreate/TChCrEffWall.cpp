@@ -42,7 +42,7 @@ void TChCrEffWall::render() {
     }
     TCameraCtrl::restore_full_screen_view();
     args.colors = chcr_eff_wall_gradient_table;
-    args.unk_8 = 0;
+    args.tex = 0;
     args.count = 4;
     args.verts = lbl_804DBF68;
     args.draw_strip_swap_color(4, 6, -9934.0f);

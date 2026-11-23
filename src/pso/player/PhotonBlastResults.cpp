@@ -11,11 +11,10 @@
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/effect/photon/PhotonBlastSummon.h"
 #include "pso/system/vector.h"
-#include "pso/unk/text_801AAB74.h"
-#include "pso/unk/text_801AB370.h"
-#include "pso/unk/text_801ABE14.h"
-#include "pso/unk/text_801AE1F8.h"
-#include "pso/effect/particle/TParticleCtrl_800867E4.h"
+#include "pso/effect/photon/TPhotonEstlla.h"
+#include "pso/effect/photon/TPhotonPilla.h"
+#include "pso/effect/photon/TPhotonFarlla.h"
+#include "pso/effect/photon/TPhotonGolla.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/unk/TUnk_804C349C.h"
 #include "pso/player/PhotonBlastResults.h"
@@ -29,104 +28,20 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/network/client_id.h"
 #include "pso/effect/photon/TPhotonMagicSquare.h"
-#include "pso/unk/text_801AA3B4.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/player/TObjPlayer_801AC0D8.h"
-#include "pso/player/TObjPlayer_801AE48C.h"
-#include "pso/player/TObjPlayer_801ACA6C.h"
-#include "pso/player/TObjPlayer_801AB608.h"
-#include "pso/player/TObjPlayer_801AADE8.h"
+#include "pso/effect/photon/TPhotonFarlla.h"
 #include "pso/effect/photon/TPhotonYoulla.h"
-#include "pso/player/TObjPlayer_801ADC6C.h"
+#include "pso/effect/photon/TPhotonMylla.h"
 #include "pso/player/TObjPlayer_801AD47C.h"
-#include "pso/effect/photon/TPhotonRainbow_801AE640.h"
+#include "pso/effect/photon/TPhotonRainbow.h"
 #include "pso/effect/photon/TPhotonLeilla.h"
 #include "pso/object/base/TObjMotion.h"
+#include "pso/object/base/CollisionActorLookup.h"
+#include "pso/map/area/AreaScene.h"
 
 
 #define TOBJECT_OUT_OF_LINE_HELPERS
-
-struct Slot_801A8868 { u8 pad[0x18]; };
-struct Counts_801A8868 { s32 v[4]; };
-
-struct Hit_801A86E0 { s32 kind; f32 value; };
-
-
-struct PhotonSummonParams_801A9870 {
-    Vec position;
-    u16 owner_id;
-    s32 is_first;
-    s32 has_more;
-    u8 pad18[4];
-    u8 count;
-    f32 level;
-};
-LAYOUT_ASSERT(PhotonSummonParams_801A9870_size, sizeof(PhotonSummonParams_801A9870) == 0x24);
-struct VBase_18_b27ba1 { char pad[0x18]; };
-struct VObj_18_b27ba1 : VBase_18_b27ba1 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual void m19();
-    virtual void m20();
-    virtual void m21(void *, struct Hit_801A86E0 *, s32, s32, s32);
-};
-
-extern "C" {
-
-
-void *find_entity_by_id(u16 id);
-
-s32 get_floor__10TObjPlayerFv(void *);
-s32 get_room__8TObjBaseFv(void *);
-void set_type__10TObjPlayerFs(void *, s16);
-s32 TObjPlayer__sub_801AA528(saddr arg0, s16 arg1);
-void *TObjPlayer__sub_801AA66C(void *, void *);
-s16 TObjPlayer__sub_80313114(u8 *arg0);
-u8 *TPhotonLeilla__ct(u8 *self, u8 *params);
-u8 *TPhotonMylla__ct(u8 *self, u8 *params);
-extern u32 lbl_805D5D18;
-}
-extern s32 photon_blast_donation_flags[];
-void clear_photon_blast_donations(void);
-extern s32 local_client_id;
-s32 is_photon_blast_presentation_admitted(u32 owner_id, void *records);
-
-// One entry per photon blast; +0x00 is the hit power (queue_photon_blast_hit), +0x12 is read by
-// TObjPlayer_801C7430, +0x20 is the effect id start_photon_blast plays.
-struct PhotonBlastEntry {
-    f32 power;
-    f32 pad_04;
-    f32 pad_08;
-    f32 pad_0c;
-    s16 pad_10;
-    s16 pad_12;
-    s16 pad_14;
-    s16 pad_16;
-    s32 pad_18;
-    s32 pad_1c;
-    s16 effect_id;
-    s8 pad_22;
-    u8 pad_23;
-    s32 pad_24;
-    s32 pad_28;
-};
 
 
 PhotonBlastEntry photon_blast_entry_table[6] = {
@@ -175,112 +90,105 @@ const char *pm_mdl_motion_names[16] = {
 
 BmlResourceDescriptor photon_blast_resource_descriptor = { "pm_mdl.bml", pm_mdl_model_names, pm_mdl_motion_names, 12, 15 };
 
-const Counts_801A8868 photon_blast_result_counts_init = { 0, 0, 0, 0 };
-void admit_photon_blast_sequence(u8 *players, void *self);
+const PhotonBlastChainCounts photon_blast_result_counts_init = { 0, 0, 0, 0 };
 
 #pragma push
 #pragma fp_contract on
 
-f32 TObjPlayer::calc_photon_blast_power(s32 arg1, f32 farg0) {
-    u8 *arg0 = (u8 *)this;
-    f32 var_f30;
-    void *mag;
-    var_f30 = 0.0f;
-    if (*(u8 **)(arg0 + 0x38) != NULL) {
-        mag = (void *)((TObjPlayer *)(*(u8 **)(arg0 + 0x38)))->activate_d04_slot();
+f32 TUnk_804C349C::calc_photon_blast_power(s32 kind, f32 base_power) {
+    f32 power;
+    TItemMag *mag;
+    power = 0.0f;
+    if (owner != NULL) {
+        mag = (TItemMag *)owner->activate_d04_slot();
         if (mag != 0) {
-            switch (arg1) {
+            switch (kind) {
             case 0:
-                var_f30 = farg0 + ((2.5f * (f32)((TItemMag *)mag)->get_iq()) + 0.025f * (f32)(((TItemMag *)mag)->get_synchro() * (((TObjPlayer *)(*(u8 **)(arg0 + 0x38)))->get_atp() + ((TObjChara *)(*(u8 **)(arg0 + 0x38)))->get_actor_attack_params_atp_min())));
+                power = base_power + ((2.5f * (f32)mag->get_iq()) + 0.025f * (f32)(mag->get_synchro() * (owner->get_atp() + owner->get_actor_attack_params_atp_min())));
                 break;
             case 1:
-                var_f30 = farg0 + ((15.0f * (f32)((TItemMag *)mag)->get_iq()) + 0.15f * (f32)(((TObjPlayer *)(*(u8 **)(arg0 + 0x38)))->get_evp() * ((TItemMag *)mag)->get_synchro()));
+                power = base_power + ((15.0f * (f32)mag->get_iq()) + 0.15f * (f32)(owner->get_evp() * mag->get_synchro()));
                 break;
             case 2:
-                var_f30 = farg0 + ((7.5f * (f32)((TItemMag *)mag)->get_iq()) + 0.075f * (f32)(((TItemMag *)mag)->get_synchro() * (((TObjPlayer *)(*(u8 **)(arg0 + 0x38)))->get_atp() + ((TObjChara *)(*(u8 **)(arg0 + 0x38)))->get_actor_attack_params_atp_min())));
+                power = base_power + ((7.5f * (f32)mag->get_iq()) + 0.075f * (f32)(mag->get_synchro() * (owner->get_atp() + owner->get_actor_attack_params_atp_min())));
                 break;
             case 3:
-                var_f30 = farg0 + ((7.5f * (f32)((TItemMag *)mag)->get_iq()) + 0.075f * (f32)(((TObjPlayer *)(*(u8 **)(arg0 + 0x38)))->get_ata() * ((TItemMag *)mag)->get_synchro()));
+                power = base_power + ((7.5f * (f32)mag->get_iq()) + 0.075f * (f32)(owner->get_ata() * mag->get_synchro()));
                 break;
             case 4:
-                var_f30 = (0.5f * (f32)((TItemMag *)mag)->get_iq()) + farg0;
+                power = (0.5f * (f32)mag->get_iq()) + base_power;
                 break;
             case 5:
-                var_f30 = 0.1f * (f32)((TItemMag *)mag)->get_iq();
-                if (var_f30 >= 20.0f) {
-                    var_f30 = 20.0f;
+                power = 0.1f * (f32)mag->get_iq();
+                if (power >= 20.0f) {
+                    power = 20.0f;
                 }
                 break;
             }
         }
     }
-    return var_f30;
+    return power;
 }
 #pragma pop
 
 s32 TObjPlayer::is_any_teammate_in_state() {
-    PhotonBlastChainCopy sp8;
-    s32 current_floor;
-    s32 var_r30;
+    PhotonBlastChainCopy chain;
+    s32 floor;
+    s32 client;
 
-    current_floor = get_current_floor();
-    var_r30 = 0;
-loop_1:
-    if ((((u32 (*)(s32))get_player_by_client_id)(var_r30) != 0U) && (current_floor == ((s32 (*)(void))get_floor__10TObjPlayerFv)()) && (get_photon_blast_chain(&sp8, var_r30) == 2)) {
-        return 1;
-    }
-    var_r30 += 1;
-    if (var_r30 >= 4) {
-        return 0;
-    }
-    goto loop_1;
-}
-
-s32 is_photon_blast_presentation_admitted(u32 owner_id, void *records) {
-    void *local;
-    void *owner;
-    s16 group;
-    if (is_split_screen() != 0) {
-        return 1;
-    }
-    if (local_client_id == ((TObjPlayer *)records)->get_section_id()) {
-        return 1;
-    }
-    local = get_player_by_client_id(local_client_id);
-    if (local == NULL) {
-        return 0;
-    }
-    group = get_room__8TObjBaseFv(local);
-    owner = get_player_by_client_id(owner_id);
-    if (owner != NULL) {
-        if (((TObjPlayer *)local)->get_floor() == ((TObjPlayer *)owner)->get_floor() && group == (s16) ((TObjBase *)owner)->get_room()) {
+    floor = get_current_floor();
+    for (client = 0; client < 4; client++) {
+        TObjPlayer *player = get_player_by_client_id(client);
+        if (player != NULL && floor == player->get_floor() && get_photon_blast_chain(&chain, client) == 2) {
             return 1;
         }
     }
     return 0;
 }
 
-void apply_photon_blast_action_hold(s32 arg0, s32 arg1, s32 owner_client_id) {
-    u8 *plr;
-    u8 *ent;
-    s32 i;
-    Hit_801A86E0 tmp1;
-    Hit_801A86E0 tmp2;
+s32 is_photon_blast_presentation_admitted(u32 owner_id, PhotonBlastRequest *requests) {
+    TObjPlayer *local;
+    TObjPlayer *owner;
+    s32 room;
+    if (is_split_screen() != 0) {
+        return 1;
+    }
+    if (local_client_id == requests->get_client_id()) {
+        return 1;
+    }
+    local = get_player_by_client_id(local_client_id);
+    if (local == NULL) {
+        return 0;
+    }
+    room = local->get_room();
+    owner = get_player_by_client_id(owner_id);
+    if (owner != NULL) {
+        if (local->get_floor() == owner->get_floor() && room == owner->get_room()) {
+            return 1;
+        }
+    }
+    return 0;
+}
 
-    ent = (u8 *)find_entity_by_id(owner_client_id);
+void apply_photon_blast_action_hold(s32 unused, s32 duration, s32 owner_client_id) {
+    TObjPlayer *player;
+    TObjCollidable *owner;
+    s32 i;
+    DirectAttackPayload hold1;
+    DirectAttackPayload hold2;
+
+    owner = find_entity_by_id(owner_client_id);
     for (i = TLobby::get_game_mode(); i < TLobby::get_game_mode() + TObjEneDD::get_enemy_count(); i++) {
-        plr = (u8 *)TObjPlayer::get_player_data(i);
-        if (plr != NULL && !(*(s32 *)((s8 *)plr + 0x30) & 0x40000000)) {
+        player = TObjPlayer::get_player_data(i);
+        if (player != NULL && !(player->actorFlags & 0x40000000)) {
             if (is_split_screen() != 0) {
-                tmp1.value = (f32)arg1;
-                tmp1.kind = 0x14;
-                Hit_801A86E0 hit1 = tmp1;
-                ((VObj_18_b27ba1 *)plr)->m21(ent, &hit1, 0, -1, -1);
-            } else if (*(s16 *)((s8 *)plr + 0x28) == (s16)((TObjBase *)ent)->get_room()) {
-                tmp2.value = (f32)arg1;
-                tmp2.kind = 0x14;
-                Hit_801A86E0 hit2 = tmp2;
-                ((VObj_18_b27ba1 *)plr)->m21(ent, &hit2, 0, -1, -1);
+                hold1.power = (f32)duration;
+                hold1.kind = 0x14;
+                player->receive_direct_attack(owner, hold1, NULL, -1, -1);
+            } else if (player->room == ((TObjBase *)owner)->get_room()) {
+                hold2.power = (f32)duration;
+                hold2.kind = 0x14;
+                player->receive_direct_attack(owner, hold2, NULL, -1, -1);
             }
         }
     }
@@ -292,54 +200,44 @@ void clear_photon_blast_donations(void) {
         photon_blast_donation_flags[i] = 0;
     }
 }
-#define GET_STAT ((s16 (*)(void *))get_room__8TObjBaseFv)
-#define SET_TYPE ((void (*)(void *, u16))set_type__10TObjPlayerFs)
-void admit_photon_blast_sequence(u8 *players, void *self) {
-    Slot_801A8868 a[4];
-    Slot_801A8868 b[4];
+void admit_photon_blast_sequence(PhotonBlastRequest *requests, TObjPlayer *self) {
+    PhotonBlastRequest a[4];
+    PhotonBlastRequest b[4];
     s32 n;
     s32 j;
     s32 k;
     s32 flag;
     s32 delay;
-    void *p;
+    TObjPlayer *p;
     s32 i;
     s32 idx;
     s32 m;
     TObjPlayer *q;
-    ((TObjPlayer *)(&a[0]))->init_arrays();
-    ((TObjPlayer *)(&a[1]))->init_arrays();
-    ((TObjPlayer *)(&a[2]))->init_arrays();
-    ((TObjPlayer *)(&a[3]))->init_arrays();
-    ((TObjPlayer *)(&b[0]))->init_arrays();
-    ((TObjPlayer *)(&b[1]))->init_arrays();
-    ((TObjPlayer *)(&b[2]))->init_arrays();
-    ((TObjPlayer *)(&b[3]))->init_arrays();
-    Counts_801A8868 counts = photon_blast_result_counts_init;
+    PhotonBlastChainCounts counts = photon_blast_result_counts_init;
     for (n = 0; n < 4; n++) {
-        SET_TYPE(&b[n], 0xFFFF);
-        ((TObjPlayer *)(&b[n]))->set_field_2(-1);
+        b[n].set_client_id(0xFFFF);
+        b[n].set_kind(-1);
     }
     n = 0;
     k = 0;
-    for (j = 0; j < 4; j++, players += 0x18) {
-        p = get_player_by_client_id(((TObjPlayer *)players)->get_section_id());
-        if (p != NULL && GET_STAT(p) == GET_STAT(self)
-            && TObjPlayer__sub_80313114(players) != -1) {
-            SET_TYPE(&a[n], ((TObjPlayer *)players)->get_section_id());
-            ((TObjPlayer *)(&a[n]))->set_field_2(TObjPlayer__sub_80313114(players));
+    for (j = 0; j < 4; j++, requests++) {
+        p = get_player_by_client_id(requests->get_client_id());
+        if (p != NULL && p->get_room() == self->get_room()
+            && requests->get_kind() != -1) {
+            a[n].set_client_id(requests->get_client_id());
+            a[n].set_kind(requests->get_kind());
             n++;
         }
     }
     for (i = n; i < 4; i++) {
-        SET_TYPE(&a[i], 0xFFFF);
-        ((TObjPlayer *)(&a[i]))->set_field_2(-1);
+        a[i].set_client_id(0xFFFF);
+        a[i].set_kind(-1);
     }
     for (m = 0; m < 4; m++) {
         if (m != 0) {
-            if (TObjPlayer__sub_80313114((u8 *)&a[m]) != -1) {
-                if (TObjPlayer__sub_80313114((u8 *)&b[k]) == TObjPlayer__sub_80313114((u8 *)((u8 *)&a[m]))) {
-                    counts.v[k]++;
+            if (a[m].get_kind() != -1) {
+                if (b[k].get_kind() == a[m].get_kind()) {
+                    counts.count[k]++;
                 } else {
                     k++;
                 }
@@ -347,68 +245,50 @@ void admit_photon_blast_sequence(u8 *players, void *self) {
                 k++;
             }
         }
-        TObjPlayer__sub_801AA66C(&b[k], &a[m]);
+        b[k] = a[m];
     }
     flag = 0;
     for (i = 0; i < 4; i++) {
-        if (i != get_entity_id((TObjBase *)self)) {
+        if (i != get_entity_id(self)) {
             q = get_player_by_client_id(i);
-            if (q != NULL && GET_STAT(q) == GET_STAT(self)
+            if (q != NULL && q->get_room() == self->get_room()
                 && photon_blast_sequence_table[get_entity_id(q)].state != 0) {
                 flag = 1;
             }
         }
     }
     if (flag != 0) {
-        TObjPlayer__sub_801AA528((saddr)&b[3], -1);
-        TObjPlayer__sub_801AA528((saddr)&b[2], -1);
-        TObjPlayer__sub_801AA528((saddr)&b[1], -1);
-        TObjPlayer__sub_801AA528((saddr)&b[0], -1);
-        TObjPlayer__sub_801AA528((saddr)&a[3], -1);
-        TObjPlayer__sub_801AA528((saddr)&a[2], -1);
-        TObjPlayer__sub_801AA528((saddr)&a[1], -1);
-        TObjPlayer__sub_801AA528((saddr)&a[0], -1);
         return;
     }
-    if (is_photon_blast_presentation_admitted(get_entity_id((TObjBase *)self), b) != 0) {
-        new TUnk_804C349C(get_entity_id((TObjBase *)self), (u8 *)b, counts.v, 1, 0);
+    if (is_photon_blast_presentation_admitted(get_entity_id(self), b) != 0) {
+        new TUnk_804C349C(get_entity_id(self), b, counts.count, 1, 0);
     } else {
         idx = 0;
         for (i = 0; i < 4; i++) {
-            if (TObjPlayer__sub_80313114((u8 *)&b[i]) == -1) {
+            if (b[i].get_kind() == -1) {
                 idx = i;
                 break;
             }
         }
         delay = idx * 150 + 100;
-        new TUnk_804C349C(get_entity_id((TObjBase *)self), (u8 *)b, counts.v, 0, delay);
+        new TUnk_804C349C(get_entity_id(self), b, counts.count, 0, delay);
     }
-    TObjPlayer__sub_801AA528((saddr)&b[3], -1);
-    TObjPlayer__sub_801AA528((saddr)&b[2], -1);
-    TObjPlayer__sub_801AA528((saddr)&b[1], -1);
-    TObjPlayer__sub_801AA528((saddr)&b[0], -1);
-    TObjPlayer__sub_801AA528((saddr)&a[3], -1);
-    TObjPlayer__sub_801AA528((saddr)&a[2], -1);
-    TObjPlayer__sub_801AA528((saddr)&a[1], -1);
-    TObjPlayer__sub_801AA528((saddr)&a[0], -1);
 }
-#undef GET_STAT
-#undef SET_TYPE
 
-void deliver_photon_blast_results_animated(TUnk_804C349C *seq) {
+void TUnk_804C349C::deliver_photon_blast_results_animated() {
     s32 i;
     for (i = 0; i < photon_blast_hit_count; i++) {
         TObjChara *target = (TObjChara *)find_entity_by_id(photon_blast_hit_queue[i].identity);
         if (target != NULL) {
             DirectAttackPayload payload;
-            f32 power = ((TObjPlayer *)seq)->calc_photon_blast_power(photon_blast_hit_queue[i].kind, photon_blast_hit_queue[i].value);
-            payload.power = power * (0.01 * (seq->power_level * seq->summon_count));
+            f32 power = calc_photon_blast_power(photon_blast_hit_queue[i].kind, photon_blast_hit_queue[i].value);
+            payload.power = power * (0.01 * (power_level * summon_count));
             if (photon_blast_hit_queue[i].kind == 4) {
                 payload.kind = 6;
                 for (s32 j = 0; j < 4; j++) {
-                    TObjPlayer *player = get_player_by_client_id(seq->recipients[j]);
+                    TObjPlayer *player = get_player_by_client_id(recipients[j]);
                     if (player != NULL) {
-                        player->receive_direct_attack(seq->owner, payload, NULL, -1, -1);
+                        player->receive_direct_attack(owner, payload, NULL, -1, -1);
                         TParticleCtrl *aura = (TParticleCtrl *)spawn_particle_effect_with_flags(&player->body_center, 0x1F8, 0x10);
                         if (aura != NULL) {
                             aura->set_owner_id(get_entity_id(player));
@@ -418,7 +298,7 @@ void deliver_photon_blast_results_animated(TUnk_804C349C *seq) {
                 if (local_client_id == get_entity_id(target)) {
                     play_sound_effect(0x4002AB0E, NULL, 0, 0);
                 }
-                target->receive_direct_attack(seq->owner, payload, NULL, -1, -1);
+                target->receive_direct_attack(owner, payload, NULL, -1, -1);
                 TParticleCtrl *aura = (TParticleCtrl *)spawn_particle_effect_with_flags(&target->body_center, 0x1F8, 0x10);
                 if (aura != NULL) {
                     aura->set_owner_id(get_entity_id(target));
@@ -434,12 +314,12 @@ void deliver_photon_blast_results_animated(TUnk_804C349C *seq) {
             } else if (photon_blast_hit_queue[i].kind == 5) {
                 for (s32 j = 0; j < 4; j++) {
                     payload.kind = 7;
-                    TObjPlayer *player = get_player_by_client_id(seq->recipients[j]);
+                    TObjPlayer *player = get_player_by_client_id(recipients[j]);
                     if (player != NULL) {
                         if (player->actorFlags & 0x800) {
                             payload.kind = 8;
                         }
-                        player->receive_direct_attack(seq->owner, payload, NULL, -1, -1);
+                        player->receive_direct_attack(owner, payload, NULL, -1, -1);
                         TParticleCtrl *aura = (TParticleCtrl *)spawn_particle_effect_with_flags(&player->body_center, 0x1F8, 0x10);
                         if (aura != NULL) {
                             aura->set_owner_id(get_entity_id(player));
@@ -450,27 +330,27 @@ void deliver_photon_blast_results_animated(TUnk_804C349C *seq) {
                 if (target->actorFlags & 0x800) {
                     payload.kind = 8;
                 }
-                target->receive_direct_attack(seq->owner, payload, NULL, -1, -1);
+                target->receive_direct_attack(owner, payload, NULL, -1, -1);
                 TParticleCtrl *aura = (TParticleCtrl *)spawn_particle_effect_with_flags(&target->body_center, 0x1F8, 0x10);
                 if (aura != NULL) {
                     aura->set_owner_id(get_entity_id(target));
                 }
                 payload.kind = 10;
                 for (s32 j = 0; j < 4; j++) {
-                    TObjPlayer *player = get_player_by_client_id(seq->recipients[j]);
+                    TObjPlayer *player = get_player_by_client_id(recipients[j]);
                     if (player != NULL) {
-                        player->receive_direct_attack(seq->owner, payload, NULL, -1, -1);
+                        player->receive_direct_attack(owner, payload, NULL, -1, -1);
                     }
                 }
-                target->receive_direct_attack(seq->owner, payload, NULL, -1, -1);
+                target->receive_direct_attack(owner, payload, NULL, -1, -1);
                 payload.kind = 9;
                 for (s32 j = 0; j < 4; j++) {
-                    TObjPlayer *player = get_player_by_client_id(seq->recipients[j]);
+                    TObjPlayer *player = get_player_by_client_id(recipients[j]);
                     if (player != NULL) {
-                        player->receive_direct_attack(seq->owner, payload, NULL, -1, -1);
+                        player->receive_direct_attack(owner, payload, NULL, -1, -1);
                     }
                 }
-                target->receive_direct_attack(seq->owner, payload, NULL, -1, -1);
+                target->receive_direct_attack(owner, payload, NULL, -1, -1);
                 if (local_client_id == get_entity_id(target)) {
                     play_sound_effect(0x4002AB10, NULL, 0, 0);
                     play_sound_effect(0x4002AD14, NULL, 0, 0);
@@ -486,27 +366,27 @@ void deliver_photon_blast_results_animated(TUnk_804C349C *seq) {
                 }
             } else {
                 payload.kind = 4;
-                target->receive_direct_attack(seq->owner, payload, NULL, -1, -1);
+                target->receive_direct_attack(owner, payload, NULL, -1, -1);
             }
         }
     }
     clear_photon_blast_donations();
 }
 
-void deliver_photon_blast_results_delayed(TUnk_804C349C *seq) {
+void TUnk_804C349C::deliver_photon_blast_results_delayed() {
     s32 i;
     for (i = 0; i < deferred_photon_blast_hit_count; i++) {
         TObjChara *target = (TObjChara *)find_entity_by_id(deferred_photon_blast_hit_queue[i].identity);
         if (target != NULL) {
             DirectAttackPayload payload;
-            f32 power = ((TObjPlayer *)seq)->calc_photon_blast_power(deferred_photon_blast_hit_queue[i].kind, deferred_photon_blast_hit_queue[i].value);
-            payload.power = power * (0.01 * (seq->power_level * seq->summon_count));
+            f32 power = calc_photon_blast_power(deferred_photon_blast_hit_queue[i].kind, deferred_photon_blast_hit_queue[i].value);
+            payload.power = power * (0.01 * (power_level * summon_count));
             if (deferred_photon_blast_hit_queue[i].kind == 4) {
                 payload.kind = 6;
                 for (s32 j = 0; j < 4; j++) {
-                    TObjPlayer *player = get_player_by_client_id(seq->recipients[j]);
+                    TObjPlayer *player = get_player_by_client_id(recipients[j]);
                     if (player != NULL) {
-                        player->receive_direct_attack(seq->owner, payload, NULL, -1, -1);
+                        player->receive_direct_attack(owner, payload, NULL, -1, -1);
                         TParticleCtrl *aura = (TParticleCtrl *)spawn_particle_effect_with_flags(&player->body_center, 0x1F8, 0x10);
                         if (aura != NULL) {
                             aura->set_owner_id(get_entity_id(player));
@@ -516,7 +396,7 @@ void deliver_photon_blast_results_delayed(TUnk_804C349C *seq) {
                 if (local_client_id == get_entity_id(target)) {
                     play_sound_effect(0x4002AB0E, NULL, 0, 0);
                 }
-                target->receive_direct_attack(seq->owner, payload, NULL, -1, -1);
+                target->receive_direct_attack(owner, payload, NULL, -1, -1);
                 TParticleCtrl *aura = (TParticleCtrl *)spawn_particle_effect_with_flags(&target->body_center, 0x1F8, 0x10);
                 if (aura != NULL) {
                     aura->set_owner_id(get_entity_id(target));
@@ -532,12 +412,12 @@ void deliver_photon_blast_results_delayed(TUnk_804C349C *seq) {
             } else if (deferred_photon_blast_hit_queue[i].kind == 5) {
                 for (s32 j = 0; j < 4; j++) {
                     payload.kind = 7;
-                    TObjPlayer *player = get_player_by_client_id(seq->recipients[j]);
+                    TObjPlayer *player = get_player_by_client_id(recipients[j]);
                     if (player != NULL) {
                         if (player->actorFlags & 0x800) {
                             payload.kind = 8;
                         }
-                        player->receive_direct_attack(seq->owner, payload, NULL, -1, -1);
+                        player->receive_direct_attack(owner, payload, NULL, -1, -1);
                         TParticleCtrl *aura = (TParticleCtrl *)spawn_particle_effect_with_flags(&player->body_center, 0x1F8, 0x10);
                         if (aura != NULL) {
                             aura->set_owner_id(get_entity_id(player));
@@ -548,27 +428,27 @@ void deliver_photon_blast_results_delayed(TUnk_804C349C *seq) {
                 if (target->actorFlags & 0x800) {
                     payload.kind = 8;
                 }
-                target->receive_direct_attack(seq->owner, payload, NULL, -1, -1);
+                target->receive_direct_attack(owner, payload, NULL, -1, -1);
                 TParticleCtrl *aura = (TParticleCtrl *)spawn_particle_effect_with_flags(&target->body_center, 0x1F8, 0x10);
                 if (aura != NULL) {
                     aura->set_owner_id(get_entity_id(target));
                 }
                 payload.kind = 10;
                 for (s32 j = 0; j < 4; j++) {
-                    TObjPlayer *player = get_player_by_client_id(seq->recipients[j]);
+                    TObjPlayer *player = get_player_by_client_id(recipients[j]);
                     if (player != NULL) {
-                        player->receive_direct_attack(seq->owner, payload, NULL, -1, -1);
+                        player->receive_direct_attack(owner, payload, NULL, -1, -1);
                     }
                 }
-                target->receive_direct_attack(seq->owner, payload, NULL, -1, -1);
+                target->receive_direct_attack(owner, payload, NULL, -1, -1);
                 payload.kind = 9;
                 for (s32 j = 0; j < 4; j++) {
-                    TObjPlayer *player = get_player_by_client_id(seq->recipients[j]);
+                    TObjPlayer *player = get_player_by_client_id(recipients[j]);
                     if (player != NULL) {
-                        player->receive_direct_attack(seq->owner, payload, NULL, -1, -1);
+                        player->receive_direct_attack(owner, payload, NULL, -1, -1);
                     }
                 }
-                target->receive_direct_attack(seq->owner, payload, NULL, -1, -1);
+                target->receive_direct_attack(owner, payload, NULL, -1, -1);
                 if (local_client_id == get_entity_id(target)) {
                     play_sound_effect(0x4002AB10, NULL, 0, 0);
                     play_sound_effect(0x4002AD14, NULL, 0, 0);
@@ -584,7 +464,7 @@ void deliver_photon_blast_results_delayed(TUnk_804C349C *seq) {
                 }
             } else {
                 payload.kind = 4;
-                target->receive_direct_attack(seq->owner, payload, NULL, -1, -1);
+                target->receive_direct_attack(owner, payload, NULL, -1, -1);
             }
         }
     }
@@ -592,8 +472,7 @@ void deliver_photon_blast_results_delayed(TUnk_804C349C *seq) {
 }
 
 void TUnk_804C349C::step_photon_blast_sequence() {
-    PhotonSummonParams_801A9870 params;
-    u8 *summon;
+    PhotonSummonParams params;
     s32 first_summon;
     s32 j;
 
@@ -616,7 +495,7 @@ void TUnk_804C349C::step_photon_blast_sequence() {
             switch (this->kinds[this->summon_index]) {
             case 2:
             case 3: {
-                TObjChara *anchor = (TObjChara *)find_entity_by_id(lbl_805D5D18);
+                TObjChara *anchor = (TObjChara *)find_entity_by_id(last_photon_blast_hit_identity);
                 if (anchor != NULL) {
                     VecCopy(&this->position, &anchor->position);
                 }
@@ -631,54 +510,30 @@ void TUnk_804C349C::step_photon_blast_sequence() {
         params.level = this->levels[this->summon_index];
         switch (this->kinds[this->summon_index]) {
         case 2:
-            summon = (u8 *)TObject::operator new(0x1CC);
-            if (summon != NULL) {
-                summon = TPhotonGolla__ct(summon, (u8 *)&params);
-            }
-            this->summon = (TObject *)summon;
+            this->summon = new TPhotonGolla(&params);
             break;
         case 3:
-            summon = (u8 *)TObject::operator new(0x1AC);
-            if (summon != NULL) {
-                summon = TPhotonPilla__ct(summon, (u8 *)&params);
-            }
-            this->summon = (TObject *)summon;
+            this->summon = new TPhotonPilla(&params);
             break;
         case 4:
-            summon = (u8 *)TObject::operator new(0x1B0);
-            if (summon != NULL) {
-                summon = TPhotonLeilla__ct(summon, (u8 *)&params);
-            }
-            this->summon = (TObject *)summon;
+            this->summon = new TPhotonLeilla(&params);
             for (j = 0; j < 4; j++) {
                 if (this->participants[j] < 4) {
-                    ((void (*)(u32, s32, s32))queue_photon_blast_support)(this->participants[j], 4, 1);
+                    queue_photon_blast_support(this->participants[j], 4, 1);
                 }
             }
             break;
         case 0:
-            summon = (u8 *)TObject::operator new(0x1A8);
-            if (summon != NULL) {
-                summon = TPhotonFarlla__ct(summon, (u8 *)&params);
-            }
-            this->summon = (TObject *)summon;
+            this->summon = new TPhotonFarlla(&params);
             break;
         case 1:
-            summon = (u8 *)TObject::operator new(0x1A4);
-            if (summon != NULL) {
-                summon = __ct__13TPhotonEstllaFPUc(summon, (u8 *)&params);
-            }
-            this->summon = (TObject *)summon;
+            this->summon = new TPhotonEstlla(&params);
             break;
         case 5:
-            summon = (u8 *)TObject::operator new(0x1A8);
-            if (summon != NULL) {
-                summon = TPhotonMylla__ct(summon, (u8 *)&params);
-            }
-            this->summon = (TObject *)summon;
+            this->summon = new TPhotonMylla(&params);
             for (j = 0; j < 4; j++) {
                 if (this->participants[j] < 4) {
-                    ((void (*)(u32, s32, s32))queue_photon_blast_support)(this->participants[j], 5, 1);
+                    queue_photon_blast_support(this->participants[j], 5, 1);
                 }
             }
             break;
@@ -695,7 +550,7 @@ void TUnk_804C349C::step_photon_blast_sequence() {
         break;
     case 2:
         play_sound_effect(0x40021927, &this->position, 0, 0);
-        deliver_photon_blast_results_animated(this);
+        deliver_photon_blast_results_animated();
         this->queue_destruction();
         break;
     }
@@ -706,12 +561,6 @@ PhotonBlastChain photon_blast_sequence_table[4];
 
 #define TOBJECT_OUT_OF_LINE_HELPERS
 
-// One create/release pair per photon blast model: load_photon_blast_resources runs the
-// table forwards, TObjPlayer__sub_801AA3B4 runs it backwards (field names inferred).
-struct PhotonBlastLoadCallback {
-    void (*load)(void);
-    void (*release)(void);
-};
 
 void TUnk_804C349C::update_and_destroy() {
     s32 kind;
@@ -732,7 +581,7 @@ void TUnk_804C349C::update_and_destroy() {
                 }
             }
         }
-        deliver_photon_blast_results_delayed(this);
+        deliver_photon_blast_results_delayed();
         queue_destruction();
     }
 }
@@ -745,8 +594,6 @@ void TUnk_804C349C::run_task() {
     }
     update_and_destroy();
 }
-
-void reset_cameras_to_actor(void *actor, s32 arg1);
 
 TUnk_804C349C::~TUnk_804C349C() {
     s32 i;
@@ -776,12 +623,12 @@ TUnk_804C349C::~TUnk_804C349C() {
     }
 }
 
-TUnk_804C349C::TUnk_804C349C(s32 owner_client_id, u8 *players, s32 *counts, s32 animated, s32 delay)
+TUnk_804C349C::TUnk_804C349C(s32 owner_client_id, PhotonBlastRequest *requests, s32 *counts, s32 animated, s32 delay)
     : TObject(tl_07) {
     TObjPlayer *player;
     s32 i;
     s32 j;
-    u8 *entry;
+    PhotonBlastRequestSlot *donor;
 
     this->owner_client_id = owner_client_id;
     this->delay = delay;
@@ -802,13 +649,13 @@ TUnk_804C349C::TUnk_804C349C(s32 owner_client_id, u8 *players, s32 *counts, s32 
     }
     summon_count = 4;
     for (i = 0; i < 4; i++) {
-        if (TObjPlayer__sub_80313114(players) == -1) {
+        if (requests->get_kind() == -1) {
             summon_count = i;
             break;
         }
-        kinds[i] = TObjPlayer__sub_80313114(players);
-        participants[i] = ((TObjPlayer *)players)->get_section_id();
-        players += 0x18;
+        kinds[i] = requests->get_kind();
+        participants[i] = requests->get_client_id();
+        requests++;
     }
     owner = get_player_by_client_id(owner_client_id);
     apply_photon_blast_action_hold((saddr)this, summon_count * 150 + 100, owner_client_id);
@@ -842,14 +689,14 @@ TUnk_804C349C::TUnk_804C349C(s32 owner_client_id, u8 *players, s32 *counts, s32 
         recipients[k] = 0xFFFF;
     }
     if (owner != NULL && get_player_by_client_id(local_client_id) != NULL) {
-        entry = TObjPlayer::find_photon_blast_by_section_id(get_entity_id(owner));
-        if (entry != NULL) {
+        donor = (PhotonBlastRequestSlot *)TObjPlayer::find_photon_blast_by_section_id(get_entity_id(owner));
+        if (donor != NULL) {
             for (i = 0; i < 4; i++) {
-                if (((TObjPlayer *)entry)->get_entity_type() != 0xFFFF
-                    && this->owner_client_id != ((TObjPlayer *)entry)->get_entity_type()) {
-                    recipients[i] = ((TObjPlayer *)entry)->get_entity_type();
+                if (donor->get_client_id() != 0xFFFF
+                    && this->owner_client_id != donor->get_client_id()) {
+                    recipients[i] = donor->get_client_id();
                 }
-                entry += 4;
+                donor++;
             }
         }
     }
@@ -890,7 +737,7 @@ void TObjPlayer::start_photon_blast(s32 kind, s32 client_id) {
 
     player = get_player_by_client_id(client_id);
     if (player != NULL) {
-        entry = (PhotonBlastEntry *)TObjPlayer::get_photon_blast_entry(kind);
+        entry = get_photon_blast_entry(kind);
         if (TObjPlayer::is_locally_controlled(player) != 0) {
             TObjPlayer::play_effect_default((saddr)player, entry->effect_id);
         }
@@ -919,20 +766,30 @@ void TObjPlayer::start_photon_blast(s32 kind, s32 client_id) {
     }
 }
 
-void *TObjPlayer::get_photon_blast_entry(int kind) {
+PhotonBlastEntry *get_photon_blast_entry(int kind) {
     return &photon_blast_entry_table[kind];
 }
 
 
-u8 *photon_blast_shared_resource;
-extern "C" {
-extern PhotonBlastLoadCallback photon_blast_load_callback_table[10];
-s32 run_load_callback_table(void *, int);
-void TObjPlayer__sub_801AA3B4(void) {
+BmlResource *photon_blast_shared_resource;
+PhotonBlastLoadCallback photon_blast_load_callback_table[10] = {
+    { create_golla_photon_blast_model, destroy_golla_photon_blast_model },
+    { create_pilla_photon_blast_model, destroy_pilla_photon_blast_model },
+    { create_leilla_photon_blast_model, destroy_leilla_photon_blast_model },
+    { create_farlla_photon_blast_model, destroy_farlla_photon_blast_model },
+    { create_estlla_photon_blast_model, destroy_estlla_photon_blast_model },
+    { create_youlla_photon_blast_model, destroy_youlla_photon_blast_model },
+    { create_mylla_photon_blast_model, destroy_mylla_photon_blast_model },
+    { TObjPlayer__sub_801AD480, TObjPlayer__sub_801AD47C },
+    { load_photon_rainbow_resources, release_photon_rainbow_resources },
+    { load_photon_laser_resources, release_photon_laser_resources },
+};
+
+void release_photon_blast_resources(void) {
     s32 i;
     TLobby::call_funcs_reverse(photon_blast_load_callback_table, 0x50);
     if (photon_blast_shared_resource != NULL) {
-        delete (BmlResource *)photon_blast_shared_resource;
+        delete photon_blast_shared_resource;
         photon_blast_shared_resource = NULL;
     }
     for (i = 0; i < 4; i++) {
@@ -951,12 +808,9 @@ void TObjPlayer::clear_photon_blast_slots() {
         photon_blast_sequence_table[i].state = 0;
     }
 }
-}
 void load_photon_blast_resources(void) {
-    u8 *p;
     s32 i;
-    p = (u8 *)new BmlResource(1, &photon_blast_resource_descriptor, 0, 0, NULL);
-    photon_blast_shared_resource = p;
+    photon_blast_shared_resource = new BmlResource(1, &photon_blast_resource_descriptor, 0, 0, NULL);
     run_load_callback_table(photon_blast_load_callback_table, 0x50);
     for (i = 0; i < 4; i++) {
         photon_blast_donation_flags[i] = 0;
@@ -964,15 +818,43 @@ void load_photon_blast_resources(void) {
     TObjPlayer::clear_photon_blast_slots();
 }
 
-PhotonBlastLoadCallback photon_blast_load_callback_table[10] = {
-    { create_golla_photon_blast_model, TObjPlayer::destroy_static_buffer_pair },
-    { create_pilla_photon_blast_model, TObjPlayer::free_buffer_pair },
-    { create_leilla_photon_blast_model, TObjPlayer::destroy_buffer_pair_instance },
-    { create_farlla_photon_blast_model, TObjPlayer::destroy_buffers },
-    { create_estlla_photon_blast_model, TObjPlayer::destroy_global_buffer },
-    { TObjPlayer__sub_801AEB80, TObjPlayer__sub_801AEB74 },
-    { TObjPlayer__sub_801ADC78, TObjPlayer__sub_801ADC6C },
-    { TObjPlayer__sub_801AD480, TObjPlayer__sub_801AD47C },
-    { TObjPlayer__sub_801AE728, TObjPlayer__sub_801AE724 },
-    { TObjPlayer__sub_801AC440, TObjPlayer__sub_801AC43C },
-};
+
+s16 TObjPlayer::get_evp() { return evp; }
+
+u16 PhotonBlastRequest::get_client_id() { return client_id; }
+
+void PhotonBlastRequest::set_kind(s16 kind) { this->kind = kind; }
+
+void PhotonBlastRequest::set_client_id(u16 client_id) { this->client_id = client_id; }
+
+PhotonBlastRequest::~PhotonBlastRequest() {}
+
+PhotonBlastRequestSlot::~PhotonBlastRequestSlot() {}
+
+PhotonBlastRequest::PhotonBlastRequest() { reset(); }
+
+PhotonBlastRequestSlot::PhotonBlastRequestSlot() { clear(); }
+
+void PhotonBlastRequestSlot::clear() {
+    client_id = 0xFFFF;
+    amount = 0;
+}
+
+u16 PhotonBlastRequestSlot::get_client_id() { return client_id; }
+
+PhotonBlastRequest &PhotonBlastRequest::operator=(PhotonBlastRequest &other) {
+    client_id = other.client_id;
+    kind = other.kind;
+    flags.bits = other.flags.bits;
+    slots[0] = other.slots[0];
+    slots[1] = other.slots[1];
+    slots[2] = other.slots[2];
+    slots[3] = other.slots[3];
+    return *this;
+}
+
+PhotonBlastRequestSlot &PhotonBlastRequestSlot::operator=(PhotonBlastRequestSlot &other) {
+    client_id = other.client_id;
+    amount = other.amount;
+    return *this;
+}

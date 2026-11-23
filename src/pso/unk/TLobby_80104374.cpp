@@ -125,8 +125,9 @@
 #include "pso/weapon/TUnk_804ECFB0.h"
 #include "pso/weapon/TUnk_804ED1A0.h"
 #include "pso/weapon/TUnk_804ED488.h"
-#include "pso/weapon/TUnk_804EDC28.h"
+#include "pso/weapon/TItemWeaponGuardianna.h"
 #include "pso/weapon/TUnk_804F0AF8.h"
+#include "pso/weapon/TUnk_804F0810.h"
 #include "pso/weapon/TUnk_804F26E0.h"
 #include "pso/unk/text_80103674.h"
 #include "pso/unk/text_8010F168.h"
@@ -323,7 +324,7 @@ ItemCreateFunction weapon_factory_table[170] = {
     TObjPlayer::create_vtable_1f8_state,
     TObjPlayer::create_object_by_type,
     create_common_weapon,
-    TObjPlayer__sub_8034F1AC,
+    TUnk_804F0810::create,
     TObjPlayer::create_vtable_variant,
     TObjPlayer::create_mode_floats_state,
     TUnk_804F0AF8::create,
@@ -476,7 +477,7 @@ void TLobby::handle_player_event(s32 arg0, s32 arg1) {
         item = NULL;
         switch (arg1) {
         case 0:
-            item = TObjPlayer::get_item_field_6(player);
+            item = TObjPlayer::get_equipped_weapon(player);
             break;
         case 1:
             item = (TItem *)((TItemData *)player)->get_item_field_2();

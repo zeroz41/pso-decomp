@@ -21,7 +21,6 @@
 #include "pso/system/task/TObject.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/math/MatrixTransforms.h"
-#include "pso/unk/text_80087278.h"
 
 static const s32 lbl_80437F40[3] = {0x208, 0x20A, 0x20B};
 const char *lbl_805D2818 = "TBoss5GryphonShockWave";

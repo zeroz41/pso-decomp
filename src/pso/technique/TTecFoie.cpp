@@ -3,7 +3,6 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "types.h"
 #include "pso/boss/goldragon/TBoss8Dragon_80065C90.h"
-#include "pso/unk/text_80086D50.h"
 #include "pso/technique/TTecFoie.h"
 #include "pso/technique/TechniqueParams.h"
 #include "pso/technique/TTecAnti.h"
@@ -11,7 +10,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/technique/TTecCtrl.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
-#include "pso/effect/TUnk_804CCC68.h"
+#include "pso/technique/TTecShot.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/unk/TLobby_80226070.h"
@@ -140,8 +139,6 @@ const TTecFoieData_80230144 TTecFoie__emitter_profile_table[6] = {
     {foie_emitter_parts_3, 2}, {foie_emitter_parts_4, 2}, {foie_emitter_parts_5, 4},
 };
 const char *TTecFoie__name = "TTecFoie";
-void *spawn_particle_effect_with_rotation(void *pos, void *dir, s32 id, u16 e);
-void *spawn_continuous_particle_effect_with_flags(void *, s32, u16);
 
 typedef struct RecoveredFields_8022FE84_arg0 RecoveredFields_8022FE84_arg0;
 typedef struct Angles_8022FC94 Angles_8022FC94;
@@ -263,7 +260,7 @@ void TTecFoie::run_task() {
 
 // The aimed form (create_ex): flies from `pos` towards `target`.
 TTecFoie::TTecFoie(saddr source, u8 *pos, u8 *target, s32 level)
-    : TUnk_804CCC68(source, pos, target, level) {
+    : TTecShot(source, pos, target, level) {
     if (this->source != NULL) {
         sourceId = get_entity_id((void *)this->source);
     }
@@ -274,7 +271,7 @@ TTecFoie::TTecFoie(saddr source, u8 *pos, u8 *target, s32 level)
 
 // The facing form (create): flies along the y angle `angle`.
 TTecFoie::TTecFoie(saddr source, Vec *pos, s32 angle, s32 level)
-    : TUnk_804CCC68(source, pos, angle, level) {
+    : TTecShot(source, pos, angle, level) {
     m_name = TTecFoie__name;
     if (this->source != NULL) {
         sourceId = get_entity_id((void *)this->source);

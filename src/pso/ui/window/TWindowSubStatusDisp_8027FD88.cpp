@@ -1,5 +1,5 @@
 #include "pso/player/TPlyDispData.h"
-#include "pso/unk/TUnk_804CFA28.h"
+#include "pso/ui/window/WindowTextEntry.h"
 #include "pso/ui/window/PageIndicator.h"
 #include "types.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
@@ -338,7 +338,7 @@ extern "C" {
 void *get_player_by_client_id(s32 i);
 }
 
-// list type of m_68 per page (inferred: the page-flip list kind passed to fn_8026C7AC)
+// list type of m_68 per page: the page-flip list kind passed to fn_8026C7AC
 const u8 lbl_805DD6F4[4] = {3, 4, 4, 0};
 
 TWindowSubStatusDisp::TWindowSubStatusDisp(s32 client)
@@ -695,16 +695,16 @@ void TWindowSubStatusDisp::vt4() {
     init_window_layout_entries(&entry_list, reinterpret_cast<const void *>(TWindowSubStatusDisp__rank_time_records_layout), client_index);
     m_68->get_type();
     s32 slot = page == 2 ? RECORD_SET_EP1_SPLIT : RECORD_SET_EP1;
-    TUnk_804CFA28 *title = (TUnk_804CFA28 *)get_array_entry(0);
+    WindowTextEntry *title = (WindowTextEntry *)get_array_entry(0);
     if (slot == RECORD_SET_EP1) {
         set_text_entry_string((u8 *)title, (uaddr)TWindowSubStatusDisp::get_message_10(0x90), 0);
     } else {
         set_text_entry_string((u8 *)title, (uaddr)TWindowSubStatusDisp::get_message_10(0x93), 0);
     }
 
-    title = (TUnk_804CFA28 *)get_array_entry(1);
-    TUnk_804CFA28 *spacer = (TUnk_804CFA28 *)get_array_entry(2);
-    TUnk_804CFA28 *value = (TUnk_804CFA28 *)get_array_entry(3);
+    title = (WindowTextEntry *)get_array_entry(1);
+    WindowTextEntry *spacer = (WindowTextEntry *)get_array_entry(2);
+    WindowTextEntry *value = (WindowTextEntry *)get_array_entry(3);
     const char *player_name = (const char *)TWindowSubStatusDisp::get_status_window(client_index);
     if (slot != RECORD_SET_EP1 || player_name == NULL || *player_name == 0) {
         title->flags |= RecordEntryHidden;
@@ -719,9 +719,9 @@ void TWindowSubStatusDisp::vt4() {
         value->color = TWindowSubStatusDisp::get_status_index(client_index);
     }
 
-    title = (TUnk_804CFA28 *)get_array_entry(4);
-    spacer = (TUnk_804CFA28 *)get_array_entry(5);
-    value = (TUnk_804CFA28 *)get_array_entry(6);
+    title = (WindowTextEntry *)get_array_entry(4);
+    spacer = (WindowTextEntry *)get_array_entry(5);
+    value = (WindowTextEntry *)get_array_entry(6);
     s32 rank = TWindowSubStatusDisp__sub_80071868(client_index, slot);
     if (rank == 0) {
         title->flags |= RecordEntryHidden;
@@ -739,9 +739,9 @@ void TWindowSubStatusDisp::vt4() {
         set_text_entry_string((u8 *)value, (uaddr)lbl_804D2B20[rank], 0);
     }
 
-    title = (TUnk_804CFA28 *)get_array_entry(7);
-    spacer = (TUnk_804CFA28 *)get_array_entry(8);
-    value = (TUnk_804CFA28 *)get_array_entry(9);
+    title = (WindowTextEntry *)get_array_entry(7);
+    spacer = (WindowTextEntry *)get_array_entry(8);
+    value = (WindowTextEntry *)get_array_entry(9);
     s32 time = TWindowSubStatusDisp__sub_80071988(client_index, slot);
     if (time == 0) {
         title->flags |= RecordEntryHidden;
@@ -765,9 +765,9 @@ void TWindowSubStatusDisp::vt4() {
     if (page == 2) {
         slot = RECORD_SET_EP2_SPLIT;
     }
-    title = (TUnk_804CFA28 *)get_array_entry(0xA);
-    spacer = (TUnk_804CFA28 *)get_array_entry(0xB);
-    value = (TUnk_804CFA28 *)get_array_entry(0xC);
+    title = (WindowTextEntry *)get_array_entry(0xA);
+    spacer = (WindowTextEntry *)get_array_entry(0xB);
+    value = (WindowTextEntry *)get_array_entry(0xC);
     rank = TWindowSubStatusDisp__sub_80071868(client_index, slot);
     if (rank == 0) {
         title->flags |= RecordEntryHidden;
@@ -781,9 +781,9 @@ void TWindowSubStatusDisp::vt4() {
         set_text_entry_string((u8 *)value, (uaddr)lbl_804D2B20[rank], 0);
     }
 
-    title = (TUnk_804CFA28 *)get_array_entry(0xD);
-    spacer = (TUnk_804CFA28 *)get_array_entry(0xE);
-    value = (TUnk_804CFA28 *)get_array_entry(0xF);
+    title = (WindowTextEntry *)get_array_entry(0xD);
+    spacer = (WindowTextEntry *)get_array_entry(0xE);
+    value = (WindowTextEntry *)get_array_entry(0xF);
     time = TWindowSubStatusDisp__sub_80071988(client_index, slot);
     if (time == 0) {
         title->flags |= RecordEntryHidden;

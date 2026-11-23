@@ -46,7 +46,7 @@
 #include "pso/system/SoundEffect.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/ui/TLevelSelect.h"
-#include "pso/unk/text_800D8830.h"
+#include "pso/effect/GroundContactSound.h"
 #include "pso/math/ScratchVectors.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/map/CsnQuery.h"
@@ -132,7 +132,7 @@ CollisionBody merill_lia_collision_bodies[3] = {
 // functions below are defined from the last one in the DOL (select_model_record) back to the first (run_demo_task).
 void TObjEneMerillLia::select_model_record(s32 i) {
     model = merill_lia_bml_resource->models[i].model;
-    texlist = (saddr)merill_lia_bml_resource->models[i].m_c;
+    texlist = (saddr)merill_lia_bml_resource->models[i].texlist;
 }
 
 TObjEneMerillLia::TObjEneMerillLia(TObject *parent, void *setData) : TUnk_80493450(parent) {
@@ -144,11 +144,11 @@ TObjEneMerillLia::TObjEneMerillLia(TObject *parent, void *setData) : TUnk_804934
     select_subtype();
     select_model_record(variant);
     action_table = merill_lia_action_table;
-    set_field_d8((saddr)action_table);
+    set_action_table((saddr)action_table);
     motion_list = merill_lia_bml_resource->motions;
     requested_action = 0;
     set_animation(requested_action);
-    set_field_b8(requested_action);
+    set_requested_action(requested_action);
     init_collision_body_parts(this, &merill_lia_collision_bodies[subtype], 1);
     bind_enemy_combat_stats((u8 *)merill_lia_rock_stats_table[subtype], (u8 *)merill_lia_rock_buffer[subtype], (u8 *)merill_lia_rock_aux_buffer[subtype]);
     movementParameters = &merill_lia_movement_params[subtype];
@@ -218,7 +218,7 @@ void TObjEneMerillLia::load_resources() {
         motions.motions = merill_lia_bml_resource->motions;
         for (i = 0; i < 2; i++) {
             NpcModelRegistry::register_animated_chunk(ids[i], merill_lia_bml_resource->models[i].model,
-                merill_lia_bml_resource->models[i].m_c, &motions, merill_lia_collision_bodies[i].radius, 0.0f);
+                merill_lia_bml_resource->models[i].texlist, &motions, merill_lia_collision_bodies[i].radius, 0.0f);
         }
     }
 }
@@ -1072,7 +1072,7 @@ void TObjEneMerillLia::spawn_ground_effect() {
             spawn_particle_effect(&hit->contact[2].point, 0xA4);
         }
         if ((is_passing_frame(7.0f) != 0) || (is_passing_frame(22.0f) != 0)) {
-            fn_800D88E4(&position);
+            play_ground_landing_sound(&position);
         }
     }
 }

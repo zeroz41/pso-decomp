@@ -1,298 +1,627 @@
-#include "pso/effect/particle/ParticleDefinition.h"
-#include "pso/render/render_util.h"
-#include "pso/effect/particle/TParticleCtrl_80085EE4.h"
-#include "pso/unk/TUnk_8048E6A8.h"
-#include "pso/unk/TUnk_8048E6DC.h"
-#include "pso/system/NinjaTypes.h"
-#include "types.h"
-#include "pso/effect/TEffect.h"
-#include "pso/render/MaterialColorFade.h"
-#include "pso/system/vector.h"
-#include "pso/unk/TUnk_8048E728.h"
-#include "pso/unk/TUnk_8048E778.h"
-
-
+#define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/system/BmlAccessors.h"
 #include "pso/effect/particle/TParticleCtrl.h"
-#include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
-#include "pso/object/ambient/TObjFish.h"
-#include "pso/player/TObjPlayer.h"
-#include "pso/object/base/TObjMotion.h"
-#include "pso/system/task/TObject.h"
+#include "pso/effect/particle/ParticleParam.h"
+#include "pso/effect/particle/ParticleRadial.h"
+#include "pso/ui/hud/TNowLoading.h"
+#include "pso/effect/particle/TParticle.h"
 #include "pso/player/TObjPlayer_80011014.h"
-#include "pso/unk/text_803D96A8.h"
-#include "pso/unk/text_803D8F74.h"
-#include "pso/network/client_id.h"
-#include "pso/map/CsnQuery.h"
-#include "pso/unk/text_803D853C.h"
-#include "pso/system/MatrixOps.h"
-#include "pso/system/MatrixStack.h"
-#include "pso/player/PlayerSlots.h"
+#include "pso/math/AngleLookup.h"
+#include "pso/system/task/TMainTask.h"
+#include "pso/effect/particle/ParticleBallistic.h"
+#include "pso/effect/particle/ParticleOrbit.h"
 #include "pso/camera/TCameraCtrl.h"
+#include "pso/player/PlayerSlots.h"
+#include "pso/player/TObjPlayer.h"
+#include "pso/render/render_util.h"
+#include "pso/system/TLoadCtrl.h"
 
-#pragma defer_codegen on
+ParticleParam *particle_global_entry_table;
+ParticleParam *particle_area_entry_table;
+BmlResource *TParticleCtrl::regular_bml_resource;
+GinjaTextureList *TParticleCtrl::texture_list;
 
-struct VBase_18_1a504b { char pad[0x18]; };
-
-struct VObj_18_1a504b : VBase_18_1a504b {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual s32 m5(s32);
-};
-
-struct Obj_80085798 { u8 pad[0x38]; u8 target[0x10]; };
-
-
-typedef struct Quad_80085EE4 { f32 x, y, z, ax, ay, bx, by, pad1C; f32 u, v, du, k0, k1, dv; f32 pad38[2]; } Quad_80085EE4;
-
-typedef struct Cam_80085EE4 {
-    u8 pad0[8];
-    f32 cx;
-    f32 cy;
-    u8 pad10[8];
-    f32 scale;
-    f32 aspect;
-} Cam_80085EE4;
-
-typedef struct Particle_80085EE4 {
-    u8 pad0[0x70];
-    Vec pos;
-    Vec off;
-    f32 f88;
-    f32 f8C;
-    s32 f90;
-    s8 f94;
-    s8 f95;
-    s16 f96;
-} Particle_80085EE4;
-
-struct Ctrl_80085CB0 {
-    u8 pad0[0x38];
-    Vec pos;
-    u8 pad44[0x68 - 0x44];
-    f32 f68;
-    u8 pad6C[0x90 - 0x6C];
-    f32 f90;
-    f32 f94;
-    s32 f98;
-    f32 screen_x;
-    f32 screen_y;
-    f32 alpha;
-};
-
-struct Color_800859EC { u8 a, r, g, b; };
-
-struct Quad_800859EC { f32 x0, y0, x1, y1, u0, v0, u1, v1; };
-
-extern "C" {
-extern s32 tl_particle;
-s32 __ct__8TObjBaseFP7TObject(void *, void *);
-extern s32 __vt__13TUnk_8048E6A8[];
-extern s32 __vt__13TUnk_8048E6DC[];
-s32 lbl_805D2930 = 1;
-f32 vec_squared_length(u8 *arg0);
-s32 rotate_vector_by_matrix(int, void *, void *);
-
-}
-void set_constant_material_color(u32 x);
-
-u8 *TParticleCtrl::init_particle_obj(s32 arg1, saddr parent) {
-    __ct__8TObjBaseFP7TObject(this, (void *)parent);
-    *(s32 **)((s8 *)((u8 *)this) + 0x18) = __vt__13TUnk_8048E6DC;
-    ((VObj_18_1a504b *)(this))->m5(arg1);
-    *(f32 *)((s8 *)((u8 *)this) + 0xA4) = 225.0f;
-    lbl_805D2930 = 1;
-    return ((u8 *)this);
+NJS_OBJECT *TParticleCtrl::get_particle_model(s32 model) {
+    if (model < 3) {
+        return get_bml_model(regular_bml_resource, model);
+    }
+    return 0;
 }
 
-TUnk_8048E6DC::~TUnk_8048E6DC() {
+GinjaTextureList *TParticleCtrl::get_instance() { return texture_list; }
 
+TParticleCtrl *create_timed_particle_emitter_with_flags(void *pos, s32 id, s32 delay, s32 duration, u16 flags) {
+    if (particle_pool_limit > id) {
+        return new TParticleCtrl(static_cast<const Vec *>(pos), &particle_global_entry_table[id], 0, delay, duration, 0, flags);
+    }
+    if (particle_pool_limit + 0x40 > id) {
+        s32 idx = id - 0x200;
+        return new TParticleCtrl(static_cast<const Vec *>(pos), &particle_area_entry_table[idx], 0, delay, duration, 0, flags);
+    }
+    return 0;
 }
 
-#pragma fp_contract on
-void TUnk_8048E6DC::run_task() {
-    Ctrl_80085CB0 *self = (Ctrl_80085CB0 *)this;
-    Vec out;
-    Vec d;
-    f32 v;
-    f32 r;
-    if (camera_ctrl_instance != NULL) {
-        d.x = self->pos.x - camera_ctrl_instance->pos.x;
-        d.y = 0.0f;
-        d.z = self->pos.z - camera_ctrl_instance->pos.z;
-        if (0.0f != vec_squared_length((u8 *)&d)) {
-            normalize_vector(&d);
-        }
-        push_matrix_from(identity_matrix);
-        Vec t = { 0.0f, 0.0f, -1.0f };
-        rotate_matrix_y(0, camera_ctrl_instance->yaw);
-        rotate_vector_by_matrix(0, &t, &out);
-        pop_matrix();
-        self->f94 = vec3_dot(&out, &d);
-        r = fabs_float(self->f94);
-        if (self->f94 >= 0.0f) {
-            v = fabs_float(1.0f - r);
-            if (v > 0.6f) {
-                v = 0.6f;
-            }
-        } else {
-            v = 0.0f;
-        }
-        self->f90 = 50.0f * v + 25.0f;
-        Vec p = camera_ctrl_instance->pos;
-        if (csnVector(&p, &self->pos, 0x100) != 0) {
-            self->f98 = 1;
-        } else {
-            self->f98 = 0;
-        }
+TParticleCtrl *create_timed_particle_emitter(const void *pos, s32 id, s32 delay, s32 duration) {
+    if (particle_pool_limit > id) {
+        return new TParticleCtrl(static_cast<const Vec *>(pos), &particle_global_entry_table[id], 0, delay, duration, 0);
+    }
+    if (particle_pool_limit + 0x40 > id) {
+        s32 idx = id - 0x200;
+        return new TParticleCtrl(static_cast<const Vec *>(pos), &particle_area_entry_table[idx], 0, delay, duration, 0);
+    }
+    return 0;
+}
+
+TParticleCtrl *create_timed_particle_emitter_with_angles(void *pos, void *dir, s32 id, s32 delay, s32 duration, u16 flags) {
+    if (particle_pool_limit > id) {
+        return new TParticleCtrl(static_cast<const Vec *>(pos), static_cast<ParticleAngles *>(dir), &particle_global_entry_table[id], 0, delay, duration, 0, flags);
+    }
+    if (particle_pool_limit + 0x40 > id) {
+        s32 idx = id - 0x200;
+        return new TParticleCtrl(static_cast<const Vec *>(pos), static_cast<ParticleAngles *>(dir), &particle_area_entry_table[idx], 0, delay, duration, 0, flags);
+    }
+    return 0;
+}
+
+TParticleCtrl *create_particle_controller_with_rotation(Vec *pos, ParticleAngles *dir, s32 id, s32 a, s32 b) {
+    if (particle_pool_limit > id) {
+        return new TParticleCtrl(pos, dir, &particle_global_entry_table[id], 0, a, b, 0);
+    }
+    if (particle_pool_limit + 0x40 > id) {
+        s32 idx = id - 0x200;
+        return new TParticleCtrl(pos, dir, &particle_area_entry_table[idx], 0, a, b, 0);
+    }
+    return 0;
+}
+
+void TParticleCtrl::release(void *emitter) {
+    if (emitter != NULL) {
+        ((TParticleCtrl *)emitter)->queue_destruction();
+    }
+}
+TParticleCtrl *create_oneshot_particle_emitter(void *pos, void *dir, s32 id, u16 flags) {
+    if (particle_pool_limit > id) {
+        return new TParticleCtrl(static_cast<const Vec *>(pos), static_cast<ParticleAngles *>(dir), &particle_global_entry_table[id], 1, 0, 0, 0, flags);
+    }
+    if (particle_pool_limit + 0x40 > id) {
+        s32 idx = id - 0x200;
+        return new TParticleCtrl(static_cast<const Vec *>(pos), static_cast<ParticleAngles *>(dir), &particle_area_entry_table[idx], 1, 0, 0, 0, flags);
+    }
+    return 0;
+}
+
+TParticleCtrl *spawn_directional_particle(void *pos, void *dir, s32 id) {
+    if (particle_pool_limit > id) {
+        return new TParticleCtrl(static_cast<const Vec *>(pos), static_cast<ParticleAngles *>(dir), &particle_global_entry_table[id], 1, 0, 0, 0);
+    }
+    if (particle_pool_limit + 0x40 > id) {
+        s32 idx = id - 0x200;
+        return new TParticleCtrl(static_cast<const Vec *>(pos), static_cast<ParticleAngles *>(dir), &particle_area_entry_table[idx], 1, 0, 0, 0);
+    }
+    return 0;
+}
+
+TParticleCtrl *create_particle_controller(void *pos, s32 id, s32 use_self) {
+    if (particle_pool_limit > id) {
+        return new TParticleCtrl(static_cast<const Vec *>(pos), &particle_global_entry_table[id], 0, 0, 0, use_self);
+    }
+    if (particle_pool_limit + 0x40 > id) {
+        s32 idx = id - 0x200;
+        return new TParticleCtrl(static_cast<const Vec *>(pos), &particle_area_entry_table[idx], 0, 0, 0, use_self);
+    }
+    return NULL;
+}
+
+TParticleCtrl *create_particle_controller_with_angles(void *pos, void *dir, s32 id, s32 use_self, u16 flags) {
+    if (particle_pool_limit > id) {
+        return new TParticleCtrl(static_cast<const Vec *>(pos), static_cast<ParticleAngles *>(dir), &particle_global_entry_table[id], 0, 0, 0, use_self, flags);
+    }
+    if (particle_pool_limit + 0x40 > id) {
+        s32 idx = id - 0x200;
+        return new TParticleCtrl(static_cast<const Vec *>(pos), static_cast<ParticleAngles *>(dir), &particle_area_entry_table[idx], 0, 0, 0, use_self, flags);
+    }
+    return NULL;
+}
+
+TParticleCtrl *create_particle_controller_with_angles(void *pos, void *dir, s32 id, s32 use_self) {
+    if (particle_pool_limit > id) {
+        return new TParticleCtrl(static_cast<const Vec *>(pos), static_cast<ParticleAngles *>(dir), &particle_global_entry_table[id], 0, 0, 0, use_self);
+    }
+    if (particle_pool_limit + 0x40 > id) {
+        s32 idx = id - 0x200;
+        return new TParticleCtrl(static_cast<const Vec *>(pos), static_cast<ParticleAngles *>(dir), &particle_area_entry_table[idx], 0, 0, 0, use_self);
+    }
+    return NULL;
+}
+
+TParticleCtrl *spawn_particle_effect_with_rotation(void *pos, void *dir, s32 id, u16 flags) {
+    if (particle_pool_limit > id) {
+        return new TParticleCtrl(static_cast<const Vec *>(pos), static_cast<ParticleAngles *>(dir), &particle_global_entry_table[id], 0, 0, 0, 0, flags);
+    }
+    if (particle_pool_limit + 0x40 > id) {
+        s32 idx = id - 0x200;
+        return new TParticleCtrl(static_cast<const Vec *>(pos), static_cast<ParticleAngles *>(dir), &particle_area_entry_table[idx], 0, 0, 0, 0, flags);
+    }
+    return 0;
+}
+
+TParticleCtrl *spawn_continuous_particle_with_direction(void *pos, void *dir, s32 id) {
+    if (particle_pool_limit > id) {
+        return new TParticleCtrl(static_cast<const Vec *>(pos), static_cast<ParticleAngles *>(dir), &particle_global_entry_table[id], 0x0, 0, 0, 0);
+    }
+    if (particle_pool_limit + 0x40 > id) {
+        s32 idx = id - 0x200;
+        return new TParticleCtrl(static_cast<const Vec *>(pos), static_cast<ParticleAngles *>(dir), &particle_area_entry_table[idx], 0x0, 0, 0, 0);
+    }
+    return 0;
+}
+
+TParticleCtrl *spawn_particle_effect_with_flags(const Vec *pos, s32 id, u16 flags) {
+    if (particle_pool_limit > id) {
+        return new TParticleCtrl(pos, &particle_global_entry_table[id], 1, 0, 0, 0, flags);
+    }
+    if (particle_pool_limit + 0x40 > id) {
+        s32 idx = id - 0x200;
+        return new TParticleCtrl(pos, &particle_area_entry_table[idx], 1, 0, 0, 0, flags);
+    }
+    return 0;
+}
+
+TParticleCtrl *spawn_particle_effect(const Vec *pos, s32 id) {
+    if (particle_pool_limit > id) {
+        return new TParticleCtrl(pos, &particle_global_entry_table[id], 1, 0, 0, 0);
+    }
+    if (particle_pool_limit + 0x40 > id) {
+        s32 idx = id - 0x200;
+        return new TParticleCtrl(pos, &particle_area_entry_table[idx], 1, 0, 0, 0);
+    }
+    return 0;
+}
+
+TParticleCtrl *spawn_continuous_particle_effect_with_flags(void *pos, s32 id, u16 flags) {
+    if (particle_pool_limit > id) {
+        return new TParticleCtrl(static_cast<const Vec *>(pos), &particle_global_entry_table[id], 0, 0, 0, 0, flags);
+    } else if (particle_pool_limit + 0x40 > id) {
+        s32 idx = id - 0x200;
+        return new TParticleCtrl(static_cast<const Vec *>(pos), &particle_area_entry_table[idx], 0, 0, 0, 0, flags);
+    } else {
+        return 0;
     }
 }
 
-#pragma fp_contract reset
-void TUnk_8048E6DC::render() {
-    Ctrl_80085CB0 *self = (Ctrl_80085CB0 *)this;
-    Color_800859EC color;
-    Quad_800859EC quad;
-    f32 limit;
-    f32 v;
-    f32 s;
-    f32 w;
-    f32 h;
+TParticleCtrl *create_particle_emitter(const void *pos, s32 id) {
+    if (particle_pool_limit > id) {
+        return new TParticleCtrl(static_cast<const Vec *>(pos), &particle_global_entry_table[id], 0, 0, 0, 0);
+    }
+    if (particle_pool_limit + 0x40 > id) {
+        s32 idx = id - 0x200;
+        return new TParticleCtrl(static_cast<const Vec *>(pos), &particle_area_entry_table[idx], 0, 0, 0, 0);
+    }
+    return 0;
+}
 
-    limit = 225.0f;
-    if (lbl_805D2930 == 0) {
+void TParticleCtrl::set_param_ptr(s32 index) {
+    emit_count = 0.0f;
+    emit_phase = 0;
+    emit_rate = 1.0f;
+    if (index >= 0x200) {
+        emitter_entry = &particle_area_entry_table[index - 0x200];
         return;
     }
-    if (self->f98 != 0) {
-        limit = 50.0f;
+    emitter_entry = &particle_global_entry_table[index];
+}
+
+void TParticleCtrl::set_direction(void *dir) {
+    const ParticleAngles *angles = static_cast<const ParticleAngles *>(dir);
+    direction.x = angles->x;
+    direction.y = angles->y;
+    direction.z = angles->z;
+}
+
+void TParticleCtrl::set_flags(u16 flags) { emit_flags |= flags; }
+
+void TParticleCtrl::set_owner_id(u16 id) {
+    if (id != 0xFFFF) {
+        owner_id = id;
     }
-    if (self->alpha < limit) {
-        v = 3.0f + self->alpha;
-        self->alpha = v < 0.0f ? 0.0f : (v < limit ? v : limit);
+}
+
+void TParticleCtrl::set_tint_color(s32 color) {
+    emit_flags |= 0x100;
+    tint.color = color;
+}
+
+void TParticleCtrl::set_position(void *pos) {
+    const Vec *p = static_cast<const Vec *>(pos);
+    position.x = p->x;
+    position.y = p->y;
+    position.z = p->z;
+}
+
+#pragma readonly_strings on
+
+const char *TParticleCtrl::class_name = "TParticleCtrl";
+
+#pragma push
+#pragma fp_contract on
+void TParticleCtrl::run_task() {
+    s32 kind;
+    TParticle *p;
+    f32 step;
+    if (all_parents_unqueued_for_destruction() == 0) {
+        return;
+    }
+    if (delay-- <= 0) {
+        delay = 0;
     } else {
-        v = self->alpha - 3.0f;
-        self->alpha = v < limit ? limit : (v < 255.0f ? v : 255.0f);
+        return;
     }
-    TParticleCtrl::begin_effect_render();
-    if (self->f94 > 0.0f) {
-        project_world_to_screen(0, &self->pos, &self->screen_x);
-        if (self->screen_x > 650.0f) {
-            self->screen_x = 650.0f;
-        }
-        if (self->screen_x < -10.0f) {
-            self->screen_x = -10.0f;
-        }
-        if (self->screen_y > 490.0f) {
-            self->screen_y = 490.0f;
-        }
-        if (self->screen_y < -10.0f) {
-            self->screen_y = -10.0f;
-        }
+    age++;
+    if (emit_flags & 1) {
+        emit_flags &= ~1;
+        return;
     }
-    set_additive_blend();
-    begin_screen_draw(1);
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(lbl_804C5820[31].texlist));
-    set_draw_texture_and_color(lbl_804C5820[31].texture, -1);
-    if (self->f94 < 0.0f) {
-        color.a = 0;
-    } else if (self->f94 <= 0.5f) {
-        v = self->f94 * (2.5f * self->alpha);
-        color.a = v < 0.0f ? 0.0f : (v < 255.0f ? v : 255.0f);
+    if (((emit_flags & 0x200) || (emit_flags & 0x2000)) && particle_parent == tl_07) {
+        particle_parent = tl_particlemodel;
+    }
+    if (emitter_entry == NULL) {
+        return;
+    }
+    if (0.0f == emitter_entry->emission_frequency) {
+        emit_count += emitter_entry->emission_rate * emit_rate;
     } else {
-        color.a = self->alpha;
+        emit_phase += (s32)(182.04445f * emitter_entry->emission_frequency);
+        emit_count += emit_rate * (emitter_entry->emission_rate * fabs_float(sin_table_lookup(emit_phase)));
     }
-    if (self->f68 < 0.0f) {
-        color.r = 0x80;
-        color.g = 0x80;
-        color.b = 0x80;
-    } else if (self->f68 >= 10.0f) {
-        color.r = 0x55;
-        color.g = 0x23;
-        color.b = 0;
-    } else {
-        color.r = 0xFF;
-        color.g = 0x80;
-        color.b = 0x40;
-    }
-    w = lbl_804C5820[31].width;
-    h = lbl_804C5820[31].height;
-    s = 0.5f * self->f90;
-    w *= s;
-    h *= s;
-    quad.x0 = self->screen_x - w;
-    quad.x1 = self->screen_x + w;
-    quad.y0 = self->screen_y - h;
-    quad.y1 = self->screen_y + h;
-    quad.u0 = 0.0f;
-    quad.v0 = 0.0f;
-    quad.u1 = 1.0f;
-    quad.v1 = 1.0f;
-    set_constant_material_color(*(u32 *)&color);
-    draw_textured_quad_at_depth((f32 *)&quad, 0.1f);
-    TWindowSubStatusDisp::get_player();
-    TParticleCtrl::end_effect_render();
-}
-
-u8 *TParticleCtrl::create_particle_obj_ac(s32 arg0) {
-    u8 *particle_ctrl;
-    u8 *var_r0;
-    if (is_split_screen() != 0) {
-        return NULL;
-    }
-    particle_ctrl = (u8 *)(TObject::operator new(0xAC));
-    var_r0 = particle_ctrl;
-    if (var_r0 != NULL) {
-        var_r0 = (u8 *)(((TParticleCtrl *)particle_ctrl)->init_particle_obj(arg0, tl_particle));
-    }
-    return var_r0;
-}
-
-u8 *TParticleCtrl::create_particle_obj_90(s32 arg0) {
-    u8 *particle_ctrl;
-    u8 *var_r0;
-    if (is_split_screen() != 0) {
-        return NULL;
-    }
-    particle_ctrl = (u8 *)(TObject::operator new(0x90));
-    var_r0 = particle_ctrl;
-    if (var_r0 != NULL) {
-        var_r0 = (u8 *)(((TParticleCtrl *)particle_ctrl)->construct_particle_obj(arg0, tl_particle));
-    }
-    return var_r0;
-}
-
-u8 *TParticleCtrl::construct_particle_obj(s32 arg1, saddr parent) {
-    __ct__8TObjBaseFP7TObject(this, (void *)parent);
-    *(s32 **)((s8 *)((u8 *)this) + 0x18) = __vt__13TUnk_8048E6A8;
-    ((VObj_18_1a504b *)(this))->m5(arg1);
-    return ((u8 *)this);
-}
-
-TUnk_8048E6A8::~TUnk_8048E6A8() {
-
-}
-
-void TUnk_8048E6A8::run_task() {
-    u8 *arg0 = (u8 *)this;
-    uaddr player;
-
-    player = (uaddr)get_player_by_client_id((local_client_id));
-    if ((player != 0U) && (horizontal_distance_squared((const Vec *)(player + 0x38), (const Vec *)(arg0 + 0x38)) < 400.0f)) {
-        if (this->scale.x > 0.0f) {
-            lbl_805D2930 = 1;
-            return;
+    if (camera_ctrl_instance != NULL && !(emit_flags & 0x40)) {
+        if (is_split_screen() != 0) {
+            if (TLoadCtrl::is_loading() == 0) {
+                f32 lim = 10000.0f;
+                s32 near = 0;
+                s32 i;
+                for (i = 0; i < 4; i++) {
+                    TObjPlayer *pl = get_player_by_client_id(i);
+                    if (pl != NULL && horizontal_distance_squared(&position, &pl->position) < lim) {
+                        near = 1;
+                    }
+                }
+                if (near == 0) {
+                    emit_count = 0.0f;
+                }
+            }
+        } else if (TLoadCtrl::is_loading() == 0) {
+            if (!(horizontal_distance_squared(&position, &camera_ctrl_instance->pos) < 40000.0f)) {
+                emit_count = 0.0f;
+            }
         }
-        lbl_805D2930 = 0;
+    }
+    step = 1.0f;
+    while (emit_count >= step) {
+        emit_count -= step;
+        kind = emitter_entry->generator_kind;
+        if (kind == 0) {
+            TParticle *q = create_ballistic_particle(
+                emitter_entry, &position, &direction, particle_parent, emit_flags, owner_id);
+            if (q != NULL) {
+                q->set_draw_scale(scale_x, scale_y);
+                if (emit_flags & 0x100) {
+                    NJS_COLOR c = tint;
+                    NJS_ARGB argb;
+                    argb.a = c.argb.a / 255.0f;
+                    argb.r = c.argb.r / 255.0f;
+                    argb.g = c.argb.g / 255.0f;
+                    argb.b = c.argb.b / 255.0f;
+                    q->set_tint_color(&argb);
+                }
+                if (emit_flags & 0x200) {
+                    if (emit_flags & 0x400) {
+                        q->attach_model(model, texlist, motion, 1, motion_frame);
+                    } else {
+                        q->attach_model(model, texlist, motion, 0, motion_frame);
+                    }
+                }
+            }
+        } else if (emit_flags & 0x10) {
+            if (kind == 1) {
+                p = create_orbit_particle(
+                    emitter_entry, &position, &direction, particle_parent, 0x10, owner_id);
+                if (p != NULL) {
+                    p->set_draw_scale(scale_x, scale_y);
+                    if (emit_flags & 0x100) {
+                        NJS_COLOR c = tint;
+                        NJS_ARGB argb;
+                        argb.a = c.argb.a / 255.0f;
+                        argb.r = c.argb.r / 255.0f;
+                        argb.g = c.argb.g / 255.0f;
+                        argb.b = c.argb.b / 255.0f;
+                        p->set_tint_color(&argb);
+                    }
+                    if (emit_flags & 0x200) {
+                        if (emit_flags & 0x400) {
+                            p->attach_model(model, texlist, motion, 1, motion_frame);
+                        } else {
+                            p->attach_model(model, texlist, motion, 0, motion_frame);
+                        }
+                    }
+                }
+            } else if (kind == 2) {
+                p = create_radial_particle(
+                    emitter_entry, &position, particle_parent, 0x10, owner_id);
+                if (p != NULL) {
+                    p->set_draw_scale(scale_x, scale_y);
+                    if (emit_flags & 0x100) {
+                        NJS_COLOR c = tint;
+                        NJS_ARGB argb;
+                        argb.a = c.argb.a / 255.0f;
+                        argb.r = c.argb.r / 255.0f;
+                        argb.g = c.argb.b / 255.0f;
+                        argb.b = c.argb.b / 255.0f;
+                        p->set_tint_color(&argb);
+                    }
+                    if (emit_flags & 0x200) {
+                        if (emit_flags & 0x400) {
+                            p->attach_model(model, texlist, motion, 1, motion_frame);
+                        } else {
+                            p->attach_model(model, texlist, motion, 0, motion_frame);
+                        }
+                    }
+                }
+            }
+        } else if (emit_flags & 0x80) {
+            if (kind == 1) {
+                p = create_orbit_particle(
+                    emitter_entry, &position, &direction, particle_parent, 0x80, 0xFFFF);
+                if (p != NULL) {
+                    p->set_draw_scale(scale_x, scale_y);
+                    if (emit_flags & 0x100) {
+                        NJS_COLOR c = tint;
+                        NJS_ARGB argb;
+                        argb.a = c.argb.a / 255.0f;
+                        argb.r = c.argb.r / 255.0f;
+                        argb.g = c.argb.g / 255.0f;
+                        argb.b = c.argb.b / 255.0f;
+                        p->set_tint_color(&argb);
+                    }
+                    if (emit_flags & 0x200) {
+                        if (emit_flags & 0x400) {
+                            p->attach_model(model, texlist, motion, 1, motion_frame);
+                        } else {
+                            p->attach_model(model, texlist, motion, 0, motion_frame);
+                        }
+                    }
+                }
+            } else if (kind == 2) {
+                p = create_radial_particle(
+                    emitter_entry, &position, particle_parent, 0x80, 0xFFFF);
+                if (p != NULL) {
+                    p->set_draw_scale(scale_x, scale_y);
+                    if (emit_flags & 0x100) {
+                        NJS_COLOR c = tint;
+                        NJS_ARGB argb;
+                        argb.a = c.argb.a / 255.0f;
+                        argb.r = c.argb.r / 255.0f;
+                        argb.g = c.argb.g / 255.0f;
+                        argb.b = c.argb.b / 255.0f;
+                        p->set_tint_color(&argb);
+                    }
+                    if (emit_flags & 0x200) {
+                        if (emit_flags & 0x400) {
+                            p->attach_model(model, texlist, motion, 1, motion_frame);
+                        } else {
+                            p->attach_model(model, texlist, motion, 0, motion_frame);
+                        }
+                    }
+                }
+            }
+        } else if (kind < 3) {
+            p = particle_ctrl_generator_table[kind].create(emitter_entry, &position, particle_parent);
+            if (p != NULL) {
+                p->set_draw_scale(scale_x, scale_y);
+                p->set_rotation(&direction);
+                if (emit_flags & 0x100) {
+                    NJS_COLOR c = tint;
+                    NJS_ARGB argb;
+                    argb.a = c.argb.a / 255.0f;
+                    argb.r = c.argb.r / 255.0f;
+                    argb.g = c.argb.g / 255.0f;
+                    argb.b = c.argb.b / 255.0f;
+                    p->set_tint_color(&argb);
+                }
+                if (emit_flags & 0x200) {
+                    if (emit_flags & 0x400) {
+                        p->attach_model(model, texlist, motion, 1, motion_frame);
+                    } else {
+                        p->attach_model(model, texlist, motion, 0, motion_frame);
+                    }
+                }
+                if (emit_flags & 0x2000) {
+                    p->mark_active();
+                }
+            }
+        }
+    }
+    if (oneshot == 1) {
+        queue_destruction();
+    }
+    if (lifetime != 0 && age >= lifetime) {
+        queue_destruction();
+    }
+}
+#pragma pop
+
+void TParticleCtrl::clear_active_flag() { emit_flags &= ~1; }
+
+void TParticleCtrl::enable() { emit_flags |= 1; }
+
+TParticleCtrl::~TParticleCtrl() {}
+
+TParticleCtrl::TParticleCtrl(const Vec *pos, ParticleAngles *dir, ParticleParam *entry, s32 oneshot, s32 delay,
+                             s32 lifetime, s32 use_self, u16 flags)
+    : TObject(tl_07) {
+    m_name = class_name;
+    model = 0;
+    texlist = 0;
+    motion = 0;
+    tint.color = 0;
+    scale_x = 1.0f;
+    scale_y = 1.0f;
+    emit_count = 0.0f;
+    emit_phase = 0;
+    emit_rate = 1.0f;
+    emitter_entry = entry;
+    VecCopy(&position, pos);
+    emit_flags = flags;
+    owner_id = 0xFFFF;
+    direction.x = dir->x;
+    direction.z = dir->z;
+    direction.y = dir->y;
+    this->oneshot = oneshot;
+    this->delay = delay;
+    this->lifetime = lifetime;
+    age = 0;
+    if (use_self != 0) {
+        particle_parent = this;
+    } else if (emit_flags & 0x800) {
+        if (emit_flags & 0x4000) {
+            particle_parent = tl_clipout;
+        } else {
+            particle_parent = tl_07;
+        }
+    } else {
+        particle_parent = tl_07;
     }
 }
 
-void TUnk_8048E6A8::render() {
-    Obj_80085798 *self = (Obj_80085798 *)this;
-    if (TObjPlayer::check_demo_mode() != 0) {
-        NJS_ARGB color = { 0.5f, 0.0f, 1.0f, 1.0f };
-        debug_draw_sphere((const Vec *)self->target, &color, 40.0f);
+TParticleCtrl::TParticleCtrl(const Vec *pos, ParticleAngles *dir, ParticleParam *entry, s32 oneshot, s32 delay,
+                             s32 lifetime, s32 use_self)
+    : TObject(tl_07) {
+    m_name = class_name;
+    model = 0;
+    texlist = 0;
+    motion = 0;
+    tint.color = 0;
+    scale_x = 1.0f;
+    scale_y = 1.0f;
+    emit_count = 0.0f;
+    emit_phase = 0;
+    emit_rate = 1.0f;
+    emitter_entry = entry;
+    VecCopy(&position, pos);
+    emit_flags = 0;
+    owner_id = 0xFFFF;
+    direction.x = dir->x;
+    direction.z = dir->z;
+    direction.y = dir->y;
+    this->oneshot = oneshot;
+    this->delay = delay;
+    this->lifetime = lifetime;
+    age = 0;
+    if (use_self != 0) {
+        particle_parent = this;
+    } else if (emit_flags & 0x800) {
+        if (emit_flags & 0x4000) {
+            particle_parent = tl_clipout;
+        } else {
+            particle_parent = tl_07;
+        }
+    } else {
+        particle_parent = tl_07;
     }
+}
+
+TParticleCtrl::TParticleCtrl(const Vec *pos, ParticleParam *entry, s32 oneshot, s32 delay, s32 lifetime,
+                             s32 use_self, u16 flags)
+    : TObject(tl_07) {
+    m_name = class_name;
+    model = 0;
+    texlist = 0;
+    motion = 0;
+    tint.color = 0;
+    scale_x = 1.0f;
+    scale_y = 1.0f;
+    emit_count = 0.0f;
+    emit_phase = 0;
+    emit_rate = 1.0f;
+    emitter_entry = entry;
+    VecCopy(&position, pos);
+    emit_flags = flags;
+    owner_id = 0xFFFF;
+    direction.x = 0;
+    direction.y = 0;
+    direction.z = 0;
+    this->oneshot = oneshot;
+    this->delay = delay;
+    this->lifetime = lifetime;
+    age = 0;
+    if (use_self != 0) {
+        particle_parent = this;
+    } else if (emit_flags & 0x800) {
+        if (emit_flags & 0x4000) {
+            particle_parent = tl_clipout;
+        } else {
+            particle_parent = tl_07;
+        }
+    } else {
+        particle_parent = tl_07;
+    }
+}
+
+TParticleCtrl::TParticleCtrl(const Vec *pos, ParticleParam *entry, s32 oneshot, s32 delay, s32 lifetime,
+                             s32 use_self)
+    : TObject(tl_07) {
+    m_name = class_name;
+    model = 0;
+    texlist = 0;
+    motion = 0;
+    tint.color = 0;
+    scale_x = 1.0f;
+    scale_y = 1.0f;
+    emit_count = 0.0f;
+    emit_phase = 0;
+    emit_rate = 1.0f;
+    emitter_entry = entry;
+    VecCopy(&position, pos);
+    emit_flags = 0;
+    owner_id = 0xFFFF;
+    direction.x = 0;
+    direction.y = 0;
+    direction.z = 0;
+    this->oneshot = oneshot;
+    this->delay = delay;
+    this->lifetime = lifetime;
+    age = 0;
+    if (use_self != 0) {
+        particle_parent = this;
+    } else if (emit_flags & 0x800) {
+        if (emit_flags & 0x4000) {
+            particle_parent = tl_clipout;
+        } else {
+            particle_parent = tl_07;
+        }
+    } else {
+        particle_parent = tl_07;
+    }
+}
+
+void TParticle::set_rotation(ParticleAngles *rotation) { copy_xyz(&rot_x, rotation); }
+
+void TParticle::attach_model(void *model, GinjaTextureList *texlist, NJS_MOTION *motion, s32 loop, f32 speed) {
+    this->model = model;
+    this->texlist = texlist;
+    this->motion = motion;
+    motion_speed = speed;
+    if (loop != 0) {
+        flags |= 0x400;
+    }
+    flags |= 0x200;
+}
+
+void TParticle::set_tint_color(NJS_ARGB *rgba) {
+    flags |= 0x100;
+    copy_argb(&tint, rgba);
+}
+
+void TParticle::set_draw_scale(f32 x, f32 y) {
+    scale_x = x;
+    scale_y = y;
 }

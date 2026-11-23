@@ -1,7 +1,7 @@
 #include "pso/ui/window/MessageWindowSettingsAbi.h"
 #include "pso/system/memory.h"
 #include "types.h"
-#include "pso/ui/window/Scroll_8026D790.h"
+#include "pso/ui/window/WindowScrollBar.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/player/TObjPlayer.h"
 #include <stddef.h>
@@ -83,7 +83,7 @@ void TWindowMessageLog::update_scroll_position() {
     array_entry = reinterpret_cast<saddr>(this->get_array_entry(var_r30));
     stack.sp8 = (this->frame_size[0] - 4.0f) - 9.0f;
     stack.spC = (*(f32 *)((s8 *)array_entry + 0xC) + *(f32 *)((s8 *)array_entry + 0x14)) - *(f32 *)((s8 *)temp_r31 + 0xC);
-    ((Scroll_8026D790 *)(*(u8 **)((s8 *)((u8 *)this) + 0x90)))->copy_position(&stack.sp8);
+    ((WindowScrollBar *)(*(u8 **)((s8 *)((u8 *)this) + 0x90)))->copy_position(&stack.sp8);
     this->clamp_scroll_offset();
 }
 
@@ -326,7 +326,7 @@ TWindowMessageLog::TWindowMessageLog(s32 parent, s32 client) : TWindowMessage(pa
     temp_f1 = this->target_size[0] - 8.0f;
     stack.spC = 0.0f;
     stack.sp8 = temp_f1;
-    *(s32 *)((s8 *)this + 0x90) = reinterpret_cast<saddr>(new Scroll_8026D790(&stack.sp8));
+    *(s32 *)((s8 *)this + 0x90) = reinterpret_cast<saddr>(new WindowScrollBar(&stack.sp8));
     this->window_flags = (s32) (this->window_flags | 0x80);
     this->m_94 = (f32) 0.0f;
     this->load_chat_history();

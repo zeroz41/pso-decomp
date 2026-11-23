@@ -8,7 +8,8 @@ public:
     virtual ~TEffGuard();
     virtual void run_task();
 
-    static void create(const Vec* position);
+    static void create(Vec *position);
+    static const char *class_name;
 
     s32 state;
 };

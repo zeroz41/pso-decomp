@@ -102,7 +102,6 @@ void is_flag_set_550__10TObjPlayerFv(void *, void *);
 void sub_801BD240__10TObjPlayerFv(void *, void *);
 void init_player_telepipe_record(void *);
 void TObjPlayer__sub_801BBB70(void *, void *);
-void init_follow_particle_state(void *);
 void TObjPlayer__sub_803374C4(void *);
 void TObjPlayer__sub_80351974(void *);
 extern const char *lbl_805D3530;
@@ -113,7 +112,7 @@ TObjPlayer::TObjPlayer(TObject *parent, TUnk_801D8A4C *src) : TObjChara(parent) 
     ((TObjPlayer *)((char *)this + 844))->setup_ctrl();
     ((TObjPlayer *)((char *)this + 864))->init_state();
     TObjPlayer__sub_803374C4((void *)((char *)this + 884));
-    init_follow_particle_state((void *)((char *)this + 900));
+    init_follow_particle_state((PlayerFollowParticles *)((char *)this + 900));
     __ct__8FlagWordFv(((char *)this + 1052));
     TFontSmallLobby__sub_801C0164(((char *)this + 1064));
     ((TFontSmallLobby *)((char *)this + 1196))->construct_pb_controller();
@@ -158,7 +157,7 @@ TObjPlayer::TObjPlayer(TObject *parent, void *arg2) : TObjChara(parent) {
     ((TObjPlayer *)((char *)this + 844))->setup_ctrl();
     ((TObjPlayer *)((char *)this + 864))->init_state();
     TObjPlayer__sub_803374C4((void *)((char *)this + 884));
-    init_follow_particle_state((void *)((char *)this + 900));
+    init_follow_particle_state((PlayerFollowParticles *)((char *)this + 900));
     __ct__8FlagWordFv(((char *)this + 1052));
     TFontSmallLobby__sub_801C0164(((char *)this + 1064));
     ((TFontSmallLobby *)((char *)this + 1196))->construct_pb_controller();

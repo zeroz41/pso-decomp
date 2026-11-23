@@ -98,3 +98,14 @@ s32 validate_subcommand_client(G_ClientIDHeader *packet) {
     }
     return (u32) __cntlzw(((G_ClientIDHeader *)packet)->is_local(packet->client_id)) >> 5;
 }
+
+#pragma push
+#pragma opt_common_subs off
+u8 validate_attack_target_count(s32 *count) {
+    s32 valid = 0;
+    if (*count >= 0 && *count <= 10) {
+        valid = 1;
+    }
+    return valid;
+}
+#pragma pop

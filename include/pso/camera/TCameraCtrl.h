@@ -186,7 +186,6 @@ public:
     static void set_camera_id(int id);
     // The one view split-screen frames run and draw, or -1 for every view.
     static s8 get_view_state();
-    static void update();
     static void reset_view_state();
     static void reset();
     static void select_active_controller(s8 index);

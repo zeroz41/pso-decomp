@@ -1,5 +1,4 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
-#include "pso/unk/text_80087278.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/boss/olgaflow/TBoss6SwordWave.h"
 #include "pso/boss/olgaflow/TBoss6SwordShot.h"

@@ -19,7 +19,10 @@ struct TEneParticleCtrl : public TObjCollidable {
     TParticleCtrl *particle;  // spawn_continuous_particle_effect_with_flags(&effect_pos, effect, 0x10)
     void set_param(s32 index);
     void free_particle_ctrl();
-    void*get_field_38_ptr();
+    void *get_position_ptr();
+
+    static const char *class_name;
+    static CollisionBody collision_body;  // the one body the constructor registers
 };
 
 LAYOUT_ASSERT(TEneParticleCtrl_size, sizeof(TEneParticleCtrl) == 0xC4);

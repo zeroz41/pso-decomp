@@ -21,7 +21,6 @@ struct NJS_OBJECT;
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/unk/text_803D96A8.h"
-#include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/map/CsnQuery.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/boss/volopt/TBoss3VoloptP01.h"
@@ -113,10 +112,10 @@ TObjEneEpsilonBody::TObjEneEpsilonBody(TObject *parent, void *set_data) : TObjEn
     flags |= 2;
     set_guard_state();
     texlist = (saddr)get_bml_texlist(epsilon_bml_resource, 0);
-    set_field_d8((saddr)epsilon_body_action_table);
-    set_field_dc((saddr)epsilon_bml_resource->motions);
+    set_action_table((saddr)epsilon_body_action_table);
+    set_motion_list((saddr)epsilon_bml_resource->motions);
     set_animation(requested_action);
-    set_field_b8(requested_action);
+    set_requested_action(requested_action);
     reset_hp(epsilon_body_boss_stat_handle, epsilon_body_shared_handler_b, epsilon_body_registered_object_handle);
     set_state_flag_4();
     movementParameters = &epsilon_body_movement_params;

@@ -149,7 +149,6 @@ struct Obj_800DCD04 {
 };
 
 extern "C" {
-void *spawn_particle_effect_with_rotation(void *pos, void *dir, s32 id, int e);
 void __ct__14TObjCollidableFP7TObject(void *, void *);
 void matrix_mult_vec(s32, Vec *, Vec *);
 void rotate_matrix_y(s32, s32);

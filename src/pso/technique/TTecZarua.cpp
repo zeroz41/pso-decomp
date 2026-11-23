@@ -4,7 +4,7 @@
 #include "pso/technique/TTecZarua.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/system/vector.h"
-#include "pso/effect/TUnk_804CC148.h"
+#include "pso/technique/TTecCircle.h"
 
 #include <stddef.h>
 
@@ -56,9 +56,9 @@ void copy_technique_target_list(void *, void *);
 
 void TTecZarua::calc_range() {
     u8 *arg0 = (u8 *)this;
-    TechniqueParams *params = calc_technique_parameters(0xC, this->m_78, 0xFFFF);
+    TechniqueParams *params = calc_technique_parameters(0xC, this->level, 0xFFFF);
     ((TechniqueParams *)(arg0 + 0x88))->copy(params);
-    this->m_88 = (f32) (*(s16 *)&this->m_ac * this->m_78);
+    this->power = (f32) (*(s16 *)&this->m_ac * this->level);
 }
 
 void TTecZarua::vfunc_6(void *target_arg) {
@@ -78,7 +78,7 @@ void TTecZarua::render() {  }
 void TTecZarua::run_task() {
     s32 i;
     uaddr id;
-    source = (uaddr)find_entity_by_id(m_b4);
+    source = (uaddr)find_entity_by_id(sourceId);
     if (source == 0) {
         queue_destruction();
         return;
@@ -100,15 +100,15 @@ TTecZarua::~TTecZarua() {
 
 }
 
-TTecZarua::TTecZarua(saddr source, Vec *pos, TargetCursorList *list, s32 level) : TUnk_804CC148(source, (saddr)pos, level) {
+TTecZarua::TTecZarua(saddr source, Vec *pos, TargetCursorList *list, s32 level) : TTecCircle(source, (saddr)pos, level) {
     s32 r;
     m_name = TTecZarua__name;
     has_targets = 1;
     copy_technique_target_list(&targets, list);
     calc_range();
     VecCopy(&position, pos);
-    if (m_e8 != NULL) {
-        m_e8->bodies->radius = m_90;
+    if (collidable != NULL) {
+        collidable->bodies->radius = scope;
     }
     switch (band) {
     case 0:
@@ -131,18 +131,18 @@ TTecZarua::TTecZarua(saddr source, Vec *pos, TargetCursorList *list, s32 level) 
         break;
     }
     if (this->source != 0) {
-        m_b4 = get_entity_id((void *)this->source);
+        sourceId = get_entity_id((void *)this->source);
     }
 }
 
-TTecZarua::TTecZarua(saddr source, Vec *pos, Vec *target, s32 level) : TUnk_804CC148(source, pos, target, level) {
+TTecZarua::TTecZarua(saddr source, Vec *pos, Vec *target, s32 level) : TTecCircle(source, pos, target, level) {
     s32 r;
     m_name = TTecZarua__name;
     has_targets = 0;
     calc_range();
     VecCopy(&position, &this->target);
-    if (m_e8 != NULL) {
-        m_e8->bodies->radius = m_90;
+    if (collidable != NULL) {
+        collidable->bodies->radius = scope;
     }
     switch (band) {
     case 0:
@@ -165,6 +165,6 @@ TTecZarua::TTecZarua(saddr source, Vec *pos, Vec *target, s32 level) : TUnk_804C
         break;
     }
     if (this->source != 0) {
-        m_b4 = get_entity_id((void *)this->source);
+        sourceId = get_entity_id((void *)this->source);
     }
 }

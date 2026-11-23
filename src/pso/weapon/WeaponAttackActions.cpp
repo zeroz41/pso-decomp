@@ -15,6 +15,7 @@ struct NJS_OBJECT;
 #include "pso/effect/item/TItemEffPG.h"
 #include "pso/weapon/WeaponAttackActions.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/effect/item/TItemEffLandHit.h"
 #include "pso/weapon/TUnk_804A4D70.h"
 #include "pso/system/PadRumble.h"
 #include "pso/item/TItemEquipBase.h"
@@ -122,7 +123,7 @@ struct Self_8011EDFC {
 };
 
 s32 TObjectV8047c128_subtract_hp(u8 *arg0, s16 arg1);
-saddr get_entity_id(void *);
+u16 get_entity_id(void *);
 u8 * csnVector(void *, void *, s32);
 f32 horizontal_distance_squared(void *, void *);
 TObjChara *resolve_hittable_target(s32, s32);
@@ -214,7 +215,6 @@ void TItemWeapon::emit_marker_effects() {  }
 void TItemWeapon::carry_over_stats(TItemData *data, TItem *item) { memcpy((char*)data + 0x6, (char*)item + 0x1a4, 6); }
 }
 void spawn_item_attacker(s32 arg0, u32 arg1, s32 arg2, u8 *arg3);
-void spawn_land_hit_effect(saddr arg0, uaddr arg1, uaddr arg2, uaddr arg3, s32 arg4);
 u32 pack_weapon_trail_color(void *arg0);
 
 void TItemWeapon::activate_effect(s32 effect) {
@@ -319,7 +319,7 @@ u32 pack_weapon_trail_color(void *weapon) {
 }
 
 void TUnk_804F1320::spawn_pg_effect(const Vec *origin, saddr item, f32 radius) {
-    S_8035016C prm;
+    ItemEffPGParams prm;
     if (item < 0 || item >= 200) {
         return;
     }
@@ -330,9 +330,9 @@ void TUnk_804F1320::spawn_pg_effect(const Vec *origin, saddr item, f32 radius) {
     prm.init_params();
     fill_status_info(&prm);
     VecCopy(&prm.position, origin);
-    prm.pad_28 = radius;
-    prm.pad_34 = this->second_model;
-    prm.pad_38 = (GinjaTextureList *)this->texlist;
+    prm.max_radius = radius;
+    prm.model = this->second_model;
+    prm.texture_list = (GinjaTextureList *)this->texlist;
     if (TObjPlayer::is_locally_controlled(owner) != 0) {
         TItemEffPG::create(tl_05, &prm);
     } else {
@@ -552,7 +552,7 @@ s32 TItemWeapon::launch_shot(u8 *arg1, s32 i, s32 arg3, s32 arg4) {
                 VecCopy((Vec *)(&endpoint.x), (const Vec *)(*(u8 **)((s8 *)temp_r3_3 + 4)));
                 var_f31 = xyz_distance(arg1, &endpoint.x) / shot_speed;
                 if ((*(s32 *)((s8 *)(*(u8 **)((s8 *)temp_r3_3 + 4)) + 0x18) & 0x100) && (impact_callback != NULL)) {
-                    spawn_land_hit_effect((saddr)tl_05, (uaddr)this, (uaddr)arg1, (uaddr)&endpoint.x, (s32)((s32) var_f31));
+                    spawn_land_hit_effect(tl_05, this, (Vec *)arg1, (Vec *)&endpoint.x, (s32)var_f31);
                 }
             }
             this->spawn_light_task();
@@ -791,11 +791,6 @@ void TItemWeapon::sample_dual_muzzles(Vec *primary, Vec *secondary) {
 
 // ---- pso/unk/text_8011FC24
 
-extern "C" {
-
-void TItemEffectWeapon__sub_8036340C(void*);
-void TItemEffectWeapon__sub_80363410(void*);
-
 void TItemWeapon::update_trails() {
     u8 *arg0 = (u8 *)this;
     if (((TItemWeapon *)arg0)->test_weapon_flags(0x400U) != 0U) {
@@ -852,8 +847,6 @@ void TItemWeapon::render_equipped() {
         } while (count != 4);
     }
 }
-
-}
 void TItemWeapon::update_equipped() {
     TItemWeapon* self=this;
     s32 stage;
@@ -883,16 +876,16 @@ void TItemWeapon::update_equipped() {
         if(((TItem *)self)->is_hidden()) {
             count=0;
             do {
-                void* trail=self->trails[count];
-                if(trail) TItemEffectWeapon__sub_8036340C(trail);
+                TItemEffectWeapon* trail=self->trails[count];
+                if(trail) trail->update_hidden();
                 count++;
             } while(count!=4);
             return;
         }
         idle_count=0;
         do {
-            void* trail=self->trails[idle_count];
-            if(trail) TItemEffectWeapon__sub_80363410(trail);
+            TItemEffectWeapon* trail=self->trails[idle_count];
+            if(trail) trail->update_shown();
             idle_count++;
         } while(idle_count!=4);
     }
@@ -1163,9 +1156,9 @@ void TItemWeapon::on_equip() {
             set_weapon_flags(8);
         } else {
             TItemAttacker::spawn_item_timer(this, (ItemTimerCallback)set_flag_8_if_check_passes__10TObjPlayerFv, 0x14);
-            TItemEffEquip::create((void *)tl_05, (void *)(get_entity_id(owner)), (void *)0x30, (void *)0x9D, (void *)0x9E);
+            TItemEffEquip::create(tl_05, get_entity_id(owner), 0x30, 0x9D, 0x9E);
             if (test_weapon_flags(0x200) != 0U) {
-                TItemEffEquip::create((void *)tl_05, (void *)(get_entity_id(owner)), (void *)0x23, (void *)0x9D, (void *)0x9E);
+                TItemEffEquip::create(tl_05, get_entity_id(owner), 0x23, 0x9D, 0x9E);
             }
             set_sound_pitch_request(play_sound_effect(0x4000B20A, &owner->position, 0, 0), 0x300, 0);
         }

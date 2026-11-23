@@ -30,7 +30,7 @@
 #pragma readonly_strings on
 #pragma defer_codegen on
 
-extern s32 lbl_805D63F0;
+extern s32 hud_texlist;
 
 const char *TWindowLockOn__name = "TWindowLockOn";
 
@@ -67,7 +67,7 @@ struct LockOnEnemyLayout {
 
 LockOnPlayerLayout lock_on_window_params = {
     2, 1,
-    {6, {10.0f, 0.0f}, {34.0f, 29.0f}, 34.0f, 202.0f, 0.5f, -1, &lbl_805D63F0, 0, 4},
+    {6, {10.0f, 0.0f}, {34.0f, 29.0f}, 34.0f, 202.0f, 0.5f, -1, &hud_texlist, 0, 4},
     {3, {44.0f, 5.0f}, 0.5f, 0xFFFFFFFF, 0, NULL},
 };
 
@@ -82,10 +82,10 @@ LockOnEnemyLayout lbl_804D00F4 = {
     {3, {10.0f, 0.0f}, 0.5f, 0xFFFFFFFF, 0, NULL},
     {3, {10.0f, 20.0f}, 0.5f, 0xFFFFFFFF, 0, NULL},
     {3, {10.0f, 20.0f}, 0.7f, 0xFFFFFFFF, 0, NULL},
-    {6, {10.0f, 44.0f}, {32.0f, 28.0f}, 0.0f, 0.0f, 0.1f, -1, &lbl_805D63F0, 1, 6},
-    {6, {26.0f, 44.0f}, {32.0f, 28.0f}, 0.0f, 0.0f, 0.2f, -1, &lbl_805D63F0, 1, 6},
-    {6, {42.0f, 44.0f}, {32.0f, 28.0f}, 0.0f, 0.0f, 0.3f, -1, &lbl_805D63F0, 1, 6},
-    {6, {58.0f, 44.0f}, {32.0f, 28.0f}, 0.0f, 0.0f, 0.4f, -1, &lbl_805D63F0, 1, 6},
+    {6, {10.0f, 44.0f}, {32.0f, 28.0f}, 0.0f, 0.0f, 0.1f, -1, &hud_texlist, 1, 6},
+    {6, {26.0f, 44.0f}, {32.0f, 28.0f}, 0.0f, 0.0f, 0.2f, -1, &hud_texlist, 1, 6},
+    {6, {42.0f, 44.0f}, {32.0f, 28.0f}, 0.0f, 0.0f, 0.3f, -1, &hud_texlist, 1, 6},
+    {6, {58.0f, 44.0f}, {32.0f, 28.0f}, 0.0f, 0.0f, 0.4f, -1, &hud_texlist, 1, 6},
     {{2, {10.0f, 50.0f}, 0.5f, 0xFF00FF15, 0x2A, 100.0f, 0, 0}, 0xFF00CA9E, 0xFFFF2924},
     {{2, {10.0f, 62.0f}, 0.5f, 0xFF008CFC, 0x2A, 100.0f, 0, 0}, 0xFF008DEE, 0xFFFF2924},
 };

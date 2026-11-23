@@ -38,6 +38,6 @@ TObjNpcSoldierBase::TObjNpcSoldierBase(TObject *parent, void *set_data) : TUnk_8
     this->apply_set_data(set_data);
     init_position_vectors();
     this->model = (void *)TObjNpcSoldierBase__shared_model_resource->models->model;
-    this->texlist = (saddr)TObjNpcSoldierBase__shared_model_resource->models->m_c;
+    this->texlist = (saddr)TObjNpcSoldierBase__shared_model_resource->models->texlist;
     this->setup_common();
 }

@@ -109,7 +109,6 @@ inline f32 xz_length_squared(Vec *v) { return v->x * v->x + v->z * v->z; }
 #include "pso/render/RenderFadeState.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-#include "pso/unk/text_80086D50.h"
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 
@@ -185,7 +184,7 @@ TObjEneNanoDrago::TObjEneNanoDrago(TObject *parent, void *setData) : TObjEnemyCu
     state36C = *(s16 *)((s8 *)setData + 0x3E);
     load_entry_params_nanodrago(variant);
     action_table = nanodrago_action_table;
-    set_field_d8((saddr)action_table);
+    set_action_table((saddr)action_table);
     init_collision_body_parts(this, nano_drago_bodies, 2);
     bodies[1].flags &= ~1;
     movementParameters = &nano_drago_movement;
@@ -193,7 +192,7 @@ TObjEneNanoDrago::TObjEneNanoDrago(TObject *parent, void *setData) : TObjEnemyCu
     update_attack_parameters();
     requested_action = 0;
     set_animation(requested_action);
-    set_field_b8(requested_action);
+    set_requested_action(requested_action);
     hp = hpmax;
     tp = tpmax;
     referenceHp = hp;
@@ -241,7 +240,7 @@ void TObjEneNanoDrago::load_resources() {
     lbl_805D5254 = (saddr)TLobby::dispatch_shared_handler_a(0x1A);
     NpcAnimationBinding binding = { reinterpret_cast<BmlMotionEntry *>(nano_drago_entry_params_resource->motions), reinterpret_cast<TObjMotionAction *>(nanodrago_action_table), 0, 1, 12 };
     modelEntries = nano_drago_entry_params_resource->models;
-    NpcModelRegistry::register_animated_chunk((s16)(0x22), reinterpret_cast<void *>(modelEntries[0].model), reinterpret_cast<void *>(modelEntries[0].m_c), &binding, (f32)(15.0f), (f32)(0.0f));
+    NpcModelRegistry::register_animated_chunk((s16)(0x22), reinterpret_cast<void *>(modelEntries[0].model), reinterpret_cast<void *>(modelEntries[0].texlist), &binding, (f32)(15.0f), (f32)(0.0f));
 }
 void TObjEneNanoDrago::free_resources() {
     if ((uaddr) nano_drago_entry_params_resource != 0U) {

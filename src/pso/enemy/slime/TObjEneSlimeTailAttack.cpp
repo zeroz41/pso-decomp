@@ -26,7 +26,6 @@ struct NJS_OBJECT;
 #include "pso/math/AngleLookup.h"
 #include "pso/unk/text_803D853C.h"
 #include "pso/unk/text_803D96A8.h"
-#include "pso/effect/particle/TParticleCtrl_800874F4.h"
 
 
 #include "pso/system/vector.h"
@@ -516,10 +515,10 @@ void TObjEneSlimeOne::initialize_slime_instance_state() {
     actor->model = reinterpret_cast<void *>(get_bml_model(actor->model_archive, id));
     VecCopy(&actor->prev_position, VecCopy(&actor->home_position, VecCopy(&actor->center, &actor->position)));
     actor->collision_body_parts = init_collision_body_parts(actor, slime_one_collision_body, 1);
-    actor->set_field_d8((saddr)slime_motion_action_table);
-    actor->set_field_dc((saddr)actor->model_archive->motions);
+    actor->set_action_table((saddr)slime_motion_action_table);
+    actor->set_motion_list((saddr)actor->model_archive->motions);
     actor->set_animation(0);
-    actor->set_field_b8(0);
+    actor->set_requested_action(0);
     VecCopy(&actor->body_center, &actor->position);
     actor->velocity.z = 0.0f;
     actor->velocity.y = 0.0f;
@@ -1422,12 +1421,12 @@ TObjEneSlimeTailAttack::TObjEneSlimeTailAttack(TObject *parent, const Vec *posit
     texlist = (saddr)get_bml_texlist(resource, id);
     model = (void *)get_bml_model(resource, id);
     action_table = (TObjMotionAction *)slime_motion_action_table;
-    set_field_d8((saddr)slime_motion_action_table);
+    set_action_table((saddr)slime_motion_action_table);
     motion_list = resource->motions;
-    set_field_dc((saddr)resource->motions);
+    set_motion_list((saddr)resource->motions);
     requested_action = 6;
     set_animation(requested_action);
-    set_field_b8(requested_action);
+    set_requested_action(requested_action);
     this->rotation_y = angle;
     VecCopy(&this->position, position);
     active = 1;

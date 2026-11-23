@@ -62,8 +62,6 @@ void hit_object_in_radius__10TObjPlayerFPvPvPv(Src_800DC4B4 *arg0, Obj_800DC4B4 
 u32 csnVector(void *, void *, int);
 s32 vec3_add_to(void *, void *);
 f32 atan2_float(f32, f32);
-void *spawn_particle_effect_with_rotation(void *pos, void *dir, s32 id, int e);
-TParticleCtrl *spawn_continuous_particle_effect_with_flags(void *parent, s32 idx, s32 flags);
 s32 __ct__14TObjCollidableFP7TObject(void *, int);
 f32 vector_length(void *);
 s32 subtract_vector(void *, void *);

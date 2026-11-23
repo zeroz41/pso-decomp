@@ -27,7 +27,7 @@ const char *TWindowDD_WS_ScrollBar__class_name = "TWindowDD_WS_ScrollBar";
 
 extern "C" {
 
-extern saddr lbl_805D63F0;
+extern saddr hud_texlist;
 
 f32 lbl_805D6DC0;
 f32 lbl_805D6DC4;
@@ -102,7 +102,7 @@ void TWindowDD_WS_ScrollBar::render() {
     f32 len;
 
     self->calc_inner_rect(rect);
-    tex = TWindowDD::get_draw_count((void **)lbl_805D63F0);
+    tex = TWindowDD::get_draw_count((void **)hud_texlist);
     ((TWindowDD *)verts)->reset_entries(TWindowDD__sub_80348AD4(self->draw_depth, 0.0f), -1);
     uv = TWindowDD__data_805434E8[6];
     s = rect->scale[1];
@@ -146,7 +146,7 @@ void TWindowDD_WS_ScrollBar::render() {
     ((TWindowDD *)verts)->draw_transformed_primitive(8, tex, 1);
 
     z = TWindowDD__sub_80348AD4(self->draw_depth, 0.1f);
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(lbl_805D63F0));
+    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(hud_texlist));
     begin_screen_draw(1);
     set_draw_texture_and_color(0, -1);
 

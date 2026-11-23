@@ -3,6 +3,7 @@
 #include "pso/map/TObjMapCsn.h"
 #include "pso/object/fence/TOVS2Wall01.h"
 #include "pso/effect/TEffStarLight2D_Base.h"
+#include "pso/effect/TKomorebi.h"
 #include "pso/object/lab/TObjLaboDesignBase.h"
 #include "pso/object/TObjRoomId.h"
 #include "pso/object/fence/TLazerFenceSw.h"
@@ -124,11 +125,11 @@
 #include "pso/object/lobby/TObjWeddingLobby.h"
 #include "pso/player/TObjPlayerSet.h"
 #include "pso/camera/TObjLiveCamera.h"
+#include "pso/effect/TBGLightningCtrl.h"
+#include "pso/effect/particle/LightGlare.h"
 
 extern "C" {
 void* TEF_LensFlare__create(void* placement);
-void* create_particle_obj_90__13TParticleCtrlFl(void* placement);
-void* create_particle_obj_ac__13TParticleCtrlFl(void* placement);
 void* create__22TObjFogCollisionPoisonFPv(void* placement);
 void* TObjFogCollisionSwitch__create(void* placement);
 void* TObjFogCollision__create(void* placement);
@@ -201,7 +202,6 @@ void* TObjEnvSoundGlobal__create(void* placement);
 void* TObjEnvSoundEx__create(void* placement);
 void* TObjEnvSound__create(void* placement);
 void* TObjEvtCollision__create(void* placement);
-void* TKomorebi__create(void* placement);
 void* TObjLazerFenceExtra__create(void* placement);
 void* TObjLazerFenceNorm__create(void* placement);
 void* create__15TObjLazerFence4Fv(void* placement);
@@ -248,7 +248,6 @@ void* TODoorJungleMain__create(void* placement);
 void* TORockJungleL01__create(void* placement);
 void* TOGrassJungle__create(void* placement);
 void* TObjFish__create(void* placement);
-void* TBGLightningCtrl__create(void* placement);
 void* create__10TObjPlayerFPv(void* placement);
 void* TObjPlayer__sub_802C28B4(void* placement);
 void* TObjTradeCollision__create(void* placement);
@@ -343,14 +342,14 @@ ObjectFactoryEntry object_factories_floor_01[63] = {
     { 0x0017, TObjRaderCol__create, 250000.0f, 0 },
     { 0x0018, TObjFogCollisionSwitch__create, 250000.0f, 0 },
     { 0x001D, TEffStarLight2D_Base::create, 250000.0f, 0 },
-    { 0x001E, create_particle_obj_ac__13TParticleCtrlFl, 100000000.0f, 0 },
+    { 0x001E, TLightGlare::create, 100000000.0f, 0 },
     { 0x0080, TObjDoor__create, 250000.0f, 0 },
     { 0x0081, TObjDoorKey__create, 250000.0f, 0 },
     { 0x0082, TObjLazerFenceNorm__create, 250000.0f, 0 },
     { 0x0096, TObjLazerFenceExtra__create, 250000.0f, 0 },
     { 0x0083, create__15TObjLazerFence4Fv, 250000.0f, 0 },
     { 0x0084, create__13TLazerFenceSwFv, 250000.0f, 0 },
-    { 0x0085, TKomorebi__create, 250000.0f, 0 },
+    { 0x0085, TKomorebi::create, 250000.0f, 0 },
     { 0x0086, TButterfly__create, 250000.0f, 0 },
     { 0x0087, create_stage_motorcycle, 250000.0f, 0 },
     { 0x0088, TObjContainerItem::create, 250000.0f, 0 },
@@ -408,14 +407,14 @@ ObjectFactoryEntry object_factories_floor_02[64] = {
     { 0x0016, TObjItemLight__create, 250000.0f, 0 },
     { 0x0017, TObjRaderCol__create, 250000.0f, 0 },
     { 0x0018, TObjFogCollisionSwitch__create, 250000.0f, 0 },
-    { 0x001E, create_particle_obj_ac__13TParticleCtrlFl, 100000000.0f, 0 },
+    { 0x001E, TLightGlare::create, 100000000.0f, 0 },
     { 0x0080, TObjDoor__create, 250000.0f, 0 },
     { 0x0081, TObjDoorKey__create, 250000.0f, 0 },
     { 0x0082, TObjLazerFenceNorm__create, 250000.0f, 0 },
     { 0x0096, TObjLazerFenceExtra__create, 250000.0f, 0 },
     { 0x0083, create__15TObjLazerFence4Fv, 250000.0f, 0 },
     { 0x0084, create__13TLazerFenceSwFv, 250000.0f, 0 },
-    { 0x0085, TKomorebi__create, 250000.0f, 0 },
+    { 0x0085, TKomorebi::create, 250000.0f, 0 },
     { 0x0086, TButterfly__create, 250000.0f, 0 },
     { 0x0087, create_stage_motorcycle, 250000.0f, 0 },
     { 0x0088, TObjContainerItem::create, 250000.0f, 0 },
@@ -1170,8 +1169,8 @@ ObjectFactoryEntry object_factories_floor_17[50] = {
     { 0x0028, TObjEnvSoundEx__create, 250000.0f, 0 },
     { 0x0029, TObjEnvSoundGlobal__create, 1.0e12f, 0 },
     { 0x0007, TObjFogCollision__create, 250000.0f, 0 },
-    { 0x001E, create_particle_obj_ac__13TParticleCtrlFl, 100000000.0f, 0 },
-    { 0x01A8, create_particle_obj_90__13TParticleCtrlFl, 250000.0f, 0 },
+    { 0x001E, TLightGlare::create, 100000000.0f, 0 },
+    { 0x01A8, TLightGlareSwitch::create, 250000.0f, 0 },
     { 0x0001, TObjParticle__create, 160000.0f, 0 },
     { 0x01A0, TODoorVS2Door01::create, 250000.0f, 0 },
     { 0x01A1, TOVS2Wreck01__create, 250000.0f, 0 },
@@ -1383,8 +1382,8 @@ ObjectFactoryEntry object_factories_floors_19_20[66] = {
     { 0x0163, TOContainerAncientEnemyCommon__create, 250000.0f, 0 },
     { 0x0164, TOContainerAncientEnemyRare__create, 250000.0f, 0 },
     { 0x0165, TOContainerAncientItemNone::create, 250000.0f, 0 },
-    { 0x001E, create_particle_obj_ac__13TParticleCtrlFl, 100000000.0f, 0 },
-    { 0x01A8, create_particle_obj_90__13TParticleCtrlFl, 250000.0f, 0 },
+    { 0x001E, TLightGlare::create, 100000000.0f, 0 },
+    { 0x01A8, TLightGlareSwitch::create, 250000.0f, 0 },
     { 0x01A1, TOVS2Wreck01__create, 250000.0f, 0 },
     { 0x01A2, TOVS2Wreck02__create, 250000.0f, 0 },
     { 0x01A3, TOVS2Wreck03__create, 250000.0f, 0 },
@@ -1434,7 +1433,7 @@ ObjectFactoryEntry object_factories_floor_23[65] = {
     { 0x008B, create_stage_computer, 250000.0f, 0 },
     { 0x0025, TOSwitchTimer::create, 250000.0f, 0 },
     { 0x0026, TOChatSensor__create, 250000.0f, 0 },
-    { 0x0085, TKomorebi__create, 250000.0f, 0 },
+    { 0x0085, TKomorebi::create, 250000.0f, 0 },
     { 0x0200, TObjContainerJung::create, 250000.0f, 0 },
     { 0x0201, TObjWarpJung__create, 250000.0f, 0 },
     { 0x0202, TObjDoorJung__create, 250000.0f, 0 },
@@ -1452,7 +1451,7 @@ ObjectFactoryEntry object_factories_floor_23[65] = {
     { 0x0208, TORockJungleL01__create, 250000.0f, 0 },
     { 0x0209, TOGrassJungle__create, 250000.0f, 0 },
     { 0x020A, TObjWarpJungMain__create, 250000.0f, 0 },
-    { 0x020B, TBGLightningCtrl__create, 100000000.0f, 0 },
+    { 0x020B, TBGLightningCtrl::create, 100000000.0f, 0 },
     { 0x0152, TContainerAncient01::create, 250000.0f, 0 },
     { 0x02B0, TContainerAncient01R__create, 250000.0f, 0 },
     { 0x0229, TOCapsuleLabo::create, 250000.0f, 0 },
@@ -1502,7 +1501,7 @@ ObjectFactoryEntry object_factories_floor_24[67] = {
     { 0x008B, create_stage_computer, 250000.0f, 0 },
     { 0x0025, TOSwitchTimer::create, 250000.0f, 0 },
     { 0x0026, TOChatSensor__create, 250000.0f, 0 },
-    { 0x0085, TKomorebi__create, 250000.0f, 0 },
+    { 0x0085, TKomorebi::create, 250000.0f, 0 },
     { 0x0200, TObjContainerJung::create, 250000.0f, 0 },
     { 0x0201, TObjWarpJung__create, 250000.0f, 0 },
     { 0x0202, TObjDoorJung__create, 250000.0f, 0 },
@@ -1572,7 +1571,7 @@ ObjectFactoryEntry object_factories_floor_25[66] = {
     { 0x008B, create_stage_computer, 250000.0f, 0 },
     { 0x0025, TOSwitchTimer::create, 250000.0f, 0 },
     { 0x0026, TOChatSensor__create, 250000.0f, 0 },
-    { 0x0085, TKomorebi__create, 250000.0f, 0 },
+    { 0x0085, TKomorebi::create, 250000.0f, 0 },
     { 0x0200, TObjContainerJung::create, 250000.0f, 0 },
     { 0x0201, TObjWarpJung__create, 250000.0f, 0 },
     { 0x0202, TObjDoorJung__create, 250000.0f, 0 },
@@ -1641,7 +1640,7 @@ ObjectFactoryEntry object_factories_floor_26[63] = {
     { 0x008B, create_stage_computer, 250000.0f, 0 },
     { 0x0025, TOSwitchTimer::create, 250000.0f, 0 },
     { 0x0026, TOChatSensor__create, 250000.0f, 0 },
-    { 0x0085, TKomorebi__create, 250000.0f, 0 },
+    { 0x0085, TKomorebi::create, 250000.0f, 0 },
     { 0x0200, TObjContainerJung::create, 250000.0f, 0 },
     { 0x0201, TObjWarpJung__create, 250000.0f, 0 },
     { 0x0202, TObjDoorJung__create, 250000.0f, 0 },
@@ -1707,7 +1706,7 @@ ObjectFactoryEntry object_factories_floor_27[66] = {
     { 0x008B, create_stage_computer, 250000.0f, 0 },
     { 0x0025, TOSwitchTimer::create, 250000.0f, 0 },
     { 0x0026, TOChatSensor__create, 250000.0f, 0 },
-    { 0x0085, TKomorebi__create, 250000.0f, 0 },
+    { 0x0085, TKomorebi::create, 250000.0f, 0 },
     { 0x0200, TObjContainerJung::create, 250000.0f, 0 },
     { 0x0201, TObjWarpJung__create, 250000.0f, 0 },
     { 0x0202, TObjDoorJung__create, 250000.0f, 0 },
@@ -2024,7 +2023,7 @@ ObjectFactoryEntry object_factories_floor_30[22] = {
     { 0x0018, TObjFogCollisionSwitch__create, 250000.0f, 0 },
     { 0x0200, TObjContainerJung::create, 250000.0f, 0 },
     { 0x0203, TObjContainerJungEx::create, 250000.0f, 0 },
-    { 0x020B, TBGLightningCtrl__create, 100000000.0f, 0 },
+    { 0x020B, TBGLightningCtrl::create, 100000000.0f, 0 },
     { 0x0027, TObjRaderIcon__create, 250000.0f, 0 },
     { 0x0229, TOCapsuleLabo::create, 250000.0f, 0 },
     { 0x0024, TOSwitchAttack::create, 250000.0f, 0 },
@@ -2078,12 +2077,12 @@ ObjectFactoryEntry object_factories_floor_32[24] = {
     { 0x0161, create__28TOContainerAncientItemCommonFv, 250000.0f, 0 },
     { 0x0162, TOContainerAncientItemRare__create, 250000.0f, 0 },
     { 0x0027, TObjRaderIcon__create, 250000.0f, 0 },
-    { 0x001E, create_particle_obj_ac__13TParticleCtrlFl, 100000000.0f, 0 },
-    { 0x01A8, create_particle_obj_90__13TParticleCtrlFl, 250000.0f, 0 },
+    { 0x001E, TLightGlare::create, 100000000.0f, 0 },
+    { 0x01A8, TLightGlareSwitch::create, 250000.0f, 0 },
     { 0x0229, TOCapsuleLabo::create, 250000.0f, 0 },
     { 0x0024, TOSwitchAttack::create, 250000.0f, 0 },
-    { 0x001E, create_particle_obj_ac__13TParticleCtrlFl, 100000000.0f, 0 },
-    { 0x01A8, create_particle_obj_90__13TParticleCtrlFl, 250000.0f, 0 },
+    { 0x001E, TLightGlare::create, 100000000.0f, 0 },
+    { 0x01A8, TLightGlareSwitch::create, 250000.0f, 0 },
     { 0x0280, alloc_and_init__18TObjAreaWarpForestFv, 250000.0f, 0 },
     { -1, 0, 250000.0f, 0 },
 };

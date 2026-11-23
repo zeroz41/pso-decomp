@@ -9,13 +9,18 @@ class TItem;
 
 class TItemEffLandHit : public TObject {
 public:
- u8 _pad1C[0x38 - 0x1C];
- s32 m_38;
+    Vec start;
+    Vec end;
+    s32 item_id;
+    s32 finished;
 
-public:
-    TItemEffLandHit(TObject *parent, TItem *item, Vec *arg3, Vec *arg4);
+    static const char *class_name;
+
+    TItemEffLandHit(TObject *parent, TItem *item, Vec *start, Vec *end);
     virtual ~TItemEffLandHit();
     virtual void run_task();
 };
+
+void spawn_land_hit_effect(TObject *parent, TItem *item, Vec *start, Vec *end, s32 frames);
 
 #endif

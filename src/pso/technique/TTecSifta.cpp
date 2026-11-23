@@ -3,7 +3,7 @@
 #include "pso/technique/TechniqueParams.h"
 #include "pso/technique/TTecSifta.h"
 #include "pso/system/task/TObject_80019A50.h"
-#include "pso/effect/TUnk_804CCC68.h"
+#include "pso/technique/TTecShot.h"
 
 #include "pso/technique/TTecAnti.h"
 #include "pso/technique/TTecLuker.h"

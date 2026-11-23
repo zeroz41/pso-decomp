@@ -91,7 +91,7 @@ void TObjEneBalClawClaw::init() {
     this->m_name = balclaw_claw_class_name;
     this->motion_list = balclaw_bml_resource->motions;
     this->action_table = balclaw_claw_actions;
-    this->set_field_d8((saddr)this->action_table);
+    this->set_action_table((saddr)this->action_table);
     init_collision_body_parts(this, &TObjEneBalClawClaw__collision_body_template, 1);
     this->variant = 0;
     this->movementParameters = &balclaw_claw_movement;
@@ -99,7 +99,7 @@ void TObjEneBalClawClaw::init() {
     this->load_params();
     this->requested_action = 0;
     this->set_animation(this->requested_action);
-    this->set_field_b8(this->requested_action);
+    this->set_requested_action(this->requested_action);
     this->hp = this->hpmax;
     this->tp = this->tpmax;
     this->referenceHp = this->hp;
@@ -717,7 +717,7 @@ void TObjEneBalClawClaw::load_resources() {
     NpcAnimationBinding binding = { reinterpret_cast<BmlMotionEntry *>(balclaw_bml_resource->motions), reinterpret_cast<TObjMotionAction *>(balclaw_claw_actions), 0, 1, 7 };
     BmlModelEntry *models;
     models = balclaw_bml_resource->models;
-    NpcModelRegistry::register_animated_chunk(0x14, reinterpret_cast<void *>(models[2].model), reinterpret_cast<void *>(models[2].m_c), &binding,
+    NpcModelRegistry::register_animated_chunk(0x14, reinterpret_cast<void *>(models[2].model), reinterpret_cast<void *>(models[2].texlist), &binding,
                             TObjEneBalClawClaw__collision_body_template.radius, 15.0f);
 }
 

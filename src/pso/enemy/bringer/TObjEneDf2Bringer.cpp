@@ -43,7 +43,7 @@
 #include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
 
 #include "pso/player/TObjPlayer_800D8FDC.h"
-#include "pso/effect/TUnk_80494968.h"
+#include "pso/effect/TAttackTrace.h"
 #include "pso/system/vector.h"
 
 
@@ -133,18 +133,16 @@ TObjMotionAction bringer_motion_actions[11] = {
 #include "pso/math/MatrixTransforms.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/unk/text_803D853C.h"
-#include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/render/model_render_state.h"
 #include "pso/object/trap/TOTrapAncient01_80226534.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel_8007E418.h"
-#include "pso/unk/text_800F5BC0.h"
+#include "pso/render/StripBufferPair.h"
 #include "pso/system/task/TMainTask.h"
 
 #pragma defer_codegen on
 
 
 extern "C" {
-s32 scroll_strip_uvs(int, int, int);
 }
 
 saddr bringer_boss_stats_handle;
@@ -156,7 +154,7 @@ s32 TObjEneDf2Bringer__render_node_index;
 s32 TObjEneDf2Bringer__render_rotation_x;
 Vec *TObjEneDf2Bringer__render_point_cursor;
 SampledMotionPoints *TObjEneDf2Bringer__trail_buffer;
-saddr TObjEneDf2Bringer__uv_scroll_buffer;
+StripBufferPair *TObjEneDf2Bringer__uv_scroll_buffer;
 
 Vec bringer_camera_ctrl_target_vec;
 
@@ -256,16 +254,11 @@ void TObjEneDf2Bringer::load_resources() {
     p3->y = (d.y * s2) + p3->y;
     p3->z = (d.z * s2) + p3->z;
   }
-  o = ::operator new(0x14);
-  if (o != 0)
-  {
-    o = ((TLobby *)o)->alloc_tables((saddr)TObjEneDf2Bringer__resource_bundle->models[0].model, 1);
-  }
-  TObjEneDf2Bringer__uv_scroll_buffer = (uaddr) o;
+  TObjEneDf2Bringer__uv_scroll_buffer = new StripBufferPair(TObjEneDf2Bringer__resource_bundle->models[0].model, 1);
   init_bringer_effect_tables();
   {
     NpcAnimationBinding sp = { TObjEneDf2Bringer__resource_bundle->motions, bringer_motion_actions, 0, 1, 11 };
-    NpcModelRegistry::register_animated_chunk((s16)0x16, TObjEneDf2Bringer__resource_bundle->models[0].model, TObjEneDf2Bringer__resource_bundle->models[0].m_c, &sp, 7.0f, 0.0f);
+    NpcModelRegistry::register_animated_chunk((s16)0x16, TObjEneDf2Bringer__resource_bundle->models[0].model, TObjEneDf2Bringer__resource_bundle->models[0].texlist, &sp, 7.0f, 0.0f);
   }
 }
 
@@ -277,9 +270,9 @@ void *TObjEneDf2Bringer::create(void *set_data) {
 
 void TObjEneDf2Bringer::free_resources() {
     bringer_effect_cleanup_noop();
-    if ((u32) TObjEneDf2Bringer__uv_scroll_buffer != 0U) {
-        destroy_buffer_pair((void *)TObjEneDf2Bringer__uv_scroll_buffer, 1);
-        TObjEneDf2Bringer__uv_scroll_buffer = 0U;
+    if (TObjEneDf2Bringer__uv_scroll_buffer != NULL) {
+        delete TObjEneDf2Bringer__uv_scroll_buffer;
+        TObjEneDf2Bringer__uv_scroll_buffer = NULL;
     }
     if (TObjEneDf2Bringer__trail_buffer != NULL) {
         delete TObjEneDf2Bringer__trail_buffer;
@@ -311,13 +304,13 @@ void TObjEneDf2Bringer::init_enemy() {
 
     init_position_vectors();
     this->model = TObjEneDf2Bringer__resource_bundle->models[0].model;
-    this->texlist = (saddr)TObjEneDf2Bringer__resource_bundle->models[0].m_c;
+    this->texlist = (saddr)TObjEneDf2Bringer__resource_bundle->models[0].texlist;
     init_model(bringer_collision_bodies, 1);
-    set_field_d8((saddr)bringer_motion_actions);
-    set_field_dc((saddr)TObjEneDf2Bringer__resource_bundle->motions);
+    set_action_table((saddr)bringer_motion_actions);
+    set_motion_list((saddr)TObjEneDf2Bringer__resource_bundle->motions);
     this->requested_action = 0;
     set_animation(this->requested_action);
-    set_field_b8(this->requested_action);
+    set_requested_action(this->requested_action);
     reset_hp((u8 *)bringer_boss_stats_handle, (u8 *)bringer_boss_stats_ptr_b, (u8 *)bringer_object_handle);
     set_state_8();
     this->movementParameters = bringer_init_params;
@@ -343,7 +336,7 @@ void TObjEneDf2Bringer::init_enemy() {
     this->collider = new TUnk_804928CC(this, this, &bringer_collision_bodies[1], 2);
     this->attack_history = new AreaAttackHistory(8);
     this->shot_launcher = new TObjEneDf2Bringer_Eff_TpAbsorb1(this, this, this->attack_history);
-    this->attack_trail = TUnk_80494968::create(0xFF5050FF, 0x80000080);
+    this->attack_trail = TAttackTraceStrip::create(0xFF5050FF, 0x80000080);
     this->texture_scroll = 0;
     this->step = 0;
     this->counter = 0;
@@ -476,7 +469,7 @@ s32 TObjEneDf2Bringer::check_rush_hits() {
                 if (is_player_entity_id(get_entity_id(player)) != 0) {
                     if (TObjEneDD::check_v2_mode() != 0) {
                         if (TObjPlayer::is_locally_controlled(player) != 0) {
-                            TItem *item = (TItem *)TObjPlayer::get_item_field_6(player);
+                            TItem *item = (TItem *)TObjPlayer::get_equipped_weapon(player);
                             if (item != NULL) {
                                 TObjPlayer::send_6x26_unequip_item((void *)player, item->get_item_id());
                             }
@@ -1354,7 +1347,7 @@ void TObjEneDf2Bringer::render() {
                 show = 0;
             }
         }
-        scroll_strip_uvs(TObjEneDf2Bringer__uv_scroll_buffer, (s16)texture_scroll, 0);
+        TObjEneDf2Bringer__uv_scroll_buffer->scroll_uvs(texture_scroll, 0);
         TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
         {
             NJS_TEXNAME *textures = ((NJS_TEXLIST *)texlist)->textures;

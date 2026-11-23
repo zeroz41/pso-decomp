@@ -2,36 +2,36 @@
 #define PSO_EFFECT_PHOTON_TPHOTONYOULLA_H
 
 #include "types.h"
-#include "pso/unk/TUnk_804C3248.h"
+#include "pso/effect/photon/PhotonBlastSummon.h"
 
-struct TPhotonYoulla : public TUnk_804C3248 {
+// Youlla, the photon blast summon that plays the attachment effects of blast 6 and fades out.
+class TPhotonYoulla : public TPhotonBlastSummon {
+public:
+    static const char *class_name;
+
+    TPhotonYoulla(PhotonSummonParams *params);
     virtual ~TPhotonYoulla();
-    // The ctor passes byte +0x1C of its spawn record; the body ignores it.
-    void sub_801AE72C(u8);
-    u8 unk_158[0x24];
-    u16 m_17c;
-    u8 _pad17E[0x2];
-    u32 m_180;
-    void* m_184;
-    u8 unk_188[0x4];
-    float m_18c;
-    u8 unk_190[0x4];
-    u16 m_194;
-    u8 _pad196[0x2];
-    u32 m_198;
-    u32 m_19c;
-    u32 m_1a0;
-    u32 m_1a4;
+    // The constructor passes the chain's summon count; the body ignores it.
+    void reset_material_color(u8 count);
     virtual void render();
     virtual void run_task();
+
+    u8 pad_158[0x24];
+    u16 owner_id;
+    u8 pad_17E[2];
+    TObjCollidable *owner;
+    NJS_ARGB material_color;  // run_task fades its alpha out at the end
+    s16 last_action;
+    u8 pad_196[2];
+    s32 is_first;
+    s32 has_more;
+    s32 visible;
+    s32 frame;
 };
 
 LAYOUT_ASSERT(TPhotonYoulla_size, sizeof(TPhotonYoulla) == 0x1A8);
 
-extern "C" {
-void TObjPlayer__sub_801AEB74(void);
-void TObjPlayer__sub_801AEB80(void);
-u8 *TPhotonYoulla__ct(TPhotonYoulla *arg0, u8 *arg1);
-}
+void destroy_youlla_photon_blast_model(void);
+void create_youlla_photon_blast_model(void);
 
 #endif

@@ -222,7 +222,7 @@ TUnk_804E3BD8::~TUnk_804E3BD8() {
 void TUnk_804E3BD8::alloc_breakup_model(s32 model) {
     s32 *temp_r4;
 
-    *(s32 **)((s8 *)this + 0x1C) = (s32 *)new TUnk_8048FA00(model);
+    *(s32 **)((s8 *)this + 0x1C) = (s32 *)new TBreakUpMdlData(model);
     temp_r4 = *(s32 **)((s8 *)this + 0x1C);
     this->m_24 = (s32) *temp_r4;
     sub_802E75B8(temp_r4);

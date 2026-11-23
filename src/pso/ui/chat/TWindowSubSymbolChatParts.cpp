@@ -1,6 +1,6 @@
 #include "pso/ui/chat/SymbolChatPreset.h"
 #include "types.h"
-#include "pso/ui/window/Scroll_8026D790.h"
+#include "pso/ui/window/WindowScrollBar.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/system/ControllerInputState.h"
 #include "pso/ui/window/TWindowChoiceSetting.h"
@@ -26,7 +26,7 @@
 const char *TWindowSubSymbolChatParts__name = "TWindowSubSymbolChatParts";
 #pragma pop
 
-extern s32 lbl_805D63F0;
+extern s32 hud_texlist;
 
 // inferred: symbol_chat_parts_layout_entries, the layout table symbol_chat_parts_window_layout
 // points at (three sprite parts).
@@ -38,9 +38,9 @@ struct SymbolChatPartsWindowLayout {
 SymbolChatPartsWindowLayout symbol_chat_parts_layout_entries = {
     3, 1,
     {
-        {6, {89.0f, 14.0f}, {50.0f, 40.0f}, 178.0f, 168.0f, 0.4f, -1, &lbl_805D63F0, 0xA, 4},
-        {6, {14.0f, 14.0f}, {32.0f, 32.0f}, 0.0f, 192.0f, 0.5f, -1, &lbl_805D63F0, 0xA, 4},
-        {6, {94.0f, 14.0f}, {32.0f, 32.0f}, 128.0f, 208.0f, 0.6f, -1, &lbl_805D63F0, 0xA, 4},
+        {6, {89.0f, 14.0f}, {50.0f, 40.0f}, 178.0f, 168.0f, 0.4f, -1, &hud_texlist, 0xA, 4},
+        {6, {14.0f, 14.0f}, {32.0f, 32.0f}, 0.0f, 192.0f, 0.5f, -1, &hud_texlist, 0xA, 4},
+        {6, {94.0f, 14.0f}, {32.0f, 32.0f}, 128.0f, 208.0f, 0.6f, -1, &hud_texlist, 0xA, 4},
     },
 };
 WindowDescriptor symbol_chat_parts_window_layout = {
@@ -168,7 +168,7 @@ void fn_80284C04(u8 *arg0) {
     *(s8 *)((s8 *)arg0 + 0x74) = (s8) TWindowSubStatusDisp::round_away_from_zero((f32) *(s16 *)((s8 *)arg0 + 0x76) / 4.0f);
     stack.sp8 = 170.0f;
     stack.spC = (40.0f * (f32) (s8) (u8) *(s8 *)((s8 *)arg0 + 0x74)) + 18.0f;
-    ((Scroll_8026D790 *)(*(u8 **)((s8 *)arg0 + 0x8C)))->copy_position(&stack.sp8);
+    ((WindowScrollBar *)(*(u8 **)((s8 *)arg0 + 0x8C)))->copy_position(&stack.sp8);
 }
 }
 #pragma pop
@@ -593,7 +593,7 @@ Parts_80285D38 *TWindowSubSymbolChatParts__ct(Parts_80285D38 *arg0, void *parent
     arg0->sub88 = p;
     v.x = 0.0f;
     v.y = 0.0f;
-    q = new Scroll_8026D790(&v);
+    q = new WindowScrollBar(&v);
     arg0->sub8C = q;
     return arg0;
 }

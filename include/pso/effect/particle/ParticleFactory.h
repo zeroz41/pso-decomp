@@ -6,9 +6,7 @@
 struct Vec;
 class TParticleCtrl;
 
-extern "C" {
+TParticleCtrl *spawn_particle_effect_with_flags(const Vec *position, s32 id, u16 flags);
 TParticleCtrl *spawn_particle_effect(const Vec *position, s32 id);
-TParticleCtrl *spawn_particle_effect_with_flags(const Vec *position, s32 id, s32 flags);
-}
 
 #endif

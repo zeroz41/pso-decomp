@@ -4,6 +4,9 @@
 #include "types.h"
 #include "pso/object/base/TObjMotion.h"
 
+struct AnimationMotion;
+struct NJS_OBJECT;
+
 struct TObjLazerFenceExtra : public TObjCollidable {
     TObjLazerFenceExtra(TObject *parent, void *set_data);
     virtual ~TObjLazerFenceExtra();
@@ -19,10 +22,10 @@ struct TObjLazerFenceExtra : public TObjCollidable {
     u8 _padB2[0x2];
     s32 m_b4;
     f32 frame;  // the beam motion's frame
-    uaddr m_bc;
-    u8 unk_C0[0x4];
-    saddr m_c4;
-    u8 unk_C8[0x10];
+    NJS_OBJECT *base_model;  // the fence size's "_moto" model, drawn without motion
+    NJS_OBJECT *beam_model;  // the model beam_motion animates
+    AnimationMotion *beam_motion;
+    void *beam_part_models[4];  // models of the beam's child nodes, retextured for scale_level
     s32 size_valid;  // 1 when set_params[2] is a valid fence size (0 or 1); 0 hides it
 };
 

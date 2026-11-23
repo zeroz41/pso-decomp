@@ -35,7 +35,7 @@ struct B_80338608 { u8 pad[0xC]; u32 col; };
 extern "C" {
 s32 lobby_request_flags;
 void draw_projected_textured_strip(void *, s32);
-extern s32 lbl_805D63F0;
+extern s32 hud_texlist;
 int info_icon_texture;
 s32 lobby_pulse_color_phase;
 u32 __cvt_fp2unsigned(f32);
@@ -209,7 +209,7 @@ void TLobby__sub_80338534(void) {
         draw_projected_textured_strip(t->b, 4);
         TLobby::reset_player_state();
         set_default_alpha_blend();
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(lbl_805D63F0));
+        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(hud_texlist));
         set_texture_num(5);
         TLobby__sub_803E2EE4(1);
         draw_projected_textured_strip(t->c, 4);

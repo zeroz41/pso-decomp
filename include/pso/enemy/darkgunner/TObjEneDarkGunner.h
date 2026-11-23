@@ -4,6 +4,8 @@
 #include "pso/enemy/TObjEnemyCustom.h"
 #include "pso/render/TUnk_80490470.h"
 
+struct BmlResource;
+
 class TObject;
 class TParticleCtrl;
 class TeneFakeTecThunderEff;
@@ -73,6 +75,8 @@ struct TObjEneDarkGunner : public TObjEnemyCustom {
     TParticleCtrl *glow_emitter;   // particle 0xDB at body_center while behavior_flags & 0x800000
     TUnk_80490470 render_control;
     s32 material_phase;
+    // bm_ene_darkgunner.bml, loaded with the Dark Gunner's resources.
+    static BmlResource *bml_resource;
     u16 center_id;  // entity id of the TObjEneDarkGunCenter that links it
     u8 pad_42a[2];
 };

@@ -25,7 +25,7 @@ LAYOUT_ASSERT(TChallenge_state_offset, offsetof(TChallenge, state) == 0x1C);
 LAYOUT_ASSERT(TChallenge_frame_offset, offsetof(TChallenge, frame_count) == 0x20);
 LAYOUT_ASSERT(TChallenge_size, sizeof(TChallenge) == 0x30);
 
-s32 challenge_task;
+TChallenge *challenge_task;
 s32 challenge_task_created;
 s32 TLobby__data_805D4E30;
 
@@ -86,7 +86,6 @@ struct Q_80070078 { u8 pad[0x48]; s32 x48; };
 struct L_80070078 { u8 pad[0x2C]; s32 x2C; };
 extern "C" {
 extern s32 local_client_id;
-void TLobby__sub_800738F4(void *, s32);
 }
 void *create_obj_tag_challenge(void *arg0);
 extern saddr tl_07;
@@ -97,7 +96,6 @@ extern void *challenge_mode_state[];
 void TChallenge__request_missing_challenge_records(L_80070254 *arg0);
 void render__10TChallengeFv(void);
 
-s32 TLobby__sub_800739BC(void *);
 s32 TLobby__sub_8026A328();
 
 
@@ -386,12 +384,12 @@ void TLobby::update_battle_cleanup_flag() {
     }
 }
 
-void TLobby::set_challenge_record_page(s32 v) {
+void TChallenge::set_challenge_record_page(s32 v) {
     if (v < 0 || v >= 0x11) {
         return;
     }
     if ((*(G_80070024 *)&challenge_mode_state).x48 != v) {
-        TLobby__sub_800738F4(this, v);
+        show_challenge_record_window(v);
         (*(G_80070024 *)&challenge_mode_state).x48 = v;
     }
 }
@@ -544,7 +542,7 @@ void TChallenge::wait_for_quest() {
         TLobby::update_quest_challenge_state(arg0);
         if (is_quest_active() != 0) {
             ((s32)TAdSinglePlyChrSelectGC::init());
-            ((s32)TLobby__sub_800739BC(arg0));
+            clear_challenge_record_window();
             ((s32)TLobby__sub_8026A328());
             TObjWarnChime::create((TObject*)arg0);
             this->state = 2;

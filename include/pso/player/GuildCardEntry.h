@@ -22,10 +22,14 @@ LAYOUT_ASSERT(GuildCardEntry_id_offset, offsetof(GuildCardEntry, id) == 4);
 LAYOUT_ASSERT(GuildCardEntry_name_offset, offsetof(GuildCardEntry, name) == 8);
 LAYOUT_ASSERT(GuildCardEntry_flags_offset, offsetof(GuildCardEntry, flags) == 0x8C);
 
+struct GuildCardNote {
+    char text[0x6C];
+};
+
 struct GuildCardSlot {
     GuildCardEntry entry;
-    u8 unknown_90[4];
-    char note[0x6C];
+    u8 pad_90[4];
+    GuildCardNote note;
 };
 
 LAYOUT_ASSERT(GuildCardSlotSize, sizeof(GuildCardSlot) == 0x100);

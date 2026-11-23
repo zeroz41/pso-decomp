@@ -61,7 +61,7 @@ void TObjEneRe4Bit::apply_poison_status() {  }
 void TObjEneRe4Bit::load_resources() {
     s32 i;
     TObjEneRe4Bit__model = (saddr)sorcerer_bml_resource->models[1].model;
-    re4_bit_texture_list = (saddr)sorcerer_bml_resource->models[0].m_c;
+    re4_bit_texture_list = (saddr)sorcerer_bml_resource->models[0].texlist;
     for (i = 0; i < 2; i++) {
         TObjEneRe4Bit_boss_handles[i] = (u8 *)TLobby::register_boss(re4_bit_base_param_ids[i]);
         TObjEneRe4Bit_attack_handles[i] = (u8 *)TLobby::dispatch_shared_handler_b(re4_bit_attack_param_ids[i]);

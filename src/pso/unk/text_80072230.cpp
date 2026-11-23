@@ -1,6 +1,7 @@
 #include "pso/system/CharacterSaveRecordLookup.h"
 #include "types.h"
 #include "pso/unk/TLobby.h"
+#include "pso/quest/challenge/TChallenge.h"
 
 #include <stddef.h>
 
@@ -51,7 +52,6 @@ s32 copy_challenge_info(void *, void *);
 extern s32 local_client_id;
 void TLobby__sub_80072880(u8 *arg0);
 void TLobby__sub_800727EC(u8 *arg0);
-extern void *challenge_task;
 void handle_6x8A_show_challenge_time_records_window(Pkt_80072494 *pkt);
 void TLobby__sub_80072758(u8 *arg0);
 void TLobby__sub_80072724(TLobby *lobby);
@@ -159,7 +159,7 @@ void handle_6x8A_show_challenge_time_records_window(Pkt_80072494 *pkt) {
     if (pkt->idx < 0 || pkt->idx >= 0x11) {
         return;
     }
-    ((TLobby *)challenge_task)->set_challenge_record_page(pkt->idx);
+    challenge_task->set_challenge_record_page(pkt->idx);
 }
 
 void TLobby::send_challenge_with_value(s32 arg0, s32 arg1) {
@@ -210,8 +210,8 @@ void TLobby__sub_80072618(void) {
         q = (s32 *)(((u8 *)&challenge_mode_state) + local_client_id * 0x104 + 0x270);
         if (((u32)get_character_save_record(0xFFFF)) != 0) {
             copy_challenge_info(q + 1, (void *)(((uaddr)get_character_save_record(0xFFFF)) + 0x21C4));
-            if ((*(u32 *)&challenge_task) != 0) {
-                TLobby::send_challenge_records((u32)((*(u32 *)&challenge_task)));
+            if (challenge_task != NULL) {
+                TLobby::send_challenge_records((uaddr)challenge_task);
             }
         }
     }

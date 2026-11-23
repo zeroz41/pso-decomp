@@ -48,8 +48,9 @@ struct V4_8035740C { f32 x, y, z; s32 w; };
 
 struct O_8035740C { u8 pad0[0xC4]; V4_8035740C v[10]; };
 
+const char *TItemEffOrgaFlowShot::class_name = "TItemEffOrgaFlowShot";
+
 extern "C" {
-const char *TItemEffOrgaFlowShot__name = "TItemEffOrgaFlowShot";
 s32 is_local_client_floor_leader();
 void clear_rock_state__10TBoss6RockFl(s32 i, s32 a, s32 b);
 int olga_flow_subordinate_actions_enabled;
@@ -176,23 +177,22 @@ void TItemEffOrgaFlowShot::update_segments() {
 #pragma fp_contract on
 void TItemEffOrgaFlowShot::update_position_from_velocity() {
     f32 temp_f2;
-    temp_f2 = 0.5f * pad_190;
+    temp_f2 = 0.5f * length;
     body.radius = temp_f2;
-    body.half_width = 4.0f + pad_194;
-    position.x = (pad_17C * temp_f2) + m_114;
-    position.y = *(f32 *)unk_118;
-    position.z = (pad_184 * temp_f2) + m_11c;
+    body.half_width = 4.0f + spread;
+    position.x = (forward.x * temp_f2) + trail[5].x;
+    position.y = trail[5].y;
+    position.z = (forward.z * temp_f2) + trail[5].z;
 }
 #pragma pop
 
 void TItemEffOrgaFlowShot::render() {
-    saddr arg0 = (saddr)this;
     TParticleCtrl::begin_effect_render();
     saved_model_render_flags = model_render_flags;
     set_depth_buffer_settings_1();
     set_additive_blend();
-    TObjPlayer__sub_803DF768(1);
-    draw_untextured_trail_strip((void *)(arg0 + 0xC4), 10);
+    setup_world_color_draw(1);
+    draw_untextured_trail_strip(trail, 10);
     reset_player_transform();
     set_default_alpha_blend();
     restore_saved_depth_alpha_state();
@@ -208,15 +208,15 @@ void TItemEffOrgaFlowShot::run_task() {
         queue_destruction();
         disallow_rendering();
     }
-    TItemEffOrgaFlowShot::approach_value(&pad_190, 50.0f, pad_18C);
-    if (pad_190 == pad_18C) {
-        TItemEffOrgaFlowShot::approach_value(&pad_194, 0.6f, pad_198);
+    TItemEffOrgaFlowShot::approach_value(&length, 50.0f, max_length);
+    if (length == max_length) {
+        TItemEffOrgaFlowShot::approach_value(&spread, 0.6f, max_spread);
     }
     for (i = 0; i != 10; i++) {
         TObjBoss2Tunnel::decrement_packed_timer((u32 *)(&((O_8035740C *)this)->v[i].w), 2);
     }
-    if (pad_194 == pad_198) {
-        if (pad_19C-- == 0) {
+    if (spread == max_spread) {
+        if (linger_frames-- == 0) {
             queue_destruction();
         }
     }
@@ -226,46 +226,46 @@ void TItemEffOrgaFlowShot::run_task() {
 
 TItemEffOrgaFlowShot::~TItemEffOrgaFlowShot() {}
 
-TItemEffOrgaFlowShot::TItemEffOrgaFlowShot(TObject *parent, S_80357734 *params) : TUnk_804E355C(parent, params) {
-    m_name = TItemEffOrgaFlowShot__name;
+TItemEffOrgaFlowShot::TItemEffOrgaFlowShot(TObject *parent, OrgaFlowShotParams *params) : TUnk_804E355C(parent, params) {
+    m_name = class_name;
     pad_C0 = 0;
     body.shape = 1;
     body.half_width = 10.0f;
     rotation_y = params->rotation_y;
-    pad_188 = params->rotation_y;
-    pad_190 = 0.0f;
-    pad_18C = 200.0f;
-    pad_194 = 0.0f;
-    pad_19C = 0x14;
-    pad_17C = sin_table_lookup(pad_188);
-    pad_180 = 0.0f;
-    pad_184 = cos_table_lookup(pad_188);
-    pad_164.x = params->joints[0].x - params->joints[1].x;
-    pad_164.y = params->joints[0].y - params->joints[1].y;
-    pad_164.z = params->joints[0].z - params->joints[1].z;
-    pad_198 = 3.0f * normalize_vector(&pad_164);
-    pad_170.x = params->joints[4].x - params->joints[3].x;
-    pad_170.y = params->joints[4].y - params->joints[3].y;
-    pad_170.z = params->joints[4].z - params->joints[3].z;
-    normalize_vector(&pad_170);
-    m_f4 = params->joints[1].x;
-    *(f32 *)unk_F8 = params->joints[1].y;
-    m_fc = params->joints[1].z;
-    m_100 = 0x6040FF40;
-    m_114 = params->joints[2].x;
-    *(f32 *)unk_118 = params->joints[2].y;
-    m_11c = params->joints[2].z;
-    m_120 = 0x408840;
-    m_134 = params->joints[3].x;
-    *(f32 *)unk_138 = params->joints[3].y;
-    m_13c = params->joints[3].z;
-    m_140 = 0x6040FF40;
-    m_e0 = 0x408840;
-    m_160 = 0x408840;
+    angle = params->rotation_y;
+    length = 0.0f;
+    max_length = 200.0f;
+    spread = 0.0f;
+    linger_frames = 0x14;
+    forward.x = sin_table_lookup(angle);
+    forward.y = 0.0f;
+    forward.z = cos_table_lookup(angle);
+    head_dir.x = params->joints[0].x - params->joints[1].x;
+    head_dir.y = params->joints[0].y - params->joints[1].y;
+    head_dir.z = params->joints[0].z - params->joints[1].z;
+    max_spread = 3.0f * normalize_vector(&head_dir);
+    tail_dir.x = params->joints[4].x - params->joints[3].x;
+    tail_dir.y = params->joints[4].y - params->joints[3].y;
+    tail_dir.z = params->joints[4].z - params->joints[3].z;
+    normalize_vector(&tail_dir);
+    trail[3].x = params->joints[1].x;
+    trail[3].y = params->joints[1].y;
+    trail[3].z = params->joints[1].z;
+    trail[3].color = 0x6040FF40;
+    trail[5].x = params->joints[2].x;
+    trail[5].y = params->joints[2].y;
+    trail[5].z = params->joints[2].z;
+    trail[5].color = 0x408840;
+    trail[7].x = params->joints[3].x;
+    trail[7].y = params->joints[3].y;
+    trail[7].z = params->joints[3].z;
+    trail[7].color = 0x6040FF40;
+    trail[1].color = 0x408840;
+    trail[9].color = 0x408840;
     update_segments();
     update_position_from_velocity();
 }
 
-void TItemEffOrgaFlowShot::create(void *parent, void *arg1) {
-    new TItemEffOrgaFlowShot((TObject *)parent, (S_80357734 *)arg1);
+void TItemEffOrgaFlowShot::create(void *parent, void *params) {
+    new TItemEffOrgaFlowShot((TObject *)parent, (OrgaFlowShotParams *)params);
 }

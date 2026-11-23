@@ -4,11 +4,9 @@
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/system/vector.h"
 #include "pso/system/task/TObject.h"
+#include "pso/system/SoundEffect.h"
 #pragma readonly_strings on
-const char* TEffGuard__class_name = "TEffGuard";
-extern "C" {
-s32 play_sound_effect(u32, const Vec*, s32, s32);
-}
+const char *TEffGuard::class_name = "TEffGuard";
 
 void TEffGuard::run_task() {
     s32 particle;
@@ -33,12 +31,12 @@ void TEffGuard::run_task() {
 TEffGuard::~TEffGuard() {}
 
 TEffGuard::TEffGuard(const Vec* initial_position) : TEffect() {
-    m_name = TEffGuard__class_name;
+    m_name = class_name;
     VecCopy(&position, initial_position);
     state = 0;
 }
 
-void TEffGuard::create(const Vec* position) {
+void TEffGuard::create(Vec *position) {
     new TEffGuard(position);
     play_sound_effect(0x4001AA00, position, 0, 0);
 }

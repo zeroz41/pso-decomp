@@ -20,7 +20,6 @@ struct NJS_OBJECT;
 #include "pso/system/MatrixOps.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/math/AngleLookup.h"
-#include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/render/RenderFadeState.h"
@@ -688,11 +687,11 @@ void TObjEneEpsilonGuard::init_model_and_state() {
     model = (void *)get_bml_model(epsilon_bml_resource, 2);
     texlist = (saddr)get_bml_texlist(epsilon_bml_resource, 0);
     init_model(TObjEneEpsilonGuard__model_desc, 1);
-    set_field_d8((saddr)epsilon_guard_action_table);
-    set_field_dc((saddr)epsilon_bml_resource->motions);
+    set_action_table((saddr)epsilon_guard_action_table);
+    set_motion_list((saddr)epsilon_bml_resource->motions);
     requested_action = 0;
     set_animation(requested_action);
-    set_field_b8(requested_action);
+    set_requested_action(requested_action);
     reset_hp(epsilon_guard_boss_stat_handle, epsilon_guard_shared_handler_b, epsilon_guard_registered_object_handle);
     set_indexed_flags(0, 0x80020);
     set_state_flag_4();

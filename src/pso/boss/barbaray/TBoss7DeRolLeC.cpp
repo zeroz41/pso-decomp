@@ -2,7 +2,6 @@
 #include "pso/effect/particle/ParticleFactory.h"
 
 #define TOBJECT_OUT_OF_LINE_HELPERS
-#include "pso/effect/particle/TParticleCtrl_800867E4.h"
 
 #include "pso/animation/MotionContext.h"
 #include "pso/unk/text_803D853C.h"
@@ -92,7 +91,7 @@ struct TBoss7DeRolLeCMovement {
 };
 
 // The BML resource descriptor, followed by the action table that
-// TBoss7DeRolLeC's constructor hands to set_field_d8.
+// TBoss7DeRolLeC's constructor hands to set_action_table.
 extern Boss7LoadCallback boss7_derolle_c_load_callbacks[6];
 extern TBoss7DeRolLeCMovement boss7_derolle_c_movement;
 extern BmlResourceDescriptor bm_boss7_de_rol_le_c_resource_descriptor;
@@ -114,12 +113,9 @@ extern TObjMotionAction de_rol_le_c_action_table[17];
 
 #include "pso/math/AngleLookup.h"
 
-#include "pso/unk/text_80087278.h"
-#include "pso/unk/text_80086E28.h"
 
 #include "pso/unk/text_803D96A8.h"
 
-#include "pso/effect/particle/TParticleCtrl_800874F4.h"
 
 #include "pso/object/base/TObjChara.h"
 
@@ -611,11 +607,11 @@ TBoss7DeRolLeC::TBoss7DeRolLeC(TObject *parent, void *set_data) : TObjEneDD_ST(p
     set_collision_body(&collision_body);
     transform_part_positions();
     motion_flags = 0;
-    set_field_d8((saddr)de_rol_le_c_action_table);
-    set_field_dc((saddr)boss7_derolle_c_bml_resource->motions);
+    set_action_table((saddr)de_rol_le_c_action_table);
+    set_motion_list((saddr)boss7_derolle_c_bml_resource->motions);
     requested_action = 0;
     set_animation(requested_action);
-    set_field_b8(requested_action);
+    set_requested_action(requested_action);
     set_state_flag_2();
     movementParameters = &boss7_derolle_c_movement;
     initialize_enemy_state(0x49);
@@ -1741,7 +1737,7 @@ void TBoss7DeRolLeC::dispatch_action(u32 state, s32 reason) {
 void TBoss7DeRolLeC::handle_opening_state(u32 event) {
     switch (event) {
     case 4:
-        set_field_b8(1);
+        set_requested_action(1);
         return;
     case 2:
         set_state_and_send(1);
@@ -1762,7 +1758,7 @@ void TBoss7DeRolLeC::handle_opening_state(u32 event) {
 void TBoss7DeRolLeC::handle_intro_camera_state(u32 event) {
     switch (event) {
     case 4:
-        set_field_b8(0);
+        set_requested_action(0);
         set_all_intangible();
         state_flags &= ~4;
         state_flags &= ~0x100;
@@ -1839,7 +1835,7 @@ void TBoss7DeRolLeC::handle_debug_pad_input(u32 event) {
     u32 b;
     switch (event) {
     case 4:
-        set_field_b8(1);
+        set_requested_action(1);
         clear_all_intangible();
         state_flags &= ~4;
         state_flags |= 0x100;
@@ -1954,7 +1950,7 @@ void TBoss7DeRolLeC::handle_position_travel_state(u32 event, s32 mode, s32 next_
 
     switch (event) {
     case 4:
-        this->set_field_b8(1);
+        this->set_requested_action(1);
         clear_all_intangible();
         state_flags &= ~4;
         state_flags |= 0x100;
@@ -2155,10 +2151,10 @@ void TBoss7DeRolLeC::handle_side_jump_state(u32 event, s32 position_index, s32 n
         next_position_slot = next_index;
         set_position_index(position_slot);
         if (position_slot == 0) {
-            set_field_b8(5);
+            set_requested_action(5);
             state_floats[0] = -1.0f;
         } else {
-            set_field_b8(6);
+            set_requested_action(6);
             state_floats[0] = 1.0f;
         }
         state_step = 0;
@@ -2353,7 +2349,7 @@ void TBoss7DeRolLeC::handle_side_jump_state(u32 event, s32 position_index, s32 n
 void TBoss7DeRolLeC::handle_forward_jump_state(u32 event) {
     switch (event) {
     case 4:
-        set_field_b8(1);
+        set_requested_action(1);
         clear_all_intangible();
         state_flags |= 4;
         state_flags &= ~0x100;
@@ -2384,7 +2380,7 @@ void TBoss7DeRolLeC::handle_forward_jump_state(u32 event) {
         case 0:
             state_ints[1]++;
             if (state_ints[1] > 0x14) {
-                set_field_b8(4);
+                set_requested_action(4);
                 state_step = 1;
             }
             state_floats[2] -= 0.2f;
@@ -2516,7 +2512,7 @@ void TBoss7DeRolLeC::handle_bite_state(u32 event, s32 position_index) {
     TParticleCtrl *p_;
     switch (event) {
     case 4:
-        set_field_b8(1);
+        set_requested_action(1);
         clear_all_intangible();
         state_flags |= 4;
         state_flags &= ~0x100;
@@ -2567,10 +2563,10 @@ void TBoss7DeRolLeC::handle_bite_state(u32 event, s32 position_index) {
                 state_ints[0] = 0;
                 state_step = 1;
                 if (position_slot == 0) {
-                    set_field_b8(7);
+                    set_requested_action(7);
                     state_floats[0] = -1.0f;
                 } else {
-                    set_field_b8(8);
+                    set_requested_action(8);
                     state_floats[0] = 1.0f;
                 }
             }
@@ -2739,9 +2735,9 @@ void TBoss7DeRolLeC::handle_tentacle_attack_state(u32 event, s32 position_index)
         position_slot = position_index;
         set_swim_direction(position_slot);
         if (position_slot == 0) {
-            set_field_b8(9);
+            set_requested_action(9);
         } else {
-            set_field_b8(0xA);
+            set_requested_action(0xA);
         }
         state_step = 0;
         state_ints[0] = 0;
@@ -2838,10 +2834,10 @@ void TBoss7DeRolLeC::handle_roll_dive_state(u32 event, s32 position_index) {
         set_swim_direction(position_slot);
         if (position_slot == 0) {
             state_floats[1] = -1.0f;
-            set_field_b8(9);
+            set_requested_action(9);
         } else {
             state_floats[1] = 1.0f;
-            set_field_b8(0xA);
+            set_requested_action(0xA);
         }
         state_step = 0;
         state_ints[0] = 0;
@@ -2885,7 +2881,7 @@ void TBoss7DeRolLeC::handle_roll_dive_state(u32 event, s32 position_index) {
                 state_step = 1;
                 set_position_index(position_slot);
                 body_offset.y = -137.0f;
-                set_field_b8(1);
+                set_requested_action(1);
                 state_floats[3] = 0.0f;
                 state_flags &= ~4;
                 state_flags |= 0x100;
@@ -2914,7 +2910,7 @@ void TBoss7DeRolLeC::handle_photon_pad_spawn_state(u32 event, s32 position_index
     s32 joint;
     switch (event) {
     case 4:
-        set_field_b8(3);
+        set_requested_action(3);
         clear_all_intangible();
         state_flags &= ~4;
         state_flags &= ~0x100;
@@ -2975,7 +2971,7 @@ void TBoss7DeRolLeC::handle_ceiling_attack_state(u32 event) {
         state_flags &= ~4;
         state_flags |= 0x100;
         clear_all_intangible();
-        set_field_b8(0xC);
+        set_requested_action(0xC);
         position_slot = 3;
         set_position_index(position_slot);
         state_step = 0;
@@ -3021,7 +3017,7 @@ void TBoss7DeRolLeC::handle_laser_attack_state(u32 event) {
         state_flags &= ~4;
         state_flags |= 0x100;
         clear_all_intangible();
-        set_field_b8(0xF);
+        set_requested_action(0xF);
         position_slot = 3;
         set_position_index(position_slot);
         fill_value_array(attack_history);
@@ -3060,7 +3056,7 @@ void TBoss7DeRolLeC::handle_laser_attack_state(u32 event) {
                 state_ints[0] = 0;
                 state_step = 1;
                 fill_value_array(attack_history);
-                set_field_b8(0xD);
+                set_requested_action(0xD);
                 if (enemy_check_target_valid() != 0) {
                     VecCopy(aim, &current_target->position);
                 } else {
@@ -3172,7 +3168,7 @@ void TBoss7DeRolLeC::handle_surface_state(u32 event, s32) {
     case 4:
         state_flags &= ~4;
         state_flags |= 0x100;
-        set_field_b8(0xE);
+        set_requested_action(0xE);
         clear_all_intangible();
         position_slot = 3;
         set_position_index(position_slot);
@@ -3238,7 +3234,7 @@ void TBoss7DeRolLeC::handle_death_state(u32 event) {
         state_flags &= ~0x300;
         state_flags |= 4;
         set_all_intangible();
-        set_field_b8(0x10);
+        set_requested_action(0x10);
         position_slot = 3;
         set_position_index(position_slot);
         rotation_x = 0;
@@ -3324,7 +3320,7 @@ void TBoss7DeRolLeC::handle_death_state(u32 event) {
 void TBoss7DeRolLeC::handle_despawn_state(u32 event) {
     switch (event) {
     case 4:
-        set_field_b8(0x10);
+        set_requested_action(0x10);
         set_all_intangible();
         state_flags |= 4;
         state_flags &= ~0x100;
@@ -3351,7 +3347,7 @@ void TBoss7DeRolLeC::handle_crawfish_spawn_state(u32 event, s32 variant) {
         state_ints[0] = 9;
         state_step = 0;
         state_ints[1] = 0;
-        set_field_b8(1);
+        set_requested_action(1);
         return;
     case 0:
         advance_animation();
@@ -3441,9 +3437,9 @@ void TBoss7DeRolLeC::handle_tentacle_volley_state(u32 event, s32 position_index)
         position_slot = position_index;
         set_swim_direction(position_slot);
         if (position_slot == 0) {
-            set_field_b8(9);
+            set_requested_action(9);
         } else {
-            set_field_b8(0xA);
+            set_requested_action(0xA);
         }
         state_step = 0;
         state_ints[0] = 0;
@@ -3576,7 +3572,7 @@ void TBoss7DeRolLeC::handle_tentacle_needle_barrage_state(u32 event) {
     u16 n;
     switch (event) {
     case 4:
-        set_field_b8(1);
+        set_requested_action(1);
         set_position_index(9);
         state_step = 20;
         state_ints[0] = 12;

@@ -274,8 +274,8 @@ void TAdChrSelPlayerGC::run_task() {
 }
 
 void TAdChrSelPlayerGC::init_model_animation() {
-    this->set_field_d8(reinterpret_cast<saddr>(lbl_804E2F78));
-    this->set_field_dc(*(s32 *)(TAdMultiPlyChrSelectGC__resource_bundle + 0x430));
+    this->set_action_table(reinterpret_cast<saddr>(lbl_804E2F78));
+    this->set_motion_list(*(s32 *)(TAdMultiPlyChrSelectGC__resource_bundle + 0x430));
     set_cursor_index(0);
     set_animation((this->requested_action));
 }

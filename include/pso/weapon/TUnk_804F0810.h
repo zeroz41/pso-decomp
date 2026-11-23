@@ -12,7 +12,8 @@ public:
     virtual void reserved_53();
     virtual void emit_marker_effects();
     TUnk_804F0810(TObject *parent, u8 *item);
-    s32 unk_1F8;
+    static TItem *create(u8 *item); // weapon_factory_table entry
+    s32 spin_angle;  // turned toward a target angle by update_idle/update_attack
 };
 
 #endif

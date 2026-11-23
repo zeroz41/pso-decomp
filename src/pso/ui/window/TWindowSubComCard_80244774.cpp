@@ -131,7 +131,7 @@ struct QFrameCtx_80245808
 void reset_line_width(void);
 void set_line_width(int a0);
 extern "C" {
-void TWindowSubComCard__sub_80245A10(u8 *arg0, s32 arg1, WindowDrawContext *r, f32 len);
+void TWindowSubComCard__sub_80245A10(u8 *arg0, s32 row, WindowDrawContext *r, f32 len);
 struct VOff_8024491C_arg0_card_1 { char pad_0[0x38]; char f_38[1]; };
 
 struct VOff_80244958_arg0_card_1 { char pad_0[0x30]; char f_30[1]; };
@@ -166,11 +166,11 @@ f32 TWindowSubComCard__sub_80244784(TWindowSubComCard *window_sub_com_card) {
 }
 
 f32 TWindowSubComCard::calc_offset() {
-    s16 temp_r3;
+    s16 close_ticks;
 
-    temp_r3 = *(s16 *)((s8 *)this + 0x22);
-    if (temp_r3 != 0) {
-        return 1.0f - ((f32) temp_r3 / 4.5f);
+    close_ticks = *(s16 *)((s8 *)this + 0x22);
+    if (close_ticks != 0) {
+        return 1.0f - ((f32) close_ticks / 4.5f);
     }
     return 1.0f;
 }
@@ -178,15 +178,15 @@ f32 TWindowSubComCard::calc_offset() {
 #pragma push
 #pragma opt_common_subs off
 f32 TWindowSubComCard::get_normalized_progress() {
-    s32 temp_r3;
+    s32 progress_ticks;
     if (this->m_2c & 0x2000) {
         return 1.0f;
     }
-    temp_r3 = this->m_5c;
-    if ((f32) temp_r3 >= 7.5f) {
+    progress_ticks = this->m_5c;
+    if ((f32) progress_ticks >= 7.5f) {
         return 1.0f;
     }
-    return (f32) temp_r3 / 7.5f;
+    return (f32) progress_ticks / 7.5f;
 }
 #pragma pop
 
@@ -260,7 +260,7 @@ void TWindowBase::request_close() {
 s32 TWindowBase::is_window_reveal_complete() {
     return (f32) this->open_tick >= 7.5f;
 }
-saddr lbl_805D63F0;
+saddr hud_texlist;
 u16 window_ui_theme_index;
 s16 lbl_805D63F6;
 void draw_window_scanlines(u8 *arg0, u8 *arg1);
@@ -274,15 +274,15 @@ void window_request_refresh(u8 *help) {
 }
 
 void window_request_show(void *object) {
-    s32 temp_r3;
+    s32 state_flags;
 
-    temp_r3 = *(s32 *)((s8 *)object + 0x2C);
-    if (temp_r3 & 1) {
-        *(s32 *)((s8 *)object + 0x2C) = (s32) (temp_r3 & 0xFFFFFFFB);
+    state_flags = *(s32 *)((s8 *)object + 0x2C);
+    if (state_flags & 1) {
+        *(s32 *)((s8 *)object + 0x2C) = (s32) (state_flags & 0xFFFFFFFB);
         return;
     }
-    if (temp_r3 & 2) {
-        *(s32 *)((s8 *)object + 0x2C) = (s32) (temp_r3 | 4);
+    if (state_flags & 2) {
+        *(s32 *)((s8 *)object + 0x2C) = (s32) (state_flags | 4);
         return;
     }
     if (TWindowSubStatusDisp::get_card_window_scale(*(s16 *)((s8 *)object + 0x20)) > 0.0f) {
@@ -374,8 +374,6 @@ TWindowFukidasi *TWindowFukidasi::find_balloon_overlap_for(TWindowFukidasi *firs
 }
 
 void TWindowBase::sub_80244F2C(u8 *descriptor, u8 *parent, s16 client) {
-    s32 temp_r3;
-    s32 temp_r3_2;
     m_name = TWindowBase__name;
     ((s32 (*)(void *, void *))copy_vec2__FPvPv)(target_position, parent);
     ((s32 (*)(void *, void *))copy_vec2__FPvPv)(target_size, descriptor);
@@ -389,12 +387,10 @@ void TWindowBase::sub_80244F2C(u8 *descriptor, u8 *parent, s16 client) {
     init_window_layout_entries(&entry_list, *(const void **)((s8 *)descriptor + 0xC), (int) (client_index));
     open_tick = 0;
     closing_tick = 0;
-    temp_r3 = window_flags;
-    if (!(temp_r3 & 1) && !(temp_r3 & 2)) {
+    if (!(window_flags & 1) && !(window_flags & 2)) {
         disallow_rendering();
     }
-    temp_r3_2 = window_flags;
-    if ((temp_r3_2 & 1) && (temp_r3_2 & 2) && !(temp_r3_2 & 0x20)) {
+    if ((window_flags & 1) && (window_flags & 2) && !(window_flags & 0x20)) {
         ((s32 (*)(int, int, int, int))play_sound_effect)(0x53703, 0, 0, 0);
     }
     if (TWindowSubStatusDisp::get_card_window_scale((int) (client_index)) <= 0.0f) {
@@ -424,7 +420,7 @@ void draw_selection_bar(WindowDrawContext *context, u8 *entry, s32 active) {
     z = -1.0f / (0.22424999f + context->depth);
     set_additive_blend();
     begin_screen_draw(1);
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(lbl_805D63F0));
+    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(hud_texlist));
     set_draw_texture_and_color(2, -1);
     q.x0 = x - 2.0f;
     q.y0 = y;
@@ -555,22 +551,22 @@ void TWindowSubComCard__sub_802454E4(s32 texture) {
     }
     set_additive_blend();
     set_tev_swap_channels(3, 3, 3, 3);
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(lbl_805D63F0));
+    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(hud_texlist));
     set_texture_num(texture);
     TLobby__sub_803E2EE4(1);
 }
 #pragma push
 #pragma fp_contract on
 bool TWindowSubComCard__sub_80245558(s32 ctx, f32 *arg1, f32 *arg2) {
-    f32 temp_f1;
-    f32 temp_f2;
+    f32 limit_x;
+    f32 start_x;
 
-    temp_f2 = *(f32 *)((s8 *)arg1 + 0);
-    temp_f1 = (5.0f * (f32) lbl_805D63F6) - 100.0f;
-    if (temp_f1 <= temp_f2) {
+    start_x = *(f32 *)((s8 *)arg1 + 0);
+    limit_x = (5.0f * (f32) lbl_805D63F6) - 100.0f;
+    if (limit_x <= start_x) {
         return 0;
     }
-    return !(temp_f1 >= (temp_f2 + *(f32 *)((s8 *)arg2 + 0)));
+    return !(limit_x >= (start_x + *(f32 *)((s8 *)arg2 + 0)));
 }
 #pragma pop
 
@@ -632,7 +628,7 @@ void TWindowBase::draw_quest_message_frame(void *c_arg) {
   f32 rem;
   f32 half;
   begin_screen_draw(1);
-  TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(*(void * *)&lbl_805D63F0));
+  TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(*(void * *)&hud_texlist));
   set_draw_texture_and_color(1, -1);
   if (((struct QFrameWindow_80245808 *)this)->height < 64.0f)
   {
@@ -698,7 +694,7 @@ void TWindowSubComCard__sub_80245A10(u8 *card, s32 row, WindowDrawContext *r, f3
     }
     lines.verts = pts;
     lines.colors = colors;
-    lines.unk_8 = 0;
+    lines.tex = NULL;
     lines.count = 3;
     t = len / (r->w - 24.0f);
     depth = r->depth;
@@ -825,7 +821,7 @@ void TWindowBase::draw_window_frame(void *r) {
   f32 dy;
   f32 rem;
   begin_screen_draw(1);
-  TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(*(void * *)&lbl_805D63F0));
+  TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(*(void * *)&hud_texlist));
   set_draw_texture_and_color(1, ((Rect_80245F98 *)r)->f34);
   n = (s32) ((Card_80245F98 *)this)->f4C;
   n += (4 - (n & 3)) & 3;
@@ -874,14 +870,14 @@ void TWindowBase::draw_window_frame(void *r) {
 }
 
 void TWindowBase::update_fade() {
-    u32 temp_r5;
+    u32 ticks;
 
-    temp_r5 = this->tween_ticks;
-    if (temp_r5 == 0) {
+    ticks = this->tween_ticks;
+    if (ticks == 0) {
         ((TWindowBase *)this)->save_position();
         return;
     }
-    *(f32 *)&(*(s32 *)((u8 *)this + 0x40)) += (*(f32 *)&(*(void * *)((u8 *)this + 0x30)) - *(f32 *)&(*(s32 *)((u8 *)this + 0x40))) / (f32) temp_r5;
+    *(f32 *)&(*(s32 *)((u8 *)this + 0x40)) += (*(f32 *)&(*(void * *)((u8 *)this + 0x30)) - *(f32 *)&(*(s32 *)((u8 *)this + 0x40))) / (f32) ticks;
     this->frame_position[1] += (this->target_position[1] - this->frame_position[1]) / (f32) this->tween_ticks;
     this->frame_size[0] += (this->target_size[0] - this->frame_size[0]) / (f32) this->tween_ticks;
     this->frame_size[1] += (this->target_size[1] - this->frame_size[1]) / (f32) this->tween_ticks;
@@ -914,28 +910,28 @@ void TWindowSubComCard__sub_8024634C(void) {
 void TWindowSubComCard::update_open_close() {
     u8 *arg0 = (u8 *)this;
     s32 card_window_flags;
-    s32 temp_r5;
+    s32 state_flags;
 
     if ((s32) *(s32 *)&this->m_5c < 0x01000000) {
         card_window_flags = TWindowSubStatusDisp::get_card_window_flags(*(s16 *)&this->m_20);
         card_window_flags += *(s32 *)&this->m_5c;
         *(s32 *)&this->m_5c = card_window_flags + 1;
     }
-    temp_r5 = *(s32 *)&this->m_2c;
-    if (!(temp_r5 & 2)) {
-        if ((temp_r5 & 0x10) && (((TWindowBase *)arg0)->sub_80246948() != 0)) {
+    state_flags = *(s32 *)&this->m_2c;
+    if (!(state_flags & 2)) {
+        if ((state_flags & 0x10) && (((TWindowBase *)arg0)->sub_80246948() != 0)) {
             ((TObject *)arg0)->queue_destruction();
         }
-    } else if (temp_r5 & 1) {
+    } else if (state_flags & 1) {
         if ((f32) *(s32 *)&this->m_5c >= 7.5f) {
-            if (temp_r5 & 4) {
-                if (!(temp_r5 & 0x20)) {
+            if (state_flags & 4) {
+                if (!(state_flags & 0x20)) {
                     ((s32 (*)(s32, u32, s16, s32))play_sound_effect)(0x53704, 0U, 0, 0);
                 }
                 *(s32 *)&this->m_2c = (s32) (*(s32 *)&this->m_2c & ~5);
                 return;
             }
-            *(s32 *)&this->m_2c = (s32) (temp_r5 & 0xFFFFFFFD);
+            *(s32 *)&this->m_2c = (s32) (state_flags & 0xFFFFFFFD);
         }
     } else {
         *(s16 *)((s8 *)arg0 + 0x22) = (s16) (*(s16 *)((s8 *)arg0 + 0x22) + 1);
@@ -983,8 +979,6 @@ TWindowBase::TWindowBase(u8 *descriptor, s16 client, u8 *parent)
 
 }
 
-struct Obj_80246948 { u8 pad[0x2c]; u32 f2c; };
-
 extern const char lbl_8044E688[];
 extern const char hud_palette_texture_filename[];
 extern const char lbl_8044E6B0[];
@@ -1001,9 +995,9 @@ extern "C" {
 void release_texture_list(void*);
 
 void TWindowCtrlMain::free_window() {
-    if ((u32) lbl_805D63F0 != 0U) {
-        release_texture_list((void*)lbl_805D63F0);
-        lbl_805D63F0 = 0U;
+    if ((u32) hud_texlist != 0U) {
+        release_texture_list((void*)hud_texlist);
+        hud_texlist = 0U;
     }
 }
 }
@@ -1023,7 +1017,7 @@ void load_hud_palette_textures(void) {
     TLanguage::draw_string((void *)lbl_8044E748, (void *)sp8, 0x43);
     TLobby::tmp_buf_release("TWindowBase");
     load_disc_prs_texture((saddr)lbl_8044E758, (saddr)f256_hyouji_texlist);
-    lbl_805D63F0 = (uaddr)f256_hyouji_texlist;
+    hud_texlist = (uaddr)f256_hyouji_texlist;
     TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>((void *)f256_hyouji_texlist));
     TLanguage::set_entry_index(0, 0x40);
     TLanguage::set_entry_index(1, 0x41);
@@ -1056,8 +1050,7 @@ __declspec(section ".rodata") const char lbl_8044E748[] = "f256_carsol.gvp";
 __declspec(section ".rodata") const char lbl_8044E758[] = "f256_hyouji";
 
 s32 TWindowBase::sub_80246948() {
-    Obj_80246948 *self = (Obj_80246948 *)this;
-    return (u8)(!(self->f2c & 1));
+    return (u8)(!(window_flags & 1));
 }
 
 int TWindowFukidasi__sub_8024695C(void* p) { return (*(u32*)((char*)p + 0x2c) >> 8) & 0x1; }
@@ -1066,81 +1059,81 @@ int TWindowFukidasi::get_visible_flag() { return (*(u32*)((char*)this + 0x2c) >>
 
 int TWindowFukidasi::is_bit10_set() { return (*(u32*)((char*)this + 0x2c) >> 10) & 0x1; }
 void TWindowSubStatusDisp::update_entry_visibility() {
-    uaddr temp_r31;
-    uaddr temp_r30;
-    uaddr temp_r29;
-    uaddr temp_r28;
-    uaddr temp_r27;
-    uaddr temp_r26;
-    uaddr temp_r25;
-    uaddr temp_r24;
+    uaddr entry7;
+    uaddr entry6;
+    uaddr entry5;
+    uaddr entry4;
+    uaddr entry3;
+    uaddr entry2;
+    uaddr entry1;
+    uaddr entry0;
     saddr arg0 = (saddr)this;
-    temp_r31 = reinterpret_cast<uaddr>(((TWindowBase *)arg0)->get_array_entry(7));
-    temp_r30 = reinterpret_cast<uaddr>(((TWindowBase *)arg0)->get_array_entry(6));
-    temp_r29 = reinterpret_cast<uaddr>(((TWindowBase *)arg0)->get_array_entry(5));
-    temp_r28 = reinterpret_cast<uaddr>(((TWindowBase *)arg0)->get_array_entry(4));
-    temp_r27 = reinterpret_cast<uaddr>(((TWindowBase *)arg0)->get_array_entry(3));
-    temp_r26 = reinterpret_cast<uaddr>(((TWindowBase *)arg0)->get_array_entry(2));
-    temp_r25 = reinterpret_cast<uaddr>(((TWindowBase *)arg0)->get_array_entry(1));
-    temp_r24 = reinterpret_cast<uaddr>(((TWindowBase *)arg0)->get_array_entry(0));
+    entry7 = reinterpret_cast<uaddr>(((TWindowBase *)arg0)->get_array_entry(7));
+    entry6 = reinterpret_cast<uaddr>(((TWindowBase *)arg0)->get_array_entry(6));
+    entry5 = reinterpret_cast<uaddr>(((TWindowBase *)arg0)->get_array_entry(5));
+    entry4 = reinterpret_cast<uaddr>(((TWindowBase *)arg0)->get_array_entry(4));
+    entry3 = reinterpret_cast<uaddr>(((TWindowBase *)arg0)->get_array_entry(3));
+    entry2 = reinterpret_cast<uaddr>(((TWindowBase *)arg0)->get_array_entry(2));
+    entry1 = reinterpret_cast<uaddr>(((TWindowBase *)arg0)->get_array_entry(1));
+    entry0 = reinterpret_cast<uaddr>(((TWindowBase *)arg0)->get_array_entry(0));
     if (is_guild_card_receive_active() != 0) {
-        if (temp_r31 != 0U) {
-            ((TWindowSubStatusDisp *)temp_r31)->clear_visible_flag();
+        if (entry7 != 0U) {
+            ((TWindowSubStatusDisp *)entry7)->clear_visible_flag();
         }
-        if (temp_r30 != 0U) {
-            ((TWindowSubStatusDisp *)temp_r30)->clear_visible_flag();
+        if (entry6 != 0U) {
+            ((TWindowSubStatusDisp *)entry6)->clear_visible_flag();
         }
     } else {
-        if (temp_r31 != 0U) {
-            ((TWindowHelpItem *)temp_r31)->set_flag0_bit2();
+        if (entry7 != 0U) {
+            ((TWindowHelpItem *)entry7)->set_flag0_bit2();
         }
-        if (temp_r30 != 0U) {
-            ((TWindowHelpItem *)temp_r30)->set_flag0_bit2();
+        if (entry6 != 0U) {
+            ((TWindowHelpItem *)entry6)->set_flag0_bit2();
         }
     }
     if (is_com_card_active() != 0) {
-        if (temp_r29 != 0U) {
-            ((TWindowSubStatusDisp *)temp_r29)->clear_visible_flag();
+        if (entry5 != 0U) {
+            ((TWindowSubStatusDisp *)entry5)->clear_visible_flag();
         }
-        if (temp_r28 != 0U) {
-            ((TWindowSubStatusDisp *)temp_r28)->clear_visible_flag();
+        if (entry4 != 0U) {
+            ((TWindowSubStatusDisp *)entry4)->clear_visible_flag();
         }
     } else {
-        if (temp_r29 != 0U) {
-            ((TWindowHelpItem *)temp_r29)->set_flag0_bit2();
+        if (entry5 != 0U) {
+            ((TWindowHelpItem *)entry5)->set_flag0_bit2();
         }
-        if (temp_r28 != 0U) {
-            ((TWindowHelpItem *)temp_r28)->set_flag0_bit2();
+        if (entry4 != 0U) {
+            ((TWindowHelpItem *)entry4)->set_flag0_bit2();
         }
     }
     if (TWindowSubShortMail::is_active() != 0) {
-        if (temp_r27 != 0U) {
-            ((TWindowSubStatusDisp *)temp_r27)->clear_visible_flag();
+        if (entry3 != 0U) {
+            ((TWindowSubStatusDisp *)entry3)->clear_visible_flag();
         }
-        if (temp_r26 != 0U) {
-            ((TWindowSubStatusDisp *)temp_r26)->clear_visible_flag();
+        if (entry2 != 0U) {
+            ((TWindowSubStatusDisp *)entry2)->clear_visible_flag();
         }
     } else {
-        if (temp_r27 != 0U) {
-            ((TWindowHelpItem *)temp_r27)->set_flag0_bit2();
+        if (entry3 != 0U) {
+            ((TWindowHelpItem *)entry3)->set_flag0_bit2();
         }
-        if (temp_r26 != 0U) {
-            ((TWindowHelpItem *)temp_r26)->set_flag0_bit2();
+        if (entry2 != 0U) {
+            ((TWindowHelpItem *)entry2)->set_flag0_bit2();
         }
     }
     if (is_trade_active() != 0) {
-        if (temp_r25 != 0U) {
-            ((TWindowSubStatusDisp *)temp_r25)->clear_visible_flag();
+        if (entry1 != 0U) {
+            ((TWindowSubStatusDisp *)entry1)->clear_visible_flag();
         }
-        if (temp_r24 != 0U) {
-            ((TWindowSubStatusDisp *)temp_r24)->clear_visible_flag();
+        if (entry0 != 0U) {
+            ((TWindowSubStatusDisp *)entry0)->clear_visible_flag();
         }
     } else {
-        if (temp_r25 != 0U) {
-            ((TWindowHelpItem *)temp_r25)->set_flag0_bit2();
+        if (entry1 != 0U) {
+            ((TWindowHelpItem *)entry1)->set_flag0_bit2();
         }
-        if (temp_r24 != 0U) {
-            ((TWindowHelpItem *)temp_r24)->set_flag0_bit2();
+        if (entry0 != 0U) {
+            ((TWindowHelpItem *)entry0)->set_flag0_bit2();
         }
     }
 }

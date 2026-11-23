@@ -6,7 +6,7 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "types.h"
 #include "pso/system/AreaSound.h"
-#include "pso/unk/text_800D8830.h"
+#include "pso/effect/GroundContactSound.h"
 #include "pso/boss/goldragon/TBoss8Dragon_80065C90.h"
 #include "pso/boss/goldragon/TBoss8Dragon_800BC53C.h"
 #include "pso/object/trap/TOTrapAncient01_80226534.h"
@@ -62,7 +62,7 @@
 
 
 
-// inferred: the per-phase colour the constructor gives its two TUnk_80494968 effects.
+// inferred: the per-phase colour the constructor gives its two TAttackTraceStrip effects.
 static const u32 mericarol_phase_effect_colors[3] = { 0xFFFD42E3, 0xFF39374B, 0xFFDEFB46 };
 
 TObjEneBm9MericarolMovementParameters mericarol_movement_params = {
@@ -161,7 +161,7 @@ void TObjEneBm9Mericarol::load_resources() {
     clear_motion_packed_rotation();
     {
         NpcAnimationBinding params = { reinterpret_cast<BmlMotionEntry *>(mericarol_bml->motions), reinterpret_cast<TObjMotionAction *>(mericarol_motion_actions), 3, 1, 9 };
-        NpcModelRegistry::register_animated_chunk(0x42, reinterpret_cast<void *>(mericarol_bml->models[0].model), reinterpret_cast<void *>(mericarol_bml->models[0].m_c), &params,
+        NpcModelRegistry::register_animated_chunk(0x42, reinterpret_cast<void *>(mericarol_bml->models[0].model), reinterpret_cast<void *>(mericarol_bml->models[0].texlist), &params,
             mericarol_collision_bodies[0].radius, 0.0f);
     }
 }
@@ -199,17 +199,17 @@ TObjEneBm9Mericarol::TObjEneBm9Mericarol(TObject *parent, void *set_data) : TObj
     }
     init_position_vectors();
     model = (void *)mericarol_bml->models[0].model;
-    texlist = (saddr)mericarol_bml->models[0].m_c;
+    texlist = (saddr)mericarol_bml->models[0].texlist;
     init_model(mericarol_collision_bodies, 1);
-    set_field_d8((saddr)mericarol_motion_actions);
-    set_field_dc((saddr)mericarol_bml->motions);
+    set_action_table((saddr)mericarol_motion_actions);
+    set_motion_list((saddr)mericarol_bml->motions);
     requested_action = 2;
     set_animation(requested_action);
-    set_field_b8(requested_action);
+    set_requested_action(requested_action);
     ph = get_phase();
     reset_hp(bm9_mericarol_phase_hp_table[ph], bm9_mericarol_phase_attack_table[ph], bm9_mericarol_phase_resist_table[ph]);
-    trails[0] = TUnk_80494968::create(0xA0303030, mericarol_phase_effect_colors[ph]);
-    trails[1] = TUnk_80494968::create(0xA0303030, mericarol_phase_effect_colors[ph]);
+    trails[0] = TAttackTraceStrip::create(0xA0303030, mericarol_phase_effect_colors[ph]);
+    trails[1] = TAttackTraceStrip::create(0xA0303030, mericarol_phase_effect_colors[ph]);
     add_flags_2e4(0x12);
     movementParameters = &mericarol_movement_params;
     switch (get_phase()) {
@@ -1317,7 +1317,7 @@ void TObjEneBm9Mericarol::play_step_effect() {
     if (hit != NULL) {
         u32 surface_mask = hit->hit_mask & 4;
         if (surface_mask != 0) {
-            fn_800D8830(this, &position);
+            play_ground_step_sound(this, &position);
         } else {
             play_persistent_sound(remap_sound_for_area(0x3B211), (saddr)this, (uaddr)&position, 0, 0);
         }

@@ -6,7 +6,7 @@
 #include "pso/render/TUnk_80494938.h"
 
 class TParticleCtrl;
-class TUnk_80494968;
+class TAttackTraceStrip;
 
 struct TObjEneMe3ShinowaParams {
     f32 m_0;
@@ -71,7 +71,7 @@ struct TObjEneMe3Shinowa : public TObjEneDD_ST {
     s32 mirage_index;  // formation slot 0..4; the real one picks one, the mirages take the rest
     s32 attack_count;  // attacks since the mirages left; the second spawns them again
     s16 m_3dc;
-    TUnk_80494968 *attack_traces[2];  // fed from the two motion sample tables in apply_effect_pair
+    TAttackTraceStrip *attack_traces[2];  // fed from the two motion sample tables in apply_effect_pair
     TUnk_80494938 fade;
     s32 state_step;
     s32 state_timer;

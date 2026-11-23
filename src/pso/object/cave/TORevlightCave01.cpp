@@ -71,7 +71,7 @@ TORevlightCave01::TORevlightCave01(TObject *parent, void *set_data) : TObjMapObj
     m_name = TORevlightCave01__class_name;
     apply_object_set_data(set_data);
     model = (void *)TORevlightCave01__bml_resource->models[0].model;
-    texlist = (saddr)TORevlightCave01__bml_resource->models[0].m_c;
+    texlist = (saddr)TORevlightCave01__bml_resource->models[0].texlist;
     motion = TORevlightCave01__bml_resource->motions[0].motion;
     animation_step = 0.8f;
     animation_end_frame = (f32)motion->frameCount - 1.0f;

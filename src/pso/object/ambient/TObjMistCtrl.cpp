@@ -7,14 +7,12 @@
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
-#include "pso/unk/text_803E29B0.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/render/render_util.h"
 #include "pso/unk/text_803DA798.h"
 #include "pso/player/TPlayerFootStamp.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/unk/text_80087278.h"
 #include "pso/system/task/TObject.h"
 #include "pso/math/MatrixVector.h"
 #pragma readonly_strings on

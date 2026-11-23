@@ -71,7 +71,7 @@ void text_builder_reset(void);
 extern "C" {
 const char *TWindowSubAreaMapDisp__name = "TWindowSubAreaMapDisp";
 extern s32 local_client_id;
-extern s32 lbl_805D63F0;
+extern s32 hud_texlist;
 
 
 struct Rect_80271848 { f32 x0, y0, x1, y1, u0, v0, u1, v1; };
@@ -88,7 +88,7 @@ void fn_80271848(s32 arg0, u8 *arg1) {
         color = -1;
     }
     begin_screen_draw(1);
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(lbl_805D63F0));
+    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(hud_texlist));
     set_draw_texture_and_color(0, color);
     r.x0 = 16.0f;
     r.y0 = 346.0f;

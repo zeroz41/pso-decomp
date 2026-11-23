@@ -63,7 +63,7 @@ void TAdChrMoveEffectGC::sub_80348E34() {
             if (*(u32 *)((s8 *)e + 0x54) & 1) {
                 desc.verts = pos;
                 desc.colors = col;
-                desc.unk_8 = 0;
+                desc.tex = NULL;
                 desc.count = 4;
                 copy_vec2(pos, e + 0x44);
                 src = e + 0x4C;

@@ -61,11 +61,11 @@ struct SnapShotWindowLayout {
     TextLayoutRecord rec_1;
 };
 
-extern s32 lbl_805D63F0;
+extern s32 hud_texlist;
 
 SnapShotWindowLayout window_snapshot_layout_entries = {
     2, 1,
-    {6, {372.0f, 240.0f}, {18.0f, 18.0f}, 178.0f, 203.0f, 0.5f, -1, &lbl_805D63F0, 0, 4},
+    {6, {372.0f, 240.0f}, {18.0f, 18.0f}, 178.0f, 203.0f, 0.5f, -1, &hud_texlist, 0, 4},
     {3, {399.0f, 240.0f}, 0.5f, 0xFFFFFFFF, 0, NULL},
 };
 

@@ -9,7 +9,7 @@
 #include "pso/technique/TTecCtrl.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TObject.h"
-#include "pso/effect/TUnk_804CCC68.h"
+#include "pso/technique/TTecShot.h"
 #include "pso/unk/TLobby_80226070.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/system/task/TMainTask.h"
@@ -357,7 +357,7 @@ void TTecGiZonde::run_task() {
     queue_destruction();
 }
 // The chain starts at `pos` with no facing (angle 0).
-TTecGiZonde::TTecGiZonde(saddr source, Vec *pos, void *targets, s32 level) : TUnk_804CCC68(source, pos, 0, level) {
+TTecGiZonde::TTecGiZonde(saddr source, Vec *pos, void *targets, s32 level) : TTecShot(source, pos, 0, level) {
     s32 h;
     m_name = TTecGiZonde_name_ref;
     init_parameters();

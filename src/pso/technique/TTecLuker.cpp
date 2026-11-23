@@ -19,7 +19,7 @@
 #include "pso/system/byteswap.h"
 #include "pso/system/vector.h"
 #include "pso/effect/particle/TParticleCtrl.h"
-#include "pso/effect/TUnk_804CC148.h"
+#include "pso/technique/TTecCircle.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/item/TItemList.h"
 #include "pso/player/TPlyItem.h"
@@ -28,7 +28,6 @@
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/map/CsnGroundQuery.h"
 #include "pso/unk/TLobby_80207644.h"
-#include "pso/unk/text_80087278.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/player/TObjPlayer_801BFED4.h"
 #include "pso/network/client_id.h"
@@ -37,6 +36,7 @@
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/camera/TCameraCtrl.h"
+#include "pso/effect/particle/TTelepipeMarker.h"
 
 struct Stack_802340E4 {
     s32 sp8;
@@ -145,7 +145,6 @@ void write_telepipe_record(u8 *arg0, u16 arg1, s16 arg2, u8 *arg3, s32 arg4);
 void start_placement_search(saddr arg0, saddr arg1, saddr arg2);
 s32 are_players_gathered_near(void *arg0, s32 *arg1, f32 range);
 void offset_point_toward_camera(u8 *arg0, u8 *arg1, f32 farg0);
-u8 *create_telepipe_marker(u8 *arg0, saddr arg1, s8 arg2, s8 arg3, saddr arg4, s32 arg5, s32 arg6, f32 farg0, f32 farg1);
 int fn_80235078(void *arg0) {
     return (u8) (*(s32 *)((s8 *)arg0 + 0x0) == 2);
 }
@@ -200,7 +199,7 @@ void TTecLuker__sub_80234F08(void) {
     }
 }
 
-TTecLuker::TTecLuker(saddr source, Vec *pos, Vec *target, s32 level) : TUnk_804CC148(source, pos, target, level) {
+TTecLuker::TTecLuker(saddr source, Vec *pos, Vec *target, s32 level) : TTecCircle(source, pos, target, level) {
     m_name = TTecLuker__name;
     phase = 0;
     warp_frames = 0;
@@ -209,13 +208,13 @@ TTecLuker::TTecLuker(saddr source, Vec *pos, Vec *target, s32 level) : TUnk_804C
     floor = get_current_floor();
     placement = NULL;
     if (this->source != 0) {
-        m_b4 = get_entity_id((void *)this->source);
+        sourceId = get_entity_id((void *)this->source);
     }
     traveller = local_client_id;
-    if (is_split_screen() == 0 && m_b4 != local_client_id) {
+    if (is_split_screen() == 0 && sourceId != local_client_id) {
         VecCopy(&pipe_pos, (const Vec *)((u8 *)this->source + 0x838));
     } else {
-        traveller = m_b4;
+        traveller = sourceId;
         if (level == 10) {
             VecCopy(&pipe_pos, target);
         } else {
@@ -263,7 +262,7 @@ void TTecLuker::run_task() {
     u8 *player;
     u8 *owner;
     TUnk_804C4450 *tgt;
-    source = (uaddr)find_entity_by_id(m_b4);
+    source = (uaddr)find_entity_by_id(sourceId);
     owner = (u8 *)source;
     if (owner == NULL) {
         queue_destruction();
@@ -284,7 +283,7 @@ void TTecLuker::run_task() {
             }
             if (TTecLuker__sub_80235054(tgt) != 0) {
                 VecCopy(&pipe_pos, &((TObjBase *)source)->position);
-                if ((telepipe_record_differs((Rec_8023402C *)((u8 *)source + 0x830), floor, &pipe_pos, traveller) == 0) && ((s8) TTecLuker__visit_counts[m_b4] >= 1)) {
+                if ((telepipe_record_differs((Rec_8023402C *)((u8 *)source + 0x830), floor, &pipe_pos, traveller) == 0) && ((s8) TTecLuker__visit_counts[sourceId] >= 1)) {
                     queue_destruction();
                     return;
                 }
@@ -293,7 +292,7 @@ void TTecLuker::run_task() {
         }
         break;
     case 1:
-        temp_r5 = m_b4;
+        temp_r5 = sourceId;
         if (temp_r5 < 4U) {
             TTecLuker__visit_counts[temp_r5] = TTecLuker__visit_counts[temp_r5] + 1;
         }
@@ -429,7 +428,6 @@ TUnk_804CCA0C::TUnk_804CCA0C(Vec *at, u32 id, TObject *parent) : TObject(parent)
   Vec v2;
   long long off;
   CsnHit *hit;
-  void *p;
   const s32 *row;
   s32 i;
   const u8 *pt;
@@ -469,12 +467,7 @@ TUnk_804CCA0C::TUnk_804CCA0C(Vec *at, u32 id, TObject *parent) : TObject(parent)
   v2.y += 15.0f;
   if (is_split_screen() == 0)
   {
-    p = TObject::operator new(0x44);
-    if (p != 0)
-    {
-      p = create_telepipe_marker((u8 *)p, (saddr)&v2, (s8)(0x1F), (s8)(4), (saddr)tl_particlemodel, 0, 0, 1.9f, 1.9f);
-    }
-    marker = p;
+    marker = new TTelepipeMarker(&v2, 0x1F, 4, tl_particlemodel, 0, 0, 1.9f, 1.9f);
   }
   else
   {

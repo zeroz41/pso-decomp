@@ -24,20 +24,19 @@ extern ChallengeSettingsDefaults challenge_settings_defaults;
 extern s32 challenge_mode_state[];
 
 
-extern uaddr challenge_task;
 extern s32 challenge_task_created;
 extern s32 TLobby__data_805D4E30;
 
 void TLobby::init_on_main_phase() {
     challenge_task_created = 0;
-    if ((u32) challenge_task == 0U) {
+    if (challenge_task == NULL) {
         if (get_main_phase() != 0xF) {
             TLobby__data_805D4E30 = 0;
             return;
         }
         TLobby::start_lobby_name_request();
         if ((s32) TLobby__data_805D4E30 != 0) {
-            challenge_task = (uaddr)TChallenge::create();
+            challenge_task = static_cast<TChallenge *>(TChallenge::create());
             challenge_task_created = 1;
             TObjTombstone::load_resources();
             ((TLobby *)(s32 *)"Area00")->set_name_string();
@@ -78,7 +77,7 @@ void TLobby__sub_80070B34(s32 v);
 void set_challenge_mode_split_flag(void);
 
 s32 TLobby::is_flag_set() {
-    return (u8) ((*(s32 *)&challenge_task) != 0);
+    return (u8) (challenge_task != NULL);
 }
 
 char *TLobby::get_unit_list() { return chat_last_line_buffer; }
@@ -113,7 +112,6 @@ void TLobby__sub_80070B34(s32 v) {
 
 struct G_80070C50 { u8 pad[0xC]; s32 fc; u8 padc[0x10]; s32 f20; s32 f24; s32 f28; u8 pad2c[4]; s32 f30; u8 pad34[4]; s32 a38[4]; u8 pad48[0x680 - 0x48]; s32 a680[4]; u8 rest[0x100]; };
 
-struct H_80070C50 { u8 pad[0x20]; s32 f20; s32 f24; s32 f28; };
 
 extern "C" {
 
@@ -143,8 +141,8 @@ void TLobby__sub_80070BE8(s32 arg0) {
 }
 void TLobby__sub_80070C50(void) {
     s32 i;
-    H_80070C50 *q;
-    H_80070C50 *p = (*(H_80070C50 **)&challenge_task);
+    TChallenge *q;
+    TChallenge *p = challenge_task;
     if (p != NULL) {
         (*(G_80070C50 *)&challenge_mode_state).fc = 0;
         (*(G_80070C50 *)&challenge_mode_state).f20 = 0;
@@ -155,10 +153,10 @@ void TLobby__sub_80070C50(void) {
             (*(G_80070C50 *)&challenge_mode_state).a38[i] = 0;
             (*(G_80070C50 *)&challenge_mode_state).a680[i] = 0;
         }
-        p->f20 = 0;
-        (*(H_80070C50 **)&challenge_task)->f24 = 0;
-        q = (*(H_80070C50 **)&challenge_task);
-        q->f28 = 1;
+        p->frame_count = 0;
+        challenge_task->missing_records_timer = 0;
+        q = challenge_task;
+        q->records_save_pending = 1;
         TLobby__sub_8026A328(q);
     }
 }
@@ -187,7 +185,7 @@ extern "C" {
 void *get_player_by_client_id(s32 i);
 s32 TLobby__sub_80070F4C(void);
 s32 TLobby__sub_80070FD8(void);
-u8 lbl_804FF820[0xC];
+char challenge_rank_title[0xC];
 RecoveredGlobal_800713C8_lbl_804FF82C lbl_804FF82C;
 s32 *TLobby__sub_800713C8(void);
 s32 TLobby__sub_80070DA8(void);
@@ -206,14 +204,14 @@ s32 TLobby__sub_800712D8(s32 idx, s32 value, s32 arg);
 void *fn_800733C4(void *parent);
 
 void TLobby::update_dead_list_win() {
-    if ((TLobby::is_flag_set() != 0) && (TLobby::is_ready_to_draw() != 0) && ((u32) challenge_task != 0U)) {
-        TObjDeadListWin::create((TObject*)challenge_task);
+    if ((TLobby::is_flag_set() != 0) && (TLobby::is_ready_to_draw() != 0) && (challenge_task != NULL)) {
+        TObjDeadListWin::create(challenge_task);
     }
 }
 
 void TLobby::draw_if_ready() {
-    if ((TLobby::is_flag_set() != 0) && (TLobby::is_ready_to_draw() != 0) && ((u32) challenge_task != 0U)) {
-        fn_800733C4((void *)challenge_task);
+    if ((TLobby::is_flag_set() != 0) && (TLobby::is_ready_to_draw() != 0) && (challenge_task != NULL)) {
+        fn_800733C4(challenge_task);
     }
 }
 
@@ -283,7 +281,7 @@ void TLobby__sub_80070EE4(saddr clear_time) {
 s32 TLobby__sub_80070F4C(void) {
     u32 var_r31;
     u8 *player;
-    if (((void *) (*(u8 * *)&challenge_task) == NULL) || ((s32) *(s32 *)((s8 *)(*(u8 * *)&challenge_task) + 0x1C) != 2)) {
+    if (challenge_task == NULL || challenge_task->state != 2) {
         return 0;
     }
     var_r31 = 0;
@@ -302,7 +300,7 @@ loop_4:
 s32 TLobby__sub_80070FD8(void) {
     u32 var_r31;
     u8 *player;
-    if (((void *) (*(u8 * *)&challenge_task) == NULL) || ((s32) *(s32 *)((s8 *)(*(u8 * *)&challenge_task) + 0x1C) != 2)) {
+    if (challenge_task == NULL || challenge_task->state != 2) {
         return 0;
     }
     var_r31 = 0;

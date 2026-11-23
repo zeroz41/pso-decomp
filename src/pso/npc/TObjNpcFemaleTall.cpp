@@ -36,6 +36,6 @@ TObjNpcFemaleTall::TObjNpcFemaleTall(TObject *parent, void *set_data) : TUnk_804
     this->apply_set_data(set_data);
     init_position_vectors();
     this->model = (void *)TObjNpcFemaleTall__instance->models->model;
-    this->texlist = (saddr)TObjNpcFemaleTall__instance->models->m_c;
+    this->texlist = (saddr)TObjNpcFemaleTall__instance->models->texlist;
     this->setup_common();
 }

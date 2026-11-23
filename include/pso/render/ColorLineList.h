@@ -2,6 +2,7 @@
 #define PSO_RENDER_COLOR_LINE_LIST_H
 
 #include "types.h"
+#include "pso/system/NinjaTypes.h"
 #include <stddef.h>
 
 struct ColorLineVertex {
@@ -11,7 +12,7 @@ struct ColorLineVertex {
 struct ColorLineList {
     ColorLineVertex *verts;
     u32 *colors;
-    s32 unk_8;
+    NJS_TEX *tex;  // optional texture coordinates, NULL for flat lines
     s32 count;
 
     void draw_strip_swap_color(s32 count, s32 flags, f32 scale);

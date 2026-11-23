@@ -113,7 +113,7 @@ void TOSensorGeneral01::load_assets() {
     BmlResource *resource = new BmlResource(1, &TOSensorGeneral01__resource_descriptor, 0, 0, NULL);
     sensor_general_shared_bml_archive = resource;
     TOSensorGeneral01__texture_lists = (GinjaTextureList **)mem_alloc(2 * sizeof(*TOSensorGeneral01__texture_lists));
-    TOSensorGeneral01__texture_lists[1] = (GinjaTextureList *)sensor_general_shared_bml_archive->models[0].m_c;
+    TOSensorGeneral01__texture_lists[1] = (GinjaTextureList *)sensor_general_shared_bml_archive->models[0].texlist;
     TOSensorGeneral01__texture_lists[0] = (GinjaTextureList *)load_gvm_texture_file((saddr) "fs_obj_sensor_r.gvm");
 }
 

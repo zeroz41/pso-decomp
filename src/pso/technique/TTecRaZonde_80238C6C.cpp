@@ -6,7 +6,7 @@
 #include "pso/system/vector.h"
 #include "pso/technique/TTecZonde.h"
 #include "pso/unk/TUnk_804CCB28.h"
-#include "pso/effect/TUnk_804CC148.h"
+#include "pso/technique/TTecCircle.h"
 #include "pso/system/task/TObject.h"
 #include "pso/technique/TTecCtrl.h"
 #pragma readonly_strings on
@@ -27,8 +27,6 @@
 #include "pso/unk/TLobby_80226070.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/effect/particle/TParticleCtrl_800867E4.h"
-#include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/object/base/CollisionActorLookup.h"
 
@@ -155,7 +153,7 @@ void TTecRaZonde::vfunc_6(void *arg1_arg) {
     u8 *arg1 = (u8 *)arg1_arg;
     Elec_80238E14 d;
     d.type = 3;
-    d.val = this->m_88;
+    d.val = this->power;
     ((VObj_18_9c98dd *)(arg1))->m21(this->source, d, 0, 8, -1);
 }
 
@@ -197,17 +195,17 @@ void TTecRaZonde::render() {  }
 
 void TTecRaZonde::run_task() {
     s32 i;
-    if (this->m_e8 == NULL) {
+    if (this->collidable == NULL) {
         queue_destruction();
         return;
     }
-    this->source = (uaddr)find_entity_by_id(this->m_b4);
+    this->source = (uaddr)find_entity_by_id(this->sourceId);
     if (this->source == 0) {
         queue_destruction();
         return;
     }
     for (i = 0; i < TTecRaZonde__band_profile_table[this->band].count; i++) {
-        if (this->m_b4 < 12) {
+        if (this->sourceId < 12) {
             if (i == 1) {
                 create_timed_particle_emitter((u8 *)this->source + 0x2FC, TTecRaZonde__band_profile_table[this->band].entries[i].entry, 0, 60);
             } else {
@@ -222,7 +220,7 @@ void TTecRaZonde::run_task() {
 #pragma push
 #pragma opt_loop_invariants off
 #pragma opt_common_subs off
-TTecRaZonde::TTecRaZonde(saddr source, Vec *origin, s32 level) : TUnk_804CC148(source, origin, origin, level) {
+TTecRaZonde::TTecRaZonde(saddr source, Vec *origin, s32 level) : TTecCircle(source, origin, origin, level) {
     s32 ang;
     s32 i;
     s32 j;
@@ -232,14 +230,14 @@ TTecRaZonde::TTecRaZonde(saddr source, Vec *origin, s32 level) : TUnk_804CC148(s
     Vec b;
     m_name = TTecRaZonde_class_name;
     calc_damage();
-    if (m_e8 != NULL) {
-        m_e8->bodies->radius = (5.0f) + m_90;
+    if (collidable != NULL) {
+        collidable->bodies->radius = (5.0f) + scope;
     }
     vfunc_8(0);
     r = (0.0f);
     ang = 0;
     for (i = 0; i < 8; i++) {
-        s16 lv = m_78;
+        s16 lv = this->level;
         f32 step = (5.4f);
         if (lv >= 15 && lv < 25) {
             step = (8.1f);
@@ -310,7 +308,7 @@ TTecRaZonde::TTecRaZonde(saddr source, Vec *origin, s32 level) : TUnk_804CC148(s
     }
     }
     if (this->source != 0) {
-        m_b4 = get_entity_id((void *)this->source);
+        sourceId = get_entity_id((void *)this->source);
     }
 }
 #pragma pop

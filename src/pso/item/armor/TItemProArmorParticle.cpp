@@ -13,7 +13,6 @@
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
-#include "pso/unk/text_80087278.h"
 #include "pso/player/TObjPlayer_80011014.h"
 extern "C" s32 is_item_area_enabled(s32 area);
 #include "pso/system/task/TMainTask.h"

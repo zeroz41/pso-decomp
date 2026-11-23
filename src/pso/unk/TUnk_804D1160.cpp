@@ -198,7 +198,7 @@ void TUnk_804D1160::update_customize_help_text(void *ev_arg) {
         break;
     case 2:
         if (ev->id == 2) {
-            TItem *weapon = TObjPlayer::get_item_field_6(pl);
+            TItem *weapon = TObjPlayer::get_equipped_weapon(pl);
             if (weapon == NULL || weapon_has_extra_attack((TItemWeapon *)weapon) != 1) {
                 break;
             }

@@ -1,17 +1,18 @@
+#include "pso/effect/photon/TPhotonRainbow.h"
+#include "pso/effect/photon/TPhotonMagicSquare.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "types.h"
+#include "pso/render/StripBufferPair.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/render/MaterialColorFade.h"
 #include "pso/boss/derolle/TBoss2DeRolLe.h"
 #include "pso/math/MatrixTransforms.h"
-#include "pso/player/TObjPlayer_801AE48C.h"
-#include "pso/unk/text_800F5BC0.h"
 #include "pso/unk/TLobby.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/system/vector.h"
-#include "pso/unk/TUnk_804C3248.h"
+#include "pso/effect/photon/PhotonBlastSummon.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/effect/photon/TPhotonPilla.h"
 #include "pso/player/TObjPlayer.h"
@@ -19,315 +20,231 @@
 #include "pso/enemy/panarms/TObjEnePanarms.h"
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
 #include "pso/object/ambient/TObjFish.h"
-#include "pso/effect/photon/PhotonBlastSummon.h"
 #include "pso/system/task/TObject.h"
 #include "pso/unk/TLobby_802268F4.h"
-#include "pso/unk/text_801AE1F8.h"
 #include "pso/map/FloorArea.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/effect/photon/TPhotonLaser.h"
 #include "pso/object/trap/TOTrapAncient01_80226534.h"
-#include "pso/effect/photon/TPhotonMagicSquare_801ACE1C.h"
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/system/MatrixOps.h"
+#include "pso/render/model_render_state.h"
+#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/system/BmlResource.h"
+#include "pso/player/PhotonBlastResults.h"
 
-typedef struct { f32 x; f32 y; f32 z; } Vec3;
-
-struct Self_801ADDDC {
-    u8 pad0[0x24];
-    s32 f24;
-    u8 pad1[0x38 - 0x28];
-    Vec pos;
-    u8 pad2[0x60 - 0x44];
-    s32 f60;
-    u8 pad3[0x14C - 0x64];
-    s16 f14C;
-    u8 pad4[0x180 - 0x14E];
-    NJS_ARGB color;
-    u8 pad5[0x1A4 - 0x190];
-    s32 started;
-};
+// The original emits code in reverse definition order.
+#pragma defer_codegen on
 
 
-extern "C" {
-s32 scroll_strip_uvs(void *, s16, int);
-extern NJS_ARGB saved_model_draw_color;
-extern NJS_ARGB model_material_color;
-extern s32 saved_model_render_flags;
-extern s32 saved_chunk_polygon_flags_and_mask;
-extern s32 saved_chunk_polygon_flags_or_mask;
-extern s32 chunk_polygon_flags_or_mask;
-extern s32 chunk_polygon_flags_and_mask;
-extern s32 model_render_flags;
-const char *TPhotonPilla__class_name = "TPhotonPilla";
-void *pilla_photon_buffer_pair;
+const char *TPhotonPilla::class_name = "TPhotonPilla";
+StripBufferPair *pilla_photon_blast_model;
 extern const PhotonLaserParams photon_pilla_laser_packet = {
     { 0.0f, 0.0f, 0.0f }, { 0 }, { 0.0f, -1.0f, 0.0f }, 300.0f, 30.0f, 30.0f
 };
-extern void *photon_pilla_laser_offset_table[];
 
-u32 get_entity_id();
+TObjMotionAction photon_pilla_action_table[2] = {
+    {MOTION_MODE_ONCE, 0, 3, 1.0f, 0},
+    {MOTION_MODE_LOOP, 0, 0xA, 1.0f, 0},
+};
+CollisionBody photon_pilla_collision_body = {
+    { 0.0f, 0.0f, 0.0f }, 120.0f, 30.0f, 0, 0x8007, { 0.0f, 0.0f, 0.0f }, 0.0f
+};
+// Where spawn_laser places each of the six lasers around the summon, 300 up.
+Vec photon_pilla_laser_offset_table[6] = {
+    { 0.0f, 300.0f, 50.0f },
+    { 25.0f, 300.0f, 25.0f },
+    { 25.0f, 300.0f, -25.0f },
+    { 0.0f, 300.0f, -50.0f },
+    { -25.0f, 300.0f, -25.0f },
+    { 25.0f, 300.0f, 25.0f },
+};
 
-void TPhotonPilla::sub_801ADC7C() { this->m_180 = 0.0f; *(float*)((char*)this + 0x184) = 0.0f; this->m_188 = 0.0f; *(float*)((char*)this + 0x18c) = 0.0f; }
+void create_pilla_photon_blast_model(void) {
+    pilla_photon_blast_model = new StripBufferPair(photon_blast_shared_resource->models[0].model->child, 0);
+}
+
+void destroy_pilla_photon_blast_model(void) {
+    if (pilla_photon_blast_model != NULL) {
+        delete pilla_photon_blast_model;
+    }
+    pilla_photon_blast_model = NULL;
+}
+
+TPhotonPilla::TPhotonPilla(PhotonSummonParams *params) : TPhotonBlastSummon() {
+    m_name = class_name;
+    blast_kind = 3;
+    VecCopy(&position, &params->position);
+    owner_id = params->owner_id;
+    init_collision_body_parts(this, &photon_pilla_collision_body, 1);
+    refresh_collision_body_centers();
+    register_object_by_id();
+    owner = find_entity_by_id(owner_id);
+    if (owner != NULL) {
+        rotation_y = owner->rotation_y;
+    }
+    model = photon_blast_shared_resource->models[3].model;
+    texlist = (saddr)photon_blast_shared_resource->models[3].texlist;
+    set_action_table((saddr)photon_pilla_action_table);
+    set_motion_list((saddr)photon_blast_shared_resource->motions);
+    requested_action = 1;
+    set_animation(requested_action);
+    set_requested_action(requested_action);
+    last_action = 1;
+    is_first = params->is_first;
+    has_more = params->has_more;
+    started = 0;
+    camera_script = 4;
+    enter_scene();
+    timer = 0;
+    switch (get_current_floor_area()) {
+    case AREA_DRAGON:
+    case AREA_DE_ROL_LE:
+    case AREA_VOL_OPT:
+    case AREA_DARK_FALZ: {
+        new TPhotonRainbow(this, &position, 1);
+        break;
+    }
+    default: {
+        new TPhotonRainbow(this, &position, 0);
+        break;
+    }
+    }
+    laser_count = 0;
+    reset_color(params->count);
+    if (has_more == 1) {
+        summon_flags |= 1;
+    }
+    power = params->level;
+    if (is_first == 0) {
+        set_requested_action(0);
+        begin_photon_summon_camera(4);
+        is_first = 1;
+        last_action = 0;
+        started = 1;
+        Vec at = position;
+        at.y += 40.0f;
+        new TPhotonMagicSquare(this, 3, &at, 0xAA, 0.5f);
+        spawn_photon_blast_attachment_effects(3);
+        play_cue_stream_file("paila2.adx");
+    } else {
+        spawn_photon_blast_opening_effects(3, owner_id);
+        play_cue_stream_file("paila.adx");
+    }
+}
+
+TPhotonPilla::~TPhotonPilla() {
+    update_if_active();
+    free_photon();
+    unregister_object_by_id();
+    free_collision_body_parts(this);
+}
+
+void TPhotonPilla::run_task() {
+    Vec at;
+    TObjCollidable *summoner;
+    s32 frame;
+
+    timer++;
+    if (timer == 0x32 && started == 0) {
+        started = 1;
+        timer = 0;
+        summoner = find_entity_by_id(owner_id);
+        if (summoner != NULL) {
+            VecCopy(&at, &summoner->position);
+        }
+        at.y += 30.0f;
+        new TPhotonMagicSquare(this, 3, &at, 0xD2, 0.5f);
+    }
+    if (50.0f == timer && requested_action == 1 && started == 1) {
+        begin_photon_summon_camera(4);
+        timer = 0;
+        set_requested_action(0);
+        spawn_photon_blast_attachment_effects(3);
+    }
+    last_action = requested_action;
+    update_state();
+    advance_animation();
+    update_photon_blast_attachments();
+    uv_scroll = uv_scroll + 0xF;
+    uv_scroll = (u8)uv_scroll;
+    frame = timer;
+    if (80.0f == frame || 82.0f == frame || 84.0f == frame || 86.0f == frame || 88.0f == frame || 90.0f == frame) {
+        spawn_laser();
+    }
+    if (110.0f == timer) {
+        apply_photon_blast_effects();
+    }
+    if (started != 0) {
+        play_persistent_sound(0x4002462F, (saddr)this, 0, 0, 0);
+    }
+}
+
+void TPhotonPilla::render() {
+    if (started != 0) {
+        pilla_photon_blast_model->scroll_uvs(uv_scroll, 0);
+        TParticleCtrl::begin_effect_render();
+        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
+        push_matrix();
+        translate_matrix(0, position.x, position.y, position.z);
+        rotate_matrix_y(0, rotation_y);
+        set_photon_blast_joint_callback();
+        saved_model_render_flags = model_render_flags;
+        copy_argb(&saved_model_draw_color, &model_material_color);
+        saved_chunk_polygon_flags_and_mask = chunk_polygon_flags_and_mask;
+        saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;
+        model_render_flags |= 0x200820;
+        set_motion_packed_rotation();
+        set_chunk_material_override_pair(-1, 0x800);
+        set_constant_material(&color);
+        draw();
+        clear_motion_packed_rotation();
+        chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
+        chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
+        copy_argb(&model_material_color, &saved_model_draw_color);
+        model_render_flags = saved_model_render_flags;
+        clear_photon_blast_joint_callback();
+        pop_matrix();
+        TParticleCtrl::end_effect_render();
+    }
+}
+
+void TPhotonPilla::spawn_laser() {
+    Vec at;
+    at.x = position.x;
+    at.y = 300.0f;
+    at.z = position.z;
+    vec3_add_to(&at, &photon_pilla_laser_offset_table[laser_count]);
+    laser_count++;
+    PhotonLaserParams packet = photon_pilla_laser_packet;
+    packet.pos.x = at.x;
+    packet.pos.y = at.y;
+    packet.pos.z = at.z;
+    new TPhotonLaser(&packet, this, owner_id);
+}
 
 void TPhotonPilla::apply_photon_blast_effects() {
     s32 index;
 
     TObjPlayer::init_all_slots();
     mark_enemy_body_contacts();
-    if (*(s32 *)((s8 *)(*(void **)((s8 *)this + 0xA4)) + 0x18) & 0x100000) {
+    if (bodies->flags & 0x100000) {
         index = 0;
         do {
-            if (TObjPlayer::get_battle_param(index) != 0U) {
-                queue_photon_blast_hit((u16) get_entity_id(), 2, 0, *(f32 *)((s8 *)this + 0x150));
+            saddr player = TObjPlayer::get_battle_param(index);
+            if (player != 0U) {
+                queue_photon_blast_hit(get_entity_id((TObjBase *)player), 2, 0, power);
             }
             index += 1;
         } while (index < 0x10);
     }
 }
 
-void TPhotonPilla::spawn_laser() {
-    Vec position;
-    position.x = *(f32 *)((s8 *)((u8 *)this) + 0x38);
-    position.y = 3e+02f;
-    position.z = *(f32 *)((s8 *)((u8 *)this) + 0x40);
-    vec3_add_to(&position, &((Vec *)photon_pilla_laser_offset_table)[*(s32 *)((s8 *)((u8 *)this) + 0x194)]);
-    (*(s32 *)((s8 *)((u8 *)this) + 0x194))++;
-    PhotonLaserParams packet = photon_pilla_laser_packet;
-    packet.pos.x = position.x;
-    packet.pos.y = position.y;
-    packet.pos.z = position.z;
-    new TPhotonLaser(&packet, this, this->m_17c);
-}
-
-void TPhotonPilla::render() {
-    Self_801ADDDC *self = (Self_801ADDDC *)this;
-    if (this->m_1a4 != 0) {
-        scroll_strip_uvs(pilla_photon_buffer_pair, self->f14C, 0);
-        TParticleCtrl::begin_effect_render();
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(this->texlist));
-        push_matrix();
-        translate_matrix(0, self->pos.x, self->pos.y, self->pos.z);
-        rotate_matrix_y(0, this->rotation_y);
-        ((TUnk_804C3248 *)self)->set_photon_blast_joint_callback();
-        saved_model_render_flags = model_render_flags;
-        copy_argb((NJS_ARGB *)&saved_model_draw_color, (NJS_ARGB *)&model_material_color);
-        saved_chunk_polygon_flags_and_mask = chunk_polygon_flags_and_mask;
-        saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;
-        model_render_flags |= 0x200820;
-        set_motion_packed_rotation();
-        set_chunk_material_override_pair(-1, 0x800);
-        set_constant_material((const NJS_ARGB *)(((f32 *)&self->color)));
-        ((TObjMotion *)self)->draw();
-        clear_motion_packed_rotation();
-        chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
-        chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
-        copy_argb((NJS_ARGB *)&model_material_color, (NJS_ARGB *)&saved_model_draw_color);
-        model_render_flags = saved_model_render_flags;
-        ((TObjPlayer *)self)->clear_render_context();
-        pop_matrix();
-        TParticleCtrl::end_effect_render();
-    }
-}
-
-void TPhotonPilla::run_task() {
-    Vec3 sp8;
-    saddr entity;
-    s32 temp_r3_2;
-
-    *(s32 *)((s8 *)this + 0x1A8) = (s32) (*(s32 *)((s8 *)this + 0x1A8) + 1);
-    if (((s32) *(s32 *)((s8 *)this + 0x1A8) == 0x32) && ((s32) this->m_1a4 == 0)) {
-        this->m_1a4 = 1;
-        *(s32 *)((s8 *)this + 0x1A8) = 0;
-        entity = (saddr)find_entity_by_id(this->m_17c);
-        if (entity != 0) {
-            VecCopy((Vec *)&sp8, (const Vec *)(entity + 0x38));
-        }
-        sp8.y += 3e+01f;
-        entity = (saddr)TObject::operator new(0xD0);
-        if (entity != 0U) {
-            TPhotonMagicSquare__ct((u8 *)entity, (saddr)this, 3, (saddr)&sp8, 0xD2, 0.5f);
-        }
-    }
-    if ((5e+01f == (f32) *(s32 *)((s8 *)this + 0x1A8)) && ((s16) this->requested_action == 1) && ((s32) this->m_1a4 == 1)) {
-        begin_photon_summon_camera(4);
-        *(s32 *)((s8 *)this + 0x1A8) = 0;
-        this->set_field_b8(0);
-        spawn_photon_blast_attachment_effects(3);
-    }
-    this->m_198 = (s16) this->requested_action;
-    update_state();
-    advance_animation();
-    update_photon_blast_attachments();
-    *(s16 *)((s8 *)this + 0x14C) = (s16) (*(s16 *)((s8 *)this + 0x14C) + 0xF);
-    *(s16 *)((s8 *)this + 0x14C) = (s16) (u8) *(s16 *)((s8 *)this + 0x14C);
-    temp_r3_2 = *(s32 *)((s8 *)this + 0x1A8);
-    if ((8e+01f == (f32) temp_r3_2) || (82.0f == (f32) temp_r3_2) || (84.0f == (f32) temp_r3_2) || (86.0f == (f32) temp_r3_2) || (88.0f == (f32) temp_r3_2) || (9e+01f == (f32) temp_r3_2)) {
-        spawn_laser();
-    }
-    if (1.1e+02f == (f32) *(s32 *)((s8 *)this + 0x1A8)) {
-        this->apply_photon_blast_effects();
-    }
-    if ((s32) this->m_1a4 != 0) {
-        play_persistent_sound(0x4002462F, (saddr)this, 0, 0, 0);
-    }
-}
-
-s32 free_collision_body_parts(void *);
-
-extern void *lbl_804C3ACC[];
-
-void *destroy__12TPhotonPillaFPvs(void *photon_pilla, s16 arg1) {
-    if (photon_pilla != NULL) {
-        *(s32 **)((s8 *)photon_pilla + 0x18) = (s32 *)lbl_804C3ACC;
-        ((TPhotonPilla *)photon_pilla)->update_if_active();
-        ((TUnk_804C3248 *)photon_pilla)->free_photon();
-        ((TObjCollidable *)photon_pilla)->unregister_object_by_id();
-        free_collision_body_parts(photon_pilla);
-        __dt__13TUnk_804C3248Fv(photon_pilla, 0);
-        if (arg1 > 0) {
-            TObject::operator delete(photon_pilla);
-        }
-    }
-    return photon_pilla;
-}
-
-s32 init_collision_body_parts(void *, void *, int);
-void sub_801ADC7C__12TPhotonPillaFv(void *, u8);
-u8 *TPhotonRainbow__ct(void *, void *, void *, s32);
-extern u8 *photon_blast_shared_resource;
-
-extern "C" void vfunc_6__8TObjBaseFPsl();
-extern "C" void interact__14TObjCollidableFl();
-extern "C" void get_name__8TObjBaseFv();
-extern "C" void get_center__8TObjBaseFv();
-extern "C" void apply_object_set_data__8TObjBaseFPv();
-extern "C" void classify_actor_view_detail__8TObjBaseFfff();
-extern "C" void enter_scene__13TUnk_804C3248Fv();
-extern "C" void render__12TPhotonPillaFv();
-extern "C" void render_shadows__7TObjectFv();
-extern "C" void reset_motion_fields__10TObjMotionFv();
-extern "C" void update_if_active__13TUnk_804C3248Fv();
-extern "C" void update_object_view_visibility__8TObjBaseFff();
-extern "C" void run_task__12TPhotonPillaFv();
-void *photon_pilla_action_table[8] = {
-    (void *)0x30000, (void *)0x3, (void *)0x3f800000, (void *)0x0,
-    (void *)0x10000, (void *)0xa, (void *)0x3f800000, (void *)0x0,
-};
-void *lbl_804C3A58[11] = {
-    (void *)0x0, (void *)0x0, (void *)0x0, (void *)0x42f00000,
-    (void *)0x41f00000, (void *)0x0, (void *)0x8007, (void *)0x0,
-    (void *)0x0, (void *)0x0, (void *)0x0,
-};
-void *photon_pilla_laser_offset_table[18] = {
-    (void *)0x0, (void *)0x43960000, (void *)0x42480000, (void *)0x41c80000,
-    (void *)0x43960000, (void *)0x41c80000, (void *)0x41c80000, (void *)0x43960000,
-    (void *)0xc1c80000, (void *)0x0, (void *)0x43960000, (void *)0xc2480000,
-    (void *)0xc1c80000, (void *)0x43960000, (void *)0xc1c80000, (void *)0x41c80000,
-    (void *)0x43960000, (void *)0x41c80000,
-};
-void *lbl_804C3ACC[17] = {
-    (void *)0x0, (void *)0x0, (void *)&destroy__12TPhotonPillaFPvs, (void *)&run_task__12TPhotonPillaFv,
-    (void *)&render__12TPhotonPillaFv, (void *)&render_shadows__7TObjectFv, (void *)&vfunc_6__8TObjBaseFPsl, (void *)&apply_object_set_data__8TObjBaseFPv,
-    (void *)&reset_motion_fields__10TObjMotionFv, (void *)&get_center__8TObjBaseFv, (void *)&update_object_view_visibility__8TObjBaseFff, (void *)&classify_actor_view_detail__8TObjBaseFfff,
-    (void *)&get_name__8TObjBaseFv, (void *)&interact__14TObjCollidableFl, (void *)&enter_scene__13TUnk_804C3248Fv, (void *)&update_if_active__13TUnk_804C3248Fv,
-    (void *)0x0,
-};
-u8 *TPhotonPilla__ct(u8 *photon_rainbow, u8 *arg1) {
-    u8 *temp_r3;
-    s32 area;
-    void *mem;
-    __ct__13TUnk_804C3248Fv(photon_rainbow);
-    *(u8 **)((s8 *)photon_rainbow + 0x18) = (u8 *)lbl_804C3ACC;
-    ((TPhotonPilla *)photon_rainbow)->m_name = TPhotonPilla__class_name;
-    *(s32 *)((s8 *)photon_rainbow + 0x138) = 3;
-    VecCopy((Vec *)(photon_rainbow + 0x38), (const Vec *)arg1);
-    ((TPhotonPilla *)photon_rainbow)->m_17c = *(u16 *)((s8 *)arg1 + 0xC);
-    init_collision_body_parts(photon_rainbow, (void *)lbl_804C3A58, 1);
-    ((TObjCollidable *)photon_rainbow)->refresh_collision_body_centers();
-    ((TObjPlayer *)photon_rainbow)->register_object_by_id();
-    ((TPhotonPilla *)photon_rainbow)->m_190 = (u8 *)find_entity_by_id(((TPhotonPilla *)photon_rainbow)->m_17c);
-    temp_r3 = ((TPhotonPilla *)photon_rainbow)->m_190;
-    if (temp_r3 != NULL) {
-        ((TPhotonPilla *)photon_rainbow)->rotation_y = *(s32 *)((s8 *)temp_r3 + 0x60);
-    }
-    *(s32 *)((s8 *)photon_rainbow + 0x34) = *(s32 *)((s8 *)(*(u8 **)((s8 *)photon_blast_shared_resource + 0x42C)) + 0x38);
-    ((TPhotonPilla *)photon_rainbow)->texlist = *(s32 *)((s8 *)(*(u8 **)((s8 *)photon_blast_shared_resource + 0x42C)) + 0x3C);
-    ((TObjMotion *)photon_rainbow)->set_field_d8((saddr)photon_pilla_action_table);
-    ((TObjMotion *)photon_rainbow)->set_field_dc(*(s32 *)((s8 *)photon_blast_shared_resource + 0x430));
-    ((TPhotonPilla *)photon_rainbow)->requested_action = 1;
-    ((TObjMotion *)photon_rainbow)->set_animation(((TPhotonPilla *)photon_rainbow)->requested_action);
-    ((TObjMotion *)photon_rainbow)->set_field_b8(((TPhotonPilla *)photon_rainbow)->requested_action);
-    ((TPhotonPilla *)photon_rainbow)->m_198 = 1;
-    ((TPhotonPilla *)photon_rainbow)->m_19c = *(s32 *)((s8 *)arg1 + 0x10);
-    *(s32 *)((s8 *)photon_rainbow + 0x1A0) = *(s32 *)((s8 *)arg1 + 0x14);
-    ((TPhotonPilla *)photon_rainbow)->m_1a4 = 0;
-    ((TPhotonPilla *)photon_rainbow)->m_134 = 4;
-    ((TPhotonPilla *)photon_rainbow)->enter_scene();
-    *(s32 *)((s8 *)photon_rainbow + 0x1A8) = 0;
-    area = get_current_floor_area();
-    switch (area) {
-    case AREA_DRAGON:
-    case AREA_DE_ROL_LE:
-    case AREA_VOL_OPT:
-    case AREA_DARK_FALZ:
-        mem = TObject::operator new(0xAC);
-        if (mem != NULL) {
-            TPhotonRainbow__ct(mem, photon_rainbow, photon_rainbow + 0x38, 1);
-        }
-        break;
-    default:
-        mem = TObject::operator new(0xAC);
-        if (mem != NULL) {
-            TPhotonRainbow__ct(mem, photon_rainbow, photon_rainbow + 0x38, 0);
-        }
-        break;
-    }
-    *(s32 *)((s8 *)photon_rainbow + 0x194) = 0;
-    sub_801ADC7C__12TPhotonPillaFv(photon_rainbow, *(u8 *)((s8 *)arg1 + 0x1C));
-    if (*(s32 *)((s8 *)photon_rainbow + 0x1A0) == 1) {
-        *(s32 *)((s8 *)photon_rainbow + 0x154) |= 1;
-    }
-    ((TPhotonPilla *)photon_rainbow)->m_150 = *(f32 *)((s8 *)arg1 + 0x20);
-    if (((TPhotonPilla *)photon_rainbow)->m_19c == 0) {
-        ((TObjMotion *)photon_rainbow)->set_field_b8(0);
-        ((TUnk_804C3248 *)photon_rainbow)->begin_photon_summon_camera(4);
-        ((TPhotonPilla *)photon_rainbow)->m_19c = 1;
-        ((TPhotonPilla *)photon_rainbow)->m_198 = 0;
-        ((TPhotonPilla *)photon_rainbow)->m_1a4 = 1;
-        {
-        Vec pos = *(Vec *)((s8 *)photon_rainbow + 0x38);
-        pos.y += 4e+01f;
-        mem = TObject::operator new(0xD0);
-        if (mem != NULL) {
-            TPhotonMagicSquare__ct((u8 *)mem, (saddr)photon_rainbow, 3, (saddr)&pos, 0xAA, 0.5f);
-        }
-        }
-        ((TUnk_804C3248 *)photon_rainbow)->spawn_photon_blast_attachment_effects(3);
-        play_cue_stream_file((saddr)"paila2.adx");
-    } else {
-        spawn_photon_blast_opening_effects(3, ((TPhotonPilla *)photon_rainbow)->m_17c);
-        play_cue_stream_file((saddr)"paila.adx");
-    }
-    return photon_rainbow;
-}
-
-}
-
-void TObjPlayer::free_buffer_pair() {
-    if (pilla_photon_buffer_pair != NULL) {
-        destroy_buffer_pair(pilla_photon_buffer_pair, 1);
-    }
-    pilla_photon_buffer_pair = NULL;
-}
-void create_pilla_photon_blast_model(void) {
-    saddr temp_r3;
-    saddr var_r0;
-    temp_r3 = (saddr)::operator new(0x14);
-    var_r0 = temp_r3;
-    if (var_r0 != 0) {
-        var_r0 = (long) (((TLobby *)temp_r3)->alloc_tables(*(s32 *)((s8 *)(*(void **)((s8 *)(*(u8 **)((s8 *)photon_blast_shared_resource + 0x42C)) + 8)) + 0x2C), 0));
-    }
-    pilla_photon_buffer_pair = (void *)var_r0;
+void TPhotonPilla::reset_color(u8 summon_count) {
+    color.a = 0.0f;
+    color.r = 0.0f;
+    color.g = 0.0f;
+    color.b = 0.0f;
 }

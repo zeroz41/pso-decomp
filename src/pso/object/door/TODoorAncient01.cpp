@@ -70,7 +70,7 @@ void TODoorAncient01::load_resources() {
     door_ancient01_archive = archive;
     GinjaTextureList **texlists = (GinjaTextureList **)mem_alloc(2 * sizeof(GinjaTextureList *));
     door_ancient01_texlists = texlists;
-    texlists[0] = (GinjaTextureList *)door_ancient01_archive->models[0].m_c;
+    texlists[0] = (GinjaTextureList *)door_ancient01_archive->models[0].texlist;
     door_ancient01_texlists[1] = (GinjaTextureList *)load_gvm_texture_file((saddr)"fe_obj_o_door01g.gvm");
 }
 

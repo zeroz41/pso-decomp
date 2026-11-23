@@ -4,6 +4,14 @@
 #include "pso/ui/window/TWindowBase.h"
 
 #include "pso/system/NinjaTypes.h"
+#include "pso/unk/WindowLayoutRecord.h"
+
+// The follower window draws a single HUD sprite.
+struct ComCardFollowerLayout {
+    u32 cols;
+    u32 rows;
+    SpritePartLayoutRecord panel;
+};
 
 class TWindowComCardFollower : public TWindowBase {
 public:

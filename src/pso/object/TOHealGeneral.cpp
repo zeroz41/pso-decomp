@@ -6,7 +6,6 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/task/TObject.h"
 #include "pso/effect/particle/TParticleCtrl.h"
-#include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/map/FloorArea.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/ui/hud/TRaderMapCore.h"
@@ -23,7 +22,6 @@
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/system/vector.h"
-#include "pso/unk/text_80087278.h"
 #include "pso/unk/text_803D8F74.h"
 
 // TObjPlayer_80011014.h declares get_entity_id returning u16, but this
@@ -261,7 +259,7 @@ TOHealGeneral::TOHealGeneral(void *set_data) : TObjMapObject(tl_05) {
     m_name = class_name;
     apply_object_set_data(set_data);
     model = (void *)model_resource->models->model;
-    texlist = (saddr)model_resource->models->m_c;
+    texlist = (saddr)model_resource->models->texlist;
     model_radius = 40.0f;
     init_collision_body_parts(this, &heal_general_collision_body_part, 1);
     refresh_collision_body_centers();

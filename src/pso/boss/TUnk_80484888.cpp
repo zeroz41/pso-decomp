@@ -5,7 +5,7 @@
 #include "pso/math/AngleLookup.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/vector.h"
-#include "pso/unk/text_80086D50.h"
+#include "pso/effect/particle/TParticleCtrl.h"
 #include <stdlib.h>
 
 void TUnk_80484888::run_task() {

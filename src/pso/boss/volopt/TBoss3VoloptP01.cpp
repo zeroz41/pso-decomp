@@ -10,7 +10,6 @@
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/boss/volopt/TBoss3VoloptHiraisin.h"
 #include "pso/boss/darkfalz/TBoss4Type2.h"
-#include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/enemy/TObjEnemyCustom.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/math/MatrixTransforms.h"
@@ -63,7 +62,7 @@ static void *volopt_p01_shared_handler_b;
 static void *volopt_p01_object_handle;
 static TBoss3VoloptP01Params *volopt_p01_shared_handler_handle;
 static BmlResource *TBoss3VoloptP01__resource_bundle;
-static TUnk_8048FA00 *TBoss3VoloptP01__breakup_model;
+static TBreakUpMdlData *TBoss3VoloptP01__breakup_model;
 static TBoss3VoloptChunkList *volopt_p01_chunk_list;
 static u8 *volopt_p01_breakup_color_ptr;
 
@@ -90,7 +89,7 @@ void TObjVoloptShutter::close() {
 
 void TBoss3VoloptP01::load_model(s32 index) {
     model = (void *)TBoss3VoloptP01__resource_bundle->models[index].model;
-    texlist = (saddr)TBoss3VoloptP01__resource_bundle->models[index].m_c;
+    texlist = (saddr)TBoss3VoloptP01__resource_bundle->models[index].texlist;
 }
 
 s32 TBoss3VoloptP01::get_shared_value(s32 index) {
@@ -146,14 +145,14 @@ TBoss3VoloptP01::TBoss3VoloptP01(TBoss3Volopt *parent, s32 index, u16 id, s32 gr
 void TBoss3VoloptP01::init_params() {
     motion_list = TBoss3VoloptP01__resource_bundle->motions;
     action_table = volopt_p01_action_table;
-    set_field_d8((saddr)action_table);
+    set_action_table((saddr)action_table);
     init_collision_body_parts(this, &volopt_p01_collision_parts, 1);
     variant = 0;
     movementParameters = &volopt_p01_movement;
     recalc_combat_stats(volopt_p01_boss_stat_handle_a, volopt_p01_shared_handler_b, volopt_p01_object_handle, 1.0f, 1.0f);
     this->requested_action = 0;
     set_animation(this->requested_action);
-    set_field_b8(this->requested_action);
+    set_requested_action(this->requested_action);
     hp = hpmax;
     tp = tpmax;
     referenceHp = hp;
@@ -180,7 +179,7 @@ void *TBoss3VoloptP01::create(void *set_data) {
 
 void TBoss3VoloptP01::init_breakup_effect() {
     TBoss3VoloptP01__resource_bundle = boss3_volopt_resources;
-    TBoss3VoloptP01__breakup_model = new TUnk_8048FA00((saddr)TBoss3VoloptP01__resource_bundle->models[17].model);
+    TBoss3VoloptP01__breakup_model = new TBreakUpMdlData((saddr)TBoss3VoloptP01__resource_bundle->models[17].model);
     volopt_p01_chunk_list = (TBoss3VoloptChunkList *)find_model_node((saddr)TBoss3VoloptP01__resource_bundle->models[17].model, 0xD);
     volopt_p01_boss_stat_handle_a = TLobby::register_boss(0x22);
     volopt_p01_shared_handler_b = TLobby::dispatch_shared_handler_b(0x22);

@@ -326,9 +326,9 @@ struct G_EquipItem_6x25 {
 
 struct G_ExecutePhotonBlast_Header_6x49 {
  struct G_ClientIDHeader header;
- s8 unknown_a1;
+ s8 photon_blast; // -1, or which of the six
  u8 unused1;
- u16 target_count;
+ s16 target_count;
  u16 pb_meter_value;
  u16 unused2;
 };

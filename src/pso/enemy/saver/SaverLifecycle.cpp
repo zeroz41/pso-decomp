@@ -41,7 +41,7 @@
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
 
 #include "pso/unk/TLobby.h"
-#include "pso/effect/TUnk_80494968.h"
+#include "pso/effect/TAttackTrace.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/boss/volopt/TBoss3VoloptHiraisin.h"
 #include "pso/object/TObjControl.h"
@@ -99,8 +99,8 @@ struct A_800A4294 { u8 pad[0x8]; B_800A4294 *b; };
 struct G_800A4294 { A_800A4294 *p; s32 n; u8 pad[0x8]; };
 
 extern A_800A4294 lbl_804CC8C8;
-extern G_800A4294 player_effect_task_list;
-extern int TObjPlayer__effect_count;
+extern G_800A4294 fake_tec_texlist;
+extern int fake_tec_texture;
 
 extern "C" {
 __declspec(section ".data") void *bm_ene_df1_saver_model_names[2] = {
@@ -141,12 +141,12 @@ CollisionBody saver_collision_body_part_table[1] = {
 };
 }
 
-void TObjPlayer::reset_effect_count() { TObjPlayer__effect_count = 0; }
+void TObjPlayer::reset_effect_count() { fake_tec_texture = 0; }
 
 void TObjPlayer__sub_800A4294(void) {
-    player_effect_task_list.p = &lbl_804CC8C8;
-    player_effect_task_list.n = 0x10;
-    (*(s32 *)&TObjPlayer__effect_count) = player_effect_task_list.p->b->c->x0;
+    fake_tec_texlist.p = &lbl_804CC8C8;
+    fake_tec_texlist.n = 0x10;
+    (*(s32 *)&fake_tec_texture) = fake_tec_texlist.p->b->c->x0;
 }
 
 void TObjEneSaver::run_demo_task() {}
@@ -629,7 +629,7 @@ void TObjEneSaver::state_nail() {
 
 void TObjEneSaver::select_model_record(s32 i) {
     model = saver_bml_resource->models[i].model;
-    texlist = (saddr)saver_bml_resource->models[i].m_c;
+    texlist = (saddr)saver_bml_resource->models[i].texlist;
 }
 
 void *TObjEneSaver::get_center() { return &body_center; }
@@ -659,11 +659,11 @@ TObjEneSaver::TObjEneSaver(TObject *parent, void *set_data) : TObjEnemy(parent) 
     subtype = 0;
     select_model_record(variant);
     action_table = saver_action_table;
-    set_field_d8((saddr)action_table);
+    set_action_table((saddr)action_table);
     motion_list = saver_bml_resource->motions;
     requested_action = 0;
     set_animation(requested_action);
-    set_field_b8(requested_action);
+    set_requested_action(requested_action);
     init_collision_body_parts(this, saver_collision_body_part_table, 1);
     attack_index = 0;
     step_counter = 0;
@@ -682,9 +682,9 @@ TObjEneSaver::TObjEneSaver(TObject *parent, void *set_data) : TObjEnemy(parent) 
     particle_type = 0x101;
     particle_type_b = 0x101;
     particle_ctrl = new TEneParticleCtrl(this, particle_type);
-    attack_traces[0] = TUnk_80494968::create(0xA0303030, 0xFFFF0088);
-    attack_traces[1] = TUnk_80494968::create(0xA0303030, 0xFFFF0088);
-    attack_traces[2] = TUnk_80494968::create(0xA0303030, 0xFF303030);
+    attack_traces[0] = TAttackTraceStrip::create(0xA0303030, 0xFFFF0088);
+    attack_traces[1] = TAttackTraceStrip::create(0xA0303030, 0xFFFF0088);
+    attack_traces[2] = TAttackTraceStrip::create(0xA0303030, 0xFF303030);
     clear_lobby_object_state();
 }
 
@@ -730,7 +730,7 @@ void initialize_saver_resources(void) {
     saver_ai_params = (f32 *)TLobby::dispatch_shared_handler_a(0x51);
     NpcAnimationBinding init = saver_init_binding_desc;
     init.motions = saver_bml_resource->motions;
-    NpcModelRegistry::register_animated_chunk((s16)0x1A, saver_bml_resource->models[0].model, saver_bml_resource->models[0].m_c, &init, saver_collision_body_part_table[0].radius, (f32)0.0f);
+    NpcModelRegistry::register_animated_chunk((s16)0x1A, saver_bml_resource->models[0].model, saver_bml_resource->models[0].texlist, &init, saver_collision_body_part_table[0].radius, (f32)0.0f);
 }
 
 void TObjEneSaver::free_resources() {

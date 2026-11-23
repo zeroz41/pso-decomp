@@ -28,6 +28,8 @@ public:
     NJS_OBJECT *model;
     s32 texlist;
     s32 rotation[3];
+
+    static const char *class_name;
 };
 
 // A needle stuck in a point of the world (a wall).
@@ -35,6 +37,8 @@ class TItemEffNeedlePos : public TItemEffNeedleBase {
 public:
     // Jitters pos by up to one unit per axis and turns the needle along dir.
     TItemEffNeedlePos(TObject *parent, TItem *item, const Vec *pos, Vec *dir);
+
+    static const char *class_name;
 };
 
 // A needle stuck in one collision body of an actor; it follows the body and
@@ -48,6 +52,8 @@ public:
     u16 target_id;
     s32 body_index;
     s32 rotation_offset[3];  // rotation, its y relative to the target's
+
+    static const char *class_name;
 };
 
 LAYOUT_ASSERT(TItemEffNeedleBaseSize, sizeof(TItemEffNeedleBase) == 0x50);

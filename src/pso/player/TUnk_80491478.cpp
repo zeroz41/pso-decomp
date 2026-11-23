@@ -30,7 +30,6 @@ static const s32 part_model_nodes[3] = {0x14, 0x2B, 0x17};
 TUnk_80491478::TUnk_80491478(s32 index, TObjEneDubchik *parent, NJS_TEXLIST *texlist, Vec *offset) : TObjCollidable(tl_06) {
     Vec v;
     Vec out;
-    TeneFakeTecThunderEff *effect;
     CsnHit *hit;
     s32 node;
     part_index = index;
@@ -56,11 +55,7 @@ TUnk_80491478::TUnk_80491478(s32 index, TObjEneDubchik *parent, NJS_TEXLIST *tex
     }
     pop_matrix();
     velocity.y = 0.0f;
-    effect = (TeneFakeTecThunderEff *)TObject::operator new(0x348);
-    if (effect != NULL) {
-        effect = (TeneFakeTecThunderEff *)TObjPlayer__sub_800A4204((u8 *)effect, (u8 *)this, (saddr)target, (saddr)&pos, 0x10);
-    }
-    thunder_effect = effect;
+    thunder_effect = new TeneFakeTecThunderEff(this, target, &pos, 0x10);
     if (thunder_effect != NULL) {
         thunder_effect->clear_counter();
     }

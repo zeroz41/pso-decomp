@@ -11,7 +11,6 @@
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/vector.h"
 #include "pso/unk/TLobby.h"
-#include "pso/unk/text_80087278.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 
 extern "C" {

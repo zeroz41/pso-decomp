@@ -108,7 +108,7 @@ void load_gx_light_slot(s32 arg0) {
 
 
 void draw_trail_strip(void *vertices, s32 count, s32 mode) {
-    TObjPlayer__sub_803DF768(mode);
+    setup_world_color_draw(mode);
     draw_untextured_trail_strip(vertices, count);
     reset_player_transform();
 }
@@ -147,9 +147,9 @@ void draw_untextured_trail_strip(void *vertices, int count) {
 #pragma pop
 
 
-void TObjPlayer__sub_803DF768(s32 mode) {
+void setup_world_color_draw(s32 blended) {
     load_camera_view_matrix();
-    if (mode != 0) {
+    if (blended != 0) {
         TObjPlayer__sub_803E21DC();
         return;
     }

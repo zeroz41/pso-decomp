@@ -12,7 +12,6 @@
 #include "pso/system/vector.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801334D4.h"
-#include "pso/unk/text_80087278.h"
 
 #include "pso/object/TUnk_804E4788.h"
 #include "pso/boss/barbaray/TBoss7LaserLight.h"

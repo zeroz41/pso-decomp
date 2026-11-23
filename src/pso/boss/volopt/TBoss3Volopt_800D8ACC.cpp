@@ -9,7 +9,7 @@
 #include "pso/map/FloorArea.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/system/BmlResourceDescriptor.h"
-#include "pso/effect/particle/TParticleCtrl_800867E4.h"
+#include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/object/TDeadSpot.h"
 #include "pso/unk/TUnk_804949D8.h"
 #include "pso/player/TObjPlayer_800D8FDC.h"
@@ -18,6 +18,7 @@
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/effect/TBreakUpMdl.h"
 
 const char *bm_ene_common_all_model_names[2] = { "ene_common_all.nj", NULL };
 const char *bm_ene_common_all_motion_names[1] = { NULL };
@@ -25,16 +26,9 @@ BmlResourceDescriptor corpse_mark_resource_descriptor = { "bm_ene_common_all.bml
 void *player_corpse_mark_resource;
 s32 player_particle_effect_enabled;
 
-extern "C" {
-s32 TBreakUpMdl__ct(void*, void *, saddr, saddr, s32, saddr, s32);
-
 void TBoss3Volopt::create_breakup_mdl(saddr model, saddr params, s32 texlist, saddr position, s32 rotation_y) {
-    void* obj = TObject::operator new(0x54);
-    if (obj != 0) {
-        TBreakUpMdl__ct(obj, tl_05, model, params, texlist, position, rotation_y);
-    }
-}
-
+    new TBreakUpMdl(tl_05, (TBreakUpMdlData *)model, (BreakUpParamRow *)params, (GinjaTextureList *)texlist,
+                    (Vec *)position, rotation_y);
 }
 void play_area_variant_sound(Vec *position) {
     s32 area;

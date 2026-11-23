@@ -3,8 +3,6 @@
 #include "pso/render/RenderSbssGlobals.h"
 
 extern "C" {
-typedef struct { f32 x, y, z, w; } Quat_803D8E0C;
-
 #pragma push
 #pragma scheduling off
 void fn_803D8DE0(MtxP matrix, Vec *src, Vec *dst, u32 count) {
@@ -14,30 +12,11 @@ void fn_803D8DE0(MtxP matrix, Vec *src, Vec *dst, u32 count) {
     PSMTXMultVecArraySR(matrix, src, dst, count);
 }
 #pragma pop
-#pragma push
-#pragma scheduling off
-#pragma pop
-#pragma push
-#pragma scheduling off
-#pragma pop
-
-static inline f32 sqrtf_803D8E0C(f32 x) {
-    if (x > 0.0f) {
-        volatile f32 r;
-        f64 g = __frsqrte(x);
-        g = (0.5) * g * ((3.0) - x * (g * g));
-        g = (0.5) * g * ((3.0) - x * (g * g));
-        g = (0.5) * g * ((3.0) - x * (g * g));
-        r = (f32)(x * g);
-        return r;
-    }
-    return x;
-}
 
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(4)
-void blend_quaternions_nlerp(Quat_803D8E0C *a, Quat_803D8E0C *b, Quat_803D8E0C *out, f32 t) {
+void blend_quaternions_nlerp(const Quaternion *a, const Quaternion *b, Quaternion *out, f32 t) {
     f32 x, y, z, w;
     f32 inv;
     f32 ax, ay, az, aw, bx, by, bz, bw;

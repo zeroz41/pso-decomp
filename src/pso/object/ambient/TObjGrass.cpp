@@ -287,7 +287,6 @@ f32 horizontal_distance_squared(void *, void *);
 s32 angle_difference_abs(s32, s32);
 void __ct__10TObjCGrassFP3Vecll(void *, Vec *, s32, s32);
 f32 newton_sqrtf(f32);
-s32 spawn_directional_particle(void *, void *, s32);
 }
 void move_with_wall_slide(u8 *arg0);
 extern s32 game_difficulty_selection;
@@ -395,7 +394,7 @@ struct Grass_800BF19C : VObj_18_ca64a0 {
 void TObjGrass::init_from_table_entry(s32 i) {
     O_800BFB8C *self = (O_800BFB8C *)this;
     self->f34 = (saddr)TObjGrass__resource_bundle->models[i].model;
-    self->f24 = (saddr)TObjGrass__resource_bundle->models[i].m_c;
+    self->f24 = (saddr)TObjGrass__resource_bundle->models[i].texlist;
 }
 void TObjGrass__sub_800BFB68(O_800BFB68 *self) {
     s32 i;
@@ -420,7 +419,7 @@ TObjGrass::TObjGrass(TObject *parent, void *set_data) : TObjEnemy(parent) {
     subtype = 0;
     init_from_table_entry(variant);
     action_table = TObjGrass__grass_type_param_table;
-    set_field_d8((saddr)action_table);
+    set_action_table((saddr)action_table);
     if ((0.0f) < parameters[1]) {
         m_39c = 2;
     } else {
@@ -428,7 +427,7 @@ TObjGrass::TObjGrass(TObject *parent, void *set_data) : TObjEnemy(parent) {
     }
     requested_action = 0;
     set_animation(requested_action);
-    set_field_b8(requested_action);
+    set_requested_action(requested_action);
     init_collision_body_parts(this, &((E2C_800BF924 *)lbl_80492A00)[variant], 1);
     m_39e = 0;
     bind_enemy_combat_stats((u8 *)lbl_805D5140, (u8 *)TObjGrass__bml_resource[m_39e], (u8 *)grass_combat_stats_handle);
@@ -446,8 +445,8 @@ TObjGrass::TObjGrass(TObject *parent, void *set_data) : TObjEnemy(parent) {
     obj_setFlags30(this, 0x04040000);
     fade.reset_obstruction_fade();
     m_3ac = 1;
-    savers[0] = TUnk_80494968::create(0xA0303030, 0xFFFF0088);
-    savers[1] = TUnk_80494968::create(0xA0303030, 0xFFFF0088);
+    savers[0] = TAttackTraceStrip::create(0xA0303030, 0xFFFF0088);
+    savers[1] = TAttackTraceStrip::create(0xA0303030, 0xFFFF0088);
     m_3a8 = 0;
     clear_lobby_object_state();
 }
@@ -490,7 +489,7 @@ void TObjGrass::load_resources() {
         NpcAnimationBinding binding = grass_spawn_descriptor;
         binding.motions = TObjGrass__resource_bundle->motions;
         NpcModelRegistry::register_animated_chunk(0x35, reinterpret_cast<void *>(TObjGrass__resource_bundle->models[0].model),
-            reinterpret_cast<void *>(TObjGrass__resource_bundle->models[0].m_c), &binding, 10.0f, 0.0f);
+            reinterpret_cast<void *>(TObjGrass__resource_bundle->models[0].texlist), &binding, 10.0f, 0.0f);
     }
 }
 

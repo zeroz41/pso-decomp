@@ -272,7 +272,7 @@ void TTecZonde::run_task() {
 
 #pragma pop
 #define arg0 ((u8 *)this)
-TTecZonde::TTecZonde(s32 source, u8 *arg2, u8 *targets, s32 level) : TUnk_804CCC68(source, (Vec *)arg2, 0, level) {
+TTecZonde::TTecZonde(s32 source, u8 *arg2, u8 *targets, s32 level) : TTecShot(source, (Vec *)arg2, 0, level) {
     u8 *temp_r3;
     __ct__16TargetCursorListFv((arg0 + 0x130));
     *(s32 *)((s8 *)arg0 + 0) = (saddr) lbl_805D3838;

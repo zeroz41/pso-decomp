@@ -3,7 +3,7 @@
 #include "types.h"
 #include "pso/ui/window/TWindowAddition.h"
 
-struct Scroll_8026D790;
+struct WindowScrollBar;
 
 class TWindowMenuIconLine : public TWindowAddition {
 public:
@@ -40,7 +40,7 @@ public:
     u8 unk_7A[0x2];
     s32 m_7c;
     void * status_display;
-    Scroll_8026D790 *scroll_bar; // created by create_menu_scroll_bar, drawn by draw_window_scrollbar
+    WindowScrollBar *scroll_bar; // created by create_menu_scroll_bar, drawn by draw_window_scrollbar
 };
 LAYOUT_ASSERT(TWindowMenuIconLine_size, sizeof(TWindowMenuIconLine) == 0x88);
 

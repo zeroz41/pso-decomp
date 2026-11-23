@@ -4,7 +4,7 @@
 #include "pso/ui/window/TWindowSubComCard_802A5748.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/window/TWindowSubComCardList.h"
-#include "pso/ui/charcreate/TChCrTagPlBack.h"
+#include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/window/TWindowMessageYesNo.h"
 #include "pso/ui/chat/TWindowSubShortMail.h"
@@ -15,7 +15,6 @@
 #include "pso/system/task/TObject.h"
 
 extern "C" {
-saddr forward_trade_action_default__16TObjCityMainWarpFPviii(void *p, saddr a1, saddr a2, int a3);
 
 
 void TWindowSubComCard::close() { queue_destruction(); }
@@ -42,7 +41,6 @@ s32 TWindowMessageYesNo::is_child_visible() {
     return choice_menu->is_decided();
 }
 }
-saddr create_titled_window_menu(saddr arg0, s32 arg1, saddr arg2, s32 arg3);
 void initialize_option_dialog(void *arg0, s32 message, s32 position, f32 width) {
     *(s32 *)((s8 *)arg0 + 0x28) = (saddr)create_window_menu((saddr)(position), 1, *(s32 *)((s8 *)arg0 + 0x24));
     TObjCityMainWarp::forward_trade_action_default((void *)(*(saddr *)((s8 *)arg0 + 0x28)), (int)message, 0x21, 0);
@@ -54,15 +52,15 @@ void initialize_option_dialog(void *arg0, s32 message, s32 position, f32 width) 
 void open_yes_no_prompt(TWindowMessageYesNo *dialog, u32 title, s32 text, s32 position_id, f32 width) {
     NJS_POINT2 position;
     if (title == 0U) {
-        dialog->m_28 = reinterpret_cast<uaddr>(create_window_menu(position_id, 1, dialog->client_id));
+        dialog->message_menu = create_window_menu(position_id, 1, dialog->client_id);
     } else {
-        dialog->m_28 = static_cast<uaddr>(create_titled_window_menu(position_id, 1, title, dialog->client_id));
+        dialog->message_menu = reinterpret_cast<TWindowMenu *>(create_titled_window_menu(position_id, 1, title, dialog->client_id));
     }
-    TObjCityMainWarp::forward_trade_action_default(reinterpret_cast<void *>(dialog->m_28), text, 0x21, 0);
-    reinterpret_cast<TAdChrSelASlotGC *>(dialog->m_28)->set_flag_40();
-    TQuestThread::set_status_flag_80(reinterpret_cast<void *>(dialog->m_28));
-    reinterpret_cast<TWindowSubComCard *>(dialog->m_28)->calc_layout_height(width);
-    reinterpret_cast<TChCrTagPlBack *>(dialog)->get_position_offset(&position);
+    TObjCityMainWarp::forward_trade_action_default(dialog->message_menu, text, 0x21, 0);
+    reinterpret_cast<TAdChrSelASlotGC *>(dialog->message_menu)->set_flag_40();
+    TQuestThread::set_status_flag_80(dialog->message_menu);
+    reinterpret_cast<TWindowSubComCard *>(dialog->message_menu)->calc_layout_height(width);
+    dialog->get_choice_menu_position(&position);
     dialog->choice_menu = create_yes_no_window(&position, dialog->client_id,
                                               reinterpret_cast<const char *>(dialog->m_20),
                                               reinterpret_cast<const char *>(dialog->m_1c));

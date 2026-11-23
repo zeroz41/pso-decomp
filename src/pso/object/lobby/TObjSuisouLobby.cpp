@@ -2,7 +2,6 @@
 #include "pso/object/lobby/TObjSuisouLobby.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/effect/particle/TParticleCtrl.h"
-#include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/unk/TLobbyEventTheme.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/unk/TLobby.h"

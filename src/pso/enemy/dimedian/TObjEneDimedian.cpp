@@ -39,7 +39,7 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/unk/text_803E2D70.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
-#include "pso/effect/TUnk_80494968.h"
+#include "pso/effect/TAttackTrace.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/render/model_render_state.h"
 #include "pso/unk/text_803D853C.h"
@@ -117,7 +117,7 @@ void TObjEneDimedian::update_attack_trail() {
     Vec a;
     Vec *e;
     s32 idx;
-    TUnk_80494968 *eff;
+    TAttackTraceStrip *eff;
     if (!(this->frame < 12.0f)) {
         return;
     }
@@ -462,7 +462,7 @@ void TLobby::load_dimedian_resources() {
         s16 ids[3] = { 0x1B, 0x1C, 0x1D };
         NpcAnimationBinding anim = { dimedian_resource_ptr->motions, dimedian_action_table, 0, 2, 12 };
         for (i = 0; i < 3; i++) {
-            NpcModelRegistry::register_animated_chunk(ids[i], dimedian_resource_ptr->models[i].model, dimedian_resource_ptr->models[i].m_c, &anim,
+            NpcModelRegistry::register_animated_chunk(ids[i], dimedian_resource_ptr->models[i].model, dimedian_resource_ptr->models[i].texlist, &anim,
                 dimedian_collision_body_table[i].radius, 0.0f);
         }
     }
@@ -484,7 +484,7 @@ SampledMotionPoints *dimedian_attack_right_trail;
 #pragma defer_codegen on
 void TObjEneDimedian::load_dimedian_param_entry(s32 i) {
     model = dimedian_resource_ptr->models[i].model;
-    texlist = (saddr)dimedian_resource_ptr->models[i].m_c;
+    texlist = (saddr)dimedian_resource_ptr->models[i].texlist;
 }
 
 TObjEneDimedian::TObjEneDimedian(TObject *parent, void *set_data) : TUnk_80493450(parent) {
@@ -497,11 +497,11 @@ TObjEneDimedian::TObjEneDimedian(TObject *parent, void *set_data) : TUnk_8049345
     sub_800A7B54();
     load_dimedian_param_entry(variant);
     action_table = dimedian_action_table;
-    set_field_d8((saddr)action_table);
+    set_action_table((saddr)action_table);
     motion_list = dimedian_resource_ptr->motions;
     requested_action = 0;
     set_animation(requested_action);
-    set_field_b8(requested_action);
+    set_requested_action(requested_action);
     init_collision_body_parts(this, &dimedian_collision_body_table[subtype], 1);
     bind_enemy_combat_stats(dimedian_boss_object_buf[subtype], dimedian_attack_stat_table[subtype], TObjEneDimedian__boss_objects[subtype]);
     movementParameters = &dimedian_movement_params[subtype];
@@ -546,8 +546,8 @@ TObjEneDimedian::TObjEneDimedian(TObject *parent, void *set_data) : TUnk_8049345
             break;
         }
     }
-    attack_trails[0] = TUnk_80494968::create(0xA0303030, color);
-    attack_trails[1] = TUnk_80494968::create(0xA0303030, color);
+    attack_trails[0] = TAttackTraceStrip::create(0xA0303030, color);
+    attack_trails[1] = TAttackTraceStrip::create(0xA0303030, color);
     appearing = 1;
     far_move_speed = dimedian_buffer_ptr[subtype][0];
     far_anim_speed = dimedian_buffer_ptr[subtype][1];

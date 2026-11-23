@@ -11,7 +11,6 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/system/vector.h"
-#include "pso/unk/text_80087278.h"
 #include "pso/ui/window/WindowLayout.h"
 
 

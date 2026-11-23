@@ -19,7 +19,6 @@
 #include "pso/system/task/TObject.h"
 #include "pso/ui/frontend/TAdMultiChgGameModeGC.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC.h"
-#include "pso/ui/frontend/TAdLoadQuestPrtTxtGC.h"
 #include "pso/item/TItemReverseTechCtrl.h"
 #include "pso/enemy/dolmolm/TObjEneDolmOlm.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
@@ -30,7 +29,7 @@
 #include "pso/system/NinjaTypes.h"
 #include "pso/unk/TLobby_80335E08.h"
 #include "pso/unk/text_803369C8.h"
-#include "pso/ui/frontend/TAdLoadQuestPrtTxtGC.h"
+#include "pso/effect/particle/TParticleCtrl.h"
 
 
 extern "C" {
@@ -400,9 +399,9 @@ TTitleScene *TTitleScene::construct_title_scene() {
     }
     {
         NJS_POINT3 v = {0.0f, 0.0f, -47.0f};
-        transition_children[0] = static_cast<TObject *>(TAdLoadQuestPrtTxtGC::create_particle(&v, 0x1E3, 1));
-        transition_children[1] = static_cast<TObject *>(TAdLoadQuestPrtTxtGC::create_particle(&v, 0x1E4, 1));
-        transition_children[2] = static_cast<TObject *>(TAdLoadQuestPrtTxtGC::create_particle(&v, 0x1E5, 1));
+        transition_children[0] = create_particle_controller(&v, 0x1E3, 1);
+        transition_children[1] = create_particle_controller(&v, 0x1E4, 1);
+        transition_children[2] = create_particle_controller(&v, 0x1E5, 1);
     }
     p = TObject::operator new(0x28);
     if (p != 0) {

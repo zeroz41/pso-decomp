@@ -64,7 +64,7 @@ extern "C" {
 
 void TWindowSubSymbolChatFaceType__sub_80283C84(Ctx_80283C84 *, f32 *, f32, f32);
 extern s32 actor_frame_tick;
-extern s32 lbl_805D63F0;
+extern s32 hud_texlist;
 
 typedef struct Stack_80283F38 Stack_80283F38;
 
@@ -124,7 +124,7 @@ void TWindowSubSymbolChatFaceType__sub_80283C84(Ctx_80283C84 *ctx, f32 *pos, f32
     x = ctx->x + pos[0];
     y = ctx->y + pos[1];
     begin_screen_draw(1);
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(lbl_805D63F0));
+    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(hud_texlist));
     set_draw_texture_and_color(2, alpha | 0xFF0000 | 0xFFFF);
     left = x + amp;
     top = y + amp;
@@ -240,10 +240,10 @@ struct SymbolChatFaceTypeWindowLayout {
 SymbolChatFaceTypeWindowLayout symbol_chat_face_type_layout_entries = {
     4, 1,
     {
-        {6, {16.0f, 16.0f}, {60.0f, 60.0f}, 2.0f, 194.0f, 0.5f, -1, &lbl_805D63F0, 0xA, 4},
-        {6, {96.0f, 16.0f}, {60.0f, 60.0f}, 2.0f, 130.0f, 0.5f, -1, &lbl_805D63F0, 0xA, 4},
-        {6, {16.0f, 96.0f}, {60.0f, 60.0f}, 66.0f, 130.0f, 0.5f, -1, &lbl_805D63F0, 0xA, 4},
-        {6, {96.0f, 96.0f}, {60.0f, 60.0f}, 66.0f, 194.0f, 0.5f, -1, &lbl_805D63F0, 0xA, 4},
+        {6, {16.0f, 16.0f}, {60.0f, 60.0f}, 2.0f, 194.0f, 0.5f, -1, &hud_texlist, 0xA, 4},
+        {6, {96.0f, 16.0f}, {60.0f, 60.0f}, 2.0f, 130.0f, 0.5f, -1, &hud_texlist, 0xA, 4},
+        {6, {16.0f, 96.0f}, {60.0f, 60.0f}, 66.0f, 130.0f, 0.5f, -1, &hud_texlist, 0xA, 4},
+        {6, {96.0f, 96.0f}, {60.0f, 60.0f}, 66.0f, 194.0f, 0.5f, -1, &hud_texlist, 0xA, 4},
     },
 };
 WindowDescriptor symbol_chat_face_type_window_layout = {

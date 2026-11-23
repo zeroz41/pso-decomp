@@ -70,7 +70,6 @@
 #include "pso/npc/TNpcPlayer.h"
 #include "pso/npc/TNpcPlayer_800D87A8.h"
 #include "pso/technique/TTecDeband.h"
-#include "pso/effect/particle/TParticleCtrl_800867E4.h"
 #include "pso/unk/text_803D853C.h"
 #include "pso/render/model_render_state.h"
 #include "pso/system/MatrixStack.h"
@@ -94,7 +93,7 @@ u32 *TObjEneMe3SinowZoa__material_color_pointers[4];
 
 BmlResource * TObjEneMe3SinowZoa__bml_resource;
 s32 TObjEneMe3SinowZoa__render_node_index;
-TUnk_8048FA00 * TObjEneMe3SinowZoa__breakup_model;
+TBreakUpMdlData * TObjEneMe3SinowZoa__breakup_model;
 
 
 extern "C" {
@@ -164,7 +163,7 @@ void TObjEneMe3SinowZoa::load_resources() {
     u32 model;
     ModelNode *node;
     AnimationMotion *motion;
-    TUnk_8048FA00 *breakup;
+    TBreakUpMdlData *breakup;
     TObjEneMe3SinowZoaParams *params;
 
     lbl_80542FB0.x = 0.0f;
@@ -175,7 +174,7 @@ void TObjEneMe3SinowZoa::load_resources() {
     } else {
         TObjEneMe3SinowZoa__bml_resource = load_enemy_bml_resource(&bm_ene_me3_shinowa_zoa_resource_descriptor);
     }
-    src = (NJS_TEXLIST *)TObjEneMe3SinowZoa__bml_resource->models->m_c;
+    src = (NJS_TEXLIST *)TObjEneMe3SinowZoa__bml_resource->models->texlist;
     count = src->nbTexture;
     TObjEneMe3SinowZoa__alternate_texture_list.nbTexture = count;
     TObjEneMe3SinowZoa__alternate_texture_list.textures = (NJS_TEXNAME *)mem_alloc(count * sizeof(NJS_TEXNAME));
@@ -224,16 +223,16 @@ void TObjEneMe3SinowZoa::load_resources() {
         TObjEneMe3SinowZoa__material_color_pointers[2] = NULL;
     }
     motion = TObjEneMe3SinowZoa__bml_resource->motions[TObjEneMe3SinowZoa__animation_descriptors[5].motion].motion;
-    breakup = new TUnk_8048FA00(TObjEneMe3SinowZoa__bml_resource->models->model, (NJS_MOTION *)motion, motion->frameCount - 1);
+    breakup = new TBreakUpMdlData(TObjEneMe3SinowZoa__bml_resource->models->model, (NJS_MOTION *)motion, motion->frameCount - 1);
     TObjEneMe3SinowZoa__breakup_model = breakup;
     {
         NpcAnimationBinding info = sinow_zoa_attack_binding_desc_a;
         info.motions = reinterpret_cast<BmlMotionEntry *>(TObjEneMe3SinowZoa__bml_resource->motions);
         NpcAnimationBinding info_b = sinow_zoa_attack_binding_desc_b;
         info_b.motions = reinterpret_cast<BmlMotionEntry *>(TObjEneMe3SinowZoa__bml_resource->motions);
-        NpcModelRegistry::register_animated_chunk(0x49, reinterpret_cast<void *>(TObjEneMe3SinowZoa__bml_resource->models->model), reinterpret_cast<void *>(TObjEneMe3SinowZoa__bml_resource->models->m_c), &info, 12.0f, 0.0f);
+        NpcModelRegistry::register_animated_chunk(0x49, reinterpret_cast<void *>(TObjEneMe3SinowZoa__bml_resource->models->model), reinterpret_cast<void *>(TObjEneMe3SinowZoa__bml_resource->models->texlist), &info, 12.0f, 0.0f);
         NpcModelRegistry::register_animated_chunk(0x4A, reinterpret_cast<void *>(TObjEneMe3SinowZoa__bml_resource->models->model), reinterpret_cast<void *>(&TObjEneMe3SinowZoa__alternate_texture_list), &info, 12.0f, 0.0f);
-        NpcModelRegistry::register_animated_chunk(0x4B, reinterpret_cast<void *>(TObjEneMe3SinowZoa__bml_resource->models->model), reinterpret_cast<void *>(TObjEneMe3SinowZoa__bml_resource->models->m_c), &info_b, 12.0f, 0.0f);
+        NpcModelRegistry::register_animated_chunk(0x4B, reinterpret_cast<void *>(TObjEneMe3SinowZoa__bml_resource->models->model), reinterpret_cast<void *>(TObjEneMe3SinowZoa__bml_resource->models->texlist), &info_b, 12.0f, 0.0f);
         NpcModelRegistry::register_animated_chunk(0x4C, reinterpret_cast<void *>(TObjEneMe3SinowZoa__bml_resource->models->model), reinterpret_cast<void *>(&TObjEneMe3SinowZoa__alternate_texture_list), &info_b, 12.0f, 0.0f);
     }
 }
@@ -280,8 +279,8 @@ void TObjEneMe3SinowZoaReal::init_enemy() {
     model = (void *)TObjEneMe3SinowZoa__bml_resource->models->model;
     init_model(&sinow_zoa_collision_parts, 1);
     motion_flags = 0;
-    this->set_field_d8((saddr)TObjEneMe3SinowZoa__animation_descriptors);
-    this->set_field_dc((saddr)TObjEneMe3SinowZoa__bml_resource->motions);
+    this->set_action_table((saddr)TObjEneMe3SinowZoa__animation_descriptors);
+    this->set_motion_list((saddr)TObjEneMe3SinowZoa__bml_resource->motions);
     set_animation((this->requested_action));
     kind = this->kind_index;
     reset_hp(TObjEneMe3SinowZoa__base_params_by_variant[kind], TObjEneMe3SinowZoa__attack_params_by_variant[kind], TObjEneMe3SinowZoa__resistance_params_by_variant[kind]);
@@ -511,7 +510,7 @@ void TObjEneMe3SinowZoa::attack_and_unequip() {
                     if (is_alternate_variant() != 0) {
                         pl = current_target;
                         TItem *held;
-                        if (TObjPlayer::is_locally_controlled(pl) != 0 && (held = (TItem *)TObjPlayer::get_item_field_6(pl)) != 0) {
+                        if (TObjPlayer::is_locally_controlled(pl) != 0 && (held = (TItem *)TObjPlayer::get_equipped_weapon(pl)) != 0) {
                             TObjPlayer::send_6x26_unequip_item(pl, held->get_item_id());
                             ((TObjPlayer *)pl)->get_hand_joint_position((saddr)&hand_position);
                             spawn_particle_effect(&hand_position, 0x1D0);
@@ -605,7 +604,7 @@ void TObjEneMe3SinowZoa::init_variant() {
         this->kind_index = 1;
         return;
     }
-    texlist = (saddr)TObjEneMe3SinowZoa__bml_resource->models->m_c;
+    texlist = (saddr)TObjEneMe3SinowZoa__bml_resource->models->texlist;
     initialize_enemy_state(0x45);
     this->kind_index = 0;
 }
@@ -2186,7 +2185,7 @@ s32 TObjEneMe3SinowZoa::check_floor_contact(const Vec *origin) {
             VecCopy(&this->floor_point, &this->position);
         }
         if (hit->hit_mask & 4) {
-            TObjEneGibbles__sub_800D8988(&this->position);
+            play_ground_contact_sound(&this->position);
             p = spawn_particle_effect(&hit->contact[2].point, 0x49);
             if (p != 0) {
                 attach_particle_model((u8 *)p, TParticleCtrl::get_particle_model(2), TParticleCtrl::get_instance(), 0, 1, 1.0f);
@@ -2195,7 +2194,7 @@ s32 TObjEneMe3SinowZoa::check_floor_contact(const Vec *origin) {
             return 1;
         }
         if (hit->hit_mask & 2) {
-            TObjEneGibbles__sub_800D8988(&this->position);
+            play_ground_contact_sound(&this->position);
             p = spawn_particle_effect(&hit->contact[3].point, 0x49);
             if (p != 0) {
                 attach_particle_model((u8 *)p, TParticleCtrl::get_particle_model(2), TParticleCtrl::get_instance(), 0, 1, 1.0f);

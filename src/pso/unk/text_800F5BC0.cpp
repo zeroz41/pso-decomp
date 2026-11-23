@@ -1,16 +1,9 @@
 #include "types.h"
-#include "pso/unk/text_800F5BC0.h"
+#include "pso/render/StripBufferPair.h"
 #include "pso/system/memory.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 
-struct StripRef_800F5BC0 { s16 *strip; s16 *uv; };
-
-struct Provider_800F5BC0 { s32 unk0; s32 count; StripRef_800F5BC0 *refs; };
-
-extern "C" {
-void scroll_strip_uvs(Provider_800F5BC0 *arg0, s16 arg1, s16 arg2);
-
-void scroll_strip_uvs(Provider_800F5BC0 *arg0, s16 scroll_u, s16 scroll_v) {
+void StripBufferPair::scroll_uvs(s16 scroll_u, s16 scroll_v) {
     s32 i;
     s16 *strip;
     s16 *uv;
@@ -20,9 +13,9 @@ void scroll_strip_uvs(Provider_800F5BC0 *arg0, s16 scroll_u, s16 scroll_v) {
     s32 k;
     scroll_u %= 256;
     scroll_v %= 256;
-    for (i = 0; i < arg0->count; i++) {
-        strip = arg0->refs[i].strip;
-        uv = arg0->refs[i].uv;
+    for (i = 0; i < strip_count; i++) {
+        strip = strips[i].strip;
+        uv = strips[i].uv;
         n = *strip++ & 0x3FFF;
         for (j = 0; j < n; j++) {
             len = *strip++;
@@ -38,17 +31,10 @@ void scroll_strip_uvs(Provider_800F5BC0 *arg0, s16 scroll_u, s16 scroll_v) {
         }
     }
 }
-}
 
-void *destroy_buffer_pair(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        mem_free((void *)(*(saddr *)((s8 *)arg0 + 0xC)));
-        *(s32 *)((s8 *)arg0 + 0xC) = 0;
-        mem_free((void *)(*(saddr *)((s8 *)arg0 + 8)));
-        *(s32 *)((s8 *)arg0 + 8) = 0;
-        if (arg1 > 0) {
-            ::operator delete(arg0);
-        }
-    }
-    return arg0;
+StripBufferPair::~StripBufferPair() {
+    mem_free(uvs);
+    uvs = NULL;
+    mem_free(strips);
+    strips = NULL;
 }

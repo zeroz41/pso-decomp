@@ -7,7 +7,6 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/item/TItemEquipBase.h"
 #include "pso/math/MatrixTransforms.h"
-#include "pso/effect/particle/TParticleCtrl_800867E4.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/player/TObjPlayer_8023E480.h"
@@ -18,9 +17,9 @@
 #include "pso/system/vector.h"
 #include <stdlib.h>
 
-const char *TItemEffNeedleBase__class_name = "TItemEffNeedleBase";
-const char *TItemEffNeedle__class_name = "TItemEffNeedle";
-const char *TItemEffNeedlePos__class_name = "TItemEffNeedlePos";
+const char *TItemEffNeedleBase::class_name = "TItemEffNeedleBase";
+const char *TItemEffNeedle::class_name = "TItemEffNeedle";
+const char *TItemEffNeedlePos::class_name = "TItemEffNeedlePos";
 
 int TItemEffNeedleBase::update_attachment() {
     return 1;
@@ -31,7 +30,7 @@ TItemEffNeedleBase::~TItemEffNeedleBase() {}
 TItemEffNeedle::~TItemEffNeedle() {}
 
 TItemEffNeedleBase::TItemEffNeedleBase(TObject *parent, TItem *item) : TObject(parent) {
-    m_name = TItemEffNeedleBase__class_name;
+    m_name = class_name;
     item_id = item->get_item_id();
     rotation[1] = item->rotation_y;
     rotation[2] = 0;
@@ -106,7 +105,7 @@ void create_needle_effect(s32 item_id, ActorBodyHit *hit) {
 
 TItemEffNeedle::TItemEffNeedle(TObject *parent, TItem *item, u16 target_id, s32 body_index)
     : TItemEffNeedleBase(parent, item) {
-    m_name = TItemEffNeedle__class_name;
+    m_name = class_name;
     this->target_id = target_id;
     this->body_index = body_index;
     TObjCollidable *target = find_entity_by_id(this->target_id);
@@ -155,7 +154,7 @@ void create_needle_pos_effect(s32 item_id, const Vec *pos, Vec *dir) {
 #pragma fp_contract on
 TItemEffNeedlePos::TItemEffNeedlePos(TObject *parent, TItem *item, const Vec *pos, Vec *dir)
     : TItemEffNeedleBase(parent, item) {
-    m_name = TItemEffNeedlePos__class_name;
+    m_name = class_name;
     VecCopy(&position, pos);
     position.x += (1.0f / 32768.0f) * rand();
     position.y += (1.0f / 32768.0f) * rand();

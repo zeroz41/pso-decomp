@@ -7,9 +7,9 @@
 extern "C" {
 
 
-s32 TWindowSubComCard::create_card_list(saddr parent, s32 card_slot, s32 arg2, s32 arg3) {
+s32 TWindowSubComCard::create_card_list(saddr parent, s32 card_slot, s32 count, s32 empty_message) {
     fn_80266378(7);
-    return (saddr)new TWindowSubComCardList((void *)parent, card_slot, arg2, arg3);
+    return (saddr)new TWindowSubComCardList((void *)parent, card_slot, count, empty_message);
 }
 
 }

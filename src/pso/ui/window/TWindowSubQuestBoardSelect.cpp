@@ -44,7 +44,7 @@ struct Ent_8027D6A0 { u8 pad0[0x20]; u8 f20[0x30]; };
 
 struct Win_8027D6A0 { u8 pad0[0x61]; s8 f61; };
 
-extern s32 lbl_805D63F0;
+extern s32 hud_texlist;
 
 // inferred: window_sub_quest_board_select_layout_entries, the layout table
 // TWindowSubQuestBoardSelect__window_parameters points at (two text entries, six slot sprites).
@@ -61,12 +61,12 @@ SubQuestBoardSelectWindowLayout window_sub_quest_board_select_layout_entries = {
         {3, {385.0f, 53.0f}, 0.5f, 0xFFFFFFFF, 2, NULL},
     },
     {
-        {6, {39.0f, 97.0f}, {56.0f, 56.0f}, 151.0f, 0.0f, 0.5f, -1, &lbl_805D63F0, 2, 4},
-        {6, {103.0f, 97.0f}, {56.0f, 56.0f}, 151.0f, 0.0f, 0.5f, -1, &lbl_805D63F0, 2, 4},
-        {6, {167.0f, 97.0f}, {56.0f, 56.0f}, 151.0f, 0.0f, 0.5f, -1, &lbl_805D63F0, 2, 4},
-        {6, {231.0f, 97.0f}, {56.0f, 56.0f}, 151.0f, 0.0f, 0.5f, -1, &lbl_805D63F0, 2, 4},
-        {6, {295.0f, 97.0f}, {56.0f, 56.0f}, 151.0f, 0.0f, 0.5f, -1, &lbl_805D63F0, 2, 4},
-        {6, {392.0f, 97.0f}, {56.0f, 56.0f}, 151.0f, 0.0f, 0.5f, -1, &lbl_805D63F0, 2, 4},
+        {6, {39.0f, 97.0f}, {56.0f, 56.0f}, 151.0f, 0.0f, 0.5f, -1, &hud_texlist, 2, 4},
+        {6, {103.0f, 97.0f}, {56.0f, 56.0f}, 151.0f, 0.0f, 0.5f, -1, &hud_texlist, 2, 4},
+        {6, {167.0f, 97.0f}, {56.0f, 56.0f}, 151.0f, 0.0f, 0.5f, -1, &hud_texlist, 2, 4},
+        {6, {231.0f, 97.0f}, {56.0f, 56.0f}, 151.0f, 0.0f, 0.5f, -1, &hud_texlist, 2, 4},
+        {6, {295.0f, 97.0f}, {56.0f, 56.0f}, 151.0f, 0.0f, 0.5f, -1, &hud_texlist, 2, 4},
+        {6, {392.0f, 97.0f}, {56.0f, 56.0f}, 151.0f, 0.0f, 0.5f, -1, &hud_texlist, 2, 4},
     },
 };
 WindowDescriptor TWindowSubQuestBoardSelect__window_parameters = {
@@ -180,7 +180,7 @@ void TWindowSubQuestBoardSelect__sub_8027D444(TWindowSubQuestBoardSelect *self, 
     depth = 0.1794f + ctx->depth;
     d.verts = v;
     d.colors = colors;
-    d.unk_8 = 0;
+    d.tex = NULL;
     d.colors[0] = alpha | 0xFF0000 | 0x7E00;
     d.colors[1] = d.colors[0];
     d.colors[2] = d.colors[0];

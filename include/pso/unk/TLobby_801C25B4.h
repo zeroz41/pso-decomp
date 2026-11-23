@@ -38,7 +38,6 @@ s32 record_local_battle_placement(void *arg0);
 void send_6x7D_set_battle_mode_data(void);
 void send_battle_mode_params__6TLobbyFScll(s8 arg0, s32 arg1, s32 arg2);
 void send_battle_mode_state__6TLobbyFv(void *self);
-void send_neg50__6TLobbyFPv(void *p, void *a1);
 void set_flag_270__6TLobbyFv(void *arg0);
 void show_score_results__6TLobbyFv(void *self);
 void update_duel_result__6TLobbyFPv(u8 *arg0);
@@ -77,7 +76,6 @@ s32 record_local_battle_placement(void *arg0);
 void send_6x7D_set_battle_mode_data(void);
 void send_battle_mode_params__6TLobbyFScll(s8 arg0, s32 arg1, s32 arg2);
 void send_battle_mode_state__6TLobbyFv(void *self);
-void send_neg50__6TLobbyFPv(void *p, void *a1);
 void set_flag_270__6TLobbyFv(void *arg0);
 void show_score_results__6TLobbyFv(void *self);
 void update_duel_result__6TLobbyFPv(u8 *arg0);
@@ -88,5 +86,8 @@ void update_player_battle_ctrl_state(void *player_battle_ctrl);
 // TLobby__duel_result_table: layout known from its uses only.
 struct TLobbyDuelResultTable { s32 value; u8 remaining[0x1C]; };
 extern TLobbyDuelResultTable TLobby__duel_result_table;
+
+// Plays the result jingle and shows the duel result window for duration frames.
+void play_duel_result_stream(const char *file, saddr duration);
 
 #endif

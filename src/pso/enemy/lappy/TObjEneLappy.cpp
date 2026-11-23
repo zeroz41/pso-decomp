@@ -992,7 +992,7 @@ void TObjEneLappy::load_resources() {
             rappy_alternate_texture_list = (uaddr)load_gvm_texture_file((saddr)re3_b_lappy_base_ao_gvm);
         }
     } else {
-        rappy_alternate_texture_list = (uaddr)rappy_bml_resource->models[1].m_c;
+        rappy_alternate_texture_list = (uaddr)rappy_bml_resource->models[1].texlist;
     }
     rappy_visibility_node = (s32 *)find_model_node((uaddr)rappy_bml_resource->models[0].model, 0x12);
     for (i = 0; i < 2; i++) {
@@ -1005,11 +1005,11 @@ void TObjEneLappy::load_resources() {
         BmlResource *res = rappy_bml_resource;
         NpcAnimationBinding d = lappy_resource_binding_desc;
         d.motions = res->motions;
-        NpcModelRegistry::register_animated_chunk(5, rappy_bml_resource->models[0].model, rappy_bml_resource->models[0].m_c, &d, 10.0f, 0.0f);
+        NpcModelRegistry::register_animated_chunk(5, rappy_bml_resource->models[0].model, rappy_bml_resource->models[0].texlist, &d, 10.0f, 0.0f);
         if (TLobby::get_instance() == 0) {
             NpcModelRegistry::register_animated_chunk(6, rappy_bml_resource->models[0].model, (void *)rappy_alternate_texture_list, &d, 10.0f, 0.0f);
         } else {
-            NpcModelRegistry::register_animated_chunk(6, rappy_bml_resource->models[1].model, rappy_bml_resource->models[1].m_c, &d, 10.0f, 0.0f);
+            NpcModelRegistry::register_animated_chunk(6, rappy_bml_resource->models[1].model, rappy_bml_resource->models[1].texlist, &d, 10.0f, 0.0f);
         }
     }
 }
@@ -1047,7 +1047,7 @@ void TObjEneLappy::set_speed_params(s32 variant) {
         model = body;
     }
     if (variant == 0) {
-        textures = rappy_bml_resource->models[0].m_c;
+        textures = rappy_bml_resource->models[0].texlist;
     } else {
         textures = (GinjaTextureList *)rappy_alternate_texture_list;
     }
@@ -1133,10 +1133,10 @@ TObjEneLappy::TObjEneLappy(TObject *parent, void *set_data) : TObjEnemy(parent) 
     add_flags_2e4(1);
     actorFlags |= 0x40000;
     action_table = lappy_motion_actions;
-    set_field_d8((saddr)action_table);
+    set_action_table((saddr)action_table);
     requested_action = 0;
     set_animation(requested_action);
-    set_field_b8(requested_action);
+    set_requested_action(requested_action);
     home_idle_mode = idle_mode;
     if (TObjEneDD::check_v2_mode() != 0 && random_ratio() < 0.033333335f) {
         lappy_flags |= 0x400;

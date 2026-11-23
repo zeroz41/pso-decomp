@@ -239,7 +239,7 @@ extern "C" void sub_802534B0__15TWindowHelpItemFv(void *);
 extern "C" u8 lbl_8044EDB8[];
 extern "C" u8 lbl_8044EDC0[];
 extern "C" u8 localized_alphabet_list[];
-extern "C" u8 lbl_805D63F0[];
+extern "C" u8 hud_texlist[];
 extern "C" u8 lbl_805DCDC8[];
 extern "C" u8 lbl_805DCDCC[];
 extern "C" u8 lbl_805DCDD0[];
@@ -317,16 +317,16 @@ void *lbl_804CF30C[118] = {
 void *lbl_804CF4E4[50] = {
     (void *)0x4, (void *)0x1, (void *)0x6, (void *)0x420c0000,
     (void *)0x41900000, (void *)0x43160000, (void *)0x42d60000, (void *)0x0,
-    (void *)0x0, (void *)0x3f19999a, (void *)0xffffffff, (void *)&lbl_805D63F0,
+    (void *)0x0, (void *)0x3f19999a, (void *)0xffffffff, (void *)&hud_texlist,
     (void *)0x2, (void *)0x4, (void *)0x6, (void *)0x42aa0000,
     (void *)0x42480000, (void *)0x42480000, (void *)0x422c0000, (void *)0x43160000,
-    (void *)0x42ac0000, (void *)0x3f333333, (void *)0xffffffff, (void *)&lbl_805D63F0,
+    (void *)0x42ac0000, (void *)0x3f333333, (void *)0xffffffff, (void *)&hud_texlist,
     (void *)0x4, (void *)0x4, (void *)0x6, (void *)0x43010000,
     (void *)0x41c00000, (void *)0x42480000, (void *)0x422c0000, (void *)0x43160000,
-    (void *)0x42ac0000, (void *)0x3f333333, (void *)0xffffffff, (void *)&lbl_805D63F0,
+    (void *)0x42ac0000, (void *)0x3f333333, (void *)0xffffffff, (void *)&hud_texlist,
     (void *)0x4, (void *)0x4, (void *)0x6, (void *)0x42240000,
     (void *)0x42980000, (void *)0x42480000, (void *)0x422c0000, (void *)0x43160000,
-    (void *)0x42ac0000, (void *)0x3f333333, (void *)0xffffffff, (void *)&lbl_805D63F0,
+    (void *)0x42ac0000, (void *)0x3f333333, (void *)0xffffffff, (void *)&hud_texlist,
     (void *)0x4, (void *)0x4,
 };
 void *window_help_item_layout_entries[12] = {

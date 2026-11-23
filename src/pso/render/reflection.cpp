@@ -25,7 +25,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/scene/TScene.h"
 #include "pso/unk/TUnk_804DC7C4.h"
-#include "pso/unk/text_803281B8.h"
+#include "pso/effect/TEffIndirectSampler.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/system/task/TObject.h"
 #include "pso/math/MatrixVector.h"
@@ -90,7 +90,6 @@ s32 fn_8029E7BC(saddr arg0, u8 *arg1) {
 
 extern "C" {
 s32 GXSetScissor(s32, s32, s32, s32);
-s32 reset_ind_tev_stages__13TParticleCtrlFPv();
 }
 
 s32 push_player_reflection_matrix(u16 client_id, s32 clip) {
@@ -171,19 +170,20 @@ s32 set_reflection_scissor(void *point, s32 _w1) {
 }
 
 void reset_reflection_tev_stages() {
-    if (((uaddr) scene_sora_instance != 0U) && (((TSceneSora *)scene_sora_instance)->get_state() != 0U)) {
-        reset_ind_tev_stages__13TParticleCtrlFPv();
+    if (scene_sora_instance != NULL) {
+        // get_state() reads the word at 0x20, which is TUnk_804DC7C4::indirect_effect.
+        TEffIndirectSampler *indirect = (TEffIndirectSampler *)((TSceneSora *)scene_sora_instance)->get_state();
+        if (indirect != NULL) {
+            indirect->disable_indirect_tev();
+        }
     }
 }
 
-extern "C" s32 play_particle__13TParticleCtrlFls(u32, s32, s32);
-
-void play_reflection_particles(s32 effect_id) {
-    u32 temp_r31;
-    if ((uaddr) scene_sora_instance != 0U) {
-        temp_r31 = ((TSceneSora *)scene_sora_instance)->get_state();
-        if (temp_r31 != 0U) {
-            play_particle__13TParticleCtrlFls(temp_r31, 0, effect_id);
+void play_reflection_particles(s16 effect_id) {
+    if (scene_sora_instance != NULL) {
+        TEffIndirectSampler *indirect = (TEffIndirectSampler *)((TSceneSora *)scene_sora_instance)->get_state();
+        if (indirect != NULL) {
+            indirect->enable_indirect_tev(0, effect_id);
         }
     }
 }
@@ -300,8 +300,6 @@ void GXSetTevOrder(s32 stage, s32 coord, s32 map, s32 color);
 const f64 lbl_80465E18 = 0.0054931640625;
 
 const Vec sora_reflection_up_vec = {0.0f, 1.0f, 0.0f};
-extern s32 TSceneSora__sky_active_flag;
-extern u32 TSceneSora__instance;
 
 void TObjPlayer::clear_state_if_flag80(s32 arg0) {
     if (arg0 & 0x80) {
@@ -362,8 +360,8 @@ void TUnk_804DC7C4::render_shadows() {
     }
     TScene__sub_8029F5EC();
     TScene__sub_8029F5E4(100.0f);
-    if (TSceneSora__instance != 0) {
-        TSceneSora__sky_active_flag = 0;
+    if (TSceneSora::instance != 0) {
+        TSceneSora::sky_active_flag = 0;
     }
     TSceneSora::copy_reflection_vec((u8 *)&v);
     scene_sora_reflect_active = 1;
@@ -462,8 +460,8 @@ void TUnk_804DC7C4::render_shadows() {
     }
     TScene__sub_8029F5D8();
     TScene__sub_8029F5E4(0.0f);
-    if (TSceneSora__instance != 0) {
-        TSceneSora__sky_active_flag = 1;
+    if (TSceneSora::instance != 0) {
+        TSceneSora::sky_active_flag = 1;
     }
     ((TObjPlayer *)recon_object)->copy_efb_to_texture();
     TSceneSora::set_scene_flag(recon_object + 0x1C);
@@ -490,8 +488,6 @@ TUnk_804DC7C4::~TUnk_804DC7C4() {
 }
 
 TUnk_804DC7C4::TUnk_804DC7C4(TObject *parent) : TObject(parent) {
-    void *obj;
-
     scene_sora_reflect_active = 0;
     scene_sora_recon_active_flag = 0;
     if (scene_sora_instance != NULL) {
@@ -499,11 +495,7 @@ TUnk_804DC7C4::TUnk_804DC7C4(TObject *parent) : TObject(parent) {
     }
     scene_sora_instance = this;
     recon_object = scene_sora_recon_object;
-    obj = TObject::operator new(0x20);
-    if (obj != NULL) {
-        obj = construct_indirect_effect_task((u8 *)obj, 0x28, 1, (u8 *)tl_05);
-    }
-    indirect_effect = (TObject *)obj;
+    indirect_effect = new TEffIndirectSampler(0x28, 1, tl_05);
     reflect_pos.x = 0.0f;
     reflect_pos.y = 0.0f;
     reflect_pos.z = 0.0f;

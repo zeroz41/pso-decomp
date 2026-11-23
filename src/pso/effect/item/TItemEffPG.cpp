@@ -12,7 +12,6 @@
 #include "pso/weapon/TUnk_804F0810.h"
 #include "pso/player/TUnk_804A2548.h"
 #include "pso/weapon/TItemAttackCol.h"
-#include "pso/item/TUnk_804F0BF0.h"
 #include "pso/render/MaterialColorFade.h"
 #include "pso/object/trap/TOTrapAncient01_80226534.h"
 #include "pso/boss/derolle/TBoss2DeRolLe.h"
@@ -22,7 +21,7 @@
 #include "pso/render/GinjaMaterial.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/render/render_util.h"
-#include "pso/effect/item/TUnk_804F0C08.h"
+#include "pso/render/model_render_state.h"
 #include "pso/effect/item/TItemEffPG.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/task/TMainTask.h"
@@ -30,87 +29,74 @@
 #include "pso/item/TUnk_804E355C.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/system/task/TObject.h"
-#include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/unk/text_803D8F74.h"
 
-extern s32 saved_model_draw_color[];
-extern s32 model_material_color[];
-extern s32 saved_model_render_flags;
-extern s32 saved_chunk_polygon_flags_and_mask;
-extern s32 saved_chunk_polygon_flags_or_mask;
-extern s32 chunk_polygon_flags_or_mask;
-extern s32 chunk_polygon_flags_and_mask;
-extern s32 model_render_flags;
 // Built with -inline off,deferred: functions are written last to first, so
-// the vtables come out 0BF0, 0C08, 0C28 as in the original.
-// The functions from 0x8034FE28 on were a separate unit; their literals continue
-// this TU's .sdata2 pool at 0x805DFE14 (a 4-mod-8 address, so no TU starts there).
-const char *TItemEffPG__name = "TItemEffPG";
+// the vtables come out in the original's order.
+const char *TItemEffPG::class_name = "TItemEffPG";
 
-S_8035016C *S_8035016C::init_params() {
-    TObjPlayer__sub_802E451C(this);
+ItemEffPGParams *ItemEffPGParams::init_params() {
+    reset_attack_params(this);
     hits = 10;
-    pad_28 = 50.0f;
+    max_radius = 50.0f;
     required_charge = 1.0f;
-    pad_30 = 2.5f;
+    radius_step = 2.5f;
     return this;
 }
 
-void TItemEffPG::create(TObject *parent, S_8035016C *params) {
+void TItemEffPG::create(TObject *parent, ItemEffPGParams *params) {
     new TItemEffPG(parent, params);
 }
 
-TItemEffPG::TItemEffPG(TObject *parent, S_8035016C *params) : TUnk_804E355C(parent, params) {
-    m_name = TItemEffPG__name;
-    pad_C4 = params->pad_28;
-    if (50.0f < pad_C4) {
-        pad_C4 = 50.0f;
+TItemEffPG::TItemEffPG(TObject *parent, ItemEffPGParams *params) : TUnk_804E355C(parent, params) {
+    m_name = class_name;
+    max_radius = params->max_radius;
+    if (50.0f < max_radius) {
+        max_radius = 50.0f;
     }
-    m_c8 = params->pad_30;
+    radius_step = params->radius_step;
     required_charge = params->required_charge;
     pad_B0 *= 3.0f;
-    m_d0 = new TUnk_804F0BF0(this, params);
+    visual = new TItemEffPGModel(this, params);
 }
 
 TItemEffPG::~TItemEffPG() {}
 
 void TItemEffPG::run_task() {
-    f32 temp_f1;
-    f32 temp_f1_2;
-    s32 var_r31;
+    s32 active;
 
-    var_r31 = 1;
+    active = 1;
     if (has_game_join_id() == 0) {
-        var_r31 = 0;
+        active = 0;
     }
-    if (this->vfunc_7() == 0) {
-        var_r31 = 0;
+    if (consume_charge() == 0) {
+        active = 0;
     }
-    if (var_r31 != 0) {
-        temp_f1 = this->body.radius;
-        if (temp_f1 < this->pad_C4) {
-            this->body.radius = (f32) (temp_f1 + this->m_c8);
-            temp_f1_2 = this->pad_C4;
-            if (temp_f1_2 < this->body.radius) {
-                this->body.radius = temp_f1_2;
+    if (active != 0) {
+        f32 radius = body.radius;
+        if (radius < max_radius) {
+            body.radius = radius + radius_step;
+            f32 limit = max_radius;
+            if (limit < body.radius) {
+                body.radius = limit;
             }
         }
         check_hits();
         return;
     }
-    if ((uaddr) this->m_down == 0U) {
+    if (m_down == NULL) {
         queue_destruction();
         disallow_rendering();
         return;
     }
-    if (m_d0 != NULL) {
-        TItemEffPG__begin_visual_fade(m_d0);
-        m_d0 = NULL;
+    if (visual != NULL) {
+        visual->begin_fade();
+        visual = NULL;
     }
 }
 
-s32 TItemEffPG::vfunc_7() {
+s32 TItemEffPG::consume_charge() {
     TObjPlayer *player = get_player_by_client_id(client_id);
     if (player == NULL) {
         return 0;
@@ -122,59 +108,57 @@ s32 TItemEffPG::vfunc_7() {
     return 1;
 }
 
-void TItemEffPG::create(TObject *parent, S_8035016C *params, s32 count) {
-    new TUnk_804F0C08(parent, params, count);
+void TItemEffPG::create(TObject *parent, ItemEffPGParams *params, s32 count) {
+    new TItemEffPGLimited(parent, params, count);
 }
 
-TUnk_804F0C08::TUnk_804F0C08(TObject *parent, S_8035016C *params, s32 count) : TItemEffPG(parent, params) {
-    pad_D4 = count;
+TItemEffPGLimited::TItemEffPGLimited(TObject *parent, ItemEffPGParams *params, s32 count) : TItemEffPG(parent, params) {
+    uses_left = count;
 }
 
-TUnk_804F0C08::~TUnk_804F0C08() {}
+TItemEffPGLimited::~TItemEffPGLimited() {}
 
-s32 TUnk_804F0C08::vfunc_7() {
-    s32 temp_r4;
-
-    temp_r4 = this->pad_D4;
-    if (temp_r4 > 0) {
-        this->pad_D4 = (temp_r4 - 1);
+s32 TItemEffPGLimited::consume_charge() {
+    s32 left = uses_left;
+    if (left > 0) {
+        uses_left = left - 1;
         return 1;
     }
     return 0;
 }
 
-TUnk_804F0BF0::TUnk_804F0BF0(TItemEffPG *parent, S_8035016C *params) : TObject(parent) {
+TItemEffPGModel::TItemEffPGModel(TItemEffPG *parent, ItemEffPGParams *params) : TObject(parent) {
     item_id = params->item_id;
-    m_20 = params->pad_34;
-    texture_list = params->pad_38;
-    scale_step = params->pad_30;
-    max_scale = params->pad_28;
+    model = params->model;
+    texture_list = params->texture_list;
+    scale_step = params->radius_step;
+    max_scale = params->max_radius;
     VecCopy(&position, &params->position);
     f32 radius = params->radius;
     scale.z = radius;
     scale.y = radius;
     scale.x = radius;
     rotation_y = 0;
-    m_40 = 0;
+    child_rotation_y = 0;
     color.a = 0.0f;
     color.r = 0.0f;
     color.g = 0.0f;
     color.b = 0.0f;
-    m_38 = create_particle_emitter(&position, 0x83);
-    m_58 = 0;
+    particle = create_particle_emitter(&position, 0x83);
+    fading = 0;
 }
 
-TUnk_804F0BF0::~TUnk_804F0BF0() {
-    if (m_38 != NULL) {
-        m_38->queue_destruction();
-        m_38 = NULL;
+TItemEffPGModel::~TItemEffPGModel() {
+    if (particle != NULL) {
+        particle->queue_destruction();
+        particle = NULL;
     }
 }
 
-void TUnk_804F0BF0::run_task() {
+void TItemEffPGModel::run_task() {
     rotation_y += 0x71C;
-    m_40 -= 0xE38;
-    if (m_58 == 0) {
+    child_rotation_y -= 0xE38;
+    if (fading == 0) {
         f32 current_scale = scale.z;
         if (current_scale < max_scale) {
             scale.z = current_scale + scale_step;
@@ -198,16 +182,16 @@ void TUnk_804F0BF0::run_task() {
     play_persistent_sound(0x4001A343, (saddr)this, (uaddr)&position, 0, 0);
 }
 
-void TUnk_804F0BF0::render() {
+void TItemEffPGModel::render() {
     if (all_parents_unqueued_for_destruction() == 0 || find_equipped_item(item_id) == 0) {
         return;
     }
-    if ((m_20 != NULL) && (TMainTask::get_render_pass() == 1)) {
+    if ((model != NULL) && (TMainTask::get_render_pass() == 1)) {
         set_draw_list_mask(3);
         saved_model_render_flags = model_render_flags;
         saved_chunk_polygon_flags_and_mask = chunk_polygon_flags_and_mask;
         saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;
-        copy_argb((NJS_ARGB *)saved_model_draw_color, (NJS_ARGB *)model_material_color);
+        copy_argb(&saved_model_draw_color, &model_material_color);
         model_render_flags |= 0x20;
         set_constant_material(&color);
         TParticleCtrl::begin_effect_render();
@@ -217,22 +201,22 @@ void TUnk_804F0BF0::render() {
         push_matrix();
         rotate_matrix_y(NULL, rotation_y);
         scale_current_matrix(&scale.x);
-        draw_ginja_model(m_20->model);
+        draw_ginja_model(model->model);
         pop_matrix();
         push_matrix();
-        rotate_matrix_y(NULL, m_40);
+        rotate_matrix_y(NULL, child_rotation_y);
         scale_current_matrix(&scale.x);
-        draw_ginja_model(m_20->child->model);
+        draw_ginja_model(model->child->model);
         pop_matrix();
         pop_matrix();
         TParticleCtrl::end_effect_render();
-        copy_argb((NJS_ARGB *)model_material_color, (NJS_ARGB *)saved_model_draw_color);
+        copy_argb(&model_material_color, &saved_model_draw_color);
         chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
         chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
         model_render_flags = saved_model_render_flags;
     }
 }
 
-void TItemEffPG__begin_visual_fade(TUnk_804F0BF0 *visual) {
-    visual->m_58 = 1;
+void TItemEffPGModel::begin_fade() {
+    fading = 1;
 }

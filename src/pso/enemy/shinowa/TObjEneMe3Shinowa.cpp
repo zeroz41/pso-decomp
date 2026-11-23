@@ -10,7 +10,7 @@
 #include "pso/math/FloatRounding.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
-#include "pso/effect/TUnk_80494968.h"
+#include "pso/effect/TAttackTrace.h"
 #include "pso/system/vector.h"
 #include "types.h"
 #include "pso/player/TObjPlayer.h"
@@ -45,7 +45,6 @@
 #include "pso/render/render_util.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/math/MatrixVector.h"
-#include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/render/MaterialColorFade.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/system/SoundEffect.h"
@@ -70,7 +69,7 @@
 extern "C" {
 BmlResource * TObjEneMe3ShinowaMirage__bml_resource;
 s32 TObjEneMe3ShinowaMirage__render_node_index;
-TUnk_8048FA00 * TObjEneMe3ShinowaMirage__breakup_model;
+TBreakUpMdlData * TObjEneMe3ShinowaMirage__breakup_model;
 SampledMotionPoints * TObjEneMe3ShinowaMirage__sword_trail_a;
 SampledMotionPoints * TObjEneMe3ShinowaMirage__sword_trail_b;
 SampledMotionPoints * TObjEneMe3ShinowaMirage__attack_trail;
@@ -160,7 +159,7 @@ void load_shinowa_mirage_resources() {
     } else {
         TObjEneMe3ShinowaMirage__bml_resource = load_enemy_bml_resource(&shinowa_mirage_resource_descriptor);
     }
-    src = (NJS_TEXLIST *)TObjEneMe3ShinowaMirage__bml_resource->models->m_c;
+    src = (NJS_TEXLIST *)TObjEneMe3ShinowaMirage__bml_resource->models->texlist;
     n = src->nbTexture;
     TObjEneMe3ShinowaMirage__alternate_texture_list.nbTexture = n;
     TObjEneMe3ShinowaMirage__alternate_texture_list.textures = (NJS_TEXNAME *)mem_alloc(n * sizeof(NJS_TEXNAME));
@@ -209,7 +208,7 @@ void load_shinowa_mirage_resources() {
         TObjEneMe3ShinowaMirage__material_color_pointers[2] = NULL;
     }
     motion = TObjEneMe3ShinowaMirage__bml_resource->motions[shinowa_mirage_motion_param_table[4].motion].motion;
-    TUnk_8048FA00 *breakup = new TUnk_8048FA00(TObjEneMe3ShinowaMirage__bml_resource->models->model, (NJS_MOTION *)motion, motion->frameCount - 1);
+    TBreakUpMdlData *breakup = new TBreakUpMdlData(TObjEneMe3ShinowaMirage__bml_resource->models->model, (NJS_MOTION *)motion, motion->frameCount - 1);
     TObjEneMe3ShinowaMirage__breakup_model = breakup;
     {
         Vec first;
@@ -248,7 +247,7 @@ void load_shinowa_mirage_resources() {
     {
         NpcAnimationBinding binding = shinowa_mirage_spawn_binding;
         binding.motions = reinterpret_cast<BmlMotionEntry *>(TObjEneMe3ShinowaMirage__bml_resource->motions);
-        NpcModelRegistry::register_animated_chunk(0x26, reinterpret_cast<void *>(TObjEneMe3ShinowaMirage__bml_resource->models->model), reinterpret_cast<void *>(TObjEneMe3ShinowaMirage__bml_resource->models->m_c), &binding, 8.0f, 0.0f);
+        NpcModelRegistry::register_animated_chunk(0x26, reinterpret_cast<void *>(TObjEneMe3ShinowaMirage__bml_resource->models->model), reinterpret_cast<void *>(TObjEneMe3ShinowaMirage__bml_resource->models->texlist), &binding, 8.0f, 0.0f);
         NpcModelRegistry::register_animated_chunk(0x27, reinterpret_cast<void *>(TObjEneMe3ShinowaMirage__bml_resource->models->model), reinterpret_cast<void *>(&TObjEneMe3ShinowaMirage__alternate_texture_list), &binding, 8.0f, 0.0f);
     }
 }
@@ -301,11 +300,11 @@ void TObjEneMe3Shinowa::init_enemy() {
     model = (void *)TObjEneMe3ShinowaMirage__bml_resource->models->model;
     init_model(shinowa_mirage_model_init_data, 1);
     motion_flags = 0;
-    set_field_d8((saddr)shinowa_mirage_motion_param_table);
-    set_field_dc((saddr)TObjEneMe3ShinowaMirage__bml_resource->motions);
+    set_action_table((saddr)shinowa_mirage_motion_param_table);
+    set_motion_list((saddr)TObjEneMe3ShinowaMirage__bml_resource->motions);
     requested_action = 0;
     set_animation(requested_action);
-    set_field_b8(requested_action);
+    set_requested_action(requested_action);
     {
         u8 **a = tbl->t[0];
         u8 **b = tbl->t[1];
@@ -325,8 +324,8 @@ void TObjEneMe3Shinowa::init_enemy() {
     attack_count = 0;
     mirage_index = 0;
     m_3dc = evp;
-    attack_traces[0] = TUnk_80494968::create((u32)0xFF0000FF, (u32)0xA08000A0);
-    attack_traces[1] = TUnk_80494968::create((u32)0xFF0000FF, (u32)0xA08000A0);
+    attack_traces[0] = TAttackTraceStrip::create((u32)0xFF0000FF, (u32)0xA08000A0);
+    attack_traces[1] = TAttackTraceStrip::create((u32)0xFF0000FF, (u32)0xA08000A0);
     fade.reset_obstruction_fade();
     state_step = 0;
     state_timer = 0;
@@ -572,7 +571,7 @@ void TObjEneMe3Shinowa::select_gold_or_normal_variant() {
         kind_index = 1;
         return;
     }
-    texlist = (saddr)TObjEneMe3ShinowaMirage__bml_resource->models->m_c;
+    texlist = (saddr)TObjEneMe3ShinowaMirage__bml_resource->models->texlist;
     initialize_enemy_state(0x1a);
     kind_index = 0;
 }

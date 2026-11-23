@@ -38,6 +38,6 @@ TObjNpcMaleTall::TObjNpcMaleTall(TObject *parent, void *set_data) : TUnk_804A9F5
     this->apply_set_data(set_data);
     init_position_vectors();
     this->model = (void *)TObjNpcMaleTall__shared_model_resource->models->model;
-    this->texlist = (saddr)TObjNpcMaleTall__shared_model_resource->models->m_c;
+    this->texlist = (saddr)TObjNpcMaleTall__shared_model_resource->models->texlist;
     this->setup_common();
 }

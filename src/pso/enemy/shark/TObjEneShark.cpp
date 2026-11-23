@@ -9,7 +9,7 @@
 #include "pso/render/RenderFadeState.h"
 #include "pso/render/model_render_state.h"
 #include "pso/system/task/TObject.h"
-#include "pso/effect/TUnk_80494968.h"
+#include "pso/effect/TAttackTrace.h"
 #include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "types.h"
@@ -97,7 +97,7 @@ void TObjEneShark::update_attack_trail() {
     Vec a;
     Vec *e;
     s32 idx;
-    TUnk_80494968 *trail;
+    TAttackTraceStrip *trail;
     if (!(frame < 12.0f)) {
         return;
     }
@@ -479,7 +479,7 @@ void TLobby::load_shark_resources() {
         s16 ids[3] = { 0x2F, 0x30, 0x31 };
         NpcAnimationBinding anim = { shark_bml_resource->motions, TObjEneShark__action_table, 0, 2, 12 };
         for (i = 0; i < 3; i++) {
-            NpcModelRegistry::register_animated_chunk(ids[i], shark_bml_resource->models[i].model, shark_bml_resource->models[i].m_c, &anim,
+            NpcModelRegistry::register_animated_chunk(ids[i], shark_bml_resource->models[i].model, shark_bml_resource->models[i].texlist, &anim,
                 7.5f, 0.0f);
         }
     }
@@ -531,7 +531,7 @@ void TObjPlayer__sub_800ACA0C(void) {  }
 
 void TObjEneShark::sub_800AC9DC(s32 i) {
     model = shark_bml_resource->models[i].model;
-    texlist = (saddr)shark_bml_resource->models[i].m_c;
+    texlist = (saddr)shark_bml_resource->models[i].texlist;
 }
 
 void TUnk_80493450::play_group_chase_sound() {  }
@@ -547,11 +547,11 @@ TObjEneShark::TObjEneShark(TObject *parent, void *setData) : TUnk_80493450(paren
     apply_clamped_mode_param();
     sub_800AC9DC(variant);
     action_table = TObjEneShark__action_table;
-    set_field_d8((saddr)action_table);
+    set_action_table((saddr)action_table);
     motion_list = shark_bml_resource->motions;
     requested_action = 0;
     set_animation(requested_action);
-    set_field_b8(requested_action);
+    set_requested_action(requested_action);
     init_collision_body_parts(this, &shark_collision_body_table[subtype], 1);
     bind_enemy_combat_stats((u8 *)TObjEneShark__resource_node[subtype], (u8 *)TObjEneShark__resource_buf[subtype], (u8 *)shark_resource_data[subtype]);
     movementParameters = &shark_movement_params[subtype];
@@ -597,8 +597,8 @@ TObjEneShark::TObjEneShark(TObject *parent, void *setData) : TUnk_80493450(paren
     }
     fade.reset_obstruction_fade();
     appearing = 1;
-    attack_trails[0] = TUnk_80494968::create((u32)0xA0303030, (u32)color);
-    attack_trails[1] = TUnk_80494968::create((u32)0xA0303030, (u32)color);
+    attack_trails[0] = TAttackTraceStrip::create((u32)0xA0303030, (u32)color);
+    attack_trails[1] = TAttackTraceStrip::create((u32)0xA0303030, (u32)color);
     far_move_speed = ((f32 *)shark_resource_buffer[subtype])[0];
     far_anim_speed = ((f32 *)shark_resource_buffer[subtype])[1];
     near_move_speed = ((f32 *)shark_resource_buffer[subtype])[2];

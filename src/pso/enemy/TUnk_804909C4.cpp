@@ -17,7 +17,6 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/vector.h"
-#include "pso/unk/text_800870BC.h"
 
 CollisionBody dark_gunner_shot_collision_body[] = {
     {{0.0f, 0.0f, 0.0f}, 0.0f, 0.0f, 0, 0x8003, {0.0f, 0.0f, 0.0f}, 0.0f}

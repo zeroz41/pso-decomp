@@ -70,8 +70,6 @@
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/network/protocol/subcmd_6x.h"
 #include "pso/map/CsnGroundQuery.h"
-#include "pso/unk/text_80086B64.h"
-#include "pso/unk/text_80087278.h"
 #include "pso/object/TObjControl.h"
 #include "pso/boss/galgryphon/TBoss5GryphonLightningEff.h"
 #include "pso/render/MaterialAlphaCompare.h"
@@ -584,14 +582,14 @@ TBoss5Gryphon::TBoss5Gryphon(TObject *parent, void *data) : TObjEneDD_ST(parent)
     } else {
         this->model = boss5_gryphon_body_bml_resource->models[0].model;
     }
-    this->texlist = (saddr)boss5_gryphon_body_bml_resource->models[0].m_c;
+    this->texlist = (saddr)boss5_gryphon_body_bml_resource->models[0].texlist;
     ((TObjEneDD *)this)->init_model((CollisionBody *)boss5_gryphon_collision_body_parts, (s32)10);
     this->motion_flags = 0;
-    this->set_field_d8((saddr)boss5_gryphon_action_table);
-    this->set_field_dc((saddr)boss5_gryphon_body_bml_resource->motions);
+    this->set_action_table((saddr)boss5_gryphon_action_table);
+    this->set_motion_list((saddr)boss5_gryphon_body_bml_resource->motions);
     this->requested_action = 0;
     this->set_animation(this->requested_action);
-    this->set_field_b8(this->requested_action);
+    this->set_requested_action(this->requested_action);
     ((TObjEneDD *)this)->reset_hp((u8 *)(boss5_gryphon_base_params[boss5_gryphon_base_stat_indices[0]]), (u8 *)(boss5_gryphon_attack_params[boss5_gryphon_attack_stat_indices[0]]), (u8 *)(boss5_gryphon_resistance_params[boss5_gryphon_resistance_stat_indices[0]]));
     this->set_state_flag_2();
     this->movementParameters = &boss5_gryphon_movement_params;
@@ -1550,7 +1548,7 @@ void TBoss5Gryphon::update_death_state(u32 event) {
         self->position.x = p->x - gryphon_six_hundred * sin_table_lookup(self->rotation_y);
         self->position.y = gryphon_three_hundred_sixty;
         self->position.z = p->z - gryphon_six_hundred * cos_table_lookup(self->rotation_y);
-        play_cue_stream_file((saddr)"dradeath.adx");
+        play_cue_stream_file("dradeath.adx");
         TWindowCtrl::init_all_slots();
         switch (TBoss8Dragon__sub_8005D700()) {
         case 0:

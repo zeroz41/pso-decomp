@@ -2,6 +2,12 @@
 #define PSO_EFFECT_GROUND_CONTACT_SOUND_H
 #include <dolphin/mtx.h>
 
-extern "C" void TObjEneGibbles__sub_800D8988(Vec *position);
+class TObject;
+
+// The sounds of something touching the ground; each picks the variant for the
+// current floor's area and plays nothing on other floors.
+void play_ground_step_sound(TObject *owner, Vec *pos);
+void play_ground_landing_sound(Vec *pos);
+void play_ground_contact_sound(Vec *pos);
 
 #endif

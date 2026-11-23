@@ -123,7 +123,7 @@ s32 TObjEneGibbles__render_rotation_x;
 // reverse of the order they are written in.
 void TObjEneGibbles::select_model_record(s32 i) {
     model = TObjEneGibbles__resource_bundle->models[i].model;
-    texlist = (saddr)TObjEneGibbles__resource_bundle->models[i].m_c;
+    texlist = (saddr)TObjEneGibbles__resource_bundle->models[i].texlist;
 }
 
 void *TObjEneGibbles::get_center() { return &body_center; }
@@ -142,11 +142,11 @@ TObjEneGibbles::TObjEneGibbles(TObject *parent, void *setData) : TObjEnemy(paren
     subtype = 0;
     select_model_record(variant);
     action_table = gibbles_action_table;
-    set_field_d8((saddr)action_table);
+    set_action_table((saddr)action_table);
     motion_list = TObjEneGibbles__resource_bundle->motions;
     requested_action = 0;
     set_animation(requested_action);
-    set_field_b8(requested_action);
+    set_requested_action(requested_action);
     init_collision_body_parts(this, gibbles_collision_bodies, 1);
     attack_kind = 0;
     combo_count = 0;
@@ -209,7 +209,7 @@ void TObjEneGibbles::load_resources() {
     TObjEneGibbles__ai_parameters = (GibblesAiParams *)TLobby::dispatch_shared_handler_a(0x3D);
     NpcAnimationBinding s = gibbles_resource_binding_desc;
     s.motions = TObjEneGibbles__resource_bundle->motions;
-    NpcModelRegistry::register_animated_chunk(0x44, TObjEneGibbles__resource_bundle->models->model, TObjEneGibbles__resource_bundle->models->m_c, &s, gibbles_collision_bodies[0].radius, 0.0f);
+    NpcModelRegistry::register_animated_chunk(0x44, TObjEneGibbles__resource_bundle->models->model, TObjEneGibbles__resource_bundle->models->texlist, &s, gibbles_collision_bodies[0].radius, 0.0f);
 }
 
 void TObjEneGibbles::free_static() {
@@ -779,7 +779,7 @@ void TObjEneGibbles::update_death_sequence() {
             this->jump_speed = 0.0f;
             switch (landing_damage_players()) {
             case 0:
-                TObjEneGibbles__sub_800D8988(&position);
+                ::play_ground_contact_sound(&position);
                 break;
             default:
             case 1:
@@ -1371,7 +1371,7 @@ void TObjEneGibbles::state_jump_attack() {
             jump_height = 0.0f;
             switch (landing_damage_players()) {
             case 0:
-                TObjEneGibbles__sub_800D8988(&position);
+                ::play_ground_contact_sound(&position);
                 break;
             case 1:
             default:
@@ -1710,7 +1710,7 @@ void TObjEneGibbles::sub_802D7E3C() {}
 void TObjEneGibbles::play_ground_contact_sound() {
     if (is_passing_frame(7.0f) != 0 || is_passing_frame(20.0f) != 0) {
         if (spawn_ground_impact_effects(&position, 3.0f) != 0) {
-            TObjEneGibbles__sub_800D8988(&position);
+            ::play_ground_contact_sound(&position);
             return;
         }
         play_sound_effect(resolve_sound_id(0x3A82B), &position, 0, 0);
@@ -1720,7 +1720,7 @@ void TObjEneGibbles::play_ground_contact_sound() {
 void TObjEneGibbles::play_distance_sound() {
     if (is_passing_frame(8.0f) != 0) {
         if (spawn_ground_impact_effects(&position, 3.0f) != 0) {
-            TObjEneGibbles__sub_800D8988(&position);
+            ::play_ground_contact_sound(&position);
             return;
         }
         play_sound_effect(resolve_sound_id(0x3A83D), &position, 0, 0);
@@ -1728,7 +1728,7 @@ void TObjEneGibbles::play_distance_sound() {
     }
     if (is_passing_frame(23.0f) != 0) {
         if (spawn_ground_impact_effects(&position, 3.0f) != 0) {
-            TObjEneGibbles__sub_800D8988(&position);
+            ::play_ground_contact_sound(&position);
             return;
         }
         play_sound_effect(resolve_sound_id(0x3A83E), &position, 0, 0);
@@ -1736,7 +1736,7 @@ void TObjEneGibbles::play_distance_sound() {
     }
     if (is_passing_frame(40.0f) != 0) {
         if (spawn_ground_impact_effects(&position, 3.0f) != 0) {
-            TObjEneGibbles__sub_800D8988(&position);
+            ::play_ground_contact_sound(&position);
             return;
         }
         play_sound_effect(resolve_sound_id(0x3A83F), &position, 0, 0);

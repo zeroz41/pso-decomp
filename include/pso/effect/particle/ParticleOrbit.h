@@ -3,8 +3,14 @@
 
 #include "types.h"
 
-extern "C" {
-u8 *create_orbit_particle(u8 *arg0, u8 *pos, u8 *dir, s32 parent, u16 flags, s16 target_id);
-}
+class TObject;
+class TParticle;
+struct ParticleAngles;
+struct ParticleParam;
+struct Vec;
+
+// A child particle of an emitter that circles its spawn point.
+TParticle *create_orbit_particle(ParticleParam *entry, Vec *position, ParticleAngles *direction,
+                                     TObject *parent, u16 flags, u16 target_id);
 
 #endif

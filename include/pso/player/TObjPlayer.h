@@ -341,7 +341,6 @@ struct TObjPlayer : public TObjChara {
     static void*get_pmt_record_by_index(int i);
     static s32 is_hit_receivable_target(saddr arg0, uaddr arg1);
     s32 is_action_available();
-    f32 calc_photon_blast_power(s32 arg1, f32 farg0);
     static s32 is_any_teammate_in_state();
     static void set_shared_flag(int a0);
     static void set_shared_count(int a0);
@@ -417,7 +416,7 @@ struct TObjPlayer : public TObjChara {
     static void set_com_card_window(s32 arg0);
     static s32 check_demo_mode();
     static s32 is_locally_controlled(void *player);
-    static TItem *get_item_field_6(void *player);
+    static TItem *get_equipped_weapon(void *player);  // equipped_items[6]
     static TObjPlayer *get_player_data(int index);
     void queue_destruction();
     s32 test_action_mask(s32 arg1);
@@ -522,18 +521,8 @@ struct TObjPlayer : public TObjChara {
     static void reset();
     static void set_camera_mode(s32 arg0);
     void reset_state_block();
-    static void*get_photon_blast_entry(int a0);
     s16 get_evp();
-    u16 get_section_id();
-    void set_field_2(s16 v);
-    void set_type(s16 v);
-    u16 get_entity_type();
-    static void destroy_global_buffer();
-    static void destroy_buffers();
-    static void destroy_static_buffer_pair();
-    static void destroy_buffer_pair_instance();
     int check_flag_0x80();
-    static void free_buffer_pair();
     static s32 is_final_phase();
     static s32 is_camera_ready();
     static s32 is_camera_mode_active();
@@ -1046,7 +1035,6 @@ struct TObjPlayer : public TObjChara {
     void*init_follow_particle_ctrl();
     static s32 check_hit_by_id(saddr arg0, s32 arg1, s32 arg2);
     void update_children();
-    void reset_id_entry();
     int query_field40();
     void process_indexed_element(s32 arg1);
     void check_flag_at_4();
@@ -1198,7 +1186,6 @@ struct TObjPlayer : public TObjChara {
     static void update_particle_by_phase(NJS_OBJECT *);
     void draw_blob_shadows();
     void set_flag_8_if_check_passes();
-    void clear_render_context();
     u8 *construct_freeze_shell(u8 *arg1, u8 *arg2);
     static void create_tec_zonde(void *source, void *origin, void *targets, s32 level);
     TechniqueContactList *collect_technique_contacts(void *src);
@@ -1220,7 +1207,6 @@ struct TObjPlayer : public TObjChara {
     static u32 spawn_shot_effect(saddr arg0, saddr arg1, saddr arg2, f32 farg0);
     void clear_rico_ring_flag();
     static void start_photon_blast(s32 kind, s32 client_id);
-    s32 init_arrays();
     s32 get_card_window_field_244();
     void init_local_pad_binding();
     void stop_force_if_alive();

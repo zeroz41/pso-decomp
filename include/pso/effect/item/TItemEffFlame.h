@@ -19,6 +19,8 @@ public:
     TParticleCtrl *emitter;
     u16 target_id;
     s32 body_index;
+
+    static const char *class_name;
 };
 
 LAYOUT_ASSERT(TItemEffFlameSize, sizeof(TItemEffFlame) == 0x28);

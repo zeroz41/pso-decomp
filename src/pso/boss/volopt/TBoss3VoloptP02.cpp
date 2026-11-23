@@ -36,7 +36,6 @@
 #include "pso/system/byteswap.h"
 #include "pso/system/vector.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-#include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/unk/text_803D96A8.h"
@@ -139,7 +138,7 @@ static inline s32 min_s32(s32 a, s32 b) { return (a < b) ? a : b; }
 
 static u8 lbl_804FF008[0x28];
 static s16 wave_delays[3];
-static TUnk_8048FA00 *breakup_models[5];
+static TBreakUpMdlData *breakup_models[5];
 static u32 *breakup_flags_a[32];
 static u32 *breakup_flags_b[16];
 static u32 *breakup_flags_c[16];
@@ -153,7 +152,7 @@ static void *object_handle;
 VoloptP02Params *volopt_p02_params;
 static s32 *part_params;
 BmlResource *volopt_p02_resources;
-static TUnk_8048FA00 *breakup_model;
+static TBreakUpMdlData *breakup_model;
 static NjObject *model_node_44;
 static NjObject *model_node_39;
 static NjObject *model_node_27;
@@ -197,7 +196,7 @@ s32 TObjVoloptCage::get_int_param(s32 index) {
 
 void TBoss3VoloptP02::load_params_from_table(s32 index) {
     model = (void *)volopt_p02_resources->models[index].model;
-    texlist = (saddr)volopt_p02_resources->models[index].m_c;
+    texlist = (saddr)volopt_p02_resources->models[index].texlist;
 }
 
 f32 TBoss3VoloptP02::get_float_param(s32 index) {
@@ -218,14 +217,14 @@ void TBoss3VoloptP02::init_params() {
     m_name = TBoss3VoloptP02_name;
     motion_list = volopt_p02_resources->motions;
     action_table = action_entries;
-    set_field_d8((saddr)action_table);
+    set_action_table((saddr)action_table);
     init_collision_body_parts(this, collision_bodies, 5);
     variant = 0;
     movementParameters = &movement_params;
     recalc_combat_stats(boss_stat_handle, shared_handler_b, object_handle, 1.0f, 1.0f);
     this->requested_action = 0;
     set_animation(this->requested_action);
-    set_field_b8(this->requested_action);
+    set_requested_action(this->requested_action);
     hp = hpmax;
     tp = tpmax;
     referenceHp = hp;
@@ -276,7 +275,7 @@ void *TBoss3VoloptP02::create(void *set_data) {
 }
 
 void TBoss3VoloptP02::load_resources() {
-    TUnk_8048FA00 *model;
+    TBreakUpMdlData *model;
     s32 root;
     NjObject *nodes[5];
     NjObject *parts[5];
@@ -285,7 +284,7 @@ void TBoss3VoloptP02::load_resources() {
     s32 n;
 
     volopt_p02_resources = boss3_volopt_resources;
-    model = new TUnk_8048FA00((saddr)volopt_p02_resources->models[19].model);
+    model = new TBreakUpMdlData((saddr)volopt_p02_resources->models[19].model);
     breakup_model = model;
     root = (saddr)volopt_p02_resources->models[20].model;
     ((NjObject *)find_model_node(root, 0x44))->evalflags |= 8;
@@ -298,7 +297,7 @@ void TBoss3VoloptP02::load_resources() {
     }
     for (j = 0; j < 5; j++) {
         nodes[j]->sibling = NULL;
-        model = new TUnk_8048FA00((saddr)nodes[j]);
+        model = new TBreakUpMdlData((saddr)nodes[j]);
         breakup_models[j] = model;
     }
     root = (saddr)volopt_p02_resources->models[19].model;

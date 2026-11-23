@@ -11,7 +11,7 @@
 #include "pso/unk/TLobby.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/effect/particle/TParticleCtrl.h"
-#include "pso/effect/particle/TParticleCtrl_80327D30.h"
+#include "pso/effect/TEffIndirectSampler.h"
 #include "pso/system/task/TObject.h"
 #include "pso/unk/TLobby_8033ECB0.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"

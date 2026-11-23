@@ -42,7 +42,7 @@ void TObjVoloptPillar::spawn_debris_chips() {
         {4, 60},
         {0.0f, 1.0f},
         (saddr)boss3_volopt_resources->models[0xE].model,
-        (saddr)boss3_volopt_resources->models[0xE].m_c,
+        (saddr)boss3_volopt_resources->models[0xE].texlist,
         2,
     };
     new TObjChip(tl_05, (TObjChipParams *)&params);
@@ -168,9 +168,9 @@ void TObjVoloptPillar::run_task() {
 
 void TObjVoloptPillar::cache_target_values() {
     volopt_pillar_model = (saddr)boss3_volopt_resources->models[0x17].model;
-    volopt_pillar_textures = (saddr)boss3_volopt_resources->models[0x17].m_c;
+    volopt_pillar_textures = (saddr)boss3_volopt_resources->models[0x17].texlist;
     volopt_pillar_base_model = (saddr)boss3_volopt_resources->models[0x15].model;
-    volopt_pillar_base_textures = (saddr)boss3_volopt_resources->models[0x15].m_c;
+    volopt_pillar_base_textures = (saddr)boss3_volopt_resources->models[0x15].texlist;
 }
 
 TObjVoloptPillar::~TObjVoloptPillar() {

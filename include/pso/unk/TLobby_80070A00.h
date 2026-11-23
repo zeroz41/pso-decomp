@@ -26,4 +26,7 @@ void set_challenge_mode_split_flag(void);
 }
 // --- end of C functions
 
+// The challenge rank title of a character record, decoded for display.
+extern char challenge_rank_title[0xC];
+
 #endif

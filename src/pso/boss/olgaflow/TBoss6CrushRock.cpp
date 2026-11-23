@@ -8,7 +8,6 @@
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/boss/darkfalz/TBoss4Type2.h"
 #include "pso/effect/particle/TParticleCtrl.h"
-#include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/system/MatrixStack.h"

@@ -182,5 +182,5 @@ void TObjWarpLobby::release_static() {
 void TObjWarpLobby::load_resources() {
     BmlResource *resource = new BmlResource(1, (BmlResourceDescriptor *)&warp_lobby_resource_descriptor, 0, 0, NULL);
     lobby_warp_bml_resource = resource;
-    lobby_warp_textures = (GinjaTextureList *)lobby_warp_bml_resource->models[0].m_c;
+    lobby_warp_textures = (GinjaTextureList *)lobby_warp_bml_resource->models[0].texlist;
 }

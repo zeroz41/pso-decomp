@@ -8,16 +8,16 @@ extern "C" {
 s32 set_sound_stream_volume();
 s32 TLobby__sub_803D4704();
 
-void TLobby__sub_803CBF50(TLobby *stream, s32 ch, s32 pan) {
-    stream->set_stream_channel_pan(ch, pan);
+void TLobby__sub_803CBF50(GcrnaStream *stream, s32 ch, s32 pan) {
+    set_stream_channel_pan(stream, ch, pan);
 }
 
 void TLobby::trigger_sub_task() {
     set_sound_stream_volume();
 }
 
-void TLobby__sub_803CBF90(TLobby *stream, s32 rate) {
-    stream->set_stream_frequency(rate);
+void TLobby__sub_803CBF90(GcrnaStream *stream, s32 rate) {
+    set_stream_frequency(stream, rate);
 }
 
 void TLobby__sub_803CBFB0(void) {
@@ -25,7 +25,7 @@ void TLobby__sub_803CBFB0(void) {
 }
 
 void TLobby::run_sequence() {
-    TLobby::update_active_streams();
+    update_active_streams();
 }
 
 s32 TLobby__sub_803CBFF0(TLobby *stream) {

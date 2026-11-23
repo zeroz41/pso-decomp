@@ -56,7 +56,6 @@ struct VO_801C6408 : VB_801C6408 {
 };
 
 extern "C" {
-TParticleCtrl *create_particle_emitter(const void *pos, s32 id);
 s32 is_on_current_floor__10TObjPlayerFi(VO_801C6408*);
 extern s32 tl_07;
 
@@ -77,7 +76,6 @@ extern saddr tl_06;
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/player/TPlayerParticleOwner.h"
 #include "pso/effect/particle/TParticleCtrl.h"
-extern "C" const char* TParticleCtrl__class_name_descriptor;
 
 
 #define TOBJECT_OUT_OF_LINE_HELPERS
@@ -725,7 +723,7 @@ TPlayerParticleOwner::~TPlayerParticleOwner() {
 }
 
 TParticleCtrl* TPlayerParticleOwner::get_particle() {
-    if (particle != 0 && ((TUnk_804B6C24 *)particle)->check_value_equals((saddr)TParticleCtrl__class_name_descriptor) == 0) {
+    if (particle != 0 && ((TUnk_804B6C24 *)particle)->check_value_equals((saddr)TParticleCtrl::class_name) == 0) {
         particle = 0;
     }
     return particle;

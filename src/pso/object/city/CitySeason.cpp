@@ -1,16 +1,15 @@
 #include "pso/system/BmlResource.h"
+#include "pso/render/StripBufferPair.h"
 #include "pso/unk/text_80184C2C.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/effect/particle/TParticleCtrl.h"
-#include "pso/boss/darkfalz/TBoss4Type2_80086C44.h"
 #include "pso/boss/goldragon/TBoss8Dragon_8002CC48.h"
 #include "pso/object/city/CitySeason.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/player/TObjPlayer_803E4954.h"
-#include "pso/unk/text_80087278.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/unk/text_803E2D70.h"
 #include "pso/system/vector.h"
@@ -35,7 +34,6 @@
 #include "pso/unk/text_803D8F74.h"
 #include <stdlib.h>
 #include <stddef.h>
-#include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/MatrixStack.h"
@@ -58,17 +56,6 @@ const char TObjCity_Season_FireWorkCtrl__class_name[] = "TObjCity_Season_FireWor
 const char TObjCity_Season_FireWork__class_name[] = "TObjCity_Season_FireWork";
 // The firework area's debug box colour.
 const NJS_ARGB lbl_804441FC = {0.8f, 0.2f, 1.0f, 0.9f};
-
-// Defined in text_80184C2C.cpp, which has no declarations of them yet.
-extern void *lbl_805D5B34;
-extern BmlResource *lbl_805D5B38;
-extern saddr lbl_805D5B3C;
-extern saddr lbl_805D5B40;
-extern GinjaTextureList *lbl_805D5B44;
-extern void *lbl_805D5B48;
-
-// Defined in text_800F5BC0.cpp, which has no declaration of it yet.
-extern "C" void scroll_strip_uvs(void *strips, s16 u_offset, s16 v_offset);
 
 const char *TObjCity_Season_EasterEgg__name = TObjCity_Season_EasterEgg__class_name;
 const char *TObjCity_Season_ValentineHeart__name = TObjCity_Season_ValentineHeart__class_name;
@@ -344,7 +331,7 @@ void TObjCity_Season_21_21::render() {
     if (resource != NULL) {
         if (update_object_view_visibility(800.0f, 60.0f) != 0) {
             TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(city_season_xmas_model_table[4]));
-            scroll_strip_uvs(lbl_805D5B34, 0, uv_scroll);
+            lbl_805D5B34->scroll_uvs(0, uv_scroll);
             push_matrix();
             post_translate_matrix(&position.x);
             rotate_matrix_y(NULL, rotation_y);
@@ -431,7 +418,7 @@ void TObjCity_Season_Board::run_task() {
 void TObjCity_Season_Board::render() {
     if ((lbl_805D5B38 != NULL) && (update_object_view_visibility(800.0f, 200.0f) != 0)) {
         TObjFish::set_global_param(lbl_805D5B44);
-        scroll_strip_uvs(lbl_805D5B48, uv_scroll, 0);
+        lbl_805D5B48->scroll_uvs(uv_scroll, 0);
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);

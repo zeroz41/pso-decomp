@@ -75,8 +75,8 @@ TAdDrawLineTask::TAdDrawLineTask(TObject *parent, const DrawLineRecord *record, 
     vertices[1].y = line.start.y - half_width_y;
     vertices[1].w = line.start.w;
     vertices[1].color.value = line.start.color.value;
-    TAdDrawLineTask__sub_80019A8C(&vertices[2], &vertices[0]);
-    TAdDrawLineTask__sub_80019A8C(&vertices[3], &vertices[1]);
+    copy_line_vertex(&vertices[2], &vertices[0]);
+    copy_line_vertex(&vertices[3], &vertices[1]);
     disallow_rendering();
 }
 
@@ -217,7 +217,7 @@ void TAdDrawLineCtrl::set_depth_all_nodes(f32 depth) {
     }
 }
 
-void TAdDrawLineTask__sub_80019A8C(void *destination, void *source) {
+void copy_line_vertex(void *destination, void *source) {
     DrawLineVertex *to = static_cast<DrawLineVertex *>(destination);
     const DrawLineVertex *from = static_cast<const DrawLineVertex *>(source);
     to->x = from->x;

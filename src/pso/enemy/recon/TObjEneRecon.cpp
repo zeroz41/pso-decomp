@@ -45,13 +45,11 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/system/MatrixOps.h"
-#include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/enemy/deldepth/DelDepthData.h"
 #include "pso/boss/volopt/TBoss3VoloptP01.h"
 #include "pso/effect/TBreakUpMdl.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/effect/particle/TParticleCtrl_800867E4.h"
 #include "pso/object/base/CollisionActorLookup.h"
 
 #pragma readonly_strings on
@@ -71,7 +69,7 @@ saddr TObjEneRecon__attack_params;
 saddr TObjEneRecon__resistance_params;
 ReconParams *TObjEneRecon__behavior_params;
 BmlResource *TObjEneRecon__recobox_static_instance;
-TUnk_8048FA00 *boss3_volopt_instance;
+TBreakUpMdlData *boss3_volopt_instance;
 s32 recon_intro_stage;
 Vec *recon_model_matrix_ptr;
 
@@ -1107,7 +1105,7 @@ f32 TObjEneRecobox::get_recon_rotate_rad() { return recon_rotate_rad; }
 extern "C" {
 void TObjEneRecon::load_resources() {
   TObjEneRecon__recobox_static_instance = TObjEneRecobox::get_bml_resource();
-  boss3_volopt_instance = new TUnk_8048FA00((long)(saddr)TObjEneRecon__recobox_static_instance->models->model);
+  boss3_volopt_instance = new TBreakUpMdlData((long)(saddr)TObjEneRecon__recobox_static_instance->models->model);
   recon_intro_stage = 0;
   recon_model_matrix_ptr = 0;
   TObjEneRecon__base_params = (saddr)TLobby::register_boss(0x42);
@@ -1117,7 +1115,7 @@ void TObjEneRecon::load_resources() {
   TObjEneReconBomb::load_resources();
   NpcAnimationBinding binding = recon_anim_binding;
   binding.motions = reinterpret_cast<BmlMotionEntry *>(TObjEneRecon__recobox_static_instance->motions);
-  NpcModelRegistry::register_animated_chunk(0xC, TObjEneRecon__recobox_static_instance->models[0].model, TObjEneRecon__recobox_static_instance->models[0].m_c, &binding, TObjEneRecon__collision_body_template.radius, 15.0f);
+  NpcModelRegistry::register_animated_chunk(0xC, TObjEneRecon__recobox_static_instance->models[0].model, TObjEneRecon__recobox_static_instance->models[0].texlist, &binding, TObjEneRecon__collision_body_template.radius, 15.0f);
 }
 
 
@@ -1158,13 +1156,13 @@ extern "C" {
 void TObjEneRecon::init_state() {
     init_position_vectors();
     model = TObjEneRecon__recobox_static_instance->models->model;
-    texlist = (saddr)TObjEneRecon__recobox_static_instance->models->m_c;
+    texlist = (saddr)TObjEneRecon__recobox_static_instance->models->texlist;
     init_model(&TObjEneRecon__collision_body_template, 1);
-    set_field_d8((saddr)TObjEneRecon__animation_entries);
-    set_field_dc((saddr)TObjEneRecon__recobox_static_instance->motions);
+    set_action_table((saddr)TObjEneRecon__animation_entries);
+    set_motion_list((saddr)TObjEneRecon__recobox_static_instance->motions);
     this->requested_action = 0;
     set_animation((this->requested_action));
-    set_field_b8((int) (this->requested_action));
+    set_requested_action((int) (this->requested_action));
     reset_hp((u8 *)TObjEneRecon__base_params, (u8 *)TObjEneRecon__attack_params, (u8 *)TObjEneRecon__resistance_params);
     set_state_flag_4();
     movementParameters = (void *) TObjEneRecon__ai_parameters;

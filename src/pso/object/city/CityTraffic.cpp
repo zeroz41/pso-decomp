@@ -1,4 +1,5 @@
 #include "pso/system/BmlResource.h"
+#include "pso/render/StripBufferPair.h"
 #include "pso/animation/ActorAnimationState.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/render/GinjaMaterialState.h"
@@ -31,14 +32,12 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/math/AngleLookup.h"
 #include <stdlib.h>
-#include "pso/unk/text_80087278.h"
 #include "pso/render/render_util.h"
 #include "pso/unk/TLobby_80226070.h"
 #include "pso/math/MatrixTransforms.h"
 
 
 extern "C" {
-s32 scroll_strip_uvs(void *, s16, int);
 s32 rotate_matrix_z(int, int);
 s32 post_translate_matrix(void *);
 }
@@ -118,11 +117,9 @@ typedef struct
   s32 objs[5];
 } Tbl_801817AC;
 
-void *destroy_buffer_pair(void *arg0, s16 arg1);
 extern "C" {
 void __ct__7TObjectFP7TObject(void *);
 extern u8 __vt__19TObjCityAirCar_Ctrl[];
-s32 alloc_tables__6TLobbyFll(s32, s32, s32, BmlModelEntry *);
 BmlResource *city_air_car_model_resource;
 GinjaTextureList *city_air_car_model_handle;
 }
@@ -137,7 +134,7 @@ const char *TObjCityAirCar_Car__name = "TObjCityAirCar_Car";
 
 f32 air_car_lane_spacing_table[5];
 f32 air_car_lane_speed_scale_table[5];
-void *air_car_buffer_pair_table[6];
+StripBufferPair *air_car_buffer_pair_table[6];
 
 NJS_OBJECT *get_city_common_model(s32 i) {
     return (NJS_OBJECT *)city_common_model_archive->models[i].model;
@@ -158,8 +155,6 @@ void measure_traffic_path_lengths(void) {
   AnimationMotion *m;
   s32 i;
   s32 j;
-  const s32 *new_var;
-  saddr p;
   for (i = 0; i < 5; i++)
   {
     m = get_city_common_motion(city_traffic_path_motion_index_table[i]);
@@ -192,13 +187,7 @@ void measure_traffic_path_lengths(void) {
     city_air_car_model_handle = TLobby__sub_80184C2C(2);
     for (j = 0; j < 5; j++)
     {
-      p = (saddr)::operator new(0x14);
-      new_var = city_traffic_car_chunk_index_table;
-      if (p != 0)
-      {
-        p = alloc_tables__6TLobbyFll(p, (saddr)city_air_car_model_resource->models[new_var[j]].model, 1, city_air_car_model_resource->models);
-      }
-      air_car_buffer_pair_table[j] = (void *)p;
+      air_car_buffer_pair_table[j] = new StripBufferPair(city_air_car_model_resource->models[city_traffic_car_chunk_index_table[j]].model, 1);
     }
   }
 }
@@ -207,7 +196,7 @@ void free_buffer_pair_table(void) {
     s32 i;
     for (i = 4; i >= 0; i--) {
         if (air_car_buffer_pair_table[i] != 0) {
-            destroy_buffer_pair(air_car_buffer_pair_table[i], 1);
+            delete air_car_buffer_pair_table[i];
             air_car_buffer_pair_table[i] = 0;
         }
     }
@@ -487,7 +476,7 @@ void TObjCityAirCar_Car::render() {
                 texture_entries[2].global_index = texture_entries[0].global_index;
             }
             TObjFish::set_global_param(city_air_car_model_handle);
-            scroll_strip_uvs(air_car_buffer_pair_table[this->m_9c], *(s32 *)((s8 *)this + 0xA0), 0);
+            air_car_buffer_pair_table[this->m_9c]->scroll_uvs(*(s32 *)((s8 *)this + 0xA0), 0);
             draw_chunk_object((void *)city_air_car_model_resource->models[city_traffic_car_chunk_index_table[this->m_9c]].model);
             city_air_car_model_handle->entries[2].global_index = texture_index;
         }

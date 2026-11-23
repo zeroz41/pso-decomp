@@ -7,13 +7,8 @@
 #include "pso/player/TObjPlayer_8023E480.h"
 #include "pso/unk/text_800F9B84.h"
 
-struct EffectTextureFile {
-    GinjaTextureList *texlist;
-    const char *filename;
-};
-
 static const EffectTextureFile effect_texture_file = {&shared_effect_texture_list, "effect_nt.gvm"};
-const char *TEffect__class_name = "TEffect";
+const char *TEffect::class_name = "TEffect";
 
 saddr effect_rel;
 s32 particle_texture_id_table[54];
@@ -109,7 +104,7 @@ TEffect::~TEffect() {
 }
 
 TEffect::TEffect() : TObject(tl_particle) {
-    m_name = TEffect__class_name;
+    m_name = class_name;
     position.x = 0.0f;
     position.y = 0.0f;
     position.z = 0.0f;
@@ -126,7 +121,7 @@ TEffect::TEffect() : TObject(tl_particle) {
     angles[0] = 0;
     angles[1] = 0;
     angles[2] = 0;
-    field_60 = 0.0f;
+    pad_60 = 0.0f;
     speed = 0.0f;
     age = 0;
     state = 0;

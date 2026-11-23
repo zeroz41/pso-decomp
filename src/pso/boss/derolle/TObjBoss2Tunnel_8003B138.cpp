@@ -296,7 +296,7 @@ void TObjBoss2Tunnel::update_particles() {
     for (i = 0; i < 4; i++) {
         particle = particles[i];
         if (particle == 0) {
-            TParticleCtrl *created = (TParticleCtrl *)TAdLoadQuestPrtTxtGC::create_particle(&boss2_tunnel_particle_pos_table[i], 0x171, 1);
+            TParticleCtrl *created = (TParticleCtrl *)create_particle_controller(&boss2_tunnel_particle_pos_table[i], 0x171, 1);
             if (created != 0) {
                 created->enable();
                 particles[i] = created;

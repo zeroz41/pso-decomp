@@ -23,7 +23,7 @@ struct WeaponParams {
 };
 
 // impact_callback / hit_callback: (task layer, weapon, target, extra).
-typedef s32 (*WeaponHitCallback)(s32 layer, void *weapon, s32 target, s32 extra);
+typedef s32 (*WeaponHitCallback)(s32 layer, void *weapon, u16 target, s32 extra);
 // shot_callback: draws a shot from origin to end over frames.
 typedef s32 (*WeaponShotCallback)(void *weapon, void *origin, f32 *end, f32 frames);
 

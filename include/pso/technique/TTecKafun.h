@@ -2,9 +2,9 @@
 #define PSO_TECHNIQUE_TTECKAFUN_H
 
 #include "types.h"
-#include "pso/effect/TUnk_804CC148.h"
+#include "pso/technique/TTecCircle.h"
 
-struct TTecKafun : public TUnk_804CC148 {
+struct TTecKafun : public TTecCircle {
     virtual ~TTecKafun();
     virtual void vfunc_6(void *);
     f32 hit_value;         // vfunc_6 passes it with hit_kind to the target

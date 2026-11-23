@@ -23,7 +23,7 @@
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/render/model_render_state.h"
 #include "pso/unk/text_803DA798.h"
-#include "pso/unk/text_803E29B0.h"
+#include "pso/effect/particle/ParticleStrip.h"
 
 // Per player class (in the order of the switch below): the footprint's
 // length, width and offset along the facing, before the height scaling.
@@ -279,7 +279,7 @@ TPlayerFootStamp::~TPlayerFootStamp() {}
 
 void TPlayerFootStamp::run_task() {
     s32 i;
-    FootStampVertex *v;
+    ParticleStripVertex *v;
     timer = timer - 1;
     if (timer <= 0) {
         queue_destruction();
@@ -293,9 +293,9 @@ void TPlayerFootStamp::run_task() {
         if (timer < 0x40) {
             v->color = color - ((0x40 - timer) << 26);
         }
-        v->pos.x = bx + corners[i].x;
-        v->pos.y = by + corners[i].y;
-        v->pos.z = bz + corners[i].z;
+        v->x = bx + corners[i].x;
+        v->y = by + corners[i].y;
+        v->z = bz + corners[i].z;
         v++;
     }
 }
@@ -308,7 +308,7 @@ void TPlayerFootStamp::render() {
         TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(player_footstamp_texture_gvm_handle));
         set_texture_num(texture);
         set_depth_buffer_settings_1();
-        draw_particle_strip(verts, (void *)4, (void *)1);
+        draw_particle_strip(verts, 4, 1);
         restore_saved_depth_alpha_state();
         model_render_flags = saved_model_render_flags;
     }

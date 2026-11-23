@@ -7,86 +7,32 @@
 #include "pso/render/RenderSbssGlobals.h"
 #include "pso/unk/TLobby_803DE778.h"
 #include "pso/unk/text_803DA798.h"
+#include "pso/unk/text_803DAFA8.h"
 #include <dolphin/os/OSCache.h>
-struct RecoveredFields_803DA84C_arg0 {
-    u8 unknown_0[0x14];
-    u32 field_14;
-    u8 unknown_18[0x4];
-    saddr field_1C;
-};
-
-struct S_803DA7E0 { s32 a, b, c, d, e; };
-
-struct Obj_803DA7A8 { u8 pad[8]; s32 f8; s32 fc; };
-
-struct Ent_803DA7A8 { s32 a; s32 b; Obj_803DA7A8 *p; };
-
-struct Tbl_803DA7A8 { Ent_803DA7A8 *arr; };
-
-struct G_803DA7A8 { u8 pad[8]; s32 f8; u8 pad2[0xc]; s32 f18; u8 pad3[4]; Tbl_803DA7A8 *f20; };
-
-struct E_803DAB7C { u8 pad[0x18]; };
-
-struct Ent_803DAB7C { s32 a; s32 b; E_803DAB7C *p; };
-
-struct Obj_803DAB7C { Ent_803DAB7C *arr; };
-
-struct Ent_803DAB9C { u32 a; u32 b; u32 c; u8 *d; u32 e; u32 f; };
-
-struct Inner_803DAD84 {
-    u8 pad[0x1C];
-    u32 flags;
-};
-
-struct Obj_803DAD84 {
-    u8 pad[0xC];
-    struct Inner_803DAD84 *inner;
-};
-
-struct Obj_803DA8E4 { u8 pad[0x24]; s32 refs; };
-
-struct Rec_803DA8E4 { u32 a; u32 b; u32 c; Obj_803DA8E4 *obj; s32 cnt; s32 v14; };
-
-struct B_803DAE1C { u32 a; u32 b; Obj_803DAD84 *c; };
-
-extern saddr record_array_ptr;
 extern "C" {
-s32 fn_803DB20C(void *);
-s32 TObjPlayer__sub_803DAD28(u32 arg0);
-extern S_803DA7E0 lbl_8058D470;
-void TObjPlayer__sub_803DAB7C(Obj_803DAB7C *self, s32 i, s32 j);
-s32 TObjPlayer__sub_803DAB9C(s32 arg0, s32 arg1);
-s32 TObjPlayer__sub_803DB23C(void *);
+s32 TObjPlayer__sub_803DB23C(GinjaTextureHeader *header);
 s32 TObjPlayer__sub_803DB244(void);
-s32 TObjPlayer__sub_803DAD84(struct Obj_803DAD84 *arg0, s32 arg1, u32 arg2);
-s32 TObjPlayer__sub_803DA104(int);
-void TObjPlayer__sub_803DAD24(void);
-s32 TObjPlayer__sub_803DA8E4(u32 arg0, u32 arg1, s32 arg2, s32 *arg3);
-s32 TObjPlayer__sub_803D9DA8(int, void *);
-extern s32 player_ref_entry_active_count;
-s32 TObjPlayer__sub_803DAA70(u32 arg0, u32 arg1, s32 *arg2);
-s32 TObjPlayer__sub_803DAC48(Obj_803DAB7C *arg0, s32 arg1, u32 arg2, u32 arg3, s32 *arg4, s32 *arg5);
-s32 TObjPlayer__sub_803DAE1C(s32 arg0, s32 arg1, u32 arg2);
+s32 TObjPlayer__sub_803DA104(int format);
+s32 TObjPlayer__sub_803D9DA8(GinjaTextureState *texture, GvrTextureDesc *desc);
+}
+
 s32 TObjFish::set_global_param(GinjaTextureList *texlist) {
     current_render_context->textures = texlist;
     return 1;
 }
-}
-s32 set_texture_num(s32 i);
+
 #pragma push
 #pragma opt_common_subs off
 #pragma scheduling off
 #pragma peephole off
-LAYOUT_ASSERT(RecoveredFields_803DA84C_arg0_14_offset, offsetof(RecoveredFields_803DA84C_arg0, field_14) == 0x14);
-LAYOUT_ASSERT(RecoveredFields_803DA84C_arg0_1C_offset, offsetof(RecoveredFields_803DA84C_arg0, field_1C) == 0x1C);
 
 #pragma push
 #pragma scheduling off
 #pragma peephole off
 s32 set_texture_num(s32 i) {
-    Obj_803DA7A8 *o = ((G_803DA7A8 *)current_render_context)->f20->arr[i].p;
-    ((G_803DA7A8 *)current_render_context)->f8 = o->fc + 4;
-    ((G_803DA7A8 *)current_render_context)->f18 = o->f8;
+    GinjaTextureState *texture = current_render_context->textures->entries[i].texture;
+    current_render_context->texture_header = &texture->surface->header;
+    current_render_context->tlut_name = texture->tlut_name;
     return 1;
 }
 #pragma pop
@@ -95,12 +41,12 @@ s32 set_texture_num(s32 i) {
 #pragma scheduling off
 #pragma peephole off
 
-void TObjPlayer__sub_803DA7E0(void) {
-    lbl_8058D470.a = -1;
-    lbl_8058D470.b = -1;
-    lbl_8058D470.c = 0;
-    lbl_8058D470.d = 0;
-    lbl_8058D470.e = 0;
+void reset_texture_error(void) {
+    lbl_8058D470.entry_index = -1;
+    lbl_8058D470.pad_04 = -1;
+    lbl_8058D470.code = 0;
+    lbl_8058D470.pad_0C = 0;
+    lbl_8058D470.pad_10 = 0;
 }
 #pragma pop
 
@@ -109,33 +55,33 @@ void TObjPlayer__sub_803DA808(void *buf, saddr src, u32 size) {
     DCFlushRange(buf, size);
 }
 
-s32 TObjPlayer__sub_803DA84C(u8 *arg0, s32 arg1, s32 arg2, s32 arg3) {
-    u32 temp_r0;
-    u32 temp_r6;
-    u32 temp_r7;
-    uaddr var_r5;
-    temp_r7 = arg2 & 0xFFFFFFFC;
-    temp_r6 = arg3 & 0xFFFFFFFC;
-    if (temp_r6 == 0) {
+s32 TObjPlayer__sub_803DA84C(GinjaTextureHeader *header, s32 src, s32 offsetRaw, s32 lengthRaw) {
+    u32 remaining;
+    u32 copyMax;
+    u32 copyStart;
+    uaddr copyLen;
+    copyStart = offsetRaw & 0xFFFFFFFC;
+    copyMax = lengthRaw & 0xFFFFFFFC;
+    if (copyMax == 0) {
         return 0;
     }
-    temp_r0 = ((RecoveredFields_803DA84C_arg0 *)arg0)->field_14;
-    var_r5 = temp_r0 - temp_r7;
-    if (temp_r7 >= temp_r0) {
+    remaining = header->size;
+    copyLen = remaining - copyStart;
+    if (copyStart >= remaining) {
         return 7;
     }
-    if (var_r5 > temp_r6) {
-        var_r5 = temp_r6;
+    if (copyLen > copyMax) {
+        copyLen = copyMax;
     }
-    TObjPlayer__sub_803DA808((void *)(temp_r7 + ((RecoveredFields_803DA84C_arg0 *)arg0)->field_1C), arg1, var_r5);
+    TObjPlayer__sub_803DA808((void *)(copyStart + (uaddr)header->pixels), src, copyLen);
     return 0;
 }
 #pragma pop
 
 #pragma push
 #pragma peephole off
-s32 TObjPlayer__sub_803DA8B4(u8 *arg0, s32 src) {
-    TObjPlayer__sub_803DA808((void *)*(saddr *)((s8 *)arg0 + 0x1C), src, *(u32 *)((s8 *)arg0 + 0x14));
+s32 TObjPlayer__sub_803DA8B4(GinjaTextureHeader *header, s32 src) {
+    TObjPlayer__sub_803DA808(header->pixels, src, header->size);
     return 0;
 }
 #pragma pop
@@ -143,91 +89,91 @@ s32 TObjPlayer__sub_803DA8B4(u8 *arg0, s32 src) {
 #pragma push
 #pragma optimize_for_size on
 #pragma use_lmw_stmw off
-s32 TObjPlayer__sub_803DA8E4(u32 arg0, u32 arg1, s32 arg2, s32 *arg3) {
-    Rec_803DA8E4 *sp8;
-    s32 idx;
-    s32 r;
+s32 TObjPlayer__sub_803DA8E4(u32 id, u32 tlut_name, s32 format, s32 *slot_out) {
+    GinjaTextureState *texture;
+    s32 index;
+    s32 shared;
     s32 slot;
-    idx = TObjPlayer::find_table_index_by_id(arg0);
-    if (TObjPlayer__sub_803DA104(arg2) != 0) {
-        if (idx < 0) {
-            *arg3 = -1;
+    index = TObjPlayer::find_table_index_by_id(id);
+    if (TObjPlayer__sub_803DA104(format) != 0) {
+        if (index < 0) {
+            *slot_out = -1;
             return 0;
         }
-        r = TObjPlayer::find_record_index(arg0, arg1);
-        if (r < 0) {
-            slot = TObjPlayer::find_free_slot(&sp8, NULL);
+        shared = TObjPlayer::find_record_index(id, tlut_name);
+        if (shared < 0) {
+            slot = TObjPlayer::find_free_slot(&texture, NULL);
             if (slot < 0) {
                 return -1;
             }
-            sp8->c = arg1;
-            sp8->obj = (*(Rec_803DA8E4 **)&record_array_ptr)[idx].obj;
-            sp8->obj->refs++;
-            sp8->cnt = 1;
-            sp8->v14 = (*(Rec_803DA8E4 **)&record_array_ptr)[idx].v14;
-            ((void (*)(Rec_803DA8E4 *)) TObjPlayer__sub_803DAD24)(sp8);
-            *arg3 = slot;
+            texture->tlut_name = tlut_name;
+            texture->surface = record_array_ptr[index].surface;
+            texture->surface->ref_count++;
+            texture->ref_count = 1;
+            texture->reserved14 = record_array_ptr[index].reserved14;
+            TObjPlayer__sub_803DAD24(texture);
+            *slot_out = slot;
             return 1;
         }
-        *arg3 = r;
-        (*(Rec_803DA8E4 **)&record_array_ptr)[r].cnt++;
-        (*(Rec_803DA8E4 **)&record_array_ptr)[r].obj->refs++;
+        *slot_out = shared;
+        record_array_ptr[shared].ref_count++;
+        record_array_ptr[shared].surface->ref_count++;
         return 1;
     }
-    *arg3 = idx;
-    if (idx < 0) {
+    *slot_out = index;
+    if (index < 0) {
         return 0;
     }
-    (*(Rec_803DA8E4 **)&record_array_ptr)[idx].cnt++;
-    (*(Rec_803DA8E4 **)&record_array_ptr)[idx].obj->refs++;
+    record_array_ptr[index].ref_count++;
+    record_array_ptr[index].surface->ref_count++;
     return 1;
 }
 #pragma pop
 
-s32 TObjPlayer__sub_803DAA70(u32 arg0, u32 arg1, s32 *arg2) {
-    u8 *spC;
-    s32 *sp8;
-    s32 temp_r3;
-    temp_r3 = TObjPlayer::find_free_slot(&spC, &sp8);
-    if (temp_r3 < 0) {
+s32 TObjPlayer__sub_803DAA70(u32 id, u32 tlut_name, GvrTextureDesc *desc) {
+    GinjaTextureState *texture;
+    GinjaSurfaceState *surface;
+    s32 slot;
+    slot = TObjPlayer::find_free_slot(&texture, &surface);
+    if (slot < 0) {
         return -1;
     }
-    *(s32 **)((s8 *)spC + 0xC) = sp8;
-    if (TObjPlayer__sub_803D9DA8((saddr)spC, (void *)arg2) != 1) {
-        *(s32 **)((s8 *)spC + 0xC) = NULL;
+    texture->surface = surface;
+    if (TObjPlayer__sub_803D9DA8(texture, desc) != 1) {
+        texture->surface = NULL;
         return -1;
     }
-    if ((u32) arg0 != 0xFFFFFFFFU) {
-        *(s32 *)((s8 *)(*(s32 **)((s8 *)spC + 0xC)) + 0) = arg0;
+    if (id != 0xFFFFFFFFU) {
+        texture->surface->id = id;
     }
-    if (TObjPlayer__sub_803DA104((int) (*(s32 *)((s8 *)arg2 + 0))) != 0) {
-        *(s32 *)((s8 *)spC + 8) = arg1;
+    if (TObjPlayer__sub_803DA104(desc->format) != 0) {
+        texture->tlut_name = tlut_name;
     } else {
-        *(s32 *)((s8 *)spC + 8) = -1;
+        texture->tlut_name = -1;
     }
-    ((void (*)(u8 *)) TObjPlayer__sub_803DAD24)(spC);
-    *(s32 *)((s8 *)spC + 0x10) = 1;
-    *(s32 *)((s8 *)(*(s32 **)((s8 *)spC + 0xC)) + 0x24) = 1;
+    TObjPlayer__sub_803DAD24(texture);
+    texture->ref_count = 1;
+    texture->surface->ref_count = 1;
     player_ref_entry_active_count += 1;
-    return temp_r3;
+    return slot;
 }
 
 #pragma push
 #pragma scheduling off
 #pragma peephole off
-void TObjPlayer__sub_803DAB7C(Obj_803DAB7C *self, s32 i, s32 j) {
-    self->arr[i].p = (E_803DAB7C *)record_array_ptr + j;
+void TObjPlayer__sub_803DAB7C(GinjaTextureList *list, s32 index, s32 slot) {
+    list->entries[index].texture = record_array_ptr + slot;
 }
 #pragma pop
 
-s32 TObjPlayer__sub_803DAB9C(s32 handle, s32 arg1) {
-    u8 *p = (*(Ent_803DAB9C * *)&record_array_ptr)[handle].d;
-    if (p == 0) {
-        ((s32 *)&lbl_8058D470)[2] = 1;
+s32 TObjPlayer__sub_803DAB9C(s32 slot, s32 src) {
+    GinjaSurfaceState *surface = record_array_ptr[slot].surface;
+    if (surface == 0) {
+        lbl_8058D470.code = 1;
         return -1;
     }
-    if (TObjPlayer__sub_803DA84C(p + 4, arg1, 0, *(s32 *)(p + 0x18)) != 0) {
-        ((s32 *)&lbl_8058D470)[2] = 8;
+    if (TObjPlayer__sub_803DA84C(&surface->header, src, 0, surface->header.size) != 0) {
+        lbl_8058D470.code = 8;
         return -1;
     }
     return 1;
@@ -235,72 +181,63 @@ s32 TObjPlayer__sub_803DAB9C(s32 handle, s32 arg1) {
 
 #pragma push
 #pragma scheduling off
-void TObjPlayer__sub_803DAC1C(s32 handle) {
-    TObjPlayer__sub_803DAE98(&((GinjaTextureState *)record_array_ptr)[handle]);
+void TObjPlayer__sub_803DAC1C(s32 slot) {
+    TObjPlayer__sub_803DAE98(&record_array_ptr[slot]);
 }
 #pragma pop
 
 #pragma push
 #pragma optimize_for_size on
 #pragma use_lmw_stmw off
-s32 TObjPlayer__sub_803DAC48(Obj_803DAB7C *list, s32 i, u32 arg2, u32 arg3, s32 *arg4, s32 *arg5) {
-    switch (TObjPlayer__sub_803DA8E4(arg2, arg3, *arg4, arg5)) {
+s32 TObjPlayer__sub_803DAC48(GinjaTextureList *list, s32 index, u32 id, u32 tlut_name, GvrTextureDesc *desc, s32 *slot) {
+    switch (TObjPlayer__sub_803DA8E4(id, tlut_name, desc->format, slot)) {
     case -1:
         return -1;
     case 0:
-        *arg5 = TObjPlayer__sub_803DAA70(arg2, arg3, arg4);
-        if (*arg5 < 0) {
+        *slot = TObjPlayer__sub_803DAA70(id, tlut_name, desc);
+        if (*slot < 0) {
             return -1;
         }
-        TObjPlayer__sub_803DAB7C(list, i, *arg5);
+        TObjPlayer__sub_803DAB7C(list, index, *slot);
         return 0;
     case 1:
-        TObjPlayer__sub_803DAB7C(list, i, *arg5);
+        TObjPlayer__sub_803DAB7C(list, index, *slot);
         return 1;
     }
     return 0;
 }
 #pragma pop
 
-void TObjPlayer__sub_803DAD24(void) {
+void TObjPlayer__sub_803DAD24(GinjaTextureState *) {
 
 }
 
 #pragma push
 #pragma scheduling off
-s32 TObjPlayer__sub_803DAD28(u32 arg0) {
-    s32 temp_r0;
-    s32 table_index;
-    u8 *var_r3;
-    u8 *var_r4;
-    table_index = TObjPlayer::find_table_index_by_id(arg0);
-    if (table_index < 0) {
-        var_r3 = (u8 *)((void *)-1);
+s32 TObjPlayer__sub_803DAD28(u32 id) {
+    s32 index;
+    GinjaTextureState *texture;
+    index = TObjPlayer::find_table_index_by_id(id);
+    if (index < 0) {
         return -1;
     }
-    var_r4 = (u8 *)((*(u8 * *)&record_array_ptr));
-    var_r4 += table_index * 0x18;
-    var_r3 = (u8 *)(*(u8 **)((s8 *)var_r4 + 0xC));
-    temp_r0 = (long) (var_r3 + 4);
-    var_r3 = reinterpret_cast<u8 *>(current_render_context);
-    *(s32 *)((s8 *)var_r3 + 8) = temp_r0;
-    var_r3 = reinterpret_cast<u8 *>(current_render_context);
-    *(s32 *)((s8 *)var_r3 + 0x18) = (s32) *(s32 *)((s8 *)var_r4 + 8);
-    var_r3 = (u8 *)((void *)1);
+    texture = record_array_ptr + index;
+    current_render_context->texture_header = &texture->surface->header;
+    current_render_context->tlut_name = texture->tlut_name;
     return 1;
 }
 #pragma pop
 
-s32 TObjPlayer__sub_803DAD84(struct Obj_803DAD84 *arg0, s32 size, u32 arg2) {
-    struct Inner_803DAD84 *p = arg0->inner;
-    if ((p->flags & 0x80000000) != 0 && arg2 != 0) {
-        if (TObjPlayer__sub_803DB23C((u8 *)p + 4) != 0) {
-            lbl_8058D470.c = 8;
+s32 TObjPlayer__sub_803DAD84(GinjaTextureState *texture, s32 src, u32 arg2) {
+    GinjaSurfaceState *surface = texture->surface;
+    if ((surface->header.flags & 0x80000000) != 0 && arg2 != 0) {
+        if (TObjPlayer__sub_803DB23C(&surface->header) != 0) {
+            lbl_8058D470.code = 8;
             return -1;
         }
     } else {
-        if (((s32 (*)(u8 *))TObjPlayer__sub_803DA8B4)((u8 *)p + 4) != 0) {
-            lbl_8058D470.c = 8;
+        if (TObjPlayer__sub_803DA8B4(&surface->header, src) != 0) {
+            lbl_8058D470.code = 8;
             return -1;
         }
     }
@@ -309,12 +246,11 @@ s32 TObjPlayer__sub_803DAD84(struct Obj_803DAD84 *arg0, s32 size, u32 arg2) {
     return 1;
 }
 
-struct Obj_803DAD84;
-s32 TObjPlayer__sub_803DAE1C(s32 arg0, s32 size, u32 arg2) {
-    TObjPlayer__sub_803DA7E0();
-    s32 r = TObjPlayer__sub_803DAD84((**(B_803DAE1C ***)(&current_render_context->textures))[arg0].c, size, arg2);
+s32 TObjPlayer__sub_803DAE1C(s32 index, s32 src, u32 arg2) {
+    reset_texture_error();
+    s32 r = TObjPlayer__sub_803DAD84(current_render_context->textures->entries[index].texture, src, arg2);
     if (r < 0) {
-        lbl_8058D470.a = arg0;
+        lbl_8058D470.entry_index = index;
     }
     return r;
 }
@@ -336,8 +272,8 @@ s32 TObjPlayer__sub_803DAE98(GinjaTextureState *texture) {
     if (surface->ref_count > 0) {
         surface->ref_count--;
         if (texture->surface->ref_count == 0) {
-            fn_803DB20C(&texture->surface->format);
-            *(s32 *)((s8 *)current_render_context + 0x14) = -1;
+            free_texture_pixels(&texture->surface->header);
+            current_render_context->reserved14 = -1;
         }
     }
     ((TObjPlayer *)texture)->release_empty_ref_entry();

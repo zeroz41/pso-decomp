@@ -2,6 +2,7 @@
 #include "pso/unk/TLobby.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/player/TObjPlayer_80011014.h"
+#include "pso/quest/challenge/ChallengeModeState.h"
 
 s32 TWindowSubStatusDisp::calc_layout_hash(s32 slot) {
     return TWindowSubStatusDisp::get_layout_id(slot) * 0x8C9F;
@@ -14,60 +15,40 @@ s32 TWindowSubStatusDisp::calc_entry_offset(s32 slot) {
 
 #pragma fp_contract on
 
-struct RecoveredGlobal_8006F23C_lbl_8048C9D8 {
-    s32 value;
-    u8 remaining[0x744];
-};
-
-struct RecoveredGlobal_8006F1EC_lbl_8048C9D8
-{
-  s32 value;
-  u8 remaining[0x744];
-};
-
-struct O_8006F0D8 { u8 pad[4]; s32 a[(0xec - 4) / 4]; s32 def; };
-
-struct E_8006F134 { s32 a; s32 b; };
-
-struct O_8006F134 { u8 pad[0xc0]; E_8006F134 e[4]; s32 pad2; E_8006F134 def; };
 
 extern "C" {
-extern RecoveredGlobal_8006F23C_lbl_8048C9D8 challenge_mode_state;
-extern "C" { extern const char lbl_80438570[11] = "TChallenge"; }
+extern const char lbl_80438570[11] = "TChallenge";
 extern const char lbl_8043857C[5] = "... ";
-extern const s32 lbl_80438584[3] = { 0, 1, 2 };
-extern const s32 lbl_80438590[3] = { 0, 9, 14 };
-extern const s32 lbl_8043859C[3] = { 9, 5, 9 };
-s32 *TWindowSubStatusDisp__sub_8006F0D8(O_8006F0D8 *self, s32 slot);
-E_8006F134 *TWindowSubStatusDisp__sub_8006F134(O_8006F134 *self, s32 slot);
+extern const s32 challenge_record_rank_slots[3] = { 0, 1, 2 };
+extern const s32 challenge_record_time_offsets[3] = { 0, 9, 14 };
+extern const s32 challenge_record_stage_counts[3] = { 9, 5, 9 };
+s32 *TWindowSubStatusDisp__sub_8006F0D8(ChallengeRecord *record, s32 slot);
+ChallengeStageRank *TWindowSubStatusDisp__sub_8006F134(ChallengeRecord *record, s32 slot);
 
 s32 TWindowSubStatusDisp::get_layout_id(s32 slot) {
     slot = TWindowSubStatusDisp::resolve_player_slot(slot);
     if (slot < 3) {
-        return lbl_8043859C[TWindowSubStatusDisp::resolve_player_slot(slot)];
+        return challenge_record_stage_counts[TWindowSubStatusDisp::resolve_player_slot(slot)];
     }
     return 5;
 }
-LAYOUT_ASSERT(RecoveredGlobal_8006F23C_lbl_8048C9D8_size, sizeof(RecoveredGlobal_8006F23C_lbl_8048C9D8) == 0x748);
 
-typedef struct RecoveredGlobal_8006F1EC_lbl_8048C9D8 RecoveredGlobal_8006F1EC_lbl_8048C9D8;
 #pragma optimize_for_size off
-LAYOUT_ASSERT(RecoveredGlobal_8006F1EC_lbl_8048C9D8_size, (sizeof(RecoveredGlobal_8006F1EC_lbl_8048C9D8)) == 0x748);
 
-s32 *TWindowSubStatusDisp__sub_8006F0D8(O_8006F0D8 *self, s32 slot) {
+s32 *TWindowSubStatusDisp__sub_8006F0D8(ChallengeRecord *record, s32 slot) {
     s32 idx = TWindowSubStatusDisp::resolve_player_slot(slot);
     if (idx < 3) {
-        return &self->a[lbl_80438590[idx]];
+        return &record->stage_times[challenge_record_time_offsets[idx]];
     }
-    return &self->def;
+    return record->ep2_split_stage_times;
 }
 
-E_8006F134 *TWindowSubStatusDisp__sub_8006F134(O_8006F134 *self, s32 slot) {
+ChallengeStageRank *TWindowSubStatusDisp__sub_8006F134(ChallengeRecord *record, s32 slot) {
     s32 idx = TWindowSubStatusDisp::resolve_player_slot(slot);
     if (idx < 3) {
-        return &self->e[lbl_80438584[idx]];
+        return &record->ranks[challenge_record_rank_slots[idx]];
     }
-    return &self->def;
+    return &record->ep2_split_rank;
 }
 
 s32 TWindowSubStatusDisp::resolve_player_slot(s32 slot) {
@@ -86,20 +67,16 @@ s32 TWindowSubStatusDisp::resolve_player_slot(s32 slot) {
     return slot;
 }
 
-s32 TLobby::get_flagged_table_entry(s32 arg0) {
-  u8 *new_var;
-  if (TLobby::is_flag_set() != 0)
-  {
-    new_var = (u8 *) (&(*(RecoveredGlobal_8006F1EC_lbl_8048C9D8 *)&challenge_mode_state).value);
-    new_var = new_var + (arg0 * 4);
-    return *((s32 *) (((s8 *) new_var) + 0x38));
-  }
-  return 0;
+s32 TLobby::get_flagged_table_entry(s32 client) {
+    if (TLobby::is_flag_set() != 0) {
+        return challenge_mode_state.client_died[client];
+    }
+    return 0;
 }
 
 s32 TLobby::get_flag_value_if_set() {
     if (TLobby::is_flag_set() != 0) {
-        return *(s32 *)((s8 *)&challenge_mode_state.value + 0x34);
+        return challenge_mode_state.retry_menu_disabled;
     }
     return 0;
 }

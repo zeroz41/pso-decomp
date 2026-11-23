@@ -60,7 +60,7 @@ s32 is_palette_entry_displayable__10TObjPlayerFv(u8 *player, u8 kind, u8 sub) {
             return 0;
         }
         if ((u8)sub == 2) {
-            TItem *weapon = TObjPlayer::get_item_field_6(player);
+            TItem *weapon = TObjPlayer::get_equipped_weapon(player);
             if (weapon != NULL) {
                 if (weapon_has_extra_attack((TItemWeapon *)weapon) == 0) {
                     return 0;
@@ -135,7 +135,7 @@ bool can_use_palette_action__10TObjPlayerFPvUcUc(TObjPlayer_801D8044 *self, u8 k
         return 1;
     case 2:
         if (arg == 2) {
-            w = TObjPlayer::get_item_field_6(self);
+            w = TObjPlayer::get_equipped_weapon(self);
             if (w != NULL) {
                 if (weapon_has_extra_attack((TItemWeapon *)w) == 0) {
                     return 0;

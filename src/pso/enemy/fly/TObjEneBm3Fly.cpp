@@ -14,7 +14,6 @@
 #include "pso/math/AngleLookup.h"
 #include "pso/unk/text_803E2D70.h"
 #include "pso/unk/text_803D96A8.h"
-#include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/enemy/dd/TObjEneDD_ST.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/vector.h"
@@ -47,7 +46,7 @@ AttackParams * TObjEneBm3Fly__attack_params;
 u8 * bm3_fly_resist_stats;
 Bm3FlyParameters * bm3_fly_lobby_params;
 BmlResource * bm3_fly_nest_resources;
-TUnk_8048FA00 * TObjEneBm3Fly__breakup_model;
+TBreakUpMdlData * TObjEneBm3Fly__breakup_model;
 extern const f32 lbl_805D9E80;
 extern void *tl_04;
 
@@ -73,9 +72,9 @@ TObjMotionAction bm3_fly_action_table[5] = {
 const NpcAnimationBinding bm3_fly_resource_binding_desc = { NULL, reinterpret_cast<TObjMotionAction *>(bm3_fly_action_table), 0, 1, 5 };
 
 void TObjEneBm3Fly::load_resources() {
-    TUnk_8048FA00 *model;
+    TBreakUpMdlData *model;
     bm3_fly_nest_resources = TObjEneBm3FlyNest::get_bml_resource();
-    model = new TUnk_8048FA00((saddr)bm3_fly_nest_resources->models[0].model);
+    model = new TBreakUpMdlData((saddr)bm3_fly_nest_resources->models[0].model);
     TObjEneBm3Fly__breakup_model = model;
     bm3_fly_boss_stat_handle = (u8 *)TLobby::register_boss(0);
     TObjEneBm3Fly__attack_params = (AttackParams *)TLobby::dispatch_shared_handler_b(0);
@@ -84,7 +83,7 @@ void TObjEneBm3Fly::load_resources() {
     {
         NpcAnimationBinding binding = bm3_fly_resource_binding_desc;
         binding.motions = reinterpret_cast<BmlMotionEntry *>(bm3_fly_nest_resources->motions);
-        NpcModelRegistry::register_animated_chunk(7, reinterpret_cast<void *>(bm3_fly_nest_resources->models[0].model), reinterpret_cast<void *>(bm3_fly_nest_resources->models[0].m_c), &binding, bm3_fly_collider_params[0].radius, 15.0f);
+        NpcModelRegistry::register_animated_chunk(7, reinterpret_cast<void *>(bm3_fly_nest_resources->models[0].model), reinterpret_cast<void *>(bm3_fly_nest_resources->models[0].texlist), &binding, bm3_fly_collider_params[0].radius, 15.0f);
     }
 }
 
@@ -116,13 +115,13 @@ TObjEneBm3Fly::TObjEneBm3Fly(TObject *parent, TObjEneBm3FlyNest *nest, s32 entit
 void TObjEneBm3Fly::init_child_params() {
     init_position_vectors();
     this->model = (void *)bm3_fly_nest_resources->models[0].model;
-    this->texlist = (saddr)bm3_fly_nest_resources->models[0].m_c;
+    this->texlist = (saddr)bm3_fly_nest_resources->models[0].texlist;
     this->init_model(bm3_fly_collider_params, 1);
-    set_field_d8((saddr)bm3_fly_action_table);
-    set_field_dc((saddr)bm3_fly_nest_resources->motions);
+    set_action_table((saddr)bm3_fly_action_table);
+    set_motion_list((saddr)bm3_fly_nest_resources->motions);
     this->requested_action = 0;
     set_animation(this->requested_action);
-    set_field_b8(this->requested_action);
+    set_requested_action(this->requested_action);
     this->reset_hp(bm3_fly_boss_stat_handle, (u8 *)TObjEneBm3Fly__attack_params, bm3_fly_resist_stats);
     set_state_flag_1();
     this->movementParameters = &bm3_fly_decision_row;
@@ -1139,7 +1138,7 @@ void TObjEneBm3Fly::render_demo() {
 
 void TObjEneMoja::bindModel(int index) {
     model = (void *)moja_bml_resource->models[index].model;
-    texlist = (saddr)moja_bml_resource->models[index].m_c;
+    texlist = (saddr)moja_bml_resource->models[index].texlist;
 }
 
 f32 AttackParams::get_damage_radius() { return damage_radius; }

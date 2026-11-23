@@ -1,6 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/boss/DragonAttackParams.h"
-#include "pso/unk/text_80087278.h"
 #include "pso/system/BmlResourceLoader.h"
 #include "pso/system/BmlResource.h"
 #include "pso/animation/ActorAnimationState.h"
@@ -67,7 +66,6 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/enemy/shinowa/TObjEneMe3ShinowaReal_8002ADD8.h"
-#include "pso/unk/text_800870BC.h"
 #include "pso/object/TObjControl.h"
 #include "pso/boss/goldragon/TBoss8Dragon_802F3AB4.h"
 #include "pso/boss/goldragon/TBoss8DragonDemo.h"
@@ -84,7 +82,6 @@
 #include "pso/unk/text_803D853C.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/camera/CameraHelpers.h"
-#include "pso/unk/text_80086B64.h"
 
 extern "C" {
 extern s32 local_client_id;
@@ -501,17 +498,17 @@ TBoss8Dragon::TBoss8Dragon(TObject *parent, void *set_data) : TObjEneDD_ST(paren
     }
     this->init_position_vectors();
     this->model = boss8_dragon_resource->models[0].model;
-    this->texlist = (saddr)boss8_dragon_resource->models[0].m_c;
+    this->texlist = (saddr)boss8_dragon_resource->models[0].texlist;
     this->scale.x = 2.0f;
     this->scale.y = 2.0f;
     this->scale.z = 2.0f;
     init_model(boss8_dragon_collision_bodies, 7);
     this->motion_flags = 0;
-    this->set_field_d8((saddr)boss8_dragon_motion_actions);
-    this->set_field_dc((saddr)boss8_dragon_resource->motions);
+    this->set_action_table((saddr)boss8_dragon_motion_actions);
+    this->set_motion_list((saddr)boss8_dragon_resource->motions);
     this->requested_action = 0;
     this->set_animation(this->requested_action);
-    this->set_field_b8(this->requested_action);
+    this->set_requested_action(this->requested_action);
     reset_hp((u8 *)(TLobby::register_boss(0x12)), boss8_dragon_part_hp_stats[boss8_dragon_attack_stat_indices[0]], (u8 *)(TLobby::register_object(0x12)));
     this->set_state_flag_1();
     this->movementParameters = boss8_dragon_movement_params;
@@ -2851,7 +2848,7 @@ void TBoss8Dragon::update_stretch_state(s32 event) {
     case 0:
         this->advance_animation();
         if (this->is_passing_frame(20.0f) != 0) {
-            play_cue_stream_file((saddr)"draroar.adx");
+            play_cue_stream_file("draroar.adx");
         }
         break;
     case 5:
@@ -2869,7 +2866,7 @@ void TBoss8Dragon::state_roar(s32 event) {
         this->activate_attack();
         this->flags = (s32) (this->flags | 0x30);
         this->flags = (s32) (this->flags & 0xFFFFFFF9);
-        play_cue_stream_file((saddr)"draroar.adx");
+        play_cue_stream_file("draroar.adx");
         this->set_invulnerable();
         this->stateStep = 0;
         break;
@@ -3427,7 +3424,7 @@ void TBoss8Dragon::update_death_state(s32 event) {
         this->impactAge = 0;
         this->fallVelocity = 0.0f;
         this->breath_particles[0] = 0;
-        play_cue_stream_file((saddr)"goldeath.adx");
+        play_cue_stream_file("goldeath.adx");
         TWindowCtrl::init_all_slots();
         cam.bank = 2;
         cam.index = 0;
@@ -4385,7 +4382,7 @@ void TBoss8Dragon::update_appearance_state(s32 event) {
                 break;
             case 4:
                 if (this->is_passing_frame(105.0f) != 0) {
-                    play_cue_stream_file((saddr)"dradeath.adx");
+                    play_cue_stream_file("dradeath.adx");
                     this->action_frames++;
                     this->impactAge = 0;
                 }

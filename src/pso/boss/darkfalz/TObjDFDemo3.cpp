@@ -2,10 +2,8 @@
 #include "pso/system/BmlAccessors.h"
 #pragma defer_codegen on
 
-#include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/ModelNodePositionCapture.h"
-#include "pso/unk/text_80087278.h"
 #include "types.h"
 #include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/camera/CameraPlayback.h"

@@ -48,7 +48,6 @@
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/ControllerInput.h"
-#include "pso/unk/text_800870BC.h"
 #include "pso/network/client_id.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel_8007E418.h"
 #include "pso/math/MatrixVector.h"

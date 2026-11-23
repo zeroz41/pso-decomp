@@ -10,6 +10,7 @@ class TEffect : public TObject {
 public:
     TEffect();
     virtual ~TEffect();
+    static const char *class_name;
 
     uaddr source;
     Vec position;
@@ -17,7 +18,7 @@ public:
     Vec scale;
     Vec direction;
     s32 angles[3];
-    f32 field_60;
+    f32 pad_60;     // zeroed by the ctor, used by no effect
     f32 speed;
     s32 age;
     u32 state;
@@ -27,6 +28,12 @@ LAYOUT_ASSERT(EffectSize, sizeof(TEffect) == 0x70);
 LAYOUT_ASSERT(EffectPositionOffset, offsetof(TEffect, position) == 0x20);
 LAYOUT_ASSERT(EffectScaleOffset, offsetof(TEffect, scale) == 0x3C);
 LAYOUT_ASSERT(EffectAgeOffset, offsetof(TEffect, age) == 0x68);
+
+// A texture file and the texture list it is bound to.
+struct EffectTextureFile {
+    GinjaTextureList *texlist;
+    const char *filename;
+};
 
 // One frame of an animated texture list, put into a slot of the texture list
 // a model draws with.

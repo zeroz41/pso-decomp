@@ -28,7 +28,6 @@
 #include "pso/render/TUnk_80494938.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/boss/darkfalz/TBoss4Type2.h"
-#include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel_8007E418.h"
 #include "pso/enemy/lappy/TObjEneLappy.h"
 #include "pso/enemy/sinowzoa/TObjEneMe3SinowZoa.h"
@@ -39,8 +38,6 @@
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/effect/particle/TParticleCtrl.h"
-#include "pso/unk/text_80086D50.h"
-#include "pso/unk/text_800871A0.h"
 #include "pso/ui/TLevelSelect.h"
 #include "pso/math/ScratchVectors.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
@@ -141,7 +138,7 @@ void TObjEneIllGill::load_shared_resources() {
         NpcAnimationBinding pos = illGillAnimBinding;
         resource = illGillResource;
         pos.motions = reinterpret_cast<BmlMotionEntry *>(resource->motions);
-        NpcModelRegistry::register_animated_chunk((s16)0x43, reinterpret_cast<void *>(resource->models->model), reinterpret_cast<void *>(((saddr)resource->models->m_c)), &pos, illGillCollisionBody.radius, 0.0f);
+        NpcModelRegistry::register_animated_chunk((s16)0x43, reinterpret_cast<void *>(resource->models->model), reinterpret_cast<void *>(((saddr)resource->models->texlist)), &pos, illGillCollisionBody.radius, 0.0f);
     }
 }
 
@@ -159,13 +156,13 @@ TObjEneIllGill::TObjEneIllGill(TObject *parent, void *setData) : TObjEnemy(paren
     init_position_vectors();
     apply_actor_gravity((TObjEnemy *)self, (s32 *)(0), 0.0f);
     model = (void *)illGillResource->models->model;
-    texlist = (saddr)illGillResource->models->m_c;
+    texlist = (saddr)illGillResource->models->texlist;
     motion_list = illGillResource->motions;
     action_table = illGillActions;
-    this->set_field_d8((saddr)action_table);
+    this->set_action_table((saddr)action_table);
     requested_action = 0;
     this->set_animation(requested_action);
-    this->set_field_b8(requested_action);
+    this->set_requested_action(requested_action);
     this->sub_8002AE64();
     scale.x = 1.2f;
     scale.y = 1.2f;

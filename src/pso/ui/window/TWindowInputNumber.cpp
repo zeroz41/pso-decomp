@@ -126,7 +126,7 @@ struct ArrowUVs { UV_802563A0 uv[2]; };
 static const ArrowUVs arrow_uvs = {{{224.0f, 0.0f}, {240.0f, 0.0f}}};
 
 extern "C" {
-extern s32 lbl_805D63F0;
+extern s32 hud_texlist;
 void __dl__7TObjectFPv(void *);
 
 void TWindowInputNumber::create(s32 title) {
@@ -219,7 +219,7 @@ void TWindowInputNumber::draw_arrows(WindowDrawContext *ctx, TUnk_804CF9C8 *digi
     y = ctx->inner_y + digit->y;
     depth = -1.0f / (0.22424999f + ctx->depth);
     begin_screen_draw(1);
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(lbl_805D63F0));
+    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(hud_texlist));
     set_draw_texture_and_color(0, -1);
     q.x0 = x;
     q.y0 = y - 15.0f;

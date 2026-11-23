@@ -60,7 +60,6 @@
 #include "pso/render/ModelDrawContext.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/effect/particle/TParticleCtrl_800867E4.h"
 #include "pso/enemy/epsilon/TObjEneEpsilon_800B92AC.h"
 #include "pso/enemy/dd/TObjEneDD_800B9A34.h"
 #include "pso/render/GinjaView.h"
@@ -97,7 +96,7 @@ extern StelthBehaviorParams *TObjEneMe3Stelth__behavior_params_by_variant[];
 extern CollisionBody TObjEneMe3Stelth__collision_body_template;
 BmlResource *TObjEneMe3Stelth__bml_resource;
 s32 TObjEneMe3Stelth__render_node_index;
-TUnk_8048FA00 *TObjEneMe3Stelth__breakup_model;
+TBreakUpMdlData *TObjEneMe3Stelth__breakup_model;
 SampledMotionPoints *TObjEneMe3Stelth__trail_buffer;
 s32 stelth_projection_texture_handle;
 f32 lbl_805010E0[3];
@@ -192,7 +191,7 @@ void TObjEneMe3Stelth::load_shared_resources() {
     } else {
         TObjEneMe3Stelth__bml_resource = load_enemy_bml_resource(&stelth_bml_resource_desc);
     }
-    src = (NJS_TEXLIST *)TObjEneMe3Stelth__bml_resource->models->m_c;
+    src = (NJS_TEXLIST *)TObjEneMe3Stelth__bml_resource->models->texlist;
     n = src->nbTexture;
     TObjEneMe3Stelth__alternate_texture_list.nbTexture = n;
     TObjEneMe3Stelth__alternate_texture_list.textures = (NJS_TEXNAME *)mem_alloc(n * sizeof(NJS_TEXNAME));
@@ -242,11 +241,11 @@ void TObjEneMe3Stelth::load_shared_resources() {
     }
     motion = TObjEneMe3Stelth__bml_resource->motions[TObjEneMe3Stelth__animation_descriptors[5].motion].motion;
     if (is_split_screen() != 0) {
-        p = new TUnk_8048FA00(TObjEneMe3Stelth__bml_resource->models->model, (NJS_MOTION *)motion, (f32)(((NJS_MOTION *)motion)->nbFrame - 1));
-        TObjEneMe3Stelth__breakup_model = (TUnk_8048FA00 *)p;
+        p = new TBreakUpMdlData(TObjEneMe3Stelth__bml_resource->models->model, (NJS_MOTION *)motion, (f32)(((NJS_MOTION *)motion)->nbFrame - 1));
+        TObjEneMe3Stelth__breakup_model = (TBreakUpMdlData *)p;
     } else {
-        p = new TUnk_8048FA00((long)(saddr)TObjEneMe3Stelth__bml_resource->models->model, (long)motion, (f32)(((NJS_MOTION *)motion)->nbFrame - 1));
-        TObjEneMe3Stelth__breakup_model = (TUnk_8048FA00 *)p;
+        p = new TBreakUpMdlData((long)(saddr)TObjEneMe3Stelth__bml_resource->models->model, (long)motion, (f32)(((NJS_MOTION *)motion)->nbFrame - 1));
+        TObjEneMe3Stelth__breakup_model = (TBreakUpMdlData *)p;
     }
     {
         Vec va;
@@ -272,9 +271,9 @@ void TObjEneMe3Stelth::load_shared_resources() {
         NpcAnimationBinding b = stelth_attack_binding_desc_b;
         b.motions = TObjEneMe3Stelth__bml_resource->motions;
         NpcModelRegistry::register_animated_ginja(0x2B, reinterpret_cast<NJS_OBJECT *>(TObjEneMe3Stelth__bml_resource->models->model),
-                                                  reinterpret_cast<GinjaTextureList *>(TObjEneMe3Stelth__bml_resource->models->m_c), &a, 8.0f, 0.0f);
+                                                  reinterpret_cast<GinjaTextureList *>(TObjEneMe3Stelth__bml_resource->models->texlist), &a, 8.0f, 0.0f);
         NpcModelRegistry::register_animated_ginja(0x2D, reinterpret_cast<NJS_OBJECT *>(TObjEneMe3Stelth__bml_resource->models->model),
-                                                  reinterpret_cast<GinjaTextureList *>(TObjEneMe3Stelth__bml_resource->models->m_c), &b, 8.0f, 0.0f);
+                                                  reinterpret_cast<GinjaTextureList *>(TObjEneMe3Stelth__bml_resource->models->texlist), &b, 8.0f, 0.0f);
     }
 }
 void *TObjEneMe3Stelth::create_real() { return TObjEneMe3StelthReal::create(this); }
@@ -318,8 +317,8 @@ void TObjEneMe3StelthReal::init_common() {
     model = (void *)entry->model;
     init_model(&TObjEneMe3Stelth__collision_body_template, 1);
     motion_flags = 0;
-    set_field_d8((saddr)TObjEneMe3Stelth__animation_descriptors);
-    set_field_dc((saddr)TObjEneMe3Stelth__bml_resource->motions);
+    set_action_table((saddr)TObjEneMe3Stelth__animation_descriptors);
+    set_motion_list((saddr)TObjEneMe3Stelth__bml_resource->motions);
     set_animation(requested_action);
     v = variant_index;
     reset_hp((u8 *)TObjEneMe3Stelth__base_params_by_variant[v], (u8 *)TObjEneMe3Stelth__attack_params_by_variant[v], (u8 *)TObjEneMe3Stelth__resistance_params_by_variant[v]);
@@ -492,7 +491,7 @@ void TObjEneMe3Stelth::attack_and_unequip() {
             if (is_alternate_variant() != 0) {
                 TObjChara *t = current_target;
                 TItem *held;
-                if (TObjPlayer::is_locally_controlled(t) != 0 && (held = (TItem *)TObjPlayer::get_item_field_6(t)) != 0) {
+                if (TObjPlayer::is_locally_controlled(t) != 0 && (held = (TItem *)TObjPlayer::get_equipped_weapon(t)) != 0) {
                     TObjPlayer::send_6x26_unequip_item((void *)t, held->get_item_id());
                     ((TObjPlayer *)t)->get_hand_joint_position((saddr)&hand_position);
                     spawn_particle_effect(&hand_position, 0x1D0);
@@ -568,7 +567,7 @@ void TObjEneMe3Stelth::init_variant() {
         variant_index = 1;
         return;
     }
-    texlist = (saddr)TObjEneMe3Stelth__bml_resource->models->m_c;
+    texlist = (saddr)TObjEneMe3Stelth__bml_resource->models->texlist;
     initialize_enemy_state(0x3E);
     variant_index = 0;
 }
@@ -2116,7 +2115,7 @@ s32 TObjEneMe3Stelth::try_spawn_ground_effect(const Vec *origin) {
             attach_particle_model((u8 *)effect, TParticleCtrl::get_particle_model(2), TParticleCtrl::get_instance(), 0, 1, 1.0f);
         }
         spawn_particle_effect(&hit->contact[2].point, 0xA4);
-        TObjEneGibbles__sub_800D8988(&position);
+        play_ground_contact_sound(&position);
         return 1;
     }
     return 0;

@@ -30,7 +30,7 @@
 #include "pso/technique/TTecMegid.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
-#include "pso/effect/TUnk_80494968.h"
+#include "pso/effect/TAttackTrace.h"
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlResourceDescriptor.h"
@@ -43,7 +43,6 @@
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/object/TObjControl.h"
-#include "pso/unk/text_80086D50.h"
 #include "pso/ui/TLevelSelect.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/math/MatrixTransforms.h"
@@ -172,11 +171,11 @@ TObjEneMoja::TObjEneMoja(TObject *parent, void *setData) : TObjEnemy(parent) {
     select_rare_variant();
     subtype = 1;
     action_table = moja_motion_actions;
-    set_field_d8((saddr)action_table);
+    set_action_table((saddr)action_table);
     motion_list = moja_bml_resource->motions;
     requested_action = 0;
     set_animation(requested_action);
-    set_field_b8(requested_action);
+    set_requested_action(requested_action);
     init_collision_body_parts(this, &moja_collision_body, 1);
     attack = 0;
     bind_enemy_combat_stats((u8 *)moja_boss_stats_handles[variant], (u8 *)moja_attack_params[attack + variant * 3],
@@ -194,7 +193,7 @@ TObjEneMoja::TObjEneMoja(TObject *parent, void *setData) : TObjEnemy(parent) {
     add_flags_2e4(1);
     actorFlags |= 0x40000;
     sinkOffset = 0.0f;
-    unknown_398 = TUnk_80494968::create(0xFF303030, 0x0A303030);
+    unknown_398 = TAttackTraceStrip::create(0xFF303030, 0x0A303030);
     for (s32 i = 0; i < 4; i++) {
         unknown_39C[i].activate_and_dispatch();
     }
@@ -251,7 +250,7 @@ void TObjEneMoja::load_resources() {
     s16 ids[3] = { 0x32, 0x33, 0x34 };
     NpcAnimationBinding binding = { reinterpret_cast<BmlMotionEntry *>(moja_bml_resource->motions), reinterpret_cast<TObjMotionAction *>(moja_motion_actions), 0, 2, 9 };
     for (s32 i = 0; i < 3; i++) {
-        NpcModelRegistry::register_animated_chunk(ids[i], reinterpret_cast<void *>(moja_bml_resource->models[i].model), reinterpret_cast<void *>(moja_bml_resource->models[i].m_c),
+        NpcModelRegistry::register_animated_chunk(ids[i], reinterpret_cast<void *>(moja_bml_resource->models[i].model), reinterpret_cast<void *>(moja_bml_resource->models[i].texlist),
             &binding, moja_collision_body.radius, 0.0f);
     }
 }
@@ -928,7 +927,7 @@ void TObjEneMoja::update_punch_attack() {
     s32 n;
     s32 i;
     TObjChara *p;
-    TUnk_80494968 *trace;
+    TAttackTraceStrip *trace;
     Vec *e;
     switch (phase) {
     case 0:

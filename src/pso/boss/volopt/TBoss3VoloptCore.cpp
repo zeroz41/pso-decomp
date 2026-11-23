@@ -25,7 +25,6 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/effect/particle/TParticleCtrl.h"
-#include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/network/client_id.h"
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/player/TObjPlayer_801542CC.h"
@@ -90,7 +89,7 @@ saddr TObjPlayer::get_battle_param(int index) {
 
 void TBoss3VoloptCore::load_entry_params_volopt(s32 index) {
     model = (void *)core_resources->models[index].model;
-    texlist = (saddr)core_resources->models[index].m_c;
+    texlist = (saddr)core_resources->models[index].texlist;
 }
 
 s32 TBoss3VoloptCore::get_orbit_speed(s32 index) {
@@ -119,14 +118,14 @@ void TBoss3VoloptCore::init_params() {
     m_name = TBoss3VoloptCore_name;
     motion_list = core_resources->motions;
     action_table = core_motions;
-    set_field_d8((saddr)action_table);
+    set_action_table((saddr)action_table);
     init_collision_body_parts(this, core_body_parts, 1);
     variant = 0;
     movementParameters = &core_movement;
     recalc_combat_stats(core_combat_stats_a, core_combat_stats_b, core_combat_stats_c, 1.0f, 1.0f);
     this->requested_action = 0;
     set_animation(this->requested_action);
-    set_field_b8(this->requested_action);
+    set_requested_action(this->requested_action);
     hp = hpmax;
     tp = tpmax;
     referenceHp = hp;

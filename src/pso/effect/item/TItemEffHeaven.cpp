@@ -6,9 +6,8 @@
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/system/vector.h"
-#include "pso/unk/text_80087278.h"
 
-const char *TItemEffHeaven__class_name = "TItemEffHeaven";
+const char *TItemEffHeaven::class_name = "TItemEffHeaven";
 
 void TItemEffHeaven::run_task() {
     s32 i;
@@ -71,7 +70,7 @@ TItemEffHeaven::~TItemEffHeaven() {
 TItemEffHeaven::TItemEffHeaven(TObject *parent, TObjPlayer *attacker, u16 target_id, s32 body_index)
     : TObject(parent) {
     s32 i;
-    m_name = TItemEffHeaven__class_name;
+    m_name = class_name;
     this->target_id = target_id;
     target = NULL;
     this->attacker = attacker;

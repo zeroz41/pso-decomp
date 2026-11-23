@@ -7,7 +7,6 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/render/MaterialColorFade.h"
 #include "pso/boss/goldragon/TBoss8Dragon_80065C90.h"
-#include "pso/effect/particle/TParticleCtrl_800867E4.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/system/task/TObject_8001A448.h"
 #include "pso/render/ChunkMaterialState.h"
@@ -266,7 +265,6 @@ struct RecoveredFields_8008213C_temp_r3 {
 };
 
 extern "C" {
-TParticleCtrl *create_particle_emitter(const void *pos, s32 id);
 extern saddr tl_05;
 
 void TLobby::destroy_global_singleton() {
@@ -369,7 +367,7 @@ __declspec(section ".data") const char *bm_eff_ice_motion_names[2] = { "ice_brea
 BmlResourceDescriptor enemy_freeze_ice_resource_descriptor = { "bm_eff_ice.bml", bm_eff_ice_model_names, bm_eff_ice_motion_names, 2, 1 };
 
 void TUnk_8048E1A4::apply_knockback_from_attacker(u8 *, f32) {  }
-void TParticleCtrl::set_scale(f32 a, f32 b) { field_40 = a; field_44 = b; }
+void TParticleCtrl::set_scale(f32 a, f32 b) { scale_x = a; scale_y = b; }
 
 f32 TObjChara::get_frame() { return this->frame; }
 

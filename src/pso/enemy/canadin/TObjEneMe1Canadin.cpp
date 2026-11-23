@@ -52,10 +52,8 @@
 #include "pso/render/render_util.h"
 #include "pso/unk/text_803E2D70.h"
 #include "pso/unk/text_803D96A8.h"
-#include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/system/MatrixOps.h"
-#include "pso/effect/particle/TParticleCtrl_800867E4.h"
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel_8007E418.h"
@@ -76,8 +74,8 @@ Vec *TObjEneMe1Canadin__render_point_cursor;
 
 
 
-TUnk_8048FA00 *canadin_leader_breakup_model;
-TUnk_8048FA00 *canadin_breakup_model;
+TBreakUpMdlData *canadin_leader_breakup_model;
+TBreakUpMdlData *canadin_breakup_model;
 // Colour words of the first material chunk (polygon_list + 2) of nodes 3 and 2 of the leader and member models;
 // apply_model_color writes core_color_packed into them.
 s32 *canadin_leader_node3_diffuse;
@@ -164,10 +162,10 @@ void TObjEneMe1Canadin::load_resources() {
         canadin_shared_handler_a_table[i] = (TObjEneMe1CanadinParams *)TLobby::dispatch_shared_handler_a(canadin_param_ids[i]);
     }
     TObjEneMe1Canadin__render_node_index = 0;
-    p = new TUnk_8048FA00((saddr)bm_ene_me1_mb_resource->models[1].model);
-    canadin_leader_breakup_model = (TUnk_8048FA00 *)p;
-    p = new TUnk_8048FA00((saddr)bm_ene_me1_mb_resource->models[0].model);
-    canadin_breakup_model = (TUnk_8048FA00 *)p;
+    p = new TBreakUpMdlData((saddr)bm_ene_me1_mb_resource->models[1].model);
+    canadin_leader_breakup_model = (TBreakUpMdlData *)p;
+    p = new TBreakUpMdlData((saddr)bm_ene_me1_mb_resource->models[0].model);
+    canadin_breakup_model = (TBreakUpMdlData *)p;
     model = (saddr)bm_ene_me1_mb_resource->models[1].model;
     canadin_leader_node3_diffuse = (s32 *)(((NJS_CNK_MODEL *)((NJS_OBJECT *)find_model_node(model, 3))->model)->polygon_list + 2);
     canadin_leader_node2_diffuse = (s32 *)(((NJS_CNK_MODEL *)((NJS_OBJECT *)find_model_node(model, 2))->model)->polygon_list + 2);
@@ -178,7 +176,7 @@ void TObjEneMe1Canadin::load_resources() {
     s16 ids[2] = { 0x17, 0x18 };
     NpcAnimationBinding params = { reinterpret_cast<BmlMotionEntry *>(bm_ene_me1_mb_resource->motions), reinterpret_cast<TObjMotionAction *>(canadin_action_table), 0, 0, 7 };
     for (i = 0; i < 2; i++) {
-        NpcModelRegistry::register_animated_chunk(ids[i], reinterpret_cast<void *>(bm_ene_me1_mb_resource->models[i].model), reinterpret_cast<void *>(bm_ene_me1_mb_resource->models[1].m_c), &params, 8.0f, 15.0f);
+        NpcModelRegistry::register_animated_chunk(ids[i], reinterpret_cast<void *>(bm_ene_me1_mb_resource->models[i].model), reinterpret_cast<void *>(bm_ene_me1_mb_resource->models[1].texlist), &params, 8.0f, 15.0f);
     }
 }
 
@@ -238,11 +236,11 @@ void TObjEneMe1Canadin::setup_enemy() {
     init_position_vectors();
     this->select_model();
     init_model(&canadin_collision_body, 1);
-    set_field_d8((saddr)canadin_action_table);
-    set_field_dc((saddr)bm_ene_me1_mb_resource->motions);
+    set_action_table((saddr)canadin_action_table);
+    set_motion_list((saddr)bm_ene_me1_mb_resource->motions);
     requested_action = 0;
     set_animation(requested_action);
-    set_field_b8(requested_action);
+    set_requested_action(requested_action);
     reset_hp((u8 *)canadin_boss_stat_handle_table[kind], (u8 *)canadin_shared_handler_b_table[kind], (u8 *)canadin_object_handle_table[kind]);
     set_state_flag_4();
     movementParameters = &canadin_setup_param_block;
@@ -371,7 +369,7 @@ void TObjEneMe1Canadin::apply_parameters() {
 
 void TObjEneMe1Canadin::select_model() {
     model = (void *)bm_ene_me1_mb_resource->models[0].model;
-    texlist = (saddr)bm_ene_me1_mb_resource->models[1].m_c;
+    texlist = (saddr)bm_ene_me1_mb_resource->models[1].texlist;
 }
 
 #pragma push
@@ -1916,7 +1914,7 @@ void TObjEneMe1CanadinLeader::run_task() {
 
 void TObjEneMe1CanadinLeader::select_model() {
     model = (void *)bm_ene_me1_mb_resource->models[1].model;
-    texlist = (saddr)bm_ene_me1_mb_resource->models[1].m_c;
+    texlist = (saddr)bm_ene_me1_mb_resource->models[1].texlist;
 }
 
 void TObjEneMe1CanadinLeader::select_next_attack_state() {

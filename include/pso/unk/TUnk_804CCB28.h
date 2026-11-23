@@ -5,7 +5,7 @@
 #include <dolphin/mtx.h>
 #include "pso/system/task/TObject.h"
 
-struct TUnk_804DDF04;
+struct TEffIndirect;
 
 class TUnk_804CCB28 : public TObject {
 public:
@@ -16,7 +16,7 @@ public:
     u8 unk_1C[0x4];
     s16 m_20;
     u8 unk_22[0x2];
-    TUnk_804DDF04 *indirect_effect;
+    TEffIndirect *indirect_effect;
     Vec position;
     f32 m_34;
     f32 m_38;

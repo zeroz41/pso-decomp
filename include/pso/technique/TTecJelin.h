@@ -2,10 +2,10 @@
 #define PSO_TECHNIQUE_TTECJELIN_H
 
 #include "types.h"
-#include "pso/effect/TUnk_804CC148.h"
+#include "pso/technique/TTecCircle.h"
 #include "pso/player/TargetCursorList.h"
 
-struct TTecJelin : public TUnk_804CC148 {
+struct TTecJelin : public TTecCircle {
     TTecJelin(saddr source, Vec *pos, TargetCursorList *list, s32 level);
     TTecJelin(saddr source, Vec *pos, Vec *target, s32 level);
     virtual ~TTecJelin();

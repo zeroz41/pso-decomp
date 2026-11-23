@@ -23,7 +23,6 @@
 #include "pso/player/TObjPlayer_800D8FDC.h"
 #include "pso/render/reflection.h"
 #include "pso/math/AngleLookup.h"
-#include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/enemy/dd/TObjEneDD_ST.h"
 #include "pso/object/base/TObjMotion.h"
@@ -172,7 +171,7 @@ void TObjEneMorfos::load_static_data() {
     {
         NpcAnimationBinding desc = { TObjEneMorfos__instance->motions, reinterpret_cast<TObjMotionAction *>(morfos_motion_param_table), 0, 0, 6 };
         NpcModelRegistry::register_animated_chunk(0x4D, TObjEneMorfos__instance->models[1].model,
-                                TObjEneMorfos__instance->models[1].m_c, &desc,
+                                TObjEneMorfos__instance->models[1].texlist, &desc,
                                 8.0f, 0.0f);
     }
 }
@@ -200,13 +199,13 @@ void TObjEneMorfos::init_instance() {
 
     init_position_vectors();
     model = TObjEneMorfos__instance->models[1].model;
-    this->texlist = (saddr)TObjEneMorfos__instance->models[1].m_c;
+    this->texlist = (saddr)TObjEneMorfos__instance->models[1].texlist;
     init_model(morfos_collision_bodies, 1);
-    set_field_d8((saddr)morfos_motion_param_table);
-    set_field_dc((saddr)TObjEneMorfos__instance->motions);
+    set_action_table((saddr)morfos_motion_param_table);
+    set_motion_list((saddr)TObjEneMorfos__instance->motions);
     this->requested_action = 0;
     set_animation(this->requested_action);
-    set_field_b8(this->requested_action);
+    set_requested_action(this->requested_action);
     reset_hp((u8 *)(morfos_base_params[morfos_base_params_index[0]]), (u8 *)(morfos_attack_params[morfos_attack_params_index[0]]), (u8 *)(morfos_resistance_params[morfos_resistance_params_index[0]]));
     load_params();
     set_state_8();
@@ -1259,7 +1258,7 @@ s32 TObjEneMorfos::render_model_if_visible() {
 #pragma opt_common_subs off
 void TObjEneMorfos::draw_body() {
     if ((s32)main_task.get_task_flags() & 0x200) {
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(TObjEneMorfos__instance->models[2].m_c));
+        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(TObjEneMorfos__instance->models[2].texlist));
         push_matrix();
         post_translate_matrix(&node_points[0].x);
         rotate_matrix_y(0, (int) (rotation_y));

@@ -10,7 +10,6 @@
 #include "pso/render/render_util.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/system/vector.h"
-#include "pso/unk/text_800870BC.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/map/CsnQuery.h"

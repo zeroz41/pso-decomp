@@ -6,7 +6,6 @@
 #include "pso/boss/derolle/TUnk_80482EC0.h"
 #include "pso/boss/derolle/TUnk_80482D04.h"
 #include "pso/effect/particle/TParticleCtrl.h"
-#include "pso/effect/particle/TParticleCtrl_800867E4.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
@@ -116,7 +115,7 @@ TBoss2Mine::TBoss2Mine(TObject *parent, u16 entity_id, s32 set_index, s32 varian
 void TBoss2Mine::init(s32 variant) {
     this->init_position_vectors();
     this->model = boss2_derolle_resource->models[3].model;
-    this->texlist = (saddr)boss2_derolle_resource->models[2].m_c;
+    this->texlist = (saddr)boss2_derolle_resource->models[2].texlist;
     this->init_model(&boss2_mine_collision_body, 1);
     this->reset_hp((u8 *)TLobby::register_boss(boss2_mine_params[variant]),
                    (u8 *)TLobby::dispatch_shared_handler_b(boss2_mine_attack_params[variant]),

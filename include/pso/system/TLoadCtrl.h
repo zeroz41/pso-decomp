@@ -16,6 +16,8 @@ struct TLoadCtrl : public TObject {
     static void poll_default();
     static void step();
     static void set_field1C(s32 arg0);
+    // Whether a loader is running.
+    static BOOL is_loading();
 };
 
 LAYOUT_ASSERT(TLoadCtrl_size, sizeof(TLoadCtrl) == 0x24);

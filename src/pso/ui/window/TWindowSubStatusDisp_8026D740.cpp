@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/ui/window/Scroll_8026D790.h"
+#include "pso/ui/window/WindowScrollBar.h"
 #include "pso/ui/window/WindowDrawContext.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
@@ -22,31 +22,29 @@ struct Ctx_8026D790 {
     f32 x38;
 };
 
-struct Quad_8026D790 { f32 x, y, r, b, u, v, ur, vb; };
 
 extern "C" {
 void __dl__FPv(void);
-s32 clamp_list_scroll_offset(NJS_POINT2 *a, NJS_POINT2 *b, NJS_POINT2 *c);
-void draw_window_scrollbar(Scroll_8026D790 *scroll, Ctx_8026D790 *c, f32 *offset);
-extern void *lbl_805D63F0;
-}
+void draw_window_scrollbar(WindowScrollBar *scroll, Ctx_8026D790 *c, f32 *offset);
+extern void *hud_texlist;
 
-s32 clamp_list_scroll_offset(NJS_POINT2 *a, NJS_POINT2 *b, NJS_POINT2 *c) {
+s32 clamp_list_scroll_offset(WindowScrollBar *scroll, NJS_POINT2 *offset, NJS_POINT2 *range) {
     f32 room;
-    if (a->y < c->y || b->y < 0.0f) {
-        b->y = 0.0f;
+    if (scroll->height < range->y || offset->y < 0.0f) {
+        offset->y = 0.0f;
         return 1;
     }
-    room = a->y - c->y;
-    if (b->y > room) {
-        b->y = room;
+    room = scroll->height - range->y;
+    if (offset->y > room) {
+        offset->y = room;
         return 1;
     }
     return 0;
 }
+}
 
-void draw_window_scrollbar(Scroll_8026D790 *scroll, Ctx_8026D790 *c, f32 *offset) {
-    Quad_8026D790 q;
+void draw_window_scrollbar(WindowScrollBar *scroll, Ctx_8026D790 *c, f32 *offset) {
+    TexturedQuad q;
     f32 depth;
     f32 x;
     f32 y;
@@ -63,40 +61,40 @@ void draw_window_scrollbar(Scroll_8026D790 *scroll, Ctx_8026D790 *c, f32 *offset
     x = c->x + c->width - 7.0f;
     y = 17.0f + c->y;
     begin_screen_draw(0);
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(lbl_805D63F0));
+    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(hud_texlist));
     set_draw_texture_and_color(0, 0xFF646464);
     depth = -1.0f / (0.1196f + c->x38);
-    q.x = x;
-    q.r = q.x + 3.0f;
-    q.y = y;
-    q.b = (y + c->height) - 34.0f;
-    q.u = 0.9375f;
-    q.v = 0.23046875f;
-    q.ur = 0.94921875f;
-    q.vb = 0.25f;
-    ((WindowDrawContext *)c)->transform_quad((TexturedQuad *)&q);
-    draw_textured_quad_at_depth((f32 *)&q, depth);
+    q.x0 = x;
+    q.x1 = q.x0 + 3.0f;
+    q.y0 = y;
+    q.y1 = (y + c->height) - 34.0f;
+    q.u0 = 0.9375f;
+    q.v0 = 0.23046875f;
+    q.u1 = 0.94921875f;
+    q.v1 = 0.25f;
+    ((WindowDrawContext *)c)->transform_quad(&q);
+    draw_textured_quad_at_depth(&q.x0, depth);
     set_constant_material_color(calc_pulse_flash_color(0x86, 0xFF, 0x41, scroll->frame, 0x1C2, 0x12C, 0x13B, 0x14A));
     depth = -1.0f / (0.1495f + c->x38);
     t = c->height;
     if (t >= 35.0f) {
         t -= 34.0f;
         if (scroll->height <= t) {
-            q.y = y;
-            q.b = y + t;
+            q.y0 = y;
+            q.y1 = y + t;
         } else {
-            q.y = y + offset[1] * t / scroll->height;
-            q.b = q.y + c->clip_height * t / scroll->height;
+            q.y0 = y + offset[1] * t / scroll->height;
+            q.y1 = q.y0 + c->clip_height * t / scroll->height;
         }
     }
-    q.x = x;
-    q.r = q.x + 3.0f;
-    q.u = 0.96484375f;
-    q.v = 0.23046875f;
-    q.ur = 0.9765625f;
-    q.vb = 0.25f;
-    ((WindowDrawContext *)c)->transform_quad((TexturedQuad *)&q);
-    draw_textured_quad_at_depth((f32 *)&q, depth);
+    q.x0 = x;
+    q.x1 = q.x0 + 3.0f;
+    q.u0 = 0.96484375f;
+    q.v0 = 0.23046875f;
+    q.u1 = 0.9765625f;
+    q.v1 = 0.25f;
+    ((WindowDrawContext *)c)->transform_quad(&q);
+    draw_textured_quad_at_depth(&q.x0, depth);
     TWindowSubStatusDisp::get_player();
 }
 
@@ -111,7 +109,7 @@ s32 TWindowSubStatusDisp::destroy_allocation(s32 arg0, s16 arg1) {
     return arg0;
 }
 
-Scroll_8026D790::Scroll_8026D790(void *pair) {
+WindowScrollBar::WindowScrollBar(void *pair) {
     copy_position(pair);
     frame = 0;
 }

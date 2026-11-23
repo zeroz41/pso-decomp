@@ -132,8 +132,8 @@ void TOKeyGenericSw::load_resources() {
         resource = new BmlResource(1, &fs_obj_hanyousu_light_j_resource_descriptor, 0, 0, NULL);
         TOKeyGenericSw__shared_resource_ptrs[1] = resource;
         TOKeyGenericSw__texture_lists = (GinjaTextureList **)mem_alloc(3 * sizeof(*TOKeyGenericSw__texture_lists));
-        TOKeyGenericSw__texture_lists[0] = (GinjaTextureList *)TOKeyGenericSw__shared_resource_ptrs[0]->models[0].m_c;
-        TOKeyGenericSw__texture_lists[1] = (GinjaTextureList *)TOKeyGenericSw__shared_resource_ptrs[1]->models[0].m_c;
+        TOKeyGenericSw__texture_lists[0] = (GinjaTextureList *)TOKeyGenericSw__shared_resource_ptrs[0]->models[0].texlist;
+        TOKeyGenericSw__texture_lists[1] = (GinjaTextureList *)TOKeyGenericSw__shared_resource_ptrs[1]->models[0].texlist;
         TOKeyGenericSw__texture_lists[2] = (GinjaTextureList *)load_gvm_texture_file((saddr) "fs_obj_hanyousu_light_ao_j.GVM");
     } else {
         resource = new BmlResource(1, &fs_obj_hanyousu_body1_resource_descriptor, 0, 0, NULL);
@@ -141,8 +141,8 @@ void TOKeyGenericSw::load_resources() {
         resource = new BmlResource(1, &fs_obj_hanyousu_light_resource_descriptor, 0, 0, NULL);
         TOKeyGenericSw__shared_resource_ptrs[1] = resource;
         TOKeyGenericSw__texture_lists = (GinjaTextureList **)mem_alloc(3 * sizeof(*TOKeyGenericSw__texture_lists));
-        TOKeyGenericSw__texture_lists[0] = (GinjaTextureList *)TOKeyGenericSw__shared_resource_ptrs[0]->models[0].m_c;
-        TOKeyGenericSw__texture_lists[1] = (GinjaTextureList *)TOKeyGenericSw__shared_resource_ptrs[1]->models[0].m_c;
+        TOKeyGenericSw__texture_lists[0] = (GinjaTextureList *)TOKeyGenericSw__shared_resource_ptrs[0]->models[0].texlist;
+        TOKeyGenericSw__texture_lists[1] = (GinjaTextureList *)TOKeyGenericSw__shared_resource_ptrs[1]->models[0].texlist;
         TOKeyGenericSw__texture_lists[2] = (GinjaTextureList *)load_gvm_texture_file((saddr) "fs_obj_hanyousu_light_ao.GVM");
     }
 }

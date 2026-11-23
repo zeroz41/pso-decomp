@@ -55,7 +55,6 @@ struct NJS_OBJECT;
 #include "pso/math/AngleLookup.h"
 #include "pso/player/TPlyDispData.h"
 #include "pso/ui/TLevelSelect.h"
-#include "pso/unk/text_80086D50.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel_8007E418.h"
@@ -66,7 +65,7 @@ struct NJS_OBJECT;
 #include "pso/system/MatrixOps.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/player/TObjPlayer_80011014.h"
-#include "pso/unk/text_800D8830.h"
+#include "pso/effect/GroundContactSound.h"
 #include "pso/map/CsnQuery.h"
 #include "pso/enemy/TObjEnemyCustom.h"
 #include "pso/enemy/sinowzoa/TObjEneMe3SinowZoa.h"
@@ -216,7 +215,7 @@ void TObjEneBm5GibonU::spawn_landing_effect(Vec *pos) {
         if (p != NULL && is_leader == 1) {
             ((TParticleCtrl *)p)->set_scale(1.5f, 1.0f);
         }
-        fn_800D88E4(&position);
+        play_ground_landing_sound(&position);
         return;
     }
     play_sound_effect(remap_sound_for_area(0x3BC21), &position, 0, 0);
@@ -1981,8 +1980,8 @@ void TObjEneBm5GibonU::load_resources() {
     NpcAnimationBinding sp = TObjEneBm5GibonU__spawn_params;
     m = TObjEneBm5GibonU__model_archive;
     sp.motions = reinterpret_cast<BmlMotionEntry *>(m->motions);
-    NpcModelRegistry::register_animated_chunk(0xE, reinterpret_cast<void *>(m->models[0].model), reinterpret_cast<void *>(m->models[0].m_c), &sp, gibon_collision_body_templates[0].radius, 0.0f);
-    NpcModelRegistry::register_animated_chunk(0xF, reinterpret_cast<void *>(TObjEneBm5GibonU__model_archive->models[1].model), reinterpret_cast<void *>(TObjEneBm5GibonU__model_archive->models[1].m_c), &sp, gibon_collision_body_templates[1].radius, 0.0f);
+    NpcModelRegistry::register_animated_chunk(0xE, reinterpret_cast<void *>(m->models[0].model), reinterpret_cast<void *>(m->models[0].texlist), &sp, gibon_collision_body_templates[0].radius, 0.0f);
+    NpcModelRegistry::register_animated_chunk(0xF, reinterpret_cast<void *>(TObjEneBm5GibonU__model_archive->models[1].model), reinterpret_cast<void *>(TObjEneBm5GibonU__model_archive->models[1].texlist), &sp, gibon_collision_body_templates[1].radius, 0.0f);
 }
 
 void *TObjEneBm5GibonU::create(void *set_data) {
@@ -2035,11 +2034,11 @@ TObjEneBm5GibonU::TObjEneBm5GibonU(TObject *parent, void *set_data) : TObjEneDD_
     } else {
         this->init_model(&gibon_collision_body_templates[0], 1);
     }
-    this->set_field_d8((saddr)gibon_u_action_table);
-    this->set_field_dc((saddr)TObjEneBm5GibonU__model_archive->motions);
+    this->set_action_table((saddr)gibon_u_action_table);
+    this->set_motion_list((saddr)TObjEneBm5GibonU__model_archive->motions);
     this->requested_action = 0;
     this->set_animation(this->requested_action);
-    this->set_field_b8(this->requested_action);
+    this->set_requested_action(this->requested_action);
     b = this->is_leader ? 1 : 0;
     this->reset_hp(TObjEneBm5GibonU__stat_params[b], gibon_stat_handle_a_table[b], gibon_stat_handle_b_table[b]);
     this->set_state_flag_1();
@@ -2181,12 +2180,12 @@ void TObjEneBm5GibonU::select_subtype() {
         is_leader = 1;
         technique_type = 1;
         model = (void *)TObjEneBm5GibonU__model_archive->models[1].model;
-        texlist = (saddr)TObjEneBm5GibonU__model_archive->models[1].m_c;
+        texlist = (saddr)TObjEneBm5GibonU__model_archive->models[1].texlist;
     } else {
         is_leader = 0;
         technique_type = 0;
         model = (void *)TObjEneBm5GibonU__model_archive->models[0].model;
-        texlist = (saddr)TObjEneBm5GibonU__model_archive->models[0].m_c;
+        texlist = (saddr)TObjEneBm5GibonU__model_archive->models[0].texlist;
     }
     backjump_chance = 0.4f + parameters[2];
     run_foie_chance = 0.3f + parameters[3];

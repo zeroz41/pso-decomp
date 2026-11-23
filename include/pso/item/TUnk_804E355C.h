@@ -4,7 +4,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/object/base/TObjMotion.h"
 
-// What TUnk_804E355C's constructor copies; TObjPlayer__sub_802E451C fills in
+// What TUnk_804E355C's constructor copies; reset_attack_params fills in
 // the defaults. The derived attack colliders' parameter blocks start with it.
 struct S_802E451C {
     Vec position;
@@ -18,8 +18,8 @@ struct S_802E451C {
     s32 pad_24;
 };
 
-// Fills in an S_802E451C's defaults (defined in TItemAttackCol.cpp).
-extern "C" void TObjPlayer__sub_802E451C(S_802E451C *params);
+// Fills in an S_802E451C's defaults: no position, radius 5, one hit, no owner, room or weapon.
+extern "C" void reset_attack_params(S_802E451C *params);
 
 class TUnk_804E355C : public TObject {
 public:

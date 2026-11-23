@@ -3,7 +3,6 @@
 #include "pso/ui/frontend/TAdLdQuestPrtGC.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/ControllerInputState.h"
-#include "pso/unk/text_80086E28.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/system/NinjaTypes.h"

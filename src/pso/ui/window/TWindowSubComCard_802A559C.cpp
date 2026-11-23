@@ -1,6 +1,5 @@
 #include "types.h"
 #include "pso/ui/window/TWindowSubComCard.h"
-#include "pso/ui/charcreate/TChCrTagPlBack.h"
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/window/TWindowMessageYesNo.h"
 #include "pso/ui/chat/TWindowSubShortMail.h"
@@ -8,28 +7,17 @@
 #include "pso/object/warp/TObjCityMainWarp.h"
 #include "pso/ui/frontend/TAdChrSelASlotGC.h"
 
-struct P_802A5628 { u8 pad[0x30]; f32 x; f32 y; };
-
-struct O_802A5628 { u8 pad[0x28]; P_802A5628 *a; P_802A5628 *b; };
-
 extern "C" {
 void TWindowSubTradeMain__sub_802448E4(void *, void *);
 
-// Reads this->m_28 the way TWindowSubComCard::free_windows does, and its only caller is
-// TWindowSubComCard::update_label_positions: probably a TWindowSubComCard member (inferred).
-void TChCrTagPlBack::get_position_offset(void *arg1) {
-    void *temp_r3;
-    void *temp_r5;
-
-    temp_r5 = *(void **)((s8 *)this + 0x28);
-    if (temp_r5 != NULL) {
-        *(f32 *)((s8 *)arg1 + 0) = (f32) ((*(f32 *)((s8 *)temp_r5 + 0x30) + *(f32 *)((s8 *)temp_r5 + 0x38)) - 111.0f);
-        temp_r3 = *(void **)((s8 *)this + 0x28);
-        *(f32 *)((s8 *)arg1 + 4) = (f32) ((*(f32 *)((s8 *)temp_r3 + 0x34) + *(f32 *)((s8 *)temp_r3 + 0x3C)) - 10.0f);
+// The yes/no choice menu sits 111 left of and 10 above the message window's bottom-right corner.
+void TWindowMessageYesNo::get_choice_menu_position(NJS_POINT2 *position) {
+    if (message_menu != NULL) {
+        position->x = (message_menu->target_position[0] + message_menu->target_size[0]) - 111.0f;
+        position->y = (message_menu->target_position[1] + message_menu->target_size[1]) - 10.0f;
     }
 }
 
-void update_label_positions__17TWindowSubComCardFPvPv(O_802A5628 *arg0, NJS_POINT2 *arg1);
 void TWindowSubComCard::free_windows() {
     if ((u32) this->m_28 != 0U) {
         reinterpret_cast<TWindowBase *>(this->m_28)->reparent_to_main_ctrl();
@@ -39,17 +27,17 @@ void TWindowSubComCard::free_windows() {
     }
 }
 
-void update_label_positions__17TWindowSubComCardFPvPv(O_802A5628 *dialog, NJS_POINT2 *arg1) {
-    NJS_POINT2 v;
-    P_802A5628 *p = dialog->a;
-    if (p != NULL && (p->x != arg1->x || p->y != arg1->y)) {
-        TWindowSubTradeMain__sub_802448E4(p, arg1);
+void TWindowMessageYesNo::move_to(const NJS_POINT2 *position) {
+    NJS_POINT2 choice_position;
+    TWindowBase *window = message_menu;
+    if (window != NULL && (window->target_position[0] != position->x || window->target_position[1] != position->y)) {
+        TWindowSubTradeMain__sub_802448E4(window, (void *)position);
     }
-    if (dialog->b != NULL) {
-        ((TChCrTagPlBack *)dialog)->get_position_offset(&v);
-        p = dialog->b;
-        if (p->x != v.x || p->y != v.y) {
-            TWindowSubTradeMain__sub_802448E4(p, &v);
+    if (choice_menu != NULL) {
+        get_choice_menu_position(&choice_position);
+        window = choice_menu;
+        if (window->target_position[0] != choice_position.x || window->target_position[1] != choice_position.y) {
+            TWindowSubTradeMain__sub_802448E4(window, &choice_position);
         }
     }
 }

@@ -90,4 +90,6 @@ s32 find_section_at_position(Vec *pos);
 extern s32 scene_resource_index;
 extern s32 lobby_online_ready_flag;
 
+extern "C" s32 is_item_area_enabled(s32 area);
+
 #endif

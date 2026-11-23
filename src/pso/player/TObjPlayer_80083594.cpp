@@ -115,7 +115,7 @@ GinjaTextureList shadow_map_texture_list = {&shadow_map_texture_entry, 1};
 Vec shadow_light_position = {0.0f, 0.0f, 0.0f};
 
 extern "C" {
-extern s32 lbl_805D63F0;
+extern s32 hud_texlist;
 void TObjPlayer__sub_80082C30(void);
 }
 
@@ -337,7 +337,7 @@ void reset_and_init_capture_texture(void) { camera_capture_flags = 0; init_captu
 void reset_and_release_capture_texture(void) { camera_capture_flags = 0; release_shared_capture_texture(); }
 
 saddr get_capture_texture_pixels(void) {
-    return (saddr)shared_capture_texture_list.entries->texture->surface->pixels;
+    return (saddr)shared_capture_texture_list.entries->texture->surface->header.pixels;
 }
 
 void capture_viewport_texture(void) {
@@ -347,9 +347,9 @@ void capture_viewport_texture(void) {
         GXSetTexCopySrc(0, 0, 0x280, 0x1E0);
         GXSetTexCopyDst(0x280, 0x1E0, 4, 0);
         if (camera_capture_flags & 8) {
-            GXCopyTex(shared_capture_texture_list.entries->texture->surface->pixels, 1);
+            GXCopyTex(shared_capture_texture_list.entries->texture->surface->header.pixels, 1);
         } else {
-            GXCopyTex(shared_capture_texture_list.entries->texture->surface->pixels, 0);
+            GXCopyTex(shared_capture_texture_list.entries->texture->surface->header.pixels, 0);
         }
         GXPixModeSync();
     }
@@ -582,7 +582,7 @@ void end_shadow_map_pass() {
         GXSetCopyClear(c, 0xFFFFFF);
         GXSetTexCopySrc(0, 0, 0x100, 0x100);
         GXSetTexCopyDst(0x100, 0x100, 2, 0);
-        GXCopyTex(shadow_map_texture_list.entries->texture->surface->pixels, 1);
+        GXCopyTex(shadow_map_texture_list.entries->texture->surface->header.pixels, 1);
         GXPixModeSync();
         temp_r31 = active_gx_render_mode;
         GXSetCopyFilter((int) (*(u8 *)((s8 *)temp_r31 + 0x19)), temp_r31 + 0x1A, (int) (get_display_copy_filter()), temp_r31 + 0x32);
@@ -900,7 +900,7 @@ void TObjPlayer::copy_screen_to_texture(s32 mode, void *src) {
         }
         GXSetTexCopySrc(v.x, v.y, 0x100, 0xC0);
         GXSetTexCopyDst(0x100, 0xC0, 4, 0);
-        GXCopyTex(shared_capture_texture_list.entries->texture->surface->pixels, 1);
+        GXCopyTex(shared_capture_texture_list.entries->texture->surface->header.pixels, 1);
         GXPixModeSync();
         cam = &controller_physical_port_bank.controllers[3];
         a.x = 192.0f;
@@ -917,7 +917,7 @@ void TObjPlayer::copy_screen_to_texture(s32 mode, void *src) {
         TObjPlayer__sub_80082C30();
         GXSetTexCopySrc(0xC0, 0x90, 0x100, 0xC0);
         GXSetTexCopyDst(0x100, 0xC0, 4, 0);
-        GXCopyTex(shared_capture_texture_list.entries->texture->surface->pixels, 1);
+        GXCopyTex(shared_capture_texture_list.entries->texture->surface->header.pixels, 1);
         GXPixModeSync();
         break;
     case 1:
@@ -925,7 +925,7 @@ void TObjPlayer::copy_screen_to_texture(s32 mode, void *src) {
         GXSetCopyClear(c, 0xFFFFFF);
         GXSetTexCopySrc(0, 0, 0x280, 0x1E0);
         GXSetTexCopyDst(0x280, 0x1E0, 4, 0);
-        GXCopyTex(shared_capture_texture_list.entries->texture->surface->pixels, 1);
+        GXCopyTex(shared_capture_texture_list.entries->texture->surface->header.pixels, 1);
         GXPixModeSync();
         cam = &controller_physical_port_bank.controllers[3];
         a.x = 192.0f;
@@ -942,7 +942,7 @@ void TObjPlayer::copy_screen_to_texture(s32 mode, void *src) {
         TObjPlayer__sub_80082C30();
         GXSetTexCopySrc(0xC0, 0x90, 0x100, 0xC0);
         GXSetTexCopyDst(0x100, 0xC0, 4, 0);
-        GXCopyTex(shared_capture_texture_list.entries->texture->surface->pixels, 1);
+        GXCopyTex(shared_capture_texture_list.entries->texture->surface->header.pixels, 1);
         GXPixModeSync();
         break;
     }
@@ -967,7 +967,7 @@ void TObjPlayer__sub_80082C30(void) {
     Stack_80082C30 stack;
     f32 y;
     f32 x;
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(lbl_805D63F0));
+    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(hud_texlist));
     set_draw_texture_and_color(0, -1);
     begin_screen_draw(1);
     x = 192.0f;

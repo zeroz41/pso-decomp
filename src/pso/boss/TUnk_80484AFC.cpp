@@ -15,7 +15,6 @@
 #include "pso/system/BmlResource.h"
 #include "pso/render/GinjaTextureMatrices.h"
 #include "pso/system/vector.h"
-#include "pso/unk/text_800870BC.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/unk/text_803E2D70.h"
 #include <stdlib.h>
@@ -154,7 +153,7 @@ TUnk_80484AFC::TUnk_80484AFC(TObject *parent, Vec *pos, s32 angle, s32 target) :
     matrix_mult_vec(0, &velocity, &velocity);
     pop_matrix();
     model = (saddr)boss3_volopt_resources->models[0x16].model;
-    textures = (saddr)boss3_volopt_resources->models[0x16].m_c;
+    textures = (saddr)boss3_volopt_resources->models[0x16].texlist;
     age = 0;
     trail_rotation[2] = 0;
     trail_rotation[1] = 0;

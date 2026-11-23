@@ -1,14 +1,13 @@
 #include "pso/system/BmlAccessors.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
-#include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/system/BmlResource.h"
 #include "pso/unk/TLobby_8001EF5C.h"
 #include "pso/object/TObjControl.h"
 #include "pso/unk/SampledMotionPoints.h"
 #include "pso/boss/darkfalz/TObjBs4CutAtk.h"
-#include "pso/effect/TUnk_80494968.h"
+#include "pso/effect/TAttackTrace.h"
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "types.h"
 #include "pso/system/ModelNodePositionCapture.h"
@@ -257,10 +256,10 @@ TBoss4Type3::TBoss4Type3(TObject *parent, TBoss4FormSetData *set_data) : TObjEne
     body = (NJS_OBJECT *)get_bml_model(archive, boss4_type3_model_ids[0]);
     trail_samples[0] = new SampledMotionPoints(2, 3.0f, 9.0f, 0.6f);
     trail_samples[0]->sample_two_nodes(body, (NJS_MOTION *)get_bml_motion(archive, TBoss4Type3__anim_state_table[3].motions[0]), 0x16, 0x17);
-    trails[0] = TUnk_80494968::create(0xA0303030, 0xFFFF0088);
+    trails[0] = TAttackTraceStrip::create(0xA0303030, 0xFFFF0088);
     trail_samples[1] = new SampledMotionPoints(2, 3.0f, 9.0f, 0.6f);
     trail_samples[1]->sample_two_nodes(body, (NJS_MOTION *)get_bml_motion(archive, TBoss4Type3__anim_state_table[4].motions[0]), 9, 10);
-    trails[1] = TUnk_80494968::create(0xA0303030, 0xFFFF0088);
+    trails[1] = TAttackTraceStrip::create(0xA0303030, 0xFFFF0088);
     clear_motion_packed_rotation();
     create_particle_emitters();
     node_tables.init(boss4_type3_model_node_specs, 2);

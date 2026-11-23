@@ -5,6 +5,8 @@
 #include "pso/map/TSetEvtDestroy.h"
 #include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/unk/TLobby_801C25B4.h"
+#include "pso/unk/text_801C23A8.h"
+#include "pso/unk/TLobby_802268F4.h"
 #include "pso/unk/TLobby_801C4F80.h"
 #include "pso/unk/text_801C5454.h"
 #include "pso/ui/window/TWindowBase.h"
@@ -140,8 +142,6 @@ extern const f32 lbl_805D5DC4;
 extern const f32 lbl_805D5DC8;
 u16 get_entity_id(void *);
 void TLobby__sub_801B09A4(void);
-void play_cue_stream_file(saddr name);
-void show_duel_result_window(saddr arg0, saddr arg1);
 void TLobby__sub_8020BB18(void);
 void TLobby__sub_8020BCE4(void);
 void end_player_keyboard_hold(saddr arg0);
@@ -638,9 +638,9 @@ void TPlayerBattleCtrl4P::record_battle_results_after_delay() {
         calculate_split_screen_battle_rankings(this);
         record_split_screen_battle_results(this);
         if ((s32) split_screen_battle_rankings[0].id == (s32) local_client_id) {
-            TPlayerBattleCtrl4P::notify_lobby((void*)this, (void*)"win.adx", (void*)0x96);
+            notify_lobby("win.adx", 0x96);
         } else {
-            TPlayerBattleCtrl4P::notify_lobby((void*)this, (void*)"lose.adx", (void*)0x96);
+            notify_lobby("lose.adx", 0x96);
         }
         set_score((saddr)((3)));
     }
@@ -1190,7 +1190,7 @@ void TPlayerBattleCtrl4P::start_match() {
             TWindowCtrl::init_all((void*)buf, (void*)0x200);
         }
     }
-    TPlayerBattleCtrl4P::notify_lobby(this, (void *)"start.adx", (void *)0x3C);
+    notify_lobby("start.adx", 0x3C);
 }
 #pragma pool_data reset
 
@@ -1278,7 +1278,10 @@ void record_split_screen_battle_results(void *) {
 
 void TPlayerBattleCtrl4P::reset_score_counters() { this->timed_event_state = 0; *(s32 *)&this->unknown_290 = 0; }
 
-void TPlayerBattleCtrl4P::notify_lobby(void* p, void* a1, void* a2) { play_cue_stream_file((saddr)a1); show_duel_result_window((saddr)(-50), (saddr)a2); }
+void TPlayerBattleCtrl4P::notify_lobby(const char *file, saddr duration) {
+    play_cue_stream_file(file);
+    show_duel_result_window(-50, duration);
+}
 
 int TPlayerBattleCtrl4P::init_ctrl_default(void* p) { return ((int (*)(void*, int))set_split_screen_battle_phase__19TPlayerBattleCtrl4PFl)(p, 0); }
 

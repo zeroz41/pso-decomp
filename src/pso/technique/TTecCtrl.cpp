@@ -8,10 +8,10 @@
 #include "pso/technique/TechniqueParams.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/technique/TechniqueBoost.h"
-#include "pso/effect/TUnk_804CC148.h"
+#include "pso/technique/TTecCircle.h"
 #include "pso/object/ambient/TObjLight.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
-#include "pso/object/TUnk_804CCAA8.h"
+#include "pso/object/TActorLight.h"
 #include "pso/player/TObjPlayer_8022C6C4.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/map/FloorArea.h"
@@ -718,7 +718,7 @@ void capture_technique_targets__10TObjPlayerFv(int kind, Owner_8022CDE8 *owner) 
         NJS_ARGB c = {A, R, G, B};                                                               \
         Vec v = {0.0f, -1.0f, 0.0f};                                                             \
         void *o;                                                                                 \
-        new TUnk_804CCAA8(0.1f, 0.35f, TObjLight__scene_light_state.intensity, &c, &v, base,          \
+        new TActorLight(0.1f, 0.35f, TObjLight__scene_light_state.intensity, &c, &v, base,          \
                           (TObjBase *)owner, tl_07);                                             \
         if (TObjPlayer::is_locally_controlled(owner) != 0) {                                \
             o = TObject::operator new(0x34);                                                     \
@@ -863,6 +863,6 @@ s32 TTecCtrl::classify_distance_band(s32 technique, s32 level, u16 arg2) {
     return 3;
 }
 
-void TUnk_804CC148::vfunc_9() {  }
-void TUnk_804CC148::vfunc_8(void *) {  }
-void TUnk_804CC148::vfunc_6(void *) {  }
+void TTecCircle::vfunc_9() {  }
+void TTecCircle::vfunc_8(void *) {  }
+void TTecCircle::vfunc_6(void *) {  }

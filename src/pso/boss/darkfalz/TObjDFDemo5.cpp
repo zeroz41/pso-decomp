@@ -4,7 +4,6 @@
 #include "types.h"
 #include "pso/boss/darkfalz/TObjDFDemo5.h"
 #include "pso/effect/particle/TParticleCtrl.h"
-#include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
 #include "pso/boss/darkfalz/TBoss4Uro.h"
 #include "pso/camera/CameraHelpers.h"
@@ -96,7 +95,7 @@ TObjDFDemo5::~TObjDFDemo5() {
 void TObjDFDemo5::run_task() {
     update_particle_emitters();
     if (timer == 0x8C) {
-        play_cue_stream_file((saddr)"dfdeath.adx");
+        play_cue_stream_file("dfdeath.adx");
         start_pad_rumble_all(0xC0, 0xF);
     }
     if ((frame += 0.5f) > 149.0f) {

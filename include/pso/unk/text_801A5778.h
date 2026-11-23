@@ -3,8 +3,11 @@
 
 #include "types.h"
 
+struct GvplPalette;
+
 extern "C" {
-void fn_801A5778(const char *filename, saddr *arg1);
+// Loads a GVPL palette file into `palette`.
+void load_gvpl_palette_file(const char *filename, GvplPalette *palette);
 }
 
 #endif

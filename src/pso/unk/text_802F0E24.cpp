@@ -71,7 +71,7 @@ void free_boss7_common_resources(void) {
 void load_boss7_common_resources(void) {
     BmlResource *resource = new BmlResource(5, &boss7_common_resource_descriptor, 0, 0, NULL);
     boss7_common_bml_resource = resource;
-    boss7_common_texture_list = resource->models[0].m_c;
+    boss7_common_texture_list = resource->models[0].texlist;
 
     TLobby::load_texture_pvm_file("obj_boss7_common.gvm", (saddr)boss7_common_texture_list);
     TParticleCtrl::init_heap(0x50000);

@@ -7,7 +7,6 @@
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/effect/particle/TParticleCtrl.h"
-#include "pso/unk/text_80086B64.h"
 
 #include "pso/object/base/TObjChara.h"
 #include "pso/player/TObjPlayer_801542CC.h"
@@ -17,7 +16,6 @@
 #include "pso/math/MatrixTransforms.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/map/CsnQuery.h"
-#include "pso/unk/text_800870BC.h"
 #include "pso/render/NinjaUtil.h"
 
 #pragma inline_depth(1)

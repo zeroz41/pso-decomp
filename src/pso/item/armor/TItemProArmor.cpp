@@ -5,7 +5,7 @@
 #include "pso/item/armor/TItemProArmorParticle.h"
 #include "pso/item/TItemData.h"
 #include "pso/item/TItemHeapObject.h"
-#include "pso/effect/item/TItemEffArmor_80107DA4.h"
+#include "pso/effect/item/TItemEffArmor.h"
 #include "pso/item/TItemTimerEvent.h"
 #include "pso/item/TUnk_804A0668.h"
 #include "pso/item/TUnk_804A0688.h"
@@ -83,7 +83,6 @@ void TItemProArmor::update_equipped() {
 }
 
 void TItemProArmor::on_equip() {
-    void *event;
     if (effect_objects == NULL) {
         return;
     }
@@ -110,10 +109,7 @@ void TItemProArmor::on_equip() {
         new TUnk_804A0668(effect_objects, get_owner_client(), 150);
         break;
     case 45:
-        event = TObject::operator new(0x24);
-        if (event != NULL) {
-            fn_80107DA4((u8 *)event, (u8 *)effect_objects, get_owner_client());
-        }
+        new TItemEffArmorPulse(effect_objects, get_owner_client());
         break;
     }
 }

@@ -33,7 +33,6 @@
 
 #include "pso/effect/particle/TParticleCtrl.h"
 
-#include "pso/unk/text_80087278.h"
 
 // One row per bullet level: how many shots, frames between them, the angle the fan spans, and the speed.
 struct Boss2PhotonLevel {

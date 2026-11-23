@@ -16,17 +16,18 @@ struct StarLightParameters {
     StarLightColor color;
     s32 blend_mode;
     f32 alpha_step;
+    void copy_from(StarLightParameters *source);
 };
 
 class TEffStarLight2D : public TObject {
 public:
-    TEffStarLight2D(void *arg1, void *arg2, TObject *arg3);
+    static const char *class_name;
+    TEffStarLight2D(Vec *position, StarLightParameters *parameters, TObject *parent);
     virtual ~TEffStarLight2D();
     virtual void render();
     virtual void run_task();
 public:
-    void copy_from_subobject(void* a1);
-    void copy_from(void* q);
+    void set_parameters(StarLightParameters *source);
     void copy_position(const Vec *position);
     void queue_child_destruction();
     void draw_segment(ColorLineVertex *a, ColorLineVertex *b,

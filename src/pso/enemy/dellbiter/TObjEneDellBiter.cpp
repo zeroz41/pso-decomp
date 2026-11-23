@@ -9,7 +9,7 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
 #include "pso/player/TObjPlayer_803E4954.h"
-#include "pso/effect/TUnk_80494968.h"
+#include "pso/effect/TAttackTrace.h"
 #include "pso/render/reflection.h"
 #include "pso/system/vector.h"
 #include "pso/effect/particle/TParticleCtrl.h"
@@ -64,10 +64,8 @@
 #include "pso/unk/text_803D853C.h"
 #include "pso/unk/text_803E2D70.h"
 #include "pso/unk/text_803D96A8.h"
-#include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/unk/text_800D8830.h"
 #include "pso/object/mine/TOComputerMachine01_8023DD0C.h"
 #include "pso/ui/TLevelSelect.h"
 #include "pso/map/CsnQuery.h"
@@ -171,7 +169,7 @@ void TObjEneDellBiter::load_resources() {
         TObjEneDellBiter__scrolling_uv_polygon_list = (saddr)((NJS_CNK_MODEL *)object->child->model)->polygon_list;
         TObjEneDellBiter__last_uv_scroll_tick = 0;
         NpcAnimationBinding attack = { reinterpret_cast<BmlMotionEntry *>(resource->motions), reinterpret_cast<TObjMotionAction *>(dell_biter_param_table), 0, 1, 10 };
-        NpcModelRegistry::register_animated_chunk((s16)0x46, reinterpret_cast<void *>(resource->models->model), reinterpret_cast<void *>(resource->models->m_c),
+        NpcModelRegistry::register_animated_chunk((s16)0x46, reinterpret_cast<void *>(resource->models->model), reinterpret_cast<void *>(resource->models->texlist),
             &attack, dell_biter_collision_bodies[0].radius, 0.0f);
     }
 }
@@ -205,14 +203,14 @@ void TObjEneDellBiter::init_params() {
     s32 i;
     init_position_vectors();
     model = (void *)((BmlResource *)TObjEneDellBiter__shared_model_resource)->models->model;
-    texlist = (saddr)((BmlResource *)TObjEneDellBiter__shared_model_resource)->models->m_c;
+    texlist = (saddr)((BmlResource *)TObjEneDellBiter__shared_model_resource)->models->texlist;
     init_model((CollisionBody *)dell_biter_collision_bodies, 1);
     bodies->flags |= 0x400000;
-    set_field_d8((saddr)&dell_biter_param_table);
-    set_field_dc((saddr)((BmlResource *)TObjEneDellBiter__shared_model_resource)->motions);
+    set_action_table((saddr)&dell_biter_param_table);
+    set_motion_list((saddr)((BmlResource *)TObjEneDellBiter__shared_model_resource)->motions);
     this->requested_action = 0;
     set_animation(this->requested_action);
-    set_field_b8(this->requested_action);
+    set_requested_action(this->requested_action);
     reset_hp((u8 *)dellbiter_boss_stat_handle, (u8 *)TObjEneDellBiter__shared_handler_param, (u8 *)dellbiter_object_stat_handle);
     set_state_8();
     movementParameters = &TObjEneDellBiter__param_table;
@@ -240,7 +238,7 @@ void TObjEneDellBiter::init_params() {
     rush_body = new TObjCollidable(NULL);
     init_collision_body_parts(rush_body, &dell_biter_collision_bodies[3], 1);
     attack_history = new AreaAttackHistory(8);
-    saver = TUnk_80494968::create(0xFF5050FF, 0x80000080);
+    saver = TAttackTraceStrip::create(0xFF5050FF, 0x80000080);
     state_timer = 0;
     step = 0;
     drained_tp = 0;
@@ -463,7 +461,7 @@ s32 TObjEneDellBiter::check_rush_collisions() {
 
 void TObjEneDellBiter::update_attack_effect() {
     if (fn_803059BC(&position) != 0) {
-        TObjEneGibbles__sub_800D8988(&position);
+        play_ground_contact_sound(&position);
         return;
     }
     play_sound_effect(this->remap_sound_for_area((saddr)((void *)0x40039E11)), &position, 0, 0);
@@ -526,7 +524,7 @@ s32 TObjEneDellBiter::fn_803059BC(const Vec *origin) {
 void TObjEneDellBiter::play_step_effect() {
     if (is_passing_frame(0.0f) != 0 || is_passing_frame(8.0f) != 0) {
         if (fn_803059BC(&position) != 0) {
-            fn_800D8830(this, &position);
+            play_ground_step_sound(this, &position);
             return;
         }
         play_persistent_sound(this->remap_sound_for_area((saddr)((void *)0x40039E13)), (saddr)this, (uaddr)&position, 0, 0);

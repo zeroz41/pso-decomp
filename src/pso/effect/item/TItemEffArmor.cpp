@@ -1,311 +1,143 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
-#include "pso/effect/particle/ParticleFactory.h"
-#include "pso/system/NinjaTypes.h"
-#include "types.h"
-#include "pso/unk/TUnk_8049EFB8.h"
-#include "pso/unk/text_80107D4C.h"
-#include "pso/ui/hud/TRaderMapCore.h"
-#include "pso/render/MaterialColorFade.h"
-#include "pso/boss/derolle/TBoss2DeRolLe.h"
-#include "pso/effect/item/TItemEffArmor_80107DA4.h"
-#include "pso/object/ambient/TObjLight_80133568.h"
-#include "pso/system/task/TObject_80019A50.h"
-#include "pso/render/ChunkMaterialState.h"
-#include "pso/unk/text_803D96A8.h"
-#include "pso/system/vector.h"
 #include "pso/effect/item/TItemEffArmor.h"
-#include "pso/ui/hud/TNowLoading.h"
-#include "pso/player/TObjPlayer.h"
-#include "pso/boss/darkfalz/TBoss4Type2.h"
-#include "pso/item/TItemLoad.h"
-#include "pso/player/TObjPlayer_8023E480.h"
+#include "pso/effect/particle/ParticleFactory.h"
 #include "pso/effect/particle/TParticleCtrl.h"
+#include "pso/item/TItemLoad.h"
 #include "pso/system/task/TObject.h"
-#include "pso/render/ModelDrawContext.h"
+#include "pso/object/TActorLight.h"
+#include "pso/object/ambient/TObjLight_80133568.h"
+#include "pso/object/ambient/TObjLight_80235C44.h"
+#include "pso/player/PlayerSlots.h"
+#include "pso/player/TObjPlayer.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/player/TObjPlayer_80117DD8.h"
+#include "pso/player/TObjPlayer_8023E480.h"
 #include "pso/player/TObjPlayer_803E1A58.h"
-#include "pso/effect/particle/TParticleCtrl_800874F4.h"
+#include "pso/player/TPlyDispData.h"
+#include "pso/render/ChunkMaterialState.h"
+#include "pso/render/ModelDrawContext.h"
+#include "pso/render/model_render_state.h"
 #include "pso/system/MatrixOps.h"
-#include "pso/unk/text_803D8F74.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/system/NinjaTypes.h"
 #include "pso/system/SoundEffect.h"
+#include "pso/system/scene/TScene.h"
+#include "pso/system/task/TMainTask.h"
+#include "pso/system/vector.h"
+#include "pso/unk/text_803D8F74.h"
+#include "pso/unk/text_803D96A8.h"
+#include "types.h"
 
-extern "C" {
-u16 get_entity_id(void *);
-s32 TObjPlayer__sub_80117E50();
-void *get_player_by_client_id(s32 i);
-s32 is_item_area_enabled(s32 area);
-
-}
-
-struct RecoveredGlobal_80107DA4_lbl_8049EFB8 {
-    s32 value;
-    u8 remaining[0x14];
-};
-
-struct RecoveredGlobal_80107DF0_lbl_8050BEC0 {
-    s32 value;
-    u8 remaining[0x1C];
-};
-
-struct RecoveredGlobal_80107DF0_lbl_8058D4C0 {
-    s32 value;
-    u8 remaining[0xC];
-};
-
-extern "C" {
-
-void __ct__7TObjectFP7TObject(void *, void *);
-extern RecoveredGlobal_80107DA4_lbl_8049EFB8 __vt__13TUnk_8049EFB8;
-s32 post_translate_matrix(void *);
-extern RecoveredGlobal_80107DF0_lbl_8050BEC0 saved_model_draw_color;
-extern RecoveredGlobal_80107DF0_lbl_8058D4C0 model_material_color;
-extern s32 saved_model_render_flags;
-extern s32 model_render_flags;
-
-LAYOUT_ASSERT(RecoveredGlobal_80107DA4_lbl_8049EFB8_size, sizeof(RecoveredGlobal_80107DA4_lbl_8049EFB8) == 0x18);
-
-LAYOUT_ASSERT(RecoveredGlobal_80107DF0_lbl_8050BEC0_size, sizeof(RecoveredGlobal_80107DF0_lbl_8050BEC0) == 0x20);
-LAYOUT_ASSERT(RecoveredGlobal_80107DF0_lbl_8058D4C0_size, sizeof(RecoveredGlobal_80107DF0_lbl_8058D4C0) == 0x10);
-
-}
-
-struct Base_80108164 { u8 pad[0x18]; };
-
-struct Player_80108164 : Base_80108164 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual void m19();
-    virtual void m20();
-    virtual void m21();
-    virtual void m22();
-    virtual void m23();
-    virtual void m24();
-    virtual void m25();
-    virtual void m26();
-    virtual void m27();
-    virtual void m28();
-    virtual void m29();
-    virtual void m30();
-    virtual void m31();
-    virtual void m32();
-    virtual void m33();
-    virtual void m34();
-    virtual void m35();
-    virtual void m36();
-    virtual void m37();
-    virtual void m38();
-    virtual void m39();
-    virtual void m40();
-    virtual void m41();
-    virtual void m42();
-    virtual void m43();
-    virtual void m44();
-    virtual void m45();
-    virtual void m46();
-    virtual void m47();
-    virtual void m48();
-    virtual void m49();
-    virtual void m50();
-    virtual void m51();
-    virtual void m52();
-    virtual void m53();
-    virtual void m54();
-    virtual void m55();
-    virtual void m56();
-    virtual void m57();
-    virtual void m58();
-    virtual void m59();
-    virtual void m60();
-    virtual void m61();
-    virtual void m62();
-    virtual void get_pos(s32 id, Vec *out);
-};
-
-struct Quest_80108164 { u8 pad[0x10]; f32 f10; };
-
-struct Parm_80108020 { u8 pad[0x1c]; f32 f1C; f32 f20; };
-
-struct Self_80108020 {
-    const char *f0;
-    u8 pad4[0x14];
-    void *vt;
-    saddr f1C;
-    u8 pad20[4];
-    f32 f24;
-    f32 f28;
-    u8 pad2c[0x38 - 0x2c];
-    u8 v38[0x58 - 0x38];
-    f32 f58;
-    f32 f5C;
-    f32 f60;
-    f32 f64;
-    s32 f68;
-    u8 *f6C;
-    NJS_OBJECT *model;
-    AnimationMotion *motion;
-    GinjaTextureList *texture_list;
-};
-
-extern "C" {
-
-void construct_actor_light_task(void *, void *, void *, s32, u8 *, f32, s32);
-extern void *__vt__13TItemEffArmor[];
-extern Parm_80108020 default_scene_light_config;
-extern saddr tl_07;
-
-Self_80108020 *TItemEffArmor__ct(Self_80108020 *self, u8 *obj, f32 a, f32 b);
-
-}
-
-// The armour glow colour: copied into the effect and handed to its actor light.
-extern const NJS_ARGB lbl_8043E140 = { 1.0f, 0.5f, 1.0f, 1.0f };
-const char *TItemEffArmor__class_name = "TItemEffArmor";
+// The armour's glow: the model's starting colour and its actor light's.
+extern const NJS_ARGB armor_glow_color = { 1.0f, 0.5f, 1.0f, 1.0f };
+const char *TItemEffArmor::class_name = "TItemEffArmor";
 
 #pragma defer_codegen on
 
 void TObjPlayer::spawn_appearance_effect(u16 client) {
-    Player_80108164 *p = (Player_80108164 *)get_player_by_client_id(client);
-    if (p != 0) {
-        Quest_80108164 *q = (Quest_80108164 *)((TObjPlayer *)p)->get_stats();
-        if (q != 0) {
-            f32 v = q->f10;
-            Vec a;
-            Vec b;
-            f32 s;
-            void *o;
-            p->get_pos(0x28, &a);
-            p->get_pos(0x1B, &b);
-            s = 1.2f * (xyz_distance(&a, &b) / 2e+01f);
-            o = TObject::operator new(0x7C);
-            if (o != 0) {
-                TItemEffArmor__ct((Self_80108020 *)(o), (u8 *)p, s, v);
-            }
-            play_sound_effect(0x4000B20A, (u8 *)p + 0x38, 0, 0);
+    TObjPlayer *player = get_player_by_client_id(client);
+    if (player != NULL) {
+        player_stats *stats = (player_stats *)player->get_stats();
+        if (stats != NULL) {
+            f32 proportions = stats->proportions;
+            Vec upper;
+            Vec lower;
+            f32 scale;
+            player->get_anim_node_position(0x28, &upper);
+            player->get_anim_node_position(0x1B, &lower);
+            scale = 1.2f * (xyz_distance(&upper, &lower) / 20.0f);
+            new TItemEffArmor(player, scale, proportions);
+            play_sound_effect(0x4000B20A, &player->position, 0, 0);
         }
     }
 }
 
-Self_80108020 *TItemEffArmor__ct(Self_80108020 *self, u8 *obj, f32 a, f32 b) {
-    void *p;
-    __ct__7TObjectFP7TObject(self, (void *)tl_07);
-    self->vt = __vt__13TItemEffArmor;
-    self->f0 = TItemEffArmor__class_name;
-    self->f24 = 0.0f;
-    TItemLoad::get_armor_effect_model(&self->model, &self->texture_list, &self->motion);
-    self->f28 = a;
-    self->f58 = b;
-    self->f6C = obj;
-    self->f68 = 0;
-    self->f5C = default_scene_light_config.f20;
-    self->f60 = default_scene_light_config.f1C;
-    self->f64 = (1.0f - self->f5C) / 14.5f;
-    self->f1C = (saddr)create_particle_emitter(self->f6C + 0x38, 0x1BA);
-    copy_argb((NJS_ARGB *)self->v38, (NJS_ARGB *)&lbl_8043E140);
+TItemEffArmor::TItemEffArmor(TObjPlayer *owner, f32 scale, f32 rise) : TObject(tl_07) {
+    m_name = class_name;
+    frame = 0.0f;
+    TItemLoad::get_armor_effect_model(&model, &texture_list, &motion);
+    this->scale = scale;
+    this->rise = rise;
+    this->owner = owner;
+    angle_y = 0;
+    light_level = default_scene_light_config[8];
+    light_intensity = default_scene_light_config[7];
+    light_step = (1.0f - light_level) / 14.5f;
+    particle = create_particle_emitter(&this->owner->position, 0x1BA);
+    copy_argb(&color, (NJS_ARGB *)&armor_glow_color);
     {
-        Vec v = { 0.0f, 1.0f, 0.0f };
-        p = TObject::operator new(0x64);
-        if (p != NULL) {
-            construct_actor_light_task(p, (void *)&lbl_8043E140, &v, 0x3A, obj, 0.2f, tl_07);
+        Vec up = { 0.0f, 1.0f, 0.0f };
+        TActorLight *light = (TActorLight *)TObject::operator new(0x64);
+        if (light != NULL) {
+            construct_actor_light_task(light, (NJS_ARGB *)&armor_glow_color, &up, 0x3A, owner, 0.2f, tl_07);
         }
     }
-    return self;
 }
 
 TItemEffArmor::~TItemEffArmor() {
-    TParticleCtrl::release(*(void **)((s8 *)this + 0x1C));
+    TParticleCtrl::release(particle);
 }
 
 void TItemEffArmor::run_task() {
-    u8 *arg0 = (u8 *)this;
-    u8 *temp_r3;
-    u8 *temp_r3_2;
-    u8 *temp_r4;
-    this->m_68 = (this->m_68 + 0x139D);
-    temp_r4 = (u8 *)this->m_6c;
-    if (temp_r4 != NULL) {
-        VecCopy((Vec *)(arg0 + 0x2C), (const Vec *)(temp_r4 + 0x38));
+    angle_y += 0x139D;
+    if (owner != NULL) {
+        VecCopy(&position, &owner->position);
     }
-    *(f32 *)((s8 *)arg0 + 0x30) = (f32) (*(f32 *)((s8 *)arg0 + 0x30) + ((this->m_24 * this->m_58) / 29.0f));
-    temp_r3 = (u8 *)this->m_1c;
-    if (temp_r3 != NULL) {
-        ((TParticleCtrl *)temp_r3)->set_position((u8 *)&this->m_2c);
+    position.y += (frame * rise) / 29.0f;
+    if (particle != NULL) {
+        particle->set_position(&position);
     }
-    *(f32 *)&this->m_38 = (f32) (1.0f - (this->m_24 / 29.0f));
-    temp_r3_2 = (u8 *)this->m_6c;
-    if (temp_r3_2 != NULL) {
-        publish_actor_light_scalars((get_entity_id(temp_r3_2)), this->m_60, (f32) (*(f32 *)&this->unk_5C));
+    color.a = 1.0f - (frame / 29.0f);
+    if (owner != NULL) {
+        publish_actor_light_scalars(get_entity_id(owner), light_intensity, light_level);
     }
-    if (*(f32 *)&this->unk_5C >= 1.0f) {
-        *(f32 *)&this->unk_64 = (f32) ((-1.0f) * *(f32 *)&this->unk_64);
+    if (light_level >= 1.0f) {
+        light_step = -1.0f * light_step;
     }
-    *(f32 *)&this->unk_5C = (f32) (*(f32 *)&this->unk_5C + *(f32 *)&this->unk_64);
-    if (29.0f == this->m_24) {
-        ((TObject *)arg0)->queue_destruction();
+    light_level += light_step;
+    if (29.0f == frame) {
+        queue_destruction();
     }
-    this->m_24 += 1.0f;
+    frame += 1.0f;
 }
 
 void TItemEffArmor::render() {
-    f32 temp_f1;
     push_matrix();
-    post_translate_matrix((u8 *)&this->m_2c);
-    rotate_matrix_y(0, this->m_68);
-    temp_f1 = *(f32 *)&this->unk_28;
-    scale_matrix(0, temp_f1, 1.0f, temp_f1);
+    post_translate_matrix(&position.x);
+    rotate_matrix_y(NULL, angle_y);
+    scale_matrix(NULL, scale, 1.0f, scale);
     saved_model_render_flags = model_render_flags;
     model_render_flags |= 0x10;
-    copy_argb((NJS_ARGB *)&saved_model_draw_color.value, (NJS_ARGB *)&model_material_color.value);
-    set_constant_material((const NJS_ARGB *)(((u8 *)&this->m_38)));
+    copy_argb(&saved_model_draw_color, &model_material_color);
+    set_constant_material(&color);
     set_texlist((uaddr)texture_list);
-    draw_ginja_model_with_motion(model, motion, (f32)m_24);
-    copy_argb((NJS_ARGB *)&model_material_color.value, (NJS_ARGB *)&saved_model_draw_color.value);
+    draw_ginja_model_with_motion(model, motion, frame);
+    copy_argb(&model_material_color, &saved_model_draw_color);
     model_render_flags = saved_model_render_flags;
     pop_matrix();
 }
 
-u8 *fn_80107DA4(u8 *event, u8 *arg1, u16 arg2) {
-    __ct__7TObjectFP7TObject(event, arg1);
-    *(s32 **)((s8 *)event + 0x18) = &__vt__13TUnk_8049EFB8.value;
-    *(s32 *)((s8 *)event + 0x1C) = 0;
-    ((TUnk_8049EFB8 *)event)->m_20 = arg2;
-    return event;
+TItemEffArmorPulse::TItemEffArmorPulse(TObject *parent, u16 client_id) : TObject(parent) {
+    timer = 0;
+    this->client_id = client_id;
 }
 
-TUnk_8049EFB8::~TUnk_8049EFB8() {
-
+TItemEffArmorPulse::~TItemEffArmorPulse() {
 }
 
-void TUnk_8049EFB8::run_task() {
-    saddr player;
-    if (120.0f <= (f32) *(s32 *)&this->unk_1C) {
-        player = (saddr)get_player_by_client_id((this->m_20));
-        if (player != 0) {
-            if (is_item_area_enabled(((TObjPlayer *)player)->get_area()) == 1) {
-                get_entity_id((void *)player);
-                if (TObjPlayer__sub_80117E50() != 0) {
-                    spawn_particle_effect((const Vec *)(player + 0x2FC), 0x1BE);
+void TItemEffArmorPulse::run_task() {
+    if (120.0f <= (f32)timer) {
+        TObjPlayer *player = get_player_by_client_id(client_id);
+        if (player != NULL) {
+            if (is_item_area_enabled(player->get_area()) == 1) {
+                if (is_opposite_sex_player_near(get_entity_id(player)) != 0) {
+                    spawn_particle_effect(&player->body_center, 0x1BE);
                 }
             }
         }
-        *(s32 *)&this->unk_1C = 0;
+        timer = 0;
     }
-    *(s32 *)&this->unk_1C = (s32) (*(s32 *)&this->unk_1C + 1);
+    timer++;
 }
 
 #pragma defer_codegen off

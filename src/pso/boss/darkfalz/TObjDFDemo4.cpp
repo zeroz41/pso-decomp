@@ -5,7 +5,6 @@
 #include "pso/system/ModelNodePositionCapture.h"
 #include "pso/boss/darkfalz/TObjDFDemo4.h"
 #include "pso/effect/particle/TParticleCtrl.h"
-#include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/boss/darkfalz/TBoss4Uro.h"
 #include "pso/camera/CameraHelpers.h"
 #include "pso/camera/TCameraCtrl.h"

@@ -9,7 +9,6 @@
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/effect/particle/TParticleCtrl.h"
-#include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/enemy/EnemyTargeting.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/math/AngleLookup.h"

@@ -45,7 +45,7 @@ s32 dispatch_packet__6TLobbyFv(int, int);
 void TLobby__sub_803CB194(void *context);
 void audio_stream_start(u8 *arg0);
 s32 TLobby__sub_803CBF50(saddr, s32, s32);
-void TLobby__sub_803CA8B4(Ent_803C9608 *);
+void TLobby__sub_803CA8B4(AdxStreamPlayer *);
 
 s32 TLobby__sub_803C9740(u8 *arg0);
 s32 trigger_sub_task__6TLobbyFv(saddr, s32);
@@ -110,7 +110,7 @@ s32 lbl_805D757C;
 s32 lbl_805D7580;
 
 // Inferred: CRI adxt_stat_prep (wait until every output SJ holds data, then start the RNA).
-inline void prep_803CA8B4(Ent_803C9608 *self) {
+inline void prep_803CA8B4(AdxStreamPlayer *self) {
     s32 n;
     s32 i;
     if (audio_stream_get_state(self->f4) == 3) {
@@ -129,7 +129,7 @@ inline void prep_803CA8B4(Ent_803C9608 *self) {
     }
 }
 // Inferred: CRI adxt_stat_playing (start playback once enough is decoded; pad the end with silence).
-inline void dec_803CA8B4(Ent_803C9608 *self) {
+inline void dec_803CA8B4(AdxStreamPlayer *self) {
     saddr rna = self->fC;
     saddr sjd = self->f4;
     s32 i;
@@ -165,7 +165,7 @@ inline void dec_803CA8B4(Ent_803C9608 *self) {
     }
 }
 // Inferred: CRI adxt_stat_playend (stop the RNA once its queue is empty).
-inline void end_803CA8B4(Ent_803C9608 *self) {
+inline void end_803CA8B4(AdxStreamPlayer *self) {
     lbl_805D7578 = TLobby::query_available_size((TLobby *)self->fC);
     if (TLobby::query_available_size((TLobby *)self->fC) <= 0) {
         TLobby__sub_803CC030(self->fC, 0);
@@ -175,7 +175,7 @@ inline void end_803CA8B4(Ent_803C9608 *self) {
 // Inferred: CRI ADXT_ExecHndl (per-handle state step of the ADXT server).
 #pragma push
 #pragma opt_common_subs off
-void TLobby__sub_803CA8B4(Ent_803C9608 *self) {
+void TLobby__sub_803CA8B4(AdxStreamPlayer *self) {
     s8 stat = self->stat;
     if (stat == 3) {
         prep_803CA8B4(self);
@@ -190,7 +190,7 @@ void TLobby__sub_803CA8B4(Ent_803C9608 *self) {
         self->f60 = -1;
         self->stat = 6;
     }
-    if (self->f94 != NULL && lsc_get_state(self->f94) == 3) {
+    if (self->lsc != NULL && lsc_get_state(self->lsc) == 3) {
         self->f60 = -1;
         self->stat = 6;
     }

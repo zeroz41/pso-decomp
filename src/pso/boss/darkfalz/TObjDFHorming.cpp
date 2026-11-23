@@ -1,6 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/boss/darkfalz/TBoss4Fade.h"
-#include "pso/effect/particle/TParticleCtrl_800874F4.h"
+#include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
 #include "pso/boss/darkfalz/TBoss4DarkFalz_8004C93C.h"

@@ -35,7 +35,7 @@ void TAdBackGC::sub_8029A6EC() {
 
     fan.verts = pos;
     fan.colors = col;
-    fan.unk_8 = 0;
+    fan.tex = NULL;
     fan.count = 4;
     fan.verts[0].x = 0.0f;
     fan.verts[0].y = 0.0f;

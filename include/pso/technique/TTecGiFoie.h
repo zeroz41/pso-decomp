@@ -2,7 +2,7 @@
 #define PSO_TECHNIQUE_TTECGIFOIE_H
 
 #include "types.h"
-#include "pso/effect/TUnk_804CC148.h"
+#include "pso/technique/TTecCircle.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/task/TObject.h"
 #include <dolphin/mtx.h>
@@ -30,7 +30,7 @@ public:
 
 LAYOUT_ASSERT(TUnk_804CC800_size, sizeof(TUnk_804CC800) == 0x4C);
 
-struct TTecGiFoie : public TUnk_804CC148 {
+struct TTecGiFoie : public TTecCircle {
     TTecGiFoie(saddr source, Vec *origin, s32 level);
     virtual ~TTecGiFoie();
     virtual void vfunc_6(void *);

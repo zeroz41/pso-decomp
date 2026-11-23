@@ -8,7 +8,7 @@ struct NJS_OBJECT;
 #include "pso/enemy/dd/TObjEneDD_ST.h"
 #include "pso/render/RenderFadeState.h"
 #include "pso/render/TUnk_80494938.h"
-#include "pso/effect/TUnk_80494968.h"
+#include "pso/effect/TAttackTrace.h"
 #include "pso/enemy/AttackTargetHistory.h"
 #include "pso/enemy/TObjEnemyCustom.h"
 
@@ -90,7 +90,7 @@ struct TObjEneBm9Mericarol : public TObjEneDD_ST {
     // Empty here; the Re2 Flower twin's states call its clear/set_child_flags at the same points.
     void clear_child_flags();
     void set_child_flags();
-    TUnk_80494968 *trails[2];          // fed the two sampled arm points each swipe frame
+    TAttackTraceStrip *trails[2];          // fed the two sampled arm points each swipe frame
     RenderFadeState camera_fades[4];   // one per split-screen camera
     u32 flags;                         // 0x10 while it has a target, 0x400 for the rare colour
     f32 draw_offset_y;                 // render's translate_matrix y

@@ -3,7 +3,7 @@
 #include "pso/technique/TTecGrants.h"
 #include "pso/system/task/TObject_80019A50.h"
 
-#include "pso/effect/TUnk_804CC148.h"
+#include "pso/technique/TTecCircle.h"
 #include "pso/system/task/TObject.h"
 
 #include <stddef.h>
@@ -78,7 +78,7 @@ void TTecGrants::create(void *source, void *origin, void *targets, s32 level) {
 void run_task__10TTecGrantsFv(TTecGrants *tec_grants) {
     uaddr entity;
     u8 *temp_r3_2;
-    *(u8 **)((s8 *)tec_grants + 0x1C) = (u8 *)find_entity_by_id(tec_grants->m_b4);
+    *(u8 **)((s8 *)tec_grants + 0x1C) = (u8 *)find_entity_by_id(tec_grants->sourceId);
     if ((void *) *(u8 **)((s8 *)tec_grants + 0x1C) == NULL) {
         tec_grants->queue_destruction();
         return;
@@ -91,7 +91,7 @@ void run_task__10TTecGrantsFv(TTecGrants *tec_grants) {
     if ((TTecLuker::is_parents_unqueued(entity) != 0) && (TObjPlayer::is_valid_and_active(entity) != 0) && ((s32) tec_grants->m_148 == 0)) {
         temp_r3_2 = (u8 *)(((u8 *)TObject::operator new(0x3C)));
         if (temp_r3_2 != NULL) {
-            __ct__13TUnk_804CC888FPUclP7TObject(temp_r3_2, (s32) entity, (s32) tec_grants->m_78, tl_07);
+            __ct__13TUnk_804CC888FPUclP7TObject(temp_r3_2, (s32) entity, (s32) tec_grants->level, tl_07);
         }
     }
     tec_grants->m_148 = (tec_grants->m_148 + 1);
@@ -109,7 +109,7 @@ TTecGrants::~TTecGrants() {
 }
 
 #define tec_grants ((u8 *)this)
-TTecGrants::TTecGrants(saddr arg1, saddr origin, saddr targets, saddr level) : TUnk_804CC148(arg1, origin, level) {
+TTecGrants::TTecGrants(saddr arg1, saddr origin, saddr targets, saddr level) : TTecCircle(arg1, origin, level) {
     u32 temp_r3;
     __ct__16TargetCursorListFv((tec_grants + 0xEC));
     *(s32 *)((s8 *)tec_grants + 0) = (s32) tec_grants_class_name;
@@ -118,7 +118,7 @@ TTecGrants::TTecGrants(saddr arg1, saddr origin, saddr targets, saddr level) : T
     ((TTecGrants *)tec_grants)->m_148 = 0;
     temp_r3 = ((TTecGrants *)tec_grants)->source;
     if (temp_r3 != 0U) {
-        ((TTecGrants *)tec_grants)->m_b4 = get_entity_id(temp_r3);
+        ((TTecGrants *)tec_grants)->sourceId = get_entity_id(temp_r3);
     }
 }
 #undef tec_grants

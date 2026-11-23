@@ -1,10 +1,10 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
-#include "pso/effect/enemy/TObjEneHoldEffect_8036CDFC.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/system/vector.h"
 #include "pso/effect/enemy/TObjEneHoldEffect.h"
 #include "pso/system/task/TObject.h"
+#include "pso/system/task/TMainTask.h"
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 
@@ -12,66 +12,36 @@
 #include "pso/boss/darkfalz/TBoss4Type2.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/math/MatrixTransforms.h"
 
-struct Hold_8036CF30 {
-    u8 pad0[0x38];
-    Vec pos;
-    u8 pad44[0x4C];
-    void *x90;
-    u16 x94;
-};
-
-struct Hold_8036CE20 {
-    u8 pad0[0x38];
-    Vec pos;
-    u8 pad44[0x4C];
-    void *x90;
-    u16 x94;
-    u8 pad96[2];
-    s32 x98;
-    s32 x9c;
-};
-
-extern "C" {
-void run_task__17TObjEneHoldEffectFv(Hold_8036CE20 *o);
-
-#pragma push
-#pragma opt_common_subs off
-u8 validate_attack_target_count(s32 *count) {
-    s32 valid = 0;
-    if (*count >= 0 && *count <= 10) {
-        valid = 1;
-    }
-    return valid;
-}
-#pragma pop
+#pragma readonly_strings on
 
 #pragma push
 #pragma fp_contract on
-void run_task__17TObjEneHoldEffectFv(Hold_8036CE20 *o) {
-    void *p = get_player_by_client_id(o->x94);
-    if (p != NULL && ((TObject *)p)->all_parents_unqueued_for_destruction() != 0 &&
-        ((TObjCollidable *)p)->obj_testFlags30(0x800) == 0 && o->x90 != NULL &&
-        ((TObject *)(o->x90))->all_parents_unqueued_for_destruction() != 0) {
-        if (o->x98 == 0x20F && is_split_screen() == 0) {
-            Vec d;
-            Vec out;
-            VecCopy((Vec *)&d, (const Vec *)&o->pos);
-            subtract_vector(&d, &camera_ctrl_instance->pos);
-            normalize_vector(&d);
-            out.x = o->pos.x - 5.0f * d.x;
-            out.y = o->pos.y;
-            out.z = o->pos.z - 5.0f * d.z;
-            ((TParticleCtrl *)o->x90)->set_position(&out);
+void TObjEneHoldEffect::run_task() {
+    TObjPlayer *player = get_player_by_client_id(target_id);
+    if (player != NULL && player->all_parents_unqueued_for_destruction() != 0 &&
+        player->obj_testFlags30(0x800) == 0 && particle != NULL &&
+        particle->all_parents_unqueued_for_destruction() != 0) {
+        if (effect == 0x20F && is_split_screen() == 0) {
+            Vec to_camera;
+            Vec pos;
+            VecCopy(&to_camera, &position);
+            subtract_vector(&to_camera, &camera_ctrl_instance->pos);
+            normalize_vector(&to_camera);
+            pos.x = position.x - 5.0f * to_camera.x;
+            pos.y = position.y;
+            pos.z = position.z - 5.0f * to_camera.z;
+            particle->set_position(&pos);
         } else {
-            ((TParticleCtrl *)o->x90)->set_position(&o->pos);
+            particle->set_position(&position);
         }
     }
-    if (o->x9c-- < 0) {
-        ((TObject *)o)->queue_destruction();
+    if (frames_left-- < 0) {
+        queue_destruction();
     }
 }
 #pragma pop
@@ -79,26 +49,59 @@ void run_task__17TObjEneHoldEffectFv(Hold_8036CE20 *o) {
 #pragma push
 #pragma fp_contract on
 void TObjEneHoldEffect::render() {
-    Hold_8036CF30 *o = (Hold_8036CF30 *)this;
-    void *p = get_player_by_client_id(o->x94);
-    if (p != NULL && ((TObject *)p)->all_parents_unqueued_for_destruction() != 0 &&
-        ((TObjCollidable *)p)->obj_testFlags30(0x800) == 0 && o->x90 != NULL &&
-        ((TObject *)(o->x90))->all_parents_unqueued_for_destruction() != 0) {
-        Vec d;
-        Vec out;
-        VecCopy((Vec *)&d, (const Vec *)&o->pos);
-        subtract_vector(&d, &camera_ctrl_instance->pos);
-        normalize_vector(&d);
-        out.x = o->pos.x - 5.0f * d.x;
-        out.y = o->pos.y;
-        out.z = o->pos.z - 5.0f * d.z;
-        ((TParticleCtrl *)o->x90)->set_position(&out);
+    TObjPlayer *player = get_player_by_client_id(target_id);
+    if (player != NULL && player->all_parents_unqueued_for_destruction() != 0 &&
+        player->obj_testFlags30(0x800) == 0 && particle != NULL &&
+        particle->all_parents_unqueued_for_destruction() != 0) {
+        Vec to_camera;
+        Vec pos;
+        VecCopy(&to_camera, &position);
+        subtract_vector(&to_camera, &camera_ctrl_instance->pos);
+        normalize_vector(&to_camera);
+        pos.x = position.x - 5.0f * to_camera.x;
+        pos.y = position.y;
+        pos.z = position.z - 5.0f * to_camera.z;
+        particle->set_position(&pos);
     }
 }
 #pragma pop
 
+TObjEneHoldEffect::~TObjEneHoldEffect() {
+    if (particle != NULL) {
+        TParticleCtrl::release(particle);
+        particle = NULL;
+    }
 }
 
-TObjEneHoldEffect::~TObjEneHoldEffect() {
-    if (*(void **)((s8 *)this + 0x90) != NULL) { TParticleCtrl::release(*(void **)((s8 *)this + 0x90)); this->m_90 = 0; }
+void TObjEneHoldEffect::create(void *target, s32 type, s32 frames) {
+    new TObjEneHoldEffect((TObjBase *)target, type, frames);
+}
+
+const char *TObjEneHoldEffect::class_name = "TObjEneHoldEffect";
+
+TObjEneHoldEffect::TObjEneHoldEffect(TObjBase *target, s32 type, s32 frames) : TObjBase(tl_07) {
+    particle = NULL;
+    if (target != NULL) {
+        m_name = class_name;
+        VecCopy(&position, &target->position);
+        target_id = get_entity_id(target);
+        frames_left = frames;
+        switch (type) {
+        case 1:
+            effect = 0x12F;
+            break;
+        case 2:
+            effect = 0x20F;
+            break;
+        case 3:
+            effect = 0x223;
+            break;
+        default:
+            queue_destruction();
+            return;
+        }
+        particle = create_particle_emitter(&position, effect);
+    } else {
+        queue_destruction();
+    }
 }

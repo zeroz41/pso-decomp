@@ -4,7 +4,7 @@
 #include "pso/technique/TechniqueParams.h"
 #include "pso/technique/TTecResta.h"
 #include "pso/unk/TUnk_804CCBC0.h"
-#include "pso/effect/particle/TParticleCtrl_800867E4.h"
+#include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/vector.h"
 #include "pso/technique/TTecReverser.h"
 

@@ -5,12 +5,7 @@
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/ui/window/TWindowSubStatusDisp_8024FBA8.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
-
-struct Stack_802878B8
-{
-  f32 sp8;
-  f32 spC;
-};
+#include "pso/system/NinjaTypes.h"
 
 typedef struct Entry_802877C8 {
     u8 pad0[0x14];
@@ -34,7 +29,7 @@ typedef struct UV_80287580 {
 extern "C" {
 u32 calc_text_width(char *s);
 const UV_80287580 window_tab_uv_table[4] = {{0.0f, 98.0f}, {0.0f, 125.0f}, {0.0f, 152.0f}, {80.0f, 98.0f}};
-extern s32 lbl_805D63F0;
+extern s32 hud_texlist;
 void __dl__FPv(void);
 
 f32 TWindowSubStatusDisp__sub_80287570(void *arg0) {
@@ -51,7 +46,7 @@ void draw_window_tab(WindowDrawContext *context, f32 *pos, u8 idx, f32 width) {
     w = width;
     w += (8e+01f);
     begin_screen_draw(1);
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(lbl_805D63F0));
+    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(hud_texlist));
     set_draw_texture_and_color(1, context->color);
     r1.x0 = pos[0];
     r1.y0 = pos[1];
@@ -131,7 +126,6 @@ void TWindowSubStatusDisp::set_entry_state(s8 arg1) {
     update_entry_color();
 }
 
-typedef struct Stack_802878B8 Stack_802878B8;
 #pragma fp_contract on
 
 void TWindowSubStatusDisp::draw_entry_tab(void *arg1) {
@@ -143,18 +137,13 @@ void TWindowSubStatusDisp::draw_entry_tab(void *arg1) {
 }
 
 void TWindowSubStatusDisp__sub_802878B8(u8 *arg0, u8 *arg1) {
-  Stack_802878B8 stack;
-  f32 new_var;
+  NJS_POINT2 pos;
   if (((s32) (*((s32 *) (((s8 *) arg1) + 0x30)))) >= 0)
   {
-    if ((0.5f) && (0.5f))
-    {
-    }
-    stack.sp8 = -(((0.5f) * (*((f32 *) (((s8 *) arg0) + 0x10)))) - (((0.5f) * ((1.6e+02f) + (*((f32 *) (((s8 *) arg0) + 0xC))))) + ((*((f32 *) (((s8 *) arg1) + 0))) + (*((f32 *) (((s8 *) arg0) + 4))))));
-    stack.spC = (4.0f) + (*((f32 *) (((s8 *) arg1) + 4)) + (*((f32 *) (((s8 *) arg0) + 8))));
+    pos.x = -(((0.5f) * (*((f32 *) (((s8 *) arg0) + 0x10)))) - (((0.5f) * ((1.6e+02f) + (*((f32 *) (((s8 *) arg0) + 0xC))))) + ((*((f32 *) (((s8 *) arg1) + 0))) + (*((f32 *) (((s8 *) arg0) + 4))))));
+    pos.y = (4.0f) + (*((f32 *) (((s8 *) arg1) + 4)) + (*((f32 *) (((s8 *) arg0) + 8))));
     set_text_draw_params(reinterpret_cast<WindowDrawContext *>(arg1), 0, 1, (f32) ((-1.0f) / ((0.0598f) + (*((f32 *) (((s8 *) arg1) + 0x38))))), 100000.0f);
-    new_var = *((f32 *) (((s8 *) arg0) + 0x1C));
-    draw_window_text((&stack.sp8), (const char *)(*((saddr *) (((s8 *) arg0) + 0))), (*((s32 *) (((s8 *) arg0) + 0x14))), 1, (f32) new_var);
+    draw_window_text(&pos.x, (const char *)(*((saddr *) (((s8 *) arg0) + 0))), (*((s32 *) (((s8 *) arg0) + 0x14))), 1, *((f32 *) (((s8 *) arg0) + 0x1C)));
   }
 }
 

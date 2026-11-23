@@ -38,7 +38,7 @@ void fn_80293D84(void *arg0, void *arg1, u32 color, f32 scale, f32 alpha) {
         colors[i] = c;
     }
     prim.colors = colors;
-    prim.unk_8 = 0;
+    prim.tex = NULL;
     prim.count = 6;
     prim.verts = pts;
     prim.draw_strip_swap_color(6, 6, (-1.5f));
@@ -85,7 +85,7 @@ void TChCrEffFade::draw_fade_strip(f32 farg0) {
     strip.color1 = color;
     strip.color0 = color;
     strip.colors = &strip.color0;
-    strip.unk_8 = 0;
+    strip.tex = NULL;
     strip.count = 4;
     strip.verts = chcr_eff_fade_strip_rect;
     strip.draw_strip_swap_color(4, 6, -1.5f);

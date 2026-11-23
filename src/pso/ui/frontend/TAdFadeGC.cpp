@@ -33,7 +33,7 @@ void TAdFadeGC::draw_fade() {
 
     d.verts = pos;
     d.colors = col;
-    d.unk_8 = 0;
+    d.tex = NULL;
     d.count = 4;
     switch (*(s32 *)((s8 *)arg0 + 0x28)) {
     case 0:

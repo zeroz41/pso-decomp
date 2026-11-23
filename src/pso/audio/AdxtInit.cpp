@@ -24,7 +24,7 @@ s32 lbl_805D7540;
 static const char *const volatile lbl_805E0D30 = "\nADXT/GC Ver.8.05 Build:Jun 13 2002 19:01:36\n";
 }
 
-Ent_803C9608 adx_stream_player_pool[16];
+AdxStreamPlayer adx_stream_player_pool[16];
 
 void TLobby::dec_ref_and_shutdown() {
     s32 temp_r0;

@@ -1,7 +1,6 @@
 #include "pso/enemy/EnemyMovement.h"
 #include "pso/enemy/EnemyTargeting.h"
 #include "pso/effect/particle/ParticleFactory.h"
-#include "pso/effect/particle/TParticleCtrl_800867E4.h"
 
 #include "pso/map/CsnGroundQuery.h"
 #include "pso/player/TObjPlayer_800F0810.h"
@@ -822,7 +821,6 @@ s32 is_entity_locally_controlled(s32 id);
 void move_with_wall_slide(u8 *arg0);
 void obj_clearArrS16_FC(ObjArrFC* p, int i);
 f64 fabs_double(f64 x);
-void *create_oneshot_particle_emitter(void *pos, void *dir, s32 id, s32 flags);
 void direction_to_rotation_xz(u8 *arg0, s32 *arg1, s32 *arg2);
 #pragma push
 #pragma fp_contract on
@@ -1057,7 +1055,7 @@ s32 get_type__10TObjPlayerFPv(void* p) { return *(s32*)((char*)p + 0x0); }
 
 u8 TItem::get_item_group() { return this->item_group; }
 
-TItem *TObjPlayer::get_item_field_6(void *player) { return (TItem *)get_slot_value(((TObjPlayer *)player)->equipped_items, 6); }
+TItem *TObjPlayer::get_equipped_weapon(void *player) { return (TItem *)get_slot_value(((TObjPlayer *)player)->equipped_items, 6); }
 
 s32 TObjPlayer::get_player_count() {
     return lobby_player_count;
@@ -2819,7 +2817,7 @@ f32 TObjChara::receive_physical_attack(void *att, f32 scale) {
                         lck = 100.0f;
                     }
                     if (crit <= lck) {
-                        ((TEffClitical *)(&hit))->create();
+                        TEffClitical::create(&hit);
                         play_sound_effect(0x4001A31F, &hit, 0, 0);
                         d *= (1.5f);
                     } else {
@@ -3338,7 +3336,7 @@ f32 TObjChara::receive_weapon_special_attack(void *attacker, void *collision) {
     rec.kind = 0;
     rec.power = dmg;
     if (self->f2D4 < 0x1000) {
-        TItem *item = TObjPlayer::get_item_field_6(att);
+        TItem *item = TObjPlayer::get_equipped_weapon(att);
         if (item == NULL) {
             mul = (1.0f);
         } else {

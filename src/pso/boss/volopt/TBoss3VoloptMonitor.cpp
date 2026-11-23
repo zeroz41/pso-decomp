@@ -16,7 +16,7 @@
 #include "pso/render/GinjaMaterial.h"
 #include "pso/render/GinjaMaterialState.h"
 #include "pso/system/vector.h"
-#include "pso/unk/text_80086D50.h"
+#include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/system/SoundEffect.h"

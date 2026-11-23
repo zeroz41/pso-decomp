@@ -46,10 +46,10 @@
 #include "pso/unk/TLobby.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/boss/volopt/TBoss3VoloptHiraisin.h"
-#include "pso/effect/TUnk_80494968.h"
+#include "pso/effect/TAttackTrace.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/SoundEffect.h"
-#include "pso/unk/text_800D8830.h"
+#include "pso/effect/GroundContactSound.h"
 #include "pso/object/TObjControl.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/player/TObjPlayer_800D8FDC.h"
@@ -150,7 +150,7 @@ CollisionBody dolmolm_collision_bodies[2] = {
 
 void TObjEneDolmOlm::load_params_from_table(s32 i) {
     model = TObjEneDolmOlm__resource_bundle->models[i].model;
-    texlist = (saddr)TObjEneDolmOlm__resource_bundle->models[i].m_c;
+    texlist = (saddr)TObjEneDolmOlm__resource_bundle->models[i].texlist;
 }
 TObjEneDolmOlm::TObjEneDolmOlm(TObject *parent, void *set_data) : TUnk_80493450(parent) {
     u32 col;
@@ -159,11 +159,11 @@ TObjEneDolmOlm::TObjEneDolmOlm(TObject *parent, void *set_data) : TUnk_80493450(
     init_position_vectors();
     apply_variant();
     action_table = TObjEneDolmOlm__param_table;
-    set_field_d8((saddr)action_table);
+    set_action_table((saddr)action_table);
     motion_list = TObjEneDolmOlm__resource_bundle->motions;
     requested_action = 0;
     set_animation(requested_action);
-    set_field_b8(requested_action);
+    set_requested_action(requested_action);
     init_collision_body_parts(this, &dolmolm_collision_bodies[variant], 1);
     bind_enemy_combat_stats(dolm_olm_combat_stat_id_pair[variant], TObjEneDolmOlm__shared_handler_ids[variant], TObjEneDolmOlm__registered_object_ids[variant]);
     movementParameters = &dolmolm_movement_params[variant];
@@ -193,8 +193,8 @@ TObjEneDolmOlm::TObjEneDolmOlm(TObject *parent, void *set_data) : TUnk_80493450(
     }
     fade.reset_obstruction_fade();
     appearing = 1;
-    attack_traces[0] = TUnk_80494968::create(0xA0303030, col);
-    attack_traces[1] = TUnk_80494968::create(0xA0303030, col);
+    attack_traces[0] = TAttackTraceStrip::create(0xA0303030, col);
+    attack_traces[1] = TAttackTraceStrip::create(0xA0303030, col);
     far_move_speed = TObjEneDolmOlm__behavior_params_by_variant[variant]->params[0];
     far_anim_speed = TObjEneDolmOlm__behavior_params_by_variant[variant]->params[1];
     near_move_speed = TObjEneDolmOlm__behavior_params_by_variant[variant]->params[2];
@@ -250,7 +250,7 @@ void TObjEneDolmOlm::load_shared_resources() {
         NpcAnimationBinding d = { TObjEneDolmOlm__resource_bundle->motions, TObjEneDolmOlm__param_table, 0, 2, 12 };
         for (i = 0; i < 2; i++) {
             BmlModelEntry *e = &TObjEneDolmOlm__resource_bundle->models[i];
-            NpcModelRegistry::register_animated_chunk(ids[i], e->model, e->m_c, &d, dolmolm_collision_bodies[i].radius, 0.0f);
+            NpcModelRegistry::register_animated_chunk(ids[i], e->model, e->texlist, &d, dolmolm_collision_bodies[i].radius, 0.0f);
         }
     }
 }
@@ -854,7 +854,7 @@ void TObjEneDolmOlm::update_attack_trail() {
     Vec a;
     Vec *e;
     s32 idx;
-    TUnk_80494968 *eff;
+    TAttackTraceStrip *eff;
     if (!(this->frame < 12.0f)) {
         return;
     }
@@ -923,7 +923,7 @@ void TObjEneDolmOlm::spawn_ground_effects(Vec *pos) {
     if (hit != NULL) {
         if (hit->hit_mask & 4) {
             if (actor_frame_tick % 5 == 0) {
-                fn_800D88E4(&position);
+                play_ground_landing_sound(&position);
             }
             e = spawn_particle_effect(&hit->contact[2].point, 0x49);
             if (e != NULL) {
@@ -932,7 +932,7 @@ void TObjEneDolmOlm::spawn_ground_effects(Vec *pos) {
             spawn_particle_effect(&hit->contact[2].point, 0xA4);
         } else if (hit->hit_mask & 2) {
             if (actor_frame_tick % 10 == 0) {
-                fn_800D88E4(&position);
+                play_ground_landing_sound(&position);
             }
             e = spawn_particle_effect(&hit->contact[3].point, 0x49);
             if (e != NULL) {
