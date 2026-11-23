@@ -393,7 +393,7 @@ void ItemListRow::init_entry(u8 arg1, u8 arg2, u8 arg3, u32 src, s32 arg5) {
     this->category_icon = arg2;
     this->status_style = (s32) arg3;
     this->category_style = -1;
-    this->label = (char *)((u32)replace_owned_string(src, (s32)((saddr)this->label), 8, 1));
+    this->label = (char *)replace_owned_string(src, (saddr)this->label, 8, 1);
     this->style = -1;
     this->item = arg5;
     this->flags |= 0x245;
@@ -581,7 +581,7 @@ void ItemListRow::init_item_row(void *item, s32 arg2) {
 
     extern const float lbl_805DCF08;
 
-void ItemListRow::set_item_info(void* a1, int a2, void* a3) {
+void ItemListRow::set_item_info(void *a1, s32 a2, s32 count) {
     saddr item_data;
     saddr temp_r3;
 
@@ -592,7 +592,7 @@ void ItemListRow::set_item_info(void* a1, int a2, void* a3) {
     select_item_icon(item_data, *(unsigned char*)((char*)a1 + 0x0), *(unsigned char*)((char*)a1 + 0x1), temp_r3);
     TLobby::forward_message(get_shared_text_buffer(), (uaddr)(void *)a1);
     this->label = (char *)replace_owned_string(get_shared_text_buffer(), (saddr)this->label, 8, 1);
-    update_stat_line_if_positive((s32)a3);
+    update_stat_line_if_positive(count);
     update_item_colors((saddr)a1);
     this->suffix_style = this->style;
     this->item = a2;
@@ -625,11 +625,11 @@ void ItemListRow::set_ground_item(void *it, s32 arg2) {
     item_data = TLobby::get_item_data((uaddr)it);
     select_item_icon(item_data, *(u8 *)((s8 *)it + 0), *(u8 *)((s8 *)it + 1), TItemData::is_wrapped(it));
     TLobby::forward_message(get_shared_text_buffer(), (uaddr)(void *)it);
-    this->label = (char *)replace_owned_string((s32)(get_shared_text_buffer()), (s32)((saddr)this->label), 8, 1);
+    this->label = (char *)replace_owned_string(get_shared_text_buffer(), (saddr)this->label, 8, 1);
     if (TCameraCtrl::get_camera_id() <= 2) {
         text_builder_reset();
         text_builder_append_int(*(s32 *)((s8 *)it + 0x10));
-        this->suffix = (char *)replace_owned_string((s32)(get_shared_text_buffer()), (s32)(this->suffix), 0x10, 1);
+        this->suffix = (char *)replace_owned_string(get_shared_text_buffer(), (saddr)this->suffix, 0x10, 1);
     }
     update_item_colors((saddr)it);
     this->item = arg2;

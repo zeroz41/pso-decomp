@@ -374,7 +374,7 @@ void TWindowSubStatusDisp::add_item_info_entry(saddr arg1, s32 arg2, saddr count
     if (arg1 != 0) {
         index = *(s16 *)((s8 *)this + 0x72);
         if (index < (s16) *(s16 *)((s8 *)this + 0x76)) {
-            ((ItemListRow *)(get_array_entry(index)))->set_item_info((void*)arg1, (int)arg2, (void*)count);
+            ((ItemListRow *)(get_array_entry(index)))->set_item_info((void*)arg1, (s32)arg2, count);
             *(s16 *)((s8 *)this + 0x72) = (s16) (*(s16 *)((s8 *)this + 0x72) + 1);
         }
     }

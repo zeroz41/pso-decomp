@@ -43,7 +43,7 @@ public:
   void set_inventory_item(void *item, s32 count, s32 sid);
   void update_from_player(void *item, s32 arg2, s32 arg3);
   void init_item_row(void *item, s32 arg2);
-  void set_item_info(void *a1, int a2, void *a3);
+  void set_item_info(void *a1, s32 a2, s32 count);
   void set_ground_item(void *arg1, s32 arg2);
   void init_display(s32 src, s32 arg2);
   saddr replace_owned_string(saddr src, saddr buf, s32 mask, s32 copy);
