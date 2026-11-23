@@ -78,30 +78,30 @@ extern const f32 lbl_8044F718[2] = {190.0f, 168.0f};
 
 TUnk_804D1160::TUnk_804D1160(TWindowMainMenu *parent, s32 client) : TObject(parent) {
     main_menu = parent;
-    m_20 = client;
-    m_28 = (uaddr)new TWindowSubCustomEquip(m_20);
-    ((TWindowBase *)m_28)->set_depth(TWindowSubEquip__sub_80263AF8((u8 *)main_menu, 0));
-    m_30 = (uaddr)TWindowMessage::create((saddr)(get_window_layout_position(0x11)), lbl_8044F718, 1, m_20);
-    ((TWindowBase *)m_30)->set_depth(TWindowSubEquip__sub_80263AF8((u8 *)main_menu, 2));
-    call_if_split_screen(m_30, m_20);
-    m_2c = 0;
+    client_id = client;
+    custom_equip = (uaddr)new TWindowSubCustomEquip(client_id);
+    ((TWindowBase *)custom_equip)->set_depth(TWindowSubEquip__sub_80263AF8((u8 *)main_menu, 0));
+    help_window = (uaddr)TWindowMessage::create((saddr)(get_window_layout_position(0x11)), lbl_8044F718, 1, client_id);
+    ((TWindowBase *)help_window)->set_depth(TWindowSubEquip__sub_80263AF8((u8 *)main_menu, 2));
+    call_if_split_screen(help_window, client_id);
+    custom_select = 0;
     help_kind = 0;
     help_id = 0;
     state = 0;
 }
 
 TUnk_804D1160::~TUnk_804D1160() {
-    if ((void *)m_2c != NULL) {
-        ((TWindowBase *)m_2c)->close();
-        m_2c = 0;
+    if ((void *)custom_select != NULL) {
+        ((TWindowBase *)custom_select)->close();
+        custom_select = 0;
     }
-    if ((void *)m_30 != NULL) {
-        ((TWindowBase *)m_30)->close();
-        m_30 = 0;
+    if ((void *)help_window != NULL) {
+        ((TWindowBase *)help_window)->close();
+        help_window = 0;
     }
-    if ((void *)m_28 != NULL) {
-        ((TWindowBase *)m_28)->close();
-        m_28 = 0;
+    if ((void *)custom_equip != NULL) {
+        ((TWindowBase *)custom_equip)->close();
+        custom_equip = 0;
     }
 }
 
@@ -115,20 +115,20 @@ void TUnk_804D1160::run_task() {
             ((TWindowBase *)self->f2c)->close();
             self->f2c = NULL;
         }
-        ((TWindowSubCustomEquip *)(this->m_28))->clear_flag_and_set_entry_state();
+        ((TWindowSubCustomEquip *)(this->custom_equip))->clear_flag_and_set_entry_state();
         self->state = 2;
     case 2:
-        ((TWindowSubCustomEquip *)(this->m_28))->get_cursor_pos(&ev);
+        ((TWindowSubCustomEquip *)(this->custom_equip))->get_cursor_pos(&ev);
         ((TUnk_804D1160 *)self)->update_customize_help_text(&ev);
-        if (TWindowSubCustomEquip__sub_80275DA8((void *)this->m_28) != 0) {
+        if (TWindowSubCustomEquip__sub_80275DA8((void *)this->custom_equip) != 0) {
             self->f24->v7();
             self->state = 5;
-        } else if (((TWindowSubCustomEquip *)(this->m_28))->is_selected() != 0) {
+        } else if (((TWindowSubCustomEquip *)(this->custom_equip))->is_selected() != 0) {
             self->state = 3;
         }
         break;
     case 3:
-        self->f2c = new TWindowSubCustomSelect(m_20);
+        self->f2c = new TWindowSubCustomSelect(client_id);
         ((TWindowBase *)self->f2c)->set_depth(TWindowSubEquip__sub_80263AF8((u8 *)self->f24, 1));
         self->state = 4;
     case 4:
@@ -138,7 +138,7 @@ void TUnk_804D1160::run_task() {
         }
         if (((TWindowSubCustomSelect *)(self->f2c))->is_active() != 0) {
             void *e = static_cast<TWindowSubCustomSelect *>(self->f2c)->get_selected_action();
-            ((TWindowSubCustomEquip *)(this->m_28))->toggle_action_binding(e);
+            ((TWindowSubCustomEquip *)(this->custom_equip))->toggle_action_binding(e);
             self->state = 1;
         }
         break;

@@ -14,11 +14,11 @@ public:
     virtual void run_task();
     s8 state;
     u8 pad_1D[0x3];
-    s32 m_20;
+    s32 client_id;
     TWindowMainMenu *main_menu;
-    uaddr m_28;
-    uaddr m_2c;
-    uaddr m_30;
+    uaddr custom_equip;
+    uaddr custom_select;
+    uaddr help_window;
     s16 help_kind;
     s16 help_id;
 };
