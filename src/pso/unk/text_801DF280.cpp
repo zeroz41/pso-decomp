@@ -6,6 +6,7 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/player/TPlyGuildCardTag.h"
 #include "pso/network/protocol/protocol.h"
+#include "pso/network/TProtocol.h"
 
 struct RecoveredFields_801DF394_arg0
 {
@@ -78,16 +79,13 @@ Obj_801DF61C *copy_ply_meet_user_extension(Obj_801DF61C *dst, Obj_801DF61C *src)
 s32 __ct__16TPlyGuildCardTagFv(s32);
 }
 
-void bswap_cmd_db_regist_connect_reply(packet_header *arg0) {
-    arg0->bswap();
-    bswap_ply_smth_pair(((void *)((char *)arg0 + 68)));
-    bswap_32((u32 *)((char *)arg0 + 76));
+void TSendVerifyLicense::bswap() {
+    header.bswap();
+    bswap_ply_smth_pair(&hardware_id);
+    bswap_32(&sub_version);
 }
 
-s32 construct_cmd_db_regist_connect_reply(saddr arg0) {
-    __ct__8TPlySmthFv((void *)(arg0 + 0x44));
-    return arg0;
-}
+TSendVerifyLicense::TSendVerifyLicense() {}
 void bswap_cmd_8a_header(void *p) { ((packet_header *)p)->bswap(); }
 void bswap_cmd_88_body(void* p) { ((packet_header *)p)->bswap(); { int i; for (i = 0; i < 16; i++) { bswap_cmd_88_marker_record((void*)((char*)p + 0x4 + i * 12)); } } }
 

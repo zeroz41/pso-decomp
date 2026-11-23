@@ -1,7 +1,6 @@
 #include "types.h"
 #include <string.h>
 #include "pso/player/TPlySmth.h"
-#include "pso/network/TRecvPsoRegistConnect.h"
 #include "pso/network/TPlyMeetUserExtension_801DAC6C.h"
 #include "pso/unk/text_801DF280.h"
 #include "pso/network/protocol/protocol.h"
@@ -15,46 +14,9 @@ struct Nm_801DAC6C { char c[16]; };
 
 struct Ext_801DAC6C { Tags_801DAC6C tags; u32 m; Nm_801DAC6C a; Nm_801DAC6C b; };
 
-struct Regist_801DAD38 {
-    u32 hdr;
-    char copyright[0x40];
-    u32 key0;
-    u32 key1;
-};
-
-struct Pkt_801DAD38 {
-    u8 cmd;
-    u8 flag;
-    u16 size;
-    char a[16];
-    char b[16];
-    char c[16];
-    char d[16];
-    u8 smth[8];
-    u32 port;
-    char e[0x30];
-    char f[0x30];
-    char g[0x30];
-};
-
-struct BaseDAD38 { char pad[0x18]; };
-
-struct VObjDAD38 : BaseDAD38 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8(void *, s32);
-};
 
 extern "C" {
 Ext_801DAC6C *__as__21TPlyMeetUserExtensionFRC21TPlyMeetUserExtension(Ext_801DAC6C *arg0, const Ext_801DAC6C *arg1);
-extern char *port_map_copyright;
-void handle_cmd_9B__9TProtocolFR6packet(u8 *arg0, Regist_801DAD38 *arg1);
 s32 set_port__7TSocketFUl(void *, s16);
 
 struct BaseDA { char pad[0x18]; };
@@ -88,31 +50,30 @@ void TProtocol::handle_cmd_9A(packet &pkt) {
     }
 }
 
-void handle_cmd_9B__9TProtocolFR6packet(u8 *arg0, Regist_801DAD38 *arg1) {
-    Regist_801DAD38 r = *arg1;
-    Pkt_801DAD38 pkt;
-    bswap__21TRecvPsoRegistConnectFv((saddr)&r);
-    if (strcmp(port_map_copyright, r.copyright) == 0) {
-        ((PSOV3EncryptionTCP *)(arg0 + 0x10BC))->reset(r.key0);
-        ((PSOV3EncryptionTCP *)(arg0 + 0x884))->reset(r.key1);
-        *(s32 *)(arg0 + 0x18F4) = 1;
-        construct_cmd_db_regist_connect_reply((saddr)&pkt);
-        memset((void *)&pkt, 0, 0xE0);
-        pkt.cmd = 0xDB;
-        pkt.size = 0xE0;
-        strncpy(pkt.a, (const char *)(arg0 + 0x3EB8), 0x10);
-        strncpy(pkt.b, (const char *)(arg0 + 0x3EC9), 0x10);
-        strncpy(pkt.c, (const char *)(arg0 + 0x3F8A), 0x10);
-        strncpy(pkt.d, (const char *)(arg0 + 0x3F9B), 0x10);
-        __as__8TPlySmthFRC8TPlySmth((saddr)pkt.smth, (saddr)(arg0 + 0x18F8));
-        pkt.port = *(u16 *)(arg0 + 0x1908);
-        strncpy(pkt.e, (const char *)(arg0 + 0x3EDA), 0x30);
-        strncpy(pkt.f, (const char *)(arg0 + 0x3F0A), 0x30);
-        strncpy(pkt.g, (const char *)(arg0 + 0x3F3A), 0x30);
-        bswap_cmd_db_regist_connect_reply((packet_header *)&pkt);
-        ((VObjDAD38 *)arg0)->m8(&pkt, 0xE0);
+void TProtocol::handle_cmd_9B(packet &pkt) {
+    TRecvPsoRegistConnect tmp = as(TRecvPsoRegistConnect &, pkt);
+    tmp.bswap();
+    if (!strcmp(port_map_copyright, tmp.copyright)) {
+        m_recv_crypt.reset(tmp.server_key);
+        m_send_crypt.reset(tmp.client_key);
+        m_is_encrypted = true;
+        TSendVerifyLicense tmp2;
+        memset(&tmp2, 0, sizeof(tmp2));
+        tmp2.header.command = 0xDB;
+        tmp2.header.size = sizeof(tmp2);
+        strncpy(tmp2.serial_number_v1, m_serial_number_v1, sizeof(tmp2.serial_number_v1));
+        strncpy(tmp2.access_key_v1, m_access_key_v1, sizeof(tmp2.access_key_v1));
+        strncpy(tmp2.serial_number, m_serial_number2, sizeof(tmp2.serial_number));
+        strncpy(tmp2.access_key, m_access_key2, sizeof(tmp2.access_key));
+        tmp2.hardware_id = m_smth;
+        tmp2.sub_version = m_sub_version;
+        strncpy(tmp2.serial_number2, m_serial_number, sizeof(tmp2.serial_number2));
+        strncpy(tmp2.access_key2, m_access_key, sizeof(tmp2.access_key2));
+        strncpy(tmp2.password, m_password, sizeof(tmp2.password));
+        tmp2.bswap();
+        send(as(u8 *, &tmp2), sizeof(tmp2));
     } else {
-        ((VObjDAD38 *)arg0)->m5();
+        close();
     }
 }
 

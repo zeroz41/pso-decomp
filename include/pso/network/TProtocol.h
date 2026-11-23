@@ -32,6 +32,8 @@ extern int enable_v2_features;
 extern u32 new_ip_addr;
 extern u16 new_port;
 extern TPlyMeetUserExtension meet_user_settings;
+extern const char *lobby_server_greeting_text;
+extern const char *port_map_copyright;
 extern u32 game_variations[16][2];
 extern void copy_packet(union packet *pkt);
 
@@ -65,12 +67,27 @@ public:
     u32 server_key;
     u32 client_key;
 public:
-    void bswap() {
-        header.bswap();
-        bswap_32(&server_key);
-        bswap_32(&client_key);
-    };
+    void bswap();
 };
+
+// DB: the account check the client answers a 9B greeting with.
+class TSendVerifyLicense {
+public:
+    TSendVerifyLicense();
+    void bswap();
+
+    packet_header header;
+    char serial_number_v1[16];
+    char access_key_v1[16];
+    char serial_number[16];
+    char access_key[16];
+    TPlySmth hardware_id;
+    u32 sub_version;
+    char serial_number2[48];
+    char access_key2[48];
+    char password[48];
+};
+LAYOUT_ASSERT(TSendVerifyLicenseSize, sizeof(TSendVerifyLicense) == 0xE0);
 
 struct _packet {
     void bswap() {

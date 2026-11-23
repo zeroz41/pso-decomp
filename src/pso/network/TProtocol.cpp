@@ -238,7 +238,6 @@ void TProtocol::handle_cmd_90(packet &pkt) {
 #include "pso/network/TSocket.h"
 
 extern packet *server_packet;
-extern const char *port_map_copyright;
 
 
 #include "pso/item/TItem.h"

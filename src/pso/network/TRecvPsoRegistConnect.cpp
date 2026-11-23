@@ -1,15 +1,8 @@
 #include "types.h"
-#include "pso/network/protocol/protocol.h"
-#include "pso/network/TRecvPsoRegistConnect.h"
-#include "pso/system/byteswap.h"
+#include "pso/network/TProtocol.h"
 
-extern "C" {
-
-
-void bswap__21TRecvPsoRegistConnectFv(saddr arg0) {
-    ((packet_header *)arg0)->bswap();
-    bswap_32((u32 *)(arg0 + 0x44));
-    bswap_32((u32 *)(arg0 + 0x48));
-}
-
+void TRecvPsoRegistConnect::bswap() {
+    header.bswap();
+    bswap_32(&server_key);
+    bswap_32(&client_key);
 }

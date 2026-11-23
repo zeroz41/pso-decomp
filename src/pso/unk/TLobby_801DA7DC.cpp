@@ -1,7 +1,6 @@
 #include "types.h"
 #include <string.h>
 #include "pso/player/TPlySmth.h"
-#include "pso/network/TRecvPsoRegistConnect.h"
 #include "pso/unk/TLobby_801DEFC4.h"
 #include "pso/player/TPlyGuildCardTag_8007B434.h"
 #include "pso/unk/TLobby.h"
@@ -29,27 +28,6 @@ struct Pkt_801DA8C4 {
     u8 config[0x150 - 0xCC];
 };
 
-struct Base_801DAA70 { char pad[0x18]; };
-
-struct VObj_801DAA70 : Base_801DAA70 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual s32 m_call(void *a1, s32 a2);
-};
-
-struct Recv_801DAA70 {
-    u32 hdr;
-    char name[0x40];
-    u32 key1;
-    u32 key2;
-};
-
 struct Pkt_801DAA70 {
     u8 cmd;
     u8 flag;
@@ -74,8 +52,6 @@ struct Pkt_801DAA70 {
 extern "C" {
 s32 __as__16TPlyClientConfigFRC16TPlyClientConfig(void *, void *);
 s32 __as__21TPlyMeetUserExtensionFRC21TPlyMeetUserExtension(void *, void *);
-extern char *lobby_server_greeting_text;
-void handle_cmd_02__9TProtocolFR6packet(u8 *arg0, Recv_801DAA70 *arg1);
 void TProtocol::send_c6_packet(void *lobby) {
     if (m_connected != 0) {
         *(u8 *)((s8 *)lobby + 0) = 0xC6;
@@ -128,45 +104,45 @@ void TProtocol::handle_cmd_9C(packet &pkt) {
         m_recv_handlers.handle_92_9C_register_response_packet(header.flags);
     }
 }
-void handle_cmd_02__9TProtocolFR6packet(u8 *arg0, Recv_801DAA70 *arg1) {
-    Recv_801DAA70 r = *arg1;
-    Pkt_801DAA70 pkt;
-    bswap__21TRecvPsoRegistConnectFv((saddr)&r);
-    if (strcmp(lobby_server_greeting_text, r.name) == 0) {
-        ((PSOV3EncryptionTCP *)(arg0 + 0x10BC))->reset(r.key1);
-        ((PSOV3EncryptionTCP *)(arg0 + 0x884))->reset(r.key2);
-        *(s32 *)(arg0 + 0x18F4) = 1;
-        ((TPlySmth *)(&pkt))->construct();
-        memset(&pkt, 0, 0x150);
-        pkt.cmd = 0x9E;
-        pkt.flag = *(s32 *)(arg0 + 0x1930);
-        __as__16TPlyGuildCardTagFRC16TPlyGuildCardTag(pkt.tag, arg0 + 0x1900);
-        __as__8TPlySmthFRC8TPlySmth((saddr)pkt.smth, (saddr)(arg0 + 0x18F8));
-        pkt.f14 = *(u16 *)(arg0 + 0x1908);
-        pkt.f19 = *(s32 *)(arg0 + 0x1934);
-        strncpy(pkt.name1, (const char *)(arg0 + 0x3EB8), 0x10);
-        strncpy(pkt.name2, (const char *)(arg0 + 0x3EC9), 0x10);
-        strncpy(pkt.name3, (const char *)(arg0 + 0x3F8A), 0x10);
-        strncpy(pkt.name4, (const char *)(arg0 + 0x3F9B), 0x10);
-        strncpy(pkt.desc1, (const char *)(arg0 + 0x3EDA), 0x30);
-        strncpy(pkt.desc2, (const char *)(arg0 + 0x3F0A), 0x30);
-        strncpy(pkt.name5, (const char *)(arg0 + 0x3F7A), 0x10);
-        __as__16TPlyClientConfigFRC16TPlyClientConfig(pkt.config, arg0 + 0x3FAC);
-        if (*(s32 *)(arg0 + 0x1918) != 0) {
-            pkt.f18 = 1;
-            __as__21TPlyMeetUserExtensionFRC21TPlyMeetUserExtension(pkt.ext, &meet_user_settings);
-            pkt.size = 0x150;
-            ((TLobby *)(&pkt))->bswap_guild_card_meet_user();
-            ((VObj_801DAA70 *)arg0)->m_call(&pkt, 0x150);
+void TProtocol::handle_cmd_02(packet &pkt) {
+    TRecvPsoRegistConnect tmp = as(TRecvPsoRegistConnect &, pkt);
+    Pkt_801DAA70 tmp2;
+    tmp.bswap();
+    if (!strcmp(lobby_server_greeting_text, tmp.copyright)) {
+        m_recv_crypt.reset(tmp.server_key);
+        m_send_crypt.reset(tmp.client_key);
+        m_is_encrypted = true;
+        ((TPlySmth *)(&tmp2))->construct();
+        memset(&tmp2, 0, sizeof(tmp2));
+        tmp2.cmd = 0x9E;
+        tmp2.flag = m_udp_disabled;
+        __as__16TPlyGuildCardTagFRC16TPlyGuildCardTag(tmp2.tag, &m_guildcard_tag);
+        __as__8TPlySmthFRC8TPlySmth((saddr)tmp2.smth, (saddr)&m_smth);
+        tmp2.f14 = m_sub_version;
+        tmp2.f19 = m_language;
+        strncpy(tmp2.name1, m_serial_number_v1, 0x10);
+        strncpy(tmp2.name2, m_access_key_v1, 0x10);
+        strncpy(tmp2.name3, m_serial_number2, 0x10);
+        strncpy(tmp2.name4, m_access_key2, 0x10);
+        strncpy(tmp2.desc1, m_serial_number, 0x30);
+        strncpy(tmp2.desc2, m_access_key, 0x30);
+        strncpy(tmp2.name5, m_player_name, 0x10);
+        __as__16TPlyClientConfigFRC16TPlyClientConfig(tmp2.config, &m_client_config);
+        if (m_has_meet_user_settings != 0) {
+            tmp2.f18 = 1;
+            __as__21TPlyMeetUserExtensionFRC21TPlyMeetUserExtension(tmp2.ext, &meet_user_settings);
+            tmp2.size = 0x150;
+            ((TLobby *)(&tmp2))->bswap_guild_card_meet_user();
+            send((u8 *)&tmp2, 0x150);
         } else {
-            pkt.size = 0xEC;
-            ((TLobby *)(&pkt))->bswap_guild_card_meet_user();
-            ((VObj_801DAA70 *)arg0)->m_call(&pkt, 0xEC);
+            tmp2.size = 0xEC;
+            ((TLobby *)(&tmp2))->bswap_guild_card_meet_user();
+            send((u8 *)&tmp2, 0xEC);
         }
     } else {
-        ((VObj_801DAA70 *)arg0)->m5();
+        close();
     }
-    *(s32 *)(arg0 + 0x1918) = 0;
+    m_has_meet_user_settings = 0;
 }
 
 }

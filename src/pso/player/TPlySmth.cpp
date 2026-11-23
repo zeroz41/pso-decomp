@@ -16,11 +16,9 @@ void __as__8TPlySmthFRC8TPlySmth(saddr arg0, saddr arg1) {
 
 void*TPlySmth::construct() { __ct__16TPlyGuildCardTagFv((void*)((char*)this + 0x4)); __ct__8TPlySmthFv((void*)((char*)this + 0xc)); construct_guild_card_tag_array((char*)this + 0xec); return this; }
 
-void __ct__8TPlySmthFv(void*) {
-
 }
 
-}
+TPlySmth::TPlySmth() {}
 
 #pragma push
 #pragma auto_inline off
