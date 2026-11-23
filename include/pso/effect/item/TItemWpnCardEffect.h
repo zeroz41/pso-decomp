@@ -17,7 +17,7 @@ public:
     virtual void run_task();
     virtual void start_card_effect_flash();
     virtual void start_card_effect_trail();
-    virtual void vfunc_8();
+    virtual void update_fade();  // every frame after the flash and trail steps
     void init();
     void destroy_effect_objects();
 
@@ -44,7 +44,7 @@ public:
     virtual ~TItemWpnCardModelEffect();
     void init_offset_vectors();
     virtual void render();
-    virtual void vfunc_8();
+    virtual void update_fade();
     virtual void start_card_effect_trail();
     virtual void start_card_effect_flash();
     u32 card_flags;     // bit 0 while the card fades in (start_card_effect_flash)

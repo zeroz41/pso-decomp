@@ -27,21 +27,13 @@
 #include "pso/item/TItemEquipBase.h"
 #include "pso/unk/text_800870BC.h"
 #include "pso/object/base/CollisionActorLookup.h"
-#include "pso/player/TObjPlayer_801D2E20.h"
-
-TItem *create_guardianna(u8 *item);
+#include "pso/player/TObjPlayer_80011014.h"
 
 const char *TItemWpnCardEffect::class_name = "TItemWpnCardEffect";
 
+extern "C" s16 get_validated_attack_stage(u8 *attack_state);
 
-
-extern "C" {
-
-f32 atan2_float(f32, f32);
 #pragma fp_contract on
-s16 get_entity_id(void *);
-}
-
 
 void TObjPlayer::create_network_object(s32 item_id, u32 *hit, saddr direction) {
     if ((hit != NULL) && ((u32) *hit != 0U)) {
@@ -151,7 +143,7 @@ void TItemWpnCardEffect::run_task() {
         queue_destruction();
         return;
     }
-    vfunc_8();
+    update_fade();
     age++;
 }
 #pragma push
@@ -176,7 +168,7 @@ void TItemWpnCardEffect::start_card_effect_trail() {
     }
 }
 #pragma pop
-void TItemWpnCardEffect::vfunc_8() {  }
+void TItemWpnCardEffect::update_fade() {  }
 void TItemWpnCardEffect::destroy_effect_objects() {
     s32 i;
     for (i = 0; i != 3; i++) {
@@ -227,7 +219,7 @@ void TItemWpnCardModelEffect::start_card_effect_flash() { card_flags |= 1; }
 void TItemWpnCardModelEffect::start_card_effect_trail() { card_flags &= ~1; }
 #pragma push
 #pragma opt_common_subs off
-void TItemWpnCardModelEffect::vfunc_8() {
+void TItemWpnCardModelEffect::update_fade() {
     if (card_flags & 1) {
         color.a += 0.25f;
         if (color.a > 0.0f) {
@@ -283,18 +275,18 @@ TItemWeaponGuardianna::TItemWeaponGuardianna(TObject *parent, u8 *item) : TItemW
     set_weapon_flags(2);
 }
 void TItemWeaponGuardianna::emit_marker_effects() {
-    s32 sp8;
+    Vec origin;
 
-    this->get_joint_position(4, &sp8);
-    if (get_validated_attack_stage((u8 *)(*(saddr *)&(*(NJS_MOTION_LINK *)((u8 *)this + 0xE4)).frame[1] + 0x7CC)) == 2) {
-        this->fire_shot_at_target(&sp8, item_model, 0);
-        this->fire_shot_at_target(&sp8, item_model, 0x1555);
-        this->fire_shot_at_target(&sp8, item_model, -0x1555);
+    get_joint_position(4, &origin);
+    if (get_validated_attack_stage((u8 *)&owner->attack_state) == 2) {
+        fire_shot_at_target(&origin, item_model, 0);
+        fire_shot_at_target(&origin, item_model, 0x1555);
+        fire_shot_at_target(&origin, item_model, -0x1555);
     } else {
-        this->fire_shot_at_target(&sp8, item_model, 0);
+        fire_shot_at_target(&origin, item_model, 0);
     }
-    if (this->get_attack_stage() == 0) {
-        ((TObjPlayer *)tl_05)->spawn_cane_effect((TItem*)this, 4);
+    if (get_attack_stage() == 0) {
+        ((TObjPlayer *)tl_05)->spawn_cane_effect(this, 4);
     }
 }
 void TItemWeaponGuardianna::init_weapon_effect_descriptor(Desc_8011E5C4 *desc) {
