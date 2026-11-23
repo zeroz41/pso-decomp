@@ -121,7 +121,7 @@ void TODoorFourLightBase::render() {
     case 1:
     case 3:
         push_matrix();
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(vfunc_22()));
+        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(get_lit_textures()));
         post_translate_matrix(&position);
         rotate_matrix_y(0, rotation_y);
         draw_ginja_model_with_motion((void *)model, (void *)motion, (f32)animation_frame);
@@ -129,7 +129,7 @@ void TODoorFourLightBase::render() {
         break;
     case 2:
         push_matrix();
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(vfunc_22()));
+        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(get_lit_textures()));
         post_translate_matrix(&position);
         rotate_matrix_y(0, rotation_y);
         draw_ginja_model_with_motion((void *)model, (void *)motion, (f32)animation_end_frame);
@@ -141,7 +141,7 @@ void TODoorFourLightBase::render() {
             break;
         }
         push_matrix();
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(vfunc_22()));
+        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(get_lit_textures()));
         post_translate_matrix(&position);
         rotate_matrix_y(0, rotation_y);
         draw_ginja_object((void *)model);
@@ -198,9 +198,9 @@ void TODoorFourLightBase::draw_node_tree(u8 *arg1) {
     do {
         temp_r31 = *(s32 *)((s8 *)var_r30 + 0);
         if (temp_r31 & 0x100000) {
-            TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(vfunc_22()));
+            TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(get_lit_textures()));
         } else {
-            TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(vfunc_21()));
+            TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(get_unlit_textures()));
         }
         if (*(s32 *)((s8 *)var_r30 + 0) & 0x200000) {
             TParticleCtrl::begin_effect_render();
@@ -390,11 +390,11 @@ TODoorFourLightSeabed::~TODoorFourLightSeabed() {
     free_collision_body_parts(this);
 }
 
-s32 TODoorFourLightSeabed::vfunc_21() {
+s32 TODoorFourLightSeabed::get_unlit_textures() {
     return (saddr)lbl_805D6608;
 }
 
-s32 TODoorFourLightSeabed::vfunc_22() {
+s32 TODoorFourLightSeabed::get_lit_textures() {
     return (saddr)lbl_805D6604;
 }
 
@@ -464,11 +464,11 @@ TODoorFourLightSeabedU::~TODoorFourLightSeabedU() {
     free_collision_body_parts(this);
 }
 
-s32 TODoorFourLightSeabedU::vfunc_21() {
+s32 TODoorFourLightSeabedU::get_unlit_textures() {
     return (saddr)TODoorFourLightSeabedU__texture_list;
 }
 
-s32 TODoorFourLightSeabedU::vfunc_22() {
+s32 TODoorFourLightSeabedU::get_lit_textures() {
     return (saddr)seabed_four_light_door_textures;
 }
 
@@ -527,11 +527,11 @@ TODoorLabo::~TODoorLabo() {
     free_collision_body_parts(this);
 }
 
-s32 TODoorLabo::vfunc_21() {
+s32 TODoorLabo::get_unlit_textures() {
     return (saddr)labo_door_red_textures;
 }
 
-s32 TODoorLabo::vfunc_22() {
+s32 TODoorLabo::get_lit_textures() {
     return (saddr)TODoorLabo__green_texture_list;
 }
 
@@ -599,11 +599,11 @@ TODoorLaboNormal::~TODoorLaboNormal() {
     free_collision_body_parts(this);
 }
 
-s32 TODoorLaboNormal::vfunc_21() {
+s32 TODoorLaboNormal::get_unlit_textures() {
     return (saddr)TODoorLaboNormal__red_texture_list;
 }
 
-s32 TODoorLaboNormal::vfunc_22() {
+s32 TODoorLaboNormal::get_lit_textures() {
     return (saddr)TODoorLaboNormal__green_texture_list;
 }
 

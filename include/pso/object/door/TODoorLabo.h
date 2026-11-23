@@ -8,8 +8,8 @@ struct TODoorLabo : public TODoorFourLightBase {
     TODoorLabo(TObject *parent, void *set_data);
     virtual ~TODoorLabo();
     static void *create(void *set_data);
-    virtual s32 vfunc_21();
-    virtual s32 vfunc_22();
+    virtual s32 get_unlit_textures();
+    virtual s32 get_lit_textures();
     void init_model_by_type();
     static void free_resources();
     static void load_resources();
