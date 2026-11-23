@@ -1,6 +1,5 @@
 #include "types.h"
 #include "pso/effect/particle/ParticleDefinition.h"
-#include "pso/effect/particle/TParticleCtrl_801E5330.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/effect/TEffect.h"
 #include "pso/system/task/TObject.h"

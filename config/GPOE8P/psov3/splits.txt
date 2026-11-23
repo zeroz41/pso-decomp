@@ -5528,7 +5528,7 @@ pso/effect/sprite/TQuadSpriteCol.cpp:
 	.sdata      start:0x805D3598 end:0x805D35A0
 	.sdata2     start:0x805DC450 end:0x805DC458
 
-pso/effect/particle/TParticleCtrl_801E5330.cpp:
+pso/effect/particle/ParticleDefinition.cpp:
 	.text       start:0x801E5330 end:0x801E5598
 	.data       start:0x804C5820 end:0x804C6910
 	.bss        start:0x80511F70 end:0x80512220

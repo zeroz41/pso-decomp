@@ -30,4 +30,7 @@ extern ParticleDefinition particle_definitions[0x6C];
 extern TUnk_804C57F0 *particle_sprites[0x6C];
 }
 
+// Fills the 4x4 sprite sheet UV rects and points every definition at its texture list.
+void init_particle_sprite_atlas(void);
+
 #endif

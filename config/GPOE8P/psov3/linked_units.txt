@@ -1048,7 +1048,7 @@ pso/effect/particle/TParticleCtrl_80085EE4.cpp
 pso/effect/particle/TParticleCtrl_80086884.cpp
 pso/effect/particle/TParticleCtrl_801D6B3C.cpp
 pso/effect/particle/TParticleCtrl_801E2EFC.cpp
-pso/effect/particle/TParticleCtrl_801E5330.cpp
+pso/effect/particle/ParticleDefinition.cpp
 pso/effect/particle/TParticleCtrl_80327D30.cpp
 pso/effect/particle/TParticleCtrl_803E29FC.cpp
 pso/effect/photon/TPhotonConcentrate.cpp
