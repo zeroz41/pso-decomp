@@ -10,7 +10,7 @@ class TParticleCtrl;
 struct TNowLoading : public TObject {
     TNowLoading(TObject *parent, Vec *pos);
     virtual ~TNowLoading();
-    // Effects that follow the camera; none are attached in this build.
+    // Effects run_task keeps in front of the camera; the destructor releases them.
     TParticleCtrl *particles[4];
     Vec position; // 65 units in front of the camera
     virtual void render();
