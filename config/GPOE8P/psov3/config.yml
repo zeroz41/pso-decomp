@@ -1699,28 +1699,28 @@ force_active:
   - TRK_mainError
   - bswap_generate_id_payload__FPv
   - TSceneSora__ct
-  - TScene__active_scene_callback
-  - TScene__class_name
-  - TScene__collision_file_buffer
+  - active_scene_callback
+  - class_name__6TScene
+  - collision_file_buffer
   - __ct__6TSceneFP7TObject
-  - TScene__current_floor_name
-  - TScene__data_805D5FE8
-  - TScene__data_805D6020
-  - TScene__loaded_floor_rel_file_index
-  - TScene__map_rel_load_buffer
-  - TScene__map_rel_load_size_limit
-  - TScene__map_section_render_callback
-  - TScene__material_info_buffer
-  - TScene__render_callback
+  - current_floor_name
+  - scene_format_index
+  - floor_bin_buffer
+  - loaded_floor_rel_file_index
+  - map_rel_load_buffer
+  - map_rel_load_size_limit
+  - map_section_render_callback
+  - material_info_buffer
+  - render_callback
   - TScene__sub_80204024
   - TScene__sub_802040D4
   - TScene__sub_80205874
   - TScene__sub_80205AE8
   - TScene__sub_802065E8
   - TScene__sub_802065EC
-  - TScene__supplementary_rel_buffer
-  - TScene__texture_animation_buffer
-  - TScene__texture_wave_resource
+  - supplementary_rel_buffer
+  - texture_animation_buffer
+  - texture_wave_resource
   - TSetEvtDestroy_class_name
   - TSetEvtDestroy_name
   - TSetManager__sub_8020D7D4

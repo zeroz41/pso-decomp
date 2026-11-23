@@ -34,6 +34,8 @@ public:
     void tick_material_fmt1();
     void tick_material_fmt2();
 public:
+    static const char *class_name;
+
     static void bind_ending_wall_textures();
     static void set_scene(int scene);
     static void apply_single_screen_state();
@@ -70,6 +72,10 @@ public:
     static void load_scene_rel_file(saddr ent);
     static void load_scene_data(saddr name);
     static void load_current_floor();
+    // Reflection pass: only the sections flagged 0x100 render while it is active.
+    static void begin_reflection_pass();
+    static void end_reflection_pass();
+    static void set_visibility_radius_margin(f32 margin);
     void offset_position(s32 arg1, s32 arg2);
     void apply_uv_offset(s16 arg1, s16 arg2);
     void *destroy_buffers(s16 arg1);
@@ -90,6 +96,9 @@ s32 find_section_at_position(Vec *pos);
 
 extern s32 scene_resource_index;
 extern s32 lobby_online_ready_flag;
+extern s8 floor_scene_ready_flag;
+extern s32 reflection_pass_active;
+extern f32 visibility_radius_margin;
 
 extern "C" s32 is_item_area_enabled(s32 area);
 

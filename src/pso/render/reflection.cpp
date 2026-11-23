@@ -359,8 +359,8 @@ void TUnk_804DC7C4::render_shadows() {
     if (p == NULL) {
         return;
     }
-    TScene__sub_8029F5EC();
-    TScene__sub_8029F5E4(100.0f);
+    TScene::begin_reflection_pass();
+    TScene::set_visibility_radius_margin(100.0f);
     if (TSceneSora::instance != 0) {
         TSceneSora::sky_active_flag = 0;
     }
@@ -459,8 +459,8 @@ void TUnk_804DC7C4::render_shadows() {
             break;
         }
     }
-    TScene__sub_8029F5D8();
-    TScene__sub_8029F5E4(0.0f);
+    TScene::end_reflection_pass();
+    TScene::set_visibility_radius_margin(0.0f);
     if (TSceneSora::instance != 0) {
         TSceneSora::sky_active_flag = 1;
     }
