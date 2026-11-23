@@ -4,7 +4,7 @@
 #include "types.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/effect/TEffect.h"
-#include "pso/object/TUnk_804CCAA8.h"
+#include "pso/object/TActorLight.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/system/vector.h"
 #include "pso/object/ambient/TObjLight.h"
@@ -32,12 +32,12 @@ static const f32 lbl_805DC88C[1] = {0.0f};
 extern "C" {
 u16 get_entity_id(void *);
 s32 __ct__7TObjectFP7TObject(void *, void *);
-extern s32 __vt__13TUnk_804CCAA8[];
+extern s32 __vt__11TActorLight[];
 
 
 #pragma push
 #pragma fp_contract on
-void TUnk_804CCAA8::run_task() {
+void TActorLight::run_task() {
     Vec baseDir;
     NJS_ARGB baseColor;
     NJS_ARGB unused;
@@ -78,11 +78,11 @@ void TUnk_804CCAA8::run_task() {
 #pragma pop
 
 }
-TUnk_804CCAA8::~TUnk_804CCAA8() {
+TActorLight::~TActorLight() {
 
 }
 
-TUnk_804CCAA8::TUnk_804CCAA8(f32 step, f32 peak, f32 intensity, NJS_ARGB *color, Vec *desired, s32 duration,
+TActorLight::TActorLight(f32 step, f32 peak, f32 intensity, NJS_ARGB *color, Vec *desired, s32 duration,
                              TObjBase *source, TObject *parent)
     : TObject(parent) {
     NJS_ARGB scene_color;
@@ -98,11 +98,11 @@ TUnk_804CCAA8::TUnk_804CCAA8(f32 step, f32 peak, f32 intensity, NJS_ARGB *color,
     actor = get_entity_id(this->source);
     TObjLight::find_light_params((f32 *)&direction, (f32 *)&scene_color, actor);
 }
-TUnk_804CCAA8 *construct_actor_light_task(TUnk_804CCAA8 *light, NJS_ARGB *color, Vec *desired, s32 duration,
+TActorLight *construct_actor_light_task(TActorLight *light, NJS_ARGB *color, Vec *desired, s32 duration,
                                           TObjBase *source, f32 step, TObject *parent) {
     NJS_ARGB scene_color;
     __ct__7TObjectFP7TObject(light, parent);
-    *(s32 **)((s8 *)light + 0x18) = __vt__13TUnk_804CCAA8;
+    *(s32 **)((s8 *)light + 0x18) = __vt__11TActorLight;
     copy_argb(&light->color, color);
     VecCopy(&light->desired, desired);
     light->duration = duration;

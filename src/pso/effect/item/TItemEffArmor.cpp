@@ -4,7 +4,7 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/item/TItemLoad.h"
 #include "pso/system/task/TObject.h"
-#include "pso/object/TUnk_804CCAA8.h"
+#include "pso/object/TActorLight.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/object/ambient/TObjLight_80235C44.h"
 #include "pso/player/PlayerSlots.h"
@@ -67,7 +67,7 @@ TItemEffArmor::TItemEffArmor(TObjPlayer *owner, f32 scale, f32 rise) : TObject(t
     copy_argb(&color, (NJS_ARGB *)&armor_glow_color);
     {
         Vec up = { 0.0f, 1.0f, 0.0f };
-        TUnk_804CCAA8 *light = (TUnk_804CCAA8 *)TObject::operator new(0x64);
+        TActorLight *light = (TActorLight *)TObject::operator new(0x64);
         if (light != NULL) {
             construct_actor_light_task(light, (NJS_ARGB *)&armor_glow_color, &up, 0x3A, owner, 0.2f, tl_07);
         }

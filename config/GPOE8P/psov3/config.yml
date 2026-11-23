@@ -2486,7 +2486,7 @@ force_active:
   - __dt__13TUnk_804CC870Fv
   - __dt__13TUnk_804CC888Fv
   - __dt__13TUnk_804CCA90Fv
-  - __dt__13TUnk_804CCAA8Fv
+  - __dt__11TActorLightFv
   - __dt__13TUnk_804CCB28Fv
   - __dt__13TUnk_804CCBC0Fv
   - __dt__13TUnk_804CCC28Fv
@@ -3257,7 +3257,7 @@ force_active:
   - __vt__13TUnk_804CC0E8
   - __vt__10TTecCircle
   - __vt__13TUnk_804CC870
-  - __vt__13TUnk_804CCAA8
+  - __vt__11TActorLight
   - __vt__13TUnk_804CCB28
   - __vt__13TUnk_804CCBC0
   - __vt__13TUnk_804CCC28
@@ -14886,7 +14886,7 @@ force_active:
   - run_task__13TUnk_804CC870Fv
   - run_task__13TUnk_804CC888Fv
   - run_task__13TUnk_804CCA90Fv
-  - run_task__13TUnk_804CCAA8Fv
+  - run_task__11TActorLightFv
   - run_task__13TUnk_804CCB28Fv
   - run_task__13TUnk_804CCBC0Fv
   - run_task__13TUnk_804CCC28Fv
