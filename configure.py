@@ -851,7 +851,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # class-name string in .rodata; the ctor loads each .rodata table with its own lis/addi
     "pso/ui/frontend/TAdSelectGameModeGC_802C4748.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-pool off")},
     # "TObjDFDemo0" sits in .rodata at 0x804372B0
-    "pso/unk/text_8004D9A8.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    "pso/boss/darkfalz/TObjDFDemo0.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # "TEneParticleCtrl" sits in .rodata at 0x80477BE8
     "pso/effect/enemy/TEneParticleCtrl.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # "TWindowMenuTeamStatus" sits in .rodata at 0x80477C00

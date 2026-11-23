@@ -1959,7 +1959,7 @@ pso/unk/text_8000F740.cpp
 pso/ui/frontend/DrawLine.cpp
 pso/unk/text_8001C388.cpp
 pso/unk/text_8004AA04.cpp
-pso/unk/text_8004D9A8.cpp
+pso/boss/darkfalz/TObjDFDemo0.cpp
 pso/unk/text_80052420.cpp
 pso/unk/text_80066F10.cpp
 pso/unk/text_80066F5C.cpp

@@ -348,7 +348,7 @@ force_active:
   - request_raise__14TBoss2TentacleFv
   - request_sway__14TBoss2TentacleFv
   - TBoss3VoloptP02_name
-  - TBoss3Volopt__sub_8004DA7C
+  - run_task__11TObjDFDemo0Fv
   - __ct__11TBoss4BishiFP7TObjectP17TBoss4ZakoSetData
   - TBoss4Bishi_spawn_offsets
   - __ct__14TBoss4DarkFalzFP7TObjectP22TBoss4DarkFalzSetEntry
@@ -1008,7 +1008,7 @@ force_active:
   - TObjContainerNoItem__name
   - TObjDFBeamCursor__ct
   - TObjDFBeamCursor__name
-  - TObjDFDemo0__ct
+  - __ct__11TObjDFDemo0FP7TObject
   - TObjDFDemo0__entry_table
   - __ct__11TObjDFDemo2FP7TObjectPC3Vecll
   - TObjDFDemo2__motion_index_table
@@ -6315,7 +6315,7 @@ force_active:
   - update_idle__15TBoss3VoloptP02Fv
   - get_float_param__14TObjVoloptCageFl
   - clear_cage_shot_in_flight__FP15TObjEnemyCustom
-  - fn_8004D9A8
+  - render__11TObjDFDemo0Fv
   - copy_zanzo_params
   - count_minion_spawned__14TBoss4DarkFalzFv
   - calc_move_params__13TBoss5GryphonFP23Boss5GryphonMotionEntryP22Boss5GryphonActionStep
