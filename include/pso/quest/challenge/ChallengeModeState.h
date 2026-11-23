@@ -11,6 +11,14 @@ struct ChallengeStageRank {
     s32 rank;
 };
 
+struct ChallengeRecord;
+
+// A record set's stage times and rank (TWindowSubStatusDisp::RecordSet, -1 for the current one).
+extern "C" {
+s32 *TWindowSubStatusDisp__sub_8006F0D8(ChallengeRecord *record, s32 slot);
+ChallengeStageRank *TWindowSubStatusDisp__sub_8006F134(ChallengeRecord *record, s32 slot);
+}
+
 // A character's challenge-mode records, kept in the save record at 0x21C4 and per client in
 // ChallengeModeState::client_records. The record sets follow TWindowSubStatusDisp::RecordSet.
 struct ChallengeRecord {

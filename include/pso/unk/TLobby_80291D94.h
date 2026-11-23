@@ -16,7 +16,7 @@ s32 TLobby__sub_802923C4(s32 idx, s32 value, s32 arg);
 s32 TLobby__sub_802924B4(s32 arg0, u16 slot_index);
 s32 TLobby__sub_8029299C(void);
 s32 TLobby__sub_80292A34(void);
-s32 TLobby__sub_80292AB4(s32 total, s32 card, s32 slot);
+s32 TLobby__sub_80292AB4(s32 total, u16 card, s32 slot);
 s32 TLobby__sub_80292BB8(s32 seed, u16 card, s32 id);
 s32 TLobby__sub_80292DA0(s32 seed, u16 card);
 s32 TLobby__sub_80292F34(s32 limit);

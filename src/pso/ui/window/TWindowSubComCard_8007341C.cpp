@@ -26,8 +26,6 @@ s32 fn_80071A9C(void *, void *, void *);
 __declspec(section ".data") f32 challenge_window_extent[2] = {240.0f, 200.0f};
 char challenge_progress_text_buffer[0x100];
 const char *challenge_grade_letter_table[4] = {"", "B", "A", "S"};
-s32 *TWindowSubStatusDisp__sub_8006F0D8(void *, s32);
-ChallengeStageRank *TWindowSubStatusDisp__sub_8006F134(void *, s32);
 int TWindowMenu::is_decided() { return (this->m_70 >> 1) & 0x1; }
 
 void TAdSinglePlyChrSelectGC::format_challenge_stage_times(s32 lobby, s32 challenge_id) {

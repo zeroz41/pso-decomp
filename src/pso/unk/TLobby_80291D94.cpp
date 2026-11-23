@@ -93,7 +93,6 @@ void TLobby__sub_80292200(s32 arg0);
 }
 void set_challenge_time_window_timer(int);
 extern "C" {
-saddr TWindowSubStatusDisp__sub_8006F134(s32, s32);
 s32 TLobby__sub_802924B4(s32 arg0, u16 arg1);
 s32 TLobby__sub_802923C4(s32 idx, s32 value, s32 arg);
 s32 TLobby__sub_80292DA0(s32 seed, u16 card);
@@ -239,6 +238,7 @@ s32 TLobby__sub_80292270(s32 seed, s32 card) {
     challenge4p_mode_state.pad_14 = r;
     return r;
 }
+#undef TLobby__sub_80292DA0
 
 s32 TLobby__sub_802923C4(s32 idx, s32 value, s32 arg) {
     s32 prev;
@@ -290,7 +290,7 @@ s32 TLobby__sub_802924B4(s32 arg0, u16 slot_index) {
   {
     temp_r30 = &challenge4p_mode_state.rank_thresholds[challenge4p_mode_state.pad_14];
     new_var2 = TWindowSubStatusDisp::resolve_player_slot(-1);
-    *((s32 *) TWindowSubStatusDisp__sub_8006F134(character_save_record + 0x21C4, new_var2)) |= temp_r30->award_flags;
+    TWindowSubStatusDisp__sub_8006F134((ChallengeRecord *)(character_save_record + 0x21C4), new_var2)->award_flags |= temp_r30->award_flags;
     return 1;
   }
   return 0;
@@ -315,7 +315,6 @@ void TLobby::update_challenge_timer(s32 arg0) {
 }
 }
 
-#undef TLobby__sub_80292DA0
 
 struct Hdr_80292730 { u32 w[2]; };
 
@@ -419,11 +418,9 @@ extern "C" {
 void TLobby__sub_80293218(s32);
 s32 TLobby__sub_8029299C(void);
 s32 TLobby__sub_80292A34(void);
-s32 *TWindowSubStatusDisp__sub_8006F0D8(void *, s32);
 s32 TLobby__sub_80292F34(s32 limit);
 s32 TLobby__sub_80292BB8(s32 seed, u16 card, s32 id);
-#define TWindowSubStatusDisp__sub_8006F134 ((s32 * (*)(u8 *, s32))TWindowSubStatusDisp__sub_8006F134)
-s32 TLobby__sub_80292AB4(s32 total, s32 card, s32 slot);
+s32 TLobby__sub_80292AB4(s32 total, u16 card, s32 slot);
 
 void TLobby::clamp_and_store_layout_index(s32 arg0) {
     s32 layout_id;
@@ -480,30 +477,30 @@ loop_3:
     goto loop_3;
 }
 
-s32 TLobby__sub_80292AB4(s32 total, s32 card, s32 slot) {
+s32 TLobby__sub_80292AB4(s32 total, u16 card, s32 slot) {
     s32 lo;
     s32 hi;
-    s32 *flags;
+    ChallengeStageRank *rank;
     s32 i;
     ChallengeRankThreshold *e;
     saddr w;
     lo = TWindowSubStatusDisp::calc_entry_offset(slot);
     hi = TWindowSubStatusDisp::calc_layout_hash(slot);
-    if (reinterpret_cast<const void *>(get_character_save_record((u16)card)) == NULL) {
+    if (reinterpret_cast<const void *>(get_character_save_record(card)) == NULL) {
         return -4;
     }
     if (total < lo || total > hi) {
         return -4;
     }
-    w = get_character_save_record((u16)card) + 0x21C4;
-    flags = TWindowSubStatusDisp__sub_8006F134((u8 *)w, slot);
+    w = get_character_save_record(card) + 0x21C4;
+    rank = TWindowSubStatusDisp__sub_8006F134((ChallengeRecord *)w, slot);
     e = &challenge4p_mode_state.rank_thresholds[2];
     for (i = 2; i >= 0; i--, e--) {
         if (e->time != 0 && e->time >= total) {
             if (e->time < lo || e->time > hi) {
                 return -4;
             }
-            if ((*flags & e->award_flags) == 0) {
+            if ((rank->award_flags & e->award_flags) == 0) {
                 break;
             }
         }
@@ -515,7 +512,7 @@ s32 TLobby__sub_80292AB4(s32 total, s32 card, s32 slot) {
 }
 
 s32 TLobby__sub_80292BB8(s32 seed, u16 card, s32 id) {
-    u8 *win = ((u8 *(*)(u32))get_character_save_record)(card);
+    u8 *win = (u8 *)get_character_save_record(card);
     s32 layout = TWindowSubStatusDisp::get_layout_id(id);
     s32 *arr;
     s32 idx;
@@ -524,7 +521,7 @@ s32 TLobby__sub_80292BB8(s32 seed, u16 card, s32 id) {
     if (win == NULL || challenge4p_mode_state.pad_0 < 0 || challenge4p_mode_state.pad_0 >= layout) {
         return 0;
     }
-    arr = TWindowSubStatusDisp__sub_8006F0D8(win + 0x21C4, id);
+    arr = TWindowSubStatusDisp__sub_8006F0D8((ChallengeRecord *)(win + 0x21C4), id);
     ok = 0;
     idx = challenge4p_mode_state.pad_0 * 4;
     if (*(s32 *)((u8 *)arr + idx) == 0) {
@@ -557,7 +554,7 @@ s32 count_card_layout_entries(s32 client) {
         return 0;
     }
     id = TWindowSubStatusDisp::resolve_player_slot(-1);
-    arr = TWindowSubStatusDisp__sub_8006F0D8(win + 0x21C4, id);
+    arr = TWindowSubStatusDisp__sub_8006F0D8((ChallengeRecord *)(win + 0x21C4), id);
     layout = TWindowSubStatusDisp::get_layout_id(id);
     n = 0;
     for (i = 0; i < layout; i++) {
@@ -571,20 +568,11 @@ s32 count_card_layout_entries(s32 client) {
 
 }
 
-#undef get_character_save_record
-#undef TWindowSubStatusDisp__sub_8006F134
 
-struct E_80292DA0 {
-    s32 a;
-    s32 seed;
-};
 
 extern "C" {
-#define TWindowSubStatusDisp__sub_8006F134 ((E_80292DA0 * (*)(void *, s32))TWindowSubStatusDisp__sub_8006F134)
 s32 mix_seed__6TLobbyFUs(s32);
-#define TLobby__sub_80292AB4 ((s32 (*)(s32, u16, s32))TLobby__sub_80292AB4)
 s32 TLobby__sub_80292BB8(s32, u16, s32);
-#define count_card_layout_entries__6TLobbyFv ((s32 (*)(s32))count_card_layout_entries__6TLobbyFv)
 
 s32 TLobby::calc_min_challenge_progress() {
     s32 temp_r3;
@@ -608,22 +596,22 @@ s32 TLobby__sub_80292DA0(s32 seed, u16 card) {
     s32 result;
     s32 total;
     s32 id;
-    u8 *base;
+    ChallengeRecord *record;
     s32 next;
-    E_80292DA0 *e;
+    ChallengeStageRank *e;
     id = TWindowSubStatusDisp::resolve_player_slot(TWindowSubStatusDisp::RECORD_SET_CURRENT);
     result = -4;
     TLobby__sub_80292BB8(seed, card, id);
     total = TWindowSubStatusDisp__sub_80071988(card, id);
     if (total != 0) {
-        base = (u8 *)get_character_save_record(card) + 0x21C4;
-        total -= TLobby::get_valid_slot(TWindowSubStatusDisp__sub_8006F0D8(base, id)[challenge4p_mode_state.pad_0]);
+        record = (ChallengeRecord *)(get_character_save_record(card) + 0x21C4);
+        total -= TLobby::get_valid_slot(TWindowSubStatusDisp__sub_8006F0D8(record, id)[challenge4p_mode_state.pad_0]);
         total += seed;
         result = TLobby__sub_80292AB4(total, card, id);
         next = result + 1;
-        e = TWindowSubStatusDisp__sub_8006F134(base, id);
-        if ((s32)TLobby::get_slot_clamped((u32)(e->seed)) < next) {
-            e->seed = mix_seed__6TLobbyFUs(next);
+        e = TWindowSubStatusDisp__sub_8006F134(record, id);
+        if ((s32)TLobby::get_slot_clamped((u32)(e->rank)) < next) {
+            e->rank = mix_seed__6TLobbyFUs(next);
         }
     }
     {
@@ -635,9 +623,6 @@ s32 TLobby__sub_80292DA0(s32 seed, u16 card) {
     }
 }
 
-#undef TWindowSubStatusDisp__sub_8006F134
-#undef TLobby__sub_80292AB4
-#undef count_card_layout_entries__6TLobbyFv
 
 
 s32 TLobby::get_clamped_time_limit() {
