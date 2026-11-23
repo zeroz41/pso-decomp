@@ -21,6 +21,8 @@ struct PhotonBlastChain {
 };
 
 extern PhotonBlastChain photon_blast_sequence_table[4];
+// One flag per client, cleared when results are delivered and on load and release.
+extern s32 photon_blast_donation_flags[4];
 
 // What get_photon_blast_chain copies out of a chain: its kinds and
 // participants, without the state (callers pass a 0x20-byte buffer).
@@ -64,14 +66,15 @@ struct PhotonBlastRequest {
 // Chains the requests whose players are in self's room into one photon blast
 // sequence (a TUnk_804C349C), unless another player's sequence is still running.
 void admit_photon_blast_sequence(PhotonBlastRequest *requests, TObjPlayer *self);
-void apply_photon_blast_action_hold(s32 arg0, s32 arg1, s32 owner_client_id);
+void apply_photon_blast_action_hold(s32 unused, s32 duration, s32 owner_client_id);
+
+// The photon blast entry of the scene load callback table.
+void load_photon_blast_resources(void);
+void release_photon_blast_resources(void);
 
 extern "C" {
 // Copies player's chain into output while it is pending or running; returns its state.
 s32 get_photon_blast_chain(PhotonBlastChainCopy *output, s32 player);
-void deliver_photon_blast_results_animated(TUnk_804C349C *seq);
-void deliver_photon_blast_results_delayed(TUnk_804C349C *seq);
-void step_photon_blast_sequence__13TUnk_804C349CFv(TUnk_804C349C *seq);
 }
 
 #endif

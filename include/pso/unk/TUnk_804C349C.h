@@ -9,7 +9,7 @@ struct PhotonBlastRequest;
 
 // The photon blast sequence task (vtable 0x804C349C): new'd by
 // admit_photon_blast_sequence with the owner's client id, the chained
-// players and their counts; run by step_photon_blast_sequence__13TUnk_804C349CFv while
+// players and their counts; run by step_photon_blast_sequence while
 // `animated`, else delivered after `delay` frames (update_and_destroy).
 // Field names are inferred from the functions that use them.
 class TUnk_804C349C : public TObject {
@@ -18,6 +18,9 @@ public:
     virtual ~TUnk_804C349C();
     void step_photon_blast_sequence();
     void update_and_destroy();
+    f32 calc_photon_blast_power(s32 kind, f32 base_power);
+    void deliver_photon_blast_results_animated();
+    void deliver_photon_blast_results_delayed();
     virtual void run_task();
 
     TObject *summon;

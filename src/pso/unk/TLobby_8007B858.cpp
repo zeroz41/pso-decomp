@@ -44,7 +44,7 @@
 #include "pso/unk/TLobby_8015ABD0.h"
 #include "pso/unk/TLobby_8036B204.h"
 #include "pso/technique/TTecCtrl.h"
-#include "pso/unk/text_801AA3B4.h"
+#include "pso/player/PhotonBlastResults.h"
 #include "pso/ui/window/TWindowReturnCity.h"
 #include "pso/system/task/TObject.h"
 #include "pso/camera/TCineCtrl.h"
@@ -53,7 +53,6 @@
 void load_particle_entry_resources(void);
 void init_partner_dialogue(void);
 void load_technique_resources(void);
-void load_photon_blast_resources(void);
 
 
 extern "C" {
@@ -114,7 +113,7 @@ FloorResourceCallbacks lbl_8048D4C0[29] = {
 // Field-only resources: loaded and released only outside Pioneer 2 and the lobby.
 FloorResourceCallbacks lbl_8048D5A8[4] = {
     {load_technique_resources, TLobby__sub_8022F068},
-    {load_photon_blast_resources, TObjPlayer__sub_801AA3B4},
+    {load_photon_blast_resources, release_photon_blast_resources},
     {load_camera_banks, free_camera_banks},
     {TLobby::update_difficulty, NULL},
 };
