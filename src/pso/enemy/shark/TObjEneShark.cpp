@@ -412,9 +412,9 @@ CollisionBody shark_collision_body_table[3] = {
     { { 0.0f, 15.0f, 0.0f }, 8.0f, 0.0f, 0, 0x8003, { 0.0f, 0.0f, 0.0f }, 0.0f },
 };
 
-void *TObjEneShark::create(void *arg0) {
+void *TObjEneShark::create(void *setData) {
     TObjControl *parent = new TObjControl(tl_04);
-    return new TObjEneShark(parent, arg0);
+    return new TObjEneShark(parent, setData);
 }
 
 void TObjEneShark::free_resources() {

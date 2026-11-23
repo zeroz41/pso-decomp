@@ -293,9 +293,9 @@ void TeneFakeTecThunderEff::set_cancel_flag() { active = 1; }
 
 void TeneFakeTecThunderEff::clear_counter() { active = 0; }
 
-void TObjEneDarkGunner::set_fields_24_34_from_global(void *a1) {
-    this->model = get_bml_model(TObjEneDarkGunner::bml_resource, (s32)(saddr)a1);
-    this->texlist = (saddr)get_bml_texlist(TObjEneDarkGunner::bml_resource, (s32)(saddr)a1);
+void TObjEneDarkGunner::set_fields_24_34_from_global(void *index) {
+    this->model = get_bml_model(TObjEneDarkGunner::bml_resource, (s32)(saddr)index);
+    this->texlist = (saddr)get_bml_texlist(TObjEneDarkGunner::bml_resource, (s32)(saddr)index);
 }
 
 int TObjEneDarkGunner::is_death_gunner() { return (behavior_flags >> 26) & 0x1; }
