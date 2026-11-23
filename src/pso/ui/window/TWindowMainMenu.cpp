@@ -96,7 +96,7 @@ extern "C" {
 s32 TWindowMainMenu__sub_802ADADC(void *, int);
 s32 append_child_rows__15TWindowMainMenuFPvi(void *, s32);
 u32 create_menu__15TWindowMainMenuFPvPv(void *, int);
-void populate_menu__15TWindowMainMenuFPvPv(u8 *arg0, TWindowMainMenuEntry *arg1);
+void populate_menu__15TWindowMainMenuFPvPv(u8 *window_main_menu, TWindowMainMenuEntry *window_main_menu_entry);
 int park_selection__15TWindowMainMenuFPv(void*);
 }
 

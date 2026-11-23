@@ -796,11 +796,11 @@ struct Rec_8020AA94 {
 extern "C" {
 s32 get_enemy_factory_child_count(s32, SpawnRecord_8020A9C4 *);
 s32 find_floor_object_factory__6TLobbyFlPs(void *, Rec_8020AA94 *);
-void reserve_enemy_set_actor_ids(SpawnRecord_8020A9C4 *lobby, s32 arg1, s32 arg2) {
+void reserve_enemy_set_actor_ids(SpawnRecord_8020A9C4 *lobby, s32 count, s32 floor) {
     SpawnRecord_8020A9C4 *r;
     s32 i;
     s32 n;
-    for (i = 0; i < arg1; i++) {
+    for (i = 0; i < count; i++) {
         r = &lobby[i];
         r->actor_id = map_set_enemy_id_counter++ + 0x1000;
         r->index = TLobby__next_enemy_set_actor_id++;
@@ -808,7 +808,7 @@ void reserve_enemy_set_actor_ids(SpawnRecord_8020A9C4 *lobby, s32 arg1, s32 arg2
             TLobby__next_enemy_set_actor_id += r->children;
             map_set_enemy_id_counter += r->children;
         } else {
-            n = get_enemy_factory_child_count(arg2, r);
+            n = get_enemy_factory_child_count(floor, r);
             if (n > 0) {
                 TLobby__next_enemy_set_actor_id += n;
                 map_set_enemy_id_counter += n;

@@ -212,7 +212,7 @@ s8 lbl_805D644B;
 
 void TWindowHelpItem__vt9(HelpItem_80254F18 *self);
 void preview_unequip_stats__10TObjPlayerFv(s32, Stats_802541E0 *, s32);
-s32 preview_equip_stats__10TObjPlayerFv(u8 *arg0, s16 *out, u8 *incoming);
+s32 preview_equip_stats__10TObjPlayerFv(u8 *player, s16 *out, u8 *incoming);
 void set_flag8_and_field20__15TWindowHelpItemFl(s32, s32);
 void set_flag4_and_field1c__15TWindowHelpItemFl(s32, s32);
 }

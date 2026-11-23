@@ -1050,8 +1050,8 @@ Ent_801D5854 *TItemList__sub_801D5854(Obj_801D5854 *p, s32 i) {
     return &p->arr[i];
 }
 
-s32 *TItemList__sub_801D5868(Arr_801D5868 *list, s32 arg1) {
-    return &list->e[arg1];
+s32 *TItemList__sub_801D5868(Arr_801D5868 *list, s32 index) {
+    return &list->e[index];
 }
 
 void* get_ptr_0x44__9TItemListFPv(void* p) { return (char*)p + 0x44; }

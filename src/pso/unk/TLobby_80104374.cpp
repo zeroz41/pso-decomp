@@ -1310,8 +1310,8 @@ struct Item_801057A8 {
 };
 
 extern "C" {
-Item_801057A8 *spawn_dropped_item_from_msg(Msg_801057A8 *arg0, s32 arg1);
-Item_801057A8 *spawn_dropped_item_from_msg(Msg_801057A8 *arg0, s32 arg1) {
+Item_801057A8 *spawn_dropped_item_from_msg(Msg_801057A8 *arg0, s32 quiet);
+Item_801057A8 *spawn_dropped_item_from_msg(Msg_801057A8 *arg0, s32 quiet) {
     Item_801057A8 *item;
     s8 me;
     s32 act;
@@ -1333,7 +1333,7 @@ Item_801057A8 *spawn_dropped_item_from_msg(Msg_801057A8 *arg0, s32 arg1) {
                 ((TItem *)item)->place_on_ground(arg0->client, &item->x, 1);
             }
         }
-        if (arg1 == 0) {
+        if (quiet == 0) {
             ((void (*)(s32, s32, u8 *, f32, f32))add_item_condition)(arg0->client, arg0->area, arg0->item, arg0->x, arg0->z);
         }
     }

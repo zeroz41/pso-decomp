@@ -89,7 +89,7 @@ void *__ct__15TWindowHelpItemFPvl(void *, s32, s32);
 saddr get_window_layout_position(int);
 void *create_item_list_window(s32, s32, s32);
 
-s32 try_buy_item(saddr arg0, void *item);
+s32 try_buy_item(saddr player, void *item);
 
 }
 

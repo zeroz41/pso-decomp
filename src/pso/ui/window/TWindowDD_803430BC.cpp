@@ -179,13 +179,13 @@ s32 apply_input__9TWindowDDFPvPv(int, int);
 s32 update__9TWindowDDFl(int, int, int);
 void TWindowDD__sub_803434F4(u8 *arg0);
 void TWindowDD__sub_80342800(u8 *arg0);
-void update__9TWindowDDFi(saddr arg0);
-void TWindowDD__sub_803429B0(u8 *arg0);
-void TWindowDD__sub_80342D14(u8 *arg0);
-void run_state__9TWindowDDFPv(u8 *arg0);
+void update__9TWindowDDFi(saddr window_dd);
+void TWindowDD__sub_803429B0(u8 *window_dd);
+void TWindowDD__sub_80342D14(u8 *window_dd);
+void run_state__9TWindowDDFPv(u8 *window_dd);
 s16 TWindowDD__sub_8034214C(u8 *arg0);
 void TWindowDD__sub_80347980(void *);
-void pop_menu_level__9TWindowDDFPv(TWindowDD_803431C0 *arg0);
+void pop_menu_level__9TWindowDDFPv(TWindowDD_803431C0 *window);
 void TWindowDD__sub_80347CC8(void *, void *);
 extern const s32 TWindowDD__data_805DFB50;
 
@@ -215,8 +215,8 @@ s32 TWindowDD__sub_8034217C(int);
 s32 TWindowDD__sub_803482B0(void *);
 s32 TWindowDD__sub_803484C4(void *);
 void copy_chat_entry__9TWindowDDFPvPv(R_80343BC0 *arg0, R_80343BC0 *arg1);
-saddr TWindowDD__sub_80342384(s32 arg0, s32 arg1);
-s32 TWindowDD__sub_8034146C(NJS_POINT2 *arg0, NJS_POINT2 *arg1, s32 arg2, s32 arg3, f32 farg0);
+saddr TWindowDD__sub_80342384(s32 element_list, s32 rows);
+s32 TWindowDD__sub_8034146C(NJS_POINT2 *pos, NJS_POINT2 *size, s32 arg2, s32 style, f32 width);
 void TWindowDD__sub_803412A0(TWindowDD_WS_String *self);
 const char *word_select_type_name_pointer = "TWindowDD";
 
@@ -274,7 +274,7 @@ void free_buffers__9TWindowDDFv(void);
 s32 classify_id__9TWindowDDFs();
 }
 
-s32 TWindowDD_check_input_mask(void *input_context, s32 arg1);
+s32 TWindowDD_check_input_mask(void *input_context, s32 mask);
 
 void clear_window_dd_nodes(void);
 extern "C" {

@@ -286,7 +286,7 @@ typedef struct Rec_801D6AB4 {
 
 extern "C" {
 f32 fn_801D6AB4(void *, saddr, s32);
-s32 accumulate_damage_stats(u8 *arg0, s32 arg1, s32 arg2);
+s32 accumulate_damage_stats(u8 *arg0, s32 collidable, s32 amount);
 void clear_player_sub_object_slots(Obj_801D6A18 *p);
 s32 __construct_array(void *, void *, int, int, int);
 extern s32 fn_80152EF8[];

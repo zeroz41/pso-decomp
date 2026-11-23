@@ -287,7 +287,7 @@ f32 horizontal_distance_squared(void *, void *);
 s32 angle_difference_abs(s32, s32);
 f32 newton_sqrtf(f32);
 }
-void move_with_wall_slide(u8 *arg0);
+void move_with_wall_slide(u8 *actor);
 extern s32 game_difficulty_selection;
 void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 heading);
 extern "C" {
@@ -352,7 +352,7 @@ void TObjGrassWeb__sub_800BC798(Web_800BC798 *o);
 Vec grass_camera_vec;
 Vec grass_render_vec;
 Vec grass_origin_vec;
-f32 calc_xz_distance_sq(saddr arg0, uaddr arg1, void *arg2);
+f32 calc_xz_distance_sq(saddr actor, uaddr other, void *offset);
 struct VBase_14_d701ad { char pad[0x14]; };
 struct VObj_14_d701ad : VBase_14_d701ad {
     virtual void m0();

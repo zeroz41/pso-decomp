@@ -428,11 +428,11 @@ void activate_keyboard();
 void restore_switch_table(saddr arg0, s32 arg1);
 void bswap_object_source_record(void *);
 void set_area_random_seed(int a0);
-void *create_remote_player_object(void *arg0);
-void set_floor_map_variant(s32 arg0, s32 arg1);
+void *create_remote_player_object(void *record);
+void set_floor_map_variant(s32 floor, s32 arg1);
 s32 request_story_select_state(s32 arg0);
 u32 copy_switch_table(void *destination);
-void send_register_9c(u8 *arg0);
+void send_register_9c(u8 *protocol);
 void buffer_reset(void);
 void bswap_telepipe_record(void *);
 

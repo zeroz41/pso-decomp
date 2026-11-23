@@ -11,9 +11,9 @@
 
 
 extern "C" {
-void begin_screen_draw(s32 arg0);
+void begin_screen_draw(s32 mode);
 s32 draw_textured_quad_at_depth(void *, f32, f32, f32);
-void set_draw_texture_and_color(s32 idx, s32 arg1);
+void set_draw_texture_and_color(s32 idx, s32 color);
 saddr TAdBackTxtGC__backtext_texture_list;
 void TAdBackTxtGC::draw_character_background_frame(s32 arg1, s32 arg2) {
   f32 buffer_8[8];

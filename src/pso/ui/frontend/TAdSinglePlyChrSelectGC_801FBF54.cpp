@@ -2442,7 +2442,7 @@ s32 init_character_stats_for_level(u8, void *, s32);
 void init_class_starting_inventory(void *arg0);
 void TLobby__sub_801F494C(u16 arg0);
 void TAdSinglePlyChrSelectGC__sub_802000C8(void *arg0_, void *arg1);
-s32 init_guild_card_tag__17TWindowSubComCardFi(s32 arg0);
+s32 init_guild_card_tag__17TWindowSubComCardFi(s32 ply_guild_card_tag);
 
 void *TAdSinglePlyChrSelectGC::init_windows(void *arg0) {
     TAdSinglePlyChrSelectGC::construct_card_window_array(&((CardFile_801FFD78 *)arg0)->list);

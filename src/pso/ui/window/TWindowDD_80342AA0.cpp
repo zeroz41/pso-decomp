@@ -4,7 +4,7 @@
 #include "pso/ui/window/TWindowDD_80341A08.h"
 
 extern "C" {
-void TWindowDD__sub_80342B5C(u8 *arg0);
+void TWindowDD__sub_80342B5C(u8 *window_dd);
 s32 update_numeric_parameter_input__9TWindowDDFPv();
 s32 TWindowDD__sub_803435A0(void *);
 s32 TWindowDD__sub_80347C50();

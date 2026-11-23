@@ -102,7 +102,7 @@ extern u8 identity_matrix[];
 f32 atan2_float(f32 y, f32 x);
 }
 void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 heading);
-void move_with_wall_slide(u8 *arg0);
+void move_with_wall_slide(u8 *actor);
 extern "C" {
 s32 angle_difference_abs(s32, s32);
 

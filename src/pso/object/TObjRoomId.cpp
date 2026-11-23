@@ -59,7 +59,7 @@ void TObjRoomId::render() {
     }
 }
 extern u8 identity_matrix[];
-void set_player_room_control_flag(TObjPlayer *arg0);
+void set_player_room_control_flag(TObjPlayer *player);
 #pragma pop
 
 #pragma push

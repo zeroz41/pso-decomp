@@ -49,7 +49,7 @@ NetThreadHandle lobby_message_thread_handle;
 s32 lbl_805D7BB0;
 s16 network_link_status_cache = -1;
 void TLobby__sub_80426190(EthernetReceiveFilter *);
-s16 TLobby__sub_80426110(EthernetReceiveFilter *o, u16 arg1, u16 arg2);
+s16 TLobby__sub_80426110(EthernetReceiveFilter *o, u16 kind, u16 ether_type);
 extern const u8 lbl_805E1190[8] = { 255, 255, 255, 255, 255, 255, 0, 0 };
 saddr TLobby__sub_804089A8(s16, s16, void *, void *); /* declared here with other parameter types; the definition is s32 (s16, s16, s16, void *) */
 saddr TLobby__sub_80426AAC(u16 key, saddr len);

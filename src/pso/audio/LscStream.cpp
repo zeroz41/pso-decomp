@@ -40,16 +40,16 @@ s32 lsc_get_min_buffer_bytes(LscStream *p) {
     return p->min_buffer_bytes;
 }
 
-void lsc_set_min_buffer_bytes(LscStream *lsc_stream, s32 arg1) {
+void lsc_set_min_buffer_bytes(LscStream *lsc_stream, s32 bytes) {
     if (lsc_stream == 0) {
         TLobby::log_printf("E0003: Illigal parameter lsc=NULL");
         return;
     }
-    if (arg1 < 0 || arg1 > lsc_stream->buffer_capacity) {
+    if (bytes < 0 || bytes > lsc_stream->buffer_capacity) {
         TLobby::log_printf("E0010: Illigal parameter min=%d");
         return;
     }
-    lsc_stream->min_buffer_bytes = arg1;
+    lsc_stream->min_buffer_bytes = bytes;
 }
 
 s32 lsc_get_stream_progress(LscStream *lsc_stream, s32 arg1) {
@@ -106,16 +106,16 @@ char *lsc_get_stream_filename(LscStream *lsc_stream, s32 arg1) {
     return lsc_stream->entries[i].filename;
 }
 
-s32 lsc_get_queued_stream_id(LscStream *lsc_stream, s32 arg1) {
+s32 lsc_get_queued_stream_id(LscStream *lsc_stream, s32 ordinal) {
     if (lsc_stream == 0) {
         TLobby::log_printf("E0003: Illigal parameter lsc=NULL");
         return -1;
     }
-    if (arg1 < 0 || arg1 >= lsc_stream->queued_count) {
+    if (ordinal < 0 || ordinal >= lsc_stream->queued_count) {
         TLobby::log_printf("E0009: Illigal parameter no=%d");
         return -1;
     }
-    return lsc_stream->entries[(lsc_stream->read_index + arg1) % 16].stream_id;
+    return lsc_stream->entries[(lsc_stream->read_index + ordinal) % 16].stream_id;
 }
 
 s32 lsc_get_queued_stream_count(LscStream *p) {

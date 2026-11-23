@@ -205,7 +205,7 @@ void TItemWeapon::emit_marker_effects() {  }
 
 void TItemWeapon::carry_over_stats(TItemData *data, TItem *item) { memcpy((char*)data + 0x6, (char*)item + 0x1a4, 6); }
 }
-u32 pack_weapon_trail_color(void *arg0);
+u32 pack_weapon_trail_color(void *weapon);
 
 void TItemWeapon::activate_effect(s32 effect) {
     technique_roll = effect;
@@ -462,7 +462,7 @@ void TItemWeapon::launch_rare_weapon_special(void *origin, s32 enable, f32 scale
     }
 }
 
-s32 TItemWeapon::launch_shot(u8 *arg1, s32 i, s32 arg3, s32 arg4) {
+s32 TItemWeapon::launch_shot(u8 *origin, s32 i, s32 angle, s32 apply) {
     s32 var_r31;
     Unk_8010340C hit;
     f32 *weapon_range_record;
@@ -486,19 +486,19 @@ s32 TItemWeapon::launch_shot(u8 *arg1, s32 i, s32 arg3, s32 arg4) {
         if (extended_state != 0) {
             var_r23 = 0;
             var_r29 = NULL;
-            ShotVector endpoint = *(ShotVector *)arg1;
+            ShotVector endpoint = *(ShotVector *)origin;
             if (i < extended_state->get_captured_target_count()) {
                 temp_r22 = extended_state->get_captured_target_entry(i);
                 var_r29 = (u8 *)(((TObjChara *(*)(u16, s16))resolve_hittable_target)(temp_r22->get_uid(),temp_r22->get_captured_target_collider_index()));
                 if (var_r29 != NULL) {
                     temp_r22_2 = (u8 *)&(*(Rec_8011F108 **)((s8 *)var_r29 + 0xA4))[temp_r22->get_captured_target_collider_index()];
                     VecCopy((Vec *)(&endpoint.x), (const Vec *)((void *) &((Rec_8011F108 *)temp_r22_2)->pos));
-                    subtract_vector(&endpoint.x, arg1);
+                    subtract_vector(&endpoint.x, origin);
                     temp_f3 = normalize_vector((Vec *)&endpoint.x) - *(f32 *)((s8 *)temp_r22_2 + 0xC);
                     endpoint.x *= temp_f3;
                     endpoint.y *= temp_f3;
                     endpoint.z *= temp_f3;
-                    vec3_add_to(&endpoint.x, arg1);
+                    vec3_add_to(&endpoint.x, origin);
                     var_r23 = 1;
                 }
             }
@@ -509,20 +509,20 @@ s32 TItemWeapon::launch_shot(u8 *arg1, s32 i, s32 arg3, s32 arg4) {
                 fallback.y = lbl_805DAC98;
                 fallback.x = lbl_805DAC98;
                 fallback.z = *(f32 *)((s8 *)weapon_range_record + 0);
-                rotate_matrix_y(0, (void *) (*(saddr *)((s8 *)this->owner + 0x60) + arg3));
+                rotate_matrix_y(0, (void *) (*(saddr *)((s8 *)this->owner + 0x60) + angle));
                 transform_point_by_current_matrix(&fallback.x, &endpoint.x);
                 pop_matrix();
-                vec3_add_to(&endpoint.x, arg1);
+                vec3_add_to(&endpoint.x, origin);
             }
             ShotVector rayOrigin = *(ShotVector *)(((u8 *)this->owner) + 0x2FC);
-            rayOrigin.y = *(f32 *)((s8 *)arg1 + 4);
+            rayOrigin.y = *(f32 *)((s8 *)origin + 4);
             temp_r3_3 = (u8 *)(csnVector(&rayOrigin.x, &endpoint.x, 0x8100));
             if (temp_r3_3 == NULL) {
                 if (var_r29 != NULL) {
                     temp_r22_3 = extended_state->get_captured_target_entry(i);
                     temp_r22_2 = (u8 *)&(*(Rec_8011F108 **)((s8 *)var_r29 + 0xA4))[temp_r22_3->get_captured_target_collider_index()];
-                    var_f31 = xyz_distance(arg1, (void *) &((Rec_8011F108 *)temp_r22_2)->pos) / shot_speed;
-                    if (arg4 != 0) {
+                    var_f31 = xyz_distance(origin, (void *) &((Rec_8011F108 *)temp_r22_2)->pos) / shot_speed;
+                    if (apply != 0) {
                         remap_extra_attack_type();
                         hit.reserved = 0;
                         hit.kind = (s32) this->owner->is_status_subsystem_ready();
@@ -531,23 +531,23 @@ s32 TItemWeapon::launch_shot(u8 *arg1, s32 i, s32 arg3, s32 arg4) {
                         hit.weapon = this->get_item_id();
                         hit.collider = temp_r22_3->get_captured_target_collider_index();
                         hit.damage = ((TObjPlayer *)((void *)this->owner))->query_extended_state();
-                        spawn_item_attacker(tl_05, (const Vec *)arg1, ((s32) var_f31), &hit);
+                        spawn_item_attacker(tl_05, (const Vec *)origin, ((s32) var_f31), &hit);
                         var_r31 = 1;
                         this->restore_action_type();
                     }
                 } else {
-                    var_f31 = xyz_distance(arg1, &endpoint.x) / shot_speed;
+                    var_f31 = xyz_distance(origin, &endpoint.x) / shot_speed;
                 }
             } else {
                 VecCopy((Vec *)(&endpoint.x), (const Vec *)(*(u8 **)((s8 *)temp_r3_3 + 4)));
-                var_f31 = xyz_distance(arg1, &endpoint.x) / shot_speed;
+                var_f31 = xyz_distance(origin, &endpoint.x) / shot_speed;
                 if ((*(s32 *)((s8 *)(*(u8 **)((s8 *)temp_r3_3 + 4)) + 0x18) & 0x100) && (impact_callback != NULL)) {
-                    spawn_land_hit_effect(tl_05, this, (Vec *)arg1, (Vec *)&endpoint.x, (s32)var_f31);
+                    spawn_land_hit_effect(tl_05, this, (Vec *)origin, (Vec *)&endpoint.x, (s32)var_f31);
                 }
             }
             this->spawn_light_task();
             if ((shot_callback != NULL) && (is_model_shown() == 1)) {
-                shot_callback(this, arg1, &endpoint.x, var_f31);
+                shot_callback(this, origin, &endpoint.x, var_f31);
             }
         }
     }
@@ -657,15 +657,15 @@ s32 play_weapon_hit_sound(void *);
 void apply_camera_shake__10TObjPlayerFiii(s32 arg0, saddr arg1, s32 arg2);
 void play_weapon_owner_sounds(void*);
 
-s32 add_weapon_grind(Obj_8011F710 *arg0, s32 arg1);
+s32 add_weapon_grind(Obj_8011F710 *weapon, s32 amount);
 
-s32 add_weapon_grind(Obj_8011F710 *arg0, s32 arg1) {
-    if ((s32)(arg0->stats->max - (u8)arg1) < arg0->cur) {
-        arg0->cur = arg0->stats->max;
+s32 add_weapon_grind(Obj_8011F710 *weapon, s32 amount) {
+    if ((s32)(weapon->stats->max - (u8)amount) < weapon->cur) {
+        weapon->cur = weapon->stats->max;
     } else {
-        arg0->cur += arg1;
+        weapon->cur += amount;
     }
-    ((TItemEquipBase *)arg0)->refresh_owner_stats();
+    ((TItemEquipBase *)weapon)->refresh_owner_stats();
     return 1;
 }
 

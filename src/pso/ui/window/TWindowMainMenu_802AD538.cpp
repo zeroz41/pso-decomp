@@ -117,7 +117,7 @@ void copy_color_entry__15TWindowMainMenuFPvPv(Col_802ADA48 *arg0, Col_802ADA48 *
 void TWindowMainMenu__sub_802ADADC(Obj_802ADADC *self, s8 i);
 int find_free_item_slot__15TWindowMainMenuFPv(Obj_802ADC04 *self);
 s32 append_child_rows__15TWindowMainMenuFPvi(Menu_802ADD38 *arg0, s32 arg1);
-Rect_802AE2B0 * setup_content_frame__15TWindowMainMenuFPv(u8 *arg0);
+Rect_802AE2B0 * setup_content_frame__15TWindowMainMenuFPv(u8 *window_menu_main_menu);
 
 const char *TWindowMenuMainMenu__class_name = "TWindowMenuMainMenu";
 

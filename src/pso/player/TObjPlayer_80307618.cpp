@@ -17,7 +17,7 @@
 
 extern "C" {
 extern GinjaTextureList shared_capture_texture_list;
-void set_queued_main_phase(s32 arg0);
+void set_queued_main_phase(s32 queued_main_phase);
 void request_main_phase(s32 arg0);
 void *__ct__6TMovieFP7TObjectPSclll(void *, void *, const char *, void *, s32, s32, s32);
 extern s32 game_difficulty_selection;

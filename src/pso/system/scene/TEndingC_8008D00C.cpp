@@ -24,7 +24,7 @@ void TEndingAB__sub_8008D5A0(void);
 void TEndingPic__sub_8008D5AC(void);
 int TEnding__sub_8008D5B8(void);
 void draw_textured_quad_at_depth(f32 *q, f32 depth);
-void begin_screen_draw(s32 arg0);
+void begin_screen_draw(s32 mode);
 s32 set_draw_texture_and_color(s32, s32, f32);
 
 

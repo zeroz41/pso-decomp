@@ -14,7 +14,7 @@ public:
     s32 shot_ready;
 };
 
-u32 belra_cannon_create_extra_shot(void *arg0, s32 pos, s32 dir, f32 life);
+u32 belra_cannon_create_extra_shot(void *player, s32 pos, s32 dir, f32 life);
 saddr belra_cannon_create_shot(void *owner, s32 pos, s32 dir, f32 life);
 TItem *create_belra_cannon(u8 *arg0);
 

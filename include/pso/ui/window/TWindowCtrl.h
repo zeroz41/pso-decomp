@@ -87,7 +87,7 @@ struct TWindowCtrl : public TObject {
     static s32 open_balloon(u16 player, u8 *arg1, s32 flags, s32 client);
     static saddr open(u16 id, saddr text, s32 flags);
     static int open_default(u16 id, s32 text);
-    static void create_level_up_window(saddr arg0, saddr arg1);
+    static void create_level_up_window(saddr stats, saddr client);
     static void set_window_flags(void *client_id, s32 flags, s32 arg2);
     static void set_window_flags_off(s32 client, s32 flags);
     static void init_all(void* p, void* a1);

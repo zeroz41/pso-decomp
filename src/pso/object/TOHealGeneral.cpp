@@ -30,7 +30,7 @@
 // unit's callers saw a 32-bit return (no zero extension before the
 // (u16) test), so the helpers are still declared here.
 extern "C" {
-s32 add_actor_tp(u8 *arg0, s32 arg1);
+s32 add_actor_tp(u8 *owner, s32 half);
 s32 add_actor_hp(u8 *arg0, s16 arg1);
 s16 get_actor_tp(u8 *p);
 s16 obj_getS16_2BA(u8 *p);

@@ -14,7 +14,7 @@ extern "C" {
 extern u8 *text_language_group_table;
 SymbolChatPreset symbol_chat_receive_buffer;
 extern s32 local_client_id;
-void handle_6x07_symbol_chat(Pkt_80076E98 *arg0);
+void handle_6x07_symbol_chat(Pkt_80076E98 *command);
 s32 get_technique_name(s32 id) {
     return *(s32 *)((s8 *)(*(saddr *)((s8 *)text_language_group_table + 0x10)) + (id * 4));
 }

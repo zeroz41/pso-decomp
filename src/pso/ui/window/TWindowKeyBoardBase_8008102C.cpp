@@ -49,7 +49,7 @@ KeyboardTextBuffer::KeyboardTextBuffer() {
     init(0, 0);
 }
 
-int TEF_LensFlare::is_player_out_of_range(f32 farg0) {
+int TEF_LensFlare::is_player_out_of_range(f32 range_sq) {
     s32 arg0 = (saddr)this;
     u32 player;
 
@@ -57,7 +57,7 @@ int TEF_LensFlare::is_player_out_of_range(f32 farg0) {
     if (player == 0U) {
         return 0;
     }
-    return (u32) __cntlzw(horizontal_distance_squared(player + 0x38, arg0 + 0x38) < farg0) >> 5;
+    return (u32) __cntlzw(horizontal_distance_squared(player + 0x38, arg0 + 0x38) < range_sq) >> 5;
 }
 void *TEF_LensFlare::create(void *set_data) {
     if (is_split_screen() != 0) {

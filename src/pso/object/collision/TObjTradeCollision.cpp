@@ -46,8 +46,8 @@ TObjTradeCollision::TObjTradeCollision(saddr parent, saddr set_data) : TObjColli
     ((TObject *)(((u8 *)this)))->disallow_rendering();
 }
 
-void *TObjTradeCollision::create(void *arg0) {
-    void *o = (void *)new TObjTradeCollision((saddr)tl_05, (saddr)arg0);
+void *TObjTradeCollision::create(void *set_data) {
+    void *o = (void *)new TObjTradeCollision((saddr)tl_05, (saddr)set_data);
     return o;
 }
 

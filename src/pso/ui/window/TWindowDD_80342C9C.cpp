@@ -9,7 +9,7 @@ s32 TWindowDD__sub_803435A0(void *);
 s32 TWindowDD__sub_80347C50();
 s32 TWindowDD__sub_803482B0(void *);
 extern s32 TWindowDD__window_mode;
-void TWindowDD__sub_80342D14(u8 *arg0);
+void TWindowDD__sub_80342D14(u8 *window_dd);
 void TWindowDD::update_transition() {
     TWindowDD__sub_80347C50();
     update_selection_state();

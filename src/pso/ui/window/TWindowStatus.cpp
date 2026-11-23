@@ -31,13 +31,13 @@ s32 TWindowSubComCard__sub_802452DC(int);
 s32 TWindowSubComCard__sub_80245320(void *, void *);
 s32 TWindowSubComCard__sub_802454E4(int);
 void draw_photon_blast_gauge_ring(s32, void *, const f32 *, f32, f32);
-void begin_screen_draw(s32 arg0);
+void begin_screen_draw(s32 mode);
 s32 draw_textured_quad_at_depth(void *, f32);
-void set_draw_texture_and_color(s32 idx, s32 arg1);
+void set_draw_texture_and_color(s32 idx, s32 color);
 extern s32 hud_texlist;
 
 s32 draw_right_aligned_number(void *);
-void update_hp_tp_values__20TWindowSubStatusDispFPv(u8 *arg0);
+void update_hp_tp_values__20TWindowSubStatusDispFPv(u8 *window_sub_status_disp);
 
 
 

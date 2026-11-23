@@ -187,7 +187,7 @@ struct TBoss6Type2 : public TObjEnemy
     s32 get_phase();
     static s32 is_player_in_rock_area(u16 client_id);
     void spawn_hit_effects();
-    void destroy_part(s32 arg1);
+    void destroy_part(s32 slot);
     void spawn_particle_slot(s32 slot);
     void update_part_positions();
     void update_footstep_effects();

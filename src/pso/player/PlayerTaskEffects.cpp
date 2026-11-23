@@ -314,7 +314,7 @@ struct MovementHistoryEntry { f32 a; f32 b; };
 struct MovementHistory { s32 n; MovementHistoryEntry e[16]; };
 
 extern "C" {
-void calc_death_pose_height_offset(Out_801C58CC *arg0, Actor_801C58CC *arg1);
+void calc_death_pose_height_offset(Out_801C58CC *arg0, Actor_801C58CC *player);
 s32 set_flag_2000000_alt__10TObjPlayerFv();
 void *find_entity_by_id();
 s32 get_current_floor();
@@ -322,7 +322,7 @@ void set_params__10TObjPlayerFPvPvPviPv(void *arg0, void *arg1, void *arg2, sadd
 void init_shield_params(void *out, void *player, void *stats, s32 level, void *extra);
 s16 obj_getS16_2BA(u8 *p);
 extern Arrival_801C5F84 TObjPlayer__arrival_override_table[12];
-void set_arrival_override_coords(u16 arg0, s32 arg1, f32 farg0, f32 farg1, f32 farg2);
+void set_arrival_override_coords(u16 slot, s32 heading, f32 x, f32 y, f32 z);
 void set_arrival_override_pos(u16 idx, s32 yaw, void *pos);
 void clear_movement_history(MovementHistory *p);
 s16 get_attack_params_atp_max(void *p);
@@ -856,16 +856,16 @@ void set_arrival_override_pos(u16 idx, s32 yaw, void *pos) {
 
 #pragma push
 #pragma opt_common_subs off
-void set_arrival_override_coords(u16 slot, s32 heading, f32 farg0, f32 farg1, f32 farg2) {
+void set_arrival_override_coords(u16 slot, s32 heading, f32 x, f32 y, f32 z) {
     s32 temp_r5;
     u8 *temp_r3;
     temp_r5 = slot * 0x14;
     *(s32 *)((s8 *)((u8 *)TObjPlayer__arrival_override_table + temp_r5) + 0) = 1;
     temp_r3 = (u8 *)TObjPlayer__arrival_override_table + temp_r5;
     *(s32 *)((s8 *)temp_r3 + 4) = heading;
-    *(f32 *)((s8 *)temp_r3 + 8) = farg0;
-    *(f32 *)((s8 *)temp_r3 + 0xC) = farg1;
-    *(f32 *)((s8 *)temp_r3 + 0x10) = farg2;
+    *(f32 *)((s8 *)temp_r3 + 8) = x;
+    *(f32 *)((s8 *)temp_r3 + 0xC) = y;
+    *(f32 *)((s8 *)temp_r3 + 0x10) = z;
 }
 #pragma pop
 
@@ -1026,10 +1026,10 @@ void calc_death_sink_offset(void *arg0) {
 
 #pragma push
 #pragma opt_common_subs off
-void calc_death_pose_height_offset(Out_801C58CC *arg0, Actor_801C58CC *arg1) {
+void calc_death_pose_height_offset(Out_801C58CC *arg0, Actor_801C58CC *player) {
     f32 sp[4];
-    arg1->get_pos(1, (Vec *)sp);
-    arg0->v = (1.0f + arg1->f3c) - sp[1];
+    player->get_pos(1, (Vec *)sp);
+    arg0->v = (1.0f + player->f3c) - sp[1];
     if (arg0->v > 3.0f) {
         arg0->v = 3.0f;
     }

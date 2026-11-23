@@ -21,7 +21,7 @@ struct TItemDrop : public TObject {
     static s32 run_step(s32 arg0);
     static void clear_item_if_player_picked_up(void* p, void* id);
     static s32 calc_drop_offset(s32 arg0);
-    static void set_drop_index(void *arg0, void *item);
+    static void set_drop_index(void *rng, void *item);
     void select_unit_drop(u8 kind, u8 *item);
     static void init_drop_table();
     static void count_unit_star_buckets();

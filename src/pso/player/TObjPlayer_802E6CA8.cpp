@@ -66,11 +66,11 @@ s32 rotate_matrix_z(int, s32);
 void translate_matrix(uaddr arg0, f32 x, f32 y, f32 z);
 s32 rotate_matrix_x(int, s32);
 s32 post_translate_matrix(void *);
-void set_chunk_material_override_pair(s32 arg0, s32 arg1);
+void set_chunk_material_override_pair(s32 first, s32 second);
 f32 lerp__9TDeadSpotFff(f32, f32);
 f32 rand_signed_unit();
 s32 matrix_mult_vec(int, void *, void *);
-void set_matrix_identity(u8 *arg0);
+void set_matrix_identity(u8 *matrix);
 s32 rotate_vector_by_matrix(int, void *, void *);
 extern const f32 lbl_805DE9C8;
 extern const f32 lbl_805DE9D4;
@@ -88,7 +88,7 @@ extern const f32 lbl_805DE9E4;
 
 }
 void set_chunk_blend(u32 x);
-void draw_chunk_model(void *arg0);
+void draw_chunk_model(void *model);
 extern Col_802E6CB0 lbl_80472C9C;
 extern s32 saved_model_render_flags;
 extern s32 model_render_flags;

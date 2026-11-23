@@ -104,10 +104,10 @@ void *destroy__13TAdVIConfigGCFPvs(void *arg0, s16 arg1) {
 
 extern "C" {
 
-u8 *TAdVIConfigGC::init(const Vec *position, f32 farg0) {
+u8 *TAdVIConfigGC::init(const Vec *position, f32 radius) {
     u8 *arg0 = (u8 *)this;
     VecCopy((Vec *)&this->m_prev, position);
-    *(f32 *)&this->m_name = (f32) (farg0 * farg0);
+    *(f32 *)&this->m_name = (f32) (radius * radius);
     *(s32 *)&this->m_24 = 0;
     memset((u8 *)&this->m_28, 0, 0x60);
     *(s32 *)&this->m_flags = TLobby::count_members();

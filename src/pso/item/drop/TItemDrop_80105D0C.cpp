@@ -355,7 +355,7 @@ void roll_armor_bonuses__9TItemDropFv(saddr, void *);
 s32 try_generate_rare_item__9TItemDropFiPvPv(saddr arg0, u8 *arg1, u8 *arg2);
 u8 select_weighted_column_u16__9TItemDropFiiiii(saddr, saddr, s32, s32, s32);
 s32 find_tool_pmt_base_id(u8, void *);
-void generate_tool_drop__9TItemDropFiiPv(saddr arg0, s32 arg1, void *arg2);
+void generate_tool_drop__9TItemDropFiiPv(saddr item_drop, s32 arg1, void *item_data);
 u8 *create_drop__9TItemDropFi(saddr arg0);
 u32 subtractive_rng_next(void *);
 s32 __cvt_fp2unsigned(f32);
@@ -372,7 +372,7 @@ extern const f32 lbl_805DAAD4;
 extern const f32 lbl_805DAAE4;
 
 void select_enemy_drop__9TItemDropFPviiPv(u8 *self, s32 area, s32 idx, Item_8010663C *item);
-void select_box_item__9TItemDropFiiPv(saddr arg0, s32 arg1, u8 *arg2);
+void select_box_item__9TItemDropFiiPv(saddr rng, s32 arg1, u8 *arg2);
 u8 select_weighted_column_u16__9TItemDropFiiiii(saddr rng, saddr base, s32 off, s32 count, s32 stride);
 void roll_rare_weapon_attributes__9TItemDropFiPvi(saddr rng, Obj_80106F4C *item, s32 idx);
 void build_weapon_type_weights__9TItemDropFiPvi(saddr rng, Obj_80106F4C *item, s32 idx);

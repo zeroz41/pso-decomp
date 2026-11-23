@@ -97,8 +97,8 @@ void TWindowComCard::set_help_mode(s32 help_mode) {
     set_sprite_uv_from_pixels(reinterpret_cast<WindowSpritePart *>(this), temp_r4->x, temp_r4->y);
 }
 
-s32 get_class_name_text(s32 arg0) {
-    return *(s32 *)((s8 *)(*(saddr *)((s8 *)text_language_group_table + 0x1C)) + (arg0 * 4));
+s32 get_class_name_text(s32 class_index) {
+    return *(s32 *)((s8 *)(*(saddr *)((s8 *)text_language_group_table + 0x1C)) + (class_index * 4));
 }
 
 extern "C" s8 TWindowComCard__sub_80249C20(void* p) { return *(s8*)((char*)p + 0x8d); }

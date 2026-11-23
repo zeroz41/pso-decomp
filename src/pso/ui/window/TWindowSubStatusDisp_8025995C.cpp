@@ -19,9 +19,9 @@ extern "C" {
 u8 get_small_font_glyph_width();
 s32 TWindowSubStatusDisp__sub_800FC248(s32);
 s32 build_small_font_glyph_quad(s32, Pos_80259A84 *);
-void begin_screen_draw(s32 arg0);
+void begin_screen_draw(s32 mode);
 s32 draw_textured_quad_at_depth(Pos_80259A84 *, f32);
-void set_draw_texture_and_color(s32 idx, s32 arg1);
+void set_draw_texture_and_color(s32 idx, s32 color);
 
 void draw_right_aligned_number(void *arg0) {
     TUnk_804CF9C8 *digit = static_cast<TUnk_804CF9C8 *>(arg0);

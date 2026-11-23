@@ -59,7 +59,7 @@ struct Obj_801575AC {
 };
 
 extern "C" {
-void *init_6x91_subcommand(void *arg0);
+void *init_6x91_subcommand(void *barrier_energy01);
 void TOAttackableCol__sub_80157310(void *_w0);
 s32 init_collision_body_parts(void *, void *, int);
 s32 get_current_floor(void);

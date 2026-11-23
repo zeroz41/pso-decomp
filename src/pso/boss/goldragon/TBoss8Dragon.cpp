@@ -268,7 +268,7 @@ f32 calc_random_ratio__10TObjPlayerFv(void *);
 // Slot 87: per-action event dispatch through a table of handler members.
 }
 extern "C" {
-s32 __ct__14SubtractiveRngFv(void *arg0);
+s32 __ct__14SubtractiveRngFv(void *rng);
 }
 void handle_6xA8_gol_dragon_boss_actions(void *data);
 

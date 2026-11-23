@@ -31,7 +31,7 @@ bool sj_ring_buffer_is_chunk_available(SjRingBuffer *o, s32 mode, s32 n, s32 *ou
     return !(n - mode);
 }
 
-void sj_ring_buffer_unget_chunk(SjRingBuffer *sj_ring_buffer, s32 arg1, SjChunk *sj_chunk) {
+void sj_ring_buffer_unget_chunk(SjRingBuffer *sj_ring_buffer, s32 side, SjChunk *sj_chunk) {
     SjErrorCallback temp_r12;
     SjErrorCallback temp_r12_2;
     SjErrorCallback temp_r12_3;
@@ -43,7 +43,7 @@ void sj_ring_buffer_unget_chunk(SjRingBuffer *sj_ring_buffer, s32 arg1, SjChunk 
         return;
     }
         middleware_interrupt_lock_enter();
-        if (arg1 == 0) {
+        if (side == 0) {
             temp_r6 = sj_ring_buffer->buffer_size;
             write_position = ((sj_ring_buffer->write_position + temp_r6) - sj_chunk->size) % temp_r6;
             if (write_position == ((sj_chunk->data - sj_ring_buffer->buffer) % temp_r6)) {
@@ -55,7 +55,7 @@ void sj_ring_buffer_unget_chunk(SjRingBuffer *sj_ring_buffer, s32 arg1, SjChunk 
                     temp_r12(sj_ring_buffer->error_context, -3);
                 }
             }
-        } else if (arg1 == 1) {
+        } else if (side == 1) {
             temp_r6_2 = sj_ring_buffer->buffer_size;
             read_position = ((sj_ring_buffer->read_position + temp_r6_2) - sj_chunk->size) % temp_r6_2;
             if (read_position == ((sj_chunk->data - sj_ring_buffer->buffer) % temp_r6_2)) {
@@ -136,15 +136,15 @@ void sj_ring_buffer_get_chunk(SjRingBuffer *r, s32 which, s32 max, SjChunk *out)
 }
 
 #pragma optimize_for_size on
-void sj_ring_buffer_set_error_callback(SjRingBuffer *arg0, SjErrorCallback arg1, void* arg2);
+void sj_ring_buffer_set_error_callback(SjRingBuffer *sj_ring_buffer, SjErrorCallback callback, void* context);
 
-s32 sj_ring_buffer_get_available(SjRingBuffer *sj_ring_buffer, s32 arg1) {
+s32 sj_ring_buffer_get_available(SjRingBuffer *sj_ring_buffer, s32 side) {
     SjErrorCallback error_callback;
 
-    if (arg1 == 1) {
+    if (side == 1) {
         return sj_ring_buffer->readable_bytes;
     }
-    if (arg1 == 0) {
+    if (side == 0) {
         return sj_ring_buffer->writable_bytes;
     }
     error_callback = sj_ring_buffer->error_callback;
@@ -161,9 +161,9 @@ void sj_ring_buffer_reset(SjRingBuffer *sj_ring_buffer) {
     sj_ring_buffer->read_position = 0;
 }
 
-void sj_ring_buffer_set_error_callback(SjRingBuffer *sj_ring_buffer, SjErrorCallback arg1, void* arg2) {
-    sj_ring_buffer->error_callback = arg1;
-    sj_ring_buffer->error_context = arg2;
+void sj_ring_buffer_set_error_callback(SjRingBuffer *sj_ring_buffer, SjErrorCallback callback, void* context) {
+    sj_ring_buffer->error_callback = callback;
+    sj_ring_buffer->error_context = context;
 }
 
 const u8* sj_ring_buffer_get_uuid(SjRingBuffer *sj_ring_buffer) {

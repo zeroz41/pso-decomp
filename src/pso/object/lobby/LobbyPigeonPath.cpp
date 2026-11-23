@@ -137,7 +137,7 @@ extern const Ent_802C0F3C lobby_pigeon_path_profiles[3] = {
 extern const Vec lobby_pigeon_zero_vec = {0.0f, 0.0f, 0.0f};
 extern const f64 lbl_80471960[1] = {10430.38043493439};
 
-void direction_to_rotation_xz(u8 *arg0, s32 *arg1, s32 *arg2);
+void direction_to_rotation_xz(u8 *dir, s32 *rot_a, s32 *rot_b);
 s32 sample_clamped_path_position(void *arg0, saddr arg1, void *arg2, saddr arg3, f32 farg0);
 extern "C" {
 s32 approach_angle_limited(s32, s32, s32);

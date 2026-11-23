@@ -42,7 +42,7 @@ void TOAttackableCol__sub_80157310(void *_w0);
 void TOAttackableCol__sub_80157C20(void *p, s32 v);
 s32 TOAttackableCol__sub_80157C28(void *p);
 void *__dt__15TOAttackableColFv(void *arg0, s16 arg1);
-void *init_6x91_subcommand(void *arg0);
+void *init_6x91_subcommand(void *barrier_energy01);
 }
 
 #endif

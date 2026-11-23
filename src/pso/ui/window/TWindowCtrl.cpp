@@ -117,7 +117,7 @@ void TLobby__sub_8024AAA0(s32 arg0, s32 arg1);
 u32 get_window__11TWindowCtrlFl(void);
 s32 update_field28__15TWindowCtrlMainFv(u32 a0 = 0, s32 a1 = 0);
 
-void TWindowCtrl__sub_8024A228(saddr arg0);
+void TWindowCtrl__sub_8024A228(saddr client_id);
 
 bool TWindowCtrl__sub_8024A1A8(void);
 
@@ -205,7 +205,7 @@ s32 apply_default_vec__11TWindowCtrlFll(void *, s32);
 
 }
 
-s32 chat_accept_submission(saddr arg0);
+s32 chat_accept_submission(saddr submission);
 
 typedef struct Win_8024BE80 {
     u8 pad0[0x34];
@@ -1381,7 +1381,7 @@ f32 get_entity_distance_or_default__11TWindowCtrlFiPvUs(s32 arg0, RecoveredField
 
 extern "C" {
 
-void TWindowCtrl::get_speaker_balloon_anchor(u16 id, f32 *arg2, s32 *arg3) {
+void TWindowCtrl::get_speaker_balloon_anchor(u16 id, f32 *height, s32 *name) {
     u8 *entity;
     u8 *obj;
     player_stats *q;
@@ -1392,26 +1392,26 @@ void TWindowCtrl::get_speaker_balloon_anchor(u16 id, f32 *arg2, s32 *arg3) {
         obj = NULL;
     }
     if (obj == NULL) {
-        *arg2 = 0.0f;
-        *arg3 = 0;
+        *height = 0.0f;
+        *name = 0;
         return;
     }
     q = reinterpret_cast<player_stats *>(((TObjChara *)obj)->get_stats());
     if (q == NULL) {
-        *arg2 = 0.0f;
+        *height = 0.0f;
     } else {
-        *arg2 = 0.92f * q->proportions;
+        *height = 0.92f * q->proportions;
     }
     if (((TObjChara *)obj)->obj_isState2_324() != 0 || TObjPlayer::is_locally_controlled(obj) != 0) {
         u8 *p = obj + 0x85C;
         if (p == NULL) {
-            *arg3 = 0;
+            *name = 0;
             return;
         }
-        *arg3 = (saddr)p;
+        *name = (saddr)p;
         return;
     }
-    *arg3 = 0;
+    *name = 0;
 }
 
 

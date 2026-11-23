@@ -200,8 +200,8 @@ void THunterGuildSeqOffline__sub_8021E180(u16 client) {
     TShopGenerator__slot_active_table[idx] = 1;
 }
 
-void *TShopGenerator::create(void *arg0) {
-    void *o = (void *)new TShopGenerator((saddr)arg0);
+void *TShopGenerator::create(void *set_data) {
+    void *o = (void *)new TShopGenerator((saddr)set_data);
     return o;
 }
 

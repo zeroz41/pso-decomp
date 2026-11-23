@@ -640,23 +640,23 @@ void TAdChrSelPlyPlateGC::add_slot_position(const void *src, s32 col) {
     }
 }
 
-void TAdChrSelPlyPlateGC::clear_slot_entries(s32 arg1) {
+void TAdChrSelPlyPlateGC::clear_slot_entries(s32 column) {
     s32 i;
     for (i = 0; i < 4; i++) {
-        cursor_alpha[i][arg1] = 0;
+        cursor_alpha[i][column] = 0;
         multi_ply_chr_select_tag_alpha[i] = 0.0f;
-        unk_500[i][arg1] = 0;
+        unk_500[i][column] = 0;
     }
-    unk_4dc[arg1] = 0;
+    unk_4dc[column] = 0;
 }
 
-void TAdChrSelPlyPlateGC::init_slot_position(saddr position, s32 arg2, s32 arg3) {
-    copy_vec2(&home[arg2][arg3], (void *)position);
-    quad[arg2][arg3].x = home[arg2][arg3].x;
-    quad[arg2][arg3].y = home[arg2][arg3].y;
-    quad[arg2][arg3].x = home[arg2][arg3].x + pos.x;
-    quad[arg2][arg3].y = home[arg2][arg3].y + pos.y;
-    cursor_alpha[arg2][arg3] = 0;
+void TAdChrSelPlyPlateGC::init_slot_position(saddr position, s32 row, s32 column) {
+    copy_vec2(&home[row][column], (void *)position);
+    quad[row][column].x = home[row][column].x;
+    quad[row][column].y = home[row][column].y;
+    quad[row][column].x = home[row][column].x + pos.x;
+    quad[row][column].y = home[row][column].y + pos.y;
+    cursor_alpha[row][column] = 0;
 }
 
 #pragma push

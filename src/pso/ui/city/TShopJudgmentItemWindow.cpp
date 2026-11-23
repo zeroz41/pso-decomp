@@ -53,12 +53,12 @@ extern "C" {
 int obj_getPtr2B0_20(u8 *p);
 }
 
-s32 get_appraisal_text(s32 arg0);
+s32 get_appraisal_text(s32 index);
 
 extern "C" {
 u8 *create_item_list_window(s32 arg0, s32 arg1, s32 arg2);
-s32 try_spend_actor_meseta(u8 *arg0, s32 arg1);
-void set_judgment_target_flag(void *arg0, void *arg1);
+s32 try_spend_actor_meseta(u8 *player, s32 count);
+void set_judgment_target_flag(void *window, void *arg1);
 
 saddr get_window_layout_position(s32);
 void send_6x25_equip_item(void *arg0, s32 arg1, s32 arg2);

@@ -1156,7 +1156,7 @@ s32 synthHWMessageHandler(s32 op, u32 idx) {
     return ret;
 }
 
-void inpInit(u8 *arg0);
+void inpInit(u8 *svoice);
 void synthInitAllocationAids(void);
 void hwSetMesgCallback(s32 arg0);
 #pragma push

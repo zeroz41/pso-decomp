@@ -109,7 +109,7 @@ s32 lbl_805D3584 = 1;
 f32 viewport_scissor_origin_x = 320.0f;
 f32 camera_viewport_center_y = 240.0f;
 void GXSetScissor(u32, u32, u32, u32);
-s32 TObjPlayer__sub_803DAD28(u32 arg0);
+s32 TObjPlayer__sub_803DAD28(u32 id);
 }
 
 void set_viewport_scissor(int mode, const TileRect *r) {

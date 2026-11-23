@@ -46,8 +46,8 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     TAdGuideTxtGC *guide;                  // 0x34
     void init_item_entry();
     static void try_load_system_file();
-    static s32 wait_for_card_load(s32 arg0);
-    static void format_challenge_stage_times(s32 arg0, s32 arg1);
+    static s32 wait_for_card_load(s32 chan);
+    static void format_challenge_stage_times(s32 lobby, s32 challenge_id);
     static void wake_load_thread(s32 channel, OSContext *context);
     static s32 send_at_ms_command(s32 arg0);
     static s32 send_at_error_correction_cmd(s32 arg0);
@@ -61,7 +61,7 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     static s32 get_chr_select_state();
     static u8 *get_global_state();
     static int get_state();
-    static void safe_free(uaddr arg0);
+    static void safe_free(uaddr emitter);
     void set_position(void* q);
     void noop_laser();
     void forward_to_field_0x14(void* a1);
@@ -89,7 +89,7 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     static u16 get_card_value(int arg0);
     static u16 get_card_field_21a8(int arg0);
     s32 append_inventory_item(saddr arg1);
-    static s32 load_player_by_slot(s32 arg0);
+    static s32 load_player_by_slot(s32 chan);
     static s32 verify_system_file(void* _w0);
     static s32 load_save_from_card();
     s32 fields_equal(void *arg1);
@@ -157,7 +157,7 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     u8 *copy_character_data(u8 *arg1);
     void swap_item_data(s32 *arg1);
     static void reset_quest_id();
-    static void set_quest_download_server(int a0);
+    static void set_quest_download_server(int quest_download_server);
     static void init_logo_state(s32 arg0);
     static void noop();
     static void run_frame();

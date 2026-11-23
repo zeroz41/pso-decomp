@@ -33,7 +33,7 @@ CollisionBody TObjNpcEnemy__collision_body_parts = {{0.0f, 7.5f, 0.0f}, 7.0f, 0.
 const char *TObjNpcEnemy_class_name = "TObjNpcEnemy";
 
 extern "C" {
-void * TObjNpcEnemy__create(void *arg0);
+void * TObjNpcEnemy__create(void *set_data);
 s32 translate_matrix(int, int, f32, f32, f32);
 
 }

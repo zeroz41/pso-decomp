@@ -33,20 +33,20 @@ typedef struct Rec_801D8F60 { f32 a, b, c; } Rec_801D8F60;
 extern "C" {
 s8 TObjPlayer__sub_801AFDBC(s8);
 extern s32 game_difficulty_selection;
-s32 get_class_starting_inventory(s8 arg0);
-u8 *get_class_defense_template(TObjPlayer *arg0);
+s32 get_class_starting_inventory(s8 cls);
+u8 *get_class_defense_template(TObjPlayer *player);
 s32 TObjPlayer__sub_801D8C3C(void);
-player_stats *get_class_stat_caps(s8 arg0);
-u8 *get_class_attack_template(TObjPlayer *arg0);
-stats *get_class_base_stats(s8 arg0);
-u8 *TObjPlayer__sub_801D8DCC(TObjPlayer *arg0);
-s32 TObjPlayer__sub_801D91B8(saddr arg0);
+player_stats *get_class_stat_caps(s8 cls);
+u8 *get_class_attack_template(TObjPlayer *player);
+stats *get_class_base_stats(s8 cls);
+u8 *TObjPlayer__sub_801D8DCC(TObjPlayer *player);
+s32 TObjPlayer__sub_801D91B8(saddr player);
 s32 TBoss4DarkFalz__sub_801D94C0(void* p);
 void TObjPlayer__sub_801D92A4(void);
 int load_encrypted_archive_data(const char *);
 }
 int ply_level_table;
-u8 *get_ply_level_table_row(s8 arg0, s32 arg1);
+u8 *get_ply_level_table_row(s8 cls, s32 lvl);
 f32 lookup_attack_marker(s32, s16, s16, s32);
 extern Rec_801D8F0C *photon_blast_motion_timing_tables[6];
 extern const s32 (*player_footstep_floor_table[3])[5];

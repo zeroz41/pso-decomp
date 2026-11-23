@@ -33,18 +33,18 @@ void *TODoorLaboNormal::create(void *set_data) {
     return new TODoorLaboNormal(tl_05, set_data);
 }
 
-void *TODoorFourLightRuins::create(void *arg0) {
-    void *o = (void *)new TODoorFourLightRuins((saddr)tl_05, (saddr)arg0);
+void *TODoorFourLightRuins::create(void *set_data) {
+    void *o = (void *)new TODoorFourLightRuins((saddr)tl_05, (saddr)set_data);
     return o;
 }
 
-void *TODoorFourLightSpace::create(void *arg0) {
-    void *o = (void *)new TODoorFourLightSpace((saddr)tl_05, (saddr)arg0);
+void *TODoorFourLightSpace::create(void *set_data) {
+    void *o = (void *)new TODoorFourLightSpace((saddr)tl_05, (saddr)set_data);
     return o;
 }
 
-void *TObjInfoCol::create(void *arg0) {
-    void *o = (void *)new TObjInfoCol((saddr)tl_05, (saddr)arg0);
+void *TObjInfoCol::create(void *set_data) {
+    void *o = (void *)new TObjInfoCol((saddr)tl_05, (saddr)set_data);
     return o;
 }
 

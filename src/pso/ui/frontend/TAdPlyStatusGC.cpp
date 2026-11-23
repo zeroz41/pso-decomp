@@ -42,7 +42,7 @@ extern saddr ply_status_chcr_load_afs;
 s32 *TAdSinglePlyChrSelectGC__sub_801FE3E4(u32 i);
 s32 TAdSinglePlyChrSelectGC__sub_801FE800(u32 i);
 }
-s32 get_class_name_text(s32 arg0);
+s32 get_class_name_text(s32 class_index);
 extern "C" {
 extern u32 ply_status_index;
 TAdPlyStatusGC *ply_status_gc_instance;

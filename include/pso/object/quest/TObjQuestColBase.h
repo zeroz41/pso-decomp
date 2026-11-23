@@ -20,7 +20,7 @@ struct TObjQuestColBase : public TObjCollidable {
     u32 label;
     u32 m_b4;
     TQuestThread *m_b8;  // the quest thread run_task started, until it is queued for destruction
-    s32 is_within_range(f32 farg0);
+    s32 is_within_range(f32 range_sq);
     virtual void run_task();
 };
 

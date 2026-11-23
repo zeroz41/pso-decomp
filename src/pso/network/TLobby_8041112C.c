@@ -1878,8 +1878,8 @@ s16 NetIPv6IsLoopback(u8 *arg0) {
     return 0;
 }
 
-s16 NetIPv6IsMulticast(u8 *arg0) {
-    if ((u8) *arg0 == 0xFF) {
+s16 NetIPv6IsMulticast(u8 *address) {
+    if ((u8) *address == 0xFF) {
         return 1;
     }
     return 0;

@@ -13,7 +13,7 @@ public:
     virtual void run_task();
     virtual void render();
 public:
-    static s32 classify_distance_band(s32 arg0, s32 level, u16 slot);
+    static s32 classify_distance_band(s32 technique, s32 level, u16 slot);
     static s32 is_technique_ready();
 
     u32 pad_1C;  // zeroed by the ctor

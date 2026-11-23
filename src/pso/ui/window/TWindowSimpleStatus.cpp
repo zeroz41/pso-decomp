@@ -151,9 +151,9 @@ void set_text_entry_string(u8 *arg0, uaddr str, s32 arg2);
 extern "C" {
 void update_lockon_window(u8 *arg0);
 s32 rand(void);
-void begin_screen_draw(s32 arg0);
+void begin_screen_draw(s32 mode);
 s32 draw_textured_quad_at_depth(Rect_80270394 *, f32);
-void set_draw_texture_and_color(s32 idx, s32 arg1);
+void set_draw_texture_and_color(s32 idx, s32 color);
 
 extern s32 lobby_rule_settings[];
 

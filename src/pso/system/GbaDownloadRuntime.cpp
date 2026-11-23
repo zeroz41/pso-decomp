@@ -67,7 +67,7 @@ void TLobby::alloc_buffer() {
 }
 }
 
-void gba_joyboot_transfer_callback(s32 arg0, s32 arg1) {
+void gba_joyboot_transfer_callback(s32 channel, s32 arg1) {
     switch (arg1) {
     case 0:
         TLobby__data_805D6CCC = 4;

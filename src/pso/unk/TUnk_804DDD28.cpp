@@ -41,7 +41,7 @@ void set_slot_offset(void *p, s32 v);
 extern s32 lbl_805D669C;
 void set_slot_position__6TLobbyFii(s32 arg0, saddr arg1);
 s32 aram_dma_blocking__6TLobbyFllll(s32, s32, s32, s32, s32);
-saddr TItemDrop__sub_800F9448(saddr arg0, s32 arg1);
+saddr TItemDrop__sub_800F9448(saddr arg0, s32 size);
 void set_motion_variant(void* p, s32 _w1);
 int matches_loaded_motion(void* p);
 int match_coordinate_pair(void*);

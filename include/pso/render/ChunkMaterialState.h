@@ -11,7 +11,7 @@ void submit_chunk_material_color(s32 chunkType, s16 *packedMaterial);
 void set_constant_material(const NJS_ARGB *color);
 extern "C" {
 f32 clampMaterialChannel(f32 value, f32 lower, f32 upper);
-void set_chunk_material_override_pair(s32 arg0, s32 arg1);
+void set_chunk_material_override_pair(s32 first, s32 second);
 }
 
 

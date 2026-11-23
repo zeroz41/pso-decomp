@@ -79,7 +79,7 @@ saddr TWindowSubStatusDisp__sub_8006F0D8(void *, int);
 s32 is_id_out_of_range__6TLobbyFi(s32 arg0);
 s32 mix_seed_checked__6TLobbyFi(s32);
 uaddr get_character_save_record(int);
-s32 TLobby__sub_8006F5B0(saddr arg0);
+s32 TLobby__sub_8006F5B0(saddr clear_time);
 }
 
 LobbyNameStringBuffer lobby_name_string_buffer;
@@ -88,7 +88,7 @@ extern "C" {
 s32 decode_slot__6TLobbyFUi(u32 id);
 void TLobby__sub_8006F48C(void);
 u32 *TWindowSubStatusDisp__sub_8006F134(void *, s32);
-s32 TLobby__sub_8006F38C(s32 arg0);
+s32 TLobby__sub_8006F38C(s32 total);
 s32 TLobby::check_challenge_time_range(s32 clear_time) {
     if ((clear_time < TLobby::calc_challenge_time_limit()) || (clear_time > 0x8C9F)) {
         return 1;
@@ -346,7 +346,7 @@ s32 TLobby::get_slot_clamped(u32 id) {
     return var_r3;
 }
 
-s32 decode_slot__6TLobbyFUi(u32 arg0);
+s32 decode_slot__6TLobbyFUi(u32 id);
 
 s32 decode_slot__6TLobbyFUi(u32 id) {
     s32 temp_r3;

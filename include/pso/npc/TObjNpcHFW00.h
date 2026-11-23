@@ -14,7 +14,7 @@ struct TObjNpcHFW00 : public TUnk_804A92A8 {
 LAYOUT_ASSERT(TObjNpcHFW00_size, sizeof(TObjNpcHFW00) == 0x3B8);
 
 extern "C" {
-void *TObjNpcHFW00__create(void *arg0);
+void *TObjNpcHFW00__create(void *set_data);
 }
 
 #endif

@@ -22,7 +22,7 @@ extern "C" {
 extern s32 lbl_804F3610[];
 extern s32 hud_texlist;
 s32 lbl_805D7000;
-void TLobby__sub_8036B1AC(Obj_8036B1AC *arg0);
+void TLobby__sub_8036B1AC(Obj_8036B1AC *payload);
 
 s32 **TBoss8Dragon__sub_8036AEF8(s32 **arg0, s16 arg1) {
     if (arg0 != NULL) {
@@ -104,17 +104,17 @@ void fn_8036B18C(void) {
         lbl_805D7000 = temp_r3 - 0x1E;
     }
 }
-void TLobby__sub_8036B1AC(Obj_8036B1AC *arg0) {
+void TLobby__sub_8036B1AC(Obj_8036B1AC *payload) {
     s32 i;
-    arg0->f0 = 0;
+    payload->f0 = 0;
     for (i = 0; i < 4; i++) {
-        arg0->ids[i] = 0xFF;
+        payload->ids[i] = 0xFF;
     }
     for (i = 0; i < 12; i++) {
-        arg0->cols[i].r = -1;
-        arg0->cols[i].g = 0;
-        arg0->cols[i].b = 0;
-        arg0->cols[i].a = 0;
+        payload->cols[i].r = -1;
+        payload->cols[i].g = 0;
+        payload->cols[i].b = 0;
+        payload->cols[i].a = 0;
     }
 }
 

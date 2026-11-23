@@ -26,7 +26,7 @@ struct RecoveredGlobal_8014672C_lbl_8050C0A8 {
 extern "C" {
 s32 TLobby__sub_80407358();
 s32 loopback_shutdown();
-s16 TLobby__sub_80423064(s16 idx, s32 arg1);
+s16 TLobby__sub_80423064(s16 idx, s32 op);
 void dhcp_stop(void);
 s32 dhcp_release_blocking(s32 session, s32 ip, s32 timeout);
 void TLobby__sub_801469B8(void* p);
@@ -64,7 +64,7 @@ void TLobby__sub_804073B8(void);
 s16 init_loopback(void);
 s16 TLobby__sub_8042315C(s16, void *);
 s32 lobby_net_session_id = -1;
-s32 TLobby__sub_801478C4(s32 arg0);
+s32 TLobby__sub_801478C4(s32 id);
 }
 char *get_modem_phone_number(s32 idx);
 s32 connect_pppoe(s32 *);

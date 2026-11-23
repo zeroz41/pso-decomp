@@ -118,7 +118,7 @@ s32 TAdEnterBaseGC__entry_mode;
 
 extern "C" {
 
-void fn_8025DE10(void *arg0, void *arg1);
+void fn_8025DE10(void *context, void *cursor);
 
 void __dt__19TAdPlyChrSelPlateGCFv(void *, int);
 
@@ -229,9 +229,9 @@ int validate_input__22TAdEnterSerialAccessGCFPviPv(void *arg0, s32 arg1, const c
     return 1;
 }
 
-char *TAdEnterSerialAccessGC::serial_to_hex_string(const char *arg0) {
+char *TAdEnterSerialAccessGC::serial_to_hex_string(const char *serial) {
     u32 v = 0;
-    sscanf(arg0, "%08X", &v);
+    sscanf(serial, "%08X", &v);
     memset(serial_access_hex_string_buf, 0, 0x40);
     if (v != 0) {
         sprintf(serial_access_hex_string_buf, "%010lu", v);

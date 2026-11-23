@@ -168,9 +168,9 @@ TUnk_804A5340::~TUnk_804A5340() {
 
 }
 
-void rocket_punch_return_timer(uaddr arg0) {
-    if (arg0 != 0U) {
-        ((TUnk_804A535C *)arg0)->punch_flags.clear(2);
+void rocket_punch_return_timer(uaddr weapon) {
+    if (weapon != 0U) {
+        ((TUnk_804A535C *)weapon)->punch_flags.clear(2);
     }
 }
 

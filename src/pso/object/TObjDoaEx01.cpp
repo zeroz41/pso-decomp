@@ -272,8 +272,8 @@ TObjDoaEx01::TObjDoaEx01(saddr parent, saddr set_data) : TODoorBase((TObject *)p
     this->m_e0 = 1.0f;
 }
 
-void *TObjDoaEx01::create(void *arg0) {
-    void *o = (void *)new TObjDoaEx01((saddr)tl_05, (saddr)arg0);
+void *TObjDoaEx01::create(void *set_data) {
+    void *o = (void *)new TObjDoaEx01((saddr)tl_05, (saddr)set_data);
     return o;
 }
 

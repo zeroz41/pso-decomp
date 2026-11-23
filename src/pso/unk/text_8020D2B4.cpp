@@ -57,7 +57,7 @@ extern RecoveredGlobal_8020D2B4_lbl_8058D490 identity_matrix;
 void apply_room_transform(saddr arg0, u8 *arg1, u8 *arg2);
 void resolve_set_row_factory_indices(void *arg0, FloorObjectSetRow *rows, int count);
 s32 is_within_camera_distance(void *arg0, void *arg1, f32 farg0);
-void spawn_decorations_in_range(TSetManager *arg0);
+void spawn_decorations_in_range(TSetManager *manager);
 void apply_room_transform(saddr arg0, u8 *arg1, u8 *arg2) {
     push_matrix_from(&identity_matrix.value);
     translate_matrix(0, (f32) (*(f32 *)((s8 *)arg2 + 4)), (f32) (*(f32 *)((s8 *)arg2 + 8)), (f32) (*(f32 *)((s8 *)arg2 + 0xC)));

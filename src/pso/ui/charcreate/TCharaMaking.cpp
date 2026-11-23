@@ -116,7 +116,7 @@ P_8028DCCC character_proportion_height_table[12] = {
 };
 
 extern "C" {
-void TCharaMaking__bind_appearance_texture_lists(TextureOutput *arg0, TextureOutput *arg1, TextureOutput *arg2, CharacterAppearanceFields *arg3);
+void TCharaMaking__bind_appearance_texture_lists(TextureOutput *output, TextureOutput *texture_output, TextureOutput *body, CharacterAppearanceFields *appearance);
 s32 TCharaMaking__sub_8028E3A0(f32 *arg0);
 }
 CharacterAppearanceFields *get_class_appearance_preset(s32 arg0);
@@ -129,7 +129,7 @@ extern s32 model_render_flags;
 CharacterAppearanceFields *creation_player_character;
 TObjCMMainMenu *creation_main_menu_obj;
 extern "C" {
-s32 calc_section_id_from_name(s8 *arg0);
+s32 calc_section_id_from_name(s8 *name);
 s32 release_texture_list(void *);
 
 
@@ -179,7 +179,7 @@ static const s32 lbl_805DD930[1] = {0x81C};
 #pragma opt_dead_assignments off
 #pragma opt_propagation off
 
-void TCharaMaking__draw_colored_hair(f32 farg0, saddr child, CharacterAppearanceFields *character_appearance_fields, s32 arg2) {
+void TCharaMaking__draw_colored_hair(f32 alpha, saddr child, CharacterAppearanceFields *character_appearance_fields, s32 specialColor) {
     struct Color { f32 a, r, g, b; } color;
     s32 temp_r3;
     s32 second;
@@ -194,13 +194,13 @@ void TCharaMaking__draw_colored_hair(f32 farg0, saddr child, CharacterAppearance
     saved_chunk_polygon_flags_and_mask = first;
     saved_chunk_polygon_flags_or_mask = second;
     model_render_flags = temp_r3 | lbl_805DD930[0];
-    if (farg0 < 1.0f) {
+    if (alpha < 1.0f) {
         set_chunk_material_override_pair(-1, 0x800);
     }
-    if (arg2 != 0) {
+    if (specialColor != 0) {
         set_shadow_material_state();
     } else {
-        color.a = farg0;
+        color.a = alpha;
         color.r = (1.0f / 255.0f) * (f32) character_appearance_fields->red;
         color.g = (1.0f / 255.0f) * (f32) character_appearance_fields->green;
         color.b = (1.0f / 255.0f) * (f32) character_appearance_fields->blue;
@@ -361,7 +361,7 @@ s32 validate_player_visual_record(void *arg0) {
 void TCharaMaking::clear_flag_bit0() { restore_alpha_ref(); model_render_flags = (model_render_flags & 0xfffffffe); }
 
 void TCharaMaking::enable_making() { model_render_flags = (model_render_flags | 0x1); set_alpha_ref_override((u8)31); }
-void TCharaMaking__bind_appearance_texture_lists(TextureOutput *output, TextureOutput *texture_output, TextureOutput *arg2, CharacterAppearanceFields *appearance) {
+void TCharaMaking__bind_appearance_texture_lists(TextureOutput *output, TextureOutput *texture_output, TextureOutput *body, CharacterAppearanceFields *appearance) {
   CharacterClassAppearance *definition;
   CharacterTextureList **temp_r3;
   CharacterTextureList **temp_r3_2;
@@ -392,8 +392,8 @@ void TCharaMaking__bind_appearance_texture_lists(TextureOutput *output, TextureO
       texture_output->loaded = 1;
     }
   }
-  ((TCharaMaking *)arg2)->build_appearance_texture_names(appearance, definition, definition->bodyTextures);
-  arg2->loaded = 1;
+  ((TCharaMaking *)body)->build_appearance_texture_names(appearance, definition, definition->bodyTextures);
+  body->loaded = 1;
 }
 s32 TCharaMaking__sub_8028E3A0(f32 *arg0) {
     if (arg0[0] < 0.0f || arg0[0] >= 1.0f || arg0[1] < 0.0f || arg0[1] >= 1.0f) {

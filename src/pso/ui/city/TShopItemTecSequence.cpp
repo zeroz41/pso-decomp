@@ -31,7 +31,7 @@ s32 lbl_805D6248;
 s32 lbl_805D624C;
 TShopItemTecSequence *item_tec_sequence_instance;
 extern void *tl_05;
-s32 get_shop_text(s32 arg0);
+s32 get_shop_text(s32 index);
 
 
 extern int shop_tool_stock_counts[];

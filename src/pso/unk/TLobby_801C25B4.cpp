@@ -201,7 +201,7 @@ void clear_trap_counts(s8 *arg0);
 extern saddr tl_00;
 extern saddr tl_01;
 }
-void reset_cameras_to_actor(void *actor, s32 arg1);
+void reset_cameras_to_actor(void *actor, s32 view_unused);
 struct Stack_801C3CFC {
     s32 sp8;
     s8 spC;
@@ -334,9 +334,9 @@ void TLobby__sub_801C38A4(void);
 void TLobby__sub_801B09A4(void);
 
 
-void end_player_keyboard_hold(saddr arg0);
+void end_player_keyboard_hold(saddr client_id);
 
-void begin_player_keyboard_hold(saddr arg0);
+void begin_player_keyboard_hold(saddr client_id);
 void request_active_window_close(void);
 s32 TLobby__sub_801C417C(void);
 void __destroy_new_array(void *, void *);
@@ -363,7 +363,7 @@ s32 fn_801D72B0(void *, int);
 extern u32 player_slot_table[];
 
 extern s32 battle_intro_value_table[];
-void obj_clear_flag30_20000(void *arg0);
+void obj_clear_flag30_20000(void *actor);
 s32 __ct__15TDuelEffectCtrlFP7TObjectUc(void *, void *, int);
 
 void record_local_battle_placement(void *);
@@ -397,7 +397,7 @@ void TAdSinglePlyChrSelectGC__sub_801C50F0(u16);
 u16 TAdSinglePlyChrSelectGC__sub_801C50FC();
 void TAdSinglePlyChrSelectGC__sub_801C5108(u16);
 u16 TAdSinglePlyChrSelectGC__sub_801C5114();
-void handle_6x7F_battle_scores(saddr arg0);
+void handle_6x7F_battle_scores(saddr command);
 void play_area_music(char *name);
 s32 TObjPlayer__sub_801AFFD0();
 
@@ -410,7 +410,7 @@ void record_local_battle_placement(void *arg0);
 
 #define G28 (((u32 *)controller_input_state)[10])
 
-void update_player_battle_ctrl_state(void *arg0);
+void update_player_battle_ctrl_state(void *player_battle_ctrl);
 
 void fn_801C4CE0(TPlayerBattleCtrl *player_battle_ctrl);
 

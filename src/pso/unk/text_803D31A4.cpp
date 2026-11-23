@@ -69,52 +69,52 @@ s32 TLobby::run_worker_callbacks_slot4() {
 s32 TLobby::run_callbacks_group2() {
     return run_callbacks_803D3224(2);
 }
-void TLobby__sub_803D33D4(AdxTransitionCallback arg0, s32 arg1) {
-    lbl_805D7664.fn = arg0;
-    lbl_805D7664.arg = arg1;
+void TLobby__sub_803D33D4(AdxTransitionCallback callback, s32 context) {
+    lbl_805D7664.fn = callback;
+    lbl_805D7664.arg = context;
 }
 
-void TLobby__sub_803D33E4(AdxTransitionCallback arg0, s32 arg1) {
-    lbl_805D766C.fn = arg0;
-    lbl_805D766C.arg = arg1;
+void TLobby__sub_803D33E4(AdxTransitionCallback callback, s32 context) {
+    lbl_805D766C.fn = callback;
+    lbl_805D766C.arg = context;
 }
-void TLobby::set_callback_params(AdxMessageCallback arg0, s32 context) {
+void TLobby::set_callback_params(AdxMessageCallback callback, s32 context) {
     if (lbl_805D766C.fn != NULL) {
         lbl_805D766C.fn(lbl_805D766C.arg);
     }
-    lbl_805D765C.fn = arg0;
+    lbl_805D765C.fn = callback;
     lbl_805D765C.arg = context;
     if (lbl_805D7664.fn != NULL) {
         lbl_805D7664.fn(lbl_805D7664.arg);
     }
 }
-void TLobby__sub_803D346C(s32 arg0) {
-    if (svm_callback_single_table[arg0].fn != 0) {
-        svm_callback_single_table[arg0].fn(svm_callback_single_table[arg0].arg);
+void TLobby__sub_803D346C(s32 group) {
+    if (svm_callback_single_table[group].fn != 0) {
+        svm_callback_single_table[group].fn(svm_callback_single_table[group].arg);
     }
 }
 
-void TLobby__sub_803D34B0(s32 arg0, AdxTransitionCallback arg1, s32 arg2) {
+void TLobby__sub_803D34B0(s32 group, AdxTransitionCallback callback, s32 context) {
     if (lbl_805D766C.fn != 0) {
         lbl_805D766C.fn(lbl_805D766C.arg);
     }
-    svm_callback_single_table[arg0].fn = arg1;
-    svm_callback_single_table[arg0].arg = arg2;
+    svm_callback_single_table[group].fn = callback;
+    svm_callback_single_table[group].arg = context;
     if (lbl_805D7664.fn != 0) {
         lbl_805D7664.fn(lbl_805D7664.arg);
     }
 }
 
 
-void TLobby::SVM_SetCbSvrId(s32 arg0, s32 arg1, AdxWorkerCallback fn, s32 arg) {
+void TLobby::SVM_SetCbSvrId(s32 group, s32 slot, AdxWorkerCallback fn, s32 arg) {
     SvmWorkerSlot *c;
-    if (arg1 < 0 || arg1 >= 4) {
+    if (slot < 0 || slot >= 4) {
         strncpy(svm_callback_message_buffer, "1071201:SVM_SetCbSvrId:illegal id", 0xFF);
         if (lbl_805D765C.fn != 0) {
             lbl_805D765C.fn(lbl_805D765C.arg, svm_callback_message_buffer);
         }
     }
-    if (arg0 < 0 || arg1 >= 7) {
+    if (group < 0 || slot >= 7) {
         strncpy(svm_callback_message_buffer, "1071202:SVM_SetCbSvrId:illegal svtype", 0xFF);
         if (lbl_805D765C.fn != 0) {
             lbl_805D765C.fn(lbl_805D765C.arg, svm_callback_message_buffer);
@@ -123,7 +123,7 @@ void TLobby::SVM_SetCbSvrId(s32 arg0, s32 arg1, AdxWorkerCallback fn, s32 arg) {
     if (lbl_805D766C.fn != 0) {
         lbl_805D766C.fn(lbl_805D766C.arg);
     }
-    c = &svm_callback_table[arg0][arg1];
+    c = &svm_callback_table[group][slot];
     c->fn = fn;
     c->arg = arg;
     if (lbl_805D7664.fn != 0) {
@@ -148,13 +148,13 @@ void TLobby::SVM_DelCbSvr(s32 arg0, s32 arg1) {
     }
 }
 
-s32 TLobby::svm_set_cb_svr(s32 arg0, AdxWorkerCallback fn, s32 arg) {
+s32 TLobby::svm_set_cb_svr(s32 group, AdxWorkerCallback fn, s32 arg) {
     SvmWorkerSlot *c;
     s32 i;
     if (lbl_805D766C.fn != 0) {
         lbl_805D766C.fn(lbl_805D766C.arg);
     }
-    c = svm_callback_table[arg0];
+    c = svm_callback_table[group];
     for (i = 0; i < 4; c++, i++) {
         if (c->fn == NULL) {
             c->fn = fn;

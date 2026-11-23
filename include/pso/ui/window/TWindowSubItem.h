@@ -42,7 +42,7 @@ struct TWindowSubItem : public TObject {
     void refresh();
     s32 open_purpose_window(s32 arg1);
     void gray_out_unusable_entries();
-    static s32 is_usable(saddr arg0);
+    static s32 is_usable(saddr player);
 };
 
 LAYOUT_ASSERT(TWindowSubItem_size, sizeof(TWindowSubItem) == 0x44);

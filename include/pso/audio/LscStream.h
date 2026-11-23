@@ -85,20 +85,20 @@ void lsc_poll(LscStream* stream);
 
 extern "C" {
 LscStream *lsc_create(void *sj_handle);
-void lsc_destroy(LscStream *arg0);
+void lsc_destroy(LscStream *lsc_stream);
 s32 lsc_get_min_buffer_bytes(LscStream *p);
 s32 lsc_get_queued_stream_count(LscStream *p);
-s32 lsc_get_queued_stream_id(LscStream *arg0, s32 arg1);
-s32 lsc_get_state(LscStream *arg0);
+s32 lsc_get_queued_stream_id(LscStream *lsc_stream, s32 ordinal);
+s32 lsc_get_state(LscStream *lsc_stream);
 char *lsc_get_stream_filename(LscStream *arg0, s32 arg1);
 s32 lsc_get_stream_progress(LscStream *arg0, s32 arg1);
 s32 lsc_get_stream_status(LscStream *arg0, s32 arg1);
 void lsc_init(void);
 void lsc_poll_all(void);
-void lsc_set_min_buffer_bytes(LscStream *arg0, s32 arg1);
+void lsc_set_min_buffer_bytes(LscStream *lsc_stream, s32 bytes);
 void lsc_shutdown(void);
 void lsc_start(LscStream *o);
-void lsc_stop(LscStream *arg0);
+void lsc_stop(LscStream *lsc_stream);
 }
 
 // --- C functions defined in LscStream.cpp ---
@@ -110,14 +110,14 @@ void lsc_destroy(LscStream *lsc_stream);
 s32 lsc_enqueue_range(LscStream *lsc_stream, const char *filename, s32 open_mode, s32 range_offset, s32 range_length);
 s32 lsc_get_min_buffer_bytes(LscStream *p);
 s32 lsc_get_queued_stream_count(LscStream *p);
-s32 lsc_get_queued_stream_id(LscStream *lsc_stream, s32 arg1);
+s32 lsc_get_queued_stream_id(LscStream *lsc_stream, s32 ordinal);
 s32 lsc_get_state(LscStream *lsc_stream);
 char *lsc_get_stream_filename(LscStream *lsc_stream, s32 arg1);
 s32 lsc_get_stream_progress(LscStream *lsc_stream, s32 arg1);
 s32 lsc_get_stream_status(LscStream *lsc_stream, s32 arg1);
 void lsc_init(void);
 void lsc_poll_all(void);
-void lsc_set_min_buffer_bytes(LscStream *lsc_stream, s32 arg1);
+void lsc_set_min_buffer_bytes(LscStream *lsc_stream, s32 bytes);
 void lsc_shutdown(void);
 void lsc_start(LscStream *o);
 void lsc_stop(LscStream *lsc_stream);

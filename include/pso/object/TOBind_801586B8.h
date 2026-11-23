@@ -5,7 +5,7 @@
 
 struct TOBind;
 extern "C" {
-u8 *TOBind__ct(TOBind *arg0, saddr set_data);
+u8 *TOBind__ct(TOBind *bind, saddr set_data);
 void *__dt__6TOBindFv(void *arg0, s16 arg1);
 }
 

@@ -37,7 +37,7 @@ struct TObjNpcEnemy : public TObjNpcBase {
     void set_npc_data(void *arg1);
     void update_state();
     virtual void render();
-    static void set_global_count(s32 arg0);
+    static void set_global_count(s32 global_count);
 };
 
 LAYOUT_ASSERT(TObjNpcEnemy_size, sizeof(TObjNpcEnemy) == 0x3BC);

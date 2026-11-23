@@ -195,7 +195,7 @@ const char *TObjEneSlimeTailAttack__name = TObjEneSlimeTailAttack__class_name_st
 
 extern "C" {
 s32 has_no_active_slot(TObjEneSlime *self);
-s32 spawn_slime_in_slot(TObjEneSlime *origin, s32 arg1, Vec *arg2, Vec *arg3);
+s32 spawn_slime_in_slot(TObjEneSlime *origin, s32 index, Vec *position, Vec *velocity);
 
 }
 

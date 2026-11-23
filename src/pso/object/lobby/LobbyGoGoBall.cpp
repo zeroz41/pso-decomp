@@ -180,7 +180,7 @@ struct Seg_80199674 { Vec a; Vec b; };
 struct Hit_80199674 { u32 f0; Seg_80199674 *seg; };
 f32 xyz_distance(Vec *, void *);
 }
-void direction_to_rotation_xz(u8 *arg0, s32 *arg1, s32 *arg2);
+void direction_to_rotation_xz(u8 *dir, s32 *rot_a, s32 *rot_b);
 extern u8 saved_model_draw_color[];
 extern u8 model_material_color[];
 struct Tri_8019978C {
@@ -203,7 +203,7 @@ extern s32 chunk_polygon_flags_or_mask;
 extern s32 chunk_polygon_flags_and_mask;
 extern s32 model_render_flags;
 }
-void direction_to_rotation_yx(u8 *arg0, s32 *arg1, s32 *arg2);
+void direction_to_rotation_yx(u8 *dir, s32 *rot_a, s32 *rot_b);
 extern "C" {
 void vec3_add_to(void *, void *);
 f32 atan2_float(f32, f32);

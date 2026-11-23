@@ -55,7 +55,7 @@ LAYOUT_ASSERT(TQuestListChallenge_windows, offsetof(TQuestListChallenge, confirm
 LAYOUT_ASSERT(TQuestListChallenge_entries, offsetof(TQuestListChallenge, entries) == 0x58);
 
 extern "C" {
-void *TObjNpcKenkyu__create(void *arg0);
+void *TObjNpcKenkyu__create(void *set_data);
 const char *get_selected_quest_text__19TQuestListChallengeFv(void);
 void reset_globals2__19TQuestListChallengeFv(void);
 void reset_globals__19TQuestListChallengeFv(void);

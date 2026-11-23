@@ -184,9 +184,9 @@ TWindowSubComCardList *TWindowSubComCard__sub_802B1C1C(TWindowSubTrade *) {
 }
 }
 
-TWindowMessage *TWindowSubTrade::open_player_message_window(s32 arg1, s32 arg2) {
+TWindowMessage *TWindowSubTrade::open_player_message_window(s32 player, s32 arg2) {
     TWindowMessage *window;
-    TObjPlayer *p = get_player_by_client_id(arg1);
+    TObjPlayer *p = get_player_by_client_id(player);
     text_builder_reset();
     if (p != NULL) {
         ((s32 (*)(s32))text_builder_append)((saddr)p->get_name());

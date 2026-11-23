@@ -189,11 +189,11 @@ struct RecoveredGlobal_lbl_805430E8 { s32 value; u8 remaining[0x1BC]; };
 RecoveredGlobal_lbl_805430E8 lbl_805430E8;
 struct RecoveredGlobal_lbl_805432A8 { s32 value; u8 remaining[0x1BC]; };
 RecoveredGlobal_lbl_805432A8 lbl_805432A8;
-int is_valid_player_motion_variant(s32 a0);
+int is_valid_player_motion_variant(s32 variant);
 int TLobby__sub_802A7278(s32 a0);
-int is_valid_player_motion_variant(s32 a0 = 0);
+int is_valid_player_motion_variant(s32 variant = 0);
 int TLobby__sub_802A7278(s32 a0 = 0);
-void check_valid_state__6TLobbyFi(saddr arg0);
+void check_valid_state__6TLobbyFi(saddr unused);
 s32 is_handle_valid__10TObjPlayerFv();
 
 s32 lbl_805D6C80;

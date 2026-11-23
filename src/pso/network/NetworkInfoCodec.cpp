@@ -294,7 +294,7 @@ s32 copy_network_info_config_string(char *arg0, char *arg1, u32 num, u32 arg3) {
 
 extern NetworkInfoCipherPoolBinding network_info_cipher_pool_binding;
 extern NetworkInfoCipherWorkspace network_info_cipher_workspace;
-s32 decode_network_info_payload(u8 *arg0, u8 *arg1, u32 arg2, NetworkInfoConfig *arg3);
+s32 decode_network_info_payload(u8 *arg0, u8 *payload, u32 size, NetworkInfoConfig *config);
 
 #pragma push
 #pragma scheduling off

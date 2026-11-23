@@ -177,7 +177,7 @@ s32 GXSetTevOp(s32, s32);
 s32 GXSetTevOrder(s32, s32, s32, s32);
 }
 
-void calc_projection_screen_offset(f32 *arg0, f32 *arg1);
+void calc_projection_screen_offset(f32 *x, f32 *arg1);
 f32 calc_camera_fov_degrees(void);
 void load_current_pos_matrix(s32 arg0);
 void load_current_tex_matrix(s32 i);
@@ -234,7 +234,7 @@ s32 GXSetNumChans(s32);
 
 void disable_camera_capture_overlay(void);
 void init_capture_texture(s32 wide);
-void set_ginja_draw_flags(s32 arg0);
+void set_ginja_draw_flags(s32 flags);
 void set_light_ambient_color(f32 r, f32 g, f32 b);
 void submit_light0(s32 arg0, s32 arg1);
 void load_gx_light_slot(s32 arg0);
@@ -866,13 +866,13 @@ void TLiveCameraView::set_view(const Vec *eye, const Vec *target) {
     VecCopy(&this->target, target);
 }
 
-void calc_projection_screen_offset(f32 *arg0, f32 *arg1) {
+void calc_projection_screen_offset(f32 *x, f32 *arg1) {
     f32 dx = TCameraCtrl::view_params.screen.projection.center_x;
     f32 y = TCameraCtrl::view_params.screen.projection.center_y;
     f32 dy;
     dx -= 320.0f;
     dy = y - 240.0f;
-    *arg0 = (-0.12f * dx) / 80.0f;
+    *x = (-0.12f * dx) / 80.0f;
     *arg1 = (0.235f * dy) / -112.0f;
 }
 

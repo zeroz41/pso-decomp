@@ -912,9 +912,9 @@ s32 dhcp_release_blocking(s32 session, s32 ip, s32 timeout) {
     return 0;
 }
 
-s16 dhcp_discover_and_request(s16 a0, s32 a1, s32 a2, void *a3, s32 *a4, s32 *a5, s32 *a6, s32 a7) {
+s16 dhcp_discover_and_request(s16 a0, s32 a1, s32 a2, void *a3, s32 *address, s32 *netmask, s32 *broadcast, s32 retries) {
     s32 state;
-    if (dhcp_begin_discover(a0, a1, a2, a3, a4, a5, a6, a7) != 0) {
+    if (dhcp_begin_discover(a0, a1, a2, a3, address, netmask, broadcast, retries) != 0) {
         return -1;
     }
     do {
@@ -930,22 +930,22 @@ s16 dhcp_discover_and_request(s16 a0, s32 a1, s32 a2, void *a3, s32 *a4, s32 *a5
     return 0;
 }
 
-s32 dhcp_begin_discover(s16, s32 a1, s32 a2, void *, s32 *a4, s32 *a5, s32 *a6, s32 a7) {
+s32 dhcp_begin_discover(s16, s32 a1, s32 a2, void *, s32 *address, s32 *netmask, s32 *broadcast, s32 retries) {
     dhcp_error = 0;
     if (*(volatile s32 *)&dhcp_state != 0) {
         dhcp_error = 2;
         return -1;
     }
-    if (a4 == NULL || a5 == NULL || a6 == NULL) {
+    if (address == NULL || netmask == NULL || broadcast == NULL) {
         dhcp_error = 1;
         return -1;
     }
-    lbl_805D7B40 = a4;
-    lbl_805D7B44 = a5;
-    lbl_805D7B48 = a6;
+    lbl_805D7B40 = address;
+    lbl_805D7B44 = netmask;
+    lbl_805D7B48 = broadcast;
     lbl_805D7B54 = a1;
     lbl_805D7B58 = a2;
-    dhcp_max_retries = a7;
+    dhcp_max_retries = retries;
     *(volatile s32 *)&dhcp_state = 1;
     *(volatile s32 *)&dhcp_step = 0;
     return 0;

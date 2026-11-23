@@ -194,7 +194,7 @@ s32 TLobby__sub_80070DA8(void);
 void set_challenge_time_window_timer(int a0);
 extern "C" {
 void TLobby__sub_80071064(s32 arg0);
-void TLobby__sub_80070EE4(saddr arg0);
+void TLobby__sub_80070EE4(saddr clear_time);
 s32 TLobby__sub_8006F6B0(s32 clear_time);
 
 s32 TLobby__sub_8007119C(s32 arg0);

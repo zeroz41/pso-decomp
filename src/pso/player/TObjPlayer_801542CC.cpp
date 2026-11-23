@@ -143,7 +143,7 @@ int player_unique_pair_entry_count;
 extern "C" {
 void TObjPlayer__sub_801550B8(u8 *arg0, u8 *arg1);
 void TObjPlayer__sub_8015434C(CollisionBodySet *set, s32 start, s32 count);
-void TObjPlayer__sub_8015431C(u8 *arg0);
+void TObjPlayer__sub_8015431C(u8 *set);
 int TObjPlayer__sub_80154E28(int a0, int a1);
 void TObjPlayer__sub_80156934(void);
 f32 horizontal_distance_squared(void *, void *);
@@ -159,7 +159,7 @@ u16 TObjRoomId__sub_801A1DB8(u16);
 s32 project_actor_to_ground(TObjCollidable *actor, Vec *pos, Vec *normal);
 void TObjPlayer__sub_801542F4(saddr a);
 void reset_global_table(void);
-s32 obj_is_hit_receivable(u8 *arg0);
+s32 obj_is_hit_receivable(u8 *target);
 void *resolve_hittable_target(u16 actorId, s16 collider);
 u16 register_entity_by_id(void*);
 
@@ -353,8 +353,8 @@ void *resolve_hittable_target(u16 actorId, s16 collider) {
 }
 s32 test_collider_sphere_overlap_xz(Vec, const CollisionBody *body, CollisionSphere *out);
 extern saddr player_battle_param_table[];
-s32 resolve_actor_sphere_contact(u8 *arg0, s32 arg1, saddr arg2);
-s32 respond_to_body_contact(u8 *arg0, uaddr arg1, u8 *arg2);
+s32 resolve_actor_sphere_contact(u8 *actor, s32 other, saddr contact);
+s32 respond_to_body_contact(u8 *actor, uaddr other, u8 *contact);
 void handle_6x0B_update_object_state(G_UpdateObjectState_6x0B *packet) {
     ObjectSavedState_801548A8 state;
     ObjectSavedState_801548A8 fallback;

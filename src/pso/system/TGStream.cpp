@@ -271,19 +271,19 @@ void open_gsl_archive(char *name) {
     }
 }
 
-void TLobby::read_data_sync(saddr handle, s32 arg1, saddr destination) {
+void TLobby::read_data_sync(saddr handle, s32 sector_count, saddr destination) {
     saddr sp8;
 
     sp8 = handle;
-    ADXF_ReadNw((AdxfHandle *)sp8, arg1, (void *)destination);
-    TLobby::set_read_params(&sp8, (int)arg1, (int)destination);
+    ADXF_ReadNw((AdxfHandle *)sp8, sector_count, (void *)destination);
+    TLobby::set_read_params(&sp8, (int)sector_count, (int)destination);
 loop_1:
     if (ADXF_GetStat((AdxfHandle *)sp8) != 3) {
         TLobby::run_frame();
         goto loop_1;
     }
     TLobby::reset_read_state();
-    gstream_read_offset += arg1 << 0xB;
+    gstream_read_offset += sector_count << 0xB;
 }
 
 void TGStream::align_read_offset(s32 alignment) {

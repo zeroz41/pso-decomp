@@ -14,7 +14,7 @@ struct Ply_80312D4C : B_80312D4C {
 
 extern "C" {
 int TObjPlayer__sub_80313218(void* p);
-u8 *TObjPlayer__sub_80312FB0(TObjPlayer *arg0);
+u8 *TObjPlayer__sub_80312FB0(TObjPlayer *player);
 void append_photon_blast_request(saddr arg0, u16 arg1, s16 arg2);
 int TObjPlayer__sub_803131AC(void* a0);
 void TObjPlayer__sub_80312E98(void *o, u16 id);

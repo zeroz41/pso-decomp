@@ -462,7 +462,7 @@ s16 NetIPv6HandleRedirect(NetPacket *pkt, u8 *right, u8 *dst, s16 iface) {
     return 0;
 }
 #pragma pop
-s16 NetIPv6ParseRedirectOptions(NetPacketFragment *frag, s32 n, NetIcmpv6Redirect *arg2, s32 opts, s16 *arg4, s16 iface) {
+s16 NetIPv6ParseRedirectOptions(NetPacketFragment *frag, s32 n, NetIcmpv6Redirect *msg, s32 opts, s16 *optlen, s16 iface) {
     NetBufferRef sp20;
     u8 *h;
     s16 len;
@@ -486,16 +486,16 @@ s16 NetIPv6ParseRedirectOptions(NetPacketFragment *frag, s32 n, NetIcmpv6Redirec
             netbuf_ref_advance(&frag->buffer, len);
             break;
         case 4:
-            *arg4 = (*arg4 < len) ? *arg4 : len;
+            *optlen = (*optlen < len) ? *optlen : len;
             set_value_and_enable(&sp20, opts);
-            netbuf_copy_by_ref(&sp20, &frag->buffer, *arg4);
+            netbuf_copy_by_ref(&sp20, &frag->buffer, *optlen);
             netbuf_ref_advance(&frag->buffer, len);
             break;
         case 2: {
             u8 *p = h + 2;
             s16 l = len - 2;
-            e = TLobby__sub_804182DC(arg2->target.bytes, p, l, iface);
-            if (e != NULL && NetMemcmp(arg2->target.bytes, arg2->destination.bytes, 0x10) != 0) {
+            e = TLobby__sub_804182DC(msg->target.bytes, p, l, iface);
+            if (e != NULL && NetMemcmp(msg->target.bytes, msg->destination.bytes, 0x10) != 0) {
                 e->flags |= 0x80;
             }
             netbuf_ref_advance(&frag->buffer, len);
@@ -1085,7 +1085,7 @@ s16 NetIPv6HandleRouterSolicitation(NetPacket *o, u8 *src, u8 *dst, s16 iface) {
     return 0;
 }
 
-s16 TLobby__sub_80417868(NetPacketFragment *arg0, u32 len, u8 *arg2, s16 arg3)
+s16 TLobby__sub_80417868(NetPacketFragment *opts, u32 len, u8 *arg2, s16 arg3)
 {
   s16 i;
   s32 step;
@@ -1095,7 +1095,7 @@ s16 TLobby__sub_80417868(NetPacketFragment *arg0, u32 len, u8 *arg2, s16 arg3)
   void *out;
   s32 n;
   u8 *p;
-  self = arg0;
+  self = opts;
   n = len;
   out = arg2;
   arg_ = arg3;

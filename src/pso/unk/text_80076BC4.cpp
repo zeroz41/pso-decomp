@@ -20,7 +20,7 @@ char *fn_80076BC4(s32 *text) { return (char *)text; }
 }
 extern s32 local_client_id;
 extern void *TLobby__protocol_instance;
-void submit_chat_text(u8 *arg0);
+void submit_chat_text(u8 *lobby);
 void submit_chat_text(u8 *lobby) {
     void *player;
     player = get_player_by_client_id(local_client_id);
@@ -36,14 +36,14 @@ void submit_chat_text(u8 *lobby) {
     }
 }
 
-void chat_dispatch_accepted_result(s32 *arg0);
+void chat_dispatch_accepted_result(s32 *submission);
 extern "C" {
 s32 is_submit_cooldown_clear__11TWindowCtrlFv();
-saddr get_chat_shortcut(s32 arg0);
+saddr get_chat_shortcut(s32 index);
 void send_chat_shortcut(void);
 void TAdSinglePlyChrSelectGC__sub_80076DF4(void* p, void* q);
 }
-s32 chat_accept_submission(saddr arg0);
+s32 chat_accept_submission(saddr submission);
 void chat_dispatch_accepted_result(s32 *submission) {
 
     switch (*submission) {
@@ -78,7 +78,7 @@ struct ByteBlock_50 { u8 bytes[0x50]; };
 
 extern "C" {
 saddr TAdSinglePlyChrSelectGC__sub_80076D9C(saddr arg0, saddr arg1);
-bool is_chat_shortcut_set(s32 arg0);
+bool is_chat_shortcut_set(s32 index);
 void clear_chat_shortcut(s32 i);
 
 void clear_chat_shortcut(s32 i) {

@@ -14,13 +14,13 @@ struct TObjNpcHosa : public TUnk_804A9F50 {
 LAYOUT_ASSERT(TObjNpcHosa_size, sizeof(TObjNpcHosa) == 0x3B8);
 
 extern "C" {
-void *TObjNpcKenkyuW__create(void *arg0);
+void *TObjNpcKenkyuW__create(void *set_data);
 void *__dt__11TObjNpcHosaFv(void *arg0, s16 arg1);
 }
 
 // --- C functions defined in TObjNpcHosa.cpp ---
 extern "C" {
-void *TObjNpcKenkyuW__create(void *arg0);
+void *TObjNpcKenkyuW__create(void *set_data);
 void *__dt__11TObjNpcHosaFv(void *arg0, s16 arg1);
 }
 // --- end of C functions

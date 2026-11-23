@@ -55,7 +55,7 @@ void spawn_hit_particles__10TObjPlayerFiPv(saddr pos, const Vec *dir);
 s16 get_validated_attack_stage(u8 *arg0);
 void get_weapon_color__11TItemWeaponFPv(void *, void *);
 s32 rotate_matrix_about_axis(int, void *, int);
-void set_matrix_identity(u8 *arg0);
+void set_matrix_identity(u8 *matrix);
 }
 
 TUnk_804E23F0::~TUnk_804E23F0() {}

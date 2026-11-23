@@ -35,7 +35,7 @@ extern "C" {
 // Defined in files that have no headers yet.
 s32 play_shield_sound_cue(ShieldSoundCue *cue);
 s32 add_actor_hp(u8 *arg0, s16 arg1);
-s32 add_actor_tp(u8 *arg0, s32 arg1);
+s32 add_actor_tp(u8 *owner, s32 half);
 s16 obj_getS16_2BA(u8 *p);
 // The item file helpers (TItemDrop_800F93F0.cpp).
 // The class name and the effect table's file name. This object starts at

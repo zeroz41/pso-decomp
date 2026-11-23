@@ -5,7 +5,7 @@
 #include "pso/quest/QuestVm.h"
 
 extern "C" {
-void TLobby__sub_801F3314(saddr arg0);
+void TLobby__sub_801F3314(saddr player);
 int TLobby__sub_801F3384(void *p);
 int TLobby__sub_801F33A8(void *p);
 int TLobby__sub_801F33CC(void *p);
@@ -36,7 +36,7 @@ s32 get_field_d4(void *p);
 
 // --- C functions defined in TLobby_801F2D2C.cpp ---
 extern "C" {
-void TLobby__sub_801F3314(saddr arg0);
+void TLobby__sub_801F3314(saddr player);
 int TLobby__sub_801F3384(void *p);
 int TLobby__sub_801F33A8(void *p);
 int TLobby__sub_801F33CC(void *p);

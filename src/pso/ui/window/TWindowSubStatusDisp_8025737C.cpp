@@ -68,7 +68,7 @@ struct Parent_80257784 {
 extern "C" {
 s32 TWindowSubStatusDisp__sub_80256C40(void *, void *, void *, f32);
 s32 begin_screen_draw(s32, f32, f32, f32);
-void set_draw_texture_and_color(s32 idx, s32 arg1);
+void set_draw_texture_and_color(s32 idx, s32 color);
 }
 void set_constant_material_color(u32 x);
 extern s32 hud_texlist;
@@ -105,7 +105,7 @@ struct Bar_8025799C {
 
 s32 play_sound_effect(u32, s32, s32, s32);
 u32 update_text_color_transition(Fade_802575C0 *fade);
-void start_text_color_transition(Fade_802575C0 *arg0, u32 rgb, f32 time);
+void start_text_color_transition(Fade_802575C0 *array_entry, u32 rgb, f32 time);
 
 extern s32 __vt__26TWindowStatusGaugeFeedback[];
 extern const float lbl_805DCE58;

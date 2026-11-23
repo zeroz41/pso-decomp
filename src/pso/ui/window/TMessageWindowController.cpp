@@ -16,11 +16,11 @@
 #pragma readonly_strings on
 extern "C" {
 extern s32 local_client_id;
-saddr get_shop_text(s32 arg0);
+saddr get_shop_text(s32 index);
 __declspec(section ".rodata") extern const char message_tag_error[];
 }
-saddr get_guild_text(s32 arg0);
-saddr get_appraisal_text(s32 arg0);
+saddr get_guild_text(s32 index);
+saddr get_appraisal_text(s32 index);
 struct MessageTagCommand {
     const char *name;
     void (TMessageWindowController::*callback)();

@@ -28,7 +28,7 @@
 
 extern "C" {
 void translate_matrix_vec3(u8 *arg0, u8 *arg1);
-void draw_model_motion(void *arg0, void *arg1, f32 farg0);
+void draw_model_motion(void *model, void *motion, f32 frame);
 s32 vec3_add_to(void *, void *);
 extern s32 actor_frame_tick;
 s32 rotate_vector_by_matrix(int, void *, void *);

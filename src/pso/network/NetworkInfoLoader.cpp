@@ -49,8 +49,8 @@ typedef struct Save_803F3F64 {
     u8 tail[0x400];
 } Save_803F3F64;
 
-s32 get_or_set_network_config_mode(s32 arg0);
-s32 get_or_set_network_config_backup_mode(s32 arg0);
+s32 get_or_set_network_config_mode(s32 mode);
+s32 get_or_set_network_config_backup_mode(s32 mode);
 extern NetworkInfoLoadState network_info_load_state;
 extern "C" {
 

@@ -71,16 +71,16 @@ extern const f32 lbl_8044F9F0[2] = {206.0f, 184.0f};
 extern const f32 lbl_8044F9F8[2] = {308.0f, 124.0f};
 extern const f32 lbl_8044FA00[2] = {214.0f, 184.0f};
 }
-s32 get_help_text_string(s32 arg0);
+s32 get_help_text_string(s32 id);
 extern "C" {
 s32 create_equip_kind_window(saddr, const f32 *, s32);
 }
-saddr create_titled_window_menu(saddr arg0, s32 arg1, saddr arg2, s32 arg3);
+saddr create_titled_window_menu(saddr position, s32 count, saddr title, s32 client_id);
 void append_text_space(void);
 void text_builder_reset(void);
 void window_request_show(void *arg0);
-void window_request_refresh(u8 *arg0);
-void toggle_help_window_on_button(uaddr arg0, s32 arg1);
+void window_request_refresh(u8 *help);
+void toggle_help_window_on_button(uaddr arg0, s32 client_index);
 
 extern "C" const char lbl_805DD648[] = "";
 // Deferred code generation: the functions are written last to first (see configure.py).

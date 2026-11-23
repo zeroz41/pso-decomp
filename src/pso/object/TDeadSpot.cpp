@@ -63,7 +63,7 @@ s32 rotate_matrix_x(int, int);
 #pragma readonly_strings on
 s32 TDeadSpot__class_name = (saddr)"TDeadSpot";
 }
-void direction_to_rotation_yx(u8 *arg0, s32 *arg1, s32 *arg2);
+void direction_to_rotation_yx(u8 *dir, s32 *rot_a, s32 *rot_b);
 #pragma pop
 
 extern s32 saved_model_render_flags;

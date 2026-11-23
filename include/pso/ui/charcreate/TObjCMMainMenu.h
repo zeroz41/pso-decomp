@@ -67,7 +67,7 @@ public:
     static f32 get_proportion();
     static void set_selection(int selection);
     static void set_speed(f32 farg0);
-    static s32 get_creation_sprite_id(s32 arg0);
+    static s32 get_creation_sprite_id(s32 sprite_id);
 };
 LAYOUT_ASSERT(CreationMainMenuSize, sizeof(TObjCMMainMenu)==0x58);
 LAYOUT_ASSERT(CreationMainMenu_character_offset, offsetof(TObjCMMainMenu,character)==0x1C);

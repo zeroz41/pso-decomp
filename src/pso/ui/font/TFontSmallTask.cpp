@@ -198,10 +198,10 @@ void TBoss3Volopt__sub_800FD344(s32 arg0, s32 arg1, s32 arg2, void *str, void *a
     create_font_small_task((Vec *)(saddr)arg0, (s32)arg1, (s32)arg2, 0, (s32 *)str, (saddr)arg4, 0xFFFF);
 }
 
-s32 TObjEneEpsilonGuard::create_damage_font(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
+s32 TObjEneEpsilonGuard::create_damage_font(s32 pos, s32 color, s32 life, s32 damage) {
     text_builder_reset();
-    text_builder_append_int(arg3);
-    return (saddr)new TFontSmallTask((Vec *)(saddr)arg0, arg1, arg2, 0, (const char *)get_shared_text_buffer(), 0xFFFF);
+    text_builder_append_int(damage);
+    return (saddr)new TFontSmallTask((Vec *)(saddr)pos, color, life, 0, (const char *)get_shared_text_buffer(), 0xFFFF);
 }
 
 saddr TOCtrlDubchik::create_font(saddr pos, s32 color, s32 life, const char *text) {

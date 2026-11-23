@@ -888,7 +888,7 @@ s32 player_flag_1__6TLobbyFv();
 s32 enable_action_input__10TObjPlayerFPv();
 s32 TObjPlayer__sub_801B3FD8();
 s32 TObjPlayer__sub_801B4044();
-void send_code50_packet__10TObjPlayerFi(s32 arg0);
+void send_code50_packet__10TObjPlayerFi(s32 player);
 s32 send_code_49_1__10TObjPlayerFi();
 void delete_item(void *, s32, s32);
 void send_6x29_delete_item__10TObjPlayerFPvii(void *obj, s32 a, s32 b);
@@ -938,7 +938,7 @@ int TLobby__sub_8022733C(void*);
 void request_active_window_close(void);
 s32 unhide_enemies_at__6TLobbyFlll(s32, s32, s32, s32);
 }
-void init_6x40_walk_packet(void *a0);
+void init_6x40_walk_packet(void *cmd);
 s32 get_field_d4(void *);
 void build_6x77_sync_quest_register(void* p);
 void set_quest_floor_designation_ex(s16, s32, s32, s32, s32);
@@ -950,7 +950,7 @@ u8 is_floor_switch_set(u32 id, s16 floor);
 void clear_current_floor_switch(s32 id);
 void set_current_floor_switch(s32 id);
 void init_switch_table(void);
-void create_quest_telepipe_for_client(u16 arg0);
+void create_quest_telepipe_for_client(u16 client);
 void close_window_if_active(void *p);
 extern "C" {
 saddr get_window_layout_position(s32);
@@ -2749,7 +2749,7 @@ void qst_op_get_guild_card_file_creation_time(s32 reg) {
 }
 
 extern "C" {
-s32 try_spend_actor_meseta(u8 *arg0, s32 arg1);
+s32 try_spend_actor_meseta(u8 *player, s32 count);
 }
 void qst_op_take_slot_meseta(s32 regs, s32 dst) {
     TObjPlayer *player = get_player_by_client_id(qst_registers[(u8)regs++]);
@@ -4726,7 +4726,7 @@ void qst_op_npc_crp(u8 first) {
 
 extern "C" {
 void set_arrival_override_coords(u16 slot, s32 heading, f32 x, f32 y, f32 z);
-void queue_player_injured_pose(s32 arg0);
+void queue_player_injured_pose(s32 player);
 }
 void set_player_quest_control_flag(TObjPlayer *player);
 
@@ -5539,7 +5539,7 @@ void qst_call_stack_push(s32 a0)
 {
   qst_call_stack[qst_call_stack_depth++] = a0;
 }
-int qst_label_address(int a0) {  return (saddr)(qst_code + qst_function_table[(u16)a0]); }
+int qst_label_address(int label) {  return (saddr)(qst_code + qst_function_table[(u16)label]); }
 extern "C" {
 
 namespace pf2_p12 { extern "C" { s32 expand_message_substitutions(s32, s32, s32); } }

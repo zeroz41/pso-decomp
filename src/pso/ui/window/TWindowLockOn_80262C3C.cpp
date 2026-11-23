@@ -143,7 +143,7 @@ extern "C" {
 s16 obj_getS16_2BA(LockOnEnemyView *);
 s32 is_split_screen(void);
 }
-s32 enemy_name_for_rt_index(s32 arg0);
+s32 enemy_name_for_rt_index(s32 rt_index);
 extern "C" {
 u32 calc_text_width(int);
 }

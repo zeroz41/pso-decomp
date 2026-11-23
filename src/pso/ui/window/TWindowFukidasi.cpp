@@ -139,7 +139,7 @@ s32 draw_resolved_window__15TWindowFukidasiFllll(Fuki_80250F70 *, f32 *, f32 *, 
 }
 
 void complete_speech_balloon(u8 *arg0);
-s32 is_speech_balloon_ready(u8 *arg0);
+s32 is_speech_balloon_ready(u8 *window_base);
 extern "C" {
 void clamp_text_size__15TWindowFukidasiFPvPv(Fuki_80250314 *b, f32 *out);
 s32 TWindowFukidasi__sub_802505C0(Fuki_80251028 *b, f32 *rect, f32 *out);
@@ -548,7 +548,7 @@ void draw_name_plate__15TWindowFukidasiFv(TWindowFukidasi *self, View_80252764 *
 
 #pragma pop
 extern "C" {
-void TWindowFukidasi::init_balloon(u16 arg1, s32 str, s32 arg3, f32 scale) {
+void TWindowFukidasi::init_balloon(u16 speaker, s32 str, s32 client, f32 scale) {
     u32 len;
 
     *(s32 *)((s8 *)this + 0) = (saddr) window_fukidasi_class_name;
@@ -556,8 +556,8 @@ void TWindowFukidasi::init_balloon(u16 arg1, s32 str, s32 arg3, f32 scale) {
     this->m_71 = 0;
     *(s8 *)&this->unk_72 = 2;
     this->m_73 = -1;
-    this->speaker_id = arg1;
-    this->client_index = arg3;
+    this->speaker_id = speaker;
+    this->client_index = client;
     if (str != 0) {
         len = TWindowKeyBoardSoft::strnlen((s8 *)str, (u32)0x18);
         this->name = (char *)mem_alloc(len + 1);
@@ -565,7 +565,7 @@ void TWindowFukidasi::init_balloon(u16 arg1, s32 str, s32 arg3, f32 scale) {
     } else {
         this->name = 0;
     }
-    set_color(arg1);
+    set_color(speaker);
     this->tail_scale = 0.0f;
     this->m_7c = scale;
     this->frame_size[0] = 0.0f;

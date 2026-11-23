@@ -34,7 +34,7 @@ public:
     virtual void run_task();
 public:
     static s32 get_instance();
-    static void set_state(int a0);
+    static void set_state(int state);
     static void reset_load_state(s32 channel, u64 *serial_number);
     static void poll_card_load(s32 arg0);
     static s32 check_card_result_code(s32 channel);
@@ -46,13 +46,13 @@ public:
     static s32 probe_card_slot(saddr chan);
     static s32 find_card_file(saddr chan, const char *name);
     static s32 check_memcard_status(s32 arg0);
-    static s32 query_memcard_capacity(s32 arg0, s32 unused);
+    static s32 query_memcard_capacity(s32 channel, s32 unused);
     static s32 delete_memcard_file(s32 chan, const char *name);
     static s32 get_or_set_channel_flag(s32 arg0, s32 arg1);
     static s32 get_load_state();
-    static void step_set_attributes(s32 arg0);
-    static void update_card_delete(s32 arg0);
-    static void update_card_rename(s32 arg0);
+    static void step_set_attributes(s32 card_channel);
+    static void update_card_delete(s32 card_channel);
+    static void update_card_rename(s32 card_channel);
     static void reset_slot_entry(s32 arg0);
     static s32 close_card_slot(s32 arg0);
     static s32 take_card_read_result(s32 arg0, s32 *arg1);

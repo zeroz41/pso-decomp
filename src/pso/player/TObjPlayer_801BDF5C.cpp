@@ -72,7 +72,7 @@ void TObjPlayer::free_shared_data() {
     }
 }
 
-void *fn_801C2360(void *arg0);
+void *fn_801C2360(void *array);
 void TObjPlayer::alloc_shared_buffers() {
     saddr temp_r3;
     saddr var_r0;

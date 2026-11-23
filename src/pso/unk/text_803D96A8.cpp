@@ -28,7 +28,7 @@ struct Tbl_803D9E38 { u8 pad[8]; Ent_803D9E38 arr[1]; };
 extern "C" {
 s32 fn_803DA12C(u8 *, s32, s32, s32);
 extern G_803D9DA8 lbl_8058D470;
-s32 TObjPlayer__sub_803D9DA8(A_803D9DA8 *arg0, B_803D9DA8 *arg1);
+s32 TObjPlayer__sub_803D9DA8(A_803D9DA8 *texture, B_803D9DA8 *desc);
 void rotate_matrix_x(Matrix34* matrix, s32 angle);
 s32 TObjPlayer__sub_803DAD24(int, int);
 extern s32 record_array_ptr;
@@ -131,13 +131,13 @@ void TObjPlayer::concat_quaternion_rotation() {
 }
 }
 
-void apply_quat_rotation(f32 farg0, f32 *arg0) {
+void apply_quat_rotation(f32 farg0, f32 *xyz) {
     Mtx34 sp18;
     Q_803D993C q;
     q.w = farg0;
-    q.x = arg0[0];
-    q.y = arg0[1];
-    q.z = arg0[2];
+    q.x = xyz[0];
+    q.y = xyz[1];
+    q.z = xyz[2];
     PSMTXQuat(sp18, (const PSQuaternion *)&q);
     PSMTXConcat(*current_matrix, sp18, *current_matrix);
 }
@@ -223,8 +223,8 @@ u32 *find_gvrt_texture_chunk(TLobby *lobby, u32 *arg1, u32 *arg2) {
     return p;
 }
 
-s32 TObjPlayer__sub_803D9DA8(A_803D9DA8 *arg0, B_803D9DA8 *arg1) {
-    if (fn_803DA12C(arg0->p + 4, arg1->b, arg1->c, arg1->a) != 0) {
+s32 TObjPlayer__sub_803D9DA8(A_803D9DA8 *texture, B_803D9DA8 *desc) {
+    if (fn_803DA12C(texture->p + 4, desc->b, desc->c, desc->a) != 0) {
         lbl_8058D470.f8 = 6;
         return -1;
     }

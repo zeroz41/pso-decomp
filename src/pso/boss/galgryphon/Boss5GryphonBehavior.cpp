@@ -104,7 +104,7 @@ s32 is_split_screen();
 f32 fabs_float(f32);
 s32 TBoss8Dragon__sub_800670E0(int, void *);
 f32 calc_random_ratio__10TObjPlayerFv(void *);
-void TBoss8Dragon__sub_80067074(saddr arg0, saddr prm);
+void TBoss8Dragon__sub_80067074(saddr pos, saddr prm);
 }
 const char *bm_modelparticle_gryphon_model_names[4] = {
     "boss_rock.gj", "fe_obj001_iwaware_01.gj", "fe_obj001_iwaware_02.gj", NULL,

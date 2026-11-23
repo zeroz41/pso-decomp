@@ -108,7 +108,7 @@ void TItemBuff__ct(void) {
         (*(u32 *)&item_buff_buffer) = 0;
     }
 }
-s32 create_item_buff(s32 arg0);
+s32 create_item_buff(s32 size);
 s32 create_item_buff(s32 size) {
     s32 temp_r3;
 

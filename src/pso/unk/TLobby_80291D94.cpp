@@ -45,7 +45,7 @@ struct A_80291FC0 {
 };
 extern "C" {
 void *TLobby__sub_802936AC(void *arg0, s16 arg1);
-void update_destruction_countdown__6TLobbyFPv(TLobby *arg0);
+void update_destruction_countdown__6TLobbyFPv(TLobby *lobby);
 void render__7TObjectFv();
 void render_shadows__7TObjectFv();
 void *challenge_default_settings[420] = {
@@ -238,7 +238,7 @@ s32 TLobby__sub_802924B4(s32 arg0, u16 arg1);
 s32 TLobby__sub_802923C4(s32 idx, s32 value, s32 arg);
 s32 TLobby__sub_80292DA0(s32 seed, u16 card);
 #define TLobby__sub_80292DA0 ((s32 (*)(s32, s32))TLobby__sub_80292DA0)
-s32 TLobby__sub_80292270(s32 arg0, s32 arg1);
+s32 TLobby__sub_80292270(s32 arg0, s32 card);
 s32 TLobby__sub_8029204C(void);
 void TLobby__sub_8026A328(void *);
 int TLobby__sub_80292268(void);
@@ -572,10 +572,10 @@ void TLobby__sub_80293218(s32);
 s32 TLobby__sub_8029299C(void);
 s32 TLobby__sub_80292A34(void);
 s32 *TWindowSubStatusDisp__sub_8006F0D8(void *, s32);
-s32 TLobby__sub_80292F34(s32 arg0);
+s32 TLobby__sub_80292F34(s32 limit);
 s32 TLobby__sub_80292BB8(s32 seed, u16 card, s32 id);
 #define TWindowSubStatusDisp__sub_8006F134 ((s32 * (*)(u8 *, s32))TWindowSubStatusDisp__sub_8006F134)
-s32 TLobby__sub_80292AB4(s32 arg0, s32 arg1, s32 arg2);
+s32 TLobby__sub_80292AB4(s32 total, s32 card, s32 slot);
 
 void TLobby::clamp_and_store_layout_index(s32 arg0) {
     s32 temp_r3;
@@ -941,7 +941,7 @@ s32 export_character_data__10TObjPlayerFPvPv(u32, u32);
 #define create_challenge4p__6TLobbyFv ((u32 (*)())create_challenge4p__6TLobbyFv)
 
 }
-void *create_obj_tag_challenge(void *arg0);
+void *create_obj_tag_challenge(void *tag_challenge);
 extern saddr tl_07;
 void setup_split_screen(void);
 

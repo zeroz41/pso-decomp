@@ -212,9 +212,9 @@ void set_model_render_flags(u32 flags) {
 #pragma auto_inline off
 #pragma dont_inline off
 
-void set_chunk_material_override_pair(s32 arg0, s32 arg1) {
-    chunk_polygon_flags_and_mask = arg0;
-    chunk_polygon_flags_or_mask = arg1;
+void set_chunk_material_override_pair(s32 first, s32 second) {
+    chunk_polygon_flags_and_mask = first;
+    chunk_polygon_flags_or_mask = second;
 }
 
 #pragma push

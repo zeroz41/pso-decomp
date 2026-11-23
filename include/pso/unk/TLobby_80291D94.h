@@ -35,7 +35,7 @@ void set_split_screen_name__6TLobbyFv(s32 arg0);
 void setup_split_screen(void);
 extern "C" {
 void snapshot_player_card_status__6TLobbyFv(void);
-void update_destruction_countdown__6TLobbyFPv(TLobby *arg0);
+void update_destruction_countdown__6TLobbyFPv(TLobby *lobby);
 }
 
 // --- C functions defined in TLobby_80291D94.cpp ---

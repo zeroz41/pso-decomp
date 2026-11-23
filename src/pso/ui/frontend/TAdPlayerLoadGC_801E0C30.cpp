@@ -605,19 +605,19 @@ s32 poll_memcard_result(saddr chan) {
     return 0;
 }
 
-s32 TAdPlayerLoadGC::probe_card_slot(saddr arg0) {
+s32 TAdPlayerLoadGC::probe_card_slot(saddr chan) {
     s32 spC;
     s32 sp8;
     s32 temp_r3;
-    if (arg0 >= 2) {
+    if (chan >= 2) {
         return 0;
     }
-    if ((card_slot_state_flags & (0x400 << arg0)) && (CARDGetResultCode(arg0) == -5)) {
+    if ((card_slot_state_flags & (0x400 << chan)) && (CARDGetResultCode(chan) == -5)) {
         card_result_code = -0x7D;
         return 1;
     }
     do {
-        temp_r3 = CARDProbeEx(arg0, &spC, &sp8);
+        temp_r3 = CARDProbeEx(chan, &spC, &sp8);
     } while (temp_r3 == -1);
     if (temp_r3 == -3) {
         card_result_code = -0xFF;
@@ -626,8 +626,8 @@ s32 TAdPlayerLoadGC::probe_card_slot(saddr arg0) {
     if (sp8 == 0x2000) {
         switch (temp_r3) {
         case 0:
-            if (!(card_slot_state_flags & (4 << arg0))) {
-                if (((s32)mount_memcard(arg0)) == 0) {
+            if (!(card_slot_state_flags & (4 << chan))) {
+                if (((s32)mount_memcard(chan)) == 0) {
                     card_result_code = 0;
                     return 1;
                 }

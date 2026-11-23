@@ -3,7 +3,7 @@
 
 #include "types.h"
 
-void accumulate_key_bits(s32 arg0, s32 *arg1);
+void accumulate_key_bits(s32 key, s32 *buttons);
 extern "C" {
 void bind_controller_devices(void);
 s8 func_801A5E54__Fv(void);

@@ -203,19 +203,19 @@ s32 TWindowSubComCard::send_guild_card() {
     temp = TWindowSubComCard::get_card_entry(0);
     return TWindowSubComCard__sub_8007AC7C((Card_8007AC7C *)(arg0), temp, 0xD2);
 }
-void forward_to_matching_card__17TWindowSubComCardFPvPvi(void *arg0, u8 *arg1, s32 count) {
+void forward_to_matching_card__17TWindowSubComCardFPvPvi(void *card, u8 *slots, s32 count) {
     s32 i;
-    u32 id = reinterpret_cast<const GuildCardEntry *>(arg0)->get_card_id();
-    for (i = 0; i < count; i++, arg1 += 0x100) {
-        if (reinterpret_cast<const GuildCardEntry *>(arg1)->is_active() == 0) {
+    u32 id = reinterpret_cast<const GuildCardEntry *>(card)->get_card_id();
+    for (i = 0; i < count; i++, slots += 0x100) {
+        if (reinterpret_cast<const GuildCardEntry *>(slots)->is_active() == 0) {
             break;
         }
-        if (id == reinterpret_cast<const GuildCardEntry *>(arg1)->get_card_id()) {
+        if (id == reinterpret_cast<const GuildCardEntry *>(slots)->get_card_id()) {
             break;
         }
     }
     if (i < count) {
-        ((s32 (*)(void *, void *))forward_return_arg__17TWindowSubComCardFi)(arg1, arg0);
+        ((s32 (*)(void *, void *))forward_return_arg__17TWindowSubComCardFi)(slots, card);
     }
 }
 

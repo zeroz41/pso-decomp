@@ -51,7 +51,7 @@ struct TKeyBoardControl : public TObject {
     static void flush_input();
     static void init_pad_slots_and_read();
     static void read_pads();
-    static s32 map_pad_buttons(u16 arg0);
+    static s32 map_pad_buttons(u16 released);
     static s16 scale_axis_value(s16 x);
     void clamp_axes();
     static void init_pad_states();

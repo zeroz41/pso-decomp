@@ -51,7 +51,7 @@ struct TShopEquipmentSellWindow : public TShopWindowBase {
     static s32 get_item_data_value(uaddr arg0);
     int is_confirmed();
     s32 get_result();
-    static void set_entry_count(void *arg1, void *arg2);
+    static void set_entry_count(void *window, void *arg2);
     void add_item(saddr arg1, s32 arg2, s32 arg3);
 };
 

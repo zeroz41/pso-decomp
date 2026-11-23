@@ -68,7 +68,7 @@ s8 lbl_805D62D0;
 s8 lbl_805D62D1;
 extern "C" {
 void update_music_stream_gain(s32 user);
-void TLobby__sub_8022614C(s32 arg0);
+void TLobby__sub_8022614C(s32 gain);
 
 void TLobby::set_and_notify(int a0) { lbl_805D6284 = a0; update_music_stream_gain(lbl_805D6280); }
 

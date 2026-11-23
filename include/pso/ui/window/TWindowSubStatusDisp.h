@@ -69,7 +69,7 @@ struct TWindowSubStatusDisp : public TWindowBase {
     static s32 upload_glyph_if_needed(u16 code, u8 *free_slot, void **arg2);
     static void set_gauge_param(s32 gauge_param);
     static void reset_gauge(void* p);
-    static f32 get_card_window_scale(s32 _w0);
+    static f32 get_card_window_scale(s32 client_id);
     static s32 get_card_window_flags(s32 client_id);
     static void append_play_time(u32 time);
     static void append_comma();

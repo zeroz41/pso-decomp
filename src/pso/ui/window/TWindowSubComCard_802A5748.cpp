@@ -39,12 +39,12 @@ s32 TWindowMessageYesNo::is_child_visible() {
     return choice_menu->is_decided();
 }
 }
-void initialize_option_dialog(void *arg0, s32 message, s32 position, f32 width) {
-    *(s32 *)((s8 *)arg0 + 0x28) = (saddr)create_window_menu((saddr)(position), 1, *(s32 *)((s8 *)arg0 + 0x24));
-    ((TWindowMenu *)(*(saddr *)((s8 *)arg0 + 0x28)))->add_text_entry(message, 0x21, 0);
-    ((TAdChrSelASlotGC *)(*(saddr *)((s8 *)arg0 + 0x28)))->set_flag_40();
-    TQuestThread::set_status_flag_80((void *)(*(saddr *)((s8 *)arg0 + 0x28)));
-    ((TWindowSubComCard *)(*(saddr *)((s8 *)arg0 + 0x28)))->calc_layout_height(width);
+void initialize_option_dialog(void *dialog, s32 message, s32 position, f32 width) {
+    *(s32 *)((s8 *)dialog + 0x28) = (saddr)create_window_menu((saddr)(position), 1, *(s32 *)((s8 *)dialog + 0x24));
+    ((TWindowMenu *)(*(saddr *)((s8 *)dialog + 0x28)))->add_text_entry(message, 0x21, 0);
+    ((TAdChrSelASlotGC *)(*(saddr *)((s8 *)dialog + 0x28)))->set_flag_40();
+    TQuestThread::set_status_flag_80((void *)(*(saddr *)((s8 *)dialog + 0x28)));
+    ((TWindowSubComCard *)(*(saddr *)((s8 *)dialog + 0x28)))->calc_layout_height(width);
 }
 
 void open_yes_no_prompt(TWindowMessageYesNo *dialog, u32 title, s32 text, s32 position_id, f32 width) {

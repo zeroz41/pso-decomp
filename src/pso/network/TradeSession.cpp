@@ -251,17 +251,17 @@ void snapshot_trade_inventories(void) {
   ((TLobby *)temp_r31)->set_trade_field_4(TLobby__data_805D688C);
 }
 
-void TWindowSubTradeMain::draw_offer(void *arg0, void *arg1) {
-    TLobby::send_modify_trade_proposal((s8)2, (saddr)arg0, (saddr)arg1);
-    ((TLobby *)TLobby__trade_window_state)->transfer_trade_item_amount((uaddr)arg0, (saddr)arg1);
+void TWindowSubTradeMain::draw_offer(void *arg0, void *amount) {
+    TLobby::send_modify_trade_proposal((s8)2, (saddr)arg0, (saddr)amount);
+    ((TLobby *)TLobby__trade_window_state)->transfer_trade_item_amount((uaddr)arg0, (saddr)amount);
     if (TLobby__trade_main_window != NULL) {
         ((TWindowSubTradeMain *)TLobby__trade_main_window)->draw_item_slot();
     }
 }
 
-void TWindowSubTradeMain::draw_request(void *arg0, void *arg1) {
-    TLobby::send_modify_trade_proposal((s8)1, (saddr)arg0, (saddr)arg1);
-    ((TLobby *)TLobby__trade_window_state)->move_trade_item_amount((uaddr)arg0, (saddr)arg1);
+void TWindowSubTradeMain::draw_request(void *arg0, void *amount) {
+    TLobby::send_modify_trade_proposal((s8)1, (saddr)arg0, (saddr)amount);
+    ((TLobby *)TLobby__trade_window_state)->move_trade_item_amount((uaddr)arg0, (saddr)amount);
     if (TLobby__trade_main_window != NULL) {
         ((TWindowSubTradeMain *)TLobby__trade_main_window)->draw_item_slot();
     }

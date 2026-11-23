@@ -14,7 +14,7 @@ u8 *TObjPlayer__sub_801C1664(u8 *arg0, u8 *arg1);
 void apply_status_effect__10TObjPlayerFPv(void *p);
 void bswap_fields__10TObjPlayerFi(saddr arg0);
 void bswap_pkt_u16x2_u32__10TObjPlayerFPv(void *p);
-void swap_endian__10TObjPlayerFi(saddr arg0);
+void swap_endian__10TObjPlayerFi(saddr packet);
 }
 
 // --- C functions defined in TObjPlayer_801C0808.cpp ---
@@ -29,7 +29,7 @@ u8 *TObjPlayer__sub_801C1664(u8 *arg0, u8 *arg1);
 void apply_status_effect__10TObjPlayerFPv(void *p);
 void bswap_fields__10TObjPlayerFi(saddr arg0);
 void bswap_pkt_u16x2_u32__10TObjPlayerFPv(void *p);
-void swap_endian__10TObjPlayerFi(saddr arg0);
+void swap_endian__10TObjPlayerFi(saddr packet);
 }
 // --- end of C functions
 

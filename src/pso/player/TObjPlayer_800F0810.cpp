@@ -40,7 +40,7 @@ struct AltChunkObject {
 #include "pso/object/ambient/TObjLight_80133568.h"
 
 extern "C" {
-void set_chunk_material_override_pair(s32 arg0, s32 arg1);
+void set_chunk_material_override_pair(s32 first, s32 second);
 extern s32 model_render_flags;
 
 void TObjPlayer::update_lights() { current_scene_light->init_directional_light(); current_scene_light->sub_801337F8(); }

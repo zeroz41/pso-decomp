@@ -21,7 +21,7 @@ s32 motion_trail_node_index;
 const s32 *lbl_805D523C;
 const Vec *TBoss4Type3__motion_trail_points;
 extern Vec lbl_80500F80;
-s32 transform_motion_node_points(SampledMotionPoints *arg0, NJS_OBJECT *node, s32 idx);
+s32 transform_motion_node_points(SampledMotionPoints *sampled_motion_points, NJS_OBJECT *node, s32 idx);
 
 Vec *SampledMotionPoints::lookup(f32 frame) {
     f32 first = start;

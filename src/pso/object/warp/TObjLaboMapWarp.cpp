@@ -176,7 +176,7 @@ const char *TObjLaboMapWarp__name = "TObjLaboMapWarp";
 
 extern "C" {
 
-void update_main_warp_visible_mask(s32 arg0);
+void update_main_warp_visible_mask(s32 select_type);
 
 void TObjCityMainWarp__sub_80186AB8(void);
 

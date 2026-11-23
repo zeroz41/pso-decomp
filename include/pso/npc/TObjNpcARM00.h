@@ -15,13 +15,13 @@ struct TObjNpcARM00 : public TUnk_804A9F50 {
 LAYOUT_ASSERT(TObjNpcARM00_size, sizeof(TObjNpcARM00) == 0x3B8);
 
 extern "C" {
-void *TObjNpcARW00__create(void *arg0);
+void *TObjNpcARW00__create(void *set_data);
 void *__dt__12TObjNpcARM00Fv(void *arg0, s16 arg1);
 }
 
 // --- C functions defined in TObjNpcARM00.cpp ---
 extern "C" {
-void *TObjNpcARW00__create(void *arg0);
+void *TObjNpcARW00__create(void *set_data);
 void *__dt__12TObjNpcARM00Fv(void *arg0, s16 arg1);
 }
 // --- end of C functions

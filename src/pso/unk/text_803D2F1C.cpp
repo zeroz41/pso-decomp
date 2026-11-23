@@ -53,18 +53,18 @@ u8 *find_archive_entry(SjChunk *arc, const char *name, const char *stop, SjChunk
 
 #pragma push
 #pragma scheduling off
-void TLobby__sub_803D3130(const void *arg0, s32 size, void *arg2, void *arg3) {
-    *(ByteBlock_8 *)(arg2) = *(const ByteBlock_8 *)(arg0);
-    *(s32 *)((s8 *)arg3 + 4) = (s32) *(s32 *)((s8 *)arg2 + 4);
-    if ((s32) *(s32 *)((s8 *)arg2 + 4) > size) {
-        *(s32 *)((s8 *)arg2 + 4) = size;
+void TLobby__sub_803D3130(const void *chunk, s32 size, void *prefix, void *remainder) {
+    *(ByteBlock_8 *)(prefix) = *(const ByteBlock_8 *)(chunk);
+    *(s32 *)((s8 *)remainder + 4) = (s32) *(s32 *)((s8 *)prefix + 4);
+    if ((s32) *(s32 *)((s8 *)prefix + 4) > size) {
+        *(s32 *)((s8 *)prefix + 4) = size;
     }
-    *(s32 *)((s8 *)arg3 + 4) = (s32) (*(s32 *)((s8 *)arg3 + 4) - *(s32 *)((s8 *)arg2 + 4));
-    if ((s32) *(s32 *)((s8 *)arg3 + 4) == 0) {
-        *(s32 *)((s8 *)arg3 + 0) = 0;
+    *(s32 *)((s8 *)remainder + 4) = (s32) (*(s32 *)((s8 *)remainder + 4) - *(s32 *)((s8 *)prefix + 4));
+    if ((s32) *(s32 *)((s8 *)remainder + 4) == 0) {
+        *(s32 *)((s8 *)remainder + 0) = 0;
         return;
     }
-    *(s32 *)((s8 *)arg3 + 0) = (s32) (*(s32 *)((s8 *)arg2 + 0) + *(s32 *)((s8 *)arg2 + 4));
+    *(s32 *)((s8 *)remainder + 0) = (s32) (*(s32 *)((s8 *)prefix + 0) + *(s32 *)((s8 *)prefix + 4));
 }
 #pragma pop
 

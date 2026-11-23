@@ -8,7 +8,7 @@ struct TOContainerAncientItemNone : public TOContainerAncientItemRare {
     TOContainerAncientItemNone(void *set_data);
     virtual ~TOContainerAncientItemNone();
     virtual void vfunc_6(s16 *, s32);
-    static void *create(void *arg0);
+    static void *create(void *set_data);
 };
 
 LAYOUT_ASSERT(TOContainerAncientItemNone_size, sizeof(TOContainerAncientItemNone) == 0x368);

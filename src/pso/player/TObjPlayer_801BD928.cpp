@@ -33,7 +33,7 @@ s32 update_body_parts__10TObjPlayerFv(void *, void *);
 
 extern const char *lbl_805D3530;
 
-TObjPlayer::TObjPlayer(TObject *parent, s32 slot, s32 role, u8 *arg4) : TObjChara(parent) {
+TObjPlayer::TObjPlayer(TObject *parent, s32 slot, s32 role, u8 *record) : TObjChara(parent) {
     chair_seat.init();
     contact_surface.init_state();
     TObjPlayer__sub_803374C4((void *) (((u8 *)this) + 0x374));
@@ -72,25 +72,25 @@ TObjPlayer::TObjPlayer(TObject *parent, s32 slot, s32 role, u8 *arg4) : TObjChar
     this->init_action_provider();
     this->entity_id = slot;
     this->setup_control_role(role);
-    update_body_parts__10TObjPlayerFv(this, arg4 + 0x370);
-    sub_801BEE2C((s16)(*(u8 *)((s8 *)arg4 + 1)));
-    sub_801BEE24((s16)(*(u8 *)((s8 *)arg4 + 2)));
-    this->set_field_374(get_byte_e7(arg4));
-    this->set_field_374_state(get_byte_103(arg4));
-    this->set_inventory_state(get_byte_11f(arg4));
-    this->set_equip_flags(get_byte_13b(arg4));
-    this->fn_801BEB68(get_byte_157(arg4));
-    this->init_player_data(arg4 + 0x34C);
+    update_body_parts__10TObjPlayerFv(this, record + 0x370);
+    sub_801BEE2C((s16)(*(u8 *)((s8 *)record + 1)));
+    sub_801BEE24((s16)(*(u8 *)((s8 *)record + 2)));
+    this->set_field_374(get_byte_e7(record));
+    this->set_field_374_state(get_byte_103(record));
+    this->set_inventory_state(get_byte_11f(record));
+    this->set_equip_flags(get_byte_13b(record));
+    this->fn_801BEB68(get_byte_157(record));
+    this->init_player_data(record + 0x34C);
     this->create_lockon_cursor();
     this->sub_801BD318();
     this->init_control_mode(role);
-    TObjPlayer__sub_801BCA14(this, arg4);
-    init_player_substructs__10TObjPlayerFv(this, arg4 + 0x3C0);
-    this->load_character_state((u8 *)arg4);
+    TObjPlayer__sub_801BCA14(this, record);
+    init_player_substructs__10TObjPlayerFv(this, record + 0x3C0);
+    this->load_character_state((u8 *)record);
     this->update_if_active();
     TObjPlayer__sub_801BC8F0(this);
-    this->setup_fresh_player_state((u8 *)arg4);
-    this->sub_801BB8B0((u8 *)arg4);
+    this->setup_fresh_player_state((u8 *)record);
+    this->sub_801BB8B0((u8 *)record);
     TObjPlayer::set_com_card_window((saddr)((this->get_entity_id())));
 }
 

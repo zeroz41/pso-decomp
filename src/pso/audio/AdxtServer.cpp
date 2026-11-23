@@ -43,7 +43,7 @@ extern s32 lbl_805D7540;
 s32 TLobby__sub_803CC030(int, int);
 s32 dispatch_packet__6TLobbyFv(int, int);
 void TLobby__sub_803CB194(void *context);
-void audio_stream_start(u8 *arg0);
+void audio_stream_start(u8 *lobby);
 s32 TLobby__sub_803CBF50(saddr, s32, s32);
 void TLobby__sub_803CA8B4(AdxStreamPlayer *);
 
@@ -57,7 +57,7 @@ s32 dispatch_field4_event__6TLobbyFv(int);
 s32 notify_client__6TLobbyFv(int);
 
 extern "C" {
-s32 audio_stream_get_output_samples(u8 *arg0);
+s32 audio_stream_get_output_samples(u8 *lobby);
 }
 
 }

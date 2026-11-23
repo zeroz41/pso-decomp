@@ -45,7 +45,7 @@ public:
     void close_window();
     void create_backgrounds();
     s32 save_character();
-    void set_state(s32 arg1);
+    void set_state(s32 next_state);
     static TSaveChCr *create(s32 mode);
 };
 

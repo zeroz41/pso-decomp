@@ -7,7 +7,7 @@ extern "C" {
 void TObjPlayer__sub_800D9290(s32 point, s32 delay);
 void TObjPlayer__sub_800D92BC(s32 point, s32 delay);
 void TObjPlayer__sub_800D93C4(s32 point, s32 delay);
-void TObjPlayer__sub_800D93F0(saddr point, s32 selector, s32 delay, f32 farg0);
+void TObjPlayer__sub_800D93F0(saddr point, s32 selector, s32 delay, f32 maxScale);
 void *__dt__17MaterialColorFadeFv(void *arg0, s16 arg1);
 }
 void load_corpse_mark_resource(void);

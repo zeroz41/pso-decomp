@@ -167,7 +167,7 @@ void fn_802449E0(u8 *arg0);
 void window_request_show(void *arg0);
 s32 is_com_card_active();
 extern "C" {
-void TWindowSubComCard__sub_80249144(void *arg0);
+void TWindowSubComCard__sub_80249144(void *window_choice_setting);
 u32 TWindowSubComCard__sub_80272640(void *);
 u32 TWindowSubComCard__sub_80272A98(void *);
 u32 TWindowSubComCard__sub_8027337C();

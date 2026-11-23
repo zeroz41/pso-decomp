@@ -112,7 +112,7 @@ s32 get_item_star_count(s32 id);
 Entry_8011CB18 *get_weapon_range_record(Item_8011CB18 *item, s16 mode);
 void play_weapon_owner_sounds(Ctx_8011C7C8 *c);
 void play_weapon_hit_sound(Ctx_8011C7C8 *c);
-void play_shield_sound_cue(Obj_8011C59C *arg0);
+void play_shield_sound_cue(Obj_8011C59C *cue);
 typedef struct Thing__8011c1e8_8011C000 { u8 a; u8 b; } Thing;
 
 saddr TObjPlayer::get_item_pmt_entry(u8 arg0) {
@@ -295,9 +295,9 @@ s32 get_unit_attribute_index__10TObjPlayerFUc(u8 flags) {
     return 0;
 }
 
-void play_shield_sound_cue(Obj_8011C59C *arg0) {
+void play_shield_sound_cue(Obj_8011C59C *cue) {
     Pmt_8011C59C *pmt = (Pmt_8011C59C *)item_pmt_tbl;
-    u8 idx = arg0->idx;
+    u8 idx = cue->idx;
     if (idx < pmt->sub->count) {
         s32 off;
         u8 *tbl;
@@ -306,7 +306,7 @@ void play_shield_sound_cue(Obj_8011C59C *arg0) {
         tbl = (u8 *)pmt->tbl;
         a = *(s32 *)(tbl + (idx & 0x7f) * 8);
         off = ((idx & 0x7f) * 2 + 1) * 4;
-        pos = arg0->ptr + 0x38;
+        pos = cue->ptr + 0x38;
         if (a != 0) {
             s32 r = play_sound_effect(a, pos, 0, 0);
             if (*(s32 *)(tbl + off) != 0) {

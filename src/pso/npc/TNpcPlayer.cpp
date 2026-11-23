@@ -161,7 +161,7 @@ s32 refresh_npc_view_actor_lost(void *arg0);
 s32 partner_view_update_hp_change(void *arg0);
 s32 partner_view_update_conditions(u8 *arg0);
 s32 partner_view_check_moved(u8 *arg0);
-void partner_observe_surroundings(TNpcPlayer *arg0);
+void partner_observe_surroundings(TNpcPlayer *npc_player);
 int is_partner_counter_reached(s16 *table, s32 idx, s32 value);
 void set_partner_counter(saddr arg0, s32 arg1, s16 arg2);
 s32 clamp_partner_counter(saddr arg0, s32 arg1, s16 arg2);
@@ -169,7 +169,7 @@ void bswap_6x45_packet(void* p);
 void bswap_6x44_packet(void* p);
 void bswap_6x43_packet(void* p);
 u8 get_6x47_cast_packet_size(u8 *arg0);
-void init_6x40_walk_packet(void* a0);
+void init_6x40_walk_packet(void* cmd);
 int get_registered_object_count(void);
 const char *get_partner_custom_text(s32 kind, u16 player);
 extern void *lbl_804AC690[35];
@@ -1333,7 +1333,7 @@ void TNpcPlayer::set_field_0(s16 v) { *(s16*)((char*)this + 0x0) = v; }
 
 void TNpcPlayer::set_field2(s16 v) { *(s16*)((char*)this + 0x2) = v; }
 
-void init_6x40_walk_packet(void* a0) { *(float*)((char*)a0 + 0x8) = 0.0f; *(float*)((char*)a0 + 0x4) = 0.0f; *(int*)((char*)a0 + 0xc) = 0; *(unsigned char*)((char*)a0 + 0x0) = 64; *(unsigned char*)((char*)a0 + 0x1) = 4; }
+void init_6x40_walk_packet(void* cmd) { *(float*)((char*)cmd + 0x8) = 0.0f; *(float*)((char*)cmd + 0x4) = 0.0f; *(int*)((char*)cmd + 0xc) = 0; *(unsigned char*)((char*)cmd + 0x0) = 64; *(unsigned char*)((char*)cmd + 0x1) = 4; }
 
 void TNpcPlayer::swap_endian() { ((G_ClientIDHeader *)this)->bswap(); ((VectorXZF *)((char*)this + 0x4))->bswap(); bswap_32((u32 *)((char*)this + 0xc)); }
 

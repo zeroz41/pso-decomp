@@ -7,10 +7,10 @@ s32 TWindowDD__sub_803435A0(void *);
 s32 TWindowDD__sub_80347C50();
 s32 TWindowDD__sub_803482B0(void *);
 void TWindowDD__sub_80342800(u8 *arg0);
-void TWindowDD__sub_803428C4(u8 *arg0);
+void TWindowDD__sub_803428C4(u8 *window_dd);
 s32 update_numeric_parameter_input__9TWindowDDFPv();
-void TWindowDD__sub_803429B0(u8 *arg0);
-void update__9TWindowDDFi(saddr arg0);
+void TWindowDD__sub_803429B0(u8 *window_dd);
+void update__9TWindowDDFi(saddr window_dd);
 
 void TWindowDD::enter_state_16(void *window_dd) {
     s32 var_r31;

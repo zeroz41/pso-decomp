@@ -11,24 +11,24 @@ s16 *scroll_uv_coordinate_write_cursor;
 extern "C" {
 s32 has_texture_scroll_entry(void *, u16);
 void set_ginja_texture_wrap_repeat(void *);
-void collect_scroll_uv_entries__19TOComputerMachine01FiPvi(s32 arg0, Hdr_803278B0 *arg1, s32 arg2);
-void collect_scroll_uv_entries__19TOComputerMachine01FiPvi(s32 arg0, Hdr_803278B0 *arg1, s32 id) {
+void collect_scroll_uv_entries__19TOComputerMachine01FiPvi(s32 arg0, Hdr_803278B0 *model, s32 id);
+void collect_scroll_uv_entries__19TOComputerMachine01FiPvi(s32 arg0, Hdr_803278B0 *model, s32 id) {
     s32 hit;
     Ent_803278B0 *e;
     s16 *q;
     s32 i;
     u16 n;
     hit = 0;
-    if (arg1->a != 0 && has_texture_scroll_entry(arg1->a, (u16) id) == 1) {
-        set_ginja_texture_wrap_repeat(arg1->a);
+    if (model->a != 0 && has_texture_scroll_entry(model->a, (u16) id) == 1) {
+        set_ginja_texture_wrap_repeat(model->a);
         hit = 1;
     }
-    if (arg1->b != 0 && has_texture_scroll_entry(arg1->b, (u16) id) == 1) {
-        set_ginja_texture_wrap_repeat(arg1->b);
+    if (model->b != 0 && has_texture_scroll_entry(model->b, (u16) id) == 1) {
+        set_ginja_texture_wrap_repeat(model->b);
         hit = 1;
     }
     if (hit != 0) {
-        for (e = arg1->ents; e != 0 && e->type != 0xFF; e++) {
+        for (e = model->ents; e != 0 && e->type != 0xFF; e++) {
             if (e->type == 5 || e->type == 6) {
                 scroll_uv_entry_write_cursor->ent = e;
                 scroll_uv_entry_write_cursor->pts = scroll_uv_coordinate_write_cursor;

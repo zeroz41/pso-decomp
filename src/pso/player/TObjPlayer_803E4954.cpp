@@ -16,10 +16,10 @@ struct Node_803E49FC {
 };
 
 void draw_motion_tree(NJS_OBJECT *model, NJS_MOTION *motion, f32 frame, ModelDrawCallback draw_model);
-void draw_chunk_model_with_shape_motion(void *arg0, void *arg1, NJS_MOTION *arg2, f32 farg0);
+void draw_chunk_model_with_shape_motion(void *child, void *motion, NJS_MOTION *shape, f32 frame);
 void compose_motion_node_matrix(void *arg0);
-void select_motion_context(s32 arg0);
-void draw_model_blend_motion(void *arg0, void *arg1, f32 farg0);
+void select_motion_context(s32 index);
+void draw_model_blend_motion(void *model, void *motion, f32 blend_factor);
 void draw_object_tree_recursive(void *arg);
 void traverse_animated_node_tree(void *arg);
 extern s32 chunk_render_flags;

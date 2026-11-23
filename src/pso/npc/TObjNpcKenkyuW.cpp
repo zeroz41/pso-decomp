@@ -75,7 +75,7 @@ struct Obj_802A3FDC {
 extern "C" {
 
 
-s32 obj_is_hit_receivable(u8 *arg0);
+s32 obj_is_hit_receivable(u8 *target);
 TechniqueContactList *TObjPlayer__sub_802A3DE8(Obj_802A3DE8 *self, void *src);
 TechniqueContactList *TObjPlayer__sub_802A3FDC(Obj_802A3FDC *self, void *src);
 

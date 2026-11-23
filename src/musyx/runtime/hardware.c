@@ -66,14 +66,14 @@ void snd_handle_irq(void) {
     hwIRQLeaveCritical();
 }
 
-s32 hwInit(uaddr arg0, s32 arg1, s32 arg2, u32 arg3) {
+s32 hwInit(uaddr frq, s32 numVoices, s32 numStudios, u32 flags) {
     hwInitIrq();
     salFrame = 0;
     salAuxFrame = 0;
     salMessageCallback = 0;
-    if (salInitAi(snd_handle_irq, arg3, (u32 *)arg0) != 0 &&
-        salInitDspCtrl(arg1, arg2, (arg3 & 1) != 0) != 0 &&
-        salInitDsp(arg3) != 0) {
+    if (salInitAi(snd_handle_irq, flags, (u32 *)frq) != 0 &&
+        salInitDspCtrl(numVoices, numStudios, (flags & 1) != 0) != 0 &&
+        salInitDsp(flags) != 0) {
         hwEnableIrq();
         salStartAi();
         return 0;
@@ -100,7 +100,7 @@ void hwSetPriority(s32 i, s32 v) {
     (*(Slot_803BCD08 * *)&dspVoice)[i].f1c = v;
 }
 
-void hwInitSamplePlayback(s32 n, s16 arg1, Blk_803BCD1C *arg2, u32 arg3, s32 arg4, s32 arg5, u32 arg6, u8 arg7) {
+void hwInitSamplePlayback(s32 n, s16 smpID, Blk_803BCD1C *newsmp, u32 set_defadsr, s32 prio, s32 callbackUserValue, u32 setSRC, u8 itdMode) {
     u8 i;
     s32 flags = 0;
     for (i = 0; i <= (u8)salTimeOffset; i++) {
@@ -108,12 +108,12 @@ void hwInitSamplePlayback(s32 n, s16 arg1, Blk_803BCD1C *arg2, u32 arg3, s32 arg
         SLOTS_803BCD1C[n].f24[i] = 0;
     }
     SLOTS_803BCD1C[n].f24[0] = flags;
-    SLOTS_803BCD1C[n].f1c = arg4;
-    SLOTS_803BCD1C[n].f18 = arg5;
+    SLOTS_803BCD1C[n].f1c = prio;
+    SLOTS_803BCD1C[n].f18 = callbackUserValue;
     SLOTS_803BCD1C[n].ff0 = 0;
-    SLOTS_803BCD1C[n].f70 = arg1;
-    SLOTS_803BCD1C[n].f74 = *arg2;
-    if (arg3 != 0) {
+    SLOTS_803BCD1C[n].f70 = smpID;
+    SLOTS_803BCD1C[n].f74 = *newsmp;
+    if (set_defadsr != 0) {
         SLOTS_803BCD1C[n].fa4 = 0;
         SLOTS_803BCD1C[n].fb8 = 0;
         SLOTS_803BCD1C[n].fbc = 0;
@@ -124,11 +124,11 @@ void hwInitSamplePlayback(s32 n, s16 arg1, Blk_803BCD1C *arg2, u32 arg3, s32 arg
     SLOTS_803BCD1C[n].fe5 = 0xFF;
     SLOTS_803BCD1C[n].fe6 = 0xFF;
     SLOTS_803BCD1C[n].fe7 = 0xFF;
-    if (arg6 != 0) {
+    if (setSRC != 0) {
         hwSetSRCType(n, 0);
         hwSetPolyPhaseFilter(n, 1);
     }
-    hwSetITDMode(n, arg7);
+    hwSetITDMode(n, itdMode);
 }
 
 void hwBreak(s32 i) {
@@ -369,8 +369,8 @@ uaddr hwGetStreamPlayBuffer(u8 i) {
 void hwTransAddr(void) {
 }
 
-u32 hwFrq2Pitch(u32 arg0) {
-    return (u32)(4096.0f * (f32)arg0 / (f32)synthInfo[0]);
+u32 hwFrq2Pitch(u32 frq) {
+    return (u32)(4096.0f * (f32)frq / (f32)synthInfo[0]);
 }
 
 void hwInitSampleMem(void *self, void *p) {

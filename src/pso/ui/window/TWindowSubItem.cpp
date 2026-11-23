@@ -56,7 +56,7 @@ saddr get_window_layout_position(s32);
 s32 TObjPlayer__sub_801B7B58(int, int, int);
 }
 
-saddr create_titled_window_menu(saddr arg0, s32 arg1, saddr arg2, s32 arg3);
+saddr create_titled_window_menu(saddr position, s32 count, saddr title, s32 client_id);
 void add_item_purpose_actions(TWindowSubItem *arg0, saddr arg1, saddr arg2);
 
 extern "C" {

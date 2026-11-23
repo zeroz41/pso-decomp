@@ -142,8 +142,8 @@ void TObjPlayer::load_char_data(u8 *arg1) {
 int TObjPlayer::can_cast_technique() { return TObjPlayer::check_technique_castable((saddr)this); }
 void TObjPlayer__sub_801BCC50(void) {  }
 
-u8 *get_class_attack_template(TObjPlayer *arg0);
-u8 *get_class_defense_template(TObjPlayer *arg0);
+u8 *get_class_attack_template(TObjPlayer *player);
+u8 *get_class_defense_template(TObjPlayer *player);
 
 extern const f32 TObjPlayer__data_805DC28C;
 

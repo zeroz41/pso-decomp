@@ -39,7 +39,7 @@ extern "C" {
 
 saddr get_window_layout_position(s32);
 s32 delete_item(TObjPlayer *, s32, s32);
-s32 store_item_in_bank(u8 *item, s32 arg1, s32 slot);
+s32 store_item_in_bank(u8 *item, s32 amount, s32 slot);
 void copy_bank_to_card_window(s32 slot);
 s32 play_sound_effect(s32, s32, s32, s32);
 TWindowMenuIconLine *create_item_list_window(s32, s32, s32);

@@ -108,7 +108,7 @@ s32 send_action__9TProtocolFR13GameListEntryUcPcPc(void *, void *, int, char *, 
 s32 get_unlocked_tier__16TQuestListOnlineFv(void *);
 }
 
-s32 get_guild_text(s32 arg0);
+s32 get_guild_text(s32 index);
 
 
 struct Obj_802181B0 { u8 pad[0x20]; u32 state; };

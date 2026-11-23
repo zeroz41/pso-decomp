@@ -4,12 +4,12 @@
 #include "types.h"
 
 extern "C" {
-void TWindowHelpItem__vt10(u8 *arg0);
+void TWindowHelpItem__vt10(u8 *window_base);
 }
 
 // --- C functions defined in text_80253974.cpp ---
 extern "C" {
-void TWindowHelpItem__vt10(u8 *arg0);
+void TWindowHelpItem__vt10(u8 *window_base);
 }
 // --- end of C functions
 

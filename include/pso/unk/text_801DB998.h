@@ -3,6 +3,6 @@
 
 #include "types.h"
 
-void send_register_9c(u8 *arg0);
+void send_register_9c(u8 *protocol);
 
 #endif

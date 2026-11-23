@@ -3,6 +3,6 @@
 
 #include "types.h"
 
-void *create_remote_player_object(void *arg0);
+void *create_remote_player_object(void *record);
 
 #endif

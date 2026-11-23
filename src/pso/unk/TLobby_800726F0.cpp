@@ -59,9 +59,9 @@ s32 challenge_retry_cmd_table[3] = { 1, 0, 0 };
 __declspec(section ".data") f32 challenge_retry_window_pos[2] = { 360.0f, 125.0f };
 
 const char *TObjChallengeRetry__class_name = "TObjChallengeRetry";
-void TLobby__sub_80072724(TLobby *arg0);
+void TLobby__sub_80072724(TLobby *lobby);
 void TLobby__sub_80072758(u8 *arg0);
-void TLobby__sub_800727A0(void *arg0);
+void TLobby__sub_800727A0(void *player);
 void TLobby__sub_800727EC(u8 *arg0);
 
 void TLobby::bswap_challenge_dead_flag() {

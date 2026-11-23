@@ -139,9 +139,9 @@ s32 submit_cursor_candidate(void *, s32);
 }
 extern u8 identity_matrix[];
 void init_telepipe_packet_header(void* p);
-void create_quest_telepipe_for_client(u16 arg0);
+void create_quest_telepipe_for_client(u16 client);
 void write_telepipe_record(u8 *arg0, u16 arg1, s16 arg2, u8 *arg3, s32 arg4);
-void start_placement_search(saddr arg0, saddr arg1, saddr arg2);
+void start_placement_search(saddr arg0, saddr pos, saddr source);
 s32 are_players_gathered_near(void *arg0, s32 *arg1, f32 range);
 void offset_point_toward_camera(u8 *arg0, u8 *arg1, f32 farg0);
 int fn_80235078(void *arg0) {

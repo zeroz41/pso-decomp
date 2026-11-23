@@ -8,7 +8,7 @@ struct TOAirconCave01 : public TObjMapObject {
     TOAirconCave01(TObject *parent, void *set_data);
     virtual ~TOAirconCave01();
     virtual void render();
-    static void *create(void *arg0);
+    static void *create(void *set_data);
     static void release_static_resource();
     static void load_shared_resource();
 };

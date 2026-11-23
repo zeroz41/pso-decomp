@@ -4,7 +4,7 @@
 extern "C" {
 
 s32 clear();
-s32 fn_8007B2E0(u8 *arg0, s32 id);
+s32 fn_8007B2E0(u8 *ply_guild_card_tag, s32 id);
 
 void TWindowSubComCard::handle_press_a(saddr ply_guild_card_tag, s32 id) {
     clear();

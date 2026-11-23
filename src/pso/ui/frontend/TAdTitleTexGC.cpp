@@ -38,7 +38,7 @@ void release_texture_list(void*);
 
 extern const s32 current_language;
 
-s32 load_streamed_prs_texture(s32 arg0, s32 arg1);
+s32 load_streamed_prs_texture(s32 name, s32 texlist);
 
 void TLobby__sub_802A5154(void) {
     if (lbl_805D6668 != 0U) {
@@ -125,15 +125,15 @@ void TAdTitleTexGC::render() {
 
 }
 
-void TAdTitleTexGC::render_status_pair(s32 arg1) {
+void TAdTitleTexGC::render_status_pair(s32 color) {
     begin_screen_draw(1);
     TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(lbl_805D6668));
-    set_draw_texture_and_color(0, arg1);
+    set_draw_texture_and_color(0, color);
     draw_textured_quad_at_depth(&rects[0].x0, 0.1f);
     TWindowSubStatusDisp::get_player();
     begin_screen_draw(1);
     TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(lbl_805D6668));
-    set_draw_texture_and_color(0, arg1);
+    set_draw_texture_and_color(0, color);
     draw_textured_quad_at_depth(&rects[1].x0, 0.1f);
     TWindowSubStatusDisp::get_player();
 }

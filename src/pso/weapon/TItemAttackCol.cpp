@@ -169,7 +169,7 @@ static ParticleAngles particle_direction = {0x4000, 0, 0x4000};
 
 void TObjPlayer__sub_801542F4(saddr a);
 
-void TObjPlayer__sub_8015431C(u8 *arg0);
+void TObjPlayer__sub_8015431C(u8 *set);
 
 }
 f32 vec_distance_squared(u8 *arg0, u8 *arg1);

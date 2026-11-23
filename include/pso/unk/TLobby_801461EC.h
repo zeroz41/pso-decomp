@@ -19,7 +19,7 @@ char *TLobby__sub_80146D44(void);
 char *TLobby__sub_80146D50(s32 idx);
 void TLobby__sub_8014715C(void *p, void *q);
 s32 TLobby__sub_80147284(void);
-s32 TLobby__sub_801478C4(s32 arg0);
+s32 TLobby__sub_801478C4(s32 id);
 void TLobby__sub_80147978(void);
 }
 s32 connect_modem(s32 idx, s16 id);

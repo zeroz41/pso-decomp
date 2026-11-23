@@ -104,7 +104,7 @@ public:
     s32 is_char_allowed(s16 len);
     static s32 read_ask_header();
     static void init_page_cache();
-    static s32 seek_or_reopen(int arg0);
+    static s32 seek_or_reopen(int pos);
     static s32 find_file_info_index();
     s32 aram_read_thunk(uaddr arg1, int size);
     static void unescape_copy_string(u8 *text, u8 *arg1, u8 *end);
@@ -113,9 +113,9 @@ public:
     static s32 calc_sjis_string_width(u8 *text);
     s32 calc_text_length();
     s32 calc_message_length();
-    static u8 *get_buffer_ptr(s32 arg0);
-    static s32 is_download_cmd_allowed(u8 arg0);
-    static void latch_slot_value(s32 arg0);
+    static u8 *get_buffer_ptr(s32 id);
+    static s32 is_download_cmd_allowed(u8 cmd);
+    static void latch_slot_value(s32 index);
     static s32 count_leading_entries(s32 i, s32 end);
     static void init_entries();
     static QuestDownloadTextNode *build_text_node_chain(void *record, const QuestDownloadItemNode *source, s32 length,

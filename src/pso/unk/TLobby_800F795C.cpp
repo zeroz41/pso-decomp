@@ -155,8 +155,8 @@ f32 TLobby__sub_800F7A7C(void) {
     return *(f32 *)((s8 *)&challenge_mode_state.value + 4);
 }
 
-void unload_floor_resources(s32 arg0) {
-    FloorResourceCallbacks *p = floor_resource_callback_tables[arg0];
+void unload_floor_resources(s32 selector) {
+    FloorResourceCallbacks *p = floor_resource_callback_tables[selector];
     s32 n;
     s32 i;
     if (p != 0) {
@@ -169,8 +169,8 @@ void unload_floor_resources(s32 arg0) {
         }
     }
 }
-s32 load_floor_resources(s32 arg0) {
-    FloorResourceCallbacks *p = floor_resource_callback_tables[arg0];
+s32 load_floor_resources(s32 selector) {
+    FloorResourceCallbacks *p = floor_resource_callback_tables[selector];
     void (*fn)();
     if (p == 0) {
         return 1;

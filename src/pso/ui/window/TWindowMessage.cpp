@@ -197,7 +197,7 @@ void TWindowMessage::update_scroll() {
 #pragma push
 #pragma fp_contract on
 s32 get_shared_text_buffer(void);
-s32 append_message_window_line(TWindowMessage *self, s32 text, s32 flags, s32 arg3);
+s32 append_message_window_line(TWindowMessage *self, s32 text, s32 flags, s32 color);
 
 #pragma readonly_strings on
 s32 TWindowOptionCtrl::add_label_value_line(const char *arg1, const char *arg2, u32 arg3) {
@@ -240,7 +240,7 @@ struct Entry_80269A0C {
 extern "C" {
 void measure_message_text_width(void *, f32);
 
-s32 append_message_window_line(TWindowMessage *self, s32 text, s32 flags, s32 arg3) {
+s32 append_message_window_line(TWindowMessage *self, s32 text, s32 flags, s32 color) {
     Entry_80269A0C *e;
     TWindowMessageLine *rec;
     f32 y;
@@ -270,7 +270,7 @@ s32 append_message_window_line(TWindowMessage *self, s32 text, s32 flags, s32 ar
         }
     }
     e->fC = self->unk_80;
-    e->f24 = arg3;
+    e->f24 = color;
     if (flags & 2) {
         set_text_entry_string((u8 *)e, text, 0x20);
     } else {

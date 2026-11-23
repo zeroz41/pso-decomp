@@ -135,7 +135,7 @@ s32 canSetMenuCursorAction(PaletteCursorOverride* cursor, TObjPlayer* player, u8
 void copy_action_entry(void *arg0, void *arg1);
 s16 TMainCursor__sub_8013E298(void *p);
 s32 TMainCursor__sub_8013E2A0(void *);
-TObjPlayer *resolve_player_by_client_id(u16 *arg0);
+TObjPlayer *resolve_player_by_client_id(u16 *client_id);
 
 extern const char *TLOC_Start__name;
 }

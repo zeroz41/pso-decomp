@@ -326,10 +326,10 @@ void TODoorJungleMain::free_static_resources() {
     }
 }
 
-void *TODoorJungleMain::create(void *arg0) {
+void *TODoorJungleMain::create(void *set_data) {
     void *o = TObject::operator new(0xE0);
     if (o != NULL) {
-        o = ((void * (*)(void *, void *, void *))TODoorJungleMain__ct)(o, tl_05, arg0);
+        o = ((void * (*)(void *, void *, void *))TODoorJungleMain__ct)(o, tl_05, set_data);
     }
     return o;
 }

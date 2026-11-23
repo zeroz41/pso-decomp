@@ -58,7 +58,7 @@ s32 fn_801B7CEC(void *player, s32 kind, u8 group, u8 index);
 u16 select_action_palette_and_apply__10TObjPlayerFlll(TObjPlayer *, int, int, int);
 u16 get_entry_by_index__20TWindowActionPaletteFPll(int, int);
 s32 is_action_channel_available__10TObjPlayerFii(saddr arg0, s32 arg1);
-s32 is_palettex_activated(u16 arg0);
+s32 is_palettex_activated(u16 client_index);
 s32 TObjPlayer__sub_80354C7C(u16);
 extern u32 __vt__20TWindowActionPalette[6];
 f32 TWindowSubComCard__sub_80244784(TWindowSubComCard *);

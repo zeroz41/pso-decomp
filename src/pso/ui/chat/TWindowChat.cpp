@@ -33,7 +33,7 @@ const char *window_chat_type_name_pointer = "TWindowChat";
 #pragma pop
 extern "C" {
 saddr TAdSinglePlyChrSelectGC__sub_80076D9C(saddr arg0, saddr arg1);
-int get_chat_shortcut(s32 arg0);
+int get_chat_shortcut(s32 index);
 extern s32 local_client_id;
 saddr fn_8002AE08(s32);
 void send_chat_shortcut(s32);

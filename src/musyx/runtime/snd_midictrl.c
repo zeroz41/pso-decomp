@@ -327,11 +327,11 @@ void inpSetMidiLastNote(u8 arg0, u8 arg1, u8 arg2) {
     *(s8 *)((s8 *)((u8 *)(fx_lastNote) + arg0) + 0) = arg2;
 }
 
-u8 inpGetMidiLastNote(u8 arg0, u8 arg1) {
-    if (arg1 != 0xFF) {
-        return *(u8 *)((s8 *)((u8 *)(((u8 *)(midi_lastNote) + (arg1 * 0x10))) + arg0) + 0);
+u8 inpGetMidiLastNote(u8 midi, u8 midiSet) {
+    if (midiSet != 0xFF) {
+        return *(u8 *)((s8 *)((u8 *)(((u8 *)(midi_lastNote) + (midiSet * 0x10))) + midi) + 0);
     }
-    return *(u8 *)((s8 *)((u8 *)(fx_lastNote) + arg0) + 0);
+    return *(u8 *)((s8 *)((u8 *)(fx_lastNote) + midi) + 0);
 }
 
 #define CLAMP(value, min, max) ((value) > (max) ? (max) : (value) < (min) ? (min) : (value))
@@ -473,52 +473,52 @@ u16 _GetInputValue(Voice_803BBB30 *svoice, Inp_803BBB30 *inp, u8 midi, u8 midiSe
     return value;
 }
 
-u16 inpGetVolume(Lob_803BBFB8 *arg0) {
-    if (!(arg0->flags & 1)) {
-        return arg0->v;
+u16 inpGetVolume(Lob_803BBFB8 *svoice) {
+    if (!(svoice->flags & 1)) {
+        return svoice->v;
     }
-    arg0->flags = arg0->flags & ~1;
-    return _GetInputValue((Voice_803BBB30 *)(arg0), (Inp_803BBB30 *)((u8 *)arg0 + 0x218), (u8)(arg0->b121), (u8)(arg0->b122));
+    svoice->flags = svoice->flags & ~1;
+    return _GetInputValue((Voice_803BBB30 *)(svoice), (Inp_803BBB30 *)((u8 *)svoice + 0x218), (u8)(svoice->b121), (u8)(svoice->b122));
 }
 
-u16 inpGetPanning(Lob_803BC000 *arg0) {
-    if (!(arg0->flags & 2)) {
-        return arg0->v;
+u16 inpGetPanning(Lob_803BC000 *svoice) {
+    if (!(svoice->flags & 2)) {
+        return svoice->v;
     }
-    arg0->flags = arg0->flags & ~2;
-    return _GetInputValue((Voice_803BBB30 *)(arg0), (Inp_803BBB30 *)((u8 *)arg0 + 0x23C), (u8)(arg0->b121), (u8)(arg0->b122));
+    svoice->flags = svoice->flags & ~2;
+    return _GetInputValue((Voice_803BBB30 *)(svoice), (Inp_803BBB30 *)((u8 *)svoice + 0x23C), (u8)(svoice->b121), (u8)(svoice->b122));
 }
 
-u16 inpGetSurPanning(Lob_803BC048 *arg0) {
-    if (!(arg0->flags & 4)) {
-        return arg0->v;
+u16 inpGetSurPanning(Lob_803BC048 *svoice) {
+    if (!(svoice->flags & 4)) {
+        return svoice->v;
     }
-    arg0->flags = arg0->flags & ~4;
-    return _GetInputValue((Voice_803BBB30 *)(arg0), (Inp_803BBB30 *)((u8 *)arg0 + 0x260), (u8)(arg0->b121), (u8)(arg0->b122));
+    svoice->flags = svoice->flags & ~4;
+    return _GetInputValue((Voice_803BBB30 *)(svoice), (Inp_803BBB30 *)((u8 *)svoice + 0x260), (u8)(svoice->b121), (u8)(svoice->b122));
 }
 
-u16 inpGetPitchBend(Lob_803BC090 *arg0) {
-    if (!(arg0->flags & 8)) {
-        return arg0->v;
+u16 inpGetPitchBend(Lob_803BC090 *svoice) {
+    if (!(svoice->flags & 8)) {
+        return svoice->v;
     }
-    arg0->flags = arg0->flags & ~8;
-    return _GetInputValue((Voice_803BBB30 *)(arg0), (Inp_803BBB30 *)((u8 *)arg0 + 0x284), (u8)(arg0->b121), (u8)(arg0->b122));
+    svoice->flags = svoice->flags & ~8;
+    return _GetInputValue((Voice_803BBB30 *)(svoice), (Inp_803BBB30 *)((u8 *)svoice + 0x284), (u8)(svoice->b121), (u8)(svoice->b122));
 }
 
-u16 inpGetDoppler(Lob_803BC0D8 *arg0) {
-    if (!(arg0->flags & 0x10)) {
-        return arg0->v;
+u16 inpGetDoppler(Lob_803BC0D8 *svoice) {
+    if (!(svoice->flags & 0x10)) {
+        return svoice->v;
     }
-    arg0->flags = arg0->flags & ~0x10;
-    return _GetInputValue((Voice_803BBB30 *)(arg0), (Inp_803BBB30 *)((u8 *)arg0 + 0x2A8), (u8)(arg0->b121), (u8)(arg0->b122));
+    svoice->flags = svoice->flags & ~0x10;
+    return _GetInputValue((Voice_803BBB30 *)(svoice), (Inp_803BBB30 *)((u8 *)svoice + 0x2A8), (u8)(svoice->b121), (u8)(svoice->b122));
 }
 
-u16 inpGetModulation(Lob_803BC120 *arg0) {
-    if (!(arg0->flags & 0x20)) {
-        return arg0->v;
+u16 inpGetModulation(Lob_803BC120 *svoice) {
+    if (!(svoice->flags & 0x20)) {
+        return svoice->v;
     }
-    arg0->flags = arg0->flags & ~0x20;
-    return _GetInputValue((Voice_803BBB30 *)(arg0), (Inp_803BBB30 *)((u8 *)arg0 + 0x2CC), (u8)(arg0->b121), (u8)(arg0->b122));
+    svoice->flags = svoice->flags & ~0x20;
+    return _GetInputValue((Voice_803BBB30 *)(svoice), (Inp_803BBB30 *)((u8 *)svoice + 0x2CC), (u8)(svoice->b121), (u8)(svoice->b122));
 }
 
 u16 inpGetPedal(Lob_803BC168 *arg0) {
@@ -529,44 +529,44 @@ u16 inpGetPedal(Lob_803BC168 *arg0) {
     return _GetInputValue((Voice_803BBB30 *)(arg0), (Inp_803BBB30 *)((u8 *)arg0 + 0x2F0), (u8)(arg0->b121), (u8)(arg0->b122));
 }
 
-u16 inpGetPreAuxA(Lob_803BC1B0 *arg0) {
-    if (!(arg0->flags & 0x100)) {
-        return arg0->v;
+u16 inpGetPreAuxA(Lob_803BC1B0 *svoice) {
+    if (!(svoice->flags & 0x100)) {
+        return svoice->v;
     }
-    arg0->flags = arg0->flags & ~0x100;
-    return _GetInputValue((Voice_803BBB30 *)(arg0), (Inp_803BBB30 *)((u8 *)arg0 + 0x338), (u8)(arg0->b121), (u8)(arg0->b122));
+    svoice->flags = svoice->flags & ~0x100;
+    return _GetInputValue((Voice_803BBB30 *)(svoice), (Inp_803BBB30 *)((u8 *)svoice + 0x338), (u8)(svoice->b121), (u8)(svoice->b122));
 }
 
-u16 inpGetReverb(Lob_803BC1F8 *arg0) {
-    if (!(arg0->flags & 0x200)) {
-        return arg0->v;
+u16 inpGetReverb(Lob_803BC1F8 *svoice) {
+    if (!(svoice->flags & 0x200)) {
+        return svoice->v;
     }
-    arg0->flags = arg0->flags & ~0x200;
-    return _GetInputValue((Voice_803BBB30 *)(arg0), (Inp_803BBB30 *)((u8 *)arg0 + 0x35C), (u8)(arg0->b121), (u8)(arg0->b122));
+    svoice->flags = svoice->flags & ~0x200;
+    return _GetInputValue((Voice_803BBB30 *)(svoice), (Inp_803BBB30 *)((u8 *)svoice + 0x35C), (u8)(svoice->b121), (u8)(svoice->b122));
 }
 
-u16 inpGetPreAuxB(Lob_803BC240 *arg0) {
-    if (!(arg0->flags & 0x400)) {
-        return arg0->v;
+u16 inpGetPreAuxB(Lob_803BC240 *svoice) {
+    if (!(svoice->flags & 0x400)) {
+        return svoice->v;
     }
-    arg0->flags = arg0->flags & ~0x400;
-    return _GetInputValue((Voice_803BBB30 *)(arg0), (Inp_803BBB30 *)((u8 *)arg0 + 0x380), (u8)(arg0->b121), (u8)(arg0->b122));
+    svoice->flags = svoice->flags & ~0x400;
+    return _GetInputValue((Voice_803BBB30 *)(svoice), (Inp_803BBB30 *)((u8 *)svoice + 0x380), (u8)(svoice->b121), (u8)(svoice->b122));
 }
 
-u16 inpGetPostAuxB(Lob_803BC288 *arg0) {
-    if (!(arg0->flags & 0x800)) {
-        return arg0->v;
+u16 inpGetPostAuxB(Lob_803BC288 *svoice) {
+    if (!(svoice->flags & 0x800)) {
+        return svoice->v;
     }
-    arg0->flags = arg0->flags & ~0x800;
-    return _GetInputValue((Voice_803BBB30 *)(arg0), (Inp_803BBB30 *)((u8 *)arg0 + 0x3A4), (u8)(arg0->b121), (u8)(arg0->b122));
+    svoice->flags = svoice->flags & ~0x800;
+    return _GetInputValue((Voice_803BBB30 *)(svoice), (Inp_803BBB30 *)((u8 *)svoice + 0x3A4), (u8)(svoice->b121), (u8)(svoice->b122));
 }
 
-u16 inpGetTremolo(Lob_803BC2D0 *arg0) {
-    if (!(arg0->flags & 0x1000)) {
-        return arg0->v;
+u16 inpGetTremolo(Lob_803BC2D0 *svoice) {
+    if (!(svoice->flags & 0x1000)) {
+        return svoice->v;
     }
-    arg0->flags = arg0->flags & ~0x1000;
-    return _GetInputValue((Voice_803BBB30 *)(arg0), (Inp_803BBB30 *)((u8 *)arg0 + 0x3C8), (u8)(arg0->b121), (u8)(arg0->b122));
+    svoice->flags = svoice->flags & ~0x1000;
+    return _GetInputValue((Voice_803BBB30 *)(svoice), (Inp_803BBB30 *)((u8 *)svoice + 0x3C8), (u8)(svoice->b121), (u8)(svoice->b122));
 }
 
 #pragma push
@@ -614,61 +614,61 @@ static inline void reset_dirty_803BC490(void) {
     }
 }
 
-void inpInit(u8 *arg0) {
+void inpInit(u8 *svoice) {
     u32 i;
     u32 s;
 
-    if (arg0 != NULL) {
-        *(u8 *)((s8 *)arg0 + 0x218) = 7;
-        *(u8 *)((s8 *)arg0 + 0x219) = 0;
-        *(s32 *)((s8 *)arg0 + 0x21C) = 0x10000;
-        *(u8 *)((s8 *)arg0 + 0x220) = 0xB;
-        *(u8 *)((s8 *)arg0 + 0x221) = 2;
-        *(s32 *)((s8 *)arg0 + 0x224) = 0x10000;
-        *(u8 *)((s8 *)arg0 + 0x23A) = 2;
-        *(u8 *)((s8 *)arg0 + 0x23C) = 0xA;
-        *(u8 *)((s8 *)arg0 + 0x23D) = 0;
-        *(s32 *)((s8 *)arg0 + 0x240) = 0x10000;
-        *(u8 *)((s8 *)arg0 + 0x25E) = 1;
-        *(u8 *)((s8 *)arg0 + 0x260) = 0x83;
-        *(u8 *)((s8 *)arg0 + 0x261) = 0;
-        *(s32 *)((s8 *)arg0 + 0x264) = 0x10000;
-        *(u8 *)((s8 *)arg0 + 0x282) = 1;
-        *(u8 *)((s8 *)arg0 + 0x284) = 0x80;
-        *(u8 *)((s8 *)arg0 + 0x285) = 0;
-        *(s32 *)((s8 *)arg0 + 0x288) = 0x10000;
-        *(u8 *)((s8 *)arg0 + 0x2A6) = 1;
-        *(u8 *)((s8 *)arg0 + 0x2CC) = 1;
-        *(u8 *)((s8 *)arg0 + 0x2CD) = 0;
-        *(s32 *)((s8 *)arg0 + 0x2D0) = 0x10000;
-        *(u8 *)((s8 *)arg0 + 0x2EE) = 1;
-        *(u8 *)((s8 *)arg0 + 0x2F0) = 0x40;
-        *(u8 *)((s8 *)arg0 + 0x2F1) = 0;
-        *(s32 *)((s8 *)arg0 + 0x2F4) = 0x10000;
-        *(u8 *)((s8 *)arg0 + 0x312) = 1;
-        *(u8 *)((s8 *)arg0 + 0x314) = 0x41;
-        *(u8 *)((s8 *)arg0 + 0x315) = 0;
-        *(s32 *)((s8 *)arg0 + 0x318) = 0x10000;
-        *(u8 *)((s8 *)arg0 + 0x336) = 1;
-        *(u8 *)((s8 *)arg0 + 0x35A) = 0;
-        *(u8 *)((s8 *)arg0 + 0x35C) = 0x5B;
-        *(u8 *)((s8 *)arg0 + 0x35D) = 0;
-        *(s32 *)((s8 *)arg0 + 0x360) = 0x10000;
-        *(u8 *)((s8 *)arg0 + 0x37E) = 1;
-        *(u8 *)((s8 *)arg0 + 0x3A2) = 0;
-        *(u8 *)((s8 *)arg0 + 0x3A4) = 0x5D;
-        *(u8 *)((s8 *)arg0 + 0x3A5) = 0;
-        *(s32 *)((s8 *)arg0 + 0x3A8) = 0x10000;
-        *(u8 *)((s8 *)arg0 + 0x3C6) = 1;
-        *(u8 *)((s8 *)arg0 + 0x2A8) = 0x84;
-        *(u8 *)((s8 *)arg0 + 0x2A9) = 0;
-        *(s32 *)((s8 *)arg0 + 0x2AC) = 0x10000;
-        *(u8 *)((s8 *)arg0 + 0x2CA) = 1;
-        *(u8 *)((s8 *)arg0 + 0x3EA) = 0;
-        *(s32 *)((s8 *)arg0 + 0x214) = 0x1FFF;
-        *(u8 *)((s8 *)arg0 + 0x1D4) = 0;
-        *(u8 *)((s8 *)arg0 + 0x1D5) = 0;
-        *(u8 *)((s8 *)arg0 + 0xA8) = 0;
+    if (svoice != NULL) {
+        *(u8 *)((s8 *)svoice + 0x218) = 7;
+        *(u8 *)((s8 *)svoice + 0x219) = 0;
+        *(s32 *)((s8 *)svoice + 0x21C) = 0x10000;
+        *(u8 *)((s8 *)svoice + 0x220) = 0xB;
+        *(u8 *)((s8 *)svoice + 0x221) = 2;
+        *(s32 *)((s8 *)svoice + 0x224) = 0x10000;
+        *(u8 *)((s8 *)svoice + 0x23A) = 2;
+        *(u8 *)((s8 *)svoice + 0x23C) = 0xA;
+        *(u8 *)((s8 *)svoice + 0x23D) = 0;
+        *(s32 *)((s8 *)svoice + 0x240) = 0x10000;
+        *(u8 *)((s8 *)svoice + 0x25E) = 1;
+        *(u8 *)((s8 *)svoice + 0x260) = 0x83;
+        *(u8 *)((s8 *)svoice + 0x261) = 0;
+        *(s32 *)((s8 *)svoice + 0x264) = 0x10000;
+        *(u8 *)((s8 *)svoice + 0x282) = 1;
+        *(u8 *)((s8 *)svoice + 0x284) = 0x80;
+        *(u8 *)((s8 *)svoice + 0x285) = 0;
+        *(s32 *)((s8 *)svoice + 0x288) = 0x10000;
+        *(u8 *)((s8 *)svoice + 0x2A6) = 1;
+        *(u8 *)((s8 *)svoice + 0x2CC) = 1;
+        *(u8 *)((s8 *)svoice + 0x2CD) = 0;
+        *(s32 *)((s8 *)svoice + 0x2D0) = 0x10000;
+        *(u8 *)((s8 *)svoice + 0x2EE) = 1;
+        *(u8 *)((s8 *)svoice + 0x2F0) = 0x40;
+        *(u8 *)((s8 *)svoice + 0x2F1) = 0;
+        *(s32 *)((s8 *)svoice + 0x2F4) = 0x10000;
+        *(u8 *)((s8 *)svoice + 0x312) = 1;
+        *(u8 *)((s8 *)svoice + 0x314) = 0x41;
+        *(u8 *)((s8 *)svoice + 0x315) = 0;
+        *(s32 *)((s8 *)svoice + 0x318) = 0x10000;
+        *(u8 *)((s8 *)svoice + 0x336) = 1;
+        *(u8 *)((s8 *)svoice + 0x35A) = 0;
+        *(u8 *)((s8 *)svoice + 0x35C) = 0x5B;
+        *(u8 *)((s8 *)svoice + 0x35D) = 0;
+        *(s32 *)((s8 *)svoice + 0x360) = 0x10000;
+        *(u8 *)((s8 *)svoice + 0x37E) = 1;
+        *(u8 *)((s8 *)svoice + 0x3A2) = 0;
+        *(u8 *)((s8 *)svoice + 0x3A4) = 0x5D;
+        *(u8 *)((s8 *)svoice + 0x3A5) = 0;
+        *(s32 *)((s8 *)svoice + 0x3A8) = 0x10000;
+        *(u8 *)((s8 *)svoice + 0x3C6) = 1;
+        *(u8 *)((s8 *)svoice + 0x2A8) = 0x84;
+        *(u8 *)((s8 *)svoice + 0x2A9) = 0;
+        *(s32 *)((s8 *)svoice + 0x2AC) = 0x10000;
+        *(u8 *)((s8 *)svoice + 0x2CA) = 1;
+        *(u8 *)((s8 *)svoice + 0x3EA) = 0;
+        *(s32 *)((s8 *)svoice + 0x214) = 0x1FFF;
+        *(u8 *)((s8 *)svoice + 0x1D4) = 0;
+        *(u8 *)((s8 *)svoice + 0x1D5) = 0;
+        *(u8 *)((s8 *)svoice + 0xA8) = 0;
     } else {
     for (s = 0; s < 8; ++s) {
         for (i = 0; i < 4; ++i) {
@@ -721,12 +721,12 @@ u16 inpGetExCtrl(Obj_803BC7E4 *arg0, u8 arg1) {
     }
 }
 
-void inpSetExCtrl(Obj_803BC884 *arg0, u8 arg1, s16 arg2) {
+void inpSetExCtrl(Obj_803BC884 *svoice, u8 arg1, s16 arg2) {
     s16 v = arg2 < 0 ? 0 : (arg2 > 0x3FFF ? 0x3FFF : arg2);
     s32 k;
     k = inpTranslateExCtrl(arg1);
-    if ((k >= 0xA2 || k < 0xA0) && arg0->b121 != 0xFF) {
-        inpSetMidiCtrl14(arg1, (u8)(arg0->b121), (u8)(arg0->b122), (u16)(v));
+    if ((k >= 0xA2 || k < 0xA0) && svoice->b121 != 0xFF) {
+        inpSetMidiCtrl14(arg1, (u8)(svoice->b121), (u8)(svoice->b122), (u16)(v));
     }
 }
 

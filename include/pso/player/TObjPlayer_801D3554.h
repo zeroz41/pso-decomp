@@ -8,6 +8,6 @@ extern "C" {
 void fn_801D371C(void *p, void *q);
 void insert_item_node__10TObjPlayerFiiiii(saddr list, void *pos, void *source, void *item, s32 id);
 }
-void start_placement_search(saddr arg0, saddr arg1, saddr arg2);
+void start_placement_search(saddr arg0, saddr pos, saddr source);
 
 #endif

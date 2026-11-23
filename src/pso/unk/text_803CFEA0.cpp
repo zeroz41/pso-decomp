@@ -367,7 +367,7 @@ inline GcciRequest *dvd_find_free_request(void) {
     return found;
 }
 
-void *gcCiOpen(const char *name, s32 arg1, s32 mode) {
+void *gcCiOpen(const char *name, s32 entry, s32 mode) {
     GcciRequest *r;
     s32 size;
     u32 len;

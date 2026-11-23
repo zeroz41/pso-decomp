@@ -478,7 +478,7 @@ void ADXF_Close(AdxfHandle *adxf) {
     }
 }
 
-AdxfHandle *ADXF_OpenAfs(s32 arg0, s32 arg1) {
+AdxfHandle *ADXF_OpenAfs(s32 partition, s32 file) {
     AdxfHandle *s;
     {
         LogEnt_803CD16C *e;
@@ -490,8 +490,8 @@ AdxfHandle *ADXF_OpenAfs(s32 arg0, s32 arg1) {
         e->type = 2;
         e->phase = 0;
         e->seq = seq;
-        e->a = arg0;
-        e->b = arg1;
+        e->a = partition;
+        e->b = file;
         lbl_8057B7B0.afs_open_sequence = seq;
         e->c = -1;
         adxf_log_write_index = i + 1;
@@ -499,7 +499,7 @@ AdxfHandle *ADXF_OpenAfs(s32 arg0, s32 arg1) {
     TLobby::init_once();
     s = alloc_803CD16C();
     if (s != NULL) {
-        if (open_803CD16C(s, arg0, arg1) < 0) {
+        if (open_803CD16C(s, partition, file) < 0) {
             ADXF_Close(s);
             s = NULL;
         }
@@ -511,8 +511,8 @@ AdxfHandle *ADXF_OpenAfs(s32 arg0, s32 arg1) {
         e->type = 2;
         e->phase = 1;
         e->seq = lbl_8057B7B0.afs_open_sequence;
-        e->a = arg0;
-        e->b = arg1;
+        e->a = partition;
+        e->b = file;
         e->c = -1;
         adxf_log_write_index = i + 1;
     }
