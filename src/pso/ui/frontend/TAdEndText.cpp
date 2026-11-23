@@ -30,64 +30,6 @@ struct RecoveredGlobal_8001B404_lbl_804F5800 {
     u8 remaining[0xFC];
 };
 
-struct Box_8001AD8C { f32 x0, y0, x1, y1; };
-
-struct Self_8001AD8C {
-    u8 pad0[0x24];
-    f32 scroll;
-    NJS_POINT2 pos[800];
-    u32 count;
-    Box_8001AD8C box1;
-    u8 pad193C[0x194C - 0x193C];
-    Box_8001AD8C box2;
-};
-
-struct Box_8001AF80 { f32 x0, y0, x1, y1; };
-
-struct Self_8001AF80 {
-    u8 pad0[0x24];
-    f32 scroll;
-    NJS_POINT2 pos[800];
-    u32 count;
-    Box_8001AF80 box1;
-    u8 pad193C[0x194C - 0x193C];
-    Box_8001AF80 box2;
-    u8 pad195C[0x196C - 0x195C];
-    f32 speed;
-    f32 scale;
-    s32 sizeIdx;
-};
-
-struct Box_8001B190
-{
-  f32 x0;
-  f32 y0;
-  f32 x1;
-  f32 y1;
-  f32 x2;
-  f32 y2;
-  f32 w;
-  f32 h;
-};
-
-struct Self_8001B190
-{
-  s32 name;
-  u8 pad4[0x18 - 0x4];
-  void *vtable;
-  s32 f1C;
-  u8 pad20[0x24 - 0x20];
-  f32 scroll;
-  u8 pos[0x1928 - 0x28];
-  u32 count;
-  Box_8001B190 box1;
-  Box_8001B190 box2;
-  f32 speed;
-  f32 height;
-  s32 sizeIdx;
-  f32 rate;
-};
-
 extern "C" {
 extern RecoveredGlobal_8001B3BC_lbl_804F5800 __ctype_map;
 struct EndTextTexName { const char *filename; u32 attr; u32 texaddr; };
@@ -120,8 +62,6 @@ extern const f32 lbl_805D7E34;
 extern const f32 lbl_805D7E38;
 extern const f32 lbl_805D7E3C;
 int TKeyBoardControl__sub_8000F828(void);
-s32 __ct__7TObjectFP7TObject(void *, TObject *);
-extern u8 __vt__10TAdEndText[];
 extern const char *TAdEndText__class_name;
 extern const f32 lbl_805D7DF0;
 extern const f32 lbl_805D7DFC;
@@ -252,8 +192,7 @@ void TAdEndText__sub_8001A998(s32 col, char *str, f32 x, f32 y, f32 depth) {
     TWindowSubStatusDisp::get_player();
 }
 
-void render__10TAdEndTextFv(u8 *arg0) {
-    Self_8001AD8C *self = (Self_8001AD8C *)arg0;
+void TAdEndText::render() {
     f32 hi;
     f32 lo;
     f32 y;
@@ -261,9 +200,9 @@ void render__10TAdEndTextFv(u8 *arg0) {
     s32 col;
     lo = lbl_805D7E04;
     hi = lbl_805D7E14;
-    for (i = 0; i < self->count; i++) {
+    for (i = 0; i < m_line_count; i++) {
         col = -1;
-        y = self->pos[i].y;
+        y = m_line_pos[i].y;
         if (y <= lo || lbl_805D7E08 <= y) {
             col = 0xFFFFFF;
         }
@@ -276,26 +215,26 @@ void render__10TAdEndTextFv(u8 *arg0) {
         switch ((s8)((char **)TAdEndText__credit_script_lines)[i][0]) {
         case 0x23:
             if (col != 0xFFFFFF) {
-                TAdEndText__sub_8001A998(col, ((char **)TAdEndText__credit_script_lines)[i], self->pos[i].x, y, lbl_805D7E18);
+                TAdEndText__sub_8001A998(col, ((char **)TAdEndText__credit_script_lines)[i], m_line_pos[i].x, y, lbl_805D7E18);
             }
             break;
         case 0x21:
             TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(TAdEndText__loaded_font_texture_list));
             begin_screen_draw(1);
             set_draw_texture_and_color(3, -1);
-            draw_textured_quad_at_depth((f32 *)&self->box1, lbl_805D7E18);
+            draw_textured_quad_at_depth(&m_adx_logo.x0, lbl_805D7E18);
             TWindowSubStatusDisp::get_player();
             break;
         case 0x40:
             TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(TAdEndText__loaded_font_texture_list));
             begin_screen_draw(1);
             set_draw_texture_and_color(4, -1);
-            draw_textured_quad_at_depth((f32 *)&self->box2, lbl_805D7E18);
+            draw_textured_quad_at_depth(&m_sofdec_logo.x0, lbl_805D7E18);
             TWindowSubStatusDisp::get_player();
             break;
         default:
             if (col != 0xFFFFFF) {
-                draw_small_font_text(col, self->pos[i].x, y, lbl_805D7E18);
+                draw_small_font_text(col, m_line_pos[i].x, y, lbl_805D7E18);
             }
             break;
         }
@@ -304,45 +243,44 @@ void render__10TAdEndTextFv(u8 *arg0) {
 
 #pragma push
 #pragma fp_contract on
-void run_task__10TAdEndTextFv(u8 *arg0) {
-    Self_8001AF80 *self = (Self_8001AF80 *)arg0;
+void TAdEndText::run_task() {
     u32 count;
     u32 i;
-    count = self->count;
+    count = m_line_count;
     if (TAdEndText__font_loaded_flag == 1) {
         count -= 9;
     }
-    self->pos[0].y = lbl_805D7E1C - (lbl_805D7E20 / (lbl_804345D8[self->sizeIdx] / lbl_804345D8[0])) * ((self->scale / lbl_805D7E24) * (self->scroll / lbl_805D7E28));
+    m_line_pos[0].y = lbl_805D7E1C - (lbl_805D7E20 / (lbl_804345D8[m_size_index] / lbl_804345D8[0])) * ((m_height / lbl_805D7E24) * (m_scroll / lbl_805D7E28));
     for (i = 0; i < count; i++) {
         switch ((s8)((char **)TAdEndText__credit_script_lines)[i][0]) {
         case 0x23:
-            self->pos[i].x = lbl_805D7E2C;
-            self->pos[i + 1].y = TAdEndText__data_805D7DF8 + self->pos[i].y;
+            m_line_pos[i].x = lbl_805D7E2C;
+            m_line_pos[i + 1].y = TAdEndText__data_805D7DF8 + m_line_pos[i].y;
             break;
         case 0x21:
-            self->pos[i].x = lbl_805D7E30;
-            self->pos[i + 1].y = lbl_805D7E34 + self->pos[i].y;
-            self->box1.x0 = self->pos[i].x;
-            self->box1.y0 = self->pos[i].y;
-            self->box1.x1 = lbl_805D7E34 + self->box1.x0;
-            self->box1.y1 = lbl_805D7E34 + self->box1.y0;
+            m_line_pos[i].x = lbl_805D7E30;
+            m_line_pos[i + 1].y = lbl_805D7E34 + m_line_pos[i].y;
+            m_adx_logo.x0 = m_line_pos[i].x;
+            m_adx_logo.y0 = m_line_pos[i].y;
+            m_adx_logo.x1 = lbl_805D7E34 + m_adx_logo.x0;
+            m_adx_logo.y1 = lbl_805D7E34 + m_adx_logo.y0;
             break;
         case 0x40:
-            self->pos[i].x = lbl_805D7E30;
-            self->pos[i + 1].y = lbl_805D7E34 + self->pos[i].y;
-            self->box2.x0 = self->pos[i].x;
-            self->box2.y0 = self->pos[i].y;
-            self->box2.x1 = lbl_805D7E34 + self->box2.x0;
-            self->box2.y1 = lbl_805D7E34 + self->box2.y0;
+            m_line_pos[i].x = lbl_805D7E30;
+            m_line_pos[i + 1].y = lbl_805D7E34 + m_line_pos[i].y;
+            m_sofdec_logo.x0 = m_line_pos[i].x;
+            m_sofdec_logo.y0 = m_line_pos[i].y;
+            m_sofdec_logo.x1 = lbl_805D7E34 + m_sofdec_logo.x0;
+            m_sofdec_logo.y1 = lbl_805D7E34 + m_sofdec_logo.y0;
             break;
         default:
-            self->pos[i].x = lbl_805D7E2C;
-            self->pos[i + 1].y = lbl_805D7E38 + self->pos[i].y;
+            m_line_pos[i].x = lbl_805D7E2C;
+            m_line_pos[i + 1].y = lbl_805D7E38 + m_line_pos[i].y;
             break;
         }
     }
-    self->scroll = self->scroll + self->speed;
-    if (self->pos[self->count].y < lbl_805D7E3C) {
+    m_scroll = m_scroll + m_speed;
+    if (m_line_pos[m_line_count].y < lbl_805D7E3C) {
         TAdEndText__font_loaded_flag = 1;
     }
 }
@@ -350,59 +288,51 @@ void run_task__10TAdEndTextFv(u8 *arg0) {
 TAdEndText::~TAdEndText() {}
 #pragma pop
 
-typedef struct Box_8001B190 Box_8001B190;
-typedef struct Self_8001B190 Self_8001B190;
-u8 *__ct__10TAdEndTextFv(u8 *object, TObject *parent) {
-  Self_8001B190 *self = (Self_8001B190 *) object;
-  s32 c;
-  __ct__7TObjectFP7TObject(object, parent);
-  self->vtable = __vt__10TAdEndText;
-  self->name = (saddr)TAdEndText__class_name;
-  self->f1C = 0;
-  self->scroll = lbl_805D7DFC;
-  TAdEndText__font_loaded_flag = 0;
-  self->box1.x0 = lbl_805D7DFC;
-  self->box1.y0 = lbl_805D7DFC;
-  self->box1.x1 = lbl_805D7DFC;
-  self->box1.y1 = lbl_805D7DFC;
-  self->box1.x2 = lbl_805D7DFC;
-  self->box1.y2 = lbl_805D7DFC;
-  self->box1.w = lbl_805D7E20;
-  self->box1.h = lbl_805D7E20;
-  self->box2.x0 = lbl_805D7DFC;
-  self->box2.y0 = lbl_805D7DFC;
-  self->box2.x1 = lbl_805D7DFC;
-  self->box2.y1 = lbl_805D7DFC;
-  self->box2.x2 = lbl_805D7DFC;
-  self->box2.y2 = lbl_805D7DFC;
-  self->box2.w = lbl_805D7E20;
-  self->box2.h = lbl_805D7E20;
-  self->count = 0;
-  self->height = lbl_805D7DFC;
-  while (((char) (c = ((u8 **) TAdEndText__credit_script_lines)[self->count][0])) != 0x2A)
-  {
-    switch ((s8) c)
-    {
-      case 0x23:
-      case 0:
-        self->height = self->height + TAdEndText__data_805D7DF8;
-        break;
-      case 0x21:
-        self->height = self->height + lbl_805D7E34;
-        break;
-      case 0x40:
-        self->height = self->height + lbl_805D7E34;
-        break;
-      default:
-        self->height = self->height + lbl_805D7E38;
-        break;
+TAdEndText::TAdEndText(TObject *parent) : TObject(parent) {
+    s32 c;
+    m_name = TAdEndText__class_name;
+    pad_1C = 0;
+    m_scroll = lbl_805D7DFC;
+    TAdEndText__font_loaded_flag = 0;
+    m_adx_logo.x0 = lbl_805D7DFC;
+    m_adx_logo.y0 = lbl_805D7DFC;
+    m_adx_logo.x1 = lbl_805D7DFC;
+    m_adx_logo.y1 = lbl_805D7DFC;
+    m_adx_logo.u0 = lbl_805D7DFC;
+    m_adx_logo.v0 = lbl_805D7DFC;
+    m_adx_logo.u1 = lbl_805D7E20;
+    m_adx_logo.v1 = lbl_805D7E20;
+    m_sofdec_logo.x0 = lbl_805D7DFC;
+    m_sofdec_logo.y0 = lbl_805D7DFC;
+    m_sofdec_logo.x1 = lbl_805D7DFC;
+    m_sofdec_logo.y1 = lbl_805D7DFC;
+    m_sofdec_logo.u0 = lbl_805D7DFC;
+    m_sofdec_logo.v0 = lbl_805D7DFC;
+    m_sofdec_logo.u1 = lbl_805D7E20;
+    m_sofdec_logo.v1 = lbl_805D7E20;
+    m_line_count = 0;
+    m_height = lbl_805D7DFC;
+    while (((char)(c = ((u8 **)TAdEndText__credit_script_lines)[m_line_count][0])) != 0x2A) {
+        switch ((s8)c) {
+        case 0x23:
+        case 0:
+            m_height = m_height + TAdEndText__data_805D7DF8;
+            break;
+        case 0x21:
+            m_height = m_height + lbl_805D7E34;
+            break;
+        case 0x40:
+            m_height = m_height + lbl_805D7E34;
+            break;
+        default:
+            m_height = m_height + lbl_805D7E38;
+            break;
+        }
+        m_line_count++;
     }
-    self->count++;
-  }
-  self->rate = (TKeyBoardControl__sub_8000F828() == 0) ? (lbl_805D7E20) : (lbl_805D7E40);
-  self->speed = lbl_805D7DF0 * self->rate;
-  self->sizeIdx = (TAdEndText__sub_8001B41C() != 0) ? (1) : (0);
-  return object;
+    m_rate = (TKeyBoardControl__sub_8000F828() == 0) ? (lbl_805D7E20) : (lbl_805D7E40);
+    m_speed = lbl_805D7DF0 * m_rate;
+    m_size_index = (TAdEndText__sub_8001B41C() != 0) ? (1) : (0);
 }
 
 void TAdEndText::free_resources() {

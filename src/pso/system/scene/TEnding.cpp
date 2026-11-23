@@ -81,8 +81,7 @@ TEnding::TEnding() : TObject(tl_window) {
     ring_controller = ring;
     if (ring_controller != NULL)
         ring_controller->start_fade_all(2.0f * (f32)timing_rate);
-    void *text = TObject::operator new(0x197C);
-    if (text != NULL) __ct__10TAdEndTextFv((u8 *)text, this);
+    new TAdEndText(this);
 }
 
 void TEnding__sub_8008C9F8() {}

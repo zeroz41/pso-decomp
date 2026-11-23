@@ -249,7 +249,6 @@ void TItemReverseTech::create() {
 
 void *TItemReverseTech__ct(void *item_reverse_tech, void *parent) {
     void *o;
-    void *o2;
     __ct__7TObjectFP7TObject(item_reverse_tech, parent);
     *(s32 **)((s8 *)item_reverse_tech + 0x18) = __vt__16TItemReverseTech;
     ((TItemReverseTech *)item_reverse_tech)->m_name = TItemReverseTech__name;
@@ -259,10 +258,7 @@ void *TItemReverseTech__ct(void *item_reverse_tech, void *parent) {
     }
     *(void * *)&((TItemReverseTech *)item_reverse_tech)->part_one = o;
     *(u32 *)((s8 *)item_reverse_tech + 0x24) = 0;
-    o2 = TObject::operator new(0x197C);
-    if (o2 != NULL) {
-        __ct__10TAdEndTextFv((u8 *)o2, (TObject *)item_reverse_tech);
-    }
+    new TAdEndText((TObject *)item_reverse_tech);
     play_area_music("ending.adx");
     return item_reverse_tech;
 }

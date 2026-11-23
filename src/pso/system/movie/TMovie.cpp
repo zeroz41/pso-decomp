@@ -384,17 +384,8 @@ struct TMovie_80144910 {
     s32 f48;
 };
 
-struct VBase_18_a28850 { char pad[0x18]; };
-
-struct VObj_18_a28850 : VBase_18_a28850 {
-    virtual void m0();
-    virtual s32 m1();
-    virtual s32 m2();
-};
-
 void TMovie::run_task() {
-    VObj_18_a28850 *txt;
-    u8 *p;
+    TAdEndText *txt;
     if (this->module == NULL || this->player == NULL) {
         this->queue_destruction();
         return;
@@ -404,11 +395,7 @@ void TMovie::run_task() {
     TMovie::calc_frame_buffer_size((saddr)((void *)video_initial_display_framebuffer), (saddr)((void *)video_initial_draw_framebuffer));
     txt = NULL;
     if (TAdEndText__sub_8001B41C() != 0) {
-        p = (u8 *)TObject::operator new(0x197C);
-        if (p != NULL) {
-            p = __ct__10TAdEndTextFv(p, this);
-        }
-        txt = (VObj_18_a28850 *)p;
+        txt = new TAdEndText(this);
     }
     for (;;) {
         if (this->check_skip_input() != 0) {
@@ -429,8 +416,8 @@ void TMovie::run_task() {
             set_camera_look_at(&eye, &at, &up);
             this->player->update_stop();
             if (txt != NULL) {
-                txt->m1();
-                txt->m2();
+                txt->run_task();
+                txt->render();
             }
             render_tick();
         }
