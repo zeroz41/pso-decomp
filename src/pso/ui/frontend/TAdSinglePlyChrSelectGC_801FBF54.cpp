@@ -1792,7 +1792,6 @@ s32 load_guild_card_save(void) {
 
 }
 
-namespace P801FE9D0 {
 
 extern "C" {
 
@@ -1800,7 +1799,6 @@ s32 load_pso_system(void);
 s32 load_system_file(s32 arg0);
 s32 poll_memcard_result(saddr);
 
-extern s32 pso_system_card_filename[];
 
 s32 load_system_file(s32 arg0) {
     s32 card_file;
@@ -1831,7 +1829,6 @@ s32 load_system_file(s32 arg0) {
     return var_r3;
 }
 
-extern s32 pso_system_card_filename[];
 
 s32 load_pso_system(void) {
     s32 card_file;
@@ -1857,9 +1854,7 @@ s32 load_pso_system(void) {
 
 }
 
-}
 
-namespace P801FEAFC {
 
 struct RecoveredGlobal_801FEBBC_lbl_80513904 {
     s32 value;
@@ -1869,7 +1864,6 @@ struct RecoveredGlobal_801FEBBC_lbl_80513904 {
 extern "C" {
 s32 poll_memcard_result(saddr);
 s32 TAdSinglePlyChrSelectGC__sub_801FDC14(int);
-extern RecoveredGlobal_801FEBBC_lbl_80513904 char_select_date_stamp;
 s32 TAdSinglePlyChrSelectGC__sub_801FEBBC(void);
 s32 load_pso_system(void);
 void check_system_load_result__23TAdSinglePlyChrSelectGCFv(void);
@@ -1919,7 +1913,7 @@ s32 TAdSinglePlyChrSelectGC__sub_801FEBBC(void) {
             var_r31 = TAdSinglePlyChrSelectGC__sub_801FDC14(1);
             if (var_r31 == 0) {
                 card_load_sequence_state = 0x14;
-                getDateStamp((DateStamp *)(&char_select_date_stamp.value));
+                getDateStamp((DateStamp *)char_select_date_stamp);
             }
         }
     }
@@ -1928,7 +1922,6 @@ s32 TAdSinglePlyChrSelectGC__sub_801FEBBC(void) {
 
 }
 
-}
 
 namespace P801FEC34 {
 
@@ -2147,7 +2140,6 @@ s32 encrypt_save_and_write__23TAdSinglePlyChrSelectGCFv(void) {
 
 }
 
-namespace P801FF260 {
 
 extern "C" {
 s32 load_system_file(s32);
@@ -2159,7 +2151,9 @@ s32 load_guild_card_save();
 s32 load_and_verify_data(s32);
 u8 load_player_and_wait__23TAdSinglePlyChrSelectGCFv(void);
 
-void increment_counter__23TAdSinglePlyChrSelectGCFv(void) {
+}
+
+void TAdSinglePlyChrSelectGC::increment_counter() {
     void *instance;
 
     instance = (void *)TAdSinglePlyChrSelectGC::get_instance();
@@ -2168,8 +2162,12 @@ void increment_counter__23TAdSinglePlyChrSelectGCFv(void) {
     }
 }
 
+extern "C" {
 
-void increment_counters__23TAdSinglePlyChrSelectGCFv(void) {
+
+}
+
+void TAdSinglePlyChrSelectGC::increment_counters() {
     if ((void *) card_character_save_buffer != NULL) {
         *(s32 *)((s8 *)card_character_save_buffer + 0x11564) = (s32) (*(s32 *)((s8 *)card_character_save_buffer + 0x11564) + 1);
     }
@@ -2177,6 +2175,8 @@ void increment_counters__23TAdSinglePlyChrSelectGCFv(void) {
         *(s32 *)((s8 *)secondary_card_character_save_buffer + 0x11564) = (s32) (*(s32 *)((s8 *)secondary_card_character_save_buffer + 0x11564) + 1);
     }
 }
+
+extern "C" {
 void load_system_file_flag__23TAdSinglePlyChrSelectGCFv(void) {
     s32 r = load_system_file(0);
     card_load_followup_pending = 0;
@@ -2230,7 +2230,6 @@ u8 load_player_and_wait__23TAdSinglePlyChrSelectGCFv(void) {
 
 }
 
-}
 
 namespace P801FF464 {
 
@@ -3750,11 +3749,9 @@ void release_all__23TAdSinglePlyChrSelectGCFv(void) {
 
 }
 
-namespace P802019F8 {
 extern "C" {
 
 s32 __ct__12TPlyCharDataFv(s32);
-s32 init_char_slots__23TAdSinglePlyChrSelectGCFi(s32);
 void alloc_char_records__23TAdSinglePlyChrSelectGCFi(saddr arg0);
 s32 init_windows__23TAdSinglePlyChrSelectGCFi(s32);
 void init_timestamped_data(void);
@@ -3762,9 +3759,10 @@ s32 buffer_init(void);
 s32 alloc_global_buffer(void);
 s32 init_buffer();
 s32 get_field_118__22TAdEnterSerialAccessGCFv();
-s32 memset(void *, int, int);
 
-void init_char_select_globals__23TAdSinglePlyChrSelectGCFv(void) {
+}
+
+void TAdSinglePlyChrSelectGC::init_char_select_globals() {
     u32 seconds;
     saddr card;
     saddr record;
@@ -4271,15 +4269,17 @@ void init_char_select_globals__23TAdSinglePlyChrSelectGCFv(void) {
     TAdSinglePlyChrSelectGC::set_save_slot(0);
 }
 
-}
-}
-
-namespace P801FBF54 {
 extern "C" {
 
-void free_callbacks__23TAdSinglePlyChrSelectGCFv(void) {
+}
+
+extern "C" {
+
+}
+
+void TAdSinglePlyChrSelectGC::free_callbacks() {
     if ((u32) secondary_card_character_save_buffer != 0U) {
-        register_callback__23TAdSinglePlyChrSelectGCFis((void*)((void*)secondary_card_character_save_buffer), 1);
+        register_callback__23TAdSinglePlyChrSelectGCFis(secondary_card_character_save_buffer, 1);
         secondary_card_character_save_buffer = 0U;
     }
     if ((u32) secondary_card_system_save_payload != 0U) {
@@ -4288,7 +4288,11 @@ void free_callbacks__23TAdSinglePlyChrSelectGCFv(void) {
     }
 }
 
-void alloc_char_buffers__23TAdSinglePlyChrSelectGCFv(void) {
+extern "C" {
+
+}
+
+void TAdSinglePlyChrSelectGC::alloc_char_buffers() {
     s32 allocation;
     s32 var_r0;
     s32 dst;
@@ -4308,20 +4312,20 @@ void alloc_char_buffers__23TAdSinglePlyChrSelectGCFv(void) {
     dst = (*(s32 *)&secondary_card_character_save_buffer);
     var_r5 = 0x1156C;
     var_r4 = 0;
-    memset(dst, 0, 0x1156C);
+    memset((void *)(saddr)dst, 0, 0x1156C);
     dst = (*(s32 *)&secondary_card_system_save_payload);
     var_r4 = 0;
     var_r5 = 0x11C;
-    memset(dst, 0, 0x11C);
+    memset((void *)(saddr)dst, 0, 0x11C);
 }
 
-int get_serial_access_field_118__23TAdSinglePlyChrSelectGCFPv(void* p) { return get_field_118__22TAdEnterSerialAccessGCFv(p); }
+extern "C" {
+
+int get_serial_access_field_118__23TAdSinglePlyChrSelectGCFPv(void* p) { return get_field_118__22TAdEnterSerialAccessGCFv(); }
 
 }
 
-}
 
-namespace P80202978 {
 extern "C" {
 s32 get_split_screen_character_save_record(u32);
 s32 get_char_table_entry__23TAdSinglePlyChrSelectGCFi(u32);
@@ -4352,6 +4356,5 @@ s32 get_char_index__23TAdSinglePlyChrSelectGCFUi(u32 arg0) {
         return get_char_table_entry__23TAdSinglePlyChrSelectGCFi(arg0);
     }
     return (saddr)selected_character_data;
-}
 }
 }
