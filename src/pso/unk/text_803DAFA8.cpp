@@ -1,64 +1,30 @@
+#define PSO_SDK_COMPACT_MATH
+#include <dolphin/gx/GXTexture.h>
+#include <dolphin/os/OSAlloc.h>
+#undef PSO_SDK_COMPACT_MATH
 #include "types.h"
+#include "pso/render/GinjaMaterialState.h"
+#include "pso/render/RenderSbssGlobals.h"
 #include "pso/unk/text_803DA798.h"
 #include "pso/unk/text_803DAF30.h"
 #include "pso/unk/text_803DAFA8.h"
 #include "pso/unk/TLobby.h"
 #include "pso/unk/TLobby_803DE778.h"
-// Holds an allocation at 0x1C; fn_803DB20C releases it back to the locked heap.
-struct HeapBufferHolder { u8 pad[0x1c]; void *buffer; };
 
-// Texture format record: fmt/width/height fed to GXGetTexBufferSize, flags from
-// the 0x100/0x200/0x800 source attribute bits.
-struct GvmTexFormatHeader { u32 fmt; u32 pad4; u32 pad8; u32 w; u32 h; u32 sz; u32 flags; };
-
-struct HeapBufferRequest { u8 pad[0x14]; u32 size; u32 pad18; void *mem; };
-
-// GLPV texture chunk header; fields copied big-endian into the image out record.
-struct GlpvChunkHeader {
-    s32 magic;
-    s32 size;
-    u16 f8;
-    s16 fa;
-    s16 fc;
-    s16 fe;
-    u8 data[1];
-};
-
-struct GlpvTexImage {
-    void *buf;
-    u16 f4;
-    s16 f6;
-    s16 f8;
-    s16 fa;
-};
-
-extern "C" {
-extern void *locked_cache_heap_handle;
-void OSFreeToHeap(void *heap, void *p);
-s32 fn_803DB20C(HeapBufferHolder *o);
-void GXInitTlutObj(void *, void *, s32, s32, s32);
-void GXLoadTlut(void *, s32);
-s32 GXGetTexBufferSize(u16, u16, u32, u8, u8);
-void fn_803DB15C(GvmTexFormatHeader *arg0);
-void *OSAllocFromHeap(void *, u32);
-s32 alloc_buffer_from_heap(HeapBufferRequest *arg0);
-s32 fn_803DAFA8(struct GlpvChunkHeader *arg0, struct GlpvTexImage *arg1);
-s32 init_ginja_texture_header(GvmTexFormatHeader *arg0, u32 arg1, u32 arg2, u32 arg3);
-
-s32 fn_803DAFA8(struct GlpvChunkHeader *arg0, struct GlpvTexImage *arg1) {
-    s32 sp8;
+s32 fn_803DAFA8(GvplChunk *chunk, GvplPalette *palette) {
+    s32 word;
     TObjPlayer__sub_803DA7E0();
-    sp8 = arg0->magic;
-    fn_803DAF30((u32 *)&sp8);
-    switch (sp8) {
+    word = chunk->magic;
+    fn_803DAF30((u32 *)&word);
+    switch (word) {
     case 0x4C505647:
-        sp8 = arg0->size;
-        fn_803DAF30((u32 *)&sp8);
-        move_data((void *)((arg1->buf)), (const void *)(arg0->data), sp8 - 8);
-        arg1->f6 = arg0->fa;
-        arg1->f8 = arg0->fc;
-        arg1->fa = arg0->fe;
-        arg1->f4 = arg0->f8;
+        word = chunk->size;
+        fn_803DAF30((u32 *)&word);
+        move_data(palette->data, chunk->data, word - 8);
+        palette->pad_06 = chunk->pad_0A;
+        palette->pad_08 = chunk->pad_0C;
+        palette->entry_count = chunk->entry_count;
+        palette->format = chunk->format;
         break;
     default:
         return -1;
@@ -66,53 +32,53 @@ s32 fn_803DAFA8(struct GlpvChunkHeader *arg0, struct GlpvTexImage *arg1) {
     return 1;
 }
 
-void init_and_load_tlut(s32 arg0, s32 arg1, u16 arg2, void *arg3) {
-    u32 sp8[3];
-    GXInitTlutObj(sp8, arg3, arg1, arg2, arg1);
-    GXLoadTlut(sp8, arg0);
+void init_and_load_tlut(s32 tlut_name, s32 format, s32 entry_count, void *entries) {
+    GXTlutObj tlut_obj;
+    GXInitTlutObj(&tlut_obj, entries, (GXTlutFmt)format, entry_count);
+    GXLoadTlut(&tlut_obj, tlut_name);
 }
 
-s32 init_ginja_texture_header(GvmTexFormatHeader *arg0, u32 arg1, u32 arg2, u32 arg3) {
+s32 init_ginja_texture_header(GinjaTextureHeader *header, u32 width, u32 height, u32 format) {
     s32 ret = 0;
     u32 flags = 0;
-    arg0->fmt = (u8)arg3;
-    arg0->w = arg1;
-    arg0->h = arg2;
-    if ((arg3 & 0x100) && arg1 != arg2) {
+    header->format = (u8)format;
+    header->width = width;
+    header->height = height;
+    if ((format & 0x100) && width != height) {
         ret = 4;
     }
-    arg0->flags = 0;
-    if (arg3 & 0x100) {
+    header->flags = 0;
+    if (format & 0x100) {
         flags |= 0x80000000;
     }
-    if (arg3 & 0x200) {
+    if (format & 0x200) {
         flags |= 0x8000;
     }
-    if (arg3 & 0x800) {
+    if (format & 0x800) {
         flags |= 0x40000000;
     }
-    arg0->flags |= flags;
-    arg0->sz = ((s32 (*)(GvmTexFormatHeader *))fn_803DB15C)(arg0);
+    header->flags |= flags;
+    header->size = fn_803DB15C(header);
     return ret;
 }
 
-void fn_803DB15C(GvmTexFormatHeader *arg0) {
-    u8 mip;
-    if (arg0->flags & 0x80000000) {
-        mip = 1;
+u32 fn_803DB15C(GinjaTextureHeader *header) {
+    GXBool mipmap;
+    if (header->flags & 0x80000000) {
+        mipmap = 1;
     } else {
-        mip = 0;
+        mipmap = 0;
     }
-    GXGetTexBufferSize(arg0->w, arg0->h, arg0->fmt, mip, 100);
+    return GXGetTexBufferSize(header->width, header->height, header->format, mipmap, 100);
 }
 
-s32 alloc_buffer_from_heap(HeapBufferRequest *arg0) {
+s32 alloc_buffer_from_heap(GinjaTextureHeader *header) {
     s32 ret = 0;
-    void *p = OSAllocFromHeap(locked_cache_heap_handle, arg0->size);
-    if (p == 0) {
+    void *pixels = OSAllocFromHeap(locked_cache_heap_handle, header->size);
+    if (pixels == 0) {
         ret = 3;
     } else {
-        arg0->mem = p;
+        header->pixels = (u32 *)pixels;
     }
     return ret;
 }
@@ -120,10 +86,8 @@ s32 alloc_buffer_from_heap(HeapBufferRequest *arg0) {
 #pragma push
 #pragma scheduling off
 #pragma peephole off
-s32 fn_803DB20C(HeapBufferHolder *o) {
-    OSFreeToHeap(locked_cache_heap_handle, o->buffer);
+s32 fn_803DB20C(GinjaTextureHeader *header) {
+    OSFreeToHeap(locked_cache_heap_handle, header->pixels);
     return 0;
 }
 #pragma pop
-
-}

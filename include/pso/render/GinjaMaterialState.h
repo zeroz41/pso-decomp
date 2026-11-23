@@ -48,7 +48,7 @@ typedef struct GinjaSceneState {
   GinjaTextureHeader *texture_header; /* image of the texture set_texture_num selected */
   u32 blend_mode; /* +0x0C: GX blend factors, source in bits 29-31, destination in bits 26-28 */
   u32 reserved10;
-  s32 cached_texture; /* -1 when none; freeing a texture surface resets it */
+  s32 reserved14; /* set to -1 on init and whenever a texture surface is freed */
   u32 tlut_name; /* palette bank of the selected texture */
   u32 reserved1C;
   GinjaTextureList *textures;

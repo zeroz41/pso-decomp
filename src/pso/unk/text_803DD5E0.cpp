@@ -1,7 +1,15 @@
+#define PSO_SDK_COMPACT_MATH
+#include <dolphin/dvd.h>
+#undef PSO_SDK_COMPACT_MATH
 #include "pso/render/GinjaMaterialState.h"
+#include "pso/render/GinjaTexture.h"
+#include "pso/render/GinjaTextureInput.h"
 #include "pso/render/GvmTextureArchive.h"
+#include "pso/render/RenderSbssGlobals.h"
 #include "types.h"
 #include <string.h>
+#include <dolphin/os/OSCache.h>
+#include "pso/unk/text_803D96A8.h"
 #include "pso/unk/text_803DA798.h"
 #include "pso/unk/text_803DD5E0.h"
 #include "pso/system/memory.h"
@@ -10,79 +18,17 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/unk/TLobby_803DE778.h"
 
-struct U16Bytes { s8 a, b; };
-
-struct FourByteView { s8 a, b, c, d; };
-
-// Process-wide texture load status: failedIndex + resultCode (1 empty, 2 open fail,
-// 4 bad header, 6/7 load fail, 8 write fail).
-struct GvmLoadStatus { s32 failedIndex, b, resultCode, d, e; };
-
-// GVM texture load request list; formatBits (mask 0x5C000000) picks the loader.
-struct GvmTexLoadEntry { s32 info; s32 formatBits; s32 tableId; };
-
-struct GvmTexLoadList { struct GvmTexLoadEntry *ents; u32 count; };
-
-// Texture info record: chunkAddr fallback source, tableId, width/height at 0x10/0x14.
-typedef struct GvmTexInfo { uaddr chunkAddr; s32 tableId; s32 f8; s32 fC; s32 width; s32 height; } GvmTexInfo;
-
-typedef struct GvmTexListEntry { GvmTexInfo *info; s32 f4; s32 tableId; } GvmTexListEntry;
-
-typedef struct GvmTexList { GvmTexListEntry *ents; } GvmTexList;
-
-typedef struct GvmTexDesc { s32 tableId; u16 w; u16 h; } GvmTexDesc;
-
-// Player-ref record payload; textureId assigned when a new slot is claimed.
-typedef struct PlayerRefEntry { s32 textureId; } PlayerRefEntry;
-
-typedef struct PlayerRefSlot { s32 f0; s32 f4; s32 f8; PlayerRefEntry *rec; } PlayerRefSlot;
-
-struct GvmTextureHeader {
-    u8 prefix[8];
-    u16 flags;
-    s16 directoryCount;
-};
-
-// DVDFileInfo view used by GVRT loading; length at 0x34 is the file size.
-struct GvrtFileInfo { u8 pad[0x34]; u32 length; u32 f38; };
-
-struct GvmTexDest { u8 pad[0x20]; void *buf; };
-
-struct GvmTexSlot { s32 f0; s32 f4; s32 f8; GvmTexDest *tex; s32 f10; s32 f14; };
-
 s32 lbl_805D77A0;
-extern "C" {
-void TLobby__sub_803DDD78(U16Bytes *d, U16Bytes *s);
-void copy_4word_struct__6TLobbyFPvPv(FourByteView *d, FourByteView *s);
-void TObjPlayer__sub_803DD6DC(struct GvmTexLoadList *arg0, s32 arg1);
-extern GvmLoadStatus lbl_8058D470;
-s32 load_texture_list(struct GvmTexLoadList *arg0);
-s32 TObjPlayer__sub_803D9E38(s32 *arg0, u32 arg1, s32 *arg2, u32 *arg3);
-s32 TObjPlayer__sub_803DAC48(GvmTexList *, s32, s32, s32, GvmTexDesc *, s32 *);
-s32 TObjPlayer__sub_803DD91C(GvmTexList *obj, s32 idx);
-s32 TObjPlayer__sub_803DDA68(GvmTexList *obj, s32 idx);
-s32 TObjPlayer__sub_803DAB7C(GvmTexList *, s32, s32);
-extern s32 player_ref_entry_active_count;
-s32 TObjPlayer__sub_803DDB34(GvmTexList *obj, s32 idx);
-void replace_gvm_texture_directory(GinjaTextureList* list, s32 stride, const GvmTextureHeader* header);
-void DCFlushRange(void *, u32);
-s32 DVDOpen(const char *, GvrtFileInfo *);
-s32 DVDClose(GvrtFileInfo *);
-s32 DVDReadPrio(GvrtFileInfo *, void *, s32, s32, s32);
-extern u8 gvrt_header_read_buffer[];
-extern GvmTexSlot *record_array_ptr;
-s32 read_gvrt_file_header(GvmTexList *obj, s32 idx);
-}
 
 // The texture loaders TObjPlayer__sub_803DD6DC picks from an entry's format bits.
-s32 (*lbl_804FC688[4])(GvmTexList *, s32) = {
+s32 (*lbl_804FC688[4])(GinjaTextureList *, s32) = {
     read_gvrt_file_header, TObjPlayer__sub_803DD91C, TObjPlayer__sub_803DDA68, TObjPlayer__sub_803DDB34,
 };
-u32 *find_gvrt_texture_chunk(TLobby *arg0, u32 *arg1, u32 *arg2);
+
 extern s32 ginja_draw_flags;
 
-void set_ginja_draw_flags(s32 arg0) {
-    ginja_draw_flags = arg0;
+void set_ginja_draw_flags(s32 flags) {
+    ginja_draw_flags = flags;
 }
 
 void TObjPlayer__sub_803DD5E8(GinjaTextureList *list, GinjaTextureEntry *entries, uaddr names, s32 count) {
@@ -94,27 +40,27 @@ void TObjPlayer__sub_803DD5E8(GinjaTextureList *list, GinjaTextureEntry *entries
     list->entries = entries;
 }
 
-void TObjPlayer__sub_803DD6DC(struct GvmTexLoadList *arg0, s32 arg1) {
-    s32 idx;
+s32 TObjPlayer__sub_803DD6DC(GinjaTextureList *list, s32 index) {
+    s32 loader;
 
-    switch (arg0->ents[arg1].formatBits & 0x5C000000) {
+    switch (list->entries[index].value04 & 0x5C000000) {
     case 0x0:
-        idx = 0;
+        loader = 0;
         break;
     case 0x40000000:
-        idx = 1;
+        loader = 1;
         break;
     case 0x8000000:
-        idx = 2;
+        loader = 2;
         break;
     case 0x4000000:
-        idx = 3;
+        loader = 3;
         break;
     default:
-        idx = 2;
+        loader = 2;
         break;
     }
-    lbl_804FC688[idx]((GvmTexList *)arg0, arg1);
+    return lbl_804FC688[loader](list, index);
 }
 
 s32 lbl_805D77A4;
@@ -122,89 +68,90 @@ s32 lbl_805D77A4;
 #pragma push
 #pragma optimize_for_size off
 #pragma use_lmw_stmw off
-s32 read_gvrt_file_header(GvmTexList *obj, s32 idx) {
-    s32 sz;
+s32 read_gvrt_file_header(GinjaTextureList *list, s32 index) {
+    s32 global_index;
     s32 id;
-    s32 arg;
-    s32 handle;
-    GvmTexDesc desc;
+    s32 tlut_name;
+    s32 slot;
+    GvrTextureDesc desc;
     char name[32];
-    GvrtFileInfo fi;
-    u32 n;
+    DVDFileInfo file;
+    u32 chunk;
     s32 r;
-    uaddr base = (uaddr)gvrt_header_read_buffer;
-    GvrtFileInfo *pfi;
+    uaddr header = (uaddr)gvrt_header_read_buffer;
+    DVDFileInfo *pfile;
     u32 size;
     TObjPlayer__sub_803DA7E0();
-    r = TObjPlayer__sub_803D9E38((s32 *)obj, (u32)idx, (s32 *)&id, (u32 *)&arg);
+    r = TObjPlayer__sub_803D9E38((s32 *)list, index, &id, (u32 *)&tlut_name);
     if (r != 0) {
         return r;
     }
-    ((TAdSinglePlyChrSelectGC *)name)->append_extension_if_missing((char *)(obj->ents[idx].info), ".GVR");
-    pfi = &fi;
-    if (DVDOpen(name, pfi) == 0) {
-        lbl_8058D470.resultCode = 2;
+    ((TAdSinglePlyChrSelectGC *)name)->append_extension_if_missing(list->entries[index].name, ".GVR");
+    pfile = &file;
+    if (DVDOpen(name, pfile) == 0) {
+        lbl_8058D470.code = 2;
         return -1;
     }
-    size = (fi.length + 0x1F) & ~0x1F;
-    if (DVDReadPrio(pfi, (void *)base, 0x20, 0, 2) == -1) {
-        DVDClose(pfi);
+    size = (file.length + 0x1F) & ~0x1F;
+    if (DVDReadPrio(pfile, (void *)header, 0x20, 0, 2) == -1) {
+        DVDClose(pfile);
         return -1;
     }
-    n = (uaddr)find_gvrt_texture_chunk((TLobby *)((void *)&desc), (u32 *)((u32 *)&sz), (u32 *)((u32 *)base));
-    if (n == 0) {
-        DVDClose(pfi);
+    chunk = (uaddr)find_gvrt_texture_chunk((TLobby *)&desc, (u32 *)&global_index, (u32 *)header);
+    if (chunk == 0) {
+        DVDClose(pfile);
         return -1;
     }
     if ((u32)id != 0xFFFFFFFF) {
-        sz = id;
+        global_index = id;
     }
-    r = TObjPlayer__sub_803DAC48(obj, idx, sz, arg, &desc, &handle);
+    r = TObjPlayer__sub_803DAC48(list, index, global_index, tlut_name, &desc, &slot);
     if (r != 0) {
-        DVDClose(pfi);
+        DVDClose(pfile);
         return r;
     }
-    n -= base;
-    DVDReadPrio(pfi, record_array_ptr[handle].tex->buf, size - n, n, 2);
-    DVDClose(pfi);
+    chunk -= header;
+    DVDReadPrio(pfile, record_array_ptr[slot].surface->header.pixels, size - chunk, chunk, 2);
+    DVDClose(pfile);
     return 1;
 }
 #pragma pop
 
-s32 TObjPlayer__sub_803DD91C(GvmTexList *obj, s32 idx) {
-    s32 sz;
+s32 TObjPlayer__sub_803DD91C(GinjaTextureList *list, s32 index) {
+    s32 global_index;
     s32 id;
-    s32 arg;
-    s32 handle;
-    GvmTexDesc desc;
+    s32 tlut_name;
+    s32 slot;
+    GvrTextureDesc desc;
     s32 r;
-    u32 n;
-    GvmTexInfo *info;
+    u32 chunk;
+    GinjaTextureInput *input;
     TObjPlayer__sub_803DA7E0();
-    r = TObjPlayer__sub_803D9E38((s32 *)obj, (u32)idx, (s32 *)&id, (u32 *)&arg);
+    r = TObjPlayer__sub_803D9E38((s32 *)list, index, &id, (u32 *)&tlut_name);
     if (r != 0) {
         return r;
     }
-    n = (uaddr)find_gvrt_texture_chunk((TLobby *)((void *)&desc), (u32 *)((u32 *)&sz), (u32 *)((u32 *)obj->ents[idx].info));
-    if (n == 0) {
-        n = (uaddr)find_gvrt_texture_chunk((TLobby *)((void *)&desc), (u32 *)((u32 *)&sz), (u32 *)((u32 *)obj->ents[idx].info->chunkAddr));
-        if (n == 0) {
-            info = obj->ents[idx].info;
-            desc.w = info->width;
-            desc.h = info->height;
-            desc.tableId = info->tableId;
-            n = info->chunkAddr;
+    chunk = (uaddr)find_gvrt_texture_chunk((TLobby *)&desc, (u32 *)&global_index, (u32 *)list->entries[index].name);
+    if (chunk == 0) {
+        chunk = (uaddr)find_gvrt_texture_chunk((TLobby *)&desc, (u32 *)&global_index,
+                                               (u32 *)reinterpret_cast<GinjaTextureInput *>(list->entries[index].name)->data);
+        if (chunk == 0) {
+            input = reinterpret_cast<GinjaTextureInput *>(list->entries[index].name);
+            desc.width = input->width;
+            desc.height = input->height;
+            desc.format = input->format;
+            chunk = (uaddr)input->data;
         }
     }
     if ((u32)id != 0xFFFFFFFF) {
-        sz = id;
+        global_index = id;
     }
-    r = TObjPlayer__sub_803DAC48(obj, idx, sz, arg, &desc, &handle);
+    r = TObjPlayer__sub_803DAC48(list, index, global_index, tlut_name, &desc, &slot);
     if (r != 0) {
         return r;
     }
-    if (TObjPlayer__sub_803DAB9C(handle, n) < 0) {
-        TObjPlayer__sub_803DAC1C(handle);
+    if (TObjPlayer__sub_803DAB9C(slot, chunk) < 0) {
+        TObjPlayer__sub_803DAC1C(slot);
         return -1;
     }
     while (TObjPlayer::is_gvm_load_ok() != 1) {
@@ -212,78 +159,78 @@ s32 TObjPlayer__sub_803DD91C(GvmTexList *obj, s32 idx) {
     return 1;
 }
 
-s32 TObjPlayer__sub_803DDA68(GvmTexList *obj, s32 idx) {
+s32 TObjPlayer__sub_803DDA68(GinjaTextureList *list, s32 index) {
     s32 id;
-    GvmTexDesc desc;
-    s32 arg;
-    s32 handle;
+    GvrTextureDesc desc;
+    s32 tlut_name;
+    s32 slot;
     s32 r;
-    s32 v;
-    GvmTexInfo *info;
+    s32 global_index;
+    GinjaTextureInput *input;
     TObjPlayer__sub_803DA7E0();
-    r = TObjPlayer__sub_803D9E38((s32 *)obj, (u32)idx, (s32 *)&id, (u32 *)&arg);
+    r = TObjPlayer__sub_803D9E38((s32 *)list, index, &id, (u32 *)&tlut_name);
     if (r != 0) {
         return r;
     }
-    info = obj->ents[idx].info;
-    desc.w = info->width;
-    desc.h = info->height;
-    desc.tableId = info->tableId;
-    v = obj->ents[idx].tableId;
+    input = reinterpret_cast<GinjaTextureInput *>(list->entries[index].name);
+    desc.width = input->width;
+    desc.height = input->height;
+    desc.format = input->format;
+    global_index = list->entries[index].global_index;
     if ((u32)id != 0xFFFFFFFF) {
-        v = id;
+        global_index = id;
     }
-    if (TObjPlayer__sub_803DAC48(obj, idx, v, arg, &desc, &handle) >= 0) {
+    if (TObjPlayer__sub_803DAC48(list, index, global_index, tlut_name, &desc, &slot) >= 0) {
         return 1;
     }
     return -1;
 }
 
-s32 TObjPlayer__sub_803DDB34(GvmTexList *obj, s32 idx) {
+s32 TObjPlayer__sub_803DDB34(GinjaTextureList *list, s32 index) {
     s32 id;
-    s32 arg;
-    s32 h;
-    PlayerRefSlot *slot;
-    PlayerRefEntry *rec;
+    s32 tlut_name;
+    s32 slot;
+    GinjaTextureState *texture;
+    GinjaSurfaceState *surface;
     s32 r;
-    s32 v;
+    s32 global_index;
     TObjPlayer__sub_803DA7E0();
-    r = TObjPlayer__sub_803D9E38((s32 *)obj, (u32)idx, (s32 *)&id, (u32 *)&arg);
+    r = TObjPlayer__sub_803D9E38((s32 *)list, index, &id, (u32 *)&tlut_name);
     if (r != 0) {
         return r;
     }
-    v = obj->ents[idx].tableId;
+    global_index = list->entries[index].global_index;
     if ((u32)id != 0xFFFFFFFF) {
-        v = id;
+        global_index = id;
     }
-    switch (TObjPlayer__sub_803DA8E4(v, arg, 0, &h)) {
+    switch (TObjPlayer__sub_803DA8E4(global_index, tlut_name, 0, &slot)) {
     case -1:
         return -1;
     case 0:
-        h = TObjPlayer::find_free_slot(&slot, &rec);
-        if (h < 0) {
+        slot = TObjPlayer::find_free_slot(&texture, &surface);
+        if (slot < 0) {
             return -1;
         }
-        slot->rec = rec;
-        if ((u32)v != 0xFFFFFFFF) {
-            slot->rec->textureId = v;
+        texture->surface = surface;
+        if ((u32)global_index != 0xFFFFFFFF) {
+            texture->surface->id = global_index;
         }
         player_ref_entry_active_count++;
-        TObjPlayer__sub_803DAB7C(obj, idx, h);
+        TObjPlayer__sub_803DAB7C(list, index, slot);
         break;
     }
     return 1;
 }
 
-s32 load_texture_list(struct GvmTexLoadList *arg0) {
+s32 load_texture_list(GinjaTextureList *list) {
     u32 i;
-    if (arg0->count == 0) {
-        lbl_8058D470.resultCode = 1;
+    if (list->count == 0) {
+        lbl_8058D470.code = 1;
         return -1;
     }
-    for (i = 0; i < arg0->count; i++) {
-        if (((s32 (*)(struct GvmTexLoadList *, s32))TObjPlayer__sub_803DD6DC)(arg0, i) < 0) {
-            lbl_8058D470.failedIndex = i;
+    for (i = 0; i < list->count; i++) {
+        if (TObjPlayer__sub_803DD6DC(list, i) < 0) {
+            lbl_8058D470.entry_index = i;
             return -1;
         }
     }
@@ -311,40 +258,42 @@ saddr TLobby__sub_803DDD2C(s32 stride) {
     return prevCursor;
 }
 
-void TLobby__sub_803DDD40(s32 arg0, s32 arg1) {
-    switch (arg1) {
+void TLobby__sub_803DDD40(s32 offset, s32 whence) {
+    switch (whence) {
     case 1:
-        lbl_805D77A0 += arg0;
+        lbl_805D77A0 += offset;
         return;
     case 0:
-        lbl_805D77A0 = lbl_805D77A4 + arg0;
+        lbl_805D77A0 = lbl_805D77A4 + offset;
         return;
     }
 }
 #pragma push
 #pragma scheduling off
 #pragma peephole off
-void TLobby__sub_803DDD78(U16Bytes *d, U16Bytes *s) {
-    s32 a = s->a;
-    d->a = a;
-    s32 b = s->b;
-    d->b = b;
+void TLobby__sub_803DDD78(s8 *dst, s8 *src) {
+    s32 hi = src[0];
+    dst[0] = hi;
+    s32 lo = src[1];
+    dst[1] = lo;
 }
 #pragma pop
 
 #pragma push
 #pragma scheduling off
 #pragma peephole off
-void copy_4word_struct__6TLobbyFPvPv(FourByteView *d, FourByteView *s) {
+void TLobby::copy_4word_struct(void *dst, void *src) {
+    s8 *d = (s8 *)dst;
+    s8 *s = (s8 *)src;
     s32 t;
-    t = s->a;
-    d->a = t;
-    t = s->b;
-    d->b = t;
-    t = s->c;
-    d->c = t;
-    t = s->d;
-    d->d = t;
+    t = s[0];
+    d[0] = t;
+    t = s[1];
+    d[1] = t;
+    t = s[2];
+    d[2] = t;
+    t = s[3];
+    d[3] = t;
 }
 #pragma pop
 
@@ -371,17 +320,17 @@ void replace_gvm_texture_directory(GinjaTextureList* list, s32 stride, const Gvm
     dimensions = flags & 4;
     alternateGlobal = flags & 0x400;
     globals = flags & 8;
-    count = header->directoryCount;
+    count = header->texture_count;
     while (index < count) {
         record = (u8*)TLobby__sub_803DDD2C(stride);
         texture = (GinjaTextureEntry*)((u8*)list->entries + off);
-        TLobby__sub_803DDD78((U16Bytes*)&image, (U16Bytes*)record);
+        TLobby__sub_803DDD78((s8 *)&image, (s8 *)record);
         texture->value04 = (texture->value04 & 0xFFFF0000) | image;
         record += 2;
         if (names) {
             s32 length = strlen((char*)record);
             if (length > 0) {
-                move_data((void *)((texture->name)), (const void *)(record), length);
+                move_data(texture->name, record, length);
             }
             record += 0x1C;
         }
@@ -389,11 +338,11 @@ void replace_gvm_texture_directory(GinjaTextureList* list, s32 stride, const Gvm
         if (dimensions) record += 2;
         if (alternateGlobal) {
             if (globals) {
-                TLobby::copy_4word_struct((FourByteView*)&texture->global_index, (FourByteView*)record);
+                TLobby::copy_4word_struct(&texture->global_index, record);
                 texture->value04 |= 0x01000000;
             }
         } else if (globals) {
-            TLobby::copy_4word_struct((FourByteView*)&texture->global_index, (FourByteView*)record);
+            TLobby::copy_4word_struct(&texture->global_index, record);
             texture->value04 |= 0x00800000;
         }
         off += 0xC;
@@ -412,64 +361,64 @@ s32 calc_gvm_entry_stride(u16 arg0) {
 }
 
 void TLobby::seek_gvrt_chunk() {
-    s32 spC;
-    s32 sp8;
+    s32 magic;
+    s32 size;
     do {
-        spC = *(s32 *)((s8 *)((s32 *)TLobby__sub_803DDD2C(4)) + 0);
-        TLobby::bswap32_in_place((u32 *)&spC);
-        switch (spC) {
+        magic = *(s32 *)TLobby__sub_803DDD2C(4);
+        TLobby::bswap32_in_place((u32 *)&magic);
+        switch (magic) {
         case 0x4D4D4F43:
         case 0x564E4F43:
         case 0x4E4C444D:
         case 0x494D5650:
         case 0x4C505647:
         case 0x43474D49:
-            sp8 = *(s32 *)((s8 *)((s32 *)TLobby__sub_803DDD2C(4)) + 0);
-            TLobby::bswap32_in_place((u32 *)&sp8);
-            TLobby__sub_803DDD40(sp8, 1);
+            size = *(s32 *)TLobby__sub_803DDD2C(4);
+            TLobby::bswap32_in_place((u32 *)&size);
+            TLobby__sub_803DDD40(size, 1);
             break;
         case 0x54525647:
             TLobby__sub_803DDD40(-4, 1);
             break;
         default:
-            sp8 = *(s32 *)((s8 *)((s32 *)TLobby__sub_803DDD2C(4)) + 0);
-            TLobby::bswap32_in_place((u32 *)&sp8);
-            TLobby__sub_803DDD40(sp8, 1);
+            size = *(s32 *)TLobby__sub_803DDD2C(4);
+            TLobby::bswap32_in_place((u32 *)&size);
+            TLobby__sub_803DDD40(size, 1);
             break;
         }
-    } while ((spC + 0xABAE0000) != 0x5647U);
+    } while (magic != 0x54525647);
 }
 
 #pragma push
 #pragma use_lmw_stmw off
 s32 load_gvm_texture_archive(void *buf, GinjaTextureList *list) {
     s32 id;
-    s32 arg;
-    s32 handle;
-    u32 *tex;
+    s32 tlut_name;
+    s32 slot;
+    GvrTextureChunk *chunk;
     s32 r;
     s32 i;
     s32 k;
     s32 data;
-    u32 *hdr;
+    GvmTextureHeader *header;
     s32 n;
-    arg = -1;
+    tlut_name = -1;
     TObjPlayer__sub_803DA7E0();
     if (buf == NULL) {
-        lbl_8058D470.resultCode = 1;
+        lbl_8058D470.code = 1;
         return -1;
     }
     TLobby__sub_803DDD20((saddr)buf);
-    hdr = (u32 *)TLobby__sub_803DDD2C(0xC);
-    TLobby::bswap32_in_place(hdr);
-    TLobby::bswap32_in_place(hdr + 1);
-    if (hdr[0] != 0x484D5647) {
-        lbl_8058D470.resultCode = 4;
+    header = (GvmTextureHeader *)TLobby__sub_803DDD2C(sizeof(GvmTextureHeader));
+    TLobby::bswap32_in_place(&header->magic);
+    TLobby::bswap32_in_place(&header->size);
+    if (header->magic != 0x484D5647) {
+        lbl_8058D470.code = 4;
         return -1;
     }
-    list->count = ((GvmTextureHeader *)hdr)->directoryCount;
-    replace_gvm_texture_directory(list, calc_gvm_entry_stride(((GvmTextureHeader *)hdr)->flags), (GvmTextureHeader *)hdr);
-    TLobby__sub_803DDD40(hdr[1] + 8, 0);
+    list->count = header->texture_count;
+    replace_gvm_texture_directory(list, calc_gvm_entry_stride(header->flags), header);
+    TLobby__sub_803DDD40(header->size + 8, 0);
     TLobby::seek_gvrt_chunk();
     n = list->count;
     for (i = 0; i < n; i++) {
@@ -478,27 +427,27 @@ s32 load_gvm_texture_archive(void *buf, GinjaTextureList *list) {
                 break;
             }
         }
-        r = TObjPlayer__sub_803D9E38((s32 *)((GvmTexList *)list), (u32)k, (s32 *)&id, (u32 *)&arg);
+        r = TObjPlayer__sub_803D9E38((s32 *)list, k, &id, (u32 *)&tlut_name);
         if (r == -1) {
-            lbl_8058D470.resultCode = 7;
+            lbl_8058D470.code = 7;
             return -1;
         }
-        tex = (u32 *)TLobby__sub_803DDD2C(0x10);
-        TLobby::bswap32_in_place(tex);
-        TLobby::bswap32_in_place(tex + 1);
-        if (tex[0] != 0x54525647) {
-            lbl_8058D470.resultCode = 4;
+        chunk = (GvrTextureChunk *)TLobby__sub_803DDD2C(sizeof(GvrTextureChunk));
+        TLobby::bswap32_in_place(&chunk->magic);
+        TLobby::bswap32_in_place(&chunk->size);
+        if (chunk->magic != 0x54525647) {
+            lbl_8058D470.code = 4;
             return -1;
         }
-        data = TLobby__sub_803DDD2C(tex[1] - 8);
+        data = TLobby__sub_803DDD2C(chunk->size - 8);
         if (r == 0) {
-            switch (TObjPlayer__sub_803DAC48((GvmTexList *)list, k, id, arg, (GvmTexDesc *)(tex + 2), &handle)) {
+            switch (TObjPlayer__sub_803DAC48(list, k, id, tlut_name, &chunk->desc, &slot)) {
             case -1:
-                lbl_8058D470.resultCode = 6;
+                lbl_8058D470.code = 6;
                 return -1;
             case 0:
-                if (TObjPlayer__sub_803DAB9C(handle, data) == -1) {
-                    TObjPlayer__sub_803DAC1C(handle);
+                if (TObjPlayer__sub_803DAB9C(slot, data) == -1) {
+                    TObjPlayer__sub_803DAC1C(slot);
                     return -1;
                 }
                 do {
