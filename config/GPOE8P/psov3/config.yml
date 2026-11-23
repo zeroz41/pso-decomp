@@ -1375,8 +1375,8 @@ force_active:
   - __ct__22TObjFogCollisionPoisonFP7TObjectPv
   - TObjFogCollisionPoison__instances
   - __ct__22TObjFogCollisionSwitchFP7TObjectPv
-  - TObjFogCollision__sub_80153F68
-  - TObjFogCollision__sub_80153F70
+  - fn_80153F68__16TObjFogCollisionFv
+  - fn_80153F70__16TObjFogCollisionFv
   - TObjGrassWeb__sub_800BC798
   - TObjGrass__bml_resource
   - TObjGrass__class_name
@@ -1965,7 +1965,7 @@ force_active:
   - __ct__12TOSignCave03FP7TObjectPv
   - __ct__12TOSwitchItemFP7TObjectPv
   - __ct__13PointerBufferFlPv
-  - __ct__13TItemAttackerFllll
+  - __ct__13TItemAttackerFP7TObjectPC3VeclP12Unk_8010340C
   - __ct__13TItemEffFlameFP7TObjectP12ActorBodyHit
   - __ct__13TItemEffLavisFPvPC3VecPC3Vecf
   - __ct__13TLazerFenceSwFP7TObjectPv
@@ -5356,9 +5356,9 @@ force_active:
   - copy_debris_params__8TObjChipFPvPv
   - copy_drop_node__FPUcPUc
   - copy_effect_data__18TAdChrMoveEffectGCFPvPv
-  - copy_fog_entry__FPUcPUc
+  - copy_fog_entry__FP8FogEntryP8FogEntry
   - copy_from__11TMainCursorFPv
-  - copy_from__13TItemAttackerFPv
+  - copy_from__12Unk_8010340CFP12Unk_8010340C
   - copy_from__14TechniqueBoostFP14TechniqueBoost
   - copy_from__19StarLightParametersFP19StarLightParameters
   - copy_from__23MagNodeOscillationStateFP23MagNodeOscillationState
@@ -5609,7 +5609,7 @@ force_active:
   - __dt__15TObjEneMe1GiGueFv
   - __dt__18TObjEneBalClawClawFv
   - deliver_chain_hits__11TTecGiZondeFv
-  - deliver_delayed_weapon_hit__FPUc
+  - deliver_delayed_weapon_hit__13TItemAttackerFv
   - deliver_partner_action__10TNpcPlayerFv
   - deliver_partner_chatter
   - deliver_photon_blast_results_animated__13TUnk_804C349CFv

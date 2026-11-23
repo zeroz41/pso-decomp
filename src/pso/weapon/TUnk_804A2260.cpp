@@ -3,6 +3,7 @@
 #include "pso/weapon/TUnk_804A2260.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/weapon/TItemWeapon.h"
+#include "pso/weapon/TItemAttacker.h"
 #include "pso/weapon/TUnk_804A2358.h"
 #include "pso/technique/TTecFoie.h"
 #include "pso/system/MatrixOps.h"
@@ -18,8 +19,6 @@
 
 struct Hit_80124C90 { u8 pad0[4]; Vec *pos; };
 
-struct Atk_80124C90 { s32 a; s32 b; s32 d8; s16 id0; s16 id1; s16 idx; s16 pad; f32 f; };
-
 struct Part_80124C90 { u8 pad0[0x1C]; Vec v; u8 pad28[4]; };
 
 struct Tgt_80124C90 { u8 pad0[0xA4]; Part_80124C90 *parts; };
@@ -31,7 +30,6 @@ struct Me_80124C90 { u8 pad0[0xF0]; Pl_80124C90 *pl; u8 padf4[0x1E4 - 0xF4]; f32
 extern "C" {
 Hit_80124C90 *csnVector(void *, void *, int);
 }
-void spawn_item_attacker(s32 arg0, u32 arg1, s32 arg2, u8 *arg3);
 extern "C" {
 f32 *get_weapon_range_record(void *, s32);
 void *get_captured_target_entry(void *, s32);
@@ -43,7 +41,7 @@ void TUnk_804A2260::sub_80124C90() {
     void *e;
     Tgt_80124C90 *t;
     s32 found;
-    Atk_80124C90 atk;
+    Unk_8010340C atk;
     s32 i;
     Hit_80124C90 *hit;
     ext = ((TObjPlayer *)(me->pl))->get_extended_state();
@@ -85,14 +83,14 @@ void TUnk_804A2260::sub_80124C90() {
         if (t != NULL) {
             Part_80124C90 *part = &t->parts[get_captured_target_collider_index(e)];
             void *e2 = get_captured_target_entry(ext, i);
-            atk.a = 0;
-            atk.b = 1;
-            atk.id0 = ((TObjBase *)(me->pl))->get_entity_id();
-            atk.id1 = ((TObjBase *)(t))->get_entity_id();
-            atk.d8 = this->get_item_id();
-            atk.idx = get_captured_target_collider_index(e2);
-            atk.f = ((TObjPlayer *)me->pl)->query_extended_state();
-            spawn_item_attacker((saddr)tl_05, (uaddr)&me->pl->pos38, (s32)(xyz_distance(pos, &part->v) / me->scale), (u8 *)&atk);
+            atk.reserved = 0;
+            atk.kind = 1;
+            atk.source = ((TObjBase *)(me->pl))->get_entity_id();
+            atk.target = ((TObjBase *)(t))->get_entity_id();
+            atk.weapon = this->get_item_id();
+            atk.collider = get_captured_target_collider_index(e2);
+            atk.damage = ((TObjPlayer *)me->pl)->query_extended_state();
+            spawn_item_attacker(tl_05, &me->pl->pos38, (s32)(xyz_distance(pos, &part->v) / me->scale), &atk);
         }
     }
     {

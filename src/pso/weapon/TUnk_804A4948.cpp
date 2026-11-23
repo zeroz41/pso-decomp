@@ -247,7 +247,7 @@ void TUnk_804A4948::emit_marker_effects() {
   }
 }
 
-void TUnk_804A4948::deliver_hit(TObjPlayer *attacker, TObjChara *target, s32 attack_kind, s32 body, f32 scale) {
+void TUnk_804A4948::deliver_hit(TObjPlayer *attacker, TObjChara *target, s32 attack_kind, f32 scale, s32 body) {
     TObjPlayer *player;
     if (get_mode() == 2) {
         player = owner;
@@ -258,11 +258,11 @@ void TUnk_804A4948::deliver_hit(TObjPlayer *attacker, TObjChara *target, s32 att
                 if (attack_kind == 2) {
                     send_srank_stat_extra((uaddr)target, body);
                 } else {
-                    TItemWeapon::deliver_hit(player, target, attack_kind, body, scale);
+                    TItemWeapon::deliver_hit(player, target, attack_kind, scale, body);
                 }
                 break;
             default:
-                TItemWeapon::deliver_hit(player, target, attack_kind, body, scale);
+                TItemWeapon::deliver_hit(player, target, attack_kind, scale, body);
                 break;
             }
         }

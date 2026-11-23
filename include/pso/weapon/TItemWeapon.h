@@ -72,7 +72,7 @@ struct TItemWeapon : public TItemEquipBase {
     virtual void vfunc_60();
     // attack_kind 0 physical, 1 physical with knockback, 2 the weapon
     // special; body indexes the target's collision bodies.
-    virtual void deliver_hit(TObjPlayer *attacker, TObjChara *target, s32 attack_kind, s32 body, f32 scale);
+    virtual void deliver_hit(TObjPlayer *attacker, TObjChara *target, s32 attack_kind, f32 scale, s32 body);
 
     // Copies what an item of this class keeps when it is replaced by a new
     // item code (replace_item_with_new_code) into the new item's data.

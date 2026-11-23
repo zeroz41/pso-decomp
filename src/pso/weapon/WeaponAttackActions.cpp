@@ -96,8 +96,6 @@ struct Pl_8011E950 {
 
 struct ShotVector { f32 x,y,z; };
 
-struct ShotPayload { s32 reserved,kind,weapon; s16 source,target,collider,pad; f32 damage; };
-
 struct Rec_8011F108 { u8 pad0[0xC]; f32 c; u8 pad1[0xC]; ShotVector pos; u8 pad2[4]; };
 
 struct Part_8011EDFC { u8 pad0[0x1C]; Vec pos; u8 pad28[4]; };
@@ -105,8 +103,6 @@ struct Part_8011EDFC { u8 pad0[0x1C]; Vec pos; u8 pad28[4]; };
 struct Obj_8011EDFC { u8 pad0[0x38]; f32 pos[3]; u8 pad44[0xA4 - 0x44]; Part_8011EDFC *parts; };
 
 struct Hit_8011EDFC { u8 pad0[4]; void *pos; };
-
-struct Spawn_8011EDFC { s32 a; s32 b; s32 c; s16 d; s16 e; s16 f; f32 g; };
 
 struct Self_8011EDFC;
 
@@ -214,7 +210,6 @@ void TItemWeapon::emit_marker_effects() {  }
 
 void TItemWeapon::carry_over_stats(TItemData *data, TItem *item) { memcpy((char*)data + 0x6, (char*)item + 0x1a4, 6); }
 }
-void spawn_item_attacker(s32 arg0, u32 arg1, s32 arg2, u8 *arg3);
 u32 pack_weapon_trail_color(void *arg0);
 
 void TItemWeapon::activate_effect(s32 effect) {
@@ -451,15 +446,15 @@ void TItemWeapon::launch_rare_weapon_special(void *origin, s32 enable, f32 scale
             if (t != NULL) {
                 Part_8011EDFC *part = &t->parts[get_captured_target_collider_index(e)];
                 void *e2 = get_captured_target_entry(ext, i);
-                Spawn_8011EDFC sp;
-                sp.a = 0;
-                sp.b = 1;
-                sp.d = ((TObjBase *)(((Self_8011EDFC *)this)->owner))->get_entity_id();
-                sp.e = ((TObjBase *)(t))->get_entity_id();
-                sp.c = ((TItem *)this)->get_item_id();
-                sp.f = get_captured_target_collider_index(e2);
-                sp.g = scale * ((TObjPlayer *)(((Self_8011EDFC *)this)->owner))->query_extended_state();
-                spawn_item_attacker((saddr)tl_05, (uaddr)(((Self_8011EDFC *)this)->owner + 0x38), (s32)(xyz_distance(origin, &part->pos) / ((Self_8011EDFC *)this)->speed), (u8 *)&sp);
+                Unk_8010340C sp;
+                sp.reserved = 0;
+                sp.kind = 1;
+                sp.source = ((TObjBase *)(((Self_8011EDFC *)this)->owner))->get_entity_id();
+                sp.target = ((TObjBase *)(t))->get_entity_id();
+                sp.weapon = ((TItem *)this)->get_item_id();
+                sp.collider = get_captured_target_collider_index(e2);
+                sp.damage = scale * ((TObjPlayer *)(((Self_8011EDFC *)this)->owner))->query_extended_state();
+                spawn_item_attacker(tl_05, (const Vec *)(((Self_8011EDFC *)this)->owner + 0x38), (s32)(xyz_distance(origin, &part->pos) / ((Self_8011EDFC *)this)->speed), &sp);
             }
         }
     }
@@ -474,7 +469,7 @@ void TItemWeapon::launch_rare_weapon_special(void *origin, s32 enable, f32 scale
 
 s32 TItemWeapon::launch_shot(u8 *arg1, s32 i, s32 arg3, s32 arg4) {
     s32 var_r31;
-    ShotPayload hit;
+    Unk_8010340C hit;
     f32 *weapon_range_record;
     f32 temp_f1;
     f32 temp_f2;
@@ -541,7 +536,7 @@ s32 TItemWeapon::launch_shot(u8 *arg1, s32 i, s32 arg3, s32 arg4) {
                         hit.weapon = this->get_item_id();
                         hit.collider = get_captured_target_collider_index(temp_r22_3);
                         hit.damage = ((TObjPlayer *)((void *)this->owner))->query_extended_state();
-                        spawn_item_attacker((saddr)tl_05, (uaddr)arg1, ((s32) var_f31), (u8 *)&hit.reserved);
+                        spawn_item_attacker(tl_05, (const Vec *)arg1, ((s32) var_f31), &hit);
                         var_r31 = 1;
                         this->restore_action_type();
                     }
@@ -583,7 +578,7 @@ void TUnk_804A69DC::for_each_target_in_range(f32 range) {
                 target = resolve_hittable_target(uid, body);
                 if (target != NULL && horizontal_distance_squared(&owner->position, &target->position) < range) {
                     attack_kind = owner->is_status_subsystem_ready();
-                    deliver_hit(owner, target, attack_kind, body, owner->query_extended_state());
+                    deliver_hit(owner, target, attack_kind, owner->query_extended_state(), body);
                 }
             }
         }
@@ -694,7 +689,7 @@ u32 TItemWeapon::get_attack_flags() {
     return flags;
 }
 
-void TItemWeapon::deliver_hit(TObjPlayer *attacker, TObjChara *target, s32 attack_kind, s32 body, f32 scale) {
+void TItemWeapon::deliver_hit(TObjPlayer *attacker, TObjChara *target, s32 attack_kind, f32 scale, s32 body) {
     LAYOUT_ASSERT(sp8_offset, offsetof(Stack_8011F7CC, sp8) == 0x0);
     LAYOUT_ASSERT(sp9_offset, offsetof(Stack_8011F7CC, sp9) == 0x1);
     LAYOUT_ASSERT(spC_offset, offsetof(Stack_8011F7CC, spC) == 0x4);
