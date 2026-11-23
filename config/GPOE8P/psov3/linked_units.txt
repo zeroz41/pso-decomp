@@ -2008,7 +2008,6 @@ pso/unk/text_800FA464.cpp
 pso/unk/text_800FA7E0.cpp
 pso/unk/text_800FFE04.cpp
 pso/unk/text_80103674.cpp
-pso/unk/text_801094D8.cpp
 pso/unk/text_8010EF14.cpp
 pso/unk/text_8010F168.cpp
 pso/unk/text_8010F210.cpp

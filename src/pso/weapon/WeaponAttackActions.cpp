@@ -15,6 +15,7 @@ struct NJS_OBJECT;
 #include "pso/effect/item/TItemEffPG.h"
 #include "pso/weapon/WeaponAttackActions.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/effect/item/TItemEffLandHit.h"
 #include "pso/weapon/TUnk_804A4D70.h"
 #include "pso/system/PadRumble.h"
 #include "pso/item/TItemEquipBase.h"
@@ -214,7 +215,6 @@ void TItemWeapon::emit_marker_effects() {  }
 void TItemWeapon::carry_over_stats(TItemData *data, TItem *item) { memcpy((char*)data + 0x6, (char*)item + 0x1a4, 6); }
 }
 void spawn_item_attacker(s32 arg0, u32 arg1, s32 arg2, u8 *arg3);
-void spawn_land_hit_effect(saddr arg0, uaddr arg1, uaddr arg2, uaddr arg3, s32 arg4);
 u32 pack_weapon_trail_color(void *arg0);
 
 void TItemWeapon::activate_effect(s32 effect) {
@@ -552,7 +552,7 @@ s32 TItemWeapon::launch_shot(u8 *arg1, s32 i, s32 arg3, s32 arg4) {
                 VecCopy((Vec *)(&endpoint.x), (const Vec *)(*(u8 **)((s8 *)temp_r3_3 + 4)));
                 var_f31 = xyz_distance(arg1, &endpoint.x) / shot_speed;
                 if ((*(s32 *)((s8 *)(*(u8 **)((s8 *)temp_r3_3 + 4)) + 0x18) & 0x100) && (impact_callback != NULL)) {
-                    spawn_land_hit_effect((saddr)tl_05, (uaddr)this, (uaddr)arg1, (uaddr)&endpoint.x, (s32)((s32) var_f31));
+                    spawn_land_hit_effect(tl_05, this, (Vec *)arg1, (Vec *)&endpoint.x, (s32)var_f31);
                 }
             }
             this->spawn_light_task();

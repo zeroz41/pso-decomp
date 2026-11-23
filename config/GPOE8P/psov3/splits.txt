@@ -2270,11 +2270,8 @@ pso/player/TObjPlayer_80109344.cpp:
 	.text       start:0x801093B4 end:0x801094D8
 	.sdata2     start:0x805DAB38 end:0x805DAB3C
 
-pso/unk/text_801094D8.cpp:
-	.text       start:0x801094D8 end:0x80109568
-
 pso/effect/item/TItemEffLandHit.cpp:
-	.text       start:0x80109568 end:0x80109670
+	.text       start:0x801094D8 end:0x80109670
 	.rodata     start:0x8043E208 end:0x8043E218
 	.data       start:0x8049F0A0 end:0x8049F0B8
 	.sdata      start:0x805D2BB8 end:0x805D2BC0
