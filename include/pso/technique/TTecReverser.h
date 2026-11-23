@@ -9,7 +9,8 @@ struct TechniqueParams;
 struct TTecReverser : public TTecCircle {
     TTecReverser(saddr arg1, saddr origin, saddr targets, saddr level);
     virtual ~TTecReverser();
-    void sub_8022BE64(TechniqueParams *params, s32 level);
+    // Takes speed and lifetime from the parameters and adds the level to their power.
+    void apply_params(TechniqueParams *params, s32 level);
     virtual void vfunc_6(void *);
     virtual void run_task();
     u32 m_ec;

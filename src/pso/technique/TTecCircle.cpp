@@ -119,7 +119,7 @@ void TTecCircle::run_task() {
 
     switch (this->state) {
     case 0:
-        sub_8022C008();
+        move_toward_target();
         count_if_within_range();
         return;
     case 1:
@@ -128,7 +128,7 @@ void TTecCircle::run_task() {
     }
 }
 
-void TTecCircle::sub_8022C008() {
+void TTecCircle::move_toward_target() {
     approach_vector_fixed_distance(&this->position, &this->target, &this->position, this->speed);
 }
 
@@ -162,7 +162,7 @@ void TTecCircle::render() {
     debug_draw_sphere(&this->position, &this->color, this->scale.x);
 }
 
-void TTecReverser::sub_8022BE64(TechniqueParams *params, s32 level) {
+void TTecReverser::apply_params(TechniqueParams *params, s32 level) {
     params->pad_00 = params->pad_00 + (f32)level;
     this->speed = params->pad_04;
     this->lifetime = params->pad_08;

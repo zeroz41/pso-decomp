@@ -19,7 +19,7 @@ public:
     saddr collect_body_contacts(TObjCollidable *target, CollisionBody *body, void *player);
     saddr collect_body_contacts_for_target(saddr player);
     void apply_technique_to_area_targets();
-    void sub_8022C008();
+    void move_toward_target();
     void count_if_within_range();
     virtual void render();
     virtual void run_task();
@@ -27,7 +27,7 @@ public:
     s32 m_74;
     s16 level;
     s16 band;  // TObjPlayer::get_level_tier(level)
-    Vec target;  // sub_8022C008 moves position toward it
+    Vec target;  // where the circle travels to before it spreads
     f32 power;  // the technique parameters (TechniqueParams) start here
     u8 pad_8C[0x4];
     f32 scope;  // the radius the area grows to

@@ -16276,7 +16276,7 @@ force_active:
   - sub_8020F1DC__18TCheckRoomSequenceFv
   - sub_802100F8__18TCheckRoomSequenceFv
   - sub_802100FC__18TCheckRoomSequenceFv
-  - sub_8022C008__10TTecCircleFv
+  - move_toward_target__10TTecCircleFv
   - sub_80237258__19TTecPlayerInfluenceFv
   - sub_80247080__11TWindowChatFv
   - sub_80247128__11TWindowChatFv
