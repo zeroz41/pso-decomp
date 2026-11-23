@@ -758,7 +758,7 @@ force_active:
   - TNpcPlayer__sub_80152A34
   - clear__15PartnerCountersFv
   - __ct__26G_CastTechniqueParams_6x47Fv
-  - __ct__13TUnk_804B7C04FPfllllP7TObject
+  - __ct__17TNpcPlayerSpawnerFPfllllP7TObject
   - TOAirconCave01__model_archive
   - TOAirconCave01__shared_resource_desc
   - TOAirconCave01_class_name
@@ -2478,7 +2478,7 @@ force_active:
   - __dt__13TUnk_804A69C0Fv
   - __dt__13TUnk_804A6DC0Fv
   - __dt__13TUnk_804AF7B0Fv
-  - __dt__13TUnk_804B7C04Fv
+  - __dt__17TNpcPlayerSpawnerFv
   - __dt__13TUnk_804B7C1CFv
   - __dt__13TUnk_804C4498Fv
   - __dt__13TUnk_804C8678Fv
@@ -3248,7 +3248,7 @@ force_active:
   - __vt__13TUnk_804A6DC0
   - __vt__13TUnk_804A8640
   - __vt__13TUnk_804AF7B0
-  - __vt__13TUnk_804B7C04
+  - __vt__17TNpcPlayerSpawner
   - __vt__13TUnk_804B7C1C
   - __vt__13TUnk_804B97C0
   - __vt__13TUnk_804C4498
@@ -14875,7 +14875,7 @@ force_active:
   - run_task__17TItemFollowEffectFv
   - run_task__13TUnk_804A5D10Fv
   - run_task__13TUnk_804B5C08Fv
-  - run_task__13TUnk_804B7C04Fv
+  - run_task__17TNpcPlayerSpawnerFv
   - run_task__13TUnk_804B7C1CFv
   - run_task__13TUnk_804C8678Fv
   - run_task__13TUnk_804CC0E8Fv

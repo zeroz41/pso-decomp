@@ -3,7 +3,7 @@
 #include "pso/unk/TUnk_804B7C1C.h"
 #include "pso/system/vector.h"
 #include "pso/object/base/TObjMotion.h"
-#include "pso/unk/TUnk_804B7C04.h"
+#include "pso/npc/TNpcPlayerSpawner.h"
 #include "pso/unk/TLobby.h"
 #include "pso/npc/TNpcPlayer.h"
 #include "pso/player/TObjPlayer.h"
@@ -111,7 +111,7 @@ void TUnk_804B7C1C::run_task() {
         ((TObjCollidable *)arg0)->set_indexed_flags(0, 1);
         if (arg0->fB4 == 0) {
             arg0->fB4 = 1;
-            new TUnk_804B7C04(arg0->pos, arg0->f60, arg0->fAC, arg0->fB0, arg0->f88, tl_07);
+            new TNpcPlayerSpawner(arg0->pos, arg0->f60, arg0->fAC, arg0->fB0, arg0->f88, tl_07);
         }
     } else {
         p = (Ply_80190FDC *)get_player_by_client_id(arg0->fAC);
@@ -131,23 +131,23 @@ void TUnk_804B7C1C::render() {  }
 void TLobby__sub_80190FD0(int a0) { npc_proximity_target_id = a0; }
 
 
-TUnk_804B7C04::TUnk_804B7C04(f32 *position, s32 heading, s32 slot, s32 record, s32 mode, TObject *parent)
+TNpcPlayerSpawner::TNpcPlayerSpawner(f32 *position, s32 heading, s32 slot, s32 record, s32 mode, TObject *parent)
     : TObject(parent) {
     VecCopy((Vec *)this->position, (const Vec *)position);
     this->heading = heading;
     this->slot = slot;
-    unk_34 = record;
-    m_2c = 0;
-    unk_38 = mode;
+    this->record = record;
+    load_state = 0;
+    this->mode = mode;
     TNpcPlayer::ensure_rock_singleton();
-    TLobby::request_file_read("npcplayerchar.dat", (s32)npc_player_char_data_buffer, (s32 *)&m_2c, (void **)0);
+    TLobby::request_file_read("npcplayerchar.dat", (s32)npc_player_char_data_buffer, (s32 *)&load_state, (void **)0);
 }
 
-TUnk_804B7C04::~TUnk_804B7C04() {
-    u8 *player_object = create_player_object(slot, 6, TNpcPlayer::build_npc_player_record(this->unk_34));
+TNpcPlayerSpawner::~TNpcPlayerSpawner() {
+    u8 *player_object = create_player_object(slot, 6, TNpcPlayer::build_npc_player_record(this->record));
     if (player_object != NULL) {
         *(s16 *)((s8 *)player_object + 0x324) = 6;
-        if (this->unk_38 == 1) {
+        if (this->mode == 1) {
             queue_player_injured_pose();
             set_player_quest_control_flag((TObjPlayer *)player_object);
         }
@@ -155,5 +155,5 @@ TUnk_804B7C04::~TUnk_804B7C04() {
     }
 }
 
-void TUnk_804B7C04::run_task() { if (this->m_2c == 1) { queue_destruction(); } }
+void TNpcPlayerSpawner::run_task() { if (this->load_state == 1) { queue_destruction(); } }
 
