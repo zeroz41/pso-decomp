@@ -334,7 +334,6 @@ s32 fill_player_record__10TObjPlayerFPvPv(void *, void *);
 s32 init_player_join_record(void *);
 void send_player_data_98__9TProtocolFPvPvPvPvPvPvPv(void *, void *, void *, void *, void *, void *, void *);
 u8 * get_character_save_record(u32);
-void * get_char_index__23TAdSinglePlyChrSelectGCFUi(u32);
 void * __nw__7TObjectFUl(u32);
 s32 __ct__7TObjectFP7TObject(void *, void *);
 extern s32 TLobby__data_805D4E30;

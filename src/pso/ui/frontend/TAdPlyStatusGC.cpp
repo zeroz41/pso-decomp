@@ -20,6 +20,7 @@
 #include "pso/system/ControllerInput.h"
 #include <stdio.h>
 #include <string.h>
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 
 struct Card_8033F6A8 {
     u8 pad0[0x30];
@@ -41,7 +42,6 @@ extern saddr ply_status_chcr_load_afs;
 s32 *TAdSinglePlyChrSelectGC__sub_801FE3E4(u32 i);
 saddr get_entry__23TAdSinglePlyChrSelectGCFi(s32 i);
 s32 TAdSinglePlyChrSelectGC__sub_801FE800(u32 i);
-saddr get_char_index__23TAdSinglePlyChrSelectGCFUi(u32 arg0);
 }
 s32 get_class_name_text(s32 arg0);
 extern "C" {
@@ -157,7 +157,7 @@ void TAdPlyStatusGC::format_status_strings() {
         if (p != 0) {
             time = p->fC;
         }
-        c = (u8 *)get_char_index__23TAdSinglePlyChrSelectGCFUi(0xFFFF);
+        c = (u8 *)TAdSinglePlyChrSelectGC::get_char_index(0xFFFF);
         break;
     case 1:
         p = (Save_8033F6A8 *)TAdSinglePlyChrSelectGC__sub_801FE3E4(ply_status_index);

@@ -439,7 +439,7 @@ TPlayerBattleCtrl::TPlayerBattleCtrl(TObject *parent) : TObject(parent) {
     text = (current_language == LANGUAGE_JAPANESE) ? player_battle_ctrl_text_japanese : player_battle_ctrl_text_english;
     player = (saddr)get_local_player();
     if (player != 0) {
-        export_character_data__10TObjPlayerFPvPv(player, TAdSinglePlyChrSelectGC::get_char_index(0xFFFF));
+        export_character_data__10TObjPlayerFPvPv(player, (saddr)TAdSinglePlyChrSelectGC::get_char_index(0xFFFF));
     }
     TLobby::stop_audio_streams();
     unk_64 = 0;

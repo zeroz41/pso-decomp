@@ -5,6 +5,7 @@
 #include "pso/ui/charcreate/TObjCMMainMenu.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include <string.h>
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 
 extern "C" {
 u8 * copy_player_visual_record(void *, void *);
@@ -37,7 +38,7 @@ void TObjCMMainMenu::copy_char_name() {
 }
 
 void TObjCMMainMenu::select_char_menu() {
-    ((TObjCMMainMenu *)&get_char_index__23TAdSinglePlyChrSelectGCFUi(0xFFFF)->m_disp_part2)->copy_char_name();
+    ((TObjCMMainMenu *)&TAdSinglePlyChrSelectGC::get_char_index(0xFFFF)->m_disp_part2)->copy_char_name();
 }
 
 s32 TObjCMMainMenu::validate_character_name(s8 *arg0) {
@@ -83,12 +84,12 @@ s32 TObjCMMainMenu::validate_character_name(s8 *arg0) {
 }
 
 s32 TObjCMMainMenu::get_current_char_flag() {
-    s32 x = (s8)get_char_index__23TAdSinglePlyChrSelectGCFUi(0xFFFF)->m_disp_part2.section_id;
+    s32 x = (s8)TAdSinglePlyChrSelectGC::get_char_index(0xFFFF)->m_disp_part2.section_id;
     return (u32) __cntlzw(-1 - x) >> 5;
 }
 void fn_8028DBC4(s32 _w0) {
     CharacterAppearanceFields *character_appearance_fields;
-    character_appearance_fields = (CharacterAppearanceFields *)&get_char_index__23TAdSinglePlyChrSelectGCFUi(0xFFFF)->m_disp_part2;
+    character_appearance_fields = (CharacterAppearanceFields *)&TAdSinglePlyChrSelectGC::get_char_index(0xFFFF)->m_disp_part2;
     copy_player_visual_record(character_appearance_fields, get_class_appearance_preset(0));
     character_appearance_fields->section = -1;
 }

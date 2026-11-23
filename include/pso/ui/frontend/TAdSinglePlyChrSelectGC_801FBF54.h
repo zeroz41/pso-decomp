@@ -35,8 +35,6 @@ void clear_entry__23TAdSinglePlyChrSelectGCFi(s32 i);
 u8 *construct_card_window_array__23TAdSinglePlyChrSelectGCFPv(u8 *arg0);
 void decrypt_char_data__23TAdSinglePlyChrSelectGCFPv(void *arg0);
 void game_state_load(void);
-TPlyCharData *get_char_index__23TAdSinglePlyChrSelectGCFUi(u32 arg0);
-int get_char_table_entry__23TAdSinglePlyChrSelectGCFi(int a0);
 s32 get_entry__23TAdSinglePlyChrSelectGCFi(s32 i);
 s32 get_field_118__22TAdEnterSerialAccessGCFv(void);
 int get_serial_access_field_118__23TAdSinglePlyChrSelectGCFPv(void);

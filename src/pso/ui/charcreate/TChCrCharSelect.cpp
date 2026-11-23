@@ -18,6 +18,7 @@
 #include "pso/ui/charcreate/TChCrTagInformation.h"
 #include "pso/unk/text_802993F0.h"
 #include "pso/ui/charcreate/TChCrEffTag.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 
 struct Range_802937E8 { s32 min; s32 max; };
 
@@ -65,7 +66,7 @@ void TChCrCharSelect::tick_and_apply_selection() {
     temp_r0 = apply_delay - 1;
     apply_delay = temp_r0;
     if (temp_r0 <= 0) {
-        character_appearance_fields = (CharacterAppearanceFields *)&get_char_index__23TAdSinglePlyChrSelectGCFUi(0xFFFF)->m_disp_part2;
+        character_appearance_fields = (CharacterAppearanceFields *)&TAdSinglePlyChrSelectGC::get_char_index(0xFFFF)->m_disp_part2;
         copy_player_visual_record(character_appearance_fields, get_class_appearance_preset(get_char_select_class_id(TChCrCharSelect__selected_slot_index)));
         character_appearance_fields->section = -1;
         character_appearance_fields->name[0] = 0;

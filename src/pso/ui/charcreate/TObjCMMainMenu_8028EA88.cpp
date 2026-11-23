@@ -23,6 +23,7 @@
 #include "pso/ui/charcreate/CharacterAppearance.h"
 #include "pso/ui/charcreate/TChCrCharSelect.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 
 #pragma readonly_strings on
 
@@ -68,7 +69,7 @@ void init_creation_menu_scene(void) {
             TObjCMMainMenu__sub_8028EC18();
             TObjCMMainMenu::select_char_menu();
             TObjCMMainMenu__sub_8028D9F8();
-            TCharaMaking::create(tl_03, (void *)&get_char_index__23TAdSinglePlyChrSelectGCFUi(0xFFFF)->m_disp_part2);
+            TCharaMaking::create(tl_03, (void *)&TAdSinglePlyChrSelectGC::get_char_index(0xFFFF)->m_disp_part2);
             TObjCMMainMenu::create_fade_effect((void *)0xF, (void *)1);
         }
     }

@@ -356,7 +356,6 @@ s32 try_generate_rare_item__9TItemDropFiPvPv(saddr arg0, u8 *arg1, u8 *arg2);
 u8 select_weighted_column_u16__9TItemDropFiiiii(saddr, saddr, s32, s32, s32);
 s32 find_tool_pmt_base_id(u8, void *);
 void generate_tool_drop__9TItemDropFiiPv(saddr arg0, s32 arg1, void *arg2);
-saddr get_char_index__23TAdSinglePlyChrSelectGCFUi(u32);
 u8 *create_drop__9TItemDropFi(saddr arg0);
 u32 subtractive_rng_next(void *);
 s32 __cvt_fp2unsigned(f32);
@@ -997,7 +996,7 @@ TItemDrop::TItemDrop(TObject *parent, s8 section) : TObject(parent) {
 u8 *create_drop__9TItemDropFi(saddr parent) {
     u8 section;
     u8 *temp_r3;
-    temp_r3 = (u8 *)(get_char_index__23TAdSinglePlyChrSelectGCFUi(0U));
+    temp_r3 = (u8 *)(TAdSinglePlyChrSelectGC::get_char_index(0U));
     if (temp_r3 != NULL) {
         section = *(u8 *)((s8 *)temp_r3 + 0x3A0);
         if (((s8) section >= 0) && ((s8) section < 0xA)) {

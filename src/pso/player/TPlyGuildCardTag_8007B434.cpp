@@ -4,6 +4,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
 #include "pso/unk/TLobby.h"
 #include "pso/ui/Language.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 
 
 extern u8 *TLobby__protocol_instance;
@@ -16,7 +17,7 @@ void __as__16TPlyGuildCardTagFRC16TPlyGuildCardTag(void *arg0, void *src) {
 void TLobby::fill_guild_card_from_char(s32 arg1) {
     uaddr temp_r3;
     u8 *temp_r31;
-    temp_r3 = (uaddr)get_char_index__23TAdSinglePlyChrSelectGCFUi(arg1);
+    temp_r3 = (uaddr)TAdSinglePlyChrSelectGC::get_char_index(arg1);
     if (temp_r3 != 0U) {
         temp_r31 = (unsigned char *) (temp_r3 + 0x370);
         if (temp_r31 != NULL) {

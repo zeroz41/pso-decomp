@@ -50,11 +50,11 @@ void fn_803000C8(void) {
 
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/ui/window/WindowMenuFactory.h"
+#include "pso/player/TPlyCharData.h"
 
 
 typedef void (TAdMultiSelGameModeGC::*Action_80300770)();
 
-struct Ent_80300850 { u8 pad[0x364]; s32 f364; };
 
 struct Pos_8030095C { f32 v[8]; };
 
@@ -62,7 +62,6 @@ struct Cur_8030095C { f32 v[2]; };
 
 s32 is_multiplayer_character_slot_selected(s32 arg0);
 extern "C" {
-Ent_80300850 *get_char_table_entry__23TAdSinglePlyChrSelectGCFi(int);
 saddr lbl_805D69F4;
 }
 
@@ -257,7 +256,7 @@ s32 TAdMultiSelGameModeGC::get_max_difficulty_for_party_level() {
     m = TObjEneDolmOlm__sub_80300CF0();
     for (i = 0; i < 4; i++) {
         if (is_multiplayer_character_slot_selected(i) != 0) {
-            s32 t = get_char_table_entry__23TAdSinglePlyChrSelectGCFi(i)->f364 + 1;
+            s32 t = TAdSinglePlyChrSelectGC::get_char_table_entry(i)->m_stats.level + 1;
             if ((u32)t < (u32)m) {
                 m = t;
             }

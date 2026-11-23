@@ -487,7 +487,6 @@ typedef void (TAdSinglePlyChrSelectGC::*Act_802D4B6C)();
 extern "C" {
 s32 set_default_camera__21TAdMultiChgGameModeGCFv(void *);
 
-TPlyCharData *get_char_index__23TAdSinglePlyChrSelectGCFUi(u32);
 
 
 void TAdSinglePlyChrSelectGC::cleanup() {
@@ -565,7 +564,7 @@ void TAdSinglePlyChrSelectGC::run_task() {
 }
 
 s32 TAdSinglePlyChrSelectGC__sub_802D4D9C() {
-    player_stats stats = get_char_index__23TAdSinglePlyChrSelectGCFUi(0xFFFF)->m_stats;
+    player_stats stats = TAdSinglePlyChrSelectGC::get_char_index(0xFFFF)->m_stats;
     if (stats.meseta >= 10000) {
         return 1;
     }

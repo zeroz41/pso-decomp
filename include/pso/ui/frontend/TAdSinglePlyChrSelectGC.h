@@ -146,7 +146,8 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     void apply_rng_cipher(u32 *data, s32 len);
     void crypt_data_be(u32 *data, s32 len);
     void append_extension_if_missing(char *name, char *ext);
-    static saddr get_char_index(unsigned int);
+    static TPlyCharData *get_char_index(unsigned int index);
+    static TPlyCharData *get_char_table_entry(int index);
     static void run_save_load_sequence();
     static s32 init();
     static s32 load_character_from_card(int);
