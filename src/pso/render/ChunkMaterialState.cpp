@@ -182,7 +182,7 @@ void TKeyBoardControl::clamp_axes() {
     }
 }
 
-void TObjPlayer::init_matrix_stack(s32 arg0, s32 arg1) {
+void TObjPlayer::init_matrix_stack(s32 player_matrix_stack_buffer, s32 arg1) {
     matrix_stack_base = (GC_Mtx *)0xE0000000;
     current_matrix = (GC_Mtx *)0xE0000000;
     matrix_stack_limit = (GC_Mtx *)0xE0000000 + (arg1 - 1);

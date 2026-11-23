@@ -133,24 +133,24 @@ void traverse_model_node_tree(NJS_OBJECT *node, s32 (*draw)(void *model)) {
     } while (node != NULL);
 }
 
-void draw_motion_node_tree_with_context(NJS_OBJECT *arg0) {
+void draw_motion_node_tree_with_context(NJS_OBJECT *node) {
     void *t;
     do {
         push_matrix();
-        compose_motion_node_matrix(arg0);
+        compose_motion_node_matrix(node);
         if (motion_node_draw_callback != NULL) {
-            motion_node_draw_callback(arg0);
+            motion_node_draw_callback(node);
         }
-        t = arg0->model;
-        if (t != 0 && (arg0->evalflags & 8) == 0) {
+        t = node->model;
+        if (t != 0 && (node->evalflags & 8) == 0) {
             model_draw_context->draw(t);
         }
-        if (arg0->child != NULL) {
-            draw_motion_node_tree_with_context(arg0->child);
+        if (node->child != NULL) {
+            draw_motion_node_tree_with_context(node->child);
         }
         pop_matrix();
-        arg0 = arg0->sibling;
-    } while (arg0 != NULL);
+        node = node->sibling;
+    } while (node != NULL);
 }
 
 void select_render_context(s32 arg0) {

@@ -51,7 +51,7 @@ struct TFogCtrl : public TObject {
     s32 locked;          // while set, select_fog and restore_fog refuse
     s32 index;           // the view this controller belongs to
     static TFogCtrl *fog_instance_table[4];  // one per view, NULL when none
-    static s32 select_fog_for_viewport(s32 arg0, s32 arg1, s32 arg2);
+    static s32 select_fog_for_viewport(s32 arg0, s32 entry, s32 arg2);
     static s32 restore_fog_for_player(s32 owner_client_id, s32 arg0);
     static FogEntry *get_entry(int a0);
     static void clear_split_screen_fog();
@@ -67,8 +67,8 @@ struct TFogCtrl : public TObject {
     static void update_fog_entries();
     static void reset();
     static void create_instance();
-    static s32 update_all(s32 arg0, s32 arg1);
-    static s32 apply_all(s32 arg0, s32 arg1);
+    static s32 update_all(s32 entry, s32 flags);
+    static s32 apply_all(s32 entry, s32 arg1);
     static s32 update_first_active_fog();
     static s32 update_all(s32 arg0);
     s32 select_fog(s32 entry, s32 arg2);

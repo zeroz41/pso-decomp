@@ -561,12 +561,12 @@ s32 TFogCtrl::restore_fog_for_player(s32 owner_client_id, s32 arg0) {
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-s32 TFogCtrl::select_fog_for_viewport(s32 arg0, s32 arg1, s32 arg2) {
+s32 TFogCtrl::select_fog_for_viewport(s32 arg0, s32 entry, s32 arg2) {
     if (is_split_screen() == 0) {
         arg0 = 0;
     }
     if (arg0 >= 0 && arg0 < 4 && fog_instance_table[arg0] != NULL) {
-        return fog_instance_table[arg0]->select_fog(arg1, arg2);
+        return fog_instance_table[arg0]->select_fog(entry, arg2);
     }
     return 0;
 }
@@ -592,21 +592,21 @@ s32 TFogCtrl::update_first_active_fog() {
     return 0;
 }
 
-s32 TFogCtrl::apply_all(s32 arg0, s32 arg1) {
+s32 TFogCtrl::apply_all(s32 entry, s32 arg1) {
     s32 i;
     for (i = 0; i != 4; i++) {
         if (fog_instance_table[i] != NULL) {
-            fog_instance_table[i]->select_fog(arg0, arg1);
+            fog_instance_table[i]->select_fog(entry, arg1);
         }
     }
     return 1;
 }
 
-s32 TFogCtrl::update_all(s32 arg0, s32 arg1) {
+s32 TFogCtrl::update_all(s32 entry, s32 flags) {
     s32 i;
     for (i = 0; i != 4; i++) {
         if (fog_instance_table[i] != NULL) {
-            fog_instance_table[i]->request_fog(arg0, arg1);
+            fog_instance_table[i]->request_fog(entry, flags);
         }
     }
     return 1;
