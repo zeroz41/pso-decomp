@@ -16,6 +16,7 @@ class TBoss1DragonColli;
 class TUnk_80481B34;
 class TObjBoss1MokoHill_SoloM;
 class TObjChara;
+struct TObjPlayer;
 struct ControllerInputContext;
 
 struct DragonModelVector { f32 x, y, z; };
@@ -275,6 +276,10 @@ struct TBoss1Dragon : public TObjEneDD_ST {
 void get_dragon_follow_camera_offsets(Vec *target_offset, Vec *eye_offset);
 // The movement ailment (kind 0) the Dragon's hit boxes, tail and craters give a target not in state 2.
 void apply_dragon_hit_ailment(TObjChara *target);
+
+void handle_6x10_dragon_boss_actions(void *packet);
+void handle_6x11_dragon_boss_actions(void *packet);
+void handle_6x12_dragon_boss_actions(TObjPlayer *packet);
 
 #include <stddef.h>
 #define DRAGON_OFFSET(member, offset) \

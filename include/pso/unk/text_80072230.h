@@ -10,4 +10,6 @@ void TLobby__sub_80072618(void);
 }
 // --- end of C functions
 
+void handle_6x97_select_challenge_mode_failure_option(void *player);
+
 #endif

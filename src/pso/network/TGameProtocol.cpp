@@ -26,6 +26,15 @@
 #include "pso/boss/derolle/TBoss2DeRolLe.h"
 #include "pso/quest/TQuestListVM_8007EAF8.h"
 #include "pso/object/lobby/LobbyGoGoBall.h"
+#include "pso/boss/dragon/TBoss1Dragon.h"
+#include "pso/network/TradeSession.h"
+#include "pso/object/TObjHashi.h"
+#include "pso/object/warp/TObjWarpBossMulti.h"
+#include "pso/ui/window/TWindowSubComCard_8007A810.h"
+#include "pso/unk/TLobby_80103F5C.h"
+#include "pso/unk/text_80072230.h"
+#include "pso/unk/text_8011A780.h"
+#include "pso/unk/text_801F3774.h"
 
 struct TBoss3Volopt;
 struct TLobby;
@@ -42,16 +51,12 @@ s32 dispatching_own_subcommand;
 
 
 void handle_6x05_write_switch_flag(void *arg0);
-void handle_6x06_send_guild_card(s32 packet);
 extern "C" void handle_6x07_symbol_chat();
 extern "C" void handle_6x0A_update_enemy_state();
 void handle_6x0B_update_object_state(G_UpdateObjectState_6x0B *packet);
 extern "C" void handle_6x0C_add_or_remove_status_effect(void *arg0);
 extern "C" void handle_6x0D_add_or_remove_status_effect(void *arg0);
 extern "C" void handle_6x0E_clear_negative_status_effects(s32 arg0);
-void handle_6x10_dragon_boss_actions(void *packet);
-void handle_6x11_dragon_boss_actions(void *packet);
-void handle_6x12_dragon_boss_actions(TObjPlayer *packet);
 extern "C" void handle_6x18_vol_opt2_boss_actions();
 extern "C" void handle_6x19_dark_falz_actions();
 extern "C" void handle_6x1B_enable_pk_mode_for_player(void *arg0);
@@ -110,17 +115,13 @@ extern "C" void handle_6x56_set_player_position_and_angle(void *arg0);
 extern "C" void handle_6x57(void *arg0);
 extern "C" void handle_6x58_lobby_animation(void *arg0);
 extern "C" void handle_6x5A_pick_up_item_request();
-void handle_6x5C_destroy_floor_item(void *lobby);
 extern "C" void handle_6x5F_drop_item();
-void handle_6x60_standard_drop_item_request(void *command);
 void handle_6x62();
-void handle_6x63_destroy_floor_item(void *command);
 extern "C" void handle_6x64();
 extern "C" void handle_6x65();
 void handle_6x66_use_star_atomizer(u8 *arg0);
 extern "C" void handle_6x68_set_telepipe_state();
 extern "C" void handle_6x69_npc_control();
-void handle_6x6A_set_boss_warp_flags(void *packet);
 extern "C" void handle_6x6B_sync_game_state();
 extern "C" void handle_6x6C_sync_game_state();
 extern "C" void handle_6x6D_sync_game_state();
@@ -131,9 +132,7 @@ void handle_6x71_unblock_game_join();
 void handle_6x72_done_loading_into_game();
 void handle_6x73_exit_quest();
 void handle_6x74_word_select(u8 *arg0);
-void handle_6x75_update_quest_flag_dc(TLobby *lobby);
 extern "C" void handle_6x76_set_entity_set_flags();
-void handle_6x78(void *packet);
 extern "C" void handle_6x7A_enable_stealth_suit_effect(void *arg0);
 extern "C" void handle_6x7B_disable_stealth_suit_effect(void *arg0);
 extern "C" void handle_6x7C_set_challenge_records();
@@ -158,7 +157,6 @@ void handle_6x92(u8 *arg0);
 extern "C" void handle_6x93_set_switch_flag_from_timer();
 extern "C" void handle_6x95_set_challenge_time();
 void handle_6x96();
-void handle_6x97_select_challenge_mode_failure_option(void *player);
 extern "C" void handle_6x98();
 extern "C" void handle_6x99();
 extern "C" void handle_6x9A_update_entity_stat();
@@ -166,8 +164,6 @@ extern "C" void handle_6x9B_level_up_all_techniques(void *arg0);
 extern "C" void handle_6x9C_set_enemy_low_game_flags_ultimate();
 extern "C" void handle_6x9D_set_challenge_dead_flag();
 extern "C" void handle_6xA1_revive_player_v3(void *arg0);
-void handle_6xA2_specializable_item_drop_request(void *lobby);
-void handle_6xA6_modify_trade_proposal(u8 *message_window);
 void handle_6xA7();
 void handle_6xA8_gol_dragon_boss_actions(void *arg0);
 void handle_6xA9_barba_ray_boss_actions(void *arg0);

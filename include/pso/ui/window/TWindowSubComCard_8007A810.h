@@ -16,4 +16,6 @@ s32 init_guild_card_tag__17TWindowSubComCardFi(s32 ply_guild_card_tag);
 s32 reinit__17TWindowSubComCardFi(s32 object);
 }
 
+void handle_6x06_send_guild_card(s32 packet);
+
 #endif
