@@ -89,11 +89,6 @@
 // and "%xF" in first-use order) comes out exactly as in the original .sdata2.
 #pragma defer_codegen on
 
-struct RecoveredGlobal_8019B854___vt__14TObjWarpString {
-    s32 value;
-    u8 remaining[0x14];
-};
-
 
 struct Obj_8019B8D8 { u8 pad[0x88]; s32 id; };
 
@@ -146,22 +141,15 @@ s32 get_floor_destination_name();
 s32 debug_draw_line(void *, void *, u32, u32);
 s32 fn_80141CB4(void *, f32);
 s64 get_warp_string_screen_position(void *arg0, u16 client_id);
-void fade_and_destroy__14TObjWarpStringFPv(u8 *arg0);
-void TObjWarpString__delay_before_fade_out(void *arg0);
-void update_fade_in__14TObjWarpStringFPv(u8 *arg0);
-u8 * __ct__14TObjWarpStringFv(u8 *arg0, u8 *arg1, saddr arg2, s16 arg3);
 s32 can_warp__11TObjMapWarpFlUs(void *, u16);
 void TObjAreaWarpQuest__sub_8019DCD8(TObjPlayer *, s32);
 void send_6x21_inter_level_warp(void *obj, s32 value);
-void __ct__7TObjectFP7TObject(void *, void *);
 void *destroy__13TAdVIConfigGCFPvs(void *arg0, s16 arg1);
 s32 get_game_play_mode(int);
 s32 PPCSync();
 }
-extern RecoveredGlobal_8019B854___vt__14TObjWarpString __vt__14TObjWarpString;
 extern s32 local_client_id;
 
-void *create_TObjWarpString(char *text, u16 client_id);
 void bswap_6x94_inter_level_warp(G_InterLevelWarp_6x94 *packet);
 void mask_action_buttons(void *p, u32 v);
 s32 should_record_episode1_quest_completion();union WarpStringPos {
@@ -1155,79 +1143,66 @@ void TObjMapForceWarp::create_warp_id_string(u16 client_id) {
 
 const char *TObjWarpString__name = "TObjWarpString";
 
-u8 *__ct__14TObjWarpStringFv(u8 *object, u8 *parent, saddr src, s16 arg3) {
-    __ct__7TObjectFP7TObject(object, parent);
-    *(s32 **)((s8 *)object + 0x18) = &__vt__14TObjWarpString.value;
-    *(saddr *)((s8 *)object + 0) = (saddr)TObjWarpString__name;
-    strncpy((char *)(object + 0x1C), (const char *)src, 0x20);
-    *(s8 *)((s8 *)object + 0x3B) = 0;
-    *(s16 *)((s8 *)object + 0x48) = arg3;
-    *(s32 *)((s8 *)object + 0x3C) = -1;
-    *(f32 *)((s8 *)object + 0x44) = 0.0f;
-    *(s32 *)((s8 *)object + 0x40) = 0x18;
-    *(s32 *)((s8 *)object + 0x4C) = 0;
-    return object;
+TObjWarpString::TObjWarpString(TObject *parent, char *src, u16 client_id) : TObject(parent) {
+    m_name = TObjWarpString__name;
+    strncpy(text, src, sizeof(text));
+    text[sizeof(text) - 1] = 0;
+    this->client_id = client_id;
+    pad_3C = -1;
+    alpha = 0.0f;
+    timer = 0x18;
+    state = 0;
 }
 
 TObjWarpString::~TObjWarpString() {}
 
 void TObjWarpString::run_task() {
-
-    switch (*(s32 *)((s8 *)this + 0x4C)) {
+    switch (state) {
     case 0:
-        ((TObjWarpString *)this)->delay_before_fade_in();
+        delay_before_fade_in();
         return;
     case 1:
-        ((s32 (*)(void))update_fade_in__14TObjWarpStringFPv)();
+        update_fade_in();
         return;
     case 2:
-        TObjWarpString__delay_before_fade_out(this);
+        delay_before_fade_out();
         return;
     case 3:
-        ((s32 (*)(void))fade_and_destroy__14TObjWarpStringFPv)();
+        fade_and_destroy();
         return;
     }
 }
 
 void TObjWarpString::delay_before_fade_in() {
-    s32 temp_r0;
-
-    temp_r0 = *(s32 *)((s8 *)this + 0x40) - 1;
-    *(s32 *)((s8 *)this + 0x40) = temp_r0;
-    if (temp_r0 < 0) {
-        *(s32 *)((s8 *)this + 0x4C) = 1;
+    if (--timer < 0) {
+        state = 1;
     }
 }
 
 #pragma push
 #pragma opt_common_subs off
-void update_fade_in__14TObjWarpStringFPv(u8 *arg0) {
-    *(f32 *)((s8 *)arg0 + 0x44) += 10.0f;
-    if (*(f32 *)((s8 *)arg0 + 0x44) > 255.0f) {
-        *(f32 *)((s8 *)arg0 + 0x44) = 255.0f;
-        *(s32 *)((s8 *)arg0 + 0x4C) = 2;
-        *(s32 *)((s8 *)arg0 + 0x40) = 0x5A;
+void TObjWarpString::update_fade_in() {
+    alpha += 10.0f;
+    if (alpha > 255.0f) {
+        alpha = 255.0f;
+        state = 2;
+        timer = 0x5A;
     }
 }
 #pragma pop
 
-void TObjWarpString__delay_before_fade_out(void *arg0) {
-    s32 temp_r0;
-
-    temp_r0 = *(s32 *)((s8 *)arg0 + 0x40) - 1;
-    *(s32 *)((s8 *)arg0 + 0x40) = temp_r0;
-    if (temp_r0 < 0) {
-        *(s32 *)((s8 *)arg0 + 0x4C) = 3;
+void TObjWarpString::delay_before_fade_out() {
+    if (--timer < 0) {
+        state = 3;
     }
 }
 
-void fade_and_destroy__14TObjWarpStringFPv(u8 *object) {
-  *((f32 *) (((s8 *) object) + 0x44)) = (f32) ((*((f32 *) (((s8 *) object) + 0x44))) - 10.0f);
-  if ((*((f32 *) (((s8 *) object) + 0x44))) < 0.0f)
-  {
-    *((f32 *) (((s8 *) object) + 0x44)) = 0.0f;
-    ((TObject *)object)->queue_destruction();
-  }
+void TObjWarpString::fade_and_destroy() {
+    alpha -= 10.0f;
+    if (alpha < 0.0f) {
+        alpha = 0.0f;
+        queue_destruction();
+    }
 }
 
 #pragma push
@@ -1242,22 +1217,22 @@ void TObjWarpString::render() {
     u32 color;
     u32 width;
 
-    pos.packed = get_warp_string_screen_position(this, *(u16 *)((s8 *)this + 0x48));
-    width = calc_text_width((char *)this + 0x1C) >> 1;
+    pos.packed = get_warp_string_screen_position(this, client_id);
+    width = calc_text_width(text) >> 1;
     pos.xy.x -= (f32)width;
     y = pos.xy.y;
-    color = (u8)*(f32 *)((s8 *)this + 0x44) << 24;
-    draw_menu_text(pos.xy.x - 2.0f, yt = y - 2.0f, (char *)this + 0x1C, color);
-    draw_menu_text(pos.xy.x, yt, (char *)this + 0x1C, color);
-    draw_menu_text(xr = 2.0f + pos.xy.x, yt, (char *)this + 0x1C, color);
-    draw_menu_text(pos.xy.x - 2.0f, y, (char *)this + 0x1C, color);
-    draw_menu_text(xr, y, (char *)this + 0x1C, color);
-    draw_menu_text(pos.xy.x - 2.0f, yb = 2.0f + y, (char *)this + 0x1C, color);
-    draw_menu_text(pos.xy.x, yb, (char *)this + 0x1C, color);
-    draw_menu_text(xr, yb, (char *)this + 0x1C, color);
-    color = ((u8)*(f32 *)((s8 *)this + 0x44) << 24) | 0xFFFFFF;
+    color = (u8)alpha << 24;
+    draw_menu_text(pos.xy.x - 2.0f, yt = y - 2.0f, text, color);
+    draw_menu_text(pos.xy.x, yt, text, color);
+    draw_menu_text(xr = 2.0f + pos.xy.x, yt, text, color);
+    draw_menu_text(pos.xy.x - 2.0f, y, text, color);
+    draw_menu_text(xr, y, text, color);
+    draw_menu_text(pos.xy.x - 2.0f, yb = 2.0f + y, text, color);
+    draw_menu_text(pos.xy.x, yb, text, color);
+    draw_menu_text(xr, yb, text, color);
+    color = ((u8)alpha << 24) | 0xFFFFFF;
     TParticleCtrl::begin_effect_render();
-    draw_menu_text(pos.xy.x, y, (char *)this + 0x1C, color);
+    draw_menu_text(pos.xy.x, y, text, color);
     TParticleCtrl::end_effect_render();
 }
 #pragma pop
@@ -1281,13 +1256,8 @@ s64 get_warp_string_screen_position(void *arg0, u16 client_id) {
     return *(const s64 *)p;
 }
 
-void *create_TObjWarpString(char *text, u16 client_id) {
-    void *o;
-    o = TObject::operator new(0x50);
-    if (o != NULL) {
-        o = ((void * (*)(void *, void *, char *, u16))__ct__14TObjWarpStringFv)(o, tl_clipout, text, client_id);
-    }
-    return o;
+TObjWarpString *create_TObjWarpString(char *text, u16 client_id) {
+    return new TObjWarpString(tl_clipout, text, client_id);
 }
 
 

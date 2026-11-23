@@ -1650,7 +1650,7 @@ force_active:
   - __ct__12TObjWarpBossFP7TObjectPv
   - TObjWarpBoss__name
   - __ct__12TObjWarpJungFP7TObjectPv
-  - TObjWarpString__delay_before_fade_out
+  - delay_before_fade_out__14TObjWarpStringFv
   - TObject_name
   - particle_entry_path
   - set_rotation__9TParticleFP14ParticleAngles
@@ -2049,7 +2049,7 @@ force_active:
   - __ct__14TObjBgmColCtrlFl
   - __ct__14TObjEneDolmOlmFP7TObjectPv
   - __ct__14TObjEneIllGillFP7TObjectPv
-  - __ct__14TObjWarpStringFv
+  - __ct__14TObjWarpStringFP7TObjectPcUs
   - __ct__15TAdDrawLineCtrlFP7TObjectPvf
   - __ct__15TAdDrawLineTaskFP7TObjectPC14DrawLineRecordP15TAdDrawLineCtrl
   - __ct__15TBoss3VoloptP01FP7TObjectPv
@@ -6121,7 +6121,7 @@ force_active:
   - f256_symbolsetumei_spa_gvp
   - fabs_double__Fd
   - face_target__16TObjEneBm5GibonUFv
-  - fade_and_destroy__14TObjWarpStringFPv
+  - fade_and_destroy__14TObjWarpStringFv
   - fade_in_done__10TAdADXlogoFP7TObject
   - fade_out_done__10TAdADXlogoFP7TObject
   - fe_obj306_hashi_model_names
@@ -16893,7 +16893,7 @@ force_active:
   - update_fade_alphas__15TWindowCtrlMainFv
   - update_fade_by_distance__13TObjTombstoneFv
   - update_fade_in__13TObjLobbyMainFv
-  - update_fade_in__14TObjWarpStringFPv
+  - update_fade_in__14TObjWarpStringFv
   - update_fade_in_state__16TObjEneNanoDragoFv
   - update_fade_out__12TBoss4ThanksFv
   - update_fade_out__12TBoss6ThanksFv
