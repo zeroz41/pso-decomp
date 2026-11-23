@@ -40,7 +40,7 @@ extern "C" {
     extern int lobby_game_mode_state;
 int TAdSinglePlyChrSelectGC::get_data() {  return lobby_game_mode_state; }
 
-int TAdSinglePlyChrSelectGC__sub_8033605C(void) { return 0; }
+s8 TAdSinglePlyChrSelectGC__sub_8033605C(void) { return 0; }
 
 
 s32 TTitleScene::start_offline_seq() {

@@ -43,6 +43,6 @@ LAYOUT_ASSERT(TTitleScene_attract_tick_offset, offsetof(TTitleScene, attract_tic
 LAYOUT_ASSERT(TTitleScene_flags_offset, offsetof(TTitleScene, transition_flags) == 0x3C);
 LAYOUT_ASSERT(TTitleScene_children_offset, offsetof(TTitleScene, transition_children) == 0x40);
 
-extern "C" int TAdSinglePlyChrSelectGC__sub_8033605C(void);
+extern "C" s8 TAdSinglePlyChrSelectGC__sub_8033605C(void);
 
 #endif

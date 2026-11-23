@@ -73,6 +73,20 @@
 #include "pso/player/TObjPlayer_801BDF5C.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/ui/window/TWindowCtrlMain_8024CB7C.h"
+#include "pso/network/client_id.h"
+#include "pso/system/task/TObject_80019A50.h"
+#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/object/warp/TObjLaboMapWarp_80185248.h"
+#include "pso/object/ambient/TObjLight_80133568.h"
+#include "pso/unk/TLobby_801461EC.h"
+#include "pso/unk/TTitleScene.h"
+#include "pso/object/switch/TSwitch.h"
+#include "pso/player/TObjPlayer_801BDD8C.h"
+#include "pso/unk/TLobby_80207644.h"
+#include "pso/ui/frontend/TAdStorySelectGC.h"
+#include "pso/ui/chat/ShortMail.h"
+#include "pso/unk/TLobby_801F3A24.h"
+#include "pso/ui/frontend/TAdPlayerLoadGC_801E0C30.h"
 
 struct Entry_8013634C {
     u8 tag[8];
@@ -222,38 +236,28 @@ struct P8_8013A5D4 { u32 w[2]; };
 struct Rec_8013A5D4 { P8_8013A5D4 f0; u32 f8; u32 fc; P8_8013A5D4 f10; P8_8013A5D4 f18; u8 f20[0x41c]; };
 
 extern "C" {
-void try_close__6TLobbyFPv();
 void handle_quest_download_chunk__6TLobbyFv();
 void apply_lobby_markers__6TLobbyFv();
 void lobby_debug_printf_stub(const char *fmt, ...);
 extern const char lobby_debug_delete_player_format[];
 extern const char lobby_debug_burst_player_format[];
 extern const char lobby_debug_udp_close_player_format[];
-extern s32 designated_client_id;
-extern saddr local_client_id;
-s32 queue_destruction__7TObjectFv(void *);
 extern const char lobby_window_title_information[];
 s32 TLobby__sub_8013F810(void *, void *, s32, void *);
 void handle_6x6E_sync_game_state(Pkt_8013566C *arg0);
-void mark_area_change_pending();
 void * get_current_floor();
 void TLobby__sub_80077798(void *, void *);
 void handle_6x70_sync_player_disp_and_inventory(Pkt_801354AC *arg0);
 void handle_6x6D_sync_game_state(Pkt_8013574C *arg0);
 void handle_6x6C_sync_game_state(Pkt_801357F8 *arg0);
 void handle_6x6B_sync_game_state(Pkt_801358B4 *arg0);
-void *mem_alloc(u32 size);
 void import_sync_records__6TLobbyFPs(void *, u16);
-void clear_enabled_main_warps();
 s32 TLobby__sub_801A3E8C();
-s32 fill_player_record__10TObjPlayerFPvPv(void *, void *);
 s32 init_player_join_record(void *);
 void send_player_data_98__9TProtocolFPvPvPvPvPvPvPv(void *, void *, void *, void *, void *, void *, void *);
 u8 * get_character_save_record(u32);
-void * __nw__7TObjectFUl(u32);
 s32 __ct__7TObjectFP7TObject(void *, void *);
 extern s32 TLobby__data_805D4E30;
-extern u32 *quest_object_entries;
 extern S12_801358B4 *TLobby__data_805D6144;
 extern const char TLobby__data_805DB0B0[4];
 extern const Pair_80135E7C lbl_8043EE18[1];
@@ -280,7 +284,6 @@ extern RecoveredGlobal_80135974_lbl_805127F8 quest_story_flags_by_difficulty;
 extern s32 game_difficulty_selection;
 extern s32 quest_download_active;
 extern const char lobby_debug_duplicate_player_format[];
-void __dt__13TUnk_804A7008Fv();
 void render_shadows__7TObjectFv();
 extern const char lobby_debug_rcv_set_flag_format[];
 extern s16 TLobby__data_805D5CE8;
@@ -292,20 +295,15 @@ void *__ct__11TWindowRoomFPc(void *self, char *title);
 void handle_chat_message__11TWindowCtrlFPc(char *);
 extern const NJS_POINT2 lbl_8043EE10[1];
 extern const NJS_POINT2 lbl_8043EE08[1];
-s32 TLobby__sub_80146740();
 extern const char lobby_msg_registed[];
 extern const char lobby_msg_name_taken[];
 extern const char lobby_msg_regist_check_ok[];
 extern const char lobby_msg_login_success[];
 void send_player_data_61__9TProtocolFPvPvPvPvPvPvPv(void *, void *, void *, void *, void *, void *, void *);
 void construct_lobby_players(Rec_801378AC *records, s32 count, int self_id, s32 unused);
-s32 __dt__7TObjectFv(void *, int);
 extern const NJS_POINT2 lbl_8043EE00[1];
-void TQuestListOnline__sub_8013ACF4(s32);
 s32 clear_lobby_flag__10TObjPlayerFPv();
 extern s32 lbl_805DB0B4;
-void set_queued_main_phase(s32);
-void request_main_phase(s32);
 extern const char lobby_window_title_block_jump[];
 extern const char lobby_window_title_ship_jump[];
 const char *TWindowMakeTeam__sub_80264B24(TWindowMakeTeam *window);
@@ -315,12 +313,7 @@ extern const NJS_POINT2 lbl_8043EDF0[1];
 extern const f32 lbl_805DB0B8;
 extern const NJS_POINT2 lbl_8043EDE8[1];
 extern const char lobby_window_title_taisen_team[];
-void func_80019A68__Fv(void);
 s32 get_link_status__Fv(void);
-s32 poll_memcard_result(saddr);
-s32 TKeyBoardControl__sub_8000F828(void);
-s8 TAdSinglePlyChrSelectGC__sub_8033605C(void);
-void TLobby__sub_80134A20();
 void show_card_list_message(void *msg);
 void TLobby__sub_80136E68(s32 count, Ent_80136E68 *entries, Ent_80136E68 *selected);
 void receive_file_chunk__22TQuestVmDownLoadServerFv();
@@ -329,19 +322,12 @@ void handle_trade_received_items(TTradeList *trade_list);
 void __register_global_object(int, void *, void *);
 void __construct_array(void *, void *, void *, int, int);
 void __destroy_arr(void *arr, void *dtor, u32 size, u32 count);
-int __ct__12TPlyCharDataFv(void*);
 extern int lobby_player_count;
 extern int item_drop_server_seed;
 extern int area_random_seed;
 }
-void activate_keyboard();
-void restore_switch_table(saddr arg0, s32 arg1);
 void bswap_object_source_record(void *);
 void set_area_random_seed(int a0);
-void *create_remote_player_object(void *record);
-void set_floor_map_variant(s32 floor, s32 arg1);
-s32 request_story_select_state(s32 arg0);
-u32 copy_switch_table(void *destination);
 void buffer_reset(void);
 void bswap_telepipe_record(void *);
 
@@ -671,13 +657,13 @@ void handle_6x6D_sync_game_state(Pkt_8013574C *arg0) {
 
 void handle_6x6C_sync_game_state(Pkt_801357F8 *arg0) {
     u32 r;
-    u32 *p;
+    QuestObjectEntry *p;
     s32 n;
     s32 i;
     if (TLobby__data_805D5CE8 == 0 && (TLobby::data_805D5594 == 0xE || TLobby::data_805D5594 == 0xF)) {
         n = arg0->len - 8;
         lobby_debug_printf_stub(lobby_debug_rcv_object_condition_format, arg0->len);
-        p = (u32 *)::operator new(0x7230);
+        p = (QuestObjectEntry *)::operator new(0x7230);
         if (p != NULL) {
             r = ((u32)TLobby__sub_8013F810(p, arg0->data, n, quest_object_entries));
             ::operator delete(p);
@@ -788,7 +774,7 @@ void TLobby::send_6x6D_item_state() {
 }
 
 void TLobby::send_compressed_packet_6c() {
-    u32 *src;
+    QuestObjectEntry *src;
     s32 len;
     u32 size;
     Pkt_80135BD0 *buf;
@@ -2746,7 +2732,7 @@ TLobby::TLobby(TObject *parent) : TObject(parent) {
     protocol_instance->m_recv_handlers.handle_D1_advance_trade_state_packet = (recv_packet_handler_handle_D1_advance_trade_state_packet)TLobby::apply_trade_items;
     protocol_instance->m_recv_handlers.handle_D8_infoboard_packet = TLobby::handle_info_board;
     protocol_instance->m_recv_handlers.handle_DA_lobby_event_packet = TLobby::set_lobby_event_theme;
-    protocol_instance->m_recv_handlers.handle_AB_quest_stats_response_packet = TLobby__sub_80134A20;
+    protocol_instance->m_recv_handlers.handle_AB_quest_stats_response_packet = (recv_packet_handler_handle_AB_quest_stats_response_packet)TLobby__sub_80134A20;
     TLobby__data_805D4E30 = 0;
 }
 saddr TLobby::get_seq_phase(int id) { return get_online_message_text(id); }
