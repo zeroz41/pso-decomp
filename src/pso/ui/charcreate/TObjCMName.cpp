@@ -217,7 +217,7 @@ TObjCMMainMenu::TObjCMMainMenu(TObject *parent) : TObject(parent) {
     nodes = new TObject(NULL);
     fn_802947A8();
     fn_8029945C(&main_menu_icon_position);
-    sub_802972C4();
+    after_construct();
 }
 
 TObjCMMainMenu::~TObjCMMainMenu() {
@@ -251,7 +251,7 @@ void TObjCMMainMenu::run_task() {
     (this->*table[state])();
     creation_menu_selected_entry = this->entries[this->selected_entry];
     TObjCMMainMenu::update_random_proportion_action(this);
-    sub_80298310();
+    after_state_update();
     switch (state) {
     case 4:
     case 6:
@@ -296,7 +296,7 @@ void TObjCMMainMenu::run_task() {
         }
     }
     ((TObject *)(this->nodes))->run_tasks();
-    sub_802972C0();
+    after_run_task();
 }
 
 #pragma pop
@@ -468,7 +468,7 @@ void TObjCMMainMenu::update_random_proportion_action(void * _w0) {
     }
 }
 
-void TObjCMMainMenu::sub_80298310() {  }
+void TObjCMMainMenu::after_state_update() {  }
 
 void TObjCMMainMenu::render() {
     set_depth_buffer_settings_1();
@@ -484,7 +484,7 @@ void TObjCMMainMenu::render() {
     void (TObjCMMainMenu::*action)() = table[state];
     if (action) (this->*action)();
     restore_saved_depth_alpha_state();
-    sub_802972BC();
+    after_render();
 }
 
 void TObjCMMainMenu::sub_802981BC() {  }
@@ -868,11 +868,11 @@ s32 TObjCMMainMenu::try_pay_fee() {
     return 1;
 }
 
-void TObjCMMainMenu::sub_802972C4() {  }
+void TObjCMMainMenu::after_construct() {  }
 
-void TObjCMMainMenu::sub_802972C0() {  }
+void TObjCMMainMenu::after_run_task() {  }
 
-void TObjCMMainMenu::sub_802972BC() {  }
+void TObjCMMainMenu::after_render() {  }
 
 const char *TObjCMAssignMenu__name = "TObjCMAssignMenu";
 

@@ -22,7 +22,7 @@ public:
     void handle_player_load();
     void update_setup();
     void check_memcard_space();
-    void sub_8033ACF4();
+    void wait_character_file_write();
     void update_select_state();
     void handle_load_result();
     void start_character_read();

@@ -39,10 +39,11 @@ public:
     void sub_802981BC();
     // Draws the class, name and section id being confirmed.
     void draw_confirmation();
-    void sub_802972C4();
-    void sub_802972C0();
-    void sub_802972BC();
-    void sub_80298310();
+    // Empty hooks at the end of the constructor, run_task and render, and after the state handler.
+    void after_construct();
+    void after_run_task();
+    void after_render();
+    void after_state_update();
     CharacterAppearanceFields *character;
     s32 mode;
     s32* entries;

@@ -16375,7 +16375,7 @@ force_active:
   - sub_80339F30__9TSaveChCrFv
   - sub_8033A138__9TSaveChCrFv
   - handle_retry_menu__17TCharSaveSequenceFv
-  - sub_8033ACF4__17TCharSaveSequenceFv
+  - wait_character_file_write__17TCharSaveSequenceFv
   - start_character_read__17TCharSaveSequenceFv
   - wait_card_check__17TCharSaveSequenceFv
   - draw_parts__25TBoss6Demo10_TYPE1_APPEARFv

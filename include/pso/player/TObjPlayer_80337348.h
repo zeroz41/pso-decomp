@@ -25,8 +25,8 @@ struct MaterialUsage {
     s32 try_add_item_count(s32 class_index, s32 index, u8 amount);
     s32 can_use_more_materials(s32 class_index);
     u8 get_total_materials_used();
-    void fn_803374F0(s32 index, u8 value);
-    u8 fn_803374F8(s32 index);
+    void set_count(s32 index, u8 count);
+    u8 get_count(s32 index);
 
     u8 counts[8];
 

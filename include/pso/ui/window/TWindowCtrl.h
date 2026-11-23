@@ -139,8 +139,9 @@ struct TWindowCtrl : public TObject {
     void clear_flag1e_bit8();
     void set_radar_dirty_flag();
     void clear_flag_bit0();
-    void fn_8024C6CC();
-    void fn_8024C6DC();
+    // Mark chat balloon slot 0 taken or free (see TWindowFukidasi::alloc_nearest_free_slot).
+    void reserve_balloon_slot_0();
+    void release_balloon_slot_0();
     void disable_main_menu();
     void enable_main_menu();
     void hide_lock_on_window();

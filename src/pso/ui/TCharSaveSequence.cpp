@@ -204,7 +204,7 @@ void TCharSaveSequence::check_memcard_space() {
     }
 }
 
-void TCharSaveSequence::sub_8033ACF4() {
+void TCharSaveSequence::wait_character_file_write() {
     if (TAdPlayerLoadGC::probe_card_slot(chr_select_state) == 0) {
         state = 0;
         close_message_window();
@@ -489,7 +489,7 @@ void TCharSaveSequence::run_task() {
         &TCharSaveSequence::start_character_read,
         &TCharSaveSequence::handle_load_result,
         &TCharSaveSequence::update_select_state,
-        &TCharSaveSequence::sub_8033ACF4,
+        &TCharSaveSequence::wait_character_file_write,
         &TCharSaveSequence::check_memcard_space,
         &TCharSaveSequence::update_setup,
         &TCharSaveSequence::handle_player_load,

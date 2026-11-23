@@ -10,7 +10,7 @@ s32 MaterialUsage::try_add_item_count(s32 class_index, s32 index, u8 amount) {
     if ((u8) (total_materials_used + amount) > get_material_limit_for_class(class_index)) {
         return 0;
     }
-    fn_803374F0(index, (u8) (amount + fn_803374F8(index)));
+    set_count(index, (u8) (amount + get_count(index)));
     return 1;
 }
 

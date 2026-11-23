@@ -357,11 +357,11 @@ void TWindowCtrl::disable_main_menu() {
     this->flags |= 0x2;
 }
 
-void TWindowCtrl::fn_8024C6DC() {
+void TWindowCtrl::release_balloon_slot_0() {
     this->flags &= ~0x40;
 }
 
-void TWindowCtrl::fn_8024C6CC() {
+void TWindowCtrl::reserve_balloon_slot_0() {
     this->flags |= 0x40;
 }
 
@@ -1189,11 +1189,11 @@ void TWindowCtrl::disable_client_main_menu(s32 client) {
 }
 
 void TWindowSubComCard__sub_8024AB98(saddr client_id) {
-    TWindowCtrl::call_window_method(client_id, &TWindowCtrl::fn_8024C6DC);
+    TWindowCtrl::call_window_method(client_id, &TWindowCtrl::release_balloon_slot_0);
 }
 
 void fn_8024AB54(saddr client_id) {
-    TWindowCtrl::call_window_method(client_id, &TWindowCtrl::fn_8024C6CC);
+    TWindowCtrl::call_window_method(client_id, &TWindowCtrl::reserve_balloon_slot_0);
 }
 
 void close_window_if_active(s32 client) { if (TWindowCtrl::get_flag_bit4() == 0) { TWindowCtrl::disable_client_main_menu(client); } }
