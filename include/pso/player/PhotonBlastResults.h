@@ -6,8 +6,7 @@
 class TUnk_804C349C;
 struct BmlResource;
 
-// The models and motions the photon blast effects draw, loaded by
-// load_photon_blast_resources.
+// The models, textures and motions every photon blast summon draws from.
 extern BmlResource *photon_blast_shared_resource;
 
 // One player's photon blast chain (photon_blast_sequence_table, one per

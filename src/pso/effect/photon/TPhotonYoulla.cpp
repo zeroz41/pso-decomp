@@ -33,6 +33,8 @@ void *youlla_photon_blast_buffer_pair;
 
 #include "pso/render/model_render_state.h"
 #include "pso/system/MatrixStack.h"
+#include "pso/player/PhotonBlastResults.h"
+#include "pso/system/BmlResource.h"
 
 TObjMotionAction photon_blast_youlla_params[2] = {
     {MOTION_MODE_ONCE, 0, 7, 1.0f, 0},

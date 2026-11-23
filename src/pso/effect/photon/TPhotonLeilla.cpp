@@ -3,6 +3,8 @@
 #include "pso/system/NinjaTypes.h"
 #include "pso/effect/photon/PhotonBlastSummon.h"
 #include "pso/system/MatrixStack.h"
+#include "pso/player/PhotonBlastResults.h"
+#include "pso/system/BmlResource.h"
 
 const char *TPhotonLeilla_name = "TPhotonLeilla";
 

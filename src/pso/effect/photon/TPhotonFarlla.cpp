@@ -7,6 +7,8 @@
 #include "pso/system/task/TObject.h"
 #include "pso/effect/photon/PhotonBlastSummon.h"
 #include "pso/system/MatrixStack.h"
+#include "pso/player/PhotonBlastResults.h"
+#include "pso/system/BmlResource.h"
 
 const char *TPhotonFarlla_name = "TPhotonFarlla";
 

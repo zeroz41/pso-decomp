@@ -14,6 +14,8 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/map/FloorArea.h"
 #include "pso/system/MatrixStack.h"
+#include "pso/player/PhotonBlastResults.h"
+#include "pso/system/BmlResource.h"
 #include "pso/system/vector.h"
 
 
