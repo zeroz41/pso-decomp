@@ -784,7 +784,8 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # -str reuse,readonly: every string of the TU sits in .rodata: the class name 0x8044F520 and
     # "LEVEL " 0x8044F534, "HP +" 0x8044F53C, "TP +" 0x8044F544. update_stat_messages reaches those
     # three strings with a lis/addi each (no shared .rodata base): -pool off.
-    "pso/ui/window/TWindowSetLevelUp.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-pool off")},
+    # .data holds the vtable ahead of update_stat_messages's jump table: deferred generation of the last-to-first source.
+    "pso/ui/window/TWindowSetLevelUp.cpp": {"cflags": _switch(cflags_pso, "-inline on,deferred", "-str reuse,readonly", "-pool off")},
     "pso/ui/window/TWindowChallengeResult.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/unk/text_8013F810.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/network/TProtocol_801DA240.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
