@@ -116,12 +116,12 @@ void TAdChrSelBSlotGC::sub_8030E620() {  }
 void TAdChrSelBSlotGC::populate_slot_entries() {
     u32 i;
 
-    if (m_2c->is_slot_value_ready(2)) {
+    if (plate->is_slot_value_ready(2)) {
         slot_gc->init_slot_entry(2, (void *)&lbl_80475908);
         for (i = 0; i < 4; i++) {
             set_entry_text__15TAdSubPlyItemGCFPvPv(player_items, build_slot_entry(i, i, (void *)&lbl_804758E8[i]));
             if (is_character_transferred(i)) {
-                m_34->add_plate_rect(const_cast<CharacterSlotPosition *>(&lbl_804758E8[i]));
+                move_plate->add_plate_rect(const_cast<CharacterSlotPosition *>(&lbl_804758E8[i]));
             }
         }
         state = 0x14;
@@ -130,154 +130,154 @@ void TAdChrSelBSlotGC::populate_slot_entries() {
 
 void TAdChrSelBSlotGC::reset_plate_positions() {
     if (get_global_state() == 0x19) {
-        m_2c->push_plate_position(&lbl_804758E8[0]);
-        m_2c->push_plate_position(&lbl_804758E8[1]);
-        m_2c->push_plate_position(&lbl_804758E8[2]);
-        m_2c->push_plate_position(&lbl_804758E8[3]);
+        plate->push_plate_position(&lbl_804758E8[0]);
+        plate->push_plate_position(&lbl_804758E8[1]);
+        plate->push_plate_position(&lbl_804758E8[2]);
+        plate->push_plate_position(&lbl_804758E8[3]);
         state = 0x13;
     }
 }
 
 void TAdChrSelBSlotGC::show_pso12_character_message() {
     if (get_global_state() > 0x18) {
-        if (m_64 != 0) {
-            m_64->close();
-            m_64 = 0;
+        if (wait_message[9] != NULL) {
+            wait_message[9]->close();
+            wait_message[9] = NULL;
         }
         state = 0x12;
         return;
     }
     if (get_global_state() < 0xC) {
-        if (m_40 != 0) {
-            m_40->close();
-            m_40 = 0;
+        if (wait_message[0] != NULL) {
+            wait_message[0]->close();
+            wait_message[0] = NULL;
         }
         state = 1;
         return;
     }
-    if ((state_frames > 0xA) && (m_64 == 0)) {
+    if ((state_frames > 0xA) && (wait_message[9] == NULL)) {
         get_global_slot_data();
-        m_64 = get_global_slot_data()->create_slot_message_window(1, 0x13);
+        wait_message[9] = get_global_slot_data()->create_slot_message_window(1, 0x13);
     }
 }
 void TAdChrSelBSlotGC::show_character_data_corrupt_message() {
     if (get_global_state() > 0x17) {
-        if (m_68 != 0) {
-            m_68->close();
-            m_68 = 0;
+        if (wait_message[10] != NULL) {
+            wait_message[10]->close();
+            wait_message[10] = NULL;
         }
         state = 0x11;
         return;
     }
     if (get_global_state() < 0xC) {
-        if (m_40 != 0) {
-            m_40->close();
-            m_40 = 0;
+        if (wait_message[0] != NULL) {
+            wait_message[0]->close();
+            wait_message[0] = NULL;
         }
         state = 1;
         return;
     }
-    if ((state_frames > 0xA) && (m_68 == 0)) {
+    if ((state_frames > 0xA) && (wait_message[10] == NULL)) {
         get_global_slot_data();
-        m_68 = get_global_slot_data()->create_slot_message_window(1, 0x15);
+        wait_message[10] = get_global_slot_data()->create_slot_message_window(1, 0x15);
     }
 }
 void TAdChrSelBSlotGC::show_no_system_file_message() {
     if (get_global_state() > 0x15) {
-        if (m_60 != 0) {
-            m_60->close();
-            m_60 = 0;
+        if (wait_message[8] != NULL) {
+            wait_message[8]->close();
+            wait_message[8] = NULL;
         }
         state = 0x10;
         return;
     }
     if (get_global_state() < 0xC) {
-        if (m_40 != 0) {
-            m_40->close();
-            m_40 = 0;
+        if (wait_message[0] != NULL) {
+            wait_message[0]->close();
+            wait_message[0] = NULL;
         }
         state = 1;
         return;
     }
-    if ((state_frames > 0xA) && (m_60 == 0)) {
+    if ((state_frames > 0xA) && (wait_message[8] == NULL)) {
         get_global_slot_data();
-        m_60 = get_global_slot_data()->create_slot_message_window(1, 0x11);
+        wait_message[8] = get_global_slot_data()->create_slot_message_window(1, 0x11);
     }
 }
 void TAdChrSelBSlotGC::show_system_file_corrupt_message() {
     if (get_global_state() > 0x14) {
-        if (m_5c != 0) {
-            m_5c->close();
-            m_5c = 0;
+        if (wait_message[7] != NULL) {
+            wait_message[7]->close();
+            wait_message[7] = NULL;
         }
         state = 0xF;
         return;
     }
     if (get_global_state() < 0xC) {
-        if (m_40 != 0) {
-            m_40->close();
-            m_40 = 0;
+        if (wait_message[0] != NULL) {
+            wait_message[0]->close();
+            wait_message[0] = NULL;
         }
         state = 0xF;
         return;
     }
-    if ((state_frames > 0xA) && (m_5c == 0)) {
+    if ((state_frames > 0xA) && (wait_message[7] == NULL)) {
         get_global_slot_data();
-        m_5c = get_global_slot_data()->create_slot_message_window(1, 0xF);
+        wait_message[7] = get_global_slot_data()->create_slot_message_window(1, 0xF);
     }
 }
 void TAdChrSelBSlotGC::show_no_character_data_message() {
     if (get_global_state() > 0x13) {
-        if (m_58 != 0) {
-            m_58->close();
-            m_58 = 0;
+        if (wait_message[6] != NULL) {
+            wait_message[6]->close();
+            wait_message[6] = NULL;
         }
         state = 0xE;
         return;
     }
     if (get_global_state() < 0xC) {
-        if (m_40 != 0) {
-            m_40->close();
-            m_40 = 0;
+        if (wait_message[0] != NULL) {
+            wait_message[0]->close();
+            wait_message[0] = NULL;
         }
         state = 0xF;
         return;
     }
-    if ((state_frames > 0xA) && (m_58 == 0)) {
+    if ((state_frames > 0xA) && (wait_message[6] == NULL)) {
         get_global_slot_data();
-        m_58 = get_global_slot_data()->create_slot_message_window(1, 0xD);
+        wait_message[6] = get_global_slot_data()->create_slot_message_window(1, 0xD);
     }
 }
 void TAdChrSelBSlotGC::show_character_file_corrupt_message() {
     if (get_global_state() > 0x12) {
-        if (m_54 != 0) {
-            m_54->close();
-            m_54 = 0;
+        if (wait_message[5] != NULL) {
+            wait_message[5]->close();
+            wait_message[5] = NULL;
         }
         state = 0xD;
         return;
     }
     if (get_global_state() < 0xC) {
-        if (m_40 != 0) {
-            m_40->close();
-            m_40 = 0;
+        if (wait_message[0] != NULL) {
+            wait_message[0]->close();
+            wait_message[0] = NULL;
         }
         state = 0xF;
         return;
     }
-    if ((state_frames > 0xA) && (m_54 == 0)) {
+    if ((state_frames > 0xA) && (wait_message[5] == NULL)) {
         get_global_slot_data();
-        m_54 = get_global_slot_data()->create_slot_message_window(1, 0xB);
+        wait_message[5] = get_global_slot_data()->create_slot_message_window(1, 0xB);
     }
 }
 void TAdChrSelBSlotGC::wait_format_failed_dismiss() {
     TWindowMessageYesNo *confirm;
     TWindowBase *window;
     ControllerInputContext *context;
-    confirm = m_70;
-    if (confirm != 0) {
-        ((TWindowMessageYesNo *)confirm)->close();
-        m_70 = 0;
+    confirm = format_confirm;
+    if (confirm != NULL) {
+        confirm->close();
+        format_confirm = NULL;
     }
     context = &controller_physical_port_bank.controllers[TAdMultiPlyChrSelectGC::get_state()->get_state_result()];
     if (test_pressed_buttons_packed(context, 4) != 0 || test_pressed_buttons_packed(context, 2) != 0 ||
@@ -286,10 +286,10 @@ void TAdChrSelBSlotGC::wait_format_failed_dismiss() {
         return;
     }
     if (get_global_state() < 0xC) {
-        window = m_40;
-        if (window != 0) {
+        window = wait_message[0];
+        if (window != NULL) {
             window->close();
-            m_40 = 0;
+            wait_message[0] = NULL;
         }
         state = 1;
     }
@@ -306,34 +306,34 @@ void TAdChrSelBSlotGC::check_cancel_and_close() {
         return;
     }
     if (get_global_state() < 0xC) {
-        window = m_40;
-        if (window != 0) {
+        window = wait_message[0];
+        if (window != NULL) {
             window->close();
-            m_40 = 0;
+            wait_message[0] = NULL;
         }
         state = 1;
     }
 }
 
 void TAdChrSelBSlotGC::update_slot_state() {
-    if (m_70 != 0) {
-        ((TWindowMessageYesNo *)m_70)->close();
-        m_70 = 0;
+    if (format_confirm != NULL) {
+        format_confirm->close();
+        format_confirm = NULL;
     }
     if ((u32) (poll_memcard_result(1) + 0x10000) != 0xFFFFU) {
         if ((TAdPlayerLoadGC::check_card_result_code(1) != 0) && (poll_memcard_result(1) == 0)) {
-            m_74 = get_global_slot_data()->create_formatted_window(1);
+            formatted_message = get_global_slot_data()->create_formatted_window(1);
             state = 0xA;
             return;
         }
-        m_7c = get_global_slot_data()->create_format_failed_window(1);
+        format_failed_message = get_global_slot_data()->create_format_failed_window(1);
         state = 0xB;
         return;
     }
     if (get_global_state() < 0xC) {
-        if (m_40 != 0) {
-            m_40->close();
-            m_40 = 0;
+        if (wait_message[0] != NULL) {
+            wait_message[0]->close();
+            wait_message[0] = NULL;
         }
         state = 1;
     }
@@ -341,12 +341,12 @@ void TAdChrSelBSlotGC::update_slot_state() {
 
 void TAdChrSelBSlotGC::update_card_select() {
 
-    if (m_6c != 0) {
-        ((TWindowMessageYesNo *)m_6c)->close();
-        m_6c = 0;
+    if (format_prompt != NULL) {
+        format_prompt->close();
+        format_prompt = NULL;
     }
-    if (m_70->is_child_visible() != 0) {
-        switch (((TWindowMessageYesNo *)m_70)->get_selected_value()) {
+    if (format_confirm->is_child_visible() != 0) {
+        switch (format_confirm->get_selected_value()) {
         case 1:
             state = 7;
             return;
@@ -355,19 +355,19 @@ void TAdChrSelBSlotGC::update_card_select() {
                 state = 9;
                 return;
             }
-            m_7c = get_global_slot_data()->create_format_failed_window(1);
+            format_failed_message = get_global_slot_data()->create_format_failed_window(1);
             state = 0xB;
             return;
         }
     } else {
-        if (((TWindowMessageYesNo *)m_70)->is_cancelled() != 0) {
+        if (format_confirm->is_cancelled() != 0) {
             state = 7;
             return;
         }
         if (get_global_state() < 0xC) {
-            if (m_40 != 0) {
-                m_40->close();
-                m_40 = 0;
+            if (wait_message[0] != NULL) {
+                wait_message[0]->close();
+                wait_message[0] = NULL;
             }
             state = 1;
         }
@@ -375,57 +375,57 @@ void TAdChrSelBSlotGC::update_card_select() {
 }
 
 void TAdChrSelBSlotGC::show_not_formatted_message() {
-    if (m_6c != 0) {
-        ((TWindowMessageYesNo *)m_6c)->close();
-        m_6c = 0;
+    if (format_prompt != NULL) {
+        format_prompt->close();
+        format_prompt = NULL;
     }
-    if (m_70 != 0) {
-        ((TWindowMessageYesNo *)m_70)->close();
-        m_70 = 0;
+    if (format_confirm != NULL) {
+        format_confirm->close();
+        format_confirm = NULL;
     }
     if (get_global_state() < 0xC) {
-        if (m_40 != 0) {
-            m_40->close();
-            m_40 = 0;
+        if (wait_message[0] != NULL) {
+            wait_message[0]->close();
+            wait_message[0] = NULL;
         }
         state = 1;
         return;
     }
-    if ((state_frames > 0xA) && (m_78 == 0) && (get_global_slot_data() != 0)) {
-        m_78 = get_global_slot_data()->create_not_formatted_window(1);
+    if ((state_frames > 0xA) && (not_formatted_message == NULL) && (get_global_slot_data() != 0)) {
+        not_formatted_message = get_global_slot_data()->create_not_formatted_window(1);
     }
 }
 
 void TAdChrSelBSlotGC::update_card_confirm() {
     s32 var_r31;
 
-    if (m_6c->is_child_visible() != 0) {
-        switch (((TWindowMessageYesNo *)m_6c)->get_selected_value()) {
+    if (format_prompt->is_child_visible() != 0) {
+        switch (format_prompt->get_selected_value()) {
         case 1:
             state = 7;
             return;
         case 0:
-            if ((m_70 == 0) && (get_global_slot_data() != 0)) {
+            if ((format_confirm == NULL) && (get_global_slot_data() != 0)) {
                 if (TAdMultiPlyChrSelectGC::get_state() != NULL) {
                     var_r31 = TAdMultiPlyChrSelectGC::get_state()->get_state_result();
                 } else {
                     var_r31 = 0;
                 }
-                m_70 = get_global_slot_data()->open_confirm_message(1, var_r31);
+                format_confirm = get_global_slot_data()->open_confirm_message(1, var_r31);
                 state = 8;
                 return;
             }
             break;
         }
     } else {
-        if (((TWindowMessageYesNo *)m_6c)->is_cancelled() != 0) {
+        if (format_prompt->is_cancelled() != 0) {
             state = 7;
             return;
         }
         if (get_global_state() < 0xC) {
-            if (m_40 != 0) {
-                m_40->close();
-                m_40 = 0;
+            if (wait_message[0] != NULL) {
+                wait_message[0]->close();
+                wait_message[0] = NULL;
             }
             state = 1;
         }
@@ -435,249 +435,249 @@ void TAdChrSelBSlotGC::update_card_confirm() {
 void TAdChrSelBSlotGC::show_format_prompt() {
     s32 var_r31;
     if (get_global_state() > 0x11) {
-        if (m_50 != 0) {
-            m_50->close();
-            m_50 = 0;
+        if (wait_message[4] != NULL) {
+            wait_message[4]->close();
+            wait_message[4] = NULL;
         }
         state = 0xC;
         return;
     }
     if (get_global_state() < 0xC) {
-        if (m_40 != 0) {
-            m_40->close();
-            m_40 = 0;
+        if (wait_message[0] != NULL) {
+            wait_message[0]->close();
+            wait_message[0] = NULL;
         }
         state = 1;
         return;
     }
-    if ((state_frames > 0xA) && (m_6c == 0) && (get_global_slot_data() != 0)) {
+    if ((state_frames > 0xA) && (format_prompt == NULL) && (get_global_slot_data() != 0)) {
         if (TAdMultiPlyChrSelectGC::get_state() != NULL) {
             var_r31 = TAdMultiPlyChrSelectGC::get_state()->get_state_result();
         } else {
             var_r31 = 0;
         }
-        m_6c = get_global_slot_data()->create_message_window(1, var_r31);
+        format_prompt = get_global_slot_data()->create_message_window(1, var_r31);
         state = 6;
     }
 }
 
 void TAdChrSelBSlotGC::show_card_damaged_message() {
     if (get_global_state() > 0x10) {
-        if (m_4c != 0) {
-            m_4c->close();
-            m_4c = 0;
+        if (wait_message[3] != NULL) {
+            wait_message[3]->close();
+            wait_message[3] = NULL;
         }
         state = 5;
         return;
     }
     if (get_global_state() < 0xC) {
-        if (m_40 != 0) {
-            m_40->close();
-            m_40 = 0;
+        if (wait_message[0] != NULL) {
+            wait_message[0]->close();
+            wait_message[0] = NULL;
         }
         state = 1;
         return;
     }
-    if ((state_frames > 0xA) && (m_4c == 0)) {
+    if ((state_frames > 0xA) && (wait_message[3] == NULL)) {
         get_global_slot_data();
-        m_4c = get_global_slot_data()->create_slot_message_window(1, 7);
+        wait_message[3] = get_global_slot_data()->create_slot_message_window(1, 7);
     }
 }
 
 void TAdChrSelBSlotGC::show_card_incompatible_message() {
     if (get_global_state() > 0xF) {
-        if (m_48 != 0) {
-            m_48->close();
-            m_48 = 0;
+        if (wait_message[2] != NULL) {
+            wait_message[2]->close();
+            wait_message[2] = NULL;
         }
         state = 4;
         return;
     }
     if (get_global_state() < 0xC) {
-        if (m_40 != 0) {
-            m_40->close();
-            m_40 = 0;
+        if (wait_message[0] != NULL) {
+            wait_message[0]->close();
+            wait_message[0] = NULL;
         }
         state = 1;
         return;
     }
-    if ((state_frames > 0xA) && (m_48 == 0)) {
+    if ((state_frames > 0xA) && (wait_message[2] == NULL)) {
         get_global_slot_data();
-        m_48 = get_global_slot_data()->create_slot_message_window(1, 5);
+        wait_message[2] = get_global_slot_data()->create_slot_message_window(1, 5);
     }
 }
 
 void TAdChrSelBSlotGC::show_unsupported_device_message() {
     if (get_global_state() > 0xE) {
-        if (m_44 != 0) {
-            m_44->close();
-            m_44 = 0;
+        if (wait_message[1] != NULL) {
+            wait_message[1]->close();
+            wait_message[1] = NULL;
         }
         state = 3;
         return;
     }
     if (get_global_state() < 0xC) {
-        if (m_40 != 0) {
-            m_40->close();
-            m_40 = 0;
+        if (wait_message[0] != NULL) {
+            wait_message[0]->close();
+            wait_message[0] = NULL;
         }
         state = 1;
         return;
     }
-    if ((state_frames > 0xA) && (m_44 == 0)) {
+    if ((state_frames > 0xA) && (wait_message[1] == NULL)) {
         get_global_slot_data();
-        m_44 = get_global_slot_data()->create_slot_message_window(1, 3);
+        wait_message[1] = get_global_slot_data()->create_slot_message_window(1, 3);
     }
 }
 
 void TAdChrSelBSlotGC::close_windows() {
-    if (m_44 != 0) {
-        m_44->close();
-        m_44 = 0;
+    if (wait_message[1] != NULL) {
+        wait_message[1]->close();
+        wait_message[1] = NULL;
     }
-    if (m_48 != 0) {
-        m_48->close();
-        m_48 = 0;
+    if (wait_message[2] != NULL) {
+        wait_message[2]->close();
+        wait_message[2] = NULL;
     }
-    if (m_4c != 0) {
-        m_4c->close();
-        m_4c = 0;
+    if (wait_message[3] != NULL) {
+        wait_message[3]->close();
+        wait_message[3] = NULL;
     }
-    if (m_6c != 0) {
-        ((TWindowMessageYesNo *)m_6c)->close();
-        m_6c = 0;
+    if (format_prompt != NULL) {
+        format_prompt->close();
+        format_prompt = NULL;
     }
-    if (m_70 != 0) {
-        ((TWindowMessageYesNo *)m_70)->close();
-        m_70 = 0;
+    if (format_confirm != NULL) {
+        format_confirm->close();
+        format_confirm = NULL;
     }
-    if (m_74 != 0) {
-        m_74->close();
-        m_74 = 0;
+    if (formatted_message != NULL) {
+        formatted_message->close();
+        formatted_message = NULL;
     }
-    if (m_78 != 0) {
-        m_78->close();
-        m_78 = 0;
+    if (not_formatted_message != NULL) {
+        not_formatted_message->close();
+        not_formatted_message = NULL;
     }
-    if (m_7c != 0) {
-        m_7c->close();
-        m_7c = 0;
+    if (format_failed_message != NULL) {
+        format_failed_message->close();
+        format_failed_message = NULL;
     }
-    if (m_50 != 0) {
-        m_50->close();
-        m_50 = 0;
+    if (wait_message[4] != NULL) {
+        wait_message[4]->close();
+        wait_message[4] = NULL;
     }
-    if (m_54 != 0) {
-        m_54->close();
-        m_54 = 0;
+    if (wait_message[5] != NULL) {
+        wait_message[5]->close();
+        wait_message[5] = NULL;
     }
-    if (m_58 != 0) {
-        m_58->close();
-        m_58 = 0;
+    if (wait_message[6] != NULL) {
+        wait_message[6]->close();
+        wait_message[6] = NULL;
     }
-    if (m_5c != 0) {
-        m_5c->close();
-        m_5c = 0;
+    if (wait_message[7] != NULL) {
+        wait_message[7]->close();
+        wait_message[7] = NULL;
     }
-    if (m_60 != 0) {
-        m_60->close();
-        m_60 = 0;
+    if (wait_message[8] != NULL) {
+        wait_message[8]->close();
+        wait_message[8] = NULL;
     }
-    if (m_64 != 0) {
-        m_64->close();
-        m_64 = 0;
+    if (wait_message[9] != NULL) {
+        wait_message[9]->close();
+        wait_message[9] = NULL;
     }
-    if (m_68 != 0) {
-        m_68->close();
-        m_68 = 0;
+    if (wait_message[10] != NULL) {
+        wait_message[10]->close();
+        wait_message[10] = NULL;
     }
-    m_2c->reset_selection_slots();
+    plate->reset_selection_slots();
     player_items->sub_802D6D88();
-    m_34->clear_entries();
+    move_plate->clear_entries();
     slot_gc->sub_802C7498(2);
     if (get_global_state() > 0xD) {
-        if (m_40 != 0) {
-            m_40->close();
-            m_40 = 0;
+        if (wait_message[0] != NULL) {
+            wait_message[0]->close();
+            wait_message[0] = NULL;
         }
         state = 2;
         return;
     }
     if (get_global_state() < 0xC) {
-        if (m_40 != 0) {
-            m_40->close();
-            m_40 = 0;
+        if (wait_message[0] != NULL) {
+            wait_message[0]->close();
+            wait_message[0] = NULL;
         }
         state_frames = 0;
         state = 1;
         return;
     }
-    if ((state_frames > 0xA) && (m_40 == 0)) {
+    if ((state_frames > 0xA) && (wait_message[0] == NULL)) {
         get_global_slot_data();
-        m_40 = get_global_slot_data()->create_slot_message_window(1, 1);
+        wait_message[0] = get_global_slot_data()->create_slot_message_window(1, 1);
     }
 }
 
 
 void TAdChrSelBSlotGC::reset_windows() {
     slot_gc->reset_all_slots();
-    if (m_38 != 0) {
-        m_38->queue_destruction();
-        m_38 = 0;
+    if (draw_line[0] != NULL) {
+        draw_line[0]->queue_destruction();
+        draw_line[0] = NULL;
     }
-    if (m_3c != 0) {
-        m_3c->queue_destruction();
-        m_3c = 0;
+    if (draw_line[1] != NULL) {
+        draw_line[1]->queue_destruction();
+        draw_line[1] = NULL;
     }
-    if (m_40 != 0) {
-        m_40->close();
-        m_40 = 0;
+    if (wait_message[0] != NULL) {
+        wait_message[0]->close();
+        wait_message[0] = NULL;
     }
-    if (m_44 != 0) {
-        m_44->close();
-        m_44 = 0;
+    if (wait_message[1] != NULL) {
+        wait_message[1]->close();
+        wait_message[1] = NULL;
     }
-    if (m_48 != 0) {
-        m_48->close();
-        m_48 = 0;
+    if (wait_message[2] != NULL) {
+        wait_message[2]->close();
+        wait_message[2] = NULL;
     }
-    if (m_4c != 0) {
-        m_4c->close();
-        m_4c = 0;
+    if (wait_message[3] != NULL) {
+        wait_message[3]->close();
+        wait_message[3] = NULL;
     }
-    if (m_50 != 0) {
-        m_50->close();
-        m_50 = 0;
+    if (wait_message[4] != NULL) {
+        wait_message[4]->close();
+        wait_message[4] = NULL;
     }
-    if (m_54 != 0) {
-        m_54->close();
-        m_54 = 0;
+    if (wait_message[5] != NULL) {
+        wait_message[5]->close();
+        wait_message[5] = NULL;
     }
-    if (m_58 != 0) {
-        m_58->close();
-        m_58 = 0;
+    if (wait_message[6] != NULL) {
+        wait_message[6]->close();
+        wait_message[6] = NULL;
     }
-    if (m_5c != 0) {
-        m_5c->close();
-        m_5c = 0;
+    if (wait_message[7] != NULL) {
+        wait_message[7]->close();
+        wait_message[7] = NULL;
     }
-    if (m_60 != 0) {
-        m_60->close();
-        m_60 = 0;
+    if (wait_message[8] != NULL) {
+        wait_message[8]->close();
+        wait_message[8] = NULL;
     }
-    if (m_64 != 0) {
-        m_64->close();
-        m_64 = 0;
+    if (wait_message[9] != NULL) {
+        wait_message[9]->close();
+        wait_message[9] = NULL;
     }
-    if (m_68 != 0) {
-        m_68->close();
-        m_68 = 0;
+    if (wait_message[10] != NULL) {
+        wait_message[10]->close();
+        wait_message[10] = NULL;
     }
-    m_2c->reset_selection_slots();
+    plate->reset_selection_slots();
     player_items->sub_802D6D88();
     slot_gc->init_slot(1, (void *)&lbl_80475910);
-    m_38 = create_draw_line_ctrl(this, 0xE, 0.0f);
-    m_3c = create_draw_line_ctrl(this, 0x15, 0.0f);
+    draw_line[0] = create_draw_line_ctrl(this, 0xE, 0.0f);
+    draw_line[1] = create_draw_line_ctrl(this, 0x15, 0.0f);
     state_frames = -1;
     state = 1;
 }
@@ -733,103 +733,103 @@ void TAdChrSelBSlotGC::run_task() {
 
 void TAdChrSelBSlotGC::create_children() {
     slot_gc = new TAdChrSelSlotGC(this);
-    m_2c = new TAdPlyChrSelPlateGC(this, &chr_sel_b_slot_plate_layout);
+    plate = new TAdPlyChrSelPlateGC(this, &chr_sel_b_slot_plate_layout);
     player_items = new TAdSubPlyItemGC(this);
-    m_34 = new TAdChrSelMovePlateGC(this);
+    move_plate = new TAdChrSelMovePlateGC(this);
 }
 
 void TAdChrSelBSlotGC::clear_all_fields() {
     state = 0;
     prev_state = 0;
     state_frames = -1;
-    slot_gc = 0;
-    m_2c = NULL;
-    player_items = 0;
-    m_34 = 0;
-    m_38 = 0;
-    m_3c = 0;
-    m_40 = 0;
-    m_44 = 0;
-    m_48 = 0;
-    m_4c = 0;
-    m_50 = 0;
-    m_54 = 0;
-    m_58 = 0;
-    m_5c = 0;
-    m_60 = 0;
-    m_64 = 0;
-    m_68 = 0;
-    m_6c = 0;
-    m_70 = 0;
-    m_74 = 0;
-    m_78 = 0;
-    m_7c = 0;
+    slot_gc = NULL;
+    plate = NULL;
+    player_items = NULL;
+    move_plate = NULL;
+    draw_line[0] = NULL;
+    draw_line[1] = NULL;
+    wait_message[0] = NULL;
+    wait_message[1] = NULL;
+    wait_message[2] = NULL;
+    wait_message[3] = NULL;
+    wait_message[4] = NULL;
+    wait_message[5] = NULL;
+    wait_message[6] = NULL;
+    wait_message[7] = NULL;
+    wait_message[8] = NULL;
+    wait_message[9] = NULL;
+    wait_message[10] = NULL;
+    format_prompt = NULL;
+    format_confirm = NULL;
+    formatted_message = NULL;
+    not_formatted_message = NULL;
+    format_failed_message = NULL;
 }
 
 TAdChrSelBSlotGC::~TAdChrSelBSlotGC() {
-    if (m_40 != 0) {
-        m_40->queue_destruction();
-        m_40 = 0;
+    if (wait_message[0] != NULL) {
+        wait_message[0]->queue_destruction();
+        wait_message[0] = NULL;
     }
-    if (m_44 != 0) {
-        m_44->queue_destruction();
-        m_44 = 0;
+    if (wait_message[1] != NULL) {
+        wait_message[1]->queue_destruction();
+        wait_message[1] = NULL;
     }
-    if (m_48 != 0) {
-        m_48->queue_destruction();
-        m_48 = 0;
+    if (wait_message[2] != NULL) {
+        wait_message[2]->queue_destruction();
+        wait_message[2] = NULL;
     }
-    if (m_4c != 0) {
-        m_4c->queue_destruction();
-        m_4c = 0;
+    if (wait_message[3] != NULL) {
+        wait_message[3]->queue_destruction();
+        wait_message[3] = NULL;
     }
-    if (m_50 != 0) {
-        m_50->queue_destruction();
-        m_50 = 0;
+    if (wait_message[4] != NULL) {
+        wait_message[4]->queue_destruction();
+        wait_message[4] = NULL;
     }
-    if (m_54 != 0) {
-        m_54->queue_destruction();
-        m_54 = 0;
+    if (wait_message[5] != NULL) {
+        wait_message[5]->queue_destruction();
+        wait_message[5] = NULL;
     }
-    if (m_58 != 0) {
-        m_58->queue_destruction();
-        m_58 = 0;
+    if (wait_message[6] != NULL) {
+        wait_message[6]->queue_destruction();
+        wait_message[6] = NULL;
     }
-    if (m_5c != 0) {
-        m_5c->queue_destruction();
-        m_5c = 0;
+    if (wait_message[7] != NULL) {
+        wait_message[7]->queue_destruction();
+        wait_message[7] = NULL;
     }
-    if (m_60 != 0) {
-        m_60->queue_destruction();
-        m_60 = 0;
+    if (wait_message[8] != NULL) {
+        wait_message[8]->queue_destruction();
+        wait_message[8] = NULL;
     }
-    if (m_64 != 0) {
-        m_64->queue_destruction();
-        m_64 = 0;
+    if (wait_message[9] != NULL) {
+        wait_message[9]->queue_destruction();
+        wait_message[9] = NULL;
     }
-    if (m_68 != 0) {
-        m_68->queue_destruction();
-        m_68 = 0;
+    if (wait_message[10] != NULL) {
+        wait_message[10]->queue_destruction();
+        wait_message[10] = NULL;
     }
-    if (m_6c != 0) {
-        m_6c->queue_destruction();
-        m_6c = 0;
+    if (format_prompt != NULL) {
+        format_prompt->queue_destruction();
+        format_prompt = NULL;
     }
-    if (m_70 != 0) {
-        m_70->queue_destruction();
-        m_70 = 0;
+    if (format_confirm != NULL) {
+        format_confirm->queue_destruction();
+        format_confirm = NULL;
     }
-    if (m_74 != 0) {
-        m_74->queue_destruction();
-        m_74 = 0;
+    if (formatted_message != NULL) {
+        formatted_message->queue_destruction();
+        formatted_message = NULL;
     }
-    if (m_78 != 0) {
-        m_78->queue_destruction();
-        m_78 = 0;
+    if (not_formatted_message != NULL) {
+        not_formatted_message->queue_destruction();
+        not_formatted_message = NULL;
     }
-    if (m_7c != 0) {
-        m_7c->queue_destruction();
-        m_7c = 0;
+    if (format_failed_message != NULL) {
+        format_failed_message->queue_destruction();
+        format_failed_message = NULL;
     }
 }
 
