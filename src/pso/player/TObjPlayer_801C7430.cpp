@@ -1151,7 +1151,6 @@ s16 TObjPlayer__sub_801D2824(void* p);
 s16 TObjPlayer__sub_801D282C(void* p);
 f32 TObjPlayer__sub_801D2858(void* p);
 s32 TObjPlayer__sub_801D2870(void* p);
-void *TObjPlayer__sub_801D2878(void *p);
 void* TObjPlayer__sub_801D28A0(void* p, void* a1);
 void TObjPlayer__sub_801D28DC(void* p);
 u8 * copy_6x4c_hit_by_enemy_packet__10TObjPlayerFPvPv(u8 *arg0, u8 *arg1);
@@ -2158,7 +2157,7 @@ void TObjPlayer::send_name_and_state() {
     MsgA_801C9400 a;
     MsgB_801C9400 b;
     if (((TObjPlayer *)this)->is_frozen() == 0) {
-        init_stick_escape_detector(&stick_escape_detector, static_cast<const ControllerInputContext *>(TObjPlayer__sub_801D2878(&pad_binding)));
+        init_stick_escape_detector(&stick_escape_detector, pad_binding.get_controller());
     }
     if ((arg0 == NULL) || (this->obj_isState2_324() == 0)) {
         ((TObjPlayer *)(&a))->set_type_53();
@@ -6676,7 +6675,7 @@ s32 TObjPlayer__sub_801D2870(void* p) { return *(s32*)((char*)p + 0x4); }
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-void *TObjPlayer__sub_801D2878(void *p) { return *(void **)((char *)p + 0xc); }
+ControllerInputContext *PlayerPadBinding::get_controller() { return controller; }
 #pragma pop
 
 #pragma push

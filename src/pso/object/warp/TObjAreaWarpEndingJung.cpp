@@ -110,7 +110,6 @@ s64 get_warp_string_screen_position(void *arg0, u16 client_id);
 void TObjAreaWarpQuest__sub_8019DCD8(TObjPlayer *, s32);
 }
 
-void mask_action_buttons(void *p, u32 v);
 
 union WarpStringPos {
     s64 packed;
@@ -123,7 +122,6 @@ union WarpStringPos {
 
 extern "C" {
 
-void fn_8019DD24(void *p, u32 v);
 
 int is_flag_400_set__10TObjPlayerFPv(void *p);
 
@@ -177,9 +175,9 @@ extern __declspec(section ".data") const WarpStringScreenPosition warp_string_sc
 
 // The tail after load_forest_warp_resources (the original's inline helpers and
 // ~TObjMapWarpForest), in reverse address order like the rest.
-void fn_8019DD24(void *p, u32 v) { *(u32 *)((char *)p + 0x8) |= v; }
+void PlayerPadBinding::enable_buttons(u32 mask) { enabled_buttons |= mask; }
 
-void mask_action_buttons(void *p, u32 v) { *(u32 *)((char *)p + 0x8) &= ~v; }
+void PlayerPadBinding::disable_buttons(u32 mask) { enabled_buttons &= ~mask; }
 
 void bswap_6x94_inter_level_warp(G_InterLevelWarp_6x94 *packet) {
     packet->header.bswap();
@@ -256,7 +254,7 @@ void TObjWarpBase::close_menu() {
         this->menu_window = 0U;
         player = (uaddr)get_player_by_client_id(this->user_client_id);
         if (player != 0U) {
-            fn_8019DD24((void *)(player + 0x550), 4);
+            ((TObjPlayer *)player)->pad_binding.enable_buttons(4);
         }
         this->user_client_id = 0xFFFFU;
     }
@@ -327,7 +325,7 @@ void TObjMapWarp::closePlayerWindow(u16 slot) {
         playerPopups[slot] = NULL;
         player = get_player_by_client_id(slot);
         if (player != NULL) {
-            fn_8019DD24((void *)((uaddr)player + 0x550), 4);
+            player->pad_binding.enable_buttons(4);
         }
     }
 }
@@ -527,7 +525,7 @@ void TObjAreaWarp::open_confirm_window(s32 client_id) {
         this->user_client_id = client_id;
         player = (uaddr)get_player_by_client_id(this->user_client_id);
         if (player != 0U) {
-            mask_action_buttons((void *)(player + 0x550), 4);
+            ((TObjPlayer *)player)->pad_binding.disable_buttons(4);
         }
     }
 }

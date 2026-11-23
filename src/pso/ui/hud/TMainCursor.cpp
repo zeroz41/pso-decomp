@@ -55,7 +55,6 @@
 #include "pso/ui/hud/TMainCursor_8013E47C.h"
 #include "pso/player/TPlyDispData.h"
 #include "pso/ui/hud/TMainCursor_8013E624.h"
-#include "pso/player/TPlyDispConfig_80071F1C.h"
 #include "pso/ui/hud/TMainCursor_8013E7B8.h"
 #include "pso/ui/hud/TLockOnCursor_8013EA08.h"
 #include "pso/ui/hud/TLockOnCursor_8013EB80.h"

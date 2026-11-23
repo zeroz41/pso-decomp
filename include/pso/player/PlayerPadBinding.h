@@ -21,6 +21,10 @@ struct PlayerPadBinding {
     int stick_enabled();
     int buttons_enabled();
     s32 is_button_enabled(s32 mask);
+    // Lets / stops the player use the buttons in mask (enabled_buttons).
+    void enable_buttons(u32 mask);
+    void disable_buttons(u32 mask);
+    ControllerInputContext *get_controller();
 
     u16 entity_id;
     s16 port;
