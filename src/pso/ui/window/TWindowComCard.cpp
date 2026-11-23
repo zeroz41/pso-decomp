@@ -139,7 +139,7 @@ s32 TWindowSubComCard::create_com_card_window(s32 position) {
 }
 
 void *TWindowComCard::create(void *position, void *index) {
-    void *entry = get_card_entry__17TWindowSubComCardFi(static_cast<s32>(reinterpret_cast<saddr>(index)));
+    void *entry = TWindowSubComCard::get_card_entry(static_cast<s32>(reinterpret_cast<saddr>(index)));
     if (entry == NULL) {
         return NULL;
     }

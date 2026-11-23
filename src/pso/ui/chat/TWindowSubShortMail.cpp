@@ -52,7 +52,6 @@ extern s32 local_client_id;
 extern saddr tl_00;
 
 extern "C" {
-void update_display_value__17TWindowSubComCardFUiUiPv(uaddr arg0, uaddr arg1, s32 *arg2);
 }
 
 void remove_short_mail_by_id(u32 id);
@@ -170,13 +169,13 @@ void TWindowSubShortMail::run_task() {
         ((TWindowMenu *)card_list)->clear_flag_and_release();
         state = 4;
     case 4:
-        update_display_value__17TWindowSubComCardFUiUiPv((uaddr)card_list, (uaddr)card_window, (s32 *)&card_index);
+        TWindowSubComCard::update_display_value((uaddr)card_list, (uaddr)card_window, (s32 *)&card_index);
         if (((TWindowMenu *)card_list)->is_cancelled() != 0) {
             state = 1;
         } else if (((TWindowMenu *)card_list)->is_decided() != 0) {
             void *p;
             reply_mail_id = -1;
-            p = get_card_entry__17TWindowSubComCardFi(((TWindowMenu *)card_list)->get_selected_value());
+            p = TWindowSubComCard::get_card_entry(((TWindowMenu *)card_list)->get_selected_value());
             if (p != NULL) {
                 target_card_id = reinterpret_cast<GuildCardEntry *>(p)->get_card_id();
             }
@@ -598,6 +597,6 @@ void TWindowSubShortMail::close() {
 }
 
 void TWindowSubShortMail::sub_8027E620() {
-    get_card_entry__17TWindowSubComCardFi(((TWindowMenuIconLine *)mail_list)->get_cursor_value());
+    TWindowSubComCard::get_card_entry(((TWindowMenuIconLine *)mail_list)->get_cursor_value());
     TLobby::send_find_user_self_tag(target_card_id);
 }

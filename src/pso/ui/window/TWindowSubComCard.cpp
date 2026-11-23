@@ -132,7 +132,6 @@ extern s32 local_client_id;
 void rebuild_com_card_list__17TWindowSubComCardFii(s32 arg0, saddr list_window);
 s32 create_keyboard__17TWindowSubComCardFi(saddr arg0);
 s32 create_keyboard__17TWindowSubComCardFii(saddr parent, saddr card);
-void update_display_value__17TWindowSubComCardFUiUiPv(uaddr list_window, uaddr card_window, s32 *last_selected);
 void update_selection__17TWindowSubComCardFiii(s32 list_window, s32 card_window, s32 last_selected);
 
 struct ComCardRec_80272A98 { u32 id; char name[0xD0]; };
@@ -463,7 +462,7 @@ void TWindowSubComCard::run_task() {
         ((TWindowMenu *)(this->m_84))->clear_flag_and_release();
         this->state = 0xCU;
     case 0xC:
-        ((s32 (*)(int, int, void*))update_display_value__17TWindowSubComCardFUiUiPv)(this->m_84, this->m_74, (void *) ((u8 *)this + 0x24));
+        TWindowSubComCard::update_display_value(this->m_84, this->m_74, (s32 *)&this->m_24);
         this->set_card_index((int) (((TWindowMenu *)this->m_84)->get_selected_value()));
         if (test_pressed_buttons_packed(&controller_input_state.controllers[0], 0x400) != 0) {
             if (((TWindowBase *)(this->message_window))->sub_80244994() != 0) {
@@ -590,7 +589,7 @@ void TWindowSubComCard::run_task() {
         ((TWindowMenu *)(this->m_84))->clear_flag_and_release();
         this->state = 0x1AU;
     case 0x1A:
-        ((s32 (*)(int, int, void*))update_display_value__17TWindowSubComCardFUiUiPv)(this->m_84, this->m_74, (void *) ((u8 *)this + 0x24));
+        TWindowSubComCard::update_display_value(this->m_84, this->m_74, (s32 *)&this->m_24);
         if (((TWindowMenu *)(this->m_84))->is_cancelled() != 0) {
             this->state = 1U;
             return;
@@ -616,7 +615,7 @@ void TWindowSubComCard::run_task() {
         ((TWindowMenu *)(this->m_84))->clear_flag_and_release();
         this->state = 0x1CU;
     case 0x1C:
-        ((s32 (*)(int, int, void*))update_display_value__17TWindowSubComCardFUiUiPv)(this->m_84, this->m_74, (void *) ((u8 *)this + 0x24));
+        TWindowSubComCard::update_display_value(this->m_84, this->m_74, (s32 *)&this->m_24);
         if (((TWindowMenu *)(this->m_84))->is_cancelled() != 0) {
             ((TWindowMenu *)(this->m_84))->reset_selection();
             this->state = 1U;
@@ -1050,7 +1049,7 @@ void TWindowSubComCard::run_task() {
         ((TWindowMenu *)(this->m_84))->clear_flag_and_release();
         this->state = 0x42U;
     case 0x42:
-        ((s32 (*)(int, int, void*))update_display_value__17TWindowSubComCardFUiUiPv)(this->m_84, this->m_74, (void *) ((u8 *)this + 0x24));
+        TWindowSubComCard::update_display_value(this->m_84, this->m_74, (s32 *)&this->m_24);
         if (((TWindowMenu *)(this->m_84))->is_cancelled() != 0) {
             this->state = 1U;
             return;
@@ -1636,11 +1635,11 @@ s32 create_keyboard__17TWindowSubComCardFii(saddr parent, saddr card) {
     return keyboard;
 }
 
-void update_display_value__17TWindowSubComCardFUiUiPv(uaddr list_window, uaddr card_window, s32 *last_selected) {
+void TWindowSubComCard::update_display_value(uaddr list_window, uaddr card_window, s32 *last_selected) {
   saddr card_entry;
     s32 selected_value;
 
-    card_entry = reinterpret_cast<saddr>(get_card_entry__17TWindowSubComCardFi(0));
+    card_entry = reinterpret_cast<saddr>(TWindowSubComCard::get_card_entry(0));
     if ((list_window != 0U) && (card_window != 0U)) {
         selected_value = ((TWindowMenu *)list_window)->get_selected_value();
         if (selected_value != (s32) *last_selected) {
@@ -1723,7 +1722,7 @@ void TWindowSubComCard::sub_802721D8() {
 extern "C" {
 void TWindowSubComCard::cleanup(void *p) {
     TWindowMenu *menu = *reinterpret_cast<TWindowMenu **>(static_cast<u8 *>(p) + 0x84);
-    const GuildCardSlot *slot = get_card_entry__17TWindowSubComCardFi(menu->get_selected_value());
+    const GuildCardSlot *slot = TWindowSubComCard::get_card_entry(menu->get_selected_value());
     TLobby::send_find_user_self_tag(slot->entry.get_card_id());
 }
 u8 *TWindowSubComCard::send_cmd_133() { return fn_802754EC(get_window_layout_position(133)); }

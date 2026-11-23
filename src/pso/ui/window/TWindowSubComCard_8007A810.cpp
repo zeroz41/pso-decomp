@@ -17,7 +17,7 @@ void TWindowSubComCard::set_card_text(saddr src) {
     GuildCardSlot *slot;
 
     if (src != 0) {
-        slot = get_card_entry__17TWindowSubComCardFi(static_cast<s32>(reinterpret_cast<saddr>(this)));
+        slot = TWindowSubComCard::get_card_entry(static_cast<s32>(reinterpret_cast<saddr>(this)));
         if (slot != NULL) {
             strncpy(slot->note.text, reinterpret_cast<const char *>(src), 0x6B);
             slot->note.text[0x6B] = 0;
@@ -25,7 +25,7 @@ void TWindowSubComCard::set_card_text(saddr src) {
     }
 }
 u8 *TWindowSubComCard::get_card_entry_data() {
-    GuildCardSlot *slot = get_card_entry__17TWindowSubComCardFi(static_cast<s32>(reinterpret_cast<saddr>(this)));
+    GuildCardSlot *slot = TWindowSubComCard::get_card_entry(static_cast<s32>(reinterpret_cast<saddr>(this)));
     if (slot == NULL) {
         return NULL;
     }
@@ -34,7 +34,7 @@ u8 *TWindowSubComCard::get_card_entry_data() {
 
 GuildCardSlot *TWindowSubComCard::find_card_by_id(u32 id) {
     s32 i;
-    GuildCardSlot *slot = get_card_entry__17TWindowSubComCardFi(0);
+    GuildCardSlot *slot = TWindowSubComCard::get_card_entry(0);
     for (i = 0; i < 0xD2; i++, slot++) {
         if (id == slot->entry.get_card_id()) {
             return slot;
@@ -42,7 +42,7 @@ GuildCardSlot *TWindowSubComCard::find_card_by_id(u32 id) {
     }
     return NULL;
 }
-GuildCardSlot *get_card_entry__17TWindowSubComCardFi(s32 index) {
+GuildCardSlot *TWindowSubComCard::get_card_entry(s32 index) {
     if (index < 0) {
         return NULL;
     }
@@ -69,8 +69,8 @@ void TWindowSubComCard::swap_cards(s32 first_index, s32 second_index) {
     GuildCardSlot *second_ptr;
 
     ((s32 (*)(s32 *))reinit__17TWindowSubComCardFi)(sp8);
-    first_ptr = get_card_entry__17TWindowSubComCardFi(first_index);
-    second_ptr = get_card_entry__17TWindowSubComCardFi(second_index);
+    first_ptr = TWindowSubComCard::get_card_entry(first_index);
+    second_ptr = TWindowSubComCard::get_card_entry(second_index);
     copy_card__17TWindowSubComCardFiPv((saddr)sp8, (u8 *)first_ptr);
     copy_card__17TWindowSubComCardFiPv((saddr)first_ptr, (u8 *)second_ptr);
     copy_card__17TWindowSubComCardFiPv((saddr)second_ptr, (u8 *)sp8);
@@ -157,11 +157,11 @@ s32 has_inactive_card__17TWindowSubComCardFPvi(GuildCardSlot *cards, s32 n) {
 }
 
 s32 TWindowSubComCard::init_com_card() {
-    return has_inactive_card__17TWindowSubComCardFPvi(get_card_entry__17TWindowSubComCardFi(0), 0xD2);
+    return has_inactive_card__17TWindowSubComCardFPvi(TWindowSubComCard::get_card_entry(0), 0xD2);
 }
 
 void TWindowSubComCard::remove_card_at(s32 i) {
-    GuildCardSlot *slots = get_card_entry__17TWindowSubComCardFi(0);
+    GuildCardSlot *slots = TWindowSubComCard::get_card_entry(0);
     if (i < 0xD1) {
         GuildCardSlot *slot = &slots[i];
         move_words(slot, slot + 1, (0xD1 - i) * sizeof(*slot) / 4);
@@ -200,7 +200,7 @@ s32 TWindowSubComCard::send_guild_card() {
     if (((s32 (*)())TWindowSubComCard__sub_8007B070)() != 0) {
         return 0;
     }
-    temp = get_card_entry__17TWindowSubComCardFi(0);
+    temp = TWindowSubComCard::get_card_entry(0);
     return TWindowSubComCard__sub_8007AC7C((Card_8007AC7C *)(arg0), temp, 0xD2);
 }
 void forward_to_matching_card__17TWindowSubComCardFPvPvi(void *arg0, u8 *arg1, s32 count) {
@@ -229,7 +229,7 @@ s32 bswap_guild_card__17TWindowSubComCardFv();
 void TWindowSubComCard::start_player_data_load(s32 ply_guild_card_tag) {
     u32 temp;
     if (((s32 (*)(int))TWindowSubComCard__sub_8007B070)(ply_guild_card_tag) == 0) {
-        temp = reinterpret_cast<uaddr>(get_card_entry__17TWindowSubComCardFi(0));
+        temp = reinterpret_cast<uaddr>(TWindowSubComCard::get_card_entry(0));
         ((s32 (*)(s32, s32, s32))forward_to_matching_card__17TWindowSubComCardFPvPvi)(ply_guild_card_tag, (s32) temp, 0xD2);
         load_player_data__23TAdSinglePlyChrSelectGCFv();
     }
@@ -288,7 +288,7 @@ s32 count_leading_active__17TWindowSubComCardFPvi(Card_8007AF60 *p, s32 n) {
 }
 
 s32 TWindowSubComCard::count_active_cards() {
-    GuildCardSlot *p = get_card_entry__17TWindowSubComCardFi(0);
+    GuildCardSlot *p = TWindowSubComCard::get_card_entry(0);
     s32 i;
     for (i = 0; i < 0xD2; i++, p++) {
         if (p->entry.is_active() == 0) {

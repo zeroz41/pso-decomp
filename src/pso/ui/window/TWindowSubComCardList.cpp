@@ -72,7 +72,7 @@ TWindowSubComCardList::TWindowSubComCardList(void *parent) : TWindowMenu(7, 4, (
     }
     m_8c = new PageIndicator(0, (s8)n, local_client_id);
     cards = 0;
-    card_slots = (uaddr)get_card_entry__17TWindowSubComCardFi(0);
+    card_slots = (uaddr)TWindowSubComCard::get_card_entry(0);
     card_count = 0xD2;
     empty_message = 0;
     set_flag70_bit100();
