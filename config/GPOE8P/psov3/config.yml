@@ -536,8 +536,8 @@ force_active:
   - TFogCtrl__data_805DA948
   - TFogCtrl__data_805DA94C
   - swap_slots__8TFogCtrlFll
-  - fn_800FBA54__8TFogCtrlFv
-  - fn_800FBAAC__8TFogCtrlFv
+  - on_entries_released__8TFogCtrlFv
+  - on_entries_loaded__8TFogCtrlFv
   - assign_subcommand_header
   - set_charge_capped__16PhotonBlastGaugeFv
   - is_photon_blast_charge_full__16PhotonBlastGaugeFv

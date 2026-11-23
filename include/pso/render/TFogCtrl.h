@@ -75,10 +75,11 @@ struct TFogCtrl : public TObject {
     s32 request_fog(s32 entry, s32 flags);
     void swap_slots(s32 i, s32 j);
     void apply_fog_entry();
-    s32 fn_800FAC84();          // returns slots[0]->entry (get_current_entry?)
-    void fn_800FBAAC();         // empty; update_fog_entries calls it on every instance (floor load hook?)
-    void fn_800FBA54();         // empty; fn_800FBA58 calls it on every instance (floor release hook?)
-    static void fn_800FBA58();  // release half of the update_fog_entries floor callback pair
+    s32 get_current_entry();
+    void on_entries_loaded();          // empty
+    void on_entries_released();        // empty
+    // The session resource unload callback paired with update_fog_entries.
+    static void release_fog_entries();
 };
 
 LAYOUT_ASSERT(TFogCtrl_size, sizeof(TFogCtrl) == 0x1C8);

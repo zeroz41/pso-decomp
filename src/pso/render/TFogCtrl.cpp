@@ -135,24 +135,24 @@ void TFogCtrl::update_fog_entries() {
     }
     for (i = 0; i != 4; i++) {
         if (fog_instance_table[i] != NULL) {
-            fog_instance_table[i]->fn_800FBAAC();
+            fog_instance_table[i]->on_entries_loaded();
         }
     }
     TParticleCtrl::end_effect_render();
 }
 
-void TFogCtrl::fn_800FBAAC() { }
+void TFogCtrl::on_entries_loaded() { }
 
-void TFogCtrl::fn_800FBA58() {
+void TFogCtrl::release_fog_entries() {
     s32 i;
     for (i = 0; i != 4; i++) {
         if (fog_instance_table[i] != NULL) {
-            fog_instance_table[i]->fn_800FBA54();
+            fog_instance_table[i]->on_entries_released();
         }
     }
 }
 
-void TFogCtrl::fn_800FBA54() { }
+void TFogCtrl::on_entries_released() { }
 
 #pragma push
 #pragma opt_common_subs off
@@ -537,7 +537,7 @@ FogEntry *copy_fog_entry(FogEntry *dst, FogEntry *src) {
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-s32 TFogCtrl::fn_800FAC84() { return slots[0]->entry; }
+s32 TFogCtrl::get_current_entry() { return slots[0]->entry; }
 #pragma pop
 
 #pragma push
@@ -586,7 +586,7 @@ s32 TFogCtrl::update_first_active_fog() {
     s32 i;
     for (i = 0; i < 4; i++) {
         if (fog_instance_table[i] != NULL) {
-            return fog_instance_table[i]->fn_800FAC84();
+            return fog_instance_table[i]->get_current_entry();
         }
     }
     return 0;

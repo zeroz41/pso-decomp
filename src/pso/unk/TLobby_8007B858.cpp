@@ -87,7 +87,7 @@ FloorResourceCallbacks lbl_8048D4C0[29] = {
     {TLobby::clear_flag_on_phase_e, TLobby__sub_800F7744},
     {clear_legacy_enemy_kill_flags, release_legacy_enemy_kill_flags},
     {load_particle_entry_resources, TParticleCtrl::free_all},
-    {TFogCtrl::update_fog_entries, TFogCtrl::fn_800FBA58},
+    {TFogCtrl::update_fog_entries, TFogCtrl::release_fog_entries},
     {init_partner_dialogue, TNpcPlayer__sub_8034EDB8},
     {TLobby__sub_80191270, TLobby__sub_80191264},
     {TLobby__sub_8007BBEC, TLobby__sub_8007BBF8},
