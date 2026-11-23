@@ -42,10 +42,9 @@ s16 obj_getS16_2BA(u8 *p);
 // whose doubles follow these strings in .rodata.
 const char *TItemProShield__name = "TItemProShield";
 const char *lbl_805D2C3C = "ItemShieldEntry.dat";
-// Called with the client unextended and the item index widened to int, as
-// this TU saw TItemEffShield::ct_init and the TUnk_8049F130 constructor.
-void __ct__13TUnk_8049F148FP7TObjects(void *effect, TItemHeapObject *parent, u16 client);
-void __ct__13TUnk_8049F130FP7TObjectsUc(void *object, TItemHeapObject *parent, u16 client, int index);
+// Called with the item index widened to int.
+void __ct__13TUnk_8049F148FP7TObjectUs(void *effect, TItemHeapObject *parent, u16 client);
+void __ct__13TUnk_8049F130FP7TObjectUsUc(void *object, TItemHeapObject *parent, u16 client, int index);
 }
 
 ShieldEffectEntry *TItemProShield::shield_table;
@@ -58,22 +57,22 @@ TItemProShield::~TItemProShield() {}
 void TItemProShield::load_data() {
     s32 i;
     s32 j;
-    u32 *word;
+    s32 *word;
     ShieldEffectEntry *entry;
     shield_table = (ShieldEffectEntry *)load_data_file(lbl_805D2C3C);
     i = 0;
     entry = shield_table;
     do {
-        word = entry->words;
+        word = entry->particle_ids;
         j = 0;
         do {
-            bswap_32(word);
+            bswap_32((u32 *)word);
             j += 1;
             word += 1;
         } while (j < 8);
-        bswap_32(&entry->words[8]);
-        bswap_32(&entry->words[9]);
-        bswap_32(&entry->words[10]);
+        bswap_32((u32 *)&entry->first_delay);
+        bswap_32((u32 *)&entry->interval);
+        bswap_32((u32 *)&entry->burst_count);
         i += 1;
         entry += 1;
     } while (i != 50);
@@ -110,7 +109,7 @@ void TItemProShield::perform_action() {
     ShieldSoundCue cue;
     if (owner != NULL) {
         if (is_hidden() == 0) {
-            create_shield_effect((saddr)tl_05, get_owner_client(), (uaddr)effect_entry);
+            create_shield_effect(tl_05, get_owner_client(), effect_entry);
             ((TObjPlayer *)&cue)->reset_status_block();
             cue.group = get_item_group();
             cue.index = get_item_index();
@@ -150,7 +149,7 @@ void TItemProShield::on_equip() {
             if (effect_objects != NULL) {
                 event = TObject::operator new(0x2C);
                 if (event != NULL) {
-                    __ct__13TUnk_8049F148FP7TObjects(event, effect_objects, get_owner_client());
+                    __ct__13TUnk_8049F148FP7TObjectUs(event, effect_objects, get_owner_client());
                 }
             }
             break;
@@ -158,7 +157,7 @@ void TItemProShield::on_equip() {
         if ((index >= 0x53U) && (index <= 0x82U)) {
             event = TObject::operator new(0x30);
             if (event != NULL) {
-                __ct__13TUnk_8049F130FP7TObjectsUc(event, effect_objects, get_owner_client(), index);
+                __ct__13TUnk_8049F130FP7TObjectUsUc(event, effect_objects, get_owner_client(), index);
             }
         }
     }
