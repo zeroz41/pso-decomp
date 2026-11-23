@@ -80,8 +80,6 @@ TObjPlayer::~TObjPlayer() {
     TObjPlayer::free_owned_buffer_a((saddr)((s8 *)this + 0x4AC), (s16)(-1));
     destroy_follow_particle_state((saddr)((s8 *)this + 0x384), -1);
     TObjPlayer__sub_801BEDC0((s8 *)this + 0x374, -1);
-    contact_surface.fn_801BFA4C(-1);
-    chair_seat.conditional_delete_ex(-1);
 }
 
 extern "C" {
@@ -100,8 +98,6 @@ extern const char *lbl_805D3530;
 }
 
 TObjPlayer::TObjPlayer(TObject *parent, TUnk_801D8A4C *src) : TObjChara(parent) {
-    chair_seat.init();
-    contact_surface.init_state();
     TObjPlayer__sub_803374C4((void *)((char *)this + 884));
     init_follow_particle_state((PlayerFollowParticles *)((char *)this + 900));
     __ct__8FlagWordFv(((char *)this + 1052));
@@ -144,8 +140,6 @@ TObjPlayer::TObjPlayer(TObject *parent, TUnk_801D8A4C *src) : TObjChara(parent) 
 }
 
 TObjPlayer::TObjPlayer(TObject *parent, void *arg2) : TObjChara(parent) {
-    chair_seat.init();
-    contact_surface.init_state();
     TObjPlayer__sub_803374C4((void *)((char *)this + 884));
     init_follow_particle_state((PlayerFollowParticles *)((char *)this + 900));
     __ct__8FlagWordFv(((char *)this + 1052));

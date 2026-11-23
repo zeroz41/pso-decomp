@@ -17,9 +17,9 @@ struct PhotonChairSeat {
     s32 target_angle; // the rotation_y the seated player turns towards
     s32 pad_10;       // set from the 6xB0 packet
 
-    PhotonChairSeat *init();
+    PhotonChairSeat();
     void reset();
-    PhotonChairSeat *conditional_delete_ex(s16 flag);
+    ~PhotonChairSeat();
     void set_owner_id(u16 id);
     void fn_8035AF14();
     int create_chair();

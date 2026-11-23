@@ -117,7 +117,7 @@ u8 get_byte_11f(void* p) { return *(u8*)((char*)p + 0x11f); }
 u8 get_byte_103(void* p) { return *(u8*)((char*)p + 0x103); }
 u8 get_byte_e7(void* p) { return *(u8*)((char*)p + 0xe7); }
 void PhotonChairSeat::set_owner_id(u16 id) { owner_id = id; }
-PhotonChairSeat *PhotonChairSeat::init() { reset(); return this; }
+PhotonChairSeat::PhotonChairSeat() { reset(); }
 
 int TObjPlayer::check_flag_at_428() { return test_flags_any((s32 *)((char*)this + 0x428), 1); }
 void*TObjPlayer::get_sub_obj() { return (char*)this + 0x4; }

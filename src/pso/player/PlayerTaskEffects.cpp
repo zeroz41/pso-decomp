@@ -1063,13 +1063,13 @@ void TForceOperate::run_task() {
 
 #pragma defer_codegen off
 
-int ContactSurfaceState::set_action_flag16() { return test_flags_any(&flags, 16); }
+int ContactSurfaceState::set_action_flag16() { return test_flags_any(&word.bits, 16); }
 
 
-int ContactSurfaceState::test_flag_8() { return test_flags_any(&flags, 8); }
+int ContactSurfaceState::test_flag_8() { return test_flags_any(&word.bits, 8); }
 
 
-int ContactSurfaceState::fn_801C7098() { return test_flags_any(&flags, 2); }
+int ContactSurfaceState::fn_801C7098() { return test_flags_any(&word.bits, 2); }
 
 
 #pragma defer_codegen on

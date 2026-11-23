@@ -15642,7 +15642,7 @@ force_active:
   - setup_projection_texture__10TObjPlayerFlll
   - setup_sound__18TObjEnvSoundGlobalFv
   - setup_state__14TBoss7TentacleFv
-  - setup_state_helper__19ContactSurfaceStateFv
+  - reset__19ContactSurfaceFlagsFv
   - setup_telepipe_field__9TTecLukerFv
   - setup_tex_gen__10TObjPlayerFv
   - setup_vertex_format__10TObjPlayerFv
