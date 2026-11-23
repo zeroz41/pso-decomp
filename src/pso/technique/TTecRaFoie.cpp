@@ -168,7 +168,7 @@ struct Stack_80238388 {
 struct RaFoie_802381F8 {
     u8 pad0[0x22];
     u16 level;
-    TUnk_804DDF04 *tev;
+    TEffIndirect *tev;
     u8 m28[0x34 - 0x28];
     f32 sx;
     f32 sy;
@@ -337,7 +337,7 @@ u8 *create_rafoie_explosion(u8 *arg0, s32 *arg1, s16 band, s16 arg3, saddr arg4,
     stack.spC += (5.0f);
     VecCopy((Vec *)(arg0 + 0x28), (const Vec *)(&stack.sp8));
     ((TUnk_804CCB28 *)arg0)->spawn_rafoie_explosion_bursts();
-    ((TUnk_804CCB28 *)arg0)->indirect_effect = new TUnk_804DDF04(0x11, (TObject *)arg0);
+    ((TUnk_804CCB28 *)arg0)->indirect_effect = new TEffIndirect(0x11, (TObject *)arg0);
     ((TUnk_804CCB28 *)arg0)->m_40 = (f32) (1.9f);
     return arg0;
 }
@@ -372,7 +372,7 @@ TUnk_804CCB28 *create_fire_explosion_effect(u8 *arg0, f32 farg0, const Vec *pos,
     stack.spC += (5.0f);
     VecCopy((Vec *)(arg0 + 0x28), (const Vec *)(&stack.sp8));
     ((TUnk_804CCB28 *)arg0)->spawn_rafoie_explosion_bursts();
-    ((TUnk_804CCB28 *)arg0)->indirect_effect = new TUnk_804DDF04(0x11, (TObject *)arg0);
+    ((TUnk_804CCB28 *)arg0)->indirect_effect = new TEffIndirect(0x11, (TObject *)arg0);
     ((TUnk_804CCB28 *)arg0)->m_40 = (f32) (1.9f);
     return (TUnk_804CCB28 *)arg0;
 }

@@ -4,7 +4,7 @@
 #include "pso/unk/TUnk_804ED598.h"
 #include "pso/unk/TUnk_804ED5B0.h"
 
-#include "pso/unk/text_802A8210.h"
+#include "pso/effect/TEffIndirectCtrl.h"
 #include "pso/unk/text_803281B8.h"
 #include "pso/effect/particle/TParticleCtrl_80327D30.h"
 #include "pso/system/task/TObject_80019A50.h"

@@ -1,21 +1,25 @@
-#ifndef PSO_MISC_TEFFINDIRECTCTRL_H
-#define PSO_MISC_TEFFINDIRECTCTRL_H
+#ifndef PSO_EFFECT_TEFFINDIRECTCTRL_H
+#define PSO_EFFECT_TEFFINDIRECTCTRL_H
 
 #include "types.h"
 #include "pso/system/task/TObject.h"
+#include "pso/render/GinjaMaterialState.h"
 
-// Scene-side handle of an indirect effect: its constructor registers a TEffIndirectCtrl for `kind`
-// (register_indirect_effect_ctrl). Class name is the placeholder of the vtable it installs (0x804DDF04).
-struct TUnk_804DDF04 : public TObject {
-    TUnk_804DDF04(s32 kind, TObject *parent);
-    virtual ~TUnk_804DDF04();
-    u8 indirect_kind; // inferred: the kind passed to register_indirect_effect_ctrl
+// Scene-side handle of an indirect (texture warp) effect: the scene's map models and Ra Foie
+// create one per warped surface; its constructor registers a TEffIndirectCtrl for `kind`.
+class TEffIndirect : public TObject {
+public:
+    TEffIndirect(s32 kind, TObject *parent);
+    virtual ~TEffIndirect();
+
+    u8 kind;
 };
 
-LAYOUT_ASSERT(TUnk_804DDF04_size, sizeof(TUnk_804DDF04) == 0x20);
+LAYOUT_ASSERT(TEffIndirect_size, sizeof(TEffIndirect) == 0x20);
 
+// One row of indinfo.dat: how a kind warps its indirect texture every frame.
 struct TEffIndirectRecipe {
-    u8 mode;
+    u8 mode;  // 0 scroll, 1 wave, 2 wave that keeps the 0xFF texels
     s8 horizontal_amplitude;
     s8 vertical_amplitude;
     s8 variation;
@@ -25,6 +29,7 @@ struct TEffIndirectRecipe {
     u8 source_index;
 };
 
+// One of the eight 64x64 I8 source textures of indirect.dat.
 struct TEffIndirectSource {
     u8 header[8];
     s32 texture_id;
@@ -35,45 +40,71 @@ struct TEffIndirectSource {
 LAYOUT_ASSERT(TEffIndirectRecipe_size, sizeof(TEffIndirectRecipe) == 8);
 LAYOUT_ASSERT(TEffIndirectSource_size, sizeof(TEffIndirectSource) == 0x1020);
 
-struct TEffIndirectCtrl : public TObject {
+// Owns the indirect texture of one kind and rewrites its texels every frame from the source
+// texture the kind's recipe names.
+class TEffIndirectCtrl : public TObject {
+public:
+    TEffIndirectCtrl(s32 kind, TObject *parent);
     virtual ~TEffIndirectCtrl();
-    void pause_indirect_effect();
     virtual void run_task();
-    u8 *m_1c;
-    TEffIndirectRecipe *m_20;
-    u8 m_24;
-    u8 m_25;
-    u8 _pad26[0x2];
-    u32 m_28;
-    u32 m_2c;
-    void* m_30;
-    u8 _pad34[0x8];
-    u32 m_3c;
-    u32 m_40;
-    u16 m_44;
-    u16 m_46;
-    static void free_buffers();
     virtual void render();
+    void pause_indirect_effect();
+    void resume_indirect_effect();
+    u8 get_indirect_kind();
     void copy_and_flush_texture(u8 *source);
-    static void free_all();
     void update_scroll_mode();
     void update_eff_indirect();
     void eff_indirect_update_and_flush();
-    u8 unk_48[0x4];
-    f32 m_4c;
-    u8 unk_50[0x4];
+    static void free_buffers();
+    static void free_all();
+
+    static const char *class_name;
+    static TEffIndirectSource *source_buffers[8];
+
+    u8 *pixels;  // texels of the texture below, rewritten every frame
+    TEffIndirectRecipe *recipe;
+    u8 source_index;
+    u8 kind;
+    u8 pad_26[0x2];
+    void *texture_info;
+    GinjaTextureList *texture_list;
+    GinjaTextureEntry texture_entry;
+    u32 horizontal_phase;
+    u32 vertical_phase;
+    u16 scroll_phase;
+    u16 paused;
+    f32 horizontal_amplitude;
+    f32 vertical_amplitude;
+    f32 jitter;
 };
 
 LAYOUT_ASSERT(TEffIndirectCtrl_size, sizeof(TEffIndirectCtrl) == 0x54);
 
+// One texel of a row being scrolled: where it goes and its new value.
+struct IndirectScrollTexel {
+    u16 idx;
+    u16 val;
+};
 
-extern "C" {
-void TEffIndirectCtrl__resume_indirect_effect(TEffIndirectCtrl *ctrl);
-u8 TEffIndirectCtrl__get_indirect_kind(TEffIndirectCtrl *ctrl);
-}
+TEffIndirectRecipe *get_indirect_recipe(s32 index);
+void load_indirect_info();
+void load_indirect_dat();
 u32 get_indirect_tile_coord(u8 x, u8 y, s32 width);
-void enable_indirect_tev(TUnk_804DDF04 *effect, s32 sampler, s32 scale, s32 mode);
-void disable_indirect_tev(TUnk_804DDF04 *effect, s32 direct);
-void load_indirect_info(void);
+saddr get_indirect_source_id(u8 index);
+u8 *get_indirect_source_pixels(u8 index);
+u32 calc_i8_tiled_texel_offset(u8 x, u8 y, u32 width);
+void deform_indirect_texture_scroll(u8 *pixels, u32 scroll_x, u32 scroll_y, s32 amplitude, u32 phase);
+void deform_indirect_texture_wave(u8 *pixels, s32 amplitude_x, s32 amplitude_y, s32 phase_x, s32 phase_y,
+                                  u8 phase_step);
+void update_indirect_texture_wave(u8 *pixels, s32 amplitude_x, s32 amplitude_y, s32 phase_x, s32 phase_y,
+                                  u8 phase_step);
+void setup_indirect_tev_alternate(TEffIndirectCtrl *ctrl, s32 unused, s32 sampler, s32 scale);
+void setup_indirect_tev_ordinary(TEffIndirectCtrl *ctrl, s32 sampler, s32 scale, s32 second);
+void reset_indirect_effect_ctrl_table();
+void clear_indirect_effect_ctrl_table();
+s8 find_indirect_effect_ctrl(s32 kind);
+void register_indirect_effect_ctrl(s32 kind);
+void enable_indirect_tev(TEffIndirect *effect, s32 sampler, s32 scale, s32 mode);
+void disable_indirect_tev(TEffIndirect *effect, s32 direct);
 
 #endif

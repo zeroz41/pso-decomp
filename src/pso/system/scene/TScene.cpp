@@ -17,7 +17,6 @@
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/unk/text_802A8210.h"
 #include "pso/item/drop/TItemDrop_800F93F0.h"
 #include "pso/unk/TLobby_80131794.h"
 #include "pso/unk/TLobby_80207DA8.h"
@@ -164,7 +163,7 @@ void PPCSync();
 
 struct Node_8020533C { u8 pad0[8]; Vec pos; SceneSectionAngles ang; };
 
-struct Model_8020533C { u8 pad0[4]; TUnk_804DDF04 *tex; s32 f8; u8 padC[2]; u8 fE; u8 fF; };
+struct Model_8020533C { u8 pad0[4]; TEffIndirect *tex; s32 f8; u8 padC[2]; u8 fE; u8 fF; };
 
 struct Lobby_8020533C { Vec v; SceneSectionAngles a; void *param; Node_8020533C *node; s16 scene; u8 id; };
 
@@ -1346,7 +1345,7 @@ void TScene::init_material_nodes() {
                     if (node->obj == NULL) {
                         info = (Info_80205AEC *)find_material_entry_by_id__6TSceneFPvUs(this, node->id);
                         if (info != NULL) {
-                            node->obj = new TUnk_804DDF04(info->c, this);
+                            node->obj = new TEffIndirect(info->c, this);
                             node->tex = lbl_8044A800[info->tex];
                             node->b = lbl_8044A80C[info->b];
                             node->c = info->c;
@@ -1365,7 +1364,7 @@ void TScene::init_material_nodes() {
                     if (node2->obj == NULL) {
                         info2 = (Info_80205AEC *)find_material_entry_by_id__6TSceneFPvUs(this, node2->id);
                         if (info2 != NULL) {
-                            node2->obj = new TUnk_804DDF04(info2->c, this);
+                            node2->obj = new TEffIndirect(info2->c, this);
                             node2->tex = lbl_8044A800[info2->tex];
                             node2->b = lbl_8044A80C[info2->b];
                             node2->c = info2->c;
@@ -1510,7 +1509,7 @@ void TScene::render_static_map_section(SceneMaterialSection *scene_material_sect
     SceneMaterialStatic *e;
     s32 i;
     Node_8020533C *node;
-    TUnk_804DDF04 *tex;
+    TEffIndirect *tex;
 
     for (i = 0, e = scene_material_section->objects; i < scene_material_section->count; i++, e++) {
         if (arg2 != 0 && !(e->flags & 0x10000)) {
@@ -1620,7 +1619,7 @@ void TScene::render_static_map_section(SceneMaterialSection *scene_material_sect
 }
 void draw_ginja_model_with_motion(void *, void *, f32);
 void TScene::render_animated_map_section(SceneMaterialSection *scene_material_section, s32 arg2) {
-  TUnk_804DDF04 *texture;
+  TEffIndirect *texture;
   SceneMaterialAnimated *e;
   s32 i;
   Node_8020533C *node;
@@ -1687,7 +1686,7 @@ void TScene::render_animated_map_section(SceneMaterialSection *scene_material_se
       if (m != 0)
       {
 
-        TUnk_804DDF04 *tex = m->tex;
+        TEffIndirect *tex = m->tex;
         if (tex != 0)
         {
           enable_indirect_tev(texture = tex, m->f8, m->fE, 0);

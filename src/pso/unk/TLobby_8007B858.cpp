@@ -33,7 +33,6 @@
 #include "pso/unk/TLobby_80191218.h"
 #include "pso/player/TObjPlayer_80083B38.h"
 #include "pso/effect/TEffIndirectCtrl.h"
-#include "pso/effect/TEffIndirectCtrl_802A9284.h"
 #include "pso/unk/TLobby_802D3970.h"
 #include "pso/unk/TUnk_804EDAC0.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
