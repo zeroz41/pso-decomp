@@ -1,6 +1,5 @@
 #include "types.h"
 #include "pso/ui/window/TWindowMenuIconLine.h"
-#include "pso/ui/window/TWindowSubEquip_80279044.h"
 #include "pso/ui/window/TWindowSubItem.h"
 #include "pso/item/TItem.h"
 #include "pso/player/TObjPlayer.h"
@@ -129,7 +128,7 @@ void TWindowMenuIconLine::build_battle_stat_list() {
     if (entry_count <= 0) {
         advance_status_disp_entry(-1);
     }
-    TWindowSubEquip__sub_80279044(this);
+    disable_decide_sound();
     calc_content_extent();
 }
 

@@ -1,5 +1,4 @@
 #include "types.h"
-#include "pso/ui/window/TWindowSubEquip_80279044.h"
 #include "pso/ui/window/TWindowSubEquip.h"
 #include "pso/ui/city/TShopArmorListWindow.h"
 #include "pso/ui/window/TWindowMenuIconLine.h"
@@ -7,7 +6,9 @@
 struct Item_80279098 { u8 pad[0x34]; u32 flags; };
 
 
-void TWindowSubEquip__sub_80279044(void* p) { *(u16*)((char*)p + 0x70) |= 0x100; }
+void TWindowMenuIconLine::disable_decide_sound() {
+    state_flags |= 0x100;
+}
 
 void TWindowSubEquip::update_window() { ((TWindowMenuIconLine *)this)->save_cursor_selection(); ((TWindowMenuIconLine *)this)->reset_list(); build_equipment_list(); ((TWindowMenuIconLine *)this)->clamp_selection_to_valid_entry(); }
 s32 get_class_weapon_icon_index(void *self, u8 *p) {

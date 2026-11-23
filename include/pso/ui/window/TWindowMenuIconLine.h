@@ -31,6 +31,8 @@ public:
     void move_cursor_next();
     void handle_open();
     void set_flag4();
+    // Opening the selected entry then plays no decide sound.
+    void disable_decide_sound();
     int get_flag();
     int is_decided();
     int is_cancelled();
