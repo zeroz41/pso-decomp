@@ -1,6 +1,17 @@
-#include "pso/ui/window/WindowCtrlCallback.h"
 #include "types.h"
+#include "pso/player/PlayerSlots.h"
 #include "pso/ui/window/TWindowCtrl.h"
+#include "pso/unk/text_8024AADC.h"
+#include "pso/unk/text_8024AB18.h"
+#include "pso/unk/text_8024AB98.h"
+#include "pso/unk/text_8024AB54.h"
+#include "pso/ui/window/WindowCtrlCallback.h"
+#include "pso/unk/text_8024AC64.h"
+#include "pso/unk/text_8024ACA8.h"
+#include "pso/unk/text_8024ACEC.h"
+#include "pso/unk/text_8024AD30.h"
+#include "pso/ui/window/TWindowCtrl_8024ADAC.h"
+#include "pso/ui/window/TWindowCtrl_8024B048.h"
 #include "pso/ui/window/TWindowCtrlMain.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowCtrl_8024B1A0.h"
@@ -11,7 +22,6 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/window/TWindowEffectParty.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
-#include "pso/ui/window/TWindowCtrl_8024B048.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/ui/window/TWindowCtrl_8024B7D4.h"
 #include "pso/ui/window/TWindowTradeRequest.h"
@@ -42,6 +52,39 @@
 #include "pso/ui/window/TWindowCtrl_8024A1A8.h"
 #include <stddef.h>
 #include "pso/ui/window/TWindowCtrl_8024C6CC.h"
+
+extern "C" {
+
+s32 free_member__15TWindowCtrlMainFv(u32 a0 = 0, s32 a1 = 0);
+
+}
+
+extern PlayerWindowCommand window_ctrl_init_params;
+
+extern PlayerWindowCommand TWindowSubComCard__window_ctrl_callback_pmf;
+extern PlayerWindowCommand lbl_804CEA64;
+extern PlayerWindowCommand lbl_804CEA58;
+
+extern PlayerWindowCommand lbl_804CEA4C;
+
+extern PlayerWindowCommand lbl_804CEA40;
+
+extern PlayerWindowCommand player_keyboard_hold_cb;
+
+extern PlayerWindowCommand window_ctrl_end_keyboard_hold_callback_entry;
+
+extern "C" {
+
+extern PlayerWindowCommand lbl_804CEA1C;
+extern PlayerWindowCommand lbl_804CEA10;
+
+}
+
+extern PlayerWindowQuery lbl_804CE9D4;
+extern PlayerWindowQuery window_ctrl_apply_default_vec_callback_entry;
+extern PlayerWindowQuery TWindowCtrl__player_menu_query_cb;
+extern PlayerWindowCommand TWindowCtrl__unsuppress_slot_cb;
+extern PlayerWindowCommand TWindowCtrl__suppress_slot_cb;
 
 extern PlayerWindowQuery window_ctrl_is_visible_callback_entry;
 
@@ -92,9 +135,7 @@ extern "C" {
 
 int create__18TWindowEffectPartyFPvllUl(void*, void*, void*, void*, void*);
 
-
 }
-
 
 const char *TWindowCtrl__name = "TWindowCtrl";
 /* frame of the open sequence at which each window appears: split screen / single player */
@@ -110,7 +151,6 @@ typedef struct Ctrl_8024B8A0 {
 
 extern "C" {
 
-void *get_player_by_client_id(s32 i);
 
 s32 TWindowCtrl__sub_8024B000(void *, saddr);
 
@@ -140,7 +180,6 @@ typedef struct Ctrl_8024BE80 {
     Win_8024BE80 *slots[3];
 } Ctrl_8024BE80;
 
-void *get_player_by_client_id(s32);
 
 void window_request_show(void *);
 
@@ -1003,4 +1042,133 @@ s32 TWindowCtrl__sub_8024B098(s32 client_id, PlayerWindowQuery pmf) {
 s32 TWindowCtrl::is_slot_visible(s32 local_client_id) {
     PlayerWindowQuery callback = window_ctrl_is_visible_callback_entry;
     return TWindowCtrl__sub_8024B098(local_client_id, callback);
+}
+
+int TWindowCtrl__sub_8024B048(void* p) { return (*(u16*)((char*)p + 0x1c) >> 2) & 0x1; }
+
+s32 TWindowCtrl__sub_8024B000(void *window, saddr client_id) {
+    PlayerWindowQuery callback = lbl_804CE9D4;
+    return TWindowCtrl__sub_8024B098(client_id, callback);
+}
+
+void TWindowCtrl::apply_default_vec(s32 arg0, saddr client_id) {
+    PlayerWindowQuery callback = window_ctrl_apply_default_vec_callback_entry;
+    TWindowCtrl__sub_8024B098(client_id, callback);
+}
+
+s32 TWindowCtrl::has_player_active_menu(s32 local_client_id) {
+    PlayerWindowQuery callback = TWindowCtrl__player_menu_query_cb;
+    return TWindowCtrl__sub_8024B098(local_client_id, callback);
+}
+
+void call_window_method__11TWindowCtrlFPvi(s32 client_id, PlayerWindowCommand pmf) {
+    TWindowCtrl *w = (TWindowCtrl *)TWindowCtrl::get_window(client_id);
+    if (w != NULL) {
+        (w->*pmf)();
+    }
+}
+
+void TWindowCtrl::unsuppress_slot(s32 local_client_id) {
+    PlayerWindowCommand callback = TWindowCtrl__unsuppress_slot_cb;
+    call_window_method__11TWindowCtrlFPvi(local_client_id, callback);
+}
+
+void TWindowCtrl::suppress_slot(s32 local_client_id) {
+    PlayerWindowCommand callback = TWindowCtrl__suppress_slot_cb;
+    call_window_method__11TWindowCtrlFPvi(local_client_id, callback);
+}
+
+void TWindowCtrl::init_all_slots2() {
+    saddr var_r31;
+
+    var_r31 = 0;
+    do {
+        TWindowCtrl::unsuppress_slot(var_r31);
+        var_r31 += 1;
+    } while (var_r31 < 0xC);
+}
+
+void TWindowCtrl::init_all_slots() {
+    saddr var_r31;
+
+    var_r31 = 0;
+    do {
+        TWindowCtrl::suppress_slot(var_r31);
+        var_r31 += 1;
+    } while (var_r31 < 0xC);
+}
+
+extern "C" {
+
+void TWindowCtrl__sub_8024ADF0(saddr client_id) {
+    PlayerWindowCommand callback = lbl_804CEA10;
+    call_window_method__11TWindowCtrlFPvi(client_id, callback);
+}
+
+}
+
+extern "C" {
+
+void TWindowCtrl__sub_8024ADAC(saddr client_id) {
+    PlayerWindowCommand callback = lbl_804CEA1C;
+    call_window_method__11TWindowCtrlFPvi(client_id, callback);
+}
+
+}
+
+void TWindowCtrl::clear_flag_bit2() {
+    if (instance != NULL) {
+        instance->flags &= ~4;
+    }
+}
+
+void TWindowCtrl::set_flag_bit2() {
+    if (instance != NULL) {
+        instance->flags |= 4;
+    }
+}
+
+void end_player_keyboard_hold(saddr arg0) {
+    call_window_method__11TWindowCtrlFPvi(arg0, window_ctrl_end_keyboard_hold_callback_entry);
+}
+
+void begin_player_keyboard_hold(saddr arg0) {
+    call_window_method__11TWindowCtrlFPvi(arg0, player_keyboard_hold_cb);
+}
+
+void TWindowReturnCity__sub_8024ACA8(saddr arg0) {
+    call_window_method__11TWindowCtrlFPvi(arg0, lbl_804CEA40);
+}
+
+void fn_8024AC64(saddr arg0) {
+    call_window_method__11TWindowCtrlFPvi(arg0, lbl_804CEA4C);
+}
+
+void TLobby__sub_8024AC20(saddr arg0) {
+    call_window_method__11TWindowCtrlFPvi(arg0, lbl_804CEA58);
+}
+
+void TObjPlayer__sub_8024ABDC(saddr arg0) {
+    call_window_method__11TWindowCtrlFPvi(arg0, lbl_804CEA64);
+}
+
+void TWindowSubComCard__sub_8024AB98(saddr client_id) {
+    call_window_method__11TWindowCtrlFPvi(client_id, TWindowSubComCard__window_ctrl_callback_pmf);
+}
+
+void fn_8024AB54(saddr client_id) {
+    call_window_method__11TWindowCtrlFPvi(client_id, window_ctrl_init_params);
+}
+
+void close_window_if_active(void* p) { if (TWindowCtrl::get_flag_bit4() == 0) { TObjPlayer__sub_8024ABDC((saddr)p); } }
+
+extern "C" {
+
+void fn_8024AADC(s32 client_id, s32 arg1) {
+    u32 temp_r3 = (u32)TWindowCtrl::get_window(client_id);
+    if (temp_r3 != 0U) {
+        free_member__15TWindowCtrlMainFv(temp_r3, arg1);
+    }
+}
+
 }

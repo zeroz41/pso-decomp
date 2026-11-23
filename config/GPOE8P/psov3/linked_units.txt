@@ -1207,10 +1207,6 @@ pso/ui/window/TWindowCtrl_80145A28.cpp
 pso/ui/window/TWindowCtrl_801FBA28.cpp
 pso/ui/window/TWindowCtrl_8024A054.cpp
 pso/ui/window/TWindowCtrl_8024A1A8.cpp
-pso/ui/window/TWindowCtrl_8024ADAC.cpp
-pso/ui/window/TWindowCtrl_8024AE34.cpp
-pso/ui/window/TWindowCtrl_8024AEAC.cpp
-pso/ui/window/TWindowCtrl_8024B048.cpp
 pso/ui/window/TWindowCtrl_80269FB0.cpp
 pso/ui/window/TWindowCtrl_8026AD44.cpp
 pso/ui/window/TWindowCtrl_8026F6A4.cpp
@@ -2057,14 +2053,6 @@ pso/ui/window/TWindowAddition_80244238.cpp
 pso/unk/text_80248994.cpp
 pso/ui/city/THunterGuildSeqOffline_80248A14.cpp
 pso/ui/window/TWindowChoiceSetting_80249078.cpp
-pso/unk/text_8024AADC.cpp
-pso/unk/text_8024AB18.cpp
-pso/unk/text_8024AB54.cpp
-pso/unk/text_8024AB98.cpp
-pso/unk/text_8024AC64.cpp
-pso/unk/text_8024ACA8.cpp
-pso/unk/text_8024ACEC.cpp
-pso/unk/text_8024AD30.cpp
 pso/ui/window/TWindowHelpItem_802530D0.cpp
 pso/ui/window/TWindowHelpItem_80253154.cpp
 pso/ui/window/TWindowHelpItem_80253630.cpp
