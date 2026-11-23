@@ -3,6 +3,6 @@
 #include "pso/unk/text_802A0A30.h"
 #include "pso/object/warp/TObjWarpString.h"
 
-void fn_802A0A30(s32 arg0, u8 *text_pos, s32 title, s32 color, saddr text) {
-    draw_menu_text((f32)((f32) (*(f32 *)((s8 *)text_pos + 0))), (f32)((f32) (*(f32 *)((s8 *)text_pos + 4))), (const char *)text, color);
+void fn_802A0A30(s32 arg0, u8 *arg1, s32 title, s32 color, saddr text) {
+    draw_menu_text((f32)((f32) (*(f32 *)((s8 *)arg1 + 0))), (f32)((f32) (*(f32 *)((s8 *)arg1 + 4))), (const char *)text, color);
 }

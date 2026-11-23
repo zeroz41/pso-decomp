@@ -321,8 +321,8 @@ u8 lzss_input_exhausted(u8 *arg0) {
     return s->in > s->in_end;
 }
 
-u8 lzss_read_byte(u8 *lz) {
-    LzssStream *s = (LzssStream *)lz;
+u8 lzss_read_byte(u8 *arg0) {
+    LzssStream *s = (LzssStream *)arg0;
     return *s->in++;
 }
 

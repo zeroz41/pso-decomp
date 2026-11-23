@@ -395,7 +395,7 @@ s32 sample_clamped_path_position(void *arg0, saddr node, void *motion, saddr pos
 #pragma push
 #pragma fp_contract on
 
-void draw_line_strip__10TObjPlayerFPviif(u8 *path_obj, s32 model, s32 path, f32 farg0) {
+void draw_line_strip__10TObjPlayerFPviif(u8 *path_obj, s32 arg1, s32 arg2, f32 farg0) {
     s32 sp14[3];
     s32 sp8[3];
     f32 var_f31;
@@ -404,10 +404,10 @@ void draw_line_strip__10TObjPlayerFPviif(u8 *path_obj, s32 model, s32 path, f32 
     var_f31 = (0.0f);
     do {
       ((s32 (*)(void *, s32, s32, s32 *, f32))sample_clamped_path_position)(
-          path_obj, model, path, sp14, var_f31);
+          path_obj, arg1, arg2, sp14, var_f31);
       var_f31 += farg0;
       temp_r30 = ((s32 (*)(void *, s32, s32, s32 *,
-                           f32))sample_clamped_path_position)(path_obj, model, path,
+                           f32))sample_clamped_path_position)(path_obj, arg1, arg2,
                                                               sp8, var_f31);
       push_matrix();
       post_translate_matrix(path_obj + 0x38);

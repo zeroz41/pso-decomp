@@ -131,13 +131,13 @@ void TObjPlayer::concat_quaternion_rotation() {
 }
 }
 
-void apply_quat_rotation(f32 farg0, f32 *ang) {
+void apply_quat_rotation(f32 farg0, f32 *arg0) {
     Mtx34 sp18;
     Q_803D993C q;
     q.w = farg0;
-    q.x = ang[0];
-    q.y = ang[1];
-    q.z = ang[2];
+    q.x = arg0[0];
+    q.y = arg0[1];
+    q.z = arg0[2];
     PSMTXQuat(sp18, (const PSQuaternion *)&q);
     PSMTXConcat(*current_matrix, sp18, *current_matrix);
 }

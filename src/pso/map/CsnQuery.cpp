@@ -53,8 +53,8 @@ void csn_debug_hook_group_list(CsnGroup *const *groups) {  }
 // inferred: name - every caller passes its own function name ("csnLookAt()", ...)
 void csn_debug_hook_query_name(const char *name) {  }
 void TObjPlayer__sub_8007911C(void) {  }
-void csn_debug_hook_origin_vector(saddr origin) {  }
-void csn_debug_hook_segment(void * from, void * to) {  }
+void csn_debug_hook_origin_vector(saddr _w0) {  }
+void csn_debug_hook_segment(void * _w0, void * _w1) {  }
 
 #pragma push
 #pragma fp_contract on

@@ -7,25 +7,25 @@ void set_slot_mode__20TWindowActionPaletteFllll(void *, int, int, int);
 void set_palette_entry__20TWindowActionPaletteFlllll(void *, s32, s32, s32, u16);
 }
 
-void assign_photon_blast_palette_slot(u8 *action_palettes, s32 blast) {
+void assign_photon_blast_palette_slot(u8 *arg0, s32 arg1) {
     s32 ids[3] = {1, 2, 3};
     s32 id;
     s32 i;
     for (i = 0; i < 3; i++) {
         id = ids[i];
-        if ((u16)TWindowActionPalette::get_slot_type((void *)(action_palettes + 0x24), 1, id) == 0) {
-            set_palette_entry__20TWindowActionPaletteFlllll(action_palettes + 0x24, 1, id, 5, blast);
+        if ((u16)TWindowActionPalette::get_slot_type((void *)(arg0 + 0x24), 1, id) == 0) {
+            set_palette_entry__20TWindowActionPaletteFlllll(arg0 + 0x24, 1, id, 5, arg1);
             return;
         }
     }
 }
 
-void assign_default_photon_blast_palette_slots(u8 *action_palettes) {
+void assign_default_photon_blast_palette_slots(u8 *arg0) {
     s32 tbl[3] = {1, 3, 2};
     s32 i;
     i = 0;
     do {
-        set_slot_mode__20TWindowActionPaletteFllll(action_palettes + 0x24, 1, tbl[i], 0);
+        set_slot_mode__20TWindowActionPaletteFllll(arg0 + 0x24, 1, tbl[i], 0);
         i++;
     } while (i < 3);
 }

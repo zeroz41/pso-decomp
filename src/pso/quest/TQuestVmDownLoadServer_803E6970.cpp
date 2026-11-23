@@ -1114,9 +1114,9 @@ s32 TQuestVmDownLoadServer__sub_803E8788(int quest_download_file_handle, void * 
     return -1;
 }
 
-s32 TQuestVmDownLoadServer::aram_read_thunk(uaddr image, int size) {
+s32 TQuestVmDownLoadServer::aram_read_thunk(uaddr arg1, int size) {
     saddr arg0 = (saddr)this;
-    return TQuestVmDownLoadServer::aram_dma_read((void *)arg0, (void *)image, (int)size);
+    return TQuestVmDownLoadServer::aram_dma_read((void *)arg0, (void *)arg1, (int)size);
 }
 
 void TQuestVmDownLoadServer::unescape_copy_string(u8 *text, u8 *arg1, u8 *end) {

@@ -106,7 +106,7 @@ public:
     static void init_page_cache();
     static s32 seek_or_reopen(int arg0);
     static s32 find_file_info_index();
-    s32 aram_read_thunk(uaddr image, int size);
+    s32 aram_read_thunk(uaddr arg1, int size);
     static void unescape_copy_string(u8 *text, u8 *arg1, u8 *end);
     static s32 count_entries_until_terminator(const u8 *p, const u8 *end);
     static void copy_sjis_string(u8 *text, u8 *arg1);
