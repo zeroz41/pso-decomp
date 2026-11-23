@@ -76,6 +76,12 @@ void set_additive_blend();
 
 s32 clamp_s32(s32 value, s32 min, s32 max);
 void get_current_date_stamp(CardWriteDate *out);
+// Ninja x/y/z rotation angles (0x10000 = full turn).
+struct Angle3 {
+    s32 x;
+    s32 y;
+    s32 z;
+};
 void direction_to_rotation_yx(u8 *dir, s32 *rot_a, s32 *rot_b);
 void direction_to_rotation_xz(u8 *dir, s32 *rot_a, s32 *rot_b);
 void direction_to_rotation_xy(u8 *dir, s32 *rot_a, s32 *rot_b);

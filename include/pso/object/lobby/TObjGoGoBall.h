@@ -11,7 +11,7 @@ public:
     virtual void run_task();
     virtual void render();
     s32 reflect_velocity_off_collision(void *, void *);
-    void sub_8019A44C(s32);
+    void start_throw(s32 angle);  // sets the throw velocity from the configuration along angle
     void update_goal_checks(u16);
     void update_best_time();
     void send_local_player_walk();

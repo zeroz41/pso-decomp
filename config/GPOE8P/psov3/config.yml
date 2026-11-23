@@ -16253,7 +16253,7 @@ force_active:
   - sub_8018B48C__19TContainerAncient01Fv
   - sub_8018B700__19TContainerAncient01Fv
   - sub_801933C8__15TObjLazerFence4Fv
-  - sub_8019A44C__12TObjGoGoBallFl
+  - start_throw__12TObjGoGoBallFl
   - delay_before_fade_in__14TObjWarpStringFv
   - sub_8019E418__12TObjWarpBossFv
   - sub_8019F9E4__14TObjWarpBoss03Fv
@@ -16867,7 +16867,7 @@ force_active:
   - update_effect_params__9TTecSiftaFv
   - update_effect_positions__9TBoss6MagFv
   - update_chase_pl__9TBoss6MagFv
-  - update_effects__13TUnk_804B8DD0Fv
+  - update_effects__13TGoGoBallGoalFv
   - update_elapsed_time__23TAdSinglePlyChrSelectGCFPv
   - update_burrow__16TObjEneMerillLiaFv
   - update_emergence_state__12TBoss1DragonFUl

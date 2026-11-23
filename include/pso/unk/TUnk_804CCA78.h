@@ -5,7 +5,7 @@
 #include "pso/system/vector.h"
 
 // A sound effect played once at a position, kept alive for `frames` frames and stopped when it is
-// destroyed (callers: TUnk_804B8DD0::update_effects, TUnk_804CC888::run_task).
+// destroyed (callers: TGoGoBallGoal::update_effects, TUnk_804CC888::run_task).
 class TUnk_804CCA78 : public TObject {
 public:
     TUnk_804CCA78(Vec *pos, s16 frames, s32 sound, s32 pitch, TObject *parent);

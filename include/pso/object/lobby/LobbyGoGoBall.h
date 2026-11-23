@@ -56,6 +56,7 @@ extern GoGoBallConfig gogo_ball_configuration;
 extern GoGoBallSyncState gogo_ball_sync_state;
 
 // The two teams' scores, shown in the lobby timer window.
+extern s32 gogo_ball_team_scores[];
 s16 get_gogo_ball_score(s32 team);
 void set_gogo_ball_score(s32 team, s32 score);
 void add_gogo_ball_one_point_score(s32 team);

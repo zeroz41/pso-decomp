@@ -42,7 +42,7 @@ u32 TObjSinBoard__texture_buffer;
 GinjaTextureEntry TObjSinBoard__texture_name;
 __declspec(section ".data") GinjaTextureList signboard_texture_list;
 GinjaTextureInput TObjSinBoard__texture_surface;
-u32 gogo_ball_team_scores[2];
+s32 gogo_ball_team_scores[2];
 GoGoBallConfig gogo_ball_configuration;
 GoGoBallSyncState gogo_ball_sync_state;
 
