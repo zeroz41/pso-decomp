@@ -102,8 +102,8 @@ public:
 // TLockOnCursor +0x508.
 class TUnk_8013EF3C {
 public:
-    u16 unk_0;
-    s16 unk_2;
+    u16 actor_id;
+    s16 collider;
     u16 unk_4;
 
     TUnk_8013EF3C();
@@ -137,7 +137,7 @@ struct TLockOnCursor : public TObject {
     TUnk_804A7254 unk_48;
     LockOnActionSlot action_slots[4]; // inferred: one action palette tag and its targets each (find_by_pos)
     TUnk_8013EF6C selection;
-    TUnk_8013EF3C unk_508;
+    TUnk_8013EF3C target_part;
     TUnk_8013EF0C nearest_target;
     TUnk_804A7248 palette_override; // the palette action forced by update_cursor or the short list
 

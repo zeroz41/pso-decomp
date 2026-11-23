@@ -3612,7 +3612,7 @@ void TObjPlayer::exit_photon_blast_action() {
     this->clear_actor_flags((u32)(0x400000));
     lock_on_cursor = this->lock_on_cursor;
     if (lock_on_cursor != NULL) {
-        lock_on_cursor->unk_508.unk_0 = 0xFFFF;
+        lock_on_cursor->target_part.actor_id = 0xFFFF;
     }
     this->photon_blast_gauge.reset_photon_blast_gauge();
     if (TObjPlayer::is_final_phase() != 0) {
@@ -4298,7 +4298,7 @@ void TObjPlayer::reset_linked_obj() {
     ((s32 (*)(void *))clear_status_bit6__10TObjPlayerFPv)(this);
     lock_on_cursor = this->lock_on_cursor;
     if (lock_on_cursor != NULL) {
-        lock_on_cursor->unk_508.unk_0 = 0xFFFF;
+        lock_on_cursor->target_part.actor_id = 0xFFFF;
     }
 }
 
@@ -4343,7 +4343,7 @@ void TObjPlayer::send_attack_stage3_request() {
     TLockOnCursor *lock_on_cursor;
     lock_on_cursor = this->lock_on_cursor;
     if (lock_on_cursor != NULL) {
-        temp_r3 = (u8 *)(resolve_hittable_target(lock_on_cursor->unk_508.unk_0, lock_on_cursor->unk_508.unk_2));
+        temp_r3 = (u8 *)(resolve_hittable_target(lock_on_cursor->target_part.actor_id, lock_on_cursor->target_part.collider));
         if (temp_r3 != NULL) {
             position = this->get_position_ptr();
             var_r4 = calc_angle_to((Vec *)position, (Vec *)&((Rec_801CDBA0 *)(*(u8 **)((s8 *)temp_r3 + 0xA4)))[*(s16 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0x424)) + 0x50A)].pos);
@@ -4421,7 +4421,7 @@ void TObjPlayer::reset_target_link() {
     ((s32 (*)(void *))clear_status_bit6__10TObjPlayerFPv)(this);
     lock_on_cursor = this->lock_on_cursor;
     if (lock_on_cursor != NULL) {
-        lock_on_cursor->unk_508.unk_0 = 0xFFFF;
+        lock_on_cursor->target_part.actor_id = 0xFFFF;
     }
 }
 
@@ -4466,7 +4466,7 @@ void TObjPlayer::send_attack_stage2_request() {
     TLockOnCursor *lock_on_cursor;
     lock_on_cursor = this->lock_on_cursor;
     if (lock_on_cursor != NULL) {
-        temp_r3 = (u8 *)(resolve_hittable_target(lock_on_cursor->unk_508.unk_0, lock_on_cursor->unk_508.unk_2));
+        temp_r3 = (u8 *)(resolve_hittable_target(lock_on_cursor->target_part.actor_id, lock_on_cursor->target_part.collider));
         if (temp_r3 != NULL) {
             position = this->get_position_ptr();
             var_r4 = calc_angle_to((Vec *)position, (Vec *)&((Rec_801CDF9C *)(*(u8 **)((s8 *)temp_r3 + 0xA4)))[*(s16 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0x424)) + 0x50A)].pos);
@@ -4908,7 +4908,7 @@ void TObjPlayer::reset_lockon() {
     ((s32 (*)(void *))clear_status_bit6__10TObjPlayerFPv)(this);
     lock_on_cursor = this->lock_on_cursor;
     if (lock_on_cursor != NULL) {
-        lock_on_cursor->unk_508.unk_0 = 0xFFFF;
+        lock_on_cursor->target_part.actor_id = 0xFFFF;
     }
 }
 

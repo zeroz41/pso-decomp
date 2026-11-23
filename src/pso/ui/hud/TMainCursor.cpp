@@ -459,7 +459,7 @@ void TLockOnCursor::reset_and_spawn_cursors() {
         ((TMainCursor *)&action_slots[i])->reset_state();
     }
     selection.reset_state();
-    TLockOnCursor__sub_8013EC1C(&unk_508);
+    TLockOnCursor__sub_8013EC1C(&target_part);
     nearest_target.reset();
     if (get_start_task() == NULL) {
         set_start_task(new TLOC_Start(tl_loc_start, get_target_id()));
