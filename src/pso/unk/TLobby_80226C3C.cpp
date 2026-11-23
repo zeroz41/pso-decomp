@@ -8,6 +8,7 @@
 #include "pso/system/memory.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/unk/TLobby_80227A2C.h"
+#include "pso/unk/text_8036A3CC.h"
 
 struct Passage_80226FA0 { s16 first, repeat, count, transition, next; };
 
@@ -137,7 +138,6 @@ __declspec(section ".data") char lbl_80514D00[2][0x20];
 u8 lbl_80514D40[0x218];
 }
 
-void unlock_sequencer_flag(s32 program);
 extern "C" {
 int TKeyBoardControl__sub_8000F828(void);
 s32 TKeyBoardControl__sub_801E3E24(s32 id, const char *name, void *buf, s32 size);

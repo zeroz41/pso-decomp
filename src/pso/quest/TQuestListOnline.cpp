@@ -31,6 +31,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/unk/text_80222C28.h"
 
 
 // A window's width and height.
@@ -107,7 +108,6 @@ saddr get_window_layout_position(int);
 
 }
 
-s32 get_guild_text(s32 index);
 
 
 struct Obj_802181B0 { u8 pad[0x20]; u32 state; };

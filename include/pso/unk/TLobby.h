@@ -340,7 +340,6 @@ struct TLobby : public TObject {
     static void create_named_lobby_object();
     s32 compare_version(void *arg1);
     s32 compare_greater(void *arg1);
-    void sort_records(s32 arg1, s32 arg2);
     static void set_and_notify(int a0);
     static void reset_global();
     static void close_option_window();
@@ -417,7 +416,6 @@ struct TLobby : public TObject {
     void update_both_halves();
     static void clear_stale_entries(u8 *tail);
     void*get_trade_obj_ptr();
-    void prepare_trade_packet();
     static void forward_npc_enemy();
     static unsigned char get_trade_mode();
     static s32 is_online_ready();
@@ -584,7 +582,6 @@ struct TLobby : public TObject {
     static void send_challenge_retry_cmd(s32 arg0);
     void send_seed_state();
     static void send_challenge_with_value(s32 arg0, s32 arg1);
-    void send_6x7c_reset();
     static void send_challenge_records(u32 _w0);
     static s32 start_lobby_name_request();
     static void reset_tombstone_values();
@@ -791,8 +788,6 @@ struct TLobby : public TObject {
     static s32 is_multi_ready();
     s32 add_trade_item(u32 arg1, s32 cnt);
     static void update_game_modes();
-    void byteswap_trade_packet();
-    void prepare_and_send_trade_packet(u32 client_id);
     s32 get_cell_address(s32 arg1, s32 arg2);
     s32 *get_state_table(s32 _w1);
     static void free_singleton_805D6C80();

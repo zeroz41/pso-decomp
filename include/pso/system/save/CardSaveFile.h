@@ -38,6 +38,7 @@ extern "C" char pso_system_card_filename[0x20];
 
 void set_card_banner_and_icon(CardSaveDescriptor *file, s32 index);
 s32 verify_card_save_header(CardSaveDescriptor *file, void *image);
-void fn_801E14E4(CardSaveDescriptor *file);
+// Empty counterpart of set_card_banner_and_icon, called once the save image is built.
+void release_card_banner_and_icon(CardSaveDescriptor *file);
 
 #endif

@@ -58,26 +58,25 @@ void TLobby::swap_item_data(s32 *item_data) {
     ((TItemData *)item_data)->copy_from((TItemData *)(src));
 }
 
-void TLobby::sort_records(s32 arg1, s32 arg2) {
-    BankItemRecord *arg0 = (BankItemRecord *)this;
+void BankItemRecord::sort_records(s32 count, s32 key) {
     s32 i;
     s32 j;
-    for (i = 0; i < arg1 - 1; i++) {
-        for (j = i + 1; j < arg1; j++) {
-            switch (arg2) {
+    for (i = 0; i < count - 1; i++) {
+        for (j = i + 1; j < count; j++) {
+            switch (key) {
             case 0:
-                if (((s32 (*)(u8 *, u8 *))TAdSinglePlyChrSelectGC__sub_8022338C)(arg0[i].item.data1.data_u8, arg0[j].item.data1.data_u8) != 0) {
-                    arg0[i].swap_item_data(&arg0[j]);
+                if (((s32 (*)(u8 *, u8 *))TAdSinglePlyChrSelectGC__sub_8022338C)(this[i].item.data1.data_u8, this[j].item.data1.data_u8) != 0) {
+                    this[i].swap_item_data(&this[j]);
                 }
                 break;
             case 1:
-                if (TAdSinglePlyChrSelectGC__sub_80223350(&arg0[i], &arg0[j]) != 0) {
-                    arg0[i].swap_item_data(&arg0[j]);
+                if (TAdSinglePlyChrSelectGC__sub_80223350(&this[i], &this[j]) != 0) {
+                    this[i].swap_item_data(&this[j]);
                 }
                 break;
             case 2:
-                if (TLobby__sub_802232F8(&arg0[i], &arg0[j]) != 0) {
-                    arg0[i].swap_item_data(&arg0[j]);
+                if (TLobby__sub_802232F8(&this[i], &this[j]) != 0) {
+                    this[i].swap_item_data(&this[j]);
                 }
                 break;
             }

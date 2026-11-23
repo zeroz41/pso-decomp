@@ -1,12 +1,10 @@
 #ifndef PSO_NETWORK_TRADESESSION_H
 #define PSO_NETWORK_TRADESESSION_H
 #include "types.h"
-
-// One trade window item list entry (id 0xFFFFFF01 is the meseta amount).
-struct E_802D2A70 { u32 id; s32 count; };
+#include "pso/network/TradeItemEntry.h"
 
 // One side of the trade window state: two 31-entry item lists.
-struct Half_802D38B4 { E_802D2A70 lists[2][0x1F]; };
+struct Half_802D38B4 { TradeItemEntry lists[2][0x1F]; };
 
 extern "C" Half_802D38B4 trade_window_state[2];
 // The trade session state (.sbss), defined in TradeSession.cpp.

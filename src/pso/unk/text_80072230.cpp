@@ -186,7 +186,7 @@ void handle_6x7C_set_challenge_records(Pkt7C_80072230 *pkt) {
     rec->records = pkt->recs;
 }
 
-void TLobby::send_6x7c_reset() {
+void TChallenge::send_6x7c_reset() {
     Pkt_800725E0 pkt;
     ((TLobby *)(&pkt))->init_pkt_cmd_7C();
     pkt.f4 = 0xFFFF;

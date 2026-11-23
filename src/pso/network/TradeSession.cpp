@@ -80,7 +80,7 @@ void TLobby::send_trade_proposal_modify() {
         if (((*(u8 *)&trade_partner_client_id) && (*(u8 *)&trade_partner_client_id)) && (*(u8 *)&trade_partner_client_id))
         {
         }
-        ((TLobby *)(&stack.sp8))->prepare_and_send_trade_packet(trade_partner_client_id);
+        ((G_ModifyTradeProposal_6xA6 *)&stack.sp8)->prepare_and_send(trade_partner_client_id);
         trade_proposal_state = 3;
       }
     }
@@ -328,17 +328,17 @@ s32 TLobby__sub_802D2A50(uaddr arg0) {
 }
 void TLobby::apply_trade_items() {
     s32 allowed;
-    struct E_802D2A70 *list;
+    struct TradeItemEntry *list;
     u32 id;
     saddr player;
-    struct E_802D2A70 *p;
+    struct TradeItemEntry *p;
     s32 i;
     s32 count;
     s32 flag;
     if ((s32) trade_proposal_state == 7) {
         player = (saddr)get_player_by_client_id(local_client_id);
         if (player != 0) {
-            list = (struct E_802D2A70 *)get_trade_window_state();
+            list = (struct TradeItemEntry *)get_trade_window_state();
             if (list != NULL) {
                 allowed = check_player_action_allowed();
                 p = list;
@@ -415,7 +415,7 @@ void handle_6xA6_modify_trade_proposal(u8 *message_window) {
     s32 (*temp_r12)(void *);
     u16 temp_r3;
     u8 temp_r5;
-    ((TLobby *)message_window)->byteswap_trade_packet();
+    ((G_ModifyTradeProposal_6xA6 *)message_window)->bswap();
     temp_r3 = *(u16 *)((s8 *)message_window + 2);
     if ((temp_r3 < 4U) && (temp_r5 = *(u8 *)((s8 *)message_window + 4), ((temp_r5 < 8U) != 0))) {
         if ((trade_partner_client_id != 4) && ((s32) temp_r3 != trade_partner_client_id)) {
@@ -611,7 +611,7 @@ void cancel_trade_for_member_out_of_range(s32 client_id) {
     packet.what = 7;
     packet.result = 0;
     packet.unknown_a1 = client_id;
-    ((TLobby *)(&packet.header))->prepare_and_send_trade_packet(new_var);
+    packet.prepare_and_send(new_var);
     if ((*(s8 *)&trade_proposal_state) == 2) {
         TWindowTradeRequest::close_request_window();
         ((s32 (*)())reset__6TLobbyFv)();
@@ -625,21 +625,21 @@ void send_trade_busy_reply(saddr client_id) {
     build_6xA6_modify_trade_proposal((&packet.header));
     packet.what = 6;
     packet.result = 0;
-    ((TLobby *)(&packet.header))->prepare_and_send_trade_packet(client_id);
+    packet.prepare_and_send(client_id);
 }
 
 void TLobby::build_trade_item_list() {
     Item_802D3134 item;
-    E_802D2A70 *list;
+    TradeItemEntry *list;
     s32 c;
     s8 cc = trade_partner_client_id;
     ((Trade_802D3134 *)this)->who = cc;
     ((Trade_802D3134 *)this)->count = 0;
-    list = (E_802D2A70 *)get_trade_window_state();
+    list = (TradeItemEntry *)get_trade_window_state();
     if (list != NULL) {
         u32 i;
         s32 n;
-        E_802D2A70 *e;
+        TradeItemEntry *e;
         u32 id;
         void *p;
         e = list;
@@ -671,7 +671,7 @@ void TLobby::send_modify_trade_proposal(s8 arg0, s32 arg1, s32 arg2) {
   if (((!(*(u8 *)&trade_partner_client_id)) && (!(*(u8 *)&trade_partner_client_id))) && (!(*(u8 *)&trade_partner_client_id)))
   {
   }
-  ((TLobby *)(&stack.sp8))->prepare_and_send_trade_packet(trade_partner_client_id);
+  ((G_ModifyTradeProposal_6xA6 *)&stack.sp8)->prepare_and_send(trade_partner_client_id);
 }
 
 void TLobby::send_trade_proposal_result(s8 arg0, s8 arg1) {
@@ -683,7 +683,7 @@ void TLobby::send_trade_proposal_result(s8 arg0, s8 arg1) {
   new_var = (s8) ((*(u8 *)&trade_partner_client_id) & 0xFFFFFFFFFFFFFFFFu);
   packet.what = arg0;
   packet.result = arg1;
-  ((TLobby *)(&packet.header))->prepare_and_send_trade_packet(new_var);
+  packet.prepare_and_send(new_var);
 }
 
 void send_6xA6_modify_trade_proposal(saddr client_id) {
@@ -707,7 +707,7 @@ block_6:
         packet.what = 0;
         packet.result = 0;
         packet.amount = temp_r3_2->meseta;
-        ((TLobby *)(&packet.header))->prepare_and_send_trade_packet(client_id);
+        packet.prepare_and_send(client_id);
         (*(u8 *)&trade_partner_client_id) = (u8) client_id;
         (*(s8 *)&trade_proposal_state) = 1;
     }

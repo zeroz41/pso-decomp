@@ -22,7 +22,7 @@ public:
     void *window_50;
     void *window_54;
     u8 pad_58[0xC];
-    s32 unk_64;
+    s32 pad_64;
     u8 pad_68[0x210];
 };
 

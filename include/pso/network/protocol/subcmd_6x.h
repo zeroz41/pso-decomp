@@ -519,6 +519,10 @@ struct G_ModifyTradeProposal_6xA6 {
  u16 unknown_a1;
  u32 item_id;
  u32 amount;
+ void bswap();
+ // Stamps the local client id and byte-swaps the packet for sending.
+ void prepare();
+ void prepare_and_send(u32 client_id);
 };
 
 struct G_MoveToPosition_6x41_6x42 {

@@ -905,7 +905,7 @@ void TChallenge4P::update_active() {
 }
 
 void TChallenge4P::run_task() {
-    if (fn_801E1510() != 1) {
+    if (get_card_wait_state() != 1) {
         if (destroy_on_phase_change() == 1) {
             queue_destruction();
         }

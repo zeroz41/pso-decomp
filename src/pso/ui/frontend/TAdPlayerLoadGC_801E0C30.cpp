@@ -25,7 +25,7 @@ s32 lbl_805D5E34;
 void *banner_file_buf;
 s32 memcard_file_size;
 s32 card_result_code;
-    int lbl_805D5E44;
+    int card_wait_state;
 extern "C" {
 s32 mount_memcard(saddr);
 s32 poll_memcard_result(saddr);
@@ -322,7 +322,7 @@ void TAdPlayerLoadGC::load_banner_files() {
 }
 }
 
-void fn_801E14E4(CardSaveDescriptor *) {}
+void release_card_banner_and_icon(CardSaveDescriptor *) {}
 
 
 void set_card_banner_and_icon(CardSaveDescriptor *file, s32 index) {
@@ -332,7 +332,7 @@ void set_card_banner_and_icon(CardSaveDescriptor *file, s32 index) {
     }
 }
 
-int fn_801E1510(void) {  return lbl_805D5E44; }
+int get_card_wait_state(void) {  return card_wait_state; }
 s32 card_blocks_for_size(void *arg0, s32 arg1, u32 size) {
     return (s32) (((size >> 0xDU) + 3) << 0xD) / 8192;
 }

@@ -27,5 +27,11 @@ void draw_shadowed_node_tree(NJS_OBJECT *object) {
     }
 }
 
-void TObjBoss5FloorStone::render_impl(void* object) { TObjPlayer::draw_if_all_ready(); TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(this)); push_matrix(); draw_shadowed_node_tree((NJS_OBJECT *)object); pop_matrix(); }
+void draw_shadowed_object(NJS_TEXLIST *texlist, NJS_OBJECT *object) {
+    TObjPlayer::draw_if_all_ready();
+    TObjFish::set_global_param(texlist);
+    push_matrix();
+    draw_shadowed_node_tree(object);
+    pop_matrix();
+}
 

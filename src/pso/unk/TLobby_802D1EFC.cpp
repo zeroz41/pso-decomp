@@ -6,8 +6,8 @@
 #include "pso/player/TPlyItem.h"
 #include "pso/player/TPlyDispData.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/network/TradeSession.h"
 
-struct Entry_802D20C8 { u32 id; s32 count; };
 
 struct ItemA_802D20C8 { u8 b[0x14]; };
 
@@ -42,7 +42,7 @@ void snapshot_player_trade_inventory(saddr arg0, s32 client) {
     s32 ids[0x1E];
     s32 temp_r29;
     s32 var_r31;
-    u8 *trade_obj_ptr;
+    TradeItemEntry *trade_obj_ptr;
     TObjPlayer *player;
     s32 i;
     u8 *temp_r3_2;
@@ -66,14 +66,14 @@ void snapshot_player_trade_inventory(saddr arg0, s32 client) {
             }
             i += 1;
         }
-        trade_obj_ptr = (u8 *) ((TLobby *)(arg0 + 0xF8))->get_trade_obj_ptr();
+        trade_obj_ptr = (TradeItemEntry *)((TLobby *)(arg0 + 0xF8))->get_trade_obj_ptr();
         temp_r3_3 = player->get_stats();
-        *(s32 *)((s8 *)trade_obj_ptr + 0) = -0xFF;
+        trade_obj_ptr->id = -0xFF;
         if (temp_r3_3 != NULL) {
-            *(s32 *)((s8 *)trade_obj_ptr + 4) = temp_r3_3->meseta;
+            trade_obj_ptr->count = temp_r3_3->meseta;
             return;
         }
-        *(s32 *)((s8 *)trade_obj_ptr + 4) = 0;
+        trade_obj_ptr->count = 0;
     }
 }
 
@@ -98,7 +98,7 @@ s32 TLobby::add_trade_item(u32 arg1, s32 cnt) {
     ItemB_802D20C8 a;
     ItemA_802D20C8 b;
     uaddr item;
-    Entry_802D20C8 *e;
+    TradeItemEntry *e;
     uaddr found;
     s32 i;
     if (arg1 == 0xFFFFFF01) {
@@ -112,7 +112,7 @@ s32 TLobby::add_trade_item(u32 arg1, s32 cnt) {
     }
     if (TObjPlayer__sub_801C1AC8() != 0) {
         ((TItem *)item)->copy_to_item_data((TItemData *)&a);
-        e = ((Entry_802D20C8 *)this);
+        e = ((TradeItemEntry *)this);
         for (i = 0; i < 30; i++, e++) {
             if (e->id != 0xFFFFFFFF && e->id != 0xFFFFFF01) {
                 found = ((u32 (*)(u32)) find_item_by_id)(e->id);
@@ -128,7 +128,7 @@ s32 TLobby::add_trade_item(u32 arg1, s32 cnt) {
             }
         }
     }
-    e = (Entry_802D20C8 *)TLobby::find_free_trade_slot(this);
+    e = (TradeItemEntry *)TLobby::find_free_trade_slot(this);
     if (e == NULL) {
         return 3;
     }

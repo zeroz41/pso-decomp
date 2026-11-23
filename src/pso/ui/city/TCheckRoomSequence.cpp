@@ -629,7 +629,7 @@ void TCheckRoomSequence::compact_items(int slot) {
 
 void sort_bank_items(s32 slot) {
     TCheckRoomSequence::compact_items(0);
-    ((TLobby *)bank_item_records_by_slot[slot])->sort_records(bank_item_count_by_slot[slot], 2);
+    bank_item_records_by_slot[slot]->sort_records(bank_item_count_by_slot[slot], 2);
 }
 
 #pragma push

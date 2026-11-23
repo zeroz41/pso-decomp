@@ -222,7 +222,6 @@ Pair_801A3CFC lobby_udp_test_game_entries[2] = {
 
 void deactivate_keyboard(void);
 extern s32 actor_frame_tick;
-extern s32 lobby_state_flags;
 void process_async_file_reads(void);
 void update_sound_request_slots(void);
 extern s32 lbl_805D55C0;

@@ -25,6 +25,7 @@ struct TChallenge : public TObject {
     void open_challenge_progress_window(void *slot);
     void refresh_challenge_windows();
     void request_missing_challenge_records();
+    void send_6x7c_reset();
     void clear_four_slots();
     void restore_challenge_from_save();
     s32 destroy_on_phase_change();

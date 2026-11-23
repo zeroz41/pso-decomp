@@ -83,8 +83,6 @@ extern s16 battle_event_second_table[];
 s32 TLobby__sub_801C19D0(void *);
 u8 TLobby__sub_801D7100(void *);
 extern u8 lobby_rule_settings[];
-extern s32 battle_team_table[];
-extern Ent_801C26A8 duel_result_table[];
 s32 TLobby__sub_801C26A8(void);
 extern u8 player_battle_ctrl_text_japanese[];
 extern u8 player_battle_ctrl_text_english[];
@@ -430,7 +428,7 @@ TPlayerBattleCtrl::TPlayerBattleCtrl(TObject *parent) : TObject(parent) {
         export_character_data__10TObjPlayerFPvPv(player, TAdSinglePlyChrSelectGC::get_char_index(0xFFFF));
     }
     TLobby::stop_audio_streams();
-    unk_64 = 0;
+    pad_64 = 0;
 }
 
 TPlayerBattleCtrl::~TPlayerBattleCtrl() {
@@ -1080,7 +1078,7 @@ void TLobby::init_and_set_flag() { TLobby__sub_801B09A4(); advance_item_system_g
 
 void TLobby__sub_801C38A4(void) {
     if ((void *) battle_mode_data_ptr != NULL) {
-        *(s32 *)((s8 *)battle_mode_data_ptr + 0x24) = 0;
+        battle_mode_data_ptr->state_24 = 0;
     }
 }
 

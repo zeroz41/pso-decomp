@@ -26,7 +26,8 @@ s32 poll_memcard_result(saddr chan);
 s32 start_memcard_write(s32 chan, const char *name, void *buffer, s32 blocks, CardWriteDate *date, u32 flags);
 }
 
-int fn_801E1510(void);
+// Nothing sets the state; TChallenge and TChallenge4P skip their run_task while it is 1.
+int get_card_wait_state(void);
 s32 card_blocks_for_size(void *arg0, s32 arg1, u32 size);
 
 extern void *banner_buffers[6];

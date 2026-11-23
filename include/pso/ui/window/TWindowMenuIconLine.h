@@ -2,16 +2,11 @@
 #define PSO_UI_WINDOW_TWINDOWMENUICONLINE_H
 #include "types.h"
 #include "pso/ui/window/TWindowAddition.h"
+#include "pso/network/TradeItemEntry.h"
 
 struct TItem;
 struct TItemData;
 struct WindowScrollBar;
-
-// One slot of a trade offer: an inventory item id (0xFFFFFF01 for meseta) and how many.
-struct TradeItemEntry {
-    u32 id;
-    s32 count;
-};
 
 class TWindowMenuIconLine : public TWindowAddition {
 public:

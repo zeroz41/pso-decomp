@@ -22,6 +22,7 @@
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/ui/window/TWindowCtrlMain_8024CB7C.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/network/client_id.h"
 
 
 #pragma readonly_strings on
@@ -49,8 +50,6 @@ void TLobby__sub_80072AB8(void *arg0);
 s32 TLobby__sub_8006FBE4();
 saddr get_message_text(s32);
 saddr get_window_layout_position(s32);
-extern saddr local_client_id;
-extern s32 designated_client_id;
 u8 is_challenge_lobby__6TLobbyFv(void);
 s32 TLobby__sub_80070DA8();
 void play_player_default_effect__6TLobbyFv(s32 _w0);

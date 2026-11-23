@@ -2716,7 +2716,7 @@ void TAdSinglePlyChrSelectGC::build_save_file() {
     f.data = (u8 *)guild_card_save_payload;
     f.size = 0xE28C;
     TAdPlayerLoadGC::build_save_file_image((void *)guild_card_save_file_buffer, &f);
-    fn_801E14E4(&f);
+    release_card_banner_and_icon(&f);
 }
 
 void TAdSinglePlyChrSelectGC::build_default_save_file() {
@@ -2734,7 +2734,7 @@ void TAdSinglePlyChrSelectGC::build_default_save_file() {
     f.data = (u8 *)system_save_payload;
     f.size = 0x11C;
     TAdPlayerLoadGC::build_save_file_image((void *)system_save_file_buffer, &f);
-    fn_801E14E4(&f);
+    release_card_banner_and_icon(&f);
 }
 
 void TAdSinglePlyChrSelectGC::save_character_file(int arg0) {
@@ -2756,7 +2756,7 @@ void TAdSinglePlyChrSelectGC::save_character_file(int arg0) {
     }
     f.size = 0x1156C;
     TAdPlayerLoadGC::build_save_file_image((void *)character_save_file_buffer, &f);
-    fn_801E14E4(&f);
+    release_card_banner_and_icon(&f);
     if (arg0 != 0) {
         TAdSinglePlyChrSelectGC::decrypt_char_data(card_character_save_buffer);
     } else {

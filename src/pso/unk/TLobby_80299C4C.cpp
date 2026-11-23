@@ -32,6 +32,7 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/window/TWindowCtrlMain_8024CB7C.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/network/client_id.h"
 
 extern "C" {
 s32 load_floor_sound_bank();
@@ -178,7 +179,6 @@ void send_giveup_to_all_players__6TLobbyFv(void) {
     }
 }
 
-    extern saddr local_client_id;
 void close_giveup_window__6TLobbyFPv(void* a0) { TWindowCtrl::suppress_slot(local_client_id); TLobby::play_effect_all_players(a0); }
 
 void play_all_players_effect__6TLobbyFPv(void* a0) { TWindowCtrl::disable_client_main_menu(local_client_id); TLobby::play_effect_all_players(a0); }
@@ -199,8 +199,6 @@ void play_effect_all_players__6TLobbyFPv(void*) {
     } while (i < 4);
 }
 
-
-extern s32 designated_client_id;
 
 u8 TLobby__sub_8029A16C(void) {
     return (u8) (local_client_id == designated_client_id);

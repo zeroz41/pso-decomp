@@ -71,7 +71,7 @@ TChallenge::~TChallenge() {
 
 void TChallenge::run_task() {
     TChallenge *self = this;
-    if (fn_801E1510() == 1) {
+    if (get_card_wait_state() == 1) {
         return;
     }
     self->request_missing_challenge_records();
@@ -195,7 +195,7 @@ void TChallenge::request_missing_challenge_records() {
     if (found != 0) {
         missing_records_timer++;
         if (missing_records_timer % 30 == 0) {
-            ((TLobby *)this)->send_6x7c_reset();
+            send_6x7c_reset();
         }
     } else {
         missing_records_timer = 0;

@@ -10,6 +10,7 @@ struct BankItemRecord {
     void init();
     BankItemRecord &operator=(BankItemRecord &src);
     void swap_item_data(BankItemRecord *other);
+    void sort_records(s32 count, s32 key);
     s32 is_empty();
 
     TItemData item;

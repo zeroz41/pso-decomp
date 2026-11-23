@@ -969,7 +969,7 @@ s32 take_snapshot(void) {
         card.size = sizeof(ScreenSnapshot);
         *sum = calc_crc32_bitwise((u8 *)snap, sizeof(ScreenSnapshot));
         TAdPlayerLoadGC::build_save_file_image(frame->save_image, &card);
-        fn_801E14E4(&card);
+        release_card_banner_and_icon(&card);
         init_6xB2_play_sound(&cmd);
         cmd.floor = get_current_floor_area();
         cmd.unused = 0;
@@ -1196,7 +1196,7 @@ s32 TObjBoss2Tunnel::save_snapshot_to_card() {
     c.data = (u8 *)boss2_tunnel_snapshot_buffer;
     c.size = 0x1818C;
     TAdPlayerLoadGC::build_save_file_image(TObjBoss2Tunnel__snapshot_buffer, &c);
-    fn_801E14E4(&c);
+    release_card_banner_and_icon(&c);
     if (TAdSinglePlyChrSelectGC::load_player(1, (saddr)snapshot_card_filename, (saddr)TObjBoss2Tunnel__snapshot_buffer, 0xF) != 0) {
         return 0;
     }
