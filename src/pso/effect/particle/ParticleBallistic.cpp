@@ -13,10 +13,10 @@
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/system/vector.h"
-#include "pso/unk/TUnk_8048E790.h"
-#include "pso/unk/TUnk_8048E7A8.h"
-#include "pso/unk/TUnk_8048E728.h"
-#include "pso/unk/TUnk_8048E778.h"
+#include "pso/effect/particle/TParticleOrbit.h"
+#include "pso/effect/particle/TParticleRadial.h"
+#include "pso/effect/particle/TParticle.h"
+#include "pso/effect/particle/TParticleBallistic.h"
 
 #include "types.h"
 #include <stdlib.h>
@@ -49,16 +49,16 @@ static const Vec ballistic_camera_pitch_axis = { 0.0f, 0.0f, -1.0f };
 static const Vec ballistic_facing_axis = { 0.0f, 0.0f, 1.0f };
 static const ParticleAngles ballistic_zero_angles = { 0, 0, 0 };
 
-TUnk_8048E728 *create_ballistic_particle(ParticleParam *entry, Vec *position, ParticleAngles *direction,
+TParticle *create_ballistic_particle(ParticleParam *entry, Vec *position, ParticleAngles *direction,
                                          TObject *parent, u16 flags, u16 target_id) {
-    return new TUnk_8048E778(entry, position, direction, parent, flags, target_id);
+    return new TParticleBallistic(entry, position, direction, parent, flags, target_id);
 }
 
-TUnk_8048E728 *TParticleCtrl::create_random_spread(void *param, void *pos, void *parent) {
-    return new TUnk_8048E778(param, pos, parent);
+TParticle *TParticleCtrl::create_random_spread(void *param, void *pos, void *parent) {
+    return new TParticleBallistic(param, pos, parent);
 }
 
-void TUnk_8048E778::retire_ballistic_particle_if_done() {
+void TParticleBallistic::retire_ballistic_particle_if_done() {
     Vec offset;
     if (param->flags & 8) {
         offset.x = sprite.pos.x - origin.x;
@@ -76,7 +76,7 @@ void TUnk_8048E778::retire_ballistic_particle_if_done() {
 
 #pragma push
 #pragma fp_contract on
-void TUnk_8048E778::run_task() {
+void TParticleBallistic::run_task() {
     NJS_COLOR col;
     Vec toward_camera;
     ParticleParam *p;
@@ -217,7 +217,7 @@ void TUnk_8048E778::run_task() {
 }
 #pragma pop
 
-void TUnk_8048E778::render() {
+void TParticleBallistic::render() {
     u16 draw_flags;
     int id;
     if ((s32)all_parents_unqueued_for_destruction() == 0) {
@@ -370,13 +370,13 @@ void TUnk_8048E778::render() {
     }
 }
 
-TUnk_8048E778::~TUnk_8048E778() {}
+TParticleBallistic::~TParticleBallistic() {}
 
 #pragma push
 #pragma fp_contract on
-TUnk_8048E778::TUnk_8048E778(ParticleParam *entry, Vec *position, ParticleAngles *direction, TObject *parent,
+TParticleBallistic::TParticleBallistic(ParticleParam *entry, Vec *position, ParticleAngles *direction, TObject *parent,
                              u16 particle_flags, u16 target)
-    : TUnk_8048E728(entry, parent) {
+    : TParticle(entry, parent) {
     s32 life;
     velocity.x = 0.0f;
     velocity.y = 0.0f;
@@ -430,8 +430,8 @@ TUnk_8048E778::TUnk_8048E778(ParticleParam *entry, Vec *position, ParticleAngles
 
 #pragma push
 #pragma fp_contract on
-TUnk_8048E778::TUnk_8048E778(void *entry, void *position, void *parent)
-    : TUnk_8048E728((ParticleParam *)entry, (TObject *)parent) {
+TParticleBallistic::TParticleBallistic(void *entry, void *position, void *parent)
+    : TParticle((ParticleParam *)entry, (TObject *)parent) {
     ParticleParam *src = (ParticleParam *)entry;
     Vec *at = (Vec *)position;
     s32 life;

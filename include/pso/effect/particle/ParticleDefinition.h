@@ -8,7 +8,7 @@ struct GinjaTextureList;
 class TQuadSprite;
 
 // One quad-sprite particle kind; create_quad_sprites builds sprite_type's
-// TQuadSprite* class for each. Field names inferred from the users.
+// TQuadSprite* class for each.
 struct ParticleDefinition {
     u32 flags;
     GinjaTextureList *texlist;

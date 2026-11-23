@@ -14,10 +14,10 @@
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/system/vector.h"
-#include "pso/unk/TUnk_8048E778.h"
-#include "pso/unk/TUnk_8048E7A8.h"
-#include "pso/unk/TUnk_8048E728.h"
-#include "pso/unk/TUnk_8048E790.h"
+#include "pso/effect/particle/TParticleBallistic.h"
+#include "pso/effect/particle/TParticleRadial.h"
+#include "pso/effect/particle/TParticle.h"
+#include "pso/effect/particle/TParticleOrbit.h"
 
 #include "types.h"
 #include <stdlib.h>
@@ -41,16 +41,16 @@
 #include "pso/render/model_render_state.h"
 
 
-TUnk_8048E728 *create_orbit_particle(ParticleParam *entry, Vec *position, ParticleAngles *direction,
+TParticle *create_orbit_particle(ParticleParam *entry, Vec *position, ParticleAngles *direction,
                                      TObject *parent, u16 flags, u16 target_id) {
-    return new TUnk_8048E790(entry, position, direction, parent, flags, target_id);
+    return new TParticleOrbit(entry, position, direction, parent, flags, target_id);
 }
 
-TUnk_8048E728 *TParticleCtrl::alloc_child_particle(void *param, void *pos, void *dir, void *parent) {
-    return new TUnk_8048E790(param, pos, dir, parent);
+TParticle *TParticleCtrl::alloc_child_particle(void *param, void *pos, void *dir, void *parent) {
+    return new TParticleOrbit(param, pos, dir, parent);
 }
 
-void TUnk_8048E790::retire_orbit_particle() {
+void TParticleOrbit::retire_orbit_particle() {
     if (age >= 1.0f) {
         queue_destruction();
     }
@@ -58,7 +58,7 @@ void TUnk_8048E790::retire_orbit_particle() {
 
 #pragma push
 #pragma fp_contract on
-void TUnk_8048E790::run_task() {
+void TParticleOrbit::run_task() {
     NJS_COLOR col;
     Vec follow_lift;
     Vec ring;
@@ -205,7 +205,7 @@ void TUnk_8048E790::run_task() {
 }
 #pragma pop
 
-void TUnk_8048E790::render() {
+void TParticleOrbit::render() {
     Vec at;
     f32 pulse;
     f32 size;
@@ -280,13 +280,13 @@ void TUnk_8048E790::render() {
     }
 }
 
-TUnk_8048E790::~TUnk_8048E790() {}
+TParticleOrbit::~TParticleOrbit() {}
 
 #pragma push
 #pragma fp_contract on
-TUnk_8048E790::TUnk_8048E790(ParticleParam *entry, Vec *position, ParticleAngles *direction, TObject *parent,
+TParticleOrbit::TParticleOrbit(ParticleParam *entry, Vec *position, ParticleAngles *direction, TObject *parent,
                              u16 particle_flags, u16 target)
-    : TUnk_8048E728(entry, parent) {
+    : TParticle(entry, parent) {
     s32 life;
     rot_x = direction->x;
     rot_y = direction->y;
@@ -326,8 +326,8 @@ TUnk_8048E790::TUnk_8048E790(ParticleParam *entry, Vec *position, ParticleAngles
 
 #pragma push
 #pragma fp_contract on
-TUnk_8048E790::TUnk_8048E790(void *entry, void *position, void *direction, void *parent)
-    : TUnk_8048E728((ParticleParam *)entry, (TObject *)parent) {
+TParticleOrbit::TParticleOrbit(void *entry, void *position, void *direction, void *parent)
+    : TParticle((ParticleParam *)entry, (TObject *)parent) {
     ParticleParam *src = (ParticleParam *)entry;
     Vec *at = (Vec *)position;
     ParticleAngles *dir = (ParticleAngles *)direction;

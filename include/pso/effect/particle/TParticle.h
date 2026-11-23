@@ -1,5 +1,5 @@
-#ifndef PSO_UNK_TUNK_8048E728_H
-#define PSO_UNK_TUNK_8048E728_H
+#ifndef PSO_EFFECT_PARTICLE_TPARTICLE_H
+#define PSO_EFFECT_PARTICLE_TPARTICLE_H
 #include "types.h"
 #include "pso/effect/particle/ParticleParam.h"
 #include "pso/system/task/TObject.h"
@@ -11,10 +11,10 @@ struct GinjaTextureList;
 struct ParticleAngles;
 class TParticleCtrl;
 
-class TUnk_8048E728 : public TObject {
+class TParticle : public TObject {
 public:
-    TUnk_8048E728(ParticleParam *src, TObject *parent);
-    virtual ~TUnk_8048E728();
+    TParticle(ParticleParam *src, TObject *parent);
+    virtual ~TParticle();
     static void *operator new(size_t size);
     static void operator delete(void *p);
     void apply_particle_model_fade_color(s32);

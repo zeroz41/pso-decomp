@@ -9,7 +9,7 @@
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/boss/TUnk_804E4AD4.h"
 #include "pso/boss/barbaray/TObjBoss7Tunnel.h"
-#include "pso/unk/TUnk_8048E728.h"
+#include "pso/effect/particle/TParticle.h"
 #include "pso/unk/text_802F0E24.h"
 
 // Barba Ray's twin of TObjBoss2Tunnel_8003B1FC.cpp: the parent the tunnel's particles are handed
@@ -17,16 +17,16 @@
 TObject *TObjBoss7Tunnel_parent_object;
 
 void TObjBoss7Tunnel::detach_children(TParticleCtrl *particle, const Vec *offset) {
-    TUnk_8048E728 *child;
-    while ((child = (TUnk_8048E728 *)particle->m_down) != NULL) {
+    TParticle *child;
+    while ((child = (TParticle *)particle->m_down) != NULL) {
         vec3_add_to(&child->step, offset);
         child->set_parent(TObjBoss7Tunnel_parent_object);
     }
 }
 
 void TObjBoss7Tunnel::release_children(TParticleCtrl *particle, f32 speed) {
-    TUnk_8048E728 *child;
-    while ((child = (TUnk_8048E728 *)particle->m_down) != NULL) {
+    TParticle *child;
+    while ((child = (TParticle *)particle->m_down) != NULL) {
         child->step.z = child->step.z + speed;
         child->set_parent(TObjBoss7Tunnel_parent_object);
     }

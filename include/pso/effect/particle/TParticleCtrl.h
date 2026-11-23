@@ -11,7 +11,7 @@ struct NJS_OBJECT;
 struct GinjaTextureList;
 struct BmlResource;
 class THeap;
-class TUnk_8048E728;
+class TParticle;
 
 // Emission direction: three Ninja angles.
 struct ParticleAngles { s32 x, y, z; };
@@ -41,12 +41,12 @@ public:
     void set_owner_id(u16 id);
     void set_tint_color(s32 tint);
     void clear_active_flag();
-    static TUnk_8048E728 *create_random_spread(void *param, void *pos, void *parent);
+    static TParticle *create_random_spread(void *param, void *pos, void *parent);
     // The fallback pool particles are allocated from when the alt heap is full.
     static THeap *heap;
     static void free_heap();
     static void init_heap(u32 size);
-    static TUnk_8048E728 *generate_child_default(void *param, void *pos, void *parent);
+    static TParticle *generate_child_default(void *param, void *pos, void *parent);
     static NJS_OBJECT *get_particle_model(s32 model);
     // The particle texture list.
     static GinjaTextureList *get_instance();
@@ -59,7 +59,7 @@ public:
     static void reset_particles();
     static void setup_particle_draw(s32 arg0);
 public:
-    static TUnk_8048E728 *alloc_child_particle(void *param, void *pos, void *dir, void *parent);
+    static TParticle *alloc_child_particle(void *param, void *pos, void *dir, void *parent);
     void enable();
     static void free_system();
     static void free_all();
@@ -104,7 +104,7 @@ LAYOUT_ASSERT(TParticleCtrl_size, sizeof(TParticleCtrl) == 0x78);
 // particle_ctrl_generator_table[kind].create(param, &pos, parent).
 struct ParticleGenerator {
     const char *name;
-    TUnk_8048E728 *(*create)(void *param, void *pos, void *parent);
+    TParticle *(*create)(void *param, void *pos, void *parent);
 };
 
 extern ParticleGenerator particle_ctrl_generator_table[];

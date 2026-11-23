@@ -12,8 +12,8 @@
 #include "pso/effect/TEffect.h"
 #include "pso/render/MaterialColorFade.h"
 #include "pso/system/vector.h"
-#include "pso/unk/TUnk_8048E728.h"
-#include "pso/unk/TUnk_8048E778.h"
+#include "pso/effect/particle/TParticle.h"
+#include "pso/effect/particle/TParticleBallistic.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/effect/particle/ParticleRadial.h"
 #include "pso/system/THeap.h"
@@ -38,7 +38,7 @@
 
 THeap *TParticleCtrl::heap;
 
-TUnk_8048E728 *TParticleCtrl::generate_child_default(void *param, void *pos, void *parent) {
+TParticle *TParticleCtrl::generate_child_default(void *param, void *pos, void *parent) {
     Vec dir = {0.0f, 0.0f, 0.0f};
     return alloc_child_particle(param, pos, &dir, parent);
 }
@@ -64,11 +64,11 @@ void TParticleCtrl::free_heap() {
     }
 }
 
-void *TUnk_8048E728::operator new(size_t size) {
-    TUnk_8048E728 *p = (TUnk_8048E728 *)alt_heap->heap_alloc(size);
+void *TParticle::operator new(size_t size) {
+    TParticle *p = (TParticle *)alt_heap->heap_alloc(size);
     if (p == NULL) {
         if (TParticleCtrl::heap != NULL) {
-            p = (TUnk_8048E728 *)TParticleCtrl::heap->heap_alloc(size);
+            p = (TParticle *)TParticleCtrl::heap->heap_alloc(size);
             if (p != NULL) {
                 p->from_particle_heap = 1;
             }
@@ -79,9 +79,9 @@ void *TUnk_8048E728::operator new(size_t size) {
     return p;
 }
 
-void TUnk_8048E728::operator delete(void *p) {
+void TParticle::operator delete(void *p) {
     if (p != NULL) {
-        if (((TUnk_8048E728 *)p)->from_particle_heap != 0) {
+        if (((TParticle *)p)->from_particle_heap != 0) {
             TParticleCtrl::heap->heap_free(p);
             return;
         }
@@ -89,7 +89,7 @@ void TUnk_8048E728::operator delete(void *p) {
     }
 }
 
-TUnk_8048E728::TUnk_8048E728(ParticleParam *src, TObject *parent) : TObject(parent) {
+TParticle::TParticle(ParticleParam *src, TObject *parent) : TObject(parent) {
     f32 v;
     model = NULL;
     texlist = NULL;
@@ -140,11 +140,11 @@ TUnk_8048E728::TUnk_8048E728(ParticleParam *src, TObject *parent) : TObject(pare
     target_id = 0xFFFF;
 }
 
-TUnk_8048E728::~TUnk_8048E728() {
+TParticle::~TParticle() {
     param = NULL;
 }
 
-void TUnk_8048E728::apply_particle_model_fade_color(s32 mode) {
+void TParticle::apply_particle_model_fade_color(s32 mode) {
     NJS_ARGB f;
     if (mode != 0) {
         set_color_blend_mode(1, 4, 1, 0);
@@ -166,7 +166,7 @@ void TUnk_8048E728::apply_particle_model_fade_color(s32 mode) {
     set_constant_material(&f);
 }
 
-void TUnk_8048E728::draw_particle_refraction_quad() {
+void TParticle::draw_particle_refraction_quad() {
     Vec p;
     ParticleStripVertex v[4];
     s32 cell;
@@ -205,18 +205,18 @@ void TUnk_8048E728::draw_particle_refraction_quad() {
     TParticleCtrl::end_effect_render();
 }
 
-void TUnk_8048E728::mark_active() {
+void TParticle::mark_active() {
     flags |= 0x2000;
     request_indirect_effect(0x1F);
 }
 
-s32 TUnk_8048E728::is_particle_sprite_additive(s32) {
+s32 TParticle::is_particle_sprite_additive(s32) {
     return particle_sprites[sprite_index]->definition->flags & 1;
 }
 
 #pragma push
 #pragma fp_contract on
-void TUnk_8048E778::draw_sprite_quad(s32 kind) {
+void TParticleBallistic::draw_sprite_quad(s32 kind) {
     Vec view;
     Vec world;
     RotatedQuadSpriteRect quad;

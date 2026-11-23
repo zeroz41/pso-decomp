@@ -11,10 +11,10 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/system/vector.h"
-#include "pso/unk/TUnk_8048E778.h"
-#include "pso/unk/TUnk_8048E790.h"
-#include "pso/unk/TUnk_8048E728.h"
-#include "pso/unk/TUnk_8048E7A8.h"
+#include "pso/effect/particle/TParticleBallistic.h"
+#include "pso/effect/particle/TParticleOrbit.h"
+#include "pso/effect/particle/TParticle.h"
+#include "pso/effect/particle/TParticleRadial.h"
 #include "pso/unk/text_80086B64.h"
 
 #include "types.h"
@@ -44,16 +44,16 @@
 static const ParticleAngles radial_particle_zero_angles = { 0, 0, 0 };
 
 
-TUnk_8048E728 *create_radial_particle(ParticleParam *entry, Vec *position, TObject *parent, u16 flags,
+TParticle *create_radial_particle(ParticleParam *entry, Vec *position, TObject *parent, u16 flags,
                                       u16 target_id) {
-    return new TUnk_8048E7A8(entry, position, parent, flags, target_id);
+    return new TParticleRadial(entry, position, parent, flags, target_id);
 }
 
-TUnk_8048E728 *create_random_particle(void *param, void *pos, void *parent) {
-    return new TUnk_8048E7A8(param, pos, parent);
+TParticle *create_random_particle(void *param, void *pos, void *parent) {
+    return new TParticleRadial(param, pos, parent);
 }
 
-void TUnk_8048E7A8::check_radial_particle_retire() {
+void TParticleRadial::check_radial_particle_retire() {
     if ((age >= 1.0f) || (0.0f == vec_squared_length(&step))) {
         queue_destruction();
     }
@@ -61,7 +61,7 @@ void TUnk_8048E7A8::check_radial_particle_retire() {
 
 #pragma push
 #pragma fp_contract on
-void TUnk_8048E7A8::run_task() {
+void TParticleRadial::run_task() {
     NJS_COLOR col;
     Vec target;
     f32 t[2];                  // [0] age this sprite.uv_index, [1] fade alpha; kept in memory
@@ -150,7 +150,7 @@ void TUnk_8048E7A8::run_task() {
 }
 #pragma pop
 
-void TUnk_8048E7A8::render() {
+void TParticleRadial::render() {
     NJS_POINT2 start_screen;
     NJS_POINT2 end_screen;
     Vec end;
@@ -257,16 +257,16 @@ void TUnk_8048E7A8::render() {
     }
 }
 
-TUnk_8048E7A8::~TUnk_8048E7A8() {}
+TParticleRadial::~TParticleRadial() {}
 
 #pragma push
 #pragma fp_contract on
 
 #pragma push
 #pragma fp_contract on
-TUnk_8048E7A8::TUnk_8048E7A8(ParticleParam *entry, Vec *position, TObject *parent, u16 particle_flags,
+TParticleRadial::TParticleRadial(ParticleParam *entry, Vec *position, TObject *parent, u16 particle_flags,
                              u16 target)
-    : TUnk_8048E728(entry, parent) {
+    : TParticle(entry, parent) {
     s32 life;
     sprite.pos.x = (entry->spawn_spread.x * ((3.0517578e-05f * (f32)rand()) - 0.5f)) + position->x;
     sprite.pos.y = (entry->spawn_spread.y * ((3.0517578e-05f * (f32)rand()) - 0.5f)) + position->y;
@@ -297,8 +297,8 @@ TUnk_8048E7A8::TUnk_8048E7A8(ParticleParam *entry, Vec *position, TObject *paren
 }
 #pragma pop
 
-TUnk_8048E7A8::TUnk_8048E7A8(void *entry, void *position, void *parent)
-    : TUnk_8048E728((ParticleParam *)entry, (TObject *)parent) {
+TParticleRadial::TParticleRadial(void *entry, void *position, void *parent)
+    : TParticle((ParticleParam *)entry, (TObject *)parent) {
     ParticleParam *src = (ParticleParam *)entry;
     Vec *at = (Vec *)position;
     s32 life;

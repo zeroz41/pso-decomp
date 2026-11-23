@@ -7,8 +7,8 @@
 #include "pso/effect/TEffect.h"
 #include "pso/render/MaterialColorFade.h"
 #include "pso/system/vector.h"
-#include "pso/unk/TUnk_8048E728.h"
-#include "pso/unk/TUnk_8048E778.h"
+#include "pso/effect/particle/TParticle.h"
+#include "pso/effect/particle/TParticleBallistic.h"
 
 
 #include "pso/effect/particle/TParticleCtrl.h"

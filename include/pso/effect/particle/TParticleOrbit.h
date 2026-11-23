@@ -1,15 +1,15 @@
-#ifndef PSO_UNK_TUNK_8048E790_H
-#define PSO_UNK_TUNK_8048E790_H
+#ifndef PSO_EFFECT_PARTICLE_TPARTICLEORBIT_H
+#define PSO_EFFECT_PARTICLE_TPARTICLEORBIT_H
 #include "types.h"
-#include "pso/unk/TUnk_8048E728.h"
+#include "pso/effect/particle/TParticle.h"
 
-class TUnk_8048E790 : public TUnk_8048E728 {
+class TParticleOrbit : public TParticle {
 public:
-    virtual ~TUnk_8048E790();
+    virtual ~TParticleOrbit();
     virtual void run_task();
-    TUnk_8048E790(ParticleParam *entry, Vec *position, ParticleAngles *direction, TObject *parent, u16 particle_flags,
+    TParticleOrbit(ParticleParam *entry, Vec *position, ParticleAngles *direction, TObject *parent, u16 particle_flags,
                   u16 target);
-    TUnk_8048E790(void *param, void *pos, void *dir, void *parent);
+    TParticleOrbit(void *param, void *pos, void *dir, void *parent);
     void retire_orbit_particle();
     virtual void render();
     f32 orbit_center_x;        // 0xC4

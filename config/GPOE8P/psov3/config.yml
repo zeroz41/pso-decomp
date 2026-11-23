@@ -1653,7 +1653,7 @@ force_active:
   - TObjWarpString__delay_before_fade_out
   - TObject_name
   - particle_entry_path
-  - set_rotation__13TUnk_8048E728FP14ParticleAngles
+  - set_rotation__9TParticleFP14ParticleAngles
   - TParticleCtrl__sub_802C8464
   - color_palette__18TPhotonMagicSquare
   - photon_magic_square_class_name
@@ -4137,7 +4137,7 @@ force_active:
   - assign_player_id__6TLobbyFv
   - at_end__24TMessageWindowControllerFv
   - attach_mine_trap__10TObjPlayerFiUi
-  - attach_model__13TUnk_8048E728FPvP16GinjaTextureListP10NJS_MOTIONlf
+  - attach_model__9TParticleFPvP16GinjaTextureListP10NJS_MOTIONlf
   - attack_default__13TBoss5GryphonFv
   - attack_target__15TObjIllGillKageFv
   - attack_target_history_contains__FPvPv
@@ -15548,8 +15548,8 @@ force_active:
   - set_page__17TWindowSubComCardFs
   - set_params__12TBoss1DragonFPv
   - set_particle__11TPlayerSoulFP13TParticleCtrl
-  - set_draw_scale__13TUnk_8048E728Fff
-  - set_tint_color__13TUnk_8048E728FP8NJS_ARGB
+  - set_draw_scale__9TParticleFff
+  - set_tint_color__9TParticleFP8NJS_ARGB
   - set_password__17TAdEnterPPPPassGCFi
   - set_password__18TAdEnterPasswordGCFi
   - set_path_points__9TBoss6MagFP3Vecl

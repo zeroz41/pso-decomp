@@ -10,10 +10,10 @@
 #include "pso/boss/darkfalz/TBoss4Type2.h"
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/system/task/TObject.h"
-#include "pso/unk/TUnk_8048E728.h"
-#include "pso/unk/TUnk_8048E778.h"
-#include "pso/unk/TUnk_8048E790.h"
-#include "pso/unk/TUnk_8048E7A8.h"
+#include "pso/effect/particle/TParticle.h"
+#include "pso/effect/particle/TParticleBallistic.h"
+#include "pso/effect/particle/TParticleOrbit.h"
+#include "pso/effect/particle/TParticleRadial.h"
 #include "pso/unk/TLobby.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
@@ -88,7 +88,7 @@ const char *TParticleCtrl::class_name = "TParticleCtrl";
 #pragma fp_contract on
 void TParticleCtrl::run_task() {
     s32 kind;
-    TUnk_8048E728 *p;
+    TParticle *p;
     f32 step;
     if (all_parents_unqueued_for_destruction() == 0) {
         return;
@@ -142,7 +142,7 @@ void TParticleCtrl::run_task() {
         emit_count -= step;
         kind = emitter_entry->generator_kind;
         if (kind == 0) {
-            TUnk_8048E728 *q = create_ballistic_particle(
+            TParticle *q = create_ballistic_particle(
                 emitter_entry, &position, &direction, particle_parent, emit_flags, owner_id);
             if (q != NULL) {
                 q->set_draw_scale(scale_x, scale_y);
@@ -445,9 +445,9 @@ TParticleCtrl::TParticleCtrl(const Vec *pos, ParticleParam *entry, s32 oneshot, 
     }
 }
 
-void TUnk_8048E728::set_rotation(ParticleAngles *rotation) { copy_xyz(&rot_x, rotation); }
+void TParticle::set_rotation(ParticleAngles *rotation) { copy_xyz(&rot_x, rotation); }
 
-void TUnk_8048E728::attach_model(void *model, GinjaTextureList *texlist, NJS_MOTION *motion, s32 loop, f32 speed) {
+void TParticle::attach_model(void *model, GinjaTextureList *texlist, NJS_MOTION *motion, s32 loop, f32 speed) {
     this->model = model;
     this->texlist = texlist;
     this->motion = motion;
@@ -458,12 +458,12 @@ void TUnk_8048E728::attach_model(void *model, GinjaTextureList *texlist, NJS_MOT
     flags |= 0x200;
 }
 
-void TUnk_8048E728::set_tint_color(NJS_ARGB *rgba) {
+void TParticle::set_tint_color(NJS_ARGB *rgba) {
     flags |= 0x100;
     copy_argb(&tint, rgba);
 }
 
-void TUnk_8048E728::set_draw_scale(f32 x, f32 y) {
+void TParticle::set_draw_scale(f32 x, f32 y) {
     scale_x = x;
     scale_y = y;
 }
