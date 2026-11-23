@@ -18,6 +18,6 @@ public:
     s16 scale_state;  // 1: stepping up, 2: stepping down, 0/3: at rest
 };
 
-TItem *create_sorcerers_cane(u8 *arg0);
+TItem *create_sorcerers_cane(u8 *item);
 
 #endif

@@ -1560,8 +1560,8 @@ MIDDLEWARE: List[Tuple[str, int, str, List[str], Dict[str, Dict[str, Any]]]] = [
         # These files pool their string literals (-str reuse,readonly).
         "pso/unk/text_803CC294.cpp": {"cflags": _switch(cflags_cri, "-str reuse,readonly")},
         "pso/unk/text_803CE568.cpp": {"cflags": _switch(cflags_cri, "-str reuse,readonly")},
-        "pso/unk/text_803CFEA0.cpp": {"cflags": _switch(cflags_cri, "-str reuse,readonly")},
-        "pso/unk/text_803D31A4.cpp": {"cflags": _switch(cflags_cri, "-str reuse,readonly")},
+        "pso/system/movie/Gcci.cpp": {"cflags": _switch(cflags_cri, "-str reuse,readonly")},
+        "pso/audio/CriSvm.cpp": {"cflags": _switch(cflags_cri, "-str reuse,readonly")},
         # -str reuse,readonly: its chunk tags "fmt ", "data", "RIFF", "WAVE" sit in .sdata2 0x805E0CA0-0x805E0CC0.
         "pso/unk/TLobby_803BFE50.cpp": {"cflags": _switch(cflags_cri, "-str reuse,readonly")},
         # -str reuse,readonly: the TU's 17 string literals sit in .rodata 0x8047DF90-0x8047E220.
@@ -1598,7 +1598,7 @@ MIDDLEWARE: List[Tuple[str, int, str, List[str], Dict[str, Dict[str, Any]]]] = [
         # Its loops keep base + index offsets instead of walking pointers
         # (0x803F2F1C, 0x803F31D8); the rest of the file is the same either way.
         # -str reuse,readonly: the version banner and sprintf format strings sit in .rodata.
-        "pso/ui/frontend/TAdPlayerLoadGC_803F18B8.cpp": {"cflags": _switch(cflags_middleware, "-opt nostrength", "-str reuse,readonly")},
+        "pso/system/save/McFsGc.cpp": {"cflags": _switch(cflags_middleware, "-opt nostrength", "-str reuse,readonly")},
         # -pool off: find_longest_match_entry (0x803E9DE0) and sub_803E9A74 load the string, entry and index
         # tables of the TU's own .rodata each with its own lis/addi.
         "pso/quest/TQuestVmDownLoadServer_803E9A24.cpp": {"cflags": _switch(cflags_middleware, "-pool off")},

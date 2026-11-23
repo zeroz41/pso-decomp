@@ -1,4 +1,4 @@
-#include "types.h"
+#include "musyx/runtime/musyx_internal.h"
 
 extern "C" {
 
@@ -34,23 +34,6 @@ typedef struct VS {
     u16 nextInstID;
     u32 (*callback)(u8, const SND_VIRTUALSAMPLE_INFO *);
 } VS;
-
-struct Rec_803A8D2C {
-    u8 pad0[0x206];
-    u16 curPitch;
-    u8 pad208[0x404 - 0x208];
-};
-extern Rec_803A8D2C *synthVoice;
-
-u32 aramGetStreamBufferAddress(u8 i, u32 *out);
-void hwSetVirtualSampleLoopBuffer(s32 i, s32 a, s32 b);
-u16 hwGetSampleID(s32 i);
-u8 hwGetSampleType(s32 i);
-u32 hwGetVirtualSampleState(s32 i);
-u32 hwGetPos(s32 arg0);
-s32 hwGetVirtualSampleID(u8);
-u32 hwVoiceInStartup(s32 i);
-void hwBreak(u32);
 
 static VS vs;
 

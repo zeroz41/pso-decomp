@@ -4,9 +4,9 @@
 
 struct SjMemoryBuffer;
 struct SjMemoryBufferInterface {
-    void* field_00;
-    void* field_04;
-    void* field_08;
+    void* pad_00;
+    void* pad_04;
+    void* pad_08;
     void (*destroy)(SjMemoryBuffer*);
     const u8* (*get_uuid)(SjMemoryBuffer*);
     void (*reset)(SjMemoryBuffer*);
@@ -31,50 +31,21 @@ struct SjMemoryBuffer {
 LAYOUT_ASSERT(SjMemoryBuffer_size, sizeof(SjMemoryBuffer)==0x24);
 LAYOUT_ASSERT(SjMemoryBufferInterface_size, sizeof(SjMemoryBufferInterface)==0x30);
 
-extern "C" {
-s32 sj_memory_buffer_is_chunk_available(SjMemoryBuffer* arg0, s32 arg1, s32 arg2, s32* arg3);
-void sj_memory_buffer_unget_chunk(SjMemoryBuffer* arg0, s32 arg1, SjChunk* arg2);
-void sj_memory_buffer_put_chunk(SjMemoryBuffer* arg0, u32 arg1, SjChunk* arg2);
-void sj_memory_buffer_get_chunk(SjMemoryBuffer* arg0, s32 arg1, s32 arg2, SjChunk* arg3);
-s32 sj_memory_buffer_get_available(SjMemoryBuffer* arg0, s32 arg1);
-void sj_memory_buffer_reset(SjMemoryBuffer* sj_memory_buffer);
-void sj_memory_buffer_set_error_callback(SjMemoryBuffer* arg0, SjErrorCallback arg1, void* arg2);
-const u8* sj_memory_buffer_get_uuid(SjMemoryBuffer* sj_memory_buffer);
-void sj_memory_buffer_destroy(SjMemoryBuffer* sj_memory_buffer);
-SjMemoryBuffer* sj_memory_buffer_create(void* arg0, s32 arg1);
-void sj_memory_buffer_shutdown(void);
-void sj_memory_buffer_init(void);
-}
-
-extern "C" {
-SjMemoryBuffer *sj_memory_buffer_create(void *arg0, s32 arg1);
-void sj_memory_buffer_destroy(SjMemoryBuffer *sj_memory_buffer);
-void sj_memory_buffer_error_halt(void *, s32);
-s32 sj_memory_buffer_get_available(SjMemoryBuffer *arg0, s32 arg1);
-void sj_memory_buffer_get_chunk(SjMemoryBuffer *arg0, s32 arg1, s32 arg2, SjChunk *arg3);
-const u8 *sj_memory_buffer_get_uuid(SjMemoryBuffer *sj_memory_buffer);
-void sj_memory_buffer_init(void);
-s32 sj_memory_buffer_is_chunk_available(SjMemoryBuffer *arg0, s32 arg1, s32 arg2, s32 *arg3);
-void sj_memory_buffer_put_chunk(SjMemoryBuffer *arg0, u32 arg1, SjChunk *arg2);
-void sj_memory_buffer_reset(SjMemoryBuffer *sj_memory_buffer);
-void sj_memory_buffer_shutdown(void);
-void sj_memory_buffer_unget_chunk(SjMemoryBuffer *arg0, s32 arg1, SjChunk *arg2);
-}
-
 // --- C functions defined in SjMemoryBuffer.cpp ---
 extern "C" {
-SjMemoryBuffer *sj_memory_buffer_create(void *arg0, s32 arg1);
-void sj_memory_buffer_destroy(SjMemoryBuffer *sj_memory_buffer);
-void sj_memory_buffer_error_halt(void *, s32);
-s32 sj_memory_buffer_get_available(SjMemoryBuffer *sj_memory_buffer, s32 arg1);
-void sj_memory_buffer_get_chunk(SjMemoryBuffer *sj_memory_buffer, s32 arg1, s32 arg2, SjChunk *sj_chunk);
-const u8 *sj_memory_buffer_get_uuid(SjMemoryBuffer *sj_memory_buffer);
-void sj_memory_buffer_init(void);
-s32 sj_memory_buffer_is_chunk_available(SjMemoryBuffer *sj_memory_buffer, s32 arg1, s32 arg2, s32 *arg3);
-void sj_memory_buffer_put_chunk(SjMemoryBuffer *sj_memory_buffer, u32 arg1, SjChunk *sj_chunk);
-void sj_memory_buffer_reset(SjMemoryBuffer *sj_memory_buffer);
+s32 sj_memory_buffer_is_chunk_available(SjMemoryBuffer* buffer, s32 side, s32 requested_size, s32* available_size);
+void sj_memory_buffer_unget_chunk(SjMemoryBuffer* buffer, s32 side, SjChunk* chunk);
+void sj_memory_buffer_put_chunk(SjMemoryBuffer* buffer, u32 side, SjChunk* chunk);
+void sj_memory_buffer_get_chunk(SjMemoryBuffer* buffer, s32 side, s32 requested_size, SjChunk* chunk);
+s32 sj_memory_buffer_get_available(SjMemoryBuffer* buffer, s32 side);
+void sj_memory_buffer_reset(SjMemoryBuffer* buffer);
+void sj_memory_buffer_set_error_callback(SjMemoryBuffer* buffer, SjErrorCallback callback, void* context);
+const u8* sj_memory_buffer_get_uuid(SjMemoryBuffer* buffer);
+void sj_memory_buffer_destroy(SjMemoryBuffer* buffer);
+SjMemoryBuffer* sj_memory_buffer_create(void* data, s32 buffer_size);
 void sj_memory_buffer_shutdown(void);
-void sj_memory_buffer_unget_chunk(SjMemoryBuffer *sj_memory_buffer, s32 arg1, SjChunk *sj_chunk);
+void sj_memory_buffer_init(void);
+void sj_memory_buffer_error_halt(void* context, s32 error);
 }
 // --- end of C functions
 

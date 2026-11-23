@@ -4,7 +4,7 @@
 #include "pso/weapon/TItemWeapon.h"
 #include <dolphin/mtx/GeoTypes.h>
 
-// Weapon class with vtable 0x804A2F78 (old ctor name setup_effect), made by
+// Weapon class (old ctor name setup_effect), made by
 // TObjPlayer::create_effect_state.
 class TUnk_804A2F78 : public TItemWeapon {
 public:

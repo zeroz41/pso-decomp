@@ -11,7 +11,6 @@
 #include "pso/unk/text_803E2D70.h"
 #include "pso/system/memory.h"
 
-
 #include "pso/player/TObjPlayer.h"
 #include "pso/item/TItemLoad.h"
 #include "pso/item/EquippedItemDrawQueue.h"
@@ -20,157 +19,112 @@
 
 #pragma defer_codegen on
 
-extern "C" {
-u8 * lbl_805D6FB8;
+EquippedItemDrawQueue *lbl_805D6FB8;
 EquippedItemDrawQueue *player_item_id_list;
-extern u8 *lbl_805D6FB8;
+
+static const NJS_ARGB default_fade_color = {0.0f, 0.0f, 0.0f, 0.0f};
+
+saddr TObjPlayer::run_and_return_arg(saddr queue) {
+    ((EquippedItemDrawQueue *)queue)->reset();
+    return queue;
 }
 
-struct VBase_18_1419ea { char pad[0x18]; };
-
-struct VObj_18_1419ea : VBase_18_1419ea {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual void m19();
-    virtual void m20();
-    virtual void m21();
-    virtual void m22();
-    virtual void m23();
-    virtual void m24();
-    virtual void m25();
-    virtual s32 m26();
-};
-
-struct Rec_80364028 { f32 a; s32 b; s32 c; s32 d; };
-
-const Rec_80364028 lbl_80479FF8 = {0.0f, 0, 0, 0};
-struct Elt80364258_80364258 { s32 f0; };
-
-#define reset_id_array__10TObjPlayerFPv ((s32 (*)(void))reset_id_array__10TObjPlayerFPv)
-
-saddr TObjPlayer::run_and_return_arg(saddr arg0) {
-    reset_id_array__10TObjPlayerFPv();
-    return arg0;
-}
-
-#undef reset_id_array__10TObjPlayerFPv
-
-void reset_id_array__10TObjPlayerFPv(void *arg0) {
-    s32 *p = (s32 *)((u8 *)arg0 + 0x30);
+void EquippedItemDrawQueue::reset() {
+    u32 *p = item_ids;
     int i;
     for (i = 0; i < 32; i++) {
         *p++ = -1;
     }
-    *(s32 *)((u8 *)arg0 + 0xB0) = 0;
+    count = 0;
 }
 
 void TObjPlayer::push_to_list(s32 id) {
-    s32 motion_flags;
-
-    motion_flags = this->motion_flags;
-    if (motion_flags < 0x20) {
-        ((struct Elt80364258_80364258 *)(((u8 *)this) + 0x30))[motion_flags].f0 = id;
-        this->motion_flags = (this->motion_flags + 1);
+    void *self = this;
+    EquippedItemDrawQueue *queue = (EquippedItemDrawQueue *)self;
+    s32 count = queue->count;
+    if (count < 0x20) {
+        queue->item_ids[count] = (u32)id;
+        queue->count = queue->count + 1;
     }
 }
 
 void TObjPlayer::alloc_and_init_object_b4() {
-    void *o;
-
-    o = ::operator new(0xB4);
+    void *o = ::operator new(sizeof(EquippedItemDrawQueue));
     if (o != NULL) {
         o = (void *)TObjPlayer::run_and_return_arg((saddr)o);
     }
-    (*(void **)&lbl_805D6FB8) = o;
+    lbl_805D6FB8 = (EquippedItemDrawQueue *)o;
 }
 
 void TObjPlayer::free_global_805D6FB8() {
-    if ((u32) (*(u32 *)&lbl_805D6FB8) != 0U) {
-        ::operator delete((void *)(*(uaddr *)&lbl_805D6FB8));
-        (*(u32 *)&lbl_805D6FB8) = 0U;
+    if (lbl_805D6FB8 != NULL) {
+        ::operator delete(lbl_805D6FB8);
+        lbl_805D6FB8 = NULL;
     }
 }
 
 void TObjPlayer::save_model_render_state() {
-    *(s32 *)((s8 *)(*(u8 * *)&(*(void **)&lbl_805D6FB8)) + 0) = (s32) model_render_flags;
-    copy_argb((NJS_ARGB *)((*(u8 * *)&(*(void **)&lbl_805D6FB8)) + 0xC), &model_material_color);
-    *(s32 *)((s8 *)(*(u8 * *)&(*(void **)&lbl_805D6FB8)) + 4) = (s32) chunk_polygon_flags_and_mask;
-    *(s32 *)((s8 *)(*(u8 * *)&(*(void **)&lbl_805D6FB8)) + 8) = (s32) chunk_polygon_flags_or_mask;
+    lbl_805D6FB8->saved_model_render_flags = model_render_flags;
+    copy_argb(&lbl_805D6FB8->saved_model_material_color, &model_material_color);
+    lbl_805D6FB8->saved_chunk_polygon_flags_and_mask = chunk_polygon_flags_and_mask;
+    lbl_805D6FB8->saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;
 }
 
 void TObjPlayer::restore_model_render_state() {
-    model_render_flags = *(s32 *)((s8 *)(*(u8 * *)&(*(void **)&lbl_805D6FB8)) + 0);
-    copy_argb(&model_material_color, (NJS_ARGB *)((*(u8 * *)&(*(void **)&lbl_805D6FB8)) + 0xC));
-    chunk_polygon_flags_and_mask = *(s32 *)((s8 *)(*(u8 * *)&(*(void **)&lbl_805D6FB8)) + 4);
-    chunk_polygon_flags_or_mask = *(s32 *)((s8 *)(*(u8 * *)&(*(void **)&lbl_805D6FB8)) + 8);
+    model_render_flags = lbl_805D6FB8->saved_model_render_flags;
+    copy_argb(&model_material_color, &lbl_805D6FB8->saved_model_material_color);
+    chunk_polygon_flags_and_mask = lbl_805D6FB8->saved_chunk_polygon_flags_and_mask;
+    chunk_polygon_flags_or_mask = lbl_805D6FB8->saved_chunk_polygon_flags_or_mask;
 }
 
 void TObjPlayer::push_model_fade_color() {
-    copy_argb((NJS_ARGB *)((*(saddr *)&(*(void **)&lbl_805D6FB8)) + 0x1C), &model_material_color);
-    if (this != NULL) {
-        copy_argb(&model_material_color, (NJS_ARGB *)this);
+    copy_argb(&lbl_805D6FB8->saved_fade_color, &model_material_color);
+    void *self = this;
+    if (self != NULL) {
+        copy_argb(&model_material_color, (NJS_ARGB *)self);
     }
 }
 
 void TObjPlayer::copy_gauge_warn_vec() {
-    copy_argb(&model_material_color, (NJS_ARGB *)((*(saddr *)&(*(void **)&lbl_805D6FB8)) + 0x1C));
+    copy_argb(&model_material_color, &lbl_805D6FB8->saved_fade_color);
 }
 
-void TObjPlayer::set_model_fade_alpha(f32 farg0) {
-    if (farg0 < 1.0f) {
+void TObjPlayer::set_model_fade_alpha(f32 alpha) {
+    if (alpha < 1.0f) {
         model_render_flags |= 0x24;
         set_chunk_material_override_pair(-1, 0x800);
         set_chunk_blend(0x2500);
-        Rec_80364028 r = lbl_80479FF8;
-        r.a = farg0 - 1.0f;
-        ((TObjPlayer *)((s32 *)&r))->push_model_fade_color();
+        NJS_ARGB color = default_fade_color;
+        color.a = alpha - 1.0f;
+        ((TObjPlayer *)&color)->push_model_fade_color();
     }
-    *(f32 *)((u8 *)(*(void **)&lbl_805D6FB8) + 0x2C) = farg0;
+    lbl_805D6FB8->fade_alpha = alpha;
 }
 
 void TObjPlayer::warn_if_gauge_low() {
-    if (*(f32 *)((s8 *)(*(void **)&lbl_805D6FB8) + 0x2C) < 1.0f) {
+    if (lbl_805D6FB8->fade_alpha < 1.0f) {
         set_chunk_blend(0x2500);
         TObjPlayer::copy_gauge_warn_vec();
     }
 }
 
-void TObjPlayer::spawn_cleanup_helper(void *arg0) {
-    new TEquippedWeaponDrawTask((TObject *)arg0);
+void TObjPlayer::spawn_cleanup_helper(void *parent) {
+    new TEquippedWeaponDrawTask((TObject *)parent);
 }
-
 
 void TObjPlayer::push_id_to_list(s32 id) {
-    if ((s32) *(s32 *)((s8 *)(*(void **)&lbl_805D6FB8) + 0xB0) == 0) {
-        reset_id_array__10TObjPlayerFPv((*(void **)&lbl_805D6FB8));
+    if (lbl_805D6FB8->count == 0) {
+        lbl_805D6FB8->reset();
     }
-    ((TObjPlayer *)(*(void **)&lbl_805D6FB8))->push_to_list(id);
+    ((TObjPlayer *)lbl_805D6FB8)->push_to_list(id);
 }
+
 TEquippedWeaponDrawTask::TEquippedWeaponDrawTask(TObject *parent) : TObject(parent) {
-    reset_id_array__10TObjPlayerFPv(lbl_805D6FB8);
+    lbl_805D6FB8->reset();
 }
 
 TEquippedWeaponDrawTask::~TEquippedWeaponDrawTask() {
-
 }
-
 
 void TEquippedWeaponDrawTask::run_task() {
     NJS_OBJECT *model;
@@ -181,99 +135,71 @@ void TEquippedWeaponDrawTask::run_task() {
         scroll_item_model_uvs(model->child, 2, 2, 0xB);
     }
 }
+
 void TEquippedWeaponDrawTask::render() {
-    s32 *p;
-    s32 n;
-    VObj_18_1419ea *obj;
+    u32 *id;
+    s32 remaining;
+    TItem *item;
     set_default_alpha_blend();
     saved_model_render_flags = model_render_flags;
     saved_chunk_polygon_flags_and_mask = chunk_polygon_flags_and_mask;
     saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;
     copy_argb(&saved_model_draw_color, &model_material_color);
-    n = *(s32 *)(lbl_805D6FB8 + 0xB0);
-    p = (s32 *)(lbl_805D6FB8 + 0x30);
-    while (n != 0) {
-        obj = (VObj_18_1419ea *)find_equipped_item(*p++);
-        if (obj != NULL) {
+    remaining = lbl_805D6FB8->count;
+    id = lbl_805D6FB8->item_ids;
+    while (remaining != 0) {
+        item = find_equipped_item(*id++);
+        if (item != NULL) {
             set_draw_list_mask(1);
-            obj->m26();
+            item->render_equipped_deferred();
             set_default_alpha_blend();
             copy_argb(&model_material_color, &saved_model_draw_color);
             chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
             chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
             model_render_flags = saved_model_render_flags;
             set_draw_list_mask(2);
-            obj->m26();
+            item->render_equipped_deferred();
             set_default_alpha_blend();
             copy_argb(&model_material_color, &saved_model_draw_color);
             chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
             chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
             model_render_flags = saved_model_render_flags;
         }
-        n--;
+        remaining--;
     }
     restore_draw_list_mask();
-    *(s32 *)(lbl_805D6FB8 + 0xB0) = 0;
+    lbl_805D6FB8->count = 0;
 }
-void TObjPlayer::alloc_and_run_object() {
-    void *o;
 
-    o = ::operator new(0xB4);
+void TObjPlayer::alloc_and_run_object() {
+    void *o = ::operator new(sizeof(EquippedItemDrawQueue));
     if (o != NULL) {
         o = (void *)TObjPlayer::run_and_return_arg((saddr)o);
     }
-    (*(void **)&player_item_id_list) = o;
+    player_item_id_list = (EquippedItemDrawQueue *)o;
 }
+
 void TObjPlayer::free_static_buffer() {
-    if ((u32) (*(u32 *)&player_item_id_list) != 0U) {
-        ::operator delete((void *)(*(uaddr *)&player_item_id_list));
-        (*(u32 *)&player_item_id_list) = 0U;
+    if (player_item_id_list != NULL) {
+        ::operator delete(player_item_id_list);
+        player_item_id_list = NULL;
     }
 }
-void TObjPlayer::create_cleanup_object(void *arg0) {
-    new TEquippedItemDrawTask((TObject *)arg0);
+
+void TObjPlayer::create_cleanup_object(void *parent) {
+    new TEquippedItemDrawTask((TObject *)parent);
 }
+
 TEquippedItemDrawTask::TEquippedItemDrawTask(TObject *parent) : TObject(parent) {
-    reset_id_array__10TObjPlayerFPv(player_item_id_list);
+    player_item_id_list->reset();
 }
 
 TEquippedItemDrawTask::~TEquippedItemDrawTask() {
-
 }
 
-
-void TEquippedItemDrawTask::run_task() { reset_id_array__10TObjPlayerFPv((void*)player_item_id_list); }
-
-struct DrawPrefix { u8 prefix[0x18]; };
-
-struct DrawTarget : DrawPrefix {
-    virtual void reserved0();
-    virtual void reserved1();
-    virtual void reserved2();
-    virtual void reserved3();
-    virtual void reserved4();
-    virtual void reserved5();
-    virtual void reserved6();
-    virtual void reserved7();
-    virtual void reserved8();
-    virtual void reserved9();
-    virtual void reserved10();
-    virtual void reserved11();
-    virtual void reserved12();
-    virtual void reserved13();
-    virtual void reserved14();
-    virtual void reserved15();
-    virtual void reserved16();
-    virtual void reserved17();
-    virtual void reserved18();
-    virtual void reserved19();
-    virtual void reserved20();
-    virtual void reserved21();
-    virtual void reserved22();
-    virtual void reserved23();
-    virtual void render();
-};
-
+void TEquippedItemDrawTask::run_task() {
+    player_item_id_list->reset();
+}
 
 void TEquippedItemDrawTask::render() {
     set_default_alpha_blend();
@@ -284,9 +210,9 @@ void TEquippedItemDrawTask::render() {
     u32 *id = player_item_id_list->item_ids;
     s32 remaining = player_item_id_list->count;
     while (remaining != 0) {
-        DrawTarget *item = (DrawTarget *)find_equipped_item(*id++);
+        TItem *item = find_equipped_item(*id++);
         if (item) {
-            item->render();
+            item->render_equipped();
             set_default_alpha_blend();
             copy_argb(&model_material_color, &saved_model_draw_color);
             chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
@@ -297,4 +223,6 @@ void TEquippedItemDrawTask::render() {
     }
 }
 
-void TItem::push_equipped_id(s32 id) { ((TObjPlayer *)player_item_id_list)->push_to_list(id); }
+void TItem::push_equipped_id(s32 id) {
+    ((TObjPlayer *)player_item_id_list)->push_to_list(id);
+}

@@ -4,15 +4,6 @@
 #include "pso/audio/AdxStreamRuntime.h"
 #include "pso/unk/TLobby.h"
 
-struct SjHandle;
-
-struct SjInterface {
-    void *slots[9];
-    s32 (*GetNumData)(SjHandle *, s32);
-};
-
-struct SjHandle { SjInterface *vt; };
-
 void (*lsc_queue_empty_callback)(void *, void *);
 void *lsc_queue_empty_object;
 void *lsc_queue_empty_param;
@@ -31,7 +22,7 @@ void lsc_notify_queue_empty(void) {
         lsc_queue_empty_callback(lsc_queue_empty_object, lsc_queue_empty_param);
     }
 }
-extern LscStream lsc_slot_table[];
+
 s32 lsc_get_min_buffer_bytes(LscStream *p) {
     if (p == 0) {
         TLobby::log_printf("E0003: Illigal parameter lsc=NULL");
@@ -52,14 +43,14 @@ void lsc_set_min_buffer_bytes(LscStream *lsc_stream, s32 bytes) {
     lsc_stream->min_buffer_bytes = bytes;
 }
 
-s32 lsc_get_stream_progress(LscStream *lsc_stream, s32 arg1) {
+s32 lsc_get_stream_progress(LscStream *lsc_stream, s32 stream_id) {
     s32 i;
     if (lsc_stream == 0) {
         TLobby::log_printf("E0003: Illigal parameter lsc=NULL");
         return 0;
     }
     for (i = 0; i < 16; i++) {
-        if (lsc_stream->entries[i].stream_id == arg1) {
+        if (lsc_stream->entries[i].stream_id == stream_id) {
             break;
         }
     }
@@ -70,14 +61,14 @@ s32 lsc_get_stream_progress(LscStream *lsc_stream, s32 arg1) {
     return lsc_stream->entries[i].progress;
 }
 
-s32 lsc_get_stream_status(LscStream *lsc_stream, s32 arg1) {
+s32 lsc_get_stream_status(LscStream *lsc_stream, s32 stream_id) {
     s32 i;
     if (lsc_stream == 0) {
         TLobby::log_printf("E0003: Illigal parameter lsc=NULL");
         return -1;
     }
     for (i = 0; i < 16; i++) {
-        if (lsc_stream->entries[i].stream_id == arg1) {
+        if (lsc_stream->entries[i].stream_id == stream_id) {
             break;
         }
     }
@@ -88,14 +79,14 @@ s32 lsc_get_stream_status(LscStream *lsc_stream, s32 arg1) {
     return lsc_stream->entries[i].status;
 }
 
-char *lsc_get_stream_filename(LscStream *lsc_stream, s32 arg1) {
+char *lsc_get_stream_filename(LscStream *lsc_stream, s32 stream_id) {
     s32 i;
     if (lsc_stream == 0) {
         TLobby::log_printf("E0003: Illigal parameter lsc=NULL");
         return 0;
     }
     for (i = 0; i < 16; i++) {
-        if (lsc_stream->entries[i].stream_id == arg1) {
+        if (lsc_stream->entries[i].stream_id == stream_id) {
             break;
         }
     }
@@ -171,7 +162,7 @@ void lsc_stop(LscStream *lsc_stream) {
             lsc_stream->read_index = 0;
             lsc_stream->queued_count = 0;
         }
-        lsc_stream->field_34 = 0;
+        lsc_stream->bytes_transferred = 0;
         lsc_interrupt_lock_leave(&lock);
     }
 }
@@ -206,7 +197,7 @@ void lsc_start(LscStream *o) {
                 o->read_index = 0;
                 o->queued_count = 0;
             }
-            o->field_34 = 0;
+            o->bytes_transferred = 0;
             lsc_interrupt_lock_leave(lk1);
         }
     }
@@ -281,14 +272,14 @@ inline LscStream *lsc_find_free_slot(void) {
 }
 
 void lsc_destroy(LscStream *lsc_stream) {
-    s32 spC;
-    s32 sp8;
+    s32 outer_lock;
+    s32 inner_lock;
     if (lsc_stream != NULL) {
-        lsc_interrupt_lock_enter(&spC);
+        lsc_interrupt_lock_enter(&outer_lock);
         if (lsc_stream == NULL) {
             TLobby::log_printf("E0003: Illigal parameter lsc=NULL");
         } else if ((s8) lsc_stream->state != 0) {
-            lsc_interrupt_lock_enter(&sp8);
+            lsc_interrupt_lock_enter(&inner_lock);
             lsc_stream->state = 0U;
             if (lsc_stream->file_handle != NULL) {
                 if ((s32) lsc_stream->read_started == 1) {
@@ -306,12 +297,12 @@ void lsc_destroy(LscStream *lsc_stream) {
                 lsc_stream->read_index = 0;
                 lsc_stream->queued_count = 0;
             }
-            lsc_stream->field_34 = 0;
-            lsc_interrupt_lock_leave(&sp8);
+            lsc_stream->bytes_transferred = 0;
+            lsc_interrupt_lock_leave(&inner_lock);
         }
         lsc_stream->in_use = 0;
         memset(lsc_stream, 0, (unsigned long)(0x438));
-        lsc_interrupt_lock_leave(&spC);
+        lsc_interrupt_lock_leave(&outer_lock);
     }
 }
 

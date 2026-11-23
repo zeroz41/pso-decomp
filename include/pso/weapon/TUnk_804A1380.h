@@ -3,7 +3,7 @@
 #include "types.h"
 #include "pso/weapon/TItemWeapon.h"
 
-// The weapon class whose emit_marker_effects launches TTecFoie (vtable 0x804A1380).
+// The weapon class whose emit_marker_effects launches TTecFoie.
 class TUnk_804A1380 : public TItemWeapon {
 public:
     virtual ~TUnk_804A1380();

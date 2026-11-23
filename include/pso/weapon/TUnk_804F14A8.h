@@ -3,7 +3,7 @@
 #include "types.h"
 #include "pso/weapon/TItemWeapon.h"
 
-// The weapon TObjPlayer::create_state_34_alt builds (vtable 0x804F14A8).
+// The weapon TObjPlayer::create_state_34_alt builds.
 class TUnk_804F14A8 : public TItemWeapon {
 public:
     TUnk_804F14A8(TObject *parent, u8 *item);

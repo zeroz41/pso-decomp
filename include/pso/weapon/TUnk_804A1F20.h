@@ -10,6 +10,6 @@ public:
     TUnk_804A1F20(TObject *parent, u8 *item);
 };
 
-TItem *create_delsabers_buster_weapon(u8 *arg0);
+TItem *create_delsabers_buster_weapon(u8 *item);
 
 #endif

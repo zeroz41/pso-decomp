@@ -1,4 +1,5 @@
 #include "musyx/runtime/musyx_runtime_a.h"
+#include "musyx/runtime/musyx_internal.h"
 
 extern "C" {
 
@@ -383,22 +384,22 @@ void SetFXParameters(Emitter_S3D *const em, f32 vol, f32 xPan, f32 yPan, f32 zPa
 }
 #pragma pop
 
-void EmitterShutdown(Emitter_S3D *arg0) {
-    if (arg0->next != 0) {
-        arg0->next->prev = arg0->prev;
+void EmitterShutdown(Emitter_S3D *em) {
+    if (em->next != 0) {
+        em->next->prev = em->prev;
     }
-    if (arg0->prev != 0) {
-        arg0->prev->next = arg0->next;
+    if (em->prev != 0) {
+        em->prev->next = em->next;
     } else {
-        s3dEmitterRoot = arg0->next;
+        s3dEmitterRoot = em->next;
     }
-    arg0->flags = (u16)arg0->flags;
-    if (arg0->vid != 0xFFFFFFFF) {
-        synthSendKeyOff((int)(arg0->vid));
+    em->flags = (u16)em->flags;
+    if (em->vid != 0xFFFFFFFF) {
+        synthSendKeyOff((int)(em->vid));
     }
 }
 
-void s3dKillEmitterByFXID(Ent_803BA228 *arg0, u32 num) {
+void s3dKillEmitterByFXID(FX_TAB *fxTab, u32 num) {
     Emitter_S3D *n;
     Emitter_S3D *next;
     u32 i;
@@ -406,7 +407,7 @@ void s3dKillEmitterByFXID(Ent_803BA228 *arg0, u32 num) {
     for (n = s3dEmitterRoot; n != 0; n = next) {
         next = n->next;
         for (i = 0; i < num; i++) {
-            if (n->fxid == arg0[i].id) {
+            if (n->fxid == fxTab[i].id) {
                 if (sndActive != 0) {
                     hwDisableIrq();
                     if (n->flags & 0x10000) {
@@ -424,7 +425,7 @@ Emitter_S3D tmp_em_S3D;
 static StartGroup_S3D startGroup[64];
 static StartList_S3D startList[64];
 static RunList_S3D runList[64];
-Emitter_S3D em_80567908_S3D;
+Emitter_S3D default_em_S3D;
 
 
 #pragma push

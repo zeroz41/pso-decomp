@@ -3,7 +3,7 @@
 #include "types.h"
 #include "pso/weapon/TItemWeapon.h"
 
-// Lavis shot weapon class with vtable 0x804A4A88 (old ctor name init_state_object): its special
+// Lavis shot weapon class (old ctor name init_state_object): its special
 // drains 5% of the owner's HP. Made by TObjPlayer__sub_8012AB1C.
 class TUnk_804A4A88 : public TItemWeapon {
 public:

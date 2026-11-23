@@ -10,24 +10,24 @@ struct SoundMixCurveOutput {
     f32 left, right, surround;
 };
 struct SoundStudioMixView {
-    u8 unknown0[0x54];
+    u8 pad00[0x54];
     s32 mode;
-    u8 unknown58[0xAC - 0x58];
+    u8 pad58[0xAC - 0x58];
     SND_AUX_CALLBACK auxAHandler;
     SND_AUX_CALLBACK auxBHandler;
     void *auxAUser;
     void *auxBUser;
 };
 struct SoundMixVoice {
-    u8 unknown0[0x24];
+    u8 pad00[0x24];
     u32 changed;
-    u8 unknown28[0x4C - 0x28];
+    u8 pad28[0x4C - 0x28];
     SoundMixCoefficients coefficients[3];
-    u8 unknown5E[0xD0 - 0x5E];
+    u8 pad5E[0xD0 - 0x5E];
     u16 leftDelay, rightDelay;
-    u8 unknownD4[0xE5 - 0xD4];
+    u8 padD4[0xE5 - 0xD4];
     u8 dirty[3];
-    u8 unknownE8[0xEF - 0xE8];
+    u8 padE8[0xEF - 0xE8];
     u8 studio;
     u32 flags;
 };

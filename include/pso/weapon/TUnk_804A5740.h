@@ -3,7 +3,7 @@
 #include "types.h"
 #include "pso/weapon/TItemWeapon.h"
 
-// Weapon class with vtable 0x804A5740 (old ctor name init_state_1f8): idle swings
+// Weapon class (old ctor name init_state_1f8): idle swings
 // rotation_x up to 0x2AAA, attack back to 0; the model hook (slot 60) turns the
 // models after the first by it. Made by TObjPlayer__sub_8012CF84.
 class TUnk_804A5740 : public TItemWeapon {

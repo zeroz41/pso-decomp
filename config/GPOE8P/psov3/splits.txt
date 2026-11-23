@@ -2528,7 +2528,7 @@ pso/weapon/TUnk_804A0BC0.cpp:
 	.data       start:0x804A0BC0 end:0x804A0CB8
 	.sdata2     start:0x805DACC8 end:0x805DACD0
 
-pso/weapon/TUnk_804A0CB8.cpp:
+pso/weapon/TItemWeaponBelraCannon.cpp:
 	.text       start:0x80121CB8 end:0x80122014
 	.data       start:0x804A0CB8 end:0x804A0DB0
 	.sdata2     start:0x805DACD0 end:0x805DACD8
@@ -2565,7 +2565,7 @@ pso/weapon/TUnk_804A1380.cpp:
 	.text       start:0x80122B74 end:0x80122CDC
 	.data       start:0x804A1380 end:0x804A1478
 
-pso/weapon/TUnk_804A1478.cpp:
+pso/weapon/TItemWeaponWand.cpp:
 	.text       start:0x80122CDC end:0x80122E24
 	.data       start:0x804A1478 end:0x804A1570
 
@@ -2578,7 +2578,7 @@ pso/weapon/TUnk_804A1668.cpp:
 	.text       start:0x80123044 end:0x80123184
 	.data       start:0x804A1668 end:0x804A1760
 
-pso/weapon/TUnk_804A1760.cpp:
+pso/weapon/TItemWeaponTwinChakram.cpp:
 	.text       start:0x80123184 end:0x8012327C
 	.data       start:0x804A1760 end:0x804A1858
 
@@ -2599,7 +2599,7 @@ pso/weapon/TUnk_804A1B40.cpp:
 	.text       start:0x80123864 end:0x801239A8
 	.data       start:0x804A1B40 end:0x804A1C38
 
-pso/weapon/TUnk_804A1C38.cpp:
+pso/weapon/TItemWeaponClaw.cpp:
 	.text       start:0x801239A8 end:0x80123AE8
 	.data       start:0x804A1C38 end:0x804A1D30
 
@@ -2614,7 +2614,7 @@ pso/weapon/TUnk_804A1E28.cpp:
 	.data       start:0x804A1E28 end:0x804A1F20
 	.sdata2     start:0x805DAD20 end:0x805DAD24
 
-pso/weapon/TUnk_804A1F20.cpp:
+pso/weapon/TItemWeaponDelsabersBuster.cpp:
 	.text       start:0x80123F88 end:0x801240C0
 	.data       start:0x804A1F20 end:0x804A2018
 
@@ -2673,7 +2673,7 @@ pso/weapon/TUnk_804A2960.cpp:
 	.data       start:0x804A2960 end:0x804A2A58
 	.sdata2     start:0x805DAD70 end:0x805DAD78
 
-pso/weapon/TUnk_804A2A58.cpp:
+pso/weapon/TItemWeaponBaranzLauncher.cpp:
 	.text       start:0x80126460 end:0x80126798
 	.data       start:0x804A2A58 end:0x804A2B50
 	.sdata2     start:0x805DAD78 end:0x805DAD80
@@ -2684,7 +2684,7 @@ pso/weapon/TItemWeaponFist.cpp:
 	.sbss       start:0x805D5518 end:0x805D5520
 	.sdata2     start:0x805DAD80 end:0x805DAD98
 
-pso/weapon/TUnk_804A2C90.cpp:
+pso/weapon/TItemWeaponHandgun.cpp:
 	.text       start:0x80126AE4 end:0x80126D30
 	.data       start:0x804A2C90 end:0x804A2E80
 
@@ -2730,7 +2730,7 @@ pso/weapon/TUnk_804A3640.cpp:
 	.text       start:0x80127BE0 end:0x80127DC4
 	.data       start:0x804A3640 end:0x804A3738
 
-pso/weapon/TUnk_804A3738.cpp:
+pso/weapon/TItemWeaponYamigarasu.cpp:
 	.text       start:0x80127DC4 end:0x80127F8C
 	.data       start:0x804A3738 end:0x804A3830
 	.sdata2     start:0x805DADD8 end:0x805DADDC
@@ -2760,7 +2760,7 @@ pso/weapon/TUnk_804A3D20.cpp:
 	.text       start:0x80128630 end:0x80128728
 	.data       start:0x804A3D20 end:0x804A3E20
 
-pso/weapon/TUnk_804A3E20.cpp:
+pso/weapon/TItemWeaponSRankHarisen.cpp:
 	.text       start:0x80128728 end:0x801288A0
 	.data       start:0x804A3E20 end:0x804A3F20
 	.sdata2     start:0x805DADF0 end:0x805DADF8
@@ -2780,12 +2780,12 @@ pso/weapon/TUnk_804A4138.cpp:
 	.data       start:0x804A4138 end:0x804A4238
 	.sdata2     start:0x805DAE00 end:0x805DAE18
 
-pso/weapon/TUnk_804A4238.cpp:
+pso/weapon/TItemWeaponSRankJCutter.cpp:
 	.text       start:0x801293FC end:0x80129648
 	.data       start:0x804A4238 end:0x804A4338
 	.sdata2     start:0x805DAE18 end:0x805DAE30
 
-pso/weapon/TUnk_804A4338.cpp:
+pso/weapon/TItemWeaponSRankSlicer.cpp:
 	.text       start:0x80129648 end:0x8012981C
 	.data       start:0x804A4338 end:0x804A4438
 	.sdata2     start:0x805DAE30 end:0x805DAE40
@@ -2872,7 +2872,7 @@ pso/weapon/TUnk_804A5458.cpp:
 	.text       start:0x8012CA20 end:0x8012CB84
 	.data       start:0x804A5458 end:0x804A5550
 
-pso/weapon/TUnk_804A5550.cpp:
+pso/weapon/TItemWeaponSaber.cpp:
 	.text       start:0x8012CB84 end:0x8012CCCC
 	.data       start:0x804A5550 end:0x804A5648
 
@@ -2891,12 +2891,12 @@ pso/weapon/TUnk_804A5838.cpp:
 	.data       start:0x804A5838 end:0x804A5930
 	.sdata2     start:0x805DAF00 end:0x805DAF1C
 
-pso/weapon/TUnk_804A5930.cpp:
+pso/weapon/TItemWeaponSealedJSword.cpp:
 	.text       start:0x8012D468 end:0x8012D708
 	.data       start:0x804A5930 end:0x804A5A28
 	.sdata2     start:0x805DAF20 end:0x805DAF24
 
-pso/weapon/TUnk_804A5A28.cpp:
+pso/weapon/TItemWeaponFlightCutter.cpp:
 	.text       start:0x8012D708 end:0x8012D900
 	.data       start:0x804A5A28 end:0x804A5B20
 	.sdata2     start:0x805DAF28 end:0x805DAF38
@@ -2927,7 +2927,7 @@ pso/weapon/TUnk_804A5F18.cpp:
 	.text       start:0x8012EAA8 end:0x8012ECFC
 	.data       start:0x804A5F18 end:0x804A6010
 
-pso/weapon/TUnk_804A6010.cpp:
+pso/weapon/TItemWeaponTwinkleStar.cpp:
 	.text       start:0x8012ECFC end:0x8012EEC0
 	.data       start:0x804A6010 end:0x804A6108
 
@@ -2940,7 +2940,7 @@ pso/weapon/TUnk_804A6200.cpp:
 	.data       start:0x804A6200 end:0x804A62F8
 	.sdata2     start:0x805DAF98 end:0x805DAFB4
 
-pso/weapon/TUnk_804A62F8.cpp:
+pso/weapon/TItemWeaponSword.cpp:
 	.text       start:0x8012F2F0 end:0x8012F4D0
 	.data       start:0x804A62F8 end:0x804A63F0
 
@@ -10179,7 +10179,7 @@ pso/enemy/epsilon/TObjEneEpsilon.cpp:
 	.sbss       start:0x805D6FA0 end:0x805D6FAC
 	.sdata2     start:0x805E0248 end:0x805E0258
 
-pso/weapon/TUnk_804F26E0.cpp:
+pso/weapon/TItemWeaponSRankKnuckle.cpp:
 	.text       start:0x80362C28 end:0x80362DE8
 	.data       start:0x804F26E0 end:0x804F27DC
 	.sdata2     start:0x805E0258 end:0x805E0260
@@ -11355,34 +11355,34 @@ pso/audio/AdxManager.cpp:
 	.sbss       start:0x805D7590 end:0x805D75D0
 	.sdata2     start:0x805E0D70 end:0x805E0D80
 
-pso/ui/keyboard/TKeyBoardControl_803CBDE0.cpp:
+pso/audio/AdxUiBridge.cpp:
 	.text       start:0x803CBDE0 end:0x803CBE88
 
-pso/unk/TLobby_803CBE88.cpp:
+pso/audio/AdxRnaInitBuffer.cpp:
 	.text       start:0x803CBE88 end:0x803CBEA8
 
-pso/unk/TLobby_803CBEA8.cpp:
+pso/audio/GcrnaBridgeLoop.cpp:
 	.text       start:0x803CBEA8 end:0x803CBEC8
 
-pso/unk/TLobby_803CBEC8.cpp:
+pso/audio/AdxRnaStreamId.cpp:
 	.text       start:0x803CBEC8 end:0x803CBEE8
 
-pso/unk/TLobby_803CBEE8.cpp:
+pso/audio/GcrnaBridgeStatus.cpp:
 	.text       start:0x803CBEE8 end:0x803CBF0C
 
-pso/unk/TLobby_803CBF0C.cpp:
+pso/audio/GcrnaBridgePanId.cpp:
 	.text       start:0x803CBF0C end:0x803CBF10
 
-pso/unk/TLobby_803CBF10.cpp:
+pso/audio/GcrnaBridgeReady.cpp:
 	.text       start:0x803CBF10 end:0x803CBF30
 
-pso/unk/TLobby_803CBF30.cpp:
+pso/audio/GcrnaBridgeSampleBits.cpp:
 	.text       start:0x803CBF30 end:0x803CBF50
 
 pso/unk/TLobby_803CBF50.cpp:
 	.text       start:0x803CBF50 end:0x803CC070
 
-pso/unk/text_803CC070.cpp:
+pso/audio/GcrnaBridgeTeardown.cpp:
 	.text       start:0x803CC070 end:0x803CC0B4
 
 pso/unk/TLobby_803CC0B4.cpp:
@@ -11395,7 +11395,7 @@ pso/unk/text_803CC134.cpp:
 	.sbss       start:0x805D75D0 end:0x805D75E8
 	.sdata2     start:0x805E0D80 end:0x805E0D84
 
-pso/unk/TLobby_803CC274.cpp:
+pso/audio/AdxCacheControl.cpp:
 	.text       start:0x803CC274 end:0x803CC294
 
 pso/unk/text_803CC294.cpp:
@@ -11411,7 +11411,7 @@ pso/unk/text_803CD99C.cpp:
 	.sdata      start:0x805D4688 end:0x805D4690
 	.sdata2     start:0x805E0D90 end:0x805E0DA0
 
-pso/unk/TLobby_803CE1D0.cpp:
+pso/audio/AdxStreamScrollOffset.cpp:
 	.text       start:0x803CE1D0 end:0x803CE1D8
 
 pso/unk/text_803CE1D8.cpp:
@@ -11423,7 +11423,7 @@ pso/unk/TLobby_803CE1E4.cpp:
 pso/unk/text_803CE1F4.cpp:
 	.text       start:0x803CE1F4 end:0x803CE200
 
-pso/unk/TLobby_803CE200.cpp:
+pso/audio/AdxStreamLock.cpp:
 	.text       start:0x803CE200 end:0x803CE240
 
 pso/unk/text_803CE240.cpp:
@@ -11441,10 +11441,10 @@ pso/unk/text_803CE568.cpp:
 	.sbss       start:0x805D7600 end:0x805D7608
 	.sdata2     start:0x805E0DA0 end:0x805E0DB0
 
-pso/unk/TLobby_803CFE68.cpp:
+pso/system/movie/CvFsErrorBridge.cpp:
 	.text       start:0x803CFE68 end:0x803CFEA0
 
-pso/unk/text_803CFEA0.cpp:
+pso/system/movie/Gcci.cpp:
 	.text       start:0x803CFEA0 end:0x803D0DEC
 	.rodata     start:0x8047DAB8 end:0x8047DCF0
 	.data       start:0x804F9D98 end:0x804F9E00
@@ -11452,7 +11452,7 @@ pso/unk/text_803CFEA0.cpp:
 	.sdata      start:0x805D4690 end:0x805D4694
 	.sbss       start:0x805D7608 end:0x805D7614
 
-pso/unk/TLobby_803D0DEC.cpp:
+pso/audio/LscLog.cpp:
 	.text       start:0x803D0DEC end:0x803D0F1C
 	.bss        start:0x80582F58 end:0x80583058
 	.sbss       start:0x805D7618 end:0x805D7620
@@ -11502,7 +11502,7 @@ pso/unk/text_803D2F1C.cpp:
 	.text       start:0x803D2F1C end:0x803D3194
 	.data       start:0x804F9E60 end:0x804FA020
 
-pso/unk/text_803D31A4.cpp:
+pso/audio/CriSvm.cpp:
 	.text       start:0x803D3194 end:0x803D39F8
 	.rodata     start:0x8047DEF0 end:0x8047DF90
 	.bss        start:0x8058B480 end:0x8058B6F0
@@ -11516,25 +11516,25 @@ pso/system/movie/Mfci.cpp:
 	.sbss       start:0x805D7678 end:0x805D7680
 	.sdata2     start:0x805E0DC0 end:0x805E0DC8
 
-pso/unk/TLobby_803D43C8.cpp:
+pso/audio/GcrnaControlBridge.cpp:
 	.text       start:0x803D43C8 end:0x803D4418
 
 pso/unk/text_803D4418.cpp:
 	.text       start:0x803D4418 end:0x803D4428
 
-pso/unk/TLobby_803D4428.cpp:
+pso/audio/GcrnaStatusBridge.cpp:
 	.text       start:0x803D4428 end:0x803D4448
 
 pso/unk/text_803D4448.cpp:
 	.text       start:0x803D4448 end:0x803D4704
 
-pso/unk/TLobby_803D4704.cpp:
+pso/audio/GcrnaChannelBridge.cpp:
 	.text       start:0x803D4704 end:0x803D4714
 
 pso/unk/text_803D4714.cpp:
 	.text       start:0x803D4714 end:0x803D4B68
 
-pso/unk/TLobby_803D4B68.cpp:
+pso/audio/GcrnaBufferQuery.cpp:
 	.text       start:0x803D4B68 end:0x803D4CA0
 
 pso/audio/GcrnaStream.cpp:
@@ -11877,7 +11877,7 @@ pso/unk/text_803F1804.cpp:
 	.text       start:0x803F1804 end:0x803F18B8
 	.sbss       start:0x805D7938 end:0x805D7940
 
-pso/ui/frontend/TAdPlayerLoadGC_803F18B8.cpp:
+pso/system/save/McFsGc.cpp:
 	.text       start:0x803F18B8 end:0x803F339C
 	.rodata     start:0x8047FCD8 end:0x8047FD28
 	.data       start:0x804FCD48 end:0x804FCE38
@@ -11886,7 +11886,7 @@ pso/ui/frontend/TAdPlayerLoadGC_803F18B8.cpp:
 	.sbss       start:0x805D7940 end:0x805D7964
 	.sdata2     start:0x805E10E8 end:0x805E10F8
 
-pso/ui/frontend/TAdPlayerLoadGC_803F339C.cpp:
+pso/system/save/McFsGcRequests.cpp:
 	.text       start:0x803F339C end:0x803F3BF8
 
 pso/unk/text_803F3BF8.cpp:

@@ -21,17 +21,15 @@
 
 extern "C" s32 is_item_area_enabled(s32 area);
 
-
-
 void TUnk_804A2678::emit_marker_effects() {
-    s32 origin;
+    Vec pos;
     if (is_mode_two_and_ready() != 0) {
-        if ((((TObjPlayer *)((u8 *)this->owner + 0x7CC))->get_stage_strike_count() == 0) && (get_joint_position(0, &origin) != 0)) {
-            TTecGiFoie::create(this->owner, &origin, ((TItemWeapon *)this)->get_tp());
+        if ((((TObjPlayer *)&owner->attack_state)->get_stage_strike_count() == 0) && (get_joint_position(0, &pos) != 0)) {
+            TTecGiFoie::create(owner, &pos, get_tp());
             roll_technique();
         }
     } else {
-        ((TItemWeapon *)this)->update_active_game_effect();
+        update_active_game_effect();
     }
 }
 void TUnk_804A2678::on_unequipped() { floor_area = -1; }

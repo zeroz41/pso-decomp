@@ -1,12 +1,8 @@
-#include "types.h"
+#define MUSYX_STREAM_IMPL
+#include <dolphin/os/OSCache.h>
+#include "musyx/runtime/musyx_internal.h"
 
 extern "C" {
-
-typedef u32 (*SND_STREAM_UPDATE_CALLBACK)(void *buffer1, u32 len1, void *buffer2, u32 len2, u32 user);
-
-typedef struct SND_ADPCMSTREAM_INFO {
-    s16 coefTab[8][2];
-} SND_ADPCMSTREAM_INFO;
 
 typedef struct ADPCM_INFO {
     u16 numCoef;
@@ -54,52 +50,6 @@ typedef struct SAMPLE_INFO {
     u32 loopLength;
     u8 compType;
 } SAMPLE_INFO;
-
-typedef struct SynthInfo_Stream {
-    u32 mixFrq;
-    u32 numSamples;
-    u8 pbInfo[0x208];
-    u8 voiceNum;
-    u8 maxMusic;
-    u8 maxSFX;
-    u8 studioNum;
-} SynthInfo_Stream;
-
-typedef struct Voice_Stream {
-    u8 pad0[0xF4];
-    u32 id;
-    u8 padF8[0x404 - 0xF8];
-} Voice_Stream;
-
-extern SynthInfo_Stream synthInfo;
-extern u32 synthFlags;
-extern Voice_Stream *synthVoice;
-
-void hwEnableIrq(void);
-void hwDisableIrq(void);
-void hwSetVolume(u32 v, u8 table, f32 vol, u32 pan, u32 span, f32 auxa, f32 auxb);
-uaddr hwGetStreamPlayBuffer(u8 i);
-void DCInvalidateRange(void *addr, u32 nBytes);
-void hwInitSamplePlayback(u32 v, u16 smpID, void *newsmp, u32 set_defadsr, u32 prio, u32 callbackUserValue, u32 setSRC, u8 itdMode);
-void hwSetPitch(s32 i, u16 v);
-void hwStart(s32, u8);
-void hwFlushStream(u8 *base, u32 offset, u32 len, u8 i, void *cb, void *arg);
-u32 hwGetPos(s32 arg0);
-void hwSetStreamLoopPS(s32 i, u8 v);
-u8 hwInitStream(u32 size);
-void hwExitStream(u8 i);
-u32 voiceBlock(u8 prio);
-void voiceUnblock(s32);
-
-s32 GetPrivateIndex(u32 arg0);
-void CheckOutputMode(s8 *arg0, s8 *arg1);
-u32 sndStreamAllocLength(u32 arg0, u32 arg1);
-void sndStreamMixParameter(u32 stid, u8 vol, u8 pan, u8 span, u8 fxvol);
-void sndStreamMixParameterEx(u32 stid, u8 vol, u8 pan, u8 span, u8 auxa, u8 auxb);
-void sndStreamFrq(u32 stid, u32 frq);
-void sndStreamFree(u32 stid);
-u32 sndStreamActivate(u32 stid);
-void sndStreamDeactivate(u32 stid);
 
 static STREAM_INFO streamInfo[64];
 static u8 streamCallCnt;
@@ -290,7 +240,7 @@ void streamHandle(void) {
                 }
 
                 if (si->state == 2 && !(si->flags & 0x20000) && si->type == 1) {
-                    hwSetStreamLoopPS(si->voice, *(u32 *)((u8 *)si->buffer + 0x40000000) >> 24);
+                    hwSetStreamLoopPS(si->voice, *(u32 *)MUSYX_CACHED_TO_UNCACHED(si->buffer) >> 24);
                 }
             }
         } break;
@@ -303,8 +253,8 @@ void streamCorrectLoops(void) {
 
 }
 
-void streamKill(s32 vi) {
-    STREAM_INFO *r = &streamInfo[vi];
+void streamKill(s32 voice) {
+    STREAM_INFO *r = &streamInfo[voice];
 
     switch (r->state) {
     case 1:
@@ -318,12 +268,12 @@ void streamKill(s32 vi) {
     }
 }
 
-s32 GetPrivateIndex(u32 arg0) {
+s32 GetPrivateIndex(u32 publicID) {
     STREAM_INFO *r = streamInfo;
     s32 i;
 
     for (i = 0; i < 64; r++, i++) {
-        if (r->state != 0 && arg0 == r->stid) {
+        if (r->state != 0 && publicID == r->stid) {
             return i;
         }
     }
@@ -374,21 +324,21 @@ void sndStreamARAMUpdate(u32 stid, u32 off1, u32 len1, u32 off2, u32 len2) {
         }
 
         if (streamInfo[i].type == 1) {
-            hwSetStreamLoopPS(streamInfo[i].voice, *(u32 *)((u8 *)streamInfo[i].buffer + 0x40000000) >> 24);
+            hwSetStreamLoopPS(streamInfo[i].voice, *(u32 *)MUSYX_CACHED_TO_UNCACHED(streamInfo[i].buffer) >> 24);
         }
     }
     hwEnableIrq();
 }
 #pragma pop
 
-void CheckOutputMode(s8 *arg0, s8 *arg1) {
+void CheckOutputMode(s8 *pan, s8 *span) {
     if (synthFlags & 1) {
-        *arg0 = 0x40;
-        *arg1 = 0;
+        *pan = 0x40;
+        *span = 0;
         return;
     }
     if (!(synthFlags & 2)) {
-        *arg1 = 0;
+        *span = 0;
     }
 }
 
@@ -531,11 +481,11 @@ u32 sndStreamAllocEx(u8 prio, void *buffer, u32 samples, u32 frq, u8 vol, u8 pan
 }
 #pragma pop
 
-u32 sndStreamAllocLength(u32 arg0, u32 arg1) {
-    if (arg1 & 1) {
-        return (((arg0 + 13) / 7 * 4 & ~7) + 31) & ~31;
+u32 sndStreamAllocLength(u32 samples, u32 flags) {
+    if (flags & 1) {
+        return (((samples + 13) / 7 * 4 & ~7) + 31) & ~31;
     }
-    return ((arg0 * 2) + 31) & ~31;
+    return ((samples * 2) + 31) & ~31;
 }
 
 #pragma push
@@ -705,9 +655,6 @@ static inline u32 GetPrivateIndex_803AC268(u32 publicID) {
     return -1;
 }
 
-void hwSetPitch(s32 i, u16 v);
-void sndStreamFrq(u32 stid, u32 frq);
-
 static inline void FrqInner_803AC268(u32 stid, u32 frq) {
     u32 i;
     u16 pitch;
@@ -758,10 +705,6 @@ static inline u32 GetPrivateIndex_803AC510(u32 publicID) {
     return -1;
 }
 
-void sndStreamDeactivate(u32 stid);
-void hwExitStream(u8 i);
-void sndStreamFree(u32 stid);
-
 static inline void FreeInner_803AC510(u32 stid) {
     u32 i;
     hwDisableIrq();
@@ -806,8 +749,6 @@ static inline u32 GetPrivateIndex_803AC720(u32 publicID) {
     return -1;
 }
 
-u32 voiceBlock(u8 prio);
-
 u32 sndStreamActivate(u32 stid) {
     u32 i;
     u32 ret = 0;
@@ -848,9 +789,6 @@ static inline u32 GetPrivateIndex_803AC920(u32 publicID) {
     }
     return -1;
 }
-
-void voiceUnblock(s32);
-void sndStreamDeactivate(u32 stid);
 
 static inline void DeactivateInner_803AC920(u32 stid) {
     u32 i;

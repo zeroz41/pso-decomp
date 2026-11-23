@@ -15,7 +15,6 @@ void TUnk_804A4138::vfunc_60() { if (TObjPlayer::get_player_list() == 0) { rotat
 #pragma push
 #pragma fp_contract on
 void TUnk_804A4138::update_attack() {
-    u8 *self = (u8 *)this;
     s32 flag;
     s32 ok;
     s32 lo;
@@ -23,21 +22,21 @@ void TUnk_804A4138::update_attack() {
     f32 speed;
     f32 flo;
     f32 fhi;
-    if (*(void **)((s8 *)self + 0xF0) != NULL) {
-        speed = ((TObjChara *)(*(void **)((s8 *)self + 0xF0)))->get_frame();
-        flag = ((TObjPlayer *)(*(void **)((s8 *)self + 0xF0)))->is_flag_b0_4();
+    if (owner != NULL) {
+        speed = owner->get_frame();
+        flag = owner->is_flag_b0_4();
         ok = 1;
-        if (((TObjPlayer *)(*(void **)((s8 *)self + 0xF0)))->test_action_mask(0x20) != 0) {
+        if (owner->test_action_mask(0x20) != 0) {
             flo = 15.6f;
             lo = 0;
             fhi = 20.4f;
             hi = 0x4000;
-        } else if (((TObjPlayer *)(*(void **)((s8 *)self + 0xF0)))->test_action_mask(0x40) != 0) {
+        } else if (owner->test_action_mask(0x40) != 0) {
             flo = 12.0f;
             lo = 0x4000;
             fhi = 24.0f;
             hi = -0x4000;
-        } else if (((TObjPlayer *)(*(void **)((s8 *)self + 0xF0)))->test_action_mask(0x80) != 0) {
+        } else if (owner->test_action_mask(0x80) != 0) {
             flo = 14.4f;
             lo = -0x4000;
             fhi = 20.0f;
@@ -48,14 +47,14 @@ void TUnk_804A4138::update_attack() {
         if (ok == 1) {
             if (flag == 0) {
                 if (speed < flo) {
-                    this->rotation = lo;
+                    rotation = lo;
                 } else if (flo <= speed && speed <= fhi) {
-                    this->rotation = (s32)((speed - flo) * ((f32)(hi - lo) / (fhi - flo)) + (f32)lo);
+                    rotation = (s32)((speed - flo) * ((f32)(hi - lo) / (fhi - flo)) + (f32)lo);
                 } else {
-                    this->rotation = hi;
+                    rotation = hi;
                 }
             } else {
-                this->rotation = hi;
+                rotation = hi;
             }
         }
     }

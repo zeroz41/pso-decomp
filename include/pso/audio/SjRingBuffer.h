@@ -6,9 +6,9 @@ struct SjRingBuffer;
 struct SjChunk { u8* data; s32 size; };
 typedef void (*SjErrorCallback)(void* context, s32 error);
 struct SjRingBufferInterface {
-    void* field_00;
-    void* field_04;
-    void* field_08;
+    void* pad_00;
+    void* pad_04;
+    void* pad_08;
     void (*destroy)(SjRingBuffer*);
     const u8* (*get_uuid)(SjRingBuffer*);
     void (*reset)(SjRingBuffer*);
@@ -36,9 +36,11 @@ struct SjRingBuffer {
 LAYOUT_ASSERT(SjRingBuffer_size, sizeof(SjRingBuffer)==0x30);
 LAYOUT_ASSERT(SjRingBufferInterface_size, sizeof(SjRingBufferInterface)==0x30);
 
+// --- C functions defined in SjRingBuffer.cpp ---
 extern "C" {
 SjRingBuffer* sj_ring_buffer_create(void* buffer, s32 buffer_size, s32 extra_buffer_size);
 void sj_ring_buffer_destroy(SjRingBuffer* buffer);
+void sj_ring_buffer_error_halt(void* context, s32 error);
 void sj_ring_buffer_reset(SjRingBuffer* buffer);
 void sj_ring_buffer_get_chunk(SjRingBuffer* buffer, s32 side, s32 requested_size, SjChunk* chunk);
 void sj_ring_buffer_unget_chunk(SjRingBuffer* buffer, s32 side, SjChunk* chunk);
@@ -49,48 +51,9 @@ void sj_ring_buffer_set_error_callback(SjRingBuffer* buffer, SjErrorCallback cal
 const u8* sj_ring_buffer_get_uuid(SjRingBuffer* buffer);
 void sj_ring_buffer_init(void);
 void sj_ring_buffer_shutdown(void);
-}
-extern "C" {
 s32 sj_ring_buffer_get_extra_buffer_size(SjRingBuffer* buffer);
 s32 sj_ring_buffer_get_buffer_size(SjRingBuffer* buffer);
 u8* sj_ring_buffer_get_buffer(SjRingBuffer* buffer);
-}
-
-extern "C" {
-SjRingBuffer *sj_ring_buffer_create(void *data, s32 bsize, s32 x24);
-void sj_ring_buffer_destroy(SjRingBuffer *sj_ring_buffer);
-void sj_ring_buffer_error_halt(void *, s32);
-s32 sj_ring_buffer_get_available(SjRingBuffer *sj_ring_buffer, s32 side);
-u8 *sj_ring_buffer_get_buffer(SjRingBuffer *buffer);
-s32 sj_ring_buffer_get_buffer_size(SjRingBuffer *buffer);
-void sj_ring_buffer_get_chunk(SjRingBuffer *r, s32 which, s32 max, SjChunk *out);
-s32 sj_ring_buffer_get_extra_buffer_size(SjRingBuffer *buffer);
-const u8 *sj_ring_buffer_get_uuid(SjRingBuffer *sj_ring_buffer);
-void sj_ring_buffer_init(void);
-bool sj_ring_buffer_is_chunk_available(SjRingBuffer *o, s32 mode, s32 n, s32 *out);
-void sj_ring_buffer_put_chunk(SjRingBuffer *o, s32 mode, SjChunk *b);
-void sj_ring_buffer_reset(SjRingBuffer *sj_ring_buffer);
-void sj_ring_buffer_shutdown(void);
-void sj_ring_buffer_unget_chunk(SjRingBuffer *sj_ring_buffer, s32 side, SjChunk *sj_chunk);
-}
-
-// --- C functions defined in SjRingBuffer.cpp ---
-extern "C" {
-SjRingBuffer *sj_ring_buffer_create(void *data, s32 bsize, s32 x24);
-void sj_ring_buffer_destroy(SjRingBuffer *sj_ring_buffer);
-void sj_ring_buffer_error_halt(void *, s32);
-s32 sj_ring_buffer_get_available(SjRingBuffer *sj_ring_buffer, s32 side);
-u8 *sj_ring_buffer_get_buffer(SjRingBuffer *buffer);
-s32 sj_ring_buffer_get_buffer_size(SjRingBuffer *buffer);
-void sj_ring_buffer_get_chunk(SjRingBuffer *r, s32 which, s32 max, SjChunk *out);
-s32 sj_ring_buffer_get_extra_buffer_size(SjRingBuffer *buffer);
-const u8 *sj_ring_buffer_get_uuid(SjRingBuffer *sj_ring_buffer);
-void sj_ring_buffer_init(void);
-bool sj_ring_buffer_is_chunk_available(SjRingBuffer *o, s32 mode, s32 n, s32 *out);
-void sj_ring_buffer_put_chunk(SjRingBuffer *o, s32 mode, SjChunk *b);
-void sj_ring_buffer_reset(SjRingBuffer *sj_ring_buffer);
-void sj_ring_buffer_shutdown(void);
-void sj_ring_buffer_unget_chunk(SjRingBuffer *sj_ring_buffer, s32 side, SjChunk *sj_chunk);
 }
 // --- end of C functions
 

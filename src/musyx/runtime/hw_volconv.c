@@ -1,6 +1,6 @@
 #include "musyx/runtime/musyx_runtime_a.h"
 
-struct VolInfo_803B8CA0 {
+struct VolInfo {
     f32 volL;
     f32 volR;
     f32 volS;
@@ -12,7 +12,7 @@ struct VolInfo_803B8CA0 {
     f32 volAuxBS;
 };
 
-struct PanInfo_803B8CA0 {
+struct PanInfo {
     u32 pan_i;
     u32 pan_im;
     u32 span_i;
@@ -79,7 +79,7 @@ static f32 pan_tab_dpl2[4] = {
 #pragma auto_inline on
 #pragma opt_common_subs on
 #pragma exceptions off
-inline f32 fmodf_803B8CA0(f32 x, f32 m) {
+inline f32 volFmodf(f32 x, f32 m) {
     f32 a = __fabsf(m);
     f32 b = __fabsf(x);
     if (a > b) {
@@ -90,7 +90,7 @@ inline f32 fmodf_803B8CA0(f32 x, f32 m) {
     }
 }
 
-static void CalcBus_803B8CA0(f32 *vol_tab, f32 *vl, f32 *vr, f32 *vs, f32 vol, PanInfo_803B8CA0 *pi) {
+static void CalcBus(f32 *vol_tab, f32 *vl, f32 *vr, f32 *vs, f32 vol, PanInfo *pi) {
     u32 i;
     f32 f;
     f32 v;
@@ -104,8 +104,8 @@ static void CalcBus_803B8CA0(f32 *vol_tab, f32 *vl, f32 *vr, f32 *vs, f32 vol, P
     *vl = f * ((1.f - pi->pan_fm) * pan_tab[pi->pan_im] + pi->pan_fm * pan_tab[pi->pan_im + 1]);
 }
 
-static void CalcBusDPL2_803B8CA0(f32 *vol_tab, f32 *fvl, f32 *fvr, f32 *rvl, f32 *rvr, f32 vol,
-                                 PanInfo_803B8CA0 *pi) {
+static void CalcBusDPL2(f32 *vol_tab, f32 *fvl, f32 *fvr, f32 *rvl, f32 *rvr, f32 vol,
+                                 PanInfo *pi) {
     u32 i;
     f32 f;
     f32 v;
@@ -123,13 +123,13 @@ static void CalcBusDPL2_803B8CA0(f32 *vol_tab, f32 *fvl, f32 *fvr, f32 *rvl, f32
 }
 
 #pragma exceptions on
-void salCalcVolume(u8 voltab_index, VolInfo_803B8CA0 *vi, f32 vol, u32 pan, u32 span, f32 auxa,
+void salCalcVolume(u8 voltab_index, VolInfo *vi, f32 vol, u32 pan, u32 span, f32 auxa,
                            f32 auxb, u32 itd, u32 dpl2) {
     f32 *vol_tab;
     f32 p;
     f32 sp;
-    f32 rpan_im;
-    PanInfo_803B8CA0 pi;
+    f32 revPan;
+    PanInfo pi;
 
     vol_tab = voltab_index == 0 ? musyx_vol_tab : dspDLSVolTab;
 
@@ -145,35 +145,35 @@ void salCalcVolume(u8 voltab_index, VolInfo_803B8CA0 *vi, f32 vol, u32 pan, u32 
     sp = span * 2.4220301e-07f;
 
     if (dpl2 != 0) {
-        pi.rpan_f = fmodf_803B8CA0(p, 1.f);
+        pi.rpan_f = volFmodf(p, 1.f);
         pi.rpan_i = p;
-        rpan_im = 2.f - p;
-        pi.rpan_fm = fmodf_803B8CA0(rpan_im, 1.f);
-        pi.rpan_im = rpan_im;
+        revPan = 2.f - p;
+        pi.rpan_fm = volFmodf(revPan, 1.f);
+        pi.rpan_im = revPan;
     }
 
     if (itd != 0) {
         p = (p - 1.f) * 0.76604f + 1.f;
     }
 
-    pi.pan_f = fmodf_803B8CA0(p, 1.f);
+    pi.pan_f = volFmodf(p, 1.f);
     pi.pan_i = p;
-    pi.span_f = fmodf_803B8CA0(sp, 1.f);
+    pi.span_f = volFmodf(sp, 1.f);
     pi.span_i = sp;
     p = 2.f - p;
     sp = 2.f - sp;
-    pi.pan_fm = fmodf_803B8CA0(p, 1.f);
+    pi.pan_fm = volFmodf(p, 1.f);
     pi.pan_im = p;
-    pi.span_fm = fmodf_803B8CA0(sp, 1.f);
+    pi.span_fm = volFmodf(sp, 1.f);
     pi.span_im = sp;
 
     if (!dpl2) {
-        CalcBus_803B8CA0(vol_tab, &vi->volL, &vi->volR, &vi->volS, vol, &pi);
-        CalcBus_803B8CA0(vol_tab, &vi->volAuxAL, &vi->volAuxAR, &vi->volAuxAS, auxa, &pi);
-        CalcBus_803B8CA0(vol_tab, &vi->volAuxBL, &vi->volAuxBR, &vi->volAuxBS, auxb, &pi);
+        CalcBus(vol_tab, &vi->volL, &vi->volR, &vi->volS, vol, &pi);
+        CalcBus(vol_tab, &vi->volAuxAL, &vi->volAuxAR, &vi->volAuxAS, auxa, &pi);
+        CalcBus(vol_tab, &vi->volAuxBL, &vi->volAuxBR, &vi->volAuxBS, auxb, &pi);
     } else {
-        CalcBusDPL2_803B8CA0(vol_tab, &vi->volL, &vi->volR, &vi->volAuxBL, &vi->volAuxBR, vol, &pi);
-        CalcBus_803B8CA0(vol_tab, &vi->volAuxAL, &vi->volAuxAR, &vi->volAuxAS, auxa, &pi);
+        CalcBusDPL2(vol_tab, &vi->volL, &vi->volR, &vi->volAuxBL, &vi->volAuxBR, vol, &pi);
+        CalcBus(vol_tab, &vi->volAuxAL, &vi->volAuxAR, &vi->volAuxAS, auxa, &pi);
         vi->volS = 0.f;
         vi->volAuxBS = 0.f;
     }

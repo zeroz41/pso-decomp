@@ -4,7 +4,7 @@
 #include "pso/weapon/TItemWeapon.h"
 #include <dolphin/mtx/GeoTypes.h>
 
-// Weapon class with vtable 0x804A1D30 (old ctor name TObjPlayer::init_state()), made by
+// Weapon class (old ctor name TObjPlayer::init_state()), made by
 // TObjPlayer::create_state.
 class TUnk_804A1D30 : public TItemWeapon {
 public:

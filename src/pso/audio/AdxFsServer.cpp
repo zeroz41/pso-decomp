@@ -5,7 +5,6 @@
 #include "pso/unk/TLobby.h"
 #include "pso/audio/LscStream.h"
 #include "pso/unk/TLobby_803C4698.h"
-#include "pso/unk/TLobby_803CC0B4.h"
 #include "pso/audio/AdxStreamRuntime.h"
 #include "pso/audio/AdxEncoder.h"
 #include "pso/system/RefCountedWorkBuffer.h"
@@ -14,20 +13,20 @@
 #include "pso/unk/text_803CC294.h"
 #include "pso/unk/text_803CE568.h"
 
-s32 lbl_805D7530;
+s32 adxt_fs_svr_phase;
 
 void ADXT_ExecFsSvr(void) {
-    if ((s32) lbl_805D7530 == 0) {
+    if ((s32) adxt_fs_svr_phase == 0) {
         TLobby::init_once();
-        lbl_805D7530 = 1;
+        adxt_fs_svr_phase = 1;
         update_active_stream_reads();
-        lbl_805D7530 = 2;
+        adxt_fs_svr_phase = 2;
         TLobby__sub_803CEF60();
-        lbl_805D7530 = 5;
+        adxt_fs_svr_phase = 5;
         update_active_stream_reads();
-        lbl_805D7530 = 6;
+        adxt_fs_svr_phase = 6;
         TLobby__sub_803CC884();
-        lbl_805D7530 = 0;
+        adxt_fs_svr_phase = 0;
         TLobby::release_ref();
     }
 }

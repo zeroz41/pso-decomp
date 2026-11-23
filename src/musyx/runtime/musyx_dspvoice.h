@@ -3,7 +3,7 @@
 
 #include "types.h"
 
-typedef struct _PB_803B5500 {
+typedef struct DSPVoicePB {
     u8 pad0[0x4];
     u16 currHi;
     u16 currLo;
@@ -14,9 +14,10 @@ typedef struct _PB_803B5500 {
     u16 updateDataHi;
     u16 updateDataLo;
     u8 pad52[0xBC - 0x52];
-} _PB_803B5500;
-typedef struct DSPvoice_803B5500 {
-    _PB_803B5500 *pb;
+} DSPVoicePB;
+
+typedef struct DSPVoice {
+    DSPVoicePB *pb;
     void *patchData;
     void *itdBuffer;
     u8 padC[0x24 - 0xC];
@@ -31,10 +32,13 @@ typedef struct DSPvoice_803B5500 {
     u8 postBreak;
     u8 startupBreak;
     u8 padEF[0xF4 - 0xEF];
-} DSPvoice_803B5500;
+} DSPVoice;
+
+typedef DSPVoicePB _PB_803B5500;
+typedef DSPVoice DSPvoice_803B5500;
 
 extern "C" {
-extern DSPvoice_803B5500 *dspVoice;
+extern DSPVoice *dspVoice;
 }
 
 #endif

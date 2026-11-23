@@ -3,8 +3,4 @@
 
 #include "types.h"
 
-extern "C" {
-void reset_id_array__10TObjPlayerFPv(void *arg0);
-}
-
 #endif

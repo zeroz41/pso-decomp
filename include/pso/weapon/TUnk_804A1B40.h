@@ -3,7 +3,7 @@
 #include "types.h"
 #include "pso/weapon/TItemWeapon.h"
 
-// Weapon class with vtable 0x804A1B40 (old ctor name TObjPlayer__sub_80123904): reserved_53 also
+// Weapon class (old ctor name TObjPlayer__sub_80123904): reserved_53 also
 // draws the second model at joint 0x23. Made by TObjPlayer__sub_80123950.
 class TUnk_804A1B40 : public TItemWeapon {
 public:

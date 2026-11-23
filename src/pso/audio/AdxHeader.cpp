@@ -7,10 +7,45 @@
 
 #include <math.h>
 
-extern "C" {
+static inline s32 adx_parse_header_loop_points_impl(void *ptr, s32 size, u16 *out0, u16 *out1) {
+    AdxHeader *h = (AdxHeader *)ptr;
+    s32 err;
+    u8 ver;
+    if (size < 0x14) {
+        err = -1;
+    } else if (h->magic != 0x8000) {
+        err = -2;
+    } else if (h->header_offset < 0x10) {
+        err = -1;
+    } else {
+        ver = h->version;
+        err = 0;
+    }
+    if (err != 0) {
+        return -1;
+    }
+    if (ver >= 4U) {
+        if (size < 0x20) {
+            return -1;
+        }
+        if (h->magic != 0x8000) {
+            return -2;
+        }
+        if (h->header_offset < 0x1C) {
+            return -1;
+        }
+        out0[0] = h->loop_points[0];
+        out1[0] = h->loop_points[1];
+        out0[1] = h->loop_points[2];
+        out1[1] = h->loop_points[3];
+    } else {
+        out0[0] = out1[0] = out0[1] = out1[1] = 0;
+    }
+    return 0;
+}
 
-s32 TLobby::parse_packet_header_len(s32 size, s16 *out) {
-    AdxPacketHeader *p = (AdxPacketHeader *)this;
+static inline s32 adx_parse_packet_header_len_impl(void *ptr, s32 size, s16 *out) {
+    AdxPacketHeader *p = (AdxPacketHeader *)ptr;
     if (size < 0x10) {
         return -1;
     }
@@ -19,6 +54,12 @@ s32 TLobby::parse_packet_header_len(s32 size, s16 *out) {
     }
     *out = p->len + 4;
     return 0;
+}
+
+extern "C" {
+
+s32 TLobby::parse_packet_header_len(s32 size, s16 *out) {
+    return adx_parse_packet_header_len_impl(this, size, out);
 }
 
 s32 sub_803C46DC(u8 *hdr, s32 size, s32 *o1, s16 *o2, s16 *o3, s32 *o4, s32 *o5, s32 *o6, s32 *o7) {
@@ -31,12 +72,12 @@ s32 sub_803C46DC(u8 *hdr, s32 size, s32 *o1, s16 *o2, s16 *o3, s32 *o4, s32 *o5,
     *o2 = err = 0;
     if (size < 0x14) {
         err = -1;
-    } else if (h->m_00 != 0x8000) {
+    } else if (h->magic != 0x8000) {
         err = -2;
-    } else if (h->m_02 < 0x10) {
+    } else if (h->header_offset < 0x10) {
         err = -1;
     } else {
-        ver = h->m_12;
+        ver = h->version;
     }
     if (err != 0) {
         return err;
@@ -48,65 +89,32 @@ s32 sub_803C46DC(u8 *hdr, s32 size, s32 *o1, s16 *o2, s16 *o3, s32 *o4, s32 *o5,
     if (size < hsz) {
         return -1;
     }
-    if (h->m_00 != 0x8000) {
+    if (h->magic != 0x8000) {
         return -2;
     }
-    if (h->m_02 < hsz - 4) {
+    if (h->header_offset < hsz - 4) {
         return -1;
     }
     off = 0x14;
     if (ver == 4) {
         off = 0x20;
     }
-    *o1 = ((AdxHeaderBlock *)(hdr + off))->m_00;
+    *o1 = ((AdxHeaderBlock *)(hdr + off))->loop_enabled_flag;
     f = (AdxHeaderBlock *)(off + (saddr)hdr);
-    *o2 = f->m_02;
+    *o2 = f->loop_type;
     if (*o2 != 1) {
         return -2;
     }
-    *o3 = f->m_06;
-    *o4 = f->m_08;
-    *o5 = f->m_0C;
-    *o6 = f->m_10;
-    *o7 = f->m_14;
+    *o3 = f->loop_count;
+    *o4 = f->loop_start_sample;
+    *o5 = f->loop_start_offset;
+    *o6 = f->loop_end_sample;
+    *o7 = f->loop_end_offset;
     return 0;
 }
 
 s32 TLobby::parse_header_loop_points(s32 size, u16 *out0, u16 *out1) {
-    AdxHeader *h = (AdxHeader *)this;
-    s32 err;
-    u8 ver;
-    if (size < 0x14) {
-        err = -1;
-    } else if (h->m_00 != 0x8000) {
-        err = -2;
-    } else if (h->m_02 < 0x10) {
-        err = -1;
-    } else {
-        ver = h->m_12;
-        err = 0;
-    }
-    if (err != 0) {
-        return -1;
-    }
-    if (ver >= 4U) {
-        if (size < 0x20) {
-            return -1;
-        }
-        if (h->m_00 != 0x8000) {
-            return -2;
-        }
-        if (h->m_02 < 0x1C) {
-            return -1;
-        }
-        out0[0] = h->m_18[0];
-        out1[0] = h->m_18[1];
-        out0[1] = h->m_18[2];
-        out1[1] = h->m_18[3];
-    } else {
-        out0[0] = out1[0] = out0[1] = out1[1] = 0;
-    }
-    return 0;
+    return adx_parse_header_loop_points_impl(this, size, out0, out1);
 }
 
 s32 TLobby__sub_803C48C8(u8 *hdr, s32 size, u16 *out) {
@@ -114,13 +122,13 @@ s32 TLobby__sub_803C48C8(u8 *hdr, s32 size, u16 *out) {
     if (size < 0x12) {
         return -1;
     }
-    if (h->m_00 != 0x8000) {
+    if (h->magic != 0x8000) {
         return -2;
     }
-    if (h->m_02 < 0xE) {
+    if (h->header_offset < 0xE) {
         return -1;
     }
-    *out = h->m_10;
+    *out = h->flags;
     return 0;
 }
 
@@ -145,24 +153,24 @@ s32 sub_803C4910(u8 *hdr, s32 size, s16 *len, u8 *out_0C, s8 *bits, s8 *block_by
     }
     return 0;
 }
-}
 
-s32 TLobby::find_terminator_index(s16 *arg0, s32 arg1, s16 *arg2) {
-    s16 *p = arg0;
+s32 TLobby::find_terminator_index(s16 *samples, s32 count, s16 *out_index) {
+    s16 *p = samples;
     s32 i;
     s32 best = 0x7FFFFFFF;
-    for (i = 0; i < arg1 - 1; i += 2, p++) {
+    for (i = 0; i < count - 1; i += 2, p++) {
         if (*p == -0x8000) {
             best = (i < 0x7FFFFFFF) ? i : 0x7FFFFFFF;
             break;
         }
     }
     if (best != 0x7FFFFFFF) {
-        *arg2 = best;
+        *out_index = best;
         return 0;
     }
-    *arg2 = 0;
+    *out_index = 0;
     return -1;
+}
 }
 
 #pragma push

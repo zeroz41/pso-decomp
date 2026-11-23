@@ -3,7 +3,7 @@
 #include "types.h"
 #include "pso/weapon/TItemWeapon.h"
 
-// The Yasminkov 9000M weapon class (vtable 0x804A6AD8; old names
+// The Yasminkov 9000M weapon class (old names
 // yasminkov_9000m_*): two guns, the second drawn at joint 35 by reserved_53.
 // emit_marker_effects fires a shot from each muzzle and starts the slide,
 // update_weapon moves slide.y and ejects a casing per gun; the model hook (slot 60)

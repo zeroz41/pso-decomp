@@ -3,7 +3,7 @@
 #include "types.h"
 #include "pso/weapon/TItemWeapon.h"
 
-// The Sealed J-Sword weapon class (vtable 0x804A5930; old names
+// The Sealed J-Sword weapon class (old names
 // TObjPlayer::update_weapon_kill_count, sealed_j_sword_start_timers,
 // TObjPlayer__sub_8012D620): counts the owner's kills into the item's kill
 // counter and becomes the unsealed sword (item code 00 32 00) on use once

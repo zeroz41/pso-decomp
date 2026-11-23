@@ -1,11 +1,10 @@
 // CRI adx_crs.c: the ADX critical section (ADXCRS_Unlock, ADXCRS_Lock, ADXCRS_Init).
 #include "types.h"
 #include "pso/audio/AdxLock.h"
-#include "pso/unk/text_803D31A4.h"
+#include "pso/audio/CriSvm.h"
 #include "pso/unk/TLobby.h"
 #include "pso/audio/LscStream.h"
 #include "pso/unk/TLobby_803C4698.h"
-#include "pso/unk/TLobby_803CC0B4.h"
 #include "pso/audio/AdxStreamRuntime.h"
 #include "pso/audio/AdxEncoder.h"
 #include "pso/system/RefCountedWorkBuffer.h"
@@ -18,18 +17,18 @@
 s32 init_ref_count;
 
 void TLobby::release_ref() {
-    s32 temp_r0;
+    s32 depth;
 
-    temp_r0 = init_ref_count - 1;
-    init_ref_count = temp_r0;
-    if (temp_r0 == 0) {
-        TLobby__sub_803D3988();
+    depth = init_ref_count - 1;
+    init_ref_count = depth;
+    if (depth == 0) {
+        svm_unlock();
     }
 }
 
 void TLobby::init_once() {
     if ((s32) init_ref_count == 0) {
-        TLobby__sub_803D39C0();
+        svm_lock();
     }
     init_ref_count += 1;
 }

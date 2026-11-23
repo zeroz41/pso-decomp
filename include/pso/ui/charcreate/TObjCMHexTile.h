@@ -14,10 +14,10 @@ public:
 
     s32 state;
     s32 state_end_frame[3];
-    vec2f m_2c;
+    vec2f drift_offset;
     vec2f offset;
     vec2f pos;
-    f32 m_44;
+    f32 scale_rate;
     f32 scale;
     f32 alpha;
     s32 frame;

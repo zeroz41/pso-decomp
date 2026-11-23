@@ -1,28 +1,30 @@
-#include "musyx/runtime/musyx_runtime_b.h"
+#pragma dont_inline on
+#include <dolphin/ar.h>
+#include <dolphin/os/OSCache.h>
+#include <dolphin/os/OSInterrupt.h>
+#include "musyx/runtime/musyx_internal.h"
 
 extern "C" {
 
-static ARAMTransferQueue_803BDCD0 aramQueueLo;
-static ARAMTransferQueue_803BDCD0 aramQueueHi;
-static StreamBuffer_803BDCD0 aramStreamBuffers[64];
+static ARAMTransferQueue aramQueueLo;
+static ARAMTransferQueue aramQueueHi;
+static ARAMStreamBuffer aramStreamBuffers[64];
 
 u32 aramTop;
 u32 aramWrite;
 u32 aramStream;
-RecoveredCallback_fa840eeea008 aramUploadCallback;
+ARAMUploadCallback aramUploadCallback;
 u32 aramUploadChunkSize; // MusyX hw_aramdma.c name
-StreamBuffer_803BDCD0 *aramUsedStreamBuffers;
-StreamBuffer_803BDCD0 *aramFreeStreamBuffers;
-StreamBuffer_803BDCD0 *aramIdleStreamBuffers;
-#define lbl_8056E158 (*(AramQueues_803BDCD0 *)&aramQueueLo)
-#define lbl_8056E3DC (*(Obj_803BDCB8 *)&aramQueueHi)
+ARAMStreamBuffer *aramUsedStreamBuffers;
+ARAMStreamBuffer *aramFreeStreamBuffers;
+ARAMStreamBuffer *aramIdleStreamBuffers;
 
 void aramQueueCallback(uaddr ptr) {
     u32 i;
-    ARQRequest_803BDCD0 *arq;
-    ARAMTransferQueue_803BDCD0 *aramQueue;
+    ARQRequest *arq;
+    ARAMTransferQueue *aramQueue;
 
-    arq = (ARQRequest_803BDCD0 *)ptr;
+    arq = (ARQRequest *)ptr;
     aramQueue = arq->priority == 1 ? &aramQueueHi : &aramQueueLo;
     for (i = 0; i < 16; ++i) {
         if (arq == &aramQueue->queue[i].arq && aramQueue->queue[i].callback) {
@@ -33,25 +35,27 @@ void aramQueueCallback(uaddr ptr) {
 }
 
 void aramUploadData(u8 *src, u32 dst, u32 len, s32 dir, void *cb, void *arg) {
-    Q_803BDAE4 *q;
+    ARAMTransferQueue *q;
     s32 lvl;
-    q = (u32)dir != 0 ? (Q_803BDAE4 *)&lbl_8056E3DC : (Q_803BDAE4 *)&lbl_8056E158;
+    q = (u32)dir != 0 ? &aramQueueHi : &aramQueueLo;
     while (1) {
         lvl = OSDisableInterrupts();
-        if (q->count < 16) {
-            q->reqs[q->wp].owner = 0x2A;
-            q->reqs[q->wp].type = 0;
-            q->reqs[q->wp].prio = (u32)dir != 0 ? 1 : 0;
-            q->reqs[q->wp].src = src;
-            q->reqs[q->wp].dst = dst;
-            q->reqs[q->wp].len = len;
-            q->reqs[q->wp].cb = (void *)aramQueueCallback;
-            q->reqs[q->wp].f20 = cb;
-            q->reqs[q->wp].f24 = arg;
-            ARQPostRequest(&q->reqs[q->wp], q->reqs[q->wp].owner, q->reqs[q->wp].type, q->reqs[q->wp].prio,
-                           q->reqs[q->wp].src, q->reqs[q->wp].dst, q->reqs[q->wp].len, q->reqs[q->wp].cb);
-            q->count++;
-            q->wp = (q->wp + 1) % 16;
+        if (q->valid < 16) {
+            q->queue[q->write].arq.owner = 0x2A;
+            q->queue[q->write].arq.type = 0;
+            q->queue[q->write].arq.priority = (u32)dir != 0 ? 1 : 0;
+            q->queue[q->write].arq.source = (uaddr)src;
+            q->queue[q->write].arq.dest = dst;
+            q->queue[q->write].arq.length = len;
+            q->queue[q->write].arq.callback = aramQueueCallback;
+            q->queue[q->write].callback = (ARAMTransferCallback)cb;
+            q->queue[q->write].user = (u32)arg;
+            ARQPostRequest(&q->queue[q->write].arq, q->queue[q->write].arq.owner,
+                           q->queue[q->write].arq.type, q->queue[q->write].arq.priority,
+                           q->queue[q->write].arq.source, q->queue[q->write].arq.dest,
+                           q->queue[q->write].arq.length, q->queue[q->write].arq.callback);
+            q->valid++;
+            q->write = (q->write + 1) % 16;
             OSRestoreInterrupts(lvl);
             return;
         }
@@ -60,7 +64,7 @@ void aramUploadData(u8 *src, u32 dst, u32 len, s32 dir, void *cb, void *arg) {
 }
 
 void aramSyncTransferQueue(void) {
-    while (lbl_8056E158.lo.valid != 0) {
+    while (aramQueueLo.valid != 0) {
     }
 }
 
@@ -69,12 +73,12 @@ void aramSyncTransferQueue(void) {
 #pragma bool off
 #pragma dont_inline off
 #pragma inline_depth(4)
-static inline void aramQueueInit_803BDCD0(void) {
+static inline void aramQueueInit(void) {
     aramQueueLo.write = aramQueueLo.valid = 0;
     aramQueueHi.write = aramQueueHi.valid = 0;
 }
 
-static inline void aramSyncTransferQueue_803BDCD0(void) {
+static inline void aramSyncTransferQueueInline(void) {
     while (aramQueueLo.valid != 0) {
     }
 }
@@ -93,9 +97,9 @@ void aramInit(u32 length) {
     }
 
     DCFlushRange(tmpMem, sizeof(s16) * 640);
-    aramQueueInit_803BDCD0();
+    aramQueueInit();
     aramUploadData((u8 *)tmpMem, aramBase, sizeof(s16) * 640, 0, 0, 0);
-    aramSyncTransferQueue_803BDCD0();
+    aramSyncTransferQueueInline();
     salFree((saddr)tmpMem);
     aramTop = aramBase + length;
     if (aramTop > ARGetSize()) {
@@ -121,7 +125,7 @@ s32 aramStoreData(u8 *src, u32 size) {
     start = aramWrite;
     if (aramUploadCallback == 0) {
         DCFlushRange(src, len);
-        aramUploadData((u8 *)(src), (u32)(aramWrite), (u32)(len), (s32)(0), (void *)(0), (void *)(0));
+        aramUploadData(src, aramWrite, len, 0, 0, 0);
         aramWrite += len;
         return start;
     } else {
@@ -129,7 +133,7 @@ s32 aramStoreData(u8 *src, u32 size) {
             chunk = len >= aramUploadChunkSize ? aramUploadChunkSize : len;
             buf = aramUploadCallback(src, chunk);
             DCFlushRange(buf, chunk);
-            aramUploadData((u8 *)(buf), (u32)(aramWrite), (u32)(chunk), (s32)(0), (void *)(0), (void *)(0));
+            aramUploadData(buf, aramWrite, chunk, 0, 0, 0);
             len -= chunk;
             src += chunk;
             aramWrite += chunk;
@@ -138,8 +142,8 @@ s32 aramStoreData(u8 *src, u32 size) {
     return start;
 }
 
-void aramRemoveData(s32 arg0, s32 arg1) {
-    aramWrite -= (arg1 + 0x1F) & 0xFFFFFFE0;
+void aramRemoveData(s32 addr, s32 size) {
+    aramWrite -= (size + 0x1F) & 0xFFFFFFE0;
 }
 
 void InitStreamBuffers(void) {
@@ -155,9 +159,9 @@ void InitStreamBuffers(void) {
 }
 
 u8 aramAllocateStreamBuffer(u32 len) {
-    StreamBuffer_803BDCD0 *p;
-    StreamBuffer_803BDCD0 *found;
-    StreamBuffer_803BDCD0 *prev;
+    ARAMStreamBuffer *p;
+    ARAMStreamBuffer *found;
+    ARAMStreamBuffer *prev;
     u32 best;
     u32 size;
     p = aramFreeStreamBuffers;
@@ -213,10 +217,10 @@ u32 aramGetStreamBufferAddress(u8 i, u32 *out) {
 }
 
 void aramFreeStreamBuffer(u8 id) {
-    StreamBuffer_803BDCD0 *fSb;
-    StreamBuffer_803BDCD0 *sb;
-    StreamBuffer_803BDCD0 *lastSb;
-    StreamBuffer_803BDCD0 *nextSb;
+    ARAMStreamBuffer *fSb;
+    ARAMStreamBuffer *sb;
+    ARAMStreamBuffer *lastSb;
+    ARAMStreamBuffer *nextSb;
     u32 minAddr;
 
     fSb = &aramStreamBuffers[id];

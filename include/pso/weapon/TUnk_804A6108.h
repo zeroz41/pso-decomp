@@ -3,7 +3,7 @@
 #include "types.h"
 #include "pso/weapon/TItemWeapon.h"
 
-// Weapon class with vtable 0x804A6108 (old ctor name init_effect_state): update_weapon
+// Weapon class (old ctor name init_effect_state): update_weapon
 // spins rotation_z; the model hook (slot 60) turns model 1 by it and model 2 the
 // other way. Made by TObjPlayer__sub_8012EFAC.
 class TUnk_804A6108 : public TItemWeapon {

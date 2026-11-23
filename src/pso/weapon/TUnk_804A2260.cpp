@@ -17,46 +17,34 @@
 #include "pso/player/TObjPlayer_803E1A58.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/CapturedTargetList.h"
+#include "pso/map/CsnQuery.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/player/TObjPlayer_801D2E20.h"
 
-struct Hit_80124C90 { u8 pad0[4]; Vec *pos; };
+extern "C" f32 *get_weapon_range_record(void *, s32);
 
-struct Part_80124C90 { u8 pad0[0x1C]; Vec v; u8 pad28[4]; };
-
-struct Tgt_80124C90 { u8 pad0[0xA4]; Part_80124C90 *parts; };
-
-struct Pl_80124C90 { u8 pad0[0x38]; Vec pos38; u8 pad44[0x60 - 0x44]; s32 angle; u8 pad64[0x2FC - 0x64]; Vec pos; };
-
-struct Me_80124C90 { u8 pad0[0xF0]; Pl_80124C90 *pl; u8 padf4[0x1E4 - 0xF4]; f32 scale; };
-
-extern "C" {
-Hit_80124C90 *csnVector(void *, void *, int);
-}
-extern "C" {
-f32 *get_weapon_range_record(void *, s32);
-s32 transform_point_by_current_matrix(void *, void *);
 void TUnk_804A2260::sub_80124C90() {
-    Me_80124C90 *me = (Me_80124C90 *)this;
     CapturedTargetList *ext;
     Vec *pos;
     CapturedTarget *e;
-    Tgt_80124C90 *t;
+    TObjChara *t;
     s32 found;
     DelayedWeaponHit atk;
     s32 i;
-    Hit_80124C90 *hit;
-    ext = ((TObjPlayer *)(me->pl))->get_extended_state();
+    CsnHit *hit;
+    ext = (CapturedTargetList *)owner->get_extended_state();
     if (ext == NULL) {
         return;
     }
     found = 0;
-    pos = &me->pl->pos;
+    pos = &owner->body_center;
     Vec dst = *pos;
     if (ext->get_captured_target_count() != 0) {
         e = ext->get_captured_target_entry(ext->get_captured_target_count() - 1);
-        t = (Tgt_80124C90 *)resolve_hittable_target(e->get_uid(), e->get_captured_target_collider_index());
+        t = resolve_hittable_target(e->get_uid(), e->get_captured_target_collider_index());
         if (t != NULL) {
-            Part_80124C90 *pp = &t->parts[e->get_captured_target_collider_index()];
-            VecCopy((Vec *)&dst, (const Vec *)&pp->v);
+            CollisionBody *pp = &t->bodies[e->get_captured_target_collider_index()];
+            VecCopy(&dst, &pp->center);
             found = 1;
         }
     }
@@ -66,36 +54,36 @@ void TUnk_804A2260::sub_80124C90() {
         f32 *r1 = get_weapon_range_record(this, 2);
         off.x = off.y = 0.0f;
         off.z = *r1;
-        rotate_matrix_y(0, me->pl->angle);
-        transform_point_by_current_matrix(&off, &dst);
+        rotate_matrix_y(0, owner->rotation_y);
+        transform_point_by_current_matrix(&off.x, &dst);
         pop_matrix();
         vec3_add_to(&dst, pos);
     }
     hit = csnVector(pos, &dst, 0x8100);
     if (hit != NULL) {
-        xyz_distance(pos, hit->pos);
+        xyz_distance(pos, &hit->contact->point);
     } else {
         xyz_distance(pos, &dst);
     }
     for (i = 0; i != ext->get_captured_target_count(); i++) {
         e = ext->get_captured_target_entry(i);
-        t = (Tgt_80124C90 *)resolve_hittable_target(e->get_uid(), e->get_captured_target_collider_index());
+        t = resolve_hittable_target(e->get_uid(), e->get_captured_target_collider_index());
         if (t != NULL) {
-            Part_80124C90 *part = &t->parts[e->get_captured_target_collider_index()];
+            CollisionBody *part = &t->bodies[e->get_captured_target_collider_index()];
             CapturedTarget *e2 = ext->get_captured_target_entry(i);
             atk.reserved = 0;
             atk.kind = 1;
-            atk.source = ((TObjBase *)(me->pl))->get_entity_id();
-            atk.target = ((TObjBase *)(t))->get_entity_id();
-            atk.weapon = this->get_item_id();
+            atk.source = owner->get_entity_id();
+            atk.target = t->get_entity_id();
+            atk.weapon = get_item_id();
             atk.collider = e2->get_captured_target_collider_index();
-            atk.damage = ((TObjPlayer *)me->pl)->query_extended_state();
-            spawn_item_attacker(tl_05, &me->pl->pos38, (s32)(xyz_distance(pos, &part->v) / me->scale), &atk);
+            atk.damage = owner->query_extended_state();
+            spawn_item_attacker(tl_05, &owner->position, (s32)(xyz_distance(pos, &part->center) / shot_speed), &atk);
         }
     }
     {
         f32 *rec = get_weapon_range_record(this, 2);
-        s32 ang = me->pl->angle;
+        s32 ang = owner->rotation_y;
         Vec o;
         Vec v;
         for (i = 0; i != 4; i++, ang += 0x4000) {
@@ -103,25 +91,25 @@ void TUnk_804A2260::sub_80124C90() {
             v.x = v.y = 0.0f;
             v.z = *rec;
             rotate_matrix_y(0, ang);
-            transform_point_by_current_matrix(&v, &o);
+            transform_point_by_current_matrix(&v.x, &o);
             vec3_add_to(&o, pos);
             pop_matrix();
             hit = csnVector(pos, &o, 0x8100);
             if (hit != NULL) {
-                VecCopy((Vec *)&o, (const Vec *)hit->pos);
+                VecCopy(&o, &hit->contact->point);
             }
-            create_lavis_shot(this, pos, &o, xyz_distance(pos, &o) / me->scale);
+            create_lavis_shot(this, pos, &o, xyz_distance(pos, &o) / shot_speed);
         }
     }
 }
 void TUnk_804A2260::emit_marker_effects() {
     if (is_mode_two_and_ready() != 0) {
-        if (((TObjPlayer *)((u8 *)this->owner + 0x7CC))->get_stage_strike_count() == 0) {
-            ((TItemWeapon *)this)->drain_owner_hp_fraction(0.05f);
+        if (((TObjPlayer *)&owner->attack_state)->get_stage_strike_count() == 0) {
+            drain_owner_hp_fraction(0.05f);
             sub_80124C90();
         }
     } else {
-        ((TItemWeapon *)this)->update_active_game_effect();
+        update_active_game_effect();
     }
 }
 
@@ -145,8 +133,6 @@ void TUnk_804A2260::update_weapon() {
     rotation_z += 0xAAA;
 }
 
-}
-
 TUnk_804A2260::~TUnk_804A2260() {
 
 }
@@ -165,5 +151,5 @@ TItem *TObjPlayer::create_state_80125154(u8 *item) {
 }
 
 
-s16 TObjPlayer::get_stage_strike_count() { return *(s16*)((char*)this + 0x12); }
+s16 TObjPlayer::get_stage_strike_count() { return ((s16 *)this)[9]; }
 

@@ -1,10 +1,7 @@
 #include "pso/system/MiddlewareInterruptLock.h"
 #include "types.h"
+#include <dolphin/os/OSInterrupt.h>
 
-extern "C" {
-s32 OSDisableInterrupts(void);
-s32 OSRestoreInterrupts(s32 level);
-}
 extern volatile s32 middleware_interrupt_lock_depth;
 extern s32 middleware_saved_interrupt_state;
 

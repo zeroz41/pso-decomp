@@ -3,7 +3,7 @@
 #include "types.h"
 #include "pso/weapon/TItemWeapon.h"
 
-// The base of the weapons whose tables run 0x804E1CA8-0x804E23F0 (all in
+// The base of the weapons in this group (all in
 // TObjPlayer_802D5174.cpp): two callbacks it hands to the effect descriptor.
 class TUnk_804E23F0 : public TItemWeapon {
 public:

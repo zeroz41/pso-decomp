@@ -3,7 +3,7 @@
 #include "types.h"
 #include "pso/weapon/TUnk_804A4948.h"
 
-// The S-rank Harisen weapon class (vtable 0x804A3E20), the S-rank form of
+// The S-rank Harisen weapon class, the S-rank form of
 // TUnk_804A2E80: vfunc_62 flattens the fan, update_weapon grows it back.
 class TUnk_804A3E20 : public TUnk_804A4948 {
 public:

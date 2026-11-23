@@ -11,6 +11,6 @@ public:
     virtual void update_weapon();
 };
 
-TItem *create_morning_glory(u8 *arg0);
+TItem *create_morning_glory(u8 *item);
 
 #endif

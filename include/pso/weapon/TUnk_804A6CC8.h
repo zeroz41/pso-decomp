@@ -3,7 +3,7 @@
 #include "types.h"
 #include "pso/weapon/TItemWeapon.h"
 
-// The Yasminkov 2000H weapon class (vtable 0x804A6CC8; old names
+// The Yasminkov 2000H weapon class (old names
 // yasminkov_2000h_node_callback, yasminkov_2000h_ct): update_attack and
 // update_idle show or shrink model node 2 (scale), emit_marker_effects
 // starts the slide and update_weapon moves slide.y and ejects a casing; the

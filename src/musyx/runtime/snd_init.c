@@ -2,13 +2,12 @@
 
 extern "C" {
 
-#define synthInfo (*(SynthInfo_803BAB54 *)&synthInfo)
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(4)
 #pragma auto_inline on
 #pragma opt_common_subs on
-static inline s32 DoInit_803BAB54(u32 mixFrq, uaddr aramSize, u32 numVoices, u32 flags) {
+static inline s32 DoInit(u32 mixFrq, uaddr aramSize, u32 numVoices, u32 flags) {
     u32 ret;
     ret = 0;
     dataInitStack();
@@ -41,7 +40,7 @@ s32 sndInit(u8 voices, u8 music, u8 sfx, u8 studios, u32 flags, u32 aramSize) {
     synthInfo.maxSFX = sfx;
     frq = 32000;
     if ((ret = hwInit(&frq, synthInfo.voiceNum, synthInfo.studioNum, flags)) == 0) {
-        ret = DoInit_803BAB54(32000, aramSize, synthInfo.voiceNum, flags);
+        ret = DoInit(32000, aramSize, synthInfo.voiceNum, flags);
     }
     return ret;
 }

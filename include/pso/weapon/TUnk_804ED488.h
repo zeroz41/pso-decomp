@@ -12,6 +12,6 @@ public:
     virtual void init_weapon_effect_descriptor(Desc_8011E5C4 *desc);
 };
 
-TItem *create_dark_flow(u8 *arg0);
+TItem *create_dark_flow(u8 *item);
 
 #endif

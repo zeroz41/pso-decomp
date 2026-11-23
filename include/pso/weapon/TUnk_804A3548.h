@@ -4,7 +4,7 @@
 #include "pso/weapon/TItemWeapon.h"
 
 // The weapon class whose emit_marker_effects launches TTecFoie at joint 1
-// (vtable 0x804A3548). Made by TObjPlayer::create_vtable_804A3548.
+// Made by TObjPlayer::create_vtable_804A3548.
 class TUnk_804A3548 : public TItemWeapon {
 public:
     virtual ~TUnk_804A3548();

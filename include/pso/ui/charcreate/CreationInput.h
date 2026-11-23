@@ -4,7 +4,7 @@
 #include "types.h"
 
 struct CreationInputState {
-    s32 m_0;
+    s32 reserved_0;
     s32 repeat_direction;
     s32 repeat_frames;
     s32 held_buttons;
@@ -15,7 +15,7 @@ struct CreationInputState {
 LAYOUT_ASSERT(CreationInputState_size, sizeof(CreationInputState) == 0x18);
 
 extern CreationInputState creation_input_state;
-extern CreationInputState lbl_80465150;
+extern CreationInputState default_creation_input_state;
 
 __declspec(section ".sdata2") extern const f32 creation_stick_range;
 __declspec(section ".sdata2") extern const f32 creation_stick_dead_zone;

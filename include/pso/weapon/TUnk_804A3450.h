@@ -4,7 +4,7 @@
 #include "pso/weapon/TItemWeapon.h"
 
 // The weapon class whose emit_marker_effects casts Jellen or, with TP,
-// Zalure (vtable 0x804A3450). Made by TObjPlayer::create_substate_b.
+// Zalure. Made by TObjPlayer::create_substate_b.
 class TUnk_804A3450 : public TItemWeapon {
 public:
     virtual void on_equipped();

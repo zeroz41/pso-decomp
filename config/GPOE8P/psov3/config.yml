@@ -708,9 +708,9 @@ force_active:
   - __as__14TRecvInfoBoardFRC14TRecvInfoBoard
   - __ct__18TSymbolChatCaptureFP7TObject
   - TLobby__sub_803C4698
-  - TLobby__sub_803CBE40
+  - adx_bridge_apply_field
   - TLobby__sub_803CE2A0
-  - TLobby__sub_803D346C
+  - svm_invoke_single_callback
   - gvm_stream_begin
   - gvm_stream_read
   - gvm_stream_seek
@@ -8224,8 +8224,8 @@ force_active:
   - epsilon_zero_vector
   - lbl_80543A90
   - lbl_805470AC
-  - lbl_80549748
-  - lbl_8054AB48
+  - seqNote
+  - seqInstance
   - aix_demuxer_pool
   - aix_player_pool
   - lbl_8058DC00
@@ -8314,7 +8314,7 @@ force_active:
   - TObjBoss5PillarCtrl__name
   - TChCrLoadGmNjReq__name
   - TChCrLoadReq__name
-  - TObjCMHexTile__name
+  - cm_hex_tile_name
   - TBoss6PlotFalz__name
   - TBoss6EmptyWarp__name
   - TOTrapChainSawKey__name
@@ -8427,14 +8427,14 @@ force_active:
   - lbl_805D718C
   - lbl_805D72D8
   - lbl_805D72DC
-  - lbl_805D7360
-  - lbl_805D7364
-  - lbl_805D7368
-  - lbl_805D736C
-  - lbl_805D7370
-  - lbl_805D7374
-  - lbl_805D7378
-  - lbl_805D737C
+  - seqCurrent
+  - seqNoteFree
+  - seqCurrentId
+  - seqFadeOutActive
+  - seqPublicId
+  - seqFreeList
+  - seqPausedList
+  - seqActiveList
   - lbl_805D73D0
   - lbl_805D73D2
   - lbl_805D73D4
@@ -8453,8 +8453,8 @@ force_active:
   - lbl_805D740C
   - lbl_805D7410
   - lbl_805D7418
-  - lbl_805D741C
-  - lbl_805D7420
+  - macActiveList
+  - macTimeQueue
   - lbl_805D7428
   - lbl_805D7430
   - lbl_805D7438
@@ -8509,7 +8509,7 @@ force_active:
   - lbl_805D750C
   - lbl_805D75D0
   - lbl_805D75F0
-  - lbl_805D7610
+  - gcci_init_guard
   - lbl_805D76A8
   - lbl_805D76C8
   - lbl_805D76CC
@@ -14615,7 +14615,7 @@ force_active:
   - reset_globals__15TObjEneDelDepthFv
   - reset_gstream_buffer
   - reset_hp__20TContainerAncient01RFv
-  - reset_id_array__10TObjPlayerFPv
+  - reset__21EquippedItemDrawQueueFv
   - reset_if_door_closed__15TObjLazerFence4Fv
   - reset_inactive_keys__16KeyboardKeyStateFv
   - reset_indices__11TBoss6Type2Fv

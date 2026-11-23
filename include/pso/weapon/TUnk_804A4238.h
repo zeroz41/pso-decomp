@@ -11,5 +11,6 @@ public:
 };
 
 TItem *create_s_rank_j_cutter_weapon(u8 *item);
+void enlarge_s_rank_j_cutter_blade(void *object);
 
 #endif

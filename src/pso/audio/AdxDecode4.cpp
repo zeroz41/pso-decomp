@@ -4,29 +4,25 @@
 #include "pso/unk/TLobby.h"
 #include "pso/unk/TLobby_803C4698.h"
 
-struct AdxFrame {
-    s16 scale;
-    s8 nibbles[16];
-};
-
-
 // Sign-extend the low four bits in the same way as the high nibble.
 extern const s32 adx_signed_nibbles[16] = {
     0, 1, 2, 3, 4, 5, 6, 7, -8, -7, -6, -5, -4, -3, -2, -1,
 };
 
-s32 lbl_805D7520;
+s32 adx_decode4_downmix_mode;
 
 void TLobby::set_global_805D7520(s32 mode) {
-    lbl_805D7520 = mode;
+    adx_decode4_downmix_mode = mode;
 }
 
+typedef s32 (*AdxDecodeTrampoline)(void);
+
 void TLobby::dispatch_receive_update() {
-    if (lbl_805D7520 == 0) {
-        ((s32 (*)())decode_adx_stereo)();
+    if (adx_decode4_downmix_mode == 0) {
+        ((AdxDecodeTrampoline)decode_adx_stereo)();
         return;
     }
-    ((s32 (*)())decode_adx_stereo_downmix)();
+    ((AdxDecodeTrampoline)decode_adx_stereo_downmix)();
 }
 
 #define ADX_CLIP16(v)                    \

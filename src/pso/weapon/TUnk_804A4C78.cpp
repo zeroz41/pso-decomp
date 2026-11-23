@@ -14,19 +14,11 @@ s32 TObjPlayer::is_rand_below_threshold() {
 }
 
 
-struct Obj_8012AFF8 {
-    u8 pad0[0xF4];
-    s32 unkF4;
-    u8 padF8[0x188 - 0xF8];
-    s32 unk188;
-};
-
-
 void TUnk_804A4C78::reserved_53() {
     s32 saved;
-    s32 savedF4;
+    NJS_OBJECT *saved_model;
     saved = sub_8012B1F8();
-    savedF4 = ((Obj_8012AFF8 *)this)->unkF4;
+    saved_model = item_model;
     if (((TObjPlayer *)this)->is_rand_below_threshold() == 0) {
         sub_8012B1F0(8);
         item_render_state.set(4);
@@ -35,7 +27,7 @@ void TUnk_804A4C78::reserved_53() {
     if (sub_8012B1F8() != 8) {
         update_trail_slot(0);
     }
-    ((Obj_8012AFF8 *)this)->unkF4 = ((Obj_8012AFF8 *)this)->unk188;
+    item_model = second_model;
     if (((TObjPlayer *)this)->is_rand_below_threshold() == 0) {
         sub_8012B1F0(8);
         item_render_state.set(4);
@@ -46,7 +38,7 @@ void TUnk_804A4C78::reserved_53() {
     if (sub_8012B1F8() != 8) {
         update_trail_slot(1);
     }
-    ((Obj_8012AFF8 *)this)->unkF4 = savedF4;
+    item_model = saved_model;
     sub_8012B1F0(saved);
 }
 

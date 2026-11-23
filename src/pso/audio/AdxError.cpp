@@ -2,17 +2,17 @@
 #include "types.h"
 #include <string.h>
 #include "pso/unk/TLobby.h"
+#include "pso/audio/CriSvm.h"
 
 extern "C" {
 AdxMessageCallback lobby_error_callback;
 s32 tlobby_error_callback_arg;
-void TLobby__sub_803D38B4(const char *fmt, ...);
 char number_format_digit_buffer[0x20];
 char adx_error_message_buffer[0x100];
-const char lbl_805E0D28[2] = " ";
+const char adx_error_space_sep[2] = " ";
 }
 
-inline void num_to_str_803C526C(s32 v, char *out, s32 n) {
+inline void adxerr_itoa2(s32 v, char *out, s32 n) {
     s32 i;
     s32 len;
     for (i = 0; i < 32; i++) {
@@ -34,10 +34,10 @@ inline void num_to_str_803C526C(s32 v, char *out, s32 n) {
     out[i] = 0;
 }
 
-void TLobby::format_number_pair(s32 arg0, s32 arg1, char *dest, s32 arg3) {
-    num_to_str_803C526C(arg0, dest, arg3);
-    strncat(dest, lbl_805E0D28, arg3 - strlen(dest) - 1);
-    num_to_str_803C526C(arg1, dest + strlen(dest), 4 - strlen(dest));
+void TLobby::format_number_pair(s32 first_val, s32 second_val, char *out_buf, s32 max_len) {
+    adxerr_itoa2(first_val, out_buf, max_len);
+    strncat(out_buf, adx_error_space_sep, max_len - strlen(out_buf) - 1);
+    adxerr_itoa2(second_val, out_buf + strlen(out_buf), 4 - strlen(out_buf));
 }
 
 void TLobby::report_adx_error(const char *msg, const char *arg) {
@@ -46,15 +46,15 @@ void TLobby::report_adx_error(const char *msg, const char *arg) {
     if (lobby_error_callback != NULL) {
         lobby_error_callback(tlobby_error_callback_arg, adx_error_message_buffer);
     }
-    TLobby__sub_803D38B4(adx_error_message_buffer);
+    svm_report_error(adx_error_message_buffer);
 }
 
-void TLobby::notify_error(const char *arg0) {
-    strncpy(adx_error_message_buffer, arg0, 0xFF);
+void TLobby::notify_error(const char *msg) {
+    strncpy(adx_error_message_buffer, msg, 0xFF);
     if (lobby_error_callback != NULL) {
         lobby_error_callback(tlobby_error_callback_arg, adx_error_message_buffer);
     }
-    TLobby__sub_803D38B4(adx_error_message_buffer);
+    svm_report_error(adx_error_message_buffer);
 }
 
 void TLobby::set_params(AdxMessageCallback callback, s32 context) {
