@@ -247,10 +247,10 @@ void TObjPlayer::drop_item(s32 slot, saddr item) {
         select_box_item__9TItemDropFiiPv((s32)(*(u32 *)&item_mgr), (s32)temp_r4, (u8 *)item);
     }
 }
-void TObjPlayer::drop_meseta_from_slot(s32 arg0, saddr item) {
+void TObjPlayer::drop_meseta_from_slot(s32 slot, saddr item) {
     s32 sp8;
     s32 idx;
-    sp8 = arg0;
+    sp8 = slot;
     if (item_mgr != NULL) {
         normalize_drop_area(&sp8);
         idx = sp8 - 1;

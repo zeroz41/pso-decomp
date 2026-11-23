@@ -1234,7 +1234,7 @@ f32 TItemData::get_shield_set_multiplier(u8 *player) {
   return var_f31;
 }
 
-f32 TItemData::get_armor_set_multiplier(u8 *arg1) {
+f32 TItemData::get_armor_set_multiplier(u8 *player) {
     u8 *arg0 = (u8 *)this;
     f32 v;
     saddr b1;
@@ -1302,28 +1302,28 @@ f32 TItemData::get_armor_set_multiplier(u8 *arg1) {
         }
         break;
     case 40:
-        a1 = TObjPlayer::get_equipped_weapon(arg1);
-        b1 = ((TItemData *)arg1)->test_flag3();
+        a1 = TObjPlayer::get_equipped_weapon(player);
+        b1 = ((TItemData *)player)->test_flag3();
         if (a1 != NULL && (u32)b1 != 0 && a1->get_item_group() == 1 && a1->get_item_index() == 5 && ((TItem *)b1)->get_item_index() == 0x26) {
             v = 1.5f;
         }
         break;
     case 38:
-        a2 = TObjPlayer::get_equipped_weapon(arg1);
-        b2 = ((TItemData *)arg1)->test_flag3();
+        a2 = TObjPlayer::get_equipped_weapon(player);
+        b2 = ((TItemData *)player)->test_flag3();
         if (a2 != NULL && (u32)b2 != 0 && a2->get_item_group() == 2 && a2->get_item_index() == 5 && ((TItem *)b2)->get_item_index() == 0x24) {
             v = 1.5f;
         }
         break;
     case 39:
-        a3 = TObjPlayer::get_equipped_weapon(arg1);
-        b3 = ((TItemData *)arg1)->test_flag3();
+        a3 = TObjPlayer::get_equipped_weapon(player);
+        b3 = ((TItemData *)player)->test_flag3();
         if (a3 != NULL && (u32)b3 != 0 && a3->get_item_group() == 6 && a3->get_item_index() == 6 && ((TItem *)b3)->get_item_index() == 0x25) {
             v = 1.5f;
         }
         break;
     case 45:
-        if (is_opposite_sex_player_near(((TObjBase *)(arg1))->get_entity_id()) != 0) {
+        if (is_opposite_sex_player_near(((TObjBase *)(player))->get_entity_id()) != 0) {
             v = 1.5f;
         }
         break;

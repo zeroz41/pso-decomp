@@ -4,8 +4,8 @@
 #include "types.h"
 
 extern "C" {
-s32 TLobby__sub_80224840(s32 arg0);
-void TLobby__sub_80225238(int a0, int a1);
+s32 TLobby__sub_80224840(s32 shop_weapon_stock_level);
+void TLobby__sub_80225238(int tbl, int a1);
 }
 void clear_shop_weapon_flags(void);
 void generate_shop_weapon_stock(s32 tbl);
@@ -25,8 +25,8 @@ extern const s32 shop_weapon_bonus_table[20];
 
 // --- C functions defined in ShopWeaponStock.cpp ---
 extern "C" {
-s32 TLobby__sub_80224840(s32 arg0);
-void TLobby__sub_80225238(int a0, int a1);
+s32 TLobby__sub_80224840(s32 shop_weapon_stock_level);
+void TLobby__sub_80225238(int tbl, int a1);
 }
 // --- end of C functions
 

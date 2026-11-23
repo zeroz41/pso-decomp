@@ -111,90 +111,90 @@ void roll_shop_technique_level(Obj_80223EE0 *arg0, s32 arg1);
 void push_shop_pool_entry(void *, u8);
 s32 shop_stock_lacks_technique(Item_802242F8 *, s32);
 s32 shop_stock_lacks_tool(Item_802242F8 *, s32);
-s32 get_shop_technique_pool_count(s32 arg0) {
-    if ((arg0 >= 1) && (arg0 <= 0xA)) {
+s32 get_shop_technique_pool_count(s32 shop_tool_stock_level) {
+    if ((shop_tool_stock_level >= 1) && (shop_tool_stock_level <= 0xA)) {
         return 4;
     }
-    if ((arg0 >= 0xB) && (arg0 <= 0x19)) {
+    if ((shop_tool_stock_level >= 0xB) && (shop_tool_stock_level <= 0x19)) {
         return 5;
     }
-    if ((arg0 >= 0x1A) && (arg0 <= 0x2A)) {
+    if ((shop_tool_stock_level >= 0x1A) && (shop_tool_stock_level <= 0x2A)) {
         return 5;
     }
-    if ((arg0 >= 0x2B) && (arg0 <= 0x3C)) {
+    if ((shop_tool_stock_level >= 0x2B) && (shop_tool_stock_level <= 0x3C)) {
         return 7;
     }
-    if ((arg0 >= 0x3D) && (arg0 <= 0x64)) {
+    if ((shop_tool_stock_level >= 0x3D) && (shop_tool_stock_level <= 0x64)) {
         return 7;
     }
-    if (arg0 >= 0x65) {
+    if (shop_tool_stock_level >= 0x65) {
         return 7;
     }
     return -1;
 }
 
-s32 get_shop_rare_tool_pool_count(s32 arg0) {
-    if ((arg0 >= 1) && (arg0 <= 0xA)) {
+s32 get_shop_rare_tool_pool_count(s32 shop_tool_stock_level) {
+    if ((shop_tool_stock_level >= 1) && (shop_tool_stock_level <= 0xA)) {
         return 0;
     }
-    if ((arg0 >= 0xB) && (arg0 <= 0x19)) {
+    if ((shop_tool_stock_level >= 0xB) && (shop_tool_stock_level <= 0x19)) {
         return 2;
     }
-    if ((arg0 >= 0x1A) && (arg0 <= 0x2A)) {
+    if ((shop_tool_stock_level >= 0x1A) && (shop_tool_stock_level <= 0x2A)) {
         return 2;
     }
-    if ((arg0 >= 0x2B) && (arg0 <= 0x3C)) {
+    if ((shop_tool_stock_level >= 0x2B) && (shop_tool_stock_level <= 0x3C)) {
         return 2;
     }
-    if ((arg0 >= 0x3D) && (arg0 <= 0x64)) {
+    if ((shop_tool_stock_level >= 0x3D) && (shop_tool_stock_level <= 0x64)) {
         return 2;
     }
-    if (arg0 >= 0x65) {
+    if (shop_tool_stock_level >= 0x65) {
         return 2;
     }
     return -1;
 }
 }
 
-s32 classify_tool_shop_level_bracket(s32 arg0) {
-    if ((arg0 >= 1) && (arg0 <= 0xA)) {
+s32 classify_tool_shop_level_bracket(s32 shop_tool_stock_level) {
+    if ((shop_tool_stock_level >= 1) && (shop_tool_stock_level <= 0xA)) {
         return 0;
     }
-    if ((arg0 >= 0xB) && (arg0 <= 0x19)) {
+    if ((shop_tool_stock_level >= 0xB) && (shop_tool_stock_level <= 0x19)) {
         return 1;
     }
-    if ((arg0 >= 0x1A) && (arg0 <= 0x2A)) {
+    if ((shop_tool_stock_level >= 0x1A) && (shop_tool_stock_level <= 0x2A)) {
         return 2;
     }
-    if ((arg0 >= 0x2B) && (arg0 <= 0x3C)) {
+    if ((shop_tool_stock_level >= 0x2B) && (shop_tool_stock_level <= 0x3C)) {
         return 3;
     }
-    if ((arg0 >= 0x3D) && (arg0 <= 0x63)) {
+    if ((shop_tool_stock_level >= 0x3D) && (shop_tool_stock_level <= 0x63)) {
         return 4;
     }
-    if (arg0 >= 0x64) {
+    if (shop_tool_stock_level >= 0x64) {
         return 5;
     }
     return -1;
 }
 
-s32 get_tool_pool_table_row(s32 arg0) {
-    if ((arg0 >= 1) && (arg0 <= 0xA)) {
+s32 get_tool_pool_table_row(s32 shop_tool_stock_level) {
+    if ((shop_tool_stock_level >= 1) && (shop_tool_stock_level <= 0xA)) {
         return 0;
     }
-    if ((arg0 >= 0xB) && (arg0 <= 0x19)) {
+    if ((shop_tool_stock_level >= 0xB) && (shop_tool_stock_level <= 0x19)) {
         return 1;
     }
-    if ((arg0 >= 0x1A) && (arg0 <= 0x2A)) {
+    if ((shop_tool_stock_level >= 0x1A) && (shop_tool_stock_level <= 0x2A)) {
         return 2;
     }
-    if ((arg0 >= 0x2B) && (arg0 <= 0x3C)) {
+    if ((shop_tool_stock_level >= 0x2B) && (shop_tool_stock_level <= 0x3C)) {
         return 3;
     }
-    if ((arg0 >= 0x3D) && (arg0 <= 0x64)) {
+    if ((shop_tool_stock_level >= 0x3D) && (shop_tool_stock_level <= 0x64)) {
         return 4;
     }
-    if (arg0 >= 0x65) {
+    if (shop_tool_stock_level >= 0x65) {
         return 4;
     }
     return -1;

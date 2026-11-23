@@ -68,7 +68,7 @@ struct TItemData {
     s32 has_bonus_stats();
     void bswap_fields();
     f32 get_shield_set_multiplier(u8 *player);
-    f32 get_armor_set_multiplier(u8 *arg1);
+    f32 get_armor_set_multiplier(u8 *player);
     f32 get_weapon_set_multiplier(u8 *arg1);
     void apply_equip_effects(s32 arg1, saddr player, saddr arg3, saddr arg4, s32 arg5);
     void apply_custom_shield_bonus(saddr player, TItemData *a, TItemData *b, EquipStats *stats, s32);

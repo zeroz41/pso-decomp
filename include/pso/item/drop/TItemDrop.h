@@ -19,7 +19,7 @@ struct TItemDrop : public TObject {
     static void alloc_unit_star_tables();
     static void free_unit_star_tables();
     static s32 run_step(s32 arg0);
-    static void clear_item_if_player_picked_up(void* p, void* a1);
+    static void clear_item_if_player_picked_up(void* p, void* id);
     static s32 calc_drop_offset(s32 arg0);
     static void set_drop_index(void *arg0, void *item);
     void select_unit_drop(u8 kind, u8 *item);
@@ -31,8 +31,8 @@ struct TItemDrop : public TObject {
     static s32 can_drop();
     u32 roll_channel_below(s32 count, u32 arg2);
     void generate_drop_item(s32 idx, u8 *item);
-    static s32 select_rare_box_item(s32 arg0, s32 arg1, u8 *item);
-    static s32 drop_item(s32 arg0, s32 area, saddr item);
+    static s32 select_rare_box_item(s32 rng, s32 off, u8 *item);
+    static s32 drop_item(s32 rng, s32 area, saddr item);
     static void calc_drop_rarity(saddr rng, s32 idx, void *item_);
     static void init_rare_item_data(void *arg0, void *item_data);
     static void handle_type3(void* p, void* a1);

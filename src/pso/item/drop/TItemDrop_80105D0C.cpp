@@ -66,7 +66,7 @@ void unload_item_drop_globals(void) {  }
 // inferred: the load half of unload_item_drop_globals' pair in item_class_load_unload_table.
 void init_item_drop_globals(void) { item_desync_detected = 0; }
 
-void TItemDrop::clear_item_if_player_picked_up(void* p, void* a1) { if (is_unsealable_item((u8 *)a1) == 1) { ((TItemData *)a1)->set_packed_value((u16)0); } }
+void TItemDrop::clear_item_if_player_picked_up(void* p, void* id) { if (is_unsealable_item((u8 *)id) == 1) { ((TItemData *)id)->set_packed_value((u16)0); } }
 
 s32 get_drop_table_mode_flags(void) {
     s32 f = 0;
@@ -498,15 +498,15 @@ void select_enemy_drop__9TItemDropFPviiPv(u8 *self, s32 area, s32 idx, Item_8010
     }
 }
 
-void select_box_item__9TItemDropFiiPv(saddr arg0, s32 arg1, u8 *item) {
+void select_box_item__9TItemDropFiiPv(saddr rng, s32 off, u8 *item) {
     if (item == NULL) {
         return;
     }
     ((TItemData *)item)->init();
-    if (TItemDrop::select_rare_box_item(arg0, arg1, item) != 0) {
+    if (TItemDrop::select_rare_box_item(rng, off, item) != 0) {
         return;
     }
-    switch (((TItemDrop *)arg0)->select_weighted_byte(*(s32 *)((s8 *)TItemDrop__common_probability_table + 0x50), arg1, 7, 0xA)) {
+    switch (((TItemDrop *)rng)->select_weighted_byte(*(s32 *)((s8 *)TItemDrop__common_probability_table + 0x50), off, 7, 0xA)) {
     case 0:
         item[0] = 0;
         break;
@@ -531,7 +531,7 @@ void select_box_item__9TItemDropFiiPv(saddr arg0, s32 arg1, u8 *item) {
     default:
         return;
     }
-    ((TItemDrop *)arg0)->generate_drop_item(arg1, item);
+    ((TItemDrop *)rng)->generate_drop_item(off, item);
 }
 
 void TItemDrop::generate_drop_item(s32 idx, u8 *item) {
@@ -572,14 +572,14 @@ void TItemDrop::generate_drop_item(s32 idx, u8 *item) {
     TItemDrop::clear_item_if_player_picked_up(((u8 *)this), item);
 }
 
-s32 TItemDrop::select_rare_box_item(s32 arg0, s32 arg1, u8 *item) {
+s32 TItemDrop::select_rare_box_item(s32 rng, s32 off, u8 *item) {
     s32 target;
     s32 i;
     if (TItemDrop__rare_item_table_file != NULL && TItemDrop::can_drop() == 1) {
-        target = arg1 + 1;
+        target = off + 1;
         for (i = 0; i != TItemDrop__rare_item_table_file->count; i++) {
             if (target == TItemDrop__rare_item_table_file->types[i]) {
-                if (try_generate_rare_item__9TItemDropFiPvPv(arg0, (u8 *)&TItemDrop__rare_item_table_file->items[i], item) != 0) {
+                if (try_generate_rare_item__9TItemDropFiPvPv(rng, (u8 *)&TItemDrop__rare_item_table_file->items[i], item) != 0) {
                     return 1;
                 }
             }
@@ -588,9 +588,9 @@ s32 TItemDrop::select_rare_box_item(s32 arg0, s32 arg1, u8 *item) {
     return 0;
 }
 
-s32 TItemDrop::drop_item(s32 arg0, s32 area, saddr item) {
+s32 TItemDrop::drop_item(s32 rng, s32 area, saddr item) {
     if ((TItemDrop::can_drop() == 1) && (TItemDrop__rare_item_table_file != NULL) && (area > 0) && (area < 0x58)) {
-        return try_generate_rare_item__9TItemDropFiPvPv((s32)arg0, (u8 *)&TItemDrop__rare_item_table_file->enemy_items[area], (u8 *)item);
+        return try_generate_rare_item__9TItemDropFiPvPv((s32)rng, (u8 *)&TItemDrop__rare_item_table_file->enemy_items[area], (u8 *)item);
     }
     return 0;
 }
@@ -801,22 +801,22 @@ void select_weapon_drop__9TItemDropFv(saddr rng, s32 level, u8 *item) {
 
 #pragma push
 #pragma fp_contract on
-void generate_tool_drop__9TItemDropFiiPv(saddr arg0, s32 off, void *arg2) {
+void generate_tool_drop__9TItemDropFiiPv(saddr arg0, s32 off, void *item_data) {
     u8 var_r3;
-    ((TItemData *)arg2)->init();
+    ((TItemData *)item_data)->init();
     var_r3 = ((s32 (*)(s32, s32, s32, s32, s32))select_weighted_column_u16__9TItemDropFiiiii)(arg0, *(s32 *)((s8 *)TItemDrop__common_probability_table + 0x3C), off, 0x1C, 0xA);
     switch (var_r3) {
     case 0x1A:
         var_r3 = 0x73;
         break;
     }
-    find_tool_pmt_base_id(var_r3, arg2);
-    if ((u8) *(u8 *)((s8 *)arg2 + 1) == 2) {
-        *(u8 *)((s8 *)arg2 + 4) = ((u8)((TItemDrop *)arg0)->select_weighted_byte((s32)(*(s32 *)((s8 *)TItemDrop__common_probability_table + 0x40)), off, 0x13, 0xA));
-        *(s8 *)((s8 *)arg2 + 2) = ((TItemDrop *)arg0)->roll_technique_level(*(s32 *)((s8 *)TItemDrop__common_probability_table + 0x44), *(u8 *)((s8 *)arg2 + 4), off, 0xA);
-        TItemDrop::init_rare_item_data((void *)arg0, (void *)arg2);
+    find_tool_pmt_base_id(var_r3, item_data);
+    if ((u8) *(u8 *)((s8 *)item_data + 1) == 2) {
+        *(u8 *)((s8 *)item_data + 4) = ((u8)((TItemDrop *)arg0)->select_weighted_byte((s32)(*(s32 *)((s8 *)TItemDrop__common_probability_table + 0x40)), off, 0x13, 0xA));
+        *(s8 *)((s8 *)item_data + 2) = ((TItemDrop *)arg0)->roll_technique_level(*(s32 *)((s8 *)TItemDrop__common_probability_table + 0x44), *(u8 *)((s8 *)item_data + 4), off, 0xA);
+        TItemDrop::init_rare_item_data((void *)arg0, (void *)item_data);
     }
-    TItemDrop::handle_type3((void*)arg0, (void*)arg2);
+    TItemDrop::handle_type3((void*)arg0, (void*)item_data);
 }
 #pragma pop
 

@@ -109,125 +109,125 @@ void sort_shop_items(s32, s32, s32);
 uaddr lobby_weapon_random_tables_ptr;
 int shop_weapon_stock_level;
 
-s32 TLobby::classify_level_bracket_wide(s32 arg0) {
-    if ((arg0 >= 1) && (arg0 <= 5)) {
+s32 TLobby::classify_level_bracket_wide(s32 shop_weapon_stock_level) {
+    if ((shop_weapon_stock_level >= 1) && (shop_weapon_stock_level <= 5)) {
         return 0;
     }
-    if ((arg0 >= 6) && (arg0 <= 0xA)) {
+    if ((shop_weapon_stock_level >= 6) && (shop_weapon_stock_level <= 0xA)) {
         return 1;
     }
-    if ((arg0 >= 0xB) && (arg0 <= 0x11)) {
+    if ((shop_weapon_stock_level >= 0xB) && (shop_weapon_stock_level <= 0x11)) {
         return 2;
     }
-    if ((arg0 >= 0x12) && (arg0 <= 0x19)) {
+    if ((shop_weapon_stock_level >= 0x12) && (shop_weapon_stock_level <= 0x19)) {
         return 3;
     }
-    if ((arg0 >= 0x1A) && (arg0 <= 0x23)) {
+    if ((shop_weapon_stock_level >= 0x1A) && (shop_weapon_stock_level <= 0x23)) {
         return 4;
     }
-    if ((arg0 >= 0x24) && (arg0 <= 0x2D)) {
+    if ((shop_weapon_stock_level >= 0x24) && (shop_weapon_stock_level <= 0x2D)) {
         return 5;
     }
-    if ((arg0 >= 0x2E) && (arg0 <= 0x3C)) {
+    if ((shop_weapon_stock_level >= 0x2E) && (shop_weapon_stock_level <= 0x3C)) {
         return 6;
     }
-    if ((arg0 >= 0x3D) && (arg0 <= 0x4B)) {
+    if ((shop_weapon_stock_level >= 0x3D) && (shop_weapon_stock_level <= 0x4B)) {
         return 7;
     }
-    if ((arg0 >= 0x4C) && (arg0 <= 0x64)) {
+    if ((shop_weapon_stock_level >= 0x4C) && (shop_weapon_stock_level <= 0x64)) {
         return 8;
     }
-    if (arg0 >= 0x65) {
+    if (shop_weapon_stock_level >= 0x65) {
         return 8;
     }
     return -1;
 }
 
-s32 TLobby::get_level_bracket(s32 arg0) {
-    if ((arg0 >= 1) && (arg0 <= 3)) {
+s32 TLobby::get_level_bracket(s32 shop_weapon_stock_level) {
+    if ((shop_weapon_stock_level >= 1) && (shop_weapon_stock_level <= 3)) {
         return 0;
     }
-    if ((arg0 >= 4) && (arg0 <= 0xA)) {
+    if ((shop_weapon_stock_level >= 4) && (shop_weapon_stock_level <= 0xA)) {
         return 1;
     }
-    if ((arg0 >= 0xB) && (arg0 <= 0x11)) {
+    if ((shop_weapon_stock_level >= 0xB) && (shop_weapon_stock_level <= 0x11)) {
         return 2;
     }
-    if ((arg0 >= 0x12) && (arg0 <= 0x19)) {
+    if ((shop_weapon_stock_level >= 0x12) && (shop_weapon_stock_level <= 0x19)) {
         return 3;
     }
-    if ((arg0 >= 0x1A) && (arg0 <= 0x23)) {
+    if ((shop_weapon_stock_level >= 0x1A) && (shop_weapon_stock_level <= 0x23)) {
         return 4;
     }
-    if ((arg0 >= 0x24) && (arg0 <= 0x2D)) {
+    if ((shop_weapon_stock_level >= 0x24) && (shop_weapon_stock_level <= 0x2D)) {
         return 5;
     }
-    if ((arg0 >= 0x2E) && (arg0 <= 0x3C)) {
+    if ((shop_weapon_stock_level >= 0x2E) && (shop_weapon_stock_level <= 0x3C)) {
         return 6;
     }
-    if ((arg0 >= 0x3D) && (arg0 <= 0x4B)) {
+    if ((shop_weapon_stock_level >= 0x3D) && (shop_weapon_stock_level <= 0x4B)) {
         return 7;
     }
-    if ((arg0 >= 0x4C) && (arg0 <= 0x64)) {
+    if ((shop_weapon_stock_level >= 0x4C) && (shop_weapon_stock_level <= 0x64)) {
         return 8;
     }
-    if (arg0 >= 0x65) {
+    if (shop_weapon_stock_level >= 0x65) {
         return 8;
     }
     return -1;
 }
 
-s32 TLobby__sub_80224840(s32 arg0) {
-    if ((arg0 >= 1) && (arg0 <= 0xA)) {
+s32 TLobby__sub_80224840(s32 shop_weapon_stock_level) {
+    if ((shop_weapon_stock_level >= 1) && (shop_weapon_stock_level <= 0xA)) {
         return 0;
     }
-    if ((arg0 >= 0xB) && (arg0 <= 0x11)) {
+    if ((shop_weapon_stock_level >= 0xB) && (shop_weapon_stock_level <= 0x11)) {
         return 1;
     }
-    if ((arg0 >= 0x12) && (arg0 <= 0x19)) {
+    if ((shop_weapon_stock_level >= 0x12) && (shop_weapon_stock_level <= 0x19)) {
         return 2;
     }
-    if ((arg0 >= 0x1A) && (arg0 <= 0x23)) {
+    if ((shop_weapon_stock_level >= 0x1A) && (shop_weapon_stock_level <= 0x23)) {
         return 3;
     }
-    if ((arg0 >= 0x24) && (arg0 <= 0x2D)) {
+    if ((shop_weapon_stock_level >= 0x24) && (shop_weapon_stock_level <= 0x2D)) {
         return 4;
     }
-    if ((arg0 >= 0x2E) && (arg0 <= 0x3C)) {
+    if ((shop_weapon_stock_level >= 0x2E) && (shop_weapon_stock_level <= 0x3C)) {
         return 5;
     }
-    if ((arg0 >= 0x3D) && (arg0 <= 0x4B)) {
+    if ((shop_weapon_stock_level >= 0x3D) && (shop_weapon_stock_level <= 0x4B)) {
         return 6;
     }
-    if ((arg0 >= 0x4C) && (arg0 <= 0x64)) {
+    if ((shop_weapon_stock_level >= 0x4C) && (shop_weapon_stock_level <= 0x64)) {
         return 7;
     }
-    if (arg0 >= 0x65) {
+    if (shop_weapon_stock_level >= 0x65) {
         return 7;
     }
     return -1;
 }
 
-s32 TLobby::classify_level_bracket_narrow(s32 arg0) {
-    if ((arg0 >= 1) && (arg0 <= 3)) {
+s32 TLobby::classify_level_bracket_narrow(s32 shop_weapon_stock_level) {
+    if ((shop_weapon_stock_level >= 1) && (shop_weapon_stock_level <= 3)) {
         return 0;
     }
-    if ((arg0 >= 4) && (arg0 <= 0xA)) {
+    if ((shop_weapon_stock_level >= 4) && (shop_weapon_stock_level <= 0xA)) {
         return 1;
     }
-    if ((arg0 >= 0xB) && (arg0 <= 0x19)) {
+    if ((shop_weapon_stock_level >= 0xB) && (shop_weapon_stock_level <= 0x19)) {
         return 2;
     }
-    if ((arg0 >= 0x1A) && (arg0 <= 0x28)) {
+    if ((shop_weapon_stock_level >= 0x1A) && (shop_weapon_stock_level <= 0x28)) {
         return 3;
     }
-    if ((arg0 >= 0x29) && (arg0 <= 0x37)) {
+    if ((shop_weapon_stock_level >= 0x29) && (shop_weapon_stock_level <= 0x37)) {
         return 4;
     }
-    if ((arg0 >= 0x38) && (arg0 <= 0x64)) {
+    if ((shop_weapon_stock_level >= 0x38) && (shop_weapon_stock_level <= 0x64)) {
         return 5;
     }
-    if (arg0 >= 0x65) {
+    if (shop_weapon_stock_level >= 0x65) {
         return 5;
     }
     return -1;
@@ -279,20 +279,20 @@ s32 TLobby::get_level_tier(s32 arg0) {
     return -1;
 }
 
-s32 TLobby::level_to_reward(s32 arg0) {
-    if ((arg0 >= 1) && (arg0 <= 0xA)) {
+s32 TLobby::level_to_reward(s32 shop_weapon_stock_level) {
+    if ((shop_weapon_stock_level >= 1) && (shop_weapon_stock_level <= 0xA)) {
         return 0xA;
     }
-    if ((arg0 >= 0xB) && (arg0 <= 0x19)) {
+    if ((shop_weapon_stock_level >= 0xB) && (shop_weapon_stock_level <= 0x19)) {
         return 0xC;
     }
-    if ((arg0 >= 0x1A) && (arg0 <= 0x2A)) {
+    if ((shop_weapon_stock_level >= 0x1A) && (shop_weapon_stock_level <= 0x2A)) {
         return 0xC;
     }
-    if ((arg0 >= 0x2B) && (arg0 <= 0x64)) {
+    if ((shop_weapon_stock_level >= 0x2B) && (shop_weapon_stock_level <= 0x64)) {
         return 0x10;
     }
-    if (arg0 >= 0x65) {
+    if (shop_weapon_stock_level >= 0x65) {
         return 0x10;
     }
     return 0;
@@ -498,7 +498,7 @@ void roll_shop_weapon_grind(Item_80225064 *it) {
 }
 #pragma pop
 
-void TLobby__sub_80225238(int a0, int a1) { shop_weapon_stock_level = a1; generate_shop_weapon_stock(a0); }
+void TLobby__sub_80225238(int tbl, int a1) { shop_weapon_stock_level = a1; generate_shop_weapon_stock(tbl); }
 }
 
 #pragma push
