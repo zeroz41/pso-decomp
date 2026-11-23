@@ -122,22 +122,10 @@ void TWindowMenuIconLine::reset_list() {
 
 }
 
-struct ListScrollRange {
-    f32 lo;
-    f32 hi;
-};
 struct List_80266E34 {
     u8 pad0[0x48]; f32 window_height; u8 pad1[0x72 - 0x4C]; s16 count; u8 pad2[0x84 - 0x74]; void *scrollbar;
 };
-struct ScrollbarSizeArg {
-    f32 width;
-    f32 height;
-};
 struct Win_80267AA8 { u8 p0[0x74]; s16 f74; s16 f76; };
-struct ItemScrollRange {
-    f32 lo;
-    f32 hi;
-};
 
 struct Win_80267714
 {
@@ -159,7 +147,7 @@ WindowDescriptor lbl_804D0604 = {
     {0.0f, 0.0f}, 50050.0f, lbl_804D05F8, 3,
 };
 
-s32 clamp_list_scroll_offset(int, void *, void *);
+s32 clamp_list_scroll_offset(Scroll_8026D790 *scroll, void *offset, NJS_POINT2 *range);
 s32 get_cursor_pos__14TWindowSubItemFv();
 s32 init_entry__20TWindowSubStatusDispFScScUcUll(s32, u8, u8, int, s32, s32);
 void fn_80266BD0(s32 index, u8 *first, u8 *second, s32 player);
@@ -196,16 +184,14 @@ void TWindowMenuIconLine::calc_content_extent() {
 
 void TWindowSubStatusDisp::clamp_scroll_offset() {
     u8 *arg0 = (u8 *)this;
-    ListScrollRange stack;
-    f32 temp_f1;
+    NJS_POINT2 range;
     if ((u32) *(u32 *)((s8 *)arg0 + 0x84) != 0U) {
-        stack.lo = 0.0f;
-        temp_f1 = this->frame_size[1] - 20.0f;
-        stack.hi = temp_f1;
+        range.x = 0.0f;
+        range.y = this->frame_size[1] - 20.0f;
         if ((u32) *(u32 *)((s8 *)arg0 + 0x80) != 0U) {
-            stack.hi = temp_f1 - 6.0f;
+            range.y -= 6.0f;
         }
-        clamp_list_scroll_offset((int) (*(u32 *)((s8 *)arg0 + 0x84)), (u8 *)&this->m_68, &stack.lo);
+        clamp_list_scroll_offset(*(Scroll_8026D790 **)((s8 *)arg0 + 0x84), &this->m_68, &range);
     }
 }
 
@@ -539,17 +525,12 @@ void TWindowSubShortCutList::set_cursor_index(s16 v) {
 }
 
 void TWindowMenuIconLine::create_menu_scroll_bar() {
-    LAYOUT_ASSERT(sp8_offset, offsetof(ScrollbarSizeArg, width) == 0x0);
-    LAYOUT_ASSERT(spC_offset, offsetof(ScrollbarSizeArg, height) == 0x4);
-    ScrollbarSizeArg stack;
-    f32 temp_f1;
-    u32 temp_r3;
-    if ((uaddr) this->scroll_bar == 0U) {
-        temp_f1 = this->target_size[0] - 8.0f;
-        stack.height = 0.0f;
-        stack.width = temp_f1;
-        *(u32 *)&this->scroll_bar = reinterpret_cast<uaddr>(new Scroll_8026D790(&stack.width));
-        this->window_flags = (s32) (this->window_flags | 0x80);
+    NJS_POINT2 size;
+    if (this->scroll_bar == NULL) {
+        size.x = this->target_size[0] - 8.0f;
+        size.y = 0.0f;
+        this->scroll_bar = new Scroll_8026D790(&size);
+        this->window_flags |= 0x80;
     }
 }
 
@@ -608,16 +589,14 @@ void TWindowMenuIconLine::center_list_selection() {
 #pragma pop
 
 void TWindowMenuIconLine::clamp_item_list_scroll() {
-    ItemScrollRange stack;
-    f32 temp_f1;
-    if ((uaddr) this->scroll_bar != 0U) {
-        stack.lo = 0.0f;
-        temp_f1 = *(f32 *)&this->frame_size[1] - 20.0f;
-        stack.hi = temp_f1;
-        if ((uaddr) this->status_display != 0U) {
-            stack.hi = temp_f1 - 6.0f;
+    NJS_POINT2 range;
+    if (this->scroll_bar != NULL) {
+        range.x = 0.0f;
+        range.y = this->frame_size[1] - 20.0f;
+        if (this->status_display != NULL) {
+            range.y -= 6.0f;
         }
-        clamp_list_scroll_offset((saddr)this->scroll_bar, (void *) (((u8 *)this) + 0x68), &stack.lo);
+        clamp_list_scroll_offset(this->scroll_bar, this->scroll_offset, &range);
     }
 }
 
