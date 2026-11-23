@@ -25,17 +25,17 @@ void PlayerTechniqueState::reset_tech_state() {
         levels[i] = v;
         caps[i] = v;
     }
-    ((TObjPlayer *)this)->set_technique_id((u8)0xFF);
-    ((TObjPlayer *)this)->set_tech_override(0);
-    ((TObjPlayer *)this)->set_technique_id((s16)0);
-    ((TObjPlayer *)this)->set_tech_level(0);
+    set_level(0xFF);
+    set_tech_override(0);
+    set_technique_id(0);
+    set_tech_level(0);
     TObjPlayer__sub_801D9E10(this, 0);
-    ((TObjPlayer *)this)->set_technique_state(0);
+    set_technique_state(0);
     TObjPlayer__sub_801D2CC4(this, 0.0f);
-    ((TObjPlayer *)this)->set_field18(0.0f);
-    ((TObjPlayer *)this)->set_field_1c(1.5f);
+    set_field18(0.0f);
+    set_field_1c(1.5f);
     reset_all_tech_slots();
-    ((TObjPlayer *)this)->reset_slots();
+    reset_slots();
     pad_a = 0;
     pad_3 = 0;
     pad_2 = 0;

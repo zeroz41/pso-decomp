@@ -4,14 +4,14 @@
 #include "pso/player/TObjPlayer.h"
 
 
-void TObjPlayer::set_tech_level(s16 lim) {
+void PlayerTechniqueState::set_tech_level(s16 lim) {
     s16 var_r4;
 
     var_r4 = lim;
     if ((var_r4 < 0) || (var_r4 > 0xA)) {
         var_r4 = 0;
     }
-    this->m_id = var_r4;
+    target_count = var_r4;
 }
 
 // ---- pso/unk/text_801D9B38
@@ -54,6 +54,6 @@ void TObjPlayer__sub_801D9C34(u8 *self, s16 idx, void *arg2) {
 // ---- pso/player/TObjPlayer_801D9C88
 int set_slot_type_state__10TObjPlayerFllss(void*, s32, void*, void*);
 
-void TObjPlayer::reset_slots() { this->m_id = 0; { int i; for (i = 0; i < 10; i++) { set_slot_type_state__10TObjPlayerFllss(this, i, (void*)65535, (void*)0); } } }
+void PlayerTechniqueState::reset_slots() { target_count = 0; { int i; for (i = 0; i < 10; i++) { set_slot_type_state__10TObjPlayerFllss(this, i, (void*)65535, (void*)0); } } }
 
 }

@@ -596,7 +596,6 @@ struct TObjPlayer : public TObjChara {
     int is_handle_valid();
     static void forward_801C210C(void *p, int v);
     static int get_hold_effect_count();
-    void set_technique_id(s16 v);
     static u8 get_item_count_max();
     void *init();
     void set_field4(s32 v);
@@ -869,11 +868,8 @@ struct TObjPlayer : public TObjChara {
     void *copy_packet_pos_6x42(void *pkt);
     void bswap_u16_pair_list();
     void bswap_u16_pair();
-    void set_technique_state(s32 v);
-    void set_technique_id(u8 v);
     int test_bit1_at_10();
     f32 get_float_14();
-    void set_tech_override(u8 v);
     void set_attack_target(s16 v);
     void set_flag_1_at_c();
     void increment_strike_counter();
@@ -917,7 +913,6 @@ struct TObjPlayer : public TObjChara {
     int get_floor_surface_type();
     s32 get_falz_phase();
     s16 get_section_clamped();
-    s16 get_or_init_field_4();
     static void split_capped_value(u8 level, u8 *arg1, s8 *arg2);
     u8 get_valid_technique();
     void level_up_all_techniques(s32 add);
@@ -926,10 +921,6 @@ struct TObjPlayer : public TObjChara {
     static s32 is_invalid_slot(u8 level);
     static s32 is_valid_technique_id(s16 arg0);
     static s32 is_valid_technique_slot(u8 arg0);
-    void set_tech_level(s16 lim);
-    void reset_slots();
-    void set_field_1c(f32 v);
-    void set_field18(f32 v);
     static void render_model_tree(void *model);
     static void render_matrix_chain(void *model);
     static void free_if_valid(saddr texlist);

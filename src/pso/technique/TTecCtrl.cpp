@@ -154,7 +154,7 @@ GinjaTextureList *technique_texture_list;
         set_slot_type_state__10TObjPlayerFllss(slots, 0,                                                \
             ((TObjPlayer *)(TObjPlayer__sub_80116620(&c->target_records, 0)))->get_type_id(),           \
             get_obj_id__10TObjPlayerFv(TObjPlayer__sub_80116620(&c->target_records, 0)));           \
-        ((TObjPlayer *)slots)->set_tech_level(1);                                      \
+        slots->set_tech_level(1);                                      \
     }
 
 #define COLLECT_8022D27C()                                              \
@@ -596,7 +596,7 @@ void launch_technique(s32 tech, s32 level, TObjPlayer *pl) {
 
 void capture_technique_targets(int kind, TObjPlayer *owner) {
     TUnk_8013EFB8 *c;
-    void *slots;
+    PlayerTechniqueState *slots;
     if (owner == NULL) {
         return;
     }
@@ -607,7 +607,7 @@ void capture_technique_targets(int kind, TObjPlayer *owner) {
     if (slots == NULL) {
         return;
     }
-    ((TObjPlayer *)&owner->technique_state)->reset_slots();
+    owner->technique_state.reset_slots();
     c = owner->lock_on_cursor->find_by_pos(3, kind);
     if (c == NULL) {
         return;
@@ -639,7 +639,7 @@ void capture_technique_targets(int kind, TObjPlayer *owner) {
                 n++;
             }
         }
-        ((TObjPlayer *)slots)->set_tech_level(n);
+        slots->set_tech_level(n);
         break;
     }
     case 9:
@@ -659,7 +659,7 @@ void capture_technique_targets(int kind, TObjPlayer *owner) {
                 get_obj_id__10TObjPlayerFv(TObjPlayer__sub_80116620(&c->target_records, n)));
             n++;
         }
-        ((TObjPlayer *)slots)->set_tech_level(n);
+        slots->set_tech_level(n);
         break;
     }
     case 17:

@@ -5036,7 +5036,7 @@ s32 TObjPlayer::execute_palette_action(s32 mode, void *target) {
         break;
     case 3:
         if (TObjPlayer::try_camera_action((saddr)this, (s32)act) != 0) {
-            ((TObjPlayer *)(self + 0x428))->set_technique_id(act);
+            technique_state.set_technique_id(act);
             run_action_state_phase(8, 5);
             return 1;
         }
@@ -5128,7 +5128,7 @@ s32 TObjPlayer::dispatch_palette_action(u32 act) {
     case 9:
         return check_can_add_item((s8)(3), (s8)(4));
     case 10:
-        ((TObjPlayer *)((saddr)this + 0x428))->reset_slots();
+        technique_state.reset_slots();
         return check_can_add_item((s8)(3), (s8)(5));
     case 11:
         return check_can_add_item((s8)(3), (s8)(7));

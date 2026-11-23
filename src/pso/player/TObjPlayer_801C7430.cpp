@@ -1032,7 +1032,7 @@ extern "C" {
 s32 clear_velocity(void *);
 s32 add_actor_tp(u8 *owner, s32 half);
 s32 add_actor_hp(u8 *arg0, s16 arg1);
-void set_technique_id__10TObjPlayerFs(void *, s32);
+void set_technique_id__20PlayerTechniqueStateFs(void *, s32);
 s32 get_current_floor(void);
 f32 atan2_float(f32 y, f32 x);
 f32 newton_sqrtf(f32);
@@ -3973,7 +3973,7 @@ s32 try_equip_item__10TObjPlayerFii(TObjPlayer *player, s16 tech) {
         if (player->can_equip_item(tech) == 0) {
             return 0;
         }
-        ((TObjPlayer *)&player->technique_state)->set_technique_id(tech);
+        player->technique_state.set_technique_id(tech);
         player->request_technique_cast();
         return 1;
     }
@@ -3991,13 +3991,13 @@ inline void tail_801CCD38(Player_801CCD38 *p, s32 t, s8 lvl) {
     case 13:
     case 15:
     case 16:
-        ((TObjPlayer *)(p->techs))->set_technique_state(((Rec_801CCD38 *)calc_technique_parameters(t, lvl, ((TObjBase *)p)->get_entity_id()))->state);
+        ((PlayerTechniqueState *)(p->techs))->set_technique_state(((Rec_801CCD38 *)calc_technique_parameters(t, lvl, ((TObjBase *)p)->get_entity_id()))->state);
         p->f328 = 4;
         launch_technique(t, lvl, (TObjPlayer *)p);
         return;
     }
     if (((TObjPlayer *)p)->check_flag_4() == 0 && p->f10 == tl_03) {
-        ((TObjPlayer *)(p->techs))->set_technique_state(((Rec_801CCD38 *)calc_technique_parameters(t, lvl, ((TObjBase *)p)->get_entity_id()))->state);
+        ((PlayerTechniqueState *)(p->techs))->set_technique_state(((Rec_801CCD38 *)calc_technique_parameters(t, lvl, ((TObjBase *)p)->get_entity_id()))->state);
         p->f328 = 4;
         launch_technique(t, lvl, (TObjPlayer *)p);
     }
@@ -4028,7 +4028,7 @@ void handle_6x48_cast_technique_complete(void *arg) {
         return;
     }
     tech = pkt.tech;
-    ((TObjPlayer *)(p->techs))->set_technique_id(tech);
+    ((PlayerTechniqueState *)(p->techs))->set_technique_id(tech);
     lvl = pkt.level;
     if (lvl == 0xE) {
         lvl += ((TObjPlayer *)(p->techs))->get_valid_technique();
@@ -4037,7 +4037,7 @@ void handle_6x48_cast_technique_complete(void *arg) {
         lvl = 0;
     }
     ul = lvl;
-    ((TObjPlayer *)(p->techs))->set_technique_id(ul);
+    ((PlayerTechniqueState *)(p->techs))->set_level(ul);
     ((void (*)(void *, u8, s16))clamp_and_set_unit_value__10TObjPlayerFiUci)(p, ul, tech);
     tail_801CCD38(p, tech, lvl);
 }
@@ -4053,7 +4053,7 @@ void TObjPlayer::pay_tp_and_send_6x48_cast() {
         if (self == 0 || ((TObjChara *)self)->obj_isState2_324() == 0) {
             Pkt_801CCEDC pkt;
             this->phase = 4;
-            tech = ((TObjPlayer *)(self->techs))->get_or_init_field_4();
+            tech = ((PlayerTechniqueState *)(self->techs))->get_or_init_field_4();
             *(s16 *)&this->tp -= calc_technique_parameters(tech, ((TObjPlayer *)(self->techs))->get_castable_technique_level(), this->get_entity_id())->cost;
             if (*(s16 *)&this->tp < 0) {
                 *(s16 *)&this->tp = 0;
@@ -4123,8 +4123,8 @@ void TObjPlayer::update_technique_cast() {
     case 0:
         this->phase = 1;
         this->set_state_flags(0x80);
-        create_technique_charge_light((s16) (((TObjPlayer *)(arg0 + 0x428))->get_or_init_field_4()), (arg0));
-        ((TObjPlayer *)(arg0 + 0x428))->set_technique_state((int) (*(s16 *)((s8 *)(((Rec_801CD078 * (*)(s32, s32, u16))calc_technique_parameters)(((TObjPlayer *)(arg0 + 0x428))->get_or_init_field_4(), ((TObjPlayer *)(arg0 + 0x428))->get_castable_technique_level(), this->get_entity_id())) + 0x12)));
+        create_technique_charge_light((s16) (technique_state.get_or_init_field_4()), (arg0));
+        technique_state.set_technique_state((int) (*(s16 *)((s8 *)(((Rec_801CD078 * (*)(s32, s32, u16))calc_technique_parameters)(technique_state.get_or_init_field_4(), ((TObjPlayer *)(arg0 + 0x428))->get_castable_technique_level(), this->get_entity_id())) + 0x12)));
         ((s32 (*)(void *, f32))TObjPlayer__sub_801D2CC4)((void *) (arg0 + 0x428), 0.05f);
         break;
     case 1:
@@ -4229,7 +4229,7 @@ void handle_6x47_cast_technique(u8* self) {
         return;
     }
     c = *(s8*)(buf + 4);
-    set_technique_id__10TObjPlayerFs(p + 0x428, *(s8*)(buf + 4));
+    set_technique_id__20PlayerTechniqueStateFs(p + 0x428, *(s8*)(buf + 4));
     e = buf[6];
     n = (s8)((TObjPlayer *)(p + 0x428))->get_valid_technique();
     if (TObjPlayer::is_valid_technique_slot((u8)n) == 0) {
@@ -4241,10 +4241,10 @@ void handle_6x47_cast_technique(u8* self) {
     if (TObjPlayer::check_technique_level((saddr)(p + 0x428), c, e) == 0) {
         e = 0;
     }
-    ((TObjPlayer *)(p + 0x428))->set_technique_id((u8)e);
+    ((PlayerTechniqueState *)(p + 0x428))->set_level((u8)e);
     clamp_and_set_unit_value__10TObjPlayerFiUci((TObjPlayer *)p, (u8)e, c);
     lim = *(s8*)(buf + 7);
-    ((TObjPlayer *)(p + 0x428))->set_tech_level(lim);
+    ((PlayerTechniqueState *)(p + 0x428))->set_tech_level(lim);
     d = (u32*)get_technique_data__10TObjPlayerFPv(p + 0x428);
     s = arr;
     for (i = 0; i < lim; i++) {
@@ -4263,7 +4263,7 @@ void handle_6x8D_set_technique_level_override(void *command) {
     if (validate_6x8D_set_technique_level_override(&m) != 0) {
         p = reinterpret_cast<u8 *>(get_player_by_client_id(m.id));
         if (p != NULL) {
-            ((TObjPlayer *)(p + 0x428))->set_tech_override(m.level);
+            ((PlayerTechniqueState *)(p + 0x428))->set_tech_override(m.level);
         }
     }
 }
@@ -4280,12 +4280,12 @@ void TObjPlayer::request_technique_cast() {
     TechData_801CD424 *src;
     u32 *dst;
     Player_801CD72C *self = (Player_801CD72C *)this;
-    capture_technique_targets(((TObjPlayer *)(self->techs))->get_or_init_field_4(), this);
+    capture_technique_targets(((PlayerTechniqueState *)(self->techs))->get_or_init_field_4(), this);
     if (self->cursor != NULL) {
         td = ((TechData_801CD424 * (*)(void *))get_technique_data__10TObjPlayerFPv)(self->techs);
         ((TMainCursor *)(self->cursor))->set_cursor_pos(td->target, td->node);
     }
-    tech = ((TObjPlayer *)(self->techs))->get_or_init_field_4();
+    tech = ((PlayerTechniqueState *)(self->techs))->get_or_init_field_4();
     TObjPlayer::split_capped_value(get_cast_technique_level(self->techs, tech), &hi, (s8 *)&lo);
     if (self == NULL || ((TObjChara *)self)->obj_isState2_324() == 0) {
         ((void (*)(void *))init_6x8D_technique_level_packet)(&m1);
@@ -7101,7 +7101,7 @@ extern int fold_flush_27;
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-void TObjPlayer::set_technique_state(s32 v) { *(s32*)((char*)this + 0xc) = v; }
+void PlayerTechniqueState::set_technique_state(s32 v) { state = v; }
 #pragma pop
 
 #pragma push
@@ -7114,7 +7114,7 @@ void TObjPlayer::set_technique_state(s32 v) { *(s32*)((char*)this + 0xc) = v; }
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-void TObjPlayer::set_technique_id(u8 v) { *(u8*)((char*)this + 0x0) = v; }
+void PlayerTechniqueState::set_level(u8 v) { level = v; }
 #pragma pop
 
 #pragma push
@@ -7195,7 +7195,7 @@ void* get_technique_data__10TObjPlayerFPv(void* p) { return (char*)p + 0x20; }
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-void TObjPlayer::set_tech_override(u8 v) { *(u8*)((char*)this + 0x1) = v; }
+void PlayerTechniqueState::set_tech_override(u8 v) { level_override = v; }
 #pragma pop
 
 #pragma push

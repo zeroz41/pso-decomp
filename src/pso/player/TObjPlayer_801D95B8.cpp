@@ -22,11 +22,11 @@ s16 TObjPlayer::get_section_clamped() {
     return *(s16 *)&this->m_id;
 }
 
-s16 TObjPlayer::get_or_init_field_4() {
-    if (TObjPlayer::is_valid_technique_id(*(s16 *)&this->m_flags) == 0) {
-        this->set_technique_id((s16)0);
+s16 PlayerTechniqueState::get_or_init_field_4() {
+    if (TObjPlayer::is_valid_technique_id(technique) == 0) {
+        set_technique_id((s16)0);
     }
-    return *(s16 *)&this->m_flags;
+    return technique;
 }
 
 void TObjPlayer::split_capped_value(u8 level, u8 *arg1, s8 *arg2) {
