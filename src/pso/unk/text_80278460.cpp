@@ -1,4 +1,5 @@
 #include "pso/unk/TWindowLayoutEntry.h"
+#include "pso/ui/ItemListRow.h"
 #include "types.h"
 #include "pso/item/TItem.h"
 #include "pso/unk/text_80278460.h"
@@ -34,9 +35,9 @@ void fn_80278518(void *arg0, s32 arg1) {
     for (i = 0; i < *(s16 *)((s8 *)arg0 + 0x76); i++) {
         temp_r30 = (u16 *)((TWindowBase *)arg0)->get_array_entry(i);
         if ((((TWindowLayoutEntry *)temp_r30)->is_flag_4_set() != 0) && (arg1 == ((TWindowSubItem *)temp_r30)->get_cursor_pos())) {
-            ((TWindowSubItem *)temp_r30)->m_2c = 0xFFAAAAAA;
-            ((TWindowSubItem *)temp_r30)->m_30 = 0xFF909090;
-            ((TWindowSubItem *)temp_r30)->m_34 = 0xFF909090;
+            ((ItemListRow *)temp_r30)->category_style = 0xFFAAAAAA;
+            ((ItemListRow *)temp_r30)->style = 0xFF909090;
+            ((ItemListRow *)temp_r30)->suffix_style = 0xFF909090;
             *(u16 *)((s8 *)temp_r30 + 0) = (u16) (*(u16 *)((s8 *)temp_r30 + 0) | 0x80);
         }
     }

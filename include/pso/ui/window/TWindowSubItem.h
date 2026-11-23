@@ -4,19 +4,24 @@
 #include "types.h"
 #include "pso/system/task/TObject.h"
 
+struct TWindowMainMenu;
+
 struct TWindowSubItem : public TObject {
+    TWindowSubItem(TWindowMainMenu *parent, s32 client);
     virtual ~TWindowSubItem();
-    u8 m_1c;
-    u8 _pad1D[0x3];
-    u32 m_20;
-    u32 client_id;
-    u32 m_28;
-    u32 m_2c;
-    uaddr m_30;
-    uaddr m_34;
-    uaddr m_38;
-    uaddr m_3c;
-    uaddr m_40;
+    u8 state;
+    u8 pad_1d[0x3];
+    u32 displayed_item;
+    s32 client_id;
+    s32 amount;
+    TWindowMainMenu *parent_menu;
+    uaddr item_list;
+    uaddr purpose_menu;
+    uaddr confirm_menu;
+    uaddr count_input;
+    uaddr help_window;
+
+    static const char *class_name;
     void set_displayed_item(s32 arg1);
     void use_selected_item();
     void close_windows(s32 arg1);
@@ -42,5 +47,4 @@ struct TWindowSubItem : public TObject {
 
 LAYOUT_ASSERT(TWindowSubItem_size, sizeof(TWindowSubItem) == 0x44);
 
-extern "C" void *TWindowSubItem__ct(TWindowSubItem *window_sub_item, s32 parent, s32 client_id);
 #endif

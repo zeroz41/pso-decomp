@@ -255,7 +255,6 @@ void TWindowMainMenu::create_submenu(u32 id) {
     s32 temp_r3_17;
     s32 temp_r3_18;
     saddr temp_r3_2;
-    saddr window_sub_item;
     s32 temp_r3_9;
     s32 var_r0_10;
     s32 var_r0_13;
@@ -264,7 +263,6 @@ void TWindowMainMenu::create_submenu(u32 id) {
     s32 var_r0_17;
     s32 var_r0_18;
     s32 var_r0_2;
-    s32 var_r0_4;
     s32 var_r0_9;
     *(s32 *)((s8 *)((u8 *)this) + 0x4C) = (s32) (*(s32 *)((s8 *)((u8 *)this) + 0x4C) | 4);
     destroy_submenu();
@@ -287,12 +285,7 @@ void TWindowMainMenu::create_submenu(u32 id) {
         this->m_20 = (saddr)new TWindowSubEquip(this, this->client_index);
         return;
     case 11:
-        window_sub_item = ((saddr)TObject::operator new(0x44));
-        var_r0_4 = window_sub_item;
-        if (var_r0_4 != 0) {
-            var_r0_4 = (saddr)TWindowSubItem__ct((TWindowSubItem *)((void *)window_sub_item), (saddr)this, this->client_index);
-        }
-        this->m_20 = var_r0_4;
+        this->m_20 = (saddr)new TWindowSubItem(this, this->client_index);
         return;
     case 23:
     case 24:

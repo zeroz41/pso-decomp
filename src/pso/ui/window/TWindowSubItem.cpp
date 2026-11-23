@@ -31,6 +31,10 @@
 #include "pso/system/ControllerInput.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/player/TPlyItem.h"
+#include "pso/ui/ItemListRow.h"
+#include "pso/ui/window/TWindowMainMenu.h"
+#include "pso/ui/window/TWindowSubEquip_80263AB0.h"
+#include "pso/ui/window/TWindowHelpItem.h"
 
 #pragma readonly_strings on
 
@@ -38,24 +42,9 @@ struct ItemData_80279754 {
     u8 b[0x14];
 };
 
-struct VBase_18_1de278 { char pad[0x18]; };
-
-struct VObj_18_1de278 : VBase_18_1de278 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual s32 m7();
-};
-
 extern "C" {
 void TWindowSubItem__sub_8027AA30(u8 *arg0);
 s32 TWindowSubItem__sub_8027AA78(s32 arg0);
-s32 set_depth__11TWindowBaseFf(s32);
-s32 TWindowSubEquip__sub_80263AF8(s32, s32);
 s32 forward_trade_action_default__16TObjCityMainWarpFPviii(s32, s32, s32, s32);
 saddr get_window_layout_position(s32);
 saddr get_player_by_client_id(s32);
@@ -64,11 +53,9 @@ s32 TObjPlayer__sub_801B7B58(int, int, int);
 
 saddr create_titled_window_menu(saddr arg0, s32 arg1, saddr arg2, s32 arg3);
 void add_item_purpose_actions(TWindowSubItem *arg0, saddr arg1, saddr arg2);
-struct En_8027AA80 { u16 flags; u8 pad2[0x2A]; u32 c2c; u32 c30; u32 c34; };
 
 extern "C" {
 struct Wn_8027AA80 { u8 pad0[0x76]; s16 f76; };
-struct En_8027AB10 { u16 flags; u8 pad2[0x2A]; u32 c2c; u32 c30; u32 c34; };
 struct Wn_8027AB10 { u8 pad0[0x76]; s16 f76; };
 struct Quest_8027ABFC { u8 pad[0x20]; s32 count; };
 struct Win_8027ABFC { u8 pad0[0x20]; s16 id; u8 pad1[0x72 - 0x22]; s16 sel; u8 pad2[0x8C - 0x74]; u32 n; };
@@ -76,27 +63,20 @@ void TWindowSubItem__sub_8027AB10(Wn_8027AB10 *arg0);
 void populate_sub_item_list(Win_8027ABFC *arg0);
 void decrement_clamped(void *, s32);
 void play_sound_effect(s32, s32, s32, s32);
-s32 __nw__7TObjectFUl(s32);
 s32 TWindowCtrl__sub_8024A228(saddr);
-u32 __ct__15TWindowHelpItemFPvUs(s32, s32, s32);
+u32 __nw__7TObjectFUl(u32);
+u32 __ct__15TWindowHelpItemFPvUs(u32, s32, s32);
 s32 send_6x25_equip_item(s32, s32, s32);
 s32 TWindowHelpItem__set_displayed_item_by_id(u32);
-s32 __ct__18TWindowInputNumberFPvllls(s32, s32, s32, s32, s32, s16);
-s32 __ct__7TObjectFP7TObject();
-void __dl__7TObjectFPv(void *);
-void __dt__7TObjectFv(void *, int);
 s32 close_sub_window__10TObjPlayerFv();
 s32 try_send_6x27_use_item(s32, s32);
 s32 create_sub_item_list_window(saddr, const f32 *, s32);
 }
 
 s32 has_armor_with_unit_slot(TWindowSubItem *window_sub_item, TItem *item);
-extern s32 __vt__14TWindowSubItem[];
 
-#define F(t, o) (*(t *)(arg0 + (o)))
-#define LIST F(saddr, 0x30)
 #define BACK_PRESSED(idx) (test_pressed_buttons_packed(&controller_input_state.controllers[idx], 2) != 0 || test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0)
-const char *TWindowSubItem__class_name = "TWindowSubItem";
+const char *TWindowSubItem::class_name = "TWindowSubItem";
 
 // Item list window position (x, y).
 extern const f32 lbl_8044F998[2] = {308.0f, 184.0f};
@@ -135,14 +115,14 @@ void TWindowSubItem::refresh() { ((TShopArmorListWindow *)this)->save_cursor_sel
 
 void TWindowSubItem__sub_8027AB10(Wn_8027AB10 *arg0) {
     s32 i;
-    En_8027AB10 *e;
+    ItemListRow *e;
 
     for (i = 0; i < arg0->f76; i++) {
-        e = (En_8027AB10 *)((TWindowBase *)arg0)->get_array_entry(i);
+        e = (ItemListRow *)((TWindowBase *)arg0)->get_array_entry(i);
         if (((TWindowLayoutEntry *)e)->is_flag_4_set() != 0 && (((TWindowSubItem *)e)->get_cursor_pos() & -0x10) == -0x10) {
-            e->c2c = 0xFFAAAAAA;
-            e->c30 = 0xFF909090;
-            e->c34 = 0xFF909090;
+            e->category_style = 0xFFAAAAAA;
+            e->style = 0xFF909090;
+            e->suffix_style = 0xFF909090;
             e->flags |= 0x80;
         }
     }
@@ -150,13 +130,13 @@ void TWindowSubItem__sub_8027AB10(Wn_8027AB10 *arg0) {
 
 void TWindowSubItem::gray_out_unusable_entries() {
     s32 i;
-    En_8027AA80 *e;
+    ItemListRow *e;
 
     for (i = 0; i < ((Wn_8027AA80 *)this)->f76; i++) {
-        e = (En_8027AA80 *)((TWindowBase *)this)->get_array_entry(i);
+        e = (ItemListRow *)((TWindowBase *)this)->get_array_entry(i);
         if (((TWindowLayoutEntry *)e)->is_flag_4_set() != 0 && ((TWindowSubItem *)e)->get_cursor_pos() == -0xFF) {
-            e->c2c = 0xFFAAAAAA;
-            e->c34 = 0xFF909090;
+            e->category_style = 0xFFAAAAAA;
+            e->suffix_style = 0xFF909090;
             e->flags |= 0x80;
         }
     }
@@ -187,236 +167,230 @@ void TWindowSubItem::clear_flag_and_release() {
 
 void TWindowSubItem::set_flag60_bit10() { *(u16*)((char*)this + 0x60) |= 0x10; }
 
-void *TWindowSubItem__ct(TWindowSubItem *window_sub_item, s32 parent, s32 client_id) {
-    __ct__7TObjectFP7TObject();
-    *(s32 **)((s8 *)window_sub_item + 0x18) = __vt__14TWindowSubItem;
-    *(s32 *)((s8 *)window_sub_item + 0) = (saddr) TWindowSubItem__class_name;
-    window_sub_item->m_2c = parent;
-    window_sub_item->client_id = client_id;
-    window_sub_item->m_30 = create_sub_item_list_window(get_window_layout_position(3), lbl_8044F998, window_sub_item->client_id);
-    TWindowSubEquip__sub_80263AF8(window_sub_item->m_2c, 0);
-    set_depth__11TWindowBaseFf(window_sub_item->m_30);
-    ((TWindowSubShortCutList *)(window_sub_item->m_30))->set_flag70_bit10();
-    window_sub_item->m_40 = 0;
-    window_sub_item->m_34 = 0;
-    window_sub_item->m_38 = 0;
-    window_sub_item->m_3c = 0;
-    window_sub_item->m_20 = -1;
-    window_sub_item->m_28 = 0;
-    window_sub_item->m_1c = 0;
-    return window_sub_item;
+TWindowSubItem::TWindowSubItem(TWindowMainMenu *parent, s32 client) : TObject(parent) {
+    m_name = class_name;
+    parent_menu = parent;
+    client_id = client;
+    item_list = create_sub_item_list_window(get_window_layout_position(3), lbl_8044F998, client_id);
+    ((TWindowBase *)item_list)->set_depth(TWindowSubEquip__sub_80263AF8((u8 *)parent_menu, 0));
+    ((TWindowSubShortCutList *)item_list)->set_flag70_bit10();
+    help_window = 0;
+    purpose_menu = 0;
+    confirm_menu = 0;
+    count_input = 0;
+    displayed_item = -1;
+    amount = 0;
+    state = 0;
 }
 
 TWindowSubItem::~TWindowSubItem() {
-    if (m_3c != 0) { ((TWindowBase *)m_3c)->close(); m_3c = 0; }
-    if (m_38 != 0) { ((TWindowBase *)m_38)->close(); m_38 = 0; }
-    if (m_34 != 0) { ((TWindowBase *)m_34)->close(); m_34 = 0; }
-    if (m_40 != 0) { ((TWindowBase *)m_40)->close(); m_40 = 0; }
-    if (m_30 != 0) { ((TWindowBase *)m_30)->close(); m_30 = 0; }
+    if (count_input != 0) { ((TWindowBase *)count_input)->close(); count_input = 0; }
+    if (confirm_menu != 0) { ((TWindowBase *)confirm_menu)->close(); confirm_menu = 0; }
+    if (purpose_menu != 0) { ((TWindowBase *)purpose_menu)->close(); purpose_menu = 0; }
+    if (help_window != 0) { ((TWindowBase *)help_window)->close(); help_window = 0; }
+    if (item_list != 0) { ((TWindowBase *)item_list)->close(); item_list = 0; }
 }
 
 void TWindowSubItem::run_task() {
-    u8 *arg0 = (u8 *)this;
+    u32 w;
     saddr p;
     s32 idx;
-    u32 w;
-    p = get_player_by_client_id(F(s32, 0x24));
+    p = get_player_by_client_id(this->client_id);
     if (p != 0) {
-        idx = is_player_input_active(F(s32, 0x24));
-        switch (F(u8, 0x1C)) {
+        idx = is_player_input_active(this->client_id);
+        switch (this->state) {
         case 0:
         case 1:
-            if (F(u32, 0x3C) != 0) {
-                ((TWindowBase *)(F(uaddr, 0x3C)))->close();
-                F(u32, 0x3C) = 0;
+            if (this->count_input != 0) {
+                ((TWindowBase *)(this->count_input))->close();
+                this->count_input = 0;
             }
-            if (F(u32, 0x38) != 0) {
-                ((TWindowBase *)(F(uaddr, 0x38)))->close();
-                F(u32, 0x38) = 0;
+            if (this->confirm_menu != 0) {
+                ((TWindowBase *)(this->confirm_menu))->close();
+                this->confirm_menu = 0;
             }
-            if (F(u32, 0x34) != 0) {
-                ((TWindowBase *)(F(uaddr, 0x34)))->close();
-                F(u32, 0x34) = 0;
+            if (this->purpose_menu != 0) {
+                ((TWindowBase *)(this->purpose_menu))->close();
+                this->purpose_menu = 0;
             }
-            if (F(u32, 0x40) == 0) {
+            if (this->help_window == 0) {
                 w = __nw__7TObjectFUl(0xBC);
                 if (w != 0) {
-                    w = __ct__15TWindowHelpItemFPvUs(w, get_window_layout_position(2), F(s32, 0x24));
+                    w = __ct__15TWindowHelpItemFPvUs(w, get_window_layout_position(2), this->client_id);
                 }
-                F(u32, 0x40) = w;
-                TWindowSubEquip__sub_80263AF8(F(s32, 0x2C), 4);
-                set_depth__11TWindowBaseFf(F(u32, 0x40));
-                F(s32, 0x20) = -1;
+                this->help_window = w;
+                ((TWindowBase *)this->help_window)->set_depth(TWindowSubEquip__sub_80263AF8((u8 *)this->parent_menu, 4));
+                this->displayed_item = -1;
             }
-            ((TWindowSubItem *)LIST)->refresh();
-            ((TWindowMenuIconLine *)LIST)->clear_decided();
-            F(u8, 0x1C) = 2;
+            ((TWindowSubItem *)item_list)->refresh();
+            ((TWindowMenuIconLine *)item_list)->clear_decided();
+            this->state = 2;
         case 2:
-            set_displayed_item(((TWindowMenuIconLine *)LIST)->get_cursor_value());
-            if (((TWindowMenuIconLine *)LIST)->is_cancelled() != 0) {
-                ((VObj_18_1de278 *) F(u8 *, 0x2C))->m7();
-                F(u8, 0x1C) = 0x17;
+            set_displayed_item(((TWindowMenuIconLine *)item_list)->get_cursor_value());
+            if (((TWindowMenuIconLine *)item_list)->is_cancelled() != 0) {
+                parent_menu->on_submenu_closed();
+                this->state = 0x17;
                 return;
             }
-            if (((TWindowMenuIconLine *)LIST)->is_decided() != 0) {
-                F(u8, 0x1C) = 3;
+            if (((TWindowMenuIconLine *)item_list)->is_decided() != 0) {
+                this->state = 3;
                 return;
             }
             break;
         case 3:
-            if (F(u32, 0x3C) != 0) {
-                ((TWindowBase *)(F(uaddr, 0x3C)))->close();
-                F(u32, 0x3C) = 0;
+            if (this->count_input != 0) {
+                ((TWindowBase *)(this->count_input))->close();
+                this->count_input = 0;
             }
-            if (F(u32, 0x38) != 0) {
-                ((TWindowBase *)(F(uaddr, 0x38)))->close();
-                F(u32, 0x38) = 0;
+            if (this->confirm_menu != 0) {
+                ((TWindowBase *)(this->confirm_menu))->close();
+                this->confirm_menu = 0;
             }
-            if (F(u32, 0x40) != 0) {
-                ((TWindowBase *)(F(uaddr, 0x40)))->close();
-                F(u32, 0x40) = 0;
+            if (this->help_window != 0) {
+                ((TWindowBase *)(this->help_window))->close();
+                this->help_window = 0;
             }
-            if (F(u32, 0x34) == 0) {
-                F(u32, 0x34) = ((TWindowSubItem *)arg0)->open_purpose_window(((TWindowMenuIconLine *)LIST)->get_cursor_value());
+            if (this->purpose_menu == 0) {
+                this->purpose_menu = open_purpose_window(((TWindowMenuIconLine *)item_list)->get_cursor_value());
             }
-            ((TWindowMenu *)(F(uaddr, 0x34)))->clear_flag_and_release();
-            ((TWindowMenu *)(F(uaddr, 0x34)))->clear_transition_flag();
-            F(u8, 0x1C) = 4;
+            ((TWindowMenu *)(this->purpose_menu))->clear_flag_and_release();
+            ((TWindowMenu *)(this->purpose_menu))->clear_transition_flag();
+            this->state = 4;
         case 4:
-            if (((TWindowMenu *)(F(uaddr, 0x34)))->get_selected_value() == 0) {
-                TWindowShortListCtrl::assign_item_to_palette(((TWindowMenuIconLine *)LIST)->get_cursor_value(), F(s32, 0x24));
+            if (((TWindowMenu *)(this->purpose_menu))->get_selected_value() == 0) {
+                TWindowShortListCtrl::assign_item_to_palette(((TWindowMenuIconLine *)item_list)->get_cursor_value(), this->client_id);
             }
-            if (((TWindowMenu *)(F(uaddr, 0x34)))->is_cancelled() != 0) {
-                F(u8, 0x1C) = 1;
+            if (((TWindowMenu *)(this->purpose_menu))->is_cancelled() != 0) {
+                this->state = 1;
             }
-            if (((TWindowMenu *)(F(uaddr, 0x34)))->is_decided() != 0) {
-                set_cursor_row_for_mode((s32)(((TWindowMenu *)(F(uaddr, 0x34)))->get_selected_value()));
+            if (((TWindowMenu *)(this->purpose_menu))->is_decided() != 0) {
+                set_cursor_row_for_mode((s32)(((TWindowMenu *)(this->purpose_menu))->get_selected_value()));
                 return;
             }
             break;
         case 5:
             if (BACK_PRESSED(idx)) {
                 play_sound_effect(0x52F16, 0, 0, 0);
-                F(u8, 0x1C) = 3;
+                this->state = 3;
             }
             if (TWindowSubItem::is_usable(p) != 0) {
-                exec_item_command(((TWindowMenuIconLine *)LIST)->get_cursor_value(), ((TWindowMenu *)(F(uaddr, 0x34)))->get_selected_value());
+                exec_item_command(((TWindowMenuIconLine *)item_list)->get_cursor_value(), ((TWindowMenu *)(this->purpose_menu))->get_selected_value());
                 return;
             }
             break;
         case 6:
-            ((TWindowOptionCtrl *)(F(uaddr, 0x34)))->open();
-            F(u32, 0x38) = create_menu_window();
-            F(u8, 0x1C) = 7;
+            ((TWindowOptionCtrl *)(this->purpose_menu))->open();
+            this->confirm_menu = create_menu_window();
+            this->state = 7;
         case 7:
-            if (((TWindowMenu *)(F(uaddr, 0x38)))->is_cancelled() != 0) {
-                F(u8, 0x1C) = 3;
+            if (((TWindowMenu *)(this->confirm_menu))->is_cancelled() != 0) {
+                this->state = 3;
             }
-            if (((TWindowMenu *)(F(uaddr, 0x38)))->is_decided() != 0) {
-                close_windows(((TWindowMenu *)(F(uaddr, 0x38)))->get_selected_value());
+            if (((TWindowMenu *)(this->confirm_menu))->is_decided() != 0) {
+                close_windows(((TWindowMenu *)(this->confirm_menu))->get_selected_value());
                 return;
             }
             break;
         case 8: {
-            s16 cur = ((TShopGetItemWindow *)LIST)->get_cursor_index();
-            ((TWindowSubItem *)LIST)->refresh();
-            TWindowSubItem__sub_8027AB10((Wn_8027AB10 *) LIST);
-            ((TWindowSubItem *)LIST)->gray_out_unusable_entries();
-            ((TWindowSubItem *)LIST)->set_field_74(cur);
-            ((TWindowMenuIconLine *)LIST)->clear_decided();
-            ((TWindowSubItem *)LIST)->reset_selected();
-            F(u8, 0x1C) = 9;
+            s16 cur = ((TShopGetItemWindow *)item_list)->get_cursor_index();
+            ((TWindowSubItem *)item_list)->refresh();
+            TWindowSubItem__sub_8027AB10((Wn_8027AB10 *) item_list);
+            ((TWindowSubItem *)item_list)->gray_out_unusable_entries();
+            ((TWindowSubItem *)item_list)->set_field_74(cur);
+            ((TWindowMenuIconLine *)item_list)->clear_decided();
+            ((TWindowSubItem *)item_list)->reset_selected();
+            this->state = 9;
         }
         case 9:
-            if (((TWindowMenuIconLine *)LIST)->is_cancelled() != 0) {
-                ((VObj_18_1de278 *) F(u8 *, 0x2C))->m7();
-                F(u8, 0x1C) = 0x17;
+            if (((TWindowMenuIconLine *)item_list)->is_cancelled() != 0) {
+                parent_menu->on_submenu_closed();
+                this->state = 0x17;
                 return;
             }
-            if (((TWindowMenuIconLine *)LIST)->is_decided() != 0) {
-                ((TWindowMenuIconLine *)LIST)->clear_decided();
-                F(u8, 0x1C) = 0xA;
+            if (((TWindowMenuIconLine *)item_list)->is_decided() != 0) {
+                ((TWindowMenuIconLine *)item_list)->clear_decided();
+                this->state = 0xA;
                 return;
             }
             break;
         case 10:
-            TWindowSubItem__sub_8027AB10((Wn_8027AB10 *) LIST);
-            ((TWindowSubItem *)LIST)->gray_out_unusable_entries();
-            TWindowSubItem__sub_8027AA30((u8 *) LIST);
-            ((TWindowMenuIconLine *)LIST)->clear_decided();
-            F(u8, 0x1C) = 0xB;
+            TWindowSubItem__sub_8027AB10((Wn_8027AB10 *) item_list);
+            ((TWindowSubItem *)item_list)->gray_out_unusable_entries();
+            TWindowSubItem__sub_8027AA30((u8 *) item_list);
+            ((TWindowMenuIconLine *)item_list)->clear_decided();
+            this->state = 0xB;
         case 11:
-            if (((TWindowMenuIconLine *)LIST)->is_cancelled() != 0) {
-                F(u8, 0x1C) = 8;
+            if (((TWindowMenuIconLine *)item_list)->is_cancelled() != 0) {
+                this->state = 8;
                 return;
             }
-            if (((TWindowMenuIconLine *)LIST)->is_decided() != 0) {
+            if (((TWindowMenuIconLine *)item_list)->is_decided() != 0) {
                 use_selected_item();
-                ((TWindowMenuIconLine *)LIST)->clear_decided();
-                F(u8, 0x1C) = 8;
+                ((TWindowMenuIconLine *)item_list)->clear_decided();
+                this->state = 8;
                 return;
             }
             break;
         case 12: {
-            s32 n = find_item_by_id(((TWindowMenuIconLine *)LIST)->get_cursor_value())->get_amount();
+            s32 n = find_item_by_id(((TWindowMenuIconLine *)item_list)->get_cursor_value())->get_amount();
             if (n <= 1) {
-                F(s32, 0x28) = 1;
-                F(u8, 0x1C) = 0xE;
+                this->amount = 1;
+                this->state = 0xE;
                 return;
             }
-            ((TWindowOptionCtrl *)(F(uaddr, 0x34)))->open();
-            if (F(u32, 0x3C) == 0) {
-                F(u32, 0x3C) = create_count_input(n);
+            ((TWindowOptionCtrl *)(this->purpose_menu))->open();
+            if (this->count_input == 0) {
+                this->count_input = create_count_input(n);
             }
-            reinterpret_cast<TWindowSubItem *>(F(uaddr, 0x3C))->clear_flag_and_release();
-            F(u8, 0x1C) = 0xD;
+            reinterpret_cast<TWindowSubItem *>(this->count_input)->clear_flag_and_release();
+            this->state = 0xD;
         }
         case 13:
-            if (((TShopEquipmentSellWindow *)(F(uaddr, 0x3C)))->is_confirmed() != 0) {
-                F(u8, 0x1C) = 3;
+            if (((TShopEquipmentSellWindow *)(this->count_input))->is_confirmed() != 0) {
+                this->state = 3;
             }
-            if (((TWindowInputNumber *)(F(uaddr, 0x3C)))->is_confirmed() != 0) {
-                F(s32, 0x28) = ((TShopEquipmentSellWindow *)(F(uaddr, 0x3C)))->get_result();
-                F(u8, 0x1C) = 0xE;
+            if (((TWindowInputNumber *)(this->count_input))->is_confirmed() != 0) {
+                this->amount = ((TShopEquipmentSellWindow *)(this->count_input))->get_result();
+                this->state = 0xE;
                 return;
             }
             break;
         case 14:
             if (BACK_PRESSED(idx)) {
                 play_sound_effect(0x52F16, 0, 0, 0);
-                F(u8, 0x1C) = 3;
+                this->state = 3;
             }
             if (TWindowSubItem::is_usable(p) != 0) {
-                ((TObjPlayer *)p)->request_item_drop(((TWindowMenuIconLine *)LIST)->get_cursor_value(), F(s32, 0x28));
-                F(u8, 0x1C) = 0x16;
+                ((TObjPlayer *)p)->request_item_drop(((TWindowMenuIconLine *)item_list)->get_cursor_value(), this->amount);
+                this->state = 0x16;
                 return;
             }
             break;
         case 15:
-            F(u8, 0x1C) = 0x10;
+            this->state = 0x10;
         case 16:
             if (BACK_PRESSED(idx)) {
                 play_sound_effect(0x52F16, 0, 0, 0);
-                F(u8, 0x1C) = 1;
+                this->state = 1;
             }
-            p = get_player_by_client_id(F(s32, 0x24));
-            if (p != 0 && TWindowSubItem::is_usable(p) != 0 && TWindowCtrl__sub_8024A228(F(s32, 0x24)) != 0) {
-                ((TObjPlayer *)p)->send_trap_packet(((TWindowMenuIconLine *)LIST)->get_cursor_value() & 0xF);
-                F(u8, 0x1C) = 1;
+            p = get_player_by_client_id(this->client_id);
+            if (p != 0 && TWindowSubItem::is_usable(p) != 0 && TWindowCtrl__sub_8024A228(this->client_id) != 0) {
+                ((TObjPlayer *)p)->send_trap_packet(((TWindowMenuIconLine *)item_list)->get_cursor_value() & 0xF);
+                this->state = 1;
                 return;
             }
             break;
         case 17:
-            F(u8, 0x1C) = 0x12;
+            this->state = 0x12;
         case 18:
             if (BACK_PRESSED(idx)) {
                 play_sound_effect(0x52F16, 0, 0, 0);
-                F(u8, 0x1C) = 1;
+                this->state = 1;
             }
-            p = get_player_by_client_id(F(s32, 0x24));
+            p = get_player_by_client_id(this->client_id);
             if (p != 0 && TWindowSubItem::is_usable(p) != 0 && TAdSinglePlyChrSelectGC::create_if_key_pressed() != 0) {
                 decrement_clamped((void *)(p + 0x7C8), 1);
-                F(u8, 0x1C) = 1;
+                this->state = 1;
                 return;
             }
             break;
@@ -424,50 +398,50 @@ void TWindowSubItem::run_task() {
             Quest_8027ABFC *q = (Quest_8027ABFC *)((TObjPlayer *)p)->get_stats();
             s32 n;
             if (q == NULL) {
-                F(u8, 0x1C) = 0x16;
+                this->state = 0x16;
                 return;
             }
             n = q->count;
             if (n <= 1) {
                 if (n == 1) {
-                    F(s32, 0x28) = 1;
-                    F(u8, 0x1C) = 0x15;
+                    this->amount = 1;
+                    this->state = 0x15;
                     return;
                 }
-                F(u8, 0x1C) = 0x16;
+                this->state = 0x16;
                 return;
             }
-            ((TWindowOptionCtrl *)(F(uaddr, 0x34)))->open();
-            if (F(u32, 0x3C) == 0) {
-                F(u32, 0x3C) = create_count_input(n);
+            ((TWindowOptionCtrl *)(this->purpose_menu))->open();
+            if (this->count_input == 0) {
+                this->count_input = create_count_input(n);
             }
-            reinterpret_cast<TWindowSubItem *>(F(uaddr, 0x3C))->clear_flag_and_release();
-            F(u8, 0x1C) = 0x14;
+            reinterpret_cast<TWindowSubItem *>(this->count_input)->clear_flag_and_release();
+            this->state = 0x14;
         }
         case 20:
-            if (((TShopEquipmentSellWindow *)(F(uaddr, 0x3C)))->is_confirmed() != 0) {
-                F(u8, 0x1C) = 3;
+            if (((TShopEquipmentSellWindow *)(this->count_input))->is_confirmed() != 0) {
+                this->state = 3;
             }
-            if (((TWindowInputNumber *)(F(uaddr, 0x3C)))->is_confirmed() != 0) {
-                F(s32, 0x28) = ((TShopEquipmentSellWindow *)(F(uaddr, 0x3C)))->get_result();
-                F(u8, 0x1C) = 0x15;
+            if (((TWindowInputNumber *)(this->count_input))->is_confirmed() != 0) {
+                this->amount = ((TShopEquipmentSellWindow *)(this->count_input))->get_result();
+                this->state = 0x15;
                 return;
             }
             break;
         case 21:
             if (BACK_PRESSED(idx)) {
                 play_sound_effect(0x52F16, 0, 0, 0);
-                F(u8, 0x1C) = 3;
+                this->state = 3;
             }
             if (TWindowSubItem::is_usable(p) != 0) {
-                ((TObjPlayer *)p)->request_meseta_drop(F(s32, 0x28));
-                F(u8, 0x1C) = 0x16;
+                ((TObjPlayer *)p)->request_meseta_drop(this->amount);
+                this->state = 0x16;
                 return;
             }
             break;
         case 22:
             if ((u32)((TObjPlayer *)p)->is_action_active() == 0) {
-                F(u8, 0x1C) = 1;
+                this->state = 1;
             }
             break;
         case 23:
@@ -476,8 +450,6 @@ void TWindowSubItem::run_task() {
     }
 }
 
-#undef F
-#undef LIST
 #undef BACK_PRESSED
 void TWindowSubItem::render() {  }
 
@@ -491,8 +463,7 @@ s32 TWindowSubItem::open_purpose_window(s32 arg1) {
     } else {
         add_item_purpose_actions((TWindowSubItem *)this, titled_window_menu, arg1);
     }
-    TWindowSubEquip__sub_80263AF8(this->m_2c, 1);
-    set_depth__11TWindowBaseFf(titled_window_menu);
+    ((TWindowBase *)titled_window_menu)->set_depth(TWindowSubEquip__sub_80263AF8((u8 *)this->parent_menu, 1));
     ((TWindowMenu *)titled_window_menu)->set_flag70_bit10();
     ((TWindowMenu *)titled_window_menu)->update_layout_height(224.0f);
     align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(titled_window_menu));
@@ -504,8 +475,7 @@ s32 TWindowSubItem::create_menu_window() {
     titled_window_menu = create_titled_window_menu(((int)get_window_layout_position(6)), 2, (saddr)TWindowSubStatusDisp::get_message_10(0x27), this->client_id);
     forward_trade_action_default__16TObjCityMainWarpFPviii(titled_window_menu, (saddr)TWindowSubStatusDisp::get_message_10(0x5D), 6, 0);
     forward_trade_action_default__16TObjCityMainWarpFPviii(titled_window_menu, (saddr)TWindowSubStatusDisp::get_message_10(0x5E), 6, 1);
-    TWindowSubEquip__sub_80263AF8(this->m_2c, 2);
-    set_depth__11TWindowBaseFf(titled_window_menu);
+    ((TWindowBase *)titled_window_menu)->set_depth(TWindowSubEquip__sub_80263AF8((u8 *)this->parent_menu, 2));
     ((TWindowMenu *)titled_window_menu)->set_flag70_bit10();
     ((TWindowMenu *)titled_window_menu)->update_layout_height(224.0f);
     align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(titled_window_menu));
@@ -515,13 +485,9 @@ s32 TWindowSubItem::create_menu_window() {
 s32 TWindowSubItem::create_count_input(s32 maximum) {
     saddr storage;
 
-    storage = __nw__7TObjectFUl(0x7C);
-    if (storage != 0) {
-        storage = __ct__18TWindowInputNumberFPvllls(storage, get_window_layout_position(5), 1, maximum, 1, (s16) this->client_id);
-    }
+    storage = (saddr)new TWindowInputNumber((void *)get_window_layout_position(5), 1, maximum, 1, (s16) this->client_id);
     ((TWindowInputNumber *)storage)->create((saddr)TWindowSubStatusDisp::get_message_10(0x28));
-    TWindowSubEquip__sub_80263AF8(this->m_2c, 3);
-    set_depth__11TWindowBaseFf(storage);
+    ((TWindowBase *)storage)->set_depth(TWindowSubEquip__sub_80263AF8((u8 *)this->parent_menu, 3));
     ((TWindowInputNumber *)storage)->set_value(224.0f);
     ((TWindowSubItem *)storage)->set_flag60_bit10();
     return storage;
@@ -614,24 +580,24 @@ void add_item_purpose_actions(TWindowSubItem *window_sub_item, saddr list, saddr
 void TWindowSubItem::set_cursor_row_for_mode(s32 arg1) {
     switch (arg1) {
     case 3:
-        this->m_1c = 0xC;
+        this->state = 0xC;
         return;
     case 4:
-        this->m_1c = 0xF;
+        this->state = 0xF;
         return;
     case 5:
-        this->m_1c = 0x11;
+        this->state = 0x11;
         return;
     case 6:
-        this->m_1c = 0x13;
+        this->state = 0x13;
         return;
     case 7:
-        this->m_1c = 6;
+        this->state = 6;
         return;
     case 0:
     case 1:
     case 2:
-        this->m_1c = 5;
+        this->state = 5;
         return;
     }
 }
@@ -648,7 +614,7 @@ void TWindowSubItem::exec_item_command(saddr item_id, s32 arg2) {
             break;
         case 0:
             try_send_6x27_use_item(player, item_id);
-            this->m_1c = 0x16;
+            this->state = 0x16;
             break;
         case 1: {
             TItem *held = (TItem *)TObjPlayer::get_slot_value((void *)(player + 0xD04), item->get_attach_slot());
@@ -657,12 +623,12 @@ void TWindowSubItem::exec_item_command(saddr item_id, s32 arg2) {
                 TObjPlayer::send_6x26_unequip_item((void *)player, t);
             }
             send_6x25_equip_item(player, item_id, 0);
-            this->m_1c = 0x16;
+            this->state = 0x16;
             break;
         }
         case 2:
             TObjPlayer::send_6x26_unequip_item((void *)player, item_id);
-            this->m_1c = 0x16;
+            this->state = 0x16;
             break;
         }
     }
@@ -673,18 +639,18 @@ void TWindowSubItem::close_windows(s32 arg1) {
         switch (arg1) {
         case 0:
             close_sub_window__10TObjPlayerFv();
-            this->m_1c = 0x16;
+            this->state = 0x16;
             return;
         case 1:
-            if (this->m_38 != NULL) {
-                ((TWindowBase *)this->m_38)->close();
-                this->m_38 = 0U;
+            if (this->confirm_menu != NULL) {
+                ((TWindowBase *)this->confirm_menu)->close();
+                this->confirm_menu = 0U;
             }
-            if (this->m_34 != NULL) {
-                ((TWindowBase *)this->m_34)->close();
-                this->m_34 = 0U;
+            if (this->purpose_menu != NULL) {
+                ((TWindowBase *)this->purpose_menu)->close();
+                this->purpose_menu = 0U;
             }
-            this->m_1c = 0xA;
+            this->state = 0xA;
             break;
         }
     }
@@ -696,7 +662,7 @@ void TWindowSubItem::use_selected_item() {
     s32 player;
     player = get_player_by_client_id(this->client_id);
     if (player != 0) {
-        TObjPlayer__sub_801B7B58(player, (int) (((TWindowMenuIconLine *)this->m_30)->get_cursor_value()), ((TWindowSubItem *)(this->m_30))->get_selected_entry());
+        TObjPlayer__sub_801B7B58(player, (int) (((TWindowMenuIconLine *)this->item_list)->get_cursor_value()), ((TWindowSubItem *)(this->item_list))->get_selected_entry());
     }
 }
 
@@ -725,9 +691,9 @@ s32 has_armor_with_unit_slot(TWindowSubItem *window_sub_item, TItem *item) {
 
 extern "C" {
 void TWindowSubItem::set_displayed_item(s32 arg1) {
-    if (((u32) this->m_40 != 0U) && (arg1 != (s32) this->m_20)) {
-        this->m_20 = arg1;
-        TWindowHelpItem__set_displayed_item_by_id(this->m_40);
+    if (((u32) this->help_window != 0U) && (arg1 != (s32) this->displayed_item)) {
+        this->displayed_item = arg1;
+        TWindowHelpItem__set_displayed_item_by_id(this->help_window);
     }
 }
 }
