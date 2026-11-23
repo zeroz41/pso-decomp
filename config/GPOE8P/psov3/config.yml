@@ -7219,7 +7219,7 @@ force_active:
   - init_work__11TBoss6Type1Fv
   - init_zeroed_object__10TObjPlayerFv
   - initialize__13TUnk_804A05C8FP15TItemHeapObjectUsll
-  - initialize__16TItemWeaponRifleFlPUc
+  - __ct__13TUnk_804A5248FP7TObjectPUc
   - initialize_battle__19TPlayerBattleCtrl4PFv
   - initialize_boss6_type2_appear_particle_origin__Fv
   - __ct__13TUnk_804A65E0FP7TObjectPUc

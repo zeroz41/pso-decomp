@@ -3,8 +3,10 @@
 #include "types.h"
 #include "pso/weapon/TItemWeapon.h"
 
+// Made by create_rifle_weapon.
 class TUnk_804A5248 : public TItemWeapon {
 public:
+    TUnk_804A5248(TObject *parent, u8 *item);
     virtual ~TUnk_804A5248();
     virtual void vfunc_60();
     virtual void update_idle();
