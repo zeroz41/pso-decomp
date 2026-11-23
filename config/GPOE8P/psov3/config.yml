@@ -1545,7 +1545,7 @@ force_active:
   - __ct__13TUnk_804A3168FP7TObjectPUc
   - TObjPlayer__sub_8012AF50
   - __ct__13TUnk_804A4C78FP7TObjectPUc
-  - TObjPlayer__sub_8012C4E4
+  - __ct__13TUnk_804A5340FP13TUnk_804A535CPC3VecPC3Vecf
   - __ct__13TUnk_804A5930FP7TObjectPUc
   - TObjPlayer__sub_8013A788
   - TObjPlayer__sub_8015434C
@@ -6643,7 +6643,7 @@ force_active:
   - get_gstream_buffered_bytes__Fv
   - get_handle_6x78_entry__FUs
   - get_hit_count__11TBoss6Type2Fv
-  - get_hp_by_flag__10TObjPlayerFv
+  - fn_8012C9D8__13TUnk_804A535CFv
   - get_indirect_recipe__Fl
   - get_indirect_source_id__FUc
   - get_indirect_source_pixels__FUc
@@ -7199,7 +7199,7 @@ force_active:
   - init_timer__13TObjCHTimeWinFv
   - init_timer__18TChallenge4PResultFv
   - init_timer_event__13TUnk_804A0608Fv
-  - init_trade_action__13TUnk_804A535CFv
+  - __ct__13TUnk_804A535CFP7TObjectPUc
   - __ct__13TUnk_804A5A28FP7TObjectPUc
   - __ct__13TUnk_804A5F18FP7TObjectPUc
   - init_vertex_table__17TObjEneBm3FlyNestFv

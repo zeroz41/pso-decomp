@@ -507,7 +507,6 @@ struct TObjPlayer : public TObjChara {
     s16 get_stage_strike_count();
     static void notify_hit_target(u32 arg0, uaddr arg1, u32 arg2, uaddr arg3);
     s32 is_rand_below_threshold();
-    saddr get_hp_by_flag();
     s16 get_kill_count();
     static void apply_status_effect(saddr a);
     // Enters (target, body) in the hit pair table unless it is already there.
