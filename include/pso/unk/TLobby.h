@@ -55,7 +55,6 @@ struct TLobby : public TObject {
     static void free_nodes_with_id(uaddr arg0);
     static void create_time_window(void * _w0);
     void update_battle_cleanup_flag();
-    void set_challenge_record_page(s32 v);
     static void update_quest_challenge_state(void *arg0_);
     s32 destroy_on_phase_change();
     void copy_challenge_settings(u8 *settings);
@@ -574,9 +573,6 @@ struct TLobby : public TObject {
     static void drain_deferred_packets();
     s32 get_table_entry_by_index();
     static void open_challenge_window(s32 arg0, s32 arg1);
-    void open_challenge_progress_window(void *arg1);
-    void show_challenge_record_window(s32 mode);
-    void clear_challenge_record_window();
     static s32 get_flagged_table_entry(s32 arg0);
     static s32 get_flag_value_if_set();
     void add_status_disp_entry(s32 arg1, s32 arg2);

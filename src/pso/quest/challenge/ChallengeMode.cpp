@@ -25,7 +25,7 @@ LAYOUT_ASSERT(TChallenge_state_offset, offsetof(TChallenge, state) == 0x1C);
 LAYOUT_ASSERT(TChallenge_frame_offset, offsetof(TChallenge, frame_count) == 0x20);
 LAYOUT_ASSERT(TChallenge_size, sizeof(TChallenge) == 0x30);
 
-s32 challenge_task;
+TChallenge *challenge_task;
 s32 challenge_task_created;
 s32 TLobby__data_805D4E30;
 
@@ -384,7 +384,7 @@ void TLobby::update_battle_cleanup_flag() {
     }
 }
 
-void TLobby::set_challenge_record_page(s32 v) {
+void TChallenge::set_challenge_record_page(s32 v) {
     if (v < 0 || v >= 0x11) {
         return;
     }
@@ -542,7 +542,7 @@ void TChallenge::wait_for_quest() {
         TLobby::update_quest_challenge_state(arg0);
         if (is_quest_active() != 0) {
             ((s32)TAdSinglePlyChrSelectGC::init());
-            ((TLobby *)arg0)->clear_challenge_record_window();
+            clear_challenge_record_window();
             ((s32)TLobby__sub_8026A328());
             TObjWarnChime::create((TObject*)arg0);
             this->state = 2;

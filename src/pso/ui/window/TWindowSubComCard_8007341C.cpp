@@ -9,6 +9,7 @@
 #include "pso/ui/window/TWindowAddition.h"
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/unk/TLobby.h"
+#include "pso/quest/challenge/TChallenge.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
@@ -104,7 +105,7 @@ void TLobby::open_challenge_window(s32 lobby, s32 challenge_id) {
     challenge_mode_state.record_window->append_line((saddr)challenge_progress_text_buffer, 0);
 }
 
-void TLobby::open_challenge_progress_window(void *slot) {
+void TChallenge::open_challenge_progress_window(void *slot) {
     char tmp[32];
     s32 n;
     ChallengeClientRecords *rec;
@@ -140,7 +141,7 @@ void TLobby::open_challenge_progress_window(void *slot) {
     challenge_mode_state.record_window->append_line((saddr)challenge_progress_text_buffer, 0);
 }
 
-void TLobby::show_challenge_record_window(s32 mode) {
+void TChallenge::show_challenge_record_window(s32 mode) {
     if (has_window_task_root() == 0) {
         clear_challenge_record_window();
         return;
@@ -168,7 +169,7 @@ void TLobby::show_challenge_record_window(s32 mode) {
     }
 }
 
-void TLobby::clear_challenge_record_window() {
+void TChallenge::clear_challenge_record_window() {
     challenge_mode_state.record_window_mode = 0;
     challenge_mode_state.record_window = NULL;
 }
