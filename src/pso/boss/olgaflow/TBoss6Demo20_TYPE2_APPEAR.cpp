@@ -21,6 +21,7 @@
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/boss/olgaflow/TBoss6Demo20_TYPE2_APPEAR.h"
+#include "pso/boss/olgaflow/TBoss6Type1.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/object/trap/TOTrapAncient01_80226534.h"
 #include "pso/system/MatrixStack.h"
@@ -260,7 +261,6 @@ TBoss6Demo20_TYPE2_APPEAR::~TBoss6Demo20_TYPE2_APPEAR() {
 }
 
 
-extern s32 boss6_type1_part_model_ids[]; // model ids, defined in TBoss6Type1.cpp
 extern "C" {
 __declspec(section ".data") extern s32 boss6_type2_appear_motion_indices[];
 struct AppearanceClassTag { const char *value; u32 padding; };

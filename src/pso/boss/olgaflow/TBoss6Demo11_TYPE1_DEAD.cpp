@@ -13,6 +13,7 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/boss/olgaflow/TBoss6Demo11_TYPE1_DEAD.h"
+#include "pso/boss/olgaflow/TBoss6Type1.h"
 #include "pso/boss/olgaflow/TBoss6PlotFalz.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/effect/particle/TParticleCtrl.h"
@@ -26,7 +27,6 @@ struct FishSpawnEntry {
 
 // One node of the list ModelNodePositionCapture::create reads (node -1 ends it).
 
-extern s32 boss6_type1_part_model_ids[]; // model ids, defined in TBoss6Type1.cpp
 
 const char TBoss6Demo11_TYPE1_DEAD__class_name_string[] = "TBoss6Demo11_TYPE1_DEAD";
 static s32 death_motion_indices[2] = {4, 5};          // motion ids

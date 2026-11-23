@@ -309,6 +309,9 @@ struct TBoss6Type1Action {
 };
 extern TBoss6Type1Action boss6_type1_action_table[41];
 
+// Scene archive ids of the two Olga Flow body part models.
+extern s32 boss6_type1_part_model_ids[];
+
 
 // Defined in TBoss6Type1.cpp's .rodata; init_effect_slot_1 reads it too.
 extern const Vec boss6_type1_base_position;

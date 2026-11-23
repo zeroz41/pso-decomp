@@ -12,6 +12,7 @@
 #include "pso/map/TObjMapCsn.h"
 #include "pso/system/vector.h"
 #include "pso/boss/olgaflow/TBoss6Demo15_TYPE2_WAIT.h"
+#include "pso/boss/olgaflow/TBoss6Type1.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/math/MatrixTransforms.h"
@@ -22,9 +23,6 @@
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/effect/particle/TParticleCtrl.h"
-
-// One TObjMapCsn of the scene: its position, scale and y rotation.
-struct WaitDemoCsnEntry { Vec position; Vec scale; s32 rotation_y; };
 
 #pragma readonly_strings on
 const char *TBoss6Demo15_TYPE2_WAIT__class_name = "TBoss6Demo15_TYPE2_WAIT";
@@ -44,10 +42,9 @@ static const WaitDemoCsnEntry lbl_8047843C[10] = {
 };
 static const Vec lbl_80478554 = {-10000.0f, 0.0f, 0.0f};
 
-extern s32 boss6_type1_part_model_ids[];
 __declspec(section ".data") s32 lbl_804EFB70[2] = {0x1F, 0x21};
 
-void TBoss6Demo15_TYPE2_WAIT::sub_8033FDB0() {
+void TBoss6Demo15_TYPE2_WAIT::draw_parts() {
     s32 i;
     push_matrix();
     set_motion_packed_rotation();
@@ -64,7 +61,7 @@ s32 TBoss6Demo15_TYPE2_WAIT::get_plot_state() { return player_near; }
 
 #pragma push
 #pragma fp_contract on
-void TBoss6Demo15_TYPE2_WAIT::sub_8033FE30() {
+void TBoss6Demo15_TYPE2_WAIT::update_orbit_position() {
     f32 radius = (40.0f * sin_table_lookup(radius_phase)) + 230.0f;
     f32 s = sin_table_lookup(orbit_angle);
     f32 c = cos_table_lookup(orbit_angle);
@@ -80,7 +77,7 @@ void TBoss6Demo15_TYPE2_WAIT::advance_offset() {
     radius_phase += 873.81335f;
 }
 
-void TBoss6Demo15_TYPE2_WAIT::sub_8033FF64() {
+void TBoss6Demo15_TYPE2_WAIT::reset_orbit() {
     orbit_angle = 0x6000;
     radius_phase = 0;
 }
@@ -106,7 +103,7 @@ void TBoss6Demo15_TYPE2_WAIT::check_any_player_near() {
     }
 }
 
-void TBoss6Demo15_TYPE2_WAIT::sub_80340040() {
+void TBoss6Demo15_TYPE2_WAIT::destroy_csn_objects() {
     s32 i;
     for (i = 0; i < 10; i++) {
         if (csn_objects[i] != NULL) {
@@ -116,7 +113,7 @@ void TBoss6Demo15_TYPE2_WAIT::sub_80340040() {
     }
 }
 
-void TBoss6Demo15_TYPE2_WAIT::sub_8034009C() {
+void TBoss6Demo15_TYPE2_WAIT::create_csn_objects() {
     MapCsnSetData set;
     s32 i;
     s32 j;
@@ -136,13 +133,13 @@ void TBoss6Demo15_TYPE2_WAIT::sub_8034009C() {
     }
 }
 
-void TBoss6Demo15_TYPE2_WAIT::render() { sub_8033FDB0(); }
+void TBoss6Demo15_TYPE2_WAIT::render() { draw_parts(); }
 
 void TBoss6Demo15_TYPE2_WAIT::run_task() {
     if (TObjEneDD::query_teammate_state() == 0) {
         advance_offset();
         VecCopy(&prev_position, &position);
-        sub_8033FE30();
+        update_orbit_position();
         if (emitter != NULL) {
             emitter->set_position(&position);
         }
@@ -159,7 +156,7 @@ TBoss6Demo15_TYPE2_WAIT::~TBoss6Demo15_TYPE2_WAIT() {
         TParticleCtrl::release(emitter);
         emitter = NULL;
     }
-    sub_80340040();
+    destroy_csn_objects();
 }
 
 #pragma push
@@ -181,9 +178,9 @@ TBoss6Demo15_TYPE2_WAIT::TBoss6Demo15_TYPE2_WAIT(TBoss6PlotFalz *plot) : TObject
         parts[i].texlist = get_bml_texlist(bml, id);
         parts[i].motion = get_bml_motion(bml, lbl_804EFB70[i]);
     }
-    sub_8034009C();
-    sub_8033FF64();
-    sub_8033FE30();
+    create_csn_objects();
+    reset_orbit();
+    update_orbit_position();
     VecCopy(&prev_position, &position);
     emitter = create_particle_emitter(&position, 0x225);
     if (emitter != NULL) {
