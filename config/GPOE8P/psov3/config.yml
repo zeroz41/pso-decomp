@@ -5629,7 +5629,7 @@ force_active:
   - despawn_state__14TObjEneBm5WolfFl
   - __dt__12TBoss1DragonFv
   - destroy__12TPhotonGollaFPvs
-  - destroy__12TPhotonPillaFPvs
+  - __dt__12TPhotonPillaFv
   - destroy__12T_OWEHMS_ExpFs
   - destroy__13TPhotonFarllaFPvs
   - __dt__18TObjEneBm5WolfNodeFv
@@ -7989,7 +7989,7 @@ force_active:
   - jungle_boss_warp_model_names
   - lbl_804C3564
   - lbl_804C35F4
-  - lbl_804C3ACC
+  - __vt__12TPhotonPilla
   - lbl_804C46B0
   - lbl_804C4794
   - lbl_804C4878
@@ -16265,7 +16265,7 @@ force_active:
   - sub_801AB688__12TPhotonGollaFv
   - sub_801AC444__13TPhotonLeillaFv
   - sub_801AD4A8__12TPhotonMyllaFv
-  - sub_801ADC7C__12TPhotonPillaFv
+  - reset_color__12TPhotonPillaFUc
   - check_dismiss_to_close_input__22TQuestVmDownLoadServerFv
   - handle_download_done_input__22TQuestVmDownLoadServerFv
   - sub_801F6D24__22TQuestVmDownLoadServerFv

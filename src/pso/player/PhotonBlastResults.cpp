@@ -14,7 +14,7 @@
 #include "pso/unk/text_801AAB74.h"
 #include "pso/unk/text_801AB370.h"
 #include "pso/unk/text_801ABE14.h"
-#include "pso/unk/text_801AE1F8.h"
+#include "pso/effect/photon/TPhotonPilla.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/unk/TUnk_804C349C.h"
 #include "pso/player/PhotonBlastResults.h"
@@ -51,16 +51,6 @@ struct Counts_801A8868 { s32 v[4]; };
 struct Hit_801A86E0 { s32 kind; f32 value; };
 
 
-struct PhotonSummonParams_801A9870 {
-    Vec position;
-    u16 owner_id;
-    s32 is_first;
-    s32 has_more;
-    u8 pad18[4];
-    u8 count;
-    f32 level;
-};
-LAYOUT_ASSERT(PhotonSummonParams_801A9870_size, sizeof(PhotonSummonParams_801A9870) == 0x24);
 struct VBase_18_b27ba1 { char pad[0x18]; };
 struct VObj_18_b27ba1 : VBase_18_b27ba1 {
     virtual void m0();
@@ -591,7 +581,7 @@ void deliver_photon_blast_results_delayed(TUnk_804C349C *seq) {
 }
 
 void TUnk_804C349C::step_photon_blast_sequence() {
-    PhotonSummonParams_801A9870 params;
+    PhotonSummonParams params;
     u8 *summon;
     s32 first_summon;
     s32 j;
@@ -637,11 +627,7 @@ void TUnk_804C349C::step_photon_blast_sequence() {
             this->summon = (TObject *)summon;
             break;
         case 3:
-            summon = (u8 *)TObject::operator new(0x1AC);
-            if (summon != NULL) {
-                summon = TPhotonPilla__ct(summon, (u8 *)&params);
-            }
-            this->summon = (TObject *)summon;
+            this->summon = new TPhotonPilla(&params);
             break;
         case 4:
             summon = (u8 *)TObject::operator new(0x1B0);
