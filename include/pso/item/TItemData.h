@@ -77,6 +77,7 @@ struct TItemData {
     int calc_display_grade();
     s32 get_base_rarity();
     s32 check_item_flags();
+    void clear_unidentified_flag();
     static s32 is_item_usable(saddr arg0, u8 *arg1);
     saddr test_flag3();
     saddr get_item_field_2();

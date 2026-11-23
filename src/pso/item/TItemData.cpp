@@ -813,7 +813,6 @@ saddr get_item_chunk_buffer(int a0);
 extern const char *lbl_805D2B10;
 s32 format_item_description(u8 *item);
 extern "C" {
-void TItemData__clear_unidentified_flag(void *arg0);
 
 void lookup_item_def__9TItemDataFPv(void *arg0) {
     is_item_stackable(*(u8 *)((s8 *)arg0 + 0), *(u8 *)((s8 *)arg0 + 1));
@@ -1875,9 +1874,9 @@ s32 TItemData::get_base_rarity() {
     return 0;
 }
 
-void TItemData__clear_unidentified_flag(void *arg0) {
-    if ((u8) *(u8 *)((s8 *)arg0 + 0) == 0) {
-        *(u8 *)((s8 *)arg0 + 4) = (u8) (*(u8 *)((s8 *)arg0 + 4) & 0x7F);
+void TItemData::clear_unidentified_flag() {
+    if (this->data1.data_u8[0] == 0) {
+        this->data1.data_u8[4] &= 0x7F;
     }
 }
 

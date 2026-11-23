@@ -22,6 +22,7 @@ void TObjPlayer__sub_801B1BA4(void);
 void TObjPlayer__sub_801B1C8C(void);
 // Restores the player to full health and clears its status effects.
 void recover_player_full(void *player);
+void send_6x25_equip_item(void *player, s32 item_id, s32 arg2);
 }
 
 #endif

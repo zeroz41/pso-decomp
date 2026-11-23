@@ -9,14 +9,13 @@
 
 #include "pso/ui/city/TShopWindowBase.h"
 #include "pso/ui/city/TShopJudgmentItemWindow.h"
+#include "pso/system/task/TMainTask.h"
 
 extern "C" {
 TObject *set_service_counter_camera(void *, int);
 saddr get_window_layout_position(int, f32);
 s32 TJudgmentSequence__slot_flags[4];
 TJudgmentSequence *judgment_sequence_instance;
-TShopJudgmentItemWindow *__ct__23TShopJudgmentItemWindowFPvPvPv(TShopJudgmentItemWindow *arg0, void *arg1, void *arg2, void *arg3);
-extern void *tl_05;
 }
 
 #pragma readonly_strings on
@@ -57,13 +56,10 @@ void TJudgmentSequence::handle_close_input() {
 }
 
 void TJudgmentSequence::open_judgment_window() {
-    TShopJudgmentItemWindow *o = (TShopJudgmentItemWindow *)TObject::operator new(0x178);
-    if (o != 0) {
-        o = __ct__23TShopJudgmentItemWindowFPvPvPv(o, tl_05, this, player);
-    }
+    TShopJudgmentItemWindow *o = new TShopJudgmentItemWindow(tl_05, this, player);
     o->m_16c = TJudgmentSequence__sub_80215BCC;
-    o->m_174 = TJudgmentSequence__sub_80215BA0;
-    o->m_170 = TJudgmentSequence__sub_80215BF8;
+    o->on_close = TJudgmentSequence__sub_80215BA0;
+    o->on_cancel = TJudgmentSequence__sub_80215BF8;
     set_field_20(5);
 }
 
