@@ -49,7 +49,7 @@ struct TShopArmorListWindow : public TShopWindowBase {
     void clamp_selection_to_valid_entry();
     void save_cursor_selection();
     void close_list();
-    void save_and_refresh_cursor(void* a1, void* a2);
+    void save_and_refresh_cursor(void* kind, void* sub);
     void save_and_close();
 };
 

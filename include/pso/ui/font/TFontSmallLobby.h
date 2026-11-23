@@ -44,7 +44,7 @@ struct TFontSmallLobby
     void init_6x39_packet();
     void update_and_send_60();
     void bswap_fields();
-    void*copy_packet_header_6x38(void* a1);
+    void*copy_packet_header_6x38(void* source);
     void send_state();
     void *handle_photon_blast_ready(void *src);
     static void *create(s32 id);

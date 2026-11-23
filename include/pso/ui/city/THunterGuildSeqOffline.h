@@ -20,7 +20,7 @@ struct THunterGuildSeqOffline : public TShopSequence {
     static void clear_instance_table();
     static void notify_quest_thread();
     static void reset_quest_result_callbacks();
-    static void *create(void *arg0);
+    static void *create(void *player);
     static s32 check_party_gathered();
     static void set_state_close(TShopWindowBase *sequence);
     static void set_state_4(TShopWindowBase *sequence);

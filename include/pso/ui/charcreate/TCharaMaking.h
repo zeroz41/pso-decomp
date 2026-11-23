@@ -34,7 +34,7 @@ struct TCharaMaking : public TObject {
     static s32 is_end();
     void update_light_direction();
     virtual void run_task();
-    static void *create(void *arg0, void *arg1);
+    static void *create(void *parent, void *arg1);
     static s32 update_main_menu(saddr arg0);
     void build_appearance_texture_names(CharacterAppearanceFields *appearance, CharacterClassAppearance *definition, CharacterTextureList *source);
 };

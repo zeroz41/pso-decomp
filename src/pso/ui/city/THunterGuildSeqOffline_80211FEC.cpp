@@ -33,8 +33,8 @@ int THunterGuildSeqOffline__sub_80211FEC(int a0) {  return THunterGuildSeqOnline
     extern int THunterGuildSeqOnline_Server__instance_table[];
 int THunterGuildSeqOffline__sub_80212000(int a0) {  return THunterGuildSeqOnline_Server__instance_table[a0]; }
 
-void *THunterGuildSeqOffline::create(void *arg0) {
-    return new THunterGuildSeqOffline(tl_05, (TObjPlayer *)arg0);
+void *THunterGuildSeqOffline::create(void *player) {
+    return new THunterGuildSeqOffline(tl_05, (TObjPlayer *)player);
 }
 
     extern int THunterGuildSeqOffline__instance_table[];

@@ -49,8 +49,8 @@ s32 create_font_small_task_default_color(s32 arg0, s32 arg1, s32 arg2, s32 arg3,
 void fn_800FCCC8(saddr arg0, s32 arg1);
 s32 fn_800FCCF4(void* p);
 
-void fn_800FCCC8(saddr arg0, s32 card_status_bits) {
-    TWindowKeyBoardHard::set_card_window_flags((void *)arg0, (s32)(card_status_bits << 0xD), (s32)0xFFFF1FFF);
+void fn_800FCCC8(saddr client_id, s32 card_status_bits) {
+    TWindowKeyBoardHard::set_card_window_flags((void *)client_id, (s32)(card_status_bits << 0xD), (s32)0xFFFF1FFF);
 }
 s32 fn_800FCCF4(void* p) { return *(s32*)((char*)p + 0x874); }
 }

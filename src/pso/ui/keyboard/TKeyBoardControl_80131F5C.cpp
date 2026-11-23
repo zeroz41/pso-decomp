@@ -30,13 +30,13 @@ int TWindowKeyBoardBase::is_cancelled() { return (m_60 >> 5) & 0x1; }
 int TWindowKeyBoardBase::is_confirmed() { return m_60 & 0x1; }
 void TWindowKeyBoardBase::set_flag62_bit8() { m_62 |= 0x8; }
 
-s32 KeyboardKeyState::append_char(s8 arg1) {
+s32 KeyboardKeyState::append_char(s8 chan) {
     s32 r;
     u8 *p;
     if (raw_count >= 0x7C) {
         return 1;
     }
-    r = poll_keyboard_port((arg1), (u8 *)((s32 *)((s32 *)&raw[raw_count])));
+    r = poll_keyboard_port((chan), (u8 *)((s32 *)((s32 *)&raw[raw_count])));
     if (r == -1) {
         return 0;
     }
@@ -47,8 +47,8 @@ s32 KeyboardKeyState::append_char(s8 arg1) {
             raw_count++;
         }
     }
-    mode = TKeyBoardControl__sub_803F1548(arg1);
-    port = arg1;
+    mode = TKeyBoardControl__sub_803F1548(chan);
+    port = chan;
     return 1;
 }
 

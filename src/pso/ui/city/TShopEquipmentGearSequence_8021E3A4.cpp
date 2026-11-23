@@ -9,8 +9,8 @@ extern "C" {
 
 
 
-void *TShopEquipmentGearSequence::create_instance(void *arg0) {
-    return new TShopEquipmentGearSequence(tl_05, (TObjPlayer *)arg0);
+void *TShopEquipmentGearSequence::create_instance(void *player) {
+    return new TShopEquipmentGearSequence(tl_05, (TObjPlayer *)player);
 }
 }
 

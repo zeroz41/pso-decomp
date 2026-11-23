@@ -247,15 +247,15 @@ s32 TLobby__sub_80211C3C(void) {
 extern "C" {
 
 
-s32 TLobby::handle_main_phase(saddr arg0) {
+s32 TLobby::handle_main_phase(saddr player) {
     if (get_main_phase() == 0xE) {
-        return (saddr)THunterGuildSeqOffline::create((void *)arg0);
+        return (saddr)THunterGuildSeqOffline::create((void *)player);
     }
     if (get_main_phase() == 0xF) {
         if ((s32) local_client_id == (s32) TLobby__designated_client_id) {
-            return (saddr)TLobby::create_tl05_object((void *)arg0);
+            return (saddr)TLobby::create_tl05_object((void *)player);
         }
-        return (saddr)create_lobby_object_05((void *)arg0);
+        return (saddr)create_lobby_object_05((void *)player);
     }
     return 0;
 }
@@ -362,10 +362,10 @@ void TLobby::update_guild_or_quest_phase() {
 
 }
 
-void *create_lobby_object_05(void *arg0) {
-    return new THunterGuildSeqOnline_Client(tl_05, (TObjPlayer *)arg0);
+void *create_lobby_object_05(void *player) {
+    return new THunterGuildSeqOnline_Client(tl_05, (TObjPlayer *)player);
 }
 
-void *TLobby::create_tl05_object(void *arg0) {
-    return new THunterGuildSeqOnline_Server(tl_05, (TObjPlayer *)arg0);
+void *TLobby::create_tl05_object(void *player) {
+    return new THunterGuildSeqOnline_Server(tl_05, (TObjPlayer *)player);
 }

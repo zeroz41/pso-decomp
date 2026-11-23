@@ -432,8 +432,8 @@ void TKeyBoardControl::update_key_events(s32 chan) {
 }
 #pragma pop
 
-u8 TKeyBoardControl__sub_803F1548(s32 arg0) {
-    return *(u8 *)((s8 *)((u8 *)&keyboard_pad_state_table.value + (arg0 * 0x68)) + 1);
+u8 TKeyBoardControl__sub_803F1548(s32 chan) {
+    return *(u8 *)((s8 *)((u8 *)&keyboard_pad_state_table.value + (chan * 0x68)) + 1);
 }
 
 void TKeyBoardControl::enable_keyboard_polling(s32 chan) {

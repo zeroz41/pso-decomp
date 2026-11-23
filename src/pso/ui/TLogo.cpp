@@ -74,7 +74,7 @@ int is_sega_logo_done(TAdSEGAlogo *logo) {  return sega_logo_done_flag; }
 
 int is_logo_exit_requested(int _w0) {  return TLogo__exit_requested_flag; }
 
-int TLogo__sub_8013F7E8(int _w0) {  return TAdADXlogo__done; }
+int TLogo__sub_8013F7E8(int adx_logo) {  return TAdADXlogo__done; }
 
 void TLogo::init_logo_scene() {
     s32 i;

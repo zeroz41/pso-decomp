@@ -633,19 +633,19 @@ void TCheckRoomSequence::close_window() {
 
 #pragma push
 #pragma optimization_level 1
-void open_bank__18TCheckRoomSequenceFv(u8 *arg0) {
+void open_bank__18TCheckRoomSequenceFv(u8 *sequence) {
     void *w;
     NJS_POINT2 v;
     v.x = 332.0f;
     v.y = 80.0f;
-    ((TShopSequence *)arg0)->create_message_window((s32)(get_window_layout_position(0x2C)), (saddr)&v);
-    ((TShopWindowBase *)arg0)->display_shop_message(0x31, 1);
-    *(s32 *)((s8 *)arg0 + 0x38) = (saddr)create_meseta_window((u16)((TShopSequence *)arg0)->get_child_field1c());
-    *(void **)((s8 *)arg0 + 0x40) = new TWindowDeposit((s16)((TShopSequence *)arg0)->get_child_field1c());
-    TWindowMainMenu::set_entry_field_20(*(s32 *)((s8 *)arg0 + 0x40), TCheckRoomSequence::get_room_data(((TShopWindowBase *)arg0)->sub_8022397C()));
-    *(s32 *)((s8 *)arg0 + 0x2C) = 0;
-    *(s32 *)((s8 *)arg0 + 0x48) = set_service_counter_camera(arg0, 6);
-    ((TShopWindowBase *)arg0)->set_field_20(2);
+    ((TShopSequence *)sequence)->create_message_window((s32)(get_window_layout_position(0x2C)), (saddr)&v);
+    ((TShopWindowBase *)sequence)->display_shop_message(0x31, 1);
+    *(s32 *)((s8 *)sequence + 0x38) = (saddr)create_meseta_window((u16)((TShopSequence *)sequence)->get_child_field1c());
+    *(void **)((s8 *)sequence + 0x40) = new TWindowDeposit((s16)((TShopSequence *)sequence)->get_child_field1c());
+    TWindowMainMenu::set_entry_field_20(*(s32 *)((s8 *)sequence + 0x40), TCheckRoomSequence::get_room_data(((TShopWindowBase *)sequence)->sub_8022397C()));
+    *(s32 *)((s8 *)sequence + 0x2C) = 0;
+    *(s32 *)((s8 *)sequence + 0x48) = set_service_counter_camera(sequence, 6);
+    ((TShopWindowBase *)sequence)->set_field_20(2);
 }
 #pragma pop
 
@@ -981,10 +981,10 @@ s32 copy_item_record__18TCheckRoomSequenceFiPvi(s32 idx, void *data, s32 slot) {
 
 #pragma push
 #pragma optimization_level 1
-s32 store_item_in_bank(u8 *item, s32 arg1, s32 slot) {
+s32 store_item_in_bank(u8 *item, s32 amount, s32 slot) {
     Rec_80211034 *recs = bank_item_records_by_slot[slot];
     s32 i;
-    if (TCheckRoomSequence__sub_80210B34(item, arg1, slot) != 0) {
+    if (TCheckRoomSequence__sub_80210B34(item, amount, slot) != 0) {
         return 1;
     }
     if (((s32 (*)(s32))bank_has_free_row)(slot) == 0) {

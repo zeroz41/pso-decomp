@@ -190,18 +190,18 @@ void TFontSmallLobby__sub_801D671C(void *a0, int a1);
 
 struct Sp801D6230_801d6230 { s16 f0; s16 fA; s16 fC; };
 
-void draw_party_label__15TFontSmallLobbyFiUiUs(saddr font_small_lobby, uaddr arg1, u16 arg2) {
+void draw_party_label__15TFontSmallLobbyFiUiUs(saddr font_small_lobby, uaddr arg1, u16 to) {
     Sp801D6230_801d6230 sp8;
 
     ((TFontSmallLobby *)font_small_lobby)->set_flag_40_bit5();
     subtract_photon_blast_charge((PhotonBlastGauge *)font_small_lobby, 10.0f);
     ((TFontSmallLobby *)(font_small_lobby + 0x4C))->set_target_index(8);
     TFontSmallLobby__sub_801D671C((void *)(font_small_lobby + 0x4C), 1);
-    TWindowCtrl::create_party_effect(((TObjBase *)(arg1))->get_entity_id(), arg2);
+    TWindowCtrl::create_party_effect(((TObjBase *)(arg1))->get_entity_id(), to);
     if ((arg1 == 0U) || (((TObjChara *)arg1)->obj_isState2_324() == 0)) {
         TFontSmallLobby__sub_801D698C((Subcommand6x38 *)&sp8);
         sp8.fA = ((TObjBase *)(arg1))->get_entity_id();
-        sp8.fC = arg2;
+        sp8.fC = to;
         ((TFontSmallLobby *)((s32 *) &sp8))->send_state();
     }
 }
@@ -398,7 +398,7 @@ void TFontSmallLobby::init_6x39_packet() { *(u8*)((char*)this + 0x0) = 57; *(u8*
 void TFontSmallLobby::update_and_send_60() { bswap_g_client_id_header(this); send_subcommand((u8 *)this); }
 void TFontSmallLobby::bswap_fields() { ((G_ClientIDHeader *)this)->bswap(); bswap_16((u16 *)((char*)this + 0x4)); bswap_16((u16 *)((char*)this + 0x6)); }
 
-void*TFontSmallLobby::copy_packet_header_6x38(void* a1) { copy_subcommand_header(this, a1); *(short*)((char*)this + 0x4) = *(unsigned short*)((char*)a1 + 0x4); *(short*)((char*)this + 0x6) = *(short*)((char*)a1 + 0x6); return this; }
+void*TFontSmallLobby::copy_packet_header_6x38(void* source) { copy_subcommand_header(this, source); *(short*)((char*)this + 0x4) = *(unsigned short*)((char*)source + 0x4); *(short*)((char*)this + 0x6) = *(short*)((char*)source + 0x6); return this; }
 
 void TFontSmallLobby__sub_801D698C(Subcommand6x38 *p) {
     p->a = 0xFFFF;

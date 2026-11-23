@@ -178,7 +178,7 @@ static const s32 lbl_805DD930[1] = {0x81C};
 #pragma opt_dead_assignments off
 #pragma opt_propagation off
 
-void TCharaMaking__draw_colored_hair(f32 farg0, saddr arg0, CharacterAppearanceFields *character_appearance_fields, s32 arg2) {
+void TCharaMaking__draw_colored_hair(f32 farg0, saddr child, CharacterAppearanceFields *character_appearance_fields, s32 arg2) {
     struct Color { f32 a, r, g, b; } color;
     s32 temp_r3;
     s32 second;
@@ -205,7 +205,7 @@ void TCharaMaking__draw_colored_hair(f32 farg0, saddr arg0, CharacterAppearanceF
         color.b = (1.0f / 255.0f) * (f32) character_appearance_fields->blue;
         set_constant_material((const NJS_ARGB *)((&color.a)));
     }
-    draw_chunk_object((void *)arg0);
+    draw_chunk_object((void *)child);
     chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
     chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
     model_render_flags = saved_model_render_flags;
@@ -550,9 +550,9 @@ void TCharaMaking::run_task() {
     if (TCharaMaking::update_main_menu((saddr)this)) return;
 }
 
-void *TCharaMaking::create(void *arg0, void *arg1) {
+void *TCharaMaking::create(void *parent, void *arg1) {
     creation_player_character = (CharacterAppearanceFields *)arg1;
-    return new TCharaMaking((TObject *)arg0);
+    return new TCharaMaking((TObject *)parent);
 }
 
 TCharaMaking::~TCharaMaking() {
