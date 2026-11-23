@@ -1502,9 +1502,9 @@ force_active:
   - clear_immunity_flags__9TObjCharaFv
   - TObjPlayer__sub_8002ECC4
   - TObjPlayer__sub_8002ED48
-  - sub_80082C30__10TObjPlayerFv
-  - sub_80083F9C__10TObjPlayerFv
-  - sub_80083FA4__10TObjPlayerFv
+  - draw_capture_caption_bar__10TObjPlayerFv
+  - is_shadow_pass_requested__10TObjPlayerFv
+  - request_shadow_pass__10TObjPlayerFv
   - summon_claws__18TObjEneBalClawBodyFv
   - __dt__12TObjEneBeastFv
   - clear_state7_flag__17TObjEneDarkGunnerFv
@@ -1532,7 +1532,7 @@ force_active:
   - capture_slime_tail_node
   - reset_slime_tail_node_index
   - TObjPlayer__sub_800E85BC
-  - sub_800F083C__10TObjPlayerFv
+  - begin_alt_model_draw__10TObjPlayerFv
   - TObjPlayer__sub_800F08AC
   - TObjPlayer__sub_800FF1FC
   - TObjPlayer__sub_800FF220
@@ -1556,14 +1556,14 @@ force_active:
   - draw_shadow_quads__12TObjGoGoBallFP3VecP3VeclP3Vecf
   - __ct__22PhotonBlastRequestSlotFv
   - __as__22PhotonBlastRequestSlotFR22PhotonBlastRequestSlot
-  - sub_801BD384__10TObjPlayerFPv
+  - init_body_parts__10TObjPlayerFPv
   - __sinit_TObjPlayer_801BDF5C_cpp
   - TObjPlayer__sub_801BF31C
-  - fn_801BF5F0__19ContactSurfaceStateFl
-  - fn_801BF5F8__19ContactSurfaceStateFl
-  - fn_801BF60C__19ContactSurfaceStateFv
-  - fn_801BF7B8__19ContactSurfaceStateFv
-  - fn_801BF8CC__19ContactSurfaceStateFv
+  - set_timer__19ContactSurfaceStateFl
+  - has_water_or_sand__19ContactSurfaceStateFl
+  - get_changed_flags__19ContactSurfaceStateFv
+  - stop_timer__19ContactSurfaceStateFv
+  - reset_flags__19ContactSurfaceStateFv
   - TObjPlayer__sub_801BFC90
   - reset__20PlayerAnimationStateFv
   - __ct__18PlayerCameraOffsetFv
