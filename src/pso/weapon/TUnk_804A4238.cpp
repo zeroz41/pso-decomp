@@ -58,7 +58,7 @@ void TUnk_804A4238::emit_marker_effects() {
     tec.f28 = self->owner->f60;
     ((TItemWeapon *)self)->get_joint_position(3, &tec.pos);
     ((TItemWeapon *)self)->get_joint_position(2, &tec.dir);
-    TItemAttacker::spawn_item_timer((TObject *)TTecSlicer::create((u16*)&tec), (ItemTimerCallback)enlarge_s_rank_j_cutter_blade, 3);
+    TItemAttacker::spawn_item_timer(TTecSlicer::create((SlicerLaunchState *)&tec), (ItemTimerCallback)enlarge_s_rank_j_cutter_blade, 3);
 }
 
 TUnk_804A4238::~TUnk_804A4238() {}

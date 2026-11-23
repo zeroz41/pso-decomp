@@ -38,7 +38,7 @@ void TUnk_804ECDC0::emit_marker_effects() {
     launch.facing = *(s32 *)((s8 *)owner + 0x60);
     this->get_joint_position(0x2, launch.first);
     this->get_joint_position(0x1, launch.second);
-    TTecSlicer::create((u16*)&launch);
+    TTecSlicer::create((SlicerLaunchState *)&launch);
 }
 
 TUnk_804ECDC0::~TUnk_804ECDC0() {}

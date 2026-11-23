@@ -74,7 +74,7 @@ void TUnk_804A64E8::emit_marker_effects() {
     tec.f28 = ((Self_8012F704 *)this)->owner->f60;
     get_joint_position(5, &tec.pos);
     get_joint_position(4, &tec.dir);
-    TTecSlicer::create((u16*)&tec);
+    TTecSlicer::create((SlicerLaunchState *)&tec);
 }
 
 TUnk_804A64E8::~TUnk_804A64E8() {}

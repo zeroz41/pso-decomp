@@ -5660,7 +5660,7 @@ force_active:
   - destroy_lobby_ui__6TLobbyFv
   - destroy_matching_children__19TPlayerBattleCtrl4PFPvPv
   - destroy_matching_children__6TLobbyFv
-  - destroy_on_collision__10TTecSlicerFi
+  - destroy_on_collision__10TTecSlicerFv
   - destroy_on_phase_change__10TChallengeFv
   - destroy_parts__11TBoss4Type3Fv
   - destroy_parts__13TBoss5GryphonFv
@@ -7085,7 +7085,7 @@ force_active:
   - init_item_entry__18TCheckRoomSequenceFPv
   - init_joint_offset__11TBoss2JointFl
   - init_kind_params__18TObjSeabedSuiso_CHFv
-  - init_launch_angles__10TTecSlicerFPlPll
+  - init_launch_angles__10TTecSlicerFP10TObjPlayerl
   - init_layout__17TWindowSubComCardFv
   - __ct__17WindowDrawContextFv
   - __ct__10PointLightFl
@@ -15512,7 +15512,7 @@ force_active:
   - set_items_and_refresh__15TWindowHelpItemFPvPv
   - set_keyboard_mode__6TLobbyFi
   - set_labels__19TWindowSubTradeMainFl
-  - set_launch_midpoint__10TTecSlicerFPvPvPv
+  - set_launch_midpoint__10TTecSlicerFP10TObjPlayerP3VecP3Vec
   - order_activation__17TObjEneMe1CanadinFP9TObjCharal
   - set_lobby_map_state_code__Fl
   - set_low_flight_height__13TBoss5GryphonFv

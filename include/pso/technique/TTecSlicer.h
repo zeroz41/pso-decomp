@@ -4,53 +4,68 @@
 #include <stddef.h>
 #include "pso/object/base/TObjMotion.h"
 #include "pso/system/data/FlagWord.h"
+#include "pso/system/NinjaTypes.h"
 
-// The targets a slicer has captured, visited in order (fn_8023B590 adds one,
-// get_next_captured_target hands out the next).
-struct TTecSlicerTargets_8023B454 {
+class TObjPlayer;
+class TEffStarLight2D;
+struct TItemWeapon;
+struct SlicerLaunchState;
+
+// The targets a slicer has captured, visited in order: add_target enters
+// one, get_next_captured_target hands out the next one still alive.
+struct SlicerTargetList {
     u16 ids[10];
-    s8 parts[10];
+    s8 parts[10];  // the collision body locked on
     s8 count;
     s8 idx;
-    TTecSlicerTargets_8023B454();
-    ~TTecSlicerTargets_8023B454();
+    SlicerTargetList();
+    ~SlicerTargetList();
+    s32 get_next_captured_target(Vec *out_pos, u16 *out_id, s8 *out_part, f32 *out_radius);
+    void add_target(u16 id, s8 part);
 };
 
+// The blade a slicer-type weapon throws: it flies from target to target of
+// the owner's captured list, hitting each, and leaves a TSlicerHistory
+// afterimage every frame.
 class TTecSlicer : public TObjBase {
 public:
-    TTecSlicer(u16 *launch, void *player, Vec *position, int angle);
+    TTecSlicer(SlicerLaunchState *launch, TObjPlayer *player, Vec *position, int angle);
     virtual ~TTecSlicer();
     virtual void run_task();
     virtual void render();
-    void set_launch_midpoint(void *, void *, void *);
-    static saddr create(u16* launch);
+    void set_launch_midpoint(TObjPlayer *player, Vec *first, Vec *second);
+    static TTecSlicer *create(SlicerLaunchState *launch);
 
-    f32 direction[3];
-    f32 origin[3];
-    f32 destination[3];
+    static const char *class_name;
+
+    Vec direction;
+    Vec origin;       // where it was thrown; hits land within range of it
+    Vec destination;  // the target it flies at
     f32 speed, range, radius;
-    FlagWord flags;
+    FlagWord flags;  // 1 no target left, 2 done
     u16 targetId;
-    u8 targetPart, paddingC7;
-    TTecSlicerTargets_8023B454 capturedTargets;
-    TTecSlicerTargets_8023B454 secondaryTargets;
-    void* currentWeapon;
-    void* currentPlayer;
-    void* model;
+    s8 targetPart;
+    u8 paddingC7;
+    SlicerTargetList capturedTargets;
+    SlicerTargetList secondaryTargets;
+    TItemWeapon *currentWeapon;  // looked up again every frame
+    TObjPlayer *currentPlayer;
+    NJS_OBJECT *model;
     u16 playerId, padding116;
     u32 weaponHandle;
     s16 attackKind, comboStage;
     f32 damageMultiplier;
-    void* star;
-    f32 argb[4];
+    TEffStarLight2D *star;
+    NJS_ARGB argb;
     s32 spinVelocity;
     s32 useColorOverride;
-    void *get_field_110();
+    NJS_OBJECT *get_model();
     s16 get_remain_count();
-    void destroy_if_set();
+    static void destroy_if_set(TObject *object);
     void deliver_target_hit();
+    void destroy_on_collision();
     void advance_position();
-    static void init_launch_angles(s32 *arg0, s32 *arg1, s32 arg2);
+    void init_launch_angles(TObjPlayer *player, s32 angle);
     void update();
 };
 LAYOUT_ASSERT(SlicerSize, sizeof(TTecSlicer)==0x140);

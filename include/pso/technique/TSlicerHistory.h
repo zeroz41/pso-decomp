@@ -12,6 +12,7 @@ class TTecSlicer;
 class TSlicerHistory : public TObject {
 public:
     TSlicerHistory(TTecSlicer *slicer, u32 texlist, NJS_ARGB *color, u32 weapon_handle);
+    static const char *class_name;
     virtual ~TSlicerHistory();
     virtual void run_task();
     virtual void render();

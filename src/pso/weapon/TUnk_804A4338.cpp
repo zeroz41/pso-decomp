@@ -56,7 +56,7 @@ void TUnk_804A4338::emit_marker_effects() {
     tec.f28 = self->owner->f60;
     ((TItemWeapon *)self)->get_joint_position(1, &tec.pos);
     ((TItemWeapon *)self)->get_joint_position(2, &tec.dir);
-    TTecSlicer::create((u16*)&tec);
+    TTecSlicer::create((SlicerLaunchState *)&tec);
 }
 
 TUnk_804A4338::TUnk_804A4338(TObject *parent, u8 *item) : TUnk_804A4948(parent, item) {

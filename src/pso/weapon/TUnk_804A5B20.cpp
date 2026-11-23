@@ -65,7 +65,7 @@ void TUnk_804A5B20::emit_marker_effects() {
     launch.facing = owner->rotation_y;
     get_joint_position(1, &launch.first_joint);
     get_joint_position(2, &launch.second_joint);
-    TTecSlicer::create((u16 *)&launch);
+    TTecSlicer::create(&launch);
 }
 
 void TUnk_804A5B20::update_idle() {

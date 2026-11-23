@@ -85,7 +85,7 @@ void TUnk_804F0908::emit_marker_effects() {
     launch.spin = 0;
     get_joint_position(3, launch.first);
     get_joint_position(2, launch.second);
-    t = ((u8 *)TTecSlicer::create((u16*)&launch));
+    t = ((u8 *)TTecSlicer::create((SlicerLaunchState *)&launch));
     if (t != NULL) {
         *(s32 *)((s8 *)t + 0x5C) += 0x4000;
         *(f32 *)((s8 *)t + 0x68) = 2.0f;
