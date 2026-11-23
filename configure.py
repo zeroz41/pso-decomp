@@ -1065,7 +1065,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # -inline off,deferred: the Vec initialiser objects 0x804359C0..E4 lie in reverse order of their
     # functions while the codegen literals after them lie in forward order: data in parse order, code deferred.
     "pso/boss/derolle/TBoss2DeRolLe.cpp": {"mw_version": "GC/2.0", "cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
-    "pso/effect/TEffIndirectCtrl.cpp": {"mw_version": "GC/2.0", "cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
+    "pso/effect/TEffIndirectCtrl.cpp": {"mw_version": "GC/2.0", "cflags": [*_switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly"), "-DPSO_SDK_COMPACT_MATH"]},
     "pso/boss/darkfalz/TObjDFDemo1.cpp": {"cflags": _switch(cflags_pso, "-sdata 4")},
     "pso/boss/darkfalz/TObjDFDemo4.cpp": {"cflags": _switch(cflags_pso, "-inline deferred", "-sdata 4")},
     # -sdata 4: the 8-byte motion id table 0x804EF9D8 sits in .data, the 4-byte class name in .sdata.

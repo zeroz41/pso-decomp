@@ -18,17 +18,11 @@
 #include "pso/system/memory.h"
 #include <dolphin/os/OSCache.h>
 #include "pso/player/TObjPlayer_803E1A58.h"
+#include <dolphin/gx/GXBump.h>
 
 typedef void (TEffIndirectCtrl::*IndirectTask)();
 
-// The SDK's GX headers pull in libc/math.h, whose inline sqrt statics would land in this unit's .rodata.
 extern "C" {
-s32 GXSetNumIndStages(s32);
-s32 GXSetTevDirect(s32);
-void GXSetIndTexMtx(s32, f32 (*)[3], s32);
-void GXSetIndTexCoordScale(s32, s32, s32);
-void GXSetIndTexOrder(s32, s32, s32);
-void GXSetTevIndWarp(s32, s32, s32, s32, s32);
 void set_texture_name(void *, void *, void *, s32);
 void load_texture_list(void *);
 }
@@ -439,20 +433,20 @@ void TEffIndirectCtrl::update_scroll_mode() {
 void setup_indirect_tev_alternate(TEffIndirectCtrl *ctrl, s32 unused, s32 sampler, s32 scale) {
     if ((u8)scale < 5) {
         u8 index = scale;
-        s32 coords[5] = {0, 1, 2, 3, 4};
-        s32 scales[5] = {0, 1, 2, 3, 4};
+        GXTexCoordID coords[5] = {GX_TEXCOORD0, GX_TEXCOORD1, GX_TEXCOORD2, GX_TEXCOORD3, GX_TEXCOORD4};
+        GXIndTexScale scales[5] = {GX_ITS_1, GX_ITS_2, GX_ITS_4, GX_ITS_8, GX_ITS_16};
         f32 mtx[2][3];
         GXSetNumIndStages(1);
-        GXSetIndTexOrder(0, coords[2], 5);
-        GXSetIndTexCoordScale(0, scales[index], scales[index]);
-        GXSetTevIndWarp(1, 0, 0, 0, 1);
+        GXSetIndTexOrder(GX_INDTEXSTAGE0, coords[2], GX_TEXMAP5);
+        GXSetIndTexCoordScale(GX_INDTEXSTAGE0, scales[index], scales[index]);
+        GXSetTevIndWarp(GX_TEVSTAGE1, GX_INDTEXSTAGE0, GX_FALSE, GX_FALSE, GX_ITM_0);
         mtx[0][0] = 0.5f;
         mtx[0][1] = 0.0f;
         mtx[0][2] = 0.0f;
         mtx[1][0] = 0.0f;
         mtx[1][1] = 0.5f;
         mtx[1][2] = 0.0f;
-        GXSetIndTexMtx(1, mtx, 1);
+        GXSetIndTexMtx(GX_ITM_0, mtx, 1);
         TObjFish::set_global_param(ctrl->texture_list);
         load_list_texture(0, sampler, sampler, 5);
     }
@@ -460,33 +454,33 @@ void setup_indirect_tev_alternate(TEffIndirectCtrl *ctrl, s32 unused, s32 sample
 
 
 void setup_indirect_tev_ordinary(TEffIndirectCtrl *ctrl, s32 sampler, s32 scale, s32 second) {
-    s32 scales[5] = {0, 1, 2, 3, 4};
+    GXIndTexScale scales[5] = {GX_ITS_1, GX_ITS_2, GX_ITS_4, GX_ITS_8, GX_ITS_16};
     f32 m0[2][3];
     f32 m1[2][3];
     GXSetNumIndStages(1);
-    GXSetIndTexOrder(0, 0, 5);
-    GXSetIndTexCoordScale(0, scales[(u8)scale], scales[(u8)scale]);
+    GXSetIndTexOrder(GX_INDTEXSTAGE0, GX_TEXCOORD0, GX_TEXMAP5);
+    GXSetIndTexCoordScale(GX_INDTEXSTAGE0, scales[(u8)scale], scales[(u8)scale]);
     if (second != 0) {
         static s32 shift = -2;
         static s32 unused = 0;
         static f32 k = 0.5f;
-        GXSetTevIndWarp(1, 0, 0, 0, 1);
+        GXSetTevIndWarp(GX_TEVSTAGE1, GX_INDTEXSTAGE0, GX_FALSE, GX_FALSE, GX_ITM_0);
         m0[0][0] = k;
         m0[0][1] = 0.0f;
         m0[0][2] = 0.0f;
         m0[1][0] = 0.0f;
         m0[1][1] = k;
         m0[1][2] = 0.0f;
-        GXSetIndTexMtx(1, m0, (s8)shift);
+        GXSetIndTexMtx(GX_ITM_0, m0, (s8)shift);
     } else {
-        GXSetTevIndWarp(0, 0, 0, 0, 1);
+        GXSetTevIndWarp(GX_TEVSTAGE0, GX_INDTEXSTAGE0, GX_FALSE, GX_FALSE, GX_ITM_0);
         m1[0][0] = 0.5f;
         m1[0][1] = 0.0f;
         m1[0][2] = 0.0f;
         m1[1][0] = 0.0f;
         m1[1][1] = 0.5f;
         m1[1][2] = 0.0f;
-        GXSetIndTexMtx(1, m1, 1);
+        GXSetIndTexMtx(GX_ITM_0, m1, 1);
     }
     TObjFish::set_global_param(ctrl->texture_list);
     load_list_texture(0, sampler, sampler, 5);
@@ -553,9 +547,9 @@ void enable_indirect_tev(TEffIndirect *effect, s32 sampler, s32 scale, s32 mode)
 
 void disable_indirect_tev(TEffIndirect *effect, s32 direct) {
     if (direct != 0) {
-        GXSetTevDirect(1);
+        GXSetTevDirect(GX_TEVSTAGE1);
     } else {
-        GXSetTevDirect(0);
+        GXSetTevDirect(GX_TEVSTAGE0);
     }
     GXSetNumIndStages(0);
     set_ginja_post_texgen_count(0);
