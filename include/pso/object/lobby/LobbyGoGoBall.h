@@ -38,14 +38,16 @@ struct GoGoBallConfig {
     f32 throw_forward_speed;
     f32 throw_up_speed;
     s16 lifetime;               // frames before the ball says "Good Bye"; also the goal effects' lifetime
-    u8 pad_16[4];
+    u8 pad_16;
+    u8 pad_17;
+    u8 pad_18;
+    u8 pad_19;
     f32 radius;
     Vec start_position;
     Vec team1_goal;             // a ball resting here scores one point for team 1
     Vec team0_goal;             // a ball resting here scores one point for team 0
     f32 goal_radius;
     u16 ball_type;              // selects the ball's model and textures
-    u8 pad_4a[0x4C - 0x4A];
     f32 throw_forward_speed_alt;  // used instead when the sync state's mode is 1
     f32 throw_up_speed_alt;
     void copy_state(GoGoBallConfig *src);

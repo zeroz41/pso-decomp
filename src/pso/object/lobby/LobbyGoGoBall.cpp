@@ -69,16 +69,16 @@ BmlResource *gogo_ball_bml_resource;
 #pragma dont_inline off
 // The ten ball setups TGoGoBallGame picks from by the internet beat.
 GoGoBallConfig gogo_ball_configs[10] = {
-    {-0.5f, 0.875f, 0.0f, 3.5f, 2.5f, 2260, {0x80, 0xFF, 0x00, 0x00}, 20.0f, {0.0f, 0.0f, 0.0f}, {-247.0f, 0.0f, 0.0f}, {247.0f, 0.0f, 0.0f}, 30.0f, 6, {0, 0}, 8.0f, 3.0f},
-    {-0.5f, 0.875f, 0.0f, 3.5f, 2.5f, 2260, {0x80, 0x00, 0x00, 0xFF}, 10.0f, {0.0f, 0.0f, 0.0f}, {-247.0f, 0.0f, 0.0f}, {247.0f, 0.0f, 0.0f}, 30.0f, 2, {0, 0}, 8.0f, 3.0f},
-    {-0.1f, 0.5f, 0.0f, 2.3f, 2.3f, 2260, {0x80, 0xFF, 0x00, 0x00}, 10.0f, {0.0f, 0.0f, 0.0f}, {-247.0f, 0.0f, 0.0f}, {247.0f, 0.0f, 0.0f}, 30.0f, 3, {0, 0}, 3.0f, 3.5f},
-    {-0.5f, 0.875f, 0.0f, 3.5f, 2.5f, 2260, {0x80, 0x00, 0x00, 0xFF}, 10.0f, {0.0f, 0.0f, 0.0f}, {-247.0f, 0.0f, 0.0f}, {247.0f, 0.0f, 0.0f}, 30.0f, 1, {0, 0}, 8.0f, 3.0f},
-    {-0.5f, 0.875f, 0.0f, 3.5f, 2.5f, 2260, {0x80, 0xFF, 0xFF, 0x00}, 10.0f, {0.0f, 0.0f, 0.0f}, {-247.0f, 0.0f, 0.0f}, {247.0f, 0.0f, 0.0f}, 30.0f, 6, {0, 0}, 8.0f, 3.0f},
-    {-0.5f, 0.875f, 0.0f, 3.5f, 2.5f, 2260, {0x80, 0x00, 0x00, 0xFF}, 25.0f, {0.0f, 0.0f, 0.0f}, {-247.0f, 0.0f, 0.0f}, {247.0f, 0.0f, 0.0f}, 30.0f, 0, {0, 0}, 8.0f, 3.0f},
-    {-0.5f, 0.875f, 0.0f, 3.5f, 2.5f, 2260, {0x80, 0xFF, 0xFF, 0x00}, 10.0f, {0.0f, 0.0f, 0.0f}, {-247.0f, 0.0f, 0.0f}, {247.0f, 0.0f, 0.0f}, 30.0f, 1, {0, 0}, 8.0f, 3.0f},
-    {-0.1f, 0.5f, 0.0f, 2.3f, 2.3f, 2260, {0x80, 0xFF, 0x00, 0x00}, 10.0f, {0.0f, 0.0f, 0.0f}, {-247.0f, 0.0f, 0.0f}, {247.0f, 0.0f, 0.0f}, 30.0f, 3, {0, 0}, 3.0f, 3.5f},
-    {-0.5f, 0.875f, 0.0f, 3.5f, 2.5f, 2260, {0x80, 0xFF, 0xFF, 0x00}, 10.0f, {0.0f, 0.0f, 0.0f}, {-247.0f, 0.0f, 0.0f}, {247.0f, 0.0f, 0.0f}, 30.0f, 2, {0, 0}, 8.0f, 3.0f},
-    {-0.5f, 0.875f, 0.0f, 3.5f, 2.5f, 2260, {0x80, 0xFF, 0xFF, 0x00}, 10.0f, {0.0f, 0.0f, 0.0f}, {-247.0f, 0.0f, 0.0f}, {247.0f, 0.0f, 0.0f}, 30.0f, 0, {0, 0}, 8.0f, 3.0f},
+    {-0.5f, 0.875f, 0.0f, 3.5f, 2.5f, 2260, 0x80, 0xFF, 0x00, 0x00, 20.0f, {0.0f, 0.0f, 0.0f}, {-247.0f, 0.0f, 0.0f}, {247.0f, 0.0f, 0.0f}, 30.0f, 6, 8.0f, 3.0f},
+    {-0.5f, 0.875f, 0.0f, 3.5f, 2.5f, 2260, 0x80, 0x00, 0x00, 0xFF, 10.0f, {0.0f, 0.0f, 0.0f}, {-247.0f, 0.0f, 0.0f}, {247.0f, 0.0f, 0.0f}, 30.0f, 2, 8.0f, 3.0f},
+    {-0.1f, 0.5f, 0.0f, 2.3f, 2.3f, 2260, 0x80, 0xFF, 0x00, 0x00, 10.0f, {0.0f, 0.0f, 0.0f}, {-247.0f, 0.0f, 0.0f}, {247.0f, 0.0f, 0.0f}, 30.0f, 3, 3.0f, 3.5f},
+    {-0.5f, 0.875f, 0.0f, 3.5f, 2.5f, 2260, 0x80, 0x00, 0x00, 0xFF, 10.0f, {0.0f, 0.0f, 0.0f}, {-247.0f, 0.0f, 0.0f}, {247.0f, 0.0f, 0.0f}, 30.0f, 1, 8.0f, 3.0f},
+    {-0.5f, 0.875f, 0.0f, 3.5f, 2.5f, 2260, 0x80, 0xFF, 0xFF, 0x00, 10.0f, {0.0f, 0.0f, 0.0f}, {-247.0f, 0.0f, 0.0f}, {247.0f, 0.0f, 0.0f}, 30.0f, 6, 8.0f, 3.0f},
+    {-0.5f, 0.875f, 0.0f, 3.5f, 2.5f, 2260, 0x80, 0x00, 0x00, 0xFF, 25.0f, {0.0f, 0.0f, 0.0f}, {-247.0f, 0.0f, 0.0f}, {247.0f, 0.0f, 0.0f}, 30.0f, 0, 8.0f, 3.0f},
+    {-0.5f, 0.875f, 0.0f, 3.5f, 2.5f, 2260, 0x80, 0xFF, 0xFF, 0x00, 10.0f, {0.0f, 0.0f, 0.0f}, {-247.0f, 0.0f, 0.0f}, {247.0f, 0.0f, 0.0f}, 30.0f, 1, 8.0f, 3.0f},
+    {-0.1f, 0.5f, 0.0f, 2.3f, 2.3f, 2260, 0x80, 0xFF, 0x00, 0x00, 10.0f, {0.0f, 0.0f, 0.0f}, {-247.0f, 0.0f, 0.0f}, {247.0f, 0.0f, 0.0f}, 30.0f, 3, 3.0f, 3.5f},
+    {-0.5f, 0.875f, 0.0f, 3.5f, 2.5f, 2260, 0x80, 0xFF, 0xFF, 0x00, 10.0f, {0.0f, 0.0f, 0.0f}, {-247.0f, 0.0f, 0.0f}, {247.0f, 0.0f, 0.0f}, 30.0f, 2, 8.0f, 3.0f},
+    {-0.5f, 0.875f, 0.0f, 3.5f, 2.5f, 2260, 0x80, 0xFF, 0xFF, 0x00, 10.0f, {0.0f, 0.0f, 0.0f}, {-247.0f, 0.0f, 0.0f}, {247.0f, 0.0f, 0.0f}, 30.0f, 0, 8.0f, 3.0f},
 };
 const char *biri_ball_motion_names[2] = {NULL, NULL};
 const char *biri_ball_model_names[6] = {
@@ -99,7 +99,6 @@ const NJS_ARGB fish_draw_color[1] = {{0.2f, 0.0f, 0.0f, 0.0f}};
 // spawn_particle_effect_with_rotation takes x/y/z angles (0x8000 = half turn).
 const ParticleAngles boss3_volopt_init_vec = {0, 0, 0x8000};
 
-struct ByteBlock_C { u8 bytes[0xc]; };
 void close_gogo_ball_timer() { TWindowCtrl::close_timer_window(); }
 void add_gogo_ball_one_point_score(s32 i) {
     gogo_ball_team_scores[i] += 1;
@@ -595,26 +594,8 @@ TGoGoBallGame::~TGoGoBallGame() {
     close_gogo_ball_timer();
 }
 
-// The goal positions are copied as plain 12-byte blocks (word loads), not as Vec members.
 void GoGoBallConfig::copy_state(GoGoBallConfig *src) {
-    gravity = src->gravity;
-    restitution = src->restitution;
-    pad_8 = src->pad_8;
-    throw_forward_speed = src->throw_forward_speed;
-    throw_up_speed = src->throw_up_speed;
-    lifetime = src->lifetime;
-    pad_16[0] = src->pad_16[0];
-    pad_16[1] = src->pad_16[1];
-    pad_16[2] = src->pad_16[2];
-    pad_16[3] = src->pad_16[3];
-    radius = src->radius;
-    *(ByteBlock_C *)&start_position = *(ByteBlock_C *)&src->start_position;
-    *(ByteBlock_C *)&team1_goal = *(ByteBlock_C *)&src->team1_goal;
-    *(ByteBlock_C *)&team0_goal = *(ByteBlock_C *)&src->team0_goal;
-    goal_radius = src->goal_radius;
-    ball_type = src->ball_type;
-    throw_forward_speed_alt = src->throw_forward_speed_alt;
-    throw_up_speed_alt = src->throw_up_speed_alt;
+    *this = *src;
 }
 
 void TGoGoBallGame::run_task() {
