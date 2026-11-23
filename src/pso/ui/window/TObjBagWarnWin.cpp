@@ -245,11 +245,11 @@ s32 TObjBagWarnWin4P::check_can_open(void * _w0) {
     if (THunterGuildWarning::is_active() != 0) {
         return 0;
     }
-    TAdSinglePlyChrSelectGC *record;
+    CharacterSaveRecord *record;
     i = 0;
     var_r30 = 0;
     do {
-        if ((get_player_by_client_id(var_r30) != NULL) && ((record = (TAdSinglePlyChrSelectGC *)get_character_save_record(var_r30)) != 0U) && (record->is_level_capped() != 0)) {
+        if ((get_player_by_client_id(var_r30) != NULL) && ((record = (CharacterSaveRecord *)get_character_save_record(var_r30)) != 0U) && (record->is_bank_full() != 0)) {
             i = 1;
         }
         var_r30 += 1;

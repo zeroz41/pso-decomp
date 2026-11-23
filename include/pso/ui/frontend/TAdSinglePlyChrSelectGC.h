@@ -71,9 +71,6 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     static void copy_name(s32 arg0);
     static void set_card_disk_id(s32 arg0);
     s32 init_char_slot_record();
-    s32 is_level_capped();
-    s32 find_entry(s32 arg1);
-    s32 register_in_free_room_slot(saddr arg1);
     static s32 is_ready();
     static u16 get_card_window_field(int arg0);
     static u16 get_card_window_status(int arg0);

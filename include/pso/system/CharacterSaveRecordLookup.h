@@ -7,6 +7,12 @@
 // The parts of a character's save record that are read by name.
 struct CharacterSaveRecord {
     CharacterSaveRecord();
+    // Whether every row of bank_items is in use.
+    s32 is_bank_full();
+    // Whether the bank holds an item of the same kind as item.
+    s32 find_bank_item(saddr item);
+    // Puts item in the first free bank row; 0 when the bank is full.
+    s32 register_in_free_room_slot(saddr item);
 
     u8 pad_0[0x4];
     s32 pad_4;

@@ -380,8 +380,8 @@ s32 TLobby__sub_80292270(s32 seed, s32 card) {
         *(s32 *)((s8 *)lbl_804DB1F0 + 0x14) = -2;
         return -2;
     }
-    TAdSinglePlyChrSelectGC *record = (TAdSinglePlyChrSelectGC *)get_character_save_record((u16)card);
-    if ((uaddr)record != 0 && record->is_level_capped() != 0) {
+    CharacterSaveRecord *record = (CharacterSaveRecord *)get_character_save_record((u16)card);
+    if ((uaddr)record != 0 && record->is_bank_full() != 0) {
         *(s32 *)((s8 *)lbl_804DB1F0 + 0x14) = -3;
         return -3;
     }
@@ -435,7 +435,7 @@ s32 TLobby__sub_802924B4(s32 arg0, u16 slot_index) {
   {
     return new_var;
   }
-  if (((TAdSinglePlyChrSelectGC *)(character_save_record & 0xFFFFFFFFFFFFFFFFu))->register_in_free_room_slot(arg0) != 0)
+  if (((CharacterSaveRecord *)(character_save_record & 0xFFFFFFFFFFFFFFFFu))->register_in_free_room_slot(arg0) != 0)
   {
     temp_r30 = ((u8 *)&lbl_804DB1F0 + ((*((s32 *) ((s8 *)&lbl_804DB1F0 + 0x14))) * 0x1C)) + 0x21C;
     new_var2 = TWindowSubStatusDisp::resolve_player_slot(-1);

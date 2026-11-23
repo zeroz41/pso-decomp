@@ -1190,7 +1190,7 @@ void qst_op_find_bank_item(u8 i, u8 out) {
         item.data1[1] = qst_registers[i++];
         item.data1[2] = qst_registers[i++];
         item.data1[4] = qst_registers[i];
-        if (((TAdSinglePlyChrSelectGC *)card)->find_entry((saddr)&item) != 0) {
+        if (((CharacterSaveRecord *)card)->find_bank_item((saddr)&item) != 0) {
             qst_registers[out] = 1;
         } else {
             qst_registers[out] = 0;

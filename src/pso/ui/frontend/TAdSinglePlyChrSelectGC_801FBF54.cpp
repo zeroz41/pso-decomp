@@ -261,19 +261,18 @@ void TAdSinglePlyChrSelectGC::remove_matching_entries(s32 arg0) {
     }
 }
 
-s32 TAdSinglePlyChrSelectGC::is_level_capped() {
-    return (u8)(((CharacterSaveRecord *)this)->bank_item_count >= 200);
+s32 CharacterSaveRecord::is_bank_full() {
+    return (u8)(bank_item_count >= 200);
 }
 
-s32 TAdSinglePlyChrSelectGC::find_entry(s32 arg1) {
-    CharacterSaveRecord *record = (CharacterSaveRecord *)this;
+s32 CharacterSaveRecord::find_bank_item(saddr item) {
     BankItemRecord *entry;
     s32 i;
 
-    entry = record->bank_items;
+    entry = bank_items;
     i = 0;
     do {
-        if ((is_item_record_empty(entry) == 0) && (item_identity_matches((u8 *)arg1, entry->item.data1.data_u8) != 0)) {
+        if ((is_item_record_empty(entry) == 0) && (item_identity_matches((u8 *)item, entry->item.data1.data_u8) != 0)) {
             return 1;
         }
         i++;
@@ -282,17 +281,16 @@ s32 TAdSinglePlyChrSelectGC::find_entry(s32 arg1) {
     return 0;
 }
 
-s32 TAdSinglePlyChrSelectGC::register_in_free_room_slot(saddr arg1) {
-    CharacterSaveRecord *record = (CharacterSaveRecord *)this;
+s32 CharacterSaveRecord::register_in_free_room_slot(saddr item) {
     BankItemRecord *entry;
     s32 i;
 
     i = 0;
-    entry = record->bank_items;
+    entry = bank_items;
     do {
         if (is_item_record_empty(entry) != 0) {
-            TCheckRoomSequence::copy_item_to_bank_entry(entry, (TItemData *)arg1);
-            record->bank_item_count++;
+            TCheckRoomSequence::copy_item_to_bank_entry(entry, (TItemData *)item);
+            bank_item_count++;
             return 1;
         }
         i++;
