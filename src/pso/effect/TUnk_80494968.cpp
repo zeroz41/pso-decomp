@@ -131,3 +131,7 @@ TUnk_80494968::TUnk_80494968(TObject *parent, u32 color_a, u32 color_b) : TAttac
         v += 2;
     }
 }
+
+void TUnk_80494968::clear_segments() {
+    segment_count = 0;
+}

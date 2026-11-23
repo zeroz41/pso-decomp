@@ -244,7 +244,6 @@ pso/boss/darkfalz/TBoss4Type2_80086C44.cpp
 pso/effect/particle/TParticleCtrl_800874F4.cpp
 pso/boss/darkfalz/TBoss4Type3.cpp
 pso/boss/darkfalz/TBoss4Type3_800524E8.cpp
-pso/boss/darkfalz/TBoss4Type3_800D7A20.cpp
 pso/boss/darkfalz/TBoss4Zako.cpp
 pso/boss/darkfalz/TBoss4ZakoDraw.cpp
 pso/boss/darkfalz/TBoss4Zanzo.cpp
