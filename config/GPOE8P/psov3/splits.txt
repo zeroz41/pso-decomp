@@ -9519,7 +9519,7 @@ pso/ui/frontend/TAdMultiPlayerNoGC.cpp:
 	.sbss       start:0x805D6D78 end:0x805D6D7C
 	.sdata2     start:0x805DFA10 end:0x805DFA30
 
-pso/ui/TUnk_804EF8C0.cpp:
+pso/ui/TCharSaveSequence.cpp:
 	.text       start:0x8033A8EC end:0x8033B9D8
 	.rodata     start:0x80477D48 end:0x80477DA0
 	.data       start:0x804EF728 end:0x804EF8D8

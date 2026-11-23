@@ -777,7 +777,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/ui/frontend/TAdMultiChgGameModeGC_8036DE10.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # -str reuse,readonly: the class name string 0x80477DA0 sits in .rodata.
     # -sdata 4: the 8-byte menu position 0x804EF8D8 sits in .data, the 4-byte menu width in .sbss.
-    "pso/ui/TUnk_804EF8C0.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    "pso/ui/TCharSaveSequence.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/system/save/TCheckMemoryCard.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-sdata 4")},
     # -str reuse,readonly: the class name string 0x80472920 sits in .rodata.
     # -sdata 4: the 8-byte window positions 0x804E3040-58 sit in .data, the 4-byte menu width in .sbss.

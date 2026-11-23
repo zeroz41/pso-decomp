@@ -7,7 +7,7 @@
 #include "pso/ui/window/ProgressMessageWindow.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/system/task/TObject.h"
-#include "pso/ui/TUnk_804EF8C0.h"
+#include "pso/ui/TCharSaveSequence.h"
 #include <string.h>
 #include "pso/object/ambient/TObjLight_80133568.h"
 #pragma push
@@ -100,43 +100,43 @@ void TAdSinglePlyChrSelectGC::init_logo_state(s32 arg0) {
     single_ply_quest_download_server = 0xFFFF;
 }
 void TAdSinglePlyChrSelectGC::noop() {  }
-void TUnk_804EF8C0::free_buffer() {
+void TCharSaveSequence::free_buffer() {
     if (download_buffer != NULL) {
         TAdSinglePlyChrSelectGC::safe_free((uaddr)download_buffer);
         download_buffer = NULL;
         download_buffer_size = 0;
     }
 }
-void TUnk_804EF8C0::clear_buffer() {
+void TCharSaveSequence::clear_buffer() {
     if (download_buffer != NULL) {
         memset(download_buffer, 0, download_buffer_size);
     }
 }
-void TUnk_804EF8C0::alloc_download_buffer() {
+void TCharSaveSequence::alloc_download_buffer() {
     if (download_buffer == NULL) {
         download_buffer_size = 0x16000;
         download_buffer = (void *)TQuestVmDownLoadServer::alloc(download_buffer_size);
     }
 }
-void TUnk_804EF8C0::sub_8033A9F0() {
+void TCharSaveSequence::report_missing_file() {
     state = 0xB;
     lbl_805D6D90 &= 0xFFFFFFFE;
     set_char_slots(0xA, chr_select_state + 0xF);
     init_warps();
 }
-void TUnk_804EF8C0::queue_destruction() { TObject::queue_destruction(); }
+void TCharSaveSequence::queue_destruction() { TObject::queue_destruction(); }
 
-void TUnk_804EF8C0::sub_8033AA64() {
+void TCharSaveSequence::handle_retry_menu() {
     if (menu->is_decided() != 0) {
         switch (menu->get_selected_value()) {
         case 0:
             state = 0;
-            sub_8033B5F0();
+            close_message_window();
             close_window();
             break;
         default:
             state = 0xE;
-            sub_8033B5F0();
+            close_message_window();
             close_window();
             new TUnk_804999D0(tl_fade, TAdSinglePlyChrSelectGC__sub_8033B244);
             break;
@@ -144,11 +144,11 @@ void TUnk_804EF8C0::sub_8033AA64() {
     }
 }
 
-void TUnk_804EF8C0::handle_player_load() {
+void TCharSaveSequence::handle_player_load() {
     uaddr p;
     if (TAdPlayerLoadGC::probe_card_slot(chr_select_state) == 0) {
         state = 0;
-        sub_8033B5F0();
+        close_message_window();
         return;
     }
     switch (TAdPlayerLoadGC::get_instance()) {
@@ -174,17 +174,17 @@ void TUnk_804EF8C0::handle_player_load() {
     }
 }
 
-void TUnk_804EF8C0::update_setup() {
+void TCharSaveSequence::update_setup() {
     if (TAdSinglePlyChrSelectGC::setup(chr_select_state) == 0) {
         state = 8;
         TAdSinglePlyChrSelectGC::set_player_index(0xC);
         return;
     }
     state = 0;
-    sub_8033B5F0();
+    close_message_window();
 }
 
-void TUnk_804EF8C0::check_memcard_space() {
+void TCharSaveSequence::check_memcard_space() {
     switch (get_card_file_info__15TAdPlayerLoadGCFiPvPv(chr_select_state, pso_guildcard_card_filename, 0)) {
     case 0:
         state = 7;
@@ -204,10 +204,10 @@ void TUnk_804EF8C0::check_memcard_space() {
     }
 }
 
-void TUnk_804EF8C0::sub_8033ACF4() {
+void TCharSaveSequence::sub_8033ACF4() {
     if (TAdPlayerLoadGC::probe_card_slot(chr_select_state) == 0) {
         state = 0;
-        sub_8033B5F0();
+        close_message_window();
         return;
     }
     switch (TAdPlayerLoadGC::get_instance()) {
@@ -234,7 +234,7 @@ void TUnk_804EF8C0::sub_8033ACF4() {
     }
 }
 
-void TUnk_804EF8C0::update_select_state() {
+void TCharSaveSequence::update_select_state() {
     if (TAdSinglePlyChrSelectGC__sub_801FDA4C() == 0) {
         state = 5;
         TAdSinglePlyChrSelectGC::set_player_index(6);
@@ -242,10 +242,10 @@ void TUnk_804EF8C0::update_select_state() {
         return;
     }
     state = 0;
-    sub_8033B5F0();
+    close_message_window();
 }
 
-void TUnk_804EF8C0::handle_load_result() {
+void TCharSaveSequence::handle_load_result() {
     s32 r;
     CharacterFile *obj;
     saddr src;
@@ -289,7 +289,7 @@ void TUnk_804EF8C0::handle_load_result() {
     }
 }
 
-void TUnk_804EF8C0::sub_8033AFC8() {
+void TCharSaveSequence::start_character_read() {
     switch (get_card_file_info__15TAdPlayerLoadGCFiPvPv(chr_select_state, pso_character_card_filename, 0)) {
     case 0:
         if (download_buffer != 0) {
@@ -299,7 +299,7 @@ void TUnk_804EF8C0::sub_8033AFC8() {
                 break;
             default:
                 state = 0;
-                sub_8033B5F0();
+                close_message_window();
                 break;
             }
         }
@@ -308,18 +308,18 @@ void TUnk_804EF8C0::sub_8033AFC8() {
         break;
     case -251:
     case -255:
-        sub_8033A9F0();
+        report_missing_file();
         break;
     case -254:
     case -252:
     default:
         state = 0;
-        sub_8033B5F0();
+        close_message_window();
         break;
     }
 }
 
-void TUnk_804EF8C0::sub_8033B0AC() {
+void TCharSaveSequence::wait_card_check() {
     uaddr o;
     if (check_memory_card != NULL) {
         if (check_memory_card->is_card_ready() == 1) {
@@ -334,7 +334,7 @@ void TUnk_804EF8C0::sub_8033B0AC() {
             check_memory_card->queue_destruction();
             check_memory_card = NULL;
             state = 0xE;
-            sub_8033B5F0();
+            close_message_window();
             close_window();
             new TUnk_804999D0(tl_fade, TAdSinglePlyChrSelectGC__sub_8033B244);
         }
@@ -343,7 +343,7 @@ void TUnk_804EF8C0::sub_8033B0AC() {
     }
 }
 
-void TUnk_804EF8C0::start_check_memory_card() {
+void TCharSaveSequence::start_check_memory_card() {
     TCheckMemoryCard *check;
     check_memory_card = TCheckMemoryCard::create(this, NULL, 0);
     check = check_memory_card;
@@ -352,7 +352,7 @@ void TUnk_804EF8C0::start_check_memory_card() {
     }
     state = 1;
 }
-void TUnk_804EF8C0::set_char_slots(s32 message, s32 sub_message) {
+void TCharSaveSequence::set_char_slots(s32 message, s32 sub_message) {
     message_window->append_line(get_message_text(message), 1);
     if (sub_message != -1) {
         message_window->append_line(get_message_text(sub_message), 8);
@@ -412,7 +412,7 @@ void init_single_player_char_select_scene(void) {
     if (p != 0) {
         __ct__15TWindowCtrlMainFv(p);
     }
-    new TUnk_804EF8C0();
+    new TCharSaveSequence();
     TKeyBoardControl__sub_8000F90C(2);
     lbl_805D6D90 = 0;
     play_area_music("title.adx");
@@ -422,7 +422,7 @@ void init_single_player_char_select_scene(void) {
 }
 #pragma pool_data reset
 
-void TUnk_804EF8C0::close_window() {
+void TCharSaveSequence::close_window() {
     TWindowMenu *object = menu;
     if (object != NULL) {
         if (object->all_parents_unqueued_for_destruction() != 0) {
@@ -431,13 +431,13 @@ void TUnk_804EF8C0::close_window() {
         }
     }
 }
-void TUnk_804EF8C0::init_warp() {
+void TCharSaveSequence::init_warp() {
     close_window();
     menu = (TWindowMenu *)create_window_menu_default((void *)lbl_80477D58, (void *)2);
     menu->add_text_entry(get_message_text(14), 6, 1);
     menu->update_layout_height(289.0f);
 }
-void TUnk_804EF8C0::init_warps() {
+void TCharSaveSequence::init_warps() {
     close_window();
     menu = (TWindowMenu *)create_window_menu_default((void *)lbl_80477D58, (void *)2);
     menu->add_text_entry(get_message_text(13), 6, 0);
@@ -453,7 +453,7 @@ LAYOUT_ASSERT(RecoveredGlobal_8033B264_lbl_804EF728_size, sizeof(RecoveredGlobal
 
 #include "pso/ui/window/TWindowCtrlMain.h"
 
-typedef void (TUnk_804EF8C0::*Handler)();
+typedef void (TCharSaveSequence::*Handler)();
 
 struct RecoveredGlobal_8033B9C4_lbl_80513910 {
     s32 value;
@@ -472,7 +472,7 @@ void *character_select_scene_resource_callbacks[12] = {
     (void *)&TWindowCtrlMain__sub_8024D838, (void *)&TWindowCtrlMain::free_all_windows, (void *)&TLobby::update_keyboard_menu, (void *)&TLobby::free_keyboard_soft_resources,
 };
 
-void TUnk_804EF8C0::sub_8033B5F0() {
+void TCharSaveSequence::close_message_window() {
     TWindowMessage *object = message_window;
     if (object != NULL) {
         if (object->all_parents_unqueued_for_destruction() != 0) {
@@ -482,32 +482,32 @@ void TUnk_804EF8C0::sub_8033B5F0() {
     }
 }
 
-void TUnk_804EF8C0::run_task() {
+void TCharSaveSequence::run_task() {
     static Handler table[15] = {
-        &TUnk_804EF8C0::start_check_memory_card,
-        &TUnk_804EF8C0::sub_8033B0AC,
-        &TUnk_804EF8C0::sub_8033AFC8,
-        &TUnk_804EF8C0::handle_load_result,
-        &TUnk_804EF8C0::update_select_state,
-        &TUnk_804EF8C0::sub_8033ACF4,
-        &TUnk_804EF8C0::check_memcard_space,
-        &TUnk_804EF8C0::update_setup,
-        &TUnk_804EF8C0::handle_player_load,
-        &TUnk_804EF8C0::sub_8033AA64,
-        &TUnk_804EF8C0::sub_8033AA64,
-        &TUnk_804EF8C0::sub_8033AA64,
-        &TUnk_804EF8C0::sub_8033AA64,
-        &TUnk_804EF8C0::sub_8033AA64,
-        &TUnk_804EF8C0::queue_destruction,
+        &TCharSaveSequence::start_check_memory_card,
+        &TCharSaveSequence::wait_card_check,
+        &TCharSaveSequence::start_character_read,
+        &TCharSaveSequence::handle_load_result,
+        &TCharSaveSequence::update_select_state,
+        &TCharSaveSequence::sub_8033ACF4,
+        &TCharSaveSequence::check_memcard_space,
+        &TCharSaveSequence::update_setup,
+        &TCharSaveSequence::handle_player_load,
+        &TCharSaveSequence::handle_retry_menu,
+        &TCharSaveSequence::handle_retry_menu,
+        &TCharSaveSequence::handle_retry_menu,
+        &TCharSaveSequence::handle_retry_menu,
+        &TCharSaveSequence::handle_retry_menu,
+        &TCharSaveSequence::queue_destruction,
     };
     (this->*table[state])();
 }
 
-TUnk_804EF8C0::~TUnk_804EF8C0() {
+TCharSaveSequence::~TCharSaveSequence() {
     free_buffer();
 }
 
-TUnk_804EF8C0::TUnk_804EF8C0() : TObject(tl_01) {
+TCharSaveSequence::TCharSaveSequence() : TObject(tl_01) {
     void *p;
     unk_30 = 0;
     unk_34 = 0;
