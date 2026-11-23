@@ -4,6 +4,8 @@
 #include "pso/enemy/TObjEnemyCustom.h"
 #include "pso/render/TUnk_80490470.h"
 
+struct BmlResource;
+
 class TObject;
 class TParticleCtrl;
 class TeneFakeTecThunderEff;
@@ -81,5 +83,7 @@ extern "C" const char *TObjEneDarkGunner__class_name;
 LAYOUT_ASSERT(DarkGunnerSize, sizeof(TObjEneDarkGunner)==0x42C);
 // The shot speed per frame (float param 3, set by load_params); the shot (TUnk_804909C4) moves by it.
 extern f32 dark_gunner_shot_speed;
+// bm_ene_darkgunner.bml, loaded with the Dark Gunner's resources.
+extern BmlResource *TObjEneDarkGunner__bml_resource;
 
 #endif

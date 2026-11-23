@@ -6,6 +6,8 @@
 #include "pso/system/NinjaTypes.h"
 #include <dolphin/mtx/GeoTypes.h>
 
+struct GinjaTextureList;
+
 // One ripple ring of the Dark Gunner (spawn_hamon_effects): the fish model,
 // grown by scale_rate and faded by alpha_rate each frame once delay runs out.
 class TEneEffHamon : public TObject {
@@ -18,6 +20,10 @@ public:
     // Empty; DarkGunner's cleanup_effects calls it after freeing its
     // resources (inferred: the release counterpart of init_fish_effects).
     static void sub_800A380C();
+
+    static const char *class_name;
+    static NJS_OBJECT *fish_model;
+    static GinjaTextureList *fish_texlist;
 
     Vec position;
     s32 rotation_x;

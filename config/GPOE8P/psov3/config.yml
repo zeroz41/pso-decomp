@@ -529,8 +529,8 @@ force_active:
   - TEndingC__wall_texture_list
   - TEndingPic__sub_8008D5AC
   - TEnding__sub_8008D5B8
-  - TEneEffHamon__fish_effect_param
-  - TEneEffHamon__fish_model
+  - fish_texlist__12TEneEffHamon
+  - fish_model__12TEneEffHamon
   - TEnemyTaskList_class_name
   - TEnemyTaskList_name
   - TFogCtrl__data_805DA948
