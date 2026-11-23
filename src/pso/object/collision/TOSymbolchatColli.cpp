@@ -121,7 +121,7 @@ void TOSymbolchatColli::run_task() {
                 if (player_inside[i] == 0) {
                     player_inside[i] = 1;
                     s32 state = get_state();
-                    fn_8017866C(state, i);
+                    open_balloon_chat(state, i);
                 }
             } else {
                 if (player_inside[i] != 0) {

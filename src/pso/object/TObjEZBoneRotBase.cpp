@@ -260,7 +260,7 @@ void TObjHMS_EZRope_Player::run_task() {
         pd++;
     }
     pop_matrix();
-    ((TObjEZRopeBase *)((Self_800FEEA4 *)this))->sub_800FF788(&TObjEZBoneRotPlayer__chain_gravity);
+    ((TObjEZRopeBase *)((Self_800FEEA4 *)this))->update_ropes(&TObjEZBoneRotPlayer__chain_gravity);
 }
 
 }

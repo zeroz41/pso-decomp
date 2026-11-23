@@ -64,7 +64,7 @@ TObjEZRopeBase::~TObjEZRopeBase() {
     if (points != nullptr) { TAdSinglePlyChrSelectGC::safe_free((uaddr)points); points = nullptr; }
 }
 
-void TObjEZRopeBase::sub_800FF8CC(TObjEZRopeSegment *segment_list, TObjEZRopeEnd *end_list,
+void TObjEZRopeBase::init_ropes(TObjEZRopeSegment *segment_list, TObjEZRopeEnd *end_list,
                                   TObjEZRopeCollider *collider_list) {
     s32 total;
     TObjEZRopeSegment *s;
@@ -93,7 +93,7 @@ void TObjEZRopeBase::sub_800FF8CC(TObjEZRopeSegment *segment_list, TObjEZRopeEnd
     }
 }
 
-void TObjEZRopeBase::sub_800FF788(Vec *gravity) {
+void TObjEZRopeBase::update_ropes(Vec *gravity) {
     TObjEZRopeSegment *seg;
     TObjEZRopeEnd *end;
     Vec *p;
@@ -317,7 +317,7 @@ TObjHMS_EZRope_Player::TObjHMS_EZRope_Player(TObject *parent, TObjHMSRopeSpec *r
         }
         copy_ezrope_collider(dst, &ezrope_default_collider);
     }
-    sub_800FF8CC(segment_buffer, end_buffer, collider_buffer);
+    init_ropes(segment_buffer, end_buffer, collider_buffer);
 }
 
 TObjHMS_EZRope_Player::~TObjHMS_EZRope_Player() {

@@ -39,9 +39,9 @@ public:
     TObjEZRopeBase(TObject *parent);
     virtual ~TObjEZRopeBase();
     // Takes the rope tables and allocates the points; the points start at each end, spaced by step.
-    void sub_800FF8CC(TObjEZRopeSegment *segment_list, TObjEZRopeEnd *end_list, TObjEZRopeCollider *collider_list);
+    void init_ropes(TObjEZRopeSegment *segment_list, TObjEZRopeEnd *end_list, TObjEZRopeCollider *collider_list);
     // Moves the points by gravity, keeping each rope's spacing, and pushes them out of the colliders.
-    void sub_800FF788(Vec *gravity);
+    void update_ropes(Vec *gravity);
     void resolve_collisions(Vec *p, f32 len);
 };
 

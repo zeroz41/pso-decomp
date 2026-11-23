@@ -73,7 +73,7 @@ void TBoss2Fin::render() {
 void TBoss2Fin::run_task() {
     init_link_points();
     Vec gravity = boss2_fin_gravity;
-    sub_800FF788(&gravity);
+    update_ropes(&gravity);
 }
 
 void TBoss2Fin::init_link_points() {
@@ -109,7 +109,7 @@ TBoss2Fin::TBoss2Fin(TObject *parent, Vec *first_anchor, Vec *second_anchor) : T
     }
     collider->radius = -1.0f;
     init_link_points();
-    sub_800FF8CC(TBoss2Fin__effect_table, rope_ends, rope_colliders);
+    init_ropes(TBoss2Fin__effect_table, rope_ends, rope_colliders);
 }
 
 void TBoss2Fin::release_effect_table() {}
