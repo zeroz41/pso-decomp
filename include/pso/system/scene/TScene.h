@@ -52,7 +52,7 @@ public:
     void set_field4();
     void advance_scene_object_animations();
     void init_material_nodes();
-    static void create_texture_wave_tasks(s32 arg0);
+    static void create_texture_wave_tasks(TObject *parent);
     void copy_header_and_vec(void* q);
     void initialize_fmt1_materials();
     void initialize_materials();

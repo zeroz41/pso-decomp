@@ -5520,7 +5520,7 @@ force_active:
   - create_right_hand_ptcl__10TObjPlayerFPv
   - create_single_entry_window__17TWindowSubComCardFv
   - create_symbol_list_card__20TWindowSubSymbolChatFv
-  - create_texture_wave_tasks__6TSceneFl
+  - create_texture_wave_tasks__6TSceneFP7TObject
   - create_time_window2__6TLobbyFPv
   - create_time_window__6TLobbyFPv
   - create_title_window__19TWindowSubTechniqueFl

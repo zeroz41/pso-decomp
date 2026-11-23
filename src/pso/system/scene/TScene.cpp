@@ -34,6 +34,7 @@
 #include <string.h>
 #include "pso/unk/text_803D96A8.h"
 #include "pso/camera/TCameraCtrl.h"
+#include "pso/effect/TEF_PvrWave.h"
 
 struct SurfaceAreaTable { s32 enabled[36]; };
 
@@ -253,9 +254,16 @@ struct Info_80205AEC { u8 a0; u8 a1; u8 tex; u8 b; u8 c; };
 
 
 struct Def_80206058 { u16 id, texture; f32 u, v, du, dv; };
+
+// One record of the area's texture wave table, ended by a negative texture_index.
+struct TextureWaveEntry {
+    s16 texture_index;
+    u8 pad_02[2];
+    u8 *image;
+    s32 size;
+};
 extern "C" {
 
-u8 *__ct__11TEF_PvrWaveFP7TObjectPUcll(void *, s32, s32, s32, s32);
 
 
 s32 find_uv_animation__6TSceneFPvPv(void *task, Uv_80205DE4 *uv);
@@ -1098,7 +1106,7 @@ TScene::TScene(TObject *parent) : TObject(parent) {
     m_3c = 0;
     initialize_materials();
     if ((get_current_floor_area() == AREA_FOREST1) && ((u32) TScene__texture_wave_resource != 0U) && ((void *) (*(u8 * *)&scene_material_root) != NULL) && ((u32) *(u32 *)((s8 *)(*(u8 * *)&scene_material_root) + 0x14) != 0U)) {
-        TScene::create_texture_wave_tasks((saddr)this);
+        TScene::create_texture_wave_tasks(this);
     }
     init_material_nodes();
 }
@@ -1296,24 +1304,12 @@ s32 load_texture_sequence_frame(void *task, Cyc_80205D24 *c) {
     return 0;
 }
 
-void TScene::create_texture_wave_tasks(s32 arg0) {
-  s8 *new_var;
-  s16 temp_r0;
-  u8 *temp_r3;
-  u8 *var_r31;
-  var_r31 = (u8 *) (*(void **)TScene__texture_wave_resource);
-  do
-  {
-    new_var = (s8 *) var_r31;
-    temp_r3 = (u8 *) TObject::operator new(0x38);
-    if (temp_r3 != 0)
-    {
-      __ct__11TEF_PvrWaveFP7TObjectPUcll(temp_r3, arg0, *((s32 *) (((s8 *) var_r31) + 4)), *((s32 *) (((s8 *) var_r31) + 8)), (s32) (*((s16 *) (((s8 *) var_r31) + 0))));
-    }
-    temp_r0 = *((s16 *)(new_var + 0xC));
-    var_r31 += 0xC;
-  }
-  while (temp_r0 >= 0);
+void TScene::create_texture_wave_tasks(TObject *parent) {
+    TextureWaveEntry *e = *(TextureWaveEntry **)TScene__texture_wave_resource;
+    do {
+        new TEF_PvrWave(parent, e->image, e->size, e->texture_index);
+        e++;
+    } while (e->texture_index >= 0);
 }
 
 void TScene::init_material_nodes() {
