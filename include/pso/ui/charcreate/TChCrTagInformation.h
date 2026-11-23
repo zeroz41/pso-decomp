@@ -11,7 +11,7 @@ struct TChCrTagInformation : public TChCrTag {
     void render();
     void update_selected_char();
     void run_task();
-    virtual s32 vt4();
+    virtual s32 is_selected();
     static TChCrTagInformation *create(s32 index);
     static TChCrTagInformation *create_default();
 };

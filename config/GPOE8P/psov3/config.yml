@@ -490,11 +490,11 @@ force_active:
   - __ct__12TChCrLoadReqFP10TObjPlayer
   - TChCrTagName__class_name
   - TChCrTagName__sub_802A226C
-  - TChCrTagName__vt4
+  - is_selected__12TChCrTagNameFv
   - TChCrTagOccHeader__vt4
-  - TChCrTagOccupation__vt4
+  - is_selected__18TChCrTagOccupationFv
   - TChCrTagPlGraphic__sub_802A3230
-  - TChCrTag__vt4
+  - is_selected__8TChCrTagFv
   - TChallenge4PItemSelect__item_table
   - TChallenge4PResult__slot_entries
   - TChallenge4P__ct
@@ -16297,7 +16297,7 @@ force_active:
   - sub_80288BE4__19TQuestListChallengeFv
   - sub_8028B940__12TChCrLoadAfsFv
   - sub_8028B944__12TChCrLoadAfsFv
-  - sub_802A2DF4__18TChCrTagOccupationFv
+  - draw_occupation__18TChCrTagOccupationFv
   - pause_indirect_effect__16TEffIndirectCtrlFv
   - update_ol_ending__14TBoss6PlotFalzFv
   - update_vs_type2__14TBoss6PlotFalzFv
@@ -17740,7 +17740,7 @@ force_active:
   - state_2__13TBoss6MagMineFv
   - state_3__13TBoss6MagMineFv
   - state_4__13TBoss6MagMineFv
-  - vt4__17TChCrTagPlGraphicFv
+  - is_selected__17TChCrTagPlGraphicFv
   - vt4__9TBoss4UroFv
   - update_sink_state__9TBoss4UroFv
   - vt6__9TBoss4UroFv

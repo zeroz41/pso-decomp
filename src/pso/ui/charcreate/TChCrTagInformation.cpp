@@ -22,8 +22,8 @@ void TChCrTagInformation::draw_char_info_sprites() {
     f32 alpha;
     s32 c;
     alpha = 0.0f;
-    if (m_24 >= 0.5f) {
-        alpha = (m_24 - 0.5f) / 0.5f;
+    if (m_fade >= 0.5f) {
+        alpha = (m_fade - 0.5f) / 0.5f;
     }
     vec2f a = {310.0f, 255.0f};
     c = TChCrCharSelect::get_selected_char();
@@ -59,7 +59,7 @@ void TChCrTagInformation::render() { draw_char_info_sprites(); }
 
 void TChCrTagInformation::update_selected_char() {
     s32 c;
-    if (m_24 < 1.0f) {
+    if (m_fade < 1.0f) {
         fn_80309890(this, -1);
         return;
     }
@@ -76,8 +76,8 @@ void TChCrTagInformation::update_selected_char() {
     }
 }
 
-void TChCrTagInformation::run_task() { update_fade__8TChCrTagFPv(this); update_selected_char(); }
-s32 TChCrTagInformation::vt4() { return 0; }
+void TChCrTagInformation::run_task() { TChCrTag::run_task(); update_selected_char(); }
+s32 TChCrTagInformation::is_selected() { return 0; }
 
 TChCrTagInformation::~TChCrTagInformation() {
     fn_803098DC();
@@ -87,10 +87,10 @@ TChCrTagInformation::~TChCrTagInformation() {
 
 TChCrTagInformation::TChCrTagInformation(TObject *parent, s32 index) : TChCrTag(parent, index) {
     m_name = TChCrTagInformation__class_name;
-    m_28 = 0.06666667f;
-    m_2c = -0.06666667f;
-    m_34 = 0.06666667f;
-    m_38 = -0.06666667f;
+    m_fade_in_step = 0.06666667f;
+    m_fade_out_step = -0.06666667f;
+    m_highlight_in_step = 0.06666667f;
+    m_highlight_out_step = -0.06666667f;
     fn_803098E8();
 }
 

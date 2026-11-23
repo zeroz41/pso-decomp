@@ -2,100 +2,74 @@
 #include "types.h"
 #include "pso/ui/charcreate/TChCrTag.h"
 #include "pso/system/task/TObject.h"
-#include "pso/system/task/TObject_80019A50.h"
-
-
-extern "C" void render__8TChCrTagFv();
 #include "pso/ui/charcreate/TChCrCharSelect.h"
 
 #pragma readonly_strings on
 
-extern "C" {
-void __dt__7TObjectFv(void *, s16);
-void render_shadows__7TObjectFv(void);
-
-int TChCrTag__vt4(void) { return 0; }
+s32 TChCrTag::is_selected() { return 0; }
 void TChCrTag::render() {  }
 
-extern void *__vt__8TChCrTag[];
-const char *lbl_805D3D90 = "TChCrTag";
+const char *chcr_tag_class_name = "TChCrTag";
 
 #pragma push
 #pragma opt_common_subs off
-void update_fade__8TChCrTagFPv(TChCrTag *tag) {
+void TChCrTag::run_task() {
     f32 value;
     f32 highlight;
     f32 fade;
-    if (tag->vt4() != 0) {
-        value = tag->m_30;
+    if (is_selected() != 0) {
+        value = m_highlight;
         if (value < 1.0f) {
-            tag->m_30 = value + tag->m_34;
-            if (tag->m_30 > 1.0f) {
-                tag->m_30 = 1.0f;
+            m_highlight = value + m_highlight_in_step;
+            if (m_highlight > 1.0f) {
+                m_highlight = 1.0f;
             }
         }
     } else {
-        highlight = tag->m_30;
+        highlight = m_highlight;
         if (highlight > 0.0f) {
-            tag->m_30 = highlight + tag->m_38;
-            if (tag->m_30 < 0.0f) {
-                tag->m_30 = 0.0f;
+            m_highlight = highlight + m_highlight_out_step;
+            if (m_highlight < 0.0f) {
+                m_highlight = 0.0f;
             }
         }
     }
-    switch (tag->m_1c) {
+    switch (m_fade_state) {
     case 0:
-        fade = tag->m_24;
+        fade = m_fade;
         if (fade < 1.0f) {
-            tag->m_24 = fade + tag->m_28;
-            if (tag->m_24 > 1.0f) {
-                tag->m_24 = 1.0f;
+            m_fade = fade + m_fade_in_step;
+            if (m_fade > 1.0f) {
+                m_fade = 1.0f;
             }
         }
         if (TChCrCharSelect::get_selected_index() == 2) {
-            tag->m_1c = 1;
+            m_fade_state = 1;
             break;
         }
         break;
     case 1:
-        tag->m_24 = tag->m_24 + tag->m_2c;
-        if (tag->m_24 <= 0.0f) {
-            tag->m_24 = 0.0f;
-            ((TObject *)tag)->queue_destruction();
+        m_fade = m_fade + m_fade_out_step;
+        if (m_fade <= 0.0f) {
+            m_fade = 0.0f;
+            queue_destruction();
         }
         break;
     }
 }
 #pragma pop
 
-void *__dt__8TChCrTagFv(void *self, s16 arg1) {
-    if (self != NULL) {
-        *(void ***)((s8 *)self + 0x18) = __vt__8TChCrTag;
-        __dt__7TObjectFv(self, 0);
-        if (arg1 > 0) {
-            TObject::operator delete(self);
-        }
-    }
-    return self;
-}
+TChCrTag::~TChCrTag() {}
 
-}
 TChCrTag::TChCrTag(TObject *object, s32 index) : TObject(object) {
-    m_name = lbl_805D3D90;
-    m_20 = index;
-    m_1c = 0;
-    m_24 = 0.0f;
-    m_30 = 0.0f;
-    m_34 = 0.13333334f;
-    m_28 = 0.13333334f;
-    m_38 = -0.13333334f;
-    m_2c = -0.13333334f;
+    m_name = chcr_tag_class_name;
+    m_index = index;
+    m_fade_state = 0;
+    m_fade = 0.0f;
+    m_highlight = 0.0f;
+    m_highlight_in_step = 0.13333334f;
+    m_fade_in_step = 0.13333334f;
+    m_highlight_out_step = -0.13333334f;
+    m_fade_out_step = -0.13333334f;
 }
-
-
-void *__vt__8TChCrTag[7] = {
-    0, 0, (void *)__dt__8TChCrTagFv, (void *)update_fade__8TChCrTagFPv,
-    (void *)&render__8TChCrTagFv, (void *)render_shadows__7TObjectFv,
-    (void *)TChCrTag__vt4,
-};
 
