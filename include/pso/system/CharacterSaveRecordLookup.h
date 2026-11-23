@@ -2,6 +2,7 @@
 #define PSO_SYSTEM_CHARACTER_SAVE_RECORD_LOOKUP_H
 
 #include "types.h"
+#include "pso/ui/city/BankItemRecord.h"
 
 // The parts of a character's save record that are read by name.
 struct CharacterSaveRecord {
@@ -12,10 +13,9 @@ struct CharacterSaveRecord {
     u8 pad_8[0x14 - 0x8];
     u32 pad_14;
     u8 pad_18[0x248 - 0x18];
-    s32 pad_248;
+    s32 bank_item_count;    // rows of bank_items in use
     s32 pad_24C;
-    // 200 entries of 0x18, built by TAdSinglePlyChrSelectGC__sub_802115C0 (as TCheckRoomSequence builds its bank).
-    u8 bank_items[200 * 0x18];
+    BankItemRecord bank_items[200];
     // Set up by init_guild_card_tag.
     u8 guild_card[0x229C - 0x1510];
     // The character's name as stored, obfuscated; read it with decode_obfuscated_string.

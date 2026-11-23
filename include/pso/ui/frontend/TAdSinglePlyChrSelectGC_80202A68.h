@@ -4,12 +4,13 @@
 #include "types.h"
 #include <stddef.h>
 #include "pso/player/TPlyCharData.h"
+#include "pso/ui/city/BankItemRecord.h"
 
 struct Record_80203190 {
     Record_80203190();
 
     u8 pad_0[0x450];
-    u8 pad_450[4 * 0x18];
+    BankItemRecord items[4];
     // Set up by init_guild_card_tag.
     u8 guild_card[0x3598 - 0x4B0];
 };

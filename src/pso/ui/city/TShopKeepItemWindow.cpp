@@ -255,7 +255,7 @@ void TShopKeepItemWindow::handle_deposit_confirm() {
         r = this->confirm_window->get_selected_value();
         if (r == 0) {
             i = this->item_list_window->get_cursor_value();
-            if (store_item_in_bank((u8 *)&this->entries[i].data, this->deposit_count, base) != 0) {
+            if (store_item_in_bank(&this->entries[i].data, this->deposit_count, base) != 0) {
                 delete_item(this->player, this->entries[i].item->get_item_id(), this->deposit_count);
                 copy_bank_to_card_window(base);
                 play_sound_effect(0x52D01, 0, 0, 0);

@@ -3,8 +3,7 @@
 #include "pso/unk/TLobby_802230F8.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/unk/TLobby.h"
-
-struct Rec_802231F0 { u8 b[0x18]; };
+#include "pso/ui/city/BankItemRecord.h"
 
 s32 TLobby::compare_version(void *arg1) {
     u32 b, a;
@@ -60,25 +59,25 @@ void TLobby::swap_item_data(s32 *item_data) {
 }
 
 void TLobby::sort_records(s32 arg1, s32 arg2) {
-    Rec_802231F0 *arg0 = (Rec_802231F0 *)this;
+    BankItemRecord *arg0 = (BankItemRecord *)this;
     s32 i;
     s32 j;
     for (i = 0; i < arg1 - 1; i++) {
         for (j = i + 1; j < arg1; j++) {
             switch (arg2) {
             case 0:
-                if (((s32 (*)(u8 *, u8 *))TAdSinglePlyChrSelectGC__sub_8022338C)(arg0[i].b, arg0[j].b) != 0) {
-                    ((TAdSinglePlyChrSelectGC *)(&arg0[i]))->swap_item_data((s32 *)&arg0[j]);
+                if (((s32 (*)(u8 *, u8 *))TAdSinglePlyChrSelectGC__sub_8022338C)(arg0[i].item.data1.data_u8, arg0[j].item.data1.data_u8) != 0) {
+                    arg0[i].swap_item_data(&arg0[j]);
                 }
                 break;
             case 1:
                 if (TAdSinglePlyChrSelectGC__sub_80223350(&arg0[i], &arg0[j]) != 0) {
-                    ((TAdSinglePlyChrSelectGC *)(&arg0[i]))->swap_item_data((s32 *)&arg0[j]);
+                    arg0[i].swap_item_data(&arg0[j]);
                 }
                 break;
             case 2:
                 if (TLobby__sub_802232F8(&arg0[i], &arg0[j]) != 0) {
-                    ((TAdSinglePlyChrSelectGC *)(&arg0[i]))->swap_item_data((s32 *)&arg0[j]);
+                    arg0[i].swap_item_data(&arg0[j]);
                 }
                 break;
             }

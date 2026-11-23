@@ -44,7 +44,6 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     TAdSelectCurGC *cursor;                // 0x2C
     TAdChrSelPlayerGC *player;             // 0x30
     TAdGuideTxtGC *guide;                  // 0x34
-    void init_item_entry();
     static void try_load_system_file();
     static s32 wait_for_card_load(s32 chan);
     static void format_challenge_stage_times(s32 lobby, s32 challenge_id);
@@ -102,7 +101,6 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     static s32 check_flag(s32 arg0);
     static void set_state(int a0);
     static void set_chr_select_state(int a0);
-    void*copy_item_data(void* a1);
     void*init_guild_card_tag();
     void clear_inventory_slot();
     static s32 draw_window_bg(s32 chan, s32 arg1, s32 arg2, s32 arg3);
@@ -151,7 +149,6 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     s32 load_and_verify_character_save(char *desc);
     static void remove_matching_entries(s32 arg0);
     u8 *copy_character_data(u8 *arg1);
-    void swap_item_data(s32 *arg1);
     static void reset_quest_id();
     static void set_quest_download_server(int quest_download_server);
     static void init_logo_state(s32 arg0);

@@ -48,7 +48,6 @@ s32 TCheckRoomSequence__active_instance;
 
 #pragma optimization_level 1
 
-struct Obj_80211584 { u8 pad[0x14]; s16 a; s16 b; };
 
 typedef void (TCheckRoomSequence::*Fn_802102D0)();
 
@@ -63,11 +62,12 @@ struct Rec_80210F78
 
 extern "C" {
 TObject *set_service_counter_camera(void *, int);
-s32 is_item_record_empty(BankItemRecord *record);
-void copy_item_to_bank_entry__18TCheckRoomSequenceFPvPv(u8 *arg0, u8 *arg1);
+// The runtime's array new and BankItemRecord::BankItemRecord(), whose address
+// C++ does not let alloc_item_buffers take.
+void *__construct_new_array(void *block, void *ctor, void *dtor, u32 size, u32 count);
+void __ct__14BankItemRecordFv();
 s32 get_max_stack_size__9TItemDataFv(void *);
-s32 TCheckRoomSequence__sub_80210B34(u8 *, s32, s32);
-void* TAdSinglePlyChrSelectGC__sub_802115C0(void* p);
+s32 TCheckRoomSequence__sub_80210B34(TItemData *item, s32 amount, s32 slot);
 
 BankItemRecord *bank_item_records_by_slot[4];
 s32 bank_item_count_by_slot[4];
@@ -617,7 +617,7 @@ void TCheckRoomSequence::compact_items(int slot) {
         if (is_item_record_empty(a) != 0) {
             for (b = a + 1; b < base + 200; b++) {
                 if (is_item_record_empty(b) == 0) {
-                    ((TAdSinglePlyChrSelectGC *)a)->copy_item_data(b);
+                    *a = *b;
                     TCheckRoomSequence::init_item_entry(b);
                     break;
                 }
@@ -660,10 +660,10 @@ s32 get_bank_deposit_capacity_for_item(TItemData *item, s32 slot) {
 
 #pragma push
 #pragma optimization_level 1
-s32 TCheckRoomSequence__sub_80210B34(u8 *item, s32 amount, s32 slot) {
+s32 TCheckRoomSequence__sub_80210B34(TItemData *item, s32 amount, s32 slot) {
     BankItemRecord *recs = bank_item_records_by_slot[slot];
     s32 i;
-    if (item[0] != 3) {
+    if (item->data1.data_u8[0] != 3) {
         return 0;
     }
     if (TCheckRoomSequence::get_item_def((uaddr)item) == 0) {
@@ -671,7 +671,7 @@ s32 TCheckRoomSequence__sub_80210B34(u8 *item, s32 amount, s32 slot) {
     }
     for (i = 0; i < 200; i++) {
         if (is_item_record_empty(&recs[i]) == 0 &&
-            item[0] == recs[i].item.data1.data_u8[0] && item[1] == recs[i].item.data1.data_u8[1] && item[2] == recs[i].item.data1.data_u8[2]) {
+            item->data1.data_u8[0] == recs[i].item.data1.data_u8[0] && item->data1.data_u8[1] == recs[i].item.data1.data_u8[1] && item->data1.data_u8[2] == recs[i].item.data1.data_u8[2]) {
             recs[i].amount += amount;
             if (recs[i].amount > recs[i].item.get_max_stack_size()) {
                 recs[i].amount = recs[i].item.get_max_stack_size();
@@ -681,7 +681,7 @@ s32 TCheckRoomSequence__sub_80210B34(u8 *item, s32 amount, s32 slot) {
     }
     for (i = 0; i < 200; i++) {
         if (is_item_record_empty(&recs[i]) != 0) {
-            copy_item_to_bank_entry__18TCheckRoomSequenceFPvPv((u8 *)&recs[i], item);
+            TCheckRoomSequence::copy_item_to_bank_entry(&recs[i], item);
             recs[i].amount = amount;
             bank_item_count_by_slot[slot]++;
             return 1;
@@ -808,7 +808,7 @@ s32 TCheckRoomSequence::copy_item_record(int idx, void *data, int slot) {
 
 #pragma push
 #pragma optimization_level 1
-s32 store_item_in_bank(u8 *item, s32 amount, s32 slot) {
+s32 store_item_in_bank(TItemData *item, s32 amount, s32 slot) {
     BankItemRecord *recs = bank_item_records_by_slot[slot];
     s32 i;
     if (TCheckRoomSequence__sub_80210B34(item, amount, slot) != 0) {
@@ -819,7 +819,7 @@ s32 store_item_in_bank(u8 *item, s32 amount, s32 slot) {
     }
     for (i = 0; i < 200; i++) {
         if (is_item_record_empty(&recs[i]) != 0) {
-            copy_item_to_bank_entry__18TCheckRoomSequenceFPvPv((u8 *)&recs[i], item);
+            TCheckRoomSequence::copy_item_to_bank_entry(&recs[i], item);
             bank_item_count_by_slot[slot]++;
             copy_bank_to_card_window(slot);
             return 1;
@@ -879,7 +879,6 @@ void TCheckRoomSequence::free_bank_item_records() {
 }
 #pragma pop
 
-void *__construct_new_array(void *, void *, void *, int, int);
 void TCheckRoomSequence::alloc_item_buffers() {
     s32 i;
     s32 j;
@@ -891,12 +890,12 @@ void TCheckRoomSequence::alloc_item_buffers() {
     }
     if (is_split_screen() == 1) {
         for (i = 0; i < 4; i++) {
-            bank_item_records_by_slot[i] = (BankItemRecord *)__construct_new_array(mem_alloc(0x12D0),
-                (void *)TAdSinglePlyChrSelectGC__sub_802115C0, NULL, 0x18, 200);
+            bank_item_records_by_slot[i] = (BankItemRecord *)__construct_new_array(mem_alloc(200 * sizeof(BankItemRecord) + 0x10),
+                (void *)__ct__14BankItemRecordFv, NULL, sizeof(BankItemRecord), 200);
         }
     } else {
-        bank_item_records_by_slot[0] = (BankItemRecord *)__construct_new_array(mem_alloc(0x12D0),
-            (void *)TAdSinglePlyChrSelectGC__sub_802115C0, NULL, 0x18, 200);
+        bank_item_records_by_slot[0] = (BankItemRecord *)__construct_new_array(mem_alloc(200 * sizeof(BankItemRecord) + 0x10),
+            (void *)__ct__14BankItemRecordFv, NULL, sizeof(BankItemRecord), 200);
     }
 }
 
@@ -913,20 +912,20 @@ void TCheckRoomSequence::copy_data(BankItemRecord *p, void *a1) { *(unsigned cha
 
 #pragma push
 #pragma optimization_level 1
-void copy_item_to_bank_entry__18TCheckRoomSequenceFPvPv(u8 *arg0, u8 *arg1) {
-    *(u8 *)((s8 *)arg0 + 0) = (u8) *(u8 *)((s8 *)arg1 + 0);
-    *(u8 *)((s8 *)arg0 + 1) = (u8) *(u8 *)((s8 *)arg1 + 1);
-    *(u8 *)((s8 *)arg0 + 2) = (u8) *(u8 *)((s8 *)arg1 + 2);
-    *(u8 *)((s8 *)arg0 + 3) = (u8) *(u8 *)((s8 *)arg1 + 3);
-    *(u8 *)((s8 *)arg0 + 4) = (u8) *(u8 *)((s8 *)arg1 + 4);
-    *(u8 *)((s8 *)arg0 + 5) = (u8) *(u8 *)((s8 *)arg1 + 5);
-    ((TObjPlayer *)(arg0 + 6))->copy_entry_bytes(arg1 + 6);
-    ((TObjPlayer *)(arg0 + 8))->copy_entry_bytes(arg1 + 8);
-    ((TObjPlayer *)(arg0 + 0xA))->copy_entry_bytes(arg1 + 0xA);
-    *(s32 *)((s8 *)arg0 + 0xC) = (s32) *(s32 *)((s8 *)arg1 + 0xC);
-    *(s32 *)((s8 *)arg0 + 0x10) = (s32) *(s32 *)((s8 *)arg1 + 0x10);
-    *(s16 *)((s8 *)arg0 + 0x14) = 1;
-    *(s16 *)((s8 *)arg0 + 0x16) = 1;
+void TCheckRoomSequence::copy_item_to_bank_entry(BankItemRecord *entry, TItemData *item) {
+    entry->item.data1.data_u8[0] = item->data1.data_u8[0];
+    entry->item.data1.data_u8[1] = item->data1.data_u8[1];
+    entry->item.data1.data_u8[2] = item->data1.data_u8[2];
+    entry->item.data1.data_u8[3] = item->data1.data_u8[3];
+    entry->item.data1.data_u8[4] = item->data1.data_u8[4];
+    entry->item.data1.data_u8[5] = item->data1.data_u8[5];
+    ((TObjPlayer *)&entry->item.data1.data_u16[3])->copy_entry_bytes(&item->data1.data_u16[3]);
+    ((TObjPlayer *)&entry->item.data1.data_u16[4])->copy_entry_bytes(&item->data1.data_u16[4]);
+    ((TObjPlayer *)&entry->item.data1.data_u16[5])->copy_entry_bytes(&item->data1.data_u16[5]);
+    entry->item.id = item->id;
+    entry->item.data2.data_u32 = item->data2.data_u32;
+    entry->amount = 1;
+    entry->used = 1;
 }
 #pragma pop
 
@@ -936,15 +935,14 @@ s32 is_item_record_empty(BankItemRecord *record) {
 
 #pragma push
 #pragma optimization_level 1
-void TAdSinglePlyChrSelectGC::init_item_entry() {
-    Obj_80211584 *self = (Obj_80211584 *)this;
-    ((TItemData *)self)->init();
-    self->a = 0;
-    self->b = 0;
+void BankItemRecord::init() {
+    item.init();
+    amount = 0;
+    used = 0;
 }
 #pragma pop
 
-void* TAdSinglePlyChrSelectGC__sub_802115C0(void* p) { ((TAdSinglePlyChrSelectGC *)p)->init_item_entry(); return p; }
+BankItemRecord::BankItemRecord() { init(); }
 
 void TShopWindowBase::display_shop_message(s32 id, s32 flags) {  }
 }

@@ -47,7 +47,6 @@ struct BC0_80202DD4 { u32 w[0x30]; };
 
 struct B21FC_80202DD4 { u32 w[0x87F]; };
 
-struct Item_80202DD4 { u8 data[0x18]; };
 
 struct Elem_80202DD4 { u8 data[0x54]; };
 
@@ -57,7 +56,7 @@ struct S_80202DD4 {
     B10_80202DD4 b34;
     B400_80202DD4 b44;
     s32 f444, f448, f44C;
-    Item_80202DD4 items[4];
+    BankItemRecord items[4];
     B90_80202DD4 b4B0;
     B420_80202DD4 b540;
     Elem_80202DD4 elems[20];
@@ -84,7 +83,6 @@ extern "C" {
 s32 *TAdSinglePlyChrSelectGC__sub_80202B38(Obj_80202B38 *self, s32 i);
 Ent_80202B1C *TAdSinglePlyChrSelectGC__sub_80202B1C(Obj_80202B1C *self, s32 i);
 void __construct_array(void *, void *, void *, int, int);
-void *TAdSinglePlyChrSelectGC__sub_802115C0(void *p);
 Save_80202C68 *copy_save_data__23TAdSinglePlyChrSelectGCFPvPv(Save_80202C68 *arg0, Save_80202C68 *arg1);
 void copy_player_data__9TProtocolFPvPv();
 
@@ -210,10 +208,10 @@ u8 *TAdSinglePlyChrSelectGC::copy_character_data(u8 *arg1) {
     d->f444 = s->f444;
     d->f448 = s->f448;
     d->f44C = s->f44C;
-    ((TAdSinglePlyChrSelectGC *)(&d->items[0]))->copy_item_data(&s->items[0]);
-    ((TAdSinglePlyChrSelectGC *)(&d->items[1]))->copy_item_data(&s->items[1]);
-    ((TAdSinglePlyChrSelectGC *)(&d->items[2]))->copy_item_data(&s->items[2]);
-    ((TAdSinglePlyChrSelectGC *)(&d->items[3]))->copy_item_data(&s->items[3]);
+    d->items[0] = s->items[0];
+    d->items[1] = s->items[1];
+    d->items[2] = s->items[2];
+    d->items[3] = s->items[3];
     d->b4B0 = s->b4B0;
     d->b540 = s->b540;
     p = d->elems;
@@ -235,14 +233,18 @@ u8 *TAdSinglePlyChrSelectGC::copy_character_data(u8 *arg1) {
     return ((u8 *)this);
 }
 
-void*TAdSinglePlyChrSelectGC::copy_item_data(void* a1) { ((TItemData *)this)->copy_from((TItemData *)a1); *(short *)&this->m_down = *(short*)((char*)a1 + 0x14); *(short*)((char*)this + 0x16) = *(short*)((char*)a1 + 0x16); return this; }
+BankItemRecord &BankItemRecord::operator=(BankItemRecord &src) {
+    item.copy_from(&src.item);
+    amount = src.amount;
+    used = src.used;
+    return *this;
+}
 
 Save_80202C68::Save_80202C68() {}
 
 Slot_80202C68::Slot_80202C68() {}
 
 Record_80203190::Record_80203190() {
-    __construct_array(pad_450, (void *)TAdSinglePlyChrSelectGC__sub_802115C0, NULL, 0x18, 4);
     ((TAdSinglePlyChrSelectGC *)guild_card)->init_guild_card_tag();
 }
 

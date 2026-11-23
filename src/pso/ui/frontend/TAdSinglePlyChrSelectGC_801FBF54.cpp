@@ -3,6 +3,7 @@
 #include <dolphin/os/OSThread.h>
 #include <dolphin/card.h>
 #include "pso/system/CharacterSaveRecordLookup.h"
+#include "pso/ui/city/TCheckRoomSequence.h"
 #include "pso/ui/frontend/CharacterSelectionRequest.h"
 #include "pso/system/save/CardSaveFile.h"
 #include "pso/system/save/CharacterFile.h"
@@ -140,9 +141,7 @@ struct Buf_801FBFD0 {
 
 struct Buf_801FBFD0;
 
-struct It_801FC0C8 { u8 b[0x18]; };
-
-struct S_801FC0C8 { u8 pad[8]; s32 magic; u8 pad2[0x248 - 0xC]; s32 f248; s32 f24C; It_801FC0C8 items[200]; };
+struct S_801FC0C8 { u8 pad[8]; s32 magic; u8 pad2[0x248 - 0xC]; s32 f248; s32 f24C; BankItemRecord items[200]; };
 
 extern "C" {
 extern s32 lbl_805D49B4;
@@ -156,7 +155,6 @@ static const char card_disk_game_code[] = "GPSE";
 
 s32 poll_memcard_result(saddr);
 void __construct_array(void*, void*, void*, int, int);
-void *TAdSinglePlyChrSelectGC__sub_802115C0(void *p);
 u32 calc_crc32_bitwise(u8 *, u32);
 s32 start_memcard_read(s32, char *, void *, s32);
 s32 get_field_118__22TAdEnterSerialAccessGCFv(void);
@@ -170,11 +168,9 @@ CharacterFileSlot *TAdSinglePlyChrSelectGC__sub_801FCD04(CharacterFile *self);
 CharacterSaveRecord *TAdSinglePlyChrSelectGC__sub_801FCD3C(CharacterFile *self);
 s32 get_serial_result__22TAdEnterSerialAccessGCFv(void);
 void init_timestamped_data(void);
-s32 copy_item_to_bank_entry__18TCheckRoomSequenceFPvPv(int, void *);
-s32 is_item_record_empty(int);
 s32 TLobby__sub_8030A770();
 s32 get_game_play_mode();
-s32 item_identity_matches(s32, s32);
+s32 item_identity_matches(u8 *arg0, u8 *arg1);
 s32 __destroy_arr(s32, s32 *, s32, s32);
 s32 __ct__12TPlyCharDataFv(s32 arg0);
 s32 __dt__12TPlyCharDataFv(s32 arg0, s16 arg1);
@@ -247,7 +243,7 @@ s32 TAdSinglePlyChrSelectGC::init_char_slot_record() {
     arg0->f248 = 0;
     arg0->f24C = 0;
     for (i = 0; i < 200; i++) {
-        ((TAdSinglePlyChrSelectGC *)(&arg0->items[i]))->init_item_entry();
+        arg0->items[i].init();
     }
     return 1;
 }
@@ -266,47 +262,43 @@ void TAdSinglePlyChrSelectGC::remove_matching_entries(s32 arg0) {
 }
 
 s32 TAdSinglePlyChrSelectGC::is_level_capped() {
-    return (u8) (*(s32 *)((s8 *)this + 0x248) >= 0xC8);
+    return (u8)(((CharacterSaveRecord *)this)->bank_item_count >= 200);
 }
 
 s32 TAdSinglePlyChrSelectGC::find_entry(s32 arg1) {
-    s32 arg0 = (saddr)this;
-    s32 var_r31;
-    s32 var_r30;
+    CharacterSaveRecord *record = (CharacterSaveRecord *)this;
+    BankItemRecord *entry;
+    s32 i;
 
-    var_r31 = arg0 + 0x250;
-    var_r30 = 0;
-loop_1:
-    if ((is_item_record_empty(var_r31) == 0) && (item_identity_matches(arg1, var_r31) != 0)) {
-        return 1;
-    }
-    var_r30 += 1;
-    var_r31 += 0x18;
-    if (var_r30 >= 0xC8) {
-        return 0;
-    }
-    goto loop_1;
+    entry = record->bank_items;
+    i = 0;
+    do {
+        if ((is_item_record_empty(entry) == 0) && (item_identity_matches((u8 *)arg1, entry->item.data1.data_u8) != 0)) {
+            return 1;
+        }
+        i++;
+        entry++;
+    } while (i < 200);
+    return 0;
 }
 
 s32 TAdSinglePlyChrSelectGC::register_in_free_room_slot(saddr arg1) {
-    u8 *arg0 = (u8 *)this;
-    s32 var_r31;
-    s32 var_r30;
+    CharacterSaveRecord *record = (CharacterSaveRecord *)this;
+    BankItemRecord *entry;
+    s32 i;
 
-    var_r30 = 0;
-    var_r31 = (long) (arg0 + 0x250);
-loop_1:
-    if (is_item_record_empty(var_r31) != 0) {
-        copy_item_to_bank_entry__18TCheckRoomSequenceFPvPv((int)var_r31, (void *)arg1);
-        *(s32 *)((s8 *)arg0 + 0x248) = (s32) (*(s32 *)((s8 *)arg0 + 0x248) + 1);
-        return 1;
-    }
-    var_r30 += 1;
-    var_r31 += 0x18;
-    if (var_r30 >= 0xC8) {
-        return 0;
-    }
-    goto loop_1;
+    i = 0;
+    entry = record->bank_items;
+    do {
+        if (is_item_record_empty(entry) != 0) {
+            TCheckRoomSequence::copy_item_to_bank_entry(entry, (TItemData *)arg1);
+            record->bank_item_count++;
+            return 1;
+        }
+        i++;
+        entry++;
+    } while (i < 200);
+    return 0;
 }
 
 s32 TAdSinglePlyChrSelectGC::is_ready() {
@@ -525,7 +517,6 @@ CharacterFileSlot::CharacterFileSlot() {}
 extern "C" {
 
 CharacterSaveRecord::CharacterSaveRecord() {
-    __construct_array(bank_items, (void *)TAdSinglePlyChrSelectGC__sub_802115C0, NULL, 0x18, 200);
     ((TAdSinglePlyChrSelectGC *)guild_card)->init_guild_card_tag();
 }
 
@@ -1119,8 +1110,6 @@ struct Ent_801FE304 { u8 pad[0x2790]; s32 a; s32 b; };
 
 struct P_801FE380 { u8 pad[4]; u8 a[0x278C - 4]; s32 f278C; s32 f2790; s32 f2794; };
 
-struct Item_801FDEE4 { u8 pad[0x18]; };
-
 struct Slot_801FDEE4 {
     u8 pad0[4];
     u8 chr[0x370 - 4];
@@ -1128,7 +1117,7 @@ struct Slot_801FDEE4 {
     u8 pad374[0x668 - 0x374];
     s32 f668;
     s32 f66C;
-    Item_801FDEE4 items[200];
+    BankItemRecord items[200];
     u8 pad1930[0x2790 - 0x1930];
     s32 f2790;
     s32 f2794;
@@ -1144,8 +1133,6 @@ struct B1C_801FE010 { u32 w[7]; };
 struct B10_801FE010 { u32 w[4]; };
 
 struct B200_801FE010 { u32 w[0x80]; };
-
-struct I18_801FE010 { u8 b[0x18]; };
 
 struct B90_801FE010 { u32 w[0x24]; };
 
@@ -1167,7 +1154,7 @@ struct S_801FE010 {
     B10_801FE010 b34;
     B200_801FE010 b44;
     u32 c244, c248, c24C;
-    I18_801FE010 items[200];
+    BankItemRecord items[200];
     B90_801FE010 d1510;
     B420_801FE010 d15A0;
     I54_801FE010 slots[20];
@@ -1370,7 +1357,7 @@ s32 TAdSinglePlyChrSelectGC::copy_character_to_slot(CharacterFile *arg0, int arg
     dst[arg3].f668 = 0;
     dst[arg3].f66C = 0;
     for (j = 0; j < 200; j++) {
-        ((TAdSinglePlyChrSelectGC *)(&dst[arg3].items[j]))->init_item_entry();
+        dst[arg3].items[j].init();
     }
     dst[arg3].f2790 = 1;
     return 1;
@@ -1395,8 +1382,8 @@ extern "C" {
 #undef arg1
 
 S_801FE010 *assign_char_data__23TAdSinglePlyChrSelectGCFPvPv(S_801FE010 *arg0, S_801FE010 *arg1) {
-    I18_801FE010 *p;
-    I18_801FE010 *q;
+    BankItemRecord *p;
+    BankItemRecord *q;
     I54_801FE010 *s;
     I54_801FE010 *t;
     arg0->a0 = arg1->a0;
@@ -1414,7 +1401,7 @@ S_801FE010 *assign_char_data__23TAdSinglePlyChrSelectGCFPvPv(S_801FE010 *arg0, S
     p = arg0->items;
     q = arg1->items;
     do {
-        ((TAdSinglePlyChrSelectGC *)p)->copy_item_data(q);
+        *p = *q;
         p++;
         q++;
     } while (p < arg0->items + 200);
@@ -2292,7 +2279,7 @@ s32 TAdSinglePlyChrSelectGC::load_character_from_card(int card_file) {
                     }
                     *(u8 *)TAdSinglePlyChrSelectGC__sub_801FCD04(card_character_save_buffer) = 0;
                     memset(TAdSinglePlyChrSelectGC__sub_801FCD3C(card_character_save_buffer)->bank_items, 0, 0x12C0);
-                    TAdSinglePlyChrSelectGC__sub_801FCD3C(card_character_save_buffer)->pad_248 = 0;
+                    TAdSinglePlyChrSelectGC__sub_801FCD3C(card_character_save_buffer)->bank_item_count = 0;
                     TAdSinglePlyChrSelectGC__sub_801FCD3C(card_character_save_buffer)->pad_24C = 0;
                 }
                 *(s32 *)((u8 *)TAdSinglePlyChrSelectGC__sub_801FCD04(card_character_save_buffer) + 0x36C) = 0;
@@ -2917,7 +2904,7 @@ s32 TAdSinglePlyChrSelectGC::save_online_character(void) {
                 {
                     CharacterSaveRecord *q = TAdSinglePlyChrSelectGC__sub_801FCD3C(card_character_save_buffer);
                     memset(q->bank_items, 0, 0x12C0);
-                    q->pad_248 = 0;
+                    q->bank_item_count = 0;
                     q->pad_24C = 0;
                 }
             }
@@ -2940,7 +2927,6 @@ s32 TAdSinglePlyChrSelectGC::save_online_character(void) {
 
 
 
-struct Item_80201354 { u8 pad[0x18]; };
 
 struct Card_80201354 {
     s32 f0;
@@ -2954,7 +2940,7 @@ struct Card_80201354 {
     u8 pad44[0x248 - 0x44];
     s32 f248;
     s32 f24C;
-    Item_80201354 items[200];
+    BankItemRecord items[200];
     u8 pad1510[0x22C4 - 0x1510];
     u8 f22C4[0x2370 - 0x22C4];
 };
@@ -3117,7 +3103,7 @@ void init_fresh_character_card(void) {
     card->f248 = 0;
     card->f24C = 0;
     for (i = 0; i < 200; i++) {
-        ((TAdSinglePlyChrSelectGC *)(&card->items[i]))->init_item_entry();
+        card->items[i].init();
     }
     ((TWindowSubSymbolChat *)card)->load_symbol_chat_data();
     set_fresh_card_flag(card);

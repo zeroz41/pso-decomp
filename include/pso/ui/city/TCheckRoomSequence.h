@@ -5,18 +5,12 @@
 #include "types.h"
 #include "pso/ui/city/TShopSequence.h"
 #include "pso/item/TItemData.h"
+#include "pso/ui/city/BankItemRecord.h"
 
 class TWindowBase;
 struct TWindowInputNumber;
 struct TWindowDeposit;
 struct TWindowMenu;
-
-// One of the 200 item records the bank keeps per player slot.
-struct BankItemRecord {
-    TItemData item;
-    s16 amount;     // the stack held
-    s16 used;       // 0 for an empty record
-};
 
 struct TCheckRoomSequence : public TShopSequence {
     TCheckRoomSequence(TObject *parent, TObjPlayer *player);
@@ -61,6 +55,8 @@ struct TCheckRoomSequence : public TShopSequence {
     static void free_bank_item_records();
     static void init_item_entry(BankItemRecord *record);
     static void copy_data(BankItemRecord *record, void *item);
+    // Fills an empty bank row with one of the item.
+    static void copy_item_to_bank_entry(BankItemRecord *entry, TItemData *item);
     // The bank keeps 200 item records per player slot.
     static void compact_items(int slot);
     static void remove_bank_item_amount(int index, int amount, int slot);
@@ -85,8 +81,9 @@ extern s32 bank_meseta_by_slot[4];
 void sort_bank_items(s32 slot);
 s32 get_bank_deposit_capacity_for_item(TItemData *item, s32 slot);
 s32 copy_bank_item_with_stack_limit(s32 index, void *data, s32 *count, s32 slot);
-s32 store_item_in_bank(u8 *item, s32 amount, s32 slot);
+s32 store_item_in_bank(TItemData *item, s32 amount, s32 slot);
 void copy_bank_to_card_window(s32 slot);
+s32 is_item_record_empty(BankItemRecord *record);
 }
 
 LAYOUT_ASSERT(BankItemRecord_size, sizeof(BankItemRecord) == 0x18);
