@@ -87,6 +87,8 @@ struct PhotonBlastEntry {
     s32 pad_28;
 };
 
+PhotonBlastEntry *get_photon_blast_entry(int kind);
+
 // One create/release pair per photon blast model: load_photon_blast_resources runs the
 // table forwards, release_photon_blast_resources runs it backwards.
 struct PhotonBlastLoadCallback {

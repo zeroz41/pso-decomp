@@ -3833,7 +3833,7 @@ void TObjPlayer::update_photon_blast_action() {
     {
       this->phase = 1;
       this->motion_flags = (s32) ((this->motion_flags) | 0x40);
-      ((TObjPlayer *)(arg0 + 0x4AC))->set_field8((int) (*((s16 *) (((s8 *) TObjPlayer::get_photon_blast_entry(((TFontSmallLobby *)(arg0 + 0x4AC))->get_valid_index())) + 0x12))));
+      ((TObjPlayer *)(arg0 + 0x4AC))->set_field8((int) (*((s16 *) (((s8 *) get_photon_blast_entry(((TFontSmallLobby *)(arg0 + 0x4AC))->get_valid_index())) + 0x12))));
       ((TObjPlayer *)(arg0 + 0x4AC))->set_field_0c(-0.2f);
     }
       play_persistent_sound(0x4002A823, (saddr)arg0, 0, 0, 0);

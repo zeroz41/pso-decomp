@@ -7,7 +7,7 @@
 class TObjPlayer;
 struct PhotonBlastRequest;
 
-// The photon blast sequence task (vtable 0x804C349C): new'd by
+// The photon blast sequence task: new'd by
 // admit_photon_blast_sequence with the owner's client id, the chained
 // players and their counts; run by step_photon_blast_sequence while
 // `animated`, else delivered after `delay` frames (update_and_destroy).

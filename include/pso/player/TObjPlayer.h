@@ -509,7 +509,6 @@ struct TObjPlayer : public TObjChara {
     static void set_camera_mode(s32 arg0);
     void reset_fields();
     void reset_state_block();
-    static void*get_photon_blast_entry(int a0);
     s16 get_evp();
     int check_flag_0x80();
     static s32 is_final_phase();

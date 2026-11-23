@@ -4,6 +4,7 @@
 
 #include "pso/camera/CameraPlayback.h"
 #include "pso/effect/photon/PhotonBlastSummon.h"
+#include "pso/player/PhotonBlastResults.h"
 #include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
 #include "pso/player/TObjPlayer_800D8A2C.h"
 #include "pso/system/vector.h"
@@ -66,7 +67,7 @@ void clear_photon_blast_hits(void) {
 void queue_deferred_photon_blast_hit(u32 identity, s32 kind, s32 allow_duplicate, f32 scale) {
     s32 found = 0;
     if (deferred_photon_blast_hit_count < 0x20) {
-        const f32 *e = (const f32 *)TObjPlayer::get_photon_blast_entry(kind);
+        const PhotonBlastEntry *e = get_photon_blast_entry(kind);
         if (allow_duplicate == 0) {
             s32 i;
             for (i = 0; i < deferred_photon_blast_hit_count; i++) {
@@ -77,7 +78,7 @@ void queue_deferred_photon_blast_hit(u32 identity, s32 kind, s32 allow_duplicate
         }
         if (found == 0) {
             deferred_photon_blast_hit_queue[deferred_photon_blast_hit_count].kind = kind;
-            deferred_photon_blast_hit_queue[deferred_photon_blast_hit_count].value = e[0];
+            deferred_photon_blast_hit_queue[deferred_photon_blast_hit_count].value = e->power;
             deferred_photon_blast_hit_queue[deferred_photon_blast_hit_count].identity = identity;
             last_deferred_photon_blast_hit_identity = identity;
             deferred_photon_blast_hit_count++;
@@ -86,13 +87,13 @@ void queue_deferred_photon_blast_hit(u32 identity, s32 kind, s32 allow_duplicate
 }
 
 void queue_photon_blast_hit(u32 identity, s32 kind, s32 allow_duplicate, f32 scale) {
-    const f32 *entry;
+    const PhotonBlastEntry *entry;
     s32 duplicate = 0;
     s32 i;
     if (photon_blast_hit_count >= 32) {
         return;
     }
-    entry = (const f32 *)TObjPlayer::get_photon_blast_entry(kind);
+    entry = get_photon_blast_entry(kind);
     if (allow_duplicate == 0) {
         for (i = 0; i < photon_blast_hit_count; i++) {
             if (photon_blast_hit_queue[i].identity == identity) {
@@ -102,7 +103,7 @@ void queue_photon_blast_hit(u32 identity, s32 kind, s32 allow_duplicate, f32 sca
     }
     if (duplicate == 0) {
         photon_blast_hit_queue[photon_blast_hit_count].kind = kind;
-        photon_blast_hit_queue[photon_blast_hit_count].value = *entry;
+        photon_blast_hit_queue[photon_blast_hit_count].value = entry->power;
         photon_blast_hit_queue[photon_blast_hit_count].identity = identity;
         last_photon_blast_hit_identity = identity;
         photon_blast_hit_count = photon_blast_hit_count + 1;

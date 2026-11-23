@@ -68,6 +68,7 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/ui/hud/TMainCursor_80154090.h"
 #include "pso/ui/frontend/TAdRicoRing_8001BEE8.h"
+#include "pso/player/PhotonBlastResults.h"
 extern "C" void *__ct__16TargetCursorListFv(void *list);
 extern "C" void *__ct__18TargetCursorRecordFv(void *p);
 
@@ -803,7 +804,7 @@ void TMainCursor::setup_action_channel(u8 *player, s32 slot, s32 kind, s32 id) {
     }
     case 5: {
         s16 pid = id;
-        tech = (Tech_8013CDE4 *)TObjPlayer::get_photon_blast_entry((s16)pid);
+        tech = (Tech_8013CDE4 *)get_photon_blast_entry((s16)pid);
         TMainCursor__sub_8013E9A0(cur);
         if (get_type__10TObjPlayerFPv((player + 0x828)) == 0) {
             ((TMainCursor *)C_8013CDE4)->set_color(0x8000);
