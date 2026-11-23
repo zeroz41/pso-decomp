@@ -31,12 +31,12 @@ s32 TWindowMenuInfomation::find_entry_value_by_id(s32 arg1) {
     }
     return 0;
 }
-void TWindowMenuInfomation::mark_entry_by_id(s32 arg1) {
+void TWindowMenuInfomation::mark_entry_by_id(s32 entry_id) {
     s32 i;
     u8 *e;
     for (i = 0; i < entry_capacity; i++) {
         e = (u8 *)get_array_entry(i);
-        if (e != 0 && ((TWindowSubComCard *)e)->is_flag_4_set() != 0 && arg1 == ((TWindowSubComCard *)e)->get_entry_id()) {
+        if (e != 0 && ((TWindowSubComCard *)e)->is_flag_4_set() != 0 && entry_id == ((TWindowSubComCard *)e)->get_entry_id()) {
             *(u16 *)e |= 1;
             *(s32 *)(e + 0x24) = -1;
         }
@@ -53,23 +53,23 @@ void TWindowMenuInfomation::disable_entry_by_id(s32 arg1) {
         }
     }
 }
-void TWindowMenuInfomation::set_entry_string_by_id(void *arg1, s32 arg2) {
+void TWindowMenuInfomation::set_entry_string_by_id(void *arg1, s32 entry_id) {
     s32 i;
     u8 *e;
     for (i = 0; i < entry_capacity; i++) {
         e = (u8 *)get_array_entry(i);
-        if (e != 0 && ((TWindowSubComCard *)e)->is_flag_4_set() != 0 && arg2 == ((TWindowSubComCard *)e)->get_entry_id()) {
+        if (e != 0 && ((TWindowSubComCard *)e)->is_flag_4_set() != 0 && entry_id == ((TWindowSubComCard *)e)->get_entry_id()) {
             set_string__20TWindowSubStatusDispFUl((TWindowSubStatusDisp *)e, arg1);
         }
     }
 }
 
 void TWindowMenuInfomation::update_next_entry(s32 arg1, s32 arg2, s32 arg3) {
-    s16 temp_r4;
+    s16 next_row;
 
-    temp_r4 = next_entry;
-    if (temp_r4 < entry_capacity) {
-        ((TWindowSubStatusDisp *)(get_array_entry(temp_r4)))->set_text(arg1, arg2, arg3);
+    next_row = next_entry;
+    if (next_row < entry_capacity) {
+        ((TWindowSubStatusDisp *)(get_array_entry(next_row)))->set_text(arg1, arg2, arg3);
         ++next_entry;
     }
 }

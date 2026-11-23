@@ -47,15 +47,15 @@ struct FogCtrl_800FB134 {
     f32 width;
 };
 
-struct Stack_800FBD74 {
-    f32 sp8;
-    f32 spC;
-    f32 sp10;
-    f32 sp14;
-    f32 sp18;
-    f32 sp1C;
-    f32 sp20;
-    f32 sp24;
+struct ScreenQuadDrawRecord {
+    f32 x0;
+    f32 y0;
+    f32 x1;
+    f32 y1;
+    f32 u0;
+    f32 v0;
+    f32 u1;
+    f32 v1;
 };
 
 struct Pos_800FBEA8 {
@@ -87,39 +87,37 @@ void build_small_font_glyph_quad(u8 c, Quad_800FC310 *q);
 #pragma dont_inline off
 
 void TWindowSubStatusDisp__sub_800FBD74(s32 text_color, f32 farg0, f32 farg1, f32 farg2) {
-    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_800FBD74, sp8) == 0x0);
-    LAYOUT_ASSERT(spC_offset, offsetof(Stack_800FBD74, spC) == 0x4);
-    LAYOUT_ASSERT(sp10_offset, offsetof(Stack_800FBD74, sp10) == 0x8);
-    LAYOUT_ASSERT(sp14_offset, offsetof(Stack_800FBD74, sp14) == 0xC);
-    LAYOUT_ASSERT(sp18_offset, offsetof(Stack_800FBD74, sp18) == 0x10);
-    LAYOUT_ASSERT(sp1C_offset, offsetof(Stack_800FBD74, sp1C) == 0x14);
-    LAYOUT_ASSERT(sp20_offset, offsetof(Stack_800FBD74, sp20) == 0x18);
-    LAYOUT_ASSERT(sp24_offset, offsetof(Stack_800FBD74, sp24) == 0x1C);
-    Stack_800FBD74 stack;
-    f32 temp_f7;
-    f32 temp_f8;
+    LAYOUT_ASSERT(sp8_offset, offsetof(ScreenQuadDrawRecord, x0) == 0x0);
+    LAYOUT_ASSERT(spC_offset, offsetof(ScreenQuadDrawRecord, y0) == 0x4);
+    LAYOUT_ASSERT(sp10_offset, offsetof(ScreenQuadDrawRecord, x1) == 0x8);
+    LAYOUT_ASSERT(sp14_offset, offsetof(ScreenQuadDrawRecord, y1) == 0xC);
+    LAYOUT_ASSERT(sp18_offset, offsetof(ScreenQuadDrawRecord, u0) == 0x10);
+    LAYOUT_ASSERT(sp1C_offset, offsetof(ScreenQuadDrawRecord, v0) == 0x14);
+    LAYOUT_ASSERT(sp20_offset, offsetof(ScreenQuadDrawRecord, u1) == 0x18);
+    LAYOUT_ASSERT(sp24_offset, offsetof(ScreenQuadDrawRecord, v1) == 0x1C);
+    ScreenQuadDrawRecord stack;
     set_default_alpha_blend();
     begin_screen_draw(1);
     TWindowSubStatusDisp::render_forward();
     set_draw_texture_and_color(0, (text_color));
-    stack.sp8 = farg0;
-    stack.spC = farg1;
-    stack.sp10 = (109.0f) + farg0;
-    stack.sp14 = (12.0f) + farg1;
-    stack.sp18 = (0.00390625f);
-    stack.sp1C = (0.921875f);
-    stack.sp20 = (0.4296875f);
-    stack.sp24 = (0.96875f);
-    draw_textured_quad_at_depth((&stack.sp8), farg2);
-    stack.sp8 += (114.0f);
-    stack.spC += (-3.0f);
-    stack.sp10 = (15.0f) + stack.sp8;
-    stack.sp14 = (14.0f) + stack.spC;
-    stack.sp18 = (0.4453125f);
-    stack.sp1C = (0.92578125f);
-    stack.sp20 = (0.50390625f);
-    stack.sp24 = (0.98046875f);
-    draw_textured_quad_at_depth((&stack.sp8), farg2);
+    stack.x0 = farg0;
+    stack.y0 = farg1;
+    stack.x1 = (109.0f) + farg0;
+    stack.y1 = (12.0f) + farg1;
+    stack.u0 = (0.00390625f);
+    stack.v0 = (0.921875f);
+    stack.u1 = (0.4296875f);
+    stack.v1 = (0.96875f);
+    draw_textured_quad_at_depth((&stack.x0), farg2);
+    stack.x0 += (114.0f);
+    stack.y0 += (-3.0f);
+    stack.x1 = (15.0f) + stack.x0;
+    stack.y1 = (14.0f) + stack.y0;
+    stack.u0 = (0.4453125f);
+    stack.v0 = (0.92578125f);
+    stack.u1 = (0.50390625f);
+    stack.v1 = (0.98046875f);
+    draw_textured_quad_at_depth((&stack.x0), farg2);
     TWindowSubStatusDisp::get_player();
 }
 

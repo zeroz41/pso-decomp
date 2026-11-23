@@ -7,10 +7,4 @@ extern "C" {
 int TWindowSubComCard__sub_8026906C(void *p);
 }
 
-// --- C functions defined in TWindowSubComCard_80269064.cpp ---
-extern "C" {
-int TWindowSubComCard__sub_8026906C(void *p);
-}
-// --- end of C functions
-
 #endif

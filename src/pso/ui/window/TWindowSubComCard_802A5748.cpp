@@ -42,7 +42,7 @@ s32 TWindowMessageYesNo::is_child_visible() {
     return choice_menu->is_decided();
 }
 }
-saddr create_titled_window_menu(saddr arg0, s32 arg1, saddr arg2, s32 arg3);
+saddr create_titled_window_menu(saddr position, s32 count, saddr title, s32 client_id);
 void initialize_option_dialog(void *arg0, s32 message, s32 position, f32 width) {
     *(s32 *)((s8 *)arg0 + 0x28) = (saddr)create_window_menu((saddr)(position), 1, *(s32 *)((s8 *)arg0 + 0x24));
     TObjCityMainWarp::forward_trade_action_default((void *)(*(saddr *)((s8 *)arg0 + 0x28)), (int)message, 0x21, 0);

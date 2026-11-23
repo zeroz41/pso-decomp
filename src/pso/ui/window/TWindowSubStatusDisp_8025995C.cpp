@@ -51,7 +51,6 @@ void draw_right_aligned_number(void *arg0) {
 }
 }
 
-typedef struct Pos_80259A84 Pos_80259A84;
 #pragma fp_contract on
 void TUnk_804CF9C8::render(WindowDrawContext *context) {
   f32 t;

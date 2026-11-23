@@ -27,7 +27,7 @@
 
 
 extern "C" {
-void render__14TWindowComCardFv(saddr arg0);
+void render__14TWindowComCardFv(saddr window);
 s32 TWindowSubComCard__sub_8007B070(s32);
 extern s32 local_client_id;
 void TWindowComCard__sub_80249920(saddr arg0, s32 arg1, s32 arg2);
@@ -98,7 +98,7 @@ extern "C" {
 s8 TWindowSubComCard__sub_8007B6EC(void *);
 s32 TWindowSubComCard__sub_8007B6F4(void *);
 }
-s32 get_class_name_text(s32 arg0);
+s32 get_class_name_text(s32 class_index);
 
 extern u8 *text_language_group_table;
 
@@ -239,15 +239,15 @@ TWindowComCard::TWindowComCard(void *position, void *data)
     update_com_card_display((ComCardDisplay *)&entry_list, data);
 }
 
-extern "C" void *__dt__14TWindowComCardFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__14TWindowComCard;
-        __dt__11TWindowBaseFv(arg0, 0);
+extern "C" void *__dt__14TWindowComCardFv(void *self, s16 arg1) {
+    if (self != NULL) {
+        *(s32 **)((s8 *)self + 0x18) = __vt__14TWindowComCard;
+        __dt__11TWindowBaseFv(self, 0);
         if (arg1 > 0) {
-            TObject::operator delete(arg0);
+            TObject::operator delete(self);
         }
     }
-    return arg0;
+    return self;
 }
 
 extern "C" void run_task__14TWindowComCardFv(void* p) { ((TWindowDD *)p)->initialize_subwindow(); ((TWindowBase *)p)->update_fade(); ((TWindowBase *)p)->update_window_entry_list(reinterpret_cast<const WindowLayoutEntries *>((char*)p + 0x24)); }

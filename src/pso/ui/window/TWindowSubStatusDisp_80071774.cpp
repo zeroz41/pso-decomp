@@ -5,7 +5,7 @@
 #include "pso/unk/TLobby.h"
 #include "pso/unk/TLobby_8006F278.h"
 
-struct RecoveredGlobal_80071820_lbl_804FF820 {
+struct LobbyPlayerNameBuffer {
     s32 value;
     u8 remaining[0x8];
 };
@@ -18,7 +18,7 @@ struct G_800718D0 { u8 pad[0xC]; s32 fc; u8 rest[0x100]; };
 
 extern "C" {
 saddr TWindowSubStatusDisp__sub_8006F0D8(void *, void *);
-extern RecoveredGlobal_80071820_lbl_804FF820 lbl_804FF820;
+extern LobbyPlayerNameBuffer lobby_player_name;
 extern s32 lbl_805D2858;
 extern G_800718D0 challenge_mode_state;
 s32 TLobby__sub_80071654(u16);
@@ -52,13 +52,13 @@ s32 *TWindowSubStatusDisp::get_status_window(u16 arg0) {
     return TWindowSubStatusDisp__sub_80071820(character_save_record + 0x21C4);
 }
 
-LAYOUT_ASSERT(RecoveredGlobal_80071820_lbl_804FF820_size, sizeof(RecoveredGlobal_80071820_lbl_804FF820) == 0xC);
+LAYOUT_ASSERT(LobbyPlayerNameBuffer_size, sizeof(LobbyPlayerNameBuffer) == 0xC);
 s32 *TWindowSubStatusDisp__sub_80071820(uaddr arg0) {
     if (arg0 == 0U) {
         return &lbl_805D2858;
     }
-    decode_obfuscated_string((char *)&lbl_804FF820.value, (void *)(arg0 + 0xD8), 0xC);
-    return &lbl_804FF820.value;
+    decode_obfuscated_string((char *)&lobby_player_name.value, (void *)(arg0 + 0xD8), 0xC);
+    return &lobby_player_name.value;
 }
 
 s32 TWindowSubStatusDisp__sub_80071868(u16 id, s32 slot) {

@@ -158,7 +158,7 @@ struct VObj18B_802582c4_80257784 : VBase18B_802582c4_80257784 {
     virtual s32 vm8C();
 };
 
-struct Obj_80258BB8 { u8 pad[8]; f32 f8; };
+struct StatusEntryHead { u8 pad[8]; f32 scale8; };
 
 extern "C" {
 extern const f32 lbl_805DCF04;
@@ -442,8 +442,8 @@ void TWindowSubStatusDisp::setup_stat_line(s32 src, s32 arg2, s32 arg3) {
     reinterpret_cast<ItemListRow *>(this)->suffix_style = (s32) *(s32 *)((s8 *)this + 0x30);
 }
 void TWindowSubStatusDisp::init_status_entry_by_flag(s32 x) {
-    ((void (*)(Obj_80258BB8 *, s32))init_status_entry__20TWindowSubStatusDispFPvcUii)(((Obj_80258BB8 *)this), x ? 0x14 : 0x15);
-    ((Obj_80258BB8 *)this)->f8 = lbl_805DCF04;
+    ((void (*)(StatusEntryHead *, s32))init_status_entry__20TWindowSubStatusDispFPvcUii)(((StatusEntryHead *)this), x ? 0x14 : 0x15);
+    ((StatusEntryHead *)this)->scale8 = lbl_805DCF04;
 }
 
 void TWindowSubStatusDisp::init_list_entry(u8 arg1, s32 src, s32 arg3) {

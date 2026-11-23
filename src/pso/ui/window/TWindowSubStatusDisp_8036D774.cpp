@@ -119,7 +119,6 @@ void TWindowSubStatusDisp__sub_8036D994(void) {
 void TWindowSubStatusDisp::draw_bottom_bar() {
   s32 var_r31;
   f32 buffer_8[8];
-  f32 temp_f31;
   begin_screen_draw(1);
   TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>((void *) TBGMulti__textures));
   set_draw_texture_and_color(0, -1);

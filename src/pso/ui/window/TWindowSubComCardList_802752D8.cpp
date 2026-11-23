@@ -9,14 +9,14 @@
 
 extern s32 actor_frame_tick;
 void TWindowSubComCardList::draw_card_list_selection(u8 *window_key_board_soft) {
-  s16 temp_r0;
+  s16 page_row;
   u16 *array_entry;
   if (!(actor_frame_tick & 0x10))
   {
-    temp_r0 = (this->get_selected_index()) - (m_8c->get_type() * 7);
-    if ((temp_r0 >= 0) && (temp_r0 < 7))
+    page_row = (this->get_selected_index()) - (m_8c->get_type() * 7);
+    if ((page_row >= 0) && (page_row < 7))
     {
-      array_entry = (u16 *) this->get_array_entry((s32) temp_r0);
+      array_entry = (u16 *) this->get_array_entry((s32) page_row);
       if ((*array_entry) & 1)
       {
         draw_selection_bar(reinterpret_cast<WindowDrawContext *>(window_key_board_soft), (u8 *)array_entry, 1);
