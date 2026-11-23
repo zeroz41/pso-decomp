@@ -706,7 +706,7 @@ force_active:
   - TLobby__sub_803361FC
   - TLobby__sub_803362A4
   - TLobby__sub_8034C1D0
-  - TLobby__sub_8036B424
+  - __ct__13TUnk_804F3640FP7TObject
   - TLobby__sub_803C4698
   - TLobby__sub_803CBE40
   - TLobby__sub_803CE2A0
@@ -15369,7 +15369,7 @@ force_active:
   - send_position_update__6TLobbyFv
   - send_run_request__10TNpcPlayerFv
   - send_selected_character__6TLobbyFv
-  - send_slot_entity__6TLobbyFUsl
+  - send_slot_entity__13TUnk_804F3640FUsl
   - send_srank_stat_extra__13TUnk_804A4948FUll
   - send_srank_stat_extra_to_locks__13TUnk_804A4948Fv
   - send_state_60__10TNpcPlayerFv
@@ -16040,7 +16040,7 @@ force_active:
   - start_download__12TChCrLoadAfsFv
   - start_duel_battle__6TLobbyFv
   - start_effect__14TItemEquipBaseFUlUl
-  - start_entry_timer__6TLobbyFUsl
+  - start_entry_timer__13TUnk_804F3640FUsl
   - start_fade__9TAdFadeGCFPv
   - start_gba_joyboot__6TLobbyFv
   - start_get_type_async__16TKeyBoardControlFllll
