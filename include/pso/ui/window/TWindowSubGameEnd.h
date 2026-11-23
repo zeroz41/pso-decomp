@@ -5,28 +5,28 @@
 #include "pso/system/task/TObject.h"
 
 struct TWindowMainMenu;
+struct TWindowMessageYesNo;
 
+// Main-menu "end the game" prompt: a yes/no window; yes logs out and returns to
+// character select.
 struct TWindowSubGameEnd : public TObject {
+    TWindowSubGameEnd(TWindowMainMenu *parent, s32 client);
     virtual ~TWindowSubGameEnd();
-    u32 m_1c;
-    saddr m_20;
+    u32 state;
+    saddr client;
     TWindowMainMenu *parent_menu;
-    uaddr m_28;
+    TWindowMessageYesNo *yes_no_window;
+    static const char *class_name;
     virtual void render();
     virtual void run_task();
 };
 
 LAYOUT_ASSERT(TWindowSubGameEnd_size, sizeof(TWindowSubGameEnd) == 0x2C);
 
-extern "C" {
-void *__dt__17TWindowSubGameEndFv(void *arg0, s16 arg1);
-}
-
 // --- C functions defined in TWindowSubGameEnd.cpp ---
 extern "C" {
 void TLobby__sub_802796FC(void);
 void TLobby__sub_80279708(void);
-void *TWindowSubGameEnd__ct(TWindowSubGameEnd *window_sub_game_end, TWindowMainMenu *parent, s32 client_index);
 }
 // --- end of C functions
 

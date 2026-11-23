@@ -256,7 +256,6 @@ void TWindowMainMenu::create_submenu(u32 id) {
     saddr temp_r3_15;
     s32 temp_r3_17;
     s32 temp_r3_18;
-    saddr window_sub_game_end;
     saddr temp_r3_2;
     saddr window_sub_item;
     saddr window_sub_mag;
@@ -268,7 +267,6 @@ void TWindowMainMenu::create_submenu(u32 id) {
     s32 var_r0_15;
     s32 var_r0_17;
     s32 var_r0_18;
-    s32 var_r0_19;
     s32 var_r0_2;
     s32 var_r0_4;
     s32 var_r0_5;
@@ -397,12 +395,7 @@ void TWindowMainMenu::create_submenu(u32 id) {
         return;
     case 7:
     case 8:
-        window_sub_game_end = ((saddr)TObject::operator new(0x2C));
-        var_r0_19 = window_sub_game_end;
-        if (var_r0_19 != 0) {
-            var_r0_19 = (saddr)TWindowSubGameEnd__ct((TWindowSubGameEnd *)((void *)window_sub_game_end), this, this->client_index);
-        }
-        this->m_20 = var_r0_19;
+        this->m_20 = (saddr)new TWindowSubGameEnd(this, this->client_index);
     default:
         return;
     }
