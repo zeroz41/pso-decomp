@@ -5,8 +5,8 @@
 extern "C" {
 
 extern u8 DebugMacroSteps;
-extern SynthVoice *lbl_805D741C;
-extern SynthVoice *lbl_805D7420;
+extern SynthVoice *macActiveList;
+extern SynthVoice *macTimeQueue;
 extern u64 macRealTime;
 extern SynthMacroStep cstep;
 
@@ -1721,7 +1721,7 @@ void macHandle(u32 deltaTime) {
     SynthVoice *nextSv;
     u64 w;
 
-    for (sv = lbl_805D7420; sv != NULL && sv->wait <= macRealTime;) {
+    for (sv = macTimeQueue; sv != NULL && sv->wait <= macRealTime;) {
         nextSv = sv->nextTimeQueueMacro;
         w = sv->wait;
         macMakeActive(sv);
@@ -1729,7 +1729,7 @@ void macHandle(u32 deltaTime) {
         sv = nextSv;
     }
 
-    for (sv = lbl_805D741C; sv != NULL; sv = sv->nextMacActive) {
+    for (sv = macActiveList; sv != NULL; sv = sv->nextMacActive) {
         nextSv = sv->nextMacActive;
         if (HasHWEventTrap(sv) != 0) {
             CheckHWEventTrap(sv);
@@ -1810,7 +1810,7 @@ void macSetPedalState(SynthVoice *svoice, u32 hold) {
 void TimeQueueAdd(SynthVoice *self) {
     SynthVoice *p;
     SynthVoice *prev;
-    p = lbl_805D7420;
+    p = macTimeQueue;
     prev = NULL;
     while (p != NULL && p->wait < self->wait) {
         prev = p;
@@ -1818,7 +1818,7 @@ void TimeQueueAdd(SynthVoice *self) {
     }
     if (p == NULL) {
         if (prev == NULL) {
-            lbl_805D7420 = self;
+            macTimeQueue = self;
             self->nextTimeQueueMacro = NULL;
             self->prevTimeQueueMacro = NULL;
         } else {
@@ -1831,7 +1831,7 @@ void TimeQueueAdd(SynthVoice *self) {
         if ((self->prevTimeQueueMacro = p->prevTimeQueueMacro) != NULL) {
             p->prevTimeQueueMacro->nextTimeQueueMacro = self;
         } else {
-            lbl_805D7420 = self;
+            macTimeQueue = self;
         }
         p->prevTimeQueueMacro = self;
     }
@@ -1841,7 +1841,7 @@ void UnYieldMacro(SynthVoice *svoice, u32 noForceUpdate) {
     if (svoice->wait != 0) {
         if (svoice->wait != (u64)-1) {
             if (svoice->prevTimeQueueMacro == NULL) {
-                lbl_805D7420 = svoice->nextTimeQueueMacro;
+                macTimeQueue = svoice->nextTimeQueueMacro;
             } else {
                 svoice->prevTimeQueueMacro->nextTimeQueueMacro = svoice->nextTimeQueueMacro;
             }
@@ -1863,7 +1863,7 @@ void macMakeActive(SynthVoice *svoice) {
         if (svoice->wait != 0) {
             if (svoice->wait != 0xFFFFFFFFFFFFFFFFULL) {
                 if (svoice->prevTimeQueueMacro == NULL) {
-                    lbl_805D7420 = svoice->nextTimeQueueMacro;
+                    macTimeQueue = svoice->nextTimeQueueMacro;
                 } else {
                     svoice->prevTimeQueueMacro->nextTimeQueueMacro = svoice->nextTimeQueueMacro;
                 }
@@ -1876,11 +1876,11 @@ void macMakeActive(SynthVoice *svoice) {
             svoice->waitTime = macRealTime;
             svoice->cFlags &= ~0x40004ULL;
         }
-        if ((svoice->nextMacActive = lbl_805D741C) != NULL) {
-            lbl_805D741C->prevMacActive = svoice;
+        if ((svoice->nextMacActive = macActiveList) != NULL) {
+            macActiveList->prevMacActive = svoice;
         }
         svoice->prevMacActive = NULL;
-        lbl_805D741C = svoice;
+        macActiveList = svoice;
         svoice->macState = 0;
     }
 }
@@ -1891,7 +1891,7 @@ void macMakeInactive(SynthVoice *svoice, s32 state) {
     }
     if (svoice->macState == 0) {
         if (svoice->prevMacActive == NULL) {
-            lbl_805D741C = svoice->nextMacActive;
+            macActiveList = svoice->nextMacActive;
         } else {
             svoice->prevMacActive->nextMacActive = svoice->nextMacActive;
         }
@@ -1903,7 +1903,7 @@ void macMakeInactive(SynthVoice *svoice, s32 state) {
         if (svoice->wait != 0) {
             if (svoice->wait != (u64)-1) {
                 if (svoice->prevTimeQueueMacro == NULL) {
-                    lbl_805D7420 = svoice->nextTimeQueueMacro;
+                    macTimeQueue = svoice->nextTimeQueueMacro;
                 } else {
                     svoice->prevTimeQueueMacro->nextTimeQueueMacro = svoice->nextTimeQueueMacro;
                 }
@@ -1944,7 +1944,7 @@ u32 macStart(u16 macid, u8 priority, u8 maxVoices, u16 allocId, u8 key, u8 vol, 
             if (v->macState != 2) {
                 if (v->macState == 0) {
                     if (v->prevMacActive == NULL) {
-                        lbl_805D741C = v->nextMacActive;
+                        macActiveList = v->nextMacActive;
                     } else {
                         v->prevMacActive->nextMacActive = v->nextMacActive;
                     }
@@ -2003,11 +2003,11 @@ u32 macStart(u16 macid, u8 priority, u8 maxVoices, u16 allocId, u8 key, u8 vol, 
             if (vid != 0xFFFFFFFF) {
                 if (v->macState != 0) {
                     UnYieldMacro(v, 0);
-                    if ((v->nextMacActive = lbl_805D741C) != NULL) {
-                        lbl_805D741C->prevMacActive = v;
+                    if ((v->nextMacActive = macActiveList) != NULL) {
+                        macActiveList->prevMacActive = v;
                     }
                     v->prevMacActive = NULL;
-                    lbl_805D741C = v;
+                    macActiveList = v;
                     v->macState = 0;
                 }
                 return vid;
@@ -2025,8 +2025,8 @@ u32 macStart(u16 macid, u8 priority, u8 maxVoices, u16 allocId, u8 key, u8 vol, 
 #pragma opt_common_subs on
 void macInit(void) {
     u32 i;
-    lbl_805D741C = NULL;
-    lbl_805D7420 = NULL;
+    macActiveList = NULL;
+    macTimeQueue = NULL;
     macRealTime = 0;
     for (i = 0; i < synthInfo.voiceNum; ++i) {
         synthVoice[i].addr = NULL;
@@ -2037,8 +2037,8 @@ void macInit(void) {
 #pragma pop
 
 u8 DebugMacroSteps;
-SynthVoice *lbl_805D741C;
-SynthVoice *lbl_805D7420;
+SynthVoice *macActiveList;
+SynthVoice *macTimeQueue;
 u64 macRealTime;
 SynthMacroStep cstep;
 

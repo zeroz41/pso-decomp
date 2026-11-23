@@ -6,11 +6,6 @@
 #include <string.h>
 #include "musyx/runtime/musyx_dspvoice.h"
 
-struct RecoveredGlobal_803AA0C0_lbl_80556E88 {
-    s32 value;
-    u8 remaining[0xFC];
-};
-
 struct Ent_803B89B4 { u8 pad0[0xC]; Ent_803B89B4 *next; Ent_803B89B4 *prev; u8 pad14[0xD8]; u8 active; u8 padED[2]; u8 idx; };
 typedef struct DSPhostDPop_SV { s32 l; s32 r; s32 s; s32 lA; s32 rA; s32 sA; s32 lB; s32 rB; s32 sB; } DSPhostDPop_SV;
 struct Rec_803B59E4 {
@@ -534,7 +529,6 @@ extern u8 sndActive;
 extern SYNTHMasterFader_SV synthMasterFader[];
 void synthSetMusicVolumeType(u8 i, u8 v);
 u32 sndFXCheck(u32 id);
-extern Program_803B1DA4 *lbl_805D7420;
 void TimeQueueAdd(Program_803B1DA4 *self);
 s32 adsrRelease(struct Envelope_803B431C *e);
 s32 curvecmp(u8 *arg0, u8 *arg1);
@@ -548,11 +542,7 @@ s32 *sndBSearch(Req_803AE60C *, void *, u16, s32, s32 (*)(u8 *, u8 *));
 extern Req_803AE60C lbl_805D7404;
 extern u8 lbl_8055E470[];
 KEYMAP_SV *dataGetKeymap(u16 cid);
-extern Owner_803A3C24 *lbl_805D7360;
-extern Node_803A3C24 *lbl_805D7364;
 void seqFreeKeyOffNote(Node_803A3C24 *arg0);
-extern Node_803A4964 *lbl_805D7378;
-extern Node_803A4964 *lbl_805D737C;
 void StartPause(Node_803A4964 *arg0);
 void InsertGlobalEvent(List_803A5A04 *arg0, Node_803A5A04 *arg1);
 void synthSetBpm(s32 arg0, u8 arg1, u8 arg2);
@@ -592,11 +582,7 @@ void macSampleEndNotify(Rec_803A996C *);
 s32 vsSampleStartNotify(u8);
 s32 synthHWMessageHandler(s32 op, u32 idx);
 s32 synthSendKeyOff(int id);
-extern Owner_803A3C24 *lbl_805D7360;
 s32 HandleNotes(void);
-extern Node_803A4964 *lbl_805D7378;
-extern Node_803A4964 *lbl_805D737C;
-extern Slot_803A4EB8 lbl_8054AB48[];
 void seqContinue(s32 seqId);
 void hwEnableIrq(void);
 void hwDisableIrq(void);
@@ -650,27 +636,16 @@ extern u8 synthIdleWaitActive;
 s32 sndInit(u8 voices, u8 music, u8 sfx, u8 studios, u32 flags, u32 aramSize);
 void UpdateRoomDistances(void);
 extern Rec_803A8D2C *synthVoice;
-extern Program_803B1DA4 *lbl_805D7420;
 extern u64 macRealTime;
 void macInit(void);
-extern Node_803A4964 *lbl_805D7378;
-extern Node_803A4964 *lbl_805D737C;
 u32 seqGetPrivateId(u32 seqId);
-extern Owner_803A3C24 *lbl_805D7360;
-extern u32 lbl_805D7368;
 void synthSetBpm(s32 arg0, u8 arg1, u8 arg2);
 void HandleMasterTrack(u8 secIndex);
-extern Slot_803A4EB8 lbl_8054AB48[];
-extern Node_803A4964 *lbl_805D7378;
-extern Node_803A4964 *lbl_805D737C;
 s32 voiceKillSound(u32 id);
 void ResetNotes(Owner_803A3C24 *o);
 void seqPause(s32 seqId);
-extern Node_803A4964 *lbl_805D7378;
-extern Node_803A4964 *lbl_805D737C;
 void seqStop(s32);
 void seqKillInstancesByGroupID(u16 sgid);
-extern Owner_803A3C24 *lbl_805D7360;
 void HandleMasterTrack(u8 secIndex);
 void InitTrackEventsSection(u8 ch);
 SEQ_EVENT_803A6364 *HandleEvent(SEQ_EVENT_803A6364 *event, u8 secIndex, u32 *loopFlag);
@@ -733,7 +708,6 @@ struct Slot_803A4DDC {
     u8 pad3[0x28E8 - 0x22DB];
     Voice_803A4DDC voices[16];
 };
-extern u8 lbl_80549748[];
 struct Owner_803A61F8 {
     u8 pad0[0x14E4];
     u8 *map;
@@ -850,7 +824,6 @@ extern Ent_803B5398 lbl_80565DD8[];
 extern u8 salMaxStudioNum;
 extern u8 salAuxFrame;
 extern u8 salFrame;
-extern V_803B1F24 *lbl_805D741C;
 void streamCorrectLoops(void);
 s32 maccmp(u8 *arg0, u8 *arg1);
 s32 smpcmp(u16 *arg0, u16 *arg1);
@@ -870,7 +843,6 @@ extern SynthInfo_SV synthInfo;
 
 extern "C" {
 extern SynthInfo_SV synthInfo;
-extern V_803B1F24 *lbl_805D741C;
 }
 
 extern "C" {
@@ -884,7 +856,6 @@ typedef struct SeqInst_803A3C84 {
     u32 publicId;
     u8 pad10[0x1868 - 0x10];
 } SeqInst_803A3C84;
-extern u32 lbl_805D7370;
 typedef struct SND_SEQVOLDEF_SEQ { u8 track; u8 volGroup; } SND_SEQVOLDEF_SEQ;
 typedef struct SND_PLAYPARA_SEQ {
     u32 flags; u32 trackMute[2]; u16 speed;
@@ -893,7 +864,6 @@ typedef struct SND_PLAYPARA_SEQ {
 } SND_PLAYPARA_SEQ;
 typedef struct MIDI_CHANNEL_SETUP_803A3D8C { u8 program; u8 volume; u8 panning; u8 reverb; u8 chorus; } MIDI_CHANNEL_SETUP_803A3D8C;
 typedef struct MIDISETUP_803A3D8C { u16 songId; u16 reserved; MIDI_CHANNEL_SETUP_803A3D8C channel[16]; } MIDISETUP_803A3D8C;
-extern SEQ_INSTANCE_803A49C8 *lbl_805D7374;
 extern u8 synthTrackVolume[64];
 
 struct Owner_803A3C24;
@@ -909,7 +879,6 @@ typedef struct SeqBss_803A5A78 {
     u16 seqMIDIPriority[8][16];
 } SeqBss_803A5A78;
 typedef struct SEQ_PATTERN_803A5A78 { u32 headerLen; u32 pitchBend; u32 modulation; u32 noteData; } SEQ_PATTERN_803A5A78;
-extern u8 lbl_805D736C;
 void inpSetMidiCtrl14(u8 ctrl, u8 channel, u8 set, u16 value);
 void inpResetMidiCtrl(u8, u8, u8);
 
@@ -922,8 +891,6 @@ void hwSetPitch(u32 v, u16 speed);
 u32 adsrHandleLowPrecision(void *pitchADSR, void *arg1, void *arg2);
 
 extern u8 synthJobTableIndex;
-
-LAYOUT_ASSERT(RecoveredGlobal_803AA0C0_lbl_80556E88_size, sizeof(RecoveredGlobal_803AA0C0_lbl_80556E88) == 0x100);
 
 void hwActivateStudio(u8 i, s32 a, s32 b);
 
@@ -1928,8 +1895,6 @@ struct Program_803B1DA4;
 void macMakeActive(void *);
 void macHandleActive(SYNTH_VOICE_803B19AC *);
 u32 hwIsActive(s32 i);
-extern Program_803B1DA4 *lbl_805D7420;
-extern V_803B1F24 *lbl_805D741C;
 
 struct Prog_803B25CC;
 struct Ch_803B1E48;

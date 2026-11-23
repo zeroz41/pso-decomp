@@ -649,6 +649,7 @@ void seqContinue(s32 seqId);
 void seqSpeed(u32 id, s16 v);
 void seqVolume(u8 volume, u16 time, u32 seqId, u8 mode);
 void seqCrossFade(SynthCrossfade *ci, u32 *new_seqId, u8 irq_call);
+extern u16 seqMIDIPriority[8][16];
 void sndSeqSpeed(u32 seqId, u16 speed);
 void sndSeqContinue(s32 seqId);
 void sndSeqMute(s32 seqId, s32 mask1, s32 mask2);

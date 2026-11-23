@@ -1,4 +1,5 @@
-#include "musyx/runtime/musyx_runtime_a.h"
+#include "musyx/musyx.h"
+#include "musyx/runtime/musyx_internal.h"
 
 extern "C" {
 
@@ -27,8 +28,7 @@ void sndSeqVolume(u8 volume, u16 time, u32 seqId, u8 mode) {
 }
 
 u16 seqGetMIDIPriority(u8 midiSet, u8 midi) {
-    extern RecoveredGlobal_803AA0C0_lbl_80556E88 lbl_80556E88;
-    return *(u16 *)((s8 *)((u8 *)(((u8 *)(&lbl_80556E88.value) + ((midiSet << 5) & 0x1FE0))) + ((midi * 2) & 0x1FE)) + 0);
+    return seqMIDIPriority[midiSet][midi];
 }
 
 }

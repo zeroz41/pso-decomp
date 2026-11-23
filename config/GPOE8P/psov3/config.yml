@@ -8224,8 +8224,8 @@ force_active:
   - epsilon_zero_vector
   - lbl_80543A90
   - lbl_805470AC
-  - lbl_80549748
-  - lbl_8054AB48
+  - seqNote
+  - seqInstance
   - aix_demuxer_pool
   - aix_player_pool
   - lbl_8058DC00
@@ -8427,14 +8427,14 @@ force_active:
   - lbl_805D718C
   - lbl_805D72D8
   - lbl_805D72DC
-  - lbl_805D7360
-  - lbl_805D7364
-  - lbl_805D7368
-  - lbl_805D736C
-  - lbl_805D7370
-  - lbl_805D7374
-  - lbl_805D7378
-  - lbl_805D737C
+  - seqCurrent
+  - seqNoteFree
+  - seqCurrentId
+  - seqFadeOutActive
+  - seqPublicId
+  - seqFreeList
+  - seqPausedList
+  - seqActiveList
   - lbl_805D73D0
   - lbl_805D73D2
   - lbl_805D73D4
@@ -8453,8 +8453,8 @@ force_active:
   - lbl_805D740C
   - lbl_805D7410
   - lbl_805D7418
-  - lbl_805D741C
-  - lbl_805D7420
+  - macActiveList
+  - macTimeQueue
   - lbl_805D7428
   - lbl_805D7430
   - lbl_805D7438
