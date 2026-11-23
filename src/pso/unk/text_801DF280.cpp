@@ -116,7 +116,7 @@ void bswap_cmd_c4_body(void* p) { ((packet_header *)p)->bswap(); { int i; for (i
 void bswap_cmd_c4_entry(void *arg0) {
     bswap_32((u32 *)arg0);
     bswap_cmd_c4_reconnect_command((saddr)((void *)((char *)arg0 + 100)));
-    bswap__21TPlyMeetUserExtensionFv((saddr)((char *)arg0 + 112));
+    ((TPlyMeetUserExtension *)((char *)arg0 + 112))->bswap();
 }
 
 void bswap_cmd_c4_reconnect_command(saddr arg0) {

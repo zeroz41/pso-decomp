@@ -14,7 +14,7 @@ void bswap__8TUserAnsFv(saddr arg0) {
     ((TPlyGuildCardTag *)(arg0 + 4))->bswap();
     bswap_32((u32 *)(arg0 + 0xC));
     bswap__9TRecvPortFv(arg0 + 0x10);
-    bswap__21TPlyMeetUserExtensionFv(arg0 + 0x60);
+    ((TPlyMeetUserExtension *)(arg0 + 0x60))->bswap();
 }
 
 }

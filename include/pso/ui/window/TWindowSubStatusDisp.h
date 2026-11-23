@@ -1,6 +1,7 @@
-#include "pso/unk/GuildCardRecord.h"
 #ifndef PSO_UI_WINDOW_TWINDOWSUBSTATUSDISP_H
 #define PSO_UI_WINDOW_TWINDOWSUBSTATUSDISP_H
+
+struct GuildCardRecord;
 
 #include "types.h"
 #include <stddef.h>

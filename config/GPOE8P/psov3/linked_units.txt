@@ -1077,7 +1077,6 @@ pso/network/TPlyJoinLobbyEntry.cpp
 pso/network/TPlyJoinLobbyEntry_801DFA18.cpp
 pso/network/TPlyJoinLobby_801DF9C8.cpp
 pso/network/TPlyMeetUserExtension.cpp
-pso/network/TPlyMeetUserExtension_801DAC6C.cpp
 pso/player/TPlyPhotonChair.cpp
 pso/player/TPlyPhotonChair_801BEC44.cpp
 pso/network/TPlyRecvLogin.cpp

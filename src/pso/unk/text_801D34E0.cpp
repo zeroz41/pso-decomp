@@ -11,8 +11,6 @@ void __sinit_text_801D34E0_cpp(void) {
 }
 
 u8 lbl_80511DD8[0xC];
-u8 meet_user_settings[0x64] ATTRIBUTE_ALIGN(8);
-u8 game_variations[0x84];
 }
 
 __declspec(section ".ctors") static void *const __sinit_text_801D34E0_cpp_ref = (void *)__sinit_text_801D34E0_cpp;

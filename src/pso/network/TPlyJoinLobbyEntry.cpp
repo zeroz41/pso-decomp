@@ -60,7 +60,6 @@
 #include "pso/ui/frontend/TAdEnterPasswordGC.h"
 #include "pso/system/THeap.h"
 #include "pso/ui/window/WindowLayout.h"
-#include "pso/network/TPlyMeetUserExtension_801DAC6C.h"
 #include "pso/object/warp/TObjCityMainWarp.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/player/TPlyGuildCardTag_8007B434.h"
@@ -2720,11 +2719,11 @@ void TLobby::send_logout() {
 
 #define CONNECT_801399B8(res, s)                                                                   \
     if (TKeyBoardControl__sub_8000F828() == 0) {                                                    \
-        res = socket_set_server_info(TLobby::protocol_instance, TLobby__data_805DB0B0, TLobby__data_805DB0B0, \
+        res = TLobby::protocol_instance->set_server_info(TLobby__data_805DB0B0, TLobby__data_805DB0B0, \
                                      TLobby::init_serial_access(), (const char *)get_access_key_input_buffer(), \
                                      s[0].host, s[0].port);                                     \
     } else {                                                                                        \
-        res = socket_set_server_info(TLobby::protocol_instance, TLobby__data_805DB0B0, TLobby__data_805DB0B0, \
+        res = TLobby::protocol_instance->set_server_info(TLobby__data_805DB0B0, TLobby__data_805DB0B0, \
                                      TLobby::init_serial_access(), (const char *)get_access_key_input_buffer(), \
                                      s[1].host, s[1].port);                                     \
     }

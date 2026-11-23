@@ -1,6 +1,5 @@
 #include "types.h"
 #include "pso/unk/TLobby_801DEFC4.h"
-#include "pso/network/TPlyMeetUserExtension.h"
 #include "pso/network/TProtocol_801E08CC.h"
 #include "pso/network/TProtocol.h"
 #include "pso/system/byteswap.h"
@@ -29,5 +28,11 @@ void TRecvChallengeData::bswap() {
     }
 }
 void TPlyChallenge::bswap() { bswap_32((u32 *)this); ((TLobby *)((char*)this + 0x4))->bswap_challenge_battle_records(); bswap_16((u16 *)((char*)this + 0x104)); bswap_16((u16 *)((char*)this + 0x106)); bswap_16((u16 *)((char*)this + 0x108)); bswap_16((u16 *)((char*)this + 0x10a)); bswap_16((u16 *)((char*)this + 0x10c)); bswap_16((u16 *)((char*)this + 0x10e)); bswap_16((u16 *)((char*)this + 0x110)); bswap_16((u16 *)((char*)this + 0x112)); bswap_32((u32 *)((char*)this + 0x114)); bswap_32((u32 *)((char*)this + 0x118)); }
-void TLobby::bswap_guild_card_meet_user() { ((packet_header *)this)->bswap(); ((TPlyGuildCardTag *)((char*)this + 0x4))->bswap(); bswap_ply_smth_pair(((char*)this + 0xc)); bswap_32((u32 *)((char*)this + 0x14)); bswap__21TPlyMeetUserExtensionFv((saddr)((char*)this + 0xec)); }
+void TSendLogin::bswap() {
+    header.bswap();
+    tag.bswap();
+    bswap_ply_smth_pair(&hardware_id);
+    bswap_32(&sub_version);
+    extension.bswap();
+}
 

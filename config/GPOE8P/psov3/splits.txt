@@ -5062,7 +5062,7 @@ pso/player/TObjPlayer_801D2E20.cpp:
 pso/unk/text_801D34E0.cpp:
 	.text       start:0x801D34E0 end:0x801D3518
 	.ctors      start:0x80433F90 end:0x80433F94
-	.bss        start:0x80511DD8 end:0x80511ED0
+	.bss        start:0x80511DD8 end:0x80511DE8
 	.sbss       start:0x805D5DD8 end:0x805D5DE0
 
 pso/unk/TLobby_801D3518.cpp:
@@ -5235,10 +5235,7 @@ pso/network/TProtocol_801DA240.cpp:
 	.sbss       start:0x805D5E18 end:0x805D5E28
 
 pso/unk/TLobby_801DA7DC.cpp:
-	.text       start:0x801DA7DC end:0x801DAC6C
-
-pso/network/TPlyMeetUserExtension_801DAC6C.cpp:
-	.text       start:0x801DAC6C end:0x801DAFD0
+	.text       start:0x801DA7DC end:0x801DAFD0
 
 pso/network/TProtocol_801DAFD0.cpp:
 	.text       start:0x801DAFD0 end:0x801DB034
@@ -5378,6 +5375,7 @@ pso/network/TTcpSocket_801E0BB4.cpp:
 pso/unk/text_801E0C08.cpp:
 	.text       start:0x801E0C08 end:0x801E0C30
 	.ctors      start:0x80433F94 end:0x80433F98
+	.bss        start:0x80511DE8 end:0x80511ED0
 
 pso/ui/frontend/TAdPlayerLoadGC_801E0C30.cpp:
 	.text       start:0x801E0C30 end:0x801E283C

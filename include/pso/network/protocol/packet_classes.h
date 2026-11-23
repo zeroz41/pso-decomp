@@ -11,6 +11,7 @@
 #include "pso/player/TPlyClientConfig.h"
 #include "pso/player/TPlyGuildCardTag.h"
 #include "pso/player/TPlySmth.h"
+#include "pso/network/TPlyMeetUserExtension.h"
 
 struct game_command_header {
     char command;
@@ -117,21 +118,6 @@ struct TPlyText {
 
     void bswap() {
         header.bswap();
-    };
-};
-
-class TPlyMeetUserExtension {
-public:
-    TPlyGuildCardTag tags[8];
-    u32 mbr_0x40;
-    char player_name[16];
-    char player_name2[16];
-public:
-    void bswap() {
-        for (int i = 0; i < 8; ++i) {
-            tags[i].bswap();
-        }
-        bswap_32(&mbr_0x40);
     };
 };
 

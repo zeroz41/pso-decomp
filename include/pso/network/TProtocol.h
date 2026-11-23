@@ -89,6 +89,33 @@ public:
 };
 LAYOUT_ASSERT(TSendVerifyLicenseSize, sizeof(TSendVerifyLicense) == 0xE0);
 
+// 9E: the login the client sends after the lobby server's 02 greeting. Without the
+// meet-user extension only the first 0xEC bytes go out.
+class TSendLogin {
+public:
+    TSendLogin();
+    void bswap();
+
+    packet_header header;
+    TPlyGuildCardTag tag;
+    TPlySmth hardware_id;
+    u32 sub_version;
+    u8 is_extended;
+    u8 language;
+    u8 pad_1A[2];
+    char serial_number_v1[16];
+    char access_key_v1[16];
+    char serial_number[16];
+    char access_key[16];
+    char serial_number2[48];
+    char access_key2[48];
+    char name[16];
+    TPlyClientConfig client_config;
+    TPlyMeetUserExtension extension;
+};
+LAYOUT_ASSERT(TSendLoginConfigOffset, offsetof(TSendLogin, client_config) == 0xCC);
+LAYOUT_ASSERT(TSendLoginSize, sizeof(TSendLogin) == 0x150);
+
 struct _packet {
     void bswap() {
         header.bswap();
@@ -378,6 +405,8 @@ public:
     void send_text_packet_c7(char *str);
     void send_text_packet_D9(char *str);
     s32 send_login_9e_extended(void *player_name, int udp_disabled);
+    s32 set_server_info(const char *serial_v1, const char *access_key_v1, const char *serial, const char *access_key,
+                        const char *host, u16 port);
     void send_keepalive();
     void send_register_9c();
 

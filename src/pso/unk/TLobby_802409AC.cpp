@@ -993,7 +993,7 @@ void load_selected_guild_card_record(Src_8024220C *arg0) {
   p = ((void *)TLobby::parse_csv_token((char *)(p), (char *)(selected_guild_card_record.s2A)));
   TLobby::parse_csv_token((char *)(p), (char *)(selected_guild_card_record.s3B));
   TLobby__sub_802422EC(selected_guild_card_record.f4C, arg0->f64);
-  __as__21TPlyMeetUserExtensionFRC21TPlyMeetUserExtension(selected_guild_card_record.ext, arg0->ext);
+  __as__21TPlyMeetUserExtensionFRC21TPlyMeetUserExtension(&selected_guild_card_record.ext, &arg0->ext);
 }
 
 void TLobby__sub_802422EC(void *arg0, void *arg1) {
@@ -1159,7 +1159,6 @@ void TLobby::reset_state() { TLobby::reset_com_card_list(); }
 void TLobby__sub_8024285C(void) { TLobby::reset_com_card_list(); }
 
 
-void *construct_guild_card_tag_array(void *p);
 GuildCardRecord *__ct__15GuildCardRecordFv(void *p);
 void *__construct_array(void *array, GuildCardRecord *(*ctor)(void *), void *dtor, u32 size, u32 count);
 static void __sinit_TLobby_802409AC_cpp();
@@ -1171,13 +1170,13 @@ static void __sinit_TLobby_802409AC_cpp() {
     __construct_array(com_card_entries, __ct__15GuildCardRecordFv, NULL, sizeof(GuildCardRecord), 8);
 }
 
-GuildCardRecord::GuildCardRecord() { construct_guild_card_tag_array(ext); }
+GuildCardRecord::GuildCardRecord() {}
 
 s32 GuildCardRecord::get_serial() const { return serial; }
 
 int TLobby::get_com_card_data() { return com_card_entry_count; }
 
-char *GuildCardRecord::get_sub_disp_ptr() { return reinterpret_cast<char *>(&ext[0x44]); }
+char *GuildCardRecord::get_sub_disp_ptr() { return ext.player_name; }
 
 s32 GuildCardRecord::get_id() { return id; }
 

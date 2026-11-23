@@ -1,26 +1,13 @@
 #include "types.h"
 #include "pso/unk/text_800779A0.h"
-#include "pso/unk/text_80077A70.h"
+#include "pso/network/protocol/choice_search.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-
-struct Elem_80077A28 { u8 data[0xD4]; };
-
-struct Obj_80077A28 { s32 f0; Elem_80077A28 e[0x20]; };
 
 extern "C" {
 extern u8 *lbl_805D4E5C;
-void *__construct_array(void *, void *, void *, u32, u32);
-Obj_80077A28 *construct_entry_array(Obj_80077A28 *self);
 void fn_800779A0(u8 *src) {
-    saddr temp_r3;
-    saddr var_r0;
-    if ((void *) lbl_805D4E5C == NULL) {
-        temp_r3 = (saddr)::operator new(0x1A84);
-        var_r0 = temp_r3;
-        if (var_r0 != 0) {
-            var_r0 = ((saddr)construct_entry_array((Obj_80077A28 *)(temp_r3)));
-        }
-        lbl_805D4E5C = (unsigned char *) ((void *) var_r0);
+    if (lbl_805D4E5C == NULL) {
+        lbl_805D4E5C = (u8 *)new ChoiceSearchResultList;
     }
     fn_800779FC((u32 *)lbl_805D4E5C, (u32 *)src);
 }
@@ -38,16 +25,8 @@ u32 *fn_800779FC(u32 *dst, u32 *src) {
     }
     return dst;
 }
-Obj_80077A28 *construct_entry_array(Obj_80077A28 *self) {
-    __construct_array(self->e, (void *)fn_80077A70, 0, 0xD4, 0x20);
-    return self;
 }
 
-s32 construct_guild_card_tag_array(s32);
+ChoiceSearchResultList::ChoiceSearchResultList() {}
 
-s32 fn_80077A70(s32 arg0) {
-    construct_guild_card_tag_array(arg0 + 0x70);
-    return arg0;
-}
-
-}
+ChoiceSearchResult::ChoiceSearchResult() {}

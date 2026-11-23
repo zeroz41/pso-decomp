@@ -23,7 +23,7 @@ void bswap__13TPlyStartGameFv(TPlyStartGame_801E0580 *self) {
     for (i = 0; i < 4; i++) {
         bswap__13TPlyStartGameFPv(self->entries[i]);
     }
-    bswap__21TPlyMeetUserExtensionFv((saddr)self->extension);
+    ((TPlyMeetUserExtension *)self->extension)->bswap();
 }
 
 void bswap__13TPlyStartGameFPv(void* p) { ((TPlyGuildCardTag *)p)->bswap(); bswap_32((u32 *)((char*)p + 0x8)); bswap_32((u32 *)((char*)p + 0xc)); }
