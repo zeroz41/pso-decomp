@@ -18,6 +18,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/unk/text_803D8DE0.h"
 #include "pso/unk/text_803D8F74.h"
+#include "pso/camera/CameraAngles.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/system/TLanguage_801E4874.h"
 #include "pso/object/ambient/TObjFish.h"
@@ -49,7 +50,7 @@ const FootStampHeightScale lbl_80470888[12] = {
 
 const char *TPlayerFootStamp::class_name = "TPlayerFootStamp";
 
-uaddr player_footstamp_texture_gvm_handle;
+NJS_TEXLIST *player_footstamp_texture_gvm_handle;
 
 void TPlayerFootStamp::sub_802B0204(s32 num) {
     if (num < 0 || num > 1) {
@@ -60,14 +61,14 @@ void TPlayerFootStamp::sub_802B0204(s32 num) {
 }
 
 void load_player_footstamp(void) {
-    player_footstamp_texture_gvm_handle = (uaddr)load_gvm_texture_file("player_footstamp.GVM");
+    player_footstamp_texture_gvm_handle = load_gvm_texture_file("player_footstamp.GVM");
 }
 
 void TPlayerFootStamp::free_instance() {
-    if ((u32) player_footstamp_texture_gvm_handle != 0U) {
-        release_texture_list((NJS_TEXLIST *)player_footstamp_texture_gvm_handle);
-        TAdSinglePlyChrSelectGC::safe_free(player_footstamp_texture_gvm_handle);
-        player_footstamp_texture_gvm_handle = 0U;
+    if (player_footstamp_texture_gvm_handle != NULL) {
+        release_texture_list(player_footstamp_texture_gvm_handle);
+        TAdSinglePlyChrSelectGC::safe_free(reinterpret_cast<uaddr>(player_footstamp_texture_gvm_handle));
+        player_footstamp_texture_gvm_handle = NULL;
     }
 }
 
@@ -80,7 +81,7 @@ TPlayerFootStamp::TPlayerFootStamp(TObjPlayer *player, s32 side) : TObject(tl_07
     f32 length;
     f32 width;
     f32 offset;
-    s32 *rotation;
+    CameraAngles *rotation;
     CsnHit *ground;
     s16 angle;
     Vec dir[2];
@@ -208,8 +209,7 @@ TPlayerFootStamp::TPlayerFootStamp(TObjPlayer *player, s32 side) : TObject(tl_07
         verts[3].v = 1.0f;
         verts[3].color = color;
 
-        // TObjBase::get_rotation returns &rotation_x of any TObjBase.
-        rotation = (s32 *)((TObjBase *)player)->get_rotation();
+        rotation = player->get_rotation();
         VecCopy(&position, player->get_position_ptr());
         position.y += 5.0f;
         ground = csnVecterUnder(&position, 0x16EF);
@@ -217,7 +217,7 @@ TPlayerFootStamp::TPlayerFootStamp(TObjPlayer *player, s32 side) : TObject(tl_07
             queue_destruction();
             return;
         }
-        angle = rotation[1];
+        angle = rotation->yaw;
         VecCopy(&position, &ground->contact->point);
         position.y += 0.5f * ((1.0f / 32768.0f) * rand()) + 0.5f;
         if (this->side != 0) {
@@ -244,7 +244,7 @@ TPlayerFootStamp::TPlayerFootStamp(TObjPlayer *player, s32 side) : TObject(tl_07
         }
         push_matrix();
         set_matrix_identity(NULL);
-        rotate_matrix_y(NULL, rotation[1]);
+        rotate_matrix_y(NULL, rotation->yaw);
         rotate_matrix_z(NULL, pitch);
         fn_803D8DE0(0, dir, dir, 2);
         pop_matrix();
@@ -306,7 +306,7 @@ void TPlayerFootStamp::render() {
     if (horizontal_distance_squared(&position, (const Vec *)&camera_ctrl_instance->pos.x) < 22500.0f) {
         saved_model_render_flags = model_render_flags;
         set_default_alpha_blend();
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(player_footstamp_texture_gvm_handle));
+        TObjFish::set_global_param(player_footstamp_texture_gvm_handle);
         set_texture_num(texture);
         set_depth_buffer_settings_1();
         draw_particle_strip(verts, 4, 1);

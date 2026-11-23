@@ -18,10 +18,10 @@ typedef TMenuList<QuestListEntry, 30, 0> OnlineQuestMenu;
 struct TQuestListOnline : public TShopWindowBase {
     virtual ~TQuestListOnline();
     void update_state();
-    s32 (*callback28)();
-    s32 (*callback2c)();
-    s32 (*callback30)();
-    s32 (*callback34)();
+    void (*callback28)();
+    void (*callback2c)();
+    void (*callback30)();
+    void (*callback34)();
     TWindowMenuIconLine *list_window;
     TWindowMessage *description_window;
     TWindowMessage *info_window;
@@ -29,7 +29,7 @@ struct TQuestListOnline : public TShopWindowBase {
     s32 selected_index;
     GameListEntry selected_entry;
     s32 selection_stage;
-    void* sequence;
+    TShopWindowBase *sequence;
     void close_windows();
     void invoke_callback_28_and_queue_destruction();
     void invoke_callback_2c_and_queue_destruction();
@@ -80,7 +80,8 @@ extern TQuestListOnline *TQuestListOnline__instance;
 
 extern "C" {
 void copy_quest_list_data__16TQuestListOnlineFv(OnlineQuestMenu &menu);
-void *TQuestListOnline__ct(TQuestListOnline *arg0, void *arg1, void *arg2, void *player);
+TQuestListOnline *TQuestListOnline__ct(TQuestListOnline *list, TObject *parent,
+                                     TShopWindowBase *sequence, TObjPlayer *player);
 }
 
 #endif
