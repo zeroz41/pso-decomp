@@ -525,13 +525,13 @@ void TLobby__sub_803C97F4(u8 *arg0, s32 *pos, s32 *rate) {
     *rate = lbl_805D7570;
 }
 
-void TLobby::set_rate_mode(s32 arg0) {
-    if (arg0 == 1) {
+void TLobby::set_rate_mode(s32 rate_mode) {
+    if (rate_mode == 1) {
         lbl_805D7570 = 0x176A;
-    } else if (arg0 == 2) {
+    } else if (rate_mode == 2) {
         lbl_805D7570 = 0x1388;
     }
-    lbl_805D7560 = arg0;
+    lbl_805D7560 = rate_mode;
 }
 
 s8 TLobby__sub_803C9CB0(u8 *arg0) {

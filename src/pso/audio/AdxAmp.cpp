@@ -17,9 +17,9 @@
 extern "C" {
 
 
-void TLobby::set_packet_flags(s32 arg1) {
+void TLobby::set_packet_flags(s32 packet_flags) {
     u8 *arg0 = (u8 *)this;
-    *(s32 *)((s8 *)arg0 + 0x20) = arg1;
+    *(s32 *)((s8 *)arg0 + 0x20) = packet_flags;
 }
 
 void TLobby::clear_entry() {
