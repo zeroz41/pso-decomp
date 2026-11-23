@@ -2,15 +2,13 @@
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/window/TWindowSubTechnique.h"
 
-
-s32 TWindowSubTechnique::sub_80286AA8() {
-    if ((u32) this->m_34 == 0U) {
+s32 TWindowSubTechnique::category_changed() {
+    if (category_menu == NULL) {
         return 0;
     }
-    if ((s32) this->m_2c == ((TWindowMenu *)this->m_34)->get_selected_value()) {
+    if (current_category == category_menu->get_selected_value()) {
         return 0;
     }
-    this->m_2c = ((TWindowMenu *)this->m_34)->get_selected_value();
+    current_category = category_menu->get_selected_value();
     return 1;
 }
-

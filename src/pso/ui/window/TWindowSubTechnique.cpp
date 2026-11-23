@@ -213,7 +213,7 @@ void TWindowSubTechnique::run_task() {
         category_menu->clear_flag_and_release();
         state = 2;
     case 2: {
-        s32 r = sub_80286AA8();
+        s32 r = category_changed();
         if (r == 1 || TWindowSubTechnique::update_selection(&m_20, &m_24, playerIndex) != 0) {
             rebuildTechniqueList((saddr)technique_menu, (s32)(category_menu->get_selected_value()));
             if (r != 0) {
@@ -291,7 +291,7 @@ TWindowSubTechnique::TWindowSubTechnique(TWindowMainMenu *parent, s32 client) : 
     category_menu = (TWindowMenu *)open_menu();
     technique_menu = NULL;
     help_window = NULL;
-    m_2c = -1;
+    current_category = -1;
     help_technique = 0x13;
     state = 0;
 }

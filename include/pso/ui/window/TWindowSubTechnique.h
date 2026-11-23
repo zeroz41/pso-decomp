@@ -13,7 +13,7 @@ struct TWindowMessage;
 struct TWindowSubTechnique : public TObject {
     TWindowSubTechnique(TWindowMainMenu *parent, s32 client);
     virtual ~TWindowSubTechnique();
-    s32 sub_80286AA8();
+    s32 category_changed(); // 1 when category_menu moved to another category
     u8 state;
     u8 pad_1d[0x1];
     s16 help_technique; // technique the help window shows; 0x13 = none
@@ -21,7 +21,7 @@ struct TWindowSubTechnique : public TObject {
     u8 pad_22[0x2];
     s32 m_24;
     s32 playerIndex;
-    s32 m_2c;
+    s32 current_category;
     TWindowMainMenu *parent_menu;
     TWindowMenu *category_menu;
     TWindowMenu *technique_menu;
