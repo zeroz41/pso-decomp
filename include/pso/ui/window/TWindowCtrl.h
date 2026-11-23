@@ -4,6 +4,7 @@
 #include "types.h"
 #include <stddef.h>
 #include "pso/system/task/TObject.h"
+#include "pso/ui/window/WindowCtrlCallback.h"
 
 struct TWindowTradeRequest;
 struct TWindowTimer;
@@ -104,6 +105,8 @@ struct TWindowCtrl : public TObject {
     static void close();
     void set_flag1e_bit40();
     static saddr get_window(s32 client_id);
+    static s32 query_window(s32 client_id, PlayerWindowQuery query);
+    static void call_window_method(s32 client_id, PlayerWindowCommand command);
     static s32 get_flag_bit4();
     static s32 get_flag_bit5();
     static s32 get_display_flag();
