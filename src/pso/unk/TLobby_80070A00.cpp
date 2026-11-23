@@ -154,9 +154,9 @@ void TLobby__sub_80070C50(void) {
             (*(G_80070C50 *)&challenge_mode_state).a680[i] = 0;
         }
         p->frame_count = 0;
-        challenge_task->m_24 = 0;
+        challenge_task->missing_records_timer = 0;
         q = challenge_task;
-        q->m_28 = 1;
+        q->records_save_pending = 1;
         TLobby__sub_8026A328(q);
     }
 }

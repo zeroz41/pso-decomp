@@ -9,8 +9,8 @@ struct TChallenge : public TObject {
     virtual void render();
     s32 state;
     s32 frame_count;
-    u32 m_24;
-    u32 m_28;
+    s32 missing_records_timer;
+    s32 records_save_pending;
     u32 m_2c;
 
     virtual void run_task();
