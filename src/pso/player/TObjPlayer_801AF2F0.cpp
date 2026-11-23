@@ -1717,7 +1717,7 @@ void TObjPlayer::sub_801BBC64() {  }
 
 void TObjPlayer::update_lock_on_cursor() { void* m = this->lock_on_cursor; if (m) ((TLockOnCursor *)m)->reset_and_spawn_cursors(); }
 
-void TObjPlayer::sub_801BBC2C(void *data) { this->lock_on_cursor = NULL; }
+void TObjPlayer::clear_lock_on_cursor(void *data) { this->lock_on_cursor = NULL; }
 
 void TObjPlayer::init_action_palette_defaults(saddr player) {
     ((TObjPlayer *)player)->set_action_palette_entry(0, 0, 0, 1, 0);

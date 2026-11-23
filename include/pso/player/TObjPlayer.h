@@ -127,7 +127,7 @@ struct TObjPlayer : public TObjChara {
     void init_collision_body();
     void create_lockon_cursor();
     void update_lock_on_cursor();
-    void sub_801BBC2C(void *data);
+    void clear_lock_on_cursor(void *data);
     void setup_fresh_player_state(u8 *);
     void init_class_flags(saddr);
     void sub_801BB8B0(u8 *);
@@ -145,7 +145,7 @@ struct TObjPlayer : public TObjChara {
     void sub_801BEE24(s16);
     void update_body_parts();
     void sub_801BD318();
-    void sub_801BD240(void *data);
+    void init_model_buffer_and_actions(void *data);
     s32 sub_801A1DDC();
     void gain_photon_blast_chain_charge();
     void spend_photon_blast_charge(f32 charge);

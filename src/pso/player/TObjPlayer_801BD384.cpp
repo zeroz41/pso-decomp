@@ -165,8 +165,8 @@ TObjPlayer::TObjPlayer(TObject *parent, void *arg2) : TObjChara(parent) {
     ((Fn_vpvp_801BD570)TObjPlayer__sub_801BD384)(this, (void *)((char *)arg2 + 200));
     this->load_char_data((u8 *)arg2);
     this->update_position((saddr)arg2);
-    sub_801BBC2C(arg2);
-    sub_801BD240(arg2);
+    clear_lock_on_cursor(arg2);
+    init_model_buffer_and_actions(arg2);
     is_flag_set_550(arg2);
     init_session_technique_caps__10TObjPlayerFPvPv(this, arg2);
     this->init_from_source((u8 *)arg2);
