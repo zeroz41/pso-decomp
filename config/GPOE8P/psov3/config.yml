@@ -2096,7 +2096,7 @@ force_active:
   - __ct__16TObjKabochaLobbyFP7TObjectPv
   - __ct__16TObjRainbowLobbyFP7TObjectPv
   - __ct__16TObjWeddingLobbyFP7TObjectPv
-  - __ct__17TAdGameStartSubGCFv
+  - __ct__17TAdGameStartSubGCFP7TObjectP21GameStartLetterLayout
   - __ct__17TChCrTagOccHeaderFP7TObjectl
   - __ct__17TChCrTagPlGraphicFP7TObjectl
   - __ct__17TItemEffNeedlePosFP7TObjectP5TItemPC3VecP3Vec
@@ -5798,7 +5798,7 @@ force_active:
   - draw_arrows__18TWindowInputNumberFP17WindowDrawContextP13TUnk_804CF9C8i
   - draw_at_joint__14TItemProShieldFl
   - draw_background__13TWindowStatusFPUc
-  - draw_background__17TAdGameStartSubGCFPv
+  - draw_background__17TAdGameStartSubGCFv
   - draw_background__18TWindowPartyStatusFPUc
   - draw_blend_motion_tree__FP10NJS_OBJECTP15NJS_MOTION_LINKfPFPv_l
   - draw_blob_shadows__22TObjEneSlimeTailAttackFv

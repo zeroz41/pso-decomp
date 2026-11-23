@@ -27,7 +27,7 @@ LAYOUT_ASSERT(EndingHexProgressOffset, offsetof(TObjOnlineEndingHexLine, progres
 
 struct GinjaTextureList;
 // The f512_multiplay texture list register_texture_f512_multiplay loads for the
-// game start screens; destroy_instance__17TAdGameStartSubGCFv releases it.
+// game start screens; TAdGameStartSubGC::destroy_instance releases it.
 extern GinjaTextureList *multiplay_texture_f512_handle;
 
 #endif

@@ -1852,6 +1852,7 @@ pso/ui/frontend/TAdFloorLoadGC.cpp
 pso/ui/frontend/TAdFloorLoadPrtGC.cpp
 pso/ui/frontend/TAdGameStartBackGC.cpp
 pso/ui/frontend/TAdGameStartGC.cpp
+pso/ui/frontend/TAdGameStartSubGC.cpp
 pso/ui/frontend/TAdGameStartLineGC.cpp
 pso/ui/frontend/TAdGameStartShadowGC.cpp
 pso/ui/frontend/TAdGameStartShineGC.cpp

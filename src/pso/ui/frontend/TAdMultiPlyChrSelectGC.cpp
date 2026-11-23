@@ -39,6 +39,7 @@
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/ControllerInputState.h"
 #include <stdio.h>
+#include "pso/ui/frontend/TAdGameStartGC.h"
 #include <string.h>
 #include "pso/system/task/TObject.h"
 #include "pso/ui/frontend/TAdChrSelBSlotGC.h"
@@ -80,7 +81,6 @@ extern NJS_POINT2 multi_chr_select_item_rect_table[];
 
 extern "C" {
 s32 TAdPlyPltAnimCtrlGC__sub_80355148();
-void create_effects__14TAdGameStartGCFPv(u8 *parent);
 }
 
 s32 is_multiplayer_character_slot_selected(s32);
@@ -116,7 +116,6 @@ void TAdChrSelPlyPlateGC__start_selected_slot_anim(TAdChrSelPlyPlateGC *);
 void TAdChrSelPlyPlateGC__select_slot_at_cursor(TAdChrSelPlyPlateGC *);
 extern s32 lbl_80472850[];
 extern s32 lbl_80472858[];
-s32 destroy_windows__14TAdGameStartGCFPv(s32);
 void clear_slot_body__23TAdSinglePlyChrSelectGCFi(s32 i);
 struct MultiPlayChrSelectSlotPositions { s32 value; u8 remaining[0x14]; };
 
@@ -129,7 +128,6 @@ struct I2_802DF9B4 { s32 a, b; };
 struct Blk_802DF9B4 { NJS_POINT2 a, b, c; };
 
 extern "C" {
-u32 __ct__14TAdGameStartGCFv(void *, TObject *);
 extern NJS_POINT2 multi_chr_select_widget_layout[];
 extern u8 lbl_80472808[];
 extern I2_802DF9B4 lbl_80472828[];
@@ -284,7 +282,7 @@ void TAdMultiPlyChrSelectGC::initialize_selection_state(s32 arg1) {
     this->a_slot = reinterpret_cast<TAdChrSelASlotGC *>(v);
     *(s32 *)&this->player_preview = v;
     player_plate = reinterpret_cast<TAdChrSelPlyPlateGC *>(v);
-    *(s32 *)&this->unk_78 = v;
+    *(s32 *)&this->game_start = v;
     this->select_cursor = reinterpret_cast<TAdSelectCurGC *>(v);
     this->m_7c = v;
     *(s32 *)&this->unk_80 = v;
@@ -334,7 +332,6 @@ void TAdMultiPlyChrSelectGC::handle_event(s32 arg1) {
 }
 
 void TAdMultiPlyChrSelectGC::create_widgets() {
-    uaddr p;
     new TAdBackGC(this);
     new TAdBackTxtGC(this);
     switch (this->mode) {
@@ -362,11 +359,7 @@ void TAdMultiPlyChrSelectGC::create_widgets() {
     TAdTitleTexGC *tex = new TAdTitleTexGC(this);
     Blk_802DF9B4 blk = multi_chr_select_layout_table[0];
     fn_802D50B8(tex, &blk.a, &blk.b, &blk.c);
-    p = (uaddr)TObject::operator new(0xD4);
-    if (p != 0) {
-        p = __ct__14TAdGameStartGCFv((void *) p, tl_clipout);
-    }
-    *(u32 *)&this->unk_78 = p;
+    game_start = new TAdGameStartGC(tl_clipout);
     NJS_POINT2 v = lbl_80472848[0];
     v.x = multi_chr_select_widget_layout[0].x;
     v.y = multi_chr_select_widget_layout[0].y;
@@ -946,7 +939,7 @@ void TAdMultiPlyChrSelectGC::init_windows() {
 }
 
 void TAdMultiPlyChrSelectGC::open_windows() {
-    destroy_windows__14TAdGameStartGCFPv(*(s32 *)((s8 *)this + 0x78));
+    game_start->destroy_windows();
     player_plate->set_select_mode(1);
     player_preview->set_index_and_close_status(1);
     this->a_slot = TAdMultiPlyChrSelectGC::get_or_create_slot_window(this, 2);
@@ -992,11 +985,11 @@ void TAdMultiPlyChrSelectGC::reset_to_select() {
     this->a_slot = TAdMultiPlyChrSelectGC::get_or_create_slot_window(this, 1);
     player_plate->set_select_mode(0);
     player_plate->set_state_ready();
-    if ((((TAdMultiPlyChrSelectGC *)(*(saddr *)&this->unk_78))->get_ready_state() == 0) && (TAdMultiPlyChrSelectGC__count_selected_slots() > 1) && (is_multiplayer_character_slot_selected(0) != 0)) {
+    if ((((TAdMultiPlyChrSelectGC *)game_start)->get_ready_state() == 0) && (TAdMultiPlyChrSelectGC__count_selected_slots() > 1) && (is_multiplayer_character_slot_selected(0) != 0)) {
         temp_r31 = TAdMultiPlyChrSelectGC::count_ready();
         temp_r3 = TAdMultiPlyChrSelectGC__count_selected_slots();
         if (temp_r3 != temp_r31) {
-            create_effects__14TAdGameStartGCFPv((u8 *)(*(saddr *)&this->unk_78));
+            game_start->create_effects();
         }
     }
     this->state = 0;
@@ -1509,11 +1502,11 @@ void TAdMultiPlyChrSelectGC::update_confirm_start() {
     s32 temp_r31;
     s32 temp_r3;
 
-    if ((((TAdMultiPlyChrSelectGC *)(*(saddr *)&this->unk_78))->get_ready_state() == 0) && (TAdMultiPlyChrSelectGC__count_selected_slots() > 1) && (is_multiplayer_character_slot_selected(0) != 0)) {
+    if ((((TAdMultiPlyChrSelectGC *)game_start)->get_ready_state() == 0) && (TAdMultiPlyChrSelectGC__count_selected_slots() > 1) && (is_multiplayer_character_slot_selected(0) != 0)) {
         temp_r31 = TAdMultiPlyChrSelectGC::count_ready();
         temp_r3 = TAdMultiPlyChrSelectGC__count_selected_slots();
         if (temp_r3 != temp_r31) {
-            create_effects__14TAdGameStartGCFPv((u8 *)(*(saddr *)&this->unk_78));
+            game_start->create_effects();
         }
     }
     player_plate->set_state_ready();

@@ -252,7 +252,7 @@ void handle_6x92(u8 *arg0) {
     f32 d;
     s32 idx;
 
-    bswap_6x92__14TAdGameStartGCFPv(arg0);
+    TAdGameStartGC::bswap_6x92(arg0);
     idx = *(s32 *)((s8 *)arg0 + 4);
     v = *(f32 *)((s8 *)arg0 + 8);
     idx = idx % 4;
@@ -404,7 +404,7 @@ void TObjOnlineEndingHexMove::run_task() {
     if (timer == 0) {
         pad = &controller_input_state.controllers[0];
         if (test_previous_buttons_packed(pad, 0x30000) != 0) {
-            TAdGameStartGC__sub_802E6368(&pkt);
+            TAdGameStartGC::init_6x92(&pkt);
             pkt.idx = local_client_id % 4;
             switch (pkt.idx) {
             case 0:
@@ -453,7 +453,7 @@ void TObjOnlineEndingHexMove::run_task() {
                 pkt.val = (s32)(u16)ang;
                 break;
             }
-            send_6x92__14TAdGameStartGCFPv(&pkt);
+            TAdGameStartGC::send_6x92(&pkt);
             timer = 0x1E;
         }
     }
