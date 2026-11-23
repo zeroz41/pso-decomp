@@ -11,10 +11,6 @@
 struct BmlMotionEntry;
 struct CameraAngles;
 
-// The derived destructors still written out by hand call the base ones by
-// their symbols.
-extern "C" void *__dt__8TObjBaseFv(void *, s16);
-
 // One collision body of an actor (TObjCollidable::bodies points at the actor's
 // array of them); init_collision_body_parts copies a static table of these.
 struct CollisionBody {
