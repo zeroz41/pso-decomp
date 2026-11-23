@@ -7,7 +7,6 @@
 #include "pso/player/TPlayerLobbyMarker.h"
 #include "pso/ui/frontend/TAdRicoRing.h"
 #include "pso/ui/window/TWindowActionPalette.h"
-#include "pso/player/TObjPlayer_801BF6B0.h"
 #include "pso/player/TObjPlayer_801BF8EC.h"
 #include "pso/ui/hud/TMainCursor.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
@@ -18,7 +17,6 @@
 #include "pso/quest/TQuestListVM_8007EAF8.h"
 #include "pso/player/TObjPlayer_801BFAD4.h"
 #include "pso/player/TObjPlayer_801BFB1C.h"
-#include "pso/player/TObjPlayer_801BFBCC.h"
 #include "pso/player/TObjPlayer_801BFE50.h"
 #include "pso/player/TObjPlayer_801BFED4.h"
 #include "pso/unk/TUnk_804DDD28.h"
@@ -129,7 +127,7 @@ void PlayerScaleState::set_actor_id(u16 id) { actor_id = id; }
 
 Vec *PlayerScaleState::get_scale() { return &scale; }
 
-s16 TObjPlayer::get_action_id() { return *(s16*)((char*)this + 0x2); }
+s16 PlayerAnimationState::get_action_id() { return action_id; }
 
 u8 TObjPlayer__sub_801BF918(u8 *arg0) {
     return (u8) (*(s32 *)((s8 *)arg0 + 4) == 2);
@@ -160,15 +158,15 @@ void ContactSurfaceState::fn_801BF840() { word.set(8); }
 
 void ContactSurfaceState::test_flag_16() { word.set(16); }
 
-f32 TObjPlayer__sub_801BF814(void* p) { return *(f32*)((char*)p + 0x0); }
+f32 PlayerMoveSpeed::get_speed() { return speed; }
 
-void TObjPlayer::set_action_id(s16 v) { *(s16*)((char*)this + 0x2) = v; }
+void PlayerAnimationState::set_action_id(s16 v) { action_id = v; }
 
-void TObjPlayer::set_anim_state(s16 v) { *(s16*)((char*)this + 0x8) = v; }
+void PlayerAnimationState::set_animation(s16 v) { animation = v; }
 
-void TObjPlayer::set_state(s16 v) { *(s16*)((char*)this + 0x0) = v; }
+void PlayerAnimationState::set_state(s16 v) { state = v; }
 
-void TObjPlayer::set_anim_state(s32 v) { *(s32*)((char*)this + 0x4) = v; }
+void PlayerAnimationState::set_angle(s32 v) { angle = v; }
 
 void ContactSurfaceState::update_field8() {
     prev_flags = fn_801BF640();
@@ -550,9 +548,14 @@ void TObjPlayer__sub_801BFC90(O_801BFC90 *p) {
 
 void*TObjPlayer::set_vec4_const_wrapper() { set_vec4_const(); return this; }
 void*TObjPlayer::init_members() { zero_vec3(this); return this; }
-void*TObjPlayer::init_wrapper() { TObjPlayer__sub_801BFD3C(this); return this; }
-void TObjPlayer__sub_801BFD3C(void* p) { *(s16*)((char*)p + 0x0) = 0; *(s16*)((char*)p + 0x2) = 0; *(s32*)((char*)p + 0x4) = 0; *(s16*)((char*)p + 0x8) = 0; }
-void*TObjPlayer::init_sub() { __ct__8FlagWordFv(((char*)this + 0xc)); reset_stat_scale_and_ring(); return this; }
+PlayerAnimationState::PlayerAnimationState() { reset(); }
+void PlayerAnimationState::reset() {
+    state = 0;
+    action_id = 0;
+    angle = 0;
+    animation = 0;
+}
+PlayerMoveSpeed::PlayerMoveSpeed() { reset(); }
 PlayerScaleState::PlayerScaleState() { init(); }
 }
 void PlayerScaleState::init() {

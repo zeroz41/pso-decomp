@@ -26,8 +26,6 @@ u8 get_byte_e7(void *);
 extern const char *lbl_805D3530;
 
 TObjPlayer::TObjPlayer(TObject *parent, s32 slot, s32 role, u8 *record) : TObjChara(parent) {
-    ((TObjPlayer *)(((u8 *)this) + 0x5E0))->init_sub();
-    ((TObjPlayer *)(((u8 *)this) + 0x5F0))->init_wrapper();
     ((TObjPlayer *)(((u8 *)this) + 0x5FC))->init_members();
     ((TObjPlayer *)(((u8 *)this) + 0x608))->set_vec4_const_wrapper();
     ((TObjPlayer *)(((u8 *)this) + 0x634))->wrap_update();

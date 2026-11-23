@@ -82,17 +82,12 @@ extern "C" {
 #include "pso/player/TObjPlayer.h"
 
 extern "C" {
-void TObjPlayer__sub_801C6FCC(void*, f32);
-f32 apply_stat_multipliers__10TObjPlayerFiif(saddr, saddr, f32);
-void apply_stat_multipliers_default__10TObjPlayerFv(void);
-void set_stat_scale__10TObjPlayerFPvf(void*, f32);
 s32 test_flags_any(s32 *flags, s32 mask);
 }
 
 
 extern "C" {
 
-f32 apply_stat_multipliers__10TObjPlayerFiif(saddr arg0, saddr actor, f32 farg0);
 s32 test_flags_any(s32 *flags, s32 mask);
 s32 is_flag30_8_set__10TObjPlayerFi(saddr);
 
@@ -111,12 +106,6 @@ int validate_6x88_restore_shrunken_player(PlayerRestoreSizePacket*);
 void handle_6x88_restore_shrunken_player(const PlayerRestoreSizePacket* input);
 }
 
-extern "C" {
-
-void apply_stat_multipliers_default__10TObjPlayerFv(void);
-
-
-}
 
 
 struct RecoveredGlobal_801C6FF8_lbl_804C4008 {
@@ -146,8 +135,6 @@ s32 TObjPlayer__sub_801C6DAC(u8 *arg0);
 
 extern "C" {
 
-void TObjPlayer__sub_801C6FCC(void* p, f32 v);
-void set_stat_scale__10TObjPlayerFPvf(void* p, f32 v);
 void __dl__7TObjectFPv(void *);
 void __dt__7TObjectFv(void *, int);
 
@@ -179,23 +166,10 @@ void __dt__7TObjectFv(void *, int);
 #undef get_player_by_client_id
 
 
-#undef apply_stat_multipliers__10TObjPlayerFiif
-
-#undef apply_stat_multipliers_default__10TObjPlayerFv
-
-#undef set_stat_scale__10TObjPlayerFPvf
-
-#undef TObjPlayer__sub_801C6FCC
 
 
-extern "C" {
-f32 apply_stat_multipliers__10TObjPlayerFiif(saddr arg0, saddr actor, f32 farg0);
-}
 
 
-extern "C" {
-void apply_stat_multipliers_default__10TObjPlayerFv(void);
-}
 
 
 
@@ -225,14 +199,8 @@ BOOL fn_801C6F2C(u8 *arg0);
 
 
 
-extern "C" {
-void set_stat_scale__10TObjPlayerFPvf(void* p, f32 v);
-}
 
 
-extern "C" {
-void TObjPlayer__sub_801C6FCC(void* p, f32 v);
-}
 
 
 extern "C" {
@@ -375,22 +343,13 @@ Vec *PlayerCameraOffset::get() { return this; }
 }
 
 
-extern "C" {
-void TObjPlayer::set_ring_action(s32 v) { *(s32*)((char*)this + 0x4) = v; }
-
-}
+void PlayerMoveSpeed::set_run_counter(s32 v) { run_counter = v; }
 
 
-extern "C" {
-void TObjPlayer__sub_801C6FCC(void* p, f32 v) { *(f32*)((char*)p + 0x8) = v; }
-
-}
+void PlayerMoveSpeed::set_unscaled_speed(f32 v) { unscaled_speed = v; }
 
 
-extern "C" {
-void set_stat_scale__10TObjPlayerFPvf(void* p, f32 v) { *(f32*)((char*)p + 0x0) = v; }
-
-}
+void PlayerMoveSpeed::set_speed(f32 v) { speed = v; }
 
 
 void TPlayerSoul::set_player_id(u16 value) { player_id = value; }
@@ -596,53 +555,35 @@ void PlayerScaleState::update_camera() {
 }
 
 
-extern "C" {
-void TObjPlayer::reset_stat_scale_and_ring() {
-    ((s32 (*)(f32))set_stat_scale__10TObjPlayerFPvf)(1.0f);
-    set_ring_action(0);
-}
-
+void PlayerMoveSpeed::reset() {
+    set_speed(1.0f);
+    set_run_counter(0);
 }
 
 
-extern "C" {
-void apply_stat_multipliers_default__10TObjPlayerFv(void) {
-    ((s32 (*)(f32))apply_stat_multipliers__10TObjPlayerFiif)(1.0f);
-}
-
+f32 PlayerMoveSpeed::calc_speed(TObjPlayer *player) {
+    return calc_speed(player, 1.0f);
 }
 
 
-extern "C" {
-f32 apply_stat_multipliers__10TObjPlayerFiif(saddr arg0, saddr actor, f32 farg0) {
-    f32 var_f31;
-
-    var_f31 = farg0;
-    if (is_flag30_8_set__10TObjPlayerFi(actor) != 0) {
-        var_f31 *= 0.5f;
-    } else if (test_flags_any((s32 *)(arg0 + 0xC), 8) != 0) {
-        var_f31 *= 0.75f;
+f32 PlayerMoveSpeed::calc_speed(TObjPlayer *player, f32 speed) {
+    if (is_flag30_8_set__10TObjPlayerFi((saddr)player) != 0) {
+        speed *= 0.5f;
+    } else if (test_flags_any(&flags.bits, 8) != 0) {
+        speed *= 0.75f;
     }
-    ((s32 (*)(s32, f32))TObjPlayer__sub_801C6FCC)(arg0, var_f31);
-    if (((PlayerScaleState *)(actor  + 0x5B0))->is_scaled() != 0) {
-        var_f31 *= ((PlayerScaleState *)(actor + 0x5B0))->get_scalar();
+    set_unscaled_speed(speed);
+    if (player->scale_state.is_scaled() != 0) {
+        speed *= player->scale_state.get_scalar();
     }
-    return var_f31;
-}
-
-}
-
-
-extern "C" {
-void TObjPlayer::apply_stats_and_update(void* p) { ((int (*)(void*))apply_stat_multipliers_default__10TObjPlayerFv)(p); ((int (*)(void*))set_stat_scale__10TObjPlayerFPvf)(p); }
-
+    return speed;
 }
 
 
-extern "C" {
-void TObjPlayer::apply_stat_multipliers_and_reset(void* p) { ((int (*)(void*))apply_stat_multipliers__10TObjPlayerFiif)(p); ((int (*)(void*))set_stat_scale__10TObjPlayerFPvf)(p); }
+void PlayerMoveSpeed::update(TObjPlayer *player) { set_speed(calc_speed(player)); }
 
-}
+
+void PlayerMoveSpeed::update(TObjPlayer *player, f32 speed) { set_speed(calc_speed(player, speed)); }
 
 
 extern "C" {

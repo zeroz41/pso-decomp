@@ -12,6 +12,8 @@ struct NJS_OBJECT;
 #include "pso/player/PlayerFollowParticles.h"
 #include "pso/player/PlayerClassFlags.h"
 #include "pso/player/PlayerScaleState.h"
+#include "pso/player/PlayerMoveSpeed.h"
+#include "pso/player/PlayerAnimationState.h"
 #include "pso/player/RenderMaterialState.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/player/PlayerAttackController.h"
@@ -214,10 +216,8 @@ struct TObjPlayer : public TObjChara {
     saddr m_54c;
     PlayerPadBinding pad_binding;
     PlayerScaleState scale_state;
-    void* m_5e0;
-    u8 _pad5E4[0xC];
-    void* pad_5f0;
-    u8 _pad5F4[0x8];
+    PlayerMoveSpeed move_speed;
+    PlayerAnimationState anim_state;
     void* pad_5fc;
     u8 _pad600[0x8];
     RenderMaterialState render_material_state;
@@ -563,11 +563,6 @@ struct TObjPlayer : public TObjChara {
     void set_field_374_state(u8 v);
     void set_field_374(u8 v);
     void*reset_sub_status_disp();
-    void set_anim_state(s32 v);
-    void set_state(s16 v);
-    void set_anim_state(s16 v);
-    void set_action_id(s16 v);
-    s16 get_action_id();
     void*get_sub_object();
     s32 get_lock_timer();
     void set_vec3_const();
@@ -581,8 +576,6 @@ struct TObjPlayer : public TObjChara {
     void*wrap_update();
     void*set_vec4_const_wrapper();
     void*init_members();
-    void*init_wrapper();
-    void*init_sub();
     int sub_802a7290_fwd();
     int is_handle_valid();
     static void forward_801C210C(void *p, int v);
@@ -622,6 +615,8 @@ struct TObjPlayer : public TObjChara {
     static u16 interpolate_angle(void *arg0, u16 arg1, u16 arg2, s32 *arg3);
     void update_state_group();
     void start_action_18();
+    void start_action();
+    void set_attack_state();
     void send_state_sync();
     static int try_change_action(void* p);
     s16 select_idle_action();
@@ -852,8 +847,6 @@ struct TObjPlayer : public TObjChara {
     void set_action_flag_40();
     void set_field_d4_and_flag_200(f32 value);
     void set_action_flag();
-    s32 get_field_4();
-    void increment_run_counter();
     int bswap_field_u32();
     void *copy_packet_pos_6x42(void *pkt);
     void bswap_u16_pair_list();
@@ -1251,7 +1244,7 @@ struct TObjPlayer : public TObjChara {
     s32 end_camera_pan();
     static void freeze_all_players();
     // The callers pass the angle to the object as well; this does not use it.
-    s32 start_camera_pan(s16 arg1, s32 angle);
+    s32 start_camera_pan(s16 action, s32 angle);
     s32 init_photon_blast(s16 arg1);
     s32 start_freeze();
     s32 register_player_slot();
@@ -1436,12 +1429,8 @@ struct TObjPlayer : public TObjChara {
     static void spawn_hit_particles_at(s32 arg0, saddr hit, saddr dir);
     static void spawn_hit_particles_at_vec(s32 arg0, saddr arg1, saddr dir);
     s32 get_quest_thread_id();
-    void set_ring_action(s32 v);
     static void heap_alloc(void* a0);
     static u8 *create_lobby_marker(s16 client, s8 arg1);
-    void reset_stat_scale_and_ring();
-    static void apply_stats_and_update(void* p);
-    static void apply_stat_multipliers_and_reset(void* p);
     s32 can_guard();
     static void clamp_and_set_unit_value(int, u8, int);
     static void *get_element(void *, int);

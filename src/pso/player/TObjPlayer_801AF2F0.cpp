@@ -1288,8 +1288,6 @@ int TObjPlayer__sub_801BF460(void*);
 int TObjPlayer__sub_801BF47C(void*);
 int TObjPlayer__sub_801BF488(void*);
 int TObjPlayer__sub_801BF4A0(void*);
-f32 TObjPlayer__sub_801BF814(void *p);
-s32 set_action_id__10TObjPlayerFs(void *, s32);
 void set_equip_slot_entry(saddr, s32, s32);
 void TObjPlayer__sub_801BF8F8(s32 *p);
 void *TObjPlayer__sub_801BF914(void *);
@@ -2335,10 +2333,10 @@ s32 TObjPlayer::start_freeze() {
         return 0;
     }
     this->actorFlags = (s32) (this->actorFlags | 0x10000);
-    ((TObjPlayer *)(&this->pad_5f0))->set_action_id(0x10);
-    ((TObjPlayer *)((u8 *)&this->pad_5f0))->set_anim_state(this->get_idle_animation());
-    ((TObjPlayer *)(arg0 + 0x5F0))->set_state(0);
-    ((TObjPlayer *)(arg0 + 0x5F0))->set_anim_state(this->rotation_y);
+    anim_state.set_action_id(0x10);
+    anim_state.set_animation(this->get_idle_animation());
+    anim_state.set_state(0);
+    anim_state.set_angle(this->rotation_y);
     return 1;
 }
 
@@ -2348,26 +2346,26 @@ s32 TObjPlayer::init_photon_blast(s16 arg1) {
         return 0;
     }
     this->actorFlags = (s32) (this->actorFlags | 0x10000);
-    ((TObjPlayer *)(&this->pad_5f0))->set_action_id(0x10);
-    ((TObjPlayer *)((u8 *)&this->pad_5f0))->set_anim_state(arg1);
-    ((TObjPlayer *)(arg0 + 0x5F0))->set_state(0);
-    ((TObjPlayer *)(arg0 + 0x5F0))->set_anim_state(this->rotation_y);
+    anim_state.set_action_id(0x10);
+    anim_state.set_animation(arg1);
+    anim_state.set_state(0);
+    anim_state.set_angle(this->rotation_y);
     return 1;
 }
 
-s32 TObjPlayer::start_camera_pan(s16 arg1, s32 angle) {
+s32 TObjPlayer::start_camera_pan(s16 action, s32 angle) {
     u8 *arg0 = (u8 *)this;
     if (*(s32 *)((s8 *)arg0 + 0x320) & 0x1E000) {
         return 0;
     }
-    if ((s16) this->mode == arg1) {
+    if ((s16) this->mode == action) {
         return 0;
     }
     this->actorFlags = (s32) (this->actorFlags | 0x10000);
-    ((s32 (*)(void *))set_action_id__10TObjPlayerFs)(arg0 + 0x5F0);
-    ((TObjPlayer *)(arg0 + 0x5F0))->set_anim_state(this->requested_action);
-    ((TObjPlayer *)(arg0 + 0x5F0))->set_state(0);
-    ((TObjPlayer *)(arg0 + 0x5F0))->set_anim_state(this->rotation_y);
+    anim_state.set_action_id(action);
+    anim_state.set_animation(this->requested_action);
+    anim_state.set_state(0);
+    anim_state.set_angle(this->rotation_y);
     return 1;
 }
 
@@ -2409,12 +2407,12 @@ s32 TObjPlayer::try_apply_status_action(TObjPlayer *player) {
         return 1;
     }
     if (player->is_status_locked() != 0) {
-        if (((TObjPlayer *)&player->pad_5f0)->get_action_id() == 0x10) {
+        if (player->anim_state.get_action_id() == 0x10) {
             player->run_action_state_phase(0x10, 5);
         } else {
             player->clear_actor_flags((u32)0x10000);
-            player->run_action_state_phase(((TObjPlayer *)&player->pad_5f0)->get_action_id(), 5);
-            ((TObjPlayer *)&player->pad_5f0)->set_action_id(0);
+            player->run_action_state_phase(player->anim_state.get_action_id(), 5);
+            player->anim_state.set_action_id(0);
         }
         return 1;
     }
@@ -3632,9 +3630,9 @@ void *TObjPlayer::apply_wall_response() {
             corner.z = origin->z + pz;
             s32 target = calc_angle_to(&corner, &move_target);
             angle = lerp_angle_half(approach_angle_adaptive(rotation_y, target), target);
-            move.x = TObjPlayer__sub_801BF814(&m_5e0) * sin_table_lookup(angle);
+            move.x = move_speed.get_speed() * sin_table_lookup(angle);
             move.y = TObjPlayer__data_805DC278;
-            move.z = TObjPlayer__sub_801BF814(&m_5e0) * cos_table_lookup(angle);
+            move.z = move_speed.get_speed() * cos_table_lookup(angle);
             origin->x = corner.x + move.x;
             origin->z = corner.z + move.z;
             Vec first_ray;
@@ -3677,12 +3675,11 @@ void TObjPlayer::get_hand_joint_position(saddr arg1) {
 }
 
 void TObjPlayer::init_effect_5f0() {
-    u8 *arg0 = (u8 *)this;
     this->actorFlags = (s32) (this->actorFlags | 0x10000);
-    ((TObjPlayer *)(&this->pad_5f0))->set_action_id(0x10);
-    ((TObjPlayer *)((u8 *)&this->pad_5f0))->set_anim_state(this->get_idle_animation());
-    ((TObjPlayer *)(arg0 + 0x5F0))->set_state(0);
-    ((TObjPlayer *)(arg0 + 0x5F0))->set_anim_state(this->rotation_y);
+    anim_state.set_action_id(0x10);
+    anim_state.set_animation(this->get_idle_animation());
+    anim_state.set_state(0);
+    anim_state.set_angle(this->rotation_y);
 }
 
 void TObjPlayer::clear_lobby_flag(void *base) {
