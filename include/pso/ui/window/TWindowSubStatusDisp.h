@@ -22,7 +22,6 @@ struct TWindowSubStatusDisp : public TWindowBase {
 
     TWindowSubStatusDisp(s32 client);
     virtual ~TWindowSubStatusDisp();
-    void calc_row_width();
     virtual void run_task();
     virtual void render();
     s16 page; // index into the dispatch_page_init/update page tables
@@ -127,34 +126,15 @@ struct TWindowSubStatusDisp : public TWindowBase {
     static s32 calc_entry_offset(s32 slot);
     static s32 get_layout_id(s32 slot);
     static s32 resolve_player_slot(s32 slot);
-    void advance_state();
-    void finalize_state();
-    void setup_entry_msg_d1(s32 arg1);
-    void setup_entry_msg_d0(s32 arg1);
-    void init_no_item_entry(s32 arg1);
-    void init_entry(s8 arg1, s8 arg2, u8 arg3, u32 src, s32 arg5);
-    void setup_stat_line(s32 src, s32 arg2, s32 arg3);
-    static void init_status_entry_by_flag(ItemListRow *row, s32 flag, u32 src, s32 item);
-    void init_list_entry(u8 arg1, s32 src, s32 arg3);
-    void set_inventory_item(void *item, s32 count, s32 sid);
-    void update_from_player(void *item, s32 arg2, s32 arg3);
-    void init_item_row(void *item, s32 arg2);
-    void set_item_info(void* a1, int a2, void* a3);
-    void set_ground_item(void *arg1, s32 arg2);
-    void init_display(s32 src, s32 arg2);
     static void *get_entry_ptr(int a0);
     void append_entry(s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5);
     s32 update_hp_entry();
     static s32 destroy_status_display(saddr arg0, s16 arg1);
     u8 *construct_type1_heading(s32 title, s32 client_index);
     void update_entry_visibility();
-    void update_item_colors(saddr item);
     s32 update_hp_gauge();
     static void *find_cached_glyph(u16 code);
     static u8 calc_gauge_scale(u16 glyph, void *arg1, s32 color);
-    void update_item_icon_colors(void *item);
-    static void init_status_entry(ItemListRow *row, u8 category_icon, u32 src, s32 item);
-    static void reset(void *arg0);
     static void *destroy_free_buffers(void *window_sub_status_disp, s16 arg1);
 };
 

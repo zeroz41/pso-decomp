@@ -28,7 +28,7 @@ public:
     int is_cancelled();
     void clear_decided();
     void reset_list();
-    void add_list_entry(s32 arg1, s32 arg2, s32 arg3);
+    void add_list_entry(u8 icon, s32 src, s32 item);
     saddr get_cursor_value();
     void calc_content_extent();
     void disable_cancel();

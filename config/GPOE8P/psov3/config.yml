@@ -14544,7 +14544,7 @@ force_active:
   - render_with_fade__19TObjEneEpsilonGuardFPvi
   - render_with_state_debug__17TObjEneBm3FlyNestFv
   - replace_gvm_texture_directory
-  - replace_owned_string__20TWindowSubStatusDispFPviiii
+  - replace_owned_string__11ItemListRowFllll
   - repositioning_state__14TObjEneBm5WolfFl
   - request_action__11TObjNpcBaseFl
   - request_action__12TObjNpcEnemyFl
@@ -15301,7 +15301,7 @@ force_active:
   - select_death_direction__14TObjEneBm5WolfFPvPv
   - select_farthest_visible_player__16TObjEneDellBiterFv
   - select_forward_target__12TBoss1DragonFv
-  - select_item_icon__20TWindowSubStatusDispFPviUcUci
+  - select_item_icon__11ItemListRowFlUcUcl
   - select_lobby_pigeon_model__15TObjLobbyPigeonFv
   - select_melee_contact_body__11TOVS2Wall01FPvf
   - select_melee_contact_body__13TUnk_8048E1A4FPvf
@@ -16983,7 +16983,7 @@ force_active:
   - update_invincibility_action__8TItemMagFv
   - update_invuln_timer__12TObjEneLappyFv
   - update_inward_orbit_point__13TUnk_804F166CFv
-  - update_item_colors__20TWindowSubStatusDispFl
+  - update_item_colors__11ItemListRowFl
   - update_item_icon_colors__20TWindowSubStatusDispFPvPv
   - update_item_select__21TShopDeleteItemWindowFPv
   - update_judge_confirm__23TShopJudgmentItemWindowFv
@@ -17219,8 +17219,8 @@ force_active:
   - update_spinning_projectile_attack__12TBoss1DragonFUl
   - update_stat_comparison__15TWindowHelpItemFv
   - update_stat_disp2__15TWindowHelpItemFPv
-  - update_stat_line__20TWindowSubStatusDispFPvi
-  - update_stat_line_if_positive__20TWindowSubStatusDispFPvi
+  - update_stat_line__11ItemListRowFl
+  - update_stat_line_if_positive__11ItemListRowFl
   - update_stat_messages__17TWindowSetLevelUpFv
   - run_death_reaction__10TBoss4ZakoFv
   - update_state_3__13TBoss5GryphonFv

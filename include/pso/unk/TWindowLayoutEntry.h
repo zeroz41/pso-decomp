@@ -10,9 +10,9 @@ class TWindowLayoutEntry {
 public:
     int is_flag_4_set() const;
     u16 flags;
-    s16 m_2;
+    s16 client;
 
-    TWindowLayoutEntry(s32 m_2);
+    TWindowLayoutEntry(s32 client);
     virtual ~TWindowLayoutEntry();
     virtual void update();
     virtual void render(WindowDrawContext *context);
@@ -23,7 +23,7 @@ LAYOUT_ASSERT(TWindowLayoutEntry_size, sizeof(TWindowLayoutEntry) == 8);
 
 extern "C" {
 // TWindowLayoutEntry::TWindowLayoutEntry(s32), called by the constructors that are still written by hand.
-void *__ct__18TWindowLayoutEntryFl(void *p, s32 m_2);
+void *__ct__18TWindowLayoutEntryFl(void *p, s32 client);
 // TWindowLayoutEntry::~TWindowLayoutEntry(), called by the destructors that are still written by hand.
 void *__dt__18TWindowLayoutEntryFv(void *p, s16 flags);
 }

@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/ui/ItemListRow.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/item/TItem.h"
 #include "pso/ui/window/TWindowHelpItem_8025A60C.h"
@@ -279,8 +280,8 @@ void TWindowLockOn::update_for_item(TItem *item) {
     init_window_layout_entries(reinterpret_cast<WindowLayoutEntries *>(&entry_list), &lockon_window_layout_entries, client_index);
     m_70 = &TWindowLockOn::refresh_ground_item;
     e = (LockOnEntry *)get_array_entry(0);
-    ((TWindowSubStatusDisp *)e)->init_item_row(item, 0);
-    ((TWindowSubStatusDisp *)e)->calc_row_width();
+    ((ItemListRow *)e)->init_item_row(item, 0);
+    ((ItemListRow *)e)->calc_row_width();
     e->y = -8.0f;
     if (e->kind != 0x33) {
         e->y += 18.0f;

@@ -208,9 +208,9 @@ void TWindowLayoutEntry::render(WindowDrawContext *) {  }
 
 void TWindowLayoutEntry::update() {}
 
-TWindowLayoutEntry::TWindowLayoutEntry(s32 m_2) {
+TWindowLayoutEntry::TWindowLayoutEntry(s32 client) {
     this->flags = 0;
-    this->m_2 = m_2;
+    this->client = client;
 }
 
 TWindowLayoutEntry::~TWindowLayoutEntry() {}
