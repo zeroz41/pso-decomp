@@ -12,16 +12,8 @@
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/window/TWindowTradeRequest.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
-#include "pso/unk/WindowLayoutRecord.h"
 
 extern s32 hud_texlist;
-
-// The follower window draws a single HUD sprite.
-struct ComCardFollowerLayout {
-    u32 cols;
-    u32 rows;
-    SpritePartLayoutRecord panel;
-};
 
 ComCardFollowerLayout com_card_follower_layout_entries = {
     1, 1,
