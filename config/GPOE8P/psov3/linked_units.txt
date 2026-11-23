@@ -2093,7 +2093,6 @@ pso/unk/text_80225CD8.cpp
 pso/unk/text_80228C54.cpp
 pso/unk/text_8022BE64.cpp
 pso/unk/text_8022F258.cpp
-pso/effect/TUnk_804CCC68_8023A434.cpp
 pso/unk/text_8023DCB8.cpp
 pso/unk/text_8023F660.cpp
 pso/unk/text_802432F0.cpp

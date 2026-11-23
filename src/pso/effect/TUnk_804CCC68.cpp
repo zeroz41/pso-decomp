@@ -42,6 +42,24 @@ void direction_to_rotation_xy(u8 *arg0, s32 *arg1, s32 *arg2);
 
 void move_ground_technique_projectile(void* p);
 
+void TUnk_804CCC68::check_technique_projectile_wall_hit() {
+    Vec to;
+    Vec from;
+    CsnHit *wall;
+    from.x = previous[0];
+    from.y = previous[1];
+    from.z = previous[2];
+    to.x = position.x;
+    to.y = position.y;
+    to.z = position.z;
+    wall = csnVector(&from, &to, 0x100);
+    if (wall != NULL) {
+        VecCopy(&position, &wall->contact->point);
+        this->vfunc_6();
+        queue_destruction();
+    }
+}
+
 void TUnk_804CCC68::render() {  }
 void TUnk_804CCC68::advance_lifetime_or_destroy() {
     f32 temp_f1;

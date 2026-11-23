@@ -6431,11 +6431,8 @@ pso/technique/TTecReverser.cpp:
 	.sdata      start:0x805D3818 end:0x805D3820
 	.sdata2     start:0x805DC910 end:0x805DC918
 
-pso/effect/TUnk_804CCC68_8023A434.cpp:
-	.text       start:0x8023A434 end:0x8023A4CC
-
 pso/effect/TUnk_804CCC68.cpp:
-	.text       start:0x8023A4CC end:0x8023AC88
+	.text       start:0x8023A434 end:0x8023AC88
 	.rodata     start:0x8044DC00 end:0x8044DC08
 	.data       start:0x804CCC68 end:0x804CCC8C
 	.sdata2     start:0x805DC918 end:0x805DC93C
