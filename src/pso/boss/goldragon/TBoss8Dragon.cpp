@@ -87,7 +87,6 @@
 #include "pso/player/PlayerSlots.h"
 
 extern "C" {
-extern s32 local_client_id;
 f32 atan2_float(f32 y, f32 x);
 }
 extern u16 boss8_dragon_control_client_id;

@@ -97,9 +97,6 @@ struct Boss6PartPositionSource { s32 kind; s32 idx; };
 // The two motions and frames draw_model_blend_motion blends.
 struct Boss6BlendMotion { AnimationMotion *motions[2]; f32 frames[2]; };
 
-extern "C" {
-
-
 // init_collision_body_parts copies these 7 spheres in TBoss6Type1__ct.
 CollisionBody TBoss6Type1__collision_body_parts[7] = {
     {{0.0f, 0.0f, 0.0f}, 35.0f, 0.0f, 0, 0x801B, {0.0f, 0.0f, 0.0f}, 0.0f},
@@ -111,6 +108,8 @@ CollisionBody TBoss6Type1__collision_body_parts[7] = {
     {{0.0f, 0.0f, 0.0f}, 10.0f, 0.0f, 0, 0x801B, {0.0f, 0.0f, 0.0f}, 0.0f},
 };
 __declspec(section ".data") s32 boss6_type1_part_model_ids[2] = {3, 6};
+
+extern "C" {
 Boss6Type1MotionSet TBoss6Type1__motion_set_table[21] = {
     {0, 0, 44, 45}, {0, 1, 42, 45}, {0, 2, 44, 56}, {2, 0, 40, 41}, {2, 2, 44, 53},
     {2, 0, 37, 38}, {2, 2, 37, 38}, {2, 8, 29, 30}, {0, 8, 13, 14}, {2, 1, 47, 48},

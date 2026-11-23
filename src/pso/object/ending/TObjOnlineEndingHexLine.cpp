@@ -26,8 +26,6 @@ const char *TObjOnlineEndingHexLine__name = "TObjOnlineEndingHexLine";
 struct Pkt_802E5EFC { s32 hdr; s32 idx; f32 val; };
 
 
-extern "C" {
-void copy_ending_hex_point(EndingHexPoint *point, const EndingHexPoint *source);
 EndingHexLineParams lbl_804E3A98 = { 0.25f, 1.0f, 0, 10.0f };
 EndingHexLineParams TObjOnlineEndingHexLine::hex_line_params = lbl_804E3A98;
 EndingHexLineParams online_ending_hex_line_param = lbl_804E3A98;
@@ -41,6 +39,9 @@ EndingHexPoint TObjOnlineEndingHexLine__direction_table[18] = {
     { -1, 0 }, { 1, -1 }, { 1, 1 },
     { 0, 0 }, { 0, 0 }, { 0, 0 },
 };
+
+extern "C" {
+void copy_ending_hex_point(EndingHexPoint *point, const EndingHexPoint *source);
 
 extern EndingHexLineParams online_ending_hex_line_state;
 
