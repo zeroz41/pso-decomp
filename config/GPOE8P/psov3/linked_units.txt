@@ -362,7 +362,6 @@ pso/enemy/canadin/CanadinEffects.cpp
 pso/enemy/darkgunner/DarkGunner.cpp
 pso/enemy/deldepth/DelDepthMotion.cpp
 pso/enemy/EnemyFactoryTables.cpp
-pso/effect/enemy/TeneFakeTecThunderEffSdata2.cpp
 pso/enemy/saver/SaverLifecycle.cpp
 pso/enemy/sinowzoa/SinowZoaData.cpp
 pso/enemy/stelth/StelthData.cpp

@@ -1,106 +1,35 @@
-#include "pso/render/ChunkMaterialState.h"
-#include "pso/effect/enemy/TEneEffHamon.h"
 #include "pso/effect/enemy/TeneFakeTecThunderEff.h"
-#include "pso/render/MaterialColorFade.h"
-#include "pso/system/vector.h"
-
-
-#include "types.h"
-#include "pso/render/GinjaView.h"
-#include "pso/ui/window/TWindowDD.h"
-#include "pso/object/ambient/TObjFish.h"
-#include "pso/player/TObjPlayer.h"
-#include "pso/render/render_util.h"
-#include "pso/player/TObjPlayer_80011014.h"
-#include "pso/math/AngleLookup.h"
 #include "pso/boss/goldragon/TBoss8Dragon_8002CC48.h"
+#include "pso/math/AngleLookup.h"
 #include "pso/math/MatrixVector.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/render/ChunkMaterialColor.h"
+#include "pso/render/ChunkMaterialState.h"
+#include "pso/render/GinjaView.h"
+#include "pso/render/model_render_state.h"
+#include "pso/render/render_util.h"
+#include "pso/system/vector.h"
+#include "pso/ui/window/TWindowDD.h"
 #include "pso/unk/text_803D853C.h"
+#include "types.h"
 
 #pragma readonly_strings on
 
-typedef struct Hamon_800A36A8 {
-    u8 pad0[0x1C];
-    u8 mtx1C[0x34 - 0x1C];
-    f32 scale;
-    u8 pad38[0x40 - 0x38];
-    f32 f40;
-    u8 pad44[0x4C - 0x44];
-    s32 delay;
-    u8 color50[0x10];
-} Hamon_800A36A8;
+extern "C" Vec *subtract_vector(Vec *v, const Vec *sub);
 
 struct Inner_800A4064 { u8 pad0[0xC]; s32 *p; };
 
 struct Entry_800A4064 { u8 pad0[8]; Inner_800A4064 *inner; };
 
-struct Obj_800A4064 {
-    u8 pad0[0x38];
-    s32 count;
-    Vec base[(0x108 - 0x3C) / 12];
-    Vec out[(0x1D4 - 0x108) / 12];
-    Vec dir[22];
-    u8 pad2DC[8];
-    f32 scale[(0x328 - 0x2E4) / 4];
-    s32 timer;
-    u8 pad32C[0x330 - 0x32C];
-    s32 type;
-    u8 pad334[0x340 - 0x334];
-    s32 active;
-};
+const char *TeneFakeTecThunderEff::class_name = "TeneFakeTecThunderEff";
+// The bolt's textures (set up by TObjPlayer__sub_800A4294) and the texture
+// render draws with.
+__declspec(section ".data") Entry_800A4064 *fake_tec_texlist[2];
+s32 fake_tec_texture;
 
-struct Vtx_800A3D1C { f32 x, y, z, u, v; u32 color; };
-
-struct Obj_800A3D1C {
-    u8 pad0[0x38];
-    s32 count;
-    u8 pad3C[0x108 - 0x3C];
-    Vec pts[17];
-    u8 pad1D4[0x32C - 0x1D4];
-    u32 color;
-    u8 pad330[0x10];
-    s32 active;
-};
-
-extern "C" {
-void build_beam_points__12TTecZondeEffFPv(struct Obj_800A39A8 *);
-void __ct__7TObjectFP7TObject(void *, void *);
-extern s32 __vt__21TeneFakeTecThunderEff[];
-const char *lbl_805D29E0 = "TeneFakeTecThunderEff";
-u8 *TObjPlayer__sub_800A4204(u8 *arg0, u8 *arg1, s32 arg2, s32 arg3, s32 arg4);
-extern s32 saved_model_render_flags;
-extern s32 model_render_flags;
-__declspec(section ".data") Entry_800A4064 *player_effect_task_list[2];
-s32 TObjPlayer__effect_count;
-extern const f32 lbl_805D99F8;
-extern const f32 lbl_805D9A04;
-extern const f32 lbl_805D9A08;
-extern const f32 lbl_805D99F0;
-extern const f32 lbl_805D99FC;
-extern const f32 lbl_805D9A00;
-
-struct Obj_800A39A8 {
-    u8 pad0[0x1C];
-    Vec a;
-    Vec d;
-    f32 step;
-    s32 count;
-    Vec pts[34];
-    Vec dirs[17];
-    f32 t[17];
-    f32 r[21];
-    Vec *from;
-    Vec *to;
-    u8 pad340[4];
-    s32 n;
-};
-
-s32 subtract_vector(void *, void *);
-s32 normalize_vector_safe__FP3Vec(Vec *);
-extern const f32 lbl_805D99F4;
 #pragma push
 #pragma fp_contract on
-void build_beam_points__12TTecZondeEffFPv(Obj_800A39A8 *o) {
+void TeneFakeTecThunderEff::build_beam_points() {
     f32 len;
     f32 ax;
     f32 ay;
@@ -115,29 +44,29 @@ void build_beam_points__12TTecZondeEffFPv(Obj_800A39A8 *o) {
     f32 fz;
     Vec *p;
 
-    VecCopy((Vec *)&o->a, (const Vec *)o->from);
-    VecCopy((Vec *)&o->d, (const Vec *)o->to);
-    subtract_vector(&o->d, o->from);
-    len = vector_length(&o->d);
-    o->step = len / o->n;
-    ax = o->a.x;
-    ay = o->a.y;
-    az = o->a.z;
-    dx = o->d.x;
-    dy = o->d.y;
-    dz = o->d.z;
-    o->count = 0;
-    for (i = 0; i < o->n; i++) {
-        f32 tt = (o->step * i) / (o->n - 1);
-        o->t[i] = tt;
-        o->pts[i].x = dx * tt + ax;
-        o->pts[i].y = dy * tt + ay;
-        o->pts[i].z = dz * tt + az;
+    VecCopy(&origin, from);
+    VecCopy(&delta, to);
+    subtract_vector(&delta, from);
+    len = vector_length(&delta);
+    segment_length = len / target_point_count;
+    ax = origin.x;
+    ay = origin.y;
+    az = origin.z;
+    dx = delta.x;
+    dy = delta.y;
+    dz = delta.z;
+    point_count = 0;
+    for (i = 0; i < target_point_count; i++) {
+        f32 tt = (segment_length * i) / (target_point_count - 1);
+        spacing[i] = tt;
+        base_points[i].x = dx * tt + ax;
+        base_points[i].y = dy * tt + ay;
+        base_points[i].z = dz * tt + az;
     }
-    o->count = o->n;
-    fx = fabs_float(o->d.x);
-    fy = fabs_float(o->d.y);
-    fz = fabs_float(o->d.z);
+    point_count = target_point_count;
+    fx = fabs_float(delta.x);
+    fy = fabs_float(delta.y);
+    fz = fabs_float(delta.z);
     if (fx > fy) {
         if (fx > fz) {
             axis = 0;
@@ -149,7 +78,7 @@ void build_beam_points__12TTecZondeEffFPv(Obj_800A39A8 *o) {
     } else {
         axis = 2;
     }
-    p = o->dirs;
+    p = jitter_dirs;
     switch (axis) {
     case 0: {
         f32 u;
@@ -158,17 +87,17 @@ void build_beam_points__12TTecZondeEffFPv(Obj_800A39A8 *o) {
         f32 e2;
         f32 e1;
         f32 v;
-        inv = lbl_805D99F0 / o->d.x;
-        e1 = o->d.y;
-        e2 = o->d.z;
-        k = lbl_805D99F4;
-        for (i = 0; i < o->count; i++) {
+        inv = 1.0f / delta.x;
+        e1 = delta.y;
+        e2 = delta.z;
+        k = 5.0f;
+        for (i = 0; i < point_count; i++) {
             u = k * rand_signed_unit();
             v = k * rand_signed_unit();
             p->y = u;
             p->z = v;
             p->x = inv * (u * e1 + v * e2);
-            normalize_vector_safe__FP3Vec(p);
+            normalize_vector_safe(p);
             p++;
         }
         break;
@@ -179,18 +108,18 @@ void build_beam_points__12TTecZondeEffFPv(Obj_800A39A8 *o) {
         f32 e2;
         f32 e1;
         f32 v;
-        inv = lbl_805D99F0 / o->d.y;
-        e1 = o->d.z;
-        e2 = o->d.x;
+        inv = 1.0f / delta.y;
+        e1 = delta.z;
+        e2 = delta.x;
         f32 k;
-        k = lbl_805D99F4;
-        for (i = 0; i < o->count; i++) {
+        k = 5.0f;
+        for (i = 0; i < point_count; i++) {
             u = k * rand_signed_unit();
             v = k * rand_signed_unit();
             p->z = u;
             p->x = v;
             p->y = inv * (u * e1 + v * e2);
-            normalize_vector_safe__FP3Vec(p);
+            normalize_vector_safe(p);
             p++;
         }
         break;
@@ -201,29 +130,28 @@ void build_beam_points__12TTecZondeEffFPv(Obj_800A39A8 *o) {
         f32 e2;
         f32 e1;
         f32 v;
-        inv = lbl_805D99F0 / o->d.z;
-        e1 = o->d.x;
-        e2 = o->d.y;
+        inv = 1.0f / delta.z;
+        e1 = delta.x;
+        e2 = delta.y;
         f32 k;
-        k = lbl_805D99F4;
-        for (i = 0; i < o->count; i++) {
+        k = 5.0f;
+        for (i = 0; i < point_count; i++) {
             u = k * rand_signed_unit();
             v = k * rand_signed_unit();
             p->x = u;
             p->y = v;
             p->z = inv * (u * e1 + v * e2);
-            normalize_vector_safe__FP3Vec(p);
+            normalize_vector_safe(p);
             p++;
         }
         break;
     }
     }
-    for (i = 1; i < o->count - 1; i++) {
-        o->r[i] = lbl_805D99F8 * rand_signed_unit();
+    for (i = 1; i < point_count - 1; i++) {
+        jitter[i] = 4.0f * rand_signed_unit();
     }
-    o->r[0] = lbl_805D99FC;
-    o->r[o->count - 1] = lbl_805D99FC;
-#undef o
+    jitter[0] = 0.0f;
+    jitter[point_count - 1] = 0.0f;
 }
 #pragma pop
 
@@ -231,8 +159,7 @@ void build_beam_points__12TTecZondeEffFPv(Obj_800A39A8 *o) {
 #pragma fp_contract on
 #pragma fp_contract on
 void TeneFakeTecThunderEff::render() {
-    Obj_800A3D1C *o = (Obj_800A3D1C *)this;
-    Vtx_800A3D1C verts[34];
+    TeneFakeTecThunderVertex verts[34];
     Vec out[17];
     f32 sa[17];
     f32 sb[17];
@@ -257,12 +184,12 @@ void TeneFakeTecThunderEff::render() {
     f32 inv;
     f32 nx;
     f32 ny;
-    u32 color;
+    u32 vertex_color;
     Vec *q;
-    Vtx_800A3D1C *p;
+    TeneFakeTecThunderVertex *p;
     s32 i;
     s32 j;
-    if (this->m_340 == 0) {
+    if (active == 0) {
         return;
     }
     saved_model_render_flags = model_render_flags;
@@ -270,14 +197,14 @@ void TeneFakeTecThunderEff::render() {
     sw = screen_projection.distance;
     cx = screen_projection.center_x;
     cy = screen_projection.center_y;
-    sh = sw * (lbl_805D9A00 / (lbl_805D9A00 * screen_projection.width));
-    color = o->color | 0xFFFFFF;
-    for (i = 0; i < this->m_38; i++) {
-        matrix_mult_vec(0, &o->pts[i], &v);
-        if (v.z >= lbl_805D99F0) {
-            v.z = lbl_805D99F0;
+    sh = sw * (480.0f / (480.0f * screen_projection.width));
+    vertex_color = color | 0xFFFFFF;
+    for (i = 0; i < point_count; i++) {
+        matrix_mult_vec(0, &points[i], &v);
+        if (v.z >= 1.0f) {
+            v.z = 1.0f;
         }
-        w = lbl_805D99F0 / -v.z;
+        w = 1.0f / -v.z;
         v.y = -v.y;
         a = sh * w;
         b = sw * w;
@@ -287,15 +214,15 @@ void TeneFakeTecThunderEff::render() {
         sb[i] = b;
         out[i].z = w;
     }
-    vv = lbl_805D99FC;
+    vv = 0.0f;
     u0 = vv;
     p = verts;
     q = &out[1];
     prevX = out[0].x;
     prevY = out[0].y;
     prevZ = out[0].z;
-    one = lbl_805D99F0;
-    for (j = 0; j < this->m_38 - 1; j++) {
+    one = 1.0f;
+    for (j = 0; j < point_count - 1; j++) {
         curY = q->y;
         curX = q->x;
         dy = curY - prevY;
@@ -310,7 +237,7 @@ void TeneFakeTecThunderEff::render() {
         p[0].z = prevZ;
         p[0].u = u0;
         p[0].v = vv;
-        p[0].color = color;
+        p[0].color = vertex_color;
         p[1].x = prevX - nx;
         p[1].y = prevY - ny;
         p[1].z = prevZ;
@@ -319,27 +246,27 @@ void TeneFakeTecThunderEff::render() {
         p[1].u = one;
         p[1].v = vv;
         vv += one;
-        p[1].color = color;
+        p[1].color = vertex_color;
         p += 2;
         prevX = curX;
         prevY = curY;
     }
-    nx = lbl_805D99F0 * (dy * sa[this->m_38 - 1]);
-    ny = lbl_805D99F0 * (-dx * sb[this->m_38 - 1]);
+    nx = one * (dy * sa[point_count - 1]);
+    ny = one * (-dx * sb[point_count - 1]);
     p[0].x = prevX + nx;
     p[0].y = prevY + ny;
     p[0].z = prevZ;
-    p[0].u = lbl_805D99FC;
+    p[0].u = 0.0f;
     p[0].v = vv;
-    p[0].color = color;
+    p[0].color = vertex_color;
     p[1].x = prevX - nx;
     p[1].y = prevY - ny;
     p[1].z = prevZ;
-    p[1].u = lbl_805D99F0;
+    p[1].u = one;
     p[1].v = vv;
-    p[1].color = color;
+    p[1].color = vertex_color;
     set_additive_blend();
-    ((TWindowDD *)verts)->draw_transformed_primitive(this->m_38 * 2, TObjPlayer__effect_count, 1);
+    ((TWindowDD *)verts)->draw_transformed_primitive(point_count * 2, fake_tec_texture, 1);
     set_constant_material(&chunk_material_color_half_alpha_f32);
     model_render_flags = saved_model_render_flags;
 }
@@ -348,43 +275,35 @@ void TeneFakeTecThunderEff::render() {
 #pragma push
 #pragma fp_contract on
 void TeneFakeTecThunderEff::run_task() {
-    Obj_800A4064 *self = (Obj_800A4064 *)this;
     s32 i;
-    if (this->m_340 != 0) {
-        build_beam_points__12TTecZondeEffFPv((Obj_800A39A8 *)self);
-        TObjPlayer__effect_count = *player_effect_task_list[0][this->m_330].inner->p;
-        for (i = 0; i < this->m_38; i++) {
-            self->scale[i] = lbl_805D99F8 * (lbl_805D9A08 * sin_table_lookup(this->m_328 * 0x1800) + lbl_805D9A04);
+    if (active != 0) {
+        build_beam_points();
+        fake_tec_texture = *fake_tec_texlist[0][texture].inner->p;
+        for (i = 0; i < point_count; i++) {
+            jitter[i] = 4.0f * (0.1f * sin_table_lookup(timer * 0x1800) + 0.2f);
         }
-        for (i = 0; i < this->m_38; i++) {
-            f32 s = self->scale[i];
-            self->out[i].x = self->dir[i].x * s + self->base[i].x;
-            self->out[i].y = self->dir[i].y * s + self->base[i].y;
-            self->out[i].z = self->dir[i].z * s + self->base[i].z;
+        for (i = 0; i < point_count; i++) {
+            f32 s = jitter[i];
+            points[i].x = jitter_dirs[i].x * s + base_points[i].x;
+            points[i].y = jitter_dirs[i].y * s + base_points[i].y;
+            points[i].z = jitter_dirs[i].z * s + base_points[i].z;
         }
-        this->m_328++;
+        timer++;
     }
 }
 #pragma pop
 
-}
-TeneFakeTecThunderEff::~TeneFakeTecThunderEff() {
+TeneFakeTecThunderEff::~TeneFakeTecThunderEff() {}
 
+TeneFakeTecThunderEff::TeneFakeTecThunderEff(TObject *parent, Vec *from, Vec *to, s32 point_count) : TObject(parent) {
+    m_name = class_name;
+    this->from = from;
+    this->to = to;
+    texture = 0;
+    pad_334 = 0;
+    target_point_count = point_count;
+    build_beam_points();
+    timer = 0;
+    color = 0xFF000000;
+    active = 0;
 }
-
-u8 *TObjPlayer__sub_800A4204(u8 *effect, u8 *parent, s32 target, s32 arg3, s32 arg4) {
-    __ct__7TObjectFP7TObject(effect, parent);
-    *(s32 **)((s8 *)effect + 0x18) = __vt__21TeneFakeTecThunderEff;
-    ((TeneFakeTecThunderEff *)effect)->m_name = lbl_805D29E0;
-    ((TeneFakeTecThunderEff *)effect)->m_338 = target;
-    *(s32 *)((s8 *)effect + 0x33C) = arg3;
-    ((TeneFakeTecThunderEff *)effect)->m_330 = 0;
-    *(s32 *)((s8 *)effect + 0x334) = 0;
-    *(s32 *)((s8 *)effect + 0x344) = arg4;
-    build_beam_points__12TTecZondeEffFPv((Obj_800A39A8 *)effect);
-    ((TeneFakeTecThunderEff *)effect)->m_328 = 0;
-    *(s32 *)((s8 *)effect + 0x32C) = 0xFF000000;
-    ((TeneFakeTecThunderEff *)effect)->m_340 = 0;
-    return effect;
-}
-

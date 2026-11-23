@@ -1488,9 +1488,6 @@ pso/effect/enemy/TEneEffHamon.cpp:
 	.sbss       start:0x805D5030 end:0x805D5038
 	.sdata2     start:0x805D99E0 end:0x805D99F0
 
-pso/effect/enemy/TeneFakeTecThunderEffSdata2.cpp:
-	.sdata2     start:0x805D99F0 end:0x805D9A10
-
 pso/effect/enemy/TeneFakeTecThunderEff.cpp:
 	.text       start:0x800A39A8 end:0x800A4288
 	.rodata     start:0x8043A718 end:0x8043A738
@@ -1498,6 +1495,7 @@ pso/effect/enemy/TeneFakeTecThunderEff.cpp:
 	.bss        start:0x80500970 end:0x80500978
 	.sdata      start:0x805D29E0 end:0x805D29E8
 	.sbss       start:0x805D5038 end:0x805D503C
+	.sdata2     start:0x805D99F0 end:0x805D9A10
 
 pso/enemy/saver/SaverLifecycle.cpp:
 	.text       start:0x800A4288 end:0x800A7764

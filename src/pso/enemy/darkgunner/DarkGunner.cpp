@@ -291,9 +291,9 @@ s16 *TObjEneDarkGunner__body_child_polygons;
 
 s16 *TObjEneDarkGunner__cly_line_polygons;
 
-void TeneFakeTecThunderEff::set_cancel_flag() { m_340 = 1; }
+void TeneFakeTecThunderEff::set_cancel_flag() { active = 1; }
 
-void TeneFakeTecThunderEff::clear_counter() { m_340 = 0; }
+void TeneFakeTecThunderEff::clear_counter() { active = 0; }
 
 void TObjEneDarkGunner::set_fields_24_34_from_global(void *a1) {
     this->model = get_bml_model(TObjEneDarkGunner__bml_resource, (s32)(saddr)a1);
@@ -697,11 +697,7 @@ void TObjEneDarkGunner::update_attack() {
         {
             s32 i;
             for (i = 0; i < 4; i++) {
-                void *p = TObject::operator new(0x348);
-                if (p != NULL) {
-                    p = TObjPlayer__sub_800A4204((u8 *)p, (u8 *)this, (saddr)&shadow_pos, (saddr)&child_offsets[i], 2);
-                }
-                children[i] = (TeneFakeTecThunderEff *)p;
+                children[i] = new TeneFakeTecThunderEff(this, &shadow_pos, &child_offsets[i], 2);
             }
         }
         break;

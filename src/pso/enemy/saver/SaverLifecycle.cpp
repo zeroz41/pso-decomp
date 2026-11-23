@@ -99,8 +99,8 @@ struct A_800A4294 { u8 pad[0x8]; B_800A4294 *b; };
 struct G_800A4294 { A_800A4294 *p; s32 n; u8 pad[0x8]; };
 
 extern A_800A4294 lbl_804CC8C8;
-extern G_800A4294 player_effect_task_list;
-extern int TObjPlayer__effect_count;
+extern G_800A4294 fake_tec_texlist;
+extern int fake_tec_texture;
 
 extern "C" {
 __declspec(section ".data") void *bm_ene_df1_saver_model_names[2] = {
@@ -141,12 +141,12 @@ CollisionBody saver_collision_body_part_table[1] = {
 };
 }
 
-void TObjPlayer::reset_effect_count() { TObjPlayer__effect_count = 0; }
+void TObjPlayer::reset_effect_count() { fake_tec_texture = 0; }
 
 void TObjPlayer__sub_800A4294(void) {
-    player_effect_task_list.p = &lbl_804CC8C8;
-    player_effect_task_list.n = 0x10;
-    (*(s32 *)&TObjPlayer__effect_count) = player_effect_task_list.p->b->c->x0;
+    fake_tec_texlist.p = &lbl_804CC8C8;
+    fake_tec_texlist.n = 0x10;
+    (*(s32 *)&fake_tec_texture) = fake_tec_texlist.p->b->c->x0;
 }
 
 void TObjEneSaver::run_demo_task() {}

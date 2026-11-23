@@ -4708,7 +4708,7 @@ force_active:
   - build_6x69_npc_control__FPv
   - build_6x75_update_quest_flag_dc__FPv
   - build_6xAD_olga_flow_subordinate_boss_actions__FPv
-  - build_beam_points__12TTecZondeEffFPv
+  - build_beam_points__21TeneFakeTecThunderEffFv
   - build_box_triangles__10TObjMapCsnFv
   - build_collision_box_corners
   - build_dead_list_window__15TObjDeadListWinFv
