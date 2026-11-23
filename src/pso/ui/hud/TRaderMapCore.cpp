@@ -539,7 +539,7 @@ TRaderMapCore::TRaderMapCore(TObject *parent) : TObjBase(parent) {
     m_174 = 0;
     TRaderMapCore__instance = this;
     m_90 = 0x3C;
-    m_198 = 0;
+    angle = 0;
     m_19c = 0.0f;
     m_184 = 0;
     m_188 = 0.0f;
@@ -610,8 +610,8 @@ void TRaderMapCore::run_task() {
 }
 
 void TRaderMapCore::advance_scroll() {
-    this->m_198 = (this->m_198 + 0x888);
-    this->m_19c = 127.0f + 64.0f * (1.0f + sin_table_lookup(this->m_198));
+    this->angle = (this->angle + 0x888);
+    this->m_19c = 127.0f + 64.0f * (1.0f + sin_table_lookup(this->angle));
 }
 }
 #pragma fp_contract reset

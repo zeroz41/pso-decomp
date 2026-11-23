@@ -62,7 +62,7 @@ struct TRaderMapCore : public TObjBase {
     f32 m_18c;
     f32 m_190;
     u32 m_194;
-    s32 m_198;
+    s32 angle;
     f32 m_19c;
     f32 m_1a0;
 
