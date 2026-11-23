@@ -97,31 +97,31 @@ void TObjPlayer::set_shared_flag(int a0) { shared_flag = a0; }
 
 void TObjPlayer::set_shared_count(int a0) { lbl_805D5D70 = a0; }
 
-void Obj_803374C4::add_item_count_kind4(s32 class_index, u8 amount) {
+void MaterialUsage::add_item_count_kind4(s32 class_index, u8 amount) {
     try_add_item_count(class_index, 4, amount);
 }
-void Obj_803374C4::try_add_item_count_kind3(s32 class_index, u8 amount) {
+void MaterialUsage::try_add_item_count_kind3(s32 class_index, u8 amount) {
     try_add_item_count(class_index, 3, amount);
 }
-void Obj_803374C4::try_add_item_count_type2(s32 class_index, u8 amount) {
+void MaterialUsage::try_add_item_count_type2(s32 class_index, u8 amount) {
     try_add_item_count(class_index, 2, amount);
 }
-void Obj_803374C4::add_item_count(s32 class_index, u8 amount) {
+void MaterialUsage::add_item_count(s32 class_index, u8 amount) {
     try_add_item_count(class_index, 1, amount);
 }
-void Obj_803374C4::try_add_item(s32 class_index, u8 amount) {
+void MaterialUsage::try_add_item(s32 class_index, u8 amount) {
     try_add_item_count(class_index, 0, amount);
 }
-u8 Obj_803374C4::fn_801BED70() { return counts[4]; }
-u8 Obj_803374C4::fn_801BED78() { return counts[3]; }
-u8 Obj_803374C4::fn_801BED80() { return counts[2]; }
-u8 Obj_803374C4::fn_801BED88() { return counts[1]; }
-u8 Obj_803374C4::fn_801BED90() { return counts[0]; }
-void Obj_803374C4::fn_801BED98(u8 v) { counts[4] = v; }
-void Obj_803374C4::fn_801BEDA0(u8 v) { counts[3] = v; }
-void Obj_803374C4::fn_801BEDA8(u8 v) { counts[2] = v; }
-void Obj_803374C4::fn_801BEDB0(u8 v) { counts[1] = v; }
-void Obj_803374C4::fn_801BEDB8(u8 v) { counts[0] = v; }
+u8 MaterialUsage::fn_801BED70() { return counts[4]; }
+u8 MaterialUsage::fn_801BED78() { return counts[3]; }
+u8 MaterialUsage::fn_801BED80() { return counts[2]; }
+u8 MaterialUsage::fn_801BED88() { return counts[1]; }
+u8 MaterialUsage::fn_801BED90() { return counts[0]; }
+void MaterialUsage::fn_801BED98(u8 v) { counts[4] = v; }
+void MaterialUsage::fn_801BEDA0(u8 v) { counts[3] = v; }
+void MaterialUsage::fn_801BEDA8(u8 v) { counts[2] = v; }
+void MaterialUsage::fn_801BEDB0(u8 v) { counts[1] = v; }
+void MaterialUsage::fn_801BEDB8(u8 v) { counts[0] = v; }
 
 extern s32 lbl_804C3E44[];
 

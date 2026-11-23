@@ -7,7 +7,7 @@ struct T_803374C4 { u8 b[8]; void *p; };
 extern char lbl_804C3E44[];
 extern "C" {
 T_803374C4 *TObjPlayer__sub_803374C4(T_803374C4 *self);
-s32 Obj_803374C4::try_add_item_count(s32 class_index, s32 index, u8 amount) {
+s32 MaterialUsage::try_add_item_count(s32 class_index, s32 index, u8 amount) {
     u8 total_materials_used;
 
     total_materials_used = get_total_materials_used();
@@ -18,7 +18,7 @@ s32 Obj_803374C4::try_add_item_count(s32 class_index, s32 index, u8 amount) {
     return 1;
 }
 
-s32 Obj_803374C4::can_use_more_materials(s32 class_index) {
+s32 MaterialUsage::can_use_more_materials(s32 class_index) {
     u8 t = get_total_materials_used();
     if (t >= get_material_limit_for_class(class_index)) {
         return 1;
@@ -27,7 +27,7 @@ s32 Obj_803374C4::can_use_more_materials(s32 class_index) {
 }
 }
 
-u8 Obj_803374C4::get_total_materials_used() {
+u8 MaterialUsage::get_total_materials_used() {
     u8 sum;
     sum = fn_801BED90();
     sum += fn_801BED88();

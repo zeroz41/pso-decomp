@@ -175,7 +175,7 @@ struct TObjPlayer : public TObjChara {
     u8 unk_364[0x8];
     s32 m_36c;
     u8 unk_370[0x4];
-    Obj_803374C4 materials;
+    MaterialUsage materials;
     // Inferred: the action provider init_action_provider creates (TUnk_804DDBF0 or TUnk_804ED7D0).
     TUnk_804DDD28 *action_provider;
     void* m_384;
