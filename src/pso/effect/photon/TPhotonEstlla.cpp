@@ -1,3 +1,4 @@
+#include "pso/effect/photon/TPhotonMagicSquare.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/effect/photon/TPhotonEstlla.h"
@@ -75,7 +76,6 @@ struct Self_801AA818 {
     s32 started;
 };
 
-u8 *construct_photon_magic_square_normal(u8 *arg0, saddr arg1, s32 arg2, saddr arg3, s32 arg4);
 const char *TPhotonEstlla__class_name = "TPhotonEstlla";
 extern const PhotonLineParams photon_estlla_line_packet_init = {
     { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, 10.0f, 0.0f
@@ -153,7 +153,6 @@ void TPhotonEstlla::run_task() {
     u8 *arg0 = (u8 *)this;
     Vec stack;
     f32 temp_f1;
-    uaddr photon_magic_square;
     u8 *entity;
     *(s32 *)&this->m_1a0 = (s32) (*(s32 *)&this->m_1a0 + 1);
     if (((s32) *(s32 *)&this->m_1a0 == 0x32) && ((s32) *(s32 *)&this->m_19c == 0)) {
@@ -164,10 +163,7 @@ void TPhotonEstlla::run_task() {
             stack.y = 3e+01f + *(f32 *)((s8 *)entity + 0x3C);
             stack.z = *(f32 *)((s8 *)entity + 0x40);
         }
-        photon_magic_square = (uaddr)TObject::operator new(0xD0);
-        if (photon_magic_square != 0U) {
-            construct_photon_magic_square_normal((u8 *)photon_magic_square, (saddr)arg0, 1, (saddr)&stack.x, 0x78);
-        }
+        new TPhotonMagicSquare((TObject *)arg0, 1, (Vec *)&stack.x, 0x78);
     }
     if (((s32) *(s32 *)&this->m_1a0 == 0x64) && ((s16) this->requested_action == 1)) {
         ((TPhotonBlastSummon *)arg0)->begin_photon_summon_camera(0);
@@ -269,10 +265,7 @@ TPhotonEstlla::TPhotonEstlla(u8 *arg1) : TPhotonBlastSummon() {
             pos.y = 3e+01f + *(f32 *)((s8 *)e + 0x3C);
             pos.z = *(f32 *)((s8 *)e + 0x40);
         }
-        p = (void *)TObject::operator new(0xD0);
-        if (p != NULL) {
-            construct_photon_magic_square_normal((u8 *)p, (saddr)this, 1, (saddr)&pos, 0x78);
-        }
+        new TPhotonMagicSquare(this, 1, &pos, 0x78);
         spawn_photon_blast_attachment_effects(1);
         play_cue_stream_file((saddr)"estla2.adx");
     } else {

@@ -1058,7 +1058,7 @@ pso/effect/photon/TPhotonGolla.cpp
 pso/effect/photon/TPhotonLaser.cpp
 pso/effect/photon/TPhotonLeilla.cpp
 pso/effect/photon/TPhotonLine.cpp
-pso/effect/photon/TPhotonMagicSquare_801ACE1C.cpp
+pso/effect/photon/TPhotonMagicSquare.cpp
 pso/effect/photon/TPhotonMylla.cpp
 pso/effect/photon/TPhotonPilla.cpp
 pso/effect/photon/TPhotonRainbow.cpp

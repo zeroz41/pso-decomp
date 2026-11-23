@@ -1,3 +1,4 @@
+#include "pso/effect/photon/TPhotonMagicSquare.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/effect/photon/PhotonBlastSummon.h"
@@ -113,7 +114,6 @@ struct Game_801AD970 { u8 pad[0x42C]; Res_801AD970 *res; s32 f430; };
 extern "C" {
 u16 get_entity_id(void *);
 void *find_entity_by_id(u16 id);
-u8 *TPhotonMagicSquare__ct(u8 *arg0, saddr arg1, s32 arg2, saddr arg3, s32 arg4, f32 farg0);
 s32 rotate_matrix_y(int, int);
 }
 void queue_photon_blast_hit(u32 identity, s32 kind, s32 allow_duplicate, f32 scale);
@@ -194,7 +194,6 @@ void TPhotonMylla::run_task() {
     Stack_801AD5D8 stack;
     f32 temp_f1_2;
     u8 *entity;
-    u8 *photon_magic_square;
     u8 *temp_r3_3;
     u8 *temp_r3_4;
     u8 *temp_r3_5;
@@ -205,10 +204,7 @@ void TPhotonMylla::run_task() {
             VecCopy((Vec *)(&stack.sp2C), (const Vec *)(entity + 0x38));
         }
         stack.sp30 += 30.0f;
-        photon_magic_square = (u8 *)TObject::operator new(0xD0);
-        if (photon_magic_square != NULL) {
-            TPhotonMagicSquare__ct((u8 *)photon_magic_square, (saddr)arg0, 5, (saddr)&stack.sp2C, 0xAA, 0.5f);
-        }
+        new TPhotonMagicSquare((TObject *)arg0, 5, (Vec *)&stack.sp2C, 0xAA, 0.5f);
     }
     if ((100.0f == (f32) ((RecoveredFields_801AD5D8_arg0 *)arg0)->field_1A4) && ((s16) ((RecoveredFields_801AD5D8_arg0 *)arg0)->field_B8 == 1)) {
         ((TPhotonBlastSummon *)arg0)->begin_photon_summon_camera(3);
@@ -351,10 +347,7 @@ void *TPhotonMylla__ct(Mylla_801AD970 *self, Pkt_801AD970 *pkt) {
             VecCopy((Vec *)&v, (const Vec *)(owner + 0x38));
         }
         v.y += 30.0f;
-        o = (u8 *)TObject::operator new(0xD0);
-        if (o != NULL) {
-            TPhotonMagicSquare__ct((u8 *)o, (saddr)self, 5, (saddr)&v, 0xAA, 0.5f);
-        }
+        new TPhotonMagicSquare((TObject *)self, 5, &v, 0xAA, 0.5f);
         ((TPhotonBlastSummon *)self)->spawn_photon_blast_attachment_effects(5);
         play_cue_stream_file((saddr)"maila2.adx");
     } else {

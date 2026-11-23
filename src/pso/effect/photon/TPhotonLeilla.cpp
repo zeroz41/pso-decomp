@@ -1,3 +1,4 @@
+#include "pso/effect/photon/TPhotonMagicSquare.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/effect/photon/PhotonBlastSummon.h"
 #include "pso/system/MatrixStack.h"
@@ -59,7 +60,6 @@ struct Self_801AC45C {
 extern "C" {
 u16 get_entity_id(void *);
 }
-u8 *construct_photon_magic_square_normal(u8 *arg0, saddr arg1, s32 arg2, saddr arg3, s32 arg4);
 extern "C" {
 u8 *__nw__7TObjectFUl(s32, f32);
 
@@ -109,10 +109,8 @@ void TPhotonLeilla::run_task() {
     LAYOUT_ASSERT(sp8_offset, offsetof(Stack_801AC574, sp8) == 0x0);
     LAYOUT_ASSERT(spC_offset, offsetof(Stack_801AC574, spC) == 0x4);
     Stack_801AC574 stack;
-    f32 temp_f1;
     f32 temp_f1_2;
     u8 *entity;
-    u8 *photon_magic_square;
     u8 *temp_r3_3;
     *(s32 *)&this->m_1ac = (s32) (*(s32 *)&this->m_1ac + 1);
     if (((s32) *(s32 *)&this->m_1ac == 0x32) && ((s32) *(s32 *)&this->m_19c == 0)) {
@@ -122,12 +120,8 @@ void TPhotonLeilla::run_task() {
         if (entity != NULL) {
             VecCopy((Vec *)(&stack.sp8), (const Vec *)(entity + 0x38));
         }
-        temp_f1 = stack.spC;
         stack.spC += 3e+01f;
-        photon_magic_square = (u8 *)(__nw__7TObjectFUl(0xD0, temp_f1));
-        if (photon_magic_square != NULL) {
-            construct_photon_magic_square_normal((u8 *)photon_magic_square, (saddr)arg0, 4, (saddr)&stack.sp8, 0x78);
-        }
+        new TPhotonMagicSquare((TObject *)arg0, 4, (Vec *)&stack.sp8, 0x78);
     }
     if ((5e+01f == (f32) *(s32 *)&this->m_1ac) && ((s16) this->requested_action == 1)) {
         ((TPhotonBlastSummon *)arg0)->begin_photon_summon_camera(2);
@@ -259,10 +253,7 @@ void *TPhotonLeilla__ct(Leilla_801AC808 *self, Pkt_801AC808 *pkt) {
             VecCopy((Vec *)&v, (const Vec *)(owner + 0x38));
         }
         v.y += 3e+01f;
-        o = NEW_801AC808(0xD0);
-        if (o != NULL) {
-            construct_photon_magic_square_normal((u8 *)o, (saddr)self, 4, (saddr)&v, 0x78);
-        }
+        new TPhotonMagicSquare((TObject *)self, 4, &v, 0x78);
         ((TPhotonBlastSummon *)self)->spawn_photon_blast_attachment_effects(4);
         play_cue_stream_file((saddr)"reila2.adx");
     } else {

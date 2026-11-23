@@ -1,3 +1,4 @@
+#include "pso/effect/photon/TPhotonMagicSquare.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/effect/photon/TPhotonFarlla.h"
@@ -129,7 +130,6 @@ struct Stack_801AB018 {
     u8 trailing_storage[0x4];
 };
 
-u8 *construct_photon_magic_square_normal(u8 *arg0, saddr arg1, s32 arg2, saddr arg3, s32 arg4);
 extern "C" {
 
 #pragma push
@@ -148,7 +148,6 @@ void TPhotonFarlla::run_task() {
     saddr temp_r3_3;
     s32 temp_r3_4;
     saddr temp_r3_5;
-    uaddr photon_magic_square;
     *(s32 *)&this->unk_1A4 = (s32) (*(s32 *)&this->unk_1A4 + 1);
     if (((s32) *(s32 *)&this->unk_1A4 == 0x32) && ((s32) this->m_1a0 == 0)) {
         this->m_1a0 = 1;
@@ -157,10 +156,7 @@ void TPhotonFarlla::run_task() {
             VecCopy((Vec *)(&stack.sp20), (const Vec *)(entity + 0x38));
             stack.sp24 += 3e+01f;
         }
-        photon_magic_square = (uaddr)TObject::operator new(0xD0);
-        if (photon_magic_square != 0U) {
-            construct_photon_magic_square_normal((u8 *)photon_magic_square, (saddr)arg0, 0, (saddr)&stack.sp20, 0x78);
-        }
+        new TPhotonMagicSquare((TObject *)arg0, 0, (Vec *)&stack.sp20, 0x78);
     }
     if (((s32) *(s32 *)&this->unk_1A4 == 0x64) && ((s16) this->requested_action == 1)) {
         ((TPhotonBlastSummon *)arg0)->begin_photon_summon_camera(1);
@@ -323,10 +319,7 @@ u8 *TPhotonFarlla__ct(u8 *summon, u8 *arg1) {
             VecCopy((Vec *)&pos, (const Vec *)(e + 0x38));
             pos.y += 3e+01f;
         }
-        p = (void *)TObject::operator new(0xD0);
-        if (p != NULL) {
-            construct_photon_magic_square_normal((u8 *)p, (saddr)summon, 0, (saddr)&pos, 0x78);
-        }
+        new TPhotonMagicSquare((TObject *)summon, 0, &pos, 0x78);
         ((TPhotonBlastSummon *)summon)->spawn_photon_blast_attachment_effects(0);
         play_cue_stream_file((saddr)"farla2.adx");
     } else {

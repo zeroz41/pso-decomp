@@ -1,3 +1,4 @@
+#include "pso/effect/photon/TPhotonMagicSquare.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/task/TObject.h"
@@ -31,7 +32,6 @@
 #include "pso/math/MatrixTransforms.h"
 #include "pso/unk/text_803D853C.h"
 #include "pso/object/base/CollisionActorLookup.h"
-#include "pso/effect/photon/TPhotonMagicSquare_801ACE1C.h"
 
 struct Stack_801ABBAC {
     s32 sp8;
@@ -304,7 +304,6 @@ void TPhotonGolla::run_task() {
     Stack_801ABBAC stack;
     s32 temp_r0;
     saddr entity;
-    uaddr photon_magic_square;
     *(s32 *)&this->unk_1C8 = (s32) (*(s32 *)&this->unk_1C8 + 1);
     if (((s32) *(s32 *)&this->unk_1C8 == 0x32) && ((s32) this->m_1c4 == 0)) {
         this->m_1c4 = 1;
@@ -314,10 +313,7 @@ void TPhotonGolla::run_task() {
             VecCopy((Vec *)(&stack.sp8), (const Vec *)(entity + 0x38));
         }
         stack.spC += 3e+01f;
-        photon_magic_square = (uaddr)TObject::operator new(0xD0);
-        if (photon_magic_square != 0U) {
-            TPhotonMagicSquare__ct((u8 *)photon_magic_square, (saddr)arg0, 3, (saddr)&stack.sp8, 0xFA, (f32)0.5f);
-        }
+        new TPhotonMagicSquare((TObject *)arg0, 3, (Vec *)&stack.sp8, 0xFA, 0.5f);
     }
     if ((5e+01f == (f32) *(s32 *)&this->unk_1C8) && ((s16) this->requested_action == 1)) {
         ((TPhotonBlastSummon *)arg0)->begin_photon_summon_camera(5);
@@ -479,10 +475,7 @@ u8 *TPhotonGolla__ct(u8 *summon, u8 *arg1) {
             VecCopy((Vec *)&pos, (const Vec *)(e + 0x38));
         }
         pos.y += 3e+01f;
-        p = (void *)TObject::operator new(0xD0);
-        if (p != NULL) {
-            TPhotonMagicSquare__ct((u8 *)p, (saddr)summon, 3, (saddr)&pos, 0x96, (f32)0.5f);
-        }
+        new TPhotonMagicSquare((TObject *)summon, 3, &pos, 0x96, 0.5f);
         ((TPhotonBlastSummon *)summon)->spawn_photon_blast_attachment_effects(2);
         play_cue_stream_file((saddr)"goula2.adx");
     } else {

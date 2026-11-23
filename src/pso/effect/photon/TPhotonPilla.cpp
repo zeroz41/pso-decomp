@@ -1,3 +1,4 @@
+#include "pso/effect/photon/TPhotonMagicSquare.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "types.h"
@@ -27,7 +28,6 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/effect/photon/TPhotonLaser.h"
 #include "pso/object/trap/TOTrapAncient01_80226534.h"
-#include "pso/effect/photon/TPhotonMagicSquare_801ACE1C.h"
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/system/MatrixOps.h"
@@ -145,10 +145,7 @@ void TPhotonPilla::run_task() {
             VecCopy((Vec *)&sp8, (const Vec *)(entity + 0x38));
         }
         sp8.y += 3e+01f;
-        entity = (saddr)TObject::operator new(0xD0);
-        if (entity != 0U) {
-            TPhotonMagicSquare__ct((u8 *)entity, (saddr)this, 3, (saddr)&sp8, 0xD2, 0.5f);
-        }
+        new TPhotonMagicSquare(this, 3, (Vec *)&sp8, 0xD2, 0.5f);
     }
     if ((5e+01f == (f32) *(s32 *)((s8 *)this + 0x1A8)) && ((s16) this->requested_action == 1) && ((s32) this->m_1a4 == 1)) {
         begin_photon_summon_camera(4);
@@ -299,10 +296,7 @@ u8 *TPhotonPilla__ct(u8 *photon_rainbow, u8 *arg1) {
         {
         Vec pos = *(Vec *)((s8 *)photon_rainbow + 0x38);
         pos.y += 4e+01f;
-        mem = TObject::operator new(0xD0);
-        if (mem != NULL) {
-            TPhotonMagicSquare__ct((u8 *)mem, (saddr)photon_rainbow, 3, (saddr)&pos, 0xAA, 0.5f);
-        }
+        new TPhotonMagicSquare((TObject *)photon_rainbow, 3, &pos, 0xAA, 0.5f);
         }
         ((TPhotonBlastSummon *)photon_rainbow)->spawn_photon_blast_attachment_effects(3);
         play_cue_stream_file((saddr)"paila2.adx");

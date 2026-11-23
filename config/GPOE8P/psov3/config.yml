@@ -1655,8 +1655,8 @@ force_active:
   - TParticleCtrl__particle_entry_path
   - TParticleCtrl__sub_800884F0
   - TParticleCtrl__sub_802C8464
-  - TPhotonMagicSquare__color_palette
-  - TPhotonMagicSquare__data_805D3508
+  - color_palette__18TPhotonMagicSquare
+  - photon_magic_square_class_name
   - TPlayerBattleCtrl4P__message_table_language0
   - TPlayerBattleCtrl__ct
   - TPlyCharData__global_character_data

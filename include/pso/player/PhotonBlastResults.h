@@ -4,6 +4,11 @@
 #include "types.h"
 
 class TUnk_804C349C;
+struct BmlResource;
+
+// The models and motions the photon blast effects draw, loaded by
+// load_photon_blast_resources.
+extern BmlResource *photon_blast_shared_resource;
 
 // One player's photon blast chain (photon_blast_sequence_table, one per
 // client): the chained kinds and participants and its state (0 none,
