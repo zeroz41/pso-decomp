@@ -1,3 +1,4 @@
+#include "pso/item/TItemIdCounters.h"
 #include "pso/unk/TLobby_801E43E4.h"
 #include "types.h"
 #include "pso/player/TObjPlayer_80120FC4.h"
@@ -151,12 +152,10 @@
 // ---- TLobby_80104374.cpp
 
 extern "C" {
-extern int* item_sync_counter_table;
 s32 get_item_icon_index();
 void TLobby__sub_80104464(void);
 int fn_80077788(void);
 int fn_80077790(void);
-void send_6x25_equip_item(void *arg0, s32 arg1, s32 arg2);
 extern s32 local_client_id;
 extern s32 TLobby__designated_client_id;
 s32 TItemDropSub__sub_80107B74();
@@ -464,7 +463,7 @@ void TLobby::forward_to_player(int id, void *item) {
         player = get_player_by_client_id((u16)id);
         if ((player != NULL) && ((TObjPlayer::is_locally_controlled(player) == 1) || ((player->obj_isState3_324() == 1) && ((s32) local_client_id == (s32) TLobby__designated_client_id)) || ((player->is_script_controlled() == 1) && ((s32) local_client_id == (s32) TLobby__designated_client_id)))) {
             player->request_inventory_item((TItemData*)item);
-            send_6x25_equip_item((void *)player, *(s32 *)((s8 *)item + 0xC), 0);
+            send_6x25_equip_item((TObjPlayer *)player, *(s32 *)((s8 *)item + 0xC), 0);
         }
     }
 }
@@ -497,7 +496,7 @@ void TLobby::handle_player_event(s32 arg0, s32 arg1) {
             break;
         }
         if (item != NULL) {
-            TObjPlayer::send_6x26_unequip_item((void *)player, item->get_item_id());
+            TObjPlayer::send_6x26_unequip_item((TObjPlayer *)player, item->get_item_id());
         }
     }
 }

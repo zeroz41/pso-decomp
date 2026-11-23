@@ -478,7 +478,7 @@ s32 TObjEneDf2Bringer::check_rush_hits() {
                         if (TObjPlayer::is_locally_controlled(player) != 0) {
                             TItem *item = (TItem *)TObjPlayer::get_item_field_6(player);
                             if (item != NULL) {
-                                TObjPlayer::send_6x26_unequip_item((void *)player, item->get_item_id());
+                                TObjPlayer::send_6x26_unequip_item((TObjPlayer *)player, item->get_item_id());
                             }
                         }
                     } else if (random_ratio() <= 0.3333f) {

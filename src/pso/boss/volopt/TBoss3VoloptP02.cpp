@@ -222,7 +222,7 @@ void TBoss3VoloptP02::init_params() {
     init_collision_body_parts(this, collision_bodies, 5);
     variant = 0;
     movementParameters = &movement_params;
-    recalc_combat_stats(boss_stat_handle, shared_handler_b, object_handle, 1.0f, 1.0f);
+    recalc_combat_stats((player_stats *)boss_stat_handle, (AttackParams *)shared_handler_b, (ActorParamBlock *)object_handle, 1.0f, 1.0f);
     this->requested_action = 0;
     set_animation(this->requested_action);
     set_field_b8(this->requested_action);

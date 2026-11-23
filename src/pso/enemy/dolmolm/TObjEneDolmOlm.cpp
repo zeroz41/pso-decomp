@@ -889,7 +889,7 @@ void TObjEneDolmOlm::spawn_death_effect() {
     Vec stack;
     stack.x = 0.0f;
     stack.y = 10.0f;
-    stack.z = 0.5f * *(f32 *)(this->stat_block + 0x10);
+    stack.z = 0.5f * this->stat_block->proportions;
     push_matrix_from(&identity_matrix);
     rotate_matrix_y(0, rotation_y);
     rotate_vector_by_matrix(0, &stack, &stack);

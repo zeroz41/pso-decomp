@@ -193,7 +193,7 @@ TBoss3VoloptMonitor::~TBoss3VoloptMonitor() {
 void TBoss3VoloptMonitor::init_params() {
     movementParameters = &volopt_monitor_movement;
     volopt_monitor_stats->hp = get_monitor_hp(slot % 4 ? 1 : 0);
-    recalc_combat_stats(volopt_monitor_stats, volopt_monitor_stats_b, volopt_monitor_object_params, 1.0f, 1.0f);
+    recalc_combat_stats((player_stats *)volopt_monitor_stats, (AttackParams *)volopt_monitor_stats_b, (ActorParamBlock *)volopt_monitor_object_params, 1.0f, 1.0f);
     hp = hpmax;
     tp = tpmax;
     referenceHp = hp;

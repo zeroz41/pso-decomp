@@ -160,9 +160,9 @@ void TObjPlayer::get_pos(saddr out) {
     this->get_anim_node_position(0x3A, (Vec *)out);
 }
 
-void TObjPlayer::spend_photon_blast_charge(f32 charge) { subtract_photon_blast_charge((char*)this + 0x4ac, charge); }
+void TObjPlayer::spend_photon_blast_charge(f32 charge) { subtract_photon_blast_charge(&photon_blast_gauge, charge); }
 
-void TObjPlayer::gain_photon_blast_chain_charge() { add_photon_blast_chain_charge((char*)this + 0x4ac); }
+void TObjPlayer::gain_photon_blast_chain_charge() { add_photon_blast_chain_charge(&photon_blast_gauge); }
 
 s32 TObjPlayer::vfunc_79() { return 0; }
 s32 TObjPlayer::check_camera_mode() {
@@ -646,7 +646,7 @@ s32 TObjPlayer::clamp_index_to_max(s32 level) {
     return max_level;
 }
 s32 TObjPlayer::clamp_nested_index() {
-    return TObjPlayer::clamp_index_to_max(*(s32 *)(this->stat_block + 0x18));
+    return TObjPlayer::clamp_index_to_max(this->stat_block->level);
 }
 void TObjPlayer::clear_flag_20000() {
     clear_state_flags(0x20000);

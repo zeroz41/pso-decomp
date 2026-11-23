@@ -1,6 +1,7 @@
 #pragma defer_codegen on
 
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/player/TPlyDispData.h"
 #include "pso/unk/text_80104FCC.h"
 #include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/ui/city/THunterGuildSeqOnlineTask_802156A0.h"
@@ -57,11 +58,9 @@ s32 get_appraisal_text(s32 arg0);
 
 extern "C" {
 u8 *create_item_list_window(s32 arg0, s32 arg1, s32 arg2);
-s32 try_spend_actor_meseta(u8 *arg0, s32 arg1);
 void set_judgment_target_flag(void *arg0, void *arg1);
 
 saddr get_window_layout_position(s32);
-void send_6x25_equip_item(void *arg0, s32 arg1, s32 arg2);
 void TItemData__clear_unidentified_flag(void *arg0);
 u32 advance_item_id_counter(u16 client);
 u32 __ct__15TWindowHelpItemFPvUs(int, int, u16);
@@ -336,7 +335,7 @@ void TShopJudgmentItemWindow::update_judge_confirm() {
                     ((TWindowBase *)(*(void **)((s8 *)arg0 + 0x15C)))->close();
                     *(u32 *)((s8 *)arg0 + 0x15C) = 0U;
                 }
-                try_spend_actor_meseta((u8 *)(*(saddr *)((s8 *)arg0 + 0x24)), 0x64);
+                try_spend_actor_meseta(*reinterpret_cast<TObjChara **>((s8 *)arg0 + 0x24), 0x64);
                 if (check_equip_requirements(*(TObjPlayer **)((s8 *)arg0 + 0x24), (TItemData *)(arg0 + 0x28), NULL) != 0) {
                     send_message(0xC, 1);
                     ((TWindowBase *)(*(void **)((s8 *)arg0 + 0x158)))->close();
@@ -419,9 +418,9 @@ void TShopJudgmentItemWindow::handle_equip_prompt() {
                 set_judgment_target_flag(arg0, &this->unk_28);
                 item = find_item_by_id(F(0x34, s32));
                 if (item != NULL && (eq = (uaddr)((TObjPlayer *)(F(0x24, saddr)))->get_equipped_item(item->get_attach_slot())) != 0) {
-                    TObjPlayer::send_6x26_unequip_item((void *)(F(0x24, saddr)), ((TItem *)eq)->get_item_id());
+                    TObjPlayer::send_6x26_unequip_item((TObjPlayer *)(F(0x24, saddr)), ((TItem *)eq)->get_item_id());
                 }
-                send_6x25_equip_item((void *)(F(0x24, saddr)), F(0x34, s32), 0);
+                send_6x25_equip_item((TObjPlayer *)(F(0x24, saddr)), F(0x34, s32), 0);
                 send_message(0xB, 1);
                 if (TLobby::get_shop_value() > 0) {
                     play_cue_stream_file((saddr)"miniclear.adx");
@@ -502,7 +501,7 @@ void TShopJudgmentItemWindow::handle_pay_confirm() {
                 *(s32 *)&this->_pad14C = 3;
                 ((TWindowBase *)this->m_158)->close();
                 this->m_158 = 0U;
-                try_spend_actor_meseta((u8 *)this->m_24, 0x64);
+                try_spend_actor_meseta(reinterpret_cast<TObjChara *>(this->m_24), 0x64);
                 send_message(0xA, 1);
                 this->set_field_20(5);
                 return;

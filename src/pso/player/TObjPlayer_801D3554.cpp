@@ -3,54 +3,43 @@
 #include "pso/player/TObjPlayer_801D3554.h"
 #include "pso/unk/TLobby.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/player/TPlyItem.h"
 
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-typedef struct Rec_801D35FC {
-    u8 b[0x1C];
-} Rec_801D35FC;
-
 struct ByteBlock_14 { u8 bytes[0x14]; };
 
-extern "C" {
-s32 *TItemList__sub_801D5868(void *list, s32 index);
-void create_drop_nodes__9TItemListFPvPvPvPvi(void *arg0, void *arg1, void *arg2, Rec_801D35FC *arg3, s32 arg4);
-s32 TItemList__sub_801D5854(s32, s32);
-s32 copy_item_data__9TItemListFv(saddr, void *);
-s32 create_node__9TItemListFPvPvPvSc(s32, s32, s32, s32);
-
-void insert_item_node__10TObjPlayerFiiiii(saddr list, void *pos, void *source, void *item, s32 id) {
-    s32 *temp_r31;
-    saddr temp_r30;
-
-    temp_r31 = TItemList__sub_801D5868((void*)list, 0);
-    temp_r30 = TItemList__sub_801D5854(list, 0);
-    if (TItemList__sub_801D5844(temp_r31) != 0) {
-        TItemList__sub_801D5838(temp_r31);
-        ((TObjPlayer *)temp_r30)->set_field4(id);
-        copy_item_data__9TItemListFv(temp_r30, item);
-        TItemList::create_node((void *)list, source, pos, 0);
-        TItemList__sub_801D5804((s32 *)list);
+void TObjPlayer::insert_item_node(TUnk_804C445C *pool, Vec *position, TObjPlayer *owner, TItemData *item, s32 id) {
+    Unk_801C2098 *slot = TItemList__sub_801D5868(pool, 0);
+    Unk_801C2068 *record = TItemList__sub_801D5854(pool, 0);
+    if (TItemList__sub_801D5844(slot) != 0) {
+        TItemList__sub_801D5838(slot);
+        record->set_field4(id);
+        record->copy_item_data(item);
+        TItemList::create_node(pool, owner, position, 0);
+        TItemList__sub_801D5804(pool);
     }
 }
 
-void create_drop_nodes__9TItemListFPvPvPvPvi(void *list, void *arg1, void *arg2, Rec_801D35FC *arg3, s32 arg4) {
+extern "C" {
+void create_drop_nodes__9TItemListFPvPvPvPvi(TUnk_804C445C *pool, Vec *position, TObjPlayer *owner,
+                                             Unk_801C2068 *records, s32 count) {
     s32 i;
-    u8 *p;
-    Rec_801D35FC *q;
+    Unk_801C2098 *slot;
+    Unk_801C2068 *entry;
 
-    p = (u8 *)TItemList__sub_801D5868(list, 0);
-    q = (Rec_801D35FC *)((void *(*)(void *, s32))TItemList__sub_801D5854)(list, 0);
-    for (i = 0; i < arg4; i++) {
-        if (TItemList__sub_801D5844(p) != 0) {
-            TItemList__sub_801D5838(p);
-            ((void (*)(void *, void *))copy_drop_node)(q, arg3);
-            ((void (*)(void *, void *, void *, s32))create_node__9TItemListFPvPvPvSc)(list, arg2, arg1, i);
-            TItemList__sub_801D5804((s32 *)list);
-            p += 4;
-            q++;
-            arg3++;
+    slot = TItemList__sub_801D5868(pool, 0);
+    entry = TItemList__sub_801D5854(pool, 0);
+    for (i = 0; i < count; i++) {
+        if (TItemList__sub_801D5844(slot) != 0) {
+            TItemList__sub_801D5838(slot);
+            copy_drop_node(reinterpret_cast<u8 *>(entry), reinterpret_cast<u8 *>(records));
+            reinterpret_cast<void (*)(void *, void *, void *, s32)>(&TItemList::create_node)(pool, owner, position, i);
+            TItemList__sub_801D5804(pool);
+            ++slot;
+            ++entry;
+            ++records;
         }
     }
 }
@@ -68,8 +57,8 @@ u8 *copy_drop_node(u8 *arg0, u8 *arg1) {
 }
 
 void fn_801D371C(void* p, void* q) { *(u32*)((char*)p + 0x0) = *(u32*)((char*)q + 0x0); }
-void start_placement_search(saddr list, saddr pos, saddr source) {
-    TItemList__sub_801D5838(TItemList__sub_801D5868((void *)list, 0));
-    TItemList__sub_801D3B00((void *)list, (void *)source, (void *)pos, 0);
-    TItemList__sub_801D5804((s32 *)list);
+void start_placement_search(TUnk_804C4450 *pool, Vec *pos, TObjBase *source) {
+    TItemList__sub_801D5838(TItemList__sub_801D5868(pool, 0));
+    TItemList__sub_801D3B00(pool, source, pos, 0);
+    TItemList__sub_801D5804(pool);
 }

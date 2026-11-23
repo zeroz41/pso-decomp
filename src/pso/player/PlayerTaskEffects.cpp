@@ -1,3 +1,5 @@
+#include "pso/player/PlayerRequirementStats.h"
+#include "pso/player/PlayerAttackParams.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/unk/TUnk_804DDD28.h"
 #include "pso/system/NinjaTypes.h"
@@ -337,15 +339,11 @@ s32 tick_battle_music_timer(Obj_801C5C38 *p);
 s32 get_current_floor();
 s32 is_room_free_of_active_enemies(s32, s32);
 s32 get_room__8TObjBaseFv(s32);
-void set_params__10TObjPlayerFPvPvPviPv(void *arg0, void *arg1, void *arg2, saddr arg3, void *arg4);
-void init_shield_params(void *out, void *player, void *stats, s32 level, void *extra);
 s16 obj_getS16_2BA(u8 *p);
 extern Arrival_801C5F84 TObjPlayer__arrival_override_table[12];
 void set_arrival_override_coords(u16 arg0, s32 arg1, f32 farg0, f32 farg1, f32 farg2);
 void set_arrival_override_pos(u16 idx, s32 yaw, void *pos);
 void clear_movement_history(Obj_801C5FCC *p);
-s16 TObjPlayer__sub_800194E8(s32, s16);
-s16 get_attack_params_atp_max(void *p);
 u8 *__ct__15TPlyOnCountOverFv(u8 *object, s32 arg1, s32 arg2, s32 arg3);
 u8 *__ct__13TPlyOnCreatedFv(u8 *object, s32 arg1, s32 arg2);
 extern s32 __vt__15TPlyOnCountOver[];
@@ -915,6 +913,9 @@ void clear_movement_history(Obj_801C5FCC *p) {
     }
 }
 
+extern "C" s16 TObjPlayer__sub_800194E8(s32, s16);
+extern "C" s16 get_attack_params_atp_max(void *p);
+
 void set_arrival_override_pos(u16 idx, s32 yaw, void *pos) {
     TObjPlayer__arrival_override_table[idx].active = 1;
     TObjPlayer__arrival_override_table[idx].yaw = yaw;
@@ -936,25 +937,25 @@ void set_arrival_override_coords(u16 slot, s32 heading, f32 farg0, f32 farg1, f3
 }
 #pragma pop
 
-void set_params__10TObjPlayerFPvPvPviPv(void *arg0, void *arg1, void *stats, saddr level, void *arg4) {
+void set_params__10TObjPlayerFPvPvPviPv(void *arg0, void *arg1, player_stats *base_stats, AttackParams *attack_stats, ActorParamBlock *resistance_stats) {
     s16 temp_r4;
 
-    *(s16 *)((s8 *)arg0 + 0) = (s16) (*(s16 *)((s8 *)stats + 0) + get_attack_params_atp_max((void *)level));
-    temp_r4 = *(s16 *)((s8 *)stats + 8);
-    *(s16 *)((s8 *)arg0 + 2) = (s16) (temp_r4 + *(s32 *)((s8 *)arg4 + 0x1C));
-    *(s16 *)((s8 *)arg0 + 4) = (s16) *(s16 *)((s8 *)stats + 2);
-    *(s16 *)((s8 *)arg0 + 6) = (s16) (0.1f * (f32) (*(s16 *)((s8 *)stats + 0xA) + TObjPlayer__sub_800194E8(level, temp_r4)));
-    *(s16 *)((s8 *)arg0 + 8) = (s16) (*(s16 *)((s8 *)stats + 4) + *(s16 *)((s8 *)arg4 + 0));
-    *(s16 *)((s8 *)arg0 + 0xA) = (s16) *(s16 *)((s8 *)stats + 0xC);
-    *(s16 *)((s8 *)arg0 + 0xC) = (s16) *(s16 *)((s8 *)arg4 + 2);
-    *(s16 *)((s8 *)arg0 + 0xE) = (s16) *(s16 *)((s8 *)arg4 + 4);
-    *(s16 *)((s8 *)arg0 + 0x10) = (s16) *(s16 *)((s8 *)arg4 + 6);
-    *(s16 *)((s8 *)arg0 + 0x12) = (s16) *(s16 *)((s8 *)arg4 + 8);
-    *(s16 *)((s8 *)arg0 + 0x14) = (s16) *(s16 *)((s8 *)arg4 + 0xA);
+    *(s16 *)((s8 *)arg0 + 0) = (s16) (base_stats->stats.atp + get_attack_params_atp_max(attack_stats));
+    temp_r4 = base_stats->stats.dfp;
+    *(s16 *)((s8 *)arg0 + 2) = (s16) (temp_r4 + resistance_stats->value_1c);
+    *(s16 *)((s8 *)arg0 + 4) = (s16) base_stats->stats.mst;
+    *(s16 *)((s8 *)arg0 + 6) = (s16) (0.1f * (f32) (base_stats->stats.ata + TObjPlayer__sub_800194E8((saddr)attack_stats, temp_r4)));
+    *(s16 *)((s8 *)arg0 + 8) = (s16) (base_stats->stats.evp + resistance_stats->values[0]);
+    *(s16 *)((s8 *)arg0 + 0xA) = (s16) base_stats->stats.lck;
+    *(s16 *)((s8 *)arg0 + 0xC) = (s16) resistance_stats->values[1];
+    *(s16 *)((s8 *)arg0 + 0xE) = (s16) resistance_stats->values[2];
+    *(s16 *)((s8 *)arg0 + 0x10) = (s16) resistance_stats->values[3];
+    *(s16 *)((s8 *)arg0 + 0x12) = (s16) resistance_stats->values[4];
+    *(s16 *)((s8 *)arg0 + 0x14) = (s16) resistance_stats->values[5];
 }
 
-void init_shield_params(void *out, void *player, void *stats, saddr level, void *extra) {
-    set_params__10TObjPlayerFPvPvPviPv(out, player, stats, level, extra);
+void init_shield_params(void *out, void *player, player_stats *base_stats, AttackParams *attack_stats, ActorParamBlock *resistance_stats) {
+    set_params__10TObjPlayerFPvPvPviPv(out, player, base_stats, attack_stats, resistance_stats);
     *(s16 *)((s8 *)out + 0x16) = ((TObjChara *)player)->get_hpmax();
     *(s16 *)((s8 *)out + 0x18) = obj_getS16_2BA((u8 *)player);
 }
@@ -974,7 +975,7 @@ void TObjPlayer::calc_pos_delta(void *arg1, void *arg2) {
 void TObjPlayer::copy_offset_position(void *chara) {
     f32 temp_f2;
 
-    temp_f2 = *(f32 *)((s8 *)(((TObjPlayer *)chara)->get_stats()) + 0x10);
+    temp_f2 = ((TObjPlayer *)chara)->get_stats()->proportions;
     *(f32 *)((s8 *)this + 0) = (f32) ((TObjPlayer *)chara)->position.x;
     *(f32 *)((s8 *)this + 4) = (f32) ((1.2f * temp_f2) + ((TObjPlayer *)chara)->position.y);
     *(f32 *)((s8 *)this + 8) = (f32) ((TObjPlayer *)chara)->position.z;

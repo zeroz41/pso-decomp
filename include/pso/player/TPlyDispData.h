@@ -6,50 +6,13 @@
 #include "pso/network/protocol/protocol.h"
 #include "pso/math/TMath.h"
 #include "pso/player/TPlyGuildCardTag.h"
+#include "pso/player/PlayerStats.h"
 
 #define bswap16(var) bswap_16(as(u16 *, var))
 #define bswap32(var) bswap_32(as(u32 *, var))
 
 #define bswap16_ref(var) bswap16(&var)
 #define bswap32_ref(var) bswap32(&var)
-
-struct stats {
-    void bswap();
-
-    short atp;
-    short mst;
-    short evp;
-    short hp;
-    short dfp;
-    short ata;
-    short lck;
-};
-
-struct player_stats {
-    void bswap() {
-        bswap16(&stats.atp);
-        bswap16(&stats.mst);
-        bswap16(&stats.evp);
-        bswap16(&stats.hp);
-        bswap16(&stats.dfp);
-        bswap16(&stats.ata);
-        bswap16(&stats.lck);
-        bswap16(&mbr_0xe);
-        bswap32(&proportions);
-        bswap32(&mbr_0x14);
-        bswap32(&level);
-        bswap32(&exp);
-        bswap32(&meseta);
-    };
-
-    struct stats stats;
-    short mbr_0xe;
-    float proportions;
-    float mbr_0x14;
-    int level;
-    int exp;
-    int meseta;
-};
 
 struct disp_data_part2 {
     void bswap() {

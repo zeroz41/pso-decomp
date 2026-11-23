@@ -1,3 +1,4 @@
+#include "pso/npc/TNpcPlayer.h"
 #include "pso/quest/challenge/ChallengeStageLoadouts.h"
 #include "pso/unk/text_80071B30.h"
 #include "pso/system/vector.h"
@@ -30,7 +31,6 @@ s32 *TWindowSubStatusDisp__sub_8006F0D8(void *);
 extern u8 challenge_mode_state[];
 void copy_player_visual_record(void *, void *);
 void clamp_and_set_unit_value__10TObjPlayerFiUci(TObjPlayer *, u8, s16);
-void send_command__10TNpcPlayerFlScllPSc(u8, s32, s32, s32, TPlyCharData *);
 extern s32 local_client_id;
 s32 TLobby__sub_80071B30(s32 arg0, s32 slot) {
     s32 *list;
@@ -89,7 +89,7 @@ void TObjPlayer::rebuild_players_for_stage(s32 arg0) {
                 TPlyCharData cd;
                 copy_player_visual_record(&cd.m_disp_part2, &chr);
                 TObjPlayer::begin_action_state(&cd);
-                send_command__10TNpcPlayerFlScllPSc(chr.f31, t->item_count, (saddr)t->items, t->level, &cd);
+                TNpcPlayer::send_command(chr.f31, t->item_count, (const TPlyInventoryItem *)t->items, t->level, &cd);
                 if (i == local_client_id) {
                     p = (TObjPlayer *)create_player_object(i, 0, (u8 *)&cd);
                 } else {

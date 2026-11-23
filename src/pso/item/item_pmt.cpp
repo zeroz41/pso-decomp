@@ -105,7 +105,6 @@ typedef struct PmtRow_8011C234 { s32 count; PmtEnt_8011C234 *ents; } PmtRow_8011
 typedef struct Pmt_8011C234 { u8 pad[0xC]; PmtRow_8011C234 *rows; } Pmt_8011C234;
 
 extern "C" {
-s32 select_enemy_drop__9TItemDropFPviiPv(u32, s32, s32, s32);
 s32 __cvt_fp2unsigned(f32);
 s32 get_item_star_count(s32 id);
 Entry_8011CB18 *get_weapon_range_record(Item_8011CB18 *item, s16 mode);
@@ -233,7 +232,7 @@ void TObjPlayer::drop_item_from_slot(s32 area, s32 arg1, saddr item) {
         normalize_drop_area(&sp8);
         idx = sp8 - 1;
         sp8 = idx;
-        select_enemy_drop__9TItemDropFPviiPv((*(u32 *)&item_mgr), area, idx, item);
+        select_enemy_drop__9TItemDropFPviiPv(reinterpret_cast<u8 *>(item_mgr), area, idx, reinterpret_cast<TItemData *>(item));
     }
 }
 void TObjPlayer::drop_item(s32 slot, saddr item) {

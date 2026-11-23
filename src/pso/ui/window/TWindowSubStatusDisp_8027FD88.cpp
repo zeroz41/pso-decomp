@@ -487,7 +487,7 @@ void vt11__20TWindowSubStatusDispFv(Wn_80280F14 *arg0) {
     En_80280F14 *e;
     p = ((VObj_18_eecf68 *)get_player_by_client_id(arg0->f20));
     if (p != NULL) {
-        q = reinterpret_cast<player_stats *>(((TObjPlayer *)p)->get_stats());
+        q = ((TObjPlayer *)p)->get_stats();
         if (q != NULL) {
             e = ((En_80280F14 *)(void *)((TWindowBase *)arg0)->get_array_entry(2));
             e->v = p->m14() + 1;
@@ -530,7 +530,7 @@ void TWindowSubStatusDisp::vt12() {
     Entry_80280B1C *e2;
     saddr pl;
     Entry_80280B1C *e;
-    u8 *q;
+    player_stats *q;
     ((TWindowSubStatusDisp *)(&cur))->clear_fields();
     ((TWindowSubStatusDisp *)(&req))->clear_fields();
     pl = (saddr)get_player_by_client_id(this->client_index);
@@ -546,9 +546,9 @@ void TWindowSubStatusDisp::vt12() {
         q = ((TObjPlayer *)pl)->get_stats();
         if (q != NULL) {
             e = (Entry_80280B1C *)(void *)get_array_entry(0xE);
-            e->value = *(s16 *)(q + 2);
+            e->value = q->stats.mst;
             e = (Entry_80280B1C *)(void *)get_array_entry(0x20);
-            e->value = *(s16 *)(q + 0xC);
+            e->value = q->stats.lck;
         }
     }
     if (build_player_equipment_requirement_stats(pl, &cur) != 0) {

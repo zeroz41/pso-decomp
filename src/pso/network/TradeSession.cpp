@@ -1,3 +1,4 @@
+#include "pso/player/TPlyDispData.h"
 #include "pso/unk/TLobby_80228C84.h"
 #include "types.h"
 #include "pso/player/TObjPlayer.h"
@@ -60,7 +61,7 @@ typedef struct Stack_802D23E0 Stack_802D23E0;
 void TLobby::send_trade_proposal_modify() {
   Stack_802D23E0 stack;
   u8 *player;
-  u8 *temp_r3_2;
+  player_stats *temp_r3_2;
   build_6xA6_modify_trade_proposal(&stack.sp8);
   if (((s32) TLobby__trade_proposal_state) == 2)
   {
@@ -72,7 +73,7 @@ void TLobby::send_trade_proposal_modify() {
       {
         stack.spC = 0;
         stack.spD = 2;
-        stack.sp14 = *((s32 *) (((s8 *) temp_r3_2) - -0x20));
+        stack.sp14 = temp_r3_2->meseta;
         if (((*(u8 *)&TLobby__trade_partner_client_id) && (*(u8 *)&TLobby__trade_partner_client_id)) && (*(u8 *)&TLobby__trade_partner_client_id))
         {
         }
@@ -265,7 +266,6 @@ void TWindowSubTradeMain::draw_request(void *arg0, void *arg1) {
 }
 
 Half_802D38B4 TLobby__trade_window_state[2];
-void remove_list_entry_by_id(s32 arg0);
 extern "C" {
 
 u8 *TLobby__sub_802D298C(void) {
@@ -345,7 +345,7 @@ void TLobby::apply_trade_items() {
                     id = p->id;
                     if (count > 0) {
                         if (id == 0xFFFFFF01) {
-                            try_spend_actor_meseta((u8 *)player, count);
+                            try_spend_actor_meseta(reinterpret_cast<TObjChara *>(player), count);
                         } else {
                             if ((allowed != 0) && (fn_801D4270(id) != 0)) {
                                 remove_list_entry_by_id(id);
@@ -686,7 +686,7 @@ void TLobby::send_trade_proposal_result(s8 arg0, s8 arg1) {
 void send_6xA6_modify_trade_proposal(saddr client_id) {
     G_ModifyTradeProposal_6xA6 packet;
     TObjPlayer *player;
-    u8 *temp_r3_2;
+    player_stats *temp_r3_2;
     build_6xA6_modify_trade_proposal((&packet.header));
     player = get_player_by_client_id(local_client_id);
     if ((player != NULL) && (temp_r3_2 = player->get_stats(), ((temp_r3_2 == NULL) == 0))) {
@@ -703,7 +703,7 @@ void send_6xA6_modify_trade_proposal(saddr client_id) {
 block_6:
         packet.what = 0;
         packet.result = 0;
-        packet.amount = *(s32 *)((s8 *)temp_r3_2 + 0x20);
+        packet.amount = temp_r3_2->meseta;
         ((TLobby *)(&packet.header))->prepare_and_send_trade_packet(client_id);
         (*(u8 *)&TLobby__trade_partner_client_id) = (u8) client_id;
         (*(s8 *)&TLobby__trade_proposal_state) = 1;

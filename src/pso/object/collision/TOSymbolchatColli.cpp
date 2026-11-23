@@ -44,9 +44,7 @@ struct Obj_8017873C
   u8 pad90[0x334 - 0x90];
   f32 radiusSq;
   u8 pad338[0x348 - 0x338];
-  u8 coll[0x10];
-  f32 y358;
-  u8 pad35c[0x36C - 0x35C];
+  u8 pad348[0x36C - 0x348];
   uaddr ptrs[3];
   u16 hi[3];
   u16 lo[3];
@@ -96,9 +94,9 @@ void TOSymbolchatColli::init_collision_params() {
   Obj_8017873C *self = (Obj_8017873C *) this;
   s32 i;
   self->radiusSq = this->scale.x * this->scale.x;
-  memset(self->coll, 0, 0x24);
-  this->m_358 = self->y3c / 0.92f;
-  ((TObjChara *)self)->set_motion_params(self->coll);
+  memset(&m_348, 0, sizeof(m_348));
+  m_348.proportions = self->y3c / 0.92f;
+  set_motion_params(&m_348);
   for (i = 0; i < 3; i++)
   {
     u32 v = self->ids[i];

@@ -7,6 +7,8 @@ struct NJS_OBJECT;
 #include "pso/player/PhotonBlastGauge.h"
 #include "pso/player/PlayerClassFlags.h"
 #include "pso/player/PlayerScaleState.h"
+#include "pso/player/PlayerStats.h"
+#include "pso/player/PlayerAttackParams.h"
 #include "pso/player/RenderMaterialState.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/player/PlayerAttackController.h"
@@ -14,10 +16,10 @@ struct NJS_OBJECT;
 struct TItemData;
 struct SceneSectionAngles;
 
-struct player_stats;
-
 struct TItem;
 class TPlyItem;
+class TUnk_804C445C;
+class TPlyInventoryItem;
 struct TechniqueContactList;
 struct TUnk_801D8A4C;
 struct TLockOnCursor;
@@ -123,6 +125,7 @@ struct TObjPlayer : public TObjChara {
     s32 setup_control_role(s32);
     bool is_target_in_facing_cone(void *);
     void create_inventory();
+    static void insert_item_node(TUnk_804C445C *pool, Vec *position, TObjPlayer *owner, TItemData *item, s32 id);
     void select_contextual_pickup_action();
     void init_trait_flags();
     void update_facing_vector();
@@ -291,9 +294,9 @@ struct TObjPlayer : public TObjChara {
     s32 model_load_flags;  // nonzero while the models load (update_body_parts sets 255); not drawn until 0
     TPlyItem *inventory_objects;  // created by create_inventory
     void *equipped_items[13];  // by equip slot; read through get_equipped_item
-    u8 unk_D38[0x10];
-    f32 m_d48;
-    u8 unk_D4C[0x60];
+    player_stats unk_D38;
+    AttackParams m_d5c;
+    ActorParamBlock m_d8c;
     void* m_dac;
     static void draw_area_chunk_objects();
     static void copy_screen_to_texture(s32 mode, void *src);
@@ -305,7 +308,7 @@ struct TObjPlayer : public TObjChara {
     // The photon blast gauge's charge, 0-100.
     s32 get_photon_blast_charge();
     int is_frozen();
-    static void send_6x26_unequip_item(void *player, u32 item_id);
+    static void send_6x26_unequip_item(TObjPlayer *player, u32 item_id);
     player_class_type get_class_type();
     static void add_angle_clamped(s32 *arg0, s32 arg1, s32 arg2);
     void call_callback_1ec(saddr arg1, saddr arg2);
@@ -643,7 +646,6 @@ struct TObjPlayer : public TObjChara {
     void set_technique_id(s16 v);
     static u8 get_item_count_max();
     void *init();
-    void set_field4(s32 v);
     u8 get_field_5();
     u8 get_byte_4();
     u8 get_team_id();
@@ -964,7 +966,7 @@ struct TObjPlayer : public TObjChara {
     f32 get_photon_blast_upper_bound();
     f32 get_photon_blast_hold_frame();
     f32 get_attack_recovery_count();
-    static s32 get_current_state_field(s8 _w0, s32 _w1);
+    static s32 get_current_state_field(s32 _w0, s32 _w1);
     s32 get_class_state_field(s32 arg1);
     static player_stats *get_class_stat_entry(u8 *arg0);
     f32 get_tp_class_factor();
@@ -1168,7 +1170,6 @@ struct TObjPlayer : public TObjChara {
     static void alloc_shared_buffers();
     static void destroy_char_data_array();
     static s8 get_rule_field_0();
-    void sort_by_key();
     static void set_slot_type_state(s32 arg0, s32 arg1, s16 arg2, s16 arg3);
     void set_all_technique_levels(void *level);
     void copy_all_technique_entries(void *arg1);
@@ -1352,7 +1353,11 @@ struct TObjPlayer : public TObjChara {
     void use_current_item();
     void unequip_all_units();
     void *copy_unequip_fields(void *arg1);
-    void equip_item_to_slot(void *item, s32 slot);
+    void equip_item_to_slot(TItem *item, s32 slot);
+    static void bind_saved_inventory_equipment(TObjPlayer *player, TPlyInventoryItem *records, int count);
+    static void equip_saved_item_if_slot_empty(TObjPlayer *player, TPlyInventoryItem *record);
+    void unequip_item(TItem *item);
+    s32 check_switch_available(s32 item_id);
     s32 end_camera_pan();
     static void freeze_all_players();
     // The callers pass the angle to the object as well; this does not use it.
@@ -1593,6 +1598,9 @@ LAYOUT_ASSERT(PlayerAttachmentTexturesOffset, offsetof(TObjPlayer, attachment_te
 LAYOUT_ASSERT(PlayerBodyTexturesOffset, offsetof(TObjPlayer, body_textures) == 0xCF4);
 LAYOUT_ASSERT(PlayerModelLoadFlagsOffset, offsetof(TObjPlayer, model_load_flags) == 0xCFC);
 LAYOUT_ASSERT(PlayerInventoryObjectOffset, offsetof(TObjPlayer, inventory_objects) == 0xD00);
+LAYOUT_ASSERT(PlayerBaseStatsOffset, offsetof(TObjPlayer, unk_D38) == 0xD38);
+LAYOUT_ASSERT(PlayerAttackStatsOffset, offsetof(TObjPlayer, m_d5c) == 0xD5C);
+LAYOUT_ASSERT(PlayerResistanceStatsOffset, offsetof(TObjPlayer, m_d8c) == 0xD8C);
 
 LAYOUT_ASSERT(TObjPlayer_area_offset, offsetof(TObjPlayer, current_area) == 0x3E0);
 LAYOUT_ASSERT(TObjPlayer_npc_control_offset, offsetof(TObjPlayer, npc_control) == 0x678);
@@ -1607,4 +1615,10 @@ extern s16 item_equip_attach_equip_flag_table[];
 // The demo camera check_demo_mode tests; TCameraDebugView looks at its entry of
 // demo_camera_params_table.
 extern s16 demo_camera_index;
+
+extern "C" {
+void send_6x25_equip_item(TObjPlayer *player, s32 item_id, s32 slot);
+void assign_inventory_item_ids(TObjPlayer *player, TPlyInventoryItem *records, s32 count);
+void rebuild_player_inventory(TObjPlayer *player);
+}
 #endif

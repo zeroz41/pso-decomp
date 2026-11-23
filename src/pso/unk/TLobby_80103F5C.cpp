@@ -1,3 +1,4 @@
+#include "pso/network/protocol/ItemDropPacket.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include <string.h>
 #include "pso/unk/TLobby_801E43E4.h"
@@ -202,7 +203,7 @@ void TLobby::apply_sync_item_state() {
         p = floor_item_row_table[j];
         for (n = 0; n != count; n++, p++) {
             TLobby::copy_floor_item_entry((TLobbyFloorItemEntry *)p, (TLobbyFloorItemEntry *)&((Save_80103890 *)this)->items[k++]);
-            ((TLobby *)p)->bswap_item();
+            bswap_item__6TLobbyFv(p);
             ((TItemData *)((u8 *)p + 0x10))->decode_from_network();
         }
     }
@@ -241,7 +242,7 @@ s32 TLobby::write_sync_item_state() {
         for (n = 0; n != count; n++, p++, k++) {
             TLobby::copy_floor_item_entry((TLobbyFloorItemEntry *)d, (TLobbyFloorItemEntry *)p);
             ((TItemData *)((u8 *)d + 0x10))->encode_for_network();
-            ((TLobby *)d)->bswap_item();
+            bswap_item__6TLobbyFv(d);
             d++;
         }
     }
@@ -478,7 +479,15 @@ void TLobby__sub_801041BC(void *arg0) {
 void TLobby__sub_801041D8(void) {
     lbl_805D5430.set(1);
 }
-void TLobby::bswap_item() { bswap_16((u16 *)((char*)this + 0x2)); bswap_32((u32 *)((char*)this + 0x4)); bswap_32((u32 *)((char*)this + 0x8)); bswap_16((u16 *)((char*)this + 0xc)); bswap_16((u16 *)((char*)this + 0xe)); ((TItemData *)((char*)this + 0x10))->bswap(); }
+void bswap_item__6TLobbyFv(void *record) {
+    u8 *bytes = static_cast<u8 *>(record);
+    bswap_16(reinterpret_cast<u16 *>(bytes + 2));
+    bswap_32(reinterpret_cast<u32 *>(bytes + 4));
+    bswap_32(reinterpret_cast<u32 *>(bytes + 8));
+    bswap_16(reinterpret_cast<u16 *>(bytes + 0xC));
+    bswap_16(reinterpret_cast<u16 *>(bytes + 0xE));
+    reinterpret_cast<TItemData *>(bytes + 0x10)->bswap();
+}
 
 TLobbyFloorItemEntry *TLobby::copy_floor_item_entry(TLobbyFloorItemEntry *dst, TLobbyFloorItemEntry *src) {
     *dst = *src;

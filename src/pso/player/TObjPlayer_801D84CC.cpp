@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/unk/text_801D40D4.h"
 #include "pso/player/TObjPlayer_801D84CC.h"
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/item/TItem.h"
@@ -30,7 +31,6 @@ struct Stack_801D8664 {
 
 extern "C" {
 s32 copy_player_visual_record(void *, void *);
-s32 fn_801D40D4(s32, void *, void *);
 struct VObj_84Base_801d859c_801D84CC { char pad[0x18]; };
 struct VObj_84_801d859c_801D84CC : VObj_84Base_801d859c_801D84CC {
     virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3();
@@ -64,7 +64,7 @@ void process_trade_target__10TObjPlayerFiPv(saddr arg0, void *player) {
         }
         if (((TObjPlayer *)arg0)->pickup_item((TItem *)item) != 0U) {
             ((TObjPlayer *)arg0)->set_flag_20000();
-            ((TObjPlayer *)arg0)->equip_item_to_slot(item, 0);
+            ((TObjPlayer *)arg0)->equip_item_to_slot(reinterpret_cast<TItem *>(item), 0);
             ((TObjPlayer *)arg0)->clear_flag_20000();
         }
     }
@@ -97,7 +97,9 @@ TUnk_804C4540 *TUnk_804C4540::create(TPlyCharData *data) {
     ((TObjPlayer *)(&sp8))->init_inventory();
     copy_player_visual_record(sp8.visual, &data->m_disp_part2);
     TLobby::copy_data(sp8.stats, &data->m_stats);
-    fn_801D40D4(data->m_inventory.m_num_items, (void *)((TObjPlayer *)data)->get_ptr_4(), sp8.items);
+    fn_801D40D4(data->m_inventory.m_num_items,
+                static_cast<const TPlyInventoryItem *>(reinterpret_cast<TObjPlayer *>(data)->get_ptr_4()),
+                reinterpret_cast<TPlyInventoryItem *>(sp8.items));
     return new TUnk_804C4540(tl_03, &sp8);
 }
 
