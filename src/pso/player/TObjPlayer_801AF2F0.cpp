@@ -1,6 +1,7 @@
 // Built with -inline off,deferred (configure.py): CodeWarrior emits deferred functions
 // last to first, so they are defined here from the highest address down.
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/ui/window/TWindowReturnCity.h"
 #include "pso/unk/TLobby_800FD78C.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/render/ChunkMaterialState.h"
@@ -1495,7 +1496,6 @@ u32 __nw__7TObjectFUl(s32);
 u8 * __ct__7TObjectFP7TObject(void *, void *);
 void construct_actor_light_task(void *, Color_801B6964 *, Vec *, s32, s32, s32, f32);
 void TLobby__sub_8024AC20(saddr);
-u32 TWindowReturnCity__ct(u32, saddr, u16);
 s32 get_battle_ctrl_default__6TLobbyFv();
 s32 get_party_yaw();
 u8 *get_party_position(void);
@@ -5363,14 +5363,8 @@ void TObjPlayer::clear_flag_4096() { this->clear_state_flags(4096); }
 int TObjWarpBossMulti::is_flag_clear(void* p) { return (((TObjPlayer *)p)->check_flag(4096)) == 0; }
 
 s32 TObjPlayer::create_return_city_window() {
-    u32 var_r31;
-
     if ((TObjPlayer::is_locally_controlled(this) != 0) && ((u32) this->m_36c == 0U) && ((u32) *(u32 *)((s8 *)this + 0x548) != 0U)) {
-        var_r31 = __nw__7TObjectFUl(0x28);
-        if (var_r31 != 0U) {
-            var_r31 = TWindowReturnCity__ct(var_r31, (saddr)tl_07, (u16) get_entity_id(this));
-        }
-        this->m_36c = var_r31;
+        this->m_36c = (saddr)new TWindowReturnCity(tl_07, (u16)get_entity_id(this));
         return 1;
     }
     return 0;

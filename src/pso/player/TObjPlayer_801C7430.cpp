@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/ui/window/TWindowReturnCity.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/network/protocol/protocol_types.h"
@@ -1370,7 +1371,6 @@ extern f32 scratch_vec[];
 extern f32 player_feedback_light_color[];
 extern void *player_slot_table[];
 extern const char *lbl_805D3530;
-extern const char *TWindowReturnCity__class_name;
 extern u8 *TObjPlayer__shared_photon_blast_state;
 extern u32 tl_03;
 extern s32 tl_07;
@@ -3021,7 +3021,7 @@ void TObjPlayer::check_reopen_return_city_window() {
   TObjPlayer__sub_8024ABDC(new_var);
   temp_r3 = this->m_36c;
   new_var = 0U;
-  if ((temp_r3 != new_var) && ((((TObject *)temp_r3)->all_parents_unqueued_for_destruction() == 0) || (check_value_equals__13TUnk_804B6C24CFl(this->m_36c, (void *)TWindowReturnCity__class_name) == 0)))
+  if ((temp_r3 != new_var) && ((((TObject *)temp_r3)->all_parents_unqueued_for_destruction() == 0) || (check_value_equals__13TUnk_804B6C24CFl(this->m_36c, (void *)TWindowReturnCity::class_name) == 0)))
   {
     this->m_36c = 0U;
   }

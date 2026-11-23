@@ -4,11 +4,17 @@
 #include "types.h"
 #include "pso/system/task/TObject.h"
 
+struct TWindowMessageYesNo;
+
+// Yes/no prompt shown to the player of client after a defeat; yes sends the party
+// back to floor 0, the city.
 struct TWindowReturnCity : public TObject {
+    TWindowReturnCity(TObject *parent, s32 client);
     virtual ~TWindowReturnCity();
-    uaddr m_1c;
-    u32 m_20;
-    uaddr m_24;
+    TWindowMessageYesNo *yes_no_window;
+    u32 state;
+    s32 client;
+    static const char *class_name;
     s32 query_battle_state();
     virtual void render();
     virtual void run_task();
