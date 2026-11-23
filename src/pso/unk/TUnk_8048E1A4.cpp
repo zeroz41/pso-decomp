@@ -26,6 +26,7 @@
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/technique/TTecCtrl.h"
 #include "pso/unk/TLobby_8001EF5C.h"
+#include "pso/player/TPlyDispData.h"
 
 
 f32 TUnk_8048E1A4::receive_physical_attack(void *arg1, f32) {
@@ -259,11 +260,6 @@ struct RecoveredFields_8008213C_arg1 {
     u8 * field_A4;
 };
 
-struct RecoveredFields_8008213C_temp_r3 {
-    u8 unknown_0[0x10];
-    f32 field_10;
-};
-
 extern "C" {
 extern saddr tl_05;
 
@@ -308,9 +304,8 @@ LAYOUT_ASSERT(RecoveredFields_8008213C_arg0_358_offset, offsetof(RecoveredFields
 LAYOUT_ASSERT(RecoveredFields_8008213C_arg2_C_offset, offsetof(RecoveredFields_8008213C_arg2, field_C) == 0xC);
 LAYOUT_ASSERT(RecoveredFields_8008213C_arg1_60_offset, offsetof(RecoveredFields_8008213C_arg1, field_60) == 0x60);
 LAYOUT_ASSERT(RecoveredFields_8008213C_arg1_A4_offset, offsetof(RecoveredFields_8008213C_arg1, field_A4) == 0xA4);
-LAYOUT_ASSERT(RecoveredFields_8008213C_temp_r3_10_offset, offsetof(RecoveredFields_8008213C_temp_r3, field_10) == 0x10);
 TUnk_8048E1A4::TUnk_8048E1A4(u8 *chara, u8 *arg2) : TObjChara((TObject *)((void *)tl_05)) {
-    u8 *temp_r3;
+    player_stats *temp_r3;
     ((RecoveredFields_8008213C_arg0 *)((u8 *)this))->field_34 = (saddr)get_bml_model((BmlResource *)freeze_shell_bml_resource, 1);
     if (chara != NULL) {
         ((RecoveredFields_8008213C_arg0 *)((u8 *)this))->field_358 = get_entity_id(chara);
@@ -326,7 +321,7 @@ TUnk_8048E1A4::TUnk_8048E1A4(u8 *chara, u8 *arg2) : TObjChara((TObject *)((void 
             VecCopy((Vec *)(((u8 *)this) + 0x38), (const Vec *)(chara + 0x2FC));
             temp_r3 = ((TObjChara *)chara)->get_stats();
             if (temp_r3 != NULL) {
-                ((RecoveredFields_8008213C_arg0 *)((u8 *)this))->field_338 = (f32) (0.075f * ((RecoveredFields_8008213C_temp_r3 *)temp_r3)->field_10);
+                ((RecoveredFields_8008213C_arg0 *)((u8 *)this))->field_338 = (f32) (0.075f * temp_r3->proportions);
             } else {
                 ((RecoveredFields_8008213C_arg0 *)((u8 *)this))->field_338 = 1.5f;
             }

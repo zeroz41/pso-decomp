@@ -9,6 +9,7 @@
 #include "pso/unk/TLobby.h"
 #include "pso/player/TObjPlayer_801BCD28.h"
 #include "pso/system/task/TObject.h"
+#include "pso/player/TPlyDispData.h"
 
 
 extern "C" {
@@ -155,7 +156,7 @@ void TObjPlayer::init_player_data(void *src) {
     temp_f31 = this->m_d48;
     TLobby::copy_data((u8 *)&this->unk_D38, src);
     this->m_d48 = temp_f31;
-    this->stat_block = ((u8 *)&this->unk_D38);
+    this->stat_block = (player_stats *)this->unk_D38;
     this->apply_input_mode();
     this->set_move_mode_from_class_flags();
     this->init_trait_flags();
@@ -163,7 +164,7 @@ void TObjPlayer::init_player_data(void *src) {
     ((TLobby *)(arg0 + 0xD8C))->copy_entry((void *)(get_class_defense_template(this)));
     yscale = this->get_tp_class_factor();
     this->recalc_combat_stats(this->stat_block, arg0 + 0xD5C, arg0 + 0xD8C, this->get_class_hp_factor(), yscale);
-    *(f32 *)((s8 *)this->bodies + 4) = (f32) (TObjPlayer__data_805DC28C * *(f32 *)((s8 *)this->stat_block + 0x10));
+    *(f32 *)((s8 *)this->bodies + 4) = (f32) (TObjPlayer__data_805DC28C * this->stat_block->proportions);
 }
 
 int TObjPlayer__sub_801BEF60(void*, int);

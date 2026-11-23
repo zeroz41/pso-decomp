@@ -97,6 +97,7 @@
 
 #include "pso/item/TItemReverseTech.h"
 #include "pso/unk/text_803D96A8.h"
+#include "pso/player/TPlyDispData.h"
 
 
 struct VBase_800172CC { u8 pad[0x18]; };
@@ -422,12 +423,6 @@ struct Pkt_80010C54 {
 struct Pkt_80010DE8 { u8 f0; u8 f1; u16 f2; u16 f4; u8 f6; u8 f7; };
 struct Obj_80010DE8 { u8 pad[0x1c]; u16 f1c; };
 struct Obj_80010F54 { u8 pad[0x2D4]; u16 id; u16 id2; };
-
-struct ActorMesetaView
-{
-  u8 padding[0x20];
-  s32 meseta;
-};
 
 struct O_80011274 { u8 pad[0x2be]; s16 v; };
 struct O_800112D4 { u8 pad[0x32e]; s16 v; };
@@ -1143,7 +1138,7 @@ s16 obj_getS16_2BA(u8* p) {
 }
 
 int TObjChara::obj_getPtr2B0_1C() {
-    return *(int*)(this->stat_block + 0x1c);
+    return this->stat_block->exp;
 }
 
 int obj_getPtr2B0_20(u8* p) {
@@ -1319,11 +1314,11 @@ u8 *TObjChara::update_actor_ground_y() {
     Vec stack;
     f32 temp_f1;
     CsnHit *hit;
-    u8 *temp_r6;
+    player_stats *temp_r6;
     stack.x = *(f32 *)((s8 *)((u8 *)this) + 0x38);
     temp_r6 = this->stat_block;
     temp_f1 = *(f32 *)((s8 *)((u8 *)this) + 0x3C);
-    stack.y = temp_f1 + *(f32 *)((s8 *)temp_r6 + 0x10);
+    stack.y = temp_f1 + temp_r6->proportions;
     stack.z = *(f32 *)((s8 *)((u8 *)this) + 0x40);
     hit = csnVectorUnder(&stack, ground_candidates.groups, 0x15);
     if (hit == NULL) {
@@ -1337,11 +1332,11 @@ u8 *TObjChara::update_actor_ground_y_at(Vec *pos) {
     Vec stack;
     f32 temp_f1;
     CsnHit *hit;
-    u8 *temp_r6;
+    player_stats *temp_r6;
     stack.x = pos->x;
     temp_r6 = this->stat_block;
     temp_f1 = pos->y;
-    stack.y = temp_f1 + *(f32 *)((s8 *)temp_r6 + 0x10);
+    stack.y = temp_f1 + temp_r6->proportions;
     stack.z = pos->z;
     hit = csnVectorUnder(&stack, ground_candidates.groups, 0x15);
     if (hit == NULL) {
@@ -1357,7 +1352,7 @@ void TObjChara::calc_attach_pos() {
     u8 *arg0 = (u8 *)this;
     if ((void *) this->stat_block != NULL) {
         this->body_center.x = (f32) this->position.x;
-        this->body_center.y = (f32) (((0.5f) * *(f32 *)(this->stat_block + 0x10)) + this->position.y);
+        this->body_center.y = (f32) (((0.5f) * this->stat_block->proportions) + this->position.y);
         this->body_center.z = (f32) this->position.z;
         return;
     }
@@ -2808,7 +2803,7 @@ void TObjChara::apply_knockback_from_attacker(u8 *arg1, f32) {
         this->velocity.z = (0.0f);
         return;
     }
-    scale = 10.0f + (10.0f - *(f32 *)(this->stat_block + 0x14));
+    scale = 10.0f + (10.0f - this->stat_block->mbr_0x14);
     if (scale < 0.0f) {
         scale = 0.0f;
     }
@@ -3934,29 +3929,25 @@ int TObjPlayer::get_tp_materials_clamped() {
 }
 
 s32 TObjChara::add_actor_exp(s32 arg1) {
-  u8 *temp_r3;
+  player_stats *temp_r3;
   int new_var;
-  u8 *temp_r6;
+  player_stats *temp_r6;
   temp_r6 = this->stat_block;
-  *((s32 *) (((s8 *) temp_r6) + 0x1C)) = (s32) ((*((s32 *) (((s8 *) temp_r6) + 0x1C))) + arg1);
+  temp_r6->exp = temp_r6->exp + arg1;
   temp_r3 = this->stat_block;
-  new_var = 0x05F5E0FF;
-  if (new_var < ((s32) (*((s32 *) (((s8 *) temp_r3) + 0x1C)))))
+  new_var = 99999999;
+  if (new_var < (s32)temp_r3->exp)
   {
-    *((s32 *) (((s8 *) temp_r3) + 0x1C)) = new_var;
+    temp_r3->exp = new_var;
     return 0;
   }
   return 1;
 }
 
-s32 TObjChara::consume_timer_field(s32 arg1) {
-    u8 *temp_r4;
-    u8 *temp_r5;
-    temp_r5 = this->stat_block;
-    *(s32 *)((s8 *)temp_r5 + 0x1C) = (s32) (*(s32 *)((s8 *)temp_r5 + 0x1C) - arg1);
-    temp_r4 = this->stat_block;
-    if ((s32) *(s32 *)((s8 *)temp_r4 + 0x1C) < 0) {
-        *(s32 *)((s8 *)temp_r4 + 0x1C) = 0;
+s32 TObjChara::consume_timer_field(s32 amount) {
+    this->stat_block->exp -= amount;
+    if (this->stat_block->exp < 0) {
+        this->stat_block->exp = 0;
         return 0;
     }
     return 1;
@@ -3971,17 +3962,17 @@ s32 TObjPlayer::add_capped_counter_999(s32 arg1) {
     return 1;
 }
 
-s32 TObjChara::get_actor_level_index() { return *(s32*)((char*)this->stat_block + 0x18); }
+s32 TObjChara::get_actor_level_index() { return this->stat_block->level; }
 
 s32 TObjPlayer::add_meseta(s32 amount) {
   TObjPlayer* self = this;
   s32 limit = 999999;
   int maximum;
-  ((ActorMesetaView *) self->stat_block)->meseta += amount;
+  self->stat_block->meseta += amount;
   maximum = limit;
-  if (maximum < ((ActorMesetaView *) self->stat_block)->meseta)
+  if (maximum < (s32)self->stat_block->meseta)
   {
-    ((ActorMesetaView *) self->stat_block)->meseta = maximum;
+    self->stat_block->meseta = maximum;
     return 0;
   }
   return 1;
@@ -3989,13 +3980,13 @@ s32 TObjPlayer::add_meseta(s32 amount) {
 
 s32 try_spend_actor_meseta(u8 *player, s32 count) {
     s32 temp_r0;
-    u8 *temp_r5;
-    temp_r5 = *(u8 **)((s8 *)player + 0x2B0);
-    temp_r0 = *(s32 *)((s8 *)temp_r5 + 0x20);
+    player_stats *temp_r5;
+    temp_r5 = ((TObjChara *)player)->stat_block;
+    temp_r0 = temp_r5->meseta;
     if (temp_r0 < count) {
         return 0;
     }
-    *(s32 *)((s8 *)temp_r5 + 0x20) = (s32) (temp_r0 - count);
+    temp_r5->meseta = (s32) (temp_r0 - count);
     return 1;
 }
 

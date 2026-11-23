@@ -9,11 +9,12 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/unk/TUnk_8048DF58.h"
 #include "pso/unk/text_803DE864.h"
+#include "pso/player/TPlyDispData.h"
 
 // One TU .text 0x8007EAF8-0x8007ECF0: its .sdata holds enable_v2_features, its .data the TUnk_8048DF58 vtable.
 int enable_v2_features = 1;
 
-u8 *TObjChara::get_stats() { return stat_block; }
+player_stats *TObjChara::get_stats() { return stat_block; }
 
 u8 *TQuestListVM::get_quest_bin() { return decrypted_quest_buffer; }
 

@@ -1092,7 +1092,7 @@ void TObjEneBm9Mericarol::state_cast_technique(s32 reason) {
 }
 
 s32 TObjEneBm9Mericarol::get_clamped_level() {
-    player_stats *p = (player_stats *)stat_block;
+    player_stats *p = stat_block;
     s32 v = 0;
     if (p != 0) {
         v = p->level;

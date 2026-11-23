@@ -283,6 +283,7 @@ struct Pkt_800284B4 {
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/camera/CameraHelpers.h"
+#include "pso/player/TPlyDispData.h"
 extern "C" {
 u8 *boss1_dragon_part_hp_stats[5];
 Boss1DragonParams *boss1_dragon_behavior_params[3];
@@ -766,7 +767,7 @@ TBoss1Dragon::TBoss1Dragon(TObject *parent, void *set_data) : TObjEneDD_ST(paren
     this->sequenceCursor = 0;
     this->hpThreshold = 0;
     this->finalHpThreshold = this->hpmax * 3 / 10;
-    *(f32 *)(this->stat_block + 0x10) = 10.0f;
+    this->stat_block->proportions = 10.0f;
     this->update_damage_threshold();
     this->tail = new TBoss1DragonEffTail(this, &this->node_positions[15]);
     this->attack_history = new AreaAttackHistory(4);

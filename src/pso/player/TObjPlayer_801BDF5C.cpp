@@ -28,6 +28,7 @@
 #include "pso/player/TObjPlayer_801BEB0C.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/camera/TCameraCtrl.h"
+#include "pso/player/TPlyDispData.h"
 
 
 extern "C" {
@@ -646,7 +647,7 @@ s32 TObjPlayer::clamp_index_to_max(s32 level) {
     return max_level;
 }
 s32 TObjPlayer::clamp_nested_index() {
-    return TObjPlayer::clamp_index_to_max(*(s32 *)(this->stat_block + 0x18));
+    return TObjPlayer::clamp_index_to_max(this->stat_block->level);
 }
 void TObjPlayer::clear_flag_20000() {
     clear_state_flags(0x20000);

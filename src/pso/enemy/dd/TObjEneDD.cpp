@@ -126,6 +126,7 @@ int submit_cursor_candidate(void*, int);
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/network/TProtocol.h"
+#include "pso/player/TPlyDispData.h"
 
 extern "C" {
 int fn_800FD8A0(void*);
@@ -450,7 +451,7 @@ u8 *TObjEneDD::snap_to_ground_at(u8 *dest) {
     Vec probe;
     CsnHit *hit;
     probe.x = target->x;
-    probe.y = target->y + *(f32 *)(this->stat_block + 0x10);
+    probe.y = target->y + this->stat_block->proportions;
     probe.z = target->z;
     if (csnVectorUnder(&probe, this->ground_candidates.groups, 0xE0) != NULL) {
         return NULL;

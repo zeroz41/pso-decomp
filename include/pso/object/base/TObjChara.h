@@ -6,6 +6,7 @@
 #include "pso/system/SubtractiveRng.h"
 
 struct Vec;
+struct player_stats;
 struct ActorParamBlock;
 struct ControllerInputContext;
 struct AttackParams;
@@ -61,7 +62,7 @@ public:
     s32 obj_testFlag_2E4(u32);
     int obj_getPtr2B0_1C();
     // The character's stat block (ATP, MST, EVP, HP, DFP, ATA, LCK first).
-    u8 *get_stats();
+    player_stats *get_stats();
     s16 get_base_evp();
     void adjust_evp(int);
     s16 get_base_atp();
@@ -181,7 +182,7 @@ public:
     Vec move_destination;  // where the current move goes
     u8 *target;
     u32 m_2ac;
-    u8 *stat_block;  // the stat block get_stats returns (ATP, MST, EVP, HP, DFP, ATA, LCK; proportions at +0x10)
+    player_stats *stat_block;  // the stat block get_stats returns
     f32 frame_timer;  // frames counted up or down by the current behaviour
     s16 hpmax;
     s16 tpmax;

@@ -76,6 +76,7 @@
 #include "pso/unk/text_80052420.h"
 #include "pso/boss/darkfalz/TObjDFHorming.h"
 #include "pso/boss/darkfalz/TBoss4Type1.h"
+#include "pso/player/TPlyDispData.h"
 
 
 const char *boss4_type2_class_name = "TBoss4Type2";
@@ -617,7 +618,7 @@ void TBoss4Type2::choose_action_after_move() {
 }
 
 void TBoss4Type2::apply_resta_heal() {
-    s16 power = *(s16 *)(stat_block + 2);
+    s16 power = stat_block->stats.mst;
     drain_player_hp(target_player, (power / 5) + (s32)TTecResta::calc_heal_amount(*(s32 *)((s8 *)TLobby::dispatch_shared_handler_a(0x37) + 0x1C)));
 }
 

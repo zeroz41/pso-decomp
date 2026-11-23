@@ -4,6 +4,7 @@
 #include "pso/item/TItem.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TPlyItem.h"
+#include "pso/player/TPlyDispData.h"
 
 struct Entry_802D20C8 { u32 id; s32 count; };
 
@@ -45,7 +46,7 @@ void snapshot_player_trade_inventory(saddr arg0, s32 arg1) {
     u8 *player;
     s32 var_r26;
     u8 *temp_r3_2;
-    u8 *temp_r3_3;
+    player_stats *temp_r3_3;
     u8 *var_r25;
     ((TLobby *)arg0)->update_both_halves();
     player = (u8 *)get_player_by_client_id(arg1);
@@ -69,7 +70,7 @@ void snapshot_player_trade_inventory(saddr arg0, s32 arg1) {
         temp_r3_3 = ((TObjPlayer *)player)->get_stats();
         *(s32 *)((s8 *)temp_r31 + 0) = -0xFF;
         if (temp_r3_3 != NULL) {
-            *(s32 *)((s8 *)temp_r31 + 4) = (s32) *(s32 *)((s8 *)temp_r3_3 + 0x20);
+            *(s32 *)((s8 *)temp_r31 + 4) = temp_r3_3->meseta;
             return;
         }
         *(s32 *)((s8 *)temp_r31 + 4) = 0;

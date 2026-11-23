@@ -3535,12 +3535,12 @@ u8 *TObjPlayer::update_actor_ground_y_at(Vec *pos) {
     f32 temp_f1;
     s32 temp_r31;
     u8 *temp_r3;
-    u8 *temp_r6;
+    player_stats *temp_r6;
     u8 *arg0 = (u8 *)this;
     stack.x = pos->x;
-    temp_r6 = (u8 *)(((TObjPlayer *)arg0)->stat_block);
+    temp_r6 = ((TObjPlayer *)arg0)->stat_block;
     temp_f1 = pos->y;
-    stack.y = temp_f1 + *(f32 *)((s8 *)temp_r6 + 0x10);
+    stack.y = temp_f1 + temp_r6->proportions;
     stack.z = pos->z;
     temp_r3 = (u8 *)csnVectorUnder(&stack, this->ground_candidates.groups, 0x5F);
     if (temp_r3 == NULL) {
@@ -3834,7 +3834,7 @@ void TObjPlayer::check_level_up() {
     if ((TObjPlayer::is_locally_controlled(this) != 0) && (is_current_area_item_enabled() != 0)) {
         temp_r30 = this->clamp_nested_index() + 1;
         if (temp_r30 <= TObjPlayer::get_max_level()) {
-            if (TObjPlayer::get_current_state_field(this->get_class_index(), temp_r30) <= (s32) *(s32 *)(this->stat_block + 0x1C)) {
+            if (TObjPlayer::get_current_state_field(this->get_class_index(), temp_r30) <= (s32) this->stat_block->exp) {
                 ((TObjPlayer *)(&sp40))->reset_sub_status_disp();
                 ((TObjPlayer *)(&sp24))->reset_sub_status_disp();
                 ((TObjPlayer *)(&sp8))->reset_sub_status_disp();
@@ -4045,30 +4045,30 @@ void TObjPlayer::apply_battle_level_reset(s32 level) {
     inventory_objects->set_flag_and_update((saddr)this);
     s8 cls = get_class_index();
     stats *base = get_class_base_stats(cls);
-    ((player_stats *)stat_block)->stats.atp = base->atp;
-    ((player_stats *)stat_block)->stats.mst = base->mst;
-    ((player_stats *)stat_block)->stats.evp = base->evp;
-    ((player_stats *)stat_block)->stats.hp = base->hp;
-    ((player_stats *)stat_block)->stats.dfp = base->dfp;
-    ((player_stats *)stat_block)->stats.ata = base->ata;
-    ((player_stats *)stat_block)->stats.lck = base->lck;
+    stat_block->stats.atp = base->atp;
+    stat_block->stats.mst = base->mst;
+    stat_block->stats.evp = base->evp;
+    stat_block->stats.hp = base->hp;
+    stat_block->stats.dfp = base->dfp;
+    stat_block->stats.ata = base->ata;
+    stat_block->stats.lck = base->lck;
     u8 *row = get_ply_level_table_row(cls, 0);
     if (row != NULL) {
         const player_stats *caps = get_class_stat_caps(cls);
         for (i = 0; i < level; i++) {
             row += 0xC;
-            add_stat_clamped(((TObjPlayer *)row)->get_char_class(), &((player_stats *)stat_block)->stats.atp, caps->stats.atp);
-            add_stat_clamped(((TObjPlayer *)row)->get_team_id(), &((player_stats *)stat_block)->stats.mst, caps->stats.mst);
-            add_stat_clamped(get_byte_2((void *)row), &((player_stats *)stat_block)->stats.evp, caps->stats.evp);
-            add_stat_clamped(get_byte_3((void *)row), &((player_stats *)stat_block)->stats.hp, caps->stats.hp);
-            add_stat_clamped(((TObjPlayer *)row)->get_byte_4(), &((player_stats *)stat_block)->stats.dfp, caps->stats.dfp);
-            add_stat_clamped(((TObjPlayer *)row)->get_field_5(), &((player_stats *)stat_block)->stats.ata, caps->stats.ata);
+            add_stat_clamped(((TObjPlayer *)row)->get_char_class(), &stat_block->stats.atp, caps->stats.atp);
+            add_stat_clamped(((TObjPlayer *)row)->get_team_id(), &stat_block->stats.mst, caps->stats.mst);
+            add_stat_clamped(get_byte_2((void *)row), &stat_block->stats.evp, caps->stats.evp);
+            add_stat_clamped(get_byte_3((void *)row), &stat_block->stats.hp, caps->stats.hp);
+            add_stat_clamped(((TObjPlayer *)row)->get_byte_4(), &stat_block->stats.dfp, caps->stats.dfp);
+            add_stat_clamped(((TObjPlayer *)row)->get_field_5(), &stat_block->stats.ata, caps->stats.ata);
         }
     }
-    ((player_stats *)stat_block)->level = level;
-    ((player_stats *)stat_block)->mbr_0xe = 40;
-    ((player_stats *)stat_block)->exp = get_current_state_field(cls, level);
-    ((player_stats *)stat_block)->meseta = 300;
+    stat_block->level = level;
+    stat_block->mbr_0xe = 40;
+    stat_block->exp = get_current_state_field(cls, level);
+    stat_block->meseta = 300;
     f32 tp_factor = get_tp_class_factor();
     recalc_combat_stats(NULL, NULL, NULL, get_class_hp_factor(), tp_factor);
     hp = hpmax;
@@ -6379,13 +6379,13 @@ void TObjPlayer::update_photon_chair() {
 s32 TObjPlayer::add_actor_exp(s32 arg1) {
     s32 temp_r31;
     s32 temp_r3;
-    void *temp_r4;
+    player_stats *temp_r4;
 
     if (is_current_area_item_enabled() == 0) {
         return 0;
     }
     temp_r4 = this->stat_block;
-    temp_r31 = *(s32 *)((s8 *)temp_r4 + 0x1C);
+    temp_r31 = temp_r4->exp;
     temp_r3 = TObjPlayer__sub_801D91B8(this, temp_r4);
     temp_r31 = temp_r31 + arg1;
     if (temp_r31 > temp_r3) {
@@ -6394,7 +6394,7 @@ s32 TObjPlayer::add_actor_exp(s32 arg1) {
     if (temp_r31 < 0) {
         temp_r31 = 0;
     }
-    *(s32 *)(this->stat_block + 0x1C) = temp_r31;
+    this->stat_block->exp = temp_r31;
     return 1;
 }
 

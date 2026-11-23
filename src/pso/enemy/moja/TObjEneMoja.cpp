@@ -58,6 +58,7 @@
 #include "pso/network/client_id.h"
 #include "pso/render/model_render_state.h"
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
+#include "pso/player/TPlyDispData.h"
 extern "C" {
 s32 spawn_dead_spot_scale15(void *, int);
 void TObjPlayer__sub_800ACA0C(void *);
@@ -1353,7 +1354,7 @@ void TObjEneMoja::update_death_state() {
     if (is_passing_frame(27.0f) != 0) {
         v.x = 0.0f;
         v.y = 10.0f;
-        v.z = 0.5f * *(f32 *)(this->stat_block + 0x10);
+        v.z = 0.5f * this->stat_block->proportions;
         push_matrix_from(identity_matrix);
         rotate_matrix_y(0, this->rotation_y);
         rotate_vector_by_matrix(0, &v, &v);

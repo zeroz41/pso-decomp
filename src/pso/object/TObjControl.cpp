@@ -32,6 +32,7 @@
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/unk/TLobby_80291D94.h"
 #include "pso/player/PlayerAttackParams.h"
+#include "pso/player/TPlyDispData.h"
 
 struct Ply_800F7118 {
     u8 pad0[0x28];
@@ -294,20 +295,20 @@ s32 TObjEnemy::bind_enemy_combat_stats(u8 *arg1, u8 *arg2, u8 *arg3) {
     s16 temp_r0_3;
     s16 temp_r0_4;
     s16 attack_params_atp_max;
-    u8 *temp_r4;
-    u8 *temp_r6;
+    player_stats *temp_r4;
+    player_stats *temp_r6;
 
     if (arg1 != NULL) {
-        this->stat_block = arg1;
+        this->stat_block = (player_stats *)arg1;
         temp_r6 = this->stat_block;
-        this->hpmax = (s16) (*(s16 *)((s8 *)temp_r6 + 6) + *(s32 *)((s8 *)temp_r6 + 0x18));
+        this->hpmax = (s16) (temp_r6->stats.hp + temp_r6->level);
         this->hp = (s16) this->hpmax;
         if (obj_testFlag_2E4(4U) != 0) {
             this->tpmax = 0;
             this->tp = 0;
         } else {
             temp_r4 = this->stat_block;
-            this->tpmax = (s16) (*(s16 *)((s8 *)temp_r4 + 2) + *(s32 *)((s8 *)temp_r4 + 0x18));
+            this->tpmax = (s16) (temp_r4->stats.mst + temp_r4->level);
             this->tp = (s16) this->tpmax;
         }
         goto block_6;
@@ -332,21 +333,21 @@ block_10:
         return 0;
     }
 block_14:
-    temp_r0 = *(s16 *)(this->stat_block + 0);
+    temp_r0 = this->stat_block->stats.atp;
     this->atp = temp_r0;
     this->base_atp = temp_r0;
     attack_params_atp_max = get_attack_params_atp_max(*(u8 **)((s8 *)((u8 *)this) + 0x318));
     temp_r0_2 = attack_params_atp_max - get_attack_params_atp_min(*(u8 **)((s8 *)((u8 *)this) + 0x318));
     this->atp_range = temp_r0_2;
     this->base_atp_range = temp_r0_2;
-    temp_r0_3 = *(s16 *)(this->stat_block + 4) + *(s16 *)((s8 *)(*(u8 **)((s8 *)((u8 *)this) + 0x31C)) + 0);
+    temp_r0_3 = this->stat_block->stats.evp + *(s16 *)((s8 *)(*(u8 **)((s8 *)((u8 *)this) + 0x31C)) + 0);
     this->evp = temp_r0_3;
     this->base_evp = temp_r0_3;
-    temp_r0_4 = *(s16 *)(this->stat_block + 8) + *(s32 *)((s8 *)(*(u8 **)((s8 *)((u8 *)this) + 0x31C)) + 0x1C);
+    temp_r0_4 = this->stat_block->stats.dfp + *(s32 *)((s8 *)(*(u8 **)((s8 *)((u8 *)this) + 0x31C)) + 0x1C);
     this->dfp = temp_r0_4;
     this->base_dfp = temp_r0_4;
-    this->ata = (s16) (*(s16 *)(this->stat_block + 0xA) + this->attack_params->get_ata());
-    this->lck = (s16) *(s16 *)(this->stat_block + 0xC);
+    this->ata = (s16) (this->stat_block->stats.ata + this->attack_params->get_ata());
+    this->lck = (s16) this->stat_block->stats.lck;
     this->m_2f2 = (s16) *(s16 *)((s8 *)(*(u8 **)((s8 *)((u8 *)this) + 0x31C)) + 2);
     this->m_2f4 = (s16) *(s16 *)((s8 *)(*(u8 **)((s8 *)((u8 *)this) + 0x31C)) + 6);
     *(s16 *)((s8 *)((u8 *)this) + 0x2F6) = (s16) *(s16 *)((s8 *)(*(u8 **)((s8 *)((u8 *)this) + 0x31C)) + 4);
@@ -637,11 +638,11 @@ void link_chain_nodes__10TObjPlayerFPvPvPv(void *arg0, Node_800F6E2C *arg1, Node
 #pragma fp_contract on
 void TObjEnemy::update_prev_position() {
     u8 *arg0 = (u8 *)this;
-    u8 *temp_r3;
+    player_stats *temp_r3;
     VecCopy((Vec *)(arg0 + 0x2FC), (const Vec *)(arg0 + 0x38));
-    temp_r3 = (unsigned char *) (this->stat_block);
+    temp_r3 = this->stat_block;
     if (temp_r3 != NULL) {
-        this->body_center.y = (f32) ((0.5f * *(f32 *)((s8 *)temp_r3 + 0x10)) + this->body_center.y);
+        this->body_center.y = (f32) ((0.5f * temp_r3->proportions) + this->body_center.y);
     }
 }
 
@@ -654,7 +655,7 @@ void TObjEnemy::award_enemy_experience(s32 arg1) {
         p->test_actor_flags(0x800) != 0 || p->get_floor() != get_current_floor()) {
         return;
     }
-    val = *(s32 *)(this->stat_block + 0x1C);
+    val = this->stat_block->exp;
     if ((u16)arg1 == this->attacker_id) {
         if (((TLobby *)lobby_rule_settings)->get_rule_field_0() == 1) {
             fn_801B0480(p, this, 1);

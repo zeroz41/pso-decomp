@@ -68,6 +68,7 @@
 #include "pso/render/model_render_state.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/enemy/lappy/TObjEneLappy_800F5DE0.h"
+#include "pso/player/TPlyDispData.h"
 
 extern const f64 dolmolm_radians_to_angle[];
 extern int lbl_805D69E8;
@@ -889,7 +890,7 @@ void TObjEneDolmOlm::spawn_death_effect() {
     Vec stack;
     stack.x = 0.0f;
     stack.y = 10.0f;
-    stack.z = 0.5f * *(f32 *)(this->stat_block + 0x10);
+    stack.z = 0.5f * this->stat_block->proportions;
     push_matrix_from(&identity_matrix);
     rotate_matrix_y(0, rotation_y);
     rotate_vector_by_matrix(0, &stack, &stack);

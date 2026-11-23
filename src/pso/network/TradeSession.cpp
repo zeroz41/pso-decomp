@@ -31,6 +31,7 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/unk/text_801D40D4.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
+#include "pso/player/TPlyDispData.h"
 struct ByteBlock_F8 { u8 bytes[0xf8]; };
 
 struct Stack_802D23E0
@@ -60,7 +61,7 @@ typedef struct Stack_802D23E0 Stack_802D23E0;
 void TLobby::send_trade_proposal_modify() {
   Stack_802D23E0 stack;
   u8 *player;
-  u8 *temp_r3_2;
+  player_stats *temp_r3_2;
   build_6xA6_modify_trade_proposal(&stack.sp8);
   if (((s32) TLobby__trade_proposal_state) == 2)
   {
@@ -72,7 +73,7 @@ void TLobby::send_trade_proposal_modify() {
       {
         stack.spC = 0;
         stack.spD = 2;
-        stack.sp14 = *((s32 *) (((s8 *) temp_r3_2) - -0x20));
+        stack.sp14 = temp_r3_2->meseta;
         if (((*(u8 *)&TLobby__trade_partner_client_id) && (*(u8 *)&TLobby__trade_partner_client_id)) && (*(u8 *)&TLobby__trade_partner_client_id))
         {
         }
@@ -686,7 +687,7 @@ void TLobby::send_trade_proposal_result(s8 arg0, s8 arg1) {
 void send_6xA6_modify_trade_proposal(saddr client_id) {
     G_ModifyTradeProposal_6xA6 packet;
     TObjPlayer *player;
-    u8 *temp_r3_2;
+    player_stats *temp_r3_2;
     build_6xA6_modify_trade_proposal((&packet.header));
     player = get_player_by_client_id(local_client_id);
     if ((player != NULL) && (temp_r3_2 = player->get_stats(), ((temp_r3_2 == NULL) == 0))) {
