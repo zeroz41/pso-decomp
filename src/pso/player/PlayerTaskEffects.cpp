@@ -19,6 +19,7 @@
 #include "types.h"
 #include "pso/map/FloorArea.h"
 #include "pso/system/task/TObject.h"
+#include "pso/system/task/TMainTask.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/player/TUnk_804B6C24.h"
@@ -26,7 +27,6 @@
 
 extern "C" {
 
-void *__ct__20TPlayerLevelFeedbackFP7TObjectUs(void *arg0, u16 arg1, u16 arg2);
 void __dl__7TObjectFPv(void *);
 void __dt__7TObjectFv(void *, int);
 
@@ -58,18 +58,15 @@ struct VO_801C6408 : VB_801C6408 {
 
 extern "C" {
 s32 is_on_current_floor__10TObjPlayerFi(VO_801C6408*);
-extern s32 tl_07;
 
 }
 
 extern "C" {
 
-s32 __ct__11TPlayerSoulFP7TObjectUs();
 
 
 s32 check_flag_0x8000__10TObjPlayerFv();
 
-extern saddr tl_06;
 
 }
 
@@ -733,17 +730,11 @@ TObjPlayer*TPlayerSoul::get_player() {
 
 extern "C" {
 void TObjPlayer::revive_or_spawn_marker() {
-    s32 temp_r3;
-    saddr player = (saddr)this;
-
-    if ((check_flag_0x8000__10TObjPlayerFv() != 0) || (((TObjChara *)player)->obj_isState3_324() != 0) || (((TObjPlayer *)player)->is_script_controlled() != 0)) {
-        ((TObjPlayer *)player)->clear_flag_8000();
+    if ((check_flag_0x8000__10TObjPlayerFv() != 0) || (obj_isState3_324() != 0) || (is_script_controlled() != 0)) {
+        clear_flag_8000();
         return;
     }
-    temp_r3 = (saddr)TObject::operator new(0x24);
-    if (temp_r3 != 0) {
-        ((s32 (*)(s32, s32, u16)) __ct__11TPlayerSoulFP7TObjectUs)(temp_r3, tl_06, ((TObjBase *)(player))->get_entity_id());
-    }
+    new TPlayerSoul(tl_06, get_entity_id());
 }
 
 }
@@ -784,10 +775,7 @@ void TPlayerSoul::run_task() {
 
 extern "C" {
 void TObjPlayer::new_child_object(u16 arg0) {
-    void* obj = TObject::operator new(0x24);
-    if (obj != 0) {
-        ((void *(*)(void *, s32, u16)) __ct__20TPlayerLevelFeedbackFP7TObjectUs)(obj, tl_07, arg0);
-    }
+    new TPlayerLevelFeedback(tl_07, arg0);
 }
 
 }
@@ -837,7 +825,7 @@ void *TPlyOnCreated::create(s32 client, int (*callback)(void *)) {
     return new TPlyOnCreated(client, callback);
 }
 
-TPlyOnCreated::TPlyOnCreated(s32 client, int (*callback)(void *)) : TObject((TObject *)tl_06) {
+TPlyOnCreated::TPlyOnCreated(s32 client, int (*callback)(void *)) : TObject(tl_06) {
     m_name = TPlyOnCreated__name;
     player_id = client;
     this->callback = callback;
