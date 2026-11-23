@@ -7297,7 +7297,7 @@ force_active:
   - is_id_out_of_range__6TLobbyFi
   - is_in_camera_range__18TObjBoss7TunnelColFv
   - is_in_view_depth__15TODoorVS2Door01Ff
-  - is_in_view_depth__6TSceneFf
+  - is_in_view_depth__6TSceneFP3Vecff
   - is_inactive__8TItemMagFv
   - is_level_in_table__24TObjWaitEntryHairMoveSimFPv
   - is_load_complete__12TAdTimeSetGCFv

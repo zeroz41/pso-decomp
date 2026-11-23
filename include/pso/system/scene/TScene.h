@@ -25,6 +25,21 @@ struct SceneMaterialInfo {
     u8 pad_05[3];
 };
 
+// The material info file (<floor>i.bin): a header word, then count entries.
+struct SceneMaterialInfoFile {
+    s32 header;
+    s32 count;
+    SceneMaterialInfo entries[1];
+};
+
+// One record of the area's texture wave table, ended by a negative texture_index.
+struct TextureWaveEntry {
+    s16 texture_index;
+    u8 pad_02[2];
+    u8 *image;
+    s32 size;
+};
+
 // A name and the index it selects: a scene format tag (scene_format_dispatch_tables) or a floor's
 // scene file (get_floor_scene_table).
 struct SceneNameIndex { char *name; s32 idx; };
@@ -49,6 +64,8 @@ public:
     virtual void render();
     void sub_80204D7C();
     void cull_sections();
+    // Whether pos lies in front of the camera and no further than depth.
+    BOOL is_in_view_depth(Vec *pos, f32 depth, f32);
     // Which of the four culling passes render runs this frame.
     s32 get_cull_mode();
     void sub_80205AE8();

@@ -21,6 +21,7 @@
 #include "pso/unk/TLobby_80131794.h"
 #include "pso/unk/TLobby_80207DA8.h"
 #include "pso/unk/text_800F8A18.h"
+#include "pso/unk/text_803D853C.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/object/lobby/TObjButterflyLobby.h"
 #include "pso/map/TObjMapCsn.h"
@@ -76,15 +77,8 @@ extern "C" {
 
 SceneMaterialSection *find_scene_room_by_id(s32 id);
 
-bool is_in_view_depth__6TSceneFf(f32 depth);
+s32 TScene__sub_802040D4(TScene *scene, SceneMaterialNode *node, f32 depth, f32 near_depth);
 
-s32 TScene__sub_802040D4(void *self, SceneMaterialNode *node, f32 depth, f32 near_depth);
-
-void matrix_mult_vec(int, void *, void *);
-
-
-
-f32 vec3_dot(void *, void *);
 
 f32 project_point_onto_line(void *, void *, void *);
 
@@ -175,22 +169,8 @@ LAYOUT_ASSERT(SceneDispatchPrefix_size, sizeof(SceneDispatchPrefix) == 0x78);
 extern Vec lbl_8044A84C[];
 
 
-// The material info file (<floor>i.bin): a header word, then count entries.
-struct SceneMaterialInfoFile { s32 header; s32 count; SceneMaterialInfo entries[1]; };
-
-
-
 struct Node_80205AEC { u32 flags; void *obj; u32 tex; u16 id; u8 b; u8 c; };
 
-
-
-// One record of the area's texture wave table, ended by a negative texture_index.
-struct TextureWaveEntry {
-    s16 texture_index;
-    u8 pad_02[2];
-    u8 *image;
-    s32 size;
-};
 extern "C" {
 
 
@@ -1900,7 +1880,7 @@ void TScene::cull_sections() {
                 v.x = n->model->center[0] + (sec->position[0] + n->position[0]);
                 v.y = n->model->center[1] + (sec->position[1] + n->position[1]);
                 v.z = n->model->center[2] + (sec->position[2] + n->position[2]);
-                if (((s32 (*)(void *, void *, f32, f32))is_in_view_depth__6TSceneFf)(this, &v, s_near + s_pad, 100.0f) != 0) {
+                if (is_in_view_depth(&v, s_near + s_pad, 100.0f) != 0) {
                     st->flags |= 0x10000;
                 } else {
                     st->flags &= ~0x10000;
@@ -1913,7 +1893,7 @@ void TScene::cull_sections() {
                     v.x = sec->position[0] + n->position[0];
                     v.y = sec->position[1] + n->position[1];
                     v.z = sec->position[2] + n->position[2];
-                    if (((s32 (*)(void *, void *, f32, f32))is_in_view_depth__6TSceneFf)(this, &v, s_near + s_pad, 100.0f) != 0) {
+                    if (is_in_view_depth(&v, s_near + s_pad, 100.0f) != 0) {
                         an->flags |= 0x10000;
                     } else {
                         an->flags &= ~0x10000;
@@ -2055,23 +2035,25 @@ void TScene::update_room_object_visibility(SceneMaterialSection *room) {
         }
     }
 }
-extern "C" {
-bool is_in_view_depth__6TSceneFf(f32 depth) {
-    f32 sp[6];
-    void *unused;
-    matrix_mult_vec(0, unused, &sp[0]);
-    if (sp[2] > 0.0f) {
-        return 0;
+BOOL TScene::is_in_view_depth(Vec *pos, f32 depth, f32) {
+    Vec view;
+    matrix_mult_vec(NULL, pos, &view);
+    if (view.z > 0.0f) {
+        return FALSE;
     }
-    return (sp[2] < -depth) == 0;
+    if (view.z < -depth) {
+        return FALSE;
+    }
+    return TRUE;
 }
-s32 TScene__sub_802040D4(void *scene, SceneMaterialNode *node, f32 f0, f32 f1) {
+extern "C" {
+s32 TScene__sub_802040D4(TScene *scene, SceneMaterialNode *node, f32 f0, f32 f1) {
     if (node->model != NULL && camera_ctrl_instance != NULL) {
         Vec *pos = (Vec *)node->position;
         if (xz_distance_squared(&camera_ctrl_instance->pos, pos) < node->model->radius * node->model->radius) {
             return 1;
         }
-        return ((s32 (*)(void *, void *, f32, f32))is_in_view_depth__6TSceneFf)(scene, pos, f0, f1);
+        return scene->is_in_view_depth(pos, f0, f1);
     }
     return 0;
 }
