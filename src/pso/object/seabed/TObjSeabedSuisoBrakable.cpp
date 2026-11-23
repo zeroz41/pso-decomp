@@ -58,7 +58,7 @@ void TObjSeabedSuisoBrakable::load_resources() {
     case AREA_SEABED_LOWER: {
         loaded = new BmlResource(1, (BmlResourceDescriptor *)&bm_obj_seabed_suiso_2_resource_descriptor, 0, 0, NULL);
         bml_resource = static_cast<BmlResource *>(loaded);
-        if ((texture_list = (NJS_TEXLIST *)load_gvm_texture_file("obj_seabed_suiso_2.GVM")) != NULL) {
+        if ((texture_list = load_gvm_texture_file("obj_seabed_suiso_2.GVM")) != NULL) {
             SeabedSuisoTextureNames names = seabed_suiso_2_texture_names;
             for (i = 0; i < 5; i++) {
                 texture_entries[i] = find_texture_entry_by_name(texture_list, names.name[i]);
@@ -70,7 +70,7 @@ void TObjSeabedSuisoBrakable::load_resources() {
     default: {
         loaded = new BmlResource(1, (BmlResourceDescriptor *)&bm_obj_seabed_suiso_resource_descriptor, 0, 0, NULL);
         bml_resource = static_cast<BmlResource *>(loaded);
-        if ((texture_list = (NJS_TEXLIST *)load_gvm_texture_file("obj_seabed_suiso.GVM")) != NULL) {
+        if ((texture_list = load_gvm_texture_file("obj_seabed_suiso.GVM")) != NULL) {
             SeabedSuisoTextureNames names = seabed_suiso_texture_names;
             for (i = 0; i < 5; i++) {
                 texture_entries[i] = find_texture_entry_by_name(texture_list, names.name[i]);

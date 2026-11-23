@@ -675,15 +675,15 @@ void load_lobby_textures() {
     scores[1] = 0;
     obj = new BmlResource(5, (BmlResourceDescriptor *)&language_lobby_texture_descriptor, 0, 0, NULL);
     gogo_ball_bml_resource = obj;
-    lobby_gvm_texture_handles[0] = (NJS_TEXLIST *)load_gvm_texture_file("robby_chu.gvm");
-    lobby_gvm_texture_handles[1] = (NJS_TEXLIST *)load_gvm_texture_file("biri_ball.gvm");
-    lobby_gvm_texture_handles[2] = (NJS_TEXLIST *)load_gvm_texture_file("bom_ball.gvm");
-    lobby_gvm_texture_handles[3] = (NJS_TEXLIST *)load_gvm_texture_file("soft_ball.gvm");
-    lobby_gvm_texture_handles[4] = (NJS_TEXLIST *)load_gvm_texture_file("rokeorange_churoke.gvm");
-    lobby_gvm_texture_handles[5] = (NJS_TEXLIST *)load_gvm_texture_file("rokeblue_pso_churoke.gvm");
-    lobby_gvm_texture_handles[6] = (NJS_TEXLIST *)load_gvm_texture_file("robby_cat.gvm");
-    lobby_gvm_texture_handles[7] = (NJS_TEXLIST *)load_gvm_texture_file("fd_obj804_gorl03.gvm");
-    lobby_gvm_texture_handles[8] = (NJS_TEXLIST *)load_gvm_texture_file("fd_obj804_gorl03_b.gvm");
+    lobby_gvm_texture_handles[0] = load_gvm_texture_file("robby_chu.gvm");
+    lobby_gvm_texture_handles[1] = load_gvm_texture_file("biri_ball.gvm");
+    lobby_gvm_texture_handles[2] = load_gvm_texture_file("bom_ball.gvm");
+    lobby_gvm_texture_handles[3] = load_gvm_texture_file("soft_ball.gvm");
+    lobby_gvm_texture_handles[4] = load_gvm_texture_file("rokeorange_churoke.gvm");
+    lobby_gvm_texture_handles[5] = load_gvm_texture_file("rokeblue_pso_churoke.gvm");
+    lobby_gvm_texture_handles[6] = load_gvm_texture_file("robby_cat.gvm");
+    lobby_gvm_texture_handles[7] = load_gvm_texture_file("fd_obj804_gorl03.gvm");
+    lobby_gvm_texture_handles[8] = load_gvm_texture_file("fd_obj804_gorl03_b.gvm");
 }
 #pragma pool_data reset
 

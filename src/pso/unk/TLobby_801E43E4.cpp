@@ -197,7 +197,7 @@ struct GvmFileHeader {
 
 saddr TLanguage__read_cursor;
 
-u8 *load_gvm_texture_file(const char *name) {
+NJS_TEXLIST *load_gvm_texture_file(const char *name) {
     s32 count;
     s32 i;
     NJS_TEXLIST *res;
@@ -260,7 +260,7 @@ u8 *load_gvm_texture_file(const char *name) {
     } else {
         TLobby::tmp_buf_release("LoadPvmFileTls");
     }
-    return (u8 *)res;
+    return res;
 }
 
 int TLanguage::read_file_header(int cursor, void *header) {

@@ -74,14 +74,14 @@ void TORockJungleS01::load_resources() {
     TORockJungleS01__bml_resource = resource;
     switch (get_current_floor_area()) {
     case AREA_SEASIDE:
-        TORockJungleS01__texture_resource = (NJS_TEXLIST *)load_gvm_texture_file("o_rock_jungle_05.GVM");
+        TORockJungleS01__texture_resource = load_gvm_texture_file("o_rock_jungle_05.GVM");
         break;
     case AREA_MOUNTAIN:
-        TORockJungleS01__texture_resource = (NJS_TEXLIST *)load_gvm_texture_file("o_rock_jungle_04.GVM");
+        TORockJungleS01__texture_resource = load_gvm_texture_file("o_rock_jungle_04.GVM");
         break;
     case AREA_JUNGLE_EAST:
     default:
-        TORockJungleS01__texture_resource = (NJS_TEXLIST *)load_gvm_texture_file("o_rock_jungle_123.GVM");
+        TORockJungleS01__texture_resource = load_gvm_texture_file("o_rock_jungle_123.GVM");
         break;
     }
     TMotorcycle::add_entry(0x3E, reinterpret_cast<NJS_OBJECT *>(get_model(0)),

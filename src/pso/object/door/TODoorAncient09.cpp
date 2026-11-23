@@ -76,7 +76,7 @@ void TODoorAncient09::load_resources() {
     bml_resource = resource;
     texture_lists = (NJS_TEXLIST **)mem_alloc(2 * sizeof(NJS_TEXLIST *));
     texture_lists[0] = bml_resource->models[0].texlist;
-    texture_lists[1] = (NJS_TEXLIST *)load_gvm_texture_file("fs_obj_o_door05l_g.gvm");
+    texture_lists[1] = load_gvm_texture_file("fs_obj_o_door05l_g.gvm");
 }
 
 void TODoorAncient09::destroy() {

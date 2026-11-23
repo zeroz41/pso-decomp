@@ -507,7 +507,7 @@ void load_boss5_gryphon_resources(void) {
     case 0:
         boss5_gryphon_body_bml_resource = load_enemy_bml_resource(&boss5_gryphon_body_bml_desc);
         boss5_gryphon_bml_resource = load_enemy_bml_resource(&boss5_gryphon_bml_desc);
-        boss5_gryphon_texture_list = (NJS_TEXLIST *)load_gvm_texture_file("modelparticle_gryphon.gvm");
+        boss5_gryphon_texture_list = load_gvm_texture_file("modelparticle_gryphon.gvm");
         break;
     }
     boss5_gryphon_render_node_index = 0;

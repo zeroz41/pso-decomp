@@ -18,7 +18,7 @@ BmlResourceDescriptor bm_obj_boss5_common_resource_descriptor = {
     "bm_obj_boss5_common.bml", bm_obj_boss5_common_model_names, bm_obj_boss5_common_motion_names, 8, 4
 };
 void *lbl_805D4DD8;
-void *boss5_common_texture_list;
+NJS_TEXLIST *boss5_common_texture_list;
 void load_boss5_common_assets(void) {
     switch (TBoss8Dragon__sub_8005D700()) {
     case 0:

@@ -71,7 +71,7 @@ void TODoorAncient04::load_resources() {
     NJS_TEXLIST **texlists = (NJS_TEXLIST **)mem_alloc(2 * sizeof(NJS_TEXLIST *));
     door_ancient04_texlists = texlists;
     texlists[0] = door_ancient04_archive->models[0].texlist;
-    door_ancient04_texlists[1] = (NJS_TEXLIST *)load_gvm_texture_file("fe_obj_o_door04g.gvm");
+    door_ancient04_texlists[1] = load_gvm_texture_file("fe_obj_o_door04g.gvm");
 }
 
 void TODoorAncient04::free_resources() {

@@ -3,6 +3,8 @@
 
 #include "types.h"
 
-u8 *load_gvm_texture_file(const char *filename);
+struct NJS_TEXLIST;
+
+NJS_TEXLIST *load_gvm_texture_file(const char *filename);
 
 #endif

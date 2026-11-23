@@ -312,7 +312,7 @@ void TObjDoorKey::free_key() {
 void TObjDoorKey::load_resources() {
     saddr r = (saddr)new BmlResource(5, &TObjDoorKey__resource_descriptor, 0, 0, NULL);
     door_key_resource_handle = (BmlResource *)r;
-    TObjDoorKey__texture_handle = (NJS_TEXLIST *)load_gvm_texture_file("fe_obj_switch.gvm");
+    TObjDoorKey__texture_handle = load_gvm_texture_file("fe_obj_switch.gvm");
     TObjDoorKey__ginja_model_table[0] = (saddr)get_bml_model((BmlResource *)door_key_resource_handle, 1);
     TObjDoorKey__ginja_model_table[1] = (saddr)get_bml_model((BmlResource *)door_key_resource_handle, 2);
     s32 t = (saddr)get_bml_model((BmlResource *)door_key_resource_handle, 0);

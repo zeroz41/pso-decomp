@@ -85,6 +85,6 @@ void TObjTank::free_globals() {
 void TObjTank::load_globals() {
     BmlResource *storage = new BmlResource(5, (BmlResourceDescriptor *)&fs_obj_tank_resource_descriptor, 0, 0, NULL);
     tank_bml_resource = storage;
-    TObjTank__texture_list = reinterpret_cast<NJS_TEXLIST *>(load_gvm_texture_file("fs_obj_tank.GVM"));
+    TObjTank__texture_list = load_gvm_texture_file("fs_obj_tank.GVM");
 }
 

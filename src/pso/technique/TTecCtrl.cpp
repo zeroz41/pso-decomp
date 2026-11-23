@@ -183,7 +183,7 @@ NJS_TEXLIST *technique_texture_list;
 
 void load_technique_resources(void) {
     technique_effect_bml = new BmlResource(1, &technique_resource_descriptor, 0, 0, NULL);
-    technique_texture_list = (NJS_TEXLIST *)load_gvm_texture_file("technic.gvm");
+    technique_texture_list = load_gvm_texture_file("technic.gvm");
     bind_gvm_texture_list("technic_pt", &technique_ringwave_texture_list);
     TTecZondeEff::init_resources();
 }

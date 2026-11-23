@@ -84,13 +84,13 @@ const char *bm_obj_lobby_pigeon_motion_names[5] = { "lobby_obj_hato.njm", "path0
 BmlResourceDescriptor bm_obj_lobby_pigeon_resource_descriptor = { "bm_obj_lobby_pigeon.bml", bm_obj_lobby_pigeon_model_names, bm_obj_lobby_pigeon_motion_names, 2, 4 };
 
 uaddr seabed_dolphin_bml_archive;
-saddr seabed_dolphin_texture_handle;
+NJS_TEXLIST *seabed_dolphin_texture_handle;
 uaddr jungle_ebi_model_resource;
-uaddr jungle_ebi_texture_gvm_handle;
+NJS_TEXLIST *jungle_ebi_texture_gvm_handle;
 uaddr jungle_bird_bml_resource;
-uaddr lobby_pigeon_texture_gvm;
+NJS_TEXLIST *lobby_pigeon_texture_gvm;
 uaddr lobby_kamome_model_resource;
-uaddr lobby_kamome_texture_gvm_handle;
+NJS_TEXLIST *lobby_kamome_texture_gvm_handle;
 struct BmlResource;
 BmlResource *lobby_pigeon_bml_archive;
 u32 lobby_pigeon_lobby_type;
@@ -468,7 +468,7 @@ void TObjSeabedDolphin::vfunc_14() {
     if ((TObjPlayer::check_demo_mode() == 1) && (TMainTask::get_render_pass() == 0)) {
         ((s32 (*)(void *, s32, s32, f32))draw_line_strip__10TObjPlayerFPviif)(arg0, *(s32 *)&this->motion_model, *(s32 *)((s8 *)arg0 + 0xA0), (1.0f));
     }
-    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(seabed_dolphin_texture_handle));
+    TObjFish::set_global_param(seabed_dolphin_texture_handle);
     push_matrix();
     post_translate_matrix((u8 *)&this->position);
     rotate_matrix_y(0, this->rotation_y);
@@ -570,12 +570,12 @@ s32 TObjSeabedDolphin::sub_802C2A10() {
 void TObjSeabedDolphin::load_static_resource() {
     Obj_802C2958 *o = (Obj_802C2958 *)new BmlResource(5, &bm_obj_seabed_dolphin_resource_descriptor, 0, 0, NULL);
     (*(Obj_802C2958 * *)&seabed_dolphin_bml_archive) = o;
-    seabed_dolphin_texture_handle = (saddr)load_gvm_texture_file("obj_seabed_dolphin.gvm");
+    seabed_dolphin_texture_handle = load_gvm_texture_file("obj_seabed_dolphin.gvm");
     NpcAnimationBinding binding = seabed_dolphin_anim_binding;
     binding.motions = reinterpret_cast<BmlMotionEntry *>((*(Obj_802C2958 * *)&seabed_dolphin_bml_archive)->f430);
     NpcModelRegistry::register_animated_chunk(0x40,
         reinterpret_cast<void *>(get_bml_model((BmlResource *)reinterpret_cast<void *>(seabed_dolphin_bml_archive), 0)),
-        reinterpret_cast<void *>(seabed_dolphin_texture_handle), &binding, 16.0f, 10.0f);
+        seabed_dolphin_texture_handle, &binding, 16.0f, 10.0f);
 }
 #pragma pop
 
@@ -583,10 +583,10 @@ void TObjSeabedDolphin::load_static_resource() {
 #pragma fp_contract on
 
 void TObjSeabedDolphin::destroy_instance() {
-    if ((u32) (*(uaddr *)&seabed_dolphin_texture_handle) != 0U) {
-        release_texture_list((void*)(*(uaddr *)&seabed_dolphin_texture_handle));
-        TAdSinglePlyChrSelectGC::safe_free((*(uaddr *)&seabed_dolphin_texture_handle));
-        (*(uaddr *)&seabed_dolphin_texture_handle) = 0U;
+    if (seabed_dolphin_texture_handle != NULL) {
+        release_texture_list(seabed_dolphin_texture_handle);
+        TAdSinglePlyChrSelectGC::safe_free((uaddr)seabed_dolphin_texture_handle);
+        seabed_dolphin_texture_handle = NULL;
     }
     if ((u32) seabed_dolphin_bml_archive != 0U) {
         delete (BmlResource *)seabed_dolphin_bml_archive;
@@ -648,7 +648,7 @@ void TObjJungleEbi::vfunc_14() {
     if ((TObjPlayer::check_demo_mode() == 1) && (TMainTask::get_render_pass() == 0)) {
         ((s32 (*)(void *, s32, s32, f32))draw_line_strip__10TObjPlayerFPviif)(arg0, *(s32 *)&this->motion_model, *(s32 *)((s8 *)arg0 + 0xA0), (1.0f));
     }
-    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(*(s32 *)&jungle_ebi_texture_gvm_handle));
+    TObjFish::set_global_param(jungle_ebi_texture_gvm_handle);
     push_matrix();
     post_translate_matrix((u8 *)&this->position);
     rotate_matrix_y(0, this->rotation_y);
@@ -771,14 +771,14 @@ void TObjJungleEbi::load_static_resource() {
     saddr var_r0;
     var_r0 = (saddr)new BmlResource(5, &bm_obj_jungle_ebi_resource_descriptor, 0, 0, NULL);
     (*(saddr *)&jungle_ebi_model_resource) = var_r0;
-    (*(u8 * *)&jungle_ebi_texture_gvm_handle) = load_gvm_texture_file("obj_jungle_ebi.gvm");
+    jungle_ebi_texture_gvm_handle = load_gvm_texture_file("obj_jungle_ebi.gvm");
 }
 
 void TObjJungleEbi::destroy_instance() {
-    if ((u32) jungle_ebi_texture_gvm_handle != 0U) {
-        release_texture_list((void*)jungle_ebi_texture_gvm_handle);
-        TAdSinglePlyChrSelectGC::safe_free(jungle_ebi_texture_gvm_handle);
-        jungle_ebi_texture_gvm_handle = 0U;
+    if (jungle_ebi_texture_gvm_handle != NULL) {
+        release_texture_list(jungle_ebi_texture_gvm_handle);
+        TAdSinglePlyChrSelectGC::safe_free((uaddr)jungle_ebi_texture_gvm_handle);
+        jungle_ebi_texture_gvm_handle = NULL;
     }
     if ((u32) jungle_ebi_model_resource != 0U) {
         delete (BmlResource *)jungle_ebi_model_resource;
@@ -838,7 +838,7 @@ void TObjJungleBird::vfunc_14() {
     if ((TObjPlayer::check_demo_mode() == 1) && (TMainTask::get_render_pass() == 0)) {
         ((s32 (*)(void *, s32, s32, f32))draw_line_strip__10TObjPlayerFPviif)(arg0, *(s32 *)&this->motion_model, *(s32 *)((s8 *)arg0 + 0xA0), (1.0f));
     }
-    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(*(s32 *)&lobby_pigeon_texture_gvm));
+    TObjFish::set_global_param(lobby_pigeon_texture_gvm);
     push_matrix();
     post_translate_matrix((u8 *)&this->position);
     rotate_matrix_y(0, this->rotation_y);
@@ -939,14 +939,14 @@ void TObjJungleBird::load_static_resource() {
     saddr var_r0;
     var_r0 = (saddr)new BmlResource(5, &bm_obj_jungle_bird_resource_descriptor, 0, 0, NULL);
     (*(saddr *)&jungle_bird_bml_resource) = var_r0;
-    (*(u8 * *)&lobby_pigeon_texture_gvm) = load_gvm_texture_file("obj_jungle_bird.gvm");
+    lobby_pigeon_texture_gvm = load_gvm_texture_file("obj_jungle_bird.gvm");
 }
 
 void TObjJungleBird::destroy_instance() {
-    if ((u32) lobby_pigeon_texture_gvm != 0U) {
-        release_texture_list((void*)lobby_pigeon_texture_gvm);
-        TAdSinglePlyChrSelectGC::safe_free(lobby_pigeon_texture_gvm);
-        lobby_pigeon_texture_gvm = 0U;
+    if (lobby_pigeon_texture_gvm != NULL) {
+        release_texture_list(lobby_pigeon_texture_gvm);
+        TAdSinglePlyChrSelectGC::safe_free((uaddr)lobby_pigeon_texture_gvm);
+        lobby_pigeon_texture_gvm = NULL;
     }
     if ((u32) jungle_bird_bml_resource != 0U) {
         delete (BmlResource *)jungle_bird_bml_resource;
@@ -1016,7 +1016,7 @@ void TObjJungleKamome::vfunc_14() {
     if ((TObjPlayer::check_demo_mode() == 1) && (TMainTask::get_render_pass() == 0)) {
         ((s32 (*)(void *, s32, s32, f32))draw_line_strip__10TObjPlayerFPviif)(arg0, *(s32 *)&this->motion_model, *(s32 *)((s8 *)arg0 + 0xA0), (1.0f));
     }
-    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(*(s32 *)&lobby_kamome_texture_gvm_handle));
+    TObjFish::set_global_param(lobby_kamome_texture_gvm_handle);
     push_matrix();
     post_translate_matrix((u8 *)&this->position);
     rotate_matrix_y(0, this->rotation_y);
@@ -1118,14 +1118,14 @@ void TObjJungleKamome::load_static_resource() {
     s32 var_r0;
     var_r0 = (saddr)new BmlResource(5, &bm_obj_jungle_kamome_resource_descriptor, 0, 0, NULL);
     (*(saddr *)&lobby_kamome_model_resource) = var_r0;
-    (*(u8 * *)&lobby_kamome_texture_gvm_handle) = load_gvm_texture_file("obj_jungle_kamome.gvm");
+    lobby_kamome_texture_gvm_handle = load_gvm_texture_file("obj_jungle_kamome.gvm");
 }
 
 void TObjJungleKamome::destroy_instance() {
-    if ((u32) lobby_kamome_texture_gvm_handle != 0U) {
-        release_texture_list((void*)lobby_kamome_texture_gvm_handle);
-        TAdSinglePlyChrSelectGC::safe_free(lobby_kamome_texture_gvm_handle);
-        lobby_kamome_texture_gvm_handle = 0U;
+    if (lobby_kamome_texture_gvm_handle != NULL) {
+        release_texture_list(lobby_kamome_texture_gvm_handle);
+        TAdSinglePlyChrSelectGC::safe_free((uaddr)lobby_kamome_texture_gvm_handle);
+        lobby_kamome_texture_gvm_handle = NULL;
     }
     if ((u32) lobby_kamome_model_resource != 0U) {
         delete (BmlResource *)lobby_kamome_model_resource;

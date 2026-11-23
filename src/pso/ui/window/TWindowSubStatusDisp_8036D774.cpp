@@ -18,7 +18,7 @@
 
 struct Desc_8036D774 { f32 *pos; u32 *col; s32 a; s32 n; };
 
-saddr TBGMulti__textures;
+NJS_TEXLIST *TBGMulti__textures;
 extern "C" {
 s32 split_screen_hud_animation_frame;
 
@@ -59,7 +59,7 @@ void TWindowSubStatusDisp::draw_tiled_background() {
     s32 j;
     f32 buf[8];
     begin_screen_draw(1);
-    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(TBGMulti__textures));
+    TObjFish::set_global_param(TBGMulti__textures);
     set_draw_texture_and_color(0, -1);
     i = 0;
     buf[4] = 0.5f;
@@ -93,7 +93,7 @@ void TWindowSubStatusDisp__sub_8036D994(void) {
     if (split_screen_hud_animation_frame <= 0x1E) {
         set_additive_blend();
         begin_screen_draw(1);
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(TBGMulti__textures));
+        TObjFish::set_global_param(TBGMulti__textures);
         set_draw_texture_and_color(0, -1);
         i = 0;
         buf[0] = 0.0f;
@@ -121,7 +121,7 @@ void TWindowSubStatusDisp::draw_bottom_bar() {
   s32 i;
   f32 buffer_8[8];
   begin_screen_draw(1);
-  TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>((void *) TBGMulti__textures));
+  TObjFish::set_global_param(TBGMulti__textures);
   set_draw_texture_and_color(0, -1);
   i = 0;
   ;
@@ -145,7 +145,7 @@ void TWindowSubStatusDisp::draw_bottom_bar() {
 }
 void TWindowSubStatusDisp::draw_split_screen_hud() {
     s32 var_r3;
-    if ((u32) (*(u32 *)&TBGMulti__textures) != 0U) {
+    if (TBGMulti__textures != NULL) {
         set_depth_buffer_settings_2();
         set_default_alpha_blend();
         TParticleCtrl::begin_effect_render();
@@ -172,10 +172,10 @@ extern s32 split_screen_hud_animation_frame;
 s32 release_texture_list(void*);
 
 void TLobby::free_singleton_805D7018() {
-    if ((u32) TBGMulti__textures != 0U) {
-        release_texture_list((void*)TBGMulti__textures);
-        TAdSinglePlyChrSelectGC::safe_free(TBGMulti__textures);
-        TBGMulti__textures = 0U;
+    if (TBGMulti__textures != NULL) {
+        release_texture_list(TBGMulti__textures);
+        TAdSinglePlyChrSelectGC::safe_free((uaddr)TBGMulti__textures);
+        TBGMulti__textures = NULL;
     }
 }
 void TBGMulti__ct(void) {
@@ -184,7 +184,7 @@ void TBGMulti__ct(void) {
         palette[0] = (saddr)TLobby::tmp_buf_use_req("TBGMulti");
         TLanguage::draw_string((void *)"f128_gr.gvp", palette, 0x4D);
         TLobby::tmp_buf_release("TBGMulti");
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>((*(s32 *)&TBGMulti__textures) = (saddr)load_gvm_texture_file("bg_multi.gvm")));
+        TObjFish::set_global_param(TBGMulti__textures = load_gvm_texture_file("bg_multi.gvm"));
         TLanguage::set_entry_index(0, 0x4D);
     }
     split_screen_hud_animation_frame = 0x384;

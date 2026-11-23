@@ -254,7 +254,7 @@ saddr TRaderMapCore__view_mode;
 void *TRaderMapCore__instance;
 s32 TRaderMapCore__render_mode;
 uaddr TRaderMapCore__frame_model_resource;
-uaddr TRaderMapCore__data_805D5F4C;
+NJS_TEXLIST *TRaderMapCore__data_805D5F4C;
 saddr TRaderMapCore__map_heap;
 
 extern RadarSpriteFrame_801FA6CC lbl_804C87E4[];
@@ -359,7 +359,7 @@ struct RadarCompassSprite_801FA6CC {
     f32 scale_x;
     f32 scale_y;
     s32 rotation;
-    u32 texlist;
+    NJS_TEXLIST *texlist;
     RadarSpriteFrame_801FA6CC *frames;
 };
 
@@ -418,14 +418,14 @@ void TRaderMapCore::reset() { *(float *)&this->m_prev = 0.0f; *(float *)&this->m
 void TRaderMapCore::load_frame_texture() {
     saddr temp_r3;
     (*(s32 *)&TRaderMapCore__frame_model_resource) = (saddr)new BmlResource(5, &obj_f_enemy_resource_descriptor, 0, 0, NULL);
-    (*(u8 * *)&TRaderMapCore__data_805D5F4C) = load_gvm_texture_file("RaderMapFrame.gvm");
+    TRaderMapCore__data_805D5F4C = load_gvm_texture_file("RaderMapFrame.gvm");
 }
 
 void TRaderMapCore::free_statics() {
-    if ((u32) TRaderMapCore__data_805D5F4C != 0U) {
-        release_texture_list((NJS_TEXLIST *)TRaderMapCore__data_805D5F4C);
-        TAdSinglePlyChrSelectGC::safe_free(TRaderMapCore__data_805D5F4C);
-        TRaderMapCore__data_805D5F4C = 0U;
+    if (TRaderMapCore__data_805D5F4C != NULL) {
+        release_texture_list(TRaderMapCore__data_805D5F4C);
+        TAdSinglePlyChrSelectGC::safe_free((uaddr)TRaderMapCore__data_805D5F4C);
+        TRaderMapCore__data_805D5F4C = NULL;
     }
     if ((u32) TRaderMapCore__frame_model_resource != 0U) {
         delete (BmlResource *)TRaderMapCore__frame_model_resource;
@@ -435,8 +435,8 @@ void TRaderMapCore::free_statics() {
 }
 
 s32 TRaderMapCore::apply_compass_param(const s32 *counter) {
-    if ((u32) TRaderMapCore__data_805D5F4C != 0U) {
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(TRaderMapCore__data_805D5F4C));
+    if (TRaderMapCore__data_805D5F4C != NULL) {
+        TObjFish::set_global_param(TRaderMapCore__data_805D5F4C);
         return 1;
     }
     return -1;

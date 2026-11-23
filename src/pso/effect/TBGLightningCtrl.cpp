@@ -158,7 +158,7 @@ void submit_particle_quad(void *owner, f32 *pos, f32 *extent, s32 color) {
     emit_particle_strip_vertices(quad, 4);
 }
 
-void load_bg_lightning(void) { bg_lightning_texture_handle = (NJS_TEXLIST *)load_gvm_texture_file("bg_lightning.gvm"); }
+void load_bg_lightning(void) { bg_lightning_texture_handle = load_gvm_texture_file("bg_lightning.gvm"); }
 
 void TBGLightningCtrl::destroy_instance() {
     if (bg_lightning_texture_handle != NULL) {
