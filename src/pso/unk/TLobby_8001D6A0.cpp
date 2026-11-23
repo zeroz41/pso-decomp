@@ -160,14 +160,14 @@ uaddr *free_and_delete__6TLobbyFPvs(uaddr *arg0, s16 arg1) {
     return arg0;
 }
 
-u8 *TLobby::init_memory_pool(s32 arg1, s32 arg2, s32 arg3) {
+u8 *TLobby::init_memory_pool(s32 arg1, s32 arg2, s32 flags) {
     s32 prev;
     u8 *temp_r3;
     u8 *temp_r5;
 
-    *(void * *)&this->m_name = fn_803DE864(arg3, 0x10);
+    *(void * *)&this->m_name = fn_803DE864(flags, 0x10);
     if ((void *) *(void * *)&this->m_name != NULL) {
-        *(s32 *)&this->m_flags = arg3;
+        *(s32 *)&this->m_flags = flags;
         prev = (arg2 + 0x1F) & 0xFFFFFFE0;
         *(s32 *)&this->m_prev = prev;
         temp_r3 = (unsigned char *) (*(void * *)&this->m_name);

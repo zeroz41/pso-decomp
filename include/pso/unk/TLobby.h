@@ -677,7 +677,7 @@ struct TLobby : public TObject {
     static void update_alloc_size();
     static u8 get_selected_slot();
     void copy_player_record(u8 *challenge);
-    u8 *init_memory_pool(s32 arg1, s32 arg2, s32 arg3);
+    u8 *init_memory_pool(s32 arg1, s32 arg2, s32 flags);
     static void init_on_main_phase();
     static void copy_state_block();
     static char *get_unit_list();
