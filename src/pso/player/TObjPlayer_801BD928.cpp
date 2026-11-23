@@ -27,7 +27,6 @@ s32 init_follow_particle_state(void *);
 s32 TObjPlayer__sub_803374C4(void *);
 s32 TObjPlayer__sub_80351974(void *);
 s32 __ct__14TPlyDispConfigFv(void *);
-s32 update_body_parts__10TObjPlayerFv(void *, void *);
 
 extern const char *lbl_805D3530;
 
@@ -68,7 +67,7 @@ TObjPlayer::TObjPlayer(TObject *parent, s32 slot, s32 role, u8 *record) : TObjCh
     this->init_action_provider();
     this->entity_id = slot;
     this->setup_control_role(role);
-    update_body_parts__10TObjPlayerFv(this, record + 0x370);
+    update_body_parts(record + 0x370);
     sub_801BEE2C((s16)(*(u8 *)((s8 *)record + 1)));
     sub_801BEE24((s16)(*(u8 *)((s8 *)record + 2)));
     this->set_field_374(get_byte_e7(record));

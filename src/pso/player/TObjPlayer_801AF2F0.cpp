@@ -1094,6 +1094,7 @@ void mark_area_change_pending(void);
 void clear_velocity(u8 *arg0);
 s32 try_spend_actor_meseta(u8 *player, s32 count);
 s32 set_hp_clamped__10TObjPlayerFs(void * a0 = 0, s16 a1 = 0);
+s32 set_tp__10TObjPlayerFs(void * a0 = 0, s16 a1 = 0);
 s32 add_actor_hp(u8 *arg0, s16 arg1);
 s32 is_locally_controlled__10TObjPlayerFPv(void * a0);
 s32 get_actor_tp(void *);
@@ -1110,7 +1111,6 @@ void obj_clear_flag30_20000(TObjBase *actor);
 void copy_player_visual_record(void *, void *);
 s32 is_in_shadow_range(u8 *arg0, f32 farg0);
 void draw_blob_shadow(s32);
-s32 set_tp__10TObjPlayerFs(void * a0 = 0, s16 a1 = 0);
 saddr TObjPlayer__sub_80116620(void *, int);
 void restore_scene_lighting(void);
 void select_actor_lighting(saddr obj);
@@ -1199,7 +1199,6 @@ int get_player_result__18TChallenge4PResultFPv(void* p);
 void TObjPlayer__sub_801B3FD8(void* p);
 void TObjPlayer__sub_801B4044(void* p);
 s32 test_ordered_anim_markers__10TObjPlayerFPvff(u8 *arg0, f32 at_frame, f32 farg1);
-void update_rotation__10TObjPlayerFv(void *arg0);
 void handle_6xA1_revive_player_v3(void *command);
 void handle_6x32_medical_center_revive_all_players(void);
 void send_code50_packet__10TObjPlayerFi(saddr player);
@@ -1261,12 +1260,9 @@ void TObjPlayer__sub_801BC050(O_801BC050 *p);
 void create_player_instance__10TObjPlayerFll(u16, Rec_801B09A4 *);
 TObjPlayer *get_local_player();
 void clear_flag_4000_callback__10TObjPlayerFv(TObjPlayer *);
-void TObjPlayer__sub_801BE784(void *, s32);
-s32 get_battle_mode__10TObjPlayerFv(void *);
-void TObjPlayer__sub_801BE794(void *, s32);
-s32 get_byte_339__10TObjPlayerFv(void *);
-void TObjPlayer__sub_801BE7A4(void *, s32);
-s32 get_mag_level__10TObjPlayerFv(void *);
+void TObjPlayer__sub_801BE784(void *, u8 v);
+void TObjPlayer__sub_801BE794(void *, u8 v);
+void TObjPlayer__sub_801BE7A4(void *, u8 v);
 void TObjPlayer__sub_801BE7B4(void *, u8);
 void TObjPlayer__sub_801BE7E0(void *, u8);
 void TObjPlayer__sub_801BE80C(void *, u8);
@@ -4651,9 +4647,9 @@ void fill_player_record__10TObjPlayerFPvPv(Src_801B4CE4 *src, Dst_801B4CE4 *dst)
     dst->f142[1].b[1] = v >> 8;
     dst->f142[2].b[1] = v >> 16;
     dst->f142[3].b[1] = v >> 24;
-    TObjPlayer__sub_801BE7A4(dst, get_mag_level__10TObjPlayerFv(src));
-    TObjPlayer__sub_801BE794(dst, get_byte_339__10TObjPlayerFv(src));
-    TObjPlayer__sub_801BE784(dst, get_battle_mode__10TObjPlayerFv(src));
+    TObjPlayer__sub_801BE7A4(dst, ((TObjPlayer *)src)->get_mag_level());
+    TObjPlayer__sub_801BE794(dst, ((TObjPlayer *)src)->get_byte_339());
+    TObjPlayer__sub_801BE784(dst, ((TObjPlayer *)src)->get_battle_mode());
     TLobby::bswap_player_data(dst);
 }
 
@@ -4916,7 +4912,7 @@ void handle_6xA1_revive_player_v3(void *command) {
 }
 
 void TObjPlayer::revive() {
-    ((s32 (*)(void))update_rotation__10TObjPlayerFv)();
+    update_rotation();
     clear_all_status_effects();
     clear_actor_flags((u32)0xE00);
     clear_state_flags(1);
@@ -5875,7 +5871,7 @@ void handle_6x2F_change_player_hp(saddr command) {
     }
     switch (pkt.type) {
     case 0:
-        ((void (*)(u32, s32))set_hp_clamped__10TObjPlayerFs)(player, pkt.amount);
+        ((TObjPlayer *)player)->set_hp_clamped(pkt.amount);
         break;
     case 1:
         add_actor_hp((u8 *)player, pkt.amount);
@@ -7080,7 +7076,7 @@ u32 TObjPlayer::set_lobby_marker(s32 arg1) {
     return *(u32 *)((s8 *)this + 0x3B8);
 }
 
-void TObjPlayer::reset_pose() { this->clear_actor_flags((uaddr)((void*)2048)); ((int (*)(void*))update_rotation__10TObjPlayerFv)(this); }
+void TObjPlayer::reset_pose() { this->clear_actor_flags((uaddr)((void*)2048)); update_rotation(); }
 
 void play_voice_pair__10TObjPlayerFPv(TObjPlayer *player) {
     ((TObjPlayer *)player)->set_hp_clamped(player->hpmax);

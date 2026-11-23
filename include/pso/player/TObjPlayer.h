@@ -143,7 +143,8 @@ struct TObjPlayer : public TObjChara {
     s16 obj_getS16_116();
     void sub_801BEE2C(s16);
     void sub_801BEE24(s16);
-    void update_body_parts();
+    void update_body_parts(void *visual);
+    void sub_801BD384(void *visual);
     void sub_801BD318();
     void init_model_buffer_and_actions(void *data);
     s32 sub_801A1DDC();

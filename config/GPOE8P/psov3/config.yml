@@ -1556,7 +1556,7 @@ force_active:
   - draw_shadow_quads__12TObjGoGoBallFP3VecP3VeclP3Vecf
   - __ct__22PhotonBlastRequestSlotFv
   - __as__22PhotonBlastRequestSlotFR22PhotonBlastRequestSlot
-  - TObjPlayer__sub_801BD384
+  - sub_801BD384__10TObjPlayerFPv
   - __sinit_TObjPlayer_801BDF5C_cpp
   - TObjPlayer__sub_801BF31C
   - fn_801BF5F0__19ContactSurfaceStateFl

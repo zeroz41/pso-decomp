@@ -34,15 +34,13 @@ void TObjPlayer::sub_801BD318() {
     this->draw();
 }
 
-void update_body_parts__10TObjPlayerFv(void* p);
-int copy_player_visual_record(void*);
+int copy_player_visual_record(void *dst, void *src);
 s32 fn_800FE73C(TObjPlayer *player);
-typedef void (*Fn_vpvp_801BD570)(void *, void *);
 
-void TObjPlayer__sub_801BD384(void* p) { ((TObjPlayer *)p)->update_body_parts(); }
+void TObjPlayer::sub_801BD384(void *visual) { update_body_parts(visual); }
 void TObjPlayer::sub_801BD3A4() {  }
 void TObjPlayer::free_chara_making() { restore_boss6_player_snapshot(this); ((TCharaMaking *)this)->free_loaded_buffers(); }
-void TObjPlayer::update_body_parts() { copy_player_visual_record((char*)this + 0x85c); this->model_load_flags = 255; ((TCharaMaking *)this)->update_body_parts(); fn_800FE73C(this); }
+void TObjPlayer::update_body_parts(void *visual) { copy_player_visual_record((char*)this + 0x85c, visual); this->model_load_flags = 255; ((TCharaMaking *)this)->update_body_parts(); fn_800FE73C(this); }
 
 void *TObjPlayer__sub_801BEDC0(void *arg0, s16 arg1);
 
@@ -121,7 +119,7 @@ TObjPlayer::TObjPlayer(TObject *parent, TUnk_801D8A4C *src) : TObjChara(parent) 
     this->init_action_provider();
     this->entity_id = 0;
     this->setup_control_role(7);
-    ((Fn_vpvp_801BD570)update_body_parts__10TObjPlayerFv)(this, src);
+    this->update_body_parts(src);
     this->init_player_data(src->stats);
     this->init_data_table_ptr();
 }
@@ -162,7 +160,7 @@ TObjPlayer::TObjPlayer(TObject *parent, void *arg2) : TObjChara(parent) {
     this->m_name = lbl_805D3530;
     this->init_from_data(arg2);
     this->setup_control_role(4);
-    ((Fn_vpvp_801BD570)TObjPlayer__sub_801BD384)(this, (void *)((char *)arg2 + 200));
+    sub_801BD384((char *)arg2 + 200);
     this->load_char_data((u8 *)arg2);
     this->update_position((saddr)arg2);
     clear_lock_on_cursor(arg2);
