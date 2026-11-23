@@ -799,7 +799,7 @@ force_active:
   - TOExplosiveMachine03__class_name
   - TOExplosiveMachine__class_name
   - TOGrassJungle__bml_resource
-  - TOGrassJungle__ct
+  - __ct__13TOGrassJungleFP7TObjectPv
   - TOGrassJungle__grass_gvm_texture
   - TOHangceilingCave01KeyQuick__class_name
   - TOHangceilingCave01KeyQuick__class_name_string

@@ -4,7 +4,6 @@
 #include "pso/system/BmlResourceLoad.h"
 #include "types.h"
 #include "pso/system/TLanguage_801E4874.h"
-#include "pso/object/jungle/TOGrassJungle_8029CD90.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/system/BmlResource.h"
 #include "pso/object/jungle/TOGrassJungle.h"
@@ -25,12 +24,8 @@ BmlResourceDescriptor ograss_jungle_resource_descriptor = { "bm_o_grass_jungle.b
 const char *grass_jungle_class_name = "TOGrassJungle";
 
 
-void *TOGrassJungle::create(void *arg0) {
-    void *o = TObject::operator new(0x94);
-    if (o != NULL) {
-        o = TOGrassJungle__ct((TOGrassJungle *)((u8 *)o), (saddr)tl_05, (saddr)arg0);
-    }
-    return o;
+void *TOGrassJungle::create(void *set_data) {
+    return new TOGrassJungle(tl_05, set_data);
 }
 
 void TOGrassJungle::release_static_instance() {
@@ -52,8 +47,6 @@ void TOGrassJungle::load_resources() {
                            TOGrassJungle__grass_gvm_texture, 12.0f, -10.0f);
 }
 
-s32 __ct__8TObjBaseFP7TObject(void *, void *);
-extern s32 __vt__13TOGrassJungle[];
 s32 post_translate_matrix(void *);
 s32 rotate_matrix_y(s32, s32);
 
@@ -63,7 +56,7 @@ void TOGrassJungle::render() {
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_y(0, this->rotation_y);
-        draw_ginja_object((void *)get_bml_model((BmlResource *)TOGrassJungle__bml_resource, this->m_90));
+        draw_ginja_object((void *)get_bml_model((BmlResource *)TOGrassJungle__bml_resource, this->model_index));
         pop_matrix();
     }
 }
@@ -74,18 +67,14 @@ TOGrassJungle::~TOGrassJungle() {
 }
 
 
-u8 *TOGrassJungle__ct(TOGrassJungle *grass_jungle, saddr parent, saddr set_data) {
-    __ct__8TObjBaseFP7TObject((void *)grass_jungle, (void *)parent);
-    *(s32 **)((s8 *)grass_jungle + 0x18) = __vt__13TOGrassJungle;
-    *(saddr *)((s8 *)grass_jungle + 0) = (saddr) grass_jungle_class_name;
-    ((TOGrassJungle *)(grass_jungle))->apply_object_set_data((void *)set_data);
-    grass_jungle->m_90 = (s32) grass_jungle->set_params[0];
-    if ((s32) grass_jungle->m_90 < 0) {
-        grass_jungle->m_90 = 0;
+TOGrassJungle::TOGrassJungle(TObject *parent, void *set_data) : TObjBase(parent) {
+    m_name = grass_jungle_class_name;
+    apply_object_set_data(set_data);
+    model_index = (s32)set_params[0];
+    if (model_index < 0) {
+        model_index = 0;
     }
-    if ((s32) grass_jungle->m_90 > 1) {
-        grass_jungle->m_90 = 1;
+    if (model_index > 1) {
+        model_index = 1;
     }
-    return (u8 *)grass_jungle;
 }
-
