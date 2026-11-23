@@ -21,44 +21,17 @@
 #include "pso/object/base/TObjBase.h"
 const char *TFontSmallTask__name = "TFontSmallTask";
 
-struct TFontSmallTask_800FD4D4 {
-    const char *f0;
-    u8 pad4[0x18 - 4];
-    void *vt;
-    Vec pos;
-    f32 ofs_x;
-    f32 ofs_y;
-    f32 width;
-    char text[0x10];
-    u32 rgb;
-    s32 f48;
-    s32 life;
-    s32 delay;
-    s16 f54;
-    u16 view;
-};
-extern "C" {
-TFontSmallTask_800FD4D4 *__ct__14TFontSmallTaskFv(TFontSmallTask_800FD4D4 *self, Vec *pos, u32 color, s32 life, s32 delay, const char *text, u16 view);
-}
-
 static const Vec font_small_forward_vec = {0.0f, 0.0f, -1.0f};
 extern "C" {
-void TBoss3Volopt__sub_800FD344(s32 arg0, s32 arg1, s32 arg2, void *arg3, void *arg4);
-s32 create_font_small_task(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 *arg4, s32 arg5, s32 arg6);
-s32 create_font_small_task_default_color(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 *arg4, s32 arg5);
-void fn_800FCCC8(saddr arg0, s32 arg1);
-s32 fn_800FCCF4(void* p);
-
 void fn_800FCCC8(saddr client_id, s32 card_status_bits) {
     TWindowKeyBoardHard::set_card_window_flags((void *)client_id, (s32)(card_status_bits << 0xD), (s32)0xFFFF1FFF);
 }
 s32 fn_800FCCF4(void* p) { return *(s32*)((char*)p + 0x874); }
 }
-f32 calc_small_font_scale(void);
 void text_builder_reset(void);
 
 
-f32 calc_small_font_scale(void) {
+f32 TFontSmallTask::calc_small_font_scale() {
     f32 view_scale;
     view_scale = TCameraCtrl::get_view_scale();
     if (view_scale >= 1.0) {
@@ -115,9 +88,9 @@ void TFontSmallTask::render() {
     rotate_matrix_z(0, camera_ctrl_instance->roll);
     rotate_vector_by_matrix(0, &forward, &forward);
     pop_matrix();
-    diff.x = position[0] - camera_ctrl_instance->pos.x;
-    diff.y = position[1] - camera_ctrl_instance->pos.y;
-    diff.z = position[2] - camera_ctrl_instance->pos.z;
+    diff.x = position.x - camera_ctrl_instance->pos.x;
+    diff.y = position.y - camera_ctrl_instance->pos.y;
+    diff.z = position.z - camera_ctrl_instance->pos.z;
     if (is_boss_area() == 0) {
         f32 xx = diff.x * diff.x;
         f32 yy = diff.y * diff.y;
@@ -130,7 +103,7 @@ void TFontSmallTask::render() {
         return;
     }
     push_matrix();
-    project_world_to_screen(0, position, screen);
+    project_world_to_screen(0, &position.x, screen);
     pop_matrix();
     if (is_split_screen() != 0) {
         screen[0] -= (f32)TCameraCtrl::get_viewport_x();
@@ -152,7 +125,7 @@ void TFontSmallTask::render() {
     } else {
         fade = 1.0f;
     }
-    scale = ((f32 (*)(void *))calc_small_font_scale)(this);
+    scale = calc_small_font_scale();
     begin_screen_draw(1);
     TWindowSubStatusDisp::render_forward();
     while (*cursor != 0) {
@@ -201,64 +174,40 @@ void TFontSmallTask::run_task() {
     }
 }
 
-s32 create_font_small_task(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 *str, s32 arg5, s32 arg6) {
-    s32 var_r31;
-
+s32 create_font_small_task(Vec *pos, s32 arg1, s32 arg2, s32 arg3, s32 *str, s32 arg5, u16 view) {
     text_builder_reset();
     text_builder_append((u8 *)str);
     if (arg5 >= 0) {
         text_builder_append((u8 *)"+");
     }
     text_builder_append_int(arg5);
-    var_r31 = (saddr)TObject::operator new(0x58);
-    if (var_r31 != 0) {
-        var_r31 = ((s32 (*)(s32, s32, s32, s32, s32, s32, s32))__ct__14TFontSmallTaskFv)(var_r31, arg0, arg1, arg2, arg3, (saddr)(get_shared_text_buffer()), arg6);
-    }
-    return var_r31;
+    return (saddr)new TFontSmallTask(pos, arg1, arg2, arg3, (const char *)get_shared_text_buffer(), view);
 }
 
-s32 create_font_small_task_default_color(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 *str, s32 arg5) {
-    s32 var_r31;
-
+s32 create_font_small_task_default_color(Vec *pos, s32 arg1, s32 arg2, s32 arg3, s32 *str, s32 arg5) {
     text_builder_reset();
     text_builder_append((u8 *)str);
     if (arg5 >= 0) {
         text_builder_append((u8 *)"+");
     }
     text_builder_append_int(arg5);
-    var_r31 = (saddr)TObject::operator new(0x58);
-    if (var_r31 != 0) {
-        var_r31 = ((s32 (*)(s32, s32, s32, s32, s32, s32, s32))__ct__14TFontSmallTaskFv)(var_r31, arg0, arg1, arg2, arg3, (saddr)(get_shared_text_buffer()), 0xFFFF);
-    }
-    return var_r31;
+    return (saddr)new TFontSmallTask(pos, arg1, arg2, arg3, (const char *)get_shared_text_buffer(), 0xFFFF);
 }
 
 void TBoss3Volopt__sub_800FD344(s32 arg0, s32 arg1, s32 arg2, void *str, void *arg4) {
-    create_font_small_task((s32)arg0, (s32)arg1, (s32)arg2, 0, (s32 *)str, (saddr)arg4, 0xFFFF);
+    create_font_small_task((Vec *)(saddr)arg0, (s32)arg1, (s32)arg2, 0, (s32 *)str, (saddr)arg4, 0xFFFF);
 }
 
 s32 TObjEneEpsilonGuard::create_damage_font(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
-    s32 var_r31;
-
     text_builder_reset();
     text_builder_append_int(arg3);
-    var_r31 = (saddr)TObject::operator new(0x58);
-    if (var_r31 != 0) {
-        var_r31 = ((s32 (*)(s32, s32, s32, s32, s32, s32, s32))__ct__14TFontSmallTaskFv)(var_r31, arg0, arg1, arg2, 0, (saddr)get_shared_text_buffer(), 0xFFFF);
-    }
-    return var_r31;
+    return (saddr)new TFontSmallTask((Vec *)(saddr)arg0, arg1, arg2, 0, (const char *)get_shared_text_buffer(), 0xFFFF);
 }
 
 saddr TOCtrlDubchik::create_font(saddr pos, s32 color, s32 life, const char *text) {
-    saddr task;
-
     text_builder_reset();
     text_builder_append((u8 *)text);
-    task = (saddr)TObject::operator new(0x58);
-    if (task != 0) {
-        task = ((saddr (*)(saddr, saddr, s32, s32, s32, saddr, s32))__ct__14TFontSmallTaskFv)(task, pos, color, life, 0, (saddr)get_shared_text_buffer(), 0xFFFF);
-    }
-    return task;
+    return (saddr)new TFontSmallTask((Vec *)pos, color, life, 0, (const char *)get_shared_text_buffer(), 0xFFFF);
 }
 
 TFontSmallTask::~TFontSmallTask() {}
@@ -271,36 +220,32 @@ LeaderSelection leader_selection;
 extern "C" {
 void call_funcs_reverse__6TLobbyFPvUi(Ent_800FD6A0 *arr, u32 size);
 s32 run_load_callback_table(Ent_800FD6F8 *p, u32 size);
-void __ct__7TObjectFP7TObject(void *, void *);
 }
 u32 calc_small_font_text_width(const char *s);
-extern u8 __vt__14TFontSmallTask[];
 
 #pragma push
 #pragma fp_contract on
 
-TFontSmallTask_800FD4D4 *__ct__14TFontSmallTaskFv(TFontSmallTask_800FD4D4 *self, Vec *pos, u32 color, s32 life, s32 delay, const char *text, u16 view) {
-    __ct__7TObjectFP7TObject(self, (void *)TWindowCtrlMain::get_instance());
-    self->vt = __vt__14TFontSmallTask;
-    self->f0 = TFontSmallTask__name;
-    VecCopy((Vec *)&self->pos, (const Vec *)pos);
-    self->ofs_x = 0.0f;
-    self->ofs_y = 0.0f;
-    self->rgb = color & 0xFFFFFF;
-    self->f48 = 0;
-    self->life = life;
-    self->delay = delay;
-    self->f54 = 0;
-    self->view = view;
-    if (self->view >= 4) {
-        self->view = 0xFFFF;
+TFontSmallTask::TFontSmallTask(Vec *pos, u32 color, s32 life, s32 delay, const char *text, u16 view)
+    : TObject((TObject *)TWindowCtrlMain::get_instance()) {
+    m_name = TFontSmallTask__name;
+    VecCopy(&position, pos);
+    offset_x = 0.0f;
+    offset_y = 0.0f;
+    rgb = color & 0xFFFFFF;
+    age = 0;
+    lifetime = life;
+    this->delay = delay;
+    active = 0;
+    this->view = view;
+    if (this->view >= 4) {
+        this->view = 0xFFFF;
     }
-    ((TObject *)self)->disallow_rendering();
-    strncpy(self->text, text, 0xF);
-    self->text[0xF] = 0;
-    self->width = calc_small_font_text_width(self->text);
-    self->ofs_x -= 0.5f * self->width * ((f32 (*)(void *))calc_small_font_scale)(self);
-    return self;
+    disallow_rendering();
+    strncpy(this->text, text, 0xF);
+    this->text[0xF] = 0;
+    text_width = calc_small_font_text_width(this->text);
+    offset_x -= 0.5f * text_width * calc_small_font_scale();
 }
 #pragma pop
 

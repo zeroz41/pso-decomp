@@ -17,6 +17,6 @@ int TAdPlayerLoadGC__sub_801E1510(void);
 s32 TAdPlayerLoadGC__sub_801E1518(void *arg0, s32 arg1, u32 arg2);
 }
 
-extern void *TAdPlayerLoadGC__banner_buffers[6];
+extern void *banner_buffers[6];
 
 #endif

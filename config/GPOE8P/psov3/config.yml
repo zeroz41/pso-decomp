@@ -183,8 +183,8 @@ force_active:
   - TAdMultiSaveGC__sub_802FF254
   - TAdMultiSaveGC__sub_802FF2B4
   - TAdMultiSaveGC__sub_802FF314
-  - TAdPlayerLoadGC__banner_buffers
-  - TAdPlayerLoadGC__data_80511EE8
+  - banner_buffers
+  - lbl_80511EE8
   - TAdPlayerLoadGC__network_config_buffer
   - TAdPlayerLoadGC__network_info_payload_buffer
   - TAdPlayerLoadGC__player_load_value
@@ -2028,7 +2028,7 @@ force_active:
   - __ct__14QuestListEntryFv
   - __ct__14TChCrEffCtrlPlFP7TObject
   - __ct__14TChCrTagPlBackFP7TObjectl
-  - __ct__14TFontSmallTaskFv
+  - __ct__14TFontSmallTaskFP3VecUlllPCcUs
   - __ct__14TItemEffHeavenFP7TObjectP10TObjPlayerUsl
   - __ct__14TItemEffNeedleFP7TObjectP5TItemUsl
   - __ct__14TItemProShieldFP7TObjectPUc
@@ -4806,7 +4806,7 @@ force_active:
   - calc_segment_uvs__25TBoss5GryphonLightningEffFPv
   - calc_shock_chance__FP10TObjPlayerP10TObjPlayerP10TObjPlayer
   - calc_slot_offset_position__18TObjEneBalClawBodyFlP3VecPl
-  - calc_small_font_scale__Fv
+  - calc_small_font_scale__14TFontSmallTaskFv
   - calc_small_tp__13TUnk_8049FE00Fv
   - calc_spherical_camera_position__14CreationCameraFv
   - calc_spin_value__16TBoss3VoloptCoreFv

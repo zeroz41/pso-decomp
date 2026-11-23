@@ -1,12 +1,10 @@
 #include "pso/render/GinjaTextureInput.h"
 #include "types.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801E4CF0.h"
 #include "pso/system/memory.h"
 #include "pso/unk/TLobby.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/unk/text_801E4E4C.h"
 #include "pso/unk/TTextureWave.h"
 
 extern "C" {
@@ -24,8 +22,6 @@ void TTextureWave::advance_wrapped_cursor() {
         this->m_4c = (s32) (temp_r0 - temp_r4);
     }
 }
-
-extern s32 __vt__12TTextureWave[];
 
 TTextureWave::~TTextureWave() {
     release_texture_list(this->m_3c);
@@ -54,13 +50,12 @@ void TTextureWave::init_image_buffer(u8 *arg1, s32 arg2) {
 
 }
 
-void construct_texture_wave(u8 *arg0, s32 arg1) {
-    *(s32 **)((s8 *)arg0 + 0x50) = __vt__12TTextureWave;
-    *(s32 *)((s8 *)arg0 + 0x4C) = 0;
-    *(s32 *)((s8 *)arg0 + 0x40) = 0;
-    *(s32 *)((s8 *)arg0 + 0x44) = 0;
-    *(s32 *)((s8 *)arg0 + 0x48) = 0;
-    *(s32 *)((s8 *)arg0 + 0) = 0;
-    *(s32 *)((s8 *)arg0 + 4) = 0;
-    *(s32 *)((s8 *)arg0 + 0x3C) = arg1;
+TTextureWave::TTextureWave(GinjaTextureList *texture_list) {
+    m_4c = 0;
+    m_40 = 0;
+    m_44 = 0;
+    m_48 = 0;
+    m_0 = 0;
+    m_4 = 0;
+    m_3c = (saddr)texture_list;
 }

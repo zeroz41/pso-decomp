@@ -21,14 +21,14 @@ static const char *const mcfs_version = "\nmcFsGc Ver 1.10.00 Build:Sep 17 2002 
 static const char card_game_name[] = "G9AE";
 static const char card_company[] = "8P";
 DVDDiskID card_disk_id;
-CardRequestSlot TAdPlayerLoadGC__load_request_slots[2];
+CardRequestSlot load_request_slots[2];
 CardFileEntry card_open_files[100];
 CardSlotInfo card_slot_info[4];
 
 // The linker places the request slots between the disk ID and open-file table.
 // Two state-machine steps address the file record from that shared BSS base.
 enum {
-    OPEN_FILES_OFFSET = sizeof(card_disk_id) + sizeof(TAdPlayerLoadGC__load_request_slots),
+    OPEN_FILES_OFFSET = sizeof(card_disk_id) + sizeof(load_request_slots),
     OPEN_FILE_NUMBER_OFFSET = OPEN_FILES_OFFSET + offsetof(CardFileEntry, file_info) + offsetof(CARDFileInfo, fileNo),
 };
 
@@ -89,51 +89,51 @@ void TAdPlayerLoadGC__sub_803F1908(s32 card_channel) {
     OSCalendarTime ct;
     char date[0x20];
 
-    switch (TAdPlayerLoadGC__load_request_slots[card_channel].step) {
+    switch (load_request_slots[card_channel].step) {
     case 1:
-        TAdPlayerLoadGC__load_request_slots[card_channel].result = CARDMountAsync(card_channel, card_work_area, 0, 0);
-        if (TAdPlayerLoadGC__load_request_slots[card_channel].result < 0) {
-            TAdPlayerLoadGC__load_request_slots[card_channel].status = -200;
-            TAdPlayerLoadGC__load_request_slots[card_channel].step = 0x18;
+        load_request_slots[card_channel].result = CARDMountAsync(card_channel, card_work_area, 0, 0);
+        if (load_request_slots[card_channel].result < 0) {
+            load_request_slots[card_channel].status = -200;
+            load_request_slots[card_channel].step = 0x18;
             break;
         }
-        TAdPlayerLoadGC__load_request_slots[card_channel].step = 2;
+        load_request_slots[card_channel].step = 2;
     case 2:
-        TAdPlayerLoadGC__load_request_slots[card_channel].result = CARDGetResultCode(card_channel);
-        if (TAdPlayerLoadGC__load_request_slots[card_channel].result == 0 || TAdPlayerLoadGC__load_request_slots[card_channel].result == -6) {
-            TAdPlayerLoadGC__load_request_slots[card_channel].step = 3;
+        load_request_slots[card_channel].result = CARDGetResultCode(card_channel);
+        if (load_request_slots[card_channel].result == 0 || load_request_slots[card_channel].result == -6) {
+            load_request_slots[card_channel].step = 3;
         } else {
-            if (TAdPlayerLoadGC__load_request_slots[card_channel].result != -1) {
-                TAdPlayerLoadGC__load_request_slots[card_channel].status = -200;
-                TAdPlayerLoadGC__load_request_slots[card_channel].step = 0x18;
+            if (load_request_slots[card_channel].result != -1) {
+                load_request_slots[card_channel].status = -200;
+                load_request_slots[card_channel].step = 0x18;
             }
             break;
         }
     case 3:
-        TAdPlayerLoadGC__load_request_slots[card_channel].result = CARDCheckAsync(card_channel, 0);
-        if (TAdPlayerLoadGC__load_request_slots[card_channel].result < 0) {
-            TAdPlayerLoadGC__load_request_slots[card_channel].status = -201;
-            TAdPlayerLoadGC__load_request_slots[card_channel].step = 0x18;
+        load_request_slots[card_channel].result = CARDCheckAsync(card_channel, 0);
+        if (load_request_slots[card_channel].result < 0) {
+            load_request_slots[card_channel].status = -201;
+            load_request_slots[card_channel].step = 0x18;
             break;
         }
-        TAdPlayerLoadGC__load_request_slots[card_channel].step = 4;
+        load_request_slots[card_channel].step = 4;
     case 4:
-        TAdPlayerLoadGC__load_request_slots[card_channel].result = CARDGetResultCode(card_channel);
-        if (TAdPlayerLoadGC__load_request_slots[card_channel].result == 0) {
-            TAdPlayerLoadGC__load_request_slots[card_channel].step = 5;
+        load_request_slots[card_channel].result = CARDGetResultCode(card_channel);
+        if (load_request_slots[card_channel].result == 0) {
+            load_request_slots[card_channel].step = 5;
         } else {
-            if (TAdPlayerLoadGC__load_request_slots[card_channel].result != -1) {
-                TAdPlayerLoadGC__load_request_slots[card_channel].status = -201;
-                TAdPlayerLoadGC__load_request_slots[card_channel].step = 0x18;
+            if (load_request_slots[card_channel].result != -1) {
+                load_request_slots[card_channel].status = -201;
+                load_request_slots[card_channel].step = 0x18;
                 CARDUnmount(card_channel);
             }
             break;
         }
     case 5:
-        TAdPlayerLoadGC__load_request_slots[card_channel].result = CARDGetSectorSize(card_channel, &card_slot_info[card_channel].sector_size);
-        if (TAdPlayerLoadGC__load_request_slots[card_channel].result < 0) {
-            TAdPlayerLoadGC__load_request_slots[card_channel].status = -202;
-            TAdPlayerLoadGC__load_request_slots[card_channel].step = 0x18;
+        load_request_slots[card_channel].result = CARDGetSectorSize(card_channel, &card_slot_info[card_channel].sector_size);
+        if (load_request_slots[card_channel].result < 0) {
+            load_request_slots[card_channel].status = -202;
+            load_request_slots[card_channel].step = 0x18;
         } else {
             if (TAdPlayerLoadGC::get_or_set_channel_flag(card_channel, 2) == 1) {
                 saved_card_disk_id = CARDGetDiskID(card_channel);
@@ -148,7 +148,7 @@ void TAdPlayerLoadGC__sub_803F1908(s32 card_channel) {
                 if (CARDGetStatus(card_channel, i, &stat) >= 0) {
                     OSTicksToCalendarTime(stat.time * (__OSBusClock / 4), &ct);
                     sprintf(date, "%4d/%02d/%02d %02d:%02d:%02d", ct.year, ct.mon + 1, ct.mday, ct.hour, ct.min, ct.sec);
-                    if (strcmp(stat.fileName, TAdPlayerLoadGC__load_request_slots[card_channel].name) == 0 &&
+                    if (strcmp(stat.fileName, load_request_slots[card_channel].name) == 0 &&
                         memcmp(stat.gameName, game_name, 4) == 0 && memcmp(stat.company, company, 2) == 0) {
                         found = 1;
                         break;
@@ -159,11 +159,11 @@ void TAdPlayerLoadGC__sub_803F1908(s32 card_channel) {
                 CARDSetDiskID(card_channel, saved_card_disk_id);
             }
             if (found == 0) {
-                TAdPlayerLoadGC__load_request_slots[card_channel].status = -102;
+                load_request_slots[card_channel].status = -102;
             } else {
-                TAdPlayerLoadGC__load_request_slots[card_channel].status = 0;
+                load_request_slots[card_channel].status = 0;
             }
-            TAdPlayerLoadGC__load_request_slots[card_channel].step = 0x16;
+            load_request_slots[card_channel].step = 0x16;
         }
         CARDUnmount(card_channel);
         break;
@@ -176,7 +176,7 @@ void TAdPlayerLoadGC__sub_803F1908(s32 card_channel) {
 
 void TAdPlayerLoadGC::step_set_attributes(s32 card_channel) {
 
-    switch (TAdPlayerLoadGC__load_request_slots[card_channel].step) {
+    switch (load_request_slots[card_channel].step) {
 
     case 0x11:
         if (TAdPlayerLoadGC::get_or_set_channel_flag(card_channel, 2) == 1) {
@@ -186,30 +186,30 @@ void TAdPlayerLoadGC::step_set_attributes(s32 card_channel) {
             memcpy(card_disk_id.company, card_company, sizeof(card_disk_id.company));
             CARDSetDiskID(card_channel, &card_disk_id);
         }
-        TAdPlayerLoadGC__load_request_slots[card_channel].result = CARDSetAttributesAsync(card_channel, TAdPlayerLoadGC__load_request_slots[card_channel].file_no, TAdPlayerLoadGC__load_request_slots[card_channel].attr, 0);
-        if (TAdPlayerLoadGC__load_request_slots[card_channel].result < 0) {
+        load_request_slots[card_channel].result = CARDSetAttributesAsync(card_channel, load_request_slots[card_channel].file_no, load_request_slots[card_channel].attr, 0);
+        if (load_request_slots[card_channel].result < 0) {
             if (TAdPlayerLoadGC::get_or_set_channel_flag(card_channel, 2) == 1 && saved_card_disk_id != NULL) {
                 CARDSetDiskID(card_channel, saved_card_disk_id);
             }
-            TAdPlayerLoadGC__load_request_slots[card_channel].status = -0xD4;
-            TAdPlayerLoadGC__load_request_slots[card_channel].step = 0x18;
+            load_request_slots[card_channel].status = -0xD4;
+            load_request_slots[card_channel].step = 0x18;
             break;
         }
-        TAdPlayerLoadGC__load_request_slots[card_channel].step = 0x12;
+        load_request_slots[card_channel].step = 0x12;
     case 0x12:
-        TAdPlayerLoadGC__load_request_slots[card_channel].result = CARDGetResultCode(card_channel);
-        if (TAdPlayerLoadGC__load_request_slots[card_channel].result == 0) {
+        load_request_slots[card_channel].result = CARDGetResultCode(card_channel);
+        if (load_request_slots[card_channel].result == 0) {
             if (TAdPlayerLoadGC::get_or_set_channel_flag(card_channel, 2) == 1 && saved_card_disk_id != NULL) {
                 CARDSetDiskID(card_channel, saved_card_disk_id);
             }
-            TAdPlayerLoadGC__load_request_slots[card_channel].status = 0;
-            TAdPlayerLoadGC__load_request_slots[card_channel].step = 0x16;
-        } else if (TAdPlayerLoadGC__load_request_slots[card_channel].result != -1) {
+            load_request_slots[card_channel].status = 0;
+            load_request_slots[card_channel].step = 0x16;
+        } else if (load_request_slots[card_channel].result != -1) {
             if (TAdPlayerLoadGC::get_or_set_channel_flag(card_channel, 2) == 1 && saved_card_disk_id != NULL) {
                 CARDSetDiskID(card_channel, saved_card_disk_id);
             }
-            TAdPlayerLoadGC__load_request_slots[card_channel].status = -0xD4;
-            TAdPlayerLoadGC__load_request_slots[card_channel].step = 0x18;
+            load_request_slots[card_channel].status = -0xD4;
+            load_request_slots[card_channel].step = 0x18;
         }
         break;
     case 0x13: case 0x14: case 0x15: case 0x16: case 0x17: case 0x18:
@@ -219,7 +219,7 @@ void TAdPlayerLoadGC::step_set_attributes(s32 card_channel) {
 void TAdPlayerLoadGC::update_card_delete(s32 card_channel) {
     CardRequestSlot *s;
 
-    switch (TAdPlayerLoadGC__load_request_slots[card_channel].step) {
+    switch (load_request_slots[card_channel].step) {
     case 0xF:
         if (TAdPlayerLoadGC::get_or_set_channel_flag(card_channel, 2) == 1) {
             saved_card_disk_id = CARDGetDiskID(card_channel);
@@ -228,30 +228,30 @@ void TAdPlayerLoadGC::update_card_delete(s32 card_channel) {
             memcpy(card_disk_id.company, card_company, sizeof(card_disk_id.company));
             CARDSetDiskID(card_channel, &card_disk_id);
         }
-        TAdPlayerLoadGC__load_request_slots[card_channel].result = CARDDeleteAsync(card_channel, TAdPlayerLoadGC__load_request_slots[card_channel].name, 0);
-        if (TAdPlayerLoadGC__load_request_slots[card_channel].result < 0) {
+        load_request_slots[card_channel].result = CARDDeleteAsync(card_channel, load_request_slots[card_channel].name, 0);
+        if (load_request_slots[card_channel].result < 0) {
             if (TAdPlayerLoadGC::get_or_set_channel_flag(card_channel, 2) == 1 && saved_card_disk_id != NULL) {
                 CARDSetDiskID(card_channel, saved_card_disk_id);
             }
-            TAdPlayerLoadGC__load_request_slots[card_channel].status = -0xD3;
-            TAdPlayerLoadGC__load_request_slots[card_channel].step = 0x18;
+            load_request_slots[card_channel].status = -0xD3;
+            load_request_slots[card_channel].step = 0x18;
             break;
         }
-        TAdPlayerLoadGC__load_request_slots[card_channel].step = 0x10;
+        load_request_slots[card_channel].step = 0x10;
     case 0x10:
-        TAdPlayerLoadGC__load_request_slots[card_channel].result = CARDGetResultCode(card_channel);
-        if (TAdPlayerLoadGC__load_request_slots[card_channel].result == 0) {
+        load_request_slots[card_channel].result = CARDGetResultCode(card_channel);
+        if (load_request_slots[card_channel].result == 0) {
             if (TAdPlayerLoadGC::get_or_set_channel_flag(card_channel, 2) == 1 && saved_card_disk_id != NULL) {
                 CARDSetDiskID(card_channel, saved_card_disk_id);
             }
-            TAdPlayerLoadGC__load_request_slots[card_channel].status = 0;
-            TAdPlayerLoadGC__load_request_slots[card_channel].step = 0x16;
-        } else if (TAdPlayerLoadGC__load_request_slots[card_channel].result != -1) {
+            load_request_slots[card_channel].status = 0;
+            load_request_slots[card_channel].step = 0x16;
+        } else if (load_request_slots[card_channel].result != -1) {
             if (TAdPlayerLoadGC::get_or_set_channel_flag(card_channel, 2) == 1 && saved_card_disk_id != NULL) {
                 CARDSetDiskID(card_channel, saved_card_disk_id);
             }
-            TAdPlayerLoadGC__load_request_slots[card_channel].status = -0xD3;
-            TAdPlayerLoadGC__load_request_slots[card_channel].step = 0x18;
+            load_request_slots[card_channel].status = -0xD3;
+            load_request_slots[card_channel].step = 0x18;
         }
         break;
     case 0x11: case 0x12: case 0x13: case 0x14: case 0x15: case 0x16: case 0x17: case 0x18:
@@ -260,7 +260,7 @@ void TAdPlayerLoadGC::update_card_delete(s32 card_channel) {
 }
 void TAdPlayerLoadGC::update_card_rename(s32 card_channel) {
 
-    switch (TAdPlayerLoadGC__load_request_slots[card_channel].step) {
+    switch (load_request_slots[card_channel].step) {
     case 0xd:
         if (TAdPlayerLoadGC::get_or_set_channel_flag(card_channel, 2) == 1) {
             saved_card_disk_id = CARDGetDiskID(card_channel);
@@ -269,30 +269,30 @@ void TAdPlayerLoadGC::update_card_rename(s32 card_channel) {
             memcpy(card_disk_id.company, card_company, sizeof(card_disk_id.company));
             CARDSetDiskID(card_channel, &card_disk_id);
         }
-        TAdPlayerLoadGC__load_request_slots[card_channel].result = CARDRenameAsync(card_channel, TAdPlayerLoadGC__load_request_slots[card_channel].name, TAdPlayerLoadGC__load_request_slots[card_channel].new_name, 0);
-        if (TAdPlayerLoadGC__load_request_slots[card_channel].result < 0) {
+        load_request_slots[card_channel].result = CARDRenameAsync(card_channel, load_request_slots[card_channel].name, load_request_slots[card_channel].new_name, 0);
+        if (load_request_slots[card_channel].result < 0) {
             if (TAdPlayerLoadGC::get_or_set_channel_flag(card_channel, 2) == 1 && saved_card_disk_id != NULL) {
                 CARDSetDiskID(card_channel, saved_card_disk_id);
             }
-            TAdPlayerLoadGC__load_request_slots[card_channel].status = -210;
-            TAdPlayerLoadGC__load_request_slots[card_channel].step = 0x18;
+            load_request_slots[card_channel].status = -210;
+            load_request_slots[card_channel].step = 0x18;
             break;
         }
-        TAdPlayerLoadGC__load_request_slots[card_channel].step = 0xe;
+        load_request_slots[card_channel].step = 0xe;
     case 0xe:
-        TAdPlayerLoadGC__load_request_slots[card_channel].result = CARDGetResultCode(card_channel);
-        if (TAdPlayerLoadGC__load_request_slots[card_channel].result == 0) {
+        load_request_slots[card_channel].result = CARDGetResultCode(card_channel);
+        if (load_request_slots[card_channel].result == 0) {
             if (TAdPlayerLoadGC::get_or_set_channel_flag(card_channel, 2) == 1 && saved_card_disk_id != NULL) {
                 CARDSetDiskID(card_channel, saved_card_disk_id);
             }
-            TAdPlayerLoadGC__load_request_slots[card_channel].status = 0;
-            TAdPlayerLoadGC__load_request_slots[card_channel].step = 0x16;
-        } else if (TAdPlayerLoadGC__load_request_slots[card_channel].result != -1) {
+            load_request_slots[card_channel].status = 0;
+            load_request_slots[card_channel].step = 0x16;
+        } else if (load_request_slots[card_channel].result != -1) {
             if (TAdPlayerLoadGC::get_or_set_channel_flag(card_channel, 2) == 1 && saved_card_disk_id != NULL) {
                 CARDSetDiskID(card_channel, saved_card_disk_id);
             }
-            TAdPlayerLoadGC__load_request_slots[card_channel].status = -210;
-            TAdPlayerLoadGC__load_request_slots[card_channel].step = 0x18;
+            load_request_slots[card_channel].status = -210;
+            load_request_slots[card_channel].step = 0x18;
         }
         break;
     case 0xf: case 0x10: case 0x11: case 0x12: case 0x13: case 0x14: case 0x15: case 0x16: case 0x17: case 0x18:
@@ -312,7 +312,7 @@ void TAdPlayerLoadGC__sub_803F2240(s32 file) {
 
     off = file * 0x88;
     channel = (s32 *)((u8 *)&card_open_files[0].channel + off);
-    st = &TAdPlayerLoadGC__load_request_slots[0].step;
+    st = &load_request_slots[0].step;
     id = *channel;
 
     switch (st[id * 0x1A]) {
@@ -327,9 +327,9 @@ void TAdPlayerLoadGC__sub_803F2240(s32 file) {
         {
             CARDFileInfo *info = &((CardFileEntry *)((u8 *)card_open_files + off))->file_info;
             s32 rc;
-            rc = CARDWriteAsync(info, TAdPlayerLoadGC__load_request_slots[*channel].buffer, TAdPlayerLoadGC__load_request_slots[*channel].length, TAdPlayerLoadGC__load_request_slots[*channel].offset, 0);
+            rc = CARDWriteAsync(info, load_request_slots[*channel].buffer, load_request_slots[*channel].length, load_request_slots[*channel].offset, 0);
             ioff = *channel * 0x68;
-            result = (s32 *)((u8 *)&TAdPlayerLoadGC__load_request_slots[0].result + ioff);
+            result = (s32 *)((u8 *)&load_request_slots[0].result + ioff);
             *result = rc;
         }
         if (*result < 0) {
@@ -338,7 +338,7 @@ void TAdPlayerLoadGC__sub_803F2240(s32 file) {
                 CARDSetDiskID(id, saved_card_disk_id);
             }
             ioff = *channel * 0x68;
-            TAdPlayerLoadGC__load_request_slots[*channel].status = -0xCE;
+            load_request_slots[*channel].status = -0xCE;
             *(s32 *)((u8 *)st + ioff) = 0x18;
             break;
         }
@@ -346,7 +346,7 @@ void TAdPlayerLoadGC__sub_803F2240(s32 file) {
     case 0xC:
         {
             s32 r = CARDGetResultCode(*channel);
-            result = (s32 *)((u8 *)&TAdPlayerLoadGC__load_request_slots[0].result + *channel * 0x68);
+            result = (s32 *)((u8 *)&load_request_slots[0].result + *channel * 0x68);
             *result = r;
             if (*result == 0) {
                 id = *channel;
@@ -361,7 +361,7 @@ void TAdPlayerLoadGC__sub_803F2240(s32 file) {
                         CARDSetDiskID(id, saved_card_disk_id);
                     }
                     ioff = *channel * 0x68;
-                    TAdPlayerLoadGC__load_request_slots[*channel].status = -0xCE;
+                    load_request_slots[*channel].status = -0xCE;
                     *(s32 *)((u8 *)st + ioff) = 0x18;
                 }
                 break;
@@ -381,7 +381,7 @@ void TAdPlayerLoadGC__sub_803F2240(s32 file) {
             s32 rc;
             rc = CARDSetStatusAsync(*channel, entry->file_info.fileNo, &entry->stat, 0);
             ioff = *channel * 0x68;
-            result = (s32 *)((u8 *)&TAdPlayerLoadGC__load_request_slots[0].result + ioff);
+            result = (s32 *)((u8 *)&load_request_slots[0].result + ioff);
             *result = rc;
         }
         if (*result < 0) {
@@ -390,7 +390,7 @@ void TAdPlayerLoadGC__sub_803F2240(s32 file) {
                 CARDSetDiskID(id, saved_card_disk_id);
             }
             ioff = *channel * 0x68;
-            TAdPlayerLoadGC__load_request_slots[*channel].status = -0xD0;
+            load_request_slots[*channel].status = -0xD0;
             *(s32 *)((u8 *)st + ioff) = 0x18;
             break;
         }
@@ -398,7 +398,7 @@ void TAdPlayerLoadGC__sub_803F2240(s32 file) {
     case 0x15:
         {
             s32 r = CARDGetResultCode(*channel);
-            result = (s32 *)((u8 *)&TAdPlayerLoadGC__load_request_slots[0].result + *channel * 0x68);
+            result = (s32 *)((u8 *)&load_request_slots[0].result + *channel * 0x68);
             *result = r;
             if (*result == 0) {
                 id = *channel;
@@ -406,7 +406,7 @@ void TAdPlayerLoadGC__sub_803F2240(s32 file) {
                     CARDSetDiskID(id, saved_card_disk_id);
                 }
                 ioff = *channel * 0x68;
-                TAdPlayerLoadGC__load_request_slots[*channel].status = 0;
+                load_request_slots[*channel].status = 0;
                 *(s32 *)((u8 *)st + ioff) = 0x16;
             } else if (*result != -1) {
                 id = *channel;
@@ -414,7 +414,7 @@ void TAdPlayerLoadGC__sub_803F2240(s32 file) {
                     CARDSetDiskID(id, saved_card_disk_id);
                 }
                 ioff = *channel * 0x68;
-                TAdPlayerLoadGC__load_request_slots[*channel].status = -0xD0;
+                load_request_slots[*channel].status = -0xD0;
                 *(s32 *)((u8 *)st + ioff) = 0x18;
             }
         }
@@ -440,7 +440,7 @@ void TAdPlayerLoadGC__sub_803F2610(s32 file) {
 
     off = file * 0x88;
     channel = (s32 *)((u8 *)&card_open_files[0].channel + off);
-    st = &TAdPlayerLoadGC__load_request_slots[0].step;
+    st = &load_request_slots[0].step;
     id = *channel;
 
     switch (st[id * 0x1A]) {
@@ -455,9 +455,9 @@ void TAdPlayerLoadGC__sub_803F2610(s32 file) {
         {
             CARDFileInfo *info = &((CardFileEntry *)((u8 *)card_open_files + off))->file_info;
             s32 rc;
-            rc = CARDReadAsync(info, TAdPlayerLoadGC__load_request_slots[*channel].buffer, TAdPlayerLoadGC__load_request_slots[*channel].length, TAdPlayerLoadGC__load_request_slots[*channel].offset, 0);
+            rc = CARDReadAsync(info, load_request_slots[*channel].buffer, load_request_slots[*channel].length, load_request_slots[*channel].offset, 0);
             ioff = *channel * 0x68;
-            result = (s32 *)((u8 *)&TAdPlayerLoadGC__load_request_slots[0].result + ioff);
+            result = (s32 *)((u8 *)&load_request_slots[0].result + ioff);
             *result = rc;
         }
         if (*result < 0) {
@@ -466,7 +466,7 @@ void TAdPlayerLoadGC__sub_803F2610(s32 file) {
                 CARDSetDiskID(id, saved_card_disk_id);
             }
             ioff = *channel * 0x68;
-            TAdPlayerLoadGC__load_request_slots[*channel].status = -0xCD;
+            load_request_slots[*channel].status = -0xCD;
             *(s32 *)((u8 *)st + ioff) = 0x18;
             break;
         }
@@ -474,7 +474,7 @@ void TAdPlayerLoadGC__sub_803F2610(s32 file) {
     case 0xA:
         {
             s32 r = CARDGetResultCode(*channel);
-            result = (s32 *)((u8 *)&TAdPlayerLoadGC__load_request_slots[0].result + *channel * 0x68);
+            result = (s32 *)((u8 *)&load_request_slots[0].result + *channel * 0x68);
             *result = r;
             if (*result == 0) {
                 id = *channel;
@@ -482,7 +482,7 @@ void TAdPlayerLoadGC__sub_803F2610(s32 file) {
                     CARDSetDiskID(id, saved_card_disk_id);
                 }
                 ioff = *channel * 0x68;
-                TAdPlayerLoadGC__load_request_slots[*channel].status = 0;
+                load_request_slots[*channel].status = 0;
                 *(s32 *)((u8 *)st + ioff) = 0x16;
             } else if (*result != -1) {
                 id = *channel;
@@ -490,7 +490,7 @@ void TAdPlayerLoadGC__sub_803F2610(s32 file) {
                     CARDSetDiskID(id, saved_card_disk_id);
                 }
                 ioff = *channel * 0x68;
-                TAdPlayerLoadGC__load_request_slots[*channel].status = -0xCD;
+                load_request_slots[*channel].status = -0xCD;
                 *(s32 *)((u8 *)st + ioff) = 0x18;
             }
         }
@@ -516,7 +516,7 @@ void TAdPlayerLoadGC__sub_803F282C(s32 file) {
 
     off = file * 0x88;
     channel = (s32 *)((u8 *)&card_open_files[0].channel + off);
-    st = &TAdPlayerLoadGC__load_request_slots[0].step;
+    st = &load_request_slots[0].step;
     id = *channel;
 
     switch (st[id * 0x1A]) {
@@ -528,16 +528,16 @@ void TAdPlayerLoadGC__sub_803F282C(s32 file) {
             memcpy(card_disk_id.company, card_company, sizeof(card_disk_id.company));
             CARDSetDiskID(id, &card_disk_id);
         }
-        res = CARDOpen(*channel, TAdPlayerLoadGC__load_request_slots[*channel].name, &((CardFileEntry *)((u8 *)card_open_files + off))->file_info);
+        res = CARDOpen(*channel, load_request_slots[*channel].name, &((CardFileEntry *)((u8 *)card_open_files + off))->file_info);
         id = *channel;
-        TAdPlayerLoadGC__load_request_slots[id].result = res;
-        if (TAdPlayerLoadGC__load_request_slots[id].result < 0) {
+        load_request_slots[id].result = res;
+        if (load_request_slots[id].result < 0) {
             id = *channel;
             if (TAdPlayerLoadGC::get_or_set_channel_flag(id, 2) == 1 && saved_card_disk_id != NULL) {
                 CARDSetDiskID(id, saved_card_disk_id);
             }
             id = *channel;
-            TAdPlayerLoadGC__load_request_slots[id].status = -0xCC;
+            load_request_slots[id].status = -0xCC;
             st[id * 0x1A] = 0x18;
             return;
         }
@@ -546,14 +546,14 @@ void TAdPlayerLoadGC__sub_803F282C(s32 file) {
         rec = (CardFileEntry *)(reinterpret_cast<size_t>(&card_disk_id) + off + OPEN_FILES_OFFSET);
         res = CARDGetStatus(*channel, *(s32 *)(reinterpret_cast<size_t>(&card_disk_id) + off + OPEN_FILE_NUMBER_OFFSET), &rec->stat);
         id = *channel;
-        TAdPlayerLoadGC__load_request_slots[id].result = res;
-        if (TAdPlayerLoadGC__load_request_slots[id].result < 0) {
+        load_request_slots[id].result = res;
+        if (load_request_slots[id].result < 0) {
             id = *channel;
             if (TAdPlayerLoadGC::get_or_set_channel_flag(id, 2) == 1 && saved_card_disk_id != NULL) {
                 CARDSetDiskID(id, saved_card_disk_id);
             }
             id = *channel;
-            TAdPlayerLoadGC__load_request_slots[id].status = -0xCF;
+            load_request_slots[id].status = -0xCF;
             st[id * 0x1A] = 0x18;
             CARDClose(&rec->file_info);
         } else {
@@ -562,7 +562,7 @@ void TAdPlayerLoadGC__sub_803F282C(s32 file) {
                 CARDSetDiskID(id, saved_card_disk_id);
             }
             id = *channel;
-            TAdPlayerLoadGC__load_request_slots[id].status = 0;
+            load_request_slots[id].status = 0;
             st[id * 0x1A] = 0x16;
         }
         break;
@@ -589,7 +589,7 @@ void TAdPlayerLoadGC__sub_803F2A4C(s32 file) {
   CardFileEntry *rec;
   off = file * 0x88;
   channel = (s32 *)((u8 *)&card_open_files[0].channel + off);
-  st = &TAdPlayerLoadGC__load_request_slots[0].step;
+  st = &load_request_slots[0].step;
   id = *channel;
   switch (st[id * 0x1A])
   {
@@ -602,10 +602,10 @@ void TAdPlayerLoadGC__sub_803F2A4C(s32 file) {
       memcpy(card_disk_id.company, card_company, sizeof(card_disk_id.company));
       CARDSetDiskID(id, &card_disk_id);
     }
-      res = CARDCreateAsync(*channel, TAdPlayerLoadGC__load_request_slots[*channel].name, TAdPlayerLoadGC__load_request_slots[*channel].length, &((CardFileEntry *)((u8 *)card_open_files + off))->file_info, 0);
+      res = CARDCreateAsync(*channel, load_request_slots[*channel].name, load_request_slots[*channel].length, &((CardFileEntry *)((u8 *)card_open_files + off))->file_info, 0);
       id = *channel;
-      TAdPlayerLoadGC__load_request_slots[id].result = res;
-      if (TAdPlayerLoadGC__load_request_slots[id].result < 0)
+      load_request_slots[id].result = res;
+      if (load_request_slots[id].result < 0)
     {
       id = *channel;
       if ((TAdPlayerLoadGC::get_or_set_channel_flag(id, 2) == 1) && (saved_card_disk_id != 0))
@@ -613,7 +613,7 @@ void TAdPlayerLoadGC__sub_803F2A4C(s32 file) {
         CARDSetDiskID(id, saved_card_disk_id);
       }
       id = *channel;
-      TAdPlayerLoadGC__load_request_slots[id].status = -0xCB;
+      load_request_slots[id].status = -0xCB;
       st[id * 0x1A] = 0x18;
       return;
     }
@@ -622,8 +622,8 @@ void TAdPlayerLoadGC__sub_803F2A4C(s32 file) {
     case 0x7:
       res = CARDGetResultCode(*channel);
       id = *channel;
-      TAdPlayerLoadGC__load_request_slots[id].result = res;
-      if (TAdPlayerLoadGC__load_request_slots[id].result == 0)
+      load_request_slots[id].result = res;
+      if (load_request_slots[id].result == 0)
     {
       id = *channel;
       if ((TAdPlayerLoadGC::get_or_set_channel_flag(id, 2) == 1) && (saved_card_disk_id != 0))
@@ -633,7 +633,7 @@ void TAdPlayerLoadGC__sub_803F2A4C(s32 file) {
       st[(*channel) * 0x1A] = 0x13;
     }
     else
-      if (TAdPlayerLoadGC__load_request_slots[id].result == (-1))
+      if (load_request_slots[id].result == (-1))
     {
       return;
     }
@@ -645,7 +645,7 @@ void TAdPlayerLoadGC__sub_803F2A4C(s32 file) {
         CARDSetDiskID(id, saved_card_disk_id);
       }
       id = *channel;
-      TAdPlayerLoadGC__load_request_slots[id].status = -0xCB;
+      load_request_slots[id].status = -0xCB;
       st[id * 0x1A] = 0x18;
       return;
     }
@@ -654,16 +654,16 @@ void TAdPlayerLoadGC__sub_803F2A4C(s32 file) {
       rec = (CardFileEntry *)((reinterpret_cast<size_t>(&card_disk_id) + off) + OPEN_FILES_OFFSET);
       res = CARDGetStatus(*channel, *((s32 *) ((reinterpret_cast<size_t>(&card_disk_id) + off) + OPEN_FILE_NUMBER_OFFSET)), &rec->stat);
       id = *channel;
-      TAdPlayerLoadGC__load_request_slots[id].result = res;
-      if (TAdPlayerLoadGC__load_request_slots[id].result < 0)
+      load_request_slots[id].result = res;
+      if (load_request_slots[id].result < 0)
     {
-      TAdPlayerLoadGC__load_request_slots[id].status = -0xCF;
+      load_request_slots[id].status = -0xCF;
       st[id * 0x1A] = 0x18;
       CARDClose(&rec->file_info);
     }
     else
     {
-      TAdPlayerLoadGC__load_request_slots[id].status = 0;
+      load_request_slots[id].status = 0;
       st[id * 0x1A] = 0x16;
     }
       break;
@@ -688,15 +688,15 @@ void TAdPlayerLoadGC__sub_803F2A4C(s32 file) {
 #pragma pop
 
 void TAdPlayerLoadGC__sub_803F2CD0(s32 card_channel, s32 result) {
-    TAdPlayerLoadGC__load_request_slots[card_channel].result = result;
+    load_request_slots[card_channel].result = result;
     switch (result) {
     default:
-        TAdPlayerLoadGC__load_request_slots[card_channel].status = -201;
-        TAdPlayerLoadGC__load_request_slots[card_channel].step = 0x18;
+        load_request_slots[card_channel].status = -201;
+        load_request_slots[card_channel].step = 0x18;
         break;
     case 0:
     case -6:
-        TAdPlayerLoadGC__load_request_slots[card_channel].step = 5;
+        load_request_slots[card_channel].step = 5;
         break;
     }
 }
@@ -704,56 +704,56 @@ void TAdPlayerLoadGC__sub_803F2CD0(s32 card_channel, s32 result) {
 
 void TAdPlayerLoadGC__sub_803F2D20(s32 card_channel) {
 
-    switch (TAdPlayerLoadGC__load_request_slots[card_channel].step) {
+    switch (load_request_slots[card_channel].step) {
     case 1:
-        TAdPlayerLoadGC__load_request_slots[card_channel].result = CARDMountAsync(card_channel, card_work_area, 0, 0);
-        if (TAdPlayerLoadGC__load_request_slots[card_channel].result < 0) {
-            TAdPlayerLoadGC__load_request_slots[card_channel].status = -200;
-            TAdPlayerLoadGC__load_request_slots[card_channel].step = 0x18;
+        load_request_slots[card_channel].result = CARDMountAsync(card_channel, card_work_area, 0, 0);
+        if (load_request_slots[card_channel].result < 0) {
+            load_request_slots[card_channel].status = -200;
+            load_request_slots[card_channel].step = 0x18;
             break;
         }
-        TAdPlayerLoadGC__load_request_slots[card_channel].step = 2;
+        load_request_slots[card_channel].step = 2;
     case 2:
-        TAdPlayerLoadGC__load_request_slots[card_channel].result = CARDGetResultCode(card_channel);
-        if (TAdPlayerLoadGC__load_request_slots[card_channel].result == 0 || TAdPlayerLoadGC__load_request_slots[card_channel].result == -6) {
-            TAdPlayerLoadGC__load_request_slots[card_channel].step = 3;
+        load_request_slots[card_channel].result = CARDGetResultCode(card_channel);
+        if (load_request_slots[card_channel].result == 0 || load_request_slots[card_channel].result == -6) {
+            load_request_slots[card_channel].step = 3;
         } else {
-            if (TAdPlayerLoadGC__load_request_slots[card_channel].result != -1) {
-                TAdPlayerLoadGC__load_request_slots[card_channel].status = -200;
-                TAdPlayerLoadGC__load_request_slots[card_channel].step = 0x18;
+            if (load_request_slots[card_channel].result != -1) {
+                load_request_slots[card_channel].status = -200;
+                load_request_slots[card_channel].step = 0x18;
             }
             break;
         }
     case 3:
-        TAdPlayerLoadGC__load_request_slots[card_channel].result = CARDCheckAsync(card_channel, TAdPlayerLoadGC__sub_803F2CD0);
-        if (TAdPlayerLoadGC__load_request_slots[card_channel].result < 0) {
-            TAdPlayerLoadGC__load_request_slots[card_channel].status = -201;
-            TAdPlayerLoadGC__load_request_slots[card_channel].step = 0x18;
+        load_request_slots[card_channel].result = CARDCheckAsync(card_channel, TAdPlayerLoadGC__sub_803F2CD0);
+        if (load_request_slots[card_channel].result < 0) {
+            load_request_slots[card_channel].status = -201;
+            load_request_slots[card_channel].step = 0x18;
             break;
         }
-        TAdPlayerLoadGC__load_request_slots[card_channel].step = 4;
+        load_request_slots[card_channel].step = 4;
     case 4:
-        TAdPlayerLoadGC__load_request_slots[card_channel].result = CARDGetResultCode(card_channel);
-        if (TAdPlayerLoadGC__load_request_slots[card_channel].result == 0) {
-            TAdPlayerLoadGC__load_request_slots[card_channel].step = 5;
+        load_request_slots[card_channel].result = CARDGetResultCode(card_channel);
+        if (load_request_slots[card_channel].result == 0) {
+            load_request_slots[card_channel].step = 5;
         } else {
-            if (TAdPlayerLoadGC__load_request_slots[card_channel].result != -1) {
-                TAdPlayerLoadGC__load_request_slots[card_channel].status = -201;
-                TAdPlayerLoadGC__load_request_slots[card_channel].step = 0x18;
+            if (load_request_slots[card_channel].result != -1) {
+                load_request_slots[card_channel].status = -201;
+                load_request_slots[card_channel].step = 0x18;
                 CARDUnmount(card_channel);
             }
             break;
         }
     case 5:
-        TAdPlayerLoadGC__load_request_slots[card_channel].result = CARDGetSectorSize(card_channel, &card_slot_info[card_channel].sector_size);
-        if (TAdPlayerLoadGC__load_request_slots[card_channel].result < 0) {
-            TAdPlayerLoadGC__load_request_slots[card_channel].status = -202;
-            TAdPlayerLoadGC__load_request_slots[card_channel].step = 0x18;
+        load_request_slots[card_channel].result = CARDGetSectorSize(card_channel, &card_slot_info[card_channel].sector_size);
+        if (load_request_slots[card_channel].result < 0) {
+            load_request_slots[card_channel].status = -202;
+            load_request_slots[card_channel].step = 0x18;
             CARDUnmount(card_channel);
             break;
         }
-        TAdPlayerLoadGC__load_request_slots[card_channel].status = 0;
-        TAdPlayerLoadGC__load_request_slots[card_channel].step = 0x16;
+        load_request_slots[card_channel].status = 0;
+        load_request_slots[card_channel].step = 0x16;
         break;
     case 0: case 6: case 7: case 8: case 9: case 0xA: case 0xB: case 0xC:
     case 0xD: case 0xE: case 0xF: case 0x10: case 0x11: case 0x12: case 0x13: case 0x14: case 0x15: case 0x16: case 0x17: case 0x18:
@@ -829,21 +829,21 @@ s32 TAdPlayerLoadGC__sub_803F2F1C(void) {
         }
     }
     for (i = 0; i < 2; i++) {
-        switch (TAdPlayerLoadGC__load_request_slots[i].kind) {
+        switch (load_request_slots[i].kind) {
         case 1:
             TAdPlayerLoadGC__sub_803F2D20(i);
             break;
         case 2:
-            TAdPlayerLoadGC__sub_803F2A4C(TAdPlayerLoadGC__load_request_slots[i].file_index);
+            TAdPlayerLoadGC__sub_803F2A4C(load_request_slots[i].file_index);
             break;
         case 3:
-            TAdPlayerLoadGC__sub_803F282C(TAdPlayerLoadGC__load_request_slots[i].file_index);
+            TAdPlayerLoadGC__sub_803F282C(load_request_slots[i].file_index);
             break;
         case 5:
-            TAdPlayerLoadGC__sub_803F2240(TAdPlayerLoadGC__load_request_slots[i].file_index);
+            TAdPlayerLoadGC__sub_803F2240(load_request_slots[i].file_index);
             break;
         case 4:
-            TAdPlayerLoadGC__sub_803F2610(TAdPlayerLoadGC__load_request_slots[i].file_index);
+            TAdPlayerLoadGC__sub_803F2610(load_request_slots[i].file_index);
             break;
         case 6:
             TAdPlayerLoadGC::update_card_rename(i);
@@ -896,7 +896,7 @@ s32 TAdPlayerLoadGC__sub_803F31D8(void *work_area) {
 }
 
 void TAdPlayerLoadGC::reset_slot_entry(s32 arg0) {
-    CardRequestSlot *slot = &TAdPlayerLoadGC__load_request_slots[arg0];
+    CardRequestSlot *slot = &load_request_slots[arg0];
     slot->buffer = NULL;
     memset(slot->name, 0, sizeof(slot->name));
     memset(slot->new_name, 0, sizeof(slot->new_name));

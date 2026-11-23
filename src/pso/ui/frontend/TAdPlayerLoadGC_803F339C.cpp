@@ -7,7 +7,7 @@
 #undef PSO_SDK_COMPACT_MATH
 
 extern "C" {
-extern CardRequestSlot TAdPlayerLoadGC__load_request_slots[];
+extern CardRequestSlot load_request_slots[];
 extern CardFileEntry card_open_files[];
 
 s32 TAdPlayerLoadGC::take_card_read_result(s32 arg0, s32 *arg1) {
@@ -16,21 +16,21 @@ s32 TAdPlayerLoadGC::take_card_read_result(s32 arg0, s32 *arg1) {
     if (TAdPlayerLoadGC::get_load_state() < 1) {
         return -1;
     }
-    if (TAdPlayerLoadGC__load_request_slots[arg0].kind == 0x4) {
-        *arg1 = TAdPlayerLoadGC__load_request_slots[arg0].result;
-        t = TAdPlayerLoadGC__load_request_slots[arg0].status;
+    if (load_request_slots[arg0].kind == 0x4) {
+        *arg1 = load_request_slots[arg0].result;
+        t = load_request_slots[arg0].status;
         r = t;
         if (t != 200) {
-            TAdPlayerLoadGC__load_request_slots[arg0].buffer = NULL;
-            memset(TAdPlayerLoadGC__load_request_slots[arg0].name, 0, 0x20);
-            memset(TAdPlayerLoadGC__load_request_slots[arg0].new_name, 0, 0x20);
-            TAdPlayerLoadGC__load_request_slots[arg0].kind = 0;
-            TAdPlayerLoadGC__load_request_slots[arg0].step = 0;
-            TAdPlayerLoadGC__load_request_slots[arg0].offset = 0;
-            TAdPlayerLoadGC__load_request_slots[arg0].length = 0;
-            TAdPlayerLoadGC__load_request_slots[arg0].file_index = -1;
-            TAdPlayerLoadGC__load_request_slots[arg0].status = 0;
-            TAdPlayerLoadGC__load_request_slots[arg0].result = 0;
+            load_request_slots[arg0].buffer = NULL;
+            memset(load_request_slots[arg0].name, 0, 0x20);
+            memset(load_request_slots[arg0].new_name, 0, 0x20);
+            load_request_slots[arg0].kind = 0;
+            load_request_slots[arg0].step = 0;
+            load_request_slots[arg0].offset = 0;
+            load_request_slots[arg0].length = 0;
+            load_request_slots[arg0].file_index = -1;
+            load_request_slots[arg0].status = 0;
+            load_request_slots[arg0].result = 0;
         }
     } else {
         *arg1 = 0;
@@ -48,16 +48,16 @@ s32 TAdPlayerLoadGC::request_card_read(s32 file, void *buffer, s32 length, s32 o
     if (file < 0 || file >= 100 || ((chan = card_open_files[file].channel) != 0 && chan != 1)) {
         return -2;
     }
-    if (TAdPlayerLoadGC__load_request_slots[chan].kind != 0) {
+    if (load_request_slots[chan].kind != 0) {
         return -4;
     }
-    TAdPlayerLoadGC__load_request_slots[chan].kind = 4;
-    TAdPlayerLoadGC__load_request_slots[chan].step = 9;
-    TAdPlayerLoadGC__load_request_slots[chan].status = 200;
-    TAdPlayerLoadGC__load_request_slots[chan].buffer = buffer;
-    TAdPlayerLoadGC__load_request_slots[chan].length = length;
-    TAdPlayerLoadGC__load_request_slots[chan].offset = offset;
-    TAdPlayerLoadGC__load_request_slots[chan].file_index = file;
+    load_request_slots[chan].kind = 4;
+    load_request_slots[chan].step = 9;
+    load_request_slots[chan].status = 200;
+    load_request_slots[chan].buffer = buffer;
+    load_request_slots[chan].length = length;
+    load_request_slots[chan].offset = offset;
+    load_request_slots[chan].file_index = file;
     return 0;
 }
 s32 TAdPlayerLoadGC::take_card_open_result(s32 arg0, s32 *arg1) {
@@ -67,25 +67,25 @@ s32 TAdPlayerLoadGC::take_card_open_result(s32 arg0, s32 *arg1) {
     if (TAdPlayerLoadGC::get_load_state() < 1) {
         return -1;
     }
-    if (TAdPlayerLoadGC__load_request_slots[arg0].kind == 3) {
-        *arg1 = TAdPlayerLoadGC__load_request_slots[arg0].result;
-        t = TAdPlayerLoadGC__load_request_slots[arg0].status;
+    if (load_request_slots[arg0].kind == 3) {
+        *arg1 = load_request_slots[arg0].result;
+        t = load_request_slots[arg0].status;
         r = t;
         if (t != 200) {
             if (r != 0) {
-                memset(&card_open_files[TAdPlayerLoadGC__load_request_slots[arg0].file_index], 0, 0x88);
-                card_open_files[TAdPlayerLoadGC__load_request_slots[arg0].file_index].channel = 2;
+                memset(&card_open_files[load_request_slots[arg0].file_index], 0, 0x88);
+                card_open_files[load_request_slots[arg0].file_index].channel = 2;
             }
-            TAdPlayerLoadGC__load_request_slots[arg0].buffer = NULL;
-            memset(TAdPlayerLoadGC__load_request_slots[arg0].name, 0, 0x20);
-            memset(TAdPlayerLoadGC__load_request_slots[arg0].new_name, 0, 0x20);
-            TAdPlayerLoadGC__load_request_slots[arg0].kind = 0;
-            TAdPlayerLoadGC__load_request_slots[arg0].step = 0;
-            TAdPlayerLoadGC__load_request_slots[arg0].offset = 0;
-            TAdPlayerLoadGC__load_request_slots[arg0].length = 0;
-            TAdPlayerLoadGC__load_request_slots[arg0].file_index = -1;
-            TAdPlayerLoadGC__load_request_slots[arg0].status = 0;
-            TAdPlayerLoadGC__load_request_slots[arg0].result = 0;
+            load_request_slots[arg0].buffer = NULL;
+            memset(load_request_slots[arg0].name, 0, 0x20);
+            memset(load_request_slots[arg0].new_name, 0, 0x20);
+            load_request_slots[arg0].kind = 0;
+            load_request_slots[arg0].step = 0;
+            load_request_slots[arg0].offset = 0;
+            load_request_slots[arg0].length = 0;
+            load_request_slots[arg0].file_index = -1;
+            load_request_slots[arg0].status = 0;
+            load_request_slots[arg0].result = 0;
         }
     } else {
         *arg1 = 0;
@@ -107,7 +107,7 @@ s32 TAdPlayerLoadGC::begin_card_file_request(s32 chan, const char *name) {
     if (strlen(name) >= 0x20) {
         return -2;
     }
-    if (TAdPlayerLoadGC__load_request_slots[chan].kind != 0) {
+    if (load_request_slots[chan].kind != 0) {
         return -4;
     }
     i = 0;
@@ -124,12 +124,12 @@ s32 TAdPlayerLoadGC::begin_card_file_request(s32 chan, const char *name) {
     pc = &card_open_files[i].channel;
     *pc = chan;
     idx = *pc;
-    TAdPlayerLoadGC__load_request_slots[idx].kind = 3;
-    TAdPlayerLoadGC__load_request_slots[idx].step = 8;
-    TAdPlayerLoadGC__load_request_slots[idx].status = 200;
-    memset(TAdPlayerLoadGC__load_request_slots[idx].name, 0, 0x20);
-    strcpy(TAdPlayerLoadGC__load_request_slots[*pc].name, name);
-    TAdPlayerLoadGC__load_request_slots[*pc].file_index = i;
+    load_request_slots[idx].kind = 3;
+    load_request_slots[idx].step = 8;
+    load_request_slots[idx].status = 200;
+    memset(load_request_slots[idx].name, 0, 0x20);
+    strcpy(load_request_slots[*pc].name, name);
+    load_request_slots[*pc].file_index = i;
     return i;
 }
 #pragma pop
@@ -144,21 +144,21 @@ s32 TAdPlayerLoadGC::take_card_mount_result(s32 arg0, s32 *arg1) {
     if (TAdPlayerLoadGC::get_load_state() < 1) {
         return -1;
     }
-    if (TAdPlayerLoadGC__load_request_slots[arg0].kind == 1) {
-        *arg1 = TAdPlayerLoadGC__load_request_slots[arg0].result;
-        t = TAdPlayerLoadGC__load_request_slots[arg0].status;
+    if (load_request_slots[arg0].kind == 1) {
+        *arg1 = load_request_slots[arg0].result;
+        t = load_request_slots[arg0].status;
         r = t;
         if (t != 200) {
-            TAdPlayerLoadGC__load_request_slots[arg0].buffer = NULL;
-            memset(TAdPlayerLoadGC__load_request_slots[arg0].name, 0, 0x20);
-            memset(TAdPlayerLoadGC__load_request_slots[arg0].new_name, 0, 0x20);
-            TAdPlayerLoadGC__load_request_slots[arg0].kind = 0;
-            TAdPlayerLoadGC__load_request_slots[arg0].step = 0;
-            TAdPlayerLoadGC__load_request_slots[arg0].offset = 0;
-            TAdPlayerLoadGC__load_request_slots[arg0].length = 0;
-            TAdPlayerLoadGC__load_request_slots[arg0].file_index = -1;
-            TAdPlayerLoadGC__load_request_slots[arg0].status = 0;
-            TAdPlayerLoadGC__load_request_slots[arg0].result = 0;
+            load_request_slots[arg0].buffer = NULL;
+            memset(load_request_slots[arg0].name, 0, 0x20);
+            memset(load_request_slots[arg0].new_name, 0, 0x20);
+            load_request_slots[arg0].kind = 0;
+            load_request_slots[arg0].step = 0;
+            load_request_slots[arg0].offset = 0;
+            load_request_slots[arg0].length = 0;
+            load_request_slots[arg0].file_index = -1;
+            load_request_slots[arg0].status = 0;
+            load_request_slots[arg0].result = 0;
         }
     } else {
         *arg1 = 0;
@@ -172,13 +172,13 @@ s32 TAdPlayerLoadGC__sub_803F3998(s32 chan) {
     if (TAdPlayerLoadGC::get_load_state() < 1) {
         return -1;
     }
-    if (TAdPlayerLoadGC__load_request_slots[chan].kind != 0) {
+    if (load_request_slots[chan].kind != 0) {
         r = -4;
     } else {
-        TAdPlayerLoadGC__load_request_slots[chan].kind = 1;
-        TAdPlayerLoadGC__load_request_slots[chan].step = 1;
+        load_request_slots[chan].kind = 1;
+        load_request_slots[chan].step = 1;
         r = 0;
-        TAdPlayerLoadGC__load_request_slots[chan].status = 200;
+        load_request_slots[chan].status = 200;
     }
     return r;
 }
@@ -190,21 +190,21 @@ s32 TAdPlayerLoadGC::take_card_find_result(s32 arg0, s32 *arg1) {
     if (TAdPlayerLoadGC::get_load_state() < 1) {
         return -1;
     }
-    if (TAdPlayerLoadGC__load_request_slots[arg0].kind == 9) {
-        *arg1 = TAdPlayerLoadGC__load_request_slots[arg0].result;
-        t = TAdPlayerLoadGC__load_request_slots[arg0].status;
+    if (load_request_slots[arg0].kind == 9) {
+        *arg1 = load_request_slots[arg0].result;
+        t = load_request_slots[arg0].status;
         r = t;
         if (t != 200) {
-            TAdPlayerLoadGC__load_request_slots[arg0].buffer = NULL;
-            memset(TAdPlayerLoadGC__load_request_slots[arg0].name, 0, 0x20);
-            memset(TAdPlayerLoadGC__load_request_slots[arg0].new_name, 0, 0x20);
-            TAdPlayerLoadGC__load_request_slots[arg0].kind = 0;
-            TAdPlayerLoadGC__load_request_slots[arg0].step = 0;
-            TAdPlayerLoadGC__load_request_slots[arg0].offset = 0;
-            TAdPlayerLoadGC__load_request_slots[arg0].length = 0;
-            TAdPlayerLoadGC__load_request_slots[arg0].file_index = -1;
-            TAdPlayerLoadGC__load_request_slots[arg0].status = 0;
-            TAdPlayerLoadGC__load_request_slots[arg0].result = 0;
+            load_request_slots[arg0].buffer = NULL;
+            memset(load_request_slots[arg0].name, 0, 0x20);
+            memset(load_request_slots[arg0].new_name, 0, 0x20);
+            load_request_slots[arg0].kind = 0;
+            load_request_slots[arg0].step = 0;
+            load_request_slots[arg0].offset = 0;
+            load_request_slots[arg0].length = 0;
+            load_request_slots[arg0].file_index = -1;
+            load_request_slots[arg0].status = 0;
+            load_request_slots[arg0].result = 0;
         }
     } else {
         *arg1 = 0;
@@ -222,7 +222,7 @@ s32 TAdPlayerLoadGC::request_card_find(s32 arg0, const char *arg1) {
     if (strlen(arg1) >= 0x20) {
         return -2;
     }
-    if (TAdPlayerLoadGC__load_request_slots[arg0].kind != 0) {
+    if (load_request_slots[arg0].kind != 0) {
         return -4;
     }
     while (r != 1) {
@@ -235,11 +235,11 @@ s32 TAdPlayerLoadGC::request_card_find(s32 arg0, const char *arg1) {
     if (r != 1) {
         return -100;
     }
-    TAdPlayerLoadGC__load_request_slots[arg0].kind = 9;
-    TAdPlayerLoadGC__load_request_slots[arg0].step = 1;
-    TAdPlayerLoadGC__load_request_slots[arg0].status = 200;
-    memset(TAdPlayerLoadGC__load_request_slots[arg0].name, 0, 0x20);
-    strcpy(TAdPlayerLoadGC__load_request_slots[arg0].name, arg1);
+    load_request_slots[arg0].kind = 9;
+    load_request_slots[arg0].step = 1;
+    load_request_slots[arg0].status = 200;
+    memset(load_request_slots[arg0].name, 0, 0x20);
+    strcpy(load_request_slots[arg0].name, arg1);
     return 0;
 }
 }
