@@ -80,20 +80,6 @@ f32 xyz_distance(Vec*,void*);
 void draw_shadow_on_ground(u8*);
 extern void* lbl_804B8D94[];
 extern void* lbl_804B8DA0[];
-struct Obj_80198A2C {
-    u8 pad0[0x1C];
-    Vec pos;
-    u8 pad28[0x34 - 0x28];
-    s32 rot;
-    u8 pad38[0x3C - 0x38];
-    void *effect;
-    s32 timer;
-    s32 counter;
-    s32 limit;
-    s32 state;
-    s32 f50;
-    s32 f54;
-};
 extern "C" {
 void *lbl_804B8A10[210] = {
     (void *)0xbf000000, (void *)0x3f600000, (void *)0x0, (void *)0x40600000,
@@ -916,7 +902,7 @@ void TWindowTimer__sub_80198D98(void) {
     new TUnk_804B8E00(tl_03);
 }
 
-TUnk_804B8DE8::TUnk_804B8DE8(Vec *position, s32 limit, s32 arg3, s32 arg4, TObject *parent) : TObject(parent) {
+TUnk_804B8DE8::TUnk_804B8DE8(Vec *position, s32 limit, s32 team0, s32 three_point, TObject *parent) : TObject(parent) {
     VecCopy(&pos, position);
     VecCopy(&initial_pos, &pos);
     pos.y -= 16.0f;
@@ -926,8 +912,8 @@ TUnk_804B8DE8::TUnk_804B8DE8(Vec *position, s32 limit, s32 arg3, s32 arg4, TObje
     this->limit = limit;
     counter = 0;
     timer = 0;
-    unk_50 = arg3;
-    unk_54 = arg4;
+    this->team0 = team0;
+    this->three_point = three_point;
     state = 0;
 }
 
@@ -941,53 +927,52 @@ TUnk_804B8DE8::~TUnk_804B8DE8() {
 #pragma push
 #pragma fp_contract on
 void TUnk_804B8DE8::run_task() {
-    Obj_80198A2C *self = (Obj_80198A2C *)this;
     s32 state;
-    if (this->counter++ >= self->limit) {
-        spawn_particle_effect_with_flags(&self->pos, 0x45, 0x40);
-        spawn_particle_effect_with_flags(&self->pos, 0x46, 0x40);
-        ((TObject *)self)->queue_destruction();
+    if (this->counter++ >= limit) {
+        spawn_particle_effect_with_flags(&pos, 0x45, 0x40);
+        spawn_particle_effect_with_flags(&pos, 0x46, 0x40);
+        queue_destruction();
         return;
     }
     state = this->state;
     if (state == 0) {
-        if (self->f50 != 0) {
-            if (gogo_ball_sync_state.goal_flags & (this->unk_54 != 0 ? 0x10 : 1)) {
-                play_sound_effect(0x4002A605, &self->pos, 0, 0);
-                play_sound_effect(0x40052D15, &self->pos, 0, 0);
+        if (team0 != 0) {
+            if (gogo_ball_sync_state.goal_flags & (three_point != 0 ? 0x10 : 1)) {
+                play_sound_effect(0x4002A605, &pos, 0, 0);
+                play_sound_effect(0x40052D15, &pos, 0, 0);
                 this->state = 1;
                 return;
             }
         } else {
-            if (gogo_ball_sync_state.goal_flags & (this->unk_54 != 0 ? 0x20 : 2)) {
-                play_sound_effect(0x4002A605, &self->pos, 0, 0);
-                play_sound_effect(0x40052D15, &self->pos, 0, 0);
+            if (gogo_ball_sync_state.goal_flags & (three_point != 0 ? 0x20 : 2)) {
+                play_sound_effect(0x4002A605, &pos, 0, 0);
+                play_sound_effect(0x40052D15, &pos, 0, 0);
                 this->state = 1;
                 return;
             }
         }
     }
     if (state != 0) {
-        if (self->effect == NULL) {
+        if (effect == NULL) {
             Rot_80198A2C init = boss3_volopt_init_vec;
             if (gogo_ball_configuration.ball_type != 6) {
-                self->effect = spawn_particle_effect_with_rotation(&self->pos, &init, 0xC0, 2);
+                effect = spawn_particle_effect_with_rotation(&pos, &init, 0xC0, 2);
             }
         }
-        if (self->timer++ >= 1000) {
-            ((TObject *)self)->queue_destruction();
+        if (timer++ >= 1000) {
+            queue_destruction();
             return;
         }
         this->rot += 0x16C;
-        if (self->timer <= 0x14) {
+        if (timer <= 0x14) {
             Vec v;
-            VecCopy((Vec *)&v, (const Vec *)&self->pos);
+            VecCopy((Vec *)&v, (const Vec *)&pos);
             v.y += (18.0f);
             spawn_particle_effect(&v, 0x1DB);
         }
-        self->pos.y = (0.001f) * (f32)(self->timer * self->timer) + self->pos.y;
-        if (self->effect != NULL) {
-            ((TParticleCtrl *)self->effect)->set_position(&self->pos);
+        pos.y = (0.001f) * (f32)(timer * timer) + pos.y;
+        if (effect != NULL) {
+            ((TParticleCtrl *)effect)->set_position(&pos);
         }
     }
 }
@@ -995,7 +980,7 @@ void TUnk_804B8DE8::run_task() {
 #pragma pop
 void TUnk_804B8DE8::render() {
     if (((gogo_ball_bml_resource != NULL) || (lobby_gvm_texture_handles[4] != NULL)) && (gogo_ball_configuration.ball_type != 6)) {
-        if (this->unk_50 == 1) {
+        if (this->team0 == 1) {
             TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(lobby_gvm_texture_handles[4]));
         } else {
             TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(lobby_gvm_texture_handles[5]));
@@ -1009,26 +994,26 @@ void TUnk_804B8DE8::render() {
     }
 }
 
-TUnk_804B8DD0::TUnk_804B8DD0(Vec *position, s32 arg2, s32 lifetime, TObject *parent) : TObject(parent) {
+TUnk_804B8DD0::TUnk_804B8DD0(Vec *position, s32 team0, s32 lifetime, TObject *parent) : TObject(parent) {
     VecCopy(&pos, position);
-    m_28 = arg2;
+    this->team0 = team0;
     age = 0;
     this->lifetime = lifetime;
     m_38 = 0;
     m_30 = 0;
     active = 0;
-    m_40 = 0;
+    three_point = 0;
 }
 
-TUnk_804B8DD0::TUnk_804B8DD0(Vec *position, s32 arg2, s32 arg3, s32 lifetime, TObject *parent) : TObject(parent) {
+TUnk_804B8DD0::TUnk_804B8DD0(Vec *position, s32 team0, s32 three_point, s32 lifetime, TObject *parent) : TObject(parent) {
     VecCopy(&pos, position);
-    m_28 = arg2;
+    this->team0 = team0;
     age = 0;
     this->lifetime = lifetime;
     m_38 = 0;
     m_30 = 0;
     active = 0;
-    m_40 = arg3;
+    this->three_point = three_point;
 }
 
 TUnk_804B8DD0::~TUnk_804B8DD0() {}
@@ -1042,7 +1027,7 @@ void TUnk_804B8DD0::update_effects() {
     if (gogo_ball_configuration.ball_type == 0) {
         (this->m_30)++;
         if (this->m_30 == 1) {
-            new TUnk_804B8DE8(&this->pos, gogo_ball_configuration.lifetime, this->m_28, this->m_40, tl_06);
+            new TUnk_804B8DE8(&this->pos, gogo_ball_configuration.lifetime, this->team0, this->three_point, tl_06);
         }
     } else if (gogo_ball_configuration.ball_type == 6) {
         (this->m_30)++;
@@ -1054,7 +1039,7 @@ void TUnk_804B8DD0::update_effects() {
         }
     } else if (gogo_ball_configuration.ball_type == 2) {
         (this->m_30)++;
-        if (this->m_28 != 0) {
+        if (this->team0 != 0) {
             if (this->m_30 == 1) {
                 TCameraCtrl::set_shake_preset(2);
                 VecCopy((Vec *)&v2a, &this->pos);
@@ -1075,7 +1060,7 @@ void TUnk_804B8DD0::update_effects() {
         }
     } else if (gogo_ball_configuration.ball_type != 0) {
         (this->m_30)++;
-        if (this->m_28 != 0) {
+        if (this->team0 != 0) {
             if (this->m_30 % 5 == 0 && this->m_30 <= 0x32) {
                 VecCopy((Vec *)&vda, &this->pos);
                 vda.y += 7.0f;
@@ -1095,8 +1080,8 @@ void TUnk_804B8DD0::update_effects() {
 
 void TUnk_804B8DD0::run_task() {
     s32 t;
-    if (this->m_28 != 0) {
-        if (gogo_ball_sync_state.goal_flags & (this->m_40 != 0 ? 0x10 : 1)) {
+    if (this->team0 != 0) {
+        if (gogo_ball_sync_state.goal_flags & (this->three_point != 0 ? 0x10 : 1)) {
             this->active = 1;
             update_effects();
         } else {
@@ -1104,7 +1089,7 @@ void TUnk_804B8DD0::run_task() {
             this->m_30 = 0;
         }
     } else {
-        if (gogo_ball_sync_state.goal_flags & (this->m_40 != 0 ? 0x20 : 2)) {
+        if (gogo_ball_sync_state.goal_flags & (this->three_point != 0 ? 0x20 : 2)) {
             this->active = 1;
             update_effects();
         } else {
@@ -1134,7 +1119,7 @@ void TUnk_804B8DD0::render() {
     }
     bml_model = (u8 *)(get_bml_model((BmlResource *)gogo_ball_bml_resource, 1));
     if (bml_model != NULL) {
-        if ((s32) this->m_28 != 0) {
+        if ((s32) this->team0 != 0) {
             TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(lobby_gvm_texture_handles[7]));
         } else {
             TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(lobby_gvm_texture_handles[8]));

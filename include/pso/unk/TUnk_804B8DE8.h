@@ -6,7 +6,7 @@
 // Gogo ball, spawned by TUnk_804B8DD0::update_effects.
 class TUnk_804B8DE8 : public TObject {
 public:
-    TUnk_804B8DE8(Vec *position, s32 limit, s32 arg3, s32 arg4, TObject *parent);
+    TUnk_804B8DE8(Vec *position, s32 limit, s32 team0, s32 three_point, TObject *parent);
     virtual ~TUnk_804B8DE8();
     virtual void run_task();
     virtual void render();
@@ -19,8 +19,8 @@ public:
     s32 counter;
     s32 limit;
     s32 state;
-    s32 unk_50;
-    s32 unk_54;
+    s32 team0;        // 1: orange team 0 ball, else blue team 1
+    s32 three_point;  // spawned by a three-point goal marker
 };
 LAYOUT_ASSERT(TUnk_804B8DE8_size, sizeof(TUnk_804B8DE8) == 0x58);
 
