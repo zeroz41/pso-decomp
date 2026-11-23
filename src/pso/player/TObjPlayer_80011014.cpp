@@ -821,7 +821,6 @@ s32 is_entity_locally_controlled(s32 id);
 void move_with_wall_slide(u8 *arg0);
 void obj_clearArrS16_FC(ObjArrFC* p, int i);
 f64 fabs_double(f64 x);
-void *create_oneshot_particle_emitter(void *pos, void *dir, s32 id, u16 flags);
 void direction_to_rotation_xz(u8 *arg0, s32 *arg1, s32 *arg2);
 #pragma push
 #pragma fp_contract on

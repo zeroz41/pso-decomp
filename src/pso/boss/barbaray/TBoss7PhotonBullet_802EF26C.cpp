@@ -9,7 +9,6 @@
 #include "pso/object/base/TObjChara.h"
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/system/vector.h"
-#include "pso/unk/text_80087278.h"
 
 #pragma fp_contract on
 // The original emits code in reverse definition order, including the bullet and pad vtables.

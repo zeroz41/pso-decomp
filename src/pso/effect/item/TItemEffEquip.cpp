@@ -6,7 +6,6 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/system/task/TObject.h"
 #include "pso/object/base/TObjMotion.h"
-#include "pso/unk/text_80087278.h"
 #include "pso/unk/text_801036CC.h"
 #include "pso/weapon/TItemAttacker.h"
 #include "types.h"

@@ -4,7 +4,7 @@
 // Compiled -inline off,deferred: the functions are written from the last
 // (0x80354B18 load_resources) back to the first (0x803537D4), so CodeWarrior
 // emits them in address order and the TUnk_804F1280 vtable before TBoss6Rock's.
-#include "pso/unk/text_80087278.h"
+#include "pso/effect/particle/TParticleCtrl.h"
 #include "types.h"
 #include <stdlib.h>
 #include "pso/system/task/TMainTask.h"

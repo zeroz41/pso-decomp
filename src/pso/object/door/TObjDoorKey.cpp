@@ -28,7 +28,6 @@
 #include "pso/system/SoundEffect.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/player/TObjPlayer_801542CC.h"
-#include "pso/unk/text_80087278.h"
 #include "pso/system/task/TObject.h"
 #include "pso/object/key/TOKey.h"
 #include "pso/player/TUnk_804B6C24.h"

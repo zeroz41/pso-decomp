@@ -9,7 +9,6 @@
 #include "pso/math/MatrixVector.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/unk/text_803D96A8.h"
-#include "pso/unk/text_800870BC.h"
 #include "pso/map/CsnQuery.h"
 #include "pso/render/NinjaUtil.h"
 #include "pso/effect/particle/TParticleCtrl.h"

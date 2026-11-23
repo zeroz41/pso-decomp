@@ -6,7 +6,6 @@
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/system/vector.h"
-#include "pso/unk/text_80087278.h"
 
 const char *TItemEffHeaven::class_name = "TItemEffHeaven";
 

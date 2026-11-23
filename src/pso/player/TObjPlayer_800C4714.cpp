@@ -142,7 +142,6 @@ struct Obj_800C4754 : VBase_800C4754 {
 extern "C" {
 
 u32 csnVector(void *, void *, int);
-void *spawn_particle_effect_with_rotation(void *pos, void *dir, s32 id, int e);
 void *find_entity_by_id(u16 id);
 
 void vfunc_6__8TObjBaseFPsl();

@@ -38,8 +38,6 @@
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/effect/particle/TParticleCtrl.h"
-#include "pso/unk/text_80086D50.h"
-#include "pso/unk/text_800871A0.h"
 #include "pso/ui/TLevelSelect.h"
 #include "pso/math/ScratchVectors.h"
 #include "pso/object/ambient/TObjLight_80133568.h"

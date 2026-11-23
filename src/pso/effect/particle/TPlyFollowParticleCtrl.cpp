@@ -19,7 +19,6 @@
 #include "pso/effect/particle/TPlyFollowParticleCtrl.h"
 #include "pso/player/TPlyPtclObjectLeftHand.h"
 #include "pso/player/TPlyPtclObjectRightHand.h"
-#include "pso/boss/darkfalz/TBoss4Type2_80086C44.h"
 
 const char *TPlyFollowParticleCtrl::class_name = "TPlyFollowParticleCtrl";
 const char *TPlyPtclObjectLeftHand::class_name = "TPlyPtclObjectLeftHand";

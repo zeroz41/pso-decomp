@@ -1,4 +1,4 @@
-#include "pso/unk/text_80087278.h"
+#include "pso/effect/particle/TParticleCtrl.h"
 #include "types.h"
 #include "pso/boss/olgaflow/TBoss6EffHyoui.h"
 #include "pso/camera/TCameraCtrl.h"

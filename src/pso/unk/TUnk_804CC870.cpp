@@ -275,7 +275,6 @@ struct Task_80232EC0 {
 
 extern "C" {
 u16 get_entity_id(void *);
-TParticleCtrl *spawn_continuous_particle_effect_with_flags(void *parent, s32 idx, s32 flags);
 void *mem_alloc(u32 size);
 s32 play_sound_effect(s32, void *, s32, s32);
 }

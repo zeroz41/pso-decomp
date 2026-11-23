@@ -36,7 +36,6 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/unk/text_803D8F74.h"
-#include "pso/unk/text_80086B64.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/render/model_render_state.h"
 

@@ -3,7 +3,6 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "types.h"
 #include "pso/boss/goldragon/TBoss8Dragon_80065C90.h"
-#include "pso/unk/text_80086D50.h"
 #include "pso/technique/TTecFoie.h"
 #include "pso/technique/TechniqueParams.h"
 #include "pso/technique/TTecAnti.h"
@@ -140,8 +139,6 @@ const TTecFoieData_80230144 TTecFoie__emitter_profile_table[6] = {
     {foie_emitter_parts_3, 2}, {foie_emitter_parts_4, 2}, {foie_emitter_parts_5, 4},
 };
 const char *TTecFoie__name = "TTecFoie";
-void *spawn_particle_effect_with_rotation(void *pos, void *dir, s32 id, u16 e);
-void *spawn_continuous_particle_effect_with_flags(void *, s32, u16);
 
 typedef struct RecoveredFields_8022FE84_arg0 RecoveredFields_8022FE84_arg0;
 typedef struct Angles_8022FC94 Angles_8022FC94;

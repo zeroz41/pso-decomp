@@ -2,8 +2,6 @@
 #include "pso/ui/frontend/TAdLoadNetworkGC.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/task/TObject_80019A50.h"
-#include "pso/unk/text_80086FE0.h"
-#include "pso/unk/text_80086B64.h"
 #include "pso/system/vector.h"
 #include "pso/boss/darkfalz/TBoss4Type2.h"
 #include "pso/ui/hud/TNowLoading.h"

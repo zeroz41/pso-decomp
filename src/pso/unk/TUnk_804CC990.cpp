@@ -6,7 +6,7 @@
 #include "pso/system/SoundEffect.h"
 #include "pso/system/vector.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/unk/text_80087278.h"
+#include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/task/TObject.h"
 
 // The particles the recovery technique charge spawns every 10 frames.

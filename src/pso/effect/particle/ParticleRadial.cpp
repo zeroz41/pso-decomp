@@ -15,7 +15,6 @@
 #include "pso/effect/particle/TParticleOrbit.h"
 #include "pso/effect/particle/TParticle.h"
 #include "pso/effect/particle/TParticleRadial.h"
-#include "pso/unk/text_80086B64.h"
 
 #include "types.h"
 #include <stdlib.h>

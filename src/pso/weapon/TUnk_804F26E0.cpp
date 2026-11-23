@@ -7,7 +7,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/PlayerAttackParams.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/unk/text_80087278.h"
+#include "pso/effect/particle/TParticleCtrl.h"
 
 extern "C" {
 s16 get_validated_attack_stage(u8 *arg0);

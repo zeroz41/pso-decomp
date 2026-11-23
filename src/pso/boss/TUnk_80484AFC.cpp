@@ -15,7 +15,6 @@
 #include "pso/system/BmlResource.h"
 #include "pso/render/GinjaTextureMatrices.h"
 #include "pso/system/vector.h"
-#include "pso/unk/text_800870BC.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/unk/text_803E2D70.h"
 #include <stdlib.h>

@@ -55,7 +55,6 @@ struct NJS_OBJECT;
 #include "pso/math/AngleLookup.h"
 #include "pso/player/TPlyDispData.h"
 #include "pso/ui/TLevelSelect.h"
-#include "pso/unk/text_80086D50.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel_8007E418.h"

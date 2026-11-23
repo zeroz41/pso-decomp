@@ -287,7 +287,6 @@ f32 horizontal_distance_squared(void *, void *);
 s32 angle_difference_abs(s32, s32);
 void __ct__10TObjCGrassFP3Vecll(void *, Vec *, s32, s32);
 f32 newton_sqrtf(f32);
-s32 spawn_directional_particle(void *, void *, s32);
 }
 void move_with_wall_slide(u8 *arg0);
 extern s32 game_difficulty_selection;

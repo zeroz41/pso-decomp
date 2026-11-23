@@ -28,7 +28,6 @@
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/map/CsnGroundQuery.h"
 #include "pso/unk/TLobby_80207644.h"
-#include "pso/unk/text_80087278.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/player/TObjPlayer_801BFED4.h"
 #include "pso/network/client_id.h"

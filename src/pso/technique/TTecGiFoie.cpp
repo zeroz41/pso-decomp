@@ -21,8 +21,6 @@
 #include "pso/render/render_util.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/unk/text_800870BC.h"
-#include "pso/unk/text_800871A0.h"
 #include "pso/unk/TLobby_80226070.h"
 
 extern "C" {
@@ -256,7 +254,7 @@ TUnk_804CC800::TUnk_804CC800(Vec *pos, s32 angle, s32 band, s32 level, TObject *
             r.y = 0;
             r.z = 0x4000;
             p = &TTecGiFoie__emitter_profile_table[this->pad_44].parts[i];
-            this->pad_1C[i] = (TParticleCtrl *)spawn_particle_effect_with_rotation(&this->pad_20, &r, p->id, (p->flags & 0x1000) ? 0x2000 : 0);
+            this->pad_1C[i] = (TParticleCtrl *)spawn_particle_effect_with_rotation(&this->pad_20, &r, p->id, (p->flags & 0x1000) ? (u16)0x2000 : (u16)0);
             if (this->pad_44 == 2) {
                 if (level >= 0xF && level < 0x19) {
                     if (i <= 1 && this->pad_1C[i] != NULL) {

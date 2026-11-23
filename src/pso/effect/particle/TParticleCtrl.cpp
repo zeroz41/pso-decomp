@@ -4,16 +4,8 @@
 #include "types.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/task/TObject.h"
-#include "pso/unk/text_80086B64.h"
-#include "pso/boss/darkfalz/TBoss4Type2_80086C44.h"
 #include "pso/boss/darkfalz/TBoss4Type2.h"
-#include "pso/unk/text_80086D50.h"
-#include "pso/unk/text_80086E28.h"
 #include "pso/ui/frontend/TAdLoadQuestPrtTxtGC.h"
-#include "pso/unk/text_80086FE0.h"
-#include "pso/unk/text_800870BC.h"
-#include "pso/unk/text_800871A0.h"
-#include "pso/unk/text_80087278.h"
 #include "pso/system/ResourceFile.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/NinjaTypes.h"
@@ -190,38 +182,20 @@ void *fn_80086FE0(void *arg0, void *arg1, s32 arg2, s32 use_self) {
 
 }
 
-extern "C" {
-// Callers pass the flags as int while the constructor takes u16, so the wrapper
-// hands the int on to it unconverted.
-void *__ct__13TParticleCtrlFPC3VecP14ParticleAnglesP13ParticleParamllllUs(void *self, const Vec *pos, ParticleAngles *dir, ParticleParam *entry, s32 oneshot,
-    s32 delay, s32 lifetime, s32 use_self, s32 flags);
-
 #pragma push
 #pragma opt_propagation off
-void *spawn_particle_effect_with_rotation(void *pos, void *dir, s32 id, s32 flags) {
+void *spawn_particle_effect_with_rotation(void *pos, void *dir, s32 id, u16 flags) {
     s32 idx = id;
     if (particle_pool_limit > idx) {
-        void *p = TObject::operator new(sizeof(TParticleCtrl));
-        if (p != 0) {
-            p = __ct__13TParticleCtrlFPC3VecP14ParticleAnglesP13ParticleParamllllUs(p, static_cast<const Vec *>(pos), static_cast<ParticleAngles *>(dir),
-                &particle_global_entry_table[idx], 0, 0, 0, 0, flags);
-        }
-        return p;
+        return new TParticleCtrl(static_cast<const Vec *>(pos), static_cast<ParticleAngles *>(dir), &particle_global_entry_table[idx], 0, 0, 0, 0, flags);
     }
     if (particle_pool_limit + 0x40 > idx) {
         idx -= 0x200;
-        void *p = TObject::operator new(sizeof(TParticleCtrl));
-        if (p != 0) {
-            p = __ct__13TParticleCtrlFPC3VecP14ParticleAnglesP13ParticleParamllllUs(p, static_cast<const Vec *>(pos), static_cast<ParticleAngles *>(dir),
-                &particle_area_entry_table[idx], 0, 0, 0, 0, flags);
-        }
-        return p;
+        return new TParticleCtrl(static_cast<const Vec *>(pos), static_cast<ParticleAngles *>(dir), &particle_area_entry_table[idx], 0, 0, 0, 0, flags);
     }
     return 0;
 }
 #pragma pop
-
-}
 
 extern "C" {
 #pragma push
@@ -241,29 +215,16 @@ void *spawn_continuous_particle_with_direction(void *pos, void *dir, s32 id) {
 
 }
 
-// Callers pass the flags as int while the constructor takes u16, so the wrapper
-// hands the int on to it unconverted.
-extern "C" void *__ct__13TParticleCtrlFPC3VecP13ParticleParamllllUs(void *self, const Vec *pos, ParticleParam *entry, s32 oneshot,
-    s32 delay, s32 lifetime, s32 use_self, s32 flags);
-
 #pragma push
 #pragma opt_propagation off
-TParticleCtrl *spawn_particle_effect_with_flags(const Vec *pos, s32 id, s32 flags) {
+TParticleCtrl *spawn_particle_effect_with_flags(const Vec *pos, s32 id, u16 flags) {
     s32 idx = id;
     if (particle_pool_limit > idx) {
-        void *p = TObject::operator new(sizeof(TParticleCtrl));
-        if (p != 0) {
-            p = __ct__13TParticleCtrlFPC3VecP13ParticleParamllllUs(p, pos, &particle_global_entry_table[idx], 1, 0, 0, 0, flags);
-        }
-        return static_cast<TParticleCtrl *>(p);
+        return new TParticleCtrl(pos, &particle_global_entry_table[idx], 1, 0, 0, 0, flags);
     }
     if (particle_pool_limit + 0x40 > idx) {
         idx -= 0x200;
-        void *p = TObject::operator new(sizeof(TParticleCtrl));
-        if (p != 0) {
-            p = __ct__13TParticleCtrlFPC3VecP13ParticleParamllllUs(p, pos, &particle_area_entry_table[idx], 1, 0, 0, 0, flags);
-        }
-        return static_cast<TParticleCtrl *>(p);
+        return new TParticleCtrl(pos, &particle_area_entry_table[idx], 1, 0, 0, 0, flags);
     }
     return 0;
 }

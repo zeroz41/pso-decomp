@@ -27,7 +27,6 @@
 #include "pso/boss/darkfalz/TObjDFDemo5.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-#include "pso/unk/text_80086B64.h"
 #include "pso/object/TObjControl.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/unk/TLobby.h"
@@ -44,7 +43,6 @@
 
 #include "pso/render/RenderFadeState.h"
 #include "pso/math/AngleLookup.h"
-#include "pso/unk/text_80086D50.h"
 #include "pso/render/BlobShadow.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/math/MatrixVector.h"
@@ -55,7 +53,6 @@
 #include "pso/map/CsnQuery.h"
 #include "pso/render/model_render_state.h"
 #include "pso/ui/hud/TRaderMapCore.h"
-#include "pso/unk/text_800871A0.h"
 
 
 extern const char bm7_s_paa_body_model_filename[] = "bm7_s_paa_body.nj";

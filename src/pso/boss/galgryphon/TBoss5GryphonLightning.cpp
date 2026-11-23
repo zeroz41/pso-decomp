@@ -4,7 +4,6 @@
 #include "pso/boss/goldragon/TBoss8Dragon.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "types.h"
-#include "pso/unk/text_80087278.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TMainTask.h"
 #include <dolphin/mtx/GeoTypes.h>

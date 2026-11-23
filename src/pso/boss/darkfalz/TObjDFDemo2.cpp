@@ -3,7 +3,6 @@
 #pragma defer_codegen on
 
 #include "pso/system/BmlResource.h"
-#include "pso/unk/text_80087278.h"
 #include "types.h"
 #include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/camera/CameraPlayback.h"

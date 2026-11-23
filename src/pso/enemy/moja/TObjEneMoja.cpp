@@ -43,7 +43,6 @@
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/object/TObjControl.h"
-#include "pso/unk/text_80086D50.h"
 #include "pso/ui/TLevelSelect.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/math/MatrixTransforms.h"

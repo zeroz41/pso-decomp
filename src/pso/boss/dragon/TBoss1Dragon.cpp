@@ -1,7 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/enemy/AttackTargetHistory.h"
 #include "pso/boss/DragonAttackParams.h"
-#include "pso/unk/text_80087278.h"
 #include "pso/system/BmlResourceLoader.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/EnemyBmlResource.h"
@@ -85,7 +84,6 @@ struct ByteBlock_C { u8 bytes[0xc]; };
 #include <stddef.h>
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/network/client_id.h"
-#include "pso/unk/text_800870BC.h"
 #include "pso/render/MaterialAlphaCompare.h"
 #include "pso/object/TObjControl.h"
 #include "pso/render/render_util.h"

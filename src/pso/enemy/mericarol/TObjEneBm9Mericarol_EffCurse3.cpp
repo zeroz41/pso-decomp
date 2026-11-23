@@ -6,7 +6,6 @@
 #include "pso/enemy/mericarol/TObjEneBm9Mericarol_EffCurse3.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/effect/particle/TParticleCtrl.h"
-#include "pso/unk/text_80087278.h"
 #include "pso/system/task/TObject.h"
 #include "pso/object/base/TObjMotion.h"
 

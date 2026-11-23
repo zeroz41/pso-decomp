@@ -5,6 +5,7 @@
 #include "types.h"
 #include <dolphin/mtx/GeoTypes.h>
 #include "pso/system/NinjaTypes.h"
+#include "pso/effect/particle/ParticleFactory.h"
 
 struct ParticleParam;
 struct NJS_OBJECT;
@@ -119,6 +120,17 @@ void load_particle_entry_resources(void);
 
 TParticleCtrl *create_particle_emitter(const void *pos, s32 id);
 TParticleCtrl *create_timed_particle_emitter(const void *pos, s32 id, s32 delay, s32 duration);
+TParticleCtrl *create_particle_controller_with_rotation(Vec *pos, ParticleAngles *dir, s32 id, s32 delay, s32 duration);
+void *create_oneshot_particle_emitter(void *pos, void *dir, s32 id, u16 flags);
+void *create_particle_controller_with_angles(void *pos, void *dir, s32 id, s32 use_self, u16 flags);
+
+extern "C" {
+void *spawn_directional_particle(void *pos, void *dir, s32 id);
+void *fn_80086FE0(void *pos, void *dir, s32 id, s32 use_self);
+void *spawn_particle_effect_with_rotation(void *pos, void *dir, s32 id, u16 flags);
+void *spawn_continuous_particle_with_direction(void *pos, void *dir, s32 id);
+TParticleCtrl *spawn_continuous_particle_effect_with_flags(void *parent, s32 idx, u16 flags);
+}
 
 // Sets the colour the frame is cleared to from a packed ARGB value, with depth cleared to the far plane. Only the
 // colour is read.

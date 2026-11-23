@@ -170,8 +170,6 @@ u32 get_technique_caster_flags(s32 technique, u16 actor);
 extern "C" {
 void run_task__9TTecMegidFv(Obj_80235740 *self);
 
-void *spawn_particle_effect_with_rotation(void *, void *, u32, u16);
-void *spawn_continuous_particle_effect_with_flags(void *, u32, u16);
 void **mem_alloc(u32, s32);
 
 void TTecMegid::update_by_state() {

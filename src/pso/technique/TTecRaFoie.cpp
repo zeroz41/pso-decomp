@@ -21,7 +21,6 @@
 #include "pso/map/FloorArea.h"
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/technique/TTecLuker.h"
-#include "pso/unk/text_80087278.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/camera/TCameraCtrl.h"
 #pragma readonly_strings on
@@ -68,7 +67,7 @@ void TUnk_804CCB28::spawn_rafoie_explosion_bursts() {
     higher.y = (8.0f) + self->position.y;
     for (i = 0; i < rafoie_burst_table[*(u16 *)&this->m_20].count; i++) {
         const RafoieBurst *row = &rafoie_burst_table[*(u16 *)&this->m_20].entries[i];
-        s32 mode = 0;
+        u16 mode = 0;
         void *p;
         if (row->flags & 0x1000) {
             mode = 0x2000;

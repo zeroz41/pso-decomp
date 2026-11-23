@@ -53,7 +53,6 @@ struct NJS_OBJECT;
 
 #include "pso/math/AngleLookup.h"
 
-#include "pso/unk/text_80087278.h"
 
 #include "pso/unk/text_803E2D70.h"
 

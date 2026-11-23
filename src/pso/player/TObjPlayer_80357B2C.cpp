@@ -40,7 +40,6 @@ struct Strike_80357B2C {
 
 extern "C" {
 void dispatch_weapon_special_effect(TObjPlayer *player, TObjBase *target, Vec *pos, s32 phase);
-void *spawn_continuous_particle_with_direction(void *pos, void *dir, s32 id);
 f32 vector_length(void *);
 
 }

@@ -12,7 +12,6 @@
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel_8007E418.h"
 
-void *create_particle_controller_with_angles(void *, void *, s32, s32, u16);
 extern "C" {
 }
 

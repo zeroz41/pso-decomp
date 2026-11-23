@@ -1,6 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/boss/DragonAttackParams.h"
-#include "pso/unk/text_80087278.h"
 #include "pso/system/BmlResourceLoader.h"
 #include "pso/system/BmlResource.h"
 #include "pso/animation/ActorAnimationState.h"
@@ -67,7 +66,6 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/enemy/shinowa/TObjEneMe3ShinowaReal_8002ADD8.h"
-#include "pso/unk/text_800870BC.h"
 #include "pso/object/TObjControl.h"
 #include "pso/boss/goldragon/TBoss8Dragon_802F3AB4.h"
 #include "pso/boss/goldragon/TBoss8DragonDemo.h"
@@ -84,7 +82,6 @@
 #include "pso/unk/text_803D853C.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/camera/CameraHelpers.h"
-#include "pso/unk/text_80086B64.h"
 
 extern "C" {
 extern s32 local_client_id;

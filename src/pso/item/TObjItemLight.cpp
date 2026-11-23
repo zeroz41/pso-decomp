@@ -9,7 +9,6 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/task/TObject.h"
 #include "pso/player/TObjPlayer_80011014.h"
-#include "pso/unk/text_800870BC.h"
 
 
 #pragma readonly_strings on

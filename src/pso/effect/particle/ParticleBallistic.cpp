@@ -39,7 +39,6 @@
 #include "pso/render/ModelDrawContext.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/unk/text_803D853C.h"
-#include "pso/unk/text_80086B64.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/render/model_render_state.h"

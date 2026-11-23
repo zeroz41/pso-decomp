@@ -70,8 +70,6 @@
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/network/protocol/subcmd_6x.h"
 #include "pso/map/CsnGroundQuery.h"
-#include "pso/unk/text_80086B64.h"
-#include "pso/unk/text_80087278.h"
 #include "pso/object/TObjControl.h"
 #include "pso/boss/galgryphon/TBoss5GryphonLightningEff.h"
 #include "pso/render/MaterialAlphaCompare.h"

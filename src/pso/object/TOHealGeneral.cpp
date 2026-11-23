@@ -22,7 +22,6 @@
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/system/vector.h"
-#include "pso/unk/text_80087278.h"
 #include "pso/unk/text_803D8F74.h"
 
 // TObjPlayer_80011014.h declares get_entity_id returning u16, but this

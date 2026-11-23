@@ -38,7 +38,6 @@
 #include "pso/math/MatrixTransforms.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/effect/particle/ParticleFactory.h"
-#include "pso/unk/text_800870BC.h"
 #include "pso/unk/text_803D96A8.h"
 
 // The weapon's colour as TItemWeapon::get_weapon_color returns it

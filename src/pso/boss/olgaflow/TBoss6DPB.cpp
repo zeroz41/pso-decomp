@@ -1,6 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #pragma defer_codegen on
-#include "pso/unk/text_80087278.h"
 #include "pso/boss/olgaflow/TBoss6DPB.h"
 #include "pso/effect/photon/TDPBShower.h"
 #include "pso/effect/particle/TParticleCtrl.h"

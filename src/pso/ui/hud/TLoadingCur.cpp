@@ -6,7 +6,6 @@
 #include "pso/ui/hud/TLoadingCur.h"
 #include <stddef.h>
 #include "pso/ui/hud/TNowLoading.h"
-#include "pso/unk/text_80086FE0.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/task/TObject.h"

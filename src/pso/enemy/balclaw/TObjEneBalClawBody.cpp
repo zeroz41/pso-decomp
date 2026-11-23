@@ -30,7 +30,6 @@
 #include "pso/unk/text_803D96A8.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
-#include "pso/unk/text_800870BC.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/npc/TNpcPlayer_800D87A8.h"
 #include "pso/system/task/TMainTask.h"

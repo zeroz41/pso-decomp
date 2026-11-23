@@ -18,7 +18,6 @@
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/effect/particle/TParticleCtrl.h"
-#include "pso/unk/text_80087278.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/camera/TCameraCtrl.h"

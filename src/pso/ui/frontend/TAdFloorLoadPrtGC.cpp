@@ -2,7 +2,7 @@
 #include "types.h"
 #include "pso/ui/frontend/TAdFloorLoadPrtGC.h"
 #include "pso/system/vector.h"
-#include "pso/unk/text_80086E28.h"
+#include "pso/effect/particle/TParticleCtrl.h"
 #include <string.h>
 
 #pragma readonly_strings on

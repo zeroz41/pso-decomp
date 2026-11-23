@@ -3,7 +3,7 @@
 
 #include "types.h"
 #include "pso/system/task/TObject.h"
-#include "pso/unk/text_80086B64.h"
+#include "pso/effect/particle/TParticleCtrl.h"
 
 // One particle emitter of the floor-load effect: where it sits, how it is turned, the particle it runs.
 struct TAdFloorLoadPrtGCEmitter {

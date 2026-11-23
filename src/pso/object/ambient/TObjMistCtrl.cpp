@@ -13,7 +13,6 @@
 #include "pso/player/TPlayerFootStamp.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/unk/text_80087278.h"
 #include "pso/system/task/TObject.h"
 #include "pso/math/MatrixVector.h"
 #pragma readonly_strings on

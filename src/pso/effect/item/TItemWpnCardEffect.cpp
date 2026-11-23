@@ -25,7 +25,6 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/item/TItemEquipBase.h"
-#include "pso/unk/text_800870BC.h"
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/player/TObjPlayer_80011014.h"
 
