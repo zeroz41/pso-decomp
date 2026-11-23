@@ -7,7 +7,7 @@
 struct RelModuleBuffer;
 
 struct TMovie : public TObject {
-    TMovie(TObject *parent, s8 *name, s32 a3, s32 a4, s32 a5);
+    TMovie(TObject *parent, s8 *filename, s32 movie_id, s32 movie_mode, s32 audio_mode);
     virtual ~TMovie();
     virtual void run_task();
     RelModuleBuffer *module;
@@ -25,15 +25,15 @@ struct TMovie : public TObject {
     static void flush_cache();
     static void flip_frame_buffer();
     static void flush_and_reset();
-    static void calc_frame_buffer_size(saddr arg0, saddr arg1);
+    static void calc_frame_buffer_size(saddr fb_a, saddr fb_b);
     s32 stop_if_advanced();
     s32 check_finished();
     s32 is_playback_finished();
     void update_stop();
     void release();
-    void init_sfd_player(s32 arg1, s32 arg2);
+    void init_sfd_player(s32 is_ending, s32 is_normal_ending);
     s32 decode_frame();
-    void copy(void* q);
+    void copy(void *src_frame);
     void free_buffer();
     void render_until_finished();
     s32 check_skip_input();
@@ -43,7 +43,7 @@ struct TMovie : public TObject {
 
 LAYOUT_ASSERT(TMovie_size, sizeof(TMovie) == 0x4C);
 
-u8 *initialize_movie_with_soundtrack(u8 *arg0, s8 *arg1, s32 arg2, s32 arg3, s32 arg4);
+u8 *initialize_movie_with_soundtrack(u8 *state_buf, s8 *filename, s32 movie_mode, s32 is_ending, s32 is_normal_ending);
 
 // Planes of one decoded movie frame, filled by the decoder callback that
 // TMovie::flip_frame_buffer() calls (inferred from pack_movie_frame's use:
@@ -57,9 +57,10 @@ struct MovieFramePlanes {
 };
 
 extern void *movie_current_frame_buffer;
-extern s32 lbl_805D56A4;
-extern s32 lbl_805D56A8;
+extern s32 movie_pending_frame_width;
+extern s32 movie_pending_frame_height;
 
 void pack_movie_frame(MovieFramePlanes *planes);
+void wait_for_movie_retrace();
 
 #endif

@@ -2,11 +2,11 @@
 #define PSO_SDK_COMPACT_MATH
 #include <dolphin/gx/GXFrameBuffer.h>
 #include <dolphin/gx/GXTexture.h>
+#include <dolphin/os/OSCache.h>
 #include <dolphin/vi.h>
 #undef PSO_SDK_COMPACT_MATH
 #include "pso/system/movie/TMovie.h"
 #include "pso/system/movie/TMovie_80143C94.h"
-#include "pso/system/movie/TMovie_80143CC8.h"
 #include "pso/system/movie/TMovie_80143CE8.h"
 #include "pso/player/TObjPlayer_80083B38.h"
 #include "pso/unk/text_80320358.h"
@@ -39,8 +39,8 @@ void pack_movie_frame(MovieFramePlanes *frame) {
     u32 c_pad;
 
     dst = static_cast<u32 *>(movie_current_frame_buffer);
-    width = lbl_805D56A4;
-    height = lbl_805D56A8;
+    width = movie_pending_frame_width;
+    height = movie_pending_frame_height;
     touch = 32;
     dst += ((640 - width) * 2 / 2) / 4;
     cb_src = frame->u;
@@ -167,27 +167,21 @@ void pack_movie_frame(MovieFramePlanes *frame) {
 
 
 
-extern "C" {
-
-s32 DCStoreRangeNoSync(void *, s32);
-s32 DCFlushRangeNoSync(s32, s32);
-}
-
-GXRenderModeObj *TMovie__framebuffer_video_mode = &GXNtsc480Int;
+GXRenderModeObj *movie_framebuffer_video_mode = &GXNtsc480Int;
 
 void *movie_current_frame_buffer;
-void *movie_frame_buffer_size;
-void *lbl_805D5690;
-s32 lbl_805D5694;
-s32 lbl_805D5698;
+void *movie_frame_buffer_a;
+void *movie_frame_buffer_b;
+u32 movie_frame_buffer_bytes;
+s32 movie_first_frame_unblank;
 u32 movie_flip_counter;
-u32 lbl_805D56A0;
-s32 lbl_805D56A4;
-s32 lbl_805D56A8;
+u32 movie_pending_frame_addr;
+s32 movie_pending_frame_width;
+s32 movie_pending_frame_height;
 
 void TMovie::flush_cache() {
     if (VIGetNextField() == 0U) {
-        DCStoreRangeNoSync(movie_current_frame_buffer, lbl_805D5694);
+        DCStoreRangeNoSync(movie_current_frame_buffer, movie_frame_buffer_bytes);
         VIFlush();
         movie_flip_counter += 1;
     }
@@ -195,42 +189,46 @@ void TMovie::flush_cache() {
 
 void TMovie::flip_frame_buffer() {
     MovieFramePlanes planes;
-    if (lbl_805D56A0 != 0U) {
+    if (movie_pending_frame_addr != 0U) {
         if (movie_flip_counter & 1) {
-            movie_current_frame_buffer = lbl_805D5690;
+            movie_current_frame_buffer = movie_frame_buffer_b;
         } else {
-            movie_current_frame_buffer = movie_frame_buffer_size;
+            movie_current_frame_buffer = movie_frame_buffer_a;
         }
-        if (lbl_805D5698 == 1) {
+        if (movie_first_frame_unblank == 1) {
             VISetBlack(0);
-            lbl_805D5698 = 0;
+            movie_first_frame_unblank = 0;
         }
-        lbl_805D6BF4(lbl_805D56A0, lbl_805D56A4, lbl_805D56A8, &planes);
+        lbl_805D6BF4(movie_pending_frame_addr, movie_pending_frame_width, movie_pending_frame_height, &planes);
         pack_movie_frame(&planes);
         VISetNextFrameBuffer(movie_current_frame_buffer);
-        lbl_805D56A0 = 0U;
+        movie_pending_frame_addr = 0U;
     }
 }
 
-void TMovie__sub_80143C94(int a0, int a1, int a2) {
-    lbl_805D56A0 = a0;
-    lbl_805D56A4 = a1;
-    lbl_805D56A8 = a2;
+void TMovie__sub_80143C94(int frame_addr, int width, int height) {
+    movie_pending_frame_addr = frame_addr;
+    movie_pending_frame_width = width;
+    movie_pending_frame_height = height;
 }
 
-void TMovie::flush_and_reset() { TMovie::flush_cache(); TMovie__sub_80143CC8(); }
-
-void TMovie__sub_80143CC8(void) { VIWaitForRetrace(); }
-
-void TMovie::calc_frame_buffer_size(saddr arg0, saddr arg1) {
-    movie_frame_buffer_size = (void *)arg0;
-    lbl_805D5690 = (void *)arg1;
-    lbl_805D5694 = ((TMovie__framebuffer_video_mode->fbWidth + 0xF) & 0xFFF0) * TMovie__framebuffer_video_mode->xfbHeight * 2;
+void TMovie::flush_and_reset() {
+    TMovie::flush_cache();
+    wait_for_movie_retrace();
 }
 
-void flush_framebuffer(s32 arg1, s32 arg2, s32 arg3) {
+void wait_for_movie_retrace() {
+    VIWaitForRetrace();
+}
 
-    mwPlyFxSetOutBufSize_hook(arg2, 0x280, 0x1E0);
-    mwPlyFxCnvFrmARGB8888_hook(arg2, arg3, get_capture_texture_pixels());
-    DCFlushRangeNoSync(get_capture_texture_pixels(), GXGetTexBufferSize(0x280, 0x1E0, 6, 0, 0));
+void TMovie::calc_frame_buffer_size(saddr fb_a, saddr fb_b) {
+    movie_frame_buffer_a = reinterpret_cast<void *>(fb_a);
+    movie_frame_buffer_b = reinterpret_cast<void *>(fb_b);
+    movie_frame_buffer_bytes = ((movie_framebuffer_video_mode->fbWidth + 0xF) & 0xFFF0) * movie_framebuffer_video_mode->xfbHeight * 2;
+}
+
+void flush_framebuffer(s32 movie_state, s32 sfd_player, s32 frame_info) {
+    mwPlyFxSetOutBufSize_hook(sfd_player, 0x280, 0x1E0);
+    mwPlyFxCnvFrmARGB8888_hook(sfd_player, frame_info, get_capture_texture_pixels());
+    DCFlushRangeNoSync(reinterpret_cast<void *>(get_capture_texture_pixels()), GXGetTexBufferSize(0x280, 0x1E0, 6, 0, 0));
 }

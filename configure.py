@@ -439,7 +439,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # pack_movie_frame keeps every named local in one register, recomputes its pad and
     # stride shifts and leaves invariant hoisting to the backend. The frame-buffer
     # functions after it (flush_cache..flush_framebuffer, same TU) match under these too.
-    "pso/system/movie/TMovie_80143988.cpp": {"cflags": _switch(cflags_pso, "-opt nolifetimes,nocse,noprop,noloop")},
+    "pso/system/movie/MovieFramePack.cpp": {"cflags": _switch(cflags_pso, "-opt nolifetimes,nocse,noprop,noloop")},
     # TObjChara's vtable sits ahead of the jump tables and its methods run in reverse
     # slot order: deferred generation of the last-to-first source. The EXP/TP/HP labels
     # are 4-byte string literals in .sdata2.

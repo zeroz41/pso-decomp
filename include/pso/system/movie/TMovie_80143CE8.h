@@ -3,6 +3,6 @@
 
 #include "types.h"
 
-void flush_framebuffer(s32 arg1, s32 arg2, s32 arg3);
+void flush_framebuffer(s32 movie_state, s32 sfd_player, s32 frame_info);
 
 #endif

@@ -3229,7 +3229,7 @@ pso/object/base/TObjMotion.cpp:
 	.sbss       start:0x805D5678 end:0x805D5688
 	.sdata2     start:0x805DB168 end:0x805DB174
 
-pso/system/movie/TMovie_80143988.cpp:
+pso/system/movie/MovieFramePack.cpp:
 	.text       start:0x80143988 end:0x80143D9C
 	.sdata      start:0x805D2CE8 end:0x805D2CEC
 	.sbss       start:0x805D5688 end:0x805D56AC
