@@ -1412,13 +1412,13 @@ void TRaderMapCore::open_free_map_view() {
 void TRaderMapCore::add_zoom_distance(f32 farg0) {
     f32 temp_f0;
     if (((s32) TRaderMapCore__view_mode == 1) || ((s32) TRaderMapCore__view_mode == 2)) {
-        temp_f0 = *(f32 *)((s8 *)TRaderMapCore__map_view_state + 0x2C) + farg0;
-        *(f32 *)((s8 *)TRaderMapCore__map_view_state + 0x2C) = temp_f0;
+        temp_f0 = TRaderMapCore__map_view_state[1].camera.py + farg0;
+        TRaderMapCore__map_view_state[1].camera.py = temp_f0;
         if (temp_f0 < lbl_805D35F4) {
-            *(f32 *)((s8 *)TRaderMapCore__map_view_state + 0x2C) = (f32) lbl_805D35F4;
+            TRaderMapCore__map_view_state[1].camera.py = (f32) lbl_805D35F4;
         }
-        if (*(f32 *)((s8 *)TRaderMapCore__map_view_state + 0x2C) > lbl_805D35F8) {
-            *(f32 *)((s8 *)TRaderMapCore__map_view_state + 0x2C) = (f32) lbl_805D35F8;
+        if (TRaderMapCore__map_view_state[1].camera.py > lbl_805D35F8) {
+            TRaderMapCore__map_view_state[1].camera.py = (f32) lbl_805D35F8;
         }
     }
 }

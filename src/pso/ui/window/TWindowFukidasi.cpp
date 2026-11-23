@@ -1,4 +1,3 @@
-#include "pso/render/ColorLineList.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/object/base/TObjChara.h"
 #include "pso/unk/text_803D96A8.h"
@@ -88,24 +87,6 @@ struct Fuki_80251380 {
     s16 viewport;
 };
 
-struct Fuki_802521E8;
-
-struct Fuki_80252764 {
-    u8 pad0[0x24];
-    u8 f24[0x30 - 0x24];
-    f32 rect[2];
-    f32 anchor[2];
-    u8 pad40[0x54 - 0x40];
-    f32 f54;
-    u8 pad58[0x70 - 0x58];
-    u8 phase;
-    u8 pad71[0x80 - 0x71];
-    f32 tail;
-    u32 color;
-    f32 center[2];
-    f32 head[2];
-};
-
 struct View_80252764 {
     f32 x;
     f32 y;
@@ -115,15 +96,6 @@ struct View_80252764 {
     s32 fade_in;  // frame counter of the name plate fade (inferred)
     u8 pad34[0x38 - 0x34];
     f32 depth;
-};
-
-struct Fuki_802521E8 {
-    u8 pad0[0x54];
-    f32 f54;
-    u8 pad58[0x80 - 0x58];
-    f32 tail;
-    u8 pad84[4];
-    f32 center[2];
 };
 
 struct Slice_80252558 { f32 x, y, z, width, f10, lean, rowHeight, f1c, u, v, uw, f2c, f30, vh, pad[4]; };
@@ -328,13 +300,13 @@ void TWindowFukidasi::run_task() {
 void TWindowFukidasi::render() {
     f32 off[2];
     View_80252764 *v;
-    switch (((Fuki_80252764 *)this)->phase) {
+    switch (static_cast<u8>(m_70)) {
     case 0:
-        ((TWindowFukidasi *)((Fuki_80252764 *)this))->project_anchor(NULL, ((Fuki_80252764 *)this)->head);
+        project_anchor(NULL, head_position);
         this->place_rect_at_head_or_slot();
-        ((Fuki_80252764 *)this)->center[0] = 0.5f * ((Fuki_80252764 *)this)->anchor[0] + ((Fuki_80252764 *)this)->rect[0];
-        ((Fuki_80252764 *)this)->center[1] = 0.5f * ((Fuki_80252764 *)this)->anchor[1] + ((Fuki_80252764 *)this)->rect[1];
-        ((Fuki_80252764 *)this)->phase = 1;
+        balloon_center[0] = 0.5f * target_size[0] + target_position[0];
+        balloon_center[1] = 0.5f * target_size[1] + target_position[1];
+        m_70 = 1;
         break;
     case 2:
         ((void (*)(void *))refresh_rect_placement__15TWindowFukidasiFPv)(this);
@@ -351,24 +323,24 @@ void TWindowFukidasi::render() {
     case 9:
         break;
     }
-    ((TWindowFukidasi *)((Fuki_80252764 *)this))->follow_anchor();
+    follow_anchor();
     v = reinterpret_cast<View_80252764 *>(get_draw_context());
     v->sx /= TCameraCtrl::get_view_scale();
     v->sy /= TCameraCtrl::get_fov();
-    off[0] = 3.0f * ((Fuki_80252764 *)this)->tail;
-    off[1] = 2.5f * ((Fuki_80252764 *)this)->tail;
-    draw_body((struct DrawCtx_80252558 *)(v), (u32)(0xFF000000), off, 0.0299f + ((Fuki_80252764 *)this)->f54);
-    ((TWindowFukidasi *)((Fuki_80252764 *)this))->draw_tail(v, (u32)(0xFF000000), off, 0.01495f + ((Fuki_80252764 *)this)->f54);
+    off[0] = 3.0f * tail_scale;
+    off[1] = 2.5f * tail_scale;
+    draw_body((struct DrawCtx_80252558 *)(v), (u32)(0xFF000000), off, 0.0299f + draw_depth);
+    draw_tail(v, (u32)(0xFF000000), off, 0.01495f + draw_depth);
     off[0] = 0.0f;
     off[1] = 0.0f;
-    draw_body((struct DrawCtx_80252558 *)(v), ((Fuki_80252764 *)this)->color, off, 0.01495f + ((Fuki_80252764 *)this)->f54);
-    ((TWindowFukidasi *)((Fuki_80252764 *)this))->draw_tail(v, ((Fuki_80252764 *)this)->color, off, 0.04485f + ((Fuki_80252764 *)this)->f54);
-    if (((TWindowFukidasi *)((Fuki_80252764 *)this))->is_active() != 0) {
+    draw_body((struct DrawCtx_80252558 *)(v), static_cast<u32>(m_84), off, 0.01495f + draw_depth);
+    draw_tail(v, static_cast<u32>(m_84), off, 0.04485f + draw_depth);
+    if (is_active() != 0) {
         draw_visible_window_entries(
-            reinterpret_cast<const void *>(((Fuki_80252764 *)this)),
-            reinterpret_cast<const WindowLayoutEntries *>(((Fuki_80252764 *)this)->f24),
+            this,
+            &entry_list,
             reinterpret_cast<WindowDrawContext *>(v));
-        draw_name_plate__15TWindowFukidasiFv(this, v, ((Fuki_80252764 *)this)->color);
+        draw_name_plate__15TWindowFukidasiFv(this, v, static_cast<u32>(m_84));
     }
 }
 
@@ -453,10 +425,10 @@ void TWindowFukidasi::draw_body_row(void *s, void *ctx, f32 offsetX, f32 rowTop,
 }
 
 void TWindowFukidasi::draw_tail(void *view, u32 color, f32 *off, f32 depth) {
-    ColorLineVertex verts[3];
+    NJS_POINT2 verts[3];
     f32 pos[3];
-    ColorLineList prim;
-    u32 colors[3];
+    NJS_POINT2COL prim;
+    NJS_COLOR colors[3];
     f32 scr[2];
     f32 cx;
     f32 cy;
@@ -466,24 +438,24 @@ void TWindowFukidasi::draw_tail(void *view, u32 color, f32 *off, f32 depth) {
     s32 angle;
     if (this->is_balloon_visible() != 0) {
         this->project_anchor(pos, scr);
-        cx = ((Fuki_802521E8 *)this)->center[0];
-        cy = ((Fuki_802521E8 *)this)->center[1];
+        cx = balloon_center[0];
+        cy = balloon_center[1];
         angle = 10430.38043493439 * atan2_float(cy - scr[1], cx - scr[0]);
         s = 1000.0f / xyz_distance(&camera_ctrl_instance->pos, pos);
         x0 = s * cos_table_lookup(angle) + scr[0];
         y0 = s * sin_table_lookup(angle) + scr[1];
-        prim.verts = verts;
-        prim.unk_8 = 0;
-        prim.colors = colors;
-        prim.count = 3;
-        colors[2] = colors[1] = colors[0] = (color << 8) | (color >> 24);
+        prim.p = verts;
+        prim.tex = NULL;
+        prim.col = colors;
+        prim.num = 3;
+        colors[2].color = colors[1].color = colors[0].color = (color << 8) | (color >> 24);
         verts[0].x = x0;
         verts[0].y = y0;
-        verts[1].x = off[0] + (((Fuki_802521E8 *)this)->tail * (12.0f * cos_table_lookup(angle + 0x4000)) + cx);
-        verts[1].y = off[1] + (((Fuki_802521E8 *)this)->tail * (12.0f * sin_table_lookup(angle + 0x4000)) + cy);
-        verts[2].x = off[0] + (((Fuki_802521E8 *)this)->tail * (12.0f * cos_table_lookup(angle - 0x4000)) + cx);
-        verts[2].y = off[1] + (((Fuki_802521E8 *)this)->tail * (12.0f * sin_table_lookup(angle - 0x4000)) + cy);
-        draw_polygon_2d(reinterpret_cast<NJS_POINT2COL *>(&prim), 3, 2, 0.04485f + ((Fuki_802521E8 *)this)->f54);
+        verts[1].x = off[0] + (tail_scale * (12.0f * cos_table_lookup(angle + 0x4000)) + cx);
+        verts[1].y = off[1] + (tail_scale * (12.0f * sin_table_lookup(angle + 0x4000)) + cy);
+        verts[2].x = off[0] + (tail_scale * (12.0f * cos_table_lookup(angle - 0x4000)) + cx);
+        verts[2].y = off[1] + (tail_scale * (12.0f * sin_table_lookup(angle - 0x4000)) + cy);
+        draw_polygon_2d(&prim, 3, 2, 0.04485f + draw_depth);
     }
 }
 

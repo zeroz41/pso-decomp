@@ -19,13 +19,13 @@ struct TWindowSubSymbolChatPartsSet : public TWindowChatSymbol {
     void init_symbol_layout(s32 *arg1);
     virtual void render();
     u8 m_68;
-    s8 m_69;
+    s8 selection_mode;
     s16 m_6a;
     s16 m_6c;
     u16 m_6e;
     s8 *m_70;
-    s32 m_74;
-    s32 m_78;
+    s32 first_part_index;
+    s32 second_part_index;
     s32 *m_7c;
     s32 *m_80;
     s32 *m_84;

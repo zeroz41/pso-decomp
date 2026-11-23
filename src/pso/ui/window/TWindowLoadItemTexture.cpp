@@ -1,6 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/ui/ItemTextureConstants.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
+#include "pso/ui/window/WindowSpritePart.h"
 #include "types.h"
 #include "pso/ui/window/TWindowLoadItemTexture.h"
 #include "pso/ui/window/TWindowSubStatusDisp_8025B050.h"
@@ -22,16 +23,16 @@ extern "C" {
 #pragma fp_contract on
 TWindowLoadItemTexture *fn_802628C0(void *position, const f32 *extent, s32 client) {
     TWindowLoadItemTexture *window;
-    saddr sprite;
+    WindowSpritePart *sprite;
 
     window = new TWindowLoadItemTexture(position, (f32 *)extent, client);
     fn_80262C2C(window);
-    sprite = reinterpret_cast<saddr>(window->get_array_entry(0));
-    *(f32 *)(sprite + 0x8) = 0.5f * window->target_size[0] - 32.0f - 4.0f;
-    *(f32 *)(sprite + 0xC) = 0.5f * window->target_size[1] - 32.0f - 1e+01f;
-    *(f32 *)(sprite + 0x10) = 64.0f;
-    *(f32 *)(sprite + 0x14) = 64.0f;
-    set_sprite_uv_bounds(reinterpret_cast<WindowSpritePart *>(sprite), 0.0f, 0.0f, 1.0f, 1.0f);
+    sprite = static_cast<WindowSpritePart *>(window->get_array_entry(0));
+    sprite->x = 0.5f * window->target_size[0] - 32.0f - 4.0f;
+    sprite->y = 0.5f * window->target_size[1] - 32.0f - 1e+01f;
+    sprite->w = 64.0f;
+    sprite->h = 64.0f;
+    set_sprite_uv_bounds(sprite, 0.0f, 0.0f, 1.0f, 1.0f);
     return window;
 }
 #pragma pop
@@ -116,9 +117,9 @@ TWindowLoadItemTexture::TWindowLoadItemTexture(void *position, f32 *extent, s32 
     target_size[0] = extent[0];
     target_size[1] = extent[1];
     save_position();
-    u8 *entry = (u8 *)get_array_entry(0);
-    *(f32 *)(entry + 0x10) = extent[0];
-    *(f32 *)(entry + 0x14) = extent[1];
+    WindowSpritePart *entry = static_cast<WindowSpritePart *>(get_array_entry(0));
+    entry->w = extent[0];
+    entry->h = extent[1];
     m_6c = TItemTexLoad::create((TObject *)tl_07);
     m_61 = 0;
     m_60 = 2;

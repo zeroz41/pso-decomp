@@ -62,14 +62,18 @@ public:
     u16 m_76;  // Speaker entity ID, or 0xFFFF for no entity.
     char *name;  // speaker name, drawn by draw_name_plate (inferred)
     f32 m_7c;
-    u8 unk_80[0x4];
+    f32 tail_scale;
     s32 m_84;
-    u8 unk_88[0x10];
+    f32 balloon_center[2];
+    f32 head_position[2];
 };
 LAYOUT_ASSERT(TWindowFukidasi_fields_offset, offsetof(TWindowFukidasi, m_70) == 0x70);
 LAYOUT_ASSERT(TWindowFukidasi_name_offset, offsetof(TWindowFukidasi, name) == 0x78);
 LAYOUT_ASSERT(TWindowFukidasi_scale_offset, offsetof(TWindowFukidasi, m_7c) == 0x7C);
 LAYOUT_ASSERT(TWindowFukidasi_speaker_offset, offsetof(TWindowFukidasi, m_76) == 0x76);
+LAYOUT_ASSERT(TWindowFukidasi_tail_scale_offset, offsetof(TWindowFukidasi, tail_scale) == 0x80);
+LAYOUT_ASSERT(TWindowFukidasi_balloon_center_offset, offsetof(TWindowFukidasi, balloon_center) == 0x88);
+LAYOUT_ASSERT(TWindowFukidasi_head_position_offset, offsetof(TWindowFukidasi, head_position) == 0x90);
 LAYOUT_ASSERT(TWindowFukidasi_size, sizeof(TWindowFukidasi) == 0x98);
 
 extern "C" {

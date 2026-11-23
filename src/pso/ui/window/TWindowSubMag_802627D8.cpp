@@ -6,6 +6,7 @@
 #include "types.h"
 #include "pso/ui/window/TWindowSubMag.h"
 #include "pso/ui/window/TWindowBase.h"
+#include "pso/ui/window/WindowSpritePart.h"
 
 extern "C" {
 
@@ -17,7 +18,7 @@ int TWindowKeyBoardSoft::get_flag_bit5() { return (this->m_60 >> 5) & 0x1; }
 int TWindowKeyBoardBase::get_flag62_bit8() { return this->m_62 & 0x8; }
 
 void TWindowLoadItemTexture::set_mag_slot_state(TItemData *item) {
-    *(u16 *)get_array_entry(0) |= 2;
+    static_cast<WindowSpritePart *>(get_array_entry(0))->flags |= 2;
     if (m_6c->load_item_icon(item) != 0) {
         m_60 = 1;
         return;
@@ -26,9 +27,9 @@ void TWindowLoadItemTexture::set_mag_slot_state(TItemData *item) {
 }
 
 void fn_8026287C(TWindowLoadItemTexture *window) {
-    u8 *sprite = (u8 *)window->get_array_entry(0);
-    *(GinjaTextureList ***)(sprite + 0x30) = &window->m_70;
-    *(u16 *)sprite = (u16)(*(u16 *)sprite & 0xFFFFFFFD);
+    WindowSpritePart *sprite = static_cast<WindowSpritePart *>(window->get_array_entry(0));
+    sprite->texture_list_slot = reinterpret_cast<s32 *>(&window->m_70);
+    sprite->flags &= ~2;
 }
 
 }
