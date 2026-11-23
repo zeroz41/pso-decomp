@@ -369,7 +369,7 @@ void TTecGiFoie::calc_params() {
     }
     power = power + (f32)(((TechniqueParams *)&power)->pad_24 * level);
     if (TTecCtrl::is_technique_ready()) {
-        power = power * lbl_804CC55C[1].pad_00;
+        power = power * technique_scale_table[1].power;
     }
 }
 

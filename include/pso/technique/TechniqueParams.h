@@ -27,9 +27,10 @@ struct TechniqueParams {
     void copy(TechniqueParams *src);
 };
 
-// Per technique: the factor applied to tp_cost while TTecCtrl::is_technique_ready().
+// Per technique: the factors applied to a cast's power and to tp_cost while
+// TTecCtrl::is_technique_ready().
 struct TechniqueCostScale {
-    f32 pad_00;
+    f32 power;
     f32 tp_cost;
 };
 
@@ -40,11 +41,13 @@ struct TechniqueLinearPower {
     s16 per_level;
 };
 
-extern "C" {
 extern TechniqueParams technique_param_table[];
 extern TechniqueLinearPower tech_high_level_linear_power_table[];
-extern TechniqueParams lbl_80515F90;
-extern TechniqueCostScale lbl_804CC55C[];
+// The block calc_technique_parameters fills and returns.
+extern TechniqueParams calculated_technique_params;
+extern TechniqueCostScale technique_scale_table[];
+
+extern "C" {
 TechniqueParams *calc_technique_parameters(s32 technique, s32 level, u16 client);
 }
 

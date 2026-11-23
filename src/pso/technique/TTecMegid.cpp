@@ -241,7 +241,7 @@ void TTecMegid::spawn_particle_emitters() {
       if (((Data_802351B4 *) TTecMegid__emitter_bands)[this->band].rows[i].flags & 0x20)
       {
         new_var = ((Data_802351B4 *) TTecMegid__emitter_bands)[this->band].rows[i].flags >> 16;
-        attach_particle_model((u8 *)self->emitters[i], get_bml_model(technique_effect_bml, new_var), lbl_805D63B0, 0, 1, 1.0f);
+        attach_particle_model((u8 *)self->emitters[i], get_bml_model(technique_effect_bml, new_var), technique_texture_list, 0, 1, 1.0f);
       }
     }
   }
@@ -261,7 +261,7 @@ void TTecMegid::init_parameters() {
     ((RecoveredFields_80235348_arg0 *) arg0)->field_CC = (f32) (((RecoveredFields_80235348_arg0 *) arg0)->field_CC + ((f32) (((RecoveredFields_80235348_arg0 *) arg0)->field_F0 * ((RecoveredFields_80235348_arg0 *) arg0)->level)));
     if (TTecCtrl::is_technique_ready() != 0)
     {
-      ((RecoveredFields_80235348_arg0 *) arg0)->field_CC = (f32) (((RecoveredFields_80235348_arg0 *) arg0)->field_CC * lbl_804CC55C[18].pad_00);
+      ((RecoveredFields_80235348_arg0 *) arg0)->field_CC = (f32) (((RecoveredFields_80235348_arg0 *) arg0)->field_CC * technique_scale_table[18].power);
     }
   }
   ((RecoveredFields_80235348_arg0 *) arg0)->field_64 = (f32) (((RecoveredFields_80235348_arg0 *) arg0)->field_D0 + ((f32) ((((s16) ((RecoveredFields_80235348_arg0 *) arg0)->level) / 5) * 2)));

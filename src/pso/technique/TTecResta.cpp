@@ -282,7 +282,7 @@ void TTecResta::init_parameters() {
   this->m_74 = (f32) ((this->m_74) + ((f32) ((this->m_98) * (this->m_a4))));
   if (TTecCtrl::is_technique_ready() != 0)
   {
-    this->m_74 = (f32) ((this->m_74) * lbl_804CC55C[15].pad_00);
+    this->m_74 = (f32) ((this->m_74) * technique_scale_table[15].power);
   }
 }
 
@@ -294,7 +294,7 @@ f32 TTecResta::calc_heal_amount(s32 level) {
   var_f31 = var_f31 + ((f32) (level * 5));
   if (TTecCtrl::is_technique_ready() != 0)
   {
-    var_f31 *= lbl_804CC55C[15].pad_00;
+    var_f31 *= technique_scale_table[15].power;
   }
   return var_f31;
 }

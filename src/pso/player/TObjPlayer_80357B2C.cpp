@@ -349,7 +349,7 @@ void spawn_effect_by_type(TObjPlayer *player, TObjBase *target, Vec *pos, s32 ph
     if (phase == 1) {
         temp_a = (saddr)create_timed_particle_emitter(pos, 0xBF, 0, 0xF);
         if (temp_a != 0) {
-            attach_particle_model((u8 *)temp_a, get_bml_model(technique_effect_bml, 0), lbl_805D63B0, get_bml_motion(technique_effect_bml, 0), 0, 1.0f);
+            attach_particle_model((u8 *)temp_a, get_bml_model(technique_effect_bml, 0), technique_texture_list, get_bml_motion(technique_effect_bml, 0), 0, 1.0f);
         }
     }
 }
@@ -363,7 +363,7 @@ void spawn_hit_effect(TObjPlayer *player, TObjBase *target, Vec *pos, s32 phase)
     if (phase == 1) {
         timed_particle_emitter = (saddr)create_timed_particle_emitter(pos, 0x9A, 0, 0xF);
         if (timed_particle_emitter != 0) {
-            attach_particle_model((u8 *)timed_particle_emitter, get_bml_model(technique_effect_bml, 0), lbl_805D63B0, get_bml_motion(technique_effect_bml, 0), 0, 1.0f);
+            attach_particle_model((u8 *)timed_particle_emitter, get_bml_model(technique_effect_bml, 0), technique_texture_list, get_bml_motion(technique_effect_bml, 0), 0, 1.0f);
         }
     }
 }

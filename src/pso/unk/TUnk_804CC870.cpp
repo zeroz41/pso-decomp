@@ -145,7 +145,7 @@ void TUnk_804CC888::run_task() {
                 if (e->flags & 0x20) {
                     r = spawn_particle_effect(&obj->position, e->a);
                     if (r != NULL) {
-                        attach_particle_model(r, get_bml_model(technique_effect_bml, technique_effect_entry_table[((Ctl_80232C50 *)this)->kind].ents[i].flags >> 16), (GinjaTextureList *)lbl_805D63B0, NULL, 1, 1.0f);
+                        attach_particle_model(r, get_bml_model(technique_effect_bml, technique_effect_entry_table[((Ctl_80232C50 *)this)->kind].ents[i].flags >> 16), (GinjaTextureList *)technique_texture_list, NULL, 1, 1.0f);
                     }
                 } else {
                     spawn_particle_effect(&obj->position, e->a);
@@ -255,7 +255,7 @@ void TTecGrants::init_parameters() {
     }
     power = power + (f32)(((TechniqueParams *)&power)->pad_24 * level);
     if (TTecCtrl::is_technique_ready()) {
-        power = power * lbl_804CC55C[9].pad_00;
+        power = power * technique_scale_table[9].power;
     }
 }
 

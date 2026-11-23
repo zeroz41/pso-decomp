@@ -193,7 +193,7 @@ void TTecRaBarta::vfunc_8(void *pos) {
       if (self && self)
       {
       }
-      attach_particle_model((u8 *)self->emitters[i], get_bml_model(technique_effect_bml, mid), lbl_805D63B0, 0, 0, (f32)(1.0f));
+      attach_particle_model((u8 *)self->emitters[i], get_bml_model(technique_effect_bml, mid), technique_texture_list, 0, 0, (f32)(1.0f));
     }
   }
   if (self->band == 5)
@@ -216,7 +216,7 @@ void TTecRaBarta::vfunc_8(void *pos) {
     id = b2->flags >> 16;
     if (emitter != 0)
     {
-      attach_particle_model((u8 *)emitter, get_bml_model(technique_effect_bml, id), lbl_805D63B0, get_bml_motion(technique_effect_bml, 1), 0, (f32)(1.0f));
+      attach_particle_model((u8 *)emitter, get_bml_model(technique_effect_bml, id), technique_texture_list, get_bml_motion(technique_effect_bml, 1), 0, (f32)(1.0f));
     }
   }
 }
@@ -272,7 +272,7 @@ void TTecRaBarta::calc_parameters() {
     }
     self->amount = self->amount + (f32)(self->per_level * self->level);
     if (TTecCtrl::is_technique_ready() != 0) {
-        self->amount = self->amount * lbl_804CC55C[5].pad_00;
+        self->amount = self->amount * technique_scale_table[5].power;
     }
 }
 

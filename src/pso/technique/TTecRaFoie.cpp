@@ -119,7 +119,7 @@ void TTecRaFoie::vfunc_8(void *) {
         } else {
             emitter = spawn_particle_effect(&target, 0x1A);
             if (emitter != NULL) {
-                attach_particle_model((u8 *)emitter, get_bml_model(technique_effect_bml, 9), lbl_805D63B0, 0, 1, 1.0f);
+                attach_particle_model((u8 *)emitter, get_bml_model(technique_effect_bml, 9), technique_texture_list, 0, 1, 1.0f);
             }
         }
         spawn_particle_effect(&target, 0x3A);
@@ -133,7 +133,7 @@ void TTecRaFoie::vfunc_8(void *) {
             spawn_particle_effect(&point, 0x39);
             emitter = spawn_particle_effect(&point, 0x1A);
             if (emitter != NULL) {
-                attach_particle_model((u8 *)emitter, get_bml_model(technique_effect_bml, 9), lbl_805D63B0, 0, 1, 1.0f);
+                attach_particle_model((u8 *)emitter, get_bml_model(technique_effect_bml, 9), technique_texture_list, 0, 1, 1.0f);
             }
         }
     }
@@ -175,7 +175,7 @@ void TTecRaFoie::calc_area_parameters() {
     }
     power = power + (f32)(((TechniqueParams *)&power)->pad_24 * level);
     if (TTecCtrl::is_technique_ready()) {
-        power = power * lbl_804CC55C[2].pad_00;
+        power = power * technique_scale_table[2].power;
     }
 }
 
@@ -214,7 +214,7 @@ void TUnk_804CCB28::render() {
     post_translate_matrix(&position);
     scale_matrix(0, x, y, z);
     rotate_matrix_y(0, camera_ctrl_instance->yaw);
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(lbl_805D63B0));
+    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(technique_texture_list));
     set_cull_back();
     set_draw_list_mask(3);
     get_bml_model(technique_effect_bml, 0xB);

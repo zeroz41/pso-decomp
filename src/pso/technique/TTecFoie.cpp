@@ -180,7 +180,7 @@ void TTecFoie::create_particle_emitters() {
     {
       if (TTecFoie__emitter_profile_table[self->band].parts[i].flags & 0x20)
       {
-        attach_particle_model((u8 *)self->emitters[i], TParticleCtrl::get_particle_model(0), lbl_805D63B0, 0, 1, 1.0f);
+        attach_particle_model((u8 *)self->emitters[i], TParticleCtrl::get_particle_model(0), technique_texture_list, 0, 1, 1.0f);
       }
       ((TParticleCtrl *)(self->emitters[i]))->set_scale(TTecFoie__emitter_profile_table[self->band].parts[i].scale, TTecFoie__emitter_profile_table[self->band].parts[i].scale);
     }
@@ -201,7 +201,7 @@ void TTecFoie::init_projectile_params() {
     ((RecoveredFields_8022FE84_arg0 *) arg0)->field_CC = (f32) (((RecoveredFields_8022FE84_arg0 *) arg0)->field_CC + ((f32) (((RecoveredFields_8022FE84_arg0 *) arg0)->field_F0 * ((RecoveredFields_8022FE84_arg0 *) arg0)->level)));
     if (TTecCtrl::is_technique_ready() != 0)
     {
-      ((RecoveredFields_8022FE84_arg0 *) arg0)->field_CC = (f32) (((RecoveredFields_8022FE84_arg0 *) arg0)->field_CC * lbl_804CC55C[0].pad_00);
+      ((RecoveredFields_8022FE84_arg0 *) arg0)->field_CC = (f32) (((RecoveredFields_8022FE84_arg0 *) arg0)->field_CC * technique_scale_table[0].power);
     }
   }
   ((RecoveredFields_8022FE84_arg0 *) arg0)->field_64 = (f32) (((RecoveredFields_8022FE84_arg0 *) arg0)->field_D0 + ((f32) clamp_nonnegative_int((((RecoveredFields_8022FE84_arg0 *) arg0)->level - 4))));

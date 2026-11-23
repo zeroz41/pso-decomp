@@ -41,7 +41,7 @@ void TTecZonde::init_parameters() {
   ((RecoveredFields_8023C558_arg0 *) ((u8 *)this))->field_CC = (f32) (((RecoveredFields_8023C558_arg0 *) ((u8 *)this))->field_CC + ((f32) (((RecoveredFields_8023C558_arg0 *) ((u8 *)this))->field_F0 * ((RecoveredFields_8023C558_arg0 *) ((u8 *)this))->field_C4)));
   if (TTecCtrl::is_technique_ready())
   {
-    ((RecoveredFields_8023C558_arg0 *) ((u8 *)this))->field_CC = (f32) (((RecoveredFields_8023C558_arg0 *) ((u8 *)this))->field_CC * lbl_804CC55C[6].pad_00);
+    ((RecoveredFields_8023C558_arg0 *) ((u8 *)this))->field_CC = (f32) (((RecoveredFields_8023C558_arg0 *) ((u8 *)this))->field_CC * technique_scale_table[6].power);
   }
 }
 

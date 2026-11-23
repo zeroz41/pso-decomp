@@ -50,9 +50,9 @@
 #include "pso/object/base/TObjBase.h"
 #include "pso/system/TLanguage_801E4874.h"
 
-TechniqueParams lbl_80515F90;
+TechniqueParams calculated_technique_params;
 // Per player: the technique boosts of the equipped weapon and shield.
-TechniqueBoostTable lbl_80515FBC[4];
+TechniqueBoostTable technique_boost_tables[4];
 TechniqueBoostTable lbl_8051607C[4];
 
 extern "C" {
@@ -154,7 +154,7 @@ TechniqueParams technique_param_table[19] = {
     {0.0f, 0.0f, 100.0f, 0.0f, 20, 10, 150, 8, 0, 0, 30, 1, 0, 0, 0, 0, 0},
     {27.0f, 2.0f, 100.0f, 0.0f, 30, 15, 160, 5, 7281, 7281, 35, 1, 105, 3, 20, 28, 10},
 };
-const char *TTecCtrl__name = "TTecCtrl";
+const char *TTecCtrl::class_name = "TTecCtrl";
 
 TechniqueLinearPower tech_high_level_linear_power_table[19] = {
     {-85, 65}, {30, 42}, {370, 21}, {-125, 63}, {0, 40},
@@ -162,7 +162,7 @@ TechniqueLinearPower tech_high_level_linear_power_table[19] = {
     {10, 1}, {10, 1}, {10, 1}, {10, 1}, {0, 0},
     {-20, 10}, {0, 0}, {0, 0}, {42, 2},
 };
-TechniqueCostScale lbl_804CC55C[19] = {
+TechniqueCostScale technique_scale_table[19] = {
     {0.8f, 3.0f}, {0.8f, 2.0f}, {0.6f, 2.0f}, {0.8f, 3.0f}, {0.6f, 2.0f},
     {0.4f, 2.0f}, {0.5f, 4.0f}, {0.4f, 2.0f}, {0.4f, 2.0f}, {0.1f, 2.0f},
     {1.0f, 5.0f}, {1.0f, 5.0f}, {1.0f, 5.0f}, {1.0f, 5.0f}, {1.0f, 1.0f},
@@ -178,7 +178,7 @@ void bind_gvm_texture_list(const char *, void *);
 void reset_telepipe_visit_counts(void);
 s8 lbl_805D63A8;
 BmlResource *technique_effect_bml;
-GinjaTextureList *lbl_805D63B0;
+GinjaTextureList *technique_texture_list;
 
 #define ONE_SLOT()                                                                       \
     if (((TObjPlayer *)(TObjPlayer__sub_80116620(c->list, 0)))->get_type_id() != 0xFFFF) { \
@@ -217,7 +217,7 @@ GinjaTextureList *lbl_805D63B0;
 
 void load_technique_resources(void) {
     technique_effect_bml = new BmlResource(1, &technique_resource_descriptor, 0, 0, NULL);
-    lbl_805D63B0 = (GinjaTextureList *)load_gvm_texture_file("technic.gvm");
+    technique_texture_list = (GinjaTextureList *)load_gvm_texture_file("technic.gvm");
     bind_gvm_texture_list("technic_pt", ((u8 *)&technique_ringwave_texture_list));
     TTecZondeEff::init_resources();
 }
@@ -228,13 +228,13 @@ void TLobby__sub_8022F068(void) {
     if ((u32) *(u32 *)((s8 *)technique_ringwave_texture_list.value + 8) != 0U) {
         release_texture_list(&technique_ringwave_texture_list.value, (saddr) technique_ringwave_texture_list.value);
     }
-    if (lbl_805D63B0 != NULL) {
-        entries = lbl_805D63B0->entries;
+    if (technique_texture_list != NULL) {
+        entries = technique_texture_list->entries;
         if (entries->texture != NULL) {
-            release_texture_list(lbl_805D63B0, (saddr) entries);
+            release_texture_list(technique_texture_list, (saddr) entries);
         }
-        TAdSinglePlyChrSelectGC::safe_free((uaddr) lbl_805D63B0);
-        lbl_805D63B0 = NULL;
+        TAdSinglePlyChrSelectGC::safe_free((uaddr) technique_texture_list);
+        technique_texture_list = NULL;
     }
     if (technique_effect_bml != NULL) {
         delete technique_effect_bml;
@@ -243,7 +243,7 @@ void TLobby__sub_8022F068(void) {
 }
 
 TTecCtrl::TTecCtrl(TObject *parent) : TObject(parent) {
-    m_name = TTecCtrl__name;
+    m_name = class_name;
     pad_1C = 0;
 }
 
@@ -265,7 +265,7 @@ s32 clamp_nonnegative_int(s32 x) {
 
 // pad_12 lowered by one per level above 4, not below 0.
 inline s32 lowered_pad_12(s32 level) {
-    return clamp_nonnegative_int(lbl_80515F90.pad_12 - clamp_nonnegative_int(level - 4));
+    return clamp_nonnegative_int(calculated_technique_params.pad_12 - clamp_nonnegative_int(level - 4));
 }
 
 TechniqueParams *calc_technique_parameters(s32 technique, s32 level, u16 client) {
@@ -279,190 +279,190 @@ TechniqueParams *calc_technique_parameters(s32 technique, s32 level, u16 client)
     if (level > 29) {
         level = 29;
     }
-    ((TechniqueParams *)&lbl_80515F90)->copy(&technique_param_table[technique]);
+    ((TechniqueParams *)&calculated_technique_params)->copy(&technique_param_table[technique]);
     if (technique != 17 && technique != 14) {
-        lbl_80515F90.tp_cost += level * (lbl_80515F90.tp_cost_percent / 100.0f);
+        calculated_technique_params.tp_cost += level * (calculated_technique_params.tp_cost_percent / 100.0f);
     }
     switch (technique) {
     case 0:
-        lbl_80515F90.pad_08 += lbl_80515F90.pad_26 * clamp_nonnegative_int(level - 4);
+        calculated_technique_params.pad_08 += calculated_technique_params.pad_26 * clamp_nonnegative_int(level - 4);
         if (TTecCtrl::is_technique_ready()) {
-            lbl_80515F90.tp_cost = lbl_80515F90.tp_cost * lbl_804CC55C[technique].tp_cost;
+            calculated_technique_params.tp_cost = calculated_technique_params.tp_cost * technique_scale_table[technique].tp_cost;
         }
-        lbl_80515F90.pad_12 = lowered_pad_12(level);
-        lbl_80515F90.pad_14 += lbl_80515F90.pad_28 * level;
-        lbl_80515F90.pad_20 -= (capped / 10) * 5;
-        lbl_80515F90.pad_18 = 182.04445f * (lbl_80515F90.pad_18 + lbl_80515F90.pad_2A * (level / 5));
+        calculated_technique_params.pad_12 = lowered_pad_12(level);
+        calculated_technique_params.pad_14 += calculated_technique_params.pad_28 * level;
+        calculated_technique_params.pad_20 -= (capped / 10) * 5;
+        calculated_technique_params.pad_18 = 182.04445f * (calculated_technique_params.pad_18 + calculated_technique_params.pad_2A * (level / 5));
         break;
     case 1:
-        lbl_80515F90.pad_08 += lbl_80515F90.pad_26 * clamp_nonnegative_int(level - 4);
+        calculated_technique_params.pad_08 += calculated_technique_params.pad_26 * clamp_nonnegative_int(level - 4);
         if (TTecCtrl::is_technique_ready()) {
-            lbl_80515F90.tp_cost = lbl_80515F90.tp_cost * lbl_804CC55C[technique].tp_cost;
+            calculated_technique_params.tp_cost = calculated_technique_params.tp_cost * technique_scale_table[technique].tp_cost;
         }
-        lbl_80515F90.pad_12 = lowered_pad_12(level);
-        lbl_80515F90.pad_14 += lbl_80515F90.pad_28 * level;
-        lbl_80515F90.pad_20 = 40;
+        calculated_technique_params.pad_12 = lowered_pad_12(level);
+        calculated_technique_params.pad_14 += calculated_technique_params.pad_28 * level;
+        calculated_technique_params.pad_20 = 40;
         break;
     case 2:
-        lbl_80515F90.pad_08 += lbl_80515F90.pad_26 * (level / 5);
+        calculated_technique_params.pad_08 += calculated_technique_params.pad_26 * (level / 5);
         if (TTecCtrl::is_technique_ready()) {
-            lbl_80515F90.tp_cost = lbl_80515F90.tp_cost * lbl_804CC55C[technique].tp_cost;
+            calculated_technique_params.tp_cost = calculated_technique_params.tp_cost * technique_scale_table[technique].tp_cost;
         }
-        lbl_80515F90.pad_12 = lowered_pad_12(level);
-        lbl_80515F90.pad_14 += lbl_80515F90.pad_28 * level;
-        lbl_80515F90.pad_20 -= (capped / 5) * 5;
-        lbl_80515F90.pad_18 = 182.04445f * (lbl_80515F90.pad_18 + lbl_80515F90.pad_2A * (level / 5));
+        calculated_technique_params.pad_12 = lowered_pad_12(level);
+        calculated_technique_params.pad_14 += calculated_technique_params.pad_28 * level;
+        calculated_technique_params.pad_20 -= (capped / 5) * 5;
+        calculated_technique_params.pad_18 = 182.04445f * (calculated_technique_params.pad_18 + calculated_technique_params.pad_2A * (level / 5));
         break;
     case 3:
-        lbl_80515F90.pad_08 += lbl_80515F90.pad_26 * (level / 5);
+        calculated_technique_params.pad_08 += calculated_technique_params.pad_26 * (level / 5);
         if (TTecCtrl::is_technique_ready()) {
-            lbl_80515F90.tp_cost = lbl_80515F90.tp_cost * lbl_804CC55C[technique].tp_cost;
+            calculated_technique_params.tp_cost = calculated_technique_params.tp_cost * technique_scale_table[technique].tp_cost;
         }
-        lbl_80515F90.pad_12 = lowered_pad_12(level);
-        lbl_80515F90.pad_14 += lbl_80515F90.pad_28 * level;
-        lbl_80515F90.pad_20 -= (capped / 10) * 5;
-        lbl_80515F90.pad_18 = 182.04445f * (lbl_80515F90.pad_18 + lbl_80515F90.pad_2A * (level / 5));
-        lbl_80515F90.pad_18 = 182.04445f * (lbl_80515F90.pad_18 + lbl_80515F90.pad_2A * (level / 5));
+        calculated_technique_params.pad_12 = lowered_pad_12(level);
+        calculated_technique_params.pad_14 += calculated_technique_params.pad_28 * level;
+        calculated_technique_params.pad_20 -= (capped / 10) * 5;
+        calculated_technique_params.pad_18 = 182.04445f * (calculated_technique_params.pad_18 + calculated_technique_params.pad_2A * (level / 5));
+        calculated_technique_params.pad_18 = 182.04445f * (calculated_technique_params.pad_18 + calculated_technique_params.pad_2A * (level / 5));
         break;
     case 4:
-        lbl_80515F90.pad_08 += lbl_80515F90.pad_26 * (level / 5);
+        calculated_technique_params.pad_08 += calculated_technique_params.pad_26 * (level / 5);
         if (TTecCtrl::is_technique_ready()) {
-            lbl_80515F90.tp_cost = lbl_80515F90.tp_cost * lbl_804CC55C[technique].tp_cost;
+            calculated_technique_params.tp_cost = calculated_technique_params.tp_cost * technique_scale_table[technique].tp_cost;
         }
-        lbl_80515F90.pad_12 = lowered_pad_12(level);
-        lbl_80515F90.pad_14 += lbl_80515F90.pad_28 * level;
-        lbl_80515F90.pad_20 -= (capped / 5) * 5;
-        lbl_80515F90.pad_18 = 182.04445f * (lbl_80515F90.pad_18 + lbl_80515F90.pad_2A * (level / 5));
+        calculated_technique_params.pad_12 = lowered_pad_12(level);
+        calculated_technique_params.pad_14 += calculated_technique_params.pad_28 * level;
+        calculated_technique_params.pad_20 -= (capped / 5) * 5;
+        calculated_technique_params.pad_18 = 182.04445f * (calculated_technique_params.pad_18 + calculated_technique_params.pad_2A * (level / 5));
         break;
     case 5:
-        lbl_80515F90.pad_08 += lbl_80515F90.pad_26 * clamp_nonnegative_int(level - 4);
+        calculated_technique_params.pad_08 += calculated_technique_params.pad_26 * clamp_nonnegative_int(level - 4);
         if (TTecCtrl::is_technique_ready()) {
-            lbl_80515F90.tp_cost = lbl_80515F90.tp_cost * lbl_804CC55C[technique].tp_cost;
+            calculated_technique_params.tp_cost = calculated_technique_params.tp_cost * technique_scale_table[technique].tp_cost;
         }
-        lbl_80515F90.pad_12 = lowered_pad_12(level);
-        lbl_80515F90.pad_14 += lbl_80515F90.pad_28 * level;
-        lbl_80515F90.pad_20 -= (capped / 5) * 5;
+        calculated_technique_params.pad_12 = lowered_pad_12(level);
+        calculated_technique_params.pad_14 += calculated_technique_params.pad_28 * level;
+        calculated_technique_params.pad_20 -= (capped / 5) * 5;
         break;
     case 6:
-        lbl_80515F90.pad_08 += lbl_80515F90.pad_26 * clamp_nonnegative_int(level - 4);
+        calculated_technique_params.pad_08 += calculated_technique_params.pad_26 * clamp_nonnegative_int(level - 4);
         if (TTecCtrl::is_technique_ready()) {
-            lbl_80515F90.tp_cost = lbl_80515F90.tp_cost * lbl_804CC55C[technique].tp_cost;
+            calculated_technique_params.tp_cost = calculated_technique_params.tp_cost * technique_scale_table[technique].tp_cost;
         }
-        lbl_80515F90.pad_12 = lowered_pad_12(level);
-        lbl_80515F90.pad_14 += lbl_80515F90.pad_28 * level;
-        lbl_80515F90.pad_20 -= (capped / 10) * 5;
+        calculated_technique_params.pad_12 = lowered_pad_12(level);
+        calculated_technique_params.pad_14 += calculated_technique_params.pad_28 * level;
+        calculated_technique_params.pad_20 -= (capped / 10) * 5;
         break;
     case 7:
-        lbl_80515F90.pad_08 += lbl_80515F90.pad_26 * (level / 5);
+        calculated_technique_params.pad_08 += calculated_technique_params.pad_26 * (level / 5);
         if (TTecCtrl::is_technique_ready()) {
-            lbl_80515F90.tp_cost = lbl_80515F90.tp_cost * lbl_804CC55C[technique].tp_cost;
+            calculated_technique_params.tp_cost = calculated_technique_params.tp_cost * technique_scale_table[technique].tp_cost;
         }
-        lbl_80515F90.pad_12 = lowered_pad_12(level);
-        lbl_80515F90.pad_14 += lbl_80515F90.pad_28 * level;
-        lbl_80515F90.pad_20 -= (capped / 5) * 5;
+        calculated_technique_params.pad_12 = lowered_pad_12(level);
+        calculated_technique_params.pad_14 += calculated_technique_params.pad_28 * level;
+        calculated_technique_params.pad_20 -= (capped / 5) * 5;
         break;
     case 8:
-        lbl_80515F90.pad_08 += lbl_80515F90.pad_26 * (level / 5);
+        calculated_technique_params.pad_08 += calculated_technique_params.pad_26 * (level / 5);
         if (TTecCtrl::is_technique_ready()) {
-            lbl_80515F90.tp_cost = lbl_80515F90.tp_cost * lbl_804CC55C[technique].tp_cost;
+            calculated_technique_params.tp_cost = calculated_technique_params.tp_cost * technique_scale_table[technique].tp_cost;
         }
-        lbl_80515F90.pad_12 = lowered_pad_12(level);
-        lbl_80515F90.pad_14 += lbl_80515F90.pad_28 * level;
-        lbl_80515F90.pad_20 -= (capped / 5) * 5;
+        calculated_technique_params.pad_12 = lowered_pad_12(level);
+        calculated_technique_params.pad_14 += calculated_technique_params.pad_28 * level;
+        calculated_technique_params.pad_20 -= (capped / 5) * 5;
         break;
     case 9:
-        lbl_80515F90.pad_08 += lbl_80515F90.pad_26 * (level / 5);
+        calculated_technique_params.pad_08 += calculated_technique_params.pad_26 * (level / 5);
         if (TTecCtrl::is_technique_ready()) {
-            lbl_80515F90.tp_cost = lbl_80515F90.tp_cost * lbl_804CC55C[technique].tp_cost;
+            calculated_technique_params.tp_cost = calculated_technique_params.tp_cost * technique_scale_table[technique].tp_cost;
         }
-        lbl_80515F90.pad_12 = lowered_pad_12(level);
-        lbl_80515F90.pad_14 += lbl_80515F90.pad_28 * level;
-        lbl_80515F90.pad_20 -= (capped / 5) * 5;
+        calculated_technique_params.pad_12 = lowered_pad_12(level);
+        calculated_technique_params.pad_14 += calculated_technique_params.pad_28 * level;
+        calculated_technique_params.pad_20 -= (capped / 5) * 5;
         break;
     case 10:
-        lbl_80515F90.pad_08 = lbl_80515F90.pad_08 * (1.0f + calc_technique_boost(10, client));
+        calculated_technique_params.pad_08 = calculated_technique_params.pad_08 * (1.0f + calc_technique_boost(10, client));
         if (TTecCtrl::is_technique_ready()) {
-            lbl_80515F90.tp_cost = lbl_80515F90.tp_cost * lbl_804CC55C[technique].tp_cost;
+            calculated_technique_params.tp_cost = calculated_technique_params.tp_cost * technique_scale_table[technique].tp_cost;
         }
-        lbl_80515F90.pad_12 = lowered_pad_12(level);
-        lbl_80515F90.pad_14 += lbl_80515F90.pad_28 * level;
-        lbl_80515F90.pad_20 -= (capped / 5) * 5;
+        calculated_technique_params.pad_12 = lowered_pad_12(level);
+        calculated_technique_params.pad_14 += calculated_technique_params.pad_28 * level;
+        calculated_technique_params.pad_20 -= (capped / 5) * 5;
         if (level <= 1) {
-            lbl_80515F90.pad_22 = 0;
+            calculated_technique_params.pad_22 = 0;
         }
         break;
     case 11:
-        lbl_80515F90.pad_08 += lbl_80515F90.pad_26 * clamp_nonnegative_int(level - 4);
+        calculated_technique_params.pad_08 += calculated_technique_params.pad_26 * clamp_nonnegative_int(level - 4);
         if (TTecCtrl::is_technique_ready()) {
-            lbl_80515F90.tp_cost = lbl_80515F90.tp_cost * lbl_804CC55C[technique].tp_cost;
+            calculated_technique_params.tp_cost = calculated_technique_params.tp_cost * technique_scale_table[technique].tp_cost;
         }
-        lbl_80515F90.pad_12 = lowered_pad_12(level);
-        lbl_80515F90.pad_14 += lbl_80515F90.pad_28 * level;
-        lbl_80515F90.pad_20 -= (capped / 10) * 5;
+        calculated_technique_params.pad_12 = lowered_pad_12(level);
+        calculated_technique_params.pad_14 += calculated_technique_params.pad_28 * level;
+        calculated_technique_params.pad_20 -= (capped / 10) * 5;
         break;
     case 12:
-        lbl_80515F90.pad_08 += lbl_80515F90.pad_26 * clamp_nonnegative_int(level - 4);
+        calculated_technique_params.pad_08 += calculated_technique_params.pad_26 * clamp_nonnegative_int(level - 4);
         if (TTecCtrl::is_technique_ready()) {
-            lbl_80515F90.tp_cost = lbl_80515F90.tp_cost * lbl_804CC55C[technique].tp_cost;
+            calculated_technique_params.tp_cost = calculated_technique_params.tp_cost * technique_scale_table[technique].tp_cost;
         }
-        lbl_80515F90.pad_12 = lowered_pad_12(level);
-        lbl_80515F90.pad_14 += lbl_80515F90.pad_28 * level;
-        lbl_80515F90.pad_20 -= (capped / 10) * 5;
+        calculated_technique_params.pad_12 = lowered_pad_12(level);
+        calculated_technique_params.pad_14 += calculated_technique_params.pad_28 * level;
+        calculated_technique_params.pad_20 -= (capped / 10) * 5;
         break;
     case 13:
-        lbl_80515F90.pad_08 = lbl_80515F90.pad_08 * (1.0f + calc_technique_boost(13, client));
+        calculated_technique_params.pad_08 = calculated_technique_params.pad_08 * (1.0f + calc_technique_boost(13, client));
         if (TTecCtrl::is_technique_ready()) {
-            lbl_80515F90.tp_cost = lbl_80515F90.tp_cost * lbl_804CC55C[technique].tp_cost;
+            calculated_technique_params.tp_cost = calculated_technique_params.tp_cost * technique_scale_table[technique].tp_cost;
         }
-        lbl_80515F90.pad_12 = lowered_pad_12(level);
-        lbl_80515F90.pad_14 += lbl_80515F90.pad_28 * level;
-        lbl_80515F90.pad_20 -= (capped / 5) * 5;
+        calculated_technique_params.pad_12 = lowered_pad_12(level);
+        calculated_technique_params.pad_14 += calculated_technique_params.pad_28 * level;
+        calculated_technique_params.pad_20 -= (capped / 5) * 5;
         if (level <= 1) {
-            lbl_80515F90.pad_22 = 0;
+            calculated_technique_params.pad_22 = 0;
         }
         break;
     case 15:
-        lbl_80515F90.pad_08 = lbl_80515F90.pad_08 * (1.0f + calc_technique_boost(15, client));
+        calculated_technique_params.pad_08 = calculated_technique_params.pad_08 * (1.0f + calc_technique_boost(15, client));
         if (TTecCtrl::is_technique_ready()) {
-            lbl_80515F90.tp_cost = lbl_80515F90.tp_cost * lbl_804CC55C[technique].tp_cost;
+            calculated_technique_params.tp_cost = calculated_technique_params.tp_cost * technique_scale_table[technique].tp_cost;
         }
-        lbl_80515F90.pad_12 = lowered_pad_12(level);
-        lbl_80515F90.pad_14 += lbl_80515F90.pad_28 * level;
-        lbl_80515F90.pad_20 -= (capped / 5) * 5;
+        calculated_technique_params.pad_12 = lowered_pad_12(level);
+        calculated_technique_params.pad_14 += calculated_technique_params.pad_28 * level;
+        calculated_technique_params.pad_20 -= (capped / 5) * 5;
         if (level <= 1) {
-            lbl_80515F90.pad_22 = 0;
+            calculated_technique_params.pad_22 = 0;
         }
         break;
     case 16:
-        lbl_80515F90.pad_08 = lbl_80515F90.pad_08 * (1.0f + calc_technique_boost(16, client));
+        calculated_technique_params.pad_08 = calculated_technique_params.pad_08 * (1.0f + calc_technique_boost(16, client));
         if (TTecCtrl::is_technique_ready()) {
-            lbl_80515F90.tp_cost = lbl_80515F90.tp_cost * lbl_804CC55C[technique].tp_cost;
+            calculated_technique_params.tp_cost = calculated_technique_params.tp_cost * technique_scale_table[technique].tp_cost;
         }
-        lbl_80515F90.pad_12 = lowered_pad_12(level);
-        lbl_80515F90.pad_14 += lbl_80515F90.pad_28 * level;
-        lbl_80515F90.pad_20 -= (capped / 5) * 5;
+        calculated_technique_params.pad_12 = lowered_pad_12(level);
+        calculated_technique_params.pad_14 += calculated_technique_params.pad_28 * level;
+        calculated_technique_params.pad_20 -= (capped / 5) * 5;
         if (level < 1) {
-            lbl_80515F90.pad_22 = 0;
+            calculated_technique_params.pad_22 = 0;
         }
         break;
     case 18:
-        lbl_80515F90.pad_08 += lbl_80515F90.pad_26 * (level / 5);
+        calculated_technique_params.pad_08 += calculated_technique_params.pad_26 * (level / 5);
         if (TTecCtrl::is_technique_ready()) {
-            lbl_80515F90.tp_cost = lbl_80515F90.tp_cost * lbl_804CC55C[technique].tp_cost;
+            calculated_technique_params.tp_cost = calculated_technique_params.tp_cost * technique_scale_table[technique].tp_cost;
         }
-        lbl_80515F90.pad_12 = lowered_pad_12(level);
-        lbl_80515F90.pad_14 += lbl_80515F90.pad_28 * level;
-        lbl_80515F90.pad_20 -= (capped / 5) * 5;
-        lbl_80515F90.pad_18 = 182.04445f * (lbl_80515F90.pad_18 + lbl_80515F90.pad_2A * (level / 5));
+        calculated_technique_params.pad_12 = lowered_pad_12(level);
+        calculated_technique_params.pad_14 += calculated_technique_params.pad_28 * level;
+        calculated_technique_params.pad_20 -= (capped / 5) * 5;
+        calculated_technique_params.pad_18 = 182.04445f * (calculated_technique_params.pad_18 + calculated_technique_params.pad_2A * (level / 5));
         break;
     }
-    if (lbl_80515F90.pad_20 <= 0) {
-        lbl_80515F90.pad_20 = 10;
+    if (calculated_technique_params.pad_20 <= 0) {
+        calculated_technique_params.pad_20 = 10;
     }
-    if (lbl_80515F90.pad_12 <= 0) {
-        lbl_80515F90.pad_12 = 0;
+    if (calculated_technique_params.pad_12 <= 0) {
+        calculated_technique_params.pad_12 = 0;
     }
-    return &lbl_80515F90;
+    return &calculated_technique_params;
 }
 
 void TTecCtrl::render() {  }
@@ -780,7 +780,7 @@ s32 TObjPlayer::get_level_tier(s32 arg0) {
 
 void set_technique_boost(TechniqueBoost *boost, u16 client, s32 index) {
     if (client < 4U) {
-        lbl_80515FBC[client].set(index, boost);
+        technique_boost_tables[client].set(index, boost);
     }
 }
 
@@ -794,8 +794,8 @@ f32 calc_technique_boost(s32 technique, u16 actor) {
         return sum;
     }
     for (i = 0; i < 6; i++) {
-        if (technique == lbl_80515FBC[actor].boosts[i].technique) {
-            sum += lbl_80515FBC[actor].boosts[i].amount;
+        if (technique == technique_boost_tables[actor].boosts[i].technique) {
+            sum += technique_boost_tables[actor].boosts[i].amount;
         }
     }
     player = get_player_by_client_id(actor);
@@ -826,8 +826,8 @@ u32 get_technique_caster_flags(s32 technique, u16 actor) {
                 break;
             }
         }
-        if (technique == lbl_80515FBC[actor].boosts[i].technique) {
-            flags |= lbl_80515FBC[actor].boosts[i].flags;
+        if (technique == technique_boost_tables[actor].boosts[i].technique) {
+            flags |= technique_boost_tables[actor].boosts[i].flags;
         }
     }
     return flags;

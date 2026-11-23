@@ -16,6 +16,8 @@ public:
     static s32 classify_distance_band(s32 technique, s32 level, u16 slot);
     static s32 is_technique_ready();
 
+    static const char *class_name;
+
     u32 pad_1C;  // zeroed by the ctor
     u8 pad_20[4];
 };
@@ -25,7 +27,7 @@ LAYOUT_ASSERT(TTecCtrlSize, sizeof(TTecCtrl) == 0x24);
 // load_technique_resources.
 extern BmlResource *technique_effect_bml;
 struct GinjaTextureList;
-extern GinjaTextureList *lbl_805D63B0;
+extern GinjaTextureList *technique_texture_list;
 
 extern "C" {
 void TLobby__sub_8022F068(void);

@@ -147,7 +147,7 @@ void TTecRaZonde::calc_damage() {
   ((RecoveredFields_80238D10_arg0 *) arg0)->field_88 = (f32) (((RecoveredFields_80238D10_arg0 *) arg0)->field_88 + ((f32) (((RecoveredFields_80238D10_arg0 *) arg0)->field_AC * ((RecoveredFields_80238D10_arg0 *) arg0)->field_78)));
   if (TTecCtrl::is_technique_ready() != 0)
   {
-    ((RecoveredFields_80238D10_arg0 *) arg0)->field_88 = (f32) (((RecoveredFields_80238D10_arg0 *) arg0)->field_88 * lbl_804CC55C[8].pad_00);
+    ((RecoveredFields_80238D10_arg0 *) arg0)->field_88 = (f32) (((RecoveredFields_80238D10_arg0 *) arg0)->field_88 * technique_scale_table[8].power);
   }
 }
 void TTecRaZonde::vfunc_6(void *arg1_arg) {
