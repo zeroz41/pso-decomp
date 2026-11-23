@@ -191,7 +191,7 @@ void TItemEffOrgaFlowShot::render() {
     saved_model_render_flags = model_render_flags;
     set_depth_buffer_settings_1();
     set_additive_blend();
-    TObjPlayer__sub_803DF768(1);
+    setup_world_color_draw(1);
     draw_untextured_trail_strip(trail, 10);
     reset_player_transform();
     set_default_alpha_blend();

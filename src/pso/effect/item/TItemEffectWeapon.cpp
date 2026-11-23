@@ -124,7 +124,7 @@ void TItemEffectWeapon::render_trail() {
             model_render_flags |= 0x8000;
             set_additive_blend();
             if (vertex_count > 2) {
-                TObjPlayer__sub_803DF768(1);
+                setup_world_color_draw(1);
                 draw_untextured_trail_strip(vertices, vertex_count);
                 reset_player_transform();
             }
