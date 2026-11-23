@@ -26,8 +26,5 @@ TWindowChoiceSetting *create_choice_setting_window__17TWindowSubComCardFiii(
 void render__21TWindowMenuInfomationFv(u8 *arg0);
 }
 TWindowMenuInfomation *create_information_counter_window(s32 arg0);
-extern "C" {
-void create_sub_window__20TWindowChoiceSettingFPvi(void *arg0, s32 title);
-}
 
 #endif

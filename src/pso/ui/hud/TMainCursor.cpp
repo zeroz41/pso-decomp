@@ -1246,14 +1246,14 @@ extern "C" {
 
 s32 try_move__11TMainCursorFiii(saddr arg0, u8 type, u8 enabled) {
     if (((TMainCursor *)arg0)->is_channel_active() != 0) {
-        return matches_type_and_enabled__11TMainCursorFiUcUc(arg0, type, enabled);
+        return matches_type_and_enabled(reinterpret_cast<const ActionPaletteTag *>(arg0), type, enabled);
     }
     return 0;
 }
 
 }
 
-int TMainCursor::check_type_and_enabled(u8 type, u8 enabled) { return matches_type_and_enabled__11TMainCursorFiUcUc((saddr)this, type, enabled); }
+int TMainCursor::check_type_and_enabled(u8 type, u8 enabled) { return matches_type_and_enabled(reinterpret_cast<const ActionPaletteTag *>(this), type, enabled); }
 
 TMainCursor::TMainCursor(TObject *parent, saddr target_index, s32 target_id, s32 action_palette, s32 active,
                          u16 offset_y, f32 size)
@@ -1692,16 +1692,16 @@ void set_action_palette_tag_slot(ActionPaletteTag *tag, u8 slot) { tag->tag1 = s
 
 void set_action_palette_tag_mode(ActionPaletteTag *tag, u8 mode) { tag->tag0 = mode; }
 
-extern "C" {
-
-int matches_type_and_enabled__11TMainCursorFiUcUc(saddr arg0, u8 type, u8 enabled) {
+int matches_type_and_enabled(const ActionPaletteTag *tag, u8 type, u8 enabled) {
     s32 var_r31;
     var_r31 = 0;
-    if ((type == get_action_palette_tag_mode(reinterpret_cast<const ActionPaletteTag *>(arg0))) && (enabled == get_action_palette_tag_slot(reinterpret_cast<const ActionPaletteTag *>(arg0)))) {
+    if ((type == get_action_palette_tag_mode(tag)) && (enabled == get_action_palette_tag_slot(tag))) {
         var_r31 = 1;
     }
     return (u8)var_r31;
 }
+
+extern "C" {
 
 void TMainCursor__sub_8013DFC4(u8 *arg0) {
     *(s16 *)((s8 *)arg0 + 2) = (s16) (*(s16 *)((s8 *)arg0 + 2) & 0xFFFFFFFE);

@@ -94,16 +94,16 @@ block_4:
         }
     }
 }
-void create_sub_window__20TWindowChoiceSettingFPvi(void *arg0, s32 title) {
-    uaddr var_r0;
+void TWindowMenuInfomation::create_sub_window(s32 title) {
+    TWindowSubStatusDisp *heading;
 
-    if ((u32) *(u32 *)((s8 *)arg0 + 0x78) == 0U) {
-        var_r0 = (saddr)::operator new(0x24);
-        if (var_r0 != 0U) {
-            var_r0 = (uaddr)((TWindowSubStatusDisp *)var_r0)->construct_type1_heading(title, *(s16 *)((s8 *)arg0 + 0x20));
+    if (this->heading == NULL) {
+        heading = (TWindowSubStatusDisp *)::operator new(0x24);
+        if (heading != NULL) {
+            heading = (TWindowSubStatusDisp *)heading->construct_type1_heading(title, this->client_index);
         }
-        *(u32 *)((s8 *)arg0 + 0x78) = var_r0;
-        *(s32 *)((s8 *)arg0 + 0x2C) = (s32) (*(s32 *)((s8 *)arg0 + 0x2C) | 0x40);
+        this->heading = heading;
+        this->window_flags |= 0x40;
     }
 }
 }
@@ -198,7 +198,7 @@ TWindowMenuInfomation *create_information_counter_window(s32 arg0) {
 
     fn_80268C5C(&lbl_8044F3A0, arg0);
     window = new TWindowMenuInfomation((void *)get_window_layout_position(0xAE), arg0);
-    create_sub_window__20TWindowChoiceSettingFPvi(window, (saddr)"Information Counter");
+    window->create_sub_window((saddr)"Information Counter");
     return window;
 }
 
