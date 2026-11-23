@@ -9,8 +9,6 @@
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/render/MaterialColorFade.h"
 #include "pso/weapon/TUnk_804EDC28.h"
-#include "pso/player/TUnk_804EDD20.h"
-#include "pso/item/TUnk_804EDD44.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/effect/item/TItemWpnCardEffect.h"
 #include "pso/ui/hud/TNowLoading.h"
@@ -18,7 +16,6 @@
 #include "pso/weapon/TItemAttackCol.h"
 #include "pso/item/TItem.h"
 #include "pso/player/TObjPlayer_8023E480.h"
-#include "pso/player/TObjPlayer_8032E4C8.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/task/TObject.h"
@@ -34,7 +31,7 @@
 
 TItem *create_guardianna(u8 *item);
 
-const char *item_wpn_card_effect_class_name = "TItemWpnCardEffect";
+const char *TItemWpnCardEffect::class_name = "TItemWpnCardEffect";
 
 
 
@@ -46,7 +43,37 @@ s16 get_entity_id(void *);
 }
 
 
-TUnk_804EDD44::TUnk_804EDD44(TObject *parent, ActorBodyHit *hit, f32 *direction, s32 tint, s32 item_id) : TObject(parent) {
+void TObjPlayer::create_network_object(s32 item_id, u32 *hit, saddr direction) {
+    if ((hit != NULL) && ((u32) *hit != 0U)) {
+        new TItemWpnCardEffect(tl_05, (ActorBodyHit *)hit, (f32 *)direction, 0, item_id);
+    }
+}
+
+void start_wall_card(s32 item_id, saddr position, saddr direction) {
+    new TItemWpnCardEffect(tl_05, (f32 *)position, (f32 *)direction, 0, item_id);
+}
+
+void TObjPlayer::create_aux_object(s32 item_id, u32 *hit, saddr direction) {
+    if ((hit != NULL) && ((u32) *hit != 0U)) {
+        new TItemWpnCardEffect(tl_05, (ActorBodyHit *)hit, (f32 *)direction, 0xFFFF0000, item_id);
+    }
+}
+
+void start_red_wall_card(s32 item_id, saddr position, saddr direction) {
+    new TItemWpnCardEffect(tl_05, (f32 *)position, (f32 *)direction, 0xFFFF0000, item_id);
+}
+
+void TObjPlayer::start_guardianna_hit_card(s32 item_id, u32 *hit, saddr direction) {
+    if ((hit != NULL) && ((u32) *hit != 0U)) {
+        new TItemWpnCardEffect(tl_05, (ActorBodyHit *)hit, (f32 *)direction, -0x100, item_id);
+    }
+}
+
+void start_guardianna_wall_card(s32 item_id, saddr position, saddr direction) {
+    new TItemWpnCardEffect(tl_05, (f32 *)position, (f32 *)direction, -0x100, item_id);
+}
+
+TItemWpnCardEffect::TItemWpnCardEffect(TObject *parent, ActorBodyHit *hit, f32 *direction, s32 tint, s32 item_id) : TObject(parent) {
     target_id = get_entity_id(hit->target);
     this->item_id = item_id;
     copy_actor_body_hit(&hit_target, hit);
@@ -54,10 +81,10 @@ TUnk_804EDD44::TUnk_804EDD44(TObject *parent, ActorBodyHit *hit, f32 *direction,
     VecCopy(&position, &hit->target->bodies[hit->body].center);
     rotation[1] = (65536.0 / (2.0 * 3.141592f)) * atan2_float(direction[0], direction[2]);
     this->tint = tint;
-    this->sub_8032E294();
+    init();
 }
 
-TUnk_804EDD44::TUnk_804EDD44(TObject *parent, f32 *position, f32 *direction, s32 tint, s32 item_id) : TObject(parent) {
+TItemWpnCardEffect::TItemWpnCardEffect(TObject *parent, f32 *position, f32 *direction, s32 tint, s32 item_id) : TObject(parent) {
     hit_target.target = NULL;
     hit_target.body = 0;
     target_id = 0xFFFF;
@@ -66,13 +93,13 @@ TUnk_804EDD44::TUnk_804EDD44(TObject *parent, f32 *position, f32 *direction, s32
     VecCopy(&this->position, (const Vec *)position);
     rotation[1] = (s32)((65536.0 / (2.0 * 3.141592f)) * atan2_float(direction[0], direction[2]));
     this->tint = tint;
-    this->sub_8032E294();
+    init();
 }
 
 
-void TUnk_804EDD44::sub_8032E294() {
+void TItemWpnCardEffect::init() {
     f32 radius;
-    m_name = item_wpn_card_effect_class_name;
+    m_name = class_name;
     age = 0;
     particles[0] = NULL;
     particles[1] = NULL;
@@ -93,12 +120,12 @@ void TUnk_804EDD44::sub_8032E294() {
     anchor_card_effect();
 }
 
-TUnk_804EDD44::~TUnk_804EDD44() {
+TItemWpnCardEffect::~TItemWpnCardEffect() {
     destroy_effect_objects();
 }
 
 
-void TUnk_804EDD44::run_task() {
+void TItemWpnCardEffect::run_task() {
     s32 i;
     TItem *card = find_item_by_id(item_id);
     if (card == NULL) {
@@ -129,7 +156,7 @@ void TUnk_804EDD44::run_task() {
 }
 #pragma push
 #pragma fp_contract on
-void TUnk_804EDD44::start_card_effect_flash() {
+void TItemWpnCardEffect::start_card_effect_flash() {
     particles[0] = spawn_particle_effect_with_rotation(&position, rotation, 0x1B9, 0x104);
     if (particles[0] != NULL) {
         ((TParticleCtrl *)particles[0])->set_scale(1.5f, 1.5f);
@@ -142,15 +169,15 @@ void TUnk_804EDD44::start_card_effect_flash() {
 #pragma pop
 #pragma push
 #pragma fp_contract on
-void TUnk_804EDD44::start_card_effect_trail() {
+void TItemWpnCardEffect::start_card_effect_trail() {
     particles[2] = create_particle_emitter(&position, 0x1B6);
     if (particles[2] != NULL) {
         ((TParticleCtrl *)(particles[2]))->set_tint_color(-0x78);
     }
 }
 #pragma pop
-void TUnk_804EDD44::vfunc_8() {  }
-void TUnk_804EDD44::destroy_effect_objects() {
+void TItemWpnCardEffect::vfunc_8() {  }
+void TItemWpnCardEffect::destroy_effect_objects() {
     s32 i;
     for (i = 0; i != 3; i++) {
         if (particles[i] != 0) {
@@ -159,7 +186,7 @@ void TUnk_804EDD44::destroy_effect_objects() {
         }
     }
 }
-void TUnk_804EDD44::anchor_card_effect() {
+void TItemWpnCardEffect::anchor_card_effect() {
     CollisionBody *body;
     if (target_id != 0xFFFF) {
         if (find_entity_by_id(target_id) != NULL) {
@@ -170,20 +197,20 @@ void TUnk_804EDD44::anchor_card_effect() {
         }
     }
 }
-void TObjPlayer::create_and_init_effect(s32 item_id, u32 *arg1, saddr direction) {
-    if ((arg1 != NULL) && ((u32) *arg1 != 0U)) {
-        new TUnk_804EDD20(tl_05, (ActorBodyHit *)arg1, (f32 *)direction, 0, item_id);
+void TObjPlayer::create_and_init_effect(s32 item_id, u32 *hit, saddr direction) {
+    if ((hit != NULL) && ((u32) *hit != 0U)) {
+        new TUnk_804EDD20(tl_05, (ActorBodyHit *)hit, (f32 *)direction, 0, item_id);
     }
 }
-void TObjPlayer::alloc_and_init(s32 item_id, saddr arg1, saddr direction) {
-    new TUnk_804EDD20(tl_05, (f32 *)arg1, (f32 *)direction, 0, item_id);
+void TObjPlayer::alloc_and_init(s32 item_id, saddr position, saddr direction) {
+    new TUnk_804EDD20(tl_05, (f32 *)position, (f32 *)direction, 0, item_id);
 }
 TUnk_804EDD20::TUnk_804EDD20(TObject *parent, ActorBodyHit *hit, f32 *direction, s32 tint, s32 item_id)
-    : TUnk_804EDD44(parent, hit, direction, tint, item_id) {
+    : TItemWpnCardEffect(parent, hit, direction, tint, item_id) {
     init_offset_vectors();
 }
 TUnk_804EDD20::TUnk_804EDD20(TObject *parent, f32 *position, f32 *direction, s32 tint, s32 item_id)
-    : TUnk_804EDD44(parent, position, direction, tint, item_id) {
+    : TItemWpnCardEffect(parent, position, direction, tint, item_id) {
     init_offset_vectors();
 }
 void TUnk_804EDD20::init_offset_vectors() {

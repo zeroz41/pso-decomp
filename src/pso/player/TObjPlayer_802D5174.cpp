@@ -23,7 +23,7 @@
 #include "pso/object/trap/TOTrap.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_80011014.h"
-#include "pso/player/TObjPlayer_8032E4C8.h"
+#include "pso/effect/item/TItemWpnCardEffect.h"
 #include "pso/unk/text_80120908.h"
 #include "pso/weapon/TItemWeapon.h"
 #include "pso/weapon/TUnk_804E1BB0.h"
@@ -103,7 +103,7 @@ TUnk_804E23F0::TUnk_804E23F0(TObject *parent, u8 *item) : TItemWeapon(parent, it
     set_weapon_flags(3);
     pad_1f8 = 0;
     effect_id = 445;
-    pad_204 = (void *)TObjPlayer__sub_8032E648;
+    pad_204 = (void *)start_wall_card;
     pad_208 = (void *)TObjPlayer::create_network_object;
     pad_200 = 4.0f;
 }
@@ -219,7 +219,7 @@ TUnk_804E1E08::TUnk_804E1E08(TObject *parent, u8 *item) : TUnk_804E23F0(parent, 
 
 TUnk_804E1F04::TUnk_804E1F04(TObject *parent, u8 *item) : TUnk_804E23F0(parent, item) {
     effect_id = 341;
-    pad_204 = (void *)TItemWpnCardEffect__sub_8032E588;
+    pad_204 = (void *)start_red_wall_card;
     pad_208 = (void *)TObjPlayer::create_aux_object;
 }
 

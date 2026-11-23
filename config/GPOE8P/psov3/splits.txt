@@ -9596,14 +9596,11 @@ pso/ui/frontend/TAdGuideButtonGC.cpp:
 	.sdata2     start:0x805DF7B8 end:0x805DF7D8
 
 pso/effect/item/TItemWpnCardEffect.cpp:
-	.text       start:0x8032DA60 end:0x8032E4C8
+	.text       start:0x8032DA60 end:0x8032E708
 	.rodata     start:0x80477390 end:0x804773B0
 	.data       start:0x804EDC28 end:0x804EDD68
 	.sdata      start:0x805D4218 end:0x805D421C
 	.sdata2     start:0x805DF7D8 end:0x805DF7EC
-
-pso/player/TObjPlayer_8032E4C8.cpp:
-	.text       start:0x8032E4C8 end:0x8032E708
 
 pso/boss/olgaflow/TBoss6Mag.cpp:
 	.text       start:0x8032E708 end:0x803309D8

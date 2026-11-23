@@ -78,7 +78,7 @@ struct VObj_18_f1aa6a : VBase_18_f1aa6a {
 #include <stddef.h>
 #include "pso/item/TItem.h"
 #include "pso/system/NinjaTypes.h"
-#include "pso/player/TObjPlayer_8032E4C8.h"
+#include "pso/effect/item/TItemWpnCardEffect.h"
 
 extern "C" void get_weapon_color__11TItemWeaponFPv(void *, void *);
 
@@ -90,7 +90,7 @@ void TUnk_804F27E0::init_weapon_effect_descriptor(Desc_8011E5C4 *desc) {
     get_weapon_color__11TItemWeaponFPv(sp8, this);
     copy_argb(&desc->color, (NJS_ARGB *)sp8);
     desc->hit_effect = (void *)TObjPlayer::create_network_object;
-    desc->wall_effect = (void *)TObjPlayer__sub_8032E648;
+    desc->wall_effect = (void *)start_wall_card;
 }
 
 extern "C" {

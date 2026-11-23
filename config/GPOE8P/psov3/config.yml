@@ -3865,7 +3865,7 @@ force_active:
   - alt_model
   - alt_model_object
   - alt_model_strips
-  - anchor_card_effect__13TUnk_804EDD44Fv
+  - anchor_card_effect__18TItemWpnCardEffectFv
   - anchor_state__14TObjEneBm5WolfFl
   - ancient_boss_warp_motion_names
   - ancient_sensor_resource_pair_table
@@ -16364,7 +16364,7 @@ force_active:
   - update_stealth_fade__18TObjEneMe3SinowZoaFv
   - sub_8032C0B4__14TAdYesNoBaseGCFv
   - sub_8032D214__16TAdWarningBaseGCFv
-  - sub_8032E294__13TUnk_804EDD44Fv
+  - init__18TItemWpnCardEffectFv
   - update_state_effects__9TBoss6MagFv
   - render_body_effects__9TBoss6MagFv
   - sub_8033645C__13TUnk_804EEF64Fv
