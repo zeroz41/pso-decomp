@@ -2035,11 +2035,11 @@ TObjEneBm5GibonU::TObjEneBm5GibonU(TObject *parent, void *set_data) : TObjEneDD_
     } else {
         this->init_model(&gibon_collision_body_templates[0], 1);
     }
-    this->set_field_d8((saddr)gibon_u_action_table);
-    this->set_field_dc((saddr)TObjEneBm5GibonU__model_archive->motions);
+    this->set_action_table((saddr)gibon_u_action_table);
+    this->set_motion_list((saddr)TObjEneBm5GibonU__model_archive->motions);
     this->requested_action = 0;
     this->set_animation(this->requested_action);
-    this->set_field_b8(this->requested_action);
+    this->set_requested_action(this->requested_action);
     b = this->is_leader ? 1 : 0;
     this->reset_hp(TObjEneBm5GibonU__stat_params[b], gibon_stat_handle_a_table[b], gibon_stat_handle_b_table[b]);
     this->set_state_flag_1();

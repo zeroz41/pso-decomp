@@ -212,7 +212,7 @@ void SlimeAnimationState::set_state(s32 next_state) {
         if (flag != 0) {
             owner->init(state);
         } else {
-            owner->set_field_b8(state);
+            owner->set_requested_action(state);
         }
         return;
     }

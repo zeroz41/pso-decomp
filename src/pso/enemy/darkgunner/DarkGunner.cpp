@@ -337,10 +337,10 @@ TObjEneDarkGunner::TObjEneDarkGunner(TObject *parent, void *set_data) : TObjEnem
     set_fields_24_34_from_global((void *)1);
     motion_list = TObjEneDarkGunner__bml_resource->motions;
     action_table = (TObjMotionAction *)dark_gunner_action_table;
-    set_field_d8((saddr)action_table);
+    set_action_table((saddr)action_table);
     requested_action = 0;
     set_animation(requested_action);
-    set_field_b8(requested_action);
+    set_requested_action(requested_action);
     init_collision_body_parts(this, dark_gunner_collision_bodies, 1);
     movementParameters = dark_gunner_movement_params;
     bind_enemy_combat_stats((u8 *)TObjEneDarkGunner__base_params_by_variant[variant], (u8 *)TObjEneDarkGunner__attack_params_by_variant[variant], (u8 *)TObjEneDarkGunner__resistance_params_by_variant[variant]);

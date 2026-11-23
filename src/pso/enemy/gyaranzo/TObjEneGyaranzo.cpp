@@ -170,7 +170,7 @@ TObjEneGyaranzo::TObjEneGyaranzo(TObject *parent, void *set_data) : TObjEnemyCus
     VecCopy(&move_origin, VecCopy(&move_destination, &position));
     motion_list = gyaranzo_bml_resource->motions;
     action_table = gyaranzo_action_table;
-    set_field_d8((saddr)action_table);
+    set_action_table((saddr)action_table);
     init_collision_body_parts(this, gyaranzo_collision_bodies, 1);
     variant = 0;
     movementParameters = &gyaranzo_move_params;
@@ -178,7 +178,7 @@ TObjEneGyaranzo::TObjEneGyaranzo(TObject *parent, void *set_data) : TObjEnemyCus
     init_params_from_table();
     requested_action = 0;
     set_animation(requested_action);
-    set_field_b8(requested_action);
+    set_requested_action(requested_action);
     hp = hpmax;
     tp = tpmax;
     referenceHp = hp;

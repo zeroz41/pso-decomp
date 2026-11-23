@@ -220,14 +220,14 @@ TObjEneDubchik::TObjEneDubchik(TObject *parent, void *set_data) : TObjEnemyCusto
     state36C = *(s16 *)((u8 *)set_data + 0x3E);
     init_level_stats(variant);
     action_table = dubchik_action_table;
-    set_field_d8((saddr)action_table);
+    set_action_table((saddr)action_table);
     init_collision_body_parts(this, dubchik_collision_body, 1);
     movementParameters = &dubchik_movement;
     bind_enemy_combat_stats(dubchik_base_params_by_variant[variant], dubchik_attack_params_by_variant[variant], dubchik_resistance_params_by_variant[variant]);
     load_params();
     requested_action = 5;
     set_animation(requested_action);
-    set_field_b8(requested_action);
+    set_requested_action(requested_action);
     hp = hpmax;
     tp = tpmax;
     referenceHp = hp;

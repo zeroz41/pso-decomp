@@ -171,7 +171,7 @@ TObjEneMe1GiGue::TObjEneMe1GiGue(TObject *parent, void *set_data) : TObjEnemyCus
     state36C = *(s16 *)((s8 *)set_data + 0x3E);
     load_params_from_table(variant);
     action_table = gigue_enemy_param_table;
-    set_field_d8((saddr)action_table);
+    set_action_table((saddr)action_table);
     init_collision_body_parts(this, gigue_collision_bodies, 2);
     bodies[1].flags &= ~1;
     movementParameters = &gigue_move_params;
@@ -180,7 +180,7 @@ TObjEneMe1GiGue::TObjEneMe1GiGue(TObject *parent, void *set_data) : TObjEnemyCus
     load_params();
     requested_action = 0;
     set_animation(requested_action);
-    set_field_b8(requested_action);
+    set_requested_action(requested_action);
     hp = hpmax;
     tp = tpmax;
     referenceHp = hp;

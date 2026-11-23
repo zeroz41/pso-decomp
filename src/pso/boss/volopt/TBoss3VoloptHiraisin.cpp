@@ -344,14 +344,14 @@ void TBoss3VoloptHiraisin::init_params() {
     copy_position();
     motion_list = volopt_hiraisin_resources->motions;
     action_table = volopt_hiraisin_motions;
-    set_field_d8((saddr)action_table);
+    set_action_table((saddr)action_table);
     init_collision_body_parts(this, volopt_hiraisin_body_parts, 1);
     variant = 0;
     movementParameters = &volopt_hiraisin_movement;
     recalc_combat_stats(volopt_hiraisin_stats, volopt_hiraisin_stats_b, volopt_hiraisin_object_params, 1.0f, 1.0f);
     this->requested_action = 0;
     set_animation(this->requested_action);
-    set_field_b8(this->requested_action);
+    set_requested_action(this->requested_action);
     hp = hpmax;
     tp = tpmax;
     referenceHp = hp;

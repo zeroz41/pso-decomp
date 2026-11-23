@@ -264,10 +264,10 @@ TObjEnePanarms::TObjEnePanarms(TObject *parent, void *setData) : TObjEnemy(paren
     model = (void *)get_bml_model((BmlResource *)TObjEnePanarms__entry_params_resource, 0);
     VecCopy(&prev_position, VecCopy(&home_position, VecCopy(&center, &position)));
     collision_body_parts = init_collision_body_parts(this, panarms_collision_body, 1);
-    set_field_d8((saddr)panarms_motion_param_table);
-    set_field_dc((saddr)TObjEnePanarms__entry_params_resource->motions);
+    set_action_table((saddr)panarms_motion_param_table);
+    set_motion_list((saddr)TObjEnePanarms__entry_params_resource->motions);
     set_animation(0);
-    set_field_b8(0);
+    set_requested_action(0);
     VecCopy(&body_center, &position);
     velocity.x = velocity.y = velocity.z = 0.0f;
     move_velocity.x = move_velocity.y = move_velocity.z = 0.0f;
@@ -790,7 +790,7 @@ void TObjEnePanarms::enter_move() {
     this->collision_body_parts->flags |= 1;
     this->obj_clearFlags30(0x04040000);
     this->state_timer = (s32) (49.999996f * (f32) ((s32) (1.99f * random_ratio()) + 1));
-    set_field_b8((s16)action);
+    set_requested_action((s16)action);
 }
 
 #pragma push
@@ -870,7 +870,7 @@ void TObjEnePanarms::enter_dead() {
             st = 4;
         }
     }
-    set_field_b8((s16)st);
+    set_requested_action((s16)st);
     play_sound_effect(this->remap_sound_for_area(0x4003B836), &this->draw_positions[1], 0, 0);
     play_sound_effect(this->remap_sound_for_area(0x4003BB35), &this->draw_positions[3], 0, 0);
     if (this->visible != 0) {
@@ -932,7 +932,7 @@ void TObjEnePanarms::update_dead() {
 void TObjEnePanarms::enter_charge_beam_up() {
     this->collision_body_parts->flags |= 1;
     obj_clearFlags30(0x04040000U);
-    set_field_b8(6);
+    set_requested_action(6);
 }
 
 void TObjEnePanarms::update_charge_beam_up() {
@@ -965,7 +965,7 @@ void TObjEnePanarms::enter_beam_up() {
     direction.x = sin_table_lookup(this->rotation_y);
     direction.z = cos_table_lookup(this->rotation_y);
     TObjEnePanarmsAtkColli::create(this, &draw_positions[2], &direction, 0);
-    set_field_b8(7);
+    set_requested_action(7);
     this->state_timer = 0x5A;
 }
 
@@ -986,7 +986,7 @@ void TObjEnePanarms::update_beam_up() {
 void TObjEnePanarms::enter_charge_beam_down() {
     this->collision_body_parts->flags |= 1;
     obj_clearFlags30(0x04040000U);
-    set_field_b8(8);
+    set_requested_action(8);
 }
 
 void TObjEnePanarms::update_charge_beam_down() {
@@ -1020,7 +1020,7 @@ void TObjEnePanarms::enter_beam_down() {
     direction.x = sin_table_lookup(this->rotation_y);
     direction.z = cos_table_lookup(this->rotation_y);
     TObjEnePanarmsAtkColli::create(this, &draw_positions[4], &direction, 1);
-    set_field_b8(9);
+    set_requested_action(9);
     this->state_timer = 0x5A;
 }
 
@@ -1049,7 +1049,7 @@ void TObjEnePanarms::enter_split() {
     spawn_split_effect(0x22, 0x3C);
     play_sound_effect(this->remap_sound_for_area(0x4003BC2D), &this->draw_positions[1], 0, 0);
     play_sound_effect(this->remap_sound_for_area(0x4003BC2C), &this->draw_positions[3], 0, 0);
-    set_field_b8(0xA);
+    set_requested_action(0xA);
 }
 
 void TObjEnePanarms::update_split() {
@@ -1175,7 +1175,7 @@ void TObjEnePanarms::enter_spin() {
     obj_clearFlags30(0x04040000U);
     this->state_timer = 0x1E;
     this->spin_count = this->spin_count + 1;
-    set_field_b8(0xB);
+    set_requested_action(0xB);
 }
 
 void TObjEnePanarms::update_spin() {

@@ -375,11 +375,11 @@ void ProtectionTimer::reset_type() { frames = 0; }
 
 void ProtectionTimer::reset_lobby_model() { reset_type(); }
 
-void TObjMotion::set_field_d8(saddr v) { (*(saddr *)&this->action_table) = v; }
+void TObjMotion::set_action_table(saddr v) { (*(saddr *)&this->action_table) = v; }
 
-void TObjMotion::set_field_dc(saddr v) { *(saddr *)&this->motion_list = v; }
+void TObjMotion::set_motion_list(saddr v) { *(saddr *)&this->motion_list = v; }
 
-void TObjMotion::set_field_b8(s16 v) { this->requested_action = v; }
+void TObjMotion::set_requested_action(s16 v) { this->requested_action = v; }
 
 void TObjMotion::sub_8002AE64() {
     this->motion_flags = (s32) (this->motion_flags & 0xFFFFFFFE);
@@ -722,11 +722,11 @@ TBoss1Dragon::TBoss1Dragon(TObject *parent, void *set_data) : TObjEneDD_ST(paren
     this->texlist = ((DragonResource *)boss1_dragon_resource)->models[0].texlist;
     this->init_model((CollisionBody *)boss1_dragon_collision_body_parts, (s32)7);
     this->motion_flags = 0;
-    this->set_field_d8((saddr)boss1_dragon_motion_actions);
-    this->set_field_dc((saddr)((DragonResource *)boss1_dragon_resource)->motions);
+    this->set_action_table((saddr)boss1_dragon_motion_actions);
+    this->set_motion_list((saddr)((DragonResource *)boss1_dragon_resource)->motions);
     this->requested_action = 0;
     this->set_animation(this->requested_action);
-    this->set_field_b8(this->requested_action);
+    this->set_requested_action(this->requested_action);
     this->reset_hp(boss1_dragon_base_params[boss1_dragon_base_stat_indices[0]], boss1_dragon_part_hp_stats[boss1_dragon_attack_stat_indices[0]], boss1_dragon_resistance_params[boss1_dragon_resistance_stat_indices[0]]);
     this->set_state_flag_1();
     this->movementParameters = boss1_dragon_init_params;

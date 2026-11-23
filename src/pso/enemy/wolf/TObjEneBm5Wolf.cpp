@@ -287,11 +287,11 @@ TObjEneBm5Wolf::TObjEneBm5Wolf(TObject *parent, void *set_data) : TObjEneDD_ST(p
     select_subtype();
     init_position_vectors();
     init_model(TObjEneBm5Wolf__collider_params, 1);
-    set_field_d8((saddr)((void *)wolf_action_table));
-    set_field_dc((saddr)TObjEneBm5Wolf__bml_resource->motions);
+    set_action_table((saddr)((void *)wolf_action_table));
+    set_motion_list((saddr)TObjEneBm5Wolf__bml_resource->motions);
     requested_action = 0;
     set_animation(requested_action);
-    set_field_b8(requested_action);
+    set_requested_action(requested_action);
     n = is_leader;
     reset_hp(TObjEneBm5Wolf__stat_params[n != 0], wolf_stat_handle_a_table[n != 0], wolf_stat_handle_b_table[n != 0]);
     set_state_flag_1();

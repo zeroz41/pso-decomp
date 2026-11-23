@@ -257,10 +257,10 @@ TObjEnePanBARA::TObjEnePanBARA(TObject *parent, void *setData, s32 index) : TObj
     model = (void *)get_bml_model((BmlResource *)TObjEnePanarms__entry_params_resource, panbara_model_index_by_half[half_index]);
     VecCopy(&prev_position, VecCopy(&home_position, VecCopy(&center, &position)));
     collision_body_parts = init_collision_body_parts(this, panbara_collision_body, 1);
-    set_field_d8((saddr)panbara_motion_params_by_half[half_index]);
-    set_field_dc((saddr)TObjEnePanarms__entry_params_resource->motions);
+    set_action_table((saddr)panbara_motion_params_by_half[half_index]);
+    set_motion_list((saddr)TObjEnePanarms__entry_params_resource->motions);
     set_animation(0);
-    set_field_b8(0);
+    set_requested_action(0);
     VecCopy(&body_center, &position);
     velocity.x = velocity.y = velocity.z = 0.0f;
     target = NULL;
@@ -773,7 +773,7 @@ void TObjEnePanBARA::init_split() {
     this->heal_called = 0;
     clear_motion_flags(0x10);
     this->motion_flags |= 1;
-    set_field_b8(9);
+    set_requested_action(9);
 }
 
 void TObjEnePanBARA::handle_split_flag() {
@@ -792,7 +792,7 @@ void TObjEnePanBARA::start_action() {
     } else {
         this->motion_flags &= ~1;
     }
-    set_field_b8(0);
+    set_requested_action(0);
 }
 
 #pragma push
@@ -813,7 +813,7 @@ void TObjEnePanBARA::update_wait() {
     }
     if (this->action_timer == 0) {
         this->motion_flags &= ~1;
-        this->set_field_b8(1);
+        this->set_requested_action(1);
     }
     if (this->half_index == 1 && partner->is_phase_12() != 0) {
         if (partner_distance < 27.5f) {
@@ -889,7 +889,7 @@ void TObjEnePanBARA::update_wait() {
 void TObjEnePanBARA::init_state_1() {
     collision_body_parts->flags |= 1;
     this->motion_flags &= ~1;
-    set_field_b8(1);
+    set_requested_action(1);
 }
 
 void TObjEnePanBARA::update_move_to_target() {
@@ -940,7 +940,7 @@ void TObjEnePanBARA::init_state_16() {
     collision_body_parts->flags |= 1;
     this->action_timer = 0x16;
     this->motion_flags &= ~1;
-    set_field_b8(1);
+    set_requested_action(1);
 }
 
 #pragma push
@@ -968,7 +968,7 @@ void TObjEnePanBARA::update_slide_in() {
         vec3_add_to(&position, &step);
         this->rotation_y = (s32) ((fraction * (f32) angle_diff_s16(this->rotation_y, this->rejoin_rotation)) + (f32) this->rotation_y);
     } else if (frames_left == 0) {
-        set_field_b8(0);
+        set_requested_action(0);
     }
     this->action_timer--;
 }
@@ -979,7 +979,7 @@ void TObjEnePanBARA::restore_from_linked_object() {
     VecCopy(&this->position, &this->body->position);
     this->rotation_y = this->body->rotation_y;
     this->motion_flags |= 1;
-    set_field_b8(8);
+    set_requested_action(8);
 }
 
 void TObjEnePanBARA::update_hit_state() {
@@ -998,7 +998,7 @@ void TObjEnePanBARA::enter_damage() {
     static s32 panarms_sound_effect_pair[2] = { remap_sound_for_area(0x4003BC34), remap_sound_for_area(0x4003BC33) };
     play_sound_effect(panarms_sound_effect_pair[half_index], &position, 0, 0);
     motion_flags &= ~1;
-    set_field_b8(5);
+    set_requested_action(5);
 }
 
 void TObjEnePanBARA::apply_effect_if_flagged() {
@@ -1022,7 +1022,7 @@ void TObjEnePanBARA::enter_dead() {
             motion = 6;
         }
     }
-    set_field_b8(motion);
+    set_requested_action(motion);
     static s32 TObjEnePanarms__sound_ids[2] = { remap_sound_for_area(0x4003B836), remap_sound_for_area(0x4003BB35) };
     play_sound_effect(TObjEnePanarms__sound_ids[this->half_index], &position, 0, 0);
     this->action_timer = 0xA4;
@@ -1066,7 +1066,7 @@ void TObjEnePanBARA::init_state_2() {
     this->collision_enabled = 1;
     this->action_timer = 0x5A;
     this->motion_flags &= ~1;
-    set_field_b8(2);
+    set_requested_action(2);
 }
 
 void TObjEnePanBARA::update_chase_target() {
@@ -1127,7 +1127,7 @@ void TObjEnePanBARA::init_action() {
     this->collision_enabled = 1;
     this->move_speed = 0.0f;
     this->motion_flags &= ~1;
-    set_field_b8(2);
+    set_requested_action(2);
 }
 
 void TObjEnePanBARA::update_retreat() {
@@ -1166,7 +1166,7 @@ void TObjEnePanBARA::init_attack_state2() {
     this->move_speed = 0.0f;
     this->action_timer = 12;
     this->motion_flags &= ~1;
-    set_field_b8(3);
+    set_requested_action(3);
 }
 
 void TObjEnePanBARA::update_attack() {
@@ -1199,7 +1199,7 @@ void TObjEnePanBARA::enter_call_partner() {
         this->heal_called = 1;
         play_sound_effect(this->remap_sound_for_area(0x4003BC2D), &this->position, 0, 0);
         this->motion_flags &= ~1;
-        this->set_field_b8(2);
+        this->set_requested_action(2);
     }
 }
 
@@ -1234,7 +1234,7 @@ void TObjEnePanBARA::start_phase2_timer150() {
         this->move_speed = 0.0f;
         this->action_timer = 0x96;
         this->motion_flags &= ~1;
-        set_field_b8(2);
+        set_requested_action(2);
     }
 }
 
@@ -1279,7 +1279,7 @@ void TObjEnePanBARA::start_phase3_timer12() {
         this->move_speed = 0.0f;
         this->action_timer = 0xC;
         this->motion_flags &= ~1;
-        set_field_b8(3);
+        set_requested_action(3);
     }
 }
 
@@ -1302,14 +1302,14 @@ void TObjEnePanBARA::init_open_state() {
         this->move_speed = 0.0f;
         this->action_timer = 6;
         this->motion_flags &= ~1;
-        set_field_b8(0);
+        set_requested_action(0);
     }
 }
 
 void TObjEnePanBARA::update_heal() {
     s32 level;
     if (--this->action_timer == 0) {
-        set_field_b8(4);
+        set_requested_action(4);
     }
     if (-15.0f == (f32) this->action_timer) {
         level = ((PanBARATechniqueLevels *)TLobby::dispatch_shared_handler_a(0x33))->resta_level;
@@ -1339,7 +1339,7 @@ void TObjEnePanBARA::init_attack_state() {
         }
     }
     this->motion_flags &= ~1;
-    set_field_b8(2);
+    set_requested_action(2);
 }
 
 void TObjEnePanBARA::update_action_timer() {
@@ -1352,7 +1352,7 @@ void TObjEnePanBARA::update_action_timer() {
     prev_rotation = this->rotation_y;
     this->rotation_y = approach_angle_limited(this->rotation_y, this->partner_angle, 0x888);
     if (angle_difference_abs(prev_rotation, this->rotation_y) == 0) {
-        set_field_b8(0);
+        set_requested_action(0);
     }
 }
 

@@ -281,11 +281,11 @@ TObjEneBm3FlyNest::TObjEneBm3FlyNest(TObject *parent, Bm3FlyNestSetData *set_dat
     init_model(bm3_flynest_collider_params, 1);
     body_center.y = 20.0f + position.y;
     update_body_colliders();
-    set_field_d8((saddr)bm3_flynest_hit_action_table);
-    set_field_dc((saddr)bm3_fly_nest_bml->motions);
+    set_action_table((saddr)bm3_flynest_hit_action_table);
+    set_motion_list((saddr)bm3_fly_nest_bml->motions);
     requested_action = 0;
     set_animation(requested_action);
-    set_field_b8(requested_action);
+    set_requested_action(requested_action);
     reset_hp(bm3_fly_nest_base_stats, bm3_fly_nest_attack_stats, bm3_fly_nest_resist_stats);
     set_state_flag_1();
     movementParameters = &bm3_fly_nest_params;

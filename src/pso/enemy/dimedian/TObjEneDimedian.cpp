@@ -497,11 +497,11 @@ TObjEneDimedian::TObjEneDimedian(TObject *parent, void *set_data) : TUnk_8049345
     sub_800A7B54();
     load_dimedian_param_entry(variant);
     action_table = dimedian_action_table;
-    set_field_d8((saddr)action_table);
+    set_action_table((saddr)action_table);
     motion_list = dimedian_resource_ptr->motions;
     requested_action = 0;
     set_animation(requested_action);
-    set_field_b8(requested_action);
+    set_requested_action(requested_action);
     init_collision_body_parts(this, &dimedian_collision_body_table[subtype], 1);
     bind_enemy_combat_stats(dimedian_boss_object_buf[subtype], dimedian_attack_stat_table[subtype], TObjEneDimedian__boss_objects[subtype]);
     movementParameters = &dimedian_movement_params[subtype];

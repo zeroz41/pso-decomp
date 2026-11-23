@@ -587,11 +587,11 @@ TBoss5Gryphon::TBoss5Gryphon(TObject *parent, void *data) : TObjEneDD_ST(parent)
     this->texlist = (saddr)boss5_gryphon_body_bml_resource->models[0].m_c;
     ((TObjEneDD *)this)->init_model((CollisionBody *)boss5_gryphon_collision_body_parts, (s32)10);
     this->motion_flags = 0;
-    this->set_field_d8((saddr)boss5_gryphon_action_table);
-    this->set_field_dc((saddr)boss5_gryphon_body_bml_resource->motions);
+    this->set_action_table((saddr)boss5_gryphon_action_table);
+    this->set_motion_list((saddr)boss5_gryphon_body_bml_resource->motions);
     this->requested_action = 0;
     this->set_animation(this->requested_action);
-    this->set_field_b8(this->requested_action);
+    this->set_requested_action(this->requested_action);
     ((TObjEneDD *)this)->reset_hp((u8 *)(boss5_gryphon_base_params[boss5_gryphon_base_stat_indices[0]]), (u8 *)(boss5_gryphon_attack_params[boss5_gryphon_attack_stat_indices[0]]), (u8 *)(boss5_gryphon_resistance_params[boss5_gryphon_resistance_stat_indices[0]]));
     this->set_state_flag_2();
     this->movementParameters = &boss5_gryphon_movement_params;

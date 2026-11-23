@@ -1158,11 +1158,11 @@ void TObjEneRecon::init_state() {
     model = TObjEneRecon__recobox_static_instance->models->model;
     texlist = (saddr)TObjEneRecon__recobox_static_instance->models->m_c;
     init_model(&TObjEneRecon__collision_body_template, 1);
-    set_field_d8((saddr)TObjEneRecon__animation_entries);
-    set_field_dc((saddr)TObjEneRecon__recobox_static_instance->motions);
+    set_action_table((saddr)TObjEneRecon__animation_entries);
+    set_motion_list((saddr)TObjEneRecon__recobox_static_instance->motions);
     this->requested_action = 0;
     set_animation((this->requested_action));
-    set_field_b8((int) (this->requested_action));
+    set_requested_action((int) (this->requested_action));
     reset_hp((u8 *)TObjEneRecon__base_params, (u8 *)TObjEneRecon__attack_params, (u8 *)TObjEneRecon__resistance_params);
     set_state_flag_4();
     movementParameters = (void *) TObjEneRecon__ai_parameters;

@@ -144,11 +144,11 @@ TObjEneMerillLia::TObjEneMerillLia(TObject *parent, void *setData) : TUnk_804934
     select_subtype();
     select_model_record(variant);
     action_table = merill_lia_action_table;
-    set_field_d8((saddr)action_table);
+    set_action_table((saddr)action_table);
     motion_list = merill_lia_bml_resource->motions;
     requested_action = 0;
     set_animation(requested_action);
-    set_field_b8(requested_action);
+    set_requested_action(requested_action);
     init_collision_body_parts(this, &merill_lia_collision_bodies[subtype], 1);
     bind_enemy_combat_stats((u8 *)merill_lia_rock_stats_table[subtype], (u8 *)merill_lia_rock_buffer[subtype], (u8 *)merill_lia_rock_aux_buffer[subtype]);
     movementParameters = &merill_lia_movement_params[subtype];

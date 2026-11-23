@@ -208,10 +208,10 @@ void TObjEneDelDepth::init() {
     this->model = (void *)get_bml_model((BmlResource *)TObjEneDelDepth__shared_resource, 0);
     VecCopy(&this->prev_position, (const Vec *)(VecCopy(&this->home_position, (const Vec *)(VecCopy(&this->center, &this->position)))));
     this->collisionBody = (CollisionBody *)init_collision_body_parts(self, TObjEneDelDepth_collision_body_parts, 1);
-    ((TObjMotion *)self)->set_field_d8((saddr)deldepth_motion_actions);
-    ((TObjMotion *)self)->set_field_dc((saddr)TObjEneDelDepth__shared_resource->motions);
+    ((TObjMotion *)self)->set_action_table((saddr)deldepth_motion_actions);
+    ((TObjMotion *)self)->set_motion_list((saddr)TObjEneDelDepth__shared_resource->motions);
     ((TObjMotion *)self)->set_animation(0);
-    ((TObjMotion *)self)->set_field_b8(0);
+    ((TObjMotion *)self)->set_requested_action(0);
     VecCopy((Vec *)((u8 *)&this->body_center), &this->position);
     this->velocity.z = 0.0f;
     this->velocity.y = 0.0f;

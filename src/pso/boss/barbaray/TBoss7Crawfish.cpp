@@ -373,11 +373,11 @@ TBoss7Crawfish::TBoss7Crawfish(TObject *parent, void *set) : TObjEnemy(parent) {
     texlist = (saddr)get_bml_texlist(TBoss7Crawfish__shared_resource, 0);
     copy_collision_body(&collision_body, &crawfish_collision_body_desc);
     set_collision_body(&collision_body);
-    set_field_d8((saddr)crawfish_action_table);
-    set_field_dc((saddr)TBoss7Crawfish__shared_resource->motions);
+    set_action_table((saddr)crawfish_action_table);
+    set_motion_list((saddr)TBoss7Crawfish__shared_resource->motions);
     set_anim_timer(2);
     set_animation(requested_action);
-    set_field_b8(requested_action);
+    set_requested_action(requested_action);
     add_flags_2e4(2);
     apply_set_data(set);
     if (sub_80308AA8() != 0) {

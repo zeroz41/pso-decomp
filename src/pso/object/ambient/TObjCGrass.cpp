@@ -149,7 +149,7 @@ TObjCGrass::TObjCGrass(Vec *origin, s32 count, s32 lifetime) : TObjMotion(tl_06)
     self->texlist = (saddr)TObjCGrass_bml_resource->models[0].m_c;
     self->motion_list = TObjCGrass_bml_resource->motions;
     self->action_table = cgrass_action_desc;
-    self->set_field_d8((saddr)self->action_table);
+    self->set_action_table((saddr)self->action_table);
     self->set_animation(0);
     self->last_animation_frame = self->frame_count - 1.0f;
     self->fragment_count = count;

@@ -172,11 +172,11 @@ TObjEneMoja::TObjEneMoja(TObject *parent, void *setData) : TObjEnemy(parent) {
     select_rare_variant();
     subtype = 1;
     action_table = moja_motion_actions;
-    set_field_d8((saddr)action_table);
+    set_action_table((saddr)action_table);
     motion_list = moja_bml_resource->motions;
     requested_action = 0;
     set_animation(requested_action);
-    set_field_b8(requested_action);
+    set_requested_action(requested_action);
     init_collision_body_parts(this, &moja_collision_body, 1);
     attack = 0;
     bind_enemy_combat_stats((u8 *)moja_boss_stats_handles[variant], (u8 *)moja_attack_params[attack + variant * 3],

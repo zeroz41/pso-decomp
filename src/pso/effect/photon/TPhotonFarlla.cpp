@@ -123,7 +123,7 @@ void TPhotonFarlla::run_task() {
     if ((frame == 0x64) && (requested_action == 1)) {
         begin_photon_summon_camera(1);
         frame = 0;
-        set_field_b8(0);
+        set_requested_action(0);
         spawn_photon_blast_attachment_effects(0);
     }
     last_action = requested_action;
@@ -233,11 +233,11 @@ TPhotonFarlla *TPhotonFarlla__ct(TPhotonFarlla *summon, PhotonSummonParams *para
     }
     summon->model = photon_blast_shared_resource->models[0].model;
     summon->texlist = (saddr)photon_blast_shared_resource->models[0].m_c;
-    summon->set_field_d8((saddr)photon_blast_farlla_params);
-    summon->set_field_dc((saddr)photon_blast_shared_resource->motions);
+    summon->set_action_table((saddr)photon_blast_farlla_params);
+    summon->set_motion_list((saddr)photon_blast_shared_resource->motions);
     summon->requested_action = 1;
     summon->set_animation(summon->requested_action);
-    summon->set_field_b8(summon->requested_action);
+    summon->set_requested_action(summon->requested_action);
     summon->last_action = 1;
     summon->is_first = params->is_first;
     summon->has_more = params->has_more;
@@ -260,7 +260,7 @@ TPhotonFarlla *TPhotonFarlla__ct(TPhotonFarlla *summon, PhotonSummonParams *para
     }
     summon->power = params->level;
     if (summon->is_first == 0) {
-        summon->set_field_b8(0);
+        summon->set_requested_action(0);
         summon->begin_photon_summon_camera(1);
         summon->is_first = 1;
         summon->last_action = 0;

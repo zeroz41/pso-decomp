@@ -300,11 +300,11 @@ void TObjEneMe3Shinowa::init_enemy() {
     model = (void *)TObjEneMe3ShinowaMirage__bml_resource->models->model;
     init_model(shinowa_mirage_model_init_data, 1);
     motion_flags = 0;
-    set_field_d8((saddr)shinowa_mirage_motion_param_table);
-    set_field_dc((saddr)TObjEneMe3ShinowaMirage__bml_resource->motions);
+    set_action_table((saddr)shinowa_mirage_motion_param_table);
+    set_motion_list((saddr)TObjEneMe3ShinowaMirage__bml_resource->motions);
     requested_action = 0;
     set_animation(requested_action);
-    set_field_b8(requested_action);
+    set_requested_action(requested_action);
     {
         u8 **a = tbl->t[0];
         u8 **b = tbl->t[1];

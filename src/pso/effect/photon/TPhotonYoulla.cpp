@@ -87,7 +87,7 @@ void TPhotonYoulla::run_task() {
     if ((100.0f == (f32)frame) && (requested_action == 1)) {
         spawn_photon_blast_attachment_effects(6);
         frame = 0;
-        set_field_b8(0);
+        set_requested_action(0);
     }
     last_action = requested_action;
     advance_animation();
@@ -123,11 +123,11 @@ TPhotonYoulla::TPhotonYoulla(PhotonSummonParams *params) {
     }
     model = photon_blast_shared_resource->models[11].model;
     texlist = (saddr)photon_blast_shared_resource->models[11].m_c;
-    set_field_d8((saddr)photon_blast_youlla_params);
-    set_field_dc((saddr)photon_blast_shared_resource->motions);
+    set_action_table((saddr)photon_blast_youlla_params);
+    set_motion_list((saddr)photon_blast_shared_resource->motions);
     requested_action = 1;
     set_animation(requested_action);
-    set_field_b8(requested_action);
+    set_requested_action(requested_action);
     last_action = 1;
     is_first = params->is_first;
     has_more = params->has_more;
@@ -135,7 +135,7 @@ TPhotonYoulla::TPhotonYoulla(PhotonSummonParams *params) {
     reset_material_color(params->count);
     frame = 0;
     if (is_first == 0) {
-        set_field_b8(0);
+        set_requested_action(0);
         is_first = 1;
         last_action = 0;
         visible = 1;

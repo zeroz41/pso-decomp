@@ -400,11 +400,11 @@ TObjEneBeast::TObjEneBeast(TObject *parent, void *set_data) : TUnk_80493450(pare
     select_subtype();
     select_model_record(variant);
     action_table = beast_action_table;
-    set_field_d8((saddr)action_table);
+    set_action_table((saddr)action_table);
     motion_list = ene_beast_bml_resource->motions;
     requested_action = 0;
     set_animation(requested_action);
-    set_field_b8(requested_action);
+    set_requested_action(requested_action);
     init_collision_body_parts(this, &beast_collision_body_table[subtype], 1);
     bind_enemy_combat_stats(ene_beast_boss_id_buffer[subtype], TObjEneBeast__boss4_rock_handler_ids[subtype], boss4_rock_pool[subtype]);
     movementParameters = &beast_movement_params[subtype];

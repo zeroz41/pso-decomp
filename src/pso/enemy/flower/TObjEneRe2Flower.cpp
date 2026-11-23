@@ -192,11 +192,11 @@ TObjEneRe2Flower::TObjEneRe2Flower(TObject *parent, void *setData) : TObjEneDD_S
     } else {
         init_model(re2_flower_collision_bodies, 2);
     }
-    set_field_d8((saddr)TObjEneRe2Flower__animation_descriptors);
-    set_field_dc((saddr)re2_flower_bml_resource->motions);
+    set_action_table((saddr)TObjEneRe2Flower__animation_descriptors);
+    set_motion_list((saddr)re2_flower_bml_resource->motions);
     requested_action = 1;
     set_animation(requested_action);
-    set_field_b8(requested_action);
+    set_requested_action(requested_action);
     sub_8002AE64();
     if (is_tower_variant()) {
         variant = 2;

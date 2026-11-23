@@ -379,11 +379,11 @@ TContainerAncient01::TContainerAncient01(TObject *parent, void *set_data) : TObj
     this->model = reinterpret_cast<NJS_OBJECT *>(get_bml_model((BmlResource *)TContainerAncient01__bml_resource, 0));
     this->texlist = (saddr)get_bml_texlist((BmlResource *)TContainerAncient01__bml_resource, 0);
     this->action_table = TContainerAncient01__anim_table;
-    this->set_field_d8((saddr)((void *) (this->action_table)));
+    this->set_action_table((saddr)((void *) (this->action_table)));
     this->motion_list = TContainerAncient01__bml_resource->motions;
     this->requested_action = 0;
     this->set_animation((this->requested_action));
-    this->set_field_b8((int) (this->requested_action));
+    this->set_requested_action((int) (this->requested_action));
     this->actorFlags = (s32) (this->actorFlags | 0x60000000);
     init_collision_body_parts(this, (void *)&TContainerAncient01__collision_body_parts, 1);
     ((TObjPlayer *)this)->register_object_by_id();
@@ -690,11 +690,11 @@ TContainerAncient01R::TContainerAncient01R(TObject *parent, void *set_data) : TO
     self->x34 = (saddr)get_bml_model((BmlResource *)TContainerAncient01R__bml_resource, 0);
     self->x24 = (saddr)get_bml_texlist((BmlResource *)TContainerAncient01R__bml_resource, 0);
     self->animTbl = (void *)TContainerAncient01__anim_table;
-    ((TObjMotion *)self)->set_field_d8((saddr)self->animTbl);
+    ((TObjMotion *)self)->set_action_table((saddr)self->animTbl);
     self->motion_list = TContainerAncient01R__bml_resource->motions;
     self->anim = 0;
     ((TObjMotion *)self)->set_animation(self->anim);
-    ((TObjMotion *)self)->set_field_b8(self->anim);
+    ((TObjMotion *)self)->set_requested_action(self->anim);
     self->flags |= 0x60000000;
     init_collision_body_parts(self, (void *)&TContainerAncient01__collision_body_parts, 1);
     ((TObjPlayer *)self)->register_object_by_id();

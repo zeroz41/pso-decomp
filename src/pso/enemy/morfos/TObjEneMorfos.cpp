@@ -201,11 +201,11 @@ void TObjEneMorfos::init_instance() {
     model = TObjEneMorfos__instance->models[1].model;
     this->texlist = (saddr)TObjEneMorfos__instance->models[1].m_c;
     init_model(morfos_collision_bodies, 1);
-    set_field_d8((saddr)morfos_motion_param_table);
-    set_field_dc((saddr)TObjEneMorfos__instance->motions);
+    set_action_table((saddr)morfos_motion_param_table);
+    set_motion_list((saddr)TObjEneMorfos__instance->motions);
     this->requested_action = 0;
     set_animation(this->requested_action);
-    set_field_b8(this->requested_action);
+    set_requested_action(this->requested_action);
     reset_hp((u8 *)(morfos_base_params[morfos_base_params_index[0]]), (u8 *)(morfos_attack_params[morfos_attack_params_index[0]]), (u8 *)(morfos_resistance_params[morfos_resistance_params_index[0]]));
     load_params();
     set_state_8();

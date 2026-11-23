@@ -301,11 +301,11 @@ void TObjEneRe7Berura::init_enemy() {
     model = (void *)TObjEneRe7Berura__shared_resource->models->model;
     texlist = (saddr)TObjEneRe7Berura__shared_resource->models->m_c;
     init_model(&berura_collision_body, 1);
-    set_field_d8((saddr)TObjEneRe7Berura__animation_definitions);
-    set_field_dc((saddr)TObjEneRe7Berura__shared_resource->motions);
+    set_action_table((saddr)TObjEneRe7Berura__animation_definitions);
+    set_motion_list((saddr)TObjEneRe7Berura__shared_resource->motions);
     requested_action = 0;
     set_animation(requested_action);
-    set_field_b8(requested_action);
+    set_requested_action(requested_action);
     reset_hp(TObjEneRe7Berura__stat_handle_table[TObjEneRe7Berura__base_stat_rows[0]],
         TObjEneRe7Berura__attack_stat_handles[TObjEneRe7Berura__attack_stat_rows[0]],
         TObjEneRe7Berura__shared_object_handles[TObjEneRe7Berura__resist_stat_rows[0]]);

@@ -161,10 +161,10 @@ TObjEneIllGill::TObjEneIllGill(TObject *parent, void *setData) : TObjEnemy(paren
     texlist = (saddr)illGillResource->models->m_c;
     motion_list = illGillResource->motions;
     action_table = illGillActions;
-    this->set_field_d8((saddr)action_table);
+    this->set_action_table((saddr)action_table);
     requested_action = 0;
     this->set_animation(requested_action);
-    this->set_field_b8(requested_action);
+    this->set_requested_action(requested_action);
     this->sub_8002AE64();
     scale.x = 1.2f;
     scale.y = 1.2f;

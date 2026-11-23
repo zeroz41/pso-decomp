@@ -279,8 +279,8 @@ void TObjEneMe3SinowZoaReal::init_enemy() {
     model = (void *)TObjEneMe3SinowZoa__bml_resource->models->model;
     init_model(&sinow_zoa_collision_parts, 1);
     motion_flags = 0;
-    this->set_field_d8((saddr)TObjEneMe3SinowZoa__animation_descriptors);
-    this->set_field_dc((saddr)TObjEneMe3SinowZoa__bml_resource->motions);
+    this->set_action_table((saddr)TObjEneMe3SinowZoa__animation_descriptors);
+    this->set_motion_list((saddr)TObjEneMe3SinowZoa__bml_resource->motions);
     set_animation((this->requested_action));
     kind = this->kind_index;
     reset_hp(TObjEneMe3SinowZoa__base_params_by_variant[kind], TObjEneMe3SinowZoa__attack_params_by_variant[kind], TObjEneMe3SinowZoa__resistance_params_by_variant[kind]);

@@ -70,11 +70,11 @@ TObjEneMorfosArm::TObjEneMorfosArm(TObject *parent, void *owner) : TObjMotion(pa
     model = TObjEneMorfosArm__parent_morfos_instance->models[0].model;
     resource = TObjEneMorfosArm__parent_morfos_instance->models;
     texlist = (saddr)resource->m_c;
-    set_field_d8((saddr)morfos_arm_motion_params);
-    set_field_dc((saddr)TObjEneMorfosArm__parent_morfos_instance->motions);
+    set_action_table((saddr)morfos_arm_motion_params);
+    set_motion_list((saddr)TObjEneMorfosArm__parent_morfos_instance->motions);
     requested_action = 0;
     set_animation(requested_action);
-    set_field_b8(requested_action);
+    set_requested_action(requested_action);
 }
 
 

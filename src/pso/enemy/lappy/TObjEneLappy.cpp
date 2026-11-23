@@ -1133,10 +1133,10 @@ TObjEneLappy::TObjEneLappy(TObject *parent, void *set_data) : TObjEnemy(parent) 
     add_flags_2e4(1);
     actorFlags |= 0x40000;
     action_table = lappy_motion_actions;
-    set_field_d8((saddr)action_table);
+    set_action_table((saddr)action_table);
     requested_action = 0;
     set_animation(requested_action);
-    set_field_b8(requested_action);
+    set_requested_action(requested_action);
     home_idle_mode = idle_mode;
     if (TObjEneDD::check_v2_mode() != 0 && random_ratio() < 0.033333335f) {
         lappy_flags |= 0x400;

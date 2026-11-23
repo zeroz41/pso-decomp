@@ -222,7 +222,7 @@ void TPhotonGolla::run_task() {
     if ((5e+01f == (f32)frame) && (requested_action == 1)) {
         begin_photon_summon_camera(5);
         frame = 0;
-        set_field_b8(0);
+        set_requested_action(0);
         spawn_photon_blast_attachment_effects(2);
     }
     last_action = requested_action;
@@ -315,11 +315,11 @@ TPhotonGolla *TPhotonGolla__ct(TPhotonGolla *summon, PhotonSummonParams *params)
     }
     summon->model = photon_blast_shared_resource->models[4].model;
     summon->texlist = (saddr)photon_blast_shared_resource->models[4].m_c;
-    summon->set_field_d8((saddr)photon_blast_golla_params);
-    summon->set_field_dc((saddr)photon_blast_shared_resource->motions);
+    summon->set_action_table((saddr)photon_blast_golla_params);
+    summon->set_motion_list((saddr)photon_blast_shared_resource->motions);
     summon->requested_action = 1;
     summon->set_animation(summon->requested_action);
-    summon->set_field_b8(summon->requested_action);
+    summon->set_requested_action(summon->requested_action);
     summon->last_action = 1;
     summon->is_first = params->is_first;
     summon->has_more = params->has_more;
@@ -344,7 +344,7 @@ TPhotonGolla *TPhotonGolla__ct(TPhotonGolla *summon, PhotonSummonParams *params)
     }
     summon->power = params->level;
     if (summon->is_first == 0) {
-        summon->set_field_b8(0);
+        summon->set_requested_action(0);
         summon->begin_photon_summon_camera(5);
         summon->is_first = 1;
         summon->last_action = 0;

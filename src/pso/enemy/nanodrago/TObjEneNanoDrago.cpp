@@ -185,7 +185,7 @@ TObjEneNanoDrago::TObjEneNanoDrago(TObject *parent, void *setData) : TObjEnemyCu
     state36C = *(s16 *)((s8 *)setData + 0x3E);
     load_entry_params_nanodrago(variant);
     action_table = nanodrago_action_table;
-    set_field_d8((saddr)action_table);
+    set_action_table((saddr)action_table);
     init_collision_body_parts(this, nano_drago_bodies, 2);
     bodies[1].flags &= ~1;
     movementParameters = &nano_drago_movement;
@@ -193,7 +193,7 @@ TObjEneNanoDrago::TObjEneNanoDrago(TObject *parent, void *setData) : TObjEnemyCu
     update_attack_parameters();
     requested_action = 0;
     set_animation(requested_action);
-    set_field_b8(requested_action);
+    set_requested_action(requested_action);
     hp = hpmax;
     tp = tpmax;
     referenceHp = hp;

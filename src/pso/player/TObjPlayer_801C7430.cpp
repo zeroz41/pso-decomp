@@ -1411,7 +1411,7 @@ void TObjPlayer::update_state_group() {
     ((s32 (*)(void *))TObjPlayer__sub_801D0D8C)(this);
     ((s32 (*)(void *))TObjPlayer__sub_801D0D7C)(this);
     ((s32 (*)(void *))TObjPlayer__sub_801D0D58)(this);
-    set_field_dc(((VObj_801C7538 *)(*(void **)((s8 *)this + 0x380)))->m74());
+    set_motion_list(((VObj_801C7538 *)(*(void **)((s8 *)this + 0x380)))->m74());
 }
 
 void TObjPlayer__sub_801C75A4(u8 *player) {
@@ -1751,7 +1751,7 @@ void TObjPlayer::update_dispatch_v76() {
     ((s32 (*)(void))clear_velocity)();
     ((s32 (*)(void *))TObjPlayer__sub_801D0D8C)(this);
     ((s32 (*)(void *))TObjPlayer__sub_801D0E84)(this);
-    set_field_dc(((VObj_801C841C *)(*(void **)((s8 *)this + 0x380)))->v76());
+    set_motion_list(((VObj_801C841C *)(*(void **)((s8 *)this + 0x380)))->v76());
 }
 
 void TObjPlayer__sub_801C8478(void) {  }

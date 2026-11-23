@@ -217,14 +217,14 @@ void TBoss3VoloptP02::init_params() {
     m_name = TBoss3VoloptP02_name;
     motion_list = volopt_p02_resources->motions;
     action_table = action_entries;
-    set_field_d8((saddr)action_table);
+    set_action_table((saddr)action_table);
     init_collision_body_parts(this, collision_bodies, 5);
     variant = 0;
     movementParameters = &movement_params;
     recalc_combat_stats(boss_stat_handle, shared_handler_b, object_handle, 1.0f, 1.0f);
     this->requested_action = 0;
     set_animation(this->requested_action);
-    set_field_b8(this->requested_action);
+    set_requested_action(this->requested_action);
     hp = hpmax;
     tp = tpmax;
     referenceHp = hp;

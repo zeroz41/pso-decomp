@@ -118,14 +118,14 @@ void TBoss3VoloptCore::init_params() {
     m_name = TBoss3VoloptCore_name;
     motion_list = core_resources->motions;
     action_table = core_motions;
-    set_field_d8((saddr)action_table);
+    set_action_table((saddr)action_table);
     init_collision_body_parts(this, core_body_parts, 1);
     variant = 0;
     movementParameters = &core_movement;
     recalc_combat_stats(core_combat_stats_a, core_combat_stats_b, core_combat_stats_c, 1.0f, 1.0f);
     this->requested_action = 0;
     set_animation(this->requested_action);
-    set_field_b8(this->requested_action);
+    set_requested_action(this->requested_action);
     hp = hpmax;
     tp = tpmax;
     referenceHp = hp;

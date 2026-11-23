@@ -593,11 +593,11 @@ TBoss2DeRolLe::TBoss2DeRolLe(TObject *parent, void *set_data) : TObjEneDD_ST(par
     texlist = (saddr)boss2_derolle_resource->models[2].m_c;
     init_model(boss2_derolle_collision_bodies, 3);
     motion_flags = 0;
-    set_field_d8((saddr)boss2_derolle_action_table);
-    set_field_dc((saddr)boss2_derolle_resource->motions);
+    set_action_table((saddr)boss2_derolle_action_table);
+    set_motion_list((saddr)boss2_derolle_resource->motions);
     requested_action = 0;
     set_animation(requested_action);
-    set_field_b8(requested_action);
+    set_requested_action(requested_action);
     reset_hp((u8 *)TBoss2DeRolLe__base_params[0], (u8 *)TBoss2DeRolLe__attack_params_table[0], (u8 *)TBoss2DeRolLe__resistance_params[0]);
     set_state_flag_2();
     movementParameters = &boss2_derolle_movement;

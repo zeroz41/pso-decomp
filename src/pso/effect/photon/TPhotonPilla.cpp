@@ -93,11 +93,11 @@ TPhotonPilla::TPhotonPilla(PhotonSummonParams *params) : TPhotonBlastSummon() {
     }
     model = photon_blast_shared_resource->models[3].model;
     texlist = (saddr)photon_blast_shared_resource->models[3].m_c;
-    set_field_d8((saddr)photon_pilla_action_table);
-    set_field_dc((saddr)photon_blast_shared_resource->motions);
+    set_action_table((saddr)photon_pilla_action_table);
+    set_motion_list((saddr)photon_blast_shared_resource->motions);
     requested_action = 1;
     set_animation(requested_action);
-    set_field_b8(requested_action);
+    set_requested_action(requested_action);
     last_action = 1;
     is_first = params->is_first;
     has_more = params->has_more;
@@ -125,7 +125,7 @@ TPhotonPilla::TPhotonPilla(PhotonSummonParams *params) : TPhotonBlastSummon() {
     }
     power = params->level;
     if (is_first == 0) {
-        set_field_b8(0);
+        set_requested_action(0);
         begin_photon_summon_camera(4);
         is_first = 1;
         last_action = 0;
@@ -167,7 +167,7 @@ void TPhotonPilla::run_task() {
     if (50.0f == timer && requested_action == 1 && started == 1) {
         begin_photon_summon_camera(4);
         timer = 0;
-        set_field_b8(0);
+        set_requested_action(0);
         spawn_photon_blast_attachment_effects(3);
     }
     last_action = requested_action;

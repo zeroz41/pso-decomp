@@ -420,7 +420,7 @@ TObjGrass::TObjGrass(TObject *parent, void *set_data) : TObjEnemy(parent) {
     subtype = 0;
     init_from_table_entry(variant);
     action_table = TObjGrass__grass_type_param_table;
-    set_field_d8((saddr)action_table);
+    set_action_table((saddr)action_table);
     if ((0.0f) < parameters[1]) {
         m_39c = 2;
     } else {
@@ -428,7 +428,7 @@ TObjGrass::TObjGrass(TObject *parent, void *set_data) : TObjEnemy(parent) {
     }
     requested_action = 0;
     set_animation(requested_action);
-    set_field_b8(requested_action);
+    set_requested_action(requested_action);
     init_collision_body_parts(this, &((E2C_800BF924 *)lbl_80492A00)[variant], 1);
     m_39e = 0;
     bind_enemy_combat_stats((u8 *)lbl_805D5140, (u8 *)TObjGrass__bml_resource[m_39e], (u8 *)grass_combat_stats_handle);

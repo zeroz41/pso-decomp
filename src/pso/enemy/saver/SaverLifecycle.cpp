@@ -659,11 +659,11 @@ TObjEneSaver::TObjEneSaver(TObject *parent, void *set_data) : TObjEnemy(parent) 
     subtype = 0;
     select_model_record(variant);
     action_table = saver_action_table;
-    set_field_d8((saddr)action_table);
+    set_action_table((saddr)action_table);
     motion_list = saver_bml_resource->motions;
     requested_action = 0;
     set_animation(requested_action);
-    set_field_b8(requested_action);
+    set_requested_action(requested_action);
     init_collision_body_parts(this, saver_collision_body_part_table, 1);
     attack_index = 0;
     step_counter = 0;

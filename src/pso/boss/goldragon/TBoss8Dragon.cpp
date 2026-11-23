@@ -507,11 +507,11 @@ TBoss8Dragon::TBoss8Dragon(TObject *parent, void *set_data) : TObjEneDD_ST(paren
     this->scale.z = 2.0f;
     init_model(boss8_dragon_collision_bodies, 7);
     this->motion_flags = 0;
-    this->set_field_d8((saddr)boss8_dragon_motion_actions);
-    this->set_field_dc((saddr)boss8_dragon_resource->motions);
+    this->set_action_table((saddr)boss8_dragon_motion_actions);
+    this->set_motion_list((saddr)boss8_dragon_resource->motions);
     this->requested_action = 0;
     this->set_animation(this->requested_action);
-    this->set_field_b8(this->requested_action);
+    this->set_requested_action(this->requested_action);
     reset_hp((u8 *)(TLobby::register_boss(0x12)), boss8_dragon_part_hp_stats[boss8_dragon_attack_stat_indices[0]], (u8 *)(TLobby::register_object(0x12)));
     this->set_state_flag_1();
     this->movementParameters = boss8_dragon_movement_params;

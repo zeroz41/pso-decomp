@@ -142,11 +142,11 @@ TObjEneGibbles::TObjEneGibbles(TObject *parent, void *setData) : TObjEnemy(paren
     subtype = 0;
     select_model_record(variant);
     action_table = gibbles_action_table;
-    set_field_d8((saddr)action_table);
+    set_action_table((saddr)action_table);
     motion_list = TObjEneGibbles__resource_bundle->motions;
     requested_action = 0;
     set_animation(requested_action);
-    set_field_b8(requested_action);
+    set_requested_action(requested_action);
     init_collision_body_parts(this, gibbles_collision_bodies, 1);
     attack_kind = 0;
     combo_count = 0;

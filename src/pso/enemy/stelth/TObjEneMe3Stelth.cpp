@@ -317,8 +317,8 @@ void TObjEneMe3StelthReal::init_common() {
     model = (void *)entry->model;
     init_model(&TObjEneMe3Stelth__collision_body_template, 1);
     motion_flags = 0;
-    set_field_d8((saddr)TObjEneMe3Stelth__animation_descriptors);
-    set_field_dc((saddr)TObjEneMe3Stelth__bml_resource->motions);
+    set_action_table((saddr)TObjEneMe3Stelth__animation_descriptors);
+    set_motion_list((saddr)TObjEneMe3Stelth__bml_resource->motions);
     set_animation(requested_action);
     v = variant_index;
     reset_hp((u8 *)TObjEneMe3Stelth__base_params_by_variant[v], (u8 *)TObjEneMe3Stelth__attack_params_by_variant[v], (u8 *)TObjEneMe3Stelth__resistance_params_by_variant[v]);

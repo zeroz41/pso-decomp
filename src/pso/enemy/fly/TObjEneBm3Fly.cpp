@@ -117,11 +117,11 @@ void TObjEneBm3Fly::init_child_params() {
     this->model = (void *)bm3_fly_nest_resources->models[0].model;
     this->texlist = (saddr)bm3_fly_nest_resources->models[0].m_c;
     this->init_model(bm3_fly_collider_params, 1);
-    set_field_d8((saddr)bm3_fly_action_table);
-    set_field_dc((saddr)bm3_fly_nest_resources->motions);
+    set_action_table((saddr)bm3_fly_action_table);
+    set_motion_list((saddr)bm3_fly_nest_resources->motions);
     this->requested_action = 0;
     set_animation(this->requested_action);
-    set_field_b8(this->requested_action);
+    set_requested_action(this->requested_action);
     this->reset_hp(bm3_fly_boss_stat_handle, (u8 *)TObjEneBm3Fly__attack_params, bm3_fly_resist_stats);
     set_state_flag_1();
     this->movementParameters = &bm3_fly_decision_row;

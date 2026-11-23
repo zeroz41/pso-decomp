@@ -159,11 +159,11 @@ TObjEneDolmOlm::TObjEneDolmOlm(TObject *parent, void *set_data) : TUnk_80493450(
     init_position_vectors();
     apply_variant();
     action_table = TObjEneDolmOlm__param_table;
-    set_field_d8((saddr)action_table);
+    set_action_table((saddr)action_table);
     motion_list = TObjEneDolmOlm__resource_bundle->motions;
     requested_action = 0;
     set_animation(requested_action);
-    set_field_b8(requested_action);
+    set_requested_action(requested_action);
     init_collision_body_parts(this, &dolmolm_collision_bodies[variant], 1);
     bind_enemy_combat_stats(dolm_olm_combat_stat_id_pair[variant], TObjEneDolmOlm__shared_handler_ids[variant], TObjEneDolmOlm__registered_object_ids[variant]);
     movementParameters = &dolmolm_movement_params[variant];

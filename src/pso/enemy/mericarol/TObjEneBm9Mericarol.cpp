@@ -201,11 +201,11 @@ TObjEneBm9Mericarol::TObjEneBm9Mericarol(TObject *parent, void *set_data) : TObj
     model = (void *)mericarol_bml->models[0].model;
     texlist = (saddr)mericarol_bml->models[0].m_c;
     init_model(mericarol_collision_bodies, 1);
-    set_field_d8((saddr)mericarol_motion_actions);
-    set_field_dc((saddr)mericarol_bml->motions);
+    set_action_table((saddr)mericarol_motion_actions);
+    set_motion_list((saddr)mericarol_bml->motions);
     requested_action = 2;
     set_animation(requested_action);
-    set_field_b8(requested_action);
+    set_requested_action(requested_action);
     ph = get_phase();
     reset_hp(bm9_mericarol_phase_hp_table[ph], bm9_mericarol_phase_attack_table[ph], bm9_mericarol_phase_resist_table[ph]);
     trails[0] = TUnk_80494968::create(0xA0303030, mericarol_phase_effect_colors[ph]);

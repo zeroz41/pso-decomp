@@ -207,11 +207,11 @@ void TObjEneDellBiter::init_params() {
     texlist = (saddr)((BmlResource *)TObjEneDellBiter__shared_model_resource)->models->m_c;
     init_model((CollisionBody *)dell_biter_collision_bodies, 1);
     bodies->flags |= 0x400000;
-    set_field_d8((saddr)&dell_biter_param_table);
-    set_field_dc((saddr)((BmlResource *)TObjEneDellBiter__shared_model_resource)->motions);
+    set_action_table((saddr)&dell_biter_param_table);
+    set_motion_list((saddr)((BmlResource *)TObjEneDellBiter__shared_model_resource)->motions);
     this->requested_action = 0;
     set_animation(this->requested_action);
-    set_field_b8(this->requested_action);
+    set_requested_action(this->requested_action);
     reset_hp((u8 *)dellbiter_boss_stat_handle, (u8 *)TObjEneDellBiter__shared_handler_param, (u8 *)dellbiter_object_stat_handle);
     set_state_8();
     movementParameters = &TObjEneDellBiter__param_table;

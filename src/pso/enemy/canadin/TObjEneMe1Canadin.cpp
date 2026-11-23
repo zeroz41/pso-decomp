@@ -236,11 +236,11 @@ void TObjEneMe1Canadin::setup_enemy() {
     init_position_vectors();
     this->select_model();
     init_model(&canadin_collision_body, 1);
-    set_field_d8((saddr)canadin_action_table);
-    set_field_dc((saddr)bm_ene_me1_mb_resource->motions);
+    set_action_table((saddr)canadin_action_table);
+    set_motion_list((saddr)bm_ene_me1_mb_resource->motions);
     requested_action = 0;
     set_animation(requested_action);
-    set_field_b8(requested_action);
+    set_requested_action(requested_action);
     reset_hp((u8 *)canadin_boss_stat_handle_table[kind], (u8 *)canadin_shared_handler_b_table[kind], (u8 *)canadin_object_handle_table[kind]);
     set_state_flag_4();
     movementParameters = &canadin_setup_param_block;

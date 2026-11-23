@@ -312,11 +312,11 @@ void TObjEneDf2Bringer::init_enemy() {
     this->model = TObjEneDf2Bringer__resource_bundle->models[0].model;
     this->texlist = (saddr)TObjEneDf2Bringer__resource_bundle->models[0].m_c;
     init_model(bringer_collision_bodies, 1);
-    set_field_d8((saddr)bringer_motion_actions);
-    set_field_dc((saddr)TObjEneDf2Bringer__resource_bundle->motions);
+    set_action_table((saddr)bringer_motion_actions);
+    set_motion_list((saddr)TObjEneDf2Bringer__resource_bundle->motions);
     this->requested_action = 0;
     set_animation(this->requested_action);
-    set_field_b8(this->requested_action);
+    set_requested_action(this->requested_action);
     reset_hp((u8 *)bringer_boss_stats_handle, (u8 *)bringer_boss_stats_ptr_b, (u8 *)bringer_object_handle);
     set_state_8();
     this->movementParameters = bringer_init_params;

@@ -97,11 +97,11 @@ TObjEneBalClawBody::TObjEneBalClawBody(TObject *parent, void *set_data) : TObjEn
     VecCopy(&move_origin, (const Vec *)(VecCopy(&move_destination, (const Vec *)(&position))));
     motion_list = balclaw_bml_resource->motions;
     action_table = balclaw_body_actions;
-    set_field_d8((saddr)action_table);
+    set_action_table((saddr)action_table);
     init_collision_body_parts(this, &balclaw_body_collision, 1);
     requested_action = 0;
     set_animation(requested_action);
-    set_field_b8(requested_action);
+    set_requested_action(requested_action);
     hp = hpmax;
     tp = tpmax;
     referenceHp = hp;
@@ -809,7 +809,7 @@ void TObjEneBalClawBody::set_form(s32 form) {
         }
         this->child_count = 0;
     }
-    this->set_field_b8(this->requested_action);
+    this->set_requested_action(this->requested_action);
     this->movementParameters = &balclaw_body_movement[form];
     this->load_params();
     this->variant = form;

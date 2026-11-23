@@ -311,11 +311,11 @@ void TObjEneRe4Sorcerer::init_enemy() {
     models = sorcerer_bml_resource->models;
     texlist = (saddr)models->m_c;
     this->init_model(re4_sorcerer_collision_body_part_table, 1);
-    set_field_d8((saddr)re4_sorcerer_action_params);
-    set_field_dc((saddr)sorcerer_bml_resource->motions);
+    set_action_table((saddr)re4_sorcerer_action_params);
+    set_motion_list((saddr)sorcerer_bml_resource->motions);
     requested_action = 0;
     set_animation(requested_action);
-    set_field_b8(requested_action);
+    set_requested_action(requested_action);
     reset_hp(TObjEneRe4Sorcerer__base_params, TObjEneRe4Sorcerer__attack_params, TObjEneRe4Sorcerer__resistance_params);
     set_state_8();
     movementParameters = &re4_sorcerer_init_params;

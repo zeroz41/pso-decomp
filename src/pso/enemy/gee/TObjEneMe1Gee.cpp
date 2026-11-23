@@ -219,11 +219,11 @@ void TObjEneMe1Gee::init_state() {
     this->init_position_vectors();
     this->select_model();
     this->init_model(&gee_collision_body, 1);
-    this->set_field_d8((saddr)TObjEneMe1Gee__motion_parameters);
-    this->set_field_dc((saddr)TObjEneMe1Gee__resource_bundle->motions);
+    this->set_action_table((saddr)TObjEneMe1Gee__motion_parameters);
+    this->set_motion_list((saddr)TObjEneMe1Gee__resource_bundle->motions);
     this->requested_action = 0;
     set_animation(this->requested_action);
-    this->set_field_b8(this->requested_action);
+    this->set_requested_action(this->requested_action);
     this->reset_hp((u8 *)gee_boss_stat_handle_table[this->kind], (u8 *)gee_shared_handler_b_table[this->kind], (u8 *)gee_object_handle_table[this->kind]);
     this->set_state_flag_1();
     this->movementParameters = &me1_gee_init_params;
