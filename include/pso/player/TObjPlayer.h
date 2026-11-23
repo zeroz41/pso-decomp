@@ -1015,7 +1015,6 @@ struct TObjPlayer : public TObjChara {
     void clear_flag_80000();
     void set_flag_80000();
     static saddr get_instance();
-    void *init_zeroed_object();
     static void disable_keyboard_control();
     static TItem *create_nug2000_bazooka(u8 *item);
     static void enable_foot_stamp(saddr arg1, saddr arg2);
@@ -1423,7 +1422,6 @@ struct TObjPlayer : public TObjChara {
     void *do_action_447();
     // A hit callback of TUnk_804E1CA8 (its pad_208).
     static void do_action_447_from_packet(void *item, void *hit, void *dir);
-    u8 *init_breakup_pieces(void *arg1, saddr arg2);
     static s32 dt_follow_particle_ctrl(saddr arg0, s16 arg1);
     static TItem *create_vtable_variant(u8 *item);
     static TItem *create_state_1536(u8 *item);

@@ -5,6 +5,7 @@
 
 class TUnk_804E3BC0 : public TUnk_804E3BD8 {
 public:
+    TUnk_804E3BC0(TObject *parent, Vec *position, s32 index);
     virtual ~TUnk_804E3BC0();
     void sub_802E7640();
     virtual void run_task();
