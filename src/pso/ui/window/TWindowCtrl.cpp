@@ -289,7 +289,6 @@ extern "C" {
 void *__ct__11TWindowChatFP7TObjectPv(void *, TObject *, void *);
 
 void *__ct__17TWindowCtrlPlayerFP7TObjectl(void *, void *, s32);
-extern const char *TWindowCtrl__name;
 extern s32 local_client_id;
 
 }
