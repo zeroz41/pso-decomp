@@ -122,7 +122,7 @@ TPhotonYoulla::TPhotonYoulla(PhotonSummonParams *params) {
         rotation_y = owner_object->rotation_y;
     }
     model = photon_blast_shared_resource->models[11].model;
-    texlist = (saddr)photon_blast_shared_resource->models[11].m_c;
+    texlist = (saddr)photon_blast_shared_resource->models[11].texlist;
     set_action_table((saddr)photon_blast_youlla_params);
     set_motion_list((saddr)photon_blast_shared_resource->motions);
     requested_action = 1;

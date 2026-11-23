@@ -260,7 +260,7 @@ TOHealGeneral::TOHealGeneral(void *set_data) : TObjMapObject(tl_05) {
     m_name = class_name;
     apply_object_set_data(set_data);
     model = (void *)model_resource->models->model;
-    texlist = (saddr)model_resource->models->m_c;
+    texlist = (saddr)model_resource->models->texlist;
     model_radius = 40.0f;
     init_collision_body_parts(this, &heal_general_collision_body_part, 1);
     refresh_collision_body_centers();

@@ -139,7 +139,7 @@ const char *TObjEneMe1GiGue__name = "TObjEneMe1GiGue";
 
 void TObjEneMe1GiGue::load_params_from_table(s32 i) {
     model = (void *)gigue_resource->models[i].model;
-    texlist = (saddr)gigue_resource->models[i].m_c;
+    texlist = (saddr)gigue_resource->models[i].texlist;
 }
 
 void TObjEneMe1GiGue::update_attack() {  }
@@ -246,7 +246,7 @@ void TObjEneMe1GiGue::load_resources() {
     TObjEneMe1GiGueBarrier::init_global();
     {
     NpcAnimationBinding binding = { reinterpret_cast<BmlMotionEntry *>(gigue_resource->motions), reinterpret_cast<TObjMotionAction *>(gigue_enemy_param_table), 0, 1, 9 };
-    NpcModelRegistry::register_animated_chunk(0x41, reinterpret_cast<void *>(gigue_resource->models->model), reinterpret_cast<void *>(gigue_resource->models->m_c), &binding, gigue_collision_bodies[0].radius, 15.0f);
+    NpcModelRegistry::register_animated_chunk(0x41, reinterpret_cast<void *>(gigue_resource->models->model), reinterpret_cast<void *>(gigue_resource->models->texlist), &binding, gigue_collision_bodies[0].radius, 15.0f);
     }
 }
 

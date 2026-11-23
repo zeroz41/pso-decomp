@@ -85,7 +85,7 @@ void TObjEneEpsilonGuard::load_assets() {
     {
         NpcAnimationBinding binding = { NULL, epsilon_action_table, 0, 0, 1 };
         binding.motions = epsilon_bml_resource->motions;
-        NpcModelRegistry::register_animated_chunk(0x4E, epsilon_bml_resource->models->model, epsilon_bml_resource->models->m_c, &binding, 5.0f, 15.0f);
+        NpcModelRegistry::register_animated_chunk(0x4E, epsilon_bml_resource->models->model, epsilon_bml_resource->models->texlist, &binding, 5.0f, 15.0f);
     }
 }
 

@@ -123,7 +123,7 @@ s32 TObjEneGibbles__render_rotation_x;
 // reverse of the order they are written in.
 void TObjEneGibbles::select_model_record(s32 i) {
     model = TObjEneGibbles__resource_bundle->models[i].model;
-    texlist = (saddr)TObjEneGibbles__resource_bundle->models[i].m_c;
+    texlist = (saddr)TObjEneGibbles__resource_bundle->models[i].texlist;
 }
 
 void *TObjEneGibbles::get_center() { return &body_center; }
@@ -209,7 +209,7 @@ void TObjEneGibbles::load_resources() {
     TObjEneGibbles__ai_parameters = (GibblesAiParams *)TLobby::dispatch_shared_handler_a(0x3D);
     NpcAnimationBinding s = gibbles_resource_binding_desc;
     s.motions = TObjEneGibbles__resource_bundle->motions;
-    NpcModelRegistry::register_animated_chunk(0x44, TObjEneGibbles__resource_bundle->models->model, TObjEneGibbles__resource_bundle->models->m_c, &s, gibbles_collision_bodies[0].radius, 0.0f);
+    NpcModelRegistry::register_animated_chunk(0x44, TObjEneGibbles__resource_bundle->models->model, TObjEneGibbles__resource_bundle->models->texlist, &s, gibbles_collision_bodies[0].radius, 0.0f);
 }
 
 void TObjEneGibbles::free_static() {

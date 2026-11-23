@@ -176,7 +176,7 @@ void TObjEneMe1Canadin::load_resources() {
     s16 ids[2] = { 0x17, 0x18 };
     NpcAnimationBinding params = { reinterpret_cast<BmlMotionEntry *>(bm_ene_me1_mb_resource->motions), reinterpret_cast<TObjMotionAction *>(canadin_action_table), 0, 0, 7 };
     for (i = 0; i < 2; i++) {
-        NpcModelRegistry::register_animated_chunk(ids[i], reinterpret_cast<void *>(bm_ene_me1_mb_resource->models[i].model), reinterpret_cast<void *>(bm_ene_me1_mb_resource->models[1].m_c), &params, 8.0f, 15.0f);
+        NpcModelRegistry::register_animated_chunk(ids[i], reinterpret_cast<void *>(bm_ene_me1_mb_resource->models[i].model), reinterpret_cast<void *>(bm_ene_me1_mb_resource->models[1].texlist), &params, 8.0f, 15.0f);
     }
 }
 
@@ -369,7 +369,7 @@ void TObjEneMe1Canadin::apply_parameters() {
 
 void TObjEneMe1Canadin::select_model() {
     model = (void *)bm_ene_me1_mb_resource->models[0].model;
-    texlist = (saddr)bm_ene_me1_mb_resource->models[1].m_c;
+    texlist = (saddr)bm_ene_me1_mb_resource->models[1].texlist;
 }
 
 #pragma push
@@ -1914,7 +1914,7 @@ void TObjEneMe1CanadinLeader::run_task() {
 
 void TObjEneMe1CanadinLeader::select_model() {
     model = (void *)bm_ene_me1_mb_resource->models[1].model;
-    texlist = (saddr)bm_ene_me1_mb_resource->models[1].m_c;
+    texlist = (saddr)bm_ene_me1_mb_resource->models[1].texlist;
 }
 
 void TObjEneMe1CanadinLeader::select_next_attack_state() {

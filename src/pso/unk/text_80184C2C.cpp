@@ -239,7 +239,7 @@ extern "C" void TLobby__sub_80184DF4(void) {
         *(BmlResource **)((u8 *)&city_season_easter_egg_model_table + slot_offset) = (BmlResource *)tmp;
         for (i = 0; i < *(s32 *)(tmp + 0x434); i++) {
             if ((*(u32 (**)[4])(tmp + 0x42c))[i][3] != 0) {
-                *(GinjaTextureList **)((u8 *)&city_season_xmas_model_table + slot_offset) = (GinjaTextureList *)((BmlResource *)tmp)->models[i].m_c;
+                *(GinjaTextureList **)((u8 *)&city_season_xmas_model_table + slot_offset) = (GinjaTextureList *)((BmlResource *)tmp)->models[i].texlist;
                 break;
             }
         }
@@ -287,7 +287,7 @@ extern "C" void TLobby__sub_80184DF4(void) {
     lbl_805D5B38 = (BmlResource *)board;
     for (i = 0; i < *(s32 *)(board + 0x434); i++) {
         if ((*(u32 (**)[4])(board + 0x42c))[i][3] != 0) {
-            lbl_805D5B44 = (GinjaTextureList *)((BmlResource *)board)->models[i].m_c;
+            lbl_805D5B44 = (GinjaTextureList *)((BmlResource *)board)->models[i].texlist;
             break;
         }
     }

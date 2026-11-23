@@ -132,7 +132,7 @@ CollisionBody merill_lia_collision_bodies[3] = {
 // functions below are defined from the last one in the DOL (select_model_record) back to the first (run_demo_task).
 void TObjEneMerillLia::select_model_record(s32 i) {
     model = merill_lia_bml_resource->models[i].model;
-    texlist = (saddr)merill_lia_bml_resource->models[i].m_c;
+    texlist = (saddr)merill_lia_bml_resource->models[i].texlist;
 }
 
 TObjEneMerillLia::TObjEneMerillLia(TObject *parent, void *setData) : TUnk_80493450(parent) {
@@ -218,7 +218,7 @@ void TObjEneMerillLia::load_resources() {
         motions.motions = merill_lia_bml_resource->motions;
         for (i = 0; i < 2; i++) {
             NpcModelRegistry::register_animated_chunk(ids[i], merill_lia_bml_resource->models[i].model,
-                merill_lia_bml_resource->models[i].m_c, &motions, merill_lia_collision_bodies[i].radius, 0.0f);
+                merill_lia_bml_resource->models[i].texlist, &motions, merill_lia_collision_bodies[i].radius, 0.0f);
         }
     }
 }

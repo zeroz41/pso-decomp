@@ -8,12 +8,13 @@ struct BmlModelEntry {
     s32 m_0;
     s32 m_4;
     NJS_OBJECT *model;
-    GinjaTextureList *m_c;
+    // The model's texture list, set as the global texture list before it is drawn.
+    GinjaTextureList *texlist;
 };
 
 LAYOUT_ASSERT(BmlModelEntry_size, sizeof(BmlModelEntry) == 0x10);
 LAYOUT_ASSERT(BmlModelEntry_model_offset, offsetof(BmlModelEntry, model) == 0x8);
-LAYOUT_ASSERT(BmlModelEntry_texture_offset, offsetof(BmlModelEntry, m_c) == 0xC);
+LAYOUT_ASSERT(BmlModelEntry_texlist_offset, offsetof(BmlModelEntry, texlist) == 0xC);
 
 struct AnimationMotion;
 struct BmlMotionEntry {

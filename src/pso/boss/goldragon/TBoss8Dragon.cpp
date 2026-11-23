@@ -501,7 +501,7 @@ TBoss8Dragon::TBoss8Dragon(TObject *parent, void *set_data) : TObjEneDD_ST(paren
     }
     this->init_position_vectors();
     this->model = boss8_dragon_resource->models[0].model;
-    this->texlist = (saddr)boss8_dragon_resource->models[0].m_c;
+    this->texlist = (saddr)boss8_dragon_resource->models[0].texlist;
     this->scale.x = 2.0f;
     this->scale.y = 2.0f;
     this->scale.z = 2.0f;

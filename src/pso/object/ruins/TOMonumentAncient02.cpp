@@ -211,7 +211,7 @@ TOMonumentAncient02::TOMonumentAncient02(TObject *parent, void *set_data) : TObj
     m_name = TOMonumentAncient02__class_name;
     apply_object_set_data(set_data);
     model = (void *)TOMonumentAncient02__bml_resource->models[0].model;
-    texlist = (saddr)TOMonumentAncient02__bml_resource->models[0].m_c;
+    texlist = (saddr)TOMonumentAncient02__bml_resource->models[0].texlist;
     init_collision_body_parts(this, monument_ancient02_collision_parts, 1);
     refresh_collision_body_centers();
     register_object_by_id();

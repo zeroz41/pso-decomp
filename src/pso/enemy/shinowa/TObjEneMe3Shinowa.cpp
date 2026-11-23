@@ -159,7 +159,7 @@ void load_shinowa_mirage_resources() {
     } else {
         TObjEneMe3ShinowaMirage__bml_resource = load_enemy_bml_resource(&shinowa_mirage_resource_descriptor);
     }
-    src = (NJS_TEXLIST *)TObjEneMe3ShinowaMirage__bml_resource->models->m_c;
+    src = (NJS_TEXLIST *)TObjEneMe3ShinowaMirage__bml_resource->models->texlist;
     n = src->nbTexture;
     TObjEneMe3ShinowaMirage__alternate_texture_list.nbTexture = n;
     TObjEneMe3ShinowaMirage__alternate_texture_list.textures = (NJS_TEXNAME *)mem_alloc(n * sizeof(NJS_TEXNAME));
@@ -247,7 +247,7 @@ void load_shinowa_mirage_resources() {
     {
         NpcAnimationBinding binding = shinowa_mirage_spawn_binding;
         binding.motions = reinterpret_cast<BmlMotionEntry *>(TObjEneMe3ShinowaMirage__bml_resource->motions);
-        NpcModelRegistry::register_animated_chunk(0x26, reinterpret_cast<void *>(TObjEneMe3ShinowaMirage__bml_resource->models->model), reinterpret_cast<void *>(TObjEneMe3ShinowaMirage__bml_resource->models->m_c), &binding, 8.0f, 0.0f);
+        NpcModelRegistry::register_animated_chunk(0x26, reinterpret_cast<void *>(TObjEneMe3ShinowaMirage__bml_resource->models->model), reinterpret_cast<void *>(TObjEneMe3ShinowaMirage__bml_resource->models->texlist), &binding, 8.0f, 0.0f);
         NpcModelRegistry::register_animated_chunk(0x27, reinterpret_cast<void *>(TObjEneMe3ShinowaMirage__bml_resource->models->model), reinterpret_cast<void *>(&TObjEneMe3ShinowaMirage__alternate_texture_list), &binding, 8.0f, 0.0f);
     }
 }
@@ -571,7 +571,7 @@ void TObjEneMe3Shinowa::select_gold_or_normal_variant() {
         kind_index = 1;
         return;
     }
-    texlist = (saddr)TObjEneMe3ShinowaMirage__bml_resource->models->m_c;
+    texlist = (saddr)TObjEneMe3ShinowaMirage__bml_resource->models->texlist;
     initialize_enemy_state(0x1a);
     kind_index = 0;
 }

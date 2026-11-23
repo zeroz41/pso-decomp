@@ -161,7 +161,7 @@ void TObjEneBm9Mericarol::load_resources() {
     clear_motion_packed_rotation();
     {
         NpcAnimationBinding params = { reinterpret_cast<BmlMotionEntry *>(mericarol_bml->motions), reinterpret_cast<TObjMotionAction *>(mericarol_motion_actions), 3, 1, 9 };
-        NpcModelRegistry::register_animated_chunk(0x42, reinterpret_cast<void *>(mericarol_bml->models[0].model), reinterpret_cast<void *>(mericarol_bml->models[0].m_c), &params,
+        NpcModelRegistry::register_animated_chunk(0x42, reinterpret_cast<void *>(mericarol_bml->models[0].model), reinterpret_cast<void *>(mericarol_bml->models[0].texlist), &params,
             mericarol_collision_bodies[0].radius, 0.0f);
     }
 }
@@ -199,7 +199,7 @@ TObjEneBm9Mericarol::TObjEneBm9Mericarol(TObject *parent, void *set_data) : TObj
     }
     init_position_vectors();
     model = (void *)mericarol_bml->models[0].model;
-    texlist = (saddr)mericarol_bml->models[0].m_c;
+    texlist = (saddr)mericarol_bml->models[0].texlist;
     init_model(mericarol_collision_bodies, 1);
     set_action_table((saddr)mericarol_motion_actions);
     set_motion_list((saddr)mericarol_bml->motions);

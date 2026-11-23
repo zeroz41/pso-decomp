@@ -377,7 +377,7 @@ void TObjEneBeast::load_resources() {
         q.motions = ene_beast_bml_resource->motions;
         for (i = 0; i < 3; i++) {
             NpcModelRegistry::register_animated_chunk(ids[i], ene_beast_bml_resource->models[i].model,
-                                            ene_beast_bml_resource->models[i].m_c, &q,
+                                            ene_beast_bml_resource->models[i].texlist, &q,
                                             beast_collision_body_table[i].radius, 0.0f);
         }
     }

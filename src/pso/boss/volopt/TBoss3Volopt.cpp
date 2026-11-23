@@ -424,7 +424,7 @@ void TBoss3Volopt::load_resources() {
     TBoss3VoloptMonitor::load_resources();
     volopt_shutter_model_b = ((VoloptShutterNode *)boss3_volopt_resources->models[13].model)->model;
     volopt_shutter_model_a = ((VoloptShutterNode *)boss3_volopt_resources->models[13].model)->child->model;
-    volopt_shutter_global_param = (saddr)boss3_volopt_resources->models[13].m_c;
+    volopt_shutter_global_param = (saddr)boss3_volopt_resources->models[13].texlist;
     TObjVoloptPillar::cache_target_values();
     TObjVoloptCage::init_break_model();
     volopt_p02_id = 0xFFFF;

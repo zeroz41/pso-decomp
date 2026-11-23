@@ -72,7 +72,7 @@ void free_boss2_common_resource(void) {
 void load_boss2_common_resource(void) {
     BmlResource *resource = new BmlResource(5, &bm_obj_boss2_common_resource_descriptor, 0, 0, NULL);
     boss2_common_resource = resource;
-    boss2_common_texture_list = resource->models[6].m_c;
+    boss2_common_texture_list = resource->models[6].texlist;
     if (TObjEneDD::check_v2_mode() != 0) {
         TLobby::load_texture_pvm_file("obj_boss2_common_a.gvm", (saddr)boss2_common_texture_list);
     } else {

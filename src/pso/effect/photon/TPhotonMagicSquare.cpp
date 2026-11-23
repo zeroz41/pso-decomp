@@ -109,7 +109,7 @@ TPhotonMagicSquare::TPhotonMagicSquare(TObject *parent, s32 palette_index, const
     frame = 0.0f;
     last_frame = (f32)motion->frameCount - 1.0f;
     frame_step = 0.1f;
-    texlist = (saddr)photon_blast_shared_resource->models[2].m_c;
+    texlist = (saddr)photon_blast_shared_resource->models[2].texlist;
     scale.x = 0.0f;
     scale.y = 0.0f;
     scale.z = 0.0f;
@@ -130,7 +130,7 @@ TPhotonMagicSquare::TPhotonMagicSquare(TObject *parent, s32 palette_index, const
     frame = 0.0f;
     last_frame = (f32)motion->frameCount - 1.0f;
     frame_step = 0.1f;
-    texlist = (saddr)photon_blast_shared_resource->models[2].m_c;
+    texlist = (saddr)photon_blast_shared_resource->models[2].texlist;
     scale.x = 0.0f;
     scale.y = 0.0f;
     scale.z = 0.0f;
@@ -152,7 +152,7 @@ TPhotonMagicSquare::TPhotonMagicSquare(TObject *parent, s32 palette_index, u16 o
     frame = 0.0f;
     last_frame = (f32)motion->frameCount - 1.0f;
     frame_step = 0.1f;
-    texlist = (saddr)photon_blast_shared_resource->models[2].m_c;
+    texlist = (saddr)photon_blast_shared_resource->models[2].texlist;
     scale.x = 0.0f;
     scale.y = 0.0f;
     scale.z = 0.0f;

@@ -629,7 +629,7 @@ void TObjEneSaver::state_nail() {
 
 void TObjEneSaver::select_model_record(s32 i) {
     model = saver_bml_resource->models[i].model;
-    texlist = (saddr)saver_bml_resource->models[i].m_c;
+    texlist = (saddr)saver_bml_resource->models[i].texlist;
 }
 
 void *TObjEneSaver::get_center() { return &body_center; }
@@ -730,7 +730,7 @@ void initialize_saver_resources(void) {
     saver_ai_params = (f32 *)TLobby::dispatch_shared_handler_a(0x51);
     NpcAnimationBinding init = saver_init_binding_desc;
     init.motions = saver_bml_resource->motions;
-    NpcModelRegistry::register_animated_chunk((s16)0x1A, saver_bml_resource->models[0].model, saver_bml_resource->models[0].m_c, &init, saver_collision_body_part_table[0].radius, (f32)0.0f);
+    NpcModelRegistry::register_animated_chunk((s16)0x1A, saver_bml_resource->models[0].model, saver_bml_resource->models[0].texlist, &init, saver_collision_body_part_table[0].radius, (f32)0.0f);
 }
 
 void TObjEneSaver::free_resources() {

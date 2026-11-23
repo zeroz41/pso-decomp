@@ -251,7 +251,7 @@ void TObjEneMoja::load_resources() {
     s16 ids[3] = { 0x32, 0x33, 0x34 };
     NpcAnimationBinding binding = { reinterpret_cast<BmlMotionEntry *>(moja_bml_resource->motions), reinterpret_cast<TObjMotionAction *>(moja_motion_actions), 0, 2, 9 };
     for (s32 i = 0; i < 3; i++) {
-        NpcModelRegistry::register_animated_chunk(ids[i], reinterpret_cast<void *>(moja_bml_resource->models[i].model), reinterpret_cast<void *>(moja_bml_resource->models[i].m_c),
+        NpcModelRegistry::register_animated_chunk(ids[i], reinterpret_cast<void *>(moja_bml_resource->models[i].model), reinterpret_cast<void *>(moja_bml_resource->models[i].texlist),
             &binding, moja_collision_body.radius, 0.0f);
     }
 }

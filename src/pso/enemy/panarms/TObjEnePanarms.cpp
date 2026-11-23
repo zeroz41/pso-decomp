@@ -1363,9 +1363,9 @@ void TObjEnePanarms::spawn_npc_pair() {
     NpcAnimationBinding binding_b = { NULL, reinterpret_cast<TObjMotionAction *>(panbara_par_motion_params), 0, 1, 10 };
     binding_b.motions = reinterpret_cast<BmlMotionEntry *>(motions);
     BmlModelEntry *models = TObjEnePanarms__entry_params_resource->models;
-    NpcModelRegistry::register_animated_chunk(0x24, reinterpret_cast<void *>(models[1].model), reinterpret_cast<void *>(models[1].m_c), &binding_a, 7.5f, 0.0f);
+    NpcModelRegistry::register_animated_chunk(0x24, reinterpret_cast<void *>(models[1].model), reinterpret_cast<void *>(models[1].texlist), &binding_a, 7.5f, 0.0f);
     models = TObjEnePanarms__entry_params_resource->models;
-    NpcModelRegistry::register_animated_chunk(0x25, reinterpret_cast<void *>(models[2].model), reinterpret_cast<void *>(models[2].m_c), &binding_b, 7.5f, 0.0f);
+    NpcModelRegistry::register_animated_chunk(0x25, reinterpret_cast<void *>(models[2].model), reinterpret_cast<void *>(models[2].texlist), &binding_b, 7.5f, 0.0f);
 }
 
 int TObjEnePanarms::find_nearest_enemy_with_flag(Vec *direction, f32 range) {

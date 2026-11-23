@@ -195,7 +195,7 @@ void AttackParams::set_attack_range(f32 range) { attack_range = range; }
 
 void TObjEneDubchik::init_level_stats(s32 variant) {
     model = dubchik_resource->models[0].model;
-    texlist = variant == 0 ? (saddr)dubchik_resource->models[0].m_c : (saddr)dubchik_variant_texlist;
+    texlist = variant == 0 ? (saddr)dubchik_resource->models[0].texlist : (saddr)dubchik_variant_texlist;
 }
 
 s32 TObjEneDubchik::get_int_parameter(s32 i) {
@@ -291,7 +291,7 @@ void TObjEneDubchik::load_resources() {
         p = new BmlResource(5, &bm_ene_dubchik_resource_descriptor, 0, 0, NULL);
         dubchik_resource = (BmlResource *)p;
     }
-    dubchik_texlist = (NJS_TEXLIST *)dubchik_resource->models[1].m_c;
+    dubchik_texlist = (NJS_TEXLIST *)dubchik_resource->models[1].texlist;
     if (TObjEneDD::check_v2_mode() != 0) {
         dubchik_variant_texlist = (NJS_TEXLIST *)load_gvm_texture_file((saddr)dubchik_v2_gvm_filename());
     } else {
@@ -339,7 +339,7 @@ void TObjEneDubchik::load_resources() {
         d.motions = dubchik_resource->motions;
         for (j = 0; j < 2; j++) {
             BmlModelEntry *e = &dubchik_resource->models[j];
-            NpcModelRegistry::register_animated_chunk(ids[j], e->model, e->m_c, &d, 5.0f, 0.0f);
+            NpcModelRegistry::register_animated_chunk(ids[j], e->model, e->texlist, &d, 5.0f, 0.0f);
         }
     }
 }

@@ -157,7 +157,7 @@ void load_re2_flower_resources(void) {
     __memcpy(&binding, &re2_flower_animation_binding, sizeof(binding));
     binding.motions = re2_flower_bml_resource->motions;
     models = re2_flower_bml_resource->models;
-    NpcModelRegistry::register_animated_chunk(0x37, reinterpret_cast<void *>(models->model), reinterpret_cast<void *>(models->m_c), &binding, lbl_805D9FBC, lbl_805D9FAC);
+    NpcModelRegistry::register_animated_chunk(0x37, reinterpret_cast<void *>(models->model), reinterpret_cast<void *>(models->texlist), &binding, lbl_805D9FBC, lbl_805D9FAC);
 }
 
 void *TObjEneRe2Flower::create(void *setData) {
@@ -186,7 +186,7 @@ TObjEneRe2Flower::TObjEneRe2Flower(TObject *parent, void *setData) : TObjEneDD_S
     }
     init_position_vectors();
     model = (void *)re2_flower_bml_resource->models->model;
-    texlist = (saddr)re2_flower_bml_resource->models->m_c;
+    texlist = (saddr)re2_flower_bml_resource->models->texlist;
     if (is_tower_variant()) {
         init_model(re2_flower_tower_collision_bodies, 2);
     } else {

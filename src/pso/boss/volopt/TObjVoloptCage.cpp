@@ -272,7 +272,7 @@ TObjVoloptCage::TObjVoloptCage(TObjEnemy *boss, u16 target, u16 id, s32 group) :
     actorFlags &= ~0xA00;
     next_action = 7;
     mode = 7;
-    volopt_cage_textures = (saddr)volopt_p02_resources->models[0x12].m_c;
+    volopt_cage_textures = (saddr)volopt_p02_resources->models[0x12].texlist;
     status = 0;
 }
 

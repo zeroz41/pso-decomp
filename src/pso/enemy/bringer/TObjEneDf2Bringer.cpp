@@ -258,7 +258,7 @@ void TObjEneDf2Bringer::load_resources() {
   init_bringer_effect_tables();
   {
     NpcAnimationBinding sp = { TObjEneDf2Bringer__resource_bundle->motions, bringer_motion_actions, 0, 1, 11 };
-    NpcModelRegistry::register_animated_chunk((s16)0x16, TObjEneDf2Bringer__resource_bundle->models[0].model, TObjEneDf2Bringer__resource_bundle->models[0].m_c, &sp, 7.0f, 0.0f);
+    NpcModelRegistry::register_animated_chunk((s16)0x16, TObjEneDf2Bringer__resource_bundle->models[0].model, TObjEneDf2Bringer__resource_bundle->models[0].texlist, &sp, 7.0f, 0.0f);
   }
 }
 
@@ -304,7 +304,7 @@ void TObjEneDf2Bringer::init_enemy() {
 
     init_position_vectors();
     this->model = TObjEneDf2Bringer__resource_bundle->models[0].model;
-    this->texlist = (saddr)TObjEneDf2Bringer__resource_bundle->models[0].m_c;
+    this->texlist = (saddr)TObjEneDf2Bringer__resource_bundle->models[0].texlist;
     init_model(bringer_collision_bodies, 1);
     set_action_table((saddr)bringer_motion_actions);
     set_motion_list((saddr)TObjEneDf2Bringer__resource_bundle->motions);

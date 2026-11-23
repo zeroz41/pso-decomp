@@ -156,7 +156,7 @@ void TOSensorAncient01::load_resources() {
     BmlResource *resource = new BmlResource(1, &TOSensorAncient01__resource_descriptor, 0, 0, NULL);
     sensor_ancient01_model_resource = resource;
     ancient_sensor_resource_pair_table = (TOSensorAncient01Textures *)mem_alloc(2 * sizeof(*ancient_sensor_resource_pair_table));
-    ancient_sensor_resource_pair_table[0].plain = (GinjaTextureList *)sensor_ancient01_model_resource->models[0].m_c;
+    ancient_sensor_resource_pair_table[0].plain = (GinjaTextureList *)sensor_ancient01_model_resource->models[0].texlist;
     ancient_sensor_resource_pair_table[0].red = (GinjaTextureList *)load_gvm_texture_file((saddr) "fs_obj_o_sensor01r.gvm");
     ancient_sensor_resource_pair_table[1].plain = (GinjaTextureList *)load_gvm_texture_file((saddr) "fs_obj_o_sensor02.gvm");
     ancient_sensor_resource_pair_table[1].red = (GinjaTextureList *)load_gvm_texture_file((saddr) "fs_obj_o_sensor02r.gvm");

@@ -408,7 +408,7 @@ void TBoss2Tentacle::load_shared_model() {
     boss2_tentacle_model = boss2_derolle_resource->models[4].model;
     src = (DragonModelNode *)boss2_tentacle_model;
     TBoss2Tentacle__motion_data = ((DragonMotionEntry *)boss2_derolle_resource->motions)[17].motion;
-    boss2_tentacle_texlist = (saddr)boss2_derolle_resource->models[2].m_c;
+    boss2_tentacle_texlist = (saddr)boss2_derolle_resource->models[2].texlist;
     for (i = 0; i < 12; i++) {
         copy_model_node((u8 *)dst, (u8 *)src);
         dst->child = dst + 1;

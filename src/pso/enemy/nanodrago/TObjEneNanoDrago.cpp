@@ -241,7 +241,7 @@ void TObjEneNanoDrago::load_resources() {
     lbl_805D5254 = (saddr)TLobby::dispatch_shared_handler_a(0x1A);
     NpcAnimationBinding binding = { reinterpret_cast<BmlMotionEntry *>(nano_drago_entry_params_resource->motions), reinterpret_cast<TObjMotionAction *>(nanodrago_action_table), 0, 1, 12 };
     modelEntries = nano_drago_entry_params_resource->models;
-    NpcModelRegistry::register_animated_chunk((s16)(0x22), reinterpret_cast<void *>(modelEntries[0].model), reinterpret_cast<void *>(modelEntries[0].m_c), &binding, (f32)(15.0f), (f32)(0.0f));
+    NpcModelRegistry::register_animated_chunk((s16)(0x22), reinterpret_cast<void *>(modelEntries[0].model), reinterpret_cast<void *>(modelEntries[0].texlist), &binding, (f32)(15.0f), (f32)(0.0f));
 }
 void TObjEneNanoDrago::free_resources() {
     if ((uaddr) nano_drago_entry_params_resource != 0U) {

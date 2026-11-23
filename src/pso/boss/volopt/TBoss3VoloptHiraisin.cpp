@@ -389,5 +389,5 @@ void TBoss3VoloptHiraisin::copy_position() {
 
 void TBoss3VoloptHiraisin::load_params_from_table(s32 index) {
     model = (void *)volopt_hiraisin_resources->models[index].model;
-    texlist = (saddr)volopt_hiraisin_resources->models[index].m_c;
+    texlist = (saddr)volopt_hiraisin_resources->models[index].texlist;
 }

@@ -157,7 +157,7 @@ AnimationMotion *get_bml_motion(BmlResource *resource, s32 index) {
 }
 
 GinjaTextureList *get_bml_texlist(BmlResource *resource, s32 index) {
-    return resource->models[index].m_c;
+    return resource->models[index].texlist;
 }
 
 NJS_OBJECT *get_bml_model(BmlResource *resource, s32 index) {
@@ -232,7 +232,7 @@ void BmlResource::load_texture_sub(void *name, s32 index) {
     if (size > 0x40000) {
         TLobby::debug_print("LoadTextureSub: %s too large.", buf);
     } else if (size > 0) {
-        load_gvm_texture_archive(lobby_download_buffer, models[index].m_c);
+        load_gvm_texture_archive(lobby_download_buffer, models[index].texlist);
         models[index].m_0 |= 1;
     } else {
         models[index].m_0 |= 2;
@@ -619,7 +619,7 @@ s32 BmlResource::load_bin_motion(void *name, s32 index) {
 s32 BmlResource::load_bin_model(void *name, s32 index) {
     s32 size;
     models[index].model = NULL;
-    models[index].m_c = NULL;
+    models[index].texlist = NULL;
     size = TGStream::get_resource_file_size((const char *)name);
     if (size <= 0) {
         TLobby::debug_print("LoadBinModel: %s load failed.", name);
@@ -630,7 +630,7 @@ s32 BmlResource::load_bin_model(void *name, s32 index) {
     }
     read_disc_file_sectors((const char *)name, (void *)lobby_download_buffer);
     bind_bml_model((Lobby_8001FBEC *)(this), size, index, (saddr)lobby_download_buffer);
-    if (models[index].m_c != NULL) {
+    if (models[index].texlist != NULL) {
         load_texture_sub(name, index);
     }
     return 1;
@@ -652,11 +652,11 @@ BmlResource::~BmlResource() {
         if (models[i].model != NULL) {
             free_if_not_in_arena(models[i].model);
         }
-        if (models[i].m_c != NULL) {
+        if (models[i].texlist != NULL) {
             if (models[i].m_0 & 1) {
-                release_texture_list(models[i].m_c);
+                release_texture_list(models[i].texlist);
             }
-            free_if_not_in_arena(models[i].m_c);
+            free_if_not_in_arena(models[i].texlist);
         }
     }
     mem_free(models);
@@ -703,7 +703,7 @@ BmlResource::BmlResource(s32 kind, BmlResourceDescriptor *descriptor, saddr on_l
         for (s32 i = 0; i < model_count; i++) {
             models[i].m_0 = 0;
             models[i].model = NULL;
-            models[i].m_c = NULL;
+            models[i].texlist = NULL;
         }
     }
     if (motion_count > 0) {
@@ -773,7 +773,7 @@ BmlResource::BmlResource(s32 kind, BmlResourceDescriptor *descriptor, saddr on_l
                 }
                 if (this->flags & 0x800) {
                     BmlModelEntry *e = &models[i];
-                    if (e->m_c != NULL) {
+                    if (e->texlist != NULL) {
                         s32 tsize = rec->texSize;
                         if (tsize != 0) {
                             saddr tbuf = (saddr)TQuestVmDownLoadServer::alloc(tsize + 0x800);
@@ -781,7 +781,7 @@ BmlResource::BmlResource(s32 kind, BmlResourceDescriptor *descriptor, saddr on_l
                             st.align_read_offset(blk);
                             prs_decompress_buffer(tbuf, (saddr)resource_decompress_buffer);
                             TAdSinglePlyChrSelectGC::safe_free(tbuf);
-                            if (load_gvm_texture_archive(resource_decompress_buffer, models[i].m_c) > 0) {
+                            if (load_gvm_texture_archive(resource_decompress_buffer, models[i].texlist) > 0) {
                                 models[i].m_0 |= 1;
                             } else {
                                 models[i].m_0 |= 2;
@@ -822,7 +822,7 @@ BmlResource::BmlResource(s32 kind, BmlResourceDescriptor *descriptor, saddr on_l
         if (!(this->flags & 0x800)) {
             rec = hdr->recs;
             for (s32 i = 0; i < model_count; i++, rec++) {
-                if (models[i].m_c != NULL) {
+                if (models[i].texlist != NULL) {
                     strncpy(name, rec->name, 0x20);
                     load_texture_sub(name, i);
                 }
@@ -917,7 +917,7 @@ TBinModel *init_bin_model_request(TBinModel *self, s32 kind, char **models, char
         for (p = models, i = 0; *p != 0; p++, i++) {
             req.name = *p;
             req.model = (NJS_OBJECT **)&((BmlResource *)self)->models[i].model;
-            req.texture = (GinjaTextureList **)&((BmlResource *)self)->models[i].m_c;
+            req.texture = (GinjaTextureList **)&((BmlResource *)self)->models[i].texlist;
             req.resource = (BmlResource *)self;
             req.entry = &((BmlResource *)self)->models[i];
             req.size = TGStream::get_resource_file_size(*p);

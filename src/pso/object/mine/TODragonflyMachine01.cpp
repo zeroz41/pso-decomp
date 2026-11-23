@@ -166,7 +166,7 @@ void TODragonflyMachine01::load_resources() {
     NpcAnimationBinding setup = dragonfly_machine_attack_effect_params;
     setup.motions = resource->motions;
     NpcModelRegistry::register_animated_ginja(0x38, reinterpret_cast<NJS_OBJECT *>(resource->models->model),
-                                             reinterpret_cast<GinjaTextureList *>(resource->models->m_c), &setup, 3.0f, 15.0f);
+                                             reinterpret_cast<GinjaTextureList *>(resource->models->texlist), &setup, 3.0f, 15.0f);
 }
 
 TODragonflyMachine01::~TODragonflyMachine01() {}
@@ -175,7 +175,7 @@ TODragonflyMachine01::TODragonflyMachine01(void *set_data) {
     m_name = class_name;
     apply_object_set_data(set_data);
     model = (NJS_OBJECT *)model_resource->models->model;
-    texlist = (saddr)model_resource->models->m_c;
+    texlist = (saddr)model_resource->models->texlist;
     motion = model_resource->motions->motion;
     animation_end_frame = (f32)motion->frameCount - 1.0f;
     animation_step = 1.0f;

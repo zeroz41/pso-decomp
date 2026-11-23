@@ -79,7 +79,7 @@ TOCapsuleAncient01::TOCapsuleAncient01(TObject *parent, void *set_data) : TOQues
     m_name = class_name;
     apply_object_set_data(set_data);
     model = (void *)model_resource->models->model;
-    texlist = (saddr)model_resource->models->m_c;
+    texlist = (saddr)model_resource->models->texlist;
     init_collision_body_parts(this, &capsule_ancient01_collision_body, 1);
     set_indexed_flags(0, 0x1288);
     refresh_collision_body_centers();

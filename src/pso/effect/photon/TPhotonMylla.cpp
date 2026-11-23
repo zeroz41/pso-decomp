@@ -171,7 +171,7 @@ TPhotonMylla::TPhotonMylla(PhotonSummonParams *params) {
         rotation_y = owner->rotation_y;
     }
     model = photon_blast_shared_resource->models[10].model;
-    texlist = (saddr)photon_blast_shared_resource->models[10].m_c;
+    texlist = (saddr)photon_blast_shared_resource->models[10].texlist;
     set_action_table((saddr)photon_mylla_action_table);
     set_motion_list((saddr)photon_blast_shared_resource->motions);
     requested_action = 1;

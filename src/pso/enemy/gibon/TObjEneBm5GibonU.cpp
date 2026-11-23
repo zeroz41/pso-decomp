@@ -1981,8 +1981,8 @@ void TObjEneBm5GibonU::load_resources() {
     NpcAnimationBinding sp = TObjEneBm5GibonU__spawn_params;
     m = TObjEneBm5GibonU__model_archive;
     sp.motions = reinterpret_cast<BmlMotionEntry *>(m->motions);
-    NpcModelRegistry::register_animated_chunk(0xE, reinterpret_cast<void *>(m->models[0].model), reinterpret_cast<void *>(m->models[0].m_c), &sp, gibon_collision_body_templates[0].radius, 0.0f);
-    NpcModelRegistry::register_animated_chunk(0xF, reinterpret_cast<void *>(TObjEneBm5GibonU__model_archive->models[1].model), reinterpret_cast<void *>(TObjEneBm5GibonU__model_archive->models[1].m_c), &sp, gibon_collision_body_templates[1].radius, 0.0f);
+    NpcModelRegistry::register_animated_chunk(0xE, reinterpret_cast<void *>(m->models[0].model), reinterpret_cast<void *>(m->models[0].texlist), &sp, gibon_collision_body_templates[0].radius, 0.0f);
+    NpcModelRegistry::register_animated_chunk(0xF, reinterpret_cast<void *>(TObjEneBm5GibonU__model_archive->models[1].model), reinterpret_cast<void *>(TObjEneBm5GibonU__model_archive->models[1].texlist), &sp, gibon_collision_body_templates[1].radius, 0.0f);
 }
 
 void *TObjEneBm5GibonU::create(void *set_data) {
@@ -2181,12 +2181,12 @@ void TObjEneBm5GibonU::select_subtype() {
         is_leader = 1;
         technique_type = 1;
         model = (void *)TObjEneBm5GibonU__model_archive->models[1].model;
-        texlist = (saddr)TObjEneBm5GibonU__model_archive->models[1].m_c;
+        texlist = (saddr)TObjEneBm5GibonU__model_archive->models[1].texlist;
     } else {
         is_leader = 0;
         technique_type = 0;
         model = (void *)TObjEneBm5GibonU__model_archive->models[0].model;
-        texlist = (saddr)TObjEneBm5GibonU__model_archive->models[0].m_c;
+        texlist = (saddr)TObjEneBm5GibonU__model_archive->models[0].texlist;
     }
     backjump_chance = 0.4f + parameters[2];
     run_foie_chance = 0.3f + parameters[3];

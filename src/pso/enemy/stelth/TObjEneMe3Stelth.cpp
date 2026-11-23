@@ -191,7 +191,7 @@ void TObjEneMe3Stelth::load_shared_resources() {
     } else {
         TObjEneMe3Stelth__bml_resource = load_enemy_bml_resource(&stelth_bml_resource_desc);
     }
-    src = (NJS_TEXLIST *)TObjEneMe3Stelth__bml_resource->models->m_c;
+    src = (NJS_TEXLIST *)TObjEneMe3Stelth__bml_resource->models->texlist;
     n = src->nbTexture;
     TObjEneMe3Stelth__alternate_texture_list.nbTexture = n;
     TObjEneMe3Stelth__alternate_texture_list.textures = (NJS_TEXNAME *)mem_alloc(n * sizeof(NJS_TEXNAME));
@@ -271,9 +271,9 @@ void TObjEneMe3Stelth::load_shared_resources() {
         NpcAnimationBinding b = stelth_attack_binding_desc_b;
         b.motions = TObjEneMe3Stelth__bml_resource->motions;
         NpcModelRegistry::register_animated_ginja(0x2B, reinterpret_cast<NJS_OBJECT *>(TObjEneMe3Stelth__bml_resource->models->model),
-                                                  reinterpret_cast<GinjaTextureList *>(TObjEneMe3Stelth__bml_resource->models->m_c), &a, 8.0f, 0.0f);
+                                                  reinterpret_cast<GinjaTextureList *>(TObjEneMe3Stelth__bml_resource->models->texlist), &a, 8.0f, 0.0f);
         NpcModelRegistry::register_animated_ginja(0x2D, reinterpret_cast<NJS_OBJECT *>(TObjEneMe3Stelth__bml_resource->models->model),
-                                                  reinterpret_cast<GinjaTextureList *>(TObjEneMe3Stelth__bml_resource->models->m_c), &b, 8.0f, 0.0f);
+                                                  reinterpret_cast<GinjaTextureList *>(TObjEneMe3Stelth__bml_resource->models->texlist), &b, 8.0f, 0.0f);
     }
 }
 void *TObjEneMe3Stelth::create_real() { return TObjEneMe3StelthReal::create(this); }
@@ -567,7 +567,7 @@ void TObjEneMe3Stelth::init_variant() {
         variant_index = 1;
         return;
     }
-    texlist = (saddr)TObjEneMe3Stelth__bml_resource->models->m_c;
+    texlist = (saddr)TObjEneMe3Stelth__bml_resource->models->texlist;
     initialize_enemy_state(0x3E);
     variant_index = 0;
 }

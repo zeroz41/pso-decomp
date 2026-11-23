@@ -1115,7 +1115,7 @@ void TObjEneRecon::load_resources() {
   TObjEneReconBomb::load_resources();
   NpcAnimationBinding binding = recon_anim_binding;
   binding.motions = reinterpret_cast<BmlMotionEntry *>(TObjEneRecon__recobox_static_instance->motions);
-  NpcModelRegistry::register_animated_chunk(0xC, TObjEneRecon__recobox_static_instance->models[0].model, TObjEneRecon__recobox_static_instance->models[0].m_c, &binding, TObjEneRecon__collision_body_template.radius, 15.0f);
+  NpcModelRegistry::register_animated_chunk(0xC, TObjEneRecon__recobox_static_instance->models[0].model, TObjEneRecon__recobox_static_instance->models[0].texlist, &binding, TObjEneRecon__collision_body_template.radius, 15.0f);
 }
 
 
@@ -1156,7 +1156,7 @@ extern "C" {
 void TObjEneRecon::init_state() {
     init_position_vectors();
     model = TObjEneRecon__recobox_static_instance->models->model;
-    texlist = (saddr)TObjEneRecon__recobox_static_instance->models->m_c;
+    texlist = (saddr)TObjEneRecon__recobox_static_instance->models->texlist;
     init_model(&TObjEneRecon__collision_body_template, 1);
     set_action_table((saddr)TObjEneRecon__animation_entries);
     set_motion_list((saddr)TObjEneRecon__recobox_static_instance->motions);

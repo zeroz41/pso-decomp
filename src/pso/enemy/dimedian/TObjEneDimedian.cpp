@@ -462,7 +462,7 @@ void TLobby::load_dimedian_resources() {
         s16 ids[3] = { 0x1B, 0x1C, 0x1D };
         NpcAnimationBinding anim = { dimedian_resource_ptr->motions, dimedian_action_table, 0, 2, 12 };
         for (i = 0; i < 3; i++) {
-            NpcModelRegistry::register_animated_chunk(ids[i], dimedian_resource_ptr->models[i].model, dimedian_resource_ptr->models[i].m_c, &anim,
+            NpcModelRegistry::register_animated_chunk(ids[i], dimedian_resource_ptr->models[i].model, dimedian_resource_ptr->models[i].texlist, &anim,
                 dimedian_collision_body_table[i].radius, 0.0f);
         }
     }
@@ -484,7 +484,7 @@ SampledMotionPoints *dimedian_attack_right_trail;
 #pragma defer_codegen on
 void TObjEneDimedian::load_dimedian_param_entry(s32 i) {
     model = dimedian_resource_ptr->models[i].model;
-    texlist = (saddr)dimedian_resource_ptr->models[i].m_c;
+    texlist = (saddr)dimedian_resource_ptr->models[i].texlist;
 }
 
 TObjEneDimedian::TObjEneDimedian(TObject *parent, void *set_data) : TUnk_80493450(parent) {

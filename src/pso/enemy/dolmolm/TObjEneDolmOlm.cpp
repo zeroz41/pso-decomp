@@ -150,7 +150,7 @@ CollisionBody dolmolm_collision_bodies[2] = {
 
 void TObjEneDolmOlm::load_params_from_table(s32 i) {
     model = TObjEneDolmOlm__resource_bundle->models[i].model;
-    texlist = (saddr)TObjEneDolmOlm__resource_bundle->models[i].m_c;
+    texlist = (saddr)TObjEneDolmOlm__resource_bundle->models[i].texlist;
 }
 TObjEneDolmOlm::TObjEneDolmOlm(TObject *parent, void *set_data) : TUnk_80493450(parent) {
     u32 col;
@@ -250,7 +250,7 @@ void TObjEneDolmOlm::load_shared_resources() {
         NpcAnimationBinding d = { TObjEneDolmOlm__resource_bundle->motions, TObjEneDolmOlm__param_table, 0, 2, 12 };
         for (i = 0; i < 2; i++) {
             BmlModelEntry *e = &TObjEneDolmOlm__resource_bundle->models[i];
-            NpcModelRegistry::register_animated_chunk(ids[i], e->model, e->m_c, &d, dolmolm_collision_bodies[i].radius, 0.0f);
+            NpcModelRegistry::register_animated_chunk(ids[i], e->model, e->texlist, &d, dolmolm_collision_bodies[i].radius, 0.0f);
         }
     }
 }

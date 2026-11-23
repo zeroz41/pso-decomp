@@ -395,7 +395,7 @@ struct Grass_800BF19C : VObj_18_ca64a0 {
 void TObjGrass::init_from_table_entry(s32 i) {
     O_800BFB8C *self = (O_800BFB8C *)this;
     self->f34 = (saddr)TObjGrass__resource_bundle->models[i].model;
-    self->f24 = (saddr)TObjGrass__resource_bundle->models[i].m_c;
+    self->f24 = (saddr)TObjGrass__resource_bundle->models[i].texlist;
 }
 void TObjGrass__sub_800BFB68(O_800BFB68 *self) {
     s32 i;
@@ -490,7 +490,7 @@ void TObjGrass::load_resources() {
         NpcAnimationBinding binding = grass_spawn_descriptor;
         binding.motions = TObjGrass__resource_bundle->motions;
         NpcModelRegistry::register_animated_chunk(0x35, reinterpret_cast<void *>(TObjGrass__resource_bundle->models[0].model),
-            reinterpret_cast<void *>(TObjGrass__resource_bundle->models[0].m_c), &binding, 10.0f, 0.0f);
+            reinterpret_cast<void *>(TObjGrass__resource_bundle->models[0].texlist), &binding, 10.0f, 0.0f);
     }
 }
 

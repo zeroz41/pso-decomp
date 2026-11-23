@@ -366,7 +366,7 @@ TObjEneDarkGunner::TObjEneDarkGunner(TObject *parent, void *set_data) : TObjEnem
     {
         NpcAnimationBinding atk = dark_gunner_attack_binding_desc;
         atk.motions = TObjEneDarkGunner__bml_resource->motions;
-        NpcModelRegistry::register_animated_chunk(0x19, reinterpret_cast<void *>(TObjEneDarkGunner__bml_resource->models[1].model), reinterpret_cast<void *>(TObjEneDarkGunner__bml_resource->models[1].m_c), &atk, 10.0f, 0.0f);
+        NpcModelRegistry::register_animated_chunk(0x19, reinterpret_cast<void *>(TObjEneDarkGunner__bml_resource->models[1].model), reinterpret_cast<void *>(TObjEneDarkGunner__bml_resource->models[1].texlist), &atk, 10.0f, 0.0f);
     }
 }
 }

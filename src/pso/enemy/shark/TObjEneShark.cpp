@@ -479,7 +479,7 @@ void TLobby::load_shark_resources() {
         s16 ids[3] = { 0x2F, 0x30, 0x31 };
         NpcAnimationBinding anim = { shark_bml_resource->motions, TObjEneShark__action_table, 0, 2, 12 };
         for (i = 0; i < 3; i++) {
-            NpcModelRegistry::register_animated_chunk(ids[i], shark_bml_resource->models[i].model, shark_bml_resource->models[i].m_c, &anim,
+            NpcModelRegistry::register_animated_chunk(ids[i], shark_bml_resource->models[i].model, shark_bml_resource->models[i].texlist, &anim,
                 7.5f, 0.0f);
         }
     }
@@ -531,7 +531,7 @@ void TObjPlayer__sub_800ACA0C(void) {  }
 
 void TObjEneShark::sub_800AC9DC(s32 i) {
     model = shark_bml_resource->models[i].model;
-    texlist = (saddr)shark_bml_resource->models[i].m_c;
+    texlist = (saddr)shark_bml_resource->models[i].texlist;
 }
 
 void TUnk_80493450::play_group_chase_sound() {  }

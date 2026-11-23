@@ -171,7 +171,7 @@ void TObjEneMorfos::load_static_data() {
     {
         NpcAnimationBinding desc = { TObjEneMorfos__instance->motions, reinterpret_cast<TObjMotionAction *>(morfos_motion_param_table), 0, 0, 6 };
         NpcModelRegistry::register_animated_chunk(0x4D, TObjEneMorfos__instance->models[1].model,
-                                TObjEneMorfos__instance->models[1].m_c, &desc,
+                                TObjEneMorfos__instance->models[1].texlist, &desc,
                                 8.0f, 0.0f);
     }
 }
@@ -199,7 +199,7 @@ void TObjEneMorfos::init_instance() {
 
     init_position_vectors();
     model = TObjEneMorfos__instance->models[1].model;
-    this->texlist = (saddr)TObjEneMorfos__instance->models[1].m_c;
+    this->texlist = (saddr)TObjEneMorfos__instance->models[1].texlist;
     init_model(morfos_collision_bodies, 1);
     set_action_table((saddr)morfos_motion_param_table);
     set_motion_list((saddr)TObjEneMorfos__instance->motions);
@@ -1258,7 +1258,7 @@ s32 TObjEneMorfos::render_model_if_visible() {
 #pragma opt_common_subs off
 void TObjEneMorfos::draw_body() {
     if ((s32)main_task.get_task_flags() & 0x200) {
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(TObjEneMorfos__instance->models[2].m_c));
+        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(TObjEneMorfos__instance->models[2].texlist));
         push_matrix();
         post_translate_matrix(&node_points[0].x);
         rotate_matrix_y(0, (int) (rotation_y));

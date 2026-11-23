@@ -194,7 +194,7 @@ TObjEneGyaranzo::TObjEneGyaranzo(TObject *parent, void *set_data) : TObjEnemyCus
     initialize_enemy_photon_effect(this);
     actorFlags |= 0x40000;
     model = gyaranzo_bml_resource->models[3].model;
-    texlist = (saddr)gyaranzo_bml_resource->models[3].m_c;
+    texlist = (saddr)gyaranzo_bml_resource->models[3].texlist;
     if (*(s16 *)((u8 *)set_data + 0xA) != 0) {
         start_appear();
     }
@@ -240,8 +240,8 @@ void TLobby::load_gyaranzo_resources() {
     {
         NpcAnimationBinding pos = { NULL, reinterpret_cast<TObjMotionAction *>(gyaranzo_action_table), 0, 1, 8 };
         pos.motions = gyaranzo_bml_resource->motions;
-        NpcModelRegistry::register_animated_chunk(0x20, gyaranzo_bml_resource->models[3].model, gyaranzo_bml_resource->models[3].m_c, &pos, 18.0f, 0.0f);
-        NpcModelRegistry::register_animated_chunk(0x21, gyaranzo_bml_resource->models[4].model, gyaranzo_bml_resource->models[3].m_c, &pos, 18.0f, 0.0f);
+        NpcModelRegistry::register_animated_chunk(0x20, gyaranzo_bml_resource->models[3].model, gyaranzo_bml_resource->models[3].texlist, &pos, 18.0f, 0.0f);
+        NpcModelRegistry::register_animated_chunk(0x21, gyaranzo_bml_resource->models[4].model, gyaranzo_bml_resource->models[3].texlist, &pos, 18.0f, 0.0f);
     }
 }
 #pragma pop
@@ -687,17 +687,17 @@ void TObjEneGyaranzo::spawn_hit_fragments() {
     const TObjChipParams first = {
         {0.5f, 0.04f, 0.28f}, {pos.x, pos.y, pos.z}, {6.0f, 7.0f, 6.0f},
         {0x400, 0x100, 0x400}, {5, 50}, {position.y, 1.0f},
-        (saddr)gyaranzo_bml_resource->models[0].model, (saddr)gyaranzo_bml_resource->models[0].m_c, 2,
+        (saddr)gyaranzo_bml_resource->models[0].model, (saddr)gyaranzo_bml_resource->models[0].texlist, 2,
     };
     const TObjChipParams second = {
         {0.5f, 0.04f, 0.2f}, {pos.x, pos.y, pos.z}, {5.5f, 6.5f, 5.5f},
         {0x400, 0x100, 0x400}, {4, 50}, {position.y, 1.0f},
-        (saddr)gyaranzo_bml_resource->models[1].model, (saddr)gyaranzo_bml_resource->models[1].m_c, 2,
+        (saddr)gyaranzo_bml_resource->models[1].model, (saddr)gyaranzo_bml_resource->models[1].texlist, 2,
     };
     const TObjChipParams third = {
         {0.5f, 0.04f, 0.22f}, {pos.x, pos.y, pos.z}, {5.5f, 7.0f, 5.5f},
         {0x400, 0x100, 0x400}, {5, 50}, {position.y, 1.0f},
-        (saddr)gyaranzo_bml_resource->models[2].model, (saddr)gyaranzo_bml_resource->models[2].m_c, 2,
+        (saddr)gyaranzo_bml_resource->models[2].model, (saddr)gyaranzo_bml_resource->models[2].texlist, 2,
     };
 
     new TObjChip((TObject *)tl_05, &first);
@@ -740,7 +740,7 @@ void TObjEneGyaranzo::break_off_parts() {
                 p.pos[2] = node.z;
                 p.pad_38[0] = position.y;
                 p.model = (saddr)gyaranzo_resource_ptrs[part];
-                p.textures = (saddr)gyaranzo_bml_resource->models[3].m_c;
+                p.textures = (saddr)gyaranzo_bml_resource->models[3].texlist;
                 new TObjChip(tl_05, &p);
             }
         }

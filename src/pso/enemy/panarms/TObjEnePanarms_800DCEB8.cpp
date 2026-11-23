@@ -241,7 +241,7 @@ void TObjEnePanarms::load_and_spawn_npc() {
         NpcAnimationBinding binding = panarms_npc_spawn_descriptor;
         binding.motions = resource->motions;
         NpcModelRegistry::register_animated_chunk(0x23, reinterpret_cast<void *>(resource->models[0].model),
-            reinterpret_cast<void *>(resource->models[0].m_c), &binding, 12.5f, 0.0f);
+            reinterpret_cast<void *>(resource->models[0].texlist), &binding, 12.5f, 0.0f);
         TObjEnePanarms::spawn_npc_pair();
     }
 }
