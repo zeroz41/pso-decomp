@@ -136,14 +136,13 @@ TObjMotionAction bringer_motion_actions[11] = {
 #include "pso/render/model_render_state.h"
 #include "pso/object/trap/TOTrapAncient01_80226534.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel_8007E418.h"
-#include "pso/unk/text_800F5BC0.h"
+#include "pso/render/StripBufferPair.h"
 #include "pso/system/task/TMainTask.h"
 
 #pragma defer_codegen on
 
 
 extern "C" {
-s32 scroll_strip_uvs(int, int, int);
 }
 
 saddr bringer_boss_stats_handle;
@@ -155,7 +154,7 @@ s32 TObjEneDf2Bringer__render_node_index;
 s32 TObjEneDf2Bringer__render_rotation_x;
 Vec *TObjEneDf2Bringer__render_point_cursor;
 SampledMotionPoints *TObjEneDf2Bringer__trail_buffer;
-saddr TObjEneDf2Bringer__uv_scroll_buffer;
+StripBufferPair *TObjEneDf2Bringer__uv_scroll_buffer;
 
 Vec bringer_camera_ctrl_target_vec;
 
@@ -255,12 +254,7 @@ void TObjEneDf2Bringer::load_resources() {
     p3->y = (d.y * s2) + p3->y;
     p3->z = (d.z * s2) + p3->z;
   }
-  o = ::operator new(0x14);
-  if (o != 0)
-  {
-    o = ((TLobby *)o)->alloc_tables((saddr)TObjEneDf2Bringer__resource_bundle->models[0].model, 1);
-  }
-  TObjEneDf2Bringer__uv_scroll_buffer = (uaddr) o;
+  TObjEneDf2Bringer__uv_scroll_buffer = new StripBufferPair(TObjEneDf2Bringer__resource_bundle->models[0].model, 1);
   init_bringer_effect_tables();
   {
     NpcAnimationBinding sp = { TObjEneDf2Bringer__resource_bundle->motions, bringer_motion_actions, 0, 1, 11 };
@@ -276,9 +270,9 @@ void *TObjEneDf2Bringer::create(void *set_data) {
 
 void TObjEneDf2Bringer::free_resources() {
     bringer_effect_cleanup_noop();
-    if ((u32) TObjEneDf2Bringer__uv_scroll_buffer != 0U) {
-        destroy_buffer_pair((void *)TObjEneDf2Bringer__uv_scroll_buffer, 1);
-        TObjEneDf2Bringer__uv_scroll_buffer = 0U;
+    if (TObjEneDf2Bringer__uv_scroll_buffer != NULL) {
+        delete TObjEneDf2Bringer__uv_scroll_buffer;
+        TObjEneDf2Bringer__uv_scroll_buffer = NULL;
     }
     if (TObjEneDf2Bringer__trail_buffer != NULL) {
         delete TObjEneDf2Bringer__trail_buffer;
@@ -1353,7 +1347,7 @@ void TObjEneDf2Bringer::render() {
                 show = 0;
             }
         }
-        scroll_strip_uvs(TObjEneDf2Bringer__uv_scroll_buffer, (s16)texture_scroll, 0);
+        TObjEneDf2Bringer__uv_scroll_buffer->scroll_uvs(texture_scroll, 0);
         TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
         {
             NJS_TEXNAME *textures = ((NJS_TEXLIST *)texlist)->textures;

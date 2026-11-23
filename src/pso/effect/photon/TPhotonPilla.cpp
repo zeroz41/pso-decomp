@@ -3,11 +3,11 @@
 #include "pso/system/NinjaTypes.h"
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "types.h"
+#include "pso/render/StripBufferPair.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/render/MaterialColorFade.h"
 #include "pso/boss/derolle/TBoss2DeRolLe.h"
 #include "pso/math/MatrixTransforms.h"
-#include "pso/unk/text_800F5BC0.h"
 #include "pso/unk/TLobby.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/unk/text_803D96A8.h"
@@ -38,10 +38,9 @@
 // The original emits code in reverse definition order.
 #pragma defer_codegen on
 
-extern "C" s32 scroll_strip_uvs(void *strips, s16 u, s16 v);
 
 const char *TPhotonPilla::class_name = "TPhotonPilla";
-void *pilla_photon_blast_model;
+StripBufferPair *pilla_photon_blast_model;
 extern const PhotonLaserParams photon_pilla_laser_packet = {
     { 0.0f, 0.0f, 0.0f }, { 0 }, { 0.0f, -1.0f, 0.0f }, 300.0f, 30.0f, 30.0f
 };
@@ -64,16 +63,12 @@ Vec photon_pilla_laser_offset_table[6] = {
 };
 
 void create_pilla_photon_blast_model(void) {
-    TLobby *strips = (TLobby *)::operator new(0x14);
-    if (strips != NULL) {
-        strips = (TLobby *)strips->alloc_tables((saddr)photon_blast_shared_resource->models[0].model->child, 0);
-    }
-    pilla_photon_blast_model = strips;
+    pilla_photon_blast_model = new StripBufferPair(photon_blast_shared_resource->models[0].model->child, 0);
 }
 
 void destroy_pilla_photon_blast_model(void) {
     if (pilla_photon_blast_model != NULL) {
-        destroy_buffer_pair(pilla_photon_blast_model, 1);
+        delete pilla_photon_blast_model;
     }
     pilla_photon_blast_model = NULL;
 }
@@ -189,7 +184,7 @@ void TPhotonPilla::run_task() {
 
 void TPhotonPilla::render() {
     if (started != 0) {
-        scroll_strip_uvs(pilla_photon_blast_model, uv_scroll, 0);
+        pilla_photon_blast_model->scroll_uvs(uv_scroll, 0);
         TParticleCtrl::begin_effect_render();
         TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
         push_matrix();

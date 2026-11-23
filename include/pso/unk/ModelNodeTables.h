@@ -4,12 +4,14 @@
 #include "types.h"
 #include <stddef.h>
 
+struct StripBufferPair;
+
 // One entry of a model node table: the model, the node inside it and the
-// strip count passed to TLobby::alloc_tables.
+// texture filter passed to the StripBufferPair constructor.
 struct ModelNodeSpec {
     s32 model;
     s32 node;
-    s32 count;
+    s32 texture_filter;
 };
 
 // The scrolling strip buffers built on a model's nodes (init fills it,
@@ -24,7 +26,7 @@ struct ModelNodeTables {
     u8 pad_04[0x4];
     s32 scroll_u;
     s32 scroll_v;
-    void **items;
+    StripBufferPair **items;
 };
 
 LAYOUT_ASSERT(ModelNodeTablesSize, sizeof(ModelNodeTables) == 0x14);

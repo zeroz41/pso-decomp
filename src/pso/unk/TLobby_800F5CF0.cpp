@@ -2,34 +2,31 @@
 #include "pso/enemy/TObjEnemy.h"
 
 #include "pso/unk/TLobby.h"
+#include "pso/render/StripBufferPair.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/enemy/lappy/TObjEneLappy.h"
 #include "pso/ui/window/TWindowLockOn.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 
 extern "C" {
-s32 collect_model_strips_by_texture(void *, s32, s32, s32);
-s32 count_model_strips_by_texture();
+void collect_model_strips_by_texture(StripBufferPair *strips, NJS_OBJECT *model, s32 texture_filter);
+void count_model_strips_by_texture(StripBufferPair *strips, NJS_OBJECT *model, s32 texture_filter);
 
-extern s32 plist_strip_write_ptr;
-extern s32 plist_strip_uv_write_ptr;
+extern StripUvRef *plist_strip_write_ptr;
+extern s16 *plist_strip_uv_write_ptr;
 extern s32 plist_texture_matches_filter;
 
-void *TLobby::alloc_tables(s32 ctx, s32 arg2) {
-    s32 temp_r6;
-
-    *(s32 *)&this->m_flags = 0;
-    *(s32 *)&this->m_name = 0;
+StripBufferPair::StripBufferPair(NJS_OBJECT *model, s32 texture_filter) {
+    strip_count = 0;
+    uv_count = 0;
     plist_texture_matches_filter = 0;
-    count_model_strips_by_texture();
-    *(s32 *)&this->m_prev = (saddr)mem_alloc(*(s32 *)&this->m_flags * 8);
-    *(s32 *)&this->m_next = (saddr)mem_alloc(*(s32 *)&this->m_name * 4);
-    plist_strip_write_ptr = *(s32 *)&this->m_prev;
-    temp_r6 = *(s32 *)&this->m_next;
-    plist_strip_uv_write_ptr = temp_r6;
+    count_model_strips_by_texture(this, model, texture_filter);
+    strips = (StripUvRef *)mem_alloc(strip_count * 8);
+    uvs = (s16 *)mem_alloc(uv_count * 4);
+    plist_strip_write_ptr = strips;
+    plist_strip_uv_write_ptr = uvs;
     plist_texture_matches_filter = 0;
-    collect_model_strips_by_texture(this, ctx, arg2, temp_r6);
-    return this;
+    collect_model_strips_by_texture(this, model, texture_filter);
 }
 void TObjEnemy::clear_lobby_object_state() {
     EnemyStateRecord record;

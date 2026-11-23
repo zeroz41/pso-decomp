@@ -1,6 +1,6 @@
 #include "pso/system/BmlResource.h"
 #include "types.h"
-#include "pso/unk/text_800F5BC0.h"
+#include "pso/render/StripBufferPair.h"
 #include "pso/unk/text_80184C2C.h"
 #include "pso/unk/TLobby.h"
 #include "pso/system/BmlResourceDescriptor.h"
@@ -137,12 +137,12 @@ extern s32 TLobby__event_theme_id;
 BmlResource *city_season_easter_egg_model_table[6];
 GinjaTextureList *city_season_xmas_model_table[6];
 s32 lbl_805D5B30;
-void *lbl_805D5B34;
+StripBufferPair *lbl_805D5B34;
 BmlResource *lbl_805D5B38;
 saddr lbl_805D5B3C;
 s32 lbl_805D5B40;
 GinjaTextureList *lbl_805D5B44;
-void *lbl_805D5B48;
+StripBufferPair *lbl_805D5B48;
 
 GinjaTextureList *TLobby__sub_80184C2C(int a0) {  return city_season_xmas_model_table[a0]; }
 
@@ -176,7 +176,7 @@ void TLobby::clear_global_array(void* _w0) {
 void TLobby::free_buffers() {
     s32 i;
     if (lbl_805D5B48 != NULL) {
-        destroy_buffer_pair(lbl_805D5B48, 1);
+        delete lbl_805D5B48;
         lbl_805D5B48 = NULL;
     }
     if (lbl_805D5B38 != NULL) {
@@ -187,7 +187,7 @@ void TLobby::free_buffers() {
     lbl_805D5B3C = 0;
     lbl_805D5B40 = 0;
     if (lbl_805D5B34 != NULL) {
-        destroy_buffer_pair(lbl_805D5B34, 1);
+        delete lbl_805D5B34;
         lbl_805D5B34 = NULL;
     }
     for (i = 5; i >= 0; i--) {
@@ -246,18 +246,14 @@ extern "C" void TLobby__sub_80184DF4(void) {
         if (lbl_805D5B30 == 0) {
             base = *(u8 **)(tmp + 0x42c);
             ent = *(u8 **)(base + 0x18);
-            tmp = (u8 *)::operator new(0x14);
-            if (tmp != NULL) tmp = (u8 *)((TLobby *)tmp)->alloc_tables((saddr)ent, 3);
-            lbl_805D5B34 = tmp;
+            lbl_805D5B34 = new StripBufferPair((NJS_OBJECT *)ent, 3);
             base = *(u8 **)(*(u8 **)(ent + 0x2c) + 4);
             base = *(u8 **)(base + 4);
             *(s16 *)(base + 0xc) &= ~0x1000;
         } else if (lbl_805D5B30 == 4) {
             base = *(u8 **)(tmp + 0x42c);
             ent = *(u8 **)(base + 0x18);
-            tmp = (u8 *)::operator new(0x14);
-            if (tmp != NULL) tmp = (u8 *)((TLobby *)tmp)->alloc_tables((saddr)ent, 0);
-            lbl_805D5B34 = tmp;
+            lbl_805D5B34 = new StripBufferPair((NJS_OBJECT *)ent, 0);
             base = *(u8 **)(*(u8 **)(ent + 0x2c) + 4);
             base = *(u8 **)(base + 4);
             *(s16 *)(base + 0xc) &= ~0x1000;
@@ -283,9 +279,7 @@ extern "C" void TLobby__sub_80184DF4(void) {
         lbl_805D5B40 = *(s32 *)(*(u8 **)(r + 0x42c) + 0x18);
     }
 
-    tmp = (u8 *)::operator new(0x14);
-    if (tmp != NULL) tmp = (u8 *)((TLobby *)tmp)->alloc_tables((saddr)(void *)lbl_805D5B3C, 2);
-    lbl_805D5B48 = tmp;
+    lbl_805D5B48 = new StripBufferPair((NJS_OBJECT *)lbl_805D5B3C, 2);
     base = (u8 *)lbl_805D5B3C;
     base = *(u8 **)(base + 4);
     base = *(u8 **)(base + 4);

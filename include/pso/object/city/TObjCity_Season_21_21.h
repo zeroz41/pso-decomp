@@ -13,7 +13,7 @@ struct TObjCity_Season_21_21 : public TUnk_804B5E48 {
     virtual void run_task();
 
     // UV offset: run_task steps it by 2 and wraps at 0xFF, render hands it to
-    // scroll_strip_uvs (name inferred, as TObjCity_Season_Board::uv_scroll).
+    // StripBufferPair::scroll_uvs.
     s32 uv_scroll;
     // Particle emitter created at the decoration (create_particle_emitter id
     // 0x90) and queued for destruction by the destructor (name inferred).

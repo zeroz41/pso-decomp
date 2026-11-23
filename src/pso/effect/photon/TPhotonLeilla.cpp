@@ -12,6 +12,7 @@ const char *TPhotonLeilla::class_name = "TPhotonLeilla";
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "types.h"
+#include "pso/render/StripBufferPair.h"
 #include "pso/system/BmlResource.h"
 #include "pso/player/PhotonBlastResults.h"
 #include "pso/ui/hud/TRaderMapCore.h"
@@ -25,7 +26,6 @@ const char *TPhotonLeilla::class_name = "TPhotonLeilla";
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/unk/text_800F5BC0.h"
 #include "pso/unk/TLobby.h"
 #include "pso/unk/TLobby_802268F4.h"
 #include "pso/map/FloorArea.h"
@@ -40,9 +40,8 @@ void load_photon_laser_resources(void) {}
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/render/model_render_state.h"
 
-extern "C" s32 scroll_strip_uvs(void *, s16, int);
 
-void *leilla_photon_buffer_pair;
+StripBufferPair *leilla_photon_buffer_pair;
 
 void TPhotonLeilla::reset_material_color(u8 count) {
     material_color.a = 0.0f;
@@ -53,7 +52,7 @@ void TPhotonLeilla::reset_material_color(u8 count) {
 
 void TPhotonLeilla::render() {
     if (visible != 0) {
-        scroll_strip_uvs(leilla_photon_buffer_pair, uv_scroll, 0);
+        leilla_photon_buffer_pair->scroll_uvs(uv_scroll, 0);
         TParticleCtrl::begin_effect_render();
         TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
         push_matrix();
@@ -197,15 +196,11 @@ TPhotonLeilla::TPhotonLeilla(PhotonSummonParams *params) {
 
 void destroy_leilla_photon_blast_model(void) {
     if (leilla_photon_buffer_pair != NULL) {
-        destroy_buffer_pair(leilla_photon_buffer_pair, 1);
+        delete leilla_photon_buffer_pair;
     }
     leilla_photon_buffer_pair = NULL;
 }
 
 void create_leilla_photon_blast_model(void) {
-    TLobby *tables = (TLobby *)::operator new(0x14);
-    if (tables != NULL) {
-        tables = (TLobby *)tables->alloc_tables((saddr)photon_blast_shared_resource->models[0].model->child, 0);
-    }
-    leilla_photon_buffer_pair = tables;
+    leilla_photon_buffer_pair = new StripBufferPair(photon_blast_shared_resource->models[0].model->child, 0);
 }

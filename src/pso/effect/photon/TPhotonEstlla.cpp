@@ -6,9 +6,9 @@
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "types.h"
+#include "pso/render/StripBufferPair.h"
 
 #include "pso/player/TObjPlayer.h"
-#include "pso/unk/text_800F5BC0.h"
 #include "pso/unk/TLobby.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/render/MaterialColorFade.h"
@@ -47,13 +47,12 @@ void TPhotonEstlla::reset_color(u8 summon_count) {
 #pragma auto_inline off
 #pragma dont_inline off
 
-extern "C" s32 scroll_strip_uvs(void *strips, s16 u, s16 v);
 
 const char *TPhotonEstlla::class_name = "TPhotonEstlla";
 extern const PhotonLineParams photon_estlla_line_packet_init = {
     { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, 10.0f, 0.0f
 };
-void *estlla_photon_blast_model;
+StripBufferPair *estlla_photon_blast_model;
 
 void TPhotonEstlla::spawn_line() {
     TObjCollidable *owner;
@@ -80,7 +79,7 @@ void TPhotonEstlla::spawn_line() {
 
 void TPhotonEstlla::render() {
     if (started != 0) {
-        scroll_strip_uvs(estlla_photon_blast_model, uv_scroll, 0);
+        estlla_photon_blast_model->scroll_uvs(uv_scroll, 0);
         TParticleCtrl::begin_effect_render();
         TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
         push_matrix();
@@ -219,15 +218,11 @@ TPhotonEstlla::TPhotonEstlla(PhotonSummonParams *params) : TPhotonBlastSummon() 
 
 void destroy_estlla_photon_blast_model(void) {
     if (estlla_photon_blast_model != NULL) {
-        destroy_buffer_pair(estlla_photon_blast_model, 1);
+        delete estlla_photon_blast_model;
     }
     estlla_photon_blast_model = NULL;
 }
 
 void create_estlla_photon_blast_model(void) {
-    TLobby *strips = (TLobby *)::operator new(0x14);
-    if (strips != NULL) {
-        strips = (TLobby *)strips->alloc_tables((saddr)photon_blast_shared_resource->models[9].model->child, 0);
-    }
-    estlla_photon_blast_model = strips;
+    estlla_photon_blast_model = new StripBufferPair(photon_blast_shared_resource->models[9].model->child, 0);
 }

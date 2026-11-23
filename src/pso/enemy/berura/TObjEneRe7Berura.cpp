@@ -48,12 +48,11 @@
 #include "pso/object/trap/TOTrapAncient01_80226534.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel_8007E418.h"
 #include "pso/player/TObjPlayer_801542CC.h"
-#include "pso/unk/text_800F5BC0.h"
+#include "pso/render/StripBufferPair.h"
 #include "pso/unk/text_803E2F28.h"
 
 #pragma defer_codegen on
 extern "C" {
-s32 scroll_strip_uvs(s32, int, int);
 extern TObjEneRe7BeruraPart TObjEneRe7Berura__detached_part_states[];
 u8 * TObjEneRe7Berura__stat_handle_table[1];
 u8 * TObjEneRe7Berura__shared_object_handles[1];
@@ -69,7 +68,7 @@ TUnk_80490470 * TObjEneRe7Berura__demo_target;
 u8 * re7_berura_static_buffer;
 s32 * berura_node_matrix_ptr_a;
 s16 * berura_node_matrix_ptr_b;
-uaddr belra_uv_animation_buffer;
+StripBufferPair *belra_uv_animation_buffer;
 s32 berura_attack_node_range_start;
 s32 berura_attack_node_range_end;
 u8 * TObjEneRe7Berura__node_matrix_cursor;
@@ -226,11 +225,7 @@ void TObjEneRe7Berura::load_static_resources() {
     }
     berura_node_matrix_ptr_a = (s32 *)(((NJS_CNK_MODEL *)((NJS_OBJECT *)find_model_node(m, 2))->model)->polygon_list + 4);
     berura_node_matrix_ptr_b = ((NJS_CNK_MODEL *)((NJS_OBJECT *)find_model_node(m, 1))->model)->polygon_list + 4;
-    p = ::operator new(0x14);
-    if (p != NULL) {
-        p = ((TLobby *)p)->alloc_tables((saddr)TObjEneRe7Berura__shared_resource->models->model, 2);
-    }
-    belra_uv_animation_buffer = (uaddr)p;
+    belra_uv_animation_buffer = new StripBufferPair(TObjEneRe7Berura__shared_resource->models->model, 2);
     SampledMotionPoints *sampled = new SampledMotionPoints(4, 14.0f, 17.0f, 0.8f);
     belra_trail_buffer = sampled;
     pair[0] = 0x2E;
@@ -273,9 +268,9 @@ void TObjEneRe7Berura::destroy_children() {
         delete belra_trail_buffer;
         belra_trail_buffer = NULL;
     }
-    if ((u32) belra_uv_animation_buffer != 0U) {
-        destroy_buffer_pair((void *)belra_uv_animation_buffer, 1);
-        belra_uv_animation_buffer = 0U;
+    if (belra_uv_animation_buffer != NULL) {
+        delete belra_uv_animation_buffer;
+        belra_uv_animation_buffer = NULL;
     }
     if (re7_berura_static_buffer != NULL) {
         mem_free(re7_berura_static_buffer);
@@ -1422,7 +1417,7 @@ void TObjEneRe7Berura::render() {
         *berura_node_matrix_ptr_a = node2_color;
         berura_node_matrix_ptr_b[0] = node1_color;
         berura_node_matrix_ptr_b[1] = node1_color >> 16;
-        scroll_strip_uvs(belra_uv_animation_buffer, (s16)texture_scroll, 0);
+        belra_uv_animation_buffer->scroll_uvs(texture_scroll, 0);
         fade = &camera_fades[cam];
         fade->update();
         cam = fade->updateFromCamera(&body_center.x);

@@ -68,7 +68,6 @@ extern "C" {
 
 
 
-s32 scroll_strip_uvs(int, int, int);
 
 
 
@@ -111,7 +110,7 @@ s32 scroll_strip_uvs(int, int, int);
 #include "pso/object/trap/TOTrapAncient01_80226534.h"
 #include "pso/enemy/sorcerer/TObjEneRe4Sorcerer_801E3F14.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/unk/text_800F5BC0.h"
+#include "pso/render/StripBufferPair.h"
 extern "C" {
 
 
@@ -238,7 +237,7 @@ f32 TObjEneRe4Sorcerer__effect_render_scale;
 
 Vec *re4_sorcerer_render_node_ptr;
 
-uaddr TObjEneRe4Sorcerer__uv_scroll_buffer;
+StripBufferPair *TObjEneRe4Sorcerer__uv_scroll_buffer;
 
 NJS_ARGB *MaterialColorFade::get_color() {
     return &color;
@@ -263,11 +262,7 @@ void TObjEneRe4Sorcerer::load_resources() {
     TObjEneRe4Sorcerer__effect_render_scale = 0.0f;
     re4_sorcerer_render_node_ptr = NULL;
     TObjEneRe4Bit::load_resources();
-    r = (u32) (saddr)::operator new(0x14);
-    if (r != 0) {
-        r = (uaddr) ((TLobby *)r)->alloc_tables((saddr)sorcerer_bml_resource->models->model, 2);
-    }
-    TObjEneRe4Sorcerer__uv_scroll_buffer = r;
+    TObjEneRe4Sorcerer__uv_scroll_buffer = new StripBufferPair(sorcerer_bml_resource->models->model, 2);
     NpcAnimationBinding p = re4_sorcerer_spawn_descriptor;
     p.motions = reinterpret_cast<BmlMotionEntry *>(sorcerer_bml_resource->motions);
     NpcModelRegistry::register_animated_chunk((s16)0x2A, reinterpret_cast<void *>(sorcerer_bml_resource->models->model), reinterpret_cast<void *>(sorcerer_bml_resource->models->m_c), &p, re4_sorcerer_collision_body_part_table[0].radius, 15.0f);
@@ -278,9 +273,9 @@ TObjEneRe4Sorcerer *TObjEneRe4Sorcerer::create() {
 }
 
 void TObjEneRe4Sorcerer::free_bits() {
-    if ((u32) TObjEneRe4Sorcerer__uv_scroll_buffer != 0U) {
-        destroy_buffer_pair((void *)TObjEneRe4Sorcerer__uv_scroll_buffer, 1);
-        TObjEneRe4Sorcerer__uv_scroll_buffer = 0U;
+    if (TObjEneRe4Sorcerer__uv_scroll_buffer != NULL) {
+        delete TObjEneRe4Sorcerer__uv_scroll_buffer;
+        TObjEneRe4Sorcerer__uv_scroll_buffer = NULL;
     }
     TObjEneRe4Bit::free_resources();
     if ((uaddr) sorcerer_bml_resource != 0U) {
@@ -1397,7 +1392,7 @@ void TObjEneRe4Sorcerer::render() {
         TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
         saved_model_render_flags = model_render_flags;
         TObjEneDD::clear_global_flag_400();
-        scroll_strip_uvs(TObjEneRe4Sorcerer__uv_scroll_buffer, strip_scroll, 0);
+        TObjEneRe4Sorcerer__uv_scroll_buffer->scroll_uvs(strip_scroll, 0);
         model_render_flags |= 0x20000;
         TObjEneRe4Sorcerer__sub_801E3F1C(0.0f, texture_scroll);
         TObjPlayer::toggle_particle_effect();
@@ -1462,7 +1457,7 @@ void TObjEneRe4Sorcerer::render_demo() {
         translate_matrix(0, 0.0f, 22.0f, 0.0f);
         rotate_matrix_y(0, rotation_y);
         strip_scroll = (strip_scroll + 5);
-        scroll_strip_uvs(TObjEneRe4Sorcerer__uv_scroll_buffer, strip_scroll, 0);
+        TObjEneRe4Sorcerer__uv_scroll_buffer->scroll_uvs(strip_scroll, 0);
         texture_scroll += 0.01f;
         model_render_flags |= 0x20000;
         TObjEneRe4Sorcerer__sub_801E3F1C(0.0f, texture_scroll);

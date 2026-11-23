@@ -6,7 +6,7 @@
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/render/ChunkMaterialState.h"
-#include "pso/unk/text_800F5BC0.h"
+#include "pso/render/StripBufferPair.h"
 #include "pso/unk/text_803D96A8.h"
 
 
@@ -31,10 +31,9 @@
 // The original emits code in reverse definition order.
 #pragma defer_codegen on
 
-extern "C" s32 scroll_strip_uvs(void *, s16, int);
 
 const char *TPhotonFarlla::class_name = "TPhotonFarlla";
-void *farlla_photon_blast_model_buffers;
+StripBufferPair *farlla_photon_blast_model_buffers;
 
 TObjMotionAction photon_blast_farlla_params[2] = {
     {MOTION_MODE_ONCE, 0, 0, 1.0f, 0},
@@ -46,16 +45,12 @@ CollisionBody farlla_collision_bodies[1] = {
 };
 
 void create_farlla_photon_blast_model(void) {
-    TLobby *tables = (TLobby *)::operator new(0x14);
-    if (tables != NULL) {
-        tables = (TLobby *)tables->alloc_tables((saddr)photon_blast_shared_resource->models[0].model, 0);
-    }
-    farlla_photon_blast_model_buffers = tables;
+    farlla_photon_blast_model_buffers = new StripBufferPair(photon_blast_shared_resource->models[0].model, 0);
 }
 
 void destroy_farlla_photon_blast_model(void) {
     if (farlla_photon_blast_model_buffers != NULL) {
-        destroy_buffer_pair(farlla_photon_blast_model_buffers, 1);
+        delete farlla_photon_blast_model_buffers;
     }
     farlla_photon_blast_model_buffers = NULL;
 }
@@ -75,7 +70,7 @@ TPhotonFarlla::TPhotonFarlla(PhotonSummonParams *params) : TPhotonBlastSummon() 
         rotation_y = owner->rotation_y;
     }
     model = photon_blast_shared_resource->models[0].model;
-    texlist = (saddr)photon_blast_shared_resource->models[0].m_c;
+    texlist = (saddr)photon_blast_shared_resource->models[0].texlist;
     set_action_table((saddr)photon_blast_farlla_params);
     set_motion_list((saddr)photon_blast_shared_resource->motions);
     requested_action = 1;
@@ -115,10 +110,10 @@ TPhotonFarlla::TPhotonFarlla(PhotonSummonParams *params) : TPhotonBlastSummon() 
         }
         new TPhotonMagicSquare(this, 0, &pos, 0x78);
         spawn_photon_blast_attachment_effects(0);
-        play_cue_stream_file((saddr)"farla2.adx");
+        play_cue_stream_file("farla2.adx");
     } else {
         spawn_photon_blast_opening_effects(0, owner_id);
-        play_cue_stream_file((saddr)"farla.adx");
+        play_cue_stream_file("farla.adx");
     }
 }
 
@@ -193,7 +188,7 @@ void TPhotonFarlla::run_task() {
 
 void TPhotonFarlla::render() {
     if (visible != 0) {
-        scroll_strip_uvs(farlla_photon_blast_model_buffers, uv_scroll, 0);
+        farlla_photon_blast_model_buffers->scroll_uvs(uv_scroll, 0);
         TParticleCtrl::begin_effect_render();
         TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
         push_matrix();

@@ -11,7 +11,7 @@ struct TObjCity_Season_Board : public TObjBase {
     virtual void run_task();
 
     // UV offset of the board strip: run_task steps it by 2 and wraps at 0x100,
-    // render hands it to scroll_strip_uvs (name inferred).
+    // render hands it to StripBufferPair::scroll_uvs.
     s32 uv_scroll;
 };
 

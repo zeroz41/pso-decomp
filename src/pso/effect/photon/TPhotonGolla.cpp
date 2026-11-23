@@ -13,7 +13,7 @@
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/unk/TLobby.h"
-#include "pso/unk/text_800F5BC0.h"
+#include "pso/render/StripBufferPair.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/object/trap/TOTrapAncient01_80226534.h"
 #include "pso/unk/text_803D8F74.h"
@@ -31,9 +31,8 @@
 #pragma defer_codegen on
 #pragma fp_contract on
 
-extern "C" s32 scroll_strip_uvs(void *, s16, int);
 
-void *golla_photon_blast_buffer_pair;
+StripBufferPair *golla_photon_blast_buffer_pair;
 
 const char *TPhotonGolla::class_name = "TPhotonGolla";
 extern const PhotonConcentrateParams photon_golla_concentrate_packet = {
@@ -50,16 +49,12 @@ CollisionBody golla_collision_bodies[1] = {
 };
 
 void create_golla_photon_blast_model(void) {
-    TLobby *tables = (TLobby *)::operator new(0x14);
-    if (tables != NULL) {
-        tables = (TLobby *)tables->alloc_tables((saddr)photon_blast_shared_resource->models[4].model, 0);
-    }
-    golla_photon_blast_buffer_pair = tables;
+    golla_photon_blast_buffer_pair = new StripBufferPair(photon_blast_shared_resource->models[4].model, 0);
 }
 
 void destroy_golla_photon_blast_model(void) {
     if (golla_photon_blast_buffer_pair != NULL) {
-        destroy_buffer_pair(golla_photon_blast_buffer_pair, 1);
+        delete golla_photon_blast_buffer_pair;
     }
     golla_photon_blast_buffer_pair = NULL;
 }
@@ -82,7 +77,7 @@ TPhotonGolla::TPhotonGolla(PhotonSummonParams *params) : TPhotonBlastSummon() {
         rotation_y = 0;
     }
     model = photon_blast_shared_resource->models[4].model;
-    texlist = (saddr)photon_blast_shared_resource->models[4].m_c;
+    texlist = (saddr)photon_blast_shared_resource->models[4].texlist;
     set_action_table((saddr)photon_blast_golla_params);
     set_motion_list((saddr)photon_blast_shared_resource->motions);
     requested_action = 1;
@@ -124,10 +119,10 @@ TPhotonGolla::TPhotonGolla(PhotonSummonParams *params) : TPhotonBlastSummon() {
         pos.y += 30.0f;
         new TPhotonMagicSquare(this, 3, &pos, 0x96, 0.5f);
         spawn_photon_blast_attachment_effects(2);
-        play_cue_stream_file((saddr)"goula2.adx");
+        play_cue_stream_file("goula2.adx");
     } else {
         spawn_photon_blast_opening_effects(2, owner_id);
-        play_cue_stream_file((saddr)"goula.adx");
+        play_cue_stream_file("goula.adx");
     }
 }
 
@@ -181,7 +176,7 @@ void TPhotonGolla::run_task() {
 
 void TPhotonGolla::render() {
     if (visible != 0) {
-        scroll_strip_uvs(golla_photon_blast_buffer_pair, uv_scroll, 0);
+        golla_photon_blast_buffer_pair->scroll_uvs(uv_scroll, 0);
         TParticleCtrl::begin_effect_render();
         TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
         push_matrix();

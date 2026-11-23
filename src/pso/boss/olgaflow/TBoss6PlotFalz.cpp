@@ -50,6 +50,7 @@ extern BmlResourceDescriptor boss6_plot_falz_resource_descriptor;
 #include "pso/boss/olgaflow/TBoss6Type2.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/unk/TLobby.h"
+#include "pso/render/StripBufferPair.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/object/TObjControl.h"
 #include "pso/boss/olgaflow/TBoss6Thanks_8035D1F4.h"
@@ -701,9 +702,7 @@ s32 is_normal_difficulty(void) {
 
 int TBoss6PlotFalz::get_phase() {  return plot_falz_phase; }
 
-void *destroy_buffer_pair(void *arg0, s16 arg1);
 extern "C" {
-void scroll_strip_uvs(u32, s16, s16);
 
 void TBoss6PlotFalz::update_active_flag() {
     plot_falz_phase = 0;
@@ -720,9 +719,9 @@ void Boss6ScrollStrips::scroll_strips_uv(s32 dx, s32 dy) {
     u += dx;
     v += dy;
     for (; i < count; i++, j += 4) {
-        u32 e = *(u32 *)((u8 *)items + j);
-        if (e != 0) {
-            scroll_strip_uvs(e, u, v);
+        StripBufferPair *e = *(StripBufferPair **)((u8 *)items + j);
+        if (e != NULL) {
+            e->scroll_uvs(u, v);
         }
     }
 }
@@ -731,7 +730,7 @@ void Boss6ScrollStrips::free_buffer_pairs() {
     s32 i;
     for (i = 0; i < count; i++) {
         if (items[i] != 0) {
-            destroy_buffer_pair(items[i], 1);
+            delete items[i];
             items[i] = 0;
         }
     }
@@ -743,8 +742,7 @@ void Boss6ScrollStrips::build_tables(const Boss6StripDesc *descs, s32 n) {
     saddr h;
     s32 i;
     const Boss6StripDesc *r;
-    s32 t;
-    saddr p;
+    NJS_OBJECT *t;
     s32 j;
     h = (saddr)TBoss6PlotFalz::get_scene_archive();
     if (h == 0 || descs == NULL || n < 1) {
@@ -760,12 +758,8 @@ void Boss6ScrollStrips::build_tables(const Boss6StripDesc *descs, s32 n) {
     }
     for (i = 0; i < count; i++) {
         r = &descs[i];
-        t = (saddr)find_model_node((uaddr)get_bml_model((BmlResource *)h, r->model), r->node);
-        p = (saddr)::operator new(0x14);
-        if (p != 0) {
-            p = (saddr)((TLobby *)p)->alloc_tables(t, r->texture_filter);
-        }
-        items[i] = (StripBufferPair *)p;
+        t = (NJS_OBJECT *)find_model_node((uaddr)get_bml_model((BmlResource *)h, r->model), r->node);
+        items[i] = new StripBufferPair(t, r->texture_filter);
     }
 }
 
