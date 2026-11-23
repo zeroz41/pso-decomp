@@ -8,6 +8,7 @@
 // that shrinks to its middle, then disappears.
 class TEffStarLightChild : public TObject {
 public:
+    static const char *class_name;
     TEffStarLightChild(ColorLineVertex *from, ColorLineVertex *to, TObject *parent, f32 width, f32 speed);
     virtual ~TEffStarLightChild();
     virtual void run_task();

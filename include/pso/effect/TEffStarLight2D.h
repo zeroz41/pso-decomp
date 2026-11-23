@@ -21,6 +21,7 @@ struct StarLightParameters {
 
 class TEffStarLight2D : public TObject {
 public:
+    static const char *class_name;
     TEffStarLight2D(Vec *position, StarLightParameters *parameters, TObject *parent);
     virtual ~TEffStarLight2D();
     virtual void render();

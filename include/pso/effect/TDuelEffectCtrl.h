@@ -6,6 +6,7 @@
 
 class TDuelEffectCtrl : public TObject {
 public:
+    static const char *class_name;
     TDuelEffectCtrl(TObject* parent, u8 state);
     virtual ~TDuelEffectCtrl();
     void update_duel_end_effect();

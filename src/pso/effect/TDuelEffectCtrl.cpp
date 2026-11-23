@@ -12,7 +12,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TMainTask.h"
 
-const char *duel_effect_ctrl_class_name = "TDuelEffectCtrl";
+const char *TDuelEffectCtrl::class_name = "TDuelEffectCtrl";
 
 // Screen positions of the countdown digits and of the end banner (both the screen centre).
 extern const f32 duel_countdown_pos[2] = { 320.0f, 221.0f };
@@ -90,7 +90,7 @@ TDuelEffectCtrl::~TDuelEffectCtrl() {
 }
 
 TDuelEffectCtrl::TDuelEffectCtrl(TObject* parent, u8 state) : TObject(parent) {
-    m_name = duel_effect_ctrl_class_name;
+    m_name = class_name;
     m_state = state;
     m_frameCount = 0;
     m_effect = new TObject(tl_clipout);

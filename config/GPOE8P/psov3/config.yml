@@ -522,7 +522,7 @@ force_active:
   - get_indirect_kind__16TEffIndirectCtrlFv
   - star_light_2d_class_name
   - TEffStarLight2D_class_name
-  - star_light_child_class_name
+  - class_name__18TEffStarLightChild
   - TEffStarLightChild_class_name
   - class_name__7TEffect
   - TEndingAB__sub_8008D5A0
@@ -7426,7 +7426,7 @@ force_active:
   - keyboard_poll_key_codes
   - keyboard_repeat_key_codes
   - keyboard_task_object_dtor_chain
-  - komorebi_class_name
+  - class_name__9TKomorebi
   - komorebi_last_uv_update_frame
   - labo_design_entry_table
   - labo_door_collision_body_parts
@@ -8300,7 +8300,7 @@ force_active:
   - TObjWarpLobby__name
   - TObjLuker__name
   - lbl_805D34C8
-  - photon_laser_class_name
+  - class_name__12TPhotonLaser
   - photon_rainbow_class_name
   - TPhotonYoulla_name
   - TCheckRoomSequence__name

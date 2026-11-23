@@ -16,6 +16,7 @@ struct PhotonLineParams {
 // (at most nine); it ends when a wall blocks its path.
 class TPhotonLine : public TObjChara {
 public:
+    static const char *class_name;
     TPhotonLine(PhotonLineParams *params, TObject *parent, u16 owner_id);
     virtual ~TPhotonLine();
     virtual void run_task();

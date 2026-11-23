@@ -16,7 +16,7 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/system/task/TObject.h"
 
-const char *photon_concentrate_class_name = "TPhotonConcentrate";
+const char *TPhotonConcentrate::class_name = "TPhotonConcentrate";
 
 void TPhotonConcentrate::render() {
     TParticleCtrl::begin_effect_render();
@@ -88,7 +88,7 @@ TPhotonConcentrate::~TPhotonConcentrate() {
 
 TPhotonConcentrate::TPhotonConcentrate(PhotonConcentrateParams *params, TObject *parent, u16 owner_id)
     : TObjCollidable(parent) {
-    m_name = photon_concentrate_class_name;
+    m_name = class_name;
     VecCopy(&origin, VecCopy(&pos, &params->origin));
     VecCopy(&target, &params->target);
     VecCopy(&vel, &params->direction);

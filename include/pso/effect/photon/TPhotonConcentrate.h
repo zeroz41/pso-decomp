@@ -23,6 +23,7 @@ struct PhotonConcentrateParams {
 // emitter; it bursts when it reaches the target.
 class TPhotonConcentrate : public TObjCollidable {
 public:
+    static const char *class_name;
     TPhotonConcentrate(PhotonConcentrateParams *params, TObject *parent, u16 owner_id);
     virtual ~TPhotonConcentrate();
     virtual void render();

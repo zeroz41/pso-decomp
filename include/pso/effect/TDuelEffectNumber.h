@@ -5,12 +5,12 @@
 #include "pso/unk/TUnk_804C57F0.h"
 #include "types.h"
 
-extern const char *duel_effect_number_class_name;
 
 // One digit of the duel start countdown: it pops in at twice its size, holds,
 // fades out, and leaves an expanding echo behind; it lives for 30 frames.
 class TDuelEffectNumber : public TObject {
 public:
+    static const char *class_name;
     TDuelEffectNumber(TObject *parent, f32 *pos, s32 digit);
     virtual ~TDuelEffectNumber();
     void draw_digit_quad(QuadSpriteRect *quad, f32 *center, f32 depth, f32 scale, f32 alpha);

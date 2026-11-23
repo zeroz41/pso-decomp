@@ -17,7 +17,7 @@ extern "C" {
 extern s32 lbl_805D63F0;
 }
 
-const char *duel_effect_string_class_name = "TDuelEffectString";
+const char *TDuelEffectString::class_name = "TDuelEffectString";
 
 extern const DuelEffectQuad duel_start_banner_layout = { -96.0f, -24.0f, 192.0f, 48.0f, 64.0f, 133.0f };
 extern const DuelEffectQuad duel_end_banner_layout[2] = {
@@ -107,7 +107,7 @@ void TDuelEffectString::run_task() {
 TDuelEffectString::~TDuelEffectString() {}
 
 TDuelEffectString::TDuelEffectString(TObject *parent, f32 *screen_pos, s32 banner_kind) : TObject(parent) {
-    m_name = duel_effect_string_class_name;
+    m_name = class_name;
     pos[0] = screen_pos[0];
     pos[1] = screen_pos[1];
     kind = banner_kind;

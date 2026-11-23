@@ -3,7 +3,6 @@
 #include "pso/system/task/TObject.h"
 #include "types.h"
 
-extern const char *duel_effect_string_class_name;
 
 // One text quad of a duel banner: offset from the effect position (scaled with
 // it), size, and texel origin in the duel texture.
@@ -20,6 +19,7 @@ struct DuelEffectQuad {
 // when the duel ends. It shrinks into place, fades, and lives for 30 frames.
 class TDuelEffectString : public TObject {
 public:
+    static const char *class_name;
     TDuelEffectString(TObject *parent, f32 *pos, s32 kind);
     virtual ~TDuelEffectString();
     void draw_layout_quad(const DuelEffectQuad *quad, f32 scale);

@@ -14,7 +14,7 @@
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/system/MatrixOps.h"
 
-const char *photon_line_class_name = "TPhotonLine";
+const char *TPhotonLine::class_name = "TPhotonLine";
 
 CollisionBody photon_line_collision_body_part[1] = {
     { { 0.0f, 0.0f, 0.0f }, 30.0f, 30.0f, 1, 0x8007, { 0.0f, 0.0f, 0.0f }, 0.0f },
@@ -75,7 +75,7 @@ TPhotonLine::~TPhotonLine() {
 TPhotonLine::TPhotonLine(PhotonLineParams *params, TObject *parent, u16 owner_id) : TObjChara(parent) {
     s32 i;
 
-    m_name = photon_line_class_name;
+    m_name = class_name;
     VecCopy(&home_position, VecCopy(&position, &params->pos));
     VecCopy(&vel, &params->dir);
     vel.x *= params->speed;

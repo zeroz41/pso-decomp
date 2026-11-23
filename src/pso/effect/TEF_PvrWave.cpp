@@ -14,12 +14,12 @@ TEF_PvrWave::~TEF_PvrWave() {
     delete wave;
 }
 
-const char *pvr_wave_class_name = "TEF_PvrWave";
+const char *TEF_PvrWave::class_name = "TEF_PvrWave";
 
 TEF_PvrWave::TEF_PvrWave(TObject *parent, u8 *image, s32 size, s32 index) : TObject(parent) {
     void *memory;
     GinjaTextureList *list;
-    m_name = pvr_wave_class_name;
+    m_name = class_name;
     texture_index = index;
     memory = ::operator new(sizeof(TUnk_804C57E0));
     if (memory != NULL) {

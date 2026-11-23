@@ -21,7 +21,7 @@
 #pragma readonly_strings on
 
 
-const char *photon_laser_class_name = "TPhotonLaser";
+const char *TPhotonLaser::class_name = "TPhotonLaser";
 
 void TPhotonLaser::render() {
     TParticleCtrl::begin_effect_render();
@@ -78,7 +78,7 @@ TPhotonLaser::~TPhotonLaser() {
 }
 
 TPhotonLaser::TPhotonLaser(PhotonLaserParams *params, TObject *parent, u16 owner) : TObjChara(parent) {
-    m_name = photon_laser_class_name;
+    m_name = class_name;
     VecCopy(&origin, VecCopy(&pos, &params->pos));
     owner_id = owner;
     VecCopy(&vel, &params->dir);

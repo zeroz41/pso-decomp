@@ -33,7 +33,7 @@ __declspec(section ".data") const char *bm_fe_obj_komo_model_names[2] = { "fe_ob
 const char *bm_fe_obj_komo_motion_names[1] = { NULL };
 BmlResourceDescriptor komorebi_resource_descriptor = { "bm_fe_obj_komo.bml", bm_fe_obj_komo_model_names, bm_fe_obj_komo_motion_names, 1, 0 };
 
-const char *komorebi_class_name = "TKomorebi";
+const char *TKomorebi::class_name = "TKomorebi";
 BmlResource *komorebi_bml_resource;
 s32 komorebi_last_uv_update_frame;
 
@@ -64,7 +64,7 @@ void TKomorebi::run_task() {}
 TKomorebi::~TKomorebi() {}
 
 TKomorebi::TKomorebi(TObject *parent, ObjectSetData *set_data) : TObjBase(parent) {
-    m_name = komorebi_class_name;
+    m_name = class_name;
     VecCopy(&position, &set_data->position);
     copy_xyz(&rotation_x, set_data->rotation);
     VecCopy(&scale, &set_data->scale);

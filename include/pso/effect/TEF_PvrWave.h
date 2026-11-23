@@ -11,6 +11,7 @@ struct SceneMaterialRoot;
 // texture_index of the scene's texture list shows the wave's texture.
 class TEF_PvrWave : public TObject {
 public:
+    static const char *class_name;
     TEF_PvrWave(TObject *parent, u8 *image, s32 size, s32 texture_index);
     virtual ~TEF_PvrWave();
     virtual void render();

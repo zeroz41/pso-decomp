@@ -18,8 +18,8 @@
 
 extern const char TEffStarLightChild_class_name[] = "TEffStarLightChild";
 extern const char TEffStarLight2D_class_name[] = "TEffStarLight2D";
-const char *star_light_child_class_name = TEffStarLightChild_class_name;
-const char *star_light_2d_class_name = TEffStarLight2D_class_name;
+const char *TEffStarLightChild::class_name = TEffStarLightChild_class_name;
+const char *TEffStarLight2D::class_name = TEffStarLight2D_class_name;
 
 __declspec(section ".rodata") NJS_ARGB star_light_2d_base_color = {0.5f, 1.0f, 1.0f, 1.0f};
 
@@ -31,7 +31,7 @@ TEffStarLightChild::TEffStarLightChild(ColorLineVertex *from, ColorLineVertex *t
                                        f32 speed)
     : TObject(parent) {
     Vec direction;
-    m_name = star_light_child_class_name;
+    m_name = class_name;
     if (speed <= 0.0f) {
         speed = 1.0f;
     }
@@ -105,7 +105,7 @@ void TEffStarLightChild::render() {  }
 #pragma opt_common_subs off
 TEffStarLight2D::TEffStarLight2D(Vec *start, StarLightParameters *source, TObject *parent) : TObject(parent) {
     ColorLineVertex screen;
-    m_name = star_light_2d_class_name;
+    m_name = class_name;
     parameters.copy_from(source);
     VecCopy(&position, start);
     project_world_to_screen(NULL, &position, &screen.x);

@@ -16,7 +16,7 @@ extern "C" {
 extern s32 lbl_805D63F0;
 }
 
-const char *duel_effect_number_class_name = "TDuelEffectNumber";
+const char *TDuelEffectNumber::class_name = "TDuelEffectNumber";
 
 // Texel origin of each digit's 64x85 cell in the duel texture.
 extern const f32 duel_number_uv_table[6][2] = {
@@ -112,7 +112,7 @@ void TDuelEffectNumber::run_task() {
 TDuelEffectNumber::~TDuelEffectNumber() {}
 
 TDuelEffectNumber::TDuelEffectNumber(TObject *parent, f32 *screen_pos, s32 digit_value) : TObject(parent) {
-    m_name = duel_effect_number_class_name;
+    m_name = class_name;
     pos[0] = screen_pos[0];
     pos[1] = screen_pos[1];
     digit = digit_value;

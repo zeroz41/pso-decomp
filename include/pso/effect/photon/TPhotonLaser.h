@@ -20,6 +20,7 @@ struct PhotonLaserParams {
 // bursts when it drops below its owner's height.
 class TPhotonLaser : public TObjChara {
 public:
+    static const char *class_name;
     TPhotonLaser(PhotonLaserParams *params, TObject *parent, u16 owner_id);
     virtual ~TPhotonLaser();
     virtual void run_task();

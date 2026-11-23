@@ -19,8 +19,8 @@
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/vector.h"
 
-__declspec(section ".rodata") extern const char TEF_LensFlare__class_name_string[] = "TEF_LensFlare";
-const char *TEF_LensFlare::class_name = TEF_LensFlare__class_name_string;
+__declspec(section ".rodata") extern const char lens_flare_class_name_string[] = "TEF_LensFlare";
+const char *TEF_LensFlare::class_name = lens_flare_class_name_string;
 
 // The reflections the constructor hands to every flare (render() draws the first nine).
 LensFlareElement lens_flare_reflected_element_descriptors[10] = {
