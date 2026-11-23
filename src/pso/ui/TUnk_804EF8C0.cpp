@@ -260,7 +260,7 @@ void TUnk_804EF8C0::handle_load_result() {
         obj = (saddr)new CharacterFile;
         memcpy((void *)obj, (void *)(src + 0x2048), 0x1156C);
         decrypt_char_data__23TAdSinglePlyChrSelectGCFPv(obj);
-        if (TAdSinglePlyChrSelectGC::init_and_register(obj) == 0) {
+        if (TAdSinglePlyChrSelectGC::init_and_register((CharacterFile *)obj) == 0) {
             lbl_805D6D90 &= ~1;
             message_window->append_line(get_message_text(0x6D), 1);
             state = 0xB;

@@ -5287,7 +5287,7 @@ force_active:
   - __ct__13TUnk_804A68C8FP7TObjectPUc
   - construct_card_tags__17TWindowGetComCardFv
   - construct_card_window_array__23TAdSinglePlyChrSelectGCFPv
-  - construct_card_window_array__23TAdSinglePlyChrSelectGCFi
+  - construct_guild_card_tag_array__23TAdSinglePlyChrSelectGCFPv
   - __ct__18TObjCityAirCar_CarFP7TObjectllf
   - __ct__13TUnk_804B5C08FP7TObjectPv
   - __ct__13TUnk_804A0FA0FP7TObjectPUc
@@ -5391,7 +5391,7 @@ force_active:
   - copy_from__21BmlResourceDescriptorFRC21BmlResourceDescriptor
   - copy_ring_buffer_window__15TObjBoss2TunnelFv
   - copy_rotation_to_current_matrix
-  - copy_save_data__23TAdSinglePlyChrSelectGCFii
+  - copy_save_data__23TAdSinglePlyChrSelectGCFP13CharacterFileP13CharacterFile
   - copy_spawn_params__13TBoss5GryphonFP28G_GalGryphonBossActions_6xA0
   - copy_stat_block__17TWindowSetLevelUpFl
   - copy_state__20TBoss6MagMotionTrackFP20TBoss6MagMotionTrack

@@ -32,7 +32,6 @@ s32 buffer_init(void);
 s32 check_ready__23TAdSinglePlyChrSelectGCFv(void);
 void check_system_load_result__23TAdSinglePlyChrSelectGCFv(void);
 void clear_entry__23TAdSinglePlyChrSelectGCFi(s32 i);
-u8 *construct_card_window_array__23TAdSinglePlyChrSelectGCFPv(u8 *arg0);
 void decrypt_char_data__23TAdSinglePlyChrSelectGCFPv(void *arg0);
 void game_state_load(void);
 s32 get_entry__23TAdSinglePlyChrSelectGCFi(s32 i);

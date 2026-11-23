@@ -170,11 +170,12 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     static void clear_load_buffers();
     static void clear_slot_body(int i);
     static void clear_slot_entry(int i);
-    static saddr construct_card_window_array(int arg0);
+    static u8 *construct_card_window_array(void *arg0);
+    static void *construct_guild_card_tag_array(void *arg0);
     static void * copy_char_slot_data(void * a0, void * a1);
     static s32 copy_character_to_slot(CharacterFile *arg0, int arg1, CharacterFile *arg2, int arg3);
     static void copy_chr_slots_from_request();
-    static s32 copy_save_data(int arg0, int arg1);
+    static CharacterFile *copy_save_data(CharacterFile *arg0, CharacterFile *arg1);
     static void encrypt_save_data(void *arg0);
     static void create_instance();
     static s32 encrypt_and_save();
@@ -186,7 +187,7 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     static s32 get_type(void* p);
     static void increment_counter();
     static void increment_counters();
-    static s32 init_and_register(int arg0);
+    static s32 init_and_register(CharacterFile *arg0);
     static void init_char_select_globals();
     static s32 load_character_from_card();
     static s32 load_chr_select_slot();

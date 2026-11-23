@@ -1027,7 +1027,7 @@ s32 check_slot_a_card_save(void) {
     u64 serial_number;
     s32 i;
     if (card_character_save_buffer == 0) return 0;
-    if (TAdSinglePlyChrSelectGC::init_and_register((saddr)card_character_save_buffer) == 0) return 1;
+    if (TAdSinglePlyChrSelectGC::init_and_register(card_character_save_buffer) == 0) return 1;
     TAdPlayerLoadGC::reset_load_state(0, &serial_number);
     for (i = 0; i < 8; i++) {
         u8 b = ((u8 *)&serial_number)[i];
@@ -1043,7 +1043,7 @@ s32 check_slot_b_card_save(void) {
     s32 i;
     CharacterFile *p = secondary_card_character_save_buffer;
     if (p == 0) return 0;
-    if (TAdSinglePlyChrSelectGC::init_and_register((saddr)p) == 0) return 1;
+    if (TAdSinglePlyChrSelectGC::init_and_register(p) == 0) return 1;
     TAdPlayerLoadGC::reset_load_state(1, &serial_number);
     for (i = 0; i < 8; i++) {
         u8 b = ((u8 *)&serial_number)[i];
@@ -2460,7 +2460,6 @@ struct Str_80200A44 {
 
 extern "C" {
 s32 reinit__17TWindowSubComCardFi(s32 arg0);
-u8 *construct_card_window_array__23TAdSinglePlyChrSelectGCFPv(u8 *arg0);
 s32 init_character_stats_for_level(u8, void *, s32);
 void init_class_starting_inventory(void *arg0);
 void TLobby__sub_801F494C(u16 arg0);
@@ -2468,20 +2467,20 @@ void TAdSinglePlyChrSelectGC__sub_802000C8(void *arg0_, void *arg1);
 s32 init_guild_card_tag__17TWindowSubComCardFi(s32 arg0);
 
 saddr init_windows__23TAdSinglePlyChrSelectGCFi(saddr arg0) {
-    construct_card_window_array__23TAdSinglePlyChrSelectGCFPv((u8 *)(arg0 + 4));
-    TAdSinglePlyChrSelectGC::construct_card_window_array(arg0 + 0xD2C4);
+    TAdSinglePlyChrSelectGC::construct_card_window_array((void *)(arg0 + 4));
+    TAdSinglePlyChrSelectGC::construct_guild_card_tag_array((void *)(arg0 + 0xD2C4));
     return arg0;
 }
 
 
-saddr construct_card_window_array__23TAdSinglePlyChrSelectGCFi(saddr arg0) {
-    __construct_array((void *)arg0, (void *)init_guild_card_tag__17TWindowSubComCardFi, 0, 0x90, 0x1C);
+void *TAdSinglePlyChrSelectGC::construct_guild_card_tag_array(void *arg0) {
+    __construct_array(arg0, (void *)init_guild_card_tag__17TWindowSubComCardFi, 0, 0x90, 0x1C);
     return arg0;
 }
 
-u8 *construct_card_window_array__23TAdSinglePlyChrSelectGCFPv(u8 *arg0) {
-    __construct_array(arg0 + 0xC0, (void *)reinit__17TWindowSubComCardFi, 0, 0x100, 0xD2);
-    return arg0;
+u8 *TAdSinglePlyChrSelectGC::construct_card_window_array(void *arg0) {
+    __construct_array((u8 *)arg0 + 0xC0, (void *)reinit__17TWindowSubComCardFi, 0, 0x100, 0xD2);
+    return (u8 *)arg0;
 }
 
 #pragma push
@@ -2684,11 +2683,11 @@ s32 TAdSinglePlyChrSelectGC::write_encrypted_save(void) {
 void decrypt_char_data__23TAdSinglePlyChrSelectGCFPv(void *arg0) {
     CharacterFile *a = new CharacterFile;
     CharacterFile *b = new CharacterFile;
-    TAdSinglePlyChrSelectGC::copy_save_data((saddr)a, (saddr)arg0);
+    TAdSinglePlyChrSelectGC::copy_save_data(a, (CharacterFile *)arg0);
     subtractive_rng_seed(&chr_select_rng_state, chr_select_serial_seeds[1]);
     subtractive_rng_make_shuffle((s32 *)&chr_select_rng_state);
     subtractive_rng_unshuffle(&chr_select_rng_state, (const u8 *)a, (u8 *)b, 0x1156C);
-    TAdSinglePlyChrSelectGC::copy_save_data((saddr)arg0, (saddr)b);
+    TAdSinglePlyChrSelectGC::copy_save_data((CharacterFile *)arg0, b);
     delete b;
     delete a;
     subtractive_rng_seed(&chr_select_rng_state, chr_select_serial_seeds[0]);
@@ -2697,7 +2696,7 @@ void decrypt_char_data__23TAdSinglePlyChrSelectGCFPv(void *arg0) {
     subtractive_rng_xor_buffer((s32 *)&chr_select_rng_state, (u32 *)arg0, 0x11568);
 }
 
-s32 copy_save_data__23TAdSinglePlyChrSelectGCFii(saddr arg0, saddr arg1) {
+CharacterFile *TAdSinglePlyChrSelectGC::copy_save_data(CharacterFile *arg0, CharacterFile *arg1) {
     Save_80200690 *dst = (Save_80200690 *)arg0;
     Save_80200690 *src = (Save_80200690 *)arg1;
     Slot_80200690 *d;
@@ -2729,11 +2728,11 @@ void TAdSinglePlyChrSelectGC::encrypt_save_data(void *arg0) {
     ((TAdSinglePlyChrSelectGC *)&chr_select_rng_state)->apply_rng_cipher((u32 *)self, 0x1156C);
     a = new CharacterFile;
     b = new CharacterFile;
-    TAdSinglePlyChrSelectGC::copy_save_data((saddr)a, (saddr)self);
+    TAdSinglePlyChrSelectGC::copy_save_data(a, (CharacterFile *)self);
     subtractive_rng_seed(&chr_select_rng_state, chr_select_serial_seeds[1]);
     subtractive_rng_make_shuffle((s32 *)&chr_select_rng_state);
     TAdSinglePlyChrSelectGC::permute_save_blocks(&chr_select_rng_state, (const u8*)a, (u8*)b, (u32)0x1156C);
-    TAdSinglePlyChrSelectGC::copy_save_data((saddr)self, (saddr)b);
+    TAdSinglePlyChrSelectGC::copy_save_data((CharacterFile *)self, b);
     delete b;
     delete a;
 }
@@ -3050,17 +3049,17 @@ s32 TAdSinglePlyChrSelectGC::update_play_time() {
 }
 
 
-s32 TAdSinglePlyChrSelectGC::init_and_register(int arg0) {
-    saddr allocation;
+s32 TAdSinglePlyChrSelectGC::init_and_register(CharacterFile *arg0) {
+    CharacterFile *allocation;
     u32 temp_r30;
     u32 temp_r31;
 
-    allocation = (saddr)new CharacterFile;
+    allocation = new CharacterFile;
     TAdSinglePlyChrSelectGC::copy_save_data(allocation, arg0);
-    temp_r30 = TAdSinglePlyChrSelectGC::get_type((void *)allocation);
-    TAdSinglePlyChrSelectGC::set_id((void *)allocation, 0);
+    temp_r30 = TAdSinglePlyChrSelectGC::get_type(allocation);
+    TAdSinglePlyChrSelectGC::set_id(allocation, 0);
     temp_r31 = calc_crc32_bitwise((u8 *)allocation, 0x1156C);
-    delete (CharacterFile *)allocation;
+    delete allocation;
     if (temp_r30 == temp_r31) {
         return 1;
     }
