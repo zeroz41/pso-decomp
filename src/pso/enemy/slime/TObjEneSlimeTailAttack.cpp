@@ -53,6 +53,7 @@ struct NJS_OBJECT;
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/object/base/TObjBase.h"
 
 extern "C" {
 extern void *slime_model_index_by_type[2];
@@ -103,7 +104,7 @@ extern const char TObjEneSlimeWaterBomb__class_name_string[] = "TObjEneSlimeWate
 }
 SlimeTailNodeCapture slime_tail_node_capture;
 extern "C" {
-void *slime_bml_resource;
+BmlResource *slime_bml_resource;
 int slime_tail_node_index;  // capture_slime_tail_node's count of the nodes drawn
 
 extern void *slime_model_name_ptr_table[7];
@@ -194,7 +195,7 @@ const char *TObjEneSlimeTailAttack__name = TObjEneSlimeTailAttack__class_name_st
 
 extern "C" {
 s32 has_no_active_slot(TObjEneSlime *self);
-s32 spawn_slime_in_slot(TObjEneSlime *origin, s32 arg1, Vec *arg2, Vec *arg3);
+s32 spawn_slime_in_slot(TObjEneSlime *origin, s32 index, Vec *position, Vec *velocity);
 
 }
 
@@ -223,6 +224,7 @@ s32 spawn_slime_in_slot(TObjEneSlime *origin, s32 arg1, Vec *arg2, Vec *arg3);
 #include "pso/player/TObjPlayer_800EBE2C.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/render/BlobShadow.h"
+#include "pso/player/PlayerSlots.h"
 
 
 
@@ -254,21 +256,15 @@ s32 TObjEneSlime::create(saddr set_data) {
 }
 
 void TObjEneSlime::spawn_pair() {
-    void *resource;
-    void *models;
-
-    resource = new BmlResource(1, (BmlResourceDescriptor *)slime_pair_resource_descriptor, 0, 0, NULL);
-    slime_bml_resource = resource;
-    models = *(void **)((s8 *)resource + 0x42C);
-    TObjEneSlime::spawn_child(0x28, *(s32 *)((s8 *)models + 0x48), *(s32 *)((s8 *)models + 0x4C), 10.0f, 0.0f);
-    models = *(void **)((s8 *)slime_bml_resource + 0x42C);
-    TObjEneSlime::spawn_child(0x29, *(s32 *)((s8 *)models + 0x58), *(s32 *)((s8 *)models + 0x5C), 10.0f, 0.0f);
+    slime_bml_resource = new BmlResource(1, (BmlResourceDescriptor *)slime_pair_resource_descriptor, 0, 0, NULL);
+    TObjEneSlime::spawn_child(0x28, slime_bml_resource->models[4].model, slime_bml_resource->models[4].texlist, 10.0f, 0.0f);
+    TObjEneSlime::spawn_child(0x29, slime_bml_resource->models[5].model, slime_bml_resource->models[5].texlist, 10.0f, 0.0f);
 }
 
 void TObjEneSlime::free_instance() {
-    if ((uaddr) slime_bml_resource != 0U) {
-        delete (BmlResource *)slime_bml_resource;
-        slime_bml_resource = 0U;
+    if (slime_bml_resource != NULL) {
+        delete slime_bml_resource;
+        slime_bml_resource = NULL;
     }
 }
 
@@ -321,19 +317,19 @@ void TObjEneSlime::render() {
         push_matrix();
         model_index = *(s32 *)((s8 *)((u8 *)slime_model_index_by_type + type_offset) + 0);
         post_translate_matrix(&position.x);
-        TObjFish::set_global_param(get_bml_texlist((BmlResource *)slime_bml_resource, model_index));
+        TObjFish::set_global_param(get_bml_texlist(slime_bml_resource, model_index));
         if (deferred != 0) {
             model_render_flags |= 0x400000;
             set_chunk_render_flags(1);
-            draw_chunk_object((void *)get_bml_model((BmlResource *)slime_bml_resource, model_index));
+            draw_chunk_object((void *)get_bml_model(slime_bml_resource, model_index));
             clear_chunk_render_flags();
             model_render_flags &= 0xFFBFFFFF;
         } else {
             set_chunk_render_flags(2);
             set_cull_back();
-            draw_chunk_object((void *)get_bml_model((BmlResource *)slime_bml_resource, model_index));
+            draw_chunk_object((void *)get_bml_model(slime_bml_resource, model_index));
             set_cull_front();
-            draw_chunk_object((void *)get_bml_model((BmlResource *)slime_bml_resource, model_index));
+            draw_chunk_object((void *)get_bml_model(slime_bml_resource, model_index));
             set_cull_none();
             clear_chunk_render_flags();
         }
@@ -511,7 +507,7 @@ void TObjEneSlimeOne::initialize_slime_instance_state() {
 
     s32 *variant = &actor->variant;
     s32 id = ((s32 *)slime_one_model_by_variant)[*variant];
-    actor->texlist = (saddr)get_bml_texlist(actor->model_archive, id);
+    actor->texlist = get_bml_texlist(actor->model_archive, id);
     actor->model = reinterpret_cast<void *>(get_bml_model(actor->model_archive, id));
     VecCopy(&actor->prev_position, VecCopy(&actor->home_position, VecCopy(&actor->center, &actor->position)));
     actor->collision_body_parts = init_collision_body_parts(actor, slime_one_collision_body, 1);
@@ -584,9 +580,9 @@ void TObjEneSlimeOne::run_task() {
 }
 void TObjEneSlimeOne::render() {
     TObjEneSlimeOne *ene_slime_one = this;
-    s32 temp_r31;
+    s32 deferred;
     if ((TObjPlayer::check_demo_mode() == 0) && !(ene_slime_one->alpha <= 0.0f) && (((TObjEneSlimeOne *)(ene_slime_one))->update_object_view_visibility(500.0f, 20.0f) != 0)) {
-        temp_r31 = ene_slime_one->defer_render();
+        deferred = ene_slime_one->defer_render();
         if (ene_slime_one->alpha < 1.0f) {
             push_material_fade(ene_slime_one->alpha);
         }
@@ -599,7 +595,7 @@ void TObjEneSlimeOne::render() {
         }
         rotate_matrix_y(0, ene_slime_one->rotation_y);
         scale_matrix_vec3(0, (u8 *)&ene_slime_one->draw_scale);
-        ene_slime_one->animation->draw(temp_r31);
+        ene_slime_one->animation->draw(deferred);
         pop_matrix();
         TParticleCtrl::end_effect_render();
         if (ene_slime_one->alpha < 1.0f) {
@@ -905,7 +901,7 @@ void TObjEneSlimeOne::update_scan() {
     }
     this->motion_phase -= 0x600;
     if (this->motion_phase <= 0) {
-        n = (f32)*(u32 *)((s8 *)(get_bml_motion(model_archive, 10)) + 4) / 0.5f;
+        n = (f32)(get_bml_motion(model_archive, 10))->frameCount / 0.5f;
         this->motion_phase = 0;
         if (this->target_client_id != 0xFFFF) {
             direction.x = 1.0f;
@@ -1418,7 +1414,7 @@ TObjEneSlimeTailAttack::TObjEneSlimeTailAttack(TObject *parent, const Vec *posit
     this->owner = owner;
     BmlResource *resource = reinterpret_cast<BmlResource *>(TObjEneSlimeOne::get_instance());
     u32 id = slime_tail_model_by_target[this->owner->get_attack_target()];
-    texlist = (saddr)get_bml_texlist(resource, id);
+    texlist = get_bml_texlist(resource, id);
     model = (void *)get_bml_model(resource, id);
     action_table = (TObjMotionAction *)slime_motion_action_table;
     set_action_table((saddr)slime_motion_action_table);
@@ -1513,7 +1509,7 @@ s32 TObjEneSlimeTailAttack::apply_tail_hits() {
     id2 = self->find_nearest_enemy_with_flag(25.0f);
     if (id2 != 0xFFFF) {
         TObjEneSlimeOne *owner = self->owner;
-        if (owner == NULL || id2 != (u16)get_entity_id(owner)) {
+        if (owner == NULL || id2 != (u16)owner->get_entity_id()) {
             e2 = (TObjChara *)get_enemy_entity(id2);
             if (e2 != NULL && !(horizontal_distance_squared(&self->body_center, &e2->body_center) > 56.25f)) {
                 f32 damage = e2->receive_direct_attack(self->owner, hit, 0, -1, -1);
@@ -1563,7 +1559,7 @@ void TObjEneSlimeTailAttack::draw_body() {
     push_matrix();
     post_translate_matrix(&position.x);
     rotate_matrix_y(0, (int) (this->rotation_y));
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
+    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
     if (active != 0) {
         reset_slime_tail_node_index();
         set_chunk_model_node_callback(capture_slime_tail_node);
@@ -1608,7 +1604,7 @@ void TObjEneSlimeTailAttack::draw_stretched_segment(Vec *from, Vec *to, f32 t) {
         f32 r = 1.0f - t;
         scale_matrix(0, 1.0f, 0.5f, r * len / 10.0f);
     }
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(this->texlist));
+    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
     push_material_fade(0.10000001f * t + 0.05f);
     saved = this->frame;
     this->frame = 7.0f;

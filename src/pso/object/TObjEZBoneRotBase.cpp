@@ -82,7 +82,7 @@ void TObjEZBoneRotPlayer::advance_bone_rotation() {
     }
 }
 
-void TObjEZBoneRotPlayer::calc_bone_offsets_recursive(void *arg1, s32 arg2, s32 arg3) {
+void TObjEZBoneRotPlayer::calc_bone_offsets_recursive(void *arg1, s32 angle, s32 arg3) {
     s32 k;
     f32 t;
     do {
@@ -91,7 +91,7 @@ void TObjEZBoneRotPlayer::calc_bone_offsets_recursive(void *arg1, s32 arg2, s32 
             return;
         }
         if (k == *(s32 *)((s8 *)this + 0x88)) {
-            t = (f32) arg3 * sin_table_lookup(arg2);
+            t = (f32) arg3 * sin_table_lookup(angle);
             *(s32 *)((s8 *)arg1 + 0x14) = *(s32 *)((s8 *)(*(u8 **)((s8 *)this + 0x90)) + 0) + (s32) (*(f32 *)((s8 *)(*(u8 **)((s8 *)this + 0x8C)) + 4) * t);
             *(s32 *)((s8 *)arg1 + 0x18) = *(s32 *)((s8 *)(*(u8 **)((s8 *)this + 0x90)) + 4) + (s32) (*(f32 *)((s8 *)(*(u8 **)((s8 *)this + 0x8C)) + 8) * t);
             *(s32 *)((s8 *)arg1 + 0x1C) = *(s32 *)((s8 *)(*(u8 **)((s8 *)this + 0x90)) + 8) + (s32) (*(f32 *)((s8 *)(*(u8 **)((s8 *)this + 0x8C)) + 0xC) * t);
@@ -103,17 +103,17 @@ void TObjEZBoneRotPlayer::calc_bone_offsets_recursive(void *arg1, s32 arg2, s32 
         }
         *(s32 *)((s8 *)this + 0x88) = *(s32 *)((s8 *)this + 0x88) + 1;
         if (*(void **)((s8 *)arg1 + 0x2C) != NULL) {
-            calc_bone_offsets_recursive(*(void **)((s8 *)arg1 + 0x2C), arg2 + *(s32 *)((s8 *)(*(u8 **)((s8 *)this + 0x20)) + 8), (s32) (*(f32 *)((s8 *)(*(u8 **)((s8 *)this + 0x20)) + 0xC) * (f32) arg3));
+            calc_bone_offsets_recursive(*(void **)((s8 *)arg1 + 0x2C), angle + *(s32 *)((s8 *)(*(u8 **)((s8 *)this + 0x20)) + 8), (s32) (*(f32 *)((s8 *)(*(u8 **)((s8 *)this + 0x20)) + 0xC) * (f32) arg3));
         }
         arg1 = *(void **)((s8 *)arg1 + 0x30);
     } while (arg1 != NULL);
 }
 
-void TObjEZBoneRotPlayer::start_bone_rotation_sequence(s32 arg1) {
+void TObjEZBoneRotPlayer::start_bone_rotation_sequence(s32 angle) {
     *(s32 *)((s8 *)((u8 *)this) + 0x88) = 0;
     *(s32 *)((s8 *)((u8 *)this) + 0x8C) = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)((u8 *)this) + 0x20)) + 0x10);
     *(saddr *)((s8 *)((u8 *)this) + 0x90) = (saddr) (((u8 *)this) + 0x24);
-    calc_bone_offsets_recursive((void *)(*(u8 **)((s8 *)((u8 *)this) + 0x1C)), arg1, (s32)((s32) ((f32) *(s32 *)((s8 *)(*(u8 **)((s8 *)((u8 *)this) + 0x20)) + 0) * *(f32 *)((s8 *)((u8 *)this) + 0x94))));
+    calc_bone_offsets_recursive((void *)(*(u8 **)((s8 *)((u8 *)this) + 0x1C)), angle, (s32)((s32) ((f32) *(s32 *)((s8 *)(*(u8 **)((s8 *)((u8 *)this) + 0x20)) + 0) * *(f32 *)((s8 *)((u8 *)this) + 0x94))));
 }
 
 void TObjEZBoneRotBase::sub_800FEC40(u8 *arg1) {
@@ -222,7 +222,7 @@ struct Self_800FEEA4 {
 
 extern "C" {
 void matrix_mult_vec(s32, void *, void *);
-extern f32 TObjEZBoneRotPlayer__chain_gravity[3];
+extern Vec TObjEZBoneRotPlayer__chain_gravity;
 
 void TObjHMS_EZRope_Player::render() { sub_800FF2D0(); }
 void TObjHMS_EZRope_Player::run_task() {
@@ -238,7 +238,7 @@ void TObjHMS_EZRope_Player::run_task() {
         while (rs->bone >= 0) {
             rd->angle = rs->angle;
             push_matrix();
-            TObjPlayer::concat_matrix(0, ((TObjMotion *)(((Self_800FEEA4 *)this)->model))->get_item_ptr(rs->bone));
+            TObjPlayer::concat_matrix(0, ((TObjMotion *)(((Self_800FEEA4 *)this)->model))->get_joint_matrix(rs->bone));
             matrix_mult_vec(0, rs->data, rd->data);
             pop_matrix();
             rs++;
@@ -253,14 +253,14 @@ void TObjHMS_EZRope_Player::run_task() {
     while (ps->bone >= 0) {
         pd->val = ((Self_800FEEA4 *)this)->model->base + ps->ofs;
         push_matrix();
-        TObjPlayer::concat_matrix(0, ((TObjMotion *)(((Self_800FEEA4 *)this)->model))->get_item_ptr(ps->bone));
+        TObjPlayer::concat_matrix(0, ((TObjMotion *)(((Self_800FEEA4 *)this)->model))->get_joint_matrix(ps->bone));
         matrix_mult_vec(0, ps->data, pd->data);
         pop_matrix();
         ps++;
         pd++;
     }
     pop_matrix();
-    ((TObjEZRopeBase *)((Self_800FEEA4 *)this))->sub_800FF788(TObjEZBoneRotPlayer__chain_gravity);
+    ((TObjEZRopeBase *)((Self_800FEEA4 *)this))->update_ropes(&TObjEZBoneRotPlayer__chain_gravity);
 }
 
 }

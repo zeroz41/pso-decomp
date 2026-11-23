@@ -12,8 +12,8 @@ public:
     s32 m_state;
     s32 m_texture_index;
     AdxfHandle *m_archive_handle;
-    GinjaTextureList m_texture_list;
-    GinjaTextureEntry m_texture_entry;
+    NJS_TEXLIST m_texture_list;
+    NJS_TEXNAME m_texture_entry;
 
     TItemTexLoad(TObject* parent);
     virtual ~TItemTexLoad();
@@ -22,7 +22,7 @@ public:
     void unload_texture();
     s32 load_texture(s32 index);
     s32 load_item_icon(TItemData* item);
-    GinjaTextureList* ready_texture_list();
+    NJS_TEXLIST* ready_texture_list();
     static TItemTexLoad* create(TObject* parent);
     static void free_textures();
 };
@@ -35,13 +35,13 @@ LAYOUT_ASSERT(ItemTexIndexOffset, offsetof(TItemTexLoad,m_texture_index)==0x24);
 LAYOUT_ASSERT(ItemTexHandleOffset, offsetof(TItemTexLoad,m_archive_handle)==0x28);
 LAYOUT_ASSERT(ItemTexListOffset, offsetof(TItemTexLoad,m_texture_list)==0x2C);
 LAYOUT_ASSERT(ItemTexEntryOffset, offsetof(TItemTexLoad,m_texture_entry)==0x34);
-LAYOUT_ASSERT(GinjaTextureListSize, sizeof(GinjaTextureList)==8);
-LAYOUT_ASSERT(GinjaTextureListEntries, offsetof(GinjaTextureList,entries)==0);
-LAYOUT_ASSERT(GinjaTextureListCount, offsetof(GinjaTextureList,count)==4);
-LAYOUT_ASSERT(GinjaTextureEntrySize, sizeof(GinjaTextureEntry)==12);
-LAYOUT_ASSERT(GinjaTextureEntryName, offsetof(GinjaTextureEntry,name)==0);
-LAYOUT_ASSERT(GinjaTextureEntryValue04, offsetof(GinjaTextureEntry,value04)==4);
-LAYOUT_ASSERT(GinjaTextureEntryTexture, offsetof(GinjaTextureEntry,texture)==8);
+LAYOUT_ASSERT(GinjaTextureListSize, sizeof(NJS_TEXLIST)==8);
+LAYOUT_ASSERT(GinjaTextureListEntries, offsetof(NJS_TEXLIST,textures)==0);
+LAYOUT_ASSERT(GinjaTextureListCount, offsetof(NJS_TEXLIST,nbTexture)==4);
+LAYOUT_ASSERT(GinjaTextureEntrySize, sizeof(NJS_TEXNAME)==12);
+LAYOUT_ASSERT(GinjaTextureEntryName, offsetof(NJS_TEXNAME,filename)==0);
+LAYOUT_ASSERT(GinjaTextureEntryValue04, offsetof(NJS_TEXNAME,attr)==4);
+LAYOUT_ASSERT(GinjaTextureEntryTexture, offsetof(NJS_TEXNAME,texture)==8);
 
 void load_item_kt_afs(void);
 

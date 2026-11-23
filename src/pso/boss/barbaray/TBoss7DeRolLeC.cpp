@@ -2,6 +2,7 @@
 #include "pso/effect/particle/ParticleFactory.h"
 
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/object/base/TObjBase.h"
 
 #include "pso/animation/MotionContext.h"
 #include "pso/unk/text_803D853C.h"
@@ -148,6 +149,8 @@ extern TObjMotionAction de_rol_le_c_action_table[17];
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/render/model_render_state.h"
 #include "pso/map/area/AreaScene.h"
+#include "pso/boss/barbaray/TBoss7BodyBreakUp.h"
+#include "pso/player/PlayerSlots.h"
 
 // Step of a De Rol Le C action sequence: the action id and its parameter, a
 // duration in seconds (the timer compares against param * 30) or the
@@ -601,7 +604,7 @@ TBoss7DeRolLeC::TBoss7DeRolLeC(TObject *parent, void *set_data) : TObjEneDD_ST(p
     }
     init_position_vectors();
     model = (void *)get_bml_model(boss7_derolle_c_bml_resource, 0);
-    texlist = (saddr)get_bml_texlist(boss7_derolle_c_bml_resource, 0);
+    texlist = get_bml_texlist(boss7_derolle_c_bml_resource, 0);
     save_joint_polygons();
     copy_collision_body(&collision_body, &boss7_derolle_c_collision_body);
     set_collision_body(&collision_body);
@@ -793,12 +796,7 @@ void TBoss7DeRolLeC::run_task() {
     if (flags & 0x80) {
         this->state_flags = flags & ~0x80;
         this->state_flags |= 0x40;
-        {
-            void *p = (void *)TObject::operator new(0x3C);
-            if (p != NULL) {
-                ((TObjPlayer *)p)->init_breakup_pieces(this, (saddr)this->node_matrices);
-            }
-        }
+        new TBoss7BodyBreakUp(this, node_matrices);
     }
     if ((TObjEneDD::is_main_phase_15() != 0) && (this->debug_pad_active == 0)) {
         if (this->update_lobby_state() != 0) {
@@ -3709,7 +3707,7 @@ void TBoss7DeRolLeC::render() {
 
 void TObjPlayer::draw_effect() { TObjFish::set_global_param(get_bml_texlist(boss7_derolle_c_bml_resource, 0)); }
 
-GinjaTextureList *TBoss7DeRolLeC::get_archive_textures() { return (GinjaTextureList *)get_bml_texlist(boss7_derolle_c_bml_resource, 0); }
+NJS_TEXLIST *TBoss7DeRolLeC::get_archive_textures() { return get_bml_texlist(boss7_derolle_c_bml_resource, 0); }
 
 NJS_OBJECT *TBoss7DeRolLeC::get_archive_model(s32 index) { return (NJS_OBJECT *)get_bml_model(boss7_derolle_c_bml_resource, index); }
 
@@ -3759,13 +3757,13 @@ void TBoss7DeRolLeC::spawn_crawfish_child(s16 slot, const Vec *position, Boss7An
     u16 id;
     TObject *child;
     if (crawfish_parent != NULL && slot > 0) {
-        u16 base_id = get_entity_id(this);
+        u16 base_id = this->get_entity_id();
         CrawfishSlotOffset offset;
         offset.value = slot;
         add_crawfish_slot_base(offset);
         id = offset.value + base_id;
         for (child = crawfish_parent->m_down; child != NULL; child = child->m_next) {
-            if (id == get_entity_id((TObjBase *)child)) {
+            if (id == ((TObjBase *)child)->get_entity_id()) {
                 return;
             }
         }
@@ -3800,9 +3798,9 @@ s16 TBoss7DeRolLeC::find_free_crawfish_slot() {
     TObject *child;
     s16 i;
     memset(used, 0, sizeof(used));
-    base = get_entity_id(this) + 11;
+    base = this->get_entity_id() + 11;
     for (child = crawfish_parent->m_down; child != NULL; child = child->m_next) {
-        used[get_entity_id((TObjBase *)child) - base] = 1;
+        used[((TObjBase *)child)->get_entity_id() - base] = 1;
     }
     for (i = 35; i >= 0; i--) {
         if (used[i] == 0) {

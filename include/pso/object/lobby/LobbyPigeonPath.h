@@ -3,14 +3,7 @@
 
 #include "types.h"
 
-// --- C functions defined in LobbyPigeonPath.cpp ---
-extern "C" {
-void *TObjPlayer__sub_802C28B4(void *arg0);
-void TObjPlayer__sub_802C2900(void);
-void *create__10TObjPlayerFPv(void *arg0);
-void draw_line_strip__10TObjPlayerFPviif(u8 *path_obj, s32 arg1, s32 arg2, f32 farg0);
-}
+// The lobby event theme the pigeons show in (events 3 and 9 share one); the argument is unused.
 s32 filter_lobby_pigeon_theme(void *);
-// --- end of C functions
 
 #endif

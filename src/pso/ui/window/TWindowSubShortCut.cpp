@@ -28,7 +28,7 @@ struct TWindowShortCut;
 
 #pragma readonly_strings on
 
-struct Win_8027DBB8 { u8 pad[0x20]; saddr f20; };
+struct Win_8027DBB8 { u8 pad[0x20]; saddr client_id; };
 
 extern "C" {
 saddr get_window_layout_position(s32 a0);
@@ -39,7 +39,6 @@ extern "C" {
 void open_com_card_list__18TWindowSubShortCutFv(void *arg0);
 u32 *get_chat_shortcut();
 saddr get_window_layout_position(s32 a0 = 0);
-int forward_trade_action_default__16TObjCityMainWarpFPviii(void *p, int a1, int a2, int a3);
 
 }
 
@@ -62,7 +61,7 @@ TWindowSubShortCut::TWindowSubShortCut(TObject *object, void *arg2) : TObject(ob
 
 TWindowSubShortCut::~TWindowSubShortCut() {
     if (*(void **)((s8 *)this + 0x38) != NULL) { ((TObject *)(*(void **)((s8 *)this + 0x38)))->queue_destruction(); this->chat_window = 0; }
-    if (*(void **)((s8 *)this + 0x34) != NULL) { ((TWindowSubComCard *)(*(void **)((s8 *)this + 0x34)))->close(); this->confirm_window = 0; }
+    if (*(void **)((s8 *)this + 0x34) != NULL) { ((TWindowMessageYesNo *)(*(void **)((s8 *)this + 0x34)))->close(); this->confirm_window = 0; }
     if (*(void **)((s8 *)this + 0x3C) != NULL) { ((TWindowBase *)(*(void **)((s8 *)this + 0x3C)))->close(); this->m_3c = 0; }
     if (*(void **)((s8 *)this + 0x30) != NULL) { ((TWindowBase *)(*(void **)((s8 *)this + 0x30)))->close(); this->menu = 0; }
     if (*(void **)((s8 *)this + 0x2C) != NULL) { ((TWindowBase *)(*(void **)((s8 *)this + 0x2C)))->close(); this->com_card_list = 0; }
@@ -79,7 +78,7 @@ void TWindowSubShortCut::run_task() {
             this->chat_window = 0U;
         }
         if ((u32) this->confirm_window != 0U) {
-            ((TWindowSubComCard *)(this->confirm_window))->close();
+            ((TWindowMessageYesNo *)(this->confirm_window))->close();
             this->confirm_window = 0U;
         }
         if ((u32) this->m_3c != 0U) {
@@ -108,7 +107,7 @@ void TWindowSubShortCut::run_task() {
         break;
     case 3:
         if ((u32) this->confirm_window != 0U) {
-            ((TWindowSubComCard *)(this->confirm_window))->close();
+            ((TWindowMessageYesNo *)(this->confirm_window))->close();
             this->confirm_window = 0U;
         }
         if ((u32) this->menu == 0U) {
@@ -168,12 +167,12 @@ void TWindowSubShortCut::run_task() {
         }
         this->state = 8U;
     case 8:
-        if (((TWindowSubComCard *)(this->confirm_window))->get_card_data() != 0) {
+        if (((TWindowMessageYesNo *)(this->confirm_window))->is_cancelled() != 0) {
             this->state = 1U;
             return;
         }
         if (((TWindowMessageYesNo *)(this->confirm_window))->is_child_visible() != 0) {
-            if (((TWindowSubComCard *)(this->confirm_window))->get_slot_or_neg1() == 0) {
+            if (((TWindowMessageYesNo *)(this->confirm_window))->get_selected_value() == 0) {
                 store_chat_shortcut((this->m_24), (saddr)(arg0 + 0x40));
                 this->state = 1U;
                 return;
@@ -183,18 +182,18 @@ void TWindowSubShortCut::run_task() {
         }
         break;
     case 9:
-        ((TWindowOptionCtrl *)(this->menu))->open();
+        ((TWindowMenu *)(this->menu))->open();
         if ((u32) this->confirm_window == 0U) {
             this->confirm_window = open_confirm_message();
         }
         this->state = 0xAU;
     case 10:
-        if (((TWindowSubComCard *)(this->confirm_window))->get_card_data() != 0) {
+        if (((TWindowMessageYesNo *)(this->confirm_window))->is_cancelled() != 0) {
             this->state = 3U;
             return;
         }
         if (((TWindowMessageYesNo *)(this->confirm_window))->is_child_visible() != 0) {
-            if (((TWindowSubComCard *)(this->confirm_window))->get_slot_or_neg1() == 0) {
+            if (((TWindowMessageYesNo *)(this->confirm_window))->get_selected_value() == 0) {
                 ((TWindowMenuIconLine *)this->com_card_list)->get_cursor_value();
                 clear_chat_shortcut();
                 this->state = 1U;
@@ -222,11 +221,11 @@ s32 TWindowSubShortCut::open_menu() {
     ((TWindowMenuIconLine *)this->com_card_list)->get_cursor_value();
     chat_shortcut = get_chat_shortcut();
     list = create_titled_window_menu_default(get_window_layout_position(0x74), 2, (saddr)TWindowSubStatusDisp::get_message_10(0x2C));
-    forward_trade_action_default__16TObjCityMainWarpFPviii((void *)list, (int)((saddr)TWindowSubStatusDisp::get_message_10(0x7E)), 6, 5);
+    ((TWindowMenu *)list)->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x7E)), 6, 5);
     if ((u32) *chat_shortcut != 0U) {
-        TObjCityMainWarp::forward_trade_action_default((void *)list, (saddr)(TWindowSubStatusDisp::get_message_10(0x5A)), 6, 9);
+        ((TWindowMenu *)list)->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x5A)), 6, 9);
     } else {
-        add_gray_text_entry((TWindowSubTradeMain *)list, (const char *)(TWindowSubStatusDisp::get_message_10(0x5A)), 6, 9);
+        add_gray_text_entry((TWindowMenu *)list, (const char *)(TWindowSubStatusDisp::get_message_10(0x5A)), 6, 9);
     }
     ((TWindowMenu *)list)->set_flag70_bit10();
     ((TWindowMenu *)list)->update_layout_height(205.0f);
@@ -236,20 +235,20 @@ s32 TWindowSubShortCut::open_menu() {
 
 s32 TWindowSubShortCut::open_confirm_prompt() {
     Win_8027DBB8 *arg0 = (Win_8027DBB8 *)this;
-    saddr r = (saddr)TWindowMessageYesNo::create((void *)(arg0), arg0->f20, 0, 0);
+    saddr r = (saddr)TWindowMessageYesNo::create((void *)(arg0), arg0->client_id, 0, 0);
     open_yes_no_prompt(reinterpret_cast<TWindowMessageYesNo *>(r), (uaddr)(TWindowSubStatusDisp::get_message_10(0x20)), (saddr)(TWindowSubStatusDisp::get_message_10(0x3D)), (s32)(get_window_layout_position(0x75)), 205.0f);
     ((TWindowMessageYesNo *)r)->set_choice_menu_flag70_bit10();
     return r;
 }
 
 s32 TWindowSubShortCut::open_confirm_message() {
-    saddr temp_r29;
+    saddr dialog;
 
-    temp_r29 = (saddr)TWindowMessageYesNo::create((void *)(this), this->m_20, 0, 0);
-    open_yes_no_prompt(reinterpret_cast<TWindowMessageYesNo *>(temp_r29), (uaddr)(TWindowSubStatusDisp::get_message_10(0x20)), (saddr)(TWindowSubStatusDisp::get_message_10(0x3e)), (s32)(get_window_layout_position(0x76)), 205.0f);
-    ((TWindowMessageYesNo *)temp_r29)->set_menu_selected_index(1);
-    ((TWindowMessageYesNo *)temp_r29)->set_choice_menu_flag70_bit10();
-    return temp_r29;
+    dialog = (saddr)TWindowMessageYesNo::create((void *)(this), this->client_id, 0, 0);
+    open_yes_no_prompt(reinterpret_cast<TWindowMessageYesNo *>(dialog), (uaddr)(TWindowSubStatusDisp::get_message_10(0x20)), (saddr)(TWindowSubStatusDisp::get_message_10(0x3e)), (s32)(get_window_layout_position(0x76)), 205.0f);
+    ((TWindowMessageYesNo *)dialog)->set_menu_selected_index(1);
+    ((TWindowMessageYesNo *)dialog)->set_choice_menu_flag70_bit10();
+    return dialog;
 }
 
 int TWindowSubQuestBoardSelect::is_shortcut_active() { return this->m_60 & 0x4; }

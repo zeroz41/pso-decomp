@@ -4,13 +4,15 @@
 #include "types.h"
 #include "pso/ui/frontend/TAdAgreementBaseGC.h"
 
+class TAdScrollWinGC;
+
 struct TAdTrialAgreementGC : public TAdAgreementBaseGC {
     TAdTrialAgreementGC(TObject *parent);
     virtual ~TAdTrialAgreementGC();
     virtual void vfunc_6();
     virtual void vfunc_7();
     virtual void vfunc_8();
-    uaddr m_38;
+    TAdScrollWinGC *scroll_window;
     virtual void render();
     void wait_for_load();
     virtual void run_task();

@@ -8,7 +8,7 @@ u8 get_motion_type__11TItemWeaponFv(void *p);
 void TObjPlayer__sub_8012105C(void);
 void TObjPlayer__sub_80121060(void);
 }
-void *get_model_joint_matrix(void *a0, int a1);
+void *get_model_joint_matrix(void *owner, int joint);
 extern "C" {
 void set_weapon_trail_joints(saddr weapon, s32 trail, s32 start_joint, s32 end_joint);
 }

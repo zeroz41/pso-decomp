@@ -9,6 +9,7 @@ struct TObjCityDoor_Med : public TUnk_804B5BA8 {
     virtual ~TObjCityDoor_Med();
     virtual void render();
     virtual void run_task();
+    static void *create(void *set_data);
 };
 
 LAYOUT_ASSERT(TObjCityDoor_Med_size, sizeof(TObjCityDoor_Med) == 0xBC);

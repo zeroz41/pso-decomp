@@ -2,6 +2,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/PhotonBlastResults.h"
 #include "pso/ui/window/TWindowCtrl.h"
+#include "pso/player/PlayerSlots.h"
 
 
 struct B_80312D4C { char pad[0x18]; };
@@ -13,16 +14,14 @@ struct Ply_80312D4C : B_80312D4C {
 
 extern "C" {
 int TObjPlayer__sub_80313218(void* p);
-u8 *TObjPlayer__sub_80312FB0(TObjPlayer *arg0);
+u8 *TObjPlayer__sub_80312FB0(TObjPlayer *player);
 void append_photon_blast_request(saddr arg0, u16 arg1, s16 arg2);
-void *get_player_by_client_id(s32);
 int TObjPlayer__sub_803131AC(void* a0);
 void TObjPlayer__sub_80312E98(void *o, u16 id);
 void *TObjPlayer__sub_803131B4(void *, int);
-void set_field_0__10TObjPlayerFs(void* p, int v);
 void TObjPlayer__sub_80313250(void *arg0, s32 arg1);
-void TObjPlayer__sub_80313010(void *o, s32 id);
-s32 get_client_id__18PhotonBlastRequestFv(void *);
+void TObjPlayer__sub_80313010(void *o, u16 id);
+u16 get_client_id__18PhotonBlastRequestFv(void *);
 int TObjPlayer__sub_803131AC(void* a0 = 0);
 }
 void release_photon_blast_requests(void *registry);
@@ -30,15 +29,15 @@ void release_photon_blast_requests(void *registry);
 void release_photon_blast_requests(void *registry) {
     s32 count;
     saddr i;
-    u8 *owner;
+    TObjPlayer *owner;
     count = TObjPlayer__sub_803131AC(registry);
     for (i = 0; i < count; i++) {
         u16 player = ((u16)((PhotonBlastRequest *)(TObjPlayer::get_element(registry, i)))->get_client_id());
         if (player != 0xFFFF) {
-            owner = (u8 *)get_player_by_client_id(player);
+            owner = get_player_by_client_id(player);
             if (owner != NULL) {
-                ((TObjPlayer *)(owner + 0x4AC))->check_photon_blast_flag();
-                ((TObjPlayer *)(owner + 0x4AC))->trigger_photon_blast();
+                owner->photon_blast_gauge.check_photon_blast_flag();
+                owner->photon_blast_gauge.trigger_photon_blast();
             }
         }
     }
@@ -58,19 +57,19 @@ void *TObjPlayer::find_by_section_id(u16 section) {
     return 0;
 }
 
-void TObjPlayer::create_party_effects(saddr id) {
+void TObjPlayer::create_party_effects(u16 id) {
     s32 n;
     saddr i;
-    saddr sec;
+    u16 sec;
     Ply_80312D4C *ent;
     u8 *e;
     n = TObjPlayer__sub_803131AC(this);
     for (i = 0; i < n; i++) {
         e = (u8 *)TObjPlayer::get_element(this, i);
         sec = get_client_id__18PhotonBlastRequestFv(e);
-        ent = (Ply_80312D4C *)get_player_by_client_id((u16)sec);
-        if (ent != NULL && (u16)id != (u16)sec && ((TObjPlayer *)((u8 *)ent + 0x4AC))->query_field40() != 0) {
-            TWindowCtrl::create_party_effect((void*)id, (void*)sec);
+        ent = (Ply_80312D4C *)get_player_by_client_id(sec);
+        if (ent != NULL && id != sec && ((TObjPlayer *)ent)->photon_blast_gauge.query_field40() != 0) {
+            TWindowCtrl::create_party_effect(id, sec);
             TObjPlayer__sub_80313010(e, id);
             ent->m75(10.0f);
         }
@@ -87,7 +86,7 @@ u16 TObjPlayer::find_first_valid_target_id() {
     for (i = 0; i < n; i++) {
         e = (u8 *)TObjPlayer::get_element(this, i);
         ent = (u8 *)get_player_by_client_id(((SectionFn_80312E0C)get_client_id__18PhotonBlastRequestFv)(e));
-        if (ent != NULL && ((TObjPlayer *)(ent + 0x4AC))->query_field40() != 0) {
+        if (ent != NULL && ((TObjPlayer *)ent)->photon_blast_gauge.query_field40() != 0) {
             return ((SectionFn_80312E0C)get_client_id__18PhotonBlastRequestFv)(e);
         }
     }
@@ -137,19 +136,19 @@ loop_1:
     }
     goto loop_1;
 }
-void TObjPlayer__sub_80313010(void *o, s32 id) {
+void TObjPlayer__sub_80313010(void *o, u16 id) {
     s32 n;
     saddr i;
     void *e;
     n = TObjPlayer::get_max_children(o);
     for (i = 0; i < n; i++) {
         e = TObjPlayer__sub_803131B4(o, i);
-        if ((u16)id == ((PhotonBlastRequestSlot *)e)->get_client_id()) {
+        if (id == ((PhotonBlastRequestSlot *)e)->get_client_id()) {
             TObjPlayer__sub_80313250(e, 10);
             return;
         }
         if (((PhotonBlastRequestSlot *)e)->get_client_id() == 0xFFFF) {
-            set_field_0__10TObjPlayerFs(e, id);
+            ((PhotonBlastRequestSlot *)e)->set_client_id(id);
             TObjPlayer__sub_80313250(e, 10);
             return;
         }

@@ -36,7 +36,6 @@ extern "C" {
 s32 TWindowSubComCard__sub_802452DC(int);
 s32 TWindowSubComCard__sub_80245320(void *, void *);
 s32 TWindowSubComCard__sub_802454E4(int);
-s32 TWindowSubComCard__sub_80245558(void *, void *, void *);
 extern s32 hud_texlist;
 saddr get_window_layout_position(int);
 s32 TWindowSimpleStatus__ct(void *, int, void *, void *);
@@ -86,7 +85,7 @@ void TWindowPartyStatus::draw_background(u8 *ctx) {
     f32 temp_f6;
     depth = -1.0f / this->draw_depth;
     begin_screen_draw(1);
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(hud_texlist));
+    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(hud_texlist));
     set_draw_texture_and_color(0xB, (*(s32 *)((s8 *)ctx + 0x34)));
     temp_f2 = *(f32 *)((s8 *)ctx + 0x10);
     stack.sp8 = temp_f2;

@@ -33,6 +33,7 @@
 #include "pso/render/render_util.h"
 #include "pso/unk/text_803D853C.h"
 #include "pso/unk/text_803E2F28.h"
+#include "pso/object/base/TObjBase.h"
 
 
 CollisionBody gyaranzo_missile_collision_body_b = {{0.0f, 0.0f, 0.0f}, 0.0f, 0.0f, 0, 0x8001, {0.0f, 0.0f, 0.0f}, 0.0f};
@@ -143,7 +144,7 @@ TObjGyaranzoMissile::TObjGyaranzoMissile(TObjEneGyaranzo *owner, GyaranzoMissile
     wobble_speed = (s32)(launch->wobble_speed * (0.5f * ((3.0517578e-05f * (f32)rand()) + 1.0f)));
     wobble_height = launch->wobble_height;
     room = owner->room;
-    owner_id = get_entity_id(owner);
+    owner_id = owner->get_entity_id();
     velocity.x = 0.0f;
     velocity.y = 0.0f;
     velocity.z = TObjGyaranzoMissile__speed_scale;

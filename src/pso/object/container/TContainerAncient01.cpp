@@ -216,7 +216,6 @@ s32 scale_current_matrix(void *);
 s32 post_translate_matrix(void *);
 
 
-void *TContainerAncient01R__create(void *arg0);
 
 void TContainerAncient01R__sub_8018AF74(void);
 
@@ -377,7 +376,7 @@ TContainerAncient01::TContainerAncient01(TObject *parent, void *set_data) : TObj
     m_name = TContainerAncient01__name;
     this->apply_object_set_data(set_data);
     this->model = reinterpret_cast<NJS_OBJECT *>(get_bml_model((BmlResource *)TContainerAncient01__bml_resource, 0));
-    this->texlist = (saddr)get_bml_texlist((BmlResource *)TContainerAncient01__bml_resource, 0);
+    this->texlist = get_bml_texlist((BmlResource *)TContainerAncient01__bml_resource, 0);
     this->action_table = TContainerAncient01__anim_table;
     this->set_action_table((saddr)((void *) (this->action_table)));
     this->motion_list = TContainerAncient01__bml_resource->motions;
@@ -417,7 +416,7 @@ void TContainerAncient01::load_resources() {
     NpcAnimationBinding prm = container_ancient_anim_binding;
     prm.motions = TContainerAncient01__bml_resource->motions;
     NpcModelRegistry::register_animated_ginja(0x3B, reinterpret_cast<NJS_OBJECT *>(get_bml_model((BmlResource *)TContainerAncient01__bml_resource, 0)),
-                                             reinterpret_cast<GinjaTextureList *>(get_bml_texlist((BmlResource *)TContainerAncient01__bml_resource, 0)), &prm,
+                                             reinterpret_cast<NJS_TEXLIST *>(get_bml_texlist((BmlResource *)TContainerAncient01__bml_resource, 0)), &prm,
                                              10.0f, TContainerAncient01__data_805DBD14[0]);
 }
 
@@ -434,8 +433,8 @@ void *TContainerAncient01::create(void *set_data) {
 
 void TContainerAncient01::run_task() {
     u8 *arg0 = (u8 *)this;
-    f32 temp_f1;
-    f32 temp_f1_2;
+    f32 frame_timer;
+    f32 y;
     if (TObjPlayer::check_demo_mode() == 0) {
         if ((s32) this->m_35c == 0) {
             switch (this->mode) {
@@ -455,18 +454,18 @@ void TContainerAncient01::run_task() {
                 ((TContainerAncient01 *)arg0)->update_wait_for_player();
                 break;
             }
-            temp_f1 = this->frame_timer;
-            this->frame_timer = (f32) (temp_f1 + TContainerAncient01__data_805DBD10[0]);
-            submit_cursor_candidate(arg0, -1, temp_f1);
+            frame_timer = this->frame_timer;
+            this->frame_timer = (f32) (frame_timer + TContainerAncient01__data_805DBD10[0]);
+            submit_cursor_candidate(arg0, -1, frame_timer);
         } else {
-            temp_f1_2 = this->open_scale.y;
-            if (temp_f1_2 <= 0.2f) {
+            y = this->open_scale.y;
+            if (y <= 0.2f) {
                 *(f32 *)((s8 *)arg0 + 0x3C) = (f32) (*(f32 *)((s8 *)arg0 + 0x3C) - 0.025f);
                 if (*(f32 *)((s8 *)arg0 + 0x3C) <= ((-1e+01f) * this->open_scale.y)) {
                     ((TObject *)arg0)->TObject::queue_destruction();
                 }
             } else {
-                this->open_scale.y = (f32) (temp_f1_2 - 0.025f);
+                this->open_scale.y = (f32) (y - 0.025f);
             }
         }
     }
@@ -481,7 +480,7 @@ void TContainerAncient01::run_task() {
 
 void TContainerAncient01::render() {
     if (this->update_object_view_visibility(3e+02f, 2e+01f) != 0) {
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(this->texlist));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_y(0, this->rotation_y);
@@ -504,11 +503,11 @@ s32 TContainerAncient01::select_melee_contact_body(void *target, f32) {
 int TContainerAncient01::calc_distance_accuracy_penalty(void *, void *, void *, float) { return 1; }
 
 f32 TContainerAncient01::receive_direct_attack(void *arg1, DirectAttackPayload payload, void *, s32, s32) {
-    s32 temp_r4;
+    s32 kind;
     struct VObj_8018B820_8018B79C *o = (struct VObj_8018B820_8018B79C *)this;
 
-    temp_r4 = payload.kind;
-    if ((temp_r4 == 0) || ((temp_r4 - 1) <= 3U) || (temp_r4 == 0x13)) {
+    kind = payload.kind;
+    if ((kind == 0) || ((kind - 1) <= 3U) || (kind == 0x13)) {
         o->m20(0, TContainerAncient01__data_805DBD10[0]);
     }
     return TContainerAncient01__data_805DBD14[0];
@@ -557,7 +556,7 @@ void TContainerAncient01::vfunc_6(s16 *arg1, s32 arg2) {
 void TContainerAncient01::init_state_vectors() {
     *(f32 *)&this->m_338 = (f32) (3e+02f + (this->scale.x - TContainerAncient01__data_805DBD10[0]));
     this->m_33c = (f32) (2.1e+02f + (this->scale.y - TContainerAncient01__data_805DBD10[0]));
-    this->m_340 = (f32) (4e+02f + (this->scale.z - TContainerAncient01__data_805DBD10[0]));
+    this->range = (f32) (4e+02f + (this->scale.z - TContainerAncient01__data_805DBD10[0]));
     this->m_36c = (s32) (*(s32 *)&this->set_params[2] + 4);
     VecCopy(&this->lower_effect_position, &this->position);
     this->lower_effect_position.y = (f32) (this->lower_effect_position.y + *(f32 *)((s8 *)&TContainerAncient01__collision_body_parts + 4));
@@ -649,7 +648,7 @@ void TContainerAncient01::sub_8018B284() {
     if (6e+01f < this->frame_timer && phase == 0) {
         spawn_effect(&this->lower_effect_position, 0x7E);
     }
-    TContainerAncient01__sub_8018B180((Obj_8018B180 *)this, this->m_340);
+    TContainerAncient01__sub_8018B180((Obj_8018B180 *)this, this->range);
     if (this->m_33c <= this->frame_timer) {
         this->reset_state();
     }
@@ -663,7 +662,7 @@ void TContainerAncient01__sub_8018B180(Obj_8018B180 *self, f32 range) {
     for (i = 0; i < 4; i++) {
         pl = (Player_8018B180 *)get_player_by_client_id(i);
         if (pl != NULL) {
-            if (((TObjPlayer *)pl)->get_floor() == get_current_floor() && ((TObjCollidable *)pl)->obj_testFlags30(1) == 0 &&
+            if (((TObjPlayer *)pl)->get_floor() == get_current_floor() && ((TObjCollidable *)pl)->test_actor_flags(1) == 0 &&
                 horizontal_distance_squared(self->pos, pl->pos) < range) {
                 Atk_8018B180 atk;
                 atk.type = 0xF;
@@ -720,14 +719,14 @@ void TContainerAncient01R::init_table_entries() {
 
 void TContainerAncient01R__sub_8018AF74(void) { TContainerAncient01R__bml_resource = NULL; }
 
-void *TContainerAncient01R__create(void *parent) {
+void *TContainerAncient01R::create(void *parent) {
     return new TContainerAncient01R(tl_05, parent);
 }
 
 void TContainerAncient01R::run_task() {
     u8 *arg0 = (u8 *)this;
-    f32 temp_f1;
-    f32 temp_f1_2;
+    f32 frame_timer;
+    f32 y;
     if (TObjPlayer::check_demo_mode() == 0) {
         if ((s32) this->m_360 == 0) {
             switch (this->mode) {
@@ -747,18 +746,18 @@ void TContainerAncient01R::run_task() {
                 ((TContainerAncient01R *)arg0)->check_open_trigger();
                 break;
             }
-            temp_f1 = this->frame_timer;
-            this->frame_timer = (f32) (temp_f1 + TContainerAncient01__data_805DBD10[0]);
-            submit_cursor_candidate(arg0, -1, temp_f1);
+            frame_timer = this->frame_timer;
+            this->frame_timer = (f32) (frame_timer + TContainerAncient01__data_805DBD10[0]);
+            submit_cursor_candidate(arg0, -1, frame_timer);
         } else {
-            temp_f1_2 = this->open_scale.y;
-            if (temp_f1_2 <= 0.2f) {
+            y = this->open_scale.y;
+            if (y <= 0.2f) {
                 *(f32 *)((s8 *)arg0 + 0x3C) = (f32) (*(f32 *)((s8 *)arg0 + 0x3C) - 0.025f);
                 if (*(f32 *)((s8 *)arg0 + 0x3C) <= ((-1e+01f) * this->open_scale.y)) {
                     ((TObject *)arg0)->TObject::queue_destruction();
                 }
             } else {
-                this->open_scale.y = (f32) (temp_f1_2 - 0.025f);
+                this->open_scale.y = (f32) (y - 0.025f);
             }
         }
     }
@@ -773,7 +772,7 @@ void TContainerAncient01R::run_task() {
 
 void TContainerAncient01R::render() {
     if (this->update_object_view_visibility(3e+02f, 2e+01f) != 0) {
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(this->texlist));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_y(0, this->rotation_y);
@@ -796,11 +795,11 @@ s32 TContainerAncient01R::select_melee_contact_body(void *target, f32) {
 int TContainerAncient01R::calc_distance_accuracy_penalty(void *, void *, void *, float) { return 1; }
 
 f32 TContainerAncient01R::receive_direct_attack(void *arg1, DirectAttackPayload payload, void *, s32, s32) {
-    s32 temp_r4;
+    s32 kind;
     struct VObj_8018AC68_8018A584 *o = (struct VObj_8018AC68_8018A584 *)this;
 
-    temp_r4 = payload.kind;
-    if ((temp_r4 == 0) || ((temp_r4 - 1) <= 3U) || (temp_r4 == 0x13)) {
+    kind = payload.kind;
+    if ((kind == 0) || ((kind - 1) <= 3U) || (kind == 0x13)) {
         o->m20(0, TContainerAncient01__data_805DBD10[0]);
     }
     return TContainerAncient01__data_805DBD14[0];
@@ -851,7 +850,7 @@ void TContainerAncient01R::vfunc_6(s16 *arg1, s32 arg2) {
 void TContainerAncient01R::init_positions() {
     this->m_33c = (f32) (3e+02f + (this->scale.x - TContainerAncient01__data_805DBD10[0]));
     this->m_340 = (f32) (2.1e+02f + (this->scale.y - TContainerAncient01__data_805DBD10[0]));
-    this->m_344 = (f32) (4e+02f + (this->scale.z - TContainerAncient01__data_805DBD10[0]));
+    this->range = (f32) (4e+02f + (this->scale.z - TContainerAncient01__data_805DBD10[0]));
     this->m_370 = (this->set_params[2] + 4);
     VecCopy(&this->lower_effect_position, &this->position);
     this->lower_effect_position.y = (f32) (this->lower_effect_position.y + *(f32 *)((s8 *)&TContainerAncient01__collision_body_parts + 4));
@@ -951,7 +950,7 @@ void TContainerAncient01R::sub_8018A688() {
     if (6e+01f < this->frame_timer && rem == 0) {
         trigger_spawn(&this->lower_effect_position, 0x7E);
     }
-    TContainerAncient01__sub_8018A584((Obj_8018A584 *)this, this->m_344);
+    TContainerAncient01__sub_8018A584((Obj_8018A584 *)this, this->range);
     if (this->m_340 <= this->frame_timer) {
         this->reset_hp();
     }
@@ -965,7 +964,7 @@ void TContainerAncient01__sub_8018A584(Obj_8018A584 *self, f32 range) {
     for (i = 0; i < 4; i++) {
         pl = (Player_8018A584 *)get_player_by_client_id(i);
         if (pl != NULL) {
-            if (((TObjPlayer *)pl)->get_floor() == get_current_floor() && ((TObjCollidable *)pl)->obj_testFlags30(1) == 0 &&
+            if (((TObjPlayer *)pl)->get_floor() == get_current_floor() && ((TObjCollidable *)pl)->test_actor_flags(1) == 0 &&
                 horizontal_distance_squared(self->pos, pl->pos) < range) {
                 Atk_8018A584 atk;
                 atk.type = 0xF;

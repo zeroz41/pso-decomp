@@ -172,17 +172,17 @@ void unlock_sequencer_flag(s32 program) {
 
 
 void TObjBgmColCtrl::update_all_zones(saddr arg0) {
-    s32 var_r31;
+    s32 i;
 
-    var_r31 = 0;
+    i = 0;
     do {
-        if (check_flag_index_set(var_r31) != 1) {
-            if (strcmp(get_bgm_filename(var_r31), (const char *)arg0) == 0) {
-                unlock_music_flag(var_r31);
+        if (check_flag_index_set(i) != 1) {
+            if (strcmp(get_bgm_filename(i), (const char *)arg0) == 0) {
+                unlock_music_flag(i);
             }
         }
-        var_r31 += 1;
-    } while (var_r31 < 0x31);
+        i += 1;
+    } while (i < 0x31);
 }
 
 void unlock_music_flag(s32 flag) {
@@ -203,17 +203,17 @@ void unlock_music_flag(s32 flag) {
     }
 }
 
-s32 check_flag_index_set(s32 arg0) {
+s32 check_flag_index_set(s32 flag) {
     s32 sp8;
     s32 *flag_word_mask;
 
-    if (arg0 < 0) {
+    if (flag < 0) {
         return 0;
     }
-    if (arg0 >= 0x31) {
+    if (flag >= 0x31) {
         return 0;
     }
-    flag_word_mask = (s32 *)get_flag_word_mask(arg0, (u32 *)&sp8);
+    flag_word_mask = (s32 *)get_flag_word_mask(flag, (u32 *)&sp8);
     if (flag_word_mask == NULL) {
         return 0;
     }

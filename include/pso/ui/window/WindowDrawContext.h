@@ -19,7 +19,7 @@ struct WindowDrawContext
     void scale_point_about_pivot(f32 *q);
     void transform_quad(TexturedQuad *quad);
     void apply_closing_stretch(int ticks);
-    void set_open_tick(s32 arg1);
+    void set_open_tick(s32 tick);
     void set_bounds(f32 a, f32 b, f32 c, f32 d);
     void shrink_clip_right();
     void animate_scale();

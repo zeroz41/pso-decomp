@@ -76,6 +76,12 @@ void set_additive_blend();
 
 s32 clamp_s32(s32 value, s32 min, s32 max);
 void get_current_date_stamp(CardWriteDate *out);
+// Ninja x/y/z rotation angles (0x10000 = full turn).
+struct Angle3 {
+    s32 x;
+    s32 y;
+    s32 z;
+};
 void direction_to_rotation_yx(u8 *dir, s32 *rot_a, s32 *rot_b);
 void direction_to_rotation_xz(u8 *dir, s32 *rot_a, s32 *rot_b);
 void direction_to_rotation_xy(u8 *dir, s32 *rot_a, s32 *rot_b);
@@ -113,7 +119,7 @@ void *delete_object_if_delete_flag(void *self, s16 del);
 void TObjMapWarp__sub_80141CA4(void *self);
 // Debug-draw entry points; their bodies are compiled out of the release game.
 void debug_draw_line(const Vec *from, const Vec *to, u32 from_color, u32 to_color);
-void fn_80141CB4(void);
+void fn_80141CB4(const Vec *pos, f32 size);
 void fn_80141CB8(const Vec *pos, const s32 *rotation, const Vec *size, const NJS_ARGB *color);
 void debug_draw_uniform_scaled(const Vec *pos, const NJS_ARGB *color, f32 size);
 void debug_draw_scaled(const Vec *pos, Vec *scale, const NJS_ARGB *color);

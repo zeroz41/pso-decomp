@@ -55,14 +55,14 @@ void TBoss7Tentacle::load_static_resource() {
     get_boss7_motion(0x11);
     dst = boss7_tentacle_model_nodes;
     for (i = 0; i < 12; i++) {
-        copy_model_node((u8 *)dst, (u8 *)src);
+        copy_model_node((NJS_OBJECT *)dst, (NJS_OBJECT *)src);
         dst->child = dst + 1;
         dst++;
         src = src->child;
     }
-    copy_model_node((u8 *)dst, (u8 *)src);
+    copy_model_node((NJS_OBJECT *)dst, (NJS_OBJECT *)src);
     dst->sibling = dst + 1;
-    copy_model_node((u8 *)&dst[1], (u8 *)src->sibling);
+    copy_model_node((NJS_OBJECT *)&dst[1], (NJS_OBJECT *)src->sibling);
     for (i = 0; i < 14; i++) {
         boss7_tentacle_model_nodes[i].flags &= ~3;
         TBoss7Tentacle__segment_offsets[i].x = (f64)boss7_tentacle_model_nodes[i].position.x;
@@ -584,7 +584,7 @@ void TBoss7TentacleNeedle::damage_nearby_players() {
             if (timer == 0 && player->roll_physical_accuracy(m_up, 0, 10.0f) != 0) {
                 player->receive_physical_attack(m_up, 1.0f);
             }
-            if (player->obj_testFlags30(0x801) == 0) {
+            if (player->test_actor_flags(0x801) == 0) {
                 DirectAttackPayload hit;
                 hit.kind = 15;
                 hit.power = 100.0f;

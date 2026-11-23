@@ -280,7 +280,7 @@ void mem_free(void *p);
 }
 
 void TLobby::free_rocks() {
-    s32 var_r28 = 3;
+    s32 i = 3;
     saddr *var_r29 = lbl_80513D78;
     saddr var_r30 = 0;
     s32 var_r31 = 3;
@@ -290,9 +290,9 @@ void TLobby::free_rocks() {
             mem_free((void *)v);
             var_r29[var_r31] = var_r30;
         }
-        var_r28 -= 1;
+        i -= 1;
         var_r31 -= 1;
-    } while (var_r28 >= 0);
+    } while (i >= 0);
     if (lbl_805D6158 != NULL) {
         TLobby::free_nodes_with_id((uaddr)lbl_805D6158);
         lbl_805D6158 = (Tbl_8020E934 **)var_r30;
@@ -319,7 +319,7 @@ s32 draw_shop_pool_index(s32 count) {
 
 void load_armor_random_table(void) {
     s32 i;
-    lbl_805D6158 = (Tbl_8020E934 **)create_named_object((saddr)"ArmorRandom.rel");
+    lbl_805D6158 = (Tbl_8020E934 **)create_named_object("ArmorRandom.rel");
     for (i = 0; i < 4; i++) {
         lbl_80513D78[i] = 0;
     }

@@ -7,6 +7,7 @@
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/window/ProgressMessageWindow.h"
 #include "pso/ui/window/TWindowBase.h"
+#include "pso/ui/window/TWindowOptionCtrl.h"
 #include "pso/ui/window/TWindowShortListCtrl_801A4FC0.h"
 #include "pso/ui/window/TWindowShortListCtrl.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
@@ -29,7 +30,6 @@ typedef struct WindowPos {
 extern "C" {
 s32 verify_system_file__23TAdSinglePlyChrSelectGCFPv(void);
 s32 pso_system_load_gc(void);
-void *TWindowOptionCtrl__ct(void *, void *);
 void *__ct__10TAdTitleGCFP7TObjectl(void *, void *, int);
 }
 
@@ -133,7 +133,6 @@ TUnk_804C2298::TUnk_804C2298() : TObject((TObject *)tl_00) {
     void *o;
     void *o2;
     void *o3;
-    void *o4;
     o = new TAdBackGC(this);
     o2 = new TAdBackTxtGC(this);
     o3 = TObject::operator new(0x138);
@@ -144,11 +143,7 @@ TUnk_804C2298::TUnk_804C2298() : TObject((TObject *)tl_00) {
     this->selection = 4;
     this->state = 0;
     this->timer = 0;
-    o4 = TObject::operator new(0x50);
-    if (o4 != NULL) {
-        o4 = TWindowOptionCtrl__ct(o4, this);
-    }
-    this->list = (TObject *)o4;
+    this->list = new TWindowOptionCtrl(this);
     this->window = NULL;
     this->card = NULL;
 }

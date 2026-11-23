@@ -5,7 +5,6 @@
 #include "types.h"
 #include "pso/ui/city/TShopWindowBase.h"
 
-class TObjBase;
 class TWindowMenuIconLine;
 struct TWindowMenu;
 struct TWindowMessage;
@@ -18,9 +17,9 @@ struct QuestListStageEntry {
 };
 
 struct TQuestListChallenge : public TShopWindowBase {
-    TQuestListChallenge(TObject *parent, TShopWindowBase *sequence, TObjBase *player);
+    TQuestListChallenge(TObject *parent, TShopWindowBase *sequence, TObjPlayer *player);
     virtual ~TQuestListChallenge();
-    virtual void vfunc_11();
+    virtual void update_state();
     void close_windows();
     void create_quest_list_window();
     void update_selection();
@@ -29,9 +28,6 @@ struct TQuestListChallenge : public TShopWindowBase {
     void destroy();
     void sub_80288BE4();
 
-    u8 pad_1c[4];
-    s32 state;
-    TObjBase *player;
     void (*on_cancel)(TShopWindowBase *);
     void (*on_accept)(TShopWindowBase *);
     TShopWindowBase *sequence;
@@ -55,7 +51,7 @@ LAYOUT_ASSERT(TQuestListChallenge_windows, offsetof(TQuestListChallenge, confirm
 LAYOUT_ASSERT(TQuestListChallenge_entries, offsetof(TQuestListChallenge, entries) == 0x58);
 
 extern "C" {
-void *TObjNpcKenkyu__create(void *arg0);
+void *TObjNpcKenkyu__create(void *set_data);
 const char *get_selected_quest_text__19TQuestListChallengeFv(void);
 void reset_globals2__19TQuestListChallengeFv(void);
 void reset_globals__19TQuestListChallengeFv(void);

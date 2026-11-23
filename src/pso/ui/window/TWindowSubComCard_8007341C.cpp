@@ -17,17 +17,15 @@
 #include <stdio.h>
 #include <string.h>
 #include "pso/ui/window/WindowLayout.h"
+#include "pso/ui/window/TWindowCtrlMain_8024CB7C.h"
+#include "pso/player/PlayerSlots.h"
 
 extern "C" {
 char *get_message_text(s32);
 s32 fn_80071A9C(void *, void *, void *);
-u8 *get_player_by_client_id(s32);
 __declspec(section ".data") f32 challenge_window_extent[2] = {240.0f, 200.0f};
 char challenge_progress_text_buffer[0x100];
 const char *challenge_grade_letter_table[4] = {"", "B", "A", "S"};
-s32 *TWindowSubStatusDisp__sub_8006F0D8(void *, s32);
-ChallengeStageRank *TWindowSubStatusDisp__sub_8006F134(void *, s32);
-s32 has_window_task_root();
 int TWindowMenu::is_decided() { return (this->m_70 >> 1) & 0x1; }
 
 void TAdSinglePlyChrSelectGC::format_challenge_stage_times(s32 lobby, s32 challenge_id) {
@@ -57,7 +55,7 @@ void TAdSinglePlyChrSelectGC::format_challenge_stage_times(s32 lobby, s32 challe
     sprintf(challenge_progress_text_buffer, "< %s%1d >\n", get_message_text(0x53), idx + 1, 0xFF);
     for (i = 0, rec = challenge_mode_state.client_records; i < 4; i++, rec++) {
         if (rec->present != 0) {
-            strcat(challenge_progress_text_buffer, (char *)(get_player_by_client_id(i) + 0x85C));
+            strcat(challenge_progress_text_buffer, (char *)(((u8 *)get_player_by_client_id(i)) + 0x85C));
             strcat(challenge_progress_text_buffer, "\n  ");
             data = &rec->records;
             slot = TWindowSubStatusDisp__sub_8006F134(data, kind);
@@ -124,7 +122,7 @@ void TChallenge::open_challenge_progress_window(void *slot) {
     rec = challenge_mode_state.client_records;
     for (i = 0; i < 4; i++, rec++) {
         if (rec->present != 0) {
-            strcat(challenge_progress_text_buffer, (char *)(get_player_by_client_id(i) + 0x85C));
+            strcat(challenge_progress_text_buffer, (char *)(((u8 *)get_player_by_client_id(i)) + 0x85C));
             strcat(challenge_progress_text_buffer, "\n    ");
             n = fn_80071A9C(this, &rec->records, slot);
             if (n >= TWindowSubStatusDisp::get_layout_id((saddr)slot)) {

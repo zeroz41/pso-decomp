@@ -24,9 +24,6 @@ struct TWindowInputNumber : public TWindowBase {
     f32 scaleX;
     f32 scaleY;
 
-    static void *operator new(unsigned long size) {
-        return TObject::operator new(size);
-    }
     TWindowInputNumber(void *position, s32 minimum, s32 maximum, s32 initial, s16 client);
     virtual ~TWindowInputNumber();
     void mark_confirmed();
@@ -37,6 +34,9 @@ struct TWindowInputNumber : public TWindowBase {
     void move_cursor_next();
     void set_value(f32 farg0);
     int is_confirmed();
+    int is_cancelled();
+    s32 get_value();
+    void set_scale(f32 x, f32 y);
     void create(s32 title);
     void calc_digit_count();
     virtual void run_task();

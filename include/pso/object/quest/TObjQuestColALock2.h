@@ -13,6 +13,7 @@ struct TObjQuestColALock2 : public TObjQuestColBase {
     virtual void update_room_id_check();
     TUnk_804C8678 *thread_root;  // quest_mission_manager or quest_area_manager, per m_c0 (inferred name)
     s32 m_c0;
+    static void *create(void *set_data);
 };
 
 LAYOUT_ASSERT(TObjQuestColALock2_size, sizeof(TObjQuestColALock2) == 0xC4);

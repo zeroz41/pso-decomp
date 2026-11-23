@@ -5,6 +5,7 @@
 #include "pso/ui/frontend/TAdBackTxtGC.h"
 #include "pso/ui/frontend/TAdBackGC.h"
 #include "pso/ui/frontend/TAdMultiConfirmGC.h"
+#include "pso/ui/frontend/TAdMultiOkGC.h"
 
 #include "pso/ui/frontend/TAdMultiChgGameModeGC.h"
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC.h"
@@ -31,25 +32,20 @@ struct TAdMultiConfirmGC_802FFA3C {
     s32 ids[4];
     TAdChrSelPlayerGC *players[4];
     void *guide;
-    void *ok;
+    TAdMultiOkGC *ok;
 };
-
-struct OkArg_802FFA3C { u32 count; u32 mask; };
 
 extern "C" {
 void TAdMultiConfirmGC__sub_802E03D0(void *);
 void TAdMultiConfirmGC__sub_802E0448(void *);
 s32 fn_802E0454(void *);
 }
-int multi_confirm_cancel_requested(void *p);
 extern "C" {
-s32 are_all_entries_finished(s32);
 saddr get_localized_text_entry(s32 arg0, s32 arg1);
 }
 s32 is_multiplayer_character_slot_selected(s32 arg0);
 extern "C" {
 void fn_802FF7EC(void *);
-void *__ct__12TAdMultiOkGCFv(void *, void *, OkArg_802FFA3C *);
 extern const char *TAdMultiConfirmGC__name;
 extern const u8 lbl_805DEF30 = 0;
 void fn_802FF760(void *);
@@ -92,9 +88,9 @@ void TAdMultiConfirmGC::run_task() {
         }
         break;
     case 3:
-        if (multi_confirm_cancel_requested((void *)this->m_48) != 0) {
+        if (ok->multi_confirm_cancel_requested() != 0) {
             TAdMultiChgGameModeGC::set_change_game_mode();
-        } else if (are_all_entries_finished(this->m_48) != 0) {
+        } else if (ok->are_all_entries_finished() != 0) {
             TAdMultiChgGameModeGC::set_state_0xc();
         }
         break;
@@ -106,7 +102,7 @@ TAdMultiConfirmGC::~TAdMultiConfirmGC() {
 #pragma push
 #pragma opt_common_subs off
 TAdMultiConfirmGC::TAdMultiConfirmGC(TObject *parent) : TObject(parent) {
-    OkArg_802FFA3C arg;
+    TAdMultiOkSetup arg;
     u32 i;
     u32 j;
     u32 n;
@@ -138,11 +134,7 @@ TAdMultiConfirmGC::TAdMultiConfirmGC(TObject *parent) : TObject(parent) {
         new TAdMultiPlayerNoGC(this, ((TAdMultiConfirmGC_802FFA3C *)this)->count, j, ((TAdMultiConfirmGC_802FFA3C *)this)->ids[j]);
         arg.mask |= 1 << ((TAdMultiConfirmGC_802FFA3C *)this)->ids[j];
     }
-    p = TObject::operator new(0x984);
-    if (p != 0) {
-        p = __ct__12TAdMultiOkGCFv(p, ((TAdMultiConfirmGC_802FFA3C *)this), &arg);
-    }
-    ((TAdMultiConfirmGC_802FFA3C *)this)->ok = p;
+    ((TAdMultiConfirmGC_802FFA3C *)this)->ok = new TAdMultiOkGC(this, &arg);
     p = new TAdGuideTxtGC(reinterpret_cast<TObject *>(((TAdMultiConfirmGC_802FFA3C *)this)));
     ((TAdMultiConfirmGC_802FFA3C *)this)->guide = p;
     ((TAdGuideTxtGC *)(((TAdMultiConfirmGC_802FFA3C *)this)->guide))->set_line(0, reinterpret_cast<const char *>((get_localized_text_entry(0x25, 0))));

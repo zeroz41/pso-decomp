@@ -11,6 +11,8 @@
 #include "pso/system/task/TObject.h"
 
 #include "pso/ui/window/TWindowShortListCtrl.h"
+#include "pso/player/PlayerSlots.h"
+#include "pso/player/TObjPlayer.h"
 
 struct VBase_18_7b3651 { char pad[0x18]; };
 
@@ -37,8 +39,6 @@ typedef struct Ent_800FC968 { u8 pad0[4]; char name[0x100]; u16 a; u8 pad106[6];
 extern "C" {
 s32 get_shared_text_buffer(void);
 char *TWindowSubStatusDisp__sub_80071820(char *);
-s32 TObjPlayer__sub_801AFD8C(void *);
-VObj_18_7b3651 *get_player_by_client_id(s32);
 void text_builder_append_int(s32);
 void text_builder_append(const char *);
 }
@@ -66,15 +66,15 @@ void TWindowCtrlMain::advance_card_status(s32 local_client_id) {
     }
     update_card_window_flags(local_client_id, card_status_bits);
 }
-s32 TWindowSubStatusDisp::build_status_text(s32 arg0) {
+s32 TWindowSubStatusDisp::build_status_text(s32 client_id) {
     s32 mode;
     char *name;
     u8 *info;
     s32 idx;
     s32 lvl;
     VObj_18_7b3651 *p;
-    mode = TWindowShortListCtrl::get_card_status_bits(arg0);
-    p = get_player_by_client_id(arg0);
+    mode = TWindowShortListCtrl::get_card_status_bits(client_id);
+    p = (VObj_18_7b3651 *)get_player_by_client_id(client_id);
     if (p == NULL) {
         return 0;
     }
@@ -83,7 +83,7 @@ s32 TWindowSubStatusDisp::build_status_text(s32 arg0) {
         return 0;
     }
     name = p->m10();
-    idx = TObjPlayer__sub_801AFD8C(p);
+    idx = ((TObjPlayer *)p)->get_language();
     lvl = p->m14();
     text_builder_reset();
     switch (mode) {
@@ -101,15 +101,15 @@ s32 TWindowSubStatusDisp::build_status_text(s32 arg0) {
             return 0;
         }
         text_builder_append("W:");
-        text_builder_append_int(lobby_player_status_records[arg0].a);
+        text_builder_append_int(lobby_player_status_records[client_id].a);
         text_builder_append(" D:");
-        text_builder_append_int(lobby_player_status_records[arg0].b);
+        text_builder_append_int(lobby_player_status_records[client_id].b);
         break;
     case 3:
         if ((s8)info[0x33] < 2) {
             return 0;
         }
-        text_builder_append(TWindowSubStatusDisp__sub_80071820(lobby_player_status_records[arg0].name));
+        text_builder_append(TWindowSubStatusDisp__sub_80071820(lobby_player_status_records[client_id].name));
         break;
     case 4:
         return 0;
@@ -128,7 +128,7 @@ void *TFontSmallLobby::create(s32 id) {
 void TUnk_8049CA54::run_task() {
     s32 card_status_bits;
     s32 temp_r4;
-    uaddr temp_r3_3;
+    uaddr text_source;
     saddr player;
 
     player = (saddr)get_player_by_client_id(*(s32 *)&this->player_id);
@@ -139,9 +139,9 @@ void TUnk_8049CA54::run_task() {
     card_status_bits = TWindowShortListCtrl::get_card_status_bits(*(s32 *)&this->player_id);
     if ((s32) *(s32 *)&this->unk_60 != card_status_bits) {
         *(s32 *)&this->unk_60 = card_status_bits;
-        temp_r3_3 = (u32)TWindowSubStatusDisp::build_status_text(*(s32 *)&this->player_id);
-        set_help_text((const char *)temp_r3_3);
-        if (temp_r3_3 != 0U) {
+        text_source = (u32)TWindowSubStatusDisp::build_status_text(*(s32 *)&this->player_id);
+        set_help_text((const char *)text_source);
+        if (text_source != 0U) {
             if ((s32) *(s32 *)&this->unk_60 == 3) {
                 temp_r4 = *(s32 *)&this->player_id;
                 set_color(get_status_index_or_default__20TWindowSubStatusDispFPUs((s8 *)lobby_player_status_records + (temp_r4 * 0x11C) + 4, temp_r4));
@@ -168,8 +168,8 @@ extern "C" {
 u8 * __ct__14TFontSmallHelpFUlUllUl(void *, s32, s32, s32, s32);
 extern RecoveredGlobal_800FCC78_lbl_8049CA54 __vt__13TUnk_8049CA54;
 LAYOUT_ASSERT(RecoveredGlobal_800FCC78_lbl_8049CA54_size, sizeof(RecoveredGlobal_800FCC78_lbl_8049CA54) == 0x1C);
-u8 *fn_800FCC78(u8 *arg0, s32 arg1) {
-    __ct__14TFontSmallHelpFUlUllUl(arg0, arg1, -1, -1, 0);
+u8 *fn_800FCC78(u8 *arg0, s32 id) {
+    __ct__14TFontSmallHelpFUlUllUl(arg0, id, -1, -1, 0);
     *(s32 **)((s8 *)arg0 + 0x18) = &__vt__13TUnk_8049CA54.value;
     *(s32 *)((s8 *)arg0 + 0x60) = 5;
     return arg0;

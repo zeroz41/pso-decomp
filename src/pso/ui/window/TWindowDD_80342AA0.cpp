@@ -4,9 +4,8 @@
 #include "pso/ui/window/TWindowDD_80341A08.h"
 
 extern "C" {
-void TWindowDD__sub_80342B5C(u8 *arg0);
+void TWindowDD__sub_80342B5C(u8 *window_dd);
 s32 update_numeric_parameter_input__9TWindowDDFPv();
-s32 apply_entry_layout__9TWindowDDFPv(void *);
 s32 TWindowDD__sub_803435A0(void *);
 s32 TWindowDD__sub_80347C50();
 s32 TWindowDD__sub_803482B0(void *);
@@ -24,7 +23,7 @@ void TWindowDD::enter_state_9() {
             var_r31 = TWindowDD::update_close_flag(this) == 0;
         } else if (TWindowDD__sub_803482B0(this) != 0) {
             TWindowDD::play_se();
-            apply_entry_layout__9TWindowDDFPv(this);
+            TWindowDD::apply_entry_layout(this);
         }
         break;
     case 1:

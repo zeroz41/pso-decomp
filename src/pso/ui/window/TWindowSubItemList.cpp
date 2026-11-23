@@ -6,7 +6,6 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/TWindowMenuIconLine.h"
 #include "pso/ui/window/TWindowSubItem.h"
-#include "pso/ui/window/TWindowSubComCard_80244774.h"
 #pragma readonly_strings on
 
 extern s32 actor_frame_tick;
@@ -14,7 +13,7 @@ extern s32 actor_frame_tick;
 void TWindowSubItemList::sub_8027ACF8(u8 *window_key_board_soft) {
     s16 temp_r5;
     u16 *entry;
-    temp_r5 = this->m_88;
+    temp_r5 = this->selected_index;
     if ((temp_r5 >= 0) && !(actor_frame_tick & 0x10)) {
         entry = (u16 *)(get_array_entry((s32) temp_r5));
         if (*entry & 1) {
@@ -30,9 +29,9 @@ extern "C" {
 s32 draw_item_list_capacity(void *, int, int, int);
 s32 draw_window_scrollbar(void *, int, void *);
 
-u8 *create_sub_item_list_window(saddr parent, saddr position, s32 client) {
+TWindowSubItemList *create_sub_item_list_window(saddr parent, const f32 *position, s32 client) {
     TShopJudgmentItemWindow__sub_80267F9C(reinterpret_cast<const NJS_POINT2 *>(position), 0x24);
-    return (u8 *)new TWindowSubItemList((u8 *)parent, client);
+    return new TWindowSubItemList((u8 *)parent, client);
 }
 
 }
@@ -49,7 +48,7 @@ void TWindowSubItemList::render() {
         reinterpret_cast<WindowDrawContext *>(window_key_board_soft));
     draw_selected_list_entry(window_key_board_soft);
     sub_8027ACF8((u8 *)window_key_board_soft);
-    draw_item_list_capacity(this, window_key_board_soft, this->m_8c, 0x1E);
+    draw_item_list_capacity(this, window_key_board_soft, this->item_count, 0x1E);
     if ((uaddr) this->status_display != 0U) {
         ((TWindowSubStatusDisp *)((void *)(this->status_display)))->forward_render((void *)(window_key_board_soft));
     }
@@ -67,6 +66,6 @@ TWindowSubItemList::TWindowSubItemList(u8 *parent, s32 client) : TWindowMenuIcon
     m_name = TWindowSubItemList__class_name;
     ensure_status_display((saddr)TWindowSubStatusDisp::get_message_10(0x24));
     create_menu_scroll_bar();
-    ((TWindowSubItem *)this)->reset_selected();
-    m_8c = 0;
+    reset_selected();
+    item_count = 0;
 }

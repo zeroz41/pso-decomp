@@ -21,6 +21,7 @@
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/object/ambient/TObjFish.h"
+#include "pso/player/TPlyCharData.h"
 
 
 extern "C" {
@@ -37,7 +38,6 @@ struct Stack_802E0468
 };
 
 extern "C" {
-void play_phase_transition_sound__10TObjPlayerFl(s32);
 void set_chunk_material_override_pair(s32, s32);
 extern s32 saved_model_render_flags;
 extern s32 saved_chunk_polygon_flags_and_mask;
@@ -55,8 +55,6 @@ extern TObjMotionAction lbl_804E2F78[9];
 u8 *TAdMultiPlyChrSelectGC__resource_bundle;
 
 s32 copy_player_visual_record(void *, void *);
-u8 *get_entry__23TAdSinglePlyChrSelectGCFi(int);
-u8 *get_char_table_entry__23TAdSinglePlyChrSelectGCFi(int);
 #define F(o, t) (*(t *)(arg0 + (o)))
 
 }
@@ -126,7 +124,7 @@ void TAdChrSelPlayerGC::place_model_for_mode(s32) {
 void TAdChrSelPlayerGC::set_index_and_close_status(s32 index) {
     layout_mode = index;
     place_model_for_mode(layout_mode);
-    TAdPlyStatusGC *status = reinterpret_cast<TAdPlyStatusGC *>(TAdPlyStatusGC::get_index());
+    TAdPlyStatusGC *status = TAdPlyStatusGC::get_index();
     if (status != NULL) {
         status->close_window(index);
     }
@@ -134,7 +132,7 @@ void TAdChrSelPlayerGC::set_index_and_close_status(s32 index) {
 
 void TAdChrSelPlayerGC::set_status_value(s32 value) {
     status_index = value;
-    TAdPlyStatusGC *status = reinterpret_cast<TAdPlyStatusGC *>(TAdPlyStatusGC::get_index());
+    TAdPlyStatusGC *status = TAdPlyStatusGC::get_index();
     if (status != NULL) {
         TAdPlyStatusGC::set_status_index(reinterpret_cast<saddr>(status), status_index);
     }
@@ -151,9 +149,9 @@ TAdChrSelPlayerGC::~TAdChrSelPlayerGC() {
     if (m_170 != NULL) {
         free_chcr_resources((u8 *)m_170, 1);
         m_170 = NULL;
-        u32 status = (u32)TAdPlyStatusGC::get_index();
-        if (status != 0) {
-            TAdPlyStatusGC::set_status_param((int)status, (saddr)m_170);
+        TAdPlyStatusGC *status = TAdPlyStatusGC::get_index();
+        if (status != NULL) {
+            status->set_status_param((saddr)m_170);
         }
     }
 }
@@ -161,7 +159,7 @@ TAdChrSelPlayerGC::~TAdChrSelPlayerGC() {
 void TAdChrSelPlayerGC::run_task() {
     u8 *arg0 = (u8 *)this;
     void *p;
-    void *idx;
+    TAdPlyStatusGC *status;
     s32 t;
     switch (F(0xFC, s32)) {
     case 0:
@@ -186,7 +184,7 @@ void TAdChrSelPlayerGC::run_task() {
         }
         switch (F(0x104, s32)) {
         case 0:
-            copy_player_visual_record(arg0 + 0x120, (u8 *)TAdSinglePlyChrSelectGC::get_char_index(0xFFFF) + 0x370);
+            copy_player_visual_record(arg0 + 0x120, &TAdSinglePlyChrSelectGC::get_char_index(0xFFFF)->m_disp_part2);
             p = ::operator new(0x4AC);
             if (p != NULL) {
                 p = init_appearance_load_request__10TNpcPlayerFPvPvii((u8 *)p, (u8 *)arg0, (saddr)(arg0 + 0x120), 0);
@@ -195,7 +193,7 @@ void TAdChrSelPlayerGC::run_task() {
             F(0x60, s32) = 0xF3D5;
             break;
         case 1:
-            copy_player_visual_record(arg0 + 0x120, get_entry__23TAdSinglePlyChrSelectGCFi(F(0x110, s32)) + 0x370);
+            copy_player_visual_record(arg0 + 0x120, TAdSinglePlyChrSelectGC::get_entry(F(0x110, s32)) + 0x370);
             p = ::operator new(0x4AC);
             if (p != NULL) {
                 p = init_appearance_load_request__10TNpcPlayerFPvPvii((u8 *)p, (u8 *)arg0, (saddr)(arg0 + 0x120), 0);
@@ -204,7 +202,7 @@ void TAdChrSelPlayerGC::run_task() {
             F(0x60, s32) = 0xF3D5;
             break;
         case 2:
-            copy_player_visual_record(arg0 + 0x120, (u8 *)TAdSinglePlyChrSelectGC::get_char_index(0xFFFF) + 0x370);
+            copy_player_visual_record(arg0 + 0x120, &TAdSinglePlyChrSelectGC::get_char_index(0xFFFF)->m_disp_part2);
             p = ::operator new(0x4AC);
             if (p != NULL) {
                 p = init_appearance_load_request__10TNpcPlayerFPvPvii((u8 *)p, (u8 *)arg0, (saddr)(arg0 + 0x120), 0);
@@ -215,7 +213,7 @@ void TAdChrSelPlayerGC::run_task() {
         case 3:
         case 4:
         case 5:
-            copy_player_visual_record(arg0 + 0x120, get_char_table_entry__23TAdSinglePlyChrSelectGCFi(F(0x10C, s32)) + 0x370);
+            copy_player_visual_record(arg0 + 0x120, &TAdSinglePlyChrSelectGC::get_char_table_entry(F(0x10C, s32))->m_disp_part2);
             p = ::operator new(0x4AC);
             if (p != NULL) {
                 p = init_appearance_load_request__10TNpcPlayerFPvPvii((u8 *)p, (u8 *)arg0, (saddr)(arg0 + 0x120), (s32)(F(0x10C, s32)));
@@ -266,10 +264,10 @@ void TAdChrSelPlayerGC::run_task() {
         }
         break;
     }
-    idx = (void *)TAdPlyStatusGC::get_index();
-    if (idx != NULL) {
-        ((TAdPlyStatusGC *)idx)->set_load_state(F(0xFC, s32));
-        TAdPlyStatusGC::set_status_param((saddr)idx, (saddr)(F(0x170, void *)));
+    status = TAdPlyStatusGC::get_index();
+    if (status != NULL) {
+        status->set_load_state(F(0xFC, s32));
+        status->set_status_param((saddr)(F(0x170, void *)));
     }
 }
 
@@ -281,11 +279,11 @@ void TAdChrSelPlayerGC::init_model_animation() {
 }
 
 void TAdChrSelPlayerGC::set_cursor_index(s32 arg1) {
-    s16 temp_r4;
+    s16 requested_action;
 
     this->requested_action = (s16) (arg1 * 3);
-    temp_r4 = this->requested_action;
-    if ((temp_r4 < 0) || (temp_r4 > 8)) {
+    requested_action = this->requested_action;
+    if ((requested_action < 0) || (requested_action > 8)) {
         this->requested_action = 0;
     }
     if (this->m_154 & 2) {
@@ -306,25 +304,23 @@ void TAdChrSelPlayerGC::update_chara_making() {
     push_matrix();
     post_translate_matrix((u8 *)&position);
     rotate_matrix_y(0, rotation_y);
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>((saddr)m_170->get_status_sub()));
+    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>((saddr)m_170->get_status_sub()));
     draw_model_with_arg((void *)m_170->get_field_4a4());
-    push_matrix_from((void *)get_item_ptr(0x3A));
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>((saddr)m_170->get_status_data()));
-    m_170->get_field_4a0();
-    ((s32 (*)())play_phase_transition_sound__10TObjPlayerFl)();
+    push_matrix_from((void *)get_joint_matrix(0x3A));
+    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>((saddr)m_170->get_status_data()));
+    TObjPlayer::play_phase_transition_sound(m_170->get_field_4a0());
     pop_matrix();
     if (m_170->get_field_49c() != 0U) {
-        push_matrix_from((void *)get_item_ptr(0x3B));
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>((saddr)m_170->get_chara_making_data()));
+        push_matrix_from((void *)get_joint_matrix(0x3B));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>((saddr)m_170->get_chara_making_data()));
         TCharaMaking::enable_making();
-        m_170->get_field_49c();
-        ((s32 (*)())play_phase_transition_sound__10TObjPlayerFl)();
+        TObjPlayer::play_phase_transition_sound(m_170->get_field_49c());
         TCharaMaking::clear_flag_bit0();
         pop_matrix();
     }
     if (m_170->get_field_498() != 0U) {
-        push_matrix_from((void *)get_item_ptr(0x3B));
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>((saddr)m_170->get_chara_making_data()));
+        push_matrix_from((void *)get_joint_matrix(0x3B));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>((saddr)m_170->get_chara_making_data()));
         TCharaMaking::enable_making();
         TObjPlayer__sub_802E0580(this, m_170->get_field_498(), visual_record);
         TCharaMaking::clear_flag_bit0();
@@ -343,7 +339,7 @@ void TObjPlayer__sub_802E0580(void * _w0, int _w1, void * _w2) {
     ((s32 (*)(f32))TObjPlayer__sub_802E0468)(1.0f);
 }
 
-void TObjPlayer__sub_802E0468(long long arg1, u8 *arg2, f32 farg0) {
+void TObjPlayer__sub_802E0468(long long child, u8 *arg2, f32 farg0) {
   Stack_802E0468 stack;
   int new_var;
   saved_model_render_flags = model_render_flags;
@@ -360,7 +356,7 @@ void TObjPlayer__sub_802E0468(long long arg1, u8 *arg2, f32 farg0) {
   stack.sp10 = 0.003921569f * ((f32) (*((s16 *) (((s8 *) arg2) + 0x44))));
   stack.sp14 = 0.003921569f * ((f32) (*((s16 *) (((s8 *) arg2) + 0x46))));
   set_constant_material((const NJS_ARGB *)((&stack.sp8)));
-  TObjPlayer::play_phase_transition_sound(arg1);
+  TObjPlayer::play_phase_transition_sound(child);
   chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
   chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
   model_render_flags = saved_model_render_flags;

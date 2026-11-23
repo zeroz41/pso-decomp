@@ -16,6 +16,7 @@
 #include "pso/unk/TLobby_80226070.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/object/base/CollisionActorLookup.h"
+#include "pso/object/base/TObjBase.h"
 
 struct Tec_8022FB70 { u8 pad[0x20]; f32 pos[3]; u8 pad2c[0xC6 - 0x2C]; s16 band; };
 
@@ -64,7 +65,7 @@ struct RecoveredFields_8022FE84_arg0
   u8 unknown_68[0x8];
   f32 field_70;
   u8 unknown_74[0x50];
-  s16 field_C4;
+  s16 level;
   u8 unknown_C6[0x6];
   f32 field_CC;
   f32 field_D0;
@@ -122,7 +123,6 @@ struct Foie_8022FC94
 
 s32 clamp_nonnegative_int(s32 x);
 extern "C" {
-u16 get_entity_id(void *);
 // foie_emitter_parts_N (inferred, after TTecGiFoie's emitter_parts_N): the particle parts entry N of
 // TTecFoie__emitter_profile_table spawns; the scale of part 0x14 grows with the band.
 static const Binding_8022FC94 foie_emitter_parts_0[1] = {{0x14, 2, 1.0f}};
@@ -180,7 +180,7 @@ void TTecFoie::create_particle_emitters() {
     {
       if (TTecFoie__emitter_profile_table[self->band].parts[i].flags & 0x20)
       {
-        attach_particle_model((u8 *)self->emitters[i], TParticleCtrl::get_particle_model(0), lbl_805D63B0, 0, 1, 1.0f);
+        attach_particle_model((u8 *)self->emitters[i], TParticleCtrl::get_particle_model(0), technique_texture_list, 0, 1, 1.0f);
       }
       ((TParticleCtrl *)(self->emitters[i]))->set_scale(TTecFoie__emitter_profile_table[self->band].parts[i].scale, TTecFoie__emitter_profile_table[self->band].parts[i].scale);
     }
@@ -190,21 +190,21 @@ void TTecFoie::create_particle_emitters() {
 void TTecFoie::init_projectile_params() {
     u8 *arg0 = (u8 *)this;
   TechniqueParams *new_var;
-  new_var = calc_technique_parameters(0, (int) ((RecoveredFields_8022FE84_arg0 *) arg0)->field_C4, 0xFFFF);
+  new_var = calc_technique_parameters(0, (int) ((RecoveredFields_8022FE84_arg0 *) arg0)->level, 0xFFFF);
   ((TechniqueParams *)(arg0 + 0xCC))->copy((TechniqueParams *)new_var);
-  if ((((s16) ((RecoveredFields_8022FE84_arg0 *) arg0)->field_C4) >= 0xF) && (TTecCtrl::is_technique_ready() == 0))
+  if ((((s16) ((RecoveredFields_8022FE84_arg0 *) arg0)->level) >= 0xF) && (TTecCtrl::is_technique_ready() == 0))
   {
-    ((RecoveredFields_8022FE84_arg0 *) arg0)->field_CC = (f32) (tech_high_level_linear_power_table[0].base + (tech_high_level_linear_power_table[0].per_level * ((RecoveredFields_8022FE84_arg0 *) arg0)->field_C4));
+    ((RecoveredFields_8022FE84_arg0 *) arg0)->field_CC = (f32) (tech_high_level_linear_power_table[0].base + (tech_high_level_linear_power_table[0].per_level * ((RecoveredFields_8022FE84_arg0 *) arg0)->level));
   }
   else
   {
-    ((RecoveredFields_8022FE84_arg0 *) arg0)->field_CC = (f32) (((RecoveredFields_8022FE84_arg0 *) arg0)->field_CC + ((f32) (((RecoveredFields_8022FE84_arg0 *) arg0)->field_F0 * ((RecoveredFields_8022FE84_arg0 *) arg0)->field_C4)));
+    ((RecoveredFields_8022FE84_arg0 *) arg0)->field_CC = (f32) (((RecoveredFields_8022FE84_arg0 *) arg0)->field_CC + ((f32) (((RecoveredFields_8022FE84_arg0 *) arg0)->field_F0 * ((RecoveredFields_8022FE84_arg0 *) arg0)->level)));
     if (TTecCtrl::is_technique_ready() != 0)
     {
-      ((RecoveredFields_8022FE84_arg0 *) arg0)->field_CC = (f32) (((RecoveredFields_8022FE84_arg0 *) arg0)->field_CC * lbl_804CC55C[0].pad_00);
+      ((RecoveredFields_8022FE84_arg0 *) arg0)->field_CC = (f32) (((RecoveredFields_8022FE84_arg0 *) arg0)->field_CC * technique_scale_table[0].power);
     }
   }
-  ((RecoveredFields_8022FE84_arg0 *) arg0)->field_64 = (f32) (((RecoveredFields_8022FE84_arg0 *) arg0)->field_D0 + ((f32) clamp_nonnegative_int((((RecoveredFields_8022FE84_arg0 *) arg0)->field_C4 - 4))));
+  ((RecoveredFields_8022FE84_arg0 *) arg0)->field_64 = (f32) (((RecoveredFields_8022FE84_arg0 *) arg0)->field_D0 + ((f32) clamp_nonnegative_int((((RecoveredFields_8022FE84_arg0 *) arg0)->level - 4))));
   ((RecoveredFields_8022FE84_arg0 *) arg0)->field_70 = (f32) ((RecoveredFields_8022FE84_arg0 *) arg0)->field_D4;
 }
 
@@ -262,7 +262,7 @@ void TTecFoie::run_task() {
 TTecFoie::TTecFoie(saddr source, u8 *pos, u8 *target, s32 level)
     : TTecShot(source, pos, target, level) {
     if (this->source != NULL) {
-        sourceId = get_entity_id((void *)this->source);
+        sourceId = ((TObjBase *)this->source)->get_entity_id();
     }
     init_projectile_params();
     create_particle_emitters();
@@ -274,7 +274,7 @@ TTecFoie::TTecFoie(saddr source, Vec *pos, s32 angle, s32 level)
     : TTecShot(source, pos, angle, level) {
     m_name = TTecFoie__name;
     if (this->source != NULL) {
-        sourceId = get_entity_id((void *)this->source);
+        sourceId = ((TObjBase *)this->source)->get_entity_id();
     }
     init_projectile_params();
     create_particle_emitters();

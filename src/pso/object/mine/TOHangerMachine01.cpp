@@ -36,7 +36,7 @@ void TOHangerMachine01::render() {
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
         node = (NJS_OBJECT *)model;
         post_translate_matrix(node->pos);
         draw_ginja_model((void *)node->model);
@@ -108,7 +108,7 @@ TOHangerMachine01::TOHangerMachine01(void *set_data) : TObjMapObject(tl_05) {
     m_name = TOHangerMachine01__class_name;
     apply_object_set_data(set_data);
     model = (void *)TOHangerMachine01__bml_resource->models[0].model;
-    texlist = (saddr)TOHangerMachine01__bml_resource->models[0].texlist;
+    texlist = TOHangerMachine01__bml_resource->models[0].texlist;
     view_range = 500.0f;
     model_radius = 50.0f;
     actorFlags |= 0x40000000;

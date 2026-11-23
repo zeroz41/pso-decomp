@@ -18,50 +18,50 @@ void __construct_array(void *, void *, void *, u32, u32);
 u8 lbl_80543978[0xC];
 u8 lbl_80543984[0x24];
 
-void run_palettex_callback(s32 arg0) {
-    if (is_local_client(arg0) != 0) {
-        ((TObjPlayer *)&((E_80354E7C *)lbl_80543984)[(u16)arg0])->finish_quest_thread();
-    }
-}
-void set_palettex_callback(s32 arg0, s32 arg1) {
-    if (is_local_client(arg0) != 0) {
-        ((TObjPlayer *)&((E_80354E7C *)lbl_80543984)[(u16)arg0])->set_player_index(arg1);
-    }
-}
-u8 TObjPlayer__sub_80354C7C(s32 client_index) {
+void run_palettex_callback(u16 client_index) {
     if (is_local_client(client_index) != 0) {
-        return TObjPlayer__sub_80354F8C(&((E_80354E7C *)lbl_80543984)[(u16)client_index]);
+        ((TObjPlayer *)&((E_80354E7C *)lbl_80543984)[client_index])->finish_quest_thread();
+    }
+}
+void set_palettex_callback(u16 client_index, s32 arg1) {
+    if (is_local_client(client_index) != 0) {
+        ((TObjPlayer *)&((E_80354E7C *)lbl_80543984)[client_index])->set_player_index(arg1);
+    }
+}
+u8 TObjPlayer__sub_80354C7C(u16 client_index) {
+    if (is_local_client(client_index) != 0) {
+        return TObjPlayer__sub_80354F8C(&((E_80354E7C *)lbl_80543984)[client_index]);
     }
     return 0;
 }
-void TObjPlayer__sub_80354CCC(s32 arg0) {
-    if (is_local_client(arg0) != 0) {
-        TObjPlayer__sub_80354FB0(&((E_80354E7C *)lbl_80543984)[(u16)arg0]);
-    }
-}
-void TObjPlayer__sub_80354D14(s32 arg0) {
-    if (is_local_client(arg0) != 0) {
-        ((TObjPlayer *)&((E_80354E7C *)lbl_80543984)[(u16)arg0])->set_flag0_bits01();
-    }
-}
-s32 is_palettex_activated(s32 client_index) {
+void TObjPlayer__sub_80354CCC(u16 client_index) {
     if (is_local_client(client_index) != 0) {
-        return ((TObjPlayer *)&((E_80354E7C *)lbl_80543984)[(u16)client_index])->clear_lock_flag();
+        TObjPlayer__sub_80354FB0(&((E_80354E7C *)lbl_80543984)[client_index]);
+    }
+}
+void TObjPlayer__sub_80354D14(u16 client_index) {
+    if (is_local_client(client_index) != 0) {
+        ((TObjPlayer *)&((E_80354E7C *)lbl_80543984)[client_index])->set_flag0_bits01();
+    }
+}
+s32 is_palettex_activated(u16 client_index) {
+    if (is_local_client(client_index) != 0) {
+        return ((TObjPlayer *)&((E_80354E7C *)lbl_80543984)[client_index])->clear_lock_flag();
     }
     return 0;
 }
-void TObjPlayer__sub_80354DAC(s32 arg0) {
-    if (is_local_client(arg0) != 0) {
-        TObjPlayer__sub_8035501C(&((E_80354E7C *)lbl_80543984)[(u16)arg0]);
+void TObjPlayer__sub_80354DAC(u16 client_index) {
+    if (is_local_client(client_index) != 0) {
+        TObjPlayer__sub_8035501C(&((E_80354E7C *)lbl_80543984)[client_index]);
     }
 }
-void activate_palettex(s32 arg0) {
-    if (is_local_client(arg0) != 0) {
-        ((TObjPlayer *)&((E_80354E7C *)lbl_80543984)[(u16)arg0])->set_flag1();
+void activate_palettex(u16 client_index) {
+    if (is_local_client(client_index) != 0) {
+        ((TObjPlayer *)&((E_80354E7C *)lbl_80543984)[client_index])->set_flag1();
     }
 }
-s32 is_local_client(s32 client_index) {
-    void *player = get_player_by_client_id((u16)client_index);
+s32 is_local_client(u16 client_index) {
+    void *player = get_player_by_client_id(client_index);
     if (player == NULL) {
         return 0;
     }
@@ -92,6 +92,7 @@ void TObjPlayer::destroy_static_array() {
 __declspec(section ".ctors") static void *const __sinit_TObjPlayer_80354EC8_cpp_ref = (void *)__sinit_TObjPlayer_80354EC8_cpp;
 
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
+#include "pso/player/PlayerSlots.h"
 
 extern "C" {
 

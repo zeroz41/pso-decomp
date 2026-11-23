@@ -225,7 +225,7 @@ TObjEneRecobox::TObjEneRecobox(TObject *parent, void *set_data) : TObjEneDD_ST(p
     invoke_initialization_hook(set_data);
     init_position_vectors();
     model = TObjEneRecobox__static_instance->models[1].model;
-    texlist = (saddr)TObjEneRecobox__static_instance->models[1].texlist;
+    texlist = TObjEneRecobox__static_instance->models[1].texlist;
     init_model(&recobox_collision_body, 1);
     body_center.y = 20.0f + position.y;
     update_body_colliders();
@@ -347,7 +347,7 @@ void TObjEneRecobox::update_body_colliders() {
     } else {
         probe.y += 5.0f;
     }
-    hit = csnVectorUnder(&probe, (CsnGroup **)&ground_cache, 0x15);
+    hit = csnVectorUnder(&probe, ground_candidates.groups, 0x15);
     if (hit == NULL || body_center.y >= 40.0f + hit->contact->point.y) {
         set_colliders_contact_high();
     }
@@ -599,19 +599,19 @@ void TObjEneRecobox::handle_death_state(s32 reason) {
 // debris chips (models 3-5 of the Recobox archive, textures of model 3).
 void TObjEneRecobox::spawn_debris_chips() {
     const TObjChipParams chip0 = {
-        {0.5f, 0.07f, 0.26f}, {this->position.x, this->position.y, this->position.z},
-        {5.0f, 5.0f, 5.0f}, {0x400, 0x100, 0x400}, {5, 50}, {this->position.y, 0.6f},
-        (saddr)TObjEneRecobox__static_instance->models[3].model, (saddr)TObjEneRecobox__static_instance->models[3].texlist, 20,
+        0.5f, 0.07f, 0.26f, {this->position.x, this->position.y, this->position.z},
+        {5.0f, 5.0f, 5.0f}, {0x400, 0x100, 0x400}, 5, 50, this->position.y, 0.6f,
+        (saddr)TObjEneRecobox__static_instance->models[3].model, TObjEneRecobox__static_instance->models[3].texlist, 20,
     };
     const TObjChipParams chip1 = {
-        {0.5f, 0.07f, 0.26f}, {this->position.x, this->position.y, this->position.z},
-        {4.0f, 4.5f, 4.0f}, {0x200, 0x100, 0x200}, {6, 50}, {this->position.y, 0.5f},
-        (saddr)TObjEneRecobox__static_instance->models[4].model, (saddr)TObjEneRecobox__static_instance->models[3].texlist, 20,
+        0.5f, 0.07f, 0.26f, {this->position.x, this->position.y, this->position.z},
+        {4.0f, 4.5f, 4.0f}, {0x200, 0x100, 0x200}, 6, 50, this->position.y, 0.5f,
+        (saddr)TObjEneRecobox__static_instance->models[4].model, TObjEneRecobox__static_instance->models[3].texlist, 20,
     };
     const TObjChipParams chip2 = {
-        {0.5f, 0.07f, 0.26f}, {this->position.x, this->position.y, this->position.z},
-        {4.0f, 4.5f, 4.0f}, {0x200, 0x100, 0x200}, {6, 50}, {this->position.y, 0.5f},
-        (saddr)TObjEneRecobox__static_instance->models[5].model, (saddr)TObjEneRecobox__static_instance->models[3].texlist, 20,
+        0.5f, 0.07f, 0.26f, {this->position.x, this->position.y, this->position.z},
+        {4.0f, 4.5f, 4.0f}, {0x200, 0x100, 0x200}, 6, 50, this->position.y, 0.5f,
+        (saddr)TObjEneRecobox__static_instance->models[5].model, TObjEneRecobox__static_instance->models[3].texlist, 20,
     };
     spawn_particle_effect_with_flags(&this->position, 0x45, 0x40);
     spawn_particle_effect_with_flags(&this->position, 0x46, 0x40);
@@ -689,7 +689,7 @@ void TObjEneRecobox::update_floor_probe() {
     if ((actor_frame_tick % 5) == 0) {
         VecCopy(&probe, &position);
         probe.y += 15.0f;
-        hit = csnVectorUnder(&probe, (CsnGroup **)&ground_cache, 0x4000);
+        hit = csnVectorUnder(&probe, ground_candidates.groups, 0x4000);
         if (hit != NULL) {
             floor_flags = hit->contact->flags;
             VecCopy(&floor_point, &hit->contact->point);
@@ -794,7 +794,7 @@ block_18:
                 }
 block_23:
                 update_secondary_light();
-                TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
+                TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
                 push_matrix();
                 post_translate_matrix(&position.x);
                 rotate_matrix_y(0, rotation_y);
@@ -857,7 +857,7 @@ void TObjEneRecobox::draw_with_debug_info() {
         debug_printf_at(pack_debug_text_position(0, 5), "RECON MAX(Min:0 Max:6)");
     }
     if (this->update_object_view_visibility(500.0f, 120.0f) != 0) {
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(this->texlist));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, this->rotation_y);
@@ -886,7 +886,7 @@ void TObjEneRecobox::draw_with_debug_info() {
 s32 TObjEneRecobox::render_trap_model_if_visible() {
     if ((s32)main_task.get_task_flags() & 0x20) {
         if (push_reflection_matrix(&floor_point) != 0) {
-            TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
+            TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
             push_matrix();
             post_translate_matrix(&position.x);
             rotate_matrix_y(0, rotation_y);

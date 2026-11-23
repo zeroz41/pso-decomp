@@ -276,12 +276,6 @@ const char *boss2_de_rol_le_class_name = "TBoss2DeRolLe";
 #include "pso/object/ambient/TObjLight.h"
 #include "pso/object/TUnk_804A6F78.h"
 
-extern "C" {
-
-void *__ct__9TBoss2FinFv(void *, TObject *, Vec *, Vec *);
-
-}
-
 void *TBoss2DeRolLe__base_params[1];
 void *TBoss2DeRolLe__resistance_params[1];
 TBoss2DeRolLeParams *derolle_params[1];
@@ -536,7 +530,7 @@ void TBoss2DeRolLe::load_resources() {
     p->evalflags = NJD_EVAL_UNIT_POS | NJD_EVAL_UNIT_ANG | NJD_EVAL_UNIT_SCL | NJD_EVAL_HIDE | NJD_EVAL_BREAK;
     p->child = 0;
     TObjPlayer::create_breakup_model();
-    TObjPlayer__sub_8002E7C8();
+    TObjPlayer::create_derolle_breakup_model();
     TWindowCtrl::init_all_slots();
 }
 
@@ -546,7 +540,7 @@ void *TBoss2DeRolLe::create(void *set_data) {
 
 void TBoss2DeRolLe::reset_parts() {
     TObjPlayer::clear_target_ref();
-    TObjPlayer__sub_8002EB88();
+    TObjPlayer::free_breakup_model();
     TBoss2Fin::release_effect_table();
     TBoss2Mine::free_resources();
     TBoss2Tentacle::release_shared_model();
@@ -588,7 +582,7 @@ TBoss2DeRolLe::TBoss2DeRolLe(TObject *parent, void *set_data) : TObjEneDD_ST(par
     }
     init_position_vectors();
     model = boss2_derolle_resource->models[2].model;
-    texlist = (saddr)boss2_derolle_resource->models[2].texlist;
+    texlist = boss2_derolle_resource->models[2].texlist;
     init_model(boss2_derolle_collision_bodies, 3);
     motion_flags = 0;
     set_action_table((saddr)boss2_derolle_action_table);
@@ -635,13 +629,7 @@ TBoss2DeRolLe::TBoss2DeRolLe(TObject *parent, void *set_data) : TObjEneDD_ST(par
     for (i = 0; i < 3; i++) {
         target_mines[i] = new TUnk_80482D04(&part_group, id++, set++);
     }
-    {
-        void *p = TObject::operator new(0x88);
-        if (p != NULL) {
-            p = __ct__9TBoss2FinFv(p, &part_group, &node_positions[1], &node_positions[10]);
-        }
-        fin = (TBoss2Fin *)p;
-    }
+    fin = new TBoss2Fin(&part_group, &node_positions[1], &node_positions[10]);
     position_index = 0;
     next_position_index = 0;
     travel_step_zx = 0;
@@ -3793,17 +3781,17 @@ void TBoss2DeRolLe::render() {
         derolle_breakup_node->child = derolle_breakup_node_child;
     }
     derolle_begin_node_capture(this);
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
+    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
     set_chunk_model_node_callback(derolle_capture_node_points);
     {
     NJS_ARGB saved;
-    col = &TObjLight__scene_light_state.color;
+    col = &scene_light_state.color;
     copy_argb(&saved, col);
     if (TObjBoss2Tunnel::is_active() != 0) {
-        TObjLight__scene_light_state.color.r = 0.3f;
-        TObjLight__scene_light_state.color.g = 0.4f;
-        TObjLight__scene_light_state.color.b = 0.5f;
-        current_scene_light->sub_8013379C(&TObjLight__scene_light_state);
+        scene_light_state.color.r = 0.3f;
+        scene_light_state.color.g = 0.4f;
+        scene_light_state.color.b = 0.5f;
+        current_scene_light->sub_8013379C(&scene_light_state);
         lbl_805D5564->sub_801336DC();
     }
     this->draw();
@@ -3897,7 +3885,7 @@ void TBoss2DeRolLe::render_body() {
     }
     derolle_begin_node_capture(this);
     set_chunk_model_node_callback(derolle_capture_node_points);
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(this->texlist));
+    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
     draw_model_motion(model, motion, frame);
     set_chunk_model_node_callback(NULL);
     current_scene_light->sub_801337F8();

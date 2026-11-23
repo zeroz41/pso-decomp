@@ -23,7 +23,7 @@ BmlResource *TOSignCave03__bml_resource;
 void TOSignCave03::render() {
     NJS_OBJECT *node;
     if (update_object_view_visibility(view_range, model_radius) != 0) {
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
@@ -119,7 +119,7 @@ TOSignCave03::TOSignCave03(TObject *parent, void *set_data) : TObjMapObject(pare
     m_name = TOSignCave03__class_name;
     apply_object_set_data(set_data);
     model = (void *)TOSignCave03__bml_resource->models[0].model;
-    texlist = (saddr)TOSignCave03__bml_resource->models[0].texlist;
+    texlist = TOSignCave03__bml_resource->models[0].texlist;
     view_range = 500.0f;
     model_radius = 300.0f;
 }

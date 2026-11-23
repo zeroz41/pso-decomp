@@ -5,14 +5,16 @@
 #include "pso/system/task/TObject.h"
 #include "pso/system/vector.h"
 
+class TParticleCtrl;
+
 struct TAdLoadNetworkGC : public TObject {
     TAdLoadNetworkGC(TObject *parent, Vec *pos);
     virtual ~TAdLoadNetworkGC();
-    u8 _pad1C[0x18];
-    void* m_34;
+    u8 pad_1c[4];
+    TParticleCtrl *particles[5]; // the five orbiting load effects
+    Vec position;
     virtual void render();
     virtual void run_task();
-    u8 unk_38[0x8];
 };
 
 LAYOUT_ASSERT(TAdLoadNetworkGC_size, sizeof(TAdLoadNetworkGC) == 0x40);

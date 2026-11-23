@@ -53,7 +53,7 @@ TObjDFDemoF::TObjDFDemoF(TObject *parent) : TObjBase(parent) {
         motion_indices = df_demof_motion_ids;
         texture_index = model_index;
         this->models[i] = (NJS_OBJECT *)get_bml_model(archive, model_index);
-        this->textures[i] = (GinjaTextureList *)get_bml_texlist(archive, texture_index);
+        this->textures[i] = get_bml_texlist(archive, texture_index);
         if (motion_indices[i] < 0) {
             this->motions[i] = NULL;
         } else {
@@ -95,7 +95,7 @@ void TObjDFDemoF::render() {
     post_translate_matrix(&three_part_model_translate_offset.x);
     s32 i = 0;
     do {
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(textures[i]));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(textures[i]));
         AnimationMotion *motion = motions[i];
         if (motion == NULL) {
             draw_chunk_object(models[i]);

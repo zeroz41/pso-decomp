@@ -12,14 +12,14 @@ struct TObjEneBm3FlyNest;
 // TObjEnemy::movementParameters of a fly or its nest (same layout as MojaMovementParameters).
 struct Bm3FlyMovementParameters {
     f32 unknown_00;
-    f32 unknown_04;
+    f32 length;
     s32 unknown_08;
     u32 unknown_0C[4];
 };
 
 // The block TLobby::dispatch_shared_handler_a(0) returns; the fly's load_resources keeps it in bm3_fly_lobby_params.
 struct Bm3FlyParameters {
-    f32 unknown_00;
+    f32 distance;
     u8 unknown_04[0x18];
     s32 unknown_1C;
 };

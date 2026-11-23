@@ -9,13 +9,13 @@
 extern const char lbl_805DB070 = '.';
 void TLobby::debug_print(const char *fmt, ...) {}
 
-s32 replace_file_extension__6TLobbyFPvPvPv(char *arg0, char *filename, char *arg2) {
+s32 replace_file_extension__6TLobbyFPvPvPv(char *dest, char *filename, char *arg2) {
     char buf[0x20];
     char *p;
     s32 n;
     memset(buf, 0, 0x20);
-    if (arg0 == 0) {
-        arg0 = filename;
+    if (dest == 0) {
+        dest = filename;
     }
     p = buf;
     for (n = 0x20; n != 0; n--) {
@@ -31,7 +31,7 @@ s32 replace_file_extension__6TLobbyFPvPvPv(char *arg0, char *filename, char *arg
     }
     p[1] = 0;
     strcat(buf, arg2);
-    strncpy(arg0, buf, 0x20);
+    strncpy(dest, buf, 0x20);
     return 0;
 }
 

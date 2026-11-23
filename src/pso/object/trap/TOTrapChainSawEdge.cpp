@@ -50,10 +50,11 @@
 #include "pso/npc/TObjNpcEnemy.h"
 
 #include "pso/object/ambient/TObjFish.h"
+#include "pso/object/base/TObjBase.h"
 
 #pragma readonly_strings on
 extern "C" {
-GinjaTextureList *fn_802C9924(s32 arg0);
+NJS_TEXLIST *fn_802C9924(s32 index);
 
 
 typedef struct P_802C86D4 {
@@ -85,9 +86,9 @@ struct Obj_802C8C60 {
     u8 pad74[0xB4 - 0x74];
     f32 fB4;
     f32 fB8;
-    saddr fBC;
+    saddr motion;
     u8 padC0[0xC8 - 0xC0];
-    s32 fC8;
+    s32 model;
     u8 padCC[0xF8 - 0xCC];
     s32 fF8;
 };
@@ -121,8 +122,6 @@ struct VObj_802C936C : Base_802C936C {
 };
 
 
-u16 get_entity_id(TObjBase *object);
-void obj_setFlags30(void *object, u32 flags);
 
 s8 get_current_floor(int);
 
@@ -221,6 +220,7 @@ extern "C" { BmlResource *lbl_805D6808; }
 
 #include "pso/object/seabed/TObjSeabedSuisoBrakable.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/player/PlayerSlots.h"
 
 void TOTrapChainSaw::vfunc_16() {  }
 
@@ -288,23 +288,23 @@ void TOTrapChainSaw::unload_static_data() {
     }
 }
 
-NJS_OBJECT *TOTrapChainSawKey::get_model(s32 arg0) {
+NJS_OBJECT *TOTrapChainSawKey::get_model(s32 index) {
     if (lbl_805D6808 != NULL) {
-        return (NJS_OBJECT *)get_bml_model((BmlResource *)lbl_805D6808, arg0);
+        return (NJS_OBJECT *)get_bml_model((BmlResource *)lbl_805D6808, index);
     }
     return NULL;
 }
 
-AnimationMotion *TOTrapChainSawKey::get_motion(s32 arg0) {
+AnimationMotion *TOTrapChainSawKey::get_motion(s32 index) {
     if (lbl_805D6808 != NULL) {
-        return get_bml_motion(lbl_805D6808, arg0);
+        return get_bml_motion(lbl_805D6808, index);
     }
     return NULL;
 }
 
-GinjaTextureList *fn_802C9924(s32 arg0) {
+NJS_TEXLIST *fn_802C9924(s32 index) {
     if (lbl_805D6808 != NULL) {
-        return (GinjaTextureList *)get_bml_texlist((BmlResource *)lbl_805D6808, arg0);
+        return get_bml_texlist((BmlResource *)lbl_805D6808, index);
     }
     return NULL;
 }
@@ -330,7 +330,7 @@ void TOTrapChainSaw::decode_params() {
     u32 var_r0_2;
     u32 temp_r3_2;
 
-    *(s32 *)((s8 *)this + 0xE8) = (s32) (u16) *(s32 *)((s8 *)this + 0x84);
+    *(s32 *)((s8 *)this + 0xE8) = (s32) (u16) this->set_params[0];
     temp_r3 = *(s32 *)((s8 *)this + 0xE8);
     if (temp_r3 < 0) {
         var_r0 = 0;
@@ -470,7 +470,7 @@ void TOTrapChainSaw::check_player_contact() {
 }
 
 s32 TOTrapChainSaw::consume_counter(TObjPlayer *player) {
-    s32 i = get_entity_id(player);
+    s32 i = player->get_entity_id();
     if (i >= 0 && i < 4) {
         if (hit_cooldown[i] > 0) {
             hit_cooldown[i] = hit_cooldown[i] - 1;
@@ -481,7 +481,7 @@ s32 TOTrapChainSaw::consume_counter(TObjPlayer *player) {
 }
 
 void TOTrapChainSaw::set_hit_cooldown_for_player(TObjPlayer *player) {
-    s32 i = get_entity_id(player);
+    s32 i = player->get_entity_id();
     if (i >= 0 && i < 4) {
         hit_cooldown[i] = 0x96;
     }
@@ -510,9 +510,9 @@ void TOTrapChainSaw::update_demo() {
     }
 }
 
-f32 TOTrapChainSaw::scale_by_level(f32 farg0) {
+f32 TOTrapChainSaw::scale_by_level(f32 level) {
     F4_802C8FF8 t = TOTrapChainSaw__level_scale_table;
-    return farg0 * t.v[game_difficulty_selection];
+    return level * t.v[game_difficulty_selection];
 }
 #pragma push
 #pragma auto_inline off
@@ -560,13 +560,13 @@ TOTrapChainSawDamage::~TOTrapChainSawDamage() {
     free_collision_body_parts(this);
 }
 
-void *TOTrapChainSawDamage::create() {
-    return new TOTrapChainSawDamage(tl_05, this);
+void *TOTrapChainSawDamage::create(void *set_data) {
+    return new TOTrapChainSawDamage(tl_05, set_data);
 }
 
 void TOTrapChainSawDamage::decode_params() {
     TOTrapChainSaw::decode_params();
-    *(f32 *)((s8 *)this + 0xFC) = (f32) *(f32 *)((s8 *)this + 0x6C);
+    *(f32 *)((s8 *)this + 0xFC) = (f32) this->scale.y;
 }
 
 void TOTrapChainSawDamage::vfunc_16() {
@@ -577,8 +577,8 @@ void TOTrapChainSawDamage::vfunc_16() {
     arg0->fF8 = (s32)arg0->f70;
     v = arg0->fF8;
     arg0->fF8 = v < 0 ? 0 : (v > 1 ? 1 : v);
-    arg0->fC8 = (saddr)TOTrapChainSawKey::get_model(a.v[arg0->fF8]);
-    arg0->fBC = (saddr)TOTrapChainSawKey::get_motion(b.v[arg0->fF8]);
+    arg0->model = (saddr)TOTrapChainSawKey::get_model(a.v[arg0->fF8]);
+    arg0->motion = (saddr)TOTrapChainSawKey::get_motion(b.v[arg0->fF8]);
     arg0->f24 = (saddr)fn_802C9924(0);
     arg0->fB4 = (0.0f);
     arg0->fB8 = (1.0f);
@@ -588,7 +588,7 @@ void TOTrapChainSawDamage::vfunc_18(TObjPlayer *player) {
     attack.kind = 0;
     attack.power = scale_by_level(*(f32 *)((s8 *)this + 0xFC));
     player->receive_direct_attack(this, attack, NULL, -1, -1);
-    obj_setFlags30(player, 0x400);
+    player->set_actor_flags(0x400);
 }
 void TOTrapChainSawDamage::update_state() {
     TOTrapChainSaw::update_state();
@@ -600,13 +600,13 @@ void TOTrapChainSawDamage::update_state() {
 }
 #pragma pop
 void TOTrapChainSawDamage::vfunc_25() {
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(*(void **)((s8 *)this + 0x24)));
+    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(*(void **)((s8 *)this + 0x24)));
     push_matrix();
     post_translate_matrix((void *)((char *)this + 56));
     push_matrix();
     rotate_matrix_y(0, *(void **)((s8 *)this + 0x60));
     rotate_matrix_y(0, *(void **)((s8 *)this + 0xD4));
-    draw_ginja_model_with_motion(*(void **)((s8 *)this + 0xC8), *(void **)((s8 *)this + 0xBC), *(f32 *)((s8 *)this + 0xB4));
+    draw_ginja_model_with_motion(*(void **)((s8 *)this + 0xC8), *(void **)((s8 *)this + 0xBC), this->animation_end_frame);
     pop_matrix();
     pop_matrix();
 }
@@ -657,8 +657,8 @@ TOTrapChainSawKey::~TOTrapChainSawKey() {
     free_collision_body_parts(this);
 }
 
-void *TOTrapChainSawKey::create() {
-    return new TOTrapChainSawKey(tl_05, this);
+void *TOTrapChainSawKey::create(void *set_data) {
+    return new TOTrapChainSawKey(tl_05, set_data);
 }
 
 void TOTrapChainSawKey::decode_params() { TOTrapChainSaw::decode_params(); }
@@ -713,14 +713,14 @@ void TOTrapChainSawKey::vfunc_14() {
 }
 
 void TOTrapChainSawKey::vfunc_25() {
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(*(void **)((s8 *)this + 0x24)));
+    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(*(void **)((s8 *)this + 0x24)));
     push_matrix();
     post_translate_matrix((void *)((char *)this + 56));
     push_matrix();
     rotate_matrix_y(0, *(void **)((s8 *)this + 0x60));
     rotate_matrix_y(0, *(void **)((s8 *)this + 0xD4));
     set_model_node_callback(TParticleCtrl__sub_802C8464);
-    draw_ginja_motion(*(NJS_OBJECT **)((s8 *)this + 0xC8), *(NJS_MOTION **)((s8 *)this + 0xBC), *(f32 *)((s8 *)this + 0xB4));
+    draw_ginja_motion(*(NJS_OBJECT **)((s8 *)this + 0xC8), *(NJS_MOTION **)((s8 *)this + 0xBC), this->animation_end_frame);
     set_model_node_callback(0);
     if (*(s32 *)((s8 *)this + 0xF0) == 1) {
         TParticleCtrl::begin_effect_render();
@@ -812,13 +812,13 @@ void TOTrapChainSawEdge::update_sweep() {
 }
 
 void TOTrapChainSawEdge::vfunc_25() {
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(*(void **)((s8 *)this + 0x24)));
+    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(*(void **)((s8 *)this + 0x24)));
     push_matrix();
     post_translate_matrix((void *)((char *)this + 56));
     push_matrix();
     rotate_matrix_y(0, *(void **)((s8 *)this + 0x60));
     rotate_matrix_y(0, *(void **)((s8 *)this + 0xD4));
-    draw_ginja_model_with_motion(*(void **)((s8 *)this + 0xC8), *(void **)((s8 *)this + 0xBC), *(f32 *)((s8 *)this + 0xB4));
+    draw_ginja_model_with_motion(*(void **)((s8 *)this + 0xC8), *(void **)((s8 *)this + 0xBC), this->animation_end_frame);
     pop_matrix();
     pop_matrix();
 }
@@ -827,12 +827,12 @@ void TOTrapChainSawEdge::vfunc_16() {
     Pair_802C80F0 a = *(Pair_802C80F0 *)lbl_80471F70;
     Pair_802C80F0 b = *(Pair_802C80F0 *)lbl_80471F78;
     s32 x;
-    *(s32 *)((s8 *)this + 0xFC) = (s32) *(f32 *)((s8 *)this + 0x70);
+    *(s32 *)((s8 *)this + 0xFC) = (s32) this->scale.z;
     x = *(s32 *)((s8 *)this + 0xFC);
     *(s32 *)((s8 *)this + 0xFC) = x < 0 ? 0 : (x > 1 ? 1 : x);
     *(s32 *)((s8 *)this + 0xC8) = (saddr)TOTrapChainSawKey::get_model(a.v[*(s32 *)((s8 *)this + 0xFC)]);
     *(s32 *)((s8 *)this + 0xBC) = (saddr)TOTrapChainSawKey::get_motion(b.v[*(s32 *)((s8 *)this + 0xFC)]);
-    *(saddr *)((s8 *)this + 0x24) = (saddr)fn_802C9924(0);
-    *(f32 *)((s8 *)this + 0xB4) = (0.0f);
-    *(f32 *)((s8 *)this + 0xB8) = (1.0f);
+    this->texlist = fn_802C9924(0);
+    this->animation_end_frame = (0.0f);
+    this->animation_step = (1.0f);
 }

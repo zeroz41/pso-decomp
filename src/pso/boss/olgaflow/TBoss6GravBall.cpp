@@ -27,6 +27,8 @@
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/object/trap/TOTrapAncient01_80226534.h"
 #include "pso/enemy/dd/TObjEneDD.h"
+#include "pso/object/base/TObjBase.h"
+#include "pso/player/PlayerSlots.h"
 
 
 const char TBoss6GravBall__class_name_string[] = "TBoss6GravBall";
@@ -123,7 +125,7 @@ void TBoss6GravBall::push_players() {
     n = TLobby::get_game_mode();
     for (i = 0; i < n; i++) {
         pl = TObjPlayer::get_player_data(i);
-        id = get_entity_id(pl) + 5;
+        id = pl->get_entity_id() + 5;
         if (TBoss6PlotFalz::is_active(pl) == 0) {
             destroy_part(id);
             continue;
@@ -138,7 +140,7 @@ void TBoss6GravBall::push_players() {
             continue;
         }
         if (d <= 1e+01f) {
-            s32 a = get_entity_id(pl) << 14;
+            s32 a = pl->get_entity_id() << 14;
             v.x = 2.5f * sin_table_lookup(a) + v.x;
             v.z = 2.5f * cos_table_lookup(a) + v.z;
             flag = 1;
@@ -169,7 +171,7 @@ void TBoss6GravBall::pull_players() {
     n = TLobby::get_game_mode();
     for (i = 0; i < n; i++) {
         pl = TObjPlayer::get_player_data(i);
-        id = get_entity_id(pl) + 5;
+        id = pl->get_entity_id() + 5;
         if (TBoss6PlotFalz::is_active(pl) == 0) {
             destroy_part(id);
             continue;
@@ -177,7 +179,7 @@ void TBoss6GravBall::pull_players() {
         flag = 1;
         VecCopy(&v, &ball_position);
         {
-            s32 a = get_entity_id(pl) << 14;
+            s32 a = pl->get_entity_id() << 14;
             v.x = 2.5f * sin_table_lookup(a) + v.x;
             v.z = 2.5f * cos_table_lookup(a) + v.z;
         }

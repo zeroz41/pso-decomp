@@ -91,7 +91,7 @@ s32 create_shoot_model_with_particles(u32 owner, s32 pos, s32 dir, f32 life) {
     saddr model = TObjPlayer::create_shoot_model(owner, pos, dir, life);
     TItemShootParticle *particle = (TItemShootParticle *)TObjPlayer::spawn_shoot_particle(owner, pos, dir, life);
     if ((u32)model != 0U && particle != NULL) {
-        ((TItemShootModel *)model)->m_60 = 0x4000;
+        ((TItemShootModel *)model)->ang = 0x4000;
         particle->spawn_slot_emitter(0x1BB, 0);
         particle->spawn_slot_emitter(0x1BC, 1);
         particle->set_parent((TObject *)model);
@@ -131,7 +131,7 @@ TItemShoot::TItemShoot(void *owner, const Vec *pos, const Vec *dir, f32 life)
     m_dir.y *= scale;
     m_dir.z *= scale;
     m_count = (s32)(RADIANS_TO_ANGLE * atan2_float(m_dir.x, m_dir.z));
-    direction_to_rotation_xz((u8 *)&m_dir, &m_28, &m_30);
+    direction_to_rotation_xz((u8 *)&m_dir, &m_28, &rot_b);
     m_50 = NULL;
     m_owner_item_id = ((TItem *)owner)->get_item_id();
     disallow_rendering();
@@ -179,29 +179,29 @@ TItemShootModel::TItemShootModel(void *owner, const Vec *pos, const Vec *dir, f3
     : TItemShoot(owner, pos, dir, life) {
     m_name = TItemShootModel__class_name;
     model = *(NJS_OBJECT **)((u8 *)owner + 0x188);
-    texture_list = (GinjaTextureList *)((TObjBase *)owner)->get_texlist();
+    texture_list = (NJS_TEXLIST *)((TObjBase *)owner)->get_texlist();
     if (0.0f != m_dir.y) {
         f32 horiz = newton_sqrtf(m_dir.x * m_dir.x + m_dir.z * m_dir.z);
         m_28 = -(s32)(RADIANS_TO_ANGLE * atan2_float(m_dir.y, horiz));
-        m_30 = 0;
+        rot_b = 0;
     } else {
-        m_30 = 0;
+        rot_b = 0;
         m_28 = 0;
     }
     m_68 = 0;
     m_64 = 0;
-    m_60 = 0;
+    ang = 0;
 }
 
 void TItemShootModel::render() {
     if (is_owner_alive()) {
         if (model != NULL) {
-            set_texlist((uaddr)texture_list);
+            set_texlist(texture_list);
             TParticleCtrl::begin_effect_render();
             push_matrix();
             post_translate_matrix(&m_pos.x);
             rotate_matrix_by_node_angles(&m_28, 1);
-            rotate_matrix_by_node_angles(&m_60, 1);
+            rotate_matrix_by_node_angles(&ang, 1);
             draw_ginja_object(model);
             pop_matrix();
             TParticleCtrl::end_effect_render();
@@ -305,7 +305,7 @@ void TItemShootGun::render() {
     if (is_owner_alive()) {
         if (model != NULL) {
             set_ginja_model_texture_slot(model->model, m_70 & 0xFFFF);
-            set_texlist((uaddr)texture_list);
+            set_texlist(texture_list);
             TParticleCtrl::begin_effect_render();
             push_matrix();
             post_translate_matrix(&m_pos.x);
@@ -331,13 +331,13 @@ TItemShootModelRotZ::TItemShootModelRotZ(void *owner, const Vec *pos, const Vec 
 }
 
 void TItemShootModelRotZ::hook() {
-    m_30 += 0xCCC;
+    rot_b += 0xCCC;
 }
 
 void TItemShootModelRotZ::render() {
     if (is_owner_alive()) {
         if (model != NULL) {
-            set_texlist((uaddr)texture_list);
+            set_texlist(texture_list);
             TParticleCtrl::begin_effect_render();
             push_matrix();
             post_translate_matrix(&m_pos.x);

@@ -1,5 +1,6 @@
 #include "types.h"
+#include "pso/ui/ItemListRow.h"
 #include "pso/ui/window/TWindowSubItem.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 
-s32 TWindowSubItem::get_cursor_pos() { return *(s32*)((char*)this + 0x18); }
+s32 ItemListRow::get_item() { return item; }

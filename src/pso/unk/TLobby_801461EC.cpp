@@ -40,10 +40,10 @@ s32 lbl_805D56E8;
 s32 lbl_805D56EC;
 s32 lbl_805D56F0;
 s32 lbl_805D56F4;
-s32 TLobby__connect_pending_flags;
+s32 connect_pending_flags;
 s32 lobby_default_gateway;
 uaddr lbl_805D5700;
-s32 TLobby__net_session_mode;
+s32 net_session_mode;
 int lbl_805D5708;
 s32 lbl_805D570C;
 s32 lobby_connect_active_flag;
@@ -63,7 +63,7 @@ void TLobby__sub_804073B8(void);
 s16 init_loopback(void);
 s16 if_config(s16, void *);
 s32 lobby_net_session_id = -1;
-s32 TLobby__sub_801478C4(s32 arg0);
+s32 TLobby__sub_801478C4(s32 id);
 }
 char *get_modem_phone_number(s32 idx);
 s32 connect_pppoe(s32 *);
@@ -188,15 +188,15 @@ loop_1:
 
 
 void TLobby::remove_default_route() {
-    if (TLobby__connect_pending_flags & 2) {
+    if (connect_pending_flags & 2) {
         route4_del(0, 0, lobby_default_gateway);
-        TLobby__connect_pending_flags &= 0xFFFFFFFD;
+        connect_pending_flags &= 0xFFFFFFFD;
     }
 }
 
 void TLobby::set_default_gateway(s32 gateway) {
     lobby_default_gateway = gateway;
-    TLobby__connect_pending_flags |= 2;
+    connect_pending_flags |= 2;
     route4_add(0, 0, gateway);
 }
 
@@ -214,7 +214,7 @@ s32 connect_pppoe(s32 *out_value) {
     s32 result;
 
     id = ppp_init();
-    TLobby__connect_pending_flags |= 4;
+    connect_pending_flags |= 4;
     lobby_net_session_id = id;
     if (id == -1) {
         return 9;
@@ -311,14 +311,14 @@ s32 TLobby__sub_80146588(s32 *arg0) {
     return 0;
 }
 
-s32 TLobby__sub_801465C0(s32 *arg0) {
-    s32 sp8;
+s32 TLobby__sub_801465C0(s32 *netmask) {
+    s32 broadcast;
 
     if (DHCP_init((s16)lobby_net_session_id) != 0) {
         return 0xC;
     }
     Sub_801465C0 *sub = (Sub_801465C0 *)&lbl_8050CCE8;
-    TLobby__connect_pending_flags |= 0x10;
+    connect_pending_flags |= 0x10;
     lobby_connect_active_flag = 1;
     char *name = sub->name;
     if (*name != 0 && DHCP_hostname(name) < 0) {
@@ -326,7 +326,7 @@ s32 TLobby__sub_801465C0(s32 *arg0) {
     }
     lobby_local_ip_addr = 0;
     lbl_805D56E8 = 0;
-    if (dhcp_discover_and_request((s16)lobby_net_session_id, 0, 0, lbl_8050C0C4, &lobby_local_ip_addr, arg0, &sp8, 3) != 0) {
+    if (dhcp_discover_and_request((s16)lobby_net_session_id, 0, 0, lbl_8050C0C4, &lobby_local_ip_addr, netmask, &broadcast, 3) != 0) {
         return 0xC;
     }
     if (DHCP_get_gateway(lbl_8050C0C4, &lobby_gateway_addr) != 0) {
@@ -377,7 +377,7 @@ int TLobby::get_link_status_value() { return TLobby__sub_80145DB4(4); }
 
 int get_link_status() {
     NetLinkStatus link;
-    if (TLobby__net_session_mode == 0) {
+    if (net_session_mode == 0) {
         if (NetGetLinkStatus(&link) < 0) {
             return 0;
         }
@@ -395,21 +395,21 @@ int get_link_status() {
         if (actor_frame_tick % 900 == 0 && (s16)TLobby::get_link_status_value() == 0) {
             return 0;
         }
-        if ((TLobby__connect_pending_flags & 1) && query_link_status() == 0) {
+        if ((connect_pending_flags & 1) && query_link_status() == 0) {
             return 0;
         }
     }
     return 1;
 }
 void TLobby::cleanup() {
-    if ((s32) TLobby__net_session_mode != 0) {
+    if ((s32) net_session_mode != 0) {
         TLobby__sub_801469B8(this);
     } else {
         TLobby__sub_80147284();
     }
-    if (TLobby__connect_pending_flags & 8) {
+    if (connect_pending_flags & 8) {
         avetcp_term();
-        TLobby__connect_pending_flags &= 0xFFFFFFF7;
+        connect_pending_flags &= 0xFFFFFFF7;
     }
     if ((u32) lbl_805D5700 != 0U) {
         xfree((void*)lbl_805D5700);
@@ -431,10 +431,10 @@ s32 TLobby__sub_80146908() {
         AT_SetWorkArea((u8 *)lbl_805D5700, size);
     }
     avetcp_init();
-    TLobby__connect_pending_flags |= 8;
+    connect_pending_flags |= 8;
     lobby_connect_active_flag = 0;
     lbl_805D570C = 0;
-    if (TLobby__net_session_mode != 0) {
+    if (net_session_mode != 0) {
         return TLobby::run_connect_sequence();
     }
     return TLobby__sub_801478C4(ppp_init());
@@ -445,12 +445,12 @@ void TLobby::flush_pending_flags() {
     NetLinkStatus status;
     NetWaitParam stop;
 
-    TLobby__connect_pending_flags &= 0xFFFFFFFE;
+    connect_pending_flags &= 0xFFFFFFFE;
     TLobby::teardown_boss2();
     if (TLobby__sub_80145EE4() != 0) {
-        if (TLobby__connect_pending_flags & 0x10) {
+        if (connect_pending_flags & 0x10) {
             DHCP_release((s16) lobby_net_session_id, lobby_local_ip_addr, 3);
-            TLobby__connect_pending_flags &= 0xFFFFFFEF;
+            connect_pending_flags &= 0xFFFFFFEF;
             dhcp_stop();
         }
     } else if (TLobby::is_state_active() != 0) {
@@ -463,23 +463,23 @@ void TLobby::flush_pending_flags() {
                 TLobby::send_and_handle();
             } while (status.state != 0);
         }
-        if (TLobby__connect_pending_flags & 4) {
+        if (connect_pending_flags & 4) {
             ppp_term();
-            TLobby__connect_pending_flags &= 0xFFFFFFFB;
+            connect_pending_flags &= 0xFFFFFFFB;
         }
     }
     lobby_net_session_id = -1;
-    if (TLobby__connect_pending_flags & 0x20) {
+    if (connect_pending_flags & 0x20) {
         loopback_shutdown();
-        TLobby__connect_pending_flags &= 0xFFFFFFDF;
+        connect_pending_flags &= 0xFFFFFFDF;
     }
-    if (TLobby__connect_pending_flags & 0x40) {
+    if (connect_pending_flags & 0x40) {
         flush_flags_step();
-        TLobby__connect_pending_flags &= 0xFFFFFFBF;
+        connect_pending_flags &= 0xFFFFFFBF;
     }
-    if (TLobby__connect_pending_flags & 0x80) {
+    if (connect_pending_flags & 0x80) {
         TLobby__sub_80407358();
-        TLobby__connect_pending_flags &= 0xFFFFFF7F;
+        connect_pending_flags &= 0xFFFFFF7F;
     }
 }
 
@@ -488,13 +488,13 @@ s32 TLobby::run_connect_sequence() {
     s32 id;
     s32 r;
     s16 ok;
-    TLobby__connect_pending_flags &= ~1;
+    connect_pending_flags &= ~1;
     fn_80147A68();
     if (*(s32 *)((u8 *)&lbl_8050CCE8 + 0x120) != 0) {
         TLobby__sub_804073B8();
-        TLobby__connect_pending_flags |= 0x80;
+        connect_pending_flags |= 0x80;
         id = run_connect_step();
-        TLobby__connect_pending_flags |= 0x40;
+        connect_pending_flags |= 0x40;
         r = TLobby::poll_connect();
         if (r == 0) {
             return 0xF;
@@ -502,10 +502,10 @@ s32 TLobby::run_connect_sequence() {
         if (r == 1) {
             return 0x11;
         }
-        TLobby__connect_pending_flags |= 1;
+        connect_pending_flags |= 1;
         AT_SetEtherNegoMode(4);
         ok = init_loopback();
-        TLobby__connect_pending_flags |= 0x20;
+        connect_pending_flags |= 0x20;
         lobby_connect_active_flag = 0;
         if (ok != 0) {
             return 0xE;
@@ -543,13 +543,13 @@ char *get_modem_phone_number(s32 idx) {
     return lobby_account_entries[2].phone[idx].number;
 }
 
-void TLobby::set_ppp_password(saddr src) {
+void TLobby::set_ppp_password(const char *src) {
     u8 *temp_r31;
     TLobby__sub_8014618C();
     TLobby::is_state_active();
     temp_r31 = (u8 *)&lbl_8050CCE8 + 0xFC;
     memset(temp_r31, 0, 0x20);
-    strncpy((char *)temp_r31, (const char *)src, 0x1F);
+    strncpy((char *)temp_r31, src, 0x1F);
 }
 
 
@@ -624,7 +624,7 @@ void TLobby::load_network_configs() {
         lobby_account_entries[2].valid = 0;
     }
     C_80146D7C.f120 = 0;
-    if (TLobby__net_session_mode == 1 && init_struct((u8 *)&info) == 0) {
+    if (net_session_mode == 1 && init_struct((u8 *)&info) == 0) {
         C_80146D7C.f0 = info.f4;
         C_80146D7C.f4 = info.fA8;
         C_80146D7C.f8 = info.fAC;
@@ -701,9 +701,9 @@ s32 TLobby__sub_80147284(void) {
         ppp_stop(&stop);
     }
     TLobby::remove_default_route();
-    if (TLobby__connect_pending_flags & 4) {
+    if (connect_pending_flags & 4) {
         ppp_term();
-        TLobby__connect_pending_flags &= 0xFFFFFFFB;
+        connect_pending_flags &= 0xFFFFFFFB;
     }
     TLobby::teardown_boss2();
     lobby_net_session_id = -1;
@@ -863,7 +863,7 @@ s32 connect_modem(s32 idx, s16 id) {
     cfg.w54 = 0;
     cfg.w58 = 0;
     ppp_start(&cfg);
-    TLobby__connect_pending_flags |= 4;
+    connect_pending_flags |= 4;
     state = -1;
     cancel = 0;
     result = 0x10;
@@ -957,10 +957,10 @@ void TLobby::init_account_entries() {
     lobby_account_entries[1].valid = 0;
     lobby_account_entries[2].valid = 0;
     lbl_805D5714 = 0;
-    TLobby__net_session_mode = 0;
-    TLobby__connect_pending_flags = 0;
+    net_session_mode = 0;
+    connect_pending_flags = 0;
     if (TLobby__sub_8014618C() != 0) {
-        TLobby__net_session_mode = 1;
+        net_session_mode = 1;
     }
     TLobby::load_network_configs();
     memset(lbl_8050CE14, 0, 0x20);

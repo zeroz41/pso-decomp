@@ -6,6 +6,7 @@
 #include "pso/map/FloorArea.h"
 #include "pso/player/TObjPlayer_801BD314.h"
 #include "pso/object/base/TObjChara.h"
+#include "pso/object/base/TObjBase.h"
 
 
 extern "C" {
@@ -24,14 +25,14 @@ void TObjPlayer::update_action_animation() {
     }
     if (is_on_current_floor__10TObjPlayerFi(arg0) != 0) {
         this->clear_state_flags(4);
-        if (this->obj_testFlags30(0x800) != 0) {
+        if (this->test_actor_flags(0x800) != 0) {
             run_action_state_phase(0xF, 0);
             if (test_flags_any((u8 *)&this->m_858, 1) != 0) {
                 this->requested_action = this->get_action_animation();
             } else {
                 this->restart_death_pose();
             }
-            ((TObjPlayer *)(arg0 + 0x5FC))->set_pos_z(TObjPlayer__data_805DC294);
+            death_sink.set_progress(TObjPlayer__data_805DC294);
             this->revive_or_spawn_marker();
             return;
         }
@@ -176,7 +177,6 @@ typedef struct Player_801BD0C0 {
 } Player_801BD0C0;
 
 extern "C" {
-u16 get_entity_id(void *);
 extern s32 TObjPlayer__shared_model_buffer;
 extern const f32 TObjPlayer__data_805DC278;
 
@@ -204,24 +204,23 @@ void TObjPlayer::init_idle_animation() {
     ((TObjPlayer *)arg0)->init_motion((TObjMotionAction *)arg0->anim->m5(((TObjPlayer *)arg0)->has_valid_handle(), (s32)((TObjPlayer *)arg0)->get_handle_value()), (BmlMotionEntry *)arg0->anim->m74(), get_idle_animation());
 }
 
-void TObjPlayer::sub_801BD240() {
+void TObjPlayer::init_model_buffer_and_actions(void *data) {
     P_801BD240 *arg0 = (P_801BD240 *)this;
-    s32 t = get_entity_id(arg0) * 0xC00;
+    s32 t = ((TObjBase *)(arg0))->get_entity_id() * 0xC00;
     arg0->fE0 = TObjPlayer__shared_model_buffer + t;
     ((TObjPlayer *)arg0)->select_class_action_provider();
-    arg0->f380->m3(get_entity_id(arg0));
+    arg0->f380->m3(((TObjBase *)(arg0))->get_entity_id());
     ((TObjPlayer *)arg0)->init_idle_animation();
     ((TObjPlayer *)arg0)->update_input_and_draw();
 }
 
-int TObjPlayer__sub_801C2114(void);
 
 extern "C" {
 
 void TObjPlayer::update_input_and_draw() {
     saddr ctl = (saddr)this;
     if (is_current_area_item_enabled() == 0) {
-        ((TObjPlayer *)ctl)->set_action_provider_variant((int) (TObjPlayer__sub_801C2114()));
+        ((TObjPlayer *)ctl)->set_action_provider_variant((int) (default_action_provider_variant()));
     }
     ((TObjPlayer *)ctl)->init_idle_animation();
     ((TObjPlayer *)ctl)->draw();
@@ -232,4 +231,4 @@ void TObjPlayer::update_input_and_draw() {
 
 }
 
-void TObjPlayer__sub_801BD314(void) {  }
+void TObjPlayer::release_motion() {  }

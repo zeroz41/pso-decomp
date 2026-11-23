@@ -23,6 +23,7 @@
 #include "pso/network/TProtocol.h"
 #include "pso/unk/text_803D853C.h"
 #include "pso/system/ControllerInput.h"
+#include "pso/player/PlayerSlots.h"
 
 
 const char *TOKey__class_name = "TOKey";
@@ -371,7 +372,7 @@ void TOKey::send_switch_on() {
     cmd.send();
 }
 
-void TOKey::interact(s32 client) {
+void TOKey::interact(u16 client) {
     s32 m = mode;
     TObjPlayer *player;
 

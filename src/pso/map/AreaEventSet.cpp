@@ -42,7 +42,7 @@ typedef void (*FloorEventCreateFunc)(SetDestroyEventRecord *event);
 
 FloorEventSet *floor_event_sets[18];
 
-void TLobby::set_destroy_event(int a0) { set_event_destroy_id = a0; }
+void TLobby::set_destroy_event(int destroy_event) { set_event_destroy_id = destroy_event; }
 void spawn_destroy_event(SetDestroyEventRecord *event) {
     if (TLobby::get_destroy_event_obj() != -1) {
         show_partner_chatter_for_key(event->spawn_arg0);
@@ -277,13 +277,13 @@ s32 load_area_event_set(s32 floor, s32 area, s32 terrain, s32 entities) {
     char path[0x20];
     s32 n;
     FloorEventSet *set;
-    if (TLobby__data_805D6068[area].variants == 0 || TLobby__data_805D6068[area].count - 1 < terrain) {
+    if (map_set_areas[area].variants == 0 || map_set_areas[area].count - 1 < terrain) {
         return 0;
     }
-    if (TLobby__data_805D6068[area].variants[terrain].entries == 0 || TLobby__data_805D6068[area].variants[terrain].count - 1 < entities) {
+    if (map_set_areas[area].variants[terrain].entries == 0 || map_set_areas[area].variants[terrain].count - 1 < entities) {
         return 0;
     }
-    TLobby::replace_file_extension(path, (char *)TLobby__data_805D6068[area].variants[terrain].entries[entities].enemy_set_name, (char *)".evt");
+    TLobby::replace_file_extension(path, (char *)map_set_areas[area].variants[terrain].entries[entities].enemy_set_name, (char *)".evt");
     n = get_resource_file_size(path);
     if (n > 0) {
         set = (FloorEventSet *)area_event_set_heap->heap_alloc(n);

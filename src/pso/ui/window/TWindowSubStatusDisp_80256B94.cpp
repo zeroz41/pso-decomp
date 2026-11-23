@@ -85,7 +85,7 @@ void TWindowStatusGauge::render(WindowDrawContext *ctx) {
     pos.y = ctx->inner_y + this->y;
     depth = -1.0f / (0.299f * this->depth + ctx->depth);
     begin_screen_draw(1);
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(hud_texlist));
+    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(hud_texlist));
     set_draw_texture_and_color(11, -1);
     if (this->flags & 8) {
         TWindowSubStatusDisp__sub_80256C40(this, ctx, &pos, depth);
@@ -208,9 +208,9 @@ void TWindowLayoutEntry::render(WindowDrawContext *) {  }
 
 void TWindowLayoutEntry::update() {}
 
-TWindowLayoutEntry::TWindowLayoutEntry(s32 m_2) {
+TWindowLayoutEntry::TWindowLayoutEntry(s32 client) {
     this->flags = 0;
-    this->m_2 = m_2;
+    this->client = client;
 }
 
 TWindowLayoutEntry::~TWindowLayoutEntry() {}

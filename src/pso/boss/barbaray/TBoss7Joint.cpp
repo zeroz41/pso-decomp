@@ -11,16 +11,13 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/boss/goldragon/TBoss8Dragon.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/boss/barbaray/TBoss7JointBreakUp.h"
 #include "pso/system/task/TObject.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 
 
 extern const f32 lbl_805DE9F0;
 
-// Defined without a shared declaration: the 0x2C-byte object TObjPlayer_802E6CA8.cpp builds and the radar.
-extern "C" {
-void *TObjPlayer__sub_802E72DC(void *object, TBoss7Joint *joint, Vec *position, s32 index);
-}
 
 int TBoss7Joint::is_part_active() { return part_flags & 0x1; }
 
@@ -29,10 +26,7 @@ void TBoss7Joint::init_boss_stats() {
     reload_stats_keep_hp_tp((u8 *)TLobby::register_boss(0x10), (u8 *)TLobby::dispatch_shared_handler_b(0xF), (u8 *)TLobby::register_object(0x10));
     hp = 0x4E20;
     hpmax = 0x4E20;
-    void *piece = TObject::operator new(0x2C);
-    if (piece != NULL) {
-        TObjPlayer__sub_802E72DC(piece, this, &position, index);
-    }
+    new TBoss7JointBreakUp(this, &position, index);
     play_sound_effect(0x3A312, &position, 0, 0);
 }
 

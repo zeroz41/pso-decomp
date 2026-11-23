@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/technique/TTecZondeEff.h"
 #include "pso/enemy/EnemyTargeting.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/unk/SampledMotionPoints.h"
@@ -58,6 +59,9 @@
 #include "pso/network/client_id.h"
 #include "pso/render/model_render_state.h"
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
+#include "pso/player/TPlyDispData.h"
+#include "pso/object/base/TObjBase.h"
+#include "pso/player/PlayerSlots.h"
 extern "C" {
 s32 spawn_dead_spot_scale15(void *, int);
 void TObjPlayer__sub_800ACA0C(void *);
@@ -250,7 +254,7 @@ void TObjEneMoja::load_resources() {
     s16 ids[3] = { 0x32, 0x33, 0x34 };
     NpcAnimationBinding binding = { reinterpret_cast<BmlMotionEntry *>(moja_bml_resource->motions), reinterpret_cast<TObjMotionAction *>(moja_motion_actions), 0, 2, 9 };
     for (s32 i = 0; i < 3; i++) {
-        NpcModelRegistry::register_animated_chunk(ids[i], reinterpret_cast<void *>(moja_bml_resource->models[i].model), reinterpret_cast<void *>(moja_bml_resource->models[i].texlist),
+        NpcModelRegistry::register_animated_chunk(ids[i], reinterpret_cast<void *>(moja_bml_resource->models[i].model), moja_bml_resource->models[i].texlist,
             &binding, moja_collision_body.radius, 0.0f);
     }
 }
@@ -375,7 +379,7 @@ void TObjEneMoja::render() {
         return;
     }
     select_actor_lighting(this);
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
+    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
     id = model_render_flags;
     fade = &unknown_39C[cam];
     saved_model_render_flags = id;
@@ -437,16 +441,16 @@ void TObjEneMoja::render() {
 // TObjChara's slot 28. Picks the nearest player or enemy it can reach as the
 // target (inferred purpose; the slot has no evidenced name).
 void TObjEneMoja::refresh_target() {
-    s32 best_id;
+    u16 best_id;
     s32 i;
-    s32 id;
+    u16 id;
     TObjPlayer *p;
     f32 best;
     f32 d;
     u8 *q;
     u16 tid;
     if (appearance != 1 && ((mode != 0 && target == NULL) || is_actor_cadence_frame(0x1E) != 0)) {
-        if (obj_testFlags30(0x10) != 0) {
+        if (test_actor_flags(0x10) != 0) {
             i = 0;
             best_id = 0xFFFF;
             Vec v = { 0.0f, 0.0f, 0.0f };
@@ -456,8 +460,8 @@ void TObjEneMoja::refresh_target() {
                 if (p == NULL) {
                     break;
                 }
-                id = ((s32 (*)(TObjBase *))get_entity_id)(p);
-                if ((u16)id < 0x4000 && (u16)id != entity_id && !(p->actorFlags & 0x02000800)) {
+                id = p->get_entity_id();
+                if (id < 0x4000 && id != entity_id && !(p->actorFlags & 0x02000800)) {
                     f32 xx;
                     f32 zz;
                     VecCopy(&v, &p->body_center);
@@ -508,7 +512,7 @@ s32 TObjEneMoja::update_action_hold_status() {
             (this->timer) = 0;
             this->appearance = 0;
             this->requested_action = 2;
-            obj_clearFlags30(0x06040000);
+            clear_actor_flags(0x06040000);
             bodies->flags |= 1;
             break;
         }
@@ -529,7 +533,7 @@ s32 TObjEneMoja::update_movement_status() {
             (this->timer) = 0;
             this->appearance = 0;
             this->requested_action = 2;
-            obj_clearFlags30(0x06040000);
+            clear_actor_flags(0x06040000);
             bodies->flags |= 1;
             break;
         }
@@ -586,7 +590,7 @@ void TObjEneMoja::update_idle_state() {
         break;
     }
     refresh_collision_body_centers();
-    obj_clearFlags30(0x200000);
+    clear_actor_flags(0x200000);
 }
 
 void TObjEneMoja::update_appearance_jump() {
@@ -641,7 +645,7 @@ void TObjEneMoja::update_appearance_jump() {
             if (p == NULL) {
                 break;
             }
-            if ((u16)get_entity_id(p) >= 0x1000) {
+            if ((u16)p->get_entity_id() >= 0x1000) {
                 break;
             }
             if (obj_is_hit_receivable((u8 *)p) != 0) {
@@ -653,7 +657,7 @@ void TObjEneMoja::update_appearance_jump() {
                     f32 damage = p->receive_direct_attack(this, hit, 0, -1, -1);
                     p->apply_knockback_from_attacker((u8 *)this, damage);
                 }
-                if (dist <= 10000.0f && !is_split_screen() && local_client_id == (u16)get_entity_id(p)) {
+                if (dist <= 10000.0f && !is_split_screen() && local_client_id == (u16)p->get_entity_id()) {
                     TCameraCtrl::set_shake_preset(0);
                 }
             }
@@ -721,7 +725,7 @@ void TObjEneMoja::update_appearance_drop() {
             if (p == NULL) {
                 break;
             }
-            if ((u16)get_entity_id(p) >= 0x1000) {
+            if ((u16)p->get_entity_id() >= 0x1000) {
                 break;
             }
             if (obj_is_hit_receivable((u8 *)p) != 0) {
@@ -733,7 +737,7 @@ void TObjEneMoja::update_appearance_drop() {
                     f32 damage = p->receive_direct_attack(this, hit, 0, -1, -1);
                     p->apply_knockback_from_attacker((u8 *)this, damage);
                 }
-                if (dist <= 10000.0f && !is_split_screen() && local_client_id == (u16)get_entity_id(p)) {
+                if (dist <= 10000.0f && !is_split_screen() && local_client_id == (u16)p->get_entity_id()) {
                     TCameraCtrl::set_shake_preset(0);
                 }
             }
@@ -787,7 +791,7 @@ void TObjEneMoja::update_approach_state() {
             TObjPlayer::play_effect_if_v2(-0x200);
         }
         if (action_flags != 0x20U) {
-            sub_800A7798(*(f32 *)((s8 *)moja_behavior_params[variant] + 0xC));
+            set_override_speed(*(f32 *)((s8 *)moja_behavior_params[variant] + 0xC));
             requested_action = 2;
             {
             Vec v = ((TObjChara *)target)->body_center;
@@ -931,7 +935,7 @@ void TObjEneMoja::update_punch_attack() {
     Vec *e;
     switch (phase) {
     case 0:
-        sub_800A7798(*(f32 *)moja_behavior_params[variant]);
+        set_override_speed(*(f32 *)moja_behavior_params[variant]);
         phase = 1;
     case 1:
         advance_animation();
@@ -940,7 +944,7 @@ void TObjEneMoja::update_punch_attack() {
             TObjPlayer::play_effect_if_v2(-0x300);
         }
         if (is_passing_frame(12.0f) != 0) {
-            t = obj_testFlags30(0x10);
+            t = test_actor_flags(0x10);
             n = registered_player_count;
             if (t != 0) {
                 n += registered_enemy_count;
@@ -1123,10 +1127,7 @@ void TObjEneMoja::update_technique_state() {
                         rotate_vector_by_matrix(0, &dir, &dir);
                         pop_matrix();
                     }
-                    obj = TObject::operator new(0x260);
-                    if (obj != NULL) {
-                        ((TTecZonde *)obj)->construct_bolt_effect((u8 *)tl_07, (u8 *)&pos, (u8 *)&dir, 0x14000000, 20, (f32)(attack_params->get_attack_range()), 1.8f);
-                    }
+                    new TTecZondeEff(tl_07, &pos, &dir, 0x14000000, 20, (f32)(attack_params->get_attack_range()), 1.8f);
                     play_sound_effect(0x4002A408, &pos, 0, 0);
                     break;
                 }
@@ -1222,7 +1223,7 @@ void TObjEneMoja::update_attack_jump() {
             phase = 2;
             for (i = 0; i < lbl_805D5868; i++) {
                 p = TObjPlayer::get_player_data(i);
-                if (p == NULL || (u16)get_entity_id(p) >= 0x1000) {
+                if (p == NULL || (u16)p->get_entity_id() >= 0x1000) {
                     break;
                 }
                 if (obj_is_hit_receivable((u8 *)p) != 0) {
@@ -1234,7 +1235,7 @@ void TObjEneMoja::update_attack_jump() {
                         f32 damage = p->receive_direct_attack(this, hit, 0, -1, -1);
                         p->apply_knockback_from_attacker((u8 *)this, damage);
                     }
-                    if (d <= 10000.0f && is_split_screen() == 0 && local_client_id == (u16)get_entity_id(p)) {
+                    if (d <= 10000.0f && is_split_screen() == 0 && local_client_id == (u16)p->get_entity_id()) {
                         TCameraCtrl::set_shake_preset(0);
                     }
                 }

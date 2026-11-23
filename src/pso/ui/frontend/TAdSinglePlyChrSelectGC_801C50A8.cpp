@@ -9,6 +9,7 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/unk/TLobby_80226070.h"
 #include "pso/player/TObjPlayer_801BDF5C.h"
+#include "pso/player/PlayerSlots.h"
 
 extern "C" {
     extern int duel_result_window;
@@ -61,7 +62,6 @@ struct Self_801C51D4 { u8 pad[0x1C]; s32 life; s32 timer; Ply_801C51D4 *owner; }
 
 extern "C" {
 f32 xz_distance_squared(void *, void *);
-void *get_player_by_client_id(s32 i);
 void *play_sound_effect(s32, s32, s32, s32, f32);
 
 #pragma push

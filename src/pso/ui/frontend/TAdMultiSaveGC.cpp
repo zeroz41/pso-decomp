@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/unk/TScreenFadeOut.h"
 #include "types.h"
 #include "pso/ui/frontend/TAdBackTxtGC.h"
 #include "pso/ui/frontend/TAdBackGC.h"
@@ -18,7 +19,6 @@
 
 extern "C" {
 saddr get_message_text(s32 arg0);
-int forward_trade_action_default__16TObjCityMainWarpFPviii(void *p, int a1, int a2, int a3);
 saddr create_window_menu_default(const void *, int);
 s32 verify_system_file__23TAdSinglePlyChrSelectGCFPv();
 }
@@ -38,7 +38,7 @@ TAdMultiSaveGC::TAdMultiSaveGC(TObject *parent) : TObject(parent) {
     retry_menu = NULL;
     void *o = new TAdBackGC(this);
     void *o2 = new TAdBackTxtGC(this);
-    copy_chr_slots_from_request__23TAdSinglePlyChrSelectGCFv();
+    TAdSinglePlyChrSelectGC::copy_chr_slots_from_request();
 }
 
 TAdMultiSaveGC::~TAdMultiSaveGC() {
@@ -125,7 +125,7 @@ void TAdMultiSaveGC::run_task() {
         }
         break;
     case 4:
-        write_encrypted_save__23TAdSinglePlyChrSelectGCFv();
+        TAdSinglePlyChrSelectGC::write_encrypted_save();
         saving_window = sub_802FF1F4();
         m_state = 5U;
         return;
@@ -151,10 +151,7 @@ void TAdMultiSaveGC::run_task() {
         break;
     case 8:
         {
-            void *p = TObject::operator new(0x28);
-            if (p != 0) {
-                ((THunterGuildSeqOffline *)p)->init((void *) tl_fade, (void *) TAdMultiSaveGC::queue_destruction);
-            }
+            new TScreenFadeOut(tl_fade, TAdMultiSaveGC::queue_destruction);
         }
         break;
     case 9:
@@ -188,14 +185,14 @@ TWindowMessage *TAdMultiSaveGC::sub_802FF1F4() {
 
 TWindowSubComCardList *TAdMultiSaveGC::sub_802FF170() {
     TWindowSubComCardList *menu = (TWindowSubComCardList *)create_window_menu_default(lbl_80474D90, 2);
-    forward_trade_action_default__16TObjCityMainWarpFPviii(menu, get_message_text(0xD), 6, 0);
-    forward_trade_action_default__16TObjCityMainWarpFPviii(menu, get_message_text(0xE), 6, 1);
+    menu->add_text_entry(get_message_text(0xD), 6, 0);
+    menu->add_text_entry(get_message_text(0xE), 6, 1);
     menu->update_layout_height(289.0f);
     return menu;
 }
 
-// Fade-in callback (THunterGuildSeqOffline::init); the fade task calls it with
-// itself in r3, so it retires the fade before switching game mode.
+// Fade callback (TScreenFadeOut): the fade passes itself, so this retires
+// the fade before switching game mode.
 void TAdMultiSaveGC::queue_destruction(TObject *fade) {
     fade->queue_destruction();
     TAdMultiChgGameModeGC::begin_change_game_mode();

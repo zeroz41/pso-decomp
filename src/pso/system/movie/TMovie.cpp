@@ -317,7 +317,7 @@ s32 TMovie::check_skip_input() {
     ControllerInputContext *context;
     s32 var_r30;
 
-    if (TAdEndText__sub_8001B41C() != 0) {
+    if (is_ending_sequence_active() != 0) {
         if ((TLobby::run_disk_error_check() == 0) || (this->player->is_playback_finished() != 0) || (func_801A5E54__Fv() != 0)) {
             if ((TLobby::run_disk_error_check() == 0) || (func_801A5E54__Fv() != 0)) {
                 fn_801449F0();
@@ -384,17 +384,8 @@ struct TMovie_80144910 {
     s32 f48;
 };
 
-struct VBase_18_a28850 { char pad[0x18]; };
-
-struct VObj_18_a28850 : VBase_18_a28850 {
-    virtual void m0();
-    virtual s32 m1();
-    virtual s32 m2();
-};
-
 void TMovie::run_task() {
-    VObj_18_a28850 *txt;
-    u8 *p;
+    TAdEndText *txt;
     if (this->module == NULL || this->player == NULL) {
         this->queue_destruction();
         return;
@@ -403,12 +394,8 @@ void TMovie::run_task() {
     render_tick();
     TMovie::calc_frame_buffer_size((saddr)((void *)video_initial_display_framebuffer), (saddr)((void *)video_initial_draw_framebuffer));
     txt = NULL;
-    if (TAdEndText__sub_8001B41C() != 0) {
-        p = (u8 *)TObject::operator new(0x197C);
-        if (p != NULL) {
-            p = __ct__10TAdEndTextFv(p, this);
-        }
-        txt = (VObj_18_a28850 *)p;
+    if (is_ending_sequence_active() != 0) {
+        txt = new TAdEndText(this);
     }
     for (;;) {
         if (this->check_skip_input() != 0) {
@@ -429,8 +416,8 @@ void TMovie::run_task() {
             set_camera_look_at(&eye, &at, &up);
             this->player->update_stop();
             if (txt != NULL) {
-                txt->m1();
-                txt->m2();
+                txt->run_task();
+                txt->render();
             }
             render_tick();
         }

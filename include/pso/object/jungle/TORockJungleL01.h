@@ -16,12 +16,9 @@ struct TORockJungleL01 : public TORockCave {
     RenderFadeState fade;
     s32 fade_active;         // fade.isFading() of the last vfunc_14, 0 in split screen
     TObjMapCsn *map_csn;     // the rock's map collision
+    static void *create(void *set_data);
 };
 
 LAYOUT_ASSERT(TORockJungleL01_size, sizeof(TORockJungleL01) == 0xD8);
-
-extern "C" {
-void *TORockJungleL01__create(void *set_data);
-}
 
 #endif

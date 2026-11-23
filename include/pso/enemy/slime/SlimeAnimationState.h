@@ -5,7 +5,7 @@
 #include "pso/animation/ActorAnimationState.h"
 #include "pso/system/NinjaTypes.h"
 
-struct GinjaTextureList;
+struct NJS_TEXLIST;
 struct TObjEneSlimeOne;
 
 struct SlimeShapeMotion {
@@ -34,11 +34,11 @@ struct SlimeAnimationState {
     TObjEneSlimeOne *owner;
     s32 state;
     NJS_OBJECT *model;
-    GinjaTextureList *texture_list;
+    NJS_TEXLIST *texture_list;
     AnimationMotion *motion;
     AnimationMotion *shape_motion;
     NJS_OBJECT *second_model;
-    GinjaTextureList *second_texture_list;
+    NJS_TEXLIST *second_texture_list;
     AnimationMotion *second_motion;
     u32 unknown24;
     f32 speed;

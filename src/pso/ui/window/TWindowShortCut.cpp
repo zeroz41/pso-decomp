@@ -1,7 +1,6 @@
 #include "pso/ui/chat/SymbolChatPreset.h"
 #include "types.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
-#include "pso/ui/window/TWindowSubComCard_80244774.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowShortCut.h"
 #include "pso/ui/chat/TWindowChatSymbol.h"

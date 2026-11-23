@@ -60,6 +60,7 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/render/model_render_state.h"
 #include "pso/object/trap/TOTrapAncient01_80226534.h"
+#include "pso/object/base/TObjBase.h"
 
 extern "C" {
 BmlResource *dubchik_resource;
@@ -183,19 +184,19 @@ s32 TObjEneDubchik::undo_large_move() {
 
 void TObjEneDubchik::set_invuln_flags() {
     bodies->flags |= 0x0A000000;
-    obj_setFlags30(this, 0x04000000U);
+    set_actor_flags(0x04000000U);
 }
 
 void TObjEneDubchik::clear_flag_04000000() {
     bodies->flags &= 0xF5FFFFFF;
-    obj_clearFlags30(0x04000000U);
+    clear_actor_flags(0x04000000U);
 }
 
 void AttackParams::set_attack_range(f32 range) { attack_range = range; }
 
 void TObjEneDubchik::init_level_stats(s32 variant) {
     model = dubchik_resource->models[0].model;
-    texlist = variant == 0 ? (saddr)dubchik_resource->models[0].texlist : (saddr)dubchik_variant_texlist;
+    texlist = variant == 0 ? dubchik_resource->models[0].texlist : dubchik_variant_texlist;
 }
 
 s32 TObjEneDubchik::get_int_parameter(s32 i) {
@@ -291,15 +292,15 @@ void TObjEneDubchik::load_resources() {
         p = new BmlResource(5, &bm_ene_dubchik_resource_descriptor, 0, 0, NULL);
         dubchik_resource = (BmlResource *)p;
     }
-    dubchik_texlist = (NJS_TEXLIST *)dubchik_resource->models[1].texlist;
+    dubchik_texlist = dubchik_resource->models[1].texlist;
     if (TObjEneDD::check_v2_mode() != 0) {
-        dubchik_variant_texlist = (NJS_TEXLIST *)load_gvm_texture_file((saddr)dubchik_v2_gvm_filename());
+        dubchik_variant_texlist = load_gvm_texture_file(dubchik_v2_gvm_filename());
     } else {
-        dubchik_variant_texlist = (NJS_TEXLIST *)load_gvm_texture_file((saddr)dubchik_gvm_filename());
+        dubchik_variant_texlist = load_gvm_texture_file(dubchik_gvm_filename());
     }
     n = (NJS_OBJECT *)find_model_node((uaddr)dubchik_resource->models[1].model, 0x17);
     n->sibling = NULL;
-    TObjPlayer__sub_800A4294();
+    init_fake_tec_texlist();
     lbl_805D509C = (NJS_OBJECT *)find_model_node((uaddr)dubchik_resource->models[0].model, 0x15);
     lbl_805D50A0 = (NJS_OBJECT *)find_model_node((uaddr)dubchik_resource->models[0].model, 0x2A);
     ((NJS_OBJECT *)find_model_node((uaddr)dubchik_resource->models[1].model, 0x15))->evalflags |= NJD_EVAL_HIDE;
@@ -407,7 +408,7 @@ void TObjEneDubchik::run_task() {
     undo_large_move();
     update_prev_position();
     VecCopy(&center, &body_center);
-    if (obj_testFlags30(0x04000000) == 0) {
+    if (test_actor_flags(0x04000000) == 0) {
         submit_cursor_candidate(this, -1);
     }
     minimap_render_dot(&position, -0x5DB4, 1, 0);
@@ -438,9 +439,9 @@ void TObjEneDubchik::render() {
             select_actor_lighting(this);
             TObjPlayer::toggle_particle_effect();
             if (collapsed != 0) {
-                TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(dubchik_texlist));
+                TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(dubchik_texlist));
             } else {
-                TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
+                TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
             }
             drew = 1;
             push_matrix();
@@ -664,7 +665,7 @@ void TObjEneDubchik::update_knockback() {
         break;
     case -1:
         clear_flag_04000000();
-        obj_clearFlags30(0x200);
+        clear_actor_flags(0x200);
         behavior_flags &= ~1;
         referenceHp = hp;
         update_if_active(1);
@@ -777,11 +778,11 @@ void TObjEneDubchik::update_fall_apart() {
     }
     case 4:
         advance_animation();
-        if (obj_testFlags30(0x800) == 0 && frame >= 25.0f) {
+        if (test_actor_flags(0x800) == 0 && frame >= 25.0f) {
             clear_flag_04000000();
         }
         if (action_flags != 8) {
-            obj_clearFlags30(0xA00);
+            clear_actor_flags(0xA00);
             hp = referenceHp = hpmax;
             clear_harmful_statuses();
             behavior_flags &= ~1;
@@ -790,7 +791,7 @@ void TObjEneDubchik::update_fall_apart() {
         }
         break;
     case -1:
-        obj_clearFlags30(0x200);
+        clear_actor_flags(0x200);
         break;
     }
     apply_actor_gravity(this, NULL, 0.0f);
@@ -1099,7 +1100,7 @@ void TObjEneDubchik::update_return_home() {
 
 void TObjEneDubchik::start_dying() {
     behavior_flags |= 0x02000000;
-    obj_setFlags30(this, 0x800U);
+    set_actor_flags(0x800U);
 }
 
 void TObjEneDubchik::load_params() {
@@ -1181,7 +1182,7 @@ void TObjEneDubchik::update_dying() {
         refresh_lobby_state();
         send_entity_set_flags();
         trigger_dell_biter_events(&body_center);
-        obj_setFlags30(this, 0x800);
+        set_actor_flags(0x800);
         queue_destruction();
     }
 }

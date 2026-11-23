@@ -23,15 +23,13 @@
 #include "pso/math/MatrixVector.h"
 #include "pso/render/model_render_state.h"
 #include "pso/system/MatrixStack.h"
+#include "pso/technique/TechniqueRingwaveList.h"
 f32 TEffClitical::alpha_approach_step = 0.15f;
 const char *TEffClitical::class_name = "TEffClitical";
 
 // The texture list TEffClitical::render() draws its ring with (one name, filled at load).
 NJS_TEXNAME clitical_texture_names[1];
-__declspec(section ".data") NJS_TEXLIST clitical_texture_list = { clitical_texture_names, 1 };
-
-// The ring wave textures of the techniques (TechniqueRingwaveList.cpp).
-extern u32 technique_ringwave_texture_list[];
+NJS_TEXLIST clitical_texture_list = { clitical_texture_names, 1 };
 
 #pragma push
 #pragma opt_common_subs off
@@ -41,7 +39,7 @@ void TEffClitical::render() {
     TextureFrameSlot slot;
     u32 flags;
     set_depth_buffer_settings_1();
-    init_texture_copy_rect(&slot, (GinjaTextureList *)&clitical_texture_list, (GinjaTextureList *)technique_ringwave_texture_list, 0, frame + 1);
+    init_texture_copy_rect(&slot, &clitical_texture_list, &technique_ringwave_texture_list, 0, frame + 1);
     flags = model_render_flags;
     saved_model_render_flags = flags;
     model_render_flags = flags | 0x10;
@@ -49,7 +47,7 @@ void TEffClitical::render() {
     set_constant_material(&color);
     copy_anim_frame_to_slot(&slot);
     push_matrix();
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(&clitical_texture_list));
+    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(&clitical_texture_list));
     post_translate_matrix(&position.x);
     rotate_matrix_y(0, camera_ctrl_instance->yaw);
     scale_matrix(0, scale.x, scale.y, scale.z);
@@ -126,7 +124,7 @@ void TEffClitical::create(Vec *pos) {
     new TEffClitical(pos);
 }
 
-void init_texture_copy_rect(TextureFrameSlot *slot, GinjaTextureList *texlist, GinjaTextureList *frames, s32 slot_index,
+void init_texture_copy_rect(TextureFrameSlot *slot, NJS_TEXLIST *texlist, NJS_TEXLIST *frames, s32 slot_index,
                             s32 frame) {
     slot->frames = frames;
     slot->texlist = texlist;

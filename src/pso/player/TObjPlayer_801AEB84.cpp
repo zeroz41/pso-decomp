@@ -27,7 +27,7 @@ void TObjPlayer::apply_luck_reward(u8 arg1) {
         var_r31 *= 5;
     }
     this->add_lck(var_r31);
-    TObjPlayer::add_item_count_kind4(arg0 + 0x374, (saddr)((get_class_index__10TObjPlayerFv(this))), 1);
+    this->materials.add_item_count_kind4(get_class_index__10TObjPlayerFv(this), 1);
 }
 
 }
@@ -40,7 +40,7 @@ void TObjPlayer::add_dfp_material(u8 arg1) {
         var_r31 *= 5;
     }
     this->add_dfp(var_r31);
-    TObjPlayer::try_add_item_count_kind3(arg0 + 0x374, (saddr)((get_class_index__10TObjPlayerFv(this))), 1);
+    this->materials.try_add_item_count_kind3(get_class_index__10TObjPlayerFv(this), 1);
 }
 
 }
@@ -53,7 +53,7 @@ void TObjPlayer::add_evp_material(u8 arg1) {
         var_r31 *= 5;
     }
     this->add_evp(var_r31);
-    TObjPlayer::try_add_item_count_type2(arg0 + 0x374, (saddr)((get_class_index__10TObjPlayerFv(this))), 1);
+    this->materials.try_add_item_count_type2(get_class_index__10TObjPlayerFv(this), 1);
 }
 
 }
@@ -66,7 +66,7 @@ void TObjPlayer::add_mst_and_item(u8 arg1) {
         var_r31 *= 5;
     }
     this->add_mst(var_r31);
-    TObjPlayer::add_item_count(arg0 + 0x374, (saddr)((get_class_index__10TObjPlayerFv(this))), 1);
+    this->materials.add_item_count(get_class_index__10TObjPlayerFv(this), 1);
 }
 
 }
@@ -79,7 +79,7 @@ void TObjPlayer::add_stat_and_item(u8 arg1) {
         var_r31 *= 5;
     }
     this->add_stat(var_r31);
-    TObjPlayer::try_add_item(arg0 + 0x374, (saddr)((get_class_index__10TObjPlayerFv(this))), 1);
+    this->materials.try_add_item(get_class_index__10TObjPlayerFv(this), 1);
 }
 
 }

@@ -4,12 +4,12 @@
 #include "types.h"
 
 extern "C" {
-u8 *fn_800FCC78(u8 *arg0, s32 arg1);
+u8 *fn_800FCC78(u8 *arg0, s32 id);
 }
 
 // --- C functions defined in text_800FCC78.cpp ---
 extern "C" {
-u8 *fn_800FCC78(u8 *arg0, s32 arg1);
+u8 *fn_800FCC78(u8 *arg0, s32 id);
 }
 // --- end of C functions
 

@@ -18,7 +18,7 @@ struct TLazerFenceSw : public TOKey {
     void draw_laser_beam();
     void render();
     void run_task();
-    void *create();
+    static void *create(void *set_data);
     static void load_resources();
     u8 unk_FC[0x1C];
 };

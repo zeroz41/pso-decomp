@@ -404,12 +404,12 @@ void TBoss6Mag::change_motion(s32 motion) {
 
 void TBoss6Mag::draw_model_motion_blend() {
     TBoss6MagMotionBlend blend;
-    GinjaTextureList *texlist;
+    NJS_TEXLIST *texlist;
     NJS_OBJECT *model;
     set_motion_packed_rotation();
     texlist = get_bml_texlist(scene_archive, 1);
     model = get_bml_model(scene_archive, 1);
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
+    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
     if (0.0f == motion_state.track.blend) {
         capture->install();
         draw_model_motion(model, motion_state.track.motion, motion_state.track.frame);

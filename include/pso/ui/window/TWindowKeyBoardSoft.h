@@ -51,7 +51,7 @@ struct TWindowKeyBoardSoft : public TWindowBase
     static void dispatch_request_0x24(s32 a, s32 b);
     static void dispatch_request_0x23(s32 a, s32 b);
     static void dispatch_request_0x22(s32 a, s32 b);
-    static s32 dispatch_request_0x20(saddr a, saddr b);
+    static s32 dispatch_request_0x20(const char *a, const char *b);
     static s32 dispatch_request_0x1c();
     static void dispatch_request_0x14(s32 a, s32 b);
     static void dispatch_request_0x13(s32 arg0, s32 arg1, s32 arg2);

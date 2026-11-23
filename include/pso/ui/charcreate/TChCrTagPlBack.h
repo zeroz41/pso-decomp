@@ -8,6 +8,7 @@ public:
     TChCrTagPlBack(TObject *parent, s32 index);
     virtual ~TChCrTagPlBack();
     virtual void render();
+    virtual s32 is_selected();
     void draw_frame();
 public:
     static TChCrTagPlBack *create(s32 index);

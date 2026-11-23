@@ -14,7 +14,7 @@ void TLobby__sub_8001DF58(s32 arg0, saddr ent);
 void *TLobby__sub_8001E270(int a0, int a1);
 void *TLobby__sub_8001E2A8(int a0, int a1);
 s32 TLobby__sub_8001E75C(void *arg0);
-void TLobby__sub_8001E998(f32 farg0, f32 farg1, f32 farg2, f32 farg3);
+void TLobby__sub_8001E998(f32 x, f32 position1Y, f32 farg2, f32 farg3);
 void TLobby__sub_8001EA5C(f32 x, f32 y, f32 size, f32 alpha);
 void TLobby__sub_8001ED70(void);
 void TLobby__sub_8001ED74(void);

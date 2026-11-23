@@ -9,9 +9,9 @@ struct G_803DAF70 { u8 pad[0x20]; Tbl_803DAF70 *f20; };
 
 extern u8 *current_render_context;
 
-void TLanguage::set_index(s32 arg1) {
+void TLanguage::set_index(s32 x) {
     u8 *arg0 = (u8 *)this;
-    *(s32 *)((s8 *)arg0 + 8) = arg1;
+    *(s32 *)((s8 *)arg0 + 8) = x;
 }
 #pragma push
 #pragma scheduling off

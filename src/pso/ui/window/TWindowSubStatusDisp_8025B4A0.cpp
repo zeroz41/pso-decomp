@@ -22,20 +22,20 @@ void *window_label_value_part_vtable[6] = {
     0,
 };
 
-void TWindowSubStatusDisp::set_string(uaddr arg1) {
+void TWindowSubStatusDisp::set_string(uaddr string) {
     s32 temp_r3;
 
     mem_free((void *)(*(saddr *)((s8 *)this + 0x20)));
     *(s32 *)((s8 *)this + 0x20) = 0;
-    if (arg1 != 0U) {
+    if (string != 0U) {
         *(f32 *)((s8 *)this + 8) = (f32) (0.0f);
-        temp_r3 = (s32)measure_string_len((const char *)(arg1));
+        temp_r3 = (s32)measure_string_len((const char *)(string));
         *(s32 *)((s8 *)this + 0x20) = (saddr)mem_alloc(temp_r3 + 1);
-        strncpy((char *)(*(saddr *)((s8 *)this + 0x20)), (const char *)arg1, (u32)temp_r3 + 1);
+        strncpy((char *)(*(saddr *)((s8 *)this + 0x20)), (const char *)string, (u32)temp_r3 + 1);
     }
 }
 
-void TWindowSubStatusDisp::set_text(uaddr arg1, s32 arg2, s32 arg3) {
+void TWindowSubStatusDisp::set_text(uaddr arg1, s32 string, s32 arg3) {
     s32 temp_r3;
 
     mem_free((void *)(*(saddr *)((s8 *)this + 0x1C)));
@@ -48,7 +48,7 @@ void TWindowSubStatusDisp::set_text(uaddr arg1, s32 arg2, s32 arg3) {
     *(s32 *)((s8 *)this + 0x18) = arg3;
     *(f32 *)((s8 *)this + 8) = (f32) (0.0f);
     *(u16 *)((s8 *)this + 0) = *(u16 *)((s8 *)this + 0) | 5;
-    set_string(arg2);
+    set_string(string);
 }
 
 void TWindowSubStatusDisp::set_text(uaddr arg1, s32 arg2) {
@@ -98,7 +98,7 @@ void *TWindowSubStatusDisp::destroy_free_buffers(void *window_sub_status_disp, s
     return window_sub_status_disp;
 }
 
-void*TWindowSubComCard::init_fields(int a1, int a2) { __ct__13TUnk_804CF998Fl(this, a2); *(int*)((char*)this + 0x4) = (saddr)window_label_value_part_vtable; *(float*)((char*)this + 0x14) = (18.0f); this->m_24 = -1; *(int*)((char*)this + 0x1c) = 0; this->m_20 = 0; *(int*)((char*)this + 0x18) = 0; return this; }
+void*TWindowSubComCard::init_fields(int rec, int client) { __ct__13TUnk_804CF998Fl(this, client); *(int*)((char*)this + 0x4) = (saddr)window_label_value_part_vtable; *(float*)((char*)this + 0x14) = (18.0f); this->m_24 = -1; *(int*)((char*)this + 0x1c) = 0; this->m_20 = 0; *(int*)((char*)this + 0x18) = 0; return this; }
 
 int TWindowSubComCard::is_flag_4_set() { return *(u16*)((char*)this + 0x0) & 0x4; }
 

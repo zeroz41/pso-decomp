@@ -5,11 +5,13 @@
 #include "pso/system/vector.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/unk/TLobby.h"
+#include "pso/quest/challenge/TChallenge.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/object/TObjTombstone.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/unk/text_8026A14C.h"
+#include "pso/player/PlayerSlots.h"
 
 struct Table_8006FE7C {
     s32 v0;
@@ -29,7 +31,6 @@ struct Card_8006FC7C {
 struct Unit_8006FC7C { u8 pad[0x370]; s32 f370; };
 
 extern "C" {
-void *get_player_by_client_id(s32);
 extern Table_8006FE7C challenge_mode_state;
 extern void *tl_07;
 char *TLobby__sub_80070ACC(u8, u8, s32);
@@ -45,7 +46,7 @@ void TQuestVmDownLoadServer::split_time_hms(s32 arg0, s32 *arg1, s32 *arg2, s32 
     *arg3 = arg0 % 60;
 }
 
-void TLobby::update_card_save_info() {
+void TChallenge::update_card_save_info() {
     char buf[0x60];
     char name[0x20];
     Date_8006FC7C date;

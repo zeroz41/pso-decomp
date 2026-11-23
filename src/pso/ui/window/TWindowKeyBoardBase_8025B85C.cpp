@@ -40,12 +40,11 @@ int TWindowKeyBoardBase::is_alnum(u16 code) {
 s32 TWindowKeyBoardBase::get_state() { return m_text.cursor; }
 
 void TWindowKeyBoardBase::vt2() {
-    u8 *self = (u8 *)this;
     if (*(u16 *)((s8 *)this + 0x60) & 2) {
         init();
     }
     if ((u32) *(u32 *)((s8 *)this + 0x7C) != 0U) {
-        ((KeyboardTextBuffer *)(self + 0x6C))->reset_state();
+        this->m_text.reset_state();
     }
     *(u16 *)((s8 *)this + 0x60) = (u16) (*(u16 *)((s8 *)this + 0x60) | 0x20);
 }
@@ -61,10 +60,10 @@ void TWindowKeyBoardBase::sub_8025B92C() {
     if (temp_r4 & 2) {
         if (!(temp_r4 & 4)) {
             convert_input_text();
-            var_r3 = *(s32 *)((s8 *)this + 0xAC);
+            var_r3 = this->candidate_count;
             if (!(*(u16 *)((s8 *)this + 0x60) & 0x10)) {
                 do {
-                    *(s32 *)((s8 *)this + 0xAC) = var_r3;
+                    this->candidate_count = var_r3;
                     var_r3 = TWindowKeyBoardSoft__sub_803E67D4(sp8, sp108);
                 } while (var_r3 != 0);
                 sub_8025CFA8((s32 *)sp8);
@@ -74,7 +73,7 @@ void TWindowKeyBoardBase::sub_8025B92C() {
             }
         } else {
 block_5:
-            if ((s32) *(s32 *)((s8 *)this + 0xA8) != 0xF1) {
+            if ((s32) this->candidate_index != 0xF1) {
                 set_kana_mode();
                 return;
             }
@@ -159,10 +158,10 @@ void TWindowKeyBoardBase::vt9() {
         if (temp_r4 & 2) {
             if (!(temp_r4 & 4)) {
                 convert_input_text();
-                var_r3 = *(s32 *)((s8 *)this + 0xAC);
+                var_r3 = this->candidate_count;
                 if (!(*(u16 *)((s8 *)this + 0x60) & 0x10)) {
                     do {
-                        *(s32 *)((s8 *)this + 0xAC) = var_r3;
+                        this->candidate_count = var_r3;
                         var_r3 = TWindowKeyBoardSoft__sub_803E67D4(sp8, sp108);
                     } while (var_r3 != 0);
                     sub_8025CFA8((s32 *)sp8);
@@ -191,10 +190,10 @@ void TWindowKeyBoardBase::vt8() {
         if (temp_r4 & 2) {
             if (!(temp_r4 & 4)) {
                 convert_input_text();
-                var_r3 = *(s32 *)((s8 *)this + 0xAC);
+                var_r3 = this->candidate_count;
                 if (!(*(u16 *)((s8 *)this + 0x60) & 0x10)) {
                     do {
-                        *(s32 *)((s8 *)this + 0xAC) = var_r3;
+                        this->candidate_count = var_r3;
                         var_r3 = TWindowKeyBoardSoft__sub_803E67D4(sp8, sp108);
                     } while (var_r3 != 0);
                     sub_8025CFA8((s32 *)sp8);
@@ -398,7 +397,6 @@ void TWindowKeyBoardBase::vt1() {
 }
 
 void TWindowKeyBoardBase::vt21() {
-    u8 *self = (u8 *)this;
     u16 temp_r4;
     temp_r4 = *(u16 *)((s8 *)this + 0x60);
     if (temp_r4 & 4) {
@@ -410,7 +408,7 @@ void TWindowKeyBoardBase::vt21() {
         return;
     }
     if ((u32) *(u32 *)((s8 *)this + 0x7C) != 0U) {
-        ((KeyboardTextBuffer *)(self + 0x6C))->reset_state();
+        this->m_text.reset_state();
         return;
     }
     *(u16 *)((s8 *)this + 0x60) = (u16) (temp_r4 | 0x20);
@@ -456,9 +454,8 @@ void TWindowKeyBoardBase::vt19() {
 }
 
 void TWindowKeyBoardBase::vt0() {
-    u8 *self = (u8 *)this;
     if (!(*(u16 *)((s8 *)this + 0x60) & 2)) {
-        if (!(*(u16 *)((s8 *)this + 0x62) & 4) || (((KeyboardTextBuffer *)(self + 0x6C))->is_buffer_blank() == 0)) {
+        if (!(*(u16 *)((s8 *)this + 0x62) & 4) || (this->m_text.is_buffer_blank() == 0)) {
             *(u16 *)((s8 *)this + 0x60) = (u16) (*(u16 *)((s8 *)this + 0x60) | 1);
         }
     } else {
@@ -551,7 +548,7 @@ void TWindowKeyBoardBase::insert_character(u16 code) {
 
 void TWindowKeyBoardBase::init() {
     u8 *arg0 = (u8 *)this;
-    ((KeyboardTextBuffer *)(arg0 + 0x84))->reset_state();
+    this->m_text2.reset_state();
     *(s32 *)((s8 *)arg0 + 0x68) = (saddr)(arg0 + 0x6C);
     *(u16 *)((s8 *)arg0 + 0x60) = (u16) (*(u16 *)((s8 *)arg0 + 0x60) & ~0x86);
 }

@@ -59,6 +59,8 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/player/TObjPlayer_800F0810.h"
 #include "pso/system/MatrixStack.h"
+#include "pso/object/base/TObjBase.h"
+#include "pso/player/PlayerSlots.h"
 
 #pragma defer_codegen on
 extern "C" {
@@ -155,11 +157,11 @@ void TObjEneMe1Gee::load_resources() {
     p = new TBreakUpMdlData((saddr)TObjEneMe1Gee__resource_bundle->models->model);
     gee_breakup_model = p;
     gee_node4_diffuse = (s32 *)(((NJS_CNK_MODEL *)((NJS_OBJECT *)find_model_node((saddr)TObjEneMe1Gee__resource_bundle->models->model, 4))->model)->polygon_list + 2);
-    TObjPlayer__sub_800F0928();
+    TObjPlayer::init_alt_model();
     {
         NpcAnimationBinding params = { NULL, reinterpret_cast<TObjMotionAction *>(TObjEneMe1Gee__motion_parameters), 0, 0, 4 };
         params.motions = reinterpret_cast<BmlMotionEntry *>(TObjEneMe1Gee__resource_bundle->motions);
-        NpcModelRegistry::register_animated_chunk((s16)0x10, reinterpret_cast<void *>(TObjEneMe1Gee__resource_bundle->models->model), reinterpret_cast<void *>(TObjEneMe1Gee__resource_bundle->models->texlist), &params, 8.0f, 15.0f);
+        NpcModelRegistry::register_animated_chunk((s16)0x10, reinterpret_cast<void *>(TObjEneMe1Gee__resource_bundle->models->model), TObjEneMe1Gee__resource_bundle->models->texlist, &params, 8.0f, 15.0f);
     }
 }
 
@@ -273,7 +275,7 @@ void TObjEneMe1Gee::init_state() {
     this->mode = 0;
     this->dispatch_action(this->mode, 4);
     if (this->leader != NULL) {
-        this->leader_id = get_entity_id(this->leader);
+        this->leader_id = this->leader->get_entity_id();
         return;
     }
     this->leader_id = 0xFFFF;
@@ -363,7 +365,7 @@ void TObjEneMe1Gee::apply_parameters() {
 #pragma pop
 void TObjEneMe1Gee::select_model() {
     this->model = (void *)TObjEneMe1Gee__resource_bundle->models->model;
-    this->texlist = (saddr)TObjEneMe1Gee__resource_bundle->models->texlist;
+    this->texlist = TObjEneMe1Gee__resource_bundle->models->texlist;
 }
 #pragma push
 #pragma fp_contract on
@@ -1760,7 +1762,7 @@ void TObjEneMe1Gee::render() {
             this->draw_ground_shadow(0, 0);
         }
         this->update_secondary_light();
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(this->texlist));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
         saved_model_render_flags = model_render_flags;
         TObjEneDD::clear_global_flag_400();
         TObjPlayer::toggle_particle_effect();
@@ -1842,7 +1844,7 @@ void TObjEneMe1Gee::render_demo() {
     if (this->update_object_view_visibility(400.0f, 15.0f) != 0) {
         this->draw_ground_shadow(0, 0);
         TObjPlayer::toggle_particle_effect();
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(this->texlist));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
         push_matrix();
         post_translate_matrix(&this->position.x);
         rotate_matrix_y(0, this->rotation_y);
@@ -1873,7 +1875,7 @@ void TObjEneMe1GeeLeader::run_task() {
 
 void TObjEneMe1GeeLeader::select_model() {
     this->model = (void *)TObjEneMe1Gee__resource_bundle->models->model;
-    this->texlist = (saddr)TObjEneMe1Gee__resource_bundle->models->texlist;
+    this->texlist = TObjEneMe1Gee__resource_bundle->models->texlist;
 }
 
 void TObjEneMe1GeeLeader::select_next_attack_state() {

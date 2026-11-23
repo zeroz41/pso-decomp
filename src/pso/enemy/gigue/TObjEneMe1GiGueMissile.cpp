@@ -24,6 +24,8 @@
 #include "pso/object/base/TObjChara.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/object/base/TObjBase.h"
+#include "pso/player/PlayerSlots.h"
 
 #pragma readonly_strings on
 
@@ -31,13 +33,9 @@ BmlResource *gigue_missile_resource;
 const char *TObjEneMe1GiGueMissile__name = "TObjEneMe1GiGueMissile";
 
 void TObjEneMe1GiGueMissile::explode(void *pos) {
-    void *fx;
     TObjPlayer *p;
     s32 i;
-    fx = TObject::operator new(0x64);
-    if (fx != NULL) {
-        create_fire_explosion_effect((u8 *)fx, 40.0f, (const Vec *)pos, 0, tl_07);
-    }
+    new TUnk_804CCB28(40.0f, (const Vec *)pos, 0, tl_07);
     for (i = 0; i < 4; i++) {
         p = get_player_by_client_id(i);
         if (p != NULL && horizontal_distance_squared(&p->position, (Vec *)pos) <= 1600.0f) {
@@ -45,7 +43,7 @@ void TObjEneMe1GiGueMissile::explode(void *pos) {
             hit.kind = 0;
             hit.power = power;
             if (p->receive_direct_attack((void *)owner, hit, NULL, -1, -1) > 0.0f) {
-                obj_setFlags30(p, 0x600);
+                p->set_actor_flags(0x600);
             }
             if (get_current_floor_area() == AREA_TOWER) {
                 play_sound_effect(0x4003A312, &p->position, 0, 0);
@@ -78,7 +76,7 @@ void TObjEneMe1GiGueMissile::render() {
     post_translate_matrix(&pos.x);
     rotate_matrix_y(NULL, rotation_y);
     rotate_matrix_x(NULL, rotation_x);
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(gigue_missile_resource->models[1].texlist));
+    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(gigue_missile_resource->models[1].texlist));
     set_motion_packed_rotation();
     draw_model_motion((void *)get_bml_model(gigue_missile_resource, 1), get_bml_motion(gigue_missile_resource, 5), motion_frame);
     clear_motion_packed_rotation();
@@ -113,7 +111,7 @@ TObjEneMe1GiGueMissile::TObjEneMe1GiGueMissile(s32 owner, Vec *from, Vec *to, f3
     this->speed = speed;
     play_sound_effect(0x4002A600, &pos, 0, 0);
     if ((void *)this->owner != NULL) {
-        owner_id = get_entity_id((TObjBase *)this->owner);
+        owner_id = ((TObjBase *)this->owner)->get_entity_id();
     }
     if (collider != NULL) {
         collider->bodies->radius = 1.0f;

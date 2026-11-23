@@ -18,7 +18,7 @@ struct TOLightMachine01 : public TObjBase {
     u32 m_ac;
     virtual void run_task();
     virtual void render();
-    static void *create(void *arg0);
+    static void *create(void *set_data);
     static void destroy_instance();
     static void load_assets();
 };

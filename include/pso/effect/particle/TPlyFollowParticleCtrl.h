@@ -20,9 +20,4 @@ struct TPlyFollowParticleCtrl : public TObjCollidable {
 
 LAYOUT_ASSERT(TPlyFollowParticleCtrl_size, sizeof(TPlyFollowParticleCtrl) == 0xB0);
 
-extern "C" {
-void TPlyFollowParticleCtrl__sub_8030A694(void);
-saddr __dt__22TPlyFollowParticleCtrlFis(saddr self, s16 flags);
-}
-
 #endif

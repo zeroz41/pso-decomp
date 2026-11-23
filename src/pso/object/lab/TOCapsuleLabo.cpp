@@ -56,7 +56,7 @@ void TOCapsuleLabo::render() {
     NJS_OBJECT *light;
     visible = update_object_view_visibility(view_range, model_radius);
     if (visible == 1) {
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
         if (active == 1) {
             if (light_node != NULL) {
                 light_node->evalflags &= ~NJD_EVAL_HIDE;
@@ -99,7 +99,7 @@ TOCapsuleLabo::TOCapsuleLabo(TObject *parent, void *set_data) : TOQuestTalkBase(
     m_name = class_name;
     apply_object_set_data(set_data);
     model = (void *)get_bml_model((BmlResource *)model_resource, 0);
-    texlist = (saddr)get_bml_texlist((BmlResource *)model_resource, 0);
+    texlist = get_bml_texlist((BmlResource *)model_resource, 0);
     init_collision_body_parts(this, &capsule_labo_collision_body, 1);
     set_indexed_flags(0, 0x1288);
     refresh_collision_body_centers();

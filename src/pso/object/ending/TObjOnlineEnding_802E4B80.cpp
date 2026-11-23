@@ -12,6 +12,7 @@
 #include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
 #include "pso/object/ending/TObjOnlineEnding.h"
+#include "pso/object/ending/TObjOnlineEndingHexMove.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/unk/TLobby.h"
 #include "pso/object/ambient/TObjFish.h"
@@ -32,6 +33,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp_80071774.h"
 #include "pso/system/TLoadCtrl_80227390.h"
 #include "pso/camera/TCameraCtrl.h"
+#include "pso/player/PlayerSlots.h"
 
 #pragma readonly_strings on
 
@@ -39,17 +41,6 @@ extern "C" {
 
 
     extern int player_unique_pair_entry_count;
-extern "C" void vfunc_6__8TObjBaseFPsl();
-extern "C" void get_name__8TObjBaseFv();
-extern "C" void get_center__8TObjBaseFv();
-extern "C" void apply_object_set_data__8TObjBaseFPv();
-extern "C" void classify_actor_view_detail__8TObjBaseFfff();
-extern "C" void render_shadows__7TObjectFv();
-extern "C" void reset_motion_fields__8TObjBaseFv();
-extern "C" void update_object_view_visibility__8TObjBaseFff();
-void *destroy__16TObjOnlineEndingFPvs(void *arg0, s16 arg1);
-void run_task__16TObjOnlineEndingFv(TObjOnlineEnding *arg0);
-void render__16TObjOnlineEndingFv(TObjOnlineEnding *arg0);
 __declspec(section ".data") const char *onlineending_dat_model_names[2] = {
     "ending_blue_oya.nj", NULL,
 };
@@ -152,26 +143,8 @@ Vec lbl_804E3A38 = {20000.0f, 0.0f, 0.0f};
 NJS_POINT2 online_ending_quad_vertices[4] = {
     {256.0f, 0.0f}, {384.0f, 0.0f}, {128.0f, 0.0f}, {514.0f, 0.0f},
 };
-void *__vt__16TObjOnlineEnding[13] = {
-    (void *)0x0, (void *)0x0, (void *)&destroy__16TObjOnlineEndingFPvs, (void *)&run_task__16TObjOnlineEndingFv,
-    (void *)&render__16TObjOnlineEndingFv, (void *)&render_shadows__7TObjectFv, (void *)&vfunc_6__8TObjBaseFPsl, (void *)&apply_object_set_data__8TObjBaseFPv,
-    (void *)&reset_motion_fields__8TObjBaseFv, (void *)&get_center__8TObjBaseFv, (void *)&update_object_view_visibility__8TObjBaseFff, (void *)&classify_actor_view_detail__8TObjBaseFfff,
-    (void *)&get_name__8TObjBaseFv,
-};
-#define __vt__16TObjOnlineEnding ((const s32 *)__vt__16TObjOnlineEnding)
 
-int TObjOnlineEnding::get_instance() {  return player_unique_pair_entry_count; }
-
-    extern unsigned char lbl_8050DAD0[];
-void*TObjOnlineEnding::get_attack_entry(int a0) {  return (char*)lbl_8050DAD0 + a0 * 8; }
-
-void TObjOnlineEnding::close_window() {
-    if (result_window != NULL) {
-        result_window->close();
-        result_window = NULL;
-    }
-}
-
+extern unsigned char lbl_8050DAD0[];
 }
 
 struct Cam_802E4E44 {
@@ -195,122 +168,42 @@ f32 online_ending_scene_z_offset;
 BmlResource *online_ending_resource;
 s8 online_ending_scene_translation_initialized;
 s8 online_ending_quad_vertices_initialized;
-
-void TObjOnlineEnding::create_result_window() {
-    result_window = NULL;
-    if (TLobby::is_flag_set() != 0) {
-        if (TLobby::get_online_result_value() == TWindowSubStatusDisp::get_layout_id(-1) - 1) {
-            result_window = new TWindowChallengeResult((const char *)TLobby__sub_80070ACC(),
-                TWindowSubStatusDisp__sub_800718D0(), get_card_window_value());
-        }
-    }
-}
-
-void TObjOnlineEnding::render() {
-    s32 i;
-    OnlineEndingPlayer *e;
-    if (online_ending_scene_translation_initialized == 0) {
-        lbl_804E3A38.z = (-100.0f) + online_ending_scene_z_offset;
-        online_ending_scene_translation_initialized = 1;
-    }
-    TParticleCtrl::begin_effect_render();
-    push_matrix();
-    post_translate_matrix(&lbl_804E3A38.x);
-    scale_matrix(0, online_ending_scene_scale, 1.0f, 1.0f);
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(scene_textures));
-    draw_model_motion(scene_model, scene_motion, scene_frame);
-    pop_matrix();
-    for (i = 0; i < player_count; i++) {
-        e = &players[i];
-        if (e->active != 0) {
-            if (online_ending_quad_vertices_initialized == 0) {
-                online_ending_quad_vertices[0].y = 63.0f + online_ending_quad_y_offset;
-                online_ending_quad_vertices[1].y = 343.0f + online_ending_quad_y_offset;
-                online_ending_quad_vertices[2].y = 343.0f + online_ending_quad_y_offset;
-                online_ending_quad_vertices[3].y = 63.0f + online_ending_quad_y_offset;
-                online_ending_quad_vertices_initialized = 1;
-            }
-            {
-                char *name = e->name;
-                u32 w = calc_text_width(name);
-                NJS_POINT2 v = online_ending_quad_vertices[i];
-                v.x -= (f32)(w >> 1);
-                TAdSubPlyItemGC::render_status_line(v.x, v.y, 0.1f, name, -1);
-            }
-            push_matrix();
-            post_translate_matrix(&lbl_804E3A38.x);
-            post_translate_matrix(&e->position->x);
-            rotate_matrix_y(0, e->yaw);
-            scale_matrix(0, e->scale, e->scale, e->scale);
-            TObjPlayer::draw_player_model_by_client(e->id, reinterpret_cast<saddr>(e->motion), 0.0f, 1.0f);
-            pop_matrix();
-        }
-    }
-    TParticleCtrl::end_effect_render();
-}
-
-void TObjOnlineEnding::run_task() {
-    s32 i;
-    for (i = 0; i < player_count; i++) {
-        if (players[i].active != 0 && get_player_by_client_id(players[i].id) == 0) {
-            players[i].active = 0;
-        }
-    }
-    switch (scene_state) {
-    case 0:
-        scene_state = 1;
-        break;
-    case 1: {
-        activate_camera_mode(9);
-        Vec t1 = online_ending_camera_eye;
-        Vec t2 = online_ending_camera_target;
-        Cam_802E4E44 cam;
-        VecCopy((Vec *)&cam.a, (const Vec *)&t1);
-        VecCopy((Vec *)&cam.b, (const Vec *)&t2);
-        cam.f14 = 0x1999;
-        set_active_camera_pose_from_params((CameraParams *)&cam);
-        scene_state = 2;
-        break;
-    }
-    default:
-        if ((scene_frame += 0.3f) >= 17.0f) {
-            scene_frame = 17.0f;
-        }
-        if (++elapsed_frames >= 450) {
-            queue_destruction();
-        }
-        break;
-    }
-}
-
-void *destroy__16TObjOnlineEndingFPvs(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(const s32 **)((s8 *)arg0 + 0x18) = __vt__16TObjOnlineEnding;
-        ((TObjOnlineEnding *)arg0)->close_window();
-        restore_player_cameras();
-        __dt__8TObjBaseFv(arg0, 0);
-        if (arg1 > 0) {
-            TObject::operator delete(arg0);
-        }
-    }
-    return arg0;
-}
-
-
-void __ct__8TObjBaseFP7TObject(void *, void *);
-void *create_TObjOnlineEndingHexMove(void *arg0);
 void reset_hex_line_params();
+}
+
+// Built with -inline off,deferred: functions are emitted last to first, so they are written in reverse.
+
+void fn_802E52AC() {
+    saddr r;
+    if (online_ending_resource == NULL) {
+        r = (saddr)new BmlResource(5, &onlineending_dat_resource_descriptor, 0, 0, NULL);
+        online_ending_resource = reinterpret_cast<BmlResource *>(r);
+        if (online_ending_resource == NULL) {
+            return;
+        }
+    }
+}
+
+void TBoss4DarkFalz::free_global_instance() {
+    if (online_ending_resource != NULL) {
+        delete (BmlResource *)online_ending_resource;
+        online_ending_resource = NULL;
+    }
+}
+
+void *TObjOnlineEnding::create(void *parent) {
+    return new TObjOnlineEnding(static_cast<TObject *>(parent));
+}
+
 #pragma push
 #pragma opt_common_subs off
-void *TObjOnlineEnding__ct(void *origin, void *parent) {
+TObjOnlineEnding::TObjOnlineEnding(TObject *parent) : TObjBase(parent) {
     s32 i;
     u8 *pl;
     OnlineEndingPlayer *e;
-    TObjOnlineEnding *self = static_cast<TObjOnlineEnding *>(origin);
+    TObjOnlineEnding *self = this;
 
-    __ct__8TObjBaseFP7TObject(origin, parent);
-    *reinterpret_cast<const s32 **>(reinterpret_cast<u8 *>(self) + 0x18) = __vt__16TObjOnlineEnding;
-    self->m_name = TObjOnlineEnding__name;
+    m_name = TObjOnlineEnding__name;
     self->ending_area = get_current_floor_area();
     self->ending_variant = 0;
     TObject *object = self;
@@ -323,10 +216,10 @@ void *TObjOnlineEnding__ct(void *origin, void *parent) {
         break;
     default:
         object->queue_destruction();
-        return origin;
+        return;
     }
     self->scene_model = reinterpret_cast<NJS_OBJECT *>(get_bml_model((BmlResource *)online_ending_resource, 0));
-    self->scene_textures = reinterpret_cast<GinjaTextureList *>(get_bml_texlist((BmlResource *)online_ending_resource, 0));
+    self->scene_textures = reinterpret_cast<NJS_TEXLIST *>(get_bml_texlist((BmlResource *)online_ending_resource, 0));
     self->scene_motion = get_bml_motion(online_ending_resource, 0x18);
     self->player_count = 0;
     for (i = 0; i < 4; i++) {
@@ -364,41 +257,113 @@ void *TObjOnlineEnding__ct(void *origin, void *parent) {
         break;
     }
     reset_hex_line_params();
-    create_TObjOnlineEndingHexMove(origin);
+    TObjOnlineEndingHexMove::create(this);
     self->create_result_window();
     self->elapsed_frames = 0;
     self->scene_state = 0;
-    return origin;
 }
 
 #pragma pop
 
-void *TObjOnlineEnding__ct(void *, void *);
-
-void *TObjOnlineEnding::create(void *parent) {
-    void *o = TObject::operator new(sizeof(TObjOnlineEnding));
-    if (o != NULL) {
-        o = TObjOnlineEnding__ct(o, parent);
-    }
-    return o;
+TObjOnlineEnding::~TObjOnlineEnding() {
+    close_window();
+    restore_player_cameras();
 }
 
-void TBoss4DarkFalz::free_global_instance() {
-    if (online_ending_resource != NULL) {
-        delete (BmlResource *)online_ending_resource;
-        online_ending_resource = NULL;
+void TObjOnlineEnding::run_task() {
+    s32 i;
+    for (i = 0; i < player_count; i++) {
+        if (players[i].active != 0 && get_player_by_client_id(players[i].id) == 0) {
+            players[i].active = 0;
+        }
+    }
+    switch (scene_state) {
+    case 0:
+        scene_state = 1;
+        break;
+    case 1: {
+        activate_camera_mode(9);
+        Vec t1 = online_ending_camera_eye;
+        Vec t2 = online_ending_camera_target;
+        Cam_802E4E44 cam;
+        VecCopy((Vec *)&cam.a, (const Vec *)&t1);
+        VecCopy((Vec *)&cam.b, (const Vec *)&t2);
+        cam.f14 = 0x1999;
+        set_active_camera_pose_from_params((CameraParams *)&cam);
+        scene_state = 2;
+        break;
+    }
+    default:
+        if ((scene_frame += 0.3f) >= 17.0f) {
+            scene_frame = 17.0f;
+        }
+        if (++elapsed_frames >= 450) {
+            queue_destruction();
+        }
+        break;
     }
 }
 
+void TObjOnlineEnding::render() {
+    s32 i;
+    OnlineEndingPlayer *e;
+    if (online_ending_scene_translation_initialized == 0) {
+        lbl_804E3A38.z = (-100.0f) + online_ending_scene_z_offset;
+        online_ending_scene_translation_initialized = 1;
+    }
+    TParticleCtrl::begin_effect_render();
+    push_matrix();
+    post_translate_matrix(&lbl_804E3A38.x);
+    scale_matrix(0, online_ending_scene_scale, 1.0f, 1.0f);
+    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(scene_textures));
+    draw_model_motion(scene_model, scene_motion, scene_frame);
+    pop_matrix();
+    for (i = 0; i < player_count; i++) {
+        e = &players[i];
+        if (e->active != 0) {
+            if (online_ending_quad_vertices_initialized == 0) {
+                online_ending_quad_vertices[0].y = 63.0f + online_ending_quad_y_offset;
+                online_ending_quad_vertices[1].y = 343.0f + online_ending_quad_y_offset;
+                online_ending_quad_vertices[2].y = 343.0f + online_ending_quad_y_offset;
+                online_ending_quad_vertices[3].y = 63.0f + online_ending_quad_y_offset;
+                online_ending_quad_vertices_initialized = 1;
+            }
+            {
+                char *name = e->name;
+                u32 w = calc_text_width(name);
+                NJS_POINT2 v = online_ending_quad_vertices[i];
+                v.x -= (f32)(w >> 1);
+                TAdSubPlyItemGC::render_status_line(v.x, v.y, 0.1f, name, -1);
+            }
+            push_matrix();
+            post_translate_matrix(&lbl_804E3A38.x);
+            post_translate_matrix(&e->position->x);
+            rotate_matrix_y(0, e->yaw);
+            scale_matrix(0, e->scale, e->scale, e->scale);
+            TObjPlayer::draw_player_model_by_client(e->id, reinterpret_cast<saddr>(e->motion), 0.0f, 1.0f);
+            pop_matrix();
+        }
+    }
+    TParticleCtrl::end_effect_render();
+}
 
-void fn_802E52AC() {
-    saddr r;
-    if (online_ending_resource == NULL) {
-        r = (saddr)new BmlResource(5, &onlineending_dat_resource_descriptor, 0, 0, NULL);
-        online_ending_resource = reinterpret_cast<BmlResource *>(r);
-        if (online_ending_resource == NULL) {
-            return;
+void TObjOnlineEnding::create_result_window() {
+    result_window = NULL;
+    if (TLobby::is_flag_set() != 0) {
+        if (TLobby::get_online_result_value() == TWindowSubStatusDisp::get_layout_id(-1) - 1) {
+            result_window = new TWindowChallengeResult((const char *)TLobby__sub_80070ACC(),
+                TWindowSubStatusDisp__sub_800718D0(), get_card_window_value());
         }
     }
 }
+
+void TObjOnlineEnding::close_window() {
+    if (result_window != NULL) {
+        result_window->close();
+        result_window = NULL;
+    }
 }
+
+void*TObjOnlineEnding::get_attack_entry(int a0) {  return (char*)lbl_8050DAD0 + a0 * 8; }
+
+int TObjOnlineEnding::get_instance() {  return player_unique_pair_entry_count; }

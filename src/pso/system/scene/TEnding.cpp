@@ -1,3 +1,4 @@
+#include "pso/unk/TScreenFadeOut.h"
 #include "pso/system/scene/TEnding.h"
 #include "pso/map/FloorArea.h"
 #include "pso/system/scene/TEndingPicStage.h"
@@ -5,6 +6,7 @@
 #include "pso/system/scene/TEndingAB.h"
 #include "pso/system/scene/TEndingPic.h"
 #include "pso/system/scene/TEndingC_8008D00C.h"
+#include "pso/system/scene/TEndingC.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/frontend/TAdMultiChgGameModeGC.h"
 #include "pso/ui/city/THunterGuildSeqOffline.h"
@@ -12,11 +14,12 @@
 #include "pso/ui/frontend/TAdRicoRingCtrl.h"
 #include "pso/ui/frontend/TAdEndText.h"
 
+u32 ending_frame_counter;
+
 extern "C" {
 s32 get_end_text_font_loaded_flag();
 u32 __cvt_fp2unsigned(f32);
 int TKeyBoardControl__sub_8000F828(void);
-u32 ending_frame_counter;
 s32 ending_scene_active;
 extern const char TEnding__class_name_string[];
 const char *TEnding__class_name = TEnding__class_name_string;
@@ -46,9 +49,7 @@ void TEnding::run_task() {
             s32 ticks = elapsed_ticks + 1;
             elapsed_ticks = ticks;
             if (ticks > timing_rate * 10) {
-                void *child = TObject::operator new(0x28);
-                if (child != NULL)
-                    ((THunterGuildSeqOffline *)child)->init(tl_fade, (void *)destroy_keyboard_objects);
+                new TScreenFadeOut(tl_fade, destroy_keyboard_objects);
                 phase = 2;
             }
         }
@@ -72,8 +73,7 @@ TEnding::TEnding() : TObject(tl_window) {
     }
     new TEndingPic(tl_01);
     new TEndingAB(this);
-    void *second = TObject::operator new(0x9C);
-    if (second != NULL) __ct__8TEndingCFv((u8 *)second, (u8 *)this);
+    new TEndingC(this);
     ending_frame_counter = 0;
     phase = 0;
     elapsed_ticks = 0;
@@ -81,8 +81,7 @@ TEnding::TEnding() : TObject(tl_window) {
     ring_controller = ring;
     if (ring_controller != NULL)
         ring_controller->start_fade_all(2.0f * (f32)timing_rate);
-    void *text = TObject::operator new(0x197C);
-    if (text != NULL) __ct__10TAdEndTextFv((u8 *)text, this);
+    new TAdEndText(this);
 }
 
 void TEnding__sub_8008C9F8() {}

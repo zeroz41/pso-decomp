@@ -2,6 +2,8 @@
 #define PSO_UNK_TTEXTUREWAVE_H
 #include "types.h"
 
+struct NJS_TEXLIST;
+
 // A texture image that update_texture_wave_image redraws distorted every frame (TEF_PvrWave).
 class TTextureWave {
 public:
@@ -15,6 +17,7 @@ public:
     s32 m_48;
     s32 m_4c;
 
+    TTextureWave(NJS_TEXLIST *texture_list);
     virtual void advance_wrapped_cursor();
     virtual void update_texture_wave_image();
     ~TTextureWave();

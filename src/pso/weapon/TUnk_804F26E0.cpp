@@ -10,23 +10,22 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 
 extern "C" {
-s16 get_validated_attack_stage(u8 *arg0);
 extern s32 knuckle_marker_joint_table[];
 }
 
 void TUnk_804F26E0::on_unequipped() {
-    ((PlayerAttackState *)(*(saddr *)&this->owner + 0x7CC))->set_evp(1.0f);
+    owner->attack_state.set_evp(1.0f);
 }
 
 // S-rank knuckle equip hook (was s_rank_knuckle_equip): sets the owner's EVP.
 void TUnk_804F26E0::on_equipped() {
-    ((PlayerAttackState *)(*(saddr *)&this->owner + 0x7CC))->set_evp(1.2f);
+    owner->attack_state.set_evp(1.2f);
 }
 
 // S-rank knuckle marker (was s_rank_knuckle_marker): effect at the owner's knuckle joint.
 void TUnk_804F26E0::vfunc_62() {
     u8 sp8[0x10];
-    owner->get_anim_node_position(knuckle_marker_joint_table[(owner->has_valid_handle() * 3) + get_validated_attack_stage(((u8 *)owner) + 0x7CC)], (Vec *)sp8);
+    owner->get_anim_node_position(knuckle_marker_joint_table[(owner->has_valid_handle() * 3) + owner->attack_state.get_validated_attack_stage()], (Vec *)sp8);
     spawn_particle_effect((const Vec *)sp8, 0x1D0);
 }
 

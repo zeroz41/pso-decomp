@@ -5,7 +5,7 @@
 
 // --- C functions defined in TLobby_80227AA0.cpp ---
 extern "C" {
-void TLobby__sub_80227AA8(s32 arg0);
+void TLobby__sub_80227AA8(s32 tracks);
 void TLobby__sub_80227AF8(s32 arg0, s32 arg1);
 void TLobby__sub_80227D38(void);
 void TLobby__sub_8022804C(void);
@@ -14,7 +14,7 @@ void apply_clamped_field_27c__6TLobbyFv(f32 value);
 void get_menu_field_280__6TLobbyFv(void);
 int get_music_base_gain(void);
 }
-void handle_6xB2_play_sound_from_player(void *arg0);
+void handle_6xB2_play_sound_from_player(void *command);
 extern "C" {
 void is_sound_enabled(void);
 }

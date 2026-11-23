@@ -222,4 +222,4 @@ void TLobby::free_window() {
     }
 }
 }
-void load_judge_item(void) { (*(int *)&item_appraisal_rules) = create_named_object((saddr)"JudgeItem.rel"); }
+void load_judge_item(void) { (*(int *)&item_appraisal_rules) = create_named_object("JudgeItem.rel"); }

@@ -57,7 +57,7 @@ s32 TUdpSocket__sub_8041118C(void) {
     return 0;
 }
 
-s16 TLobby__sub_8041123C(s32 iovp, s32 arg1, s16 arg2) {
+s16 TLobby__sub_8041123C(s32 iovp, s32 first, s16 arg2) {
     Ipv6Iface *ifc;
     if ((arg2 < 0) || (arg2 >= ipv6_address_routing_state.count)) {
         return -0x10A;
@@ -66,10 +66,10 @@ s16 TLobby__sub_8041123C(s32 iovp, s32 arg1, s16 arg2) {
     if (ifc->state != 1) {
         return -6;
     }
-    return call_handler_by_index(arg2, ifc->handle, 0, arg1, iovp);
+    return call_handler_by_index(arg2, ifc->handle, 0, first, iovp);
 }
 
-s16 TLobby__sub_804112B8(s32 iovp, s32 arg1, s16 arg2) {
+s16 TLobby__sub_804112B8(s32 iovp, s32 first, s16 arg2) {
     Ipv6Iface *ifc;
     if ((arg2 < 0) || (arg2 >= ipv6_address_routing_state.count)) {
         return -0x10A;
@@ -78,7 +78,7 @@ s16 TLobby__sub_804112B8(s32 iovp, s32 arg1, s16 arg2) {
     if (ifc->state != 1) {
         return -6;
     }
-    return call_handler_by_index(arg2, ifc->handle, 2, arg1, iovp);
+    return call_handler_by_index(arg2, ifc->handle, 2, first, iovp);
 }
 
 s32 TLobby__sub_80411604(s16 id, int n, void *pp);
@@ -1878,8 +1878,8 @@ s16 NetIPv6IsLoopback(u8 *arg0) {
     return 0;
 }
 
-s16 NetIPv6IsMulticast(u8 *arg0) {
-    if ((u8) *arg0 == 0xFF) {
+s16 NetIPv6IsMulticast(u8 *address) {
+    if ((u8) *address == 0xFF) {
         return 1;
     }
     return 0;

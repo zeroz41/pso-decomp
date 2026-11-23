@@ -42,7 +42,7 @@ u32 dataInsertSDir(void *sdir, void *smp_data);
 void ScanIDList(u16 *p, void *data, u8 dataType, u32 remove);
 u32 seqStartPlay(PAGE_803A49C8 *norm, PAGE_803A49C8 *drum, MIDISETUP_803A3D8C *midiSetup, u32 *song,
                  SND_PLAYPARA_SEQ *para, s32 studio, u16 sgid);
-s32 dataInsertFX(u16 arg0, Rec_803ADBF0 *arg1, u16 arg2);
+s32 dataInsertFX(u16 gid, Rec_803ADBF0 *fx, u16 fxNum);
 void hwSyncSampleMem(void);
 u32 sndPushGroup(void *prj_data, u16 gid, void *samples, void *sdir, void *pool);
 }

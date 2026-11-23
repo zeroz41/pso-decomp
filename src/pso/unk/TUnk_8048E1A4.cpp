@@ -26,6 +26,8 @@
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/technique/TTecCtrl.h"
 #include "pso/unk/TLobby_8001EF5C.h"
+#include "pso/player/TPlyDispData.h"
+#include "pso/object/base/TObjBase.h"
 
 
 f32 TUnk_8048E1A4::receive_physical_attack(void *arg1, f32) {
@@ -43,10 +45,10 @@ void TObjPlayer::queue_destruction() { TObject::queue_destruction(); }
 
 void TUnk_8048E1A4::update_freeze_shell_timer() {
     u8 *arg0 = (u8 *)this;
-    this->m_340 = (f32) (this->m_340 - 0.4f);
-    if (this->m_340 <= -1.0f) {
+    this->color = (f32) (this->color - 0.4f);
+    if (this->color <= -1.0f) {
         *(s32 *)((s8 *)arg0 + 0x334) = 3;
-        this->m_340 = (f32) -1.0f;
+        this->color = (f32) -1.0f;
     }
 }
 
@@ -69,7 +71,6 @@ struct VObj_80081EA4 : VBase_80081EA4 {
 
 extern "C" {
 uaddr find_active_entity_by_id(u16);
-s32 all_parents_unqueued_for_destruction__7TObjectFv();
 f32 vec3_add_to(void *, void *);
 s32 rotate_vector_by_matrix(int, void *, void *);
 s32 rotate_matrix_y(int, int);
@@ -90,15 +91,15 @@ void TUnk_8048E1A4::freeze_shell_hold() {
         return;
     }
     this->rotation_y += 0x10;
-    if (((TObjCollidable *)p)->obj_testFlags30(0x800) == 0) {
-        if (((TObjCollidable *)p)->obj_testFlags30(0x20) != 0) {
+    if (((TObjCollidable *)p)->test_actor_flags(0x800) == 0) {
+        if (((TObjCollidable *)p)->test_actor_flags(0x20) != 0) {
             return;
         }
     }
     *(s32 *)((s8 *)this + 0x334) = 2;
     p = (saddr)spawn_particle_effect((const Vec *)((u8 *)this + 0x35C), 0x153);
     if (p != 0) {
-        attach_particle_model((u8 *)p, get_bml_model(technique_effect_bml, 5), lbl_805D63B0, 0, 0, 1.0f);
+        attach_particle_model((u8 *)p, get_bml_model(technique_effect_bml, 5), technique_texture_list, 0, 0, 1.0f);
     }
     p = (saddr)spawn_particle_effect((const Vec *)((u8 *)this + 0x38), 0x33);
     if (p != 0) {
@@ -135,19 +136,19 @@ void TUnk_8048E1A4::freeze_shell_grow() {
 }
 
 void TUnk_8048E1A4::run_task() {
-    u32 active_entity;
+    TObject *active_entity;
     u16 id = *(u16 *)((s8 *)this + 0x358);
     if ((id != 0xffffU) && (id < 0x4000U)) {
-        active_entity = find_active_entity_by_id(id);
+        active_entity = (TObject *)find_active_entity_by_id(id);
     } else {
-        active_entity = 0U;
+        active_entity = NULL;
     }
-    if (active_entity == 0U) {
+    if (active_entity == NULL) {
         queue_destruction();
         disallow_rendering();
         return;
     }
-    if (all_parents_unqueued_for_destruction__7TObjectFv() == 0) {
+    if (active_entity->all_parents_unqueued_for_destruction() == 0) {
         disallow_rendering();
         queue_destruction();
         return;
@@ -190,7 +191,7 @@ void TUnk_8048E1A4::render() {
         case 2:
             saved_model_render_flags = model_render_flags;
             model_render_flags = saved_model_render_flags | 0x8820;
-            set_constant_material((const NJS_ARGB *)((&this->m_340)));
+            set_constant_material((const NJS_ARGB *)((&this->color)));
             draw_ginja_object(this->model);
             model_render_flags &= 0xFFFF77DF;
             set_chunk_material_override_pair(0xFF00, 0);
@@ -203,16 +204,15 @@ void TUnk_8048E1A4::render() {
 }
 
 s32 __ct__13TUnk_8048E1A4FPUcPUc(u32, u32, s32, s32);
-u16 get_entity_id(void *);
 
-void create__10TObjPlayerFUiii(uaddr arg0, s32 arg1, s32 arg2) {
+void create__10TObjPlayerFUiii(uaddr base, s32 arg1, s32 arg2) {
     u16 entity_id;
 
     u32 obj;
-    if ((is_current_area_item_enabled() != 0) && (arg0 != 0U)) {
-        entity_id = get_entity_id((void *)arg0);
+    if ((is_current_area_item_enabled() != 0) && (base != 0U)) {
+        entity_id = ((TObjBase *)base)->get_entity_id();
         if (((u16) entity_id != 0xFFFF) && ((u16) entity_id < 0x4000U) && ((obj = (uaddr)TObject::operator new(0x368)) != 0U)) {
-            __ct__13TUnk_8048E1A4FPUcPUc(obj, arg0, arg1, arg2);
+            __ct__13TUnk_8048E1A4FPUcPUc(obj, base, arg1, arg2);
         }
     }
 }
@@ -278,7 +278,7 @@ void TLobby::load_freeze_ice_resource() {
 
 }
 TUnk_8048E1A4::~TUnk_8048E1A4() {
-    if (this->m_350 != NULL) { TParticleCtrl::release(this->m_350); }
+    if (this->emitter != NULL) { TParticleCtrl::release(this->emitter); }
 }
 
 
@@ -307,7 +307,7 @@ TUnk_8048E1A4::TUnk_8048E1A4(u8 *chara, u8 *arg2) : TObjChara((TObject *)((void 
     player_stats *temp_r3;
     ((RecoveredFields_8008213C_arg0 *)((u8 *)this))->field_34 = (saddr)get_bml_model((BmlResource *)freeze_shell_bml_resource, 1);
     if (chara != NULL) {
-        ((RecoveredFields_8008213C_arg0 *)((u8 *)this))->field_358 = get_entity_id(chara);
+        ((RecoveredFields_8008213C_arg0 *)((u8 *)this))->field_358 = ((TObjBase *)(chara))->get_entity_id();
         VecCopy((Vec *)(((u8 *)this) + 0x35C), (const Vec *)(chara + 0x38));
         if (arg2 != NULL) {
             VecCopy((Vec *)(((u8 *)this) + 0x38), (const Vec *)(arg2 + 0x1C));

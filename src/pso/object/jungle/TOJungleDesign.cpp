@@ -34,12 +34,12 @@ void TOJungleDesign::init_design_variant() {
         this->m_b0 = 2;
     }
     this->m_ac = (saddr)fn_802FF064(jungle_design_variant_table[this->m_b0]);
-    this->texlist = (saddr)fn_802FF028(0);
+    this->texlist = fn_802FF028(0);
 }
 
 
-void *TOJungleDesign__create(void *arg0) {
-    void *o = (void *)new TOJungleDesign((saddr)tl_05, (saddr)arg0);
+void *TOJungleDesign::create(void *set_data) {
+    void *o = (void *)new TOJungleDesign((saddr)tl_05, (saddr)set_data);
     return o;
 }
 
@@ -57,7 +57,7 @@ s32 post_translate_matrix(void *);
 
 void TOJungleDesign::render() {
     if (this->update_object_view_visibility(400.0f, 40.0f) == 1) {
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(this->texlist));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_yxz(0, (this->rotation_x), (this->rotation_y), (this->rotation_z));
@@ -80,15 +80,15 @@ TOJungleDesign::TOJungleDesign(saddr parent, saddr set_data) : TObjCollidable((T
 }
 
 
-GinjaTextureList *fn_802FF028(s32 arg0) {
+NJS_TEXLIST *fn_802FF028(s32 index) {
     if (TOJungleDesign__shared_model_resource != NULL) {
-        return (GinjaTextureList *)get_bml_texlist((BmlResource *)TOJungleDesign__shared_model_resource, arg0);
+        return get_bml_texlist((BmlResource *)TOJungleDesign__shared_model_resource, index);
     }
     return NULL;
 }
-NJS_OBJECT *fn_802FF064(s32 arg0) {
+NJS_OBJECT *fn_802FF064(s32 index) {
     if (TOJungleDesign__shared_model_resource != NULL) {
-        return (NJS_OBJECT *)get_bml_model((BmlResource *)TOJungleDesign__shared_model_resource, arg0);
+        return (NJS_OBJECT *)get_bml_model((BmlResource *)TOJungleDesign__shared_model_resource, index);
     }
     return NULL;
 }

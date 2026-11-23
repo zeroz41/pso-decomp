@@ -29,7 +29,7 @@ u8 TObjPlayer__sub_801C010C(O_801C010C *self, s16 i) {
     return self->arr[i];
 }
 
-void TObjPlayer::set_technique_id(s16 v) { this->m_flags = v; }
+void PlayerTechniqueState::set_technique_id(s16 v) { technique = v; }
 
 u8 TObjPlayer__sub_801C0124(O_801C0124 *self, s16 i) {
     return self->arr[i];

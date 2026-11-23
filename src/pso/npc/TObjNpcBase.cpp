@@ -40,6 +40,8 @@
 #include "pso/unk/text_803E2F28.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/math/MatrixTransforms.h"
+#include "pso/object/base/TObjBase.h"
+#include "pso/player/PlayerSlots.h"
 
 extern "C" {
 const char *TObjNpcBase__name = "TObjNpcBase";
@@ -98,15 +100,14 @@ void vec3_add_to(Vec *, Vec *);
 void rotate_vector_by_matrix(int, Vec *, Vec *);
 void rotate_matrix_y(int, int);
 extern u8 identity_matrix[];
-u16 get_entity_id(void *);
 f32 atan2_float(f32 y, f32 x);
 }
 void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 heading);
-void move_with_wall_slide(u8 *arg0);
+void move_with_wall_slide(u8 *actor);
 extern "C" {
 s32 angle_difference_abs(s32, s32);
 
-void TObjNpcBase::interact(s32 client) {
+void TObjNpcBase::interact(u16 client) {
     TObjPlayer *player;
 
     if (m_3a8 > 0) {
@@ -192,7 +193,7 @@ void TObjNpcBase::update_conversation() {
             phase = 1;
             request_action(0);
             ((TNpcPlayer *)(&pkt1))->init_6x3E_packet();
-            pkt1.header.client_id = get_entity_id(target);
+            pkt1.header.client_id = ((TObjBase *)(target))->get_entity_id();
             VecCopy((Vec *)&pkt1.pos, &((TObjBase *)target)->position);
             pkt1.angle = ang + 0x8000;
             ((TNpcPlayer *)(&pkt1))->send_6x3E();
@@ -203,7 +204,7 @@ void TObjNpcBase::update_conversation() {
                 rotation_y = ang;
                 request_action(0);
                 ((TNpcPlayer *)(&pkt2))->init_6x3E_packet();
-                pkt2.header.client_id = get_entity_id(target);
+                pkt2.header.client_id = ((TObjBase *)(target))->get_entity_id();
                 VecCopy((Vec *)&pkt2.pos, &((TObjBase *)target)->position);
                 pkt2.angle = rotation_y + 0x8000;
                 ((TNpcPlayer *)(&pkt2))->send_6x3E();
@@ -275,7 +276,7 @@ void TObjNpcBase::update_conversation() {
                 end_conversation_camera();
                 break;
             }
-            if (target != 0 && local_client_id == get_entity_id(target)) {
+            if (target != 0 && local_client_id == ((TObjBase *)(target))->get_entity_id()) {
                 p = (uaddr)get_player_by_client_id(local_client_id);
                 if (p != 0 && ((TObjPlayer *)p)->check_player_flag1() != 0) {
                     TObjPlayer::send_code_45_1((saddr)p);
@@ -431,7 +432,7 @@ void TObjNpcBase::render() {
     if ((update_object_view_visibility(m_398, m_39c) != 0) && (m_390 == 1)) {
         select_actor_lighting(this);
         model_render_flags |= 1;
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
         push_matrix_from(0);
         translate_matrix_vec3(0, (u8 *) &position);
         rotate_matrix_y(0, rotation_y);
@@ -498,7 +499,7 @@ void TObjNpcBase::run_task() {
     if (m_3a8 > 0 && TRaderMapCore::is_not_split_screen() == 0) {
         submit_cursor_candidate((void *) this, -1);
     }
-    obj_clearFlags30(0x1B3FU);
+    clear_actor_flags(0x1B3FU);
 }
 
 }

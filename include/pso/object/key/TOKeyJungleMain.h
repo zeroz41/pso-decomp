@@ -20,8 +20,8 @@ struct TOKeyJungleMain : public TOKey {
     static void init_key_slots(void* _w0);
     f32 switch_frame;   // the fe_obj_start_switch motion's frame
     f32 sw_naka_frame;  // the fe_obj_start_sw_naka motion's frame
-    static void dispatch_by_phase(s32 arg0, u16 arg1);
-    static void *create(void *arg0);
+    static void dispatch_by_phase(s32 phase, u16 flag);
+    static void *create(void *set_data);
     static void release_static_resource();
     static void load_static_resource();
 };

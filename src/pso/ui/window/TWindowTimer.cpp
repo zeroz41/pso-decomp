@@ -7,7 +7,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp_80228CC0.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80228F5C.h"
 #include "pso/ui/window/TWindowSubStatusDisp_8025A9B4.h"
-#include "pso/unk/text_80198A2C.h"
+#include "pso/object/lobby/LobbyGoGoBall.h"
 #include "pso/unk/text_8026CB5C.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowTimer.h"
@@ -155,7 +155,7 @@ void TWindowTimer::render() {
 
 void TWindowTimer::run_task() {
     if (flags & 1) {
-        draw(get_timer_value(0), get_timer_value(1));
+        draw(get_gogo_ball_score(0), get_gogo_ball_score(1));
     }
     ((TWindowDD *)this)->initialize_subwindow();
     update_chat_parts();

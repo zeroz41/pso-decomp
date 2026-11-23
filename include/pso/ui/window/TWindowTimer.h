@@ -17,12 +17,6 @@ struct TWindowTimer : public TWindowBase {
     void draw_tab(WindowDrawContext *context);
     static TWindowTimer *create();
     static TWindowTimer *create_alt();
-    void copy_state(u8 *arg1);
-    void throw_gogo_ball(s32 arg1, s32 arg2);
-    void send_gogo_ball();
-    static s16 get_timer_value(s32 i);
-    static int *set_timer_value(int a0, int a1);
-    static void bswap_6x79_gogo_ball(int);
 };
 
 LAYOUT_ASSERT(TWindowTimer_size, sizeof(TWindowTimer) == 0x64);

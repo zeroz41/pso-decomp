@@ -43,7 +43,7 @@ extern s32 lbl_805D7540;
 s32 TLobby__sub_803CC030(int, int);
 s32 dispatch_packet__6TLobbyFv(int, int);
 void TLobby__sub_803CB194(void *context);
-void audio_stream_start(u8 *arg0);
+void audio_stream_start(u8 *lobby);
 s32 TLobby__sub_803CBF50(saddr, s32, s32);
 void TLobby__sub_803CA8B4(AdxStreamPlayer *);
 
@@ -57,7 +57,7 @@ s32 dispatch_field4_event__6TLobbyFv(int);
 s32 notify_client__6TLobbyFv(int);
 
 extern "C" {
-s32 audio_stream_get_output_samples(u8 *arg0);
+s32 audio_stream_get_output_samples(u8 *lobby);
 }
 
 }
@@ -70,7 +70,7 @@ struct Strm_803CAB38 {
     u8 f2;
     s8 f3;
     saddr f4;
-    AdxStreamFile *f8;
+    AdxStreamFile *file;
     saddr fc;
     u8 pad10[0x28];
     s32 f38;
@@ -236,8 +236,8 @@ void adxt_stat_decinfo(Strm_803CAB38 *self) {
                 pages = (x + 0x7FF) / 0x800;
                 self->f50 = self->f50 % 0x800;
                 self->f8c = pages;
-                set_scroll_position__6TLobbyFl(self->f8, pages);
-                set_adx_stream_completion(self->f8, TLobby__sub_803CB194, arg0);
+                set_scroll_position__6TLobbyFl(self->file, pages);
+                set_adx_stream_completion(self->file, TLobby__sub_803CB194, arg0);
             }
             s32 e = ((TLobby *)t)->dispatch_field4_event();
             self->f90 = e;
@@ -246,8 +246,8 @@ void adxt_stat_decinfo(Strm_803CAB38 *self) {
             ((TLobby *)t)->set_field_40(0);
             audio_stream_set_notify_callback((u8 *)t, (saddr)adxt_trap_entry_update__6TLobbyFPv, (saddr)arg0);
         } else {
-            if (self->f8 != NULL) {
-                set_scroll_position__6TLobbyFl(self->f8, 0x7FFFFFFF);
+            if (self->file != NULL) {
+                set_scroll_position__6TLobbyFl(self->file, 0x7FFFFFFF);
             }
             ((TLobby *)t)->set_field_3c(((TLobby *)t)->send_packet_by_id());
             ((TLobby *)t)->set_field_44(0);
@@ -297,22 +297,16 @@ void adxt_stat_decinfo(Strm_803CAB38 *self) {
 
 extern "C" {
 
-typedef struct Buf_803CAEB4 Buf_803CAEB4;
 typedef struct Conn_803CAEB4 Conn_803CAEB4;
 typedef struct RingVt_803CAEB4 RingVt_803CAEB4;
 typedef struct Ring_803CAEB4 Ring_803CAEB4;
-struct Buf_803CAEB4
-{
-  u8 *p;
-  s32 len;
-};
 struct Ring_803CAEB4;
 struct RingVt_803CAEB4
 {
   u8 pad0[0x18];
-  void (*m4)(Ring_803CAEB4 *, s32, s32, Buf_803CAEB4 *);
-  void (*m5)(Ring_803CAEB4 *, s32, Buf_803CAEB4 *);
-  void (*m6)(Ring_803CAEB4 *, s32, Buf_803CAEB4 *);
+  void (*m4)(Ring_803CAEB4 *, s32, s32, SjChunk *);
+  void (*m5)(Ring_803CAEB4 *, s32, SjChunk *);
+  void (*m6)(Ring_803CAEB4 *, s32, SjChunk *);
 };
 struct Ring_803CAEB4
 {
@@ -336,10 +330,10 @@ s32 process_audio_stream_input(int);
 void TLobby__sub_803CAEB4(Conn_803CAEB4 *o) {
   saddr lobby = o->lobby;
   Ring_803CAEB4 *ring = o->ring;
-  Buf_803CAEB4 a;
-  Buf_803CAEB4 c;
-  Buf_803CAEB4 b;
-  Buf_803CAEB4 d;
+  SjChunk a;
+  SjChunk c;
+  SjChunk b;
+  SjChunk d;
   s16 hlen;
   s16 tlen;
   s32 r1;
@@ -351,7 +345,7 @@ void TLobby__sub_803CAEB4(Conn_803CAEB4 *o) {
     tlen = 0;
     ring->vt->m4(ring, 1, 0x7FFFFFFF, &a);
     ring->vt->m4(ring, 1, 0x7FFFFFFF, &b);
-    if (((TLobby *)(a.p))->parse_packet_header_len(a.len, &hlen) != 0)
+    if (((TLobby *)(a.data))->parse_packet_header_len(a.size, &hlen) != 0)
     {
       o->active = 0;
       ring->vt->m5(ring, 1, &b);
@@ -359,14 +353,14 @@ void TLobby__sub_803CAEB4(Conn_803CAEB4 *o) {
       return;
     }
     n = hlen;
-    r1 = TLobby::find_terminator_index((s16 *)(a.p + n), (s32)(a.len - n), &hlen);
+    r1 = TLobby::find_terminator_index((s16 *)(a.data + n), (s32)(a.size - n), &hlen);
     if (r1 == 0)
     {
       r2 = -1;
     }
     else
     {
-      r2 = TLobby::find_terminator_index((s16 *)b.p, (s32)b.len, &tlen);
+      r2 = TLobby::find_terminator_index((s16 *)b.data, (s32)b.size, &tlen);
     }
     n += hlen;
     m = tlen & 0xFFFFFFFFFFFFFFFFu;

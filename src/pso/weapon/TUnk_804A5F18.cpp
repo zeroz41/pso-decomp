@@ -43,7 +43,7 @@ void TUnk_804A5F18::vfunc_60() {
 TUnk_804A5F18::TUnk_804A5F18(TObject *parent, u8 *item) : TItemWeapon(parent, item) {
     rotation_x = 10922;
     set_weapon_flags(1570);
-    ((TObjPlayer *)this)->set_effect_state(2);
+    set_technique_roll_range(2);
 }
 
 TItem *TObjPlayer::create_state_variant_a(u8 *item) {

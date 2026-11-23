@@ -8,7 +8,7 @@
 #include "pso/object/base/TObjMotion.h"
 
 struct BmlResource;
-struct GinjaTextureList;
+struct NJS_TEXLIST;
 
 #include "pso/object/door/TODoorBase.h"
 #include "pso/effect/particle/TParticleCtrl.h"
@@ -34,7 +34,7 @@ const char *TObjDoorJung__class_name = "TObjDoorJung";
 
 s32 TObjDoorJung__child_table[4];
 BmlResource *TObjDoorJung__resource_handle;
-GinjaTextureList *lbl_805D5BD4;
+NJS_TEXLIST *lbl_805D5BD4;
 s32 door_jung_child_list;
 s32 lbl_805D5BDC;
 void *TObjDoorJung__door_scene_buffer;
@@ -47,9 +47,6 @@ struct Jung_8018F808 { u8 pad0[0xC8]; s32 fC8; u8 padCC[4]; u32 fD0; s32 fD4; };
 
 extern "C" {
 s32 init_collision_body_parts(void *, void *, int);
-void *__ct__10TODoorBaseFP7TObject(void *a0);
-extern s32 __vt__12TObjDoorJung[];
-u8 *TObjDoorJung__ct(u8 *arg0, s32 arg1, saddr arg2);
 /* Ninja object node of the door model: model pointer, transform, then child and sibling links. */
 struct Node_8018F4AC {
     u32 eval_flags;
@@ -87,7 +84,7 @@ void load_door_jung_resources(void) {
 
     handle = (saddr)new BmlResource(5, &bm_obj_beamdoa_resource_descriptor, 0, 0, NULL);
     TObjDoorJung__resource_handle = (BmlResource *)handle;
-    lbl_805D5BD4 = (GinjaTextureList *)get_bml_texlist((BmlResource *)TObjDoorJung__resource_handle, 0);
+    lbl_805D5BD4 = get_bml_texlist((BmlResource *)TObjDoorJung__resource_handle, 0);
     model = (Node_8018F4AC *)get_bml_model((BmlResource *)TObjDoorJung__resource_handle, 1);
     node = model->child;
     TObjDoorJung__child_table[0] = node->model;
@@ -97,10 +94,10 @@ void load_door_jung_resources(void) {
     door_jung_child_list = model->child->sibling->model;
     lbl_805D5BDC = 0;
     const char *parts[4] = {"ts032_beamdoa_singo_aka", "ts032_beamdoa_singo_ao", "ts064_beamdoa_aka", "ts064_beamdoa_ao"};
-    lbl_805D5BE4 = find_texture_entry_by_name((const GinjaTextureList *)lbl_805D5BD4, parts[0]);
-    lbl_805D5BE8 = find_texture_entry_by_name((const GinjaTextureList *)lbl_805D5BD4, parts[1]);
-    lbl_805D5BEC = find_texture_entry_by_name((const GinjaTextureList *)lbl_805D5BD4, parts[2]);
-    lbl_805D5BF0 = find_texture_entry_by_name((const GinjaTextureList *)lbl_805D5BD4, parts[3]);
+    lbl_805D5BE4 = find_texture_entry_by_name(lbl_805D5BD4, parts[0]);
+    lbl_805D5BE8 = find_texture_entry_by_name(lbl_805D5BD4, parts[1]);
+    lbl_805D5BEC = find_texture_entry_by_name(lbl_805D5BD4, parts[2]);
+    lbl_805D5BF0 = find_texture_entry_by_name(lbl_805D5BD4, parts[3]);
     if (lbl_805D5BEC != -1) {
         scene = (void *)::operator new(0x14);
         if (scene != NULL) {
@@ -206,16 +203,13 @@ TObjDoorJung::~TObjDoorJung() {
     free_collision_body_parts(this);
 }
 
-u8 *TObjDoorJung__ct(u8 *arg0, s32 arg1, saddr set_data) {
-    __ct__10TODoorBaseFP7TObject((arg0));
-    *(s32 **)((s8 *)arg0 + 0x18) = __vt__12TObjDoorJung;
-    ((TObjDoorJung *)arg0)->m_name = TObjDoorJung__class_name;
-    ((TObjDoorJung *)(arg0))->apply_object_set_data((void *)set_data);
-    init_collision_body_parts(arg0, &TObjDoorJung__collision_desc, 1);
-    ((TObjCollidable *)arg0)->refresh_collision_body_centers();
-    ((TObjPlayer *)arg0)->register_object_by_id();
-    ((TObjDoorJung *)(arg0))->init_door_switch_binding();
-    ((TObjDoorJung *)arg0)->clamp_state();
-    return arg0;
+TObjDoorJung::TObjDoorJung(TObject *parent, void *set_data) : TODoorBase(parent) {
+    this->m_name = TObjDoorJung__class_name;
+    apply_object_set_data(set_data);
+    init_collision_body_parts(this, &TObjDoorJung__collision_desc, 1);
+    refresh_collision_body_centers();
+    register_object_by_id();
+    init_door_switch_binding();
+    clamp_state();
 }
 

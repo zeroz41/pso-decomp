@@ -42,7 +42,7 @@ struct Sw_801778A8 {
     u8 pad18[0x38 - 0x18];
     Vec pos;
     u8 pad44[0x90 - 0x44];
-    f32 f90;
+    f32 scale;
     f32 f94;
     f32 f98;
     s32 f9C;
@@ -152,7 +152,7 @@ void TOSwitchAttack::run_task() {
         case 11: case 12: case 13: case 14: case 15: case 16: case 17:
         case 18: case 19: case 20:
             if (o->f14 == 0) {
-                TOSwitchAttack::create_sub((saddr)o, o->fA2, o->fA0, o->fA7 - 3, o->f90);
+                TOSwitchAttack::create_sub((saddr)o, o->fA2, o->fA0, o->fA7 - 3, o->scale);
             }
             break;
         }
@@ -162,8 +162,8 @@ void TOSwitchAttack::run_task() {
 }
 #pragma pop
 
-void *TOSwitchAttack::create(void *arg0) {
-    return new TOSwitchAttack(tl_05, arg0);
+void *TOSwitchAttack::create(void *set_data) {
+    return new TOSwitchAttack(tl_05, set_data);
 }
 
 void TOSwitchAttack__sub_80177C20(void) {  }

@@ -27,6 +27,7 @@
 #include "pso/system/ControllerInput.h"
 #include "pso/enemy/shinowa/TObjEneMe3ShinowaReal_8002ADD8.h"
 #include "pso/ui/window/WindowLayout.h"
+#include "pso/player/PlayerSlots.h"
 
 // Built with deferred code generation: data come first, functions come out
 // in reverse source order (so they are written last to first).
@@ -56,15 +57,13 @@ s8 clamp_char_at__10TObjPlayerFl(u32, s32);
 s32 fn_801B7CEC(void *player, s32 kind, u8 group, u8 index);
 u16 select_action_palette_and_apply__10TObjPlayerFlll(TObjPlayer *, int, int, int);
 u16 get_entry_by_index__20TWindowActionPaletteFPll(int, int);
-s32 is_action_channel_available__10TObjPlayerFii(saddr arg0, s32 arg1);
-s32 is_palettex_activated(s32 arg0);
-s32 TObjPlayer__sub_80354C7C(s32);
+s32 is_palettex_activated(u16 client_index);
+s32 TObjPlayer__sub_80354C7C(u16);
 extern u32 __vt__20TWindowActionPalette[6];
 f32 TWindowSubComCard__sub_80244784(TWindowSubComCard *);
 s32 TWindowSubComCard__sub_802452DC(int);
 s32 TWindowSubComCard__sub_80245320(void *, void *);
 s32 TWindowSubComCard__sub_802454E4(int);
-s32 TWindowSubComCard__sub_80245558(void *, void *, void *);
 extern s32 hud_texlist;
 }
 
@@ -247,7 +246,7 @@ void TWindowActionPalette::draw_frame(saddr arg1) {
     scale = TWindowSubComCard__sub_80244784((TWindowSubComCard *)this);
     depth = (-1.0f) / this->draw_depth;
     begin_screen_draw(1);
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(hud_texlist));
+    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(hud_texlist));
     set_draw_texture_and_color(2, ctx->tex);
     if (is_split_screen() == 0) {
         r1.x0 = 640.0f - 71.0f * scale;
@@ -306,7 +305,7 @@ void TWindowActionPalette::update_slot_sprites(int idx, u16 mode, u16 slot) {
     player = get_player_by_client_id(client_index);
     if (player != NULL) {
         help = (Icon_80243630 *)get_array_entry(lbl_805DCA10[idx]);
-        if (is_action_channel_available__10TObjPlayerFii((saddr)player, (s32)lbl_805DCA14[idx]) != 0) {
+        if (player->is_action_channel_available((s32)lbl_805DCA14[idx]) != 0) {
             help->color = -1;
         } else {
             help->color = 0xFF404040;
@@ -505,8 +504,8 @@ s32 TWindowHelpItem::get_help_value(u16 slot, s32 client_id) {
     return item->get_amount();
 }
 
-void TWindowHelpItem::set_help_text(saddr help, saddr arg1) {
-    if (TWindowKeyBoardHard::test_card_flag_2(arg1) != 0) {
+void TWindowHelpItem::set_help_text(saddr help, saddr client_id) {
+    if (TWindowKeyBoardHard::test_card_flag_2(client_id) != 0) {
         set_sprite_uv_from_pixels(reinterpret_cast<WindowSpritePart *>(help), 92.0f, 56.0f);
         return;
     }

@@ -77,7 +77,7 @@ void TBoss6MagMine::update_linked_state() {
     textures = (saddr)get_bml_texlist(archive, 2);
     model = (saddr)get_bml_model(archive, 2);
     motion = get_bml_motion(archive, 0);
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(textures));
+    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(textures));
     TBoss6PlotFalz__sub_802AC008(hit_flash, 0.0f);
     draw_model_motion((void *)model, (void *)motion, motion_frame);
     TBoss6PlotFalz::update_camera_target();

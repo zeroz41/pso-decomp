@@ -3,6 +3,7 @@
 #include "types.h"
 #include "pso/ui/window/TWindowShortListCtrl_8026E7DC.h"
 #include "pso/ui/window/TWindowBase.h"
+#include "pso/ui/window/TWindowHelpItem.h"
 #include "pso/ui/window/TWindowSubItem.h"
 #include "pso/ui/window/TWindowSubTechnique.h"
 #include "pso/ui/window/TWindowMenu.h"
@@ -35,19 +36,18 @@
 #include "pso/enemy/shinowa/TObjEneMe3ShinowaReal_8002ADD8.h"
 #include "pso/ui/window/TWindowCtrl_8024A054.h"
 #include "pso/unk/text_801C53D4.h"
+#include "pso/player/PlayerSlots.h"
 
 
 extern "C" {
 s32 canSetMenuCursorAction(s32, s32, u8, u8);
-s32 try_send_6x27_use_item(void *arg0, s32 arg1);
+s32 try_send_6x27_use_item(void *player, s32 key);
 s32 try_equip_item__10TObjPlayerFii(u8 *, s32);
 void play_sound_effect(int, int, int, int);
 s32 TWindowCtrl__sub_8024A228(saddr);
-void *__ct__15TWindowHelpItemFPvUs(void *, s32, s32);
 saddr get_window_layout_position(int);
 s32 end_player_keyboard_hold(saddr);
 s32 TWindowCtrl__sub_8024A1A8();
-s32 TWindowHelpItem__set_displayed_item_by_id(void *);
 }
 
 // The class name TObject::m_name points at.
@@ -146,18 +146,14 @@ void TWindowShortListCtrl::run_task() {
         if (list_window == NULL) {
             list_window = create_equip_kind_window(get_window_layout_position(1), &short_list_window_pos, client_id);
             ((TWindowSubShortCutList *)list_window)->set_flag70_bit10();
-            ((TWindowShortListCtrl *)list_window)->update_variant_c();
+            ((TWindowMenuIconLine *)list_window)->refresh_weapon_shortcut_list();
             ((TWindowSubComCardList *)list_window)->open_tick = 0x01000000;
         }
         state = 1;
     case 1:
         if (test_pressed_buttons_packed(&controller_input_state.controllers[idx], 0x400) != 0) {
             if (help_window == NULL) {
-                void *w = TObject::operator new(0xBC);
-                if (w != NULL) {
-                    w = __ct__15TWindowHelpItemFPvUs(w, get_window_layout_position(2), client_id);
-                }
-                help_window = w;
+                help_window = new TWindowHelpItem((void *)get_window_layout_position(2), client_id);
                 help_item_id = -1;
                 TWindowCtrl::clear_flag_8();
             } else {
@@ -192,7 +188,7 @@ void TWindowShortListCtrl::run_task() {
         if (list_window == NULL) {
             list_window = create_equip_kind_window(get_window_layout_position(1), &short_list_window_pos, client_id);
             ((TWindowSubShortCutList *)list_window)->set_flag70_bit10();
-            ((TWindowShortListCtrl *)list_window)->update_variant_b();
+            ((TWindowMenuIconLine *)list_window)->refresh_item_shortcut_list();
             ((TWindowSubComCardList *)list_window)->open_tick = 0x01000000;
         }
         state = 4;
@@ -228,7 +224,7 @@ void TWindowShortListCtrl::run_task() {
         if (list_window == NULL) {
             list_window = create_equip_kind_window(get_window_layout_position(1), &short_list_window_pos, client_id);
             ((TWindowSubShortCutList *)list_window)->set_flag70_bit10();
-            ((TWindowShortListCtrl *)list_window)->update_variant_a();
+            ((TWindowMenuIconLine *)list_window)->refresh_battle_stat_list();
             ((TWindowSubComCardList *)list_window)->open_tick = 0x01000000;
         }
         state = 7;
@@ -451,6 +447,6 @@ s32 TWindowShortListCtrl::is_technique_usable() {
 void TWindowShortListCtrl::set_displayed_item(s32 item_id) {
     if (help_window != NULL && item_id != help_item_id) {
         help_item_id = item_id;
-        TWindowHelpItem__set_displayed_item_by_id(help_window);
+        ((TWindowHelpItem *)help_window)->set_displayed_item_by_id(item_id);
     }
 }

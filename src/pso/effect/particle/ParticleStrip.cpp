@@ -15,7 +15,7 @@ void draw_particle_strip(ParticleStripVertex *vertices, s32 count, s32 blended) 
 }
 
 void TParticleCtrl::reset_particles() {
-    TObjPlayer__sub_803E2248();
+    end_primitive_draw();
 }
 
 void emit_particle_strip_vertices(ParticleStripVertex *vertices, s32 count) {

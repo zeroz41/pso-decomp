@@ -10,8 +10,8 @@
 
     extern int music_stream_base_gain;
 int get_music_base_gain(void) {  return music_stream_base_gain; }
-void TLobby__sub_80227AA8(s32 arg0) {
-    fn_8023F660((&sound_control_state), (arg0), (((s32 (*)())get_menu_field_280__6TLobbyFv)() + 0x55), 0x40, 0x40, 0);
+void TLobby__sub_80227AA8(s32 tracks) {
+    fn_8023F660((&sound_control_state), (tracks), (((s32 (*)())get_menu_field_280__6TLobbyFv)() + 0x55), 0x40, 0x40, 0);
 }
 
 
@@ -19,10 +19,10 @@ void TLobby__sub_80227AA8(s32 arg0) {
 #include "pso/system/scene/TScene.h"
 #include "pso/system/main_loop.h"
 #include "pso/camera/TCameraCtrl.h"
+#include "pso/player/PlayerSlots.h"
 
 extern "C" {
 s32 play_sound_effect(s32, s32, s32, s32);
-void *get_player_by_client_id(s32 i);
 s32 bswap_6xB2_play_sound();
 
 void TLobby__sub_80227AF8(s32 arg0, s32 arg1) { TLobby__sub_8023F754(arg0, arg1); }

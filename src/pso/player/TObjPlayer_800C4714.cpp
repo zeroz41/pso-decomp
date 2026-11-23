@@ -18,6 +18,7 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/boss/goldragon/TBoss8Dragon_800BC53C.h"
 #include "pso/map/CsnGroundQuery.h"
+#include "pso/object/base/TObjBase.h"
 
 
 typedef struct Coll_800C4A5C {
@@ -145,7 +146,7 @@ u32 csnVector(void *, void *, int);
 void *find_entity_by_id(u16 id);
 
 void vfunc_6__8TObjBaseFPsl();
-void interact__14TObjCollidableFl();
+void interact__14TObjCollidableFUs();
 void call_vt16_with_default__13TUnk_804928CCFPvPv();
 void vfunc_16__13TUnk_804928CCFPvPv();
 void call_vt13_with_default__13TUnk_804928CCFPvPvl();
@@ -177,7 +178,7 @@ void *lbl_804933D8[24] = {
     (void *)0x0, (void *)0x0, (void *)&destroy_and_free__21TObjEneRe2Flower_BombFs, (void *)&run_task__21TObjEneRe2Flower_BombFv,
     (void *)&render__21TObjEneRe2Flower_BombFv, (void *)&render_shadows__7TObjectFv, (void *)&vfunc_6__8TObjBaseFPsl, (void *)&apply_object_set_data__8TObjBaseFPv,
     (void *)&reset_motion_fields__14TObjCollidableFv, (void *)&get_center__8TObjBaseFv, (void *)&update_object_view_visibility__8TObjBaseFff, (void *)&classify_actor_view_detail__8TObjBaseFfff,
-    (void *)&get_name__8TObjBaseFv, (void *)&interact__14TObjCollidableFl, (void *)&call_vt13_with_default__13TUnk_804928CCFPvPvl, (void *)&area_attack_deliver_direct__21TObjEneRe2Flower_BombFPvlPvf,
+    (void *)&get_name__8TObjBaseFv, (void *)&interact__14TObjCollidableFUs, (void *)&call_vt13_with_default__13TUnk_804928CCFPvPvl, (void *)&area_attack_deliver_direct__21TObjEneRe2Flower_BombFPvlPvf,
     (void *)&vfunc_16__13TUnk_804928CCFPvPv, (void *)&call_vt16_with_default__13TUnk_804928CCFPvPv, (void *)&area_attack_deliver_physical__13TUnk_804928CCFPvPvf, (void *)&vfunc_19__13TUnk_804928CCFPv,
     (void *)&area_attack_apply_recoil__13TUnk_804928CCFPvf, (void *)&area_attack_receive_direct__13TUnk_804928CCFPvPfPv, (void *)&apply_hit_if_active__13TUnk_804928CCFPvPf, (void *)0x0,
 };
@@ -324,7 +325,7 @@ Obj_800C4A5C *TObjPlayer__sub_800C4A5C(Obj_800C4A5C *o, void *owner, Vec *start,
     o->f0 = lbl_805D2A50;
     o->coll->radius = lbl_8043BC10.radius;
     o->angle = angle;
-    o->ownerId = get_entity_id((TObjBase *)owner);
+    o->ownerId = ((TObjBase *)owner)->get_entity_id();
     VecCopy((Vec *)&o->start, (const Vec *)start);
     VecCopy((Vec *)&o->pos, (const Vec *)&o->start);
     o->accel.x = (0.0f);

@@ -41,19 +41,19 @@ void TUnk_804A2A58::vfunc_60() { if (TObjPlayer::get_player_list() == 1) { rotat
 
 void TUnk_804A2A58::emit_marker_effects() {
     u8 *arg0 = (u8 *)this;
-    s32 sp8;
+    s32 origin;
     s32 temp_r4;
     temp_r4 = spin_speed;
     spin_speed = (temp_r4 + 0x2AAA);
     if (((TItem *)(arg0))->is_model_shown() != 0) {
-        ((TItemWeapon *)arg0)->get_joint_position(2, &sp8);
-        this->launch_shot((u8 *)&sp8, 0, 0x4FA, 1);
-        ((TItemWeapon *)arg0)->get_joint_position(3, &sp8);
-        this->launch_shot((u8 *)&sp8, 1, 0xE38, 1);
-        ((TItemWeapon *)arg0)->get_joint_position(4, &sp8);
-        this->launch_shot((u8 *)&sp8, 2, -0x4FA, 1);
-        ((TItemWeapon *)arg0)->get_joint_position(5, &sp8);
-        this->launch_shot((u8 *)&sp8, 3, -0xE38, 1);
+        ((TItemWeapon *)arg0)->get_joint_position(2, &origin);
+        this->launch_shot((u8 *)&origin, 0, 0x4FA, 1);
+        ((TItemWeapon *)arg0)->get_joint_position(3, &origin);
+        this->launch_shot((u8 *)&origin, 1, 0xE38, 1);
+        ((TItemWeapon *)arg0)->get_joint_position(4, &origin);
+        this->launch_shot((u8 *)&origin, 2, -0x4FA, 1);
+        ((TItemWeapon *)arg0)->get_joint_position(5, &origin);
+        this->launch_shot((u8 *)&origin, 3, -0xE38, 1);
     }
 }
 

@@ -22,7 +22,7 @@ void TOAirconCave02::render() {
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
         draw_ginja_object(object);
         pop_matrix();
     }
@@ -50,7 +50,7 @@ TOAirconCave02::TOAirconCave02(TObject *parent, void *set_data) : TObjMapObject(
     m_name = TOAirconCave02_class_name;
     apply_object_set_data(set_data);
     model = (void *)TOAirconCave02__bml_resource->models[0].model;
-    texlist = (saddr)TOAirconCave02__bml_resource->models[0].texlist;
+    texlist = TOAirconCave02__bml_resource->models[0].texlist;
     view_range = 500.0f;
     model_radius = 40.0f;
 }

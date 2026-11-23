@@ -8,31 +8,29 @@
 #include "pso/unk/TLobby.h"
 #include "pso/unk/text_8022350C.h"
 #include "pso/ui/window/TWindowCtrl.h"
+#include "pso/object/base/TObjBase.h"
+#include "pso/player/PlayerSlots.h"
 
 #pragma readonly_strings on
 
 
 extern "C" {
-s32 get_entity_id(u32);
 const char *TShopSequence__class_name = "TShopSequence";
 
 // Conversation camera per service counter; the alternate set is used while a TLobby runs.
 static const s32 service_counter_camera_table[7] = {6, 5, 3, 0, 2, 1, 4};
 static const s32 service_counter_camera_alt_table[7] = {16, 15, 13, 10, 12, 11, 14};
 
-// sequence: the calling counter sequence (unused).
-void set_service_counter_camera(s32 sequence, s32 counter) {
+TCameraConversation *set_service_counter_camera(void *sequence, s32 counter) {
     if (TLobby::get_instance() == 0) {
-        create_conversation_camera(service_counter_camera_table[counter]);
-        return;
+        return create_conversation_camera(service_counter_camera_table[counter]);
     }
-    create_conversation_camera(service_counter_camera_alt_table[counter]);
+    return create_conversation_camera(service_counter_camera_alt_table[counter]);
 }
 
-void *get_player_by_client_id(s32 i);
 s32 is_split_screen();
 
-int TShopSequence::vfunc_10() {
+int TShopSequence::is_message_ready() {
     if (message_window != NULL) {
         return message_window->is_ready();
     }
@@ -50,7 +48,7 @@ void TShopSequence::close_message_window() {
 u32 TShopSequence::create_message_window(s32 x, s32 y) {
     if (message_window != NULL) {
         if (player != NULL) {
-            return (uaddr)message_window->create_message_window(x, y, (u16)get_entity_id((uaddr)player));
+            return (uaddr)message_window->create_message_window(x, y, (u16)((TObjBase *)((uaddr)player))->get_entity_id());
         }
         return (uaddr)message_window->create_window(x, y);
     }
@@ -87,39 +85,39 @@ void TShopSequence::close_if_single_screen() {
     }
 }
 void TShopSequence::close_window() {
-    s32 var_r31;
+    s32 client;
 
-    if ((u32) *(u32 *)((s8 *)this + 0x24) != 0U) {
-        TWindowCtrl::unsuppress_slot((u16)get_entity_id(*(u32 *)((s8 *)this + 0x24)));
+    if (player != NULL) {
+        TWindowCtrl::unsuppress_slot((u16)player->get_entity_id());
         if (TRaderMapCore::is_not_split_screen() != 1) {
-            var_r31 = 0;
+            client = 0;
             do {
-                void *player = get_player_by_client_id(var_r31);
-                if (player != NULL) {
-                    ((TObjPlayer *)player)->activate_body_collision();
+                TObjPlayer *other = (TObjPlayer *)get_player_by_client_id(client);
+                if (other != NULL) {
+                    other->activate_body_collision();
                 }
-                var_r31 += 1;
-            } while (var_r31 < 4);
+                client += 1;
+            } while (client < 4);
         }
-        TObjPlayer::clear_lobby_flag((void *)(*(uaddr *)((s8 *)this + 0x24)));
+        TObjPlayer::clear_lobby_flag(player);
     }
 }
 void TShopSequence::restore_player_state() {
-    s32 var_r31;
+    s32 client;
 
-    if ((u32) *(u32 *)((s8 *)this + 0x24) != 0U) {
-        ((TObjPlayer *)this->player)->init_effect_5f0();
+    if (player != NULL) {
+        player->init_effect_5f0();
         if (TRaderMapCore::is_not_split_screen() != 1) {
-            var_r31 = 0;
+            client = 0;
             do {
-                void *player = get_player_by_client_id(var_r31);
-                if (player != NULL) {
-                    ((TObjPlayer *)player)->deactivate_body_collision();
+                TObjPlayer *other = (TObjPlayer *)get_player_by_client_id(client);
+                if (other != NULL) {
+                    other->deactivate_body_collision();
                 }
-                var_r31 += 1;
-            } while (var_r31 < 4);
+                client += 1;
+            } while (client < 4);
         }
-        TWindowCtrl::suppress_slot((u16)get_entity_id(*(u32 *)((s8 *)this + 0x24)));
+        TWindowCtrl::suppress_slot((u16)player->get_entity_id());
     }
 }
 TShopSequence::~TShopSequence() {

@@ -51,7 +51,7 @@ void TPhotonYoulla::reset_material_color(u8 count) {
 void TPhotonYoulla::render() {
     if (visible != 0) {
         TParticleCtrl::begin_effect_render();
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, rotation_y);
@@ -122,7 +122,7 @@ TPhotonYoulla::TPhotonYoulla(PhotonSummonParams *params) {
         rotation_y = owner_object->rotation_y;
     }
     model = photon_blast_shared_resource->models[11].model;
-    texlist = (saddr)photon_blast_shared_resource->models[11].texlist;
+    texlist = photon_blast_shared_resource->models[11].texlist;
     set_action_table((saddr)photon_blast_youlla_params);
     set_motion_list((saddr)photon_blast_shared_resource->motions);
     requested_action = 1;

@@ -46,6 +46,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/object/TObjControl.h"
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
+#include "pso/player/TPlyDispData.h"
 
 extern void **TObjEneShark__resource_node;
 extern void **TObjEneShark__resource_buf;
@@ -224,7 +225,7 @@ void TObjEneShark::render() {
   }
   select_actor_lighting(this);
   model_render_flags |= 1;
-  TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
+  TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
   push_matrix();
   translate_matrix(0, 0.0f, corpse_offset_y, 0.0f);
   post_translate_matrix(&position.x);
@@ -412,9 +413,9 @@ CollisionBody shark_collision_body_table[3] = {
     { { 0.0f, 15.0f, 0.0f }, 8.0f, 0.0f, 0, 0x8003, { 0.0f, 0.0f, 0.0f }, 0.0f },
 };
 
-void *TObjEneShark::create(void *arg0) {
+void *TObjEneShark::create(void *setData) {
     TObjControl *parent = new TObjControl(tl_04);
-    return new TObjEneShark(parent, arg0);
+    return new TObjEneShark(parent, setData);
 }
 
 void TObjEneShark::free_resources() {
@@ -504,11 +505,9 @@ TObjEneShark::~TObjEneShark() {
 // takes the vtable from this unit's pooled .data base.
 #pragma defer_codegen on
 
-struct Sub_800ACA10 { u8 pad[0x18]; s32 level; };
-
 s32 TObjEneMoja::calc_technique_level() {
     TObjEneMoja *self = this;
-    Sub_800ACA10 *p = *(Sub_800ACA10 * *)&self->stat_block;
+    player_stats *p = self->stat_block;
     s32 v = 0;
     if (p != 0) {
         v = p->level;
@@ -532,7 +531,7 @@ void TObjPlayer__sub_800ACA0C(void) {  }
 
 void TObjEneShark::sub_800AC9DC(s32 i) {
     model = shark_bml_resource->models[i].model;
-    texlist = (saddr)shark_bml_resource->models[i].texlist;
+    texlist = shark_bml_resource->models[i].texlist;
 }
 
 void TUnk_80493450::play_group_chase_sound() {  }

@@ -2,6 +2,7 @@
 #include "pso/system/ResourceFile.h"
 #include "types.h"
 #include "pso/unk/TLobby_801F3A24.h"
+#include "pso/map/FloorPopulation.h"
 #include "pso/unk/TLobby_80207644.h"
 #include "pso/unk/TLobby_80207DA8.h"
 #include "pso/system/TGStream.h"
@@ -17,6 +18,7 @@
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/map/TSetManager.h"
+#include "pso/unk/TLobby_80209524.h"
 
 struct QuestObjRow_801F3AD8 {
     u8 pad0[2];
@@ -50,9 +52,9 @@ void TLobby::refresh_quest_list(const char *path) {
     }
 }
 
-void TLobby::bswap_enemy_set_rows(u32 arg1) {
+void TLobby::bswap_enemy_set_rows(u32 size) {
     Ent_801F3A80* p = (Ent_801F3A80*)this;
-    u32 n = arg1 / sizeof(Ent_801F3A80);
+    u32 n = size / sizeof(Ent_801F3A80);
     u32 i;
     for (i = 0; i < n; i++, p++) {
         bswap_enemy_set_row(p);
@@ -110,7 +112,6 @@ void TLobby::handle_msg_type1_for_idle_slots() {
 
 }
 
-extern s16 TLobby__data_805D6134;
 
 void TLobby::rebuild_all(u8 *quest) {
     TLobby__data_805D5EE0 = quest;
@@ -121,7 +122,7 @@ void TLobby::rebuild_all(u8 *quest) {
     TLobby::free_boss4rock();
     TLobby::rebuild_entry();
     TLobby::init_id_tables();
-    TLobby__data_805D6134 = 1;
+    floor_set_flags = 1;
     TLobby__data_805D5EE0 = NULL;
 }
 
@@ -209,20 +210,20 @@ bool load_quest_encounter_section(s32 arg0) {
     s32 sp14;
     s32 sp10;
     s32 spC;
-    s32 sp8;
+    s32 size;
     u8 *var_r31;
     if ((var_r31 = TLobby__data_805D5EE0) != NULL) {
 loop_1:
         sp14 = *(s32 *)((s8 *)var_r31 + 0);
         sp10 = *(s32 *)((s8 *)var_r31 + 4);
         spC = *(s32 *)((s8 *)var_r31 + 8);
-        sp8 = *(s32 *)((s8 *)var_r31 + 0xC);
+        size = *(s32 *)((s8 *)var_r31 + 0xC);
         bswap_32((u32 *)&sp14);
         bswap_32((u32 *)&sp10);
         bswap_32((u32 *)&spC);
-        bswap_32((u32 *)&sp8);
+        bswap_32((u32 *)&size);
         if ((sp14 == 3) && (spC == arg0)) {
-            return TLobby::add_player(spC, (saddr)(var_r31 + 0x10), sp8) != 0;
+            return TLobby::add_player(spC, (saddr)(var_r31 + 0x10), size) != 0;
         }
         if (sp14 != 0) {
             var_r31 += sp10;
@@ -241,7 +242,7 @@ s32 TLobby::handle_msg_type2(s32 arg0) {
     s32 sp14;
     s32 sp10;
     s32 spC;
-    s32 sp8;
+    s32 size;
     u8 *lobby;
     u8 *var_r31;
 
@@ -250,16 +251,16 @@ loop_1:
         sp14 = *(s32 *)((s8 *)var_r31 + 0);
         sp10 = *(s32 *)((s8 *)var_r31 + 4);
         spC = *(s32 *)((s8 *)var_r31 + 8);
-        sp8 = *(s32 *)((s8 *)var_r31 + 0xC);
+        size = *(s32 *)((s8 *)var_r31 + 0xC);
         bswap_32((u32 *)&sp14);
         bswap_32((u32 *)&sp10);
         bswap_32((u32 *)&spC);
-        bswap_32((u32 *)&sp8);
+        bswap_32((u32 *)&size);
         if ((sp14 == 2) && (spC == arg0)) {
             lobby = var_r31 + 0x10;
-            ((TLobby *)lobby)->bswap_enemy_set_rows(sp8);
-            reserve_enemy_set_actor_ids(lobby, (u32) sp8 / 72U, get_floor_area(spC));
-            TLobby::init_floor_enemy_count(spC, lobby, sp8);
+            ((TLobby *)lobby)->bswap_enemy_set_rows(size);
+            reserve_enemy_set_actor_ids(lobby, (u32) size / 72U, get_floor_area(spC));
+            TLobby::init_floor_enemy_count(spC, lobby, size);
             return 1;
         }
         if (sp14 != 0) {
@@ -272,7 +273,6 @@ block_6:
     return 0;
 }
 
-s32 TLobby__sub_8020B308(s32);
 
 s32 TLobby::handle_msg_type1(s32 arg0) {
     s32 sp14;
@@ -310,14 +310,10 @@ block_6:
 }
 
 extern s32 evt2_random_enemies_mode;
-extern s32 map_set_object_id_counter;
-extern s32 TLobby__next_enemy_set_actor_id;
-extern s32 map_object_id_counter;
-extern s32 map_set_enemy_id_counter;
 
 void TLobby::setup_quest_list() {
     map_set_object_id_counter = 0;
-    TLobby__next_enemy_set_actor_id = 0;
+    next_enemy_set_actor_id = 0;
     map_object_id_counter = 0;
     map_set_enemy_id_counter = 0;
     switch ((s32) evt2_random_enemies_mode) {
@@ -340,8 +336,8 @@ void TLobby::setup_quest_list() {
     advance_object_id_counter((u16) map_object_id_counter);
     advance_enemy_id_counter((u16) map_set_enemy_id_counter);
     object_condition_count = map_set_object_id_counter;
-    enemy_condition_count = TLobby__next_enemy_set_actor_id;
-    TLobby__sub_8020B308(map_set_object_id_counter);
+    enemy_condition_count = next_enemy_set_actor_id;
+    TLobby__sub_8020B308();
     TLobby::sum_floor_enemy_counts();
 }
 
@@ -351,7 +347,7 @@ void TLobby::update_and_reset(u8 *quest) {
     TLobby__data_805D5EE0 = quest;
     populate_quest_floor_sets();
     TLobby::init_id_tables();
-    TLobby__data_805D6134 = 1;
+    floor_set_flags = 1;
     TLobby__data_805D5EE0 = NULL;
 }
 
@@ -373,7 +369,7 @@ void TLobby::open_session(const char *path) {
             read_disc_file(path, quest);
             populate_quest_floor_sets();
             TLobby::init_id_tables();
-            TLobby__data_805D6134 = 1;
+            floor_set_flags = 1;
             TAdSinglePlyChrSelectGC::safe_free(reinterpret_cast<uaddr>(TLobby__data_805D5EE0));
             TLobby__data_805D5EE0 = NULL;
         }

@@ -6,24 +6,23 @@
 #include "pso/item/TItemEquipVariant_80120CF8.h"
 #include "pso/item/TItem.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/player/CapturedTargetList.h"
 
 
-struct Self_80127BE0 { u8 pad[0xF0]; saddr fF0; };
+struct Self_80127BE0 { u8 pad[0xF0]; saddr caster; };
 
-struct Item_80127BE0 { u16 a; s16 b; };
 
 struct Tec_80127BE0 { s32 kind; u16 a; s16 b; u8 rest[0x58]; };
 
 extern "C" {
-Item_80127BE0 *get_captured_target_entry(s32, s32);
 void TUnk_804A3640::emit_marker_effects() {
-    Item_80127BE0 *item;
+    CapturedTarget *item;
     saddr kind;
-    saddr ext;
+    CapturedTargetList *ext;
     s32 i;
     Tec_80127BE0 tec;
     u8 buf[0xC];
-    switch (((TObjPlayer *)(((Self_80127BE0 *)this)->fF0))->is_status_subsystem_ready()) {
+    switch (((TObjPlayer *)(((Self_80127BE0 *)this)->caster))->is_status_subsystem_ready()) {
     case 1:
         kind = 8;
         break;
@@ -35,16 +34,16 @@ void TUnk_804A3640::emit_marker_effects() {
         break;
     }
     if (get_joint_position(1, buf) != 0) {
-        ext = (saddr)((TObjPlayer *)(((Self_80127BE0 *)this)->fF0))->get_extended_state();
+        ext = ((TObjPlayer *)(((Self_80127BE0 *)this)->caster))->get_extended_state();
         if (ext != 0) {
-            for (i = 0; i != get_captured_target_count((s32 *)ext); i++) {
-                item = get_captured_target_entry(ext, i);
+            for (i = 0; i != ext->get_captured_target_count(); i++) {
+                item = ext->get_captured_target_entry(i);
                 if (item != NULL) {
                     __ct__16TargetCursorListFv((&tec));
                     tec.kind = 1;
-                    tec.a = item->a;
-                    tec.b = item->b;
-                    TTecGiZonde::create((void *)((Self_80127BE0 *)this)->fF0, (Vec *)buf, &tec, kind);
+                    tec.a = item->uid;
+                    tec.b = item->collider_index;
+                    TTecGiZonde::create((void *)((Self_80127BE0 *)this)->caster, (Vec *)buf, &tec, kind);
                 }
             }
         }

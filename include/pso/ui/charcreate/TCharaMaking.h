@@ -15,6 +15,8 @@ extern const s32 lbl_8045122C[19];
 
 extern "C" {
 void TCharaMaking__sub_8028E790(void);
+// The section id a character name hashes to.
+s32 calc_section_id_from_name(s8 *name);
 }
 
 struct CharacterClassAppearance;
@@ -34,7 +36,7 @@ struct TCharaMaking : public TObject {
     static s32 is_end();
     void update_light_direction();
     virtual void run_task();
-    static void *create(void *arg0, void *arg1);
+    static void *create(void *parent, void *arg1);
     static s32 update_main_menu(saddr arg0);
     void build_appearance_texture_names(CharacterAppearanceFields *appearance, CharacterClassAppearance *definition, CharacterTextureList *source);
 };

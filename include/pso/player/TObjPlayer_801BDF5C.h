@@ -9,24 +9,18 @@ struct TObjPlayer;
 extern "C" {
 // The player of this machine's client, or NULL.
 TObjPlayer *get_local_player();
-void TObjPlayer__sub_801BE2C0(void *p, s32 v);
-s32 TObjPlayer__sub_801BE2C8(void *p);
 void TObjPlayer__sub_801BE784(void *p, u8 v);
 void TObjPlayer__sub_801BE794(void *p, u8 v);
 void TObjPlayer__sub_801BE7A4(void *p, u8 v);
 void TObjPlayer__sub_801BE7B4(void *p, u8 v);
-int TObjPlayer__sub_801BE7BC(void *p);
 void TObjPlayer__sub_801BE7E0(void *p, u8 v);
 void TObjPlayer__sub_801BE80C(void *p, u8 v);
 void TObjPlayer__sub_801BE838(void *p, u8 v);
 void TObjPlayer__sub_801BE864(void *p, u8 v);
-void *TObjPlayer__sub_801BE918(void *a0, int a1, void *a2, void *a3);
 int TObjPlayer__sub_801BEABC(void *p);
-s32 TObjPlayer__sub_801BEB0C(void *p);
 u8 TObjPlayer__sub_801BEB3C(void *p);
 u8 TObjPlayer__sub_801BEB44(void *p);
 u8 TObjPlayer__sub_801BEB4C(void *p);
-int TObjPlayer__sub_801BEB68(void *p);
 u8 TObjPlayer__sub_801BEB8C(void *p);
 u8 TObjPlayer__sub_801BEBB8(void *p);
 u8 TObjPlayer__sub_801BEBE4(void *p);

@@ -23,7 +23,7 @@ struct TObjWeddingLobby : public TObjMapObject {
     u8 pad_d0[0x4];
 
     static BmlResource *resource_bundle;
-    static u32 lobby_texlist;  // the lobby's shared texture list
+    static NJS_TEXLIST *lobby_texlist;  // the lobby's shared texture list
 };
 
 LAYOUT_ASSERT(TObjWeddingLobby_size, sizeof(TObjWeddingLobby) == 0xD4);

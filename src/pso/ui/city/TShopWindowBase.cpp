@@ -9,13 +9,11 @@
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/ControllerInput.h"
+#include "pso/object/base/TObjBase.h"
 
 #pragma readonly_strings on
 
-extern "C" {
-s32 get_entity_id(void *);
-
-void TShopWindowBase::vfunc_11() {  }
+void TShopWindowBase::update_state() {  }
 
 
 f32 TShopWindowBase::get_scale() {
@@ -25,36 +23,31 @@ f32 TShopWindowBase::get_scale() {
     return 1.0f;
 }
 
-s32 TShopWindowBase::sub_8022397C() {
-    u8 *arg0 = (u8 *)this;
-    uaddr temp_r3;
-    temp_r3 = *(u32 *)((s8 *)arg0 + 0x24);
-    if (temp_r3 != 0U) {
-        return (u16)TShopGenerator__sub_80222DAC((get_entity_id((void *)temp_r3)));
+s32 TShopWindowBase::get_split_screen_slot() {
+    if (player != NULL) {
+        return (u16)get_client_split_screen_slot(player->get_entity_id());
     }
     return 0U;
 }
 
-s32 TShopSequence::get_child_field1c() {
-    void *temp_r3 = this->player;
-    if (temp_r3 != NULL) {
-        return get_entity_id(temp_r3);
+u16 TShopWindowBase::get_player_entity_id() {
+    if (player != NULL) {
+        return player->get_entity_id();
     }
     return 0;
 }
 
-extern s32 lbl_805D55C0;
+extern "C" s32 lbl_805D55C0;
 
-s32 TShopWindowBase::sub_802239EC() {
-    if (controller_input_state.controllers[((TObjPlayer *)(*(saddr *)((s8 *)((u8 *)this) + 0x24)))->get_controller_port()].pressed_buttons & 2) {
+s32 TShopWindowBase::is_cancel_pressed() {
+    if (controller_input_state.controllers[player->get_controller_port()].pressed_buttons & 2) {
         return 1;
     }
     return test_controller_flag_4c_color(&controller_input_state.keyboard, 2) ? 1 : 0;
 }
 
-s32 TShopWindowBase::sub_80223A48() {
-    u8 *arg0 = (u8 *)this;
-    if (controller_input_state.controllers[((TObjPlayer *)(*(saddr *)((s8 *)arg0 + 0x24)))->get_controller_port()].pressed_buttons & 4) {
+s32 TShopWindowBase::is_decide_pressed() {
+    if (controller_input_state.controllers[player->get_controller_port()].pressed_buttons & 4) {
         return 1;
     }
     if (test_controller_flag_4c_color(&controller_input_state.keyboard, 4) != 0) {
@@ -65,13 +58,11 @@ s32 TShopWindowBase::sub_80223A48() {
 
 void TShopWindowBase::run_task() {
     if ((s32) lbl_805D55C0 == 0) {
-        this->vfunc_11();
+        this->update_state();
     }
 }
 
 const char *TShopWindowBase__class_name = "TShopWindowBase";
-
-}
 TShopWindowBase::~TShopWindowBase() {
 
 }
@@ -79,8 +70,8 @@ TShopWindowBase::~TShopWindowBase() {
 
 TShopWindowBase::TShopWindowBase(TObject *parent) : TObject(parent) {
     m_name = TShopWindowBase__class_name;
-    *(u32 *)((s8 *)this + 0x1C) = 0;
-    *(u32 *)((s8 *)this + 0x20) = 0;
-    *(u32 *)((s8 *)this + 0x24) = 0;
+    pad_1C = 0;
+    state = 0;
+    player = NULL;
 }
 

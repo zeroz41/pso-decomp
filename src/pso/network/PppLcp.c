@@ -235,11 +235,11 @@ void start_ipcp_after_auth(O_80400ACC *o) {
 }
 
 void reset_connection_slot(PppFsm *self) {
-    s8 *temp_r31;
-    temp_r31 = (s8 *)self->sub;
-    *temp_r31 = 4;
-    TLobby__sub_803FD85C(temp_r31 + 0x6C);
-    PP_pap_down((void *)(temp_r31 + 0x38));
+    s8 *sub;
+    sub = (s8 *)self->sub;
+    *sub = 4;
+    TLobby__sub_803FD85C(sub + 0x6C);
+    PP_pap_down((void *)(sub + 0x38));
 }
 
 void queue_command_81(PppFsm *fsm) {

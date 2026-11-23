@@ -17,7 +17,7 @@ void TWindowSubComCard::set_card_text(saddr src) {
     GuildCardSlot *slot;
 
     if (src != 0) {
-        slot = get_card_entry__17TWindowSubComCardFi(static_cast<s32>(reinterpret_cast<saddr>(this)));
+        slot = TWindowSubComCard::get_card_entry(static_cast<s32>(reinterpret_cast<saddr>(this)));
         if (slot != NULL) {
             strncpy(slot->note.text, reinterpret_cast<const char *>(src), 0x6B);
             slot->note.text[0x6B] = 0;
@@ -25,7 +25,7 @@ void TWindowSubComCard::set_card_text(saddr src) {
     }
 }
 u8 *TWindowSubComCard::get_card_entry_data() {
-    GuildCardSlot *slot = get_card_entry__17TWindowSubComCardFi(static_cast<s32>(reinterpret_cast<saddr>(this)));
+    GuildCardSlot *slot = TWindowSubComCard::get_card_entry(static_cast<s32>(reinterpret_cast<saddr>(this)));
     if (slot == NULL) {
         return NULL;
     }
@@ -34,7 +34,7 @@ u8 *TWindowSubComCard::get_card_entry_data() {
 
 GuildCardSlot *TWindowSubComCard::find_card_by_id(u32 id) {
     s32 i;
-    GuildCardSlot *slot = get_card_entry__17TWindowSubComCardFi(0);
+    GuildCardSlot *slot = TWindowSubComCard::get_card_entry(0);
     for (i = 0; i < 0xD2; i++, slot++) {
         if (id == slot->entry.get_card_id()) {
             return slot;
@@ -42,7 +42,7 @@ GuildCardSlot *TWindowSubComCard::find_card_by_id(u32 id) {
     }
     return NULL;
 }
-GuildCardSlot *get_card_entry__17TWindowSubComCardFi(s32 index) {
+GuildCardSlot *TWindowSubComCard::get_card_entry(s32 index) {
     if (index < 0) {
         return NULL;
     }
@@ -64,27 +64,27 @@ struct S_8007AA70;
 s32 forward_return_arg__17TWindowSubComCardFi(saddr, S_8007AA70 *);
 
 void TWindowSubComCard::swap_cards(s32 first_index, s32 second_index) {
-    s32 sp8[64];
+    s32 src[64];
     GuildCardSlot *first_ptr;
     GuildCardSlot *second_ptr;
 
-    ((s32 (*)(s32 *))reinit__17TWindowSubComCardFi)(sp8);
-    first_ptr = get_card_entry__17TWindowSubComCardFi(first_index);
-    second_ptr = get_card_entry__17TWindowSubComCardFi(second_index);
-    copy_card__17TWindowSubComCardFiPv((saddr)sp8, (u8 *)first_ptr);
+    ((s32 (*)(s32 *))reinit__17TWindowSubComCardFi)(src);
+    first_ptr = TWindowSubComCard::get_card_entry(first_index);
+    second_ptr = TWindowSubComCard::get_card_entry(second_index);
+    copy_card__17TWindowSubComCardFiPv((saddr)src, (u8 *)first_ptr);
     copy_card__17TWindowSubComCardFiPv((saddr)first_ptr, (u8 *)second_ptr);
-    copy_card__17TWindowSubComCardFiPv((saddr)second_ptr, (u8 *)sp8);
+    copy_card__17TWindowSubComCardFiPv((saddr)second_ptr, (u8 *)src);
 }
-s32 copy_card__17TWindowSubComCardFiPv(saddr arg0, u8 *arg1) {
-    GuildCardSlot *dest = reinterpret_cast<GuildCardSlot *>(arg0);
+s32 copy_card__17TWindowSubComCardFiPv(saddr guild_card_slot, u8 *arg1) {
+    GuildCardSlot *dest = reinterpret_cast<GuildCardSlot *>(guild_card_slot);
     GuildCardSlot *src = reinterpret_cast<GuildCardSlot *>(arg1);
-    ((s32 (*)(s32))forward_return_arg__17TWindowSubComCardFi)(arg0);
+    ((s32 (*)(s32))forward_return_arg__17TWindowSubComCardFi)(guild_card_slot);
     dest->pad_90[0] = src->pad_90[0];
     dest->pad_90[1] = src->pad_90[1];
     dest->pad_90[2] = src->pad_90[2];
     dest->pad_90[3] = src->pad_90[3];
     dest->note = src->note;
-    return arg0;
+    return guild_card_slot;
 }
 
 }
@@ -157,11 +157,11 @@ s32 has_inactive_card__17TWindowSubComCardFPvi(GuildCardSlot *cards, s32 n) {
 }
 
 s32 TWindowSubComCard::init_com_card() {
-    return has_inactive_card__17TWindowSubComCardFPvi(get_card_entry__17TWindowSubComCardFi(0), 0xD2);
+    return has_inactive_card__17TWindowSubComCardFPvi(TWindowSubComCard::get_card_entry(0), 0xD2);
 }
 
 void TWindowSubComCard::remove_card_at(s32 i) {
-    GuildCardSlot *slots = get_card_entry__17TWindowSubComCardFi(0);
+    GuildCardSlot *slots = TWindowSubComCard::get_card_entry(0);
     if (i < 0xD1) {
         GuildCardSlot *slot = &slots[i];
         move_words(slot, slot + 1, (0xD1 - i) * sizeof(*slot) / 4);
@@ -200,22 +200,22 @@ s32 TWindowSubComCard::send_guild_card() {
     if (((s32 (*)())TWindowSubComCard__sub_8007B070)() != 0) {
         return 0;
     }
-    temp = get_card_entry__17TWindowSubComCardFi(0);
+    temp = TWindowSubComCard::get_card_entry(0);
     return TWindowSubComCard__sub_8007AC7C((Card_8007AC7C *)(arg0), temp, 0xD2);
 }
-void forward_to_matching_card__17TWindowSubComCardFPvPvi(void *arg0, u8 *arg1, s32 count) {
+void forward_to_matching_card__17TWindowSubComCardFPvPvi(void *card, u8 *slots, s32 count) {
     s32 i;
-    u32 id = reinterpret_cast<const GuildCardEntry *>(arg0)->get_card_id();
-    for (i = 0; i < count; i++, arg1 += 0x100) {
-        if (reinterpret_cast<const GuildCardEntry *>(arg1)->is_active() == 0) {
+    u32 id = reinterpret_cast<const GuildCardEntry *>(card)->get_card_id();
+    for (i = 0; i < count; i++, slots += 0x100) {
+        if (reinterpret_cast<const GuildCardEntry *>(slots)->is_active() == 0) {
             break;
         }
-        if (id == reinterpret_cast<const GuildCardEntry *>(arg1)->get_card_id()) {
+        if (id == reinterpret_cast<const GuildCardEntry *>(slots)->get_card_id()) {
             break;
         }
     }
     if (i < count) {
-        ((s32 (*)(void *, void *))forward_return_arg__17TWindowSubComCardFi)(arg1, arg0);
+        ((s32 (*)(void *, void *))forward_return_arg__17TWindowSubComCardFi)(slots, card);
     }
 }
 
@@ -229,9 +229,9 @@ s32 bswap_guild_card__17TWindowSubComCardFv();
 void TWindowSubComCard::start_player_data_load(s32 ply_guild_card_tag) {
     u32 temp;
     if (((s32 (*)(int))TWindowSubComCard__sub_8007B070)(ply_guild_card_tag) == 0) {
-        temp = reinterpret_cast<uaddr>(get_card_entry__17TWindowSubComCardFi(0));
+        temp = reinterpret_cast<uaddr>(TWindowSubComCard::get_card_entry(0));
         ((s32 (*)(s32, s32, s32))forward_to_matching_card__17TWindowSubComCardFPvPvi)(ply_guild_card_tag, (s32) temp, 0xD2);
-        load_player_data__23TAdSinglePlyChrSelectGCFv();
+        TAdSinglePlyChrSelectGC::load_player_data();
     }
 }
 }
@@ -288,7 +288,7 @@ s32 count_leading_active__17TWindowSubComCardFPvi(Card_8007AF60 *p, s32 n) {
 }
 
 s32 TWindowSubComCard::count_active_cards() {
-    GuildCardSlot *p = get_card_entry__17TWindowSubComCardFi(0);
+    GuildCardSlot *p = TWindowSubComCard::get_card_entry(0);
     s32 i;
     for (i = 0; i < 0xD2; i++, p++) {
         if (p->entry.is_active() == 0) {
@@ -364,8 +364,8 @@ void TWindowSubComCard__sub_8007B1AC(void *ply_guild_card_tag, u8 *arg1, s32 cou
     }
 }
 
-void TWindowSubComCard::set_text(void *arg1) {
-    ((s32 (*)(void *, void *, int))strncpy)((void *) (((u8 *)this) + 0x20), arg1, 0x6B);
+void TWindowSubComCard::set_text(void *text) {
+    ((s32 (*)(void *, void *, int))strncpy)((void *) (((u8 *)this) + 0x20), text, 0x6B);
     *(s8 *)((s8 *)((u8 *)this) + 0x8B) = 0;
 }
 
@@ -375,20 +375,20 @@ void TWindowSubComCard__sub_8007B26C(GuildCardEntry *entry) {
 
 int clear(void* p) { return (saddr)memset(p, 0, 144); }
 
-void TWindowSubComCard::clear_and_init(void* a1) { clear(this); ((TLobby *)this)->fill_guild_card_from_char((saddr)a1); }
+void TWindowSubComCard::clear_and_init(void* local_client_id) { clear(this); ((TLobby *)this)->fill_guild_card_from_char((saddr)local_client_id); }
 s32 fn_8007B2E0(u8 *ply_guild_card_tag, s32 id) {
-    u8 *mail;
-    mail = (u8 *)(TLobby::find_short_mail_by_id(id));
+    ShortMailEntry *mail;
+    mail = TLobby::find_short_mail_by_id(id);
     if (mail == NULL) {
         return 0;
     }
     *(u8 *)((s8 *)ply_guild_card_tag + 0x8C) = (u8) (*(u8 *)((s8 *)ply_guild_card_tag + 0x8C) | 3);
-    ((s32 (*)(void *, int, int))strncpy)(ply_guild_card_tag + 8, (saddr) (fn_8007B83C(mail)), 0x17);
+    ((s32 (*)(void *, int, int))strncpy)(ply_guild_card_tag + 8, (saddr)mail->get_sender_name(), 0x17);
     *(s8 *)((s8 *)ply_guild_card_tag + 0x1F) = 0;
     *(s8 *)((s8 *)ply_guild_card_tag + 0x8F) = 0xC;
     *(s8 *)((s8 *)ply_guild_card_tag + 0x8E) = 0xA;
     *(s8 *)((s8 *)ply_guild_card_tag + 0x8D) = 5;
-    *(s32 *)((s8 *)ply_guild_card_tag + 4) = TWindowSubShortMail__sub_8007B834(mail);
+    *(s32 *)((s8 *)ply_guild_card_tag + 4) = mail->get_sender_card_id();
     return 1;
 }
 

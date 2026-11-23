@@ -6,7 +6,7 @@
 
 extern "C" {
 int obj_getS16_2BA(void*);
-s32 add_actor_tp(u8 *arg0, s32 arg1);
+s32 add_actor_tp(u8 *owner, s32 half);
 extern s32 game_difficulty_selection;
 }
 

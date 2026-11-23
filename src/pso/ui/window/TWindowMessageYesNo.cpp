@@ -1,7 +1,6 @@
 #include "types.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowMessageYesNo.h"
-#include "pso/ui/window/TWindowSubComCard_80244774.h"
 
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/window/TWindowSubComCard.h"

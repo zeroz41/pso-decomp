@@ -21,7 +21,7 @@ void TChCrTagPlGraphic::draw_class_illustration() {
         size.y = value;
         size.x = value;
         alpha = m_3c;
-        id = m_20 * 2 + 0x66;
+        id = m_index * 2 + 0x66;
         draw_ui_sprite_shaded(id, &position, &size, m_40, alpha, alpha);
         position.y += 255.5f * m_44;
         draw_ui_sprite_shaded(id + 1, &position, &size, m_40, alpha, alpha);
@@ -72,8 +72,8 @@ const f32 tag_player_graphic_match_value_table[4] = {-3.296875f, -3.21875f, -3.1
 void TChCrTagPlGraphic::sub_802A3230() {
     const TChCrTagPlGraphicLayout *e;
 
-    e = &TChCrTagPlGraphic__data_804664A4[this->m_20];
-    this->m_3c = this->m_24 * this->m_30;
+    e = &TChCrTagPlGraphic__data_804664A4[this->m_index];
+    this->m_3c = this->m_fade * this->m_highlight;
     switch (TChCrCharSelect::get_selected_index()) {
     case 0:
         this->m_40 += 0.25f * (e->m_40 - this->m_40);
@@ -82,7 +82,7 @@ void TChCrTagPlGraphic::sub_802A3230() {
         this->pos.y += 0.25f * (e->pos.y - this->pos.y);
         break;
     default:
-        if (this->vt4() != 0) {
+        if (this->is_selected() != 0) {
             this->m_40 += 0.25f * (-2.75f - this->m_40);
             this->m_44 += 0.25f * (1.0f - this->m_44);
             this->pos.x += 0.25f * (e->selected_pos.x - this->pos.x);
@@ -94,19 +94,19 @@ void TChCrTagPlGraphic::sub_802A3230() {
 #pragma pop
 
 void TChCrTagPlGraphic::run_task() {
-    update_fade__8TChCrTagFPv(this);
+    TChCrTag::run_task();
     sub_802A3230();
 }
 
-s32 TChCrTagPlGraphic::vt4() {
+s32 TChCrTagPlGraphic::is_selected() {
     switch (TChCrCharSelect::get_selected_index()) {
     case 0:
-        if (m_20 / 4 == TChCrCharSelect::get_selected_char()) {
+        if (m_index / 4 == TChCrCharSelect::get_selected_char()) {
             return 1;
         }
         break;
     default:
-        if (m_20 == TChCrCharSelect::get_instance()) {
+        if (m_index == TChCrCharSelect::get_instance()) {
             return 1;
         }
         break;
@@ -121,12 +121,12 @@ TChCrTagPlGraphic::~TChCrTagPlGraphic() {}
 TChCrTagPlGraphic::TChCrTagPlGraphic(TObject *parent, s32 index) : TChCrTag(parent, index) {
     const TChCrTagPlGraphicLayout *e;
     m_name = ch_cr_tag_pl_graphic_class_name;
-    m_28 = 0.13333334f;
-    m_2c = -0.06666667f;
-    m_34 = 0.13333334f;
-    m_38 = -0.06666667f;
+    m_fade_in_step = 0.13333334f;
+    m_fade_out_step = -0.06666667f;
+    m_highlight_in_step = 0.13333334f;
+    m_highlight_out_step = -0.06666667f;
     m_3c = 0.0f;
-    e = &TChCrTagPlGraphic__data_804664A4[m_20];
+    e = &TChCrTagPlGraphic__data_804664A4[m_index];
     m_40 = e->m_40;
     m_44 = e->m_44;
     copy_vec2(&pos, (void *)&e->pos);

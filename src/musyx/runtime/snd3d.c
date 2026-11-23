@@ -398,14 +398,14 @@ void EmitterShutdown(Emitter_S3D *arg0) {
     }
 }
 
-void s3dKillEmitterByFXID(Ent_803BA228 *arg0, u32 arg1) {
+void s3dKillEmitterByFXID(Ent_803BA228 *arg0, u32 num) {
     Emitter_S3D *n;
     Emitter_S3D *next;
     u32 i;
 
     for (n = s3dEmitterRoot; n != 0; n = next) {
         next = n->next;
-        for (i = 0; i < arg1; i++) {
+        for (i = 0; i < num; i++) {
             if (n->fxid == arg0[i].id) {
                 if (sndActive != 0) {
                     hwDisableIrq();
@@ -714,7 +714,7 @@ void s3dHandle(void) {
 }
 #pragma pop
 
-void s3dInit(s32 arg0) {
+void s3dInit(s32 flags) {
     s3dEmitterRoot = 0;
     s3dListenerRoot = 0;
     s3dRoomRoot = 0;
@@ -723,7 +723,7 @@ void s3dInit(s32 arg0) {
     snd_base_studio = 1;
     snd_max_studios = 3;
     s3dCallCnt = 0;
-    s3dUseMaxVoices = (arg0 & 2) != 0;
+    s3dUseMaxVoices = (flags & 2) != 0;
 }
 
 }

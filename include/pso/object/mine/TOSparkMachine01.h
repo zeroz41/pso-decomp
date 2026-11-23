@@ -16,7 +16,7 @@ struct TOSparkMachine01 : public TObjBase {
     void update_spark_toggle(s32 i);
     virtual void run_task();
     virtual void render();
-    void *create();
+    static void *create(void *set_data);
     static void destroy_static_instance();
     static void load_static_resource();
 };

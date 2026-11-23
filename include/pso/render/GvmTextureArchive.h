@@ -3,12 +3,12 @@
 
 #include "types.h"
 
-struct GinjaTextureEntry;
-struct GinjaTextureList;
+struct NJS_TEXNAME;
+struct NJS_TEXLIST;
 
 extern "C" {
-s32 load_gvm_texture_archive(void *archive, GinjaTextureList *list);
-void TObjPlayer__sub_803DD5E8(GinjaTextureList *list, GinjaTextureEntry *entries, uaddr names, s32 count);
+s32 load_gvm_texture_archive(void *archive, NJS_TEXLIST *list);
+void TObjPlayer__sub_803DD5E8(NJS_TEXLIST *list, NJS_TEXNAME *entries, uaddr names, s32 count);
 }
 
 #endif

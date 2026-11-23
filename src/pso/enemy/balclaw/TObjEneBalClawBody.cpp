@@ -39,6 +39,7 @@
 #include "pso/render/model_render_state.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/system/task/TObject_80019A50.h"
+#include "pso/object/base/TObjBase.h"
 
 static const char balclaw_body_class_name_text[] = "TObjEneBalClawBody";
 
@@ -86,7 +87,7 @@ void TObjEneBalClaw::set_attack_distance_flag() { this->behavior_flags |= 0x1000
 // Picks this part's model and texture list (index into the Bal Claw BML models).
 void TObjEneBalClaw::set_model(s32 i) {
     model = (void *)balclaw_bml_resource->models[i].model;
-    texlist = (saddr)balclaw_bml_resource->models[i].texlist;
+    texlist = balclaw_bml_resource->models[i].texlist;
 }
 
 TObjEneBalClawBody::TObjEneBalClawBody(TObject *parent, void *set_data) : TObjEneBalClaw(parent) {
@@ -440,7 +441,7 @@ void TObjEneBalClawBody::run_death_sequence() {
                 claw = (TObjEnemy *)find_entity_by_id(body->child_ids[i]);
                 if (claw != NULL) {
                     claw->send_entity_set_flags();
-                    queue_destruction__7TObjectFv(claw);
+                    claw->queue_destruction();
                 }
             }
         } else {
@@ -476,7 +477,7 @@ void TObjEneBalClawBody::run_death_sequence() {
         if ((&body->fade)->decay_value_toward_floor() == 1) {
             TObjPlayer::apply_effect_variant_a((saddr)&body->position, 0);
             body->send_entity_set_flags();
-            queue_destruction__7TObjectFv(body);
+            body->queue_destruction();
         }
         break;
     }
@@ -578,16 +579,16 @@ void TObjEneBalClawBody::update_attack() {
             }
         }
         if (body->action_flags != 4) {
-            obj_setFlags30(body, 0x800);
+            body->set_actor_flags(0x800);
         }
         break;
     case -1:
         if (body->effects[2] != NULL) {
-            queue_destruction__7TObjectFv(body->effects[2]);
+            body->effects[2]->queue_destruction();
             body->effects[2] = NULL;
         }
         if (body->effects[3] != NULL) {
-            queue_destruction__7TObjectFv(body->effects[3]);
+            body->effects[3]->queue_destruction();
             body->effects[3] = NULL;
         }
         body->behavior_flags |= 0x20000;
@@ -826,7 +827,7 @@ void TObjEneBalClawBody::render() {
         detail = classify_actor_view_detail(150.0f, 400.0f, 30.0f);
         if (detail != 0) {
             shadow = 1;
-            TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
+            TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
             select_actor_lighting(this);
             TObjPlayer::toggle_particle_effect();
             push_matrix();
@@ -953,7 +954,7 @@ void TObjEneBalClawBody::update_combine() {
             body->effects[1]->set_position(&body->body_center);
         }
         if (body->requested_action != 0xB) {
-            queue_destruction__7TObjectFv(body->effects[0]);
+            body->effects[0]->queue_destruction();
             body->effects[0] = NULL;
             spawn_particle_effect(&body->body_center, 0x129);
             body->set_form(1);
@@ -988,11 +989,11 @@ void TObjEneBalClawBody::update_combine() {
         }
         body->behavior_flags |= 0x20000;
         if (body->effects[0] != NULL) {
-            queue_destruction__7TObjectFv(body->effects[0]);
+            body->effects[0]->queue_destruction();
             body->effects[0] = NULL;
         }
         if (body->effects[1] != NULL) {
-            queue_destruction__7TObjectFv(body->effects[1]);
+            body->effects[1]->queue_destruction();
             body->effects[1] = NULL;
         }
         break;
@@ -1051,7 +1052,7 @@ s32 TObjEneBalClawBody::summon_claws() {
         p = (TObjEneBalClawClaw *)TObjPlayer::get_player_data(i);
         if (p != NULL && ((TWindowLockOn *)p)->get_target_id() == 0x26 &&
             self->room == p->room && p->check_active() != 0) {
-            self->child_ids[self->child_count++] = get_entity_id(p);
+            self->child_ids[self->child_count++] = p->get_entity_id();
             if (self->child_count >= 4) {
                 break;
             }
@@ -1160,7 +1161,7 @@ void TObjEneBalClawBody::load_params() {
 // Registers the combined body's model (bcbody) and action table with the NPC model registry.
 void TObjEneBalClawBody::load_resources() {
     NpcAnimationBinding params = { reinterpret_cast<BmlMotionEntry *>(balclaw_bml_resource->motions), reinterpret_cast<TObjMotionAction *>(balclaw_body_actions), 0, 1, 12 };
-    NpcModelRegistry::register_animated_chunk(0x13, reinterpret_cast<void *>(balclaw_bml_resource->models[1].model), reinterpret_cast<void *>(balclaw_bml_resource->models[1].texlist), &params,
+    NpcModelRegistry::register_animated_chunk(0x13, reinterpret_cast<void *>(balclaw_bml_resource->models[1].model), balclaw_bml_resource->models[1].texlist, &params,
                             balclaw_body_collision.radius, 15.0f);
 }
 

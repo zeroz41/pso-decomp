@@ -25,9 +25,9 @@ void close_and_play_effect__6TLobbyFil(int arg0, s32 arg1);
 void destroy_matching_children__6TLobbyFv(void *arg0);
 void end_battle_mode_cleanup__6TLobbyFv(void *arg0);
 void finish_chr_select_scene_init__6TLobbyFv(void);
-s32 fn_801C4CE0(TPlayerBattleCtrl *arg0);
+s32 fn_801C4CE0(TPlayerBattleCtrl *player_battle_ctrl);
 void handle_6x7E(void);
-void handle_6x7F_battle_scores(saddr arg0);
+void handle_6x7F_battle_scores(saddr command);
 void handle_battle_result__6TLobbyFil(int arg0, s32 arg1);
 void init__6TLobbyFPv(void *arg0);
 void init_and_set_flag__6TLobbyFv(void);
@@ -66,7 +66,7 @@ void close_and_play_effect__6TLobbyFil(int arg0, s32 arg1);
 void end_battle_mode_cleanup__6TLobbyFv(void *object);
 s32 fn_801C4CE0(TPlayerBattleCtrl *player_battle_ctrl);
 void handle_6x7E(void);
-void handle_6x7F_battle_scores(saddr arg0);
+void handle_6x7F_battle_scores(saddr command);
 void handle_battle_result__6TLobbyFil(int arg0, s32 arg1);
 void init__6TLobbyFPv(void *arg0);
 void init_and_set_flag__6TLobbyFv(void);
@@ -83,11 +83,13 @@ void update_player_battle_ctrl_state(void *player_battle_ctrl);
 }
 // --- end of C functions
 
-// TLobby__duel_result_table: layout known from its uses only.
+// duel_result_table: layout known from its uses only.
 struct TLobbyDuelResultTable { s32 value; u8 remaining[0x1C]; };
-extern TLobbyDuelResultTable TLobby__duel_result_table;
+extern TLobbyDuelResultTable duel_result_table;
 
 // Plays the result jingle and shows the duel result window for duration frames.
 void play_duel_result_stream(const char *file, saddr duration);
+
+extern s32 battle_ctrl_default_value;
 
 #endif

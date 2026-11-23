@@ -51,7 +51,7 @@ s32 load_network_info(void) {
     }
     TLobby__sub_803F3BF8(0, lbl_805D56C8, status);
     lbl_805D56CE = 1;
-    TAdPlayerLoadGC__sub_803F31D8((void *)TLobby::get_global_63e0());
+    init_card_lib((void *)TLobby::get_global_63e0());
     start = 0;
     end = 2;
     switch (disc_error_code) {
@@ -74,7 +74,7 @@ s32 load_network_info(void) {
         state = 1;
         sub = 1;
         while (running) {
-            TAdPlayerLoadGC__sub_803F2F1C();
+            update_card_requests();
             update_network_info_request();
             switch (state) {
             case 0:
@@ -153,7 +153,7 @@ s32 load_network_info(void) {
             break;
         }
     }
-    TAdPlayerLoadGC__sub_803F31BC();
+    check_card_lib_ready();
     TLobby::load_player_data();
     if (found != 0) {
         if (TLobby__sub_8014618C() != 0) {

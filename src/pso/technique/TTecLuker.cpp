@@ -5,10 +5,12 @@
 #include "pso/network/protocol/protocol_types.h"
 
 #include "pso/player/TObjPlayer.h"
+#include "pso/network/protocol/subcmd_6x.h"
 #include "pso/player/TObjPlayer_801D3554.h"
 #include "pso/unk/TUnk_804CC9D4.h"
 #include "pso/unk/TLobby_801E43E4.h"
 #include "types.h"
+#include "pso/unk/text_8023601C.h"
 #include "pso/map/FloorArea.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/system/task/TObject.h"
@@ -38,6 +40,8 @@
 #include "pso/math/MatrixVector.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/effect/particle/TTelepipeMarker.h"
+#include "pso/object/base/TObjBase.h"
+#include "pso/player/PlayerSlots.h"
 
 struct Stack_802340E4 {
     s32 sp8;
@@ -77,8 +81,6 @@ void TTecLuker__sub_8023503C(void* p);
 void TTecLuker__sub_80235048(void* p);
 int TTecLuker__sub_80235054(void* p);
 int fn_80235078(void *arg0);
-uaddr get_player_by_client_id(s32);
-s32 obj_setFlags30(void *, int);
 s32 init_collision_body_parts(void *, void *, int);
 bool TTecLuker__sub_8023401C(u8 *arg0);
 }
@@ -129,11 +131,9 @@ s16 get_field_2__9TTecLukerFPv(void* p);
 s32 get_current_floor(void);
 void restore_floor_telepipes(void);
 s32 telepipe_record_differs(Rec_8023402C *r, s16 floor, Vec *p, u16 unused);
-s32 get_entity_id(void *);
 s32 is_split_screen();
 u8 *find_entity_by_id(u16);
 void handle_6x68_set_telepipe_state(Pkt_802341B0 *pkt);
-s32 send_6x21_inter_level_warp(void *, s32);
 s32 play_persistent_sound(s32, void *, void *, s32, s32);
 f32 horizontal_distance_squared(void *, void *);
 s32 free_collision_body_parts(void *);
@@ -141,10 +141,9 @@ s32 submit_cursor_candidate(void *, s32);
 }
 extern u8 identity_matrix[];
 void init_telepipe_packet_header(void* p);
-void create_quest_telepipe_for_client(u16 arg0);
+void create_quest_telepipe_for_client(u16 client);
 void write_telepipe_record(u8 *arg0, u16 arg1, s16 arg2, u8 *arg3, s32 arg4);
 s32 are_players_gathered_near(void *arg0, s32 *arg1, f32 range);
-void offset_point_toward_camera(u8 *arg0, u8 *arg1, f32 farg0);
 int fn_80235078(void *arg0) {
     return (u8) (*(s32 *)((s8 *)arg0 + 0x0) == 2);
 }
@@ -208,7 +207,7 @@ TTecLuker::TTecLuker(saddr source, Vec *pos, Vec *target, s32 level) : TTecCircl
     floor = get_current_floor();
     placement = NULL;
     if (this->source != 0) {
-        sourceId = get_entity_id((void *)this->source);
+        sourceId = ((TObjBase *)this->source)->get_entity_id();
     }
     traveller = local_client_id;
     if (is_split_screen() == 0 && sourceId != local_client_id) {
@@ -254,8 +253,8 @@ TTecLuker::~TTecLuker() {
 }
 
 void TTecLuker::run_task() {
-    struct { f32 x, y, z; } sp8;
-    s32 temp_r30;
+    struct { f32 x, y, z; } position;
+    u16 owner_id;
     u16 entity_id;
     u16 temp_r5;
     u8 *temp_r29;
@@ -270,7 +269,7 @@ void TTecLuker::run_task() {
     }
     switch (phase) {
     case 0:
-        entity_id = get_entity_id(owner);
+        entity_id = ((TObjBase *)(owner))->get_entity_id();
         if (entity_id != 0xFFFFU) {
             if (entity_id > 0xCU) {
                 phase = 4;
@@ -305,9 +304,9 @@ void TTecLuker::run_task() {
             queue_destruction();
             return;
         }
-        if ((get_player_by_client_id(traveller) != 0) && (get_pipe_interaction_latch(field) != 0) && (are_players_gathered_near(&pipe_pos, 0, 10.0f) != 0)) {
-            offset_point_toward_camera((u8 *)&pipe_pos, (u8 *)&sp8, 10.0f);
-            spawn_particle_effect((const Vec *)&sp8, 0xB3);
+        if ((get_player_by_client_id(traveller) != NULL) && (get_pipe_interaction_latch(field) != 0) && (are_players_gathered_near(&pipe_pos, 0, 10.0f) != 0)) {
+            offset_point_toward_camera(&pipe_pos, (Vec *)&position, 10.0f);
+            spawn_particle_effect((const Vec *)&position, 0xB3);
             player = (u8 *)get_player_by_client_id(traveller);
             if (player != NULL) {
                 TObjPlayer::play_effect_default((saddr)player, (int)0xA);
@@ -326,7 +325,7 @@ void TTecLuker::run_task() {
         }
         break;
     case 3:
-        temp_r30 = get_entity_id(owner);
+        owner_id = ((TObjBase *)(owner))->get_entity_id();
         temp_r29 = (u8 *)get_player_by_client_id(traveller);
         if ((is_split_screen() == 0) && (temp_r29 != NULL)) {
             if (*(s32 *)((s8 *)temp_r29 + 0x30) & 0x800) {
@@ -340,37 +339,35 @@ void TTecLuker::run_task() {
                 warp_frames = 0;
                 return;
             }
-            ((void (*)(void *, u16))set_state__9TTecLukerFl)(temp_r29 + 0x848, temp_r30);
+            set_state__9TTecLukerFl(temp_r29 + 0x848, owner_id);
             if (TLobby::get_instance() == 1) {
-                send_6x21_inter_level_warp(temp_r29, 0);
+                send_6x21_inter_level_warp((TObjPlayer *)temp_r29, 0);
             } else {
-                send_6x21_inter_level_warp(temp_r29, 0);
+                send_6x21_inter_level_warp((TObjPlayer *)temp_r29, 0);
             }
             goto block_43;
         }
 block_43:
         {
         s32 i;
-        u16 st2;
         u8 *p;
         i = 0;
-        st2 = (u16) temp_r30;
         do {
             p = (u8 *)get_player_by_client_id(i);
             if (p != NULL) {
                 if (is_split_screen() != 0) {
-                    ((void (*)(void *, u16))set_state__9TTecLukerFl)(p + 0x848, st2);
+                    set_state__9TTecLukerFl(p + 0x848, owner_id);
                     if (TLobby::get_instance() == 1) {
-                        send_6x21_inter_level_warp(p, 0);
+                        send_6x21_inter_level_warp((TObjPlayer *)p, 0);
                     } else {
-                        send_6x21_inter_level_warp(p, 0);
+                        send_6x21_inter_level_warp((TObjPlayer *)p, 0);
                     }
                 } else if (((TObjChara *)p)->obj_isState3_324() != 0) {
-                    ((void (*)(void *, u16))set_state__9TTecLukerFl)(p + 0x848, st2);
+                    set_state__9TTecLukerFl(p + 0x848, owner_id);
                     if (TLobby::get_instance() == 1) {
-                        send_6x21_inter_level_warp(p, 0);
+                        send_6x21_inter_level_warp((TObjPlayer *)p, 0);
                     } else {
-                        send_6x21_inter_level_warp(p, 0);
+                        send_6x21_inter_level_warp((TObjPlayer *)p, 0);
                     }
                 }
             }
@@ -389,9 +386,8 @@ block_43:
     }
 }
 
-typedef void (*Write_802347B4)(u8 *, s32, s16, u8 *, s32);
 void TTecLuker::setup_telepipe_field() {
-    u16 id = get_entity_id((void *)source);
+    s32 id = ((TObjBase *)source)->get_entity_id();
     visual = new TUnk_804CCA0C(&pipe_pos, id, tl_07);
     phase = 1;
     if (field != NULL) {
@@ -399,11 +395,11 @@ void TTecLuker::setup_telepipe_field() {
     } else {
         field = new TUnk_804CC9D4(&pipe_pos, tl_05, 0);
     }
-    if (traveller == (u16)get_entity_id((void *)source)) {
+    if (traveller == ((TObjBase *)source)->get_entity_id()) {
         s16 room;
         floor = get_current_floor();
         room = (s32)((TObjBase *)source)->get_room();
-        ((Write_802347B4)write_telepipe_record)((u8 *)source + 0x830, get_entity_id((void *)source), floor, (u8 *)&pipe_pos, room);
+        write_telepipe_record((u8 *)source + 0x830, ((TObjBase *)source)->get_entity_id(), floor, (u8 *)&pipe_pos, room);
         ((TTecLuker *)((u8 *)source + 0x830))->send_telepipe_packet();
     }
 }
@@ -508,7 +504,7 @@ void TUnk_804CCA0C::run_task() {
   {
     for (j = 0; j < 4; j++)
     {
-      pl = get_player_by_client_id(j);
+      pl = (uaddr)get_player_by_client_id(j);
       if (pl != 0)
       {
         d = horizontal_distance_squared(&pos, (void *)(pl + 0x38));
@@ -598,8 +594,8 @@ void handle_6x68_set_telepipe_state(Pkt_802341B0 *pkt) {
     if (is_split_screen() == 0 && pkt->rec.owner == local_client_id) {
         return;
     }
-    other = get_player_by_client_id(pkt->rec.owner);
-    local = get_player_by_client_id(local_client_id);
+    other = (uaddr)get_player_by_client_id(pkt->rec.owner);
+    local = (uaddr)get_player_by_client_id(local_client_id);
     if (other != 0 && local != 0) {
         if (((TObjPlayer *)other)->get_floor() == ((TObjPlayer *)local)->get_floor()) {
             ((TTecLuker *)player)->create(player + 0x38, player + 0x38, 0);
@@ -714,39 +710,39 @@ const Vec *consume_telepipe_arrival(u16 slot, s32 *heading) {
     return 0;
 }
 
-void create_quest_telepipe_for_client(u16 arg0) {
+void create_quest_telepipe_for_client(u16 client) {
     u8 *player;
-    player = (u8 *)get_player_by_client_id((s32)((u32) arg0));
+    player = (u8 *)get_player_by_client_id((s32)((u32) client));
     if (player != NULL) {
         ((TTecLuker *)player)->create(player + 0x38, player + 0x2FC, NULL);
     }
 }
 
 void TTecLuker::create_for_player(int arg0, saddr arg1) {
-    uaddr r = get_player_by_client_id((s32)((u16)arg0));
+    uaddr r = (uaddr)get_player_by_client_id((s32)((u16)arg0));
     if (r != 0U) {
         ((TTecLuker *)r)->create((void *)arg1, (void *)arg1, (void *)(0xA));
     }
 }
 
 void TTecLuker::apply_all_players() {
-    s32 var_r31;
+    s32 i;
     uaddr player;
 
-    var_r31 = 0;
+    i = 0;
     do {
-        player = get_player_by_client_id(var_r31);
+        player = (uaddr)get_player_by_client_id(i);
         if (player != 0U) {
             reset_telepipe_record((O_802340A0 *)(player + 0x830));
         }
-        var_r31 += 1;
-    } while (var_r31 < 4);
+        i += 1;
+    } while (i < 4);
 }
 
 TUnk_804CC9D4::TUnk_804CC9D4(Vec *pos, TObject *parent, s32 always) : TObjCollidable(parent) {
     VecCopy(&position, pos);
     init_collision_body_parts(this, &telepipe_field_collision_body_template, 1);
-    obj_setFlags30(this, 0x40000000);
+    set_actor_flags(0x40000000);
     register_object_by_id();
     cursor_action.set_telepipe();
     interacted = 0;
@@ -773,4 +769,4 @@ void TUnk_804CC9D4::run_task() {
     }
 }
 
-void TUnk_804CC9D4::interact(s32) { interacted = 1; }
+void TUnk_804CC9D4::interact(u16) { interacted = 1; }

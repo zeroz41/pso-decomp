@@ -15,7 +15,7 @@
 #include "pso/ui/window/TWindowMenuIconLine.h"
 #include "pso/ui/window/TWindowSubComCardList.h"
 #include "pso/ui/window/TWindowSubShortCutList.h"
-#include "pso/unk/TUnk_804D1818.h"
+#include "pso/ui/window/TWindowSubOption.h"
 #include "pso/boss/darkfalz/TBoss4Type3.h"
 #include "pso/boss/goldragon/TBoss8Dragon.h"
 #include "pso/ui/window/TWindowDD.h"
@@ -66,7 +66,7 @@ void TWindowSubMagPhoton::init_photon_blast_entries() {
 
 }
 
-const char *TWindowSubMagPhoton__class_name = "TWindowSubMagPhoton";
+const char *TWindowSubMagPhoton::class_name = "TWindowSubMagPhoton";
 #pragma pop
 
 extern s32 hud_texlist;
@@ -94,9 +94,6 @@ WindowDescriptor TWindowSubMagPhoton__layout_descriptor = {
 struct Win_8027C4C8 { u8 pad[0x62]; s16 f62; };
 
 extern "C" {
-s32 init_photon_blast_entries__19TWindowSubMagPhotonFv(void *, int);
-extern s32 __vt__19TWindowSubMagPhoton[];
-u8 *TWindowSubMagPhoton__ct(TWindowSubMagPhoton *arg0, saddr arg1, s32 arg2, s32 arg3);
 s32 play_sound_effect(s32, s32, s32, s32);
 void draw_cursor_sprite__21TWindowSubCustomEquipFPvPvif(void *, void *, int, f32);
 }
@@ -145,9 +142,9 @@ void TWindowSubMagPhoton::update_selection_input() {
 }
 
 void TWindowSubMagPhoton::draw_cursor(void *arg1) {
-    u8 sp8[16];
-    get_cursor_origin(sp8);
-    ((void (*)(f32, void *, void *, int))draw_cursor_sprite__21TWindowSubCustomEquipFPvPvif)(0.8f, arg1, sp8, ((Win_8027C4C8 *)this)->f62);
+    u8 xy[16];
+    get_cursor_origin(xy);
+    ((void (*)(f32, void *, void *, int))draw_cursor_sprite__21TWindowSubCustomEquipFPvPvif)(0.8f, arg1, xy, ((Win_8027C4C8 *)this)->f62);
 }
 
 void TWindowSubMagPhoton::render() {
@@ -183,20 +180,16 @@ void TWindowSubMagPhoton::run_task() {
 
 TWindowSubMagPhoton::~TWindowSubMagPhoton() {}
 
-u8 *TWindowSubMagPhoton__ct(TWindowSubMagPhoton *window_sub_mag_photon, saddr parent, s32 arg2, s32 arg3) {
-    s16 temp_r4;
-    __ct__11TWindowBaseFPUcsPUc((void *)window_sub_mag_photon, (u8 *)&TWindowSubMagPhoton__layout_descriptor, arg3, (u8 *)parent);
-    *(s32 **)((s8 *)window_sub_mag_photon + 0x18) = __vt__19TWindowSubMagPhoton;
-    *(s32 *)((s8 *)window_sub_mag_photon + 0) = (saddr) TWindowSubMagPhoton__class_name;
-    copy_vec2(((u8 *)window_sub_mag_photon + 0x30), (void *)parent);
-    ((TWindowBase *)window_sub_mag_photon)->save_position();
-    window_sub_mag_photon->client_index = arg3;
-    window_sub_mag_photon->m_70 = arg2;
-    window_sub_mag_photon->m_60 = 0;
-    window_sub_mag_photon->m_61 = 1;
-    temp_r4 = window_sub_mag_photon->m_62;
-    window_sub_mag_photon->m_62 = (temp_r4 + 1);
-    init_photon_blast_entries__19TWindowSubMagPhotonFv(window_sub_mag_photon, temp_r4);
-    return (u8 *)window_sub_mag_photon;
+TWindowSubMagPhoton::TWindowSubMagPhoton(void *position, s32 mag_state, s32 client)
+    : TWindowBase((u8 *)&TWindowSubMagPhoton__layout_descriptor, client, (u8 *)position) {
+    m_name = class_name;
+    copy_vec2(target_position, position);
+    save_position();
+    client_index = client;
+    m_70 = mag_state;
+    m_60 = 0;
+    m_61 = 1;
+    m_62++;
+    init_photon_blast_entries();
 }
 }

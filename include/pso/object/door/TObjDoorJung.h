@@ -5,6 +5,7 @@
 #include "pso/object/door/TODoorBase.h"
 
 struct TObjDoorJung : public TODoorBase {
+    TObjDoorJung(TObject *parent, void *set_data);
     virtual ~TObjDoorJung();
     void clamp_state();
     virtual void update_door_switch_state();
@@ -12,6 +13,7 @@ struct TObjDoorJung : public TODoorBase {
     virtual void render();
     u8 unk_D4[0x4];
     static void free_buffers();
+    static void *create(void *set_data);
 };
 
 extern "C" void set_material_texture_slot_on_neighbours(TObject *node, void *slot);

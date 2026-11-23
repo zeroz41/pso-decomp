@@ -11,8 +11,8 @@ public:
     virtual ~TAdSEGAlogo();
     virtual void run_task();
 public:
-    static void destroy_and_mark_done();
-    static void request_destroy();
+    static void destroy_and_mark_done(TObject *fade);
+    static void request_destroy(TObject *fade);
 
     s32 m_wait_frames; // 0x1C; inferred name: frames counted to 60 in run_task before the fade
 };

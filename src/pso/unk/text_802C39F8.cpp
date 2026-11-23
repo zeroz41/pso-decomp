@@ -5,10 +5,10 @@
 #include "pso/unk/TLobby.h"
 extern "C" {
 
-void copy_entries(s32 arg0, const TPlyInventoryItem *arg1, TPlyInventoryItem *arg2) {
+void copy_entries(s32 count, const TPlyInventoryItem *source, TPlyInventoryItem *destination) {
     s32 i;
-    for (i = 0; i < arg0; i++) {
-        fn_801C1BA8(arg2++, arg1++);
+    for (i = 0; i < count; i++) {
+        fn_801C1BA8(destination++, source++);
     }
 }
 

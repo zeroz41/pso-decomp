@@ -8,7 +8,7 @@ struct TOMineIcon01 : public TOMine {
     TOMineIcon01(TObject *parent, void *set_data);
     virtual ~TOMineIcon01();
     virtual void vfunc_84();
-    void *create();
+    static void *create(void *set_data);
 };
 
 LAYOUT_ASSERT(TOMineIcon01_size, sizeof(TOMineIcon01) == 0x37C);

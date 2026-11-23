@@ -35,6 +35,4 @@ struct GuildCardSlot {
 LAYOUT_ASSERT(GuildCardSlotSize, sizeof(GuildCardSlot) == 0x100);
 LAYOUT_ASSERT(GuildCardSlotNoteOffset, offsetof(GuildCardSlot, note) == 0x94);
 
-extern "C" GuildCardSlot *get_card_entry__17TWindowSubComCardFi(s32 index);
-
 #endif

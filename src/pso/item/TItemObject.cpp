@@ -16,6 +16,8 @@
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/render/render_util.h"
+#include "pso/object/base/TObjBase.h"
+#include "pso/player/PlayerSlots.h"
 
 #pragma readonly_strings on
 
@@ -125,13 +127,13 @@ void *TItemObject::get_center() {
 
 void send_star_atomizer_targets(TObjPlayer *player) {
     G_UseStarAtomizer_6x66 cmd;
-    TUnk_8013EFB8 *slot;
+    LockOnActionSlot *slot;
     s32 i;
     if (player != NULL && ((TObjPlayer *)player)->sub_801A1DDC() != 0 && player->lock_on_cursor != NULL) {
         slot = player->lock_on_cursor->find_by_pos(4, 0xA);
         if (slot != NULL) {
             ((TObjPlayer *)&cmd)->set_type_bytes();
-            cmd.target_client_ids[0] = get_entity_id(player);
+            cmd.target_client_ids[0] = player->get_entity_id();
             for (i = 0; i != 3; i++) {
                 cmd.target_client_ids[i + 1] = ((TObjPlayer *)TObjPlayer__sub_80116620(&slot->target_records, i))->get_type_id();
             }
@@ -149,10 +151,10 @@ void send_nearby_player_ids(TObjPlayer *self, f32 range) {
         ((TObjPlayer *)&cmd)->set_type_bytes();
         j = 0;
         for (i = 0; i != 4; i++) {
-            player = (TObjPlayer *)get_player_by_client_id(i);
+            player = get_player_by_client_id(i);
             if (player != NULL) {
                 if (horizontal_distance_squared(&self->position, &player->position) < range) {
-                    cmd.target_client_ids[j++] = get_entity_id(player);
+                    cmd.target_client_ids[j++] = player->get_entity_id();
                 } else {
                     cmd.target_client_ids[j++] = -1;
                 }
@@ -170,11 +172,11 @@ void handle_6x66_use_star_atomizer(u8 *arg0) {
     s32 i;
     TObjPlayer *target;
     ((TObjPlayer *)cmd)->bswap_fields_x4();
-    user = (TObjPlayer *)get_player_by_client_id(cmd->target_client_ids[0]);
+    user = get_player_by_client_id(cmd->target_client_ids[0]);
     if (user != NULL) {
         i = 0;
         do {
-            target = (TObjPlayer *)get_player_by_client_id(cmd->target_client_ids[i]);
+            target = get_player_by_client_id(cmd->target_client_ids[i]);
             if (target != NULL && target->has_flag_0x800() == 0) {
                 if (user->get_floor() == target->get_floor()) {
                     target->set_hp_clamped(target->get_hpmax());

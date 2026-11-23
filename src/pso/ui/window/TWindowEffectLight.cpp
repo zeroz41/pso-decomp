@@ -63,7 +63,7 @@ void TWindowEffectLight::render() {
     TCameraCtrl::restore_full_screen_view();
     set_additive_blend();
     begin_screen_draw(1);
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(hud_texlist));
+    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(hud_texlist));
     {
       switch (this->effect_kind)
       {

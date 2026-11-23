@@ -30,6 +30,8 @@
 #include "pso/technique/TTecCtrl.h"
 #include "pso/ui/frontend/TAdRicoRing_8001BEE8.h"
 #include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/object/base/TObjBase.h"
+#include "pso/player/PlayerSlots.h"
 
 struct VBase_18_f2ea1e { char pad[0x18]; };
 
@@ -146,7 +148,7 @@ extern "C" {
 
 s32 play_weapon_hit_sound(void *);
 
-void apply_camera_shake__10TObjPlayerFiii(s32 arg0, saddr arg1, s32 arg2);
+void apply_camera_shake__10TObjPlayerFiii(s32 player, saddr target, s32 damage);
 
 Hit_802E3D8C *csnVector(void *, void *, s32);
 
@@ -167,7 +169,7 @@ static ParticleAngles particle_direction = {0x4000, 0, 0x4000};
 
 void TObjPlayer__sub_801542F4(saddr a);
 
-void TObjPlayer__sub_8015431C(u8 *arg0);
+void TObjPlayer__sub_8015431C(u8 *set);
 
 }
 f32 vec_distance_squared(u8 *arg0, u8 *arg1);
@@ -253,15 +255,15 @@ s32 TUnk_804E355C::try_add_hit_target(const ActorBodyHit *hit) {
     if (hit_count >= 8) {
         return 0;
     }
-    if (client_id == get_entity_id((TObjBase *)hit->target)) {
+    if (client_id == ((TObjBase *)hit->target)->get_entity_id()) {
         return 0;
     }
     ok = 1;
-    if (TTecCtrl::is_technique_ready() == 0 && ((TObjCollidable *)hit->target)->obj_testFlags30(0x60000000) == 0x20000000
+    if (TTecCtrl::is_technique_ready() == 0 && ((TObjCollidable *)hit->target)->test_actor_flags(0x60000000) == 0x20000000
         && this->room != ((TObjBase *)(hit->target))->get_room()) {
         ok = 0;
     }
-    if (((TObjCollidable *)hit->target)->obj_testFlags30(0x04000000) != 0
+    if (((TObjCollidable *)hit->target)->test_actor_flags(0x04000000) != 0
         || ((flags = hit->target->bodies[hit->body].flags) & 0x02000000)
         || (flags & 0x1000) || (flags & 0x80)) {
         ok = 0;
@@ -591,7 +593,7 @@ void TItemAttackCol::shift_collision_bounds() {
     pad_114[2] -= 0xCCC;
 }
 
-void TItemAttackCol::add_to_active_list(void* a0) { fn_802E3BA8(attack_collider_render_owner, a0); attack_collider_active_count = (attack_collider_active_count + 0x1); }
+void TItemAttackCol::add_to_active_list(void* node) { fn_802E3BA8(attack_collider_render_owner, node); attack_collider_active_count = (attack_collider_active_count + 0x1); }
 
 // Called for each node of the model before add_to_active_list counts it:
 // with flag 8 the second node drawn gets the collider's extra rotation and scale.

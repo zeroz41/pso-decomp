@@ -11,7 +11,7 @@ public:
     void sub_802A3230();
     virtual void render();
     virtual void run_task();
-    virtual s32 vt4();
+    virtual s32 is_selected();
 public:
     static TChCrTagPlGraphic *create(s32 index);
     static void create_matching_tags();

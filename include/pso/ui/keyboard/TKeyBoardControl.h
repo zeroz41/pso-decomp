@@ -51,7 +51,7 @@ struct TKeyBoardControl : public TObject {
     static void flush_input();
     static void init_pad_slots_and_read();
     static void read_pads();
-    static s32 map_pad_buttons(u16 arg0);
+    static s32 map_pad_buttons(u16 released);
     static s16 scale_axis_value(s16 x);
     void clamp_axes();
     static void init_pad_states();
@@ -61,8 +61,8 @@ struct TKeyBoardControl : public TObject {
     void update_pressed_keys();
     static void update_key_events(s32 chan);
     static void disable_channel_polling(s32 arg0);
-    static void init_char_select();
-    static void dispatch_select_phase();
+    static void init_char_select(TObject *fade);
+    static void dispatch_select_phase(TObject *fade);
     static s32 get_ascii_key();
     static s32 read_key_checked(u8 arg0);
     static void update_input_frame();
@@ -70,7 +70,7 @@ struct TKeyBoardControl : public TObject {
     static s32 start_get_type_async(s32 chan, s32 arg1, s32 arg2, s32 arg3);
     static void enable_keyboard_polling(s32 chan);
     static void update_camera();
-    static void set_key_state(s32 arg0);
+    static void set_key_state(s32 key_state);
     static s32 get_function_key_menu(void *arg0);
 };
 

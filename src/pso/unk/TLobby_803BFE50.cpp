@@ -138,16 +138,16 @@ struct AudioStreamInputState {
 extern "C" {
 void TLobby__sub_803BFE58(u8 *arg0);
 void TLobby__sub_803BFEE8(u8 *arg0);
-s32 TLobby__sub_803C3ABC(u8 *arg0);
-s32 TLobby__sub_803C3AC4(u8 *arg0);
+s32 TLobby__sub_803C3ABC(u8 *adxb_decoder);
+s32 TLobby__sub_803C3AC4(u8 *adxb_decoder);
 void TLobby__sub_803C3A04(u8 *arg0);
 void TLobby__sub_803C3984(u8 *arg0);
-s32 TLobby__sub_803C3B44(u8 *arg0);
+s32 TLobby__sub_803C3B44(u8 *adxb_decoder);
 void audio_stream_get_format(u8 *arg0);
 void audio_stream_set_notify_callback(u8 *arg0, s32 arg1, s32 arg2);
-s32 audio_stream_get_output_samples(u8 *arg0);
+s32 audio_stream_get_output_samples(u8 *lobby);
 void TLobby__sub_803C39CC(u8 *arg0);
-void audio_stream_start(u8 *arg0);
+void audio_stream_start(u8 *lobby);
 }
 
 RecoveredGlobal_lbl_80570AC0 lbl_80570AC0;
@@ -155,15 +155,15 @@ RecoveredGlobal_lbl_80570AC0 lbl_80570AC0;
 extern "C" {
 void TLobby__sub_803C406C(void);
 void TLobby__sub_803C133C(Snd_803C0BE8 *arg0);
-void decode_adxb_pcm_stream(u8 *arg0);
+void decode_adxb_pcm_stream(u8 *lobby);
 s32 audio_stream_get_state(Obj_803C07E8 *self);
 
 void audio_stream_get_write_window(void *arg0_, s32 *arg1, s32 *arg2, s32 *arg3);
 void sub_803C0BE8(Snd_803C0BE8 *arg0);
 void sub_803C0018(void);
 void decode_audio_stream_step(AudioStreamInputState *st);
-s32 TLobby__sub_803C3B68(saddr arg0, u16 *hdr, saddr size);
-void process_audio_stream_input(AudioStreamInputState *arg0);
+s32 TLobby__sub_803C3B68(saddr decoder, u16 *hdr, saddr size);
+void process_audio_stream_input(AudioStreamInputState *st);
 
 void TLobby__sub_803C3B5C(TLobby *decoder, void (*callback)(void *, s32 *, s32 *, s32 *), void *context);
 AudioStreamInputState *alloc_audio_stream_state(AudioStreamSource *source, s32 channels, SjRingBuffer **rings);

@@ -10,6 +10,7 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include <stdlib.h>
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
+#include "pso/unk/text_800F9B84.h"
 
 struct SRock_80224544_8022448C;
 
@@ -110,90 +111,90 @@ void roll_shop_technique_level(Obj_80223EE0 *arg0, s32 arg1);
 void push_shop_pool_entry(void *, u8);
 s32 shop_stock_lacks_technique(Item_802242F8 *, s32);
 s32 shop_stock_lacks_tool(Item_802242F8 *, s32);
-s32 get_shop_technique_pool_count(s32 arg0) {
-    if ((arg0 >= 1) && (arg0 <= 0xA)) {
+s32 get_shop_technique_pool_count(s32 shop_tool_stock_level) {
+    if ((shop_tool_stock_level >= 1) && (shop_tool_stock_level <= 0xA)) {
         return 4;
     }
-    if ((arg0 >= 0xB) && (arg0 <= 0x19)) {
+    if ((shop_tool_stock_level >= 0xB) && (shop_tool_stock_level <= 0x19)) {
         return 5;
     }
-    if ((arg0 >= 0x1A) && (arg0 <= 0x2A)) {
+    if ((shop_tool_stock_level >= 0x1A) && (shop_tool_stock_level <= 0x2A)) {
         return 5;
     }
-    if ((arg0 >= 0x2B) && (arg0 <= 0x3C)) {
+    if ((shop_tool_stock_level >= 0x2B) && (shop_tool_stock_level <= 0x3C)) {
         return 7;
     }
-    if ((arg0 >= 0x3D) && (arg0 <= 0x64)) {
+    if ((shop_tool_stock_level >= 0x3D) && (shop_tool_stock_level <= 0x64)) {
         return 7;
     }
-    if (arg0 >= 0x65) {
+    if (shop_tool_stock_level >= 0x65) {
         return 7;
     }
     return -1;
 }
 
-s32 get_shop_rare_tool_pool_count(s32 arg0) {
-    if ((arg0 >= 1) && (arg0 <= 0xA)) {
+s32 get_shop_rare_tool_pool_count(s32 shop_tool_stock_level) {
+    if ((shop_tool_stock_level >= 1) && (shop_tool_stock_level <= 0xA)) {
         return 0;
     }
-    if ((arg0 >= 0xB) && (arg0 <= 0x19)) {
+    if ((shop_tool_stock_level >= 0xB) && (shop_tool_stock_level <= 0x19)) {
         return 2;
     }
-    if ((arg0 >= 0x1A) && (arg0 <= 0x2A)) {
+    if ((shop_tool_stock_level >= 0x1A) && (shop_tool_stock_level <= 0x2A)) {
         return 2;
     }
-    if ((arg0 >= 0x2B) && (arg0 <= 0x3C)) {
+    if ((shop_tool_stock_level >= 0x2B) && (shop_tool_stock_level <= 0x3C)) {
         return 2;
     }
-    if ((arg0 >= 0x3D) && (arg0 <= 0x64)) {
+    if ((shop_tool_stock_level >= 0x3D) && (shop_tool_stock_level <= 0x64)) {
         return 2;
     }
-    if (arg0 >= 0x65) {
+    if (shop_tool_stock_level >= 0x65) {
         return 2;
     }
     return -1;
 }
 }
 
-s32 classify_tool_shop_level_bracket(s32 arg0) {
-    if ((arg0 >= 1) && (arg0 <= 0xA)) {
+s32 classify_tool_shop_level_bracket(s32 shop_tool_stock_level) {
+    if ((shop_tool_stock_level >= 1) && (shop_tool_stock_level <= 0xA)) {
         return 0;
     }
-    if ((arg0 >= 0xB) && (arg0 <= 0x19)) {
+    if ((shop_tool_stock_level >= 0xB) && (shop_tool_stock_level <= 0x19)) {
         return 1;
     }
-    if ((arg0 >= 0x1A) && (arg0 <= 0x2A)) {
+    if ((shop_tool_stock_level >= 0x1A) && (shop_tool_stock_level <= 0x2A)) {
         return 2;
     }
-    if ((arg0 >= 0x2B) && (arg0 <= 0x3C)) {
+    if ((shop_tool_stock_level >= 0x2B) && (shop_tool_stock_level <= 0x3C)) {
         return 3;
     }
-    if ((arg0 >= 0x3D) && (arg0 <= 0x63)) {
+    if ((shop_tool_stock_level >= 0x3D) && (shop_tool_stock_level <= 0x63)) {
         return 4;
     }
-    if (arg0 >= 0x64) {
+    if (shop_tool_stock_level >= 0x64) {
         return 5;
     }
     return -1;
 }
 
-s32 get_tool_pool_table_row(s32 arg0) {
-    if ((arg0 >= 1) && (arg0 <= 0xA)) {
+s32 get_tool_pool_table_row(s32 shop_tool_stock_level) {
+    if ((shop_tool_stock_level >= 1) && (shop_tool_stock_level <= 0xA)) {
         return 0;
     }
-    if ((arg0 >= 0xB) && (arg0 <= 0x19)) {
+    if ((shop_tool_stock_level >= 0xB) && (shop_tool_stock_level <= 0x19)) {
         return 1;
     }
-    if ((arg0 >= 0x1A) && (arg0 <= 0x2A)) {
+    if ((shop_tool_stock_level >= 0x1A) && (shop_tool_stock_level <= 0x2A)) {
         return 2;
     }
-    if ((arg0 >= 0x2B) && (arg0 <= 0x3C)) {
+    if ((shop_tool_stock_level >= 0x2B) && (shop_tool_stock_level <= 0x3C)) {
         return 3;
     }
-    if ((arg0 >= 0x3D) && (arg0 <= 0x64)) {
+    if ((shop_tool_stock_level >= 0x3D) && (shop_tool_stock_level <= 0x64)) {
         return 4;
     }
-    if (arg0 >= 0x65) {
+    if (shop_tool_stock_level >= 0x65) {
         return 4;
     }
     return -1;
@@ -424,7 +425,7 @@ void TLobby::generate_shop_inventory(s32 idx) {
 }
 
 void TLobby::free_all_rocks() {
-    s32 var_r28 = 3;
+    s32 i = 3;
     saddr *var_r29 = shop_tool_stock_buffers;
     s32 var_r30 = 0;
     s32 var_r31 = 3;
@@ -434,18 +435,17 @@ void TLobby::free_all_rocks() {
             mem_free((void *)v);
             var_r29[var_r31] = (s32)var_r30;
         }
-        var_r28 -= 1;
+        i -= 1;
         var_r31 -= 1;
-    } while (var_r28 >= 0);
+    } while (i >= 0);
     if ((u32) lobby_tool_random_rel != 0U) {
         TLobby::free_nodes_with_id(lobby_tool_random_rel);
         lobby_tool_random_rel = var_r30;
     }
 }
-saddr create_named_object(saddr arg0);
 void load_tool_random_rel(void) {
     s32 i;
-    (*(s32 *)&lobby_tool_random_rel) = create_named_object((saddr)"ToolRandom.rel");
+    (*(s32 *)&lobby_tool_random_rel) = create_named_object("ToolRandom.rel");
     for (i = 0; i < 4; i++) {
         ((saddr *)&shop_tool_stock_buffers)[i] = 0;
     }

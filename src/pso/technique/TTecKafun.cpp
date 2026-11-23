@@ -9,6 +9,7 @@
 #include "pso/system/SoundEffect.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/object/base/TObjBase.h"
 
 
 #pragma readonly_strings on
@@ -113,7 +114,7 @@ TTecKafun::TTecKafun(saddr source, Vec *pos, s32 kind, s32 effect, s32 second_ef
     }
     play_sound_effect(0x4002A50A, &this->position, 0, 0);
     if (this->source != 0U) {
-        this->sourceId = get_entity_id((TObjBase *)this->source);
+        this->sourceId = ((TObjBase *)this->source)->get_entity_id();
     }
 }
 
@@ -129,6 +130,6 @@ TTecKafun::TTecKafun(saddr source, Vec *pos, s32 kind, s32 effect, s32 level, f3
     }
     play_sound_effect(0x4002A50A, &this->position, 0, 0);
     if (this->source != 0U) {
-        this->sourceId = get_entity_id((TObjBase *)this->source);
+        this->sourceId = ((TObjBase *)this->source)->get_entity_id();
     }
 }

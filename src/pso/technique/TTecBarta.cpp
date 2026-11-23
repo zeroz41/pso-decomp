@@ -17,6 +17,7 @@
 #include "pso/unk/TLobby_80226070.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/object/base/CollisionActorLookup.h"
+#include "pso/object/base/TObjBase.h"
 
 struct HitInfo_8022B8F4 { s32 type; f32 power; };
 
@@ -81,7 +82,6 @@ struct Tec_8022BD74 {
 };
 
 extern "C" {
-u16 get_entity_id(void *);
 
 }
 
@@ -152,40 +152,38 @@ void TTecBarta::update_technique_by_state() {
 
 
 void TTecBarta::create_particle_emitters() {
-#define self ((TTecBarta *)this)
     s32 angles[3];
     s32 reverse[3];
     u32 i;
     const TechniqueEmitterSourceRow *row;
     u32 flags;
     saddr base = (saddr)this;
-    angles[0] = self->angles[0];
+    angles[0] = this->angles[0];
     angles[1] = 0;
-    angles[2] = self->angles[2];
-    self->emitters = (TechniqueParticleEmitter **)mem_alloc(TTecBarta__emitter_bands[self->band].count * 4);
-    for (i = 0; i < TTecBarta__emitter_bands[self->band].count; i++) {
-        row = &TTecBarta__emitter_bands[self->band].rows[i];
+    angles[2] = this->angles[2];
+    this->emitters = (TechniqueParticleEmitter **)mem_alloc(TTecBarta__emitter_bands[this->band].count * 4);
+    for (i = 0; i < TTecBarta__emitter_bands[this->band].count; i++) {
+        row = &TTecBarta__emitter_bands[this->band].rows[i];
         flags = row->flags;
         if (flags & 2) {
-            self->emitters[i] = (TechniqueParticleEmitter *)spawn_continuous_particle_with_direction((f32 *)(base + 0x20), angles, row->entry);
+            this->emitters[i] = (TechniqueParticleEmitter *)spawn_continuous_particle_with_direction((f32 *)(base + 0x20), angles, row->entry);
         } else if (flags & 1) {
-            reverse[0] = self->angles[0] + 0x8000;
+            reverse[0] = this->angles[0] + 0x8000;
             reverse[1] = 0;
-            reverse[2] = self->angles[2];
-            self->emitters[i] = (TechniqueParticleEmitter *)spawn_continuous_particle_with_direction((f32 *)(base + 0x20), reverse, TTecBarta__emitter_bands[self->band].rows[i].entry);
+            reverse[2] = this->angles[2];
+            this->emitters[i] = (TechniqueParticleEmitter *)spawn_continuous_particle_with_direction((f32 *)(base + 0x20), reverse, TTecBarta__emitter_bands[this->band].rows[i].entry);
         } else {
-            self->emitters[i] = (TechniqueParticleEmitter *)create_particle_emitter((f32 *)(base + 0x20), row->entry);
+            this->emitters[i] = (TechniqueParticleEmitter *)create_particle_emitter((f32 *)(base + 0x20), row->entry);
         }
-        if (self->emitters[i] != NULL) {
-            row = &TTecBarta__emitter_bands[self->band].rows[i];
+        if (this->emitters[i] != NULL) {
+            row = &TTecBarta__emitter_bands[this->band].rows[i];
             if (row->flags & 0x20) {
-                attach_particle_model((u8 *)self->emitters[i], get_bml_model(technique_effect_bml, 0), lbl_805D63B0, get_bml_motion(technique_effect_bml, 0), 0, 1.0f);
+                attach_particle_model((u8 *)this->emitters[i], get_bml_model(technique_effect_bml, 0), technique_texture_list, get_bml_motion(technique_effect_bml, 0), 0, 1.0f);
             } else {
-                ((TParticleCtrl *)(self->emitters[i]))->set_scale(row->scale, row->scale);
+                ((TParticleCtrl *)(this->emitters[i]))->set_scale(row->scale, row->scale);
             }
         }
     }
-#undef self
 }
 
 void TTecBarta::init_parameters() {
@@ -202,7 +200,7 @@ void TTecBarta::init_parameters() {
     this->power = (f32) ((this->power) + ((f32) ((*((s16 *) (((s8 *) arg0) + 0xF0))) * (this->level))));
     if (TTecCtrl::is_technique_ready() != 0)
     {
-      this->power = (f32) ((this->power) * lbl_804CC55C[3].pad_00);
+      this->power = (f32) ((this->power) * technique_scale_table[3].power);
     }
   }
   this->speed = (f32) ((*((f32 *) (((s8 *) arg0) + 0xD0))) + ((f32) (((this->level) / 5) * 2)));
@@ -222,12 +220,12 @@ void TTecBarta::vfunc_8(void *target) {
     s32 found = 0;
     s32 i;
     for (i = 0; i < 32; i++) {
-        if (self->ids[i] == get_entity_id(((VObj_8022B8F4 *)target))) {
+        if (self->ids[i] == ((TObjBase *)target)->get_entity_id()) {
             found = 1;
         }
     }
     if (found == 0) {
-        self->ids[this->hitCursor] = get_entity_id(((VObj_8022B8F4 *)target));
+        self->ids[this->hitCursor] = ((TObjBase *)target)->get_entity_id();
         this->hitCursor += 1;
         if (this->hitCursor >= 32) {
             this->hitCursor = 31;
@@ -272,7 +270,7 @@ void TTecBarta::run_task() {
     if (this->band == 5) {
         TechniqueParticleEmitter *e = (TechniqueParticleEmitter *)create_timed_particle_emitter(&this->position.x, 0x18A, 0x14, 1);
         if (e != NULL) {
-            attach_particle_model((u8 *)e, get_bml_model(technique_effect_bml, 5), lbl_805D63B0, 0, 0, 1.0f);
+            attach_particle_model((u8 *)e, get_bml_model(technique_effect_bml, 5), technique_texture_list, 0, 0, 1.0f);
         }
     }
     move_ground_technique_projectile();
@@ -297,7 +295,7 @@ TTecBarta::TTecBarta(saddr source, u8 *pos, u8 *target, s32 level)
     create_particle_emitters();
     update_technique_by_state();
     if (this->source) {
-        sourceId = get_entity_id((void *)this->source);
+        sourceId = ((TObjBase *)this->source)->get_entity_id();
     }
 }
 
@@ -316,7 +314,7 @@ TTecBarta::TTecBarta(saddr source, Vec *pos, s32 angle, s32 level)
     create_particle_emitters();
     update_technique_by_state();
     if (this->source) {
-        sourceId = get_entity_id((void *)this->source);
+        sourceId = ((TObjBase *)this->source)->get_entity_id();
     }
 }
 
@@ -330,7 +328,7 @@ void TTecCircle::apply_technique_to_area_targets() {
         ((TObject *)((TechniqueParticleEmitter *)((Tec_8022BD74 *)this)))->queue_destruction();
         return;
     }
-    if (get_entity_id(((Tec_8022BD74 *)this)->owner) < 4) {
+    if (((TObjBase *)(((Tec_8022BD74 *)this)->owner))->get_entity_id() < 4) {
         if (get_type__10TObjPlayerFPv((u8 *)((Tec_8022BD74 *)this)->owner + 0x828) != 0) {
             list = (List_8022BD74 *)collect_body_contacts_for_target((saddr)((Tec_8022BD74 *)this)->owner);
         } else {

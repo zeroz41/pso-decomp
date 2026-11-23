@@ -5,14 +5,14 @@
 #include "pso/object/base/TObjMotion.h"
 
 struct AnimationMotion;
-struct GinjaTextureList;
+struct NJS_TEXLIST;
 
 struct TSceneSora : public TObjBase {
-    TSceneSora(saddr _w1);
+    TSceneSora(TObject *parent);
     virtual ~TSceneSora();
     NJS_OBJECT *sky_model;
     AnimationMotion *sky_motion;
-    GinjaTextureList *sky_textures;
+    NJS_TEXLIST *sky_textures;
     virtual void render();
     virtual void run_task();
     static void create_instance();
@@ -20,7 +20,7 @@ struct TSceneSora : public TObjBase {
     f32 motion_step;
     f32 m_a0;
     s32 get_state();
-    static void set_scene_flag(int a0);
+    static void set_scene_flag(int scene_flag);
     static void copy_reflection_vec(u8 *arg0);
     static TSceneSora *instance;
     static s32 sky_active_flag; // 0 while something else draws the sky

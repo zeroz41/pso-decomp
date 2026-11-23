@@ -5,6 +5,11 @@
 
 class TAdRicoRingCtrl;
 
+// Frames since the ending started.
+extern u32 ending_frame_counter;
+// Set while the ending scene runs.
+extern s32 ending_scene_active;
+
 class TEnding : public TObject {
 public:
     TEnding();

@@ -82,6 +82,7 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 #include "pso/ui/frontend/TAdEnterPasswordGC.h"
+#include "pso/object/base/TObjBase.h"
 
 #pragma readonly_strings on
 
@@ -90,7 +91,6 @@ const char *TObjEneMe3Stelth__class_name = stelth_class_name;
 const char *TObjEneMe3StelthReal__class_name = stelth_real_class_name;
 
 
-void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 heading);
 extern "C" {
 extern StelthBehaviorParams *TObjEneMe3Stelth__behavior_params_by_variant[];
 extern CollisionBody TObjEneMe3Stelth__collision_body_template;
@@ -168,10 +168,10 @@ void TObjEneMe3Stelth::draw_model() {
     this->draw_ginja_motion_model();
 }
 void TObjEneDD_ST::sub_800F5874(s32 mask) {
-    this->m_11c = (s16) (this->m_11c | mask);
+    this->immunity_flags = (s16) (this->immunity_flags | mask);
 }
 void TObjEneDD_ST::sub_800F5864(s32 mask) {
-    this->m_11c = (s16) (this->m_11c & ~mask);
+    this->immunity_flags = (s16) (this->immunity_flags & ~mask);
 }
 void TObjEneMe3Stelth::load_shared_resources() {
     s32 i;
@@ -191,7 +191,7 @@ void TObjEneMe3Stelth::load_shared_resources() {
     } else {
         TObjEneMe3Stelth__bml_resource = load_enemy_bml_resource(&stelth_bml_resource_desc);
     }
-    src = (NJS_TEXLIST *)TObjEneMe3Stelth__bml_resource->models->texlist;
+    src = TObjEneMe3Stelth__bml_resource->models->texlist;
     n = src->nbTexture;
     TObjEneMe3Stelth__alternate_texture_list.nbTexture = n;
     TObjEneMe3Stelth__alternate_texture_list.textures = (NJS_TEXNAME *)mem_alloc(n * sizeof(NJS_TEXNAME));
@@ -271,9 +271,9 @@ void TObjEneMe3Stelth::load_shared_resources() {
         NpcAnimationBinding b = stelth_attack_binding_desc_b;
         b.motions = TObjEneMe3Stelth__bml_resource->motions;
         NpcModelRegistry::register_animated_ginja(0x2B, reinterpret_cast<NJS_OBJECT *>(TObjEneMe3Stelth__bml_resource->models->model),
-                                                  reinterpret_cast<GinjaTextureList *>(TObjEneMe3Stelth__bml_resource->models->texlist), &a, 8.0f, 0.0f);
+                                                  reinterpret_cast<NJS_TEXLIST *>(TObjEneMe3Stelth__bml_resource->models->texlist), &a, 8.0f, 0.0f);
         NpcModelRegistry::register_animated_ginja(0x2D, reinterpret_cast<NJS_OBJECT *>(TObjEneMe3Stelth__bml_resource->models->model),
-                                                  reinterpret_cast<GinjaTextureList *>(TObjEneMe3Stelth__bml_resource->models->texlist), &b, 8.0f, 0.0f);
+                                                  reinterpret_cast<NJS_TEXLIST *>(TObjEneMe3Stelth__bml_resource->models->texlist), &b, 8.0f, 0.0f);
     }
 }
 void *TObjEneMe3Stelth::create_real() { return TObjEneMe3StelthReal::create(this); }
@@ -562,12 +562,12 @@ s32 TObjEneMe3Stelth::is_alternate_variant() {
 }
 void TObjEneMe3Stelth::init_variant() {
     if (is_alternate_variant() != 0) {
-        texlist = (saddr)&TObjEneMe3Stelth__alternate_texture_list;
+        texlist = &TObjEneMe3Stelth__alternate_texture_list;
         initialize_enemy_state(0x3F);
         variant_index = 1;
         return;
     }
-    texlist = (saddr)TObjEneMe3Stelth__bml_resource->models->texlist;
+    texlist = TObjEneMe3Stelth__bml_resource->models->texlist;
     initialize_enemy_state(0x3E);
     variant_index = 0;
 }
@@ -1452,7 +1452,7 @@ void TObjEneMe3Stelth::state_death(s32 reason) {
             if (state_timer >= 0x14) {
                 state_step = 2;
                 behavior_flags |= 2;
-                TBoss3Volopt::create_breakup_mdl((saddr)TObjEneMe3Stelth__breakup_model, (saddr)&me3_stelth_breakup_params, (s32)texlist, (saddr)&position, (s32)rotation_y);
+                TBoss3Volopt::create_breakup_mdl((saddr)TObjEneMe3Stelth__breakup_model, (saddr)&me3_stelth_breakup_params, texlist, (saddr)&position, (s32)rotation_y);
                 VecCopy((Vec *)&v, (const Vec *)&position);
                 v.x += 20.0f * sin_table_lookup(rotation_y);
                 v.z += 20.0f * cos_table_lookup(rotation_y);
@@ -1550,7 +1550,7 @@ void TObjEneMe3Stelth::state_warp(s32 reason) {
                         q.z += p.z - this->current_target->position.z;
                         if (check_move_collision(&q) == 0 &&
                             csnVector(&this->current_target->position, &q, 0x88E0) == 0 &&
-                            csnVectorUnder(&p, (CsnGroup **)&this->ground_cache, 0x15) != 0 &&
+                            csnVectorUnder(&p, this->ground_candidates.groups, 0x15) != 0 &&
                             find_section_at_position(&p) == this->room) {
                             VecCopy(&this->position, &p);
                             this->rotation_y = ang + 0xC000;
@@ -1633,7 +1633,7 @@ void TObjEneMe3Stelth::render() {
                 set_chunk_material_override_pair(0xFF00, 0x800);
             }
             if (draw != 0) {
-                TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
+                TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
                 push_matrix();
                 post_translate_matrix(&position.x);
                 translate_matrix(0, 0.0f, body_offset_y, 0.0f);
@@ -1672,7 +1672,7 @@ void TObjEneMe3Stelth::render() {
                 set_constant_material(&c);
                 set_color_blend_mode(1, 4, 5, 0);
             }
-            TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
+            TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
             for (i = 0; i < 3; i++) {
                 if (TObjEneMe3Stelth__material_color_pointers[i] != 0) {
                     *TObjEneMe3Stelth__material_color_pointers[i] = material_color;
@@ -1748,7 +1748,7 @@ void TObjEneMe3Stelth::draw_with_debug_info() {
     }
     flag = is_alternate_variant();
     if (update_object_view_visibility(400.0f, 15.0f) != 0) {
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
         TObjPlayer::toggle_particle_effect();
         if (flag != 0) {
             NJS_TEXNAME *textures = ((NJS_TEXLIST *)texlist)->textures;
@@ -2029,7 +2029,7 @@ s32 TObjEneMe3Stelth::check_move_collision(Vec *pos) {
     VecCopy(&this->position, pos);
     TObjPlayer::init_all_slots();
     this->check_collisions();
-    if ((body->flags & 0x80000) && get_valid_target_player(get_entity_id(this->current_target)) == 0) {
+    if ((body->flags & 0x80000) && get_valid_target_player(this->current_target->get_entity_id()) == 0) {
         VecCopy(&this->position, &sp);
         TObjPlayer::init_all_slots();
         return 1;
@@ -2047,7 +2047,7 @@ s32 TObjEneMe3Stelth::check_move_collision(Vec *pos) {
     return result;
 }
 f32 TObjEneMe3Stelth::receive_direct_attack(void *source, DirectAttackPayload payload, void *collider, s32, s32) {
-    if (stealthed == 1 && get_entity_id((TObjBase *)source) < 0x1000 && random_ratio() <= stealth_off_chance) {
+    if (stealthed == 1 && ((TObjBase *)source)->get_entity_id() < 0x1000 && random_ratio() <= stealth_off_chance) {
         transition_enemy_state(0x12);
     } else if (mode == 2) {
         transition_enemy_state(6);
@@ -2108,7 +2108,7 @@ s32 TObjEneMe3Stelth::try_spawn_ground_effect(const Vec *origin) {
     CsnHit *hit;
     VecCopy(&pos, origin);
     pos.y += 15.0f;
-    hit = csnVectorUnder(&pos, (CsnGroup **)&ground_cache, 0x15);
+    hit = csnVectorUnder(&pos, ground_candidates.groups, 0x15);
     if (hit != NULL && (hit->hit_mask & 4)) {
         effect = spawn_particle_effect(&hit->contact[2].point, 0x49);
         if (effect != NULL) {

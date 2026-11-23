@@ -10,11 +10,11 @@ void THunterGuildSeqOffline::set_state_close2(TShopWindowBase *) {
     if (THunterGuildSeqOffline__active_instance != NULL) {
         THunterGuildSeqOffline__active_instance->display_guild_message(0xC, 1);
         THunterGuildSeqOffline__active_instance->unk_38 = 0;
-        THunterGuildSeqOffline__active_instance->set_field_20(5);
+        THunterGuildSeqOffline__active_instance->set_state(5);
     }
 }
 
     extern int evt2_random_enemies_mode;
-void THunterGuildSeqOffline::set_enemy_mode_5() { TLobby::set_enemy_mode_flag(); evt2_random_enemies_mode = 5; TKeyBoardControl__sub_8000F950(); }
+void THunterGuildSeqOffline::set_enemy_mode_5(TObject *) { TLobby::set_enemy_mode_flag(); evt2_random_enemies_mode = 5; TKeyBoardControl__sub_8000F950(); }
 
-void THunterGuildSeqOffline::set_enemy_mode_1() { TLobby::set_enemy_mode_flag(); evt2_random_enemies_mode = 1; TKeyBoardControl__sub_8000F950(); }
+void THunterGuildSeqOffline::set_enemy_mode_1(TObject *) { TLobby::set_enemy_mode_flag(); evt2_random_enemies_mode = 1; TKeyBoardControl__sub_8000F950(); }

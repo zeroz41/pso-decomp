@@ -36,16 +36,16 @@ public:
     TObjEZRopeCollider *colliders;
     Vec *points;
 public:
+    TObjEZRopeBase(TObject *parent);
     virtual ~TObjEZRopeBase();
-    void sub_800FF8CC(void *, void *, s32);
-    void sub_800FF788(void *);
+    // Takes the rope tables and allocates the points; the points start at each end, spaced by step.
+    void init_ropes(TObjEZRopeSegment *segment_list, TObjEZRopeEnd *end_list, TObjEZRopeCollider *collider_list);
+    // Moves the points by gravity, keeping each rope's spacing, and pushes them out of the colliders.
+    void update_ropes(Vec *gravity);
+    void resolve_collisions(Vec *p, f32 len);
 };
 
 LAYOUT_ASSERT(TObjEZRopeSegment_size, sizeof(TObjEZRopeSegment) == 0x18);
 LAYOUT_ASSERT(TObjEZRopeBase_size, sizeof(TObjEZRopeBase) == 0x30);
-
-extern "C" {
-void *TObjEZRopeBase__ct(void *obj_ez_rope_base);
-}
 
 #endif

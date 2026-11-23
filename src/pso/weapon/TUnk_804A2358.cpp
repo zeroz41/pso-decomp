@@ -12,13 +12,13 @@
 extern "C" {
 
 void TUnk_804A2358::emit_marker_effects() {
-    s32 sp8;
+    s32 origin;
     void *owner;
 
     if (is_mode_two_and_ready() != 0) {
-        if (get_joint_position(0, &sp8) != 0) {
+        if (get_joint_position(0, &origin) != 0) {
             owner = this->owner;
-            TTecFoie::create(owner, &sp8, *(saddr *)((s8 *)owner + 0x60), ((TItemWeapon *)this)->get_tp() + 2);
+            TTecFoie::create(owner, &origin, *(saddr *)((s8 *)owner + 0x60), ((TItemWeapon *)this)->get_tp() + 2);
             roll_technique();
         }
     } else {
@@ -35,7 +35,7 @@ TUnk_804A2358::~TUnk_804A2358() {}
 TUnk_804A2358::TUnk_804A2358(TObject *parent, u8 *item) : TItemWeapon(parent, item) {
     set_weapon_trail_joints((saddr)this, 2, 6, 5);
     set_weapon_flags(35);
-    ((TObjPlayer *)this)->set_effect_state(13);
+    set_technique_roll_range(13);
 }
 
 TItem *TObjPlayer::create_configured_state(u8 *item) {

@@ -28,6 +28,7 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
 #include "pso/ui/TLevelSelect.h"
+#include "pso/object/base/TObjBase.h"
 
 
 // A particle emitter of the Thanks scene, alive while fade_frame is in [first_frame, last_frame]
@@ -119,7 +120,7 @@ int TBoss4Thanks::is_player_nearby(void *) {
     lim = 30.0f;
     for (i = 0; i < n; i++) {
         p = TObjPlayer::get_player_data(i);
-        if (p != NULL && is_player_in_boss_area(get_entity_id(p)) != 0 &&
+        if (p != NULL && is_player_in_boss_area(p->get_entity_id()) != 0 &&
             xyz_distance(&p->position, boss4_thanks_position) <= lim) {
             return 1;
         }
@@ -144,7 +145,7 @@ void TBoss4Thanks::render() {
     push_matrix();
     set_motion_packed_rotation();
     post_translate_matrix(boss4_thanks_position);
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texture_list));
+    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texture_list));
     draw_model_motion(model, motions[current_motion], motion_frame);
     clear_motion_packed_rotation();
     pop_matrix();
@@ -219,7 +220,7 @@ TBoss4Thanks::TBoss4Thanks(TObject *parent) : TObject(parent) {
     m_name = TBoss4Thanks__class_name;
     archive = TBoss4Uro::get_instance_count();
     this->model = reinterpret_cast<NJS_OBJECT *>(get_bml_model(archive, 1));
-    this->texture_list = reinterpret_cast<GinjaTextureList *>(get_bml_texlist(archive, 1));
+    this->texture_list = reinterpret_cast<NJS_TEXLIST *>(get_bml_texlist(archive, 1));
     motions[0] = get_bml_motion(archive, 0x46);
     motions[1] = get_bml_motion(archive, 0x47);
     clear_particle_emitters();
@@ -264,7 +265,7 @@ s32 any_player_has_listed_item(void) {
     s32 i;
     for (i = 0; i < n; i++) {
         TObjPlayer *pl = TObjPlayer::get_player_data(i);
-        if (pl != NULL && is_player_in_boss_area(get_entity_id(pl)) != 0) {
+        if (pl != NULL && is_player_in_boss_area(pl->get_entity_id()) != 0) {
             s32 j;
             for (j = 0; j < 3; j++) {
                 const u8 *e = boss4_thanks_listed_item_table[j];

@@ -1,4 +1,6 @@
+#include "pso/player/TargetCursorList.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/technique/TTecZondeEff.h"
 #include "types.h"
 #include "pso/enemy/TUnk_80493450.h"
 #include <stdlib.h>
@@ -9,6 +11,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/technique/TTecCtrl.h"
 #include "pso/unk/TLobby_80226070.h"
+#include "pso/object/base/TObjBase.h"
 
 struct RecoveredFields_8023C558_arg0
 {
@@ -38,7 +41,7 @@ void TTecZonde::init_parameters() {
   ((RecoveredFields_8023C558_arg0 *) ((u8 *)this))->field_CC = (f32) (((RecoveredFields_8023C558_arg0 *) ((u8 *)this))->field_CC + ((f32) (((RecoveredFields_8023C558_arg0 *) ((u8 *)this))->field_F0 * ((RecoveredFields_8023C558_arg0 *) ((u8 *)this))->field_C4)));
   if (TTecCtrl::is_technique_ready())
   {
-    ((RecoveredFields_8023C558_arg0 *) ((u8 *)this))->field_CC = (f32) (((RecoveredFields_8023C558_arg0 *) ((u8 *)this))->field_CC * lbl_804CC55C[6].pad_00);
+    ((RecoveredFields_8023C558_arg0 *) ((u8 *)this))->field_CC = (f32) (((RecoveredFields_8023C558_arg0 *) ((u8 *)this))->field_CC * technique_scale_table[6].power);
   }
 }
 
@@ -94,10 +97,9 @@ void TTecZonde::vfunc_8(void *arg1_arg) {
 
 #include "pso/technique/TTecLuker.h"
 #include "pso/unk/text_803D96A8.h"
-#include "pso/technique/TTecGiZonde_8023CDC4.h"
+#include "pso/unk/TUnk_804CCD78.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/object/base/CollisionActorLookup.h"
-extern "C" void *__ct__16TargetCursorListFv(void *list);
 
 struct Seg_8023C79C { f32 a[3]; f32 b[3]; f32 len; };
 struct Tgt_8023C79C { u8 pad[0x38]; f32 x, y, z; };
@@ -114,8 +116,6 @@ struct Zonde_8023C79C {
 };
 
 extern "C" {
-u16 get_entity_id(void *);
-void copy_technique_target_list(void *, void *);
 
 TTecZonde::~TTecZonde() {
 }
@@ -172,63 +172,39 @@ void TTecZonde::run_task() {
         scale = 0.5f;
         switch (self->level) {
         case 0:
-            o = TObject::operator new(0x260);
-            if (o != NULL) {
-                ((TTecZonde *)o)->construct_bolt_effect(tl_07, (u8 *)segs[0].a, (u8 *)segs[0].b, 0x14000000, 0x14, segs[0].len, 0.5f);
-            }
+            new TTecZondeEff((TObject *)tl_07, (Vec *)segs[0].a, (Vec *)segs[0].b, 0x14000000, 0x14, segs[0].len, 0.5f);
             break;
         case 1:
             scale *= 1.2f;
-            o = TObject::operator new(0x260);
-            if (o != NULL) {
-                ((TTecZonde *)o)->construct_bolt_effect(tl_07, (u8 *)segs[0].a, (u8 *)segs[0].b, 0x14000000, 0x14, segs[0].len, scale);
-            }
+            new TTecZondeEff((TObject *)tl_07, (Vec *)segs[0].a, (Vec *)segs[0].b, 0x14000000, 0x14, segs[0].len, scale);
             break;
         case 2:
             scale *= 1.4f;
-            o = TObject::operator new(0x260);
-            if (o != NULL) {
-                ((TTecZonde *)o)->construct_bolt_effect(tl_07, (u8 *)segs[0].a, (u8 *)segs[0].b, 0x14000000, 0x14, segs[0].len, scale);
-            }
+            new TTecZondeEff((TObject *)tl_07, (Vec *)segs[0].a, (Vec *)segs[0].b, 0x14000000, 0x14, segs[0].len, scale);
             break;
         case 3:
             for (j = 0; j < 3; j++) {
-                o = TObject::operator new(0x260);
-                if (o != NULL) {
-                    ((TTecZonde *)o)->construct_bolt_effect(tl_07, (u8 *)segs[j].a, (u8 *)segs[j].b, 0x14000000, 0x14, segs[j].len, 0.5f);
-                }
+                new TTecZondeEff((TObject *)tl_07, (Vec *)segs[j].a, (Vec *)segs[j].b, 0x14000000, 0x14, segs[j].len, 0.5f);
             }
             break;
         case 4:
             scale *= 1.4f;
             for (k = 0; k < 3; k++) {
-                o = TObject::operator new(0x260);
-                if (o != NULL) {
-                    ((TTecZonde *)o)->construct_bolt_effect(tl_07, (u8 *)segs[k].a, (u8 *)segs[k].b, 0x14000000, 0x14, segs[k].len, scale);
-                }
+                new TTecZondeEff((TObject *)tl_07, (Vec *)segs[k].a, (Vec *)segs[k].b, 0x14000000, 0x14, segs[k].len, scale);
             }
             break;
         case 5:
             for (l = 0; l < 14; l++) {
                 if (l == 0) {
-                    o = TObject::operator new(0x260);
-                    if (o != NULL) {
-                        ((TTecZonde *)o)->construct_bolt_effect(tl_07, (u8 *)segs[l].a, (u8 *)segs[l].b, 0x14000000, 0x14, segs[l].len, 5.0f);
-                    }
+                    new TTecZondeEff((TObject *)tl_07, (Vec *)segs[l].a, (Vec *)segs[l].b, 0x14000000, 0x14, segs[l].len, 5.0f);
                 } else {
-                    o = TObject::operator new(0x260);
-                    if (o != NULL) {
-                        ((TTecZonde *)o)->construct_bolt_effect(tl_07, (u8 *)segs[l].a, (u8 *)segs[l].b, 0x14000000, 0x14, segs[l].len, 0.5f);
-                    }
+                    new TTecZondeEff((TObject *)tl_07, (Vec *)segs[l].a, (Vec *)segs[l].b, 0x14000000, 0x14, segs[l].len, 0.5f);
                 }
             }
             break;
         }
         if (self->level != 5) {
-            o = TObject::operator new(0x40);
-            if (o != NULL) {
-                construct_helper_effect__11TTecGiZondeFPvPvPvPvi((u8 *)o, (u8 *)segs, (u8 *)&t->x, tl_07, 0x19F);
-            }
+            new TUnk_804CCD78((Vec *)segs[0].a, (Vec *)&t->x, (TObject *)tl_07, 0x19F);
         }
         {
             s32 h;
@@ -271,18 +247,13 @@ void TTecZonde::run_task() {
 }
 
 #pragma pop
-#define arg0 ((u8 *)this)
-TTecZonde::TTecZonde(s32 source, u8 *arg2, u8 *targets, s32 level) : TTecShot(source, (Vec *)arg2, 0, level) {
-    u8 *temp_r3;
-    __ct__16TargetCursorListFv((arg0 + 0x130));
-    *(s32 *)((s8 *)arg0 + 0) = (saddr) lbl_805D3838;
-    ((TTecZonde *)arg0)->init_parameters();
-    copy_technique_target_list(arg0 + 0x130, targets);
-    temp_r3 = (u8 *)(*(u8 **)((s8 *)arg0 + 0x1C));
-    if (temp_r3 != NULL) {
-        ((TTecZonde *)arg0)->sourceId = get_entity_id(temp_r3);
+TTecZonde::TTecZonde(s32 source, u8 *arg2, u8 *target_list, s32 level) : TTecShot(source, (Vec *)arg2, 0, level) {
+    m_name = lbl_805D3838;
+    init_parameters();
+    copy_technique_target_list(&targets, (TargetCursorList *)target_list);
+    if (this->source != 0) {
+        sourceId = ((TObjBase *)(saddr)this->source)->get_entity_id();
     }
 }
-#undef arg0
 
 }

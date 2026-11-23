@@ -12,6 +12,7 @@ struct TCameraCtrl;
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/unk/WindowLayoutRecord.h"
+#include "pso/player/PlayerSlots.h"
 
 #pragma push
 #pragma readonly_strings on
@@ -45,16 +46,15 @@ WindowDescriptor window_user_sort_settings = {
 };
 
 extern "C" {
-void *get_player_by_client_id(s32 i);
 
 void TWindowUserSort::render() {
-    saddr temp_r3;
-    temp_r3 = reinterpret_cast<saddr>(draw_default_entry());
-    draw_window_frame((void *)temp_r3);
+    saddr context;
+    context = reinterpret_cast<saddr>(draw_default_entry());
+    draw_window_frame((void *)context);
     draw_visible_window_entries(
         this,
         reinterpret_cast<const WindowLayoutEntries *>(&entry_list),
-        reinterpret_cast<WindowDrawContext *>(temp_r3));
+        reinterpret_cast<WindowDrawContext *>(context));
 }
 
 void TWindowUserSort::run_task() { ((TWindowDD *)this)->initialize_subwindow(); update_fade(); update_window_entry_list(&entry_list); }

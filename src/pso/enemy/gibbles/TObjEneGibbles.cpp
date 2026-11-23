@@ -62,6 +62,7 @@ struct NJS_OBJECT;
 #include "pso/network/client_id.h"
 
 #include "pso/boss/derolle/TObjBoss2Tunnel_8007E418.h"
+#include "pso/object/base/TObjBase.h"
 
 __declspec(section ".data") const char *TObjEneGibbles__model_filenames[2] = {
     "gibb_body.nj", NULL,
@@ -123,7 +124,7 @@ s32 TObjEneGibbles__render_rotation_x;
 // reverse of the order they are written in.
 void TObjEneGibbles::select_model_record(s32 i) {
     model = TObjEneGibbles__resource_bundle->models[i].model;
-    texlist = (saddr)TObjEneGibbles__resource_bundle->models[i].texlist;
+    texlist = TObjEneGibbles__resource_bundle->models[i].texlist;
 }
 
 void *TObjEneGibbles::get_center() { return &body_center; }
@@ -324,7 +325,7 @@ void TObjEneGibbles::render() {
         this->fades[cam].update();
         fade = this->fades[cam].updateFromCamera(&body_center.x);
         select_actor_lighting(this);
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(this->texlist));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
         push_matrix_from(NULL);
         VecCopy(&v, &position);
         switch (this->mode) {
@@ -430,11 +431,11 @@ void TObjEneGibbles::refresh_target() {
     if (is_actor_cadence_frame(0x1E) == 0) {
         return;
     }
-    if (obj_testFlags30(0x10) != 0) {
-        s32 best_id;
+    if (test_actor_flags(0x10) != 0) {
+        u16 best_id;
         s32 i;
         TObjPlayer *p;
-        s32 id;
+        u16 id;
         f32 best;
         f32 d;
         u16 tid;
@@ -445,8 +446,8 @@ void TObjEneGibbles::refresh_target() {
         for (; i < registered_player_count + registered_enemy_count; i++) {
             p = TObjPlayer::get_player_data(i);
             if (TObjPlayer::is_valid_and_active((uaddr)p) != 0 && p != (TObjChara *)this) {
-                id = ((s32 (*)(void *))get_entity_id)(p);
-                if ((u16)id < 0x4000 && (u16)id != entity_id && !(p->actorFlags & 0x02000800)) {
+                id = p->get_entity_id();
+                if (id < 0x4000 && id != entity_id && !(p->actorFlags & 0x02000800)) {
                     VecCopy(&v, &p->body_center);
                     subtract_vector(&v, &body_center);
                     d = v.x * v.x + v.z * v.z;
@@ -476,8 +477,8 @@ void TObjEneGibbles::refresh_target() {
         return;
     }
     {
-        s32 best_id2;
-        s32 best_id;
+        u16 best_id2;
+        u16 best_id;
         TObjPlayer *p;
         TObjPlayer *best_p2;
         TObjPlayer *best_p;
@@ -496,7 +497,7 @@ void TObjEneGibbles::refresh_target() {
         for (; i < registered_player_count; i++) {
             p = TObjPlayer::get_player_data(i);
             if (p == NULL) continue;
-            if ((u16)((s32 (*)(void *))get_entity_id)(p) >= 0x1000) continue;
+            if (p->get_entity_id() >= 0x1000) continue;
             if (p->get_floor() != get_current_floor()) continue;
             if (p->actorFlags & 0x02000800) continue;
             VecCopy(&v, &p->body_center);
@@ -504,12 +505,12 @@ void TObjEneGibbles::refresh_target() {
             d = v.x * v.x + v.z * v.z;
             if ((p->class_flags & target_class_mask) && d < best &&
                 check_path_obstructed(this, &p->body_center) != 1) {
-                best_id = ((s32 (*)(void *))get_entity_id)(p);
+                best_id = p->get_entity_id();
                 best = d;
                 best_p = p;
             }
             if (d < best2 && check_path_obstructed(this, &p->body_center) != 1) {
-                best_id2 = ((s32 (*)(void *))get_entity_id)(p);
+                best_id2 = p->get_entity_id();
                 best2 = d;
                 best_p2 = p;
             }
@@ -547,7 +548,7 @@ s32 TObjEneGibbles::update_action_hold_status() {
                 this->mode = 3;
                 this->phase = 0;
                 this->requested_action = 1;
-                obj_clearFlags30(0x06240000);
+                clear_actor_flags(0x06240000);
             }
             break;
         }
@@ -569,7 +570,7 @@ s32 TObjEneGibbles::update_movement_status() {
                 this->mode = 3;
                 this->phase = 0;
                 this->requested_action = 1;
-                obj_clearFlags30(0x06240000);
+                clear_actor_flags(0x06240000);
             }
             break;
         }
@@ -585,8 +586,8 @@ void TObjEneGibbles::run_idle_action() {
             this->mode = 0xA;
             this->phase = 0;
             this->requested_action = 0;
-            obj_clearFlags30(0x200000);
-            obj_setFlags30(this, 0x06040000);
+            clear_actor_flags(0x200000);
+            set_actor_flags(0x06040000);
             this->status_flags &= 0xFFFF0000;
             this->bodies->flags &= 0xFFFFFFFE;
         }
@@ -621,7 +622,7 @@ void TObjEneGibbles::update_wander() {
     if (target != NULL) {
         mode = 3;
         phase = 0;
-        obj_clearFlags30(0x06240000);
+        clear_actor_flags(0x06240000);
         status_flags &= 0xFFFF0000;
         status_flags |= 4;
         bodies->flags |= 1;
@@ -633,7 +634,7 @@ void TObjEneGibbles::update_wander() {
     check_object_collisions();
     check_enemy_body_collisions(this);
     update_enemy_collision_flags();
-    obj_clearFlags30(0x200000);
+    clear_actor_flags(0x200000);
     play_ground_contact_sound();
     minimap_render_dot(&position, -0x5DB4, 1, 0);
     submit_cursor_candidate(this, -1);
@@ -963,7 +964,7 @@ void TObjEneGibbles::slam_damage_players(s32 node) {
         }
         for (i = 0; i < lbl_805D5868; i++) {
             p = TObjPlayer::get_player_data(i);
-            if (TObjPlayer::is_valid_and_active((uaddr)p) != 0 && get_entity_id(p) < 0x1000) {
+            if (TObjPlayer::is_valid_and_active((uaddr)p) != 0 && p->get_entity_id() < 0x1000) {
                 d = horizontal_distance_squared(&p->body_center, &v);
                 if (d <= gibbles_combat_stat_entries[0]->get_damage_radius() * gibbles_combat_stat_entries[0]->get_damage_radius()) {
                     a.kind = 0;
@@ -983,7 +984,7 @@ s32 TObjEneGibbles::landing_damage_players() {
 
     for (i = 0; i < lbl_805D5868; i++) {
         pl = TObjPlayer::get_player_data(i);
-        if (TObjPlayer::is_valid_and_active((uaddr)pl) != 0 && get_entity_id(pl) < 0x1000U) {
+        if (TObjPlayer::is_valid_and_active((uaddr)pl) != 0 && pl->get_entity_id() < 0x1000U) {
             f32 dist = horizontal_distance_squared(&pl->body_center, &position);
             if (dist <= gibbles_combat_stat_entries[1]->get_damage_radius() * gibbles_combat_stat_entries[1]->get_damage_radius()) {
                 DirectAttackPayload attack;
@@ -992,7 +993,7 @@ s32 TObjEneGibbles::landing_damage_players() {
                 f32 res = pl->receive_direct_attack(this, attack, NULL, -1, -1);
                 pl->apply_knockback_from_attacker((u8 *)this, res);
                 if (res > 0.0f) {
-                    obj_setFlags30(pl, 0x600);
+                    pl->set_actor_flags(0x600);
                 }
             }
         }
@@ -1036,7 +1037,7 @@ extern "C" s32 TObjEneGibbles__sub_802D9824(void *self, s32 arg, f32 scale) {
             }
             obj->apply_knockback_from_attacker((u8 *)g, scale);
             if (arg == 1 && scale > 0.0f) {
-                obj_setFlags30(obj, 0x600);
+                obj->set_actor_flags(0x600);
                 g->armor = (s16)(g->armor + scale);
                 g->armor_state = 0x10e;
             }
@@ -1082,7 +1083,7 @@ extern "C" s32 TObjEneGibbles__sub_802D9644(void *self, s32 arg, f32 scale) {
             }
             obj->apply_knockback_from_attacker((u8 *)g, scale);
             if (arg == 1 && scale > 0.0f) {
-                obj_setFlags30(obj, 0x600);
+                obj->set_actor_flags(0x600);
                 g->armor = (s16)(g->armor + scale);
                 g->armor_state = 0x10e;
             }
@@ -1747,7 +1748,7 @@ s32 TObjEneGibbles::spawn_ground_contact_effect() {
     Vec point;
     VecCopy(&point, &position);
     point.y += 15.0f;
-    CsnHit *hit = csnVectorUnder(&point, (CsnGroup **)&ground_cache, 0x15);
+    CsnHit *hit = csnVectorUnder(&point, ground_candidates.groups, 0x15);
     if (hit != NULL) {
         if (hit->hit_mask & 4) {
             spawn_ground_impact_effects(&position, 3.0f);
@@ -1766,7 +1767,7 @@ s32 TObjEneGibbles::spawn_ground_impact_effects(const Vec *pos, f32 scale) {
     }
     VecCopy(&point, pos);
     point.y += 15.0f;
-    CsnHit *hit = csnVectorUnder(&point, (CsnGroup **)&ground_cache, 5);
+    CsnHit *hit = csnVectorUnder(&point, ground_candidates.groups, 5);
     if (hit != NULL && (hit->hit_mask & 4) != 0) {
         TParticleCtrl *spray = (TParticleCtrl *)spawn_particle_effect(&hit->contact[2].point, 0x49);
         if (spray != NULL) {

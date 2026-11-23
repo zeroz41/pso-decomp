@@ -15,7 +15,7 @@ struct TOTrap : public TObjChara {
     virtual void vfunc_84();
     virtual void play_sounds();
     virtual void vfunc_86();
-    virtual f32 scale_by_table_value(f32 farg0);
+    virtual f32 scale_by_table_value(f32 table_value);
     virtual void vfunc_88();
     virtual void vfunc_89();
     virtual f32 receive_physical_attack(void *, f32);

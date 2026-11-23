@@ -17,65 +17,39 @@
 
 #include <stddef.h>
 #include "pso/object/ambient/TObjLight.h"
+#include "pso/object/ambient/PointLight.h"
 #include "pso/unk/TLobby.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/system/scene/TScene.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjBase.h"
+#include "pso/math/MatrixVector.h"
+#include "pso/unk/text_803DD5E0.h"
 
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
 
-struct ByteBlock_44 { u8 bytes[0x44]; };
-
-struct LightEntry_801344A4 { f32 dir[3]; f32 color[4]; u8 pad[0xC]; u32 id; };
-
-struct Light_801347A4 {
-    f32 dir[3];
-    f32 color[4];
-    f32 f1C;
-    f32 f20;
-    s32 f24;
-    u32 id;
-};
-
-struct Light_80133C1C {
-    f32 f0, f4, f8, fC, f10, f14, f18, f1C, f20;
-    s32 f24;
-    s32 f28;
-};
-
 extern "C" {
-s32 GXInitLightDir(s32 *, f32, f32, f32);
-extern s32 TObjLight__gx_light_objects[];
-s32 rotate_vector_by_matrix(int, void *, void *);
-extern s32 TObjLight__actor_light_count;
-f32 vector_length(void *);
-extern f32 default_scene_light_config[];
-extern uaddr TObjLight__light_entry_data;
-extern s32 TObjLight__active_light_count;
-extern s32 light_entry_file_size;
-__declspec(section ".rodata") char lbl_8043ED80[] = "lightentry.bin";
-void GXInitLightSpot(void *, s32, f32);
-void GXInitLightDistAttn(void *, s32, f32, f32);
-extern s32 TObjLight__light_count;
-int TAdSinglePlyChrSelectGC__sub_801334E4(void*);
-int TAdSinglePlyChrSelectGC__sub_80133544(void*);
-int TAdSinglePlyChrSelectGC__sub_80133548(void);
+void GXInitLightDir(void *light, f32 nx, f32 ny, f32 nz);
+void GXInitLightSpot(void *light, f32 cutoff, s32 spot_func);
+void GXInitLightDistAttn(void *light, f32 ref_distance, f32 ref_brightness, s32 dist_func);
 void __dt__7TObjectFv(void *, int);
-
-    extern int light_type_id_table[];
 }
-TObjLightSceneLightState TObjLight__scene_light_state;
+
+// The GX light id of each point light slot.
+int light_type_id_table[3] = { 2, 3, 4 };
+TObjLightSceneLightState scene_light_state;
+PointLight *light_slots[3];
+ActorLight actor_light_table[32];
+ActorLight light_table[8];
 extern "C" {
-void *TObjLight__data_80506370[3];
-// register_actor_light appends one entry per actor in range (TObjLight__actor_light_count).
-Light_801347A4 TObjLight__actor_light_table[32];
-// publish_light_direction_color keeps one entry per light id (TObjLight__light_count).
-Light_801347A4 TObjLight__light_table[8];
 __declspec(section ".data") u32 TObjLight__data_80506A5C;
+}
+const char light_entry_file_name[] = "lightentry.bin";
+extern "C" {
 TQuestThread *TLobby__sub_80134A20(void *p) { return TQuestThread::create_in_root((saddr)p); }
 
 extern s32 lbl_804A7008[];
@@ -90,8 +64,27 @@ void *__dt__13TUnk_804A7008Fv(void *object, s16 arg1) {
     }
     return object;
 }
+}
 
-void TObjLight::bswap_data() { bswap_32((u32 *)this); bswap_32((u32 *)((char*)this + 0x4)); bswap_32((u32 *)((char*)this + 0x8)); bswap_32((u32 *)((char*)this + 0xc)); bswap_32((u32 *)((char*)this + 0x10)); bswap_32((u32 *)((char*)this + 0x14)); bswap_32((u32 *)((char*)this + 0x18)); bswap_32((u32 *)((char*)this + 0x1c)); bswap_32((u32 *)((char*)this + 0x20)); bswap_32((u32 *)((char*)this + 0x24)); bswap_32((u32 *)((char*)this + 0x28)); bswap_32((u32 *)((char*)this + 0x2c)); bswap_32((u32 *)((char*)this + 0x30)); bswap_32((u32 *)((char*)this + 0x34)); bswap_32((u32 *)((char*)this + 0x38)); bswap_32((u32 *)((char*)this + 0x3c)); bswap_32((u32 *)((char*)this + 0x40)); }
+void LightEntry::bswap_data() {
+    bswap_32((u32 *)&direction.x);
+    bswap_32((u32 *)&direction.y);
+    bswap_32((u32 *)&direction.z);
+    bswap_32((u32 *)&view_direction.x);
+    bswap_32((u32 *)&view_direction.y);
+    bswap_32((u32 *)&view_direction.z);
+    bswap_32((u32 *)&pad_18);
+    bswap_32((u32 *)&intensity);
+    bswap_32((u32 *)&ambient);
+    bswap_32((u32 *)&color.a);
+    bswap_32((u32 *)&color.r);
+    bswap_32((u32 *)&color.g);
+    bswap_32((u32 *)&color.b);
+    bswap_32((u32 *)&ambient_color.a);
+    bswap_32((u32 *)&ambient_color.r);
+    bswap_32((u32 *)&ambient_color.g);
+    bswap_32((u32 *)&ambient_color.b);
+}
 
 TUnk_804A6F90::~TUnk_804A6F90() {}
 
@@ -100,61 +93,59 @@ TUnk_804A6F78::~TUnk_804A6F78() {}
 void TObjLight::init_light_tables() {
     s32 i;
     s32 j;
-    for (i = 0; i < 0x20; i++) {
-        ((Light_801347A4 *)&TObjLight__actor_light_table)[i].id = 0xFFFF;
-        ((Light_801347A4 *)&TObjLight__actor_light_table)[i].dir[0] = 0.0f;
-        ((Light_801347A4 *)&TObjLight__actor_light_table)[i].dir[1] = 0.0f;
-        ((Light_801347A4 *)&TObjLight__actor_light_table)[i].dir[2] = 0.0f;
-        ((Light_801347A4 *)&TObjLight__actor_light_table)[i].color[0] = 0.0f;
-        ((Light_801347A4 *)&TObjLight__actor_light_table)[i].color[1] = 0.0f;
-        ((Light_801347A4 *)&TObjLight__actor_light_table)[i].color[2] = 0.0f;
-        ((Light_801347A4 *)&TObjLight__actor_light_table)[i].color[3] = 0.0f;
-        ((Light_801347A4 *)&TObjLight__actor_light_table)[i].f20 = 0.0f;
-        ((Light_801347A4 *)&TObjLight__actor_light_table)[i].f1C = 0.0f;
-        ((Light_801347A4 *)&TObjLight__actor_light_table)[i].f24 = 0;
+    for (i = 0; i < 32; i++) {
+        actor_light_table[i].id = 0xFFFF;
+        actor_light_table[i].direction.x = 0.0f;
+        actor_light_table[i].direction.y = 0.0f;
+        actor_light_table[i].direction.z = 0.0f;
+        actor_light_table[i].color.a = 0.0f;
+        actor_light_table[i].color.r = 0.0f;
+        actor_light_table[i].color.g = 0.0f;
+        actor_light_table[i].color.b = 0.0f;
+        actor_light_table[i].ambient = 0.0f;
+        actor_light_table[i].intensity = 0.0f;
+        actor_light_table[i].flags = 0;
     }
-    TObjLight__actor_light_count = 0;
+    actor_light_count = 0;
     for (j = 0; j < 8; j++) {
-        TObjLight__light_table[j].id = 0xFFFF;
-        TObjLight__light_table[j].dir[0] = 0.0f;
-        TObjLight__light_table[j].dir[1] = 0.0f;
-        TObjLight__light_table[j].dir[2] = 0.0f;
-        TObjLight__light_table[j].color[0] = 0.0f;
-        TObjLight__light_table[j].color[1] = 0.0f;
-        TObjLight__light_table[j].color[2] = 0.0f;
-        TObjLight__light_table[j].color[3] = 0.0f;
-        TObjLight__light_table[j].f20 = 0.0f;
-        TObjLight__light_table[j].f1C = 0.0f;
-        TObjLight__light_table[j].f24 = 0;
+        light_table[j].id = 0xFFFF;
+        light_table[j].direction.x = 0.0f;
+        light_table[j].direction.y = 0.0f;
+        light_table[j].direction.z = 0.0f;
+        light_table[j].color.a = 0.0f;
+        light_table[j].color.r = 0.0f;
+        light_table[j].color.g = 0.0f;
+        light_table[j].color.b = 0.0f;
+        light_table[j].ambient = 0.0f;
+        light_table[j].intensity = 0.0f;
+        light_table[j].flags = 0;
     }
-    TObjLight__light_count = 0;
+    light_count = 0;
 }
 
-void register_actor_light(s32 arg0, TObjLight *light) {
-    u8 *temp_r5;
-    if ((s32) TObjLight__actor_light_count < 0x20) {
-        temp_r5 = (u8 *)TObjLight__actor_light_table + (TObjLight__actor_light_count * 0x2C);
-        *(s32 *)((s8 *)temp_r5 + 0x28) = arg0;
-        VecCopy((Vec *)(temp_r5), &light->actor_direction);
-        copy_argb((NJS_ARGB *)((u8 *)TObjLight__actor_light_table + (TObjLight__actor_light_count * 0x2C) + 0xC), &light->actor_color);
-        TObjLight__actor_light_count += 1;
+void register_actor_light(s32 id, TObjLight *light) {
+    if (actor_light_count < 32) {
+        actor_light_table[actor_light_count].id = id;
+        VecCopy(&actor_light_table[actor_light_count].direction, &light->actor_direction);
+        copy_argb(&actor_light_table[actor_light_count].color, &light->actor_color);
+        actor_light_count += 1;
     }
 }
 
 void publish_light_direction_color(u32 id, void *dir, void *color) {
     s32 add;
     s32 i;
-    Light_801347A4 *e;
+    ActorLight *e;
     add = 1;
-    if (TObjLight__light_count < 8) {
+    if (light_count < 8) {
         for (i = 0; i < 8; i++) {
-            e = &TObjLight__light_table[i];
+            e = &light_table[i];
             if (id == e->id) {
-                TObjLight__light_table[i].id = id;
-                VecCopy((Vec *)e, (const Vec *)dir);
-                copy_argb((NJS_ARGB *)e->color, (NJS_ARGB *)color);
+                light_table[i].id = id;
+                VecCopy(&e->direction, (const Vec *)dir);
+                copy_argb(&e->color, (NJS_ARGB *)color);
                 add = 0;
-                TObjLight__light_table[i].f24 |= 2;
+                light_table[i].flags |= 2;
                 break;
             }
             if (e->id == 0xFFFF) {
@@ -162,137 +153,137 @@ void publish_light_direction_color(u32 id, void *dir, void *color) {
             }
         }
         if (add) {
-            TObjLight__light_table[TObjLight__light_count].id = id;
-            VecCopy((Vec *)&TObjLight__light_table[TObjLight__light_count], (const Vec *)dir);
-            copy_argb((NJS_ARGB *)TObjLight__light_table[TObjLight__light_count].color, (NJS_ARGB *)color);
-            TObjLight__light_table[TObjLight__light_count].f24 |= 2;
-            TObjLight__light_count++;
+            light_table[light_count].id = id;
+            VecCopy(&light_table[light_count].direction, (const Vec *)dir);
+            copy_argb(&light_table[light_count].color, (NJS_ARGB *)color);
+            light_table[light_count].flags |= 2;
+            light_count++;
         }
     }
 }
 
-void publish_actor_light_scalars(u32 arg0, f32 farg0, f32 farg1) {
-    s32 cnt = TObjLight__light_count;
-    s32 found;
-    s32 n;
-    Light_801347A4 *q;
-    found = 1;
-    if (cnt < 8) {
-        for (n = 0; n < 8; n++) {
-            if (arg0 == TObjLight__light_table[n].id) {
-                found = 0;
-                TObjLight__light_table[n].id = arg0;
-                TObjLight__light_table[n].f1C = farg0;
-                TObjLight__light_table[n].f20 = farg1;
-                TObjLight__light_table[n].f24 |= 1;
+void publish_actor_light_scalars(u32 id, f32 intensity, f32 ambient) {
+    s32 count = light_count;
+    s32 add;
+    s32 i;
+    ActorLight *e;
+    add = 1;
+    if (count < 8) {
+        for (i = 0; i < 8; i++) {
+            if (id == light_table[i].id) {
+                add = 0;
+                light_table[i].id = id;
+                light_table[i].intensity = intensity;
+                light_table[i].ambient = ambient;
+                light_table[i].flags |= 1;
                 break;
             }
-            if (TObjLight__light_table[n].id == 0xFFFF) {
+            if (light_table[i].id == 0xFFFF) {
                 break;
             }
         }
-        if (found != 0) {
-            q = &TObjLight__light_table[cnt];
-            q->id = arg0;
-            q->f1C = farg0;
-            q->f20 = farg1;
-            q->f24 |= 1;
-            TObjLight__light_count++;
+        if (add != 0) {
+            e = &light_table[count];
+            e->id = id;
+            e->intensity = intensity;
+            e->ambient = ambient;
+            e->flags |= 1;
+            light_count++;
         }
     }
 }
 
 void TObjLight::find_light_params(f32 *dir, f32 *color, u32 id) {
     s32 i;
-    for (i = 0; i < TObjLight__actor_light_count; i++) {
-        LightEntry_801344A4 *e = &((LightEntry_801344A4 *)&TObjLight__actor_light_table)[i];
+    for (i = 0; i < actor_light_count; i++) {
+        ActorLight *e = &actor_light_table[i];
         if (id == e->id) {
-            VecCopy((Vec *)dir, (const Vec *)e->dir);
-            copy_argb((NJS_ARGB *)color, (NJS_ARGB *)e->color);
+            VecCopy((Vec *)dir, &e->direction);
+            copy_argb((NJS_ARGB *)color, &e->color);
             return;
         }
     }
-    copy_argb((NJS_ARGB *)color, &TObjLight__scene_light_state.color);
-    VecCopy((Vec *)dir, &TObjLight__scene_light_state.view_direction);
+    copy_argb((NJS_ARGB *)color, &scene_light_state.color);
+    VecCopy((Vec *)dir, &scene_light_state.view_direction);
 }
 
 
 void select_actor_lighting(TObjBase *obj) {
     s32 i;
 
-    for (i = 0; i < TObjLight__light_count; i++) {
-        if (TObjLight__light_table[i].id == get_entity_id(obj)) {
-            if (((u32)TObjLight__light_table[i].f24 & 1) && ((u32)TObjLight__light_table[i].f24 & 2)) {
-                set_light_ambient_color(TObjLight__light_table[i].f20, TObjLight__light_table[i].f20, TObjLight__light_table[i].f20);
-                init_distant_light(0, TObjLight__light_table[i].dir[0], TObjLight__light_table[i].dir[1], TObjLight__light_table[i].dir[2]);
-                GXInitLightDir(TObjLight__gx_light_objects, TObjLight__light_table[i].dir[0], TObjLight__light_table[i].dir[1], TObjLight__light_table[i].dir[2]);
-                set_gx_light_color(0, TObjLight__light_table[i].color[1], TObjLight__light_table[i].color[2], TObjLight__light_table[i].color[3]);
+    for (i = 0; i < light_count; i++) {
+        if (light_table[i].id == obj->get_entity_id()) {
+            if ((light_table[i].flags & 1) && (light_table[i].flags & 2)) {
+                set_light_ambient_color(light_table[i].ambient, light_table[i].ambient, light_table[i].ambient);
+                init_distant_light(0, light_table[i].direction.x, light_table[i].direction.y, light_table[i].direction.z);
+                GXInitLightDir(gx_light_objects, light_table[i].direction.x, light_table[i].direction.y, light_table[i].direction.z);
+                set_gx_light_color(0, light_table[i].color.r, light_table[i].color.g, light_table[i].color.b);
                 load_gx_light_slot(0);
                 return;
             }
-            if ((u32)TObjLight__light_table[i].f24 & 1) {
-                set_light_ambient_color(TObjLight__scene_light_state.ambient, TObjLight__scene_light_state.ambient, TObjLight__scene_light_state.ambient);
+            if (light_table[i].flags & 1) {
+                set_light_ambient_color(scene_light_state.ambient, scene_light_state.ambient, scene_light_state.ambient);
                 load_gx_light_slot(0);
                 return;
             }
             if (get_current_floor_area() == AREA_LOBBY) {
-                init_distant_light(0, TObjLight__light_table[i].dir[0], TObjLight__light_table[i].dir[1], TObjLight__light_table[i].dir[2]);
-                GXInitLightDir(TObjLight__gx_light_objects, TObjLight__light_table[i].dir[0], TObjLight__light_table[i].dir[1], TObjLight__light_table[i].dir[2]);
-                set_gx_light_color(0, TObjLight__light_table[i].color[1], TObjLight__light_table[i].color[2], TObjLight__light_table[i].color[3]);
+                init_distant_light(0, light_table[i].direction.x, light_table[i].direction.y, light_table[i].direction.z);
+                GXInitLightDir(gx_light_objects, light_table[i].direction.x, light_table[i].direction.y, light_table[i].direction.z);
+                set_gx_light_color(0, light_table[i].color.r, light_table[i].color.g, light_table[i].color.b);
                 load_gx_light_slot(0);
                 return;
             }
-            init_distant_light(0, TObjLight__light_table[i].dir[0], TObjLight__light_table[i].dir[1], TObjLight__light_table[i].dir[2]);
-            GXInitLightDir(TObjLight__gx_light_objects, TObjLight__light_table[i].dir[0], TObjLight__light_table[i].dir[1], TObjLight__light_table[i].dir[2]);
-            set_gx_light_color(0, TObjLight__light_table[i].color[1], TObjLight__light_table[i].color[2], TObjLight__light_table[i].color[3]);
+            init_distant_light(0, light_table[i].direction.x, light_table[i].direction.y, light_table[i].direction.z);
+            GXInitLightDir(gx_light_objects, light_table[i].direction.x, light_table[i].direction.y, light_table[i].direction.z);
+            set_gx_light_color(0, light_table[i].color.r, light_table[i].color.g, light_table[i].color.b);
             return;
         }
     }
-    for (i = 0; i < TObjLight__actor_light_count; i++) {
-        if (TObjLight__actor_light_table[i].id == get_entity_id(obj)) {
-            init_distant_light(0, TObjLight__actor_light_table[i].dir[0], TObjLight__actor_light_table[i].dir[1], TObjLight__actor_light_table[i].dir[2]);
-            GXInitLightDir(TObjLight__gx_light_objects, TObjLight__actor_light_table[i].dir[0], TObjLight__actor_light_table[i].dir[1], TObjLight__actor_light_table[i].dir[2]);
-            set_light_ambient_color(TObjLight__scene_light_state.ambient, TObjLight__scene_light_state.ambient, TObjLight__scene_light_state.ambient);
-            set_gx_light_color(0, TObjLight__actor_light_table[i].color[1], TObjLight__actor_light_table[i].color[2], TObjLight__actor_light_table[i].color[3]);
+    for (i = 0; i < actor_light_count; i++) {
+        if (actor_light_table[i].id == obj->get_entity_id()) {
+            init_distant_light(0, actor_light_table[i].direction.x, actor_light_table[i].direction.y, actor_light_table[i].direction.z);
+            GXInitLightDir(gx_light_objects, actor_light_table[i].direction.x, actor_light_table[i].direction.y, actor_light_table[i].direction.z);
+            set_light_ambient_color(scene_light_state.ambient, scene_light_state.ambient, scene_light_state.ambient);
+            set_gx_light_color(0, actor_light_table[i].color.r, actor_light_table[i].color.g, actor_light_table[i].color.b);
             load_gx_light_slot(0);
             return;
         }
     }
-    set_light_ambient_color(TObjLight__scene_light_state.ambient, TObjLight__scene_light_state.ambient, TObjLight__scene_light_state.ambient);
-    init_distant_light(0, TObjLight__scene_light_state.view_direction.x, TObjLight__scene_light_state.view_direction.y, TObjLight__scene_light_state.view_direction.z);
-    GXInitLightDir(TObjLight__gx_light_objects, TObjLight__scene_light_state.view_direction.x, TObjLight__scene_light_state.view_direction.y, TObjLight__scene_light_state.view_direction.z);
-    set_gx_light_color(0, TObjLight__scene_light_state.color.r, TObjLight__scene_light_state.color.g, TObjLight__scene_light_state.color.b);
+    set_light_ambient_color(scene_light_state.ambient, scene_light_state.ambient, scene_light_state.ambient);
+    init_distant_light(0, scene_light_state.view_direction.x, scene_light_state.view_direction.y, scene_light_state.view_direction.z);
+    GXInitLightDir(gx_light_objects, scene_light_state.view_direction.x, scene_light_state.view_direction.y, scene_light_state.view_direction.z);
+    set_gx_light_color(0, scene_light_state.color.r, scene_light_state.color.g, scene_light_state.color.b);
     load_gx_light_slot(0);
 }
 
 void restore_scene_lighting(void) {
     if (get_current_floor_area() == AREA_LOBBY) {
-        init_distant_light(0, TObjLight__scene_light_state.view_direction.x, TObjLight__scene_light_state.view_direction.y, TObjLight__scene_light_state.view_direction.z);
-        GXInitLightDir((s32 *)(&TObjLight__gx_light_objects[0]), TObjLight__scene_light_state.view_direction.x, TObjLight__scene_light_state.view_direction.y, TObjLight__scene_light_state.view_direction.z);
-        set_gx_light_color(0, TObjLight__scene_light_state.color.r, TObjLight__scene_light_state.color.g, TObjLight__scene_light_state.color.b);
+        init_distant_light(0, scene_light_state.view_direction.x, scene_light_state.view_direction.y, scene_light_state.view_direction.z);
+        GXInitLightDir(gx_light_objects, scene_light_state.view_direction.x, scene_light_state.view_direction.y, scene_light_state.view_direction.z);
+        set_gx_light_color(0, scene_light_state.color.r, scene_light_state.color.g, scene_light_state.color.b);
         load_gx_light_slot(0);
     } else {
-        init_distant_light(0, TObjLight__scene_light_state.view_direction.x, TObjLight__scene_light_state.view_direction.y, TObjLight__scene_light_state.view_direction.z);
-        GXInitLightDir((s32 *)(&TObjLight__gx_light_objects[0]), TObjLight__scene_light_state.view_direction.x, TObjLight__scene_light_state.view_direction.y, TObjLight__scene_light_state.view_direction.z);
-        set_gx_light_color(0, TObjLight__scene_light_state.color.r, TObjLight__scene_light_state.color.g, TObjLight__scene_light_state.color.b);
+        init_distant_light(0, scene_light_state.view_direction.x, scene_light_state.view_direction.y, scene_light_state.view_direction.z);
+        GXInitLightDir(gx_light_objects, scene_light_state.view_direction.x, scene_light_state.view_direction.y, scene_light_state.view_direction.z);
+        set_gx_light_color(0, scene_light_state.color.r, scene_light_state.color.g, scene_light_state.color.b);
         load_gx_light_slot(0);
     }
-    set_light_ambient_color(TObjLight__scene_light_state.ambient, TObjLight__scene_light_state.ambient, TObjLight__scene_light_state.ambient);
+    set_light_ambient_color(scene_light_state.ambient, scene_light_state.ambient, scene_light_state.ambient);
 }
 
-void TObjLight::set_light(void *arg1, f32 farg0) {
-    init_distant_light(0, *(f32 *)&this->m_name, *(f32 *)&this->m_flags, *(f32 *)&this->m_prev);
-    GXInitLightDir(TObjLight__gx_light_objects, *(f32 *)&this->m_name, *(f32 *)&this->m_flags, *(f32 *)&this->m_prev);
-    set_gx_light_color(0, *(f32 *)((s8 *)arg1 + 4), *(f32 *)((s8 *)arg1 + 8), *(f32 *)((s8 *)arg1 + 0xC));
-    set_light_ambient_color(farg0, farg0, farg0);
+void set_light(const Vec *dir, const NJS_ARGB *color, f32 ambient) {
+    init_distant_light(0, dir->x, dir->y, dir->z);
+    GXInitLightDir(gx_light_objects, dir->x, dir->y, dir->z);
+    set_gx_light_color(0, color->r, color->g, color->b);
+    set_light_ambient_color(ambient, ambient, ambient);
     load_gx_light_slot(0);
 }
 
 void TObjLight::apply_distant_light() {
-    set_light_ambient_color(TObjLight__scene_light_state.ambient, TObjLight__scene_light_state.ambient, TObjLight__scene_light_state.ambient);
-    init_distant_light(0, TObjLight__scene_light_state.view_direction.x, TObjLight__scene_light_state.view_direction.y, TObjLight__scene_light_state.view_direction.z);
-    GXInitLightDir((s32 *)(&TObjLight__gx_light_objects[0]), TObjLight__scene_light_state.view_direction.x, TObjLight__scene_light_state.view_direction.y, TObjLight__scene_light_state.view_direction.z);
-    set_gx_light_color(0, TObjLight__scene_light_state.color.r, TObjLight__scene_light_state.color.g, TObjLight__scene_light_state.color.b);
+    set_light_ambient_color(scene_light_state.ambient, scene_light_state.ambient, scene_light_state.ambient);
+    init_distant_light(0, scene_light_state.view_direction.x, scene_light_state.view_direction.y, scene_light_state.view_direction.z);
+    GXInitLightDir(gx_light_objects, scene_light_state.view_direction.x, scene_light_state.view_direction.y, scene_light_state.view_direction.z);
+    set_gx_light_color(0, scene_light_state.color.r, scene_light_state.color.g, scene_light_state.color.b);
     load_gx_light_slot(0);
 }
 
@@ -300,41 +291,38 @@ TUnk_804A6FC0::TUnk_804A6FC0(TObject *parent) : TObject(parent) {}
 
 TUnk_804A6FC0::~TUnk_804A6FC0() {}
 
-}
-
 void load_light_entry_file(void) {
-    TObjLight__light_entry_data = 0;
-    light_entry_file_size = get_resource_file_size(lbl_8043ED80);
+    light_entry_data = NULL;
+    light_entry_file_size = get_resource_file_size(light_entry_file_name);
     if (light_entry_file_size > 0) {
-        TObjLight__light_entry_data = (saddr)TQuestVmDownLoadServer::alloc(light_entry_file_size);
-        if (TObjLight__light_entry_data) {
-            read_disc_file(lbl_8043ED80, (void *)TObjLight__light_entry_data);
+        light_entry_data = (LightEntry *)TQuestVmDownLoadServer::alloc(light_entry_file_size);
+        if (light_entry_data) {
+            read_disc_file(light_entry_file_name, light_entry_data);
         }
     }
 }
 
 void TObjLight::free_shared_data() {
-    if ((u32) TObjLight__light_entry_data != 0U) {
-        TAdSinglePlyChrSelectGC::safe_free((uaddr)((void*)TObjLight__light_entry_data));
-        TObjLight__light_entry_data = 0U;
+    if (light_entry_data != NULL) {
+        TAdSinglePlyChrSelectGC::safe_free((uaddr)light_entry_data);
+        light_entry_data = NULL;
     }
 }
 
 void init_area_lights(void) {
-    struct CopyStack_80133D78 { u8 bytes[0x44]; };
-    CopyStack_80133D78 copy_storage_80133D78;
-    s32 global_state;
-    if ((u32) TObjLight__light_entry_data != 0U) {
-        global_state = get_current_floor_area();
+    LightEntry entry;
+    s32 area;
+    if (light_entry_data != NULL) {
+        area = get_current_floor_area();
         if (TLobby::is_online_ready() != 0) {
-            global_state += 48.0f;
+            area += 48.0f;
         }
-        *(ByteBlock_44 *)(copy_storage_80133D78.bytes) = *(const ByteBlock_44 *)(((TObjLight__light_entry_data + (global_state * 0x44)) - 4) + 4);
-        ((TObjLight *)(copy_storage_80133D78.bytes))->bswap_data();
-        init_map_lights((u8 *)((void *) ((copy_storage_80133D78.bytes))));
+        *(LightEntryBytes *)&entry = *(LightEntryBytes *)&light_entry_data[area];
+        entry.bswap_data();
+        init_map_lights(&entry);
         return;
     }
-    init_map_lights((u8 *)default_scene_light_config);
+    init_map_lights(&default_scene_light_config);
 }
 
 TUnk_804A6FA8::TUnk_804A6FA8(TObject *parent) : TObject(parent) {}
@@ -345,96 +333,96 @@ void TUnk_804A6FA8::run_task() {
     s32 i;
     s32 j;
     for (i = 0; i < 32; i++) {
-        ((Light_80133C1C *)&TObjLight__actor_light_table)[i].f28 = 0xFFFF;
-        ((Light_80133C1C *)&TObjLight__actor_light_table)[i].f0 = 0.0f;
-        ((Light_80133C1C *)&TObjLight__actor_light_table)[i].f4 = 0.0f;
-        ((Light_80133C1C *)&TObjLight__actor_light_table)[i].f8 = 0.0f;
-        ((Light_80133C1C *)&TObjLight__actor_light_table)[i].fC = 0.0f;
-        ((Light_80133C1C *)&TObjLight__actor_light_table)[i].f10 = 0.0f;
-        ((Light_80133C1C *)&TObjLight__actor_light_table)[i].f14 = 0.0f;
-        ((Light_80133C1C *)&TObjLight__actor_light_table)[i].f18 = 0.0f;
-        ((Light_80133C1C *)&TObjLight__actor_light_table)[i].f20 = 0.0f;
-        ((Light_80133C1C *)&TObjLight__actor_light_table)[i].f1C = 0.0f;
-        ((Light_80133C1C *)&TObjLight__actor_light_table)[i].f24 = 0;
+        actor_light_table[i].id = 0xFFFF;
+        actor_light_table[i].direction.x = 0.0f;
+        actor_light_table[i].direction.y = 0.0f;
+        actor_light_table[i].direction.z = 0.0f;
+        actor_light_table[i].color.a = 0.0f;
+        actor_light_table[i].color.r = 0.0f;
+        actor_light_table[i].color.g = 0.0f;
+        actor_light_table[i].color.b = 0.0f;
+        actor_light_table[i].ambient = 0.0f;
+        actor_light_table[i].intensity = 0.0f;
+        actor_light_table[i].flags = 0;
     }
     for (j = 0; j < 8; j++) {
-        ((Light_80133C1C *)TObjLight__light_table)[j].f28 = 0xFFFF;
-        ((Light_80133C1C *)TObjLight__light_table)[j].f0 = 0.0f;
-        ((Light_80133C1C *)TObjLight__light_table)[j].f4 = 0.0f;
-        ((Light_80133C1C *)TObjLight__light_table)[j].f8 = 0.0f;
-        ((Light_80133C1C *)TObjLight__light_table)[j].fC = 0.0f;
-        ((Light_80133C1C *)TObjLight__light_table)[j].f10 = 0.0f;
-        ((Light_80133C1C *)TObjLight__light_table)[j].f14 = 0.0f;
-        ((Light_80133C1C *)TObjLight__light_table)[j].f18 = 0.0f;
-        ((Light_80133C1C *)TObjLight__light_table)[j].f20 = 0.0f;
-        ((Light_80133C1C *)TObjLight__light_table)[j].f1C = 0.0f;
-        ((Light_80133C1C *)TObjLight__light_table)[j].f24 = 0;
+        light_table[j].id = 0xFFFF;
+        light_table[j].direction.x = 0.0f;
+        light_table[j].direction.y = 0.0f;
+        light_table[j].direction.z = 0.0f;
+        light_table[j].color.a = 0.0f;
+        light_table[j].color.r = 0.0f;
+        light_table[j].color.g = 0.0f;
+        light_table[j].color.b = 0.0f;
+        light_table[j].ambient = 0.0f;
+        light_table[j].intensity = 0.0f;
+        light_table[j].flags = 0;
     }
-    TObjLight__light_count = 0;
-    TObjLight__actor_light_count = 0;
+    light_count = 0;
+    actor_light_count = 0;
 }
 
-void init_map_lights(u8 *arg0) {
-    Vec stack;
-    stack.x = *(f32 *)((s8 *)arg0 + 0);
-    stack.y = *(f32 *)((s8 *)arg0 + 4);
-    stack.z = *(f32 *)((s8 *)arg0 + 8);
-    if (0.0f != vector_length(&stack.x)) {
-        normalize_vector(&stack);
+void init_map_lights(LightEntry *entry) {
+    Vec direction;
+    direction.x = entry->direction.x;
+    direction.y = entry->direction.y;
+    direction.z = entry->direction.z;
+    if (0.0f != vector_length(&direction)) {
+        normalize_vector(&direction);
     }
-    TObjLight__scene_light_state.direction.x = stack.x;
-    TObjLight__scene_light_state.direction.y = stack.y;
-    TObjLight__scene_light_state.direction.z = stack.z;
-    TObjLight__scene_light_state.pad_18 = (f32) *(f32 *)((s8 *)arg0 + 0x18);
-    TObjLight__scene_light_state.intensity = (f32) *(f32 *)((s8 *)arg0 + 0x1C);
-    TObjLight__scene_light_state.ambient = (f32) *(f32 *)((s8 *)arg0 + 0x20);
-    TObjLight__scene_light_state.color.r = (f32) *(f32 *)((s8 *)arg0 + 0x28);
-    TObjLight__scene_light_state.color.g = (f32) *(f32 *)((s8 *)arg0 + 0x2C);
-    TObjLight__scene_light_state.color.b = (f32) *(f32 *)((s8 *)arg0 + 0x30);
-    TObjLight__scene_light_state.ambient_color.r = (f32) *(f32 *)((s8 *)arg0 + 0x38);
-    TObjLight__scene_light_state.ambient_color.g = (f32) *(f32 *)((s8 *)arg0 + 0x3C);
-    TObjLight__scene_light_state.ambient_color.b = (f32) *(f32 *)((s8 *)arg0 + 0x40);
+    scene_light_state.direction.x = direction.x;
+    scene_light_state.direction.y = direction.y;
+    scene_light_state.direction.z = direction.z;
+    scene_light_state.pad_18 = entry->pad_18;
+    scene_light_state.intensity = entry->intensity;
+    scene_light_state.ambient = entry->ambient;
+    scene_light_state.color.r = entry->color.r;
+    scene_light_state.color.g = entry->color.g;
+    scene_light_state.color.b = entry->color.b;
+    scene_light_state.ambient_color.r = entry->ambient_color.r;
+    scene_light_state.ambient_color.g = entry->ambient_color.g;
+    scene_light_state.ambient_color.b = entry->ambient_color.b;
     TObjLight::init_light_tables();
     new TUnk_804A6F90(tl_02);
     new TUnk_804A6FA8(tl_02);
     new TUnk_804A6F78(tl_02);
 }
 
-void init_menu_scene_lights(u8 *arg0, s32 arg1) {
-    Vec stack;
-    stack.x = *(f32 *)((s8 *)arg0 + 0);
-    stack.y = *(f32 *)((s8 *)arg0 + 4);
-    stack.z = *(f32 *)((s8 *)arg0 + 8);
-    if (0.0f != vector_length(&stack.x)) {
-        normalize_vector(&stack);
+void init_menu_scene_lights(LightEntry *entry, s32) {
+    Vec direction;
+    direction.x = entry->direction.x;
+    direction.y = entry->direction.y;
+    direction.z = entry->direction.z;
+    if (0.0f != vector_length(&direction)) {
+        normalize_vector(&direction);
     }
-    TObjLight__scene_light_state.direction.x = stack.x;
-    TObjLight__scene_light_state.direction.y = stack.y;
-    TObjLight__scene_light_state.direction.z = stack.z;
-    TObjLight__scene_light_state.pad_18 = (f32) *(f32 *)((s8 *)arg0 + 0x18);
-    TObjLight__scene_light_state.intensity = (f32) *(f32 *)((s8 *)arg0 + 0x1C);
-    TObjLight__scene_light_state.ambient = (f32) *(f32 *)((s8 *)arg0 + 0x20);
-    TObjLight__scene_light_state.color.r = (f32) *(f32 *)((s8 *)arg0 + 0x28);
-    TObjLight__scene_light_state.color.g = (f32) *(f32 *)((s8 *)arg0 + 0x2C);
-    TObjLight__scene_light_state.color.b = (f32) *(f32 *)((s8 *)arg0 + 0x30);
-    TObjLight__scene_light_state.ambient_color.r = (f32) *(f32 *)((s8 *)arg0 + 0x38);
-    TObjLight__scene_light_state.ambient_color.g = (f32) *(f32 *)((s8 *)arg0 + 0x3C);
-    TObjLight__scene_light_state.ambient_color.b = (f32) *(f32 *)((s8 *)arg0 + 0x40);
-    TObjLight__scene_light_state.view_direction.x = (f32) *(f32 *)((s8 *)arg0 + 0xC);
-    TObjLight__scene_light_state.view_direction.y = (f32) *(f32 *)((s8 *)arg0 + 0x10);
-    TObjLight__scene_light_state.view_direction.z = (f32) *(f32 *)((s8 *)arg0 + 0x14);
+    scene_light_state.direction.x = direction.x;
+    scene_light_state.direction.y = direction.y;
+    scene_light_state.direction.z = direction.z;
+    scene_light_state.pad_18 = entry->pad_18;
+    scene_light_state.intensity = entry->intensity;
+    scene_light_state.ambient = entry->ambient;
+    scene_light_state.color.r = entry->color.r;
+    scene_light_state.color.g = entry->color.g;
+    scene_light_state.color.b = entry->color.b;
+    scene_light_state.ambient_color.r = entry->ambient_color.r;
+    scene_light_state.ambient_color.g = entry->ambient_color.g;
+    scene_light_state.ambient_color.b = entry->ambient_color.b;
+    scene_light_state.view_direction.x = entry->view_direction.x;
+    scene_light_state.view_direction.y = entry->view_direction.y;
+    scene_light_state.view_direction.z = entry->view_direction.z;
     new TUnk_804A6F90(tl_02);
     new TUnk_804A6FA8(tl_02);
 }
 
-void TObjBoss2Tunnel__sub_801339EC(f32 farg0, f32 farg1, f32 farg2) {
-    TObjLight__scene_light_state.color.r = farg0;
-    TObjLight__scene_light_state.color.g = farg1;
-    TObjLight__scene_light_state.color.b = farg2;
+void set_scene_light_color(f32 r, f32 g, f32 b) {
+    scene_light_state.color.r = r;
+    scene_light_state.color.g = g;
+    scene_light_state.color.b = b;
 }
 
 TUnk_804A6F90::TUnk_804A6F90(TObject *parent) : TUnk_804A6FC0(parent) {
-    rotate_vector_by_matrix(0, &TObjLight__scene_light_state.direction, &TObjLight__scene_light_state.view_direction);
+    rotate_vector_by_matrix(0, &scene_light_state.direction, &scene_light_state.view_direction);
     sub_8013397C();
     submit_scene_light_direction();
     set_scene_light_diffuse();
@@ -444,34 +432,34 @@ TUnk_804A6F90::TUnk_804A6F90(TObject *parent) : TUnk_804A6FC0(parent) {
 void TUnk_804A6F90::sub_8013397C() {}
 
 void TUnk_804A6F90::submit_scene_light_direction() {
-    init_distant_light(0, TObjLight__scene_light_state.view_direction.x, TObjLight__scene_light_state.view_direction.y, TObjLight__scene_light_state.view_direction.z);
-    GXInitLightDir((s32 *)(&TObjLight__gx_light_objects[0]), TObjLight__scene_light_state.view_direction.x, TObjLight__scene_light_state.view_direction.y, TObjLight__scene_light_state.view_direction.z);
+    init_distant_light(0, scene_light_state.view_direction.x, scene_light_state.view_direction.y, scene_light_state.view_direction.z);
+    GXInitLightDir(gx_light_objects, scene_light_state.view_direction.x, scene_light_state.view_direction.y, scene_light_state.view_direction.z);
 }
 
 void TUnk_804A6F90::set_scene_light_diffuse() {
-    set_gx_light_color(0, (f32) (TObjLight__scene_light_state.color.r), (f32) (TObjLight__scene_light_state.color.g), (f32) (TObjLight__scene_light_state.color.b));
+    set_gx_light_color(0, scene_light_state.color.r, scene_light_state.color.g, scene_light_state.color.b);
 }
 
 
 void TUnk_804A6F90::render() {
     Vec v;
-    rotate_vector_by_matrix(0, &TObjLight__scene_light_state.direction, &TObjLight__scene_light_state.view_direction);
-    v.x = TObjLight__scene_light_state.view_direction.x;
-    v.y = TObjLight__scene_light_state.view_direction.y;
-    v.z = TObjLight__scene_light_state.view_direction.z;
-    f32 m = vector_length(&v);
-    if (m) {
+    rotate_vector_by_matrix(0, &scene_light_state.direction, &scene_light_state.view_direction);
+    v.x = scene_light_state.view_direction.x;
+    v.y = scene_light_state.view_direction.y;
+    v.z = scene_light_state.view_direction.z;
+    f32 length = vector_length(&v);
+    if (length) {
         normalize_vector(&v);
     }
-    TObjLight__scene_light_state.view_direction.x = v.x;
-    TObjLight__scene_light_state.view_direction.y = v.y;
-    TObjLight__scene_light_state.view_direction.z = v.z;
+    scene_light_state.view_direction.x = v.x;
+    scene_light_state.view_direction.y = v.y;
+    scene_light_state.view_direction.z = v.z;
     submit_light0(0, 1);
     submit_scene_light_direction();
     set_scene_light_diffuse();
     sub_8013397C();
-    GXInitLightSpot(((s32 *)&TObjLight__gx_light_objects), 1, 180.0f);
-    GXInitLightDistAttn(((s32 *)&TObjLight__gx_light_objects), 0, 100000000.0f, 0.9f);
+    GXInitLightSpot(gx_light_objects, 180.0f, 1);
+    GXInitLightDistAttn(gx_light_objects, 100000000.0f, 0.9f, 0);
     load_gx_light_slot(0);
 }
 
@@ -480,8 +468,8 @@ void TObjLight__sub_801337FC(void *light) {}
 void TObjLight::sub_801337F8() {}
 
 void TObjLight::init_directional_light() {
-    init_distant_light(0, TObjLight__scene_light_state.view_direction.x, TObjLight__scene_light_state.view_direction.y, TObjLight__scene_light_state.view_direction.z);
-    GXInitLightDir((s32 *)(&TObjLight__gx_light_objects[0]), TObjLight__scene_light_state.view_direction.x, TObjLight__scene_light_state.view_direction.y, TObjLight__scene_light_state.view_direction.z);
+    init_distant_light(0, scene_light_state.view_direction.x, scene_light_state.view_direction.y, scene_light_state.view_direction.z);
+    GXInitLightDir(gx_light_objects, scene_light_state.view_direction.x, scene_light_state.view_direction.y, scene_light_state.view_direction.z);
 }
 
 void TObjLight::sub_8013379C(TObjLightSceneLightState *state) {}
@@ -489,73 +477,81 @@ void TObjLight::sub_8013379C(TObjLightSceneLightState *state) {}
 TUnk_804A6F78::TUnk_804A6F78(TObject *parent) : TUnk_804A6FC0(parent) {
     s32 i;
     lbl_805D5564 = this;
-    TObjLight__active_light_count = 1;
+    active_light_count = 1;
     submit_scene_ambient_color();
     sub_80133714();
     sub_801336DC();
     for (i = 0; i < 3; i++) {
-        TObjLight__data_80506370[i] = 0;
+        light_slots[i] = 0;
     }
 }
 
 void TUnk_804A6F78::sub_80133714() {}
 
 void TUnk_804A6F78::submit_scene_ambient_color() {
-    set_light_ambient_color(TObjLight__scene_light_state.ambient_color.r, TObjLight__scene_light_state.ambient_color.g, TObjLight__scene_light_state.ambient_color.b);
+    set_light_ambient_color(scene_light_state.ambient_color.r, scene_light_state.ambient_color.g, scene_light_state.ambient_color.b);
 }
 
 
 void TUnk_804A6F78::sub_801336DC() {}
 
-uaddr TObjLight::alloc_light_slot() {
+PointLight *TObjLight::alloc_light_slot() {
     s32 i;
-    uaddr *p;
-    void *r;
-    p = ((uaddr *)&TObjLight__data_80506370);
-    for (i = 0; i < 3; p++, i++) {
-        if (*p == 0) {
-            r = ::operator new(0x2C);
-            if (r != 0) {
-                r = ((void *)((TObjLight *)r)->init_light(i));
-            }
-            *p = (uaddr)r;
-            TObjLight__active_light_count++;
-            return *p;
+    PointLight **slot;
+    slot = light_slots;
+    for (i = 0; i < 3; slot++, i++) {
+        if (*slot == NULL) {
+            *slot = new PointLight(i);
+            active_light_count++;
+            return *slot;
         }
     }
     return 0;
 }
 
-void TObjLight::unregister_and_free() {
+void PointLight::unregister_and_free() {
     s32 i;
-    void **q = TObjLight__data_80506370;
+    PointLight **slot = light_slots;
     for (i = 0; i < 3; i++) {
-        if (*q == this) {
-            *q = 0;
-            TObjLight__active_light_count--;
+        if (*slot == this) {
+            *slot = NULL;
+            active_light_count--;
             break;
         }
-        q++;
+        slot++;
     }
     ::operator delete(this);
 }
 
 void TUnk_804A6F78::render() {  }
 
-void*TObjLight::init_light(int a1) { *(int *)&this->m_name = light_type_id_table[a1]; *(float *)&this->m_up = 0.0f; *(float *)&this->m_next = 0.0f; *(float *)&this->m_prev = 0.0f; TAdSinglePlyChrSelectGC__sub_80133548(); *(float *)&this->m_down = 5.0f; *(float*)((char*)this + 0x18) = 30.0f; TAdSinglePlyChrSelectGC__sub_80133544(this); *(float *)&this->m_20 = 1.0f; *(float *)&this->texlist = 1.0f; *(float *)&this->room = 1.0f; TAdSinglePlyChrSelectGC__sub_801334E4(this); return this; }
+PointLight::PointLight(s32 index) {
+    light_id = light_type_id_table[index];
+    position.x = position.y = position.z = 0.0f;
+    apply_position();
+    range[0] = 5.0f;
+    range[1] = 30.0f;
+    apply_range();
+    color[0] = 1.0f;
+    color[1] = 1.0f;
+    color[2] = 1.0f;
+    apply_color();
+}
 
-int light_type_id_table[3] = { 2, 3, 4 };
-f32 default_scene_light_config[17] = {
-    0.0f, -0.5f, 0.5f, 0.0f, 0.0f, 1.0f, 0.3f, 0.96f, 0.3f,
-    0.0f, 0.7f, 0.8f, 0.8f, 0.0f, 1.0f, 1.0f, 1.0f,
+LightEntry default_scene_light_config = {
+    { 0.0f, -0.5f, 0.5f },
+    { 0.0f, 0.0f, 1.0f },
+    0.3f, 0.96f, 0.3f,
+    { 0.0f, 0.7f, 0.8f, 0.8f },
+    { 0.0f, 1.0f, 1.0f, 1.0f },
 };
 
 TUnk_804A6F90 *lbl_805D5558;
 void *lbl_805D555C;
 TObjLight *current_scene_light;
 TUnk_804A6F78 *lbl_805D5564;
-s32 TObjLight__active_light_count;
-s32 TObjLight__actor_light_count;
-s32 TObjLight__light_count;
-uaddr TObjLight__light_entry_data;
+s32 active_light_count;
+s32 actor_light_count;
+s32 light_count;
+LightEntry *light_entry_data;
 s32 light_entry_file_size;

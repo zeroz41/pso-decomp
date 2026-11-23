@@ -73,32 +73,31 @@ extern "C" {
 s8 TWindowSubComCard__sub_8007B6EC(void *);
 s32 TWindowSubComCard__sub_8007B6F4(void *);
 }
-s32 get_class_name_text(s32 class_index);
 
 extern u8 *text_language_group_table;
 
 
 void*TWindowComCard::get_card_name_ptr() { return (char*)this + 0xa; }
 
-void TWindowComCard::set_help_mode(s32 arg1) {
+void TWindowComCard::set_help_mode(s32 help_mode) {
     const ComCardHelpRect *temp_r4;
 
-    if (arg1 == 0xE) {
+    if (help_mode == 0xE) {
         *(u16 *)&this->m_name = (u16) (*(u16 *)&this->m_name | 2);
         return;
     }
     *(u16 *)&this->m_name = (u16) (*(u16 *)&this->m_name & 0xFFFFFFFD);
-    if (arg1 < 0xA) {
+    if (help_mode < 0xA) {
         reinterpret_cast<WindowSpritePart *>(this)->kind = 1;
     } else {
         reinterpret_cast<WindowSpritePart *>(this)->kind = 2;
     }
-    temp_r4 = &com_card_help_panel_rect_table[arg1];
+    temp_r4 = &com_card_help_panel_rect_table[help_mode];
     set_sprite_uv_from_pixels(reinterpret_cast<WindowSpritePart *>(this), temp_r4->x, temp_r4->y);
 }
 
-s32 get_class_name_text(s32 arg0) {
-    return *(s32 *)((s8 *)(*(saddr *)((s8 *)text_language_group_table + 0x1C)) + (arg0 * 4));
+s32 get_class_name_text(s32 class_index) {
+    return *(s32 *)((s8 *)(*(saddr *)((s8 *)text_language_group_table + 0x1C)) + (class_index * 4));
 }
 
 extern "C" s8 TWindowComCard__sub_80249C20(void* p) { return *(s8*)((char*)p + 0x8d); }
@@ -139,7 +138,7 @@ s32 TWindowSubComCard::create_com_card_window(s32 position) {
 }
 
 void *TWindowComCard::create(void *position, void *index) {
-    void *entry = get_card_entry__17TWindowSubComCardFi(static_cast<s32>(reinterpret_cast<saddr>(index)));
+    void *entry = TWindowSubComCard::get_card_entry(static_cast<s32>(reinterpret_cast<saddr>(index)));
     if (entry == NULL) {
         return NULL;
     }

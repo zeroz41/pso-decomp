@@ -24,16 +24,15 @@ struct TObjDoorKey : public TOKey {
     s32 m_f0;
     u8 unk_F4[0x4];
     uaddr m_f8;
+    static void *create(void *set_data);
 };
 
 LAYOUT_ASSERT(TObjDoorKey_size, sizeof(TObjDoorKey) == 0xFC);
 
 extern "C" {
-void *TObjDoorKey__create(void *arg0);
 void *__ct__11TObjDoorKeyFP7TObjectPv(TObjDoorKey *arg0, void *arg1, void *arg2);
 void TObjDoorKey__sub_8018FAEC(u16 id, u16);
 void trigger_activate_sound__11TObjDoorKeyFv(u8 *arg0);
-void *TObjEnvSoundGlobal__create(void *arg0);
 void *__dt__11TObjDoorKeyFv(void *arg0, s16 arg1);
 }
 

@@ -12,7 +12,7 @@ struct TObjPlayer;
 
 class TUnk_804CCD0C : public TObject {
 public:
-    TUnk_804CCD0C(s32 arg1, saddr arg2);
+    TUnk_804CCD0C(TObjPlayer *actor, TObject *parent);
     virtual ~TUnk_804CCD0C();
     virtual void run_task();
     TObjPlayer *m_actor;

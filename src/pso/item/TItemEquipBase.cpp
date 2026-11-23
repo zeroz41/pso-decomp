@@ -23,11 +23,11 @@
 const char *item_equip_base_class_name = "TItemEquipBase";
 
 extern "C" {
-// The attack parameter getters (TObjPlayer_80011014.cpp), seen here as
+// The attack parameter getters (TObjChara.cpp), seen here as
 // returning int: the stat helpers take the values without re-extending them.
 s32 get_attack_params_atp_min(AttackParams *params);
 s32 get_attack_params_atp_max(AttackParams *params);
-s32 TObjPlayer__sub_800194E8(AttackParams *params);
+s32 get_ata__12AttackParamsFv(AttackParams *params);
 void *resolve_hittable_target(u16 actor_id, s32 collider);
 s32 add_actor_hp_bonus(void *actor, s32 amount);
 s32 add_actor_tp_bonus(void *actor, s32 amount);
@@ -60,7 +60,7 @@ void TItemEquipBase::bind_loaded_resources() {
             if (resource != NULL) {
                 item_model = resource->models[0];
                 second_model = resource->models[1];
-                texlist = (saddr)resource->texlist;
+                texlist = resource->texlist;
                 model_motion = resource->motion;
                 model_data[0] = resource->models[2];
                 model_data[1] = resource->models[3];
@@ -115,7 +115,7 @@ void TItemEquipBase::apply_equip_effects() {
         TItemLockCountCtrl::lock_effect(get_owner_client(), 0);
     }
     if (start_effect(0x20, 0x40)) {
-        ((PlayerAttackState *)&owner->attack_state)->set_item_effect();
+        owner->attack_state.set_item_effect();
     }
     if (start_effect(0x80, 0x100)) {
         TItemLockCountCtrl::lock_effect(get_owner_client(), 1);
@@ -150,7 +150,7 @@ void TItemEquipBase::remove_equip_effects() {
     if (stop_effect(0x40)) {
         TObjPlayer *player = owner;
         if (player != NULL) {
-            ((PlayerAttackState *)&player->attack_state)->clear_item_effect();
+            player->attack_state.clear_item_effect();
         }
     }
     if (stop_effect(0x100)) {
@@ -209,7 +209,7 @@ void TItemEquipBase::subtract_equip_stats(void *atp, s16 *stats, s16 *stats2) {
     if (attack != NULL) {
         attack->sub_atp_min(get_attack_params_atp_min(&attack_bonus));
         attack->sub_atp_max(get_attack_params_atp_max(&attack_bonus));
-        attack->sub_ata(TObjPlayer__sub_800194E8(&attack_bonus));
+        attack->sub_ata(get_ata__12AttackParamsFv(&attack_bonus));
     }
     if (params != NULL) {
         params->values[0] -= param_bonus.values[0];
@@ -308,7 +308,7 @@ void TItemEquipBase::add_equip_stats(s32 apply) {
         if (attack != NULL) {
             attack->add_atp_min(get_attack_params_atp_min(&attack_bonus));
             attack->add_atp_max(get_attack_params_atp_max(&attack_bonus));
-            attack->add_ata(TObjPlayer__sub_800194E8(&attack_bonus));
+            attack->add_ata(get_ata__12AttackParamsFv(&attack_bonus));
         }
         params = get_actor_param_block(owner);
         if (params != NULL) {
@@ -410,9 +410,9 @@ void TechniqueBoost::clear() {
     amount = 0.0f;
 }
 
-void PlayerAttackState::set_item_effect() { flags.set(0x20); }
+void PlayerAttackController::set_item_effect() { ((FlagWord *)&flags)->set(0x20); }
 
-void PlayerAttackState::clear_item_effect() { flags.clear(0x20); }
+void PlayerAttackController::clear_item_effect() { ((FlagWord *)&flags)->clear(0x20); }
 
 void AttackParams::sub_ata(s32 amount) { ata -= amount; }
 

@@ -8,14 +8,15 @@ struct TObjEnvSoundEx : public TObjBase {
     TObjEnvSoundEx(TObject *parent, saddr set_data);
     virtual ~TObjEnvSoundEx();
     virtual void run_task();
-    u32 m_90;
-    u8 unk_94[0x4];
-    f32 m_98;
-    u32 m_9c;
-    u32 m_a0;
+    s32 max_volume;     // set param 1, clamped to -127..127
+    f32 volume;         // fades by volume_step towards max_volume in range, towards -127 outside
+    f32 volume_step;    // |scale.y|
+    s32 sound_id;       // area table row picked by set param 0
+    s32 mode;           // 1 positional, 2 volume-driven
+    f32 range;          // scale.z, 200 when not positive
     s32 init_sound_params();
     virtual void render();
-    u8 unk_A4[0x4];
+    static void *create(void *set_data);
 };
 
 LAYOUT_ASSERT(TObjEnvSoundEx_size, sizeof(TObjEnvSoundEx) == 0xA8);

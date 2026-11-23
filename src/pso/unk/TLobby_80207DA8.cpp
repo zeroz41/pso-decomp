@@ -275,7 +275,7 @@ __declspec(section ".data") const char *lbl_804C9268[2] = { floor_map_name_aboss
 }
 FloorSceneEntry floor_scene_table[36] = { { lbl_804C90E0, 1 }, { lbl_804C90E8, 1 }, { lbl_804C90F0, 1 }, { lbl_804C90F8, 6 }, { lbl_804C9128, 5 }, { lbl_804C9150, 6 }, { lbl_804C9180, 6 }, { lbl_804C91B0, 6 }, { lbl_804C91E0, 5 }, { lbl_804C9208, 5 }, { lbl_804C9230, 5 }, { lbl_804C9258, 1 }, { lbl_804C9260, 1 }, { lbl_804C9268, 1 }, { lbl_804C8DF0, 1 }, { lbl_804C8DF8, 15 }, { lbl_804C8E70, 3 }, { lbl_804C8E88, 3 }, { lbl_804C8EA0, 1 }, { lbl_804C8ED8, 3 }, { lbl_804C8EF0, 3 }, { lbl_804C8EA8, 3 }, { lbl_804C8EC0, 3 }, { lbl_804C8F08, 1 }, { lbl_804C8F10, 1 }, { lbl_804C8F18, 1 }, { lbl_804C8F20, 3 }, { lbl_804C8F38, 1 }, { lbl_804C8F70, 3 }, { lbl_804C8F88, 3 }, { lbl_804C8FA0, 1 }, { lbl_804C8FA8, 1 }, { lbl_804C8FB0, 1 }, { lbl_804C8FB8, 1 }, { lbl_804C8F40, 1 }, { lbl_804C8F48, 5 } };
 const char *forest_rel_filename_table[6] = { "SetDataTableOff.rel", "SetDataTableOffUlti.rel", "SetDataTableOn.rel", "SetDataTableOnUlti.rel", "SetDataTable_TGS2001.rel", 0 };
-saddr get_floor_scene_table(s32 arg0);
+saddr get_floor_scene_table(s32 area);
 
 void TLobby__sub_80207E44(void);
 
@@ -285,13 +285,13 @@ void randomize_adventure_maps(void);
 void TLobby::reset_story_select() { TAdStorySelectGC::set_state((saddr)((void*)0)); story_select_pending_state = -1; }
 
 s32 TLobby::is_scene_ready() {
-    s32 temp_r3;
+    s32 status;
 
     if (get_current_floor_area() != AREA_LOBBY) {
         return 0;
     }
-    temp_r3 = TScene::get_status();
-    if ((temp_r3 >= 0xD) && (temp_r3 < 0xF)) {
+    status = TScene::get_status();
+    if ((status >= 0xD) && (status < 0xF)) {
         return 1;
     }
     return 0;
@@ -315,7 +315,6 @@ saddr get_floor_scene_table(s32 area) {
 
 void TLobby::reset_story_select(void* p) { TLobby::reset_story_select(); }
 void TLobby__sub_80207F10(void) { TLobby::reset_story_select(); }
-s32 get_current_floor();
 void bswap_enemy_set_row(void *arg0);
 void bswap_enemy_set_row_fields(void *arg0);
 void swap_object_row_endian(void *arg0);
@@ -356,9 +355,9 @@ void run_floor_cleanup_callbacks__6TLobbyFi(s32 arg0) {
 
 void TLobby::update_current_floor() { get_current_floor_area(); ((void (*)(void))run_floor_cleanup_callbacks__6TLobbyFi)(); }
 }
-s32 run_floor_initialize_callbacks(s32 arg0);
-s32 run_floor_initialize_callbacks(s32 arg0) {
-    E_80208020 *p = floor_lifecycle_callback_tables[arg0];
+s32 run_floor_initialize_callbacks(s32 floor);
+s32 run_floor_initialize_callbacks(s32 floor) {
+    E_80208020 *p = floor_lifecycle_callback_tables[floor];
     Fn_80208020 f;
     if (p == 0) {
         return 1;
@@ -422,6 +421,9 @@ void bswap_object_row_fields(void *arg0) {
     bswap_32((u32 *)((void *)((char *)arg0 + 52)));
     bswap_32((u32 *)((void *)((char *)arg0 + 56)));
 }
+
+MapSetArea *map_set_areas;
+
 extern "C" {
 
 
@@ -453,9 +455,8 @@ s32 TLobby::get_drop_item_mode() {
     }
 }
 
-saddr load_relocatable_file(saddr arg0, saddr arg1);
+saddr load_relocatable_file(saddr name, saddr arg1);
 
-MapSetArea *TLobby__data_805D6068;
 // inferred: first word of the loaded SetDataTable*.rel module (update_drop_item/load_item_data)
 MapSetArea *forest_rel_set_data_table;
 // inferred: the SetDataTable*.rel module load_relocatable_file returns
@@ -464,7 +465,7 @@ uaddr forest_rel_work_buffer;
 
 void TLobby::update_drop_item() {
     MapSetModule *temp_r3;
-    MapSetArea *temp_r0;
+    MapSetArea *areas;
     s32 drop_item_mode;
 
     forest_rel_set_data_table = 0;
@@ -475,9 +476,9 @@ void TLobby::update_drop_item() {
             temp_r3 = (MapSetModule *)load_relocatable_file((saddr)forest_rel_filename_table[drop_item_mode], forest_rel_work_buffer);
             forest_rel_module = temp_r3;
             if (temp_r3 != NULL) {
-                temp_r0 = temp_r3->areas;
-                forest_rel_set_data_table = temp_r0;
-                TLobby__data_805D6068 = temp_r0;
+                areas = temp_r3->areas;
+                forest_rel_set_data_table = areas;
+                map_set_areas = areas;
             }
         }
     }
@@ -491,7 +492,7 @@ void TLobby__sub_802083C0(void) {
         forest_rel_work_buffer = 0U;
         forest_rel_module = 0;
         forest_rel_set_data_table = 0;
-        TLobby__data_805D6068 = 0;
+        map_set_areas = 0;
     }
 }
 }
@@ -515,7 +516,7 @@ void set_destroy_event__6TLobbyFi(int a0);
 
 void TLobby::load_item_data() {
     MapSetModule *temp_r3_2;
-    MapSetArea *temp_r0;
+    MapSetArea *areas;
     s32 drop_item_mode;
     u32 temp_r3;
 
@@ -529,17 +530,17 @@ void TLobby::load_item_data() {
             temp_r3_2 = (MapSetModule *)load_relocatable_file((saddr)forest_rel_filename_table[drop_item_mode], forest_rel_work_buffer);
             forest_rel_module = temp_r3_2;
             if (temp_r3_2 != NULL) {
-                temp_r0 = temp_r3_2->areas;
-                forest_rel_set_data_table = temp_r0;
-                TLobby__data_805D6068 = temp_r0;
+                areas = temp_r3_2->areas;
+                forest_rel_set_data_table = areas;
+                map_set_areas = areas;
             }
         }
     }
 }
 
-saddr wave_event_stream_base;
+u8 *wave_event_stream_base;
 s32 wave_event_stream_cursor;
-int wave_event_stop_requested;
+s32 wave_event_stop_requested;
 s32 wave_event_trigger_count;
 s32 wave_event_first_switch_set;
 void TLobby::relink_objects(s16 a, s16 b) { link_matching_objects(a, b); wave_event_stop_requested = 1; }
@@ -654,7 +655,7 @@ u16 read_stream_u16(void) {
     u16 sp8;
     s32 temp_r4;
 
-    ((s32 (*)(u16 *, s32, s32))memcpy)(&sp8, wave_event_stream_base + wave_event_stream_cursor, 2);
+    memcpy(&sp8, wave_event_stream_base + wave_event_stream_cursor, 2);
     temp_r4 = wave_event_stream_cursor;
     wave_event_stream_cursor = temp_r4 + 2;
     ((s32 (*)(u16 *, s32))bswap_16__FPUs)(&sp8, temp_r4);
@@ -662,12 +663,9 @@ u16 read_stream_u16(void) {
 }
 
 unsigned char read_stream_u8(void);
-#define wave_event_stop_requested (*(s32 *)&wave_event_stop_requested)
 
 s32 run_wave_event_actions(void);
 
-#define wave_event_stream_base (*(unsigned char * *)&wave_event_stream_base)
-#define wave_event_stream_cursor (*(int *)&wave_event_stream_cursor)
 unsigned char read_stream_u8(void) { return wave_event_stream_base[wave_event_stream_cursor++]; }
 
 s32 run_wave_event_actions(void) {
@@ -681,7 +679,5 @@ s32 run_wave_event_actions(void) {
     return wave_event_trigger_count;
 }
 
-#undef wave_event_stream_base
-#undef wave_event_stream_cursor
 
-void TLobby__sub_80208884(void *a0) { wave_event_stream_base = *(s32 *)((char *)a0 + 0x0); wave_event_stream_cursor = *(s32 *)((char *)a0 + 0x4); }
+void TLobby__sub_80208884(void *a0) { wave_event_stream_base = *(u8 **)((char *)a0 + 0x0); wave_event_stream_cursor = *(s32 *)((char *)a0 + 0x4); }

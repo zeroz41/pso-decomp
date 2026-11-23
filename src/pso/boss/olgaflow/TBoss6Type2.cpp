@@ -62,6 +62,7 @@
 #include "pso/camera/TCameraFollow.h"
 #include "pso/network/client_id.h"
 #include "pso/unk/text_803D853C.h"
+#include "pso/object/base/TObjBase.h"
 
 // One row per body motion. update_motion_tracks loops a mode 0 row, holds a
 // mode 2 row on its last frame and goes on to row `next`.
@@ -848,7 +849,7 @@ void TBoss6Type2::draw_body_models() {
                 if (a < 1.0f) {
                     TBoss6PlotFalz::set_fade_material_color(a);
                 }
-                TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
+                TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
                 if (0.0f == motion_tracks[0].blend) {
                     if (done != 0) {
                         draw_model_motion((void *)model, motion_tracks[0].motion, motion_tracks[0].frame);
@@ -1399,7 +1400,7 @@ s32 TBoss6Type2::push_players_away(void *target, f32 range) {
                 break;
             }
         }
-        mask |= 1 << get_entity_id(pl);
+        mask |= 1 << pl->get_entity_id();
     }
     return mask;
 }
@@ -1617,7 +1618,7 @@ void TBoss6Type2::request_player_camera_offsets(f32 a, f32 b) {
                     }
                 }
             }
-            request_follow_camera_offsets(&off, &cam, get_entity_id(p));
+            request_follow_camera_offsets(&off, &cam, p->get_entity_id());
             if (flag == 0) {
                 break;
             }
@@ -2009,15 +2010,15 @@ s32 TBoss6Type2::grab_player(u16 client_id) {
     }
     possessed_client = client_id;
     grab_appearance = player->name;
-    copy_texlist(&saved_look.body_textures, (GinjaTextureList *)player->body_textures);
-    copy_texlist(&saved_look.head_textures, (GinjaTextureList *)player->head_textures);
-    copy_texlist(&saved_look.attachment_textures, (GinjaTextureList *)player->attachment_textures);
+    copy_texlist(&saved_look.body_textures, (NJS_TEXLIST *)player->body_textures);
+    copy_texlist(&saved_look.head_textures, (NJS_TEXLIST *)player->head_textures);
+    copy_texlist(&saved_look.attachment_textures, (NJS_TEXLIST *)player->attachment_textures);
     saved_look.model = player->model;
     saved_look.head_model = player->head_model;
     saved_look.hair_model = player->hair_model;
     saved_look.attachment_model = player->attachment_model;
-    copy_texlist((GinjaTextureList *)player->body_textures, grab_texlists[0]);
-    copy_texlist((GinjaTextureList *)player->attachment_textures, grab_texlists[1]);
+    copy_texlist((NJS_TEXLIST *)player->body_textures, grab_texlists[0]);
+    copy_texlist((NJS_TEXLIST *)player->attachment_textures, grab_texlists[1]);
     player->model = grab_models[0];
     player->head_model = NULL;
     player->hair_model = NULL;
@@ -2025,7 +2026,7 @@ s32 TBoss6Type2::grab_player(u16 client_id) {
     return 1;
 }
 
-void copy_texlist(GinjaTextureList *dst, GinjaTextureList *src) { *dst = *src; }
+void copy_texlist(NJS_TEXLIST *dst, NJS_TEXLIST *src) { *dst = *src; }
 
 void TBoss6Type2::restore_target_player_state() {
     TObjPlayer *player;
@@ -2036,8 +2037,8 @@ void TBoss6Type2::restore_target_player_state() {
             reset_fish_fields();
             return;
         }
-        copy_texlist((GinjaTextureList *)player->body_textures, &saved_look.body_textures);
-        copy_texlist((GinjaTextureList *)player->attachment_textures, &saved_look.attachment_textures);
+        copy_texlist((NJS_TEXLIST *)player->body_textures, &saved_look.body_textures);
+        copy_texlist((NJS_TEXLIST *)player->attachment_textures, &saved_look.attachment_textures);
         player->model = saved_look.model;
         player->head_model = saved_look.head_model;
         player->hair_model = saved_look.hair_model;

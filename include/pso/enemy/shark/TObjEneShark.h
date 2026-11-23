@@ -12,7 +12,7 @@ class TObjEneShark : public TUnk_80493450 {
 public:
     TObjEneShark(TObject *parent, void *setData);
     virtual ~TObjEneShark();
-    static void *create(void *arg0);
+    static void *create(void *setData);
     static void free_resources();
     virtual void render();
     virtual void beast_update_appear();

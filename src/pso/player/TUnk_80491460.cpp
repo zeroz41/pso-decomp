@@ -13,6 +13,7 @@
 #include "pso/render/NinjaUtil.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/MatrixStack.h"
+#include "pso/player/PlayerSlots.h"
 
 // Written last-to-first: the TU was compiled with deferred codegen, which emits the
 // functions in reverse definition order.

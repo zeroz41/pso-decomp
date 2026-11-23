@@ -76,6 +76,7 @@
 #include "pso/system/MatrixOps.h"
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 #include "pso/ui/TLevelSelect.h"
+#include "pso/object/base/TObjBase.h"
 
 // load_resources fills these per kind (0 and 1) from TLobby::register_boss,
 // TLobby::dispatch_shared_handler_b, TLobby::register_object and
@@ -174,7 +175,7 @@ void TObjEneMe3SinowZoa::load_resources() {
     } else {
         TObjEneMe3SinowZoa__bml_resource = load_enemy_bml_resource(&bm_ene_me3_shinowa_zoa_resource_descriptor);
     }
-    src = (NJS_TEXLIST *)TObjEneMe3SinowZoa__bml_resource->models->texlist;
+    src = TObjEneMe3SinowZoa__bml_resource->models->texlist;
     count = src->nbTexture;
     TObjEneMe3SinowZoa__alternate_texture_list.nbTexture = count;
     TObjEneMe3SinowZoa__alternate_texture_list.textures = (NJS_TEXNAME *)mem_alloc(count * sizeof(NJS_TEXNAME));
@@ -230,10 +231,10 @@ void TObjEneMe3SinowZoa::load_resources() {
         info.motions = reinterpret_cast<BmlMotionEntry *>(TObjEneMe3SinowZoa__bml_resource->motions);
         NpcAnimationBinding info_b = sinow_zoa_attack_binding_desc_b;
         info_b.motions = reinterpret_cast<BmlMotionEntry *>(TObjEneMe3SinowZoa__bml_resource->motions);
-        NpcModelRegistry::register_animated_chunk(0x49, reinterpret_cast<void *>(TObjEneMe3SinowZoa__bml_resource->models->model), reinterpret_cast<void *>(TObjEneMe3SinowZoa__bml_resource->models->texlist), &info, 12.0f, 0.0f);
-        NpcModelRegistry::register_animated_chunk(0x4A, reinterpret_cast<void *>(TObjEneMe3SinowZoa__bml_resource->models->model), reinterpret_cast<void *>(&TObjEneMe3SinowZoa__alternate_texture_list), &info, 12.0f, 0.0f);
-        NpcModelRegistry::register_animated_chunk(0x4B, reinterpret_cast<void *>(TObjEneMe3SinowZoa__bml_resource->models->model), reinterpret_cast<void *>(TObjEneMe3SinowZoa__bml_resource->models->texlist), &info_b, 12.0f, 0.0f);
-        NpcModelRegistry::register_animated_chunk(0x4C, reinterpret_cast<void *>(TObjEneMe3SinowZoa__bml_resource->models->model), reinterpret_cast<void *>(&TObjEneMe3SinowZoa__alternate_texture_list), &info_b, 12.0f, 0.0f);
+        NpcModelRegistry::register_animated_chunk(0x49, reinterpret_cast<void *>(TObjEneMe3SinowZoa__bml_resource->models->model), TObjEneMe3SinowZoa__bml_resource->models->texlist, &info, 12.0f, 0.0f);
+        NpcModelRegistry::register_animated_chunk(0x4A, reinterpret_cast<void *>(TObjEneMe3SinowZoa__bml_resource->models->model), &TObjEneMe3SinowZoa__alternate_texture_list, &info, 12.0f, 0.0f);
+        NpcModelRegistry::register_animated_chunk(0x4B, reinterpret_cast<void *>(TObjEneMe3SinowZoa__bml_resource->models->model), TObjEneMe3SinowZoa__bml_resource->models->texlist, &info_b, 12.0f, 0.0f);
+        NpcModelRegistry::register_animated_chunk(0x4C, reinterpret_cast<void *>(TObjEneMe3SinowZoa__bml_resource->models->model), &TObjEneMe3SinowZoa__alternate_texture_list, &info_b, 12.0f, 0.0f);
     }
 }
 
@@ -599,12 +600,12 @@ s32 TObjEneMe3SinowZoa::is_alternate_variant() {
 
 void TObjEneMe3SinowZoa::init_variant() {
     if (is_alternate_variant() != 0) {
-        texlist = (saddr)&TObjEneMe3SinowZoa__alternate_texture_list;
+        texlist = &TObjEneMe3SinowZoa__alternate_texture_list;
         initialize_enemy_state(0x46);
         this->kind_index = 1;
         return;
     }
-    texlist = (saddr)TObjEneMe3SinowZoa__bml_resource->models->texlist;
+    texlist = TObjEneMe3SinowZoa__bml_resource->models->texlist;
     initialize_enemy_state(0x45);
     this->kind_index = 0;
 }
@@ -1567,7 +1568,7 @@ void TObjEneMe3SinowZoa::state_death(s32 mode) {
             if (this->state_timer >= 0x14) {
                 this->state_step = 2;
                 this->behavior_flags |= 2;
-                TBoss3Volopt::create_breakup_mdl((saddr)TObjEneMe3SinowZoa__breakup_model, (saddr)&sinow_zoa_breakup_params, (s32)this->texlist, (saddr)&this->position, this->rotation_y);
+                TBoss3Volopt::create_breakup_mdl((saddr)TObjEneMe3SinowZoa__breakup_model, (saddr)&sinow_zoa_breakup_params, this->texlist, (saddr)&this->position, this->rotation_y);
                 VecCopy(&p, &this->position);
                 p.x += 20.0f * sin_table_lookup(this->rotation_y);
                 p.z += 20.0f * cos_table_lookup(this->rotation_y);
@@ -1665,7 +1666,7 @@ void TObjEneMe3SinowZoa::state_warp(s32 mode) {
                         tmp.z += pos.z - this->current_target->position.z;
                         if (check_move_collision(&tmp) == 0 &&
                             csnVector(&this->current_target->position, &tmp, 0x88E0) == 0 &&
-                            csnVectorUnder(&pos, (CsnGroup **)&this->ground_cache, 0x15) != 0 &&
+                            csnVectorUnder(&pos, this->ground_candidates.groups, 0x15) != 0 &&
                             this->room == find_section_at_position(&pos)) {
                             VecCopy(&this->position, &pos);
                             this->rotation_y = ang + 0xC000;
@@ -1719,7 +1720,7 @@ void TObjEneMe3SinowZoa::render() {
             TObjEneDD::clear_global_flag_400();
         }
         TObjPlayer::toggle_particle_effect();
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(this->texlist));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
         for (i = 0; i < 3; i++) {
             if (TObjEneMe3SinowZoa__material_color_pointers[i] != NULL) {
                 *TObjEneMe3SinowZoa__material_color_pointers[i] = this->material_color;
@@ -1774,7 +1775,7 @@ extern "C" {
 s32 TObjEneMe3SinowZoa::render_model_if_visible() {
     if ((s32)main_task.get_task_flags() & 0x20) {
         if (push_reflection_matrix(&this->floor_point) != 0) {
-            TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(this->texlist));
+            TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
             push_matrix();
             post_translate_matrix(&this->position.x);
             translate_matrix(0, 0.0f, this->body_offset_y, 0.0f);
@@ -1816,7 +1817,7 @@ void TObjEneMe3SinowZoa::render_demo() {
     }
     flag = is_alternate_variant();
     if (update_object_view_visibility(400.0f, 15.0f) != 0) {
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
         TObjPlayer::toggle_particle_effect();
         if (flag != 0) {
             NJS_TEXNAME *parts = ((NJS_TEXLIST *)texlist)->textures;
@@ -2088,7 +2089,7 @@ s32 TObjEneMe3SinowZoa::check_move_collision(const Vec *pos) {
     this->check_collisions();
     this->update_enemy_collision_flags();
     if (body->flags & 0x80000) {
-        if (get_valid_target_player(get_entity_id(this->current_target)) == 0) {
+        if (get_valid_target_player(this->current_target->get_entity_id()) == 0) {
             VecCopy(&this->position, &saved_position);
             TObjPlayer::init_all_slots();
             return 1;
@@ -2176,7 +2177,7 @@ s32 TObjEneMe3SinowZoa::check_floor_contact(const Vec *origin) {
     void *p;
     VecCopy(&v, origin);
     v.y += 15.0f;
-    hit = csnVectorUnder(&v, (CsnGroup **)&this->ground_cache, 0x4007);
+    hit = csnVectorUnder(&v, this->ground_candidates.groups, 0x4007);
     if (hit != NULL) {
         this->floor_flags = hit->contact->flags;
         if (this->floor_flags & 0x4000) {

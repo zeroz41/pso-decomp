@@ -18,8 +18,8 @@ const char *TOMineIcon01__name = "TOMineIcon01";
 
 void TOMineIcon01::vfunc_84() {  }
 
-void *TOMineIcon01::create() {
-    return new TOMineIcon01(tl_05, this);
+void *TOMineIcon01::create(void *set_data) {
+    return new TOMineIcon01(tl_05, set_data);
 }
 
 TOMineIcon01::~TOMineIcon01() {
@@ -35,9 +35,9 @@ TOMineIcon01::TOMineIcon01(TObject *parent, void *set_data) : TOMine(parent) {
     init_position_vectors();
     calc_attach_pos();
     model = (void *)get_bml_model((BmlResource *)lbl_805D5A50, 4);
-    texlist = (saddr)get_bml_texlist((BmlResource *)lbl_805D5A50, 4);
+    texlist = get_bml_texlist((BmlResource *)lbl_805D5A50, 4);
     light_model = (NJS_OBJECT *)get_bml_model((BmlResource *)lbl_805D5A50, 1);
-    light_textures = (GinjaTextureList *)get_bml_texlist((BmlResource *)lbl_805D5A50, 1);
+    light_textures = get_bml_texlist((BmlResource *)lbl_805D5A50, 1);
     mode = 0;
     if (set_params[0] < 0) {
         set_params[0] = 0;

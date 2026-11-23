@@ -125,7 +125,7 @@ extern s32 lbl_805D7AA0; /* PppFsm.c */
 extern u16 lbl_805D7A9A;
 extern u8 chap_read_byte_buffer;
 s16 PP_chap_monitor(PppFsm *c, s32 timeout);
-s32 TLobby__sub_803FC684(u8 *arg0, u8 *arg1, u8 *arg2);
+s32 TLobby__sub_803FC684(u8 *arg0, u8 *chap_secret, u8 *arg2);
 void TLobby__sub_803FC728(PppFsm *c);
 s16 chap_recv_response(PppFsm *fsm, PppHeader *header, PppFrame *source);
 void chap_recv_challenge(PppFsm *connection, PppHeader *header, PppFrame *source);

@@ -2,20 +2,23 @@
 #include "pso/map/FloorResourceCallbacks.h"
 #include "pso/unk/TLobby_8007B858.h"
 #include "pso/ui/window/TWindowCtrl.h"
-#include "pso/unk/TUnk_80499970.h"
+#include "pso/unk/TScreenFadeController.h"
 #include "pso/ui/city/THunterGuildSeqOnlineTask.h"
 #include "pso/system/TLanguage.h"
+#include "pso/object/lobby/LobbyGoGoBall.h"
+#include "pso/object/lobby/TGoGoBallGame.h"
 #include "pso/npc/TNpcPlayer.h"
 #include "pso/unk/TUnk_804F07C8.h"
 #include "pso/map/TSetManager.h"
 #include "pso/unk/TLobby.h"
+#include "pso/network/TProtocol.h"
 #include "pso/unk/TLobbyEventTheme.h"
 #include "pso/quest/TQuestColCtrl.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/system/scene/TScene.h"
 #include "pso/system/scene/TSceneSora.h"
 #include "pso/object/switch/TSwitch.h"
-#include "pso/player/TUnk_8048E5F4.h"
+#include "pso/player/TCameraCapturePass.h"
 #include "pso/map/FloorArea.h"
 
 #include "types.h"
@@ -60,22 +63,14 @@ extern "C" {
 void TLobby__sub_802A5154(void);
 s32 run_load_callback_table(void *, int);
 void TSceneSora__sub_80207430(void);
-void TFogCtrl__sub_800FBA58(void);
 void TTecLuker__sub_80234F08(void);
 void TTecLuker__sub_80234F48(void);
-void fn_80198E84(void);
 s32 create_area_fog_ctrl();
 s32 activate_triggered_floor_events();
 s32 cleanup_game_objects__9TMainTaskFv();
 s32 restore_floor_telepipes();
 s32 __ct__15TWindowCtrlMainFv();
-s32 TWindowTimer__sub_80198D98();
 
-extern saddr tl_00;
-extern saddr tl_01;
-extern saddr tl_06;
-extern saddr tl_particlemodel;
-extern saddr tl_fade;
 
 // Session resources, loaded front to back by TLobby::run_lobby_load_tables and released
 // back to front by TLobby::clear_session_buffers (load, release pairs).
@@ -88,11 +83,11 @@ FloorResourceCallbacks lbl_8048D4C0[29] = {
     {TScene::load_current_floor, TScene::free_scene_resources},
     {TSceneSora::load_sky_resources, TSceneSora__sub_80207430},
     {TRaderMapCore::load_map_resources, TRaderMapCore::unload_floor_map},
-    {TLobby::setup_floor_decorations, TLobby::clear_floor_flags_and_depart},
+    {setup_floor_decorations, clear_floor_flags_and_depart},
     {TLobby::clear_flag_on_phase_e, TLobby__sub_800F7744},
     {clear_legacy_enemy_kill_flags, release_legacy_enemy_kill_flags},
     {load_particle_entry_resources, TParticleCtrl::free_all},
-    {TFogCtrl::update_fog_entries, TFogCtrl__sub_800FBA58},
+    {TFogCtrl::update_fog_entries, TFogCtrl::release_fog_entries},
     {init_partner_dialogue, TNpcPlayer__sub_8034EDB8},
     {TLobby__sub_80191270, TLobby__sub_80191264},
     {TLobby__sub_8007BBEC, TLobby__sub_8007BBF8},
@@ -123,16 +118,10 @@ void TLobby::create_tasks() {
     uaddr tmp;
     create_area_fog_ctrl();
     if (is_split_screen() == 0) {
-        tmp = (uaddr)TObject::operator new(0x20);
-        if (tmp != 0U) {
-            ((TUnk_8048E5F4 *)tmp)->init_subobject((void *)tl_particlemodel, (void *)1);
-        }
-        tmp = (uaddr)TObject::operator new(0x20);
-        if (tmp != 0U) {
-            ((TUnk_8048E5F4 *)tmp)->init_subobject((void *)tl_particlemodel, (void *)0);
-        }
-        new TUnk_804EDAC0((TObject *)tl_particlemodel);
-        new TUnk_804EFA88((TObject *)tl_particlemodel);
+        new TCameraCapturePass(tl_particlemodel, 1);
+        new TCameraCapturePass(tl_particlemodel, 0);
+        new TUnk_804EDAC0(tl_particlemodel);
+        new TUnk_804EFA88(tl_particlemodel);
     }
     cleanup_game_objects__9TMainTaskFv();
     TScene::create();
@@ -143,34 +132,31 @@ void TLobby::create_tasks() {
     if (tmp != 0U) {
         __ct__15TWindowCtrlMainFv();
     }
-    new TWindowCtrl((TObject *)tl_00);
-    new TUnk_80499970((TObject *)tl_fade);
+    new TWindowCtrl(tl_00);
+    new TScreenFadeController(tl_fade);
     TLobby::set_fade_params(0);
-    new TCineCtrl((TObject *)tl_00);
+    new TCineCtrl(tl_00);
     TRaderMapCore::create();
     restore_floor_telepipes();
-    new TUnk_804F07C8((TObject *)tl_06);
-    new TSwitch((TObject *)tl_00);
+    new TUnk_804F07C8(tl_06);
+    new TSwitch(tl_00);
     TQuestColCtrl::init();
     if (get_current_floor_area() == AREA_LOBBY) {
         TLobbyEventTheme::create();
     }
     if ((get_current_floor_area() == AREA_LOBBY) && (TLobby::is_scene_ready() != 0)) {
-        TWindowTimer__sub_80198D98();
+        TGoGoBallGame::create();
     }
     if ((get_main_phase() == 0xF) && ((get_current_floor_area() == AREA_PIONEER2_EP1) || (get_current_floor_area() == AREA_PIONEER2_EP2))) {
-        new THunterGuildSeqOnlineTask((TObject *)tl_01);
+        new THunterGuildSeqOnlineTask(tl_01);
     }
-    tmp = (uaddr)TObject::operator new(0x24);
-    if (tmp != 0U) {
-        __ct__8TTecCtrlFv((void *)tmp, (void *)tl_01);
-    }
+    new TTecCtrl(tl_01);
 }
 
 void TLobby::clear_session_buffers() {
     if (get_current_floor_area() == AREA_LOBBY) {
         TLobby::free_dialing_gc();
-        fn_80198E84();
+        free_lobby_textures();
         free_obj_lobby_main();
     }
     if ((get_current_floor_area() != AREA_PIONEER2_EP1) && (get_current_floor_area() != AREA_LOBBY) && (get_current_floor_area() != AREA_PIONEER2_EP2)) {
@@ -194,7 +180,7 @@ s32 TLobby::run_lobby_load_tables() {
     }
     if (get_current_floor_area() == AREA_LOBBY) {
         load_obj_lobby_main();
-        TLanguage::load_lobby_textures();
+        load_lobby_textures();
         TLobby__sub_802A5154();
     }
     return 1;
@@ -242,7 +228,6 @@ void TLobby__sub_8007BBEC(void) { quest_collision_next_id = 0; }
 
 void TLobby__sub_8007BBF8(void) { quest_collision_next_id = 0; }
 
-extern saddr TLobby__protocol_instance;
 
 saddr TWindowSubComCard::get_card_slot(s32 arg0) {
     s32 state;
@@ -293,5 +278,5 @@ void TLobby::send_status_packet() {
     char lobby[0x84];
 
     ((TLobby *)lobby)->collect_active_card_ids();
-    ((TLobby *)TLobby__protocol_instance)->send_c6_packet((s32 *) lobby);
+    protocol_instance->send_c6_packet(lobby);
 }

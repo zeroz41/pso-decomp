@@ -48,11 +48,11 @@ TObjDFDemo5::TObjDFDemo5(TObject *parent, const Vec *pos, s32 angle) : TObjBase(
     for (i = 0; i < 3; i++) {
         id = boss4_type3_model_ids[i];
         parts[i].model = (NJS_OBJECT *)get_bml_model(res, id);
-        parts[i].texlist = (GinjaTextureList *)get_bml_texlist(res, id);
+        parts[i].texlist = get_bml_texlist(res, id);
         parts[i].motion = get_bml_motion(res, df_demo5_part_motion_ids[i]);
     }
     parts[3].model = (NJS_OBJECT *)get_bml_model(res, 1);
-    parts[3].texlist = (GinjaTextureList *)get_bml_texlist(res, 1);
+    parts[3].texlist = get_bml_texlist(res, 1);
     parts[3].motion = get_bml_motion(res, 0x23);
     frame = -0.5f;
     for (s32 j = 0; j < 5; j++) {
@@ -130,14 +130,14 @@ void TObjDFDemo5::draw_fading_motion() {
     set_motion_packed_rotation();
     post_translate_matrix(&pos.x);
     rotate_matrix_y(NULL, angle);
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(parts[0].texlist));
+    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(parts[0].texlist));
     node_list0->install();
     draw_model_motion((void *)parts[0].model, parts[0].motion, frame);
     node_list0->clear();
     part_frame = (s32)frame % 30;
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(parts[1].texlist));
+    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(parts[1].texlist));
     draw_model_motion((void *)parts[1].model, parts[1].motion, part_frame);
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(parts[2].texlist));
+    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(parts[2].texlist));
     draw_model_motion((void *)parts[2].model, parts[2].motion, part_frame);
     clear_motion_packed_rotation();
     pop_matrix();
@@ -153,7 +153,7 @@ void TObjDFDemo5::release_subobjects() {
         set_motion_packed_rotation();
         post_translate_matrix(&pos.x);
         rotate_matrix_y(NULL, angle);
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(parts[3].texlist));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(parts[3].texlist));
         node_list1->install();
         draw_model_motion((void *)parts[3].model, parts[3].motion, frame);
         node_list1->clear();

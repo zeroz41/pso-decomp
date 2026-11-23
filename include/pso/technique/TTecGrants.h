@@ -2,6 +2,7 @@
 #define PSO_TECHNIQUE_TTECGRANTS_H
 
 #include "types.h"
+#include "pso/player/TargetCursorList.h"
 #include "pso/technique/TTecCircle.h"
 
 struct TTecGrants : public TTecCircle {
@@ -9,10 +10,8 @@ struct TTecGrants : public TTecCircle {
     virtual ~TTecGrants();
     virtual void vfunc_6(void *);
     virtual void run_task();
-    u32 m_ec;
-    u16 m_f0;
-    u8 _padF2[0x56];
-    u32 m_148;
+    TargetCursorList targets;
+    s32 m_148;
     virtual void render();
     static void create(void *source, void *origin, void *targets, s32 level);
     void init_parameters();

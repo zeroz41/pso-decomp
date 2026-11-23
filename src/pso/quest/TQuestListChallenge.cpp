@@ -13,9 +13,11 @@
 #include "pso/unk/TLobby.h"
 #include "pso/unk/text_801F3774.h"
 #include "pso/unk/text_80222C28.h"
-#include "pso/ui/city/TShopJudgmentItemWindow_8026DF00.h"
+#include "pso/ui/window/TWindowShop.h"
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/unk/TLobby_8030A6A8.h"
+#include "pso/object/base/TObjBase.h"
+#include "pso/player/TObjPlayer.h"
 
 extern "C" {
 s32 lbl_805D64A8;
@@ -87,14 +89,14 @@ void TQuestListChallenge::destroy() {
 void TQuestListChallenge::handle_confirm_select() {
     s32 selected_menu_value;
 
-    if (sequence->vfunc_10() != 0) {
+    if (sequence->is_message_ready() != 0) {
         if (confirmation != NULL && confirmation->is_decided() == 1) {
             selected_menu_value = confirmation->get_selected_value();
             if (selected_menu_value == 0) {
                 s32 index = list_window->get_cursor_value();
                 const QuestListStageEntry *catalog = entries;
                 prepare_offline_quest_filenames(catalog[index].filename);
-                set_field_20(3);
+                set_state(3);
                 return;
             }
             if (selected_menu_value == 1) {
@@ -102,7 +104,7 @@ void TQuestListChallenge::handle_confirm_select() {
                 if (sequence != NULL) {
                     sequence->display_guild_message(0x19, 0x80);
                 }
-                set_field_20(0);
+                set_state(0);
                 return;
             }
             goto block_9;
@@ -113,7 +115,7 @@ block_9:
             if (sequence != NULL) {
                 sequence->display_guild_message(0x19, 0x80);
             }
-            set_field_20(0);
+            set_state(0);
         }
     }
 }
@@ -136,7 +138,7 @@ void TQuestListChallenge::update_selection() {
     s32 id;
     s32 text;
     s32 text2;
-    if (sequence->vfunc_10() == 0) {
+    if (sequence->is_message_ready() == 0) {
         return;
     }
     if (list_window != NULL && description_window != NULL) {
@@ -152,14 +154,14 @@ void TQuestListChallenge::update_selection() {
         }
     }
     if (list_window != NULL && list_window->is_cancelled() == 1) {
-        set_field_20(4);
+        set_state(4);
         return;
     }
     if (list_window != NULL && list_window->is_decided() == 1) {
         sel = list_window->get_cursor_value();
         if (info_window == NULL) {
             ChallengeWindowExtent p = lbl_80450AB4[0].extent;
-            id = (u16)get_entity_id(player);
+            id = (u16)player->get_entity_id();
             info_window = create_quest_detail_window(get_window_layout_position(0x2E), p.dimensions, 1, id);
             text2 = get_quest_list_text(text_group, entries[sel].confirm_text);
             info_window->append_line(text2, 0x80);
@@ -169,13 +171,13 @@ void TQuestListChallenge::update_selection() {
             }
         }
         if (confirmation == NULL) {
-            id = (u16)get_entity_id(player);
+            id = (u16)player->get_entity_id();
             confirmation = create_quest_confirmation_menu(get_window_layout_position(0x2B), id, NULL, NULL);
             confirmation->set_position_xy(get_scale(), get_scale());
             if (sequence != NULL) {
                 sequence->display_guild_message(5, 0x80);
             }
-            set_field_20(2);
+            set_state(2);
         }
     }
 }
@@ -187,20 +189,20 @@ void TQuestListChallenge::create_quest_list_window() {
     s32 i;
     s32 e;
 
-    if (sequence->vfunc_10() != 0 && list_window == NULL) {
-        id = get_entity_id(player);
-        list_window = (TWindowMenuIconLine *)create_item_list_window(get_guild_text(0), 0x40, id);
+    if (sequence->is_message_ready() != 0 && list_window == NULL) {
+        id = player->get_entity_id();
+        list_window = create_item_list_window(get_guild_text(0), 0x40, id);
         for (i = 0; i < count; i++) {
             e = get_quest_list_text(text_group, entries[i].title_text);
             list_window->add_list_entry(0x2C, e, i);
         }
         ((TWindowMenuIconLine *)list_window)->calc_content_extent();
-        set_field_20(1);
+        set_state(1);
     }
 }
 
 
-void TQuestListChallenge::vfunc_11() {
+void TQuestListChallenge::update_state() {
     typedef void (TQuestListChallenge::*Handler)();
     static Handler tbl[] = {
         &TQuestListChallenge::create_quest_list_window,
@@ -218,7 +220,7 @@ TQuestListChallenge::~TQuestListChallenge() {
     TQuestListChallenge__active_instance = NULL;
 }
 
-TQuestListChallenge::TQuestListChallenge(TObject *parent, TShopWindowBase *sequence, TObjBase *player)
+TQuestListChallenge::TQuestListChallenge(TObject *parent, TShopWindowBase *sequence, TObjPlayer *player)
     : TShopWindowBase(parent) {
     s32 temp_r3;
     s32 limit;
@@ -261,7 +263,7 @@ TQuestListChallenge::TQuestListChallenge(TObject *parent, TShopWindowBase *seque
         count = 8;
         break;
     }
-    set_field_20(0);
+    set_state(0);
     TQuestListChallenge__active_instance = this;
 }
 

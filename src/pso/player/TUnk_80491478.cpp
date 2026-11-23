@@ -19,6 +19,7 @@
 #include "pso/render/NinjaUtil.h"
 #include "pso/render/model_render_state.h"
 #include "pso/object/ambient/TObjFish.h"
+#include "pso/object/base/TObjBase.h"
 
 // The model node of each of the three parts in the dubchik's model.
 static const s32 part_model_nodes[3] = {0x14, 0x2B, 0x17};
@@ -33,7 +34,7 @@ TUnk_80491478::TUnk_80491478(s32 index, TObjEneDubchik *parent, NJS_TEXLIST *tex
     CsnHit *hit;
     s32 node;
     part_index = index;
-    parent_id = get_entity_id(parent);
+    parent_id = parent->get_entity_id();
     m_ae = 0;
     node = part_model_nodes[index];
     m_d8 = texlist;
@@ -132,8 +133,8 @@ void TUnk_80491478::run_task() {
 #pragma pop
 
 void TUnk_80491478::render() {
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(dubchik_texlist));
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(m_d8));
+    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(dubchik_texlist));
+    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(m_d8));
     push_matrix();
     post_translate_matrix(&pos.x);
     rotate_matrix_y(0, rot_y);

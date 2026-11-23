@@ -24,6 +24,7 @@
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjBase.h"
 
 #pragma inline_depth(1)
 #pragma auto_inline off
@@ -37,12 +38,8 @@ extern "C" {
 s32 TObjPlayer__sub_801AFDBC(s32);
 s32 get_class_index__10TObjPlayerFv(TObjPlayer *player);
 extern s32 game_difficulty_selection;
-s32 TObjPlayer__sub_801D8C3C(void);
-u8 *TObjPlayer__sub_801D8DCC(TObjPlayer *arg0);
-s32 TObjPlayer__sub_801D91B8(saddr arg0);
+s32 TObjPlayer__sub_801D91B8(saddr player);
 s32 TBoss4DarkFalz__sub_801D94C0(void* p);
-void TObjPlayer__sub_801D92A4(void);
-s32 get_contact_surface_type(saddr arg0);
 int load_encrypted_archive_data(const char *);
 }
 int ply_level_table;
@@ -120,7 +117,7 @@ s32 *TObjPlayer::get_hurt_protection_ticks() {
     return var_r3;
 }
 
-s32 TObjPlayer__sub_801D8C3C(void) {
+s32 TObjPlayer::get_lobby_entry_yaw() {
     return *(s32 *)((s8 *)lbl_80449254 + (TLobby::get_instance() * 4));
 }
 
@@ -133,7 +130,7 @@ s32 TObjPlayer::get_guild_return_yaw() {
 }
 
 const Vec *TObjPlayer::get_guild_return_position() {
-    return guild_return_position_table_by_episode[TLobby::get_instance()] + get_entity_id(this);
+    return guild_return_position_table_by_episode[TLobby::get_instance()] + this->get_entity_id();
 }
 
 s32 TObjPlayer::get_hospital_yaw() {
@@ -141,7 +138,7 @@ s32 TObjPlayer::get_hospital_yaw() {
 }
 
 u8 *TObjPlayer::get_hospital_position() {
-    return (u8 *)hospital_position_table_by_episode[TLobby::get_instance()] + (get_entity_id(this) * 0xC);
+    return (u8 *)hospital_position_table_by_episode[TLobby::get_instance()] + (this->get_entity_id() * 0xC);
 }
 
 const TPlyInventoryItem *get_class_starting_inventory(s32 cls) {
@@ -149,11 +146,11 @@ const TPlyInventoryItem *get_class_starting_inventory(s32 cls) {
     return class_starting_inventory_table[(s8)cls];
 }
 
-u8 *TObjPlayer__sub_801D8DCC(TObjPlayer *player) {
+u8 * TObjPlayer::get_cast_motion_record() {
   s32 temp_r31;
   s8 *new_var;
-  temp_r31 = player->get_handle_value() * 0x14;
-  new_var = ((s8 *)player_cast_motion_record_table) + (player->has_valid_handle() * 4);
+  temp_r31 = this->get_handle_value() * 0x14;
+  new_var = ((s8 *)player_cast_motion_record_table) + (this->has_valid_handle() * 4);
   return *(u8 **)new_var + temp_r31;
 }
 
@@ -324,19 +321,19 @@ s32 TObjPlayer__sub_801D91B8(saddr player) {
     return TObjPlayer::get_current_state_field(get_class_index__10TObjPlayerFv(reinterpret_cast<TObjPlayer *>(player)), TObjPlayer::get_max_level());
 }
 
-s32 TObjPlayer::get_current_state_field(s32 _w0, s32 _w1) {
-    return get_ply_level_table_row(_w0, _w1)->experience;
+s32 TObjPlayer::get_current_state_field(s32 cls, s32 lvl) {
+    return get_ply_level_table_row(cls, lvl)->experience;
 }
 
-s32 TObjPlayer::get_class_state_field(s32 arg1) {
-    return TObjPlayer::get_current_state_field(get_class_index__10TObjPlayerFv(this), arg1); }
+s32 TObjPlayer::get_class_state_field(s32 lvl) {
+    return TObjPlayer::get_current_state_field(get_class_index__10TObjPlayerFv(this), lvl); }
 
 PlayerLevelTableRow *get_ply_level_table_row(s32 cls, s32 level) {
     PlayerLevelTableRow **table = *(PlayerLevelTableRow ***)ply_level_table;
     return &table[(s8)TObjPlayer__sub_801AFDBC(cls)][TObjPlayer::clamp_index_to_max(level)];
 }
 
-void TObjPlayer__sub_801D92A4(void) { TLobby::free_nodes_with_id(ply_level_table); }
+void free_ply_level_tbl() { TLobby::free_nodes_with_id(ply_level_table); }
 
 void load_ply_level_tbl(void) { ply_level_table = load_encrypted_archive_data("PlyLevelTbl.cpt"); }
 
@@ -372,7 +369,7 @@ f32 TObjPlayer::get_class_hp_factor() {
     return player_profession_stat_factors[get_clamped_index()].hp;
 }
 
-int TObjPlayer::get_floor_surface_type() { return get_contact_surface_type((saddr)((char*)this + 0x360)); }
+int TObjPlayer::get_floor_surface_type() { return contact_surface.get_contact_surface_type(); }
 s32 TObjPlayer::get_falz_phase() { return TBoss4DarkFalz__sub_801D94C0((void*)((char*)this + 0x7cc)); }
 
     extern int dark_falz_form_index;

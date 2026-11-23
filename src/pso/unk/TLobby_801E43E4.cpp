@@ -1,4 +1,6 @@
 #include <string.h>
+#include "pso/network/TGameProtocol.h"
+#include "pso/render/GinjaMaterialState.h"
 #include "pso/render/GvmTextureArchive.h"
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/network/client_id.h"
@@ -24,106 +26,91 @@
 #include "pso/unk/TLobby_803DE778.h"
 
 extern "C" {
-s32 TProtocol__send_60(int, int, int);
 s32 dispatch_6x_subcommand(void *);
-extern uaddr TLobby__protocol_instance;
 s32 load_texture_list(s32 **);
 s32 append_command_to_batch_buffer(void *, s32);
 u8 *TQuestVmDownLoadServer__sub_8007EBDC(s32, s32);
 s32 distort_texture_wave_image(void *);
-s32 send_pso_data_long2__9TProtocolFcR17long_game_commandUl(void *, u32, void *, s32);
 }
 
-extern s32 TLobby__designated_client_id;
-extern s32 TLobby__join_state_flag;
-extern void *game_protocol_instance;
 
-void TLobby::send_command(u32 arg1) {
-    s32 sp8;
+void long_game_command_union::send_to_client(u32 client_id) {
+    u32 size;
 
-    sp8 = *(s32 *)&this->m_flags;
-    bswap_32((u32 *)&sp8);
-    if ((u32) local_client_id == arg1) {
+    size = ext_game_cmd.header.size;
+    bswap_32(&size);
+    if ((u32) local_client_id == client_id) {
         dispatching_own_subcommand = 1;
         dispatch_6x_subcommand(this);
         dispatching_own_subcommand = 0;
         return;
     }
-    if ((u32) TLobby__protocol_instance != 0U) {
-        send_pso_data_long2__9TProtocolFcR17long_game_commandUl((void *)TLobby__protocol_instance, arg1, this, sp8);
+    if (TLobby::protocol_instance != NULL) {
+        TLobby::protocol_instance->send_pso_data_long2(client_id, game_cmd, size);
     }
 }
 
 void send_subcommand_to_leader(void *cmd) {
-    void *src = cmd;
-    s32 len;
+    s32 size;
+    game_command *packet = (game_command *)cmd;
 
-    len = *(u8 *)((s8 *)src + 1) * 4;
+    size = packet->header.size * 4;
     if (get_main_phase() == 0xE) {
         dispatching_own_subcommand = 1;
-        dispatch_6x_subcommand(src);
+        dispatch_6x_subcommand(packet);
         dispatching_own_subcommand = 0;
         return;
     }
-    if ((u32) TLobby__protocol_instance != 0U) {
-        ((TProtocol *)TLobby__protocol_instance)->send_subcommand_to_client((s32)TLobby__designated_client_id, (s8 *)src, (s32)len);
+    if (TLobby::protocol_instance != NULL) {
+        TLobby::protocol_instance->send_pso_data2(designated_client_id, *packet, size);
     }
 }
 
-void TLobby::send_subcommand_to_client(u32 flag) {
+void game_command::send_to_client(u32 client_id) {
     s32 size;
-    size = *(u8 *)((s8 *)this + 1) * 4;
-    if ((u32) local_client_id == flag) {
+    size = header.size * 4;
+    if ((u32) local_client_id == client_id) {
         dispatching_own_subcommand = 1;
         dispatch_6x_subcommand(this);
         dispatching_own_subcommand = 0;
         return;
     }
-    if ((u32) TLobby__protocol_instance != 0U) {
-        ((TProtocol *)TLobby__protocol_instance)->send_subcommand_to_client((s32)flag, (s8 *)this, (s32)size);
+    if (TLobby::protocol_instance != NULL) {
+        TLobby::protocol_instance->send_pso_data2(client_id, *this, size);
     }
 }
 
-void TLobby::send_60_sized() {
-    int size = ((u8 *)this)[1] * 4;
-    if (TLobby__protocol_instance != 0) {
-        TProtocol__send_60(TLobby__protocol_instance, (saddr)this, size);
+void game_command::send() {
+    int size = header.size * 4;
+    if (TLobby::protocol_instance != NULL) {
+        TLobby::protocol_instance->send_pso_data(*this, size);
     }
 }
 
 void send_subcommand(void *cmd) {
-    u8 *arg0 = (u8 *)cmd;
-    s32 len;
-    u8 *var_r31;
-    u8 *var_r3;
-    u8 *src;
-    var_r31 = arg0;
-    src = (u8 *)((*(u8 * *)&TLobby__protocol_instance));
-    len = *(u8 *)((s8 *)arg0 + 1) * 4;
-    if (src != NULL) {
-        var_r3 = src;
-        src = var_r31;
-        TProtocol__send_60((saddr)var_r3, (saddr)src, (int)len);
+    game_command *packet = (game_command *)cmd;
+    s32 size = packet->header.size * 4;
+    if (TLobby::protocol_instance != NULL) {
+        TLobby::protocol_instance->send_pso_data(*packet, size);
     }
-    var_r3 = var_r31;
     dispatching_own_subcommand = 1;
-    dispatch_6x_subcommand(var_r3);
+    dispatch_6x_subcommand(packet);
     dispatching_own_subcommand = 0;
 }
 
 void TLobby::update_players() {
-    void *var_r31;
+    TObject *packet;
     saddr cmd = (saddr)this;
 
-    if ((s32) TLobby__join_state_flag == 1) {
+    if ((s32) join_state_flag == 1) {
         send_subcommand((u8 *)cmd);
         return;
     }
-    if ((void *) game_protocol_instance != NULL) {
-        var_r31 = *(void **)((s8 *)game_protocol_instance + 0x14);
-        while (var_r31 != NULL) {
-            append_command_to_batch_buffer(var_r31, cmd);
-            var_r31 = *(void **)((s8 *)var_r31 + 0xC);
+    if (game_protocol_instance != NULL) {
+        packet = game_protocol_instance->m_down;
+        while (packet != NULL) {
+            append_command_to_batch_buffer(packet, cmd);
+            packet = packet->m_next;
         }
     }
     dispatching_own_subcommand = 1;
@@ -161,7 +148,7 @@ s32 TLobby::load_texture_pvm_file(const char *name, saddr arg1) {
         buf = (saddr)TLobby::tmp_buf_use_req("LoadTexturePvm");
     }
     TGStream::load_sct_file((const char *)path, (u8 *)buf);
-    ret = load_gvm_texture_archive((void *)buf, (GinjaTextureList *)arg1);
+    ret = load_gvm_texture_archive((void *)buf, (NJS_TEXLIST *)arg1);
     if (allocated != 0) {
         TAdSinglePlyChrSelectGC::safe_free(buf);
     } else {
@@ -195,7 +182,7 @@ s32 pso_load_texture(NJS_TEXLIST *texlist) {
 
 void TObjPlayer::free_if_valid(saddr texlist) {
     if (texlist != 0) {
-        release_texture_list((GinjaTextureList *)texlist);
+        release_texture_list((NJS_TEXLIST *)texlist);
         TAdSinglePlyChrSelectGC::safe_free(texlist);
     }
 }
@@ -210,19 +197,19 @@ struct GvmFileHeader {
 
 saddr TLanguage__read_cursor;
 
-u8 *load_gvm_texture_file(saddr name) {
+NJS_TEXLIST *load_gvm_texture_file(const char *name) {
     s32 count;
     s32 i;
     NJS_TEXLIST *res;
     NJS_TEXNAME *ent;
-    u8 *str;
+    char *str;
     uaddr buf;
     u32 big;
     s32 size;
     GvmFileHeader hdr;
     big = 0;
     TLobby::pump_frames();
-    size = TGStream::get_resource_file_size((const char *)name);
+    size = TGStream::get_resource_file_size(name);
     if (size <= 0) {
         TLobby::debug_print("LoadPvmFileTls:%s load error.", name);
         return NULL;
@@ -234,7 +221,7 @@ u8 *load_gvm_texture_file(saddr name) {
     } else {
         buf = (saddr)TLobby::tmp_buf_use_req("LoadPvmFileTls");
     }
-    TGStream::load_sct_file((const char *)name, (u8 *)buf);
+    TGStream::load_sct_file(name, (u8 *)buf);
     count = TLanguage::read_file_header(buf, &hdr);
     if (count == 0) {
         if (big != 0) {
@@ -249,7 +236,7 @@ u8 *load_gvm_texture_file(saddr name) {
     i = 0;
     res->textures = (NJS_TEXNAME *)(res + 1);
     ent = (NJS_TEXNAME *)(res + 1);
-    str = (u8 *)(ent + count);
+    str = (char *)(ent + count);
     for (; i < count; i++, ent++, str += 0x20) {
         ent->filename = str;
         TLanguage__read_cursor += 2;
@@ -267,13 +254,13 @@ u8 *load_gvm_texture_file(saddr name) {
             TLanguage__read_cursor += 4;
         }
     }
-    load_gvm_texture_archive((void *)buf, (GinjaTextureList *)res);
+    load_gvm_texture_archive((void *)buf, res);
     if (big != 0) {
         TAdSinglePlyChrSelectGC::safe_free(big);
     } else {
         TLobby::tmp_buf_release("LoadPvmFileTls");
     }
-    return (u8 *)res;
+    return res;
 }
 
 int TLanguage::read_file_header(int cursor, void *header) {
@@ -310,7 +297,7 @@ s32 TLanguage::read_u16_le() {
 
 void TTextureWave::update_texture_wave_image() {
     if ((is_split_screen() == 0) || (TCameraCtrl::get_camera_no() == 0)) {
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(m_3c));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(m_3c));
         advance_wrapped_cursor();
         distort_texture_wave_image(this);
     }

@@ -40,6 +40,6 @@ LAYOUT_ASSERT(TChCrLoadAfs_buffer_address_offset, offsetof(TChCrLoadAfs, buffer_
 LAYOUT_ASSERT(TChCrLoadAfs_load_state_offset, offsetof(TChCrLoadAfs, load_state) == 0x2c);
 LAYOUT_ASSERT(TChCrLoadAfs_timer_offset, offsetof(TChCrLoadAfs, timer) == 0x34);
 
-s32 find_player_texture_name_ordinal(u8 *arg0);
+s32 find_player_texture_name_ordinal(u8 *object);
 
 #endif

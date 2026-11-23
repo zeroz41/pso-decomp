@@ -3,10 +3,6 @@
 
 #include "types.h"
 
-// --- C functions defined in TAdPlayerLoadGC_803F339C.cpp ---
-extern "C" {
-s32 TAdPlayerLoadGC__sub_803F3998(s32 chan);
-}
-// --- end of C functions
+s32 request_card_mount(s32 chan);
 
 #endif

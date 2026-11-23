@@ -4,7 +4,6 @@
 #include "pso/system/TGStream.h"
 #include "types.h"
 #include "pso/render/Draw2D.h"
-#include "pso/ui/window/TWindowKeyBoardBase_8008102C.h"
 #include "pso/ui/window/TWindowKeyBoardBase.h"
 #include <stddef.h>
 #include "pso/ui/window/TWindowKeyBoardSoft.h"
@@ -76,16 +75,15 @@ s32 dispatch_request_0x13__19TWindowKeyBoardSoftFlll(u8 *, s32 *, s8 *);
 
 
 void TWindowKeyBoardBase::init_keyboard_text_field(u32 width, u32 lines) {
-    u8 *arg0 = (u8 *)this;
     if (lines == 0) {
         this->target_size[0] = 100000.0f;
-        *(f32 *)((s8 *)arg0 + 0x3C) = 38.0f;
+        this->target_size[1] = 38.0f;
     } else {
         this->target_size[0] = (f32) (0.1f + (8.0f + (f32) width));
-        *(f32 *)((s8 *)arg0 + 0x3C) = (f32) (20.0f + (f32) (lines * 0x14));
+        this->target_size[1] = (f32) (20.0f + (f32) (lines * 0x14));
     }
     this->frame_size[0] = (f32) this->target_size[0];
-    *(f32 *)((s8 *)arg0 + 0x4C) = (f32) *(f32 *)((s8 *)arg0 + 0x3C);
+    this->frame_size[1] = (f32) this->target_size[1];
     m_text.init(width, lines);
     m_68 = &m_text;
     this->m_60 = 0;
@@ -542,7 +540,7 @@ void TWindowKeyBoardBase::update() {
 
 void TWindowKeyBoardBase::convert_input_text() {
     s8 sp108[0x100];
-    s8 sp8[0x100];
+    s8 name[0x100];
     u16 *var_r3;
     int temp_r0;
     u8 *var_r4;
@@ -550,7 +548,7 @@ void TWindowKeyBoardBase::convert_input_text() {
     if (!(*(u16 *)((s8 *)this + 0x60) & 0x80)) {
         sub_8025DBDC(1);
     }
-    var_r3 = *(u16 **)((s8 *)this + 0x84);
+    var_r3 = this->m_text2.buffer;
     var_r4 = candidate_buffer;
     while ((temp_r0 = *var_r3) != 0) {
         *var_r4 = (u8) (temp_r0 >> 8);
@@ -568,17 +566,17 @@ void TWindowKeyBoardBase::convert_input_text() {
         *(u16 *)((s8 *)this + 0x60) = (u16) (*(u16 *)((s8 *)this + 0x60) | 0x10);
         candidate_count = 1;
         candidate_index = 1;
-        strncpy((char *)sp8, (const char *)candidate_buffer, 0x100);
+        strncpy((char *)name, (const char *)candidate_buffer, 0x100);
         sp108[0] = 0;
     } else {
         *(u16 *)((s8 *)this + 0x60) = (u16) (*(u16 *)((s8 *)this + 0x60) & 0xFFFFFFEF);
-        candidate_count = dispatch_request_0x13__19TWindowKeyBoardSoftFlll(candidate_buffer, (s32 *)sp8, sp108);
+        candidate_count = dispatch_request_0x13__19TWindowKeyBoardSoftFlll(candidate_buffer, (s32 *)name, sp108);
         candidate_index = 1;
-        sub_8025CFA8((s32 *)sp8);
+        sub_8025CFA8((s32 *)name);
     }
     candidate_bytes_remaining = 0x94;
-    if (sub_8025D544((s32 *)sp8, sp108) != 0) {
-        write_name_and_text((char *)((s32 *)sp8), (char *)(sp108));
+    if (sub_8025D544((s32 *)name, sp108) != 0) {
+        write_name_and_text((char *)((s32 *)name), (char *)(sp108));
         *(u16 *)((s8 *)this + 0x60) = (u16) (*(u16 *)((s8 *)this + 0x60) | 4);
     }
 }

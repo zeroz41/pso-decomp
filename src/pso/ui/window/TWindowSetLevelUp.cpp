@@ -2,6 +2,7 @@
 #include "types.h"
 #include "pso/system/task/TObject.h"
 #include "pso/ui/window/TWindowSetLevelUp.h"
+#include "pso/ui/window/TWindowShop.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/player/TObjPlayer.h"
@@ -12,30 +13,38 @@
 
 struct ByteBlock_16 { u8 bytes[0x16]; };
 
-struct VOff_8026DD70_arg0_8026DCE0 { char pad_0[0x24]; char f_24[1]; };
-
-extern "C" {
-
-void __ct__7TObjectFP7TObject(void *);
-void render__17TWindowSetLevelUpFv(void);
-void * __ct__17TWindowSetLevelUpFv(void *arg0, void *arg1, void *arg2, void *arg3);
-void TWindowSetLevelUp__sub_8026DE28(void* p, s32 v);
-}
 void text_builder_reset(void);
-extern "C" {
 
-void *__dt__17TWindowSetLevelUpFv(void *arg0, s16 arg1);
-void run_task__17TWindowSetLevelUpFv(u8 *arg0);
-void render_shadows__7TObjectFv(void);
-void __dt__7TObjectFv(void *, int);
-void *__vt__17TWindowSetLevelUp[6] = {
-    0, 0,
-    (void *)__dt__17TWindowSetLevelUpFv,
-    (void *)run_task__17TWindowSetLevelUpFv,
-    (void *)render__17TWindowSetLevelUpFv,
-    (void *)render_shadows__7TObjectFv,
-};
-const char *TWindowSetLevelUp__name = "TWindowSetLevelUp";
+const char *TWindowSetLevelUp::class_name = "TWindowSetLevelUp";
+
+void TWindowShop::set_capacity(s32 capacity) { this->capacity = capacity; }
+
+void TWindowSetLevelUp::copy_stat_block(saddr stats) {
+    saddr arg0 = (saddr)this;
+    *(ByteBlock_16 *)(arg0) = *(const ByteBlock_16 *)(stats);
+    *(s16 *)((s8 *)arg0 + 0x16) = (s16) *(s16 *)((s8 *)stats + 0x16);
+    *(s16 *)((s8 *)arg0 + 0x18) = (s16) *(s16 *)((s8 *)stats + 0x18);
+}
+
+TWindowSetLevelUp::TWindowSetLevelUp(TObject *parent, saddr stats, s32 client) : TObject(parent) {
+    ((TObjPlayer *)&stat_gains)->reset_sub_status_disp();
+    m_name = class_name;
+    ((TWindowSetLevelUp *)&stat_gains)->copy_stat_block(stats);
+    timer = 0;
+    this->client = client;
+    state = 0;
+}
+
+TWindowSetLevelUp::~TWindowSetLevelUp() {
+}
+
+void TWindowSetLevelUp::run_task() {
+    if (timer-- <= 0) {
+        update_stat_messages();
+    }
+}
+
+void TWindowSetLevelUp::render() {  }
 
 void TWindowSetLevelUp::update_stat_messages() {
     TObjPlayer *player;
@@ -120,78 +129,3 @@ void TWindowSetLevelUp::update_stat_messages() {
     }
     timer = 0x16;
 }
-
-#pragma push
-#pragma inline_depth(1)
-#pragma auto_inline on
-#pragma dont_inline off
-void render__17TWindowSetLevelUpFv(void) {  }
-#pragma pop
-
-#pragma push
-#pragma inline_depth(1)
-#pragma auto_inline on
-#pragma dont_inline off
-void run_task__17TWindowSetLevelUpFv(u8 *arg0) {
-    s16 temp_r5;
-    temp_r5 = ((TWindowSetLevelUp *)arg0)->timer;
-    ((TWindowSetLevelUp *)arg0)->timer = (temp_r5 - 1);
-    if (temp_r5 <= 0) {
-        ((TWindowSetLevelUp *)arg0)->update_stat_messages();
-    }
-}
-#pragma pop
-
-#pragma push
-#pragma inline_depth(1)
-#pragma auto_inline on
-#pragma dont_inline off
-void *__dt__17TWindowSetLevelUpFv(void *object, s16 arg1) {
-    if (object != NULL) {
-        *(s32 **)((s8 *)object + 0x18) = (s32 *)__vt__17TWindowSetLevelUp;
-        __dt__7TObjectFv(object, 0);
-        if (arg1 > 0) {
-            TObject::operator delete(object);
-        }
-    }
-    return object;
-}
-#pragma pop
-
-#pragma push
-#pragma inline_depth(1)
-#pragma auto_inline on
-#pragma dont_inline off
-void *__ct__17TWindowSetLevelUpFv(void *window_set_level_up, void *arg1, void *arg2, void *arg3) {
-    struct VOff_8026DD70_arg0_8026DCE0 *self = (struct VOff_8026DD70_arg0_8026DCE0 *)window_set_level_up;
-    __ct__7TObjectFP7TObject(window_set_level_up);
-    *(s32 **)((s8 *)window_set_level_up + 0x18) = (s32 *)__vt__17TWindowSetLevelUp;
-    ((TObjPlayer *)(self->f_24))->reset_sub_status_disp();
-    ((TWindowSetLevelUp *)window_set_level_up)->m_name = TWindowSetLevelUp__name;
-    ((TWindowSetLevelUp *)(self->f_24))->copy_stat_block((saddr)arg2);
-    ((TWindowSetLevelUp *)window_set_level_up)->timer = 0;
-    ((TWindowSetLevelUp *)window_set_level_up)->client = (saddr)arg3;
-    ((TWindowSetLevelUp *)window_set_level_up)->state = 0;
-    return window_set_level_up;
-}
-#pragma pop
-
-#pragma push
-#pragma inline_depth(1)
-#pragma auto_inline on
-#pragma dont_inline off
-void TWindowSetLevelUp::copy_stat_block(saddr arg1) {
-    saddr arg0 = (saddr)this;
-    *(ByteBlock_16 *)(arg0) = *(const ByteBlock_16 *)(arg1);
-    *(s16 *)((s8 *)arg0 + 0x16) = (s16) *(s16 *)((s8 *)arg1 + 0x16);
-    *(s16 *)((s8 *)arg0 + 0x18) = (s16) *(s16 *)((s8 *)arg1 + 0x18);
-}
-#pragma pop
-
-#pragma push
-#pragma inline_depth(1)
-#pragma auto_inline on
-#pragma dont_inline off
-void TWindowSetLevelUp__sub_8026DE28(void* p, s32 v) { *(s32*)((char*)p + 0x88) = v; }
-}
-#pragma pop

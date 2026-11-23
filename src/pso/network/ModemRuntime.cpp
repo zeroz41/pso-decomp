@@ -1051,8 +1051,8 @@ s32 TAdSinglePlyChrSelectGC::send_atx_command(s32 arg0) {
     return 1;
 }
 
-BOOL TAdSinglePlyChrSelectGC::send_modem_hangup(BOOL arg0) {
-    if ((arg0 == 0) && ((s32) lbl_805D7C98 == 3)) {
+BOOL TAdSinglePlyChrSelectGC::send_modem_hangup(BOOL final) {
+    if ((final == 0) && ((s32) lbl_805D7C98 == 3)) {
         lbl_805D7C98 = 1;
         if (EXILock(0, 2U, NULL) == 0) {
             return 1;

@@ -21,6 +21,7 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/system/vector.h"
 #include "pso/system/task/TObject.h"
+#include "pso/player/PlayerSlots.h"
 
 extern void *__vt__13TUnk_804A7478[];
 extern void *__vt__13TUnk_804A7488[];
@@ -142,7 +143,6 @@ struct Chair_8035B058 {
 };
 
 extern "C" {
-void *get_player_by_client_id(s32 i);
 void TPlyPhotonChair__sub_8035B56C(void* p, f32 v);
 extern uaddr TPlyPhotonChair__shared_model_resource;
 s32 get_bml_motion(int, int);
@@ -176,7 +176,7 @@ void TPlyPhotonChair::render() {
         copy_xyz(self->rot, (u8 *)pl + 0x5C);
         if (((TObjPlayer *)pl)->is_inactive() != 0) {
             save_model_draw_state(self->parts);
-            TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(self->x24));
+            TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(self->x24));
             push_matrix();
             post_translate_matrix(&self->pos);
             rotate_matrix_y(0, self->x60);
@@ -264,7 +264,7 @@ TPlyPhotonChair::TPlyPhotonChair(s32 arg1, TObject *parent) : TObjBase(parent) {
         return;
     }
     get_rader_map__11TMainCursorFv(ply_photon_chair + 0xD0, (void *)&TPlyPhotonChair__section_id_color_table[(s32)((TPlyPhotonChair *)(player))->get_actor_section_id()]);
-    ((TPlyPhotonChair *)ply_photon_chair)->texlist = (saddr)get_bml_texlist((BmlResource *)TPlyPhotonChair__shared_model_resource, 1);
+    ((TPlyPhotonChair *)ply_photon_chair)->texlist = get_bml_texlist((BmlResource *)TPlyPhotonChair__shared_model_resource, 1);
     ((TPlyPhotonChair *)(ply_photon_chair + 0x98))->set_type((saddr)get_bml_model((BmlResource *)TPlyPhotonChair__shared_model_resource, 1));
     ((TPlyPhotonChair *)(ply_photon_chair + 0x98))->set_field_8((s32)((int) (get_bml_motion((int) ((*(s32 *)&TPlyPhotonChair__shared_model_resource)), 1))));
     ((TPlyPhotonChair *)(ply_photon_chair + 0x98))->sync_field10_from_child();

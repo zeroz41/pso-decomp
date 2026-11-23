@@ -4,8 +4,13 @@
 #include "pso/ui/charcreate/CharacterCreationModels.h"
 class TCMCharacter : public TObjMotion {
 public:
+    TCMCharacter(TObject *parent);
     virtual ~TCMCharacter();
     virtual void run_task();
+    virtual void render();
+    void free_field_FC();
+    void draw_player_model();
+    void draw_creation_figure();
     void apply_character_appearance();
     void update_chara_preview();
     void reset_model_parts();

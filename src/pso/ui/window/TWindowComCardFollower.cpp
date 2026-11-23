@@ -24,9 +24,6 @@ WindowDescriptor com_card_follower_window_descriptor = {
     {32.0f, 28.0f}, 70050.0f, &com_card_follower_layout_entries, 0x82B,
 };
 
-TWindowCtrl *TWindowCtrl::instance;
-u16 lbl_805D63FC;
-
 extern "C" void request_active_window_close(void) {
     if ((TWindowCtrl::instance != NULL) && (TWindowCtrl::instance->m_38 != 0U)) {
         ((TWindowCtrl *)((void*)TWindowCtrl::instance->m_38))->set_flag1e_bit8();

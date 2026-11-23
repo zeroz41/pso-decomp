@@ -88,7 +88,7 @@ void TODragonfly::render() {
         translate_matrix(0, 0.0f, bob_offset, 0.0f);
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
         draw_ginja_model_with_motion(model, motion, animation_frame);
         pop_matrix();
     }
@@ -186,7 +186,7 @@ TODragonflyCave01::TODragonflyCave01(void *set_data) {
     m_name = class_name;
     apply_object_set_data(set_data);
     model = (void *)model_resource->models->model;
-    texlist = (saddr)model_resource->models->texlist;
+    texlist = model_resource->models->texlist;
     motion = model_resource->motions->motion;
     animation_end_frame = (f32)motion->frameCount - 1.0f;
     animation_step = 1.1f;

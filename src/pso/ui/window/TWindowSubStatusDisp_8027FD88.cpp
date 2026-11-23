@@ -320,7 +320,6 @@ typedef struct Entry_80280B1C {
 } Entry_80280B1C;
 extern "C" {
 s32 TLobby__sub_801C2614();
-void *get_player_by_client_id(s32 i);
 void vt11__20TWindowSubStatusDispFv(Wn_80280F14 *arg0);
 }
 void set_text_entry_string(u8 *arg0, uaddr str, s32 arg2);
@@ -333,10 +332,8 @@ const s32 status_disp_vt5_message_ids[4] = {0x91, 0x92, 0x91, 0x92};
 }
 
 #include "types.h"
+#include "pso/player/PlayerSlots.h"
 
-extern "C" {
-void *get_player_by_client_id(s32 i);
-}
 
 // list type of m_68 per page: the page-flip list kind passed to fn_8026C7AC
 const u8 lbl_805DD6F4[4] = {3, 4, 4, 0};
@@ -370,7 +367,7 @@ void TWindowSubStatusDisp::run_task() {
       arg0->page = *(s16 *)&arg0->m_62;
       fn_8026C7AC(arg0->m_68, lbl_805DD6F4[arg0->page]);
     }
-    reinterpret_cast<WindowLayoutEntries *>((((u8 *) arg0) + 0x24))->destroy_all_items();
+    arg0->entry_list.destroy_all_items();
     arg0->dispatch_page_init();
   }
   arg0->dispatch_page_update();
@@ -379,16 +376,16 @@ void TWindowSubStatusDisp::run_task() {
 }
 
 void TWindowSubStatusDisp::render() {
-    saddr temp_r3;
+    saddr context;
 
     if (get_player_by_client_id(this->client_index) != 0U) {
-        temp_r3 = reinterpret_cast<saddr>(this->setup_window_draw_context((f32 *)(((u8 *)this) + 0x6C)));
-        draw_window_frame((void *)temp_r3);
+        context = reinterpret_cast<saddr>(this->setup_window_draw_context(&this->scale_x));
+        draw_window_frame((void *)context);
         draw_visible_window_entries(
             this,
             reinterpret_cast<const WindowLayoutEntries *>(((u8 *)this) + 0x24),
-            reinterpret_cast<WindowDrawContext *>(temp_r3));
-        draw_list_page_indicator(m_68, reinterpret_cast<WindowDrawContext *>(temp_r3));
+            reinterpret_cast<WindowDrawContext *>(context));
+        draw_list_page_indicator(m_68, reinterpret_cast<WindowDrawContext *>(context));
     }
 }
 
@@ -485,7 +482,7 @@ void vt11__20TWindowSubStatusDispFv(Wn_80280F14 *arg0) {
     VObj_18_eecf68 *p;
     player_stats *q;
     En_80280F14 *e;
-    p = ((VObj_18_eecf68 *)get_player_by_client_id(arg0->f20));
+    p = (VObj_18_eecf68 *)get_player_by_client_id(arg0->f20);
     if (p != NULL) {
         q = ((TObjPlayer *)p)->get_stats();
         if (q != NULL) {

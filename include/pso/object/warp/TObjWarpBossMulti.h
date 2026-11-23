@@ -5,7 +5,7 @@
 #include "pso/object/warp/TObjAreaWarp.h"
 
 struct AnimationMotion;
-struct GinjaTextureList;
+struct NJS_TEXLIST;
 struct NJS_OBJECT;
 
 // The boss warp's models, motions and texture lists from bm_obj_warpboss.bml (or its _ancient /
@@ -16,9 +16,9 @@ NJS_OBJECT *get_boss_warp_confirmation_model(void);
 NJS_OBJECT *get_boss_warp_model(void);
 AnimationMotion *get_boss_warp_motion(void);
 AnimationMotion *get_boss_warp_bml_motion(void);
-GinjaTextureList *get_boss_warp_base_textures(void);
+NJS_TEXLIST *get_boss_warp_base_textures(void);
 extern "C" {
-GinjaTextureList *get_boss_warp_effect_textures(void);
+NJS_TEXLIST *get_boss_warp_effect_textures(void);
 }
 
 struct TObjWarpBossMulti : public TObjAreaWarp {
@@ -27,7 +27,7 @@ struct TObjWarpBossMulti : public TObjAreaWarp {
     virtual void debug_print_area_num();
     void render();
     void run_task();
-    void *create();
+    static void *create(void *set_data);
     void init_warp_params();
     void update();
     static s32 is_lobby_active();
@@ -41,8 +41,8 @@ struct TObjWarpBossMulti : public TObjAreaWarp {
     NJS_OBJECT *warp_model;                 // get_boss_warp_model(), drawn with bml_motion while state == 1
     AnimationMotion *motion;        // get_boss_warp_motion()
     AnimationMotion *bml_motion;    // get_boss_warp_bml_motion()
-    GinjaTextureList *model_handle;               // get_boss_warp_base_textures(): textures of base_model
-    GinjaTextureList *effect_textures;            // get_boss_warp_effect_textures(): textures of the two animated models
+    NJS_TEXLIST *model_handle;               // get_boss_warp_base_textures(): textures of base_model
+    NJS_TEXLIST *effect_textures;            // get_boss_warp_effect_textures(): textures of the two animated models
     s32 state;                      // 1 once the key_id floor switch is set: the warp is usable
     s32 key_id;                     // floor switch, printed as "<- KEY ID : %d"; -1 for none
     f32 frame;                      // animation frame, + frame_step per run_task
@@ -50,4 +50,6 @@ struct TObjWarpBossMulti : public TObjAreaWarp {
 };
 
 LAYOUT_ASSERT(TObjWarpBossMulti_size, sizeof(TObjWarpBossMulti) == 0x100);
+
+void handle_6x6A_set_boss_warp_flags(void *packet);
 #endif

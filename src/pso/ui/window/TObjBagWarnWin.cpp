@@ -1,4 +1,5 @@
 #include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjBase.h"
 #pragma defer_codegen on
 
 #pragma readonly_strings on
@@ -44,9 +45,9 @@ const char *TObjBagWarnWin4P__name = "TObjBagWarnWin4P";
 #include "pso/unk/TLobby.h"
 #include "pso/system/task/TObject.h"
 #include "pso/ui/city/THunterGuildWarning.h"
+#include "pso/ui/window/TWindowCtrlMain_8024CB7C.h"
 
 extern "C" {
-s32 has_window_task_root();
 
 
 
@@ -78,7 +79,6 @@ struct Ctrl_8006EC20 {
     Sub_8006EC20 *pD00;
 };
 extern "C" {
-s32 has_window_task_root();
 
 
 extern s32 local_client_id;
@@ -228,32 +228,32 @@ void TObjBagWarnWin4P::run_task() {
 
 s32 TObjBagWarnWin4P::check_can_open(void * _w0) {
     s32 i;
-    s32 var_r30;
+    s32 j;
 
     for (i = 0; i < 4; i++) {
         TObjPlayer *player = get_player_by_client_id(i);
-        if (player != NULL && TWindowCtrl::has_player_active_menu(get_entity_id(player)) != 0) {
+        if (player != NULL && TWindowCtrl::has_player_active_menu(player->get_entity_id()) != 0) {
             return 0;
         }
     }
     for (i = 0; i < 4; i++) {
         TObjPlayer *player = get_player_by_client_id(i);
-        if (player != NULL && TWindowCtrl::is_slot_visible(get_entity_id(player)) != 0) {
+        if (player != NULL && TWindowCtrl::is_slot_visible(player->get_entity_id()) != 0) {
             return 0;
         }
     }
     if (THunterGuildWarning::is_active() != 0) {
         return 0;
     }
-    TAdSinglePlyChrSelectGC *record;
+    CharacterSaveRecord *record;
     i = 0;
-    var_r30 = 0;
+    j = 0;
     do {
-        if ((get_player_by_client_id(var_r30) != NULL) && ((record = (TAdSinglePlyChrSelectGC *)get_character_save_record(var_r30)) != 0U) && (record->is_level_capped() != 0)) {
+        if ((get_player_by_client_id(j) != NULL) && ((record = (CharacterSaveRecord *)get_character_save_record(j)) != 0U) && (record->is_bank_full() != 0)) {
             i = 1;
         }
-        var_r30 += 1;
-    } while (var_r30 < 4);
+        j += 1;
+    } while (j < 4);
     return i;
 }
 }

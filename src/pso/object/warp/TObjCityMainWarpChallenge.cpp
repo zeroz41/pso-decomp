@@ -42,6 +42,7 @@
 #include "pso/network/client_id.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/render/NinjaUtil.h"
+#include "pso/player/PlayerSlots.h"
 const char *lbl_805D32B8 = "TObjCityMainWarpChallenge";
 static const char lbl_80444A44[] = "<- NEXT STAGE No.%d";
 static const char lbl_80444A58[] = "<- KEY ID : %d";
@@ -127,7 +128,7 @@ void TObjCityMainWarpChallenge::render() {
     }
     if (update_object_view_visibility(400.0f, 40.0f) != 0) {
 block_4:
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(city_common_texture_list));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(city_common_texture_list));
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_y(0, this->rotation_y);
@@ -312,10 +313,10 @@ void TObjCityMainWarpChallenge::update_challenge_state() {
     case 2:
         sub_801875F8();
         if (yes_no_window != 0) {
-            if (((TWindowSubComCard *)yes_no_window)->get_card_data() != 0) {
+            if (((TWindowMessageYesNo *)yes_no_window)->is_cancelled() != 0) {
                 state_step = 3;
             } else if (((TWindowMessageYesNo *)yes_no_window)->is_child_visible() != 0) {
-                r = ((TWindowSubComCard *)yes_no_window)->get_slot_or_neg1();
+                r = ((TWindowMessageYesNo *)yes_no_window)->get_selected_value();
                 if (r == 0) {
                     trigger_warp_effect(local_client_id);
                     warp_triggered = 1;

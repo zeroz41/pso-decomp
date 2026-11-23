@@ -1,3 +1,4 @@
+#include "pso/player/TargetCursorList.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/technique/TechniqueParams.h"
@@ -15,6 +16,7 @@
 #include "pso/unk/TLobby_80226070.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/object/base/CollisionActorLookup.h"
+#include "pso/object/base/TObjBase.h"
 
 #pragma readonly_strings on
 
@@ -50,8 +52,6 @@ struct VObj_802386F8 : VBase_802386F8 {
 };
 
 extern "C" {
-s32 get_entity_id(void *);
-void copy_technique_target_list(void *, void *);
 }
 
 void TTecJelin::init_tech_params() {
@@ -67,12 +67,12 @@ void TTecJelin::vfunc_6(void *target_arg) {
     u8 *target = (u8 *)target_arg;
     Damage_802386F8 d;
     d.kind = 0xb;
-    d.power = *(f32 *)(self + 0x88);
+    d.power = this->power;
     ((VObj_802386F8 *)target)->m21(*(s32 *)(self + 0x1C), d, *(s32 *)(self + 0xB8), 0xb, -1, self);
 }
 
-void TTecJelin::create(saddr source, saddr pos, saddr arg2, s32 level) {
-    new TTecJelin(source, (Vec *)pos, (Vec *)arg2, level);
+void TTecJelin::create(saddr source, saddr pos, saddr target, s32 level) {
+    new TTecJelin(source, (Vec *)pos, (Vec *)target, level);
 }
 void TTecJelin::render() {  }
 
@@ -132,7 +132,7 @@ TTecJelin::TTecJelin(saddr source, Vec *pos, TargetCursorList *list, s32 level) 
         break;
     }
     if (this->source != 0) {
-        sourceId = get_entity_id((void *)this->source);
+        sourceId = ((TObjBase *)this->source)->get_entity_id();
     }
 }
 
@@ -166,6 +166,6 @@ TTecJelin::TTecJelin(saddr source, Vec *pos, Vec *target, s32 level) : TTecCircl
         break;
     }
     if (this->source != 0) {
-        sourceId = get_entity_id((void *)this->source);
+        sourceId = ((TObjBase *)this->source)->get_entity_id();
     }
 }

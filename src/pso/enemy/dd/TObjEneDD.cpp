@@ -22,11 +22,9 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TObject.h"
+#include "pso/object/base/TObjBase.h"
 const char *TObjEneDD__name = "TObjEneDD";
 const char *TObjEneDD_ST__name = "TObjEneDD_ST";
-extern "C" {
-u16 get_entity_id(void *);
-}
 #include "pso/map/CsnQuery.h"
 
 #include "pso/enemy/epsilon/TObjEneEpsilon_800B92AC.h"
@@ -126,9 +124,9 @@ int submit_cursor_candidate(void*, int);
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/network/TProtocol.h"
+#include "pso/player/TPlyDispData.h"
 
 extern "C" {
-s32 subtractive_rng_seed(void *, int);
 int fn_800FD8A0(void*);
 extern s32 area_random_seed;
 }
@@ -297,7 +295,7 @@ void TObjEneDD::init_common_from(u8 *source) {
     reset_state_fields();
     this->room = (s16) *(s16 *)((s8 *)source + 0x28);
     this->set_group = (s16) *(s16 *)((s8 *)source + 0x2A);
-    subtractive_rng_seed((void *) (((u8 *)this) + 0x160), (int) (this->entity_id + area_random_seed));
+    subtractive_rng_seed(&this->rng, (int) (this->entity_id + area_random_seed));
 }
 
 
@@ -340,7 +338,7 @@ u16 enemy_nearest_visible_player_sq(TObjChara *self, f32 range) {
         if (p->is_alive() != 0) {
             d = horizontal_distance_squared(&self->body_center, &p->position);
             if (d < best && csnLookAt(&self->body_center, &p->body_center) == 0) {
-                result = get_entity_id(p);
+                result = p->get_entity_id();
                 best = d;
             }
         }
@@ -376,7 +374,7 @@ s32 collect_enemy_target_candidates(TObjEneDD *self, TargetCandidate *out, f32 r
             if (p->is_alive() != 0) {
                 d = horizontal_distance_squared(&self->position, &p->position);
                 if (d < range) {
-                    out[n].id = get_entity_id(p);
+                    out[n].id = p->get_entity_id();
                     out[n].dist = d;
                     n++;
                 }
@@ -387,7 +385,7 @@ s32 collect_enemy_target_candidates(TObjEneDD *self, TargetCandidate *out, f32 r
             p = TObjPlayer::get_player_data(i);
             if (p->is_alive() != 0) {
                 d = horizontal_distance_squared(&self->position, &p->position);
-                out[n].id = get_entity_id(p);
+                out[n].id = p->get_entity_id();
                 out[n].dist = d;
                 n++;
             }
@@ -434,7 +432,7 @@ u16 enemy_nearest_visible_enemy_sq(TObjChara *self, f32 range) {
         if (p != self && !(p->actorFlags & 0x01000000) && p->is_alive() != 0) {
             d = horizontal_distance_squared(&self->body_center, &p->position);
             if (d < range && csnLookAt(&self->body_center, &p->body_center) == 0) {
-                best = get_entity_id(p);
+                best = p->get_entity_id();
                 range = d;
             }
         }
@@ -453,10 +451,10 @@ u8 *TObjEneDD::snap_to_ground_at(u8 *dest) {
     probe.x = target->x;
     probe.y = target->y + this->stat_block->proportions;
     probe.z = target->z;
-    if (csnVectorUnder(&probe, (CsnGroup **)&this->ground_cache, 0xE0) != NULL) {
+    if (csnVectorUnder(&probe, this->ground_candidates.groups, 0xE0) != NULL) {
         return NULL;
     }
-    hit = csnVectorUnder(&probe, (CsnGroup **)&ground_cache, 0x15);
+    hit = csnVectorUnder(&probe, ground_candidates.groups, 0x15);
     if (hit == NULL) {
         return NULL;
     }
@@ -1092,7 +1090,7 @@ void TObjEneDD_ST::set_target_player(void *player) {
     n = TLobby::get_game_mode();
     for (i = 0; i < n; i++) {
         if (player == TObjPlayer::get_player_data(i)) {
-            target_id = get_entity_id(player);
+            target_id = ((TObjBase *)(player))->get_entity_id();
             current_target = (TObjChara *)player;
             return;
         }
@@ -1166,7 +1164,7 @@ void TObjEneDD_ST::enemy_copy_target_destination() {
     }
 }
 
-void TObjEneDD_ST::set_target_destination(const Vec *position) { VecCopy((Vec *)((char *)this + 0x394), position); }
+void TObjEneDD_ST::set_target_destination(const Vec *position) { VecCopy(&this->destination, position); }
 
 void TObjEneDD_ST::enemy_init_validate_period(s32 period) {
     validate_period = period;

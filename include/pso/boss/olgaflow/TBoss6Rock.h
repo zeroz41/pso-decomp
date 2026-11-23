@@ -9,7 +9,7 @@ struct TObjMapCsn;
 
 class TUnk_804F1280;
 struct BmlResource;
-struct GinjaTextureList;
+struct NJS_TEXLIST;
 struct TBoss6Type2;
 
 // The per-kind parameters of a falling rock (boss6_rock_kind_params).
@@ -76,7 +76,7 @@ struct TBoss6Rock : public TObjCollidable {
     static void clear_owner();
     // The model resource and texture list load_resources loads (TBoss6CrushRock's ctor).
     static BmlResource *get_resource();
-    static GinjaTextureList *get_texture_list();
+    static NJS_TEXLIST *get_texture_list();
 };
 
 LAYOUT_ASSERT(TBoss6Rock_size, sizeof(TBoss6Rock) == 0xE8);

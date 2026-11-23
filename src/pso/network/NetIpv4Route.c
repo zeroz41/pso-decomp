@@ -362,8 +362,8 @@ extern s16 AT_IP4_IfUp(u32 addr, u32 mask, u32 broadcast, s16 idx) {
     return 0;
 }
 #pragma pop
-s16 AT_IP4_IsReachable(u32 arg0, u32 arg1) {
-    if (AT_IP4_RouteSearch(arg0, arg1) != NULL) {
+s16 AT_IP4_IsReachable(u32 ipv4, u32 arg1) {
+    if (AT_IP4_RouteSearch(ipv4, arg1) != NULL) {
         return 1;
     }
     return 0;
@@ -427,7 +427,7 @@ Ipv4Route *AT_IP4_RouteSearch(u32 a0, u32 a1) {
     return NULL;
 }
 
-s32 TLobby__sub_8040F8A4(u32 a1, u32 a2, u32 a3, u32 a4, u32 a5)
+s32 TLobby__sub_8040F8A4(u32 a1, u32 new_gateway, u32 a3, u32 a4, u32 old_gateway)
 {
   Ipv4RoutingState *tbl = &ipv4_address_routing_state;
   u32 new_var;
@@ -442,7 +442,7 @@ s32 TLobby__sub_8040F8A4(u32 a1, u32 a2, u32 a3, u32 a4, u32 a5)
     {
       continue;
     }
-    if (e->gateway != a5)
+    if (e->gateway != old_gateway)
     {
       continue;
     }
@@ -461,7 +461,7 @@ s32 TLobby__sub_8040F8A4(u32 a1, u32 a2, u32 a3, u32 a4, u32 a5)
         continue;
       }
       e->flags = f | 0x20;
-      e->gateway = a2;
+      e->gateway = new_gateway;
       return 0;
     }
     if (e->flags & 4)
@@ -473,13 +473,13 @@ s32 TLobby__sub_8040F8A4(u32 a1, u32 a2, u32 a3, u32 a4, u32 a5)
       continue;
     }
     e->flags = f | 0x10;
-    e->gateway = a2;
+    e->gateway = new_gateway;
     return 0;
   }
 
   if (found != 0)
   {
-    if (NetIPv4AddRoute(a1, a3, a2, 1, 2, a4) != 0)
+    if (NetIPv4AddRoute(a1, a3, new_gateway, 1, 2, a4) != 0)
     {
       return -1;
     }
@@ -735,9 +735,9 @@ s16 *get_active_entry_by_index(s16 arg0) {
 }
 #pragma pop
 
-s16 TLobby__sub_8040FEE4(s32 arg0, s32 arg1) {
+s16 TLobby__sub_8040FEE4(s32 ipv4, s32 arg1) {
     s32 temp_r0;
-    temp_r0 = arg0 - arg1;
+    temp_r0 = ipv4 - arg1;
     if (temp_r0 < 0) {
         return -1;
     }

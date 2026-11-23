@@ -7,10 +7,10 @@
 struct TOVS2Wreck05 : public TOVS2 {
     TOVS2Wreck05(void *set_data);
     virtual ~TOVS2Wreck05();
+    static void *create(void *set_data);
 };
 
 LAYOUT_ASSERT(TOVS2Wreck05_size, sizeof(TOVS2Wreck05) == 0xD0);
 
-extern "C" void *TOVS2Wreck05__create(void *set_data);
 
 #endif

@@ -2,9 +2,10 @@
 #define PSO_RENDER_BLOBSHADOW_H
 
 #include "types.h"
+#include "pso/system/NinjaTypes.h"
 
 /* The blob (round ground) shadow: its texture list (ha_u032_kage.gvm), quad and draw call. */
-extern uaddr blob_shadow_texture_list;
+extern NJS_TEXLIST *blob_shadow_texture_list;
 extern "C" {
 void draw_blob_shadow(s32 forceDraw);
 }
@@ -12,8 +13,7 @@ void draw_blob_shadow(s32 forceDraw);
 void release_blob_shadow_texture(void);
 void load_ha_u032_kage(void);
 
-// blob_shadow_rect_desc: layout known from its uses only.
-struct BlobShadowRectDesc { s32 value; u8 remaining[0x14]; };
-extern BlobShadowRectDesc blob_shadow_rect_desc;
+// The shadow's sprite cell: 5x5, uv 5..253 of texture 0.
+extern NJS_TEXANIM blob_shadow_rect_desc;
 
 #endif

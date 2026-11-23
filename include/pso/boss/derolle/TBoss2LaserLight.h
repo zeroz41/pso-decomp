@@ -5,7 +5,7 @@
 #include "pso/system/task/TObject.h"
 #include <dolphin/mtx.h>
 
-struct TObjLight;
+struct PointLight;
 
 // De Rol Le's laser glow: a light that fades in to range 60 on turn_on and back out on turn_off,
 // following the point it was given (the Barba Ray twin is TBoss7LaserLight).
@@ -19,7 +19,7 @@ public:
     u32 m_request;
     f32 m_color[4];
     f32 m_range[2];
-    TObjLight *m_light;
+    PointLight *m_light;
 
     TBoss2LaserLight(TObject *parent, Vec *position);
     virtual ~TBoss2LaserLight();

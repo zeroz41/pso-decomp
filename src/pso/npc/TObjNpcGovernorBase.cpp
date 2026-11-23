@@ -25,7 +25,7 @@ BmlResourceDescriptor bm_n_soutoku_i_body_resource_descriptor = {
     "bm_n_soutoku_i_body.bml", bm_n_soutoku_i_body_model_names, bm_n_soutoku_i_body_motion_names, 1, 0,
 };
 const char *TObjNpcGovernorBase__name = "TObjNpcGovernorBase";
-uaddr TObjNpcGovernorBase__shared_resource;
+BmlResource *TObjNpcGovernorBase__shared_resource;
 
 
 void *TObjNpcGovernorBase__create(void *set_data) {
@@ -34,17 +34,14 @@ void *TObjNpcGovernorBase__create(void *set_data) {
 }
 
 void TObjNpcGovernorBase::free_shared_data() {
-    if ((u32) TObjNpcGovernorBase__shared_resource != 0U) {
-        delete (BmlResource *)TObjNpcGovernorBase__shared_resource;
-        TObjNpcGovernorBase__shared_resource = 0U;
+    if (TObjNpcGovernorBase__shared_resource != NULL) {
+        delete TObjNpcGovernorBase__shared_resource;
+        TObjNpcGovernorBase__shared_resource = NULL;
     }
 }
 
 void TObjNpcGovernorBase::load_shared_resource() {
-    saddr temp_r3;
-    s32 var_r0;
-    var_r0 = (saddr)new BmlResource(1, &bm_n_soutoku_i_body_resource_descriptor, 0, 0, NULL);
-    (*(s32 *)&TObjNpcGovernorBase__shared_resource) = var_r0;
+    TObjNpcGovernorBase__shared_resource = new BmlResource(1, &bm_n_soutoku_i_body_resource_descriptor, 0, 0, NULL);
 }
 
 TObjNpcGovernorBase::~TObjNpcGovernorBase() {}
@@ -54,8 +51,8 @@ TObjNpcGovernorBase::TObjNpcGovernorBase(TObject *parent, void *arg2) : TUnk_804
     ((TObject *)this)->m_name = TObjNpcGovernorBase__name;
     ((TObjNpcGovernorBase *)this)->apply_set_data(arg2);
     init_position_vectors();
-    *(s32 *)((s8 *)this + 0x34) = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)(*(u8 * *)&TObjNpcGovernorBase__shared_resource) + 0x42C)) + 8);
-    ((TObjNpcGovernorBase *)this)->texlist = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)(*(u8 * *)&TObjNpcGovernorBase__shared_resource) + 0x42C)) + 0xC);
+    model = TObjNpcGovernorBase__shared_resource->models->model;
+    texlist = TObjNpcGovernorBase__shared_resource->models->texlist;
     ((TObjNpcBase *)this)->setup_common();
 }
 

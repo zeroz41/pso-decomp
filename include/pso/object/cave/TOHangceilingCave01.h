@@ -6,11 +6,9 @@
 struct TOHangceilingCave01
 {
     static void destroy_instance();
+    static void *create(void *set_data);
 };
 
-extern "C" {
-void *TOHangceilingCave01__create(void *set_data);
-}
 void load_turiten_singo_resources(void);
 
 #endif

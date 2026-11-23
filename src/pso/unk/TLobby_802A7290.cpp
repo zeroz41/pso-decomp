@@ -2657,12 +2657,12 @@ const s32 ** player_motion_clip_roots_b[6] = {
 s32 player_action_motion_buffer;
 
 extern "C" {
-int is_valid_player_motion_variant(s32 a0);
+int is_valid_player_motion_variant(s32 variant);
 int TLobby__sub_802A7278(s32 a0);
 void set_motion_variant(void *p, s32 _w1);
 s32 matches_loaded_motion(void *, s32, s32);
 void TLobby__sub_802A7640(void);
-int is_valid_player_motion_variant(s32 a0 = 0);
+int is_valid_player_motion_variant(s32 variant = 0);
 int TLobby__sub_802A7278(s32 a0 = 0);
 
 s32 TLobby::get_valid_child() {

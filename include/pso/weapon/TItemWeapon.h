@@ -15,11 +15,17 @@ struct WeaponMotionRecord { u32 unknown; u32 frame_count; };
 
 // A weapon's item parameter record (lookup_item_pmt_record).
 struct WeaponParams {
-    u8 pad_0[0x18];
+    u8 pad_0[0x17];
+    u8 photon_color;               // signed; -1: no photon colour
     u8 special;                    // the weapon's fixed special, 0 for none
-    u8 pad_19[0x1C - 0x19];
+    u8 pad_19[0x1B - 0x19];
+    u8 gun_point_joint;            // where shots start
     u8 trail_joints[4];            // start and end joints of trails 0 and 1
-    u8 pad_20[0x28 - 0x20];
+    u8 color_node;                 // model node drawn in the photon colour
+    u8 effect_nodes[3];            // model nodes apply_weapon_node_material draws with the effect render
+    u8 pad_24[0x26 - 0x24];
+    u8 technique_boost;            // get_shield_pmt_entry index of the technique boosts
+    u8 flags;                      // 1, 2, 4: effect flag 0x20, weapon flags 0x40000, 0x80000
 };
 
 // impact_callback / hit_callback: (task layer, weapon, target, extra).
@@ -72,7 +78,7 @@ struct TItemWeapon : public TItemEquipBase {
     virtual void vfunc_60();
     // attack_kind 0 physical, 1 physical with knockback, 2 the weapon
     // special; body indexes the target's collision bodies.
-    virtual void deliver_hit(TObjPlayer *attacker, TObjChara *target, s32 attack_kind, s32 body, f32 scale);
+    virtual void deliver_hit(TObjPlayer *attacker, TObjChara *target, s32 attack_kind, f32 scale, s32 body);
 
     // Copies what an item of this class keeps when it is replaced by a new
     // item code (replace_item_with_new_code) into the new item's data.
@@ -107,6 +113,8 @@ struct TItemWeapon : public TItemEquipBase {
     // Where a joint of the owner's model is on screen (-1, -2: the owner's
     // own points), stored as a Vec at out; 0 without an owner.
     s32 get_joint_position(s32 joint, void *out);
+    void set_technique_roll_range(s32 range);
+    void set_color_node(s16 node);
     // get_joint_position of gun_point_joint, where shots start.
     void get_gun_point(Vec *out);
     void sample_dual_muzzles(Vec *primary, Vec *secondary);
@@ -122,7 +130,7 @@ struct TItemWeapon : public TItemEquipBase {
     s32 previous_technique_roll;
     s32 technique_roll_range;
     f32 photon_phase;              // 0..1, advance_weapon_photon_phase
-    u8 pad_1cc[0x1CE - 0x1CC];
+    s16 color_node;                // WeaponParams::color_node, -1 without a photon colour
     s16 gun_point_joint;           // get_gun_point
     u8 pad_1d0[0x1D1 - 0x1D0];
     u8 grind;

@@ -1,9 +1,12 @@
+#include "pso/unk/TScreenFadeOut.h"
 #include "types.h"
 #include "pso/ui/window/TWindowSubGameEnd.h"
 #include "pso/ui/window/TWindowMainMenu.h"
 #include "pso/unk/text_8024AB54.h"
 #include "pso/ui/window/TWindowMessageYesNo.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
+#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/system/task/TMainTask.h"
 
 #include "pso/ui/city/THunterGuildSeqOffline.h"
 #include "pso/ui/window/TWindowSubComCard.h"
@@ -20,22 +23,16 @@
 #pragma readonly_strings on
 
 
-const char *TWindowSubGameEnd__class_name = "TWindowSubGameEnd";
+const char *TWindowSubGameEnd::class_name = "TWindowSubGameEnd";
 int window_sub_game_end_active_flag;
 
-
 extern "C" {
-extern saddr tl_00;
-s32 get_main_phase();
-s32 __ct__7TObjectFP7TObject();
 saddr get_window_layout_position(s32);
-extern s32 __vt__17TWindowSubGameEnd[];
-s32 set_queued_main_phase(s32);
-s32 request_main_phase(s32);
+}
 
-void TKeyBoardControl::init_char_select() {
+void TKeyBoardControl::init_char_select(TObject *) {
     if (is_split_screen() != 0) {
-        setup_player_battle_ctrls__23TAdSinglePlyChrSelectGCFv();
+        TAdSinglePlyChrSelectGC::setup_player_battle_ctrls();
         request_main_phase(7);
         return;
     }
@@ -47,27 +44,23 @@ void TWindowSubGameEnd::render() {  }
 
 void TWindowSubGameEnd::run_task() {
     s32 slot;
-    void *obj;
-    switch (this->m_1c) {
+    switch (state) {
     case 0:
     case 1:
-        if (((TWindowSubComCard *)(this->m_28))->get_card_data() != 0) {
+        if (((TWindowMessageYesNo *)yes_no_window)->is_cancelled() != 0) {
             parent_menu->on_submenu_closed();
             return;
         }
-        if (((TWindowMessageYesNo *)(this->m_28))->is_child_visible() != 0) {
-            slot = ((TWindowSubComCard *)(this->m_28))->get_slot_or_neg1();
+        if (yes_no_window->is_child_visible() != 0) {
+            slot = ((TWindowMessageYesNo *)yes_no_window)->get_selected_value();
             if (slot == 0) {
                 if (window_sub_game_end_active_flag != 1) {
-                    obj = (void *)TObject::operator new(0x28);
-                    if (obj != NULL) {
-                        ((THunterGuildSeqOffline *)obj)->init((void *)tl_00, (void *)((void *)TKeyBoardControl::init_char_select));
-                    }
-                    fn_8024AB54(this->m_20);
+                    new TScreenFadeOut(tl_00, TKeyBoardControl::init_char_select);
+                    fn_8024AB54(client);
                     TLobby::send_logout();
                     window_sub_game_end_active_flag = 1;
                 }
-                this->m_1c = 2;
+                state = 2;
             }
             if (slot == 1) {
                 parent_menu->on_submenu_closed();
@@ -79,39 +72,38 @@ void TWindowSubGameEnd::run_task() {
     }
 }
 
-}
 TWindowSubGameEnd::~TWindowSubGameEnd() {
-    if (*(void **)((s8 *)this + 0x28) != NULL) { ((TWindowSubComCard *)(*(void **)((s8 *)this + 0x28)))->close(); this->m_28 = 0; }
+    if (yes_no_window != NULL) {
+        ((TWindowMessageYesNo *)yes_no_window)->close();
+        yes_no_window = NULL;
+    }
 }
 
-
-void *TWindowSubGameEnd__ct(TWindowSubGameEnd *window_sub_game_end, TWindowMainMenu *parent, s32 client_index) {
+TWindowSubGameEnd::TWindowSubGameEnd(TWindowMainMenu *parent, s32 client) : TObject(parent) {
     f32 width;
-    s32 var_r31;
-    __ct__7TObjectFP7TObject();
-    *(s32 **)((s8 *)window_sub_game_end + 0x18) = __vt__17TWindowSubGameEnd;
-    *(s32 *)((s8 *)window_sub_game_end + 0) = (s32) ((saddr)TWindowSubGameEnd__class_name);
-    window_sub_game_end->parent_menu = parent;
-    window_sub_game_end->m_20 = client_index;
+    s32 text;
+    m_name = class_name;
+    parent_menu = parent;
+    this->client = client;
     if (get_main_phase() == 0xF) {
-        var_r31 = (saddr)TWindowSubStatusDisp::get_message_10(0x3B);
+        text = (saddr)TWindowSubStatusDisp::get_message_10(0x3B);
         width = 469.0f;
     } else if (is_split_screen() != 0) {
-        var_r31 = (saddr)TWindowSubStatusDisp::get_message_10(0x3C);
+        text = (saddr)TWindowSubStatusDisp::get_message_10(0x3C);
         width = 312.0f;
     } else {
-        var_r31 = (saddr)TWindowSubStatusDisp::get_message_10(0x3A);
+        text = (saddr)TWindowSubStatusDisp::get_message_10(0x3A);
         width = 469.0f;
     }
-    window_sub_game_end->m_28 = (saddr)TWindowMessageYesNo::create((void *)(window_sub_game_end), window_sub_game_end->m_20, 0, 0);
-    ((TWindowMessageYesNo *)window_sub_game_end->m_28)->open_yes_no_prompt_with_text((s32)var_r31, (s32)(get_window_layout_position(0x17)), width);
-    ((TWindowMessageYesNo *)window_sub_game_end->m_28)->set_menu_selected_index(1);
-    ((TWindowMessageYesNo *)(window_sub_game_end->m_28))->set_choice_menu_flag70_bit10();
-    window_sub_game_end->m_1c = 0;
-    return window_sub_game_end;
+    yes_no_window = TWindowMessageYesNo::create(this, this->client, 0, 0);
+    yes_no_window->open_yes_no_prompt_with_text(text, get_window_layout_position(0x17), width);
+    yes_no_window->set_menu_selected_index(1);
+    yes_no_window->set_choice_menu_flag70_bit10();
+    state = 0;
 }
 
+extern "C" {
 void TLobby__sub_802796FC(void) { window_sub_game_end_active_flag = 0; }
 
 void TLobby__sub_80279708(void) { window_sub_game_end_active_flag = 0; }
-
+}

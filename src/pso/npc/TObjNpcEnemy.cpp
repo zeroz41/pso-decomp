@@ -33,7 +33,7 @@ CollisionBody TObjNpcEnemy__collision_body_parts = {{0.0f, 7.5f, 0.0f}, 7.0f, 0.
 const char *TObjNpcEnemy_class_name = "TObjNpcEnemy";
 
 extern "C" {
-void * TObjNpcEnemy__create(void *arg0);
+void * TObjNpcEnemy__create(void *set_data);
 s32 translate_matrix(int, int, f32, f32, f32);
 
 }
@@ -52,7 +52,7 @@ void TObjNpcEnemyEntry::reset() {
     animation.debug_action_limit = 0;
 }
 
-void NpcModelRegistry::register_animated_ginja(s16 id, NJS_OBJECT *model, GinjaTextureList *textures,
+void NpcModelRegistry::register_animated_ginja(s16 id, NJS_OBJECT *model, NJS_TEXLIST *textures,
                                               const NpcAnimationBinding *animation, f32 radius, f32 y_offset) {
     TObjNpcEnemyEntry *entry = TObjNpcEnemy::insert_slot_by_id(id);
     if (entry != NULL) {
@@ -60,7 +60,7 @@ void NpcModelRegistry::register_animated_ginja(s16 id, NJS_OBJECT *model, GinjaT
         entry->kind = 3;
         entry->y_offset = y_offset;
         entry->model = reinterpret_cast<saddr>(model);
-        entry->texlist = reinterpret_cast<saddr>(textures);
+        entry->texlist = textures;
         entry->radius = radius;
         entry->animation = *animation;
     }
@@ -78,14 +78,14 @@ NpcAnimationBinding &NpcAnimationBinding::operator=(const NpcAnimationBinding &o
 }
 #pragma pop
 
-void TMotorcycle::add_entry(s16 id, NJS_OBJECT *model, GinjaTextureList *textures, f32 radius, f32 y_offset) {
+void TMotorcycle::add_entry(s16 id, NJS_OBJECT *model, NJS_TEXLIST *textures, f32 radius, f32 y_offset) {
     TObjNpcEnemyEntry *entry = TObjNpcEnemy::insert_slot_by_id(id);
     if (entry != NULL) {
         entry->id = id;
         entry->kind = 2;
         entry->y_offset = y_offset;
         entry->model = reinterpret_cast<saddr>(model);
-        entry->texlist = reinterpret_cast<saddr>(textures);
+        entry->texlist = textures;
         entry->radius = radius;
         entry->animation.motions = 0;
         entry->animation.actions = 0;
@@ -95,7 +95,7 @@ void TMotorcycle::add_entry(s16 id, NJS_OBJECT *model, GinjaTextureList *texture
     }
 }
 
-void NpcModelRegistry::register_animated_chunk(s16 id, void *model, void *texlist,
+void NpcModelRegistry::register_animated_chunk(s16 id, void *model, NJS_TEXLIST *texlist,
                                                const NpcAnimationBinding *animation, f32 radius, f32 y_offset) {
     TObjNpcEnemyEntry *entry = TObjNpcEnemy::insert_slot_by_id(id);
     if (entry != NULL) {
@@ -103,19 +103,19 @@ void NpcModelRegistry::register_animated_chunk(s16 id, void *model, void *texlis
         entry->kind = 1;
         entry->y_offset = y_offset;
         entry->model = reinterpret_cast<saddr>(model);
-        entry->texlist = (saddr)texlist;
+        entry->texlist = texlist;
         entry->radius = radius;
         entry->animation = *animation;
     }
 }
 
-void TObjEneSlime::spawn_child(s16 id, s32 model, s32 texlist, f32 radius, f32 y_offset) {
+void TObjEneSlime::spawn_child(s16 id, void *model, NJS_TEXLIST *texlist, f32 radius, f32 y_offset) {
     TObjNpcEnemyEntry *entry = TObjNpcEnemy::insert_slot_by_id(id);
     if (entry != NULL) {
         entry->id = id;
         entry->kind = 0;
         entry->y_offset = y_offset;
-        entry->model = model;
+        entry->model = reinterpret_cast<saddr>(model);
         entry->texlist = texlist;
         entry->radius = radius;
         entry->animation.motions = 0;
@@ -294,7 +294,7 @@ void TObjNpcEnemy::render() {
         if (((TObjNpcEnemy *)arg0)->sub_802D7444() != 0) {
             model_render_flags |= 1;
         }
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(this->texlist));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
         push_matrix_from(0);
         translate_matrix_vec3(0, ((u8 *)&this->position));
         entry = this->entry;

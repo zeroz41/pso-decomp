@@ -26,7 +26,9 @@
 #include "pso/map/FloorArea.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/system/task/TObject.h"
+#include "pso/system/task/TMainTask.h"
 #include "pso/object/ambient/TObjFish.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 
 struct Ent_80207478 { s32 f0; char *name; };
@@ -42,15 +44,12 @@ s32 TSceneSora__has_sky_motion;
 
 extern "C" {
 void TSceneSora__sub_80207430(void);
-u8 *__ct__10TSceneSoraFl(TSceneSora *arg0, s32 _w1);
 s32 rotate_matrix_y(int, int);
-s32 get_current_floor();
 extern char sky_model_ext_s_njm[];
 extern char sky_model_ext_sm_gj[];
 extern char sky_model_ext_s_gj[];
 void TLobby__sub_802075F4(void);
 
-extern s32 tl_05;
 
 void TSceneSora::render() {
     if ((s32) TSceneSora::sky_active_flag != 0) {
@@ -88,29 +87,23 @@ void TSceneSora::run_task() {
 TSceneSora::~TSceneSora() {
     TSceneSora::instance = 0;
 }
-TSceneSora::TSceneSora(saddr _w1) : TObjBase((TObject *)_w1) {
-    this->m_name = TSceneSora__name;
+TSceneSora::TSceneSora(TObject *parent) : TObjBase(parent) {
+    m_name = TSceneSora__name;
     sky_model = reinterpret_cast<NJS_OBJECT *>(get_bml_model((BmlResource *)TSceneSora__sky_bml_resource, 0));
     if (TSceneSora__has_sky_motion != 0) {
         sky_motion = get_bml_motion(TSceneSora__sky_bml_resource, 0);
     } else {
         sky_motion = NULL;
     }
-    sky_textures = reinterpret_cast<GinjaTextureList *>(get_bml_texlist((BmlResource *)TSceneSora__sky_bml_resource, 0));
+    sky_textures = reinterpret_cast<NJS_TEXLIST *>(get_bml_texlist((BmlResource *)TSceneSora__sky_bml_resource, 0));
     motion_step = 0.1f;
     m_a0 = 0.0f;
 }
 extern "C" {
 
 void TSceneSora::create_instance() {
-    saddr scene_sora;
-
     if (TSceneSora__sky_bml_resource != NULL) {
-        scene_sora = (saddr)TObject::operator new(0xA4);
-        if (scene_sora != 0) {
-            scene_sora = ((saddr)__ct__10TSceneSoraFl((TSceneSora *)((u8 *)scene_sora), (s32)tl_05));
-        }
-        TSceneSora::instance = (TSceneSora *)scene_sora;
+        TSceneSora::instance = new TSceneSora(tl_05);
         return;
     }
     TSceneSora::instance = 0;

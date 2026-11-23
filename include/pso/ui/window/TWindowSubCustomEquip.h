@@ -21,11 +21,11 @@ struct TWindowSubCustomEquip : public TWindowBase {
     u8 m_64;
     u8 m_65;
     s16 m_66;
-    u32 m_68;
+    u32 angle;
     TWindowSubStatusDisp *m_6c;
-    void set_relative_pos(void *arg1);
+    void set_relative_pos(void *relative_pos);
     void layout_selection_parts(void *arg1);
-    void layout_entry_group(void *arg1);
+    void layout_entry_group(void *index);
     void reset_selection();
     void refresh_palette_slots();
     void update_rotate_anim();
@@ -40,7 +40,7 @@ struct TWindowSubCustomEquip : public TWindowBase {
     void get_cursor_pos(void *arg1);
     void remove_duplicate_bindings(void *arg1);
     void toggle_action_binding(void *arg1);
-    void place_bank_slot_on_ring(s32 arg1, s32 arg2);
+    void place_bank_slot_on_ring(s32 angle, s32 index);
 };
 
 LAYOUT_ASSERT(TWindowSubCustomEquip_size, sizeof(TWindowSubCustomEquip) == 0x70);

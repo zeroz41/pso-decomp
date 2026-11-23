@@ -19,7 +19,7 @@
 extern "C" {
 s32 lbl_805D4658 = 1;
 s32 TLobby_init_ref_count;
-s32 TLobby__svm_cb_svr_handle;
+s32 svm_cb_svr_handle;
 s32 lbl_805D7540;
 static const char *const volatile lbl_805E0D30 = "\nADXT/GC Ver.8.05 Build:Jun 13 2002 19:01:36\n";
 }
@@ -39,7 +39,7 @@ void TLobby::dec_ref_and_shutdown() {
         TLobby::init_once();
         TLobby::SVM_DelCbSvr(2, (saddr)((void *) (1)));
         TLobby::SVM_DelCbSvr(2, (saddr)((void *) (3)));
-        TLobby::SVM_DelCbSvr(4, TLobby__svm_cb_svr_handle);
+        TLobby::SVM_DelCbSvr(4, svm_cb_svr_handle);
         TLobby__sub_803D3194();
         TLobby::release_ref();
         TLobby::init_once();
@@ -70,7 +70,7 @@ void TLobby::init_and_add_ref() {
         if (lbl_805D4658 == 1) {
             TLobby::SVM_SetCbSvrId(2, 1, TLobby::get_state_zero, 0);
             TLobby::SVM_SetCbSvrId(2, 3, TLobby::ar_alloc, 0);
-            TLobby__svm_cb_svr_handle = TLobby::svm_set_cb_svr(4, TLobby::process_connection_state, 0);
+            svm_cb_svr_handle = TLobby::svm_set_cb_svr(4, TLobby::process_connection_state, 0);
         }
         lbl_805D7540 = 0;
         TLobby::release_ref();

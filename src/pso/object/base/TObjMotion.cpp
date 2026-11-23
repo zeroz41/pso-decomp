@@ -24,9 +24,9 @@
 
 Mtx34 *anim_model_matrix_array;
 Mtx34 *player_joint_matrix_write_ptr;
-void *lbl_805D5680;
+void *motion_blend_buffer;
 NodeFlagEntry *node_flag_cursor;
-const char *TObjMotion__class_name = "TObjMotion";
+const char *TObjMotion::class_name = "TObjMotion";
 
 TObjMotionAction *TObjMotion::get_anim_entry(int action) {
     return action_table + action;
@@ -60,7 +60,7 @@ TUnk_804A7478::~TUnk_804A7478() {
 }
 
 TObjMotion::TObjMotion(TObject *parent) : TObjCollidable(parent) {
-    m_name = TObjMotion__class_name;
+    m_name = class_name;
     reset_motion_fields();
     action_table = NULL;
     current_motion = NULL;

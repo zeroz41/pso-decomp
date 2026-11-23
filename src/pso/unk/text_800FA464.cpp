@@ -14,7 +14,7 @@ struct AsyncFileReadRequest {
     s32 size;
     s32 count;
     u8 pad34[8];
-    GinjaTextureList *tex;
+    NJS_TEXLIST *tex;
     u8 pad40[0x24];
     saddr mode;
 };
@@ -108,7 +108,7 @@ void process_async_file_reads(void) {
         }
         break;
     case 4:
-        if (TLobby::load_bml_exec((u8 *)async_file_read_current_request->mode, (u8 *)async_file_read_current_request->name) != 0) {
+        if (TLobby::load_bml_exec((BmlResource *)async_file_read_current_request->mode, (u8 *)async_file_read_current_request->name) != 0) {
             TLobby::pop_and_close();
             async_file_read_state = 0;
         }

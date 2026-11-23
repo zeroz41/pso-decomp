@@ -20,6 +20,7 @@
 #include "pso/unk/text_803D8F74.h"
 #include "pso/unk/text_803D853C.h"
 #include "pso/unk/text_803D96A8.h"
+#include "pso/player/PlayerSlots.h"
 
 #pragma readonly_strings on
 
@@ -37,7 +38,7 @@ void TWindowSubStatusDisp::render_forward() {
 }
 
 void TWindowSubStatusDisp::begin_render() {
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(localized_alphabet_list));
+    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(localized_alphabet_list));
 }
 
 void TFontSmallHelp::set_color(u32 text_color) {

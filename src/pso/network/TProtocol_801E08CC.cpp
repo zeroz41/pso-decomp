@@ -2,6 +2,7 @@
 #include "pso/network/TProtocol_801E08CC.h"
 #include "pso/system/byteswap.h"
 #include "pso/system/THeap.h"
+#include "pso/system/GbaAramCache.h"
 
 extern "C" {
 
@@ -9,7 +10,6 @@ void __dl__9TProtocolFPv(saddr arg0) {
     obj_heap->heap_free((void *)arg0);
 }
 
-    extern int lobby_count_value;
 void set_lobby_count_value(void) { lobby_count_value = 1; }
 }
 

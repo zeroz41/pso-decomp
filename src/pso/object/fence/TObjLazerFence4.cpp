@@ -58,11 +58,11 @@ const char *lazer_fence4_class_name = "TObjLazerFence4";
 
 struct Cnt_801933C8 { s32 pad0; s32 f4; };
 
-struct Obj_801933C8 { u8 padA0[0xAC]; s32 fAC; f32 fB0; u8 padB4[6]; u16 fBA; u8 padBC[8]; Cnt_801933C8 *fC4; };
+struct Obj_801933C8 { u8 padA0[0xAC]; s32 fAC; f32 fB0; u8 padB4[6]; u16 id; u8 padBC[8]; Cnt_801933C8 *fC4; };
 
 struct Node_80193188 { u32 flags; void *model; u8 pad8[0x24]; Node_80193188 *child; Node_80193188 *sibling; };
 
-struct Fence_80193188 { u8 pad0[0x8C]; s32 f8C; u8 pad90[0x2C]; Node_80193188 *fBC; Node_80193188 *fC0; saddr fC4; void *fC8[12]; };
+struct Fence_80193188 { u8 pad0[0x8C]; s32 f8C; u8 pad90[0x2C]; Node_80193188 *fBC; Node_80193188 *fC0; saddr bml_motion; void *fC8[12]; };
 
 extern "C" {
 void post_translate_matrix(void *);
@@ -87,11 +87,11 @@ void TObjLazerFence4::init_models() {
     if (arg0->f8C % 2 == 0) {
         arg0->fBC = (Node_80193188 *)get_bml_model((BmlResource *)lazer_fence_norm_bml_resource, 4);
         arg0->fC0 = (Node_80193188 *)get_bml_model((BmlResource *)lazer_fence_norm_bml_resource, 5);
-        arg0->fC4 = (saddr)get_bml_motion(lazer_fence_norm_bml_resource, 2);
+        arg0->bml_motion = (saddr)get_bml_motion(lazer_fence_norm_bml_resource, 2);
     } else {
         arg0->fBC = (Node_80193188 *)get_bml_model((BmlResource *)lazer_fence_norm_bml_resource, 6);
         arg0->fC0 = (Node_80193188 *)get_bml_model((BmlResource *)lazer_fence_norm_bml_resource, 7);
-        arg0->fC4 = (saddr)get_bml_motion(lazer_fence_norm_bml_resource, 3);
+        arg0->bml_motion = (saddr)get_bml_motion(lazer_fence_norm_bml_resource, 3);
     }
     for (j = 0; j < 12; j++) {
         arg0->fC8[j] = 0;
@@ -107,7 +107,7 @@ void TObjLazerFence4::init_models() {
 }
 
 void TObjLazerFence4::draw() {
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(lazer_fence_norm_texture_list));
+    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(lazer_fence_norm_texture_list));
     push_matrix();
     post_translate_matrix((void *)((char *)this + 56));
     rotate_matrix_y(0, this->rotation_y);
@@ -120,18 +120,18 @@ void TObjLazerFence4::draw_model() {
   void **new_var;
   u16 *new_var2;
   s32 var_r31;
-  s32 var_r30;
-  var_r30 = 0;
+  s32 i;
+  i = 0;
   new_var2 = (u16 *) (((s8 *) arg0) + 0xB8);
   var_r31 = 0;
   do
   {
     set_ginja_model_texture_slot(reinterpret_cast<void *>((*((s32 *) ((arg0 + var_r31) + 0xC8)))), (*new_var2));
-    var_r30 += 1;
+    i += 1;
     var_r31 += 4;
   }
-  while (var_r30 < 0xC);
-  TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(lazer_fence_norm_texture_list));
+  while (i < 0xC);
+  TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(lazer_fence_norm_texture_list));
   push_matrix();
   post_translate_matrix((u8 *)&this->position);
   rotate_matrix_y(0, this->rotation_y);
@@ -144,7 +144,7 @@ void TObjLazerFence4::draw_model() {
 }
 
 void TObjLazerFence4::reset_if_door_closed() {
-    if (is_current_floor_switch_set(this->m_ba) == 0) {
+    if (is_current_floor_switch_set(this->id) == 0) {
         set_indexed_flags(0, 1);
         this->m_ac = 0;
     }
@@ -155,7 +155,7 @@ void TObjLazerFence4::sub_801933C8() {
     if (((Obj_801933C8 *)this)->fB0 > (f32)(u32)(((Obj_801933C8 *)this)->fC4->f4 - 1)) {
         ((Obj_801933C8 *)this)->fB0 = 0.0f;
     }
-    if (is_current_floor_switch_set(((Obj_801933C8 *)this)->fBA) == 1) {
+    if (is_current_floor_switch_set(((Obj_801933C8 *)this)->id) == 1) {
         ((TObjCollidable *)((Obj_801933C8 *)this))->clear_player_status_flag(0, 1);
         ((Obj_801933C8 *)this)->fAC = 1;
     }
@@ -231,8 +231,8 @@ s32 init_collision_body_parts(void *, void *, int);
 
 void free_collision_body_parts(void *);
 
-void *TObjLazerFence4::create() {
-    return new TObjLazerFence4((TObject *)tl_05, this);
+void *TObjLazerFence4::create(void *set_data) {
+    return new TObjLazerFence4((TObject *)tl_05, set_data);
 }
 
 }

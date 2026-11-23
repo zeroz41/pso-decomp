@@ -15,6 +15,7 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/system/BmlResource.h"
 #include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjBase.h"
 
 #pragma readonly_strings on
 
@@ -42,7 +43,7 @@ void TObjEneMe1GiGueBarrier::render() {
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
         TParticleCtrl::end_effect_render();
         draw();
         pop_matrix();
@@ -96,7 +97,7 @@ TObjEneMe1GiGueBarrier::TObjEneMe1GiGueBarrier(TObject *parent, void *owner_obj)
     BmlModelEntry *models;
     m_name = TObjEneMe1GiGueBarrier__name;
     owner = (TObjEneMe1GiGue *)owner_obj;
-    owner_id = get_entity_id(owner);
+    owner_id = owner->get_entity_id();
     VecCopy(&position, owner->update_and_get_pos());
     rotation_y = owner->get_rotation_y();
     timer = owner->get_barrier_duration();
@@ -104,7 +105,7 @@ TObjEneMe1GiGueBarrier::TObjEneMe1GiGueBarrier(TObject *parent, void *owner_obj)
     phase = 0;
     model = (void *)TObjEneMe1GiGueBarrier__barrier_resource_object->models[2].model;
     models = TObjEneMe1GiGueBarrier__barrier_resource_object->models;
-    texlist = (saddr)models[2].texlist;
+    texlist = models[2].texlist;
     set_action_table((saddr)TObjEneMe1GiGueBarrier__animation_definitions);
     set_motion_list((saddr)TObjEneMe1GiGueBarrier__barrier_resource_object->motions);
     requested_action = 0;

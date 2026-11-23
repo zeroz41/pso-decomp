@@ -38,7 +38,7 @@ void TORevlightCave01::render() {
         rotate_matrix_z(NULL, rotation_z);
         rotate_matrix_x(NULL, rotation_x);
         rotate_matrix_y(NULL, rotation_y);
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
         draw_ginja_model((void *)((NJS_OBJECT *)model)->model);
         rotate_matrix_y(NULL, spin_angle);
         draw_ginja_model((void *)((NJS_OBJECT *)model)->child->model);
@@ -71,7 +71,7 @@ TORevlightCave01::TORevlightCave01(TObject *parent, void *set_data) : TObjMapObj
     m_name = TORevlightCave01__class_name;
     apply_object_set_data(set_data);
     model = (void *)TORevlightCave01__bml_resource->models[0].model;
-    texlist = (saddr)TORevlightCave01__bml_resource->models[0].texlist;
+    texlist = TORevlightCave01__bml_resource->models[0].texlist;
     motion = TORevlightCave01__bml_resource->motions[0].motion;
     animation_step = 0.8f;
     animation_end_frame = (f32)motion->frameCount - 1.0f;

@@ -38,71 +38,41 @@
 #include "pso/ui/hud/TMainCursor.h"
 #include "pso/technique/TTecResta.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/player/TargetCursorList.h"
+#include "pso/object/TUnk_804CC794.h"
+#include "pso/object/TUnk_804CC948.h"
+#include "pso/unk/TUnk_804CCD0C.h"
+#include "pso/unk/TUnk_804CC990.h"
+#include "pso/object/TUnk_804CCAC8.h"
+#include "pso/object/TUnk_804CC74C.h"
 #include "pso/unk/text_803D853C.h"
 #include "pso/unk/text_803D8F74.h"
+#include "pso/object/base/TObjBase.h"
+#include "pso/object/base/CollisionActorLookup.h"
+#include "pso/system/TLanguage_801E4874.h"
+#include "pso/render/GinjaTexture.h"
+#include "pso/player/TObjPlayer_8023E480.h"
+#include "pso/technique/TechniqueRingwaveList.h"
 
-TechniqueParams lbl_80515F90;
+TechniqueParams calculated_technique_params;
 // Per player: the technique boosts of the equipped weapon and shield.
-TechniqueBoostTable lbl_80515FBC[4];
+TechniqueBoostTable technique_boost_tables[4];
 TechniqueBoostTable lbl_8051607C[4];
 
 extern "C" {
-f32 get_battle_value__10TObjPlayerFlil(void *, s32, s16);
 }
-
-typedef struct Owner_8022CDE8 {
-    u8 pad0[0x424];
-    TLockOnCursor *f424;  // TObjPlayer::lock_on_cursor
-    u8 slots[0x10];
-} Owner_8022CDE8;
-
-typedef struct Cursor_8022CDE8 {
-    u8 pad0[0x9C];
-    u8 list[0x10];
-} Cursor_8022CDE8;
-
 
 struct Target_8022D27C { u16 id; s16 part; };
 
-struct Entry_8022D27C { u16 id; s16 part; f32 c; };
-
-struct List_8022D27C { s32 count; Entry_8022D27C e[11]; };
-
-struct Coll_8022D27C { u8 pad0[0x1C]; Vec pos; u8 pad28[0x2C - 0x28]; };
-
-struct Ent_8022D27C { u8 pad0[0xA4]; Coll_8022D27C *colls; };
-
-struct Player_8022D27C {
-    u8 pad0[0x38];
-    Vec pos;
-    u8 pad44[0x60 - 0x44];
-    saddr rotY;
-    u8 pad64[0x428 - 0x64];
-    u8 tech[1];
-};
-
-
-
-typedef struct Params_8022C738 { u8 pad0[0x12]; s16 f12; u8 pad14[0x20 - 0x14]; s16 f20; } Params_8022C738;
 
 extern "C" {
 void *TObjPlayer__sub_80116620(void *, int);
 s32 get_obj_id__10TObjPlayerFv(void *);
 void set_slot_type_state__10TObjPlayerFllss(void *, int, u16, s32);
-void capture_technique_targets__10TObjPlayerFv(int kind, Owner_8022CDE8 *owner);
-u16 get_entity_id(void *);
 s32 is_split_screen();
-Ent_8022D27C *find_entity_by_id(u16);
 void get_hand_joint_position__10TObjPlayerFl(void *, void *);
 Target_8022D27C *get_technique_data__10TObjPlayerFPv(void *);
 u8 get_cast_technique_level(void *, int);
-void launch_technique__10TObjPlayerFv(s32 tech, s32 unused, Player_8022D27C *pl);
-void *__ct__13TUnk_804CC794Fll(void *, void *, TObject *);
-void *__ct__13TUnk_804CC948Fll(void *, void *, TObject *);
-void *__ct__13TUnk_804CCD0CFll(void *, void *, TObject *);
-void *__ct__13TUnk_804CC990Fll(void *, void *, TObject *);
-void *__ct__13TUnk_804CCAC8Fll(void *, void *, TObject *);
-void *__ct__13TUnk_804CC74CFll(void *, void *, TObject *);
 }
 extern u8 identity_matrix[];
 extern s32 local_client_id;
@@ -156,7 +126,7 @@ TechniqueParams technique_param_table[19] = {
     {0.0f, 0.0f, 100.0f, 0.0f, 20, 10, 150, 8, 0, 0, 30, 1, 0, 0, 0, 0, 0},
     {27.0f, 2.0f, 100.0f, 0.0f, 30, 15, 160, 5, 7281, 7281, 35, 1, 105, 3, 20, 28, 10},
 };
-const char *TTecCtrl__name = "TTecCtrl";
+const char *TTecCtrl::class_name = "TTecCtrl";
 
 TechniqueLinearPower tech_high_level_linear_power_table[19] = {
     {-85, 65}, {30, 42}, {370, 21}, {-125, 63}, {0, 40},
@@ -164,33 +134,24 @@ TechniqueLinearPower tech_high_level_linear_power_table[19] = {
     {10, 1}, {10, 1}, {10, 1}, {10, 1}, {0, 0},
     {-20, 10}, {0, 0}, {0, 0}, {42, 2},
 };
-TechniqueCostScale lbl_804CC55C[19] = {
+TechniqueCostScale technique_scale_table[19] = {
     {0.8f, 3.0f}, {0.8f, 2.0f}, {0.6f, 2.0f}, {0.8f, 3.0f}, {0.6f, 2.0f},
     {0.4f, 2.0f}, {0.5f, 4.0f}, {0.4f, 2.0f}, {0.4f, 2.0f}, {0.1f, 2.0f},
     {1.0f, 5.0f}, {1.0f, 5.0f}, {1.0f, 5.0f}, {1.0f, 5.0f}, {1.0f, 1.0f},
     {0.1f, 5.0f}, {1.0f, 10.0f}, {1.0f, 30.0f}, {0.3f, 5.0f},
 };
 
-extern "C" {
-s32 release_texture_list(void *, s32);
-struct TechniqueRingwaveTextureList { u8 * value; u8 remaining[0x8]; };
-extern TechniqueRingwaveTextureList technique_ringwave_texture_list;
-void bind_gvm_texture_list(const char *, void *);
-void __ct__7TObjectFP7TObject(void *, void *);
-}
-u8 *load_gvm_texture_file(saddr arg0);
 void reset_telepipe_visit_counts(void);
 s8 lbl_805D63A8;
 BmlResource *technique_effect_bml;
-GinjaTextureList *lbl_805D63B0;
-extern s32 __vt__8TTecCtrl[];
+NJS_TEXLIST *technique_texture_list;
 
 #define ONE_SLOT()                                                                       \
-    if (((TObjPlayer *)(TObjPlayer__sub_80116620(c->list, 0)))->get_type_id() != 0xFFFF) { \
+    if (((TObjPlayer *)(TObjPlayer__sub_80116620(&c->target_records, 0)))->get_type_id() != 0xFFFF) { \
         set_slot_type_state__10TObjPlayerFllss(slots, 0,                                                \
-            ((TObjPlayer *)(TObjPlayer__sub_80116620(c->list, 0)))->get_type_id(),           \
-            get_obj_id__10TObjPlayerFv(TObjPlayer__sub_80116620(c->list, 0)));           \
-        ((TObjPlayer *)slots)->set_tech_level(1);                                      \
+            ((TObjPlayer *)(TObjPlayer__sub_80116620(&c->target_records, 0)))->get_type_id(),           \
+            get_obj_id__10TObjPlayerFv(TObjPlayer__sub_80116620(&c->target_records, 0)));           \
+        slots->set_tech_level(1);                                      \
     }
 
 #define COLLECT_8022D27C()                                              \
@@ -199,8 +160,8 @@ extern s32 __vt__8TTecCtrl[];
         if (targets == NULL || targets->id == 0xFFFF) {                 \
             break;                                                      \
         }                                                               \
-        list.e[i].id = targets->id;                                     \
-        list.e[i].part = targets->part;                                 \
+        list.records[i].id = targets->id;                               \
+        list.records[i].flag = targets->part;                           \
         targets++;                                                      \
     }                                                                   \
     list.count = n;
@@ -212,34 +173,32 @@ extern s32 __vt__8TTecCtrl[];
     if (ent == NULL) {                                                  \
         return;                                                         \
     }                                                                   \
-    if (ent->colls == NULL) {                                           \
+    if (ent->bodies == NULL) {                                          \
         return;                                                         \
     }                                                                   \
-    VecCopy((Vec *)(&aim), (const Vec *)(&ent->colls[targets->part].pos));
+    VecCopy(&aim, &ent->bodies[targets->part].center);
 
 // This unit was built with deferred inlining, which emits functions in reverse
 // order: they are defined here from the last address to the first.
 
 void load_technique_resources(void) {
     technique_effect_bml = new BmlResource(1, &technique_resource_descriptor, 0, 0, NULL);
-    lbl_805D63B0 = (GinjaTextureList *)load_gvm_texture_file((saddr)"technic.gvm");
-    bind_gvm_texture_list("technic_pt", ((u8 *)&technique_ringwave_texture_list));
+    technique_texture_list = load_gvm_texture_file("technic.gvm");
+    bind_gvm_texture_list("technic_pt", &technique_ringwave_texture_list);
     TTecZondeEff::init_resources();
 }
 
 void TLobby__sub_8022F068(void) {
-    GinjaTextureEntry *entries;
     clear_zonde_beam_vertex_pointer();
-    if ((u32) *(u32 *)((s8 *)technique_ringwave_texture_list.value + 8) != 0U) {
-        release_texture_list(&technique_ringwave_texture_list.value, (saddr) technique_ringwave_texture_list.value);
+    if (technique_ringwave_texture_list.textures->texture != NULL) {
+        release_texture_list(&technique_ringwave_texture_list);
     }
-    if (lbl_805D63B0 != NULL) {
-        entries = lbl_805D63B0->entries;
-        if (entries->texture != NULL) {
-            release_texture_list(lbl_805D63B0, (saddr) entries);
+    if (technique_texture_list != NULL) {
+        if (technique_texture_list->textures->texture != NULL) {
+            release_texture_list(technique_texture_list);
         }
-        TAdSinglePlyChrSelectGC::safe_free((uaddr) lbl_805D63B0);
-        lbl_805D63B0 = NULL;
+        TAdSinglePlyChrSelectGC::safe_free((uaddr) technique_texture_list);
+        technique_texture_list = NULL;
     }
     if (technique_effect_bml != NULL) {
         delete technique_effect_bml;
@@ -247,12 +206,9 @@ void TLobby__sub_8022F068(void) {
     technique_effect_bml = NULL;
 }
 
-void *__ct__8TTecCtrlFv(void *tec_ctrl, void *parent) {
-    __ct__7TObjectFP7TObject(tec_ctrl, parent);
-    *(s32 **)((s8 *)tec_ctrl + 0x18) = __vt__8TTecCtrl;
-    ((TTecCtrl *)tec_ctrl)->m_name = TTecCtrl__name;
-    *(u32 *)((s8 *)tec_ctrl + 0x1C) = 0;
-    return tec_ctrl;
+TTecCtrl::TTecCtrl(TObject *parent) : TObject(parent) {
+    m_name = class_name;
+    pad_1C = 0;
 }
 
 TTecCtrl::~TTecCtrl() {}
@@ -262,7 +218,7 @@ void TTecCtrl::run_task() {
     reset_telepipe_visit_counts();
 }
 
-void* get_technique_base_params(int a0) {  return &technique_param_table[a0]; }
+TechniqueParams *get_technique_base_params(int kind) {  return &technique_param_table[kind]; }
 
 s32 clamp_nonnegative_int(s32 x) {
     if (x <= 0) {
@@ -273,7 +229,7 @@ s32 clamp_nonnegative_int(s32 x) {
 
 // pad_12 lowered by one per level above 4, not below 0.
 inline s32 lowered_pad_12(s32 level) {
-    return clamp_nonnegative_int(lbl_80515F90.pad_12 - clamp_nonnegative_int(level - 4));
+    return clamp_nonnegative_int(calculated_technique_params.pad_12 - clamp_nonnegative_int(level - 4));
 }
 
 TechniqueParams *calc_technique_parameters(s32 technique, s32 level, u16 client) {
@@ -287,205 +243,204 @@ TechniqueParams *calc_technique_parameters(s32 technique, s32 level, u16 client)
     if (level > 29) {
         level = 29;
     }
-    ((TechniqueParams *)&lbl_80515F90)->copy(&technique_param_table[technique]);
+    ((TechniqueParams *)&calculated_technique_params)->copy(&technique_param_table[technique]);
     if (technique != 17 && technique != 14) {
-        lbl_80515F90.tp_cost += level * (lbl_80515F90.tp_cost_percent / 100.0f);
+        calculated_technique_params.tp_cost += level * (calculated_technique_params.tp_cost_percent / 100.0f);
     }
     switch (technique) {
     case 0:
-        lbl_80515F90.pad_08 += lbl_80515F90.pad_26 * clamp_nonnegative_int(level - 4);
+        calculated_technique_params.pad_08 += calculated_technique_params.pad_26 * clamp_nonnegative_int(level - 4);
         if (TTecCtrl::is_technique_ready()) {
-            lbl_80515F90.tp_cost = lbl_80515F90.tp_cost * lbl_804CC55C[technique].tp_cost;
+            calculated_technique_params.tp_cost = calculated_technique_params.tp_cost * technique_scale_table[technique].tp_cost;
         }
-        lbl_80515F90.pad_12 = lowered_pad_12(level);
-        lbl_80515F90.pad_14 += lbl_80515F90.pad_28 * level;
-        lbl_80515F90.pad_20 -= (capped / 10) * 5;
-        lbl_80515F90.pad_18 = 182.04445f * (lbl_80515F90.pad_18 + lbl_80515F90.pad_2A * (level / 5));
+        calculated_technique_params.pad_12 = lowered_pad_12(level);
+        calculated_technique_params.pad_14 += calculated_technique_params.pad_28 * level;
+        calculated_technique_params.pad_20 -= (capped / 10) * 5;
+        calculated_technique_params.pad_18 = 182.04445f * (calculated_technique_params.pad_18 + calculated_technique_params.pad_2A * (level / 5));
         break;
     case 1:
-        lbl_80515F90.pad_08 += lbl_80515F90.pad_26 * clamp_nonnegative_int(level - 4);
+        calculated_technique_params.pad_08 += calculated_technique_params.pad_26 * clamp_nonnegative_int(level - 4);
         if (TTecCtrl::is_technique_ready()) {
-            lbl_80515F90.tp_cost = lbl_80515F90.tp_cost * lbl_804CC55C[technique].tp_cost;
+            calculated_technique_params.tp_cost = calculated_technique_params.tp_cost * technique_scale_table[technique].tp_cost;
         }
-        lbl_80515F90.pad_12 = lowered_pad_12(level);
-        lbl_80515F90.pad_14 += lbl_80515F90.pad_28 * level;
-        lbl_80515F90.pad_20 = 40;
+        calculated_technique_params.pad_12 = lowered_pad_12(level);
+        calculated_technique_params.pad_14 += calculated_technique_params.pad_28 * level;
+        calculated_technique_params.pad_20 = 40;
         break;
     case 2:
-        lbl_80515F90.pad_08 += lbl_80515F90.pad_26 * (level / 5);
+        calculated_technique_params.pad_08 += calculated_technique_params.pad_26 * (level / 5);
         if (TTecCtrl::is_technique_ready()) {
-            lbl_80515F90.tp_cost = lbl_80515F90.tp_cost * lbl_804CC55C[technique].tp_cost;
+            calculated_technique_params.tp_cost = calculated_technique_params.tp_cost * technique_scale_table[technique].tp_cost;
         }
-        lbl_80515F90.pad_12 = lowered_pad_12(level);
-        lbl_80515F90.pad_14 += lbl_80515F90.pad_28 * level;
-        lbl_80515F90.pad_20 -= (capped / 5) * 5;
-        lbl_80515F90.pad_18 = 182.04445f * (lbl_80515F90.pad_18 + lbl_80515F90.pad_2A * (level / 5));
+        calculated_technique_params.pad_12 = lowered_pad_12(level);
+        calculated_technique_params.pad_14 += calculated_technique_params.pad_28 * level;
+        calculated_technique_params.pad_20 -= (capped / 5) * 5;
+        calculated_technique_params.pad_18 = 182.04445f * (calculated_technique_params.pad_18 + calculated_technique_params.pad_2A * (level / 5));
         break;
     case 3:
-        lbl_80515F90.pad_08 += lbl_80515F90.pad_26 * (level / 5);
+        calculated_technique_params.pad_08 += calculated_technique_params.pad_26 * (level / 5);
         if (TTecCtrl::is_technique_ready()) {
-            lbl_80515F90.tp_cost = lbl_80515F90.tp_cost * lbl_804CC55C[technique].tp_cost;
+            calculated_technique_params.tp_cost = calculated_technique_params.tp_cost * technique_scale_table[technique].tp_cost;
         }
-        lbl_80515F90.pad_12 = lowered_pad_12(level);
-        lbl_80515F90.pad_14 += lbl_80515F90.pad_28 * level;
-        lbl_80515F90.pad_20 -= (capped / 10) * 5;
-        lbl_80515F90.pad_18 = 182.04445f * (lbl_80515F90.pad_18 + lbl_80515F90.pad_2A * (level / 5));
-        lbl_80515F90.pad_18 = 182.04445f * (lbl_80515F90.pad_18 + lbl_80515F90.pad_2A * (level / 5));
+        calculated_technique_params.pad_12 = lowered_pad_12(level);
+        calculated_technique_params.pad_14 += calculated_technique_params.pad_28 * level;
+        calculated_technique_params.pad_20 -= (capped / 10) * 5;
+        calculated_technique_params.pad_18 = 182.04445f * (calculated_technique_params.pad_18 + calculated_technique_params.pad_2A * (level / 5));
+        calculated_technique_params.pad_18 = 182.04445f * (calculated_technique_params.pad_18 + calculated_technique_params.pad_2A * (level / 5));
         break;
     case 4:
-        lbl_80515F90.pad_08 += lbl_80515F90.pad_26 * (level / 5);
+        calculated_technique_params.pad_08 += calculated_technique_params.pad_26 * (level / 5);
         if (TTecCtrl::is_technique_ready()) {
-            lbl_80515F90.tp_cost = lbl_80515F90.tp_cost * lbl_804CC55C[technique].tp_cost;
+            calculated_technique_params.tp_cost = calculated_technique_params.tp_cost * technique_scale_table[technique].tp_cost;
         }
-        lbl_80515F90.pad_12 = lowered_pad_12(level);
-        lbl_80515F90.pad_14 += lbl_80515F90.pad_28 * level;
-        lbl_80515F90.pad_20 -= (capped / 5) * 5;
-        lbl_80515F90.pad_18 = 182.04445f * (lbl_80515F90.pad_18 + lbl_80515F90.pad_2A * (level / 5));
+        calculated_technique_params.pad_12 = lowered_pad_12(level);
+        calculated_technique_params.pad_14 += calculated_technique_params.pad_28 * level;
+        calculated_technique_params.pad_20 -= (capped / 5) * 5;
+        calculated_technique_params.pad_18 = 182.04445f * (calculated_technique_params.pad_18 + calculated_technique_params.pad_2A * (level / 5));
         break;
     case 5:
-        lbl_80515F90.pad_08 += lbl_80515F90.pad_26 * clamp_nonnegative_int(level - 4);
+        calculated_technique_params.pad_08 += calculated_technique_params.pad_26 * clamp_nonnegative_int(level - 4);
         if (TTecCtrl::is_technique_ready()) {
-            lbl_80515F90.tp_cost = lbl_80515F90.tp_cost * lbl_804CC55C[technique].tp_cost;
+            calculated_technique_params.tp_cost = calculated_technique_params.tp_cost * technique_scale_table[technique].tp_cost;
         }
-        lbl_80515F90.pad_12 = lowered_pad_12(level);
-        lbl_80515F90.pad_14 += lbl_80515F90.pad_28 * level;
-        lbl_80515F90.pad_20 -= (capped / 5) * 5;
+        calculated_technique_params.pad_12 = lowered_pad_12(level);
+        calculated_technique_params.pad_14 += calculated_technique_params.pad_28 * level;
+        calculated_technique_params.pad_20 -= (capped / 5) * 5;
         break;
     case 6:
-        lbl_80515F90.pad_08 += lbl_80515F90.pad_26 * clamp_nonnegative_int(level - 4);
+        calculated_technique_params.pad_08 += calculated_technique_params.pad_26 * clamp_nonnegative_int(level - 4);
         if (TTecCtrl::is_technique_ready()) {
-            lbl_80515F90.tp_cost = lbl_80515F90.tp_cost * lbl_804CC55C[technique].tp_cost;
+            calculated_technique_params.tp_cost = calculated_technique_params.tp_cost * technique_scale_table[technique].tp_cost;
         }
-        lbl_80515F90.pad_12 = lowered_pad_12(level);
-        lbl_80515F90.pad_14 += lbl_80515F90.pad_28 * level;
-        lbl_80515F90.pad_20 -= (capped / 10) * 5;
+        calculated_technique_params.pad_12 = lowered_pad_12(level);
+        calculated_technique_params.pad_14 += calculated_technique_params.pad_28 * level;
+        calculated_technique_params.pad_20 -= (capped / 10) * 5;
         break;
     case 7:
-        lbl_80515F90.pad_08 += lbl_80515F90.pad_26 * (level / 5);
+        calculated_technique_params.pad_08 += calculated_technique_params.pad_26 * (level / 5);
         if (TTecCtrl::is_technique_ready()) {
-            lbl_80515F90.tp_cost = lbl_80515F90.tp_cost * lbl_804CC55C[technique].tp_cost;
+            calculated_technique_params.tp_cost = calculated_technique_params.tp_cost * technique_scale_table[technique].tp_cost;
         }
-        lbl_80515F90.pad_12 = lowered_pad_12(level);
-        lbl_80515F90.pad_14 += lbl_80515F90.pad_28 * level;
-        lbl_80515F90.pad_20 -= (capped / 5) * 5;
+        calculated_technique_params.pad_12 = lowered_pad_12(level);
+        calculated_technique_params.pad_14 += calculated_technique_params.pad_28 * level;
+        calculated_technique_params.pad_20 -= (capped / 5) * 5;
         break;
     case 8:
-        lbl_80515F90.pad_08 += lbl_80515F90.pad_26 * (level / 5);
+        calculated_technique_params.pad_08 += calculated_technique_params.pad_26 * (level / 5);
         if (TTecCtrl::is_technique_ready()) {
-            lbl_80515F90.tp_cost = lbl_80515F90.tp_cost * lbl_804CC55C[technique].tp_cost;
+            calculated_technique_params.tp_cost = calculated_technique_params.tp_cost * technique_scale_table[technique].tp_cost;
         }
-        lbl_80515F90.pad_12 = lowered_pad_12(level);
-        lbl_80515F90.pad_14 += lbl_80515F90.pad_28 * level;
-        lbl_80515F90.pad_20 -= (capped / 5) * 5;
+        calculated_technique_params.pad_12 = lowered_pad_12(level);
+        calculated_technique_params.pad_14 += calculated_technique_params.pad_28 * level;
+        calculated_technique_params.pad_20 -= (capped / 5) * 5;
         break;
     case 9:
-        lbl_80515F90.pad_08 += lbl_80515F90.pad_26 * (level / 5);
+        calculated_technique_params.pad_08 += calculated_technique_params.pad_26 * (level / 5);
         if (TTecCtrl::is_technique_ready()) {
-            lbl_80515F90.tp_cost = lbl_80515F90.tp_cost * lbl_804CC55C[technique].tp_cost;
+            calculated_technique_params.tp_cost = calculated_technique_params.tp_cost * technique_scale_table[technique].tp_cost;
         }
-        lbl_80515F90.pad_12 = lowered_pad_12(level);
-        lbl_80515F90.pad_14 += lbl_80515F90.pad_28 * level;
-        lbl_80515F90.pad_20 -= (capped / 5) * 5;
+        calculated_technique_params.pad_12 = lowered_pad_12(level);
+        calculated_technique_params.pad_14 += calculated_technique_params.pad_28 * level;
+        calculated_technique_params.pad_20 -= (capped / 5) * 5;
         break;
     case 10:
-        lbl_80515F90.pad_08 = lbl_80515F90.pad_08 * (1.0f + calc_technique_boost(10, client));
+        calculated_technique_params.pad_08 = calculated_technique_params.pad_08 * (1.0f + calc_technique_boost(10, client));
         if (TTecCtrl::is_technique_ready()) {
-            lbl_80515F90.tp_cost = lbl_80515F90.tp_cost * lbl_804CC55C[technique].tp_cost;
+            calculated_technique_params.tp_cost = calculated_technique_params.tp_cost * technique_scale_table[technique].tp_cost;
         }
-        lbl_80515F90.pad_12 = lowered_pad_12(level);
-        lbl_80515F90.pad_14 += lbl_80515F90.pad_28 * level;
-        lbl_80515F90.pad_20 -= (capped / 5) * 5;
+        calculated_technique_params.pad_12 = lowered_pad_12(level);
+        calculated_technique_params.pad_14 += calculated_technique_params.pad_28 * level;
+        calculated_technique_params.pad_20 -= (capped / 5) * 5;
         if (level <= 1) {
-            lbl_80515F90.pad_22 = 0;
+            calculated_technique_params.pad_22 = 0;
         }
         break;
     case 11:
-        lbl_80515F90.pad_08 += lbl_80515F90.pad_26 * clamp_nonnegative_int(level - 4);
+        calculated_technique_params.pad_08 += calculated_technique_params.pad_26 * clamp_nonnegative_int(level - 4);
         if (TTecCtrl::is_technique_ready()) {
-            lbl_80515F90.tp_cost = lbl_80515F90.tp_cost * lbl_804CC55C[technique].tp_cost;
+            calculated_technique_params.tp_cost = calculated_technique_params.tp_cost * technique_scale_table[technique].tp_cost;
         }
-        lbl_80515F90.pad_12 = lowered_pad_12(level);
-        lbl_80515F90.pad_14 += lbl_80515F90.pad_28 * level;
-        lbl_80515F90.pad_20 -= (capped / 10) * 5;
+        calculated_technique_params.pad_12 = lowered_pad_12(level);
+        calculated_technique_params.pad_14 += calculated_technique_params.pad_28 * level;
+        calculated_technique_params.pad_20 -= (capped / 10) * 5;
         break;
     case 12:
-        lbl_80515F90.pad_08 += lbl_80515F90.pad_26 * clamp_nonnegative_int(level - 4);
+        calculated_technique_params.pad_08 += calculated_technique_params.pad_26 * clamp_nonnegative_int(level - 4);
         if (TTecCtrl::is_technique_ready()) {
-            lbl_80515F90.tp_cost = lbl_80515F90.tp_cost * lbl_804CC55C[technique].tp_cost;
+            calculated_technique_params.tp_cost = calculated_technique_params.tp_cost * technique_scale_table[technique].tp_cost;
         }
-        lbl_80515F90.pad_12 = lowered_pad_12(level);
-        lbl_80515F90.pad_14 += lbl_80515F90.pad_28 * level;
-        lbl_80515F90.pad_20 -= (capped / 10) * 5;
+        calculated_technique_params.pad_12 = lowered_pad_12(level);
+        calculated_technique_params.pad_14 += calculated_technique_params.pad_28 * level;
+        calculated_technique_params.pad_20 -= (capped / 10) * 5;
         break;
     case 13:
-        lbl_80515F90.pad_08 = lbl_80515F90.pad_08 * (1.0f + calc_technique_boost(13, client));
+        calculated_technique_params.pad_08 = calculated_technique_params.pad_08 * (1.0f + calc_technique_boost(13, client));
         if (TTecCtrl::is_technique_ready()) {
-            lbl_80515F90.tp_cost = lbl_80515F90.tp_cost * lbl_804CC55C[technique].tp_cost;
+            calculated_technique_params.tp_cost = calculated_technique_params.tp_cost * technique_scale_table[technique].tp_cost;
         }
-        lbl_80515F90.pad_12 = lowered_pad_12(level);
-        lbl_80515F90.pad_14 += lbl_80515F90.pad_28 * level;
-        lbl_80515F90.pad_20 -= (capped / 5) * 5;
+        calculated_technique_params.pad_12 = lowered_pad_12(level);
+        calculated_technique_params.pad_14 += calculated_technique_params.pad_28 * level;
+        calculated_technique_params.pad_20 -= (capped / 5) * 5;
         if (level <= 1) {
-            lbl_80515F90.pad_22 = 0;
+            calculated_technique_params.pad_22 = 0;
         }
         break;
     case 15:
-        lbl_80515F90.pad_08 = lbl_80515F90.pad_08 * (1.0f + calc_technique_boost(15, client));
+        calculated_technique_params.pad_08 = calculated_technique_params.pad_08 * (1.0f + calc_technique_boost(15, client));
         if (TTecCtrl::is_technique_ready()) {
-            lbl_80515F90.tp_cost = lbl_80515F90.tp_cost * lbl_804CC55C[technique].tp_cost;
+            calculated_technique_params.tp_cost = calculated_technique_params.tp_cost * technique_scale_table[technique].tp_cost;
         }
-        lbl_80515F90.pad_12 = lowered_pad_12(level);
-        lbl_80515F90.pad_14 += lbl_80515F90.pad_28 * level;
-        lbl_80515F90.pad_20 -= (capped / 5) * 5;
+        calculated_technique_params.pad_12 = lowered_pad_12(level);
+        calculated_technique_params.pad_14 += calculated_technique_params.pad_28 * level;
+        calculated_technique_params.pad_20 -= (capped / 5) * 5;
         if (level <= 1) {
-            lbl_80515F90.pad_22 = 0;
+            calculated_technique_params.pad_22 = 0;
         }
         break;
     case 16:
-        lbl_80515F90.pad_08 = lbl_80515F90.pad_08 * (1.0f + calc_technique_boost(16, client));
+        calculated_technique_params.pad_08 = calculated_technique_params.pad_08 * (1.0f + calc_technique_boost(16, client));
         if (TTecCtrl::is_technique_ready()) {
-            lbl_80515F90.tp_cost = lbl_80515F90.tp_cost * lbl_804CC55C[technique].tp_cost;
+            calculated_technique_params.tp_cost = calculated_technique_params.tp_cost * technique_scale_table[technique].tp_cost;
         }
-        lbl_80515F90.pad_12 = lowered_pad_12(level);
-        lbl_80515F90.pad_14 += lbl_80515F90.pad_28 * level;
-        lbl_80515F90.pad_20 -= (capped / 5) * 5;
+        calculated_technique_params.pad_12 = lowered_pad_12(level);
+        calculated_technique_params.pad_14 += calculated_technique_params.pad_28 * level;
+        calculated_technique_params.pad_20 -= (capped / 5) * 5;
         if (level < 1) {
-            lbl_80515F90.pad_22 = 0;
+            calculated_technique_params.pad_22 = 0;
         }
         break;
     case 18:
-        lbl_80515F90.pad_08 += lbl_80515F90.pad_26 * (level / 5);
+        calculated_technique_params.pad_08 += calculated_technique_params.pad_26 * (level / 5);
         if (TTecCtrl::is_technique_ready()) {
-            lbl_80515F90.tp_cost = lbl_80515F90.tp_cost * lbl_804CC55C[technique].tp_cost;
+            calculated_technique_params.tp_cost = calculated_technique_params.tp_cost * technique_scale_table[technique].tp_cost;
         }
-        lbl_80515F90.pad_12 = lowered_pad_12(level);
-        lbl_80515F90.pad_14 += lbl_80515F90.pad_28 * level;
-        lbl_80515F90.pad_20 -= (capped / 5) * 5;
-        lbl_80515F90.pad_18 = 182.04445f * (lbl_80515F90.pad_18 + lbl_80515F90.pad_2A * (level / 5));
+        calculated_technique_params.pad_12 = lowered_pad_12(level);
+        calculated_technique_params.pad_14 += calculated_technique_params.pad_28 * level;
+        calculated_technique_params.pad_20 -= (capped / 5) * 5;
+        calculated_technique_params.pad_18 = 182.04445f * (calculated_technique_params.pad_18 + calculated_technique_params.pad_2A * (level / 5));
         break;
     }
-    if (lbl_80515F90.pad_20 <= 0) {
-        lbl_80515F90.pad_20 = 10;
+    if (calculated_technique_params.pad_20 <= 0) {
+        calculated_technique_params.pad_20 = 10;
     }
-    if (lbl_80515F90.pad_12 <= 0) {
-        lbl_80515F90.pad_12 = 0;
+    if (calculated_technique_params.pad_12 <= 0) {
+        calculated_technique_params.pad_12 = 0;
     }
-    return &lbl_80515F90;
+    return &calculated_technique_params;
 }
 
 void TTecCtrl::render() {  }
 
-void launch_technique__10TObjPlayerFv(s32 tech, s32 unused, Player_8022D27C *pl) {
+void launch_technique(s32 tech, s32 level, TObjPlayer *pl) {
     Vec aim;
     Vec hand;
     Vec ofs;
-    List_8022D27C list;
+    TargetCursorList list;
     void *td;
     s32 n;
     Target_8022D27C *targets;
     s32 i;
-    Ent_8022D27C *ent;
-    __ct__16TargetCursorListFv((&list));
+    TObjCollidable *ent;
     ofs.x = 0.0f;
     ofs.y = 0.0f;
     ofs.z = 100.0f;
@@ -509,19 +464,19 @@ void launch_technique__10TObjPlayerFv(s32 tech, s32 unused, Player_8022D27C *pl)
             return;
         }
     }
-    td = pl->tech;
+    td = &pl->technique_state;
     targets = get_technique_data__10TObjPlayerFPv(td);
     if (targets == NULL) {
         return;
     }
     n = ((TObjPlayer *)td)->get_section_clamped();
     push_matrix_from(identity_matrix);
-    rotate_matrix_y(0, pl->rotY);
+    rotate_matrix_y(0, pl->rotation_y);
     matrix_mult_vec(0, &ofs, &ofs);
     pop_matrices(1);
-    ofs.x += pl->pos.x;
-    ofs.y += pl->pos.y;
-    ofs.z += pl->pos.z;
+    ofs.x += pl->position.x;
+    ofs.y += pl->position.y;
+    ofs.z += pl->position.z;
     get_hand_joint_position__10TObjPlayerFl(pl, &hand);
     switch (tech) {
     case 0:
@@ -529,7 +484,7 @@ void launch_technique__10TObjPlayerFv(s32 tech, s32 unused, Player_8022D27C *pl)
             AIM_8022D27C()
             TTecFoie::create_ex(pl, &hand, &aim, get_cast_technique_level(td, 0));
         } else {
-            TTecFoie::create(pl, &hand, pl->rotY, get_cast_technique_level(td, 0));
+            TTecFoie::create(pl, &hand, pl->rotation_y, get_cast_technique_level(td, 0));
         }
         break;
     case 1:
@@ -545,9 +500,9 @@ void launch_technique__10TObjPlayerFv(s32 tech, s32 unused, Player_8022D27C *pl)
     case 3:
         if (n != 0) {
             AIM_8022D27C()
-            TTecBarta::create(pl, &pl->pos, &aim, get_cast_technique_level(td, 3));
+            TTecBarta::create(pl, &pl->position, &aim, get_cast_technique_level(td, 3));
         } else {
-            TTecBarta::create_ex(pl, &pl->pos, pl->rotY, get_cast_technique_level(td, 3));
+            TTecBarta::create_ex(pl, &pl->position, pl->rotation_y, get_cast_technique_level(td, 3));
         }
         break;
     case 4:
@@ -555,7 +510,7 @@ void launch_technique__10TObjPlayerFv(s32 tech, s32 unused, Player_8022D27C *pl)
             AIM_8022D27C()
             TTecGiBarta::create(pl, &hand, &aim, get_cast_technique_level(td, 4));
         } else {
-            TTecGiBarta::create_ex(pl, &hand, pl->rotY, get_cast_technique_level(td, 4));
+            TTecGiBarta::create_ex(pl, &hand, pl->rotation_y, get_cast_technique_level(td, 4));
         }
         break;
     case 5:
@@ -604,7 +559,7 @@ void launch_technique__10TObjPlayerFv(s32 tech, s32 unused, Player_8022D27C *pl)
     case 14:
         if (is_split_screen() != 0) {
             ((TTecLuker *)pl)->create(&hand, &ofs, 0);
-        } else if (local_client_id == get_entity_id(pl)) {
+        } else if (local_client_id == pl->get_entity_id()) {
             ((TTecLuker *)pl)->create(&hand, &ofs, 0);
         }
         break;
@@ -628,27 +583,27 @@ void launch_technique__10TObjPlayerFv(s32 tech, s32 unused, Player_8022D27C *pl)
             AIM_8022D27C()
             TTecMegid::create((saddr)pl, (saddr)&hand, (saddr)&aim, (s32)(get_cast_technique_level(td, 18)));
         } else {
-            TTecMegid::create_ex((saddr)pl, (saddr)&hand, pl->rotY, (s32)(get_cast_technique_level(td, 18)));
+            TTecMegid::create_ex((saddr)pl, (saddr)&hand, pl->rotation_y, (s32)(get_cast_technique_level(td, 18)));
         }
         break;
     }
 }
 
-void capture_technique_targets__10TObjPlayerFv(int kind, Owner_8022CDE8 *owner) {
-    Cursor_8022CDE8 *c;
-    void *slots;
+void capture_technique_targets(int kind, TObjPlayer *owner) {
+    LockOnActionSlot *c;
+    PlayerTechniqueState *slots;
     if (owner == NULL) {
         return;
     }
-    if (owner->f424 == NULL) {
+    if (owner->lock_on_cursor == NULL) {
         return;
     }
-    slots = owner->slots;
+    slots = &owner->technique_state;
     if (slots == NULL) {
         return;
     }
-    ((TObjPlayer *)(owner->slots))->reset_slots();
-    c = (Cursor_8022CDE8 *)owner->f424->find_by_pos(3, kind);
+    owner->technique_state.reset_slots();
+    c = owner->lock_on_cursor->find_by_pos(3, kind);
     if (c == NULL) {
         return;
     }
@@ -671,15 +626,15 @@ void capture_technique_targets__10TObjPlayerFv(int kind, Owner_8022CDE8 *owner) 
     case 7: {
         int n = 0;
         int i;
-        for (i = 0; i < ((TLockOnCursor *)(c->list))->get_target(); i++) {
-            if (((TObjPlayer *)(TObjPlayer__sub_80116620(c->list, n)))->get_type_id() != 0xFFFF) {
+        for (i = 0; i < ((TLockOnCursor *)(&c->target_records))->get_target(); i++) {
+            if (((TObjPlayer *)(TObjPlayer__sub_80116620(&c->target_records, n)))->get_type_id() != 0xFFFF) {
                 set_slot_type_state__10TObjPlayerFllss(slots, n,
-                    ((TObjPlayer *)(TObjPlayer__sub_80116620(c->list, n)))->get_type_id(),
-                    get_obj_id__10TObjPlayerFv(TObjPlayer__sub_80116620(c->list, n)));
+                    ((TObjPlayer *)(TObjPlayer__sub_80116620(&c->target_records, n)))->get_type_id(),
+                    get_obj_id__10TObjPlayerFv(TObjPlayer__sub_80116620(&c->target_records, n)));
                 n++;
             }
         }
-        ((TObjPlayer *)slots)->set_tech_level(n);
+        slots->set_tech_level(n);
         break;
     }
     case 9:
@@ -693,13 +648,13 @@ void capture_technique_targets__10TObjPlayerFv(int kind, Owner_8022CDE8 *owner) 
     case 16: {
         int i;
         int n = 0;
-        for (i = 0; i < ((TLockOnCursor *)(c->list))->get_target(); i++) {
+        for (i = 0; i < ((TLockOnCursor *)(&c->target_records))->get_target(); i++) {
             set_slot_type_state__10TObjPlayerFllss(slots, n,
-                ((TObjPlayer *)(TObjPlayer__sub_80116620(c->list, n)))->get_type_id(),
-                get_obj_id__10TObjPlayerFv(TObjPlayer__sub_80116620(c->list, n)));
+                ((TObjPlayer *)(TObjPlayer__sub_80116620(&c->target_records, n)))->get_type_id(),
+                get_obj_id__10TObjPlayerFv(TObjPlayer__sub_80116620(&c->target_records, n)));
             n++;
         }
-        ((TObjPlayer *)slots)->set_tech_level(n);
+        slots->set_tech_level(n);
         break;
     }
     case 17:
@@ -717,56 +672,52 @@ void capture_technique_targets__10TObjPlayerFv(int kind, Owner_8022CDE8 *owner) 
     {                                                                                            \
         NJS_ARGB c = {A, R, G, B};                                                               \
         Vec v = {0.0f, -1.0f, 0.0f};                                                             \
-        void *o;                                                                                 \
-        new TActorLight(0.1f, 0.35f, TObjLight__scene_light_state.intensity, &c, &v, base,          \
+        new TActorLight(0.1f, 0.35f, scene_light_state.intensity, &c, &v, base,          \
                           (TObjBase *)owner, tl_07);                                             \
         if (TObjPlayer::is_locally_controlled(owner) != 0) {                                \
-            o = TObject::operator new(0x34);                                                     \
-            if (o != NULL) {                                                                     \
-                INIT(o, owner, tl_07);                                                           \
-            }                                                                                    \
+            new INIT((TObjPlayer *)owner, tl_07);                                                \
         }                                                                                        \
     }
 void create_technique_charge_light(u32 kind, void *owner) {
-    Params_8022C738 *p = (Params_8022C738 *)get_technique_base_params(kind);
-    s32 base = p->f12 + p->f20 + 50;
+    TechniqueParams *p = get_technique_base_params(kind);
+    s32 base = p->pad_12 + p->pad_20 + 50;
     switch (kind) {
     case 1:
-        CHARGE_LIGHT_8022C738(1.0f, 1.0f, 0.5f, 0.0f, __ct__13TUnk_804CC794Fll)
+        CHARGE_LIGHT_8022C738(1.0f, 1.0f, 0.5f, 0.0f, TUnk_804CC794)
         break;
     case 0:
     case 2:
-        CHARGE_LIGHT_8022C738(1.0f, 1.0f, 0.5f, 0.0f, __ct__13TUnk_804CC794Fll)
+        CHARGE_LIGHT_8022C738(1.0f, 1.0f, 0.5f, 0.0f, TUnk_804CC794)
         break;
     case 3:
     case 4:
-        CHARGE_LIGHT_8022C738(1.0f, 1.0f, 1.0f, 1.0f, __ct__13TUnk_804CC948Fll)
+        CHARGE_LIGHT_8022C738(1.0f, 1.0f, 1.0f, 1.0f, TUnk_804CC948)
         break;
     case 5:
-        CHARGE_LIGHT_8022C738(1.0f, 0.3f, 0.7f, 1.0f, __ct__13TUnk_804CC948Fll)
+        CHARGE_LIGHT_8022C738(1.0f, 0.3f, 0.7f, 1.0f, TUnk_804CC948)
         break;
     case 6:
     case 7:
     case 8:
-        CHARGE_LIGHT_8022C738(1.0f, 1.0f, 1.0f, 0.3f, __ct__13TUnk_804CCD0CFll)
+        CHARGE_LIGHT_8022C738(1.0f, 1.0f, 1.0f, 0.3f, TUnk_804CCD0C)
         break;
     case 9:
     case 15:
     case 16:
     case 17:
-        CHARGE_LIGHT_8022C738(1.0f, 1.0f, 1.0f, 1.0f, __ct__13TUnk_804CC990Fll)
+        CHARGE_LIGHT_8022C738(1.0f, 1.0f, 1.0f, 1.0f, TUnk_804CC990)
         break;
     case 10:
     case 11:
     case 12:
     case 14:
-        CHARGE_LIGHT_8022C738(1.0f, 0.3f, 0.9f, 1.0f, __ct__13TUnk_804CCAC8Fll)
+        CHARGE_LIGHT_8022C738(1.0f, 0.3f, 0.9f, 1.0f, TUnk_804CCAC8)
         break;
     case 13:
-        CHARGE_LIGHT_8022C738(1.0f, 0.9f, 0.3f, 1.0f, __ct__13TUnk_804CCAC8Fll)
+        CHARGE_LIGHT_8022C738(1.0f, 0.9f, 0.3f, 1.0f, TUnk_804CCAC8)
         break;
     case 18:
-        CHARGE_LIGHT_8022C738(1.0f, 0.6f, 0.2f, 0.7f, __ct__13TUnk_804CC74CFll)
+        CHARGE_LIGHT_8022C738(1.0f, 0.6f, 0.2f, 0.7f, TUnk_804CC74C)
         break;
     }
 }
@@ -793,13 +744,13 @@ s32 TObjPlayer::get_level_tier(s32 arg0) {
 
 void set_technique_boost(TechniqueBoost *boost, u16 client, s32 index) {
     if (client < 4U) {
-        lbl_80515FBC[client].set(index, boost);
+        technique_boost_tables[client].set(index, boost);
     }
 }
 
 f32 calc_technique_boost(s32 technique, u16 actor) {
     f32 sum;
-    void *player;
+    TObjPlayer *player;
     s32 i;
 
     sum = 0.0f;
@@ -807,20 +758,20 @@ f32 calc_technique_boost(s32 technique, u16 actor) {
         return sum;
     }
     for (i = 0; i < 6; i++) {
-        if (technique == lbl_80515FBC[actor].boosts[i].technique) {
-            sum += lbl_80515FBC[actor].boosts[i].amount;
+        if (technique == technique_boost_tables[actor].boosts[i].technique) {
+            sum += technique_boost_tables[actor].boosts[i].amount;
         }
     }
     player = get_player_by_client_id(actor);
     if (player != NULL) {
-        sum += ((f32 (*)(void *, u16, s16))get_battle_value__10TObjPlayerFlil)(player, actor, technique);
+        sum += player->get_battle_value(actor, technique);
     }
     return sum;
 }
 
 u32 get_technique_caster_flags(s32 technique, u16 actor) {
     u32 flags;
-    void *player;
+    TObjPlayer *player;
     s32 i;
 
     flags = 0;
@@ -830,30 +781,30 @@ u32 get_technique_caster_flags(s32 technique, u16 actor) {
     for (i = 0; i < 6; i++) {
         player = get_player_by_client_id(actor);
         if (player != NULL) {
-            flags += ((f32 (*)(void *, u16, s16))get_battle_value__10TObjPlayerFlil)(player, actor, technique);
+            flags += player->get_battle_value(actor, technique);
             switch (technique) {
             case 18:
-                if (((f32 (*)(void *, u16, s16))get_battle_value__10TObjPlayerFlil)(player, actor, technique) == 1.0f) {
+                if (player->get_battle_value(actor, technique) == 1.0f) {
                     flags |= 1;
                 }
                 break;
             }
         }
-        if (technique == lbl_80515FBC[actor].boosts[i].technique) {
-            flags |= lbl_80515FBC[actor].boosts[i].flags;
+        if (technique == technique_boost_tables[actor].boosts[i].technique) {
+            flags |= technique_boost_tables[actor].boosts[i].flags;
         }
     }
     return flags;
 }
 
-s32 TTecCtrl::classify_distance_band(s32 technique, s32 level, u16 arg2) {
+s32 TTecCtrl::classify_distance_band(s32 technique, s32 level, u16 slot) {
     f32 temp_f1;
 
-    calc_technique_parameters(technique, level, arg2);
+    calc_technique_parameters(technique, level, slot);
     if ((level == 0) || (level == 1)) {
         return 0;
     }
-    temp_f1 = calc_technique_boost(technique, arg2);
+    temp_f1 = calc_technique_boost(technique, slot);
     if (temp_f1 < 1.0f) {
         return 1;
     }

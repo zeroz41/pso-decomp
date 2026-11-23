@@ -16,7 +16,6 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_8023E480.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_80336054.h"
 #include "pso/ui/frontend/TitleSceneTables.h"
 
 struct Stack_80335E7C
@@ -76,14 +75,14 @@ TUnk_804EE470::TUnk_804EE470(TObject *parent) : TObject(parent) {
 void TLobby__sub_80335FE0(void) {  }
 void TLobby__sub_80335FE4(void) {  }
 
-GinjaTextureList *get_title_texture_list(void) {
+NJS_TEXLIST *get_title_texture_list(void) {
     return &title_texture_list;
 }
 
 NJS_SPRITE *TLobby::get_record(int index) { return &lobby_record_table[index]; }
 
 void bind_title_texture_list(void) {
-    set_texlist((uaddr)&title_texture_list);
+    set_texlist(&title_texture_list);
 }
 
 int TLobby__sub_80336030(TTitleScene *scene) {

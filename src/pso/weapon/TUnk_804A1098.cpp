@@ -12,13 +12,13 @@ extern "C" {
 int rotate_matrix_x(void*, void*);
 
 void TUnk_804A1098::emit_marker_effects() {
-    s32 sp8;
+    s32 origin;
     void *tec_gi_barta;
 
     if (is_mode_two_and_ready() != 0) {
-        if (get_joint_position(0, &sp8) != 0) {
+        if (get_joint_position(0, &origin) != 0) {
             tec_gi_barta = this->owner;
-            TTecGiBarta::create_ex(tec_gi_barta, &sp8, *(saddr *)((s8 *)tec_gi_barta + 0x60), ((TItemWeapon *)this)->get_tp());
+            TTecGiBarta::create_ex(tec_gi_barta, &origin, *(saddr *)((s8 *)tec_gi_barta + 0x60), ((TItemWeapon *)this)->get_tp());
             roll_technique();
         }
     } else {
@@ -38,10 +38,10 @@ void TUnk_804A1098::update_idle() {
 }
 
 void TUnk_804A1098::update_attack() {
-    s32 temp_r0;
+    s32 open_state;
 
-    temp_r0 = this->open_state;
-    if ((temp_r0 == 1) || (temp_r0 == 0)) {
+    open_state = this->open_state;
+    if ((open_state == 1) || (open_state == 0)) {
         this->open_state = 2;
     }
 }
@@ -49,20 +49,20 @@ void TUnk_804A1098::update_attack() {
 }
 
 void TUnk_804A1098::update_weapon() {
-    s32 temp_r0;
-    s32 temp_r4;
+    s32 open_state;
+    s32 open_angle;
     s32 temp_r4_2;
-    temp_r0 = this->open_state;
-    if (temp_r0 == 2) {
-        temp_r4 = this->open_angle;
-        if (temp_r4 < 0x2AAA) {
-            this->open_angle = (temp_r4 + 0x888);
+    open_state = this->open_state;
+    if (open_state == 2) {
+        open_angle = this->open_angle;
+        if (open_angle < 0x2AAA) {
+            this->open_angle = (open_angle + 0x888);
             if (this->open_angle >= 0x2AAA) {
                 this->open_angle = 0x2AAA;
                 this->open_state = 3;
             }
         }
-    } else if (temp_r0 == 1) {
+    } else if (open_state == 1) {
         temp_r4_2 = this->open_angle;
         if (temp_r4_2 > 0) {
             this->open_angle = (temp_r4_2 - 0x444);
@@ -82,7 +82,7 @@ TUnk_804A1098::TUnk_804A1098(TObject *parent, u8 *item) : TItemWeapon(parent, it
     set_weapon_flags(34);
     open_angle = 0;
     open_state = 0;
-    ((TObjPlayer *)this)->set_effect_state(10);
+    set_technique_roll_range(10);
 }
 
 TItem *TObjPlayer__sub_801228CC(u8 *item) {

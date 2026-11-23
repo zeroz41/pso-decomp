@@ -104,7 +104,7 @@ public:
     s32 is_char_allowed(s16 len);
     static s32 read_ask_header();
     static void init_page_cache();
-    static s32 seek_or_reopen(int arg0);
+    static s32 seek_or_reopen(int pos);
     static s32 find_file_info_index();
     s32 aram_read_thunk(uaddr dst, int size);
     static void unescape_copy_string(u8 *dst, u8 *src, u8 *end);
@@ -113,9 +113,9 @@ public:
     static s32 calc_sjis_string_width(u8 *text);
     s32 calc_text_length();
     s32 calc_message_length();
-    static u8 *get_buffer_ptr(s32 arg0);
-    static s32 is_download_cmd_allowed(u8 arg0);
-    static void latch_slot_value(s32 arg0);
+    static u8 *get_buffer_ptr(s32 id);
+    static s32 is_download_cmd_allowed(u8 cmd);
+    static void latch_slot_value(s32 index);
     static s32 count_leading_entries(s32 i, s32 end);
     static void init_entries();
     static QuestDownloadTextNode *build_text_node_chain(void *record, const QuestDownloadItemNode *source, s32 length,
@@ -136,7 +136,7 @@ public:
     static const u8 *find_keyword_entry(u16 *start, u16 *end);
     static s32 get_download_state();
     u8 *find_insert_position(s32 key, s32 n, s32 len);
-    static s32 read_quest_chunk(u32 id, u8 a1, u8 a2, u8 *buf, s32 *out);
+    static s32 read_quest_chunk(u32 id, u8 key, u8 sub_key, u8 *buf, s32 *out);
     static u32 aram_dma_read(void *h, void *dst, int size);
 public:
     void encrypt_download_data(s32 size);
@@ -181,7 +181,7 @@ extern s32 quest_download_in_progress;
 
 // Defined with the memory-card file constants (TAdSinglePlyChrSelectGC_801FBF54.cpp, next to
 // TQuestVmDownLoadServer__memcard_key). Names inferred: the quest file requests store them in their
-// banner (+0x44) and icon (+0x48) fields, which TAdPlayerLoadGC__sub_801E14E8 then replaces with the
+// banner (+0x44) and icon (+0x48) fields, which set_card_banner_and_icon then replaces with the
 // loaded banner/icon buffers; build_save_file_image copies 0x1800 (banner) / 0x800 (icon) bytes from them.
 extern "C" const char memcard_default_banner[];
 extern "C" const char memcard_default_icon[];

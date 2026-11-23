@@ -14,6 +14,7 @@
 #include "pso/object/trap/TOTrapAncient01.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/camera/TCameraCtrl.h"
+#include "pso/player/PlayerSlots.h"
 
 
 s8 sound_mode_value = 1;
@@ -67,7 +68,7 @@ s8 lbl_805D62D0;
 s8 lbl_805D62D1;
 extern "C" {
 void update_music_stream_gain(s32 user);
-void TLobby__sub_8022614C(s32 arg0);
+void TLobby__sub_8022614C(s32 gain);
 
 void TLobby::set_and_notify(int a0) { lbl_805D6284 = a0; update_music_stream_gain(lbl_805D6280); }
 
@@ -239,7 +240,7 @@ s32 TOTrapAncient01::check_trigger_flag(saddr src, s32 flags) {
     }
     return 1;
 }
-s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags) {
+s32 play_persistent_sound(s32 id, saddr actor, uaddr src, s32 a3, s32 flags) {
     s32 idx = -1;
     s32 i;
     s32 ok;
@@ -275,7 +276,7 @@ s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags) {
         return idx;
     }
     if (TOTrapAncient01::check_trigger_flag(src, flags) != 0) {
-        idx = normalize_sound_request(id, a1, src, a3, flags);
+        idx = normalize_sound_request(id, actor, src, a3, flags);
         last_sound_effect_slot = idx;
         if (idx >= 0) {
             lbl_805145F0[idx].flags &= lbl_805DC748;
@@ -285,7 +286,7 @@ s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags) {
             lbl_805145F0[idx].src = (Vec *)src;
             lbl_805145F0[idx].x1a = a3;
             lbl_805145F0[idx].id = id;
-            lbl_805145F0[idx].x1c = a1;
+            lbl_805145F0[idx].x1c = actor;
             lbl_805145F0[idx].timer = 5;
             lbl_805145F0[idx].flags |= 0x1600;
         } else {
@@ -337,7 +338,6 @@ s32 play_sound_effect(s32 id, Vec *src, s32 a2, s32 flags) {
     }
     return -1;
 }
-void *get_player_by_client_id(s32 i);
 s32 TLobby__sub_8023F880(s32 arg0);
 
 void TLobby::update_lobby_subsystems() { TLobby__sub_8022644C(); stop_cue_stream(); }

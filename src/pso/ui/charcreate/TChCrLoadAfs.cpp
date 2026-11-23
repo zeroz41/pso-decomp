@@ -72,7 +72,7 @@ extern "C" { extern const char TChCrLoadAfsTextureReq__class_name_string[23] = "
 
 extern "C" {
 f32 TLobby__sub_8028C50C(f32);
-s32 load_texture_list(GinjaTextureList *);
+s32 load_texture_list(NJS_TEXLIST *);
 }
 
 void TChCrLoadAfs::start_download() {
@@ -161,7 +161,7 @@ s32 find_player_texture_name_ordinal(u8 *object) {
     f32 l2;
     s32 r;
     TChCrLoadAfsTextureReq *req = (TChCrLoadAfsTextureReq *)object;
-    name = req->textures->entries[req->index].name;
+    name = req->textures->textures[req->index].filename;
     count = player_class_texture_archive_table[req->m_70].count;
     l2 = TLobby__sub_8028C50C(2.0f);
     steps = (s32)ceil_to_float(TLobby__sub_8028C50C(count) / l2) + 1;
@@ -231,7 +231,7 @@ void TChCrLoadAfsTextureReq::update_loading() {
     }
     for (i = 0; i < count; i++) {
         reinterpret_cast<GinjaTextureInput *>(m_74[i])->set_render_rect(reinterpret_cast<void *>(buffers[i]), 0, 0, 0);
-        set_texture_name(&textures->entries[i], reinterpret_cast<GinjaTextureInput *>(m_74[i]), 0, 0x40000000);
+        set_texture_name(&textures->textures[i], reinterpret_cast<GinjaTextureInput *>(m_74[i]), 0, 0x40000000);
     }
     if (load_texture_list(textures) != -1) {
         m_1c = 1;

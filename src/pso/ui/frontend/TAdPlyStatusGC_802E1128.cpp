@@ -1,6 +1,5 @@
 #include "types.h"
 #include "pso/ui/window/TWindowBase.h"
-#include "pso/ui/window/TWindowSubComCard_80244774.h"
 #include "pso/ui/frontend/TAdPlyStatusGC.h"
 
 #pragma inline_depth(1)
@@ -16,18 +15,17 @@ saddr TAdPlyStatusGC::get_field_4a4() { return *(s32*)((char*)this + 0x4a4); }
 void*TAdPlyStatusGC::get_status_sub() { return (char*)this + 0x490; }
 
     extern int ply_status_chcr_load_afs;
-void TAdPlyStatusGC::set_status_param(int a0, int a1) { ply_status_chcr_load_afs = a1; }
+void TAdPlyStatusGC::set_status_param(int load_afs) { ply_status_chcr_load_afs = load_afs; }
 
-    extern int ply_status_gc_instance;
-saddr TAdPlyStatusGC::get_index() {  return ply_status_gc_instance; }
+TAdPlyStatusGC *TAdPlyStatusGC::get_index() {  return ply_status_gc_instance; }
 
     extern int ply_status_index;
 void TAdPlyStatusGC::set_status_index(int a0, int a1) { ply_status_index = a1; }
 
 extern s32 TAdPlyStatusGC__window_offset_index;
 
-void TAdPlyStatusGC::close_window(s32 arg1) {
-    TAdPlyStatusGC__window_offset_index = arg1;
+void TAdPlyStatusGC::close_window(s32 index) {
+    TAdPlyStatusGC__window_offset_index = index;
     if (window != NULL) {
         window->close();
         window = NULL;

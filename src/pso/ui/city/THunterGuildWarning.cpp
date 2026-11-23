@@ -2,6 +2,7 @@
 #include "types.h"
 #include "pso/ui/city/THunterGuildSeqOffline.h"
 #include "pso/ui/city/THunterGuildSeqOffline_80213788.h"
+#include "pso/network/client_id.h"
 #include "pso/ui/city/THunterGuildWarning.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TMainTask.h"
@@ -146,7 +147,6 @@ THunterGuildWarning::THunterGuildWarning(TObject *object, void *arg2) : TObject(
 #include "pso/player/TPlayerBattleCtrl4P.h"
 
 extern "C" {
-TObjPlayer *get_player_by_client_id(s32 id);
 f32 xz_distance_squared(const f32 *a, const f32 *b);
 
 #pragma push
@@ -210,8 +210,6 @@ int TLobby::get_selected_quest_id() { return TQuestListOnline::get_selected_ques
 #include "pso/quest/TQuestListOnline.h"
 
 extern "C" {
-extern s32 TLobby__designated_client_id;
-extern s32 local_client_id;
 s32 THunterGuildSeqOffline__sub_80213458(void);
 }
 
@@ -219,7 +217,7 @@ s32 TLobby__sub_80211C3C(void) {
     if (get_main_phase() != 0xF) {
         return 3;
     }
-    if (TLobby__designated_client_id == local_client_id) {
+    if (designated_client_id == local_client_id) {
         switch (TQuestListOnline::get_list_state()) {
         case 0:
             return 3;
@@ -247,15 +245,15 @@ s32 TLobby__sub_80211C3C(void) {
 extern "C" {
 
 
-s32 TLobby::handle_main_phase(saddr arg0) {
+s32 TLobby::handle_main_phase(saddr player) {
     if (get_main_phase() == 0xE) {
-        return (saddr)THunterGuildSeqOffline::create((void *)arg0);
+        return (saddr)THunterGuildSeqOffline::create((void *)player);
     }
     if (get_main_phase() == 0xF) {
-        if ((s32) local_client_id == (s32) TLobby__designated_client_id) {
-            return (saddr)TLobby::create_tl05_object((void *)arg0);
+        if ((s32) local_client_id == (s32) designated_client_id) {
+            return (saddr)TLobby::create_tl05_object((void *)player);
         }
-        return (saddr)create_lobby_object_05((void *)arg0);
+        return (saddr)create_lobby_object_05((void *)player);
     }
     return 0;
 }
@@ -331,6 +329,7 @@ s32 TLobby__sub_80211D58(s32 arg0) {
 
 
 #include "pso/ui/city/THunterGuildSeqOffline.h"
+#include "pso/player/PlayerSlots.h"
 
 
 void update_hunter_guild_phase(void) {
@@ -362,10 +361,10 @@ void TLobby::update_guild_or_quest_phase() {
 
 }
 
-void *create_lobby_object_05(void *arg0) {
-    return new THunterGuildSeqOnline_Client(tl_05, (TObjPlayer *)arg0);
+void *create_lobby_object_05(void *player) {
+    return new THunterGuildSeqOnline_Client(tl_05, (TObjPlayer *)player);
 }
 
-void *TLobby::create_tl05_object(void *arg0) {
-    return new THunterGuildSeqOnline_Server(tl_05, (TObjPlayer *)arg0);
+void *TLobby::create_tl05_object(void *player) {
+    return new THunterGuildSeqOnline_Server(tl_05, (TObjPlayer *)player);
 }

@@ -7,7 +7,7 @@
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/object/collision/TObjBgmColCtrl.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
-#include "pso/ui/frontend/TAdBackGC_8029A6EC.h"
+#include "pso/ui/frontend/TAdBackGC.h"
 #include "pso/ui/frontend/TAdBackTxtGC.h"
 #include "pso/ui/frontend/TAdMcSelectGC.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"

@@ -37,6 +37,8 @@
 #include "pso/unk/TLobby_80291D94.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/player/TObjPlayer_803E1A58.h"
+#include "pso/ui/window/TWindowCtrlMain_8024CB7C.h"
+#include "pso/player/PlayerSlots.h"
 
 struct Off_800753DC { s16 x, y; };
 
@@ -47,7 +49,6 @@ s32 PPCSync();
 u32 calc_text_width(const char *);
 void draw_menu_font_string(const char *, u32, s32, f32, f32, f32);
 const char *get_message_text(s32);
-s32 has_window_task_root();
 void set_tombstone_position(s32 i, Vec *pos);
 void TObjTombstone__drop_recovery_items(TObjTombstone *self);
 }
@@ -119,7 +120,7 @@ TObjTombstone::TObjTombstone(TObject *parent, s32 client, const TObjTombstoneRec
     setup(client, src);
     init_parts();
     this->m_234 = 0;
-    if (local_client_id != TLobby__designated_client_id) {
+    if (local_client_id != designated_client_id) {
         this->m_234 = 1;
     }
 }
@@ -144,7 +145,7 @@ TObjTombstone::TObjTombstone(TObject *parent, s32 client, const TObjTombstoneSpo
 }
 
 void TObjTombstone::setup(s32 client, const TObjTombstoneRecord *src) {
-    this->texlist = (saddr)get_bml_texlist((BmlResource *)TObjTombstone__shared_resource_object, 0);
+    this->texlist = get_bml_texlist((BmlResource *)TObjTombstone__shared_resource_object, 0);
     *(saddr *)&this->model = (saddr)get_bml_model((BmlResource *)TObjTombstone__shared_resource_object, 0);
     this->client_id = client;
     this->record = *src;
@@ -195,7 +196,7 @@ s32 TObjTombstone::is_player_nearby() {
     TObjPlayer *player;
     if (this->m_234 != 0) {
         return 0;
-    } else if (local_client_id != TLobby__designated_client_id) {
+    } else if (local_client_id != designated_client_id) {
         this->m_234 = 1;
         return 0;
     }
@@ -438,7 +439,7 @@ s32 TObjTombstone::check_all_players_active() {
     i = 0;
 loop_3:
     player = get_player_by_client_id(i);
-    if (player != NULL && player->obj_testFlags30(0x02000000) != 0) {
+    if (player != NULL && player->test_actor_flags(0x02000000) != 0) {
         return 0;
     }
     i += 1;
@@ -470,7 +471,7 @@ void TObjTombstone::update_render_flags() {
         push_matrix();
         post_translate_matrix(&this->position.x);
         rotate_matrix_y(0, this->rotation_y);
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(this->texlist));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
         draw_ginja_object(this->model);
         pop_matrix();
     }

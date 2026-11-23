@@ -79,7 +79,6 @@ WindowDescriptor simple_status_window_layout = {
 };
 
 extern "C" {
-int obj_getArrWord_254(void *p, int i);
 void TWindowComCard__set_column(u8 *arg0, s32 arg1);
 void *TWindowComCard__sub_80249ED8(void *, void *, void *, s32, s32, s32);
 void draw_photon_blast_fan(saddr, NJS_POINT2 *, Params_80270244 *, u32, f32, s32, s32, f32);
@@ -145,7 +144,6 @@ s32 TLobby__sub_801C19D0(void *);
 s32 TWindowSubComCard__sub_802452DC(s32);
 s32 TWindowSubComCard__sub_80245320(Rect_80270394 *, u8 *);
 s32 TWindowSubComCard__sub_802454E4(s32);
-s32 TWindowSubComCard__sub_80245558(u8 *, NJS_POINT2 *, NJS_POINT2 *);
 s32 start_text_color_transition(void *, s32, f32);
 }
 s32 get_status_effect_icon_index(u32 arg0);
@@ -153,9 +151,9 @@ void set_text_entry_string(u8 *arg0, uaddr str, s32 arg2);
 extern "C" {
 void update_lockon_window(u8 *arg0);
 s32 rand(void);
-void begin_screen_draw(s32 arg0);
+void begin_screen_draw(s32 mode);
 s32 draw_textured_quad_at_depth(Rect_80270394 *, f32);
-void set_draw_texture_and_color(s32 idx, s32 arg1);
+void set_draw_texture_and_color(s32 idx, s32 color);
 
 extern s32 lobby_rule_settings[];
 
@@ -290,7 +288,7 @@ void TWindowSimpleStatus::update_status_icons(void *ofs) {
     }
     j++;
     for (k = 0; k < 4; k++, j++) {
-        s32 word = obj_getArrWord_254(player, k);
+        s32 word = ((TObjChara *)player)->get_status_effect_type(k);
         if (word == 0) {
             if (((Disp_8026F9F4 *)this)->windows[j] != NULL) {
                 ((TWindowBase *)(((Disp_8026F9F4 *)this)->windows[j]))->close();
@@ -314,7 +312,7 @@ void TWindowSimpleStatus::update_status_icons(void *ofs) {
 
 #pragma push
 #pragma fp_contract on
-void draw_photon_blast_fan(saddr arg0, NJS_POINT2 *arg1, Params_80270244 *arg2, u32 arg3, f32 arg6, s32 arg4, s32 arg5, f32 arg7) {
+void draw_photon_blast_fan(saddr window_simple_status, NJS_POINT2 *arg1, Params_80270244 *arg2, u32 arg3, f32 arg6, s32 arg4, s32 arg5, f32 arg7) {
     ColorLineVertex verts[3];
     ColorLineList prim;
     u32 colors[3];
@@ -324,7 +322,7 @@ void draw_photon_blast_fan(saddr arg0, NJS_POINT2 *arg1, Params_80270244 *arg2, 
     f32 amp_y;
     f32 depth;
 
-    depth = ((TWindowSimpleStatus *)arg0)->draw_depth + 0.299f * arg6;
+    depth = ((TWindowSimpleStatus *)window_simple_status)->draw_depth + 0.299f * arg6;
     amp_x = arg7 * arg2->f28;
     amp_y = arg7 * arg2->f2c;
     prim.verts = verts;
@@ -361,7 +359,7 @@ void TWindowSimpleStatus::apply_random_shake() {
         ang = (s32)(65536.0f * (3.0517578e-05f * (f32)rand()));
         dist = 5.0f * (3.0517578e-05f * (f32)rand());
         this->frame_position[0] += dist * cos_table_lookup(ang);
-        *(f32 *)(((u8 *)this) + 0x44) += dist * sin_table_lookup(ang);
+        this->frame_position[1] += dist * sin_table_lookup(ang);
     }
 }
 #pragma pop
@@ -379,25 +377,25 @@ void TWindowSubStatusDisp::update_hp_tp_level() {
 
 void TWindowLockOn::update_for_player_index(s32 id) {
     saddr str;
-    struct VObj_8026ff0c *temp_r30;
+    struct VObj_8026ff0c *player;
     u8 *temp_r29;
 
-    temp_r30 = (VObj_8026ff0c *)get_player_by_client_id(id);
-    if (temp_r30 == NULL) {
+    player = (VObj_8026ff0c *)get_player_by_client_id(id);
+    if (player == NULL) {
         ((TWindowHelpItem *)((u8 *)this))->set_flag0_bit2();
         return;
     }
-    temp_r29 = (u8 *)temp_r30 + 0x85C;
+    temp_r29 = (u8 *)player + 0x85C;
     if (temp_r29 == NULL) {
         ((TWindowHelpItem *)((u8 *)this))->set_flag0_bit2();
         return;
     }
-    str = temp_r30->m10();
+    str = player->m10();
     if (str == 0) {
         ((TWindowHelpItem *)((u8 *)this))->set_flag0_bit2();
         return;
     }
-    if (((TObjPlayer *)temp_r30)->is_inactive() == 0) {
+    if (((TObjPlayer *)player)->is_inactive() == 0) {
         ((TWindowHelpItem *)((u8 *)this))->set_flag0_bit2();
         return;
     }
@@ -405,7 +403,7 @@ void TWindowLockOn::update_for_player_index(s32 id) {
     if ((((TWindowSubComCard *)((u8 *)this))->get_field_20() == 0U) || (strcmp((const char *)((TWindowSubComCard *)((u8 *)this))->get_field_20(), (const char *)str) != 0)) {
         set_text_entry_string(((u8 *)this), str, 0x20);
     }
-    if (temp_r30->m31() != 0) {
+    if (player->m31() != 0) {
         *(s32 *)&this->entry_list = 0xFFFF0000;
         return;
     }
@@ -482,7 +480,7 @@ void update_status_help_item(saddr arg0) {
 #pragma fp_contract on
 #pragma opt_common_subs off
 extern "C" {
-void draw_photon_blast_gauge_ring(s32 arg0, Params_80270244 *ctx, const NJS_POINT2 *pos, f32 farg0, f32 farg1) {
+void draw_photon_blast_gauge_ring(s32 window_simple_status, Params_80270244 *ctx, const NJS_POINT2 *pos, f32 farg0, f32 farg1) {
     NJS_POINT2 p;
     u32 n;
     if (farg0 > 500.0f) {
@@ -493,8 +491,8 @@ void draw_photon_blast_gauge_ring(s32 arg0, Params_80270244 *ctx, const NJS_POIN
     if (ctx->f30 >= 0) {
         p.x = ctx->x + pos->x;
         p.y = ctx->y + pos->y;
-        draw_photon_blast_fan(arg0, &p, ctx, photon_blast_gauge_ring_color_table[n], 0.0f, 0, 0xD700, farg1);
-        draw_photon_blast_fan(arg0, &p, ctx, photon_blast_gauge_ring_color_table[++n], 0.1f, 55040.0f - 0.01f * (55040.0f * farg0), 0xD700, farg1);
+        draw_photon_blast_fan(window_simple_status, &p, ctx, photon_blast_gauge_ring_color_table[n], 0.0f, 0, 0xD700, farg1);
+        draw_photon_blast_fan(window_simple_status, &p, ctx, photon_blast_gauge_ring_color_table[++n], 0.1f, 55040.0f - 0.01f * (55040.0f * farg0), 0xD700, farg1);
     }
 }
 }
@@ -520,7 +518,7 @@ void TWindowSimpleStatus::draw_background(u8 *ctx) {
     size.y = 35.0f;
     scale = -1.0f / this->draw_depth;
     begin_screen_draw(1);
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(hud_texlist));
+    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(hud_texlist));
     set_draw_texture_and_color(0xB, *(s32 *)((s8 *)ctx + 0x34));
     r.x0 = pos.x;
     r.y0 = pos.y;

@@ -32,6 +32,8 @@
 #include "pso/unk/TLobby.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjBase.h"
+#include "pso/player/PlayerSlots.h"
 
 extern NJS_ARGB debug_color_green_half_alpha;
 extern NJS_ARGB debug_color_purple_half_alpha;
@@ -42,10 +44,6 @@ void debug_draw_sphere(const Vec *pos, const NJS_ARGB *color, f32 radius);
 // only a third argument explains, though debug_draw_uniform_scaled never reads r5 (TObjRoomId passes nothing there).
 void debug_draw_uniform_scaled(const Vec *pos, const NJS_ARGB *color, CollisionBody *body, f32 size);
 void enable_action_input__10TObjPlayerFPv(void *p);
-void *TObjQuestCol__create(void *arg0);
-void *TObjQuestColA__create(void *arg0);
-void *TObjQuestColALock2__create(void *arg0);
-void *TObjQuestCol2__create(void *arg0);
 }
 
 u16 quest_collision_next_id;
@@ -76,11 +74,11 @@ TObjQuestColBase::TObjQuestColBase(TObject *parent, void *set_data) : TObjCollid
     m_name = quest_col_base_class_name;
     apply_object_set_data(set_data);
     if (entity_id == 0xFFFF) {
-        entity_id = TLobby::alloc_actor_ids(0);
+        entity_id = alloc_object_ids(0);
     }
     m_id = quest_collision_next_id++;
     radius = scale.x;
-    m_b0 = set_params[0];
+    label = set_params[0];
     m_b4 = 1;
     m_b8 = NULL;
     TObjQuestColBase__instance_count++;
@@ -147,10 +145,10 @@ int TObjQuestCol::vfunc_15() {
 
 TQuestThread *TObjQuestCol::vfunc_16() {
     TQuestThreadBoard::destroy_board();
-    return TQuestThread::create(m_b0);
+    return TQuestThread::create(label);
 }
 
-void *TObjQuestCol__create(void *set_data) {
+void *TObjQuestCol::create(void *set_data) {
     return new TObjQuestCol(quest_collision_task_root, set_data);
 }
 
@@ -207,10 +205,10 @@ block_12:
 
 TQuestThread *TObjQuestColA::vfunc_16() {
     TQuestThreadBoard::destroy_board();
-    return TQuestThread::create(m_b0);
+    return TQuestThread::create(label);
 }
 
-void *TObjQuestColA__create(void *set_data) {
+void *TObjQuestColA::create(void *set_data) {
     return new TObjQuestColA(quest_collision_task_root, set_data);
 }
 
@@ -284,7 +282,7 @@ block_12:
 
 TQuestThread *TObjQuestColALock::vfunc_16() {
     TQuestThreadBoard::destroy_board();
-    return TQuestThread::create(m_b0);
+    return TQuestThread::create(label);
 }
 
 void TObjQuestColALock::update_room_id_check() {
@@ -328,7 +326,7 @@ int TObjQuestColApc::vfunc_15() {
 
 TQuestThread *TObjQuestColApc::vfunc_16() {
     TQuestThreadBoard::destroy_board();
-    return TQuestThread::create(m_b0);
+    return TQuestThread::create(label);
 }
 
 TObjQuestColApc *fn_801963A8(ObjectSetData *arg, s32 *out_id) {
@@ -372,7 +370,7 @@ int TObjQuestColApcIN::vfunc_15() {
 
 TQuestThread *TObjQuestColApcIN::vfunc_16() {
     TQuestThreadBoard::destroy_board();
-    return TQuestThread::create(m_b0);
+    return TQuestThread::create(label);
 }
 
 TObjQuestColApcIN *fn_80196214(ObjectSetData *arg, s32 *out_id) {
@@ -425,7 +423,7 @@ int TObjQuestColApcINW::vfunc_15() {
 
 TQuestThread *TObjQuestColApcINW::vfunc_16() {
     TQuestThreadBoard::destroy_board();
-    return TQuestThread::create(m_b0);
+    return TQuestThread::create(label);
 }
 
 void fn_8019608C(void) {
@@ -474,10 +472,10 @@ void TQuestColCtrl::init() {
     new TQuestColCtrl(tl_05);
 }
 
-void TQuestColCtrl::delete_by_param(s32 arg0) {
+void TQuestColCtrl::delete_by_param(s32 id) {
     TObject *next;
     TObject *cur;
-    if (arg0 < 0) {
+    if (id < 0) {
         return;
     }
     next = quest_collision_task_root->m_down;
@@ -490,14 +488,14 @@ void TQuestColCtrl::delete_by_param(s32 arg0) {
              || ((TUnk_804B6C24 *)cur)->check_value_equals((saddr)obj_quest_col_apc_class_name) != 0
              || ((TUnk_804B6C24 *)cur)->check_value_equals((saddr)TObjQuestColApcIN__name) != 0
              || ((TUnk_804B6C24 *)cur)->check_value_equals((saddr)TObjQuestColApcINW__name) != 0)
-            && cur->m_id == arg0) {
+            && cur->m_id == id) {
             cur->queue_destruction();
             return;
         }
     }
 }
 
-TObjQuestColBase *TQuestColCtrl::find_by_id(u16 arg0) {
+TObjQuestColBase *TQuestColCtrl::find_by_id(u16 id) {
     TObject *next;
     TObject *cur;
     next = quest_collision_task_root->m_down;
@@ -510,7 +508,7 @@ TObjQuestColBase *TQuestColCtrl::find_by_id(u16 arg0) {
              || ((TUnk_804B6C24 *)cur)->check_value_equals((saddr)obj_quest_col_apc_class_name) != 0
              || ((TUnk_804B6C24 *)cur)->check_value_equals((saddr)TObjQuestColApcIN__name) != 0
              || ((TUnk_804B6C24 *)cur)->check_value_equals((saddr)TObjQuestColApcINW__name) != 0)
-            && arg0 == get_entity_id(static_cast<TObjQuestColBase *>(cur))) {
+            && id == ((TObjBase *)(static_cast<TObjQuestColBase *>(cur)))->get_entity_id()) {
             return static_cast<TObjQuestColBase *>(cur);
         }
     }
@@ -593,7 +591,7 @@ TQuestThread *TObjQuestColALock2::vfunc_16() {
     TQuestThreadBoard::destroy_board();
     thread = NULL;
     if (thread_root != NULL) {
-        thread = new TQuestThread(thread_root, m_b0);
+        thread = new TQuestThread(thread_root, label);
         if (thread != NULL) {
             thread->set_parent(tl_00);
         }
@@ -608,7 +606,7 @@ void TObjQuestColALock2::update_room_id_check() {
     }
 }
 
-void *TObjQuestColALock2__create(void *set_data) {
+void *TObjQuestColALock2::create(void *set_data) {
     return new TObjQuestColALock2(quest_collision_task_root, set_data);
 }
 
@@ -650,7 +648,7 @@ TQuestThread *TObjQuestCol2::vfunc_16() {
     TQuestThreadBoard::destroy_board();
     thread = NULL;
     if (thread_root != NULL) {
-        thread = new TQuestThread(thread_root, m_b0);
+        thread = new TQuestThread(thread_root, label);
         if (thread != NULL) {
             thread->set_parent(tl_00);
         }
@@ -658,6 +656,6 @@ TQuestThread *TObjQuestCol2::vfunc_16() {
     return thread;
 }
 
-void *TObjQuestCol2__create(void *set_data) {
+void *TObjQuestCol2::create(void *set_data) {
     return new TObjQuestCol2(quest_collision_task_root, set_data);
 }

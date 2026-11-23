@@ -11,8 +11,8 @@ struct CreationTextureLoadSlot {
     s32 complete;
     s32 present;
     char names[8][32];
-    GinjaTextureEntry entries[8];
-    GinjaTextureList list;
+    NJS_TEXNAME entries[8];
+    NJS_TEXLIST list;
     TChCrLoadAfsTextureReq *request;
 };
 

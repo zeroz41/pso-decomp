@@ -8,14 +8,14 @@
 
 struct Ent_800fa388;
 
-s32 TLobby::request_file_read(saddr arg0, s32 arg1, s32 *arg2, void **arg3) {
+s32 TLobby::request_file_read(const char *name, s32 arg1, s32 *arg2, void **arg3) {
     struct Ent_800fa388 *var_r31;
     AdxfHandle *file;
 
     if (arg3 != NULL) {
         *arg3 = NULL;
     }
-    file = ADXF_Open((const void *)arg0, 0);
+    file = ADXF_Open(name, 0);
     if (file == 0) {
         return -2;
     }
@@ -23,7 +23,7 @@ s32 TLobby::request_file_read(saddr arg0, s32 arg1, s32 *arg2, void **arg3) {
     if (var_r31 != NULL) {
         var_r31 = (struct Ent_800fa388 *)link_into_list(var_r31);
     }
-    strncpy((char *)var_r31 + 8, (const char *)arg0, 0x20);
+    strncpy((char *)var_r31 + 8, name, 0x20);
     *(s32 *)((s8 *)var_r31 + 0) = 1;
     *(s32 *)((s8 *)var_r31 + 0x28) = arg1;
     *(s32 *)((s8 *)var_r31 + 0x2C) = ADXF_GetFsizeByte(file);

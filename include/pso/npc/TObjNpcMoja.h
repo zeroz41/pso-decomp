@@ -9,7 +9,7 @@ struct TObjNpcMoja : public TObjNpcBase {
     virtual ~TObjNpcMoja();
     virtual void render();
     virtual void request_action(s32);
-    static void *create(void *arg0);
+    static void *create(void *set_data);
 };
 
 LAYOUT_ASSERT(TObjNpcMoja_size, sizeof(TObjNpcMoja) == 0x3B8);

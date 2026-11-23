@@ -22,8 +22,6 @@ extern const char lbl_8043857C[5] = "... ";
 extern const s32 challenge_record_rank_slots[3] = { 0, 1, 2 };
 extern const s32 challenge_record_time_offsets[3] = { 0, 9, 14 };
 extern const s32 challenge_record_stage_counts[3] = { 9, 5, 9 };
-s32 *TWindowSubStatusDisp__sub_8006F0D8(ChallengeRecord *record, s32 slot);
-ChallengeStageRank *TWindowSubStatusDisp__sub_8006F134(ChallengeRecord *record, s32 slot);
 
 s32 TWindowSubStatusDisp::get_layout_id(s32 slot) {
     slot = TWindowSubStatusDisp::resolve_player_slot(slot);

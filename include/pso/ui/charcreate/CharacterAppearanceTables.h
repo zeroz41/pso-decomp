@@ -54,4 +54,5 @@ extern CharacterTextureArchive player_class_texture_archive_table[19];
 extern CharacterClassAppearance class_appearance_table[19];
 extern CharacterAppearanceFields class_appearance_preset_table[13];
 }
+extern const char *chara_select_creation_shape_rel_files[19];
 #endif

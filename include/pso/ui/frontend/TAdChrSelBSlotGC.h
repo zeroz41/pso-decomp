@@ -67,29 +67,19 @@ struct TAdChrSelBSlotGC : public TObject {
     int get_global_state();
     static TAdChrSelASlotGC *get_global_slot_data();
     TAdChrSelSlotGC *slot_gc; // 0x28
-    TAdPlyChrSelPlateGC *m_2c;
+    TAdPlyChrSelPlateGC *plate;                   // 0x2C
     TAdSubPlyItemGC *player_items;
-    TAdChrSelMovePlateGC *m_34;
-    TAdDrawLineCtrl *m_38;
-    TAdDrawLineCtrl *m_3c;
-    TWindowBase *m_40;
-    TWindowBase *m_44;
-    TWindowBase *m_48;
-    TWindowBase *m_4c;
-    TWindowBase *m_50;
-    TWindowBase *m_54;
-    TWindowBase *m_58;
-    TWindowBase *m_5c;
-    TWindowBase *m_60;
-    TWindowBase *m_64;
-    TWindowBase *m_68;
-    TWindowMessageYesNo *m_6c;
-    TWindowMessageYesNo *m_70;
-    TWindowBase *m_74;
-    TWindowBase *m_78;
-    TWindowBase *m_7c;
+    TAdChrSelMovePlateGC *move_plate;             // 0x34
+    TAdDrawLineCtrl *draw_line[2];                // 0x38
+    TWindowBase *wait_message[11];                // 0x40  message i shows text 2 * i + 1 while the card load waits on step i
+    TWindowMessageYesNo *format_prompt;           // 0x6C  show_format_prompt
+    TWindowMessageYesNo *format_confirm;          // 0x70  opened when format_prompt is accepted
+    TWindowBase *formatted_message;               // 0x74
+    TWindowBase *not_formatted_message;           // 0x78
+    TWindowBase *format_failed_message;           // 0x7C
 };
 
 LAYOUT_ASSERT(TAdChrSelBSlotGC_size, sizeof(TAdChrSelBSlotGC) == 0x80);
-LAYOUT_ASSERT(TAdChrSelBSlotGC_m_1c_offset, offsetof(TAdChrSelBSlotGC, state) == 0x1C);
+LAYOUT_ASSERT(TAdChrSelBSlotGC_state_offset, offsetof(TAdChrSelBSlotGC, state) == 0x1C);
+LAYOUT_ASSERT(TAdChrSelBSlotGC_wait_message_offset, offsetof(TAdChrSelBSlotGC, wait_message) == 0x40);
 #endif

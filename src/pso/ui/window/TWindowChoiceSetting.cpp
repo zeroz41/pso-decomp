@@ -17,7 +17,6 @@
 #include "pso/unk/WindowLayoutRecord.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/ControllerInput.h"
-#include "pso/ui/window/TWindowSubComCard_80244774.h"
 #include "pso/ui/window/WindowLayout.h"
 
 const char *lbl_805D3970 = "TWindowMenuInfomation";
@@ -40,7 +39,7 @@ void TWindowMenuInfomation::request_close() {
     }
 }
 void TWindowMenuInfomation::draw() {
-    get_array_entry(this->m_74);
+    get_array_entry(this->index);
     if (TWindowSubComCard__sub_8026906C() == 0) {
         play_sound_effect(0x52D01, 0, 0, 0);
         this->m_70 = (u16) (this->m_70 | 2);
@@ -53,7 +52,7 @@ void TWindowMenuInfomation::move_next_choice() {
     s16 var_r31;
 
     play_sound_effect(0x54100, 0, 0, 0);
-    var_r31 = this->m_74;
+    var_r31 = this->index;
 loop_1:
     var_r31 += 1;
     if (var_r31 >= entry_capacity) {
@@ -63,9 +62,9 @@ loop_1:
         }
     } else {
 block_4:
-        if (var_r31 != (s16) this->m_74) {
+        if (var_r31 != (s16) this->index) {
             if (sub_80266B18(var_r31) != 0) {
-                this->m_74 = var_r31;
+                this->index = var_r31;
             } else {
                 goto loop_1;
             }
@@ -76,7 +75,7 @@ void TWindowMenuInfomation::move_cursor_prev() {
     s16 var_r31;
 
     play_sound_effect(0x54100, 0, 0, 0);
-    var_r31 = this->m_74;
+    var_r31 = this->index;
 loop_1:
     var_r31 -= 1;
     if (var_r31 < 0) {
@@ -86,25 +85,25 @@ loop_1:
         }
     } else {
 block_4:
-        if (var_r31 != (s16) this->m_74) {
+        if (var_r31 != (s16) this->index) {
             if (sub_80266B18(var_r31) != 0) {
-                this->m_74 = var_r31;
+                this->index = var_r31;
             } else {
                 goto loop_1;
             }
         }
     }
 }
-void create_sub_window__20TWindowChoiceSettingFPvi(void *arg0, s32 title) {
-    uaddr var_r0;
+void TWindowMenuInfomation::create_sub_window(const char *title) {
+    TWindowSubStatusDisp *heading;
 
-    if ((u32) *(u32 *)((s8 *)arg0 + 0x78) == 0U) {
-        var_r0 = (saddr)::operator new(0x24);
-        if (var_r0 != 0U) {
-            var_r0 = (uaddr)((TWindowSubStatusDisp *)var_r0)->construct_type1_heading(title, *(s16 *)((s8 *)arg0 + 0x20));
+    if (this->heading == NULL) {
+        heading = (TWindowSubStatusDisp *)::operator new(0x24);
+        if (heading != NULL) {
+            heading = (TWindowSubStatusDisp *)heading->construct_type1_heading((saddr)title, this->client_index);
         }
-        *(u32 *)((s8 *)arg0 + 0x78) = var_r0;
-        *(s32 *)((s8 *)arg0 + 0x2C) = (s32) (*(s32 *)((s8 *)arg0 + 0x2C) | 0x40);
+        this->heading = heading;
+        this->window_flags |= 0x40;
     }
 }
 }
@@ -155,7 +154,7 @@ void TWindowMenuInfomation::clamp_scroll() {
 void TWindowMenuInfomation::draw_setting(saddr window_key_board_soft) {
     u16 *entry;
 
-    entry = (u16 *)this->get_array_entry(this->m_74);
+    entry = (u16 *)this->get_array_entry(this->index);
     if (*entry & 1) {
         draw_selection_bar(reinterpret_cast<WindowDrawContext *>(window_key_board_soft), (u8 *)entry, this->is_open());
     }
@@ -166,7 +165,7 @@ void TWindowMenuInfomation__ct(TWindowMenuInfomation *window, u32 rows) {
     WindowTextEntry *entry;
     window->m_name = lbl_805D3970;
     window->next_entry = 0;
-    window->m_74 = 0;
+    window->index = 0;
     window->entry_capacity = (s16)rows;
     window->m_70 = 0;
     window->heading = NULL;
@@ -194,12 +193,12 @@ WindowDescriptor choice_setting_popup_window_descriptor = {
     {0.0f, 0.0f}, 50050.0f, &choice_setting_popup_layout_entries, 3,
 };
 
-TWindowMenuInfomation *create_information_counter_window(s32 arg0) {
+TWindowMenuInfomation *create_information_counter_window(s32 rows) {
     TWindowMenuInfomation *window;
 
-    fn_80268C5C(&lbl_8044F3A0, arg0);
-    window = new TWindowMenuInfomation((void *)get_window_layout_position(0xAE), arg0);
-    create_sub_window__20TWindowChoiceSettingFPvi(window, (saddr)"Information Counter");
+    fn_80268C5C(&lbl_8044F3A0, rows);
+    window = new TWindowMenuInfomation((void *)get_window_layout_position(0xAE), rows);
+    window->create_sub_window("Information Counter");
     return window;
 }
 

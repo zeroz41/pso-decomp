@@ -28,11 +28,11 @@
 #include "pso/math/MatrixTransforms.h"
 #include "pso/unk/text_803D853C.h"
 #include "pso/player/TObjPlayer_80011014.h"
+#include "pso/player/PlayerSlots.h"
 
 extern "C" {
 void post_translate_matrix(const Vec *v);
-s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
-s32 obj_is_hit_receivable(u8 *arg0);
+s32 play_persistent_sound(s32 id, saddr actor, uaddr src, s32 a3, s32 flags);
 extern GC_Mtx identity_matrix;
 }
 
@@ -72,7 +72,7 @@ void TUnk_80484AFC::explode_and_destroy() {
 }
 
 void TUnk_80484AFC::render() {
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(textures));
+    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(textures));
     push_matrix();
     post_translate_matrix(&position);
     rotate_matrix_x(0, rotation_x);

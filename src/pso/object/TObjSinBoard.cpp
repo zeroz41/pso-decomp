@@ -11,6 +11,7 @@
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/object/TObjSinBoard.h"
+#include "pso/object/lobby/LobbyGoGoBall.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_8023E480.h"
 #include "pso/render/render_util.h"
@@ -38,12 +39,12 @@ s32 get_card_file_info__15TAdPlayerLoadGCFiPvPv(saddr, const char *, Stat_80197E
 const char *TObjSinBoard__class_name = "TObjSinBoard";
 
 u32 TObjSinBoard__texture_buffer;
-GinjaTextureEntry TObjSinBoard__texture_name;
-__declspec(section ".data") GinjaTextureList signboard_texture_list;
+NJS_TEXNAME TObjSinBoard__texture_name;
+__declspec(section ".data") NJS_TEXLIST signboard_texture_list;
 GinjaTextureInput TObjSinBoard__texture_surface;
-u32 gogo_ball_team_scores[2];
-f32 gogo_ball_configuration[0x15];
-f32 gogo_ball_sync_state[7];
+s32 gogo_ball_team_scores[2];
+GoGoBallConfig gogo_ball_configuration;
+GoGoBallSyncState gogo_ball_sync_state;
 
 s32 is_signboard_texture_buffer_missing(void) {
     if (TObjSinBoard__texture_buffer == 0) {
@@ -89,7 +90,7 @@ void load_memcard_file(void) {
     while (poll_memcard_result(slot) != 0) {
         TLobby::run_frame();
     }
-    if (TAdPlayerLoadGC__sub_801E1538(&hdr, buf) != 0) {
+    if (verify_card_save_header(&hdr, buf) != 0) {
         TAdSinglePlyChrSelectGC::safe_free((uaddr)buf);
         return;
     }
@@ -103,7 +104,7 @@ void TLobby::free_global_buffer() {
     if (TObjSinBoard__texture_buffer != 0) {
         TAdSinglePlyChrSelectGC::safe_free(TObjSinBoard__texture_buffer);
         TObjSinBoard__texture_buffer = 0;
-        if (signboard_texture_list.entries->texture != NULL) {
+        if (signboard_texture_list.textures->texture != NULL) {
             release_texture_list(&signboard_texture_list);
         }
     }
@@ -116,8 +117,8 @@ void fn_80197FD0(const void *image, u32 size) {
     TObjSinBoard__texture_buffer = t;
     if (t != 0) {
         move_data((void *)(t), (const void *)(image), size);
-        signboard_texture_list.entries = &TObjSinBoard__texture_name;
-        signboard_texture_list.count = 1;
+        signboard_texture_list.textures = &TObjSinBoard__texture_name;
+        signboard_texture_list.nbTexture = 1;
         TObjSinBoard__texture_surface.set_render_rect(reinterpret_cast<void *>(TObjSinBoard__texture_buffer), 0, 0, 0);
         set_texture_name(&TObjSinBoard__texture_name, &TObjSinBoard__texture_surface, 0, 0x40000000);
         load_texture_if_valid((uaddr)&signboard_texture_list);
@@ -171,6 +172,6 @@ TObjSinBoard::TObjSinBoard(TObject *parent, void *set_data) : TObjBase(parent) {
     apply_object_set_data(set_data);
 }
 
-void *TObjSinBoard__create(void *set_data) {
+void *TObjSinBoard::create(void *set_data) {
     return new TObjSinBoard(tl_05, set_data);
 }

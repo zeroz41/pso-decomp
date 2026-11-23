@@ -37,6 +37,7 @@
 #include "pso/player/TObjPlayer_803DC834.h"
 #include <stddef.h>
 #include "pso/network/client_id.h"
+#include "pso/player/PlayerSlots.h"
 
 s32 lbl_805D65F0;
 void *scene_sora_instance;
@@ -281,7 +282,7 @@ s32 fn_8029EC3C(Vec *pos, s32 mask) {
 
 }
 
-void TObjPlayer__sub_8029EE2C(void) { TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(lbl_805D65F0)); load_list_texture((saddr)((void*)0), (saddr)((void*)0), (saddr)((void*)0), (saddr)((void*)2)); }
+void TObjPlayer__sub_8029EE2C(void) { TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(lbl_805D65F0)); load_list_texture((saddr)((void*)0), (saddr)((void*)0), (saddr)((void*)0), (saddr)((void*)2)); }
 
 struct Cam_8029EFFC { Vec pos; Vec scale; };
 
@@ -311,21 +312,21 @@ void TObjPlayer::clear_state_if_flag80(s32 arg0) {
 }
 
 void TObjPlayer::setup_projection_texture(Vec *, SceneSectionAngles *, u32 flags) {
-    GinjaMatrix sp10;
-    f32 spC;
-    f32 sp8;
+    GinjaMatrix mtx;
+    f32 x;
+    f32 y;
     f32 fov_y;
     if ((camera_ctrl_instance != NULL) && ((u32) lbl_805D65F0 != 0U)) {
-        calc_projection_screen_offset(&spC, &sp8);
+        calc_projection_screen_offset(&x, &y);
         if (flags & 0x80) {
             push_matrix();
             fov_y = (f32) (lbl_80465E18 * calc_camera_fov_degrees());
             if (TCameraCtrl::is_view_offset() != 0) {
-                C_MTXLightPerspective(sp10, fov_y, 1.1333334f, 0.5f, -0.5f, (f32) (0.5f - spC), (f32) (0.5f - sp8));
+                C_MTXLightPerspective(mtx, fov_y, 1.1333334f, 0.5f, -0.5f, (f32) (0.5f - x), (f32) (0.5f - y));
             } else {
-                C_MTXLightPerspective(sp10, fov_y, 1.1333334f, 0.5f, -0.5f, 0.5f, 0.5f);
+                C_MTXLightPerspective(mtx, fov_y, 1.1333334f, 0.5f, -0.5f, 0.5f, 0.5f);
             }
-            PSMTXConcat(sp10, *current_matrix, *current_matrix);
+            PSMTXConcat(mtx, *current_matrix, *current_matrix);
             load_current_tex_matrix(2);
             pop_matrix();
             load_current_pos_matrix(2);
@@ -358,8 +359,8 @@ void TUnk_804DC7C4::render_shadows() {
     if (p == NULL) {
         return;
     }
-    TScene__sub_8029F5EC();
-    TScene__sub_8029F5E4(100.0f);
+    TScene::begin_reflection_pass();
+    TScene::set_visibility_radius_margin(100.0f);
     if (TSceneSora::instance != 0) {
         TSceneSora::sky_active_flag = 0;
     }
@@ -458,8 +459,8 @@ void TUnk_804DC7C4::render_shadows() {
             break;
         }
     }
-    TScene__sub_8029F5D8();
-    TScene__sub_8029F5E4(0.0f);
+    TScene::end_reflection_pass();
+    TScene::set_visibility_radius_margin(0.0f);
     if (TSceneSora::instance != 0) {
         TSceneSora::sky_active_flag = 1;
     }
@@ -506,7 +507,7 @@ TUnk_804DC7C4::TUnk_804DC7C4(TObject *parent) : TObject(parent) {
 
 
 s32 TSceneSora::get_state() { return *(s32*)((char*)this + 0x20); }
-void TSceneSora::set_scene_flag(int a0) { (*(int *)&lbl_805D65F0) = a0; }
+void TSceneSora::set_scene_flag(int scene_flag) { (*(int *)&lbl_805D65F0) = scene_flag; }
 void TSceneSora::copy_reflection_vec(u8 *arg0) {
     VecCopy((Vec *)(&sora_reflection_ray_direction), (const Vec *)(arg0));
 }

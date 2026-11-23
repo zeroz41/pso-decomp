@@ -8,8 +8,8 @@ struct TWindowMeseta : public TWindowBase {
     TWindowMeseta(void *position, s32 client, s32 text);
     virtual ~TWindowMeseta();
     virtual void render();
-    f32 m_60;
-    u32 m_64;
+    f32 width;
+    u32 client;
     u32 meseta;
     f32 draw_scale[2];
     void run_task();

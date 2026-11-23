@@ -22,6 +22,7 @@
 #include "pso/system/MatrixOps.h"
 #include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
+#include "pso/object/base/TObjBase.h"
 
 
 extern "C" {
@@ -143,7 +144,7 @@ void TBoss3VoloptHiraisin::start_attack() {
     s16 max_hp;
     u32 flags;
     TBoss3Volopt::create_breakup_mdl((saddr)volopt_hiraisin_breakup_model, (saddr)&volopt_hiraisin_breakup_params,
-                                     (saddr)get_bml_texlist((BmlResource *)volopt_hiraisin_resources, 0x10), (saddr)&body_center, rotation_y);
+                                     get_bml_texlist((BmlResource *)volopt_hiraisin_resources, 0x10), (saddr)&body_center, rotation_y);
     trigger_dell_biter_events(&body_center);
     play_sound_effect(0x4001C112, &position, 0, 0);
     behavior_flags &= ~1;
@@ -229,7 +230,7 @@ void TBoss3VoloptHiraisin::update_hit() {
 void TBoss3VoloptHiraisin::render() {
     f32 scale;
     if (!(actorFlags & 0x02000000) && update_object_view_visibility(400.0f, 40.0f) != 0) {
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
         saved_model_render_flags = model_render_flags;
         model_render_flags |= 0x01000000;
         select_actor_lighting(this);
@@ -360,7 +361,7 @@ void TBoss3VoloptHiraisin::init_params() {
     load_params_from_table(0x10);
     start_appear();
     add_flags_2e4(4);
-    obj_setFlags30(this, 0x8000);
+    set_actor_flags(0x8000);
     clear_lobby_object_state();
 }
 
@@ -389,5 +390,5 @@ void TBoss3VoloptHiraisin::copy_position() {
 
 void TBoss3VoloptHiraisin::load_params_from_table(s32 index) {
     model = (void *)volopt_hiraisin_resources->models[index].model;
-    texlist = (saddr)volopt_hiraisin_resources->models[index].texlist;
+    texlist = volopt_hiraisin_resources->models[index].texlist;
 }

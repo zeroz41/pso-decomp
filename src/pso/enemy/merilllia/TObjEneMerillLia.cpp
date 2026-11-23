@@ -64,6 +64,8 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/unk/text_803D853C.h"
+#include "pso/object/base/TObjBase.h"
+#include "pso/player/PlayerSlots.h"
 
 #pragma readonly_strings on
 
@@ -132,7 +134,7 @@ CollisionBody merill_lia_collision_bodies[3] = {
 // functions below are defined from the last one in the DOL (select_model_record) back to the first (run_demo_task).
 void TObjEneMerillLia::select_model_record(s32 i) {
     model = merill_lia_bml_resource->models[i].model;
-    texlist = (saddr)merill_lia_bml_resource->models[i].texlist;
+    texlist = merill_lia_bml_resource->models[i].texlist;
 }
 
 TObjEneMerillLia::TObjEneMerillLia(TObject *parent, void *setData) : TUnk_80493450(parent) {
@@ -165,7 +167,7 @@ TObjEneMerillLia::TObjEneMerillLia(TObject *parent, void *setData) : TUnk_804934
     in_group = 0;
     child_count = 0;
     add_flags_2e4(2);
-    obj_setFlags30(this, 0x40000);
+    set_actor_flags(0x40000);
     corpse_offset_y = 0.0f;
     far_move_speed = merill_lia_behavior_params[subtype]->far_move_speed;
     far_anim_speed = merill_lia_behavior_params[subtype]->far_anim_speed;
@@ -347,7 +349,7 @@ void TObjEneMerillLia::render() {
     if (detail != 0) {
         saved_model_render_flags = model_render_flags;
         select_actor_lighting(this);
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
         push_matrix();
         translate_matrix(0, 0.0f, corpse_offset_y, 0.0f);
         post_translate_matrix(&position.x);
@@ -438,7 +440,7 @@ void TObjEneMerillLia::beast_update_approach() {
     update_collisions();
     update_enemy_collision_flags();
     minimap_render_dot(&position, -0x5DB4, 1, 0);
-    obj_clearFlags30(0x200000);
+    clear_actor_flags(0x200000);
 }
 
 void TObjEneMerillLia::beast_update_appear() {
@@ -451,7 +453,7 @@ void TObjEneMerillLia::beast_update_appear() {
             phase = 1;
             requested_action = 0xB;
             set_indexed_flags(0, 0xA000000);
-            obj_setFlags30(this, 0x4000000);
+            set_actor_flags(0x4000000);
             play_hurt_sound();
         }
         break;
@@ -465,7 +467,7 @@ void TObjEneMerillLia::beast_update_appear() {
             appearing = 0;
             requested_action = 0;
             clear_player_status_flag(0, 0xA000000);
-            obj_clearFlags30(0x4000000);
+            clear_actor_flags(0x4000000);
         }
         break;
     case 2:
@@ -543,7 +545,7 @@ void TObjEneMerillLia::beast_update_group_chase() {
         start_burrow();
         break;
     case 2:
-        obj_clearFlags30(0x1000);
+        clear_actor_flags(0x1000);
         if (is_actor_cadence_frame(0x1E) != 0) {
             targetId = find_nearest_visible_player(this, NULL, ((BeastMovementParams *)movementParameters)->detectionRadius);
         }
@@ -554,7 +556,7 @@ void TObjEneMerillLia::beast_update_group_chase() {
                 mode = 1;
                 phase = 0;
                 requested_action = 0xA;
-                obj_clearFlags30(0x4040000);
+                clear_actor_flags(0x4040000);
                 clear_player_status_flag(0, 0xA000000);
                 break;
             }
@@ -676,12 +678,12 @@ void TObjEneMerillLia::beast_idle_update() {
         start_burrow();
     }
     }
-    if (obj_testFlags30(0x800000) == 0) {
+    if (test_actor_flags(0x800000) == 0) {
         apply_actor_gravity(this, NULL, 0.0f);
     }
     refresh_collision_body_centers();
     minimap_render_dot(&position, -0x5DB4, 1, 0);
-    obj_clearFlags30(0x04240000);
+    clear_actor_flags(0x04240000);
     clear_player_status_flag(0, 0x0A000000);
 }
 #pragma pop
@@ -715,7 +717,7 @@ void TObjEneMerillLia::beast_update_hurt() {
         play_hurt_sound();
     }
     if (action_flags != 8) {
-        obj_clearFlags30(0x600);
+        clear_actor_flags(0x600);
         clear_player_status_flag(0, 0x04000000);
         if ((f32)hp <= (f32)hpmax * react_hp_ratio) {
             select_hurt_action();
@@ -733,8 +735,8 @@ void TObjEneMerillLia::update_kafun_attack() {
     case 0:
         phase = 1;
         requested_action = 0xC;
-        obj_setFlags30(this, 0x200000);
-        obj_clearFlags30(0x04040000);
+        set_actor_flags(0x200000);
+        clear_actor_flags(0x04040000);
         clear_player_status_flag(0, 0x0A000000);
         break;
     case 1:
@@ -763,14 +765,14 @@ void TObjEneMerillLia::update_kafun_attack() {
     case 2:
         timer--;
         if (timer < 0) {
-            obj_clearFlags30(0x200000);
+            clear_actor_flags(0x200000);
             timer = 0;
             if (random_ratio() <= retreat_chance) {
                 start_retreat();
             } else {
                 mode = 1;
                 phase = 0;
-                obj_setFlags30(this, 0x04040000);
+                set_actor_flags(0x04040000);
                 set_indexed_flags(0, 0x0A000000);
             }
         }
@@ -792,7 +794,7 @@ void TObjEneMerillLia::update_burrow() {
             phase = 1;
             requested_action = 0xD;
             set_indexed_flags(0, 0x0A000000);
-            obj_setFlags30(this, 0x04000000);
+            set_actor_flags(0x04000000);
             play_dig_sound();
         }
         break;
@@ -802,7 +804,7 @@ void TObjEneMerillLia::update_burrow() {
             phase = 2;
             appearing = 1;
             clear_player_status_flag(0, 0x0A000000);
-            obj_clearFlags30(0x04040000);
+            clear_actor_flags(0x04040000);
         }
         break;
     case 2:
@@ -862,8 +864,8 @@ void TObjEneMerillLia::update_fade_in() {
 void TObjEneMerillLia::start_kafun_attack() {
     mode = 0xA;
     phase = 0;
-    obj_setFlags30(this, 0x200000);
-    obj_clearFlags30(0x04040000);
+    set_actor_flags(0x200000);
+    clear_actor_flags(0x04040000);
     clear_player_status_flag(0, 0x0A000000);
 }
 
@@ -871,7 +873,7 @@ void TObjEneMerillLia::start_retreat() {
     mode = 4;
     phase = 0;
     retreat_timer = retreat_frames;
-    obj_clearFlags30(0x04240000);
+    clear_actor_flags(0x04240000);
     clear_player_status_flag(0, 0x0A000000);
 }
 
@@ -899,7 +901,7 @@ void TObjEneMerillLia::run_idle_action() {
             mode = 1;
         }
         phase = 0;
-        obj_setFlags30(this, 0x04040000);
+        set_actor_flags(0x04040000);
         set_indexed_flags(0, 0x0A000000);
         break;
     }
@@ -924,7 +926,7 @@ void TObjEneMerillLia::run_attack_action() {
             mode = 2;
             requested_action = 10;
         }
-        obj_clearFlags30(0x4040000);
+        clear_actor_flags(0x4040000);
         clear_player_status_flag(0, 0xA000000);
         break;
     default:
@@ -935,15 +937,15 @@ void TObjEneMerillLia::run_attack_action() {
         } else {
             requested_action = 4;
         }
-        obj_setFlags30(this, 0x200000);
-        obj_clearFlags30(0x4040000);
+        set_actor_flags(0x200000);
+        clear_actor_flags(0x4040000);
         clear_player_status_flag(0, 0xA000000);
         break;
     }
 }
 
 void TObjEneMerillLia::run_move_action() {
-    if (obj_testFlags30(0x1000) != 0) {
+    if (test_actor_flags(0x1000) != 0) {
         mode = 4;
     }
     switch (mode) {
@@ -964,7 +966,7 @@ void TObjEneMerillLia::run_move_action() {
             mode = 2;
             requested_action = 10;
         }
-        obj_clearFlags30(0x4040000);
+        clear_actor_flags(0x4040000);
         clear_player_status_flag(0, 0xA000000);
         break;
     case 4:
@@ -974,7 +976,7 @@ void TObjEneMerillLia::run_move_action() {
         mode = 3;
         phase = 1;
         requested_action = 2;
-        obj_clearFlags30(0x4040000);
+        clear_actor_flags(0x4040000);
         clear_player_status_flag(0, 0xA000000);
         break;
     }
@@ -999,7 +1001,7 @@ void TObjEneMerillLia::select_subtype() {
 }
 
 s32 TObjEneMerillLia::get_clamped_level() {
-    player_stats *p = (player_stats *)stat_block;
+    player_stats *p = stat_block;
     s32 v = 0;
     if (p != 0) {
         v = p->level;
@@ -1062,7 +1064,7 @@ void TObjEneMerillLia::spawn_ground_effect() {
     CsnHit *hit;
     VecCopy(&pos, &position);
     pos.y += 15.0f;
-    hit = csnVectorUnder(&pos, (CsnGroup **)&ground_cache, 5);
+    hit = csnVectorUnder(&pos, ground_candidates.groups, 5);
     if ((hit != NULL) && (hit->hit_mask & 4)) {
         if (((s32)((f32)actor_frame_tick * (3.0517578125e-05f * (f32)rand())) % 5) == 0) {
             particle = spawn_particle_effect(&hit->contact[2].point, 0x49);

@@ -20,7 +20,6 @@ class TChCrTagPlBack;
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowCtrl_8024A054.h"
-#include "pso/ui/window/TWindowSubComCard_80244774.h"
 #include "pso/network/TradeSession.h"
 #include "pso/unk/text_802D298C.h"
 
@@ -28,6 +27,7 @@ class TChCrTagPlBack;
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/window/TWindowMessageYesNo.h"
 #include "pso/object/warp/TObjCityMainWarp.h"
+#include "pso/player/PlayerSlots.h"
 
 #pragma readonly_strings on
 
@@ -63,7 +63,7 @@ TWindowSubTrade::~TWindowSubTrade() {
     TLobby__sub_802D2A2C((uaddr)this);
     TLobby::check_flags_and_proceed();
     if (this->m_confirm_prompt != NULL) {
-        ((TWindowSubComCard *)(this->m_confirm_prompt))->close();
+        ((TWindowMessageYesNo *)(this->m_confirm_prompt))->close();
         this->m_confirm_prompt = NULL;
     }
     if (this->m_message_window != NULL) {
@@ -84,7 +84,7 @@ void TWindowSubTrade::run_task() {
     case 0:
     case 1:
         if (this->m_confirm_prompt != NULL) {
-            ((TWindowSubComCard *)(this->m_confirm_prompt))->close();
+            ((TWindowMessageYesNo *)(this->m_confirm_prompt))->close();
             this->m_confirm_prompt = NULL;
         }
         if (this->m_message_window != NULL) {
@@ -113,10 +113,10 @@ void TWindowSubTrade::run_task() {
         }
         this->m_1c = 4U;
     case 4:
-        if (((TWindowSubComCard *)(this->m_confirm_prompt))->get_card_data() != 0) {
+        if (((TWindowMessageYesNo *)(this->m_confirm_prompt))->is_cancelled() != 0) {
             this->m_1c = 1U;
         } else if (m_confirm_prompt->is_child_visible() != 0) {
-            if (((TWindowSubComCard *)(this->m_confirm_prompt))->get_slot_or_neg1() == 0) {
+            if (((TWindowMessageYesNo *)(this->m_confirm_prompt))->get_selected_value() == 0) {
                 this->m_1c = 5U;
             } else {
                 this->m_1c = 1U;
@@ -125,7 +125,7 @@ void TWindowSubTrade::run_task() {
         break;
     case 5:
         if (this->m_confirm_prompt != NULL) {
-            ((TWindowSubComCard *)(this->m_confirm_prompt))->close();
+            ((TWindowMessageYesNo *)(this->m_confirm_prompt))->close();
             this->m_confirm_prompt = NULL;
         }
         if (this->m_message_window == NULL) {
@@ -170,13 +170,13 @@ TWindowSubComCardList *TWindowSubComCard__sub_802B1C1C(TWindowSubTrade *) {
             continue;
         }
         if (is_trade_range_bit_set(i)) {
-            TObjCityMainWarp::forward_trade_action_default(list, (saddr)player->get_name(), 7, i);
+            list->add_text_entry((saddr)player->get_name(), 7, i);
         } else {
-            add_gray_text_entry((TWindowSubTradeMain *)list, (const char *)(player->get_name()), 7, i);
+            add_gray_text_entry((TWindowMenu *)list, (const char *)(player->get_name()), 7, i);
         }
     }
     if (list->get_field_72() <= 0) {
-        add_gray_text_entry((TWindowSubTradeMain *)list, (const char *)(TWindowSubStatusDisp::get_message_10(0xD2)), 7, 0);
+        add_gray_text_entry((TWindowMenu *)list, (const char *)(TWindowSubStatusDisp::get_message_10(0xD2)), 7, 0);
     }
     list->set_flag70_bit10();
     list->set_scroll_target(224.0f, 88.0f);
@@ -184,9 +184,9 @@ TWindowSubComCardList *TWindowSubComCard__sub_802B1C1C(TWindowSubTrade *) {
 }
 }
 
-TWindowMessage *TWindowSubTrade::open_player_message_window(s32 arg1, s32 arg2) {
+TWindowMessage *TWindowSubTrade::open_player_message_window(s32 player, s32 arg2) {
     TWindowMessage *window;
-    TObjPlayer *p = get_player_by_client_id(arg1);
+    TObjPlayer *p = get_player_by_client_id(player);
     text_builder_reset();
     if (p != NULL) {
         ((s32 (*)(s32))text_builder_append)((saddr)p->get_name());
@@ -197,9 +197,9 @@ TWindowMessage *TWindowSubTrade::open_player_message_window(s32 arg1, s32 arg2) 
     return window;
 }
 
-TWindowMessageYesNo *TWindowSubTrade::open_trade_confirm_prompt(s32 arg1) {
+TWindowMessageYesNo *TWindowSubTrade::open_trade_confirm_prompt(s32 client) {
     TWindowMessageYesNo *prompt;
-    TObjPlayer *player = get_player_by_client_id(arg1);
+    TObjPlayer *player = get_player_by_client_id(client);
     text_builder_reset();
     if (player != NULL) {
         player->get_name();

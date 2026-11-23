@@ -9,7 +9,6 @@
 #include "pso/ui/frontend/TAdMultiChgGameModeGC.h"
 #include "pso/quest/TQuestListVM_8007EAF8.h"
 #include "pso/ui/frontend/TAdAgreementBaseGC.h"
-#include "pso/ui/frontend/TAdScrollWinGC_80327504.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801334D4.h"
 #include "pso/unk/text_8036F764.h"
 #include <string.h>
@@ -78,7 +77,7 @@ void TAdEp3Exist::render() {
 void TAdEp3Exist::request_game_mode_transition() { TAdMultiChgGameModeGC::request_transition(); }
 void TAdEp3Exist::request_scene_change() { TAdMultiChgGameModeGC::request_scene_change(); }
 void TAdEp3Exist__sub_8036F0AC(TAdEp3Exist *p) { TAdMultiChgGameModeGC::reset_and_set_mode(); }
-void TAdEp3Exist::close_window() { if (scroll_window != 0) { ((TAdScrollWinGC *)scroll_window)->close_window(); scroll_window = 0; } }
+void TAdEp3Exist::close_window() { if (scroll_window != NULL) { scroll_window->close_window(); scroll_window = NULL; } }
 
 void TAdEp3Exist::run_task() {
     prev_state = state;
@@ -140,11 +139,10 @@ TAdEp3Exist::TAdEp3Exist(TObject *parent) : TObject(parent) {
     s8 flag[16];
     u8 save[16];
     s32 res;
-    uaddr r;
     bool ok;
     bool go;
     m_name = TAdEp3Exist__name;
-    scroll_window = 0;
+    scroll_window = NULL;
     cursor = NULL;
     callback_window = NULL;
     frames = 0;
@@ -171,11 +169,7 @@ TAdEp3Exist::TAdEp3Exist(TObject *parent) : TObject(parent) {
     }
     new TAdBackGC(this);
     new TAdBackTxtGC(this);
-    r = (uaddr)TObject::operator new(0x54);
-    if (r != 0) {
-        r = (uaddr)TAdScrollWinGC__ct((TAdScrollWinGC *)((void *)r), this, 3, (s32)(get_localized_text_entry(0x2C, 9)));
-    }
-    scroll_window = r;
+    scroll_window = new TAdScrollWinGC(this, 3, (s32)get_localized_text_entry(0x2C, 9));
     cursor = new TAdSelectCurGC(tl_clipout, (const NJS_POINT2 *)lbl_8047B8A8, (const NJS_POINT2 *)lbl_8047B8B0);
     cursor->append_entry((void *)lbl_8047B8A8);
     fn_80329BAC(cursor);

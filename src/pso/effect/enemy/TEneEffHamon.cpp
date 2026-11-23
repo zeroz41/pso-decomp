@@ -29,7 +29,7 @@
 
 const char *TEneEffHamon::class_name = "TEneEffHamon";
 NJS_OBJECT *TEneEffHamon::fish_model;
-GinjaTextureList *TEneEffHamon::fish_texlist;
+NJS_TEXLIST *TEneEffHamon::fish_texlist;
 
 void TEneEffHamon::render() {
     f32 s;

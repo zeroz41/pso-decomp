@@ -3,6 +3,7 @@
 #include <stddef.h>
 #include "types.h"
 #include "pso/ui/city/TShopWindowBase.h"
+#include "pso/network/protocol/packet_classes.h"
 
 class TWindowMenuIconLine;
 struct TWindowMenu;
@@ -16,10 +17,7 @@ typedef TMenuList<QuestListEntry, 30, 0> OnlineQuestMenu;
 
 struct TQuestListOnline : public TShopWindowBase {
     virtual ~TQuestListOnline();
-    void vfunc_11();
-    u32 unknown1c;
-    u32 state;
-    s32 window_owner;
+    void update_state();
     s32 (*callback28)();
     s32 (*callback2c)();
     s32 (*callback30)();
@@ -29,7 +27,7 @@ struct TQuestListOnline : public TShopWindowBase {
     TWindowMessage *info_window;
     TWindowMenu *confirm_window;
     s32 selected_index;
-    u8 selected_entry[0x1C];
+    GameListEntry selected_entry;
     s32 selection_stage;
     void* sequence;
     void close_windows();
@@ -55,7 +53,7 @@ struct TQuestListOnline : public TShopWindowBase {
     static s32 get_list_state();
     static const char *get_selected_entry();
     static int get_selected_quest_id();
-    static u8 get_unlocked_tier();
+    u8 get_unlocked_tier();
     static void decompress_quest_buffer(const u8 *data, s32 size);
     static s32 init();
     static void ensure_online_quests_loaded();
@@ -65,7 +63,7 @@ struct TQuestListOnline : public TShopWindowBase {
 };
 LAYOUT_ASSERT(QuestListOnlineSize, (sizeof(TQuestListOnline)==0x70));
 LAYOUT_ASSERT(QuestListOnline_state, (offsetof(TQuestListOnline,state)==0x20));
-LAYOUT_ASSERT(QuestListOnline_window_owner, (offsetof(TQuestListOnline,window_owner)==0x24));
+LAYOUT_ASSERT(QuestListOnline_player, (offsetof(TQuestListOnline,player)==0x24));
 LAYOUT_ASSERT(QuestListOnline_callback28, (offsetof(TQuestListOnline,callback28)==0x28));
 LAYOUT_ASSERT(QuestListOnline_callback2c, (offsetof(TQuestListOnline,callback2c)==0x2C));
 LAYOUT_ASSERT(QuestListOnline_callback30, (offsetof(TQuestListOnline,callback30)==0x30));
@@ -82,7 +80,7 @@ extern TQuestListOnline *TQuestListOnline__instance;
 
 extern "C" {
 void copy_quest_list_data__16TQuestListOnlineFv(OnlineQuestMenu &menu);
-void *TQuestListOnline__ct(TQuestListOnline *arg0, void *arg1, void *arg2, void *arg3);
+void *TQuestListOnline__ct(TQuestListOnline *arg0, void *arg1, void *arg2, void *player);
 }
 
 #endif

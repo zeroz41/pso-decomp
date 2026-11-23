@@ -46,7 +46,7 @@ void draw_window_tab(WindowDrawContext *context, f32 *pos, u8 idx, f32 width) {
     w = width;
     w += (8e+01f);
     begin_screen_draw(1);
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(hud_texlist));
+    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(hud_texlist));
     set_draw_texture_and_color(1, context->color);
     r1.x0 = pos[0];
     r1.y0 = pos[1];
@@ -81,8 +81,8 @@ void draw_window_tab(WindowDrawContext *context, f32 *pos, u8 idx, f32 width) {
     TWindowSubStatusDisp::get_player();
 }
 
-f32 TWindowSubStatusDisp::get_base_y(f32 farg0) {
-    return (1.6e+02f) + farg0;
+f32 TWindowSubStatusDisp::get_base_y(f32 width) {
+    return (1.6e+02f) + width;
 }
 
 f32 TWindowSubStatusDisp__sub_802877A4(f32 farg0) {
@@ -121,8 +121,8 @@ void TWindowSubStatusDisp::update_entry_color() {
     }
 }
 
-void TWindowSubStatusDisp::set_entry_state(s8 arg1) {
-    *(s8 *)((s8 *)this + 0x18) = arg1;
+void TWindowSubStatusDisp::set_entry_state(s8 entry_state) {
+    *(s8 *)((s8 *)this + 0x18) = entry_state;
     update_entry_color();
 }
 
@@ -160,7 +160,7 @@ s32 TWindowSubStatusDisp::deleting_destructor(s32 arg0, s16 arg1) {
     return arg0;
 }
 
-u8 *init_heading_entry__20TWindowSubStatusDispFPvPvici(u8 *window_sub_status_disp, u8 *arg1, saddr title, s8 arg3, s32 client_id) {
+u8 *init_heading_entry__20TWindowSubStatusDispFPvPvici(u8 *window_sub_status_disp, u8 *arg1, saddr title, s8 entry_state, s32 client_id) {
     *(f32 *)((s8 *)window_sub_status_disp + 4) = (f32) *(f32 *)((s8 *)arg1 + 0);
     *(f32 *)((s8 *)window_sub_status_disp + 8) = (f32) *(f32 *)((s8 *)arg1 + 4);
     *(f32 *)((s8 *)window_sub_status_disp + 0x10) = (f32) calc_text_width((char *)(title));
@@ -168,7 +168,7 @@ u8 *init_heading_entry__20TWindowSubStatusDispFPvPvici(u8 *window_sub_status_dis
     *(s32 *)((s8 *)window_sub_status_disp + 0) = title;
     *(s8 *)((s8 *)window_sub_status_disp + 0x19) = 0;
     *(f32 *)((s8 *)window_sub_status_disp + 0x1C) = (f32) (0.0f);
-    ((TWindowSubStatusDisp *)window_sub_status_disp)->set_entry_state(arg3);
+    ((TWindowSubStatusDisp *)window_sub_status_disp)->set_entry_state(entry_state);
     *(f32 *)((s8 *)window_sub_status_disp + 0x20) = TWindowSubStatusDisp::get_card_window_scale(client_id);
     if (*(f32 *)((s8 *)window_sub_status_disp + 0x20) <= (0.0f)) {
         *(f32 *)((s8 *)window_sub_status_disp + 0x1C) = (f32) (1e+05f);

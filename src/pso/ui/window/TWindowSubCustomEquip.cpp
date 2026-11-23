@@ -21,6 +21,7 @@
 #include "pso/ui/window/TWindowActionPalette_801C1890.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/enemy/shinowa/TObjEneMe3ShinowaReal_8002ADD8.h"
+#include "pso/player/PlayerSlots.h"
 
 struct Obj_80275DB4 { u8 pad[0x60]; char f60; u8 pad2[0x6c - 0x61]; void *f6c; };
 
@@ -101,7 +102,6 @@ WindowDescriptor lbl_804D1488 = {
 };
 
 extern "C" {
-void *get_player_by_client_id(s32);
 s32 can_use_palette_action__10TObjPlayerFPvUcUc(void *, u8, u8);
 void update_palette_item_count_label(u8 *, u8 *, s32, s32, s32);
 void draw_action_palette_icon(u8 *, s32, s32);
@@ -129,7 +129,7 @@ void draw_cursor_sprite__21TWindowSubCustomEquipFPvPvif(u8 *arg0, NJS_POINT2 *ar
     scale = (-1.0f) / (0.299f * farg0 + *(f32 *)((s8 *)arg0 + 0x38));
     set_additive_blend();
     begin_screen_draw(1);
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(hud_texlist));
+    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(hud_texlist));
     set_draw_texture_and_color(0xC, -1);
     r.x0 = arg1->x + *(f32 *)((s8 *)arg0 + 0x10);
     r.y0 = arg1->y + *(f32 *)((s8 *)arg0 + 0x14);
@@ -209,7 +209,6 @@ s32 TWindowSubCustomEquip::get_saved_slot_for_index(s32 arg0, s8 arg1) {
 
 
 extern "C" {
-void *get_player_by_client_id(s32 i);
 s32 get_slot_type__20TWindowActionPaletteFPvll(s32, s32, s32);
 s32 is_type_valid__21TWindowSubCustomEquipFv(void *, u8);
 s32 get_saved_slot_for_index__21TWindowSubCustomEquipFlSc(void *, u8);
@@ -279,9 +278,9 @@ u8 lbl_805D647C;
 s32 play_sound_effect(s32, s32, s32, s32);
 
 
-void TWindowSubCustomEquip::set_relative_pos(void *arg1) {
-    *(f32 *)&this->m_name = (f32) (*(f32 *)((s8 *)arg1 + 8) - 11.0f);
-    *(f32 *)&this->m_flags = (f32) (*(f32 *)((s8 *)arg1 + 0xC) - 15.0f);
+void TWindowSubCustomEquip::set_relative_pos(void *relative_pos) {
+    *(f32 *)&this->m_name = (f32) (*(f32 *)((s8 *)relative_pos + 8) - 11.0f);
+    *(f32 *)&this->m_flags = (f32) (*(f32 *)((s8 *)relative_pos + 0xC) - 15.0f);
 }
 
 void TWindowSubCustomEquip::layout_selection_parts(void *arg1) {
@@ -318,17 +317,17 @@ void TWindowSubCustomEquip::layout_selection_parts(void *arg1) {
     *(u16 *)((s8 *)d + 0) |= 2;
 }
 
-void TWindowSubCustomEquip::layout_entry_group(void *arg1) {
+void TWindowSubCustomEquip::layout_entry_group(void *index) {
   u8 *base;
   u8 *e1;
   u8 *e2;
   u32 i;
   s32 idx;
   s32 v;
-  base = (u8 *) get_array_entry((saddr) arg1);
+  base = (u8 *) get_array_entry((saddr) index);
   for (i = 0; i < 3; i++)
   {
-    idx = ((saddr) arg1) + i;
+    idx = ((saddr) index) + i;
     e1 = (u8 *) get_array_entry(idx + 1);
     e2 = (u8 *) get_array_entry(idx + 4);
     *((f32 *) (((s8 *) e1) + 8)) = (*((f32 *) (((s8 *) base) + 8))) + custom_equip_entry_offset_table[i].x;
@@ -360,7 +359,7 @@ void TWindowSubCustomEquip::refresh_palette_slots() {
 
 #pragma push
 #pragma fp_contract on
-void TWindowSubCustomEquip::place_bank_slot_on_ring(s32 arg1, s32 arg2) {
+void TWindowSubCustomEquip::place_bank_slot_on_ring(s32 angle, s32 index) {
     f32 temp_f1;
     f32 temp_f30;
     f32 temp_f31;
@@ -374,13 +373,13 @@ void TWindowSubCustomEquip::place_bank_slot_on_ring(s32 arg1, s32 arg2) {
         lbl_805D647C = 1;
         lbl_805D6478 = 25.0f;
     }
-    temp_f30 = sin_table_lookup(arg1);
-    temp_f31 = cos_table_lookup(arg1);
-    array_entry = (u8 *)(this->get_array_entry(arg2));
+    temp_f30 = sin_table_lookup(angle);
+    temp_f31 = cos_table_lookup(angle);
+    array_entry = (u8 *)(this->get_array_entry(index));
     *(f32 *)((s8 *)array_entry + 8) = (f32) ((TWindowSubCustomEquip__ring_scale * temp_f31) + 27.0f);
     *(f32 *)((s8 *)array_entry + 0xC) = (f32) ((lbl_805D6478 * temp_f30) + 34.0f);
-    if ((arg1 - 0x7200) & 0x8000) {
-        temp_f1 = (0.5f * cos_table_lookup(arg1 + 0xFFFF4E00)) + 1.0f;
+    if ((angle - 0x7200) & 0x8000) {
+        temp_f1 = (0.5f * cos_table_lookup(angle + 0xFFFF4E00)) + 1.0f;
         *(f32 *)((s8 *)array_entry + 0x18) = 0.1f;
         temp_r4 = (s32) (255.0f * temp_f1);
         *(s32 *)((s8 *)array_entry + 0x2C) = (s32) ((u8) temp_r4 | (((temp_r4 << 0x10) & 0xFF0000) | 0xFF000000 | ((temp_r4 << 8) & 0xFF00)));
@@ -392,32 +391,32 @@ void TWindowSubCustomEquip::place_bank_slot_on_ring(s32 arg1, s32 arg2) {
 #pragma pop
 
 void TWindowSubCustomEquip::update_rotate_anim() {
-    s32 temp_r3;
+    s32 angle;
     s32 var_r4;
 
     var_r4 = 0xB200;
     if ((s8) this->m_62 > 0) {
         var_r4 = 0x13200;
     }
-    temp_r3 = this->m_68;
-    if (var_r4 != temp_r3) {
-        if ((s32) (u16) (var_r4 - temp_r3) < 0xC00) {
-            this->m_68 = var_r4;
+    angle = this->angle;
+    if (var_r4 != angle) {
+        if ((s32) (u16) (var_r4 - angle) < 0xC00) {
+            this->angle = var_r4;
         } else {
-            this->m_68 = (temp_r3 + 0xC00);
+            this->angle = (angle + 0xC00);
         }
     }
-    if (this->m_68 & 0x8000) {
+    if (this->angle & 0x8000) {
         this->m_64 = 0;
         this->m_65 = 1;
-        place_bank_slot_on_ring(this->m_68, 9);
-        place_bank_slot_on_ring(this->m_68 + 0x8000, 0);
+        place_bank_slot_on_ring(this->angle, 9);
+        place_bank_slot_on_ring(this->angle + 0x8000, 0);
         return;
     }
     this->m_64 = 1;
     this->m_65 = 0;
-    place_bank_slot_on_ring(this->m_68 + 0x8000, 9);
-    place_bank_slot_on_ring(this->m_68, 0);
+    place_bank_slot_on_ring(this->angle + 0x8000, 9);
+    place_bank_slot_on_ring(this->angle, 0);
 }
 
 void TWindowSubCustomEquip::handle_cancel() {
@@ -534,7 +533,7 @@ TWindowSubCustomEquip::TWindowSubCustomEquip(s32 slot) : TWindowBase((u8 *)&lbl_
     this->m_64 = 0;
     this->m_65 = 1;
     this->m_66 = 0;
-    this->m_68 = 0xB200;
+    this->angle = 0xB200;
     heading = (void *)::operator new(0x24);
     if (heading != NULL) {
         heading = ((TWindowSubStatusDisp *)heading)->construct_type1_heading((saddr)TWindowSubStatusDisp::get_message_10(0x23), this->client_index);

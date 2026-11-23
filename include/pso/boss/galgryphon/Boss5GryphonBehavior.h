@@ -5,7 +5,7 @@
 
 struct NJS_OBJECT;
 struct Vec;
-struct GinjaTextureList;
+struct NJS_TEXLIST;
 
 struct TBoss5Gryphon;
 void handle_6x9F_gal_gryphon_boss_actions(void *data);
@@ -45,7 +45,7 @@ extern Boss5GryphonParams *boss5_gryphon_behavior_params[3];
 
 // Gal Gryphon's particle model archive and texture list, loaded with the boss.
 extern BmlResource *boss5_gryphon_bml_resource;
-extern GinjaTextureList *boss5_gryphon_texture_list;
+extern NJS_TEXLIST *boss5_gryphon_texture_list;
 
 // The highest floor the gryphon's ground effects stand on: the lightning, wing and tornado
 // floor probes clamp to it (and use it when there is no floor); a tornado is not spawned above it.

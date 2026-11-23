@@ -38,6 +38,6 @@ TObjNpcSecretaryBase::TObjNpcSecretaryBase(TObject *parent, void *set_data) : TU
     this->apply_set_data(set_data);
     init_position_vectors();
     this->model = (void *)TObjNpcSecretaryBase__static_model_resource->models->model;
-    this->texlist = (saddr)TObjNpcSecretaryBase__static_model_resource->models->texlist;
+    this->texlist = TObjNpcSecretaryBase__static_model_resource->models->texlist;
     this->setup_common();
 }

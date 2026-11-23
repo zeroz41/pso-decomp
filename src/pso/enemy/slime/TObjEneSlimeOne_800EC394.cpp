@@ -59,7 +59,7 @@ int TObjEneSlimeOne::find_nearest_enemy_with_flag(Vec *direction, f32 range) {
 
 void TObjEneSlimeOne::clear_parent_slime() { parent_slime = NULL; }
 
-s16 TObjPlayer::get_attack_stage() { return get_validated_attack_stage((u8 *)&attack_state); }
+s16 TObjPlayer::get_attack_stage() { return attack_state.get_validated_attack_stage(); }
 
 extern f32 TObjEneSlimeOne__target_depth;
 extern u8 TObjEneSlimeOne__target_depth_initialized;
@@ -89,7 +89,7 @@ void SlimeAnimationState::draw(s32 deferred) {
         return;
     }
     if (state < 9) {
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texture_list));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texture_list));
         if (deferred != 0) {
             model_render_flags |= 0x400000;
             set_chunk_render_flags(1);
@@ -107,13 +107,13 @@ void SlimeAnimationState::draw(s32 deferred) {
         clear_chunk_render_flags();
         return;
     }
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texture_list));
+    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texture_list));
     set_motion_packed_rotation();
     if (deferred != 0) {
         model_render_flags |= 0x400000;
         set_chunk_render_flags(1);
         draw_model_motion(model, motion, frame);
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(second_texture_list));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(second_texture_list));
         draw_model_motion(second_model, second_motion, frame);
         clear_chunk_render_flags();
         model_render_flags &= ~0x400000;
@@ -123,7 +123,7 @@ void SlimeAnimationState::draw(s32 deferred) {
         draw_model_motion(model, motion, frame);
         set_cull_front();
         draw_model_motion(model, motion, frame);
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(second_texture_list));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(second_texture_list));
         set_cull_back();
         draw_model_motion(second_model, second_motion, frame);
         set_cull_front();
@@ -163,13 +163,13 @@ void SlimeAnimationState::advance() {
 }
 
 s32 SlimeAnimationState::is_finished() {
-    s32 temp_r0;
+    s32 state;
 
-    temp_r0 = this->state;
-    if (temp_r0 == -1) {
+    state = this->state;
+    if (state == -1) {
         return 1;
     }
-    if (temp_r0 < 7) {
+    if (state < 7) {
         return 0;
     }
     if ((s8) TObjEneSlimeOne__target_depth_initialized == 0) {
@@ -221,7 +221,7 @@ void SlimeAnimationState::set_state(s32 next_state) {
         SlimeShapeMotion *entry = slime_one_motion_state_table + state - 7;
         u32 id = slime_one_attack_target_id_table[owner->get_attack_target()];
         model = (NJS_OBJECT *)get_bml_model(resource, id);
-        texture_list = reinterpret_cast<GinjaTextureList *>(get_bml_texlist(resource, id));
+        texture_list = reinterpret_cast<NJS_TEXLIST *>(get_bml_texlist(resource, id));
         motion = (AnimationMotion *)get_bml_motion(resource, entry->motion);
         shape_motion = (AnimationMotion *)get_bml_motion(resource, entry->shape_motion);
         frame_count = motion->frameCount;
@@ -233,10 +233,10 @@ void SlimeAnimationState::set_state(s32 next_state) {
     BmlResource *resource = reinterpret_cast<BmlResource *>(TObjEneSlimeOne::get_instance());
     SlimePairedMotion *entry = &lbl_80496CB8[owner->get_attack_target()][index];
     model = (NJS_OBJECT *)get_bml_model(resource, entry->model);
-    texture_list = reinterpret_cast<GinjaTextureList *>(get_bml_texlist(resource, entry->model));
+    texture_list = reinterpret_cast<NJS_TEXLIST *>(get_bml_texlist(resource, entry->model));
     motion = (AnimationMotion *)get_bml_motion(resource, entry->motion);
     second_model = (NJS_OBJECT *)get_bml_model(resource, entry->second_model);
-    second_texture_list = reinterpret_cast<GinjaTextureList *>(get_bml_texlist(resource, entry->second_model));
+    second_texture_list = reinterpret_cast<NJS_TEXLIST *>(get_bml_texlist(resource, entry->second_model));
     second_motion = (AnimationMotion *)get_bml_motion(resource, entry->second_motion);
     frame_count = second_motion->frameCount;
     speed = entry->speed;

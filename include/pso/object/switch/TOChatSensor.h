@@ -8,7 +8,7 @@ struct TOChatSensor : public TObjBase {
     TOChatSensor(TObject *parent, void *arg2);
     virtual ~TOChatSensor();
     u32 m_90;
-    u16 m_94;
+    u16 id;
     u8 unk_96[0x2];
     u32 m_98;
     u8 unk_9C[0x4];
@@ -24,7 +24,7 @@ struct TOChatSensor : public TObjBase {
     static void dispatch_chat_message_to_children(saddr arg0);
     static void destroy_global();
     void check_player_proximity();
-    void set_trigger_text(void *arg1);
+    void set_trigger_text(void *trigger_text);
     void handle_chat_message(void *arg1);
     void init_params();
     virtual void render();
@@ -32,9 +32,9 @@ struct TOChatSensor : public TObjBase {
     void send_state();
     void swap_state_endian();
     void init_packet_type();
+    static void *create(void *set_data);
 };
 
 LAYOUT_ASSERT(TOChatSensor_size, sizeof(TOChatSensor) == 0xD0);
-extern "C" void *TOChatSensor__create(void *set);
 
 #endif

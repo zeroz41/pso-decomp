@@ -50,8 +50,8 @@ u8 *fn_803DE864(s32 a, s32 b) {
 
 #pragma push
 #pragma scheduling off
-void xfree(void *arg0) {
-    global_allocator->release(arg0);
+void xfree(void *emitter) {
+    global_allocator->release(emitter);
 }
 #pragma pop
 

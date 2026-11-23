@@ -60,7 +60,7 @@ s32 TLobby::init_gryphon_area() {
     l.c[1] = 0.64f;
     l.c[2] = 0.7f;
     l.c[3] = 0.74f;
-    init_map_lights((u8 *)&l);
+    init_map_lights((LightEntry *)&l);
     TLobby::create_tasks();
     TObjRainCtrl::create();
     TObjBoss5Ctrl::create();

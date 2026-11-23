@@ -29,9 +29,9 @@ TOMineIcon04::TOMineIcon04(TObject *parent, void *set_data) : TOMine(parent) {
     init_position_vectors();
     calc_attach_pos();
     model = (void *)get_bml_model((BmlResource *)lbl_805D5A50, 7);
-    texlist = (saddr)get_bml_texlist((BmlResource *)lbl_805D5A50, 7);
+    texlist = get_bml_texlist((BmlResource *)lbl_805D5A50, 7);
     light_model = (NJS_OBJECT *)get_bml_model((BmlResource *)lbl_805D5A50, 3);
-    light_textures = (GinjaTextureList *)get_bml_texlist((BmlResource *)lbl_805D5A50, 3);
+    light_textures = get_bml_texlist((BmlResource *)lbl_805D5A50, 3);
     mode = 0;
     if (set_params[0] < 0) {
         set_params[0] = 0;
@@ -65,8 +65,8 @@ TOMineIcon04::~TOMineIcon04() {
     free_collision_body_parts(this);
 }
 
-void *TOMineIcon04::create() {
-    return new TOMineIcon04(tl_05, this);
+void *TOMineIcon04::create(void *set_data) {
+    return new TOMineIcon04(tl_05, set_data);
 }
 
 void TOMineIcon04::vfunc_80() {

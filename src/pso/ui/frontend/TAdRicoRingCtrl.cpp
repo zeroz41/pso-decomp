@@ -153,7 +153,7 @@ void TAdRicoRing::set_scale4(f32 value) {
 
 void TAdRicoRing::render() {
     push_matrix();
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(textures));
+    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(textures));
     post_translate_matrix(&position.x);
     rotate_matrix_zyx(NULL, angles[0], angles[1], angles[2]);
     set_chunk_render_flags(1);
@@ -164,32 +164,32 @@ void TAdRicoRing::render() {
     pop_matrix();
 }
 
-void TAdRicoRing::start_anim(f32 farg0) {
+void TAdRicoRing::start_anim(f32 duration) {
     f32 step;
 
     if (test_flags_any(&flags.bits, 2) != 0) {
         flags.clear(2);
     }
     flags.set(1);
-    if (0.0f != farg0) {
-        scale_step[0] = (-1.0f - scale[0]) / farg0;
-        step = (-1.0f - scale[1]) / farg0;
+    if (0.0f != duration) {
+        scale_step[0] = (-1.0f - scale[0]) / duration;
+        step = (-1.0f - scale[1]) / duration;
         scale_step[1] = step;
         scale_step[2] = step;
         scale_step[3] = step;
     }
 }
 
-void TAdRicoRing::start_fade(f32 farg0) {
+void TAdRicoRing::start_fade(f32 duration) {
     f32 step;
 
     if (test_flags_any(&flags.bits, 1) != 0) {
         flags.clear(1);
     }
     flags.set(2);
-    if (0.0f != farg0) {
-        scale_step[0] = (target_scale - scale[0]) / farg0;
-        step = (target_scale - scale[1]) / farg0;
+    if (0.0f != duration) {
+        scale_step[0] = (target_scale - scale[0]) / duration;
+        step = (target_scale - scale[1]) / duration;
         scale_step[1] = step;
         scale_step[2] = step;
         scale_step[3] = step;

@@ -6,6 +6,7 @@
 
 class TObjCMHairMenu : public TObject {
 public:
+    TObjCMHairMenu(TObject *parent);
     CharacterAppearanceFields* appearance;
     s32 initialized, selection, count, ticks, active;
     f32 fade;
@@ -14,7 +15,8 @@ public:
     virtual void render();
     virtual void run_task();
 public:
-    void *create();
+    static TObjCMHairMenu *create(TObject *parent);
 };
+LAYOUT_ASSERT(TObjCMHairMenu_size, sizeof(TObjCMHairMenu) == 0x44);
 
 #endif

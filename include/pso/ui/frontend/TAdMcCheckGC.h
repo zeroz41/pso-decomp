@@ -25,6 +25,8 @@ LAYOUT_ASSERT(TAdMcCheckGC_slot_offset, offsetof(TAdMcCheckGC, card_slot) == 0x2
 LAYOUT_ASSERT(TAdMcCheckGC_warnings_offset, offsetof(TAdMcCheckGC, m_2c) == 0x2C);
 LAYOUT_ASSERT(TAdMcCheckGC_size, sizeof(TAdMcCheckGC) == 0x3C);
 
+void set_tex_coord_gen2(s32 arg0, s32 func, s32 arg2, s32 mtx);
+
 extern "C" {
 extern TAdMcCheckGC *memcard_cursor_instance_table[];
 void TLobby__sub_8033EE38(void *p);

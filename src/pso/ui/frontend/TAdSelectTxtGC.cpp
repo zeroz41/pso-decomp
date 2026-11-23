@@ -1,6 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/ui/frontend/TAdSelectTxtGC.h"
+#include "pso/ui/frontend/TAdSelectTxtSubGC.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/player/TObjPlayer_8023E480.h"
 #include "pso/unk/TLobby.h"
@@ -12,13 +13,13 @@
 // The select screen's text textures, English set then Japanese set. inferred: names from the f256_selectgamen_*
 // texture files they list; TLobby__sub_802A194C picks a set by current_language (0 = Japanese).
 static NJS_TEXNAME select_gamen_eng_texture_names[2] = {
-    {(void *)"f256_selectgamen_a_eng", 0, 0},
-    {(void *)"f256_selectgamen_b_eng", 0, 0},
+    {"f256_selectgamen_a_eng", 0, 0},
+    {"f256_selectgamen_b_eng", 0, 0},
 };
 static NJS_TEXLIST select_gamen_eng_texture_list = {select_gamen_eng_texture_names, 2};
 static NJS_TEXNAME select_gamen_texture_names[2] = {
-    {(void *)"f256_selectgamen_a", 0, 0},
-    {(void *)"f256_selectgamen_b", 0, 0},
+    {"f256_selectgamen_a", 0, 0},
+    {"f256_selectgamen_b", 0, 0},
 };
 static NJS_TEXLIST select_gamen_texture_list = {select_gamen_texture_names, 2};
 // inferred: same <Class>__class_name pattern as the other frontend tasks
@@ -72,7 +73,6 @@ void clear_player_data_block(O_802A15BC *arg0) {
 
 uaddr ad_select_text_texture_handle;
 extern "C" {
-void *__ct__17TAdSelectTxtSubGCFv(void *, void *, void *);
 extern const s32 current_language;
 void release_texture_list(void*);
 
@@ -95,14 +95,9 @@ void TAdSelectTxtGC::reset_slots(TAdSelectTxtLayout *layout, s32 value) {
 }
 
 void TAdSelectTxtGC::run_task() {
-    void *line;
     spawn_count = spawn_count + 1;
     if (spawn_count % 3 == 0 && spawn_count / 3 < 8) {
-        line = TObject::operator new(0x88);
-        if (line != NULL) {
-            line = __ct__17TAdSelectTxtSubGCFv(line, this, &entries[spawn_count / 3]);
-        }
-        lines[spawn_count / 3] = (TObject *)line;
+        lines[spawn_count / 3] = new TAdSelectTxtSubGC(this, &entries[spawn_count / 3]);
     }
 }
 

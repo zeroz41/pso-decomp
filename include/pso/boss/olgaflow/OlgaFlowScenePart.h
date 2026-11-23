@@ -4,12 +4,12 @@
 #include "types.h"
 
 struct AnimationMotion;
-struct GinjaTextureList;
+struct NJS_TEXLIST;
 struct NJS_OBJECT;
 
 struct OlgaFlowScenePart {
     NJS_OBJECT *model;
-    GinjaTextureList *texture;
+    NJS_TEXLIST *texture;
     AnimationMotion *motion;
 };
 

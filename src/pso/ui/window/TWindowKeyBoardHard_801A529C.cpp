@@ -11,17 +11,16 @@
 
 extern "C" {
 u16 to_be_uint16_t__FUs(u16);
-extern void *TLobby__protocol_instance;
 saddr deferred_packet_buffer;
 s32 deferred_packet_buffer_used;
 s32 lbl_805D5D00;
 s32 lbl_805D5D04;
 }
 
-s32 TWindowKeyBoardHard::test_card_flag(s32 arg1, s32 arg2) {
+s32 TWindowKeyBoardHard::test_card_flag(s32 client, s32 arg2) {
     void *character_save_record;
 
-    character_save_record = ((void *)get_character_save_record((u32)arg1));
+    character_save_record = ((void *)get_character_save_record((u32)client));
     if (character_save_record == NULL) {
         return 0;
     }
@@ -56,14 +55,14 @@ void TLobby::drain_deferred_packets() {
         if (p[0] == 0) {
             break;
         }
-        ((TProtocol *)TLobby__protocol_instance)->handle_command((union packet *)p);
+        protocol_instance->handle_command((union packet *)p);
         deferred_packet_buffer_used += n;
     }
 }
 void copy_packet(packet *pkt) {
     s32 len;
 
-    len = (u16) to_be_uint16_t__FUs(*(u16 *)((s8 *)pkt + 2));
+    len = (u16) to_be_uint16_t__FUs(pkt->pkt.header.size);
     if (deferred_packet_buffer_used + len <= 0x10000) {
         memcpy((void *)(deferred_packet_buffer + deferred_packet_buffer_used), pkt, len);
         deferred_packet_buffer_used += len;

@@ -74,15 +74,15 @@ void TBoss6Mine::copy_pos() {
 }
 
 void TBoss6Mine::draw() {
-    s32 temp_r31;
+    s32 texlist;
     AnimationMotion *bml_motion;
     saddr bml_model;
 
     set_motion_packed_rotation();
-    temp_r31 = (saddr)get_bml_texlist(scene_archive, 2);
+    texlist = (saddr)get_bml_texlist(scene_archive, 2);
     bml_model = (saddr)get_bml_model(scene_archive, 2);
     bml_motion = get_bml_motion(scene_archive, 0);
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(temp_r31));
+    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
     TBoss6PlotFalz__sub_802AC008(this->fade_amount, 0.0f);
     draw_model_motion((void *)bml_model, (void *)bml_motion, this->anim_frame);
     TBoss6PlotFalz::update_camera_target();

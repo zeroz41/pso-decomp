@@ -5,6 +5,7 @@
 #include "pso/ui/window/TWindowSubComCard_8007B6D8.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/unk/TLobby.h"
+#include "pso/network/protocol/packet_classes.h"
 
 struct O_8007B6F4 { u8 pad[0x8c]; u8 flags; };
 
@@ -25,7 +26,7 @@ s32 TWindowSubComCard__sub_8007B6F4(O_8007B6F4 *self) {
 
 void TWindowSubComCard::bswap_guild_card() { ((G_ClientIDHeader *)this)->bswap(); ((TWindowSubComCard *)((char*)this + 0x4))->bswap_guild_card_tag(); }
 int TWindowSubComCard::bswap_guild_card_tag() { return bswap__16TPlyGuildCardTagFv(this); }
-void TWindowSubComCard::init_card(void* a1) { bswap_guild_card(); ((TLobby *)this)->send_subcommand_to_client((uaddr)a1); }
+void TWindowSubComCard::init_card(void* client_id) { bswap_guild_card(); ((game_command *)this)->send_to_client((uaddr)client_id); }
 
     extern int com_card_keyboard_mode;
 int TWindowSubComCard::get_keyboard_mode() {  return com_card_keyboard_mode; }

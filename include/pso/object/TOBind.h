@@ -5,23 +5,23 @@
 #include "pso/object/base/TObjMotion.h"
 
 struct AnimationMotion;
-struct GinjaTextureList;
+struct NJS_TEXLIST;
 
 struct TOBind : public TObjCollidable {
     virtual ~TOBind();
     void sub_8015860C();
     u8 unk_AC[0x4];
     u32 m_b0;
-    u32 m_b4;
+    u32 index;
     f32 motion_frame;
     f32 m_bc;
     f32 motion_step;
     NJS_OBJECT *animated_model;
-    GinjaTextureList *animated_textures;
+    NJS_TEXLIST *animated_textures;
     AnimationMotion *motion;
     virtual void run_task();
     virtual void render();
-    static void *create(void *arg0);
+    static void *create(void *set_data);
     static void free_static_model();
     static void load_static_resource();
     f32 draw_distance;

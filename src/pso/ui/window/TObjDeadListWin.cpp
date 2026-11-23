@@ -3,7 +3,6 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/window/TWindowBase.h"
-#include "pso/ui/window/TWindowSubComCard_80244774.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/unk/TLobby.h"
 #include "pso/map/FloorArea.h"
@@ -13,9 +12,9 @@
 #include <string.h>
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/window/WindowLayout.h"
+#include "pso/ui/window/TWindowCtrlMain_8024CB7C.h"
+#include "pso/player/PlayerSlots.h"
 extern "C" {
-saddr get_player_by_client_id(s32);
-s32 has_window_task_root();
 extern s32 local_client_id;
 extern const char TObjDeadListWin_class_name[] = "TObjDeadListWin";
 const char* TObjDeadListWin_name = TObjDeadListWin_class_name;
@@ -46,8 +45,8 @@ void TObjDeadListWin::build_dead_list_window() {
 void TObjDeadListWin::update_countdown() {
     s32 temp_r0;
     saddr player;
-    player = get_player_by_client_id(local_client_id);
-    if ((player == 0) || (((TObjCollidable *)player)->obj_testFlags30(0x02000000) != 0)) {
+    player = (saddr)get_player_by_client_id(local_client_id);
+    if ((player == 0) || (((TObjCollidable *)player)->test_actor_flags(0x02000000) != 0)) {
         queue_destruction();
         return;
     }
@@ -77,14 +76,14 @@ void TObjDeadListWin::refresh_names() {
     me = (u8*)get_player_by_client_id(local_client_id);
     if ((get_current_floor_area() == AREA_PIONEER2_EP1 || get_current_floor_area() == AREA_PIONEER2_EP2)
         && has_window_task_root() != 0 && me != NULL
-        && ((TObjCollidable *)me)->obj_testFlags30(0x02000000) == 0) {
+        && ((TObjCollidable *)me)->test_actor_flags(0x02000000) == 0) {
         build_dead_list_window();
         m_phase = 1;
     }
 }
 
 void TObjDeadListWin::run_task() {
-    if (get_player_by_client_id(local_client_id) == 0U) {
+    if (get_player_by_client_id(local_client_id) == NULL) {
         queue_destruction();
         return;
     }

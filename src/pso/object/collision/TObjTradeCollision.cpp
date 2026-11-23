@@ -21,16 +21,16 @@ s32 is_player_outside_trade_radius__18TObjTradeCollisionFUl(void *, int);
 void TObjTradeCollision::render() {  }
 
 void run_task__18TObjTradeCollisionFv(saddr arg0) {
-    s32 var_r31;
-    var_r31 = 0;
+    s32 i;
+    i = 0;
     do {
-        if (is_player_outside_trade_radius__18TObjTradeCollisionFUl((void *)arg0, (int)var_r31) != 0) {
-            set_trade_range_bit((var_r31));
+        if (is_player_outside_trade_radius__18TObjTradeCollisionFUl((void *)arg0, (int)i) != 0) {
+            set_trade_range_bit((i));
         } else {
-            clear_trade_range_bit((var_r31));
+            clear_trade_range_bit((i));
         }
-        var_r31 += 1;
-    } while (var_r31 < 4);
+        i += 1;
+    } while (i < 4);
 }
 
 }
@@ -46,8 +46,8 @@ TObjTradeCollision::TObjTradeCollision(saddr parent, saddr set_data) : TObjColli
     ((TObject *)(((u8 *)this)))->disallow_rendering();
 }
 
-void *TObjTradeCollision__create(void *arg0) {
-    void *o = (void *)new TObjTradeCollision((saddr)tl_05, (saddr)arg0);
+void *TObjTradeCollision::create(void *set_data) {
+    void *o = (void *)new TObjTradeCollision((saddr)tl_05, (saddr)set_data);
     return o;
 }
 

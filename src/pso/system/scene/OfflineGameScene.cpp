@@ -62,7 +62,7 @@
 #include "pso/ui/window/TWindowGetComCard_8007B54C.h"
 #include "pso/unk/TLobby_8023F734.h"
 #include "pso/ui/chat/TWindowChat_800774C0.h"
-#include "pso/unk/TLobby_80077B60.h"
+#include "pso/network/protocol/choice_search.h"
 #include "pso/unk/TLobby_801C25B4.h"
 #include "pso/object/key/TOKeyJungleMain.h"
 #include "pso/unk/TLobby_802D3970.h"
@@ -89,7 +89,6 @@
 #include "pso/ui/window/TWindowCtrlMain_8024CB7C.h"
 #include "pso/map/area/AreaScene.h"
 #include "pso/unk/text_801F3774.h"
-#include "pso/map/TSetManager_8020D918.h"
 #include "pso/unk/text_800F9B84.h"
 #include "pso/unk/text_800FA260.h"
 #include "pso/unk/TLobby_801F3A24.h"
@@ -104,8 +103,6 @@
 #include "pso/unk/TLobby_800F8AA8.h"
 #include "pso/player/TObjPlayer_801BDF5C.h"
 
-extern "C" {
-}
 
 void TLobby::reset_keyboard_input() { TKeyBoardControl::reset(); TKeyBoardControl__sub_8000F92C(); clear_keyboard_key_state(); TKeyBoardControl__sub_8000F95C(); TLobby::clear_counter(); }
 void TLobby::shutdown_keyboard_control() { TKeyBoardControl::reset(); TLobby::reset_quest_state(); TKeyBoardControl__sub_8000F92C(); clear_keyboard_key_state(); TKeyBoardControl__sub_8000F95C(); TLobby::clear_counter(); }
@@ -208,13 +205,13 @@ FloorResourceCallbacks offline_game_scene_callbacks[48] = {
     {TLobby::set_ending_callback, TLobby::free_ending_callback},
     {TKeyBoardControl__sub_80131F60, TKeyBoardControl__sub_80131F5C},
     {alloc_battle_param_tables, TLobby::free_boss4_rock},
-    {reset_id_counters, TLobby__sub_801A2550},
+    {reset_id_counters, free_id_counters},
     {TObjPlayer::reset, TObjPlayer__sub_80156934},
     {init_scene_fog_system, TFogCtrl::reset},
     {load_light_entry_file, TObjLight::free_shared_data},
     {alloc_quest_download_buffer, TLobby::free_chr_select_singleton},
     {TLobby::load_item_data, TLobby__sub_802083C0},
-    {init_item_drop_tables, TLobby::free_resources},
+    {init_item_drop_tables, free_item_drop_tables},
     {init_item_system, free_item_system},
     {TLobby::create_heap_8000, TLobby::free_heap},
     {TRaderMapCore__sub_801F95CC, TRaderMapCore::free_heap},
@@ -234,7 +231,7 @@ FloorResourceCallbacks offline_game_scene_callbacks[48] = {
     {(FloorResourceCallback)TWindowGetComCard__sub_8007B67C, (FloorResourceCallback)TWindowGetComCard__sub_8007B65C},
     {TLobby__sub_8024285C, TLobby::reset_state},
     {clear_received_symbol_chat, TLobby__sub_80077608},
-    {TLobby__sub_80077BAC, TLobby::free_static_windows},
+    {reset_choice_search_data, free_choice_search_data},
     {TLobby::init_char_slots, TLobby__sub_801C3A40},
     {(FloorResourceCallback)TOKeyJungleMain::init_key_slots, (FloorResourceCallback)TLobby__sub_8029B2A4},
     {(FloorResourceCallback)TLobby__sub_802D39FC, (FloorResourceCallback)TLobby__sub_802D39DC},
@@ -284,7 +281,7 @@ void TLobby::reload_offline_area() {
     TParticleCtrl::create_quad_sprites();
     apply_phase_keyboard_mode();
     TLoadCtrl::start_loading(1);
-    TLobby::init_limits();
+    reset_enemy_and_object_ids();
     TLobby::load_set_gsl_files();
     TLobby::load_set_event_gsl();
     load_battle_param_entry();
@@ -359,7 +356,7 @@ void TLobby::rebuild_area_keep_players() {
         thread->run_task();
     }
     TLobby::set_enemy_mode_flag();
-    TLobby::init_limits();
+    reset_enemy_and_object_ids();
     TLobby::setup_quest_list();
     TQuestListVM::load_vm();
     if (TRaderMapCore::is_not_split_screen() == 1) {
@@ -405,7 +402,7 @@ void run_offline_area_transfer(void) {
     TLobby::create_map_csn_ctrl();
     TParticleCtrl::create_quad_sprites();
     TLoadCtrl::start_loading(2);
-    leader_selection.find_leader_section_id(TLobby__designated_client_id);
+    leader_selection.find_leader_section_id(designated_client_id);
     load_area_scene_and_init((u8 *)&floor_transition_state);
     unlock_main_warp_destination(get_current_floor());
     TLoadCtrl::cleanup_scene();
@@ -580,7 +577,7 @@ void init_offline_game_scene(void) {
     s32 i;
     TObjPlayer *player_data;
     lbl_805D5CE0 = 0;
-    TLobby__lobby_state_flags = 0;
+    lobby_state_flags = 0;
     set_copy_clear_color_argb(0, 0, 0);
     TKeyBoardControl::update();
     reset_controller_input_state();
@@ -589,7 +586,7 @@ void init_offline_game_scene(void) {
     TLobby::create_map_csn_ctrl();
     TParticleCtrl::create_quad_sprites();
     TLoadCtrl::poll_default();
-    TObjPlayer__sub_801B1C8C();
+    TObjPlayer::send_local_player_invisible();
     set_current_floor_area(0);
     TScene::set_scene(0);
     floor_transition_state.init_range(0);
@@ -601,7 +598,7 @@ void init_offline_game_scene(void) {
         TLobby::invoke_callback();
         TLobby::clear_callback_and_reset_keyboard();
         TLoadCtrl::cleanup_scene();
-        TObjPlayer__sub_801B1BA4();
+        TObjPlayer::send_local_player_visible();
         return;
     }
     TLobby::clear_callback_and_reset_keyboard();
@@ -611,9 +608,9 @@ void init_offline_game_scene(void) {
     TLobby__sub_801A2DF8();
     actor_frame_tick = 0;
     local_client_id = 0;
-    TLobby__designated_client_id = 0;
+    designated_client_id = 0;
     TLobby__sub_801A2DF4();
-    leader_selection.find_leader_section_id(TLobby__designated_client_id);
+    leader_selection.find_leader_section_id(designated_client_id);
     load_area_scene_and_init((u8 *)&floor_transition_state);
     TLoadCtrl::cleanup_scene();
     main_task.begin_frame();
@@ -626,7 +623,7 @@ void init_offline_game_scene(void) {
             player_data->reset_motion_fields();
         }
     }
-    TObjPlayer__sub_801B1BA4();
+    TObjPlayer::send_local_player_visible();
     if (quest_area_manager != NULL) {
         new TQuestThread(quest_area_manager, 0);
     }
@@ -652,7 +649,7 @@ void reset_view_count(void) { camera_split_screen_selector = 1; }
 
 void TLobby::clear_quest_state() { lobby_online_ready_flag = 0; }
 
-void TScene::set_scene(int a0) { scene_resource_index = a0; }
+void TScene::set_scene(int scene) { scene_resource_index = scene; }
 
 
 // The global character record. The original's static initializer precedes this

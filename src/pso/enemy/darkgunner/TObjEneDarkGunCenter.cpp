@@ -17,6 +17,7 @@
 #include "pso/player/PlayerSlots.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/object/base/TObjBase.h"
 
 const char *TObjEneDarkGunCenter__name = "TObjEneDarkGunCenter";
 
@@ -126,7 +127,7 @@ void TObjEneDarkGunCenter::gather_gunners() {
         if (gunner != NULL && ((TUnk_804B6C24 *)gunner)->check_value_equals((saddr)TObjEneDarkGunner__class_name) != 0 &&
             parameters[0] == gunner->parameters[0] && room == gunner->room) {
             gunner->center_id = entity_id;
-            gunner_ids[gunner_count++] = get_entity_id(gunner);
+            gunner_ids[gunner_count++] = gunner->get_entity_id();
             if (gunner_count >= 16) {
                 break;
             }

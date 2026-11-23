@@ -1,9 +1,9 @@
 #include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
-#include "pso/boss/barbaray/TBoss7LaserPtcl_8035AE54.h"
 #include "pso/boss/TUnk_804F1C88.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/vector.h"
+#include "pso/player/PhotonChairSeat.h"
 
 TUnk_804F1C88::TUnk_804F1C88(TObject *parent, const Vec *origin) : TObject(parent) {
     hit_body.offset.x = 0.0f;
@@ -26,4 +26,4 @@ TUnk_804F1C88::TUnk_804F1C88(TObject *parent, const Vec *origin) : TObject(paren
 
 void TUnk_804F1C88::destroy_instance() {  }
 void TUnk_804F1C88::load_static_resource() {  }
-void TBoss7LaserPtcl__sub_8035AF14(void) {  }
+void PhotonChairSeat::update() {}

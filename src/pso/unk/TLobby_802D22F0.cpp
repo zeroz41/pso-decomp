@@ -1,6 +1,7 @@
 #include "types.h"
 #include "pso/unk/TLobby_802D22F0.h"
 #include "pso/unk/TLobby.h"
+#include "pso/network/protocol/subcmd_6x.h"
 
 struct E_802D2334 { u32 a; u32 b; };
 
@@ -42,6 +43,9 @@ void TLobby__sub_802D2358(E_802D2358 *p) {
     }
 }
 
-void TLobby::prepare_trade_packet() { *(short*)((char*)this + 0x2) = local_client_id; this->byteswap_trade_packet(); }
+void G_ModifyTradeProposal_6xA6::prepare() {
+    header.client_id = local_client_id;
+    bswap();
+}
 
 }

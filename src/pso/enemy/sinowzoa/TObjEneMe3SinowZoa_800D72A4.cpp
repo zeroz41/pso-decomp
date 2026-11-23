@@ -61,8 +61,8 @@ void TUnk_80494938::reset_color() { this->value = 2.0f; this->color.a = 0.0f; th
 
 void TUnk_80494938::set_rate(f32 new_rate) { this->rate = new_rate; }
 
-void TUnk_80494938::set_rate_from_divisor(s32 arg1) {
-    this->rate = 2.0f / (f32)arg1;
+void TUnk_80494938::set_rate_from_divisor(s32 divisor) {
+    this->rate = 2.0f / (f32)divisor;
 }
 
 #pragma push

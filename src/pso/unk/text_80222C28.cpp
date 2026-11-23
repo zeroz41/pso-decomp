@@ -59,12 +59,12 @@ void TLobby::create_named_lobby_object() {
     if (((s32) lbl_805D6238 < 0) || ((s32) lbl_805D6238 > 9)) {
         lbl_805D6238 = 0;
     }
-    (*(s32 *)&lbl_805D6258) = create_named_object(((s32 *)text_shop_rel_name_table)[current_language]);
+    (*(s32 *)&lbl_805D6258) = create_named_object(text_shop_rel_name_table[current_language]);
 }
 #pragma push
 #pragma scheduling off
-s32 TShopGenerator__sub_80222DAC(s32 client) {
-    return ((is_split_screen() - 1) == 0) ? client : 0;
+u16 get_client_split_screen_slot(u16 client) {
+    return is_split_screen() == 1 ? client : (u16)0;
 }
 #pragma pop
 

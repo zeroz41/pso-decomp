@@ -18,6 +18,7 @@
 #include "pso/unk/text_803D96A8.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/render/render_util.h"
+#include "pso/player/PlayerSlots.h"
 
 extern "C" {
 s32 post_translate_matrix(const Vec *);
@@ -66,14 +67,14 @@ TOExplosiveMachine::TOExplosiveMachine() : TObjBase(tl_05) {
     trigger_radius = 30.0f + scale.x;
     for (s32 i = 0; i < 2; i++) {
         debris_models[i] = NULL;
-        debris_textures[i] = 0;
+        debris_textures[i] = NULL;
     }
 }
 
 TOExplosiveMachine::~TOExplosiveMachine() {
     for (s32 i = 0; i < 2; i++) {
         debris_models[i] = NULL;
-        debris_textures[i] = 0;
+        debris_textures[i] = NULL;
     }
 }
 
@@ -94,7 +95,7 @@ void TOExplosiveMachine::render() {
         push_matrix();
         post_translate_matrix(&position);
         rotate_matrix_y(0, rotation_y);
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
         draw_ginja_object(model);
         pop_matrix();
     }
@@ -103,28 +104,22 @@ void TOExplosiveMachine::render() {
 void TOExplosiveMachine::run_task() {
     for (s32 client = 0; client < TLobby::get_game_mode(); client++) {
         TObjPlayer *player = get_player_by_client_id(client);
-        if (player != NULL && !player->obj_testFlags30(0x800) &&
+        if (player != NULL && !player->test_actor_flags(0x800) &&
             horizontal_distance_squared(&player->position, &position) <= trigger_radius * trigger_radius) {
             const TObjChipParams first = {
-                {0.5f, 0.03f, 0.2f}, {position.x, position.y, position.z}, {3, 5, 3},
-                {0x800, 0x100, 0x800}, {7, 50}, {-100, 1},
+                0.5f, 0.03f, 0.2f, {position.x, position.y, position.z}, {3, 5, 3},
+                {0x800, 0x100, 0x800}, 7, 50, -100, 1,
                 (saddr)debris_models[0], debris_textures[0], 22
             };
             const TObjChipParams second = {
-                {0.5f, 0.03f, 0.2f}, {position.x, position.y, position.z}, {3, 5, 3},
-                {0x800, 0x100, 0x800}, {7, 50}, {-100, 1},
+                0.5f, 0.03f, 0.2f, {position.x, position.y, position.z}, {3, 5, 3},
+                {0x800, 0x100, 0x800}, 7, 50, -100, 1,
                 (saddr)debris_models[1], debris_textures[1], 22
             };
             spawn_particle_effect(&position, 0x45);
             spawn_particle_effect(&position, 0x46);
-            void *chip = TObject::operator new(0x234);
-            if (chip != NULL) {
-                __ct__8TObjChipFP7TObjectPC14TObjChipParams((u8 *)chip, (u8 *)tl_05, (u8 *)&first);
-            }
-            chip = TObject::operator new(0x234);
-            if (chip != NULL) {
-                __ct__8TObjChipFP7TObjectPC14TObjChipParams((u8 *)chip, (u8 *)tl_05, (u8 *)&second);
-            }
+            new TObjChip(tl_05, &first);
+            new TObjChip(tl_05, &second);
             queue_destruction();
             break;
         }
@@ -135,17 +130,17 @@ TOExplosiveMachine01::TOExplosiveMachine01(void *set_data) {
     m_name = TOExplosiveMachine01__class_name;
     apply_object_set_data(set_data);
     model = (void *)get_bml_model((BmlResource *)explosive_machine_model_archive, 0);
-    texlist = (saddr)get_bml_texlist((BmlResource *)explosive_machine_model_archive, 0);
+    texlist = get_bml_texlist((BmlResource *)explosive_machine_model_archive, 0);
     view_radius = ((ExplosiveMachineModel *)((NJS_OBJECT *)model)->model)->radius;
     debris_models[0] = (void *)get_bml_model((BmlResource *)explosive_machine_model_archive, 1);
-    debris_textures[0] = (saddr)get_bml_texlist((BmlResource *)explosive_machine_model_archive, 1);
+    debris_textures[0] = get_bml_texlist((BmlResource *)explosive_machine_model_archive, 1);
     debris_models[1] = (void *)get_bml_model((BmlResource *)explosive_machine_model_archive, 2);
-    debris_textures[1] = (saddr)get_bml_texlist((BmlResource *)explosive_machine_model_archive, 2);
+    debris_textures[1] = get_bml_texlist((BmlResource *)explosive_machine_model_archive, 2);
 }
 
 TOExplosiveMachine01::~TOExplosiveMachine01() {}
 
-void *TOExplosiveMachine01__create(void *set_data) {
+void *TOExplosiveMachine01::create(void *set_data) {
     return new TOExplosiveMachine01(set_data);
 }
 
@@ -153,17 +148,17 @@ TOExplosiveMachine02::TOExplosiveMachine02(void *set_data) {
     m_name = TOExplosiveMachine02__class_name;
     apply_object_set_data(set_data);
     model = (void *)get_bml_model((BmlResource *)explosive_machine_model_archive, 3);
-    texlist = (saddr)get_bml_texlist((BmlResource *)explosive_machine_model_archive, 3);
+    texlist = get_bml_texlist((BmlResource *)explosive_machine_model_archive, 3);
     view_radius = ((ExplosiveMachineModel *)((NJS_OBJECT *)model)->model)->radius;
     debris_models[0] = (void *)get_bml_model((BmlResource *)explosive_machine_model_archive, 4);
-    debris_textures[0] = (saddr)get_bml_texlist((BmlResource *)explosive_machine_model_archive, 4);
+    debris_textures[0] = get_bml_texlist((BmlResource *)explosive_machine_model_archive, 4);
     debris_models[1] = (void *)get_bml_model((BmlResource *)explosive_machine_model_archive, 5);
-    debris_textures[1] = (saddr)get_bml_texlist((BmlResource *)explosive_machine_model_archive, 5);
+    debris_textures[1] = get_bml_texlist((BmlResource *)explosive_machine_model_archive, 5);
 }
 
 TOExplosiveMachine02::~TOExplosiveMachine02() {}
 
-void *TOExplosiveMachine02__create(void *set_data) {
+void *TOExplosiveMachine02::create(void *set_data) {
     return new TOExplosiveMachine02(set_data);
 }
 
@@ -171,17 +166,17 @@ TOExplosiveMachine03::TOExplosiveMachine03(void *set_data) {
     m_name = TOExplosiveMachine03__class_name;
     apply_object_set_data(set_data);
     model = (void *)get_bml_model((BmlResource *)explosive_machine_model_archive, 6);
-    texlist = (saddr)get_bml_texlist((BmlResource *)explosive_machine_model_archive, 6);
+    texlist = get_bml_texlist((BmlResource *)explosive_machine_model_archive, 6);
     view_radius = ((ExplosiveMachineModel *)((NJS_OBJECT *)model)->model)->radius;
     debris_models[0] = (void *)get_bml_model((BmlResource *)explosive_machine_model_archive, 7);
-    debris_textures[0] = (saddr)get_bml_texlist((BmlResource *)explosive_machine_model_archive, 7);
+    debris_textures[0] = get_bml_texlist((BmlResource *)explosive_machine_model_archive, 7);
     debris_models[1] = (void *)get_bml_model((BmlResource *)explosive_machine_model_archive, 8);
-    debris_textures[1] = (saddr)get_bml_texlist((BmlResource *)explosive_machine_model_archive, 8);
+    debris_textures[1] = get_bml_texlist((BmlResource *)explosive_machine_model_archive, 8);
 }
 
 TOExplosiveMachine03::~TOExplosiveMachine03() {}
 
-void *TOExplosiveMachine03__create(void *set_data) {
+void *TOExplosiveMachine03::create(void *set_data) {
     return new TOExplosiveMachine03(set_data);
 }
 #pragma pop

@@ -19,7 +19,7 @@ public:
     static void *create(TObject *parent);
 
     NJS_OBJECT *model;
-    u32 texlist;      // set_texlist before drawing a picture
+    NJS_TEXLIST *texlist; // set_texlist before drawing a picture
     s32 screen;
     s32 screen_timer; // frames until choose_next_screen picks another screen
 };

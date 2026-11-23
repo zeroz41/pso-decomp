@@ -3,6 +3,7 @@
 #ifndef TYPES_H
 #include "types.h"
 #endif
+#include "pso/system/NinjaTypes.h"
 typedef struct GinjaParameter {
   u8 kind;
   u8 reserved[3];
@@ -11,7 +12,8 @@ typedef struct GinjaParameter {
 // A texture's GX image: init_ginja_texture_header fills it from the format word of the texture's source.
 typedef struct GinjaTextureHeader {
   u32 format;
-  u8 reserved04[8];
+  u32 reserved04;
+  u32 reserved08;
   u32 width;
   u32 height;
   u32 size; /* GXGetTexBufferSize of the image */
@@ -24,24 +26,24 @@ typedef struct GinjaSurfaceState {
   s32 ref_count; /* textures sharing this surface; freed at 0 */
 } GinjaSurfaceState;
 typedef struct GinjaTextureState {
-  u8 reserved0[8];
+  u32 reserved00;
+  u32 reserved04;
   u32 tlut_name; /* palette bank for GXInitTexObjCI */
   GinjaSurfaceState *surface;
   s32 ref_count; /* decremented on release, entry cleared at 0 */
   u32 reserved14;
 } GinjaTextureState;
-typedef struct GinjaTextureEntry {
-  char *name;
-  u32 value04;
+// One texture of an NJS_TEXLIST: its name and, once loaded, its texture (or a global index).
+struct NJS_TEXNAME {
+  char *filename;
+  u32 attr;
   union {
+    uaddr texaddr;
     GinjaTextureState *texture;
     u32 global_index;
   };
-} GinjaTextureEntry;
-typedef struct GinjaTextureList {
-  GinjaTextureEntry *entries;
-  u32 count;
-} GinjaTextureList;
+};
+
 // A render context: render_contexts holds six, select_render_context makes one current.
 typedef struct GinjaSceneState {
   u8 reserved0[8];
@@ -51,7 +53,7 @@ typedef struct GinjaSceneState {
   s32 reserved14; /* set to -1 on init and whenever a texture surface is freed */
   u32 tlut_name; /* palette bank of the selected texture */
   u32 reserved1C;
-  GinjaTextureList *textures;
+  NJS_TEXLIST *textures;
   u32 reserved24;
 } GinjaSceneState;
 #endif

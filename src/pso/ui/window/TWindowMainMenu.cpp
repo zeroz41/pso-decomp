@@ -17,19 +17,19 @@
 
 struct TWindowSubItem;
 
-struct TWindowSubMag;
+#include "pso/ui/window/TWindowSubMag.h"
 
-#include "pso/unk/TUnk_804D1160.h"
+#include "pso/ui/window/TCustomizeMenuCtrl.h"
 #include "pso/ui/window/TWindowSubEquip_80277E48.h"
 #include "pso/ui/window/TWindowSubGameEnd.h"
 #include "pso/ui/window/TWindowSubQuestBoard.h"
+#include "pso/ui/window/TWindowSubOption.h"
 #include "pso/ui/chat/TWindowSubSymbolChat_8028239C.h"
 #include "pso/ui/chat/TWindowSubSymbolChat.h"
 #include "pso/ui/window/TWindowSubTechnique.h"
 #include "pso/ui/chat/TWindowSubShortMail.h"
 #include "pso/unk/TUnk_804D1AD0.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
-#include "pso/ui/window/TWindowSubComCard_80244774.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/unk/text_80263A20.h"
 #include "pso/player/TObjPlayer.h"
@@ -54,7 +54,7 @@ extern "C" {
 struct Obj_80263D7C; struct Obj_80263DBC;
 }
 
-struct Elt80263D94_80263d94_80263B70 { s16 f0; s16 f2; s32 f4; };
+struct Elt80263D94_80263d94_80263B70 { s16 f0; s16 id; s32 f4; };
 
 struct Obj_80263D7C { u8 pad[0x50]; s16 f50; u8 pad3[0x5c - 0x52]; s32 f5c; };
 
@@ -69,12 +69,11 @@ s32 select_main_menu_item_10(s32);
 }
 
 #include "pso/ui/window/TWindowMainMenu1P.h"
+#include "pso/player/PlayerSlots.h"
 extern "C" {
 s32 __ct__17TWindowSubAreaMapFP7TObjectPv(int, void *, int);
 s32 __ct__17TWindowSubComCardFP7TObjectPv(int, void *, int);
 s32 __ct__13TWindowSubLogFP7TObjectPv(int, void *, int);
-void *TWindowSubMag__ct(TWindowSubMag *arg0, s32 arg1, s32 arg2);
-s32 __ct__20TWindowSubQuestBoardFP7TObjectPv(int, void *, int);
 s32 __ct__18TWindowSubShortCutFP7TObjectPv(int, void *, int);
 s32 __ct__26TWindowSubInformationBoardFP7TObjectPv(int, void *, int);
 void *__ct__13TUnk_804E0B28FP7TObjectl(void *, void *, void *);
@@ -97,7 +96,7 @@ extern "C" {
 s32 TWindowMainMenu__sub_802ADADC(void *, int);
 s32 append_child_rows__15TWindowMainMenuFPvi(void *, s32);
 u32 create_menu__15TWindowMainMenuFPvPv(void *, int);
-void populate_menu__15TWindowMainMenuFPvPv(u8 *arg0, TWindowMainMenuEntry *arg1);
+void populate_menu__15TWindowMainMenuFPvPv(u8 *window_main_menu, TWindowMainMenuEntry *window_main_menu_entry);
 int park_selection__15TWindowMainMenuFPv(void*);
 }
 
@@ -182,7 +181,7 @@ void TWindowMainMenu::handle_menu_selection() {
     }
 }
 
-void populate_menu__15TWindowMainMenuFPvPv(u8 *window_main_menu, TWindowMainMenuEntry *arg1) {
+void populate_menu__15TWindowMainMenuFPvPv(u8 *window_main_menu, TWindowMainMenuEntry *window_main_menu_entry) {
     s32 flag;
     s16 id;
     s32 i;
@@ -193,8 +192,8 @@ void populate_menu__15TWindowMainMenuFPvPv(u8 *window_main_menu, TWindowMainMenu
         *(s32 *)(window_main_menu + 0x48) = 0x1F;
     }
     w = *(int *)(window_main_menu + 0x1C);
-    for (i = 0; i < 8; i++, arg1++) {
-        id = arg1->id;
+    for (i = 0; i < 8; i++, window_main_menu_entry++) {
+        id = window_main_menu_entry->id;
         if (id == 0x1F) {
             break;
         }
@@ -225,9 +224,9 @@ void TWindowMainMenu::open_menu_with_entry(s16 id) {
 
 void TWindowMainMenu::close() { if (*(unsigned int*)((char*)this + 0x1c) != 0) { ((TWindowBase *)(*(void**)((char*)this + 0x1c)))->close(); *(int*)((char*)this + 0x1c) = 0; } }
 
-void TWindowMainMenu::refresh_submenu(void* a1) { if (*(unsigned int*)((char*)this + 0x1c) != 0) { park_selection__15TWindowMainMenuFPv(*(void**)((char*)this + 0x1c)); ((TWindowMainMenu *)(*(void**)((char*)this + 0x1c)))->clear_menu_flags(); populate_menu__15TWindowMainMenuFPvPv((u8 *)this, (TWindowMainMenuEntry *)(a1)); } }
+void TWindowMainMenu::refresh_submenu(void* window_main_menu_entry) { if (*(unsigned int*)((char*)this + 0x1c) != 0) { park_selection__15TWindowMainMenuFPv(*(void**)((char*)this + 0x1c)); ((TWindowMainMenu *)(*(void**)((char*)this + 0x1c)))->clear_menu_flags(); populate_menu__15TWindowMainMenuFPvPv((u8 *)this, (TWindowMainMenuEntry *)(window_main_menu_entry)); } }
 
-void TWindowMainMenu::close_submenu(void* a1) { if (*(unsigned int*)((char*)this + 0x1c) != 0) { ((TWindowMainMenu *)(*(void**)((char*)this + 0x1c)))->pop_level(); ((TWindowMainMenu *)(*(void**)((char*)this + 0x1c)))->clear_menu_flags(); populate_menu__15TWindowMainMenuFPvPv((u8 *)this, (TWindowMainMenuEntry *)(a1)); } }
+void TWindowMainMenu::close_submenu(void* window_main_menu_entry) { if (*(unsigned int*)((char*)this + 0x1c) != 0) { ((TWindowMainMenu *)(*(void**)((char*)this + 0x1c)))->pop_level(); ((TWindowMainMenu *)(*(void**)((char*)this + 0x1c)))->clear_menu_flags(); populate_menu__15TWindowMainMenuFPvPv((u8 *)this, (TWindowMainMenuEntry *)(window_main_menu_entry)); } }
 
 void TWindowMainMenu::update_submenu() {
     if ((u32) *(u32 *)((s8 *)this + 0x1C) != 0U) {
@@ -249,29 +248,15 @@ void TWindowMainMenu::show_child_window() {
 }
 
 void TWindowMainMenu::create_submenu(u32 id) {
-    s32 temp_r3_10;
-    saddr window_sub_technique;
     s32 temp_r3_13;
     s32 temp_r3_14;
-    saddr temp_r3_15;
     s32 temp_r3_17;
     s32 temp_r3_18;
-    saddr window_sub_game_end;
-    saddr temp_r3_2;
-    saddr window_sub_item;
-    saddr window_sub_mag;
     s32 temp_r3_9;
-    s32 var_r0_10;
-    s32 var_r0_11;
     s32 var_r0_13;
     s32 var_r0_14;
-    s32 var_r0_15;
     s32 var_r0_17;
     s32 var_r0_18;
-    s32 var_r0_19;
-    s32 var_r0_2;
-    s32 var_r0_4;
-    s32 var_r0_5;
     s32 var_r0_9;
     *(s32 *)((s8 *)((u8 *)this) + 0x4C) = (s32) (*(s32 *)((s8 *)((u8 *)this) + 0x4C) | 4);
     destroy_submenu();
@@ -282,33 +267,18 @@ void TWindowMainMenu::create_submenu(u32 id) {
         return;
     case 0:
     case 1:
-        temp_r3_2 = ((saddr)TObject::operator new(0x38));
-        var_r0_2 = temp_r3_2;
-        if (var_r0_2 != 0) {
-            var_r0_2 = (saddr)TWindowSubEquip__sub_80275CB0((void *)temp_r3_2, (this), this->client_index);
-        }
-        this->m_20 = var_r0_2;
+        this->m_20 = (saddr)new TCustomizeMenuCtrl(this, this->client_index);
         return;
     case 9:
     case 10:
         this->m_20 = (saddr)new TWindowSubEquip(this, this->client_index);
         return;
     case 11:
-        window_sub_item = ((saddr)TObject::operator new(0x44));
-        var_r0_4 = window_sub_item;
-        if (var_r0_4 != 0) {
-            var_r0_4 = (saddr)TWindowSubItem__ct((TWindowSubItem *)((void *)window_sub_item), (saddr)this, this->client_index);
-        }
-        this->m_20 = var_r0_4;
+        this->m_20 = (saddr)new TWindowSubItem(this, this->client_index);
         return;
     case 23:
     case 24:
-        window_sub_mag = ((saddr)TObject::operator new(0x50));
-        var_r0_5 = window_sub_mag;
-        if (var_r0_5 != 0) {
-            var_r0_5 = (saddr)TWindowSubMag__ct((TWindowSubMag *)((void *)window_sub_mag), (saddr)this, this->client_index);
-        }
-        this->m_20 = var_r0_5;
+        this->m_20 = (saddr)new TWindowSubMag(this, this->client_index);
         return;
     case 26:
     case 27:
@@ -332,21 +302,11 @@ void TWindowMainMenu::create_submenu(u32 id) {
         return;
     case 15:
     case 16:
-        temp_r3_10 = ((saddr)TObject::operator new(0x30));
-        var_r0_10 = temp_r3_10;
-        if (var_r0_10 != 0) {
-            var_r0_10 = __ct__20TWindowSubQuestBoardFP7TObjectPv(temp_r3_10, this, (int) this->client_index);
-        }
-        this->m_20 = var_r0_10;
+        this->m_20 = reinterpret_cast<saddr>(new TWindowSubQuestBoard(this, reinterpret_cast<void *>(static_cast<saddr>(client_index))));
         return;
     case 3:
     case 4:
-        window_sub_technique = ((saddr)TObject::operator new(0x40));
-        var_r0_11 = window_sub_technique;
-        if (var_r0_11 != 0) {
-            var_r0_11 = (saddr)TWindowSubTechnique__ct((TWindowSubTechnique *)((void *)window_sub_technique), (saddr)this, this->client_index);
-        }
-        this->m_20 = var_r0_11;
+        this->m_20 = (saddr)new TWindowSubTechnique(this, this->client_index);
         return;
     case 18:
         this->m_20 = (saddr)new TWindowSubSymbolChat(this, this->client_index);
@@ -368,16 +328,11 @@ void TWindowMainMenu::create_submenu(u32 id) {
         this->m_20 = var_r0_14;
         return;
     case 6:
-        temp_r3_15 = ((saddr)TObject::operator new(0x30));
-        var_r0_15 = temp_r3_15;
-        if (var_r0_15 != 0) {
-            var_r0_15 = (saddr)TWindowSubQuestBoard__sub_8027CE74((u8 *)temp_r3_15, this, (s32)this->client_index);
-        }
-        this->m_20 = var_r0_15;
+        this->m_20 = (saddr)new TWindowSubOption(this, this->client_index);
         return;
     case 19:
     case 20:
-        this->m_20 = reinterpret_cast<saddr>(new TWindowSubShortMail(this, reinterpret_cast<void *>(static_cast<saddr>(client_index))));
+        this->m_20 = reinterpret_cast<saddr>(new TWindowSubShortMail(this, client_index));
         return;
     case 22:
         temp_r3_17 = ((saddr)TObject::operator new(0x914));
@@ -397,12 +352,7 @@ void TWindowMainMenu::create_submenu(u32 id) {
         return;
     case 7:
     case 8:
-        window_sub_game_end = ((saddr)TObject::operator new(0x2C));
-        var_r0_19 = window_sub_game_end;
-        if (var_r0_19 != 0) {
-            var_r0_19 = (saddr)TWindowSubGameEnd__ct((TWindowSubGameEnd *)((void *)window_sub_game_end), this, this->client_index);
-        }
-        this->m_20 = var_r0_19;
+        this->m_20 = (saddr)new TWindowSubGameEnd(this, this->client_index);
     default:
         return;
     }
@@ -527,7 +477,7 @@ void TWindowMainMenu::add_menu_entry(s16 id) {
     struct Elt80263D94_80263d94_80263B70 *arr = (struct Elt80263D94_80263d94_80263B70 *)this;
     struct Elt80263D94_80263d94_80263B70 *e = (struct Elt80263D94_80263d94_80263B70 *)((char *)&arr[*(s16 *)((s8 *)((u8 *)this) + 0x50)] + 0x28);
     e->f0 = (s16) *(s16 *)((s8 *)((u8 *)this) + 0x52);
-    e->f2 = id;
+    e->id = id;
     e->f4 = (s32) *(s32 *)((s8 *)((u8 *)this) + 0x5C);
 }
 
@@ -577,25 +527,25 @@ s32 TWindowMainMenu::close_active_submenu() {
 
 void TWindowMainMenu::try_open_battle_menu(s16 key) {
     s32 spC;
-    s16 sp8;
+    s16 id;
     TObjPlayer *player;
 
-    sp8 = key;
+    id = key;
     player = get_player_by_client_id(this->client_index);
-    if ((player != 0) && !(*(s32 *)((s8 *)this + 0x4C) & 1) && (filter_menu_entry(&sp8, &spC) != 0) && (spC != 0)) {
+    if ((player != 0) && !(*(s32 *)((s8 *)this + 0x4C) & 1) && (filter_menu_entry(&id, &spC) != 0) && (spC != 0)) {
         *(s32 *)((s8 *)this + 0x4C) = (s32) (*(s32 *)((s8 *)this + 0x4C) | 1);
         *(s32 *)((s8 *)this + 0x5C) = 0;
-        open_menu_with_entry(sp8);
-        this->create_submenu(sp8);
+        open_menu_with_entry(id);
+        this->create_submenu(id);
         ((TObjPlayer *)player)->reset_equip_slots();
         this->on_menu_opened();
     }
 }
 
-void TWindowSubEquip::open_submenu(saddr arg0, s32 arg1) {
+void TWindowSubEquip::open_submenu(saddr window_main_menu, s32 arg1) {
     s32 create_submenu__15TWindowMainMenuFUl(s32, s16);
-    ((TWindowMainMenu *)arg0)->destroy_submenu();
-    create_submenu__15TWindowMainMenuFUl(arg0, (s16)arg1);
+    ((TWindowMainMenu *)window_main_menu)->destroy_submenu();
+    create_submenu__15TWindowMainMenuFUl(window_main_menu, (s16)arg1);
 }
 
 void TWindowMainMenu::set_scale_f() { *(float*)((char*)this + 0x58) = 50300.0f; }

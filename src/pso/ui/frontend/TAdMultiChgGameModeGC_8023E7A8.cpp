@@ -10,6 +10,7 @@
 #include "pso/map/FloorResourceCallbacks.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/ui/TLevelSelect.h"
 #include "pso/system/main_loop.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/effect/particle/TParticleCtrl.h"
@@ -40,7 +41,7 @@
 #include "pso/ui/window/TWindowCtrlMain.h"
 #include "pso/unk/TUnk_804C2298.h"
 #include "pso/ui/frontend/DrawLineResource.h"
-#include "pso/ui/frontend/TAdBackGC_8029A6EC.h"
+#include "pso/ui/frontend/TAdBackGC.h"
 #include "pso/ui/frontend/TAdBackTxtGC.h"
 #include "pso/ui/frontend/TAdChrSelSlotGC.h"
 #include "pso/ui/frontend/TAdEnterPPPPassGC.h"
@@ -79,11 +80,10 @@
 #include "pso/ui/frontend/TAdSelectGameModeGC.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/unk/TLobby_800F8AA8.h"
+#include "pso/unk/TTitleScene.h"
 
 extern "C" {
 u8 *TAdSinglePlyChrSelectGC__ct(u8 *arg0, void *parent);
-void *construct_title_scene__11TTitleSceneFv(void *, TObject *);
-void *__ct__12TLevelSelectFv(void *);
 void run_load_callback_table(void *, s32);
 }
 void clear_resource_load_tasks(void);
@@ -117,8 +117,8 @@ FloorResourceCallbacks game_mode_select_scene_callbacks[23] = {
     {register_texture_f128_ray, TAdRayGC::destroy_instance},
     {fn_802E10D8, TAdChrSelPlayerGC__sub_802E10A0},
     {TAdTimeSetGC::sub_802E34A8, TAdTimeSetGC::sub_802E34A4},
-    {register_texture_f512_multiplay, destroy_instance__17TAdGameStartSubGCFv},
-    {alloc_char_buffers__23TAdSinglePlyChrSelectGCFv, free_callbacks__23TAdSinglePlyChrSelectGCFv},
+    {register_texture_f512_multiplay, TAdGameStartSubGC::destroy_instance},
+    {TAdSinglePlyChrSelectGC::alloc_char_buffers, TAdSinglePlyChrSelectGC::free_callbacks},
     {fn_802FFC7C, fn_802FFC78},
     {load_multi_confirm_textures, free_multi_confirm_textures},
     {register_texture_logo_e, TLogo::free_held_object},
@@ -197,8 +197,8 @@ void TAdMultiChgGameModeGC::set_change_mode_flags() {
     multi_chg_game_mode_state = 1;
     game_mode_scene_change_state = 1;
 }
-void TAdMultiChgGameModeGC::apply_bgm_col_ctrl(saddr name) {
-    if (strcmp((const char *)TLobby::get_current_slot_entry(), (const char *)name) != 0) {
+void TAdMultiChgGameModeGC::apply_bgm_col_ctrl(const char *name) {
+    if (strcmp((const char *)TLobby::get_current_slot_entry(), name) != 0) {
         play_area_music((char *)name);
     }
 }
@@ -335,16 +335,12 @@ void TAdMultiChgGameModeGC::create_mode_scene() {
     case 27:
         break;
     default:
-        TAdMultiChgGameModeGC::apply_bgm_col_ctrl((saddr)"advr.adx");
+        TAdMultiChgGameModeGC::apply_bgm_col_ctrl("advr.adx");
         break;
     }
     switch (multi_chg_game_mode_state) {
     case 0:
-        p = TObject::operator new(0x4C);
-        if (p != NULL) {
-            p = construct_title_scene__11TTitleSceneFv(p, tl_01);
-        }
-        game_mode_scene_instance = (TObject *)p;
+        game_mode_scene_instance = new TTitleScene(tl_01);
         break;
     case 4:
         game_mode_scene_instance = new TAdStorySelectGC(tl_01);
@@ -380,11 +376,7 @@ void TAdMultiChgGameModeGC::create_mode_scene() {
         game_mode_scene_instance = TAdMultiPlyChrSelectGC::get_or_create(tl_01, 1);
         break;
     case 15:
-        p = TObject::operator new(0x68);
-        if (p != NULL) {
-            p = TAdEnterSerialAccessGC__ct((TAdEnterSerialAccessGC *)p, tl_02);
-        }
-        game_mode_scene_instance = (TObject *)p;
+        game_mode_scene_instance = new TAdEnterSerialAccessGC(tl_02);
         break;
     case 16:
         game_mode_scene_instance = new TAdEnterPasswordGC(tl_02);
@@ -427,11 +419,7 @@ void TAdMultiChgGameModeGC::create_mode_scene() {
         game_mode_scene_instance = new TAdEp3Exist(tl_01);
         break;
     case 1:
-        p = TObject::operator new(0x28);
-        if (p != NULL) {
-            p = __ct__12TLevelSelectFv(p);
-        }
-        game_mode_scene_instance = (TObject *)p;
+        game_mode_scene_instance = new TLevelSelect();
         break;
     case 3:
         game_mode_scene_instance = new TUnk_804C2298();
@@ -493,11 +481,11 @@ void init_game_mode_select_scene(void) {
     }
     TLobby::clear_callback_and_reset_keyboard();
     TParticleCtrl::init_heap(0x100000);
-    init_menu_scene_lights((u8 *)default_scene_light_config, 4);
-    TObjLight__scene_light_state.direction.y = -1.0f * sin_table_lookup(0x1555);
+    init_menu_scene_lights(&default_scene_light_config, 4);
+    scene_light_state.direction.y = -1.0f * sin_table_lookup(0x1555);
     c = cos_table_lookup(0x1555);
-    TObjLight__scene_light_state.direction.x = c * sin_table_lookup(0x9000);
-    TObjLight__scene_light_state.direction.z = c * cos_table_lookup(0x9000);
+    scene_light_state.direction.x = c * sin_table_lookup(0x9000);
+    scene_light_state.direction.z = c * cos_table_lookup(0x9000);
     new TCameraCtrl(tl_camera);
     {
         Vec eye = game_mode_scene_camera_eye;
@@ -537,7 +525,7 @@ void run_game_mode_select_frame(void) {
     main_task.render_screen_overlay();
     process_async_file_reads();
     update_sound_request_slots();
-    run_save_load_sequence__23TAdSinglePlyChrSelectGCFv();
+    TAdSinglePlyChrSelectGC::run_save_load_sequence();
     TAdSinglePlyChrSelectGC::noop();
     if (TAdPlayerLoadGC::get_instance() == 0) {
         if (func_801A5E54__Fv() != 0) {

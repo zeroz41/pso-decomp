@@ -3,6 +3,7 @@
 #include "types.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/unk/text_80066F5C.h"
 
 #pragma readonly_strings on
 
@@ -13,7 +14,7 @@ const char *TObjBoss5FloorStone__name = "TObjBoss5FloorStone";
 
 void TObjBoss5FloorStone::render() {
     if (TObjPlayer::is_any_teammate_in_state() == 0) {
-        ((TObjBoss5FloorStone *)boss5_common_texture_list)->render_impl((void*)(*(saddr *)((s8 *)(*(void **)((s8 *)lbl_805D4DD8 + 0x42C)) + 0x58)));
+        draw_shadowed_object((NJS_TEXLIST *)boss5_common_texture_list, (NJS_OBJECT *)(*(saddr *)((s8 *)(*(void **)((s8 *)lbl_805D4DD8 + 0x42C)) + 0x58)));
     }
 }
 

@@ -220,18 +220,18 @@ void pap_input(PppFsm *self, PppFrame *source) {
 
 #pragma pop
 
-s32 TLobby__sub_80403168(u8 *arg0, u8 *pap_password, u8 *ppp_fsm) {
+s32 TLobby__sub_80403168(u8 *source, u8 *pap_password, u8 *ppp_fsm) {
     PppPapAuthenticationState *g;
     PapOptions *opts;
     u32 n;
     u32 m;
     opts = (PapOptions *)((PppFsm *)ppp_fsm)->opts;
     g = &ppp_pap_authentication_state;
-    n = NetStringLength((const char *)(arg0));
+    n = NetStringLength((const char *)(source));
     if (n >= 0x80) {
         n = 0x7F;
     }
-    NetMemcpy(g->peer_id, arg0, n);
+    NetMemcpy(g->peer_id, source, n);
     g->peer_id[n] = 0;
     m = NetStringLength((const char *)(pap_password));
     if (m >= 0x80) {

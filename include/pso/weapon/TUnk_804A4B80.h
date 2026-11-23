@@ -2,6 +2,7 @@
 #define PSO_WEAPON_TUNK_804A4B80_H
 #include "types.h"
 #include "pso/weapon/TItemWeapon.h"
+#include "pso/player/CapturedTargetList.h"
 
 class TUnk_804A4B80 : public TItemWeapon {
 public:
@@ -10,7 +11,7 @@ public:
     void heaven_punisher_strike_locks();
     virtual void emit_marker_effects();
 
-    u32 captured_targets[11];
+    CapturedTargetList captured_targets;
     Vec captured_muzzle;
 };
 

@@ -5,8 +5,8 @@
 #include "pso/system/task/TMainTask.h"
 
 extern "C" {
-void *TJudgmentSequence::create(void *arg0) {
-    return new TJudgmentSequence(tl_05, (TObjPlayer *)arg0);
+void *TJudgmentSequence::create(void *player) {
+    return new TJudgmentSequence(tl_05, (TObjPlayer *)player);
 }
 }
 

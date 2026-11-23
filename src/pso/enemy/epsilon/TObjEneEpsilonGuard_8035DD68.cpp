@@ -37,6 +37,7 @@ struct NJS_OBJECT;
 #include "pso/system/task/TMainTask.h"
 #include "pso/object/trap/TOTrapAncient01_80226534.h"
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
+#include "pso/object/base/TObjBase.h"
 
 u8 *epsilon_guard_boss_stat_handle;
 u8 *epsilon_guard_shared_handler_b;
@@ -144,7 +145,7 @@ void TObjEneEpsilonGuard::render_guard_effect() {
     f32 scale;
 
     if ((flags & 0x20) && ((s32)main_task.get_task_flags() & 0x200)) {
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
         push_matrix();
         post_translate_matrix(&position.x);
         translate_matrix(0, 0.0f, 24.0f, 0.0f);
@@ -192,7 +193,7 @@ void TObjEneEpsilonGuard::render_with_fade(s32 detail) {
         return;
     }
     this->update_secondary_light();
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(this->texlist));
+    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
     push_matrix();
     post_translate_matrix(&this->position.x);
     translate_matrix(0, 0.0f, 24.0f, 0.0f);
@@ -551,7 +552,7 @@ void TObjEneEpsilonGuard::update_guard_state() {
             }
         } else {
             current_target = (TObjChara *)body;
-            target_id = get_entity_id(current_target);
+            target_id = current_target->get_entity_id();
             enemy_copy_target_destination();
             update_effect_attack();
         }
@@ -685,7 +686,7 @@ TObjEneEpsilonGuard::~TObjEneEpsilonGuard() {
 void TObjEneEpsilonGuard::init_model_and_state() {
     init_position_vectors();
     model = (void *)get_bml_model(epsilon_bml_resource, 2);
-    texlist = (saddr)get_bml_texlist(epsilon_bml_resource, 0);
+    texlist = get_bml_texlist(epsilon_bml_resource, 0);
     init_model(TObjEneEpsilonGuard__model_desc, 1);
     set_action_table((saddr)epsilon_guard_action_table);
     set_motion_list((saddr)epsilon_bml_resource->motions);
@@ -721,7 +722,7 @@ TObjEneEpsilonGuard::TObjEneEpsilonGuard(TObject *parent, TObjEneEpsilonBody *bo
     : TObjEneEpsilon(parent) {
     s32 i;
     m_name = TObjEneEpsilonGuard__class_name;
-    body_id = get_entity_id(body);
+    body_id = body->get_entity_id();
     init_common_from((u8 *)body);
     this->entity_id = entity_id;
     this->set_index = set_index;

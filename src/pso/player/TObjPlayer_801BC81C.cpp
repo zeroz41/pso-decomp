@@ -10,13 +10,18 @@
 #include "pso/unk/TLobby.h"
 #include "pso/player/TObjPlayer_801BCD28.h"
 #include "pso/system/task/TObject.h"
+#include "pso/player/TPlyDispData.h"
+#include "pso/object/base/TObjBase.h"
+#include "pso/ui/window/TWindowActionPalette_801C1890.h"
+#include "pso/player/TObjPlayer_801BF978.h"
+#include "pso/player/TObjPlayer_801C1FF8.h"
 
 
 extern "C" {
 
-void TObjPlayer::init_battle() {
+void TObjPlayer::init_battle(void *data) {
     saddr arg0 = (saddr)this;
-    ((s32 (*)())TObjPlayer__sub_801BC8F0)();
+    assign_owner_ids();
     ::set_flag_400000(this);
     ((TObjPlayer *)(arg0 + 0x634))->enter_battle_state();
 }
@@ -59,24 +64,20 @@ typedef struct Player_801BC948 {
 } Player_801BC948;
 
 extern "C" {
-s32 get_entity_id(void *);
-s32 TObjPlayer__sub_801BF9E0(void *, int);
-s32 set_field2_s16(void *, s32);
 s32 get_class_index__10TObjPlayerFv(void *);
 void TObjPlayer__sub_801BEF44(void *, void *);
-void TObjPlayer__sub_801C1F78(void *, s32);
 void clamp_and_set_unit_value__10TObjPlayerFiUci(void *, u8, s16);
 void TObjPlayer__sub_801D955C(void *, s32);
 void init_session_technique_caps__10TObjPlayerFPvPv(Player_801BC948 *self, Src_801BC948 *src);
 
-void TObjPlayer__sub_801BC8F0(saddr arg0) {
-    TObjPlayer__sub_801BF9E0((void *)(arg0 + 0x634), (int) (get_entity_id((void *)arg0)));
-    ((TObjPlayer *)(arg0 + 0x384))->update_follow_particle(arg0);
-    set_field2_s16((void *)(arg0 + 0x34C), (get_entity_id((void *)arg0)));
+void TObjPlayer::assign_owner_ids() {
+    TObjPlayer__sub_801BF9E0((void *)(((saddr)this) + 0x634), this->get_entity_id());
+    ((TObjPlayer *)(((saddr)this) + 0x384))->update_follow_particle(((saddr)this));
+    this->chair_seat.set_owner_id(this->get_entity_id());
 }
 void init_session_technique_caps__10TObjPlayerFPvPv(Player_801BC948 *self, Src_801BC948 *src) {
     s32 i;
-    TObjPlayer__sub_801C1F78(self->f4ac, get_entity_id(self));
+    TObjPlayer__sub_801C1F78(self->f4ac, ((TObjBase *)(self))->get_entity_id());
     TObjPlayer__sub_801D955C(self->techs, get_class_index__10TObjPlayerFv(self));
     ((TObjPlayer *)(self->techs))->copy_all_technique_entries((void *)0x1D);
     for (i = 0; i < 0x13; i++) {
@@ -87,14 +88,14 @@ void init_session_technique_caps__10TObjPlayerFPvPv(Player_801BC948 *self, Src_8
     }
 }
 
-void TObjPlayer__sub_801BCA0C(void) {  }
-void TObjPlayer__sub_801BCA10(void) {  }
+void TObjPlayer::reset_technique_caps() {  }
+void TObjPlayer::release_technique_caps() {  }
 
 s32 get_record_byte_at(void *, s32);
 
 void TObjPlayer__sub_801BCA14(u8 *player, void *arg1) {
     s32 i;
-    TObjPlayer__sub_801C1F78(player + 0x4AC, ((s32 (*)())get_entity_id)());
+    TObjPlayer__sub_801C1F78(player + 0x4AC, ((TObjBase *)player)->get_entity_id());
     TObjPlayer__sub_801D955C(player + 0x428, get_class_index__10TObjPlayerFv(player));
     ((TObjPlayer *)(player + 0x428))->copy_all_technique_entries((void *)0x1D);
     i = 0;
@@ -116,12 +117,10 @@ void TObjPlayer::update_state() {
         this->apply_state_transform();
     }
 }
-void TObjPlayer__sub_801BCB28(void) {  }
+void TObjPlayer::release_area_sync() {  }
 void TObjPlayer::update_if_active() { if (is_script_controlled() != 0) { sync_current_area(); sync_current_floor(); } }
 
-s32 TObjPlayer__sub_801B2014(void *);
-s32 TObjPlayer__sub_801BEB68(void *, void *);
-saddr TObjPlayer__sub_801BEB8C(void *);
+u8 TObjPlayer__sub_801BEB8C(void *);
 u8 TObjPlayer__sub_801BEBB8(void *);
 u8 TObjPlayer__sub_801BEBE4(void *);
 u8 TObjPlayer__sub_801BEC10(void *);
@@ -134,26 +133,26 @@ void TObjPlayer::load_char_data(u8 *arg1) {
     this->set_field_374_state(TObjPlayer__sub_801BEC10(arg1));
     this->set_inventory_state(TObjPlayer__sub_801BEBE4(arg1));
     this->set_equip_flags(TObjPlayer__sub_801BEBB8(arg1));
-    TObjPlayer__sub_801BEB68(this, (void *) (TObjPlayer__sub_801BEB8C(arg1)));
+    this->set_luck_materials_used(TObjPlayer__sub_801BEB8C(arg1));
     this->init_player_data(arg1 + 0x118);
     this->hp = (s16) *(s16 *)((s8 *)arg1 + 0x22);
-    TObjPlayer__sub_801B2014(this);
+    resend_status_effects();
 }
 
 int TObjPlayer::can_cast_technique() { return TObjPlayer::check_technique_castable((saddr)this); }
-void TObjPlayer__sub_801BCC50(void) {  }
+void TObjPlayer::release_char_data() {  }
 
 
 extern const f32 TObjPlayer__data_805DC28C;
 
 void TObjPlayer::init_player_data(void *src) {
     u8 *arg0 = (u8 *)this;
-    f32 temp_f31;
+    f32 proportions;
     f32 yscale;
 
-    temp_f31 = this->base_stats.proportions;
+    proportions = this->base_stats.proportions;
     TLobby::copy_data(&this->base_stats, src);
-    this->base_stats.proportions = temp_f31;
+    this->base_stats.proportions = proportions;
     this->stat_block = &this->base_stats;
     this->apply_input_mode();
     this->set_move_mode_from_class_flags();
@@ -167,8 +166,8 @@ void TObjPlayer::init_player_data(void *src) {
 
 int TObjPlayer__sub_801BEF60(void*, int);
 
-int TObjPlayer::is_flag_set_550() { return TObjPlayer__sub_801BEF60((char*)this + 0x550, 0); }
-void TObjPlayer__sub_801BCD50(void) {  }
-void TObjPlayer__sub_801BCD54(void) {  }
+int TObjPlayer::is_flag_set_550(void *data) { return TObjPlayer__sub_801BEF60((char*)this + 0x550, 0); }
+void TObjPlayer::reset_pad_binding() {  }
+void TObjPlayer::release_pad_binding() {  }
 
 }

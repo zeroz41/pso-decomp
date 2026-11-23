@@ -1,6 +1,6 @@
 #include "pso/system/NinjaTypes.h"
-#include "pso/player/TUnk_804F29F8.h"
-#include "pso/player/TUnk_804F2A10.h"
+#include "pso/player/TEquippedItemDrawTask.h"
+#include "pso/player/TEquippedWeaponDrawTask.h"
 #include "types.h"
 #include "pso/item/TItem.h"
 #include "pso/ui/hud/TRaderMapCore.h"
@@ -21,14 +21,9 @@
 #pragma defer_codegen on
 
 extern "C" {
-void* init_vtable_804F2A10__13TUnk_804F2A10Fv(void*);
-extern s32 __vt__13TUnk_804F29F8[];
-extern s32 __vt__13TUnk_804F2A10[];
 u8 * lbl_805D6FB8;
 EquippedItemDrawQueue *player_item_id_list;
-int __ct__7TObjectFP7TObject(void);
 extern u8 *lbl_805D6FB8;
-void* init_vtable_804F2A10__13TUnk_804F2A10Fv(void* a0);
 }
 
 struct VBase_18_1419ea { char pad[0x18]; };
@@ -87,11 +82,11 @@ void reset_id_array__10TObjPlayerFPv(void *arg0) {
 }
 
 void TObjPlayer::push_to_list(s32 id) {
-    s32 temp_r0;
+    s32 motion_flags;
 
-    temp_r0 = this->motion_flags;
-    if (temp_r0 < 0x20) {
-        ((struct Elt80364258_80364258 *)(((u8 *)this) + 0x30))[temp_r0].f0 = id;
+    motion_flags = this->motion_flags;
+    if (motion_flags < 0x20) {
+        ((struct Elt80364258_80364258 *)(((u8 *)this) + 0x30))[motion_flags].f0 = id;
         this->motion_flags = (this->motion_flags + 1);
     }
 }
@@ -113,14 +108,14 @@ void TObjPlayer::free_global_805D6FB8() {
     }
 }
 
-void TObjPlayer__sub_80364198(void) {
+void TObjPlayer::save_model_render_state() {
     *(s32 *)((s8 *)(*(u8 * *)&(*(void **)&lbl_805D6FB8)) + 0) = (s32) model_render_flags;
     copy_argb((NJS_ARGB *)((*(u8 * *)&(*(void **)&lbl_805D6FB8)) + 0xC), &model_material_color);
     *(s32 *)((s8 *)(*(u8 * *)&(*(void **)&lbl_805D6FB8)) + 4) = (s32) chunk_polygon_flags_and_mask;
     *(s32 *)((s8 *)(*(u8 * *)&(*(void **)&lbl_805D6FB8)) + 8) = (s32) chunk_polygon_flags_or_mask;
 }
 
-void TObjPlayer__sub_8036414C(void) {
+void TObjPlayer::restore_model_render_state() {
     model_render_flags = *(s32 *)((s8 *)(*(u8 * *)&(*(void **)&lbl_805D6FB8)) + 0);
     copy_argb(&model_material_color, (NJS_ARGB *)((*(u8 * *)&(*(void **)&lbl_805D6FB8)) + 0xC));
     chunk_polygon_flags_and_mask = *(s32 *)((s8 *)(*(u8 * *)&(*(void **)&lbl_805D6FB8)) + 4);
@@ -157,15 +152,9 @@ void TObjPlayer::warn_if_gauge_low() {
     }
 }
 
-#define init_vtable_804F2A10__13TUnk_804F2A10Fv ((void * (*)(void *, void *))init_vtable_804F2A10__13TUnk_804F2A10Fv)
 void TObjPlayer::spawn_cleanup_helper(void *arg0) {
-    void *o;
-    o = TObject::operator new(0x1C);
-    if (o != NULL) {
-        init_vtable_804F2A10__13TUnk_804F2A10Fv(o, arg0);
-    }
+    new TEquippedWeaponDrawTask((TObject *)arg0);
 }
-#undef init_vtable_804F2A10__13TUnk_804F2A10Fv
 
 
 void TObjPlayer::push_id_to_list(s32 id) {
@@ -174,23 +163,25 @@ void TObjPlayer::push_id_to_list(s32 id) {
     }
     ((TObjPlayer *)(*(void **)&lbl_805D6FB8))->push_to_list(id);
 }
-void*TUnk_804F2A10::init_vtable_804F2A10() { __ct__7TObjectFP7TObject(); *(int*)((char*)this + 0x18) = (saddr)__vt__13TUnk_804F2A10; reset_id_array__10TObjPlayerFPv((void*)((*(saddr *)&lbl_805D6FB8))); return this; }
+TEquippedWeaponDrawTask::TEquippedWeaponDrawTask(TObject *parent) : TObject(parent) {
+    reset_id_array__10TObjPlayerFPv(lbl_805D6FB8);
+}
 
-TUnk_804F2A10::~TUnk_804F2A10() {
+TEquippedWeaponDrawTask::~TEquippedWeaponDrawTask() {
 
 }
 
 
-void TUnk_804F2A10::run_task() {
+void TEquippedWeaponDrawTask::run_task() {
     NJS_OBJECT *model;
-    GinjaTextureList *texture;
+    NJS_TEXLIST *texture;
 
     TItemLoad::get_drop_model(5, &model, &texture);
     if (model != NULL) {
         scroll_item_model_uvs(model->child, 2, 2, 0xB);
     }
 }
-void TUnk_804F2A10::render() {
+void TEquippedWeaponDrawTask::render() {
     s32 *p;
     s32 n;
     VObj_18_1419ea *obj;
@@ -239,23 +230,19 @@ void TObjPlayer::free_static_buffer() {
         (*(u32 *)&player_item_id_list) = 0U;
     }
 }
-#define TObjPlayer__sub_80363C5C ((void * (*)(void *, void *))TObjPlayer__sub_80363C5C)
 void TObjPlayer::create_cleanup_object(void *arg0) {
-    void *o;
-    o = TObject::operator new(0x1C);
-    if (o != NULL) {
-        TObjPlayer__sub_80363C5C(o, arg0);
-    }
+    new TEquippedItemDrawTask((TObject *)arg0);
 }
-#undef TObjPlayer__sub_80363C5C
-void* TObjPlayer__sub_80363C5C(void* a0) { __ct__7TObjectFP7TObject(); *(int*)((char*)a0 + 0x18) = (saddr)__vt__13TUnk_804F29F8; reset_id_array__10TObjPlayerFPv((void*)player_item_id_list); return a0; }
+TEquippedItemDrawTask::TEquippedItemDrawTask(TObject *parent) : TObject(parent) {
+    reset_id_array__10TObjPlayerFPv(player_item_id_list);
+}
 
-TUnk_804F29F8::~TUnk_804F29F8() {
+TEquippedItemDrawTask::~TEquippedItemDrawTask() {
 
 }
 
 
-void TUnk_804F29F8::run_task() { reset_id_array__10TObjPlayerFPv((void*)player_item_id_list); }
+void TEquippedItemDrawTask::run_task() { reset_id_array__10TObjPlayerFPv((void*)player_item_id_list); }
 
 struct DrawPrefix { u8 prefix[0x18]; };
 
@@ -288,7 +275,7 @@ struct DrawTarget : DrawPrefix {
 };
 
 
-void TUnk_804F29F8::render() {
+void TEquippedItemDrawTask::render() {
     set_default_alpha_blend();
     saved_model_render_flags = model_render_flags;
     saved_chunk_polygon_flags_and_mask = chunk_polygon_flags_and_mask;

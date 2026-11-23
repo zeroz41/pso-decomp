@@ -22,8 +22,6 @@
 #include "pso/render/MaterialColorFade.h"
 #include "pso/boss/derolle/TBoss2DeRolLe.h"
 #include "pso/render/ChunkMaterialState.h"
-#include "pso/unk/text_80153674.h"
-#include "pso/unk/text_80153A7C.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/unk/text_803E2D70.h"
 #include "pso/enemy/dd/TObjEneDD.h"
@@ -31,6 +29,8 @@
 #include "pso/network/client_id.h"
 #include "pso/ui/TLevelSelect.h"
 #include "pso/system/MatrixOps.h"
+#include "pso/object/base/TObjBase.h"
+#include "pso/player/PlayerSlots.h"
 
 
 const char *TObjFogCollision__name = "TObjFogCollision";
@@ -52,7 +52,6 @@ struct O_80153D98 { u8 pad[0x88]; s32 mode; };
 
 extern "C" {
 
-void *TObjFogCollision__create(void *set);
 
 void record_fog_collision_hit(s32 arg0, s32 arg1, s32 arg2);
 u8 is_current_floor_switch_set(u16);
@@ -69,11 +68,10 @@ extern s32 chunk_polygon_flags_and_mask;
 extern s32 model_render_flags;
 
 f32 horizontal_distance_squared(void *, s32);
-s32 get_player_by_client_id(u16);
 s32 is_split_screen();
 
 // Function definitions in reverse address order (-inline deferred emits them reversed).
-void *TObjFogCollision__create(void *set) {
+void *TObjFogCollision::create(void *set) {
     void *o = (void *)new TObjFogCollision(tl_05, set);
     return o;
 }
@@ -91,9 +89,10 @@ TObjFogCollision::~TObjFogCollision() {
 
 }
 
+int TObjFogCollision::debug_text_enabled() { return 0; }
+int TObjFogCollision::debug_draw_enabled() { return 0; }
 
-int TObjFogCollision__sub_80153F70(void *self) { return 0; }
-int TObjFogCollision__sub_80153F68(void *self) { return 0; }
+
 
 void TObjFogCollision::vfunc_13(s32) {
     s32 temp_r0;
@@ -108,15 +107,15 @@ void TObjFogCollision::vfunc_13(s32) {
 }
 
 s32 TObjFogCollision::check_collision(u16 client) {
-    f32 temp_f0;
+    f32 x;
     f32 temp_f1;
     f32 temp_f31;
     s32 player;
 
-    player = get_player_by_client_id((u16)client);
+    player = (saddr)get_player_by_client_id(client);
     if (player != 0) {
-        temp_f0 = this->scale.x;
-        temp_f31 = temp_f0 * temp_f0;
+        x = this->scale.x;
+        temp_f31 = x * x;
         temp_f1 = horizontal_distance_squared((u8 *)&this->position, player + 0x38);
         if (temp_f31 > temp_f1) {
             return 1;
@@ -132,7 +131,7 @@ block_5:
 
 void TObjFogCollision::run_task() {
     u16 i;
-    if (TObjFogCollision__sub_80153F70(this) == 0 && TObjFogCollision__sub_80153F68(this) == 0) {
+    if (debug_text_enabled() == 0 && debug_draw_enabled() == 0) {
         for (i = 0; i != 4; i++) {
             if (check_collision(i) != 0) {
                 record_fog_collision_hit(i, this->set_params[0], this->set_params[1] == 0);
@@ -153,11 +152,10 @@ void TObjFogCollision::vfunc_14() {
 }
 
 void TObjFogCollision::render() {
-    u8 *arg0 = (u8 *)this;
-    if (((s32)TObjFogCollision__sub_80153F70(this)) != 0) {
+    if (debug_text_enabled() != 0) {
         this->vfunc_14();
     }
-    if (((s32)TObjFogCollision__sub_80153F68(arg0)) != 0) {
+    if (debug_draw_enabled() != 0) {
         this->draw_volume();
     }
 }
@@ -201,7 +199,7 @@ void TObjFogCollision::draw_volume() {
     }
 }
 
-void *TObjFogCollisionSwitch__create(void *set) {
+void *TObjFogCollisionSwitch::create(void *set) {
     return new TObjFogCollisionSwitch(tl_05, set);
 }
 
@@ -234,15 +232,15 @@ s32 TObjFogCollisionSwitch::get_switch_mode() {
     return this->scale.z >= 1.0f;
 }
 
-void run_task__22TObjFogCollisionSwitchFv(TObjFogCollisionSwitch *arg0) {
+void TObjFogCollisionSwitch::run_task() {
     s32 st;
     u16 i;
-    if (TObjFogCollision__sub_80153F70(arg0) == 0 && TObjFogCollision__sub_80153F68(arg0) == 0) {
-        st = arg0->get_switch_mode();
-        if (st == is_current_floor_switch_set(arg0->set_params[2])) {
+    if (debug_text_enabled() == 0 && debug_draw_enabled() == 0) {
+        st = get_switch_mode();
+        if (st == is_current_floor_switch_set(set_params[2])) {
             for (i = 0; i != 4; i++) {
-                if (((TObjFogCollision *)arg0)->check_collision(i) != 0) {
-                    record_fog_collision_hit(i, arg0->set_params[0], *(s32 *)((s8 *)arg0 + 0x88) == 0);
+                if (check_collision(i) != 0) {
+                    record_fog_collision_hit(i, set_params[0], set_params[1] == 0);
                 }
             }
         }
@@ -260,7 +258,7 @@ void TObjFogCollisionSwitch::vfunc_14() {
     debug_printf_at(0x130022, "SwitchID:%3d", this->set_params[2]);
 }
 
-void *create__22TObjFogCollisionPoisonFPv(void *set) {
+void *TObjFogCollisionPoison::create(void *set) {
     return new TObjFogCollisionPoison(tl_05, set);
 }
 
@@ -306,11 +304,11 @@ void TObjFogCollisionPoison::vfunc_13(s32) {
     *(s32 *)&this->m_98 = (s32) ((f32) *(s32 *)&this->m_98 * var_f2);
 }
 
-void run_task__22TObjFogCollisionPoisonFv(void *self) {
-    if (TObjFogCollision__sub_80153F70(self)) {
+void TObjFogCollisionPoison::run_task() {
+    if (debug_text_enabled()) {
         return;
     }
-    if (TObjFogCollision__sub_80153F68(self)) {
+    if (debug_draw_enabled()) {
         return;
     }
 }
@@ -325,8 +323,7 @@ const char *TObjFogCollision_Manager__name = "TObjFogCollision_Manager";
 TObjFogCollision_Manager *TObjFogCollisionPoison__instances[12];
 
 extern "C" {
-s32 get_entity_id(s32);
-s32 send_6x2F_change_player_hp(s32, s32, s16);
+s32 send_6x2F_change_player_hp(s32, u16, s16);
 s32 play_sound_effect(s32, s32, s32, s32);
 }
 
@@ -346,18 +343,18 @@ void TObjFogCollisionPoison__sub_801535D0(s32 arg0) {
     }
 }
 
-void TObjFogCollisionPoison__sub_80153520(s32 arg0) {
+void TObjFogCollisionPoison__sub_80153520(s32 actor) {
     switch (get_current_floor_area()) {
     case AREA_VR_SPACESHIP_ALPHA:
     case AREA_VR_SPACESHIP_BETA:
-        play_persistent_sound(0x4004BC16, arg0, arg0 + 0x38, 0, 0);
+        play_persistent_sound(0x4004BC16, actor, actor + 0x38, 0, 0);
         break;
     case AREA_SEABED_UPPER:
     case AREA_SEABED_LOWER:
-        play_persistent_sound(0x4004BC24, arg0, arg0 + 0x38, 0, 0);
+        play_persistent_sound(0x4004BC24, actor, actor + 0x38, 0, 0);
         break;
     default:
-        play_persistent_sound(0x4004BC1C, arg0, arg0 + 0x38, 0, 0);
+        play_persistent_sound(0x4004BC1C, actor, actor + 0x38, 0, 0);
         break;
     }
 }
@@ -369,13 +366,13 @@ void TObjFogCollisionPoison::record_poison_hit(u16 client) {
 void TObjFogCollisionPoison::apply_poison_damage(s32 client) {
     saddr p;
     s16 v;
-    p = get_player_by_client_id(client);
+    p = (saddr)get_player_by_client_id(client & 0xFFFF);
     if (((TObjEneDD *)p)->is_valid_target() != 0) {
         v = ((TObjChara *)p)->get_actor_hp() - this->m_98;
         if (v < 0) {
             v = 0;
         }
-        send_6x2F_change_player_hp(0xFFFF, get_entity_id(p), v);
+        send_6x2F_change_player_hp(0xFFFF, ((TObjBase *)(p))->get_entity_id(), v);
     }
 }
 

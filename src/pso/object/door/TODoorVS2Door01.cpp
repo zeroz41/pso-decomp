@@ -29,7 +29,7 @@ static CollisionBody door_vs2door01_collision_body[1] = {
 };
 
 BmlResource *TODoorVS2Door01::bml_resource;
-GinjaTextureList **TODoorVS2Door01::texture_lists;
+NJS_TEXLIST **TODoorVS2Door01::texture_lists;
 
 void TODoorVS2Door01::update_demo() {}
 
@@ -75,7 +75,7 @@ void TODoorVS2Door01::render() {
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texture_lists[door_flags & 1]));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texture_lists[door_flags & 1]));
         node = (NJS_OBJECT *)model;
         post_translate_matrix(node->pos);
         push_matrix();
@@ -149,9 +149,9 @@ void TODoorVS2Door01::destroy() {
 void TODoorVS2Door01::load_resources() {
     BmlResource *resource = new BmlResource(1, &door_vs2door01_resource_descriptor, 0, 0, NULL);
     bml_resource = resource;
-    texture_lists = (GinjaTextureList **)mem_alloc(2 * sizeof(GinjaTextureList *));
-    texture_lists[1] = (GinjaTextureList *)bml_resource->models[0].texlist;
-    texture_lists[0] = (GinjaTextureList *)load_gvm_texture_file((saddr)"fs_obj_o_vs2door01lr.gvm");
+    texture_lists = (NJS_TEXLIST **)mem_alloc(2 * sizeof(NJS_TEXLIST *));
+    texture_lists[1] = bml_resource->models[0].texlist;
+    texture_lists[0] = load_gvm_texture_file("fs_obj_o_vs2door01lr.gvm");
 }
 
 TODoorVS2Door01::~TODoorVS2Door01() {
@@ -163,7 +163,7 @@ TODoorVS2Door01::TODoorVS2Door01(TObject *parent, void *set_data) : TODoorBase(p
     m_name = door_vs2door01_class_name;
     apply_object_set_data(set_data);
     model = (void *)bml_resource->models[0].model;
-    texlist = (saddr)texture_lists[1];
+    texlist = texture_lists[1];
     animation_end_frame = 30.0f;
     animation_step = SLIDE_DISTANCE / animation_end_frame;
     slide_offset = 0.0f;

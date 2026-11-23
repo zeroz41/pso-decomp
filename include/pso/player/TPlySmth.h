@@ -7,7 +7,8 @@
 
 class TPlySmth {
 public:
-    TPlySmth() {};
+    TPlySmth();
+    TPlySmth &operator=(const TPlySmth &other);
 
     void bswap() {
         bswap_32(as(u32 *, &m_smth));
@@ -16,8 +17,6 @@ public:
 public:
     u8 m_smth[4];
     u8 m_smth1[4];
-public:
-    void*construct();
 };
 
 extern "C" {

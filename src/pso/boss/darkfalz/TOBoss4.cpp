@@ -77,7 +77,7 @@ TOBoss4Bird::TOBoss4Bird(void *set_data) {
     apply_object_set_data(set_data);
     model = (void *)get_bml_model((BmlResource *)model_resource, 0);
     model_radius = ((GinjaModelBounds *)((NJS_OBJECT *)model)->model)->radius;
-    texlist = (saddr)get_bml_texlist((BmlResource *)model_resource, 0);
+    texlist = get_bml_texlist((BmlResource *)model_resource, 0);
     motion = get_bml_motion(model_resource, 0);
     animation_end_frame = (f32)motion->frameCount - 1.0f;
     animation_step = 1.0f;
@@ -128,7 +128,7 @@ void TOBoss4Bird::render() {
     if (update_object_view_visibility(view_range, model_radius) != 0) {
         push_matrix();
         post_translate_matrix(&position.x);
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
         for (i = 0; i < count; i++) {
             push_matrix();
             translate_matrix(0, 0.0f, bob_offset, 0.0f);
@@ -187,7 +187,7 @@ TOBoss4Tower::TOBoss4Tower(void *set_data) {
     apply_object_set_data(set_data);
     model = (void *)get_bml_model((BmlResource *)model_resource, 5);
     model_radius = 60.0f;
-    texlist = (saddr)get_bml_texlist((BmlResource *)model_resource, 5);
+    texlist = get_bml_texlist((BmlResource *)model_resource, 5);
 }
 
 TOBoss4Tower::~TOBoss4Tower() {
@@ -198,7 +198,7 @@ void TOBoss4Tower::render() {
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
         draw_ginja_object(model);
         pop_matrix();
     }
@@ -217,7 +217,7 @@ TOBoss4Rock::TOBoss4Rock(void *set_data) {
     apply_object_set_data(set_data);
     this->model = (void *)get_bml_model((BmlResource *)model_resource, 1);
     model_radius = ((GinjaModelBounds *)((NJS_OBJECT *)this->model)->model)->radius;
-    texlist = (saddr)get_bml_texlist((BmlResource *)model_resource, 1);
+    texlist = get_bml_texlist((BmlResource *)model_resource, 1);
     spread = 50.0f + scale.x;
     if (scale.y < 0.0f) {
         scale.y *= -1.0f;
@@ -229,7 +229,7 @@ TOBoss4Rock::TOBoss4Rock(void *set_data) {
         count = 8;
     }
     models = static_cast<NJS_OBJECT **>(mem_alloc(count * sizeof(*models)));
-    texlists = static_cast<GinjaTextureList **>(mem_alloc(count * sizeof(*texlists)));
+    texlists = static_cast<NJS_TEXLIST **>(mem_alloc(count * sizeof(*texlists)));
     positions = (Vec *)mem_alloc(count * 0xC);
     speeds = (f32 *)mem_alloc(count * 4);
     rotations = (TOBoss4RockAngles *)mem_alloc(count * 0xC);
@@ -283,7 +283,7 @@ void TOBoss4Rock::render() {
         push_matrix();
         post_translate_matrix(&position.x);
         for (i = 0; i < count; i++) {
-            TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlists[i]));
+            TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlists[i]));
             push_matrix();
             post_translate_matrix(&positions[i].x);
             rotate_matrix_z(NULL, rotations[i].z);

@@ -1,4 +1,6 @@
+#include "pso/player/TargetCursorList.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/technique/TTecZondeEff.h"
 #include "types.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/technique/TTecZonde.h"
@@ -13,10 +15,11 @@
 #include "pso/unk/TLobby_80226070.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/technique/TTecGiZonde_8023CDC4.h"
+#include "pso/unk/TUnk_804CCD78.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/object/base/CollisionActorLookup.h"
+#include "pso/object/base/TObjBase.h"
 
 typedef struct GTarget_80232598 {
     u16 id;
@@ -91,7 +94,7 @@ void TTecGiZonde::init_parameters() {
   ((RecoveredFields_8023C558_arg0 *) arg0)->field_CC = (f32) (((RecoveredFields_8023C558_arg0 *) arg0)->field_CC + ((f32) (((RecoveredFields_8023C558_arg0 *) arg0)->field_F0 * ((RecoveredFields_8023C558_arg0 *) arg0)->field_C4)));
   if (TTecCtrl::is_technique_ready())
   {
-    ((RecoveredFields_8023C558_arg0 *) arg0)->field_CC = (f32) (((RecoveredFields_8023C558_arg0 *) arg0)->field_CC * lbl_804CC55C[7].pad_00);
+    ((RecoveredFields_8023C558_arg0 *) arg0)->field_CC = (f32) (((RecoveredFields_8023C558_arg0 *) arg0)->field_CC * technique_scale_table[7].power);
   }
 }
 
@@ -134,8 +137,6 @@ void TTecGiZonde::vfunc_8(void *arg1_arg) {
 }
 
 extern "C" {
-s16 get_entity_id(void *);
-s32 copy_technique_target_list(void *, void *);
 
 #define UNQ(e) TTecLuker::is_parents_unqueued(e)
 s32 TTecGiZonde::find_chain_targets() {
@@ -163,88 +164,37 @@ s32 TTecGiZonde::find_chain_targets() {
     }
     switch (self->level) {
     case 0:
-        p = TObject::operator new(0x260);
-        if (p != NULL) {
-            ((TTecZonde *)p)->construct_bolt_effect((u8 *)tl_07, (u8 *)&self->pos, (u8 *)&d, 0x14000000, 20, (f32)len, 0.5f);
-        }
-        p = TObject::operator new(0x40);
-        if (p != NULL) {
-            construct_helper_effect__11TTecGiZondeFPvPvPvPvi((u8 *)p, (u8 *)(&e->parts[self->targets[0].part].pos), (u8 *)&self->pos, (u8 *)tl_07, 0x19F);
-        }
+        new TTecZondeEff(tl_07, &self->pos, &d, 0x14000000, 20, (f32)len, 0.5f);
+        new TUnk_804CCD78(&e->parts[self->targets[0].part].pos, &self->pos, tl_07, 0x19F);
         break;
     case 1:
         scale *= 1.2f;
-        p = TObject::operator new(0x260);
-        if (p != NULL) {
-            ((TTecZonde *)p)->construct_bolt_effect((u8 *)tl_07, (u8 *)&self->pos, (u8 *)&d, 0x14000000, 20, (f32)len, (f32)scale);
-        }
-        p = TObject::operator new(0x40);
-        if (p != NULL) {
-            construct_helper_effect__11TTecGiZondeFPvPvPvPvi((u8 *)p, (u8 *)(&e->parts[self->targets[0].part].pos), (u8 *)&self->pos, (u8 *)tl_07, 0x19F);
-        }
+        new TTecZondeEff(tl_07, &self->pos, &d, 0x14000000, 20, (f32)len, (f32)scale);
+        new TUnk_804CCD78(&e->parts[self->targets[0].part].pos, &self->pos, tl_07, 0x19F);
         break;
     case 2:
         scale *= 1.4f;
-        p = TObject::operator new(0x260);
-        if (p != NULL) {
-            ((TTecZonde *)p)->construct_bolt_effect((u8 *)tl_07, (u8 *)&self->pos, (u8 *)&d, 0x14000000, 20, (f32)len, (f32)scale);
-        }
-        p = TObject::operator new(0x40);
-        if (p != NULL) {
-            construct_helper_effect__11TTecGiZondeFPvPvPvPvi((u8 *)p, (u8 *)(&e->parts[self->targets[0].part].pos), (u8 *)&self->pos, (u8 *)tl_07, 0x19F);
-        }
+        new TTecZondeEff(tl_07, &self->pos, &d, 0x14000000, 20, (f32)len, (f32)scale);
+        new TUnk_804CCD78(&e->parts[self->targets[0].part].pos, &self->pos, tl_07, 0x19F);
         break;
     case 3:
         scale *= 1.2f;
-        p = TObject::operator new(0x260);
-        if (p != NULL) {
-            ((TTecZonde *)p)->construct_bolt_effect((u8 *)tl_07, (u8 *)&self->pos, (u8 *)&d, 0x14000000, 20, (f32)len, (f32)scale);
-        }
-        p = TObject::operator new(0x40);
-        if (p != NULL) {
-            construct_helper_effect__11TTecGiZondeFPvPvPvPvi((u8 *)p, (u8 *)(&e->parts[self->targets[0].part].pos), (u8 *)&self->pos, (u8 *)tl_07, 0x19F);
-        }
-        p = TObject::operator new(0x40);
-        if (p != NULL) {
-            construct_helper_effect__11TTecGiZondeFPvPvPvPvi((u8 *)p, (u8 *)(&e->parts[self->targets[0].part].pos), (u8 *)&self->pos, (u8 *)tl_07, 0x188);
-        }
+        new TTecZondeEff(tl_07, &self->pos, &d, 0x14000000, 20, (f32)len, (f32)scale);
+        new TUnk_804CCD78(&e->parts[self->targets[0].part].pos, &self->pos, tl_07, 0x19F);
+        new TUnk_804CCD78(&e->parts[self->targets[0].part].pos, &self->pos, tl_07, 0x188);
         break;
     case 4:
         scale *= 1.4f;
-        p = TObject::operator new(0x260);
-        if (p != NULL) {
-            ((TTecZonde *)p)->construct_bolt_effect((u8 *)tl_07, (u8 *)&self->pos, (u8 *)&d, 0x14000000, 20, (f32)len, (f32)scale);
-        }
-        p = TObject::operator new(0x40);
-        if (p != NULL) {
-            construct_helper_effect__11TTecGiZondeFPvPvPvPvi((u8 *)p, (u8 *)(&e->parts[self->targets[0].part].pos), (u8 *)&self->pos, (u8 *)tl_07, 0x19F);
-        }
-        p = TObject::operator new(0x40);
-        if (p != NULL) {
-            construct_helper_effect__11TTecGiZondeFPvPvPvPvi((u8 *)p, (u8 *)(&e->parts[self->targets[0].part].pos), (u8 *)&self->pos, (u8 *)tl_07, 0x188);
-        }
+        new TTecZondeEff(tl_07, &self->pos, &d, 0x14000000, 20, (f32)len, (f32)scale);
+        new TUnk_804CCD78(&e->parts[self->targets[0].part].pos, &self->pos, tl_07, 0x19F);
+        new TUnk_804CCD78(&e->parts[self->targets[0].part].pos, &self->pos, tl_07, 0x188);
         break;
     case 5:
-        p = TObject::operator new(0x260);
-        if (p != NULL) {
-            ((TTecZonde *)p)->construct_bolt_effect((u8 *)tl_07, (u8 *)&self->pos, (u8 *)&d, 0x14000000, 20, (f32)len, 5.0f);
-        }
-        p = TObject::operator new(0x260);
-        if (p != NULL) {
-            ((TTecZonde *)p)->construct_bolt_effect((u8 *)tl_07, (u8 *)&self->pos, (u8 *)&d, 0x14000000, 20, (f32)len, 0.5f);
-        }
-        p = TObject::operator new(0x260);
-        if (p != NULL) {
-            ((TTecZonde *)p)->construct_bolt_effect((u8 *)tl_07, (u8 *)&self->pos, (u8 *)&d, 0x14000000, 20, (f32)len, 0.5f);
-        }
-        p = TObject::operator new(0x40);
-        if (p != NULL) {
-            construct_helper_effect__11TTecGiZondeFPvPvPvPvi((u8 *)p, (u8 *)(&e->parts[self->targets[0].part].pos), (u8 *)&self->pos, (u8 *)tl_07, 0x19F);
-        }
-        p = TObject::operator new(0x40);
-        if (p != NULL) {
-            construct_helper_effect__11TTecGiZondeFPvPvPvPvi((u8 *)p, (u8 *)(&e->parts[self->targets[0].part].pos), (u8 *)&self->pos, (u8 *)tl_07, 0x188);
-        }
+        new TTecZondeEff(tl_07, &self->pos, &d, 0x14000000, 20, (f32)len, 5.0f);
+        new TTecZondeEff(tl_07, &self->pos, &d, 0x14000000, 20, (f32)len, 0.5f);
+        new TTecZondeEff(tl_07, &self->pos, &d, 0x14000000, 20, (f32)len, 0.5f);
+        new TUnk_804CCD78(&e->parts[self->targets[0].part].pos, &self->pos, tl_07, 0x19F);
+        new TUnk_804CCD78(&e->parts[self->targets[0].part].pos, &self->pos, tl_07, 0x188);
         break;
     }
     if (self->count == 1) {
@@ -269,52 +219,28 @@ s32 TTecGiZonde::find_chain_targets() {
         scale = 0.5f;
         switch (self->level) {
         case 0:
-            p = TObject::operator new(0x260);
-            if (p != NULL) {
-                ((TTecZonde *)p)->construct_bolt_effect((u8 *)tl_07, (u8 *)(&a->parts[self->targets[i].part].pos), (u8 *)&d2, 0x14000000, 20, (f32)len2, 0.5f);
-            }
+            new TTecZondeEff(tl_07, &a->parts[self->targets[i].part].pos, &d2, 0x14000000, 20, (f32)len2, 0.5f);
             break;
         case 1:
             scale *= 1.2f;
-            p = TObject::operator new(0x260);
-            if (p != NULL) {
-                ((TTecZonde *)p)->construct_bolt_effect((u8 *)tl_07, (u8 *)(&a->parts[self->targets[i].part].pos), (u8 *)&d2, 0x14000000, 20, (f32)len2, (f32)scale);
-            }
+            new TTecZondeEff(tl_07, &a->parts[self->targets[i].part].pos, &d2, 0x14000000, 20, (f32)len2, (f32)scale);
             break;
         case 2:
             scale *= 1.4f;
-            p = TObject::operator new(0x260);
-            if (p != NULL) {
-                ((TTecZonde *)p)->construct_bolt_effect((u8 *)tl_07, (u8 *)(&a->parts[self->targets[i].part].pos), (u8 *)&d2, 0x14000000, 20, (f32)len2, (f32)scale);
-            }
+            new TTecZondeEff(tl_07, &a->parts[self->targets[i].part].pos, &d2, 0x14000000, 20, (f32)len2, (f32)scale);
             break;
         case 3:
             scale *= 1.2f;
-            p = TObject::operator new(0x260);
-            if (p != NULL) {
-                ((TTecZonde *)p)->construct_bolt_effect((u8 *)tl_07, (u8 *)(&a->parts[self->targets[i].part].pos), (u8 *)&d2, 0x14000000, 20, (f32)len2, (f32)scale);
-            }
+            new TTecZondeEff(tl_07, &a->parts[self->targets[i].part].pos, &d2, 0x14000000, 20, (f32)len2, (f32)scale);
             break;
         case 4:
             scale *= 1.4f;
-            p = TObject::operator new(0x260);
-            if (p != NULL) {
-                ((TTecZonde *)p)->construct_bolt_effect((u8 *)tl_07, (u8 *)(&a->parts[self->targets[i].part].pos), (u8 *)&d2, 0x14000000, 20, (f32)len2, (f32)scale);
-            }
+            new TTecZondeEff(tl_07, &a->parts[self->targets[i].part].pos, &d2, 0x14000000, 20, (f32)len2, (f32)scale);
             break;
         case 5:
-            p = TObject::operator new(0x260);
-            if (p != NULL) {
-                ((TTecZonde *)p)->construct_bolt_effect((u8 *)tl_07, (u8 *)(&a->parts[self->targets[i].part].pos), (u8 *)&d2, 0x14000000, 20, (f32)len2, 5.0f);
-            }
-            p = TObject::operator new(0x260);
-            if (p != NULL) {
-                ((TTecZonde *)p)->construct_bolt_effect((u8 *)tl_07, (u8 *)(&a->parts[self->targets[i].part].pos), (u8 *)&d2, 0x14000000, 20, (f32)len2, 0.5f);
-            }
-            p = TObject::operator new(0x260);
-            if (p != NULL) {
-                ((TTecZonde *)p)->construct_bolt_effect((u8 *)tl_07, (u8 *)(&a->parts[self->targets[i].part].pos), (u8 *)&d2, 0x14000000, 20, (f32)len2, 0.5f);
-            }
+            new TTecZondeEff(tl_07, &a->parts[self->targets[i].part].pos, &d2, 0x14000000, 20, (f32)len2, 5.0f);
+            new TTecZondeEff(tl_07, &a->parts[self->targets[i].part].pos, &d2, 0x14000000, 20, (f32)len2, 0.5f);
+            new TTecZondeEff(tl_07, &a->parts[self->targets[i].part].pos, &d2, 0x14000000, 20, (f32)len2, 0.5f);
             break;
         }
         } else {
@@ -347,7 +273,7 @@ void TTecGiZonde::run_task() {
         queue_destruction();
         return;
     }
-    if ((s32) *(s32 *)((s8 *)this + 0x130) == 0) {
+    if ((s32) this->targetList.count == 0) {
         queue_destruction();
         return;
     }
@@ -361,7 +287,7 @@ TTecGiZonde::TTecGiZonde(saddr source, Vec *pos, void *targets, s32 level) : TTe
     s32 h;
     m_name = TTecGiZonde_name_ref;
     init_parameters();
-    copy_technique_target_list(&this->targetList, targets);
+    copy_technique_target_list(&this->targetList, (TargetCursorList *)targets);
     switch (band) {
     case 0:
         if ((h = play_sound_effect(0x4002A509, &position, 0, 0)) >= 0) {
@@ -389,7 +315,7 @@ TTecGiZonde::TTecGiZonde(saddr source, Vec *pos, void *targets, s32 level) : TTe
         break;
     }
     if (this->source != 0U) {
-        sourceId = get_entity_id((void *)this->source);
+        sourceId = ((TObjBase *)this->source)->get_entity_id();
     }
 }
 

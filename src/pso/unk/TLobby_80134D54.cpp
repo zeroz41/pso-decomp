@@ -1,9 +1,9 @@
 #include "types.h"
 #include "pso/unk/TLobby.h"
+#include "pso/network/TProtocol.h"
 
-extern void *TLobby__protocol_instance;
 
 void TLobby::clear_counters() {
-    *(s32 *)((s8 *)TLobby__protocol_instance + 0xBC04) = 0;
-    *(s32 *)((s8 *)TLobby__protocol_instance + 0xBC18) = 0;
+    protocol_instance->m_recv_handlers.handle_64_recv_start_game3 = NULL;
+    protocol_instance->m_recv_handlers.handle_65_recv_burst_game = NULL;
 }

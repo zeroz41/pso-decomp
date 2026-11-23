@@ -35,7 +35,7 @@ void TOCapsuleAncient01::render() {
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
         body = (NJS_OBJECT *)model;
         translate_matrix(0, body->pos[0], body->pos[1], body->pos[2]);
         draw_ginja_model((void *)body->model);
@@ -79,7 +79,7 @@ TOCapsuleAncient01::TOCapsuleAncient01(TObject *parent, void *set_data) : TOQues
     m_name = class_name;
     apply_object_set_data(set_data);
     model = (void *)model_resource->models->model;
-    texlist = (saddr)model_resource->models->texlist;
+    texlist = model_resource->models->texlist;
     init_collision_body_parts(this, &capsule_ancient01_collision_body, 1);
     set_indexed_flags(0, 0x1288);
     refresh_collision_body_centers();

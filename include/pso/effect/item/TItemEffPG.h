@@ -8,7 +8,7 @@
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/task/TObject.h"
 
-struct GinjaTextureList;
+struct NJS_TEXLIST;
 struct NJS_OBJECT;
 class TItemEffPGModel;
 class TParticleCtrl;
@@ -19,7 +19,7 @@ struct ItemEffPGParams : S_802E451C {
     f32 required_charge;
     f32 radius_step;     // added to the radius each frame
     NJS_OBJECT *model;   // the weapon's second model
-    GinjaTextureList *texture_list;
+    NJS_TEXLIST *texture_list;
     ItemEffPGParams *init_params();
 };
 
@@ -67,7 +67,7 @@ public:
 
     s32 item_id;
     NJS_OBJECT *model;  // drawn turning by rotation_y, its child by child_rotation_y
-    GinjaTextureList *texture_list;
+    NJS_TEXLIST *texture_list;
     NJS_ARGB color;
     TParticleCtrl *particle;
     s32 rotation_y;

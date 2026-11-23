@@ -16,12 +16,10 @@ struct TForceOperate : public TObject {
 
 LAYOUT_ASSERT(TForceOperate_size, sizeof(TForceOperate) == 0x24);
 
-void calc_death_sink_offset(void *arg0);
 void reset_player_appearance_opacity(void *a0);
 void save_render_material_state(u8 *arg0);
 void update_player_appear_fade(u8 *arg0);
 extern "C" {
-void update_target_lock(saddr arg0, s32 arg1);
 }
 
 #endif

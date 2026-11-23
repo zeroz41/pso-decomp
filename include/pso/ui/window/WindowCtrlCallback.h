@@ -9,9 +9,4 @@ typedef s32 (TWindowCtrl::*PlayerWindowQuery)();
 LAYOUT_ASSERT(PlayerWindowCommandSize, sizeof(PlayerWindowCommand) == 0xC);
 LAYOUT_ASSERT(PlayerWindowQuerySize, sizeof(PlayerWindowQuery) == 0xC);
 
-extern "C" {
-void call_window_method__11TWindowCtrlFPvi(s32 client_id, PlayerWindowCommand command);
-s32 TWindowCtrl__sub_8024B098(s32 client_id, PlayerWindowQuery query);
-}
-
 #endif

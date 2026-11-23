@@ -49,7 +49,7 @@ NetThreadHandle lobby_message_thread_handle;
 s32 lbl_805D7BB0;
 s16 network_link_status_cache = -1;
 void TLobby__sub_80426190(EthernetReceiveFilter *);
-s16 TLobby__sub_80426110(EthernetReceiveFilter *o, u16 arg1, u16 arg2);
+s16 TLobby__sub_80426110(EthernetReceiveFilter *o, u16 kind, u16 ether_type);
 extern const u8 lbl_805E1190[8] = { 255, 255, 255, 255, 255, 255, 0, 0 };
 saddr TLobby__sub_804089A8(s16, s16, void *, void *); /* declared here with other parameter types; the definition is s32 (s16, s16, s16, void *) */
 saddr TLobby__sub_80426AAC(u16 key, saddr len);
@@ -73,10 +73,10 @@ void reset_message_thread(void) {
 }
 
 void update_exi_status(void) {
-    s32 sp8;
-    if (poll_exi_status(&sp8) == 1) {
-        if (sp8 != (s32) lobby_exi_prev_status) {
-            lobby_exi_prev_status = sp8;
+    s32 status;
+    if (poll_exi_status(&status) == 1) {
+        if (status != (s32) lobby_exi_prev_status) {
+            lobby_exi_prev_status = status;
             lobby_exi_stable_count = 1U;
         } else if ((u32) lobby_exi_stable_count != 0U) {
             lobby_exi_stable_count += 1;
@@ -570,12 +570,12 @@ s32 TLobby__sub_80426B88(s16 dev) {
 
 /* Cached link status: 1 up, 0 down, -1 unknown. */
 s16 query_link_status(void) {
-    s32 sp8;
+    s32 status;
     if ((s16) network_link_status_cache != -1) {
         return network_link_status_cache;
     }
-    if (poll_exi_status(&sp8) == 1) {
-        if (sp8 == 1) {
+    if (poll_exi_status(&status) == 1) {
+        if (status == 1) {
             return 1;
         }
         return 0;

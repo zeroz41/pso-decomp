@@ -11,6 +11,7 @@
 #include "pso/quest/challenge/TChallenge.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
+#include "pso/player/PlayerSlots.h"
 
 #pragma readonly_strings on
 
@@ -182,7 +183,6 @@ struct Table_800712D8 {
 struct Tbl_80070DCC { u8 pad[0x680]; s32 f680[4]; };
 
 extern "C" {
-void *get_player_by_client_id(s32 i);
 s32 TLobby__sub_80070F4C(void);
 s32 TLobby__sub_80070FD8(void);
 char challenge_rank_title[0xC];
@@ -194,7 +194,7 @@ s32 TLobby__sub_80070DA8(void);
 void set_challenge_time_window_timer(int a0);
 extern "C" {
 void TLobby__sub_80071064(s32 arg0);
-void TLobby__sub_80070EE4(saddr arg0);
+void TLobby__sub_80070EE4(saddr clear_time);
 s32 TLobby__sub_8006F6B0(s32 clear_time);
 
 s32 TLobby__sub_8007119C(s32 arg0);
@@ -457,12 +457,12 @@ void TLobby::set_player_name_and_color(s32 arg1) {
 #undef challenge_mode_state
 
 void TLobby::set_selected_layout(s32 arg0) {
-    s32 temp_r3;
+    s32 layout_id;
     s32 var_r31;
 
     var_r31 = arg0;
-    temp_r3 = TWindowSubStatusDisp::get_layout_id(-1);
-    if ((var_r31 < 0) || (var_r31 >= temp_r3)) {
+    layout_id = TWindowSubStatusDisp::get_layout_id(-1);
+    if ((var_r31 < 0) || (var_r31 >= layout_id)) {
         var_r31 = 0;
     }
     challenge_mode_state[0] = var_r31;

@@ -15,6 +15,7 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/system/NinjaTypes.h"
 
+
 volatile s32 aram_dma_pending;
 
 extern "C" {
@@ -32,21 +33,37 @@ void TNowLoading::render() {  }
 void TNowLoading::run_task() {
     Vec marker_position;
     if (camera_ctrl_instance == NULL) {
-        this->m_position.x = (f32) ((65.0f * ninja_camera.vx) + ninja_camera.px);
-        this->m_position.y = (f32) ((65.0f * ninja_camera.vy) + ninja_camera.py);
-        this->m_position.z = (f32) ((65.0f * ninja_camera.vz) + ninja_camera.pz);
-        if (this->m_particles[0] != NULL) { this->m_particles[0]->set_position((void *) &this->m_position); }
-        if (this->m_particles[1] != NULL) { this->m_particles[1]->set_position((void *) &this->m_position); }
-        if (this->m_particles[2] != NULL) { this->m_particles[2]->set_position((void *) &this->m_position); }
-        if (this->m_particles[3] != NULL) { this->m_particles[3]->set_position((void *) &this->m_position); }
+        this->m_position.x = (65.0f * ninja_camera.vx) + ninja_camera.px;
+        this->m_position.y = (65.0f * ninja_camera.vy) + ninja_camera.py;
+        this->m_position.z = (65.0f * ninja_camera.vz) + ninja_camera.pz;
+        if (this->m_particles[0] != NULL) {
+            this->m_particles[0]->set_position(&this->m_position);
+        }
+        if (this->m_particles[1] != NULL) {
+            this->m_particles[1]->set_position(&this->m_position);
+        }
+        if (this->m_particles[2] != NULL) {
+            this->m_particles[2]->set_position(&this->m_position);
+        }
+        if (this->m_particles[3] != NULL) {
+            this->m_particles[3]->set_position(&this->m_position);
+        }
     } else {
         marker_position.x = (65.0f * ninja_camera.vx) + ninja_camera.px;
         marker_position.y = (65.0f * ninja_camera.vy) + ninja_camera.py;
         marker_position.z = (65.0f * ninja_camera.vz) + ninja_camera.pz;
-        if (this->m_particles[0] != NULL) { this->m_particles[0]->set_position((void *) &marker_position); }
-        if (this->m_particles[1] != NULL) { this->m_particles[1]->set_position((void *) &marker_position); }
-        if (this->m_particles[2] != NULL) { this->m_particles[2]->set_position((void *) &marker_position); }
-        if (this->m_particles[3] != NULL) { this->m_particles[3]->set_position((void *) &marker_position); }
+        if (this->m_particles[0] != NULL) {
+            this->m_particles[0]->set_position(&marker_position);
+        }
+        if (this->m_particles[1] != NULL) {
+            this->m_particles[1]->set_position(&marker_position);
+        }
+        if (this->m_particles[2] != NULL) {
+            this->m_particles[2]->set_position(&marker_position);
+        }
+        if (this->m_particles[3] != NULL) {
+            this->m_particles[3]->set_position(&marker_position);
+        }
     }
 }
 #pragma pop
@@ -73,7 +90,7 @@ TNowLoading::TNowLoading(TObject *parent, Vec *pos) : TObject(parent) {
     dir.x = -ninja_camera.vx;
     dir.y = -ninja_camera.vy;
     dir.z = -ninja_camera.vz;
-    direction_to_rotation_xz((u8 *) &dir, &out[0], &out[2]);
+    direction_to_rotation_xz((u8 *)&dir, &out[0], &out[2]);
     this->m_position.x = 65.0f * ninja_camera.vx + ninja_camera.px;
     this->m_position.y = 65.0f * ninja_camera.vy + ninja_camera.py;
     this->m_position.z = 65.0f * ninja_camera.vz + ninja_camera.pz;

@@ -5,6 +5,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/ui/Language.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
+#include "pso/system/TLanguage_801E4874.h"
 
 struct GvmTextureInner { char pad8[0x8]; u32 f8; };
 struct GvmTexture { struct GvmTextureInner *f0; };
@@ -41,7 +42,6 @@ struct GvmTexture *localized_alphabet_list;
 language current_language;
 int TWindowKeyBoardSoft__language_text_resources;
 
-u8 *load_gvm_texture_file(saddr arg0);
 extern "C" {
 s32 release_texture_list(void *);
 }
@@ -65,55 +65,55 @@ void TLanguage::free_text_resources() {
 }
 
 void TLanguage::load_fonts(s32 language) {
-    s32 sp8;
+    s32 palette;
     GvmTexture *alphabet;
-    sp8 = (saddr)TLobby::tmp_buf_use_req(TLanguage__class_name);
-    TLanguage::draw_string((void *)f256_alphabet_gvp, &sp8, 0x48);
+    palette = (saddr)TLobby::tmp_buf_use_req(TLanguage__class_name);
+    TLanguage::draw_string((void *)f256_alphabet_gvp, &palette, 0x48);
     TLobby::tmp_buf_release((const char *)TLanguage__class_name);
 
     switch (language) {
         case LANGUAGE_JAPANESE:
-            TLanguage::draw_string((void *)f256_symbolsetumei_jpn_gvp, &sp8, 0x49);
-            TLanguage::draw_string((void *)f128_keyjpn_gvp, &sp8, 2);
-            TLanguage::draw_string((void *)f064_wordmojitex_jpn_gvp, &sp8, 3);
-            TLanguage::decode_font_data((void *)b256_menutext01_j_gvp, &sp8, 0x4B, 0x4C);
-            alphabet = (GvmTexture *)load_gvm_texture_file((saddr)TextureJapanese_gvm);
+            TLanguage::draw_string((void *)f256_symbolsetumei_jpn_gvp, &palette, 0x49);
+            TLanguage::draw_string((void *)f128_keyjpn_gvp, &palette, 2);
+            TLanguage::draw_string((void *)f064_wordmojitex_jpn_gvp, &palette, 3);
+            TLanguage::decode_font_data((void *)b256_menutext01_j_gvp, &palette, 0x4B, 0x4C);
+            alphabet = (GvmTexture *)load_gvm_texture_file(TextureJapanese_gvm);
             localized_alphabet_list = alphabet;
             break;
 
         case LANGUAGE_GERMAN:
-            TLanguage::draw_string((void *)f256_symbolsetumei_ger_gvp, &sp8, 0x49);
-            TLanguage::draw_string((void *)f128_keyeng_gvp, &sp8, 2);
-            TLanguage::draw_string((void *)f064_wordmojitex_ger_gvp, &sp8, 3);
-            TLanguage::decode_font_data((void *)b256_menutext01_e_gvp, &sp8, 0x4B, 0x4C);
-            alphabet = (GvmTexture *)load_gvm_texture_file((saddr)TextureGerman_gvm);
+            TLanguage::draw_string((void *)f256_symbolsetumei_ger_gvp, &palette, 0x49);
+            TLanguage::draw_string((void *)f128_keyeng_gvp, &palette, 2);
+            TLanguage::draw_string((void *)f064_wordmojitex_ger_gvp, &palette, 3);
+            TLanguage::decode_font_data((void *)b256_menutext01_e_gvp, &palette, 0x4B, 0x4C);
+            alphabet = (GvmTexture *)load_gvm_texture_file(TextureGerman_gvm);
             localized_alphabet_list = alphabet;
             break;
 
         case LANGUAGE_FRENCH:
-            TLanguage::draw_string((void *)f256_symbolsetumei_fre_gvp, &sp8, 0x49);
-            TLanguage::draw_string((void *)f128_keyeng_gvp, &sp8, 2);
-            TLanguage::draw_string((void *)f064_wordmojitex_fre_gvp, &sp8, 3);
-            TLanguage::decode_font_data((void *)b256_menutext01_e_gvp, &sp8, 0x4B, 0x4C);
-            alphabet = (GvmTexture *)load_gvm_texture_file((saddr)TextureFrench_gvm);
+            TLanguage::draw_string((void *)f256_symbolsetumei_fre_gvp, &palette, 0x49);
+            TLanguage::draw_string((void *)f128_keyeng_gvp, &palette, 2);
+            TLanguage::draw_string((void *)f064_wordmojitex_fre_gvp, &palette, 3);
+            TLanguage::decode_font_data((void *)b256_menutext01_e_gvp, &palette, 0x4B, 0x4C);
+            alphabet = (GvmTexture *)load_gvm_texture_file(TextureFrench_gvm);
             localized_alphabet_list = alphabet;
             break;
 
         case LANGUAGE_SPANISH:
-            TLanguage::draw_string((void *)f256_symbolsetumei_spa_gvp, &sp8, 0x49);
-            TLanguage::draw_string((void *)f128_keyeng_gvp, &sp8, 2);
-            TLanguage::draw_string((void *)f064_wordmojitex_spa_gvp, &sp8, 3);
-            TLanguage::decode_font_data((void *)b256_menutext01_e_gvp, &sp8, 0x4B, 0x4C);
-            alphabet = (GvmTexture *)load_gvm_texture_file((saddr)TextureSpanish_gvm);
+            TLanguage::draw_string((void *)f256_symbolsetumei_spa_gvp, &palette, 0x49);
+            TLanguage::draw_string((void *)f128_keyeng_gvp, &palette, 2);
+            TLanguage::draw_string((void *)f064_wordmojitex_spa_gvp, &palette, 3);
+            TLanguage::decode_font_data((void *)b256_menutext01_e_gvp, &palette, 0x4B, 0x4C);
+            alphabet = (GvmTexture *)load_gvm_texture_file(TextureSpanish_gvm);
             localized_alphabet_list = alphabet;
             break;
 
         default:
-            TLanguage::draw_string((void *)f256_symbolsetumei_eng_gvp, &sp8, 0x49);
-            TLanguage::draw_string((void *)f128_keyeng_gvp, &sp8, 2);
-            TLanguage::draw_string((void *)f064_wordmojitex_eng_gvp, &sp8, 3);
-            TLanguage::decode_font_data((void *)b256_menutext01_e_gvp, &sp8, 0x4B, 0x4C);
-            alphabet = (GvmTexture *)load_gvm_texture_file((saddr)TextureEnglish_gvm);
+            TLanguage::draw_string((void *)f256_symbolsetumei_eng_gvp, &palette, 0x49);
+            TLanguage::draw_string((void *)f128_keyeng_gvp, &palette, 2);
+            TLanguage::draw_string((void *)f064_wordmojitex_eng_gvp, &palette, 3);
+            TLanguage::decode_font_data((void *)b256_menutext01_e_gvp, &palette, 0x4B, 0x4C);
+            alphabet = (GvmTexture *)load_gvm_texture_file(TextureEnglish_gvm);
             localized_alphabet_list = alphabet;
             break;
     }
@@ -127,8 +127,8 @@ void TLanguage::load_fonts(s32 language) {
     TLanguage::set_entry_index(LANGUAGE_SPANISH, 3);
 }
 
-void TLanguage::load_text_resources(s32 arg0) {
-    switch (arg0) {
+void TLanguage::load_text_resources(s32 language) {
+    switch (language) {
     case LANGUAGE_JAPANESE:
         (*(u8 * *)&TWindowKeyBoardSoft__text_resource) = (u8 *)load_text_resource_pair((saddr)TextJapanese);
         break;

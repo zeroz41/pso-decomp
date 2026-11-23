@@ -2,11 +2,11 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjBase.h"
 
 extern "C" {
 
 s32 is_lobby_floor_15__15TFontSmallLobbyFv();
-s32 TObjPlayer__sub_801C2114();
 
 extern s32 player_shared_buffer_base;
 extern s32 shared_state_flags;
@@ -18,14 +18,14 @@ void TObjPlayer::load_character_state(u8 *player) {
     count = *player;
     records = static_cast<TPlyInventoryItem *>(reinterpret_cast<TObjPlayer *>(player)->get_ptr_4());
     create_inventory();
-    set_action_provider_variant((s16) TObjPlayer__sub_801C2114());
+    set_action_provider_variant((s16) default_action_provider_variant());
     if ((obj_isState2_324() == 0) || (is_lobby_floor_15__15TFontSmallLobbyFv() == 0)) {
         if (!(shared_state_flags & 1)) {
             assign_inventory_item_ids(this, records, count);
         }
         bind_saved_inventory_equipment(this, records, count);
     }
-    this->m_db4 = (s32) (player_shared_buffer_base + (get_entity_id(this) * 0x600));
+    this->m_db4 = (s32) (player_shared_buffer_base + (this->get_entity_id() * 0x600));
 }
 
 }

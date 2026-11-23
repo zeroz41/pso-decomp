@@ -9,14 +9,14 @@
 #include "pso/system/task/TMainTask.h"
 
 void TUnk_804A1380::emit_marker_effects() {
-    s32 sp8;
+    s32 origin;
     TObjPlayer *owner;
 
-    get_joint_position(2, &sp8);
-    spawn_particle_effect((const Vec *)&sp8, 0x1BF);
+    get_joint_position(2, &origin);
+    spawn_particle_effect((const Vec *)&origin, 0x1BF);
     if (is_mode_two_and_ready() != 0) {
         owner = this->owner;
-        TTecFoie::create(owner, &sp8, *(saddr *)((s8 *)owner + 0x60), 3);
+        TTecFoie::create(owner, &origin, *(saddr *)((s8 *)owner + 0x60), 3);
         return;
     }
     ((TItemWeapon *)this)->update_active_game_effect();

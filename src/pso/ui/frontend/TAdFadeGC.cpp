@@ -10,10 +10,10 @@
 #include "pso/render/ModelDrawContext.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/player/PlayerSlots.h"
 
 
 extern "C" {
-void *get_player_by_client_id(s32 i);
 f32 xz_distance_squared(void *, void *);
 s32 draw_polygon_2d__FP13NJS_POINT2COLlUlf(void *, int, int, f32, f32, f32);
 f32 lbl_805D6800;
@@ -155,13 +155,13 @@ TAdFadeGC::TAdFadeGC(TObject *object, void *arg2) : TObject(object) {
 #pragma opt_common_subs off
 #pragma opt_propagation off
 #pragma opt_dead_assignments off
-bool TObjTradeCollision::is_player_outside_trade_radius(u32 arg1) {
+bool TObjTradeCollision::is_player_outside_trade_radius(u32 client) {
     u8 *arg0 = (u8 *)this;
     f32 temp_f0;
     f32 temp_f31;
     s32 temp_r31;
     saddr player;
-    player = (saddr)get_player_by_client_id(arg1);
+    player = (saddr)get_player_by_client_id(client);
     if (player == 0) {
         return 0;
     }

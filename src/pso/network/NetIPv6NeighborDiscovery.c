@@ -462,8 +462,8 @@ s16 NetIPv6HandleRedirect(NetPacket *pkt, u8 *right, u8 *dst, s16 iface) {
     return 0;
 }
 #pragma pop
-s16 NetIPv6ParseRedirectOptions(NetPacketFragment *frag, s32 n, NetIcmpv6Redirect *arg2, s32 opts, s16 *arg4, s16 iface) {
-    NetBufferRef sp20;
+s16 NetIPv6ParseRedirectOptions(NetPacketFragment *frag, s32 n, NetIcmpv6Redirect *msg, s32 opts, s16 *optlen, s16 iface) {
+    NetBufferRef ref;
     u8 *h;
     s16 len;
     Ipv6NdNeighbor *e;
@@ -486,16 +486,16 @@ s16 NetIPv6ParseRedirectOptions(NetPacketFragment *frag, s32 n, NetIcmpv6Redirec
             netbuf_ref_advance(&frag->buffer, len);
             break;
         case 4:
-            *arg4 = (*arg4 < len) ? *arg4 : len;
-            set_value_and_enable(&sp20, opts);
-            netbuf_copy_by_ref(&sp20, &frag->buffer, *arg4);
+            *optlen = (*optlen < len) ? *optlen : len;
+            set_value_and_enable(&ref, opts);
+            netbuf_copy_by_ref(&ref, &frag->buffer, *optlen);
             netbuf_ref_advance(&frag->buffer, len);
             break;
         case 2: {
             u8 *p = h + 2;
             s16 l = len - 2;
-            e = TLobby__sub_804182DC(arg2->target.bytes, p, l, iface);
-            if (e != NULL && NetMemcmp(arg2->target.bytes, arg2->destination.bytes, 0x10) != 0) {
+            e = TLobby__sub_804182DC(msg->target.bytes, p, l, iface);
+            if (e != NULL && NetMemcmp(msg->target.bytes, msg->destination.bytes, 0x10) != 0) {
                 e->flags |= 0x80;
             }
             netbuf_ref_advance(&frag->buffer, len);
@@ -506,9 +506,9 @@ s16 NetIPv6ParseRedirectOptions(NetPacketFragment *frag, s32 n, NetIcmpv6Redirec
     return 0;
 }
 
-s16 NetIPv6HandleNeighborAdvertisement(NetPacket *pkt, u8 *src, u8 *address, s16 arg3) {
-    NetBufferRef sp30;
-    NetIcmpv6NeighborAdvertisement sp18;
+s16 NetIPv6HandleNeighborAdvertisement(NetPacket *pkt, u8 *src, u8 *address, s16 id) {
+    NetBufferRef ref;
+    NetIcmpv6NeighborAdvertisement msg;
     u8 *lladdr;
     s16 lladlen;
     NetPacketFragment *hdr;
@@ -523,9 +523,9 @@ s16 NetIPv6HandleNeighborAdvertisement(NetPacket *pkt, u8 *src, u8 *address, s16
     if (len < 0x18) {
         return -1;
     }
-    set_value_and_enable(&sp30, (saddr)&sp18);
-    netbuf_copy_by_ref(&sp30, &hdr->buffer, 0x18);
-    if ((s16)NetIPv6IsMulticast(sp18.target.bytes)) {
+    set_value_and_enable(&ref, (saddr)&msg);
+    netbuf_copy_by_ref(&ref, &hdr->buffer, 0x18);
+    if ((s16)NetIPv6IsMulticast(msg.target.bytes)) {
         return -1;
     }
     len -= 0x18;
@@ -537,11 +537,11 @@ s16 NetIPv6HandleNeighborAdvertisement(NetPacket *pkt, u8 *src, u8 *address, s16
         }
     }
     if ((s16)NetIPv6IsMulticast(address)) {
-        if ((sp18.flags & 0x40) || lladlen == 0) {
+        if ((msg.flags & 0x40) || lladlen == 0) {
             return -1;
         }
     }
-    return NetIPv6ApplyNeighborAdvertisement(&sp18, lladdr, lladlen, (saddr)src, (saddr)address, arg3);
+    return NetIPv6ApplyNeighborAdvertisement(&msg, lladdr, lladlen, (saddr)src, (saddr)address, id);
 }
 
 s16 NetIPv6FindTargetLinkLayerAddressOption(NetPacketFragment *o, s32 len, u8 **out, s16 *outlen) {
@@ -752,7 +752,7 @@ inline Ipv6NdRouter *ScanPeers2_80417494(s16 *cnt, Ipv6NdRouter **list, void *na
 s16 TLobby__sub_80417294(NetPacketFragment *self, s32 n, u8 *dst, s16 iface);
 
 s16 NetIPv6HandleNeighborSolicitation(NetPacket *pkt, u8 *arg1, u8 *dst, s16 iface) {
-    NetBufferRef sp30;
+    NetBufferRef ref;
     IPv6NeighborSolicitation sp18;
     NetPacketFragment *hdr;
     u32 len;
@@ -765,8 +765,8 @@ s16 NetIPv6HandleNeighborSolicitation(NetPacket *pkt, u8 *arg1, u8 *dst, s16 ifa
     if ((s16)NetIPv6IsUnspecified(arg1) && TLobby__sub_80413F0C(dst, iface) == 0) {
         return -1;
     }
-    set_value_and_enable(&sp30, (saddr)&sp18);
-    netbuf_copy_by_ref(&sp30, &hdr->buffer, 0x18);
+    set_value_and_enable(&ref, (saddr)&sp18);
+    netbuf_copy_by_ref(&ref, &hdr->buffer, 0x18);
     if ((s16)NetIPv6IsMulticast(sp18.target.bytes)) {
         return -1;
     }
@@ -867,7 +867,7 @@ s16 TLobby__sub_80417028(void *self, void *a, void *b, s16 iface) {
 }
 
 s16 NetIPv6HandleRouterAdvertisement(NetPacket *pkt, u8 *arg1, u8 *dst, s16 iface) {
-    NetBufferRef sp28;
+    NetBufferRef ref;
     NetIcmpv6RouterAdvertisement sp18;
     u32 n;
     NetPacketFragment *p;
@@ -883,8 +883,8 @@ s16 NetIPv6HandleRouterAdvertisement(NetPacket *pkt, u8 *arg1, u8 *dst, s16 ifac
     if (r == 0) {
         return -1;
     }
-    set_value_and_enable(&sp28, (saddr)&sp18);
-    netbuf_copy_by_ref(&sp28, &p->buffer, 0x10);
+    set_value_and_enable(&ref, (saddr)&sp18);
+    netbuf_copy_by_ref(&ref, &p->buffer, 0x10);
     n -= 0x10;
     if (n >= 8U) {
         netbuf_ref_advance(&p->buffer, 0x10);
@@ -1085,7 +1085,7 @@ s16 NetIPv6HandleRouterSolicitation(NetPacket *o, u8 *src, u8 *dst, s16 iface) {
     return 0;
 }
 
-s16 TLobby__sub_80417868(NetPacketFragment *arg0, u32 len, u8 *arg2, s16 arg3)
+s16 TLobby__sub_80417868(NetPacketFragment *opts, u32 len, u8 *arg2, s16 arg3)
 {
   s16 i;
   s32 step;
@@ -1095,7 +1095,7 @@ s16 TLobby__sub_80417868(NetPacketFragment *arg0, u32 len, u8 *arg2, s16 arg3)
   void *out;
   s32 n;
   u8 *p;
-  self = arg0;
+  self = opts;
   n = len;
   out = arg2;
   arg_ = arg3;
@@ -1322,7 +1322,7 @@ s16 NetIPv6SendMulticastNeighborProbe(Ipv6NdNeighbor *e) {
 }
 
 s16 NetIPv6SendUnicastNeighborProbe(Ipv6NdNeighbor *e) {
-    u8 sp2C[0x18];
+    u8 destination[0x18];
     u8 out[0x10];
     Ipv6NdAddrEvent a7;
     Ipv6NdAddrEvent a6;
@@ -1362,7 +1362,7 @@ s16 NetIPv6SendUnicastNeighborProbe(Ipv6NdNeighbor *e) {
     } else {
         TLobby__sub_804145D4(out, e->iface);
     }
-    NetMemcpy(sp2C, e->addr, 0x10);
+    NetMemcpy(destination, e->addr, 0x10);
     ret = NetIPv6EmitNeighborSolicitation(pkt, e->addr, out, e->iface, (saddr)e->lladdr);
     release_entry(pkt);
     return ret;
@@ -1377,7 +1377,7 @@ s16 NetIPv6EmitNeighborSolicitation(void *arg0, void *arg1, void *arg2, s16 arg3
     NetIcmpv6NeighborSolicitation message;
     NetSourceLinkLayerOption option;
     s16 temp_r3;
-    s16 temp_r5;
+    s16 length;
     s16 r;
     s16 TLobby__sub_80414090(u8 *, s16); /* declared s16 here; the definition returns s32 */
     net_packet = (NetPacket *)arg0;
@@ -1399,11 +1399,11 @@ s16 NetIPv6EmitNeighborSolicitation(void *arg0, void *arg1, void *arg2, s16 arg3
         }
         temp_r3 = NetIPv6GetInterfaceLinkLayerAddress((saddr)&option.address, 0x20, b);
         if (temp_r3 > 0) {
-            temp_r5 = temp_r3 + 2;
+            length = temp_r3 + 2;
             option.type = 1;
-            option.length_units = (u8)(temp_r5 >> 3);
-            net_packet->total_bytes += temp_r5;
-            net_packet->fragments[net_packet->fragment_count].length = temp_r5;
+            option.length_units = (u8)(length >> 3);
+            net_packet->total_bytes += length;
+            net_packet->fragments[net_packet->fragment_count].length = length;
             set_value_and_enable(&net_packet->fragments[net_packet->fragment_count].buffer, (saddr)&option);
             net_packet->fragment_count += 1;
         }
@@ -1431,18 +1431,18 @@ s16 NetIPv6EmitRouterSolicitation(NetPacket *net_packet, NetIPv6SendParameters *
     NetIcmpv6RouterSolicitation message;
     NetSourceLinkLayerOption option;
     s16 temp_r3;
-    s16 temp_r5;
+    s16 length;
     if ((NetIPv6IsMulticast(addr->destination.bytes)) == 0) {
         return -0x10E;
     }
     if ((NetIPv6IsUnspecified(addr->source.bytes)) == 0) {
         temp_r3 = NetIPv6GetInterfaceLinkLayerAddress((saddr)&option.address, 0x20, id);
         if (temp_r3 > 0) {
-            temp_r5 = temp_r3 + 2;
+            length = temp_r3 + 2;
             option.type = 1;
-            option.length_units = (u8) (temp_r5 >> 3);
-            net_packet->total_bytes += temp_r5;
-            net_packet->fragments[net_packet->fragment_count].length = temp_r5;
+            option.length_units = (u8) (length >> 3);
+            net_packet->total_bytes += length;
+            net_packet->fragments[net_packet->fragment_count].length = length;
             set_value_and_enable(&net_packet->fragments[net_packet->fragment_count].buffer, (saddr)&option);
             net_packet->fragment_count += 1;
         }

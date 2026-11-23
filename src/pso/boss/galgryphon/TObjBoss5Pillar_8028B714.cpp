@@ -20,19 +20,19 @@ u8 *free_chcr_resources(u8 *arg0, s16 arg1) {
         }
         if ((s32) *(s32 *)((s8 *)arg0 + 0x54) != 0) {
             if (!(*(s32 *)((s8 *)arg0 + 0x4A8) & 1)) {
-                free_texture_if_valid((uaddr)(arg0 + 0x1B8));
+                free_texture_if_valid((NJS_TEXLIST *)(arg0 + 0x1B8));
             }
             *(s32 *)((s8 *)arg0 + 0x54) = 0;
         }
         if ((s32) *(s32 *)((s8 *)arg0 + 0x1C0) != 0) {
             if (!(*(s32 *)((s8 *)arg0 + 0x4A8) & 2)) {
-                free_texture_if_valid((uaddr)(arg0 + 0x324));
+                free_texture_if_valid((NJS_TEXLIST *)(arg0 + 0x324));
             }
             *(s32 *)((s8 *)arg0 + 0x1C0) = 0;
         }
         if ((s32) *(s32 *)((s8 *)arg0 + 0x32C) != 0) {
             if (!(*(s32 *)((s8 *)arg0 + 0x4A8) & 4)) {
-                free_texture_if_valid((uaddr)(arg0 + 0x490));
+                free_texture_if_valid((NJS_TEXLIST *)(arg0 + 0x490));
             }
             *(s32 *)((s8 *)arg0 + 0x32C) = 0;
         }

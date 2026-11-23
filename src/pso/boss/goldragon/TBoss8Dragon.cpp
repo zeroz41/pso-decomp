@@ -29,6 +29,7 @@
 #include "pso/unk/text_803D8F74.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/math/AngleLookup.h"
+#include "pso/network/client_id.h"
 #include "pso/math/AngleUnits.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include <stdlib.h>
@@ -82,16 +83,16 @@
 #include "pso/unk/text_803D853C.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/camera/CameraHelpers.h"
+#include "pso/object/base/TObjBase.h"
+#include "pso/player/PlayerSlots.h"
 
 extern "C" {
-extern s32 local_client_id;
 f32 atan2_float(f32 y, f32 x);
 }
 extern u16 boss8_dragon_control_client_id;
 f32 sample_acceleration_curve(AccelerationCurve *c, f32 t);
 void init_acceleration_curve(AccelerationCurve *c, f32 a, f32 d, f32 length, f32 speed);
 extern "C" {
-u16 get_entity_id(u8 *);
 f32 newton_sqrtf(f32);
 
 }
@@ -121,7 +122,6 @@ extern Vec *boss8_dragon_capture_points_out;
 extern s32 boss8_dragon_capture_flags;
 extern NJS_OBJECT *boss8_dragon_capture_model;
 extern TBoss8Dragon *boss8_dragon_main_instance;
-extern s32 TLobby__designated_client_id;
 extern s32 boss8_dragon_breath_node;
 extern f32 boss8_dragon_visibility_distance;
 
@@ -267,7 +267,7 @@ f32 calc_random_ratio__10TObjPlayerFv(void *);
 // Slot 87: per-action event dispatch through a table of handler members.
 }
 extern "C" {
-s32 __ct__14SubtractiveRngFv(void *arg0);
+s32 __ct__14SubtractiveRngFv(void *rng);
 }
 void handle_6xA8_gol_dragon_boss_actions(void *data);
 
@@ -347,7 +347,7 @@ extern "C" {
 NJS_OBJECT *TBoss8Dragon::clone_node_tree(NJS_OBJECT *src, NJS_OBJECT *dst, NJS_CNK_MODEL *model) {
     NJS_OBJECT *cur = dst;
     dst = dst + 1;
-    copy_model_node((u8 *)cur, (u8 *)src);
+    copy_model_node(cur, src);
     cur->model = model;
     if (src->child != NULL) {
         cur->child = dst;
@@ -480,7 +480,7 @@ void TBoss8Dragon::free_static() {
 void TBoss8Dragon::clear_player_control() { boss8_dragon_player_control = 0; }
 
 TBoss8Dragon::TBoss8Dragon(TObject *parent, void *set_data) : TObjEneDD_ST(parent), sub_tasks(NULL) {
-    u32 sp8[4];
+    u32 record[4];
     s32 i;
     s32 j;
     u8 *q;
@@ -493,12 +493,12 @@ TBoss8Dragon::TBoss8Dragon(TObject *parent, void *set_data) : TObjEneDD_ST(paren
     }
     invoke_initialization_hook(set_data);
     this->flags = 0;
-    if (this->exchange_object_state(sp8, 1) != 0 && (sp8[0] & 0x12008) == 0x12008) {
+    if (this->exchange_object_state(record, 1) != 0 && (record[0] & 0x12008) == 0x12008) {
         this->flags |= 8;
     }
     this->init_position_vectors();
     this->model = boss8_dragon_resource->models[0].model;
-    this->texlist = (saddr)boss8_dragon_resource->models[0].texlist;
+    this->texlist = boss8_dragon_resource->models[0].texlist;
     this->scale.x = 2.0f;
     this->scale.y = 2.0f;
     this->scale.z = 2.0f;
@@ -1053,7 +1053,7 @@ s32 TBoss8Dragon::select_target_in_front() {
             subtract_vector(&d, &this->position);
             normalize_vector_xz((Vec *)&d);
             if (vec3_dot(&d, &ref) > lim) {
-                ids[n++] = get_entity_id(player);
+                ids[n++] = ((TObjBase *)(player))->get_entity_id();
             }
         }
     }
@@ -1528,14 +1528,14 @@ u16 TBoss8Dragon::find_player_on_floor() {
     TObjPlayer *p;
     u16 idx;
     u16 i;
-    p = get_player_by_client_id(TLobby__designated_client_id);
+    p = get_player_by_client_id(designated_client_id);
     if (p != NULL) {
         if (p->get_floor() == get_current_floor()) {
-            return TLobby__designated_client_id;
+            return designated_client_id;
         }
     }
     for (i = 0; i < 4; i++) {
-        idx = (TLobby__designated_client_id + i + 1) % 4;
+        idx = (designated_client_id + i + 1) % 4;
         p = get_player_by_client_id(idx);
         if (p != NULL) {
             if (p->get_floor() == get_current_floor()) {
@@ -2002,7 +2002,7 @@ void TBoss8Dragon::state_breath_attack(s32 event) {
                 direction_to_rotation_xz((u8 *)&breath_direction, &rot.x, &rot.z);
                 this->impactAge++;
                 if (this->impactAge >= 2) {
-                    new TBoss8DragonEffBreath(&sub_tasks, &breath_origin, &breath_direction, attack_kind, get_entity_id(((u8 *)this)));
+                    new TBoss8DragonEffBreath(&sub_tasks, &breath_origin, &breath_direction, attack_kind, ((TObjBase *)this)->get_entity_id());
                     this->impactAge = 0;
                 }
                 if (this->breath_particles[0] == 0) {
@@ -2391,19 +2391,19 @@ void TBoss8Dragon::update_air_fire_state(s32 event) {
                 dir.y = 0.0f;
                 VecCopy(&v, (Vec *)d);
                 v.y = boss8_dragon_arena_center.y;
-                new TBoss8DragonEffBullet(&sub_tasks, &breath_origin, &v, attack_kind, get_entity_id(((u8 *)this)));
+                new TBoss8DragonEffBullet(&sub_tasks, &breath_origin, &v, attack_kind, ((TObjBase *)this)->get_entity_id());
                 rotate_vec_xz(&dir, &rot, 0x1000);
                 VecCopy(&v, &position);
                 v.x += rot.x * len;
                 v.y = boss8_dragon_arena_center.y;
                 v.z += rot.z * len;
-                new TBoss8DragonEffBullet(&sub_tasks, &breath_origin, &v, attack_kind, get_entity_id(((u8 *)this)));
+                new TBoss8DragonEffBullet(&sub_tasks, &breath_origin, &v, attack_kind, ((TObjBase *)this)->get_entity_id());
                 rotate_vec_xz(&dir, &rot, -0x1000);
                 VecCopy(&v, &position);
                 v.x += rot.x * len;
                 v.y = boss8_dragon_arena_center.y;
                 v.z += rot.z * len;
-                new TBoss8DragonEffBullet(&sub_tasks, &breath_origin, &v, attack_kind, get_entity_id(((u8 *)this)));
+                new TBoss8DragonEffBullet(&sub_tasks, &breath_origin, &v, attack_kind, ((TObjBase *)this)->get_entity_id());
                 spawn_particle_effect_with_flags((const Vec *)&breath_origin, this->particle_ids[9], 0x40);
                 this->stateStep = 3;
                 this->action_frames = 0;
@@ -2529,7 +2529,7 @@ void TBoss8Dragon::update_spinning_projectile_attack(s32 event) {
                     pos.y = 0.0f;
                     pos.z = 700.0f * (calc_random_ratio__10TObjPlayerFv(this->randomState) - 0.5f);
                 }
-                new TBoss8DragonEffBullet(&sub_tasks, &breath_origin, &pos, this->attack_kind, get_entity_id((u8 *)this));
+                new TBoss8DragonEffBullet(&sub_tasks, &breath_origin, &pos, this->attack_kind, ((TObjBase *)this)->get_entity_id());
             }
             this->rotation_x -= this->action_angle;
             break;
@@ -2581,7 +2581,7 @@ void TBoss8Dragon::update_spinning_projectile_attack(s32 event) {
         break;
     case 5:
         this->rotation_x = 0;
-        this->sub_8002AE64();
+        this->enable_motion_blend();
         this->camera_eye_raised = 0;
         break;
     }
@@ -2702,7 +2702,7 @@ void TBoss8Dragon::update_fall_state(s32 event) {
             }
             if (this->is_passing_frame(50.0f) != 0) {
                 fill_value_array(this->attack_history);
-                create_boss8_piller_ctrl(&position, (s32)(((s32 (*)(u8 *))get_entity_id)((u8 *)this)), 100.0f);
+                create_boss8_piller_ctrl(&position, (((TObjBase *)this)->get_entity_id()), 100.0f);
                 spawn_particle_effect_with_flags(&position, this->particle_ids[2], 0x40);
                 if (this->particle_ids[3] != -1) {
                     spawn_particle_effect_with_flags(&position, this->particle_ids[3], 0x40);
@@ -3003,7 +3003,7 @@ void TBoss8Dragon::update_dive_state(s32 event) {
             if (this->position.y <= 0.0f && this->ground_impact_done == 0) {
                 this->apply_ground_impact_attack();
                 fill_value_array(this->attack_history);
-                create_boss8_piller_ctrl(&position, (s32)(((s32 (*)(u8 *))get_entity_id)((u8 *)this)), 100.0f);
+                create_boss8_piller_ctrl(&position, (((TObjBase *)this)->get_entity_id()), 100.0f);
                 this->ground_impact_done = 1;
                 this->set_invulnerable();
                 this->disable_body_collision();
@@ -3334,7 +3334,7 @@ void TBoss8Dragon::handle_leap_state(s32 event) {
                 this->set_state();
                 this->apply_ground_impact_attack();
                 fill_value_array(attack_history);
-                create_boss8_piller_ctrl(&position, (s32)(((s32 (*)(void *))get_entity_id)(this)), 100.0f);
+                create_boss8_piller_ctrl(&position, (this->get_entity_id()), 100.0f);
                 this->play_effect_sound(0x4003AD0F);
             }
             break;
@@ -4360,7 +4360,7 @@ void TBoss8Dragon::update_appearance_state(s32 event) {
                     v.y = 0.0f;
                     v.z = 0.5f * (this->node_positions[3].z + this->node_positions[5].z);
                     fill_value_array(this->attack_history);
-                    create_boss8_piller_ctrl(&v, (s32)(((s32 (*)(void *))get_entity_id)(this)), 100.0f);
+                    create_boss8_piller_ctrl(&v, (this->get_entity_id()), 100.0f);
                     spawn_particle_effect_with_flags(&this->position, this->particle_ids[2], 0x40);
                     if (this->particle_ids[3] != -1) {
                         spawn_particle_effect_with_flags(&this->position, this->particle_ids[3], 0x40);
@@ -4697,7 +4697,7 @@ void TBoss8Dragon::draw() {
 void TBoss8Dragon::draw_with_fade(Vec *pos, s32 view) {
     RenderFadeState *fade;
     if (!(this->position.y <= -400.0f)) {
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(this->texlist));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
         TObjEneDD::clear_global_flag_400();
         saved_model_render_flags = model_render_flags;
         set_material_alpha_compare_reference(0);
@@ -4804,7 +4804,7 @@ void TBoss8Dragon::draw_motion_model() {
     s32 idx;
     AnimationMotion *anim;
     if (this->update_object_view_visibility(400.0f, 20.0f) != 0) {
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(this->texlist));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
         push_matrix();
         post_translate_matrix(&this->position.x);
         rotate_matrix_y(0, this->rotation_y);

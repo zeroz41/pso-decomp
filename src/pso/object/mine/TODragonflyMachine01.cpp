@@ -110,7 +110,7 @@ void TODragonflyMachine01::render() {
             rotate_matrix_y(NULL, rotation_y);
             break;
         }
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
         node_index = 0;
         node_yaw = animation_yaw;
         set_chunk_model_node_callback(rotate_animated_node);
@@ -166,7 +166,7 @@ void TODragonflyMachine01::load_resources() {
     NpcAnimationBinding setup = dragonfly_machine_attack_effect_params;
     setup.motions = resource->motions;
     NpcModelRegistry::register_animated_ginja(0x38, reinterpret_cast<NJS_OBJECT *>(resource->models->model),
-                                             reinterpret_cast<GinjaTextureList *>(resource->models->texlist), &setup, 3.0f, 15.0f);
+                                             reinterpret_cast<NJS_TEXLIST *>(resource->models->texlist), &setup, 3.0f, 15.0f);
 }
 
 TODragonflyMachine01::~TODragonflyMachine01() {}
@@ -175,7 +175,7 @@ TODragonflyMachine01::TODragonflyMachine01(void *set_data) {
     m_name = class_name;
     apply_object_set_data(set_data);
     model = (NJS_OBJECT *)model_resource->models->model;
-    texlist = (saddr)model_resource->models->texlist;
+    texlist = model_resource->models->texlist;
     motion = model_resource->motions->motion;
     animation_end_frame = (f32)motion->frameCount - 1.0f;
     animation_step = 1.0f;

@@ -125,4 +125,7 @@ void pick_tenchu_furu_spots();
 void pick_tenchu_furu_spots_around(const Vec *center, f32 min_dist);
 }
 
+// Scene archive ids of the six Dark Falz body models.
+extern s32 boss4_type1_model_ids[];
+
 #endif

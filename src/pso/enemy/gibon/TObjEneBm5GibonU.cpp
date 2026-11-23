@@ -4,6 +4,7 @@
 #include "pso/system/EnemyBmlResource.h"
 #include "pso/boss/goldragon/TBoss8Dragon_80065C90.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/technique/TTecZondeEff.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/map/CsnGroundQuery.h"
 #include "pso/npc/NpcModelRegistry.h"
@@ -72,6 +73,7 @@ struct NJS_OBJECT;
 #include "pso/enemy/panarms/TObjEnePanarms.h"
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/system/MatrixStack.h"
+#include "pso/object/base/TObjBase.h"
 
 // The motion-binding block TLobby::spawn_npc_enemy takes (same layout as GeeAnimationBinding).
 
@@ -202,7 +204,7 @@ void TObjEneBm5GibonU::spawn_landing_effect(Vec *pos) {
     void *p;
     VecCopy(&v, pos);
     v.y += 15.0f;
-    hit = csnVectorUnder(&v, (CsnGroup **)&ground_cache, 5);
+    hit = csnVectorUnder(&v, ground_candidates.groups, 5);
     if (hit != NULL && (hit->hit_mask & 4)) {
         p = spawn_particle_effect(&hit->contact[2].point, 0x49);
         if (p != NULL) {
@@ -267,7 +269,7 @@ void TObjEneBm5GibonU::render_debug() {
     }
     if (update_object_view_visibility(400.0f, 20.0f) != 0) {
         draw_ground_shadow(0, 0);
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, rotation_y);
@@ -367,7 +369,7 @@ void TObjEneBm5GibonU::render() {
                 pop_matrix();
             }
             this->update_secondary_light();
-            TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(this->texlist));
+            TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
             push_matrix();
             if (this->mode == 1 || this->mode == 2) {
                 appear_fade.set_flags_and_apply_damage_color();
@@ -507,7 +509,7 @@ void TObjEneBm5GibonU::state_cast_technique(s32 msg) {
                         if (r < attack_params->get_attack_angle() / 2 && current_target != 0) {
                             clear_target_cursor_list(&targets);
                             targets.count = 1;
-                            targets.records[0].id = get_entity_id(current_target);
+                            targets.records[0].id = current_target->get_entity_id();
                             targets.records[0].flag = 0;
                             TTecGiZonde::create(this, &p, &targets, get_clamped_level());
                         } else {
@@ -521,10 +523,7 @@ void TObjEneBm5GibonU::state_cast_technique(s32 msg) {
                             rotate_matrix_y(0, rotation_y);
                             rotate_vector_by_matrix(0, &v, &v);
                             pop_matrix();
-                            e = TObject::operator new(0x260);
-                            if (e != 0) {
-                                ((TTecZonde *)e)->construct_bolt_effect((u8 *)tl_07, (u8 *)&p, (u8 *)&v, 0x14000000, 20, (f32)(attack_params->get_attack_range()), 1.8f);
-                            }
+                            new TTecZondeEff(tl_07, &p, &v, 0x14000000, 20, (f32)(attack_params->get_attack_range()), 1.8f);
                         }
                         play_sound_effect(0x4002A408, &p, 0, 0);
                         break;
@@ -603,7 +602,7 @@ void TObjEneBm5GibonU::backjump_state(s32 msg) {
                         VecCopy(&v, (const Vec *)&this->body_center);
                         v.x += dx;
                         v.z += dz;
-                        if (csnVectorUnder(&v, (CsnGroup **)&this->ground_cache, 0x15) != 0) {
+                        if (csnVectorUnder(&v, this->ground_candidates.groups, 0x15) != 0) {
                             this->destination_direction.x = sin_table_lookup(ang);
                             this->destination_direction.y = 0.0f;
                             this->destination_direction.z = cos_table_lookup(ang);
@@ -907,7 +906,7 @@ void TObjEneBm5GibonU::repositioning_state(s32 msg) {
                     VecCopy(&v, &this->body_center);
                     v.x += dx;
                     v.z += dz;
-                    if (csnVectorUnder(&v, (CsnGroup **)&this->ground_cache, 0x15) != NULL) {
+                    if (csnVectorUnder(&v, this->ground_candidates.groups, 0x15) != NULL) {
                         this->substate = 1;
                         this->requested_action = 0x10;
                         this->destination_direction.x = sin_table_lookup(this->target_heading);
@@ -1842,7 +1841,7 @@ void TObjEneBm5GibonU::handle_state(s32 msg) {
       other = TObjEneBm5GibonU::find_pack_leader(group_id);
       if (other)
     {
-      leader_id = get_entity_id(other);
+      leader_id = other->get_entity_id();
     }
       if (is_leader != 0 || other == NULL)
     {
@@ -1926,7 +1925,7 @@ void TObjEneBm5GibonUNode::append_to(TObjEneBm5GibonUNode **head, TObjEneBm5Gibo
 }
 
 void TObjEneBm5GibonUNode::set_owner(TObjEneBm5GibonU *owner) {
-    entity_id = get_entity_id(owner);
+    entity_id = owner->get_entity_id();
 }
 
 TObjEneBm5GibonU *TObjEneBm5GibonUNode::get_owner() {
@@ -1980,8 +1979,8 @@ void TObjEneBm5GibonU::load_resources() {
     NpcAnimationBinding sp = TObjEneBm5GibonU__spawn_params;
     m = TObjEneBm5GibonU__model_archive;
     sp.motions = reinterpret_cast<BmlMotionEntry *>(m->motions);
-    NpcModelRegistry::register_animated_chunk(0xE, reinterpret_cast<void *>(m->models[0].model), reinterpret_cast<void *>(m->models[0].texlist), &sp, gibon_collision_body_templates[0].radius, 0.0f);
-    NpcModelRegistry::register_animated_chunk(0xF, reinterpret_cast<void *>(TObjEneBm5GibonU__model_archive->models[1].model), reinterpret_cast<void *>(TObjEneBm5GibonU__model_archive->models[1].texlist), &sp, gibon_collision_body_templates[1].radius, 0.0f);
+    NpcModelRegistry::register_animated_chunk(0xE, reinterpret_cast<void *>(m->models[0].model), m->models[0].texlist, &sp, gibon_collision_body_templates[0].radius, 0.0f);
+    NpcModelRegistry::register_animated_chunk(0xF, reinterpret_cast<void *>(TObjEneBm5GibonU__model_archive->models[1].model), TObjEneBm5GibonU__model_archive->models[1].texlist, &sp, gibon_collision_body_templates[1].radius, 0.0f);
 }
 
 void *TObjEneBm5GibonU::create(void *set_data) {
@@ -2180,12 +2179,12 @@ void TObjEneBm5GibonU::select_subtype() {
         is_leader = 1;
         technique_type = 1;
         model = (void *)TObjEneBm5GibonU__model_archive->models[1].model;
-        texlist = (saddr)TObjEneBm5GibonU__model_archive->models[1].texlist;
+        texlist = TObjEneBm5GibonU__model_archive->models[1].texlist;
     } else {
         is_leader = 0;
         technique_type = 0;
         model = (void *)TObjEneBm5GibonU__model_archive->models[0].model;
-        texlist = (saddr)TObjEneBm5GibonU__model_archive->models[0].texlist;
+        texlist = TObjEneBm5GibonU__model_archive->models[0].texlist;
     }
     backjump_chance = 0.4f + parameters[2];
     run_foie_chance = 0.3f + parameters[3];

@@ -3,7 +3,7 @@
 #include "types.h"
 #include "pso/technique/TTecReverser.h"
 #include "pso/technique/TechniqueParams.h"
-#include "pso/unk/TUnk_804CCC28.h"
+#include "pso/technique/TTecReverserEff.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/vector.h"
 #include "pso/technique/TTecCircle.h"
@@ -18,20 +18,12 @@
 #include "pso/system/SoundEffect.h"
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/player/TargetCursorList.h"
+#include "pso/object/base/TObjBase.h"
 
 #pragma readonly_strings on
 
 struct Entry_80239E44 { s32 a; s32 b; s32 c; s32 pad; };
 
-struct Player_80239E44 { u8 pad[0x2FC]; Vec pos; };
-
-struct Obj_80239E44 {
-    u8 pad[0x18];
-    void *vtable;
-    void *parts[3];
-    s32 f28;
-    Vec pos;
-};
 
 struct Rev_8023A364 {
     u8 pad[0xcc];
@@ -47,19 +39,12 @@ struct Rev_8023A364 {
 struct List_8023A244 { uaddr objs[16]; s32 vals[16]; s32 count; };
 
 extern "C" {
-s32 is_active__12TTecReverserFv();
-void run_task__12TTecReverserFv(u8 *arg0);
-s32 get_entity_id(int);
-s32 copy_technique_target_list(void *, void *);
 const char *lbl_805D3818 = "TTecReverser";
-void __ct__7TObjectFP7TObject(void *self, void *parent);
-extern s32 __vt__13TUnk_804CCC28[];
 Entry_80239E44 revival_particle_table[3] = {
     {0, 0x1E, 0x35, 0},
     {0x23, 1, 0x36, 0},
     {0x2D, 1, 0x37, 0},
 };
-Obj_80239E44 *construct_revival_particle_effect(Obj_80239E44 *self, Player_80239E44 *player, void *parent);
 s32 get_type__10TObjPlayerFPv(void *p);
 
 }
@@ -81,7 +66,7 @@ void TTecShot::dispatch_all_technique_contacts() {
         queue_destruction();
         return;
     }
-    if ((u16) get_entity_id((int) (*(s32 *)((s8 *)((u8 *)this) + 0x1C))) < 4U) {
+    if ((u16) ((TObjBase *)((saddr)(*(s32 *)((s8 *)((u8 *)this) + 0x1C))))->get_entity_id() < 4U) {
         if (get_type__10TObjPlayerFPv((void *)(*(saddr *)((s8 *)((u8 *)this) + 0x1C) + 0x828)) != 0) {
             list = (List_8023A244 *) query_technique_player_contacts(*(s32 *)((s8 *)((u8 *)this) + 0x1C));
         } else {
@@ -112,7 +97,7 @@ void TTecShot::dispatch_technique_contact(s32) {
         queue_destruction();
         return;
     }
-    if ((u16) get_entity_id((int) (*(s32 *)((s8 *)((u8 *)this) + 0x1C))) < 4U) {
+    if ((u16) ((TObjBase *)((saddr)(*(s32 *)((s8 *)((u8 *)this) + 0x1C))))->get_entity_id() < 4U) {
         if (get_type__10TObjPlayerFPv((void *)(*(saddr *)((s8 *)((u8 *)this) + 0x1C) + 0x828)) != 0) {
             var_r31 = query_technique_player_contacts(*(s32 *)((s8 *)((u8 *)this) + 0x1C));
         } else {
@@ -137,16 +122,13 @@ void TTecShot::dispatch_technique_contact(s32) {
 
 #define tec_reverser ((u8 *)this)
 TTecReverser::TTecReverser(saddr arg1, saddr origin, saddr targets, saddr level) : TTecCircle(arg1, origin, level) {
-    u32 temp_r3;
-    __ct__16TargetCursorListFv((tec_reverser + 0xEC));
     ((TTecReverser *)tec_reverser)->m_name = lbl_805D3818;
     ((TechniqueParams *)(tec_reverser + 0x88))->copy(&technique_param_table[17]);
     ((TTecReverser *)tec_reverser)->apply_params((TechniqueParams *)(tec_reverser + 0x88), level);
-    copy_technique_target_list(tec_reverser + 0xEC, (void *)targets);
+    copy_technique_target_list(&((TTecReverser *)tec_reverser)->targets, (TargetCursorList *)targets);
     play_sound_effect(0x4002A812, tec_reverser + 0x20, 0, 0);
-    temp_r3 = ((TTecReverser *)tec_reverser)->source;
-    if (temp_r3 != 0U) {
-        ((TTecReverser *)tec_reverser)->sourceId = get_entity_id(temp_r3);
+    if (((TTecReverser *)tec_reverser)->source != 0U) {
+        ((TTecReverser *)tec_reverser)->sourceId = ((TObjBase *)(saddr)((TTecReverser *)tec_reverser)->source)->get_entity_id();
     }
 }
 #undef tec_reverser
@@ -159,56 +141,52 @@ void TTecReverser::create(void *source, void *origin, void *targets, s32 level) 
     new TTecReverser((saddr)source, (saddr)origin, (saddr)targets, level);
 }
 
-void run_task__12TTecReverserFv(u8 *tec_reverser) {
+void TTecReverser::run_task() {
     uaddr entity;
-    ((TTecReverser *)tec_reverser)->source = (uaddr)find_entity_by_id((((TTecReverser *)tec_reverser)->sourceId));
-    if ((u32) ((TTecReverser *)tec_reverser)->source == 0U) {
-        ((TObject *)tec_reverser)->queue_destruction();
+    source = (uaddr)find_entity_by_id(sourceId);
+    if (source == 0) {
+        queue_destruction();
         return;
     }
-    if ((s32) ((TTecReverser *)tec_reverser)->m_ec == 0) {
-        ((TObject *)tec_reverser)->queue_destruction();
+    if (targets.count == 0) {
+        queue_destruction();
         return;
     }
-    entity = (uaddr)find_entity_by_id((((TTecReverser *)tec_reverser)->m_f0));
-    if ((is_active__12TTecReverserFv() == 0) && (TObjPlayer::is_valid_and_active(entity) != 0)) {
-        ((TTecReverser *)(tec_reverser))->vfunc_6((void *)entity);
+    entity = (uaddr)find_entity_by_id(targets.records[0].id);
+    if ((((TTecReverser *)entity)->is_active() == 0) && (TObjPlayer::is_valid_and_active(entity) != 0)) {
+        vfunc_6((void *)entity);
     }
-    ((TObject *)tec_reverser)->queue_destruction();
+    queue_destruction();
 }
 
 void TTecReverser::render() {  }
 
-Obj_80239E44 *construct_revival_particle_effect(Obj_80239E44 *self, Player_80239E44 *player, void *parent) {
+TTecReverserEff::TTecReverserEff(TObjChara *chara, TObject *parent) : TObject(parent) {
     s32 i;
-    __ct__7TObjectFP7TObject(self, parent);
-    self->vtable = __vt__13TUnk_804CCC28;
-    self->f28 = 0;
-    VecCopy((Vec *)&self->pos, (const Vec *)&player->pos);
+    m_timer = 0;
+    VecCopy(&m_pos, &chara->body_center);
     for (i = 0; i < 3; i++) {
         if (i == 0) {
             Vec v;
-            VecCopy((Vec *)&v, (const Vec *)&self->pos);
+            VecCopy(&v, &m_pos);
             v.y += 20.0f;
-            self->parts[i] = create_timed_particle_emitter(&v, revival_particle_table[i].c, revival_particle_table[i].a, revival_particle_table[i].b);
+            m_emitters[i] = create_timed_particle_emitter(&v, revival_particle_table[i].c, revival_particle_table[i].a, revival_particle_table[i].b);
         } else {
-            self->parts[i] = create_timed_particle_emitter(&self->pos, revival_particle_table[i].c, revival_particle_table[i].a, revival_particle_table[i].b);
+            m_emitters[i] = create_timed_particle_emitter(&m_pos, revival_particle_table[i].c, revival_particle_table[i].a, revival_particle_table[i].b);
         }
     }
-    return self;
 }
 
-void TUnk_804CCC28::run_task() {
-    u8 *arg0 = (u8 *)this;
-    this->m_28 = (this->m_28 + 1);
-    if ((s32) this->m_28 == 0xA) {
-        spawn_particle_effect((const Vec *)&this->unk_2C, 0x38);
+void TTecReverserEff::run_task() {
+    m_timer = m_timer + 1;
+    if (m_timer == 10) {
+        spawn_particle_effect(&m_pos, 0x38);
     }
-    if ((s32) this->m_28 > 0xC8) {
-        ((TObject *)arg0)->queue_destruction();
+    if (m_timer > 200) {
+        queue_destruction();
     }
 }
 
-TUnk_804CCC28::~TUnk_804CCC28() {
+TTecReverserEff::~TTecReverserEff() {
 
 }

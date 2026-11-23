@@ -9,7 +9,6 @@
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowKeyBoardSoft.h"
 #include "pso/ui/window/TWindowKeyBoardBase.h"
-#include "pso/ui/window/TWindowSubComCard_80244774.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/unk/text_8024ACEC.h"
 #include "pso/unk/text_8024AD30.h"
@@ -34,14 +33,11 @@ const char *window_chat_type_name_pointer = "TWindowChat";
 #pragma pop
 extern "C" {
 saddr TAdSinglePlyChrSelectGC__sub_80076D9C(saddr arg0, saddr arg1);
-int get_chat_shortcut(s32 arg0);
+int get_chat_shortcut(s32 index);
 extern s32 local_client_id;
 saddr fn_8002AE08(s32);
 void send_chat_shortcut(s32);
-s32 __nw__7TObjectFUl(int);
 saddr get_window_layout_position(int);
-void *__dt__11TWindowChatFv(void *, s16);
-void *__dt__11TWindowChatFv(void *arg0, s16 arg1);
 s32 TWindowChat__sub_80247D50(TWindowKeyBoardHard *keyboard);
 int TWindowChat__sub_80247DAC(void* p);
     extern int chat_help_color_table[];
@@ -58,12 +54,12 @@ s32 TWindowCtrl__sub_8024701C(TWindowChat *w) {
 
 s32 TWindowChat::sub_80247080() {
     s32 *temp_r31;
-    u8 *temp_r3;
-    temp_r3 = (u8 *)this->symbolChatWindow;
-    if (temp_r3 == NULL) {
+    u8 *symbolChatWindow;
+    symbolChatWindow = (u8 *)this->symbolChatWindow;
+    if (symbolChatWindow == NULL) {
         return 0;
     }
-    if (TWindowChat__sub_80247DAC(temp_r3) != 0) {
+    if (TWindowChat__sub_80247DAC(symbolChatWindow) != 0) {
         this->set_input_active();
         return 1;
     }
@@ -80,21 +76,21 @@ s32 TWindowChat::sub_80247080() {
 }
 
 s32 TWindowChat::sub_80247128() {
-    s32 temp_r3_2;
+    s32 mode_code;
     uaddr temp_r3;
     temp_r3 = *(u32 *)&this->wordSelectWindow;
     if (temp_r3 == 0U) {
         return 0;
     }
-    temp_r3_2 = ((TWindowDD *)temp_r3)->get_mode_code();
-    if (temp_r3_2 == 0) {
+    mode_code = ((TWindowDD *)temp_r3)->get_mode_code();
+    if (mode_code == 0) {
         return 0;
     }
-    if (temp_r3_2 == 2) {
+    if (mode_code == 2) {
         this->set_input_active();
         return 1;
     }
-    if (temp_r3_2 != 1) {
+    if (mode_code != 1) {
         return 0;
     }
     this->set_active_flag();

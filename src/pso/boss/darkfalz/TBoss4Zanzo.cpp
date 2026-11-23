@@ -11,6 +11,7 @@
 #include "pso/object/base/TObjChara.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/unk/TLobby.h"
+#include "pso/object/base/TObjBase.h"
 #pragma readonly_strings on
 #pragma defer_codegen on
 #pragma inline_depth(1)
@@ -77,6 +78,7 @@
 #include "pso/unk/text_80052420.h"
 #include "pso/boss/darkfalz/TObjDFHorming.h"
 #include "pso/boss/darkfalz/TBoss4Type1.h"
+#include "pso/player/TPlyDispData.h"
 
 
 const char *boss4_type2_class_name = "TBoss4Type2";
@@ -141,7 +143,6 @@ static const Vec boss4_type2_follow_camera_offset_a = {0.0f, 19.8f, -5.0f};
 static const Vec boss4_type2_follow_camera_offset_b = {0.0f, 15.43f, 55.42f};
 const char *TBoss4Zanzo__name = "TBoss4Zanzo";
 
-struct ByteBlock_C { u8 bytes[0xc]; };
 
 TBoss4Type2 *TBoss4Type2::create(TBoss4FormSetData *set_data) {
     return new TBoss4Type2(new TObjControl((TObject *)tl_04), set_data);
@@ -507,7 +508,7 @@ void TBoss4Type2::find_target_pos(Vec *out) {
         if (p == NULL) {
             continue;
         }
-        if (is_player_in_boss_area(get_entity_id(p)) == 0) {
+        if (is_player_in_boss_area(p->get_entity_id()) == 0) {
             continue;
         }
         {
@@ -632,7 +633,7 @@ void TBoss4Type2::spawn_bishi_around_players() {
     b.unk_0C = 1;
     for (i = 0; i < registered_player_count; i++) {
         pl = TObjPlayer::get_player_data(i);
-        if (pl != 0 && is_player_in_boss_area(get_entity_id(pl)) != 0) {
+        if (pl != 0 && is_player_in_boss_area(pl->get_entity_id()) != 0) {
             for (j = 0; j < 3; j++) {
                 if (owner->alloc_child_ids(&b.set_index, &b.entity_id) != 0) {
                     VecCopy(&b.position, &pl->position);
@@ -1074,15 +1075,7 @@ TBoss4Zanzo *TBoss4Type2::create_zanzo(TObject *parent, TBoss4ZanzoParams *param
 }
 
 void copy_zanzo_params(TBoss4ZanzoParams *dst, TBoss4ZanzoParams *src) {
-    *(ByteBlock_C *)&dst->pos = *(ByteBlock_C *)&src->pos;  // copied as 12 bytes, not as floats
-    dst->rotation_y = src->rotation_y;
-    dst->texlist = src->texlist;
-    dst->model = src->model;
-    dst->motion = src->motion;
-    dst->frame = src->frame;
-    dst->fade_start = src->fade_start;
-    dst->fade_end = src->fade_end;
-    dst->lifetime = src->lifetime;
+    *dst = *src;
 }
 
 TBoss4Zanzo::TBoss4Zanzo(TObject *parent, TBoss4ZanzoParams *params) : TObject(parent) {
@@ -1109,7 +1102,7 @@ void TBoss4Zanzo::render() {
         set_motion_packed_rotation();
         post_translate_matrix(&params.pos.x);
         rotate_matrix_y(0, params.rotation_y);
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(params.texlist));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(params.texlist));
         TObjPlayer::begin_alpha_blend(value);
         draw_model_motion(params.model, params.motion, params.frame);
         TObjPlayer::sync_player_globals();

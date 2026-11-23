@@ -11,6 +11,7 @@
 #include "pso/unk/text_803D853C.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/unk/text_803E2D70.h"
+#include "pso/object/base/TObjBase.h"
 
 void TObjMapObject::update_anim_phase() {
     f32 frame;
@@ -43,7 +44,7 @@ s32 TObjMapObject::is_any_player_within_radius_xz(f32 radius_sq) {
     TObjPlayer *player;
     for (slot = 0; (s32)slot < registered_player_count; slot++) {
         player = TObjPlayer::get_player_data(slot);
-        if (player != NULL && get_entity_id(player) < 0x1000) {
+        if (player != NULL && player->get_entity_id() < 0x1000) {
             if (player->get_floor() == get_current_floor() &&
                 horizontal_distance_squared((const Vec *)&position, (const Vec *)&player->position) < radius_sq) {
                 return 1;
@@ -70,7 +71,7 @@ void TObjMapObject::render() {
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
         if (motion != NULL) {
             if (detail == 1) {
                 draw_model_motion(model, motion, animation_frame);

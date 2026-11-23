@@ -3,6 +3,6 @@
 
 #include "types.h"
 
-void *create_TObjEneEpsilonBody(void *arg0);
+void *create_TObjEneEpsilonBody(void *set_data);
 
 #endif

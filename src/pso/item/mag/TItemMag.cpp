@@ -42,6 +42,7 @@
 #include "pso/system/byteswap.h"
 #include "pso/unk/text_80104FCC.h"
 #include "pso/ui/font/TFontSmallLobby.h"
+#include "pso/object/base/TObjBase.h"
 
 const char *item_mag_class_name = "TItemMag";
 
@@ -334,7 +335,7 @@ u32 MagOwnerWatch::test_flags(u32 mask) { return flags & mask; }
 void MagOwnerWatch::set_flags(u32 mask) { flags |= mask; }
 void MagOwnerWatch::clear_flags(u32 mask) { flags &= ~mask; }
 
-int PlayerScaleState::is_scaled() { return test_flags_any(&flags, 1); }
+int PlayerScaleState::is_scaled() { return test_flags_any(&flags.bits, 1); }
 f32 PlayerScaleState::get_scalar() { return scalar; }
 
 s32 ProtectionTimer::get_frames() { return frames; }
@@ -356,7 +357,7 @@ s32 TObjChara::is_in_fixed_pose() {
 s32 TObjPlayer::get_photon_blast_charge() {
     return photon_blast_gauge.get_charge();
 }
-int TObjPlayer::is_frozen() { return (m_334 >> 9) & 1; }
+int TObjPlayer::is_frozen() { return (state_flags >> 9) & 1; }
 s16 MagStats::get_synchro() { return synchro; }
 s16 MagStats::get_iq() { return iq; }
 u8 MagStats::get_color() { return color; }
@@ -384,7 +385,7 @@ int TItemMagSub::is_growth_inactive() { return test_flags(0x40) == 0; }
 
 void TItemMagSub::scale_owner_height(f32 factor) { owner_height_scale *= factor; }
 
-void TItemMagSub::set_model(void *model_arg, u32 textures_arg, void *animation_arg) {
+void TItemMagSub::set_model(void *model_arg, NJS_TEXLIST *textures_arg, void *animation_arg) {
     model = model_arg;
     textures = textures_arg;
     animation = animation_arg;
@@ -530,7 +531,7 @@ void TItemMag::on_unequip() {
     s32 blast;
 
     if (owner->obj_isState2_324() == 0) {
-        assign_default_photon_blast_palette_slots((u8 *)owner->action_palettes);
+        assign_default_photon_blast_palette_slots((u8 *)&owner->action_palettes);
         slot = 0;
         do {
             blast = stats.get_photon_blast(slot);
@@ -541,7 +542,7 @@ void TItemMag::on_unequip() {
         } while (slot != 3);
         if (owner->is_flag_20000_set() == 0) {
             owner->photon_blast_gauge.clear_charge();
-            send_6x3A_clear_photon_blast_ready_flag((u16 *)&owner->photon_blast_gauge);
+            owner->photon_blast_gauge.send_6x3A_clear_photon_blast_ready_flag();
         }
     }
     end_invincibility();
@@ -557,11 +558,11 @@ void TItemMag::render_equipped() {
     s32 i;
     f32 scale;
 
-    if (owner != NULL && obj_testFlags30(0x08000000) == 0 && is_hidden() == 0) {
+    if (owner != NULL && test_actor_flags(0x08000000) == 0 && is_hidden() == 0) {
         scaled = owner->scale_state.is_scaled();
         scale = owner->scale_state.get_scalar();
         push_matrix();
-        TObjPlayer__sub_80364198();
+        TObjPlayer::save_model_render_state();
         TObjPlayer::set_model_fade_alpha(get_owner_alpha());
         for (i = 0; i != 2; i++) {
             if (children[i] != NULL && children[i]->is_growth_inactive() != 0) {
@@ -576,7 +577,7 @@ void TItemMag::render_equipped() {
             }
         }
         TObjPlayer::warn_if_gauge_low();
-        TObjPlayer__sub_8036414C();
+        TObjPlayer::restore_model_render_state();
         pop_matrix();
     }
 }
@@ -587,7 +588,7 @@ void TItemMag::render_equipped_shadow() {
     s32 i;
     f32 scale;
 
-    if (owner != NULL && obj_testFlags30(0x08000000) == 0 && is_hidden() == 0) {
+    if (owner != NULL && test_actor_flags(0x08000000) == 0 && is_hidden() == 0) {
         scaled = owner->scale_state.is_scaled();
         scale = owner->scale_state.get_scalar();
         push_matrix();
@@ -669,7 +670,7 @@ void TItemMag::update_idle_action() {
     if (0.0f < cooldown) {
         action_cooldown = cooldown - 1.0f;
     }
-    if (obj_testFlags30(0x08000000) == 0) {
+    if (test_actor_flags(0x08000000) == 0) {
         set_subs_visible(1);
         return;
     }
@@ -861,7 +862,7 @@ void TItemMag::cast_support_technique(s32 technique) {
     case 17: {
         TargetCursorList targets;
         targets.count = 1;
-        targets.records[0].id = get_entity_id(owner);
+        targets.records[0].id = owner->get_entity_id();
         targets.records[0].flag = 0;
         TTecReverser::create(owner, &owner->position, &targets, level);
         break;
@@ -1743,13 +1744,13 @@ void TItemMag::register_photon_blasts() {
     s32 blast;
     s32 slot;
 
-    assign_default_photon_blast_palette_slots((u8 *)owner->action_palettes);
+    assign_default_photon_blast_palette_slots((u8 *)&owner->action_palettes);
     slot = 0;
     do {
         blast = stats.get_photon_blast(slot);
         if (blast != -1) {
             owner->photon_blast_gauge.set_blast_level(blast, get_item_index());
-            assign_photon_blast_palette_slot((u8 *)owner->action_palettes, (s16)blast);
+            assign_photon_blast_palette_slot((u8 *)&owner->action_palettes, (s16)blast);
         }
         slot += 1;
     } while (slot != 3);

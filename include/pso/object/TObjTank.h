@@ -11,12 +11,12 @@ struct TObjTank : public TObjCollidable {
     virtual void run_task();
     static void free_globals();
     static void load_globals();
+    static void *create(void *set_data);
 };
 
 LAYOUT_ASSERT(TObjTank_size, sizeof(TObjTank) == 0xAC);
 
 extern "C" {
-void *TObjTank__create(void *set_data);
 void *__dt__8TObjTankFv(void *arg0, s16 arg1);
 }
 

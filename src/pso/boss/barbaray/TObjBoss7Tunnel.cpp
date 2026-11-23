@@ -438,7 +438,7 @@ void TUnk_804E4B24::run_task() {
 void TUnk_804E4B24::draw_opaque_model() {
     if (is_in_camera_range() != 0) {
         set_draw_list_mask(1);
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(boss7_common_texture_list));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(boss7_common_texture_list));
         push_matrix();
         TObjPlayer::concat_matrix(0, (saddr)matrix);
         draw_ginja_object(boss7_common_bml_resource->models[model_indices[0]].model);
@@ -450,7 +450,7 @@ void TUnk_804E4B24::draw_opaque_model() {
 void TUnk_804E4B24::draw_translucent_models() {
     if (is_in_camera_range() != 0) {
         set_draw_list_mask(2);
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(boss7_common_texture_list));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(boss7_common_texture_list));
         push_matrix();
         TObjPlayer::concat_matrix(0, (saddr)matrix);
         draw_ginja_object(boss7_common_bml_resource->models[model_indices[1]].model);
@@ -467,7 +467,7 @@ void TUnk_804E4B24::draw_tunnel_segment() {
     if (is_in_camera_range() != 0) {
         model_index = model_indices[model_count - 1];
         set_draw_list_mask(2);
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(boss7_common_texture_list));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(boss7_common_texture_list));
         TParticleCtrl::begin_effect_render();
         push_matrix();
         TObjPlayer::concat_matrix(0, (saddr)matrix);

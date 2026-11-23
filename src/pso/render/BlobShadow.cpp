@@ -11,80 +11,49 @@
 #include "pso/system/TLanguage_801E4874.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/player/TObjPlayer_80011014.h"
+#include "pso/unk/TLobby_801E2F94.h"
 
 #pragma readonly_strings on
 
-struct Stack_800F09E8 {
-    f32 sp8;
-    f32 spC;
-    f32 sp10;
-    f32 sp14;
-    f32 sp18;
-    s32 sp1C;
-    s32 sp20;
-    s32 * sp24;
-};
+NJS_TEXANIM blob_shadow_rect_desc = {5, 5, 0, 0, 5, 5, 253, 253, 0, 0};
+NJS_TEXLIST *blob_shadow_texture_list;
 
-BlobShadowRectDesc blob_shadow_rect_desc = {
-    0x00050005,
-    { 0x00, 0x00, 0x00, 0x00, 0x00, 0x05, 0x00, 0x05, 0x00, 0xFD, 0x00, 0xFD,
-      0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 },
-};
-uaddr blob_shadow_texture_list;
-
-#pragma push
-#pragma opt_common_subs off
-#pragma opt_propagation off
 void draw_blob_shadow(s32 forceDraw) {
-    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_800F09E8, sp8) == 0x0);
-    LAYOUT_ASSERT(spC_offset, offsetof(Stack_800F09E8, spC) == 0x4);
-    LAYOUT_ASSERT(sp10_offset, offsetof(Stack_800F09E8, sp10) == 0x8);
-    LAYOUT_ASSERT(sp14_offset, offsetof(Stack_800F09E8, sp14) == 0xC);
-    LAYOUT_ASSERT(sp18_offset, offsetof(Stack_800F09E8, sp18) == 0x10);
-    LAYOUT_ASSERT(sp1C_offset, offsetof(Stack_800F09E8, sp1C) == 0x14);
-    LAYOUT_ASSERT(sp20_offset, offsetof(Stack_800F09E8, sp20) == 0x18);
-    LAYOUT_ASSERT(sp24_offset, offsetof(Stack_800F09E8, sp24) == 0x1C);
-    Stack_800F09E8 stack;
-    if (forceDraw == 0) {
-        if (is_split_screen__10TObjPlayerFv() != 0) {
-            goto block_2;
-        }
-    } else {
-block_2:
-        stack.sp8 = -4.9910388f;
-        stack.spC = 0.0f;
-        stack.sp10 = 0.0f;
-        stack.sp14 = 1.0f;
-        stack.sp18 = 1.0f;
-        stack.sp1C = 0;
-        stack.sp20 = blob_shadow_texture_list;
-        stack.sp24 = &blob_shadow_rect_desc.value;
+    NJS_SPRITE sprite;
+    if (forceDraw != 0 || is_split_screen__10TObjPlayerFv() != 0) {
+        sprite.p.x = -4.9910388f;
+        sprite.p.y = 0.0f;
+        sprite.p.z = 0.0f;
+        sprite.sx = 1.0f;
+        sprite.sy = 1.0f;
+        sprite.ang = 0;
+        sprite.tlist = blob_shadow_texture_list;
+        sprite.tanim = &blob_shadow_rect_desc;
         set_depth_buffer_settings_1();
         set_color_blending_mode(0, 8);
         set_color_blending_mode(1, 6);
         TParticleCtrl::begin_effect_render();
-        ((TObjPlayer *)(&stack.sp8))->draw_shadow_quad(0, 0x20);
-        stack.sp8 = 0.0f;
-        stack.spC = 0.0f;
-        ((TObjPlayer *)(&stack.sp8))->draw_shadow_quad(0, 0x24);
-        stack.sp8 = -4.9910388f;
-        stack.spC = -4.9910388f;
-        ((TObjPlayer *)(&stack.sp8))->draw_shadow_quad(0, 0x28);
-        stack.sp8 = 0.0f;
-        stack.spC = -4.9910388f;
-        ((TObjPlayer *)(&stack.sp8))->draw_shadow_quad(0, 0x2C);
+        draw_shadow_quad(&sprite, 0, 0x20);
+        sprite.p.x = 0.0f;
+        sprite.p.y = 0.0f;
+        draw_shadow_quad(&sprite, 0, 0x24);
+        sprite.p.x = -4.9910388f;
+        sprite.p.y = -4.9910388f;
+        draw_shadow_quad(&sprite, 0, 0x28);
+        sprite.p.x = 0.0f;
+        sprite.p.y = -4.9910388f;
+        draw_shadow_quad(&sprite, 0, 0x2C);
         TParticleCtrl::end_effect_render();
         restore_saved_depth_alpha_state();
     }
 }
-#pragma pop
 
 void release_blob_shadow_texture(void) {
-    if (blob_shadow_texture_list != 0U) {
-        release_texture_list((GinjaTextureList *)blob_shadow_texture_list);
-        TAdSinglePlyChrSelectGC::safe_free(blob_shadow_texture_list);
-        blob_shadow_texture_list = 0U;
+    if (blob_shadow_texture_list != NULL) {
+        release_texture_list(blob_shadow_texture_list);
+        TAdSinglePlyChrSelectGC::safe_free((uaddr)blob_shadow_texture_list);
+        blob_shadow_texture_list = NULL;
     }
 }
 
-void load_ha_u032_kage(void) { blob_shadow_texture_list = (uaddr)load_gvm_texture_file((saddr)"ha_u032_kage.gvm"); }
+void load_ha_u032_kage(void) { blob_shadow_texture_list = load_gvm_texture_file("ha_u032_kage.gvm"); }

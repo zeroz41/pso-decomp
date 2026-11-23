@@ -110,11 +110,11 @@ void TBoss6PlotFalz::init_hall_boss_scene() {
     play_area_music("HALL.adx");
     refresh_players_equipment();
     state_timer = 0;
-    wait_demo = (TBoss6Demo15_TYPE2_WAIT *)TObjFish::alloc(this);
+    wait_demo = TBoss6Demo15_TYPE2_WAIT::alloc(this);
 }
 void TBoss6PlotFalz::check_and_advance_state() {
     TBoss6Demo15_TYPE2_WAIT *wait = wait_demo;
-    if ((wait != NULL) && ((((TObjPlayer *)wait)->get_plot_state() != 0) || (is_ready() != 0))) {
+    if ((wait != NULL) && ((wait->get_plot_state() != 0) || (is_ready() != 0))) {
         send_6xA3_action(5);
     }
 }

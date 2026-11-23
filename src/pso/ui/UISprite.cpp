@@ -5,7 +5,7 @@
 // ccconsole_pvm_file_name_table are used by no other unit, and the .sdata2 pool 0x805DD958 {24.0f, 64.0f,
 // 0.0f, 1.0f} runs in first-use order from draw_creation_ruler_lines to fn_80291178 without a duplicate.
 #include "types.h"
-#include "pso/system/NinjaTypes.h"
+#include "pso/render/GinjaMaterialState.h"
 #include "pso/ui/UISprite.h"
 #include "pso/ui/Language.h"
 #include "pso/ui/charcreate/TChCrEffWall.h"
@@ -23,26 +23,26 @@
 
 #pragma const_strings off
 NJS_TEXNAME creation_chara_sprite_entries[20] = {
-    { (void *)"b256_cm_chara01", 0, 0 },
-    { (void *)"b256_cm_chara02", 0, 0 },
-    { (void *)"b256_cm_chara03", 0, 0 },
-    { (void *)"b256_cm_chara04", 0, 0 },
-    { (void *)"b256_cm_chara05", 0, 0 },
-    { (void *)"b256_cm_chara06", 0, 0 },
-    { (void *)"b256_cm_chara07", 0, 0 },
-    { (void *)"b256_cm_mat01", 0, 0 },
-    { (void *)"b256_cm_mat02", 0, 0 },
-    { (void *)"b256_cm_mat03", 0, 0 },
-    { (void *)"b256_cm_word01_j", 0, 0 },
-    { (void *)"b256_cm_word02_j", 0, 0 },
-    { (void *)"b256_cm_word03_j", 0, 0 },
-    { (void *)"hexback0_256", 0, 0 },
-    { (void *)"hexback1_256", 0, 0 },
-    { (void *)"hexback2_128", 0, 0 },
-    { (void *)"hexback3_128", 0, 0 },
-    { (void *)"hexback4_128", 0, 0 },
-    { (void *)"hexback5_128", 0, 0 },
-    { (void *)"y256_cc04", 0, 0 },
+    { "b256_cm_chara01", 0, 0 },
+    { "b256_cm_chara02", 0, 0 },
+    { "b256_cm_chara03", 0, 0 },
+    { "b256_cm_chara04", 0, 0 },
+    { "b256_cm_chara05", 0, 0 },
+    { "b256_cm_chara06", 0, 0 },
+    { "b256_cm_chara07", 0, 0 },
+    { "b256_cm_mat01", 0, 0 },
+    { "b256_cm_mat02", 0, 0 },
+    { "b256_cm_mat03", 0, 0 },
+    { "b256_cm_word01_j", 0, 0 },
+    { "b256_cm_word02_j", 0, 0 },
+    { "b256_cm_word03_j", 0, 0 },
+    { "hexback0_256", 0, 0 },
+    { "hexback1_256", 0, 0 },
+    { "hexback2_128", 0, 0 },
+    { "hexback3_128", 0, 0 },
+    { "hexback4_128", 0, 0 },
+    { "hexback5_128", 0, 0 },
+    { "y256_cc04", 0, 0 },
 };
 
 NJS_TEXLIST creation_sprite_table = { creation_chara_sprite_entries, 20 };
@@ -475,7 +475,7 @@ void fn_80291138(void) {
         ((TObject *)cmicon_instance)->queue_destruction();
     }
     cmicon_instance = NULL;
-    release_texture_list((GinjaTextureList *)&creation_sprite_table);
+    release_texture_list(&creation_sprite_table);
 }
 
 void fn_80291178(void) {

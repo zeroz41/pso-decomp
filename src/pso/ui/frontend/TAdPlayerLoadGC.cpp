@@ -6,15 +6,12 @@
 #include "pso/item/TItemEquipVariant_80120CF8.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "types.h"
 const char *TAdPlayerLoadGC__class_name = "TAdPlayerLoadGC";
 
 extern "C" {
 s32 poll_memcard_result(saddr chan);
-s32 TAdPlayerLoadGC__sub_801FD770();
-s32 TAdPlayerLoadGC__sub_801FD814();
-s32 check_system_load_result__23TAdSinglePlyChrSelectGCFv();
-s32 load_system_file_flag__23TAdSinglePlyChrSelectGCFv();
 extern char pso_character_card_filename[];
 extern char pso_system_card_filename[];
 extern int TAdPlayerLoadGC__load_state;
@@ -84,7 +81,7 @@ void TAdPlayerLoadGC::run_task() {
         }
         break;
     case 8:
-        if ((u32)load_system_file_flag__23TAdSinglePlyChrSelectGCFv() != 0xFFFFFF05U) {
+        if ((u32)TAdSinglePlyChrSelectGC::load_system_file_flag() != 0xFFFFFF05U) {
             state = 9U;
         }
         break;
@@ -94,12 +91,12 @@ void TAdPlayerLoadGC::run_task() {
         }
         break;
     case 10:
-        if (TAdPlayerLoadGC__sub_801FD770() != 1) {
+        if (check_slot_a_card_save() != 1) {
             state = 0xBU;
         }
         break;
     case 11:
-        if (TAdPlayerLoadGC__sub_801FD770() != 5) {
+        if (check_slot_a_card_save() != 5) {
             state = 0xCU;
         }
         break;
@@ -166,7 +163,7 @@ void TAdPlayerLoadGC::run_task() {
     case 21:
         if (probe_card_slot(1) == 0) {
             state = 0xDU;
-        } else if ((find_card_file(1, pso_character_card_filename) == 0) && ((u32)check_system_load_result__23TAdSinglePlyChrSelectGCFv() != 0xFFFFFF05U)) {
+        } else if ((find_card_file(1, pso_character_card_filename) == 0) && ((u32)TAdSinglePlyChrSelectGC::check_system_load_result() != 0xFFFFFF05U)) {
             state = 0x16U;
         }
         break;
@@ -180,14 +177,14 @@ void TAdPlayerLoadGC::run_task() {
     case 23:
         if (probe_card_slot(1) == 0) {
             state = 0xDU;
-        } else if (TAdPlayerLoadGC__sub_801FD814() != 1) {
+        } else if (check_slot_b_card_save() != 1) {
             state = 0x18U;
         }
         break;
     case 24:
         if (probe_card_slot(1) == 0) {
             state = 0xDU;
-        } else if (TAdPlayerLoadGC__sub_801FD814() != 5) {
+        } else if (check_slot_b_card_save() != 5) {
             state = 0x19U;
         }
         break;

@@ -9,10 +9,10 @@ extern "C" {
 s32 release_texture_list(void*);
 
 void TLobby::free_char_select() {
-    if ((u32) dragon_common_texture_list != 0U) {
-        release_texture_list((void*)dragon_common_texture_list);
-        TAdSinglePlyChrSelectGC::safe_free(dragon_common_texture_list);
-        dragon_common_texture_list = 0U;
+    if (dragon_common_texture_list != NULL) {
+        release_texture_list(dragon_common_texture_list);
+        TAdSinglePlyChrSelectGC::safe_free((uaddr)dragon_common_texture_list);
+        dragon_common_texture_list = NULL;
     }
     delete dragon_ground_resource;
     dragon_ground_resource = 0;

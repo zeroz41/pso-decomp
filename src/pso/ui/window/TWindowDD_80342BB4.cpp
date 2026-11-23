@@ -4,7 +4,6 @@
 extern "C" {
 
 s32 TWindowDD__sub_80342B5C(s32);
-s32 apply_entry_layout__9TWindowDDFPv(void *);
 s32 TWindowDD__sub_803435A0(void *);
 s32 TWindowDD__sub_80347C50();
 s32 TWindowDD__sub_803482B0(void *);
@@ -20,7 +19,7 @@ void TWindowDD::update_dispatch() {
     }
     if (TWindowDD__sub_803482B0((void *)arg0) != 0) {
         TWindowDD::play_sound();
-        apply_entry_layout__9TWindowDDFPv((void *)arg0);
+        TWindowDD::apply_entry_layout((void *)arg0);
     }
 }
 
@@ -35,7 +34,7 @@ void TWindowDD::update_layout() {
     }
     if (TWindowDD__sub_803482B0(this) != 0) {
         TWindowDD::play_se();
-        apply_entry_layout__9TWindowDDFPv(this);
+        TWindowDD::apply_entry_layout(this);
     }
 }
 

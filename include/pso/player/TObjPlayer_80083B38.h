@@ -6,10 +6,6 @@
 extern "C" {
 void * *TObjPlayer__sub_80083F04(void);
 void TObjPlayer__sub_80083F38(void);
-int TObjPlayer__sub_80083F9C(void);
-void TObjPlayer__sub_80083FA4(void);
-void TObjPlayer__sub_80083FB0(void);
-void TObjPlayer__sub_80084500(void);
 saddr get_capture_texture_pixels(void);
 void reset_and_release_capture_texture(void);
 void reset_and_init_capture_texture(void);

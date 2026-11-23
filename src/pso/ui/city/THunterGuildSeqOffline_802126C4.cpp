@@ -8,13 +8,13 @@
 void THunterGuildSeqOffline::notify_close() {
     if (THunterGuildSeqOffline__active_instance != NULL) {
         THunterGuildSeqOffline__active_instance->display_guild_message(0x19, 1);
-        THunterGuildSeqOffline__active_instance->set_field_20(4);
+        THunterGuildSeqOffline__active_instance->set_state(4);
     }
 }
 
 void THunterGuildSeqOffline::create_quest_list_vm(TShopWindowBase *) {
     TQuestListVM *vm = new TQuestListVM(tl_05, THunterGuildSeqOffline__active_instance,
-                                        (TObjBase *)THunterGuildSeqOffline__active_instance->player);
+                                        THunterGuildSeqOffline__active_instance->player);
     if (vm != NULL) {
         vm->on_close = notify_close;
         vm->on_error = init_quest_list;

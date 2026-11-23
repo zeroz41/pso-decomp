@@ -17,6 +17,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/system/MatrixOps.h"
+#include "pso/player/PlayerSlots.h"
 
 extern "C" {
 const char *TBoss6EffFlowSoul__name = "TBoss6EffFlowSoul";

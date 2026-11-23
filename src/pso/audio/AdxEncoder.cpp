@@ -215,41 +215,41 @@ loop_2:
     }
 }
 
-void TLobby__sub_803C60F0(u8 *arg0, s32 arg1, s32 arg2, s32 arg3) {
-    *(s32 *)((s8 *)arg0 + 0x58) = arg1;
-    *(s32 *)((s8 *)arg0 + 0x5C) = arg2;
-    *(s32 *)((s8 *)arg0 + 0x3C) = arg3;
-    *(s32 *)((s8 *)arg0 + 0x60) = arg3;
-    *(s32 *)((s8 *)arg0 + 0x48) = 0x11C;
+void TLobby__sub_803C60F0(AdxEncoder *enc, s32 channels, s32 sample_rate, s32 total_samples) {
+    enc->channels = channels;
+    enc->sample_rate = sample_rate;
+    enc->total_samples = total_samples;
+    enc->header_samples = total_samples;
+    enc->data_offset = 0x11C;
 }
 
-void TLobby__sub_803C610C(u8 *arg0) {
-    *(s8 *)((s8 *)arg0 + 3) = 1;
+void TLobby__sub_803C610C(AdxEncoder *enc) {
+    enc->end_of_input = 1;
 }
 
-void TLobby__sub_803C6118(u8 *arg0) {
-    *(s32 *)((s8 *)arg0 + 0x28) = 0;
-    *(s32 *)((s8 *)arg0 + 0x2C) = 0;
-    *(s32 *)((s8 *)arg0 + 0x30) = 0;
-    *(s8 *)((s8 *)arg0 + 3) = 0;
-    *(s8 *)((s8 *)arg0 + 1) = 1;
+void TLobby__sub_803C6118(AdxEncoder *enc) {
+    enc->pad_28 = 0;
+    enc->bytes_written = 0;
+    enc->samples_encoded = 0;
+    enc->end_of_input = 0;
+    enc->state = 1;
 }
 
-void TLobby__sub_803C6138(S_803C6138 *arg0) {
-    u8 *p;
-    if (arg0 != NULL) {
+void TLobby__sub_803C6138(AdxEncoder *enc) {
+    AdxEncChannel *c;
+    if (enc != NULL) {
         TLobby::init_once();
-        p = arg0->f80;
-        if (p != NULL && p != NULL) {
-            *p = 0;
-            memset(p, 0, 0x90);
+        c = enc->channel[0];
+        if (c != NULL && c != NULL) {
+            c->used = 0;
+            memset(c, 0, sizeof(AdxEncChannel));
         }
-        p = arg0->f84;
-        if (p != NULL && p != NULL) {
-            *p = 0;
-            memset(p, 0, 0x90);
+        c = enc->channel[1];
+        if (c != NULL && c != NULL) {
+            c->used = 0;
+            memset(c, 0, sizeof(AdxEncChannel));
         }
-        memset(arg0, 0, 4);
+        memset(enc, 0, 4);
         TLobby::release_ref();
     }
 }
@@ -290,7 +290,7 @@ inline AdxEncChannel *alloc_channel_61C4(s32 block_samples) {
 }
 
 /* Creates an encoder reading nch PCM inputs and writing ADX to dst (inferred: CRI ADX encoder create). */
-u8 *TLobby__sub_803C61C4(s32 nch, SjRingBuffer **src, SjRingBuffer *dst) {
+AdxEncoder *TLobby__sub_803C61C4(s32 nch, SjRingBuffer **src, SjRingBuffer *dst) {
     AdxEncoder *enc;
     s32 len;
     s32 i;
@@ -342,7 +342,7 @@ u8 *TLobby__sub_803C61C4(s32 nch, SjRingBuffer **src, SjRingBuffer *dst) {
     enc->start_hist2[1] = 0;
     enc->start_hist1[1] = 0;
     enc->used = 1;
-    return (u8 *)enc;
+    return enc;
 }
 
 void TLobby::clear_net_buffer_1680() {

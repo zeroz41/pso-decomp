@@ -20,6 +20,9 @@
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/window/TWindowMessageYesNo.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
+#include "pso/system/SoundEffect.h"
+#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/ui/frontend/TAdMultiChgGameModeGC.h"
 #include "pso/ui/TAdChrSelPlayerGC.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC.h"
@@ -29,7 +32,6 @@
 #include "pso/ui/frontend/TAdChrSelASlotGC.h"
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC.h"
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC_802E0FC8.h"
-#include "pso/ui/window/TWindowSubComCard_80244774.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC_802D50A0.h"
 #include "pso/ui/frontend/TAdEnterSerialAccessGC.h"
@@ -39,9 +41,6 @@
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
-
-struct RecoveredGlobal_802D4730_lbl_804C89BC { s32 value; u8 remaining[0x74]; };
-LAYOUT_ASSERT(RecoveredGlobal_802D4730_lbl_804C89BC_size, sizeof(RecoveredGlobal_802D4730_lbl_804C89BC) == 0x78);
 
 const vec2f single_chr_select_item_rect_table[4] = {
     { 131.0f, 182.0f }, { 131.0f, 225.0f }, { 131.0f, 268.0f }, { 131.0f, 311.0f },
@@ -57,68 +56,52 @@ struct T_802D4F2C { NJS_POINT2 p[3]; };
 const char *TAdSinglePlyChrSelectGC__class_name = "TAdSinglePlyChrSelectGC";
 const T_802D4F2C single_chr_select_position_table = { { { 156.0f, 421.0f }, { 299.0f, 421.0f }, { 432.0f, 421.0f } } };
 
-extern "C" {
-s32 play_sound_effect(s32, s32, s32, s32);
-s32 poll_memcard_result(saddr chan);
-s32 load_guild_card_save();
-extern RecoveredGlobal_802D4730_lbl_804C89BC pso_guildcard_card_filename;
-void set_queued_main_phase(s32 arg0);
-void request_main_phase(s32 arg0);
-s32 load_tables();
-u32 TAdSinglePlyChrSelectGC__sub_801FE4BC();
-s32 is_slot_active__23TAdSinglePlyChrSelectGCFUi();
-s32 clear_entry__23TAdSinglePlyChrSelectGCFi();
-s32 TAdSinglePlyChrSelectGC__sub_802D4D9C();
-int forward_trade_action_default__16TObjCityMainWarpFPviii(void *p, int a1, int a2, int a3);
-
 void TAdSinglePlyChrSelectGC::render() {
     if (TMainTask::get_render_pass() == 1) return;
 }
 
-s32 TAdSinglePlyChrSelectGC::create_chr_warp(s32 arg0, s32 arg1) {
-    saddr window_menu_default = arg1;
+TWindowMenu *TAdSinglePlyChrSelectGC::create_chr_warp(s32 pos) {
+    TWindowMenu *menu;
 
-    if (TAdSinglePlyChrSelectGC__sub_802D4D9C() != 0) {
-        window_menu_default = create_window_menu_default(arg1, 4);
-        forward_trade_action_default__16TObjCityMainWarpFPviii((void *)window_menu_default, (int)(get_localized_text_entry(0x1E, 1)), 6, 0);
-        forward_trade_action_default__16TObjCityMainWarpFPviii((void *)window_menu_default, (int)(get_localized_text_entry(0x1E, 2)), 6, 1);
-        forward_trade_action_default__16TObjCityMainWarpFPviii((void *)window_menu_default, (int)(get_localized_text_entry(0x1E, 3)), 6, 2);
-        forward_trade_action_default__16TObjCityMainWarpFPviii((void *)window_menu_default, (int)(get_localized_text_entry(0x1E, 4)), 6, 3);
+    if (can_pay_fee() != 0) {
+        menu = (TWindowMenu *)create_window_menu_default(pos, 4);
+        menu->add_text_entry(get_localized_text_entry(0x1E, 1), 6, 0);
+        menu->add_text_entry(get_localized_text_entry(0x1E, 2), 6, 1);
+        menu->add_text_entry(get_localized_text_entry(0x1E, 3), 6, 2);
+        menu->add_text_entry(get_localized_text_entry(0x1E, 4), 6, 3);
     } else {
-        window_menu_default = create_window_menu_default(arg1, 3);
-        forward_trade_action_default__16TObjCityMainWarpFPviii((void *)window_menu_default, (int)(get_localized_text_entry(0x1E, 1)), 6, 0);
-        forward_trade_action_default__16TObjCityMainWarpFPviii((void *)window_menu_default, (int)(get_localized_text_entry(0x1E, 3)), 6, 2);
-        forward_trade_action_default__16TObjCityMainWarpFPviii((void *)window_menu_default, (int)(get_localized_text_entry(0x1E, 4)), 6, 3);
+        menu = (TWindowMenu *)create_window_menu_default(pos, 3);
+        menu->add_text_entry(get_localized_text_entry(0x1E, 1), 6, 0);
+        menu->add_text_entry(get_localized_text_entry(0x1E, 3), 6, 2);
+        menu->add_text_entry(get_localized_text_entry(0x1E, 4), 6, 3);
     }
-    ((TWindowMenu *)window_menu_default)->calc_window_size();
-    align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(window_menu_default));
-    return window_menu_default;
-}
+    menu->calc_window_size();
+    align_menu_entry_positions(menu);
+    return menu;
 }
 
 void TAdSinglePlyChrSelectGC::finish_character_selection_transition() {
-    void *arg0 = this;
-    s32 temp_r4;
-    if ((u32) *(u32 *)((s8 *)arg0 + 0x38) != 0U) {
-        ((TWindowBase *)(*(void **)((s8 *)arg0 + 0x38)))->close();
-        *(u32 *)((s8 *)arg0 + 0x38) = 0U;
+    s32 frames;
+    if (this->chr_menu != NULL) {
+        this->chr_menu->close();
+        this->chr_menu = NULL;
     }
-    if ((u32) *(u32 *)((s8 *)arg0 + 0x44) != 0U) {
-        ((TWindowSubComCard *)(*(void **)((s8 *)arg0 + 0x44)))->close();
-        *(u32 *)((s8 *)arg0 + 0x44) = 0U;
+    if (this->create_character_prompt != NULL) {
+        this->create_character_prompt->close();
+        this->create_character_prompt = NULL;
     }
-    if ((u32) *(u32 *)((s8 *)arg0 + 0x4C) != 0U) {
-        ((TWindowSubComCard *)(*(void **)((s8 *)arg0 + 0x4C)))->close();
-        *(u32 *)((s8 *)arg0 + 0x4C) = 0U;
+    if (this->meseta_prompt != NULL) {
+        this->meseta_prompt->close();
+        this->meseta_prompt = NULL;
     }
-    if ((u32) *(u32 *)((s8 *)arg0 + 0x50) != 0U) {
-        ((TWindowSubComCard *)(*(void **)((s8 *)arg0 + 0x50)))->close();
-        *(u32 *)((s8 *)arg0 + 0x50) = 0U;
+    if (this->replace_prompt != NULL) {
+        this->replace_prompt->close();
+        this->replace_prompt = NULL;
     }
-    temp_r4 = *(s32 *)((s8 *)arg0 + 0x1C) + 1;
-    *(s32 *)((s8 *)arg0 + 0x1C) = temp_r4;
-    if ((f32) temp_r4 > 4.5f) {
-        switch (*(s32 *)((s8 *)arg0 + 0x5C)) {
+    frames = this->state_timer + 1;
+    this->state_timer = frames;
+    if ((f32) frames > 4.5f) {
+        switch (this->menu_choice) {
         case 0:
             if (((s32)TAdSinglePlyChrSelectGC::get_data()) == 0) {
                 TAdMultiChgGameModeGC::request_transition();
@@ -140,22 +123,22 @@ void TAdSinglePlyChrSelectGC::finish_character_selection_transition() {
 }
 
 void TAdSinglePlyChrSelectGC::close_and_change_scene() {
-    s32 temp_r4;
-    u8 *window_base;
-    u8 *window_sub_com_card;
-    window_base = (u8 *)(*(u8 * *)&this->unk_38);
-    if (window_base != NULL) {
-        ((TWindowBase *)window_base)->close();
-        *(u8 * *)&this->unk_38 = NULL;
+    s32 frames;
+    TWindowMenu *menu;
+    TWindowMessageYesNo *prompt;
+    menu = this->chr_menu;
+    if (menu != NULL) {
+        menu->close();
+        this->chr_menu = NULL;
     }
-    window_sub_com_card = (u8 *)(*(u8 * *)&this->m_44);
-    if (window_sub_com_card != NULL) {
-        ((TWindowSubComCard *)window_sub_com_card)->close();
-        *(u8 * *)&this->m_44 = NULL;
+    prompt = this->create_character_prompt;
+    if (prompt != NULL) {
+        prompt->close();
+        this->create_character_prompt = NULL;
     }
-    temp_r4 = *(s32 *)&this->m_1c + 1;
-    *(s32 *)&this->m_1c = temp_r4;
-    if ((f32) temp_r4 > 4.5f) {
+    frames = this->state_timer + 1;
+    this->state_timer = frames;
+    if ((f32) frames > 4.5f) {
         switch (TAdSinglePlyChrSelectGC::get_data()) {
         case 0:
             TAdMultiChgGameModeGC::request_scene_change();
@@ -169,316 +152,307 @@ void TAdSinglePlyChrSelectGC::close_and_change_scene() {
 
 void TAdSinglePlyChrSelectGC::handle_card_select() {
 
-    if (((TAdChrSelASlotGC *)(*(saddr *)&this->m_28))->get_state() == 1) {
-        *(s32 *)&this->m_20 = 0;
+    if (this->slot_window->get_state() == 1) {
+        this->state = 0;
         return;
     }
-    if (((TWindowMessageYesNo *)(*(saddr *)&this->unk_50))->is_child_visible() != 0) {
-        switch (((TWindowSubComCard *)(*(saddr *)&this->unk_50))->get_slot_or_neg1()) {
+    if (this->replace_prompt->is_child_visible() != 0) {
+        switch (this->replace_prompt->get_selected_value()) {
         case 0:
-            this->m_5c = 3;
-            *(s32 *)&this->m_20 = 0xC;
+            this->menu_choice = 3;
+            this->state = 0xC;
             return;
         case 1:
-            ((TWindowMenu *)(*(saddr *)&this->unk_38))->clear_transition_flag();
-            ((TAdSelectCurGC *)(*(saddr *)&this->m_2c))->set_selection_state(1);
-            *(s32 *)&this->m_20 = 5;
+            this->chr_menu->clear_transition_flag();
+            this->cursor->set_selection_state(1);
+            this->state = 5;
             return;
         }
-    } else if (((TWindowSubComCard *)(*(saddr *)&this->unk_50))->get_card_data() != 0) {
-        ((TWindowMenu *)(*(saddr *)&this->unk_38))->clear_transition_flag();
-        ((TAdSelectCurGC *)(*(saddr *)&this->m_2c))->set_selection_state(1);
-        *(s32 *)&this->m_20 = 5;
+    } else if (this->replace_prompt->is_cancelled() != 0) {
+        this->chr_menu->clear_transition_flag();
+        this->cursor->set_selection_state(1);
+        this->state = 5;
     }
 }
 
 void TAdSinglePlyChrSelectGC::handle_card_select2() {
 
-    if (((TAdChrSelASlotGC *)(*(saddr *)&this->m_28))->get_state() == 1) {
-        *(s32 *)&this->m_20 = 0;
+    if (this->slot_window->get_state() == 1) {
+        this->state = 0;
         return;
     }
-    if (((TWindowMessageYesNo *)(this->m_4c))->is_child_visible() != 0) {
-        switch (((TWindowSubComCard *)(this->m_4c))->get_slot_or_neg1()) {
+    if (this->meseta_prompt->is_child_visible() != 0) {
+        switch (this->meseta_prompt->get_selected_value()) {
         case 0:
-            this->m_5c = 1;
-            *(s32 *)&this->m_20 = 0xC;
+            this->menu_choice = 1;
+            this->state = 0xC;
             return;
         case 1:
-            ((TWindowMenu *)(*(saddr *)&this->unk_38))->clear_transition_flag();
-            ((TAdSelectCurGC *)(*(saddr *)&this->m_2c))->set_selection_state(1);
-            *(s32 *)&this->m_20 = 5;
+            this->chr_menu->clear_transition_flag();
+            this->cursor->set_selection_state(1);
+            this->state = 5;
             return;
         }
-    } else if (((TWindowSubComCard *)(this->m_4c))->get_card_data() != 0) {
-        ((TWindowMenu *)(*(saddr *)&this->unk_38))->clear_transition_flag();
-        ((TAdSelectCurGC *)(*(saddr *)&this->m_2c))->set_selection_state(1);
-        *(s32 *)&this->m_20 = 5;
+    } else if (this->meseta_prompt->is_cancelled() != 0) {
+        this->chr_menu->clear_transition_flag();
+        this->cursor->set_selection_state(1);
+        this->state = 5;
     }
 }
 
 void TAdSinglePlyChrSelectGC::update_card_input() {
 
-    if (((TAdChrSelASlotGC *)(this->m_28))->get_state() == 1) {
-        this->m_20 = 0;
+    if (this->slot_window->get_state() == 1) {
+        this->state = 0;
         return;
     }
-    if (((TWindowMessageYesNo *)(this->m_44))->is_child_visible() != 0) {
-        switch (((TWindowSubComCard *)(this->m_44))->get_slot_or_neg1()) {
+    if (this->create_character_prompt->is_child_visible() != 0) {
+        switch (this->create_character_prompt->get_selected_value()) {
         case 0:
-            this->m_5c = 3;
-            this->m_20 = 0xC;
+            this->menu_choice = 3;
+            this->state = 0xC;
             return;
         case 1:
-            ((TAdSelectCurGC *)(this->m_2c))->set_selection_state(1);
-            this->m_20 = 5;
+            this->cursor->set_selection_state(1);
+            this->state = 5;
             return;
         }
-    } else if (((TWindowSubComCard *)(this->m_44))->get_card_data() != 0) {
-        ((TAdSelectCurGC *)(this->m_2c))->set_selection_state(1);
-        this->m_20 = 5;
+    } else if (this->create_character_prompt->is_cancelled() != 0) {
+        this->cursor->set_selection_state(1);
+        this->state = 5;
     }
 }
 
 void TAdSinglePlyChrSelectGC::update() {
 
-    if (((TAdChrSelASlotGC *)(*(saddr *)&this->m_28))->get_state() == 1) {
-        *(s32 *)&this->m_20 = 0;
+    if (this->slot_window->get_state() == 1) {
+        this->state = 0;
         return;
     }
-    if (((TWindowMessageYesNo *)(*(saddr *)&this->unk_48))->is_child_visible() != 0) {
-        switch (((TWindowSubComCard *)(*(saddr *)&this->unk_48))->get_slot_or_neg1()) {
+    if (this->yes_no_prompt->is_child_visible() != 0) {
+        switch (this->yes_no_prompt->get_selected_value()) {
         case 0:
-            reinterpret_cast<TAdSelectCurGC *>(m_2c)->selection_index();
-            clear_entry__23TAdSinglePlyChrSelectGCFi();
-            ((TAdChrSelASlotGC *)(*(saddr *)&this->m_28))->get_state();
-            ((TAdChrSelASlotGC *)(*(saddr *)&this->m_28))->set_state(0xF);
-            ((TAdSelectCurGC *)(*(saddr *)&this->m_2c))->set_selection_state(1);
-            *(s32 *)&this->m_20 = 0;
+            TAdSinglePlyChrSelectGC::clear_entry(cursor->selection_index());
+            this->slot_window->get_state();
+            this->slot_window->set_state(0xF);
+            this->cursor->set_selection_state(1);
+            this->state = 0;
             return;
         case 1:
-            ((TAdSelectCurGC *)(*(saddr *)&this->m_2c))->set_selection_state(1);
-            *(s32 *)&this->m_20 = 5;
+            this->cursor->set_selection_state(1);
+            this->state = 5;
             return;
         }
-    } else if (((TWindowSubComCard *)(*(saddr *)&this->unk_48))->get_card_data() != 0) {
-        ((TAdSelectCurGC *)(*(saddr *)&this->m_2c))->set_selection_state(1);
-        *(s32 *)&this->m_20 = 5;
+    } else if (this->yes_no_prompt->is_cancelled() != 0) {
+        this->cursor->set_selection_state(1);
+        this->state = 5;
     }
 }
 
 
 void TAdSinglePlyChrSelectGC::handle_menu_selection() {
-    if (((TAdChrSelASlotGC *)(*(saddr *)&this->m_28))->get_state() == 1) {
-        *(s32 *)&this->m_20 = 0;
+    if (this->slot_window->get_state() == 1) {
+        this->state = 0;
         return;
     }
-    if (((TWindowMenu *)(*(saddr *)&this->unk_38))->is_decided() != 0) {
-        this->m_5c = ((TWindowMenu *)(*(saddr *)&this->unk_38))->get_selected_value();
-        switch (this->m_5c) {
+    if (this->chr_menu->is_decided() != 0) {
+        this->menu_choice = this->chr_menu->get_selected_value();
+        switch (this->menu_choice) {
         case 0:
-            *(s32 *)&this->m_20 = 0xC;
+            this->state = 0xC;
             return;
         case 1:
-            ((TWindowOptionCtrl *)(*(saddr *)&this->unk_38))->open();
-            this->m_4c = TAdChrSelASlotGC::create_format_message_window(static_cast<saddr>(m_28), (saddr)&single_chr_select_message_pos, 0);
-            *(s32 *)&this->m_20 = 9;
+            this->chr_menu->open();
+            this->meseta_prompt = this->slot_window->create_format_message_window((saddr)&single_chr_select_message_pos, 0);
+            this->state = 9;
             return;
         case 2:
-            ((TAdSelectCurGC *)(*(saddr *)&this->m_2c))->set_selection_state(1);
-            *(s32 *)&this->m_20 = 5;
+            this->cursor->set_selection_state(1);
+            this->state = 5;
             return;
         case 3:
-            ((TWindowOptionCtrl *)(*(saddr *)&this->unk_38))->open();
-            *(TWindowMessageYesNo **)&this->unk_50 = ((TAdChrSelASlotGC *)this->m_28)->open_replace_character_prompt((saddr)&single_chr_select_message_pos, 0);
-            *(s32 *)&this->m_20 = 0xA;
+            this->chr_menu->open();
+            this->replace_prompt = this->slot_window->open_replace_character_prompt((saddr)&single_chr_select_message_pos, 0);
+            this->state = 0xA;
             return;
         }
-    } else if (((TWindowMenu *)(*(saddr *)&this->unk_38))->is_cancelled() != 0) {
-        ((TAdSelectCurGC *)(*(saddr *)&this->m_2c))->set_selection_state(1);
-        *(s32 *)&this->m_20 = 5;
+    } else if (this->chr_menu->is_cancelled() != 0) {
+        this->cursor->set_selection_state(1);
+        this->state = 5;
     }
 }
 
 // pool_data off: each window position is reached with its own lis/addi.
 #pragma pool_data off
 void TAdSinglePlyChrSelectGC::handle_slot_selection() {
-    s32 var_r30;
-    if (*(u32 *)&this->unk_38 != 0U) {
-        ((TWindowBase *)(*(void * *)&this->unk_38))->close();
-        *(u32 *)&this->unk_38 = 0U;
+    s32 flag_notice_shown;
+    if (this->chr_menu != NULL) {
+        ((TWindowBase *)(*(void * *)&this->chr_menu))->close();
+        this->chr_menu = NULL;
     }
-    if (*(u32 *)&this->m_44 != 0U) {
-        ((TWindowSubComCard *)(*(void * *)&this->m_44))->close();
-        *(u32 *)&this->m_44 = 0U;
+    if (this->create_character_prompt != NULL) {
+        ((TWindowMessageYesNo *)(*(void * *)&this->create_character_prompt))->close();
+        this->create_character_prompt = NULL;
     }
-    if (*(u32 *)&this->unk_48 != 0U) {
-        ((TWindowSubComCard *)(*(void * *)&this->unk_48))->close();
-        *(u32 *)&this->unk_48 = 0U;
+    if (this->yes_no_prompt != NULL) {
+        ((TWindowMessageYesNo *)(*(void * *)&this->yes_no_prompt))->close();
+        this->yes_no_prompt = NULL;
     }
-    if (*(u32 *)&this->unk_50 != 0U) {
-        ((TWindowSubComCard *)(*(void * *)&this->unk_50))->close();
-        *(u32 *)&this->unk_50 = 0U;
+    if (this->replace_prompt != NULL) {
+        ((TWindowMessageYesNo *)(*(void * *)&this->replace_prompt))->close();
+        this->replace_prompt = NULL;
     }
-    if (*(u32 *)&this->m_4c != 0U) {
-        ((TWindowSubComCard *)(*(void * *)&this->m_4c))->close();
-        *(u32 *)&this->m_4c = 0U;
+    if (this->meseta_prompt != NULL) {
+        ((TWindowMessageYesNo *)(*(void * *)&this->meseta_prompt))->close();
+        this->meseta_prompt = NULL;
     }
-    if (this->m_54 != 0U) {
-        ((TObject *)this->m_54)->queue_destruction();
-        this->m_54 = 0U;
+    if (this->fade_task != NULL) {
+        this->fade_task->queue_destruction();
+        this->fade_task = NULL;
     }
     if ((test_pressed_buttons_packed(&controller_physical_port_bank.controllers[0], 2) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0)) {
         play_sound_effect(0x52F16, 0, 0, 0);
-        *(s32 *)&this->m_20 = 0xB;
+        this->state = 0xB;
         return;
     }
-    if (((TAdChrSelASlotGC *)(*(saddr *)&this->m_28))->get_state() == 1) {
-        *(s32 *)&this->m_20 = 0;
+    if (this->slot_window->get_state() == 1) {
+        this->state = 0;
         return;
     }
-    var_r30 = 0;
-    if (*(s32 *)&this->unk_58 != reinterpret_cast<TAdSelectCurGC *>((*(saddr *)&this->m_2c))->selection_index()) {
-        m_30->set_field_100(1);
-        reinterpret_cast<TAdSelectCurGC *>((*(saddr *)&this->m_2c))->selection_index();
-        if (TAdSinglePlyChrSelectGC__sub_801FE4BC() != 0U) {
-            reinterpret_cast<TAdSelectCurGC *>(m_2c)->selection_index();
-            load_tables();
-            m_30->set_field_100(2);
+    flag_notice_shown = 0;
+    if (this->last_cursor_index != this->cursor->selection_index()) {
+        player->set_field_100(1);
+        if (TAdSinglePlyChrSelectGC__sub_801FE4BC(this->cursor->selection_index()) != NULL) {
+            load_tables(cursor->selection_index());
+            player->set_field_100(2);
             if (TAdSinglePlyChrSelectGC::check_flag(1) != 0U) {
-                var_r30 = 1;
-                this->m_34->set_line(0, reinterpret_cast<const char *>(get_localized_text_entry(0x1E, 5)));
-                this->m_34->set_line(1, reinterpret_cast<const char *>(get_localized_text_entry(0x1E, 6)));
+                flag_notice_shown = 1;
+                this->guide->set_line(0, reinterpret_cast<const char *>(get_localized_text_entry(0x1E, 5)));
+                this->guide->set_line(1, reinterpret_cast<const char *>(get_localized_text_entry(0x1E, 6)));
             }
         }
-        if (var_r30 == 0) {
-            this->m_34->set_line(0, reinterpret_cast<const char *>(get_localized_text_entry(0x1E, 0)));
-            this->m_34->set_line(1, "");
+        if (flag_notice_shown == 0) {
+            this->guide->set_line(0, reinterpret_cast<const char *>(get_localized_text_entry(0x1E, 0)));
+            this->guide->set_line(1, "");
         }
-        *(s32 *)&this->unk_58 = reinterpret_cast<TAdSelectCurGC *>(m_2c)->selection_index();
+        this->last_cursor_index = cursor->selection_index();
     }
-    if (reinterpret_cast<TAdSelectCurGC *>(m_2c)->confirmation_result() == 1) {
-        reinterpret_cast<TAdSelectCurGC *>(m_2c)->selection_index();
-        load_tables();
-        reinterpret_cast<TAdSelectCurGC *>(m_2c)->selection_index();
-        if (is_slot_active__23TAdSinglePlyChrSelectGCFUi() != 0) {
-            if (((TAdChrSelASlotGC *)this->m_28)->is_character_transferred((u32)(reinterpret_cast<TAdSelectCurGC *>((*(saddr *)&this->m_2c))->selection_index())) != 0) {
-                this->m_54 = (uaddr)new TAdFadeGC(tl_fade, NULL);
-                *(u32 *)&this->unk_48 = ((TAdChrSelASlotGC *)this->m_28)->open_yes_no_window((saddr)&single_chr_select_yes_no_pos, 0);
-                *(s32 *)&this->m_20 = 7;
+    if (cursor->confirmation_result() == 1) {
+        load_tables(cursor->selection_index());
+        if (TAdSinglePlyChrSelectGC::is_slot_active(cursor->selection_index()) != 0) {
+            if (this->slot_window->is_character_transferred((u32)(this->cursor->selection_index())) != 0) {
+                this->fade_task = new TAdFadeGC(tl_fade, NULL);
+                this->yes_no_prompt = this->slot_window->open_yes_no_window((saddr)&single_chr_select_yes_no_pos, 0);
+                this->state = 7;
                 return;
             }
-            *(u32 *)&this->unk_38 = TAdSinglePlyChrSelectGC::create_chr_warp((saddr)this, (saddr)&single_chr_select_menu_pos);
-            *(s32 *)&this->m_20 = 6;
+            this->chr_menu = create_chr_warp((saddr)&single_chr_select_menu_pos);
+            this->state = 6;
             return;
         }
-        this->m_44 = (saddr)((TAdChrSelASlotGC *)this->m_28)->open_create_character_prompt((saddr)&single_chr_select_slot_message_pos);
-        *(s32 *)&this->m_20 = 8;
+        this->create_character_prompt = this->slot_window->open_create_character_prompt((saddr)&single_chr_select_slot_message_pos);
+        this->state = 8;
     }
 }
 
 #pragma pool_data reset
 
 void TAdSinglePlyChrSelectGC::sub_802D4570() {
-    u8 *arg0 = (u8 *)this;
     if ((test_pressed_buttons_packed(&controller_input_state.controllers[0], 2) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0)) {
         play_sound_effect(0x52F16, 0, 0, 0);
-        *(s32 *)((s8 *)arg0 + 0x20) = 0xB;
+        this->state = 0xB;
         return;
     }
-    if (((TAdChrSelASlotGC *)(*(saddr *)((s8 *)arg0 + 0x28)))->get_state() == 1) {
-        *(s32 *)((s8 *)arg0 + 0x20) = 0;
+    if (this->slot_window->get_state() == 1) {
+        this->state = 0;
         return;
     }
-    ((TAdSelectCurGC *)(*(saddr *)((s8 *)arg0 + 0x2C)))->append_entry((void *)&single_chr_select_item_rect_table[0]);
-    ((TAdSelectCurGC *)(*(saddr *)((s8 *)arg0 + 0x2C)))->append_entry((void *)&single_chr_select_item_rect_table[1]);
-    ((TAdSelectCurGC *)(*(saddr *)((s8 *)arg0 + 0x2C)))->append_entry((void *)&single_chr_select_item_rect_table[2]);
-    ((TAdSelectCurGC *)(*(saddr *)((s8 *)arg0 + 0x2C)))->append_entry((void *)&single_chr_select_item_rect_table[3]);
-    *(s32 *)((s8 *)arg0 + 0x20) = 5;
+    this->cursor->append_entry((void *)&single_chr_select_item_rect_table[0]);
+    this->cursor->append_entry((void *)&single_chr_select_item_rect_table[1]);
+    this->cursor->append_entry((void *)&single_chr_select_item_rect_table[2]);
+    this->cursor->append_entry((void *)&single_chr_select_item_rect_table[3]);
+    this->state = 5;
 }
 
 void TAdSinglePlyChrSelectGC::sub_802D4664() {
-    u8 *arg0 = (u8 *)this;
     if ((test_pressed_buttons_packed(&controller_input_state.controllers[0], 2) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0)) {
         play_sound_effect(0x52F16, 0, 0, 0);
-        *(s32 *)((s8 *)arg0 + 0x20) = 0xB;
+        this->state = 0xB;
         return;
     }
-    if (((TAdChrSelASlotGC *)(*(saddr *)((s8 *)arg0 + 0x28)))->get_state() == 1) {
-        if ((u32) *(u32 *)((s8 *)arg0 + 0x40) != 0U) {
-            ((TWindowBase *)(*(void **)((s8 *)arg0 + 0x40)))->close();
-            *(u32 *)((s8 *)arg0 + 0x40) = 0U;
+    if (this->slot_window->get_state() == 1) {
+        if (this->card_load_message != NULL) {
+            this->card_load_message->close();
+            this->card_load_message = NULL;
         }
-        *(s32 *)((s8 *)arg0 + 0x20) = 0;
+        this->state = 0;
         return;
     }
     if (TAdPlayerLoadGC::get_instance() == 0) {
-        *(s32 *)((s8 *)arg0 + 0x20) = 4;
+        this->state = 4;
     }
 }
 
 void TAdSinglePlyChrSelectGC::sub_802D4730() {
-    u8 *arg0 = (u8 *)this;
-    s32 temp_r0;
+    s32 frames;
     if ((test_pressed_buttons_packed(&controller_input_state.controllers[0], 2) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0)) {
         play_sound_effect(0x52F16, 0, 0, 0);
-        *(s32 *)((s8 *)arg0 + 0x20) = 0xB;
+        this->state = 0xB;
         return;
     }
-    if (((TAdChrSelASlotGC *)(*(saddr *)((s8 *)arg0 + 0x28)))->get_state() == 1) {
-        if ((u32) *(u32 *)((s8 *)arg0 + 0x40) != 0U) {
-            ((TWindowBase *)(*(void **)((s8 *)arg0 + 0x40)))->close();
-            *(u32 *)((s8 *)arg0 + 0x40) = 0U;
+    if (this->slot_window->get_state() == 1) {
+        if (this->card_load_message != NULL) {
+            this->card_load_message->close();
+            this->card_load_message = NULL;
         }
-        *(s32 *)((s8 *)arg0 + 0x20) = 0;
+        this->state = 0;
         return;
     }
     if (poll_memcard_result(0) == 0) {
-        if (TAdPlayerLoadGC::find_card_file(0, (const char *)(&pso_guildcard_card_filename.value)) == 0) {
-            if ((u32) *(u32 *)((s8 *)arg0 + 0x40) != 0U) {
-                ((TWindowBase *)(*(void **)((s8 *)arg0 + 0x40)))->close();
-                *(u32 *)((s8 *)arg0 + 0x40) = 0U;
+        if (TAdPlayerLoadGC::find_card_file(0, pso_guildcard_card_filename.filename) == 0) {
+            if (this->card_load_message != NULL) {
+                this->card_load_message->close();
+                this->card_load_message = NULL;
             }
             load_guild_card_save();
-            *(s32 *)((s8 *)arg0 + 0x20) = 3;
+            this->state = 3;
             return;
         }
-        temp_r0 = *(s32 *)((s8 *)arg0 + 0x1C) + 1;
-        *(s32 *)((s8 *)arg0 + 0x1C) = temp_r0;
-        if ((temp_r0 > 0xA) && ((u32) *(u32 *)((s8 *)arg0 + 0x40) == 0U)) {
-            *(TWindowBase **)((s8 *)arg0 + 0x40) = ((TAdChrSelASlotGC *)(*(saddr *)((s8 *)arg0 + 0x28)))->create_slot_message_window(0, 0x18);
+        frames = this->state_timer + 1;
+        this->state_timer = frames;
+        if ((frames > 0xA) && (this->card_load_message == NULL)) {
+            this->card_load_message = this->slot_window->create_slot_message_window(0, 0x18);
         }
     }
 }
 void TAdSinglePlyChrSelectGC::sub_802D486C() {
-    void *arg0 = this;
-    s32 temp_r0;
+    s32 frames;
     if ((test_pressed_buttons_packed(&controller_input_state.controllers[0], 2) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0)) {
         play_sound_effect(0x52F16, 0, 0, 0);
-        *(s32 *)((s8 *)arg0 + 0x20) = 0xB;
+        this->state = 0xB;
         return;
     }
-    if (((TAdChrSelASlotGC *)(*(saddr *)((s8 *)arg0 + 0x28)))->get_state() == 1) {
-        if (*(u32 *)((s8 *)arg0 + 0x3C) != 0U) {
-            ((TWindowBase *)(*(void **)((s8 *)arg0 + 0x3C)))->close();
-            *(u32 *)((s8 *)arg0 + 0x3C) = 0U;
+    if (this->slot_window->get_state() == 1) {
+        if (this->card_check_message != NULL) {
+            this->card_check_message->close();
+            this->card_check_message = NULL;
         }
-        *(s32 *)((s8 *)arg0 + 0x20) = 0;
+        this->state = 0;
         return;
     }
     if (poll_memcard_result(0) == 0) {
-        if ((u32)TAdPlayerLoadGC::find_card_file(0, (const char *)&pso_guildcard_card_filename.value) != 0xFFFFFF41U) {
-            if (*(u32 *)((s8 *)arg0 + 0x3C) != 0U) {
-                ((TWindowBase *)(*(void **)((s8 *)arg0 + 0x3C)))->close();
-                *(u32 *)((s8 *)arg0 + 0x3C) = 0U;
+        if ((u32)TAdPlayerLoadGC::find_card_file(0, pso_guildcard_card_filename.filename) != 0xFFFFFF41U) {
+            if (this->card_check_message != NULL) {
+                this->card_check_message->close();
+                this->card_check_message = NULL;
             }
-            *(s32 *)((s8 *)arg0 + 0x20) = 2;
+            this->state = 2;
             return;
         }
-        temp_r0 = *(s32 *)((s8 *)arg0 + 0x1C) + 1;
-        *(s32 *)((s8 *)arg0 + 0x1C) = temp_r0;
-        if ((temp_r0 > 0xA) && (*(u32 *)((s8 *)arg0 + 0x3C) == 0U)) {
-            *(TWindowBase **)((s8 *)arg0 + 0x3C) = ((TAdChrSelASlotGC *)(*(saddr *)((s8 *)arg0 + 0x28)))->create_slot_message_window(0, 0x16);
+        frames = this->state_timer + 1;
+        this->state_timer = frames;
+        if ((frames > 0xA) && (this->card_check_message == NULL)) {
+            this->card_check_message = this->slot_window->create_slot_message_window(0, 0x16);
         }
     }
 }
@@ -486,59 +460,56 @@ void TAdSinglePlyChrSelectGC::sub_802D486C() {
 
 typedef void (TAdSinglePlyChrSelectGC::*Act_802D4B6C)();
 
-extern "C" {
-s32 set_default_camera__21TAdMultiChgGameModeGCFv(void *);
 
-TPlyCharData *get_char_index__23TAdSinglePlyChrSelectGCFUi(u32);
 
 
 void TAdSinglePlyChrSelectGC::cleanup() {
-    ((TAdSelectCurGC *)(*(saddr *)((s8 *)this + 0x2C)))->reset_entries();
-    m_30->set_field_100(1);
-    ((TAdGuideTxtGC *)(*(saddr *)((s8 *)this + 0x34)))->set_line(0, "");
-    ((TAdGuideTxtGC *)(*(saddr *)((s8 *)this + 0x34)))->set_line(1, "");
-    *(s32 *)((s8 *)this + 0x58) = -1;
-    if ((u32) *(u32 *)((s8 *)this + 0x38) != 0U) {
-        ((TWindowBase *)(*(void **)((s8 *)this + 0x38)))->close();
-        *(u32 *)((s8 *)this + 0x38) = 0U;
+    this->cursor->reset_entries();
+    player->set_field_100(1);
+    this->guide->set_line(0, "");
+    this->guide->set_line(1, "");
+    this->last_cursor_index = -1;
+    if (this->chr_menu != NULL) {
+        this->chr_menu->close();
+        this->chr_menu = NULL;
     }
-    if ((u32) *(u32 *)((s8 *)this + 0x44) != 0U) {
-        ((TWindowSubComCard *)(*(void **)((s8 *)this + 0x44)))->close();
-        *(u32 *)((s8 *)this + 0x44) = 0U;
+    if (this->create_character_prompt != NULL) {
+        this->create_character_prompt->close();
+        this->create_character_prompt = NULL;
     }
-    if ((u32) *(u32 *)((s8 *)this + 0x48) != 0U) {
-        ((TWindowSubComCard *)(*(void **)((s8 *)this + 0x48)))->close();
-        *(u32 *)((s8 *)this + 0x48) = 0U;
+    if (this->yes_no_prompt != NULL) {
+        this->yes_no_prompt->close();
+        this->yes_no_prompt = NULL;
     }
-    if ((u32) *(u32 *)((s8 *)this + 0x4C) != 0U) {
-        ((TWindowSubComCard *)(*(void **)((s8 *)this + 0x4C)))->close();
-        *(u32 *)((s8 *)this + 0x4C) = 0U;
+    if (this->meseta_prompt != NULL) {
+        this->meseta_prompt->close();
+        this->meseta_prompt = NULL;
     }
-    if ((u32) *(u32 *)((s8 *)this + 0x50) != 0U) {
-        ((TWindowSubComCard *)(*(void **)((s8 *)this + 0x50)))->close();
-        *(u32 *)((s8 *)this + 0x50) = 0U;
+    if (this->replace_prompt != NULL) {
+        this->replace_prompt->close();
+        this->replace_prompt = NULL;
     }
-    if ((u32) *(u32 *)((s8 *)this + 0x3C) != 0U) {
-        ((TWindowBase *)(*(void **)((s8 *)this + 0x3C)))->close();
-        *(u32 *)((s8 *)this + 0x3C) = 0U;
+    if (this->card_check_message != NULL) {
+        this->card_check_message->close();
+        this->card_check_message = NULL;
     }
-    if ((u32) *(u32 *)((s8 *)this + 0x40) != 0U) {
-        ((TWindowBase *)this->memory_card_check)->close();
-        *(u32 *)((s8 *)this + 0x40) = 0U;
+    if (this->card_load_message != NULL) {
+        this->card_load_message->close();
+        this->card_load_message = NULL;
     }
-    if ((u32) *(u32 *)((s8 *)this + 0x54) != 0U) {
-        ((TObject *)((void *)(*(void **)((s8 *)this + 0x54))))->queue_destruction();
-        *(u32 *)((s8 *)this + 0x54) = 0U;
+    if (this->fade_task != NULL) {
+        this->fade_task->queue_destruction();
+        this->fade_task = NULL;
     }
     if ((test_pressed_buttons_packed(&controller_input_state.controllers[0], 2) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0)) {
         play_sound_effect(0x52F16, 0, 0, 0);
-        *(s32 *)((s8 *)this + 0x20) = 0xB;
+        this->state = 0xB;
         return;
     }
-    if (((TAdChrSelASlotGC *)(*(saddr *)((s8 *)this + 0x28)))->get_state() == 0xE) {
-        ((TAdGuideTxtGC *)(*(saddr *)((s8 *)this + 0x34)))->set_line(0, reinterpret_cast<const char *>(get_localized_text_entry(0x1E, 0)));
-        ((TAdGuideTxtGC *)(*(saddr *)((s8 *)this + 0x34)))->set_line(1, "");
-        *(s32 *)((s8 *)this + 0x20) = 1;
+    if (this->slot_window->get_state() == 0xE) {
+        this->guide->set_line(0, reinterpret_cast<const char *>(get_localized_text_entry(0x1E, 0)));
+        this->guide->set_line(1, "");
+        this->state = 1;
     }
 }
 
@@ -559,15 +530,15 @@ void TAdSinglePlyChrSelectGC::run_task() {
         &TAdSinglePlyChrSelectGC::close_and_change_scene,
         &TAdSinglePlyChrSelectGC::finish_character_selection_transition,
     };
-    (this->*tbl[m_20])();
-    if (static_cast<s32>(m_20) != static_cast<s32>(m_24)) {
-        m_1c = 0;
+    (this->*tbl[state])();
+    if (state != prev_state) {
+        state_timer = 0;
     }
-    m_24 = m_20;
+    prev_state = state;
 }
 
-s32 TAdSinglePlyChrSelectGC__sub_802D4D9C() {
-    player_stats stats = get_char_index__23TAdSinglePlyChrSelectGCFUi(0xFFFF)->m_stats;
+s32 TAdSinglePlyChrSelectGC::can_pay_fee() {
+    player_stats stats = TAdSinglePlyChrSelectGC::get_char_index(0xFFFF)->m_stats;
     if (stats.meseta >= 10000) {
         return 1;
     }
@@ -575,31 +546,30 @@ s32 TAdSinglePlyChrSelectGC__sub_802D4D9C() {
 }
 
 void TAdSinglePlyChrSelectGC::sub_802D4E08() {
-    *(s32 *)((s8 *)this + 0x20) = 0;
-    *(s32 *)((s8 *)this + 0x24) = (s32) *(s32 *)((s8 *)this + 0x20);
-    *(s32 *)((s8 *)this + 0x2C) = 0;
-    *(s32 *)((s8 *)this + 0x30) = 0;
-    *(s32 *)((s8 *)this + 0x54) = 0;
-    *(s32 *)((s8 *)this + 0x34) = 0;
-    *(s32 *)((s8 *)this + 0x38) = 0;
-    *(s32 *)((s8 *)this + 0x44) = 0;
-    *(s32 *)((s8 *)this + 0x48) = 0;
-    *(s32 *)((s8 *)this + 0x4C) = 0;
-    *(s32 *)((s8 *)this + 0x50) = 0;
-    *(s32 *)((s8 *)this + 0x3C) = 0;
-    *(s32 *)((s8 *)this + 0x40) = 0;
-    *(s32 *)((s8 *)this + 0x1C) = -1;
-    *(s32 *)((s8 *)this + 0x58) = -1;
-    *(s32 *)((s8 *)this + 0x5C) = -1;
+    this->state = 0;
+    this->prev_state = this->state;
+    this->cursor = NULL;
+    this->player = NULL;
+    this->fade_task = NULL;
+    this->guide = NULL;
+    this->chr_menu = NULL;
+    this->create_character_prompt = NULL;
+    this->yes_no_prompt = NULL;
+    this->meseta_prompt = NULL;
+    this->replace_prompt = NULL;
+    this->card_check_message = NULL;
+    this->card_load_message = NULL;
+    this->state_timer = -1;
+    this->last_cursor_index = -1;
+    this->menu_choice = -1;
 }
 
-}
 TAdSinglePlyChrSelectGC::~TAdSinglePlyChrSelectGC() {
-    if (*(void **)((s8 *)this + 0x38) != NULL) { ((TObject *)((void *)(*(void **)((s8 *)this + 0x38))))->queue_destruction(); *(s32 *)((s8 *)this + 0x38) = 0; }
-    if (*(void **)((s8 *)this + 0x3C) != NULL) { ((TObject *)((void *)(*(void **)((s8 *)this + 0x3C))))->queue_destruction(); *(s32 *)((s8 *)this + 0x3C) = 0; }
-    if (this->memory_card_check != NULL) { ((TObject *)((void *)this->memory_card_check))->queue_destruction(); *(s32 *)((s8 *)this + 0x40) = 0; }
-    if (*(void **)((s8 *)this + 0x44) != NULL) { ((TObject *)((void *)(*(void **)((s8 *)this + 0x44))))->queue_destruction(); *(s32 *)((s8 *)this + 0x44) = 0; }
-    if (*(void **)((s8 *)this + 0x48) != NULL) { ((TObject *)((void *)(*(void **)((s8 *)this + 0x48))))->queue_destruction(); *(s32 *)((s8 *)this + 0x48) = 0; }
+    if (this->chr_menu != NULL) { this->chr_menu->queue_destruction(); this->chr_menu = NULL; }
+    if (this->card_check_message != NULL) { this->card_check_message->queue_destruction(); this->card_check_message = NULL; }
+    if (this->card_load_message != NULL) { this->card_load_message->queue_destruction(); this->card_load_message = NULL; }
+    if (this->create_character_prompt != NULL) { this->create_character_prompt->queue_destruction(); this->create_character_prompt = NULL; }
+    if (this->yes_no_prompt != NULL) { this->yes_no_prompt->queue_destruction(); this->yes_no_prompt = NULL; }
 }
 
 // pool_data off: the cursor rects and the title positions are each reached with their own lis/addi.
@@ -610,12 +580,12 @@ TAdSinglePlyChrSelectGC::TAdSinglePlyChrSelectGC(TObject *parent) : TObject(pare
     new TAdBackGC(this);
     new TAdBackTxtGC(this);
     new TAdTitleGC(this, 0);
-    m_28 = reinterpret_cast<uaddr>(TAdMultiPlyChrSelectGC::get_or_create_slot_window(this, 0));
-    m_30 = TAdMultiPlyChrSelectGC::get_or_create_player(this, 0, -1, 0);
-    m_34 = new TAdGuideTxtGC(this);
-    m_2c = reinterpret_cast<uaddr>(new TAdSelectCurGC(this,
+    slot_window = TAdMultiPlyChrSelectGC::get_or_create_slot_window(this, 0);
+    player = TAdMultiPlyChrSelectGC::get_or_create_player(this, 0, -1, 0);
+    guide = new TAdGuideTxtGC(this);
+    cursor = new TAdSelectCurGC(this,
         reinterpret_cast<const NJS_POINT2 *>(single_chr_select_item_rect_table),
-        reinterpret_cast<const NJS_POINT2 *>(&single_chr_select_cursor_size)));
+        reinterpret_cast<const NJS_POINT2 *>(&single_chr_select_cursor_size));
     TAdTitleTexGC *title_tex = new TAdTitleTexGC(this);
     T_802D4F2C t = single_chr_select_position_table;
     fn_802D50B8(title_tex, &t.p[0], &t.p[1], &t.p[2]);

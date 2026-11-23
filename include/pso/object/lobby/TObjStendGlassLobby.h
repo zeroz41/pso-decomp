@@ -24,7 +24,7 @@ struct TObjStendGlassLobby : public TObjMapObject {
     static void load_resources();
 
     static BmlResource *static_model_resource;
-    static u32 lobby_texlist;  // the lobby's shared texture list
+    static NJS_TEXLIST *lobby_texlist;  // the lobby's shared texture list
 };
 
 LAYOUT_ASSERT(TObjStendGlassLobby_size, sizeof(TObjStendGlassLobby) == 0xD4);

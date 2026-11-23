@@ -302,13 +302,13 @@ extern const Tbl_8020765C boss_warp_destination_table_b = { {
     { 0, 14, 14, 15, 15, 12, 12, 12, 12, 12, 13, 13, 0, 0, 0, 0, 0, 0 },
 } };
 
-s32 set_floor_map_selection(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
+s32 set_floor_map_selection(s32 floor, s32 area, s32 terrain, s32 entities);
 extern "C" {
 int selected_episode;
 void randomize_adventure_maps(void);
 void TLobby__sub_80207BB0(void);
 s32 get_game_play_mode();
-s32 get_floor_map_terrain(s32 arg0);
+s32 get_floor_map_terrain(s32 floor);
 }
 s32 get_boss_warp_destination(void);
 saddr story_select_pending_state = -1;
@@ -338,20 +338,20 @@ saddr get_floor_area(s32 floor) {
 }
 void init_floor_map_registry(void);
 
-void set_floor_map_variant(s32 arg0, s32 arg1) {
-    if (arg0 <= 0x11) {
-        floor_map_registry[arg0].terrain = arg1;
+void set_floor_map_variant(s32 floor, s32 arg1) {
+    if (floor <= 0x11) {
+        floor_map_registry[floor].terrain = arg1;
     }
 }
 
 #pragma push
 #pragma opt_common_subs off
 
-s32 get_floor_map_terrain(s32 arg0) {
-    if (arg0 > 0x11) {
+s32 get_floor_map_terrain(s32 floor) {
+    if (floor > 0x11) {
         return 0;
     }
-    return floor_map_registry[arg0].terrain;
+    return floor_map_registry[floor].terrain;
 }
 
 s32 set_floor_map_selection(s32 floor, s32 area, s32 terrain, s32 entities) {
@@ -413,7 +413,7 @@ void TLobby::copy_table_entries(u32 size) {
 void randomize_adventure_maps(void) {
   FloorMapSelection *var_r31;
   s32 main_phase;
-  s32 var_r29;
+  s32 i;
   var_r31 = floor_map_registry;
   TAdStorySelectGC::set_state((saddr)((void*)((*(saddr *)&selected_episode))));
   main_phase = get_main_phase();
@@ -421,7 +421,7 @@ void randomize_adventure_maps(void) {
   {
     main_phase = 0xF;
   }
-  var_r29 = 0;
+  i = 0;
   do
   {
     if (var_r31->area >= 0)
@@ -442,10 +442,10 @@ void randomize_adventure_maps(void) {
           break;
       }
     }
-    var_r29 += 1;
+    i += 1;
     ++var_r31;
   }
-  while (var_r29 < 0x12);
+  while (i < 0x12);
 }
 
 #pragma push

@@ -62,6 +62,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp_80248BE8.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/camera/TCameraCtrl.h"
+#include "pso/player/PlayerSlots.h"
 
 
 #pragma defer_codegen on
@@ -100,13 +101,10 @@ NJS_OBJECT *boss_warp_confirmation_model;
 NJS_OBJECT *warp_boss_model;
 AnimationMotion *warp_boss_motion;
 AnimationMotion *warp_boss_bml_motion;
-GinjaTextureList *boss_warp_base_textures;
-GinjaTextureList *boss_warp_effect_textures;
-extern "C" {
+NJS_TEXLIST *boss_warp_base_textures;
+NJS_TEXLIST *boss_warp_effect_textures;
 extern "C" {
 void release_boss_warp_resources(void);
-saddr TObjWarpBossMulti__create(saddr arg0);
-}
 }
 
 const char lbl_8044663C[] = "<- NEXT STAGE No.";
@@ -118,7 +116,7 @@ extern s32 lbl_805D55C0;
 
 
 }
-void handle_6x6A_set_boss_warp_flags(void *arg0);
+void handle_6x6A_set_boss_warp_flags(void *packet);
 // Function definitions in reverse address order (defer_codegen emits them reversed).
 
 NJS_OBJECT *get_boss_warp_base_model(void) { return boss_warp_base_model; }
@@ -131,9 +129,9 @@ AnimationMotion *get_boss_warp_motion(void) { return warp_boss_motion; }
 
 AnimationMotion *get_boss_warp_bml_motion(void) { return warp_boss_bml_motion; }
 
-GinjaTextureList *get_boss_warp_base_textures(void) { return boss_warp_base_textures; }
+NJS_TEXLIST *get_boss_warp_base_textures(void) { return boss_warp_base_textures; }
 
-GinjaTextureList *get_boss_warp_effect_textures(void) { return boss_warp_effect_textures; }
+NJS_TEXLIST *get_boss_warp_effect_textures(void) { return boss_warp_effect_textures; }
 
 void load_boss_warp_resources() {
     s32 area;
@@ -147,8 +145,8 @@ void load_boss_warp_resources() {
         warp_boss_model = (NJS_OBJECT *)get_bml_model((BmlResource *)boss_warp_resource_bundle, 1);
         warp_boss_motion = get_bml_motion(boss_warp_resource_bundle, 1);
         warp_boss_bml_motion = get_bml_motion(boss_warp_resource_bundle, 0);
-        boss_warp_base_textures = (GinjaTextureList *)get_bml_texlist((BmlResource *)boss_warp_resource_bundle, 2);
-        boss_warp_effect_textures = (GinjaTextureList *)get_bml_texlist((BmlResource *)boss_warp_resource_bundle, 2);
+        boss_warp_base_textures = get_bml_texlist((BmlResource *)boss_warp_resource_bundle, 2);
+        boss_warp_effect_textures = get_bml_texlist((BmlResource *)boss_warp_resource_bundle, 2);
         return;
     }
     if (TContainerAncient01::is_global_state_in_table() != 0 || area == AREA_SEABED_UPPER || area == AREA_SEABED_LOWER) {
@@ -159,8 +157,8 @@ void load_boss_warp_resources() {
         warp_boss_model = (NJS_OBJECT *)get_bml_model((BmlResource *)boss_warp_resource_bundle, 1);
         warp_boss_motion = get_bml_motion(boss_warp_resource_bundle, 0);
         warp_boss_bml_motion = get_bml_motion(boss_warp_resource_bundle, 0);
-        boss_warp_base_textures = (GinjaTextureList *)get_bml_texlist((BmlResource *)boss_warp_resource_bundle, 0);
-        boss_warp_effect_textures = (GinjaTextureList *)get_bml_texlist((BmlResource *)boss_warp_resource_bundle, 0);
+        boss_warp_base_textures = get_bml_texlist((BmlResource *)boss_warp_resource_bundle, 0);
+        boss_warp_effect_textures = get_bml_texlist((BmlResource *)boss_warp_resource_bundle, 0);
         return;
     }
     resource = new BmlResource(5, &lbl_804B94AC, 0, 0, NULL);
@@ -170,8 +168,8 @@ void load_boss_warp_resources() {
     warp_boss_model = (NJS_OBJECT *)get_bml_model((BmlResource *)boss_warp_resource_bundle, 1);
     warp_boss_motion = get_bml_motion(boss_warp_resource_bundle, 1);
     warp_boss_bml_motion = get_bml_motion(boss_warp_resource_bundle, 0);
-    boss_warp_base_textures = (GinjaTextureList *)get_bml_texlist((BmlResource *)boss_warp_resource_bundle, 2);
-    boss_warp_effect_textures = (GinjaTextureList *)get_bml_texlist((BmlResource *)boss_warp_resource_bundle, 2);
+    boss_warp_base_textures = get_bml_texlist((BmlResource *)boss_warp_resource_bundle, 2);
+    boss_warp_effect_textures = get_bml_texlist((BmlResource *)boss_warp_resource_bundle, 2);
 }
 
 void release_boss_warp_resources(void) {
@@ -181,14 +179,14 @@ void release_boss_warp_resources(void) {
     }
 }
 
-saddr TObjWarpBossMulti__create(saddr set_data) {
+void *TObjWarpBoss::create(void *set_data) {
     if ((TRaderMapCore::is_not_split_screen() == 0) && (get_main_phase() == 0xE)) {
-        return ((saddr)((TObjWarpBossMulti *)set_data)->create());
+        return TObjWarpBossMulti::create(set_data);
     }
     if (TRaderMapCore::is_not_split_screen() == 1) {
-        return ((saddr)((TObjWarpBossMulti *)set_data)->create());
+        return TObjWarpBossMulti::create(set_data);
     }
-    return (saddr)new TObjWarpBoss(tl_05, (void *)set_data);
+    return new TObjWarpBoss(tl_05, set_data);
 }
 
 TObjWarpBoss::TObjWarpBoss(TObject *parent, void *set_data) : TObjAreaWarp(parent, set_data) {
@@ -374,7 +372,7 @@ void TObjWarpBoss::update_warp_dialogs() {
             ((THunterGuildSeqOffline *)player_list_window)->advance_matching_entries(player_in_range[j] != 0, j);
       color = 0xF0F0F0FF;
       TObjPlayer *player;
-      if (state == 1 && (player = (TObjPlayer *)get_player_by_client_id(j)) != NULL && player->check_player_flag1() != 0)
+      if (state == 1 && (player = get_player_by_client_id(j)) != NULL && player->check_player_flag1() != 0)
       {
         color = 0xFFFF00FF;
       }
@@ -467,10 +465,10 @@ void TObjWarpBoss::update_warp_confirmation() {
     case 2:
         update_warp_dialogs();
         if (yes_no_window != NULL) {
-            if (((TWindowSubComCard *)yes_no_window)->get_card_data() != 0) {
+            if (((TWindowMessageYesNo *)yes_no_window)->is_cancelled() != 0) {
                 state_step = 3;
             } else if (((TWindowMessageYesNo *)yes_no_window)->is_child_visible() != 0) {
-                r = ((TWindowSubComCard *)yes_no_window)->get_slot_or_neg1();
+                r = ((TWindowMessageYesNo *)yes_no_window)->get_selected_value();
                 if (r == 0) {
                     warp_player(local_client_id);
                     warp_triggered = 1;
@@ -599,8 +597,8 @@ void TObjWarpBoss::warp_boss_handle_window() {
             if (menu_window == 0) {
                 menu_window = create_window_menu_default((saddr)get_window_layout_position(0x35), 7);
                 if (menu_window != 0) {
-                    ((TWindowSubTradeMain *)menu_window)->add_text_entry((saddr)TWindowSubStatusDisp::get_message_10(0x40), 0, 0, -1);
-                    ((TAdChrSelASlotGC *)menu_window)->set_flag_40();
+                    ((TWindowMenu *)menu_window)->add_text_entry((saddr)TWindowSubStatusDisp::get_message_10(0x40), 0, 0, -1);
+                    ((TWindowMenu *)menu_window)->set_flag_40();
                     ((TWindowMenu *)menu_window)->calc_window_size();
                     align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(menu_window));
                 }
@@ -690,7 +688,7 @@ void handle_6x6A_set_boss_warp_flags(void *packet) {
 
 void TObjWarpBoss::close_windows() {
     if (yes_no_window != NULL) {
-        ((TWindowSubComCard *)yes_no_window)->close();
+        ((TWindowMessageYesNo *)yes_no_window)->close();
         yes_no_window = NULL;
     }
     if (menu_window != 0) {
@@ -882,10 +880,10 @@ block_4:
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(model_handle));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(model_handle));
         draw_ginja_object(base_model);
         TParticleCtrl::begin_effect_render();
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(effect_textures));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(effect_textures));
         switch (state) {
         case 0:
             draw_ginja_model_with_motion(confirmation_model, motion, frame);
@@ -941,6 +939,6 @@ void TObjWarpBossMulti::init_warp_params() {
     frame_step = 4.0f;
 }
 
-void *TObjWarpBossMulti::create() {
-    return new TObjWarpBossMulti(tl_05, this);
+void *TObjWarpBossMulti::create(void *set_data) {
+    return new TObjWarpBossMulti(tl_05, set_data);
 }

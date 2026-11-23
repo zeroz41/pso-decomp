@@ -25,6 +25,8 @@
 #include "pso/unk/text_803D853C.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/system/MatrixOps.h"
+#include "pso/object/base/TObjBase.h"
+#include "pso/player/PlayerSlots.h"
 
 typedef struct Actor_80193FE8 {
     u8 pad0[0x28];
@@ -64,9 +66,7 @@ typedef struct Light_80193FE8 {
 
 extern "C" {
 s32 is_split_screen(void);
-u16 get_entity_id(void *);
 f32 xyz_distance_squared(void *, void *);
-Actor_80193FE8 *get_player_by_client_id(s32);
 
 const char *TObjLight__class_name = "TObjLight";
 
@@ -86,7 +86,7 @@ void TObjLight::run_task() {
     }
     {
     Vec fwd = {0.0f, 0.0f, -1.0f};
-    VecCopy((Vec *)&self->base_dir, &TObjLight__scene_light_state.view_direction);
+    VecCopy((Vec *)&self->base_dir, &scene_light_state.view_direction);
     self->flags = 0;
     if (self->param[0] >= 10000.0f) {
         self->color.x = self->param[0] - 10000.0f;
@@ -147,12 +147,12 @@ void TObjLight::run_task() {
                     self->out_dir.x = t * (self->dir.x - self->base_dir.x) + self->base_dir.x;
                     self->out_dir.y = t * (self->dir.y - self->base_dir.y) + self->base_dir.y;
                     self->out_dir.z = t * (self->dir.z - self->base_dir.z) + self->base_dir.z;
-                    register_actor_light(get_entity_id(a), this);
+                    register_actor_light(((TObjBase *)(a))->get_entity_id(), this);
                 }
             }
         }
         for (i = 0; i < 4; i++) {
-            Actor_80193FE8 *a = get_player_by_client_id(i);
+            Actor_80193FE8 *a = (Actor_80193FE8 *)get_player_by_client_id(i);
             if (a != NULL) {
                 f32 d = horizontal_distance_squared(&a->pos, &self->pos);
                 f32 r2 = self->radius * self->radius;
@@ -170,7 +170,7 @@ void TObjLight::run_task() {
                     self->out_dir.y = t * (self->dir.y - self->base_dir.y) + self->base_dir.y;
                     self->out_dir.z = t * (self->dir.z - self->base_dir.z) + self->base_dir.z;
                     if (get_current_floor_area() != AREA_LOBBY) {
-                        register_actor_light(get_entity_id(a), this);
+                        register_actor_light(((TObjBase *)(a))->get_entity_id(), this);
                     }
                 }
             }
@@ -198,8 +198,8 @@ TObjLight::TObjLight(TObject *parent, u8 *set_data) : TObjBase(parent) {
     light->actor_direction.y = 0.0f;
     light->actor_direction.z = 0.0f;
     light->m_9c = 0;
-    copy_argb(&light->scene_color, &TObjLight__scene_light_state.color);
-    VecCopy(&light->scene_direction, &TObjLight__scene_light_state.view_direction);
+    copy_argb(&light->scene_color, &scene_light_state.color);
+    VecCopy(&light->scene_direction, &scene_light_state.view_direction);
     light->actor_color.a = 0.5f;
     light->actor_color.r = 0.0f;
     light->actor_color.g = 0.0f;
@@ -207,9 +207,9 @@ TObjLight::TObjLight(TObject *parent, u8 *set_data) : TObjBase(parent) {
     light->disallow_rendering();
 }
 
-u8 *TObjLight__create(u8 *arg0) {
+void *TObjLight::create(void *set_data) {
     if (is_split_screen() != 0) {
         return NULL;
     }
-    return (u8 *)new TObjLight(tl_05, arg0);
+    return new TObjLight(tl_05, (u8 *)set_data);
 }

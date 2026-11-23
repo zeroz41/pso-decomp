@@ -30,7 +30,7 @@ struct TContainerAncient01R : public TObjChara {
     u8 unk_33A[0x2];
     f32 m_33c;
     f32 m_340;
-    f32 m_344;
+    f32 range;
     Vec lower_effect_position;
     Vec upper_effect_position;
     void init_positions();
@@ -38,6 +38,7 @@ struct TContainerAncient01R : public TObjChara {
     s32 m_360;
     Vec open_scale;
     u32 m_370;
+    static void *create(void *set_data);
 };
 
 LAYOUT_ASSERT(TContainerAncient01R_size, sizeof(TContainerAncient01R) == 0x374);

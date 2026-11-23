@@ -9,6 +9,7 @@ struct TObjCityDoor_Guild : public TUnk_804B5BA8 {
     virtual ~TObjCityDoor_Guild();
     virtual void render();
     virtual void run_task();
+    static void *create(void *set_data);
 };
 
 LAYOUT_ASSERT(TObjCityDoor_Guild_size, sizeof(TObjCityDoor_Guild) == 0xBC);

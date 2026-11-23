@@ -60,16 +60,16 @@ struct Boss6Type2MoveTarget {
 // hair and attachment models. grab_player saves the possessed player's look, draw draws it and
 // restore_target_player_state puts it back; boss6_type2_player_snapshot_table keeps one per client.
 struct Boss6PlayerLook {
-    GinjaTextureList body_textures;
-    GinjaTextureList head_textures;
-    GinjaTextureList attachment_textures;
+    NJS_TEXLIST body_textures;
+    NJS_TEXLIST head_textures;
+    NJS_TEXLIST attachment_textures;
     void *model;
     void *head_model;
     void *hair_model;
     u32 attachment_model;
 };
 
-void copy_texlist(GinjaTextureList *dst, GinjaTextureList *src);
+void copy_texlist(NJS_TEXLIST *dst, NJS_TEXLIST *src);
 
 struct TBoss6Type2 : public TObjEnemy
 {
@@ -166,7 +166,7 @@ struct TBoss6Type2 : public TObjEnemy
     u16 possessed_client;  // grab_player's player; 0xFFFF when none
     u8 unk_55E[0x2];
     // BML entries 0xB and 0xA (cache_fish_params); grab_player puts them on the grabbed player.
-    GinjaTextureList *grab_texlists[2];
+    NJS_TEXLIST *grab_texlists[2];
     NJS_OBJECT *grab_models[2];
     char *grab_appearance;  // the possessed player's name block, the appearance boss6type2_draw_models takes
     Boss6PlayerLook saved_look;
@@ -183,11 +183,11 @@ struct TBoss6Type2 : public TObjEnemy
     void request_player_camera_offsets(f32 a, f32 b);
     void init_parts();
     s32 turn_toward_target_position();
-    static u8 *create_dpb(saddr parent, saddr position, f32 farg0);
+    static u8 *create_dpb(saddr parent, saddr position, f32 radius);
     s32 get_phase();
     static s32 is_player_in_rock_area(u16 client_id);
     void spawn_hit_effects();
-    void destroy_part(s32 arg1);
+    void destroy_part(s32 slot);
     void spawn_particle_slot(s32 slot);
     void update_part_positions();
     void update_footstep_effects();

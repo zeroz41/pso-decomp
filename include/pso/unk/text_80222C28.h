@@ -11,7 +11,8 @@ saddr get_shop_text(s32 index);
 }
 
 extern "C" {
-s32 TShopGenerator__sub_80222DAC(s32 client);
+// The client's own slot when the screen is split, else slot 0.
+u16 get_client_split_screen_slot(u16 client);
 }
 
 #endif

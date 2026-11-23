@@ -44,6 +44,7 @@
 #include "pso/camera/CameraHelpers.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/boss/darkfalz/TBoss4Type3_800524E8.h"
+#include "pso/object/base/TObjBase.h"
 
 #pragma readonly_strings on
 
@@ -292,8 +293,8 @@ u16 TBoss4Type3::pick_random_target_player() {
     n = 0;
     for (i = 0; i < registered_player_count; i++) {
         p = TObjPlayer::get_player_data(i);
-        if (p != NULL && is_player_in_boss_area(get_entity_id(p)) != 0) {
-            buf[n++] = get_entity_id(p);
+        if (p != NULL && is_player_in_boss_area(p->get_entity_id()) != 0) {
+            buf[n++] = p->get_entity_id();
             if (n >= 4) {
                 break;
             }

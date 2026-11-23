@@ -11,64 +11,6 @@
 struct BmlMotionEntry;
 struct CameraAngles;
 
-class TObjBase : public TObject {
-public:
-    TObjBase(TObject *parent);
-    virtual ~TObjBase();
-    virtual void vfunc_6(s16 *, s32);
-    virtual void apply_object_set_data(void *);
-    virtual void reset_motion_fields();
-    virtual void *get_center();
-    virtual s32 update_object_view_visibility(f32, f32);
-    virtual s32 classify_actor_view_detail(f32, f32, f32);
-    virtual const char *get_name();
-    void obj_clearFlags30(u32);
-    s16 get_room();
-    void set_room(s16 room);
-    // Gives it count + 1 consecutive ids from the pool its actorFlags type
-    // bits pick, unless it already has one; returns its id.
-    u16 get_or_assign_entity_id(s32 count);
-    s32 mask_object_set_row_flags(s32);
-    s32 set_event_source_flag(s32);
-    void set_entity_id(u16 id);
-    int set_position_from(void *pos);
-    void save_previous_position();
-    CameraAngles *get_rotation();
-    saddr get_texlist();
-    s32 is_alive();
-    u16 entity_id;  // the object table id, 0xFFFF while unregistered
-    s16 visibility; // update_object_view_visibility: 0 culled, 1 visible, 2 near
-    s32 m_20;
-    saddr texlist;  // its texture list, made current before it draws
-    // Copied from the object's set entry when it is spawned; see
-    // TLobby::link_matching_objects.
-    s16 room;
-    s16 set_group;  // the object's group, or an enemy's wave number
-    s16 set_index;  // index of its set entry, -1 for none
-    s16 alt_room;   // the room set_room keeps for the key and quest states
-    u32 actorFlags;
-    void* model;
-    Vec position;
-    Vec prev_position;  // where it stood before this frame's move
-    Vec home_position;  // the set position it returns to
-    s32 rotation_x;
-    s32 rotation_y;
-    s32 rotation_z;
-    Vec scale;        // the set entry's params 1-3, a scale for most objects
-    Vec center;         // the point the virtual center getter returns
-    void *set_entry;    // its row of the floor's object or enemy set
-    s32 set_params[3];  // the set entry's params 4-6
-};
-// The entity id pools (TObjBase's TU): ids below 0x1000 are players and
-// the like, 0x1000-0x3FFF enemies, 0x4000 and up objects.
-void advance_enemy_id_counter(s32 arg0);
-void advance_object_id_counter(s32 arg0);
-
-// The derived destructors still written out by hand call the base ones by
-// their symbols.
-extern "C" void *__dt__8TObjBaseFv(void *, s16);
-extern "C" void *__dt__14TObjCollidableFv(void *, s16);
-
 // One collision body of an actor (TObjCollidable::bodies points at the actor's
 // array of them); init_collision_body_parts copies a static table of these.
 struct CollisionBody {
@@ -92,7 +34,8 @@ public:
     void*find_actor_body_contact(u8*, f32);
     void set_indexed_flags(s32, s32);
     void clear_player_status_flag(s32, u32);
-    s32 obj_testFlags30(u32);
+    // actorFlags & flags.
+    s32 test_actor_flags(u32 flags);
     s32 access_object_saved_state(void *, s16);
     void sub_80156A68();
     void*set_collision_body(void*);
@@ -111,7 +54,7 @@ public:
     s32 unregister_object_by_id();
     void send_object_state_update(void *);
     // A player (client id, 0xFFFF for none) uses the action button on it.
-    virtual void interact(s32 client);
+    virtual void interact(u16 client);
     s32 set_flag8();
     s32 has_interactor();
     s32 get_cursor_action();
@@ -133,7 +76,7 @@ struct ActorBodyHit {
     TObjCollidable *target;
     s32 body;  // index into target->bodies
 };
-extern "C" void copy_actor_body_hit(ActorBodyHit *destination, const ActorBodyHit *source);
+void copy_actor_body_hit(ActorBodyHit *destination, const ActorBodyHit *source);
 
 // One entry of TObjMotion::action_table: what an action plays and how.
 struct TObjMotionAction {
@@ -189,8 +132,10 @@ public:
     void set_action_table(saddr);
     void set_motion_list(saddr);
     void set_requested_action(s16);
-    void sub_8002AE64();
-    void sub_800A7798(f32);
+    // Clears MOTION_NO_BLEND.
+    void enable_motion_blend();
+    // Plays the next action at this speed (MOTION_OVERRIDE_SPEED).
+    void set_override_speed(f32 speed);
     void set_motion_flags(u32 flags);
     TObjMotionAction *get_anim_entry(int action);
     int test_motion_flags(s32 flags);
@@ -202,7 +147,8 @@ public:
     f32 get_action_frame_count(s16 action);
     // Makes the action's motion current.
     void set_action_motion(s32 action);
-    saddr get_item_ptr(s32);
+    // The matrix draw_saving_joints stored for the node (joint_matrices[joint]).
+    saddr get_joint_matrix(s32 joint);
     void set_motion_interpolation_flag();
     // Sets both tables and starts the action.
     void init_motion(TObjMotionAction *actions, BmlMotionEntry *motions, s16 action);
@@ -210,9 +156,9 @@ public:
     // side or MOTION_NO_BLEND forbids it.
     void change_action(s16 action);
     // Clears MOTION_BLENDING and sets MOTION_NO_BLEND.
-    void fn_800660B8();
-    // Calls fn_800660B8, switches to the action, then
-    // runs sub_8002AE64. Its one out-of-line copy sits in the Panarms unit.
+    void disable_motion_blend();
+    // Calls disable_motion_blend, switches to the action, then
+    // runs enable_motion_blend. Its one out-of-line copy sits in the Panarms unit.
     void init(s16 action);
     // Steps the frame and the play mode; every actor calls it each update.
     void advance_animation();
@@ -252,6 +198,8 @@ public:
     s16 play_mode;          // MOTION_MODE_*
     s16 next_play_mode;     // the play mode after a blend
     NJS_MOTION *current_motion;
+    // The name every TObjMotion constructor gives the object.
+    static const char *class_name;
 };
 
 // Empty in the release build; TObjMotion::draw brackets its draw with them.
@@ -285,11 +233,9 @@ extern NodeFlagEntry *node_flag_cursor;
 extern Mtx34 *anim_model_matrix_array;
 // Where save_joint_matrix_callback stores the next node's matrix.
 extern Mtx34 *player_joint_matrix_write_ptr;
-// A 0x6000-byte buffer init_game_systems allocates.
-extern void *lbl_805D5680;
-
-// The name every TObjMotion constructor gives the object.
-extern const char *TObjMotion__class_name;
+// The 0x6000 bytes init_game_systems allocates for the motion data
+// TObjPlayer blends from two motions' keys (TObjPlayer::set_global_7778).
+extern void *motion_blend_buffer;
 
 LAYOUT_ASSERT(TObjBaseSize, sizeof(TObjBase)==0x90);
 LAYOUT_ASSERT(TObjCollidableSize, sizeof(TObjCollidable)==0xAC);

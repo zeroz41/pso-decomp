@@ -14,25 +14,21 @@
 #include "pso/unk/text_80120908.h"
 #include "pso/item/TItemEquipVariant_80120CF8.h"
 #include "pso/weapon/TItemWeapon.h"
-#include "pso/weapon/shoot/TItemShootModel_dtor.h"
-#include "pso/player/TObjPlayer_80130778.h"
 #include "pso/weapon/TUnk_804A6AD8.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/system/task/TObject.h"
 #include "pso/unk/TLobby_80226070.h"
+#include "pso/system/SoundEffect.h"
 
-extern "C" {
-
-s32 post_translate_matrix(void *);
-void __ct__15TItemShootModelFPvPC3VecPC3Vecf(void *);
+extern "C" s32 post_translate_matrix(void *);
 
 void TUnk_804A69C0::render() {
     u8 *arg0 = (u8 *)this;
     if ((TItemShootModel::is_owner_alive() != 0) && ((uaddr) this->model != 0U) && ((uaddr) this->texture_list != 0U)) {
         push_matrix();
-        set_texlist(*(u32 *)&this->texture_list);
+        set_texlist(this->texture_list);
         post_translate_matrix(arg0 + 0x1C);
         rotate_matrix_y(0, this->m_count);
         rotate_matrix_x(0, this->m_28);
@@ -45,42 +41,23 @@ void TUnk_804A69C0::hook() {
     this->m_28 = (this->m_28 + 0xCCC);
 }
 
-extern s32 __vt__13TUnk_804A69C0[];
-
-void *TUnk_804A69C0::init_shoot_model() {
-    __ct__15TItemShootModelFPvPC3VecPC3Vecf(this);
-    *(s32 **)((s8 *)this + 0x18) = __vt__13TUnk_804A69C0;
-    this->m_28 = 0;
-    return this;
+TUnk_804A69C0::TUnk_804A69C0(void *owner, const Vec *pos, const Vec *dir, f32 life)
+    : TItemShootModel(owner, pos, dir, life) {
+    m_28 = 0;
 }
 
-s32 play_sound_effect(int, int, int, int);
-s32 init_shoot_model__13TUnk_804A69C0Fv(int, void *, void *, void *, f32);
-s32 create_shoot_model__10TObjPlayerFiiif(saddr arg0, saddr arg1, saddr arg2, f32 farg0);
-void TObjPlayer__sub_801307D0(void *arg0);
-
-s32 create_shoot_model__10TObjPlayerFiiif(saddr arg0, saddr arg1, saddr arg2, f32 farg0) {
-    saddr temp_r3;
-    s32 var_r0;
-    s32 var_r3;
-    var_r3 = 0;
-    if (arg0 != 0) {
-        temp_r3 = (saddr)TObject::operator new(0x6C);
-        var_r0 = temp_r3;
-        if (var_r0 != 0) {
-            var_r0 = init_shoot_model__13TUnk_804A69C0Fv((int)temp_r3, (void *)arg0, (void *)arg1, (void *)arg2, (f32)farg0);
-        }
-        var_r3 = var_r0;
+saddr create_shoot_model(saddr owner, saddr pos, saddr dir, f32 life) {
+    TUnk_804A69C0 *shot = NULL;
+    if (owner != 0) {
+        shot = new TUnk_804A69C0((void *)owner, (const Vec *)pos, (const Vec *)dir, life);
     }
-    return var_r3;
-}
-
+    return (saddr)shot;
 }
 
 void TUnk_804A69DC::activate_effect(s32) {
     if (owner != NULL && is_current_area_item_enabled() != 0) {
         if (get_current_floor() == owner->get_floor() && get_mode() == 2) {
-            set_sound_pitch_request(play_sound_effect(0x4001AA05, (saddr)&owner->position, 0, 0), 0x300, 0);
+            set_sound_pitch_request(play_sound_effect(0x4001AA05, &owner->position, 0, 0), 0x300, 0);
             launch_shot((u8 *)&gun_point, 0, 0, 1);
         }
     }
@@ -91,7 +68,7 @@ void TUnk_804A69DC::emit_marker_effects() {
         get_gun_point(&gun_point);
         if (spin_speed > 0x1999) {
             send_activate_effect(0);
-            TItemAttacker::spawn_item_timer(this, (ItemTimerCallback)TObjPlayer__sub_801307D0, 0x1E);
+            TItemAttacker::spawn_item_timer(this, (ItemTimerCallback)charge_ready_timer, 0x1E);
             charge_ready = 0;
             return;
         }
@@ -152,7 +129,7 @@ TUnk_804A69DC::~TUnk_804A69DC() {}
 
 TUnk_804A69DC::TUnk_804A69DC(TObject *parent, u8 *item) : TItemWeapon(parent, item) {
     set_weapon_flags(35);
-    shot_callback = (WeaponShotCallback)create_shoot_model__10TObjPlayerFiiif;
+    shot_callback = (WeaponShotCallback)create_shoot_model;
     rotation = 0;
     spin_speed = 3276;
     attack_frames = 0;
@@ -171,9 +148,9 @@ TUnk_804A69C0::~TUnk_804A69C0() {
 }
 
 
-void TObjPlayer__sub_801307D0(void *arg0) {
-    if (arg0 != NULL) {
-        *(s32 *)((s8 *)arg0 + 0x204) = 1;
+void charge_ready_timer(void *weapon) {
+    if (weapon != NULL) {
+        ((TUnk_804A69DC *)weapon)->charge_ready = 1;
     }
 }
 

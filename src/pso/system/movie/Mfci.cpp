@@ -217,7 +217,7 @@ s32 mfci_get_position(void *handle) {
     return mfci_file_entry->position_sector;
 }
 
-s32 mfci_seek(void *handle, s32 arg1, s32 arg2) {
+s32 mfci_seek(void *handle, s32 sectors, s32 origin) {
     MfciFileEntry *mfci_file_entry = static_cast<MfciFileEntry *>(handle);
     if (mfci_file_entry == 0) {
         if (mfci_error_callback != 0) {
@@ -226,12 +226,12 @@ s32 mfci_seek(void *handle, s32 arg1, s32 arg2) {
         return 0;
     }
     TLobby__sub_803D39C0();
-    if (arg2 == 0) {
-        mfci_file_entry->position_sector = arg1;
-    } else if (arg2 == 2) {
-        mfci_file_entry->position_sector = mfci_file_entry->sector_count + arg1;
-    } else if (arg2 == 1) {
-        mfci_file_entry->position_sector += arg1;
+    if (origin == 0) {
+        mfci_file_entry->position_sector = sectors;
+    } else if (origin == 2) {
+        mfci_file_entry->position_sector = mfci_file_entry->sector_count + sectors;
+    } else if (origin == 1) {
+        mfci_file_entry->position_sector += sectors;
     }
     mfci_file_entry->position_sector = mfci_file_entry->position_sector < mfci_file_entry->sector_count ? mfci_file_entry->position_sector : mfci_file_entry->sector_count;
     mfci_file_entry->position_sector = mfci_file_entry->position_sector > 0 ? mfci_file_entry->position_sector : 0;
@@ -258,7 +258,7 @@ void mfci_close(void *handle) {
     }
 }
 
-void *mfci_open(const char *name, s32 arg1, s32 mode) {
+void *mfci_open(const char *name, s32 entry, s32 mode) {
     MfciFileEntry *f;
     if (name == 0) {
         if (mfci_error_callback != 0) {

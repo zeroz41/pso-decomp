@@ -27,7 +27,7 @@ void TOBind::run_task() {
         return;
     }
     if ((s32) this->m_b0 != 1) {
-        if (TQuestThread::get_register(quest_mission_manager, this->m_b4) != 0) {
+        if (TQuestThread::get_register(quest_mission_manager, this->index) != 0) {
             this->m_b0 = 1;
             clear_player_status_flag(0, 1);
         }

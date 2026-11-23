@@ -1,6 +1,6 @@
 #include "pso/network/TProtocol.h"
 
-void TProtocol::send_lobby_arrow(u8 arrow) {
+void TProtocol::send_lobby_arrow(int arrow) {
     packet_header header;
     header.command = 0x89;
     header.flags = arrow;

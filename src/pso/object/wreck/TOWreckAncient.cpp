@@ -121,12 +121,12 @@ extern const AncientWreckDebrisOffsets TOWreckAncientBrakable__debris_table = {
 };
 
 extern const TObjChipParams TOWreckAncientBrakable__debris_param_table = {
-    { 0.25f, 0.07f, 0.26f },
+    0.25f, 0.07f, 0.26f,
     { 0.0f, 0.0f, 0.0f },
     { 5.0f, 7.5f, 5.0f },
     { 0x400, 0x100, 0x400 },
-    { 1, 30 },
-    { 0.0f, 0.6f },
+    1, 30,
+    0.0f, 0.6f,
     0, 0, 30,
 };
 
@@ -144,7 +144,7 @@ s32 post_translate_matrix(void *);
 TOWreckAncient::TOWreckAncient(s32 model_index) : TObjCollidable(tl_05) {
     m_name = TOWreckAncient__name;
     model = (void *)get_bml_model((BmlResource *)wreck_ancient_bml_resource, model_index);
-    texlist = (saddr)get_bml_texlist((BmlResource *)wreck_ancient_bml_resource, model_index);
+    texlist = get_bml_texlist((BmlResource *)wreck_ancient_bml_resource, model_index);
     view_far_depth = 400.0f;
     view_radius = 40.0f;
 }
@@ -179,7 +179,7 @@ void TOWreckAncient::render() {
         push_matrix();
         post_translate_matrix(&position);
         rotate_matrix_y(0, rotation_y);
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
         draw_ginja_object(model);
         pop_matrix();
     }
@@ -197,7 +197,7 @@ TOWreckAncient01::TOWreckAncient01(void *set_data) : TOWreckAncient(1) {
 TOWreckAncient01::~TOWreckAncient01() {
 }
 
-void *TOWreckAncient01__create(void *set_data) {
+void *TOWreckAncient01::create(void *set_data) {
     return new TOWreckAncient01(set_data);
 }
 
@@ -213,7 +213,7 @@ TOWreckAncient04::TOWreckAncient04(void *set_data) : TOWreckAncient(4) {
 TOWreckAncient04::~TOWreckAncient04() {
 }
 
-void *TOWreckAncient04__create(void *set_data) {
+void *TOWreckAncient04::create(void *set_data) {
     return new TOWreckAncient04(set_data);
 }
 
@@ -229,7 +229,7 @@ TOWreckAncient05::TOWreckAncient05(void *set_data) : TOWreckAncient(3) {
 TOWreckAncient05::~TOWreckAncient05() {
 }
 
-void *TOWreckAncient05__create(void *set_data) {
+void *TOWreckAncient05::create(void *set_data) {
     return new TOWreckAncient05(set_data);
 }
 
@@ -245,7 +245,7 @@ TOWreckAncient06::TOWreckAncient06(void *set_data) : TOWreckAncient(6) {
 TOWreckAncient06::~TOWreckAncient06() {
 }
 
-void *TOWreckAncient06__create(void *set_data) {
+void *TOWreckAncient06::create(void *set_data) {
     return new TOWreckAncient06(set_data);
 }
 
@@ -261,7 +261,7 @@ TOWreckAncient07::TOWreckAncient07(void *set_data) : TOWreckAncient(5) {
 TOWreckAncient07::~TOWreckAncient07() {
 }
 
-void *TOWreckAncient07__create(void *set_data) {
+void *TOWreckAncient07::create(void *set_data) {
     return new TOWreckAncient07(set_data);
 }
 
@@ -278,7 +278,7 @@ TOWreckAncientBrakable::~TOWreckAncientBrakable() {
 }
 
 void TOWreckAncientBrakable::run_task() {
-    s32 temp_r0_2;
+    s32 id;
 
     if (TObjPlayer::check_demo_mode() == 1) {
         TOWreckAncientBrakable__sub_8017D444(this);
@@ -288,8 +288,8 @@ void TOWreckAncientBrakable::run_task() {
     default:
         state = 0;
     case 0:
-        temp_r0_2 = switch_id;
-        if ((temp_r0_2 >= 0) && (temp_r0_2 < 0x100) && (is_current_floor_switch_set((u16) temp_r0_2) == 1)) {
+        id = switch_id;
+        if ((id >= 0) && (id < 0x100) && (is_current_floor_switch_set((u16) id) == 1)) {
             state = 1;
             play_sound_effect(0x43C11, (u8 *)&this->position, 0, 0);
             spawn_particle_effect(&this->position, 0x45);
@@ -312,7 +312,7 @@ void TOWreckAncientBrakable::spawn_debris() {
     p.pos[0] = position.x;
     p.pos[1] = position.y;
     p.pos[2] = position.z;
-    p.pad_38[0] = p.pos[1];
+    p.floor_y = p.pos[1];
     for (i = 0; i < 9; i++) {
         VecCopy(&tmp, &arr.offsets[i]);
         push_matrix_from(identity_matrix);
@@ -322,7 +322,7 @@ void TOWreckAncientBrakable::spawn_debris() {
         VecCopy((Vec *)p.pos, &position);
         vec3_add_to((Vec *)p.pos, &tmp);
         p.model = (saddr)get_bml_model((BmlResource *)wreck_ancient_brakable_bml_resource, i);
-        p.textures = (saddr)get_bml_texlist((BmlResource *)wreck_ancient_brakable_bml_resource, i);
+        p.textures = get_bml_texlist((BmlResource *)wreck_ancient_brakable_bml_resource, i);
         new TObjChip(tl_05, &p);
     }
 }
@@ -346,6 +346,6 @@ TOWreckAncientBrakable05::TOWreckAncientBrakable05(void *set_data) : TOWreckAnci
 TOWreckAncientBrakable05::~TOWreckAncientBrakable05() {
 }
 
-void *TOWreckAncientBrakable05__create(void *set_data) {
+void *TOWreckAncientBrakable05::create(void *set_data) {
     return new TOWreckAncientBrakable05(set_data);
 }

@@ -33,7 +33,7 @@ struct TQuestColCtrl : public TObject {
     virtual void render();
     virtual void run_task();
     static TObjQuestColBase *find_by_id(u16 entity_id);
-    static void delete_by_param(s32 arg0);
+    static void delete_by_param(s32 id);
     static void init();
     static void sub_80196EC0();  // clears quest_collision_warp_pending
 };

@@ -44,6 +44,7 @@
 #include "pso/system/SoundEffect.h"
 #include "pso/object/fence/WallHitPacket.h"
 #include "pso/unk/TLobby_801F3A24.h"
+#include "pso/object/base/TObjBase.h"
 
 const char *bm_o_vs2_motion_names[1] = { NULL };
 
@@ -64,8 +65,8 @@ const char *TOVS2Wreck06__class_name = "TOVS2Wreck06";
 const char *TOVS2Wall01__class_name = "TOVS2Wall01";
 
 extern const TObjChipParams vs2_wall_debris_desc = {
-    { 0.25f, 0.07f, 0.26f }, { 0.0f, 0.0f, 0.0f }, { 5.0f, 7.5f, 5.0f },
-    { 1024, 256, 1024 }, { 1, 20 }, { 0.0f, 0.6f }, 0, 0, 20,
+    0.25f, 0.07f, 0.26f, { 0.0f, 0.0f, 0.0f }, { 5.0f, 7.5f, 5.0f },
+    { 1024, 256, 1024 }, 1, 20, 0.0f, 0.6f, 0, 0, 20,
 };
 
 // One body per wreck model (TOVS2::TOVS2 takes entry `index`), the last one the wall's.
@@ -145,20 +146,20 @@ void handle_6x86_hit_destructible_object(game_command_header *command) {
 }
 
 void TOVS2Wall01::save_and_send_state(u16 arg1) {
-    s16 sp8;
+    s16 state;
     WallHitPacket pkt;
     s16 v = mode;
     WallSetEntry *entry;
     if (arg1 == 1) {
         v = 1;
     }
-    if (set_entry != NULL && access_object_saved_state(&sp8, 1) != 0) {
-        sp8 = v;
-        access_object_saved_state(&sp8, 0);
+    if (set_entry != NULL && access_object_saved_state(&state, 1) != 0) {
+        state = v;
+        access_object_saved_state(&state, 0);
         entry = (WallSetEntry *)set_entry;
         pkt.init();
         pkt.entity_id = entity_id;
-        pkt.state = sp8;
+        pkt.state = state;
         pkt.set_entry_index = entry->m_4;
         pkt.update_reason = arg1;
         pkt.remaining_hits = m_33c;
@@ -175,14 +176,14 @@ void TOVS2Wall01::save_and_send_state(u16 arg1) {
 #pragma dont_inline off
 
 void TOVS2Wall01::vfunc_6(s16 *arg1, s32 arg2) {
-    s32 temp_r0;
+    s32 mode;
 
     if (arg1 != NULL) {
         this->mode = (s16) *arg1;
     }
-    temp_r0 = this->mode;
-    if (temp_r0 != 1) {
-        if ((temp_r0 >= 1) || (temp_r0 < 0)) {
+    mode = this->mode;
+    if (mode != 1) {
+        if ((mode >= 1) || (mode < 0)) {
             this->mode = 0;
         }
     } else {
@@ -200,9 +201,9 @@ void TOVS2Wall01::spawn_debris(s32 index) {
     params.pos[0] = body_center.x;
     params.pos[1] = body_center.y;
     params.pos[2] = body_center.z;
-    params.pad_38[0] = position.y;
+    params.floor_y = position.y;
     params.model = (saddr)get_bml_model((BmlResource *)TOVS2Wall01__bml_resource, index);
-    params.textures = (saddr)get_bml_texlist((BmlResource *)TOVS2Wall01__bml_resource, index);
+    params.textures = get_bml_texlist((BmlResource *)TOVS2Wall01__bml_resource, index);
     new TObjChip(tl_05, &params);
 }
 
@@ -228,8 +229,8 @@ void TOVS2Wall01::break_wall() {
 f32 TOVS2Wall01::take_hit(TObjBase *attacker) {
     TObjPlayer *player = NULL;
 
-    get_entity_id(attacker);
-    if (get_entity_id(attacker) < 4U) {
+    attacker->get_entity_id();
+    if (attacker->get_entity_id() < 4U) {
         player = (TObjPlayer *)attacker;
     }
     if ((player != NULL) && (TObjPlayer::is_locally_controlled(player) == 1)) {
@@ -309,7 +310,7 @@ TOVS2::TOVS2(void *set_data, s32 index) : TObjMapObject((TObject *)tl_05) {
     apply_object_set_data(set_data);
     model = (void *)get_bml_model((BmlResource *)TOVS2Wall01__bml_resource, index);
     model_radius = 50.0f + static_cast<GinjaModelBounds *>(static_cast<NJS_OBJECT *>(model)->model)->radius;
-    texlist = (saddr)get_bml_texlist((BmlResource *)TOVS2Wall01__bml_resource, index);
+    texlist = get_bml_texlist((BmlResource *)TOVS2Wall01__bml_resource, index);
     init_collision_body_parts(this, &ovs2wall01_collision_parts[index], 1);
     register_object_by_id();
     m_c8 = TObjMapCsn::create(set_data);
@@ -326,11 +327,11 @@ TOVS2::~TOVS2() {
 
 void TOVS2Wall01::load_resources() {
   saddr temp_r3;
-  saddr var_r0;
-  var_r0 = (saddr)new BmlResource(1, &bm_o_vs2_resource_descriptor, 0, 0, NULL);
-  TOVS2Wall01__bml_resource = (BmlResource *)var_r0;
+  saddr resource;
+  resource = (saddr)new BmlResource(1, &bm_o_vs2_resource_descriptor, 0, 0, NULL);
+  TOVS2Wall01__bml_resource = (BmlResource *)resource;
   TMotorcycle::add_entry(0x3A, reinterpret_cast<NJS_OBJECT *>(get_bml_model((BmlResource *)TOVS2Wall01__bml_resource, 5)),
-                        reinterpret_cast<GinjaTextureList *>(get_bml_texlist((BmlResource *)var_r0, 5)), 10.0f, 0.0f);
+                        reinterpret_cast<NJS_TEXLIST *>(get_bml_texlist((BmlResource *)resource, 5)), 10.0f, 0.0f);
 }
 void TOVS2Wall01::release_model() {
     if (TOVS2Wall01__bml_resource != NULL) {
@@ -344,7 +345,7 @@ void TOVS2::render() {
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_y(0, this->rotation_y);
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(this->texlist));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
         draw_ginja_object(this->model);
         pop_matrix();
     }
@@ -355,7 +356,7 @@ TOVS2Wreck01::TOVS2Wreck01(void *set_data) : TOVS2(set_data, 0) {
 
 TOVS2Wreck01::~TOVS2Wreck01() {}
 
-void *TOVS2Wreck01__create(void *set_data) {
+void *TOVS2Wreck01::create(void *set_data) {
     return new TOVS2Wreck01(set_data);
 }
 TOVS2Wreck02::TOVS2Wreck02(void *set_data) : TOVS2(set_data, 1) {
@@ -364,7 +365,7 @@ TOVS2Wreck02::TOVS2Wreck02(void *set_data) : TOVS2(set_data, 1) {
 
 TOVS2Wreck02::~TOVS2Wreck02() {}
 
-void *TOVS2Wreck02__create(void *set_data) {
+void *TOVS2Wreck02::create(void *set_data) {
     return new TOVS2Wreck02(set_data);
 }
 TOVS2Wreck03::TOVS2Wreck03(void *set_data) : TOVS2(set_data, 2) {
@@ -373,7 +374,7 @@ TOVS2Wreck03::TOVS2Wreck03(void *set_data) : TOVS2(set_data, 2) {
 
 TOVS2Wreck03::~TOVS2Wreck03() {}
 
-void *TOVS2Wreck03__create(void *set_data) {
+void *TOVS2Wreck03::create(void *set_data) {
     return new TOVS2Wreck03(set_data);
 }
 TOVS2Wreck04::TOVS2Wreck04(void *set_data) : TOVS2(set_data, 3) {
@@ -382,7 +383,7 @@ TOVS2Wreck04::TOVS2Wreck04(void *set_data) : TOVS2(set_data, 3) {
 
 TOVS2Wreck04::~TOVS2Wreck04() {}
 
-void *TOVS2Wreck04__create(void *set_data) {
+void *TOVS2Wreck04::create(void *set_data) {
     return new TOVS2Wreck04(set_data);
 }
 TOVS2Wreck05::TOVS2Wreck05(void *set_data) : TOVS2(set_data, 4) {
@@ -391,7 +392,7 @@ TOVS2Wreck05::TOVS2Wreck05(void *set_data) : TOVS2(set_data, 4) {
 
 TOVS2Wreck05::~TOVS2Wreck05() {}
 
-void *TOVS2Wreck05__create(void *set_data) {
+void *TOVS2Wreck05::create(void *set_data) {
     return new TOVS2Wreck05(set_data);
 }
 TOVS2Wreck06::TOVS2Wreck06(void *set_data) : TOVS2(set_data, 5) {
@@ -400,7 +401,7 @@ TOVS2Wreck06::TOVS2Wreck06(void *set_data) : TOVS2(set_data, 5) {
 
 TOVS2Wreck06::~TOVS2Wreck06() {}
 
-void *TOVS2Wreck06__create(void *set_data) {
+void *TOVS2Wreck06::create(void *set_data) {
     return new TOVS2Wreck06(set_data);
 }
 #pragma push
@@ -410,9 +411,9 @@ TOVS2Wall01::TOVS2Wall01(void *set_data) : TObjChara((TObject *)tl_05) {
     m_name = TOVS2Wall01__class_name;
     apply_object_set_data(set_data);
     calc_attach_pos();
-    obj_setFlags30(this, 0x60000000);
+    set_actor_flags(0x60000000);
     model = (void *)get_bml_model((BmlResource *)TOVS2Wall01__bml_resource, 6);
-    texlist = (saddr)get_bml_texlist((BmlResource *)TOVS2Wall01__bml_resource, 6);
+    texlist = get_bml_texlist((BmlResource *)TOVS2Wall01__bml_resource, 6);
     init_collision_body_parts(this, &ovs2wall01_collision_parts[6], 1);
     set_indexed_flags(0, 0x08000000);
     register_object_by_id();
@@ -453,7 +454,7 @@ void TOVS2Wall01::render() {
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_y(0, this->rotation_y);
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(this->texlist));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
         draw_ginja_object(this->model);
         pop_matrix();
         if (var_r31 != 0) {

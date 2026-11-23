@@ -32,6 +32,8 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/network/client_id.h"
 #include "pso/unk/text_803D8F74.h"
+#include "pso/object/base/TObjBase.h"
+#include "pso/player/PlayerSlots.h"
 
 // One shop counter of the generator's set (set_params[0] picks it). Field names follow the targets and the
 // callers: run_fn_table_forward/run_fn_table_reverse call the two hooks, run_task opens the counter's sequence
@@ -71,7 +73,6 @@ extern "C" {
 f32 xyz_distance_squared(u8 *arg0, u8 *arg1);
 f32 vec3_dot(void *, void *);
 s32 rotate_vector_by_matrix(int, void *, void *);
-s32 get_entity_id(s32);
 int is_flag_400_set__10TObjPlayerFPv(void *p);
 s32 poll_memcard_result(saddr);
 extern s32 lbl_805D55C0;
@@ -84,7 +85,6 @@ bool is_player_in_service_range__14TShopGeneratorFPUcf(u8 *self, u8 *player, f32
 #pragma opt_propagation off
 #pragma opt_dead_assignments off
 bool TShopGenerator::is_player_in_service_range(u8 *arg1, f32 farg0) {
-    u8 *arg0 = (u8 *)this;
     f32 to_self[3];
     if (xyz_distance_squared((arg1 + 0x38), ((u8 *)&this->position)) > (farg0 * farg0)) {
         return 0;
@@ -94,20 +94,20 @@ bool TShopGenerator::is_player_in_service_range(u8 *arg1, f32 farg0) {
     rotate_matrix_y(0, (int) (*(s32 *)((s8 *)arg1 + 0x60)));
     rotate_vector_by_matrix(0, (void *)facing, (void *)facing);
     pop_matrix();
-    to_self[0] = *(f32 *)((s8 *)arg0 + 0x38) - *(f32 *)((s8 *)arg1 + 0x38);
-    to_self[1] = *(f32 *)((s8 *)arg0 + 0x3C) - *(f32 *)((s8 *)arg1 + 0x3C);
-    to_self[2] = *(f32 *)((s8 *)arg0 + 0x40) - *(f32 *)((s8 *)arg1 + 0x40);
+    to_self[0] = this->position.x - *(f32 *)((s8 *)arg1 + 0x38);
+    to_self[1] = this->position.y - *(f32 *)((s8 *)arg1 + 0x3C);
+    to_self[2] = this->position.z - *(f32 *)((s8 *)arg1 + 0x40);
     normalize_vector((Vec *)to_self);
     return (vec3_dot((void *)facing, (void *)to_self) > -0.5f) == 0;
 }
 #pragma pop
 
-s32 TShopGenerator::is_no_service_active(void *self, s32 player) {
+s32 TShopGenerator::is_no_service_active(void *self, saddr player) {
     s32 i;
     int (*get_slot_flag)(int);
     for (i = 0; i < 7; i++) {
         get_slot_flag = TShopGenerator__service_dispatch_table[i].get_slot_flag;
-        if (get_slot_flag((u16)TShopGenerator__sub_80222DAC(get_entity_id(player))) == 1) {
+        if (get_slot_flag((u16)get_client_split_screen_slot(((TObjBase *)(player))->get_entity_id())) == 1) {
             return 0;
         }
     }
@@ -138,12 +138,12 @@ void TShopGenerator::run_task() {
             p = (saddr)get_player_by_client_id(i);
             if (p == 0) continue;
             if (((s32 (*)(u8 *, u8 *, f32))is_player_in_service_range__14TShopGeneratorFPUcf)((u8 *)this, (u8 *)p, 20.0f) == 0) continue;
-            if (is_slot_active(get_entity_id(p)) == 1) continue;
-            if (TMedicalCenterMes::get_slot_flag(get_entity_id(p)) == 1) continue;
+            if (is_slot_active(((TObjBase *)(p))->get_entity_id()) == 1) continue;
+            if (TMedicalCenterMes::get_slot_flag(((TObjBase *)(p))->get_entity_id()) == 1) continue;
             if (is_flag_400_set__10TObjPlayerFPv((void *)p) == 1) continue;
             if (((TObjPlayer *)p)->is_controls_locked() == 1) continue;
             get_slot_flag = service->get_slot_flag;
-            if (get_slot_flag((u16)TShopGenerator__sub_80222DAC(get_entity_id(p))) == 1) continue;
+            if (get_slot_flag((u16)get_client_split_screen_slot(((TObjBase *)(p))->get_entity_id())) == 1) continue;
             if (test_pressed_buttons_packed(&controller_input_state.controllers[((TObjPlayer *)p)->get_controller_port()], 4) == 0) continue;
             service->create((void *)p);
         }
@@ -152,13 +152,13 @@ void TShopGenerator::run_task() {
         int (*get_slot_flag2)(int);
         q = (saddr)get_player_by_client_id(local_client_id);
         if (q == 0) return;
-        if (is_slot_active(get_entity_id(q)) == 1) return;
-        if (TMedicalCenterMes::get_slot_flag(get_entity_id(q)) == 1) return;
+        if (is_slot_active(((TObjBase *)(q))->get_entity_id()) == 1) return;
+        if (TMedicalCenterMes::get_slot_flag(((TObjBase *)(q))->get_entity_id()) == 1) return;
         if (is_flag_400_set__10TObjPlayerFPv((void *)q) == 1) return;
         if (((TObjPlayer *)q)->is_controls_locked() == 1) return;
         if (is_no_service_active(this, q) == 0) return;
         get_slot_flag2 = service->get_slot_flag;
-        if (get_slot_flag2((u16)TShopGenerator__sub_80222DAC(get_entity_id(q))) == 1) return;
+        if (get_slot_flag2((u16)get_client_split_screen_slot(((TObjBase *)(q))->get_entity_id())) == 1) return;
         if (((s32 (*)(u8 *, u8 *, f32))is_player_in_service_range__14TShopGeneratorFPUcf)((u8 *)this, (u8 *)q, 20.0f) == 0) return;
         if (test_pressed_buttons_packed(&controller_input_state.controllers[((TObjPlayer *)q)->get_controller_port()], 4) == 0) return;
         service->create((void *)q);
@@ -185,23 +185,23 @@ TShopGenerator::TShopGenerator(saddr set_data) : TObjBase(tl_05) {
     }
 }
 
-int TShopGenerator::is_slot_active(int client) {
-    return TShopGenerator__slot_active_table[(u16)TShopGenerator__sub_80222DAC(client)] == 1;
+int TShopGenerator::is_slot_active(u16 client) {
+    return TShopGenerator__slot_active_table[(u16)get_client_split_screen_slot(client)] == 1;
 }
 
-void TShopGenerator::clear_slot_active(s32 client) {
-    u16 idx = TShopGenerator__sub_80222DAC(client);
+void TShopGenerator::clear_slot_active(u16 client) {
+    u16 idx = get_client_split_screen_slot(client);
     TShopGenerator__slot_active_table[idx] = 0;
 }
 
 
-void THunterGuildSeqOffline__sub_8021E180(s32 client) {
-    u16 idx = TShopGenerator__sub_80222DAC(client);
+void THunterGuildSeqOffline__sub_8021E180(u16 client) {
+    u16 idx = get_client_split_screen_slot(client);
     TShopGenerator__slot_active_table[idx] = 1;
 }
 
-void *TShopGenerator__create(void *arg0) {
-    void *o = (void *)new TShopGenerator((saddr)arg0);
+void *TShopGenerator::create(void *set_data) {
+    void *o = (void *)new TShopGenerator((saddr)set_data);
     return o;
 }
 

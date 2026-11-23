@@ -29,7 +29,7 @@ const char *TBoss6Tube__name = "TBoss6Tube";
 // The model drawn on each of render's three passes (name inferred).
 const s32 boss6_tube_model_order[3] = { 2, 0, 1 };
 BmlResource *boss6_tube_bml_resource;
-uaddr boss6_tube_texture_list;
+NJS_TEXLIST *boss6_tube_texture_list;
 
 extern "C" {
 s32 TBoss6Tube__previous_scroll_phase;
@@ -92,7 +92,7 @@ void TBoss6Tube::render() {
         break;
     }
     start = lo - TBoss6Tube::scale_by_const(TBoss6Tube::calc_tube_progress(scroll_phase));
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(boss6_tube_texture_list));
+    TObjFish::set_global_param(boss6_tube_texture_list);
     set_draw_list_mask(3);
     for (i = 0; i < 3; i++) {
         for (y = start; y < hi; y += (8e+02f)) {
@@ -209,18 +209,18 @@ void TBoss6Tube::free_resources() {
         delete boss6_tube_bml_resource;
         boss6_tube_bml_resource = NULL;
     }
-    if ((u32) boss6_tube_texture_list != 0U) {
-        release_texture_list((GinjaTextureList *)boss6_tube_texture_list);
-        TAdSinglePlyChrSelectGC::safe_free(boss6_tube_texture_list);
-        boss6_tube_texture_list = 0U;
+    if (boss6_tube_texture_list != NULL) {
+        release_texture_list(boss6_tube_texture_list);
+        TAdSinglePlyChrSelectGC::safe_free((uaddr)boss6_tube_texture_list);
+        boss6_tube_texture_list = NULL;
     }
     TBoss6Tube::reset_state();
 }
 void TBoss6Tube::load_resources() {
     TBoss6Tube::reset_state();
     boss6_tube_bml_resource = new BmlResource(5, &boss06_tube_dat_resource_descriptor, 0, 0, NULL);
-    boss6_tube_texture_list = (uaddr)load_gvm_texture_file((saddr)"boss06_tube_dat.gvm");
-    if (boss6_tube_bml_resource != NULL && boss6_tube_texture_list != 0) {
+    boss6_tube_texture_list = load_gvm_texture_file("boss06_tube_dat.gvm");
+    if (boss6_tube_bml_resource != NULL && boss6_tube_texture_list != NULL) {
         return;
     }
 }

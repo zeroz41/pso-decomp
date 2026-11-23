@@ -27,6 +27,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/object/base/CollisionActorLookup.h"
+#include "pso/object/base/TObjBase.h"
 
 struct HitInfo_80237900 { s32 type; f32 power; };
 
@@ -142,7 +143,6 @@ struct RaBarta_802377FC {
 };
 
 extern "C" {
-u16 get_entity_id(void *);
 
 
 s32 play_sound_effect(s32, s32, s32, s32);
@@ -193,7 +193,7 @@ void TTecRaBarta::vfunc_8(void *pos) {
       if (self && self)
       {
       }
-      attach_particle_model((u8 *)self->emitters[i], get_bml_model(technique_effect_bml, mid), lbl_805D63B0, 0, 0, (f32)(1.0f));
+      attach_particle_model((u8 *)self->emitters[i], get_bml_model(technique_effect_bml, mid), technique_texture_list, 0, 0, (f32)(1.0f));
     }
   }
   if (self->band == 5)
@@ -216,7 +216,7 @@ void TTecRaBarta::vfunc_8(void *pos) {
     id = b2->flags >> 16;
     if (emitter != 0)
     {
-      attach_particle_model((u8 *)emitter, get_bml_model(technique_effect_bml, id), lbl_805D63B0, get_bml_motion(technique_effect_bml, 1), 0, (f32)(1.0f));
+      attach_particle_model((u8 *)emitter, get_bml_model(technique_effect_bml, id), technique_texture_list, get_bml_motion(technique_effect_bml, 1), 0, (f32)(1.0f));
     }
   }
 }
@@ -272,7 +272,7 @@ void TTecRaBarta::calc_parameters() {
     }
     self->amount = self->amount + (f32)(self->per_level * self->level);
     if (TTecCtrl::is_technique_ready() != 0) {
-        self->amount = self->amount * lbl_804CC55C[5].pad_00;
+        self->amount = self->amount * technique_scale_table[5].power;
     }
 }
 
@@ -281,12 +281,12 @@ void TTecRaBarta::vfunc_6(void *target) {
     s32 found = 0;
     s32 i;
     for (i = 0; i < 32; i++) {
-        if (self->ids[i] == get_entity_id(((VObj_80237900 *)target))) {
+        if (self->ids[i] == ((TObjBase *)target)->get_entity_id()) {
             found = 1;
         }
     }
     if (found == 0) {
-        self->ids[*(s32 *)&this->m_138] = get_entity_id(((VObj_80237900 *)target));
+        self->ids[*(s32 *)&this->m_138] = ((TObjBase *)target)->get_entity_id();
         *(s32 *)&this->m_138 += 1;
         if (*(s32 *)&this->m_138 >= 32) {
             *(s32 *)&this->m_138 = 31;
@@ -373,7 +373,7 @@ TTecRaBarta::TTecRaBarta(saddr source, Vec *origin, Vec *pos, s32 level) : TTecC
     vfunc_8(&position);
     vfunc_9();
     if (this->source != 0) {
-        sourceId = get_entity_id((void *)this->source);
+        sourceId = ((TObjBase *)this->source)->get_entity_id();
     }
 }
 #pragma pop
@@ -393,6 +393,6 @@ TTecRaBarta::TTecRaBarta(saddr source, Vec *origin, s32 level) : TTecCircle(sour
     vfunc_8(0);
     vfunc_9();
     if (this->source != 0) {
-        sourceId = get_entity_id((void *)this->source);
+        sourceId = ((TObjBase *)this->source)->get_entity_id();
     }
 }

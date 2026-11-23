@@ -6,7 +6,7 @@
 #pragma readonly_strings on
 
 
-void *TOWreckAncient03__create(void *set_data) {
+void *TOWreckAncient03::create(void *set_data) {
     return new TOWreckAncient03(set_data);
 }
 

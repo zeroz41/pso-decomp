@@ -75,6 +75,8 @@
 #include "pso/render/model_render_state.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/system/MatrixStack.h"
+#include "pso/object/base/TObjBase.h"
+#include "pso/player/PlayerSlots.h"
 
 
 extern "C" {
@@ -169,7 +171,7 @@ void TObjEneDellBiter::load_resources() {
         TObjEneDellBiter__scrolling_uv_polygon_list = (saddr)((NJS_CNK_MODEL *)object->child->model)->polygon_list;
         TObjEneDellBiter__last_uv_scroll_tick = 0;
         NpcAnimationBinding attack = { reinterpret_cast<BmlMotionEntry *>(resource->motions), reinterpret_cast<TObjMotionAction *>(dell_biter_param_table), 0, 1, 10 };
-        NpcModelRegistry::register_animated_chunk((s16)0x46, reinterpret_cast<void *>(resource->models->model), reinterpret_cast<void *>(resource->models->texlist),
+        NpcModelRegistry::register_animated_chunk((s16)0x46, reinterpret_cast<void *>(resource->models->model), resource->models->texlist,
             &attack, dell_biter_collision_bodies[0].radius, 0.0f);
     }
 }
@@ -203,7 +205,7 @@ void TObjEneDellBiter::init_params() {
     s32 i;
     init_position_vectors();
     model = (void *)((BmlResource *)TObjEneDellBiter__shared_model_resource)->models->model;
-    texlist = (saddr)((BmlResource *)TObjEneDellBiter__shared_model_resource)->models->texlist;
+    texlist = ((BmlResource *)TObjEneDellBiter__shared_model_resource)->models->texlist;
     init_model((CollisionBody *)dell_biter_collision_bodies, 1);
     bodies->flags |= 0x400000;
     set_action_table((saddr)&dell_biter_param_table);
@@ -449,8 +451,8 @@ s32 TObjEneDellBiter::check_rush_collisions() {
                     attack.power = TObjEneDellBiter__movement_params->attack_power;
                 }
                 target->receive_direct_attack(this, attack, NULL, -1, -1);
-                if (target->obj_testFlags30(0x04000000) == 0) {
-                    obj_setFlags30(target, 0x600);
+                if (target->test_actor_flags(0x04000000) == 0) {
+                    target->set_actor_flags(0x600);
                 }
                 new TObjEneDellBiter_Eff_Rush(this, this, target, 12.0f);
             }
@@ -485,7 +487,7 @@ s32 TObjEneDellBiter::fn_803059BC(const Vec *origin) {
     void *e;
     VecCopy(&pos, origin);
     pos.y += 15.0f;
-    hit = csnVectorUnder(&pos, (CsnGroup **)&ground_cache, 0x4007);
+    hit = csnVectorUnder(&pos, ground_candidates.groups, 0x4007);
     if (hit != NULL) {
         flags_3c4 = hit->contact[0].flags;
         if (flags_3c4 & 0x4000) {
@@ -565,7 +567,7 @@ s32 TObjEneDellBiter::select_farthest_visible_player() {
             distance = horizontal_distance_squared(&body_center, &player->position);
             if (distance < 90000.0f && distance > best &&
                 csnLookAt(&body_center, &player->body_center) == 0) {
-                id = get_entity_id(player);
+                id = player->get_entity_id();
                 best = distance;
             }
         }
@@ -1495,7 +1497,7 @@ void TObjEneDellBiter::render() {
                 draw = 0;
             }
         }
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
         if (draw != 0) {
             push_matrix();
             post_translate_matrix(&position.x);
@@ -1545,7 +1547,7 @@ void TObjEneDellBiter::render_demo() {
         Vec v = { 1.0f, 1.0f, 3.0f };
         TObjEneDD::draw_ground_shadow(&v, 0);
         TObjPlayer::toggle_particle_effect();
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, rotation_y);
@@ -1562,7 +1564,7 @@ void TObjEneDellBiter::render_demo() {
 s32 TObjEneDellBiter::render_model_if_visible() {
     if ((s32)main_task.get_task_flags() & 0x20) {
         if (push_reflection_matrix(&reflection_position) != 0) {
-            TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
+            TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
             push_matrix();
             post_translate_matrix(&position.x);
             rotate_matrix_y(0, rotation_y);

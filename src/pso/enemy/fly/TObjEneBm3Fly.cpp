@@ -36,6 +36,7 @@
 #include "pso/object/trap/TOTrapAncient01_80226534.h"
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel_8007E418.h"
+#include "pso/object/base/TObjBase.h"
 
 #pragma defer_codegen on
 
@@ -83,7 +84,7 @@ void TObjEneBm3Fly::load_resources() {
     {
         NpcAnimationBinding binding = bm3_fly_resource_binding_desc;
         binding.motions = reinterpret_cast<BmlMotionEntry *>(bm3_fly_nest_resources->motions);
-        NpcModelRegistry::register_animated_chunk(7, reinterpret_cast<void *>(bm3_fly_nest_resources->models[0].model), reinterpret_cast<void *>(bm3_fly_nest_resources->models[0].texlist), &binding, bm3_fly_collider_params[0].radius, 15.0f);
+        NpcModelRegistry::register_animated_chunk(7, reinterpret_cast<void *>(bm3_fly_nest_resources->models[0].model), bm3_fly_nest_resources->models[0].texlist, &binding, bm3_fly_collider_params[0].radius, 15.0f);
     }
 }
 
@@ -100,7 +101,7 @@ void TObjEneBm3Fly::release_shared_data() {
 
 TObjEneBm3Fly::TObjEneBm3Fly(TObject *parent, TObjEneBm3FlyNest *nest, s32 entity_id, s32 set_index, const Vec *position, const Vec *velocity) : TObjEneDD_ST(parent) {
     m_name = TObjEneBm3Fly__name;
-    owner_id = get_entity_id(nest);
+    owner_id = nest->get_entity_id();
     init_common_from((u8 *)nest);
     this->entity_id = entity_id;
     this->set_index = set_index;
@@ -115,7 +116,7 @@ TObjEneBm3Fly::TObjEneBm3Fly(TObject *parent, TObjEneBm3FlyNest *nest, s32 entit
 void TObjEneBm3Fly::init_child_params() {
     init_position_vectors();
     this->model = (void *)bm3_fly_nest_resources->models[0].model;
-    this->texlist = (saddr)bm3_fly_nest_resources->models[0].texlist;
+    this->texlist = bm3_fly_nest_resources->models[0].texlist;
     this->init_model(bm3_fly_collider_params, 1);
     set_action_table((saddr)bm3_fly_action_table);
     set_motion_list((saddr)bm3_fly_nest_resources->motions);
@@ -323,7 +324,7 @@ void TObjEneBm3Fly::update_dd_flag(f32 x, f32 z, f32 speed) {
 
 void TObjEneBm3Fly::update_state_flag() {
 
-    if (TObjEneEpsilon__sub_800B92F8(this, ((Bm3FlyMovementParameters *)this->movementParameters)->unknown_08, bm3_fly_lobby_params->unknown_00) != 0) {
+    if (TObjEneEpsilon__sub_800B92F8(this, ((Bm3FlyMovementParameters *)this->movementParameters)->unknown_08, bm3_fly_lobby_params->distance) != 0) {
         this->status_flags |= BM3_FLY_SHADOW;
         return;
     }
@@ -664,10 +665,10 @@ void TObjEneBm3Fly::update_chase_state(s32 msg) {
             off->y = (0.0f);
             off->z = -this->destination_direction.x * s;
         }
-        if (this->moveSpeed > ((Bm3FlyMovementParameters *)this->movementParameters)->unknown_04) {
+        if (this->moveSpeed > ((Bm3FlyMovementParameters *)this->movementParameters)->length) {
             this->moveSpeed *= (0.96f);
         } else {
-            this->moveSpeed = ((Bm3FlyMovementParameters *)this->movementParameters)->unknown_04;
+            this->moveSpeed = ((Bm3FlyMovementParameters *)this->movementParameters)->length;
         }
         vel->x = this->moveDir.x * this->moveSpeed;
         vel->y = (0.0f);
@@ -692,7 +693,7 @@ void TObjEneBm3Fly::update_chase_state(s32 msg) {
         this->play_pitched_cue();
         break;
     case 5:
-        this->moveSpeed = ((Bm3FlyMovementParameters *)this->movementParameters)->unknown_04;
+        this->moveSpeed = ((Bm3FlyMovementParameters *)this->movementParameters)->length;
         break;
     }
 }
@@ -832,7 +833,7 @@ void TObjEneBm3Fly::state_circle_target(s32 msg) {
             circle_destination(this->circle_angle);
             this->update_velocity();
             vertical = (0.0f);
-            speed = ((Bm3FlyMovementParameters *)this->movementParameters)->unknown_04;
+            speed = ((Bm3FlyMovementParameters *)this->movementParameters)->length;
             if (this->destination_distance < (14.0f)) {
                 if (this->random_ratio() > (0.5f)) {
                     this->circle_speed = (s32)(((-65536.0f) * speed) / (439.82288f));
@@ -847,7 +848,7 @@ void TObjEneBm3Fly::state_circle_target(s32 msg) {
             this->swept_angle += this->circle_speed / 2;
             circle_destination(this->circle_angle);
             this->update_velocity();
-            speed = ((Bm3FlyMovementParameters *)this->movementParameters)->unknown_04;
+            speed = ((Bm3FlyMovementParameters *)this->movementParameters)->length;
             vertical = (0.0f);
             if (this->destination_distance < speed) {
                 this->step = 2;
@@ -858,7 +859,7 @@ void TObjEneBm3Fly::state_circle_target(s32 msg) {
             this->swept_angle += this->circle_speed;
             circle_destination(this->circle_angle);
             this->update_velocity();
-            speed = ((Bm3FlyMovementParameters *)this->movementParameters)->unknown_04;
+            speed = ((Bm3FlyMovementParameters *)this->movementParameters)->length;
             vertical = (1e+01f) * sin_table_lookup(this->bob_angle);
             this->bob_angle += 0x380;
             break;
@@ -894,7 +895,7 @@ void TObjEneBm3Fly::update_return_state(s32 msg) {
         this->destination.y = (f32) this->hover_height;
         this->destination.z = (f32) (((3e+01f) * cos_table_lookup(this->hover_angle)) + this->nest_position.z);
         params = (Bm3FlyMovementParameters *)this->movementParameters;
-        this->arrive_distance = 2.0f + TObjBoss2Tunnel::calc_scaled_value(params->unknown_08, params->unknown_04);
+        this->arrive_distance = 2.0f + TObjBoss2Tunnel::calc_scaled_value(params->unknown_08, params->length);
         this->update_velocity();
         break;
     case 3:
@@ -1102,7 +1103,7 @@ void TObjEneBm3Fly::render() {
             this->draw_ground_shadow(&v, 0);
         }
         this->update_secondary_light();
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(this->texlist));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
         push_matrix();
         translate_matrix(0, this->position.x, this->flightY, this->position.z);
         rotate_matrix_y(0, this->rotation_y);
@@ -1124,7 +1125,7 @@ void TObjEneBm3Fly::render() {
 void TObjEneBm3Fly::render_demo() {
     if (update_object_view_visibility((4e+02f), (15.0f)) != 0) {
         draw_ground_shadow(0, 0);
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, rotation_y);
@@ -1138,7 +1139,7 @@ void TObjEneBm3Fly::render_demo() {
 
 void TObjEneMoja::bindModel(int index) {
     model = (void *)moja_bml_resource->models[index].model;
-    texlist = (saddr)moja_bml_resource->models[index].texlist;
+    texlist = moja_bml_resource->models[index].texlist;
 }
 
 f32 AttackParams::get_damage_radius() { return damage_radius; }

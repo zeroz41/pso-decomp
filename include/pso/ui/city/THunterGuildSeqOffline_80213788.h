@@ -13,7 +13,7 @@ struct TWindowMenu;
 struct THunterGuildSeqOnline_Client : public TShopSequence {
     THunterGuildSeqOnline_Client(TObject *parent, TObjPlayer *player);
     virtual ~THunterGuildSeqOnline_Client();
-    void vfunc_11();
+    void update_state();
     void restore_player_state();
     void close_window();
     void handle_confirm_window();
@@ -35,7 +35,7 @@ LAYOUT_ASSERT(THunterGuildSeqOnline_Client_size, sizeof(THunterGuildSeqOnline_Cl
 struct THunterGuildSeqOnline_Server : public TShopSequence {
     THunterGuildSeqOnline_Server(TObject *parent, TObjPlayer *player);
     virtual ~THunterGuildSeqOnline_Server();
-    void vfunc_11();
+    void update_state();
     void restore_player_state();
     void close_window();
     void init_window();
@@ -60,7 +60,8 @@ LAYOUT_ASSERT(THunterGuildSeqOnline_Server_size, sizeof(THunterGuildSeqOnline_Se
 extern THunterGuildSeqOnline_Server *hunter_guild_seq_online_server_instance;
 extern THunterGuildSeqOnline_Client *hunter_guild_seq_online_client_instance;
 
-void set_random_enemies_mode(void);
+void set_random_enemies_mode(TObject *fade);
+void reset_random_enemies_mode(TObject *fade);
 
 // --- C functions defined in THunterGuildSeqOffline_80213788.cpp ---
 extern "C" {
@@ -68,7 +69,6 @@ void THunterGuildSeqOffline__sub_80213CA4(void);
 void THunterGuildSeqOffline__sub_80213E64(void);
 void THunterGuildSeqOffline__sub_80213EBC(void);
 void THunterGuildSeqOffline__sub_80213F78(void);
-void reset_random_enemies_mode(void);
 }
 // --- end of C functions
 

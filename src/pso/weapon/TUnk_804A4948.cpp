@@ -11,6 +11,7 @@
 #include "pso/item/TUnk_804A0628.h"
 #include "pso/item/TUnk_804A0648.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/player/CapturedTargetList.h"
 
 // The (kind, value) pair send_srank_stat_extra hands to its target.
 struct StatExtraParam { s32 kind; f32 val; };
@@ -47,9 +48,6 @@ struct StatExtraTargetView : StatExtraTargetBase {
 
 extern "C" {
 
-s32 get_captured_target_collider_index(s32);
-s32 get_captured_target_entry(s32, s32);
-s32 get_captured_target_count(s32 *state);
 s32 resolve_hittable_target(s32, s32);
 
 }
@@ -169,7 +167,7 @@ void TUnk_804A4948::emit_marker_effects() {
   }
 }
 
-void TUnk_804A4948::deliver_hit(TObjPlayer *attacker, TObjChara *target, s32 attack_kind, s32 body, f32 scale) {
+void TUnk_804A4948::deliver_hit(TObjPlayer *attacker, TObjChara *target, s32 attack_kind, f32 scale, s32 body) {
     TObjPlayer *player;
     if (get_mode() == 2) {
         player = owner;
@@ -180,11 +178,11 @@ void TUnk_804A4948::deliver_hit(TObjPlayer *attacker, TObjChara *target, s32 att
                 if (attack_kind == 2) {
                     send_srank_stat_extra((uaddr)target, body);
                 } else {
-                    TItemWeapon::deliver_hit(player, target, attack_kind, body, scale);
+                    TItemWeapon::deliver_hit(player, target, attack_kind, scale, body);
                 }
                 break;
             default:
-                TItemWeapon::deliver_hit(player, target, attack_kind, body, scale);
+                TItemWeapon::deliver_hit(player, target, attack_kind, scale, body);
                 break;
             }
         }
@@ -217,20 +215,21 @@ void TUnk_804A4948::send_srank_stat_extra(uaddr target, s32 body) {
     }
 }
 void TUnk_804A4948::send_srank_stat_extra_to_locks() {
-  saddr st;
+  CapturedTargetList *st;
   s32 i;
-  saddr e;
+  CapturedTarget *e;
   u16 uid;
   s32 r;
   s32 v;
-  st = (saddr)owner->get_extended_state();
+  st = owner->get_extended_state();
   if (st != 0)
   {
-    for (i = 0; i != get_captured_target_count((s32 *)st); i++)
+    for (i = 0; i != st->get_captured_target_count(); i++)
     {
-      e = get_captured_target_entry(st, i);
-      uid = ((TObjPlayer *)e)->get_uid();
-      r = resolve_hittable_target(uid, v = (s16) ((unsigned long long) get_captured_target_collider_index(e)));
+      e = st->get_captured_target_entry(i);
+      uid = e->get_uid();
+      v = e->get_captured_target_collider_index();
+      r = resolve_hittable_target(uid, v);
       if (r != 0)
       {
         this->send_srank_stat_extra(r, v);

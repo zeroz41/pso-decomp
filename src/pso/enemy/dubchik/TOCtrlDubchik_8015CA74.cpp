@@ -55,9 +55,9 @@ s32 TOCtrlDubchik::roll_physical_accuracy(void *attacker, s32 collider, f32 accu
     return 0;
 }
 
-s32 TOCtrlDubchik::try_start_action(s32 arg1, s32 collider) {
+s32 TOCtrlDubchik::try_start_action(s32 attacker, s32 collider) {
     if (mode != 0) {
-        return TObjChara::try_start_action(arg1, collider);
+        return TObjChara::try_start_action(attacker, collider);
     }
     return 0;
 }
@@ -81,7 +81,7 @@ TOCtrlDubchik::TOCtrlDubchik(TObject *parent, void *set_data) : TObjEnemy(parent
     apply_set_data(set_data);
     init_position_vectors();
     model = TOCtrlDubchik__shared_resource->models[0].model;
-    texlist = (saddr)TOCtrlDubchik__shared_resource->models[0].texlist;
+    texlist = TOCtrlDubchik__shared_resource->models[0].texlist;
     init_collision_body_parts(this, &TOCtrlDubchik__collision_body, 1);
     refresh_collision_body_centers();
     register_object_by_id();
@@ -132,7 +132,7 @@ void TOCtrlDubchik::render() {
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
         node = (NJS_OBJECT *)model;
         post_translate_matrix(node->pos);
         draw_ginja_model((void *)node->model);
@@ -183,7 +183,7 @@ void TOCtrlDubchik::run_task() {
         run_demo_task();
         return;
     }
-    if (obj_testFlags30(0x800) != 0) {
+    if (test_actor_flags(0x800) != 0) {
         mode = 6;
     } else if (update_movement_status() != 0) {
         refresh_collision_body_centers();
@@ -226,7 +226,7 @@ void TOCtrlDubchik::update_waiting() {
     apply_actor_gravity(this, (s32 *)&shadow_pos, hover_height);
     for (i = registered_player_count; i < registered_player_count + registered_enemy_count; i++) {
         p = (TObjEnemy *)TObjPlayer::get_player_data(i);
-        if (p != NULL && p != this && p->obj_testFlags30(0x800) != 0 &&
+        if (p != NULL && p != this && p->test_actor_flags(0x800) != 0 &&
             ((TUnk_804B6C24 *)p)->check_value_equals((saddr)TObjEneDubchik__class_name) != 0 &&
             p->variant == 0 && room == p->room) {
             mode = 1;
@@ -326,7 +326,7 @@ f32 TOCtrlDubchik::receive_weapon_special_attack(void *attacker, void *hit) {
         } else {
             VecCopy(&pos, &body_center);
         }
-        TOCtrlDubchik::create_font((saddr)&pos, (s32)0xFFFF0000, 0x14, (saddr)"MISS");
+        TOCtrlDubchik::create_font((saddr)&pos, (s32)0xFFFF0000, 0x14, "MISS");
     }
     return 0.0f;
 }

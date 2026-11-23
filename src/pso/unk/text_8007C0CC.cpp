@@ -11,7 +11,7 @@ struct R_8007C48C { s32 f0; s32 tbl[55]; s32 fe0; s32 fe4; };
 
 extern "C" {
 void subtractive_rng_refill(Crypt_8007C438 *c);
-void subtractive_rng_seed(R_8007C48C *arg0, s32 arg1);
+void subtractive_rng_seed(R_8007C48C *rng, s32 arg1);
 u8 save_block_shuffle_permutation[256];
 u8 save_block_unshuffle_permutation[256];
 
@@ -90,25 +90,25 @@ void subtractive_rng_refill(Crypt_8007C438 *c) {
         c->k[i] -= c->k[i - 0x18];
     }
 }
-void subtractive_rng_seed(R_8007C48C *arg0, s32 arg1) {
+void subtractive_rng_seed(R_8007C48C *rng, s32 arg1) {
     s32 x;
     s32 idx;
     s32 a;
     s32 i;
-    arg0->fe4 = arg1;
-    arg0->fe0 = arg1;
+    rng->fe4 = arg1;
+    rng->fe0 = arg1;
     a = 1;
     for (i = 1; i < 0x37; i++) {
         idx = (0x15 * i) % 0x37;
-        arg0->tbl[idx] = a;
+        rng->tbl[idx] = a;
         a = arg1 - a;
-        arg1 = arg0->tbl[idx];
+        arg1 = rng->tbl[idx];
     }
-    subtractive_rng_refill((Crypt_8007C438 *)arg0);
-    subtractive_rng_refill((Crypt_8007C438 *)arg0);
-    subtractive_rng_refill((Crypt_8007C438 *)arg0);
-    subtractive_rng_refill((Crypt_8007C438 *)arg0);
-    arg0->f0 = 0x37;
+    subtractive_rng_refill((Crypt_8007C438 *)rng);
+    subtractive_rng_refill((Crypt_8007C438 *)rng);
+    subtractive_rng_refill((Crypt_8007C438 *)rng);
+    subtractive_rng_refill((Crypt_8007C438 *)rng);
+    rng->f0 = 0x37;
 }
 
 }

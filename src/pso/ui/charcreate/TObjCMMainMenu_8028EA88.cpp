@@ -9,7 +9,7 @@
 #include "pso/ui/charcreate/TObjCMMainMenu_8028EA88.h"
 #include "pso/ui/frontend/TAdBackTxtGC.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_8029A914.h"
+#include "pso/ui/frontend/TAdBackGC.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_8028D5D4.h"
 #include "pso/ui/UISprite.h"
 #include "pso/camera/CreationCamera.h"
@@ -23,6 +23,7 @@
 #include "pso/ui/charcreate/CharacterAppearance.h"
 #include "pso/ui/charcreate/TChCrCharSelect.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 
 #pragma readonly_strings on
 
@@ -34,11 +35,10 @@ extern "C" {
 }
 BmlResource *creation_menu_main_obj;
 int creation_dressing_room_mode_flag;
-extern s32 TObjCMMainMenu__data_805D659C;
 
 void init_creation_menu_scene(void) {
     void *p;
-    init_menu_scene_lights((u8 *)default_scene_light_config, 4);
+    init_menu_scene_lights(&default_scene_light_config, 4);
     TCameraCtrl::reset_view_state();
     TCameraCtrl::init_default_view();
     new TCameraCtrl(tl_camera);
@@ -68,22 +68,22 @@ void init_creation_menu_scene(void) {
             TObjCMMainMenu__sub_8028EC18();
             TObjCMMainMenu::select_char_menu();
             TObjCMMainMenu__sub_8028D9F8();
-            TCharaMaking::create(tl_03, (void *)&get_char_index__23TAdSinglePlyChrSelectGCFUi(0xFFFF)->m_disp_part2);
+            TCharaMaking::create(tl_03, (void *)&TAdSinglePlyChrSelectGC::get_char_index(0xFFFF)->m_disp_part2);
             TObjCMMainMenu::create_fade_effect((void *)0xF, (void *)1);
         }
     }
 }
 
 s32 TObjCMMainMenu__sub_8028EBCC(TObjCMMainMenu *menu) {
-    return TObjCMMainMenu__data_804DB9C8[menu->entries[menu->selected_entry]].kind;
+    return TObjCMMainMenu::menu_entries[menu->entries[menu->selected_entry]].kind;
 }
 
 s32 TObjCMMainMenu::is_state_4() {
-    return TObjCMMainMenu__data_805D659C == 4;
+    return TObjCMMainMenu::state == 4;
 }
 
 s32 TObjCMMainMenu::is_state_3() {
-    return TObjCMMainMenu__data_805D659C == 3;
+    return TObjCMMainMenu::state == 3;
 }
 
 void TObjCMMainMenu__sub_8028EC18(void) { creation_dressing_room_mode_flag = 1; }

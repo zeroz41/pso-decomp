@@ -15,7 +15,6 @@
 #include "pso/object/city/TObjCityAirCar_Car.h"
 #include "pso/object/city/TObjCityAirCar_Ctrl.h"
 #include "pso/unk/text_801811FC.h"
-#include "pso/unk/text_80181278.h"
 #include "pso/boss/goldragon/TBoss8Dragon_8002CC48.h"
 #include "pso/math/FloatRounding.h"
 #include "pso/system/task/TObject.h"
@@ -42,62 +41,13 @@ s32 rotate_matrix_z(int, int);
 s32 post_translate_matrix(void *);
 }
 
-struct Car_80180E70 {
-    u8 pad0[0x38];
-    Vec pos;
-    u8 pad44[0x60 - 0x44];
-    s32 yaw;
-    u8 pad64[0x90 - 0x64];
-    f32 frame;
-    f32 speed;
-    s32 path;
-    s32 model;
-    s32 fa0;
-    s32 fa4;
-    uaddr light;
-};
-
-struct Car_80181074 {
-    u8 pad0[0x38];
-    Vec pos;
-    u8 pad44[0x5C - 0x44];
-    s32 roll;
-    s32 heading;
-    s32 yaw;
-    u8 pad68[0x90 - 0x68];
-    f32 frame;
-    f32 speed;
-    s32 path;
-};
-
 extern "C" {
 s32 vec3_add_to(void *, void *);
 }
 
-struct RecoveredGlobal_80181278_lbl_804B5908 {
-    s32 value;
-    u8 remaining[0x30];
-};
-
-extern "C" {
-u8 * __ct__8TObjBaseFP7TObject(void *);
-extern RecoveredGlobal_80181278_lbl_804B5908 __vt__18TObjCityAirCar_Car;
-}
-
-struct Rec_80181310 { s32 timer; s32 count; void *objs[2]; };
-
-struct Ctrl_80181310 { u8 pad0[0x24]; s32 counter; Rec_80181310 recs[5]; };
-
-extern "C" {
-void run_task__19TObjCityAirCar_CtrlFv(Ctrl_80181310 *self);
-}
 
 // Deferred TU: code is generated last-defined-first, so the functions are written in
 // reverse address order (.text and the vtables then come out in the original order).
-
-struct Rec_801815F8 { s32 a; s32 b; s32 c[2]; };
-
-struct Obj_801815F8 { const char *name; u8 pad0[0x14]; u8 *vptr; s32 f1C; f32 f20; s32 f24; Rec_801815F8 recs[5]; };
 
 struct Info_80181698 { s32 f0; u32 n; };
 
@@ -118,14 +68,12 @@ typedef struct
 } Tbl_801817AC;
 
 extern "C" {
-void __ct__7TObjectFP7TObject(void *);
-extern u8 __vt__19TObjCityAirCar_Ctrl[];
 BmlResource *city_air_car_model_resource;
-GinjaTextureList *city_air_car_model_handle;
+NJS_TEXLIST *city_air_car_model_handle;
 }
 
 BmlResource *city_common_model_archive;
-GinjaTextureList *city_common_texture_list;
+NJS_TEXLIST *city_common_texture_list;
 
 #pragma defer_codegen on
 
@@ -202,13 +150,13 @@ void free_buffer_pair_table(void) {
     }
 }
 
-s32 sample_aircar_path_position(s32 arg0, void *arg1, f32 frame) {
-    Vec sp24;
+s32 sample_aircar_path_position(s32 lane, void *pos, f32 frame) {
+    Vec ang;
     Vec sp18;
-    f32 sp8[4];
+    f32 quat[4];
     f32 lim;
     s32 r;
-    Info_80181698 *m = ((Info_80181698 * (*)(s32))get_city_common_motion)(city_traffic_path_motion_index_table[arg0]);
+    Info_80181698 *m = ((Info_80181698 * (*)(s32))get_city_common_motion)(city_traffic_path_motion_index_table[lane]);
     u32 n = m->n;
     r = 1;
     lim = (n - 1);
@@ -217,36 +165,29 @@ s32 sample_aircar_path_position(s32 arg0, void *arg1, f32 frame) {
         r = 0;
     }
     bind_motion_context((NJS_MOTION *)m, frame);
-    void *t = ((void * (*)(s32))get_city_common_model)(city_aircar_model_indices[arg0]);
-    sample_motion_node_transform((NJS_OBJECT *)t, (f32 *)arg1, (s32 *)&sp24, &sp18.x, sp8);
+    void *t = ((void * (*)(s32))get_city_common_model)(city_aircar_model_indices[lane]);
+    sample_motion_node_transform((NJS_OBJECT *)t, (f32 *)pos, (s32 *)&ang, &sp18.x, quat);
     return r;
 }
 
-extern "C" {
 #pragma push
 #pragma opt_propagation off
-Obj_801815F8 *construct_traffic_manager(Obj_801815F8 *arg0) {
+TObjCityAirCar_Ctrl::TObjCityAirCar_Ctrl(TObject *parent) : TObject(parent) {
     s32 i;
     s32 j;
-    s32 off;
-    Rec_801815F8 *r;
-    s32 o;
-    __ct__7TObjectFP7TObject(arg0);
-    arg0->vptr = __vt__19TObjCityAirCar_Ctrl;
-    arg0->name = TObjCityAirCar_Ctrl__name;
-    arg0->f1C = 0;
-    arg0->f20 = 0.0f;
-    arg0->f24 = 0x14;
+    Lane *lane;
+    m_name = TObjCityAirCar_Ctrl__name;
+    pad_1C = 0;
+    pad_20 = 0.0f;
+    rare_car_counter = 0x14;
     for (i = 0; i < 5; i++) {
-        r = &arg0->recs[i];
-        r->a = 0;
-        r->b = 0;
+        lane = &lanes[i];
+        lane->timer = 0;
+        lane->count = 0;
         for (j = 0; j < 2; j++) {
-            r->c[j] = 0;
+            lane->cars[j] = NULL;
         }
     }
-    return arg0;
-}
 }
 #pragma pop
 
@@ -255,28 +196,27 @@ TObjCityAirCar_Ctrl::~TObjCityAirCar_Ctrl() {
 }
 
 
-void run_task__19TObjCityAirCar_CtrlFv(Ctrl_80181310 *self) {
+void TObjCityAirCar_Ctrl::run_task() {
     s32 i;
-    Rec_80181310 *r;
+    Lane *r;
     s32 timer;
     s32 count;
     s32 j;
     s32 k;
     s32 type;
     f32 speed;
-    void *last;
-    void *o;
+    TObjCityAirCar_Car *last;
     for (i = 0; i < 5; i++) {
-        r = &self->recs[i];
+        r = &lanes[i];
         count = r->count;
         timer = r->timer;
         for (j = 0; j < count; j++) {
-            if (r->objs[j] == NULL || ((TObject *)(r->objs[j]))->all_parents_unqueued_for_destruction() == 0) {
+            if (r->cars[j] == NULL || r->cars[j]->all_parents_unqueued_for_destruction() == 0) {
                 count--;
                 for (k = j; k < count; k++) {
-                    r->objs[k] = r->objs[k + 1];
+                    r->cars[k] = r->cars[k + 1];
                 }
-                r->objs[count] = NULL;
+                r->cars[count] = NULL;
                 j--;
             }
         }
@@ -288,10 +228,10 @@ void run_task__19TObjCityAirCar_CtrlFv(Ctrl_80181310 *self) {
                 type = (s32)floor_to_float(4.0f * (3.0517578e-5f * rand())) + 1;
             }
             if (i == 1 || i == 2) {
-                self->counter++;
+                rare_car_counter++;
                 if (type == 4) {
-                    if (self->counter >= 40) {
-                        self->counter = 0;
+                    if (rare_car_counter >= 40) {
+                        rare_car_counter = 0;
                     } else {
                         type = 2;
                     }
@@ -299,16 +239,12 @@ void run_task__19TObjCityAirCar_CtrlFv(Ctrl_80181310 *self) {
             }
             speed = air_car_lane_speed_scale_table[i] * lerp__9TDeadSpotFff(2.0f, 5.0f);
             if (count > 0) {
-                last = r->objs[count - 1];
+                last = r->cars[count - 1];
                 if (fn_80181204(last) < 0.5f * air_car_lane_spacing_table[i]) {
                     speed = fn_801811FC(last);
                 }
             }
-            o = TObject::operator new(0xAC);
-            if (o != NULL) {
-                o = construct_city_air_car((TObjCityAirCar_Car *)o, self, i, type, speed);
-            }
-            r->objs[count++] = o;
+            r->cars[count++] = new TObjCityAirCar_Car(this, i, type, speed);
         }
         r->count = count;
         r->timer = timer;
@@ -318,25 +254,22 @@ void run_task__19TObjCityAirCar_CtrlFv(Ctrl_80181310 *self) {
 void TObjCityAirCar_Ctrl::render() {  }
 
 
-u8 *construct_city_air_car(TObjCityAirCar_Car *city_air_car_car, void *parent, s32 arg2, s32 type, f32 farg0) {
-    __ct__8TObjBaseFP7TObject(city_air_car_car);
-    *(s32 **)((s8 *)city_air_car_car + 0x18) = &__vt__18TObjCityAirCar_Car.value;
-    city_air_car_car->m_name = TObjCityAirCar_Car__name;
-    *(f32 *)((s8 *)city_air_car_car + 0x90) = 0.0f;
-    *(s32 *)((s8 *)city_air_car_car + 0x98) = arg2;
-    city_air_car_car->m_9c = type;
-    city_air_car_car->m_94 = farg0;
-    *(s32 *)((s8 *)city_air_car_car + 0xA0) = 0;
-    city_air_car_car->m_a4 = 0;
-    *(s32 *)((s8 *)city_air_car_car + 0xA8) = 0;
-    city_air_car_car->update_path_motion();
-    city_air_car_car->rotation_z = 0;
-    return (u8 *)city_air_car_car;
+TObjCityAirCar_Car::TObjCityAirCar_Car(TObject *parent, s32 lane, s32 model_type, f32 path_speed) : TObjBase(parent) {
+    m_name = TObjCityAirCar_Car__name;
+    path_frame = 0.0f;
+    this->lane = lane;
+    this->model_type = model_type;
+    this->path_speed = path_speed;
+    uv_scroll = 0;
+    light_blink = 0;
+    light = NULL;
+    update_path_motion();
+    rotation_z = 0;
 }
 
 TObjCityAirCar_Car::~TObjCityAirCar_Car() {
-    if (unk_A8 != NULL) {
-        unk_A8->queue_destruction();
+    if (light != NULL) {
+        light->queue_destruction();
     }
 }
 
@@ -346,9 +279,7 @@ f32 fn_801811FC(void* p) { return *(f32*)((char*)p + 0x94); }
 
 #pragma push
 #pragma fp_contract on
-struct Car_80181074;
 s32 TObjCityAirCar_Car::update_path_motion() {
-    Car_80181074 *self = (Car_80181074 *)this;
     Vec a;
     Vec b;
     s32 ang;
@@ -356,18 +287,18 @@ s32 TObjCityAirCar_Car::update_path_motion() {
     s32 d;
     s32 p;
     s32 r;
-    sample_aircar_path_position(self->path, &a, self->frame);
-    ok = sample_aircar_path_position(self->path, &b, 2.0f + self->frame);
-    VecCopy((Vec *)&self->pos, (const Vec *)&b);
-    vec3_add_to(&self->pos, &a);
-    self->pos.x *= 0.5f;
-    self->pos.y *= 0.5f;
-    self->pos.z *= 0.5f;
+    sample_aircar_path_position(lane, &a, path_frame);
+    ok = sample_aircar_path_position(lane, &b, 2.0f + path_frame);
+    VecCopy(&position, &b);
+    vec3_add_to(&position, &a);
+    position.x *= 0.5f;
+    position.y *= 0.5f;
+    position.z *= 0.5f;
     ang = 10430.38043493439 * atan2_float(b.x - a.x, b.z - a.z);
-    d = angle_diff_s16(self->heading, ang);
-    self->heading = ang;
-    p = self->yaw;
-    r = self->roll;
+    d = angle_diff_s16(rotation_y, ang);
+    rotation_y = ang;
+    p = rotation_z;
+    r = rotation_x;
     if (d > 0x30) {
         if (r > 0) {
             r = 0;
@@ -402,83 +333,80 @@ s32 TObjCityAirCar_Car::update_path_motion() {
             p = 0;
         }
     }
-    self->yaw = p;
-    self->roll = r;
+    rotation_z = p;
+    rotation_x = r;
     return ok;
 }
 void TObjCityAirCar_Car::run_task() {
     Vec v;
     f32 scale;
-    f32 t;
-    t = ((Car_80180E70 *)this)->frame;
-    ((Car_80180E70 *)this)->frame = t + ((Car_80180E70 *)this)->speed;
+    path_frame += path_speed;
     if (this->update_path_motion() == 0) {
         queue_destruction();
     }
-    if ((((Car_80180E70 *)this)->path == 1 && ((Car_80180E70 *)this)->frame >= 15.5f && ((Car_80180E70 *)this)->frame <= 35.5f) ||
-        (((Car_80180E70 *)this)->path == 2 && ((Car_80180E70 *)this)->frame >= 15.0f && ((Car_80180E70 *)this)->frame <= 35.0f)) {
-        if (((Car_80180E70 *)this)->model == 4) {
-            play_persistent_sound(0x4004CB02, (saddr)((Car_80180E70 *)this), (uaddr)&((Car_80180E70 *)this)->pos, 0, 0);
-        } else if (((Car_80180E70 *)this)->model == 0) {
-            set_sound_pitch_request(play_persistent_sound(0x4004C101, (saddr)((Car_80180E70 *)this), (uaddr)&((Car_80180E70 *)this)->pos, 0, 0), -0x200, 0);
+    if ((lane == 1 && path_frame >= 15.5f && path_frame <= 35.5f) ||
+        (lane == 2 && path_frame >= 15.0f && path_frame <= 35.0f)) {
+        if (model_type == 4) {
+            play_persistent_sound(0x4004CB02, (saddr)this, (uaddr)&position, 0, 0);
+        } else if (model_type == 0) {
+            set_sound_pitch_request(play_persistent_sound(0x4004C101, (saddr)this, (uaddr)&position, 0, 0), -0x200, 0);
         } else {
-            play_persistent_sound(0x4004C101, (saddr)((Car_80180E70 *)this), (uaddr)&((Car_80180E70 *)this)->pos, 0, 0);
+            play_persistent_sound(0x4004C101, (saddr)this, (uaddr)&position, 0, 0);
         }
     }
     if (city_air_car_model_resource != 0) {
-        ((Car_80180E70 *)this)->fa0 -= 0xA;
-        if (((Car_80180E70 *)this)->fa0 < 0) {
-            ((Car_80180E70 *)this)->fa0 += 0x100;
+        uv_scroll -= 0xA;
+        if (uv_scroll < 0) {
+            uv_scroll += 0x100;
         }
-        ((Car_80180E70 *)this)->fa4++;
-        if (((Car_80180E70 *)this)->fa4 >= 0x28) {
-            ((Car_80180E70 *)this)->fa4 = 0;
+        light_blink++;
+        if (light_blink >= 0x28) {
+            light_blink = 0;
         }
-        if (((Car_80180E70 *)this)->light == 0) {
-            ((Car_80180E70 *)this)->light = (uaddr)spawn_continuous_particle_effect_with_flags(&((Car_80180E70 *)this)->pos, 0x8A, 0x40);
+        if (light == 0) {
+            light = spawn_continuous_particle_effect_with_flags(&position, 0x8A, 0x40);
         }
-        if (((Car_80180E70 *)this)->light != 0) {
-            if (((Car_80180E70 *)this)->model == 0) {
+        if (light != 0) {
+            if (model_type == 0) {
                 scale = 20.0f;
             } else {
                 scale = 10.0f;
             }
-            VecCopy((Vec *)&v, (const Vec *)&((Car_80180E70 *)this)->pos);
-            v.x -= scale * sin_table_lookup(((Car_80180E70 *)this)->yaw);
-            v.z -= scale * cos_table_lookup(((Car_80180E70 *)this)->yaw);
-            ((TParticleCtrl *)((Car_80180E70 *)this)->light)->set_position(&v);
+            VecCopy(&v, &position);
+            v.x -= scale * sin_table_lookup(rotation_y);
+            v.z -= scale * cos_table_lookup(rotation_y);
+            light->set_position(&v);
         }
     }
 }
 
-#undef self
 #pragma pop
 
 void TObjCityAirCar_Car::render() {
     u32 texture_index;
-    GinjaTextureEntry *texture_entries;
+    NJS_TEXNAME *texture_entries;
     if (this->update_object_view_visibility(800.0f, 50.0f) != 0) {
         TParticleCtrl::end_effect_render();
         push_matrix();
-        post_translate_matrix((void *) ((u8 *)this + 0x38));
+        post_translate_matrix(&position);
         rotate_matrix_y(0, this->rotation_y);
-        if ((s32) this->m_9c != 0) {
+        if (model_type != 0) {
             rotate_matrix_z(0, this->rotation_z);
         }
         TObjFish::set_global_param(city_common_texture_list);
-        draw_chunk_object(get_city_common_model(city_aircar_model_indices[this->m_9c]));
+        draw_chunk_object(get_city_common_model(city_aircar_model_indices[model_type]));
         TParticleCtrl::begin_effect_render();
-        draw_ginja_object(get_city_common_model(city_air_car_model_index_table[this->m_9c]));
+        draw_ginja_object(get_city_common_model(city_air_car_model_index_table[model_type]));
         if (city_air_car_model_resource != NULL) {
-            texture_entries = city_air_car_model_handle->entries;
+            texture_entries = city_air_car_model_handle->textures;
             texture_index = texture_entries[2].global_index;
-            if ((s32) this->m_a4 >= 0x14) {
+            if (light_blink >= 0x14) {
                 texture_entries[2].global_index = texture_entries[0].global_index;
             }
             TObjFish::set_global_param(city_air_car_model_handle);
-            air_car_buffer_pair_table[this->m_9c]->scroll_uvs(*(s32 *)((s8 *)this + 0xA0), 0);
-            draw_chunk_object((void *)city_air_car_model_resource->models[city_traffic_car_chunk_index_table[this->m_9c]].model);
-            city_air_car_model_handle->entries[2].global_index = texture_index;
+            air_car_buffer_pair_table[model_type]->scroll_uvs(uv_scroll, 0);
+            draw_chunk_object((void *)city_air_car_model_resource->models[city_traffic_car_chunk_index_table[model_type]].model);
+            city_air_car_model_handle->textures[2].global_index = texture_index;
         }
         pop_matrix();
         TParticleCtrl::end_effect_render();

@@ -13,6 +13,7 @@
 #include "pso/system/MatrixOps.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/weapon/SlicerLaunchState.h"
+#include "pso/object/base/TObjBase.h"
 
 
 void TUnk_804A5B20::vfunc_60() {
@@ -45,7 +46,6 @@ void TUnk_804A5B20::vfunc_60() {
 
 extern "C" {
 s16 TObjPlayer__sub_801D2F4C(s16 *arg0);
-s16 get_validated_attack_stage(u8 *arg0);
 void get_weapon_color__11TItemWeaponFPv(f32 *, void *);
 }
 
@@ -53,19 +53,19 @@ void TUnk_804A5B20::emit_marker_effects() {
     f32 tmp[4];
     SlicerLaunchState launch;
     init_slicer_launch_state(&launch);
-    launch.player_id = get_entity_id(owner);
+    launch.player_id = owner->get_entity_id();
     launch.item_id = get_item_id();
     launch.texlist = texlist;
     launch.model = second_model;
     launch.attack_kind = TObjPlayer__sub_801D2F4C((s16 *)((u8 *)owner + 0x7CC));
-    launch.combo_stage = get_validated_attack_stage((u8 *)owner + 0x7CC);
+    launch.combo_stage = owner->attack_state.get_validated_attack_stage();
     launch.damage_multiplier = owner->query_extended_state();
     get_weapon_color__11TItemWeaponFPv(tmp, this);
     copy_argb(&launch.color, (NJS_ARGB *)tmp);
     launch.facing = owner->rotation_y;
     get_joint_position(1, &launch.first_joint);
     get_joint_position(2, &launch.second_joint);
-    TTecSlicer::create((u16 *)&launch);
+    TTecSlicer::create(&launch);
 }
 
 void TUnk_804A5B20::update_idle() {

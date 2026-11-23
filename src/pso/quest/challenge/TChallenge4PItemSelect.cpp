@@ -3,7 +3,6 @@
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/item/TItemData_8010EDA8.h"
-#include "pso/ui/window/TWindowSubComCard_80244774.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/window/TWindowAddition.h"
@@ -20,6 +19,7 @@
 #include "pso/player/PlayerSlots.h"
 #include "pso/ui/window/TWindowMessagePage.h"
 #include "pso/ui/window/TWindowCtrl.h"
+#include "pso/player/TObjPlayer_80011014.h"
 #include "pso/map/FloorArea.h"
 #include "pso/system/task/TObject.h"
 #include "pso/item/TItemData.h"
@@ -27,6 +27,7 @@
 #include "pso/object/warp/TObjCityMainWarp.h"
 #include "pso/boss/darkfalz/TBoss4Type2.h"
 #include "pso/unk/TLobby_80132ED0.h"
+#include "pso/object/base/TObjBase.h"
 
 struct Stack_8034B158 {
     s8 sp8;
@@ -67,12 +68,9 @@ extern "C" {
 void obj_set_flag_20000(TObjPlayer *);
 void get_player_result__18TChallenge4PResultFPv(TObjPlayer *, s32);
 void fn_8034BE48(TObjPlayer *);
-u32 get_entity_id(TObjPlayer *);
-void TObjPlayer__sub_8024ABDC(u16);
 void request_active_window_close();
 void obj_clear_flag30_20000(TObjPlayer *);
 void fn_8034BE38(TObjPlayer *);
-void TLobby__sub_8024AC20(u16);
 void update_entries__18TChallenge4PResultFii(saddr arg0, s32 arg1);
 s32 __ct__18TChallenge4PResultFP7TObjectUsl(void *, s32, int, s32);
 
@@ -128,7 +126,7 @@ void TChallenge4PResult::run_task() {
 
 
 void TChallenge4PResult::update_input() {
-    s32 temp_r3;
+    s32 wait_frames;
     uaddr p;
     TObjPlayer *player;
 
@@ -137,9 +135,9 @@ void TChallenge4PResult::update_input() {
     }
     p = *(u32 *)&this->message_window;
     if ((p != 0U) && (((TWindowMessagePage *)p)->is_message_window_ready() != 0)) {
-        temp_r3 = this->wait_frames;
-        if (temp_r3 > 0) {
-            this->wait_frames = (temp_r3 - 1);
+        wait_frames = this->wait_frames;
+        if (wait_frames > 0) {
+            this->wait_frames = (wait_frames - 1);
             return;
         }
         player = get_player_by_client_id(this->slot_index);
@@ -195,10 +193,10 @@ void TChallenge4PResult::update_wait_input() {
 }
 void TChallenge4PResult::queue_destruction() { TObject::queue_destruction(); }
 void TChallenge4PResult::sub_8034BA2C() {
-    s32 temp_r0;
-    temp_r0 = this->wait_frames - 1;
-    this->wait_frames = temp_r0;
-    if (temp_r0 < 0) {
+    s32 wait_frames;
+    wait_frames = this->wait_frames - 1;
+    this->wait_frames = wait_frames;
+    if (wait_frames < 0) {
         this->state_1c = 2;
     }
 }
@@ -274,13 +272,13 @@ void TChallenge4PResult::clear_slot_entries() {
         ((s32 *)&TChallenge4PResult__slot_entries)[i] = 0;
     }
 }
-void TChallenge4PResult::create(int arg0, s32 arg1) {
+void TChallenge4PResult::create(int client, s32 arg1) {
     void *temp;
 
-    if (get_player_by_client_id((u16)arg0) != NULL) {
+    if (get_player_by_client_id((u16)client) != NULL) {
         temp = (void *) TObject::operator new(0x7C);
         if (temp != NULL) {
-            __ct__18TChallenge4PResultFP7TObjectUsl(temp, tl_01, arg0, arg1);
+            __ct__18TChallenge4PResultFP7TObjectUsl(temp, tl_01, client, arg1);
         }
     }
 }
@@ -301,7 +299,7 @@ s32 update_challenge_result_player_locks() {
                 get_player_result__18TChallenge4PResultFPv(player, 2);
                 get_player_result__18TChallenge4PResultFPv(player, 3);
                 if (((TObjPlayer *)player)->check_flag_0x40000000() == 0) fn_8034BE48(player);
-                TObjPlayer__sub_8024ABDC(get_entity_id(player));
+                TWindowCtrl::disable_client_main_menu(player->get_entity_id());
                 request_active_window_close();
                 TWindowCtrl::set_close_flag();
             }
@@ -314,7 +312,7 @@ s32 update_challenge_result_player_locks() {
                 obj_clear_flag30_20000(player);
                 ((TChallenge4PResult *)player)->get_player_rank();
                 if (((TObjPlayer *)player)->check_flag_0x40000000()) fn_8034BE38(player);
-                TLobby__sub_8024AC20(get_entity_id(player));
+                TWindowCtrl::enable_client_main_menu(player->get_entity_id());
                 TWindowCtrl::clear_flag();
                 TWindowCtrl::clear_flag_2();
             }
@@ -325,7 +323,7 @@ s32 update_challenge_result_player_locks() {
 
 
 void update_entries__18TChallenge4PResultFii(saddr arg0, s32 arg1) {
-    s32 var_r29 = 0;
+    s32 i = 0;
     s32 *var_r30 = TChallenge4PResult__slot_entries;
     s32 var_r31 = 0;
     do {
@@ -333,9 +331,9 @@ void update_entries__18TChallenge4PResultFii(saddr arg0, s32 arg1) {
         if (v != 0U) {
             ((TChallenge4PResult *)v)->set_entry_item((void *)arg0, arg1);
         }
-        var_r29 += 1;
+        i += 1;
         var_r31 += 1;
-    } while (var_r29 < 4);
+    } while (i < 4);
 }
 
 void resume_challenge_result_processing(void *arg0) {
@@ -378,20 +376,20 @@ void TChallenge4PItemSelect::run_task() {
 
 void TChallenge4PItemSelect::open_menu() {
     s32 temp_r0;
-    u16 temp_r30;
-    s32 var_r29;
+    u16 client_id;
+    s32 i;
 
     temp_r0 = waitFrames - 1;
     waitFrames = temp_r0;
     if (temp_r0 <= 0) {
-        temp_r30 = fn_8034BE30(result);
-        (uaddr &)menu_window = (uaddr)create_window_menu((saddr)get_window_layout_position(0x42), 8, temp_r30);
+        client_id = fn_8034BE30(result);
+        (uaddr &)menu_window = (uaddr)create_window_menu((saddr)get_window_layout_position(0x42), 8, client_id);
         if ((uaddr)menu_window != 0U) {
-            var_r29 = 0;
+            i = 0;
             do {
-                TObjCityMainWarp::forward_trade_action_default(menu_window, get_text_collection(challenge4p_item_select_text_ids[var_r29]), 6, var_r29);
-                var_r29 += 1;
-            } while (var_r29 < 8);
+                ((TWindowMenu *)menu_window)->add_text_entry(get_text_collection(challenge4p_item_select_text_ids[i]), 6, i);
+                i += 1;
+            } while (i < 8);
             ((TWindowSubComCardList *)menu_window)->set_scroll_target(252.0f, 1.4e+02f);
             TWindowSubComCard__sub_80265500((u32 &)menu_window);
             ((TWindowBase *)menu_window)->set_depth(3.9e+04f);

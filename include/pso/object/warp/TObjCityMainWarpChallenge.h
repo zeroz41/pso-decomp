@@ -42,6 +42,7 @@ struct TObjCityMainWarpChallenge : public TObjAreaWarp {
     s32 warp_triggered;     // 1 once trigger_warp_effect ran for the local player in this state
     s32 warp_effect_timer;  // 300 when trigger_warp_effect starts the player's warp effect
     u8 unk_178[0x8];
+    static void *create(void *set_data);
 };
 
 LAYOUT_ASSERT(TObjCityMainWarpChallenge_size, sizeof(TObjCityMainWarpChallenge) == 0x180);

@@ -38,10 +38,11 @@
 #include "pso/unk/TLobby.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/object/ambient/TObjFish.h"
+#include "pso/object/base/TObjBase.h"
 extern "C" const char rappy_variant_na_name[3] = "NA";
 
 // The Rag Rappy archive and its event variants (xs Christmas, es Easter, hw Halloween, picked by
-// TLobby__event_theme_id); the "ap" archives are the ones load_resources takes on difficulty 3.
+// TLobby::event_theme_id); the "ap" archives are the ones load_resources takes on difficulty 3.
 const char *lappy_model_names[3] = {
     "re3_b_lappy_base.nj", "re3_s_lappy_base.nj", NULL,
 };
@@ -187,13 +188,11 @@ void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 heading);
 extern "C" {
 s32 is_item_light_interaction_blocked();
 s32 check_path_obstructed(void *, void *);
-s32 get_entity_id(void *);
 f32 atan2_float(f32 y, f32 x);
-s32 obj_setFlags30(void *, s32);
 s32 lappy_variant_id;
 BmlResource *rappy_bml_resource;
 s32 *rappy_visibility_node;
-uaddr rappy_alternate_texture_list;
+NJS_TEXLIST *rappy_alternate_texture_list;
 }
 
 void TObjEneLappy::clear_flags_60() {
@@ -203,7 +202,7 @@ void TObjEneLappy::clear_flags_60() {
     if (flags & 0x60) {
         lappy_flags = flags & ~0x60;
         project_actor_to_ground(this, &position, 0);
-        obj_setFlags30(this, 0x800000);
+        set_actor_flags(0x800000);
     }
 }
 
@@ -307,7 +306,7 @@ void TObjEneLappy::sub_800BFF54() {}
 
 void TObjEneLappy::render() {
     s32 detail;
-    if (obj_testFlags30(0x02000000) == 0) {
+    if (test_actor_flags(0x02000000) == 0) {
         if (this->lappy_flags & LAPPY_NODE_VISIBLE) {
             *rappy_visibility_node &= 0xFFFFFFF7;
         } else {
@@ -316,7 +315,7 @@ void TObjEneLappy::render() {
         detail = this->classify_actor_view_detail(150.0f, 400.0f, 10.0f);
         if (detail != 0) {
             set_speed_params(this->variant);
-            TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(this->texlist));
+            TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
             select_actor_lighting(this);
             TObjPlayer::toggle_particle_effect();
             push_matrix();
@@ -346,7 +345,7 @@ void TObjEneLappy::render() {
             pop_matrix();
             restore_scene_lighting();
             TParticleCtrl::end_effect_render();
-            if (!(this->actorFlags & 0x800) && (obj_testFlags30(0x800000) != 0)) {
+            if (!(this->actorFlags & 0x800) && (test_actor_flags(0x800000) != 0)) {
                 this->TObjEnemy::draw_ground_shadow(0, 0);
             }
         }
@@ -431,7 +430,7 @@ void TObjEneLappy::run_hit_reaction() {
     TObjPlayer *attacker;
     this->actorFlags = (s32) (this->actorFlags & 0xFFDFFFFF);
     if (this->lappy_flags & LAPPY_FLEEING) {
-        this->obj_clearFlags30(0x23F);
+        this->clear_actor_flags(0x23F);
         return;
     }
     if ((s16) this->mode != 4) {
@@ -523,7 +522,7 @@ void TObjEneLappy::update_attacking() {
 
 void TObjEneLappy::run_attack_action() {
     u16 id;
-    if (!(this->lappy_flags & (LAPPY_FLEEING | LAPPY_FALLING)) && (obj_testFlags30(0xA02) == 0) && ((s16) this->mode != 2)) {
+    if (!(this->lappy_flags & (LAPPY_FLEEING | LAPPY_FALLING)) && (test_actor_flags(0xA02) == 0) && ((s16) this->mode != 2)) {
         this->mode = 2;
         this->requested_action = 5;
         this->phase = 0;
@@ -565,7 +564,7 @@ void TObjEneLappy::update_moving() {
             chased = target;
             if (chased != NULL) {
                 dist = update_enemy_wander_move(this, ((TObjChara *)chased)->body_center, 1, ((LappyMovementParameters *)movementParameters)->move_speed);
-                if ((obj_testFlags30(2) == 0) && (dist < 10000.0f)) {
+                if ((test_actor_flags(2) == 0) && (dist < 10000.0f)) {
                     move_phase = 1;
                     pad_398 = 0;
                     random_ratio();
@@ -754,7 +753,7 @@ void TObjEneLappy::run_idle_action() {
     if (!(flags & 2) && !(this->actorFlags & 0xA00)) {
         if (flags & 0x20) {
             this->lappy_flags = flags & ~0x20;
-            this->obj_clearFlags30(0x02000000);
+            this->clear_actor_flags(0x02000000);
             Vec v = position;
             if (project_actor_to_ground(this, &v, 0) == 1) {
                 position.y = 300.0f + v.y;
@@ -776,9 +775,9 @@ void TObjEneLappy::run_idle_action() {
 }
 
 void TObjEneLappy::refresh_target() {
-    s32 best_id;
+    u16 best_id;
     s32 i;
-    s32 id;
+    u16 id;
     TObjPlayer *p;
     f32 best;
     f32 d;
@@ -790,7 +789,7 @@ void TObjEneLappy::refresh_target() {
             } else {
                 targetId = find_nearest_visible_player(this, NULL, ((LappyMovementParameters *)movementParameters)->target_range);
             }
-        } else if (obj_testFlags30(0x10) != 0) {
+        } else if (test_actor_flags(0x10) != 0) {
             i = 0;
             best_id = 0xFFFF;
             Vec v = lappy_target_zero_vec;
@@ -800,8 +799,8 @@ void TObjEneLappy::refresh_target() {
                 if (p == NULL) {
                     break;
                 }
-                id = get_entity_id(p);
-                if ((u16)id < 0x4000 && (u16)id != entity_id && !(p->actorFlags & 0x800)) {
+                id = p->get_entity_id();
+                if (id < 0x4000 && id != entity_id && !(p->actorFlags & 0x800)) {
                     f32 xx;
                     f32 zz;
                     VecCopy(&v, &p->body_center);
@@ -825,7 +824,7 @@ void TObjEneLappy::refresh_target() {
         TObjPlayer *q;
         for (j = 0; j < registered_player_count; j++) {
             q = TObjPlayer::get_player_data(j);
-            if (q != NULL && last_attack_target != (u16) get_entity_id(q) && !(q->actorFlags & 0x800)) {
+            if (q != NULL && last_attack_target != q->get_entity_id() && !(q->actorFlags & 0x800)) {
                 if (xz_distance_squared(&q->body_center, &body_center) < 2500.0f) {
                     targetId = j;
                 }
@@ -869,7 +868,7 @@ void TObjEneLappy::run_task() {
     }
     update_prev_position();
     VecCopy(&center, &body_center);
-    if ((obj_testFlags30(0x06000000) == 0) && !(lappy_flags & 4)) {
+    if ((test_actor_flags(0x06000000) == 0) && !(lappy_flags & 4)) {
         submit_cursor_candidate((u8 *)this, -1);
     }
     minimap_render_dot(&position, -0x5DB4, 1, 0);
@@ -885,7 +884,7 @@ void TObjEneLappy::run_task() {
             bodies->flags |= 1;
         }
     }
-    if ((obj_testFlags30(0x800) != 0) && !(lappy_flags & 2)) {
+    if ((test_actor_flags(0x800) != 0) && !(lappy_flags & 2)) {
         down_timer++;
         if ((is_actor_cadence_frame(0x1E) != 0) && (((u16)find_nearest_visible_player(this, NULL, 120.0f) == 0xFFFFU) || (down_timer >= 0x384))) {
             start_fleeing();
@@ -912,6 +911,7 @@ void *TObjEneLappy::create(void *set) {
 #include "pso/system/TLanguage_801E4874.h"
 #include "pso/ui/TLevelSelect.h"
 #include "pso/network/TPlyJoinLobbyEntry.h"
+#include "pso/player/PlayerSlots.h"
 
 extern "C" {
 __declspec(section ".data") saddr lappy_boss_stats_handles[2];
@@ -922,13 +922,13 @@ __declspec(section ".data") f32 *lappy_variant_speed_ptr_table[2];
 
 void TObjEneLappy::free_resources() {
     if (TLobby::get_instance() == 0) {
-        if (rappy_alternate_texture_list != 0) {
-            release_texture_list((GinjaTextureList *)rappy_alternate_texture_list);
-            TAdSinglePlyChrSelectGC::safe_free(rappy_alternate_texture_list);
-            rappy_alternate_texture_list = 0;
+        if (rappy_alternate_texture_list != NULL) {
+            release_texture_list(rappy_alternate_texture_list);
+            TAdSinglePlyChrSelectGC::safe_free((uaddr)rappy_alternate_texture_list);
+            rappy_alternate_texture_list = NULL;
         }
     } else {
-        rappy_alternate_texture_list = 0;
+        rappy_alternate_texture_list = NULL;
     }
     if (rappy_bml_resource != NULL) {
         delete rappy_bml_resource;
@@ -943,7 +943,7 @@ void TObjEneLappy::load_resources() {
 
     rare = game_difficulty_selection == 3;
     if (get_main_phase() == 0xF) {
-        switch (TLobby__event_theme_id) {
+        switch (TLobby::event_theme_id) {
         case 1:
             lappy_variant_id = 1;
             if (rare) {
@@ -987,12 +987,12 @@ void TObjEneLappy::load_resources() {
     }
     if (TLobby::get_instance() == 0) {
         if (rare) {
-            rappy_alternate_texture_list = (uaddr)load_gvm_texture_file((saddr)re3_b_lappy_base_niji_gvm);
+            rappy_alternate_texture_list = load_gvm_texture_file(re3_b_lappy_base_niji_gvm);
         } else {
-            rappy_alternate_texture_list = (uaddr)load_gvm_texture_file((saddr)re3_b_lappy_base_ao_gvm);
+            rappy_alternate_texture_list = load_gvm_texture_file(re3_b_lappy_base_ao_gvm);
         }
     } else {
-        rappy_alternate_texture_list = (uaddr)rappy_bml_resource->models[1].texlist;
+        rappy_alternate_texture_list = rappy_bml_resource->models[1].texlist;
     }
     rappy_visibility_node = (s32 *)find_model_node((uaddr)rappy_bml_resource->models[0].model, 0x12);
     for (i = 0; i < 2; i++) {
@@ -1007,7 +1007,7 @@ void TObjEneLappy::load_resources() {
         d.motions = res->motions;
         NpcModelRegistry::register_animated_chunk(5, rappy_bml_resource->models[0].model, rappy_bml_resource->models[0].texlist, &d, 10.0f, 0.0f);
         if (TLobby::get_instance() == 0) {
-            NpcModelRegistry::register_animated_chunk(6, rappy_bml_resource->models[0].model, (void *)rappy_alternate_texture_list, &d, 10.0f, 0.0f);
+            NpcModelRegistry::register_animated_chunk(6, rappy_bml_resource->models[0].model, rappy_alternate_texture_list, &d, 10.0f, 0.0f);
         } else {
             NpcModelRegistry::register_animated_chunk(6, rappy_bml_resource->models[1].model, rappy_bml_resource->models[1].texlist, &d, 10.0f, 0.0f);
         }
@@ -1034,7 +1034,7 @@ void TObjEneLappy::clear_flag_1() {
 
 void TObjEneLappy::set_speed_params(s32 variant) {
     void *body;
-    GinjaTextureList *textures;
+    NJS_TEXLIST *textures;
 
     if (TLobby::get_instance() == 0) {
         model = rappy_bml_resource->models[0].model;
@@ -1049,9 +1049,9 @@ void TObjEneLappy::set_speed_params(s32 variant) {
     if (variant == 0) {
         textures = rappy_bml_resource->models[0].texlist;
     } else {
-        textures = (GinjaTextureList *)rappy_alternate_texture_list;
+        textures = rappy_alternate_texture_list;
     }
-    texlist = (saddr)textures;
+    texlist = textures;
 }
 
 int TObjEneLappy::test_flag_256() { return 0; }

@@ -23,7 +23,7 @@ struct KeyboardKeyState {
     u32 pressed[4];
     KeyboardKeyRepeat repeat[8];
 
-    s32 append_char(s8 arg1);
+    s32 append_char(s8 chan);
     void append_next_char();
     static void append_next_char_global();
     void disable_disconnected_ports();

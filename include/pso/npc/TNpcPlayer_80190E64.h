@@ -5,13 +5,13 @@
 
 extern "C" {
 void TLobby__sub_80190FD0(int a0);
-u8 *TLobby__sub_8019118C(u8 *arg0, s32 arg1, saddr set_data);
+u8 *TLobby__sub_8019118C(u8 *actor, s32 arg1, saddr set_data);
 }
 
 // --- C functions defined in TNpcPlayer_80190E64.cpp ---
 extern "C" {
 void TLobby__sub_80190FD0(int a0);
-u8 *TLobby__sub_8019118C(u8 *arg0, s32 arg1, saddr set_data);
+u8 *TLobby__sub_8019118C(u8 *actor, s32 arg1, saddr set_data);
 }
 // --- end of C functions
 

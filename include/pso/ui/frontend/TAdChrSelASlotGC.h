@@ -25,8 +25,7 @@ struct TAdChrSelASlotGC : public TObject {
     s32 state;
     s32 prev_state;
     TAdChrSelSlotGC *slot_gc; // 0x2C
-    TAdPlayerLoadGC *m_30;
-    void set_flag_40();
+    TAdPlayerLoadGC *player_load;
     static void render(void *self);
     s32 is_character_transferred(u32 i);
     s32 get_plate_value_for_slot(s32 k);
@@ -36,9 +35,9 @@ struct TAdChrSelASlotGC : public TObject {
     TWindowBase *create_formatted_window(s32 kind);
     TWindowMessageYesNo *open_confirm_message(s32 kind, s32 client_id);
     TWindowMessageYesNo *create_message_window(s32 kind, s32 client_id);
-    static s32 create_format_message_window(saddr arg0, s32 arg1, s32 arg2);
+    TWindowMessageYesNo *create_format_message_window(s32 pos, s32 client_id);
     TWindowMessageYesNo *open_replace_character_prompt(s32 pos, s32 client_id);
-    s32 open_yes_no_window(s32 pos, s32 client_id);
+    TWindowMessageYesNo *open_yes_no_window(s32 pos, s32 client_id);
     TWindowMessageYesNo *open_create_character_prompt(s32 pos);
     TWindowBase *create_slot_message_window(s32 kind, s32 text);
     void sub_8030CBD0();
@@ -67,27 +66,16 @@ struct TAdChrSelASlotGC : public TObject {
     void create_children(s32 arg1);
     void init(s32 arg1);
     void forward_slot_selection(void* a1, void* a2);
-    TAdPlyChrSelPlateGC *m_34;
-    TAdPlyChrSelPlateGC *m_38;
+    TAdPlyChrSelPlateGC *plate_a;          // 0x34  slot A plate (modes 0 and 1)
+    TAdPlyChrSelPlateGC *plate_b;          // 0x38  slot B plate (modes 1 and 2)
     TAdSubPlyItemGC *player_items;
-    TAdSubPlyItemGC *m_40;
-    TAdChrSelMovePlateGC *m_44;
-    TAdDrawLineCtrl *m_48;
-    TAdDrawLineCtrl *m_4c;
-    TAdDrawLineCtrl *m_50;
-    TWindowBase *m_54;
-    TWindowBase *m_58;
-    TWindowBase *m_5c;
-    TWindowBase *m_60;
-    TWindowBase *m_64;
-    TWindowBase *m_68;
-    TWindowBase *m_6c;
-    TWindowBase *m_70;
-    TWindowBase *m_74;
-    TWindowBase *m_78;
-    TWindowBase *m_7c;
+    TAdSubPlyItemGC *player_items_b;       // 0x40
+    TAdChrSelMovePlateGC *move_plate;      // 0x44
+    TAdDrawLineCtrl *draw_line[3];         // 0x48
+    TWindowBase *wait_message[11];         // 0x54  message i shows text 2 * i while the card load waits on step i
 };
 
 LAYOUT_ASSERT(TAdChrSelASlotGC_size, sizeof(TAdChrSelASlotGC) == 0x80);
 LAYOUT_ASSERT(TAdChrSelASlotGC_state_offset, offsetof(TAdChrSelASlotGC, state) == 0x24);
+LAYOUT_ASSERT(TAdChrSelASlotGC_wait_message_offset, offsetof(TAdChrSelASlotGC, wait_message) == 0x54);
 #endif

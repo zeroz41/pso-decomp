@@ -1,3 +1,4 @@
+#include "pso/technique/TTecZondeEff.h"
 #include "pso/system/BmlAccessors.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
@@ -45,6 +46,8 @@
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/system/vector.h"
+#include "pso/object/base/TObjBase.h"
+#include "pso/player/PlayerSlots.h"
 
 extern s32 game_difficulty_selection;
 
@@ -139,7 +142,7 @@ TOTrapAncient02::TOTrapAncient02(TObject *parent, void *set_data) : TOTrap(paren
     init_position_vectors();
     calc_attach_pos();
     model = (void *)TOTrapAncient02__shared_resource->models->model;
-    texlist = (saddr)TOTrapAncient02__shared_resource->models->texlist;
+    texlist = TOTrapAncient02__shared_resource->models->texlist;
     mode = 0;
     phase = 0;
     range = 0.5f * scale.x + 30.0f;
@@ -235,7 +238,7 @@ void TOTrapAncient02::render() {
 void TOTrapAncient02::draw_effect_chain() {
     NJS_OBJECT *n;
     push_matrix();
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
+    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
     post_translate_matrix(&position.x);
     rotate_matrix_y(0, rotation_y);
     n = (NJS_OBJECT *)model;
@@ -270,7 +273,7 @@ void TOTrapAncient02::render_particle_chain() {
     n = (NJS_OBJECT *)model;
     translate_matrix(0, n->pos[0], n->pos[1] + h344, n->pos[2]);
     setup_particle_tev(0);
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
+    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
     load_projection_tex_matrix(0x38E);
     draw_ginja_model((void *)n->model);
     reset_particle_tev();
@@ -278,7 +281,7 @@ void TOTrapAncient02::render_particle_chain() {
     n = n->child;
     translate_matrix(0, n->pos[0], n->pos[1] + h348, n->pos[2]);
     setup_particle_tev(0);
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
+    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
     load_projection_tex_matrix(0x38E);
     draw_ginja_model((void *)n->model);
     reset_particle_tev();
@@ -287,7 +290,7 @@ void TOTrapAncient02::render_particle_chain() {
     n = n->child;
     post_translate_matrix(n->pos);
     setup_particle_tev(1);
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
+    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
     load_projection_tex_matrix(0x38E);
     draw_ginja_model((void *)n->model);
     reset_particle_tev();
@@ -297,7 +300,7 @@ void TOTrapAncient02::render_particle_chain() {
     post_translate_matrix(n->pos);
     rotate_matrix_y(0, spin_angle);
     setup_particle_tev(0);
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
+    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
     load_projection_tex_matrix(0x38E);
     draw_ginja_model((void *)n->model);
     reset_particle_tev();
@@ -384,14 +387,14 @@ void TOTrapAncient02::vfunc_82() {
         phase = 2;
     case 2:
         if (target != NULL) {
-            obj_setFlags30(target, 0x200);
-            ((TObjChara *)target)->sub_8002AE64();
-            ((TObjChara *)target)->sub_800A7798(1.0f);
+            ((TObjBase *)target)->set_actor_flags(0x200);
+            ((TObjChara *)target)->enable_motion_blend();
+            ((TObjChara *)target)->set_override_speed(1.0f);
             timer--;
             if (timer < 0) {
                 phase = 3;
                 timer = reset;
-                if (target != NULL && local_client_id == get_entity_id((TObjBase *)target)) {
+                if (target != NULL && local_client_id == ((TObjBase *)target)->get_entity_id()) {
                     p = get_player_by_client_id(local_client_id);
                     if (p != NULL && p->check_player_flag1() != 0) {
                         TObjPlayer::send_code_45_1((saddr)p);
@@ -494,7 +497,7 @@ TOTrapAncient02R::TOTrapAncient02R(TObject *parent, void *set_data) : TOTrapAnci
     init_position_vectors();
     calc_attach_pos();
     model = (void *)TOTrapAncient02__shared_resource->models->model;
-    texlist = (saddr)TOTrapAncient02__shared_resource->models->texlist;
+    texlist = TOTrapAncient02__shared_resource->models->texlist;
     mode = 0;
     phase = 0;
     range = 0.5f * scale.x + 30.0f;
@@ -624,10 +627,7 @@ void TOTrapAncient02R::vfunc_81() {
                         spawn_particle_effect(&scratch_vec, 0xB9);
                         spawn_particle_effect(&scratch_vec, 0xBA);
                         {
-                            void *t = TObject::operator new(0x260);
-                            if (t != NULL) {
-                                ((TTecZonde *)t)->construct_bolt_effect((u8 *)tl_07, (u8 *)&scratch_vec, (u8 *)&lbl_8050BF00, 0x14000000, 0x14, range, 1.8f);
-                            }
+                            new TTecZondeEff(tl_07, &scratch_vec, &lbl_8050BF00, 0x14000000, 0x14, range, 1.8f);
                         }
                         play_sound_effect(0x4002A408, &scratch_vec, 0, 0);
                         break;

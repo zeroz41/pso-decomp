@@ -7,7 +7,7 @@
 
 struct AnimationMotion;
 struct BmlResource;
-struct GinjaTextureList;
+struct NJS_TEXLIST;
 struct NJS_OBJECT;
 
 union WarpScreenCoordinate {
@@ -25,7 +25,7 @@ LAYOUT_ASSERT(WarpStringScreenPosition_size, sizeof(WarpStringScreenPosition) ==
 extern "C" {
 extern BmlResourceDescriptor forest_warp_resource_descriptor;
 extern BmlResource *forest_warp_bml_resource;
-extern GinjaTextureList *forest_warp_texture_list;
+extern NJS_TEXLIST *forest_warp_texture_list;
 extern const Vec map_warp_destination_offsets[4];
 extern const WarpStringScreenPosition warp_string_screen_position_table[10];
 extern s32 quest_warp_enabled;
@@ -38,6 +38,6 @@ extern s32 lobby_quest_progress_flag;
 void load_forest_warp_resources(void);
 NJS_OBJECT *get_forest_warp_model(s32 index);                // get_bml_model of fs_obj_warp.bml
 AnimationMotion *get_forest_warp_motion(s32 index);  // get_bml_motion of fs_obj_warp.bml
-GinjaTextureList *get_forest_warp_textures();                      // the fs_obj_warp.gvm texture list
+NJS_TEXLIST *get_forest_warp_textures();                      // the fs_obj_warp.gvm texture list
 
 #endif

@@ -17,7 +17,7 @@ bool is_chat_shortcut_set(s32 index);
 void send_chat_shortcut(void);
 }
 s32 store_chat_shortcut(s32 index, s32 arg1);
-void submit_chat_text(u8 *arg0);
+void submit_chat_text(u8 *lobby);
 
 // --- C functions defined in text_80076BC4.cpp ---
 extern "C" {

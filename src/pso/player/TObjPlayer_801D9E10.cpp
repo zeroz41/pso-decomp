@@ -15,5 +15,5 @@ void TObjPlayer__sub_801D9E2C(Obj_801D9E10 *p, s16 i) {
     p->m_48[i] = 0xFF;
 }
 
-void TObjPlayer::set_field_1c(f32 v) { *(f32*)((char*)this + 0x1c) = v; }
-void TObjPlayer::set_field18(f32 v) { *(f32*)((char*)this + 0x18) = v; }
+void PlayerTechniqueState::set_field_1c(f32 v) { pad_1c = v; }
+void PlayerTechniqueState::set_field18(f32 v) { pad_18 = v; }

@@ -44,10 +44,10 @@ void TOBind::render() {
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, this->rotation_y);
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(this->texlist));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
         draw_ginja_object(this->model);
         if ((s32) this->m_b0 != 1) {
-            TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(animated_textures));
+            TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(animated_textures));
             TParticleCtrl::begin_effect_render();
             draw_ginja_model_with_motion(animated_model, motion, motion_frame);
             TParticleCtrl::end_effect_render();
@@ -56,10 +56,10 @@ void TOBind::render() {
     }
 }
 
-void *TOBind::create(void *arg0) {
+void *TOBind::create(void *set_data) {
     void *o = TObject::operator new(0xD8);
     if (o != NULL) {
-        o = TOBind__ct((TOBind *)((u8 *)o), (saddr)arg0);
+        o = TOBind__ct((TOBind *)((u8 *)o), (saddr)set_data);
     }
     return o;
 }
@@ -89,9 +89,9 @@ u8 *TOBind__ct(TOBind *bind, saddr set_data) {
     ((TOBind *)(bind))->apply_object_set_data((void *)set_data);
     bind->m_b0 = 0;
     bind->model = reinterpret_cast<NJS_OBJECT *>(get_bml_model((BmlResource *)TOBind__static_model_resource, 0));
-    bind->texlist = (saddr)get_bml_texlist((BmlResource *)TOBind__static_model_resource, 0);
+    bind->texlist = get_bml_texlist((BmlResource *)TOBind__static_model_resource, 0);
     bind->animated_model = reinterpret_cast<NJS_OBJECT *>(get_bml_model((BmlResource *)TOBind__static_model_resource, 1));
-    bind->animated_textures = reinterpret_cast<GinjaTextureList *>(get_bml_texlist((BmlResource *)TOBind__static_model_resource, 1));
+    bind->animated_textures = reinterpret_cast<NJS_TEXLIST *>(get_bml_texlist((BmlResource *)TOBind__static_model_resource, 1));
     bind->motion = get_bml_motion(TOBind__static_model_resource, 0);
     bind->motion_frame = 0.0f;
     bind->m_bc = static_cast<f32>(bind->motion->frameCount) - 1.0f;
@@ -100,9 +100,9 @@ u8 *TOBind__ct(TOBind *bind, saddr set_data) {
     ((TObjCollidable *)bind)->refresh_collision_body_centers();
     ((TObjPlayer *)bind)->register_object_by_id();
     bind->actorFlags = (s32) (bind->actorFlags | 0x40000000);
-    bind->m_b4 = (s32) bind->set_params[0];
-    if ((s32) bind->m_b4 < 0) {
-        bind->m_b4 = 0;
+    bind->index = (s32) bind->set_params[0];
+    if ((s32) bind->index < 0) {
+        bind->index = 0;
     }
     bind->draw_distance = 400.0f;
     bind->m_d4 = 40.0f;

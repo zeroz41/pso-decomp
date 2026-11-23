@@ -7,11 +7,11 @@
 #include "pso/render/render_util.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 extern "C" {
 void draw_projected_line_strip__10TObjPlayerFPvii(DrawLineVertex *, s32, s32);
 void copy_draw_line_record(DrawLineRecord *, const DrawLineRecord *);
-f32 newton_sqrtf(f32);
 }
 
 extern const char draw_line_task_resource_path[] = "AdDrawLineTask.prs";
@@ -31,6 +31,16 @@ DRAW_LINE_CONST extern const f32 lbl_805D7DD8;
 DRAW_LINE_CONST extern const f32 lbl_805D7DDC;
 DRAW_LINE_CONST extern const f32 lbl_805D7DE0;
 DRAW_LINE_CONST extern const f32 lbl_805D7DE4;
+
+// The TObject and TMainTask accessors whose kept out-of-line copies sit at
+// the end of this file; deferred code generation emits them last.
+void TObject::disallow_rendering() { m_flags |= DISALLOW_RENDER; }
+
+void TObject::allow_rendering() { m_flags &= ~DISALLOW_RENDER; }
+
+void TObject::suspend_update() { m_flags |= SUSPEND_UPDATE; }
+
+s32 TMainTask::get_render_pass() { return render_pass; }
 
 TAdDrawLineTask *create_draw_line_task(TObject *parent, const DrawLineRecord *record, TAdDrawLineCtrl *controller) {
     if (record != NULL && lbl_805D7DDC != record->speed) {

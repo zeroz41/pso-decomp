@@ -153,11 +153,11 @@ void load_re2_flower_resources(void) {
     re2_flower_node_yaw = 0;
     re2_flower_node_points = 0;
     TObjPlayer::create_render_texture();
-    TObjPlayer__sub_800F0928();
+    TObjPlayer::init_alt_model();
     __memcpy(&binding, &re2_flower_animation_binding, sizeof(binding));
     binding.motions = re2_flower_bml_resource->motions;
     models = re2_flower_bml_resource->models;
-    NpcModelRegistry::register_animated_chunk(0x37, reinterpret_cast<void *>(models->model), reinterpret_cast<void *>(models->texlist), &binding, lbl_805D9FBC, lbl_805D9FAC);
+    NpcModelRegistry::register_animated_chunk(0x37, reinterpret_cast<void *>(models->model), models->texlist, &binding, lbl_805D9FBC, lbl_805D9FAC);
 }
 
 void *TObjEneRe2Flower::create(void *setData) {
@@ -186,7 +186,7 @@ TObjEneRe2Flower::TObjEneRe2Flower(TObject *parent, void *setData) : TObjEneDD_S
     }
     init_position_vectors();
     model = (void *)re2_flower_bml_resource->models->model;
-    texlist = (saddr)re2_flower_bml_resource->models->texlist;
+    texlist = re2_flower_bml_resource->models->texlist;
     if (is_tower_variant()) {
         init_model(re2_flower_tower_collision_bodies, 2);
     } else {
@@ -197,7 +197,7 @@ TObjEneRe2Flower::TObjEneRe2Flower(TObject *parent, void *setData) : TObjEneDD_S
     requested_action = 1;
     set_animation(requested_action);
     set_requested_action(requested_action);
-    sub_8002AE64();
+    enable_motion_blend();
     if (is_tower_variant()) {
         variant = 2;
     } else if (is_rare_variant()) {
@@ -259,7 +259,7 @@ TObjEneRe2Flower::~TObjEneRe2Flower() {
 }
 
 void TObjEneRe2Flower::run_task() {
-    s16 temp_r3;
+    s16 mode;
     if (TObjPlayer::check_demo_mode() != 0) {
         this->run_demo_task();
         return;
@@ -267,8 +267,8 @@ void TObjEneRe2Flower::run_task() {
     if (this->update_status_effects() != 4) {
         this->update_action_state();
     } else {
-        temp_r3 = this->mode;
-        if ((temp_r3 == 0) || (temp_r3 == 1)) {
+        mode = this->mode;
+        if ((mode == 0) || (mode == 1)) {
             appear_fade.reset_color();
             transition_enemy_state(2);
         }
@@ -323,20 +323,20 @@ void TObjEneRe2Flower::dispatch_action(u32 state, s32 reason) {
 void TObjEneRe2Flower::refresh_target() {  }
 
 void TObjEneRe2Flower::run_death_reaction() {
-    s16 temp_r0;
+    s16 mode;
 
-    temp_r0 = this->mode;
-    if ((temp_r0 != 0xA) && (temp_r0 != 0xB)) {
+    mode = this->mode;
+    if ((mode != 0xA) && (mode != 0xB)) {
         transition_enemy_state(0xA);
     }
 }
 
 void TObjEneRe2Flower::run_hit_reaction() {
-    s16 temp_r0;
+    s16 mode;
 
-    temp_r0 = this->mode;
-    if (temp_r0 != 9) {
-        if (temp_r0 == 8) {
+    mode = this->mode;
+    if (mode != 9) {
+        if (mode == 8) {
             start_hit_cooldown();
             clear_attack_receipts();
             return;

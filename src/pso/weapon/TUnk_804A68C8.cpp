@@ -55,7 +55,7 @@ TUnk_804A68C8::TUnk_804A68C8(TObject *parent, u8 *item) : TItemWeapon(parent, it
     scale = 1.0f;
     attack_spawned = 0;
     if (item[2] >= 4U) {
-        ((TObjPlayer *)this)->set_atp(-1);
+        set_color_node(-1);
     }
 }
 

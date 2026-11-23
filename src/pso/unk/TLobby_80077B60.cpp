@@ -1,19 +1,18 @@
 #include "types.h"
-#include "pso/unk/TLobby_80077B60.h"
-#include "pso/system/memory.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/protocol/choice_search.h"
 
-extern uaddr lbl_805D4E58;
-extern uaddr lbl_805D4E5C;
-
-void TLobby::free_static_windows() {
-    if ((u32) lbl_805D4E5C != 0U) {
-        ::operator delete((void *)lbl_805D4E5C);
-        lbl_805D4E5C = 0U;
+void free_choice_search_data() {
+    if (choice_search_results != NULL) {
+        delete choice_search_results;
+        choice_search_results = NULL;
     }
-    if ((u32) lbl_805D4E58 != 0U) {
-        ::operator delete((void *)lbl_805D4E58);
-        lbl_805D4E58 = 0U;
+    if (choice_search_options != NULL) {
+        delete choice_search_options;
+        choice_search_options = NULL;
     }
 }
-void TLobby__sub_80077BAC(void) { (*(int *)&lbl_805D4E58) = 0; (*(int *)&lbl_805D4E5C) = 0; }
+
+void reset_choice_search_data() {
+    choice_search_options = NULL;
+    choice_search_results = NULL;
+}

@@ -19,7 +19,7 @@ __declspec(section ".data") const char *bm_obj_lobby_curtain_model_names[2] = { 
 BmlResourceDescriptor bm_obj_lobby_curtain_resource_descriptor = { "bm_obj_lobby_curtain.bml", bm_obj_lobby_curtain_model_names, bm_obj_lobby_curtain_motion_names, 1, 0 };
 const char *obj_curtain_lobby_class_name = "TObjCurtainLobby";
 BmlResource *TObjCurtainLobby::model_resource;
-u32 TObjCurtainLobby::lobby_texlist;
+NJS_TEXLIST *TObjCurtainLobby::lobby_texlist;
 
 s32 TObjCurtainLobby::get_lobby_theme_clamped() {
     s32 theme = TLobby::get_filtered_event_theme();
@@ -37,7 +37,7 @@ void TObjCurtainLobby::demo_step() {}
 void TObjCurtainLobby::render() {
     if (state != 0 && (u32)texlist != 0) {
         TParticleCtrl::begin_effect_render();
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);

@@ -50,11 +50,11 @@ void fn_803000C8(void) {
 
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/ui/window/WindowMenuFactory.h"
+#include "pso/player/TPlyCharData.h"
 
 
 typedef void (TAdMultiSelGameModeGC::*Action_80300770)();
 
-struct Ent_80300850 { u8 pad[0x364]; s32 f364; };
 
 struct Pos_8030095C { f32 v[8]; };
 
@@ -62,7 +62,6 @@ struct Cur_8030095C { f32 v[2]; };
 
 s32 is_multiplayer_character_slot_selected(s32 arg0);
 extern "C" {
-Ent_80300850 *get_char_table_entry__23TAdSinglePlyChrSelectGCFi(int);
 saddr lbl_805D69F4;
 }
 
@@ -71,7 +70,6 @@ typedef struct Pos3_803001B4 { NJS_POINT2 p[3]; } Pos3_803001B4;
 typedef struct Arr3_803001B4 { s32 v[3]; } Arr3_803001B4;
 
 extern "C" {
-int forward_trade_action_default__16TObjCityMainWarpFPviii(void *p, int a1, int a2, int a3);
 s32 create_window_menu_default(void *, u32);
 
 static const TAdSelectTxtLayout lbl_80474E40[7] = {
@@ -101,7 +99,7 @@ s32 TAdMultiSelGameModeGC::is_mode_entry_enabled(s32 menu, u32 idx) {
     }
 }
 
-saddr TAdMultiSelGameModeGC::build_mode_menu(s32 arg1) {
+saddr TAdMultiSelGameModeGC::build_mode_menu(s32 menu) {
     Pos3_803001B4 pos = multi_sel_game_mode_position;
     u32 counts[3];
     u32 n;
@@ -113,16 +111,16 @@ saddr TAdMultiSelGameModeGC::build_mode_menu(s32 arg1) {
     {
     Arr3_803001B4 a = lbl_80474EEC;
     Arr3_803001B4 b = multi_sel_game_mode_arr3;
-    n = counts[arg1];
-    r = create_window_menu_default(&pos.p[arg1], n);
+    n = counts[menu];
+    r = create_window_menu_default(&pos.p[menu], n);
     for (i = 0; i < n; i++) {
-        if (is_mode_entry_enabled(arg1, i) != 0) {
-            forward_trade_action_default__16TObjCityMainWarpFPviii((void *)r, (int)(get_localized_text_entry(0x18, i + b.v[arg1])), 6, (int)(i + a.v[arg1]));
+        if (is_mode_entry_enabled(menu, i) != 0) {
+            ((TWindowMenu *)r)->add_text_entry(get_localized_text_entry(0x18, i + b.v[menu]), 6, i + a.v[menu]);
         } else {
-            add_gray_text_entry((TWindowSubTradeMain *)r, (const char *)(get_localized_text_entry(0x18, i + b.v[arg1])), 6, i + a.v[arg1]);
+            add_gray_text_entry((TWindowMenu *)r, (const char *)(get_localized_text_entry(0x18, i + b.v[menu])), 6, i + a.v[menu]);
         }
         ((TWindowMenu *)r)->update_layout_height(206.0f);
-        ((TWindowSubComCardList *)r)->set_selected_index(a.v[arg1]);
+        ((TWindowSubComCardList *)r)->set_selected_index(a.v[menu]);
         align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(r));
     }
     return r;
@@ -258,7 +256,7 @@ s32 TAdMultiSelGameModeGC::get_max_difficulty_for_party_level() {
     m = TObjEneDolmOlm__sub_80300CF0();
     for (i = 0; i < 4; i++) {
         if (is_multiplayer_character_slot_selected(i) != 0) {
-            s32 t = get_char_table_entry__23TAdSinglePlyChrSelectGCFi(i)->f364 + 1;
+            s32 t = TAdSinglePlyChrSelectGC::get_char_table_entry(i)->m_stats.level + 1;
             if ((u32)t < (u32)m) {
                 m = t;
             }

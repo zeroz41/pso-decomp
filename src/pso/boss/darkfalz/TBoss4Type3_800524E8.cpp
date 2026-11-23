@@ -5,6 +5,7 @@
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/player/PlayerSlots.h"
 
 
 extern const f32 lbl_805D8AE0;

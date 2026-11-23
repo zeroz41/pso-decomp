@@ -3,8 +3,7 @@
 #include "pso/unk/TLobby_802230F8.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/unk/TLobby.h"
-
-struct Rec_802231F0 { u8 b[0x18]; };
+#include "pso/ui/city/BankItemRecord.h"
 
 s32 TLobby::compare_version(void *arg1) {
     u32 b, a;
@@ -52,33 +51,32 @@ u32 TLobby__sub_8022318C(u8 *arg0, u8 *arg1) {
 }
 
 void TLobby::swap_item_data(s32 *item_data) {
-    s32 sp8[8];
+    s32 src[8];
 
-    ((TItemData *)sp8)->copy_from((TItemData *)(this));
+    ((TItemData *)src)->copy_from((TItemData *)(this));
     ((TItemData *)this)->copy_from((TItemData *)item_data);
-    ((TItemData *)item_data)->copy_from((TItemData *)(sp8));
+    ((TItemData *)item_data)->copy_from((TItemData *)(src));
 }
 
-void TLobby::sort_records(s32 arg1, s32 arg2) {
-    Rec_802231F0 *arg0 = (Rec_802231F0 *)this;
+void BankItemRecord::sort_records(s32 count, s32 key) {
     s32 i;
     s32 j;
-    for (i = 0; i < arg1 - 1; i++) {
-        for (j = i + 1; j < arg1; j++) {
-            switch (arg2) {
+    for (i = 0; i < count - 1; i++) {
+        for (j = i + 1; j < count; j++) {
+            switch (key) {
             case 0:
-                if (((s32 (*)(u8 *, u8 *))TAdSinglePlyChrSelectGC__sub_8022338C)(arg0[i].b, arg0[j].b) != 0) {
-                    ((TAdSinglePlyChrSelectGC *)(&arg0[i]))->swap_item_data((s32 *)&arg0[j]);
+                if (((s32 (*)(u8 *, u8 *))TAdSinglePlyChrSelectGC__sub_8022338C)(this[i].item.data1.data_u8, this[j].item.data1.data_u8) != 0) {
+                    this[i].swap_item_data(&this[j]);
                 }
                 break;
             case 1:
-                if (TAdSinglePlyChrSelectGC__sub_80223350(&arg0[i], &arg0[j]) != 0) {
-                    ((TAdSinglePlyChrSelectGC *)(&arg0[i]))->swap_item_data((s32 *)&arg0[j]);
+                if (TAdSinglePlyChrSelectGC__sub_80223350(&this[i], &this[j]) != 0) {
+                    this[i].swap_item_data(&this[j]);
                 }
                 break;
             case 2:
-                if (TLobby__sub_802232F8(&arg0[i], &arg0[j]) != 0) {
-                    ((TAdSinglePlyChrSelectGC *)(&arg0[i]))->swap_item_data((s32 *)&arg0[j]);
+                if (TLobby__sub_802232F8(&this[i], &this[j]) != 0) {
+                    this[i].swap_item_data(&this[j]);
                 }
                 break;
             }

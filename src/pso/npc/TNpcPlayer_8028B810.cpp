@@ -16,9 +16,9 @@ u8 *init_appearance_load_request__10TNpcPlayerFPvPvii(u8 *arg0, u8 *parent, sadd
     args.load_slot = arg3;
     args.body_model = (s32 *)(arg0 + 0x4A4);
     args.part_models = (s32 *)(arg0 + 0x498);
-    args.body_textures = (GinjaTextureList *)(arg0 + 0x490);
-    args.other_textures = (GinjaTextureList *)(arg0 + 0x324);
-    args.head_textures = (GinjaTextureList *)(arg0 + 0x1B8);
+    args.body_textures = (NJS_TEXLIST *)(arg0 + 0x490);
+    args.other_textures = (NJS_TEXLIST *)(arg0 + 0x324);
+    args.head_textures = (NJS_TEXLIST *)(arg0 + 0x1B8);
     *(TChCrLoadReq **)arg0 = create_ch_cr_load_req((TObject *)parent, &args);
     return arg0;
 }

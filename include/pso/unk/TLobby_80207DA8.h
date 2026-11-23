@@ -39,7 +39,7 @@ void request_wave_event_stop(void);
 extern "C" {
 void run_floor_cleanup_callbacks__6TLobbyFi(s32 arg0);
 }
-s32 run_floor_initialize_callbacks(s32 arg0);
+s32 run_floor_initialize_callbacks(s32 floor);
 extern "C" {
 s32 run_wave_event_actions(void);
 }
@@ -49,7 +49,7 @@ void send_6x67_wave_trigger_event(s32 arg0);
 extern "C" {
 void set_destroy_event__6TLobbyFi(int a0);
 }
-s32 set_floor_event_flags(s32 arg0, s32 arg1, s32 arg2);
+s32 set_floor_event_flags(s32 floor, s32 id, s32 flags);
 extern "C" {
 int spawn_objects_at_pos__6TLobbyFPv(void *p);
 }

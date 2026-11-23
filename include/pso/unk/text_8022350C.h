@@ -2,15 +2,12 @@
 #define PSO_UNK_TEXT_8022350C_H
 
 #include "types.h"
+#include "pso/camera/TCameraConversation.h"
 
 extern "C" {
-void set_service_counter_camera(s32 arg0, s32 arg1);
+// Opens the conversation camera of a service counter (an index into
+// service_counter_camera_table); sequence, the counter's sequence, is unused.
+TCameraConversation *set_service_counter_camera(void *sequence, s32 counter);
 }
-
-// --- C functions defined in text_8022350C.cpp ---
-extern "C" {
-void set_service_counter_camera(s32 arg0, s32 arg1);
-}
-// --- end of C functions
 
 #endif

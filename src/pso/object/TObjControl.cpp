@@ -31,6 +31,10 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/unk/TLobby_80291D94.h"
+#include "pso/player/PlayerAttackParams.h"
+#include "pso/player/TPlyDispData.h"
+#include "pso/object/base/TObjBase.h"
+#include "pso/player/PlayerSlots.h"
 
 struct Ply_800F7118 {
     u8 pad0[0x28];
@@ -48,7 +52,6 @@ struct Ply_800F7118 {
     s32 f36C;
 };
 extern "C" {
-u16 get_entity_id(void *);
 
 
 extern uaddr TObjPlayer__data_8050D460[];
@@ -127,7 +130,7 @@ typedef struct TObjPlayer_800F6B68 {
 struct A_800F698C {
     u8 pad0[0x1C]; u16 f1C; u8 pad1E[0x28 - 0x1E]; s16 f28; s16 f2A; s16 f2C;
     u8 pad2E[0x38 - 0x2E]; Vec v38; u8 pad44[0x50 - 0x44]; Vec v50; Vec v5C;
-    u8 pad68[0x160 - 0x68]; u8 f160[0x354 - 0x160]; f32 f354[5]; s32 f368; s32 f36C;
+    u8 pad68[0x160 - 0x68]; SubtractiveRng rng; u8 pad248[0x354 - 0x248]; f32 f354[5]; s32 f368; s32 f36C;
 };
 
 struct B_800F698C {
@@ -142,27 +145,22 @@ struct Node_800F6E2C {
     Node_800F6E2C *f34C;
 };
 
-f32 TObjPlayer__sub_800192C4(saddr, s32);
 
 u16 obj_getArrU16_FC(void *, int);
 
 
 s16 get_attack_params_atp_min(void *);
 
-s32 TObjPlayer__sub_8001943C(void *, int);
 
-s16 TObjPlayer__sub_800194E8(void *);
 
 s16 get_attack_params_atp_max(void *);
 
-void obj_setFlags30(void *, s32);
 
 s32 is_split_screen();
 
 s32 get_current_floor();
 
 
-void subtractive_rng_seed(void *, s32);
 
 void handle_6x9C_set_enemy_low_game_flags_ultimate(Msg_800F62E0 *arg0);
 
@@ -190,7 +188,6 @@ s32 draw_player_status(void *, void *, const char *);
 
 s32 submit_cursor_candidate(void *, int);
 
-TObjPlayer *get_player_by_client_id(u16);
 
 s32 minimap_render_dot(void *, int, int, int);
 
@@ -232,17 +229,19 @@ const char *TObjEnemy_class_name = "TObjEnemy";
 const char *TObjControl__name = "TObjControl";
 #pragma pop
 
+void TObject::resume_update() { m_flags &= ~PAUSE_UPDATE; }
+
 void TObjCollidable::set_shadow_flag() { this->m_flags |= 0x400; }
 
 void TObjCollidable::clear_shadow_flag() { this->m_flags &= 0xfffffbff; }
 
 int TObjEnemy::apply_player_54a00() { return unregister_object_by_id(); }
 
-s32 TObjEnemy::apply_by_index(s16 arg0) {
-    if (arg0 > 0xB4F) {
+s32 TObjEnemy::apply_by_index(s16 index) {
+    if (index > 0xB4F) {
         return 0;
     }
-    copy_header__6TLobbyFPv((saddr)TLobby__data_805D6144 + (arg0 * 0xC));
+    copy_header__6TLobbyFPv((saddr)TLobby__data_805D6144 + (index * 0xC));
     return 1;
 }
 
@@ -269,11 +268,11 @@ TObjEnemy::TObjEnemy(TObject *parent) : TObjChara(parent) {
 }
 
 TObjEnemy::~TObjEnemy() {
-    u16 temp_r0;
+    u16 entity_id;
     this->apply_player_54a00();
     if ((u32) *(u32 *)((s8 *)this + 0x80) != 0U) {
-        temp_r0 = this->entity_id;
-        if ((temp_r0 >= 0x1000U) && (temp_r0 < 0x4000U)) {
+        entity_id = this->entity_id;
+        if ((entity_id >= 0x1000U) && (entity_id < 0x4000U)) {
             this->mask_sub_flags(-3);
             *(u32 *)((s8 *)this + 0x80) = 0U;
         }
@@ -295,10 +294,10 @@ s32 TObjEnemy::bind_enemy_combat_stats(u8 *base_record, u8 *attack_record, u8 *r
     f32 temp_f31;
     f32 temp_f31_2;
     f32 temp_f31_3;
-    s16 temp_r0;
-    s16 temp_r0_2;
-    s16 temp_r0_3;
-    s16 temp_r0_4;
+    s16 atp;
+    s16 atp_range;
+    s16 evp;
+    s16 dfp;
     s16 attack_params_atp_max;
     const player_stats *bound_stats_for_tp;
     const player_stats *bound_stats_for_hp;
@@ -338,29 +337,29 @@ block_10:
         return 0;
     }
 block_14:
-    temp_r0 = stat_block->stats.atp;
-    this->atp = temp_r0;
-    this->base_atp = temp_r0;
+    atp = stat_block->stats.atp;
+    this->atp = atp;
+    this->base_atp = atp;
     attack_params_atp_max = get_attack_params_atp_max(attack_params);
-    temp_r0_2 = attack_params_atp_max - get_attack_params_atp_min(attack_params);
-    this->atp_range = temp_r0_2;
-    this->base_atp_range = temp_r0_2;
-    temp_r0_3 = stat_block->stats.evp + param_block->values[0];
-    this->evp = temp_r0_3;
-    this->base_evp = temp_r0_3;
-    temp_r0_4 = stat_block->stats.dfp + param_block->value_1c;
-    this->dfp = temp_r0_4;
-    this->base_dfp = temp_r0_4;
-    this->ata = (s16) (stat_block->stats.ata + TObjPlayer__sub_800194E8(attack_params));
+    atp_range = attack_params_atp_max - get_attack_params_atp_min(attack_params);
+    this->atp_range = atp_range;
+    this->base_atp_range = atp_range;
+    evp = stat_block->stats.evp + param_block->values[0];
+    this->evp = evp;
+    this->base_evp = evp;
+    dfp = stat_block->stats.dfp + param_block->value_1c;
+    this->dfp = dfp;
+    this->base_dfp = dfp;
+    this->ata = (s16) (stat_block->stats.ata + attack_params->get_ata());
     this->lck = (s16) stat_block->stats.lck;
     this->m_2f2 = (s16) param_block->values[1];
     this->m_2f4 = (s16) param_block->values[3];
     m_2f6 = (s16) param_block->values[2];
     this->m_2f8 = (s16) param_block->values[5];
     m_2fa = (s16) param_block->values[4];
-    this->adjust_atp((s32)((f32)this->get_base_atp() * TObjPlayer__sub_800192C4((saddr)this, 2)));
-    this->adjust_atp_range((s32)((f32)this->get_base_atp_range() * TObjPlayer__sub_800192C4((saddr)this, 2)));
-    this->adjust_dfp((s32)((f32)this->get_base_dfp() * TObjPlayer__sub_800192C4((saddr)this, 3)));
+    this->adjust_atp((s32)((f32)this->get_base_atp() * this->get_status_effect_amount(2)));
+    this->adjust_atp_range((s32)((f32)this->get_base_atp_range() * this->get_status_effect_amount(2)));
+    this->adjust_dfp((s32)((f32)this->get_base_dfp() * this->get_status_effect_amount(3)));
     return 1;
 }
 
@@ -408,7 +407,7 @@ void TUnk_80493450::link_into_group_chain() {
             if (p == NULL || p == self) {
                 continue;
             }
-            id = get_entity_id(p);
+            id = ((TObjBase *)(p))->get_entity_id();
             if (id < 0x1000 || id >= 0x4000) {
                 continue;
             }
@@ -481,127 +480,127 @@ void TUnk_80493450::link_into_group_chain() {
 
 #undef FIND_TAIL_800F7118
 void TUnk_80493450::unlink_enemy_group_relations() {
-    u8 *temp_r0;
-    u8 *temp_r0_2;
-    u8 *temp_r0_3;
-    u8 *temp_r0_4;
-    u8 *temp_r0_5;
-    u8 *temp_r0_6;
-    u8 *temp_r0_7;
-    u8 *temp_r0_8;
-    u8 *temp_r0_9;
-    u8 *temp_r4;
-    u8 *temp_r4_2;
-    u8 *temp_r4_3;
-    u8 *temp_r4_4;
-    u8 *temp_r4_5;
-    u8 *temp_r5;
-    u8 *temp_r5_2;
-    u8 *temp_r5_3;
-    u8 *temp_r5_4;
-    u8 *temp_r5_5;
-    u8 *var_r5;
-    u8 *var_r6;
-    u8 *var_r6_2;
-    u8 *var_r6_3;
-    temp_r5 = (u8 *)this->group;
-    if (temp_r5 != NULL) {
-        temp_r4 = (u8 *)this->next;
+    TObjEnemy *temp_r0;
+    TObjEnemy *temp_r0_2;
+    TObjEnemy *children;
+    TObjEnemy *temp_r0_4;
+    TObjEnemy *temp_r0_5;
+    TObjEnemy *temp_r0_6;
+    TObjEnemy *temp_r0_7;
+    TObjEnemy *temp_r0_8;
+    TObjEnemy *temp_r0_9;
+    TObjEnemy *temp_r4;
+    TObjEnemy *temp_r4_2;
+    TObjEnemy *temp_r4_3;
+    TObjEnemy *temp_r4_4;
+    TObjEnemy *temp_r4_5;
+    TObjEnemy *group;
+    TObjEnemy *temp_r5_2;
+    TObjEnemy *previous;
+    TObjEnemy *temp_r5_4;
+    TObjEnemy *temp_r5_5;
+    TObjEnemy *var_r5;
+    TObjEnemy *var_r6;
+    TObjEnemy *var_r6_2;
+    TObjEnemy *var_r6_3;
+    group = this->group;
+    if (group != NULL) {
+        temp_r4 = this->next;
         if (temp_r4 != NULL) {
-            temp_r5_2 = (u8 *)this->children;
+            temp_r5_2 = this->children;
             if (temp_r5_2 != NULL) {
-                temp_r0 = (u8 *)(*(u8 **)((s8 *)temp_r4 + 0x34C));
+                temp_r0 = temp_r4->children;
                 if (temp_r0 != NULL) {
                     var_r6 = temp_r0;
-while (*(u8 **)((s8 *)var_r6 + 0x348) != NULL) {
-    var_r6 = *(u8 **)((s8 *)var_r6 + 0x348);
-}
-                    *(u8 **)((s8 *)var_r6 + 0x348) = temp_r5_2;
-                    *(void **)((s8 *)this->children + 0x340) = NULL;
-                    *(void **)((s8 *)this->children + 0x344) = var_r6;
+                    while (var_r6->next != NULL) {
+                        var_r6 = var_r6->next;
+                    }
+                    var_r6->next = temp_r5_2;
+                    this->children->group = NULL;
+                    this->children->previous = var_r6;
                 } else {
-                    *(u8 **)((s8 *)temp_r4 + 0x34C) = temp_r5_2;
-                    *(void **)((s8 *)this->children + 0x340) = (void *) this->next;
+                    temp_r4->children = temp_r5_2;
+                    this->children->group = this->next;
                 }
             }
-            *(void **)((s8 *)this->group + 0x34C) = (void *) this->next;
-            *(void **)((s8 *)this->next + 0x340) = (void *) this->group;
-            *(void **)((s8 *)this->next + 0x344) = NULL;
+            this->group->children = this->next;
+            this->next->group = this->group;
+            this->next->previous = NULL;
         } else {
-            temp_r0_3 = (u8 *)this->children;
-            if (temp_r0_3 != NULL) {
-                *(u8 **)((s8 *)temp_r5 + 0x34C) = temp_r0_3;
-                *(void **)((s8 *)this->children + 0x340) = (void *) this->group;
+            children = this->children;
+            if (children != NULL) {
+                group->children = children;
+                this->children->group = this->group;
             } else {
-                *(u8 **)((s8 *)temp_r5 + 0x34C) = NULL;
+                group->children = NULL;
             }
         }
     } else {
-        temp_r5_3 = (u8 *)this->previous;
-        if (temp_r5_3 != NULL) {
-            temp_r4_2 = (u8 *)this->next;
+        previous = this->previous;
+        if (previous != NULL) {
+            temp_r4_2 = this->next;
             if (temp_r4_2 != NULL) {
-                temp_r5_4 = (u8 *)this->children;
+                temp_r5_4 = this->children;
                 if (temp_r5_4 != NULL) {
-                    temp_r0_4 = (u8 *)(*(u8 **)((s8 *)temp_r4_2 + 0x34C));
+                    temp_r0_4 = temp_r4_2->children;
                     if (temp_r0_4 != NULL) {
                         var_r6_2 = temp_r0_4;
-while (*(u8 **)((s8 *)var_r6_2 + 0x348) != NULL) {
-    var_r6_2 = *(u8 **)((s8 *)var_r6_2 + 0x348);
-}
-                        *(u8 **)((s8 *)var_r6_2 + 0x348) = temp_r5_4;
-                        *(void **)((s8 *)this->children + 0x340) = NULL;
-                        *(void **)((s8 *)this->children + 0x344) = var_r6_2;
+                        while (var_r6_2->next != NULL) {
+                            var_r6_2 = var_r6_2->next;
+                        }
+                        var_r6_2->next = temp_r5_4;
+                        this->children->group = NULL;
+                        this->children->previous = var_r6_2;
                     } else {
-                        *(u8 **)((s8 *)temp_r4_2 + 0x34C) = temp_r5_4;
-                        *(void **)((s8 *)this->children + 0x340) = (void *) this->next;
+                        temp_r4_2->children = temp_r5_4;
+                        this->children->group = this->next;
                     }
                 }
-                *(void **)((s8 *)this->previous + 0x348) = (void *) this->next;
-                *(void **)((s8 *)this->next + 0x344) = (void *) this->previous;
+                this->previous->next = this->next;
+                this->next->previous = this->previous;
             } else {
-                temp_r4_3 = (u8 *)this->children;
+                temp_r4_3 = this->children;
                 if (temp_r4_3 != NULL) {
-                    temp_r0_6 = (u8 *)(*(u8 **)((s8 *)temp_r5_3 + 0x34C));
+                    temp_r0_6 = previous->children;
                     if (temp_r0_6 != NULL) {
                         var_r5 = temp_r0_6;
-while (*(u8 **)((s8 *)var_r5 + 0x348) != NULL) {
-    var_r5 = *(u8 **)((s8 *)var_r5 + 0x348);
-}
-                        *(u8 **)((s8 *)var_r5 + 0x348) = temp_r4_3;
-                        *(void **)((s8 *)this->children + 0x340) = NULL;
-                        *(void **)((s8 *)this->children + 0x344) = var_r5;
+                        while (var_r5->next != NULL) {
+                            var_r5 = var_r5->next;
+                        }
+                        var_r5->next = temp_r4_3;
+                        this->children->group = NULL;
+                        this->children->previous = var_r5;
                     } else {
-                        *(u8 **)((s8 *)temp_r5_3 + 0x34C) = temp_r4_3;
-                        *(void **)((s8 *)this->children + 0x340) = (void *) this->previous;
+                        previous->children = temp_r4_3;
+                        this->children->group = this->previous;
                     }
                 }
-                *(void **)((s8 *)this->previous + 0x348) = NULL;
+                this->previous->next = NULL;
             }
         } else {
-            temp_r4_4 = (u8 *)this->next;
+            temp_r4_4 = this->next;
             if (temp_r4_4 != NULL) {
-                temp_r5_5 = (u8 *)this->children;
+                temp_r5_5 = this->children;
                 if (temp_r5_5 != NULL) {
-                    temp_r0_8 = (u8 *)(*(u8 **)((s8 *)temp_r4_4 + 0x34C));
+                    temp_r0_8 = temp_r4_4->children;
                     if (temp_r0_8 != NULL) {
                         var_r6_3 = temp_r0_8;
-while (*(u8 **)((s8 *)var_r6_3 + 0x348) != NULL) {
-    var_r6_3 = *(u8 **)((s8 *)var_r6_3 + 0x348);
-}
-                        *(u8 **)((s8 *)var_r6_3 + 0x348) = temp_r5_5;
-                        *(void **)((s8 *)this->children + 0x340) = NULL;
-                        *(void **)((s8 *)this->children + 0x344) = var_r6_3;
+                        while (var_r6_3->next != NULL) {
+                            var_r6_3 = var_r6_3->next;
+                        }
+                        var_r6_3->next = temp_r5_5;
+                        this->children->group = NULL;
+                        this->children->previous = var_r6_3;
                     } else {
-                        *(u8 **)((s8 *)temp_r4_4 + 0x34C) = temp_r5_5;
-                        *(void **)((s8 *)this->children + 0x340) = (void *) this->next;
+                        temp_r4_4->children = temp_r5_5;
+                        this->children->group = this->next;
                     }
                 }
-                *(void **)((s8 *)this->next + 0x344) = NULL;
+                this->next->previous = NULL;
             } else {
-                temp_r4_5 = (u8 *)this->children;
+                temp_r4_5 = this->children;
                 if (temp_r4_5 != NULL) {
-                    *(u8 **)((s8 *)temp_r4_5 + 0x340) = NULL;
+                    temp_r4_5->group = NULL;
                 }
             }
         }
@@ -643,25 +642,25 @@ void link_chain_nodes__10TObjPlayerFPvPvPv(void *arg0, Node_800F6E2C *arg1, Node
 #pragma fp_contract on
 void TObjEnemy::update_prev_position() {
     u8 *arg0 = (u8 *)this;
-    u8 *temp_r3;
+    player_stats *stat_block;
     VecCopy((Vec *)(arg0 + 0x2FC), (const Vec *)(arg0 + 0x38));
-    temp_r3 = (unsigned char *) (this->stat_block);
-    if (temp_r3 != NULL) {
-        this->body_center.y = (f32) ((0.5f * *(f32 *)((s8 *)temp_r3 + 0x10)) + this->body_center.y);
+    stat_block = this->stat_block;
+    if (stat_block != NULL) {
+        this->body_center.y = (f32) ((0.5f * stat_block->proportions) + this->body_center.y);
     }
 }
 
 #pragma pop
-void TObjEnemy::award_enemy_experience(s32 arg1) {
+void TObjEnemy::award_enemy_experience(s32 client) {
     s32 val;
     TObjPlayer *p;
 
-    if ((u16)arg1 >= 0x1000 || (p = get_player_by_client_id(arg1)) == NULL ||
-        p->obj_testFlags30(0x800) != 0 || p->get_floor() != get_current_floor()) {
+    if ((u16)client >= 0x1000 || (p = get_player_by_client_id((u16)client)) == NULL ||
+        p->test_actor_flags(0x800) != 0 || p->get_floor() != get_current_floor()) {
         return;
     }
     val = this->stat_block->exp;
-    if ((u16)arg1 == this->attacker_id) {
+    if ((u16)client == this->attacker_id) {
         if (((TLobby *)lobby_rule_settings)->get_rule_field_0() == 1) {
             fn_801B0480(p, this, 1);
             draw_player_status(p, p, "\tC1");
@@ -679,7 +678,7 @@ void TObjEnemy::award_enemy_experience(s32 arg1) {
         }
     }
     p->add_actor_exp(val);
-    create_font_small_task(((u8 *)this) + 0x2FC, 0xFFFF00FF, 0x14, 0x14, "EXP", val, get_entity_id(p));
+    create_font_small_task(((u8 *)this) + 0x2FC, 0xFFFF00FF, 0x14, 0x14, "EXP", val, p->get_entity_id());
 }
 
 void TObjEnemy::distribute_experience() {
@@ -713,14 +712,14 @@ u8 *get_enemy_entity(u16 arg0) {
         low = registered_player_count;
         while (low < high) {
             mid = (low + high) / 2;
-            if (get_entity_id((void *)TObjPlayer__data_8050D460[mid]) < arg0) {
+            if (((TObjBase *)TObjPlayer__data_8050D460[mid])->get_entity_id() < arg0) {
                 low = mid + 1;
             } else {
                 high = mid;
             }
         }
         uaddr e = TObjPlayer__data_8050D460[low];
-        if (e != 0 && arg0 == get_entity_id((void *)e)) {
+        if (e != 0 && arg0 == ((TObjBase *)e)->get_entity_id()) {
             return (u8 *)e;
         }
     }
@@ -743,7 +742,7 @@ void TObjEnemy::apply_set_data(void *arg1_arg) {
     arg0->f28 = arg1->f8;
     arg0->f2A = arg1->fA;
     arg0->f2C = arg1->f0;
-    subtractive_rng_seed(arg0->f160, arg0->f1C + area_random_seed);
+    subtractive_rng_seed(&arg0->rng, arg0->f1C + area_random_seed);
 }
 
 void TObjEnemy::apply_enemy_state(s32 *state) {
@@ -759,20 +758,20 @@ void TObjEnemy::apply_hit_message_flags(void *arg1_arg) {
         flags = arg1->flags & ~0x3F;
     } else {
         flags = arg1->flags;
-        if ((flags & 2) && obj_testFlags30(2) == 0) {
+        if ((flags & 2) && test_actor_flags(2) == 0) {
             this->apply_paralysis();
         }
-        if ((flags & 4) && obj_testFlags30(4) == 0) {
+        if ((flags & 4) && test_actor_flags(4) == 0) {
             this->apply_shock_status();
         }
-        if ((flags & 0x10) && obj_testFlags30(0x10) == 0) {
+        if ((flags & 0x10) && test_actor_flags(0x10) == 0) {
             this->apply_confusion_status();
         }
-        if ((flags & 0x20) && obj_testFlags30(0x20) == 0) {
+        if ((flags & 0x20) && test_actor_flags(0x20) == 0) {
             this->apply_movement_ailment(0);
         }
     }
-    obj_setFlags30(this, flags);
+    set_actor_flags(flags);
     p.a = arg1->attack_status;
     p.b = arg1->attack_status_level;
     arg1->attack_status = 0;
@@ -807,12 +806,12 @@ s32 TObjEnemy::sync_enemy_state(s32 status) {
         case 9:
         case 11:
             pkt.attack_status = status;
-            pkt.attack_status_level = 0.1f * ((f32)TObjPlayer__sub_8001943C(this, 2) / 30.0f - 40.0f);
+            pkt.attack_status_level = 0.1f * ((f32)this->get_status_effect_timer(2) / 30.0f - 40.0f);
             break;
         case 10:
         case 12:
             pkt.defense_status = status;
-            pkt.defense_status_level = 0.1f * ((f32)TObjPlayer__sub_8001943C(this, 3) / 30.0f - 40.0f);
+            pkt.defense_status_level = 0.1f * ((f32)this->get_status_effect_timer(3) / 30.0f - 40.0f);
             break;
         }
         ret = this->exchange_object_state(&pkt, 0);
@@ -902,14 +901,14 @@ void handle_6x9C_set_enemy_low_game_flags_ultimate(Msg_800F62E0 *arg0) {
     if (e->all_parents_unqueued_for_destruction() == 0) {
         return;
     }
-    if (e->obj_testFlags30(0x800) != 0) {
+    if (e->test_actor_flags(0x800) != 0) {
         return;
     }
     flags = arg0->flags;
-    if (e->obj_testFlags30(flags) != 0) {
+    if (e->test_actor_flags(flags) != 0) {
         return;
     }
-    obj_setFlags30(e, flags);
+    e->set_actor_flags(flags);
     switch (flags) {
     case 2:
         e->apply_paralysis();

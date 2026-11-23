@@ -1,7 +1,7 @@
 #ifndef PSO_UI_WINDOW_TUNK_804EF4E0_H
 #define PSO_UI_WINDOW_TUNK_804EF4E0_H
 
-#include "pso/ui/window/TUnk_804D0948.h"
+#include "pso/ui/window/TWindowShop.h"
 
 // Named from the "TWindowMenuTeamStatus" class-name string init stores to m_name.
 class TWindowMenuTeamStatus : public TWindowShop {

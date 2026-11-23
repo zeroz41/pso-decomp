@@ -29,7 +29,7 @@ struct TWindowDD_803431C0 {
     s32 f8C;
     s32 f90;
     u8 pad94[0xB0 - 0x94];
-    s32 fB0;
+    s32 index;
     u8 padB4[0xBC - 0xB4];
     s32 fBC;
     u8 padC0[0xC6 - 0xC0];
@@ -47,7 +47,7 @@ struct TWindowDD_8034330C {
     s32 f90;
     u8 pad94[0xAC - 0x94];
     s32 fAC;
-    s32 fB0;
+    s32 index;
     u8 padB4[0xBC - 0xB4];
     s32 fBC;
     u8 fC0[4];
@@ -135,6 +135,7 @@ struct Obj_80343C64
 #include "pso/ui/window/TWindowSubItem.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/map/FloorArea.h"
+#include "pso/player/PlayerSlots.h"
 
 struct NumberWindow;
 
@@ -178,13 +179,13 @@ s32 apply_input__9TWindowDDFPvPv(int, int);
 s32 update__9TWindowDDFl(int, int, int);
 void TWindowDD__sub_803434F4(u8 *arg0);
 void TWindowDD__sub_80342800(u8 *arg0);
-void update__9TWindowDDFi(saddr arg0);
-void TWindowDD__sub_803429B0(u8 *arg0);
-void TWindowDD__sub_80342D14(u8 *arg0);
-void run_state__9TWindowDDFPv(u8 *arg0);
+void update__9TWindowDDFi(saddr window_dd);
+void TWindowDD__sub_803429B0(u8 *window_dd);
+void TWindowDD__sub_80342D14(u8 *window_dd);
+void run_state__9TWindowDDFPv(u8 *window_dd);
 s16 TWindowDD__sub_8034214C(u8 *arg0);
 void TWindowDD__sub_80347980(void *);
-void pop_menu_level__9TWindowDDFPv(TWindowDD_803431C0 *arg0);
+void pop_menu_level__9TWindowDDFPv(TWindowDD_803431C0 *window);
 void TWindowDD__sub_80347CC8(void *, void *);
 extern const s32 TWindowDD__data_805DFB50;
 
@@ -201,7 +202,6 @@ extern const f32 TWindowDD__data_805DFBFC;
 extern const f32 lbl_805DFC0C;
 
 extern const f32 TWindowDD__data_805DFC10;
-void apply_entry_layout__9TWindowDDFPv(TWindowDD_8034330C *arg0);
 void TWindowDD__sub_80347A4C(u8 *arg0, saddr arg1);
 u8 *TWindowDD__sub_80347AD4(void *, s32, s32);
 s32 TWindowDD__sub_80347E04(void *, int);
@@ -215,9 +215,8 @@ s32 TWindowDD__sub_8034217C(int);
 s32 TWindowDD__sub_803482B0(void *);
 s32 TWindowDD__sub_803484C4(void *);
 void copy_chat_entry__9TWindowDDFPvPv(R_80343BC0 *arg0, R_80343BC0 *arg1);
-void *get_player_by_client_id(s32);
-saddr TWindowDD__sub_80342384(s32 arg0, s32 arg1);
-s32 TWindowDD__sub_8034146C(NJS_POINT2 *arg0, NJS_POINT2 *arg1, s32 arg2, s32 arg3, f32 farg0);
+saddr TWindowDD__sub_80342384(s32 element_list, s32 rows);
+s32 TWindowDD__sub_8034146C(NJS_POINT2 *pos, NJS_POINT2 *size, s32 arg2, s32 style, f32 width);
 void TWindowDD__sub_803412A0(TWindowDD_WS_String *self);
 const char *word_select_type_name_pointer = "TWindowDD";
 
@@ -275,7 +274,6 @@ void free_buffers__9TWindowDDFv(void);
 s32 classify_id__9TWindowDDFs();
 }
 
-s32 TWindowDD_check_input_mask(void *input_context, s32 arg1);
 
 void clear_window_dd_nodes(void);
 extern "C" {
@@ -501,7 +499,7 @@ TWindowDD::TWindowDD(TObject *parent, void *arg2) : TObject(parent) {
     saddr w = TWindowDD__sub_80342384(self->f88, (s32) lbl_805DFB54);
     if (w != 0)
     {
-      TWindowDD::set_default_positions(self, (void*)w);
+      TWindowDD::set_default_positions(self, (TWindowDD_WS_Word *)w);
       self->a24[0] = w;
     }
   }
@@ -509,7 +507,7 @@ TWindowDD::TWindowDD(TObject *parent, void *arg2) : TObject(parent) {
   p = (u8 *) TWindowDD__sub_80342384(self->f8C, (s32) lbl_805DFB54);
   if (p != 0)
   {
-    TWindowDD::init_layout(self, p);
+    TWindowDD::init_layout(self, (TWindowDD_WS_Word *)p);
     self->a24[1] = (saddr) p;
   }
   if (!lbl_805D6E68)
@@ -881,13 +879,14 @@ void TWindowDD__sub_803434F4(u8 *arg0) {
     *(u8 **)((s8 *)var_r31 + 0x90) = (unsigned char *) ((void *)-1);
 }
 
-void apply_entry_layout__9TWindowDDFPv(TWindowDD_8034330C *window_dd) {
+void TWindowDD::apply_entry_layout(void *window) {
+    TWindowDD_8034330C *window_dd = (TWindowDD_8034330C *)window;
     s32 *prev;
     s32 *entry;
     u8 *w;
     u8 *child;
     s32 id;
-    prev = (s32 *)TWindowDD::get_entry(window_dd, window_dd->fB0);
+    prev = (s32 *)TWindowDD::get_entry(window_dd, window_dd->index);
     entry = (s32 *)TWindowDD::get_entry(window_dd, window_dd->ids[window_dd->depth]);
     w = ((TWindowDD *)window_dd)->init_last_child();
     if (w != NULL) {
@@ -946,7 +945,7 @@ void apply_entry_layout__9TWindowDDFPv(TWindowDD_8034330C *window_dd) {
 void pop_menu_level__9TWindowDDFPv(TWindowDD_803431C0 *window) {
     s32 *entry;
     void *child;
-    TWindowDD::get_entry(window, window->fB0);
+    TWindowDD::get_entry(window, window->index);
     entry = (s32 *)TWindowDD::get_entry(window, window->ids[window->depth]);
     TWindowDD__sub_80347980(window);
     if (*entry & 8) {
@@ -966,8 +965,8 @@ void pop_menu_level__9TWindowDDFPv(TWindowDD_803431C0 *window) {
     window->f90 = window->f8C;
     window->f8C = window->f88;
     window->f88 = TWindowDD__sub_8034214C((u8 *)window->child[window->depth]);
-    window->fB0 = window->ids[window->depth + 1];
-    if (window->fB0 == 0xD) {
+    window->index = window->ids[window->depth + 1];
+    if (window->index == 0xD) {
         window->fC6 = 4;
     }
 }

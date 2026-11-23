@@ -15,6 +15,6 @@ void TWindowMainMenu::open_main_menu() {  }
 void TWindowMainMenu::close_main_menu() {  }
 
 int TWindowMainMenu__sub_8024E3F4(void* p) { return (*(u16*)((char*)p + 0x1c) >> 6) & 0x1; }
-void TWindowMainMenu::set_entry_field_20(saddr arg0, s32 arg1) {
-    *(s32 *)((s8 *)(((TWindowBase *)arg0)->get_array_entry(1)) + 0x20) = arg1;
+void TWindowDeposit::set_meseta(s32 meseta) {
+    *(s32 *)((s8 *)get_array_entry(1) + 0x20) = meseta;
 }

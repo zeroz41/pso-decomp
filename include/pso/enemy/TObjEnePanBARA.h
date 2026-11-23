@@ -75,7 +75,7 @@ public:
     void update_linked_effect();
     void draw();
     int find_nearest_enemy_with_flag_alt_target(Vec *direction, f32 range);
-    void attack_target_player(s32 arg1);
+    void attack_target_player(s32 id);
     // The state table's entries that have no name yet.
     void update_wait();
     void update_slide_in();

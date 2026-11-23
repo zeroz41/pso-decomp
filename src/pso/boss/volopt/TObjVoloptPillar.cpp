@@ -35,14 +35,14 @@ const Vec volopt_pillar_push = {0.0f, 0.0f, 0.0f};
 // Throws three debris chips from the pillar's position.
 void TObjVoloptPillar::spawn_debris_chips() {
     const TObjChipParams params = {
-        {0.5f, 0.03f, 0.25f},
+        0.5f, 0.03f, 0.25f,
         {this->position.x, this->position.y, this->position.z},
         {4.5f, -3.0f, 4.5f},
         {0x400, 0x100, 0x400},
-        {4, 60},
-        {0.0f, 1.0f},
+        4, 60,
+        0.0f, 1.0f,
         (saddr)boss3_volopt_resources->models[0xE].model,
-        (saddr)boss3_volopt_resources->models[0xE].texlist,
+        boss3_volopt_resources->models[0xE].texlist,
         2,
     };
     new TObjChip(tl_05, (TObjChipParams *)&params);
@@ -71,12 +71,12 @@ void TObjVoloptPillar::render() {
         TObjPlayer::toggle_particle_effect();
         push_matrix();
         post_translate_matrix(&position);
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(volopt_pillar_textures));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(volopt_pillar_textures));
         draw_chunk_object((void *)volopt_pillar_model);
         pop_matrix();
         push_matrix();
         translate_matrix(0, position.x, start_y, position.z);
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(volopt_pillar_base_textures));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(volopt_pillar_base_textures));
         draw_chunk_object((void *)volopt_pillar_base_model);
         pop_matrix();
         restore_scene_lighting();

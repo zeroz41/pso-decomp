@@ -11,6 +11,7 @@
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/boss/olgaflow/TBoss6Demo10_TYPE1_APPEAR.h"
+#include "pso/boss/olgaflow/TBoss6Type1.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/boss/darkfalz/TBoss4Type2.h"
 #include "pso/boss/olgaflow/TBoss6PlotFalz.h"
@@ -30,7 +31,6 @@ extern ModelNodePositionEntry boss6_type1_appear_node_desc[];
 extern Boss6StripDesc boss6_type1_appear_model_node_descriptors[];
 extern CameraAngles boss6_type1_appear_camera_angles;
 extern CameraPlayback boss6_type1_appear_camera_script;
-extern s32 boss6_type1_part_model_ids[];
 extern s32 boss6_type1_appear_motion_indices[];
 struct AppearanceClassTag { const char *value; u32 padding; };
 __declspec(section ".sdata") extern AppearanceClassTag TBoss6Demo10_TYPE1_APPEAR__name;
@@ -43,9 +43,9 @@ void TBoss6Demo10_TYPE1_APPEAR::draw_parts() {
     push_matrix();
     set_motion_packed_rotation();
     post_translate_matrix(&boss6_type1_appear_origin.x);
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(parts[0].texture));
+    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(parts[0].texture));
     draw_model_motion(parts[0].model, parts[0].motion, frame);
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(parts[1].texture));
+    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(parts[1].texture));
     capture->install();
     draw_model_motion(parts[1].model, parts[1].motion, frame);
     capture->clear();
@@ -151,7 +151,7 @@ TBoss6Demo10_TYPE1_APPEAR::TBoss6Demo10_TYPE1_APPEAR(TBoss6PlotFalz *plot) : TOb
       k = boss6_type1_part_model_ids[i];
       k = k & 0xFFFFFFFFu;
       parts[i].model = (NJS_OBJECT *)get_bml_model(archive, k);
-      parts[i].texture = (GinjaTextureList *)get_bml_texlist(archive, k);
+      parts[i].texture = get_bml_texlist(archive, k);
       parts[i].motion = get_bml_motion(archive, boss6_type1_appear_motion_indices[i]);
     }
     capture = ModelNodePositionCapture::create(boss6_type1_appear_node_desc, &effect_position);

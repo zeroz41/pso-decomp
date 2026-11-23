@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/render/GinjaMaterialState.h"
 #include "pso/enemy/sorcerer/TObjEneRe4Bit.h"
 #include "pso/enemy/sorcerer/TObjEneRe4Sorcerer.h"
 #include "pso/enemy/TObjEnemy.h"
@@ -24,12 +25,13 @@
 #include "pso/unk/text_803E2F28.h"
 #include "pso/render/model_render_state.h"
 #include "pso/enemy/sorcerer/Re4BitData.h"
+#include "pso/object/base/TObjBase.h"
 #pragma defer_codegen on
 
 // Re4BitData.cpp defines it as 16 bytes (the shadow scale and a zero word), a Vec is 12.
 extern const Vec re4_bit_render_vec;
 saddr TObjEneRe4Bit__model;
-s32 re4_bit_texture_list;
+NJS_TEXLIST *re4_bit_texture_list;
 const char *TObjEneRe4Bit__name = TObjEneRe4Bit__class_name_string;
 
 TObjEneRe4InitParams re4_bit_init_params = {225.0f, 0.0f, 0x600};
@@ -61,7 +63,7 @@ void TObjEneRe4Bit::apply_poison_status() {  }
 void TObjEneRe4Bit::load_resources() {
     s32 i;
     TObjEneRe4Bit__model = (saddr)sorcerer_bml_resource->models[1].model;
-    re4_bit_texture_list = (saddr)sorcerer_bml_resource->models[0].texlist;
+    re4_bit_texture_list = sorcerer_bml_resource->models[0].texlist;
     for (i = 0; i < 2; i++) {
         TObjEneRe4Bit_boss_handles[i] = (u8 *)TLobby::register_boss(re4_bit_base_param_ids[i]);
         TObjEneRe4Bit_attack_handles[i] = (u8 *)TLobby::dispatch_shared_handler_b(re4_bit_attack_param_ids[i]);
@@ -88,7 +90,7 @@ TObjEneRe4Bit::TObjEneRe4Bit(TObject *parent, TObjEneRe4Sorcerer *owner, Vec *an
     : TObjEneDD_ST(parent) {
     m_name = TObjEneRe4Bit__name;
     init_common_from((u8 *)owner);
-    owner_id = get_entity_id((TObjBase *)owner);
+    owner_id = ((TObjBase *)owner)->get_entity_id();
     entity_id = id;
     this->set_index = set_index;
     this->anchor = anchor;
@@ -535,7 +537,7 @@ void TObjEneRe4Bit::render() {
     textures = ((NJS_TEXLIST *)texlist)->textures;
     saved = textures[3].texaddr;
     textures[3].texaddr = textures[texture_index].texaddr;
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
+    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
     saved_model_render_flags = model_render_flags;
     TObjEneDD::clear_global_flag_400();
     TObjPlayer::toggle_particle_effect();

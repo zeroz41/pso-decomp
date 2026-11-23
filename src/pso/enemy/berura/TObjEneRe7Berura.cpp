@@ -50,6 +50,7 @@
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/render/StripBufferPair.h"
 #include "pso/unk/text_803E2F28.h"
+#include "pso/object/base/TObjBase.h"
 
 #pragma defer_codegen on
 extern "C" {
@@ -255,7 +256,7 @@ void TObjEneRe7Berura::load_static_resources() {
     {
         NpcAnimationBinding atk = ene_re7_berura_attack_def;
         atk.motions = reinterpret_cast<BmlMotionEntry *>(TObjEneRe7Berura__shared_resource->motions);
-        NpcModelRegistry::register_animated_chunk(0x15, reinterpret_cast<void *>(TObjEneRe7Berura__shared_resource->models->model), reinterpret_cast<void *>(TObjEneRe7Berura__shared_resource->models->texlist), &atk, 8.0f, 0.0f);
+        NpcModelRegistry::register_animated_chunk(0x15, reinterpret_cast<void *>(TObjEneRe7Berura__shared_resource->models->model), TObjEneRe7Berura__shared_resource->models->texlist, &atk, 8.0f, 0.0f);
     }
 }
 
@@ -294,7 +295,7 @@ void TObjEneRe7Berura::init_enemy() {
     s32 j;
     init_position_vectors();
     model = (void *)TObjEneRe7Berura__shared_resource->models->model;
-    texlist = (saddr)TObjEneRe7Berura__shared_resource->models->texlist;
+    texlist = TObjEneRe7Berura__shared_resource->models->texlist;
     init_model(&berura_collision_body, 1);
     set_action_table((saddr)TObjEneRe7Berura__animation_definitions);
     set_motion_list((saddr)TObjEneRe7Berura__shared_resource->motions);
@@ -441,7 +442,7 @@ s32 TObjEneRe7Berura::acquire_target_in_view() {
             if (d < 400.0f && d > best &&
                 s * v.x + c * v.z > limit &&
                 csnLookAt(&body_center, &p->body_center) == 0) {
-                id = get_entity_id(p);
+                id = p->get_entity_id();
                 best = d;
             }
         }
@@ -533,7 +534,7 @@ void TObjEneRe7Berura::draw_saved_node_tree(NJS_OBJECT *obj, u8 *matrices) {
 void TObjEneRe7Berura::draw_arm(s32 arm) {
     TObjEneRe7BeruraPart *part;
 
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(TObjEneRe7Berura__shared_resource->models->texlist));
+    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(TObjEneRe7Berura__shared_resource->models->texlist));
     part = &TObjEneRe7Berura__detached_part_states[arm];
     draw_saved_node_tree(&part->object, part->node_matrices);
 }
@@ -1421,7 +1422,7 @@ void TObjEneRe7Berura::render() {
         fade = &camera_fades[cam];
         fade->update();
         cam = fade->updateFromCamera(&body_center.x);
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
@@ -1522,7 +1523,7 @@ void TObjEneRe7Berura::render_demo() {
             draw_ground_shadow(&v, 0);
         }
         TObjPlayer::toggle_particle_effect();
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);

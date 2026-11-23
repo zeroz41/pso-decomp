@@ -57,6 +57,7 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/render/render_util.h"
 #include "pso/render/model_render_state.h"
+#include "pso/object/base/TObjBase.h"
 // .rodata holds the table strings, the class name, the 803350AC binding template, then the Vecs in
 // reverse .text order and the doubles in .text order: deferred codegen, functions written last to first.
 #pragma defer_codegen on
@@ -199,7 +200,7 @@ void TObjEneMorfos::init_instance() {
 
     init_position_vectors();
     model = TObjEneMorfos__instance->models[1].model;
-    this->texlist = (saddr)TObjEneMorfos__instance->models[1].texlist;
+    this->texlist = TObjEneMorfos__instance->models[1].texlist;
     init_model(morfos_collision_bodies, 1);
     set_action_table((saddr)morfos_motion_param_table);
     set_motion_list((saddr)TObjEneMorfos__instance->motions);
@@ -211,7 +212,7 @@ void TObjEneMorfos::init_instance() {
     set_state_8();
     this->movementParameters = lbl_804EE0C0;
     initialize_enemy_state(0x42);
-    *(f32 *)((s8 *)this + 0x37C) = 10.0f;
+    this->wall_reach = 10.0f;
     enemy_init_acquire_period(0x3C);
     enemy_init_validate_period(0x3C);
     morfos_flags = 0;
@@ -372,7 +373,7 @@ void TObjEneMorfos::set_hover_target_position() {
     VecCopy(&center, &body_center);
 }
 void TObjEneMorfos::update_body_colliders() {
-    *(f32 *)((s8 *)this->bodies + 4) = (f32) (this->body_center.y - position.y);
+    this->bodies->offset.y = (f32) (this->body_center.y - position.y);
 }
 
 #pragma push
@@ -432,7 +433,7 @@ s32 TObjEneMorfos::select_target_in_view() {
         d = normalize_vector_xz((Vec *)(&v));
         if (d < 400.0f && d > best && dx * v.x + dz * v.z > cosLim &&
             csnLookAt(&body_center, &p->body_center) == 0) {
-            id = get_entity_id(p);
+            id = p->get_entity_id();
             best = d;
         }
     }
@@ -1087,7 +1088,7 @@ void TObjEneMorfos::state_damage(s32 ev) {
 }
 
 void TObjEneMorfos::state_death(s32 ev) {
-    s32 temp_r0;
+    s32 counter;
     s32 temp_r30;
 
     switch (ev) {
@@ -1110,8 +1111,8 @@ void TObjEneMorfos::state_death(s32 ev) {
     case 5:
         return;
     case 0:
-        temp_r0 = this->counter;
-        switch (temp_r0) {
+        counter = this->counter;
+        switch (counter) {
         case 0:
             this->advance_animation();
             temp_r30 = wall_fade.decay_value_toward_floor();
@@ -1161,7 +1162,7 @@ void TObjEneMorfos::render_part(s32 idx, s32 mode) {
     part = &part_fades[idx];
     part->update();
     vis = part->updateFromCamera((const f32 *)&body_center);
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(this->texlist));
+    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
     TObjPlayer::toggle_particle_effect();
     push_matrix();
     post_translate_matrix(&position.x);
@@ -1238,7 +1239,7 @@ void TObjEneMorfos::render() {
 s32 TObjEneMorfos::render_model_if_visible() {
     if ((s32)main_task.get_task_flags() & 0x20) {
         if (push_reflection_matrix(&reflection_point) != 0) {
-            TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(this->texlist));
+            TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
             push_matrix();
             post_translate_matrix(&position.x);
             rotate_matrix_y(0, this->rotation_y);
@@ -1258,7 +1259,7 @@ s32 TObjEneMorfos::render_model_if_visible() {
 #pragma opt_common_subs off
 void TObjEneMorfos::draw_body() {
     if ((s32)main_task.get_task_flags() & 0x200) {
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(TObjEneMorfos__instance->models[2].texlist));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(TObjEneMorfos__instance->models[2].texlist));
         push_matrix();
         post_translate_matrix(&node_points[0].x);
         rotate_matrix_y(0, (int) (rotation_y));
@@ -1318,7 +1319,7 @@ void TObjEneMorfos::update_ground_probe() {
     if ((actor_frame_tick % 5) == 0) {
         VecCopy(&probe, &position);
         probe.y += 15.0f;
-        hit = csnVectorUnder(&probe, (CsnGroup **)&ground_cache, 0x4000);
+        hit = csnVectorUnder(&probe, ground_candidates.groups, 0x4000);
         if (hit != NULL) {
             ground_attributes = hit->hit_mask;
             VecCopy(&reflection_point, &hit->contact->point);
@@ -1346,7 +1347,7 @@ void TObjEneMorfos::render_demo() {
             draw_ground_shadow(&v, 0);
         }
         TObjPlayer::toggle_particle_effect();
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, rotation_y);

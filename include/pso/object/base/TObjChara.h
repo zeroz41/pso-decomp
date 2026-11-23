@@ -2,13 +2,26 @@
 #define PSO_OBJECT_BASE_TOBJCHARA_H
 #include "types.h"
 #include "pso/object/base/TObjMotion.h"
+#include "pso/map/CsnGroundCandidates.h"
+#include "pso/system/SubtractiveRng.h"
 
 struct Vec;
+struct player_stats;
 struct ActorParamBlock;
 struct AttackParams;
-struct player_stats;
 struct ControllerInputContext;
 struct CsnGroup;
+
+// One row of a character's status effects: 0 poison/paralysis, 1 slow,
+// confusion, freeze or shock, 2 the attack stat (Shifta/Jellen), 3 the
+// defense stat (Deband/Zalure), 4 an action hold.
+struct StatusEffect {
+    StatusEffect();
+    void clear();
+    s32 type;
+    f32 amount;
+    s32 timer;  // frames left
+};
 
 struct DirectAttackPayload {
     s32 kind;
@@ -34,10 +47,17 @@ public:
     // Alive and nothing blocks the line from `from` to its body centre (csnLookAt).
     s32 is_target_unobstructed(const Vec *from);
     s16 get_stats_atp_max();
-    s16 sub_800194C4();
+    s16 get_attack_params_ata();
     f32 get_attack_range();
     s32 get_attack_angle();
     s16 test_immunity_flags(s32);
+    f32 get_status_effect_amount(s32 i);
+    s32 get_status_effect_type(s32 i);
+    void set_status_effect_timer(s32 i, s32 timer);
+    void set_status_effect_type(s32 i, s32 type);
+    void set_status_effect_amount(s32 i, f32 amount);
+    s32 get_status_effect_timer(s32 i);
+    s32 add_status_effect_timer(s32 i, s32 frames);
     s16 get_actor_attack_params_atp_min();
     s32 obj_testFlag_2E4(u32);
     int obj_getPtr2B0_1C();
@@ -58,7 +78,20 @@ public:
     s32 subtract_actor_tp(s32);
     // Spends dmg of its TP (subtract_actor_tp) unless it is in state 2; 0 when it cannot act.
     s32 check_can_act(s32 dmg);
-    void sub_80010DE8(u16, u8, u8);
+    // Tells the other clients (6x9A) that `target` changed this one's HP,
+    // TP or meseta (`which` 0-4) by `amount`.
+    void send_update_entity_stat(u16 target, s32 which, s32 amount);
+    // Sets attacker_id; a local player's id also becomes local_attacker_id
+    // (single screen) or goes to TObjPlayer::add_id_to_slots (split screen).
+    void record_attack_source(u16 id);
+    u16 get_local_attacker_id();
+    void clear_immunity_flags();
+    // Status-effect particles at body_center; play_sound adds the cue.
+    void spawn_poison_effect(s32 play_sound);
+    void spawn_paralysis_feedback_effect(s32 play_sound);
+    void spawn_slow_effect(s32 play_sound);
+    void spawn_confusion_feedback_effect(s32 play_sound);
+    void play_shock_feedback(s32 play_sound);
     s16 clamp_hp();
     void spawn_freeze_shell_effect(u32, s32);
     s32 check_heavy_damage_flag(f32);
@@ -141,36 +174,18 @@ public:
     s16 m_116;
     u8 unk_118[0x2];
     s16 m_11a;
-    s16 m_11c;
+    s16 immunity_flags;  // test_immunity_flags
     u8 pad_11E[0x1];
     u8 m_11f;
-    CsnGroup *ground_cache;  // csnVectorUnder's cached candidate groups for ground probes
-    u8 pad_124[0x17];
-    u8 m_13b;
-    u8 pad_13C[0x1B];
-    u8 m_157;
-    u8 pad_158[0x2C];
-    s32 m_184;
-    u8 pad_188[0x7];
-    u8 m_18f;
-    u8 pad_190[0x1B];
-    u8 m_1ab;
-    u8 pad_1AC[0x18];
-    TObject *unk_1C4;
-    u8 pad_1C8[0x4];
-    u8 unk_1CC[0x2];
-    u8 pad_1CE[0x2A];
-    u8 unk_1F8[0x4];
-    u8 pad_1FC[0x4C];
+    CsnGroundCandidates ground_candidates;  // ground_cache points here
+    SubtractiveRng rng;
     Vec ground_normal;
-    u8 pad_254[0x30];
-    u8 unk_284[0x8];
-    u8 pad_28C[0x4];
+    StatusEffect status_effects[5];
     Vec move_origin;  // where the current move started (calc_velocity_toward_destination's from)
     Vec move_destination;  // where the current move goes
     u8 *target;
     u32 m_2ac;
-    player_stats *stat_block;
+    player_stats *stat_block;  // the stat block get_stats returns
     f32 frame_timer;  // frames counted up or down by the current behaviour
     s16 hpmax;
     s16 tpmax;

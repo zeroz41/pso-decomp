@@ -8,6 +8,8 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/object/base/TObjBase.h"
+#include "pso/player/PlayerSlots.h"
 
 // Written from the last function back (deferred code generation), which puts
 // TUnk_8049FEB8's vtable before this class's.
@@ -32,7 +34,7 @@ void TUnk_8049FEB8::create(TObject *parent, TObjPlayer *player) {
 }
 
 TUnk_8049FEB8::TUnk_8049FEB8(TObject *parent, TObjPlayer *player) : TObject(parent) {
-    client_id = get_entity_id(player);
+    client_id = player->get_entity_id();
     TItemTimerEvent::start_event_by_index(client_id);
     frames_left = 3;
 }

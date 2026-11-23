@@ -41,6 +41,7 @@ struct PhotonBlastRequestSlot {
     ~PhotonBlastRequestSlot();
     void clear();
     u16 get_client_id();
+    void set_client_id(u16 id);
     PhotonBlastRequestSlot &operator=(PhotonBlastRequestSlot &other);
 };
 

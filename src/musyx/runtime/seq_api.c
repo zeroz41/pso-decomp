@@ -8,15 +8,15 @@ void sndSeqSpeed(u32 seqId, u16 speed) {
     hwEnableIrq();
 }
 
-void sndSeqContinue(s32 arg0) {
+void sndSeqContinue(s32 seqId) {
     hwDisableIrq();
-    seqContinue((s32)(arg0));
+    seqContinue((s32)(seqId));
     hwEnableIrq();
 }
 
-void sndSeqMute(s32 arg0, s32 arg1, s32 arg2) {
+void sndSeqMute(s32 seqId, s32 mask1, s32 mask2) {
     hwDisableIrq();
-    seqMute(arg0, arg1, arg2);
+    seqMute(seqId, mask1, mask2);
     hwEnableIrq();
 }
 

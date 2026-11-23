@@ -81,7 +81,7 @@ void TPhotonEstlla::render() {
     if (started != 0) {
         estlla_photon_blast_model->scroll_uvs(uv_scroll, 0);
         TParticleCtrl::begin_effect_render();
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
         push_matrix();
         translate_matrix(0, position.x, position.y, position.z);
         rotate_matrix_y(0, rotation_y);
@@ -167,7 +167,7 @@ TPhotonEstlla::TPhotonEstlla(PhotonSummonParams *params) : TPhotonBlastSummon() 
         rotation_y = owner->rotation_y;
     }
     model = photon_blast_shared_resource->models[9].model;
-    texlist = (saddr)photon_blast_shared_resource->models[9].texlist;
+    texlist = photon_blast_shared_resource->models[9].texlist;
     set_action_table((saddr)photon_estlla_param_table);
     set_motion_list((saddr)photon_blast_shared_resource->motions);
     requested_action = 1;

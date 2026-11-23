@@ -37,10 +37,9 @@ struct TWindowSubTradeMain : public TObject {
     uaddr request;
     uaddr list;
     uaddr input_number;
-    uaddr help_item;
+    TWindowHelpItem *help_item;
     TWindowChat *chat;
     void *submission;
-    s32 add_text_entry(saddr text, s32 flags, s32 id, s32 color);
     void clear_trade_flag();
     void send_60_update();
     void bswap_6x6A_packet();
@@ -54,7 +53,6 @@ struct TWindowSubTradeMain : public TObject {
     void clear_flag();
     void clear_flag70_bit80();
     void set_trade_state(s16 trade_state);
-    void refresh_item_list(void *items);
     static s32 get_state();
     static void draw_offer(void *item, void *amount);
     static void draw_request(void *item, void *amount);
@@ -74,7 +72,7 @@ struct TWindowSubTradeMain : public TObject {
     u8 unk_76[0xA];
     uaddr m_80;
     u8 unk_84[0x4];
-    s16 m_88;
+    s16 trade_state;
     u8 unk_8A[0x1E];
     void forward_to_child(s32 trade_state);
     void notify_child_if_present(s32 trade_state);

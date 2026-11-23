@@ -4,7 +4,6 @@
 
 extern "C" {
 
-s32 apply_entry_layout__9TWindowDDFPv(s32);
 s32 TWindowDD__sub_803482B0(s32);
 s32 TWindowDD__sub_803484C4(s32);
 
@@ -17,7 +16,7 @@ void handle_input__9TWindowDDFi(saddr window_dd) {
     }
     if (TWindowDD__sub_803482B0(window_dd) != 0) {
         TWindowDD::play_se();
-        apply_entry_layout__9TWindowDDFPv(window_dd);
+        TWindowDD::apply_entry_layout((void *)window_dd);
     }
 }
 

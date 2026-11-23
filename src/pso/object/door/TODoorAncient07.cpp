@@ -31,7 +31,7 @@ static CollisionBody door_ancient07_collision_body[1] = {
 };
 
 BmlResource *TODoorAncient07::bml_resource;
-GinjaTextureList **TODoorAncient07::texture_lists;
+NJS_TEXLIST **TODoorAncient07::texture_lists;
 NJS_OBJECT *TODoorAncient07::model_nodes;
 
 void TODoorAncient07::render() {
@@ -39,7 +39,7 @@ void TODoorAncient07::render() {
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
         if (motion != NULL && 0.0f != animation_frame) {
             draw_ginja_model_with_motion(model, motion, animation_frame);
         } else {
@@ -55,7 +55,7 @@ void TODoorAncient07::render() {
 
 void TODoorAncient07::update_open() {
     if (door_flags & 1) {
-        texlist = (saddr)texture_lists[1];
+        texlist = texture_lists[1];
         if (is_any_player_within_radius_xz(10000.0f) != 1) {
             object_state = 3;
             clear_player_status_flag(0, 8);
@@ -63,7 +63,7 @@ void TODoorAncient07::update_open() {
         }
     } else {
         object_state = 3;
-        texlist = (saddr)texture_lists[0];
+        texlist = texture_lists[0];
         clear_player_status_flag(0, 8);
         play_sound_effect(0x4004B708, &position, 0, 0);
     }
@@ -71,14 +71,14 @@ void TODoorAncient07::update_open() {
 
 void TODoorAncient07::update_closed() {
     if (door_flags & 1) {
-        texlist = (saddr)texture_lists[1];
+        texlist = texture_lists[1];
         if (is_any_player_within_radius_xz(4900.0f) == 1) {
             object_state = 1;
             set_indexed_flags(0, 8);
             play_sound_effect(0x4004B708, &position, 0, 0);
         }
     } else {
-        texlist = (saddr)texture_lists[0];
+        texlist = texture_lists[0];
     }
 }
 
@@ -108,17 +108,17 @@ void TODoorAncient07::destroy() {
 void TODoorAncient07::load_resources() {
     BmlResource *resource = new BmlResource(1, &door_ancient_567_resource_descriptor, 0, 0, NULL);
     bml_resource = resource;
-    texture_lists = (GinjaTextureList **)mem_alloc(2 * sizeof(GinjaTextureList *));
-    texture_lists[0] = (GinjaTextureList *)load_gvm_texture_file((saddr)"fs_obj_door07_m_03_r.gvm");
-    texture_lists[1] = (GinjaTextureList *)load_gvm_texture_file((saddr)"fs_obj_door07_m_03_g.gvm");
+    texture_lists = (NJS_TEXLIST **)mem_alloc(2 * sizeof(NJS_TEXLIST *));
+    texture_lists[0] = load_gvm_texture_file("fs_obj_door07_m_03_r.gvm");
+    texture_lists[1] = load_gvm_texture_file("fs_obj_door07_m_03_g.gvm");
     model_nodes = (NJS_OBJECT *)mem_alloc(3 * sizeof(NJS_OBJECT));
     if (bml_resource != NULL && model_nodes != NULL) {
-        copy_model_node((u8 *)&model_nodes[0], (u8 *)bml_resource->models[0].model);
+        copy_model_node(&model_nodes[0], bml_resource->models[0].model);
         model_nodes[0].child = NULL;
         model_nodes[0].evalflags |= NJD_EVAL_BREAK;
-        copy_model_node((u8 *)&model_nodes[1], (u8 *)((NJS_OBJECT *)bml_resource->models[0].model)->child);
+        copy_model_node(&model_nodes[1], ((NJS_OBJECT *)bml_resource->models[0].model)->child);
         model_nodes[1].sibling = NULL;
-        copy_model_node((u8 *)&model_nodes[2], (u8 *)((NJS_OBJECT *)bml_resource->models[0].model)->child->sibling);
+        copy_model_node(&model_nodes[2], ((NJS_OBJECT *)bml_resource->models[0].model)->child->sibling);
     }
 }
 
@@ -131,7 +131,7 @@ TODoorAncient07::TODoorAncient07(TObject *parent, void *set_data) : TODoorBase(p
     m_name = door_ancient07_class_name;
     apply_object_set_data(set_data);
     model = (void *)bml_resource->models[0].model;
-    texlist = (saddr)texture_lists[0];
+    texlist = texture_lists[0];
     motion = bml_resource->motions[0].motion;
     animation_end_frame = (f32)motion->frameCount - 1.0f;
     animation_step = animation_end_frame / 30.0f;

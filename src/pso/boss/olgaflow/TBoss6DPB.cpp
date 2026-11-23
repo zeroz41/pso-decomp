@@ -34,8 +34,8 @@ const char *TDPBShower__class_name = "TDPBShower";
 #pragma dont_inline off
 #pragma push
 #pragma fp_contract on
-u8 *TBoss6Type2::create_dpb(saddr parent, saddr position, f32 farg0) {
-    return (u8 *)new TBoss6DPB((TObject *)parent, position, farg0);
+u8 *TBoss6Type2::create_dpb(saddr parent, saddr position, f32 radius) {
+    return (u8 *)new TBoss6DPB((TObject *)parent, position, radius);
 }
 #pragma pop
 

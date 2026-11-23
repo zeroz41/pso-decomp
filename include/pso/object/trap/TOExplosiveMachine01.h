@@ -6,10 +6,10 @@
 struct TOExplosiveMachine01 : public TOExplosiveMachine {
     TOExplosiveMachine01(void *set_data);
     virtual ~TOExplosiveMachine01();
+    static void *create(void *set_data);
 };
 
 LAYOUT_ASSERT(TOExplosiveMachine01_size, sizeof(TOExplosiveMachine01) == 0xAC);
 
-extern "C" void *TOExplosiveMachine01__create(void *set_data);
 
 #endif

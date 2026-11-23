@@ -27,12 +27,10 @@
 
 #pragma readonly_strings on
 
-const char *TWindowSubComCardList__class_name = "TWindowSubComCardList";
+const char *TWindowSubComCardList::class_name = "TWindowSubComCardList";
 
 extern "C" {
 s32 count_leading_active__17TWindowSubComCardFPvi(s32, s32);
-void __dl__7TObjectFPv(void *);
-void *__dt__11TWindowMenuFv(void *arg0, s16 arg1);
 
 void TWindowSubComCardList::render() {
     saddr ctx;
@@ -48,62 +46,58 @@ void TWindowSubComCardList::render() {
     if (this->heading != 0) {
         this->heading->forward_render((void *)(ctx));
     }
-    if (this->m_8c != 0) {
-        draw_list_page_indicator(this->m_8c, reinterpret_cast<WindowDrawContext *>(ctx));
+    if (this->storage != 0) {
+        draw_list_page_indicator(this->storage, reinterpret_cast<WindowDrawContext *>(ctx));
     }
 }
 
 void TWindowSubComCardList::run_task() {
     TWindowMenu::run_task();
-    if ((is_decided() == 0) && (handle_list_page_flip_input(this->m_8c) != 0)) {
+    if ((is_decided() == 0) && (handle_list_page_flip_input(this->storage) != 0)) {
         set_selected_index(0);
         sub_80275360();
     }
 }
 
 TWindowSubComCardList::~TWindowSubComCardList() {
-    delete_if_allocated(m_8c, 1);
+    delete_if_allocated(storage, 1);
 }
 
 TWindowSubComCardList::TWindowSubComCardList(void *parent) : TWindowMenu(7, 4, (saddr)parent) {
     s32 n;
-    #define window_menu ((u8 *)this)
-    *(s32 *)(window_menu + 0) = ((saddr)TWindowSubComCardList__class_name);
+    m_name = class_name;
     n = TWindowSubStatusDisp::round_away_from_zero((f32)TWindowSubComCard::count_active_cards() / 7.0f);
     if (n <= 0) {
         n = 1;
     }
-    m_8c = new PageIndicator(0, (s8)n, local_client_id);
-    *(s32 *)(window_menu + 0x90) = 0;
-    *(GuildCardSlot **)(window_menu + 0x94) = get_card_entry__17TWindowSubComCardFi(0);
-    *(s32 *)(window_menu + 0x98) = 0xD2;
-    *(s8 *)(window_menu + 0x9C) = 0;
-    ((TWindowSubComCardList *)window_menu)->set_flag70_bit100();
-    ((TWindowSubComCardList *)window_menu)->set_selected_index(0);
-    ((TWindowSubComCardList *)window_menu)->sub_80275360();
-    ((TWindowMenu *)window_menu)->set_flag70_bit10();
-    ((TWindowSubComCardList *)window_menu)->set_scroll_target(223.0f, 184.0f);
-    #undef window_menu
+    storage = new PageIndicator(0, (s8)n, local_client_id);
+    cards = 0;
+    card_slots = (uaddr)TWindowSubComCard::get_card_entry(0);
+    card_count = 0xD2;
+    empty_message = 0;
+    set_flag70_bit100();
+    set_selected_index(0);
+    sub_80275360();
+    set_flag70_bit10();
+    set_scroll_target(223.0f, 184.0f);
 }
 
 TWindowSubComCardList::TWindowSubComCardList(void *parent, s32 card_slot, s32 arg3, s32 arg4) : TWindowMenu(7, 4, (saddr)parent) {
     s32 n;
-    #define window_menu ((u8 *)this)
-    *(s32 *)(window_menu + 0) = ((saddr)TWindowSubComCardList__class_name);
+    m_name = class_name;
     n = TWindowSubStatusDisp::round_away_from_zero((f32)count_leading_active__17TWindowSubComCardFPvi(card_slot, arg3) / 7.0f);
     if (n <= 0) {
         n = 1;
     }
-    m_8c = new PageIndicator(0, (s8)n, local_client_id);
-    *(s32 *)(window_menu + 0x90) = card_slot;
-    *(s32 *)(window_menu + 0x94) = 0;
-    *(s32 *)(window_menu + 0x98) = arg3;
-    *(s8 *)(window_menu + 0x9C) = arg4;
-    ((TWindowSubComCardList *)window_menu)->set_flag70_bit100();
-    ((TWindowSubComCardList *)window_menu)->set_selected_index(0);
-    ((TWindowSubComCardList *)window_menu)->sub_80275360();
-    ((TWindowMenu *)window_menu)->set_flag70_bit10();
-    ((TWindowSubComCardList *)window_menu)->set_scroll_target(223.0f, 184.0f);
-    #undef window_menu
+    storage = new PageIndicator(0, (s8)n, local_client_id);
+    cards = card_slot;
+    card_slots = 0;
+    card_count = arg3;
+    empty_message = arg4;
+    set_flag70_bit100();
+    set_selected_index(0);
+    sub_80275360();
+    set_flag70_bit10();
+    set_scroll_target(223.0f, 184.0f);
 }
 }

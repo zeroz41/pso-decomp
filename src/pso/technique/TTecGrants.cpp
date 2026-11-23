@@ -1,6 +1,8 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/technique/TTecGrants.h"
+#include "pso/unk/TUnk_804CC888.h"
+#include "pso/system/task/TMainTask.h"
 #include "pso/system/task/TObject_80019A50.h"
 
 #include "pso/technique/TTecCircle.h"
@@ -11,6 +13,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/player/TargetCursorList.h"
+#include "pso/object/base/TObjBase.h"
 
 struct RecoveredFields_80238D10_arg0
 {
@@ -52,11 +55,6 @@ struct VObj_802386F8 : VBase_802386F8 {
 };
 
 extern "C" {
-u8 * __ct__13TUnk_804CC888FPUclP7TObject(void *, s32, s32, s32);
-extern s32 tl_07;
-void run_task__10TTecGrantsFv(TTecGrants *arg0);
-s32 get_entity_id(int);
-s32 copy_technique_target_list(void *, void *);
 extern s32 tec_grants_class_name;
 
 void TTecGrants::render() {  }
@@ -66,7 +64,7 @@ void TTecGrants::vfunc_6(void *target_arg) {
     u8 *target = (u8 *)target_arg;
     Damage_802386F8 d;
     d.kind = 0x4;
-    d.power = *(f32 *)(self + 0x88);
+    d.power = this->power;
     ((VObj_802386F8 *)target)->m21(*(s32 *)(self + 0x1C), d, *(s32 *)(self + 0xB8), 0x9, -1, self);
 }
 typedef struct RecoveredFields_80238D10_arg0 RecoveredFields_80238D10_arg0;
@@ -75,31 +73,27 @@ void TTecGrants::create(void *source, void *origin, void *targets, s32 level) {
     new TTecGrants((saddr)source, (saddr)origin, (saddr)targets, level);
 }
 
-void run_task__10TTecGrantsFv(TTecGrants *tec_grants) {
+void TTecGrants::run_task() {
     uaddr entity;
-    u8 *temp_r3_2;
-    *(u8 **)((s8 *)tec_grants + 0x1C) = (u8 *)find_entity_by_id(tec_grants->sourceId);
-    if ((void *) *(u8 **)((s8 *)tec_grants + 0x1C) == NULL) {
-        tec_grants->queue_destruction();
+    source = (uaddr)find_entity_by_id(sourceId);
+    if (source == 0) {
+        queue_destruction();
         return;
     }
-    if ((s32) tec_grants->m_ec == 0) {
-        tec_grants->queue_destruction();
+    if (targets.count == 0) {
+        queue_destruction();
         return;
     }
-    entity = (unsigned long) (find_entity_by_id(tec_grants->m_f0));
-    if ((TTecLuker::is_parents_unqueued(entity) != 0) && (TObjPlayer::is_valid_and_active(entity) != 0) && ((s32) tec_grants->m_148 == 0)) {
-        temp_r3_2 = (u8 *)(((u8 *)TObject::operator new(0x3C)));
-        if (temp_r3_2 != NULL) {
-            __ct__13TUnk_804CC888FPUclP7TObject(temp_r3_2, (s32) entity, (s32) tec_grants->level, tl_07);
-        }
+    entity = (uaddr)find_entity_by_id(targets.records[0].id);
+    if ((TTecLuker::is_parents_unqueued(entity) != 0) && (TObjPlayer::is_valid_and_active(entity) != 0) && (m_148 == 0)) {
+        new TUnk_804CC888((u8 *)entity, level, tl_07);
     }
-    tec_grants->m_148 = (tec_grants->m_148 + 1);
-    if ((s32) tec_grants->m_148 > 0x1E) {
+    m_148 = m_148 + 1;
+    if (m_148 > 0x1E) {
         if ((entity != 0) && (TTecLuker::is_parents_unqueued(entity) != 0) && (TObjPlayer::is_valid_and_active(entity) != 0)) {
-            ((TTecGrants *)(tec_grants))->vfunc_6((void *)entity);
+            vfunc_6((void *)entity);
         }
-        tec_grants->queue_destruction();
+        queue_destruction();
     }
 }
 
@@ -108,18 +102,13 @@ TTecGrants::~TTecGrants() {
 
 }
 
-#define tec_grants ((u8 *)this)
-TTecGrants::TTecGrants(saddr arg1, saddr origin, saddr targets, saddr level) : TTecCircle(arg1, origin, level) {
-    u32 temp_r3;
-    __ct__16TargetCursorListFv((tec_grants + 0xEC));
-    *(s32 *)((s8 *)tec_grants + 0) = (s32) tec_grants_class_name;
-    ((TTecGrants *)tec_grants)->init_parameters();
-    copy_technique_target_list(tec_grants + 0xEC, (void *)targets);
-    ((TTecGrants *)tec_grants)->m_148 = 0;
-    temp_r3 = ((TTecGrants *)tec_grants)->source;
-    if (temp_r3 != 0U) {
-        ((TTecGrants *)tec_grants)->sourceId = get_entity_id(temp_r3);
+TTecGrants::TTecGrants(saddr arg1, saddr origin, saddr target_list, saddr level) : TTecCircle(arg1, origin, level) {
+    *(s32 *)&m_name = tec_grants_class_name;
+    init_parameters();
+    copy_technique_target_list(&targets, (TargetCursorList *)target_list);
+    m_148 = 0;
+    if (source != 0U) {
+        sourceId = ((TObjBase *)(saddr)source)->get_entity_id();
     }
 }
-#undef tec_grants
 

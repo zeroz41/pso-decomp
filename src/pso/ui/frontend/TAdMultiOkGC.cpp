@@ -3,8 +3,6 @@
 #include "pso/player/TObjPlayer_8023E480.h"
 #include "pso/render/render_util.h"
 #include "pso/system/ControllerInput.h"
-struct E_80306AC8 { u8 pad[0x1c]; u32 flags; u8 pad2[0xc4 - 0x20]; };
-struct O_80306AC8 { E_80306AC8 e[12]; u8 pad[0x97c - 12 * 0xc4]; s32 count; };
 extern "C" {
 void release_texture_list(void *);
 const char multi_confirm_texture_archive_name[] = "f064_multiconfirm";
@@ -17,68 +15,11 @@ __declspec(section ".data") MultiConfirmTextureList multi_confirm_texture_descri
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
-struct Ok_80306C10 { u8 pad[0x97C]; s32 count; };
-
-struct Ok_80306F84 { u8 pad[0x97C]; s32 count; };
-
-struct Q_80306C70 { f32 a; f32 b; f32 c; f32 d; u8 pad[0x10]; };
-
-struct E_80306C70 { u8 pad0[0x1C]; s32 flags; s32 t; f32 x; f32 y; u8 pad[0x14]; Q_80306C70 q[4]; u8 pad2[4]; };
-
-struct O_80306C70 { E_80306C70 e[1]; };
-
-struct E_80306DF4 { u8 pad0[0x1C]; s32 flags; s32 t; u8 pad[0xC4 - 0x24]; };
-
-struct O_80306DF4 { E_80306DF4 e[12]; u8 pad[0x1C]; s32 port[4]; u8 pad2[0x980 - 0x95C]; s32 flags; };
-
-struct Ports_80306DF4 { s32 v[4]; };
-
-struct Q_80306B04 { f32 a; f32 b; f32 c; f32 d; u8 pad[0x10]; };
-
-struct E_80306B04 { u8 pad0[0x1C]; s32 flags; s32 t; f32 x; f32 y; s32 vals[5]; Q_80306B04 q[4]; u8 pad2[4]; };
-
-typedef struct {
-    f32 x, y, x2, y2;
-    f32 u0, v0, u1, v1;
-} Quad_80307034;
-
-typedef struct {
-    s32 f0;
-    s32 f4;
-    f32 x;
-    f32 y;
-    u32 col[5];
-    Quad_80307034 q[5];
-} Item_80307034;
-
-typedef struct {
-    const char *name;
-    u8 pad4[0x18 - 0x04];
-    void *vt;
-    Item_80307034 items[12];
-    s32 idx[12];
-    s32 count;
-    s32 f980;
-} Ok_80307034;
-
-typedef struct {
-    s32 count;
-    u32 mask;
-} Cfg_80307034;
-
-typedef struct { f32 x, y, step; } P3_80307034;
-
-typedef struct { P3_80307034 v[11]; } Pos_80307034;
-
-typedef struct { u32 c[12]; } Col_80307034;
-
 extern "C" {
 s32 play_sound_effect(int, void *, int, int);
 saddr multi_confirm_texture_list;
-void __ct__7TObjectFP7TObject(void *, void *);
-extern void *__vt__12TAdMultiOkGC[];
-Ok_80307034 *__ct__12TAdMultiOkGCFv(Ok_80307034 *self, void *parent, Cfg_80307034 *cfg);
 }
+
 const char *TAdMultiOkGC__name = "TAdMultiOkGC";
 // The unit was built with -inline off,deferred: the functions are written
 // last-to-first, which gives the original address order.
@@ -94,94 +35,86 @@ void free_multi_confirm_textures(void) {
 #pragma push
 #pragma fp_contract on
 
-Ok_80307034 *__ct__12TAdMultiOkGCFv(Ok_80307034 *self, void *parent, Cfg_80307034 *cfg) {
-    __ct__7TObjectFP7TObject(self, parent);
-    self->vt = __vt__12TAdMultiOkGC;
-    Pos_80307034 pos = { 136.0f, 332.0f, 304.0f, 85.0f, 332.0f, 203.0f, 60.0f, 332.0f, 152.0f };
-    Col_80307034 cols = { 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF };
+TAdMultiOkGC::TAdMultiOkGC(TObject *parent, TAdMultiOkSetup *setup) : TObject(parent) {
+    TAdMultiOkRow rows[11] = { 136.0f, 332.0f, 304.0f, 85.0f, 332.0f, 203.0f, 60.0f, 332.0f, 152.0f };
+    u32 colors[12] = { 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF };
     s32 n;
     s32 i;
     s32 k;
-    self->name = TAdMultiOkGC__name;
-    self->count = cfg->count;
-    self->f980 = 0;
-    if (self->count < 2) {
-        self->count = 2;
-    } else if (self->count > 12) {
-        self->count = 12;
+    m_name = TAdMultiOkGC__name;
+    m_count = setup->count;
+    m_flags = 0;
+    if (m_count < 2) {
+        m_count = 2;
+    } else if (m_count > 12) {
+        m_count = 12;
     }
     n = 0;
     for (i = 0; i < 12; i++) {
-        if (cfg->mask & (1 << i)) {
-            self->idx[n++] = i;
-            if (n >= self->count) {
+        if (setup->mask & (1 << i)) {
+            m_players[n++] = i;
+            if (n >= m_count) {
                 break;
             }
         }
     }
-    if (n < self->count) {
-        self->count = n;
+    if (n < m_count) {
+        m_count = n;
     }
-    for (i = 0; i < self->count; i++) {
-        f32 y = pos.v[self->count - 2].y;
-        f32 x = pos.v[self->count - 2].x + (f32)i * pos.v[self->count - 2].step;
-        u32 a = ((cols.c[self->idx[i]] >> 24) / 5) << 24;
-        self->items[i].f0 = 0;
-        self->items[i].f4 = -1;
-        self->items[i].x = 32.0f + x;
-        self->items[i].y = 16.0f + y;
-        f32 x2;
-        f32 y2;
-        y2 = 32.0f + y;
-        x2 = 64.0f + x;
+    for (i = 0; i < m_count; i++) {
+        f32 y = rows[m_count - 2].y;
+        f32 x = rows[m_count - 2].x + (f32)i * rows[m_count - 2].step;
+        u32 a = ((colors[m_players[i]] >> 24) / 5) << 24;
+        m_entries[i].flags = 0;
+        m_entries[i].frame = -1;
+        m_entries[i].x = 32.0f + x;
+        m_entries[i].y = 16.0f + y;
+        f32 x1;
+        f32 y1;
+        y1 = 32.0f + y;
+        x1 = 64.0f + x;
         for (k = 0; k < 5; k++) {
-            self->items[i].col[k] = a | (cols.c[self->idx[i]] & 0xFFFFFF);
-            self->items[i].q[k].x = x;
-            self->items[i].q[k].y = y;
-            self->items[i].q[k].x2 = x2;
-            self->items[i].q[k].y2 = y2;
-            self->items[i].q[k].u0 = 0.0f;
-            self->items[i].q[k].v0 = 0.0f;
-            self->items[i].q[k].u1 = 1.0f;
-            self->items[i].q[k].v1 = 0.5f;
+            m_entries[i].colors[k] = a | (colors[m_players[i]] & 0xFFFFFF);
+            m_entries[i].quads[k].x0 = x;
+            m_entries[i].quads[k].y0 = y;
+            m_entries[i].quads[k].x1 = x1;
+            m_entries[i].quads[k].y1 = y1;
+            m_entries[i].quads[k].u0 = 0.0f;
+            m_entries[i].quads[k].v0 = 0.0f;
+            m_entries[i].quads[k].u1 = 1.0f;
+            m_entries[i].quads[k].v1 = 0.5f;
         }
     }
-    return self;
 }
 #pragma pop
 
 TAdMultiOkGC::~TAdMultiOkGC() {}
 
-extern "C" {
-
 void TAdMultiOkGC::run_task() {
-    Ok_80306F84 *o = (Ok_80306F84 *)this;
     s32 i;
-    for (i = 0; i < o->count; i++) {
+    for (i = 0; i < m_count; i++) {
         handle_player_buttons(i);
         update_entry_animation(i);
     }
 }
 
-void TAdMultiOkGC::handle_player_buttons(int arg1) {
-    O_80306DF4 *o = (O_80306DF4 *)this;
-    Ports_80306DF4 ports = { 0, 1, 2, 3 };
-    if (test_pressed_buttons_packed(&controller_physical_port_bank.controllers[ports.v[o->port[arg1]]], 4) != 0) {
-        E_80306DF4 *e = &o->e[arg1];
-        if (e->flags & 4) {
-            e->t = -1;
-            e->flags &= ~1;
-            e->flags &= ~4;
+void TAdMultiOkGC::handle_player_buttons(int i) {
+    s32 ports[4] = { 0, 1, 2, 3 };
+    if (test_pressed_buttons_packed(&controller_physical_port_bank.controllers[ports[m_players[i]]], 4) != 0) {
+        if (m_entries[i].flags & 4) {
+            m_entries[i].frame = -1;
+            m_entries[i].flags &= ~1;
+            m_entries[i].flags &= ~4;
             play_sound_effect(0x52F16, 0, 0, 0);
-        } else if (!(e->flags & 2)) {
-            e->t = -1;
-            e->flags |= 1;
-            e->flags |= 2;
+        } else if (!(m_entries[i].flags & 2)) {
+            m_entries[i].frame = -1;
+            m_entries[i].flags |= 1;
+            m_entries[i].flags |= 2;
             play_sound_effect(0x52D01, 0, 0, 0);
         }
-    } else if (test_pressed_buttons_packed(&controller_physical_port_bank.controllers[ports.v[o->port[arg1]]], 2) != 0) {
-        if (!(o->e[arg1].flags & 2)) {
-            o->flags |= 1;
+    } else if (test_pressed_buttons_packed(&controller_physical_port_bank.controllers[ports[m_players[i]]], 2) != 0) {
+        if (!(m_entries[i].flags & 2)) {
+            m_flags |= 1;
             play_sound_effect(0x52F16, 0, 0, 0);
         }
     }
@@ -189,34 +122,32 @@ void TAdMultiOkGC::handle_player_buttons(int arg1) {
 
 #pragma push
 #pragma fp_contract on
-void TAdMultiOkGC::update_entry_animation(int arg1) {
-    E_80306C70 *e;
+void TAdMultiOkGC::update_entry_animation(int index) {
     s32 i;
     s32 d;
     f32 f;
-    e = &((O_80306C70 *)this)->e[arg1];
-    if (e->flags & 2) {
-        e->t++;
+    if (m_entries[index].flags & 2) {
+        m_entries[index].frame++;
         for (i = 0; i < 5; i++) {
-            d = e->t - (i - 1);
-            if (e->flags & 1) {
+            d = m_entries[index].frame - (i - 1);
+            if (m_entries[index].flags & 1) {
                 if (d > 10) {
-                    e->flags |= 4;
+                    m_entries[index].flags |= 4;
                 } else if (d >= 0) {
                     f = 3.0f - 0.2f * (f32)d;
-                    e->q[i].a = -32.0f * f + e->x;
-                    e->q[i].b = -16.0f * f + e->y;
-                    e->q[i].c = 32.0f * f + e->x;
-                    e->q[i].d = 16.0f * f + e->y;
+                    m_entries[index].quads[i].x0 = -32.0f * f + m_entries[index].x;
+                    m_entries[index].quads[i].y0 = -16.0f * f + m_entries[index].y;
+                    m_entries[index].quads[i].x1 = 32.0f * f + m_entries[index].x;
+                    m_entries[index].quads[i].y1 = 16.0f * f + m_entries[index].y;
                 }
             } else if (d > 5) {
-                e->flags &= ~2;
+                m_entries[index].flags &= ~2;
             } else if (d >= 0) {
                 f = 1.0f - 0.2f * (f32)d;
-                e->q[i].a = -32.0f * f + e->x;
-                e->q[i].b = -16.0f * f + e->y;
-                e->q[i].c = 32.0f * f + e->x;
-                e->q[i].d = 16.0f * f + e->y;
+                m_entries[index].quads[i].x0 = -32.0f * f + m_entries[index].x;
+                m_entries[index].quads[i].y0 = -16.0f * f + m_entries[index].y;
+                m_entries[index].quads[i].x1 = 32.0f * f + m_entries[index].x;
+                m_entries[index].quads[i].y1 = 16.0f * f + m_entries[index].y;
             }
         }
     }
@@ -224,11 +155,10 @@ void TAdMultiOkGC::update_entry_animation(int arg1) {
 #pragma pop
 
 void TAdMultiOkGC::render() {
-    Ok_80306C10 *o = (Ok_80306C10 *)this;
     s32 i;
     if (TMainTask::get_render_pass() != 1) {
         set_additive_blend();
-        for (i = 0; i < o->count; i++) {
+        for (i = 0; i < m_count; i++) {
             draw_entry(i);
         }
         set_default_alpha_blend();
@@ -237,21 +167,18 @@ void TAdMultiOkGC::render() {
 
 #pragma push
 #pragma fp_contract on
-void TAdMultiOkGC::draw_entry(int arg1) {
-    E_80306B04 *e;
+void TAdMultiOkGC::draw_entry(int index) {
     s32 i;
     f32 base;
-    e = (E_80306B04 *)this;
-    if (e[arg1].flags & 2) {
+    if (m_entries[index].flags & 2) {
         begin_screen_draw(1);
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(multi_confirm_texture_list));
-        e += arg1;
-        base = 0.0050000004f * (f32)arg1;
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(multi_confirm_texture_list));
+        base = 0.0050000004f * (f32)index;
         for (i = 0; i < 5; i++) {
-            set_draw_texture_and_color(0, e->vals[i]);
-            if (e->t - (i - 1) >= 0) {
-                f32 t = 0.001f * (f32)i + 0.01f;
-                draw_textured_quad_at_depth((f32 *)&e->q[i], t + base);
+            set_draw_texture_and_color(0, m_entries[index].colors[i]);
+            if (m_entries[index].frame - (i - 1) >= 0) {
+                f32 depth = 0.001f * (f32)i + 0.01f;
+                draw_textured_quad_at_depth(&m_entries[index].quads[i].x0, depth + base);
             }
         }
         TWindowSubStatusDisp::get_player();
@@ -259,14 +186,12 @@ void TAdMultiOkGC::draw_entry(int arg1) {
 }
 #pragma pop
 
-s32 are_all_entries_finished(O_80306AC8 *self) {
+s32 TAdMultiOkGC::are_all_entries_finished() {
     s32 i;
-    for (i = 0; i < self->count; i++) {
-        if (!(self->e[i].flags & 4)) return 0;
+    for (i = 0; i < m_count; i++) {
+        if (!(m_entries[i].flags & 4)) return 0;
     }
     return 1;
 }
 
-}
-
-int multi_confirm_cancel_requested(void* p) { return *(u32*)((char*)p + 0x980) & 0x1; }
+int TAdMultiOkGC::multi_confirm_cancel_requested() { return m_flags & 1; }

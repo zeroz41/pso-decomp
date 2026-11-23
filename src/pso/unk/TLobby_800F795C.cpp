@@ -121,14 +121,7 @@
 #include "pso/unk/text_800C7FEC.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/unk/TLobby_800F8AA8.h"
-
-
-struct RecoveredGlobal_800F7A7C_lbl_8048C9D8 {
-    s32 value;
-    u8 remaining[0x744];
-};
-
-extern RecoveredGlobal_800F7A7C_lbl_8048C9D8 challenge_mode_state;
+#include "pso/quest/challenge/ChallengeModeState.h"
 extern "C" {
 
 void TLobby::bswap_field() { ((G_ClientIDHeader *)this)->bswap(); bswap_32((u32 *)((char*)this + 0x4)); }
@@ -147,16 +140,15 @@ void init_6x0A_enemy_state_packet(void* p) { *(u8*)((char*)p + 0x0) = 10; *(u8*)
 int get_attack_credit_slot_count(void) { return 4; }
 
 f32 TLobby__sub_800F7A6C(void) {
-    return *(f32 *)((s8 *)&lbl_804DB1F0.value + 4);
+    return challenge4p_mode_state.pad_4;
 }
 
-LAYOUT_ASSERT(RecoveredGlobal_800F7A7C_lbl_8048C9D8_size, sizeof(RecoveredGlobal_800F7A7C_lbl_8048C9D8) == 0x748);
 f32 TLobby__sub_800F7A7C(void) {
-    return *(f32 *)((s8 *)&challenge_mode_state.value + 4);
+    return challenge_mode_state.pad_4;
 }
 
-void unload_floor_resources(s32 arg0) {
-    FloorResourceCallbacks *p = floor_resource_callback_tables[arg0];
+void unload_floor_resources(s32 selector) {
+    FloorResourceCallbacks *p = floor_resource_callback_tables[selector];
     s32 n;
     s32 i;
     if (p != 0) {
@@ -169,8 +161,8 @@ void unload_floor_resources(s32 arg0) {
         }
     }
 }
-s32 load_floor_resources(s32 arg0) {
-    FloorResourceCallbacks *p = floor_resource_callback_tables[arg0];
+s32 load_floor_resources(s32 selector) {
+    FloorResourceCallbacks *p = floor_resource_callback_tables[selector];
     void (*fn)();
     if (p == 0) {
         return 1;

@@ -30,9 +30,9 @@ const char *TOKeyAncient02__class_name = "TOKeyAncient02";
 BmlResource *TOKeyAncient02__model_archive;
 NJS_OBJECT *TOKeyAncient02__glass_model;
 // The glass's own texture list while off, o_key_ancient02.gvm while on.
-struct GinjaTextureList;
+struct NJS_TEXLIST;
 
-GinjaTextureList **TOKeyAncient02__texture_lists;
+NJS_TEXLIST **TOKeyAncient02__texture_lists;
 
 void TOKeyAncient02::vfunc_25() {}
 
@@ -43,7 +43,7 @@ void TOKeyAncient02::render() {
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
         object = (NJS_OBJECT *)model;
         push_matrix();
         post_translate_matrix(object->pos);
@@ -62,7 +62,7 @@ void TOKeyAncient02::render() {
         draw_ginja_model((void *)object->model);
         pop_matrix();
         pop_matrix();
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(TOKeyAncient02__texture_lists[is_on]));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(TOKeyAncient02__texture_lists[is_on]));
         TParticleCtrl::begin_effect_render();
         object = TOKeyAncient02__glass_model;
         push_matrix();
@@ -142,9 +142,9 @@ void TOKeyAncient02::free_static() {
 void TOKeyAncient02::load_resources() {
     BmlResource *resource = new BmlResource(1, &bm_fs_obj_o_doorswitch01_resource_descriptor, 0, 0, NULL);
     TOKeyAncient02__model_archive = resource;
-    TOKeyAncient02__texture_lists = (GinjaTextureList **)mem_alloc(2 * sizeof(*TOKeyAncient02__texture_lists));
-    TOKeyAncient02__texture_lists[0] = (GinjaTextureList *)get_bml_texlist((BmlResource *)TOKeyAncient02__model_archive, 0);
-    TOKeyAncient02__texture_lists[1] = (GinjaTextureList *)load_gvm_texture_file((saddr) "o_key_ancient02.gvm");
+    TOKeyAncient02__texture_lists = (NJS_TEXLIST **)mem_alloc(2 * sizeof(*TOKeyAncient02__texture_lists));
+    TOKeyAncient02__texture_lists[0] = get_bml_texlist((BmlResource *)TOKeyAncient02__model_archive, 0);
+    TOKeyAncient02__texture_lists[1] = load_gvm_texture_file("o_key_ancient02.gvm");
     TOKeyAncient02__glass_model = (NJS_OBJECT *)get_bml_model((BmlResource *)TOKeyAncient02__model_archive, 0);
 }
 
@@ -158,7 +158,7 @@ TOKeyAncient02::TOKeyAncient02(TObject *parent, void *set_data) : TOKey(parent) 
     apply_object_set_data(set_data);
     init_switch_id();
     model = (void *)get_bml_model((BmlResource *)TOKeyAncient02__model_archive, 1);
-    texlist = (saddr)get_bml_texlist((BmlResource *)TOKeyAncient02__model_archive, 1);
+    texlist = get_bml_texlist((BmlResource *)TOKeyAncient02__model_archive, 1);
     init_collision_body_parts(this, key_ancient02_collision_body, 1);
     refresh_collision_body_centers();
     register_object_by_id();

@@ -61,7 +61,7 @@ s16 MagStats::get_pow_level() {
 }
 
 s32 TObjPlayer::can_use_more_materials_for_class() {
-    return ((TObjPlayer *)((saddr)this + 0x374))->can_use_more_materials(get_class_index__10TObjPlayerFv(this));
+    return this->materials.can_use_more_materials(get_class_index__10TObjPlayerFv(this));
 }
 saddr get_item_description_text(s32 name) {
     return *(s32 *)((s8 *)(*(saddr *)((s8 *)text_language_group_table + 4)) + (name * 4));

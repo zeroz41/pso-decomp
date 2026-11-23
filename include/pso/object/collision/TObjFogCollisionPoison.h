@@ -12,6 +12,7 @@ struct TObjFogCollisionPoison : public TObjFogCollisionSwitch {
     virtual void run_task();
     u32 m_98;
     static void create();
+    static void *create(void *set_data);
     static void clear_state_array();
     s32 check_switch();
     void apply_poison_damage(s32 client);
@@ -21,7 +22,7 @@ struct TObjFogCollisionPoison : public TObjFogCollisionSwitch {
 LAYOUT_ASSERT(TObjFogCollisionPoison_size, sizeof(TObjFogCollisionPoison) == 0x9C);
 extern "C" {
 void TObjFogCollisionPoison__sub_801533BC(void);
-void TObjFogCollisionPoison__sub_80153520(s32 arg0);
+void TObjFogCollisionPoison__sub_80153520(s32 actor);
 void TObjFogCollisionPoison__sub_801535D0(s32 arg0);
 void record_fog_collision_hit(s32 arg0, s32 arg1, s32 arg2);
 }

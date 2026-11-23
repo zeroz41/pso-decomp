@@ -14,13 +14,13 @@ struct TObjNpcKenkyu : public TUnk_804A9F50 {
 LAYOUT_ASSERT(TObjNpcKenkyu_size, sizeof(TObjNpcKenkyu) == 0x3B8);
 
 extern "C" {
-void *TObjNpcSoutokufu__create(void *arg0);
+void *TObjNpcSoutokufu__create(void *set_data);
 void *__dt__13TObjNpcKenkyuFv(void *arg0, s16 arg1);
 }
 
 // --- C functions defined in TObjNpcKenkyu.cpp ---
 extern "C" {
-void *TObjNpcSoutokufu__create(void *arg0);
+void *TObjNpcSoutokufu__create(void *set_data);
 void *__dt__13TObjNpcKenkyuFv(void *arg0, s16 arg1);
 }
 // --- end of C functions

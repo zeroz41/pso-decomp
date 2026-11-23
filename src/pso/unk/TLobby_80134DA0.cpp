@@ -1,27 +1,17 @@
 #include "types.h"
-#include "pso/unk/TLobby_80134DA0.h"
 #include "pso/unk/TLobby.h"
 #include "pso/network/TProtocol.h"
+#include "pso/network/protocol/choice_search.h"
 
-extern "C" {
+extern "C" s32 set_clock_offset_from_server_time();
 
-s32 set_clock_offset_from_server_time();
-int fn_800779A0(void*);
-int TAdSinglePlyChrSelectGC__sub_80077AE8(void*);
-int init_once__6TLobbyFl(void*);
+void TLobby::set_lobby_event_theme(int theme) { event_theme_id = theme; }
 
-    extern int TLobby__event_theme_id;
-void set_lobby_event_theme(int a0) { TLobby__event_theme_id = a0; }
-
-int init_once__6TLobbyFPv(void* p) { return init_once__6TLobbyFl(p); }
-int TLobby__sub_80134DC8(void* p) { return fn_800779A0(p); }
-int TLobby__sub_80134DE8(void* p) { return TAdSinglePlyChrSelectGC__sub_80077AE8(p); }
-
-extern saddr TLobby__protocol_instance;
+void TLobby::handle_info_board(TRecvInfoBoard *info_board) { init_once(info_board); }
+void TLobby::handle_choice_search_results(ChoiceSearchResultList *results) { store_choice_search_results(results); }
+void TLobby::handle_choice_search_options(TRecvChoiceSearchOptions *options) { store_choice_search_options(options); }
 
 void TLobby::reset_lobby_state() {
     set_clock_offset_from_server_time();
-    ((TProtocol *)TLobby__protocol_instance)->send_server_time_accepted();
-}
-
+    protocol_instance->send_server_time_accepted();
 }

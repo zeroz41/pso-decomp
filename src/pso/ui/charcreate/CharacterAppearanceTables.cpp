@@ -4388,6 +4388,8 @@ extern CharacterTextureList *player_plx_head_texture_lists[1];
 extern const char *player_ply_head_model_names[1];
 extern CharacterTextureList *player_ply_head_texture_lists[1];
 
+u32 lbl_804D4090[6] = {0};
+
 const char *player_pla_archive_texture_names[137] = {
     player_asset_pxtAb_01z_w_huku1, player_asset_pxtAb_01z_w_huku2, player_asset_pxtAb_01z_w_huku3, player_asset_pxtAb_02z_w_huku1,
     player_asset_pxtAb_02z_w_huku2, player_asset_pxtAb_02z_w_huku3, player_asset_pxtAb_03z_w_huku1, player_asset_pxtAb_03z_w_huku2,

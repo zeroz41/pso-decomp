@@ -124,7 +124,7 @@ extern u8 *chat_last_line_buffer;
 struct ChatLogLines { s32 value; u8 remaining[0x74]; };
 ChatLogLines chat_log_lines;
 
-void TAdScrollWinGC__sub_8026A5F8(void* a0) { *(float*)((char*)a0 + 0x84) = 0.0f; *(float*)((char*)a0 + 0x6c) = 0.0f; *(float*)((char*)a0 + 0x94) = 0.0f; }
+void TAdScrollWinGC__sub_8026A5F8(void* window) { *(float*)((char*)window + 0x84) = 0.0f; *(float*)((char*)window + 0x6c) = 0.0f; *(float*)((char*)window + 0x94) = 0.0f; }
 
 void TAdScrollWinGC::advance_scroll(f32 v) { *(f32*)((char*)this + 0x94) += v; }
 
@@ -155,15 +155,15 @@ s32 TLobby::find_free_chat_log_slot() {
 }
 
 void chat_log_remove_line(saddr arg0) {
-    u32 *temp_r31;
+    u32 *destination;
     uaddr temp_r4;
-    temp_r31 = (u32 *)((u8 *)&chat_log_lines.value + (arg0 * 4));
-    temp_r4 = *temp_r31;
+    destination = (u32 *)((u8 *)&chat_log_lines.value + (arg0 * 4));
+    temp_r4 = *destination;
     if (temp_r4 != 0U) {
         ((THeap *)TAdScrollWinGC__chat_log_heap)->heap_free((void *)temp_r4);
-        *temp_r31 = 0U;
+        *destination = 0U;
         if (arg0 < 0x1D) {
-            move_words(reinterpret_cast<void *>(temp_r31), reinterpret_cast<u8 *>(&chat_log_lines.value) + (arg0 + 1) * 4, (saddr)((void *) ((0x1D - arg0) & 0x3FFFFFFF)));
+            move_words(reinterpret_cast<void *>(destination), reinterpret_cast<u8 *>(&chat_log_lines.value) + (arg0 + 1) * 4, (saddr)((void *) ((0x1D - arg0) & 0x3FFFFFFF)));
         }
         *(s32 *)((s8 *)&chat_log_lines.value + 0x74) = 0;
     }
@@ -249,14 +249,14 @@ void cache_last_chat_line(uaddr text);
 extern s32 local_client_id;
 
 void post_chat_log_message(u16 arg0, s32 *shared_text_buffer) {
-    s32 *temp_r31;
+    s32 *str;
     if ((s32) arg0 == (s32) local_client_id) {
         cache_last_chat_line((uaddr)shared_text_buffer);
     }
-    temp_r31 = get_active_photon_object__17TWindowMessageLogFv(arg0);
+    str = get_active_photon_object__17TWindowMessageLogFv(arg0);
     text_builder_reset();
-    if (temp_r31 != NULL) {
-        text_builder_append((u8 *)temp_r31);
+    if (str != NULL) {
+        text_builder_append((u8 *)str);
         append_text_space();
         text_builder_append((u8 *)">");
         append_text_space();
@@ -272,9 +272,9 @@ void post_chat_log_message(u16 arg0, s32 *shared_text_buffer) {
     }
 }
 
-u8 *create_message_log_window(s32 arg0, saddr arg1, s32 client) {
-    TLobby__sub_80269DA4((void *)arg1, 0x1E);
-    return (u8 *)new TWindowMessageLog(arg0, client);
+u8 *create_message_log_window(s32 parent, saddr extent, s32 client) {
+    TLobby__sub_80269DA4((void *)extent, 0x1E);
+    return (u8 *)new TWindowMessageLog(parent, client);
 }
 
 

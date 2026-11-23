@@ -7,8 +7,12 @@
 struct GuildCardSlot;
 
 struct TWindowSubComCard : public TObject {
+    static void update_display_value(uaddr list_window, uaddr card_window, s32 *last_selected);
+    static GuildCardSlot *get_card_entry(s32 index);
     TWindowSubComCard(TObject *object, void *arg2);
     virtual ~TWindowSubComCard();
+    void rebuild_com_card_list(saddr list_window);
+    static const char *class_name;
     u32 sub_80272DE0();
     void sub_80271F04(void *, s32, saddr);
     s32 reinit(int);
@@ -30,7 +34,7 @@ struct TWindowSubComCard : public TObject {
     uaddr m_2c;
     void* m_30;
     u8 unk_34[0x4];
-    f32 m_38;
+    f32 width;
     u8 unk_3C[0x4];
     s32 m_40;
     u8 unk_44[0x4];
@@ -57,12 +61,12 @@ struct TWindowSubComCard : public TObject {
     static saddr get_com_count();
     static void release();
     static saddr get_chr_select();
-    void clear_and_init(void* a1);
+    void clear_and_init(void* local_client_id);
     s32 get_card_id();
     int is_active();
     void bswap_guild_card();
     int bswap_guild_card_tag();
-    void init_card(void* a1);
+    void init_card(void* client_id);
     static int get_keyboard_mode();
     void *init_guild_card();
     static s32 init_card();
@@ -84,10 +88,7 @@ struct TWindowSubComCard : public TObject {
     void free_windows();
     void update_card_slot();
     void notify_trade_main();
-    void close();
-    s32 get_slot_or_neg1();
-    s32 get_card_data();
-    void*init_fields(int a1, int a2);
+    void*init_fields(int rec, int client);
     int is_flag_4_set();
     static f32 trunc_float(f32 value);
     void set_card_text(saddr src);
@@ -99,7 +100,7 @@ struct TWindowSubComCard : public TObject {
     s32 send_guild_card();
     static void start_player_data_load(s32 ply_guild_card_tag);
     static s32 count_active_cards();
-    void set_text(void *arg1);
+    void set_text(void *text);
     static void handle_press_a(saddr ply_guild_card_tag, s32 id);
     static void handle_press_b(saddr ply_guild_card_tag, s32 client_id);
     void calc_layout_height(f32 width);
@@ -111,7 +112,7 @@ struct TWindowSubComCard : public TObject {
     s32 create_entry_list_window();
     s32 open_yesno_dialog();
     s32 confirm_and_free();
-    void set_com_param(s32 arg1);
+    void set_com_param(s32 com_param);
     void set_page(s16 v);
     void set_display_page();
     static s32 create_com_card_window(s32 parent);
@@ -130,7 +131,7 @@ struct TWindowSubComCard : public TObject {
 };
 
 LAYOUT_ASSERT(TWindowSubComCard_size, sizeof(TWindowSubComCard) == 0x88);
-struct TWindowSubTradeMain;
-extern "C" void add_gray_text_entry(TWindowSubTradeMain *list, const char *text, s32 kind, s32 id);
+struct TWindowMenu;
+extern "C" void add_gray_text_entry(TWindowMenu *list, const char *text, s32 kind, s32 id);
 
 #endif

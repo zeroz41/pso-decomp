@@ -15,6 +15,7 @@ struct TObjCity_Season_FireWorkCtrl : public TObjBase {
     // Frames until the next firework: run_task counts it down and rolls a new
     // delay from set_params[0] (name inferred).
     s32 spawn_delay;
+    static void *create(void *set_data);
 };
 
 LAYOUT_ASSERT(TObjCity_Season_FireWorkCtrl_size, sizeof(TObjCity_Season_FireWorkCtrl) == 0x94);

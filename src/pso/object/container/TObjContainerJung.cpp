@@ -78,32 +78,32 @@ CollisionBody container_jung_collision_desc = {
 
 const char *TObjContainerJung__name = "TObjContainerJung";
 BmlResource *jungle_container_archive;
-GinjaTextureList *jungle_container_textures;
+NJS_TEXLIST *jungle_container_textures;
 BmlResource *jungle_container_ex_archive;
 
 extern const TObjChipParams container_jung_debris_desc = {
-    { 0.5f, 0.03f, 0.3f }, { 0.0f, 0.0f, 0.0f }, { 3.0f, 6.0f, 3.0f }, { 0x800, 0x100, 0x800 }, { 4, 0x32 }, { 0.0f, 0.8f }, 0, 0, 0x16,
+    0.5f, 0.03f, 0.3f, { 0.0f, 0.0f, 0.0f }, { 3.0f, 6.0f, 3.0f }, { 0x800, 0x100, 0x800 }, 4, 0x32, 0.0f, 0.8f, 0, 0, 0x16,
 };
 extern const TObjChipParams container_jung_spawn_params = {
-    { 0.5f, 0.03f, 0.2f }, { 0.0f, 0.0f, 0.0f }, { 3.5f, 6.0f, 3.5f }, { 0x400, 0x100, 0x400 }, { 4, 0x32 }, { 0.0f, 0.7f }, 0, 0, 0x16,
+    0.5f, 0.03f, 0.2f, { 0.0f, 0.0f, 0.0f }, { 3.5f, 6.0f, 3.5f }, { 0x400, 0x100, 0x400 }, 4, 0x32, 0.0f, 0.7f, 0, 0, 0x16,
 };
 
 const char *TObjContainerJungEx__name = "TObjContainerJungEx";
 
 extern const TObjChipParams container_jung_ex_spawn_params_a = {
-    { 0.5f, 0.07f, 0.26f }, { 0.0f, 0.0f, 0.0f }, { 5.0f, 5.0f, 5.0f }, { 0x400, 0x100, 0x400 }, { 5, 0x32 }, { 0.0f, 0.6f }, 0, 0, 0x16,
+    0.5f, 0.07f, 0.26f, { 0.0f, 0.0f, 0.0f }, { 5.0f, 5.0f, 5.0f }, { 0x400, 0x100, 0x400 }, 5, 0x32, 0.0f, 0.6f, 0, 0, 0x16,
 };
 extern const TObjChipParams container_jung_ex_spawn_params_b = {
-    { 0.5f, 0.07f, 0.26f }, { 0.0f, 0.0f, 0.0f }, { 4.0f, 4.5f, 4.0f }, { 0x200, 0x100, 0x200 }, { 6, 0x32 }, { 0.0f, 0.5f }, 0, 0, 0x16,
+    0.5f, 0.07f, 0.26f, { 0.0f, 0.0f, 0.0f }, { 4.0f, 4.5f, 4.0f }, { 0x200, 0x100, 0x200 }, 6, 0x32, 0.0f, 0.5f, 0, 0, 0x16,
 };
 
 const char *TObjContainerJungEnemy__name = "TObjContainerJungEnemy";
 
 extern const TObjChipParams container_jung_enemy_spawn_params_a = {
-    { 0.5f, 0.03f, 0.2f }, { 0.0f, 0.0f, 0.0f }, { 3.0f, 5.0f, 3.0f }, { 0x800, 0x100, 0x800 }, { 7, 0x32 }, { 0.0f, 1.0f }, 0, 0, 0x16,
+    0.5f, 0.03f, 0.2f, { 0.0f, 0.0f, 0.0f }, { 3.0f, 5.0f, 3.0f }, { 0x800, 0x100, 0x800 }, 7, 0x32, 0.0f, 1.0f, 0, 0, 0x16,
 };
 extern const TObjChipParams container_jung_enemy_spawn_params_b = {
-    { 0.5f, 0.03f, 0.19f }, { 0.0f, 0.0f, 0.0f }, { 3.5f, 5.0f, 3.5f }, { 0x400, 0x100, 0x400 }, { 5, 0x32 }, { 0.0f, 1.0f }, 0, 0, 0x16,
+    0.5f, 0.03f, 0.19f, { 0.0f, 0.0f, 0.0f }, { 3.5f, 5.0f, 3.5f }, { 0x400, 0x100, 0x400 }, 5, 0x32, 0.0f, 1.0f, 0, 0, 0x16,
 };
 
 extern "C" {
@@ -137,9 +137,9 @@ NJS_OBJECT *TObjContainerJungEx::get_model(s32 index) {
     return NULL;
 }
 
-GinjaTextureList *TObjContainerJungEx::get_textures(s32 index) {
+NJS_TEXLIST *TObjContainerJungEx::get_textures(s32 index) {
     if (jungle_container_ex_archive != NULL) {
-        return (GinjaTextureList *)get_bml_texlist((BmlResource *)jungle_container_ex_archive, index);
+        return get_bml_texlist((BmlResource *)jungle_container_ex_archive, index);
     }
     return 0;
 }
@@ -215,7 +215,6 @@ void TObjContainerJung::vfunc_6(s16 *arg1, s32 arg2) {
 #pragma push
 #pragma opt_propagation off
 void TObjContainerJung::vfunc_79() const {
-    void *o;
     if (mode != 1) {
         TObjChipParams a = container_jung_debris_desc;
         f32 pz;
@@ -227,9 +226,9 @@ void TObjContainerJung::vfunc_79() const {
         a.pos[0] = px;
         a.pos[1] = py;
         a.pos[2] = pz;
-        a.pad_38[0] = py;
+        a.floor_y = py;
         a.model = (saddr) get_bml_model((BmlResource *)jungle_container_archive, 1);
-        a.textures = (saddr)jungle_container_textures;
+        a.textures = jungle_container_textures;
         TObjChipParams b = container_jung_spawn_params;
         f32 qz;
         f32 qy;
@@ -240,19 +239,13 @@ void TObjContainerJung::vfunc_79() const {
         b.pos[0] = qx;
         b.pos[1] = qy;
         b.pos[2] = qz;
-        b.pad_38[0] = qy;
+        b.floor_y = qy;
         b.model = (saddr) get_bml_model((BmlResource *)jungle_container_archive, 2);
-        b.textures = (saddr)jungle_container_textures;
+        b.textures = jungle_container_textures;
         spawn_particle_effect_with_flags(&position, 0x45, 0x40);
         spawn_particle_effect_with_flags(&position, 0x46, 0x40);
-        o = TObject::operator new(0x234);
-        if (o != 0) {
-            __ct__8TObjChipFP7TObjectPC14TObjChipParams((u8 *)o, (u8 *)tl_05, (u8 *)&a);
-        }
-        o = TObject::operator new(0x234);
-        if (o != 0) {
-            __ct__8TObjChipFP7TObjectPC14TObjChipParams((u8 *)o, (u8 *)tl_05, (u8 *)&b);
-        }
+        new TObjChip(tl_05, &a);
+        new TObjChip(tl_05, &b);
         play_container_break_sound(this);
     }
 }
@@ -261,7 +254,7 @@ void TObjContainerJung::vfunc_79() const {
 void TObjContainerJung::load_resources() {
     BmlResource *archive = new BmlResource(5, (BmlResourceDescriptor *)&TObjContainerJung__resource_descriptor, 0, 0, NULL);
     jungle_container_archive = archive;
-    jungle_container_textures = (GinjaTextureList *)get_bml_texlist((BmlResource *)archive, 0);
+    jungle_container_textures = get_bml_texlist((BmlResource *)archive, 0);
 }
 
 void TObjContainerJung::release() {
@@ -274,14 +267,14 @@ void *TObjContainerJung::create(void *set_data) {
     return new TObjContainerJung(tl_05, set_data);
 }
 
-NJS_OBJECT *TObjContainerJung::get_model_by_index(s32 arg0) {
+NJS_OBJECT *TObjContainerJung::get_model_by_index(s32 index) {
     if (jungle_container_archive != NULL) {
-        return (NJS_OBJECT *)get_bml_model((BmlResource *)jungle_container_archive, arg0);
+        return (NJS_OBJECT *)get_bml_model((BmlResource *)jungle_container_archive, index);
     }
     return NULL;
 }
 
-GinjaTextureList *TObjContainerJung::get_textures(s32) {
+NJS_TEXLIST *TObjContainerJung::get_textures(s32) {
     return jungle_container_textures;
 }
 
@@ -317,7 +310,7 @@ void TObjContainerJungEx::vfunc_81() {
 
     switch (this->mode) {
     case 0:
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>((saddr)TObjContainerJungEx::get_textures(0)));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>((saddr)TObjContainerJungEx::get_textures(0)));
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_y(0, this->rotation_y);
@@ -362,9 +355,9 @@ void TObjContainerJungEx::vfunc_79() const {
     a.pos[0] = px;
     a.pos[1] = py;
     a.pos[2] = pz;
-    a.pad_38[0] = py;
+    a.floor_y = py;
     a.model = (saddr)TObjContainerJungEx::get_model(1);
-    a.textures = (saddr)TObjContainerJungEx::get_textures(0);
+    a.textures = TObjContainerJungEx::get_textures(0);
     TObjChipParams b = container_jung_ex_spawn_params_b;
     f32 qz;
     f32 qy;
@@ -375,19 +368,13 @@ void TObjContainerJungEx::vfunc_79() const {
     b.pos[0] = qx;
     b.pos[1] = qy;
     b.pos[2] = qz;
-    b.pad_38[0] = qy;
+    b.floor_y = qy;
     b.model = (saddr)TObjContainerJungEx::get_model(2);
-    b.textures = (saddr)TObjContainerJungEx::get_textures(0);
+    b.textures = TObjContainerJungEx::get_textures(0);
     spawn_particle_effect_with_flags(&position, 0x45, 0x40);
     spawn_particle_effect_with_flags(&position, 0x46, 0x40);
-    void *o = TObject::operator new(0x234);
-    if (o != NULL) {
-        __ct__8TObjChipFP7TObjectPC14TObjChipParams((u8 *)o, (u8 *)tl_05, (u8 *)&a);
-    }
-    o = TObject::operator new(0x234);
-    if (o != NULL) {
-        __ct__8TObjChipFP7TObjectPC14TObjChipParams((u8 *)o, (u8 *)tl_05, (u8 *)&b);
-    }
+    new TObjChip(tl_05, &a);
+    new TObjChip(tl_05, &b);
     play_container_break_sound(this);
 }
 #pragma pop
@@ -434,7 +421,7 @@ void TObjContainerJungEnemy::load_models() {
         this->large_fragment_model = TObjContainerJung::get_model_by_index(1);
         this->small_fragment_model = TObjContainerJung::get_model_by_index(2);
         this->light_model = TObjContainerJung::get_model_by_index(3);
-        this->texlist = (saddr)TObjContainerJung::get_textures(0);
+        this->texlist = TObjContainerJung::get_textures(0);
         return;
     default:
     case 1:
@@ -442,7 +429,7 @@ void TObjContainerJungEnemy::load_models() {
         this->large_fragment_model = TObjContainerJungEx::get_model(1);
         this->small_fragment_model = TObjContainerJungEx::get_model(2);
         this->light_model = TObjContainerJungEx::get_model(3);
-        this->texlist = (saddr)TObjContainerJungEx::get_textures(0);
+        this->texlist = TObjContainerJungEx::get_textures(0);
         return;
     }
 }
@@ -463,7 +450,7 @@ void TObjContainerJungEnemy::vfunc_81() {
 
     switch (this->mode) {
     case 0:
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(this->texlist));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_y(0, this->rotation_y);
@@ -518,7 +505,7 @@ void TObjContainerJungEnemy::vfunc_79() const {
         a.pos[0] = xa;
         a.pos[1] = ya;
         a.pos[2] = za;
-        a.pad_38[0] = ya;
+        a.floor_y = ya;
         a.model = (saddr)large_fragment_model;
         a.textures = texlist;
         TObjChipParams b = container_jung_enemy_spawn_params_b;
@@ -531,19 +518,13 @@ void TObjContainerJungEnemy::vfunc_79() const {
         b.pos[0] = xb;
         b.pos[1] = yb;
         b.pos[2] = zb;
-        b.pad_38[0] = yb;
+        b.floor_y = yb;
         b.model = (saddr)small_fragment_model;
         b.textures = texlist;
         spawn_particle_effect_with_flags(&position, 0x45, 0x40);
         spawn_particle_effect_with_flags(&position, 0x46, 0x40);
-        void *o = TObject::operator new(0x234);
-        if (o != 0) {
-            __ct__8TObjChipFP7TObjectPC14TObjChipParams((u8 *)o, (u8 *)tl_05, (u8 *)&a);
-        }
-        o = TObject::operator new(0x234);
-        if (o != 0) {
-            __ct__8TObjChipFP7TObjectPC14TObjChipParams((u8 *)o, (u8 *)tl_05, (u8 *)&b);
-        }
+        new TObjChip(tl_05, &a);
+        new TObjChip(tl_05, &b);
         play_container_break_sound(this);
     }
 }

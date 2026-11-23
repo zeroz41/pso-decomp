@@ -56,14 +56,11 @@ s32 post_translate_matrix(void *);
 void draw_ginja_object(saddr);
 void set_material_alpha_compare_reference(s32 reference);
 }
-void calc_projection_screen_offset(f32 *arg0, f32 *arg1);
 f32 calc_camera_fov_degrees(void);
-void set_tex_coord_gen2(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 void set_ginja_post_texgen_count(s32 x);
 void set_ginja_post_tev_stage_count(s32 x);
 void load_current_pos_matrix(s32 arg0);
 void load_current_tex_matrix(s32 i);
-void play_indirect_effect_recipe(u8 arg0, u16 sampler, s32 second);
 void load_list_texture(s32 idx, s32 wrapS, s32 wrapT, s32 map);
 
 void init_particle_effect__10TObjPlayerFv(void) { TObjFish::set_global_param(get_shared_capture_texture_list()); load_list_texture(0, 0, 0, 2); }
@@ -71,20 +68,20 @@ void init_particle_effect__10TObjPlayerFv(void) { TObjFish::set_global_param(get
 void reset_effects__10TObjPlayerFv(void) { set_ginja_post_tev_stage_count((saddr)(0)); set_ginja_post_texgen_count((saddr)(0)); TObjPlayer::set_global_effect_state((saddr)(0)); model_render_flags = (model_render_flags & 0xfff7ffff); }
 
 void setup_projection_tex_matrix__10TObjPlayerFv(void) {
-    GinjaMatrix sp10;
+    GinjaMatrix mtx;
     f32 spC;
     f32 sp8;
-    f32 temp_f31;
+    f32 fovY;
     if (camera_ctrl_instance != NULL) {
         push_matrix();
         calc_projection_screen_offset(&spC, &sp8);
-        temp_f31 = (f32) (0.0054931640625 * calc_camera_fov_degrees());
+        fovY = (f32) (0.0054931640625 * calc_camera_fov_degrees());
         if (TCameraCtrl::is_view_offset() != 0) {
-            C_MTXLightPerspective(sp10, temp_f31, 1.1333334f, 0.5f, -0.5f, (f32) (0.5f - spC), (f32) (0.5f - sp8));
+            C_MTXLightPerspective(mtx, fovY, 1.1333334f, 0.5f, -0.5f, (f32) (0.5f - spC), (f32) (0.5f - sp8));
         } else {
-            C_MTXLightPerspective(sp10, temp_f31, 1.1333334f, 0.5f, -0.5f, 0.5f, 0.5f);
+            C_MTXLightPerspective(mtx, fovY, 1.1333334f, 0.5f, -0.5f, 0.5f, 0.5f);
         }
-        PSMTXConcat(sp10, *current_matrix, *current_matrix);
+        PSMTXConcat(mtx, *current_matrix, *current_matrix);
         load_current_tex_matrix(2);
         pop_matrix();
         load_current_pos_matrix(2);
@@ -130,7 +127,7 @@ void TUnk_804EFA88::render() {
         play_indirect_effect_recipe(this->entries[i].effect_kind, 1, 1);
         ((void (*)(void *))init_particle_effect__10TObjPlayerFv)(this);
         ((void (*)(void *))setup_projection_tex_matrix__10TObjPlayerFv)(this);
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(this->entries[i].p18));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(this->entries[i].p18));
         draw_ginja_object((this->entries[i].p1C));
         pop_matrix();
         reset_indirect_tev(1);

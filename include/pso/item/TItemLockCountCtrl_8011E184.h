@@ -5,7 +5,7 @@
 
 struct TObjPlayer;
 extern "C" {
-void fn_8011E1D4(TObjPlayer *arg0);
+void fn_8011E1D4(TObjPlayer *player);
 }
 
 #endif

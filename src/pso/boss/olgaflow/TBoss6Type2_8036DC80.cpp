@@ -5,6 +5,7 @@
 #include "pso/player/PlayerSlots.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjBase.h"
 
 // One client's look as the Olga Flow fight starts; free_chara_making puts it back.
 struct Boss6PlayerSnapshot {
@@ -18,15 +19,15 @@ void restore_boss6_player_snapshot(TObjPlayer *player) {
     u16 client_id;
     Boss6PlayerSnapshot *snapshot;
 
-    client_id = get_entity_id(player);
+    client_id = player->get_entity_id();
     if (client_id < 4U) {
         snapshot = &boss6_type2_player_snapshot_table[client_id];
         if (snapshot->active != 0) {
             snapshot->active = 0;
             if (TBoss6PlotFalz::is_state_1f(player) != 0) {
-                copy_texlist((GinjaTextureList *)player->body_textures, &snapshot->look.body_textures);
-                copy_texlist((GinjaTextureList *)player->head_textures, &snapshot->look.head_textures);
-                copy_texlist((GinjaTextureList *)player->attachment_textures, &snapshot->look.attachment_textures);
+                copy_texlist((NJS_TEXLIST *)player->body_textures, &snapshot->look.body_textures);
+                copy_texlist((NJS_TEXLIST *)player->head_textures, &snapshot->look.head_textures);
+                copy_texlist((NJS_TEXLIST *)player->attachment_textures, &snapshot->look.attachment_textures);
                 player->model = snapshot->look.model;
                 player->head_model = snapshot->look.head_model;
                 player->hair_model = snapshot->look.hair_model;
@@ -45,9 +46,9 @@ void capture_boss6_player_snapshots() {
         snapshot->active = 0;
         player = get_player_by_client_id(i);
         if (player != NULL && TBoss6PlotFalz::is_state_1f(player) != 0) {
-            copy_texlist(&snapshot->look.body_textures, (GinjaTextureList *)player->body_textures);
-            copy_texlist(&snapshot->look.head_textures, (GinjaTextureList *)player->head_textures);
-            copy_texlist(&snapshot->look.attachment_textures, (GinjaTextureList *)player->attachment_textures);
+            copy_texlist(&snapshot->look.body_textures, (NJS_TEXLIST *)player->body_textures);
+            copy_texlist(&snapshot->look.head_textures, (NJS_TEXLIST *)player->head_textures);
+            copy_texlist(&snapshot->look.attachment_textures, (NJS_TEXLIST *)player->attachment_textures);
             snapshot->look.model = player->model;
             snapshot->look.head_model = player->head_model;
             snapshot->look.hair_model = player->hair_model;

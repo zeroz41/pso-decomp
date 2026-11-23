@@ -11,7 +11,6 @@ public:
     virtual void render();
 public:
     static void *create();
-    void render_impl(void* a1);
 };
 
 #endif

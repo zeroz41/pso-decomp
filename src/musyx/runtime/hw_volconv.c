@@ -128,7 +128,7 @@ void salCalcVolume(u8 voltab_index, VolInfo_803B8CA0 *vi, f32 vol, u32 pan, u32 
     f32 *vol_tab;
     f32 p;
     f32 sp;
-    f32 sp2;
+    f32 rpan_im;
     PanInfo_803B8CA0 pi;
 
     vol_tab = voltab_index == 0 ? musyx_vol_tab : dspDLSVolTab;
@@ -147,9 +147,9 @@ void salCalcVolume(u8 voltab_index, VolInfo_803B8CA0 *vi, f32 vol, u32 pan, u32 
     if (dpl2 != 0) {
         pi.rpan_f = fmodf_803B8CA0(p, 1.f);
         pi.rpan_i = p;
-        sp2 = 2.f - p;
-        pi.rpan_fm = fmodf_803B8CA0(sp2, 1.f);
-        pi.rpan_im = sp2;
+        rpan_im = 2.f - p;
+        pi.rpan_fm = fmodf_803B8CA0(rpan_im, 1.f);
+        pi.rpan_im = rpan_im;
     }
 
     if (itd != 0) {

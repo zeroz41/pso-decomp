@@ -32,7 +32,7 @@ extern "C" {
 s32 set_room_group_flags__6TLobbyFlssl(s32, s32, s32, s32);
 Obj_8020C9C8 *create_set_object_from_row(Set_8020C9C8 *);
 extern u8 *quest_object_entries;
-s32 unhide_room_set_objects(saddr arg0, s32 arg1, s32 arg2) {
+s32 unhide_room_set_objects(saddr floor, s32 arg1, s32 arg2) {
     s32 n;
     s32 count;
     s32 local;
@@ -41,14 +41,14 @@ s32 unhide_room_set_objects(saddr arg0, s32 arg1, s32 arg2) {
     Obj_8020C9C8 *obj;
     count = 0;
     local = 0;
-    if (arg0 == get_current_floor()) {
+    if (floor == get_current_floor()) {
         local = 1;
     }
     if (local == 0) {
-        return set_room_group_flags__6TLobbyFlssl(arg0, arg1, arg2, 1);
+        return set_room_group_flags__6TLobbyFlssl(floor, arg1, arg2, 1);
     }
-    set = reinterpret_cast<Set_8020C9C8 *>(get_active_floor_object_rows(arg0));
-    n = TLobby::get_obj_table_entry(arg0);
+    set = reinterpret_cast<Set_8020C9C8 *>(get_active_floor_object_rows(floor));
+    n = TLobby::get_obj_table_entry(floor);
     for (i = 0; i < n; i++, set++) {
         if (set->flags & 8) continue;
         if (set->flags & 2) continue;

@@ -3,7 +3,6 @@
 #include "types.h"
 #include "pso/ui/city/TShopWindowBase.h"
 
-class TObjBase;
 class TWindowMenuIconLine;
 struct TWindowMenu;
 struct TWindowMessage;
@@ -24,19 +23,14 @@ struct OfflineQuestEntry {
 // Offline Hunter's Guild quest list, created by THunterGuildSeqOffline::open_quest_list.
 class TQuestListOffline : public TShopWindowBase {
 public:
-    TQuestListOffline(TObject *parent, TShopWindowBase *sequence, TObjBase *player);
+    TQuestListOffline(TObject *parent, TShopWindowBase *sequence, TObjPlayer *player);
     virtual ~TQuestListOffline();
-    virtual void vfunc_11();
+    virtual void update_state();
     void close_sub_windows();
     void handle_confirm_dialog();
     void update_list_navigation();
     void init_quest_list_window();
 
-    // 0x1C-0x27 are cleared by the TShopWindowBase ctor; they stay here until the
-    // TShopWindowBase windows declare them there.
-    u8 pad_1c[0x4];
-    s32 state;                            // 0x20: set_field_20, the vfunc_11 switch
-    TObjBase *player;                     // 0x24
     void (*on_cancel)(TShopWindowBase *);   // 0x28: state 5
     void (*on_accept)(TShopWindowBase *);   // 0x2C: state 3
     void (*on_download)(TShopWindowBase *); // 0x30: state 4

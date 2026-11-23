@@ -9,7 +9,7 @@
 
 struct ParticleParam;
 struct NJS_OBJECT;
-struct GinjaTextureList;
+struct NJS_TEXLIST;
 struct BmlResource;
 class THeap;
 class TParticle;
@@ -33,7 +33,7 @@ public:
     static const char *class_name;
     // The regular technique models (bm_tec_regurar.bml) and the particle textures.
     static BmlResource *regular_bml_resource;
-    static GinjaTextureList *texture_list;
+    static NJS_TEXLIST *texture_list;
     // Moves the emitter.
     void set_position(void *pos);
     // Queues the emitter's destruction; nothing when it is NULL.
@@ -50,7 +50,7 @@ public:
     static TParticle *generate_child_default(void *param, void *pos, void *parent);
     static NJS_OBJECT *get_particle_model(s32 model);
     // The particle texture list.
-    static GinjaTextureList *get_instance();
+    static NJS_TEXLIST *get_instance();
     uaddr validate_ctrl();
     void destroy_particle();
     static void begin_effect_render();
@@ -91,7 +91,7 @@ public:
     f32 scale_y;                  // 0x44
     NJS_COLOR tint;               // 0x48, used when emit_flags & 0x100
     void *model;                  // 0x4C, given to the children (emit_flags & 0x200)
-    GinjaTextureList *texlist;    // 0x50
+    NJS_TEXLIST *texlist;    // 0x50
     NJS_MOTION *motion;           // 0x54
     TObject *particle_parent;     // 0x58, task the children are created under
     f32 motion_frame;             // 0x5C

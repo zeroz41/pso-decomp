@@ -1,5 +1,6 @@
 #include "pso/unk/TWindowLayoutEntry.h"
 #include "types.h"
+#include "pso/ui/ItemListRow.h"
 #include "pso/ui/city/THunterGuildSeqOffline.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowSubItem.h"
@@ -12,11 +13,11 @@ void THunterGuildSeqOffline::advance_matching_entries(s32 arg1, s32 arg2) {
     saddr e;
     for (i = 0; i < ((Obj_80248A14 *)this)->count; i++) {
         e = reinterpret_cast<saddr>(((TWindowBase *)this)->get_array_entry(i));
-        if (e != 0 && ((TWindowLayoutEntry *)e)->is_flag_4_set() != 0 && arg2 == ((TWindowSubItem *)e)->get_cursor_pos()) {
+        if (e != 0 && ((TWindowLayoutEntry *)e)->is_flag_4_set() != 0 && arg2 == ((ItemListRow *)e)->get_item()) {
             if (arg1 != 0) {
-                ((TWindowSubStatusDisp *)e)->finalize_state();
+                ((ItemListRow *)e)->finalize_state();
             } else {
-                ((TWindowSubStatusDisp *)e)->advance_state();
+                ((ItemListRow *)e)->advance_state();
             }
         }
     }

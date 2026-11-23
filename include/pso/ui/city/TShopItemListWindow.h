@@ -6,40 +6,42 @@
 #include "pso/item/TItemData.h"
 
 struct TWindowMenu;
+class TWindowShop;
+struct TWindowInputNumber;
+struct TWindowHelpItem;
+struct TWindowQuantity;
+struct TWindowCost;
 
 struct TShopItemListWindow : public TShopWindowBase {
-    TShopItemListWindow(saddr parent, saddr sequence, s32 player);
+    TShopItemListWindow(TObject *parent, TShopWindowBase *sequence, TObjPlayer *player);
     virtual ~TShopItemListWindow();
     void prepare_tool_purchase();
     void handle_amount_confirm();
-    virtual void vfunc_11();
+    virtual void update_state();
     virtual void display_message(const char *text, s32 flags);
     virtual void display_shop_message(s32 id, s32 flags);
-    u8 _pad1C[0x4];
-    u32 m_20;
-    uaddr m_24;
-    // Child windows, closed by the destructor: names from the window each one holds.
-    uaddr item_list;      // create_item_list_window
-    TShopWindowBase *sequence;  // the shop sequence that opened it; messages go to it
-    TWindowMenu *confirm_menu;   // two-entry create_window_menu shown once the quantity is confirmed
-    uaddr quantity_input; // TWindowInputNumber
-    uaddr help_window;    // TWindowHelpItem
-    uaddr status_window;  // TWindowSubStatusDisp
-    uaddr cost_window;    // create_cost_window
-    u32 m_44;
-    u8 _pad48[0x4];
-    u32 m_4c;
-    u32 m_50;
-    u32 m_54;
+    // Child windows, closed by the destructor.
+    TWindowShop *item_list;           // the shop's tool stock
+    TShopWindowBase *sequence;        // the shop sequence that opened it; messages go to it
+    TWindowMenu *confirm_menu;        // two-entry create_window_menu shown once the quantity is confirmed
+    TWindowInputNumber *quantity_input;
+    TWindowHelpItem *help_window;     // description of the selected item
+    TWindowQuantity *status_window;   // how many of the selected item the player carries
+    TWindowCost *cost_window;         // price of the selected item
+    u32 pad_44;
+    s32 item_count;       // rows of shop_items in use
+    u32 purchase_step;    // handle_amount_confirm: 0 choosing the amount, 1 the yes / no menu
+    u32 purchase_count;   // how many to buy
+    s32 last_cursor;      // the row the help, status and cost windows show
     // Each copied shop item stores its meseta price in data2.
     TItemData shop_items[16];
-    u8 _pad198[0x28];
-    u32 m_1c0;
+    u8 pad_198[0x28];
+    void (*on_close)(TShopWindowBase *sequence);  // called with sequence when the player leaves
     void handle_confirm();
     void update();
-    static void handle_tool_list_select(void *p);
+    void handle_tool_list_select();
     s32 check_purchase_eligibility();
-    static void build_item_list(void *p);
+    void build_item_list();
 };
 
 LAYOUT_ASSERT(TShopItemListWindow_size, sizeof(TShopItemListWindow) == 0x1C4);

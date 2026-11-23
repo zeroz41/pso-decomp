@@ -132,19 +132,18 @@ BmlResourceDescriptor *city_season_resource_descriptors[6] = {
     &bm_obj_city_xmas_resource_descriptor,   &bm_obj_city_pump_resource_descriptor,
     &bm_obj_city_21_resource_descriptor,     &bm_obj_city_sonic_resource_descriptor,
 };
-extern s32 TLobby__event_theme_id;
 
 BmlResource *city_season_easter_egg_model_table[6];
-GinjaTextureList *city_season_xmas_model_table[6];
+NJS_TEXLIST *city_season_xmas_model_table[6];
 s32 lbl_805D5B30;
 StripBufferPair *lbl_805D5B34;
 BmlResource *lbl_805D5B38;
 saddr lbl_805D5B3C;
 saddr lbl_805D5B40;
-GinjaTextureList *lbl_805D5B44;
+NJS_TEXLIST *lbl_805D5B44;
 StripBufferPair *lbl_805D5B48;
 
-GinjaTextureList *TLobby__sub_80184C2C(int a0) {  return city_season_xmas_model_table[a0]; }
+NJS_TEXLIST *TLobby__sub_80184C2C(int a0) {  return city_season_xmas_model_table[a0]; }
 
 BmlResource *get_season_model_resource(int a0) {  return city_season_easter_egg_model_table[a0]; }
 
@@ -158,7 +157,7 @@ void TLobby__sub_80184C80(void *p) {
     s32 i;
     TLobby::clear_global_array(p);
     for (i = 0; i < 6; i++) {
-        if (TLobby__event_theme_id == lobby_event_theme_id_table[i]) {
+        if (TLobby::event_theme_id == lobby_event_theme_id_table[i]) {
             lbl_8050DC20[i] = 1;
             return;
         }
@@ -239,7 +238,7 @@ extern "C" void TLobby__sub_80184DF4(void) {
         *(BmlResource **)((u8 *)&city_season_easter_egg_model_table + slot_offset) = (BmlResource *)tmp;
         for (i = 0; i < *(s32 *)(tmp + 0x434); i++) {
             if ((*(u32 (**)[4])(tmp + 0x42c))[i][3] != 0) {
-                *(GinjaTextureList **)((u8 *)&city_season_xmas_model_table + slot_offset) = (GinjaTextureList *)((BmlResource *)tmp)->models[i].texlist;
+                *(NJS_TEXLIST **)((u8 *)&city_season_xmas_model_table + slot_offset) = ((BmlResource *)tmp)->models[i].texlist;
                 break;
             }
         }
@@ -287,7 +286,7 @@ extern "C" void TLobby__sub_80184DF4(void) {
     lbl_805D5B38 = (BmlResource *)board;
     for (i = 0; i < *(s32 *)(board + 0x434); i++) {
         if ((*(u32 (**)[4])(board + 0x42c))[i][3] != 0) {
-            lbl_805D5B44 = (GinjaTextureList *)((BmlResource *)board)->models[i].texlist;
+            lbl_805D5B44 = ((BmlResource *)board)->models[i].texlist;
             break;
         }
     }

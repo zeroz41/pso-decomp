@@ -45,6 +45,8 @@
 
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/task/TObject.h"
+#include "pso/object/base/TObjBase.h"
+#include "pso/player/PlayerSlots.h"
 
 
 BmlResource *TOTrapAncient01__bml_resource;
@@ -81,7 +83,7 @@ TOTrapAncient01::TOTrapAncient01(TObject *parent, void *set_data) : TOTrap(paren
     init_position_vectors();
     calc_attach_pos();
     model = (void *)get_bml_model((BmlResource *)TOTrapAncient01__bml_resource, 3);
-    texlist = (saddr)get_bml_texlist((BmlResource *)TOTrapAncient01__bml_resource, 3);
+    texlist = get_bml_texlist((BmlResource *)TOTrapAncient01__bml_resource, 3);
     mode = 0;
     range = 0.5f * scale.x + 30.0f;
     if (scale.y < 0.0f) {
@@ -131,7 +133,7 @@ void TOTrapAncient01::load_resources() {
     BmlResource *resource = new BmlResource(1, &bm_o_trap_ancient01_resource_descriptor, 0, 0, NULL);
     TOTrapAncient01__bml_resource = resource;
     TMotorcycle::add_entry(0x39, reinterpret_cast<NJS_OBJECT *>(get_bml_model((BmlResource *)TOTrapAncient01__bml_resource, 3)),
-                           reinterpret_cast<GinjaTextureList *>(get_bml_texlist((BmlResource *)resource, 3)), 20.0f, 0.0f);
+                           reinterpret_cast<NJS_TEXLIST *>(get_bml_texlist((BmlResource *)resource, 3)), 20.0f, 0.0f);
 }
 
 void TOTrapAncient01::release_static_resource() {
@@ -141,8 +143,8 @@ void TOTrapAncient01::release_static_resource() {
     }
 }
 
-void *TOTrapAncient01::create() {
-    return new TOTrapAncient01(tl_05, this);
+void *TOTrapAncient01::create(void *set_data) {
+    return new TOTrapAncient01(tl_05, set_data);
 }
 
 #pragma push
@@ -176,7 +178,7 @@ void TOTrapAncient01::render() {
             v.z = 0.1f * (3.0517578125e-05f * (f32)rand()) - 0.05f;
             post_translate_matrix(&v.x);
         }
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
         n = (NJS_OBJECT *)model;
         push_matrix();
         translate_matrix(0, 0.0f, scale.y, 0.0f);
@@ -234,7 +236,7 @@ void TOTrapAncient01::vfunc_81() {
         calc_attach_pos();
         clear_player_status_flag(0, 0x08001F04);
         set_indexed_flags(0, 0x8003);
-        obj_clearFlags30(0x40000);
+        clear_actor_flags(0x40000);
         spawn_particle_effect(&position, 0x8F);
         spawn_particle_effect(&position, 0x8F);
         this->player = find_nearest_visible_player(this, NULL, range);
@@ -340,26 +342,26 @@ void TOTrapAncient01::vfunc_82() {
 
 void TOTrapAncient01::vfunc_84() {  }
 
-f32 TOTrapAncient01::receive_physical_attack(void *arg1, f32 farg0) {
+f32 TOTrapAncient01::receive_physical_attack(void *attacker, f32 scale) {
     release_trapped_player();
-    return TOTrap::receive_physical_attack(arg1, farg0);
+    return TOTrap::receive_physical_attack(attacker, scale);
 }
 
 void TOTrapAncient01::play_sounds() {
     const TObjChipParams chip0 = {
-        {0.5f, 0.03f, 0.15f}, {position.x, position.y, position.z}, {3.0f, 5.0f, 3.0f},
-        {0x800, 0x100, 0x800}, {4, 30}, {position.y, 1.0f},
-        (saddr)get_bml_model((BmlResource *)TOTrapAncient01__bml_resource, 0), (saddr)get_bml_texlist((BmlResource *)TOTrapAncient01__bml_resource, 0), 22,
+        0.5f, 0.03f, 0.15f, {position.x, position.y, position.z}, {3.0f, 5.0f, 3.0f},
+        {0x800, 0x100, 0x800}, 4, 30, position.y, 1.0f,
+        (saddr)get_bml_model((BmlResource *)TOTrapAncient01__bml_resource, 0), get_bml_texlist((BmlResource *)TOTrapAncient01__bml_resource, 0), 22,
     };
     const TObjChipParams chip1 = {
-        {0.5f, 0.03f, 0.15f}, {position.x, position.y, position.z}, {3.0f, 5.0f, 3.0f},
-        {0x800, 0x100, 0x800}, {4, 30}, {position.y, 1.0f},
-        (saddr)get_bml_model((BmlResource *)TOTrapAncient01__bml_resource, 1), (saddr)get_bml_texlist((BmlResource *)TOTrapAncient01__bml_resource, 1), 22,
+        0.5f, 0.03f, 0.15f, {position.x, position.y, position.z}, {3.0f, 5.0f, 3.0f},
+        {0x800, 0x100, 0x800}, 4, 30, position.y, 1.0f,
+        (saddr)get_bml_model((BmlResource *)TOTrapAncient01__bml_resource, 1), get_bml_texlist((BmlResource *)TOTrapAncient01__bml_resource, 1), 22,
     };
     const TObjChipParams chip2 = {
-        {0.5f, 0.03f, 0.15f}, {position.x, position.y, position.z}, {3.0f, 5.0f, 3.0f},
-        {0x800, 0x100, 0x800}, {4, 30}, {position.y, 1.0f},
-        (saddr)get_bml_model((BmlResource *)TOTrapAncient01__bml_resource, 2), (saddr)get_bml_texlist((BmlResource *)TOTrapAncient01__bml_resource, 2), 22,
+        0.5f, 0.03f, 0.15f, {position.x, position.y, position.z}, {3.0f, 5.0f, 3.0f},
+        {0x800, 0x100, 0x800}, 4, 30, position.y, 1.0f,
+        (saddr)get_bml_model((BmlResource *)TOTrapAncient01__bml_resource, 2), get_bml_texlist((BmlResource *)TOTrapAncient01__bml_resource, 2), 22,
     };
     new TObjChip(tl_06, &chip0);
     new TObjChip(tl_06, &chip1);
@@ -397,7 +399,7 @@ void TOTrapAncient01::release_trapped_player() {
     TObjPlayer *player;
     if (TRaderMapCore::is_not_split_screen() == 1) {
         if (target != NULL) {
-            player = get_player_by_client_id(get_entity_id((TObjBase *)target));
+            player = get_player_by_client_id(((TObjBase *)target)->get_entity_id());
             if (player != NULL) {
                 if (player->check_player_flag1() != 0) {
                     TObjPlayer::send_code_45_1((saddr)player);
@@ -405,7 +407,7 @@ void TOTrapAncient01::release_trapped_player() {
                 obj_clear_flag30_20000(player);
             }
         }
-    } else if (target != NULL && local_client_id == get_entity_id((TObjBase *)target)) {
+    } else if (target != NULL && local_client_id == ((TObjBase *)target)->get_entity_id()) {
         player = get_player_by_client_id(local_client_id);
         if (player != NULL) {
             if (player->check_player_flag1() != 0) {

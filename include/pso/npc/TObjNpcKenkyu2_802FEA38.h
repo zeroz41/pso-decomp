@@ -4,12 +4,12 @@
 #include "types.h"
 
 extern "C" {
-void *TObjNpcKenkyu2__create(void *arg0);
+void *TObjNpcKenkyu2__create(void *set_data);
 }
 
 // --- C functions defined in text_802FEA38.cpp ---
 extern "C" {
-void *TObjNpcKenkyu2__create(void *arg0);
+void *TObjNpcKenkyu2__create(void *set_data);
 }
 // --- end of C functions
 

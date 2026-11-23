@@ -52,6 +52,7 @@ const char *TOChatSensorCapture__class_name = "TOChatSensorCapture";
 #include "pso/unk/TLobby_800F8AA8.h"
 #include "pso/object/switch/TSwitch.h"
 #include "pso/network/client_id.h"
+#include "pso/player/PlayerSlots.h"
 
 // ChatSensor.prs: how many trigger texts there are and the texts (a sensor's m_cc picks one, from 1).
 struct ChatSensorTable {
@@ -97,7 +98,7 @@ void TOChatSensor::destroy_global() {
     }
 }
 
-void *TOChatSensor__create(void *set) {
+void *TOChatSensor::create(void *set) {
     u32 temp_r3;
     u32 temp_r3_2;
     u32 var_r0;
@@ -156,7 +157,7 @@ void TOChatSensor::run_task() {
             break;
         }
     } else {
-        if (is_current_floor_switch_set(this->m_94) == 0) {
+        if (is_current_floor_switch_set(this->id) == 0) {
             check_player_proximity();
             return;
         }
@@ -176,7 +177,7 @@ void TOChatSensor::render() {
 }
 
 void TOChatSensor::init_params() {
-    f32 temp_f0;
+    f32 x;
     s32 temp_r5;
 
     this->m_90 = (u32) *(u32 *)&this->rotation_x;
@@ -187,14 +188,14 @@ void TOChatSensor::init_params() {
     if ((u32) this->m_98 >= 2U) {
         this->m_90 = 0U;
     }
-    temp_f0 = this->scale.x;
-    *(f32 *)&this->unk_9C = (f32) (temp_f0 * temp_f0);
+    x = this->scale.x;
+    *(f32 *)&this->unk_9C = (f32) (x * x);
     if ((u32) this->m_90 == 0U) {
-        *(s32 *)&this->m_94 = (s32) this->set_params[0];
+        *(s32 *)&this->id = (s32) this->set_params[0];
     } else {
-        this->m_94 = (u16) this->set_params[0];
-        if ((u16) this->m_94 > 0x100U) {
-            this->m_94 = 0xFFFF;
+        this->id = (u16) this->set_params[0];
+        if ((u16) this->id > 0x100U) {
+            this->id = 0xFFFF;
         }
     }
     *(s32 *)&this->m_cc = (s32) *(s32 *)&this->set_params[1];
@@ -229,10 +230,10 @@ void TOChatSensor::handle_chat_message(void *arg1) {
                     }
                     *(s32 *)(arg0 + 0xC8) = 1;
                 }
-            } else if (*(u16 *)(arg0 + 0x94) < 0x100) {
+            } else if (this->id < 0x100) {
                 ((TOChatSensor *)(&pkt))->init_packet_type();
                 pkt.a = get_current_floor();
-                pkt.b = *(u16 *)(arg0 + 0x94);
+                pkt.b = this->id;
                 pkt.c = 1;
                 ((TOChatSensor *)(&pkt))->send_state();
             }
@@ -240,11 +241,11 @@ void TOChatSensor::handle_chat_message(void *arg1) {
     }
 }
 
-void TOChatSensor::set_trigger_text(void *arg1) {
+void TOChatSensor::set_trigger_text(void *trigger_text) {
     C_8015ACE4 *arg0 = (C_8015ACE4 *)this;
     s32 i;
-    if (arg1 != 0) {
-        strncpy((char *)arg0->buf, (const char *)arg1, 0x1F);
+    if (trigger_text != 0) {
+        strncpy((char *)arg0->buf, (const char *)trigger_text, 0x1F);
         arg0->buf[0x1F] = 0;
         for (i = 0; i < 0x20; i++) {
             if (arg0->buf[i] == 0xA) {

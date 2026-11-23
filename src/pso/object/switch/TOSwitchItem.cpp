@@ -8,6 +8,7 @@
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/object/base/TObjBase.h"
 
 
 const char *TOSwitchItem__class_name = "TOSwitchItem";
@@ -128,7 +129,7 @@ void TOSwitchItem::init_params() {
 void TOSwitchItem::send_switch_on() {
     G_SwitchStateChanged_6x05 cmd;
     cmd.init();
-    cmd.header.client_id = get_entity_id(this);
+    cmd.header.client_id = this->get_entity_id();
     cmd.unused1 = 0;
     cmd.switch_id = switch_id;
     cmd.floor = get_current_floor();

@@ -7,16 +7,16 @@
 
 extern "C" {
 
-void *TShopEquipmentSequence::create_instance(void *arg0) {
-    return new TShopEquipmentSequence(tl_05, (TObjPlayer *)arg0);
+void *TShopEquipmentSequence::create_instance(void *player) {
+    return new TShopEquipmentSequence(tl_05, (TObjPlayer *)player);
 }
 }
 
     extern int TShopEquipmentSequence__slot_active_flags[];
 int get_equipment_shop_slot_active_flag(int a0) {  return TShopEquipmentSequence__slot_active_flags[a0]; }
 
-void *create_medical_center_sequence(void *arg0) {
-    return new TMedicalCenterSequence(tl_05, (TObjPlayer *)arg0);
+void *create_medical_center_sequence(void *player) {
+    return new TMedicalCenterSequence(tl_05, (TObjPlayer *)player);
 }
 
     extern int TMedicalCenterSequence__data_80513E90[];

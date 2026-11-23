@@ -22,11 +22,11 @@
 #include "pso/system/SoundEffect.h"
 #include "pso/ui/frontend/TAdRicoRing_8001BEE8.h"
 
-struct Elem_80128A74 { u8 pad[0x1c]; u8 f1c[0x2c - 0x1c]; };
+struct Elem_80128A74 { u8 pad[0x1c]; u8 position[0x2c - 0x1c]; };
 
 struct Obj_80128A74 { u8 pad[0xa4]; Elem_80128A74 *elems; s32 count; };
 
-struct Obj_80128E08 { u8 pad[0x184]; void *f184; void *f188; u8 pad2[0x1fc - 0x18c]; u8 f1fc[4]; };
+struct Obj_80128E08 { u8 pad[0x184]; void *f184; void *f188; u8 pad2[0x1fc - 0x18c]; u8 flags[4]; };
 
 extern "C" {
 Obj_80128A74 *find_entity_by_id(s32);
@@ -38,16 +38,16 @@ void TObjPlayer__sub_80128A74(s32 a, uaddr b, s32 c, s32 d) {
     ((TObjPlayer *)b)->clear_rico_ring_flag();
     o = find_entity_by_id(c);
     if (o != 0 && o->elems != 0 && d < o->count) {
-        spawn_particle_effect((const Vec *)o->elems[d].f1c, 0x45);
+        spawn_particle_effect((const Vec *)o->elems[d].position, 0x45);
     }
 }
 
 }
 
-void TObjPlayer::notify_hit_target(u32 arg0, uaddr arg1, u32 arg2, uaddr arg3) {
-    if ((arg1 != 0U) && (arg3 != 0U)) {
-        ((TObjPlayer *)arg1)->clear_rico_ring_flag();
-        spawn_particle_effect((const Vec *)arg3, 0x45);
+void TObjPlayer::notify_hit_target(u32 arg0, uaddr player, u32 arg2, uaddr pos) {
+    if ((player != 0U) && (pos != 0U)) {
+        ((TObjPlayer *)player)->clear_rico_ring_flag();
+        spawn_particle_effect((const Vec *)pos, 0x45);
         play_sound_effect(0x4001C112, 0, 0, 0);
     }
 }
@@ -55,7 +55,7 @@ void TObjPlayer::notify_hit_target(u32 arg0, uaddr arg1, u32 arg2, uaddr arg3) {
 void TUnk_804A4020::render() {
     if ((is_owner_alive() != 0) && ((uaddr)model != 0U) && ((uaddr)texture_list != 0U)) {
         push_matrix();
-        set_texlist((uaddr)texture_list);
+        set_texlist(texture_list);
         post_translate_matrix(&m_pos.x);
         rotate_matrix_y(NULL, m_count);
         rotate_matrix_x(NULL, m_28 - 0x4000);
@@ -68,7 +68,7 @@ void TUnk_804A4020::hook() {  }
 
 TUnk_804A4020::TUnk_804A4020(void *owner, const Vec *pos, const Vec *dir, f32 life)
     : TItemShootModel(owner, pos, dir, life) {
-    set_render_model(TObjPlayer__sub_801290D0((u8 *)owner), (GinjaTextureList *)((TObjBase *)owner)->get_texlist());
+    set_render_model(TObjPlayer__sub_801290D0((u8 *)owner), (NJS_TEXLIST *)((TObjBase *)owner)->get_texlist());
 }
 
 u32 TObjPlayer::spawn_shot_effect(saddr owner, saddr origin, saddr end, f32 frames) {
@@ -90,7 +90,7 @@ void clear_rico_ring_flag__10TObjPlayerFv(u32);
 
 void TUnk_804A403C::emit_marker_effects() {
     saddr temp_r31;
-    s32 var_r30;
+    s32 i;
     u32 temp_r3;
     u8 *arg0 = (u8 *)this;
     TObjPlayer__sub_80128A70();
@@ -98,20 +98,20 @@ void TUnk_804A403C::emit_marker_effects() {
     if (temp_r3 == 0U) return;
     temp_r31 = temp_r3 + 0x7CC;
     if (get_burst_counter((void *)temp_r31) == 0) {
-        var_r30 = 0;
+        i = 0;
         do {
             increment_burst_counter((u8 *)temp_r31);
-            var_r30 += 1;
-        } while (var_r30 != 2);
-        ((FlagWord *)(arg0 + 0x1FC))->set(2);
+            i += 1;
+        } while (i != 2);
+        this->flags.set(2);
         TItemAttacker::spawn_item_timer((TObject *)arg0, (ItemTimerCallback)clear_rico_ring_flag__10TObjPlayerFv, 0x3C);
-        ((FlagWord *)(arg0 + 0x1FC))->set(4);
+        this->flags.set(4);
         if (launch_shot(arg0 + 0x200, 0, 0, 1) == 1) {
-            ((FlagWord *)(arg0 + 0x1FC))->clear(4);
+            this->flags.clear(4);
             launch_shot(arg0 + 0x20C, 0, 0, 0);
             return;
         }
-        ((FlagWord *)(arg0 + 0x1FC))->clear(4);
+        this->flags.clear(4);
         launch_shot(arg0 + 0x20C, 0, 0, 1);
     }
 }
@@ -121,8 +121,8 @@ void TUnk_804A403C::vfunc_60() {
     Obj_80128E08 *self = (Obj_80128E08 *)this;
     switch (TObjPlayer::get_player_list()) {
     case 1:
-        if (test_flags_any((s32 *)self->f1fc, 2) == 0) {
-            if (test_flags_any((s32 *)self->f1fc, 1)) {
+        if (test_flags_any((s32 *)self->flags, 2) == 0) {
+            if (test_flags_any((s32 *)self->flags, 1)) {
                 p = self->f188;
             } else {
                 p = self->f184;
@@ -142,11 +142,11 @@ void TUnk_804A403C::reserved_53() {
     u8 *arg0 = (u8 *)this;
 
     temp_r31 = *(s32 *)((s8 *)arg0 + 0xF4);
-    ((FlagWord *)(arg0 + 0x1FC))->set(1);
+    this->flags.set(1);
     draw_weapon_at_joint((saddr)arg0, 0x30);
     ((TItemWeapon *)arg0)->get_joint_position(1, (arg0 + 0x200));
     *(s32 *)((s8 *)arg0 + 0xF4) = (s32) *(s32 *)((s8 *)arg0 + 0x180);
-    ((FlagWord *)(arg0 + 0x1FC))->clear(1);
+    this->flags.clear(1);
     draw_weapon_at_joint((saddr)arg0, 0x23);
     ((TItemWeapon *)arg0)->get_joint_position(1, (arg0 + 0x20C));
     *(s32 *)((s8 *)arg0 + 0xF4) = temp_r31;
@@ -155,7 +155,7 @@ void TUnk_804A403C::reserved_53() {
 TUnk_804A403C::~TUnk_804A403C() {}
 
 TUnk_804A403C::TUnk_804A403C(TObject *parent, u8 *item) : TUnk_804A4948(parent, item) {
-    ((FlagWord *)((char *)this + 376))->set(32);
+    this->effect_flags.set(32);
     set_weapon_flags(515);
     impact_callback = (WeaponHitCallback)TObjPlayer::notify_hit_target;
     hit_callback = (WeaponHitCallback)TObjPlayer__sub_80128A74;
@@ -191,7 +191,7 @@ NJS_OBJECT *TObjPlayer__sub_801290D0(u8 *owner) {
 }
 
 
-void TItemShootModel::set_render_model(NJS_OBJECT *new_model, GinjaTextureList *new_texture_list) {
+void TItemShootModel::set_render_model(NJS_OBJECT *new_model, NJS_TEXLIST *new_texture_list) {
     model = new_model;
     texture_list = new_texture_list;
 }

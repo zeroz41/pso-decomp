@@ -29,9 +29,6 @@ struct TWindowShortListCtrl : public TObject {
     void *help_window;
     // Item id the help window shows (set_displayed_item; -1 when opened).
     s32 help_item_id;
-    void update_variant_a();
-    void update_variant_b();
-    void update_variant_c();
     static s32 get_card_window_flags(s32 client_id);
     static s32 get_card_status_bits(s32 client_id);
     void set_displayed_item(s32 item_id);
@@ -44,7 +41,7 @@ struct TWindowShortListCtrl : public TObject {
     static void set_card_window_flags(saddr client_id, s32 page);
     s16 get_cursor_pos();
     void update_cursor_pos();
-    static void assign_shortcut(s32 slot, saddr item, s32 arg2);
+    static void assign_shortcut(s32 slot, saddr item, s32 client_id);
 };
 
 LAYOUT_ASSERT(TWindowShortListCtrl_size, sizeof(TWindowShortListCtrl) == 0x3C);

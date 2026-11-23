@@ -54,11 +54,11 @@ TObjNpcSoutokufu::TObjNpcSoutokufu(TObject *parent, void *arg2) : TUnk_804A9F50(
     ((TObjNpcSoutokufu *)this)->apply_set_data(arg2);
     init_position_vectors();
     model = get_bml_model(TObjNpcSoutokufu__shared_model_resource, 0);
-    texlist = (saddr)get_bml_texlist(TObjNpcSoutokufu__shared_model_resource, 0);
+    texlist = get_bml_texlist(TObjNpcSoutokufu__shared_model_resource, 0);
     ((TObjNpcBase *)this)->setup_common();
 }
 
-void TBoss8Dragon::trigger_switches_in_range(void *floor_stone, void *arg1, void *prm) {
+void TBoss8Dragon::trigger_switches_in_range(void *floor_stone, void *pos, void *prm) {
     f32 sp[3];
     f32 off;
     Ls_80289710 *list;
@@ -68,7 +68,7 @@ void TBoss8Dragon::trigger_switches_in_range(void *floor_stone, void *arg1, void
     list = ow->list;
     off = ((TBoss8Dragon *)prm)->calc_sq_offset(50.0f);
     for (n = list->head; n != NULL; n = n->next) {
-        if (!(n->flags & 8) && ((TBoss8Dragon *)arg1)->is_within_xz_distance((u8 *)n, (f32)off) != 0) {
+        if (!(n->flags & 8) && ((TBoss8Dragon *)pos)->is_within_xz_distance((u8 *)n, (f32)off) != 0) {
             sp[0] = n->f8;
             sp[1] = n->fc;
             sp[2] = n->f10;

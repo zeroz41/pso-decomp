@@ -7,7 +7,7 @@
 
 extern "C" {
 void *allocate_bml_chunk(BmlResource *resource, u8 *file, u32 *offset, u32 *tag);
-void increment_ref_and_set_flag__6TLobbyFPv(void *arg0);
+void increment_ref_and_set_flag__6TLobbyFPv(void *context);
 }
 struct BmlModelLoadRequest;
 struct BmlMotionLoadRequest;
@@ -25,7 +25,7 @@ TBinModel *init_bin_model_request(TBinModel *self, s32 kind, char **models, char
                                   saddr on_loaded_arg, s32 load_buffer);
 
 AnimationMotion *get_bml_motion(BmlResource *resource, s32 index);
-void increment_ref_and_set_flag__6TLobbyFPv(void *arg0);
+void increment_ref_and_set_flag__6TLobbyFPv(void *context);
 }
 // --- end of C functions
 

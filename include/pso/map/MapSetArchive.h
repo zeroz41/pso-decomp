@@ -28,6 +28,7 @@ LAYOUT_ASSERT(MapSetVariantSize, sizeof(MapSetVariant) == 8);
 LAYOUT_ASSERT(MapSetAreaSize, sizeof(MapSetArea) == 8);
 LAYOUT_ASSERT(MapSetModuleAreasOffset, offsetof(MapSetModule, areas) == 0);
 
-extern "C" MapSetArea *TLobby__data_805D6068;
+// Area table of the SetDataTable module in use.
+extern MapSetArea *map_set_areas;
 
 #endif

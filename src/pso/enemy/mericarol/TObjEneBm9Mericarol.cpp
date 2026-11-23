@@ -58,6 +58,7 @@
 #include "pso/technique/TTecKafun.h"
 #include "pso/player/TPlyDispData.h"
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
+#include "pso/object/base/TObjBase.h"
 #pragma defer_codegen on
 
 
@@ -146,7 +147,7 @@ void TObjEneBm9Mericarol::load_resources() {
     lbl_805D6874 = 0;
     lbl_805D6878 = 0;
     fn_802D1CC8();
-    TObjPlayer__sub_800F0928();
+    TObjPlayer::init_alt_model();
     for (i = 0; i < 3; i++) {
         bm9_mericarol_phase_hp_table[i] = (u8 *)TLobby::register_boss(mericarol_phase_hp_ids[i]);
         bm9_mericarol_phase_attack_table[i] = (u8 *)TLobby::dispatch_shared_handler_b(mericarol_phase_attack_ids[i]);
@@ -161,7 +162,7 @@ void TObjEneBm9Mericarol::load_resources() {
     clear_motion_packed_rotation();
     {
         NpcAnimationBinding params = { reinterpret_cast<BmlMotionEntry *>(mericarol_bml->motions), reinterpret_cast<TObjMotionAction *>(mericarol_motion_actions), 3, 1, 9 };
-        NpcModelRegistry::register_animated_chunk(0x42, reinterpret_cast<void *>(mericarol_bml->models[0].model), reinterpret_cast<void *>(mericarol_bml->models[0].texlist), &params,
+        NpcModelRegistry::register_animated_chunk(0x42, reinterpret_cast<void *>(mericarol_bml->models[0].model), mericarol_bml->models[0].texlist, &params,
             mericarol_collision_bodies[0].radius, 0.0f);
     }
 }
@@ -199,7 +200,7 @@ TObjEneBm9Mericarol::TObjEneBm9Mericarol(TObject *parent, void *set_data) : TObj
     }
     init_position_vectors();
     model = (void *)mericarol_bml->models[0].model;
-    texlist = (saddr)mericarol_bml->models[0].texlist;
+    texlist = mericarol_bml->models[0].texlist;
     init_model(mericarol_collision_bodies, 1);
     set_action_table((saddr)mericarol_motion_actions);
     set_motion_list((saddr)mericarol_bml->motions);
@@ -247,7 +248,7 @@ TObjEneBm9Mericarol::TObjEneBm9Mericarol(TObject *parent, void *set_data) : TObj
     transform_part_positions();
     mode = 0;
     dispatch_action(mode, 4);
-    sub_8002AE64();
+    enable_motion_blend();
     for (i = 0; i < 4; i++) {
         camera_fades[i].activate_and_dispatch();
     }
@@ -844,7 +845,7 @@ s32 TObjEneBm9Mericarol::check_attack_hits() {
                 t.power = mericarol_phase_param_table[get_phase()]->attack_power;
                 DirectAttackPayload payload = t;
                 if (p->receive_direct_attack(this, payload, 0, -1, -1) > 0.0f) {
-                    obj_setFlags30(p, 0x600);
+                    p->set_actor_flags(0x600);
                 }
             }
         }
@@ -1092,7 +1093,7 @@ void TObjEneBm9Mericarol::state_cast_technique(s32 reason) {
 }
 
 s32 TObjEneBm9Mericarol::get_clamped_level() {
-    player_stats *p = (player_stats *)stat_block;
+    player_stats *p = stat_block;
     s32 v = 0;
     if (p != 0) {
         v = p->level;
@@ -1194,7 +1195,7 @@ void TObjEneBm9Mericarol::render() {
         break;
     }
     saved_model_render_flags = model_render_flags;
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
+    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
     push_matrix();
     post_translate_matrix(&position.x);
     rotate_matrix_y(0, rotation_y);
@@ -1273,7 +1274,7 @@ void TObjEneBm9Mericarol::draw_color_variant() {
             ((NJS_TEXLIST *)texlist)->textures[2].texaddr = ((NJS_TEXLIST *)texlist)->textures[8].texaddr;
             break;
         }
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, rotation_y);
@@ -1313,7 +1314,7 @@ void TObjEneBm9Mericarol::play_step_effect() {
     VecCopy(&origin, &position);
     origin.y += 15.0f;
 
-    CsnHit *hit = csnVectorUnder(&origin, (CsnGroup **)&ground_cache, 0x15);
+    CsnHit *hit = csnVectorUnder(&origin, ground_candidates.groups, 0x15);
     if (hit != NULL) {
         u32 surface_mask = hit->hit_mask & 4;
         if (surface_mask != 0) {

@@ -275,7 +275,7 @@ void TOKurage::render() {
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_zyx(NULL, rotation_x, rotation_y, rotation_z);
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
         switch (state) {
         case 4:
             saved_model_render_flags = model_render_flags;
@@ -326,11 +326,11 @@ TOKurage::TOKurage(TObject *parent, void *set_data) : TObjMapObject(parent) {
     m_name = TOKurage__class_name;
     apply_object_set_data(set_data);
     model = (void *)get_bml_model((BmlResource *)TOKurage__bml_resource, 0);
-    texlist = (saddr)get_bml_texlist((BmlResource *)TOKurage__bml_resource, 0);
+    texlist = get_bml_texlist((BmlResource *)TOKurage__bml_resource, 0);
     motion = get_bml_motion(TOKurage__bml_resource, 0);
     motion2 = get_bml_motion(TOKurage__bml_resource, 1);
     animation_step = 0.5f;
-    animation_end_frame = (f32)*(u32 *)((s8 *)motion + 4) - 1.0f;
+    animation_end_frame = (f32)motion->frameCount - 1.0f;
     view_range = 500.0f;
     model_radius = 100.0f;
     init();

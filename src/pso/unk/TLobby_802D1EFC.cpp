@@ -4,9 +4,10 @@
 #include "pso/item/TItem.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TPlyItem.h"
+#include "pso/player/TPlyDispData.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/network/TradeSession.h"
 
-struct Entry_802D20C8 { u32 id; s32 count; };
 
 struct ItemA_802D20C8 { u8 b[0x14]; };
 
@@ -37,42 +38,42 @@ void TLobby::set_trade_field_4(s32 arg1) {
     *(s32 *)((s8 *)(((TLobby *)(arg0 + 0xF8))->get_trade_obj_ptr()) + 4) = arg1;
 }
 
-void snapshot_player_trade_inventory(saddr arg0, s32 arg1) {
+void snapshot_player_trade_inventory(saddr arg0, s32 client) {
     s32 ids[0x1E];
     s32 temp_r29;
     s32 var_r31;
-    u8 *temp_r31;
+    TradeItemEntry *trade_obj_ptr;
     TObjPlayer *player;
-    s32 var_r26;
+    s32 i;
     u8 *temp_r3_2;
     player_stats *temp_r3_3;
     u8 *var_r25;
     ((TLobby *)arg0)->update_both_halves();
-    player = get_player_by_client_id(arg1);
+    player = get_player_by_client_id(client);
     if (player != NULL) {
         temp_r29 = player->inventory_objects->run_and_get_result(ids);
         var_r25 = (unsigned char *) (arg0 + 0xF8);
-        var_r26 = 0;
-        while (var_r26 < temp_r29) {
-            temp_r3_2 = ((u8 *(*)(s32)) find_item_by_id)(ids[var_r26]);
+        i = 0;
+        while (i < temp_r29) {
+            temp_r3_2 = ((u8 *(*)(s32)) find_item_by_id)(ids[i]);
             if (temp_r3_2 != NULL) {
-                *(s32 *)((s8 *)var_r25 + 0) = ids[var_r26];
+                *(s32 *)((s8 *)var_r25 + 0) = ids[i];
                 *(s32 *)((s8 *)var_r25 + 4) = ((VObj802D1F30 *)temp_r3_2)->m34();
                 if ((s32) *(s32 *)((s8 *)var_r25 + 4) <= 0) {
                     *(s32 *)((s8 *)var_r25 + 4) = 1;
                 }
                 var_r25 += 8;
             }
-            var_r26 += 1;
+            i += 1;
         }
-        temp_r31 = (u8 *) ((TLobby *)(arg0 + 0xF8))->get_trade_obj_ptr();
+        trade_obj_ptr = (TradeItemEntry *)((TLobby *)(arg0 + 0xF8))->get_trade_obj_ptr();
         temp_r3_3 = player->get_stats();
-        *(s32 *)((s8 *)temp_r31 + 0) = -0xFF;
+        trade_obj_ptr->id = -0xFF;
         if (temp_r3_3 != NULL) {
-            *(s32 *)((s8 *)temp_r31 + 4) = (s32) temp_r3_3->meseta;
+            trade_obj_ptr->count = temp_r3_3->meseta;
             return;
         }
-        *(s32 *)((s8 *)temp_r31 + 4) = 0;
+        trade_obj_ptr->count = 0;
     }
 }
 
@@ -80,29 +81,29 @@ void TLobby::update_both_halves() { TLobby__sub_802D2358(this); TLobby__sub_802D
 
 void TLobby::clear_stale_entries(u8 *tail) {
     u8 *var_r29;
-    s32 var_r28;
+    s32 i;
 
     var_r29 = tail;
-    var_r28 = 0;
+    i = 0;
     do {
         if (((u32) (*(s32 *)((s8 *)var_r29 + 0) + 0x10000) != 0xFFFFU) && ((find_item_by_id(*(s32 *)((s8 *)var_r29 + 0)) == NULL) || ((s32) *(s32 *)((s8 *)var_r29 + 4) <= 0))) {
             *(s32 *)((s8 *)var_r29 + 0) = -1;
             *(s32 *)((s8 *)var_r29 + 4) = 0;
         }
-        var_r28 += 1;
+        i += 1;
         var_r29 += 8;
-    } while (var_r28 < 0x1E);
+    } while (i < 0x1E);
 }
-s32 TLobby::add_trade_item(u32 arg1, s32 arg2) {
+s32 TLobby::add_trade_item(u32 arg1, s32 cnt) {
     ItemB_802D20C8 a;
     ItemA_802D20C8 b;
     uaddr item;
-    Entry_802D20C8 *e;
+    TradeItemEntry *e;
     uaddr found;
     s32 i;
     if (arg1 == 0xFFFFFF01) {
         s32 *t = (s32 *) this->get_trade_obj_ptr();
-        t[1] += arg2;
+        t[1] += cnt;
         return t[1] > 999999;
     }
     item = ((u32 (*)(u32)) find_item_by_id)(arg1);
@@ -111,14 +112,14 @@ s32 TLobby::add_trade_item(u32 arg1, s32 arg2) {
     }
     if (TObjPlayer__sub_801C1AC8() != 0) {
         ((TItem *)item)->copy_to_item_data((TItemData *)&a);
-        e = ((Entry_802D20C8 *)this);
+        e = ((TradeItemEntry *)this);
         for (i = 0; i < 30; i++, e++) {
             if (e->id != 0xFFFFFFFF && e->id != 0xFFFFFF01) {
                 found = ((u32 (*)(u32)) find_item_by_id)(e->id);
                 if (found != 0) {
                     ((TItem *)found)->copy_to_item_data((TItemData *)&b);
                     if (item_identity_matches((u8 *)&b, (u8 *)&a) != 0) {
-                        e->count += arg2;
+                        e->count += cnt;
                         if (e->count > ((TItem *)found)->get_max_stack_size()) {
                             return 2;
                         }
@@ -127,11 +128,11 @@ s32 TLobby::add_trade_item(u32 arg1, s32 arg2) {
             }
         }
     }
-    e = (Entry_802D20C8 *)TLobby::find_free_trade_slot(this);
+    e = (TradeItemEntry *)TLobby::find_free_trade_slot(this);
     if (e == NULL) {
         return 3;
     }
     e->id = arg1;
-    e->count = arg2;
+    e->count = cnt;
     return 0;
 }

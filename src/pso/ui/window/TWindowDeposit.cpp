@@ -13,6 +13,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 
 #include "pso/unk/WindowLayoutRecord.h"
+#include "pso/unk/TUnk_804CF998.h"
 #include "pso/ui/window/WindowLayout.h"
 
 // inferred: window_deposit_layout_entries, the layout table window_deposit_layout points at.
@@ -33,15 +34,15 @@ WindowDescriptor window_deposit_layout = {
     {160.0f, 27.0f}, 50100.0f, &window_deposit_layout_entries, 0x82B,
 };
 
-extern "C" {
-extern s32 __vt__14TWindowDeposit[];
 #pragma push
 #pragma readonly_strings on
-const char *TWindowDeposit__name = "TWindowDeposit";
+const char *TWindowDeposit::class_name = "TWindowDeposit";
 #pragma pop
 
+extern "C" {
+
 void TWindowDeposit::render_status(WindowDrawContext *context) {
-    draw_window_tab(context, &context->inner_x, 3, this->m_60);
+    draw_window_tab(context, &context->inner_x, 3, this->width);
 }
 
 void TWindowDeposit::render() {
@@ -53,43 +54,30 @@ void TWindowDeposit::render() {
 void TWindowDeposit::run_task() { ((TWindowDD *)this)->initialize_subwindow(); update_window_entry_list(reinterpret_cast<const WindowLayoutEntries *>((char*)this + 0x24)); }
 
 TWindowDeposit::~TWindowDeposit() {}
-#pragma opt_common_subs off
-#pragma opt_propagation off
-#pragma opt_dead_assignments off
-u8 *TWindowDeposit__ct(u8 *arg0, s16 client) {
-  u8 *temp_r30;
-  u32 spC;
-  s32 sp8;
-  f32 temp_f31;
-  saddr str;
-  u32 temp_r3_2;
-  u8 *temp_r31;
-  __ct__11TWindowBaseFPUcsPUc((void *) arg0, (u8 *) &window_deposit_layout, client, (u8 *) get_window_layout_position(0x29));
-  *((s32 **) (((s8 *) arg0) + (((((0x18 & 0xFFFFFFFFFFFFFFFFu) & 0xFFFFFFFFFFFFFFFFu) & 0xFFFFFFFFFFFFFFFFu) & 0xFFFFFFFFFFFFFFFFu) & 0xFFFFFFFFFFFFFFFFu))) = __vt__14TWindowDeposit;
-  *((s32 *) (((s8 *) arg0) + 0)) = (saddr) TWindowDeposit__name;
-  str = get_message_text(2);
-  temp_r3_2 = calc_text_width((char *)str);
-  spC = temp_r3_2;
-  sp8 = 0x43300000;
-  temp_f31 = (f32) temp_r3_2;
-  ((TWindowDeposit *)arg0)->m_60 = TWindowSubStatusDisp__sub_802877A4(96.0f + (12.0f + temp_f31));
-  temp_r30 = (u8 *) ((u8 *)((TWindowBase *)arg0)->get_array_entry(0));
-  temp_r31 = (u8 *) ((u8 *)((TWindowBase *)arg0)->get_array_entry(1));
-  set_text_entry_string(temp_r30, str, 0);
-  *((f32 *) (((s8 *) temp_r31) + 8)) = (f32) (96.0f + (12.0f + (8.0f + temp_f31)));
-  ((TWindowDeposit *)arg0)->target_size[0] = TWindowSubStatusDisp::get_base_y(((TWindowDeposit *)arg0)->m_60);
-  ((TWindowBase *)arg0)->save_position();
-  if (TCameraCtrl::get_camera_id() > 2)
-  {
-    *((f32 *) (((s8 *) arg0) + 0x64)) = 0.75f;
-    *((f32 *) (((s8 *) arg0) + 0x68)) = 0.75f;
-  }
-  else
-  {
-    *((f32 *) (((s8 *) arg0) + 0x64)) = 1.0f;
-    *((f32 *) (((s8 *) arg0) + 0x68)) = 1.0f;
-  }
-  return arg0;
+TWindowDeposit::TWindowDeposit(s16 client)
+    : TWindowBase((u8 *)&window_deposit_layout, client, (u8 *)get_window_layout_position(0x29)) {
+    u8 *label;
+    TUnk_804CF998 *amount;
+    f32 text_width;
+    saddr text;
+
+    m_name = class_name;
+    text = get_message_text(2);
+    text_width = (f32)calc_text_width((char *)text);
+    width = TWindowSubStatusDisp__sub_802877A4(96.0f + (12.0f + text_width));
+    label = (u8 *)get_array_entry(0);
+    amount = (TUnk_804CF998 *)get_array_entry(1);
+    set_text_entry_string(label, text, 0);
+    amount->x = 96.0f + (12.0f + (8.0f + text_width));
+    target_size[0] = TWindowSubStatusDisp::get_base_y(width);
+    save_position();
+    if (TCameraCtrl::get_camera_id() > 2) {
+        scale[0] = 0.75f;
+        scale[1] = 0.75f;
+    } else {
+        scale[0] = 1.0f;
+        scale[1] = 1.0f;
+    }
 }
 
 }

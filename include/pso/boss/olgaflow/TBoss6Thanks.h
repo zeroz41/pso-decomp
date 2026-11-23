@@ -4,7 +4,7 @@
 #include "pso/system/task/TObject.h"
 
 struct NJS_OBJECT;
-struct GinjaTextureList;
+struct NJS_TEXLIST;
 struct AnimationMotion;
 class TParticleCtrl;
 
@@ -21,8 +21,8 @@ struct TBoss6Thanks : public TObject {
     s32 fade_frame;  // update_fade_out counts it to 120
     NJS_OBJECT *model0;
     NJS_OBJECT *model1;
-    GinjaTextureList *texture0;
-    GinjaTextureList *texture1;
+    NJS_TEXLIST *texture0;
+    NJS_TEXLIST *texture1;
     AnimationMotion *motions[2];
     AnimationMotion *motion1;
     TParticleCtrl *particle_emitters[4];

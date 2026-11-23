@@ -61,8 +61,7 @@
 #include "pso/boss/darkfalz/TObjDFJisin.h"
 #include "pso/boss/darkfalz/TObjDFHorming.h"
 #include "pso/object/trap/TOTrapAncient01_80226534.h"
-
-extern "C" {
+#include "pso/object/base/TObjBase.h"
 
 // One row of boss4_type1_motion_states: the playback kind (update_boss4_phase_timer: 0 loop,
 // 1 hold, 2 chain to next), the row it chains to and the motion of each of the six body parts.
@@ -156,7 +155,6 @@ Vec boss4_type2_motion_vec_table[4] = {
 s32 boss4_type1_turn_motion_ids[3] = { 2, 5, 8 };
 TBoss4Type1XZ boss4_type1_turn_xz_offsets[3] = { { 130.0f, 0.0f }, { 0.0f, 130.0f }, { -130.0f, 0.0f } };
 s32 boss4_type2_state_motion_index_table[3] = { 4, 7, 10 };
-}
 
 extern const s32 boss4_type1_emitter_id_table[8] = { 0x144, 0x144, 0x144, 0x144, 0x145, 0x145, 0x145, 0x145 };
 extern const ModelNodeSpec boss4_type1_model_node_table[7] = {
@@ -317,7 +315,7 @@ void apply_tenchu_hits(TObject *source) {
         if (player == NULL) {
             continue;
         }
-        if (is_player_in_boss_area(get_entity_id(player)) == 0) {
+        if (is_player_in_boss_area(player->get_entity_id()) == 0) {
             continue;
         }
         target = TBoss4Type2__tenchu_furu_array;
@@ -795,7 +793,7 @@ void TBoss4Type1::pick_target_position(Vec *out) {
         if (p == NULL) {
             continue;
         }
-        if (is_player_in_boss_area(get_entity_id(p)) == 0) {
+        if (is_player_in_boss_area(p->get_entity_id()) == 0) {
             continue;
         }
         {

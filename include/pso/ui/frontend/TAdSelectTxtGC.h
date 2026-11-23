@@ -4,6 +4,8 @@
 #include "pso/system/task/TObject.h"
 #include "types.h"
 
+class TAdSelectTxtSubGC;
+
 // Where a select screen's text goes: its text id and screen position.
 struct TAdSelectTxtLayout {
     s32 text_id;
@@ -32,7 +34,7 @@ public:
 
     TAdSelectTxtEntry entries[8];
     s32 spawn_count;
-    TObject *lines[8];
+    TAdSelectTxtSubGC *lines[8];
 };
 
 extern uaddr ad_select_text_texture_handle;

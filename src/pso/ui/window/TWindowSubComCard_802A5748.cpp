@@ -17,21 +17,19 @@
 extern "C" {
 
 
-void TWindowSubComCard::close() { queue_destruction(); }
+void TWindowMessageYesNo::close() { queue_destruction(); }
 void TWindowMessageYesNo::set_menu_selected_index(s16 index) { if (choice_menu) ((TWindowSubComCardList *)choice_menu)->set_selected_index(index); }
-s32 TWindowSubComCard::get_slot_or_neg1() {
-    saddr v = this->m_2c;
-    if ((u32) v == 0U) {
+s32 TWindowMessageYesNo::get_selected_value() {
+    if (choice_menu == NULL) {
         return -1;
     }
-    return ((TWindowMenu *)v)->get_selected_value();
+    return choice_menu->get_selected_value();
 }
-s32 TWindowSubComCard::get_card_data() {
-    saddr v = this->m_2c;
-    if ((u32) v == 0U) {
+s32 TWindowMessageYesNo::is_cancelled() {
+    if (choice_menu == NULL) {
         return 0;
     }
-    return ((TWindowMenu *)v)->is_cancelled();
+    return choice_menu->is_cancelled();
 }
 
 s32 TWindowMessageYesNo::is_child_visible() {
@@ -41,12 +39,12 @@ s32 TWindowMessageYesNo::is_child_visible() {
     return choice_menu->is_decided();
 }
 }
-void initialize_option_dialog(void *arg0, s32 message, s32 position, f32 width) {
-    *(s32 *)((s8 *)arg0 + 0x28) = (saddr)create_window_menu((saddr)(position), 1, *(s32 *)((s8 *)arg0 + 0x24));
-    TObjCityMainWarp::forward_trade_action_default((void *)(*(saddr *)((s8 *)arg0 + 0x28)), (int)message, 0x21, 0);
-    ((TAdChrSelASlotGC *)(*(saddr *)((s8 *)arg0 + 0x28)))->set_flag_40();
-    TQuestThread::set_status_flag_80((void *)(*(saddr *)((s8 *)arg0 + 0x28)));
-    ((TWindowSubComCard *)(*(saddr *)((s8 *)arg0 + 0x28)))->calc_layout_height(width);
+void initialize_option_dialog(void *dialog, s32 message, s32 position, f32 width) {
+    *(s32 *)((s8 *)dialog + 0x28) = (saddr)create_window_menu((saddr)(position), 1, *(s32 *)((s8 *)dialog + 0x24));
+    ((TWindowMenu *)(*(saddr *)((s8 *)dialog + 0x28)))->add_text_entry(message, 0x21, 0);
+    ((TWindowMenu *)(*(saddr *)((s8 *)dialog + 0x28)))->set_flag_40();
+    TQuestThread::set_status_flag_80((void *)(*(saddr *)((s8 *)dialog + 0x28)));
+    ((TWindowSubComCard *)(*(saddr *)((s8 *)dialog + 0x28)))->calc_layout_height(width);
 }
 
 void open_yes_no_prompt(TWindowMessageYesNo *dialog, u32 title, s32 text, s32 position_id, f32 width) {
@@ -56,12 +54,12 @@ void open_yes_no_prompt(TWindowMessageYesNo *dialog, u32 title, s32 text, s32 po
     } else {
         dialog->message_menu = reinterpret_cast<TWindowMenu *>(create_titled_window_menu(position_id, 1, title, dialog->client_id));
     }
-    TObjCityMainWarp::forward_trade_action_default(dialog->message_menu, text, 0x21, 0);
-    reinterpret_cast<TAdChrSelASlotGC *>(dialog->message_menu)->set_flag_40();
+    dialog->message_menu->add_text_entry(text, 0x21, 0);
+    reinterpret_cast<TWindowMenu *>(dialog->message_menu)->set_flag_40();
     TQuestThread::set_status_flag_80(dialog->message_menu);
     reinterpret_cast<TWindowSubComCard *>(dialog->message_menu)->calc_layout_height(width);
     dialog->get_choice_menu_position(&position);
     dialog->choice_menu = create_yes_no_window(&position, dialog->client_id,
-                                              reinterpret_cast<const char *>(dialog->m_20),
-                                              reinterpret_cast<const char *>(dialog->m_1c));
+                                              reinterpret_cast<const char *>(dialog->yes_text),
+                                              reinterpret_cast<const char *>(dialog->no_text));
 }

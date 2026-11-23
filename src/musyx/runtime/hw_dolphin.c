@@ -108,16 +108,16 @@ u32 salInitDsp(u32 flags) {
 }
 
 
-void salCtrlDsp(saddr arg0) {
-    u16 *temp_r31;
-    salBuildCommandList((void *) (arg0), (int) (salGetStartDelay()));
-    temp_r31 = dspCmdList;
+void salCtrlDsp(saddr dest) {
+    u16 *mail;
+    salBuildCommandList((void *) (dest), (int) (salGetStartDelay()));
+    mail = dspCmdList;
     salDspIsDone = 0;
     PPCSync();
     DSPSendMailToDSP(dspCmdFirstSize | 0xBABE0000);
     do {
     } while (DSPCheckMailToDSP() != 0U);
-    DSPSendMailToDSP((uaddr)temp_r31);
+    DSPSendMailToDSP((uaddr)mail);
     do {
     } while (DSPCheckMailToDSP() != 0U);
 }

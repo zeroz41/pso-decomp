@@ -36,7 +36,7 @@ void draw_chunk_model(void *);
 extern u32 saved_model_render_flags;
 extern s32 saved_chunk_polygon_flags_and_mask;
 extern s32 saved_chunk_polygon_flags_or_mask;
-GinjaTextureList *falz_zako_texture_list;
+NJS_TEXLIST *falz_zako_texture_list;
 void *falz_zako_chunk_model;
 s32 TBoss4ZakoDraw__draw_buffer_index;
 s32 TBoss4ZakoDraw__rotation_phase;

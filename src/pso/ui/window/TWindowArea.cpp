@@ -9,7 +9,6 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/window/TWindowSubComCard.h"
-#include "pso/ui/window/TWindowSubComCard_80244774.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
 #include "pso/ui/window/TObjResultWin.h"
 #include "pso/ui/window/TWindowRoom.h"
@@ -42,12 +41,12 @@ void TWindowArea::run_task() { ((TWindowDD *)this)->initialize_subwindow(); this
 #pragma fp_contract on
 TWindowArea *create_window_area() {
     TWindowArea *object;
-    u8 *temp_r31;
+    u8 *title_entry;
     object = new TWindowArea();
     fn_802449E0((u8 *)object);
     fn_8024450C(reinterpret_cast<saddr>(object));
-    temp_r31 = (u8 *)((TWindowRoom *)object)->get_title_entry();
-    *(f32 *)((s8 *)temp_r31 + 8) = 80.0f - 0.5f * (f32) calc_text_width((char *)(((TWindowSubComCard *)temp_r31)->get_field_20()));
+    title_entry = (u8 *)((TWindowRoom *)object)->get_title_entry();
+    *(f32 *)((s8 *)title_entry + 8) = 80.0f - 0.5f * (f32) calc_text_width((char *)(((TWindowSubComCard *)title_entry)->get_field_20()));
     return object;
 }
 #pragma pop

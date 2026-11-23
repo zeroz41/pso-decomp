@@ -8,37 +8,37 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/ui/Language.h"
 #include "pso/player/TPlyItem.h"
+#include "pso/player/PlayerSlots.h"
 
 extern "C" {
 
 TObjPlayer *get_local_player();
 
-void export_state_to_record__10TObjPlayerFPvPv(u8 *arg0, s8 *arg1);
+void export_state_to_record__10TObjPlayerFPvPv(u8 *player, s8 *arg1);
 
 extern s32 local_client_id;
 
 s32 sync_state__10TObjPlayerFi(saddr arg0) {
-    uaddr temp_r3;
-    temp_r3 = (uaddr)get_local_player();
-    if (temp_r3 == 0U) {
-        TPlyOnCreated::create((u16)local_client_id, (void *)fn_802C4748);
+    uaddr player;
+    player = (uaddr)get_local_player();
+    if (player == 0U) {
+        TPlyOnCreated::create((u16)local_client_id, fn_802C4748);
         return 0;
     }
-    export_state_to_record__10TObjPlayerFPvPv((u8 *)temp_r3, (s8 *)arg0);
+    export_state_to_record__10TObjPlayerFPvPv((u8 *)player, (s8 *)arg0);
     return 1;
 }
 
 
 void TObjPlayer::sync_char_select_state() { TAdSinglePlyChrSelectGC::get_char_index((uaddr)(65535)); ((int (*)(void))sync_state__10TObjPlayerFi)(); }
 
-void *get_player_by_client_id(s32 i);
 
-s32 try_assign_battle_ctrl__10TObjPlayerFiUs(saddr arg0, u16 arg1) {
-    s32 temp = (saddr)get_player_by_client_id((arg1));
+s32 TObjPlayer::try_assign_battle_ctrl(u16 client) {
+    s32 temp = (saddr)get_player_by_client_id((client));
     if (temp == 0) {
         return 0;
     }
-    ((s32 (*)(void *, s32))export_player_record__10TObjPlayerFPvPv)((void *)arg0, temp);
+    ((s32 (*)(void *, s32))export_player_record__10TObjPlayerFPvPv)((void *)this, temp);
     return 1;
 }
 
@@ -82,7 +82,6 @@ s32 copy_player_visual_record(void *, void *);
 s32 TObjPlayer__sub_8013A748(void *, void *);
 void is_slot_within_limit__10TObjPlayerFllUc(u8 id, s16 i, u8 v);
 s32 clamp_stats__10TObjPlayerFiPv(void *, void *, void *);
-u8 TObjPlayer__sub_801BE7BC(void *);
 u8 TObjPlayer__sub_801C0124(void *, s16);
 s32 TObjPlayer__sub_802A1018();
 int init_action_config__10TObjPlayerFv(void*);
@@ -90,35 +89,35 @@ int set_palette_entry__20TWindowActionPaletteFlllll(void*);
 
 void TObjPlayer::init_battle_selection() { TAdSinglePlyChrSelectGC::get_char_index((uaddr)(65535)); ((int (*)(void))update_battle__10TObjPlayerFi)(); }
 
-void export_player_record__10TObjPlayerFPvPv(TObjPlayer *arg0, u8 *arg1) {
+void export_player_record__10TObjPlayerFPvPv(TObjPlayer *player, u8 *arg1) {
     E_802C4698 *e;
     s32 i;
     ((TObjPlayer *)arg1)->set_flag_80000();
-    copy_player_visual_record((u8 *)arg0 + 0x370, arg1 + 0x85C);
-    *(s8 *)((s8 *)arg0 + 0) = query_state_if_present__10TObjPlayerFPv(reinterpret_cast<TObjPlayer *>(arg1), static_cast<TPlyInventoryItem *>(arg0->get_ptr_4()));
+    copy_player_visual_record((u8 *)player + 0x370, arg1 + 0x85C);
+    *(s8 *)((s8 *)player + 0) = query_state_if_present__10TObjPlayerFPv(reinterpret_cast<TObjPlayer *>(arg1), static_cast<TPlyInventoryItem *>(player->get_ptr_4()));
     ((TObjPlayer *)arg1)->inventory_objects->set_flag_and_update((TObjPlayer *)arg1);
-    clamp_stats__10TObjPlayerFiPv(arg1, (u8 *)arg0 + 0x34C, (void *) (TObjPlayer::get_class_stat_entry((u8 *)arg1)));
-    *(s8 *)((s8 *)arg0 + 1) = ((TObjPlayer *)arg1)->get_hp_material_points();
-    *(s8 *)((s8 *)arg0 + 2) = ((TObjPlayer *)arg1)->get_tp_materials_clamped();
-    arg0->set_flag_e7(((TObjPlayer *)arg1)->get_field_374());
-    arg0->set_flag_103(((TObjPlayer *)arg1)->get_field_374_state());
-    arg0->set_action_flags(((TObjPlayer *)arg1)->get_inventory_state());
-    arg0->set_byte_13b(((TObjPlayer *)arg1)->get_equip_flags());
-    arg0->set_field_157(TObjPlayer__sub_801BE7BC(arg1));
-    TObjPlayer__sub_8013A748((u8 *)arg0 + 0x3C0, arg1 + 0x500);
+    clamp_stats__10TObjPlayerFiPv(arg1, (u8 *)player + 0x34C, (void *) (TObjPlayer::get_class_stat_entry((u8 *)arg1)));
+    *(s8 *)((s8 *)player + 1) = ((TObjPlayer *)arg1)->get_hp_material_points();
+    *(s8 *)((s8 *)player + 2) = ((TObjPlayer *)arg1)->get_tp_materials_clamped();
+    player->set_flag_e7(((TObjPlayer *)arg1)->get_field_374());
+    player->set_flag_103(((TObjPlayer *)arg1)->get_field_374_state());
+    player->set_action_flags(((TObjPlayer *)arg1)->get_inventory_state());
+    player->set_byte_13b(((TObjPlayer *)arg1)->get_equip_flags());
+    player->set_field_157(((TObjPlayer *)arg1)->get_luck_materials_used());
+    TObjPlayer__sub_8013A748((u8 *)player + 0x3C0, arg1 + 0x500);
     for (i = 0; i < 0x13; i++) {
-        e = TObjPlayer__sub_802C4698((O_802C4698 *) arg0, i);
+        e = TObjPlayer__sub_802C4698((O_802C4698 *) player, i);
         TObjPlayer::split_capped_value(TObjPlayer__sub_801C0124(arg1 + 0x428, i),
-            TObjPlayer__sub_802C4688((O_802C4688 *) arg0, i), (s8 *)e);
+            TObjPlayer__sub_802C4688((O_802C4688 *) player, i), (s8 *)e);
     }
-    *(s8 *)((s8 *)arg0 + 3) = current_language;
+    *(s8 *)((s8 *)player + 3) = current_language;
     if (TObjPlayer__sub_802A1018() != 0) {
-        arg0->set_flag_40();
+        player->set_flag_40();
     }
-    ((TObjPlayer *)arg1)->apply_pending_action((saddr)arg0);
-    ((TObjPlayer *)arg1)->copy_mag_level_to_record((u8 *)arg0);
-    ((TObjPlayer *)arg1)->copy_byte_339_to_record((u8 *)arg0);
-    ((TObjPlayer *)arg1)->copy_battle_mode((u8 *)arg0);
+    ((TObjPlayer *)arg1)->apply_pending_action((saddr)player);
+    ((TObjPlayer *)arg1)->copy_mag_level_to_record((u8 *)player);
+    ((TObjPlayer *)arg1)->copy_byte_339_to_record((u8 *)player);
+    ((TObjPlayer *)arg1)->copy_battle_mode((u8 *)player);
     ((TObjPlayer *)arg1)->clear_flag_80000();
 }
 
@@ -136,13 +135,13 @@ void TObjPlayer::set_action_palette_slot(s32 i, u8 v) {
 }
 
 void*TObjPlayer::get_action_data() { return (char*)this + 0x408; }
-void TObjPlayer::set_field_157(u8 v) { this->m_157 = v; }
-void TObjPlayer::set_byte_13b(u8 v) { this->m_13b = v; }
+void TObjPlayer::set_field_157(u8 v) { *((u8 *)this + 0x157) = v; }
+void TObjPlayer::set_byte_13b(u8 v) { *((u8 *)this + 0x13B) = v; }
 void TObjPlayer::set_action_flags(u8 v) { this->m_11f = v; }
 void TObjPlayer::set_flag_103(u8 v) { this->m_103 = v; }
 void TObjPlayer::set_flag_e7(u8 v) { *((u8 *)this + 0xE7) = v; }
-void TObjPlayer::set_field_1ab(u8 v) { this->m_1ab = v; }
-void TObjPlayer::set_field_18f(u8 v) { this->m_18f = v; }
+void TObjPlayer::set_field_1ab(u8 v) { *((u8 *)this + 0x1AB) = v; }
+void TObjPlayer::set_field_18f(u8 v) { *((u8 *)this + 0x18F) = v; }
 
 void TObjPlayer::set_current_time() {
     saddr arg0 = (saddr)this;

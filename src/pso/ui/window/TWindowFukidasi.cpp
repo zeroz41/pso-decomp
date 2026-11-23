@@ -134,20 +134,18 @@ struct Slice_802523CC { f32 x; u8 pad4[8]; f32 width; u8 pad10[4]; f32 lean; u8 
 struct Ctx_802523CC { u8 pad0[0x20]; f32 pivot; u8 pad24[4]; f32 scale; };
 Ent_802511E4 * find_entity_by_id(u16);
 s32 play_sound_effect(int, int, int, int);
-s32 sub_80246948__11TWindowBaseFv(void *);
 void TWindowSubSymbolChat__sub_802483F0(int a0, void *a1);
 s32 draw_resolved_window__15TWindowFukidasiFllll(Fuki_80250F70 *, f32 *, f32 *, s32);
 }
 
 void complete_speech_balloon(u8 *arg0);
-s32 is_speech_balloon_ready(u8 *arg0);
+s32 is_speech_balloon_ready(u8 *window_base);
 extern "C" {
 void clamp_text_size__15TWindowFukidasiFPvPv(Fuki_80250314 *b, f32 *out);
 s32 TWindowFukidasi__sub_802505C0(Fuki_80251028 *b, f32 *rect, f32 *out);
 s32 shift_rect_with_head__15TWindowFukidasiFPvPvPv(Fuki_80250F70 *b, f32 *rect, f32 *out);
 void refresh_rect_placement__15TWindowFukidasiFPv(Fuki_80251028 *b);
 void set_text__15TWindowFukidasiFPvii(u8 *arg0, saddr arg1, saddr arg2);
-void init_flags__15TWindowFukidasiFPvi(void *arg0, s32 arg1);
 void draw_name_plate__15TWindowFukidasiFv(TWindowFukidasi *, View_80252764 *, u32);
 void TWindowFukidasi__sub_80252C38(void *p);
 s32 fn_80252CBC(void);
@@ -227,7 +225,7 @@ void TWindowFukidasi::run_task() {
   switch (*((u8 *) (((s8 *) arg0) + 0x70)))
   {
     case 1:
-      ((TWindowFukidasi *)arg0)->calc_text_size((f32 *)(((u8 *) arg0) + 0x38));
+      ((TWindowFukidasi *)arg0)->calc_text_size(&this->target_size[0]);
       *((s32 *) (((s8 *) arg0) + 0x50)) = 6;
       ((TWindowFukidasi *)arg0)->clear_flag();
       ((TWindowFukidasi *)arg0)->set_flag2c_bit100();
@@ -248,7 +246,7 @@ void TWindowFukidasi::run_task() {
     {
       *((s16 *) (((s8 *) arg0) + 0x74)) = (s16) ((*((s16 *) (((s8 *) arg0) + 0x74))) - 1);
       *((f32 *) (((s8 *) arg0) + 0x58)) += 0.1f;
-      *((f32 *) (((s8 *) arg0) + 0x1C)) += 0.1f;
+      this->sort_depth += 0.1f;
       if ((*((s16 *) (((s8 *) arg0) + 0x74))) < 0)
       {
         *((u8 *) (((s8 *) arg0) + 0x70)) = 7U;
@@ -271,7 +269,7 @@ void TWindowFukidasi::run_task() {
     case 7:
       ((TWindowFukidasi *)arg0)->clear_flag();
       ((TWindowFukidasi *)arg0)->clear_flag2c_bit100();
-      *((s32 *) (((s8 *) arg0) + 0x2C)) = (s32) ((*((s32 *) (((s8 *) arg0) + 0x2C))) & 0xFFFFFFFE);
+      this->window_flags = (s32) ((this->window_flags) & 0xFFFFFFFE);
       *((u8 *) (((s8 *) arg0) + 0x71)) = (u8) ((*((u8 *) (((s8 *) arg0) + 0x71))) | 0x10);
       *((u8 *) (((s8 *) arg0) + 0x70)) = 8U;
     case 8:
@@ -353,7 +351,7 @@ void TWindowFukidasi::draw_body(void *ctx, u32 argb, f32 *offset, f32 depth) {
     s.f2c = 0.0f;
     s.f30 = 0.0f;
     begin_screen_draw(1);
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(hud_texlist));
+    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(hud_texlist));
     set_draw_texture_and_color(1, argb);
     if (((struct Fukidasi_80252558 *)this)->size[1] < 64.0f) {
         capY = 0.5f * ((struct Fukidasi_80252558 *)this)->size[1];
@@ -550,7 +548,7 @@ void draw_name_plate__15TWindowFukidasiFv(TWindowFukidasi *self, View_80252764 *
 
 #pragma pop
 extern "C" {
-void TWindowFukidasi::init_balloon(u16 arg1, s32 str, s32 arg3, f32 farg0) {
+void TWindowFukidasi::init_balloon(u16 speaker, s32 str, s32 client, f32 scale) {
     u32 len;
 
     *(s32 *)((s8 *)this + 0) = (saddr) window_fukidasi_class_name;
@@ -558,8 +556,8 @@ void TWindowFukidasi::init_balloon(u16 arg1, s32 str, s32 arg3, f32 farg0) {
     this->m_71 = 0;
     *(s8 *)&this->unk_72 = 2;
     this->m_73 = -1;
-    this->speaker_id = arg1;
-    this->client_index = arg3;
+    this->speaker_id = speaker;
+    this->client_index = client;
     if (str != 0) {
         len = TWindowKeyBoardSoft::strnlen((s8 *)str, (u32)0x18);
         this->name = (char *)mem_alloc(len + 1);
@@ -567,35 +565,35 @@ void TWindowFukidasi::init_balloon(u16 arg1, s32 str, s32 arg3, f32 farg0) {
     } else {
         this->name = 0;
     }
-    set_color(arg1);
-    *(f32 *)((s8 *)this + 0x80) = 0.0f;
-    this->m_7c = farg0;
+    set_color(speaker);
+    this->tail_scale = 0.0f;
+    this->m_7c = scale;
     this->frame_size[0] = 0.0f;
     this->frame_size[1] = 0.0f;
     this->clear_flag();
     this->clear_flag2c_bit100();
 }
 
-void init_flags__15TWindowFukidasiFPvi(void *arg0, s32 arg1) {
-    ((TWindowFukidasi *)arg0)->m_58 = 0.0f;
-    ((TWindowBase *)arg0)->set_depth(60000.0f);
-    if (((TWindowBase *)arg0)->sub_80246948() != 0) {
-        ((TWindowFukidasi *)arg0)->window_flags = (s32) (((TWindowFukidasi *)arg0)->window_flags | 1);
+void TWindowFukidasi::init_flags(s32 flags) {
+    this->m_58 = 0.0f;
+    this->set_depth(60000.0f);
+    if (this->is_closed() != 0) {
+        this->window_flags = (s32) (this->window_flags | 1);
     }
-    ((TWindowFukidasi *)arg0)->m_71 = (u8) (((TWindowFukidasi *)arg0)->m_71 & ~0x50);
-    if (arg1 & 2) {
-        ((TWindowFukidasi *)arg0)->m_71 = (u8) (((TWindowFukidasi *)arg0)->m_71 | 8);
+    this->m_71 = (u8) (this->m_71 & ~0x50);
+    if (flags & 2) {
+        this->m_71 = (u8) (this->m_71 | 8);
     } else {
-        ((TWindowFukidasi *)arg0)->m_71 = (u8) (((TWindowFukidasi *)arg0)->m_71 & 0xFFFFFFF7);
+        this->m_71 = (u8) (this->m_71 & 0xFFFFFFF7);
     }
-    if (arg1 & 0x20) {
-        ((TWindowFukidasi *)arg0)->m_71 = (u8) (((TWindowFukidasi *)arg0)->m_71 | 2);
-        ((TWindowFukidasi *)arg0)->set_flag();
-        ((TWindowFukidasi *)arg0)->set_flag2c_bit200();
-        ((TWindowFukidasi *)arg0)->m_73 = 4;
+    if (flags & 0x20) {
+        this->m_71 = (u8) (this->m_71 | 2);
+        this->set_flag();
+        this->set_flag2c_bit200();
+        this->m_73 = 4;
         return;
     }
-    ((TWindowFukidasi *)arg0)->m_71 = (u8) (((TWindowFukidasi *)arg0)->m_71 & 0xFFFFFFFD);
+    this->m_71 = (u8) (this->m_71 & 0xFFFFFFFD);
 }
 
 // Dead-stripped from the DOL: no code of it survives, only its literal (1e6 at
@@ -613,7 +611,7 @@ extern "C" {
 void set_text__15TWindowFukidasiFPvii(u8 *arg0, saddr str, saddr flags) {
   u32 new_var;
   u8 *entry;
-  ((s32 (*)(void *, void *))init_flags__15TWindowFukidasiFPvi)((void *) arg0, (void *) flags);
+  ((TWindowFukidasi *)arg0)->init_flags(flags);
   ((TWindowFukidasi *)arg0)->clear_flag();
   if (((u8) (*((u8 *) (((s8 *) arg0) + 0x72)))) != 0)
   {
@@ -672,7 +670,7 @@ void open__15TWindowFukidasiFPvPvi(u8 *arg0, u32 *arg1, s32 flags) {
     u8 temp_r0;
 
     var_r31 = 0;
-    ((s32 (*)(void *, s32))init_flags__15TWindowFukidasiFPvi)(arg0, flags);
+    ((TWindowFukidasi *)arg0)->init_flags(flags);
     if ((u8) *(u8 *)((s8 *)arg0 + 0x72) != 1) {
         *(u8 *)((s8 *)arg0 + 0x72) = 1U;
         reinterpret_cast<WindowLayoutEntries *>((arg0 + 0x24))->destroy_all_items();
@@ -693,7 +691,7 @@ void open__15TWindowFukidasiFPvPvi(u8 *arg0, u32 *arg1, s32 flags) {
             *(s32 *)((s8 *)arg0 + 0x5C) = 0;
         }
     }
-    set_symbol_chat_parts__20TWindowSubSymbolChatFiPv((saddr)(arg0 + 0x24), (void *)arg1);
+    set_symbol_chat_parts(&((TWindowFukidasi *)arg0)->entry_list, (void *)arg1);
     TWindowSubSymbolChat::play_symbol_sound(((u32) *arg1 >> 5U) & 0xF);
     *(s16 *)((s8 *)arg0 + 0x74) = 0x5A;
 }
@@ -736,11 +734,11 @@ s32 TWindowFukidasi::clamp_position(void *arg1, f32 farg0) {
 
 #pragma pop
 extern "C" {
-void TWindowFukidasi::set_color(u16 arg1) {
+void TWindowFukidasi::set_color(u16 color) {
     this->balloon_color = 0xFFF8F8F8;
     TObjChara *chara;
-    if (((u32)arg1 < 0xCU) && ((chara = get_player_by_client_id((u32)arg1)) != 0) && (chara->obj_isState3_324() == 0)) {
-        this->balloon_color = (s32) TWindowFukidasi__balloon_color_table[(u16)arg1];
+    if (((u32)color < 0xCU) && ((chara = get_player_by_client_id((u32)color)) != 0) && (chara->obj_isState3_324() == 0)) {
+        this->balloon_color = (s32) TWindowFukidasi__balloon_color_table[(u16)color];
     }
 }
 }
@@ -1221,18 +1219,18 @@ void TWindowFukidasi::request_balloon_hide() {
 }
 
 s32 TWindowFukidasi::approach(f32 farg0) {
-    f32 temp_f31;
+    f32 x;
 
-    temp_f31 = 0.47f * (farg0 - *(f32 *)((s8 *)this + 0x80));
-    if (fabs_float(temp_f31) < 0.011f) {
-        *(f32 *)((s8 *)this + 0x80) = farg0;
+    x = 0.47f * (farg0 - this->tail_scale);
+    if (fabs_float(x) < 0.011f) {
+        this->tail_scale = farg0;
         return 1;
     }
-    *(f32 *)((s8 *)this + 0x80) = (f32) (*(f32 *)((s8 *)this + 0x80) + temp_f31);
+    this->tail_scale = (f32) (this->tail_scale + x);
     return 0;
 }
 
-void TWindowFukidasi::sync_display_pos() { *(f32*)((char*)this + 0x60) = *(f32*)((char*)this + 0x80); *(f32*)((char*)this + 0x64) = *(f32*)((char*)this + 0x80); }
+void TWindowFukidasi::sync_display_pos() { this->content_scale[0] = this->tail_scale; this->content_scale[1] = this->tail_scale; }
 
 void TWindowFukidasi::calc_text_size(f32 *out) {
     Entry_80250380 *e;
@@ -1278,10 +1276,10 @@ s32 TWindowFukidasi::check_card_match_enabled(saddr arg1) {
 void TWindowFukidasi::rearm_balloon(saddr flags) {
     u32 n;
 
-    if (((s32 (*)(void))sub_80246948__11TWindowBaseFv)() != 0) {
+    if (is_closed() != 0) {
         *(s8 *)((s8 *)((u8 *)this) + 0x70) = 5;
     }
-    ((s32 (*)(void *, void *))init_flags__15TWindowFukidasiFPvi)(this, (void *)flags);
+    init_flags(flags);
     switch ((s32) (*(u8 *)((s8 *)((u8 *)this) + 0x72))) {
     case 0:
         n = TWindowKeyBoardSoft::strnlen((s8 *)(((TWindowSubComCard *)(void *)((TWindowBase *)this)->get_array_entry(0))->get_field_20()), (u32)0x100);

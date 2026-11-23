@@ -11,10 +11,11 @@
 #include "pso/player/TPlyClientConfig.h"
 #include "pso/player/TPlyGuildCardTag.h"
 #include "pso/player/TPlySmth.h"
+#include "pso/network/TPlyMeetUserExtension.h"
 
 struct game_command_header {
     char command;
-    char size;
+    u8 size;  // in 4-byte words; 0 for an extended command (size in the extended header)
     u16 id;
 
     void bswap() {
@@ -57,6 +58,10 @@ struct game_command {
     void bswap() {
         header.bswap();
     };
+    // Sends the subcommand to one client; this console's own id runs it here instead.
+    void send_to_client(u32 client_id);
+    // Sends the subcommand to the other clients without running it here.
+    void send();
 };
 
 struct extended_game_command {
@@ -69,6 +74,7 @@ struct extended_game_command {
 };
 
 TMenuListEntry(GameListEntry,
+    GameListEntry();
     GameListEntry &operator=(const GameListEntry &other);
 
     u8 difficulty_tag;
@@ -99,6 +105,10 @@ union long_game_command_union {
     struct long_game_command game_cmd;
     struct extended_long_game_command ext_game_cmd;
     u8 bytes[1460];
+
+    // Sends an extended subcommand (header already byte-swapped) to one client; this
+    // console's own id runs it here instead.
+    void send_to_client(u32 client_id);
 };
 
 template<size_t size>
@@ -106,28 +116,18 @@ struct TPlyText {
     packet_header header;
     char text[size];
 
-    void bswap() {
-        header.bswap();
-    };
+    void bswap();
 };
 
-class TPlyMeetUserExtension {
-public:
-    TPlyGuildCardTag tags[8];
-    u32 mbr_0x40;
-    char player_name[16];
-    char player_name2[16];
-public:
-    void bswap() {
-        for (int i = 0; i < 8; ++i) {
-            tags[i].bswap();
-        }
-        bswap_32(&mbr_0x40);
-    };
-};
+// Out of line with the protocol's other packet helpers: info board text (D9), quest info (A3/A5), auto-reply (C7).
+template <> void TPlyText<172>::bswap();
+template <> void TPlyText<288>::bswap();
+template <> void TPlyText<512>::bswap();
 
 class TPlyJoinLobbyData {
 public:
+    TPlyJoinLobbyData();
+
     TPlyGuildCardTag tag;
     u32 ip_addr;
     u32 client_id;
@@ -142,13 +142,19 @@ public:
 
 class TPlyJoinLobbyEntry {
 public:
-    TPlyJoinLobbyData lobby_data;
+    TPlyJoinLobbyEntry();
+    ~TPlyJoinLobbyEntry();
+
+    TPlyGuildCardTag tag;
+    u32 ip_addr;
+    u32 client_id;
+    char name[16];
     TPlyCharData char_data;
 public:
     void bswap() {
-        lobby_data.tag.bswap();
-        bswap_32(&lobby_data.ip_addr);
-        bswap_32(&lobby_data.client_id);
+        tag.bswap();
+        bswap_32(&ip_addr);
+        bswap_32(&client_id);
         char_data.bswap();
     };
 };
@@ -270,6 +276,8 @@ public:
 
 class TPlyJoinGame {
 public:
+    TPlyJoinGame();
+
     packet_header header;
     u32 variations[16][2];
     TPlyJoinLobbyData lobby_data[4];
@@ -559,18 +567,46 @@ public:
 	};
 };
 
-struct TPlyChallenge {
-	u8 data[320];
-	void bswap() {};
+// A player's challenge-mode records (newserv PlayerRecordsChallengeV3).
+struct TPlyChallengeRecords {
+	u8 pad_0[0x100];
 };
 
+// One player's records as the C5 packet and the 61/98 player data carry them
+// (newserv PlayerRecordsEntry_V3). The battle counts are separate fields.
+struct TPlyChallenge {
+	u32 client_id;
+	TPlyChallengeRecords challenge;
+	u16 battle_place_count_1;
+	u16 battle_place_count_2;
+	u16 battle_place_count_3;
+	u16 battle_place_count_4;
+	u16 battle_disconnect_count;
+	u16 pad_10E;
+	u16 pad_110;
+	u16 pad_112;
+	u32 pad_114;
+	u32 pad_118;
+	void bswap();
+};
+LAYOUT_ASSERT(TPlyChallengeSize, sizeof(TPlyChallenge) == 0x11C);
+
+// The player's choice search settings (newserv ChoiceSearchConfig); sent alone in C2/C3.
 struct TPlyChoiceSearchConfig {
-	u8 data[320];
-	void bswap() {};
+	u32 disabled;
+	struct Entry {
+		u16 parent_choice_id;
+		u16 choice_id;
+	} entries[5];
+
+	void bswap();
 };
 
 class TPlyJoinData {
 public:
+	TPlyJoinData();
+	~TPlyJoinData();
+
 	packet_header header;
 	TPlyCharData char_data;
 	TPlyChallenge challenge;
@@ -580,16 +616,7 @@ public:
 	u32 auto_reply_enabled;
 	char auto_reply[512];
 public:
-	void bswap() {
-		header.bswap();
-		char_data.bswap();
-		challenge.bswap();
-		choice_search_config.bswap();
-		for (int i = 0; i < 30; ++i) {
-			bswap_32(&blocked_senders[i]);
-		}
-		bswap_32(&auto_reply_enabled);
-	};
+	void bswap();
 };
 
 #endif

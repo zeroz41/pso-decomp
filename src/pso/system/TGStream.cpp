@@ -271,19 +271,19 @@ void open_gsl_archive(char *name) {
     }
 }
 
-void TLobby::read_data_sync(saddr arg0, s32 arg1, saddr arg2) {
+void TLobby::read_data_sync(saddr handle, s32 sector_count, saddr destination) {
     saddr sp8;
 
-    sp8 = arg0;
-    ADXF_ReadNw((AdxfHandle *)sp8, arg1, (void *)arg2);
-    TLobby::set_read_params(&sp8, (int)arg1, (int)arg2);
+    sp8 = handle;
+    ADXF_ReadNw((AdxfHandle *)sp8, sector_count, (void *)destination);
+    TLobby::set_read_params(&sp8, (int)sector_count, (int)destination);
 loop_1:
     if (ADXF_GetStat((AdxfHandle *)sp8) != 3) {
         TLobby::run_frame();
         goto loop_1;
     }
     TLobby::reset_read_state();
-    gstream_read_offset += arg1 << 0xB;
+    gstream_read_offset += sector_count << 0xB;
 }
 
 void TGStream::align_read_offset(s32 alignment) {
@@ -320,10 +320,10 @@ s32 get_gstream_buffered_bytes(void) {
   return (gstream_buffer_valid_size - gstream_buffer_read_offset) & (((s32) ((-new_var) & (~new_var))) >> 0x1F);
 }
 
-s32 refill_gstream_buffer(saddr arg0) {
+s32 refill_gstream_buffer(saddr handle) {
     s32 temp_r0;
     s32 var_r5;
-    if (arg0 == 0) {
+    if (handle == 0) {
         return 0;
     }
     if (get_gstream_buffered_bytes() == 0) {
@@ -334,7 +334,7 @@ s32 refill_gstream_buffer(saddr arg0) {
         if (var_r5 > 0) {
             gstream_buffer_valid_size = var_r5;
             gstream_buffer_read_offset = 0;
-            TLobby::read_data_sync(arg0, (var_r5 + 0x7FF) / 2048, gstream_tmp_buffer);
+            TLobby::read_data_sync(handle, (var_r5 + 0x7FF) / 2048, gstream_tmp_buffer);
         }
     }
     return get_gstream_buffered_bytes();

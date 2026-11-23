@@ -31,6 +31,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/technique/TTecSlicer.h"
 #include "pso/unk/text_80120908.h"
+#include "pso/object/base/TObjBase.h"
 
 
 typedef struct SlicerLaunchData_8012D9C8 {
@@ -43,9 +44,7 @@ typedef struct SlicerLaunchData_8012D9C8 {
 void init_slicer_launch_state(void *arg0);
 extern "C" {
 s32 rotate_matrix_z(s32, s32);
-u16 get_entity_id(void *);
 s16 TObjPlayer__sub_801D2F4C(s16 *arg0);
-s16 get_validated_attack_stage(u8 *arg0);
 void get_weapon_color__11TItemWeaponFPv(f32 *, void *);
 void *find_entity_by_id(s32);
 }
@@ -73,12 +72,12 @@ void TUnk_804F0908::emit_marker_effects() {
     SlicerLaunchData_8012D9C8 launch;
     u8 *t;
     init_slicer_launch_state(&launch);
-    launch.player = get_entity_id(*(u8 **)&owner);
+    launch.player = ((TObjBase *)(*(u8 **)&owner))->get_entity_id();
     launch.weapon = get_item_id();
     launch.textures = *(void **)((s8 *)this + 0x24);
     launch.model = *(void **)((s8 *)this + 0x188);
     launch.kind = TObjPlayer__sub_801D2F4C((s16 *)(*(u8 **)&owner + 0x7CC));
-    launch.stage = get_validated_attack_stage(*(u8 **)&owner + 0x7CC);
+    launch.stage = owner->attack_state.get_validated_attack_stage();
     launch.multiplier = ((TObjPlayer *)(*(u8 **)&owner))->query_extended_state();
     get_weapon_color__11TItemWeaponFPv(tmp, this);
     copy_argb((NJS_ARGB *)launch.color, (NJS_ARGB *)tmp);
@@ -86,7 +85,7 @@ void TUnk_804F0908::emit_marker_effects() {
     launch.spin = 0;
     get_joint_position(3, launch.first);
     get_joint_position(2, launch.second);
-    t = ((u8 *)TTecSlicer::create((u16*)&launch));
+    t = ((u8 *)TTecSlicer::create((SlicerLaunchState *)&launch));
     if (t != NULL) {
         *(s32 *)((s8 *)t + 0x5C) += 0x4000;
         *(f32 *)((s8 *)t + 0x68) = 2.0f;
@@ -96,8 +95,8 @@ void TUnk_804F0908::emit_marker_effects() {
     }
 }
 
-void TObjPlayer::spawn_particle_at_entity_slot(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
-    TObjCollidable *entity = static_cast<TObjCollidable *>(find_entity_by_id(arg2));
+void TObjPlayer::spawn_particle_at_entity_slot(s32 arg0, s32 arg1, s32 id, s32 arg3) {
+    TObjCollidable *entity = static_cast<TObjCollidable *>(find_entity_by_id(id));
     if (entity != NULL) {
         CollisionBody *bodies = entity->bodies;
         if (bodies != NULL && arg3 < entity->body_count) {

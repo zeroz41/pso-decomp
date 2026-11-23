@@ -21,9 +21,9 @@ struct TOTrapChainSawKey : public TOTrapChainSaw {
     u32 m_f8;
     u32 m_fc;
     u32 m_100;
-    void *create();
-    static AnimationMotion *get_motion(s32 arg0);
-    static NJS_OBJECT *get_model(s32 arg0);
+    static void *create(void *set_data);
+    static AnimationMotion *get_motion(s32 index);
+    static NJS_OBJECT *get_model(s32 index);
     u8 unk_104[0x8];
 };
 

@@ -17,6 +17,7 @@
 #include "pso/math/AngleLookup.h"
 #include "pso/map/CsnQuery.h"
 #include "pso/render/NinjaUtil.h"
+#include "pso/object/base/TObjBase.h"
 
 #pragma inline_depth(1)
 #pragma auto_inline off
@@ -37,13 +38,13 @@ void TUnk_804EF130::hit_target_in_range(TObjChara *target, TObjCollidable *owner
     }
 }
 
-s32 TObjEneMorfos::snap_to_ground(s32 arg0, saddr arg1) {
+s32 TObjEneMorfos::snap_to_ground(s32 arg0, saddr origin) {
     u8 *temp_r3;
-    temp_r3 = (u8 *)(csnVecterUnder((Vec *)arg1, 0x16EF));
+    temp_r3 = (u8 *)(csnVecterUnder((Vec *)origin, 0x16EF));
     if (temp_r3 == NULL) {
         return 0;
     }
-    VecCopy((Vec *)(arg1), (const Vec *)(*(saddr *)((s8 *)temp_r3 + 4)));
+    VecCopy((Vec *)(origin), (const Vec *)(*(saddr *)((s8 *)temp_r3 + 4)));
     return 1;
 }
 
@@ -96,7 +97,7 @@ TUnk_804EF130::TUnk_804EF130(Vec *start, s32 angle, TObjEneMorfos *owner) : TObj
     ParticleAngles a;
     VecCopy(&pos, start);
     distance = 0.0f;
-    owner_id = get_entity_id(owner);
+    owner_id = owner->get_entity_id();
     a.x = 0;
     a.y = angle - 0x4000;
     a.z = 0x4000;

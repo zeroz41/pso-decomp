@@ -4,7 +4,7 @@
 #include "types.h"
 
 class TTitleScene;
-struct GinjaTextureList;
+struct NJS_TEXLIST;
 
 extern "C" {
 void TLobby__sub_80335E74(void);
@@ -14,7 +14,7 @@ void TLobby__sub_80335FE4(void);
 int TLobby__sub_80336030(TTitleScene *scene);
 }
 void bind_title_texture_list(void);
-GinjaTextureList *get_title_texture_list(void);
+NJS_TEXLIST *get_title_texture_list(void);
 
 
 #endif

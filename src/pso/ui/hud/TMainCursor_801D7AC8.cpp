@@ -24,7 +24,7 @@ s32 TMainCursor::find_action_slot(s32 arg0, void *arg1, s16 type, s32 enabled, s
                     }
                     goto block_8;
                 }
-                if (matches_type_and_enabled__11TMainCursorFiUcUc(first_tag, (u8) type, (u8) enabled) != 0) {
+                if (matches_type_and_enabled(reinterpret_cast<const ActionPaletteTag *>(first_tag), (u8) type, (u8) enabled) != 0) {
                     return 0;
                 }
                 goto block_8;
@@ -41,7 +41,7 @@ loop_9:
         }
         goto block_14;
     }
-    if (matches_type_and_enabled__11TMainCursorFiUcUc(tag, (u8) type, (u8) enabled) != 0) {
+    if (matches_type_and_enabled(reinterpret_cast<const ActionPaletteTag *>(tag), (u8) type, (u8) enabled) != 0) {
         return slot;
     }
 block_14:

@@ -127,7 +127,6 @@ static const ArrowUVs arrow_uvs = {{{224.0f, 0.0f}, {240.0f, 0.0f}}};
 
 extern "C" {
 extern s32 hud_texlist;
-void __dl__7TObjectFPv(void *);
 
 void TWindowInputNumber::create(s32 title) {
     uaddr var_r0;
@@ -169,20 +168,20 @@ void TWindowInputNumber::align_digits() {
 #pragma pop
 
 void TWindowInputNumber::refresh_digit_entries() {
-  s32 var_r30;
+  s32 i;
   u8 *entry;
   s32 var_r29;
-  var_r30 = 0;
+  i = 0;
   var_r29 = this->value;
   do
   {
-    entry = (u8 *) ((TWindowBase *)((u8 *)this))->get_array_entry(var_r30);
+    entry = (u8 *) ((TWindowBase *)((u8 *)this))->get_array_entry(i);
     *((s32 *) (((s8 *) entry) + 0x20)) = (s32) (var_r29 % 10);
     draw_right_aligned_number(entry);
     var_r29 = var_r29 / 10;
-    var_r30 += 1;
+    i += 1;
   }
-  while (((u32) var_r30) < 6U);
+  while (((u32) i) < 6U);
 }
 
 void TWindowInputNumber::calc_digit_count() {
@@ -219,7 +218,7 @@ void TWindowInputNumber::draw_arrows(WindowDrawContext *ctx, TUnk_804CF9C8 *digi
     y = ctx->inner_y + digit->y;
     depth = -1.0f / (0.22424999f + ctx->depth);
     begin_screen_draw(1);
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(hud_texlist));
+    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(hud_texlist));
     set_draw_texture_and_color(0, -1);
     q.x0 = x;
     q.y0 = y - 15.0f;

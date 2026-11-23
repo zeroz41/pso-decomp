@@ -15,6 +15,9 @@ s32 TLobby__sub_801E3E9C(s32 id, saddr name, saddr arg2);
 void reset_line_width(void);
 void set_line_width(int a0);
 
+// Draws cell 0 of `sprite` as a quad at its position; flags 4 and 8 mirror the texture's u and v.
+void draw_shadow_quad(NJS_SPRITE *sprite, s32 frame, s32 flags);
+
 // Draw a model posed by a motion at a frame.
 void draw_motion(NJS_OBJECT *model, NJS_MOTION *motion, f32 frame);
 

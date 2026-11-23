@@ -8,7 +8,7 @@
 struct TWindowChallengeResult;
 
 struct AnimationMotion;
-struct GinjaTextureList;
+struct NJS_TEXLIST;
 struct NJS_OBJECT;
 
 struct OnlineEndingPlayer {
@@ -24,11 +24,12 @@ struct OnlineEndingPlayer {
 LAYOUT_ASSERT(OnlineEndingPlayerSize, sizeof(OnlineEndingPlayer) == 0x28);
 
 struct TObjOnlineEnding : public TObjBase {
+    TObjOnlineEnding(TObject *parent);
     virtual ~TObjOnlineEnding();
     virtual void render();
     virtual void run_task();
     NJS_OBJECT *scene_model;
-    GinjaTextureList *scene_textures;
+    NJS_TEXLIST *scene_textures;
     AnimationMotion *scene_motion;
     s32 ending_variant;
     s32 ending_area;

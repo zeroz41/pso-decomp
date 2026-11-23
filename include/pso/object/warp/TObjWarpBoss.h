@@ -29,6 +29,7 @@ struct TObjWarpBoss : public TObjAreaWarp {
     void update_warp_confirmation();
     void render();
     void run_task();
+    static void *create(void *set_data);
     f32 frame;  // motion frame: run_task steps it by 4 and wraps at the motion's frame count
     u8 pad_c8[0x8];
     NJS_OBJECT *model;        // optional animated warp model

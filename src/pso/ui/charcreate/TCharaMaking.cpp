@@ -10,6 +10,7 @@
 #include "pso/ui/charcreate/CharacterCreationModels.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/ui/charcreate/TCharaMaking.h"
+#include "pso/object/TCMCharacter.h"
 #include "pso/ui/charcreate/TChCrLoadReq.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/ui/charcreate/TCharaMaking_8028E3F4.h"
@@ -115,7 +116,7 @@ P_8028DCCC character_proportion_height_table[12] = {
 };
 
 extern "C" {
-void TCharaMaking__bind_appearance_texture_lists(TextureOutput *arg0, TextureOutput *arg1, TextureOutput *arg2, CharacterAppearanceFields *arg3);
+void TCharaMaking__bind_appearance_texture_lists(TextureOutput *output, TextureOutput *texture_output, TextureOutput *body, CharacterAppearanceFields *appearance);
 s32 TCharaMaking__sub_8028E3A0(f32 *arg0);
 }
 CharacterAppearanceFields *get_class_appearance_preset(s32 arg0);
@@ -128,7 +129,6 @@ extern s32 model_render_flags;
 CharacterAppearanceFields *creation_player_character;
 TObjCMMainMenu *creation_main_menu_obj;
 extern "C" {
-s32 calc_section_id_from_name(s8 *arg0);
 s32 release_texture_list(void *);
 
 
@@ -139,12 +139,12 @@ s32 TCharaMaking::query_state() {
     return TObjCMMainMenu__sub_8028EBCC(creation_main_menu_obj);
 }
 
-s32 calc_section_id_from_name(s8 *arg0) {
+s32 calc_section_id_from_name(s8 *name) {
     s32 sum = 0;
     s32 i;
     s32 r;
-    for (i = 0; i < 12 && arg0[i] != 0; i++) {
-        sum += arg0[i];
+    for (i = 0; i < 12 && name[i] != 0; i++) {
+        sum += name[i];
     }
     sum %= 10;
     if (sum < 0 || sum >= 10) sum = 0;
@@ -178,7 +178,7 @@ static const s32 lbl_805DD930[1] = {0x81C};
 #pragma opt_dead_assignments off
 #pragma opt_propagation off
 
-void TCharaMaking__draw_colored_hair(f32 farg0, saddr arg0, CharacterAppearanceFields *character_appearance_fields, s32 arg2) {
+void TCharaMaking__draw_colored_hair(f32 alpha, saddr child, CharacterAppearanceFields *character_appearance_fields, s32 specialColor) {
     struct Color { f32 a, r, g, b; } color;
     s32 temp_r3;
     s32 second;
@@ -193,19 +193,19 @@ void TCharaMaking__draw_colored_hair(f32 farg0, saddr arg0, CharacterAppearanceF
     saved_chunk_polygon_flags_and_mask = first;
     saved_chunk_polygon_flags_or_mask = second;
     model_render_flags = temp_r3 | lbl_805DD930[0];
-    if (farg0 < 1.0f) {
+    if (alpha < 1.0f) {
         set_chunk_material_override_pair(-1, 0x800);
     }
-    if (arg2 != 0) {
+    if (specialColor != 0) {
         set_shadow_material_state();
     } else {
-        color.a = farg0;
+        color.a = alpha;
         color.r = (1.0f / 255.0f) * (f32) character_appearance_fields->red;
         color.g = (1.0f / 255.0f) * (f32) character_appearance_fields->green;
         color.b = (1.0f / 255.0f) * (f32) character_appearance_fields->blue;
         set_constant_material((const NJS_ARGB *)((&color.a)));
     }
-    draw_chunk_object((void *)arg0);
+    draw_chunk_object((void *)child);
     chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
     chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
     model_render_flags = saved_model_render_flags;
@@ -360,39 +360,39 @@ s32 validate_player_visual_record(void *arg0) {
 void TCharaMaking::clear_flag_bit0() { restore_alpha_ref(); model_render_flags = (model_render_flags & 0xfffffffe); }
 
 void TCharaMaking::enable_making() { model_render_flags = (model_render_flags | 0x1); set_alpha_ref_override((u8)31); }
-void TCharaMaking__bind_appearance_texture_lists(TextureOutput *output, TextureOutput *arg1, TextureOutput *arg2, CharacterAppearanceFields *appearance) {
+void TCharaMaking__bind_appearance_texture_lists(TextureOutput *output, TextureOutput *texture_output, TextureOutput *body, CharacterAppearanceFields *appearance) {
   CharacterClassAppearance *definition;
-  CharacterTextureList **temp_r3;
-  CharacterTextureList **temp_r3_2;
+  CharacterTextureList **hairTextures;
+  CharacterTextureList **headTextures;
   CharacterTextureList *source;
   CharacterClassAppearance *new_var;
   CharacterTextureList *temp_r6_2;
   new_var = &class_appearance_table[character_display_index(reinterpret_cast<uaddr>(appearance))];
   output->loaded = 0;
   definition = new_var;
-  temp_r3 = definition->hairTextures;
-  if (temp_r3 != 0)
+  hairTextures = definition->hairTextures;
+  if (hairTextures != 0)
   {
-    source = temp_r3[appearance->hair];
+    source = hairTextures[appearance->hair];
     if (source != 0)
     {
       ((TCharaMaking *)output)->build_appearance_texture_names(appearance, definition, source);
       output->loaded = 1;
     }
   }
-  arg1->loaded = 0;
-  temp_r3_2 = definition->headTextures;
-  if (temp_r3_2 != 0)
+  texture_output->loaded = 0;
+  headTextures = definition->headTextures;
+  if (headTextures != 0)
   {
-    temp_r6_2 = temp_r3_2[appearance->head];
+    temp_r6_2 = headTextures[appearance->head];
     if (temp_r6_2 != 0)
     {
-      ((TCharaMaking *)arg1)->build_appearance_texture_names(appearance, definition, temp_r6_2);
-      arg1->loaded = 1;
+      ((TCharaMaking *)texture_output)->build_appearance_texture_names(appearance, definition, temp_r6_2);
+      texture_output->loaded = 1;
     }
   }
-  ((TCharaMaking *)arg2)->build_appearance_texture_names(appearance, definition, definition->bodyTextures);
-  arg2->loaded = 1;
+  ((TCharaMaking *)body)->build_appearance_texture_names(appearance, definition, definition->bodyTextures);
+  body->loaded = 1;
 }
 s32 TCharaMaking__sub_8028E3A0(f32 *arg0) {
     if (arg0[0] < 0.0f || arg0[0] >= 1.0f || arg0[1] < 0.0f || arg0[1] >= 1.0f) {
@@ -507,20 +507,18 @@ void request_chara_making_archives(void) {
 }
 extern "C" {
 
-void *TCMCharacter__ct(void *arg0, void *arg1);
 
 void TCharaMaking__sub_8028E790(void) {  }
 }
 
 extern saddr tl_03;
-extern s32 creation_dressing_room_mode_flag;
 
 void TCharaMaking::update_light_direction() {
     f32 temp_f31;
-    TObjLight__scene_light_state.direction.y = -1.0f * sin_table_lookup(m_1c);
+    scene_light_state.direction.y = -1.0f * sin_table_lookup(m_1c);
     temp_f31 = cos_table_lookup(m_1c);
-    TObjLight__scene_light_state.direction.x = temp_f31 * sin_table_lookup(m_20);
-    TObjLight__scene_light_state.direction.z = temp_f31 * cos_table_lookup(m_20);
+    scene_light_state.direction.x = temp_f31 * sin_table_lookup(m_20);
+    scene_light_state.direction.z = temp_f31 * cos_table_lookup(m_20);
 }
 
 s32 TCharaMaking::update_main_menu(saddr arg0) {
@@ -550,9 +548,9 @@ void TCharaMaking::run_task() {
     if (TCharaMaking::update_main_menu((saddr)this)) return;
 }
 
-void *TCharaMaking::create(void *arg0, void *arg1) {
+void *TCharaMaking::create(void *parent, void *arg1) {
     creation_player_character = (CharacterAppearanceFields *)arg1;
-    return new TCharaMaking((TObject *)arg0);
+    return new TCharaMaking((TObject *)parent);
 }
 
 TCharaMaking::~TCharaMaking() {
@@ -561,12 +559,8 @@ TCharaMaking::~TCharaMaking() {
 }
 
 TCharaMaking::TCharaMaking(TObject *parent) : TObject(parent) {
-    uaddr motion;
     m_name = TCharaMaking__name;
-    motion = ((uaddr)TObject::operator new(0x10C));
-    if (motion != 0U) {
-        TCMCharacter__ct((void *)motion, this);
-    }
+    new TCMCharacter(this);
     creation_main_menu_obj = TObjCMMainMenu::create(this);
     m_1c = 0x1555;
     m_20 = 0x9000;

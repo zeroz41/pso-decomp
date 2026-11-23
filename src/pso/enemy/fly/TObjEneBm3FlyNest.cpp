@@ -211,7 +211,7 @@ void TObjEneBm3FlyNest_CarryFly::run_task() {
 #pragma pop
 
 void TObjEneBm3FlyNest_CarryFly::render() {
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(bm3_fly_nest_bml->models[0].texlist));
+    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(bm3_fly_nest_bml->models[0].texlist));
     push_matrix();
     if (state == 0) {
         post_translate_matrix(&origin->x);
@@ -250,7 +250,7 @@ void TObjEneBm3FlyNest::load_resources() {
         NpcAnimationBinding anim = { NULL, reinterpret_cast<TObjMotionAction *>(bm3_flynest_hit_action_table), 0, 8, 10 };
         anim.motions = reinterpret_cast<BmlMotionEntry *>(bm3_fly_nest_bml->motions);
         models = bm3_fly_nest_bml->models;
-        NpcModelRegistry::register_animated_chunk(8, reinterpret_cast<void *>(models[1].model), reinterpret_cast<void *>(models[0].texlist), &anim, bm3_flynest_collider_params[0].radius, 0.0f);
+        NpcModelRegistry::register_animated_chunk(8, reinterpret_cast<void *>(models[1].model), models[0].texlist, &anim, bm3_flynest_collider_params[0].radius, 0.0f);
     }
 }
 
@@ -277,7 +277,7 @@ TObjEneBm3FlyNest::TObjEneBm3FlyNest(TObject *parent, Bm3FlyNestSetData *set_dat
     invoke_initialization_hook(set_data);
     init_position_vectors();
     model = (void *)bm3_fly_nest_bml->models[1].model;
-    texlist = (saddr)bm3_fly_nest_bml->models[0].texlist;
+    texlist = bm3_fly_nest_bml->models[0].texlist;
     init_model(bm3_flynest_collider_params, 1);
     body_center.y = 20.0f + position.y;
     update_body_colliders();
@@ -1020,7 +1020,7 @@ void TObjEneBm3FlyNest::render() {
             }
             if (visible != 0) {
                 update_secondary_light();
-                TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
+                TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
                 push_matrix();
                 bm3_fly_nest_node_index = 0;
                 TObjEneBm3FlyNest_attachment_point_ptr = &attachment_points[0];
@@ -1095,7 +1095,7 @@ void TObjEneBm3FlyNest::render_with_state_debug() {
     if (this->update_object_view_visibility(500.0f, 120.0f) != 0) {
         Vec v = {5.0f, 1.0f, 5.0f};
         draw_ground_shadow(&v, 1);
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(this->texlist));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
         push_matrix();
         post_translate_matrix(&this->position.x);
         translate_matrix(0, 0.0f, -5.0f, 0.0f);

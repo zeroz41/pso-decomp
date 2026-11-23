@@ -29,7 +29,7 @@ public:
     s32 reward_available[3];
 
 public:
-    static void create(int arg0, s32 arg1);
+    static void create(int client, s32 arg1);
     static void clear_slot_entries();
     void set_entry_item(void *arg1, s32 arg2);
     void close_window();

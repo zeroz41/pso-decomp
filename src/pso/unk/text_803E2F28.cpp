@@ -15,6 +15,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/render/RenderSbssGlobals.h"
 #include "pso/render/MaterialAlphaCompare.h"
+#include <dolphin/mtx.h>
 
 #pragma scheduling off
 
@@ -51,7 +52,6 @@ volatile PPCWGPipe GXWGFifo : 0xCC008000;
 
 typedef struct Vtx_803E36C4 { f32 x, y, z, nx, ny, nz; u32 pad[2]; } Vtx_803E36C4;
 
-typedef f32 Mtx_803E4354[3][4];
 extern "C" {
 void GXSetNumTexGens(u8);
 s32 GXSetTevOp(int, int);
@@ -105,14 +105,11 @@ char lbl_804FC810[19] = "CHNK MEMORY ASSERT";
 extern u32 lbl_805D77E4;
 extern ChunkRecording_803E44D4* chunk_vertex_cache_state;
 extern "C" {
-void PSMTXConcat(const Mtx_803E4354, const Mtx_803E4354, Mtx_803E4354);
-void PSMTXTrans(Mtx_803E4354, f32, f32, f32);
-void PSMTXScale(Mtx_803E4354, f32, f32, f32);
 s32 GXSetNumChans(int);
 s32 GXLoadPosMtxImm(void *, int);
 s32 GXLoadNrmMtxImm(void *, int);
 s32 GXLoadTexMtxImm(void *, int, int);
-extern Mtx_803E4354 identity_matrix;
+extern Mtx34 identity_matrix;
 extern s32 chunk_previous_strip_flags;
 
 #pragma push
@@ -616,7 +613,7 @@ void set_chunk_blend_depth_mode(s32 header, s32 arg1) {
     } else if (var_r31 != 0) {
         var_r6 = 0;
         var_r28 = 1U;
-        alpha_surface = current_render_context->textures->entries[chunk_texture_record_index].texture->surface;
+        alpha_surface = current_render_context->textures->textures[chunk_texture_record_index].texture->surface;
         id = model_render_flags;
         if (((u32) (id & 0x10) != 0) && (1.0f != model_material_color.a)) {
             var_r28 = 0U;
@@ -674,7 +671,7 @@ void set_chunk_blend_depth_mode(s32 header, s32 arg1) {
         if ((u32) chunk_render_flags != 0) {
             chunk_render_flags |= 0x400;
         }
-        zcomp_surface = current_render_context->textures->entries[chunk_texture_record_index].texture->surface;
+        zcomp_surface = current_render_context->textures->textures[chunk_texture_record_index].texture->surface;
         if ((zcomp_surface->header.format == 0xEU) && ((u32) (zcomp_surface->header.flags & 0x40000000) != 0)) {
             set_chunk_alpha_compare_ref(0x1F);
             GXSetBlendMode(0, temp_r30, temp_r29, 0);
@@ -834,9 +831,9 @@ s32 dispatch_chunk_vertex_list(u32 *list, saddr buffer) {
 }
 
 void TObjPlayer::setup_model_draw_state(void *) {
-    Mtx_803E4354 scale;
-    Mtx_803E4354 trans;
-    Mtx_803E4354 m;
+    Mtx34 scale;
+    Mtx34 trans;
+    Mtx34 m;
     if ((u32) (ginja_draw_flags & 2) != 0) {
         TObjPlayer::reset_particle_counter();
         apply_scene_fog();

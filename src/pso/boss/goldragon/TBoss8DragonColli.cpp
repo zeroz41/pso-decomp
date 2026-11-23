@@ -33,7 +33,7 @@ TBoss8DragonColli_C::TBoss8DragonColli_C(TObject *parent, s32 count, Vec *offset
     f32 z;
     m_name = TBoss8DragonColli_C__name;
     VecCopy(&local_position, offset);
-    entity_id = TLobby::alloc_actor_ids(0);
+    entity_id = alloc_object_ids(0);
     body_count = count;
     bodies = (CollisionBody *)mem_alloc(body_count * sizeof(CollisionBody));
     step = 2.0f * scale;

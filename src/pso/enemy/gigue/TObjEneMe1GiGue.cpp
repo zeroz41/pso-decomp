@@ -58,6 +58,8 @@
 #include "pso/object/trap/TOTrapAncient01_80226534.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/npc/TNpcPlayer_800D87A8.h"
+#include "pso/object/base/TObjBase.h"
+#include "pso/player/PlayerSlots.h"
 
 s32 get_gigue_int_parameter(TObjEneMe1GiGue *, s32);
 f32 get_gigue_float_parameter(TObjEneMe1GiGue *, s32);
@@ -139,7 +141,7 @@ const char *TObjEneMe1GiGue__name = "TObjEneMe1GiGue";
 
 void TObjEneMe1GiGue::load_params_from_table(s32 i) {
     model = (void *)gigue_resource->models[i].model;
-    texlist = (saddr)gigue_resource->models[i].texlist;
+    texlist = gigue_resource->models[i].texlist;
 }
 
 void TObjEneMe1GiGue::update_attack() {  }
@@ -217,7 +219,7 @@ TObjEneMe1GiGue::TObjEneMe1GiGue(TObject *parent, void *set_data) : TObjEnemyCus
     project_actor_to_ground(this, &position, 0);
     flightHeight = 0.0f;
     cameraFade.activate_and_dispatch();
-    obj_setFlags30(this, 0x01000000);
+    set_actor_flags(0x01000000);
     VecCopy(&prev_position, &position);
     clear_lobby_object_state();
 }
@@ -246,7 +248,7 @@ void TObjEneMe1GiGue::load_resources() {
     TObjEneMe1GiGueBarrier::init_global();
     {
     NpcAnimationBinding binding = { reinterpret_cast<BmlMotionEntry *>(gigue_resource->motions), reinterpret_cast<TObjMotionAction *>(gigue_enemy_param_table), 0, 1, 9 };
-    NpcModelRegistry::register_animated_chunk(0x41, reinterpret_cast<void *>(gigue_resource->models->model), reinterpret_cast<void *>(gigue_resource->models->texlist), &binding, gigue_collision_bodies[0].radius, 15.0f);
+    NpcModelRegistry::register_animated_chunk(0x41, reinterpret_cast<void *>(gigue_resource->models->model), gigue_resource->models->texlist, &binding, gigue_collision_bodies[0].radius, 15.0f);
     }
 }
 
@@ -385,7 +387,7 @@ void TObjEneMe1GiGue::render() {
             return;
         }
     }
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
+    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
     select_actor_lighting(this);
     TObjPlayer::toggle_particle_effect();
     ok = 1;
@@ -1170,7 +1172,7 @@ void TObjEneMe1GiGue::add_target_in_cone(TObjChara *target) {
         if (!(v.x * v.x + v.z * v.z > this->attackRange * this->attackRange)) {
             angle = -(s32)(10430.38043493439 * atan2_float(v.z, v.x)) + 0x4000;
             if (angle_difference_abs(angle, this->rotation_y) <= this->attackAngle / 2) {
-                this->targetIds[this->targetCount++] = get_entity_id(target);
+                this->targetIds[this->targetCount++] = target->get_entity_id();
             }
         }
     }
@@ -1279,7 +1281,7 @@ void TObjEneMe1GiGue::clear_state7_flag() {
 }
 
 s32 TObjEneMe1GiGue::check_vector_bit(Vec *pos) {
-    CsnHit *hit = csnVectorUnder(pos, (CsnGroup **)&ground_cache, 5);
+    CsnHit *hit = csnVectorUnder(pos, ground_candidates.groups, 5);
     if (hit == NULL) {
         return 0;
     }

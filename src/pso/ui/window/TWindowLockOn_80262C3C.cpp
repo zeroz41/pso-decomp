@@ -1,9 +1,9 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/ui/ItemListRow.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/item/TItem.h"
 #include "pso/ui/window/TWindowHelpItem_8025A60C.h"
-#include "pso/ui/window/TWindowSubComCard_80244774.h"
 #include "pso/ui/window/TWindowSubStatusDisp_8026F6DC.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/ui/window/TWindowLockOn_80262C3C.h"
@@ -25,6 +25,8 @@
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/window/WindowLayout.h"
+#include "pso/object/base/TObjBase.h"
+#include "pso/object/TObjLuker_801329B0.h"
 
 
 #pragma readonly_strings on
@@ -139,12 +141,9 @@ struct LockOnEntryColor {
 };
 
 extern "C" {
-u32 obj_getArrWord_254(LockOnEnemyView *, s32);
 s16 obj_getS16_2BA(LockOnEnemyView *);
-u16 get_entity_id(void *);
 s32 is_split_screen(void);
 }
-s32 enemy_name_for_rt_index(s32 arg0);
 extern "C" {
 u32 calc_text_width(int);
 }
@@ -153,10 +152,10 @@ s32 get_status_effect_icon_index(u32);
 TWindowLockOn::TWindowLockOn(s32 player, u16 id) : TWindowBase((u8 *)&lbl_804D0268, player, (u8 *)get_window_layout_position(0x1E)) {
     this->m_name = TWindowLockOn__name;
     if (TCameraCtrl::get_camera_id() > 2) {
-        this->m_68 = 0.7f;
+        this->scale = 0.7f;
         this->m_6c = 0.7f;
     } else {
-        this->m_68 = 1.0f;
+        this->scale = 1.0f;
         this->m_6c = 1.0f;
     }
     this->m_60 = 0xFFFF;
@@ -189,7 +188,7 @@ void TWindowLockOn::run_task() {
 void TWindowLockOn::render() {
     saddr context;
 
-    context = reinterpret_cast<saddr>(setup_window_draw_context((f32 *)&m_68));
+    context = reinterpret_cast<saddr>(setup_window_draw_context((f32 *)&scale));
     draw_window_frame((void *)context);
     if (target_position[0] == frame_position[0] && target_position[1] == frame_position[1] && target_size[0] == frame_size[0] && target_size[1] == frame_size[1]) {
         draw_visible_window_entries(
@@ -239,15 +238,15 @@ void TWindowLockOn::bind_target(u16 id) {
 
 void TWindowLockOn::update_for_target(TObjCollidable *actor) {
     reinterpret_cast<WindowLayoutEntries *>(&entry_list)->destroy_all_items();
-    if (actor->obj_testFlags30(0x10000000) != 0) {
+    if (actor->test_actor_flags(0x10000000) != 0) {
         update_for_other_player(actor);
         return;
     }
-    if (actor->obj_testFlags30(0x80000000) != 0) {
+    if (actor->test_actor_flags(0x80000000) != 0) {
         update_for_item((TItem *)actor);
         return;
     }
-    if (actor->obj_testFlags30(0x20000000) != 0) {
+    if (actor->test_actor_flags(0x20000000) != 0) {
         update_for_enemy((TObjChara *)actor);
     }
 }
@@ -260,7 +259,7 @@ void TWindowLockOn::update_for_other_player(TObjCollidable *player) {
     init_window_layout_entries(reinterpret_cast<WindowLayoutEntries *>(&entry_list), &lock_on_window_params, client_index);
     m_70 = &TWindowLockOn::update_photon_blast_marker;
     w = (LockOnEntry *)get_array_entry(1);
-    id = get_entity_id(player);
+    id = player->get_entity_id();
     ((TWindowLockOn *)w)->update_for_player_index(id);
     ((TWindowHelpItem *)w)->reset_float_field();
     measure_message_text_width_default(w);
@@ -281,8 +280,8 @@ void TWindowLockOn::update_for_item(TItem *item) {
     init_window_layout_entries(reinterpret_cast<WindowLayoutEntries *>(&entry_list), &lockon_window_layout_entries, client_index);
     m_70 = &TWindowLockOn::refresh_ground_item;
     e = (LockOnEntry *)get_array_entry(0);
-    ((TWindowSubStatusDisp *)e)->init_item_row(item, 0);
-    ((TWindowSubStatusDisp *)e)->calc_row_width();
+    ((ItemListRow *)e)->init_item_row(item, 0);
+    ((ItemListRow *)e)->calc_row_width();
     e->y = -8.0f;
     if (e->kind != 0x33) {
         e->y += 18.0f;
@@ -390,7 +389,7 @@ void TWindowLockOn::refresh_enemy_statuses() {
     }
     i = 0;
     do {
-        mode = get_status_effect_icon_index(obj_getArrWord_254(enemy, i));
+        mode = get_status_effect_icon_index(((TObjChara *)enemy)->get_status_effect_type(i));
         ((TWindowComCard *)get_array_entry(i + 3))->set_help_mode(mode);
         i++;
     } while (i < 4);
@@ -412,14 +411,14 @@ s32 TWindowLockOn::is_lockable_target(TObjCollidable *actor) {
     if (actor == NULL) {
         return 0;
     }
-    if (actor->obj_testFlags30(0x10000000) != 0) {
+    if (actor->test_actor_flags(0x10000000) != 0) {
         if (((TObjChara *)actor)->obj_isState3_324() != 0 || ((TObjPlayer *)actor)->is_script_controlled() != 0) {
             return 0;
         }
         return 1;
     }
-    if (actor->obj_testFlags30(0x20000000) != 0) {
-        if (actor->obj_testFlags30(0x40000000) != 0) {
+    if (actor->test_actor_flags(0x20000000) != 0) {
+        if (actor->test_actor_flags(0x40000000) != 0) {
             return 0;
         }
         if (((TWindowLockOn *)actor)->get_target_id() != 0) {
@@ -427,7 +426,7 @@ s32 TWindowLockOn::is_lockable_target(TObjCollidable *actor) {
         }
         return 0;
     }
-    if (actor->obj_testFlags30(0x80000000) != 0) {
+    if (actor->test_actor_flags(0x80000000) != 0) {
         return 1;
     }
     return 0;
@@ -444,15 +443,15 @@ void TWindowLockOn::validate_target() {
             if ((f32)m_64 > 15.0f) {
                 m_64 = 0xF;
             }
-        } else if (target->obj_testFlags30(0x10000000) == 0) {
-            if (target->obj_testFlags30(0x20000000) != 0) {
+        } else if (target->test_actor_flags(0x10000000) == 0) {
+            if (target->test_actor_flags(0x20000000) != 0) {
                 if (((TObjChara *)target)->has_flag_0x800() != 0) {
                     m_60 = 0xFFFF;
                     if ((f32)m_64 > 15.0f) {
                         m_64 = 0xF;
                     }
                 }
-            } else if (target->obj_testFlags30(0x80000000) != 0 && ((TItem *)target)->get_mode() != 0) {
+            } else if (target->test_actor_flags(0x80000000) != 0 && ((TItem *)target)->get_mode() != 0) {
                 m_60 = 0xFFFF;
                 if ((f32)m_64 > 15.0f) {
                     m_64 = 0xF;

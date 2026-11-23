@@ -10,6 +10,8 @@ struct TechniqueContactList {
     s32 count;
     u32 reserved84;
 };
+// The contacts the last technique contact query found (TActorLight.cpp).
+extern TechniqueContactList technique_contact_query_results;
 struct TechniqueContactProjectile;
 struct TechniqueContactVtable {
     u8 beforeWall[0x18];

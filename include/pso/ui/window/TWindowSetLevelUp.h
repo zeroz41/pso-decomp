@@ -8,12 +8,15 @@
 // ("HP +n", "TP +n", "<stat> +n") that is above zero.
 class TWindowSetLevelUp : public TObject {
 public:
+    TWindowSetLevelUp(TObject *parent, saddr stats, s32 client);
     virtual ~TWindowSetLevelUp();
     void update_stat_messages();
     virtual void run_task();
     virtual void render();
 public:
-    void copy_stat_block(saddr arg1);
+    void copy_stat_block(saddr stats);
+
+    static const char *class_name;
 
     s8 state;
     u8 pad_1d;
@@ -27,13 +30,5 @@ public:
 };
 
 LAYOUT_ASSERT(TWindowSetLevelUp_size, sizeof(TWindowSetLevelUp) == 0x40);
-
-extern "C" {
-void TWindowSetLevelUp__sub_8026DE28(void *p, s32 v);
-void *__ct__17TWindowSetLevelUpFv(void *window_set_level_up, void *arg1, void *arg2, void *arg3);
-void *__dt__17TWindowSetLevelUpFv(void *object, s16 arg1);
-void render__17TWindowSetLevelUpFv(void);
-void run_task__17TWindowSetLevelUpFv(u8 *arg0);
-}
 
 #endif

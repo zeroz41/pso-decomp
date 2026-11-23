@@ -83,7 +83,7 @@ TUnk_804A0BC0::TUnk_804A0BC0(TObject *parent, u8 *item) : TItemWeapon(parent, it
     set_weapon_flags(34);
     open_angle = 0;
     open_state = 0;
-    ((TObjPlayer *)this)->set_effect_state(10);
+    set_technique_roll_range(10);
 }
 
 TItem *TObjPlayer::create_enter_state_804A0BC0(u8 *item) {
@@ -94,4 +94,4 @@ TItem *TObjPlayer::create_enter_state_804A0BC0(u8 *item) {
 }
 
 saddr TItemWeapon::get_tp() { return (this->previous_technique_roll); }
-void TObjPlayer::set_effect_state(s32 v) { *(s32 *)&this->unk_1C4 = v; }
+void TItemWeapon::set_technique_roll_range(s32 range) { technique_roll_range = range; }

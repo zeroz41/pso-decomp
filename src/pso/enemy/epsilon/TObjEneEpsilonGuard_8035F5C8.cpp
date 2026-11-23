@@ -37,6 +37,8 @@ struct NJS_OBJECT;
 #include "pso/object/trap/TOTrapAncient01_80226534.h"
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 #include "pso/unk/text_803E2F28.h"
+#include "pso/object/base/TObjBase.h"
+#include "pso/player/PlayerSlots.h"
 
 #pragma inline_depth(1)
 // Joint index per guard slot and the joint-local point the guard angle is measured from (update_guard_anchor).
@@ -111,7 +113,7 @@ TObjEneEpsilonBody::TObjEneEpsilonBody(TObject *parent, void *set_data) : TObjEn
     flags = 0;
     flags |= 2;
     set_guard_state();
-    texlist = (saddr)get_bml_texlist(epsilon_bml_resource, 0);
+    texlist = get_bml_texlist(epsilon_bml_resource, 0);
     set_action_table((saddr)epsilon_body_action_table);
     set_motion_list((saddr)epsilon_bml_resource->motions);
     set_animation(requested_action);
@@ -142,7 +144,7 @@ TObjEneEpsilonBody::TObjEneEpsilonBody(TObject *parent, void *set_data) : TObjEn
     for (i = 0; i < 4; i++) {
         TObjEneEpsilonGuard *guard = TObjEneEpsilonGuard::create(this, (u16)(entity_id + 1 + i), set_index + 1 + i, &position, rotation_y);
         if (guard != NULL) {
-            guard_ids[i] = get_entity_id(guard);
+            guard_ids[i] = guard->get_entity_id();
         }
         VecCopy(&guard_position[i], &position);
         guard_rotation_y[i] = rotation_y;
@@ -454,10 +456,7 @@ void TObjEneEpsilonBody::handle_fire_state(s32 reason) {
             if (fire_timer <= 0) {
                 TObjPlayer *player;
                 s32 i;
-                void *e = TObject::operator new(0x64);
-                if (e != 0) {
-                    create_fire_explosion_effect((u8 *)e, 40.0f, d, 0, (TObject *)tl_07);
-                }
+                new TUnk_804CCB28(40.0f, d, 0, (TObject *)tl_07);
                 play_sound_effect(0x4003A348, &position, 0, 0);
                 for (i = 0; i < 4; i++) {
                     player = get_player_by_client_id(i);
@@ -466,7 +465,7 @@ void TObjEneEpsilonBody::handle_fire_state(s32 reason) {
                         t.kind = 1;
                         t.power = epsilon_body_shared_params->fire_power;
                         if (player->receive_direct_attack(this, t, 0, -1, -1) > 0.0f) {
-                            obj_setFlags30(player, 0x600);
+                            player->set_actor_flags(0x600);
                         }
                         play_sound_effect(0x4002A828, &player->position, 0, 0);
                     }
@@ -870,7 +869,7 @@ void TObjEneEpsilonBody::action_destroy(s32 reason) {
             action_timer++;
             if (action_timer >= 0x14) {
                 set_intangible();
-                TBoss3Volopt::create_breakup_mdl((saddr)epsilon_body_breakup_model, (saddr)&epsilon_guard_destroy_breakup_params, (s32)texlist, (saddr)&body_center, (s32)rotation_y);
+                TBoss3Volopt::create_breakup_mdl((saddr)epsilon_body_breakup_model, (saddr)&epsilon_guard_destroy_breakup_params, texlist, (saddr)&body_center, (s32)rotation_y);
                 play_sound_effect(0x4003AD4C, &body_center, 0, 0);
                 trigger_dell_biter_events(&body_center);
                 flags |= 1;
@@ -1006,7 +1005,7 @@ void TObjEneEpsilonBody::draw_with_fade(s32 detail) {
         return;
     }
     update_secondary_light();
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
+    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
     push_matrix();
     post_translate_matrix(&position.x);
     translate_matrix(0, 0.0f, 24.0f, 0.0f);
@@ -1054,7 +1053,7 @@ void TObjEneEpsilonBody::render_body_effect() {
         translate_matrix(0, 0.0f, 24.0f, 0.0f);
         rotate_matrix_y(0, rotation_y);
         scale_matrix(0, effect_scale, 1.0f, effect_scale);
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
         TObjPlayer::toggle_particle_effect();
         draw_chunk_object(get_bml_model(epsilon_bml_resource, 4));
         TParticleCtrl::end_effect_render();
@@ -1352,11 +1351,11 @@ f32 TObjEneEpsilonBody::receive_weapon_special_attack(void *src, void *hit) {
         s32 strong;
         obj_getS16_118((u8 *)src);
         strong = 0;
-        if (src == NULL || get_entity_id((TObjBase *)src) == 0xFFFF) {
+        if (src == NULL || ((TObjBase *)src)->get_entity_id() == 0xFFFF) {
             show_miss_popup(&position.x);
             return 0.0f;
         }
-        if (obj_testFlags30(0x04000000) != 0) {
+        if (test_actor_flags(0x04000000) != 0) {
             strong = 1;
         }
         if (hit != NULL && (((CollisionBody *)hit)->flags & 0x02000000)) {

@@ -50,6 +50,7 @@
 #include <stddef.h>
 #include "pso/system/task/TObject.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
+#include "pso/object/base/TObjBase.h"
 LAYOUT_ASSERT(NanoGrow_scale, offsetof(TObjEneNanoDrago, scale.x) == 0x68);
 LAYOUT_ASSERT(NanoGrow_target_scale, offsetof(TObjEneNanoDrago, scale.y) == 0x6c);
 LAYOUT_ASSERT(NanoGrow_base_atp, offsetof(TObjEneNanoDrago, base_atp) == 0x2c0);
@@ -111,6 +112,7 @@ inline f32 xz_length_squared(Vec *v) { return v->x * v->x + v->z * v->z; }
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
+#include "pso/player/PlayerSlots.h"
 
 
 
@@ -221,7 +223,7 @@ TObjEneNanoDrago::TObjEneNanoDrago(TObject *parent, void *setData) : TObjEnemyCu
     for (i = 0; i < 4; i++) {
         cameraFades[i].activate_and_dispatch();
     }
-    obj_setFlags30(this, 0x1000000);
+    set_actor_flags(0x1000000);
     VecCopy((Vec *)(&prev_position), (const Vec *)(&position));
     clear_lobby_object_state();
 }
@@ -240,7 +242,7 @@ void TObjEneNanoDrago::load_resources() {
     lbl_805D5254 = (saddr)TLobby::dispatch_shared_handler_a(0x1A);
     NpcAnimationBinding binding = { reinterpret_cast<BmlMotionEntry *>(nano_drago_entry_params_resource->motions), reinterpret_cast<TObjMotionAction *>(nanodrago_action_table), 0, 1, 12 };
     modelEntries = nano_drago_entry_params_resource->models;
-    NpcModelRegistry::register_animated_chunk((s16)(0x22), reinterpret_cast<void *>(modelEntries[0].model), reinterpret_cast<void *>(modelEntries[0].texlist), &binding, (f32)(15.0f), (f32)(0.0f));
+    NpcModelRegistry::register_animated_chunk((s16)(0x22), reinterpret_cast<void *>(modelEntries[0].model), modelEntries[0].texlist, &binding, (f32)(15.0f), (f32)(0.0f));
 }
 void TObjEneNanoDrago::free_resources() {
     if ((uaddr) nano_drago_entry_params_resource != 0U) {
@@ -371,7 +373,7 @@ void TObjEneNanoDrago::render() {
                 return;
             }
         }
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
         select_actor_lighting(this);
         TObjPlayer::toggle_particle_effect();
         rendered = 1;
@@ -1100,7 +1102,7 @@ void TObjEneNanoDrago::add_target_in_front_arc(TObjChara *candidate) {
       heading = (-((s32) (RADIANS_TO_ANGLE * atan2_float(v.z, dx)))) + 0x4000;
       if (angle_difference_abs(heading, rotation_y) <= 0xAAA)
       {
-        s16 id = get_entity_id(candidate);
+        s16 id = candidate->get_entity_id();
         u16 *ids = beamTargetIds;
         ids[beamTargetCount++] = id;
       }

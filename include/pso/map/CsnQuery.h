@@ -56,7 +56,7 @@ CsnGroup *TObjPlayer__sub_80079DE0(Vec *from, Vec *to);
 CsnGroup *query_collision_segment_groups(Vec *a, Vec *b, u32 mask);
 }
 s32 evaluate_ground_triangles(Vec *origin, u32 mask, CsnGroup **groups);
-s32 prepare_wall_query_polygons(void *arg0, f32 r, s32 mask);
+s32 prepare_wall_query_polygons(void *origin, f32 r, s32 mask);
 void *query_prepared_wall_polygons(void *self);
 s32 query_wall_segment(Vec *from, Vec *to, u32 mask, CsnContact *hit);
 #endif

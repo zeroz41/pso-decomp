@@ -50,14 +50,14 @@ LAYOUT_ASSERT(RecoveredGlobal_80123CA8_lbl_8043E878_size, sizeof(RecoveredGlobal
 LAYOUT_ASSERT(RecoveredGlobal_80123CA8_lbl_8043E8D8_size, sizeof(RecoveredGlobal_80123CA8_lbl_8043E8D8) == 0x60);
 void TUnk_804A1E28::vfunc_60() {
     s32 player_list;
-    s32 temp_r4;
+    s32 scale_step;
     s32 temp_r4_2;
     player_list = TObjPlayer::get_player_list();
     switch (player_list) {
     case 1:
         TItem::begin_effect_render();
-        temp_r4 = this->scale_step;
-        scale_current_matrix((void *) ((u8 *)&lbl_8043E878.value + (temp_r4 * 0xC)), temp_r4);
+        scale_step = this->scale_step;
+        scale_current_matrix((void *) ((u8 *)&lbl_8043E878.value + (scale_step * 0xC)), scale_step);
         return;
     case 4:
         TItem::begin_effect_render();
@@ -73,14 +73,14 @@ void TUnk_804A1E28::vfunc_60() {
 void TUnk_804A1E28::update_weapon() {
     s16 temp_r0;
     s16 temp_r3_3;
-    s32 temp_r3;
+    s32 scale_step;
     s32 temp_r3_2;
     if (this->scale_state == 1) {
-        temp_r3 = this->scale_step;
-        if (temp_r3 == 7) {
+        scale_step = this->scale_step;
+        if (scale_step == 7) {
             this->scale_state = 0;
         } else {
-            this->scale_step = (temp_r3 + 1);
+            this->scale_step = (scale_step + 1);
         }
     }
     if (this->scale_state == 2) {
@@ -104,19 +104,19 @@ void TUnk_804A1E28::update_weapon() {
 }
 
 void TUnk_804A1E28::update_idle() {
-    s16 temp_r0;
+    s16 scale_state;
 
-    temp_r0 = this->scale_state;
-    if ((temp_r0 == 1) || (temp_r0 == 0)) {
+    scale_state = this->scale_state;
+    if ((scale_state == 1) || (scale_state == 0)) {
         this->scale_state = 2;
     }
 }
 
 void TUnk_804A1E28::update_attack() {
-    s16 temp_r0;
+    s16 scale_state;
 
-    temp_r0 = this->scale_state;
-    if ((temp_r0 == 2) || (temp_r0 == 3)) {
+    scale_state = this->scale_state;
+    if ((scale_state == 2) || (scale_state == 3)) {
         this->scale_state = 1;
     }
 }

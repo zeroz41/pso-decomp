@@ -3,16 +3,18 @@
 
 #include "pso/system/task/TObject.h"
 #include "types.h"
+#include <dolphin/mtx.h>
 
 class TFontSmallTask : public TObject {
 public:
-    TFontSmallTask(const f32 *pos, u32 color, s32 life, s32 delay, const char *str, s32 view);
+    TFontSmallTask(Vec *pos, u32 color, s32 life, s32 delay, const char *str, u16 view);
     virtual ~TFontSmallTask();
     virtual void render();
     virtual void run_task();
     // Text scale factor for the current camera view scale.
     f32 calc_font_scale();
-    f32 position[3];
+
+    Vec position;
     f32 offset_x, offset_y;
     f32 text_width;
     char text[16];
@@ -24,8 +26,8 @@ public:
 
 extern "C" {
 void create_boss_health_font(s32 pos, s32 color, s32 life, void *label, void *value);
-s32 create_font_small_task(s32 pos, s32 color, s32 life, s32 delay, s32 *str, s32 value, s32 view);
-s32 create_font_small_task_default_color(s32 pos, s32 color, s32 life, s32 delay, s32 *str, s32 value);
+s32 create_font_small_task(Vec *pos, s32 color, s32 life, s32 delay, s32 *str, s32 value, u16 view);
+s32 create_font_small_task_default_color(Vec *pos, s32 color, s32 life, s32 delay, s32 *str, s32 value);
 void update_card_window_flags(saddr client_id, s32 card_status_bits);
 s32 get_player_status_color(void *player);
 }

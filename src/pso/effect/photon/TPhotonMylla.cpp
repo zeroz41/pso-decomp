@@ -34,6 +34,7 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/render/model_render_state.h"
 #include "pso/unk/text_803D8F74.h"
+#include "pso/object/base/TObjBase.h"
 
 
 const char *TPhotonMylla::class_name = "TPhotonMylla";
@@ -53,7 +54,7 @@ void TPhotonMylla::reset_material_color(u8 count) {
 void TPhotonMylla::render() {
     if (visible != 0) {
         TParticleCtrl::begin_effect_render();
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
         push_matrix();
         translate_matrix(0, position.x, position.y, position.z);
         rotate_matrix_y(0, rotation_y);
@@ -134,7 +135,7 @@ void TPhotonMylla::run_task() {
         strike_pos.y += 45.0f;
         spawn_particle_effect(&strike_pos, 0x169);
         if (owner_object != NULL) {
-            queue_photon_blast_hit(get_entity_id(owner_object), 5, 0, power);
+            queue_photon_blast_hit(owner_object->get_entity_id(), 5, 0, power);
         }
     }
     if ((f32)frame > 116.0f) {
@@ -171,7 +172,7 @@ TPhotonMylla::TPhotonMylla(PhotonSummonParams *params) {
         rotation_y = owner->rotation_y;
     }
     model = photon_blast_shared_resource->models[10].model;
-    texlist = (saddr)photon_blast_shared_resource->models[10].texlist;
+    texlist = photon_blast_shared_resource->models[10].texlist;
     set_action_table((saddr)photon_mylla_action_table);
     set_motion_list((saddr)photon_blast_shared_resource->motions);
     requested_action = 1;

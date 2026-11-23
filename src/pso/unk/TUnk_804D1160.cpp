@@ -2,6 +2,7 @@
 
 #include "types.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/ui/window/TWindowMainMenu.h"
 #include "pso/ui/window/TWindowMainMenu_80263AB0.h"
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/window/TWindowBase.h"
@@ -13,7 +14,7 @@
 #include "pso/unk/text_80076E84.h"
 #include "pso/unk/text_80263A20.h"
 #include "pso/ui/window/TWindowMenu.h"
-#include "pso/unk/TUnk_804D1160.h"
+#include "pso/ui/window/TCustomizeMenuCtrl.h"
 #include "pso/ui/window/TWindowSubComCardList.h"
 #include "pso/ui/window/TWindowSubCustomEquip.h"
 #include "pso/unk/TLobby.h"
@@ -25,6 +26,7 @@
 #include "pso/ui/Language.h"
 #include "pso/system/task/TObject.h"
 #include "pso/weapon/WeaponSpecialSelection.h"
+#include "pso/player/PlayerSlots.h"
 
 
 struct Win_802758C8 {
@@ -60,76 +62,50 @@ struct Self_80275A8C {
 
 extern "C" {
 s32 *get_shared_text_buffer(void);
-void *get_player_by_client_id(s32 i);
 u8 get_cast_technique_level(void *, s16);
 void text_builder_append_int(s32);
 void text_builder_append();
 u8 *calc_technique_parameters(u16, u8, s32);
-s32 set_depth__11TWindowBaseFf(void *);
 }
 
 void text_builder_reset();
 s32 get_palette_consumable_count(u16, s32);
 
-struct Equip_80275CB0 {
-    u8 pad0[0x18];
-    s32 *vt;
-    s8 x1c;
-    u8 pad1d[3];
-    s32 x20;
-    void *parent;
-    void *custom;
-    s32 x2c;
-    void *list;
-    s16 x34;
-    s16 x36;
-};
-
 extern "C" {
-void __ct__7TObjectFP7TObject(void *, void *);
 void *get_window_layout_position(s32);
-extern s32 __vt__13TUnk_804D1160[];
 extern const f32 lbl_8044F718[2] = {190.0f, 168.0f};
-#define self ((Equip_80275CB0 *)arg0)
-void *TWindowSubEquip__sub_80275CB0(void *arg0, void *arg1, s32 arg2) {
-    void *p;
-    __ct__7TObjectFP7TObject(arg0, arg1);
-    self->vt = __vt__13TUnk_804D1160;
-    self->parent = arg1;
-    self->x20 = arg2;
-    p = new TWindowSubCustomEquip(self->x20);
-    self->custom = p;
-    TWindowSubEquip__sub_80263AF8((u8 *)self->parent, 0);
-    set_depth__11TWindowBaseFf(self->custom);
-    self->list = TWindowMessage::create((saddr)(get_window_layout_position(0x11)), (const f32 *)lbl_8044F718, 1, (s32)self->x20);
-    TWindowSubEquip__sub_80263AF8((u8 *)self->parent, 2);
-    set_depth__11TWindowBaseFf(self->list);
-    call_if_split_screen((uaddr)self->list, self->x20);
-    self->x2c = 0;
-    self->x34 = 0;
-    self->x36 = 0;
-    self->x1c = 0;
-    return arg0;
-}
 }
 
-#undef self
-TUnk_804D1160::~TUnk_804D1160() {
-    if ((void *)m_2c != NULL) {
-        ((TWindowBase *)m_2c)->close();
-        m_2c = 0;
+TCustomizeMenuCtrl::TCustomizeMenuCtrl(TWindowMainMenu *parent, s32 client) : TObject(parent) {
+    main_menu = parent;
+    client_id = client;
+    custom_equip = (uaddr)new TWindowSubCustomEquip(client_id);
+    ((TWindowBase *)custom_equip)->set_depth(TWindowSubEquip__sub_80263AF8((u8 *)main_menu, 0));
+    help_window = (uaddr)TWindowMessage::create((saddr)(get_window_layout_position(0x11)), lbl_8044F718, 1, client_id);
+    ((TWindowBase *)help_window)->set_depth(TWindowSubEquip__sub_80263AF8((u8 *)main_menu, 2));
+    call_if_split_screen(help_window, client_id);
+    custom_select = 0;
+    help_kind = 0;
+    help_id = 0;
+    state = 0;
+}
+
+TCustomizeMenuCtrl::~TCustomizeMenuCtrl() {
+    if ((void *)custom_select != NULL) {
+        ((TWindowBase *)custom_select)->close();
+        custom_select = 0;
     }
-    if ((void *)m_30 != NULL) {
-        ((TWindowBase *)m_30)->close();
-        m_30 = 0;
+    if ((void *)help_window != NULL) {
+        ((TWindowBase *)help_window)->close();
+        help_window = 0;
     }
-    if ((void *)m_28 != NULL) {
-        ((TWindowBase *)m_28)->close();
-        m_28 = 0;
+    if ((void *)custom_equip != NULL) {
+        ((TWindowBase *)custom_equip)->close();
+        custom_equip = 0;
     }
 }
 
-void TUnk_804D1160::run_task() {
+void TCustomizeMenuCtrl::run_task() {
     Self_80275A8C *self = (Self_80275A8C *)this;
     Ev_802758C8 ev;
     switch (self->state) {
@@ -139,31 +115,30 @@ void TUnk_804D1160::run_task() {
             ((TWindowBase *)self->f2c)->close();
             self->f2c = NULL;
         }
-        ((TWindowSubCustomEquip *)(this->m_28))->clear_flag_and_set_entry_state();
+        ((TWindowSubCustomEquip *)(this->custom_equip))->clear_flag_and_set_entry_state();
         self->state = 2;
     case 2:
-        ((TWindowSubCustomEquip *)(this->m_28))->get_cursor_pos(&ev);
-        ((TUnk_804D1160 *)self)->update_customize_help_text(&ev);
-        if (TWindowSubCustomEquip__sub_80275DA8((void *)this->m_28) != 0) {
+        ((TWindowSubCustomEquip *)(this->custom_equip))->get_cursor_pos(&ev);
+        ((TCustomizeMenuCtrl *)self)->update_customize_help_text(&ev);
+        if (TWindowSubCustomEquip__sub_80275DA8((void *)this->custom_equip) != 0) {
             self->f24->v7();
             self->state = 5;
-        } else if (((TWindowSubCustomEquip *)(this->m_28))->is_selected() != 0) {
+        } else if (((TWindowSubCustomEquip *)(this->custom_equip))->is_selected() != 0) {
             self->state = 3;
         }
         break;
     case 3:
-        self->f2c = new TWindowSubCustomSelect(m_20);
-        TWindowSubEquip__sub_80263AF8((u8 *)self->f24, 1);
-        set_depth__11TWindowBaseFf(self->f2c);
+        self->f2c = new TWindowSubCustomSelect(client_id);
+        ((TWindowBase *)self->f2c)->set_depth(TWindowSubEquip__sub_80263AF8((u8 *)self->f24, 1));
         self->state = 4;
     case 4:
-        ((TUnk_804D1160 *)self)->update_customize_help_text(static_cast<TWindowSubCustomSelect *>(self->f2c)->get_selected_action());
+        ((TCustomizeMenuCtrl *)self)->update_customize_help_text(static_cast<TWindowSubCustomSelect *>(self->f2c)->get_selected_action());
         if (fn_80275D90(self->f2c) != 0) {
             self->state = 1;
         }
         if (((TWindowSubCustomSelect *)(self->f2c))->is_active() != 0) {
             void *e = static_cast<TWindowSubCustomSelect *>(self->f2c)->get_selected_action();
-            ((TWindowSubCustomEquip *)(this->m_28))->toggle_action_binding(e);
+            ((TWindowSubCustomEquip *)(this->custom_equip))->toggle_action_binding(e);
             self->state = 1;
         }
         break;
@@ -172,9 +147,9 @@ void TUnk_804D1160::run_task() {
     }
 }
 
-void TUnk_804D1160::render() {  }
+void TCustomizeMenuCtrl::render() {  }
 
-void TUnk_804D1160::update_customize_help_text(void *ev_arg) {
+void TCustomizeMenuCtrl::update_customize_help_text(void *ev_arg) {
     Win_802758C8 *self = (Win_802758C8 *)this;
     Ev_802758C8 *ev = (Ev_802758C8 *)ev_arg;
     u8 *pl;

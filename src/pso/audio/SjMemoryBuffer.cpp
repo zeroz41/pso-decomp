@@ -121,7 +121,7 @@ void sj_memory_buffer_get_chunk(SjMemoryBuffer* sj_memory_buffer, s32 arg1, s32 
 #pragma optimize_for_size on
 
 s32 sj_memory_buffer_get_available(SjMemoryBuffer* sj_memory_buffer, s32 arg1) {
-    SjErrorCallback temp_r12;
+    SjErrorCallback error_callback;
 
     if (arg1 == 1) {
         return sj_memory_buffer->readable_bytes;
@@ -129,9 +129,9 @@ s32 sj_memory_buffer_get_available(SjMemoryBuffer* sj_memory_buffer, s32 arg1) {
     if (arg1 == 0) {
         return 0;
     }
-    temp_r12 = sj_memory_buffer->error_callback;
-    if (temp_r12 != NULL) {
-        temp_r12(sj_memory_buffer->error_context, -3);
+    error_callback = sj_memory_buffer->error_callback;
+    if (error_callback != NULL) {
+        error_callback(sj_memory_buffer->error_context, -3);
     }
     return 0;
 }

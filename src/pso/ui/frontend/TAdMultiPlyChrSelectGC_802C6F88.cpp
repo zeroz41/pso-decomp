@@ -39,15 +39,15 @@ extern "C" void update_transition_anim_if_active(void *, void *) {
 void TUnk_804E0B28::update_transition_anim() {
     f32 var_f31;
     f32 var_f4;
-    s32 temp_r3;
+    s32 timer;
     s32 temp_r3_2;
 
-    temp_r3 = this->timer;
-    if (temp_r3 <= 0x96) {
+    timer = this->timer;
+    if (timer <= 0x96) {
         var_f4 = 1.0f;
-        var_f31 = (15.0f - (f32) temp_r3) / 15.0f;
+        var_f31 = (15.0f - (f32) timer) / 15.0f;
     } else {
-        temp_r3_2 = temp_r3 - 0x96;
+        temp_r3_2 = timer - 0x96;
         var_f31 = 1.0f;
         var_f4 = (15.0f - (f32) temp_r3_2) / 15.0f;
     }

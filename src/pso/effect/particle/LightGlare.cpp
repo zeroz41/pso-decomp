@@ -125,7 +125,7 @@ void TLightGlare::render() {
     }
     set_additive_blend();
     begin_screen_draw(1);
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(particle_definitions[31].texlist));
+    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(particle_definitions[31].texlist));
     set_draw_texture_and_color(particle_definitions[31].texture, -1);
     if (facing < 0.0f) {
         color.argb.a = 0;

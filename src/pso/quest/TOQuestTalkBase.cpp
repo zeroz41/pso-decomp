@@ -17,6 +17,7 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/unk/text_803E2D70.h"
+#include "pso/player/PlayerSlots.h"
 
 
 void TOQuestTalkBase::update_demo() {}
@@ -25,7 +26,7 @@ void TOQuestTalkBase::vfunc_6(s16 *state, s32) {
     object_state = *state;
 }
 
-void TOQuestTalkBase::interact(s32 client) {
+void TOQuestTalkBase::interact(u16 client) {
     TObjPlayer *player;
     if (quest_label > 0) {
         if ((u16)client == local_client_id) {
@@ -162,7 +163,7 @@ void TOQuestTalkBase::render() {
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
         if (active == 1) {
             if (motion != NULL) {
                 draw_model_motion(model, motion, animation_frame);

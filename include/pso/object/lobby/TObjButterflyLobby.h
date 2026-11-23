@@ -4,7 +4,7 @@
 #include "types.h"
 #include "pso/object/base/TObjMotion.h"
 
-struct GinjaTextureList;
+struct NJS_TEXLIST;
 struct ObjectSetData;
 
 struct TObjButterflyLobby : public TObjBase {
@@ -25,7 +25,7 @@ struct TObjButterflyLobby : public TObjBase {
     u8 m_c2;
     u8 _padC3[0x1];
     NJS_OBJECT *lobby_model;
-    GinjaTextureList *model_textures;
+    NJS_TEXLIST *model_textures;
     static void free_singleton_805D4E6C();
     static void alloc_scene_buffer();
     void init_params();
@@ -33,6 +33,7 @@ struct TObjButterflyLobby : public TObjBase {
     void update_fade();
     virtual void run_task();
     static void destroy_instance();
+    static void *create(void *set_data);
 };
 
 LAYOUT_ASSERT(TObjButterflyLobby_size, sizeof(TObjButterflyLobby) == 0xCC);

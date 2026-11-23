@@ -22,7 +22,7 @@ public:
 
 LAYOUT_ASSERT(TEffCliticalSize, sizeof(TEffClitical) == 0x78);
 
-void init_texture_copy_rect(TextureFrameSlot *slot, GinjaTextureList *texlist, GinjaTextureList *frames, s32 slot_index,
+void init_texture_copy_rect(TextureFrameSlot *slot, NJS_TEXLIST *texlist, NJS_TEXLIST *frames, s32 slot_index,
                             s32 frame);
 void approach_position_if_far(Vec *from, Vec *to, f32 rate);
 

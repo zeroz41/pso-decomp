@@ -48,7 +48,6 @@ struct TMainCursor : public TObject {
     TUnk_804A7254 unk_4c;
     TUnk_8013E780 unk_60;
     void update_position();
-    int check_type_and_enabled(u8 type, u8 enabled);
     s32 sort_actions_by_priority();
     void reset_state();
     void update_photon_chair();
@@ -60,9 +59,9 @@ struct TMainCursor : public TObject {
     void init_slots();
     void set_cursor_pos(u16 arg1, s32 arg2);
     static s32 get_action_cursor_priority(void *arg0, saddr player, s32 index);
-    static void set_cursor_color(s32 arg0, saddr player, saddr arg2);
-    static void set_display_flags(s32 arg0, saddr player, saddr arg2);
-    static void setup_flags(s32 arg0, s32 player, saddr arg2);
+    static void set_cursor_color(s32 arg0, saddr player, saddr main_cursor);
+    static void set_display_flags(s32 arg0, saddr player, saddr main_cursor);
+    static void setup_flags(s32 arg0, s32 player, saddr main_cursor);
     static void sort_list(s32 arg0, s32 arg1);
     s32 is_channel_active();
     int check_visible();
@@ -87,7 +86,7 @@ struct TMainCursor : public TObject {
     void check_flag_4();
     u8 forward_13E338_at_60();
     u8 update_sub_60();
-    void set_offset_y(s16 a1);
+    void set_offset_y(s16 offset_y);
     void init_field_60(u8 v);
     int get_selected_entry();
     u8 get_active();
@@ -106,9 +105,9 @@ struct TMainCursor : public TObject {
     void update_chair();
     void validate_target();
     int is_same_target(void *b);
-    void set_target_id_at_60(u8 arg1);
+    void set_target_id_at_60(u8 target_id);
     void set_target_id(s16 v);
-    int set_target_index_at_60(void* _w1);
+    int set_target_index_at_60(void* target_index);
     s32 get_body_exclude_mask();
     s32 get_body_include_mask();
     s32 get_actor_exclude_mask();

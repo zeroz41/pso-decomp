@@ -3,9 +3,9 @@
 #include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/window/TWindowBase.h"
-#include "pso/ui/city/TShopJudgmentItemWindow_8026DF00.h"
+#include "pso/ui/window/TWindowShop.h"
+#include "pso/player/TObjPlayer.h"
 #include "pso/player/TPlyGuildCardTag_8007B434.h"
-#include "pso/ui/window/TWindowSubComCard_80244774.h"
 #include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/unk/text_800F7DAC.h"
@@ -14,6 +14,7 @@
 #include "pso/ui/window/TWindowAddition.h"
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/window/TWindowMenuIconLine.h"
+#include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/quest/TQuestListOnline.h"
 #include "pso/quest/OnlineQuestMenuRecords.h"
 #include "pso/quest/OnlineQuestDownloadState.h"
@@ -29,6 +30,8 @@
 #include "pso/quest/TQuestListVM.h"
 #include "pso/system/task/TObject.h"
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
+#include "pso/object/base/TObjBase.h"
+#include "pso/unk/text_80222C28.h"
 
 
 // A window's width and height.
@@ -99,26 +102,33 @@ struct VObj_18_80217C1C : VBase_18_80217C1C {
 
 
 extern "C" {
-s32 get_entity_id(int);
 saddr get_window_layout_position(int);
 
-s32 send_action__9TProtocolFR13GameListEntryUcPcPc(void *, void *, int, char *, char *);
 
 
-s32 get_unlocked_tier__16TQuestListOnlineFv(void *);
 }
 
-s32 get_guild_text(s32 arg0);
 
 
 struct Obj_802181B0 { u8 pad[0x20]; u32 state; };
 
 extern s32 __vt__16TQuestListOnline[];
 
-void *TQuestListOnline__ct(TQuestListOnline *quest_list_online, void *parent, void *arg2, void *arg3) {
+void TWindowMenu::clear_flag_and_release() {
+    uaddr temp;
+    m_70 &= ~2;
+    temp = reinterpret_cast<uaddr>(heading);
+    if (temp != 0U) {
+        ((TWindowSubStatusDisp *)temp)->set_entry_state(1);
+    }
+}
+
+s32 TQuestListOnline::get_selection_stage() { return selection_stage; }
+
+void *TQuestListOnline__ct(TQuestListOnline *quest_list_online, void *parent, void *arg2, void *player) {
     __ct__15TShopWindowBaseFP7TObject(quest_list_online, (TObject *)parent);
     *(s32 **)((s8 *)quest_list_online + 0x18) = __vt__16TQuestListOnline;
-    __ct__13GameListEntryFv(quest_list_online->selected_entry);
+    __ct__13GameListEntryFv(&quest_list_online->selected_entry);
     quest_list_online->m_name = TQuestListOnline__class_name;
     quest_list_online->list_window = NULL;
     quest_list_online->description_window = NULL;
@@ -130,9 +140,9 @@ void *TQuestListOnline__ct(TQuestListOnline *quest_list_online, void *parent, vo
     quest_list_online->callback2c = NULL;
     quest_list_online->callback34 = NULL;
     quest_list_online->selection_stage = 0;
-    *(void **)((s8 *)quest_list_online + 0x24) = arg3;
-    memset(quest_list_online->selected_entry, 0, 28);
-    ((TShopWindowBase *)quest_list_online)->set_field_20(0);
+    *(void **)((s8 *)quest_list_online + 0x24) = player;
+    memset(&quest_list_online->selected_entry, 0, sizeof(quest_list_online->selected_entry));
+    ((TShopWindowBase *)quest_list_online)->set_state(0);
     TQuestListOnline__instance = quest_list_online;
     return quest_list_online;
 }
@@ -157,7 +167,7 @@ TQuestListOnline::~TQuestListOnline() {
     TQuestListOnline__instance = 0;
 }
 
-void TQuestListOnline::vfunc_11() {
+void TQuestListOnline::update_state() {
     Obj_802181B0 *arg0 = (Obj_802181B0 *)this;
     switch (this->state) {
     case 0: ((TQuestListOnline*)arg0)->request_menu(); break;
@@ -176,22 +186,22 @@ void TQuestListOnline::vfunc_11() {
     }
 }
 
-void TQuestListOnline::request_menu() { TLobby__protocol_instance->send_quest_menu_request(); online_quest_bin_data = NULL; quest_bin_decompressed_size = 0; online_quest_dat_buffer = NULL; online_quest_list_decompressed_size = 0; set_field_20((saddr)((void*)12)); }
+void TQuestListOnline::request_menu() { TLobby::protocol_instance->send_quest_menu_request(); online_quest_bin_data = NULL; quest_bin_decompressed_size = 0; online_quest_dat_buffer = NULL; online_quest_list_decompressed_size = 0; set_state((saddr)((void*)12)); }
 
 void TQuestListOnline::build_list_window() {
-    u16 id;
+    s32 id;
     s32 off;
     s32 i;
     QuestListEntry *entry;
     if (((VObj_18_80217F88 *)this->sequence)->m8() != 0) {
         if (list_window == NULL) {
-            id = get_entity_id(window_owner);
-            list_window = (TWindowMenuIconLine *)create_item_list_window(get_guild_text(0), 0x40, id);
+            id = player->get_entity_id();
+            list_window = create_item_list_window(get_guild_text(0), 0x40, id);
         } else {
             list_window->reset_list();
         }
         if (TQuestListOnline__quest_list_buffer != NULL && TQuestListOnline__quest_list_buffer->header.flags == 0) {
-            set_field_20(0xB);
+            set_state(0xB);
             return;
         }
         if (TQuestListOnline__quest_list_buffer != NULL) {
@@ -222,15 +232,15 @@ void TQuestListOnline::build_list_window() {
             description_window->append_line((saddr)TQuestListOnline__quest_list_buffer->entries[0].short_description, (int)0x80);
         }
         selected_index = 0;
-        set_field_20(3);
+        set_state(3);
     }
 }
 
 void TQuestListOnline::show_info_window() {
-    u16 temp_r31;
+    s32 temp_r31;
     if (info_window == NULL) {
         WindowSize size = online_info_window_size;
-        temp_r31 = get_entity_id(window_owner);
+        temp_r31 = player->get_entity_id();
         info_window = (TWindowMessage *)TWindowMessage::create(get_window_layout_position(0x2E), (const f32 *)&size, 1, (s32)temp_r31);
         info_window->set_depth(37000.0f);
         if (TCameraCtrl::get_camera_id() >= 2) {
@@ -240,7 +250,7 @@ void TQuestListOnline::show_info_window() {
     if (TQuestListOnline__selected_quest_info != NULL) {
         info_window->append_line((saddr)TQuestListOnline__selected_quest_info->text, (int)0x80);
     }
-    this->set_field_20(3);
+    this->set_state(3);
 }
 
 void TQuestListOnline::handle_list_selection() {
@@ -261,7 +271,7 @@ void TQuestListOnline::handle_list_selection() {
     if (list_window != NULL && list_window->is_decided() != 0) {
         if (selection_stage == 0) {
             s32 idx = list_window->get_cursor_value();
-            __as__16TPlyGuildCardTagFRC16TPlyGuildCardTag(selected_entry, &TQuestListOnline__quest_list_buffer->entries[idx].tag);
+            __as__16TPlyGuildCardTagFRC16TPlyGuildCardTag(&selected_entry.tag, &TQuestListOnline__quest_list_buffer->entries[idx].tag);
             switch (TQuestListOnline__quest_list_buffer->entries[idx].tag.m_tag0) {
             case 1:
                 online_quest_list_state = 0;
@@ -273,46 +283,46 @@ void TQuestListOnline::handle_list_selection() {
                 online_quest_list_state = 0;
                 break;
             }
-            send_action__9TProtocolFR13GameListEntryUcPcPc(TLobby__protocol_instance, selected_entry, get_unlocked_tier__16TQuestListOnlineFv(this), "", "");
+            TLobby::protocol_instance->send_action(selected_entry, get_unlocked_tier(), "", "");
             if (description_window != NULL) {
                 description_window->close();
                 description_window = NULL;
             }
             list_window->close();
             list_window = NULL;
-            set_field_20(0xC);
+            set_state(0xC);
             selection_stage++;
             return;
         } else if (selection_stage == 1) {
             s32 idx = list_window->get_cursor_value();
-            __as__16TPlyGuildCardTagFRC16TPlyGuildCardTag(selected_entry, &TQuestListOnline__quest_list_buffer->entries[idx].tag);
-            TLobby__protocol_instance->send_info((TPlyGuildCardTag &)selected_entry);
-            set_field_20(0xC);
+            __as__16TPlyGuildCardTagFRC16TPlyGuildCardTag(&selected_entry.tag, &TQuestListOnline__quest_list_buffer->entries[idx].tag);
+            TLobby::protocol_instance->send_info(selected_entry.tag);
+            set_state(0xC);
             selection_stage++;
             return;
         } else if (selection_stage == 2) {
             if (confirm_window == NULL) {
-                u16 id = get_entity_id(window_owner);
+                s32 id = player->get_entity_id();
                 confirm_window = create_yes_no_window((const NJS_POINT2 *)get_window_layout_position(0x2B), id, NULL, NULL);
                 confirm_window->set_position_xy(get_scale(), get_scale());
                 if (sequence != NULL) {
                     ((VObj_18_80217C1C*)sequence)->m7(5, 1);
                 }
-                set_field_20(8);
+                set_state(8);
             }
         }
     }
     if (list_window != NULL && list_window->is_cancelled() != 0) {
-        set_field_20(9);
+        set_state(9);
     }
 }
 
-void TQuestListOnline::begin_buffer_request() { set_field_20(5); }
+void TQuestListOnline::begin_buffer_request() { set_state(5); }
 
 void TQuestListOnline::request_download_buffer() {
     if (TLobby::tmp_buf_is_free() != 0) {
         TQuestListOnline__decompression_cursor = TLobby::tmp_buf_use_req(online_tmp_buf_owner_name);
-        set_field_20(6);
+        set_state(6);
     }
 }
 
@@ -325,7 +335,7 @@ void TQuestListOnline::decompress_quest_list_buffers() {
     TQuestListOnline__decompression_cursor += quest_bin_decompressed_size;
     online_quest_list_decompressed_size = prs_decompress_buffer((saddr)TQuestListOnline__dat_download_state.buffer, (saddr)TQuestListOnline__decompression_cursor);
     online_quest_dat_buffer = TQuestListOnline__decompression_cursor;
-    set_field_20((saddr)((void *)7));
+    set_state((saddr)((void *)7));
 }
 #pragma pop
 
@@ -339,7 +349,7 @@ void TQuestListOnline::handle_quest_confirm() {
                 if (this->sequence != NULL) {
                     (*(VObj_18_802178E4 * *)&this->sequence)->m7(0x14, 1);
                 }
-                send_action__9TProtocolFR13GameListEntryUcPcPc(TLobby__protocol_instance, selected_entry, 0, "", "");
+                TLobby::protocol_instance->send_action(selected_entry, 0, "", "");
                 this->confirm_window->queue_destruction();
                 this->confirm_window = NULL;
                 if (this->info_window != NULL) {
@@ -354,7 +364,7 @@ void TQuestListOnline::handle_quest_confirm() {
                     this->list_window->queue_destruction();
                     this->list_window = NULL;
                 }
-                set_field_20(0xC);
+                set_state(0xC);
                 return;
             }
             if (this->sequence != NULL) {
@@ -379,7 +389,7 @@ void TQuestListOnline::handle_quest_confirm() {
             if (this->sequence != NULL) {
                 (*(VObj_18_802178E4 * *)&this->sequence)->m7(0x19, 1);
             }
-            set_field_20(1);
+            set_state(1);
             return;
         }
     }
@@ -399,7 +409,7 @@ void TQuestListOnline::handle_quest_confirm() {
         if (this->sequence != NULL) {
             (*(VObj_18_802178E4 * *)&this->sequence)->m7(0x19, 1);
         }
-        set_field_20(1);
+        set_state(1);
     }
 }
 

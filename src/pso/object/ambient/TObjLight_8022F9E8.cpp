@@ -24,9 +24,9 @@ TUnk_804CC794::~TUnk_804CC794() {
     stop_sound_request(m_sound_handle);
 }
 
-TUnk_804CC794::TUnk_804CC794(s32 arg1, saddr arg2) : TObject((TObject *)((void *)arg2)) {
-    *(s32 *)((s8 *)this + 0x1C) = arg1;
-    VecCopy((Vec *)(((u8 *)this) + 0x20), (const Vec *)(*(saddr *)((s8 *)this + 0x1C) + 0x2FC));
-    this->m_age = 0;
-    *(s32 *)((s8 *)this + 0x30) = play_sound_effect(0x4002B21C, ((u8 *)this) + 0x20, 0, 0);
+TUnk_804CC794::TUnk_804CC794(TObjPlayer *actor, TObject *parent) : TObject(parent) {
+    m_actor = actor;
+    VecCopy(&m_position, &m_actor->body_center);
+    m_age = 0;
+    m_sound_handle = play_sound_effect(0x4002B21C, &m_position, 0, 0);
 }

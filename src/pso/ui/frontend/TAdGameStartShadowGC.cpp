@@ -7,96 +7,81 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/object/ambient/TObjFish.h"
 
-struct Rec_80320CB8 { f32 x, y, x2, y2; f32 u0, v0, u1, v1; };
-
-struct Shadow_80320CB8 {
-    const char *f0;
-    u8 pad4[0x14];
-    s32 *vt;
-    Rec_80320CB8 r[5];
-    s32 fbc, fc0, fc4;
-};
-
-extern "C" {
-s32 __ct__7TObjectFP7TObject(void *, void *);
-extern s32 __vt__20TAdGameStartShadowGC[];
 const char *TAdGameStartShadowGC__name = "TAdGameStartShadowGC";
 saddr TAdGameStartShadowGC__texture_list;
-Shadow_80320CB8 *__ct__20TAdGameStartShadowGCFv(Shadow_80320CB8 *arg0, void *parent);
 
-struct Q_80320B38 { u8 b[0x20]; };
-
-struct W_80320B38 { u8 pad[0x1C]; Q_80320B38 q[5]; s32 tex; };
-
-void TAdGameStartShadowGC::sub_80320B38() {
-    W_80320B38 *arg0 = (W_80320B38 *)this;
+void TAdGameStartShadowGC::draw_band() {
     u32 i;
     begin_screen_draw(1);
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>((void *)TAdGameStartShadowGC__texture_list));
-    set_draw_texture_and_color(0, arg0->tex);
+    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>((void *)TAdGameStartShadowGC__texture_list));
+    set_draw_texture_and_color(0, m_color);
     for (i = 0; i < 5; i++) {
-        draw_textured_quad_at_depth((f32 *)&arg0->q[i], 0.74f);
+        draw_textured_quad_at_depth(&m_quads[i].x0, 0.74f);
     }
     TWindowSubStatusDisp::get_player();
 }
 
-void TAdGameStartShadowGC::render() { if (TMainTask::get_render_pass() != 1) { sub_80320B38(); } }
+void TAdGameStartShadowGC::render() { if (TMainTask::get_render_pass() != 1) { draw_band(); } }
 
 void TAdGameStartShadowGC::run_task() {
-    s32 temp_r0;
-    s32 var_r0;
-    s32 var_r0_2;
+    s32 frame;
+    s32 alpha;
+    s32 faded;
 
-    *(s32 *)((s8 *)this + 0xC4) = (s32) (*(s32 *)((s8 *)this + 0xC4) + 1);
-    temp_r0 = *(s32 *)((s8 *)this + 0xC4);
-    if (temp_r0 < 0xA) {
-        *(s32 *)((s8 *)this + 0xC0) = (s32) (*(s32 *)((s8 *)this + 0xC0) + 0x19);
-        var_r0 = *(s32 *)((s8 *)this + 0xC0);
-        if (var_r0 > 0xFF) {
-            var_r0 = 0xFF;
+    m_frame = (s32) (m_frame + 1);
+    frame = m_frame;
+    if (frame < 0xA) {
+        m_alpha = (s32) (m_alpha + 0x19);
+        alpha = m_alpha;
+        if (alpha > 0xFF) {
+            alpha = 0xFF;
         }
-        *(s32 *)((s8 *)this + 0xC0) = var_r0;
-    } else if (temp_r0 > 0x1C) {
-        *(s32 *)((s8 *)this + 0xC0) = (s32) (*(s32 *)((s8 *)this + 0xC0) - 0x19);
-        var_r0_2 = *(s32 *)((s8 *)this + 0xC0);
-        if (var_r0_2 < 0) {
-            var_r0_2 = 0;
+        m_alpha = alpha;
+    } else if (frame > 0x1C) {
+        m_alpha = (s32) (m_alpha - 0x19);
+        faded = m_alpha;
+        if (faded < 0) {
+            faded = 0;
         }
-        *(s32 *)((s8 *)this + 0xC0) = var_r0_2;
+        m_alpha = faded;
     }
-    *(s32 *)((s8 *)this + 0xBC) = (s32) ((*(s32 *)((s8 *)this + 0xC0) << 0x18) | 0xFF0000 | 0xFFFF);
+    m_color = (s32) ((m_alpha << 0x18) | 0xFF0000 | 0xFFFF);
 }
 TAdGameStartShadowGC::~TAdGameStartShadowGC() {}
-Shadow_80320CB8 *__ct__20TAdGameStartShadowGCFv(Shadow_80320CB8 *arg0, void *parent) {
-    u32 i;
-    __ct__7TObjectFP7TObject(arg0, parent);
-    arg0->vt = __vt__20TAdGameStartShadowGC;
-    arg0->f0 = TAdGameStartShadowGC__name;
-    arg0->fbc = -1;
-    arg0->fc0 = 0;
-    arg0->fc4 = -1;
-    TAdGameStartShadowGC__texture_list = TObjPlayer::get_instance();
-    for (i = 0; i < 5; i++) {
-        arg0->r[i].x = 128.0f * (f32)i;
-        arg0->r[i].x2 = 128.0f + arg0->r[i].x;
-        arg0->r[i].y = 190.0f;
-        arg0->r[i].y2 = 128.0f + arg0->r[i].y;
-    }
-    arg0->r[0].u0 = 0.0f;
-    arg0->r[0].v0 = 0.75f;
-    arg0->r[0].u1 = 0.25f;
-    arg0->r[0].v1 = 1.0f;
-    for (i = 1; i < 4; i++) {
-        arg0->r[i].u0 = 0.25f;
-        arg0->r[i].v0 = 0.75f;
-        arg0->r[i].u1 = 0.5f;
-        arg0->r[i].v1 = 1.0f;
-    }
-    arg0->r[4].u0 = 0.5f;
-    arg0->r[4].v0 = 0.75f;
-    arg0->r[4].u1 = 0.75f;
-    arg0->r[4].v1 = 1.0f;
-    return arg0;
+extern "C" {
+void *__ct__7TObjectFP7TObject(void *, TObject *);
+extern void *__vt__20TAdGameStartShadowGC[];
+TAdGameStartShadowGC *__ct__20TAdGameStartShadowGCFP7TObject(TAdGameStartShadowGC *self, TObject *parent);
 }
 
+TAdGameStartShadowGC *__ct__20TAdGameStartShadowGCFP7TObject(TAdGameStartShadowGC *self, TObject *parent) {
+    u32 i;
+    __ct__7TObjectFP7TObject(self, parent);
+    *(void **)((u8 *)self + 0x18) = __vt__20TAdGameStartShadowGC;
+    self->m_name = TAdGameStartShadowGC__name;
+    self->m_color = -1;
+    self->m_alpha = 0;
+    self->m_frame = -1;
+    TAdGameStartShadowGC__texture_list = TObjPlayer::get_instance();
+    for (i = 0; i < 5; i++) {
+        self->m_quads[i].x0 = 128.0f * (f32)i;
+        self->m_quads[i].x1 = 128.0f + self->m_quads[i].x0;
+        self->m_quads[i].y0 = 190.0f;
+        self->m_quads[i].y1 = 128.0f + self->m_quads[i].y0;
+    }
+    self->m_quads[0].u0 = 0.0f;
+    self->m_quads[0].v0 = 0.75f;
+    self->m_quads[0].u1 = 0.25f;
+    self->m_quads[0].v1 = 1.0f;
+    for (i = 1; i < 4; i++) {
+        self->m_quads[i].u0 = 0.25f;
+        self->m_quads[i].v0 = 0.75f;
+        self->m_quads[i].u1 = 0.5f;
+        self->m_quads[i].v1 = 1.0f;
+    }
+    self->m_quads[4].u0 = 0.5f;
+    self->m_quads[4].v0 = 0.75f;
+    self->m_quads[4].u1 = 0.75f;
+    self->m_quads[4].v1 = 1.0f;
+    return self;
 }

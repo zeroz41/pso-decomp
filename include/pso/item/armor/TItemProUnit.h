@@ -54,7 +54,7 @@ struct TItemProUnit : public TItemEquipBase {
     s16 effect_amount;           // UnitPmtEntry::stat_amount
     s16 technique_bonus;         // added to each technique level while equipped
     s16 technique_added[19];     // what apply_owner_bonuses really added
-    f32 evp_scale;               // the owner's PlayerAttackState::evp_scale floor
+    f32 evp_scale;               // the owner's PlayerAttackController::evp_scale floor
     s16 modifier;                // the item data's unit modifier
     s16 modifier_limit;          // twice UnitPmtEntry::modifier_amount
 };

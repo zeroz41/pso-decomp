@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/technique/TTecZondeEff.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
 #include "pso/technique/TechniqueParams.h"
@@ -29,6 +30,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/object/base/CollisionActorLookup.h"
+#include "pso/object/base/TObjBase.h"
 
 struct RecoveredFields_80230D9C_arg0
 {
@@ -43,7 +45,6 @@ struct RecoveredFields_80230D9C_arg0
 #pragma fp_contract on
 
 extern "C" {
-u16 get_entity_id(void *);
 s32 play_sound_effect(s32 id, void *pos, s32 a, s32 b);
 f32 vector_length(void *);
 #pragma push
@@ -146,7 +147,7 @@ void TTecRaZonde::calc_damage() {
   ((RecoveredFields_80238D10_arg0 *) arg0)->field_88 = (f32) (((RecoveredFields_80238D10_arg0 *) arg0)->field_88 + ((f32) (((RecoveredFields_80238D10_arg0 *) arg0)->field_AC * ((RecoveredFields_80238D10_arg0 *) arg0)->field_78)));
   if (TTecCtrl::is_technique_ready() != 0)
   {
-    ((RecoveredFields_80238D10_arg0 *) arg0)->field_88 = (f32) (((RecoveredFields_80238D10_arg0 *) arg0)->field_88 * lbl_804CC55C[8].pad_00);
+    ((RecoveredFields_80238D10_arg0 *) arg0)->field_88 = (f32) (((RecoveredFields_80238D10_arg0 *) arg0)->field_88 * technique_scale_table[8].power);
   }
 }
 void TTecRaZonde::vfunc_6(void *arg1_arg) {
@@ -260,17 +261,9 @@ TTecRaZonde::TTecRaZonde(saddr source, Vec *origin, s32 level) : TTecCircle(sour
         if ((0.0f) != len) {
             normalize_vector(&b);
         }
-        {
-            u8 *o = (u8 *)TObject::operator new(0x260);
-            if (o != 0) {
-                ((TTecZonde *)o)->construct_bolt_effect((u8 *)tl_07, (u8 *)&a, (u8 *)&b, 0x14000000, 6, len, (5.0f));
-            }
-        }
+        new TTecZondeEff(tl_07, &a, &b, 0x14000000, 6, len, 5.0f);
         if (band == 5) {
-            u8 *o = (u8 *)TObject::operator new(0x260);
-            if (o != 0) {
-                ((TTecZonde *)o)->construct_bolt_effect((u8 *)tl_07, (u8 *)&a, (u8 *)&b, 0x14000000, 6, len, (0.5f));
-            }
+            new TTecZondeEff(tl_07, &a, &b, 0x14000000, 6, len, 0.5f);
         }
     }
     switch (band) {
@@ -308,7 +301,7 @@ TTecRaZonde::TTecRaZonde(saddr source, Vec *origin, s32 level) : TTecCircle(sour
     }
     }
     if (this->source != 0) {
-        sourceId = get_entity_id((void *)this->source);
+        sourceId = ((TObjBase *)this->source)->get_entity_id();
     }
 }
 #pragma pop

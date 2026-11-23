@@ -60,7 +60,7 @@ TObjDFDemo2::TObjDFDemo2(TObject *parent, const Vec *position, s32 angle, s32 va
         s32 t = boss4_zanzo_bml_index_table[i];
         k = t;
         this->parts[i].model = (NJS_OBJECT *)get_bml_model(archive, t);
-        this->parts[i].texlist = (GinjaTextureList *)get_bml_texlist(archive, k);
+        this->parts[i].texlist = get_bml_texlist(archive, k);
         this->parts[i].motion = get_bml_motion(archive, TObjDFDemo2__motion_index_table[i]);
     }
     this->frame = -0.5f;
@@ -129,7 +129,7 @@ void TObjDFDemo2::render() {
     post_translate_matrix(&camera_position.x);
     rotate_matrix_y(0, angle);
     for (i = 0; i < 2; i++) {
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(parts[i].texlist));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(parts[i].texlist));
         draw_model_motion(parts[i].model, parts[i].motion, frame);
     }
     clear_motion_packed_rotation();

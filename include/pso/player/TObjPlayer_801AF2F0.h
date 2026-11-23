@@ -16,8 +16,6 @@ void send_6x2F_change_player_hp(s32 sender, s32 client, s16 hp);
 // frames and arg3, but TOTrapAncient02's virtual at vtable +0x144 passes its s32 timer unextended: ints.
 void send_6x2C_impose_hold(TObjPlayer *player, const Vec *pos, s32 frames, s32 arg3, f32 radius);
 void unequip_item__10TObjPlayerFiPv(TObjPlayer *player, TItem *item);
-void TObjPlayer__sub_801B1BA4(void);
-void TObjPlayer__sub_801B1C8C(void);
 // Restores the player to full health and clears its status effects.
 void recover_player_full(void *player);
 }

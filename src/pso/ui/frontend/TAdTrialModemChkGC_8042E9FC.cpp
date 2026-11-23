@@ -297,7 +297,7 @@ s32 TAdTrialModemChkGC__sub_8042F0D4(s8 arg0) {
     return 0;
 }
 
-s32 TAdPlayerLoadGC__sub_8042F108(s8 arg0) {
+s32 fn_8042F108(s8 arg0) {
     if ((s32) lbl_805D7CA8 == 0) {
         return -1;
     }

@@ -23,7 +23,7 @@ void set_ginja_channel_ctrl(s32 channel, s32 flags);
 void set_ginja_indexed_vtx_desc(u32 value, u32);
 void set_ginja_material_color(u32 v, u32);
 void set_ginja_tev_order(u32 parameter, u32);
-void set_ginja_texcoord_gen(u32 arg0, u32);
+void set_ginja_texcoord_gen(u32 ginja_texcoord_gen, u32);
 u32 update_ginja_cached_parameter(s32 i, u32 v);
 
 #endif

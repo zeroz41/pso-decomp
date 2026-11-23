@@ -16,6 +16,7 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/object/TObjRoomId.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/player/PlayerSlots.h"
 
 
 // The class name, then the direction run_task rotates by the object's yaw into normal, the plane
@@ -58,7 +59,7 @@ void TObjRoomId::render() {
     }
 }
 extern u8 identity_matrix[];
-void set_player_room_control_flag(TObjPlayer *arg0);
+void set_player_room_control_flag(TObjPlayer *player);
 #pragma pop
 
 #pragma push

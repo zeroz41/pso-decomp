@@ -71,9 +71,9 @@ void TODoorVoShip::render() {
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
         draw_chunk_model_with_shape_motion(model, motion, (NJS_MOTION *)shape_motion, (f32)animation_frame);
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(light_texlist));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(light_texlist));
         u32 flags = model_render_flags;
         saved_model_render_flags = flags;
         model_render_flags = flags | 0x20;
@@ -136,7 +136,7 @@ TODoorVoShip::TODoorVoShip(TObject *parent, void *set_data) : TObjMapObject(pare
     m_name = door_vo_ship_class_name;
     apply_object_set_data(set_data);
     model = (void *)get_bml_model((BmlResource *)bml_resource, 1);
-    texlist = (saddr)get_bml_texlist((BmlResource *)bml_resource, 1);
+    texlist = get_bml_texlist((BmlResource *)bml_resource, 1);
     motion = get_bml_motion(bml_resource, 0);
     animation_end_frame = (f32)motion->frameCount - 1.0f;
     animation_step = 1.0f;

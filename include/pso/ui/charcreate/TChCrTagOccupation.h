@@ -9,22 +9,16 @@ public:
     TChCrTagOccupation(TObject *parent, s32 index);
     virtual ~TChCrTagOccupation();
     virtual void render();
-    void sub_802A2DF4();
+    virtual s32 is_selected();
+    void draw_occupation();
 public:
     static TChCrTagOccupation *create(s32 index);
     static void create_all();
 
-    f32 m_3c;
-    f32 m_40;
+    f32 m_slide_start;
+    f32 m_slide_end;
 };
 
 LAYOUT_ASSERT(TChCrTagOccupation_size, sizeof(TChCrTagOccupation) == 0x44);
-
-// --- C functions defined in TChCrTagOccupation.cpp ---
-extern "C" {
-int TChCrTagOccupation__vt4(TChCrTagOccupation *tag);
-TChCrTagOccupation *__dt__18TChCrTagOccupationFv(TChCrTagOccupation *tag, s16 free);
-}
-// --- end of C functions
 
 #endif

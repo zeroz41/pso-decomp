@@ -14,7 +14,7 @@ struct TObjNpcEnemyEntry {
     u16 kind;          // 0 slime, 1 lobby, 2 motorcycle, 3 stelth, 4 empty
     f32 y_offset;      // render height above the object (translate_matrix y)
     saddr model;
-    saddr texlist;
+    NJS_TEXLIST *texlist;
     f32 radius;        // copied to the first collision body radius
     NpcAnimationBinding animation;
 
@@ -37,7 +37,7 @@ struct TObjNpcEnemy : public TObjNpcBase {
     void set_npc_data(void *arg1);
     void update_state();
     virtual void render();
-    static void set_global_count(s32 arg0);
+    static void set_global_count(s32 global_count);
 };
 
 LAYOUT_ASSERT(TObjNpcEnemy_size, sizeof(TObjNpcEnemy) == 0x3BC);

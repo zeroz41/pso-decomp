@@ -5,6 +5,7 @@
 #include "pso/system/task/TObject.h"
 
 class TAdSelectCurGC;
+class TKeyBoardControl;
 
 struct TAdEnterBaseGC : public TObject {
     TAdEnterBaseGC(TObject *parent);
@@ -37,5 +38,8 @@ extern "C" {
 void fn_8032AC94(void);
 }
 // --- end of C functions
+
+extern u32 serial_access_entered_value_table[4];
+extern TKeyBoardControl *password_entry_keyboard_control;
 
 #endif

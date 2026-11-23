@@ -22,7 +22,7 @@ struct TOTrapChainSawDamage : public TOTrapChainSaw {
     u32 m_104;
     u32 m_108;
     void set_damage(s32 v);
-    void *create();
+    static void *create(void *set_data);
 };
 
 LAYOUT_ASSERT(TOTrapChainSawDamage_size, sizeof(TOTrapChainSawDamage) == 0x10C);

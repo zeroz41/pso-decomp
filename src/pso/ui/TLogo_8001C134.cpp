@@ -5,7 +5,7 @@
 #include "pso/ui/TLogo.h"
 #include "pso/system/task/TObject.h"
 
-extern "C" void release_texture_list(void *);
+#include "pso/render/GinjaTexture.h"
 
 void TLogo::free_held_object() {
     if (logo_texture_e_handle != NULL) {

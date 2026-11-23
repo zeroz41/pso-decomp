@@ -36,6 +36,6 @@ TObjNpcFemaleChild::TObjNpcFemaleChild(TObject *parent, void *set_data) : TUnk_8
     this->apply_set_data(set_data);
     init_position_vectors();
     this->model = (void *)TObjNpcFemaleChild__static_instance->models->model;
-    this->texlist = (saddr)TObjNpcFemaleChild__static_instance->models->texlist;
+    this->texlist = TObjNpcFemaleChild__static_instance->models->texlist;
     this->setup_common();
 }

@@ -221,15 +221,15 @@ TButterfly::~TButterfly() {
 }
 TButterfly::TButterfly(TObject *parent, void *arg2) : TObjBase(parent) {
     this->m_name = TButterfly__name;
-    VecCopy((Vec *)((char *)this + 56), (const Vec *)((char *)arg2 + 12));
+    VecCopy(&this->position, (const Vec *)((char *)arg2 + 12));
     copy_xyz((char *)this + 92, (void *)((char *)arg2 + 24));
-    VecCopy((Vec *)((char *)this + 104), (const Vec *)((char *)arg2 + 36));
+    VecCopy(&this->scale, (const Vec *)((char *)arg2 + 36));
     this->init_motion();
 }
 
 
-void *TButterfly__create(void *arg0) {
-    void *o = (void *)new TButterfly(tl_05, (void *)arg0);
+void *TButterfly::create(void *set_data) {
+    void *o = (void *)new TButterfly(tl_05, (void *)set_data);
     return o;
 }
 

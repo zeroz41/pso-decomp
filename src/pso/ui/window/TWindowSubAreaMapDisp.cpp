@@ -1,6 +1,7 @@
 #include "types.h"
 #include "pso/ui/window/WindowDrawContext.h"
 #include "pso/ui/window/TWindowSubAreaMapDisp.h"
+#include "pso/object/TObjLuker_801329B0.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/ui/window/TWindowBase.h"
@@ -30,12 +31,12 @@ extern "C" {
 
 void TWindowSubAreaMapDisp::update_visibility() {
     if ((s32) this->m_6c != 0) {
-        if (this->sub_80246948() != 0) {
+        if (this->is_closed() != 0) {
             this->m_6c = 0;
             TWindowCtrl::clear_active_flag();
             TRaderMapCore::clear();
         }
-    } else if (!(this->window_flags & 2) && (this->sub_80246948() == 0)) {
+    } else if (!(this->window_flags & 2) && (this->is_closed() == 0)) {
         this->m_6c = 1;
         TRaderMapCore::open_free_map_view();
         TRaderMapCore::show_radar();
@@ -65,7 +66,6 @@ WindowDescriptor TWindowSubAreaMapDisp__window_parameters = {
 
 extern "C" {
 extern RecoveredGlobal_80271C6C___vt__21TWindowSubAreaMapDisp __vt__21TWindowSubAreaMapDisp;
-u8 *get_floor_destination_name(s32);
 }
 void text_builder_reset(void);
 extern "C" {
@@ -88,7 +88,7 @@ void fn_80271848(s32 arg0, u8 *arg1) {
         color = -1;
     }
     begin_screen_draw(1);
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(hud_texlist));
+    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(hud_texlist));
     set_draw_texture_and_color(0, color);
     r.x0 = 16.0f;
     r.y0 = 346.0f;
@@ -170,9 +170,9 @@ void TWindowSubAreaMapDisp::run_task() {
     }
 }
 TWindowSubAreaMapDisp::~TWindowSubAreaMapDisp() {
-    if ((u32) this->m_74 != 0U) {
+    if ((u32) this->title != 0U) {
         mem_free(*(void **)((s8 *)this + 0x74));
-        this->m_74 = 0U;
+        this->title = 0U;
     }
     if ((s32) this->m_6c != 0) {
         TWindowCtrl::clear_active_flag();
@@ -198,12 +198,12 @@ TWindowSubAreaMapDisp::TWindowSubAreaMapDisp() : TWindowBase((u8 *)&TWindowSubAr
         str = (u8 *)(get_floor_destination_name(get_current_floor_area()));
     }
     temp_r3 = (s32)measure_string_len((const char *)str);
-    this->m_74 = (saddr)mem_alloc((temp_r3 + 1));
-    strncpy((char *)this->m_74, (const char *)str, (u32)temp_r3 + 1);
+    this->title = (saddr)mem_alloc((temp_r3 + 1));
+    strncpy((char *)this->title, (const char *)str, (u32)temp_r3 + 1);
     temp_r3_2 = (saddr)::operator new(0x24);
     var_r0 = temp_r3_2;
     if (var_r0 != 0) {
-        var_r0 = (saddr)((TWindowSubStatusDisp *)temp_r3_2)->construct_type1_heading(this->m_74, (int) ((s32) this->client_index));
+        var_r0 = (saddr)((TWindowSubStatusDisp *)temp_r3_2)->construct_type1_heading(this->title, (int) ((s32) this->client_index));
     }
     this->m_70 = var_r0;
     this->m_6c = 0;

@@ -32,6 +32,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include <dolphin/base/PPCArch.h>
+#include "pso/object/base/TObjBase.h"
 
 
 
@@ -90,9 +91,9 @@ static s32 volopt_monitor_models[3][4] = {
     { 3, 6, 9, 12 },
 };
 
-static GinjaTextureList volopt_monitor_screen = { NULL, 2 };
+static NJS_TEXLIST volopt_monitor_screen = { NULL, 2 };
 
-static GinjaTextureEntry volopt_monitor_texture_entries[25] = {
+static NJS_TEXNAME volopt_monitor_texture_entries[25] = {
     { "ki_u256_vo_mo_moji001" },
     { "ki_u256_vo_mo_moji002" },
     { "ki_u256_vo_mo_moji003" },
@@ -120,7 +121,7 @@ static GinjaTextureEntry volopt_monitor_texture_entries[25] = {
     { "ki_u064_vo_mo" },
 };
 
-static GinjaTextureList volopt_monitor_texture_table = { volopt_monitor_texture_entries, 25 };
+static NJS_TEXLIST volopt_monitor_texture_table = { volopt_monitor_texture_entries, 25 };
 
 
 static BossStats *volopt_monitor_stats;
@@ -128,7 +129,7 @@ static void *volopt_monitor_stats_b;
 static void *volopt_monitor_object_params;
 static MonitorStatTable *volopt_monitor_stat_table;
 static BmlResource *volopt_monitor_resources;
-static GinjaTextureList *volopt_monitor_textures;
+static NJS_TEXLIST *volopt_monitor_textures;
 static s32 volopt_monitor_last_tick;
 
 static void *volopt_monitor_screen_meshes[4];
@@ -204,7 +205,7 @@ void TBoss3VoloptMonitor::init_params() {
     anim_timer = 3.0f * (3.0517578e-05f * (f32)rand());
     add_flags_2e4(4);
     volopt_target_slot_used[slot] = 0;
-    obj_setFlags30(this, 0x8000);
+    set_actor_flags(0x8000);
     clear_lobby_object_state();
 }
 
@@ -216,7 +217,7 @@ void TBoss3VoloptMonitor::load_resources() {
     s32 i;
     volopt_monitor_textures = &volopt_monitor_texture_table;
     volopt_monitor_resources = boss3_volopt_resources;
-    clear_texlist_names((NJS_TEXLIST *)&volopt_monitor_texture_table);
+    clear_texlist_names(&volopt_monitor_texture_table);
     TLobby::load_texture_pvm_file("fe_obj_vo_momitor.gvm", (saddr)volopt_monitor_textures);
     for (i = 0; i < 4; i++) {
         volopt_monitor_screen_meshes[i] = ((void **)(saddr)get_bml_model((BmlResource *)volopt_monitor_resources, volopt_monitor_models[2][i]))[1];
@@ -257,7 +258,7 @@ void TBoss3VoloptMonitor::run_task() {
     }
     dispatch_state();
     update_prev_position();
-    if (obj_testFlags30(0x800) == 0) {
+    if (test_actor_flags(0x800) == 0) {
         ((TBoss3VoloptHiraisin *)this)->copy_position();
         submit_cursor_candidate(this, -1);
         minimap_render_dot(&position, -0x5DB4, 1, 0);
@@ -339,7 +340,7 @@ void TBoss3VoloptMonitor::render() {
                 }
             }
         }
-        volopt_monitor_screen.entries = &volopt_monitor_textures->entries[frame];
+        volopt_monitor_screen.textures = &volopt_monitor_textures->textures[frame];
         TObjFish::set_global_param(&volopt_monitor_screen);
         set_draw_list_mask(3);
         push_matrix();
@@ -368,7 +369,7 @@ void TBoss3VoloptMonitor::update_hit() {
         break;
     case 1:
         if (--timer <= 0) {
-            obj_clearFlags30(0x200200);
+            clear_actor_flags(0x200200);
             this->update_if_active(0);
             behavior_flags &= ~1;
         }
@@ -466,6 +467,6 @@ void TBoss3VoloptMonitor::spawn_effects() {
 
 void TBoss3VoloptMonitor::set_hit_flags_and_notify() {
     behavior_flags |= 0x40000;
-    obj_setFlags30(this, 0x800);
+    set_actor_flags(0x800);
     run_death_reaction();
 }

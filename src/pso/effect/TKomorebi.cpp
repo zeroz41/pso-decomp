@@ -48,7 +48,7 @@ void TKomorebi::render() {
             komorebi_last_uv_update_frame = actor_frame_tick;
         }
         push_matrix();
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
         post_translate_matrix(&position.x);
         rotate_matrix_yxz(0, rotation_x, rotation_y, rotation_z);
         horizontal_scale = scale.z;
@@ -69,7 +69,7 @@ TKomorebi::TKomorebi(TObject *parent, ObjectSetData *set_data) : TObjBase(parent
     copy_xyz(&rotation_x, set_data->rotation);
     VecCopy(&scale, &set_data->scale);
     model = get_bml_model(komorebi_bml_resource, 0);
-    texlist = (saddr)get_bml_texlist(komorebi_bml_resource, 0);
+    texlist = get_bml_texlist(komorebi_bml_resource, 0);
 }
 
 void *TKomorebi::create(void *set_data) {

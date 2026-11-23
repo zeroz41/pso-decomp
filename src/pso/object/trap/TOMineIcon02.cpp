@@ -24,8 +24,8 @@ void TOMineIcon02::vfunc_82() {
     spawn_particle_effect((const Vec *)(arg0 + 0x2FC), 0x8E);
 }
 
-void *TOMineIcon02::create() {
-    return new TOMineIcon02(tl_05, this);
+void *TOMineIcon02::create(void *set_data) {
+    return new TOMineIcon02(tl_05, set_data);
 }
 
 TOMineIcon02::~TOMineIcon02() {
@@ -41,9 +41,9 @@ TOMineIcon02::TOMineIcon02(TObject *parent, void *set_data) : TOMine(parent) {
     init_position_vectors();
     calc_attach_pos();
     model = (void *)get_bml_model((BmlResource *)lbl_805D5A50, 5);
-    texlist = (saddr)get_bml_texlist((BmlResource *)lbl_805D5A50, 5);
+    texlist = get_bml_texlist((BmlResource *)lbl_805D5A50, 5);
     light_model = (NJS_OBJECT *)get_bml_model((BmlResource *)lbl_805D5A50, 0);
-    light_textures = (GinjaTextureList *)get_bml_texlist((BmlResource *)lbl_805D5A50, 0);
+    light_textures = get_bml_texlist((BmlResource *)lbl_805D5A50, 0);
     mode = 0;
     if (set_params[0] < 0) {
         set_params[0] = 0;

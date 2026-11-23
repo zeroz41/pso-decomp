@@ -7,33 +7,30 @@
 
 struct TObjPlayer;
 struct TWindowMenu;
-class TWindowMenuIconLine;
+class TWindowShop;
 struct TWindowInputNumber;
 struct TWindowHelpItem;
 
 struct TShopDeleteItemWindow : public TShopWindowBase {
-    TShopDeleteItemWindow(void *arg1, void *arg2, void *arg3);
+    TShopDeleteItemWindow(TObject *parent, TShopWindowBase *owner, TObjPlayer *player);
     virtual ~TShopDeleteItemWindow();
     void sub_80337E2C();
-    virtual void vfunc_11();
+    virtual void update_state();
     virtual void display_message(const char *text, s32 flags);
     virtual void display_shop_message(s32 id, s32 flags);
-    u8 _pad1C[0x4];
-    u32 m_20;
-    TObjPlayer *m_24;
-    void (*m_28)(TShopWindowBase *);  // called when the player leaves
-    void (*m_2c)(TShopWindowBase *);  // called when there is nothing to list
-    TWindowMenuIconLine *m_30;
-    TWindowMenu *m_34;
-    TWindowInputNumber *m_38;
-    TWindowHelpItem *m_3c;
-    TItemData m_40;  // the selected item
-    u8 m_54;
+    void (*on_close)(TShopWindowBase *sequence);  // called when the player leaves
+    void (*on_empty)(TShopWindowBase *sequence);  // called when there is nothing to list
+    TWindowShop *item_list;     // the bank's items
+    TWindowMenu *confirm_menu;          // delete yes / no
+    TWindowInputNumber *number_input;   // how many of a stacked tool to delete
+    TWindowHelpItem *help_window;
+    TItemData displayed_item_colored;   // the selected item
+    u8 pad_54;
     u8 _pad55[0x3];
-    s32 m_58;
-    s32 m_5c;  // quantity
-    s32 m_60;  // cursor
-    TShopWindowBase *m_64;  // owner
+    s32 room_table_entry;
+    s32 delete_count;
+    s32 last_cursor;                    // the entry the help window shows
+    TShopWindowBase *sequence;          // the bank sequence that opened it; messages go to it
     void destroy();
     static void update_item_select(void *arg0);
     void handle_number_input();

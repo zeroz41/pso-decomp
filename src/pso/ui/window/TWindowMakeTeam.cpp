@@ -12,7 +12,6 @@
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/window/TWindowSubComCardList.h"
-#include "pso/ui/window/TWindowSubComCard_80244774.h"
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/TWindowMenuInfomation.h"
@@ -29,7 +28,6 @@ extern const f32 lbl_8044F308[2] = {389.0f, 251.0f};
 extern "C" {
 const char *TWindowMakeTeam__sub_80264B38(TWindowMakeTeam *o);
 const char *TWindowMakeTeam__sub_80264B24(TWindowMakeTeam *o);
-int forward_trade_action_default__16TObjCityMainWarpFPviii(void *p, int a1, int a2, int a3);
 extern s32 local_client_id;
 char *get_shared_text_buffer(void);
 }
@@ -46,11 +44,11 @@ TWindowMakeTeam::TWindowMakeTeam(TObject *parent, s32 mode) : TObject(parent) {
     name = 0;
     comment = 0;
     m_1e = 0;
-    m_1f = 0;
+    selected_value = 0;
     if (m_20 == 1 || m_20 == 2) {
         m_menu->set_entry_string_by_id((void *)draw_entry_0x110(m_1e), 2);
     }
-    m_menu->set_entry_string_by_id(TWindowMakeTeam::init_status_disp(m_1f), 3);
+    m_menu->set_entry_string_by_id(TWindowMakeTeam::init_status_disp(selected_value), 3);
 }
 
 TWindowMakeTeam::~TWindowMakeTeam() {
@@ -164,8 +162,8 @@ void TWindowMakeTeam::run_task() {
         if (m_30->is_cancelled() != 0) {
             this->m_1c = 1;
         } else if (m_30->is_decided() != 0) {
-            this->m_1f = m_30->get_selected_value();
-            m_menu->set_entry_string_by_id(TWindowMakeTeam::init_status_disp(this->m_1f), 3);
+            this->selected_value = m_30->get_selected_value();
+            m_menu->set_entry_string_by_id(TWindowMakeTeam::init_status_disp(this->selected_value), 3);
             this->m_1c = 1;
         }
         break;
@@ -191,9 +189,9 @@ TWindowMenu *TWindowMakeTeam::create_entry_menu_window() {
     u8 *arg0 = (u8 *)this;
     saddr r;
     r = (s32)create_window_menu_default((saddr)lbl_8044F300, 3);
-    TObjCityMainWarp::forward_trade_action_default((void *)r, (int)(TWindowMakeTeam::draw_entry_0x110(0)), 6, 0);
-    TObjCityMainWarp::forward_trade_action_default((void *)r, (int)(TWindowMakeTeam::draw_entry_0x110(1)), 6, 1);
-    TObjCityMainWarp::forward_trade_action_default((void *)r, (int)(TWindowMakeTeam::draw_entry_0x110(2)), 6, 2);
+    ((TWindowMenu *)r)->add_text_entry(TWindowMakeTeam::draw_entry_0x110(0), 6, 0);
+    ((TWindowMenu *)r)->add_text_entry(TWindowMakeTeam::draw_entry_0x110(1), 6, 1);
+    ((TWindowMenu *)r)->add_text_entry(TWindowMakeTeam::draw_entry_0x110(2), 6, 2);
     ((TWindowMenu *)r)->calc_window_size();
     align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(r));
     ((TWindowSubComCardList *)r)->set_selected_index(*(s8 *)(arg0 + 0x1E));
@@ -205,16 +203,16 @@ TWindowMenu *TWindowMakeTeam::create_status_menu_window() {
     saddr r;
     s32 m;
     r = (s32)create_window_menu_default((saddr)lbl_8044F308, 4);
-    TObjCityMainWarp::forward_trade_action_default((void *)r, (saddr)TWindowMakeTeam::init_status_disp(0), 6, 0);
-    TObjCityMainWarp::forward_trade_action_default((void *)r, (saddr)TWindowMakeTeam::init_status_disp(1), 6, 1);
-    TObjCityMainWarp::forward_trade_action_default((void *)r, (saddr)TWindowMakeTeam::init_status_disp(2), 6, 2);
+    ((TWindowMenu *)r)->add_text_entry((saddr)(TWindowMakeTeam::init_status_disp(0)), 6, 0);
+    ((TWindowMenu *)r)->add_text_entry((saddr)(TWindowMakeTeam::init_status_disp(1)), 6, 1);
+    ((TWindowMenu *)r)->add_text_entry((saddr)(TWindowMakeTeam::init_status_disp(2)), 6, 2);
     m = *(s32 *)(arg0 + 0x20);
     if (m == 1 || m == 2) {
-        TObjCityMainWarp::forward_trade_action_default((void *)r, (saddr)TWindowMakeTeam::init_status_disp(3), 6, 3);
+        ((TWindowMenu *)r)->add_text_entry((saddr)(TWindowMakeTeam::init_status_disp(3)), 6, 3);
     }
     ((TWindowMenu *)r)->calc_window_size();
     align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(r));
-    ((TWindowSubComCardList *)r)->set_selected_index(*(s8 *)(arg0 + 0x1F));
+    ((TWindowSubComCardList *)r)->set_selected_index(this->selected_value);
     return (TWindowMenu *)r;
 }
 
@@ -235,8 +233,8 @@ void TWindowMakeTeam::send_state() {
     m_menu->disable_entry_by_id(3);
 }
 
-void TWindowMakeTeam::set_state(s32 arg1) {
-    switch (arg1) {
+void TWindowMakeTeam::set_state(s32 state) {
+    switch (state) {
     case 0:
         this->m_1c = 3;
         return;
@@ -270,7 +268,7 @@ s32 TWindowMakeTeam::is_enabled() {
     if ((s8)get_mode() == 1) {
         return (u8)(0U);
     }
-    return (u8)(this->m_1f);
+    return (u8)(this->selected_value);
 }
 
 saddr TWindowMakeTeam::draw_entry_0x110(s8 arg0) {

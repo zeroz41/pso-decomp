@@ -13,6 +13,7 @@ struct TObjCityDoor_Warp : public TUnk_804B5BA8 {
     virtual void city_door_play_open_sound();
     virtual void render();
     virtual void run_task();
+    static void *create(void *set_data);
 };
 
 LAYOUT_ASSERT(TObjCityDoor_Warp_size, sizeof(TObjCityDoor_Warp) == 0xBC);

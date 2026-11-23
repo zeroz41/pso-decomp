@@ -55,9 +55,9 @@ TWindowMenu *TUnk_804D1AD0::create_status_category_menu() {
     } else {
         menu = (TWindowMenu *)create_titled_window_menu((saddr)get_window_layout_position(0x18), 3, (saddr)TWindowSubStatusDisp::get_message_10(0x1D), client_id);
     }
-    forward_trade_action_default__16TObjCityMainWarpFPviii(menu, (saddr)TWindowSubStatusDisp::get_message_10(0x10A), 0x36, 0);
-    forward_trade_action_default__16TObjCityMainWarpFPviii(menu, (saddr)TWindowSubStatusDisp::get_message_10(0x10B), 0x36, 1);
-    forward_trade_action_default__16TObjCityMainWarpFPviii(menu, (saddr)TWindowSubStatusDisp::get_message_10(0x10C), 0x36, 2);
+    menu->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x10A)), 0x36, 0);
+    menu->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x10B)), 0x36, 1);
+    menu->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x10C)), 0x36, 2);
     ((TWindowMenu *)menu)->set_flag70_bit10();
     ((TWindowMenu *)menu)->update_layout_height(202.0f);
     align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(menu));

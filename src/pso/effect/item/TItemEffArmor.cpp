@@ -6,7 +6,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/object/TActorLight.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
-#include "pso/object/ambient/TObjLight_80235C44.h"
+#include "pso/technique/TechniqueContact.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_80011014.h"
@@ -27,6 +27,7 @@
 #include "pso/unk/text_803D8F74.h"
 #include "pso/unk/text_803D96A8.h"
 #include "types.h"
+#include "pso/object/base/TObjBase.h"
 
 // The armour's glow: the model's starting colour and its actor light's.
 extern const NJS_ARGB armor_glow_color = { 1.0f, 0.5f, 1.0f, 1.0f };
@@ -60,17 +61,14 @@ TItemEffArmor::TItemEffArmor(TObjPlayer *owner, f32 scale, f32 rise) : TObject(t
     this->rise = rise;
     this->owner = owner;
     angle_y = 0;
-    light_level = default_scene_light_config[8];
-    light_intensity = default_scene_light_config[7];
+    light_level = default_scene_light_config.ambient;
+    light_intensity = default_scene_light_config.intensity;
     light_step = (1.0f - light_level) / 14.5f;
     particle = create_particle_emitter(&this->owner->position, 0x1BA);
     copy_argb(&color, (NJS_ARGB *)&armor_glow_color);
     {
         Vec up = { 0.0f, 1.0f, 0.0f };
-        TActorLight *light = (TActorLight *)TObject::operator new(0x64);
-        if (light != NULL) {
-            construct_actor_light_task(light, (NJS_ARGB *)&armor_glow_color, &up, 0x3A, owner, 0.2f, tl_07);
-        }
+        new TActorLight(0.2f, (NJS_ARGB *)&armor_glow_color, &up, 0x3A, owner, tl_07);
     }
 }
 
@@ -89,7 +87,7 @@ void TItemEffArmor::run_task() {
     }
     color.a = 1.0f - (frame / 29.0f);
     if (owner != NULL) {
-        publish_actor_light_scalars(get_entity_id(owner), light_intensity, light_level);
+        publish_actor_light_scalars(owner->get_entity_id(), light_intensity, light_level);
     }
     if (light_level >= 1.0f) {
         light_step = -1.0f * light_step;
@@ -110,7 +108,7 @@ void TItemEffArmor::render() {
     model_render_flags |= 0x10;
     copy_argb(&saved_model_draw_color, &model_material_color);
     set_constant_material(&color);
-    set_texlist((uaddr)texture_list);
+    set_texlist(texture_list);
     draw_ginja_model_with_motion(model, motion, frame);
     copy_argb(&model_material_color, &saved_model_draw_color);
     model_render_flags = saved_model_render_flags;
@@ -130,7 +128,7 @@ void TItemEffArmorPulse::run_task() {
         TObjPlayer *player = get_player_by_client_id(client_id);
         if (player != NULL) {
             if (is_item_area_enabled(player->get_area()) == 1) {
-                if (is_opposite_sex_player_near(get_entity_id(player)) != 0) {
+                if (is_opposite_sex_player_near(player->get_entity_id()) != 0) {
                     spawn_particle_effect(&player->body_center, 0x1BE);
                 }
             }

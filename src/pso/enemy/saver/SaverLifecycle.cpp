@@ -59,6 +59,10 @@
 #include "pso/unk/text_803D853C.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/render/model_render_state.h"
+#include "pso/object/base/TObjBase.h"
+#include "pso/technique/TechniqueRingwaveList.h"
+#include "pso/effect/enemy/TeneFakeTecThunderEff.h"
+#include "pso/render/GinjaMaterialState.h"
 
 extern "C" {
 void calc_velocity_toward_destination(TObjChara *chara, Vec from, Vec to, f32 speed);
@@ -90,17 +94,6 @@ SampledMotionPoints *saver_jump_trail_points;
 SampledMotionPoints *saver_nail_trail_points;
 }
 
-struct C_800A4294 { s32 x0; };
-
-struct B_800A4294 { u8 pad[0xc]; C_800A4294 *c; };
-
-struct A_800A4294 { u8 pad[0x8]; B_800A4294 *b; };
-
-struct G_800A4294 { A_800A4294 *p; s32 n; u8 pad[0x8]; };
-
-extern A_800A4294 lbl_804CC8C8;
-extern G_800A4294 fake_tec_texlist;
-extern int fake_tec_texture;
 
 extern "C" {
 __declspec(section ".data") void *bm_ene_df1_saver_model_names[2] = {
@@ -143,10 +136,10 @@ CollisionBody saver_collision_body_part_table[1] = {
 
 void TObjPlayer::reset_effect_count() { fake_tec_texture = 0; }
 
-void TObjPlayer__sub_800A4294(void) {
-    fake_tec_texlist.p = &lbl_804CC8C8;
-    fake_tec_texlist.n = 0x10;
-    (*(s32 *)&fake_tec_texture) = fake_tec_texlist.p->b->c->x0;
+void init_fake_tec_texlist() {
+    fake_tec_texlist.textures = technique_ringwave_texnames;
+    fake_tec_texlist.nbTexture = 0x10;
+    fake_tec_texture = fake_tec_texlist.textures->texture->surface->id;
 }
 
 void TObjEneSaver::run_demo_task() {}
@@ -623,13 +616,12 @@ void TObjEneSaver::state_nail() {
     submit_cursor_candidate(this, -1);
 }
 
-#define get_entity_id ((s32 (*)(void*))(get_entity_id))
 
 #pragma defer_codegen on
 
 void TObjEneSaver::select_model_record(s32 i) {
     model = saver_bml_resource->models[i].model;
-    texlist = (saddr)saver_bml_resource->models[i].texlist;
+    texlist = saver_bml_resource->models[i].texlist;
 }
 
 void *TObjEneSaver::get_center() { return &body_center; }
@@ -828,7 +820,7 @@ void TObjEneSaver::render() {
     v = classify_actor_view_detail(300.0f, 600.0f, 30.0f);
     if (v != 0) {
         select_actor_lighting(this);
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
         push_matrix_from(NULL);
         translate_matrix_vec3(0, (u8 *)&position);
         rotate_matrix_y(0, rotation_y);
@@ -939,11 +931,11 @@ void TObjEneSaver::refresh_target() {
     if (is_actor_cadence_frame(0x1E) == 0) {
         return;
     }
-    if (obj_testFlags30(0x10) != 0) {
-        s32 best_id;
+    if (test_actor_flags(0x10) != 0) {
+        u16 best_id;
         s32 i;
         TObjPlayer *p;
-        s32 id;
+        u16 id;
         f32 best;
         f32 d;
         u16 tid;
@@ -954,8 +946,8 @@ void TObjEneSaver::refresh_target() {
         for (; i < registered_player_count + registered_enemy_count; i++) {
             p = TObjPlayer::get_player_data(i);
             if (p != NULL && p != (TObjChara *)this) {
-                id = get_entity_id(p);
-                if ((u16)id < 0x4000 && (u16)id != entity_id && !(p->actorFlags & 0x02000800)) {
+                id = p->get_entity_id();
+                if (id < 0x4000 && id != entity_id && !(p->actorFlags & 0x02000800)) {
                     VecCopy(&v, &p->body_center);
                     subtract_vector(&v, &body_center);
                     d = v.x * v.x + v.z * v.z;
@@ -985,8 +977,8 @@ void TObjEneSaver::refresh_target() {
         return;
     }
     {
-        s32 best_id2;
-        s32 best_id;
+        u16 best_id2;
+        u16 best_id;
         TObjPlayer *p;
         TObjPlayer *best_p2;
         TObjPlayer *best_p;
@@ -1005,7 +997,7 @@ void TObjEneSaver::refresh_target() {
         for (; i < registered_player_count; i++) {
             p = TObjPlayer::get_player_data(i);
             if (p == NULL) continue;
-            if ((u16)get_entity_id(p) >= 0x1000) continue;
+            if (p->get_entity_id() >= 0x1000) continue;
             if (p->get_floor() != get_current_floor()) continue;
             if (p->actorFlags & 0x02000800) continue;
             VecCopy(&v, &p->body_center);
@@ -1013,12 +1005,12 @@ void TObjEneSaver::refresh_target() {
             d = v.x * v.x + v.z * v.z;
             if ((p->class_flags & parameter_mask) && d < best &&
                 check_path_obstructed(this, &p->body_center) != 1) {
-                best_id = get_entity_id(p);
+                best_id = p->get_entity_id();
                 best = d;
                 best_p = p;
             }
             if (d < best2 && check_path_obstructed(this, &p->body_center) != 1) {
-                best_id2 = get_entity_id(p);
+                best_id2 = p->get_entity_id();
                 best2 = d;
                 best_p2 = p;
             }
@@ -1056,7 +1048,7 @@ s32 TObjEneSaver::update_action_hold_status() {
                 mode = 3;
                 phase = 0;
                 requested_action = 1;
-                obj_clearFlags30(0x06240000);
+                clear_actor_flags(0x06240000);
             }
             break;
         }
@@ -1078,7 +1070,7 @@ s32 TObjEneSaver::update_movement_status() {
                 mode = 3;
                 phase = 0;
                 requested_action = 1;
-                obj_clearFlags30(0x06240000);
+                clear_actor_flags(0x06240000);
             }
             break;
         }
@@ -1094,8 +1086,8 @@ void TObjEneSaver::run_idle_action() {
             mode = 0xB;
             phase = 0;
             requested_action = 0;
-            obj_clearFlags30(0x200000);
-            obj_setFlags30(this, 0x06040000);
+            clear_actor_flags(0x200000);
+            set_actor_flags(0x06040000);
             state_flags &= 0xFFFF0000;
             state_flags |= 0x40;
             bodies->flags &= ~1;
@@ -1111,8 +1103,8 @@ void TObjEneSaver::run_idle_action() {
         mode = 0xB;
         phase = 0;
         requested_action = 0;
-        obj_clearFlags30(0x200000);
-        obj_setFlags30(this, 0x06040000);
+        clear_actor_flags(0x200000);
+        set_actor_flags(0x06040000);
         state_flags &= 0xFFFF0000;
         state_flags |= 0x40;
         break;
@@ -1216,7 +1208,6 @@ void TObjEneSaver::run_move_action() {
     }
 }
 
-#undef get_entity_id
 
 void TObjEneSaver::advance_motion_state() {
 
@@ -1277,7 +1268,7 @@ void TObjEneSaver::update_move_toward_target() {
         switch (phase) {
         case 0: {
             if (select_enemy_destination(this, ((TObjChara *)t)->body_center, 1) != 0) {
-                sub_800A7798(saver_ai_params[3]);
+                set_override_speed(saver_ai_params[3]);
                 phase = 1;
                 copy_position_if_valid(this, body_center);
                 apply_actor_gravity(this, NULL, 0.0f);
@@ -1367,7 +1358,7 @@ void TObjEneSaver::run_attack_action() {
         if ((s32)(10430.38043493439 * a) < 0x10) {
             phase = 1;
             requested_action = 2;
-            sub_800A7798(*saver_ai_params);
+            set_override_speed(*saver_ai_params);
         } else {
             phase = 0;
             requested_action = 1;
@@ -1397,7 +1388,7 @@ void TObjEneSaver::damage_targets_in_reach() {
     s32 limit;
     s32 i;
     TObjChara *p;
-    if (obj_testFlags30(0x10) != 0) {
+    if (test_actor_flags(0x10) != 0) {
         limit = 0x4000;
         n = registered_player_count + registered_enemy_count;
     } else {
@@ -1407,7 +1398,7 @@ void TObjEneSaver::damage_targets_in_reach() {
     for (i = 0; i < n; i++) {
         p = TObjPlayer::get_player_data(i);
         if (TObjPlayer::is_valid_and_active((uaddr)p) != 0 && p != this &&
-            get_entity_id(p) < limit && !(p->actorFlags & 0x02000800) &&
+            p->get_entity_id() < limit && !(p->actorFlags & 0x02000800) &&
             p->select_melee_contact_body(this, 1.0f) != 0) {
             f32 damage = p->receive_physical_attack(this, 1.0f);
             p->apply_knockback_from_attacker((u8 *)this, damage);
@@ -1450,7 +1441,7 @@ void TObjEneSaver::state_attack() {
             if (a < 0x10) {
                 phase = 1;
                 requested_action = 2;
-                sub_800A7798(saver_ai_params[0]);
+                set_override_speed(saver_ai_params[0]);
                 if (check_path_obstructed(this, &((TObjChara *)target)->body_center) == 1) {
                     velocity.x = velocity.y = velocity.z = 0.0f;
                 } else {

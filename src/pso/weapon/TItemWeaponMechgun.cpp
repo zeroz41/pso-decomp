@@ -30,11 +30,11 @@ void TUnk_804A3260::emit_marker_effects() {
 }
 
 void TUnk_804A3260::update_weapon() {
-    s32 temp_r4;
+    s32 effectFrame;
     if ((s32) this->effectScaleJoint != -1) {
-        temp_r4 = this->effectFrame;
-        if (0.0f < (f32) temp_r4) {
-            this->effectFrame = (s32) ((f32) temp_r4 - 0.4f);
+        effectFrame = this->effectFrame;
+        if (0.0f < (f32) effectFrame) {
+            this->effectFrame = (s32) ((f32) effectFrame - 0.4f);
             if ((f32) this->effectFrame < 0.0f) {
                 this->effectFrame = 0;
             }
@@ -65,7 +65,7 @@ TUnk_804A3260::TUnk_804A3260(saddr parent, u8 *item) : TItemWeapon((TObject *)((
         break;
     }
     if ((u8) *(u8 *)((s8 *)item + 2) >= 5U) {
-        ((TObjPlayer *)this)->set_atp(-1);
+        set_color_node(-1);
     }
 }
 

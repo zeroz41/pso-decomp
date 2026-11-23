@@ -28,7 +28,7 @@ struct TItemAttackCol : public TUnk_804E355C {
     FlagWord hit_wall_flags;
     u32 flags;          // Desc_8011E5C4::flags
     uaddr model;          // NJS_OBJECT render draws, 0 for none
-    u32 texlist;        // set_texlist before drawing it
+    NJS_TEXLIST *texlist; // set_texlist before drawing it
     s32 rotation[3];    // heading the model is drawn at
     s32 spin[3];        // run_task turns spin[1] 0x888 a frame with flag 0x20
     Vec scale;
@@ -40,7 +40,7 @@ struct TItemAttackCol : public TUnk_804E355C {
     TItemAttackColHitWall hit_wall;
     TItemAttackColHitObject hit_object;
     TParticleCtrl *continuous_particle;
-    static void add_to_active_list(void* a0);
+    static void add_to_active_list(void* node);
     void shift_collision_bounds();
     void move_with_collision(void *to);
     virtual void render();

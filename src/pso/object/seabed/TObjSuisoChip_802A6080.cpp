@@ -15,8 +15,8 @@ s32 TObjSuisoChip::vfunc_8() {
     return TObjChip::vfunc_8();
 }
 
-s32 TObjSuisoChip::vfunc_10(Vec *center) {
-    return TObjChip::vfunc_10(&origin);
+s32 TObjSuisoChip::is_in_view(Vec *center, f32 max_depth, f32 radius) {
+    return TObjChip::is_in_view(&origin, max_depth, radius);
 }
 
 void TObjSuisoChip::vfunc_12() {
@@ -28,7 +28,7 @@ void TObjSuisoChip::vfunc_12() {
         push_matrix();
         post_translate_matrix(&origin.x);
         rotate_matrix_y(NULL, rotation_y);
-        for (i = 0; i < params.pad_30[0]; i++, piece++) {
+        for (i = 0; i < params.count; i++, piece++) {
             push_matrix();
             post_translate_matrix(&piece->pos.x);
             rotate_matrix_yxz(NULL, piece->rotation[0], piece->rotation[1], piece->rotation[2]);

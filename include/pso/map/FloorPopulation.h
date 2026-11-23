@@ -9,6 +9,7 @@ struct TObjEnemy;
 class TObject;
 class TObjBase;
 class TSetManager;
+class THeap;
 
 // Live object and enemy rows in the floor set buffers.
 struct FloorObjectSetRow {
@@ -70,22 +71,36 @@ LAYOUT_ASSERT(LobbyFloorRows_object_rows_offset, offsetof(LobbyFloorRows, object
 LAYOUT_ASSERT(LobbyFloorRows_enemy_rows_offset, offsetof(LobbyFloorRows, enemy_rows) == 0x14);
 LAYOUT_ASSERT(LobbyPoolEntry_size, sizeof(LobbyPoolEntry) == 8);
 
+// Set rows of the floor being played and their counts.
+extern FloorObjectSetRow *current_floor_object_set_rows;
+extern s32 current_floor_object_set_count;
+extern EnemySetRecord *current_floor_enemy_set_rows;
+extern s32 current_floor_enemy_set_count;
+// Decoration rows of the floor's map set (the ad.dat / d.dat file).
+extern FloorObjectSetRow *floor_decoration_rows;
+extern s32 floor_decoration_row_count;
+// Floor (and its area, -1 without a map selection) whose set rows were last set up.
+extern s32 active_set_floor;
+extern s32 active_set_floor_area;
+// Bit 0: the floor sets are loaded.
+extern s16 floor_set_flags;
+// Every floor's set rows, kept in the ARAM pool, and the flags saved in the row heap while a floor is left.
+extern void *floor_set_archive_pool;
+extern THeap *floor_saved_row_heap;
+extern LobbyPoolEntry floor_set_archives[18];
+extern LobbyFloorRows floor_enemy_group_table[18];
+// Object and enemy set row counts of each floor, -1 when its set file failed to load.
+extern s32 floor_object_set_counts[18];
+extern s32 floor_enemy_set_counts[18];
+extern FloorObjectSetRow *object_set_row_buffer;
+extern EnemySetRecord *enemy_set_row_buffer;
+
 extern "C" {
 // The original callers pass the floor; these return the currently loaded rows.
 FloorObjectSetRow *get_active_floor_object_rows(s32 floor);
 EnemySetRecord *get_active_floor_enemy_rows(s32 floor);
-extern FloorObjectSetRow *TLobby__data_805D610C;
-extern FloorObjectSetRow *floor_decoration_rows;
-extern s32 TLobby__data_805D6120;
 TObjBase *call_area_set_factory(TSetManager *manager, FloorObjectSetRow *row);
 void destroy_child_recursive__6TLobbyFPvPv(TObject *root, TObject *object);
-extern EnemySetRecord *TLobby__data_805D6114;
-extern s32 TLobby__current_floor_object_set_count;
-extern s32 TLobby__current_floor_enemy_set_count;
-extern LobbyPoolEntry TLobby__data_80513A40[18];
-extern LobbyFloorRows TLobby__floor_enemy_group_table[18];
-extern s32 TLobby__data_80513C80[18];
-extern s32 TLobby__data_80513CC8[18];
 
 s32 init_quest_floor_enemies(s32 floor, EnemySetRecord *source, u32 size);
 s32 load_floor_enemy_group_entries__6TLobbyFiPvUi(s32 floor, FloorObjectSetRow *source, u32 size);

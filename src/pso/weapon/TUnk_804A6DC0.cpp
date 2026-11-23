@@ -23,7 +23,7 @@ void TUnk_804A6DC0::vfunc_60() { if (TObjPlayer::get_player_list() == 1) { post_
 void TUnk_804A6DC0::update_weapon() {
     f32 buffer_14[3];
     s32 buffer_8[3];
-    s32 temp_r31;
+    s32 angle;
     switch (this->state) {
     case 1:
         this->m_200 = (f32) (this->m_200 - 0.90000004f);
@@ -43,10 +43,10 @@ void TUnk_804A6DC0::update_weapon() {
         break;
     case 3:
         this->state = 1;
-        temp_r31 = *(s32 *)((s8 *)this->owner + 0x60) - 0x4000;
-        buffer_14[0] = sin_table_lookup(temp_r31);
+        angle = *(s32 *)((s8 *)this->owner + 0x60) - 0x4000;
+        buffer_14[0] = sin_table_lookup(angle);
         buffer_14[1] = 1.0f;
-        buffer_14[2] = cos_table_lookup(temp_r31);
+        buffer_14[2] = cos_table_lookup(angle);
         buffer_8[0] = 0x4000;
         buffer_8[1] = *(s32 *)((s8 *)this->owner + 0x60);
         buffer_8[2] = 0;

@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/ui/window/TWindowMessageYesNo.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/object/warp/TObjCityMainWarpChallenge.h"
 #include "pso/object/warp/TObjCityMainWarp.h"
@@ -11,6 +12,7 @@
 #include "pso/unk/text_8024AD30.h"
 #include "pso/boss/volopt/TObjVoloptCage.h"
 #include "pso/network/client_id.h"
+#include "pso/player/PlayerSlots.h"
 
 struct Pkt_80186CC8 { u8 cmd; u8 size; u16 id; u16 value; u16 pad; };
 
@@ -24,14 +26,14 @@ struct Obj_80186DA0 {
     u8 padDE[2];
     s16 fE0;
     u8 padE2[0x16C - 0xE2];
-    s32 f16C;
+    s32 id;
 };
 
 extern "C" {
 
 void TObjCityMainWarpChallenge::close_windows() {
     if ((u32) *(u32 *)((s8 *)this + 0x168) != 0U) {
-        ((TWindowSubComCard *)(*(void **)((s8 *)this + 0x168)))->close();
+        ((TWindowMessageYesNo *)(this->yes_no_window))->close();
         *(u32 *)((s8 *)this + 0x168) = 0U;
     }
     if (this->menu_window != 0U) {
@@ -39,7 +41,7 @@ void TObjCityMainWarpChallenge::close_windows() {
         (this->menu_window) = 0U;
     }
     if ((u32) *(u32 *)((s8 *)this + 0x164) != 0U) {
-        ((TWindowBase *)(*(void **)((s8 *)this + 0x164)))->close();
+        ((TWindowBase *)(this->player_list_window))->close();
         *(u32 *)((s8 *)this + 0x164) = 0U;
     }
     end_player_keyboard_hold(local_client_id);
@@ -84,7 +86,7 @@ void TObjCityMainWarp::update_floor_switch_state() {
         arg0->fE0 = 1;
         break;
     case 1:
-        if (arg0->f16C >= 0 && is_current_floor_switch_set((u16)arg0->f16C) == 1) {
+        if (arg0->id >= 0 && is_current_floor_switch_set((u16)arg0->id) == 1) {
             arg0->fDC = 0;
         }
         break;

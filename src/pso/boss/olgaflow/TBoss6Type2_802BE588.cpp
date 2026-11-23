@@ -11,6 +11,7 @@
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/object/trap/TOTrapAncient01_80226534.h"
 #include <dolphin/mtx/GeoTypes.h>
+#include "pso/player/PlayerSlots.h"
 
 // TBoss6Type2 state handlers and their state-action table (one TU: the table's
 // strings and "DPB" lead this TU's .rodata and .sdata2, its __sinit ends the .text).

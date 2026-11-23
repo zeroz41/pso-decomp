@@ -9,6 +9,7 @@
 #include "pso/player/TObjPlayer_8012D8E4.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/player/TObjPlayer_801D2E20.h"
+#include "pso/object/base/TObjBase.h"
 
 struct Owner_8012D708 { u8 pad[0x60]; s32 f60; };
 struct Self_8012D708 { u8 pad0[0x24]; s32 f24; u8 pad28[0xF0 - 0x28]; Owner_8012D708 *owner; u8 padF4[0x188 - 0xF4]; s32 f188; };
@@ -17,9 +18,9 @@ struct Tec_8012D708 {
     u8 pad2[2];
     s32 f4;
     s32 f8;
-    s32 fC;
+    s32 item_id;
     s16 f10;
-    s16 f12;
+    s16 validated_attack_stage;
     f32 f14;
     f32 f18;
     f32 f1C;
@@ -38,12 +39,12 @@ void TUnk_804A5A28::emit_marker_effects() {
     Tec_8012D708 tec;
 
     init_slicer_launch_state((SlicerState_801295FC *)&tec);
-    tec.id = get_entity_id(this->owner);
-    tec.fC = this->get_item_id();
+    tec.id = this->owner->get_entity_id();
+    tec.item_id = this->get_item_id();
     tec.f4 = ((Self_8012D708 *)this)->f24;
     tec.f8 = ((Self_8012D708 *)this)->f188;
     tec.f10 = TObjPlayer__sub_801D2F4C((s16 *)((u8 *)this->owner + 0x7CC));
-    tec.f12 = get_validated_attack_stage((u8 *)this->owner + 0x7CC);
+    tec.validated_attack_stage = owner->attack_state.get_validated_attack_stage();
     tec.f14 = ((TObjPlayer *)(this->owner))->query_extended_state();
     tec.f18 = 1.0f;
     tec.f1C = 0.0f;
@@ -52,7 +53,7 @@ void TUnk_804A5A28::emit_marker_effects() {
     tec.f28 = ((Self_8012D708 *)this)->owner->f60;
     get_joint_position(3, &tec.pos);
     get_joint_position(2, &tec.dir);
-    TItemAttacker::spawn_item_timer((TObject *)TTecSlicer::create((u16*)&tec), (ItemTimerCallback)enlarge_flight_cutter_slicer, 3);
+    TItemAttacker::spawn_item_timer(TTecSlicer::create((SlicerLaunchState *)&tec), (ItemTimerCallback)enlarge_flight_cutter_slicer, 3);
 }
 
 TUnk_804A5A28::~TUnk_804A5A28() {}

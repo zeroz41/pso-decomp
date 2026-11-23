@@ -16,7 +16,7 @@
 #include "pso/system/SoundEffect.h"
 #include "pso/unk/text_803D8F74.h"
 
-struct GinjaTextureList;
+struct NJS_TEXLIST;
 
 // Compiled with deferred code generation like TODoorAncient01.cpp, which
 // emits the functions in reverse: the file is written from the last function
@@ -44,13 +44,13 @@ CollisionBody door_ancient03_collision_body[1] = {
 const char *TODoorAncient03_name = "TODoorAncient03";
 
 static BmlResource *door_ancient03_archive;
-static GinjaTextureList **door_ancient03_texlists;
+static NJS_TEXLIST **door_ancient03_texlists;
 
 TODoorAncient03::TODoorAncient03(TObject *parent, void *set_data) : TODoorBase(parent) {
     m_name = TODoorAncient03_name;
     apply_object_set_data(set_data);
     model = (void *)door_ancient03_archive->models[0].model;
-    texlist = (saddr)door_ancient03_texlists[1];
+    texlist = door_ancient03_texlists[1];
     motion = door_ancient03_archive->motions[0].motion;
     animation_end_frame = (f32)motion->frameCount - 1.0f;
     animation_step = animation_end_frame / 30.0f;
@@ -68,10 +68,10 @@ TODoorAncient03::~TODoorAncient03() {
 void TODoorAncient03::load_resources() {
     BmlResource *archive = new BmlResource(1, &bm_fe_obj_o_door03l_resource_descriptor, 0, 0, NULL);
     door_ancient03_archive = archive;
-    GinjaTextureList **texlists = (GinjaTextureList **)mem_alloc(2 * sizeof(GinjaTextureList *));
+    NJS_TEXLIST **texlists = (NJS_TEXLIST **)mem_alloc(2 * sizeof(NJS_TEXLIST *));
     door_ancient03_texlists = texlists;
-    texlists[0] = (GinjaTextureList *)door_ancient03_archive->models[0].texlist;
-    door_ancient03_texlists[1] = (GinjaTextureList *)load_gvm_texture_file((saddr)"fe_obj_o_door03g.gvm");
+    texlists[0] = door_ancient03_archive->models[0].texlist;
+    door_ancient03_texlists[1] = load_gvm_texture_file("fe_obj_o_door03g.gvm");
 }
 
 void TODoorAncient03::free_resources() {
@@ -97,7 +97,7 @@ void TODoorAncient03::render() {
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(door_ancient03_texlists[door_flags & DOOR_FLAG_UNLOCKED]));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(door_ancient03_texlists[door_flags & DOOR_FLAG_UNLOCKED]));
         if (object_state == DOOR_CLOSED) {
             NJS_OBJECT *node = (NJS_OBJECT *)model;
             post_translate_matrix(node->pos);

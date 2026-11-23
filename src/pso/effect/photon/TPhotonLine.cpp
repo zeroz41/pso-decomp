@@ -13,6 +13,7 @@
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/system/MatrixOps.h"
+#include "pso/object/base/TObjBase.h"
 
 const char *TPhotonLine::class_name = "TPhotonLine";
 
@@ -48,16 +49,16 @@ void TPhotonLine::run_task() {
                 break;
             }
             for (j = 0; j < hit_count; j++) {
-                if (hit_ids[j] == get_entity_id(player)) {
+                if (hit_ids[j] == player->get_entity_id()) {
                     break;
                 }
             }
             if (j == hit_count) {
-                hit_ids[hit_count++] = get_entity_id(player);
+                hit_ids[hit_count++] = player->get_entity_id();
                 if ((s32)hit_count >= 9) {
                     break;
                 }
-                queue_photon_blast_hit(get_entity_id(player), 1, 0, power);
+                queue_photon_blast_hit(player->get_entity_id(), 1, 0, power);
                 spawn_particle_effect(&player->position, 0x162);
                 spawn_particle_effect(&player->position, 0x163);
             }

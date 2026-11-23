@@ -182,4 +182,4 @@ void TItemEffShieldPulse::run_task() {
 }
 
 NJS_OBJECT *TItem::get_item_model() { return item_model; }
-saddr TObjBase::get_texlist() { return texlist; }
+NJS_TEXLIST *TObjBase::get_texlist() { return texlist; }

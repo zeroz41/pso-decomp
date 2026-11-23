@@ -1,4 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/unk/TScreenFadeOut.h"
+#include "pso/unk/TScreenFadeIn.h"
 #include "pso/ui/TLogo_8001C134.h"
 #include "pso/ui/frontend/TAdSoniclogo.h"
 
@@ -9,6 +11,7 @@
 #include "pso/ui/frontend/TAdBackGC.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/task/TObject.h"
+#include "pso/system/task/TMainTask.h"
 
 #pragma readonly_strings on
 
@@ -17,10 +20,11 @@ void * sonic_logo_object;
 int TAdSoniclogo__state;
 int TLogo__exit_requested_flag;
 const char *TAdSoniclogo__class_name = "TAdSoniclogo";
-extern void *tl_00;
-int queue_destruction__7TObjectFv(void);
 
-void TAdSoniclogo::request_destroy() { queue_destruction__7TObjectFv(); TAdSoniclogo__state = 1; }
+void TAdSoniclogo::request_destroy(TObject *fade) {
+    fade->queue_destruction();
+    TAdSoniclogo__state = 1;
+}
 
 }
 
@@ -34,12 +38,8 @@ void TAdSoniclogo::run_task() {
         break;
     case 1:
         if (++m_wait_frames > 0x3c) {
-            void *p;
             TAdSoniclogo__state = 2;
-            p = TObject::operator new(0x28);
-            if (p != 0) {
-                ((THunterGuildSeqOffline *)p)->init(tl_00, (void *)TLogo::request_exit);
-            }
+            new TScreenFadeOut(tl_00, TLogo::request_exit);
         }
         break;
     case 2:
@@ -49,16 +49,12 @@ void TAdSoniclogo::run_task() {
 TAdSoniclogo::~TAdSoniclogo() {}
 
 TAdSoniclogo::TAdSoniclogo(TObject *parent) : TObject(parent) {
-    void *o;
     m_name = TAdSoniclogo__class_name;
     m_wait_frames = 0;
     TAdSoniclogo__state = 0;
     TLogo__exit_requested_flag = 0;
     TAdSinglePlyChrSelectGC::init_logo_state(1);
-    o = TObject::operator new(0x28);
-    if (o != NULL) {
-        ((TLobby *)o)->init_fade(tl_00, (void *)request_destroy);
-    }
+    new TScreenFadeIn(tl_00, request_destroy);
 }
 
 

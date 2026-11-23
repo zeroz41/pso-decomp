@@ -3,6 +3,7 @@
 #include "pso/player/PlayerSlots.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/city/TShopGetItemWindow.h"
+#include "pso/ui/window/TWindowMenuIconLine.h"
 #include "pso/ui/font/TFontSmallTask.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 
@@ -15,7 +16,7 @@ s32 lbl_805D6238;
 s32 shop_world_player_level;
 s32 shop_difficulty_tier;
 s32 lbl_805D6244;
-s16 TShopGetItemWindow::get_cursor_index() { return *(s16*)((char*)this + 0x74); }
+s16 TWindowMenuIconLine::get_cursor_index() { return cursor; }
 
 void calc_item_count(TObjPlayer *player, s32 *count) {
     s32 level;
@@ -42,7 +43,7 @@ void calc_item_count(TObjPlayer *player, s32 *count) {
 #pragma opt_dead_code off
 void init_shop_world_context(void) {
     s32 temp_r3_2;
-    s32 temp_r3_3;
+    s32 section_id;
     TObjPlayer *player;
     player = get_player_by_client_id(local_client_id);
     if (player != NULL) {
@@ -57,9 +58,9 @@ void init_shop_world_context(void) {
     if ((s32) shop_world_player_level > 0xC7) {
         shop_world_player_level = 0xC7;
     }
-    temp_r3_3 = leader_selection.get_section_id();
-    lbl_805D6238 = temp_r3_3;
-    if (temp_r3_3 < 0) {
+    section_id = leader_selection.get_section_id();
+    lbl_805D6238 = section_id;
+    if (section_id < 0) {
         lbl_805D6238 = 0;
     }
     if ((s32) lbl_805D6238 > 9) {

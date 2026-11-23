@@ -24,7 +24,7 @@
 const char *TBGLightning::class_name = "TBGLightning";
 const char *TBGLightningCtrl::class_name = "TBGLightningCtrl";
 const s32 TBGLightning::bolt_first_texture[3] = { 1, 5, 0 };
-GinjaTextureList *bg_lightning_texture_handle;
+NJS_TEXLIST *bg_lightning_texture_handle;
 
 TBGLightning::TBGLightning(TObject *parent, Vec *pos, f32 size) : TObject(parent) {
     m_name = class_name;
@@ -158,7 +158,7 @@ void submit_particle_quad(void *owner, f32 *pos, f32 *extent, s32 color) {
     emit_particle_strip_vertices(quad, 4);
 }
 
-void load_bg_lightning(void) { bg_lightning_texture_handle = (GinjaTextureList *)load_gvm_texture_file((saddr)"bg_lightning.gvm"); }
+void load_bg_lightning(void) { bg_lightning_texture_handle = load_gvm_texture_file("bg_lightning.gvm"); }
 
 void TBGLightningCtrl::destroy_instance() {
     if (bg_lightning_texture_handle != NULL) {

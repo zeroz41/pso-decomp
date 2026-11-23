@@ -3,8 +3,7 @@
 #include "pso/boss/TUnk_80482C58.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/object/ambient/TObjLight.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801334D4.h"
+#include "pso/object/ambient/PointLight.h"
 #include "pso/system/vector.h"
 #include "pso/system/task/TObject_80019A50.h"
 
@@ -25,14 +24,14 @@ TBoss2LaserLight::TBoss2LaserLight(TObject *parent, Vec *position) : TObject(par
     m_color[3] = 2.0f;
     m_range[0] = 0.0f;
     m_range[1] = 0.0f;
-    m_light = (TObjLight *)TObjLight::alloc_light_slot();
+    m_light = TObjLight::alloc_light_slot();
     if (m_light == NULL) {
         queue_destruction();
         return;
     }
-    ((TAdSinglePlyChrSelectGC *)m_light)->noop_laser();
-    ((TAdSinglePlyChrSelectGC *)m_light)->set_position(m_color);
-    ((TAdSinglePlyChrSelectGC *)m_light)->forward_to_field_0x14(m_range);
+    m_light->disable();
+    m_light->set_color(m_color);
+    m_light->set_range(m_range);
 }
 
 TBoss2LaserLight::~TBoss2LaserLight() {
@@ -53,7 +52,7 @@ void TBoss2LaserLight::run_task() {
         if (m_request == REQUEST_ON) {
             m_request = REQUEST_NONE;
             m_state = FADE_IN;
-            TAdSinglePlyChrSelectGC__sub_80133508(m_light);
+            m_light->enable();
         }
         break;
     case FADE_IN:
@@ -76,11 +75,11 @@ void TBoss2LaserLight::run_task() {
         }
         m_range[0] = range;
         m_range[1] = 40.0f + range;
-        ((TAdSinglePlyChrSelectGC *)m_light)->forward_to_field_0x14(m_range);
-        ((TAdSinglePlyChrSelectGC *)m_light)->set_vec3(m_position);
+        m_light->set_range(m_range);
+        m_light->set_position(m_position);
         break;
     case ON:
-        ((TAdSinglePlyChrSelectGC *)m_light)->set_vec3(m_position);
+        m_light->set_position(m_position);
         break;
     case FADE_OUT:
         range = m_range[0];
@@ -88,12 +87,12 @@ void TBoss2LaserLight::run_task() {
         if (range <= 0.0f) {
             range = 0.0f;
             m_state = OFF;
-            ((TAdSinglePlyChrSelectGC *)m_light)->noop_laser();
+            m_light->disable();
         }
         m_range[0] = range;
         m_range[1] = 40.0f + range;
-        ((TAdSinglePlyChrSelectGC *)m_light)->forward_to_field_0x14(m_range);
-        ((TAdSinglePlyChrSelectGC *)m_light)->set_vec3(m_position);
+        m_light->set_range(m_range);
+        m_light->set_position(m_position);
         break;
     }
 }

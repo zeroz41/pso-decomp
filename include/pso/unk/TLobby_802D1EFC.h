@@ -3,10 +3,10 @@
 
 #include "types.h"
 
-void snapshot_player_trade_inventory(saddr arg0, s32 arg1);
+void snapshot_player_trade_inventory(saddr arg0, s32 client);
 
 // --- C functions defined in TLobby_802D1EFC.cpp ---
-void snapshot_player_trade_inventory(saddr arg0, s32 arg1);
+void snapshot_player_trade_inventory(saddr arg0, s32 client);
 // --- end of C functions
 
 #endif

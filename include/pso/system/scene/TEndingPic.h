@@ -4,6 +4,9 @@
 #include "types.h"
 #include <stddef.h>
 
+// The picture sequence state; 1 starts it (TEndingPic::advance_animation_state).
+extern s32 TEndingPic__animation_state;
+
 struct EndingPictureQuad {
     f32 left, top, right, bottom;
     f32 u0, v0, u1, v1;

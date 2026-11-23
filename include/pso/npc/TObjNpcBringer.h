@@ -9,7 +9,7 @@ public:
     virtual ~TObjNpcBringer();
     virtual void request_action(s32);
 public:
-    static void *create(void *arg0);
+    static void *create(void *set_data);
 };
 LAYOUT_ASSERT(TObjNpcBringer_size, sizeof(TObjNpcBringer) == 0x3B8);
 

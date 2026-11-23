@@ -94,7 +94,6 @@ void TUnk_804F27E0::init_weapon_effect_descriptor(Desc_8011E5C4 *desc) {
 }
 
 extern "C" {
-s16 get_validated_attack_stage(u8 *arg0);
 s32 rotate_matrix_x(int, int);
 f32 post_translate_matrix(void *);
 
@@ -117,7 +116,7 @@ void TUnk_804F27E0::emit_marker_effects() {
     u8 *arg0 = (u8 *)this;
     s32 sp8;
     ((VObj_18_f1aa6a *)(this->owner))->m63(0x30, &sp8);
-    if (get_validated_attack_stage(*(u8 * *)&this->owner + 0x7CC) == 2) {
+    if (owner->attack_state.get_validated_attack_stage() == 2) {
         ((TItemWeapon *)arg0)->fire_shot_at_target(&sp8, (void *)(*(saddr *)((s8 *)arg0 + 0xF4)), 0);
         ((TItemWeapon *)arg0)->fire_shot_at_target(&sp8, (void *)(*(saddr *)((s8 *)arg0 + 0xF4)), 0x1555);
         ((TItemWeapon *)arg0)->fire_shot_at_target(&sp8, (void *)(*(saddr *)((s8 *)arg0 + 0xF4)), -0x1555);

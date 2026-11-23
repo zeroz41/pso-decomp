@@ -2,6 +2,7 @@
 #define PSO_TECHNIQUE_TTECZONDE_H
 
 #include "types.h"
+#include "pso/player/TargetCursorList.h"
 #include "pso/technique/TTecShot.h"
 
 struct TTecZonde : public TTecShot {
@@ -11,8 +12,7 @@ struct TTecZonde : public TTecShot {
     void init_parameters();
     void render();
     void run_task();
-    u8 unk_130[0x5C];
-    u8 *construct_bolt_effect(u8 *parent, u8 *arg2, u8 *arg3, s32 arg4, s32 arg5, f32 farg0, f32 scale);
+    TargetCursorList targets;
 };
 
 LAYOUT_ASSERT(TTecZonde_size, sizeof(TTecZonde) == 0x18C);

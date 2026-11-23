@@ -59,7 +59,7 @@ Vec rock_jungle_vec3_table[3] = {
 const char *bm_o_rock_jungle_motion_names[1] = { NULL };
 
 BmlResource *TORockJungleS01__bml_resource;
-GinjaTextureList *TORockJungleS01__texture_resource;
+NJS_TEXLIST *TORockJungleS01__texture_resource;
 
 const char *TORockJungleS01__name = "TORockJungleS01";
 
@@ -74,18 +74,18 @@ void TORockJungleS01::load_resources() {
     TORockJungleS01__bml_resource = resource;
     switch (get_current_floor_area()) {
     case AREA_SEASIDE:
-        TORockJungleS01__texture_resource = (GinjaTextureList *)load_gvm_texture_file((saddr)"o_rock_jungle_05.GVM");
+        TORockJungleS01__texture_resource = load_gvm_texture_file("o_rock_jungle_05.GVM");
         break;
     case AREA_MOUNTAIN:
-        TORockJungleS01__texture_resource = (GinjaTextureList *)load_gvm_texture_file((saddr)"o_rock_jungle_04.GVM");
+        TORockJungleS01__texture_resource = load_gvm_texture_file("o_rock_jungle_04.GVM");
         break;
     case AREA_JUNGLE_EAST:
     default:
-        TORockJungleS01__texture_resource = (GinjaTextureList *)load_gvm_texture_file((saddr)"o_rock_jungle_123.GVM");
+        TORockJungleS01__texture_resource = load_gvm_texture_file("o_rock_jungle_123.GVM");
         break;
     }
     TMotorcycle::add_entry(0x3E, reinterpret_cast<NJS_OBJECT *>(get_model(0)),
-                           reinterpret_cast<GinjaTextureList *>(get_jungle_rock_texture_resource(0)), 5.0f, 0.0f);
+                           get_jungle_rock_texture_resource(0), 5.0f, 0.0f);
 }
 #pragma pool_data reset
 
@@ -109,11 +109,11 @@ saddr TORockJungleS01::get_model(s32 index) {
 }
 
 // Every rock uses the floor's one texture list, whatever its model.
-s32 get_jungle_rock_texture_resource(s32 index) {
+NJS_TEXLIST *get_jungle_rock_texture_resource(s32 index) {
     if (TORockJungleS01__texture_resource != NULL) {
-        return (saddr)TORockJungleS01__texture_resource;
+        return TORockJungleS01__texture_resource;
     }
-    return 0;
+    return NULL;
 }
 
 TORockJungleS01::TORockJungleS01(void *set_data) {
@@ -151,8 +151,8 @@ void *TORockJungleS01::create(void *set_data) {
 void TORockJungleS01::vfunc_16() {
     Vec offsets[1] = { { 0.0f, 0.0f, 0.0f } };
     TObjChipParams params = {
-        { 0.25f, 0.07f, 0.26f }, { 0.0f, 0.0f, 0.0f }, { 5.0f, 7.5f, 5.0f },
-        { 1024, 256, 1024 }, { 1, 30 }, { 0.0f, 0.6f }, 0, 0, 22,
+        0.25f, 0.07f, 0.26f, { 0.0f, 0.0f, 0.0f }, { 5.0f, 7.5f, 5.0f },
+        { 1024, 256, 1024 }, 1, 30, 0.0f, 0.6f, 0, 0, 22,
     };
     Vec offset;
     s32 i;
@@ -160,7 +160,7 @@ void TORockJungleS01::vfunc_16() {
     params.pos[0] = position.x;
     params.pos[1] = position.y;
     params.pos[2] = position.z;
-    params.pad_38[0] = params.pos[1];
+    params.floor_y = params.pos[1];
     for (i = 0; i < 1; i++) {
         VecCopy(&offset, &offsets[i]);
         push_matrix_from(identity_matrix);
@@ -245,8 +245,8 @@ void *TORockJungleM01::create(void *set_data) {
 void TORockJungleM01::vfunc_16() {
     Vec offsets[1] = { { 0.0f, 0.0f, 0.0f } };
     TObjChipParams params = {
-        { 0.25f, 0.07f, 0.26f }, { 0.0f, 0.0f, 0.0f }, { 5.0f, 7.5f, 5.0f },
-        { 1024, 256, 1024 }, { 1, 30 }, { 0.0f, 0.6f }, 0, 0, 22,
+        0.25f, 0.07f, 0.26f, { 0.0f, 0.0f, 0.0f }, { 5.0f, 7.5f, 5.0f },
+        { 1024, 256, 1024 }, 1, 30, 0.0f, 0.6f, 0, 0, 22,
     };
     Vec offset;
     s32 i;
@@ -254,7 +254,7 @@ void TORockJungleM01::vfunc_16() {
     params.pos[0] = position.x;
     params.pos[1] = position.y;
     params.pos[2] = position.z;
-    params.pad_38[0] = params.pos[1];
+    params.floor_y = params.pos[1];
     for (i = 0; i < 1; i++) {
         VecCopy(&offset, &offsets[i]);
         push_matrix_from(identity_matrix);
@@ -304,7 +304,7 @@ TORockJungleL01::~TORockJungleL01() {
     free_collision_body_parts(this);
 }
 
-void *TORockJungleL01__create(void *set_data) {
+void *TORockJungleL01::create(void *set_data) {
     return new TORockJungleL01(set_data);
 }
 

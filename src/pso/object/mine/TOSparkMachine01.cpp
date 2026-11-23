@@ -51,13 +51,13 @@ void TOSparkMachine01::update_spark_toggle(s32 i) {
 }
 
 void TOSparkMachine01::run_task() {
-    s32 var_r31;
+    s32 i;
     if (0.0f < this->scale.y) {
-        var_r31 = 0;
+        i = 0;
         do {
-            update_spark_toggle(var_r31);
-            var_r31 += 1;
-        } while (var_r31 < 4);
+            update_spark_toggle(i);
+            i += 1;
+        } while (i < 4);
         return;
     }
     spark_on[3] = 0;
@@ -73,7 +73,7 @@ void TOSparkMachine01::render() {
         push_matrix();
         post_translate_matrix(&position);
         rotate_matrix_y(0, rotation_y);
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
         n = ((NJS_OBJECT *)model)->child;
         TParticleCtrl::begin_effect_render();
         for (i = 0; i < 4; i++) {
@@ -92,8 +92,8 @@ void TOSparkMachine01::render() {
     }
 }
 
-void *TOSparkMachine01::create() {
-    return new TOSparkMachine01(this);
+void *TOSparkMachine01::create(void *set_data) {
+    return new TOSparkMachine01(set_data);
 }
 
 void TOSparkMachine01::destroy_static_instance() {
@@ -119,7 +119,7 @@ TOSparkMachine01::TOSparkMachine01(void *set_data) : TObjBase(tl_05) {
     self->m_name = TOSparkMachine01__name;
     self->apply_object_set_data(set_data);
     self->model = (void *)TOSparkMachine01__static_resource->models[0].model;
-    self->texlist = (saddr)TOSparkMachine01__static_resource->models[0].texlist;
+    self->texlist = TOSparkMachine01__static_resource->models[0].texlist;
     self->view_range = 500.0f;
     self->model_radius = 40.0f;
     self->actorFlags |= 0x40000000;

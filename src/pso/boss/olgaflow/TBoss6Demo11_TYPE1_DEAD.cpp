@@ -13,6 +13,7 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/boss/olgaflow/TBoss6Demo11_TYPE1_DEAD.h"
+#include "pso/boss/olgaflow/TBoss6Type1.h"
 #include "pso/boss/olgaflow/TBoss6PlotFalz.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/effect/particle/TParticleCtrl.h"
@@ -26,7 +27,6 @@ struct FishSpawnEntry {
 
 // One node of the list ModelNodePositionCapture::create reads (node -1 ends it).
 
-extern s32 boss6_type1_part_model_ids[]; // model ids, defined in TBoss6Type1.cpp
 
 const char TBoss6Demo11_TYPE1_DEAD__class_name_string[] = "TBoss6Demo11_TYPE1_DEAD";
 static s32 death_motion_indices[2] = {4, 5};          // motion ids
@@ -68,7 +68,7 @@ TBoss6Demo11_TYPE1_DEAD::TBoss6Demo11_TYPE1_DEAD(TBoss6PlotFalz *plot, const Vec
     for (i = 0; i < 2; i++) {
         model_id = boss6_type1_part_model_ids[i];
         parts[i].model = (NJS_OBJECT *)get_bml_model(resource, model_id);
-        parts[i].texture = (GinjaTextureList *)get_bml_texlist(resource, model_id);
+        parts[i].texture = get_bml_texlist(resource, model_id);
         parts[i].motion = get_bml_motion(resource, death_motion_indices[i]);
     }
     node_effect = ModelNodePositionCapture::create(dead_effect_nodes(), effect_points);
@@ -203,9 +203,9 @@ void TBoss6Demo11_TYPE1_DEAD::render_fade_model() {
         push_matrix();
         set_motion_packed_rotation();
         post_translate_matrix(&position.x);
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(parts[0].texture));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(parts[0].texture));
         draw_model_motion(parts[0].model, parts[0].motion, frame);
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(parts[1].texture));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(parts[1].texture));
         node_effect->install();
         draw_model_motion(parts[1].model, parts[1].motion, frame);
         node_effect->clear();

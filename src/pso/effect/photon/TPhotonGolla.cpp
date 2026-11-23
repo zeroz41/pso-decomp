@@ -26,6 +26,7 @@
 #include "pso/unk/TLobby_802268F4.h"
 #include "pso/system/BmlResource.h"
 #include "pso/player/PhotonBlastResults.h"
+#include "pso/object/base/TObjBase.h"
 
 // The original emits code in reverse definition order.
 #pragma defer_codegen on
@@ -77,7 +78,7 @@ TPhotonGolla::TPhotonGolla(PhotonSummonParams *params) : TPhotonBlastSummon() {
         rotation_y = 0;
     }
     model = photon_blast_shared_resource->models[4].model;
-    texlist = (saddr)photon_blast_shared_resource->models[4].texlist;
+    texlist = photon_blast_shared_resource->models[4].texlist;
     set_action_table((saddr)photon_blast_golla_params);
     set_motion_list((saddr)photon_blast_shared_resource->motions);
     requested_action = 1;
@@ -178,7 +179,7 @@ void TPhotonGolla::render() {
     if (visible != 0) {
         golla_photon_blast_buffer_pair->scroll_uvs(uv_scroll, 0);
         TParticleCtrl::begin_effect_render();
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, rotation_y);
@@ -259,7 +260,7 @@ void TPhotonGolla::collect_hit_targets() {
         }
     }
     if (target != NULL) {
-        queue_photon_blast_hit(get_entity_id(target), 2, 0, power);
+        queue_photon_blast_hit(target->get_entity_id(), 2, 0, power);
     }
     hit_target = target;
 }

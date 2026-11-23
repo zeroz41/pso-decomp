@@ -557,7 +557,7 @@ s16 TLobby__sub_80410A98(NetPacket *pkt, void *dst, void *src, NetIPv6SendOption
     return TLobby__sub_80410BA8(pkt, &params, route->iface, NULL);
 }
 
-s16 TLobby__sub_80410D6C(u8 *ctx, u8 *hdr, s16 a5, s32 a6, u32 len);
+s16 TLobby__sub_80410D6C(u8 *ctx, u8 *hdr, s16 a5, s32 first, u32 len);
 s16 TLobby__sub_80410BA8(void *self, void *a, s16 c, void *d)
 {
   Ipv6ProtocolState *base = &ipv6_protocol_state;
@@ -628,7 +628,7 @@ s16 TLobby__sub_80410BA8(void *self, void *a, s16 c, void *d)
 
 #pragma push
 #pragma opt_common_subs on
-extern s16 TLobby__sub_80410D6C(u8 *ctx, u8 *hdr, s16 a5, s32 a6, u32 len)
+extern s16 TLobby__sub_80410D6C(u8 *ctx, u8 *hdr, s16 a5, s32 first, u32 len)
 {
     NetPacket iov;
     Ipv6FragmentHeader fh;
@@ -706,7 +706,7 @@ extern s16 TLobby__sub_80410D6C(u8 *ctx, u8 *hdr, s16 a5, s32 a6, u32 len)
         if (NetIPv6IsMulticast(hdr + offsetof(Ipv6Header, dst))) {
             r = TLobby__sub_804112B8((saddr)iovp, (saddr)(hdr + offsetof(Ipv6Header, dst)), a5);
         } else {
-            r = TLobby__sub_8041123C((saddr)iovp, a6, a5);
+            r = TLobby__sub_8041123C((saddr)iovp, first, a5);
         }
         if (r < 0) {
             break;

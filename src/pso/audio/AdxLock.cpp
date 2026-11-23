@@ -15,26 +15,26 @@
 #include "pso/unk/text_803CE568.h"
 
 
-s32 TLobby__init_ref_count;
+s32 init_ref_count;
 
 void TLobby::release_ref() {
     s32 temp_r0;
 
-    temp_r0 = TLobby__init_ref_count - 1;
-    TLobby__init_ref_count = temp_r0;
+    temp_r0 = init_ref_count - 1;
+    init_ref_count = temp_r0;
     if (temp_r0 == 0) {
         TLobby__sub_803D3988();
     }
 }
 
 void TLobby::init_once() {
-    if ((s32) TLobby__init_ref_count == 0) {
+    if ((s32) init_ref_count == 0) {
         TLobby__sub_803D39C0();
     }
-    TLobby__init_ref_count += 1;
+    init_ref_count += 1;
 }
 
 void TLobby__sub_803C4698(void) {
-    TLobby__init_ref_count = 0;
+    init_ref_count = 0;
 }
 

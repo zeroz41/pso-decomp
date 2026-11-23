@@ -73,10 +73,10 @@ struct NJS_OBJECT;
 #include "pso/boss/derolle/TObjBoss2Tunnel_8007E418.h"
 #include "pso/unk/TLobby_8007C550.h"
 #include "pso/player/PlayerSlots.h"
-struct ByteBlock_C { u8 bytes[0xc]; };
 #include "types.h"
 #include "pso/camera/CameraPlayback.h"
 #include "pso/system/PadRumble.h"
+#include "pso/object/base/TObjBase.h"
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
@@ -123,7 +123,6 @@ s32 is_split_screen();
 void direction_to_rotation_xz(u8 *dir, s32 *rot_a, s32 *rot_b);
 void dragon_capture_node_points(NJS_OBJECT *);
 extern "C" {
-u16 get_entity_id(void *);
 extern const Vec boss1_dragon_arena_center = {0.0f, 0.0f, 0.0f};
 extern const DragonAttackParams boss1_dragon_attack_sphere_params = {0, 0.0f, 30.0f, 7.0f, 1};
 extern const DragonAttackParams boss1_dragon_head_fall_attack_params = {0, 0.0f, 35.0f, 50.0f, 1};
@@ -269,7 +268,6 @@ static Vec boss1_dragon_held_camera_eye_offsets[4] = {
     {300.0f, 120.0f, 50.0f},
 };
 f32 atan2_float(f32 y, f32 x);
-void subtractive_rng_seed(void *, u32);
 f32 calc_random_ratio__10TObjPlayerFv(void *);
 }
 void handle_6x12_dragon_boss_actions(TObjPlayer *packet);
@@ -284,6 +282,7 @@ struct Pkt_800284B4 {
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/camera/CameraHelpers.h"
+#include "pso/player/TPlyDispData.h"
 extern "C" {
 u8 *boss1_dragon_part_hp_stats[5];
 Boss1DragonParams *boss1_dragon_behavior_params[3];
@@ -379,7 +378,7 @@ void TObjMotion::set_motion_list(saddr v) { *(saddr *)&this->motion_list = v; }
 
 void TObjMotion::set_requested_action(s16 v) { this->requested_action = v; }
 
-void TObjMotion::sub_8002AE64() {
+void TObjMotion::enable_motion_blend() {
     this->motion_flags = (s32) (this->motion_flags & 0xFFFFFFFE);
 }
 
@@ -430,21 +429,14 @@ s32 TBoss1Dragon::countModelNodes(DragonModelNode* source) {
     return count;
 }
 
-void copy_model_node(u8 *dst, u8 *src) {
-    *(s32 *)((s8 *)dst + 0) = (s32) *(s32 *)((s8 *)src + 0);
-    *(s32 *)((s8 *)dst + 4) = (s32) *(s32 *)((s8 *)src + 4);
-    *(ByteBlock_C *)((saddr) dst + 8) = *(const ByteBlock_C *)((saddr) src + 8);
-    *(ByteBlock_C *)((saddr) dst + 0x14) = *(const ByteBlock_C *)((saddr) src + 0x14);
-    *(ByteBlock_C *)((saddr) dst + 0x20) = *(const ByteBlock_C *)((saddr) src + 0x20);
-    *(s32 *)((s8 *)dst + 0x2C) = (s32) *(s32 *)((s8 *)src + 0x2C);
-    *(s32 *)((s8 *)dst + 0x30) = (s32) *(s32 *)((s8 *)src + 0x30);
-    *(f32 *)((s8 *)dst + 0x34) = (f32) *(f32 *)((s8 *)src + 0x34);
+void copy_model_node(NJS_OBJECT *dst, NJS_OBJECT *src) {
+    *dst = *src;
 }
 
 DragonModelNode* TBoss1Dragon::cloneModelHierarchy(DragonModelNode* source, DragonModelNode* output, void* model) {
     DragonModelNode* current = output;
     ++output;
-    copy_model_node((u8*)current, (u8*)source);
+    copy_model_node((NJS_OBJECT *)current, (NJS_OBJECT *)source);
     current->model = model;
     if (source->child != 0) {
         current->child = output;
@@ -1294,7 +1286,7 @@ s32 TBoss1Dragon::select_forward_target() {
             subtract_vector(&delta, &this->position);
             normalize_vector_xz((Vec *)&delta);
             if (vec3_dot(&delta, &fwd) > cutoff) {
-                selected[n++] = get_entity_id(p);
+                selected[n++] = p->get_entity_id();
             }
         }
     }
@@ -1941,14 +1933,14 @@ u16 TBoss1Dragon::find_player_on_floor() {
     TObjPlayer *p;
     u16 idx;
     u16 i;
-    p = get_player_by_client_id(TLobby__designated_client_id);
+    p = get_player_by_client_id(designated_client_id);
     if (p != NULL) {
         if (p->get_floor() == get_current_floor()) {
-            return TLobby__designated_client_id;
+            return designated_client_id;
         }
     }
     for (i = 0; i < 4; i++) {
-        idx = (TLobby__designated_client_id + i + 1) % 4;
+        idx = (designated_client_id + i + 1) % 4;
         p = get_player_by_client_id(idx);
         if (p != NULL) {
             if (p->get_floor() == get_current_floor()) {
@@ -3080,7 +3072,7 @@ void TBoss1Dragon::update_spinning_projectile_attack(u32 reason) {
         break;
     case ENEMY_STATE_LEAVE:
         this->rotation_x = 0;
-        this->sub_8002AE64();
+        this->enable_motion_blend();
         this->camera_eye_raised = 0;
         break;
     }
@@ -5127,7 +5119,7 @@ void TBoss1Dragon::render() {
             *(s32 *)&this->model = saved;
             pop_matrix();
         }
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(this->texlist));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
         TObjEneDD::clear_global_flag_400();
         saved_model_render_flags = model_render_flags;
         set_material_alpha_compare_reference(0);
@@ -5269,7 +5261,7 @@ void TBoss1Dragon::render_low_detail() {
     if (((TBoss1Dragon*)self)->update_object_view_visibility((400.0f), (20.0f)) == 0) {
         return;
     }
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(this->texlist));
+    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
     push_matrix();
     post_translate_matrix(&this->position.x);
     rotate_matrix_y(0, this->rotation_y);

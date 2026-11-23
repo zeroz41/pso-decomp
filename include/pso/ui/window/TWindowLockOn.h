@@ -15,7 +15,7 @@ struct TWindowLockOn : public TWindowBase {
     u16 m_60;
     u8 _pad62[0x2];
     s32 m_64;
-    f32 m_68;
+    f32 scale;
     f32 m_6c;
     void (TWindowLockOn::*m_70)();
     s32 get_target_id();

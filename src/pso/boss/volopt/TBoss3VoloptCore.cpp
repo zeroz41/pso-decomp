@@ -30,6 +30,8 @@
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/render/model_render_state.h"
 #include "pso/ui/hud/TRaderMapCore.h"
+#include "pso/object/base/TObjBase.h"
+#include "pso/player/PlayerSlots.h"
 
 struct TBoss3VoloptOrbitSpeeds {
     u8 pad_0[0x18];
@@ -37,11 +39,10 @@ struct TBoss3VoloptOrbitSpeeds {
 };
 
 extern "C" {
-s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
+s32 play_persistent_sound(s32 id, saddr actor, uaddr src, s32 a3, s32 flags);
 void set_matrix_identity(s32 matrix, f32 scale);
 void rotate_vector_by_matrix(saddr matrix, Vec *src, Vec *dst);
 }
-void reset_status_effect_row(u8 *row);
 
 #pragma readonly_strings on
 static const char *TBoss3VoloptCore_name = "TBoss3VoloptCore";
@@ -89,7 +90,7 @@ saddr TObjPlayer::get_battle_param(int index) {
 
 void TBoss3VoloptCore::load_entry_params_volopt(s32 index) {
     model = (void *)core_resources->models[index].model;
-    texlist = (saddr)core_resources->models[index].texlist;
+    texlist = core_resources->models[index].texlist;
 }
 
 s32 TBoss3VoloptCore::get_orbit_speed(s32 index) {
@@ -139,7 +140,7 @@ void TBoss3VoloptCore::init_params() {
     run_idle_action();
     add_flags_2e4(4);
     hit_cooldown = 0;
-    obj_setFlags30(this, 0x8000);
+    set_actor_flags(0x8000);
     if (TBoss3Volopt::is_v2_mode() != 0) {
         core_turn_angle_limit = 0xA00;
     } else {
@@ -181,15 +182,15 @@ void TBoss3VoloptCore::run_task() {
         run_death_reaction();
     } else if (test_flag30_512() != 0) {
         if (hit_cooldown > 0) {
-            obj_clearFlags30(0x200);
+            clear_actor_flags(0x200);
         } else {
             run_hit_reaction();
         }
     }
-    if (obj_testFlags30(0x4000) != 0) {
-        if (((TObjPlayer *)this)->add_status_effect_timer(4, -1) <= 0) {
-            reset_status_effect_row(unk_284);
-            obj_clearFlags30(0x4000);
+    if (test_actor_flags(0x4000) != 0) {
+        if (this->add_status_effect_timer(4, -1) <= 0) {
+            status_effects[4].clear();
+            clear_actor_flags(0x4000);
         }
     } else {
         if (mode != next_action) {
@@ -241,7 +242,7 @@ void TBoss3VoloptCore::run_demo_task() {}
 
 void TBoss3VoloptCore::render() {
     if (!(actorFlags & 0x02000000) && update_object_view_visibility(400.0f, 40.0f) != 0) {
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
         push_matrix();
         model_render_flags &= ~0x400;
         post_translate_matrix(&position.x);
@@ -336,10 +337,10 @@ void TBoss3VoloptCore::update_charge_state() {
 void TBoss3VoloptCore::update_grabbed_state() {
     switch (state) {
     case 0:
-        if (obj_testFlags30(0x02000000) != 0) {
+        if (test_actor_flags(0x02000000) != 0) {
             behavior_flags |= 0x40000;
         }
-        obj_clearFlags30(0x02200200);
+        clear_actor_flags(0x02200200);
         referenceHp = hp;
         this->requested_action = 3;
         play_sound_effect(0x4003A81F, NULL, 0, 0);
@@ -512,7 +513,7 @@ s32 TBoss3VoloptCore::calc_hit_zone_index() {
 }
 
 void TBoss3VoloptCore::set_boss_target_pos(s32 slot, s32 moves, s32 delay_frames) {
-    if (obj_testFlags30(0x800) == 0) {
+    if (test_actor_flags(0x800) == 0) {
         behavior_flags |= 0x20000;
         target_slot = slot;
         moves_left = moves;

@@ -3,22 +3,15 @@
 
 #include "types.h"
 
-class TObjHMS_EZRope_Player;
-extern "C" {
-void *TObjHMS_EZRope_Player__ct(void *arg0, void *arg1, void *arg2, void *arg3);
-void TObjPlayer__sub_800FF1FC(f32 *arg0, f32 *arg1);
-void TObjPlayer__sub_800FF220(s32 *arg0, s32 *arg1);
-void TObjPlayer__sub_800FF244(u8 *arg0, u8 *arg1);
-void *__dt__21TObjHMS_EZRope_PlayerFv(TObjHMS_EZRope_Player *arg0, s16 arg1);
-}
+struct TObjEZRopeSegment;
+struct TObjEZRopeEnd;
+struct TObjEZRopeCollider;
 
 // --- C functions defined in TObjHMS_EZRope_Player.cpp ---
 extern "C" {
-void *TObjHMS_EZRope_Player__ct(void *arg0, void *arg1, void *arg2, void *arg3);
-void TObjPlayer__sub_800FF1FC(f32 *arg0, f32 *arg1);
-void TObjPlayer__sub_800FF220(s32 *arg0, s32 *arg1);
-void TObjPlayer__sub_800FF244(u8 *arg0, u8 *arg1);
-void *__dt__21TObjHMS_EZRope_PlayerFv(TObjHMS_EZRope_Player *arg0, s16 arg1);
+void copy_ezrope_collider(TObjEZRopeCollider *dst, TObjEZRopeCollider *src);
+void copy_ezrope_end(TObjEZRopeEnd *dst, TObjEZRopeEnd *src);
+void copy_ezrope_segment(TObjEZRopeSegment *dst, TObjEZRopeSegment *src);
 }
 // --- end of C functions
 

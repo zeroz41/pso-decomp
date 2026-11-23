@@ -15,6 +15,8 @@
 #include "pso/unk/text_8024ACA8.h"
 #include "pso/unk/TLobby_8001D6A0.h"
 #include "pso/unk/text_8024AC64.h"
+#include "pso/ui/window/TWindowCtrl.h"
+#include "pso/player/PlayerSlots.h"
 
 extern "C" {
 extern s32 local_client_id;
@@ -31,14 +33,14 @@ void TWindowTradeRequest::run_task() {
     switch (state) {
     case 0:
     case 1:
-        if (((TWindowSubComCard *)(dialog))->get_card_data() != 0) {
+        if (((TWindowMessageYesNo *)(dialog))->is_cancelled() != 0) {
             TWindowTradeRequest::reset_trade();
             TWindowTradeRequest::close_request_window();
             state = 3;
             break;
         }
         if (dialog->is_child_visible() != 0) {
-            slot = ((TWindowSubComCard *)(dialog))->get_slot_or_neg1();
+            slot = ((TWindowMessageYesNo *)(dialog))->get_selected_value();
             if (slot == 0) {
                 TLobby::send_trade_proposal_modify();
                 TWindowTradeRequest::close_request_window();
@@ -59,11 +61,11 @@ void TWindowTradeRequest::run_task() {
 }
 TWindowTradeRequest::~TWindowTradeRequest() {
     if (dialog != NULL) {
-        reinterpret_cast<TWindowSubComCard *>(dialog)->close();
+        reinterpret_cast<TWindowMessageYesNo *>(dialog)->close();
         dialog = NULL;
     }
     TWindowReturnCity__sub_8024ACA8((local_client_id));
-    TLobby__sub_8024AC20((local_client_id));
+    TWindowCtrl::enable_client_main_menu(local_client_id);
     TObjPlayer *player = get_player_by_client_id(local_client_id);
     if (player != NULL) {
         player->init_parts();
@@ -90,7 +92,7 @@ TWindowTradeRequest::TWindowTradeRequest(TObject *parent) : TObject(parent) {
     if (local != NULL) {
         local->reset_equip_slots();
     }
-    TObjPlayer__sub_8024ABDC(local_client_id);
+    TWindowCtrl::disable_client_main_menu(local_client_id);
     fn_8024AC64(local_client_id);
     state = 0;
 }

@@ -1,8 +1,8 @@
 #include "types.h"
 #include "pso/ui/chat/TWindowSubShortMail_80246CB8.h"
 #include "pso/ui/chat/TWindowSubShortMail.h"
+#include "pso/ui/window/TWindowCtrl.h"
 
-extern u16 lbl_805D63FC;
 
 s32 is_trade_active(void) {
     return ((u16) lbl_805D63FC >> 3U) & 1;

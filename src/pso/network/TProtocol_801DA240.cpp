@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include "pso/network/TProtocol.h"
-#include "pso/unk/TLobby_801DEFC4.h"
 #include "pso/unk/TLobby.h"
 #include <stddef.h>
 LAYOUT_ASSERT(TradeResultCallbackOffset, offsetof(TProtocol, m_recv_handlers) + offsetof(recv_packet_handlers, handle_D4_trade_result_packet) == 0xBC9C);
@@ -13,30 +12,16 @@ LAYOUT_ASSERT(TradeStateOffset, offsetof(packet_header, flags) == 1);
 packet *server_packet;
 u32 new_ip_addr;
 u16 new_port;
-s32 TLobby__lobby_state_flags;
+s32 lobby_state_flags;
 const char *lobby_server_greeting_text = "DreamCast Lobby Server. Copyright SEGA Enterprises. 1999";
 const char *port_map_copyright = "DreamCast Port Map. Copyright SEGA Enterprises. 1999";
 OBJECT_NAME(TProtocol);
 
-struct Text_801DA240 { u32 hdr; char text[0x1000]; };
-struct Pkt_801DA5E4 { u32 hdr; u8 body[0x8D0]; };
 
 #include "types.h"
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-struct Pkt_801DA35C {
-    u8 bytes[0x288];
-};
-
-struct PktHdr_801DA35C {
-    u8 cmd;
-    u8 flag;
-    u16 size;
-    u16 a;
-    u16 b;
-};
-
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
@@ -54,72 +39,15 @@ struct VObj_18_801DA4A0 : VBase_18_801DA4A0 {
     virtual void m8(void *, s32);
 };
 
-struct Pkt_801DA4A0 {
-    u8 bytes[0x288];
-};
-
-struct PktHdr_801DA4A0 {
-    u8 cmd;
-    u8 flag;
-    u16 size;
-    u16 a;
-    u16 b;
-};
 
 #include <string.h>
-struct VBase_18_801DA548 { char pad[0x18]; };
-
-struct VObj_18_801DA548 : VBase_18_801DA548 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8(void *, s32);
-};
-
-struct Pkt_801DA548 {
-    u8 cmd;
-    u8 flag;
-    u16 size;
-    char text[0xac];
-};
-
-struct VBase_18_801DA734 { char pad[0x18]; };
-
-struct VObj_18_801DA734 : VBase_18_801DA734 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8(void *, s32);
-};
-
-struct Pkt_801DA734 {
-    u8 cmd;
-    u8 flag;
-    u16 size;
-    char text[0x1fc];
-};
-
 extern "C" {
-void handle_cmd_D3__9TProtocolFR6packet(u8 *arg0, Pkt_801DA35C *src);
-void send_trade_list__6TLobbyFPvPv(VObj_18_801DA4A0 *obj, Pkt_801DA4A0 *src);
-typedef void (*Fn_801DA240)(char *);
-typedef void (*Fn_801DA5E4)(void *);
+void send_trade_list__6TLobbyFPvPv(VObj_18_801DA4A0 *obj, TTradeList *src);
 
-void handle_cmd_D5__9TProtocolFR6packet(u8 *arg0, Text_801DA240 *arg1) {
-    Text_801DA240 tmp = *arg1;
-    Fn_801DA240 f = *(Fn_801DA240 *)(arg0 + 0xBBF8);
-    if (f != NULL) {
-        f(tmp.text);
+void TProtocol::handle_cmd_D5(packet &pkt) {
+    TPlyText<0x1000> tmp = as(TPlyText<0x1000> &, pkt);
+    if (m_recv_handlers.handle_1A_D5_recv_text != NULL) {
+        m_recv_handlers.handle_1A_D5_recv_text(tmp.text);
     }
 }
 }
@@ -141,16 +69,13 @@ void TProtocol::recv_trade_result(packet &pkt) {
     }
 }
 
-void handle_cmd_D3__9TProtocolFR6packet(u8 *arg0, Pkt_801DA35C *src) {
-    char buf[0x80];
-    Pkt_801DA35C pkt;
-    void (*cb)(void *);
-    pkt = *src;
-    bswap_cmd_D3_item_bank(&pkt);
-    sprintf(buf, "RcvTradeList %d %d", ((PktHdr_801DA35C *)&pkt)->b, ((PktHdr_801DA35C *)&pkt)->a);
-    cb = *(void (**)(void *))(arg0 + 0xBC98);
-    if (cb != NULL) {
-        cb(&pkt);
+void TProtocol::handle_cmd_D3(packet &pkt) {
+    char message[0x80];
+    TTradeList trade_list = as(TTradeList &, pkt);
+    trade_list.bswap();
+    sprintf(message, "RcvTradeList %d %d", trade_list.item_count, trade_list.target_client_id);
+    if (m_recv_handlers.handle_D3_execute_trade_packet != NULL) {
+        m_recv_handlers.handle_D3_execute_trade_packet(&trade_list);
     }
 }
 void TProtocol::send_trade_ready() {
@@ -172,39 +97,36 @@ void TProtocol::recv_advance_trade_state(packet &pkt) {
 
 extern "C" {
 
-void send_trade_list__6TLobbyFPvPv(VObj_18_801DA4A0 *obj, Pkt_801DA4A0 *src) {
-    char buf[0x80];
-    Pkt_801DA4A0 pkt;
-    sprintf(buf, "SndTradeList %d %d", ((PktHdr_801DA4A0 *)src)->b, ((PktHdr_801DA4A0 *)src)->a);
-    pkt = *src;
-    ((PktHdr_801DA4A0 *)&pkt)->cmd = 0xD0;
-    ((PktHdr_801DA4A0 *)&pkt)->flag = 0;
-    ((PktHdr_801DA4A0 *)&pkt)->size = 0x288;
-    bswap_cmd_D3_item_bank(&pkt);
-    obj->m8(&pkt, 0x288);
+void send_trade_list__6TLobbyFPvPv(VObj_18_801DA4A0 *obj, TTradeList *src) {
+    char message[0x80];
+    sprintf(message, "SndTradeList %d %d", src->item_count, src->target_client_id);
+    TTradeList pkt = *src;
+    pkt.header.command = 0xD0;
+    pkt.header.flags = 0;
+    pkt.header.size = sizeof(pkt);
+    pkt.bswap();
+    obj->m8(&pkt, sizeof(pkt));
 }
 
-void TLobby::send_text_packet_D9(char *str) {
-    VObj_18_801DA548 *obj = (VObj_18_801DA548 *)this;
-    Pkt_801DA548 pkt;
+void TProtocol::send_text_packet_D9(char *str) {
+    TPlyText<172> pkt;
     s32 n;
-    memset(&pkt, 0, 0xB0);
-    pkt.cmd = 0xD9;
-    pkt.flag = 0;
+    memset(&pkt, 0, sizeof(pkt));
+    pkt.header.command = 0xD9;
+    pkt.header.flags = 0;
     char *t = pkt.text;
-    strncpy(t, str, 0xAC);
+    strncpy(t, str, sizeof(pkt.text));
     n = (strlen(t) + 8) & ~3;
-    pkt.size = n;
-    TLobby__sub_801DF024(&pkt);
-    obj->m8(&pkt, n);
+    pkt.header.size = n;
+    pkt.bswap();
+    send((u8 *)&pkt, n);
 }
 
-void handle_cmd_D8__9TProtocolFR6packet(u8 *arg0, Pkt_801DA5E4 *arg1) {
-    Pkt_801DA5E4 tmp = *arg1;
-    ((TLobby *)(&tmp))->bswap_cmd_d8_header();
-    Fn_801DA5E4 f = *(Fn_801DA5E4 *)(arg0 + 0xBC54);
-    if (f != NULL) {
-        f(&tmp);
+void TProtocol::handle_cmd_D8(packet &pkt) {
+    TRecvInfoBoard tmp = as(TRecvInfoBoard &, pkt);
+    tmp.bswap();
+    if (m_recv_handlers.handle_D8_infoboard_packet != NULL) {
+        m_recv_handlers.handle_D8_infoboard_packet(&tmp);
     }
 }
 
@@ -228,18 +150,18 @@ void TProtocol::send_disable_auto_reply() {
     header.bswap();
     send((u8*)&header, sizeof(header));
 }
-void TLobby::send_text_packet_c7(char *str) {
-    if (*(s32 *)((char *)this + 0x1910) != 0) {
-    Pkt_801DA734 pkt;
+void TProtocol::send_text_packet_c7(char *str) {
+    if (m_connected != 0) {
+    TPlyText<512> pkt;
     s32 n;
-    memset(&pkt, 0, 0x204);
-    pkt.cmd = 0xC7;
-    pkt.flag = 0;
+    memset(&pkt, 0, sizeof(pkt));
+    pkt.header.command = 0xC7;
+    pkt.header.flags = 0;
     char *t = pkt.text;
-    strncpy(t, str, 0x1FF);
+    strncpy(t, str, sizeof(pkt.text) - 1);
     n = (strlen(t) + 8) & ~3;
-    pkt.size = n;
-    TLobby__sub_801DF064(&pkt);
-    ((VObj_18_801DA734 *)this)->m8(&pkt, n);
+    pkt.header.size = n;
+    pkt.bswap();
+    send((u8 *)&pkt, n);
     }
 }

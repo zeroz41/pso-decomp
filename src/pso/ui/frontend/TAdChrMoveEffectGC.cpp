@@ -113,7 +113,6 @@ struct P_803490D8 { V2_803490D8 a; V2_803490D8 b; C4_803490D8 c; C4_803490D8 d; 
 TAdChrMoveEffectGC *lbl_805D6E78;
 extern "C" {
 void TAdChrMoveEffectGC__sub_80349194(W_80349194 *arg0, void *arg1);
-void __ct__7TObjectFP7TObject(void *);
 
 
 void TAdChrMoveEffectGC::render() { if (TMainTask::get_render_pass() != 1) { set_color_blending_mode(0, 8); set_color_blending_mode(1, 10); sub_80348E34(); set_color_blending_mode(0, 8); set_color_blending_mode(1, 6); } }

@@ -5,33 +5,32 @@
 #include "pso/object/warp/TObjAreaWarp.h"
 
 struct TObjCityMainWarp : public TObjAreaWarp {
+    static const char *class_name;
     TObjCityMainWarp(TObject *parent, void *set_data);
     virtual ~TObjCityMainWarp();
-    virtual void vfunc_14();
+    virtual void close_menu();
     virtual void open_confirm_window(s32 client_id);
     virtual s32 is_warp_enabled();
-    virtual s32 vfunc_17();
-    virtual s32 vfunc_18(s32);
+    virtual s32 is_choice_confirmed();
+    virtual s32 is_choice_confirmed_by(s32);
     virtual void debug_print_area_num();
     void run_task();
     static void update_unlock_flags();
-    static void set_active_bit(s32 _w0);
+    static void set_active_bit(s32 floor);
     static void reset();
     static s32 get_phase_flag();
     static void notify_player_warp(void *arg0, s32 local_client_id);
     void update_floor_switch_state();
     void update_state();
     void render();
-    void *create();
+    static void *create(void *set_data);
     static void clear_active_bit(s32 floor);
     static void update_warp_flags_from_story();
     static void init_visible_mask();
     static s32 get_floor_warp_bit(s32 floor);
-    // Adds a text entry to the trade window `p` (TWindowSubTradeMain::add_text_entry with -1).
-    static int forward_trade_action_default(void *p, int a1, int a2, int a3);
-    f32 m_c4;
+    f32 frame;
     // Destination index of each menu entry, built by open_confirm_window from the visible
-    // destination mask and read back by vfunc_17 (inferred). Offline / lobby menus keep
+    // destination mask and read back by is_choice_confirmed (inferred). Offline / lobby menus keep
     // their own list.
     s32 menu_destinations[17];
     s32 lobby_menu_destinations[17];

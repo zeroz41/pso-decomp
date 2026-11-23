@@ -1,6 +1,7 @@
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/system/NinjaTypes.h"
+#include "pso/object/base/TObjBase.h"
 // TItem, the base of every item object, with the item registry, the item
 // packets (6x59/5A/5D/5E/61) and the item system's set-up. The data is
 // emitted before the vtable; the static initializer is followed by this
@@ -75,6 +76,7 @@
 #include "pso/player/TObjPlayer_80104860.h"
 #include "pso/effect/TEffIndirectSampler.h"
 #include "pso/unk/TLobby_80207644.h"
+#include "pso/player/PlayerSlots.h"
 
 
 // The two colours of the present box, by wrapping colour (box_color).
@@ -349,7 +351,7 @@ void TItem::operator delete(void *p) { obj_heap->heap_free(p); }
 
 TItem::TItem(TObject *parent, u8 *item) : TObjCollidable(parent) {
     m_name = TItem__name;
-    obj_setFlags30(this, 0x80000000);
+    set_actor_flags(0x80000000);
     copy_collision_body(&collision_body, &item_collider_body);
     cursor_action.set_pick_up();
     set_collision_body(&collision_body);
@@ -495,7 +497,7 @@ void TItem::update_timer() {
     submit_cursor_candidate(this, -1);
 }
 
-void TItem::interact(s32 client) {
+void TItem::interact(u16 client) {
     u16 id = client;
     if (id != 0xFFFF) {
         if ((get_player_by_client_id(id))->can_pickup_item_by_id(this) != 0 && has_interactor() == 0) {
@@ -929,7 +931,7 @@ void TItem::set_mode(s8 new_mode) {
 }
 
 void TItem::register_in_world(s32 clear_status) {
-    if (get_entity_id(this) == 0xFFFF) {
+    if (this->get_entity_id() == 0xFFFF) {
         set_entity_id(pop_free_entity_id());
         this->register_object_by_id();
         if (clear_status != 0) {
@@ -941,9 +943,9 @@ void TItem::register_in_world(s32 clear_status) {
 // Gives the object id back to the free list and drops the item out of the
 // world's object table.
 void TItem::unregister_from_world() {
-    if (get_entity_id(this) != 0xFFFF) {
+    if (this->get_entity_id() != 0xFFFF) {
         unregister_object_by_id();
-        push_free_entity_id(get_entity_id(this));
+        push_free_entity_id(this->get_entity_id());
         set_entity_id(0xFFFF);
         set_indexed_flags(0, 1);
     }
@@ -1194,7 +1196,7 @@ void TItem::set_owner_technique_level(s16 technique, s16 level) {
                     equipped->remove_equip_stats(1);
                 }
             }
-            set_technique_level_entry(owner->technique_levels, technique, (u8)level);
+            set_technique_level_entry(&owner->technique_state, technique, (u8)level);
             for (slot = 9; slot != 13; slot++) {
                 TItem *equipped = owner->get_equipped_item(slot);
                 if (equipped != NULL) {
@@ -1477,12 +1479,12 @@ void TItem::render_ground() {
 
 void TItem::render_model() {
     NJS_OBJECT *model;
-    GinjaTextureList *texture;
+    NJS_TEXLIST *texture;
     TItemLoad::get_drop_model(drop_model, &model, &texture);
     if (model != NULL) {
         set_draw_list_mask(3);
         TParticleCtrl::begin_effect_render();
-        set_texlist((uaddr)texture);
+        set_texlist(texture);
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, rotation_y);
@@ -1498,7 +1500,7 @@ void TItem::render_model() {
 // colours of its wrapping.
 void TItem::render_present_box() {
     NJS_OBJECT *box;
-    GinjaTextureList *texture;
+    NJS_TEXLIST *texture;
     TItemLoad::get_drop_model(6, &box, &texture);
     if (box != NULL) {
         saved_model_render_flags = model_render_flags;
@@ -1508,7 +1510,7 @@ void TItem::render_present_box() {
         model_render_flags |= 0x10;
         set_draw_list_mask(3);
         TParticleCtrl::begin_effect_render();
-        set_texlist((uaddr)texture);
+        set_texlist(texture);
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, rotation_y);

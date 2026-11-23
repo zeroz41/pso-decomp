@@ -21,7 +21,7 @@
 s32 gvm_stream_cursor;
 
 // The texture loaders load_texture_entry picks from an entry's format bits.
-s32 (*texture_loaders[4])(GinjaTextureList *, s32) = {
+s32 (*texture_loaders[4])(NJS_TEXLIST *, s32) = {
     read_gvrt_file_header, load_texture_from_memory, create_texture_from_input, reference_texture_by_global_index,
 };
 
@@ -31,19 +31,19 @@ void set_ginja_draw_flags(s32 flags) {
     ginja_draw_flags = flags;
 }
 
-void TObjPlayer__sub_803DD5E8(GinjaTextureList *list, GinjaTextureEntry *entries, uaddr names, s32 count) {
+void TObjPlayer__sub_803DD5E8(NJS_TEXLIST *list, NJS_TEXNAME *entries, uaddr names, s32 count) {
     int i;
 
     for (i = 0; i < count; ++i) {
-        entries[i].name = (char *)(names + i * 0x1C);
+        entries[i].filename = (char *)(names + i * 0x1C);
     }
-    list->entries = entries;
+    list->textures = entries;
 }
 
-s32 load_texture_entry(GinjaTextureList *list, s32 index) {
+s32 load_texture_entry(NJS_TEXLIST *list, s32 index) {
     s32 loader;
 
-    switch (list->entries[index].value04 & 0x5C000000) {
+    switch (list->textures[index].attr & 0x5C000000) {
     case 0x0:
         loader = 0;
         break;
@@ -68,7 +68,7 @@ s32 gvm_stream_base;
 #pragma push
 #pragma optimize_for_size off
 #pragma use_lmw_stmw off
-s32 read_gvrt_file_header(GinjaTextureList *list, s32 index) {
+s32 read_gvrt_file_header(NJS_TEXLIST *list, s32 index) {
     s32 global_index;
     s32 id;
     s32 tlut_name;
@@ -86,7 +86,7 @@ s32 read_gvrt_file_header(GinjaTextureList *list, s32 index) {
     if (r != 0) {
         return r;
     }
-    ((TAdSinglePlyChrSelectGC *)name)->append_extension_if_missing(list->entries[index].name, ".GVR");
+    ((TAdSinglePlyChrSelectGC *)name)->append_extension_if_missing(list->textures[index].filename, ".GVR");
     pfile = &file;
     if (DVDOpen(name, pfile) == 0) {
         lbl_8058D470.code = 2;
@@ -117,7 +117,7 @@ s32 read_gvrt_file_header(GinjaTextureList *list, s32 index) {
 }
 #pragma pop
 
-s32 load_texture_from_memory(GinjaTextureList *list, s32 index) {
+s32 load_texture_from_memory(NJS_TEXLIST *list, s32 index) {
     s32 global_index;
     s32 id;
     s32 tlut_name;
@@ -131,12 +131,12 @@ s32 load_texture_from_memory(GinjaTextureList *list, s32 index) {
     if (r != 0) {
         return r;
     }
-    chunk = (uaddr)find_gvrt_texture_chunk((TLobby *)&desc, (u32 *)&global_index, (u32 *)list->entries[index].name);
+    chunk = (uaddr)find_gvrt_texture_chunk((TLobby *)&desc, (u32 *)&global_index, (u32 *)list->textures[index].filename);
     if (chunk == 0) {
         chunk = (uaddr)find_gvrt_texture_chunk((TLobby *)&desc, (u32 *)&global_index,
-                                               (u32 *)reinterpret_cast<GinjaTextureInput *>(list->entries[index].name)->data);
+                                               (u32 *)reinterpret_cast<GinjaTextureInput *>(list->textures[index].filename)->data);
         if (chunk == 0) {
-            input = reinterpret_cast<GinjaTextureInput *>(list->entries[index].name);
+            input = reinterpret_cast<GinjaTextureInput *>(list->textures[index].filename);
             desc.width = input->width;
             desc.height = input->height;
             desc.format = input->format;
@@ -159,7 +159,7 @@ s32 load_texture_from_memory(GinjaTextureList *list, s32 index) {
     return 1;
 }
 
-s32 create_texture_from_input(GinjaTextureList *list, s32 index) {
+s32 create_texture_from_input(NJS_TEXLIST *list, s32 index) {
     s32 id;
     GvrTextureDesc desc;
     s32 tlut_name;
@@ -172,11 +172,11 @@ s32 create_texture_from_input(GinjaTextureList *list, s32 index) {
     if (r != 0) {
         return r;
     }
-    input = reinterpret_cast<GinjaTextureInput *>(list->entries[index].name);
+    input = reinterpret_cast<GinjaTextureInput *>(list->textures[index].filename);
     desc.width = input->width;
     desc.height = input->height;
     desc.format = input->format;
-    global_index = list->entries[index].global_index;
+    global_index = list->textures[index].global_index;
     if ((u32)id != 0xFFFFFFFF) {
         global_index = id;
     }
@@ -186,7 +186,7 @@ s32 create_texture_from_input(GinjaTextureList *list, s32 index) {
     return -1;
 }
 
-s32 reference_texture_by_global_index(GinjaTextureList *list, s32 index) {
+s32 reference_texture_by_global_index(NJS_TEXLIST *list, s32 index) {
     s32 id;
     s32 tlut_name;
     s32 slot;
@@ -199,7 +199,7 @@ s32 reference_texture_by_global_index(GinjaTextureList *list, s32 index) {
     if (r != 0) {
         return r;
     }
-    global_index = list->entries[index].global_index;
+    global_index = list->textures[index].global_index;
     if ((u32)id != 0xFFFFFFFF) {
         global_index = id;
     }
@@ -222,13 +222,13 @@ s32 reference_texture_by_global_index(GinjaTextureList *list, s32 index) {
     return 1;
 }
 
-s32 load_texture_list(GinjaTextureList *list) {
+s32 load_texture_list(NJS_TEXLIST *list) {
     u32 i;
-    if (list->count == 0) {
+    if (list->nbTexture == 0) {
         lbl_8058D470.code = 1;
         return -1;
     }
-    for (i = 0; i < list->count; i++) {
+    for (i = 0; i < list->nbTexture; i++) {
         if (load_texture_entry(list, i) < 0) {
             lbl_8058D470.entry_index = i;
             return -1;
@@ -299,7 +299,7 @@ void TLobby::copy_4word_struct(void *dst, void *src) {
 
 #pragma push
 #pragma use_lmw_stmw off
-void replace_gvm_texture_directory(GinjaTextureList* list, s32 stride, const GvmTextureHeader* header) {
+void replace_gvm_texture_directory(NJS_TEXLIST* list, s32 stride, const GvmTextureHeader* header) {
     u16 image;
     s32 off;
     u16 flags;
@@ -310,7 +310,7 @@ void replace_gvm_texture_directory(GinjaTextureList* list, s32 stride, const Gvm
     s32 globals;
     s32 count;
     u8* record;
-    GinjaTextureEntry* texture;
+    NJS_TEXNAME* texture;
     s32 index;
     index = 0;
     off = 0;
@@ -323,14 +323,14 @@ void replace_gvm_texture_directory(GinjaTextureList* list, s32 stride, const Gvm
     count = header->texture_count;
     while (index < count) {
         record = (u8*)gvm_stream_read(stride);
-        texture = (GinjaTextureEntry*)((u8*)list->entries + off);
+        texture = (NJS_TEXNAME*)((u8*)list->textures + off);
         copy_u16_bytes((s8 *)&image, (s8 *)record);
-        texture->value04 = (texture->value04 & 0xFFFF0000) | image;
+        texture->attr = (texture->attr & 0xFFFF0000) | image;
         record += 2;
         if (names) {
             s32 length = strlen((char*)record);
             if (length > 0) {
-                move_data(texture->name, record, length);
+                move_data(texture->filename, record, length);
             }
             record += 0x1C;
         }
@@ -339,11 +339,11 @@ void replace_gvm_texture_directory(GinjaTextureList* list, s32 stride, const Gvm
         if (alternateGlobal) {
             if (globals) {
                 TLobby::copy_4word_struct(&texture->global_index, record);
-                texture->value04 |= 0x01000000;
+                texture->attr |= 0x01000000;
             }
         } else if (globals) {
             TLobby::copy_4word_struct(&texture->global_index, record);
-            texture->value04 |= 0x00800000;
+            texture->attr |= 0x00800000;
         }
         off += 0xC;
         index++;
@@ -351,12 +351,12 @@ void replace_gvm_texture_directory(GinjaTextureList* list, s32 stride, const Gvm
 }
 #pragma pop
 
-s32 calc_gvm_entry_stride(u16 arg0) {
+s32 calc_gvm_entry_stride(u16 flags) {
     s32 r = 2;
-    if (arg0 & 1) r = 0x1E;
-    if (arg0 & 2) r += 2;
-    if (arg0 & 4) r += 2;
-    if (arg0 & 8) r += 4;
+    if (flags & 1) r = 0x1E;
+    if (flags & 2) r += 2;
+    if (flags & 4) r += 2;
+    if (flags & 8) r += 4;
     return r;
 }
 
@@ -391,7 +391,7 @@ void TLobby::seek_gvrt_chunk() {
 
 #pragma push
 #pragma use_lmw_stmw off
-s32 load_gvm_texture_archive(void *buf, GinjaTextureList *list) {
+s32 load_gvm_texture_archive(void *buf, NJS_TEXLIST *list) {
     s32 id;
     s32 tlut_name;
     s32 slot;
@@ -416,14 +416,14 @@ s32 load_gvm_texture_archive(void *buf, GinjaTextureList *list) {
         lbl_8058D470.code = 4;
         return -1;
     }
-    list->count = header->texture_count;
+    list->nbTexture = header->texture_count;
     replace_gvm_texture_directory(list, calc_gvm_entry_stride(header->flags), header);
     gvm_stream_seek(header->size + 8, 0);
     TLobby::seek_gvrt_chunk();
-    n = list->count;
+    n = list->nbTexture;
     for (i = 0; i < n; i++) {
         for (k = 0; k < n; k++) {
-            if (i == (list->entries[k].value04 & 0xFFFF)) {
+            if (i == (list->textures[k].attr & 0xFFFF)) {
                 break;
             }
         }
@@ -597,6 +597,6 @@ relocate:
     return buf;
 }
 
-s32 TObjLight__gx_light_objects[0x50];
+s32 gx_light_objects[0x50];
 s16 *chunk_polygon_list_cache[0x7E];
 u8 gvrt_header_read_buffer[0x20];

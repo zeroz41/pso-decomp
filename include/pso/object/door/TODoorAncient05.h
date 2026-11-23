@@ -4,7 +4,7 @@
 #include "types.h"
 #include "pso/object/door/TODoorBase.h"
 
-struct GinjaTextureList;
+struct NJS_TEXLIST;
 
 struct BmlResource;
 struct NJS_OBJECT;
@@ -24,7 +24,7 @@ struct TODoorAncient05 : public TODoorBase {
     static void load_resources();
 
     static BmlResource *bml_resource;
-    static GinjaTextureList **texture_lists;  // [0] the bml's own (locked), [1] green (unlocked)
+    static NJS_TEXLIST **texture_lists;  // [0] the bml's own (locked), [1] green (unlocked)
     static NJS_OBJECT *model_nodes;  // three nodes copied out of the bml model
 };
 

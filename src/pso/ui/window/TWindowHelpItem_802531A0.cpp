@@ -15,6 +15,7 @@
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/unk/TLobby_8001D6A0.h"
 #include "pso/unk/text_80104FCC.h"
+#include "pso/player/PlayerSlots.h"
 struct Stack_80253268 {
     s32 sp8;
     s16 spC;
@@ -45,7 +46,6 @@ struct V3_802532E8 { u8 bytes[0xc]; };
 
 extern "C" {
 s32 build_player_equipment_requirement_stats(int, void *);
-void *get_player_by_client_id(s32 i);
 void draw_action_palette_icon(void *, int, u16);
 void text_builder_append();
 }
@@ -68,7 +68,7 @@ void TWindowHelpItem__sub_802531A0(void) {  }
 void TWindowHelpItem::init_text(void *str) {
     u8 *e;
     init_window_layout_entries(
-        reinterpret_cast<WindowLayoutEntries *>(((u8 *)this) + 0x24),
+        &this->entry_list,
         reinterpret_cast<const void *>(TWindowHelpItem__description_text_layout),
         this->client_index);
     *(V3_802531A4 *)(((u8 *)this) + 0xB0) = TWindowHelpItem__description_update_callback;
@@ -103,7 +103,7 @@ void TWindowHelpItem__sub_80253268(u8 *window_base) {
 }
 
 void TWindowHelpItem::update_tech_disk_details() {
-    s32 sp8;
+    s32 requirement;
     saddr player;
     u8 *e0;
     u8 *e1;
@@ -115,7 +115,7 @@ void TWindowHelpItem::update_tech_disk_details() {
     player = (saddr)get_player_by_client_id(this->client_index);
     if (player != 0) {
         init_window_layout_entries(
-            reinterpret_cast<WindowLayoutEntries *>(((u8 *)this) + 0x24),
+            &this->entry_list,
             reinterpret_cast<const void *>(help_item_tech_disk_window_layout_table),
             this->client_index);
         *(V3_802532E8 *)(((u8 *)this) + 0xB0) = item_help_tech_disk_stats_callback;
@@ -135,8 +135,8 @@ void TWindowHelpItem::update_tech_disk_details() {
         e4 = (u8 *)((TWindowBase *)this)->get_array_entry(4);
         e5 = (u8 *)((TWindowBase *)this)->get_array_entry(5);
         e6 = (u8 *)((TWindowBase *)this)->get_array_entry(6);
-        check_equip_requirements((void *)player, (TItemData *)(*(void **)(((u8 *)this) + 0x68)), &sp8);
-        if (sp8 & 1) {
+        check_equip_requirements((void *)player, (TItemData *)(*(void **)(((u8 *)this) + 0x68)), &requirement);
+        if (requirement & 1) {
             set_sprite_uv_from_pixels(reinterpret_cast<WindowSpritePart *>(e1), TWindowHelpItem__data_805DCDE4, 152.0f);
             ((TWindowHelpItem *)e2)->set_flag0_bit2();
             ((TWindowHelpItem *)e3)->set_flag0_bit2();
@@ -157,7 +157,7 @@ void TWindowHelpItem::sub_802534B0() {
     u8 *e;
     u8 *e2;
     init_window_layout_entries(
-        reinterpret_cast<WindowLayoutEntries *>(((u8 *)this) + 0x24),
+        &this->entry_list,
         reinterpret_cast<const void *>(window_help_item_layout_entries),
         this->client_index);
     *(V3_802534B0 *)(((u8 *)this) + 0xB0) = item_help_description_idle_callback;

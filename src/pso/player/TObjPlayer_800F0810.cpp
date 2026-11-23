@@ -40,12 +40,12 @@ struct AltChunkObject {
 #include "pso/object/ambient/TObjLight_80133568.h"
 
 extern "C" {
-void set_chunk_material_override_pair(s32 arg0, s32 arg1);
+void set_chunk_material_override_pair(s32 first, s32 second);
 extern s32 model_render_flags;
 
 void TObjPlayer::update_lights() { current_scene_light->init_directional_light(); current_scene_light->sub_801337F8(); }
 
-void TObjPlayer__sub_800F083C(void) {  }
+void TObjPlayer::begin_alt_model_draw() {  }
 
 void TObjPlayer::clear_alt_model_flag() {
     model_render_flags &= 0xFFFFF7FF;
@@ -65,14 +65,14 @@ void TObjEneDD_ST::draw_with_alt_model(s32 diffuse) {
     saddr temp_r31;
     temp_r31 = *(s32 *)&this->model;
     TObjPlayer::set_alt_model_flag();
-    TObjPlayer__sub_800F083C();
+    TObjPlayer::begin_alt_model_draw();
     *(s32 *)&this->model = (saddr)TObjPlayer__sub_800F08AC((AltChunkObject *)temp_r31, diffuse);
     draw();
     TObjPlayer::update_lights();
     TObjPlayer::clear_alt_model_flag();
     *(s32 *)&this->model = temp_r31;
 }
-void TObjPlayer__sub_800F0928(void) {
+void TObjPlayer::init_alt_model() {
     s16 *strips = (s16 *)&alt_model_strips;
     AltChunkObject *object = &alt_model_object;
     strips[0] = 0x2514;

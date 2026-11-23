@@ -29,7 +29,7 @@ void PhotonBlastRequest::reset() {
     ((TObjPlayer *)this)->update_children();
 }
 
-int TObjPlayer::query_field40() { return test_flags_any((s32 *)((char*)this + 0x40), 4); }
+int PhotonBlastGauge::query_field40() { return test_flags_any(&flags.bits, 4); }
 int TObjPlayer__sub_803131AC(void) { return 4; }
 
 s32 *TObjPlayer__sub_803131B4(T_803131B4 *self, s32 i) {
@@ -43,7 +43,7 @@ void TObjPlayer::process_indexed_element(s32 arg1) {
 
 void TObjPlayer::check_flag_at_4() { ((FlagWord *)((char*)this + 0x4))->set(1); }
 int TObjPlayer__sub_80313218(void* p) { return (test_flags_any((s32 *)((char*)p + 0x4), 1)) == 0; }
-void TObjPlayer::set_field_0(s16 v) { *(s16*)((char*)this + 0x0) = v; }
+void PhotonBlastRequestSlot::set_client_id(u16 id) { client_id = id; }
 void TObjPlayer__sub_80313250(void *arg0, s32 arg1) {
     *(s16 *)((s8 *)arg0 + 2) = (s16) (*(s16 *)((s8 *)arg0 + 2) + arg1);
 }

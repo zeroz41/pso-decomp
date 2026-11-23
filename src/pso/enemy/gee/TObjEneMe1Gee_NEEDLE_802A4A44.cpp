@@ -20,6 +20,7 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/enemy/gigue/TObjEneMe1GiGueMissile.h"
 #include "pso/system/task/TObject.h"
+#include "pso/object/base/TObjBase.h"
 
 void *TNeedleShoot::get_shoot_data() { return &prev_pos; }
 
@@ -98,7 +99,7 @@ TObjEneMe1Gee_NEEDLE::TObjEneMe1Gee_NEEDLE(TObject *owner, Vec *from, Vec *to, f
     linger_frames = 150;
     contact_mode = 1;
     if ((void *)this->owner != NULL) {
-        owner_id = get_entity_id((TObjBase *)this->owner);
+        owner_id = ((TObjBase *)this->owner)->get_entity_id();
     }
 }
 

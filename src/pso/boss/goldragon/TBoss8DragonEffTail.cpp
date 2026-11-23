@@ -30,7 +30,7 @@ extern const TailAttackParams boss8_dragon_tail_attack_params = { 3.0f, 1 };
 // The 17 collision bodies the constructor sets up: the first a radius-10 sphere, the rest copies of it.
 CollisionBody boss8_dragon_eff_tail_init_data[17] = { { { 0.0f, 0.0f, 0.0f }, 10.0f, 0.0f, 0, 0x8003 } };
 BmlResource *boss8_eff_tail_bml_resource;
-GinjaTextureList *dragon_tail_gvm_texture_handle;
+NJS_TEXLIST *dragon_tail_gvm_texture_handle;
 
 void TBoss8DragonEffTail::load_resources() {  }
 void TBoss8DragonEffTail::render() {  }
@@ -121,5 +121,5 @@ void TBoss8DragonEffTail::free_statics() {
 
 void TBoss8DragonEffTail::load_statics() {
     boss8_eff_tail_bml_resource = load_enemy_bml_resource((BmlResourceDescriptor *)&bm_obj_boss1_common_j_resource_descriptor);
-    dragon_tail_gvm_texture_handle = (GinjaTextureList *)load_gvm_texture_file((saddr)obj_boss1_common_j_texture_filename);
+    dragon_tail_gvm_texture_handle = load_gvm_texture_file(obj_boss1_common_j_texture_filename);
 }

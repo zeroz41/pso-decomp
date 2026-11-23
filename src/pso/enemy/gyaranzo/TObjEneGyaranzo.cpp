@@ -58,6 +58,7 @@
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 #include "pso/ui/hud/TRaderMapCore.h"
+#include "pso/object/base/TObjBase.h"
 
 LAYOUT_ASSERT(GyaranzoPositionOffset, offsetof(TObjEneGyaranzo, position) == 0x38);
 
@@ -194,7 +195,7 @@ TObjEneGyaranzo::TObjEneGyaranzo(TObject *parent, void *set_data) : TObjEnemyCus
     initialize_enemy_photon_effect(this);
     actorFlags |= 0x40000;
     model = gyaranzo_bml_resource->models[3].model;
-    texlist = (saddr)gyaranzo_bml_resource->models[3].texlist;
+    texlist = gyaranzo_bml_resource->models[3].texlist;
     if (*(s16 *)((u8 *)set_data + 0xA) != 0) {
         start_appear();
     }
@@ -401,7 +402,7 @@ void TObjEneGyaranzo::render() {
                 }
             }
             hide_broken_parts();
-            TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
+            TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
             select_actor_lighting(this);
             TObjPlayer::toggle_particle_effect();
             push_matrix();
@@ -530,7 +531,7 @@ void TObjEneGyaranzo::run_hit_reaction() {
             behavior_flags |= 1;
             return;
         }
-        obj_clearFlags30(0x200200);
+        clear_actor_flags(0x200200);
     }
 }
 
@@ -585,7 +586,7 @@ void TObjEneGyaranzo::update_death_breakup() {
         advance_animation();
         timer--;
         if (timer < 0) {
-            TBoss3Volopt::create_breakup_mdl((saddr)gyaranzo_breakup_model_obj, (saddr)&gyaranzo_death_breakup_params, (s32)texlist, (saddr)&body_center, (s32)rotation_y);
+            TBoss3Volopt::create_breakup_mdl((saddr)gyaranzo_breakup_model_obj, (saddr)&gyaranzo_death_breakup_params, texlist, (saddr)&body_center, (s32)rotation_y);
             send_entity_set_flags();
             trigger_dell_biter_events(&body_center);
             play_sound_effect(remap_sound_for_area(0x4003AD10), &position, 0, 0);
@@ -685,19 +686,19 @@ void TObjEneGyaranzo::spawn_hit_fragments() {
     Vec pos = position;
     pos.y += 25.0f;
     const TObjChipParams first = {
-        {0.5f, 0.04f, 0.28f}, {pos.x, pos.y, pos.z}, {6.0f, 7.0f, 6.0f},
-        {0x400, 0x100, 0x400}, {5, 50}, {position.y, 1.0f},
-        (saddr)gyaranzo_bml_resource->models[0].model, (saddr)gyaranzo_bml_resource->models[0].texlist, 2,
+        0.5f, 0.04f, 0.28f, {pos.x, pos.y, pos.z}, {6.0f, 7.0f, 6.0f},
+        {0x400, 0x100, 0x400}, 5, 50, position.y, 1.0f,
+        (saddr)gyaranzo_bml_resource->models[0].model, gyaranzo_bml_resource->models[0].texlist, 2,
     };
     const TObjChipParams second = {
-        {0.5f, 0.04f, 0.2f}, {pos.x, pos.y, pos.z}, {5.5f, 6.5f, 5.5f},
-        {0x400, 0x100, 0x400}, {4, 50}, {position.y, 1.0f},
-        (saddr)gyaranzo_bml_resource->models[1].model, (saddr)gyaranzo_bml_resource->models[1].texlist, 2,
+        0.5f, 0.04f, 0.2f, {pos.x, pos.y, pos.z}, {5.5f, 6.5f, 5.5f},
+        {0x400, 0x100, 0x400}, 4, 50, position.y, 1.0f,
+        (saddr)gyaranzo_bml_resource->models[1].model, gyaranzo_bml_resource->models[1].texlist, 2,
     };
     const TObjChipParams third = {
-        {0.5f, 0.04f, 0.22f}, {pos.x, pos.y, pos.z}, {5.5f, 7.0f, 5.5f},
-        {0x400, 0x100, 0x400}, {5, 50}, {position.y, 1.0f},
-        (saddr)gyaranzo_bml_resource->models[2].model, (saddr)gyaranzo_bml_resource->models[2].texlist, 2,
+        0.5f, 0.04f, 0.22f, {pos.x, pos.y, pos.z}, {5.5f, 7.0f, 5.5f},
+        {0x400, 0x100, 0x400}, 5, 50, position.y, 1.0f,
+        (saddr)gyaranzo_bml_resource->models[2].model, gyaranzo_bml_resource->models[2].texlist, 2,
     };
 
     new TObjChip((TObject *)tl_05, &first);
@@ -732,15 +733,15 @@ void TObjEneGyaranzo::break_off_parts() {
             get_anim_node_position(gyaranzo_resource_index_table[part], &node);
             {
                 TObjChipParams p = {
-                    {0.5f, 0.03f, 0.15f}, {0.0f, 0.0f, 0.0f}, {3.5f, 5.0f, 3.5f},
-                    {0x400, 0x100, 0x400}, {3, 50}, {0.0f, 1.0f}, 0, 0, 2,
+                    0.5f, 0.03f, 0.15f, {0.0f, 0.0f, 0.0f}, {3.5f, 5.0f, 3.5f},
+                    {0x400, 0x100, 0x400}, 3, 50, 0.0f, 1.0f, 0, 0, 2,
                 };
                 p.pos[0] = node.x;
                 p.pos[1] = node.y;
                 p.pos[2] = node.z;
-                p.pad_38[0] = position.y;
+                p.floor_y = position.y;
                 p.model = (saddr)gyaranzo_resource_ptrs[part];
-                p.textures = (saddr)gyaranzo_bml_resource->models[3].texlist;
+                p.textures = gyaranzo_bml_resource->models[3].texlist;
                 new TObjChip(tl_05, &p);
             }
         }
@@ -826,7 +827,7 @@ void TObjEneGyaranzo::select_targets() {
     TObjGyaranzoMissile_target_slots[0].distance_squared = 0.0f;
     n = 0;
     best = 0;
-    k = obj_testFlags30(0x10);
+    k = test_actor_flags(0x10);
     count = registered_player_count;
     if (k != 0) {
         count += registered_enemy_count;
@@ -842,7 +843,7 @@ void TObjEneGyaranzo::select_targets() {
         if (!(dist < 90000.0f)) continue;
         if (check_path_obstructed(this, &p->body_center) == 1) continue;
         TObjGyaranzoMissile_target_slots[n].distance_squared = dist;
-        TObjGyaranzoMissile_target_slots[n].id = get_entity_id(p);
+        TObjGyaranzoMissile_target_slots[n].id = p->get_entity_id();
         if (n > 0 && TObjGyaranzoMissile_target_slots[n].distance_squared > TObjGyaranzoMissile_target_slots[best].distance_squared) {
             best = n;
         }

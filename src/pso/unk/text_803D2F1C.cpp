@@ -53,18 +53,18 @@ u8 *find_archive_entry(SjChunk *arc, const char *name, const char *stop, SjChunk
 
 #pragma push
 #pragma scheduling off
-void TLobby__sub_803D3130(const void *arg0, s32 size, void *arg2, void *arg3) {
-    *(ByteBlock_8 *)(arg2) = *(const ByteBlock_8 *)(arg0);
-    *(s32 *)((s8 *)arg3 + 4) = (s32) *(s32 *)((s8 *)arg2 + 4);
-    if ((s32) *(s32 *)((s8 *)arg2 + 4) > size) {
-        *(s32 *)((s8 *)arg2 + 4) = size;
+void TLobby__sub_803D3130(const SjChunk *chunk, s32 size, SjChunk *prefix, SjChunk *remainder) {
+    *(ByteBlock_8 *)(prefix) = *(const ByteBlock_8 *)(chunk);
+    remainder->size = prefix->size;
+    if (prefix->size > size) {
+        prefix->size = size;
     }
-    *(s32 *)((s8 *)arg3 + 4) = (s32) (*(s32 *)((s8 *)arg3 + 4) - *(s32 *)((s8 *)arg2 + 4));
-    if ((s32) *(s32 *)((s8 *)arg3 + 4) == 0) {
-        *(s32 *)((s8 *)arg3 + 0) = 0;
+    remainder->size = remainder->size - prefix->size;
+    if (remainder->size == 0) {
+        remainder->data = NULL;
         return;
     }
-    *(s32 *)((s8 *)arg3 + 0) = (s32) (*(s32 *)((s8 *)arg2 + 0) + *(s32 *)((s8 *)arg2 + 4));
+    remainder->data = prefix->data + prefix->size;
 }
 #pragma pop
 

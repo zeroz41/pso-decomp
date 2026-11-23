@@ -2,6 +2,8 @@
 #define PSO_BOSS_DRAGON_TBOSS1DRAGON_H
 
 #include "types.h"
+
+struct NJS_TEXLIST;
 #include "pso/render/RenderFadeState.h"
 #include "pso/boss/derolle/AccelerationCurve.h"
 #include "pso/enemy/dd/TObjEneDD_ST.h"
@@ -14,6 +16,7 @@ class TBoss1DragonColli;
 class TUnk_80481B34;
 class TObjBoss1MokoHill_SoloM;
 class TObjChara;
+struct TObjPlayer;
 struct ControllerInputContext;
 
 struct DragonModelVector { f32 x, y, z; };
@@ -38,11 +41,12 @@ struct DragonMotionEntry { u32 unknown00; DragonMotion* motion; };
 struct DragonAnimationEntry { u32 unknown00; s32 motionIndex; u8 unknown08[8]; };
 
 // One model of the Dragon's resource: [0] the body the ctor clones, [1] the one render_shadows draws.
-struct DragonModelEntry { u8 unknown00[8]; DragonModelNode *root; saddr texlist; };
+struct DragonModelEntry { u8 unknown00[8]; DragonModelNode *root; NJS_TEXLIST *texlist; };
 struct DragonResource { u8 unknown00[0x42C]; DragonModelEntry *models; DragonMotionEntry *motions; };
 LAYOUT_ASSERT(DragonPositionKeySize, sizeof(DragonPositionKey) == 0x10);
 
-extern "C" void copy_model_node(u8 *dst, u8 *src);
+struct NJS_OBJECT;
+extern "C" void copy_model_node(NJS_OBJECT *dst, NJS_OBJECT *src);
 
 struct TBoss1Dragon : public TObjEneDD_ST {
     TBoss1Dragon(TObject *parent, void *set_data);
@@ -273,6 +277,10 @@ struct TBoss1Dragon : public TObjEneDD_ST {
 void get_dragon_follow_camera_offsets(Vec *target_offset, Vec *eye_offset);
 // The movement ailment (kind 0) the Dragon's hit boxes, tail and craters give a target not in state 2.
 void apply_dragon_hit_ailment(TObjChara *target);
+
+void handle_6x10_dragon_boss_actions(void *packet);
+void handle_6x11_dragon_boss_actions(void *packet);
+void handle_6x12_dragon_boss_actions(TObjPlayer *packet);
 
 #include <stddef.h>
 #define DRAGON_OFFSET(member, offset) \

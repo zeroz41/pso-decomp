@@ -800,13 +800,13 @@ void synthStartSynthJobHandling(Obj_803A8C5C* voice) {
     synthAddJob((SYNTH_VOICE_SV *)voice, 1, 0);
 }
 
-void synthForceLowPrecisionUpdate(void *arg0) {
-    synthAddJob((SYNTH_VOICE_SV *)arg0, 0, 0);
-    synthAddJob((SYNTH_VOICE_SV *)arg0, 1, 0);
+void synthForceLowPrecisionUpdate(void *svoice) {
+    synthAddJob((SYNTH_VOICE_SV *)svoice, 0, 0);
+    synthAddJob((SYNTH_VOICE_SV *)svoice, 1, 0);
 }
 
-void synthKeyStateUpdate(saddr arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6) {
-    synthAddJob((SYNTH_VOICE_SV *) (arg0), (int) (2), (int) (0));
+void synthKeyStateUpdate(saddr svoice, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6) {
+    synthAddJob((SYNTH_VOICE_SV *) (svoice), (int) (2), (int) (0));
 }
 
 void HandleJobQueue(Node_803A8D2C **list, void (*cb)(u8)) {
@@ -1006,12 +1006,12 @@ s32 synthFXSetCtrl14(u32 vid, u8 ctrl, u16 value) {
 }
 #pragma pop
 
-void synthFXCloneMidiSetup(u8 *arg0, u8 *arg1) {
-    inpFXCopyCtrl(7U, arg0, arg1);
-    inpFXCopyCtrl(0xAU, arg0, arg1);
-    inpFXCopyCtrl(0x5BU, arg0, arg1);
-    inpFXCopyCtrl(0x80U, arg0, arg1);
-    inpFXCopyCtrl(0x84U, arg0, arg1);
+void synthFXCloneMidiSetup(u8 *dvoice, u8 *svoice) {
+    inpFXCopyCtrl(7U, dvoice, svoice);
+    inpFXCopyCtrl(0xAU, dvoice, svoice);
+    inpFXCopyCtrl(0x5BU, dvoice, svoice);
+    inpFXCopyCtrl(0x80U, dvoice, svoice);
+    inpFXCopyCtrl(0x84U, dvoice, svoice);
 }
 
 s32 synthSendKeyOff(int id) {
@@ -1117,9 +1117,9 @@ void synthVolume(u8 volume, u16 time, u8 vGroup, s8 seqMode, s32 seqId) {
 
 #pragma push
 #pragma opt_common_subs on
-s32 synthIsFadeOutActive(u8 arg0) {
-    if (synthMasterFader[arg0].type != 4 && (synthMasterFaderActiveFlags & (1 << arg0)) &&
-        synthMasterFader[arg0].start > synthMasterFader[arg0].target) {
+s32 synthIsFadeOutActive(u8 defVGroup) {
+    if (synthMasterFader[defVGroup].type != 4 && (synthMasterFaderActiveFlags & (1 << defVGroup)) &&
+        synthMasterFader[defVGroup].start > synthMasterFader[defVGroup].target) {
         return 1;
     }
     return 0;
@@ -1156,7 +1156,7 @@ s32 synthHWMessageHandler(s32 op, u32 idx) {
     return ret;
 }
 
-void inpInit(u8 *arg0);
+void inpInit(u8 *svoice);
 void synthInitAllocationAids(void);
 void hwSetMesgCallback(s32 arg0);
 #pragma push

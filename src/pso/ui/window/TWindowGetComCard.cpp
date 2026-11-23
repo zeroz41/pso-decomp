@@ -26,18 +26,16 @@
 #include "pso/ui/window/TWindowCtrl_8024A054.h"
 #include "pso/ui/window/TWindowCtrl_8024A1A8.h"
 
-extern "C" {
-void *get_player_by_client_id(s32 i);
-s32 __ct__7TObjectFP7TObject();
-extern void *__vt__17TWindowGetComCard[];
-const char *TWindowGetComCard__name = "TWindowGetComCard";
-extern s32 local_client_id;
-void play_sound_effect(s32, s32, s32, s32);
-u8 *init_shop_judgment_window(void *p);
-__declspec(section ".data") NJS_POINT2 TWindowGetComCard__window_rect = {152.0f, 370.0f};
-void TWindowFukidasi__sub_80252C38(void* p);
-int fn_80252CBC(void* p);
+#include "pso/player/PlayerSlots.h"
+#include "pso/network/client_id.h"
+#include "pso/system/SoundEffect.h"
+#include "pso/ui/window/TWindowSubComCard_80265410.h"
+#include "pso/ui/window/TWindowCtrl.h"
 
+const char *TWindowGetComCard::class_name = "TWindowGetComCard";
+__declspec(section ".data") NJS_POINT2 TWindowGetComCard::window_rect = {152.0f, 370.0f};
+
+extern "C" {
 void TWindowFukidasi__sub_80252C38(void* p) { *(u8*)((char*)p + 0x71) |= 0x4; }
 void TWindowFukidasi::clear_visible_flag() { this->m_71 &= 0xfe; }
 void TWindowFukidasi::set_flag() { this->m_71 |= 0x1; }
@@ -48,6 +46,8 @@ int TWindowFukidasi::is_active() { return (this->m_71 >> 2) & 0x1; }
 void TWindowFukidasi::clear_flag() { this->m_71 &= 0xfffffffb; }
 int TWindowFukidasi::is_balloon_visible() { return (this->m_71 >> 5) & 0x1; }
 int fn_80252CBC(void* p) { return *(u16*)((char*)p + 0x0) & 0x10; }
+}
+
 void TWindowGetComCard::render() {  }
 
 void TWindowGetComCard::run_task() {
@@ -69,7 +69,7 @@ void TWindowGetComCard::run_task() {
             break;
         }
         if (confirmation == 0) {
-            confirmation = reinterpret_cast<TWindowMenu *>(init_shop_judgment_window(&TWindowGetComCard__window_rect));
+            confirmation = reinterpret_cast<TWindowMenu *>(init_shop_judgment_window(&window_rect));
             ((TWindowSubComCardList *)(confirmation))->set_flag70_bit10();
         }
         confirmation->clear_flag_and_release();
@@ -114,10 +114,10 @@ void TWindowGetComCard::run_task() {
         break;
     }
 }
-}
+
 void text_builder_reset(void);
 TWindowGetComCard::~TWindowGetComCard() {
-    void *player;
+    TObjPlayer *player;
     if (confirmation != NULL) {
         confirmation->close();
         confirmation = NULL;
@@ -127,17 +127,17 @@ TWindowGetComCard::~TWindowGetComCard() {
         message = NULL;
     }
     TWindowReturnCity__sub_8024ACA8(local_client_id);
-    TLobby__sub_8024AC20(local_client_id);
-    if ((TWindowCtrl__sub_8024A314() == 0) && ((player = (void *)get_player_by_client_id(local_client_id)) != 0U)) {
-        ((TObjPlayer *)player)->init_parts();
+    TWindowCtrl::enable_client_main_menu(local_client_id);
+    if ((TWindowCtrl__sub_8024A314() == 0) && ((player = get_player_by_client_id(local_client_id)) != NULL)) {
+        player->init_parts();
     }
 }
 
 TWindowGetComCard::TWindowGetComCard(TObject *parent) : TObject(parent) {
-    void *player;
+    TObjPlayer *player;
     static const f32 pos[2] = {10.0f, 277.0f};
     static const f32 size[3] = {264.0f, 104.0f, 0.0f};
-    m_name = TWindowGetComCard__name;
+    m_name = class_name;
     message = reinterpret_cast<TWindowMessage *>(TWindowMessage::create((const NJS_POINT2 *)pos, (const f32 *)size, 1));
     confirmation = NULL;
     if (TWindowSubComCard::init_com_card() != 0) {
@@ -151,10 +151,10 @@ TWindowGetComCard::TWindowGetComCard(TObject *parent) : TObject(parent) {
         message->append_line((saddr) (TWindowSubStatusDisp::get_message_10(0x37)), 0);
         timer = 0x384;
     }
-    if ((player = (void *)get_player_by_client_id(local_client_id)) != 0U) {
-        ((TObjPlayer *)player)->reset_equip_slots();
+    if ((player = get_player_by_client_id(local_client_id)) != NULL) {
+        player->reset_equip_slots();
     }
-    TObjPlayer__sub_8024ABDC((local_client_id));
+    TWindowCtrl::disable_client_main_menu(local_client_id);
     fn_8024AC64((local_client_id));
     state = 0;
 }

@@ -33,6 +33,7 @@
 #include "pso/object/key/TOKeyAncient01.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_80011014.h"
+#include "pso/player/PlayerSlots.h"
 
 // One monument model per area: Cave 1 (default), Cave 2 and Mine 2.
 const char *bm_fs_obj_o_monument01_model_names[] = {"fs_obj_o_monument01.gj", NULL};
@@ -81,7 +82,7 @@ void TOMonumentAncient02::vfunc_6(s16 *state, s32) {
     access_object_saved_state(state, 0);
 }
 
-void TOMonumentAncient02::interact(s32 client) {
+void TOMonumentAncient02::interact(u16 client) {
     s16 state;
     TObjPlayer *player;
     switch (object_state) {
@@ -136,7 +137,7 @@ void TOMonumentAncient02::render() {
         }
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
         node = (NJS_OBJECT *)model;
         post_translate_matrix(node->pos);
         draw_ginja_model((void *)node->model);
@@ -211,7 +212,7 @@ TOMonumentAncient02::TOMonumentAncient02(TObject *parent, void *set_data) : TObj
     m_name = TOMonumentAncient02__class_name;
     apply_object_set_data(set_data);
     model = (void *)TOMonumentAncient02__bml_resource->models[0].model;
-    texlist = (saddr)TOMonumentAncient02__bml_resource->models[0].texlist;
+    texlist = TOMonumentAncient02__bml_resource->models[0].texlist;
     init_collision_body_parts(this, monument_ancient02_collision_parts, 1);
     refresh_collision_body_centers();
     register_object_by_id();

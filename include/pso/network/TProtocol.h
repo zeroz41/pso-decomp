@@ -17,6 +17,7 @@
 #include "pso/player/TPlyClientConfig.h"
 #include "pso/player/TPlyGuildCardTag.h"
 #include "pso/player/TPlySmth.h"
+#include "pso/item/TItemData.h"
 #include "pso/network/TSocket.h"
 #include "pso/network/TTcpSocket.h"
 
@@ -31,6 +32,8 @@ extern int enable_v2_features;
 extern u32 new_ip_addr;
 extern u16 new_port;
 extern TPlyMeetUserExtension meet_user_settings;
+extern const char *lobby_server_greeting_text;
+extern const char *port_map_copyright;
 extern u32 game_variations[16][2];
 extern void copy_packet(union packet *pkt);
 
@@ -39,12 +42,7 @@ public:
     packet_header header;
     u32 blocked_senders[30];
 public:
-    void bswap() {
-        header.bswap();
-        for (int i = 0; i < 30; ++i) {
-            bswap_32(&blocked_senders[i]);
-        }
-    };
+    void bswap();
 };
 
 class TSendPsoRegistConnect {
@@ -64,12 +62,54 @@ public:
     u32 server_key;
     u32 client_key;
 public:
-    void bswap() {
-        header.bswap();
-        bswap_32(&server_key);
-        bswap_32(&client_key);
-    };
+    void bswap();
 };
+
+// DB: the account check the client answers a 9B greeting with.
+class TSendVerifyLicense {
+public:
+    TSendVerifyLicense();
+    void bswap();
+
+    packet_header header;
+    char serial_number_v1[16];
+    char access_key_v1[16];
+    char serial_number[16];
+    char access_key[16];
+    TPlySmth hardware_id;
+    u32 sub_version;
+    char serial_number2[48];
+    char access_key2[48];
+    char password[48];
+};
+LAYOUT_ASSERT(TSendVerifyLicenseSize, sizeof(TSendVerifyLicense) == 0xE0);
+
+// 9E: the login the client sends after the lobby server's 02 greeting. Without the
+// meet-user extension only the first 0xEC bytes go out.
+class TSendLogin {
+public:
+    TSendLogin();
+    void bswap();
+
+    packet_header header;
+    TPlyGuildCardTag tag;
+    TPlySmth hardware_id;
+    u32 sub_version;
+    u8 is_extended;
+    u8 language;
+    u8 pad_1A[2];
+    char serial_number_v1[16];
+    char access_key_v1[16];
+    char serial_number[16];
+    char access_key[16];
+    char serial_number2[48];
+    char access_key2[48];
+    char name[16];
+    TPlyClientConfig client_config;
+    TPlyMeetUserExtension extension;
+};
+LAYOUT_ASSERT(TSendLoginConfigOffset, offsetof(TSendLogin, client_config) == 0xCC);
+LAYOUT_ASSERT(TSendLoginSize, sizeof(TSendLogin) == 0x150);
 
 struct _packet {
     void bswap() {
@@ -82,6 +122,60 @@ struct _packet {
 union packet {
     struct _packet pkt;
     u8 bytes[0x7c00];
+};
+
+// 8A: the name of the lobby the client is in.
+struct TRecvLobbyName {
+    packet_header header;
+    char name[16];
+};
+
+// B1: the server's current time as text; the bytes after it carry the lobby state flags.
+struct TRecvServerTime {
+    packet_header header;
+    char time[0x19];
+    s8 time_flags_low;
+    s8 time_flags_mid;
+    s8 time_flags_high;
+};
+
+// D8: the info boards of the players in the lobby.
+struct TInfoBoardEntry {
+    char name[16];
+    char text[0xAC];
+};
+
+struct TRecvInfoBoard {
+    packet_header header;
+    TInfoBoardEntry entries[12];
+
+    void bswap();
+};
+
+// C5: the challenge mode records of the players in the lobby; header.flags is the record count.
+struct TRecvChallengeData {
+    packet_header header;
+    TPlyChallenge records[12];
+
+    void bswap();
+};
+
+// D0/D3: the items one player offers in a trade.
+struct TTradeList {
+    packet_header header;
+    u16 target_client_id;
+    u16 item_count;
+    TItemData items[32];
+
+    void bswap();
+};
+
+// 9F: the client config the server asked for.
+struct TSendClientConfig {
+    packet_header header;
+    TPlyClientConfig config;
+
+    void bswap();
 };
 
 #define RECV_PACKET_HANDLERS \
@@ -107,17 +201,17 @@ union packet {
     o(handle_68_recv_burst_lobby, TPlyJoinLobbyEntry *entries, int leader_id) \
     o(handle_69_recv_exit_lobby, int client_id, int leader_id) \
     o(handle_18_90_9A_recv_pso_regist_check, u8 state) \
-    o(handle_92_9C_register_response_packet, void) \
+    o(handle_92_9C_register_response_packet, u8 state) \
     o(unused10, void) \
     o(handle_95_request_character_data_packet, void) \
     o(handle_81_recv_chat_message, TChatMessage &chat_message) \
     o(handle_41_recv_user_ans, TUserAns &user_ans) \
     o(send_96_unused, void) \
-    o(handle_97_checksum_reply_packet, void) \
+    o(handle_97_checksum_reply_packet, u8 flags) \
     o(handle_B1_current_time_packet, void) \
-    o(handle_C0_choice_search_option_packet, void) \
-    o(handle_C4_choice_search_reply_packet, void) \
-    o(handle_D8_infoboard_packet, void) \
+    o(handle_C0_choice_search_option_packet, TRecvChoiceSearchOptions *options) \
+    o(handle_C4_choice_search_reply_packet, ChoiceSearchResultList *results) \
+    o(handle_D8_infoboard_packet, TRecvInfoBoard *info_board) \
     o(handle_A2_recv_quest_menu_list, TMenuList<QuestListEntry, 30, 0> &quest_list) \
     o(handle_A3_recv_quest_menu_info, TPlyText<288> &info) \
     o(handle_44_recv_download_head, TRecvDownloadHead &download_head) \
@@ -130,11 +224,11 @@ union packet {
     o(handle_1F_recv_text_list, int entry_count, GameListEntry *entries, GameListEntry &entry_0) \
     o(handle_B0_recv_emergency_call, char *mesg) \
     o(handle_88_player_arrow_color_list_packet, void) \
-    o(handle_8A_lobby_name_packet, void) \
-    o(handle_C5_player_challenge_data_packet, void) \
-    o(handle_DA_lobby_event_packet, void) \
+    o(handle_8A_lobby_name_packet, char *name) \
+    o(handle_C5_player_challenge_data_packet, TPlyChallenge *records, s32 count) \
+    o(handle_DA_lobby_event_packet, int theme) \
     o(handle_AB_quest_stats_response_packet, void) \
-    o(handle_D3_execute_trade_packet, void) \
+    o(handle_D3_execute_trade_packet, TTradeList *trade_list) \
     o(handle_D4_trade_result_packet, u8 state) \
     o(handle_D1_advance_trade_state_packet, u8 state)
 
@@ -194,9 +288,9 @@ public:
     int m_packet_size;
     union packet m_packet;
     struct recv_packet_handlers m_recv_handlers;
-private:
-    static void operator delete(void *ptr) { obj_heap->heap_free(ptr); };
 public:
+    static void *operator new(size_t size);
+    static void operator delete(void *ptr) { obj_heap->heap_free(ptr); };
     TProtocol(TObject *parent, u16 sub_version, int language, char *serial_number, char *access_key, char *password);
     virtual ~TProtocol();
     const u8 next();
@@ -288,13 +382,22 @@ public:
     void send_info_board_request();
     void send_disable_auto_reply();
     void send_lobby_name_request();
-    void send_lobby_arrow(u8 arrow);
+    void send_lobby_arrow(int arrow);
     void send_choice_search_options_request();
-    void send_choice_search(ChoiceSearchParameters &parameters);
-    void send_choice_search_parameters(ChoiceSearchParameters &parameters);
+    void send_choice_search(TPlyChoiceSearchConfig &parameters);
+    void send_choice_search_parameters(TPlyChoiceSearchConfig &parameters);
     void send_server_time_request();
     void send_server_time_accepted();
     void send_quest_menu_closed();
+    void send_6F_burst_done();
+    void send_c6_packet(void *lobby);
+    void send_text_packet_c7(char *str);
+    void send_text_packet_D9(char *str);
+    s32 send_login_9e_extended(void *player_name, int udp_disabled);
+    s32 set_server_info(const char *serial_v1, const char *access_key_v1, const char *serial, const char *access_key,
+                        const char *host, u16 port);
+    void send_keepalive();
+    void send_register_9c();
 
     void send_regist();
     int send_login2(int disable_udp);
@@ -310,16 +413,12 @@ public:
     void send_update_chara_data_v2(TPlyCharData &char_data, TPlyChallenge &challenge, TPlyChoiceSearchConfig &choice_search_config, TBlockedSenders &blocked_senders, TPlyText<512> &auto_reply, char *info_board);
     void send_pso_data(game_command &packet, u32 size);
     void send_pso_data2(u32 flags, game_command &packet, u32 size);
-    void send_pso_data_long2(char flags, long_game_command &packet, size_t size);
+    void send_pso_data_long2(u32 flags, long_game_command &packet, size_t size);
     void send_room_change(int idx);
     void send_find_user(TPlyGuildCardTag &tag, u32 gc_num);
     void send_create_game(char *name, char *password, u8 difficulty, u8 battle_mode, u8 challenge_mode, u8 episode);
 public:
     void bswap_packet();
-    int bswap_packet_header();
-    s32 init_char_data();
-public:
-    void send_subcommand_to_client(s32 flag, s8 *src, s32 len);
 public:
     void bswap_cmd_AB();
     static u8 *copy_player_data(void *, void *);
@@ -327,7 +426,7 @@ public:
 
 extern "C" {
 void bswap_cmd_AB__9TProtocolFv(void *p);
-extern s32 TLobby__lobby_state_flags;
+extern s32 lobby_state_flags;
 }
 
 #endif

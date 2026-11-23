@@ -36,6 +36,6 @@ TObjNpcFemaleDwarf::TObjNpcFemaleDwarf(TObject *parent, void *set_data) : TUnk_8
     this->apply_set_data(set_data);
     init_position_vectors();
     this->model = (void *)TObjNpcFemaleDwarf__static_data->models->model;
-    this->texlist = (saddr)TObjNpcFemaleDwarf__static_data->models->texlist;
+    this->texlist = TObjNpcFemaleDwarf__static_data->models->texlist;
     this->setup_common();
 }

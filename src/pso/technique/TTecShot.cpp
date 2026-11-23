@@ -14,6 +14,7 @@
 #include "pso/unk/text_803D96A8.h"
 #include "pso/map/CsnQuery.h"
 #include "pso/render/render_util.h"
+#include "pso/object/base/TObjBase.h"
 
 void TTecShot::check_technique_projectile_wall_hit() {
     Vec to;
@@ -121,7 +122,6 @@ TTecShot::TTecShot(saddr source, u8 *pos, u8 *target, s32 level) : TEffect() {
     f32 dz;
     f32 dy;
     s32 yaw;
-    initialize_ground_candidates(ground_candidates);
     this->sourceId = 0xFFFF;
     dx = ((Vec *)target)->x - ((Vec *)pos)->x;
     dz = ((Vec *)target)->z - ((Vec *)pos)->z;
@@ -163,13 +163,13 @@ TTecShot::TTecShot(saddr source, u8 *pos, u8 *target, s32 level) : TEffect() {
     this->collisionBody.offset.x = 0.0f;
     this->collisionBody.offset.y = 0.0f;
     this->collisionBody.offset.z = 0.0f;
-    if (get_entity_id((TObjBase *)this->source) < 4U && get_type__10TObjPlayerFPv((void *)(this->source + 0x828)) != 0) {
+    if (((TObjBase *)this->source)->get_entity_id() < 4U && get_type__10TObjPlayerFPv((void *)(this->source + 0x828)) != 0) {
         this->collisionBody.offset.z = (-1e+01f);
     }
     this->collisionBody.radius = 5.0f;
     this->collisionBody.half_width = 1.0f;
     this->collisionBody.shape = 1;
-    if (get_entity_id((TObjBase *)this->source) < 4U) {
+    if (((TObjBase *)this->source)->get_entity_id() < 4U) {
         if (get_type__10TObjPlayerFPv((void *)(this->source + 0x828)) != 0) {
             this->collisionBody.flags = 0x40007;
         } else {
@@ -187,7 +187,6 @@ TTecShot::TTecShot(saddr source, u8 *pos, u8 *target, s32 level) : TEffect() {
 // The facing form: the technique starts at `pos` and flies along the y angle
 // `angle` instead of towards a target point.
 TTecShot::TTecShot(saddr source, Vec *pos, s32 angle, s32 level) : TEffect() {
-    initialize_ground_candidates(ground_candidates);
     this->sourceId = 0xFFFF;
     this->position.x = pos->x;
     this->position.y = pos->y;
@@ -225,13 +224,13 @@ TTecShot::TTecShot(saddr source, Vec *pos, s32 angle, s32 level) : TEffect() {
     this->collisionBody.offset.x = 0.0f;
     this->collisionBody.offset.y = 0.0f;
     this->collisionBody.offset.z = 0.0f;
-    if (get_entity_id((TObjBase *)this->source) < 4U && get_type__10TObjPlayerFPv((void *)(this->source + 0x828)) != 0) {
+    if (((TObjBase *)this->source)->get_entity_id() < 4U && get_type__10TObjPlayerFPv((void *)(this->source + 0x828)) != 0) {
         this->collisionBody.offset.z = (-1e+01f);
     }
     this->collisionBody.radius = 5.0f;
     this->collisionBody.half_width = 1.0f;
     this->collisionBody.shape = 1;
-    if (get_entity_id((TObjBase *)this->source) < 4U) {
+    if (((TObjBase *)this->source)->get_entity_id() < 4U) {
         if (get_type__10TObjPlayerFPv((void *)(this->source + 0x828)) != 0) {
             this->collisionBody.flags = 0x40007;
         } else {

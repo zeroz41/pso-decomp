@@ -9,6 +9,7 @@
 
 #include "pso/object/base/TObjChara.h"
 #include "pso/object/base/TObjMotion.h"
+#include "pso/object/base/TObjBase.h"
 
 // The client id is passed unextended, as a u16; TObjPlayer_801AF2F0.h declares it s32.
 extern "C" void send_6x2F_change_player_hp(s32 sender, u16 client, s32 hp);
@@ -84,8 +85,8 @@ void TObjEneRe2Flower::state_curse(s32 reason) {
             }
         } else if (state_step == 0x19 && state_timer != 0 && current_target->is_alive() != 0) {
             if (is_tower_variant() != 0) {
-                if (is_player_entity_id(get_entity_id(current_target)) != 0) {
-                    send_6x2F_change_player_hp(entity_id, get_entity_id(current_target), 1);
+                if (is_player_entity_id(current_target->get_entity_id()) != 0) {
+                    send_6x2F_change_player_hp(entity_id, current_target->get_entity_id(), 1);
                 }
             } else {
                 DirectAttackPayload p = lbl_8043BA60[0];

@@ -61,7 +61,7 @@ struct TObjEneSlimeOne : public TObjEnemy {
     void set_target_flag_bit0();
     static saddr create(saddr owner, saddr set_data, saddr velocity);
     static saddr create(saddr owner, saddr set_data);
-    void set_state(s32 arg1);
+    void set_state(s32 new_state);
     void update_trail_position();
     // The {enter, update} pairs of the state table, by state: 0 init_state/update_wait_search,
     // 1 reset_display/update_grow (out of the puddle; 3 if a player is near, else 2),

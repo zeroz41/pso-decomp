@@ -5,7 +5,7 @@
 
 // --- C functions defined in TNpcPlayer_8034DAA0.cpp ---
 extern "C" {
-void TLobby__sub_8034DAA0(s32 arg0, u32 arg1);
+void TLobby__sub_8034DAA0(s32 client, u32 arg1);
 s32 TNpcPlayer__get_lobby_entry_yaw(void);
 void TNpcPlayer__sub_8034EDB8(void);
 }
@@ -20,5 +20,6 @@ s32 get_party_yaw(void);
 void set_partner_dialogue_override(const char *text, s32 kind, u16 player);
 void set_partner_common_remark(s32 kind, const char *text);
 void show_partner_chatter_for_key(s16 key);
+void quest_remove_npc_player(u16 client);
 
 #endif

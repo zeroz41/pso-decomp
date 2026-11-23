@@ -134,8 +134,8 @@ void free_tuitate_bml_resource(void) {
     }
 }
 
-void *TObjTuitate__create(void *arg0) {
-    return new TObjTuitate(tl_05, arg0);
+void *TObjTuitate::create(void *set_data) {
+    return new TObjTuitate(tl_05, set_data);
 }
 
 #pragma push
@@ -216,8 +216,8 @@ void TObjBigTuitate::free_instance() {
     }
 }
 
-void *TObjBigTuitate__create(void *arg0) {
-    return new TObjBigTuitate(tl_05, arg0);
+void *TObjBigTuitate::create(void *set_data) {
+    return new TObjBigTuitate(tl_05, set_data);
 }
 
 #pragma push

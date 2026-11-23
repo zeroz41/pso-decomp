@@ -23,4 +23,11 @@ s32 pick_random_slot__6TLobbyFPv(s16 *arg0);
 }
 // --- end of C functions
 
+// Id counters of the map set loaders; TLobby::setup_quest_list resets them.
+extern s32 map_set_object_id_counter;
+extern s32 next_enemy_set_actor_id;
+extern s32 map_object_id_counter;
+extern s32 map_set_enemy_id_counter;
+
+
 #endif

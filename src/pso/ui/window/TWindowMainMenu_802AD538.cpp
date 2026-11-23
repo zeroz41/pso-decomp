@@ -6,7 +6,7 @@
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/player/TObjPlayer_80011014.h"
-#include "pso/ui/window/TWindowSubComCard_80244774.h"
+#include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 struct TWindowSubComCard;
 #include "pso/ui/window/TWindowMenuMainMenu.h"
@@ -117,7 +117,7 @@ void copy_color_entry__15TWindowMainMenuFPvPv(Col_802ADA48 *arg0, Col_802ADA48 *
 void TWindowMainMenu__sub_802ADADC(Obj_802ADADC *self, s8 i);
 int find_free_item_slot__15TWindowMainMenuFPv(Obj_802ADC04 *self);
 s32 append_child_rows__15TWindowMainMenuFPvi(Menu_802ADD38 *arg0, s32 arg1);
-Rect_802AE2B0 * setup_content_frame__15TWindowMainMenuFPv(u8 *arg0);
+Rect_802AE2B0 * setup_content_frame__15TWindowMainMenuFPv(u8 *window_menu_main_menu);
 
 const char *TWindowMenuMainMenu__class_name = "TWindowMenuMainMenu";
 
@@ -202,7 +202,7 @@ void TWindowMainMenu__sub_802AD74C(void* p) { *(u8*)((char*)p + 0x13) |= 0x2; }
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-void TWindowMainMenu::set_symbol_chat_parts(void * _w1) { copy_vec2(this, _w1); *(unsigned char *)&this->m_down = 8; }
+void TWindowMainMenu::set_symbol_chat_parts(void * symbol_chat_parts) { copy_vec2(this, symbol_chat_parts); *(unsigned char *)&this->m_down = 8; }
 #pragma pop
 
 #pragma push
@@ -278,7 +278,7 @@ void TWindowMainMenu::pop_level() {
 #pragma dont_inline off
 void park_selection__15TWindowMainMenuFPv(Menu_802AD980 *arg0) {
     Col_802ADA48 buf;
-    u8 sp8[8];
+    u8 symbol_chat_parts[8];
     s32 i;
     Col_802ADA48 *slot;
     copy_color_entry__15TWindowMainMenuFPvPv(&buf, arg0->slots[arg0->cur]);
@@ -288,10 +288,10 @@ void park_selection__15TWindowMainMenuFPv(Menu_802AD980 *arg0) {
             arg0->slots[i] = NULL;
         }
     }
-    ((s32 (*)(void *, void *, s32))get_row_position__15TWindowMainMenuFiPvi)(arg0, sp8, arg0->count);
+    ((s32 (*)(void *, void *, s32))get_row_position__15TWindowMainMenuFiPvi)(arg0, symbol_chat_parts, arg0->count);
     slot = (Col_802ADA48 *)((TWindowMainMenu *)arg0)->find_free_slot();
     copy_color_entry__15TWindowMainMenuFPvPv(slot, &buf);
-    ((TWindowMainMenu *)slot)->set_symbol_chat_parts(sp8);
+    ((TWindowMainMenu *)slot)->set_symbol_chat_parts(symbol_chat_parts);
     ((u8 *)slot)[0x12] = 2;
     arg0->flags |= 4;
     arg0->count++;
@@ -447,11 +447,11 @@ s32 TWindowMainMenu::is_not_split_screen() {
     return (u32)__cntlzw(is_split_screen()) >> 5;
 }
 
-s32 TWindowMainMenu::update_if_active(s32 _w1) {
+s32 TWindowMainMenu::update_if_active(s32 id) {
     Menu_802ADD38 *_w0 = (Menu_802ADD38 *)this;
     s32 temp_r3;
 
-    temp_r3 = append_child_rows__15TWindowMainMenuFPvi((Menu_802ADD38 *)(_w0), _w1);
+    temp_r3 = append_child_rows__15TWindowMainMenuFPvi((Menu_802ADD38 *)(_w0), id);
     if (temp_r3 != 0) {
         ((s32 (*)(void))TWindowMainMenu__sub_802AD74C)();
     }
@@ -459,38 +459,38 @@ s32 TWindowMainMenu::update_if_active(s32 _w1) {
 }
 
 s32 append_child_rows__15TWindowMainMenuFPvi(Menu_802ADD38 *arg0, s32 id) {
-    u8 sp8[8];
+    u8 symbol_chat_parts[8];
     s32 n;
     saddr slot;
     n = ((s32 (*)(void))find_free_item_slot__15TWindowMainMenuFPv)();
     if (n >= 8) {
         return 0;
     }
-    ((s32 (*)(void *, void *, s32))get_row_position__15TWindowMainMenuFiPvi)(arg0, sp8, n + arg0->count);
+    ((s32 (*)(void *, void *, s32))get_row_position__15TWindowMainMenuFiPvi)(arg0, symbol_chat_parts, n + arg0->count);
     slot = ((s32 (*)(void *, s32))find_active_item_by_id__15TWindowMainMenuFii)(arg0, id);
     if (slot == 0) {
         slot = ((TWindowMainMenu *)arg0)->find_free_slot();
         if (slot == 0) {
             return 0;
         }
-        ((s32 (*)(s32, void *, s8, s8))init_row_entry__15TWindowMainMenuFPvicc)(slot, sp8, id, -(n * 2));
+        ((s32 (*)(s32, void *, s8, s8))init_row_entry__15TWindowMainMenuFPvicc)(slot, symbol_chat_parts, id, -(n * 2));
     } else {
-        ((TWindowMainMenu *)slot)->set_symbol_chat_parts(sp8);
+        ((TWindowMainMenu *)slot)->set_symbol_chat_parts(symbol_chat_parts);
     }
     arg0->slots[n] = slot;
     arg0->flags &= ~4;
     return slot;
 }
 
-void TWindowMenuMainMenu::set_target_y(f32 farg0) {
+void TWindowMenuMainMenu::set_target_y(f32 target_y) {
     if (reinterpret_cast<TWindowMainMenu *>(this)->is_not_split_screen() != 0) {
-        farg0 += 51.0f;
+        target_y += 51.0f;
     } else {
-        farg0 += 42.0f;
+        target_y += 42.0f;
     }
-    farg0 += 39.0f;
-    if (target_size[1] != farg0) {
-        target_size[1] = farg0;
+    target_y += 39.0f;
+    if (target_size[1] != target_y) {
+        target_size[1] = target_y;
         tween_ticks = 8;
     }
 }
@@ -501,15 +501,15 @@ void TWindowMenuMainMenu::update_scaled_position() {
 
 void TWindowMainMenu::draw_entries_reversed(u8 *frame) {
     saddr arg0 = (saddr)this;
-    s32 var_r31;
+    s32 i;
     u8 *var_r30;
     var_r30 = (u8 *)(arg0 + 0x10C);
-    var_r31 = 0;
+    i = 0;
     do {
         ((void (*)(void *, void *))draw_item_labels__15TWindowMainMenuFv)(var_r30, frame);
-        var_r31 += 1;
+        i += 1;
         var_r30 -= 0x18;
-    } while (var_r31 < 8);
+    } while (i < 8);
 }
 
 extern s32 hud_texlist;
@@ -525,7 +525,7 @@ void TWindowMenuMainMenu::draw_frame(WindowDrawContext *frame) {
     y = 0.0f;
     h = frame->inner_h;
     begin_screen_draw(1);
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(hud_texlist));
+    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(hud_texlist));
     set_draw_texture_and_color(11, frame->color);
     if (((TWindowMainMenu *)this)->is_not_split_screen() != 0) {
         q.x0 = frame->x;
@@ -613,7 +613,7 @@ Rect_802AE2B0 *setup_content_frame__15TWindowMainMenuFPv(u8 *window_menu_main_me
 }
 
 void TWindowMenuMainMenu::update_slide_position() {
-    if (((TWindowBase *)this)->sub_80246948() != 0) {
+    if (((TWindowBase *)this)->is_closed() != 0) {
         set_target_y(0.0f);
         this->tween_ticks = (u32) (4.5f - (f32) this->closing_tick);
         return;

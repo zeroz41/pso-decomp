@@ -52,6 +52,7 @@ struct NJS_OBJECT;
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/render/render_util.h"
 #include "pso/unk/text_803D853C.h"
+#include "pso/object/base/TObjBase.h"
 
 
 const char *TObjDFUsoTower__name = "TObjDFUsoTower";
@@ -90,6 +91,7 @@ Mtx34 df_captured_matrix_pair[2];
 #include "pso/boss/darkfalz/TObjDFUsoTower.h"
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
 #include "pso/ui/TLevelSelect.h"
+#include "pso/player/PlayerSlots.h"
 
 
 // Written last to first: the unit is generated deferred (see configure.py).
@@ -105,7 +107,7 @@ TObjDFUsoTower *TObjDFUsoTower::create(TObject *parent) {
 TObjDFUsoTower::TObjDFUsoTower(TObject *parent) : TObjBase(parent) {
     m_name = TObjDFUsoTower__name;
     model = (void *)(get_bml_model(TOBoss4::model_resource, 5));
-    this->texlist = (saddr)get_bml_texlist(TOBoss4::model_resource, 5);
+    this->texlist = get_bml_texlist(TOBoss4::model_resource, 5);
     VecCopy(&position, &uso_tower_start_position);
     fade_alpha = 0.0f;
     fade_state = 0;
@@ -158,7 +160,7 @@ void TObjDFUsoTower::render() {
         }
         push_matrix();
         post_translate_matrix(&this->position.x);
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(this->texlist));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
         draw_ginja_object(this->model);
         pop_matrix();
         if (fade_alpha < 1.0f) {
@@ -198,12 +200,12 @@ void TObjPlayer::draw_player_model_by_id(s32 client_id, f32 alpha) {
     if (alpha < 1.0f) {
         TObjPlayer::begin_alpha_blend(alpha);
     }
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(body_textures));
+    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(body_textures));
     draw_chunk_object(body);
     if (attachment != 0U) {
         push_matrix();
         post_translate_matrix(&dark_falz_part_node_position.x);
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(attachment_textures));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(attachment_textures));
         draw_chunk_object((void *)attachment);
         pop_matrix();
     }
@@ -211,7 +213,7 @@ void TObjPlayer::draw_player_model_by_id(s32 client_id, f32 alpha) {
         TCharaMaking::enable_making();
         push_matrix();
         post_translate_matrix(&dark_falz_head_node_position.x);
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(head_textures));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(head_textures));
         draw_chunk_object(head);
         pop_matrix();
         TCharaMaking::clear_flag_bit0();
@@ -223,7 +225,7 @@ void TObjPlayer::draw_player_model_by_id(s32 client_id, f32 alpha) {
         TCharaMaking::enable_making();
         push_matrix();
         post_translate_matrix(&dark_falz_head_node_position.x);
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(head_textures));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(head_textures));
         TCharaMaking__draw_colored_hair(alpha, (saddr)hair, (CharacterAppearanceFields *)player->name, 0);
         pop_matrix();
         TCharaMaking::clear_flag_bit0();
@@ -236,12 +238,12 @@ void boss6type2_draw_models(s32 body_texlist, s32 head_texlist, s32 part_texlist
         if (alpha < 1.0f) {
             TObjPlayer::begin_alpha_blend(alpha);
         }
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(body_texlist));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(body_texlist));
         draw_chunk_object((void *)body);
         if (part != 0U) {
             push_matrix();
             post_translate_matrix(&dark_falz_part_node_position.x);
-            TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(part_texlist));
+            TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(part_texlist));
             draw_chunk_object((void *)part);
             pop_matrix();
         }
@@ -249,7 +251,7 @@ void boss6type2_draw_models(s32 body_texlist, s32 head_texlist, s32 part_texlist
             TCharaMaking::enable_making();
             push_matrix();
             post_translate_matrix(&dark_falz_head_node_position.x);
-            TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(head_texlist));
+            TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(head_texlist));
             draw_chunk_object((void *)head);
             pop_matrix();
             TCharaMaking::clear_flag_bit0();
@@ -261,7 +263,7 @@ void boss6type2_draw_models(s32 body_texlist, s32 head_texlist, s32 part_texlist
             TCharaMaking::enable_making();
             push_matrix();
             post_translate_matrix(&dark_falz_head_node_position.x);
-            TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(head_texlist));
+            TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(head_texlist));
             TCharaMaking__draw_colored_hair(alpha, (s32)hair, (CharacterAppearanceFields *)appearance, 0);
             pop_matrix();
             TCharaMaking::clear_flag_bit0();
@@ -299,20 +301,20 @@ void TObjPlayer::draw_player_model_by_client(u16 client_id, saddr motion, f32 fr
     if (alpha < 1.0f) {
         TObjPlayer::begin_alpha_blend(alpha);
     }
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(body_textures));
+    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(body_textures));
     TObjDFTenchuFuru::register_callback();
     draw_model_motion(body, (void *)motion, frame);
     TObjDFTenchuFuru::unregister_callback();
     if (attachment != 0) {
         push_matrix_from(df_captured_matrix_pair[1]);
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(attachment_textures));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(attachment_textures));
         draw_chunk_object((void *)attachment);
         pop_matrix();
     }
     if (head != NULL) {
         TCharaMaking::enable_making();
         push_matrix_from(df_captured_matrix_pair[0]);
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(head_textures));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(head_textures));
         draw_chunk_object(head);
         pop_matrix();
         TCharaMaking::clear_flag_bit0();
@@ -323,7 +325,7 @@ void TObjPlayer::draw_player_model_by_client(u16 client_id, saddr motion, f32 fr
     if (hair != NULL) {
         TCharaMaking::enable_making();
         push_matrix_from(df_captured_matrix_pair[0]);
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(head_textures));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(head_textures));
         TCharaMaking__draw_colored_hair(alpha, (saddr)hair, (CharacterAppearanceFields *)player->name, 0);
         pop_matrix();
         TCharaMaking::clear_flag_bit0();
@@ -636,7 +638,7 @@ void TObjDFJisin::damage_players_near_point(Vec *point) {
     hit.power = 0.0f;
     for (i = 0; i < TLobby::get_game_mode(); i++) {
         p = TObjPlayer::get_player_data(i);
-        if (p != NULL && is_player_in_boss_area(get_entity_id(p)) != 0 &&
+        if (p != NULL && is_player_in_boss_area(p->get_entity_id()) != 0 &&
             !(p->class_flags & CLASS_FLAG_ANDROID) &&
             !(xyz_distance(&pos, &p->position) > 20.0f)) {
             DirectAttackPayload h = hit;

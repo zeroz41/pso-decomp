@@ -95,6 +95,7 @@
 #include "pso/render/GinjaTextureMatrices.h"
 #include "pso/unk/TLobby_8007C550.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/player/PlayerSlots.h"
 // TObjPlayer_80011014.h declares these too, but its calc_random_ratio prototype takes no rng.
 extern "C" {
 f64 atan2_float(f32, f32);
@@ -103,8 +104,7 @@ s32 is_split_screen();
 f32 fabs_float(f32);
 s32 TBoss8Dragon__sub_800670E0(int, void *);
 f32 calc_random_ratio__10TObjPlayerFv(void *);
-s32 subtractive_rng_seed(void *, s32);
-void TBoss8Dragon__sub_80067074(saddr arg0, saddr prm);
+void TBoss8Dragon__sub_80067074(saddr pos, saddr prm);
 }
 const char *bm_modelparticle_gryphon_model_names[4] = {
     "boss_rock.gj", "fe_obj001_iwaware_01.gj", "fe_obj001_iwaware_02.gj", NULL,
@@ -220,7 +220,7 @@ saddr boss5_gryphon_base_params[1];
 saddr boss5_gryphon_resistance_params[1];
 BmlResource *boss5_gryphon_body_bml_resource;
 BmlResource *boss5_gryphon_bml_resource;
-GinjaTextureList *boss5_gryphon_texture_list;
+NJS_TEXLIST *boss5_gryphon_texture_list;
 s32 boss5_gryphon_render_node_index;
 s32 boss5_gryphon_bone_capture_index;
 Vec *boss5_gryphon_bone_capture_output;  // draw_body points it at bone_positions
@@ -387,10 +387,10 @@ const char *boss5_gryphon_type_name_pointer = boss5_gryphon_type_name;
 }
 
 extern "C" {
-void attach_particle_model(void *particle, NJS_OBJECT *model, GinjaTextureList *texlist, AnimationMotion *motion, s32 arg4,
+void attach_particle_model(void *particle, NJS_OBJECT *model, NJS_TEXLIST *texlist, AnimationMotion *motion, s32 arg4,
                            f32 farg0) {
     *(NJS_OBJECT **)((s8 *)particle + 0x4C) = model;
-    *(GinjaTextureList **)((s8 *)particle + 0x50) = texlist;
+    *(NJS_TEXLIST **)((s8 *)particle + 0x50) = texlist;
     *(AnimationMotion **)((s8 *)particle + 0x54) = motion;
     *(u16 *)((s8 *)particle + 0x2C) = (u16) (*(u16 *)((s8 *)particle + 0x2C) | 0x200);
     *(f32 *)((s8 *)particle + 0x5C) = farg0;
@@ -400,7 +400,7 @@ void attach_particle_model(void *particle, NJS_OBJECT *model, GinjaTextureList *
 }
 
 extern "C" void load_boss5_gryphon_resources(void);
-void TObjMotion::fn_800660B8() {
+void TObjMotion::disable_motion_blend() {
     motion_flags &= ~MOTION_BLENDING;
     motion_flags |= MOTION_NO_BLEND;
 }
@@ -507,7 +507,7 @@ void load_boss5_gryphon_resources(void) {
     case 0:
         boss5_gryphon_body_bml_resource = load_enemy_bml_resource(&boss5_gryphon_body_bml_desc);
         boss5_gryphon_bml_resource = load_enemy_bml_resource(&boss5_gryphon_bml_desc);
-        boss5_gryphon_texture_list = (GinjaTextureList *)load_gvm_texture_file((saddr)"modelparticle_gryphon.gvm");
+        boss5_gryphon_texture_list = load_gvm_texture_file("modelparticle_gryphon.gvm");
         break;
     }
     boss5_gryphon_render_node_index = 0;
@@ -582,7 +582,7 @@ TBoss5Gryphon::TBoss5Gryphon(TObject *parent, void *data) : TObjEneDD_ST(parent)
     } else {
         this->model = boss5_gryphon_body_bml_resource->models[0].model;
     }
-    this->texlist = (saddr)boss5_gryphon_body_bml_resource->models[0].texlist;
+    this->texlist = boss5_gryphon_body_bml_resource->models[0].texlist;
     ((TObjEneDD *)this)->init_model((CollisionBody *)boss5_gryphon_collision_body_parts, (s32)10);
     this->motion_flags = 0;
     this->set_action_table((saddr)boss5_gryphon_action_table);
@@ -695,7 +695,7 @@ TBoss5Gryphon::~TBoss5Gryphon() {
 }
 
 void TBoss5Gryphon::run_task() {
-    s32 temp_r31;
+    s32 run_mode;
     s32 temp_r31_2;
     s32 i;
     if (TObjPlayer::check_demo_mode() != 0) {
@@ -708,10 +708,10 @@ void TBoss5Gryphon::run_task() {
         return;
     }
     if (TObjEneDD::is_main_phase_15() != 0) {
-        temp_r31 = this->run_mode;
+        run_mode = this->run_mode;
         if (update_lobby_state() != 0) {
             this->run_mode = 0;
-            if (this->run_mode != temp_r31) {
+            if (this->run_mode != run_mode) {
                 this->run_mode_changed = 1;
             }
         } else {
@@ -1150,14 +1150,14 @@ void TBoss5Gryphon::apply_lightning_hit(TBoss5Gryphon *owner, Vec *pos, f32 inne
 }
 void TBoss5Gryphon::spawn_ground_splash() {
     Vec pos;
-    f32 temp_f1;
+    f32 y;
     CsnHit *hit;
     VecCopy(&pos, (Vec *)((void *) (&this->position)));
     hit = csnVecterUnder(&pos, 0x16EF);
     if (hit != NULL) {
-        temp_f1 = hit->contact->point.y;
-        if (!(temp_f1 > 6.0f)) {
-            pos.y = temp_f1;
+        y = hit->contact->point.y;
+        if (!(y > 6.0f)) {
+            pos.y = y;
             spawn_particle_effect_with_flags(&pos, effect_ids[0], 0x40);
             play_se(0x40032D01);
         }
@@ -2798,14 +2798,14 @@ void TBoss5Gryphon::update_offscreen_dive(u32 event) {
             self->rotation_z += 0x3311;
             if (self->dive.frame >= self->dive.frame_limit) {
                 self->requested_action = 0x16;
-                self->fn_800660B8();
+                self->disable_motion_blend();
                 self->dive.step = 1;
             }
             found = 0;
             ang = 65536.0f * calc_random_ratio__10TObjPlayerFv(self->rng);
             r = calc_random_ratio__10TObjPlayerFv(self->rng);
             if (calc_random_ratio__10TObjPlayerFv(self->rng) > 0.5f) {
-                pl = ((TObjPlayer *(*)(u16))get_player_by_client_id)((s32)(gryphon_four * calc_random_ratio__10TObjPlayerFv(self->rng)));
+                pl = get_player_by_client_id((u16)((s32)(gryphon_four * calc_random_ratio__10TObjPlayerFv(self->rng))));
                 if (pl->is_alive() != 0) {
                     CsnHit *hit;
                     r *= gryphon_fifty;
@@ -3206,10 +3206,10 @@ void TBoss5Gryphon::play_animation_index(s32 index) {
 }
 
 void TBoss5Gryphon::update_target_from_state() {
-    s32 temp_r0;
+    s32 flight_mode;
 
-    temp_r0 = this->flight_mode;
-    switch (temp_r0) {
+    flight_mode = this->flight_mode;
+    switch (flight_mode) {
     default:
     case 0:
         this->script_entry = this->action_scripts[16];
@@ -3694,7 +3694,7 @@ void TBoss5Gryphon::render_model() {
 
 void TBoss5Gryphon::render_with_fade(s32 fade_index) {
     RenderFadeState *fade;
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(this->texlist));
+    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
     TObjEneDD::clear_global_flag_400();
     saved_model_render_flags = model_render_flags;
     set_material_alpha_compare_reference(0);
@@ -3857,7 +3857,7 @@ void TBoss5Gryphon::render_demo() {
     f32 frame;
     s32 action;
     if (this->update_object_view_visibility(400.0f, 20.0f) != 0) {
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(this->texlist));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
         push_matrix();
         post_translate_matrix(&this->position.x);
         rotate_matrix_y(0, this->rotation_y);

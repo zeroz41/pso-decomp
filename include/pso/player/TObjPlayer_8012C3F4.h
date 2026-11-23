@@ -3,12 +3,9 @@
 
 #include "types.h"
 
-void rocket_punch_target_impact(void *self, u32 a, u32 b, s32 idx);
-void rocket_punch_wall_impact(u32 arg0, u32 arg1, u32 arg2, uaddr arg3);
-
 // --- C functions defined in TObjPlayer_8012C3F4.cpp ---
 void rocket_punch_target_impact(void *self, u32 a, u32 b, s32 idx);
-void rocket_punch_wall_impact(u32 arg0, u32 arg1, u32 arg2, uaddr arg3);
+void rocket_punch_wall_impact(u32 layer, u32 weapon, u32 target, uaddr pos);
 // --- end of C functions
 
 #endif

@@ -6,19 +6,24 @@
 
 class TPlayerBattleCtrl : public TObject {
 public:
+    TPlayerBattleCtrl(TObject *parent);
     virtual ~TPlayerBattleCtrl();
     void init_battle_round();
     virtual void run_task();
     s32 state_1c;
     s32 state_20;
     s32 state_24;
-    u8 unk_28[0x14];
+    s32 unk_28;
+    u8 pad_2c[0x10];
     s32 m_3c;
-    u8 unk_40[0xC];
+    u8 *text;
+    u8 pad_44[0x8];
     void *window_4c;
     void *window_50;
     void *window_54;
-
+    u8 pad_58[0xC];
+    s32 pad_64;
+    u8 pad_68[0x210];
 };
 
 #include <stddef.h>
@@ -28,5 +33,6 @@ LAYOUT_ASSERT(TPlayerBattleCtrl_state_24_offset, offsetof(TPlayerBattleCtrl, sta
 LAYOUT_ASSERT(TPlayerBattleCtrl_window_4c_offset, offsetof(TPlayerBattleCtrl, window_4c) == 0x4c);
 LAYOUT_ASSERT(TPlayerBattleCtrl_window_50_offset, offsetof(TPlayerBattleCtrl, window_50) == 0x50);
 LAYOUT_ASSERT(TPlayerBattleCtrl_window_54_offset, offsetof(TPlayerBattleCtrl, window_54) == 0x54);
+LAYOUT_ASSERT(TPlayerBattleCtrl_size, sizeof(TPlayerBattleCtrl) == 0x278);
 
 #endif

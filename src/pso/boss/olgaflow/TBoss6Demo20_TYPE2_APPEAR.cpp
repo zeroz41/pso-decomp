@@ -21,6 +21,7 @@
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/boss/olgaflow/TBoss6Demo20_TYPE2_APPEAR.h"
+#include "pso/boss/olgaflow/TBoss6Type1.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/object/trap/TOTrapAncient01_80226534.h"
 #include "pso/system/MatrixStack.h"
@@ -58,7 +59,7 @@ void TBoss6Demo20_TYPE2_APPEAR::draw_model_12() {
     push_matrix();
     set_motion_packed_rotation();
     post_translate_matrix(&boss6_type2_appear_origin.x);
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(model12.texture));
+    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(model12.texture));
     draw_model_motion(model12.model, model12.motion, frame);
     clear_motion_packed_rotation();
     pop_matrix();
@@ -80,7 +81,7 @@ void TBoss6Demo20_TYPE2_APPEAR::draw_fading_model_1_pair() {
         if (fade < 1.0f) {
             TBoss6PlotFalz::set_fade_material_color(fade);
         }
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(model1.texture));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(model1.texture));
         set_motion_packed_rotation();
         push_matrix();
         post_translate_matrix(&effect_positions[4].x);
@@ -117,7 +118,7 @@ void TBoss6Demo20_TYPE2_APPEAR::draw_fading_model_4() {
         push_matrix();
         set_motion_packed_rotation();
         post_translate_matrix(&boss6_type2_appear_origin.x);
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(model4.texture));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(model4.texture));
         capture->install();
         draw_model_motion(model4.model, model4.motion, frame);
         capture->clear();
@@ -149,7 +150,7 @@ void TBoss6Demo20_TYPE2_APPEAR::draw_fading_model_pair() {
         post_translate_matrix(&boss6_type2_appear_origin.x);
         s32 i = 0;
         do {
-            TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(opening_parts[i].texture));
+            TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(opening_parts[i].texture));
             draw_model_motion(opening_parts[i].model, opening_parts[i].motion, frame);
             i++;
         } while (i < 2);
@@ -260,7 +261,6 @@ TBoss6Demo20_TYPE2_APPEAR::~TBoss6Demo20_TYPE2_APPEAR() {
 }
 
 
-extern s32 boss6_type1_part_model_ids[]; // model ids, defined in TBoss6Type1.cpp
 extern "C" {
 __declspec(section ".data") extern s32 boss6_type2_appear_motion_indices[];
 struct AppearanceClassTag { const char *value; u32 padding; };
@@ -286,17 +286,17 @@ TBoss6Demo20_TYPE2_APPEAR::TBoss6Demo20_TYPE2_APPEAR(TBoss6PlotFalz *plot) : TOb
             v = t;
             opening_parts[i].model = (NJS_OBJECT *)get_bml_model(archive, t);
         }
-        opening_parts[i].texture = (GinjaTextureList *)get_bml_texlist(archive, v);
+        opening_parts[i].texture = get_bml_texlist(archive, v);
         opening_parts[i].motion = get_bml_motion(archive, boss6_type2_appear_motion_indices[i]);
     }
     model4.model = (NJS_OBJECT *)get_bml_model(archive, 4);
-    model4.texture = (GinjaTextureList *)get_bml_texlist(archive, 4);
+    model4.texture = get_bml_texlist(archive, 4);
     model4.motion = get_bml_motion(archive, 0x20);
     model1.model = (NJS_OBJECT *)get_bml_model(archive, 1);
-    model1.texture = (GinjaTextureList *)get_bml_texlist(archive, 1);
+    model1.texture = get_bml_texlist(archive, 1);
     model1.motion = get_bml_motion(archive, 0x36);
     model12.model = (NJS_OBJECT *)get_bml_model(archive, 0xC);
-    model12.texture = (GinjaTextureList *)get_bml_texlist(archive, 0xC);
+    model12.texture = get_bml_texlist(archive, 0xC);
     model12.motion = get_bml_motion(archive, 0x22);
     capture = ModelNodePositionCapture::create(boss6_type2_appear_model_node_descriptors, effect_positions);
     for (i = 0; i < 9; i++) {

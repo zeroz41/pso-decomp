@@ -51,7 +51,7 @@ const RockKindParams boss6_rock_kind_params[2] = {
 const s32 boss6_rock_set_rotation[3] = {0, 0, 0};
 
 BmlResource *boss6_rock_resource;        // model resource
-GinjaTextureList *boss6_rock_texture_list;   // texture list
+NJS_TEXLIST *boss6_rock_texture_list;   // texture list
 TBoss6Type2 *boss6_rock_owner;        // the owner; NULL makes every rock go away
 s32 boss6_rock_damage;                              // damage of a landing rock
 TBoss6Rock *TBoss6Rock__instance_table[32];
@@ -68,7 +68,7 @@ void TBoss6Rock::load_resources() {
     s32 i;
     resource = new BmlResource(5, &boss6_rock_resource_descriptor, 0, 0, NULL);
     boss6_rock_resource = resource;
-    boss6_rock_texture_list = (GinjaTextureList *)load_gvm_texture_file((saddr) "boss06_rock_dat.gvm");
+    boss6_rock_texture_list = load_gvm_texture_file("boss06_rock_dat.gvm");
     if (boss6_rock_resource == NULL || boss6_rock_texture_list == NULL) {
         return;
     }
@@ -521,7 +521,7 @@ BmlResource *TBoss6Rock::get_resource() {
     return boss6_rock_resource;
 }
 
-GinjaTextureList *TBoss6Rock::get_texture_list() {
+NJS_TEXLIST *TBoss6Rock::get_texture_list() {
     return boss6_rock_texture_list;
 }
 
@@ -550,7 +550,7 @@ void TUnk_804F1280::render() {
         rotate_matrix_y(NULL, rotation_y);
         rotate_matrix_x(NULL, rotation_x);
         rotate_matrix_z(NULL, rotation_z);
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
         TBoss6PlotFalz::set_fade_material_color(0.5f);
         draw_ginja_object((void *)model);
         TObjFish::reset_fish_globals();

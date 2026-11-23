@@ -31,6 +31,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/unk/text_803D8F74.h"
+#include "pso/player/PlayerSlots.h"
 
 // Built with -inline off,deferred: functions are written last to first, so
 // the vtables come out in the original's order.
@@ -195,7 +196,7 @@ void TItemEffPGModel::render() {
         model_render_flags |= 0x20;
         set_constant_material(&color);
         TParticleCtrl::begin_effect_render();
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texture_list));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texture_list));
         push_matrix();
         post_translate_matrix(&position.x);
         push_matrix();

@@ -46,6 +46,7 @@
 #include <stdlib.h>
 #include "pso/object/base/TObjChara.h"
 #include "pso/unk/TLobby_803DE778.h"
+#include "pso/object/base/TObjBase.h"
 #pragma readonly_strings on
 
 // Camera offsets for the follow camera, from TLobby's shared parameter tables.
@@ -73,7 +74,6 @@ u16 TObjRoomId__sub_801A1DB8(u16 id);
 void TObjPlayer__sub_801BA42C(void);
 extern s32 door_vo_ship_class_name;
 }
-void reset_status_effect_row(u8 *row);
 void reset_cameras_to_actor(void *actor, s32 flags);
 
 static const char *bm_boss3_volopt_model_names[] = {
@@ -452,14 +452,14 @@ void *TBoss3Volopt::create(void *set_data) {
 }
 
 void TBoss3Volopt::run_task() {
-    if (obj_testFlags30(0x800) != 0) {
+    if (test_actor_flags(0x800) != 0) {
         queue_destruction();
         return;
     }
-    if (obj_testFlags30(0x4000) != 0) {
-        if (((TObjPlayer *)this)->add_status_effect_timer(4, -1) <= 0) {
-            reset_status_effect_row(unk_284);
-            obj_clearFlags30(0x4000);
+    if (test_actor_flags(0x4000) != 0) {
+        if (this->add_status_effect_timer(4, -1) <= 0) {
+            status_effects[4].clear();
+            clear_actor_flags(0x4000);
         }
     } else {
         if (next_action != mode) {
@@ -550,7 +550,7 @@ void TBoss3Volopt::move_to_arena(s32 phase2) {
         if (phase2 != 0) {
             for (i = 0; i < registered_player_count; i++) {
                 player = TObjPlayer::get_player_data(i);
-                if (player != NULL && TObjRoomId__sub_801A1DB8(get_entity_id(player)) == 0 &&
+                if (player != NULL && TObjRoomId__sub_801A1DB8(player->get_entity_id()) == 0 &&
                     ((TObjPlayer *)player)->get_area() == 0xD) {
                     send_position(player, &volopt_phase2_player_positions[i], volopt_phase2_player_angles[i]);
                 }
@@ -1158,7 +1158,7 @@ void TBoss3Volopt::update_phase2() {
         }
         if (is_dead() != 0) {
             update_phase();
-            obj_setFlags30(this, 0x800);
+            set_actor_flags(0x800);
             sync_enemy_state(0);
             next_action = 5;
             new TUnk_80483B88;
@@ -1416,7 +1416,7 @@ void TBoss3Volopt::send_position(TObjPlayer *player, Vec *pos, s32 rotation_y) {
     TBoss3VoloptPositionPacket packet;
     if (player != NULL) {
         packet.init();
-        packet.id = get_entity_id(player);
+        packet.id = player->get_entity_id();
         VecCopy(&packet.pos, pos);
         packet.rotation_y = rotation_y;
         packet.send();
@@ -1516,7 +1516,7 @@ u16 TBoss3Volopt::find_random_player() {
     }
     player = candidate_players[(s32)((f32)volopt_candidate_count * (3.0517578e-05f * (f32)rand()))];
     if (player != NULL) {
-        return get_entity_id(player);
+        return player->get_entity_id();
     }
     return 0xFFFF;
 }
@@ -1543,7 +1543,7 @@ u16 TBoss3Volopt::find_strongest_player() {
         }
     }
     if (best != NULL) {
-        return get_entity_id(best);
+        return best->get_entity_id();
     }
     return 0xFFFF;
 }

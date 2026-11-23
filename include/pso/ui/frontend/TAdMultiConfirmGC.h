@@ -4,6 +4,8 @@
 #include "types.h"
 #include "pso/system/task/TObject.h"
 
+class TAdMultiOkGC;
+
 struct TAdMultiConfirmGC : public TObject {
     TAdMultiConfirmGC(TObject *parent);
     virtual ~TAdMultiConfirmGC();
@@ -11,7 +13,7 @@ struct TAdMultiConfirmGC : public TObject {
     u32 m_20;
     u8 _pad24[0x20];
     u32 m_44;
-    uaddr m_48;
+    TAdMultiOkGC *ok;
     virtual void render();
     virtual void run_task();
     static int reset_cursor(void* p);

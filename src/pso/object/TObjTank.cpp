@@ -30,12 +30,12 @@ CollisionBody tobjtank_collision_body_parts = {{0.0f, 0.0f, 0.0f}, 20.0f, 10.0f,
 
 extern "C" {
 BmlResource *tank_bml_resource;
-GinjaTextureList *TObjTank__texture_list;
+NJS_TEXLIST *TObjTank__texture_list;
 s32 init_collision_body_parts(void *, void *, int);
 s32 free_collision_body_parts(void *);
 
 void TObjTank::render() {
-    GinjaTextureList *textures;
+    NJS_TEXLIST *textures;
     if ((this->update_object_view_visibility(400.0f, 20.0f) != 0) && (textures = TObjTank__texture_list)) {
         TObjFish::set_global_param(textures);
         push_matrix();
@@ -67,7 +67,7 @@ TObjTank::TObjTank(TObject *parent, saddr arg2) : TObjCollidable(parent) {
 }
 #undef arg0
 
-void *TObjTank__create(void *set_data) {
+void *TObjTank::create(void *set_data) {
     return new TObjTank(tl_05, (saddr)set_data);
 }
 
@@ -85,6 +85,6 @@ void TObjTank::free_globals() {
 void TObjTank::load_globals() {
     BmlResource *storage = new BmlResource(5, (BmlResourceDescriptor *)&fs_obj_tank_resource_descriptor, 0, 0, NULL);
     tank_bml_resource = storage;
-    TObjTank__texture_list = reinterpret_cast<GinjaTextureList *>(load_gvm_texture_file((saddr)"fs_obj_tank.GVM"));
+    TObjTank__texture_list = load_gvm_texture_file("fs_obj_tank.GVM");
 }
 

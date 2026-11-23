@@ -3,16 +3,8 @@
 
 #include "types.h"
 
-s32 enemy_name_for_rt_index(s32 arg0);
-extern "C" {
-void get_floor_destination_name(u32 arg0);
-}
-
-// --- C functions defined in TObjLuker_801329B0.cpp ---
-s32 enemy_name_for_rt_index(s32 arg0);
-extern "C" {
-void get_floor_destination_name(u32 arg0);
-}
-// --- end of C functions
+saddr enemy_name_for_rt_index(s32 rt_index);
+// The localized destination name of a floor area (text group 9).
+saddr get_floor_destination_name(u32 area);
 
 #endif

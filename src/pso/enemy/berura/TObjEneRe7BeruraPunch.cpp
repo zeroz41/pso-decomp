@@ -17,10 +17,10 @@
 #include "pso/system/MatrixOps.h"
 #include "pso/render/model_render_state.h"
 #include "pso/system/MatrixStack.h"
+#include "pso/object/base/TObjBase.h"
 
 #pragma readonly_strings on
 
-extern "C" u16 get_entity_id(void *);
 
 int TObjMotion::is_motion_blending() { return (motion_flags >> 2) & 1; }
 
@@ -29,7 +29,7 @@ void TObjEneRe7BeruraPunch::apply_hit_if_active(void *target, f32 *hit) {
 
     TUnk_804928CC::apply_hit_if_active(target, hit);
     if (TObjEneDD::check_v2_mode() != 0) {
-        if (is_player_entity_id(get_entity_id(target)) != 0) {
+        if (is_player_entity_id(((TObjBase *)(target))->get_entity_id()) != 0) {
             entity = (TObjChara *)find_entity_by_id(this->owner_id);
             if ((entity != NULL) && (entity->random_ratio() < 0.1f)) {
                 TObjEneDD__sub_800BA438(entity, (TObjChara *)target);
@@ -310,7 +310,7 @@ void TObjEneRe7BeruraPunch::init() {
 TObjEneRe7BeruraPunch::TObjEneRe7BeruraPunch(TObject *parent, TObjBase *owner)
     : TUnk_804928CC(parent, owner, TObjEneRe7BeruraPunch__collision_body_templates, 2) {
     m_name = TObjEneRe7BeruraPunch__name;
-    owner_id = get_entity_id(owner);
+    owner_id = owner->get_entity_id();
     init();
 }
 

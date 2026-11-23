@@ -37,9 +37,6 @@ struct E_800D80E4 { Vec v; u8 pad[8]; u32 col; };
 
 struct Obj_800D80E4 { u8 pad0[0x18]; void *vt; E_800D80E4 e[4]; Vec base; Vec dir[4]; u8 padb8[8]; f32 sc; u8 padc4[4]; f32 c8; };
 
-struct E_800D8228 { Vec v; u8 pad[8]; u32 col; };
-
-struct Obj_800D8228 { u8 pad0[0x18]; void *vt; E_800D8228 e[4]; Vec base; Vec dir[4]; u8 padb8[8]; f32 sc; f32 t; f32 c8; };
 
 struct Vtx_800D8314 { Vec pos; f32 u; f32 v; s32 color; };
 
@@ -59,7 +56,6 @@ extern "C" {
 f32 vec3_add_to(void *, void *);
 extern const f32 lbl_805DA380;
 u32 __cvt_fp2unsigned(f32);
-void run_task__9TDeadSpotFv(Obj_800D8228 *arg0);
 s32 rotate_matrix_z(int, int);
 s32 rotate_matrix_x(int, int);
 
@@ -67,7 +63,6 @@ s32 rotate_matrix_x(int, int);
 #pragma readonly_strings on
 s32 TDeadSpot__class_name = (saddr)"TDeadSpot";
 }
-void direction_to_rotation_yx(u8 *arg0, s32 *arg1, s32 *arg2);
 #pragma pop
 
 extern s32 saved_model_render_flags;
@@ -196,23 +191,23 @@ TDeadSpot::~TDeadSpot() {}
 #pragma pop
 #pragma push
 #pragma fp_contract on
-void run_task__9TDeadSpotFv(Obj_800D8228 *arg0) {
-    E_800D8228 *p;
+void TDeadSpot::run_task() {
+    ParticleStripVertex *p;
     s32 i;
     f32 bx, by, bz;
-    if (arg0->t <= arg0->sc) {
-        arg0->t += 0.2f;
-        if (arg0->t <= 0.0f) {
+    if (scale <= max_scale) {
+        scale += 0.2f;
+        if (scale <= 0.0f) {
             return;
         }
-        p = arg0->e;
-        bx = arg0->base.x;
-        by = arg0->base.y;
-        bz = arg0->base.z;
+        p = verts;
+        bx = center.x;
+        by = center.y;
+        bz = center.z;
         for (i = 0; i < 4; i++) {
-            p->v.x = arg0->dir[i].x * arg0->t + bx;
-            p->v.y = arg0->dir[i].y * arg0->t + by;
-            p->v.z = arg0->dir[i].z * arg0->t + bz;
+            p->x = corners[i].x * scale + bx;
+            p->y = corners[i].y * scale + by;
+            p->z = corners[i].z * scale + bz;
             p++;
         }
     }
@@ -292,13 +287,13 @@ TUnk_804949F4::~TUnk_804949F4() {}
 
 void TUnk_804949F4::vfunc_6() {
   Vec stack;
-  f32 temp_f1;
-  s32 temp_r3;
-  temp_r3 = TObjPlayer::calc_random_scaled();
-  temp_f1 = radius * sin_table_lookup((int) (temp_r3 & 0xFFFFFFFFu));
+  f32 x;
+  s32 angle;
+  angle = TObjPlayer::calc_random_scaled();
+  x = radius * sin_table_lookup((int) (angle & 0xFFFFFFFFu));
   stack.y = lbl_805DA380;
-  stack.x = temp_f1;
-  stack.z = radius * cos_table_lookup((int) temp_r3);
+  stack.x = x;
+  stack.z = radius * cos_table_lookup((int) angle);
   vec3_add_to(&stack.x, (u8 *)&position);
   emitter->set_position(&stack.x);
 }
@@ -324,13 +319,13 @@ TUnk_804949D8::~TUnk_804949D8() {}
 #pragma opt_common_subs off
 void TUnk_804949D8::vfunc_6() {
     Vec stack;
-    f32 temp_f1;
-    s32 temp_r3;
-    temp_r3 = TObjPlayer::calc_random_scaled();
-    temp_f1 = radius * sin_table_lookup(temp_r3);
+    f32 x;
+    s32 angle;
+    angle = TObjPlayer::calc_random_scaled();
+    x = radius * sin_table_lookup(angle);
     stack.y = lbl_805DA380;
-    stack.x = temp_f1;
-    stack.z = radius * cos_table_lookup(temp_r3);
+    stack.x = x;
+    stack.z = radius * cos_table_lookup(angle);
     vec3_add_to(&stack.x, (u8 *)&position);
     TObjBoss2Tunnel::adjust_to_ground(&stack, &stack);
     emitter->set_position(&stack.x);

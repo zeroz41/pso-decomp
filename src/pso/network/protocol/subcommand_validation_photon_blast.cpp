@@ -5,13 +5,13 @@
 
 s32 validate_6x49_execute_photon_blast(G_ExecutePhotonBlast_6x49 *packet) {
     s32 i;
-    if (validate_subcommand_client(&packet->header.header) == 0) {
+    if (validate_subcommand_client(&packet->header) == 0) {
         return 0;
     }
-    if (validate_photon_blast_parameters(&packet->header.photon_blast) == 0) {
+    if (validate_photon_blast_parameters(&packet->params) == 0) {
         return 0;
     }
-    for (i = 0; i < packet->header.target_count; i++) {
+    for (i = 0; i < packet->params.target_count; i++) {
         if (validate_cast_target_entry(&packet->targets[i]) == 0) {
             return 0;
         }

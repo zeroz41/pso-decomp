@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/quest/challenge/ChallengeModeData.h"
 
 // Data-only unit (.sdata2): ChallengeMode keeps these extern.
 

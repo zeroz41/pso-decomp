@@ -12,7 +12,7 @@ struct TTecJelin : public TTecCircle {
     virtual void vfunc_6(void *);
     virtual void run_task();
     void init_tech_params();
-    static void create(saddr source, saddr pos, saddr arg2, s32 level);
+    static void create(saddr source, saddr pos, saddr target, s32 level);
     virtual void render();
     s32 has_targets;  // set by the target-list constructor: run_task hits targets, not the area
     TargetCursorList targets;

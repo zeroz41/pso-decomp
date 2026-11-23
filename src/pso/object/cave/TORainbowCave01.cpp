@@ -46,7 +46,7 @@ void TORainbowCave01::render() {
     u32 flags;
     if (update_object_view_visibility(view_range, model_radius) != 0 && -1.0f < fade) {
         TParticleCtrl::begin_effect_render();
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
         flags = model_render_flags;
         saved_model_render_flags = flags;
         model_render_flags = flags | 0x20;
@@ -110,7 +110,7 @@ TORainbowCave01::TORainbowCave01(TObject *parent, void *set_data) : TObjMapObjec
     m_name = TORainbowCave01__class_name;
     apply_object_set_data(set_data);
     model = (void *)TORainbowCave01__bml_resource->models[0].model;
-    texlist = (saddr)TORainbowCave01__bml_resource->models[0].texlist;
+    texlist = TORainbowCave01__bml_resource->models[0].texlist;
     view_range = 400.0f;
     model_radius = 40000.0f;
     fade = 0.0f;

@@ -51,7 +51,7 @@ void TOComputerMachine01::render() {
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
         body = (NJS_OBJECT *)model;
         draw_ginja_model((void *)body->model);
         TParticleCtrl::begin_effect_render();
@@ -104,7 +104,7 @@ TOComputerMachine01::TOComputerMachine01(void *set_data) : TOQuestTalkBase(tl_05
     m_name = class_name;
     apply_object_set_data(set_data);
     model = (void *)model_resource->models->model;
-    texlist = (saddr)model_resource->models->texlist;
+    texlist = model_resource->models->texlist;
     view_range = 500.0f;
     model_radius = 50.0f;
     actorFlags |= 0x40000000;

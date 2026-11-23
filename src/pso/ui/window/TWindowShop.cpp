@@ -5,9 +5,8 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/window/TWindowAddition.h"
 #include "pso/ui/window/TWindowMenuIconLine.h"
-#include "pso/ui/window/TUnk_804D0948.h"
+#include "pso/ui/window/TWindowShop.h"
 #include "pso/unk/TLobby.h"
-#include "pso/ui/city/TShopJudgmentItemWindow_8026DF00.h"
 #include "pso/ui/city/TShopJudgmentItemWindow.h"
 #include "pso/network/client_id.h"
 #include "pso/system/NinjaTypes.h"
@@ -30,20 +29,20 @@ static const NJS_POINT2 TShopJudgmentItemWindow__item_list_rect_table[3] = {
 
 }
 
-void TWindowShop::sub_8026DE94(s32 arg) {
+void TWindowShop::init_list_window(s32 title) {
     this->m_name = TWindowShop__class_name;
-    ensure_status_display(arg);
+    ensure_status_display(title);
     create_menu_scroll_bar();
     this->set_depth(39000.0f);
     if (TCameraCtrl::get_camera_id() > 2) {
         set_position_xy(0.75f, 0.75f);
     }
-    this->unk_88 = 0;
+    this->capacity = 0;
 }
 
 extern "C" {
 
-u8 *create_item_list_window(s32 arg0, s32 count, s32 arg2) {
+TWindowShop *create_item_list_window(s32 title, s32 count, s32 client) {
     s32 camera_id;
     camera_id = TCameraCtrl::get_camera_id();
     switch (camera_id) {
@@ -58,13 +57,13 @@ u8 *create_item_list_window(s32 arg0, s32 count, s32 arg2) {
         TShopJudgmentItemWindow__sub_80267F9C(&TShopJudgmentItemWindow__item_list_rect_table[2], count);
         break;
     }
-    return (u8 *)new TWindowShop(arg0, count, arg2);
+    return new TWindowShop(title, count, client);
 }
 
 }
 
-u8 *TShopJudgmentItemWindow::open_default(s32 a) {
-    return create_item_list_window(a, 0x40, local_client_id);
+TWindowShop *TShopJudgmentItemWindow::open_default(s32 title) {
+    return create_item_list_window(title, 0x40, local_client_id);
 }
 
 #pragma push
@@ -82,7 +81,7 @@ void TWindowShop::render() {
     if (!(this->state_flags & 0x80)) {
         draw_selected_list_entry(context);
     }
-    n = this->unk_88;
+    n = this->capacity;
     if (n > 0) {
         draw_item_list_capacity(this, context, this->entry_count, n);
     }
@@ -101,12 +100,12 @@ void TWindowShop::run_task() { TWindowMenuIconLine::run_task(); }
 
 TWindowShop::~TWindowShop() {}
 
-TWindowShop::TWindowShop(u8 *parent, s32 arg, u32 count, u8 *descriptor)
+TWindowShop::TWindowShop(u8 *parent, s32 title, u32 count, u8 *descriptor)
     : TWindowMenuIconLine(parent, count, local_client_id, descriptor) {
-    sub_8026DE94(arg);
+    init_list_window(title);
 }
 
-TWindowShop::TWindowShop(s32 arg, u32 count, s32 client)
+TWindowShop::TWindowShop(s32 title, u32 count, s32 client)
     : TWindowMenuIconLine(get_window_layout_position(0x26), count, client) {
-    sub_8026DE94(arg);
+    init_list_window(title);
 }

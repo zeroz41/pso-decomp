@@ -28,7 +28,7 @@
 
 extern "C" {
 void translate_matrix_vec3(u8 *arg0, u8 *arg1);
-void draw_model_motion(void *arg0, void *arg1, f32 farg0);
+void draw_model_motion(void *model, void *motion, f32 frame);
 s32 vec3_add_to(void *, void *);
 extern s32 actor_frame_tick;
 s32 rotate_vector_by_matrix(int, void *, void *);
@@ -50,7 +50,7 @@ Vec *TObjEneBm5Wolf::get_spawn_position() { return &spawn_position; }
 
 void TObjCGrass::render() {
     s32 i;
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(this->texlist));
+    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
     for (i = 0; i < fragment_count; i++) {
         if (!(fragments[i].flags & 1)) {
             push_matrix_from(0);
@@ -78,7 +78,7 @@ void TObjCGrass::run_task() {
         VecCopy(&prev_position, &a);
         vec3_add_to(&a, &b);
         if (i == actor_frame_tick % fragment_count) {
-            hit = csnVectorUnder(&a, ground_candidates, 1);
+            hit = csnVectorUnder(&a, ground_candidates.groups, 1);
             if (hit != NULL) {
                 VecCopy(&a, &hit->contact->point);
                 b.y += -0.10888889f;
@@ -124,7 +124,7 @@ void TObjCGrass::load_resources() {
     NpcAnimationBinding binding = cgrass_anim_binding;
     binding.motions = TObjCGrass_bml_resource->motions;
     BmlModelEntry *model = TObjCGrass_bml_resource->models;
-    NpcModelRegistry::register_animated_chunk(0x36, reinterpret_cast<void *>(model->model), reinterpret_cast<void *>(model->texlist), &binding, 2.0f, 0.0f);
+    NpcModelRegistry::register_animated_chunk(0x36, reinterpret_cast<void *>(model->model), model->texlist, &binding, 2.0f, 0.0f);
 }
 
 }
@@ -134,50 +134,47 @@ TObjCGrass::~TObjCGrass() {
 
 #pragma push
 #pragma fp_contract on
-#define self this
-TObjCGrass::TObjCGrass(Vec *origin, s32 count, s32 lifetime) : TObjMotion(tl_06) {
+TObjCGrass::TObjCGrass(Vec origin, s32 count, s32 lifetime) : TObjMotion(tl_06) {
     CsnHit *hit;
-    initialize_ground_candidates(self->ground_candidates);
-    self->m_name = TObjCGrass__name;
-    hit = csnVectorUnder(origin, self->ground_candidates, 1);
+    m_name = TObjCGrass__name;
+    hit = csnVectorUnder(&origin, ground_candidates.groups, 1);
     if (hit != NULL) {
-        VecCopy(&self->position, &hit->contact->point);
+        VecCopy(&position, &hit->contact->point);
     } else {
-        VecCopy(&self->position, origin);
+        VecCopy(&position, &origin);
     }
-    self->model = (void *)TObjCGrass_bml_resource->models[0].model;
-    self->texlist = (saddr)TObjCGrass_bml_resource->models[0].texlist;
-    self->motion_list = TObjCGrass_bml_resource->motions;
-    self->action_table = cgrass_action_desc;
-    self->set_action_table((saddr)self->action_table);
-    self->set_animation(0);
-    self->last_animation_frame = self->frame_count - 1.0f;
-    self->fragment_count = count;
+    model = (void *)TObjCGrass_bml_resource->models[0].model;
+    texlist = TObjCGrass_bml_resource->models[0].texlist;
+    motion_list = TObjCGrass_bml_resource->motions;
+    action_table = cgrass_action_desc;
+    set_action_table((saddr)action_table);
+    set_animation(0);
+    last_animation_frame = frame_count - 1.0f;
+    fragment_count = count;
     if (count != 0) {
-        self->fragments = (CGrassFragment *)mem_alloc(self->fragment_count * sizeof(CGrassFragment));
+        fragments = (CGrassFragment *)mem_alloc(fragment_count * sizeof(CGrassFragment));
     } else {
-        self->fragments = NULL;
+        fragments = NULL;
     }
     {
     s32 i;
-    for (i = 0; i < self->fragment_count; i++) {
+    for (i = 0; i < fragment_count; i++) {
         s32 a;
         Vec v;
-        VecCopy(&self->fragments[i].position, &self->position);
+        VecCopy(&fragments[i].position, &position);
         v.x = 0.0f;
         v.y = 3.0517578e-05f * (f32)rand();
         v.z = 3.0517578e-05f * (f32)rand() + 1.0f;
         a = (s32)(182.04445f * (360.0f * (3.0517578e-05f * (f32)rand())));
-        self->fragments[i].yaw = a;
+        fragments[i].yaw = a;
         push_matrix_from(identity_matrix);
         rotate_matrix_y(0, a);
-        rotate_vector_by_matrix(0, &v, &self->fragments[i].velocity);
+        rotate_vector_by_matrix(0, &v, &fragments[i].velocity);
         pop_matrices(1);
-        self->fragments[i].flags = 0;
+        fragments[i].flags = 0;
     }
     }
-    self->remaining_frames = lifetime;
+    remaining_frames = lifetime;
 }
-#undef self
 #pragma pop
 

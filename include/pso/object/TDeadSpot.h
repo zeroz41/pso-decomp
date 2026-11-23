@@ -5,7 +5,7 @@
 #include "pso/effect/particle/ParticleStrip.h"
 #include "pso/system/task/TObject.h"
 
-struct GinjaTextureList;
+struct NJS_TEXLIST;
 
 class TDeadSpot : public TObject {
 public:
@@ -16,7 +16,7 @@ public:
     ParticleStripVertex verts[4]; // 0x1C
     Vec center;                    // 0x7C
     Vec corners[4];                // 0x88
-    GinjaTextureList *texture;     // 0xB8
+    NJS_TEXLIST *texture;     // 0xB8
     s32 selector;                  // 0xBC, texture number
     f32 max_scale;                 // 0xC0
     f32 scale;                     // 0xC4, drawn while above zero

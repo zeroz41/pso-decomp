@@ -600,8 +600,8 @@ CsnGroup *TObjPlayer__sub_80079DE0(Vec *a, Vec *b) {
 
 #pragma push
 #pragma fp_contract on
-s32 prepare_wall_query_polygons(void *arg0, f32 r, s32 mask) {
-    Vec *pos = (Vec *)arg0;
+s32 prepare_wall_query_polygons(void *origin, f32 r, s32 mask) {
+    Vec *pos = (Vec *)origin;
     s32 i;
     s32 count;
     s32 cnt;
@@ -853,9 +853,9 @@ void init_csn_hit(u8 *arg0) {
 }
 
 
-s32 init_csn_contact(saddr arg0) {
-    ((TObjPlayer *)arg0)->clear_velocity_vectors();
-    return arg0;
+s32 init_csn_contact(saddr player) {
+    ((TObjPlayer *)player)->clear_velocity_vectors();
+    return player;
 }
 
 

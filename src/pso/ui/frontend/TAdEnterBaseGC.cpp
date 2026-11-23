@@ -3,6 +3,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 
 #include "types.h"
+#include "pso/ui/frontend/TAdEndText.h"
 #include "pso/ui/window/TWindowBase.h"
 #include <stdio.h>
 #include <string.h>
@@ -110,7 +111,7 @@ TAdEnterBaseGC::Position password_screen_status_line_position[1] = {0.0f, 0.0f};
 u32 serial_access_entered_value_table[4] = {0};
 
 // The TU's .sbss, in this order; TAdEnterPasswordGC and TAdEnterPPPPassGC share the first two.
-void *password_entry_keyboard_control;
+TKeyBoardControl *password_entry_keyboard_control;
 
 s32 password_entry_dispatch_state;
 
@@ -118,7 +119,7 @@ s32 TAdEnterBaseGC__entry_mode;
 
 extern "C" {
 
-void fn_8025DE10(void *arg0, void *arg1);
+void fn_8025DE10(void *context, void *cursor);
 
 void __dt__19TAdPlyChrSelPlateGCFv(void *, int);
 
@@ -133,10 +134,6 @@ u8 *get_raw_serial_input_buffer();
 u8 *TAdEnterPasswordGC__sub_8013ADE4();
 
 u32 get_field_118__22TAdEnterSerialAccessGCFv();
-
-s32 TAdEndText__sub_8001B3BC(int);
-
-s32 TAdEndText__sub_8001B3EC(int);
 
 extern s32 local_client_id;
 
@@ -194,7 +191,7 @@ void TAdEnterBaseGC::fn_8032B318(Position *position) {
 
 int TAdEnterSerialAccessGC::forward_input(void *window, s32 mode, const char *buf) { return validate_input__22TAdEnterSerialAccessGCFPviPv(window, mode, buf); }
 
-int validate_input__22TAdEnterSerialAccessGCFPviPv(void *arg0, s32 arg1, const char *arg2) {
+int validate_input__22TAdEnterSerialAccessGCFPviPv(void *window, s32 mode, const char *arg2) {
     s32 i;
     s32 n;
 
@@ -202,23 +199,23 @@ int validate_input__22TAdEnterSerialAccessGCFPviPv(void *arg0, s32 arg1, const c
     max.n[2] = strlen(arg2);
     max.n[3] = strlen(arg2);
     Lim_8032B1A4 min = {10, 12, 1, 0};
-    if (strlen(arg2) < min.n[arg1]) {
+    if (strlen(arg2) < min.n[mode]) {
         return 0;
     }
-    switch (arg1) {
+    switch (mode) {
     case 0:
     case 1:
-        n = max.n[arg1];
+        n = max.n[mode];
         for (i = 0; i < n; i++, arg2++) {
-            if (TAdEndText__sub_8001B3BC(*arg2) == 0) {
+            if (is_digit(*arg2) == 0) {
                 return 0;
             }
         }
         break;
     case 2:
-        n = max.n[arg1];
+        n = max.n[mode];
         for (i = 0; i < n; i++, arg2++) {
-            if (TAdEndText__sub_8001B3EC(*arg2) == 0) {
+            if (is_alnum(*arg2) == 0) {
                 return 0;
             }
         }
@@ -229,9 +226,9 @@ int validate_input__22TAdEnterSerialAccessGCFPviPv(void *arg0, s32 arg1, const c
     return 1;
 }
 
-char *TAdEnterSerialAccessGC::serial_to_hex_string(const char *arg0) {
+char *TAdEnterSerialAccessGC::serial_to_hex_string(const char *serial) {
     u32 v = 0;
-    sscanf(arg0, "%08X", &v);
+    sscanf(serial, "%08X", &v);
     memset(serial_access_hex_string_buf, 0, 0x40);
     if (v != 0) {
         sprintf(serial_access_hex_string_buf, "%010lu", v);
@@ -276,15 +273,15 @@ s32 has_serial_input__22TAdEnterSerialAccessGCFv(s32 parent, s32 field) {
     return (s8)*get_serial_text__22TAdEnterSerialAccessGCFii(parent, field) ? 1 : 0;
 }
 
-u8 *get_serial_text__22TAdEnterSerialAccessGCFii(s32 arg0, s32 arg1) {
-    if (arg1 == 3) {
+u8 *get_serial_text__22TAdEnterSerialAccessGCFii(s32 arg0, s32 field) {
+    if (field == 3) {
         return (u8 *)"";
     }
-    if (arg1 == 2 && TAdPsoPassSaveGC__sub_8032B584() == 0) {
+    if (field == 2 && TAdPsoPassSaveGC__sub_8032B584() == 0) {
         return (u8 *)"";
     }
     if (*(s8 *) (TAdSinglePlyChrSelectGC::get_instance() + 0x1152C) != 0) {
-        switch (arg1) {
+        switch (field) {
         case 0:
             return (u8 *) TAdEnterSerialAccessGC::serial_to_hex_string((const char *)(TAdSinglePlyChrSelectGC::get_instance() + 0x1152C));
         case 1:
@@ -292,8 +289,8 @@ u8 *get_serial_text__22TAdEnterSerialAccessGCFii(s32 arg0, s32 arg1) {
         case 2:
             return (u8 *) (TAdSinglePlyChrSelectGC::get_instance() + 0x1154C);
         }
-    } else if (serial_access_entered_value_table[arg1] == get_field_118__22TAdEnterSerialAccessGCFv()) {
-        switch (arg1) {
+    } else if (serial_access_entered_value_table[field] == get_field_118__22TAdEnterSerialAccessGCFv()) {
+        switch (field) {
         case 0:
             return get_raw_serial_input_buffer();
         case 1:
@@ -315,28 +312,28 @@ void *TAdEnterSerialAccessGC::create_default_callback() {
     return TAdEnterSerialAccessGC::create_callback((void *)lbl_80477188, (void *)lbl_80477190, fn_8032AC9C);
 }
 
-u32 TAdEnterSerialAccessGC::create_keyboard_control(saddr arg0, s32 arg1) {
-    u8 *kb;
-    if (arg1 < 0 || arg1 >= 4) {
-        return 0;
+TKeyBoardControl *TAdEnterSerialAccessGC::create_keyboard_control(saddr arg0, s32 field) {
+    TKeyBoardControl *kb;
+    if (field < 0 || field >= 4) {
+        return NULL;
     }
     B4_8032AD30 sp8 = serial_keyboard_mode_table;
-    kb = (u8 *)new TKeyBoardControl((TObject *)arg0, serial_keyboard_field_width_table[arg1], 0, sp8.b[arg1], local_client_id);
+    kb = new TKeyBoardControl((TObject *)arg0, serial_keyboard_field_width_table[field], 0, sp8.b[field], local_client_id);
     if (kb == NULL) {
-        return 0;
+        return NULL;
     }
-    ((TKeyBoardControl *)kb)->set_sub_position((u8 *)serial_keyboard_position_table[arg1]);
-    if (has_serial_input__22TAdEnterSerialAccessGCFv(arg0, arg1) != 0) {
-        ((TKeyBoardControl *)kb)->set_text((char *)get_serial_text__22TAdEnterSerialAccessGCFii(arg0, arg1));
+    kb->set_sub_position((u8 *)serial_keyboard_position_table[field]);
+    if (has_serial_input__22TAdEnterSerialAccessGCFv(arg0, field) != 0) {
+        kb->set_text((char *)get_serial_text__22TAdEnterSerialAccessGCFii(arg0, field));
     }
-    if (arg1 != 3) {
-        reinterpret_cast<TKeyBoardControl *>(kb)->set_composer_flag62_bit4();
+    if (field != 3) {
+        kb->set_composer_flag62_bit4();
     }
-    return (uaddr)kb;
+    return kb;
 }
 
-void fn_8032AC9C(void *arg0, void *arg1) {
-    ((TWindowBase *)arg0)->draw_window_frame(arg1);
+void fn_8032AC9C(void *arg0, void *context) {
+    ((TWindowBase *)arg0)->draw_window_frame(context);
     TAdSubPlyItemGC::render_status_line(password_screen_status_line_position[0].x, password_screen_status_line_position[0].y, 0.8f, (const char *)get_localized_text_entry(0x17, 4), -1);
     switch (TAdEnterBaseGC__entry_mode) {
     case 0:
@@ -347,7 +344,7 @@ void fn_8032AC9C(void *arg0, void *arg1) {
         fn_8032AC24();
         return;
     case 3:
-        draw_masked_password_field((saddr)arg1);
+        draw_masked_password_field((saddr)context);
         return;
     }
 }
@@ -366,7 +363,7 @@ void fn_8032AC24(void) {
     draw_selection_plate(&plate, const_cast<NJS_POINT2 *>(&entry_field_box_pos), w, 0);
 }
 
-void draw_masked_password_field(saddr arg0) {
+void draw_masked_password_field(saddr context) {
     char buf[0x80];
     char *str;
     s32 len;
@@ -379,7 +376,7 @@ void draw_masked_password_field(saddr arg0) {
         TAdPlyChrSelPlateGC plate(reinterpret_cast<TObject *>(tl_clipout), &layout);
         NJS_COLOR w = password_field_box_color;
         draw_selection_plate(&plate, const_cast<NJS_POINT2 *>(&password_field_box_pos), w, 0);
-        str = ((TKeyBoardControl *)password_entry_keyboard_control)->realloc_buffer();
+        str = password_entry_keyboard_control->realloc_buffer();
         len = strlen(str);
         mem_free(str);
         memset(buf, 0, 0x80);
@@ -391,9 +388,9 @@ void draw_masked_password_field(saddr arg0) {
         len = calc_text_width("*");
         draw_menu_font_string_white((const char *)buf, password_field_text_pos[0], password_field_text_pos[1]);
         NJS_POINT2 p2;
-        p2.x = password_field_text_pos[0] + (f32) (len * static_cast<TKeyBoardControl *>(password_entry_keyboard_control)->get_cursor_position());
+        p2.x = password_field_text_pos[0] + (f32) (len * password_entry_keyboard_control->get_cursor_position());
         p2.y = password_field_text_pos[1];
-        fn_8025DE10((void *)arg0, &p2);
+        fn_8025DE10((void *)context, &p2);
     }
 }
 

@@ -8,6 +8,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/player/TObjPlayer_801D2E20.h"
 #include "pso/player/TObjPlayer_80128A70.h"
+#include "pso/object/base/TObjBase.h"
 
 
 struct Owner_80129648 { u8 pad[0x60]; s32 f60; };
@@ -17,11 +18,11 @@ struct Self_80129648 { u8 pad0[0x24]; s32 f24; u8 pad28[0xF0 - 0x28]; Owner_8012
 struct Tec_80129648 {
     s16 id;
     u8 pad2[2];
-    s32 f4;
+    NJS_TEXLIST *texlist;
     s32 f8;
-    s32 fC;
+    s32 item_id;
     s16 f10;
-    s16 f12;
+    s16 validated_attack_stage;
     f32 f14;
     f32 f18;
     f32 f1C;
@@ -34,7 +35,6 @@ struct Tec_80129648 {
 };
 
 extern "C" {
-s16 get_entity_id(void *);
 }
 void init_slicer_launch_state(void *);
 void TUnk_804A4338::emit_marker_effects() {
@@ -42,12 +42,12 @@ void TUnk_804A4338::emit_marker_effects() {
     Tec_80129648 tec;
     TObjPlayer__sub_80128A70();
     init_slicer_launch_state(&tec);
-    tec.id = get_entity_id(self->owner);
-    tec.fC = ((TItem *)self)->get_item_id();
-    tec.f4 = this->texlist;
+    tec.id = ((TObjBase *)(self->owner))->get_entity_id();
+    tec.item_id = ((TItem *)self)->get_item_id();
+    tec.texlist = this->texlist;
     tec.f8 = self->f188;
     tec.f10 = TObjPlayer__sub_801D2F4C((s16 *)((u8 *)self->owner + 0x7CC));
-    tec.f12 = get_validated_attack_stage((u8 *)self->owner + 0x7CC);
+    tec.validated_attack_stage = owner->attack_state.get_validated_attack_stage();
     tec.f14 = ((TObjPlayer *)self->owner)->query_extended_state();
     tec.f18 = 1.0f;
     tec.f1C = 0.6f;
@@ -56,7 +56,7 @@ void TUnk_804A4338::emit_marker_effects() {
     tec.f28 = self->owner->f60;
     ((TItemWeapon *)self)->get_joint_position(1, &tec.pos);
     ((TItemWeapon *)self)->get_joint_position(2, &tec.dir);
-    TTecSlicer::create((u16*)&tec);
+    TTecSlicer::create((SlicerLaunchState *)&tec);
 }
 
 TUnk_804A4338::TUnk_804A4338(TObject *parent, u8 *item) : TUnk_804A4948(parent, item) {

@@ -6,11 +6,10 @@
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowSubQuestBoard.h"
 #include "pso/quest/TQuestThread.h"
-#include "pso/ui/window/TWindowSubComCard_80244774.h"
 #include "pso/ui/window/TWindowSubQuestBoard_8027D1E8.h"
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/window/TWindowSubQuestBoardSelect.h"
-#include "pso/unk/TUnk_804D1818.h"
+#include "pso/ui/window/TWindowSubOption.h"
 #include "pso/system/task/TObject.h"
 #include "pso/unk/TLobby.h"
 #include "pso/ui/window/TWindowSubComCard.h"
@@ -32,70 +31,65 @@
 
 #pragma readonly_strings on
 
-struct Ent_8027CFC8 { u8 pad[0x20]; s32 f20; };
+struct Ent_8027CFC8 { u8 pad[0x20]; s32 label; };
 
-// The {width, height} of the option value window sub_8027C884 opens (name inferred).
+// The {width, height} of the option value window create_option_value_window opens.
 __declspec(section ".rodata") static const f32 option_value_window_size[2] ATTRIBUTE_ALIGN(8) = { 302.0f, 148.0f };
 
 extern "C" {
-void __dl__7TObjectFPv(void *);
-void __dt__7TObjectFv(void *, int);
-void __ct__7TObjectFP7TObject(void *, void *);
-extern s32 __vt__13TUnk_804D1818[];
 s32 fn_8027D1E8(s32);
 extern Ent_8027CFC8 quest_board_handlers[];
 int set_card_window_flags__19TWindowKeyBoardHardFPvll(void*, int, int);
-const char *TWindowSubQuestBoard__class_name = "TWindowSubQuestBoard";
 }
 
-int TWindowSubQuestBoard__sub_8027D1DC(void* p) { return *(u8*)((char*)p + 0x60) & 0x2; }
+const char *TWindowSubQuestBoard::class_name = "TWindowSubQuestBoard";
+
+int TWindowSubQuestBoardSelect::is_cancelled() { return this->m_60 & 0x2; }
 
 int TWindowSubQuestBoardSelect::is_open() { return this->m_60 & 0x1; }
 
-u8 TWindowSubQuestBoard::get_page_index() { return *(u8*)((char*)this + 0x61); }
+u8 TWindowSubQuestBoardSelect::get_page_index() { return this->slot; }
 
-TWindowSubQuestBoard::TWindowSubQuestBoard(TObject *object, void *arg2) : TObject(object) {
-    void *o;
-    this->m_name = TWindowSubQuestBoard__class_name;
+TWindowSubQuestBoard::TWindowSubQuestBoard(TObject *object, void *client) : TObject(object) {
+    this->m_name = class_name;
     parent_menu = static_cast<TWindowMainMenu *>(object);
-    *(void **)((s8 *)this + 0x20) = arg2;
-    o = new TWindowSubQuestBoardSelect();
-    *(void **)((s8 *)this + 0x28) = o;
+    this->client = client;
+    select_window = new TWindowSubQuestBoardSelect();
     this->quest_thread_board = NULL;
-    this->m_1c = 0;
+    this->state = 0;
     TWindowCtrl__sub_8027D214();
 }
 
 TWindowSubQuestBoard::~TWindowSubQuestBoard() {
     TWindowCtrl__sub_8027D1F8();
-    if (*(void **)((s8 *)this + 0x28) != NULL) { ((TWindowBase *)(*(void **)((s8 *)this + 0x28)))->close(); this->m_28 = 0; }
+    if (select_window != NULL) { select_window->close(); select_window = NULL; }
 }
 
 extern "C" {
 void TWindowSubQuestBoard::run_task() {
-    switch (this->m_1c) {
+    switch (this->state) {
     case 0:
     case 1:
-        fn_8027D1E8(this->m_28);
-        this->m_1c = 2;
+        fn_8027D1E8((saddr)select_window);
+        this->state = 2;
     case 2:
-        if (TWindowSubQuestBoard__sub_8027D1DC((void *)this->m_28) != 0) {
+        if (select_window->is_cancelled() != 0) {
             parent_menu->on_submenu_closed();
-            this->m_1c = 5;
+            this->state = 5;
             break;
         }
-        if (((TWindowSubQuestBoardSelect *)(this->m_28))->is_open() != 0) {
-            this->m_1c = 3;
+        if (select_window->is_open() != 0) {
+            this->state = 3;
         }
         break;
     case 3:
         this->quest_thread_board = TQuestThreadBoard::create_instance(
-            quest_board_handlers[(s8)((TWindowSubQuestBoard *)this->m_28)->get_page_index()].f20);
-        this->m_1c = 4;
+            quest_board_handlers[(s8)select_window->get_page_index()].label);
+        this->state = 4;
     case 4:
         if (this->quest_thread_board->all_parents_unqueued_for_destruction() == 0) {
             this->quest_thread_board = NULL;
-            this->m_1c = 1;
+            this->state = 1;
         }
         break;
     case 5:
@@ -105,7 +99,7 @@ void TWindowSubQuestBoard::run_task() {
 
 void TWindowSubQuestBoard::render() {  }
 
-int TWindowSubQuestBoard::set_card_flags_direct(int a1) { return set_card_window_flags__19TWindowKeyBoardHardFPvll(this, a1, -2); }
+int TWindowSubQuestBoard::set_card_flags_direct(int card_flags_direct) { return set_card_window_flags__19TWindowKeyBoardHardFPvll(this, card_flags_direct, -2); }
 
 void TWindowSubQuestBoard::set_card_flags_scaled(s32 value) {
     saddr arg0 = (saddr)this;
@@ -131,23 +125,20 @@ void TWindowSubQuestBoard::set_board_flags(s32 value) {
     TWindowKeyBoardHard::set_card_window_flags((void*)arg0, value << 0xA, -0x1C01);
 }
 
-u8 *TWindowSubQuestBoard__sub_8027CE74(u8 *arg0, TWindowMainMenu *parent, s32 client_id) {
-    __ct__7TObjectFP7TObject(arg0, parent);
-    *(s32 **)((s8 *)arg0 + 0x18) = __vt__13TUnk_804D1818;
-    ((TUnk_804D1818 *)arg0)->parent = parent;
-    ((TUnk_804D1818 *)arg0)->client_id = client_id;
-    ((TUnk_804D1818 *)arg0)->menu = (TWindowMenu *)((TUnk_804D1818 *)arg0)->create_option_menu_window();
-    ((TUnk_804D1818 *)arg0)->value_window = 0;
-    ((TUnk_804D1818 *)arg0)->state = 0;
-    return arg0;
+TWindowSubOption::TWindowSubOption(TWindowMainMenu *parent, s32 client) : TObject(parent) {
+    this->parent = parent;
+    client_id = client;
+    menu = (TWindowMenu *)create_option_menu_window();
+    value_window = 0;
+    state = 0;
 }
 
-TUnk_804D1818::~TUnk_804D1818() {
+TWindowSubOption::~TWindowSubOption() {
     if (value_window != 0) { ((TWindowBase *)value_window)->close(); value_window = 0; }
     if (menu != NULL) { ((TWindowBase *)menu)->close(); menu = NULL; }
 }
 
-void TUnk_804D1818::run_task() {
+void TWindowSubOption::run_task() {
     s32 t;
     switch (state) {
     case 0:
@@ -170,7 +161,7 @@ void TUnk_804D1818::run_task() {
         break;
     case 3:
         t = menu->get_selected_value();
-        value_window = sub_8027C884(t);
+        value_window = create_option_value_window(t);
         state = 4;
     case 4:
         this->update_photon_selection();
@@ -182,21 +173,21 @@ void TUnk_804D1818::run_task() {
     }
 }
 
-void TUnk_804D1818::render() {  }
+void TWindowSubOption::render() {  }
 
-saddr TUnk_804D1818::create_option_menu_window() {
+saddr TWindowSubOption::create_option_menu_window() {
     saddr titled_window_menu;
 
     titled_window_menu = create_titled_window_menu((saddr)get_window_layout_position(0x15), 6, (saddr)TWindowSubStatusDisp::get_message_10(0x2A), client_id);
     if (is_split_screen() == 0) {
-        TObjCityMainWarp::forward_trade_action_default((void *)titled_window_menu, (saddr)TWindowSubStatusDisp::get_message_10(0x66), 6, 0);
+        ((TWindowMenu *)titled_window_menu)->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x66)), 6, 0);
     }
-    TObjCityMainWarp::forward_trade_action_default((void *)titled_window_menu, (saddr)TWindowSubStatusDisp::get_message_10(0x67), 6, 1);
-    TObjCityMainWarp::forward_trade_action_default((void *)titled_window_menu, (saddr)TWindowSubStatusDisp::get_message_10(0x68), 6, 2);
-    TObjCityMainWarp::forward_trade_action_default((void *)titled_window_menu, (saddr)TWindowSubStatusDisp::get_message_10(0x69), 6, 3);
-    TObjCityMainWarp::forward_trade_action_default((void *)titled_window_menu, (saddr)TWindowSubStatusDisp::get_message_10(0x6A), 6, 4);
+    ((TWindowMenu *)titled_window_menu)->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x67)), 6, 1);
+    ((TWindowMenu *)titled_window_menu)->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x68)), 6, 2);
+    ((TWindowMenu *)titled_window_menu)->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x69)), 6, 3);
+    ((TWindowMenu *)titled_window_menu)->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x6A)), 6, 4);
     if (is_split_screen() == 0) {
-        TObjCityMainWarp::forward_trade_action_default((void *)titled_window_menu, (saddr)TWindowSubStatusDisp::get_message_10(0x6E), 6, 5);
+        ((TWindowMenu *)titled_window_menu)->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x6E)), 6, 5);
     }
     ((TWindowMenu *)titled_window_menu)->set_flag70_bit10();
     ((TWindowMenu *)titled_window_menu)->update_layout_height(195.0f);
@@ -205,7 +196,7 @@ saddr TUnk_804D1818::create_option_menu_window() {
     return titled_window_menu;
 }
 
-saddr TUnk_804D1818::sub_8027C884(s32 option) {
+saddr TWindowSubOption::create_option_value_window(s32 option) {
     s16 value;
     saddr window;
     s32 flag;
@@ -260,7 +251,7 @@ saddr TUnk_804D1818::sub_8027C884(s32 option) {
     return window;
 }
 
-void TUnk_804D1818::update_quest_board_card_flags() {
+void TWindowSubOption::update_quest_board_card_flags() {
     s32 selected_menu_value;
     s32 value;
 
@@ -288,7 +279,7 @@ void TUnk_804D1818::update_quest_board_card_flags() {
     }
 }
 
-void TUnk_804D1818::update_photon_selection() {
+void TWindowSubOption::update_photon_selection() {
     s32 selected_menu_value;
     s32 value;
 

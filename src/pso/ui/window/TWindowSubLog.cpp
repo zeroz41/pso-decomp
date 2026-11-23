@@ -5,7 +5,6 @@
 #include "pso/ui/window/TWindowMainMenu.h"
 #include "pso/unk/text_8026A93C.h"
 #include "pso/ui/window/TWindowCtrl_8024ADAC.h"
-#include "pso/ui/window/TWindowSubComCard_80244774.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/ui/frontend/TAdScrollWinGC_8026A5F8.h"
 #include "pso/unk/text_80076BC4.h"
@@ -21,7 +20,7 @@
 const char *TWindowSubLog__class_name = "TWindowSubLog";
 
 
-struct Lg_8027B194 { s32 f0; u8 pad4[0x14]; void *vt; void *f1c; void *f20; s32 f24; void *f28; u8 f2c[0x10]; };
+struct Lg_8027B194 { s32 f0; u8 pad4[0x14]; void *vt; void *client_id; void *f20; s32 f24; void *f28; u8 f2c[0x10]; };
 
 extern "C" {
 s32 play_sound_effect(int, int, int, int);
@@ -34,13 +33,13 @@ void TWindowSubLog::run_task() {
     u8 *arg0 = (u8 *)this;
     ControllerInputContext *context;
     u8 *temp_r3;
-    if ((((TWindowChat *)(this->m_28))->is_mode_bit4() != 0) && (chat_accept_submission((saddr)(arg0 + 0x2C)) != 0)) {
-        TWindowChat__sub_80247E50(reinterpret_cast<TWindowChat *>(this->m_28));
+    if ((((TWindowChat *)(this->chat))->is_mode_bit4() != 0) && (chat_accept_submission((saddr)(arg0 + 0x2C)) != 0)) {
+        TWindowChat__sub_80247E50(reinterpret_cast<TWindowChat *>(this->chat));
     }
-    if (((TWindowChat *)(this->m_28))->is_visible() != 0) {
-        TWindowChat__sub_80247DFC(reinterpret_cast<TWindowChat *>(this->m_28));
+    if (((TWindowChat *)(this->chat))->is_visible() != 0) {
+        TWindowChat__sub_80247DFC(reinterpret_cast<TWindowChat *>(this->chat));
     }
-    if (TWindowCtrl__sub_8024701C(reinterpret_cast<TWindowChat *>(this->m_28)) != 0) {
+    if (TWindowCtrl__sub_8024701C(reinterpret_cast<TWindowChat *>(this->chat)) != 0) {
         TWindowSubLog__sub_8026A664((*(u8 * *)&this->m_24), 200.0f);
         return;
     }
@@ -62,7 +61,7 @@ void TWindowSubLog::run_task() {
 
 }
 TWindowSubLog::~TWindowSubLog() {
-    if (*(void **)((s8 *)this + 0x28) != NULL) { ((TObject *)(*(void **)((s8 *)this + 0x28)))->queue_destruction(); this->m_28 = 0; }
+    if (*(void **)((s8 *)this + 0x28) != NULL) { ((TObject *)(*(void **)((s8 *)this + 0x28)))->queue_destruction(); this->chat = 0; }
     if (*(void **)((s8 *)this + 0x24) != NULL) { ((TWindowBase *)(*(void **)((s8 *)this + 0x24)))->close(); this->m_24 = 0; }
     if (parent_menu != NULL) {
         parent_menu->clear_log_active();
@@ -74,11 +73,11 @@ TWindowSubLog::TWindowSubLog(TObject *parent, void *arg2) : TObject(parent) {
     void *w;
     ((Lg_8027B194 *)this)->f0 = ((saddr)TWindowSubLog__class_name);
     parent_menu = static_cast<TWindowMainMenu *>(parent);
-    ((Lg_8027B194 *)this)->f1c = arg2;
-    TWindowCtrl__sub_8024ADAC((saddr)(((Lg_8027B194 *)this)->f1c));
+    ((Lg_8027B194 *)this)->client_id = arg2;
+    TWindowCtrl__sub_8024ADAC((saddr)(((Lg_8027B194 *)this)->client_id));
     parent_menu->hide_for_subwindow();
     parent_menu->set_log_active();
-    ((Lg_8027B194 *)this)->f24 = (saddr)create_message_log_window((saddr)lbl_8044F9C8, (saddr)lbl_8044F9D0, (saddr)(((Lg_8027B194 *)this)->f1c));
+    ((Lg_8027B194 *)this)->f24 = (saddr)create_message_log_window((saddr)lbl_8044F9C8, (saddr)lbl_8044F9D0, (saddr)(((Lg_8027B194 *)this)->client_id));
     w = new TWindowChat((TObject *)((Lg_8027B194 *)this), (void *)((Lg_8027B194 *)this)->f2c);
     ((Lg_8027B194 *)this)->f28 = w;
     fn_8027B2A8((void*)(((Lg_8027B194 *)this)->f28));

@@ -116,16 +116,16 @@ void DelDepthMotion::draw_model_part() {
             return;
         }
         if (temp_r0 < 0xA) {
-            TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texture));
+            TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texture));
             set_motion_packed_rotation();
             draw_model_motion(model, animation, frame);
             clear_motion_packed_rotation();
             return;
         }
         set_motion_packed_rotation();
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texture));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texture));
         draw_model_motion(model, animation, frame);
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(secondTexture));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(secondTexture));
         draw_model_motion(secondModel, secondAnimation, frame);
         clear_motion_packed_rotation();
     }

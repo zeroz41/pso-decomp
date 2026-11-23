@@ -56,7 +56,7 @@ LAYOUT_ASSERT(SelectCursorQuadsOffset, offsetof(TAdSelectCurGC, quads) == 0xBC);
 LAYOUT_ASSERT(SelectCursorIndexOffset, offsetof(TAdSelectCurGC, selected_index) == 0xA4);
 LAYOUT_ASSERT(SelectCursorConfirmationOffset, offsetof(TAdSelectCurGC, confirmation) == 0xAC);
 
-struct GinjaTextureList;
-extern "C" GinjaTextureList *menu_selection_cursor_texture_list;
+struct NJS_TEXLIST;
+extern "C" NJS_TEXLIST *menu_selection_cursor_texture_list;
 
 #endif

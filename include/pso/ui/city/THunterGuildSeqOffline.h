@@ -12,7 +12,7 @@ struct THunterGuildSeqOffline : public TShopSequence {
     virtual ~THunterGuildSeqOffline();
     virtual void close_window();
     virtual void restore_player_state();
-    void vfunc_11();
+    void update_state();
     void handle_select();
     void open_judgment_window();
     void resolve_active_quest_result();
@@ -20,7 +20,7 @@ struct THunterGuildSeqOffline : public TShopSequence {
     static void clear_instance_table();
     static void notify_quest_thread();
     static void reset_quest_result_callbacks();
-    static void *create(void *arg0);
+    static void *create(void *player);
     static s32 check_party_gathered();
     static void set_state_close(TShopWindowBase *sequence);
     static void set_state_4(TShopWindowBase *sequence);
@@ -30,14 +30,13 @@ struct THunterGuildSeqOffline : public TShopSequence {
     static void notify_close();
     static void create_quest_list_vm(TShopWindowBase *sequence);
     static void set_state_close2(TShopWindowBase *sequence);
-    static void set_enemy_mode_5();
-    static void set_enemy_mode_1();
-    static void set_enemy_mode_0();
+    static void set_enemy_mode_5(TObject *fade);
+    static void set_enemy_mode_1(TObject *fade);
+    static void set_enemy_mode_0(TObject *fade);
     static void request_close(TShopWindowBase *sequence);
     void handle_cancel_choice();
     void open_quest_list();
     void handle_window_input();
-    void *init(void *arg1, void *arg2);
     TWindowMenu *choice_menu; // 0x2C: create_yes_no_window
     TObject *counter_camera; // 0x30: set_service_counter_camera
     TQuestThread *m_34;       // 0x34: TQuestThread::create_in_root

@@ -3,6 +3,6 @@
 
 #include "types.h"
 
-void close_window_if_active(void *p);
+void close_window_if_active(s32 client);
 
 #endif

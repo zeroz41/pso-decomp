@@ -10,8 +10,6 @@
 #include "pso/math/AngleLookup.h"
 #include "pso/system/vector.h"
 
-extern "C" {
-extern void *__vt__12TChCrTagName[];
 __declspec(section ".rodata") extern const char TChCrTagName__class_name_string[] = "TChCrTagName";
 const char *TChCrTagName__class_name = TChCrTagName__class_name_string;
 extern vec2f lbl_80466408[];
@@ -34,13 +32,13 @@ void TChCrTagName::draw_tag_sprites() {
     f32 alpha;
     vec2f pos;
     vec2f scale = lbl_80466430[0];
-    if (this->m_24 > this->m_40) {
-        t = (this->m_24 - this->m_40) / ((1.0f) - this->m_40);
+    if (this->m_fade > this->m_slide_end) {
+        t = (this->m_fade - this->m_slide_end) / ((1.0f) - this->m_slide_end);
     } else {
         return;
     }
     s = calc_highlight_scale();
-    if (this->vt4() != 0) {
+    if (is_selected() != 0) {
         depth = (-1.8125f);
     } else {
         depth = (0.3125f) * s + (-2.125f);
@@ -51,9 +49,9 @@ void TChCrTagName::draw_tag_sprites() {
     pos.x += (5.0f);
     pos.y += (9.0f);
     alpha = t2;
-    id = this->m_20 + 0x4B;
-    if (this->vt4() != 0) {
-        alpha = (0.25f) * sin_table_lookup(this->m_44 << 9) + t2;
+    id = this->m_index + 0x4B;
+    if (is_selected() != 0) {
+        alpha = (0.25f) * sin_table_lookup(this->m_frame << 9) + t2;
         if (alpha < 0.0f) {
             alpha = 0.0f;
         } else if (alpha > (1.0f)) {
@@ -64,19 +62,19 @@ void TChCrTagName::draw_tag_sprites() {
     copy_vec2((&pos), &this->pos);
     pos.x = (169.0f);
     pos.y += (3.0f);
-    draw_ui_sprite_shaded(this->m_20 + 0x57, &pos, &scale, depth, t2, bright);
+    draw_ui_sprite_shaded(this->m_index + 0x57, &pos, &scale, depth, t2, bright);
 }
 
-void TChCrTagName::sub_802A226C() {
+void TChCrTagName::draw_tag_frame() {
     f32 s;
     f32 depth;
     f32 t = (1.0f);
     f32 bright;
-    if (this->m_24 < this->m_40) {
-        t = (this->m_24 - this->m_3c) / (this->m_40 - this->m_3c);
+    if (this->m_fade < this->m_slide_end) {
+        t = (this->m_fade - this->m_slide_start) / (this->m_slide_end - this->m_slide_start);
     }
     s = calc_highlight_scale();
-    if (this->vt4() != 0) {
+    if (is_selected() != 0) {
         depth = (-2.125f);
     } else {
         depth = (0.3125f) * s + (-2.4375f);
@@ -96,9 +94,9 @@ void TChCrTagName::sub_802A226C() {
         vec2f pos;
         copy_vec2((&pos), &this->pos);
         pos.x += (226.0f);
-        draw_ui_sprite_shaded(this->m_20 == 0 ? 0x44 : 0x48, &pos, &scale, depth, t, bright);
+        draw_ui_sprite_shaded(this->m_index == 0 ? 0x44 : 0x48, &pos, &scale, depth, t, bright);
         pos.y += (22.0f);
-        draw_ui_sprite_shaded(this->m_20 == 11 ? 0x46 : 0x4A, &pos, &scale, depth, t, bright);
+        draw_ui_sprite_shaded(this->m_index == 11 ? 0x46 : 0x4A, &pos, &scale, depth, t, bright);
     }
     {
         vec2f scale = lbl_80466420[0];
@@ -108,7 +106,7 @@ void TChCrTagName::sub_802A226C() {
         pos.y += (8.0f);
         draw_ui_sprite_shaded(0x40, &pos, &scale, depth, t, bright);
     }
-    if (this->m_24 < (1.0f)) {
+    if (this->m_fade < (1.0f)) {
         vec2f scale = lbl_80466428[0];
         vec2f pos;
         copy_vec2((&pos), &this->pos);
@@ -122,14 +120,14 @@ void TChCrTagName::draw_tag_sprite() {
     f32 depth;
     f32 t;
     vec2f pos;
-    s32 id = this->m_20 / 4 + 0x3C;
+    s32 id = this->m_index / 4 + 0x3C;
     vec2f scale = lbl_80466408[0];
     t = (1.0f);
-    if (this->m_24 < this->m_40) {
-        t = (this->m_24 - this->m_3c) / (this->m_40 - this->m_3c);
+    if (this->m_fade < this->m_slide_end) {
+        t = (this->m_fade - this->m_slide_start) / (this->m_slide_end - this->m_slide_start);
     }
     s = calc_highlight_scale();
-    if (this->vt4() != 0) {
+    if (is_selected() != 0) {
         depth = (-2.4375f);
     } else {
         depth = (0.3125f) * s + (-2.75f);
@@ -147,10 +145,10 @@ __declspec(section ".rodata") vec2f lbl_80466420[1] = {{1.0f, 1.75f}};
 __declspec(section ".rodata") vec2f lbl_80466428[1] = {{1.0f, 3.75f}};
 __declspec(section ".rodata") vec2f lbl_80466430[1] = {{1.0f, 1.0f}};
 
-void render__12TChCrTagNameFv(TChCrTagName *tag) {
-    ((TChCrTagName *)tag)->draw_tag_sprite();
-    ((TChCrTagName *)tag)->sub_802A226C();
-    ((TChCrTagName *)tag)->draw_tag_sprites();
+void TChCrTagName::render() {
+    draw_tag_sprite();
+    draw_tag_frame();
+    draw_tag_sprites();
 }
 
 #pragma push
@@ -162,7 +160,7 @@ f32 TChCrTagName::calc_highlight_scale() {
         r = 0;
         break;
     default:
-        if (this->m_20 / 4 == TChCrCharSelect::get_selected_char()) {
+        if (this->m_index / 4 == TChCrCharSelect::get_selected_char()) {
             r = 0;
         } else {
             r = 1;
@@ -170,9 +168,9 @@ f32 TChCrTagName::calc_highlight_scale() {
         break;
     }
     if (r != 0) {
-        return this->m_30;
+        return this->m_highlight;
     }
-    return (0.4f) * this->m_30 + (0.6f);
+    return (0.4f) * this->m_highlight + (0.6f);
 }
 
 void TChCrTagName::update_slide_in() {
@@ -182,12 +180,12 @@ void TChCrTagName::update_slide_in() {
     f32 start;
     slide = (1.0f);
     this->pos.x = (58.0f);
-    this->pos.y = (27.0f) * (f32)this->m_20 + (1e+02f);
-    fade = this->m_24;
-    progress = this->m_40;
+    this->pos.y = (27.0f) * (f32)this->m_index + (1e+02f);
+    fade = this->m_fade;
+    progress = this->m_slide_end;
     if (fade < progress) {
         if (1) {
-            start = this->m_3c;
+            start = this->m_slide_start;
             progress = (fade - start) / (progress - start);
             slide = (0.5f) * ((1.0f) - cos_table_lookup((s32)((32768.0f) * progress)));
         }
@@ -195,23 +193,23 @@ void TChCrTagName::update_slide_in() {
     this->pos.x = this->pos.x + ((3e+02f) * slide + (-3e+02f));
 }
 
-void run_task__12TChCrTagNameFv(TChCrTagName *tag) {
-    update_fade__8TChCrTagFPv(tag);
-    ((TChCrTagName *)tag)->update_slide_in();
-    tag->m_44 = tag->m_44 + 1;
+void TChCrTagName::run_task() {
+    TChCrTag::run_task();
+    update_slide_in();
+    m_frame = m_frame + 1;
 }
 
 
-s32 TChCrTagName__vt4(TChCrTagName *tag) {
+s32 TChCrTagName::is_selected() {
     switch (TChCrCharSelect::get_selected_index()) {
     case 0:
-        if (tag->m_20 / 4 == TChCrCharSelect::get_selected_char()) {
+        if (m_index / 4 == TChCrCharSelect::get_selected_char()) {
             return 1;
         }
         break;
     case 1:
     case 2:
-        if (tag->m_20 == TChCrCharSelect::get_instance()) {
+        if (m_index == TChCrCharSelect::get_instance()) {
             return 1;
         }
         break;
@@ -220,21 +218,18 @@ s32 TChCrTagName__vt4(TChCrTagName *tag) {
 }
 TChCrTagName::~TChCrTagName() {}
 
-}
-
 TChCrTagName::TChCrTagName(TObject *parent, s32 index) : TChCrTag(parent, index) {
     m_name = TChCrTagName__class_name;
-    m_28 = (0.033333335f);
-    m_2c = (-0.022222223f);
-    m_34 = (0.6666667f);
-    m_38 = (-0.06666667f);
-    m_3c = (0.0f);
-    m_40 = 0.8f - 0.053333335f * (f32)(0xC - m_20);
+    m_fade_in_step = (0.033333335f);
+    m_fade_out_step = (-0.022222223f);
+    m_highlight_in_step = (0.6666667f);
+    m_highlight_out_step = (-0.06666667f);
+    m_slide_start = (0.0f);
+    m_slide_end = 0.8f - 0.053333335f * (f32)(0xC - m_index);
     update_slide_in();
-    m_44 = 0;
+    m_frame = 0;
 }
 
-extern "C" {
 #pragma pop
 
 TChCrTagName *TChCrTagName::create(s32 index) {
@@ -246,17 +241,4 @@ void TChCrTagName::create_all() {
     for (i = 0; i < 12; i++) {
         TChCrTagName::create(i);
     }
-}
-
-void __dt__12TChCrTagNameFv();
-void render_shadows__7TObjectFv();
-void *__vt__12TChCrTagName[] = {
-    0, 0,
-    (void *)__dt__12TChCrTagNameFv,
-    (void *)run_task__12TChCrTagNameFv,
-    (void *)render__12TChCrTagNameFv,
-    (void *)render_shadows__7TObjectFv,
-    (void *)TChCrTagName__vt4,
-    0,
-};
 }

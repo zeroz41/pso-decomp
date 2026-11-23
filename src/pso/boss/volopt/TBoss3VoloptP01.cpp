@@ -37,6 +37,7 @@
 #include "pso/system/MatrixOps.h"
 #include "pso/unk/text_803D853C.h"
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
+#include "pso/object/base/TObjBase.h"
 
 extern "C" {
 s32 post_translate_matrix(const void *pos);
@@ -50,7 +51,6 @@ extern s32 registered_player_count;
 
 // TBoss3Volopt.cpp defines these; its header does not declare them yet.
 }
-void reset_status_effect_row(u8 *row);
 
 #pragma readonly_strings on
 static const char *TBoss3VoloptP01_class_name = "TBoss3VoloptP01";
@@ -89,7 +89,7 @@ void TObjVoloptShutter::close() {
 
 void TBoss3VoloptP01::load_model(s32 index) {
     model = (void *)TBoss3VoloptP01__resource_bundle->models[index].model;
-    texlist = (saddr)TBoss3VoloptP01__resource_bundle->models[index].texlist;
+    texlist = TBoss3VoloptP01__resource_bundle->models[index].texlist;
 }
 
 s32 TBoss3VoloptP01::get_shared_value(s32 index) {
@@ -165,7 +165,7 @@ void TBoss3VoloptP01::init_params() {
     charge_effect = NULL;
     glow_effect = NULL;
     add_flags_2e4(4);
-    obj_setFlags30(this, 0x8000);
+    set_actor_flags(0x8000);
     clear_lobby_object_state();
 }
 
@@ -206,10 +206,10 @@ void TBoss3VoloptP01::run_task() {
     } else if (test_flag30_512() != 0 && !(actorFlags & 0x04000000)) {
         run_hit_reaction();
     }
-    if (obj_testFlags30(0x4000) != 0) {
-        if (((TObjPlayer *)this)->add_status_effect_timer(4, -1) <= 0) {
-            reset_status_effect_row(unk_284);
-            obj_clearFlags30(0x4000);
+    if (test_actor_flags(0x4000) != 0) {
+        if (this->add_status_effect_timer(4, -1) <= 0) {
+            status_effects[4].clear();
+            clear_actor_flags(0x4000);
         }
     } else {
         if (mode != next_action) {
@@ -248,7 +248,7 @@ void TBoss3VoloptP01::render() {
     u32 flags;
 
     if (!(actorFlags & 0x02000000) && update_object_view_visibility(400.0f, 40.0f) != 0) {
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
         select_actor_lighting(this);
         TObjPlayer::toggle_particle_effect();
         push_matrix();
@@ -668,7 +668,7 @@ s32 TBoss3VoloptP01::update_sink() {
 #pragma pop
 
 void TBoss3VoloptP01::enter_state_machine() {
-    if (obj_testFlags30(0x04000800) == 0) {
+    if (test_actor_flags(0x04000800) == 0) {
         this->update_if_active(9);
     }
 }
@@ -697,7 +697,7 @@ void TBoss3VoloptP01::push_nearby_players() {
     radius_sq = 64.0f;
     for (i = 0; i < registered_player_count; i++) {
         player = TObjPlayer::get_player_data(i);
-        if (player == NULL || get_entity_id(player) >= 0x1000) {
+        if (player == NULL || player->get_entity_id() >= 0x1000) {
             break;
         }
         {
@@ -713,7 +713,7 @@ void TBoss3VoloptP01::push_nearby_players() {
 }
 
 void TBoss3VoloptP01::set_primary(s32 primary) {
-    if (obj_testFlags30(0x800) == 0) {
+    if (test_actor_flags(0x800) == 0) {
         behavior_flags &= ~1;
         this->update_if_active(2);
         is_primary = primary;
@@ -739,7 +739,7 @@ s32 TBoss3VoloptP01::fire_zonde_at_players() {
     n = 0;
     for (i = 0; i < registered_player_count; i++) {
         player = TObjPlayer::get_player_data(i);
-        if (player == NULL || get_entity_id(player) >= 0x1000) {
+        if (player == NULL || player->get_entity_id() >= 0x1000) {
             break;
         }
         if (!(player->actorFlags & 0x02000800)) {
@@ -755,10 +755,7 @@ s32 TBoss3VoloptP01::fire_zonde_at_players() {
             VecCopy(&dir, target_pos);
             subtract_vector(&dir, &pos);
             len = normalize_vector(&dir);
-            bolt = (TTecZondeEff *)TObject::operator new(0x260);
-            if (bolt != NULL) {
-                bolt->construct((u8 *)tl_07, (u8 *)&pos, (u8 *)&dir, len);
-            }
+            new TTecZondeEff(tl_07, &pos, &dir, len);
             VecCopy(&pos, target_pos);
             target->receive_direct_attack(this, attack, NULL, -1, -1);
         }
@@ -767,10 +764,7 @@ s32 TBoss3VoloptP01::fire_zonde_at_players() {
             Vec to_hiraisin = *&hiraisin->position;
             subtract_vector(&to_hiraisin, &pos);
             len = normalize_vector(&to_hiraisin);
-            bolt = (TTecZondeEff *)TObject::operator new(0x260);
-            if (bolt != NULL) {
-                bolt->construct((u8 *)tl_07, (u8 *)&pos, (u8 *)&to_hiraisin, len);
-            }
+            new TTecZondeEff(tl_07, &pos, &to_hiraisin, len);
             if (hiraisin->is_grounded() != 0) {
                 TBoss3VoloptActionPacket packet;
                 packet.init();
@@ -800,8 +794,8 @@ void TBoss3VoloptP01::cast_tech_on_players() {
         n = 0;
         for (i = 0; i < registered_player_count; i++) {
             player = TObjPlayer::get_player_data(i);
-            if (player != NULL && get_entity_id(player) < 0x1000 && !(player->actorFlags & 0x02000800)) {
-                targets.records[n].id = get_entity_id(player);
+            if (player != NULL && player->get_entity_id() < 0x1000 && !(player->actorFlags & 0x02000800)) {
+                targets.records[n].id = player->get_entity_id();
                 targets.records[n].flag = 1;
                 n++;
             }
@@ -814,7 +808,7 @@ void TBoss3VoloptP01::cast_tech_on_players() {
     case 1:
         for (j = 0; j < registered_player_count; j++) {
             player = TObjPlayer::get_player_data(j);
-            if (player != NULL && get_entity_id(player) < 0x1000 && !(player->actorFlags & 0x02000800)) {
+            if (player != NULL && player->get_entity_id() < 0x1000 && !(player->actorFlags & 0x02000800)) {
                 TTecFoie::create_ex(this, &pos, &player->body_center, 0x1D);
             }
         }
@@ -822,7 +816,7 @@ void TBoss3VoloptP01::cast_tech_on_players() {
     case 2:
         for (k = 0; k < registered_player_count; k++) {
             target = TObjPlayer::get_player_data(k);
-            if (target != NULL && get_entity_id(target) < 0x1000 && !(target->actorFlags & 0x02000800)) {
+            if (target != NULL && target->get_entity_id() < 0x1000 && !(target->actorFlags & 0x02000800)) {
                 TTecGiBarta::create(this, &pos, &target->body_center, 0x1D);
             }
         }

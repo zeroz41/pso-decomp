@@ -73,9 +73,9 @@ s16 TLobby__sub_80427988(PppoeSlot *e, u8 *p, u16 len);
 #undef arg0
 
 s16 build_ethernet_frame_header(void *frame, void *src, void *mac, u16 type, u8 flag, u16 a, u16 len);
-s16 write_pppoe_ac_name_tag(u8 **arg0, u8 *arg1);
+s16 write_pppoe_ac_name_tag(u8 **cursor, u8 *slot);
 s32 skip_pppoe_tags(s32 arg0, u8 *arg1, u16 arg2);
-s16 get_pppoe_session_id(s16 arg0);
+s16 get_pppoe_session_id(s16 slot);
 s16 pppoe_recv_packet(void *buf, u16 bufLen, u16 *outLen);
 
 typedef struct Unk804271E8Blk {

@@ -4,9 +4,10 @@
 #include "pso/quest/TQuestListOffline.h"
 #include "pso/quest/StoryQuestProgress.h"
 #include "pso/camera/TCameraCtrl.h"
+#include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/system/NinjaTypes.h"
-#include "pso/ui/city/TShopJudgmentItemWindow_8026DF00.h"
+#include "pso/ui/window/TWindowShop.h"
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/window/TWindowMenuIconLine.h"
 #include "pso/ui/window/TWindowMessage.h"
@@ -16,6 +17,7 @@
 #include "pso/unk/text_801F43B4.h"
 #include "pso/unk/text_80222C28.h"
 #include "pso/ui/window/WindowLayout.h"
+#include "pso/object/base/TObjBase.h"
 
 OfflineQuestEntry offline_quest_catalog_ep1[28] = {
     {1, 0, 1, 2, 106, 107, 0, "quest04"},
@@ -60,7 +62,7 @@ const char *TQuestListOffline__class_name = "TQuestListOffline";
 
 void *story_quest_list_resource;
 
-TQuestListOffline::TQuestListOffline(TObject *parent, TShopWindowBase *sequence, TObjBase *player)
+TQuestListOffline::TQuestListOffline(TObject *parent, TShopWindowBase *sequence, TObjPlayer *player)
     : TShopWindowBase(parent) {
     m_name = TQuestListOffline__class_name;
     this->sequence = sequence;
@@ -79,7 +81,7 @@ TQuestListOffline::TQuestListOffline(TObject *parent, TShopWindowBase *sequence,
     } else {
         quests = lbl_804C9C10;
     }
-    set_field_20(0);
+    set_state(0);
 }
 
 TQuestListOffline::~TQuestListOffline() {
@@ -102,7 +104,7 @@ TQuestListOffline::~TQuestListOffline() {
     }
 }
 
-void TQuestListOffline::vfunc_11() {
+void TQuestListOffline::update_state() {
     switch (state) {
     case 0:
         init_quest_list_window();
@@ -137,13 +139,13 @@ void TQuestListOffline::vfunc_11() {
 }
 
 void TQuestListOffline::init_quest_list_window() {
-    if (sequence->vfunc_10() == 0) {
+    if (sequence->is_message_ready() == 0) {
         return;
     }
     refresh_story_quest_availability(story_quest_list_resource);
     if (list_window == NULL) {
         s32 title = get_guild_text(0);
-        list_window = (TWindowMenuIconLine *)create_item_list_window(title, 0x40, get_entity_id(player));
+        list_window = create_item_list_window(title, 0x40, player->get_entity_id());
         if (are_all_story_quests_complete() == 1) {
             OfflineQuestEntry *quest = quests;
             s32 i = 0;
@@ -184,12 +186,12 @@ void TQuestListOffline::init_quest_list_window() {
             shown_index = 0;
         }
     }
-    set_field_20(1);
+    set_state(1);
 }
 
 void TQuestListOffline::update_list_navigation() {
     s32 sel;
-    if (sequence->vfunc_10() == 0) {
+    if (sequence->is_message_ready() == 0) {
         return;
     }
     if (list_window != NULL && description_window != NULL) {
@@ -205,18 +207,18 @@ void TQuestListOffline::update_list_navigation() {
         }
     }
     if (list_window != NULL && list_window->is_cancelled() != 0) {
-        set_field_20(5);
+        set_state(5);
         return;
     }
     if (list_window != NULL && list_window->is_decided() != 0) {
         sel = list_window->get_cursor_value();
         if (quests[sel].flags & 1) {
-            set_field_20(4);
+            set_state(4);
             return;
         }
         if (confirm_window == NULL) {
             f32 size[2] = {332.0f, 210.0f};
-            confirm_window = (TWindowMessage *)TWindowMessage::create((saddr)get_window_layout_position(0x2E), size, 1, get_entity_id(player));
+            confirm_window = (TWindowMessage *)TWindowMessage::create((saddr)get_window_layout_position(0x2E), size, 1, player->get_entity_id());
             s32 text = get_quest_list_text(0xE, quests[sel].confirm_text);
             confirm_window->append_line(text, 0x80);
             confirm_window->set_depth(-13000.0f);
@@ -225,24 +227,24 @@ void TQuestListOffline::update_list_navigation() {
             }
         }
         if (confirm_menu == NULL) {
-            confirm_menu = create_yes_no_window((const NJS_POINT2 *)get_window_layout_position(0x2B), get_entity_id(player), NULL, NULL);
+            confirm_menu = create_yes_no_window((const NJS_POINT2 *)get_window_layout_position(0x2B), player->get_entity_id(), NULL, NULL);
             confirm_menu->set_position_xy(get_scale(), get_scale());
             if (sequence != NULL) {
                 sequence->display_guild_message(5, 1);
             }
-            set_field_20(2);
+            set_state(2);
         }
     }
 }
 
 void TQuestListOffline::handle_confirm_dialog() {
-    if (sequence->vfunc_10() != 0) {
+    if (sequence->is_message_ready() != 0) {
         if (confirm_menu != NULL && confirm_menu->is_decided() != 0) {
             s32 choice = confirm_menu->get_selected_value();
             if (choice == 0) {
                 s32 cursor = list_window->get_cursor_value();
                 prepare_offline_quest_filenames(quests[cursor].filename);
-                set_field_20(3);
+                set_state(3);
                 return;
             }
             if (choice == 1) {
@@ -250,7 +252,7 @@ void TQuestListOffline::handle_confirm_dialog() {
                 if (sequence != NULL) {
                     sequence->display_guild_message(0x19, 1);
                 }
-                set_field_20(0);
+                set_state(0);
                 return;
             }
         }
@@ -259,7 +261,7 @@ void TQuestListOffline::handle_confirm_dialog() {
             if (sequence != NULL) {
                 sequence->display_guild_message(0x19, 1);
             }
-            set_field_20(0);
+            set_state(0);
         }
     }
 }

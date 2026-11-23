@@ -218,7 +218,7 @@ Vec dark_gunner_child_local_offsets[4] = {
 
 TObjEneDarkGunnerBehaviorParams *TObjEneDarkGunner__behavior_params;
 
-extern uaddr TObjEneDarkGunner__effect_resource;
+extern NJS_TEXLIST *TObjEneDarkGunner__effect_resource;
 
 extern s32 TObjEneDarkGunner__cly_line_texlist;
 
@@ -275,7 +275,7 @@ BmlResource *TObjEneDarkGunner::bml_resource; // bm_ene_darkgunner.bml
 
 extern "C" {
 
-uaddr TObjEneDarkGunner__effect_resource;
+NJS_TEXLIST *TObjEneDarkGunner__effect_resource;
 
 s32 TObjEneDarkGunner__cly_line_texlist;
 
@@ -293,9 +293,9 @@ void TeneFakeTecThunderEff::set_cancel_flag() { active = 1; }
 
 void TeneFakeTecThunderEff::clear_counter() { active = 0; }
 
-void TObjEneDarkGunner::set_fields_24_34_from_global(void *a1) {
-    this->model = get_bml_model(TObjEneDarkGunner::bml_resource, (s32)(saddr)a1);
-    this->texlist = (saddr)get_bml_texlist(TObjEneDarkGunner::bml_resource, (s32)(saddr)a1);
+void TObjEneDarkGunner::set_fields_24_34_from_global(void *index) {
+    this->model = get_bml_model(TObjEneDarkGunner::bml_resource, (s32)(saddr)index);
+    this->texlist = get_bml_texlist(TObjEneDarkGunner::bml_resource, (s32)(saddr)index);
 }
 
 int TObjEneDarkGunner::is_death_gunner() { return (behavior_flags >> 26) & 0x1; }
@@ -348,7 +348,7 @@ TObjEneDarkGunner::TObjEneDarkGunner(TObject *parent, void *set_data) : TObjEnem
     referenceHp = hp;
     update_prev_position();
     behavior_flags = 0x550000;
-    obj_setFlags30(this, 0x04040000);
+    set_actor_flags(0x04040000);
     rotation_z = 0x8000;
     render_y_offset = 0.0f;
     hover_speed = 0.0f;
@@ -364,7 +364,7 @@ TObjEneDarkGunner::TObjEneDarkGunner(TObject *parent, void *set_data) : TObjEnem
     {
         NpcAnimationBinding atk = dark_gunner_attack_binding_desc;
         atk.motions = TObjEneDarkGunner::bml_resource->motions;
-        NpcModelRegistry::register_animated_chunk(0x19, reinterpret_cast<void *>(TObjEneDarkGunner::bml_resource->models[1].model), reinterpret_cast<void *>(TObjEneDarkGunner::bml_resource->models[1].texlist), &atk, 10.0f, 0.0f);
+        NpcModelRegistry::register_animated_chunk(0x19, reinterpret_cast<void *>(TObjEneDarkGunner::bml_resource->models[1].model), TObjEneDarkGunner::bml_resource->models[1].texlist, &atk, 10.0f, 0.0f);
     }
 }
 }
@@ -395,9 +395,9 @@ void load_darkgunner_effect_resources() {
     TObjEneDarkGunner__rcly_line_texlist = (saddr)get_bml_texlist(TObjEneDarkGunner::bml_resource, 2);
     TObjEneDarkGunner__body_child_polygons = ((NJS_CNK_MODEL *)get_bml_model(TObjEneDarkGunner::bml_resource, 1)->child->model)->polygon_list;
     TObjEneDarkGunner__cly_line_polygons = ((NJS_CNK_MODEL *)get_bml_model(TObjEneDarkGunner::bml_resource, 0)->model)->polygon_list;
-    TObjPlayer__sub_800A4294();
+    init_fake_tec_texlist();
     TEneEffHamon::init_fish_effects();
-    TObjEneDarkGunner__effect_resource = (uaddr)load_gvm_texture_file((saddr)"re5_b_gunner_body_pika.gvm");
+    TObjEneDarkGunner__effect_resource = load_gvm_texture_file("re5_b_gunner_body_pika.gvm");
     for (i = 0; i < 1; i++) {
         TObjEneDarkGunner__base_params_by_variant[i] = (saddr)TLobby::register_boss(30 + i);
         TObjEneDarkGunner__attack_params_by_variant[i] = (saddr)TLobby::dispatch_shared_handler_b(30 + i);
@@ -411,9 +411,9 @@ void TObjEneDarkGunner::cleanup_effects() {
         delete TObjEneDarkGunner::bml_resource;
         TObjEneDarkGunner::bml_resource = NULL;
     }
-    if ((u32) TObjEneDarkGunner__effect_resource != 0U) {
+    if (TObjEneDarkGunner__effect_resource != NULL) {
         TObjPlayer::free_if_valid((s32)TObjEneDarkGunner__effect_resource);
-        TObjEneDarkGunner__effect_resource = 0U;
+        TObjEneDarkGunner__effect_resource = NULL;
     }
     TObjPlayer::reset_effect_count();
     TEneEffHamon::free_fish_effects();
@@ -444,19 +444,19 @@ void TObjEneDarkGunner::run_task() {
         run_death_reaction();
     } else if (test_flag30_512() != 0) {
         run_hit_reaction();
-    } else if (obj_testFlags30(0x100) != 0) {
+    } else if (test_actor_flags(0x100) != 0) {
         run_miss_reaction();
     }
     update_attack_stat_status();
     update_defense_stat_status();
-    if ((behavior_flags & 0x400000) && obj_testFlags30(0x22) == 0) {
+    if ((behavior_flags & 0x400000) && test_actor_flags(0x22) == 0) {
         s32 phase = material_phase;
         material_phase = phase + 0x800;
         bodies->unk_28 = get_int_parameter(2);
     } else {
         bodies->unk_28 = 0.0f;
     }
-    if ((behavior_flags & 0x800000) && obj_testFlags30(0x22) == 0) {
+    if ((behavior_flags & 0x800000) && test_actor_flags(0x22) == 0) {
         if (glow_emitter == NULL) {
             glow_emitter = create_particle_emitter(&body_center, 0xDB);
         } else {
@@ -466,7 +466,7 @@ void TObjEneDarkGunner::run_task() {
         ((TObject *)glow_emitter)->queue_destruction();
         glow_emitter = NULL;
     }
-    if ((behavior_flags & 0x200000) && obj_testFlags30(0x22) == 0) {
+    if ((behavior_flags & 0x200000) && test_actor_flags(0x22) == 0) {
         if (trail_emitter == NULL) {
             if (is_death_gunner() != 0) {
                 trail_emitter = create_particle_emitter(&shadow_pos, 0xD9);
@@ -504,7 +504,7 @@ void TObjEneDarkGunner::run_task() {
     }
     update_hover();
     bodies->offset.y = 4.0f + render_y_offset;
-    if ((actor_frame_tick & 3) == 0 && (behavior_flags & 0x400000) && obj_testFlags30(0x22) == 0 &&
+    if ((actor_frame_tick & 3) == 0 && (behavior_flags & 0x400000) && test_actor_flags(0x22) == 0 &&
         classify_actor_view_detail(150.0f, 400.0f, 15.0f) != 0) {
         Vec p = position;
         p.y += render_y_offset;
@@ -559,7 +559,7 @@ void TObjEneDarkGunner::start_move() {
 #pragma inline_depth(4)
 extern "C" {
 void TObjEneDarkGunner::update_move() {
-    obj_clearFlags30(0x40000);
+    clear_actor_flags(0x40000);
     switch ((s32)state) {
     case 0:
         behavior_flags &= ~0x00200000;
@@ -763,7 +763,7 @@ void TObjEneDarkGunner::update_attack() {
         }
         break;
     }
-    obj_clearFlags30(0x40000);
+    clear_actor_flags(0x40000);
     advance_animation();
     apply_actor_gravity(this, NULL, 0.0f);
     update_collisions();
@@ -828,7 +828,7 @@ void TObjEneDarkGunner::update_damage() {
         apply_actor_gravity(this, NULL, 0.0f);
         update_collisions();
         if (action_flags != 8U) {
-            obj_clearFlags30(0x40300);
+            clear_actor_flags(0x40300);
             behavior_flags = behavior_flags & 0xFF7FFFFE;
             referenceHp = hp;
             start_move();
@@ -875,7 +875,7 @@ void TObjEneDarkGunner::render() {
     BOOL cancel;
     s32 i;
 
-    if (obj_testFlags30(0x02000000) == 0) {
+    if (test_actor_flags(0x02000000) == 0) {
         view = classify_actor_view_detail(150.0f, 400.0f, 15.0f);
         if (view != 0) {
             select_actor_lighting(this);
@@ -897,9 +897,9 @@ void TObjEneDarkGunner::render() {
                 color.g = s;
                 color.b = s;
                 set_constant_material((const NJS_ARGB *)&color);
-                TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(TObjEneDarkGunner__effect_resource));
+                TObjFish::set_global_param(TObjEneDarkGunner__effect_resource);
             } else {
-                TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
+                TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
             }
             if (behavior_flags & 4) {
                 if (render_control.has_visible_opacity() != 0) {
@@ -933,7 +933,7 @@ void TObjEneDarkGunner::render() {
             render_shadow();
             restore_scene_lighting();
             TParticleCtrl::end_effect_render();
-            cancel = view == 1 && (behavior_flags & 0x200000) && obj_testFlags30(0x22) == 0;
+            cancel = view == 1 && (behavior_flags & 0x200000) && test_actor_flags(0x22) == 0;
             for (i = 0; i < 4; i++) {
                 if (children[i] != NULL) {
                     if (cancel) {
@@ -943,7 +943,7 @@ void TObjEneDarkGunner::render() {
                     }
                 }
             }
-            if (obj_testFlags30(0x800) == 0 && drawn != 0 && obj_testFlags30(0x800000) != 0) {
+            if (test_actor_flags(0x800) == 0 && drawn != 0 && test_actor_flags(0x800000) != 0) {
                 Vec offset = dark_gunner_shadow_scale;
                 draw_ground_shadow(&offset, 0);
             }
@@ -954,11 +954,11 @@ void TObjEneDarkGunner::render() {
 void TObjEneDarkGunner::run_demo_task() {  }
 
 void TObjEneDarkGunner::render_shadow() {
-    if (obj_testFlags30(0x800) == 0) {
+    if (test_actor_flags(0x800) == 0) {
         if (is_death_gunner() == 0) {
-            TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(TObjEneDarkGunner__cly_line_texlist));
+            TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(TObjEneDarkGunner__cly_line_texlist));
         } else {
-            TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(TObjEneDarkGunner__rcly_line_texlist));
+            TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(TObjEneDarkGunner__rcly_line_texlist));
         }
         push_matrix();
         post_translate_matrix(&shadow_pos.x);
@@ -990,7 +990,7 @@ int TObjEneDarkGunner::is_on_ground() { return (actorFlags >> 23) & 0x1; }
 
 void TObjEneDarkGunner::run_miss_reaction() {
     u8 *self = (u8 *)this;
-    ((TObjBase *)self)->obj_clearFlags30((s32)(0x100U));
+    ((TObjBase *)self)->clear_actor_flags((s32)(0x100U));
     spawn_particle_effect(&body_center, 0xD7);
     play_sound_effect(0x4003B22D, (u8 *)&this->position, 0, 0);
 }
@@ -1000,7 +1000,7 @@ void TObjEneDarkGunner::update_state_machine() {
     switch ((s32)state) {
     case 0:
         behavior_flags = behavior_flags | 1;
-        obj_clearFlags30(0x100);
+        clear_actor_flags(0x100);
         timer = resetTimer;
         requested_action = 0;
         actorFlags = actorFlags & 0xFF9FFFFF;
@@ -1087,7 +1087,7 @@ void TObjEneDarkGunner::update_hide_sequence() {
 
     switch ((s32)state) {
     case 0:
-        obj_clearFlags30(0x240300);
+        clear_actor_flags(0x240300);
         behavior_flags |= 0x800000;
         behavior_flags &= ~0x480000;
         this->requested_action = 8;

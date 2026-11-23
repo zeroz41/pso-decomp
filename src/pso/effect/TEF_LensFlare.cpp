@@ -105,7 +105,7 @@ void TEF_LensFlare::render() {
                 sprite->scale_x = 20.0f * s;
                 sprite->scale_y = sprite->scale_x;
                 begin_screen_draw(1);
-                TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(particle_definitions[15].texlist));
+                TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(particle_definitions[15].texlist));
                 set_draw_texture_and_color(particle_definitions[15].texture, -1);
                 f32 x = at.x;
                 f32 y = at.y;
@@ -155,7 +155,7 @@ void TEF_LensFlare::render() {
             sprite->scale_x = 1.0f;
             sprite->scale_y = sprite->scale_x;
             begin_screen_draw(1);
-            TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(particle_definitions[9].texlist));
+            TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(particle_definitions[9].texlist));
             set_draw_texture_and_color(particle_definitions[9].texture, -1);
             f32 x = at.x;
             f32 y = at.y;
@@ -202,7 +202,7 @@ void TEF_LensFlare::render() {
                 sprite->scale_x = size;
                 sprite->scale_y = sprite->scale_x;
                 begin_screen_draw(1);
-                GinjaTextureList *texlist = particle_definitions[9 + e->sprite].texlist;
+                NJS_TEXLIST *texlist = particle_definitions[9 + e->sprite].texlist;
                 TObjFish::set_global_param(texlist);
                 set_draw_texture_and_color(particle_definitions[9 + e->sprite].texture, -1);
                 f32 sy;

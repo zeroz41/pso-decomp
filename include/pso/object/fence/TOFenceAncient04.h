@@ -4,7 +4,7 @@
 #include "types.h"
 #include "pso/object/fence/TOFenceBase.h"
 
-struct GinjaTextureList;
+struct NJS_TEXLIST;
 
 struct BmlResource;
 
@@ -22,7 +22,7 @@ struct TOFenceAncient04 : public TOFenceBase {
 
     static const char *class_name;
     static BmlResource *model_resource;
-    static GinjaTextureList **texlists;  // read_texture_variant's four texture lists
+    static NJS_TEXLIST **texlists;  // read_texture_variant's four texture lists
     static const char texture_file_b[];
     static const char texture_file_g[];
     static const char texture_file_p[];

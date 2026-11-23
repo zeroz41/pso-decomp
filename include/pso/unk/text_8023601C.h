@@ -3,6 +3,9 @@
 
 #include "types.h"
 
-void offset_point_toward_camera(u8 *arg0, u8 *arg1, f32 farg0);
+#include <dolphin/mtx.h>
+
+// Moves `center` `distance` units toward the camera into `out`.
+void offset_point_toward_camera(Vec *center, Vec *out, f32 distance);
 
 #endif

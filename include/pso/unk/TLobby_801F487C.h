@@ -4,13 +4,13 @@
 #include "types.h"
 
 extern "C" {
-void TLobby__sub_801F494C(u16 arg0);
+void TLobby__sub_801F494C(u16 client);
 void reset_camera_if_fullscreen__6TLobbyFPv(void *p);
 }
 
 // --- C functions defined in TLobby_801F487C.cpp ---
 extern "C" {
-void TLobby__sub_801F494C(u16 arg0);
+void TLobby__sub_801F494C(u16 client);
 void reset_camera_if_fullscreen__6TLobbyFPv(void *p);
 }
 // --- end of C functions

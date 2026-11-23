@@ -9,7 +9,9 @@ struct TWindowSubStatusDisp;
 struct WindowScrollBar;
 
 struct TWindowSubSymbolChatParts : public TWindowAddition {
+    TWindowSubSymbolChatParts(void *parent, s32 *arg2, s32 *arg3);
     virtual ~TWindowSubSymbolChatParts();
+    static const char *class_name;
     void sub_80284FB8();
     void sub_80285274(u8 *);
     void sub_80285054();
@@ -19,15 +21,15 @@ struct TWindowSubSymbolChatParts : public TWindowAddition {
     virtual void run_task();
     u8 m_70;
     u8 m_71;
-    u8 m_72;
-    u8 m_73;
+    u8 cursor_col;
+    u8 cursor_row;
     u8 _pad74[0x2];
-    s16 m_76;
+    s16 item_count;
     s8 *selection;
     s32 *m_7c;
     s32 *m_80;
     u8 _pad84[0x4];
-    TWindowSubStatusDisp *m_88;
+    TWindowSubStatusDisp *heading;
     WindowScrollBar *scrollbar;
     void select_index_and_scroll(s32 index);
     void update_height();
@@ -56,7 +58,7 @@ void select_symbol_chat_slot(TWindowSubSymbolChatParts *parts);
 LAYOUT_ASSERT(TWindowSubSymbolChatParts_selection_offset, offsetof(TWindowSubSymbolChatParts, selection) == 0x78);
 LAYOUT_ASSERT(TWindowSubSymbolChatParts_m_7c_offset, offsetof(TWindowSubSymbolChatParts, m_7c) == 0x7C);
 LAYOUT_ASSERT(TWindowSubSymbolChatParts_m_80_offset, offsetof(TWindowSubSymbolChatParts, m_80) == 0x80);
-LAYOUT_ASSERT(TWindowSubSymbolChatParts_m_88_offset, offsetof(TWindowSubSymbolChatParts, m_88) == 0x88);
+LAYOUT_ASSERT(TWindowSubSymbolChatParts_heading_offset, offsetof(TWindowSubSymbolChatParts, heading) == 0x88);
 LAYOUT_ASSERT(TWindowSubSymbolChatParts_scrollbar_offset, offsetof(TWindowSubSymbolChatParts, scrollbar) == 0x8C);
 
 #endif

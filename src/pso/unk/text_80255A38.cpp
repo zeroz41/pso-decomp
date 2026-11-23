@@ -13,7 +13,7 @@ void fn_80255A38(TWindowHelpItem *item);
 }
 
 void fn_80255A38(TWindowHelpItem *item) {
-    reinterpret_cast<WindowLayoutEntries *>(((u8 *)item + 0x24))->destroy_all_items();
+    item->entry_list.destroy_all_items();
     item->m_60 &= ~1;
     item->m_68 = 0;
     item->m_6c = 0;

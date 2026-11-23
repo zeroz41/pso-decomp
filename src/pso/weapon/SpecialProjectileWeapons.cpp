@@ -3,14 +3,15 @@
 #include "pso/weapon/SpecialProjectileWeapons_80124760.h"
 #include "pso/technique/TTecMegid.h"
 #include "pso/weapon/TUnk_804A204C.h"
+#include "pso/item/TItemFollowStarLight.h"
 #include "pso/item/TUnk_804A0668.h"
 #include "pso/weapon/shoot/TUnk_804A2148.h"
 #include "pso/weapon/TUnk_804A2164.h"
 #include "types.h"
 #include "pso/system/data/FlagWord.h"
-#include "pso/item/TUnk_804A2018.h"
 #include "pso/weapon/shoot/TItemShoot.h"
 #include "pso/system/task/TObject.h"
+#include "pso/system/task/TMainTask.h"
 
 
 #include "pso/weapon/TItemWeapon.h"
@@ -42,122 +43,22 @@ struct RecoilWeaponView : TItemWeapon {
     s32 recoilPhase;
 };
 
-typedef struct MegidWeaponRenderView {
-    u8 pad[0x200];
-    s32 spin_angle;
-} MegidWeaponRenderView;
 
-struct StarLightPosition { f32 x, y, z; };
-
-struct WeaponStarLightParameterWords { u32 w[5]; };
-
-struct StarLightFollowerView {
-    u8 pad0[0x18];
-    void *vtbl;
-    s32 item_id;
-    s32 joint;
-    saddr star_light;
-    s32 generation;
-};
 
 LAYOUT_ASSERT(RecoilVisibleOffset, offsetof(RecoilWeaponView, projectileVisible) == 0x1F8);
 LAYOUT_ASSERT(RecoilSpinOffset, offsetof(RecoilWeaponView, projectileSpin) == 0x1FC);
 LAYOUT_ASSERT(RecoilAngleOffset, offsetof(RecoilWeaponView, recoilAngle) == 0x200);
 LAYOUT_ASSERT(RecoilPhaseOffset, offsetof(RecoilWeaponView, recoilPhase) == 0x204);
 LAYOUT_ASSERT(RecoilWeaponExtent, sizeof(RecoilWeaponView) == 0x208);
-LAYOUT_ASSERT(WeaponStarLightParameterWordsExtent, sizeof(WeaponStarLightParameterWords) == 0x14);
-LAYOUT_ASSERT(StarLightFollowerExtent, sizeof(StarLightFollowerView) == 0x2C);
 
 extern "C" {
 
-void __ct__11TItemWeaponFP7TObjectPUc(void *);
 s32 post_translate_matrix(void *);
 s32 draw_weapon_at_joint(void *, s32, void *);
 extern s32 model_render_flags;
 s32 is_item_area_enabled();
 }
 
-extern s32 tl_05;
-int get_item_system_generation(void);
-u8 *spawn_star_light_2d(s32 origin, s32 parameters, s32 follower);
-extern "C" {
-const WeaponStarLightParameterWords weapon_star_light_parameters[] = {
-    { { 0x40400000, 0x40E00000, 0xB4FF0019, 0, 0x41A00000 } }
-};
-StarLightFollowerView *__ct__13TUnk_804A2018FP7TObjectll(StarLightFollowerView *self, void *parent, s32 a, s32 b);
-void __dt__7TObjectFv(void *, int);
-void *TObjPlayer__sub_8012417C(void *object, s16 delete_mode);
-
-void run_task__13TUnk_804A2018Fv(void *self);
-void *TObjPlayer__sub_80124694(TObjPlayer *player);
-TItem *TObjPlayer__sub_80124708(u8 *item);
-
-typedef u8 *(*WeaponInitFn)(void *weapon, s32 client, void *item);
-
-extern "C" void render__7TObjectFv();
-extern "C" void render_shadows__7TObjectFv();
-void *__vt__13TUnk_804A2018[6] = {
-    (void *)0x0, (void *)0x0, (void *)&TObjPlayer__sub_8012417C, (void *)&run_task__13TUnk_804A2018Fv,
-    (void *)&render__7TObjectFv, (void *)&render_shadows__7TObjectFv,
-};
-
-void TUnk_804A2018::run_task() {
-    s32 joint_position;
-    saddr item;
-    if ((u32) this->m_28 != ((u32)get_item_system_generation())) {
-        queue_destruction();
-        return;
-    }
-    if ((u32) *(u32 *)&this->unk_24 != 0U) {
-        item = ((saddr)find_item_by_id(*(s32 *)&this->unk_1C));
-        if ((item != 0) && (((TItem *)item)->get_mode() == 2) && (((TItemWeapon *)item)->get_joint_position(this->m_20, &joint_position) != 0)) {
-            if (((TItem *)item)->is_hidden() == 0) {
-                ((TEffStarLight2D *)*(uaddr *)&this->unk_24)->copy_position((const Vec *)&joint_position);
-                return;
-            }
-            ((TEffStarLight2D *)*(uaddr *)&this->unk_24)->queue_child_destruction();
-            return;
-        }
-    }
-    queue_destruction();
-}
-
-void *TObjPlayer__sub_8012417C(void *object, s16 delete_mode) {
-    if (object != NULL) {
-        *(s32 **)((s8 *)object + 0x18) = ((s32 *)__vt__13TUnk_804A2018);
-        __dt__7TObjectFv(object, 0);
-        if (delete_mode > 0) {
-            TObject::operator delete(object);
-        }
-    }
-    return object;
-}
-
-}
-TUnk_804A2018::TUnk_804A2018(TObject *parent, s32 item_id, s32 joint) : TObject(parent) {
-    StarLightPosition v;
-    void *p;
-    ((StarLightFollowerView *)this)->item_id = item_id;
-    ((StarLightFollowerView *)this)->joint = joint;
-    ((StarLightFollowerView *)this)->star_light = 0;
-    ((StarLightFollowerView *)this)->generation = get_item_system_generation();
-    p = find_item_by_id(((StarLightFollowerView *)this)->item_id);
-    if (p != NULL && ((TItemWeapon *)p)->get_joint_position(((StarLightFollowerView *)this)->joint, &v) != 0) {
-        WeaponStarLightParameterWords blk = weapon_star_light_parameters[0];
-        ((StarLightFollowerView *)this)->star_light = (saddr)spawn_star_light_2d((saddr)&v, (saddr)&blk, (saddr)((StarLightFollowerView *)this));
-    }
-}
-
-
-void create_icon__10TObjPlayerFiii(saddr parent, s32 item_id, s32 joint) {
-    void *follower;
-    if (parent != 0) {
-        follower = (void *)((uaddr)TObject::operator new(0x2C));
-        if (follower != (void *)0U) {
-            __ct__13TUnk_804A2018FP7TObjectll((StarLightFollowerView *)(follower), (void *)parent, (s32)item_id, (s32)joint);
-        }
-    }
-}
 
 void TUnk_804A204C::emit_marker_effects() {
     s32 joint_position;
@@ -175,24 +76,24 @@ void TUnk_804A204C::emit_marker_effects() {
 
 void TUnk_804A204C::update_weapon() {
     s32 floor;
-    if ((s32) this->m_1fc == 1) {
-        *(s32 *)((s8 *)this + 0x200) = (s32) (*(s32 *)((s8 *)this + 0x200) + 0xAAA);
-        if ((s32) *(s32 *)((s8 *)this + 0x200) >= 0x2000) {
-            *(s32 *)((s8 *)this + 0x200) = 0x2000;
-            this->m_1fc = 0;
+    if (swing_direction == 1) {
+        swing_angle += 0xAAA;
+        if (swing_angle >= 0x2000) {
+            swing_angle = 0x2000;
+            swing_direction = 0;
         }
     } else {
-        *(s32 *)((s8 *)this + 0x200) = (s32) (*(s32 *)((s8 *)this + 0x200) - 0xAAA);
-        if ((s32) *(s32 *)((s8 *)this + 0x200) <= -0x2000) {
-            *(s32 *)((s8 *)this + 0x200) = -0x2000;
-            this->m_1fc = 1;
+        swing_angle -= 0xAAA;
+        if (swing_angle <= -0x2000) {
+            swing_angle = -0x2000;
+            swing_direction = 1;
         }
     }
     floor = get_current_floor();
-    if (((s32) this->m_204 != floor) && ((u32) *(u32 *)((s8 *)this + 0xF4) != 0U)) {
-        this->m_204 = floor;
+    if (floor_area != floor && item_model != NULL) {
+        floor_area = floor;
         if (is_item_area_enabled() != 0) {
-            create_icon__10TObjPlayerFiii(tl_05, (s32)((s32)(this->get_item_id())), 5);
+            spawn_item_follow_star_light(tl_05, get_item_id(), 5);
         }
     }
 }
@@ -200,13 +101,13 @@ void TUnk_804A204C::update_weapon() {
 void TUnk_804A204C::vfunc_60() {
     switch (((u32)TObjPlayer::get_player_list())) {
     case 1:
-        rotate_matrix_y(0, ((MegidWeaponRenderView *)this)->spin_angle);
+        rotate_matrix_y(0, swing_angle);
         return;
     case 2:
         TItem::begin_effect_render();
         return;
     case 3:
-        rotate_matrix_y(0, (int)(-((MegidWeaponRenderView *)this)->spin_angle));
+        rotate_matrix_y(0, -swing_angle);
         return;
     case 4:
         TItem::begin_effect_render();
@@ -222,29 +123,27 @@ void TUnk_804A204C::vfunc_60() {
 
 void TUnk_804A204C::reserved_53() {
     s32 joint_position;
-    s32 object_flags;
-    void *effect_model;
-    void *model_link;
-    if (((void *) *(void **)((s8 *)this + 0xF4) != NULL) && (this->is_hidden() == 0)) {
-        model_link = *(void **)((s8 *)(*(void **)((s8 *)(*(void **)((s8 *)this + 0xF4)) + 0x2C)) + 0x30);
-        effect_model = *(void **)((s8 *)model_link + 0x30);
-        *(s32 *)((s8 *)effect_model + 0) = (s32) (*(s32 *)((s8 *)effect_model + 0) | 0x18);
+    NJS_OBJECT *model_link;
+    NJS_OBJECT *effect_model;
+    if (item_model != NULL && is_hidden() == 0) {
+        model_link = item_model->child->sibling;
+        effect_model = model_link->sibling;
+        effect_model->evalflags |= 0x18;
         draw_weapon_at_joint(this, 0x30, model_link);
-        *(s32 *)((s8 *)effect_model + 0) = (s32) (*(s32 *)((s8 *)effect_model + 0) & 0xFFFFFFE7);
+        effect_model->evalflags &= ~0x18;
         if (get_joint_position(5, &joint_position) != 0) {
             push_matrix();
-            TObjPlayer__sub_80364198();
+            TObjPlayer::save_model_render_state();
             model_render_flags &= 0xFFFFFFEF;
             TObjPlayer::set_model_fade_alpha((f32)this->get_owner_alpha());
             post_translate_matrix(&joint_position);
             rotate_matrix_y(0, (int)(*(s32 *)((s8 *)this->owner + 0x60)));
-            *(s32 *)((s8 *)effect_model + 0) = (s32) (*(s32 *)((s8 *)effect_model + 0) | 0x11);
+            effect_model->evalflags |= 0x11;
             draw_ginja_object(effect_model);
             TParticleCtrl::begin_effect_render();
-            draw_ginja_object(*(void **)((s8 *)effect_model + 0x2C));
+            draw_ginja_object(effect_model->child);
             TParticleCtrl::end_effect_render();
-            object_flags = *(s32 *)((s8 *)effect_model + 0);
-            *(s32 *)((s8 *)effect_model + 0) = (s32) (object_flags & ~0x11);
+            effect_model->evalflags &= ~0x11;
             TObjPlayer::warn_if_gauge_low();
             pop_matrix();
             pop_matrix();
@@ -253,7 +152,7 @@ void TUnk_804A204C::reserved_53() {
 }
 
 void TUnk_804A204C::on_equipped() {
-    m_204 = -1;
+    floor_area = -1;
     if (effect_objects != NULL) {
         new TUnk_804A0668(effect_objects, get_owner_client(), 0x5A);
     }
@@ -261,36 +160,22 @@ void TUnk_804A204C::on_equipped() {
     roll_technique();
 }
 
-extern void *__vt__13TUnk_804A204C[];
-#define __vt__13TUnk_804A204C ((s32 *)__vt__13TUnk_804A204C)
-
 TUnk_804A204C::~TUnk_804A204C() {
 
 }
 
-
-void *TObjPlayer__sub_80124694(TObjPlayer *player) {
-    __ct__11TItemWeaponFP7TObjectPUc(player);
-    *(s32 **)((s8 *)player + 0x18) = __vt__13TUnk_804A204C;
-    ((FlagWord *)((char *)player + 376))->set(32);
-    ((TItemWeapon *)player)->set_weapon_flags(35);
-    player->set_effect_state(12);
-    *(u32 *)((s8 *)player + 0x1F8) = 0;
-    *(u32 *)((s8 *)player + 0x200) = 0;
-    ((TUnk_804A204C *)player)->m_204 = -1;
-    return player;
+TUnk_804A204C::TUnk_804A204C(TObject *parent, u8 *item) : TItemWeapon(parent, item) {
+    effect_flags.set(32);
+    set_weapon_flags(35);
+    set_technique_roll_range(12);
+    pad_1f8 = 0;
+    swing_angle = 0;
+    floor_area = -1;
 }
 
-TItem *TObjPlayer__sub_80124708(u8 *item) {
-    u8 *weapon;
-    u8 *initialized;
+TItem *TUnk_804A204C::create(u8 *item) {
     if (item != NULL) {
-        weapon = (u8 *)((u8 *)TItem::operator new(0x208));
-        initialized = weapon;
-        if (initialized != NULL) {
-            initialized = (u8 *)(((WeaponInitFn)TObjPlayer__sub_80124694)(weapon, tl_05, item));
-        }
-        return reinterpret_cast<TItem *>(initialized);
+        return new TUnk_804A204C(tl_05, item);
     }
     return NULL;
 }

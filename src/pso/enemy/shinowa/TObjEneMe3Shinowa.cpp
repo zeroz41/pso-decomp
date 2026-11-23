@@ -64,6 +64,7 @@
 #include "pso/math/MatrixTransforms.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel_8007E418.h"
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
+#include "pso/object/base/TObjBase.h"
 
 #pragma defer_codegen on
 extern "C" {
@@ -159,7 +160,7 @@ void load_shinowa_mirage_resources() {
     } else {
         TObjEneMe3ShinowaMirage__bml_resource = load_enemy_bml_resource(&shinowa_mirage_resource_descriptor);
     }
-    src = (NJS_TEXLIST *)TObjEneMe3ShinowaMirage__bml_resource->models->texlist;
+    src = TObjEneMe3ShinowaMirage__bml_resource->models->texlist;
     n = src->nbTexture;
     TObjEneMe3ShinowaMirage__alternate_texture_list.nbTexture = n;
     TObjEneMe3ShinowaMirage__alternate_texture_list.textures = (NJS_TEXNAME *)mem_alloc(n * sizeof(NJS_TEXNAME));
@@ -247,8 +248,8 @@ void load_shinowa_mirage_resources() {
     {
         NpcAnimationBinding binding = shinowa_mirage_spawn_binding;
         binding.motions = reinterpret_cast<BmlMotionEntry *>(TObjEneMe3ShinowaMirage__bml_resource->motions);
-        NpcModelRegistry::register_animated_chunk(0x26, reinterpret_cast<void *>(TObjEneMe3ShinowaMirage__bml_resource->models->model), reinterpret_cast<void *>(TObjEneMe3ShinowaMirage__bml_resource->models->texlist), &binding, 8.0f, 0.0f);
-        NpcModelRegistry::register_animated_chunk(0x27, reinterpret_cast<void *>(TObjEneMe3ShinowaMirage__bml_resource->models->model), reinterpret_cast<void *>(&TObjEneMe3ShinowaMirage__alternate_texture_list), &binding, 8.0f, 0.0f);
+        NpcModelRegistry::register_animated_chunk(0x26, reinterpret_cast<void *>(TObjEneMe3ShinowaMirage__bml_resource->models->model), TObjEneMe3ShinowaMirage__bml_resource->models->texlist, &binding, 8.0f, 0.0f);
+        NpcModelRegistry::register_animated_chunk(0x27, reinterpret_cast<void *>(TObjEneMe3ShinowaMirage__bml_resource->models->model), &TObjEneMe3ShinowaMirage__alternate_texture_list, &binding, 8.0f, 0.0f);
     }
 }
 
@@ -566,12 +567,12 @@ s32 TObjEneMe3Shinowa::is_gold_enabled() {
 
 void TObjEneMe3Shinowa::select_gold_or_normal_variant() {
     if (is_gold_enabled() != 0) {
-        texlist = (saddr)&TObjEneMe3ShinowaMirage__alternate_texture_list;
+        texlist = &TObjEneMe3ShinowaMirage__alternate_texture_list;
         initialize_enemy_state(0x1b);
         kind_index = 1;
         return;
     }
-    texlist = (saddr)TObjEneMe3ShinowaMirage__bml_resource->models->texlist;
+    texlist = TObjEneMe3ShinowaMirage__bml_resource->models->texlist;
     initialize_enemy_state(0x1a);
     kind_index = 0;
 }
@@ -887,7 +888,7 @@ void TObjEneMe3Shinowa::state_chase_target(s32 mode) {
 }
 
 void TObjEneMe3Shinowa::state_f_attack(s32 reason) {
-    Vec sp20;
+    Vec edge_b;
     Vec sp14;
     Vec v;
     f32 d;
@@ -1004,7 +1005,7 @@ void TObjEneMe3Shinowa::state_f_attack(s32 reason) {
                 rotate_matrix_y(0, this->rotation_y);
                 matrix_mult_vec_array(NULL, entry, (Vec *)&sp14, 2);
                 pop_matrix();
-                this->attack_traces[0]->add_segment(&sp14, &sp20);
+                this->attack_traces[0]->add_segment(&sp14, &edge_b);
             }
         }
         break;
@@ -1059,7 +1060,7 @@ void TObjEneMe3Shinowa::state_sword_attack(s32 reason) {
             this->apply_effect_pair();
             if (this->frame >= 0.0f && this->frame <= 5.0f) {
                 info = TObjEneMe3ShinowaMirage__mirage_info_table[this->kind_index];
-                ((TObjEneDD *)this)->move_to_shot_position(this->destination_direction.x, this->destination_direction.z, info->m_8);
+                ((TObjEneDD *)this)->move_to_shot_position(this->destination_direction.x, this->destination_direction.z, info->dist);
             } else {
                 this->update_ground_contact();
             }
@@ -1521,7 +1522,7 @@ void TObjEneMe3Shinowa::render() {
     }
     if (detail != 0) {
         update_player_state_default();
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
         update_secondary_light();
         saved_model_render_flags = model_render_flags;
         TObjEneDD::clear_global_flag_400();
@@ -1584,7 +1585,7 @@ void TObjEneMe3Shinowa::render_demo() {
     }
     gold = is_gold_enabled();
     if (update_object_view_visibility(400.0f, 15.0f) != 0) {
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
         TObjPlayer::toggle_particle_effect();
         if (gold != 0) {
             textures = ((NJS_TEXLIST *)texlist)->textures;
@@ -1687,7 +1688,7 @@ TObjEneMe3ShinowaMirage *TObjEneMe3ShinowaReal::get_or_create_mirage(s32 index) 
     if (mirage_ids[index] == 0xFFFF) {
         mirage = TObjEneMe3ShinowaMirage::create(this, (u16)(entity_id + index + 1), set_index + index + 1);
         if (mirage != NULL) {
-            mirage_ids[index] = get_entity_id(mirage);
+            mirage_ids[index] = mirage->get_entity_id();
         }
     } else {
         mirage = (TObjEneMe3ShinowaMirage *)find_entity_by_id(mirage_ids[index]);
@@ -1868,7 +1869,7 @@ TObjEneMe3ShinowaMirage::TObjEneMe3ShinowaMirage(TObject *parent, TObjEneMe3Shin
     CollisionBody *body;
 
     m_name = TObjEneMe3ShinowaMirage__class_name;
-    owner_id = get_entity_id(owner);
+    owner_id = owner->get_entity_id();
     init_common_from((u8 *)owner);
     parameters[1] = owner->parameters[1];
     fn_800E762C();

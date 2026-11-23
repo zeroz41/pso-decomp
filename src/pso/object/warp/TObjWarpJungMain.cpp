@@ -49,7 +49,7 @@ s32 jungle_warp_destination_ids[3] = { 6, 8, 9 };
 // The beam archive and what load_warp_beam_resources picks out of it.
 BmlResource *TObjWarpJung__beam_bml_resource;
 AnimationMotion *warp_jung_beam_motion;
-GinjaTextureList *warp_jung_textures;
+NJS_TEXLIST *warp_jung_textures;
 s32 warp_jung_last_scroll_tick; // actor_frame_tick of the last UV scroll (inferred)
 GinjaModel *warp_jung_beam_uv_model;
 s32 warp_jung_beam_entry_index; // texture entry "ts064_beam_aka"
@@ -64,7 +64,6 @@ saddr get_localized_text_entry(s32, s32);
 void request_active_window_close(void);
 s32 get_window_layout_position(s32);
 
-void * TObjWarpJung__create(void *arg0);
 s32 get_game_play_mode(void);
 
 void TObjWarpJungMain::render() {
@@ -106,7 +105,7 @@ void TObjWarpJungMain::render() {
 }
 
 // Returns 1 once the destination menu is decided, with dest_floor set to the chosen area.
-s32 TObjWarpJungMain::vfunc_18(s32) {
+s32 TObjWarpJungMain::is_choice_confirmed_by(s32) {
     if (menu_window != 0 && ((TWindowMenu *)menu_window)->is_decided() != 0) {
         dest_floor = jungle_warp_destination_ids[((TWindowMenu *)menu_window)->get_selected_value()];
         return 1;
@@ -116,7 +115,7 @@ s32 TObjWarpJungMain::vfunc_18(s32) {
 
 void TObjWarpJungMain::confirm_area_transfer(TObjPlayer *player) { TObjAreaWarp::confirm_area_transfer(player); }
 
-void TObjWarpJungMain::vfunc_14() { TObjWarpBase::vfunc_14(); TWindowCtrl::clear_flag(); }
+void TObjWarpJungMain::close_menu() { TObjWarpBase::close_menu(); TWindowCtrl::clear_flag(); }
 
 // Opens the three-entry destination menu for the player with this client id.
 void TObjWarpJungMain::open_confirm_window(s32 client_id) {
@@ -124,7 +123,7 @@ void TObjWarpJungMain::open_confirm_window(s32 client_id) {
     if (menu_window == 0) {
         menu_window = (saddr)create_window_menu((saddr)get_window_layout_position(0x32), 3, client_id);
         for (i = 0; i < 3; i++) {
-            TObjCityMainWarp::forward_trade_action_default((void *)menu_window, get_localized_text_entry(9, jungle_warp_destination_text_ids[i]), 0xE, i);
+            ((TWindowMenu *)menu_window)->add_text_entry(get_localized_text_entry(9, jungle_warp_destination_text_ids[i]), 0xE, i);
         }
         ((TWindowMenu *)menu_window)->calc_window_size();
         align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(menu_window));
@@ -165,7 +164,7 @@ TObjWarpJungMain::TObjWarpJungMain(TObject *parent, void *set_data) : TObjAreaWa
     }
 }
 
-void *TObjWarpJung__create(void *set_data) {
+void *TObjWarpJung::create(void *set_data) {
     return new TObjWarpJung(tl_05, set_data);
 }
 
@@ -290,7 +289,7 @@ void load_warp_beam_resources(void) {
     BmlResource *resource = new BmlResource(5, &jungle_warp_beam_resource_descriptor, 0, 0, NULL);
     TObjWarpJung__beam_bml_resource = resource;
     warp_jung_beam_motion = get_bml_motion(resource, 0);
-    warp_jung_textures = (GinjaTextureList *)get_bml_texlist((BmlResource *)TObjWarpJung__beam_bml_resource, 0);
+    warp_jung_textures = get_bml_texlist((BmlResource *)TObjWarpJung__beam_bml_resource, 0);
     root = ((NJS_OBJECT *)get_bml_model((BmlResource *)TObjWarpJung__beam_bml_resource, 1))->child;
     warp_jung_beam_models[0] = (GinjaModel *)root->child->model;
     warp_jung_beam_models[1] = (GinjaModel *)root->child->sibling->model;

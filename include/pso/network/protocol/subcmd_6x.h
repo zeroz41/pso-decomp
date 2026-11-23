@@ -172,10 +172,16 @@ struct G_ClearNegativeStatusEffects_6x0E {
 
 struct G_ClearPhotonBlastReadyFlag_6x3A {
  struct G_ClientIDHeader header;
+ void *clear_photon_blast_ready_flag(void *src);
+ void init_6x3A_packet();
+ void draw_and_send();
 };
 
 struct G_ClearTemporaryPhotonBlastStateFlags_6x3B {
  struct G_ClientIDHeader header;
+ void *load_subcommand_header(void *src);
+ void init_pkt_cmd_3B();
+ void update_and_send();
 };
 
 struct G_CreateInventoryItem_DC_6x2B {
@@ -256,7 +262,11 @@ struct G_DisableStealthSuitEffect_6x7B {
 struct G_DonateToPhotonBlast_6x38 {
  struct G_ClientIDHeader header;
  u16 target_client_id;
- u16 unused;
+ s16 unused;
+ void bswap_fields();
+ void *copy_packet_header_6x38(void *src);
+ void init_subcommand_6x38();
+ void send_state();
 };
 
 struct G_DoneLoadingIntoGame_6x72 {
@@ -439,6 +449,7 @@ struct G_IncrementEnemyDamage_Extension_6xE4 {
 struct G_InterLevelWarp_6x21 {
  struct G_ClientIDHeader header;
  s32 floor;
+ G_InterLevelWarp_6x21 &operator=(const G_InterLevelWarp_6x21 &src);
 };
 
 struct G_InterLevelWarp_6x94 {
@@ -471,6 +482,9 @@ void handle_6x94_inter_level_warp(game_command_header *command);
 void send_6x55_intra_map_warp(u16 id, const Vec *destination, s32 yaw);
 void handle_6x55_intra_map_warp(game_command_header *command);
 }
+void bswap_6x94_inter_level_warp(G_InterLevelWarp_6x94 *packet);
+struct TObjPlayer;
+void send_6x21_inter_level_warp(TObjPlayer *player, s32 floor);
 
 struct G_LegacyActivateSwitchByToken_6x04 {
  struct G_ParameterHeader header;
@@ -505,6 +519,10 @@ struct G_ModifyTradeProposal_6xA6 {
  u16 unknown_a1;
  u32 item_id;
  u32 amount;
+ void bswap();
+ // Stamps the local client id and byte-swaps the packet for sending.
+ void prepare();
+ void prepare_and_send(u32 client_id);
 };
 
 struct G_MoveToPosition_6x41_6x42 {
@@ -730,6 +748,9 @@ struct G_SetOrClearPlayerFlags_6x2E {
 
 struct G_SetPhotonBlastReadyFlag_6x39 {
  struct G_ClientIDHeader header;
+ void *handle_photon_blast_ready(void *src);
+ void init_6x39_packet();
+ void update_and_send_60();
 };
 
 struct G_SetPlayerAngle_6x51 {
@@ -746,6 +767,7 @@ struct G_SetPlayerBattleTeam_6x90 {
 struct G_SetPlayerFloor_6x1F {
  struct G_ClientIDHeader header;
  s32 floor;
+ G_SetPlayerFloor_6x1F &operator=(const G_SetPlayerFloor_6x1F &src);
 };
 
 struct G_SetPlayerPositionAndAngle_6x56 {

@@ -62,7 +62,7 @@ void TAdSelectGameModeGC__sub_802C478C(void) {
             TAdSelectGameModeGC::enable_camera();
             return;
         case 1:
-            set_split_screen_views(TAdMultiPlyChrSelectGC__count_selected_slots());
+            set_split_screen_views(TAdMultiPlyChrSelectGC::count_selected_slots());
             return;
         }
     } else {

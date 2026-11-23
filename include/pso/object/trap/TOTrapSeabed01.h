@@ -22,7 +22,7 @@ struct TOTrapSeabed01 : public TOTrap {
     void check_hold_player();
     void clamp_params_and_init();
     void draw();
-    static void *create(void *arg0);
+    static void *create(void *set_data);
     static void free_static_resources();
     static void load_resources();
     static void trigger_by_id(NJS_OBJECT *node);

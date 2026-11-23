@@ -440,8 +440,8 @@ u8 TWindowSubStatusDisp::calc_gauge_scale(u16 glyph, void *quad, s32 color) {
     return entry->width;
 }
 
-void TWindowSubStatusDisp::set_gauge_param(s32 _w0) {
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(menu_font_texture_list));
+void TWindowSubStatusDisp::set_gauge_param(s32 gauge_param) {
+    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(menu_font_texture_list));
 }
 
 void TWindowSubStatusDisp::end_render_forward() { get_player(); }

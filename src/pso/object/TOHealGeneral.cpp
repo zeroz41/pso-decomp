@@ -23,16 +23,17 @@
 #include "pso/system/SoundEffect.h"
 #include "pso/system/vector.h"
 #include "pso/unk/text_803D8F74.h"
+#include "pso/object/base/TObjBase.h"
+#include "pso/player/PlayerSlots.h"
 
 // TObjPlayer_80011014.h declares get_entity_id returning u16, but this
 // unit's callers saw a 32-bit return (no zero extension before the
 // (u16) test), so the helpers are still declared here.
 extern "C" {
-s32 add_actor_tp(u8 *arg0, s32 arg1);
+s32 add_actor_tp(u8 *owner, s32 half);
 s32 add_actor_hp(u8 *arg0, s16 arg1);
 s16 get_actor_tp(u8 *p);
 s16 obj_getS16_2BA(u8 *p);
-s32 get_entity_id(void *object);
 }
 
 const char *bm_fe_obj_kaifuku_moto_model_names[2] = { "fe_obj_kaifuku_moto.nj", NULL };
@@ -104,7 +105,7 @@ void TOHealGeneral::apply_heal_to_target() {
     u32 id = heal_target;
     if (id != 0xFFFF && id < 0x1000) {
         player = get_player_by_client_id(id);
-        if (player != NULL && player->obj_testFlags30(0x800) == 0 &&
+        if (player != NULL && player->test_actor_flags(0x800) == 0 &&
             horizontal_distance_squared(&player->position, &position) < 225.0f) {
             add_actor_hp((u8 *)player, 9);
             add_actor_tp((u8 *)player, 9);
@@ -117,17 +118,17 @@ void TOHealGeneral::apply_heal_to_target() {
 void TOHealGeneral::find_heal_target() {
     TObjPlayer *player;
     s32 i;
-    s32 id;
+    u16 id;
     f32 r;
     rotor_angle += 0x147;
     heal_target = 0xFFFF;
     for (i = 0; i < registered_player_count; i++) {
         player = TObjPlayer::get_player_data(i);
-        id = get_entity_id(player);
+        id = player->get_entity_id();
         if (player == NULL) {
             continue;
         }
-        if ((u16)id >= 0x1000) {
+        if (id >= 0x1000) {
             continue;
         }
         r = 10.0f - ((TObjCollidable *)player)->get_collision_body_radius(0);
@@ -192,7 +193,7 @@ void TOHealGeneral::render() {
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
         base = (NJS_OBJECT *)model;
         post_translate_matrix(base->pos);
         draw_ginja_model((void *)base->model);
@@ -259,7 +260,7 @@ TOHealGeneral::TOHealGeneral(void *set_data) : TObjMapObject(tl_05) {
     m_name = class_name;
     apply_object_set_data(set_data);
     model = (void *)model_resource->models->model;
-    texlist = (saddr)model_resource->models->texlist;
+    texlist = model_resource->models->texlist;
     model_radius = 40.0f;
     init_collision_body_parts(this, &heal_general_collision_body_part, 1);
     refresh_collision_body_centers();

@@ -52,10 +52,9 @@ struct S_802D5B78 {
 
 extern "C" {
 void spawn_hit_particles__10TObjPlayerFiPv(saddr pos, const Vec *dir);
-s16 get_validated_attack_stage(u8 *arg0);
 void get_weapon_color__11TItemWeaponFPv(void *, void *);
 s32 rotate_matrix_about_axis(int, void *, int);
-void set_matrix_identity(u8 *arg0);
+void set_matrix_identity(u8 *matrix);
 }
 
 TUnk_804E23F0::~TUnk_804E23F0() {}
@@ -135,7 +134,7 @@ void TUnk_804E23F0::vfunc_60() {
 void TUnk_804E23F0::emit_marker_effects() {
     Vec pos;
     owner->get_anim_node_position(0x30, &pos);
-    if (get_validated_attack_stage((u8 *)owner + 0x7CC) == 2) {
+    if (owner->attack_state.get_validated_attack_stage() == 2) {
         fire_shot_at_target(&pos, item_model, 0);
         fire_shot_at_target(&pos, item_model, 0x1555);
         fire_shot_at_target(&pos, item_model, -0x1555);
@@ -201,7 +200,7 @@ void TObjPlayer__sub_802D5B78(void *hit, void *arg1, void *arg2) {
 
 void TObjPlayer::spawn_item() {
     NJS_OBJECT *model;
-    GinjaTextureList *texture;
+    NJS_TEXLIST *texture;
     TParticleCtrl *particle;
 
     particle = spawn_particle_effect(((Vec *)this), 0x1BF);
@@ -461,7 +460,7 @@ extern "C" void get_center__11TItemWeaponFv();
 extern "C" int update_object_view_visibility__5TItemFff(void *p);
 extern "C" void classify_actor_view_detail__8TObjBaseFfff();
 extern "C" void get_name__5TItemFv();
-extern "C" void interact__5TItemFl();
+extern "C" void interact__5TItemFUs();
 extern "C" void update_owned__11TItemWeaponFv();
 extern "C" void update_in_inventory__5TItemFv();
 extern "C" void update_equipped__11TItemWeaponFv();
@@ -509,12 +508,12 @@ extern "C" void on_equipped__11TItemWeaponFv();
 extern "C" void on_unequipped__11TItemWeaponFv();
 extern "C" void init_weapon_effect_descriptor__11TItemWeaponFP13Desc_8011E5C4();
 extern "C" void vfunc_60__11TItemWeaponFv();
-extern "C" void deliver_hit__11TItemWeaponFP10TObjPlayerP9TObjCharallf();
+extern "C" void deliver_hit__11TItemWeaponFP10TObjPlayerP9TObjCharalfl();
 void *lbl_804E1BB0[62] = {
     (void *)0x0, (void *)0x0, (void *)&__dt__13TUnk_804E1BB0Fv, (void *)&run_task__5TItemFv,
     (void *)&render__5TItemFv, (void *)&render_shadows__5TItemFv, (void *)&vfunc_6__8TObjBaseFPsl, (void *)&apply_object_set_data__8TObjBaseFPv,
     (void *)&reset_motion_fields__14TObjCollidableFv, (void *)&get_center__11TItemWeaponFv, (void *)&update_object_view_visibility__5TItemFff, (void *)&classify_actor_view_detail__8TObjBaseFfff,
-    (void *)&get_name__5TItemFv, (void *)&interact__5TItemFl, (void *)&update_owned__11TItemWeaponFv, (void *)&update_in_inventory__5TItemFv,
+    (void *)&get_name__5TItemFv, (void *)&interact__5TItemFUs, (void *)&update_owned__11TItemWeaponFv, (void *)&update_in_inventory__5TItemFv,
     (void *)&update_equipped__11TItemWeaponFv, (void *)&activate_effect__11TItemWeaponFl, (void *)&write_item_data__11TItemWeaponFP9TItemData, (void *)&set_attach_slot__14TItemEquipBaseFSc,
     (void *)&equip__14TItemEquipBaseFv, (void *)&unequip__14TItemEquipBaseFv, (void *)&add_equip_stats__14TItemEquipBaseFl, (void *)&remove_equip_stats__14TItemEquipBaseFl,
     (void *)&subtract_item_stat_bonus__14TItemEquipBaseFllPs, (void *)&subtract_equip_stats__14TItemEquipBaseFPvPsPs, (void *)&render_equipped__11TItemWeaponFv, (void *)&render_equipped_shadow__11TItemWeaponFv,
@@ -526,7 +525,7 @@ void *lbl_804E1BB0[62] = {
     (void *)&apply_owner_bonuses__11TItemWeaponFv, (void *)&remove_owner_bonuses__11TItemWeaponFv, (void *)&on_model_loaded__11TItemWeaponFv, (void *)&launch_shot__11TItemWeaponFPUclll,
     (void *)&emit_marker_effects__11TItemWeaponFv, (void *)&update_attack__11TItemWeaponFv, (void *)&update_idle__11TItemWeaponFv, (void *)&reserved_53__13TUnk_804E1BB0Fv,
     (void *)&update_weapon__11TItemWeaponFv, (void *)&on_equipped__11TItemWeaponFv, (void *)&on_unequipped__11TItemWeaponFv, (void *)&init_weapon_effect_descriptor__11TItemWeaponFP13Desc_8011E5C4,
-    (void *)&vfunc_60__11TItemWeaponFv, (void *)&deliver_hit__11TItemWeaponFP10TObjPlayerP9TObjCharallf,
+    (void *)&vfunc_60__11TItemWeaponFv, (void *)&deliver_hit__11TItemWeaponFP10TObjPlayerP9TObjCharalfl,
 };
 
 void *__dt__13TUnk_804E1BB0Fv(void *item, s16 arg1) {
@@ -559,15 +558,15 @@ void *TUnk_804E1BB0::init_state_513(TObject *parent, u8 *item) {
 }
 
 void TUnk_804E1BB0::reserved_53() {
-    u32 temp_r0;
+    u32 second_model;
     u32 temp_r31;
     saddr arg0 = (saddr)this;
     draw_weapon_at_joint(arg0, 0x30);
     ((TItemWeapon *)arg0)->update_trail_slot(0);
-    temp_r0 = (uaddr)((TItemWeapon *)arg0)->second_model;
+    second_model = (uaddr)((TItemWeapon *)arg0)->second_model;
     temp_r31 = *(u32 *)((s8 *)arg0 + 0xF4);
-    if (temp_r0 != 0U) {
-        *(u32 *)((s8 *)arg0 + 0xF4) = temp_r0;
+    if (second_model != 0U) {
+        *(u32 *)((s8 *)arg0 + 0xF4) = second_model;
     }
     draw_weapon_at_joint(arg0, 0x23);
     ((TItemWeapon *)arg0)->update_trail_slot(1);

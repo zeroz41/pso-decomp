@@ -60,7 +60,7 @@ s16 TObjPlayer::get_atp() { return this->atp; }
 s16 TObjPlayer::get_atp_range() { return this->atp_range; }
 void TObjPlayer__sub_800A7774(TObjBase *object, const Vec *position) { VecCopy(&object->position, position); }
 
-void TObjMotion::sub_800A7798(f32 farg0) {
+void TObjMotion::set_override_speed(f32 farg0) {
     this->override_speed = farg0;
     set_motion_flags(MOTION_OVERRIDE_SPEED);
 }
@@ -227,7 +227,7 @@ void TObjEneDimedian::render() {
         fading = camera_fades[camera].updateFromCamera(&body_center.x);
     }
     select_actor_lighting(this);
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
+    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
     push_matrix();
     post_translate_matrix(&position.x);
     rotate_matrix_y(0, rotation_y);
@@ -484,7 +484,7 @@ SampledMotionPoints *dimedian_attack_right_trail;
 #pragma defer_codegen on
 void TObjEneDimedian::load_dimedian_param_entry(s32 i) {
     model = dimedian_resource_ptr->models[i].model;
-    texlist = (saddr)dimedian_resource_ptr->models[i].texlist;
+    texlist = dimedian_resource_ptr->models[i].texlist;
 }
 
 TObjEneDimedian::TObjEneDimedian(TObject *parent, void *set_data) : TUnk_80493450(parent) {

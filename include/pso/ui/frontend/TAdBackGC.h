@@ -3,6 +3,7 @@
 
 #include "pso/system/task/TObject.h"
 #include "types.h"
+#include "pso/ui/frontend/TitleBackground.h"
 
 class TAdBackGC : public TObject {
 public:
@@ -21,7 +22,8 @@ public:
 
 LAYOUT_ASSERT(TAdBackGC_size, sizeof(TAdBackGC) == 0x24);
 
-int draw_title_background_layer(void *p, int a1, int a2, f32 a3);
-int render_logo_with_default(void *p, int a1, int a2, f32 a3);
+extern "C" {
+void register_texture_f256_ad_pic_2(void);
+}
 
 #endif

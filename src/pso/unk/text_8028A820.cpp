@@ -16,13 +16,13 @@ void load_green_door_resources(void) {
     case AREA_VR_TEMPLE_BETA:
         resource = new BmlResource(5, (BmlResourceDescriptor *)&bm_obj_door_ruins_resource_descriptor, 0, 0, NULL);
         green_door_bml_resource = resource;
-        green_door_texture_handle = (GinjaTextureList *)load_gvm_texture_file((saddr)"obj_door_ruins_green.gvm");
+        green_door_texture_handle = load_gvm_texture_file("obj_door_ruins_green.gvm");
         break;
     case AREA_VR_SPACESHIP_ALPHA:
     case AREA_VR_SPACESHIP_BETA:
         resource = new BmlResource(5, (BmlResourceDescriptor *)&bm_obj_door_space_resource_descriptor, 0, 0, NULL);
         green_door_bml_resource = resource;
-        green_door_texture_handle = (GinjaTextureList *)load_gvm_texture_file((saddr)"obj_door_space_green.gvm");
+        green_door_texture_handle = load_gvm_texture_file("obj_door_space_green.gvm");
         break;
     }
 }

@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/ui/window/TWindowSubComCard_80244774.h"
+#include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "pso/ui/window/TWindowKeyBoardBase.h"
 #include "pso/ui/window/TWindowKeyBoardHard.h"

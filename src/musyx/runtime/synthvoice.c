@@ -191,9 +191,9 @@ inline VID_LIST_SV *find_node_803B2A30(u32 id) {
     }
     return 0;
 }
-u32 vidGetInternalId(u32 arg0) {
-    if (arg0 != 0xFFFFFFFF) {
-        VID_LIST_SV *p = find_node_803B2A30(arg0);
+u32 vidGetInternalId(u32 id) {
+    if (id != 0xFFFFFFFF) {
+        VID_LIST_SV *p = find_node_803B2A30(id);
         if (p != 0) {
             return p->root;
         }

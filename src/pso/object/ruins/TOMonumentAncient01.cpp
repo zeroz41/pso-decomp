@@ -29,7 +29,7 @@ void TOMonumentAncient01::update_demo() {}
 
 void TOMonumentAncient01::render() {
     if (update_object_view_visibility(view_range, model_radius) == 1) {
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
@@ -67,7 +67,7 @@ TOMonumentAncient01::TOMonumentAncient01(TObject *parent, void *set_data) : TOQu
     m_name = class_name;
     apply_object_set_data(set_data);
     model = (void *)get_bml_model((BmlResource *)model_resource, 2);
-    texlist = (saddr)get_bml_texlist((BmlResource *)model_resource, 2);
+    texlist = get_bml_texlist((BmlResource *)model_resource, 2);
     init_collision_body_parts(this, &monument_ancient01_collision_body, 1);
     refresh_collision_body_centers();
     register_object_by_id();

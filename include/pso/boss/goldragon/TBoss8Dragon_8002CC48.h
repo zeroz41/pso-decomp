@@ -36,10 +36,10 @@ public:
 LAYOUT_ASSERT(Unk_8002DB7C_size, sizeof(Unk_8002DB7C) == 0x68);
 
 f32 apply_default_velocity_scale(Vec *vector);
-f32 apply_velocity_scale(Vec *vector, f32 farg0, f32 farg1);
+f32 apply_velocity_scale(Vec *vector, f32 radius, f32 height);
 
 extern "C" {
-f32 lerp__9TDeadSpotFff(f32 farg0, f32 farg1);
+f32 lerp__9TDeadSpotFff(f32 lo, f32 hi);
 f32 rand_signed_unit(void);
 }
 

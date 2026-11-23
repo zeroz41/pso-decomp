@@ -37,7 +37,7 @@ extern "C" {
 u32 calc_text_width(void);
 const char *TWindowQuantity__name = "TWindowQuantity";
 void TWindowQuantity::set_position(WindowDrawContext *context) {
-    draw_window_tab(context, &context->inner_x, 3, m_60);
+    draw_window_tab(context, &context->inner_x, 3, width);
 }
 
 void TWindowQuantity::render() {
@@ -61,12 +61,12 @@ TWindowQuantity::TWindowQuantity(s32 arg1) : TWindowBase((u8 *)&quantity_window_
     m_name = TWindowQuantity__name;
     id = get_message_text(1);
     n = (f32)calc_text_width();
-    m_60 = TWindowSubStatusDisp__sub_802877A4(24.0f + (12.0f + n));
+    width = TWindowSubStatusDisp__sub_802877A4(24.0f + (12.0f + n));
     e0 = (u8 *)this->get_array_entry(0);
     e1 = (u8 *)this->get_array_entry(1);
     set_text_entry_string(e0, id, 0);
     *(f32 *)(e1 + 8) = 24.0f + (12.0f + (8.0f + n));
-    target_size[0] = TWindowSubStatusDisp::get_base_y(m_60);
+    target_size[0] = TWindowSubStatusDisp::get_base_y(width);
     this->save_position();
     if (TCameraCtrl::get_camera_id() > 2) {
         scale[0] = 0.75f;

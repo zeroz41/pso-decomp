@@ -45,7 +45,7 @@ void (*ending_scene_callbacks[26])(void) = {
     TLobby::update_keyboard_menu, TLobby::free_keyboard_soft_resources,
     TLobby::set_ending_callback, TLobby::free_ending_callback,
     ending_scene_nop_load, ending_scene_nop_release,
-    register_texture_ed_512kabe_c, release_lobby__8TEndingCFv,
+    register_texture_ed_512kabe_c, TEndingC::release_lobby,
     TScene::bind_ending_wall_textures, TEndingAB::destroy_instance,
     alloc_quest_download_buffer, TLobby::free_chr_select_singleton,
     init_item_system, free_item_system,
@@ -97,7 +97,6 @@ void run_game_frame(void) {
 extern "C" {
 void run_load_callback_table(void *, int);
 }
-extern s32 ending_scene_active;
 
 void TEnding::set_flag_and_advance() {
     ending_scene_active = 1;
@@ -108,7 +107,7 @@ void TEnding::start_ending_scene() {
     set_screen_size(1.0f, 0.85f);
     set_copy_clear_color_argb(0, 0, 0);
     reset_controller_input_state();
-    init_map_lights((u8 *)default_scene_light_config);
+    init_map_lights(&default_scene_light_config);
     new TCameraCtrl(tl_camera);
     Vec a = {0.0f, 0.0f, 0.0f};
     Vec b = {0.0f, 0.0f, -100.0f};

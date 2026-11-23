@@ -2,9 +2,9 @@
 #include "pso/object/door/TObjDoor.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_80011014.h"
+#include "pso/player/PlayerSlots.h"
 
 extern "C" {
-void *get_player_by_client_id(s32 i);
 f32 xyz_distance(void *, void *);
 }
 s32 check_player_door_proximity(saddr arg0, s32 arg1, f32 farg0);

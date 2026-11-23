@@ -96,7 +96,7 @@ void TBoss2Mine::apply_paralysis() {  }
 
 void TBoss2Mine::apply_poison_status() {  }
 
-void TBoss2Mine::load_resources() { TObjPlayer__sub_800F0928(); }
+void TBoss2Mine::load_resources() { TObjPlayer::init_alt_model(); }
 
 void TBoss2Mine::free_resources() {  }
 
@@ -115,7 +115,7 @@ TBoss2Mine::TBoss2Mine(TObject *parent, u16 entity_id, s32 set_index, s32 varian
 void TBoss2Mine::init(s32 variant) {
     this->init_position_vectors();
     this->model = boss2_derolle_resource->models[3].model;
-    this->texlist = (saddr)boss2_derolle_resource->models[2].texlist;
+    this->texlist = boss2_derolle_resource->models[2].texlist;
     this->init_model(&boss2_mine_collision_body, 1);
     this->reset_hp((u8 *)TLobby::register_boss(boss2_mine_params[variant]),
                    (u8 *)TLobby::dispatch_shared_handler_b(boss2_mine_attack_params[variant]),
@@ -385,7 +385,7 @@ void TBoss2Mine::render() {
         Vec shadow_scale = boss2_mine_shadow_scale;
         TObjEnemy::draw_ground_shadow(&shadow_scale, 0);
     }
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
+    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
     saved_model_render_flags = model_render_flags;
     TObjEneDD::clear_global_flag_400();
     TObjPlayer::toggle_particle_effect();

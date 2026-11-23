@@ -13,12 +13,12 @@ struct TObjEnvSoundGlobal : public TObjBase {
     s32 setup_sound();
     virtual void render();
     virtual void run_task();
+    static void *create(void *set_data);
 };
 
 LAYOUT_ASSERT(TObjEnvSoundGlobal_size, sizeof(TObjEnvSoundGlobal) == 0x9C);
 
 extern "C" {
-void *TObjEnvSoundEx__create(void *arg0);
 void *__dt__14TObjEnvSoundExFv(void *arg0, s16 arg1);
 void *__dt__18TObjEnvSoundGlobalFv(void *arg0, s16 arg1);
 void copy_pair__18TObjEnvSoundGlobalFPvPv(void *p, void *q);

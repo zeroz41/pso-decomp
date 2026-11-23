@@ -39,6 +39,8 @@
 #include "pso/technique/TTecCtrl.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/camera/TCameraCtrl.h"
+#include "pso/object/base/TObjBase.h"
+#include "pso/player/PlayerSlots.h"
 
 struct Actor_801D3E20 {
     u8 pad[0x30];
@@ -219,15 +221,15 @@ void TItemList::unequip_invalid_items_recursive() {
 }
 
 void TItemList::collect_alive_owners() {
-    TItem *temp_r3;
+    TItem *owner_if_alive;
     TItemList *down;
 
     down = (TItemList *)m_down;
     while (down != NULL) {
         if (TItemList::is_item_valid(down) != 0) {
-            temp_r3 = down->get_owner_if_alive();
-            if (temp_r3 != NULL) {
-                *player_owner_collect_cursor = temp_r3;
+            owner_if_alive = down->get_owner_if_alive();
+            if (owner_if_alive != NULL) {
+                *player_owner_collect_cursor = owner_if_alive;
                 player_owner_collect_cursor += 1;
                 inventory_walk_visit_count += 1;
             }
@@ -511,7 +513,7 @@ s32 TObjPlayer__sub_801D49F4(TPlyItem *inventory, TObjPlayer *player, s32 *item_
     return 1;
 }
 
-s32 TPlyItem::update_inventory_item(TObjPlayer *player, s32 arg2, f32 *position, s32 arg4, s32 client) {
+s32 TPlyItem::update_inventory_item(TObjPlayer *player, s32 key, f32 *position, s32 arg4, s32 client) {
     s16 count;
     TItem *item;
     void *node;
@@ -519,7 +521,7 @@ s32 TPlyItem::update_inventory_item(TObjPlayer *player, s32 arg2, f32 *position,
     if (arg4 < 0) {
         return 0;
     }
-    node = start_inventory_update(arg2);
+    node = start_inventory_update(key);
     if (node == NULL) {
         return 0;
     }
@@ -815,7 +817,7 @@ TUnk_804C4498::TUnk_804C4498(TObject *parent, TObjBase *source, const Vec *pos, 
         this->room = 0;
         this->heading = 0;
     } else {
-        this->client_id = get_entity_id(source);
+        this->client_id = source->get_entity_id();
         this->room = source->get_room();
         this->heading = source->rotation_y;
     }
@@ -952,7 +954,7 @@ TUnk_804C4468::TUnk_804C4468(TObject *parent, s32 list, TObjBase *source, const 
         entry = ((TItemList *)this)->run_item_count_update();
         if (fn_801D4270(entry->source_id) != 0) {
             remove_list_entry_by_id(entry->source_id);
-            if (load_character_from_card__23TAdSinglePlyChrSelectGCFv() != 0) {
+            if (TAdSinglePlyChrSelectGC::load_character_from_card() != 0) {
                 queue_destruction();
                 return;
             }

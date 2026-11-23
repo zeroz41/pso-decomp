@@ -209,17 +209,17 @@ void chap_input(PppFsm *self, PppFrame *source) {
     }
 }
 
-s32 TLobby__sub_803FC684(u8 *source, u8 *arg1, u8 *arg2) {
+s32 TLobby__sub_803FC684(u8 *source, u8 *chap_secret, u8 *arg2) {
     char **p = *(char ***)(arg2 + 0x30);
 
     if (NetStringLength((const char *)((void *)source)) >= 0x80) {
         source[0x7F] = 0;
     }
-    if (NetStringLength((const char *)((void *)arg1)) >= 0x80) {
-        arg1[0x7F] = 0;
+    if (NetStringLength((const char *)((void *)chap_secret)) >= 0x80) {
+        chap_secret[0x7F] = 0;
     }
     NetCopyString(ppp_chap_authentication_state.peer_id, (const char *)source);
-    NetCopyString(ppp_chap_authentication_state.secret, (const char *)arg1);
+    NetCopyString(ppp_chap_authentication_state.secret, (const char *)chap_secret);
     p[0] = ppp_chap_authentication_state.peer_id;
     p[1] = ppp_chap_authentication_state.secret;
     return 0;

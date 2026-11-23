@@ -10,15 +10,17 @@ class TObjPlayer;
 
 // One entry of Unk_8014F844's sorted list of nearby targets.
 struct Unk_8014F844Entry {
-    u32 m_0;  // entity id
-    s32 m_4;  // collision body index
-    f32 m_8;  // squared distance
+    u32 entity_id;
+    s32 collider;     // collision body index
+    f32 distance_sq;  // squared horizontal distance
 };
 
 // The 0x108-byte record TNpcPlayer allocates twice (m_74, m_78).
 struct Unk_8014F844 {
-    s32 m_0;
-    Unk_8014F844Entry m_4[10];
+    Unk_8014F844(s32 id);
+
+    s32 target_count;
+    Unk_8014F844Entry targets[10];  // nearest first (quick_sort)
     s32 m_7c;
     s32 m_80;
     s32 m_84;
@@ -35,6 +37,14 @@ struct Unk_8014F844 {
     s32 m_104;
 };
 LAYOUT_ASSERT(Unk_8014F844_size, sizeof(Unk_8014F844) == 0x108);
+
+// Eleven per-action counters the partner AI steps and tests.
+struct PartnerCounters {
+    PartnerCounters();
+    void clear();
+
+    s16 count[11];
+};
 
 struct Vec;
 
@@ -64,6 +74,8 @@ struct TNpcPlayer : public TObject {
         void copy_entry_by_index(s32 arg1);
     };
 
+    TNpcPlayer(u16 a, u16 b, int kind, TObject *parent);
+    TNpcPlayer(u16 a, u16 b, int kind, s32 arg4, TObject *parent);
     virtual ~TNpcPlayer();
     void deliver_partner_action();
     virtual void run_task();
@@ -78,7 +90,7 @@ struct TNpcPlayer : public TObject {
     u8 _pad2E[0x2];
     AiParams ai_params;
     f32 m_58;
-    s16 m_5c[11];
+    PartnerCounters partner_counters;
     u8 _pad72[0x2];
     Unk_8014F844 *m_74;
     Unk_8014F844 *m_78;
@@ -126,13 +138,11 @@ struct TNpcPlayer : public TObject {
     s32 get_condition();
     s32 get_action_state();
     void reset_fields_8c();
-    void*init();
     void update();
     void update_players();
     void update_lobby();
     void finalize_and_send_packet();
     void byteswap_positions();
-    void *init_cast_technique_cmd();
     void reset_model();
     void init_model();
     void reset_move_state();
@@ -149,8 +159,8 @@ struct TNpcPlayer : public TObject {
     static s32 send_command(s32 cls, s32 count, const TPlyInventoryItem *source, s32 level, TPlyCharData *character);
     static u8 *get_lobby_entry_ptr();
     static void send_warp_toward_player(u16 id, const Vec *destination);
-    static void send_code_45_to_player(int arg0);
-    static void play_effect(int arg0);
+    static void send_code_45_to_player(int client);
+    static void play_effect(int client);
     static void send_stop_at_position(u16 id, void *pos, s32 arg);
     static void enable_partner_chatter();
     static void disable_partner_chatter();
@@ -160,15 +170,15 @@ struct TNpcPlayer : public TObject {
     static void send_inter_level_warp_all(s32 value);
     static void send_npc_control_6x69(s32 arg0);
     static void send_npc_stop_6x69(s32 arg0);
-    static void send_npc_control_create(u16 arg0, u16 arg1, s32 arg2, u8 *arg3, s32 arg4);
+    static void send_npc_control_create(u16 arg0, u16 arg1, s32 arg2, u8 *arg3, s32 heading);
     static void create_companion(u16 leader, u16 slot, s32 appearance, f32 *p, s32 heading);
     static void create_default_companion(u16 leader, s32 appearance, u8 *pos, s32 heading);
     static void send_npc_control_notify_players(s32 arg0, s32 arg1, s32 arg2);
     static void send_npc_create(s32 arg0, s32 arg1);
-    static void reset_player_lobby_model(u16 arg0);
-    static void update_player_field(u16 arg0, s32 frames);
-    static void end_camera_pan_for_client(u16 arg0);
-    static void apply_to_battle_player_slot(u16 arg0, s16 arg1);
+    static void reset_player_lobby_model(u16 client);
+    static void update_player_field(u16 client, s32 frames);
+    static void end_camera_pan_for_client(u16 client);
+    static void apply_to_battle_player_slot(u16 client, s16 arg1);
     void byteswap_header();
     void send_state_60();
     void update_combat_action();
@@ -183,4 +193,6 @@ LAYOUT_ASSERT(TNpcPlayer_size, sizeof(TNpcPlayer) == 0xE8);
 
 // Builds the character record of NPC template index, scaled to the selected difficulty.
 u8 *load_npc_player_template(s32 index);
+// Clears a 6x40 walk-to-position packet and sets its header (subcommand 0x40, size 4).
+void init_6x40_walk_packet(void *cmd);
 #endif

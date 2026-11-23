@@ -24,16 +24,17 @@ public:
     void clear_flag_and_release2();
     void set_flag_10();
     s32 update_selected_entry();
-    s32 find_entry_value_by_id(s32 arg1);
-    void mark_entry_by_id(s32 arg1);
-    void disable_entry_by_id(s32 arg1);
-    void update_next_entry(s32 arg1, s32 arg2, s32 arg3);
-    void set_entry_string_by_id(void *arg1, s32 arg2);
+    s32 find_entry_value_by_id(s32 key);
+    void mark_entry_by_id(s32 entry_id);
+    void disable_entry_by_id(s32 id);
+    void update_next_entry(s32 arg1, s32 string, s32 arg3);
+    void set_entry_string_by_id(void *id, s32 entry_id);
+    void create_sub_window(const char *title);
     u16 m_70;
     s16 next_entry;
-    s16 m_74;
+    s16 index;
     s16 entry_capacity;
-    TWindowSubStatusDisp *heading;  // type-1 heading made by create_sub_window (inferred)
+    TWindowSubStatusDisp *heading;  // type-1 heading made by create_sub_window
     u8 unk_7C[0x4];
 };
 LAYOUT_ASSERT(TWindowMenuInfomation_size, sizeof(TWindowMenuInfomation) == 0x80);

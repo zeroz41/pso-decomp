@@ -341,7 +341,7 @@ s32 TWindowDD_WS_Word::sub_80341AC0() {
 }
 
 s32 TWindowDD_WS_Word::can_scroll(s32 arg1) {
-    s32 temp_r0;
+    s32 selected_row;
     s32 temp_r3;
     s32 temp_r4;
     s32 temp_r5;
@@ -352,11 +352,11 @@ s32 TWindowDD_WS_Word::can_scroll(s32 arg1) {
     temp_r4 = this->pad_78;
     temp_r5 = temp_r4 / 2;
     if (arg1 > 0) {
-        temp_r0 = this->selected_row;
-        if (temp_r0 < temp_r5) {
+        selected_row = this->selected_row;
+        if (selected_row < temp_r5) {
             return 0;
         }
-        return (this->selected_token_index + (temp_r4 - temp_r0)) < this->token_count;
+        return (this->selected_token_index + (temp_r4 - selected_row)) < this->token_count;
     }
     temp_r3 = this->selected_row;
     if (temp_r3 >= temp_r5) {

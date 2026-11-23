@@ -18,7 +18,7 @@ public:
     virtual void render();
     s32 is_mode_entry_enabled(s32 menu, u32 idx);
     s32 get_max_difficulty_for_party_level();
-    saddr build_mode_menu(s32 arg1);
+    saddr build_mode_menu(s32 menu);
     void exit_keyboard_mode();
     void update_transition_state();
     void sub_803003A4();

@@ -4,6 +4,7 @@
 #include "types.h"
 #include "pso/effect/TEffect.h"
 #include "pso/object/base/TObjMotion.h"
+#include "pso/map/CsnGroundCandidates.h"
 
 struct CsnGroup;
 struct TechniqueContactBody;
@@ -29,10 +30,11 @@ public:
     void dispatch_technique_contact(s32);
     u8 *query_technique_player_contacts(saddr);
     u8 *query_technique_enemy_contacts(saddr);
+    Vec *get_pos_ptr();
     f32 range;
     f32 traveled;
     Vec previous;  // position before the last move
-    CsnGroup *ground_candidates[16];
+    CsnGroundCandidates ground_candidates;
     s16 level;
     s16 band;
     u16 sourceId;

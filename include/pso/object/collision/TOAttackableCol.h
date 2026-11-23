@@ -21,8 +21,8 @@ struct TOAttackableCol : public TObjChara {
     u32 m_33c;
     void init_params();
     void send_state_change(u16 state);
-    int handle_6x91_update_state();
-    f32 apply_hit(saddr arg1);
+    void handle_6x91_update_state();
+    f32 apply_hit(saddr player);
     void release();
     void check_door_trigger();
     virtual void run_task();
@@ -31,7 +31,7 @@ struct TOAttackableCol : public TObjChara {
     void bswap_state();
     void broadcast_state();
     u8 unk_340[0x4];
-    s32 m_344;
+    s32 label;
     u8 unk_348[0x4];
     s32 m_34c;
 };
@@ -42,7 +42,7 @@ void TOAttackableCol__sub_80157310(void *_w0);
 void TOAttackableCol__sub_80157C20(void *p, s32 v);
 s32 TOAttackableCol__sub_80157C28(void *p);
 void *__dt__15TOAttackableColFv(void *arg0, s16 arg1);
-void *init_6x91_subcommand(void *arg0);
+void *init_6x91_subcommand(void *barrier_energy01);
 }
 
 #endif

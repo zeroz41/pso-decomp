@@ -5,22 +5,21 @@
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/chat/TWindowSubSymbolChat.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/object/base/TObjBase.h"
+#include "pso/player/PlayerSlots.h"
 
 struct TPlyGuildCardTag { u32 a; u32 b; TPlyGuildCardTag(u16, u32); };
 
 struct Tag_80076BC8 { u32 a; u32 b; };
 
 extern "C" {
-u16 get_entity_id(void *);
-void *get_player_by_client_id(s32);
 void send_chat__9TProtocolFR16TPlyGuildCardTagPc(void *, TPlyGuildCardTag *, u8 *);
 char *fn_80076BC4(s32 *text);
 
 char *fn_80076BC4(s32 *text) { return (char *)text; }
 }
 extern s32 local_client_id;
-extern void *TLobby__protocol_instance;
-void submit_chat_text(u8 *arg0);
+void submit_chat_text(u8 *lobby);
 void submit_chat_text(u8 *lobby) {
     void *player;
     player = get_player_by_client_id(local_client_id);
@@ -29,21 +28,21 @@ void submit_chat_text(u8 *lobby) {
         if (get_main_phase() == 0xF) {
             const TPlyGuildCardTag &made = TPlyGuildCardTag(0, 0);
             Tag_80076BC8 tmp = *(Tag_80076BC8 *)&made;
-            send_chat__9TProtocolFR16TPlyGuildCardTagPc(TLobby__protocol_instance, (TPlyGuildCardTag *)&tmp, lobby);
+            send_chat__9TProtocolFR16TPlyGuildCardTagPc(TLobby::protocol_instance, (TPlyGuildCardTag *)&tmp, lobby);
         } else {
-            TWindowCtrl::open(get_entity_id(player), (saddr)lobby, 0xCB);
+            TWindowCtrl::open(((TObjBase *)(player))->get_entity_id(), (saddr)lobby, 0xCB);
         }
     }
 }
 
-void chat_dispatch_accepted_result(s32 *arg0);
+void chat_dispatch_accepted_result(s32 *submission);
 extern "C" {
 s32 is_submit_cooldown_clear__11TWindowCtrlFv();
-saddr get_chat_shortcut(s32 arg0);
+saddr get_chat_shortcut(s32 index);
 void send_chat_shortcut(void);
 void TAdSinglePlyChrSelectGC__sub_80076DF4(void* p, void* q);
 }
-s32 chat_accept_submission(saddr arg0);
+s32 chat_accept_submission(saddr submission);
 void chat_dispatch_accepted_result(s32 *submission) {
 
     switch (*submission) {
@@ -78,7 +77,7 @@ struct ByteBlock_50 { u8 bytes[0x50]; };
 
 extern "C" {
 saddr TAdSinglePlyChrSelectGC__sub_80076D9C(saddr arg0, saddr arg1);
-bool is_chat_shortcut_set(s32 arg0);
+bool is_chat_shortcut_set(s32 index);
 void clear_chat_shortcut(s32 i);
 
 void clear_chat_shortcut(s32 i) {

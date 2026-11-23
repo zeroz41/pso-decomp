@@ -9,6 +9,7 @@
 #include "pso/unk/text_801036CC.h"
 #include "pso/weapon/TItemAttacker.h"
 #include "types.h"
+#include "pso/object/base/TObjBase.h"
 
 // The anchor's collision body: a sphere of radius 3.
 extern const CollisionBody equip_anchor_body = {
@@ -22,7 +23,7 @@ TItemEffEquipAnchor::TItemEffEquipAnchor(TObject *parent, u16 client_id, s32 nod
     this->client_id = client_id;
     this->node = node;
     copy_collision_body(&body, &equip_anchor_body);
-    if (get_entity_id(this) == 0xFFFF) {
+    if (this->get_entity_id() == 0xFFFF) {
         set_entity_id(pop_free_entity_id());
     }
     set_collision_body(&body);
@@ -34,7 +35,7 @@ TItemEffEquipAnchor::~TItemEffEquipAnchor() {
     if (bodies != NULL) {
         unregister_object_by_id();
         clear_collision_bodies();
-        push_free_entity_id(get_entity_id(this));
+        push_free_entity_id(this->get_entity_id());
         set_entity_id(0xFFFF);
     }
 }
@@ -107,6 +108,6 @@ void TItemEffEquip::retire_equipment_effect(TObject *effect) {
 void TItemEffEquip::spawn_equip_particle_effect(s32 particle_id) {
     particle = spawn_continuous_particle_effect_with_flags(anchor->get_center(), particle_id, 0x10);
     if (particle != NULL) {
-        particle->set_owner_id(get_entity_id(anchor));
+        particle->set_owner_id(anchor->get_entity_id());
     }
 }

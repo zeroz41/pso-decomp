@@ -63,6 +63,8 @@
 #include "pso/math/MatrixVector.h"
 #include "pso/render/model_render_state.h"
 #include "pso/system/MatrixStack.h"
+#include "pso/object/base/TObjBase.h"
+#include "pso/player/PlayerSlots.h"
 
 
 extern "C" {
@@ -172,11 +174,11 @@ void TObjEneMe1Canadin::load_resources() {
     model2 = (saddr)bm_ene_me1_mb_resource->models[0].model;
     canadin_node3_diffuse = (s32 *)(((NJS_CNK_MODEL *)((NJS_OBJECT *)find_model_node(model2, 3))->model)->polygon_list + 2);
     canadin_node2_diffuse = (s32 *)(((NJS_CNK_MODEL *)((NJS_OBJECT *)find_model_node(model2, 2))->model)->polygon_list + 2);
-    TObjPlayer__sub_800F0928();
+    TObjPlayer::init_alt_model();
     s16 ids[2] = { 0x17, 0x18 };
     NpcAnimationBinding params = { reinterpret_cast<BmlMotionEntry *>(bm_ene_me1_mb_resource->motions), reinterpret_cast<TObjMotionAction *>(canadin_action_table), 0, 0, 7 };
     for (i = 0; i < 2; i++) {
-        NpcModelRegistry::register_animated_chunk(ids[i], reinterpret_cast<void *>(bm_ene_me1_mb_resource->models[i].model), reinterpret_cast<void *>(bm_ene_me1_mb_resource->models[1].texlist), &params, 8.0f, 15.0f);
+        NpcModelRegistry::register_animated_chunk(ids[i], reinterpret_cast<void *>(bm_ene_me1_mb_resource->models[i].model), bm_ene_me1_mb_resource->models[1].texlist, &params, 8.0f, 15.0f);
     }
 }
 
@@ -292,7 +294,7 @@ void TObjEneMe1Canadin::setup_enemy() {
     mode = 0;
     dispatch_action(mode, 4);
     if (leader != NULL) {
-        leader_id = get_entity_id(leader);
+        leader_id = leader->get_entity_id();
     } else {
         leader_id = 0xFFFF;
     }
@@ -369,7 +371,7 @@ void TObjEneMe1Canadin::apply_parameters() {
 
 void TObjEneMe1Canadin::select_model() {
     model = (void *)bm_ene_me1_mb_resource->models[0].model;
-    texlist = (saddr)bm_ene_me1_mb_resource->models[1].texlist;
+    texlist = bm_ene_me1_mb_resource->models[1].texlist;
 }
 
 #pragma push
@@ -1303,7 +1305,7 @@ void TObjEneMe1Canadin::state_melee_attack(s32 msg) {
                 if (this->is_hover_low() != 0 && this->current_target->select_melee_contact_body(this, 1.0f) != 0) {
                     this->current_target->receive_physical_attack(this, 1.0f);
                     this->current_target->apply_knockback_from_attacker((u8 *)this, 3.0f);
-                    if ((s32)is_player_entity_id(get_entity_id(this->current_target)) != 0 && is_target_android(this->current_target) != 0 && this->random_ratio() < 0.05f) {
+                    if ((s32)is_player_entity_id(this->current_target->get_entity_id()) != 0 && is_target_android(this->current_target) != 0 && this->random_ratio() < 0.05f) {
                         this->current_target->apply_shock_status();
                         this->current_target->sync_enemy_state(0);
                     }
@@ -1681,7 +1683,7 @@ void TObjEneMe1Canadin::state_dead(s32 msg) {
             leader = (TObjEneMe1Canadin *)find_entity_by_id(leader_id);
             leader->remove_member(this);
         }
-        TBoss3Volopt::create_breakup_mdl((saddr)canadin_breakup_model, 0, (s32)(texlist), (saddr)&body_center, (s32)(rotation_y));
+        TBoss3Volopt::create_breakup_mdl((saddr)canadin_breakup_model, 0, (texlist), (saddr)&body_center, (s32)(rotation_y));
         status_flags |= 0x400000;
         VecCopy(&pos, &body_center);
         pos.y -= 5.0f;
@@ -1789,7 +1791,7 @@ void TObjEneMe1Canadin::render() {
             draw_ground_shadow(0, 0);
         }
         update_secondary_light();
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
         saved_model_render_flags = model_render_flags;
         TObjEneDD::clear_global_flag_400();
         TObjPlayer::toggle_particle_effect();
@@ -1863,7 +1865,7 @@ void TObjEneMe1Canadin::render_demo() {
     if (update_object_view_visibility(400.0f, 15.0f) != 0) {
         draw_ground_shadow(0, 0);
         TObjPlayer::toggle_particle_effect();
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, rotation_y);
@@ -1914,7 +1916,7 @@ void TObjEneMe1CanadinLeader::run_task() {
 
 void TObjEneMe1CanadinLeader::select_model() {
     model = (void *)bm_ene_me1_mb_resource->models[1].model;
-    texlist = (saddr)bm_ene_me1_mb_resource->models[1].texlist;
+    texlist = bm_ene_me1_mb_resource->models[1].texlist;
 }
 
 void TObjEneMe1CanadinLeader::select_next_attack_state() {
@@ -2194,7 +2196,7 @@ void TObjEneMe1CanadinLeader::state_dead(s32 mode) {
     s32 i;
     switch (mode) {
     case 4:
-        TBoss3Volopt::create_breakup_mdl((saddr)canadin_leader_breakup_model, 0, (s32)texlist, (saddr)&body_center, (s32)rotation_y);
+        TBoss3Volopt::create_breakup_mdl((saddr)canadin_leader_breakup_model, 0, texlist, (saddr)&body_center, (s32)rotation_y);
         for (i = 0; i < member_count; i++) {
             members[i]->set_flag3c8_bit20();
         }

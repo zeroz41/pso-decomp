@@ -28,17 +28,17 @@
 
 
 BmlResource *dragon_ground_resource;
-saddr dragon_common_texture_list;
+NJS_TEXLIST *dragon_common_texture_list;
 s32 TObjBoss1Crater__instance_count;
 void load_dragon_ground_assets(void) {
     switch (TBoss1Dragon::isV2Mode()) {
     case 0:
         dragon_ground_resource = load_enemy_bml_resource((BmlResourceDescriptor *)&dragon_ground_resource_descriptor);
-        dragon_common_texture_list = (saddr)load_gvm_texture_file((saddr)dragon_common_texture_filename);
+        dragon_common_texture_list = load_gvm_texture_file(dragon_common_texture_filename);
         break;
     case 1:
         dragon_ground_resource = load_enemy_bml_resource_named((BmlResourceDescriptor *)&dragon_ground_resource_descriptor, (const char *)dragon_common_alternate_bml_filename);
-        dragon_common_texture_list = (saddr)load_gvm_texture_file((saddr)dragon_common_alternate_texture_filename);
+        dragon_common_texture_list = load_gvm_texture_file(dragon_common_alternate_texture_filename);
         break;
     }
 }
@@ -59,7 +59,7 @@ TObjBoss1Crater *TObjBoss1Crater__instance_list[20];
 
 void TObjBoss1Crater::render() {
     push_matrix();
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(dragon_common_texture_list));
+    TObjFish::set_global_param(dragon_common_texture_list);
     post_translate_matrix(&position.x);
     rotate_matrix_y(0, rotation_y);
     model_render_flags |= 0x01000000;

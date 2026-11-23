@@ -1110,7 +1110,7 @@ void set_file_info_name__22TQuestVmDownLoadServerFv(const char *filename) {
 }
 #pragma pop
 
-s32 TQuestVmDownLoadServer__sub_803E8788(int _w0, void * _w1, int _w2) {
+s32 TQuestVmDownLoadServer__sub_803E8788(int quest_download_file_handle, void * pages, int _w2) {
     return -1;
 }
 

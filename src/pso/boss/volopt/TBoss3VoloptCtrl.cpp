@@ -16,6 +16,7 @@
 #include "pso/unk/TLobby_802268F4.h"
 #include "pso/unk/text_801F43B4.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/PlayerSlots.h"
 
 extern "C" {
 extern s32 local_client_id;

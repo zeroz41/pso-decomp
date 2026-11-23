@@ -21,7 +21,7 @@ CollisionBody fence_ancient01_collision_bodies[3] = {
 };
 const char *TOFenceAncient01::class_name = "TOFenceAncient01";
 BmlResource *TOFenceAncient01::model_resource;
-GinjaTextureList **TOFenceAncient01::texlists;
+NJS_TEXLIST **TOFenceAncient01::texlists;
 
 void TOFenceAncient01::update_demo() {}
 
@@ -61,12 +61,12 @@ void TOFenceAncient01::unload_resources() {
 void TOFenceAncient01::load_resources() {
     BmlResource *resource = new BmlResource(1, &bm_fd_obj_n_saku_4x2_resource_descriptor, 0, 0, NULL);
     model_resource = resource;
-    GinjaTextureList **lists = (GinjaTextureList **)mem_alloc(4 * sizeof(GinjaTextureList *));
+    NJS_TEXLIST **lists = (NJS_TEXLIST **)mem_alloc(4 * sizeof(NJS_TEXLIST *));
     texlists = lists;
-    lists[0] = (GinjaTextureList *)model_resource->models[0].texlist;
-    texlists[1] = (GinjaTextureList *)load_gvm_texture_file((saddr)texture_file_b);
-    texlists[2] = (GinjaTextureList *)load_gvm_texture_file((saddr)texture_file_g);
-    texlists[3] = (GinjaTextureList *)load_gvm_texture_file((saddr)texture_file_p);
+    lists[0] = model_resource->models[0].texlist;
+    texlists[1] = load_gvm_texture_file(texture_file_b);
+    texlists[2] = load_gvm_texture_file(texture_file_g);
+    texlists[3] = load_gvm_texture_file(texture_file_p);
 }
 
 // Defined after load_resources, which addresses each by its own symbol.
@@ -83,7 +83,7 @@ TOFenceAncient01::TOFenceAncient01(TObject *parent, void *set_data) : TOFenceBas
     m_name = class_name;
     apply_object_set_data(set_data);
     model = (void *)model_resource->models[0].model;
-    texlist = (saddr)texlists[read_texture_variant()];
+    texlist = texlists[read_texture_variant()];
     motion = model_resource->motions[0].motion;
     animation_end_frame = (f32)motion->frameCount - 1.0f;
     init_collision_body_parts(this, fence_ancient01_collision_bodies, 3);

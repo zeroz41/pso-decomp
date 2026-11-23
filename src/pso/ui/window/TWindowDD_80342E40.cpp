@@ -32,7 +32,6 @@ s32 TWindowDD__sub_803482B0(void *);
 s32 TWindowDD__sub_80348424(void *, s16);
 s16 TWindowDD__sub_80348448(void *, s32);
 s32 push_recent_id(s32);
-s32 apply_entry_layout__9TWindowDDFPv(void *);
 s32 TWindowDD__sub_803484C4(void *);
 
 void TWindowDD::update() {
@@ -50,7 +49,7 @@ void TWindowDD::update() {
     }
     if (TWindowDD__sub_803482B0(this) != 0) {
         TWindowDD::play_se();
-        apply_entry_layout__9TWindowDDFPv(this);
+        TWindowDD::apply_entry_layout(this);
     }
 }
 
@@ -90,8 +89,8 @@ u8 update_numeric_parameter_input__9TWindowDDFPv(u8 *arg0) {
     }
     TWindowDD__sub_80347CC8(arg0, arg0 + 0xC4);
     if (((u32) ((TWindowDD *)arg0)->m_84 != 0U) || (((TObject *)(*(void **)((s8 *)arg0 + 0x84)))->all_parents_unqueued_for_destruction() != 0)) {
-        ((TWindowDD *)(arg0 + 0xC4))->set_field14((int) (((TShopEquipmentSellWindow *)(((TWindowDD *)arg0)->m_84))->get_result()));
-        if (((TShopEquipmentSellWindow *)(((TWindowDD *)arg0)->m_84))->is_confirmed() != 0) {
+        ((TWindowDD *)(arg0 + 0xC4))->set_field14((int) (((TWindowInputNumber *)(((TWindowDD *)arg0)->m_84))->get_value()));
+        if (((TWindowInputNumber *)(((TWindowDD *)arg0)->m_84))->is_cancelled() != 0) {
             var_r31 = 2;
             ((TWindowDD *)(arg0 + 0xC4))->reset_index();
             ((TWindowBase *)(((TWindowDD *)arg0)->m_84))->close();

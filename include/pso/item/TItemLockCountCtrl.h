@@ -21,8 +21,8 @@ public:
     static void init_effect_table();
     static void create_instance();
 public:
-    static void add_poison_immunity(int arg0);
-    static void add_status_cleanse(int arg0);
+    static void add_poison_immunity(int client);
+    static void add_status_cleanse(int client);
     static void unlock_effect(u16 client, u32 effect);
     static void lock_effect(u16 client, u32 effect);
 };

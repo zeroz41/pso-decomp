@@ -27,10 +27,10 @@
 #include "pso/item/TItemEquipBase.h"
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjBase.h"
 
 const char *TItemWpnCardEffect::class_name = "TItemWpnCardEffect";
 
-extern "C" s16 get_validated_attack_stage(u8 *attack_state);
 
 #pragma fp_contract on
 
@@ -65,7 +65,7 @@ void start_guardianna_wall_card(s32 item_id, saddr position, saddr direction) {
 }
 
 TItemWpnCardEffect::TItemWpnCardEffect(TObject *parent, ActorBodyHit *hit, f32 *direction, s32 tint, s32 item_id) : TObject(parent) {
-    target_id = get_entity_id(hit->target);
+    target_id = hit->target->get_entity_id();
     this->item_id = item_id;
     copy_actor_body_hit(&hit_target, hit);
     VecCopy(&this->direction, (const Vec *)direction);
@@ -277,7 +277,7 @@ void TItemWeaponGuardianna::emit_marker_effects() {
     Vec origin;
 
     get_joint_position(4, &origin);
-    if (get_validated_attack_stage((u8 *)&owner->attack_state) == 2) {
+    if (owner->attack_state.get_validated_attack_stage() == 2) {
         fire_shot_at_target(&origin, item_model, 0);
         fire_shot_at_target(&origin, item_model, 0x1555);
         fire_shot_at_target(&origin, item_model, -0x1555);

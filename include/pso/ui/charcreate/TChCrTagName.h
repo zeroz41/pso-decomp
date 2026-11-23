@@ -8,17 +8,19 @@
 class TChCrTagName : public TChCrTag {
 public:
     TChCrTagName(TObject *parent, s32 index);
-    virtual void render_shadows();
     virtual ~TChCrTagName();
+    virtual void run_task();
+    virtual void render();
+    virtual s32 is_selected();
     void update_slide_in();
     f32 calc_highlight_scale();
     void draw_tag_sprite();
-    void sub_802A226C();
+    void draw_tag_frame();
     void draw_tag_sprites();
 
-    f32 m_3c;
-    f32 m_40;
-    s32 m_44;
+    f32 m_slide_start;
+    f32 m_slide_end;
+    s32 m_frame;
     vec2f pos;
 public:
     static TChCrTagName *create(s32 index);
@@ -26,22 +28,5 @@ public:
 };
 
 LAYOUT_ASSERT(TChCrTagName_size, sizeof(TChCrTagName) == 0x50);
-
-extern "C" {
-s32 TChCrTagName__vt4(TChCrTagName *tag);
-void create_all__12TChCrTagNameFv(void);
-void draw_tag_sprites__12TChCrTagNameFv(TChCrTagName *tag);
-void render__12TChCrTagNameFv(TChCrTagName *tag);
-void run_task__12TChCrTagNameFv(TChCrTagName *tag);
-void update_slide_in__12TChCrTagNameFv(TChCrTagName *tag);
-}
-
-// --- C functions defined in TChCrTagName.cpp ---
-extern "C" {
-s32 TChCrTagName__vt4(TChCrTagName *tag);
-void render__12TChCrTagNameFv(TChCrTagName *tag);
-void run_task__12TChCrTagNameFv(TChCrTagName *tag);
-}
-// --- end of C functions
 
 #endif

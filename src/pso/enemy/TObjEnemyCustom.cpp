@@ -26,6 +26,8 @@
 #include <stdlib.h>
 #include "pso/unk/text_803D853C.h"
 #include "pso/network/client_id.h"
+#include "pso/object/base/TObjBase.h"
+#include "pso/player/PlayerSlots.h"
 
 // Matrix-stack, vector and animation helpers and unowned globals without a usable header:
 // text_803D96A8.h/text_803D853C.h/MatrixTransforms.h/TObjMotion.h includers declare these with
@@ -283,7 +285,7 @@ void TObjEnemyCustom::update_dying_state() {
 
 void TObjEnemyCustom::render() {
     if (update_object_view_visibility(400.0f, 20.0f) != 0) {
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, rotation_y);
@@ -434,7 +436,7 @@ void TObjEnemyCustom::move_along_ground_avoiding_walls(Vec dest, f32 speed, f32 
 }
 
 BOOL TObjEnemyCustom::find_target_in_range(f32 radius) {
-    if (obj_testFlags30(0x10) != 0) {
+    if (test_actor_flags(0x10) != 0) {
         return select_nearest_target(radius);
     }
     targetId = find_nearest_visible_player(this, NULL, radius);
@@ -480,7 +482,7 @@ u16 TObjEnemyCustom::find_nearest_enemy(Vec *out, f32 radius) {
         if (entity == NULL) {
             break;
         }
-        id = get_entity_id(entity);
+        id = entity->get_entity_id();
         if (id == entity_id) {
             continue;
         }
@@ -492,7 +494,7 @@ u16 TObjEnemyCustom::find_nearest_enemy(Vec *out, f32 radius) {
         }
         distance = calc_xz_distance_sq(this, entity, &offset);
         if (distance < best_distance) {
-            best = get_entity_id(entity);
+            best = entity->get_entity_id();
             best_distance = distance;
             if (out != NULL) {
                 VecCopy(out, &offset);
@@ -511,7 +513,7 @@ void TObjEneDubchik::target_nearest_player(f32 radius) {
     TObjEnemyCustom *entity;
     best_distance = radius * radius;
     best = 0xFFFF;
-    if (obj_testFlags30(0x10) != 0) {
+    if (test_actor_flags(0x10) != 0) {
         count = registered_player_count + registered_enemy_count;
     } else {
         count = registered_player_count;
@@ -539,7 +541,7 @@ u16 TObjEnemyCustom::pick_random_nearby_player(f32 radius) {
     TObjEnemyCustom *entity;
     radius_sq = radius * radius;
     found = 0;
-    if (obj_testFlags30(0x10) != 0) {
+    if (test_actor_flags(0x10) != 0) {
         count = registered_player_count + registered_enemy_count;
     } else {
         count = registered_player_count;
@@ -576,14 +578,14 @@ extern "C" u8 is_local_client_floor_leader(void) {
     s32 id;
     s32 i;
     if (get_main_phase() == 15) {
-        player = get_player_by_client_id(TLobby__designated_client_id);
+        player = get_player_by_client_id(designated_client_id);
         if (player != NULL) {
             if (player->get_floor() == get_current_floor()) {
-                return local_client_id == TLobby__designated_client_id;
+                return local_client_id == designated_client_id;
             }
         }
         for (i = 0; i < 4; i++) {
-            id = (TLobby__designated_client_id + i + 1) % 4;
+            id = (designated_client_id + i + 1) % 4;
             player = get_player_by_client_id(id);
             if (player != NULL) {
                 if (player->get_floor() == get_current_floor()) {

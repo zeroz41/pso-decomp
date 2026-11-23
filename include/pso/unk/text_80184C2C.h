@@ -4,14 +4,14 @@
 #include "types.h"
 
 struct BmlResource;
-struct GinjaTextureList;
+struct NJS_TEXLIST;
 struct NJS_OBJECT;
 struct StripBufferPair;
 
 extern "C" {
 extern BmlResource *city_season_easter_egg_model_table[6];
-extern GinjaTextureList *city_season_xmas_model_table[6];
-GinjaTextureList *TLobby__sub_80184C2C(int a0);
+extern NJS_TEXLIST *city_season_xmas_model_table[6];
+NJS_TEXLIST *TLobby__sub_80184C2C(int a0);
 s32 TLobby__sub_80184C54(void);
 int TLobby__sub_80184C6C(int a0);
 void TLobby__sub_80184C80(void *p);
@@ -23,7 +23,7 @@ extern StripBufferPair *lbl_805D5B34;
 extern BmlResource *lbl_805D5B38;
 extern saddr lbl_805D5B3C;
 extern saddr lbl_805D5B40;
-extern GinjaTextureList *lbl_805D5B44;
+extern NJS_TEXLIST *lbl_805D5B44;
 extern StripBufferPair *lbl_805D5B48;
 
 

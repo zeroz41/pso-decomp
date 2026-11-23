@@ -39,17 +39,9 @@ extern "C" {
 s32 get_memcard_free_files(s32 chan);
 s32 poll_memcard_result(saddr chan);
 s32 start_memcard_format(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
-s32 load_system_file_blocking__23TAdSinglePlyChrSelectGCFv(void);
-s32 load_character_and_wait__23TAdSinglePlyChrSelectGCFv(void);
-s32 load_player_and_wait__23TAdSinglePlyChrSelectGCFv(void);
-s32 setup__23TAdSinglePlyChrSelectGCFi(s32 chan);
-s32 check_ready__23TAdSinglePlyChrSelectGCFv(void);
-s32 try_confirm_selection__23TAdSinglePlyChrSelectGCFv(void);
-s32 start_load__23TAdSinglePlyChrSelectGCFv(void);
 s32 load_guild_card_save(void);
 s32 load_system_file(s32 arg0);
 int TAdSinglePlyChrSelectGC__sub_801FD990(s32 chan);
-void reset_save_header__23TAdSinglePlyChrSelectGCFv(void);
 void init_timestamped_data(void);
 extern char pso_system_card_filename[];
 extern char pso_character_card_filename[];
@@ -429,8 +421,8 @@ void TAdTimeSetGC::update_char_timer() {
 }
 
 void TAdTimeSetGC::init_screen() {
-    reset_save_header__23TAdSinglePlyChrSelectGCFv();
-    if (try_confirm_selection__23TAdSinglePlyChrSelectGCFv() == 0) {
+    TAdSinglePlyChrSelectGC::reset_save_header();
+    if (TAdSinglePlyChrSelectGC::try_confirm_selection() == 0) {
         change_state(0);
         return;
     }
@@ -461,7 +453,7 @@ void TAdTimeSetGC::sub_802E289C() {
 }
 
 void TAdTimeSetGC::sub_802E2848() {
-    start_load__23TAdSinglePlyChrSelectGCFv();
+    TAdSinglePlyChrSelectGC::start_load();
     create_backgrounds();
     close_and_next(4, -1, -1, -1);
     unk_64 = 30;
@@ -488,7 +480,7 @@ void TAdTimeSetGC::update_close_timer() {
 
 void TAdTimeSetGC::sub_802E2728() {
     init_timestamped_data();
-    if (check_ready__23TAdSinglePlyChrSelectGCFv() == 0) {
+    if (TAdSinglePlyChrSelectGC::check_ready() == 0) {
         change_state(0);
         return;
     }
@@ -497,7 +489,7 @@ void TAdTimeSetGC::sub_802E2728() {
 }
 
 void TAdTimeSetGC::try_setup() {
-    if (setup__23TAdSinglePlyChrSelectGCFi((s8)TAdSinglePlyChrSelectGC::get_chr_select_state()) == 0) {
+    if (TAdSinglePlyChrSelectGC::setup((s8)TAdSinglePlyChrSelectGC::get_chr_select_state()) == 0) {
         TAdSinglePlyChrSelectGC::set_player_index(0xC);
         change_state(0xF);
     }
@@ -821,14 +813,14 @@ void TAdTimeSetGC::open_message_choice(u32 text, s32 sel, u32 first_text, u32 se
         entry_text = (uaddr)TWindowSubStatusDisp::get_message_10(0x5B);
     }
     if (sel != -2) {
-        forward_trade_action_default__16TObjCityMainWarpFPviii(menu_window, entry_text, 5, 0);
+        menu_window->add_text_entry(entry_text, 5, 0);
         entry_text = second_text;
         if (second_text == 0) {
             entry_text = (uaddr)TWindowSubStatusDisp::get_message_10(0x5C);
         }
-        forward_trade_action_default__16TObjCityMainWarpFPviii(menu_window, entry_text, 5, 1);
+        menu_window->add_text_entry(entry_text, 5, 1);
     } else {
-        forward_trade_action_default__16TObjCityMainWarpFPviii(menu_window, entry_text, 5, 1);
+        menu_window->add_text_entry(entry_text, 5, 1);
     }
     ((TWindowMenu *)menu_window)->update_layout_height(time_set_menu_width);
     align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(menu_window));
@@ -939,7 +931,7 @@ s32 TAdTimeSetGC::poll_load_status() {
         }
         if (unk_24 == -1) {
             unk_24 = 0;
-            if (load_system_file_blocking__23TAdSinglePlyChrSelectGCFv() != 0) {
+            if (TAdSinglePlyChrSelectGC::load_system_file_blocking() != 0) {
                 unk_24 = 1;
             }
         }
@@ -949,13 +941,13 @@ s32 TAdTimeSetGC::poll_load_status() {
         if (sub_802E15C8() != 0) {
             if (unk_28 == -1) {
                 unk_28 = 0;
-                if (load_character_and_wait__23TAdSinglePlyChrSelectGCFv() != 0) {
+                if (TAdSinglePlyChrSelectGC::load_character_and_wait() != 0) {
                     unk_28 = 1;
                 }
             }
             if (unk_2C == -1) {
                 unk_2C = 0;
-                if (load_player_and_wait__23TAdSinglePlyChrSelectGCFv() != 0) {
+                if (TAdSinglePlyChrSelectGC::load_player_and_wait() != 0) {
                     unk_2C = 1;
                 }
             }

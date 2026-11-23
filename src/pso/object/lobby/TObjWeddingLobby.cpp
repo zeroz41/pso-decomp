@@ -23,14 +23,14 @@ __declspec(section ".data") const char *bm_obj_lobby_bell_motion_names[2] = { "l
 BmlResourceDescriptor bm_obj_lobby_bell_resource_descriptor = { "bm_obj_lobby_bell.bml", bm_obj_lobby_bell_model_names, bm_obj_lobby_bell_motion_names, 2, 1 };
 const char *obj_wedding_lobby_class_name = "TObjWeddingLobby";
 BmlResource *TObjWeddingLobby::resource_bundle;
-u32 TObjWeddingLobby::lobby_texlist;
+NJS_TEXLIST *TObjWeddingLobby::lobby_texlist;
 
 void TObjWeddingLobby::demo_step() {}
 
 void TObjWeddingLobby::render() {
     if (fade_state != 0 && lobby_texlist != 0) {
         TParticleCtrl::begin_effect_render();
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(lobby_texlist));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(lobby_texlist));
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);

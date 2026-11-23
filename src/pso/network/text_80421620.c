@@ -84,7 +84,7 @@ const char avetcp_module_list[] =
     "tcp_keep_ooo_segment tcp_sack tcp_large_window dns module(s).";
 const u8 *const avetcp_version_banner_ptr = avetcp_version_banner;
 const char lbl_804800F0[] = "<< Network SDK - avetcp.a  Ver.1.16.1 build:Oct 23 2002 17:47:54>>\n";
-u32 TLobby__network_stack_init_count;
+u32 network_stack_init_count;
 /* This C library caller passes a full register for the handle and a signed halfword length. */
 s16 TLobby__sub_8041DBD4(s32 handle, NetBufferRef *destination, s16 len, TcpCompletion callback);
 void TLobby__sub_8041E2EC(int, void *, void *); /* declared here with an s32 1st argument; the definition takes s16 */
@@ -93,7 +93,7 @@ s32 tcp_connect(s32 a, IpAddr_80422B8C *addr, u16 port, IpAddr_80422B8C *opt);
 s32 TLobby__sub_8041E5E4(int, void *, u16);
 s16 copy_ipv4_interface_addresses(s16, void *, int, void *); /* declared s16 here; the definition is s32 (s16, NetBufferRef *, s16, s32) */
 s16 TLobby__sub_80412058(s16, void *, int, void *);
-s16 TLobby__sub_80422F70(s16 arg0, s32 arg1, s32 arg2, saddr arg3);
+s16 TLobby__sub_80422F70(s16 arg0, s32 hdr_src, s32 len, saddr arg3);
 s32 OSDisableInterrupts();
 s32 OSRestoreInterrupts(int);
 s16 bring_down_ipv4_interface(s16);
@@ -125,10 +125,10 @@ s16 avetcp_init(void) {
     if ((s32) *avetcp_version_banner_ptr != 0xA) {
         return -1;
     }
-    if ((u32) TLobby__network_stack_init_count == 0U) {
+    if ((u32) network_stack_init_count == 0U) {
         OSReport(lbl_804800F0);
     }
-    ++TLobby__network_stack_init_count;
+    ++network_stack_init_count;
     result = TLobby__sub_80419A34();
     if (result >= 0) {
         result = TLobby__sub_80415690();
@@ -901,7 +901,7 @@ void NetDispatchSocketEvent(s16 v, NetSocketEventCallback cb, s32 type, s16 code
 }
 
 s16 TLobby__sub_80422F70(s16 iface, s32 hdr_src, s32 len, saddr buf) {
-    NetBufferRef sp18;
+    NetBufferRef ref;
     s16 first;
     s16 second;
     s16 total;
@@ -910,13 +910,13 @@ s16 TLobby__sub_80422F70(s16 iface, s32 hdr_src, s32 len, saddr buf) {
     }
     total = 0;
     lock_mutex(network_dispatch_state.lock_handle);
-    init_packet_header(&sp18, hdr_src);
-    first = copy_ipv4_interface_addresses(iface, &sp18, (int)len, (void *)buf);
+    init_packet_header(&ref, hdr_src);
+    first = copy_ipv4_interface_addresses(iface, &ref, (int)len, (void *)buf);
     if (first > 0) {
         total = first;
         len -= first * 0x1C;
     }
-    second = TLobby__sub_80412058(iface, &sp18, (int)len, (void *)buf);
+    second = TLobby__sub_80412058(iface, &ref, (int)len, (void *)buf);
     if (second > 0) {
         total += second;
     }

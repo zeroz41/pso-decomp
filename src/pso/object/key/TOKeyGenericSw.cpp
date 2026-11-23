@@ -45,9 +45,9 @@ const char *TOKeyGenericSw__name = "TOKeyGenericSw";
 // The body and the light.
 BmlResource *TOKeyGenericSw__shared_resource_ptrs[2];
 // The body's texture list, the light's, then light_ao for the lit light.
-struct GinjaTextureList;
+struct NJS_TEXLIST;
 
-GinjaTextureList **TOKeyGenericSw__texture_lists;
+NJS_TEXLIST **TOKeyGenericSw__texture_lists;
 
 void TOKeyGenericSw::vfunc_25() {}
 
@@ -56,27 +56,27 @@ void TOKeyGenericSw::render() {
         return;
     }
     push_matrix();
-    texlist = (saddr)TOKeyGenericSw__texture_lists[0];
+    texlist = TOKeyGenericSw__texture_lists[0];
     model = (void *)TOKeyGenericSw__shared_resource_ptrs[0]->models[0].model;
     post_translate_matrix(&position.x);
     rotate_matrix_y(NULL, rotation_y);
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
+    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
     draw_ginja_object(model);
     pop_matrix();
     TParticleCtrl::begin_effect_render();
     push_matrix();
     switch (is_on) {
     case 0:
-        texlist = (saddr)TOKeyGenericSw__texture_lists[1];
+        texlist = TOKeyGenericSw__texture_lists[1];
         break;
     case 1:
-        texlist = (saddr)TOKeyGenericSw__texture_lists[2];
+        texlist = TOKeyGenericSw__texture_lists[2];
         break;
     }
     model = (void *)TOKeyGenericSw__shared_resource_ptrs[1]->models[0].model;
     post_translate_matrix(&position.x);
     rotate_matrix_y(NULL, rotation_y);
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
+    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
     draw_ginja_model_with_motion(model, motion, animation_frame);
     pop_matrix();
     TParticleCtrl::end_effect_render();
@@ -131,19 +131,19 @@ void TOKeyGenericSw::load_resources() {
         TOKeyGenericSw__shared_resource_ptrs[0] = resource;
         resource = new BmlResource(1, &fs_obj_hanyousu_light_j_resource_descriptor, 0, 0, NULL);
         TOKeyGenericSw__shared_resource_ptrs[1] = resource;
-        TOKeyGenericSw__texture_lists = (GinjaTextureList **)mem_alloc(3 * sizeof(*TOKeyGenericSw__texture_lists));
-        TOKeyGenericSw__texture_lists[0] = (GinjaTextureList *)TOKeyGenericSw__shared_resource_ptrs[0]->models[0].texlist;
-        TOKeyGenericSw__texture_lists[1] = (GinjaTextureList *)TOKeyGenericSw__shared_resource_ptrs[1]->models[0].texlist;
-        TOKeyGenericSw__texture_lists[2] = (GinjaTextureList *)load_gvm_texture_file((saddr) "fs_obj_hanyousu_light_ao_j.GVM");
+        TOKeyGenericSw__texture_lists = (NJS_TEXLIST **)mem_alloc(3 * sizeof(*TOKeyGenericSw__texture_lists));
+        TOKeyGenericSw__texture_lists[0] = TOKeyGenericSw__shared_resource_ptrs[0]->models[0].texlist;
+        TOKeyGenericSw__texture_lists[1] = TOKeyGenericSw__shared_resource_ptrs[1]->models[0].texlist;
+        TOKeyGenericSw__texture_lists[2] = load_gvm_texture_file("fs_obj_hanyousu_light_ao_j.GVM");
     } else {
         resource = new BmlResource(1, &fs_obj_hanyousu_body1_resource_descriptor, 0, 0, NULL);
         TOKeyGenericSw__shared_resource_ptrs[0] = resource;
         resource = new BmlResource(1, &fs_obj_hanyousu_light_resource_descriptor, 0, 0, NULL);
         TOKeyGenericSw__shared_resource_ptrs[1] = resource;
-        TOKeyGenericSw__texture_lists = (GinjaTextureList **)mem_alloc(3 * sizeof(*TOKeyGenericSw__texture_lists));
-        TOKeyGenericSw__texture_lists[0] = (GinjaTextureList *)TOKeyGenericSw__shared_resource_ptrs[0]->models[0].texlist;
-        TOKeyGenericSw__texture_lists[1] = (GinjaTextureList *)TOKeyGenericSw__shared_resource_ptrs[1]->models[0].texlist;
-        TOKeyGenericSw__texture_lists[2] = (GinjaTextureList *)load_gvm_texture_file((saddr) "fs_obj_hanyousu_light_ao.GVM");
+        TOKeyGenericSw__texture_lists = (NJS_TEXLIST **)mem_alloc(3 * sizeof(*TOKeyGenericSw__texture_lists));
+        TOKeyGenericSw__texture_lists[0] = TOKeyGenericSw__shared_resource_ptrs[0]->models[0].texlist;
+        TOKeyGenericSw__texture_lists[1] = TOKeyGenericSw__shared_resource_ptrs[1]->models[0].texlist;
+        TOKeyGenericSw__texture_lists[2] = load_gvm_texture_file("fs_obj_hanyousu_light_ao.GVM");
     }
 }
 
@@ -160,7 +160,7 @@ TOKeyGenericSw::TOKeyGenericSw(TObject *parent, void *set_data) : TOKey(parent) 
     motion = TOKeyGenericSw__shared_resource_ptrs[1]->motions[0].motion;
     animation_end_frame = (f32)motion->frameCount - 1.0f;
     animation_step = 2.0f;
-    texlist = (saddr)TOKeyGenericSw__texture_lists[1];
+    texlist = TOKeyGenericSw__texture_lists[1];
     init_collision_body_parts(this, key_generic_sw_collision_body, 1);
     refresh_collision_body_centers();
     register_object_by_id();

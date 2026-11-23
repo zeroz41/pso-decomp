@@ -6,7 +6,7 @@
 #include "pso/system/data/FlagWord.h"
 
 // An actor's attack parameters (TObjChara::attack_params, read with
-// get_attack_params_atp_min/_atp_max and TObjPlayer__sub_800194E8). An
+// get_attack_params_atp_min/_atp_max and get_ata). An
 // equipped item keeps its own bonus in the same layout and adds it to them.
 struct AttackParams {
     s16 atp_min;
@@ -18,6 +18,7 @@ struct AttackParams {
     f32 damage_radius;
     u8 pad_14[0x1C];
 
+    s16 get_ata();
     f32 get_attack_range();
     void set_attack_range(f32 range);
     s32 get_attack_angle();
@@ -49,21 +50,5 @@ class TObjChara;
 // The blocks an actor points at from 0x318 and 0x31C.
 ActorParamBlock *get_actor_param_block(TObjChara *actor);
 AttackParams *get_actor_attack_params(TObjChara *actor);
-
-// The player's attack state block (TObjPlayer::attack_state, at 0x7CC).
-struct PlayerAttackState {
-    u8 pad_0[0x8];
-    // Raised to an equipped unit's TItemProUnit::evp_scale, reset to 1.0
-    // when it is removed.
-    f32 evp_scale;
-    FlagWord flags;
-
-    void set_evp(f32 scale);
-    f32 get_evp();
-
-    // Bit 0x20 follows the item effect pair 0x20/0x40 (TItemEquipBase::effect_flags).
-    void set_item_effect();
-    void clear_item_effect();
-};
 
 #endif

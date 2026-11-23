@@ -48,7 +48,7 @@ BOOL TLoadCtrl::is_loading() {
 void TLoadCtrl::render() {  }
 
 const char *TLoadCtrl__class_name = "TLoadCtrl";
-const Vec now_loading_pos = {0.0f, 0.0f, -100.0f}; // inferred: the TNowLoading constructor copies it to TNowLoading::pos
+const Vec now_loading_pos = {0.0f, 0.0f, -100.0f}; // inferred: the TNowLoading constructor copies it to TNowLoading::m_position
 
 void TLoadCtrl::run_task() {
     Obj_8001C620 *self = (Obj_8001C620 *)this;

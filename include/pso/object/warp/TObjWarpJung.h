@@ -12,10 +12,11 @@ struct TObjWarpJung : public TObjAreaWarp {
     void run_task();
     static f32 get_static_field4_as_float();
     static void set_global_render_param();
-    static void render_warp_effect(s32 arg0, s32 arg1);
+    static void render_warp_effect(s32 model_index, s32 frame);
     static void render_warp(s32 model_index);
     static s32 update_warp_display();
     f32 beam_frame; /* beam motion frame: += 4.0 per tick, wraps past frameCount - 1 (name inferred) */
+    static void *create(void *set_data);
 };
 
 LAYOUT_ASSERT(TObjWarpJung_size, sizeof(TObjWarpJung) == 0xC8);

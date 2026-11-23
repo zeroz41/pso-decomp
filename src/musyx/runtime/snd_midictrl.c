@@ -197,15 +197,15 @@ void inpSetMidiCtrl14(u8 ctrl, u8 channel, u8 set, u16 value) {
     }
 }
 
-void inpResetMidiCtrl(u8 arg0, u8 arg1, u32 arg2) {
+void inpResetMidiCtrl(u8 midi, u8 midiSet, u32 arg2) {
     const u8 *src = arg2 != 0 ? lbl_8047C310 : lbl_8047C398;
     u8 *dst;
     s32 i;
 
-    if (arg1 != 0xFF) {
-        dst = midi_ctrl[arg1][arg0];
+    if (midiSet != 0xFF) {
+        dst = midi_ctrl[midiSet][midi];
     } else {
-        dst = fx_ctrl[arg0];
+        dst = fx_ctrl[midi];
     }
     if (arg2 != 0) {
         memcpy(dst, src, 0x86);
@@ -216,7 +216,7 @@ void inpResetMidiCtrl(u8 arg0, u8 arg1, u32 arg2) {
             }
         }
     }
-    inpSetMidiLastNote(arg0, arg1, 0xFF);
+    inpSetMidiLastNote(midi, midiSet, 0xFF);
 }
 
 u16 inpGetMidiCtrl(u8 ctrl, u8 channel, u8 set) {
@@ -280,22 +280,22 @@ void inpResetChannelDefaults(u8 arg0, u8 arg1) {
     *var_r3 = 2;
 }
 
-void inpAddCtrl(Obj_803BB8F0 *arg0, u8 arg1, s32 arg2, u8 arg3, u32 arg4) {
+void inpAddCtrl(Obj_803BB8F0 *ch, u8 arg1, s32 arg2, u8 x, u32 arg4) {
     u32 n;
-    if (arg3 == 0) {
-        arg0->count = 0;
+    if (x == 0) {
+        ch->count = 0;
     }
-    n = arg0->count;
+    n = ch->count;
     if (n < 4) {
-        arg0->count = n + 1;
+        ch->count = n + 1;
         if (arg4 == 0) {
             arg1 = inpTranslateExCtrl(arg1);
         } else {
-            arg3 |= 0x10;
+            x |= 0x10;
         }
-        arg0->ents[(u8)n].code = arg1;
-        arg0->ents[(u8)n].flags = arg3;
-        arg0->ents[(u8)n].val = arg2;
+        ch->ents[(u8)n].code = arg1;
+        ch->ents[(u8)n].flags = x;
+        ch->ents[(u8)n].val = arg2;
     }
 }
 
@@ -327,17 +327,17 @@ void inpSetMidiLastNote(u8 arg0, u8 arg1, u8 arg2) {
     *(s8 *)((s8 *)((u8 *)(fx_lastNote) + arg0) + 0) = arg2;
 }
 
-u8 inpGetMidiLastNote(u8 arg0, u8 arg1) {
-    if (arg1 != 0xFF) {
-        return *(u8 *)((s8 *)((u8 *)(((u8 *)(midi_lastNote) + (arg1 * 0x10))) + arg0) + 0);
+u8 inpGetMidiLastNote(u8 midi, u8 midiSet) {
+    if (midiSet != 0xFF) {
+        return *(u8 *)((s8 *)((u8 *)(((u8 *)(midi_lastNote) + (midiSet * 0x10))) + midi) + 0);
     }
-    return *(u8 *)((s8 *)((u8 *)(fx_lastNote) + arg0) + 0);
+    return *(u8 *)((s8 *)((u8 *)(fx_lastNote) + midi) + 0);
 }
 
 #define CLAMP(value, min, max) ((value) > (max) ? (max) : (value) < (min) ? (min) : (value))
 #define CLAMP_INV(value, min, max) ((value) < (min) ? (min) : (value) > (max) ? (max) : (value))
 #define MIN(a, b) ((a) > (b) ? (b) : (a))
-u16 _GetInputValue(Voice_803BBB30 *svoice, Inp_803BBB30 *inp, u8 midi, u8 midiSet) {
+u16 _GetInputValue(SYNTH_VOICE *svoice, CTRL_DEST *inp, u8 midi, u8 midiSet) {
     u32 i;
     u32 value;
     u8 ctrl;
@@ -473,100 +473,100 @@ u16 _GetInputValue(Voice_803BBB30 *svoice, Inp_803BBB30 *inp, u8 midi, u8 midiSe
     return value;
 }
 
-u16 inpGetVolume(Lob_803BBFB8 *arg0) {
-    if (!(arg0->flags & 1)) {
-        return arg0->v;
+u16 inpGetVolume(SYNTH_VOICE *svoice) {
+    if (!(svoice->midiDirtyFlags & 1)) {
+        return svoice->inpVolume.oldValue;
     }
-    arg0->flags = arg0->flags & ~1;
-    return _GetInputValue((Voice_803BBB30 *)(arg0), (Inp_803BBB30 *)((u8 *)arg0 + 0x218), (u8)(arg0->b121), (u8)(arg0->b122));
+    svoice->midiDirtyFlags &= ~1;
+    return _GetInputValue(svoice, &svoice->inpVolume, svoice->midi, svoice->midiSet);
 }
 
-u16 inpGetPanning(Lob_803BC000 *arg0) {
-    if (!(arg0->flags & 2)) {
-        return arg0->v;
+u16 inpGetPanning(SYNTH_VOICE *svoice) {
+    if (!(svoice->midiDirtyFlags & 2)) {
+        return svoice->inpPanning.oldValue;
     }
-    arg0->flags = arg0->flags & ~2;
-    return _GetInputValue((Voice_803BBB30 *)(arg0), (Inp_803BBB30 *)((u8 *)arg0 + 0x23C), (u8)(arg0->b121), (u8)(arg0->b122));
+    svoice->midiDirtyFlags &= ~2;
+    return _GetInputValue(svoice, &svoice->inpPanning, svoice->midi, svoice->midiSet);
 }
 
-u16 inpGetSurPanning(Lob_803BC048 *arg0) {
-    if (!(arg0->flags & 4)) {
-        return arg0->v;
+u16 inpGetSurPanning(SYNTH_VOICE *svoice) {
+    if (!(svoice->midiDirtyFlags & 4)) {
+        return svoice->inpSurroundPanning.oldValue;
     }
-    arg0->flags = arg0->flags & ~4;
-    return _GetInputValue((Voice_803BBB30 *)(arg0), (Inp_803BBB30 *)((u8 *)arg0 + 0x260), (u8)(arg0->b121), (u8)(arg0->b122));
+    svoice->midiDirtyFlags &= ~4;
+    return _GetInputValue(svoice, &svoice->inpSurroundPanning, svoice->midi, svoice->midiSet);
 }
 
-u16 inpGetPitchBend(Lob_803BC090 *arg0) {
-    if (!(arg0->flags & 8)) {
-        return arg0->v;
+u16 inpGetPitchBend(SYNTH_VOICE *svoice) {
+    if (!(svoice->midiDirtyFlags & 8)) {
+        return svoice->inpPitchBend.oldValue;
     }
-    arg0->flags = arg0->flags & ~8;
-    return _GetInputValue((Voice_803BBB30 *)(arg0), (Inp_803BBB30 *)((u8 *)arg0 + 0x284), (u8)(arg0->b121), (u8)(arg0->b122));
+    svoice->midiDirtyFlags &= ~8;
+    return _GetInputValue(svoice, &svoice->inpPitchBend, svoice->midi, svoice->midiSet);
 }
 
-u16 inpGetDoppler(Lob_803BC0D8 *arg0) {
-    if (!(arg0->flags & 0x10)) {
-        return arg0->v;
+u16 inpGetDoppler(SYNTH_VOICE *svoice) {
+    if (!(svoice->midiDirtyFlags & 0x10)) {
+        return svoice->inpDoppler.oldValue;
     }
-    arg0->flags = arg0->flags & ~0x10;
-    return _GetInputValue((Voice_803BBB30 *)(arg0), (Inp_803BBB30 *)((u8 *)arg0 + 0x2A8), (u8)(arg0->b121), (u8)(arg0->b122));
+    svoice->midiDirtyFlags &= ~0x10;
+    return _GetInputValue(svoice, &svoice->inpDoppler, svoice->midi, svoice->midiSet);
 }
 
-u16 inpGetModulation(Lob_803BC120 *arg0) {
-    if (!(arg0->flags & 0x20)) {
-        return arg0->v;
+u16 inpGetModulation(SYNTH_VOICE *svoice) {
+    if (!(svoice->midiDirtyFlags & 0x20)) {
+        return svoice->inpModulation.oldValue;
     }
-    arg0->flags = arg0->flags & ~0x20;
-    return _GetInputValue((Voice_803BBB30 *)(arg0), (Inp_803BBB30 *)((u8 *)arg0 + 0x2CC), (u8)(arg0->b121), (u8)(arg0->b122));
+    svoice->midiDirtyFlags &= ~0x20;
+    return _GetInputValue(svoice, &svoice->inpModulation, svoice->midi, svoice->midiSet);
 }
 
-u16 inpGetPedal(Lob_803BC168 *arg0) {
-    if (!(arg0->flags & 0x40)) {
-        return arg0->v;
+u16 inpGetPedal(SYNTH_VOICE *svoice) {
+    if (!(svoice->midiDirtyFlags & 0x40)) {
+        return svoice->inpPedal.oldValue;
     }
-    arg0->flags = arg0->flags & ~0x40;
-    return _GetInputValue((Voice_803BBB30 *)(arg0), (Inp_803BBB30 *)((u8 *)arg0 + 0x2F0), (u8)(arg0->b121), (u8)(arg0->b122));
+    svoice->midiDirtyFlags &= ~0x40;
+    return _GetInputValue(svoice, &svoice->inpPedal, svoice->midi, svoice->midiSet);
 }
 
-u16 inpGetPreAuxA(Lob_803BC1B0 *arg0) {
-    if (!(arg0->flags & 0x100)) {
-        return arg0->v;
+u16 inpGetPreAuxA(SYNTH_VOICE *svoice) {
+    if (!(svoice->midiDirtyFlags & 0x100)) {
+        return svoice->inpPreAuxA.oldValue;
     }
-    arg0->flags = arg0->flags & ~0x100;
-    return _GetInputValue((Voice_803BBB30 *)(arg0), (Inp_803BBB30 *)((u8 *)arg0 + 0x338), (u8)(arg0->b121), (u8)(arg0->b122));
+    svoice->midiDirtyFlags &= ~0x100;
+    return _GetInputValue(svoice, &svoice->inpPreAuxA, svoice->midi, svoice->midiSet);
 }
 
-u16 inpGetReverb(Lob_803BC1F8 *arg0) {
-    if (!(arg0->flags & 0x200)) {
-        return arg0->v;
+u16 inpGetReverb(SYNTH_VOICE *svoice) {
+    if (!(svoice->midiDirtyFlags & 0x200)) {
+        return svoice->inpReverb.oldValue;
     }
-    arg0->flags = arg0->flags & ~0x200;
-    return _GetInputValue((Voice_803BBB30 *)(arg0), (Inp_803BBB30 *)((u8 *)arg0 + 0x35C), (u8)(arg0->b121), (u8)(arg0->b122));
+    svoice->midiDirtyFlags &= ~0x200;
+    return _GetInputValue(svoice, &svoice->inpReverb, svoice->midi, svoice->midiSet);
 }
 
-u16 inpGetPreAuxB(Lob_803BC240 *arg0) {
-    if (!(arg0->flags & 0x400)) {
-        return arg0->v;
+u16 inpGetPreAuxB(SYNTH_VOICE *svoice) {
+    if (!(svoice->midiDirtyFlags & 0x400)) {
+        return svoice->inpPreAuxB.oldValue;
     }
-    arg0->flags = arg0->flags & ~0x400;
-    return _GetInputValue((Voice_803BBB30 *)(arg0), (Inp_803BBB30 *)((u8 *)arg0 + 0x380), (u8)(arg0->b121), (u8)(arg0->b122));
+    svoice->midiDirtyFlags &= ~0x400;
+    return _GetInputValue(svoice, &svoice->inpPreAuxB, svoice->midi, svoice->midiSet);
 }
 
-u16 inpGetPostAuxB(Lob_803BC288 *arg0) {
-    if (!(arg0->flags & 0x800)) {
-        return arg0->v;
+u16 inpGetPostAuxB(SYNTH_VOICE *svoice) {
+    if (!(svoice->midiDirtyFlags & 0x800)) {
+        return svoice->inpPostAuxB.oldValue;
     }
-    arg0->flags = arg0->flags & ~0x800;
-    return _GetInputValue((Voice_803BBB30 *)(arg0), (Inp_803BBB30 *)((u8 *)arg0 + 0x3A4), (u8)(arg0->b121), (u8)(arg0->b122));
+    svoice->midiDirtyFlags &= ~0x800;
+    return _GetInputValue(svoice, &svoice->inpPostAuxB, svoice->midi, svoice->midiSet);
 }
 
-u16 inpGetTremolo(Lob_803BC2D0 *arg0) {
-    if (!(arg0->flags & 0x1000)) {
-        return arg0->v;
+u16 inpGetTremolo(SYNTH_VOICE *svoice) {
+    if (!(svoice->midiDirtyFlags & 0x1000)) {
+        return svoice->inpTremolo.oldValue;
     }
-    arg0->flags = arg0->flags & ~0x1000;
-    return _GetInputValue((Voice_803BBB30 *)(arg0), (Inp_803BBB30 *)((u8 *)arg0 + 0x3C8), (u8)(arg0->b121), (u8)(arg0->b122));
+    svoice->midiDirtyFlags &= ~0x1000;
+    return _GetInputValue(svoice, &svoice->inpTremolo, svoice->midi, svoice->midiSet);
 }
 
 #pragma push
@@ -583,7 +583,7 @@ static inline u32 inpResetGlobalMIDIDirtyFlag_803BC318(u8 chan, u8 midiSet, u32 
     return ret;
 }
 
-static inline u16 GetGlobalInputValue_803BC318(Inp_803BBB30 *inp, u32 dirtyMask, u8 midi, u8 midiSet) {
+static inline u16 GetGlobalInputValue_803BC318(CTRL_DEST *inp, u32 dirtyMask, u8 midi, u8 midiSet) {
     if (!inpResetGlobalMIDIDirtyFlag_803BC318(midi, midiSet, dirtyMask)) {
         return inp->oldValue;
     }
@@ -614,61 +614,61 @@ static inline void reset_dirty_803BC490(void) {
     }
 }
 
-void inpInit(u8 *arg0) {
+void inpInit(SYNTH_VOICE *svoice) {
     u32 i;
     u32 s;
 
-    if (arg0 != NULL) {
-        *(u8 *)((s8 *)arg0 + 0x218) = 7;
-        *(u8 *)((s8 *)arg0 + 0x219) = 0;
-        *(s32 *)((s8 *)arg0 + 0x21C) = 0x10000;
-        *(u8 *)((s8 *)arg0 + 0x220) = 0xB;
-        *(u8 *)((s8 *)arg0 + 0x221) = 2;
-        *(s32 *)((s8 *)arg0 + 0x224) = 0x10000;
-        *(u8 *)((s8 *)arg0 + 0x23A) = 2;
-        *(u8 *)((s8 *)arg0 + 0x23C) = 0xA;
-        *(u8 *)((s8 *)arg0 + 0x23D) = 0;
-        *(s32 *)((s8 *)arg0 + 0x240) = 0x10000;
-        *(u8 *)((s8 *)arg0 + 0x25E) = 1;
-        *(u8 *)((s8 *)arg0 + 0x260) = 0x83;
-        *(u8 *)((s8 *)arg0 + 0x261) = 0;
-        *(s32 *)((s8 *)arg0 + 0x264) = 0x10000;
-        *(u8 *)((s8 *)arg0 + 0x282) = 1;
-        *(u8 *)((s8 *)arg0 + 0x284) = 0x80;
-        *(u8 *)((s8 *)arg0 + 0x285) = 0;
-        *(s32 *)((s8 *)arg0 + 0x288) = 0x10000;
-        *(u8 *)((s8 *)arg0 + 0x2A6) = 1;
-        *(u8 *)((s8 *)arg0 + 0x2CC) = 1;
-        *(u8 *)((s8 *)arg0 + 0x2CD) = 0;
-        *(s32 *)((s8 *)arg0 + 0x2D0) = 0x10000;
-        *(u8 *)((s8 *)arg0 + 0x2EE) = 1;
-        *(u8 *)((s8 *)arg0 + 0x2F0) = 0x40;
-        *(u8 *)((s8 *)arg0 + 0x2F1) = 0;
-        *(s32 *)((s8 *)arg0 + 0x2F4) = 0x10000;
-        *(u8 *)((s8 *)arg0 + 0x312) = 1;
-        *(u8 *)((s8 *)arg0 + 0x314) = 0x41;
-        *(u8 *)((s8 *)arg0 + 0x315) = 0;
-        *(s32 *)((s8 *)arg0 + 0x318) = 0x10000;
-        *(u8 *)((s8 *)arg0 + 0x336) = 1;
-        *(u8 *)((s8 *)arg0 + 0x35A) = 0;
-        *(u8 *)((s8 *)arg0 + 0x35C) = 0x5B;
-        *(u8 *)((s8 *)arg0 + 0x35D) = 0;
-        *(s32 *)((s8 *)arg0 + 0x360) = 0x10000;
-        *(u8 *)((s8 *)arg0 + 0x37E) = 1;
-        *(u8 *)((s8 *)arg0 + 0x3A2) = 0;
-        *(u8 *)((s8 *)arg0 + 0x3A4) = 0x5D;
-        *(u8 *)((s8 *)arg0 + 0x3A5) = 0;
-        *(s32 *)((s8 *)arg0 + 0x3A8) = 0x10000;
-        *(u8 *)((s8 *)arg0 + 0x3C6) = 1;
-        *(u8 *)((s8 *)arg0 + 0x2A8) = 0x84;
-        *(u8 *)((s8 *)arg0 + 0x2A9) = 0;
-        *(s32 *)((s8 *)arg0 + 0x2AC) = 0x10000;
-        *(u8 *)((s8 *)arg0 + 0x2CA) = 1;
-        *(u8 *)((s8 *)arg0 + 0x3EA) = 0;
-        *(s32 *)((s8 *)arg0 + 0x214) = 0x1FFF;
-        *(u8 *)((s8 *)arg0 + 0x1D4) = 0;
-        *(u8 *)((s8 *)arg0 + 0x1D5) = 0;
-        *(u8 *)((s8 *)arg0 + 0xA8) = 0;
+    if (svoice != NULL) {
+        svoice->inpVolume.source[0].midiCtrl = 7;
+        svoice->inpVolume.source[0].combine = 0;
+        svoice->inpVolume.source[0].scale = 0x10000;
+        svoice->inpVolume.source[1].midiCtrl = 0xB;
+        svoice->inpVolume.source[1].combine = 2;
+        svoice->inpVolume.source[1].scale = 0x10000;
+        svoice->inpVolume.numSource = 2;
+        svoice->inpPanning.source[0].midiCtrl = 0xA;
+        svoice->inpPanning.source[0].combine = 0;
+        svoice->inpPanning.source[0].scale = 0x10000;
+        svoice->inpPanning.numSource = 1;
+        svoice->inpSurroundPanning.source[0].midiCtrl = 0x83;
+        svoice->inpSurroundPanning.source[0].combine = 0;
+        svoice->inpSurroundPanning.source[0].scale = 0x10000;
+        svoice->inpSurroundPanning.numSource = 1;
+        svoice->inpPitchBend.source[0].midiCtrl = 0x80;
+        svoice->inpPitchBend.source[0].combine = 0;
+        svoice->inpPitchBend.source[0].scale = 0x10000;
+        svoice->inpPitchBend.numSource = 1;
+        svoice->inpModulation.source[0].midiCtrl = 1;
+        svoice->inpModulation.source[0].combine = 0;
+        svoice->inpModulation.source[0].scale = 0x10000;
+        svoice->inpModulation.numSource = 1;
+        svoice->inpPedal.source[0].midiCtrl = 0x40;
+        svoice->inpPedal.source[0].combine = 0;
+        svoice->inpPedal.source[0].scale = 0x10000;
+        svoice->inpPedal.numSource = 1;
+        svoice->inpPortamento.source[0].midiCtrl = 0x41;
+        svoice->inpPortamento.source[0].combine = 0;
+        svoice->inpPortamento.source[0].scale = 0x10000;
+        svoice->inpPortamento.numSource = 1;
+        svoice->inpPreAuxA.numSource = 0;
+        svoice->inpReverb.source[0].midiCtrl = 0x5B;
+        svoice->inpReverb.source[0].combine = 0;
+        svoice->inpReverb.source[0].scale = 0x10000;
+        svoice->inpReverb.numSource = 1;
+        svoice->inpPreAuxB.numSource = 0;
+        svoice->inpPostAuxB.source[0].midiCtrl = 0x5D;
+        svoice->inpPostAuxB.source[0].combine = 0;
+        svoice->inpPostAuxB.source[0].scale = 0x10000;
+        svoice->inpPostAuxB.numSource = 1;
+        svoice->inpDoppler.source[0].midiCtrl = 0x84;
+        svoice->inpDoppler.source[0].combine = 0;
+        svoice->inpDoppler.source[0].scale = 0x10000;
+        svoice->inpDoppler.numSource = 1;
+        svoice->inpTremolo.numSource = 0;
+        svoice->midiDirtyFlags = 0x1FFF;
+        svoice->lfoUsedByInput[0] = 0;
+        svoice->lfoUsedByInput[1] = 0;
+        svoice->timeUsedByInput = 0;
     } else {
     for (s = 0; s < 8; ++s) {
         for (i = 0; i < 4; ++i) {
@@ -721,12 +721,12 @@ u16 inpGetExCtrl(Obj_803BC7E4 *arg0, u8 arg1) {
     }
 }
 
-void inpSetExCtrl(Obj_803BC884 *arg0, u8 arg1, s16 arg2) {
+void inpSetExCtrl(Obj_803BC884 *svoice, u8 arg1, s16 arg2) {
     s16 v = arg2 < 0 ? 0 : (arg2 > 0x3FFF ? 0x3FFF : arg2);
     s32 k;
     k = inpTranslateExCtrl(arg1);
-    if ((k >= 0xA2 || k < 0xA0) && arg0->b121 != 0xFF) {
-        inpSetMidiCtrl14(arg1, (u8)(arg0->b121), (u8)(arg0->b122), (u16)(v));
+    if ((k >= 0xA2 || k < 0xA0) && svoice->b121 != 0xFF) {
+        inpSetMidiCtrl14(arg1, (u8)(svoice->b121), (u8)(svoice->b122), (u16)(v));
     }
 }
 

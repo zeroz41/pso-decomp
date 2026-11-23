@@ -5,7 +5,7 @@
 #include "pso/object/warp/TObjMapWarp.h"
 
 struct AnimationMotion;
-struct GinjaTextureList;
+struct NJS_TEXLIST;
 struct NJS_OBJECT;
 
 struct TObjMapWarpAncient : public TObjMapWarp {
@@ -21,10 +21,11 @@ struct TObjMapWarpAncient : public TObjMapWarp {
     NJS_OBJECT *beam_model;                // model 2, de_obj1_swarp_beam_n.gj
     NJS_OBJECT *ksita_model;               // model 0, dd_obj3_swarp_ksita.gj
     NJS_OBJECT *nsita_model;               // model 4, fd_obj2_swarp_nsita_1.gj
-    GinjaTextureList *beam_textures;             // TObjGoalWarpAncient::get_archive_textures(2)
-    GinjaTextureList *ksita_textures;            // TObjGoalWarpAncient::get_archive_textures(0)
-    GinjaTextureList *nsita_textures;            // TObjGoalWarpAncient::get_archive_textures(4)
+    NJS_TEXLIST *beam_textures;             // TObjGoalWarpAncient::get_archive_textures(2)
+    NJS_TEXLIST *ksita_textures;            // TObjGoalWarpAncient::get_archive_textures(0)
+    NJS_TEXLIST *nsita_textures;            // TObjGoalWarpAncient::get_archive_textures(4)
     AnimationMotion *beam_motion;  // motion 1, de_obj1_swarp_beam_n.njm
+    static void *create(void *set_data);
 };
 
 LAYOUT_ASSERT(TObjMapWarpAncient_size, sizeof(TObjMapWarpAncient) == 0x11C);

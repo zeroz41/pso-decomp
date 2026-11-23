@@ -49,7 +49,7 @@ s32 *TWindowDuelResult__sub_801C257C(void) {
     if (TRaderMapCore::is_not_split_screen() == 1) {
         return get_split_screen_battle_rankings();
     }
-    return &TLobby__duel_result_table.value;
+    return &duel_result_table.value;
 }
 
 }

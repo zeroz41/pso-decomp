@@ -49,7 +49,7 @@ TWindowEffectParty::~TWindowEffectParty() {
 }
 
 void TWindowEffectParty::run_task() {
-    s32 sp8;
+    s32 pos;
     u8 temp_r3;
 
     void *window;
@@ -82,8 +82,8 @@ void TWindowEffectParty::run_task() {
         break;
     }
     if (this->m_particle != NULL) {
-        calc_effect_position(&sp8);
-        this->m_particle->set_position(&sp8);
+        calc_effect_position(&pos);
+        this->m_particle->set_position(&pos);
     }
 }
 
@@ -92,18 +92,18 @@ void TWindowEffectParty::render() {  }
 #pragma readonly_strings on
 const char *TWindowEffectParty__name = "TWindowEffectParty";
 
-void *TWindowEffectParty::create(void *owner, s32 from, s32 to, u32 kind) {
+void *TWindowEffectParty::create(void *owner, u16 from, u16 to, u32 kind) {
     s32 id;
     u16 b;
     u16 a;
     void *w;
-    if ((u16)from == (u16)to) {
+    if (from == to) {
         return 0;
     }
-    if ((u16)from >= 4) {
+    if (from >= 4) {
         return 0;
     }
-    if ((u16)to >= 4) {
+    if (to >= 4) {
         return 0;
     }
     switch (kind) {
@@ -126,11 +126,13 @@ void *TWindowEffectParty::create(void *owner, s32 from, s32 to, u32 kind) {
     default:
         return 0;
     }
-    a = from - local_client_id;
+    a = from;
+    a -= local_client_id;
     if (a & 0xFFFC) {
         a += 4;
     }
-    b = to - local_client_id;
+    b = to;
+    b -= local_client_id;
     if (b & 0xFFFC) {
         b += 4;
     }
@@ -167,19 +169,19 @@ void TWindowEffectParty::calc_effect_position(void *arg1) {
 s32 TWindowEffectParty::step_toward_target(f32 farg0, f32 farg1) {
     u8 *arg0 = (u8 *)this;
   f32 scr;
-  f32 temp_f5;
-  s32 temp_r31;
-  temp_f5 = farg1 - (*((f32 *) (((s8 *) arg0) + 0x24)));
+  f32 y;
+  s32 angle;
+  y = farg1 - (*((f32 *) (((s8 *) arg0) + 0x24)));
   scr = *((f32 *) (((s8 *) arg0) + 0x20));
   scr = farg0 - scr;
-  if (((scr * scr) + (temp_f5 * temp_f5)) < 25.0f)
+  if (((scr * scr) + (y * y)) < 25.0f)
   {
     *((f32 *) (((s8 *) arg0) + 0x20)) = farg0;
  do { *((f32 *) (((s8 *) arg0) + 0x24)) = farg1; return 1; } while (0);
   }
-  temp_r31 = (s32) (lbl_8044ECF0 * atan2_float((f64) temp_f5, (f64) scr));
-  *((f32 *) (((s8 *) arg0) + 0x20)) = (f32) ((5.0f * cos_table_lookup(temp_r31)) + (*((f32 *) (((s8 *) arg0) + 0x20))));
-  *((f32 *) (((s8 *) arg0) + 0x24)) = (f32) ((5.0f * sin_table_lookup(temp_r31)) + (*((f32 *) (((s8 *) arg0) + 0x24))));
+  angle = (s32) (lbl_8044ECF0 * atan2_float((f64) y, (f64) scr));
+  *((f32 *) (((s8 *) arg0) + 0x20)) = (f32) ((5.0f * cos_table_lookup(angle)) + (*((f32 *) (((s8 *) arg0) + 0x20))));
+  *((f32 *) (((s8 *) arg0) + 0x24)) = (f32) ((5.0f * sin_table_lookup(angle)) + (*((f32 *) (((s8 *) arg0) + 0x24))));
   return 0;
 }
 

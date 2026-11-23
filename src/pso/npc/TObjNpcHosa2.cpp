@@ -44,7 +44,7 @@ TObjNpcHosa2::TObjNpcHosa2(TObject *parent, void *arg2) : TUnk_804A9F50(parent) 
     ((TObjNpcHosa2 *)this)->apply_set_data(arg2);
     init_position_vectors();
     model = get_bml_model(TObjNpcHosa2__shared_model_resource, 0);
-    texlist = (saddr)get_bml_texlist(TObjNpcHosa2__shared_model_resource, 0);
+    texlist = get_bml_texlist(TObjNpcHosa2__shared_model_resource, 0);
     ((TObjNpcBase *)this)->setup_common();
 }
 

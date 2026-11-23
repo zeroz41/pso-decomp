@@ -27,11 +27,9 @@ struct TObjLazerFenceExtra : public TObjCollidable {
     AnimationMotion *beam_motion;
     void *beam_part_models[4];  // models of the beam's child nodes, retextured for scale_level
     s32 size_valid;  // 1 when set_params[2] is a valid fence size (0 or 1); 0 hides it
+    static void *create(void *set_data);
 };
 
 LAYOUT_ASSERT(TObjLazerFenceExtra_size, sizeof(TObjLazerFenceExtra) == 0xDC);
 
-extern "C" {
-void *TObjLazerFenceExtra__create(void *set_data);
-}
 #endif

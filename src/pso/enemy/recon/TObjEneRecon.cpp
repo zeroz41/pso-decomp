@@ -51,6 +51,7 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/object/base/CollisionActorLookup.h"
+#include "pso/object/base/TObjBase.h"
 
 #pragma readonly_strings on
 
@@ -85,7 +86,7 @@ void TObjEneRecon::render_shadows() {
     translate_matrix(0, position.x, position.y, position.z);
     rotate_matrix_zyx(0, this->rotation_x, this->rotation_y, this->rotation_z);
     scale_matrix(0, 1.5f, 1.5f, 1.5f);
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(bml_texlist));
+    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(bml_texlist));
     draw_chunk_object((void *)bml_model);
     pop_matrix();
   }
@@ -98,7 +99,7 @@ void TObjEneRecon::render_demo() {
     u8 *self = (u8 *)this;
     if (this->update_object_view_visibility(400.0f, 15.0f) != 0) {
         ((TObjEneDD *)(self))->draw_ground_shadow(0, 0);
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(this->texlist));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_y(0, this->rotation_y);
@@ -114,7 +115,7 @@ void TObjEneRecon::render_demo() {
 s32 TObjEneRecon::render_model_if_visible() {
     if ((s32)main_task.get_task_flags() & 0x20) {
         if (push_reflection_matrix(&floor_point) != 0) {
-            TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(this->texlist));
+            TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
             push_matrix();
             translate_matrix(0, (f32) (position.x), (f32) (hover_height), (f32) (position.z));
             rotate_matrix_y(0, (int) (this->rotation_y));
@@ -171,7 +172,7 @@ void TObjEneRecon::render() {
                         draw_ground_shadow(&v, 0);
                     }
                     update_secondary_light();
-                    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
+                    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
                     push_matrix();
                     translate_matrix(0, (f32) (position.x), (f32) (hover_height), (f32) (position.z));
                     rotate_matrix_y(0, (int) (rotation_y));
@@ -234,7 +235,7 @@ void TObjEneRecon::update_ground_probe() {
     if ((actor_frame_tick % 5) == 0) {
         VecCopy(&probe, &position);
         probe.y += 15.0f;
-        hit = csnVectorUnder(&probe, (CsnGroup **)&ground_cache, 0x4000);
+        hit = csnVectorUnder(&probe, ground_candidates.groups, 0x4000);
         if (hit != NULL) {
             floor_flags = hit->contact->flags;
             VecCopy(&floor_point, &hit->contact->point);
@@ -362,7 +363,7 @@ void TObjEneRecon::state_death(s32 reason) {
             spawn_particle_effect_with_flags(&position, 0x45, 0x40);
             spawn_particle_effect_with_flags(&position, 0x46, 0x40);
             play_sound_effect(TObjEneRecobox::remap_area_sound_id(0x4003A80D), &position, 0, 0);
-            TBoss3Volopt::create_breakup_mdl((saddr)boss3_volopt_instance, (saddr)&recon_breakup_params, (s32)(texlist), (saddr)&body_center, (s32)(rotation_y));
+            TBoss3Volopt::create_breakup_mdl((saddr)boss3_volopt_instance, (saddr)&recon_breakup_params, (texlist), (saddr)&body_center, (s32)(rotation_y));
             break;
         }
         break;
@@ -706,7 +707,7 @@ void TObjEneRecon::state_attack(s32 reason) {
             if (hit_window == 1) {
                 for (i = 0; i < lbl_805D5868; i++) {
                     p = TObjPlayer::get_player_data(i);
-                    if (TObjPlayer::is_valid_and_active((uaddr)p) != 0 && p != NULL && get_entity_id(p) < 0x1000 && p->has_flag_0x800() == 0) {
+                    if (TObjPlayer::is_valid_and_active((uaddr)p) != 0 && p != NULL && p->get_entity_id() < 0x1000 && p->has_flag_0x800() == 0) {
                         d = horizontal_distance_squared(&p->body_center, &root_node_position);
                         if (d <= attack_params->get_damage_radius() * attack_params->get_damage_radius()) {
                             DirectAttackPayload attack;
@@ -1135,7 +1136,7 @@ void TObjEneRecon::release_static_instance() {
 
 TObjEneRecon::TObjEneRecon(TObject *parent, TObjEneRecobox *owner, u16 id, s32 index, Vec *pos, Vec *dir) : TObjEneDD_ST(parent) {
     m_name = TObjEneRecon_name_ref;
-    owner_id = get_entity_id(owner);
+    owner_id = owner->get_entity_id();
     init_common_from((u8 *)owner);
     entity_id = id;
     set_index = index;
@@ -1156,7 +1157,7 @@ extern "C" {
 void TObjEneRecon::init_state() {
     init_position_vectors();
     model = TObjEneRecon__recobox_static_instance->models->model;
-    texlist = (saddr)TObjEneRecon__recobox_static_instance->models->texlist;
+    texlist = TObjEneRecon__recobox_static_instance->models->texlist;
     init_model(&TObjEneRecon__collision_body_template, 1);
     set_action_table((saddr)TObjEneRecon__animation_entries);
     set_motion_list((saddr)TObjEneRecon__recobox_static_instance->motions);
@@ -1246,7 +1247,7 @@ void TObjEneRecon::run_task() {
     if (m != 8 && m != 7 && owner->is_anim_6() == 1) {
         hit_flags = (s32)(hit_flags | 4);
         ((TObjPlayer *)this)->set_hp_clamped(0);
-        obj_setFlags30(this, 0xA00U);
+        set_actor_flags(0xA00U);
         sync_enemy_state(0);
     }
     if (update_status_effects() != 4) {

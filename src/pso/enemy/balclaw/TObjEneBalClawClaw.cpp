@@ -37,6 +37,7 @@
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/object/base/TObjBase.h"
 
 
 TObjMotionAction balclaw_claw_actions[7] = {
@@ -499,7 +500,7 @@ void TObjEneBalClawClaw::render() {
         detail = classify_actor_view_detail(120.0f, 400.0f, 10.0f);
         if (detail != 0) {
             shadow = 1;
-            TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
+            TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
             select_actor_lighting(this);
             TObjPlayer::toggle_particle_effect();
             push_matrix();
@@ -635,14 +636,14 @@ void TObjEneBalClawClaw::load_params() {
 }
 
 void TObjEneBalClawClaw::attach() {
-    obj_setFlags30(this, 0x04040000);
+    set_actor_flags(0x04040000);
     behavior_flags &= 0xDFFFFFFF;
     behavior_flags |= 0x10000000;
 }
 
 void TObjEneBalClawClaw::detach() {
     behavior_flags &= 0xEFFFFFFF;
-    obj_clearFlags30(0x06040000);
+    clear_actor_flags(0x06040000);
     next_action = 0xB;
 }
 
@@ -660,7 +661,7 @@ void TObjEneBalClawClaw::update_drop() {
         apply_actor_gravity(this, NULL, 0.0f);
         if (fade.decay_value_toward_floor() == 1) {
             behavior_flags &= ~4;
-            obj_setFlags30(this, 0x02000000);
+            set_actor_flags(0x02000000);
             state = 2;
         }
         break;
@@ -717,7 +718,7 @@ void TObjEneBalClawClaw::load_resources() {
     NpcAnimationBinding binding = { reinterpret_cast<BmlMotionEntry *>(balclaw_bml_resource->motions), reinterpret_cast<TObjMotionAction *>(balclaw_claw_actions), 0, 1, 7 };
     BmlModelEntry *models;
     models = balclaw_bml_resource->models;
-    NpcModelRegistry::register_animated_chunk(0x14, reinterpret_cast<void *>(models[2].model), reinterpret_cast<void *>(models[2].texlist), &binding,
+    NpcModelRegistry::register_animated_chunk(0x14, reinterpret_cast<void *>(models[2].model), models[2].texlist, &binding,
                             TObjEneBalClawClaw__collision_body_template.radius, 15.0f);
 }
 

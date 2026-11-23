@@ -4,6 +4,8 @@
 struct GuideButtonPoint { f32 x, y; };
 struct GuideButtonQuad { f32 x0, y0, x1, y1, u0, v0, u1, v1; };
 struct GuideButtonSpec {
+    GuideButtonSpec();
+
     s32 kind;
     GuideButtonPoint from;
     GuideButtonPoint to;
@@ -38,9 +40,10 @@ public:
 LAYOUT_ASSERT(TAdGuideButtonGC_size_check, sizeof(TAdGuideButtonGC)==0x1A8);
 LAYOUT_ASSERT(GuideButtonSpec_size_check, sizeof(GuideButtonSpec)==0x24);
 
+extern TAdGuideButtonGC *guide_button_instance;
+
 extern "C" {
 void create_guide_button(TObject *parent, GuideButtonSpec *spec);
-void init_guide_button_params(GuideButtonSpec *spec);
 }
 
 #endif

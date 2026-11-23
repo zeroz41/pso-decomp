@@ -40,7 +40,7 @@ TUnk_804A0FA0::TUnk_804A0FA0(TObject *parent, u8 *item) : TItemWeapon(parent, it
     blade_scale = 1.0f;
     kind = item[2];
     if ((kind >= 5U) && (kind != 7)) {
-        ((TObjPlayer *)this)->set_atp(-1);
+        set_color_node(-1);
     }
 }
 
@@ -53,4 +53,4 @@ TItem *create_dagger_weapon(u8 *item) {
 
 TUnk_804A0FA0::~TUnk_804A0FA0() {}
 
-void TObjPlayer::set_atp(s16 v) { *(s16 *)&this->unk_1CC = v; }
+void TItemWeapon::set_color_node(s16 node) { color_node = node; }

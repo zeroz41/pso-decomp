@@ -34,7 +34,7 @@ public:
     virtual void render();
     virtual void run_task();
 public:
-    static void *create(void *arg0);
+    static void *create(void *object);
     static void reset_icon_flags();
     static void init_icon_table();
 };

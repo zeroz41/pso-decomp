@@ -71,7 +71,7 @@ CollisionBody lobby_main_collision_body = { { 0.0f, 0.0f, 0.0f }, 32.0f, 0.0f, 0
 extern const s32 lobby_main_model_motions[18] = { 5, 5, 5, 5, 5, 5, 5, 0, 1, 2, 5, 5, 5, 5, 5, 3, 4, 4 };
 const char *obj_lobby_main_class_name = "TObjLobbyMain";
 BmlResource *TObjLobbyMain::model_resource;
-u32 TObjLobbyMain::lobby_texlist;
+NJS_TEXLIST *TObjLobbyMain::lobby_texlist;
 NJS_CNK_MODEL *TObjLobbyMain::computer_screen_model;
 NJS_CNK_MODEL *TObjLobbyMain::computer_screen_model_b;
 s32 TObjLobbyMain::computer_last_frame_tick;
@@ -214,7 +214,7 @@ void TObjLobbyMain::render() {
         if (fade_state != 2) {
             scale_matrix(NULL, fade_scale, 1.0f, fade_scale);
         }
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(lobby_texlist));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(lobby_texlist));
         index = model_index;
         motion = lobby_main_model_motions[index];
         if (motion != 5) {

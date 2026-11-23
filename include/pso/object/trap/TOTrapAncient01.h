@@ -23,10 +23,10 @@ struct TOTrapAncient01 : public TOTrap {
     f32 damage_timer; // name inferred: counts down by 1 per vfunc_82 frame; at < 0 the trap strikes
     RenderFadeState fades[4];
     void release_trapped_player();
-    void *create();
+    static void *create(void *set_data);
     static void release_static_resource();
     static void load_resources();
-    static s32 check_trigger_flag(saddr arg0, s32 arg1);
+    static s32 check_trigger_flag(saddr arg0, s32 flags);
 };
 
 LAYOUT_ASSERT(TOTrapAncient01_size, sizeof(TOTrapAncient01) == 0x3C8);

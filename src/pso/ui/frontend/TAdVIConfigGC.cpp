@@ -2,7 +2,6 @@
 #include "types.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/unk/TLobby_80132ED0.h"
-#include "pso/ui/window/TWindowSubComCard_80244774.h"
 #include "pso/system/task/TObject_8001A448.h"
 #include "pso/unk/text_80307BE8.h"
 #include "pso/system/memory.h"
@@ -14,6 +13,7 @@
 #include "pso/ui/frontend/TAdVIConfigGC.h"
 #include <string.h>
 #include "pso/system/vector.h"
+#include "pso/player/PlayerSlots.h"
 
 #pragma readonly_strings on
 
@@ -30,7 +30,6 @@ s32 logo_clear_flag = 1;
 const char *TAdVIConfigGC__class_name = "TAdVIConfigGC";
 extern "C" {
 void *VIGetDTVStatus(void *);
-void *get_player_by_client_id(s32 i);
 saddr get_window_layout_position(s32);
 __declspec(section ".data") f32 player_names_window_pos[2] = {229.0f, 104.0f};
 extern s32 local_client_id;
@@ -105,10 +104,10 @@ void *destroy__13TAdVIConfigGCFPvs(void *arg0, s16 arg1) {
 
 extern "C" {
 
-u8 *TAdVIConfigGC::init(const Vec *position, f32 farg0) {
+u8 *TAdVIConfigGC::init(const Vec *position, f32 radius) {
     u8 *arg0 = (u8 *)this;
     VecCopy((Vec *)&this->m_prev, position);
-    *(f32 *)&this->m_name = (f32) (farg0 * farg0);
+    *(f32 *)&this->m_name = (f32) (radius * radius);
     *(s32 *)&this->m_24 = 0;
     memset((u8 *)&this->m_28, 0, 0x60);
     *(s32 *)&this->m_flags = TLobby::count_members();

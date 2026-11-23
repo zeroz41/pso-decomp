@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/EnemyBmlResource.h"
+#include "pso/render/GinjaMaterialState.h"
 #include "pso/system/BmlResource.h"
 #include "pso/animation/ActorAnimationState.h"
 #include "pso/effect/particle/ParticleFactory.h"
@@ -27,6 +28,7 @@
 #include "pso/math/AngleLookup.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/system/BmlResourceDescriptor.h"
+#include "pso/object/base/TObjBase.h"
 
 
 
@@ -138,12 +140,11 @@ TObjMotionAction bringer_motion_actions[11] = {
 #include "pso/boss/derolle/TObjBoss2Tunnel_8007E418.h"
 #include "pso/render/StripBufferPair.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/player/PlayerSlots.h"
 
 #pragma defer_codegen on
 
 
-extern "C" {
-}
 
 saddr bringer_boss_stats_handle;
 saddr bringer_boss_stats_ptr_b;
@@ -304,7 +305,7 @@ void TObjEneDf2Bringer::init_enemy() {
 
     init_position_vectors();
     this->model = TObjEneDf2Bringer__resource_bundle->models[0].model;
-    this->texlist = (saddr)TObjEneDf2Bringer__resource_bundle->models[0].texlist;
+    this->texlist = TObjEneDf2Bringer__resource_bundle->models[0].texlist;
     init_model(bringer_collision_bodies, 1);
     set_action_table((saddr)bringer_motion_actions);
     set_motion_list((saddr)TObjEneDf2Bringer__resource_bundle->motions);
@@ -466,7 +467,7 @@ s32 TObjEneDf2Bringer::check_rush_hits() {
                 h.kind = 0;
                 h.power = TObjEneDf2Bringer__params->rush_power;
                 player->receive_direct_attack(this, h, 0, -1, -1);
-                if (is_player_entity_id(get_entity_id(player)) != 0) {
+                if (is_player_entity_id(player->get_entity_id()) != 0) {
                     if (TObjEneDD::check_v2_mode() != 0) {
                         if (TObjPlayer::is_locally_controlled(player) != 0) {
                             TItem *item = (TItem *)TObjPlayer::get_equipped_weapon(player);
@@ -541,7 +542,7 @@ s32 TObjEneDf2Bringer::target_farthest_visible_player() {
             dist = horizontal_distance_squared(&body_center, &player->position);
             if (dist < 90000.0f && dist > best &&
                 csnLookAt(&body_center, &player->body_center) == NULL) {
-                id = get_entity_id(player);
+                id = player->get_entity_id();
                 best = dist;
             }
         }
@@ -1348,7 +1349,7 @@ void TObjEneDf2Bringer::render() {
             }
         }
         TObjEneDf2Bringer__uv_scroll_buffer->scroll_uvs(texture_scroll, 0);
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
         {
             NJS_TEXNAME *textures = ((NJS_TEXLIST *)texlist)->textures;
             saved_texture = textures[1].texaddr;
@@ -1398,7 +1399,7 @@ void TObjEneDf2Bringer::render_demo() {
         Vec v = { 1.0f, 1.0f, 3.0f };
         draw_ground_shadow(&v, 0);
         TObjPlayer::toggle_particle_effect();
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, rotation_y);

@@ -23,6 +23,6 @@ TUnk_804E48D8::TUnk_804E48D8(TObject *parent, void *set_data) : TObjAreaWarpFore
     visible = 0;
 }
 
-void *TObjAreaWarpForest::alloc_and_init() {
-    return new TUnk_804E48D8(tl_05, this);
+void *TUnk_804E48D8::create(void *set_data) {
+    return new TUnk_804E48D8(tl_05, set_data);
 }

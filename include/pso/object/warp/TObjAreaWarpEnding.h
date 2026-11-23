@@ -5,10 +5,11 @@
 #include "pso/object/warp/TObjAreaWarp.h"
 
 struct AnimationMotion;
-struct GinjaTextureList;
+struct NJS_TEXLIST;
 struct NJS_OBJECT;
 
 struct TObjAreaWarpEnding : public TObjAreaWarp {
+    static const char *class_name;
     TObjAreaWarpEnding(TObject *parent, void *set_data);
     virtual ~TObjAreaWarpEnding();
     virtual void debug_print_area_num();
@@ -21,7 +22,8 @@ struct TObjAreaWarpEnding : public TObjAreaWarp {
     NJS_OBJECT *warp_model;                // forest warp model 0, fs_obj_warp.gj
     NJS_OBJECT *beam_model;                // model 1, fs_obj_warp_beam.gj
     AnimationMotion *beam_motion;  // motion 0, fs_obj_warp_beam.njm
-    GinjaTextureList *textures;                  // get_forest_warp_textures(), fs_obj_warp.gvm
+    NJS_TEXLIST *textures;                  // get_forest_warp_textures(), fs_obj_warp.gvm
+    static void *create(void *set_data);
 };
 
 LAYOUT_ASSERT(TObjAreaWarpEnding_size, sizeof(TObjAreaWarpEnding) == 0xDC);

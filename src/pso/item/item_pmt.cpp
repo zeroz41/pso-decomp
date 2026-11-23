@@ -21,6 +21,7 @@
 #include "pso/item/TItemData_8010EDA8.h"
 #include "pso/unk/TLobby_800F8AA8.h"
 #include "pso/system/SoundEffect.h"
+#include "pso/object/base/TObjBase.h"
 
 void *item_pmt;
 
@@ -110,8 +111,7 @@ s32 get_item_star_count(s32 id);
 Entry_8011CB18 *get_weapon_range_record(Item_8011CB18 *item, s16 mode);
 void play_weapon_owner_sounds(Ctx_8011C7C8 *c);
 void play_weapon_hit_sound(Ctx_8011C7C8 *c);
-u16 get_entity_id(void *);
-void play_shield_sound_cue(Obj_8011C59C *arg0);
+void play_shield_sound_cue(Obj_8011C59C *cue);
 typedef struct Thing__8011c1e8_8011C000 { u8 a; u8 b; } Thing;
 
 saddr TObjPlayer::get_item_pmt_entry(u8 arg0) {
@@ -224,10 +224,10 @@ void roll_item_channel_below(u32 count, s32 arg1) {
     __cvt_fp2unsigned((f32) count * TObjPlayer::get_drop_random_float(arg1));
 }
 
-void TObjPlayer::drop_item_from_slot(s32 area, s32 arg1, saddr item) {
+void TObjPlayer::drop_item_from_slot(s32 area, s32 slot, saddr item) {
     s32 sp8;
     s32 idx;
-    sp8 = arg1;
+    sp8 = slot;
     if (item_mgr != NULL) {
         normalize_drop_area(&sp8);
         idx = sp8 - 1;
@@ -237,19 +237,19 @@ void TObjPlayer::drop_item_from_slot(s32 area, s32 arg1, saddr item) {
 }
 void TObjPlayer::drop_item(s32 slot, saddr item) {
     s32 sp8;
-    s32 temp_r4;
+    s32 off;
     sp8 = slot;
     if (item_mgr != NULL) {
         normalize_drop_area(&sp8);
-        temp_r4 = sp8 - 1;
-        sp8 = temp_r4;
-        select_box_item__9TItemDropFiiPv((s32)(*(u32 *)&item_mgr), (s32)temp_r4, (u8 *)item);
+        off = sp8 - 1;
+        sp8 = off;
+        select_box_item__9TItemDropFiiPv((s32)(*(u32 *)&item_mgr), (s32)off, (u8 *)item);
     }
 }
-void TObjPlayer::drop_meseta_from_slot(s32 arg0, saddr item) {
+void TObjPlayer::drop_meseta_from_slot(s32 slot, saddr item) {
     s32 sp8;
     s32 idx;
-    sp8 = arg0;
+    sp8 = slot;
     if (item_mgr != NULL) {
         normalize_drop_area(&sp8);
         idx = sp8 - 1;
@@ -294,9 +294,9 @@ s32 get_unit_attribute_index__10TObjPlayerFUc(u8 flags) {
     return 0;
 }
 
-void play_shield_sound_cue(Obj_8011C59C *arg0) {
+void play_shield_sound_cue(Obj_8011C59C *cue) {
     Pmt_8011C59C *pmt = (Pmt_8011C59C *)item_pmt_tbl;
-    u8 idx = arg0->idx;
+    u8 idx = cue->idx;
     if (idx < pmt->sub->count) {
         s32 off;
         u8 *tbl;
@@ -305,7 +305,7 @@ void play_shield_sound_cue(Obj_8011C59C *arg0) {
         tbl = (u8 *)pmt->tbl;
         a = *(s32 *)(tbl + (idx & 0x7f) * 8);
         off = ((idx & 0x7f) * 2 + 1) * 4;
-        pos = arg0->ptr + 0x38;
+        pos = cue->ptr + 0x38;
         if (a != 0) {
             s32 r = play_sound_effect(a, pos, 0, 0);
             if (*(s32 *)(tbl + off) != 0) {
@@ -338,7 +338,7 @@ void play_weapon_hit_sound(Ctx_8011C7C8 *c) {
         key[1] = ((Pmt_8011C7C8 *)item_pmt_tbl)->weapons[group].target[1].key;
         pitch[1] = ((Pmt_8011C7C8 *)item_pmt_tbl)->weapons[group].target[1].pitch;
         pos = (u8 *)((TObjCollidable *)target)->bodies + c->part * 0x2C + 0x1C;
-        type = get_entity_id(target);
+        type = ((TObjBase *)(target))->get_entity_id();
         if (type < 0x1000) {
             cls = *(s8 *)&((TObjPlayer *)target)->m_88d;
             mode = 1;
@@ -432,16 +432,16 @@ saddr get_mag_feed_result(s32 feed_table, s32 arg1) {
     return 0;
 }
 
-u8 roll_weapon_special_for_stars(u8 arg0) {
+u8 roll_weapon_special_for_stars(u8 stars) {
     u32 n;
     s32 key;
     u8 result;
     u32 c;
     s32 i;
     result = 0;
-    if (arg0 < 4U) {
-        n = ((u32 (*)(int, int))roll_item_channel_below)(weapon_special_roll_channel_table[arg0], 0xF);
-        key = arg0 + 1;
+    if (stars < 4U) {
+        n = ((u32 (*)(int, int))roll_item_channel_below)(weapon_special_roll_channel_table[stars], 0xF);
+        key = stars + 1;
         c = 0;
         i = 1;
         do {

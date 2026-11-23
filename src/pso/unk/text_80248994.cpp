@@ -2,6 +2,7 @@
 #include "types.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowSubItem.h"
+#include "pso/ui/ItemListRow.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 
 struct Obj_80248994 { u8 pad[0x76]; s16 count; };
@@ -13,9 +14,9 @@ void fn_80248994(TWindowBase *list, u32 color, s32 pos) {
     saddr e;
     for (i = 0; i < ((Obj_80248994 *)list)->count; i++) {
         e = reinterpret_cast<saddr>(list->get_array_entry(i));
-        if (e != 0 && ((TWindowLayoutEntry *)e)->is_flag_4_set() != 0 && pos == ((TWindowSubItem *)e)->get_cursor_pos()) {
-            ((TWindowSubItem *)e)->m_2c = color;
-            ((TWindowSubItem *)e)->m_30 = color;
+        if (e != 0 && ((TWindowLayoutEntry *)e)->is_flag_4_set() != 0 && pos == ((ItemListRow *)e)->get_item()) {
+            ((ItemListRow *)e)->category_style = color;
+            ((ItemListRow *)e)->style = color;
         }
     }
 }

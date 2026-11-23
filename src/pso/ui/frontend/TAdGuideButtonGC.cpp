@@ -26,7 +26,7 @@ void TAdGuideButtonGC::draw_label(int style, const char *text) {
 #pragma pop
 void TAdGuideButtonGC::draw_quad(int style) {
     if (guide_button_texture_handle != 0) {
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(guide_button_texture_handle));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(guide_button_texture_handle));
         begin_screen_draw(1);
         set_draw_texture_and_color(0,-1);
         draw_textured_quad_at_depth((f32 *)quads, 0.5f);
@@ -119,16 +119,16 @@ void create_guide_button(TObject *parent, GuideButtonSpec *spec) {
 }
 #pragma push
 #pragma readonly_strings on
-void init_guide_button_params(GuideButtonSpec *spec) {
-    spec->kind = 0;
-    spec->from.x = 0.0f;
-    spec->from.y = 0.0f;
-    spec->to.x = 0.0f;
-    spec->to.y = 0.0f;
-    spec->alpha = 0xFF;
-    spec->alpha_step = 0xFF;
-    spec->duration = 0;
-    spec->label = "";
+GuideButtonSpec::GuideButtonSpec() {
+    kind = 0;
+    from.x = 0.0f;
+    from.y = 0.0f;
+    to.x = 0.0f;
+    to.y = 0.0f;
+    alpha = 0xFF;
+    alpha_step = 0xFF;
+    duration = 0;
+    label = "";
 }
 
 #pragma pop

@@ -89,7 +89,7 @@ s32 AfsFileLoader::is_loaded() { return test_flags_any(&flags.bits, 2); }
 
 NJS_OBJECT *ItemModelChunkLoader::get_model(s32 i) { return models[i]; }
 
-GinjaTextureList *ItemModelChunkLoader::get_texlist() { return texlist; }
+NJS_TEXLIST *ItemModelChunkLoader::get_texlist() { return texlist; }
 
 NJS_MOTION *ItemModelChunkLoader::get_motion() { return motion; }
 
@@ -213,17 +213,17 @@ s32 request_item_model_load(u8 *item) {
     return -1;
 }
 
-void TItemLoad::get_drop_model(u8 index, NJS_OBJECT **model, GinjaTextureList **texlist) {
+void TItemLoad::get_drop_model(u8 index, NJS_OBJECT **model, NJS_TEXLIST **texlist) {
     if ((model != NULL) && (texlist != NULL)) {
         *model = (NJS_OBJECT *)get_bml_model(TItemLoad__bml_resource, index + 2);
-        *texlist = (GinjaTextureList *)get_bml_texlist(TItemLoad__bml_resource, 0);
+        *texlist = get_bml_texlist(TItemLoad__bml_resource, 0);
     }
 }
 
-void TItemLoad::get_armor_effect_model(NJS_OBJECT **model, GinjaTextureList **texlist, AnimationMotion **motion) {
+void TItemLoad::get_armor_effect_model(NJS_OBJECT **model, NJS_TEXLIST **texlist, AnimationMotion **motion) {
     if ((model != NULL) && (texlist != NULL) && (motion != NULL)) {
         *model = (NJS_OBJECT *)get_bml_model(TItemLoad__bml_resource, 1);
-        *texlist = (GinjaTextureList *)get_bml_texlist(TItemLoad__bml_resource, 0);
+        *texlist = get_bml_texlist(TItemLoad__bml_resource, 0);
         *motion = get_bml_motion(TItemLoad__bml_resource, 0);
     }
 }
@@ -234,9 +234,9 @@ void TItemLoad::get_item_model(s32 index, NJS_OBJECT **model) {
     }
 }
 
-void TItemLoad::get_item_texture_list(s32 index, GinjaTextureList **texlist) {
+void TItemLoad::get_item_texture_list(s32 index, NJS_TEXLIST **texlist) {
     if (texlist != NULL) {
-        *texlist = (GinjaTextureList *)get_bml_texlist(TItemLoad__bml_resource, 0);
+        *texlist = get_bml_texlist(TItemLoad__bml_resource, 0);
     }
 }
 
@@ -442,7 +442,7 @@ void ItemTextureArchiveLoader::on_loaded() {
     }
 }
 
-void ItemTextureArchiveLoader::begin_load_if_pending(GinjaTextureList *dst, s32 index) {
+void ItemTextureArchiveLoader::begin_load_if_pending(NJS_TEXLIST *dst, s32 index) {
     if ((dst != NULL) && (begin_load(index) == 1)) {
         texlist = dst;
     }
@@ -488,9 +488,9 @@ void ItemModelChunkLoader::on_loaded() {
                 break;
             case 'NJTL':
                 if (texlist == NULL) {
-                    texlist = (GinjaTextureList *)chunk;
-                    for (i = 0; i != texlist->count; i++) {
-                        texlist->entries[i].name = item_blank_texture_name;
+                    texlist = (NJS_TEXLIST *)chunk;
+                    for (i = 0; i != texlist->nbTexture; i++) {
+                        texlist->textures[i].filename = item_blank_texture_name;
                     }
                 }
                 break;
@@ -555,8 +555,8 @@ TItemModelLoadTask::~TItemModelLoadTask() {
         item_texture_archive_loader->reset_ring_state();
         break;
     }
-    if ((resource.texlist != NULL) && (resource.texlist->entries->texture != NULL)) {
-        free_texture_if_valid((uaddr)resource.texlist);
+    if ((resource.texlist != NULL) && (resource.texlist->textures->texture != NULL)) {
+        free_texture_if_valid(resource.texlist);
     }
 }
 

@@ -13,7 +13,7 @@ struct Chunk_803CC294 { u16 id; u16 len; s32 off; };
 
 struct Ent_803CC294 {
     struct Ent_803CC294 *next; s32 f4; s32 f8; u16 fc; s8 fe; u8 pad_f; char name[0x100];
-    s32 f110; u16 f114; u16 arr[1];
+    s32 mode; u16 f114; u16 arr[1];
 };
 
 struct Ent_803CD5C4 {
@@ -75,7 +75,7 @@ inline s32 check_803CC294(s32 arg0, s32 arg1) {
     }
     return 0;
 }
-s32 TLobby::get_afs_file_info(s32 arg0, s32 arg1, char *arg2, s32 *arg3, s32 *arg4, s32 *arg5) {
+s32 TLobby::get_afs_file_info(s32 arg0, s32 arg1, char *dest, s32 *arg3, s32 *arg4, s32 *arg5) {
     s32 st;
     Ent_803CC294 *e;
     u16 *arr;
@@ -94,8 +94,8 @@ s32 TLobby::get_afs_file_info(s32 arg0, s32 arg1, char *arg2, s32 *arg3, s32 *ar
         Chunk_803CC294 *c = (Chunk_803CC294 *)&e->f114;
         for (i = 0; i < e->fc; i++, c++) {
             if (c->id == arg1) {
-                strncpy(arg2, e->name, 0x100);
-                *arg3 = e->f110;
+                strncpy(dest, e->name, 0x100);
+                *arg3 = e->mode;
                 *arg4 = c->off;
                 *arg5 = c->len;
                 return st;
@@ -108,8 +108,8 @@ s32 TLobby::get_afs_file_info(s32 arg0, s32 arg1, char *arg2, s32 *arg3, s32 *ar
     for (i = 0; i < arg1; i++) {
         sum += arr[i];
     }
-    strncpy(arg2, e->name, 0x100);
-    *arg3 = e->f110;
+    strncpy(dest, e->name, 0x100);
+    *arg3 = e->mode;
     *arg4 = sum;
     *arg5 = arr[arg1];
     return st;
@@ -406,13 +406,13 @@ inline AdxfHandle *alloc_803CD16C(void) {
     s->used = 1;
     return s;
 }
-inline s32 open_803CD16C(AdxfHandle *s, s32 arg0, s32 arg1) {
+inline s32 open_803CD16C(AdxfHandle *s, s32 partition, s32 arg1) {
     char filename[0x10C];
     s32 c;
     s32 b;
     s32 a;
     AdxStreamFile *h;
-    if (TLobby::get_afs_file_info(arg0, arg1, filename, &a, &b, &c) < 0) {
+    if (TLobby::get_afs_file_info(partition, arg1, filename, &a, &b, &c) < 0) {
         return -3;
     }
     s->archive_start_sector = b;
@@ -478,7 +478,7 @@ void ADXF_Close(AdxfHandle *adxf) {
     }
 }
 
-AdxfHandle *ADXF_OpenAfs(s32 arg0, s32 arg1) {
+AdxfHandle *ADXF_OpenAfs(s32 partition, s32 file) {
     AdxfHandle *s;
     {
         LogEnt_803CD16C *e;
@@ -490,8 +490,8 @@ AdxfHandle *ADXF_OpenAfs(s32 arg0, s32 arg1) {
         e->type = 2;
         e->phase = 0;
         e->seq = seq;
-        e->a = arg0;
-        e->b = arg1;
+        e->a = partition;
+        e->b = file;
         lbl_8057B7B0.afs_open_sequence = seq;
         e->c = -1;
         adxf_log_write_index = i + 1;
@@ -499,7 +499,7 @@ AdxfHandle *ADXF_OpenAfs(s32 arg0, s32 arg1) {
     TLobby::init_once();
     s = alloc_803CD16C();
     if (s != NULL) {
-        if (open_803CD16C(s, arg0, arg1) < 0) {
+        if (open_803CD16C(s, partition, file) < 0) {
             ADXF_Close(s);
             s = NULL;
         }
@@ -511,8 +511,8 @@ AdxfHandle *ADXF_OpenAfs(s32 arg0, s32 arg1) {
         e->type = 2;
         e->phase = 1;
         e->seq = lbl_8057B7B0.afs_open_sequence;
-        e->a = arg0;
-        e->b = arg1;
+        e->a = partition;
+        e->b = file;
         e->c = -1;
         adxf_log_write_index = i + 1;
     }
@@ -696,7 +696,7 @@ s32 adxf_open_file__6TLobbyFiPviPv(s32 id, const char *name, s32 mode, Ent_803CC
     afs_archive_toc_table[id] = e;
     e->next = NULL;
     strncpy(e->name, name, 0x100);
-    e->f110 = mode;
+    e->mode = mode;
     e->fe = 0;
     buf = (u8 *)((saddr)(adxf_open_file_buffer + 0x20) & ~0x1F);
     lbl_805D75F0 = buf;

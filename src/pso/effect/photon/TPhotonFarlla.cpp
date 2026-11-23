@@ -26,6 +26,7 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/render/model_render_state.h"
+#include "pso/object/base/TObjBase.h"
 
 
 // The original emits code in reverse definition order.
@@ -70,7 +71,7 @@ TPhotonFarlla::TPhotonFarlla(PhotonSummonParams *params) : TPhotonBlastSummon() 
         rotation_y = owner->rotation_y;
     }
     model = photon_blast_shared_resource->models[0].model;
-    texlist = (saddr)photon_blast_shared_resource->models[0].texlist;
+    texlist = photon_blast_shared_resource->models[0].texlist;
     set_action_table((saddr)photon_blast_farlla_params);
     set_motion_list((saddr)photon_blast_shared_resource->motions);
     requested_action = 1;
@@ -190,7 +191,7 @@ void TPhotonFarlla::render() {
     if (visible != 0) {
         farlla_photon_blast_model_buffers->scroll_uvs(uv_scroll, 0);
         TParticleCtrl::begin_effect_render();
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
         push_matrix();
         translate_matrix(0, position.x, position.y, position.z);
         rotate_matrix_y(0, rotation_y);
@@ -224,7 +225,7 @@ void TPhotonFarlla::collect_hit_targets() {
         for (i = 0; i < 16; i++) {
             candidate = (TObjChara *)TObjPlayer::get_battle_param(i);
             if (candidate != NULL) {
-                queue_photon_blast_hit(get_entity_id(candidate), 0, 0, power);
+                queue_photon_blast_hit(candidate->get_entity_id(), 0, 0, power);
             }
         }
     }

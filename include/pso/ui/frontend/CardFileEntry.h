@@ -14,4 +14,6 @@ struct CardFileEntry {
     CARDStat stat;
 };
 
+extern CardFileEntry card_open_files[100];
+
 #endif

@@ -17,6 +17,7 @@ public:
     TWindowMessage *message;
 
 public:
+    TObjChallengeRetry(TObject *parent);
     virtual ~TObjChallengeRetry();
     void sub_8007313C();
     void handle_challenge_retry_confirm();

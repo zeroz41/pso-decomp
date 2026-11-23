@@ -16,6 +16,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjBase.h"
 
 #pragma readonly_strings on
 
@@ -36,7 +37,7 @@ void TObjEneMorfosArm::render() {
     push_matrix();
     post_translate_matrix(&this->position.x);
     rotate_matrix_y(0, this->rotation_y);
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(this->texlist));
+    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
     TObjPlayer::toggle_particle_effect();
     draw();
     TParticleCtrl::end_effect_render();
@@ -64,12 +65,12 @@ TObjEneMorfosArm::TObjEneMorfosArm(TObject *parent, void *owner) : TObjMotion(pa
     BmlModelEntry *resource;
     m_name = TObjEneMorfosArm__name;
     morfos = (TObjEneMorfos *)owner;
-    morfos_id = get_entity_id(morfos);
+    morfos_id = morfos->get_entity_id();
     VecCopy(&position, morfos->get_arm_point());
     rotation_y = morfos->get_rotation_y();
     model = TObjEneMorfosArm__parent_morfos_instance->models[0].model;
     resource = TObjEneMorfosArm__parent_morfos_instance->models;
-    texlist = (saddr)resource->texlist;
+    texlist = resource->texlist;
     set_action_table((saddr)morfos_arm_motion_params);
     set_motion_list((saddr)TObjEneMorfosArm__parent_morfos_instance->motions);
     requested_action = 0;

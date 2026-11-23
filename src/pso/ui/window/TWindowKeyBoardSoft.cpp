@@ -43,7 +43,7 @@ struct RecoveredFields_8026088C_arg0 {
 
 extern "C" {
 
-struct Win_802605DC { u8 p0[0x65]; s8 f65; s8 f66; };
+struct Win_802605DC { u8 p0[0x65]; s8 col; s8 row; };
 
 struct Lines_80261DD8 {
     NJS_POINT2 *verts;
@@ -128,7 +128,7 @@ void TWindowKeyBoardSoft::calc_cursor_step(s32 *arg1, s32 *arg2) {
 #pragma push
 #pragma fp_contract on
 s32 TWindowKeyBoardSoft::sub_802605DC() {
-    s32 idx = calc_key_index((s32)(((Win_802605DC *)this)->f65), (s32)(((Win_802605DC *)this)->f66));
+    s32 idx = calc_key_index((s32)(((Win_802605DC *)this)->col), (s32)(((Win_802605DC *)this)->row));
     return idx + TWindowKeyBoardSoft__data_8044F124[soft_keyboard_key_class[idx]];
 }
 #pragma pop
@@ -137,13 +137,13 @@ s32 TWindowKeyBoardSoft::sub_802605DC() {
 #pragma fp_contract on
 f32 TWindowKeyBoardSoft::calc_key_x(s32 col, s32 row) {
   f32 new_var;
-  s32 sp8;
+  s32 count;
   s32 temp_r31;
   s32 key;
   key = calc_key_index(col, row);
   temp_r31 = col + TWindowKeyBoardSoft__data_8044F124[soft_keyboard_key_class[key]];
-  sub_80260760((int) key, &sp8, NULL);
-  new_var = calc_key_coord(sp8);
+  sub_80260760((int) key, &count, NULL);
+  new_var = calc_key_coord(count);
   return 1.0f + ((19.0f * ((f32) temp_r31)) + (0.5f * new_var));
 }
 #pragma pop
@@ -545,8 +545,8 @@ void TWindowKeyBoardSoft::spawn_key_effect(s32 col, s32 row) {
     s16 kind;
 
     sub_80260760(calc_key_index(col, row), &type, 0);
-    pos.x = *(f32 *)(((u8 *)this) + 0x40) + calc_key_x(col, row);
-    pos.y = 26.0f + (10.0f + (19.0f * (f32)row + *(f32 *)(((u8 *)this) + 0x44)));
+    pos.x = this->frame_position[0] + calc_key_x(col, row);
+    pos.y = 26.0f + (10.0f + (19.0f * (f32)row + this->frame_position[1]));
     switch (type) {
     case 1:
         kind = 3;
@@ -830,7 +830,7 @@ void TWindowKeyBoardSoft::sub_8026227C(WindowDrawContext *ctx) {
 
     cursor = this->sub_802605DC();
     begin_screen_draw(1);
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(hud_texlist));
+    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(hud_texlist));
     set_draw_texture_and_color(0, -1);
     for (j = 0; j < 7; j++) {
         for (i = 0; i < 16; i += count) {

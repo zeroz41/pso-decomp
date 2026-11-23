@@ -46,18 +46,18 @@ void TWindowHelpItem::update_cursor_selection() {
 }
 
 void TWindowHelpItem::render() {
-    saddr temp_r3;
+    saddr context;
     u8 temp_r3_2;
 
-    temp_r3 = reinterpret_cast<saddr>(this->setup_window_draw_context((f32 *)((u8 *)this + 0xA8)));
-    this->draw_window_frame((void *)temp_r3);
+    context = reinterpret_cast<saddr>(this->setup_window_draw_context((f32 *)((u8 *)this + 0xA8)));
+    this->draw_window_frame((void *)context);
     draw_visible_window_entries(
         this,
         reinterpret_cast<const WindowLayoutEntries *>((u8 *)this + 0x24),
-        reinterpret_cast<WindowDrawContext *>(temp_r3));
+        reinterpret_cast<WindowDrawContext *>(context));
     temp_r3_2 = this->m_60;
     if ((temp_r3_2 & 1) && (temp_r3_2 & 2)) {
-        draw_list_page_indicator(m_64, reinterpret_cast<WindowDrawContext *>(temp_r3));
+        draw_list_page_indicator(m_64, reinterpret_cast<WindowDrawContext *>(context));
     }
 }
 
@@ -89,7 +89,7 @@ TWindowHelpItem::~TWindowHelpItem() {
 }
 
 }
-TWindowHelpItem::TWindowHelpItem(void *pos, u16 idx) : TWindowBase((u8 *)&window_help_item_layout, (s16)idx, (u8 *)pos) {
+TWindowHelpItem::TWindowHelpItem(void *pos, s32 idx) : TWindowBase((u8 *)&window_help_item_layout, (s16)idx, (u8 *)pos) {
     this->m_name = window_help_item_class_name;
     copy_vec2(((u8 *)this + 0x30), pos);
     this->save_position();
@@ -102,8 +102,8 @@ TWindowHelpItem::TWindowHelpItem(void *pos, u16 idx) : TWindowBase((u8 *)&window
     this->m_a0 = -1;
     this->m_a4 = -1;
     this->m_callback = __ptmf_null;
-    this->m_a8 = 1.0f;
-    this->m_ac = 1.0f;
+    this->scale_x = 1.0f;
+    this->scale_y = 1.0f;
     this->dispatch_item_help();
     call_if_split_screen((uaddr)this, this->client_index);
 }

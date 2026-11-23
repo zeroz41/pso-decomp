@@ -5,7 +5,7 @@
 #include "pso/ui/window/TWindowBase.h"
 
 class TItemTexLoad;
-struct GinjaTextureList;
+struct NJS_TEXLIST;
 struct TItemData;
 
 struct TWindowLoadItemTexture : public TWindowBase {
@@ -21,7 +21,7 @@ struct TWindowLoadItemTexture : public TWindowBase {
     u8 _pad62[0x2];
     f32 draw_scale[2];
     TItemTexLoad *texture_loader;
-    GinjaTextureList *texture_list;
+    NJS_TEXLIST *texture_list;
 };
 
 LAYOUT_ASSERT(TWindowLoadItemTexture_size, sizeof(TWindowLoadItemTexture) == 0x74);

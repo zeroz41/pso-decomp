@@ -17,7 +17,7 @@ u8 *create_set_object_from_row(void *);
 
 extern s32 quest_object_entries;
 
-void TLobby::attach_objects_by_id(s32 arg0) {
+void TLobby::attach_objects_by_id(s32 floor) {
     s16 temp_r3;
     s16 temp_r0;
     s32 count;
@@ -25,8 +25,8 @@ void TLobby::attach_objects_by_id(s32 arg0) {
     s32 i;
     u8 *set_object;
 
-    ptr = reinterpret_cast<u8 *>(get_active_floor_object_rows(arg0));
-    count = TLobby::get_obj_table_entry(arg0);
+    ptr = reinterpret_cast<u8 *>(get_active_floor_object_rows(floor));
+    count = TLobby::get_obj_table_entry(floor);
     for (i = 0; i < count; i++, ptr += 0x44) {
         temp_r3 = *(s16 *)((s8 *)ptr + 2);
         if (!(temp_r3 & 8) && !(temp_r3 & 2) && (*(s16 *)((s8 *)ptr + 0) != -1) && ((temp_r3 & 0x10) || (temp_r3 & 1) || (*(s16 *)((s8 *)ptr + 0xA) == 0))) {

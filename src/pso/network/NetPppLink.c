@@ -66,14 +66,14 @@ s16 TLobby__sub_803FD10C(void) {
 
 #pragma push
 #pragma optimization_level 3
-s32 TLobby__sub_803FD21C(s16 arg0, s32 arg1, s32 arg2, u8 *arg3) {
+s32 TLobby__sub_803FD21C(s16 arg0, s32 arg1, s32 arg2, u8 *arr_) {
     s16 len;
     PppFrame *pkt;
     if ((arg0 != 0) && (arg0 != 1)) {
         return -0x112;
     }
     pkt = lbl_805C04A8.ip_out;
-    len = TLobby__sub_804098B4(arg3);
+    len = TLobby__sub_804098B4(arr_);
     if (lobby_net_buffer_desc_b.size < len) {
         return -0x112;
     }
@@ -81,7 +81,7 @@ s32 TLobby__sub_803FD21C(s16 arg0, s32 arg1, s32 arg2, u8 *arg3) {
     if ((s16) lobby_modem_connect_state == 4) {
         pkt->data = (u8 *)lbl_805C04A8.ip_out + ((lbl_805C04A8.headroom + 0x83) & 0xFFFFFFFC);
         pkt->len = len;
-        TLobby__sub_80409908(pkt->data, arg3);
+        TLobby__sub_80409908(pkt->data, arr_);
         TLobby__sub_80406328((saddr) pkt, lobby_net_buffer_desc_b.protocols[arg0].type);
     }
     unlock_mutex(lbl_805C18A0.mutex);
@@ -91,14 +91,14 @@ s32 TLobby__sub_803FD21C(s16 arg0, s32 arg1, s32 arg2, u8 *arg3) {
 
 #pragma push
 #pragma optimization_level 3
-s32 TLobby__sub_803FD310(s16 arg0, s32 arg1, u8 *arg2) {
+s32 TLobby__sub_803FD310(s16 arg0, s32 arg1, u8 *arr_) {
     s16 len;
     PppFrame *pkt;
     if ((arg0 != 0) && (arg0 != 1)) {
         return -0x112;
     }
     pkt = lbl_805C04A8.ip_out;
-    len = TLobby__sub_804098B4(arg2);
+    len = TLobby__sub_804098B4(arr_);
     if (lobby_net_buffer_desc_b.size < len) {
         return -0x112;
     }
@@ -106,7 +106,7 @@ s32 TLobby__sub_803FD310(s16 arg0, s32 arg1, u8 *arg2) {
     if ((s16) lobby_modem_connect_state == 4) {
         pkt->data = (u8 *)lbl_805C04A8.ip_out + ((lbl_805C04A8.headroom + 0x83) & 0xFFFFFFFC);
         pkt->len = len;
-        TLobby__sub_80409908(pkt->data, arg2);
+        TLobby__sub_80409908(pkt->data, arr_);
         TLobby__sub_80406328((saddr) pkt, lobby_net_buffer_desc_b.protocols[arg0].type);
     }
     unlock_mutex(lbl_805C18A0.mutex);

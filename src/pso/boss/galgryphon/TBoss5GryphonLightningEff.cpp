@@ -20,8 +20,7 @@
 
 extern "C" {
 const char *gryphon_lightning_eff_name = "TBoss5GryphonLightningEff";
-GinjaTextureList *inazuma_texture_list;  // f512_inazuma.gvm: two bolt textures
-s32 project_lightning_points(void *, void *, void *, void *);
+NJS_TEXLIST *inazuma_texture_list;  // f512_inazuma.gvm: two bolt textures
 
 void TBoss5GryphonLightningEff::set_two_sided() { this->two_sided = 1; }
 
@@ -48,13 +47,13 @@ s32 TBoss5GryphonLightningEff::calc_segment_uvs(void *vertices) {
         u += step;
     }
     if (flags & 8) {
-        return inazuma_texture_list->entries[0].texture->surface->id;
+        return inazuma_texture_list->textures[0].texture->surface->id;
     }
-    return inazuma_texture_list->entries[1].texture->surface->id;
+    return inazuma_texture_list->textures[1].texture->surface->id;
 }
 
 void TBoss5GryphonLightningEff::render() {
-    LightningStripSegment strip[13];
+    ParticleStripVertex strip[26];
     Vec points[13];
     f32 widths[13];
     f32 heights[13];
@@ -66,7 +65,7 @@ void TBoss5GryphonLightningEff::render() {
     TParticleCtrl::begin_effect_render();
     set_depth_buffer_settings_1();
     set_additive_blend();
-    project_lightning_points(this, points, widths, heights);
+    project_lightning_points(points, widths, heights);
     build_lightning_strip(strip, points, widths, heights);
     ((TWindowDD *)strip)->draw_transformed_primitive(this->point_count * 2, calc_segment_uvs(strip), 1);
     if (this->two_sided == 1) {
@@ -145,5 +144,5 @@ void TBoss5GryphonLightningEff::release_texture() {
     }
 }
 void TBoss5GryphonLightningEff::load_texture() {
-    inazuma_texture_list = (GinjaTextureList *)load_gvm_texture_file((saddr)"f512_inazuma.gvm");
+    inazuma_texture_list = load_gvm_texture_file("f512_inazuma.gvm");
 }

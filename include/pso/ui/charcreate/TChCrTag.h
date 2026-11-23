@@ -3,30 +3,27 @@
 #include "pso/system/task/TObject.h"
 #include "types.h"
 
+// Base of the character-creation screen's tags: fades in on creation, fades
+// its highlight while is_selected() holds and fades out once the selection
+// step reaches 2.
 class TChCrTag : public TObject {
 public:
     TChCrTag(TObject *parent, s32 index);
     virtual ~TChCrTag();
+    virtual void run_task();
     virtual void render();
-    virtual s32 vt4();
+    virtual s32 is_selected();
 
-    s32 m_1c;
-    s32 m_20;
-    f32 m_24;
-    f32 m_28;
-    f32 m_2c;
-    f32 m_30;
-    f32 m_34;
-    f32 m_38;
+    s32 m_fade_state;
+    s32 m_index;
+    f32 m_fade;
+    f32 m_fade_in_step;
+    f32 m_fade_out_step;
+    f32 m_highlight;
+    f32 m_highlight_in_step;
+    f32 m_highlight_out_step;
 };
 
 LAYOUT_ASSERT(TChCrTag_size, sizeof(TChCrTag) == 0x3C);
-
-// TChCrTag's destructor, run_task slot and slot 6 are still written as C functions.
-extern "C" {
-void *__dt__8TChCrTagFv(void *self, s16 flag);
-void update_fade__8TChCrTagFPv(TChCrTag *tag);
-int TChCrTag__vt4(void);
-}
 
 #endif

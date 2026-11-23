@@ -16,7 +16,7 @@
 
 const char *TObjNpcHFW00__name = "TObjNpcHFW00";
 uaddr TObjNpcHFW00__shared_resource_obj;
-uaddr TObjNpcHFW00__texture_handle;
+NJS_TEXLIST *TObjNpcHFW00__texture_handle;
 
 extern "C" {
 void release_texture_list(void*);
@@ -27,10 +27,10 @@ void *TObjNpcHFW00__create(void *set_data) {
 }
 
 void TObjNpcHFW00::free_resources() {
-    if ((u32) TObjNpcHFW00__texture_handle != 0U) {
-        release_texture_list((void*)TObjNpcHFW00__texture_handle);
-        TAdSinglePlyChrSelectGC::safe_free(TObjNpcHFW00__texture_handle);
-        TObjNpcHFW00__texture_handle = 0U;
+    if (TObjNpcHFW00__texture_handle != NULL) {
+        release_texture_list(TObjNpcHFW00__texture_handle);
+        TAdSinglePlyChrSelectGC::safe_free((uaddr)TObjNpcHFW00__texture_handle);
+        TObjNpcHFW00__texture_handle = NULL;
     }
     if ((u32) TObjNpcHFW00__shared_resource_obj != 0U) {
         TLobby::free_nodes_with_id((uaddr)((void*)TObjNpcHFW00__shared_resource_obj));
@@ -39,8 +39,8 @@ void TObjNpcHFW00::free_resources() {
 }
 
 void TObjNpcHFW00::load_resources() {
-    TObjNpcHFW00__shared_resource_obj = (u32)create_named_object((saddr)"npc_g00_data.rel");
-    TObjNpcHFW00__texture_handle = (uaddr)load_gvm_texture_file((saddr)"n_g00_body.gvm");
+    TObjNpcHFW00__shared_resource_obj = (u32)create_named_object("npc_g00_data.rel");
+    TObjNpcHFW00__texture_handle = load_gvm_texture_file("n_g00_body.gvm");
 }
 
 }
@@ -52,7 +52,7 @@ TObjNpcHFW00::TObjNpcHFW00(TObject *parent, void *arg2) : TUnk_804A92A8(parent) 
     ((TObjNpcHFW00 *)this)->apply_set_data(arg2);
     init_position_vectors();
     *(s32 *)((s8 *)this + 0x34) = (s32) *(*(s32 * *)&TObjNpcHFW00__shared_resource_obj);
-    ((TObjNpcHFW00 *)this)->texlist = (s32) (*(s32 *)&TObjNpcHFW00__texture_handle);
+    ((TObjNpcHFW00 *)this)->texlist = TObjNpcHFW00__texture_handle;
     ((TObjNpcBase *)this)->setup_common();
 }
 

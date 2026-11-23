@@ -21,6 +21,7 @@
 #include "pso/unk/text_803D8F74.h"
 #include "pso/unk/text_803D853C.h"
 #include "pso/system/MatrixOps.h"
+#include "pso/object/base/TObjBase.h"
 
 struct RecoveredFields_80235348_arg0
 {
@@ -29,7 +30,7 @@ struct RecoveredFields_80235348_arg0
   u8 unknown_68[0x8];
   f32 field_70;
   u8 unknown_74[0x50];
-  s16 field_C4;
+  s16 level;
   u8 unknown_C6[0x6];
   f32 field_CC;
   f32 field_D0;
@@ -86,19 +87,6 @@ struct VObj_80235490 : VBase_80235490 {
 struct Row_80235740 { u32 entry; u32 flags; f32 scale; };
 
 struct Data_80235740 { Row_80235740 *rows; u32 count; };
-
-struct Obj_80235740 {
-    u8 pad0[0x1C];
-    void *source;
-    Vec pos;
-    u8 pad2c[0x58 - 0x2C];
-    s32 f58;
-    u8 pad5c[0xC6 - 0x5C];
-    s16 band;
-    u16 sourceId;
-    u8 padca[0x130 - 0xCA];
-    void **emitters;
-};
 
 struct Row_802351B4
 {
@@ -163,12 +151,10 @@ static const Vec tec_megid_offset_vec = {0.0f, 0.0f, -5.0f};
 
 extern "C" {
 void mem_free(void *p);
-u16 get_entity_id(void *);
 s32 play_sound_effect(s32, s32, s32, s32);
 }
 u32 get_technique_caster_flags(s32 technique, u16 actor);
 extern "C" {
-void run_task__9TTecMegidFv(Obj_80235740 *self);
 
 void **mem_alloc(u32, s32);
 
@@ -223,10 +209,10 @@ void TTecMegid::spawn_particle_emitters() {
   u32 i;
   long long new_var;
   s32 mode;
-  Arg_802351B4 sp8;
-  sp8.a = self->f54;
-  sp8.b = 0;
-  sp8.c = self->f5c;
+  Arg_802351B4 dir;
+  dir.a = self->f54;
+  dir.b = 0;
+  dir.c = self->f5c;
   self->emitters = mem_alloc(TTecMegid__emitter_bands[this->band].count * 4, self->f54);
   for (i = 0; i < ((Data_802351B4 *) TTecMegid__emitter_bands)[this->band].count; i++)
   {
@@ -239,7 +225,7 @@ void TTecMegid::spawn_particle_emitters() {
     }
     if (flags & 2)
     {
-      self->emitters[i] = spawn_particle_effect_with_rotation(&self->pos, &sp8, row->entry, mode | 0x1000);
+      self->emitters[i] = spawn_particle_effect_with_rotation(&self->pos, &dir, row->entry, mode | 0x1000);
     }
     else
     {
@@ -255,7 +241,7 @@ void TTecMegid::spawn_particle_emitters() {
       if (((Data_802351B4 *) TTecMegid__emitter_bands)[this->band].rows[i].flags & 0x20)
       {
         new_var = ((Data_802351B4 *) TTecMegid__emitter_bands)[this->band].rows[i].flags >> 16;
-        attach_particle_model((u8 *)self->emitters[i], get_bml_model(technique_effect_bml, new_var), lbl_805D63B0, 0, 1, 1.0f);
+        attach_particle_model((u8 *)self->emitters[i], get_bml_model(technique_effect_bml, new_var), technique_texture_list, 0, 1, 1.0f);
       }
     }
   }
@@ -264,21 +250,21 @@ void TTecMegid::spawn_particle_emitters() {
 void TTecMegid::init_parameters() {
     u8 *arg0 = (u8 *)this;
   TechniqueParams *new_var;
-  new_var = calc_technique_parameters(0x12, (int) ((RecoveredFields_80235348_arg0 *) arg0)->field_C4, 0xFFFF);
+  new_var = calc_technique_parameters(0x12, (int) ((RecoveredFields_80235348_arg0 *) arg0)->level, 0xFFFF);
   ((TechniqueParams *)(arg0 + 0xCC))->copy((TechniqueParams *)new_var);
-  if ((((s16) ((RecoveredFields_80235348_arg0 *) arg0)->field_C4) >= 0xF) && (TTecCtrl::is_technique_ready() == 0))
+  if ((((s16) ((RecoveredFields_80235348_arg0 *) arg0)->level) >= 0xF) && (TTecCtrl::is_technique_ready() == 0))
   {
-    ((RecoveredFields_80235348_arg0 *) arg0)->field_CC = (f32) (tech_high_level_linear_power_table[18].base + (tech_high_level_linear_power_table[18].per_level * ((RecoveredFields_80235348_arg0 *) arg0)->field_C4));
+    ((RecoveredFields_80235348_arg0 *) arg0)->field_CC = (f32) (tech_high_level_linear_power_table[18].base + (tech_high_level_linear_power_table[18].per_level * ((RecoveredFields_80235348_arg0 *) arg0)->level));
   }
   else
   {
-    ((RecoveredFields_80235348_arg0 *) arg0)->field_CC = (f32) (((RecoveredFields_80235348_arg0 *) arg0)->field_CC + ((f32) (((RecoveredFields_80235348_arg0 *) arg0)->field_F0 * ((RecoveredFields_80235348_arg0 *) arg0)->field_C4)));
+    ((RecoveredFields_80235348_arg0 *) arg0)->field_CC = (f32) (((RecoveredFields_80235348_arg0 *) arg0)->field_CC + ((f32) (((RecoveredFields_80235348_arg0 *) arg0)->field_F0 * ((RecoveredFields_80235348_arg0 *) arg0)->level)));
     if (TTecCtrl::is_technique_ready() != 0)
     {
-      ((RecoveredFields_80235348_arg0 *) arg0)->field_CC = (f32) (((RecoveredFields_80235348_arg0 *) arg0)->field_CC * lbl_804CC55C[18].pad_00);
+      ((RecoveredFields_80235348_arg0 *) arg0)->field_CC = (f32) (((RecoveredFields_80235348_arg0 *) arg0)->field_CC * technique_scale_table[18].power);
     }
   }
-  ((RecoveredFields_80235348_arg0 *) arg0)->field_64 = (f32) (((RecoveredFields_80235348_arg0 *) arg0)->field_D0 + ((f32) ((((s16) ((RecoveredFields_80235348_arg0 *) arg0)->field_C4) / 5) * 2)));
+  ((RecoveredFields_80235348_arg0 *) arg0)->field_64 = (f32) (((RecoveredFields_80235348_arg0 *) arg0)->field_D0 + ((f32) ((((s16) ((RecoveredFields_80235348_arg0 *) arg0)->level) / 5) * 2)));
   ((RecoveredFields_80235348_arg0 *) arg0)->field_70 = (f32) ((RecoveredFields_80235348_arg0 *) arg0)->field_D4;
 }
 
@@ -286,12 +272,12 @@ void TTecMegid::vfunc_8(void *target) {
     s32 found = 0;
     s32 i;
     for (i = 0; i < 32; i++) {
-        if (hitIds[i] == get_entity_id(target)) {
+        if (hitIds[i] == ((TObjBase *)(target))->get_entity_id()) {
             found = 1;
         }
     }
     if (found == 0) {
-        hitIds[hitCursor] = get_entity_id(target);
+        hitIds[hitCursor] = ((TObjBase *)(target))->get_entity_id();
         hitCursor += 1;
         if (hitCursor >= 32) {
             hitCursor = 31;
@@ -299,7 +285,7 @@ void TTecMegid::vfunc_8(void *target) {
         HitInfo_80235490 tmp;
         tmp.type = 5;
         tmp.power = power;
-        if (get_entity_id(target) < 4 && ((TObjChara *)target)->obj_isState3_324() != 0) {
+        if (((TObjBase *)(target))->get_entity_id() < 4 && ((TObjChara *)target)->obj_isState3_324() != 0) {
             return;
         }
         HitInfo_80235490 info = tmp;
@@ -331,32 +317,32 @@ TTecMegid::~TTecMegid() {
     mem_free(emitters);
 }
 
-void run_task__9TTecMegidFv(Obj_80235740 *self) {
+void TTecMegid::run_task() {
     u32 i;
-    self->source = find_entity_by_id(self->sourceId);
-    if (self->source == NULL) {
-        ((TObject *)self)->queue_destruction();
+    source = (uaddr)find_entity_by_id(sourceId);
+    if (source == 0) {
+        queue_destruction();
         return;
     }
-    for (i = 0; i < ((Data_80235740 *)TTecMegid__emitter_bands)[self->band].count; i++) {
-        if (((Data_80235740 *)TTecMegid__emitter_bands)[self->band].rows[i].flags & 4) {
+    for (i = 0; i < ((Data_80235740 *)TTecMegid__emitter_bands)[band].count; i++) {
+        if (((Data_80235740 *)TTecMegid__emitter_bands)[band].rows[i].flags & 4) {
             Vec off = tec_megid_offset_vec;
             Vec p;
             push_matrix_from(identity_matrix);
-            rotate_matrix_y(0, self->f58);
+            rotate_matrix_y(0, angles[1]);
             matrix_mult_vec(0, &off, &off);
             pop_matrices(1);
-            p.x = self->pos.x + off.x;
-            p.y = self->pos.y + off.y;
-            p.z = self->pos.z + off.z;
-            ((TParticleCtrl *)self->emitters[i])->set_position(&p);
+            p.x = position.x + off.x;
+            p.y = position.y + off.y;
+            p.z = position.z + off.z;
+            ((TParticleCtrl *)emitters[i])->set_position(&p);
         } else {
-            ((TParticleCtrl *)self->emitters[i])->set_position(&self->pos);
+            ((TParticleCtrl *)emitters[i])->set_position(&position);
         }
     }
-    ((TTecShot *)self)->move_technique_projectile();
-    ((TTecShot *)self)->advance_lifetime_or_destroy();
-    ((TTecShot *)self)->dispatch_technique_contact(1);
+    move_technique_projectile();
+    advance_lifetime_or_destroy();
+    dispatch_technique_contact(1);
 }
 
 // The aimed form: the technique flies from `pos` towards `target`.
@@ -372,7 +358,7 @@ TTecMegid::TTecMegid(saddr source, u8 *pos, u8 *target, s32 level) : TTecShot(so
     spawn_particle_emitters();
     update_by_state();
     if (*(void **)((s8 *)this + 0x1C) != 0) {
-        sourceId = get_entity_id(*(void **)((s8 *)this + 0x1C));
+        sourceId = ((TObjBase *)(*(void **)((s8 *)this + 0x1C)))->get_entity_id();
     }
 }
 }
@@ -390,6 +376,6 @@ TTecMegid::TTecMegid(saddr source, Vec *pos, s32 angle, s32 level) : TTecShot(so
     spawn_particle_emitters();
     update_by_state();
     if (*(void **)((s8 *)this + 0x1C) != 0) {
-        sourceId = get_entity_id(*(void **)((s8 *)this + 0x1C));
+        sourceId = ((TObjBase *)(*(void **)((s8 *)this + 0x1C)))->get_entity_id();
     }
 }

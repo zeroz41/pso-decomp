@@ -12,6 +12,7 @@ class TActorLight : public TObject {
 public:
     TActorLight(f32 step, f32 peak, f32 intensity, NJS_ARGB *color, Vec *desired, s32 duration, TObjBase *source,
                   TObject *parent);
+    TActorLight(f32 step, NJS_ARGB *color, Vec *desired, s32 duration, TObjBase *source, TObject *parent);
     virtual ~TActorLight();
     virtual void run_task();
     s32 duration;

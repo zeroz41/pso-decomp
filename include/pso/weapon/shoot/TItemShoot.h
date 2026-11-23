@@ -10,7 +10,7 @@ public:
  Vec m_pos;
  s32 m_28;
  s32 m_count;
- s32 m_30;
+ s32 rot_b;
  f32 m_life;
  Vec m_dir;
  Vec m_44;

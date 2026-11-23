@@ -4,6 +4,7 @@
 #include "types.h"
 #include <stddef.h>
 #include "pso/system/task/TObject.h"
+#include "pso/ui/window/WindowCtrlCallback.h"
 
 struct TWindowTradeRequest;
 struct TWindowTimer;
@@ -21,7 +22,7 @@ struct TWindowCtrl : public TObject {
     static TWindowCtrl *instance;
     u16 flags;
     u16 m_1e;
-    u16 m_20;
+    s16 countdown;
     s16 submit_cooldown;
     u32 m_24;
     u16 window_id;
@@ -75,22 +76,24 @@ struct TWindowCtrl : public TObject {
     static void init_all_slots2();
     static void suppress_slot(s32 client);
     static void unsuppress_slot(s32 client);
+    static void disable_client_main_menu(s32 client);
+    static void enable_client_main_menu(s32 client);
     static s32 has_player_active_menu(s32 client);
     static void apply_default_vec(s32 arg0, saddr client_id);
     static s32 is_slot_visible(s32 client);
-    static saddr get_message_by_type(s8 arg0, s32 client_id);
+    static saddr get_message_by_type(s8 type, s32 client_id);
     static void release_slot(s8 *arg0);
-    static void close_windows_by_flags(u16 arg0);
-    static s32 open_balloon(u16 player, u8 *arg1, s32 flags, s32 arg3);
+    static void close_windows_by_flags(u16 flags);
+    static s32 open_balloon(u16 player, u8 *arg1, s32 flags, s32 client);
     static saddr open(u16 id, saddr text, s32 flags);
     static int open_default(u16 id, s32 text);
-    static void create_level_up_window(saddr arg0, saddr arg1);
+    static void create_level_up_window(saddr stats, saddr client);
     static void set_window_flags(void *client_id, s32 flags, s32 arg2);
     static void set_window_flags_off(s32 client, s32 flags);
     static void init_all(void* p, void* a1);
     void init_all_default();
-    static void show_party_effect(void* a0, void* a1, void* a2);
-    static void create_party_effect(void* a0, void* a1);
+    static void show_party_effect(u16 from, u16 to, u32 kind);
+    static void create_party_effect(u16 from, u16 to);
     static void dispatch_to_child(s32 client, s32 kind);
     void update_pulse_color();
     void update_trade_window();
@@ -104,11 +107,13 @@ struct TWindowCtrl : public TObject {
     static void close();
     void set_flag1e_bit40();
     static saddr get_window(s32 client_id);
+    static s32 query_window(s32 client_id, PlayerWindowQuery query);
+    static void call_window_method(s32 client_id, PlayerWindowCommand command);
     static s32 get_flag_bit4();
     static s32 get_flag_bit5();
     static s32 get_display_flag();
     int is_enabled();
-    int is_visible();
+    s32 is_visible();
     s32 get_active_menu();
     void update_short_list_request();
     void show_active_window();
@@ -117,6 +122,7 @@ struct TWindowCtrl : public TObject {
     void update_child_window_visibility();
     void update_trade_window_visibility();
     void run_all_updates();
+    void update_countdown();
     static TWindowMessageLog *get_field44();
     static void set_flag_active();
     static void clear_flag_8();
@@ -133,11 +139,30 @@ struct TWindowCtrl : public TObject {
     void clear_flag1e_bit8();
     void set_radar_dirty_flag();
     void clear_flag_bit0();
+    // Mark chat balloon slot 0 taken or free (see TWindowFukidasi::alloc_nearest_free_slot).
+    void reserve_balloon_slot_0();
+    void release_balloon_slot_0();
+    void disable_main_menu();
+    void enable_main_menu();
+    void hide_lock_on_window();
+    void show_lock_on_window();
+    void begin_keyboard_hold();
+    void end_keyboard_hold();
+    void hide_status_window();
+    void show_status_window();
+    s32 has_get_com_card_window();
+    s32 is_main_menu_disabled();
+    s32 is_lock_on_window_hidden();
+    s32 is_status_window_hidden();
+    void start_countdown();
+    s32 is_countdown_done();
 };
 
 LAYOUT_ASSERT(WindowCtrlTradeRequestOffset, offsetof(TWindowCtrl, trade_request) == 0x40);
 LAYOUT_ASSERT(TWindowCtrlBalloonSlotsOffset, offsetof(TWindowCtrl, balloons) == 0x84);
 LAYOUT_ASSERT(TWindowCtrl_size, sizeof(TWindowCtrl) == 0xE8);
+
+extern u16 lbl_805D63FC;
 
 
 #endif

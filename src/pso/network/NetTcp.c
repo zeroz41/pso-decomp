@@ -1988,7 +1988,7 @@ s32 TLobby__sub_8041DBD4(s16 handle, NetBufferRef *destination, s32 len, TcpComp
 
 #pragma push
 #pragma pool_data off
-s16 tcp_start_send(s16 arg0, NetPacket *arg1, TcpCompletion completion, u8 arg3) {
+s16 tcp_start_send(s16 arg0, NetPacket *req, TcpCompletion completion, u8 arg3) {
     s16 r;
     s16 v;
     s16 ret;
@@ -2015,9 +2015,9 @@ s16 tcp_start_send(s16 arg0, NetPacket *arg1, TcpCompletion completion, u8 arg3)
     if (v > 5 && (e->fA & 8)) {
         return -4;
     }
-    TLobby__sub_80420BD0(arg1, e, completion);
+    TLobby__sub_80420BD0(req, e, completion);
     if (arg3 != 0) {
-        e->snd_up = e->snd_nxt + arg1->total_bytes;
+        e->snd_up = e->snd_nxt + req->total_bytes;
     }
     ret = AT_TCP_Rawsend(e);
     TLobby__sub_8041FFF8(0, e);

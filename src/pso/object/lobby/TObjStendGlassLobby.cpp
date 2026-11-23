@@ -19,14 +19,14 @@ __declspec(section ".data") const char *bm_obj_lobby_stendglass_model_names[2] =
 BmlResourceDescriptor bm_obj_lobby_stendglass_resource_descriptor = { "bm_obj_lobby_stendglass.bml", bm_obj_lobby_stendglass_model_names, bm_obj_lobby_stendglass_motion_names, 1, 0 };
 const char *obj_stendglass_lobby_class_name = "TObjStendGlassLobby";
 BmlResource *TObjStendGlassLobby::static_model_resource;
-u32 TObjStendGlassLobby::lobby_texlist;
+NJS_TEXLIST *TObjStendGlassLobby::lobby_texlist;
 
 void TObjStendGlassLobby::demo_step() {}
 
 void TObjStendGlassLobby::render() {
     if (fade_state != 0 && (u32)texlist != 0) {
         TParticleCtrl::begin_effect_render();
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);

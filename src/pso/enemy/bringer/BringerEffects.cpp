@@ -22,6 +22,7 @@
 #include <stdlib.h>
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel_8007E418.h"
+#include "pso/object/base/TObjBase.h"
 
 // Written last-to-first: the unit is built with -inline off,deferred, which emits the functions
 // (and pools their constants) in reverse order.
@@ -78,7 +79,7 @@ u8 *construct_bringer_rush_effect(u8 *rush, saddr parent, u8 *source, saddr reci
 TObjEneDf2Bringer_Eff_Rush::~TObjEneDf2Bringer_Eff_Rush() {}
 
 void TObjEneDf2Bringer_Eff_Rush::run_task() {
-    if (is_player_entity_id(get_entity_id(target)) != 0) {
+    if (is_player_entity_id(target->get_entity_id()) != 0) {
         queue_destruction();
         return;
     }

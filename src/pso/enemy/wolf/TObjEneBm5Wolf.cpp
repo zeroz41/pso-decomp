@@ -45,6 +45,7 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/object/base/TObjBase.h"
 extern "C" {
 extern u32 TObjEneBm5Wolf__instance_list[];
 extern u32 TObjEneBm5Wolf__pack_member_list[];
@@ -181,7 +182,7 @@ void TObjEneBm5WolfNode::append_to(TObjEneBm5WolfNode **head, TObjEneBm5WolfNode
 }
 
 void TObjEneBm5WolfNode::set_owner(TObjEneBm5Wolf *owner) {
-    entity_id = get_entity_id(owner);
+    entity_id = owner->get_entity_id();
 }
 
 TObjEneBm5Wolf *TObjEneBm5WolfNode::get_owner() {
@@ -229,8 +230,8 @@ void TObjEneBm5Wolf::load_resources() {
     {
     NpcAnimationBinding sp = bm5_wolf_spawn_descriptor;
     sp.motions = reinterpret_cast<BmlMotionEntry *>(TObjEneBm5Wolf__bml_resource->motions);
-    NpcModelRegistry::register_animated_chunk(9, reinterpret_cast<void *>(TObjEneBm5Wolf__bml_resource->models[1].model), reinterpret_cast<void *>(TObjEneBm5Wolf__bml_resource->models[0].texlist), &sp, TObjEneBm5Wolf__collider_params[0].radius, 0.0f);
-    NpcModelRegistry::register_animated_chunk(10, reinterpret_cast<void *>(TObjEneBm5Wolf__bml_resource->models[0].model), reinterpret_cast<void *>(TObjEneBm5Wolf__bml_resource->models[0].texlist), &sp, TObjEneBm5Wolf__collider_params[0].radius, 0.0f);
+    NpcModelRegistry::register_animated_chunk(9, reinterpret_cast<void *>(TObjEneBm5Wolf__bml_resource->models[1].model), TObjEneBm5Wolf__bml_resource->models[0].texlist, &sp, TObjEneBm5Wolf__collider_params[0].radius, 0.0f);
+    NpcModelRegistry::register_animated_chunk(10, reinterpret_cast<void *>(TObjEneBm5Wolf__bml_resource->models[0].model), TObjEneBm5Wolf__bml_resource->models[0].texlist, &sp, TObjEneBm5Wolf__collider_params[0].radius, 0.0f);
     }
 }
 
@@ -434,12 +435,12 @@ void TObjEneBm5Wolf::select_subtype() {
     if (this->parameters[1] >= 1.0f) {
         this->is_leader = 1;
         this->model = (void *)TObjEneBm5Wolf__bml_resource->models[1].model;
-        this->texlist = (saddr)TObjEneBm5Wolf__bml_resource->models[0].texlist;
+        this->texlist = TObjEneBm5Wolf__bml_resource->models[0].texlist;
         return;
     }
     this->is_leader = 0;
     this->model = (void *)TObjEneBm5Wolf__bml_resource->models[0].model;
-    this->texlist = (saddr)TObjEneBm5Wolf__bml_resource->models[0].texlist;
+    this->texlist = TObjEneBm5Wolf__bml_resource->models[0].texlist;
 }
 
 void TObjEneBm5Wolf::advance_pose_turn(s32 target) {
@@ -763,7 +764,7 @@ void TObjEneBm5Wolf::anchor_state(s32 event) {
     case 0:
         leader = TObjEneBm5Wolf::find_pack_leader(this->group_id);
         if (leader != 0) {
-            this->leader_id = get_entity_id(leader);
+            this->leader_id = leader->get_entity_id();
         }
         if ((this->is_leader != 0) || (leader == 0)) {
             VecCopy(&this->group_anchor, (const Vec *)&this->spawn_position);
@@ -1610,7 +1611,7 @@ void TObjEneBm5Wolf::repositioning_state(s32 event) {
                     VecCopy(&v, &this->body_center);
                     v.x += dx;
                     v.z += dz;
-                    if (csnVectorUnder(&v, (CsnGroup **)&this->ground_cache, 0x15) != NULL) {
+                    if (csnVectorUnder(&v, this->ground_candidates.groups, 0x15) != NULL) {
                         this->substate = 1;
                         this->requested_action = 0x12;
                         this->destination_direction.x = sin_table_lookup(this->target_heading);
@@ -1870,7 +1871,7 @@ void TObjEneBm5Wolf::render() {
                 pop_matrix();
             }
             this->update_secondary_light();
-            TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(this->texlist));
+            TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
             push_matrix();
             post_translate_matrix(&this->position.x);
             rotate_matrix_y(0, this->rotation_y);
@@ -1932,7 +1933,7 @@ void TObjEneBm5Wolf::render_debug() {
     }
     if (this->update_object_view_visibility(400.0f, 20.0f) != 0) {
         this->draw_ground_shadow(0, 0);
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(this->texlist));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
         push_matrix();
         post_translate_matrix(&this->position.x);
         rotate_matrix_y(0, this->rotation_y);

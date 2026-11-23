@@ -18,6 +18,7 @@
 #include "pso/unk/TLobby_8001D6A0.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80228F5C.h"
 #include "pso/unk/TLobby_800F8AA8.h"
+#include "pso/object/base/TObjBase.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/math/MatrixVector.h"
@@ -83,9 +84,9 @@ void TFontSmallTask::render() {
     rotate_matrix_z(0, camera_ctrl_instance->roll);
     rotate_vector_by_matrix(0, &forward, &forward);
     pop_matrix();
-    diff.x = position[0] - camera_ctrl_instance->pos.x;
-    diff.y = position[1] - camera_ctrl_instance->pos.y;
-    diff.z = position[2] - camera_ctrl_instance->pos.z;
+    diff.x = position.x - camera_ctrl_instance->pos.x;
+    diff.y = position.y - camera_ctrl_instance->pos.y;
+    diff.z = position.z - camera_ctrl_instance->pos.z;
     if (is_boss_area() == 0) {
         f32 xx = diff.x * diff.x;
         f32 yy = diff.y * diff.y;
@@ -98,7 +99,7 @@ void TFontSmallTask::render() {
         return;
     }
     push_matrix();
-    project_world_to_screen(0, (const Vec *)position, screen);
+    project_world_to_screen(0, &position, screen);
     pop_matrix();
     if (is_split_screen() != 0) {
         screen[0] -= (f32)TCameraCtrl::get_viewport_x();
@@ -169,56 +170,40 @@ void TFontSmallTask::run_task() {
     }
 }
 
-s32 create_font_small_task(s32 pos, s32 color, s32 life, s32 delay, s32 *str, s32 value, s32 view) {
-    TFontSmallTask *task;
-
+s32 create_font_small_task(Vec *pos, s32 color, s32 life, s32 delay, s32 *str, s32 value, u16 view) {
     text_builder_reset();
     text_builder_append((u8 *)str);
     if (value >= 0) {
         text_builder_append((u8 *)"+");
     }
     text_builder_append_int(value);
-    task = new TFontSmallTask((const f32 *)pos, color, life, delay,
-                                             (const char *)(saddr)(get_shared_text_buffer()), view);
-    return (saddr)task;
+    return (saddr)new TFontSmallTask(pos, color, life, delay, (const char *)get_shared_text_buffer(), view);
 }
 
-s32 create_font_small_task_default_color(s32 pos, s32 color, s32 life, s32 delay, s32 *str, s32 value) {
-    TFontSmallTask *task;
-
+s32 create_font_small_task_default_color(Vec *pos, s32 color, s32 life, s32 delay, s32 *str, s32 value) {
     text_builder_reset();
     text_builder_append((u8 *)str);
     if (value >= 0) {
         text_builder_append((u8 *)"+");
     }
     text_builder_append_int(value);
-    task = new TFontSmallTask((const f32 *)pos, color, life, delay,
-                                             (const char *)(saddr)(get_shared_text_buffer()), 0xFFFF);
-    return (saddr)task;
+    return (saddr)new TFontSmallTask(pos, color, life, delay, (const char *)get_shared_text_buffer(), 0xFFFF);
 }
 
 void create_boss_health_font(s32 pos, s32 color, s32 life, void *label, void *value) {
-    create_font_small_task(pos, color, life, 0, (s32 *)label, (saddr)value, 0xFFFF);
+    create_font_small_task((Vec *)(saddr)pos, (s32)color, (s32)life, 0, (s32 *)label, (saddr)value, 0xFFFF);
 }
 
-s32 TObjEneEpsilonGuard::create_damage_font(s32 pos, s32 color, s32 life, s32 amount) {
-    TFontSmallTask *task;
-
+s32 TObjEneEpsilonGuard::create_damage_font(s32 pos, s32 color, s32 life, s32 damage) {
     text_builder_reset();
-    text_builder_append_int(amount);
-    task = new TFontSmallTask((const f32 *)pos, color, life, 0,
-                                             (const char *)(saddr)get_shared_text_buffer(), 0xFFFF);
-    return (saddr)task;
+    text_builder_append_int(damage);
+    return (saddr)new TFontSmallTask((Vec *)(saddr)pos, color, life, 0, (const char *)get_shared_text_buffer(), 0xFFFF);
 }
 
-saddr TOCtrlDubchik::create_font(saddr pos, s32 color, s32 life, saddr text) {
-    TFontSmallTask *task;
-
+saddr TOCtrlDubchik::create_font(saddr pos, s32 color, s32 life, const char *text) {
     text_builder_reset();
     text_builder_append((u8 *)text);
-    task = new TFontSmallTask((const f32 *)pos, color, life, 0,
-                                             (const char *)(saddr)get_shared_text_buffer(), 0xFFFF);
-    return (saddr)task;
+    return (saddr)new TFontSmallTask((Vec *)pos, color, life, 0, (const char *)get_shared_text_buffer(), 0xFFFF);
 }
 
 TFontSmallTask::~TFontSmallTask() {}
@@ -232,16 +217,15 @@ struct LoadFrameEntry { void (*fn)(void); u32 id; };
 LeaderSelection leader_selection;
 extern "C" {
 s32 run_load_callback_table(LoadFrameEntry *p, u32 size);
-u16 get_entity_id();
 }
 
 #pragma push
 #pragma fp_contract on
 
-TFontSmallTask::TFontSmallTask(const f32 *pos, u32 color, s32 life, s32 delay, const char *str, s32 view)
+TFontSmallTask::TFontSmallTask(Vec *pos, u32 color, s32 life, s32 delay, const char *str, u16 view)
     : TObject((TObject *)TWindowCtrlMain::get_instance()) {
     m_name = font_small_task_class_name;
-    VecCopy((Vec *)position, (const Vec *)pos);
+    VecCopy(&position, pos);
     offset_x = 0.0f;
     offset_y = 0.0f;
     rgb = color & 0xFFFFFF;
@@ -275,7 +259,7 @@ void LeaderSelection::find_leader_section_id(s32 client_id) {
     count = TLobby::get_game_mode();
     for (i = 0; i < count; i++) {
         player = TObjPlayer::get_player_data(i);
-        if (player != NULL && client_id == get_entity_id()) {
+        if (player != NULL && client_id == player->get_entity_id()) {
             level = player->get_actor_level_index();
             section_id = ((TPlyPhotonChair *)player)->get_actor_section_id();
         }

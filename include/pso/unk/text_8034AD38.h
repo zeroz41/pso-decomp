@@ -4,12 +4,12 @@
 #include "types.h"
 
 extern "C" {
-void push_recent_id(s16 arg0);
+void push_recent_id(s16 id);
 }
 
 // --- C functions defined in text_8034AD38.cpp ---
 extern "C" {
-void push_recent_id(s16 arg0);
+void push_recent_id(s16 id);
 }
 // --- end of C functions
 

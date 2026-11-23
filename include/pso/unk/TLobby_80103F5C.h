@@ -9,4 +9,6 @@ void TLobby__sub_80104464(void);
 }
 // --- end of C functions
 
+void handle_6x63_destroy_floor_item(void *command);
+
 #endif

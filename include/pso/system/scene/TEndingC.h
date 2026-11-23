@@ -5,17 +5,18 @@
 
 class TEndingC : public TObject {
 public:
+    TEndingC(TObject *parent);
     virtual void render();
     virtual void run_task();
     virtual ~TEndingC();
-    void release_lobby();
+    static void release_lobby();
 
     u32 phase;
     s32 elapsed_ticks;
     s32 cycle_index;
     f32 primary_opacity;
     f32 secondary_opacity;
-    u8 render_geometry[0x60];
+    f32 render_geometry[3][8];
     s32 timing_rate;
     f32 fade_in_ticks;
     f32 fade_out_ticks;
@@ -32,14 +33,7 @@ LAYOUT_ASSERT(TEndingC_timing_rate_offset, offsetof(TEndingC, timing_rate) == 0x
 LAYOUT_ASSERT(TEndingC_fade_in_ticks_offset, offsetof(TEndingC, fade_in_ticks) == 0x94);
 LAYOUT_ASSERT(TEndingC_fade_out_ticks_offset, offsetof(TEndingC, fade_out_ticks) == 0x98);
 
-extern "C" {
-int TEndingC__sub_8008C6F4(void);
-}
-
-// --- C functions defined in TEndingC.cpp ---
-extern "C" {
-int TEndingC__sub_8008C6F4(void);
-}
-// --- end of C functions
+// Seconds into the ending at which TEndingC starts fading its wall in.
+int get_ending_c_start_seconds(void);
 
 #endif

@@ -23,7 +23,7 @@ f32 TObjCMProportion::get_right_trigger_ratio() {
 
 #pragma push
 #pragma fp_contract on
-void get_creation_pad_stick(s32 *arg0, f32 *arg1) {
+void get_creation_pad_stick(s32 *angle, f32 *magnitude) {
     f32 x;
     f32 y;
     f32 d;
@@ -39,11 +39,11 @@ void get_creation_pad_stick(s32 *arg0, f32 *arg1) {
         ang = 0;
         d = creation_stick_zero;
     }
-    if (arg0 != NULL) {
-        *arg0 = ang;
+    if (angle != NULL) {
+        *angle = ang;
     }
-    if (arg1 != NULL) {
-        *arg1 = d;
+    if (magnitude != NULL) {
+        *magnitude = d;
     }
 }
 #pragma pop

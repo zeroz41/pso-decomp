@@ -33,9 +33,9 @@ extern "C" {
 s32 play_sound_effect(int, void *, int, int);
 }
 
-TUnk_804CC74C::TUnk_804CC74C(saddr player, saddr task) : TObject((TObject *)((void *)task)) {
-    m_actor = (TObjPlayer *)player;
-    VecCopy(&m_position, (const Vec *)((u8 *)m_actor + 0x2FC));
+TUnk_804CC74C::TUnk_804CC74C(TObjPlayer *actor, TObject *parent) : TObject(parent) {
+    m_actor = actor;
+    VecCopy(&m_position, &m_actor->body_center);
     m_age = 0;
     m_sound_handle = play_sound_effect(0x4002BB1F, &m_position, 0, 0);
 }
@@ -43,7 +43,7 @@ TUnk_804CC74C::TUnk_804CC74C(saddr player, saddr task) : TObject((TObject *)((vo
 void TTecDeband::play_state_sound() {
     Obj_8022F42C *arg0 = (Obj_8022F42C *)this;
     s32 r;
-    switch (*(s16 *)&this->m_a6) {
+    switch (band) {
     case 0:
     case 1:
         r = play_sound_effect(0x4002AA16, (u8 *)arg0 + 0x20, 0, 0);

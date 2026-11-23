@@ -14,6 +14,7 @@
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/ui/window/WindowLayout.h"
+#include "pso/player/PlayerSlots.h"
 
 #pragma readonly_strings on
 
@@ -61,7 +62,6 @@ extern "C" {
 s32 draw_window_scrollbar(int, int, void *);
 void draw_cursor_sprite__21TWindowSubCustomEquipFPvPvif(void *, void *, s32, f32);
 s32 play_sound_effect(s32, s32, s32, s32);
-void *get_player_by_client_id(s32 i);
 void *reset_selection__20TWindowSubStatusDispFv(void *, NJS_POINT2 *);
 const char *TWindowSubCustomSelect__class_name = "TWindowSubCustomSelect";
 s32 clamp_list_scroll_offset(void *, void *, void *);
@@ -92,8 +92,8 @@ void TWindowSubCustomSelect::update_list_scroll() {
   new_var2 = (51.0f * ((f32) ((s8)this->m_71))) + 6.0f;
   tgt = 27.0f + new_var2;
   tgt -= 81.0f;
-  new_var3 = (f32 *) (((s8 *) arg0) + 0x6C);
-  *new_var3 = (*new_var3) + (tgt - (*((f32 *) (((s8 *) arg0) + 0x6C))));
+  new_var3 = &this->scroll_offset[1];
+  *new_var3 = (*new_var3) + (tgt - (this->scroll_offset[1]));
   stack.sp8 = 0.0f;
   stack.spC = ((this->frame_size[1]) - 10.0f) - 16.0f;
   clamp_list_scroll_offset(*((u8 **) (((s8 *) arg0) + 0x80)), (new_var = arg0) + 0x68, &stack.sp8);
@@ -165,7 +165,7 @@ void TWindowSubCustomSelect::draw_palette_cells(WindowDrawContext *ctx) {
     f32 y;
     f32 fx;
     f32 fy;
-    p = ((saddr)get_player_by_client_id((this->client_index)));
+    p = (saddr)get_player_by_client_id((this->client_index));
     if (p == 0) {
         return;
     }

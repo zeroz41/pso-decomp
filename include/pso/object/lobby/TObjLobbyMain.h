@@ -39,7 +39,7 @@ struct TObjLobbyMain : public TObjMapObject {
     static void load_resources();
 
     static BmlResource *model_resource;
-    static u32 lobby_texlist;  // the lobby's shared texture list
+    static NJS_TEXLIST *lobby_texlist;  // the lobby's shared texture list
     // The two computer-screen meshes whose UVs scroll once per frame.
     static NJS_CNK_MODEL *computer_screen_model;
     static NJS_CNK_MODEL *computer_screen_model_b;

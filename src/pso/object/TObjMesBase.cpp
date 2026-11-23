@@ -33,7 +33,7 @@ void TObjMesBase::debug_draw_label() {
     TObjNpcEnemy::set_global_count(0xF0F0F0FF);
 }
 
-void TObjMesBase::interact(s32) {
+void TObjMesBase::interact(u16) {
     s32 label = messageLabel;
     if (label != 0) {
         TUnk_804C8678 *root = NULL;

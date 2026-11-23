@@ -44,7 +44,6 @@ TAdEnterPasswordGCInputBuffer TAdEnterPasswordGC__input_buffer = { 0 };
 extern "C" {
 extern TAdEnterBaseGC::Position password_screen_status_line_position[];
 extern s32 password_entry_dispatch_state;
-extern u8 *password_entry_keyboard_control;
 void request_main_phase(s32 arg0);
 void mem_free(void *p);
 s32 get_field_118__22TAdEnterSerialAccessGCFv(void);
@@ -71,8 +70,8 @@ void close_window_and_destroy__18TAdEnterPasswordGCFPv(u8 *arg0) {
         ((TWindowBase *)temp_r3_2)->close();
         *(u8 **)((s8 *)arg0 + 0x34) = NULL;
     }
-    if ((void *) password_entry_keyboard_control != NULL) {
-        ((TObject *)password_entry_keyboard_control)->queue_destruction();
+    if (password_entry_keyboard_control != NULL) {
+        password_entry_keyboard_control->queue_destruction();
         password_entry_keyboard_control = NULL;
     }
     temp_r4 = *(s32 *)((s8 *)arg0 + 0x24) + 1;
@@ -87,7 +86,7 @@ void request_transition__18TAdEnterPasswordGCFPv(void* p) { TAdMultiChgGameModeG
 
 typedef struct Pw_8032B6A0 Pw_8032B6A0;
 void update_password_input__18TAdEnterPasswordGCFPv(Pw_8032B6A0 *self) {
-  saddr buf = (saddr)((TKeyBoardControl *)password_entry_keyboard_control)->realloc_buffer();
+  saddr buf = (saddr)password_entry_keyboard_control->realloc_buffer();
   s32 prev;
   int cur;
   if (((self->len == 0) && (test_pressed_buttons_packed(&controller_physical_port_bank.controllers[0], 2) != 0)) || ((self->len == 0) && (test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0)))
@@ -101,11 +100,11 @@ void update_password_input__18TAdEnterPasswordGCFPv(Pw_8032B6A0 *self) {
   self->f3C = self->f38;
   if (password_entry_keyboard_control != 0)
   {
-    if (((TKeyBoardControl *)password_entry_keyboard_control)->is_confirmed() != 0)
+    if (password_entry_keyboard_control->is_confirmed() != 0)
     {
       if ((test_pressed_buttons_packed(&controller_physical_port_bank.controllers[0], 2) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0))
       {
-        reinterpret_cast<TKeyBoardControl *>(password_entry_keyboard_control)->clear_keyboard_flag60_bit1();
+        password_entry_keyboard_control->clear_keyboard_flag60_bit1();
         self->f38 = 0;
         if (self->serial != 0)
         {
@@ -115,7 +114,7 @@ void update_password_input__18TAdEnterPasswordGCFPv(Pw_8032B6A0 *self) {
       else
         if (TAdEnterSerialAccessGC::forward_input(self, 2, (const char *)buf) == 0)
       {
-        reinterpret_cast<TKeyBoardControl *>(password_entry_keyboard_control)->clear_keyboard_flag60_bit1();
+        password_entry_keyboard_control->clear_keyboard_flag60_bit1();
         play_sound_effect(0x53F06, 0, 0, 0);
       }
       else
@@ -155,10 +154,10 @@ void update_password_input__18TAdEnterPasswordGCFPv(Pw_8032B6A0 *self) {
       ((TAdSelectCurGC *)(self->serial))->append_entry((void *)enter_password_item_rect_table[0]);
     }
   }
-  if ((((TAdSelectCurGC *)(self->serial))->confirmation_result() == 1) && (((TKeyBoardControl *)password_entry_keyboard_control)->is_confirmed() != 0))
+  if ((((TAdSelectCurGC *)(self->serial))->confirmation_result() == 1) && (password_entry_keyboard_control->is_confirmed() != 0))
   {
     strncpy((char *)&TAdEnterPasswordGC__input_buffer.value, (const char *)buf, 9);
-    TAdEnterSerialAccessGC__sub_80322418(get_field_118__22TAdEnterSerialAccessGCFv(), 2);
+    TAdEnterSerialAccessGC::set_entered_value(get_field_118__22TAdEnterSerialAccessGCFv(), 2);
     self->f20 = 3;
     password_entry_dispatch_state = 4;
   }
@@ -174,7 +173,7 @@ void open_keyboard_window__18TAdEnterPasswordGCFPv(saddr arg0) {
         ((TAdSelectCurGC *)(*(uaddr *)((s8 *)arg0 + 0x2C)))->append_entry((void *)enter_password_item_rect_table[0]);
         ((TAdSelectCurGC *)(*(uaddr *)((s8 *)arg0 + 0x2C)))->lock_navigation();
     }
-    (*(u32 *)&password_entry_keyboard_control) = TAdEnterSerialAccessGC::create_keyboard_control(arg0, 2);
+    password_entry_keyboard_control = TAdEnterSerialAccessGC::create_keyboard_control(arg0, 2);
     password_entry_dispatch_state = 1;
 }
 

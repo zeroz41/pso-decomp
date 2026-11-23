@@ -38,6 +38,6 @@ TObjNpcNurseBase::TObjNpcNurseBase(TObject *parent, void *set_data) : TUnk_804A8
     this->apply_set_data(set_data);
     init_position_vectors();
     this->model = (void *)TObjNpcNurseBase__shared_model_resource->models->model;
-    this->texlist = (saddr)TObjNpcNurseBase__shared_model_resource->models->texlist;
+    this->texlist = TObjNpcNurseBase__shared_model_resource->models->texlist;
     this->setup_common();
 }

@@ -19,9 +19,9 @@ s32 TUnk_80490470::advance_toward_max() {
     return phase >= 2.0f;
 }
 s32 TUnk_80490470::decay_value_toward_floor() {
-    f32 temp_f1;
-    temp_f1 = this->phase;
-    this->phase = (f32) (temp_f1 - this->rate);
+    f32 phase;
+    phase = this->phase;
+    this->phase = (f32) (phase - this->rate);
     this->calc_recoil_offsets();
     return this->phase <= 0.0f;
 }
@@ -68,8 +68,8 @@ void TUnk_80490470::reset_obstruction_fade() { phase = 0.0f; this->color.a = (-1
     
 void TUnk_80490470::reset_color() { phase = 2.0f; this->color.a = 0.0f; this->color.r = 0.0f; this->color.g = 0.0f; this->color.b = 0.0f; }
 
-void TUnk_80490470::set_rate_from_divisor(s32 arg1) {
-    this->rate = (f32) (2.0f / (f32) arg1);
+void TUnk_80490470::set_rate_from_divisor(s32 divisor) {
+    this->rate = (f32) (2.0f / (f32) divisor);
 }
 #pragma push
 #pragma fp_contract on

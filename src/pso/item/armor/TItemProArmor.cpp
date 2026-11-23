@@ -15,6 +15,7 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/system/data/FlagWord.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/object/base/TObjBase.h"
 
 
 // Defined in TItemData.cpp, which has no header yet.
@@ -72,7 +73,7 @@ TItemProArmor::TItemProArmor(TObject *parent, u8 *item) : TItemEquipBase(parent,
 
 void TItemProArmor::request_equipped_model() {
     if (is_hidden() == 0) {
-        TObjPlayer::spawn_appearance_effect(get_entity_id(owner));
+        TObjPlayer::spawn_appearance_effect(owner->get_entity_id());
     }
 }
 

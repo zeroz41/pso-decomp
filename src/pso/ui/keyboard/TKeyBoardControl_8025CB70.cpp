@@ -9,8 +9,8 @@
 
 void TWindowKeyBoardBase::reset_input() {
     u8 *arg0 = (u8 *)this;
-    ((KeyboardTextBuffer *)(arg0 + 0x6C))->reset_state();
-    ((KeyboardTextBuffer *)(arg0 + 0x84))->reset_state();
+    this->m_text.reset_state();
+    this->m_text2.reset_state();
     *(s32 *)((s8 *)arg0 + 0x68) = (saddr)(arg0 + 0x6C);
     *(s16 *)((s8 *)arg0 + 0x60) = 0;
     *(s32 *)((s8 *)arg0 + 0xA0) = 0;

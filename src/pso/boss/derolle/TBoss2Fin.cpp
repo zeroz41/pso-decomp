@@ -29,7 +29,7 @@ void TBoss2Fin::render() {
     s32 j;
     s32 yaw;
     Vec v;
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(boss2_derolle_resource->models[2].texlist));
+    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(boss2_derolle_resource->models[2].texlist));
     seg = segments;
     end = ends;
     pt = points;
@@ -73,7 +73,7 @@ void TBoss2Fin::render() {
 void TBoss2Fin::run_task() {
     init_link_points();
     Vec gravity = boss2_fin_gravity;
-    sub_800FF788(&gravity);
+    update_ropes(&gravity);
 }
 
 void TBoss2Fin::init_link_points() {
@@ -94,18 +94,13 @@ TBoss2Fin::~TBoss2Fin() {}
 // The fins' two ropes (six points each), then the end marker.
 TObjEZRopeSegment TBoss2Fin__effect_table[3];
 
-extern "C" {
-extern u8 __vt__9TBoss2Fin[];
-
-TBoss2Fin *__ct__9TBoss2FinFv(TBoss2Fin *fin, TObject *parent, Vec *anchor_a, Vec *anchor_b) {
+TBoss2Fin::TBoss2Fin(TObject *parent, Vec *first_anchor, Vec *second_anchor) : TObjEZRopeBase(parent) {
     s32 i;
     TObjEZRopeCollider *collider;
-    TObjEZRopeBase__ct(fin);
-    *(void **)((u8 *)fin + 0x18) = __vt__9TBoss2Fin;
-    fin->m_name = TBoss2Fin__name;
-    fin->anchor_a = anchor_a;
-    fin->anchor_b = anchor_b;
-    collider = fin->rope_colliders;
+    m_name = TBoss2Fin__name;
+    anchor_a = first_anchor;
+    anchor_b = second_anchor;
+    collider = rope_colliders;
     for (i = 0; i < 2; i++, collider++) {
         collider->radius = 10.0f;
         collider->center.x = 0.0f;
@@ -113,10 +108,8 @@ TBoss2Fin *__ct__9TBoss2FinFv(TBoss2Fin *fin, TObject *parent, Vec *anchor_a, Ve
         collider->center.z = 0.0f;
     }
     collider->radius = -1.0f;
-    fin->init_link_points();
-    fin->sub_800FF8CC(TBoss2Fin__effect_table, fin->rope_ends, (saddr)fin->rope_colliders);
-    return fin;
-}
+    init_link_points();
+    init_ropes(TBoss2Fin__effect_table, rope_ends, rope_colliders);
 }
 
 void TBoss2Fin::release_effect_table() {}

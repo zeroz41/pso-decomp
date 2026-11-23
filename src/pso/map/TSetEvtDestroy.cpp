@@ -78,7 +78,7 @@ TSetEvtDestroy::~TSetEvtDestroy() {
 s32 next_event_shuffle_entry(EventShuffleTable *s);
 
 void init_event_shuffle_table(EventShuffleTable *arg0, s32 arg1);
-void shuffle_event_entries(EventShuffleTable *arg0);
+void shuffle_event_entries(EventShuffleTable *event_shuffle_table);
 
 TSetEvtDestroy::TSetEvtDestroy(TObject* parent, SetDestroyEventRecord* event) : TObject(parent) {
     FloorEventSet* set;

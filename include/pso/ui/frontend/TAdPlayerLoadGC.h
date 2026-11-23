@@ -5,7 +5,7 @@
 
 struct CardSaveDescriptor;
 
-// One pending memory-card request per slot (A, B), stepped by TAdPlayerLoadGC__sub_803F2F1C.
+// One pending memory-card request per slot (A, B), stepped by update_card_requests.
 struct CardRequestSlot {
     void *buffer;    // read/write data
     char name[0x20];
@@ -22,6 +22,8 @@ struct CardRequestSlot {
     u8 pad65[3];
 };
 
+extern CardRequestSlot load_request_slots[2];
+
 // Memory-card watcher of the character-select screens: run_task steps through the probe,
 // mount and file checks of slot A and, depending on mode, of slot B.
 class TAdPlayerLoadGC : public TObject {
@@ -34,9 +36,9 @@ public:
     virtual void run_task();
 public:
     static s32 get_instance();
-    static void set_state(int a0);
+    static void set_state(int state);
     static void reset_load_state(s32 channel, u64 *serial_number);
-    static void poll_card_load(s32 arg0);
+    static void poll_card_load(s32 chan);
     static s32 check_card_result_code(s32 channel);
     static s32 probe_and_check_card(saddr chan);
     static void unmount_card_and_clear_flags(s32 channel, s32 result);
@@ -45,25 +47,25 @@ public:
     static s32 build_save_file_image(void *image, CardSaveDescriptor *file);
     static s32 probe_card_slot(saddr chan);
     static s32 find_card_file(saddr chan, const char *name);
-    static s32 check_memcard_status(s32 arg0);
-    static s32 query_memcard_capacity(s32 arg0, s32 unused);
+    static s32 check_memcard_status(s32 chan);
+    static s32 query_memcard_capacity(s32 channel, s32 unused);
     static s32 delete_memcard_file(s32 chan, const char *name);
     static s32 get_or_set_channel_flag(s32 arg0, s32 arg1);
     static s32 get_load_state();
-    static void step_set_attributes(s32 arg0);
-    static void update_card_delete(s32 arg0);
-    static void update_card_rename(s32 arg0);
+    static void step_set_attributes(s32 card_channel);
+    static void update_card_delete(s32 card_channel);
+    static void update_card_rename(s32 card_channel);
     static void reset_slot_entry(s32 arg0);
-    static s32 close_card_slot(s32 arg0);
-    static s32 take_card_read_result(s32 arg0, s32 *arg1);
+    static s32 close_card_slot(s32 file_handle);
+    static s32 take_card_read_result(s32 arg0, s32 *card_detail);
     static s32 request_card_read(s32 file, void *buffer, s32 length, s32 offset);
-    static s32 take_card_open_result(s32 arg0, s32 *arg1);
+    static s32 take_card_open_result(s32 arg0, s32 *card_detail);
     static s32 begin_card_file_request(s32 chan, const char *name);
     static void unmount_card(s32 chan);
-    static s32 take_card_mount_result(s32 arg0, s32 *arg1);
-    static s32 take_card_find_result(s32 arg0, s32 *arg1);
+    static s32 take_card_mount_result(s32 arg0, s32 *card_detail);
+    static s32 take_card_find_result(s32 card_channel, s32 *card_detail);
 public:
-    static s32 request_card_find(s32 arg0, const char *arg1);
+    static s32 request_card_find(s32 card_channel, const char *arg1);
     static s32 get_card_file_info(int, void *, void *);
     // Defined at the end of TAdChrSelASlotGC.cpp, its only user (the original's last function there).
     s32 get_slot_index();

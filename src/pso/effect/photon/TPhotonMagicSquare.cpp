@@ -26,7 +26,7 @@ void TPhotonMagicSquare::render() {
     push_matrix();
     post_translate_matrix(&pos.x);
     rotate_matrix_y(0, rotation_y);
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
+    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
     scale_current_matrix(&scale.x);
     NJS_ARGB saved = color;
     if ((age % flash_period) == 0) {
@@ -109,7 +109,7 @@ TPhotonMagicSquare::TPhotonMagicSquare(TObject *parent, s32 palette_index, const
     frame = 0.0f;
     last_frame = (f32)motion->frameCount - 1.0f;
     frame_step = 0.1f;
-    texlist = (saddr)photon_blast_shared_resource->models[2].texlist;
+    texlist = photon_blast_shared_resource->models[2].texlist;
     scale.x = 0.0f;
     scale.y = 0.0f;
     scale.z = 0.0f;
@@ -130,7 +130,7 @@ TPhotonMagicSquare::TPhotonMagicSquare(TObject *parent, s32 palette_index, const
     frame = 0.0f;
     last_frame = (f32)motion->frameCount - 1.0f;
     frame_step = 0.1f;
-    texlist = (saddr)photon_blast_shared_resource->models[2].texlist;
+    texlist = photon_blast_shared_resource->models[2].texlist;
     scale.x = 0.0f;
     scale.y = 0.0f;
     scale.z = 0.0f;
@@ -152,7 +152,7 @@ TPhotonMagicSquare::TPhotonMagicSquare(TObject *parent, s32 palette_index, u16 o
     frame = 0.0f;
     last_frame = (f32)motion->frameCount - 1.0f;
     frame_step = 0.1f;
-    texlist = (saddr)photon_blast_shared_resource->models[2].texlist;
+    texlist = photon_blast_shared_resource->models[2].texlist;
     scale.x = 0.0f;
     scale.y = 0.0f;
     scale.z = 0.0f;

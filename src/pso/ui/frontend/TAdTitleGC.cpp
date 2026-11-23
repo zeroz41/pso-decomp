@@ -14,9 +14,9 @@
 #include "pso/system/task/TObject.h"
 
 // The title banner textures: English (lbl_804DCA60/78) and Japanese (lbl_804DCA80/98) name lists and texlists.
-NJS_TEXNAME lbl_804DCA60[2] = { { (void *)"f512_midashi_eng", 0, 0 }, { (void *)"f512_midashi_eng_b", 0, 0 } };
+NJS_TEXNAME lbl_804DCA60[2] = { { "f512_midashi_eng", 0, 0 }, { "f512_midashi_eng_b", 0, 0 } };
 NJS_TEXLIST lbl_804DCA78 = { lbl_804DCA60, 2 };
-NJS_TEXNAME lbl_804DCA80[2] = { { (void *)"f512_midashi", 0, 0 }, { (void *)"f512_midashi_b", 0, 0 } };
+NJS_TEXNAME lbl_804DCA80[2] = { { "f512_midashi", 0, 0 }, { "f512_midashi_b", 0, 0 } };
 NJS_TEXLIST lbl_804DCA98 = { lbl_804DCA80, 2 };
 
 const char *ad_title_gc_class_name = "TAdTitleGC";
@@ -134,11 +134,11 @@ block_5:
     }
 }
 
-s32 TAdTitleGC::draw_title_layer(s32 arg1, s32 arg2) {
+s32 TAdTitleGC::draw_title_layer(s32 arg1, s32 color) {
     s32 i;
     begin_screen_draw(1);
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(lbl_805D6630));
-    set_draw_texture_and_color(arg1 > 0xB, arg2);
+    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(lbl_805D6630));
+    set_draw_texture_and_color(arg1 > 0xB, color);
     for (i = 0; i < 8; i++) {
         draw_textured_quad_at_depth(&rects[i].x0, (-1.0f) / -((113.0f) - (f32)i));
     }

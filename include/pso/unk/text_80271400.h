@@ -5,6 +5,6 @@
 
 struct TWindowSimpleStatus;
 
-TWindowSimpleStatus *create_status_window(saddr arg0);
+TWindowSimpleStatus *create_status_window(saddr client);
 
 #endif

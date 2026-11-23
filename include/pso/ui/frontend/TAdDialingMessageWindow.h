@@ -5,12 +5,12 @@
 #include "pso/system/task/TObject.h"
 
 struct TAdDialingMessageWindow : public TObject {
-    TAdDialingMessageWindow(void *arg1, void *arg2);
+    TAdDialingMessageWindow(const char *message, u32 delay);
     virtual ~TAdDialingMessageWindow();
-    u32 m_1c;
-    uaddr m_20;
-    u32 m_24;
-    uaddr m_28;
+    u32 flags;
+    const char *message;
+    TObject *timer;
+    TObject *line_root;
     void set_flag_and_notify();
     void run_child_tasks();
     virtual void render();
@@ -18,9 +18,15 @@ struct TAdDialingMessageWindow : public TObject {
 
 LAYOUT_ASSERT(TAdDialingMessageWindow_size, sizeof(TAdDialingMessageWindow) == 0x2C);
 
-extern "C" {
-void *__ct__23TAdDialingMessageWindowFPvPv(void *arg0, void *arg1, void *arg2);
-void *__dt__23TAdDialingMessageWindowFv(void *arg0, s16 arg1);
-}
+// Runs a dialing message window's lines and counts its delay down before it shows the message.
+class TAdDialingMessageTimer : public TObject {
+public:
+    TAdDialingMessageTimer(TObject *parent, TAdDialingMessageWindow *window, u32 delay);
+    virtual ~TAdDialingMessageTimer();
+    virtual void run_task();
+    u32 countdown;
+    TAdDialingMessageWindow *window;
+};
+LAYOUT_ASSERT(TAdDialingMessageTimer_size, sizeof(TAdDialingMessageTimer) == 0x24);
 
 #endif

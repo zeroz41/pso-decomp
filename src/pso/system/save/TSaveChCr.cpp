@@ -16,7 +16,6 @@
 #include "pso/ui/window/ProgressMessageWindow.h"
 #include "pso/unk/TLobby.h"
 #include "pso/ui/window/TWindowBase.h"
-#include "pso/ui/window/TWindowSubComCard_80244774.h"
 #include "pso/ui/charcreate/TChCrCharSelect.h"
 
 #include <stddef.h>
@@ -47,11 +46,8 @@ struct SaveChCrMessageText {
 
 extern "C" {
 extern s32 pso_character_card_filename[];
-extern s32 pso_system_card_filename[];
-extern s32 pso_guildcard_card_filename[];
 s32 poll_memcard_result(saddr);
 s32 poll_memcard_status__23TAdSinglePlyChrSelectGCFv();
-s32 load_character_from_card__23TAdSinglePlyChrSelectGCFi(s32 arg0);
 extern void *tl_03;
 }
 
@@ -86,20 +82,20 @@ void TSaveChCr::close_and_advance_step2() { close_and_advance(2); }
 void TSaveChCr::sub_80339CE4() {}
 void TSaveChCr::save_1() { close_and_advance(1); }
 void TSaveChCr::update_save_state() {
-    s32 temp_r4;
+    s32 card_status;
 
-    temp_r4 = this->card_status;
-    if (!(temp_r4 & 2)) {
-        if (temp_r4 & 1) {
+    card_status = this->card_status;
+    if (!(card_status & 2)) {
+        if (card_status & 1) {
             if (owned_window == NULL) {
                 close_and_advance(0);
             }
         } else {
-            if (temp_r4 & 4) {
+            if (card_status & 4) {
                 set_state((saddr)((void*)(1)));
                 return;
             }
-            if (temp_r4 == 0) {
+            if (card_status == 0) {
                 set_state((saddr)((void*)(2)));
             }
         }
@@ -112,7 +108,7 @@ void TSaveChCr::fn_80339D78() {
     }
 }
 s32 TSaveChCr::sub_80339DBC() {
-    if ((TAdPlayerLoadGC::find_card_file(0, (const char *)(pso_system_card_filename)) != 0) || (TAdPlayerLoadGC::find_card_file(0, (const char *)(pso_character_card_filename)) != 0) || (TAdPlayerLoadGC::find_card_file(0, (const char *)(pso_guildcard_card_filename)) != 0)) {
+    if ((TAdPlayerLoadGC::find_card_file(0, pso_system_card_filename) != 0) || (TAdPlayerLoadGC::find_card_file(0, (const char *)(pso_character_card_filename)) != 0) || (TAdPlayerLoadGC::find_card_file(0, pso_guildcard_card_filename.filename) != 0)) {
         return 0;
     }
     return 1;
@@ -161,17 +157,17 @@ void TSaveChCr::close_and_advance(s32 message) {
     close_window();
     set_message_by_index(message);
 }
-void TSaveChCr::set_message_by_index(s32 arg1) {
+void TSaveChCr::set_message_by_index(s32 message) {
     SaveChCrMessageText texts[4] = {{0x20, 0}, {0xB, 0x62}, {0xB, 0xC}, {0xB, 0xB}};
-    SaveChCrMessageText *text = &texts[arg1];
+    SaveChCrMessageText *text = &texts[message];
     open_message_window((u32)get_localized_text_entry(text->group, text->entry));
 }
-void TSaveChCr::open_message_window(u32 arg1) {
+void TSaveChCr::open_message_window(u32 text) {
     if ((uaddr) this->owned_window == 0U) {
         *(u32 *)&this->owned_window = (uaddr)create_message_window_for_size((NJS_POINT2 *)&save_ch_cr_message_window_pos, (NJS_POINT2 *)&save_ch_cr_message_window_size);
         if ((uaddr) this->owned_window != 0U) {
-            if (arg1 != 0U) {
-                owned_window->append_line(arg1, 3);
+            if (text != 0U) {
+                owned_window->append_line(text, 3);
             }
             owned_window->complete_reveal();
         }
@@ -194,7 +190,7 @@ void TSaveChCr::create_backgrounds() {
 s32 TSaveChCr::sub_8033A138() { return TAdSinglePlyChrSelectGC::load_character_from_card(0); }
 s32 TSaveChCr::save_character() {
     TObjPlayer::begin_action_from_char_select();
-    return load_character_from_card__23TAdSinglePlyChrSelectGCFi(1);
+    return TAdSinglePlyChrSelectGC::load_character_from_card(1);
 }
 
 void TSaveChCr::set_state(s32 next_state) {

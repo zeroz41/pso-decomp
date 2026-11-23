@@ -63,6 +63,7 @@
 #include "pso/object/ambient/TObjFish.h"
 
 #include "pso/render/TUnk_80490470.h"
+#include "pso/object/base/TObjBase.h"
 extern "C" {
 
 
@@ -265,7 +266,7 @@ void TObjEneRe4Sorcerer::load_resources() {
     TObjEneRe4Sorcerer__uv_scroll_buffer = new StripBufferPair(sorcerer_bml_resource->models->model, 2);
     NpcAnimationBinding p = re4_sorcerer_spawn_descriptor;
     p.motions = reinterpret_cast<BmlMotionEntry *>(sorcerer_bml_resource->motions);
-    NpcModelRegistry::register_animated_chunk((s16)0x2A, reinterpret_cast<void *>(sorcerer_bml_resource->models->model), reinterpret_cast<void *>(sorcerer_bml_resource->models->texlist), &p, re4_sorcerer_collision_body_part_table[0].radius, 15.0f);
+    NpcModelRegistry::register_animated_chunk((s16)0x2A, reinterpret_cast<void *>(sorcerer_bml_resource->models->model), sorcerer_bml_resource->models->texlist, &p, re4_sorcerer_collision_body_part_table[0].radius, 15.0f);
 }
 
 TObjEneRe4Sorcerer *TObjEneRe4Sorcerer::create() {
@@ -304,7 +305,7 @@ void TObjEneRe4Sorcerer::init_enemy() {
     init_position_vectors();
     model = (void *)sorcerer_bml_resource->models->model;
     models = sorcerer_bml_resource->models;
-    texlist = (saddr)models->texlist;
+    texlist = models->texlist;
     this->init_model(re4_sorcerer_collision_body_part_table, 1);
     set_action_table((saddr)re4_sorcerer_action_params);
     set_motion_list((saddr)sorcerer_bml_resource->motions);
@@ -472,7 +473,7 @@ s32 TObjEneRe4Sorcerer::select_attack_target(f32 ranger_range_sq, f32 range_sq) 
             if (p != this && p != o1 && p != o2 && ((TObjBase *)p)->is_alive() != 0) {
                 d = horizontal_distance_squared(&this->body_center, &p->position);
                 if (d < best && csnLookAt(&this->body_center, &p->body_center) == 0) {
-                    id = get_entity_id(p);
+                    id = p->get_entity_id();
                     best = d;
                 }
             }
@@ -493,11 +494,11 @@ s32 TObjEneRe4Sorcerer::select_attack_target(f32 ranger_range_sq, f32 range_sq) 
             if (is_target_ranger(q) != 0) {
                 if (e < ranger_range_sq && is_target_unobstructed_from((TObjEneDD *)this, (TObjChara *)q) != 0) {
                     ranger_range_sq = e;
-                    tA = get_entity_id(q);
+                    tA = q->get_entity_id();
                 }
             } else if (e < range_sq && is_target_unobstructed_from((TObjEneDD *)this, (TObjChara *)q) != 0) {
                 range_sq = e;
-                tB = get_entity_id(q);
+                tB = q->get_entity_id();
             }
         }
     }
@@ -546,7 +547,7 @@ void TObjEneRe4Sorcerer::warp_around_target(f32 speed) {
     t.x = out.x;
     t.y = 10.0f + out.y;
     t.z = out.z;
-    if (csnVectorUnder(&t, (CsnGroup **)&this->ground_cache, 0xE0) == 0) {
+    if (csnVectorUnder(&t, this->ground_candidates.groups, 0xE0) == 0) {
         VecCopy(&this->position, &out);
     }
     this->update_ground_contact();
@@ -624,7 +625,7 @@ s32 TObjEneRe4Sorcerer::update_farthest_target(TObjChara *player, f32 *farthest)
         distance = horizontal_distance_squared(&position, &player->position);
         if ((distance <= 40000.0f) && (distance > *farthest)) {
             *farthest = distance;
-            target_id = get_entity_id(player);
+            target_id = player->get_entity_id();
             current_target = player;
             return 1;
         }
@@ -689,7 +690,7 @@ s32 TObjEneRe4Sorcerer::cast_technique() {
         if (attack_cycle == 0) {
             clear_target_cursor_list(&targets);
             targets.count = 1;
-            targets.records[0].id = get_entity_id(current_target);
+            targets.records[0].id = current_target->get_entity_id();
             targets.records[0].flag = 0;
             if (TObjEneDD::check_v2_mode() != 0) {
                 TTecGrants::create(this, src, &targets, TObjEneDD::clamp_frame_index(sorcerer_behavior_params[6]));
@@ -1389,7 +1390,7 @@ void TObjEneRe4Sorcerer::render() {
             draw_ground_shadow(0, 0);
         }
         update_secondary_light();
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
         saved_model_render_flags = model_render_flags;
         TObjEneDD::clear_global_flag_400();
         TObjEneRe4Sorcerer__uv_scroll_buffer->scroll_uvs(strip_scroll, 0);
@@ -1451,7 +1452,7 @@ void TObjEneRe4Sorcerer::render_demo() {
     get_target_info();
     if (update_object_view_visibility(400.0f, 15.0f) != 0) {
         draw_ground_shadow(0, 0);
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
         push_matrix();
         post_translate_matrix(&position.x);
         translate_matrix(0, 0.0f, 22.0f, 0.0f);

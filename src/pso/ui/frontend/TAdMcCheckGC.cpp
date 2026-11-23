@@ -9,15 +9,15 @@
 #include "pso/ui/frontend/TAdChrSelASlotGC.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/NinjaTypes.h"
+#include "pso/ui/window/TWindowMenu.h"
 
 extern "C" {
 s32 GXSetTexCoordGen2(s32, s32, s32, s32, s32, s32);
 s32 create_window_menu_default(const void *, s32);
-int forward_trade_action_default__16TObjCityMainWarpFPviii(void *p, int a1, int a2, int a3);
 }
 
-void set_tex_coord_gen2(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
-    GXSetTexCoordGen2(arg0, arg1, arg2, arg3, 0, 0x7D);
+void set_tex_coord_gen2(s32 arg0, s32 func, s32 arg2, s32 mtx) {
+    GXSetTexCoordGen2(arg0, func, arg2, mtx, 0, 0x7D);
 }
 void TLobby__sub_8033EE38(void* p) { *(s32*)((char*)p + 0x18) = 0; *(s32*)((char*)p + 0x1c) = 0; }
 void TAdMcCheckGC::render() {  }
@@ -32,8 +32,8 @@ TObject *TAdMcCheckGC::create(s32 arg1) {
     saddr window_menu_default;
 
     window_menu_default = create_window_menu_default(&mc_check_window_positions[this->card_slot], 1);
-    forward_trade_action_default__16TObjCityMainWarpFPviii((void *)window_menu_default, (int)(get_localized_text_entry(0x16, arg1)), 0x20, 0);
-    ((TAdChrSelASlotGC *)window_menu_default)->set_flag_40();
+    ((TWindowMenu *)window_menu_default)->add_text_entry(get_localized_text_entry(0x16, arg1), 0x20, 0);
+    ((TWindowMenu *)window_menu_default)->set_flag_40();
     TQuestThread::set_status_flag_80((void *)window_menu_default);
     ((TWindowSubComCard *)window_menu_default)->calc_layout_height(190.0f);
     return reinterpret_cast<TObject *>(window_menu_default);

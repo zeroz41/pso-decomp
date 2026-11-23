@@ -2,6 +2,7 @@
 #include "pso/network/protocol/protocol_types.h"
 #pragma readonly_strings on
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/object/base/TObjBase.h"
 
 // Built with -inline deferred (GAME_EXCEPTIONS in configure.py), which emits functions
 // in reverse source order: bodies here run from the highest address down.
@@ -56,16 +57,15 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
+#include "pso/player/PlayerSlots.h"
 
 extern "C" {
 s32 play_persistent_sound(s32, void *, void *, s16, s32);
 void TObjPlayer__sub_801BA42C(void);
 u16 TObjRoomId__sub_801A1DB8(void);
-u8 *get_player_by_client_id(s32);
 s32 submit_cursor_candidate(void *, int);
 }
 
-void reset_status_effect_row(u8 *row);
 
 struct NjModel {
     void *vlist;
@@ -196,7 +196,7 @@ s32 TObjVoloptCage::get_int_param(s32 index) {
 
 void TBoss3VoloptP02::load_params_from_table(s32 index) {
     model = (void *)volopt_p02_resources->models[index].model;
-    texlist = (saddr)volopt_p02_resources->models[index].texlist;
+    texlist = volopt_p02_resources->models[index].texlist;
 }
 
 f32 TBoss3VoloptP02::get_float_param(s32 index) {
@@ -251,7 +251,7 @@ void TBoss3VoloptP02::init_params() {
         }
         behavior_flags |= 0x400000;
     }
-    obj_setFlags30(this, 0x8000);
+    set_actor_flags(0x8000);
     wave_delays[2] = 0;
     wave_delays[1] = 0;
     wave_delays[0] = 0;
@@ -367,10 +367,10 @@ void TBoss3VoloptP02::run_task() {
                 run_hit_reaction();
             }
         }
-        if (obj_testFlags30(0x4000) != 0) {
-            if (((TObjPlayer *)this)->add_status_effect_timer(4, -1) <= 0) {
-                reset_status_effect_row(unk_284);
-                obj_clearFlags30(0x4000);
+        if (test_actor_flags(0x4000) != 0) {
+            if (this->add_status_effect_timer(4, -1) <= 0) {
+                status_effects[4].clear();
+                clear_actor_flags(0x4000);
             }
         } else {
             if (mode != next_action) {
@@ -419,7 +419,7 @@ void TBoss3VoloptP02::render() {
         if (fade.updateFromCamera((const f32 *)&body_center) != 0) {
             fade.set_flags_and_apply_damage_color();
         }
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
         select_actor_lighting(this);
         TObjPlayer::toggle_particle_effect();
         push_matrix();
@@ -439,7 +439,7 @@ void TBoss3VoloptP02::render() {
 }
 
 void TBoss3VoloptP02::set_action(u16 target_id) {
-    if ((obj_testFlags30(0x800) == 0) && !(behavior_flags & 0x20000) && (mode != 2)) {
+    if ((test_actor_flags(0x800) == 0) && !(behavior_flags & 0x20000) && (mode != 2)) {
         check_and_notify();
         targetId = target_id;
         behavior_flags &= ~1;
@@ -448,7 +448,7 @@ void TBoss3VoloptP02::set_action(u16 target_id) {
 }
 
 void TBoss3VoloptP02::check_and_trigger() {
-    if ((obj_testFlags30(0x800) == 0) && !(behavior_flags & 0x40000)) {
+    if ((test_actor_flags(0x800) == 0) && !(behavior_flags & 0x40000)) {
         check_and_notify();
         behavior_flags &= ~1;
         this->update_if_active(0xB);
@@ -456,7 +456,7 @@ void TBoss3VoloptP02::check_and_trigger() {
 }
 
 void TBoss3VoloptP02::set_motion(u16 target_id) {
-    if ((obj_testFlags30(0x800) == 0) && !(behavior_flags & 0x10000) && (mode != 9)) {
+    if ((test_actor_flags(0x800) == 0) && !(behavior_flags & 0x10000) && (mode != 9)) {
         targetId = target_id;
         behavior_flags &= ~1;
         this->update_if_active(9);
@@ -464,7 +464,7 @@ void TBoss3VoloptP02::set_motion(u16 target_id) {
 }
 
 void TBoss3VoloptP02::set_action_wait(u16 target_id) {
-    if ((obj_testFlags30(0x800) == 0) && !(behavior_flags & 0x80000) && (mode != 0xA)) {
+    if ((test_actor_flags(0x800) == 0) && !(behavior_flags & 0x80000) && (mode != 0xA)) {
         check_and_notify();
         if (target_id != 0xFFFF) {
             targetId = target_id;
@@ -535,7 +535,7 @@ void TBoss3VoloptP02::update_attack() {
     if (behavior_flags & 0x20000) {
         next_action = 0;
     }
-    target = get_player_by_client_id(targetId);
+    target = (u8 *)get_player_by_client_id(targetId);
     switch ((s32)state) {
     case 0:
         this->requested_action = 0;
@@ -689,7 +689,7 @@ void TBoss3VoloptP02::update_front_attack() {
         next_action = 0;
     }
     duration = max_s32(TBoss3VoloptP02::get_int_param(4) + 120, 10);
-    target = get_player_by_client_id(targetId);
+    target = (u8 *)get_player_by_client_id(targetId);
     switch ((s32)state) {
     case 0:
         this->requested_action = 0;
@@ -859,7 +859,7 @@ void TBoss3VoloptP02::update_back_attack() {
     if (behavior_flags & 0x80000) {
         next_action = 0;
     }
-    target = get_player_by_client_id(targetId);
+    target = (u8 *)get_player_by_client_id(targetId);
     switch ((s32)state) {
     case 0:
         timer = 0x3C;
@@ -1158,7 +1158,7 @@ void TBoss3VoloptP02::spawn_ambient_particles() {
 
 void TBoss3Volopt::create_cage(u16 target_id) {
     targetId = target_id;
-    target = get_player_by_client_id(targetId);
+    target = (u8 *)get_player_by_client_id(targetId);
     if (target != 0) {
         new TObjVoloptCage(this, target_id, volopt_cage_id, volopt_cage_group);
         behavior_flags |= 0x200000;
@@ -1280,7 +1280,7 @@ s16 TBoss3VoloptP02::collect_targets_in_front() {
     front_target_count = 0;
     for (i = 0; i < registered_player_count; i++) {
         player = TObjPlayer::get_player_data(i);
-        if (player == NULL || get_entity_id(player) >= 0x1000) {
+        if (player == NULL || player->get_entity_id() >= 0x1000) {
             break;
         }
         if (((TObjPlayer *)player)->get_area() != 0xD) {
@@ -1296,7 +1296,7 @@ s16 TBoss3VoloptP02::collect_targets_in_front() {
                 continue;
             }
         }
-        front_target_ids[front_target_count++] = get_entity_id(player);
+        front_target_ids[front_target_count++] = player->get_entity_id();
         if (front_target_count >= 4) {
             break;
         }
@@ -1312,7 +1312,7 @@ u16 TBoss3VoloptP02::find_facing_player() {
     s32 d;
     for (i = 0; i < registered_player_count; i++) {
         player = TObjPlayer::get_player_data(i);
-        if (player == NULL || get_entity_id(player) >= 0x1000) {
+        if (player == NULL || player->get_entity_id() >= 0x1000) {
             break;
         }
         if (((TObjPlayer *)player)->get_area() != 0xD) {
@@ -1327,7 +1327,7 @@ u16 TBoss3VoloptP02::find_facing_player() {
             d = ABS(angle_difference_abs(rotation_y + 0x8000, (s32)((65536.0 / (2.0 * 3.141592f)) * atan2_float(v.x, v.z))));
             if (d <= best) {
                 best = d;
-                id = get_entity_id(player);
+                id = player->get_entity_id();
             }
         }
     }
@@ -1390,7 +1390,7 @@ void TBoss3VoloptP02::push_players_out_of_radius() {
         if (player == NULL) {
             continue;
         }
-        get_entity_id(player);
+        player->get_entity_id();
         if (TObjRoomId__sub_801A1DB8() != 0) {
             continue;
         }
@@ -1449,7 +1449,7 @@ void TBoss3VoloptP02::collect_targets_in_arc() {
         if (player == NULL) {
             continue;
         }
-        if (get_entity_id(player) >= 0x1000) {
+        if (player->get_entity_id() >= 0x1000) {
             continue;
         }
         if (player->actorFlags & 0x02000800) {
@@ -1462,7 +1462,7 @@ void TBoss3VoloptP02::collect_targets_in_arc() {
                 continue;
             }
         }
-        arc_target_ids[arc_target_count] = get_entity_id(player);
+        arc_target_ids[arc_target_count] = player->get_entity_id();
         VecCopy(&arc_target_positions[arc_target_count], &player->position);
         arc_target_count++;
         if (arc_target_count >= 4) {
@@ -1532,7 +1532,7 @@ void TBoss3VoloptP02::copy_phase2_positions_to_global(const VoloptPhase2Message 
 }
 
 void TBoss3VoloptP02::apply_hit_reaction(f32 delay) {
-    if ((obj_testFlags30(0x800) == 0) && !(behavior_flags & 0x20000) && (mode != 0xC)) {
+    if ((test_actor_flags(0x800) == 0) && !(behavior_flags & 0x20000) && (mode != 0xC)) {
         check_and_notify();
         ring_radius = 55.0f + delay;
         behavior_flags &= ~1;
@@ -1625,7 +1625,7 @@ void TBoss3VoloptP02::update_ring_attack() {
         if (ring_timer <= 0) {
             if (wave_index == 0) {
                 for (i = 0; i < 4; i++) {
-                    u8 *player = get_player_by_client_id(i);
+                    u8 *player = (u8 *)get_player_by_client_id(i);
                     if (player != NULL) {
                         for (j = 0; j < 4; j++) {
                             if (xz_distance_squared((Vec *)(player + 0x38), &ring_positions[j]) <= 100.0f) {

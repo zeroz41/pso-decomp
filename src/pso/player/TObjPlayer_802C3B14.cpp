@@ -8,6 +8,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/Language.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 
 extern "C" {
 
@@ -32,7 +33,7 @@ s32 begin_action_state__10TObjPlayerFPv(u8 *player) {
 
 s32 TObjPlayer__sub_802C4668(s32, s32);
 
-void TObjPlayer::begin_action_from_char_select() { get_char_index__23TAdSinglePlyChrSelectGCFUi(0xFFFF); ((int (*)(void))begin_action_state__10TObjPlayerFPv)(); }
+void TObjPlayer::begin_action_from_char_select() { TAdSinglePlyChrSelectGC::get_char_index(0xFFFF); ((int (*)(void))begin_action_state__10TObjPlayerFPv)(); }
 
 void TObjPlayer::copy_battle_mode(u8 *player) {
     ((TObjPlayer *)player)->set_field_1ab(get_battle_mode());

@@ -24,6 +24,7 @@
 #include "pso/render/model_render_state.h"
 #include "pso/unk/text_803DA798.h"
 #include "pso/effect/particle/ParticleStrip.h"
+#include "pso/object/base/TObjBase.h"
 
 // Per player class (in the order of the switch below): the footprint's
 // length, width and offset along the facing, before the height scaling.
@@ -59,12 +60,12 @@ void TPlayerFootStamp::sub_802B0204(s32 num) {
 }
 
 void load_player_footstamp(void) {
-    player_footstamp_texture_gvm_handle = (uaddr)load_gvm_texture_file((saddr)"player_footstamp.GVM");
+    player_footstamp_texture_gvm_handle = (uaddr)load_gvm_texture_file("player_footstamp.GVM");
 }
 
 void TPlayerFootStamp::free_instance() {
     if ((u32) player_footstamp_texture_gvm_handle != 0U) {
-        release_texture_list((GinjaTextureList *)player_footstamp_texture_gvm_handle);
+        release_texture_list((NJS_TEXLIST *)player_footstamp_texture_gvm_handle);
         TAdSinglePlyChrSelectGC::safe_free(player_footstamp_texture_gvm_handle);
         player_footstamp_texture_gvm_handle = 0U;
     }
@@ -105,7 +106,7 @@ TPlayerFootStamp::TPlayerFootStamp(TObjPlayer *player, s32 side) : TObject(tl_07
     }
     this->side = side;
 
-    if (get_entity_id(player) < 4) {
+    if (player->get_entity_id() < 4) {
         switch (static_cast<s8>(player->get_class_index())) {
         case 1:
             sub_802B0204(0);
@@ -305,7 +306,7 @@ void TPlayerFootStamp::render() {
     if (horizontal_distance_squared(&position, (const Vec *)&camera_ctrl_instance->pos.x) < 22500.0f) {
         saved_model_render_flags = model_render_flags;
         set_default_alpha_blend();
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(player_footstamp_texture_gvm_handle));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(player_footstamp_texture_gvm_handle));
         set_texture_num(texture);
         set_depth_buffer_settings_1();
         draw_particle_strip(verts, 4, 1);

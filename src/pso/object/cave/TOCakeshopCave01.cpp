@@ -65,7 +65,7 @@ void TOCakeshopCave01::render() {
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
         node = (NJS_OBJECT *)model;
         post_translate_matrix(node->pos);
         draw_ginja_model((void *)node->model);
@@ -112,7 +112,7 @@ TOCakeshopCave01::TOCakeshopCave01(void *set_data) : TObjMapObject(tl_05) {
     m_name = TOCakeshopCave01_class_name;
     apply_object_set_data(set_data);
     model = (void *)TOCakeshopCave01__model_resource->models[0].model;
-    texlist = (saddr)TOCakeshopCave01__model_resource->models[0].texlist;
+    texlist = TOCakeshopCave01__model_resource->models[0].texlist;
     view_range = 500.0f;
     model_radius = 60.0f;
     actorFlags |= 0x40000000;

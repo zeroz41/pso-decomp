@@ -18,16 +18,11 @@
 struct Pair_803C8678 { u32 a, b; };
 
 struct Strm_803C9104;
-struct Buf_803C9104 {
-    void *ptr;
-    s32 size;
-};
-
 struct Vt_803C9104 {
     u8 pad[0x18];
-    void (*lock)(Strm_803C9104 *, s32, s32, Buf_803C9104 *);
-    void (*unlock)(Strm_803C9104 *, s32, Buf_803C9104 *);
-    void (*write)(Strm_803C9104 *, s32, Buf_803C9104 *);
+    void (*lock)(Strm_803C9104 *, s32, s32, SjChunk *);
+    void (*unlock)(Strm_803C9104 *, s32, SjChunk *);
+    void (*write)(Strm_803C9104 *, s32, SjChunk *);
 };
 
 struct Strm_803C9104 {
@@ -52,8 +47,8 @@ s32 TLobby__sub_803C9104(Obj_803C9104 *arg0, s32 arg1, s32 arg2) {
     Strm_803C9104 *s;
     s32 n1;
     s32 n2;
-    Buf_803C9104 a;
-    Buf_803C9104 b;
+    SjChunk a;
+    SjChunk b;
     void *p = arg0->strm;
     s = (Strm_803C9104 *)p;
     if (p == NULL) {
@@ -63,14 +58,14 @@ s32 TLobby__sub_803C9104(Obj_803C9104 *arg0, s32 arg1, s32 arg2) {
     total = (arg2 / 32) * blk;
     s->vt->lock(s, 0, total, &a);
     n1 = blk * (a.size / blk);
-    memset(a.ptr, 0, n1);
+    memset(a.data, 0, n1);
     TLobby__sub_803D3130(&a, n1, &a, &b);
     s->vt->write(s, 1, &a);
     s->vt->unlock(s, 0, &b);
     total = total - n1;
     s->vt->lock(s, 0, total, &a);
     n2 = blk * (a.size / blk);
-    memset(a.ptr, 0, n2);
+    memset(a.data, 0, n2);
     TLobby__sub_803D3130(&a, n2, &a, &b);
     s->vt->write(s, 1, &a);
     s->vt->unlock(s, 0, &b);
@@ -185,9 +180,9 @@ struct VT_803C9E38 {
 struct VObj_803C9E38 { VT_803C9E38 *vt; };
 
 struct Obj_803C9E38 {
-    u8 f0; s8 f1; u8 f2; s8 f3; void *f4; AdxStreamFile *f8; saddr fc; u8 pad_10[4];
+    u8 f0; s8 f1; u8 f2; s8 f3; void *f4; AdxStreamFile *file; saddr stream; u8 pad_10[4];
     VObj_803C9E38 *f14; VObj_803C9E38 *objs[13]; s32 f4c; u8 pad_50[0x94 - 0x50];
-    saddr f94; s8 f98; u8 pad_99[3]; s32 f9c; s32 fa0;
+    saddr lsc_stream; s8 f98; u8 pad_99[3]; s32 f9c; s32 fa0;
 };
 
 struct VObj_803CA194;
@@ -202,9 +197,9 @@ struct VT_803CA194 {
 struct VObj_803CA194 { VT_803CA194 *vt; };
 
 struct Obj_803CA194 {
-    u8 f0; s8 f1; u8 f2; s8 f3; void *f4; AdxStreamFile *f8; void *fc; VObj_803CA194 *f10;
+    u8 f0; s8 f1; u8 f2; s8 f3; void *f4; AdxStreamFile *file; void *stream; VObj_803CA194 *f10;
     VObj_803CA194 *f14; VObj_803CA194 *objs[23]; void *f74; VObj_803CA194 *objs2[2]; VObj_803CA194 *objs3[4]; u8 pad_90[4];
-    void *f94; s8 f98; u8 pad_99[3]; s32 f9c; s32 fa0;
+    void *lsc_stream; s8 f98; u8 pad_99[3]; s32 f9c; s32 fa0;
 };
 
 struct Obj_803CA194;
@@ -215,11 +210,11 @@ struct Ch_803CA3C4 {
     void *f4;
     void *f8;
     void *fc;
-    void *f10;
+    void *sj_handle;
     s32 f14;
-    SjRingBuffer *f18[2];
+    SjRingBuffer *inputs[2];
     saddr f20;
-    s32 f24;
+    s32 bsize;
     s32 f28;
     saddr f2c;
     s32 f30;
@@ -445,7 +440,7 @@ struct Adxt_803C97F4 {
     u8 pad_2[2];
     saddr f4;
     u8 pad_8[4];
-    saddr fC;
+    saddr rna;
     u8 pad_10[8];
     Strm_803C97F4 *f18;
     u8 pad_1c[0x72 - 0x1C];
@@ -468,7 +463,7 @@ inline void get_play_position_803C97F4(Adxt_803C97F4 *p, s32 *pos, s32 *rate) {
         s32 total;
         *rate = ((TLobby *)p->f4)->notify_field_4();
         total = audio_stream_get_output_samples((u8 *)p->f4);
-        *pos = p->fA4 + (total - (TLobby::query_available_size((TLobby *)p->fC) + (p->f18 != NULL ? p->f18->vt->f24(p->f18, 1) / 2 : 0)));
+        *pos = p->fA4 + (total - (TLobby::query_available_size((TLobby *)p->rna) + (p->f18 != NULL ? p->f18->vt->f24(p->f18, 1) / 2 : 0)));
     } else if (st == 5) {
         *pos = ((TLobby *)p->f4)->send_packet_by_id();
         *rate = ((TLobby *)p->f4)->notify_field_4();
@@ -525,13 +520,13 @@ void TLobby__sub_803C97F4(u8 *arg0, s32 *pos, s32 *rate) {
     *rate = lbl_805D7570;
 }
 
-void TLobby::set_rate_mode(s32 arg0) {
-    if (arg0 == 1) {
+void TLobby::set_rate_mode(s32 rate_mode) {
+    if (rate_mode == 1) {
         lbl_805D7570 = 0x176A;
-    } else if (arg0 == 2) {
+    } else if (rate_mode == 2) {
         lbl_805D7570 = 0x1388;
     }
-    lbl_805D7560 = arg0;
+    lbl_805D7560 = rate_mode;
 }
 
 s8 TLobby__sub_803C9CB0(u8 *arg0) {
@@ -610,24 +605,24 @@ void TLobby__sub_803C9DB4(u8 *arg0) {
 
 void TLobby__sub_803C9E38(Obj_803C9E38 *arg0, VObj_803C9E38 *arg1) {
     s32 i;
-    if (arg0->f8 != NULL) {
-        stop_adx_stream(arg0->f8);
-        adxstm_close(arg0->f8);
+    if (arg0->file != NULL) {
+        stop_adx_stream(arg0->file);
+        adxstm_close(arg0->file);
         if (arg0->f14 != NULL) {
             arg0->f14->vt->f14(arg0->f14);
         }
-        arg0->f8 = NULL;
+        arg0->file = NULL;
     }
     TLobby::init_once();
     if ((s32)arg0->f2 == 4) {
-        lsc_stop((LscStream*)arg0->f94);
+        lsc_stop((LscStream*)arg0->lsc_stream);
         if (arg0->f14 != NULL) {
             arg0->f14->vt->f14(arg0->f14);
         }
     }
     TLobby::init_once();
-    TLobby::dispatch_packet((GcrnaStream *)(arg0->fc), 0);
-    TLobby__sub_803CC030(arg0->fc, 0);
+    TLobby::dispatch_packet((GcrnaStream *)(arg0->stream), 0);
+    TLobby__sub_803CC030(arg0->stream, 0);
     ((TLobby *)((saddr)arg0->f4))->reset_flag();
     if ((s32)arg0->f2 == 2) {
         if (arg0->f14 != NULL) {
@@ -710,24 +705,24 @@ void TLobby__sub_803CA194(Obj_803CA194 *arg0) {
         lbl_805D7574();
     }
     if ((s32)arg0->f0 == 1) {
-        if (arg0->f8 != NULL) {
-            stop_adx_stream(arg0->f8);
-            adxstm_close(arg0->f8);
+        if (arg0->file != NULL) {
+            stop_adx_stream(arg0->file);
+            adxstm_close(arg0->file);
             if (arg0->f14 != NULL) {
                 arg0->f14->vt->f14(arg0->f14);
             }
-            arg0->f8 = NULL;
+            arg0->file = NULL;
         }
         TLobby::init_once();
         if ((s32)arg0->f2 == 4) {
-            lsc_stop((LscStream*)arg0->f94);
+            lsc_stop((LscStream*)arg0->lsc_stream);
             if (arg0->f14 != NULL) {
                 arg0->f14->vt->f14(arg0->f14);
             }
         }
         TLobby::init_once();
-        TLobby::dispatch_packet((GcrnaStream *)arg0->fc, 0);
-        TLobby__sub_803CC030((saddr)arg0->fc, 0);
+        TLobby::dispatch_packet((GcrnaStream *)arg0->stream, 0);
+        TLobby__sub_803CC030((saddr)arg0->stream, 0);
         ((TLobby *)((saddr)arg0->f4))->reset_flag();
         if ((s32)arg0->f2 == 2) {
             if (arg0->f14 != NULL) {
@@ -739,17 +734,17 @@ void TLobby__sub_803CA194(Obj_803CA194 *arg0) {
         TLobby::release_ref();
         TLobby::release_ref();
     }
-    if (arg0->fc != NULL) {
-        ((TLobby *)(arg0->fc))->unregister_si_polling();
+    if (arg0->stream != NULL) {
+        ((TLobby *)(arg0->stream))->unregister_si_polling();
     }
     if (arg0->f4 != NULL) {
         ((TLobby *)(arg0->f4))->reset_entry();
     }
-    if (arg0->f8 != NULL) {
-        adxstm_close(arg0->f8);
+    if (arg0->file != NULL) {
+        adxstm_close(arg0->file);
     }
-    if (arg0->f94 != NULL) {
-        lsc_destroy((LscStream*)arg0->f94);
+    if (arg0->lsc_stream != NULL) {
+        lsc_destroy((LscStream*)arg0->lsc_stream);
     }
     TLobby::init_once();
     if (arg0->f10 != NULL) {
@@ -793,38 +788,38 @@ Ch_803CA3C4 *adx_create_stream_player(s32 n, s32 base, s32 size) {
     c->n = n;
     t = (n * 0x2060) << 1;
     c->f20 = aligned + t;
-    c->f24 = (rem - t - 0x24) / 2048 * 2048;
+    c->bsize = (rem - t - 0x24) / 2048 * 2048;
     c->f28 = 0x24;
     c->f2c = aligned;
     c->f30 = 0x2000;
     c->f34 = 0x2060;
     c->f14 = 0;
-    c->f10 = sj_ring_buffer_create((void *)c->f20, c->f24, c->f28);
-    if (c->f10 == NULL) {
+    c->sj_handle = sj_ring_buffer_create((void *)c->f20, c->bsize, c->f28);
+    if (c->sj_handle == NULL) {
         TLobby__sub_803CA194((Obj_803CA194 *)c);
         return NULL;
     }
     for (i = 0; i < n; i++) {
-        c->f18[i] = sj_ring_buffer_create((void *)(c->f2c + c->f34 * i * 2), c->f30 * 2, (c->f34 - c->f30) * 2);
-        if (c->f18[i] == NULL) {
+        c->inputs[i] = sj_ring_buffer_create((void *)(c->f2c + c->f34 * i * 2), c->f30 * 2, (c->f34 - c->f30) * 2);
+        if (c->inputs[i] == NULL) {
             TLobby__sub_803CA194((Obj_803CA194 *)c);
             return NULL;
         }
     }
-    if ((c->f4 = alloc_audio_stream_state(c->f10, n, c->f18)) == NULL) {
+    if ((c->f4 = alloc_audio_stream_state(c->sj_handle, n, c->inputs)) == NULL) {
         TLobby__sub_803CA194((Obj_803CA194 *)c);
         return NULL;
     }
-    if ((c->fc = TLobby::run_step_5210(c->f18, n)) == NULL) {
+    if ((c->fc = TLobby::run_step_5210(c->inputs, n)) == NULL) {
         TLobby__sub_803CA194((Obj_803CA194 *)c);
         return NULL;
     }
-    if ((c->f94 = lsc_create(c->f10)) == NULL) {
+    if ((c->f94 = lsc_create(c->sj_handle)) == NULL) {
         TLobby__sub_803CA194((Obj_803CA194 *)c);
         return NULL;
     }
     c->f38 = 0x3C;
-    c->f3c = c->f24 / 2048;
+    c->f3c = c->bsize / 2048;
     c->f3e = 0.85 * c->f3c;
     c->f40 = 0;
     for (i = 0; i < n; i++) {

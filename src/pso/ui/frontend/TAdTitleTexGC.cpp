@@ -1,4 +1,5 @@
 #include "pso/ui/frontend/TAdTitleTexGC.h"
+#include "pso/render/GinjaMaterialState.h"
 #include "pso/unk/TLobby_80132ED0.h"
 #include "pso/ui/MenuText.h"
 #include "pso/object/warp/TObjWarpString.h"
@@ -17,13 +18,13 @@
 // The player texture list loaded for the title: the Japanese build's, and the English one the other
 // languages share (the loader below picks one by current_language).
 static NJS_TEXNAME player_tex_eng_texture_names[1] = {  // inferred: from the file name
-    { (void *)"f256_player_tex_eng", 0, 0 },
+    { "f256_player_tex_eng", 0, 0 },
 };
 
 static NJS_TEXLIST player_tex_eng_texture_list = { player_tex_eng_texture_names, 1 };  // inferred
 
 static NJS_TEXNAME player_tex_texture_names[1] = {  // inferred: from the file name
-    { (void *)"f256_player_tex", 0, 0 },
+    { "f256_player_tex", 0, 0 },
 };
 
 static NJS_TEXLIST player_tex_texture_list = { player_tex_texture_names, 1 };  // inferred
@@ -38,7 +39,7 @@ void release_texture_list(void*);
 
 extern const s32 current_language;
 
-s32 load_streamed_prs_texture(s32 arg0, s32 arg1);
+s32 load_streamed_prs_texture(s32 name, s32 texlist);
 
 void TLobby__sub_802A5154(void) {
     if (lbl_805D6668 != 0U) {
@@ -125,24 +126,24 @@ void TAdTitleTexGC::render() {
 
 }
 
-void TAdTitleTexGC::render_status_pair(s32 arg1) {
+void TAdTitleTexGC::render_status_pair(s32 color) {
     begin_screen_draw(1);
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(lbl_805D6668));
-    set_draw_texture_and_color(0, arg1);
+    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(lbl_805D6668));
+    set_draw_texture_and_color(0, color);
     draw_textured_quad_at_depth(&rects[0].x0, 0.1f);
     TWindowSubStatusDisp::get_player();
     begin_screen_draw(1);
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(lbl_805D6668));
-    set_draw_texture_and_color(0, arg1);
+    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(lbl_805D6668));
+    set_draw_texture_and_color(0, color);
     draw_textured_quad_at_depth(&rects[1].x0, 0.1f);
     TWindowSubStatusDisp::get_player();
 }
 
 #pragma push
 #pragma opt_common_subs off
-void TAdTitleTexGC::sub_802A4D74(s32 arg1, u8 *text, u8 *arg3) {
-    draw_menu_text(22.0f + rects[0].x0, 1.0f + rects[0].y0, (const char *)text, arg1);
-    draw_menu_text(22.0f + rects[1].x0, 1.0f + rects[1].y0, (const char *)arg3, arg1);
+void TAdTitleTexGC::sub_802A4D74(s32 color, u8 *text, u8 *arg3) {
+    draw_menu_text(22.0f + rects[0].x0, 1.0f + rects[0].y0, (const char *)text, color);
+    draw_menu_text(22.0f + rects[1].x0, 1.0f + rects[1].y0, (const char *)arg3, color);
 }
 #pragma pop
 

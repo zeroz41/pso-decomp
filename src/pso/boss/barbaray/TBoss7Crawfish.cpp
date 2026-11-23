@@ -330,7 +330,7 @@ void TBoss7Crawfish::change_state(s32 state) {
 }
 
 void TBoss7Crawfish::run_task() {
-    if ((mode != 5) && (obj_testFlags30(0x800) != 0)) {
+    if ((mode != 5) && (test_actor_flags(0x800) != 0)) {
         change_state(4);
     }
     switch (mode) {
@@ -370,7 +370,7 @@ TBoss7Crawfish::~TBoss7Crawfish() {
 TBoss7Crawfish::TBoss7Crawfish(TObject *parent, void *set) : TObjEnemy(parent) {
     Vec still;
     m_name = TBoss7Crawfish__class_name;
-    texlist = (saddr)get_bml_texlist(TBoss7Crawfish__shared_resource, 0);
+    texlist = get_bml_texlist(TBoss7Crawfish__shared_resource, 0);
     copy_collision_body(&collision_body, &crawfish_collision_body_desc);
     set_collision_body(&collision_body);
     set_action_table((saddr)crawfish_action_table);

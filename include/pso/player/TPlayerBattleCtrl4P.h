@@ -4,12 +4,10 @@
 
 class TPlayerBattleCtrl4P : public TObject {
 private:
-    TPlayerBattleCtrl4P();
+    TPlayerBattleCtrl4P(TObject *parent);
     virtual ~TPlayerBattleCtrl4P();
     void set_split_screen_battle_phase(s32);
 public:
-    TPlayerBattleCtrl4P* construct(TObject* parent);
-    TPlayerBattleCtrl4P* destroy(s16 should_free);
     void sub_80311800();
     void sub_80311804();
     void return_to_hunters_guild();
@@ -93,7 +91,7 @@ public:
     static void update_all_players();
     void shuffle_order();
     static void update();
-    static void reset_random_enemies_mode();
+    static void reset_random_enemies_mode(TObject *fade);
     static void init_instance_with_text(saddr arg0, saddr arg1);
 public:
     void update_player_alive_flags();

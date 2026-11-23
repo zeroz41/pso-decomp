@@ -11,9 +11,9 @@ struct TObjGbAdvance : public TObjMesBase {
     static void free_shared_data();
     static void load_resource_instance();
     virtual void render();
+    static void *create(void *set_data);
 };
 
 LAYOUT_ASSERT(TObjGbAdvance_size, sizeof(TObjGbAdvance) == 0xBC);
-extern "C" void *TObjGbAdvance__create(void *placement);
 
 #endif

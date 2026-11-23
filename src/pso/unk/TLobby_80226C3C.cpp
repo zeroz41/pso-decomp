@@ -8,6 +8,7 @@
 #include "pso/system/memory.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/unk/TLobby_80227A2C.h"
+#include "pso/unk/text_8036A3CC.h"
 
 struct Passage_80226FA0 { s16 first, repeat, count, transition, next; };
 
@@ -60,7 +61,7 @@ void stop_audio_stream(u8 *arg0);
 extern saddr lbl_804CB850[];
 void set_dark_falz_music_request(s32 arg0);
 void stop_cue_stream(void);
-void set_music_streams_volume(s32 arg0);
+void set_music_streams_volume(s32 total);
 void update_music_fade(void);
 void append_music_stream_segment(u8 *arg0, s32 arg1, s32 arg2);
 void update_music_sequencer(void);
@@ -137,11 +138,10 @@ __declspec(section ".data") char lbl_80514D00[2][0x20];
 u8 lbl_80514D40[0x218];
 }
 
-void unlock_sequencer_flag(s32 arg0);
 extern "C" {
 int TKeyBoardControl__sub_8000F828(void);
 s32 TKeyBoardControl__sub_801E3E24(s32 id, const char *name, void *buf, s32 size);
-void TLobby__sub_803C5D24(u8 *arg0);
+void TLobby__sub_803C5D24(u8 *player);
 }
 extern Program_80226FA0 *music_programs[];
 
@@ -306,7 +306,7 @@ struct SndHooks {
 };
 void TLobby__sub_803CBE20(void *work, s32 size, s32 count);
 void setup_adx_file_systems(s32 *arg0);
-void init_runtime_threads(s32 *arg0);
+void init_runtime_threads(s32 *cfg);
 void TLobby__sub_803C94B8(AdxMessageCallback callback, s32 context);
 s32 adx_create_stream_player(s32 n, void *buffer, s32 size);
 u32 ARInit(u32 *stack_index_addr, u32 num_entries);

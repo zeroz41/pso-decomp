@@ -7,6 +7,7 @@
 #include "pso/audio/SoundRequestVoice.h"
 #include "pso/unk/GuildCardRecord.h"
 #include "pso/unk/TLobby.h"
+#include "pso/network/TPlyJoinLobbyEntry.h"
 #include "pso/unk/TLobby_8023F734.h"
 #include "pso/unk/TLobby_80242910.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
@@ -19,6 +20,8 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/render/render_util.h"
+#include "pso/ui/window/TWindowCtrl.h"
+#include "pso/player/PlayerSlots.h"
 
 
 typedef struct Src_8024220C
@@ -150,15 +153,14 @@ void TLobby__sub_80240F3C(SoundRequestVoice *);
 u32 sndFXStartParaInfo(u16, u8, u8, u8, Params_80240B64 *);
 u32 sndFXCheck(u32);
 extern s8 TLobby__data_805434A8[];
-extern s32 TLobby__lobby_state_flags;
 void TLobby__sub_80241798(Sound_80241798 *arg0);
 }
 void calc_sound_spatial_params(SoundRequestVoice *);
 void send_voice_controller_updates(u8 *arg0);
 
-s32 set_voice_pitch_slide(u8 *arg0, s32 arg1, s32 arg2) {
+s32 set_voice_pitch_slide(u8 *arg0, s32 arg1, s32 duration) {
     s32 var_r5;
-    var_r5 = arg2;
+    var_r5 = duration;
     if (var_r5 <= 0) {
         var_r5 = 0x88888888;
     }
@@ -200,12 +202,12 @@ s32 tick_sound_voice(SoundRequestVoice *v) {
         params.ctl = ctl;
         ctl[0].type = 0x80;
         ctl[0].value = v->pitch;
-        if (!(TLobby__lobby_state_flags & 2) && TLobby__data_805434A8[7] == 0) {
+        if (!(lobby_state_flags & 2) && TLobby__data_805434A8[7] == 0) {
             level = OSDisableInterrupts();
         }
         v->token = sndFXStartParaInfo(v->effect, 0x7F, v->pan, v->studio, &params);
         send_voice_controller_updates((u8 *)v);
-        if (!(TLobby__lobby_state_flags & 2) && TLobby__data_805434A8[7] == 0) {
+        if (!(lobby_state_flags & 2) && TLobby__data_805434A8[7] == 0) {
             OSRestoreInterrupts(level);
         }
         send_sound_request_reverb((SoundRequestVoice *)(v));
@@ -946,9 +948,6 @@ typedef struct Entry_80242380 {
 } Entry_80242380;
 
 extern "C" {
-struct RecoveredGlobal_TLobby__data_8050AAAC { s32 value; u8 remaining[0x24]; };
-extern RecoveredGlobal_TLobby__data_8050AAAC TLobby__data_8050AAAC;
-extern uaddr TLobby__protocol_instance;
 char *get_shared_text_buffer();
 void text_builder_append(char *);
 }
@@ -971,9 +970,9 @@ s32 TLobby::get_field_308() { return *(s32*)((char*)this + 0x308); }
 void TLobby::forward_8024273C(void *p) { TLobby__sub_8024273C(p); }
 
 void TLobby::send_find_user_self_tag(s32 gc_num) {
-    if ((u32) TLobby__protocol_instance != 0U) {
-        Tag_802421C4 tag = *(Tag_802421C4 *)((u8 *)TLobby__protocol_instance + 0x1900);
-        ((TProtocol *)TLobby__protocol_instance)->send_find_user(*(TPlyGuildCardTag *)&tag, gc_num);
+    if (protocol_instance != NULL) {
+        Tag_802421C4 tag = *(Tag_802421C4 *)((u8 *)protocol_instance + 0x1900);
+        protocol_instance->send_find_user(*(TPlyGuildCardTag *)&tag, gc_num);
     }
 }
 
@@ -994,7 +993,7 @@ void load_selected_guild_card_record(Src_8024220C *arg0) {
   p = ((void *)TLobby::parse_csv_token((char *)(p), (char *)(selected_guild_card_record.s2A)));
   TLobby::parse_csv_token((char *)(p), (char *)(selected_guild_card_record.s3B));
   TLobby__sub_802422EC(selected_guild_card_record.f4C, arg0->f64);
-  __as__21TPlyMeetUserExtensionFRC21TPlyMeetUserExtension(selected_guild_card_record.ext, arg0->ext);
+  __as__21TPlyMeetUserExtensionFRC21TPlyMeetUserExtension(&selected_guild_card_record.ext, &arg0->ext);
 }
 
 void TLobby__sub_802422EC(void *arg0, void *arg1) {
@@ -1084,11 +1083,11 @@ char *TLobby::build_text_from_comma_list() {
 }
 
 void TLobby__sub_8024259C(saddr arg0) {
-    if ((u32) TLobby__protocol_instance != 0U) {
-        memset((char *)&TLobby__data_8050AAAC.value, 0, 0x11);
-        strncpy((char *)&TLobby__data_8050AAAC.value, (char *)(arg0 + 0x19), 0x10);
-        *(s8 *)((s8 *)&TLobby__data_8050AAAC.value + 0x10) = 0;
-        ((TProtocol *)TLobby__protocol_instance)->seq_jump((u8 *)(arg0 + 0x4C), *(TPlyMeetUserExtension *)(arg0 + 0x58));
+    if (TLobby::protocol_instance != NULL) {
+        memset(lobby_ship_name, 0, 0x11);
+        strncpy(lobby_ship_name, (char *)(arg0 + 0x19), 0x10);
+        lobby_ship_name[0x10] = 0;
+        TLobby::protocol_instance->seq_jump((u8 *)(arg0 + 0x4C), *(TPlyMeetUserExtension *)(arg0 + 0x58));
     }
 }
 #pragma pop
@@ -1160,7 +1159,6 @@ void TLobby::reset_state() { TLobby::reset_com_card_list(); }
 void TLobby__sub_8024285C(void) { TLobby::reset_com_card_list(); }
 
 
-void *construct_guild_card_tag_array(void *p);
 GuildCardRecord *__ct__15GuildCardRecordFv(void *p);
 void *__construct_array(void *array, GuildCardRecord *(*ctor)(void *), void *dtor, u32 size, u32 count);
 static void __sinit_TLobby_802409AC_cpp();
@@ -1172,18 +1170,17 @@ static void __sinit_TLobby_802409AC_cpp() {
     __construct_array(com_card_entries, __ct__15GuildCardRecordFv, NULL, sizeof(GuildCardRecord), 8);
 }
 
-GuildCardRecord::GuildCardRecord() { construct_guild_card_tag_array(ext); }
+GuildCardRecord::GuildCardRecord() {}
 
 s32 GuildCardRecord::get_serial() const { return serial; }
 
 int TLobby::get_com_card_data() { return com_card_entry_count; }
 
-char *GuildCardRecord::get_sub_disp_ptr() { return reinterpret_cast<char *>(&ext[0x44]); }
+char *GuildCardRecord::get_sub_disp_ptr() { return ext.player_name; }
 
 s32 GuildCardRecord::get_id() { return id; }
 
 
-extern u16 lbl_805D63FC;
 
 void TLobby__sub_80242918(void) {
     lbl_805D63FC |= 4;

@@ -26,8 +26,8 @@ BmlResourceDescriptor corpse_mark_resource_descriptor = { "bm_ene_common_all.bml
 void *player_corpse_mark_resource;
 s32 player_particle_effect_enabled;
 
-void TBoss3Volopt::create_breakup_mdl(saddr model, saddr params, s32 texlist, saddr position, s32 rotation_y) {
-    new TBreakUpMdl(tl_05, (TBreakUpMdlData *)model, (BreakUpParamRow *)params, (GinjaTextureList *)texlist,
+void TBoss3Volopt::create_breakup_mdl(saddr model, saddr params, NJS_TEXLIST *texlist, saddr position, s32 rotation_y) {
+    new TBreakUpMdl(tl_05, (TBreakUpMdlData *)model, (BreakUpParamRow *)params, (NJS_TEXLIST *)texlist,
                     (Vec *)position, rotation_y);
 }
 void play_area_variant_sound(Vec *position) {

@@ -15,12 +15,12 @@
 // above the stores of the copied tables); the same view as six other units.
 extern "C" const s32 current_language;
 
-GinjaTextureEntry player_ad_texture_entry = { "f128_player_ad", 0, NULL };
-__declspec(section ".data") GinjaTextureList player_ad_texture_list = { &player_ad_texture_entry, 1 };
-GinjaTextureEntry player_ad_eng_texture_entry = { "f128_player_ad_eng", 0, NULL };
-__declspec(section ".data") GinjaTextureList player_ad_eng_texture_list = { &player_ad_eng_texture_entry, 1 };
+NJS_TEXNAME player_ad_texture_entry = { "f128_player_ad", 0, NULL };
+__declspec(section ".data") NJS_TEXLIST player_ad_texture_list = { &player_ad_texture_entry, 1 };
+NJS_TEXNAME player_ad_eng_texture_entry = { "f128_player_ad_eng", 0, NULL };
+__declspec(section ".data") NJS_TEXLIST player_ad_eng_texture_list = { &player_ad_eng_texture_entry, 1 };
 const char *TAdMultiPlayerNoGC__name = "TAdMultiPlayerNoGC";
-GinjaTextureList *player_ad_texture_list_ptr;
+NJS_TEXLIST *player_ad_texture_list_ptr;
 
 // Built with deferred inlining: functions are written in the reverse of
 // their address order.
@@ -32,11 +32,11 @@ void TLobby::update_menu_cursor_selection() {
         "f128_player_ad", "f128_player_ad_eng", "f128_player_ad_eng",
         "f128_player_ad_eng", "f128_player_ad_eng",
     };
-    GinjaTextureList *lists[5] = {
+    NJS_TEXLIST *lists[5] = {
         &player_ad_texture_list, &player_ad_eng_texture_list, &player_ad_eng_texture_list,
         &player_ad_eng_texture_list, &player_ad_eng_texture_list,
     };
-    GinjaTextureList *list = lists[current_language];
+    NJS_TEXLIST *list = lists[current_language];
     player_ad_texture_list_ptr = list;
     load_streamed_prs_texture((saddr)names[current_language], (saddr)list);
 }

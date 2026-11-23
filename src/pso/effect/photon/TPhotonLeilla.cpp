@@ -6,6 +6,7 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/player/PhotonBlastResults.h"
 #include "pso/system/BmlResource.h"
+#include "pso/object/base/TObjBase.h"
 
 const char *TPhotonLeilla::class_name = "TPhotonLeilla";
 
@@ -54,7 +55,7 @@ void TPhotonLeilla::render() {
     if (visible != 0) {
         leilla_photon_buffer_pair->scroll_uvs(uv_scroll, 0);
         TParticleCtrl::begin_effect_render();
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
         push_matrix();
         translate_matrix(0, position.x, position.y, position.z);
         rotate_matrix_y(0, rotation_y);
@@ -109,7 +110,7 @@ void TPhotonLeilla::run_task() {
     if (1.3e+02f == (f32)frame) {
         owner_object = find_entity_by_id(owner_id);
         if (owner_object != NULL) {
-            queue_photon_blast_hit(get_entity_id(owner_object), 4, 0, power);
+            queue_photon_blast_hit(owner_object->get_entity_id(), 4, 0, power);
         }
     }
     if ((f32)frame > 109.0f) {
@@ -145,7 +146,7 @@ TPhotonLeilla::TPhotonLeilla(PhotonSummonParams *params) {
         rotation_y = owner_object->rotation_y;
     }
     model = photon_blast_shared_resource->models[1].model;
-    texlist = (saddr)photon_blast_shared_resource->models[1].texlist;
+    texlist = photon_blast_shared_resource->models[1].texlist;
     set_action_table((saddr)photon_blast_leilla_params);
     set_motion_list((saddr)photon_blast_shared_resource->motions);
     requested_action = 1;

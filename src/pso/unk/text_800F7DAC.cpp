@@ -1,13 +1,14 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/render/Draw2D.h"
-#include "pso/unk/TUnk_804999D0.h"
-#include "pso/unk/TUnk_804999B8.h"
-#include "pso/unk/TUnk_804999A0.h"
-#include "pso/boss/TUnk_804999E8.h"
+#include "pso/unk/TScreenFadeOut.h"
+#include "pso/unk/TScreenFadeIn.h"
+#include "pso/unk/TDeathTintFade.h"
+#include "pso/unk/TScreenFade.h"
 #include "pso/system/task/TObject.h"
-#include "pso/unk/TUnk_80499988.h"
-#include "pso/unk/TUnk_80499970.h"
+#include "pso/system/task/TMainTask.h"
+#include "pso/unk/TColorOverlayFade.h"
+#include "pso/unk/TScreenFadeController.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/ui/city/THunterGuildSeqOffline.h"
 #include "pso/unk/TLobby.h"
@@ -26,53 +27,21 @@ struct Quad_800F7E28 {
     s32 count;
 };
 
-struct Fade_800F7E28 {
-    u8 pad[0x1C];
-    f32 level;
-    union {
-        u32 color;
-        u8 c[4];
-    } u;
-};
-
-struct Quad_800F88D8 {
-    f32 *pos;
-    u32 *col;
-    s32 start;
-    s32 count;
-};
-
-struct Fade_800F88D8 {
-    u8 pad[0x1C];
-    f32 level;
-    union {
-        u32 color;
-        u8 c[4];
-    } u;
-};
 extern "C" {
 
-void __ct__13TUnk_804999E8FP7TObject(void *, void *);
 u32 prs_decompress_buffer(s32 arg0, s32 arg1);
-void * TLobby__sub_800F8498(void *arg0, void *arg1, s32 arg2, s32 arg3, u8 arg4, u8 arg5, u8 arg6, u8 arg7);
-void __ct__7TObjectFP7TObject(void *);
 s32 TWindowCtrlMain__sub_8024CD5C(s32 viewport_index);
 u32 prs_decompress(int, int, int, int);
 
-extern s32 __vt__13TUnk_80499988[];
-extern s32 __vt__13TUnk_804999A0[];
-extern s32 __vt__13TUnk_804999B8[];
-extern s32 __vt__13TUnk_804999D0[];
-void * screen_fade_controller;
 extern s32 local_client_id;
-extern void *tl_fade;
 }
+
+TScreenFadeController *screen_fade_controller;
 
 #pragma defer_codegen on
 
-void TUnk_804999E8::render() {
-    Fade_800F88D8 *self = (Fade_800F88D8 *)this;
-    Quad_800F88D8 q;
+void TScreenFade::render() {
+    Quad_800F7E28 q;
     u32 col[4];
     f32 pos[8];
 
@@ -83,247 +52,229 @@ void TUnk_804999E8::render() {
     q.col = col;
     q.start = 0;
     q.count = 4;
-    self->u.c[3] = (s32)self->level;
+    color[3] = (s32)alpha;
     q.pos[0] = (0.0f);
     q.pos[1] = (0.0f);
-    q.col[0] = self->u.color;
+    q.col[0] = packed_color;
     q.pos[2] = (6.4e+02f);
     q.pos[3] = (0.0f);
-    q.col[1] = self->u.color;
+    q.col[1] = packed_color;
     q.pos[4] = (6.4e+02f);
     q.pos[5] = (4.8e+02f);
-    q.col[2] = self->u.color;
+    q.col[2] = packed_color;
     q.pos[6] = (0.0f);
     q.pos[7] = (4.8e+02f);
-    q.col[3] = self->u.color;
-    if ((0.0f) != (f32)self->u.c[3]) {
+    q.col[3] = packed_color;
+    if ((0.0f) != (f32)color[3]) {
         draw_polygon_2d((NJS_POINT2COL *)&q, 4, 0x16, (-1e+01f));
     }
     TCameraCtrl::restore_saved_view();
 }
 
-void *THunterGuildSeqOffline::init(void *arg1, void *arg2) {
-    __ct__13TUnk_804999E8FP7TObject(this, tl_fade);
-    *(s32 * *)((u8 *)this + 0x18) = (s32 *)__vt__13TUnk_804999D0;
-    *(void **)((s8 *)this + 0x24) = arg2;
-    *(f32 *)&this->pad_1c = (0.0f);
-    *(u8 *)((s8 *)this + 0x20) = 0;
-    *(u8 *)((s8 *)this + 0x21) = 0;
-    *(u8 *)((s8 *)this + 0x22) = 0;
-    return this;
+TScreenFadeOut::TScreenFadeOut(TObject *parent, void (*callback)(TObject *)) : TScreenFade(tl_fade) {
+    this->callback = callback;
+    alpha = 0.0f;
+    color[0] = 0;
+    color[1] = 0;
+    color[2] = 0;
 }
 
-TUnk_804999D0::~TUnk_804999D0() {}
+TScreenFadeOut::~TScreenFadeOut() {}
 
 #pragma push
 #pragma opt_common_subs off
-void TUnk_804999D0::run_task() {
-    s32 (*temp_r12)();
+void TScreenFadeOut::run_task() {
     this->alpha += 8.0f;
     if (this->alpha >= (255.0f)) {
         this->alpha = 255.0f;
-        temp_r12 = *(s32 (**)())((s8 *)((u8 *)this) + 0x24);
-        if (temp_r12 != NULL) {
-            temp_r12();
+        if (callback != NULL) {
+            callback(this);
         }
         this->suspend_update();
     }
 }
 #pragma pop
 
-void *TLobby::init_fade(void *arg1, void *arg2) {
-    __ct__13TUnk_804999E8FP7TObject(this, tl_fade);
-    *(s32 **)((s8 *)this + 0x18) = (s32 *)__vt__13TUnk_804999B8;
-    *(void **)((s8 *)this + 0x24) = arg2;
-    *(f32 *)((s8 *)this + 0x1C) = (255.0f);
-    *(u8 *)((s8 *)this + 0x20) = 0;
-    *(u8 *)((s8 *)this + 0x21) = 0;
-    *(u8 *)((s8 *)this + 0x22) = 0;
-    return this;
+TScreenFadeIn::TScreenFadeIn(TObject *parent, void (*callback)(TObject *)) : TScreenFade(tl_fade) {
+    this->callback = callback;
+    alpha = 255.0f;
+    color[0] = 0;
+    color[1] = 0;
+    color[2] = 0;
 }
 
-TUnk_804999B8::~TUnk_804999B8() {}
+TScreenFadeIn::~TScreenFadeIn() {}
 
 #pragma push
 #pragma opt_common_subs off
-void TUnk_804999B8::run_task() {
-    s32 (*temp_r12)();
+void TScreenFadeIn::run_task() {
     this->alpha = (f32) (this->alpha - (8.0f));
     if (this->alpha <= 0.0f) {
         this->alpha = 0.0f;
-        temp_r12 = *(s32 (**)())((s8 *)((u8 *)this) + 0x24);
-        if (temp_r12 != NULL) {
-            temp_r12();
+        if (callback != NULL) {
+            callback(this);
         }
         this->suspend_update();
     }
 }
 #pragma pop
 
-void*TLobby::init_entry_fields(int a1, int a2, int a3) { ((int (*)(void))__ct__13TUnk_804999E8FP7TObject)(); *(int*)((char*)this + 0x18) = (saddr)((unsigned char *)__vt__13TUnk_804999A0); *(int*)((char*)this + 0x28) = a2; *(float*)((char*)this + 0x1c) = (0.0f); *(unsigned char*)((char*)this + 0x21) = 0; *(unsigned char*)((char*)this + 0x22) = 0; *(unsigned char*)((char*)this + 0x20) = 255; *(int*)((char*)this + 0x24) = a3; return this; }
-
-TUnk_804999A0::~TUnk_804999A0() {
-    TWindowCtrlMain::set_value((saddr)(*(void **)((s8 *)this + 0x24)), 0);
+TDeathTintFade::TDeathTintFade(TObject *parent, void (*callback)(), s32 viewport_index) : TScreenFade(parent) {
+    this->callback = callback;
+    alpha = 0.0f;
+    color[1] = 0;
+    color[2] = 0;
+    color[0] = 255;
+    this->viewport_index = viewport_index;
 }
 
-void TUnk_804999A0::run_task() {
-    u8 *arg0 = (u8 *)this;
-    s32 (*temp_r12)();
-    this->alpha += 2.0f;
-    if (this->alpha >= 128.0f) {
-        this->alpha = 128.0f;
-        temp_r12 = *(s32 (**)())((s8 *)arg0 + 0x28);
-        if (temp_r12 != NULL) {
-            temp_r12();
+TDeathTintFade::~TDeathTintFade() {
+    TWindowCtrlMain::set_value(viewport_index, 0);
+}
+
+void TDeathTintFade::run_task() {
+    alpha += 2.0f;
+    if (alpha >= 128.0f) {
+        alpha = 128.0f;
+        if (callback != NULL) {
+            callback();
         }
-        this->suspend_update();
+        suspend_update();
     }
-    *(s8 *)((s8 *)arg0 + 0x23) = (s8) this->alpha;
-    TWindowCtrlMain::set_value((s32)(*(s32 *)((s8 *)arg0 + 0x24)), this->m_20);
+    color[3] = (s8)alpha;
+    TWindowCtrlMain::set_value(viewport_index, packed_color);
 }
 
-void TUnk_804999A0::render() {  }
+void TDeathTintFade::render() {  }
 
-void *TLobby__sub_800F8498(void *arg0, void *arg1, s32 arg2, s32 arg3, u8 arg4, u8 arg5, u8 arg6, u8 arg7) {
+TColorOverlayFade::TColorOverlayFade(TObject *parent, s32 unk_1C, s32 duration, u8 c3, u8 c0, u8 c1, u8 c2) : TObject(parent) {
     u32 c;
-    ((void (*)(void *, void *))__ct__7TObjectFP7TObject)(arg0, arg1);
-    *(s32 **)((s8 *)arg0 + 0x18) = (s32 *)__vt__13TUnk_80499988;
-    *(s32 *)((s8 *)arg0 + 0x1C) = arg2;
-    *(s32 *)((s8 *)arg0 + 0x20) = 0;
-    *(s32 *)((s8 *)arg0 + 0x24) = arg3;
+    this->unk_1C = unk_1C;
+    frame = 0;
+    this->duration = duration;
     c = TWindowCtrlMain__sub_8024CD5C(local_client_id);
-    *(u8 *)((s8 *)arg0 + 0x2B) = c;
-    *(u8 *)((s8 *)arg0 + 0x2A) = c >> 8;
-    *(u8 *)((s8 *)arg0 + 0x29) = c >> 16;
-    *(u8 *)((s8 *)arg0 + 0x28) = c >> 24;
-    *(u8 *)((s8 *)arg0 + 0x2F) = arg4;
-    *(u8 *)((s8 *)arg0 + 0x2C) = arg5;
-    *(u8 *)((s8 *)arg0 + 0x2D) = arg6;
-    *(u8 *)((s8 *)arg0 + 0x2E) = arg7;
-    return arg0;
+    start_color[3] = c;
+    start_color[2] = c >> 8;
+    start_color[1] = c >> 16;
+    start_color[0] = c >> 24;
+    target_color[3] = c3;
+    target_color[0] = c0;
+    target_color[1] = c1;
+    target_color[2] = c2;
 }
 
-TUnk_80499988::~TUnk_80499988() {
-    TWindowCtrlMain::set_value((s32)local_client_id, (s32)this->sub_800F8250((1.0f)));
+TColorOverlayFade::~TColorOverlayFade() {
+    TWindowCtrlMain::set_value((s32)local_client_id, (s32)this->lerp_color((1.0f)));
 }
 
-void TUnk_80499988::run_task() {
-    s32 temp_r3;
-    TWindowCtrlMain::set_value((s32)local_client_id, (s32)(this->sub_800F8250((f32) this->m_20 / (f32) *(s32 *)((s8 *)((u8 *)this) + 0x24))));
-    temp_r3 = this->m_20 + 1;
-    this->m_20 = temp_r3;
-    if (temp_r3 > (s32) *(s32 *)((s8 *)((u8 *)this) + 0x24)) {
+void TColorOverlayFade::run_task() {
+    s32 next;
+    TWindowCtrlMain::set_value((s32)local_client_id, (s32)(this->lerp_color((f32)frame / (f32)duration)));
+    next = frame + 1;
+    frame = next;
+    if (next > duration) {
         queue_destruction();
     }
 }
 
 #pragma push
 #pragma fp_contract on
-s32 TUnk_80499988::sub_800F8250(f32 farg0) {
+s32 TColorOverlayFade::lerp_color(f32 farg0) {
     u8 temp_r10;
     u8 temp_r11;
     u8 temp_r12;
     u8 temp_r31;
 
-    temp_r10 = *(u8 *)((s8 *)this + 0x29);
-    temp_r12 = *(u8 *)((s8 *)this + 0x2A);
-    temp_r11 = *(u8 *)((s8 *)this + 0x28);
-    temp_r31 = *(u8 *)((s8 *)this + 0x2B);
-    return (((((((s32) ((farg0 * (f32) (*(u8 *)((s8 *)this + 0x2C) - temp_r11)) + (f32) temp_r11) << 0x18)) | (((s32) ((farg0 * (f32) (*(u8 *)((s8 *)this + 0x2D) - temp_r10)) + (f32) temp_r10) << 0x10) & 0xFF0000 & ~0xFF000000)) & ~0xFF00) | (((s32) ((farg0 * (f32) (*(u8 *)((s8 *)this + 0x2E) - temp_r12)) + (f32) temp_r12) << 8) & 0xFF00)) & ~0xFF) | ((s32) ((farg0 * (f32) (*(u8 *)((s8 *)this + 0x2F) - temp_r31)) + (f32) temp_r31) & 0xFF);
+    temp_r10 = start_color[1];
+    temp_r12 = start_color[2];
+    temp_r11 = start_color[0];
+    temp_r31 = start_color[3];
+    return (((((((s32) ((farg0 * (f32) (target_color[0] - temp_r11)) + (f32) temp_r11) << 0x18)) | (((s32) ((farg0 * (f32) (target_color[1] - temp_r10)) + (f32) temp_r10) << 0x10) & 0xFF0000 & ~0xFF000000)) & ~0xFF00) | (((s32) ((farg0 * (f32) (target_color[2] - temp_r12)) + (f32) temp_r12) << 8) & 0xFF00)) & ~0xFF) | ((s32) ((farg0 * (f32) (target_color[3] - temp_r31)) + (f32) temp_r31) & 0xFF);
 }
 #pragma pop
 
-TUnk_80499970::TUnk_80499970(TObject *parent) : TObject(parent) {
+TScreenFadeController::TScreenFadeController(TObject *parent) : TObject(parent) {
     screen_fade_controller = this;
-    m_24 = 0;
+    mode = 0;
 }
 
-TUnk_80499970::~TUnk_80499970() {
-    (*(s32 *)&screen_fade_controller) = 0;
+TScreenFadeController::~TScreenFadeController() {
+    screen_fade_controller = NULL;
 }
 
 s32 TLobby::get_quest_thread_state() {
-    if ((void *) screen_fade_controller != NULL) {
-        return *(s32 *)((s8 *)screen_fade_controller + 0x24);
+    if (screen_fade_controller != NULL) {
+        return screen_fade_controller->mode;
     }
     return 0;
 }
 
-void TLobby::set_fade_params(s32 arg0) {
-    if ((void *) screen_fade_controller != NULL) {
-        *(s32 *)((s8 *)screen_fade_controller + 0x28) = arg0;
-        *(f32 *)((s8 *)screen_fade_controller + 0x1C) = 255.0f;
-        *(s8 *)((s8 *)screen_fade_controller + 0x20) = 0;
-        *(s8 *)((s8 *)screen_fade_controller + 0x21) = 0;
-        *(s8 *)((s8 *)screen_fade_controller + 0x22) = 0;
-        *(s32 *)((s8 *)screen_fade_controller + 0x24) = 1;
+void TLobby::set_fade_params(void (*callback)()) {
+    if (screen_fade_controller != NULL) {
+        screen_fade_controller->callback = callback;
+        screen_fade_controller->alpha = 255.0f;
+        screen_fade_controller->color[0] = 0;
+        screen_fade_controller->color[1] = 0;
+        screen_fade_controller->color[2] = 0;
+        screen_fade_controller->mode = 1;
     }
 }
 
 #pragma push
 #pragma opt_common_subs off
-void TUnk_80499970::step_fade_opacity_decrease() {
-    u8 *arg0 = (u8 *)this;
-    s32 (*temp_r12)();
-    *(f32 *)((s8 *)arg0 + 0x1C) = (f32) (*(f32 *)((s8 *)arg0 + 0x1C) - (8.0f));
-    if (*(f32 *)((s8 *)arg0 + 0x1C) <= (0.0f)) {
-        *(f32 *)((s8 *)arg0 + 0x1C) = 0.0f;
-        temp_r12 = *(s32 (**)())((s8 *)arg0 + 0x28);
-        if (temp_r12 != NULL) {
-            temp_r12();
+void TScreenFadeController::step_fade_opacity_decrease() {
+    alpha = (f32)(alpha - 8.0f);
+    if (alpha <= 0.0f) {
+        alpha = 0.0f;
+        if (callback != NULL) {
+            callback();
         }
-        this->m_24 = 0;
+        mode = 0;
     }
 }
 #pragma pop
 
-void TLobby::init_fadeout_state(s32 arg0) {
-    if ((void *) screen_fade_controller != NULL) {
-        *(s32 *)((s8 *)screen_fade_controller + 0x28) = arg0;
-        *(f32 *)((s8 *)screen_fade_controller + 0x1C) = 0.0f;
-        *(s8 *)((s8 *)screen_fade_controller + 0x20) = 0;
-        *(s8 *)((s8 *)screen_fade_controller + 0x21) = 0;
-        *(s8 *)((s8 *)screen_fade_controller + 0x22) = 0;
-        *(s32 *)((s8 *)screen_fade_controller + 0x24) = 2;
+void TLobby::init_fadeout_state(void (*callback)()) {
+    if (screen_fade_controller != NULL) {
+        screen_fade_controller->callback = callback;
+        screen_fade_controller->alpha = 0.0f;
+        screen_fade_controller->color[0] = 0;
+        screen_fade_controller->color[1] = 0;
+        screen_fade_controller->color[2] = 0;
+        screen_fade_controller->mode = 2;
     }
 }
 
 #pragma push
 #pragma opt_common_subs off
-void TUnk_80499970::step_fade_opacity_increase() {
-    u8 *arg0 = (u8 *)this;
-    s32 (*temp_r12)();
-    *(f32 *)((s8 *)arg0 + 0x1C) += 8.0f;
-    if (*(f32 *)((s8 *)arg0 + 0x1C) >= (255.0f)) {
-        *(f32 *)((s8 *)arg0 + 0x1C) = 255.0f;
-        temp_r12 = *(s32 (**)())((s8 *)arg0 + 0x28);
-        if (temp_r12 != NULL) {
-            temp_r12();
+void TScreenFadeController::step_fade_opacity_increase() {
+    alpha += 8.0f;
+    if (alpha >= 255.0f) {
+        alpha = 255.0f;
+        if (callback != NULL) {
+            callback();
         }
-        *(s32 *)((s8 *)arg0 + 0x24) = 0;
+        mode = 0;
     }
 }
 #pragma pop
 
 #pragma push
 #pragma opt_common_subs off
-void TUnk_80499970::tick_fade_counter() {
-    u8 *arg0 = (u8 *)this;
-    s32 (*temp_r12)();
-    *(f32 *)((s8 *)arg0 + 0x1C) += 1.0f;
-    if (*(f32 *)((s8 *)arg0 + 0x1C) >= (128.0f)) {
-        *(f32 *)((s8 *)arg0 + 0x1C) = 128.0f;
-        temp_r12 = *(s32 (**)())((s8 *)arg0 + 0x28);
-        if (temp_r12 != NULL) {
-            temp_r12();
+void TScreenFadeController::tick_fade_counter() {
+    alpha += 1.0f;
+    if (alpha >= 128.0f) {
+        alpha = 128.0f;
+        if (callback != NULL) {
+            callback();
         }
-        *(s32 *)((s8 *)arg0 + 0x24) = 0;
+        mode = 0;
     }
 }
 #pragma pop
 
-void TUnk_80499970::run_task() {
-    switch (*(s32 *)((s8 *)this + 0x24)) {
+void TScreenFadeController::run_task() {
+    switch (mode) {
     case 1:
         step_fade_opacity_decrease();
         return;
@@ -337,7 +288,7 @@ void TUnk_80499970::run_task() {
     }
 }
 
-void TUnk_80499970::render() {
+void TScreenFadeController::render() {
     Quad_800F7E28 q;
     u32 col[4];
     f32 pos[8];
@@ -349,20 +300,20 @@ void TUnk_80499970::render() {
     q.col = col;
     q.start = 0;
     q.count = 4;
-    ((Fade_800F7E28 *)this)->u.c[3] = (s32)((Fade_800F7E28 *)this)->level;
+    color[3] = (s32)alpha;
     q.pos[0] = (0.0f);
     q.pos[1] = (0.0f);
-    q.col[0] = ((Fade_800F7E28 *)this)->u.color;
+    q.col[0] = packed_color;
     q.pos[2] = (6.4e+02f);
     q.pos[3] = (0.0f);
-    q.col[1] = ((Fade_800F7E28 *)this)->u.color;
+    q.col[1] = packed_color;
     q.pos[4] = (6.4e+02f);
     q.pos[5] = (4.8e+02f);
-    q.col[2] = ((Fade_800F7E28 *)this)->u.color;
+    q.col[2] = packed_color;
     q.pos[6] = (0.0f);
     q.pos[7] = (4.8e+02f);
-    q.col[3] = ((Fade_800F7E28 *)this)->u.color;
-    if ((0.0f) != (f32)((Fade_800F7E28 *)this)->u.c[3]) {
+    q.col[3] = packed_color;
+    if ((0.0f) != (f32)color[3]) {
         draw_polygon_2d((NJS_POINT2COL *)&q, 4, 0x16, (-1e+01f));
     }
     TCameraCtrl::restore_saved_view();

@@ -285,7 +285,7 @@ TObjCityDoor_Shop::TObjCityDoor_Shop(TObject *parent, void *set)
 TObjCityDoor_Shop::~TObjCityDoor_Shop() {
 }
 
-extern "C" void *TObjCityDoor_Shop__create(void *set) {
+void *TObjCityDoor_Shop::create(void *set) {
     return new TObjCityDoor_Shop(tl_05, set);
 }
 
@@ -295,7 +295,7 @@ void TObjCityDoor_Shop::run_task() {
 
 void TObjCityDoor_Shop::render() {
     if (vfunc_22() != 0) {
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(city_common_texture_list));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(city_common_texture_list));
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, rotation_y);
@@ -313,7 +313,7 @@ TObjCityDoor_Guild::TObjCityDoor_Guild(TObject *parent, void *set)
 TObjCityDoor_Guild::~TObjCityDoor_Guild() {
 }
 
-extern "C" void *TObjCityDoor_Guild__create(void *set) {
+void *TObjCityDoor_Guild::create(void *set) {
     return new TObjCityDoor_Guild(tl_05, set);
 }
 
@@ -323,7 +323,7 @@ void TObjCityDoor_Guild::run_task() {
 
 void TObjCityDoor_Guild::render() {
     if (vfunc_22() != 0) {
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(city_common_texture_list));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(city_common_texture_list));
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, rotation_y);
@@ -341,7 +341,7 @@ TObjCityDoor_Warp::TObjCityDoor_Warp(TObject *parent, void *set)
 TObjCityDoor_Warp::~TObjCityDoor_Warp() {
 }
 
-extern "C" void *TObjCityDoor_Warp__create(void *set) {
+void *TObjCityDoor_Warp::create(void *set) {
     return new TObjCityDoor_Warp(tl_05, set);
 }
 
@@ -374,7 +374,7 @@ void TObjCityDoor_Warp::run_task() {
 
 void TObjCityDoor_Warp::render() {
     if (vfunc_22() != 0) {
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(city_common_texture_list));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(city_common_texture_list));
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, rotation_y);
@@ -410,7 +410,7 @@ TObjCityDoor_Med::TObjCityDoor_Med(TObject *parent, void *set)
 TObjCityDoor_Med::~TObjCityDoor_Med() {
 }
 
-extern "C" void *TObjCityDoor_Med__create(void *set) {
+void *TObjCityDoor_Med::create(void *set) {
     return new TObjCityDoor_Med(tl_05, set);
 }
 
@@ -420,7 +420,7 @@ void TObjCityDoor_Med::run_task() {
 
 void TObjCityDoor_Med::render() {
     if (vfunc_22() != 0) {
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(city_common_texture_list));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(city_common_texture_list));
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, rotation_y);
@@ -457,7 +457,7 @@ TObjCityDoor_Lobby::~TObjCityDoor_Lobby() {
     }
 }
 
-extern "C" void *TObjCityDoor_Lobby__create(void *set) {
+void *TObjCityDoor_Lobby::create(void *set) {
     if (is_split_screen() != 0) {
         return NULL;
     }
@@ -547,7 +547,7 @@ void TObjCityDoor_Lobby::run_task() {
 
 void TObjCityDoor_Lobby::process_lobby_action_14() {
     if (update_object_view_visibility(400.0f, 70.0f) != 0) {
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(city_common_texture_list));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(city_common_texture_list));
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, rotation_y);
@@ -565,7 +565,7 @@ void TObjCityDoor_Lobby::render() {
 void load_city_common_resources(void) {
     BmlResource *resource = new BmlResource(5, (BmlResourceDescriptor *)&bm_obj_city_common_resource_descriptor.archive, 0, 0, NULL);
     city_common_model_archive = resource;
-    city_common_texture_list = (GinjaTextureList *)load_gvm_texture_file((saddr)city_common_texture_filename);
+    city_common_texture_list = load_gvm_texture_file(city_common_texture_filename);
 }
 
 void TLobby::free_map_resources() {

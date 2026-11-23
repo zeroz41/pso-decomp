@@ -1,15 +1,12 @@
 #ifndef PSO_OBJECT_T_OWEHMS_EXP_H
 #define PSO_OBJECT_T_OWEHMS_EXP_H
 #include "pso/system/task/TObject.h"
-struct TObjPlayer;
+class TObjPlayer;
 
 class T_OWEHMS_Exp : public TObject {
-private:
-    T_OWEHMS_Exp();
-    virtual ~T_OWEHMS_Exp();
 public:
-    T_OWEHMS_Exp* construct(TObjPlayer* player);
-    T_OWEHMS_Exp* destroy(s16 should_free);
+    T_OWEHMS_Exp(TObjPlayer *player);
+    virtual ~T_OWEHMS_Exp();
     virtual void run_task();
     void start_bone_rotation();
     static T_OWEHMS_Exp* create(TObjPlayer* player);

@@ -49,8 +49,8 @@ typedef struct Save_803F3F64 {
     u8 tail[0x400];
 } Save_803F3F64;
 
-s32 get_or_set_network_config_mode(s32 arg0);
-s32 get_or_set_network_config_backup_mode(s32 arg0);
+s32 get_or_set_network_config_mode(s32 mode);
+s32 get_or_set_network_config_backup_mode(s32 mode);
 extern NetworkInfoLoadState network_info_load_state;
 extern "C" {
 
@@ -95,7 +95,7 @@ void update_network_info_load(void) {
     s = &network_info_load_state;
     switch (s->phase) {
     case 3:
-        network_info_load_state.card_result = TAdPlayerLoadGC__sub_803F3998(get_network_config_card_channel());
+        network_info_load_state.card_result = request_card_mount(get_network_config_card_channel());
         if (network_info_load_state.card_result < 0) {
             network_info_load_state.result = -200;
             s->phase = 27;
