@@ -6,7 +6,7 @@
 #include "pso/npc/TObjNpcBase.h"
 
 struct TOSymbolchatColli : public TObjChara {
-    TOSymbolchatColli(TObject *parent, s32 set_data);
+    TOSymbolchatColli(TObject *parent, saddr set_data);
     virtual ~TOSymbolchatColli();
     virtual void run_task();
     void fn_8017866C(s32 state, u16 player);  // opens the state's balloon chat over the player

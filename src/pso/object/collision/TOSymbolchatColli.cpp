@@ -83,7 +83,7 @@ void TOSymbolchatColli::init_collision_params() {
     }
     else
     {
-      balloon_chats[i] = (u8 *) symbolchat_colli_param_table[i];
+      balloon_chats[i] = (u8 *) (uaddr) symbolchat_colli_param_table[i];
     }
     {
       HL_8017873C *h = (HL_8017873C *) (((u8 *) this) + (i * 2));
@@ -160,7 +160,7 @@ TOSymbolchatColli::~TOSymbolchatColli() {
     this->unregister_object_by_id();
     free_collision_body_parts(this);
 }
-TOSymbolchatColli::TOSymbolchatColli(TObject *parent, s32 set_data) : TObjChara(parent) {
+TOSymbolchatColli::TOSymbolchatColli(TObject *parent, saddr set_data) : TObjChara(parent) {
     s32 i;
     m_name = TOSymbolchatColli__name;
     apply_object_set_data((void *)set_data);
