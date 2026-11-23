@@ -35,8 +35,8 @@ void TObjPlayer::sub_801BD318() {
 int copy_player_visual_record(void *dst, void *src);
 s32 fn_800FE73C(TObjPlayer *player);
 
-void TObjPlayer::sub_801BD384(void *visual) { update_body_parts(visual); }
-void TObjPlayer::sub_801BD3A4() {  }
+void TObjPlayer::init_body_parts(void *visual) { update_body_parts(visual); }
+void TObjPlayer::reset_body_parts() {  }
 void TObjPlayer::free_chara_making() { restore_boss6_player_snapshot(this); ((TCharaMaking *)this)->free_loaded_buffers(); }
 void TObjPlayer::update_body_parts(void *visual) { copy_player_visual_record((char*)this + 0x85c, visual); this->model_load_flags = 255; ((TCharaMaking *)this)->update_body_parts(); fn_800FE73C(this); }
 
@@ -46,16 +46,16 @@ TObjPlayer::~TObjPlayer() {
     release_child_object();
     free_chara_making();
     destroy_child();
-    sub_801BCD54();
-    sub_801BCC50();
-    sub_801BCB28();
-    sub_801BCA10();
+    release_pad_binding();
+    release_char_data();
+    release_area_sync();
+    release_technique_caps();
     destroy_owned_object();
-    sub_801BD314();
-    sub_801BC504();
-    sub_801BBC64();
-    sub_801BBB94();
-    sub_801BB8AC();
+    release_motion();
+    release_area_placement();
+    release_lock_on_cursor();
+    release_action_palettes();
+    release_pending_action();
     unregister();
     TObjPlayer::free_owned_buffer_b((saddr)((s8 *)this + 0x7CC), (s16)(-1));
     destroy__10TObjPlayerFis((saddr)((s8 *)this + 0x754), -1);
@@ -127,7 +127,7 @@ TObjPlayer::TObjPlayer(TObject *parent, void *arg2) : TObjChara(parent) {
     this->m_name = lbl_805D3530;
     this->init_from_data(arg2);
     this->setup_control_role(4);
-    sub_801BD384((char *)arg2 + 200);
+    init_body_parts((char *)arg2 + 200);
     this->load_char_data((u8 *)arg2);
     this->update_position((saddr)arg2);
     clear_lock_on_cursor(arg2);

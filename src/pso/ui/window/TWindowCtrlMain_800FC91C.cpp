@@ -83,7 +83,7 @@ s32 TWindowSubStatusDisp::build_status_text(s32 client_id) {
         return 0;
     }
     name = p->m10();
-    idx = ((TObjPlayer *)p)->sub_801AFD8C();
+    idx = ((TObjPlayer *)p)->get_language();
     lvl = p->m14();
     text_builder_reset();
     switch (mode) {

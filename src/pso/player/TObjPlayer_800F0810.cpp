@@ -45,7 +45,7 @@ extern s32 model_render_flags;
 
 void TObjPlayer::update_lights() { current_scene_light->init_directional_light(); current_scene_light->sub_801337F8(); }
 
-void TObjPlayer::sub_800F083C() {  }
+void TObjPlayer::begin_alt_model_draw() {  }
 
 void TObjPlayer::clear_alt_model_flag() {
     model_render_flags &= 0xFFFFF7FF;
@@ -65,14 +65,14 @@ void TObjEneDD_ST::draw_with_alt_model(s32 diffuse) {
     saddr temp_r31;
     temp_r31 = *(s32 *)&this->model;
     TObjPlayer::set_alt_model_flag();
-    TObjPlayer::sub_800F083C();
+    TObjPlayer::begin_alt_model_draw();
     *(s32 *)&this->model = (saddr)TObjPlayer__sub_800F08AC((AltChunkObject *)temp_r31, diffuse);
     draw();
     TObjPlayer::update_lights();
     TObjPlayer::clear_alt_model_flag();
     *(s32 *)&this->model = temp_r31;
 }
-void TObjPlayer::sub_800F0928() {
+void TObjPlayer::init_alt_model() {
     s16 *strips = (s16 *)&alt_model_strips;
     AltChunkObject *object = &alt_model_object;
     strips[0] = 0x2514;

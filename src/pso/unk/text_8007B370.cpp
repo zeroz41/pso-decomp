@@ -43,7 +43,7 @@ s32 fill_guild_card_from_player(u8 *ply_guild_card_tag, u32 client) {
   *((s8 *) (((s8 *) ply_guild_card_tag) + 0x1F)) = 0;
   *((u8 *) (((s8 *) ply_guild_card_tag) + 0x8F)) = (u8) (*((u8 *) (((s8 *) player) + 0x88D)));
   *((s8 *) (((s8 *) ply_guild_card_tag) + 0x8E)) = ((TPlyPhotonChair *)player)->get_actor_section_id();
-  new_var = ((TObjPlayer *)player)->sub_801AFD8C();
+  new_var = ((TObjPlayer *)player)->get_language();
   temp_r4 = (u8 *)(player + 0xDAC);
   *((s8 *) (((s8 *) ply_guild_card_tag) + 0x8D)) = new_var;
   if (temp_r4 == 0)

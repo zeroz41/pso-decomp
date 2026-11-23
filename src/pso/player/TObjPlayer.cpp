@@ -150,15 +150,15 @@ void set_equip_slot_entry(saddr arg0, s32 val_ext, s32 arg2) {
     *(s32 *)((s8 *)arg0 + (val_ext * 4)) = arg2;
 }
 
-void ContactSurfaceState::fn_801BF8CC() { word.reset(); }
+void ContactSurfaceState::reset_flags() { word.reset(); }
 
-void ContactSurfaceState::fn_801BF8AC() { fn_801BF8CC(); }
+void ContactSurfaceState::clear_surface() { reset_flags(); }
 
 void ContactSurfaceState::check_flag_2() { word.set(2); }
 
 void ContactSurfaceState::set_flag_4() { word.set(4); }
 
-void ContactSurfaceState::fn_801BF840() { word.set(8); }
+void ContactSurfaceState::set_sand() { word.set(8); }
 
 void ContactSurfaceState::test_flag_16() { word.set(16); }
 
@@ -173,15 +173,15 @@ void PlayerAnimationState::set_state(s16 v) { state = v; }
 void PlayerAnimationState::set_angle(s32 v) { angle = v; }
 
 void ContactSurfaceState::update_field8() {
-    prev_flags = fn_801BF640();
+    prev_flags = get_flags();
 }
 
-void ContactSurfaceState::fn_801BF7B8() { timer = -1; }
+void ContactSurfaceState::stop_timer() { timer = -1; }
 
 s32 ContactSurfaceState::update_timer() {
     if (is_timer_running() != 0) {
         if (--timer < 0) {
-            fn_801BF7B8();
+            stop_timer();
         }
     }
     return timer;
@@ -222,21 +222,21 @@ MovementHold *MovementHold::init() {
     return this;
 }
 
-int ContactSurfaceState::fn_801BF640() { return TObjPlayer__sub_801BFFA0(&word); }
+int ContactSurfaceState::get_flags() { return TObjPlayer__sub_801BFFA0(&word); }
 
-s32 ContactSurfaceState::fn_801BF60C() {
-    return prev_flags ^ fn_801BF640();
+s32 ContactSurfaceState::get_changed_flags() {
+    return prev_flags ^ get_flags();
 }
 
-s32 ContactSurfaceState::fn_801BF5F8(s32 v) {
+s32 ContactSurfaceState::has_water_or_sand(s32 v) {
     return (u8)((v & 0xC) != 0);
 }
 
-void ContactSurfaceState::fn_801BF5F0(s32 v) { timer = v; }
+void ContactSurfaceState::set_timer(s32 v) { timer = v; }
 
-s32 ContactSurfaceState::fn_801BF584() {
-    if (fn_801BF5F8(fn_801BF60C()) != 0 && fn_801BF5F8(prev_flags) != 0) {
-        fn_801BF5F0(0x96);
+s32 ContactSurfaceState::check_surface_exit() {
+    if (has_water_or_sand(get_changed_flags()) != 0 && has_water_or_sand(prev_flags) != 0) {
+        set_timer(0x96);
         return 1;
     }
     return 0;
@@ -436,25 +436,25 @@ void TObjPlayer::set_position(f32 a, f32 b, f32 c) { this->position.x = a; this-
 
 MaterialUsage::~MaterialUsage() {}
 
-void MaterialUsage::fn_801BEDB8(u8 v) { counts[0] = v; }
+void MaterialUsage::set_power_used(u8 v) { counts[0] = v; }
 
-void MaterialUsage::fn_801BEDB0(u8 v) { counts[1] = v; }
+void MaterialUsage::set_mind_used(u8 v) { counts[1] = v; }
 
-void MaterialUsage::fn_801BEDA8(u8 v) { counts[2] = v; }
+void MaterialUsage::set_evade_used(u8 v) { counts[2] = v; }
 
-void MaterialUsage::fn_801BEDA0(u8 v) { counts[3] = v; }
+void MaterialUsage::set_def_used(u8 v) { counts[3] = v; }
 
-void MaterialUsage::fn_801BED98(u8 v) { counts[4] = v; }
+void MaterialUsage::set_luck_used(u8 v) { counts[4] = v; }
 
-u8 MaterialUsage::fn_801BED90() { return counts[0]; }
+u8 MaterialUsage::get_power_used() { return counts[0]; }
 
-u8 MaterialUsage::fn_801BED88() { return counts[1]; }
+u8 MaterialUsage::get_mind_used() { return counts[1]; }
 
-u8 MaterialUsage::fn_801BED80() { return counts[2]; }
+u8 MaterialUsage::get_evade_used() { return counts[2]; }
 
-u8 MaterialUsage::fn_801BED78() { return counts[3]; }
+u8 MaterialUsage::get_def_used() { return counts[3]; }
 
-u8 MaterialUsage::fn_801BED70() { return counts[4]; }
+u8 MaterialUsage::get_luck_used() { return counts[4]; }
 
 void MaterialUsage::try_add_item(s32 class_index, u8 amount) {
     try_add_item_count(class_index, 0, amount);
@@ -592,11 +592,11 @@ PlayerCameraOffset::PlayerCameraOffset() {
 }
 
 ContactSurfaceState::ContactSurfaceState() {
-    fn_801BFED4();
+    init_timer();
 }
 
 
-void ContactSurfaceState::fn_801BFED4() { timer = -1; }
+void ContactSurfaceState::init_timer() { timer = -1; }
 ContactSurfaceFlags::ContactSurfaceFlags() {
     reset();
 }

@@ -3,20 +3,20 @@
 
 #include "types.h"
 
-// TObjPlayer + 0x374: the player's material usage counts. Name inferred from its API
-// (get_total_materials_used sums counts[0..4]; try_add_item_count caps the sum at
-// get_material_limit_for_class; can_use_more_materials).
+// TObjPlayer + 0x374: how many stat materials the player has used, per material:
+// counts[0] power, [1] mind, [2] evade, [3] def, [4] luck. The sum is capped at
+// get_material_limit_for_class (250 for humans, 150 for newmans and androids).
 struct MaterialUsage {
-    u8 fn_801BED70();
-    u8 fn_801BED78();
-    u8 fn_801BED80();
-    u8 fn_801BED88();
-    u8 fn_801BED90();
-    void fn_801BED98(u8 v);
-    void fn_801BEDA0(u8 v);
-    void fn_801BEDA8(u8 v);
-    void fn_801BEDB0(u8 v);
-    void fn_801BEDB8(u8 v);
+    u8 get_luck_used();
+    u8 get_def_used();
+    u8 get_evade_used();
+    u8 get_mind_used();
+    u8 get_power_used();
+    void set_luck_used(u8 v);
+    void set_def_used(u8 v);
+    void set_evade_used(u8 v);
+    void set_mind_used(u8 v);
+    void set_power_used(u8 v);
     void add_item_count_kind4(s32 class_index, u8 amount);
     void try_add_item_count_kind3(s32 class_index, u8 amount);
     void try_add_item_count_type2(s32 class_index, u8 amount);

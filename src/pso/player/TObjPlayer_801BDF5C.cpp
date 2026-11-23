@@ -157,8 +157,8 @@ s32 TObjPlayer::vfunc_79() { return 0; }
 s32 TObjPlayer::check_camera_mode() {
     return (u8)((u8) (is_quest_active() == 1));
 }
-void TObjPlayer::sub_801BE2C0(s32 v) { *(s32*)((char*)this + 0x370) = v; }
-s32 TObjPlayer::sub_801BE2C8() { return this->pad_370; }
+void TObjPlayer::set_regen_timer(s32 v) { *(s32*)((char*)this + 0x370) = v; }
+s32 TObjPlayer::get_regen_timer() { return this->pad_370; }
 int TObjPlayer::is_newman() { return (this->class_flags & CLASS_FLAG_NEWMAN) != 0; }
 int TObjPlayer::is_android() { return (this->class_flags & CLASS_FLAG_ANDROID) != 0; }
 void TObjPlayer::check_stat_flag_41c() { ((FlagWord *)((char*)this + 0x41c))->set(32); }
@@ -575,15 +575,15 @@ u8 TObjPlayer::get_byte_339() { return this->m_339; }
 void TObjPlayer__sub_801BE7A4(void* p, u8 v) { *(u8*)((char*)p + 0x2af) = v; }
 u8 TObjPlayer::get_mag_level() { return *(u8*)((char*)this + 0x338); }
 void TObjPlayer__sub_801BE7B4(void* p, u8 v) { *(u8*)((char*)p + 0x293) = v; }
-u8 TObjPlayer::fn_801BE7BC() { return materials.fn_801BED70(); }
+u8 TObjPlayer::get_luck_materials_used() { return materials.get_luck_used(); }
 void TObjPlayer__sub_801BE7E0(void* p, u8 v) { *(u8*)((char*)p + 0x277) = v; }
-u8 TObjPlayer::get_equip_flags() { return materials.fn_801BED78(); }
+u8 TObjPlayer::get_equip_flags() { return materials.get_def_used(); }
 void TObjPlayer__sub_801BE80C(void* p, u8 v) { *(u8*)((char*)p + 0x25b) = v; }
-u8 TObjPlayer::get_inventory_state() { return materials.fn_801BED80(); }
+u8 TObjPlayer::get_inventory_state() { return materials.get_evade_used(); }
 void TObjPlayer__sub_801BE838(void* p, u8 v) { *(u8*)((char*)p + 0x23f) = v; }
-u8 TObjPlayer::get_field_374_state() { return materials.fn_801BED88(); }
+u8 TObjPlayer::get_field_374_state() { return materials.get_mind_used(); }
 void TObjPlayer__sub_801BE864(void* p, u8 v) { *(u8*)((char*)p + 0x223) = v; }
-u8 TObjPlayer::get_field_374() { return materials.fn_801BED90(); }
+u8 TObjPlayer::get_field_374() { return materials.get_power_used(); }
 
 }
 
@@ -617,7 +617,7 @@ u8 TObjPlayer__sub_801BE8F4(O_801BE8F4 *self, s32 i, u32 mask) {
     return (self->entries[i].flags & mask) != 0;
 }
 
-void* TObjPlayer::sub_801BE918(int a1, void* a2, void* a3) { *(float*)((char*)a2 + 0x0) = *(float*)((char*)this + a1 * 8 + 0x6b0); *(float*)((char*)a3 + 0x0) = *(float*)((char*)this + a1 * 8 + 0x6b4); return (char*)this + a1 * 8; }
+void* TObjPlayer::get_position_history_entry(int a1, void* a2, void* a3) { *(float*)((char*)a2 + 0x0) = *(float*)((char*)this + a1 * 8 + 0x6b0); *(float*)((char*)a3 + 0x0) = *(float*)((char*)this + a1 * 8 + 0x6b4); return (char*)this + a1 * 8; }
 s32 TObjPlayer::clamp_index_to_max(s32 level) {
     s32 max_level;
 
@@ -671,7 +671,7 @@ void TObjPlayer::set_floor_index(s32 v) { current_area = v; }
 extern "C" {
 
 
-s32 TObjPlayer::sub_801BEB0C() { return this->state_flags; }
+s32 TObjPlayer::get_state_flags() { return this->state_flags; }
 int TObjPlayer::unregister_sub() { return unregister_object_by_id(); }
 void TObjPlayer::set_control_role(s32 v) { *(s32 *)&this->unk_3E8 = v; }
 u8 TObjPlayer__sub_801BEB3C(void* p) { return *(u8*)((char*)p + 0x2e7); }
@@ -679,15 +679,15 @@ u8 TObjPlayer__sub_801BEB44(void* p) { return *(u8*)((char*)p + 0x2cb); }
 u8 TObjPlayer__sub_801BEB4C(void* p) { return *(u8*)((char*)p + 0x2af); }
 void TObjPlayer::set_play_time(s32 v) { this->m_3bc = v; }
 void TObjPlayer::reset_entrance_id() { *(s32*)((char*)this + 0x3c8) = -1; }
-void TObjPlayer::fn_801BEB68(u8 v) { materials.fn_801BED98(v); }
+void TObjPlayer::set_luck_materials_used(u8 v) { materials.set_luck_used(v); }
 u8 TObjPlayer__sub_801BEB8C(void* p) { return *(u8*)((char*)p + 0x293); }
-void TObjPlayer::set_equip_flags(u8 v) { materials.fn_801BEDA0(v); }
+void TObjPlayer::set_equip_flags(u8 v) { materials.set_def_used(v); }
 u8 TObjPlayer__sub_801BEBB8(void* p) { return *(u8*)((char*)p + 0x277); }
-void TObjPlayer::set_inventory_state(u8 v) { materials.fn_801BEDA8(v); }
+void TObjPlayer::set_inventory_state(u8 v) { materials.set_evade_used(v); }
 u8 TObjPlayer__sub_801BEBE4(void* p) { return *(u8*)((char*)p + 0x25b); }
-void TObjPlayer::set_field_374_state(u8 v) { materials.fn_801BEDB0(v); }
+void TObjPlayer::set_field_374_state(u8 v) { materials.set_mind_used(v); }
 u8 TObjPlayer__sub_801BEC10(void* p) { return *(u8*)((char*)p + 0x23f); }
-void TObjPlayer::set_field_374(u8 v) { materials.fn_801BEDB8(v); }
+void TObjPlayer::set_field_374(u8 v) { materials.set_power_used(v); }
 u8 TObjPlayer__sub_801BEC3C(void* p) { return *(u8*)((char*)p + 0x223); }
 
 }

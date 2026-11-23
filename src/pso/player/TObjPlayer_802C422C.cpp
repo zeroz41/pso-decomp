@@ -103,7 +103,7 @@ void export_player_record__10TObjPlayerFPvPv(TObjPlayer *player, u8 *arg1) {
     player->set_flag_103(((TObjPlayer *)arg1)->get_field_374_state());
     player->set_action_flags(((TObjPlayer *)arg1)->get_inventory_state());
     player->set_byte_13b(((TObjPlayer *)arg1)->get_equip_flags());
-    player->set_field_157(((TObjPlayer *)arg1)->fn_801BE7BC());
+    player->set_field_157(((TObjPlayer *)arg1)->get_luck_materials_used());
     TObjPlayer__sub_8013A748((u8 *)player + 0x3C0, arg1 + 0x500);
     for (i = 0; i < 0x13; i++) {
         e = TObjPlayer__sub_802C4698((O_802C4698 *) player, i);

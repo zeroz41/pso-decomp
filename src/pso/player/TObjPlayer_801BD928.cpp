@@ -58,7 +58,7 @@ TObjPlayer::TObjPlayer(TObject *parent, s32 slot, s32 role, u8 *record) : TObjCh
     this->set_field_374_state(get_byte_103(record));
     this->set_inventory_state(get_byte_11f(record));
     this->set_equip_flags(get_byte_13b(record));
-    this->fn_801BEB68(get_byte_157(record));
+    this->set_luck_materials_used(get_byte_157(record));
     this->init_player_data(record + 0x34C);
     this->create_lockon_cursor();
     this->sub_801BD318();
@@ -67,7 +67,7 @@ TObjPlayer::TObjPlayer(TObject *parent, s32 slot, s32 role, u8 *record) : TObjCh
     init_player_substructs(record + 0x3C0);
     this->load_character_state((u8 *)record);
     this->update_if_active();
-    sub_801BC8F0();
+    assign_owner_ids();
     this->setup_fresh_player_state((u8 *)record);
     this->sub_801BB8B0((u8 *)record);
     TObjPlayer::set_com_card_window((saddr)((this->get_entity_id())));

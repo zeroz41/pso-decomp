@@ -81,7 +81,7 @@ void TObjEneEpsilonGuard::load_assets() {
     epsilon_guard_part_color_table[6] = (u8 *)((NJS_CNK_MODEL *)get_bml_model(epsilon_bml_resource, 2)->child->model)->polygon_list;
     epsilon_guard_part_color_table[8] = (u8 *)((NJS_CNK_MODEL *)get_bml_model(epsilon_bml_resource, 3)->model)->polygon_list;
     epsilon_guard_part_color_table[7] = (u8 *)((NJS_CNK_MODEL *)get_bml_model(epsilon_bml_resource, 4)->model)->polygon_list;
-    TObjPlayer::sub_800F0928();
+    TObjPlayer::init_alt_model();
     {
         NpcAnimationBinding binding = { NULL, epsilon_action_table, 0, 0, 1 };
         binding.motions = epsilon_bml_resource->motions;

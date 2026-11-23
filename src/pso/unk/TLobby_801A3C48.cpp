@@ -284,7 +284,7 @@ void reload_lobby_floor_scene(void) {
     TObject holder(NULL);
     TLobby::clear_counters();
     TLobby::reset_state_flags();
-    TObjPlayer::sub_801B1C8C();
+    TObjPlayer::send_local_player_invisible();
     TLobby::stop_audio_streams();
     process_pending_resources();
     reset_controller_input_state();
@@ -319,7 +319,7 @@ void reload_lobby_floor_scene(void) {
     TLobby__sub_801A3E94();
     TLobby::process_deferred_player_setup();
     TLobby::install_game_join_handlers();
-    TObjPlayer::sub_801B1BA4();
+    TObjPlayer::send_local_player_visible();
     TLobby::send_room_change(TLobby::lobby_number);
     init_key_slots__15TOKeyJungleMainFPv();
     TLobby__data_805D5CE8 = 0;
@@ -358,7 +358,7 @@ void TLobby::reload_floor_scene() {
     Pl_801A40D8 *p;
     s32 j;
     TLobby::reset_state_flags();
-    TObjPlayer::sub_801B1C8C();
+    TObjPlayer::send_local_player_invisible();
     TLobby::stop_audio_streams();
     TLobby::update_lobby_subsystems();
     TObject holder(NULL);
@@ -396,7 +396,7 @@ void TLobby::reload_floor_scene() {
         }
     }
     TLobby::process_deferred_player_setup();
-    TObjPlayer::sub_801B1BA4();
+    TObjPlayer::send_local_player_visible();
     TObjBgmColCtrl::create_controller();
 }
 
@@ -426,7 +426,7 @@ void start_quest_mission(void) {
     VObj_18_801A4268 *p;
     TObject holder(NULL);
     TLobby::reset_state_flags();
-    TObjPlayer::sub_801B1C8C();
+    TObjPlayer::send_local_player_invisible();
     TLobby::stop_audio_streams();
     TLobby::update_lobby_subsystems();
     process_pending_resources();
@@ -476,7 +476,7 @@ void start_quest_mission(void) {
         }
     }
     TLobby::process_deferred_player_setup();
-    TObjPlayer::sub_801B1BA4();
+    TObjPlayer::send_local_player_visible();
     TQuestThread::create_for_floor();
 }
 
@@ -488,7 +488,7 @@ void change_floor_reload_area(void) {
     VObj_18_801A441C *p;
     TObject holder(NULL);
     TLobby::reset_state_flags();
-    TObjPlayer::sub_801B1C8C();
+    TObjPlayer::send_local_player_invisible();
     TLobby::stop_audio_streams();
     process_pending_resources();
     reset_controller_input_state();
@@ -535,7 +535,7 @@ void change_floor_reload_area(void) {
     if (r != 0) {
         TLobby__sub_801A3E94();
     }
-    TObjPlayer::sub_801B1BA4();
+    TObjPlayer::send_local_player_visible();
     TLobby::process_deferred_player_setup();
     TQuestThread::create_for_floor();
     if (r != 0) {

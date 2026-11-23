@@ -66,7 +66,7 @@ void TKeyBoardControl__sub_8000F764(void) {
 }
 
 void TKeyBoardControl::run_tasks() {
-    TObjPlayer::sub_80083FB0();
+    TObjPlayer::clear_shadow_pass_request();
     update_global_sound_frame();
     if ((s32) lbl_805D62B0 != 0) {
         update_music_sequencer();

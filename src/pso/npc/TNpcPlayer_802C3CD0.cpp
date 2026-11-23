@@ -92,7 +92,7 @@ void export_character_data__10TObjPlayerFPvPv(TObjPlayer *player, TPlyCharData *
     ((TObjPlayer *)arg1)->set_flag_103(player->get_field_374_state());
     ((TObjPlayer *)arg1)->set_action_flags(player->get_inventory_state());
     ((TObjPlayer *)arg1)->set_byte_13b(player->get_equip_flags());
-    ((TObjPlayer *)arg1)->set_field_157(player->fn_801BE7BC());
+    ((TObjPlayer *)arg1)->set_field_157(player->get_luck_materials_used());
     TLobby::copy_data(&character->m_stats, player->get_stats());
     clamp_stats__10TObjPlayerFiPv(arg0, &character->m_stats, (saddr)TObjPlayer::get_class_stat_entry(arg0));
     copy_player_visual_record(&character->m_disp_part2, arg0 + 0x85C);
@@ -110,7 +110,7 @@ void export_character_data__10TObjPlayerFPvPv(TObjPlayer *player, TPlyCharData *
     }
     player->set_hp_clamped(hp);
     player->set_tp(facing);
-    character->m_inventory.m_language = player->sub_801AFD8C();
+    character->m_inventory.m_language = player->get_language();
     player->apply_pending_action((saddr)arg1);
     player->copy_mag_level_to_record((u8 *)arg1);
     player->copy_byte_339_to_record((u8 *)arg1);
@@ -167,7 +167,7 @@ void export_state_to_record__10TObjPlayerFPvPv(u8 *player, s8 *arg1) {
     ((TObjPlayer *)arg1)->set_flag_103(((TObjPlayer *)player)->get_field_374_state());
     ((TObjPlayer *)arg1)->set_action_flags(((TObjPlayer *)player)->get_inventory_state());
     ((TObjPlayer *)arg1)->set_byte_13b(((TObjPlayer *)player)->get_equip_flags());
-    ((TObjPlayer *)arg1)->set_field_157(((TObjPlayer *)player)->fn_801BE7BC());
+    ((TObjPlayer *)arg1)->set_field_157(((TObjPlayer *)player)->get_luck_materials_used());
     clamp_stats__10TObjPlayerFiPv(player, arg1 + 0x34C, (saddr)TObjPlayer::get_class_stat_entry(player));
     copy_player_visual_record(arg1 + 0x370, player + 0x85C);
     TObjPlayer__sub_8013A748(arg1 + 0x3C0, player + 0x500);
@@ -183,7 +183,7 @@ void export_state_to_record__10TObjPlayerFPvPv(u8 *player, s8 *arg1) {
     }
     ((TObjPlayer *)player)->set_hp_clamped(hp);
     ((TObjPlayer *)player)->set_tp(facing);
-    arg1[3] = ((TObjPlayer *)player)->sub_801AFD8C();
+    arg1[3] = ((TObjPlayer *)player)->get_language();
     if (TObjPlayer__sub_802A1018() != 0) {
         ((TObjPlayer *)arg1)->set_flag_40();
     }

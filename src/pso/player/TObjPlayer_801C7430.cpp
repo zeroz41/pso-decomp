@@ -2446,7 +2446,7 @@ void TObjPlayer::send_6x4F_revived() {
             this->refill_traps();
         }
     } else {
-        ((TObjPlayer *)arg0)->sub_801B4430();
+        ((TObjPlayer *)arg0)->send_6xA1_player_id();
     }
     ((TObjPlayer *)arg0)->photon_blast_gauge.update_if_ready();
     if ((arg0 == 0U) || (this->obj_isState2_324() == 0)) {
@@ -5527,10 +5527,10 @@ void TObjPlayer::update_action(saddr owner) {
     } else if (temp_r3 == 1U) {
         ((TObjPlayer *)owner)->rewind_position_history();
     }
-    if ((((TObjPlayer *)owner)->is_newman() != 0) && (TFontSmallLobby::is_lobby_floor_15() == 0) && (((TObjPlayer *)owner)->sub_801AF290() != 0)) {
+    if ((((TObjPlayer *)owner)->is_newman() != 0) && (TFontSmallLobby::is_lobby_floor_15() == 0) && (((TObjPlayer *)owner)->tick_regen_timer() != 0)) {
         add_actor_tp((u8 *)owner, 1);
     }
-    if ((((s32 (*)(s32))is_android_player)(owner) != 0) && (TFontSmallLobby::is_lobby_floor_15() == 0) && (((TObjPlayer *)owner)->sub_801AF290() != 0)) {
+    if ((((s32 (*)(s32))is_android_player)(owner) != 0) && (TFontSmallLobby::is_lobby_floor_15() == 0) && (((TObjPlayer *)owner)->tick_regen_timer() != 0)) {
         add_actor_hp((u8 *)owner, 1);
     }
 }

@@ -530,7 +530,7 @@ void TBoss2DeRolLe::load_resources() {
     p->evalflags = NJD_EVAL_UNIT_POS | NJD_EVAL_UNIT_ANG | NJD_EVAL_UNIT_SCL | NJD_EVAL_HIDE | NJD_EVAL_BREAK;
     p->child = 0;
     TObjPlayer::create_breakup_model();
-    TObjPlayer::sub_8002E7C8();
+    TObjPlayer::create_derolle_breakup_model();
     TWindowCtrl::init_all_slots();
 }
 
@@ -540,7 +540,7 @@ void *TBoss2DeRolLe::create(void *set_data) {
 
 void TBoss2DeRolLe::reset_parts() {
     TObjPlayer::clear_target_ref();
-    TObjPlayer::sub_8002EB88();
+    TObjPlayer::free_breakup_model();
     TBoss2Fin::release_effect_table();
     TBoss2Mine::free_resources();
     TBoss2Tentacle::release_shared_model();

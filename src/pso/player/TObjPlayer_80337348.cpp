@@ -25,11 +25,11 @@ s32 MaterialUsage::can_use_more_materials(s32 class_index) {
 
 u8 MaterialUsage::get_total_materials_used() {
     u8 sum;
-    sum = fn_801BED90();
-    sum += fn_801BED88();
-    sum += fn_801BED80();
-    sum += fn_801BED78();
-    sum += fn_801BED70();
+    sum = get_power_used();
+    sum += get_mind_used();
+    sum += get_evade_used();
+    sum += get_def_used();
+    sum += get_luck_used();
     return sum;
 }
 

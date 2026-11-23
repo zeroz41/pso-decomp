@@ -231,4 +231,4 @@ void TObjPlayer::update_input_and_draw() {
 
 }
 
-void TObjPlayer::sub_801BD314() {  }
+void TObjPlayer::release_motion() {  }

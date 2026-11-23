@@ -260,7 +260,7 @@ f32 TObjPlayer::get_end_text_value(f32 x) {
     return atan(x);
 }
 
-void TObjPlayer::sub_800847FC() {  }
+void TObjPlayer::end_screen_quad() {  }
 
 void TObjPlayer::set_tex_coord_gen(s32 dst, s32 func, s32 src, s32 mtx) {
     GXSetTexCoordGen2(dst, func, src, mtx, 0, 0x7D);
@@ -347,7 +347,7 @@ void capture_viewport_texture(void) {
     }
 }
 
-void TObjPlayer::sub_80084500() {
+void TObjPlayer::load_capture_texture() {
     TObjFish::set_global_param(&shared_capture_texture_list);
     load_list_texture(0, 0, 0, 0);
 }
@@ -394,7 +394,7 @@ void TObjPlayer::draw_textured_screen_quad(u32 arg0, f32 *arg1, f32 *size, s32 a
     GXPosition3f32_80083594(arg1[0] * z, z * (arg1[1] + size[1]), z);
     GXColor1u32_80083594(temp_r31);
     GXTexCoord2f32_80083594(0.0f, 1.0f);
-    sub_800847FC();
+    end_screen_quad();
     set_default_alpha_blend();
     if (arg3 != 0) {
         temp_r4_2 = shared_capture_texture_list.textures->texture->surface;
@@ -455,7 +455,7 @@ void TObjPlayer::draw_screen_quad(u32 arg0, s32 arg1, f32 farg0) {
     GXPosition3f32_80083594(temp_f31, temp_f30_2, z);
     GXColor1u32_80083594(temp_r31);
     GXTexCoord2f32_80083594(0.0f, 1.0f);
-    sub_800847FC();
+    end_screen_quad();
     set_default_alpha_blend();
     if (arg1 != 0) {
         temp_r4_2 = shared_capture_texture_list.textures->texture->surface;
@@ -469,7 +469,7 @@ s32 TObjPlayer::check_all_players_ready() {
     s32 counter;
     void *p;
     flag = 1;
-    if (((s32)sub_80083F9C()) == 0) {
+    if (((s32)is_shadow_pass_requested()) == 0) {
         return 0;
     }
     if (get_main_phase() == 0xF) {
@@ -485,11 +485,11 @@ s32 TObjPlayer::check_all_players_ready() {
     return flag;
 }
 
-void TObjPlayer::sub_80083FB0() { lbl_805D4EE0 = 0; }
+void TObjPlayer::clear_shadow_pass_request() { lbl_805D4EE0 = 0; }
 
-void TObjPlayer::sub_80083FA4() { lbl_805D4EE0 = 1; }
+void TObjPlayer::request_shadow_pass() { lbl_805D4EE0 = 1; }
 
-int TObjPlayer::sub_80083F9C() {  return lbl_805D4EE0; }
+int TObjPlayer::is_shadow_pass_requested() {  return lbl_805D4EE0; }
 
 void TObjPlayer__sub_80083F38(void) {
     GinjaTextureInput r;
@@ -518,7 +518,7 @@ void begin_shadow_map_pass(void) {
     if (is_split_screen() != 0) {
         return;
     }
-    TObjPlayer::sub_80083FA4();
+    TObjPlayer::request_shadow_pass();
     if (TObjPlayer::check_all_players_ready() == 0) {
         return;
     }
@@ -903,7 +903,7 @@ void TObjPlayer::copy_screen_to_texture(s32 mode, void *src) {
         if (test_previous_buttons_packed(cam, 0x100) != 0) {
             init_tev_swap();
         }
-        sub_80082C30();
+        draw_capture_caption_bar();
         GXSetTexCopySrc(0xC0, 0x90, 0x100, 0xC0);
         GXSetTexCopyDst(0x100, 0xC0, 4, 0);
         GXCopyTex(shared_capture_texture_list.textures->texture->surface->header.pixels, 1);
@@ -928,7 +928,7 @@ void TObjPlayer::copy_screen_to_texture(s32 mode, void *src) {
         if (test_previous_buttons_packed(cam, 0x100) != 0) {
             init_tev_swap();
         }
-        sub_80082C30();
+        draw_capture_caption_bar();
         GXSetTexCopySrc(0xC0, 0x90, 0x100, 0xC0);
         GXSetTexCopyDst(0x100, 0xC0, 4, 0);
         GXCopyTex(shared_capture_texture_list.textures->texture->surface->header.pixels, 1);
@@ -944,7 +944,7 @@ void TLiveCameraView::disable() { flags |= 4; }
 #pragma push
 #pragma opt_common_subs off
 #pragma opt_propagation off
-void TObjPlayer::sub_80082C30() {
+void TObjPlayer::draw_capture_caption_bar() {
     LAYOUT_ASSERT(sp8_offset, offsetof(Stack_80082C30, sp8) == 0x0);
     LAYOUT_ASSERT(spC_offset, offsetof(Stack_80082C30, spC) == 0x4);
     LAYOUT_ASSERT(sp10_offset, offsetof(Stack_80082C30, sp10) == 0x8);
