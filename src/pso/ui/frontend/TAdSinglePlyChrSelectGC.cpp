@@ -104,15 +104,15 @@ void TAdSinglePlyChrSelectGC::finish_character_selection_transition() {
         *(u32 *)((s8 *)arg0 + 0x38) = 0U;
     }
     if ((u32) *(u32 *)((s8 *)arg0 + 0x44) != 0U) {
-        ((TWindowSubComCard *)(*(void **)((s8 *)arg0 + 0x44)))->close();
+        ((TWindowMessageYesNo *)(*(void **)((s8 *)arg0 + 0x44)))->close();
         *(u32 *)((s8 *)arg0 + 0x44) = 0U;
     }
     if ((u32) *(u32 *)((s8 *)arg0 + 0x4C) != 0U) {
-        ((TWindowSubComCard *)(*(void **)((s8 *)arg0 + 0x4C)))->close();
+        ((TWindowMessageYesNo *)(*(void **)((s8 *)arg0 + 0x4C)))->close();
         *(u32 *)((s8 *)arg0 + 0x4C) = 0U;
     }
     if ((u32) *(u32 *)((s8 *)arg0 + 0x50) != 0U) {
-        ((TWindowSubComCard *)(*(void **)((s8 *)arg0 + 0x50)))->close();
+        ((TWindowMessageYesNo *)(*(void **)((s8 *)arg0 + 0x50)))->close();
         *(u32 *)((s8 *)arg0 + 0x50) = 0U;
     }
     temp_r4 = *(s32 *)((s8 *)arg0 + 0x1C) + 1;
@@ -150,7 +150,7 @@ void TAdSinglePlyChrSelectGC::close_and_change_scene() {
     }
     window_sub_com_card = (u8 *)(*(u8 * *)&this->m_44);
     if (window_sub_com_card != NULL) {
-        ((TWindowSubComCard *)window_sub_com_card)->close();
+        ((TWindowMessageYesNo *)window_sub_com_card)->close();
         *(u8 * *)&this->m_44 = NULL;
     }
     temp_r4 = *(s32 *)&this->m_1c + 1;
@@ -174,7 +174,7 @@ void TAdSinglePlyChrSelectGC::handle_card_select() {
         return;
     }
     if (((TWindowMessageYesNo *)(*(saddr *)&this->unk_50))->is_child_visible() != 0) {
-        switch (((TWindowSubComCard *)(*(saddr *)&this->unk_50))->get_slot_or_neg1()) {
+        switch (((TWindowMessageYesNo *)(*(saddr *)&this->unk_50))->get_selected_value()) {
         case 0:
             this->m_5c = 3;
             *(s32 *)&this->m_20 = 0xC;
@@ -185,7 +185,7 @@ void TAdSinglePlyChrSelectGC::handle_card_select() {
             *(s32 *)&this->m_20 = 5;
             return;
         }
-    } else if (((TWindowSubComCard *)(*(saddr *)&this->unk_50))->get_card_data() != 0) {
+    } else if (((TWindowMessageYesNo *)(*(saddr *)&this->unk_50))->is_cancelled() != 0) {
         ((TWindowMenu *)(*(saddr *)&this->unk_38))->clear_transition_flag();
         ((TAdSelectCurGC *)(*(saddr *)&this->m_2c))->set_selection_state(1);
         *(s32 *)&this->m_20 = 5;
@@ -199,7 +199,7 @@ void TAdSinglePlyChrSelectGC::handle_card_select2() {
         return;
     }
     if (((TWindowMessageYesNo *)(this->m_4c))->is_child_visible() != 0) {
-        switch (((TWindowSubComCard *)(this->m_4c))->get_slot_or_neg1()) {
+        switch (((TWindowMessageYesNo *)(this->m_4c))->get_selected_value()) {
         case 0:
             this->m_5c = 1;
             *(s32 *)&this->m_20 = 0xC;
@@ -210,7 +210,7 @@ void TAdSinglePlyChrSelectGC::handle_card_select2() {
             *(s32 *)&this->m_20 = 5;
             return;
         }
-    } else if (((TWindowSubComCard *)(this->m_4c))->get_card_data() != 0) {
+    } else if (((TWindowMessageYesNo *)(this->m_4c))->is_cancelled() != 0) {
         ((TWindowMenu *)(*(saddr *)&this->unk_38))->clear_transition_flag();
         ((TAdSelectCurGC *)(*(saddr *)&this->m_2c))->set_selection_state(1);
         *(s32 *)&this->m_20 = 5;
@@ -224,7 +224,7 @@ void TAdSinglePlyChrSelectGC::update_card_input() {
         return;
     }
     if (((TWindowMessageYesNo *)(this->m_44))->is_child_visible() != 0) {
-        switch (((TWindowSubComCard *)(this->m_44))->get_slot_or_neg1()) {
+        switch (((TWindowMessageYesNo *)(this->m_44))->get_selected_value()) {
         case 0:
             this->m_5c = 3;
             this->m_20 = 0xC;
@@ -234,7 +234,7 @@ void TAdSinglePlyChrSelectGC::update_card_input() {
             this->m_20 = 5;
             return;
         }
-    } else if (((TWindowSubComCard *)(this->m_44))->get_card_data() != 0) {
+    } else if (((TWindowMessageYesNo *)(this->m_44))->is_cancelled() != 0) {
         ((TAdSelectCurGC *)(this->m_2c))->set_selection_state(1);
         this->m_20 = 5;
     }
@@ -247,7 +247,7 @@ void TAdSinglePlyChrSelectGC::update() {
         return;
     }
     if (((TWindowMessageYesNo *)(*(saddr *)&this->unk_48))->is_child_visible() != 0) {
-        switch (((TWindowSubComCard *)(*(saddr *)&this->unk_48))->get_slot_or_neg1()) {
+        switch (((TWindowMessageYesNo *)(*(saddr *)&this->unk_48))->get_selected_value()) {
         case 0:
             reinterpret_cast<TAdSelectCurGC *>(m_2c)->selection_index();
             clear_entry__23TAdSinglePlyChrSelectGCFi();
@@ -261,7 +261,7 @@ void TAdSinglePlyChrSelectGC::update() {
             *(s32 *)&this->m_20 = 5;
             return;
         }
-    } else if (((TWindowSubComCard *)(*(saddr *)&this->unk_48))->get_card_data() != 0) {
+    } else if (((TWindowMessageYesNo *)(*(saddr *)&this->unk_48))->is_cancelled() != 0) {
         ((TAdSelectCurGC *)(*(saddr *)&this->m_2c))->set_selection_state(1);
         *(s32 *)&this->m_20 = 5;
     }
@@ -309,19 +309,19 @@ void TAdSinglePlyChrSelectGC::handle_slot_selection() {
         *(u32 *)&this->unk_38 = 0U;
     }
     if (*(u32 *)&this->m_44 != 0U) {
-        ((TWindowSubComCard *)(*(void * *)&this->m_44))->close();
+        ((TWindowMessageYesNo *)(*(void * *)&this->m_44))->close();
         *(u32 *)&this->m_44 = 0U;
     }
     if (*(u32 *)&this->unk_48 != 0U) {
-        ((TWindowSubComCard *)(*(void * *)&this->unk_48))->close();
+        ((TWindowMessageYesNo *)(*(void * *)&this->unk_48))->close();
         *(u32 *)&this->unk_48 = 0U;
     }
     if (*(u32 *)&this->unk_50 != 0U) {
-        ((TWindowSubComCard *)(*(void * *)&this->unk_50))->close();
+        ((TWindowMessageYesNo *)(*(void * *)&this->unk_50))->close();
         *(u32 *)&this->unk_50 = 0U;
     }
     if (*(u32 *)&this->m_4c != 0U) {
-        ((TWindowSubComCard *)(*(void * *)&this->m_4c))->close();
+        ((TWindowMessageYesNo *)(*(void * *)&this->m_4c))->close();
         *(u32 *)&this->m_4c = 0U;
     }
     if (this->m_54 != 0U) {
@@ -503,19 +503,19 @@ void TAdSinglePlyChrSelectGC::cleanup() {
         *(u32 *)((s8 *)this + 0x38) = 0U;
     }
     if ((u32) *(u32 *)((s8 *)this + 0x44) != 0U) {
-        ((TWindowSubComCard *)(*(void **)((s8 *)this + 0x44)))->close();
+        ((TWindowMessageYesNo *)(*(void **)((s8 *)this + 0x44)))->close();
         *(u32 *)((s8 *)this + 0x44) = 0U;
     }
     if ((u32) *(u32 *)((s8 *)this + 0x48) != 0U) {
-        ((TWindowSubComCard *)(*(void **)((s8 *)this + 0x48)))->close();
+        ((TWindowMessageYesNo *)(*(void **)((s8 *)this + 0x48)))->close();
         *(u32 *)((s8 *)this + 0x48) = 0U;
     }
     if ((u32) *(u32 *)((s8 *)this + 0x4C) != 0U) {
-        ((TWindowSubComCard *)(*(void **)((s8 *)this + 0x4C)))->close();
+        ((TWindowMessageYesNo *)(*(void **)((s8 *)this + 0x4C)))->close();
         *(u32 *)((s8 *)this + 0x4C) = 0U;
     }
     if ((u32) *(u32 *)((s8 *)this + 0x50) != 0U) {
-        ((TWindowSubComCard *)(*(void **)((s8 *)this + 0x50)))->close();
+        ((TWindowMessageYesNo *)(*(void **)((s8 *)this + 0x50)))->close();
         *(u32 *)((s8 *)this + 0x50) = 0U;
     }
     if ((u32) *(u32 *)((s8 *)this + 0x3C) != 0U) {

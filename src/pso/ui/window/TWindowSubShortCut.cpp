@@ -62,7 +62,7 @@ TWindowSubShortCut::TWindowSubShortCut(TObject *object, void *arg2) : TObject(ob
 
 TWindowSubShortCut::~TWindowSubShortCut() {
     if (*(void **)((s8 *)this + 0x38) != NULL) { ((TObject *)(*(void **)((s8 *)this + 0x38)))->queue_destruction(); this->chat_window = 0; }
-    if (*(void **)((s8 *)this + 0x34) != NULL) { ((TWindowSubComCard *)(*(void **)((s8 *)this + 0x34)))->close(); this->confirm_window = 0; }
+    if (*(void **)((s8 *)this + 0x34) != NULL) { ((TWindowMessageYesNo *)(*(void **)((s8 *)this + 0x34)))->close(); this->confirm_window = 0; }
     if (*(void **)((s8 *)this + 0x3C) != NULL) { ((TWindowBase *)(*(void **)((s8 *)this + 0x3C)))->close(); this->m_3c = 0; }
     if (*(void **)((s8 *)this + 0x30) != NULL) { ((TWindowBase *)(*(void **)((s8 *)this + 0x30)))->close(); this->menu = 0; }
     if (*(void **)((s8 *)this + 0x2C) != NULL) { ((TWindowBase *)(*(void **)((s8 *)this + 0x2C)))->close(); this->com_card_list = 0; }
@@ -79,7 +79,7 @@ void TWindowSubShortCut::run_task() {
             this->chat_window = 0U;
         }
         if ((u32) this->confirm_window != 0U) {
-            ((TWindowSubComCard *)(this->confirm_window))->close();
+            ((TWindowMessageYesNo *)(this->confirm_window))->close();
             this->confirm_window = 0U;
         }
         if ((u32) this->m_3c != 0U) {
@@ -108,7 +108,7 @@ void TWindowSubShortCut::run_task() {
         break;
     case 3:
         if ((u32) this->confirm_window != 0U) {
-            ((TWindowSubComCard *)(this->confirm_window))->close();
+            ((TWindowMessageYesNo *)(this->confirm_window))->close();
             this->confirm_window = 0U;
         }
         if ((u32) this->menu == 0U) {
@@ -168,12 +168,12 @@ void TWindowSubShortCut::run_task() {
         }
         this->state = 8U;
     case 8:
-        if (((TWindowSubComCard *)(this->confirm_window))->get_card_data() != 0) {
+        if (((TWindowMessageYesNo *)(this->confirm_window))->is_cancelled() != 0) {
             this->state = 1U;
             return;
         }
         if (((TWindowMessageYesNo *)(this->confirm_window))->is_child_visible() != 0) {
-            if (((TWindowSubComCard *)(this->confirm_window))->get_slot_or_neg1() == 0) {
+            if (((TWindowMessageYesNo *)(this->confirm_window))->get_selected_value() == 0) {
                 store_chat_shortcut((this->m_24), (saddr)(arg0 + 0x40));
                 this->state = 1U;
                 return;
@@ -189,12 +189,12 @@ void TWindowSubShortCut::run_task() {
         }
         this->state = 0xAU;
     case 10:
-        if (((TWindowSubComCard *)(this->confirm_window))->get_card_data() != 0) {
+        if (((TWindowMessageYesNo *)(this->confirm_window))->is_cancelled() != 0) {
             this->state = 3U;
             return;
         }
         if (((TWindowMessageYesNo *)(this->confirm_window))->is_child_visible() != 0) {
-            if (((TWindowSubComCard *)(this->confirm_window))->get_slot_or_neg1() == 0) {
+            if (((TWindowMessageYesNo *)(this->confirm_window))->get_selected_value() == 0) {
                 ((TWindowMenuIconLine *)this->com_card_list)->get_cursor_value();
                 clear_chat_shortcut();
                 this->state = 1U;

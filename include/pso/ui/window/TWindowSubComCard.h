@@ -84,9 +84,6 @@ struct TWindowSubComCard : public TObject {
     void free_windows();
     void update_card_slot();
     void notify_trade_main();
-    void close();
-    s32 get_slot_or_neg1();
-    s32 get_card_data();
     void*init_fields(int a1, int a2);
     int is_flag_4_set();
     static f32 trunc_float(f32 value);

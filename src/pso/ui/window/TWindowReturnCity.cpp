@@ -75,7 +75,7 @@ void TWindowReturnCity::run_task() {
                 state = 2;
                 return;
             }
-            if (((TWindowSubComCard *)yes_no_window)->get_card_data() != 0) {
+            if (((TWindowMessageYesNo *)yes_no_window)->is_cancelled() != 0) {
                 TWindowReturnCity::clear_flag_bit5();
                 TWindowReturnCity__sub_8024ACA8(client);
                 TWindowCtrl::clear_flag_2();
@@ -84,7 +84,7 @@ void TWindowReturnCity::run_task() {
                 return;
             }
             if (yes_no_window->is_child_visible() != 0) {
-                temp_r3 = ((TWindowSubComCard *)yes_no_window)->get_slot_or_neg1();
+                temp_r3 = ((TWindowMessageYesNo *)yes_no_window)->get_selected_value();
                 if (temp_r3 == 0) {
                     TWindowReturnCity__client_scan_index = client;
                     uaddr task = (uaddr)TObject::operator new(0x28);
@@ -108,7 +108,7 @@ void TWindowReturnCity::run_task() {
 
 TWindowReturnCity::~TWindowReturnCity() {
     if (yes_no_window != NULL) {
-        ((TWindowSubComCard *)yes_no_window)->close();
+        ((TWindowMessageYesNo *)yes_no_window)->close();
         yes_no_window = NULL;
     }
 }

@@ -47,12 +47,12 @@ void TWindowSubGameEnd::run_task() {
     switch (state) {
     case 0:
     case 1:
-        if (((TWindowSubComCard *)yes_no_window)->get_card_data() != 0) {
+        if (((TWindowMessageYesNo *)yes_no_window)->is_cancelled() != 0) {
             parent_menu->on_submenu_closed();
             return;
         }
         if (yes_no_window->is_child_visible() != 0) {
-            slot = ((TWindowSubComCard *)yes_no_window)->get_slot_or_neg1();
+            slot = ((TWindowMessageYesNo *)yes_no_window)->get_selected_value();
             if (slot == 0) {
                 if (window_sub_game_end_active_flag != 1) {
                     obj = (void *)TObject::operator new(0x28);
@@ -77,7 +77,7 @@ void TWindowSubGameEnd::run_task() {
 
 TWindowSubGameEnd::~TWindowSubGameEnd() {
     if (yes_no_window != NULL) {
-        ((TWindowSubComCard *)yes_no_window)->close();
+        ((TWindowMessageYesNo *)yes_no_window)->close();
         yes_no_window = NULL;
     }
 }

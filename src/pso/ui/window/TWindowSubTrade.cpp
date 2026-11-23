@@ -63,7 +63,7 @@ TWindowSubTrade::~TWindowSubTrade() {
     TLobby__sub_802D2A2C((uaddr)this);
     TLobby::check_flags_and_proceed();
     if (this->m_confirm_prompt != NULL) {
-        ((TWindowSubComCard *)(this->m_confirm_prompt))->close();
+        ((TWindowMessageYesNo *)(this->m_confirm_prompt))->close();
         this->m_confirm_prompt = NULL;
     }
     if (this->m_message_window != NULL) {
@@ -84,7 +84,7 @@ void TWindowSubTrade::run_task() {
     case 0:
     case 1:
         if (this->m_confirm_prompt != NULL) {
-            ((TWindowSubComCard *)(this->m_confirm_prompt))->close();
+            ((TWindowMessageYesNo *)(this->m_confirm_prompt))->close();
             this->m_confirm_prompt = NULL;
         }
         if (this->m_message_window != NULL) {
@@ -113,10 +113,10 @@ void TWindowSubTrade::run_task() {
         }
         this->m_1c = 4U;
     case 4:
-        if (((TWindowSubComCard *)(this->m_confirm_prompt))->get_card_data() != 0) {
+        if (((TWindowMessageYesNo *)(this->m_confirm_prompt))->is_cancelled() != 0) {
             this->m_1c = 1U;
         } else if (m_confirm_prompt->is_child_visible() != 0) {
-            if (((TWindowSubComCard *)(this->m_confirm_prompt))->get_slot_or_neg1() == 0) {
+            if (((TWindowMessageYesNo *)(this->m_confirm_prompt))->get_selected_value() == 0) {
                 this->m_1c = 5U;
             } else {
                 this->m_1c = 1U;
@@ -125,7 +125,7 @@ void TWindowSubTrade::run_task() {
         break;
     case 5:
         if (this->m_confirm_prompt != NULL) {
-            ((TWindowSubComCard *)(this->m_confirm_prompt))->close();
+            ((TWindowMessageYesNo *)(this->m_confirm_prompt))->close();
             this->m_confirm_prompt = NULL;
         }
         if (this->m_message_window == NULL) {

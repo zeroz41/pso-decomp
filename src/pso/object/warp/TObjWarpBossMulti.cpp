@@ -464,10 +464,10 @@ void TObjWarpBoss::update_warp_confirmation() {
     case 2:
         update_warp_dialogs();
         if (yes_no_window != NULL) {
-            if (((TWindowSubComCard *)yes_no_window)->get_card_data() != 0) {
+            if (((TWindowMessageYesNo *)yes_no_window)->is_cancelled() != 0) {
                 state_step = 3;
             } else if (((TWindowMessageYesNo *)yes_no_window)->is_child_visible() != 0) {
-                r = ((TWindowSubComCard *)yes_no_window)->get_slot_or_neg1();
+                r = ((TWindowMessageYesNo *)yes_no_window)->get_selected_value();
                 if (r == 0) {
                     warp_player(local_client_id);
                     warp_triggered = 1;
@@ -687,7 +687,7 @@ void handle_6x6A_set_boss_warp_flags(void *packet) {
 
 void TObjWarpBoss::close_windows() {
     if (yes_no_window != NULL) {
-        ((TWindowSubComCard *)yes_no_window)->close();
+        ((TWindowMessageYesNo *)yes_no_window)->close();
         yes_no_window = NULL;
     }
     if (menu_window != 0) {

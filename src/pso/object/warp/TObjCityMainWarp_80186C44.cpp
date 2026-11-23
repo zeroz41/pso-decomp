@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/ui/window/TWindowMessageYesNo.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/object/warp/TObjCityMainWarpChallenge.h"
 #include "pso/object/warp/TObjCityMainWarp.h"
@@ -31,7 +32,7 @@ extern "C" {
 
 void TObjCityMainWarpChallenge::close_windows() {
     if ((u32) *(u32 *)((s8 *)this + 0x168) != 0U) {
-        ((TWindowSubComCard *)(*(void **)((s8 *)this + 0x168)))->close();
+        ((TWindowMessageYesNo *)(*(void **)((s8 *)this + 0x168)))->close();
         *(u32 *)((s8 *)this + 0x168) = 0U;
     }
     if (this->menu_window != 0U) {

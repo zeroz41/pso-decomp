@@ -17,21 +17,19 @@
 extern "C" {
 
 
-void TWindowSubComCard::close() { queue_destruction(); }
+void TWindowMessageYesNo::close() { queue_destruction(); }
 void TWindowMessageYesNo::set_menu_selected_index(s16 index) { if (choice_menu) ((TWindowSubComCardList *)choice_menu)->set_selected_index(index); }
-s32 TWindowSubComCard::get_slot_or_neg1() {
-    saddr v = this->m_2c;
-    if ((u32) v == 0U) {
+s32 TWindowMessageYesNo::get_selected_value() {
+    if (choice_menu == NULL) {
         return -1;
     }
-    return ((TWindowMenu *)v)->get_selected_value();
+    return choice_menu->get_selected_value();
 }
-s32 TWindowSubComCard::get_card_data() {
-    saddr v = this->m_2c;
-    if ((u32) v == 0U) {
+s32 TWindowMessageYesNo::is_cancelled() {
+    if (choice_menu == NULL) {
         return 0;
     }
-    return ((TWindowMenu *)v)->is_cancelled();
+    return choice_menu->is_cancelled();
 }
 
 s32 TWindowMessageYesNo::is_child_visible() {

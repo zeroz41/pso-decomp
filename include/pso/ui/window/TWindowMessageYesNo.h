@@ -13,6 +13,9 @@ struct TWindowMessageYesNo : public TObject {
     TWindowMessageYesNo(TObject *parent, s32 client_id, void *arg3, void *arg4);
     virtual ~TWindowMessageYesNo();
     s32 is_child_visible();
+    void close();
+    s32 get_selected_value();
+    s32 is_cancelled();
     u32 m_1c;
     u32 m_20;
     s32 client_id;

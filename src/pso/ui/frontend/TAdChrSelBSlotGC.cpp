@@ -276,7 +276,7 @@ void TAdChrSelBSlotGC::wait_format_failed_dismiss() {
     ControllerInputContext *context;
     confirm = m_70;
     if (confirm != 0) {
-        ((TWindowSubComCard *)confirm)->close();
+        ((TWindowMessageYesNo *)confirm)->close();
         m_70 = 0;
     }
     context = &controller_physical_port_bank.controllers[TAdMultiPlyChrSelectGC::get_state()->get_state_result()];
@@ -317,7 +317,7 @@ void TAdChrSelBSlotGC::check_cancel_and_close() {
 
 void TAdChrSelBSlotGC::update_slot_state() {
     if (m_70 != 0) {
-        ((TWindowSubComCard *)m_70)->close();
+        ((TWindowMessageYesNo *)m_70)->close();
         m_70 = 0;
     }
     if ((u32) (poll_memcard_result(1) + 0x10000) != 0xFFFFU) {
@@ -342,11 +342,11 @@ void TAdChrSelBSlotGC::update_slot_state() {
 void TAdChrSelBSlotGC::update_card_select() {
 
     if (m_6c != 0) {
-        ((TWindowSubComCard *)m_6c)->close();
+        ((TWindowMessageYesNo *)m_6c)->close();
         m_6c = 0;
     }
     if (m_70->is_child_visible() != 0) {
-        switch (((TWindowSubComCard *)m_70)->get_slot_or_neg1()) {
+        switch (((TWindowMessageYesNo *)m_70)->get_selected_value()) {
         case 1:
             state = 7;
             return;
@@ -360,7 +360,7 @@ void TAdChrSelBSlotGC::update_card_select() {
             return;
         }
     } else {
-        if (((TWindowSubComCard *)m_70)->get_card_data() != 0) {
+        if (((TWindowMessageYesNo *)m_70)->is_cancelled() != 0) {
             state = 7;
             return;
         }
@@ -376,11 +376,11 @@ void TAdChrSelBSlotGC::update_card_select() {
 
 void TAdChrSelBSlotGC::show_not_formatted_message() {
     if (m_6c != 0) {
-        ((TWindowSubComCard *)m_6c)->close();
+        ((TWindowMessageYesNo *)m_6c)->close();
         m_6c = 0;
     }
     if (m_70 != 0) {
-        ((TWindowSubComCard *)m_70)->close();
+        ((TWindowMessageYesNo *)m_70)->close();
         m_70 = 0;
     }
     if (get_global_state() < 0xC) {
@@ -400,7 +400,7 @@ void TAdChrSelBSlotGC::update_card_confirm() {
     s32 var_r31;
 
     if (m_6c->is_child_visible() != 0) {
-        switch (((TWindowSubComCard *)m_6c)->get_slot_or_neg1()) {
+        switch (((TWindowMessageYesNo *)m_6c)->get_selected_value()) {
         case 1:
             state = 7;
             return;
@@ -418,7 +418,7 @@ void TAdChrSelBSlotGC::update_card_confirm() {
             break;
         }
     } else {
-        if (((TWindowSubComCard *)m_6c)->get_card_data() != 0) {
+        if (((TWindowMessageYesNo *)m_6c)->is_cancelled() != 0) {
             state = 7;
             return;
         }
@@ -544,11 +544,11 @@ void TAdChrSelBSlotGC::close_windows() {
         m_4c = 0;
     }
     if (m_6c != 0) {
-        ((TWindowSubComCard *)m_6c)->close();
+        ((TWindowMessageYesNo *)m_6c)->close();
         m_6c = 0;
     }
     if (m_70 != 0) {
-        ((TWindowSubComCard *)m_70)->close();
+        ((TWindowMessageYesNo *)m_70)->close();
         m_70 = 0;
     }
     if (m_74 != 0) {

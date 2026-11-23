@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/ui/window/TWindowMessageYesNo.h"
 #include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "pso/ui/window/TWindowBase.h"
@@ -59,7 +60,7 @@ TWindowSubInformationBoard::~TWindowSubInformationBoard() {
         this->keyboard = 0;
     }
     if (this->m_38 != 0U) {
-        ((TWindowSubComCard *)this->m_38)->close();
+        ((TWindowMessageYesNo *)this->m_38)->close();
         this->m_38 = 0;
     }
     if (this->message_window != 0U) {

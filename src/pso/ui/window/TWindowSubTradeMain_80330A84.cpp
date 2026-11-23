@@ -220,7 +220,7 @@ TWindowSubTradeMain::~TWindowSubTradeMain() {
         this->offer = 0U;
     }
     if (dialog != NULL) {
-        reinterpret_cast<TWindowSubComCard *>(dialog)->close();
+        reinterpret_cast<TWindowMessageYesNo *>(dialog)->close();
         dialog = 0U;
     }
     if ((u32) this->confirm != 0U) {
@@ -522,10 +522,10 @@ void TWindowSubTradeMain::run_task() {
         }
         o->state = 0x18;
     case 24:
-        if (((TWindowSubComCard *)(o->card))->get_card_data() != 0) {
+        if (((TWindowMessageYesNo *)(o->card))->is_cancelled() != 0) {
             o->state = 0x19;
         } else if (o->card->is_child_visible() != 0) {
-            if (((TWindowSubComCard *)(o->card))->get_slot_or_neg1() == 0) {
+            if (((TWindowMessageYesNo *)(o->card))->get_selected_value() == 0) {
                 o->parent_menu->on_submenu_closed();
                 o->state = 0x22;
             } else {
@@ -535,7 +535,7 @@ void TWindowSubTradeMain::run_task() {
         break;
     case 25:
         if (o->card != 0) {
-            ((TWindowSubComCard *)(o->card))->close();
+            ((TWindowMessageYesNo *)(o->card))->close();
             o->card = 0;
         }
         if (is_local_trade_offer_confirmation_requested() != 0) {
@@ -563,11 +563,11 @@ void TWindowSubTradeMain::run_task() {
         if (are_both_trade_offers_confirmed() == 0) {
             o->state = 0x1D;
         }
-        if (((TWindowSubComCard *)(o->card))->get_card_data() != 0) {
+        if (((TWindowMessageYesNo *)(o->card))->is_cancelled() != 0) {
             o->state = 0x1D;
         } else if (o->card->is_child_visible() != 0) {
-            if (((TWindowSubComCard *)(o->card))->get_slot_or_neg1() == 0) {
-                ((TWindowSubComCard *)(o->card))->close();
+            if (((TWindowMessageYesNo *)(o->card))->get_selected_value() == 0) {
+                ((TWindowMessageYesNo *)(o->card))->close();
                 o->card = update_from_lobby();
                 set_local_trade_final_confirmation();
                 o->state = 0x1C;
@@ -588,14 +588,14 @@ void TWindowSubTradeMain::run_task() {
         break;
     case 29:
         if (o->card != 0) {
-            ((TWindowSubComCard *)(o->card))->close();
+            ((TWindowMessageYesNo *)(o->card))->close();
             o->card = 0;
         }
         o->state = 0x14;
         break;
     case 30:
         if (o->card != 0) {
-            ((TWindowSubComCard *)(o->card))->close();
+            ((TWindowMessageYesNo *)(o->card))->close();
             o->card = 0;
         }
         o->card = open_status_window();

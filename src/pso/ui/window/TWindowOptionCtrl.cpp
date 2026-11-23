@@ -105,7 +105,7 @@ TWindowOptionCtrl::~TWindowOptionCtrl() {
         serial_info_window = NULL;
     }
     if (yes_no_window != NULL) {
-        ((TWindowSubComCard *)yes_no_window)->close();
+        ((TWindowMessageYesNo *)yes_no_window)->close();
         yes_no_window = NULL;
     }
     if (snap_shot_window != NULL) {
@@ -143,7 +143,7 @@ void TWindowOptionCtrl::run_task() {
             serial_info_window = NULL;
         }
         if (yes_no_window != NULL) {
-            ((TWindowSubComCard *)(yes_no_window))->close();
+            ((TWindowMessageYesNo *)(yes_no_window))->close();
             yes_no_window = NULL;
         }
         if (snap_shot_window != NULL) {
@@ -289,7 +289,7 @@ void TWindowOptionCtrl::run_task() {
     }
     case 16:
         if (yes_no_window != NULL) {
-            ((TWindowSubComCard *)(yes_no_window))->close();
+            ((TWindowMessageYesNo *)(yes_no_window))->close();
             yes_no_window = NULL;
         }
         if (option_menu != NULL) {
@@ -352,10 +352,10 @@ void TWindowOptionCtrl::run_task() {
         ((TWindowMenu *)(sub_menu))->open();
         state = 0x18;
     case 24:
-        if (((TWindowSubComCard *)(yes_no_window))->get_card_data() != 0) {
+        if (((TWindowMessageYesNo *)(yes_no_window))->is_cancelled() != 0) {
             state = 0x10;
         } else if (((TWindowMessageYesNo *)(yes_no_window))->is_child_visible() != 0) {
-            if (((TWindowSubComCard *)(yes_no_window))->get_slot_or_neg1() == 0) {
+            if (((TWindowMessageYesNo *)(yes_no_window))->get_selected_value() == 0) {
                 if (((TWindowMenu *)sub_menu)->get_selected_value() == 0x14) {
                     m_24 = 1;
                 } else {

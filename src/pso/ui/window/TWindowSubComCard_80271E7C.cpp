@@ -246,7 +246,7 @@ TWindowSubComCard::~TWindowSubComCard() {
         entry_list_window = 0U;
     }
     if (confirm_window != 0U) {
-        ((TWindowSubComCard *)confirm_window)->close();
+        ((TWindowMessageYesNo *)confirm_window)->close();
         confirm_window = 0U;
     }
     if (m_84 != 0U) {
@@ -305,7 +305,7 @@ void TWindowSubComCard::run_task() {
             this->entry_list_window = 0U;
         }
         if ((u32) this->confirm_window != 0U) {
-            ((TWindowSubComCard *)(*(void **)((s8 *)this + 0x70)))->close();
+            ((TWindowMessageYesNo *)(*(void **)((s8 *)this + 0x70)))->close();
             this->confirm_window = 0U;
         }
         if ((u32) this->m_84 != 0U) {
@@ -489,7 +489,7 @@ void TWindowSubComCard::run_task() {
             this->message_window = 0U;
         }
         if ((u32) this->confirm_window != 0U) {
-            ((TWindowSubComCard *)(*(void **)((s8 *)this + 0x70)))->close();
+            ((TWindowMessageYesNo *)(*(void **)((s8 *)this + 0x70)))->close();
             this->confirm_window = 0U;
         }
         if ((u32) this->m_68 != 0U) {
@@ -574,12 +574,12 @@ void TWindowSubComCard::run_task() {
         this->confirm_window = this->confirm_and_free();
         this->state = 0x16U;
     case 0x16:
-        if (((TWindowSubComCard *)(this->confirm_window))->get_card_data() != 0) {
+        if (((TWindowMessageYesNo *)(this->confirm_window))->is_cancelled() != 0) {
             this->state = 0xDU;
             return;
         }
         if (((TWindowMessageYesNo *)(this->confirm_window))->is_child_visible() != 0) {
-            if (((TWindowSubComCard *)(this->confirm_window))->get_slot_or_neg1() == 0) {
+            if (((TWindowMessageYesNo *)(this->confirm_window))->get_selected_value() == 0) {
                 TWindowSubComCard::remove_card_at(((TWindowMenu *)this->m_84)->get_selected_value());
                 this->state = 1U;
                 return;
@@ -684,7 +684,7 @@ void TWindowSubComCard::run_task() {
         break;
     case 0x21:
         if ((u32) this->confirm_window != 0U) {
-            ((TWindowSubComCard *)(*(void **)((s8 *)this + 0x70)))->close();
+            ((TWindowMessageYesNo *)(*(void **)((s8 *)this + 0x70)))->close();
             this->confirm_window = 0U;
         }
         if ((u32) this->m_68 != 0U) {
@@ -726,12 +726,12 @@ void TWindowSubComCard::run_task() {
         this->confirm_window = TWindowSubShortMail::open_confirm_prompt(this, m_20);
         this->state = 0x24U;
     case 0x24:
-        if (((TWindowSubComCard *)(this->confirm_window))->get_card_data() != 0) {
+        if (((TWindowMessageYesNo *)(this->confirm_window))->is_cancelled() != 0) {
             this->state = 0x21U;
             return;
         }
         if (((TWindowMessageYesNo *)(this->confirm_window))->is_child_visible() != 0) {
-            if (((TWindowSubComCard *)(this->confirm_window))->get_slot_or_neg1() == 0) {
+            if (((TWindowMessageYesNo *)(this->confirm_window))->get_selected_value() == 0) {
                 this->sub_802721D8();
                 this->state = 1U;
                 return;
@@ -960,7 +960,7 @@ void TWindowSubComCard::run_task() {
         break;
     case 0x3B:
         if ((u32) this->confirm_window != 0U) {
-            ((TWindowSubComCard *)(*(void **)((s8 *)this + 0x70)))->close();
+            ((TWindowMessageYesNo *)(*(void **)((s8 *)this + 0x70)))->close();
             this->confirm_window = 0U;
         }
         if ((u32) this->m_64 != 0U) {
@@ -1001,12 +1001,12 @@ void TWindowSubComCard::run_task() {
         }
         this->state = 0x3EU;
     case 0x3E:
-        if (((TWindowSubComCard *)(this->confirm_window))->get_card_data() != 0) {
+        if (((TWindowMessageYesNo *)(this->confirm_window))->is_cancelled() != 0) {
             this->state = 0x3BU;
             return;
         }
         if (((TWindowMessageYesNo *)(this->confirm_window))->is_child_visible() != 0) {
-            if (((TWindowSubComCard *)(this->confirm_window))->get_slot_or_neg1() == 0) {
+            if (((TWindowMessageYesNo *)(this->confirm_window))->get_selected_value() == 0) {
                 TWindowSubComCard::remove_entry(((TWindowMenu *)this->m_84)->get_selected_value());
                 this->m_1d = (u8) (this->m_1d | 2);
                 this->state = 1U;
@@ -1031,7 +1031,7 @@ void TWindowSubComCard::run_task() {
         break;
     case 0x41:
         if ((u32) this->confirm_window != 0U) {
-            ((TWindowSubComCard *)(*(void **)((s8 *)this + 0x70)))->close();
+            ((TWindowMessageYesNo *)(*(void **)((s8 *)this + 0x70)))->close();
             this->confirm_window = 0U;
         }
         if ((u32) this->m_68 != 0U) {
@@ -1072,12 +1072,12 @@ void TWindowSubComCard::run_task() {
         }
         this->state = 0x44U;
     case 0x44:
-        if (((TWindowSubComCard *)(this->confirm_window))->get_card_data() != 0) {
+        if (((TWindowMessageYesNo *)(this->confirm_window))->is_cancelled() != 0) {
             this->state = 0x41U;
             return;
         }
         if (((TWindowMessageYesNo *)(this->confirm_window))->is_child_visible() != 0) {
-            if (((TWindowSubComCard *)(this->confirm_window))->get_slot_or_neg1() == 0) {
+            if (((TWindowMessageYesNo *)(this->confirm_window))->get_selected_value() == 0) {
                 ((TWindowSubComCard *)(saddr)(((TWindowMenu *)this->m_84)->get_selected_value()))->update_press();
                 this->m_1d = (u8) (this->m_1d | 2);
                 this->state = 1U;
@@ -1094,7 +1094,7 @@ void TWindowSubComCard::run_task() {
         }
     case 0x46:
         if ((u32) this->confirm_window != 0U) {
-            ((TWindowSubComCard *)(*(void **)((s8 *)this + 0x70)))->close();
+            ((TWindowMessageYesNo *)(*(void **)((s8 *)this + 0x70)))->close();
             this->confirm_window = 0U;
         }
         if ((u32) this->m_68 != 0U) {
@@ -1122,12 +1122,12 @@ void TWindowSubComCard::run_task() {
         }
         this->state = 0x49U;
     case 0x49:
-        if (((TWindowSubComCard *)(this->confirm_window))->get_card_data() != 0) {
+        if (((TWindowMessageYesNo *)(this->confirm_window))->is_cancelled() != 0) {
             this->state = 0x46U;
             return;
         }
         if (((TWindowMessageYesNo *)(this->confirm_window))->is_child_visible() != 0) {
-            if (((TWindowSubComCard *)(this->confirm_window))->get_slot_or_neg1() == 0) {
+            if (((TWindowMessageYesNo *)(this->confirm_window))->get_selected_value() == 0) {
                 TWindowSubComCard::init_and_press_b(((TWindowMenu *)this->m_64)->get_selected_value());
                 this->m_1d = (u8) (this->m_1d | 2);
                 this->state = 1U;
@@ -1144,7 +1144,7 @@ void TWindowSubComCard::run_task() {
         }
     case 0x4B:
         if ((u32) this->confirm_window != 0U) {
-            ((TWindowSubComCard *)(*(void **)((s8 *)this + 0x70)))->close();
+            ((TWindowMessageYesNo *)(*(void **)((s8 *)this + 0x70)))->close();
             this->confirm_window = 0U;
         }
         if ((u32) this->m_68 != 0U) {
@@ -1172,12 +1172,12 @@ void TWindowSubComCard::run_task() {
         }
         this->state = 0x4EU;
     case 0x4E:
-        if (((TWindowSubComCard *)(this->confirm_window))->get_card_data() != 0) {
+        if (((TWindowMessageYesNo *)(this->confirm_window))->is_cancelled() != 0) {
             this->state = 0x4BU;
             return;
         }
         if (((TWindowMessageYesNo *)(this->confirm_window))->is_child_visible() != 0) {
-            if (((TWindowSubComCard *)(this->confirm_window))->get_slot_or_neg1() == 0) {
+            if (((TWindowMessageYesNo *)(this->confirm_window))->get_selected_value() == 0) {
                 TWindowSubComCard::init_and_press_a(((TWindowMenu *)this->m_64)->get_selected_value());
                 this->m_1d = (u8) (this->m_1d | 2);
                 this->state = 1U;

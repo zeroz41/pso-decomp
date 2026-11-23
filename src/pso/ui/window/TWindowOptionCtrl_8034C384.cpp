@@ -30,7 +30,7 @@ TUnk_804F01A8::TUnk_804F01A8(TObject *parent) : TObject(parent) {
 }
 
 TUnk_804F01A8::~TUnk_804F01A8() {
-    if ((void *)this->m_2c != NULL) { ((TWindowSubComCard *)this->m_2c)->close(); this->m_2c = 0; }
+    if ((void *)this->m_2c != NULL) { ((TWindowMessageYesNo *)this->m_2c)->close(); this->m_2c = 0; }
 }
 
 void TUnk_804F01A8::run_task() {
@@ -109,13 +109,13 @@ void TUnk_804F01A8::run_task() {
             set_option_and_confirm(0, 1);
             this->state = 2;
         case 2:
-            if (((TWindowSubComCard *)(this->m_2c))->get_card_data() != 0) {
+            if (((TWindowMessageYesNo *)(this->m_2c))->is_cancelled() != 0) {
                 this->result = 2;
                 this->state = 0x10;
                 return;
             }
             if (((TWindowMessageYesNo *)(this->m_2c))->is_child_visible() != 0) {
-                if (((TWindowSubComCard *)(this->m_2c))->get_slot_or_neg1() == 0) {
+                if (((TWindowMessageYesNo *)(this->m_2c))->get_selected_value() == 0) {
                     this->state = 3;
                     return;
                 }
@@ -151,7 +151,7 @@ void TUnk_804F01A8::run_task() {
             this->flags = (s32) (this->flags | 2);
             this->state = 8;
         case 8:
-            if (((TWindowSubComCard *)(this->m_2c))->get_card_data() != 0) {
+            if (((TWindowMessageYesNo *)(this->m_2c))->is_cancelled() != 0) {
                 this->flags = (s32) (this->flags & 0xFFFFFFFD);
                 this->result = 2;
                 this->state = 0x10;
@@ -159,7 +159,7 @@ void TUnk_804F01A8::run_task() {
             }
             if (((TWindowMessageYesNo *)(this->m_2c))->is_child_visible() != 0) {
                 this->flags = (s32) (this->flags & 0xFFFFFFFD);
-                if (((TWindowSubComCard *)(this->m_2c))->get_slot_or_neg1() == 0) {
+                if (((TWindowMessageYesNo *)(this->m_2c))->get_selected_value() == 0) {
                     this->result = 3;
                     this->state = 0x10;
                     return;
@@ -173,7 +173,7 @@ void TUnk_804F01A8::run_task() {
             this->flags = (s32) (this->flags | 2);
             this->state = 0xA;
         case 10:
-            if (((TWindowSubComCard *)(this->m_2c))->get_card_data() != 0) {
+            if (((TWindowMessageYesNo *)(this->m_2c))->is_cancelled() != 0) {
                 this->flags = (s32) (this->flags & 0xFFFFFFFD);
                 this->result = 2;
                 this->state = 0x10;
@@ -181,7 +181,7 @@ void TUnk_804F01A8::run_task() {
             }
             if (((TWindowMessageYesNo *)(this->m_2c))->is_child_visible() != 0) {
                 this->flags = (s32) (this->flags & 0xFFFFFFFD);
-                if (((TWindowSubComCard *)(this->m_2c))->get_slot_or_neg1() == 0) {
+                if (((TWindowMessageYesNo *)(this->m_2c))->get_selected_value() == 0) {
                     TObjBoss2Tunnel::poll_pso_screen_load();
                     this->result = 2;
                     this->state = 0x10;
@@ -196,7 +196,7 @@ void TUnk_804F01A8::run_task() {
             this->flags = (s32) (this->flags | 2);
             this->state = 0xC;
         case 12:
-            if (((TWindowSubComCard *)(this->m_2c))->get_card_data() != 0) {
+            if (((TWindowMessageYesNo *)(this->m_2c))->is_cancelled() != 0) {
                 this->flags = (s32) (this->flags & 0xFFFFFFFD);
                 this->result = 2;
                 this->state = 0x10;
@@ -204,7 +204,7 @@ void TUnk_804F01A8::run_task() {
             }
             if (((TWindowMessageYesNo *)(this->m_2c))->is_child_visible() != 0) {
                 this->flags = (s32) (this->flags & 0xFFFFFFFD);
-                if (((TWindowSubComCard *)(this->m_2c))->get_slot_or_neg1() == 0) {
+                if (((TWindowMessageYesNo *)(this->m_2c))->get_selected_value() == 0) {
                     this->state = 0xD;
                     return;
                 }
@@ -258,7 +258,7 @@ void TUnk_804F01A8::set_option_and_confirm(s32 arg1, s32 arg2) {
 
 void TUnk_804F01A8::open_confirm_dialog(s32 message, s32 arg2) {
     if ((uaddr) this->m_2c != 0U) {
-        ((TWindowSubComCard *)(this->m_2c))->close();
+        ((TWindowMessageYesNo *)(this->m_2c))->close();
         this->m_2c = 0U;
     }
     this->m_2c = (uaddr)TWindowMessageYesNo::create((void *)(tl_01), local_client_id, 0, 0);

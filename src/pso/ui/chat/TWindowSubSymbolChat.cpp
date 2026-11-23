@@ -204,7 +204,7 @@ TWindowSubSymbolChat::~TWindowSubSymbolChat() {
         m_44 = 0U;
     }
     if (confirm_window != 0U) {
-        ((TWindowSubComCard *)confirm_window)->close();
+        ((TWindowMessageYesNo *)confirm_window)->close();
         confirm_window = 0U;
     }
     if (m_54 != 0U) {
@@ -262,7 +262,7 @@ void TWindowSubSymbolChat::run_task() {
             this->m_28 = 0U;
         }
         if ((u32) this->confirm_window != 0U) {
-            ((TWindowSubComCard *)(this->confirm_window))->close();
+            ((TWindowMessageYesNo *)(this->confirm_window))->close();
             this->confirm_window = 0U;
         }
         if ((u32) this->main_menu != 0U) {
@@ -308,7 +308,7 @@ void TWindowSubSymbolChat::run_task() {
             this->m_44 = 0U;
         }
         if ((u32) this->confirm_window != 0U) {
-            ((TWindowSubComCard *)(this->confirm_window))->close();
+            ((TWindowMessageYesNo *)(this->confirm_window))->close();
             this->confirm_window = 0U;
         }
         if ((u32) this->m_54 != 0U) {
@@ -673,7 +673,7 @@ void TWindowSubSymbolChat::run_task() {
     case 34:
         ((TWindowMenu *)(this->main_menu))->open();
         if ((u32) this->confirm_window != 0U) {
-            ((TWindowSubComCard *)(this->confirm_window))->close();
+            ((TWindowMessageYesNo *)(this->confirm_window))->close();
             this->confirm_window = 0U;
         }
         if ((u32) this->m_38 == 0U) {
@@ -696,12 +696,12 @@ void TWindowSubSymbolChat::run_task() {
         this->confirm_window = ((TWindowSubSymbolChat *)arg0)->open_confirm_prompt();
         this->m_1c = 0x25U;
     case 37:
-        if (((TWindowSubComCard *)(this->confirm_window))->get_card_data() != 0) {
+        if (((TWindowMessageYesNo *)(this->confirm_window))->is_cancelled() != 0) {
             this->m_1c = 0x22U;
             return;
         }
         if (((TWindowMessageYesNo *)(this->confirm_window))->is_child_visible() != 0) {
-            if (((TWindowSubComCard *)(this->confirm_window))->get_slot_or_neg1() == 0) {
+            if (((TWindowMessageYesNo *)(this->confirm_window))->get_selected_value() == 0) {
                 ((TWindowSubSymbolChat *)(this->m_28))->set_symbol_index((int) (((TWindowMenu *)this->m_38)->get_selected_value()));
                 this->m_1c = 4U;
                 return;

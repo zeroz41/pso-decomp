@@ -312,10 +312,10 @@ void TObjCityMainWarpChallenge::update_challenge_state() {
     case 2:
         sub_801875F8();
         if (yes_no_window != 0) {
-            if (((TWindowSubComCard *)yes_no_window)->get_card_data() != 0) {
+            if (((TWindowMessageYesNo *)yes_no_window)->is_cancelled() != 0) {
                 state_step = 3;
             } else if (((TWindowMessageYesNo *)yes_no_window)->is_child_visible() != 0) {
-                r = ((TWindowSubComCard *)yes_no_window)->get_slot_or_neg1();
+                r = ((TWindowMessageYesNo *)yes_no_window)->get_selected_value();
                 if (r == 0) {
                     trigger_warp_effect(local_client_id);
                     warp_triggered = 1;
