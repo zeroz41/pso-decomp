@@ -143,7 +143,6 @@ static const Vec boss4_type2_follow_camera_offset_a = {0.0f, 19.8f, -5.0f};
 static const Vec boss4_type2_follow_camera_offset_b = {0.0f, 15.43f, 55.42f};
 const char *TBoss4Zanzo__name = "TBoss4Zanzo";
 
-struct ByteBlock_C { u8 bytes[0xc]; };
 
 TBoss4Type2 *TBoss4Type2::create(TBoss4FormSetData *set_data) {
     return new TBoss4Type2(new TObjControl((TObject *)tl_04), set_data);
@@ -1076,15 +1075,7 @@ TBoss4Zanzo *TBoss4Type2::create_zanzo(TObject *parent, TBoss4ZanzoParams *param
 }
 
 void copy_zanzo_params(TBoss4ZanzoParams *dst, TBoss4ZanzoParams *src) {
-    *(ByteBlock_C *)&dst->pos = *(ByteBlock_C *)&src->pos;  // copied as 12 bytes, not as floats
-    dst->rotation_y = src->rotation_y;
-    dst->texlist = src->texlist;
-    dst->model = src->model;
-    dst->motion = src->motion;
-    dst->frame = src->frame;
-    dst->fade_start = src->fade_start;
-    dst->fade_end = src->fade_end;
-    dst->lifetime = src->lifetime;
+    *dst = *src;
 }
 
 TBoss4Zanzo::TBoss4Zanzo(TObject *parent, TBoss4ZanzoParams *params) : TObject(parent) {
