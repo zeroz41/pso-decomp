@@ -77,8 +77,6 @@ struct Menu_80297B18 {
     f32 tmax;
 };
 
-extern const char *lbl_804DBC0C[];
-extern s32 lbl_804DBC40[];
 
 typedef void (TObjCMMainMenu::*MenuFn_802987AC)();
 
@@ -171,23 +169,16 @@ void fn_802993F0(void);
 u32 __cvt_fp2unsigned(f32);
 extern Cols_80297DB8 footer_divider_colors[2];
 extern Quad_80297DB8 footer_divider_vertices[2];
-extern vec2f lbl_804DBCC8[];
 struct CharacterCreationNameBuffer { s32 value; u8 remaining[0x14]; };
 extern CharacterCreationNameBuffer character_creation_name_buffer;
 extern f32 ui_sprite_scale;
 extern s32 creation_dressing_room_mode_flag;
 extern int creation_figure_rotation_y;
 extern void *creation_figure_object;
-extern s32 lbl_804DBA68[8];
-extern s32 lbl_804DBA88[6];
-extern s32 lbl_804DBAA0[2];
-extern s32 lbl_804DBAA8[3];
-extern s32 lbl_804DBAB4[5];
 
 const char *TObjCMMainMenu__name = "TObjCMMainMenu";
 
-// inferred: main_menu_icon_position (fn_8029945C copies it into cm_icon_screen_position)
-const vec2f lbl_80464F50 = {614.0f, 434.0f};
+const vec2f main_menu_icon_position = {614.0f, 434.0f};
 
 CreationMenuEntry TObjCMMainMenu__data_804DB9C8[10] = {
     {3, &TObjCMMainMenu::open_assign_menu},
@@ -202,32 +193,30 @@ CreationMenuEntry TObjCMMainMenu__data_804DB9C8[10] = {
     {-1, &TObjCMMainMenu::confirm_selection},
 };
 
-s32 lbl_804DBA68[8] = {1, 2, 3, 4, 6, 7, 8, 9};
+s32 creation_menu_modes_0[8] = {1, 2, 3, 4, 6, 7, 8, 9};
 
-s32 lbl_804DBA88[6] = {0, 5, 6, 7, 8, 9};
+s32 creation_menu_modes_1[6] = {0, 5, 6, 7, 8, 9};
 
-__declspec(section ".data") s32 lbl_804DBAA0[2] = {7, 9};
+__declspec(section ".data") s32 creation_menu_modes_2[2] = {7, 9};
 
-s32 lbl_804DBAA8[3] = {2, 3, 9};
+s32 creation_menu_modes_3[3] = {2, 3, 9};
 
-s32 lbl_804DBAB4[5] = {0, 5, 9, 7, 9};
+s32 creation_menu_modes_4[5] = {0, 5, 9, 7, 9};
 
-s32 lbl_805D3CD4[1] = {9};
+s32 creation_menu_modes_5[1] = {9};
 
 CreationMenuModeList creation_menu_mode_lists[6] = {
-    {8, lbl_804DBA68}, {6, lbl_804DBA88},
-    {2, lbl_804DBAA0}, {3, lbl_804DBAA8},
-    {3, lbl_804DBAB4}, {1, lbl_805D3CD4},
+    {8, creation_menu_modes_0}, {6, creation_menu_modes_1},
+    {2, creation_menu_modes_2}, {3, creation_menu_modes_3},
+    {3, creation_menu_modes_4}, {1, creation_menu_modes_5},
 };
 }
 
 void reset_character_creation_figure_rotation(void);
 void draw_creation_ruler_lines(f32 farg0);
-extern NJS_POINT2COL lbl_804DBD08;
-extern NJS_POINT2COL lbl_804DBD18;
-NJS_COLOR lbl_80540988[4];
-NJS_POINT2 lbl_80540998[4];
-NJS_COLOR lbl_805409B8[4];
+NJS_COLOR proportion_frame_colors[4];
+NJS_POINT2 proportion_marker_points[4];
+NJS_COLOR proportion_marker_colors[4];
 
 // RGBA colour of the hair colour bars (inferred: the alpha byte is set from the fade).
 union HairBarColor {
@@ -235,7 +224,6 @@ union HairBarColor {
     u8 c[4];
 };
 
-extern vec2f lbl_804DBCD0[3];
 
 extern "C" {
 void restore_saved_depth_alpha_state();
@@ -311,7 +299,7 @@ TObjCMMainMenu::TObjCMMainMenu(TObject *parent) : TObject(parent) {
     set_speed(30.0f);
     nodes = new TObject(NULL);
     fn_802947A8();
-    fn_8029945C(&lbl_80464F50);
+    fn_8029945C(&main_menu_icon_position);
     sub_802972C4();
 }
 
@@ -584,12 +572,12 @@ void TObjCMMainMenu::render() {
 
 void TObjCMMainMenu::sub_802981BC() {  }
 
-const char *lbl_804DBC0C[13] = {
+const char *creation_class_names[13] = {
     "HUmar", "HUnewearl", "HUcast", "RAmar", "RAcast", "RAcaseal", "FOmarl",
     "FOnewm", "FOnewearl", "HUcaseal", "FOmar", "RAmarl", "???",
 };
-s32 lbl_804DBC40[10] = {42, 43, 44, 45, 46, 47, 48, 49, 50, 51};
-char lbl_805D3CD8[4] = "???";
+s32 section_id_sprites[10] = {42, 43, 44, 45, 46, 47, 48, 49, 50, 51};
+char unknown_section_name[4] = "???";
 
 void TObjCMMainMenu::sub_80297EF4() {
     f32 scale = get_scale();
@@ -616,7 +604,7 @@ void TObjCMMainMenu::sub_80297EF4() {
         char_class = 12;
     }
     TCameraCtrl::restore_full_screen_view();
-    draw_menu_text(263.0f, 172.0f * scale, lbl_804DBC0C[char_class], color);
+    draw_menu_text(263.0f, 172.0f * scale, creation_class_names[char_class], color);
     TCameraCtrl::restore_saved_view();
 
     u32 name_color = character->nameColor;
@@ -638,11 +626,11 @@ void TObjCMMainMenu::sub_80297EF4() {
         vec2f icon_pos;
         icon_pos.x = 212.0f;
         icon_pos.y = 234.0f;
-        draw_ui_sprite(lbl_804DBC40[character->section], &icon_pos, -3.0625f, section_alpha);
+        draw_ui_sprite(section_id_sprites[character->section], &icon_pos, -3.0625f, section_alpha);
     }
     const char *section_name = TObjLuker::get_stat_table_entry(character->section);
     if (character->flags & 1) {
-        section_name = lbl_805D3CD8;
+        section_name = unknown_section_name;
     }
     TCameraCtrl::restore_full_screen_view();
     draw_menu_text(263.0f, 247.0f * scale, section_name, ((u32)(255.0f * section_alpha) << 24) | 0xFFFFFF);
@@ -1508,16 +1496,16 @@ void TObjCMHairMenu::run_task() {
     }
 }
 
-vec2f lbl_804DBCD0[3] = {{105.0f, 194.0f}, {105.0f, 238.0f}, {105.0f, 282.0f}};
+vec2f hair_slider_icon_positions[3] = {{105.0f, 194.0f}, {105.0f, 238.0f}, {105.0f, 282.0f}};
 
 #pragma push
 #pragma fp_contract on
 const f32 lbl_8046509C[10] = {
     206.0f, 219.0f, 243.0f, 271.0f, 271.0f, 284.0f, 297.0f, 323.0f, 347.0f, 347.0f,
 };
-const f32 lbl_804650C4[4] = {0.0f, 244.0f, 244.0f, 244.0f};
-const vec2f lbl_804650D4[4] = {{107.0f, 210.0f}, {99.0f, 224.0f}, {241.0f, 224.0f}, {249.0f, 210.0f}};
-const HairBarColor lbl_804650F4[4] = {{0xFF000000}, {0x00FF0000}, {0x0000FF00}, {0x80808000}};
+const f32 hair_bar_widths[4] = {0.0f, 244.0f, 244.0f, 244.0f};
+const vec2f hair_bar_corners[4] = {{107.0f, 210.0f}, {99.0f, 224.0f}, {241.0f, 224.0f}, {249.0f, 210.0f}};
+const HairBarColor hair_bar_colors[4] = {{0xFF000000}, {0x00FF0000}, {0x0000FF00}, {0x80808000}};
 
 // render reaches each of the four hair arrays with its own lis/addi (no shared base): pool_data off
 #pragma pool_data off
@@ -1571,7 +1559,7 @@ void TObjCMHairMenu::render() {
             if (i == 0) {
                 w = r * (base - 75.0f) + 75.0f;
             } else {
-                w = r * (lbl_804650C4[i] - 75.0f) + 75.0f;
+                w = r * (hair_bar_widths[i] - 75.0f) + 75.0f;
             }
             pos.x = 75.0f;
             if (i == selection) {
@@ -1650,7 +1638,7 @@ void TObjCMHairMenu::render() {
             } else {
                 s *= 0.6f;
             }
-            draw_ui_sprite(i + 15, &lbl_804DBCD0[i - 1], -2.4375f, s);
+            draw_ui_sprite(i + 15, &hair_slider_icon_positions[i - 1], -2.4375f, s);
         }
 
         TCameraCtrl::restore_full_screen_view();
@@ -1659,13 +1647,13 @@ void TObjCMHairMenu::render() {
         list.verts = pts;
         list.colors = cols;
         list.tex = 0;
-        pts[0].x = 0.1f * (lbl_804650D4[1].x - lbl_804650D4[0].x) + lbl_804650D4[0].x;
-        pts[1].x = 1.1f * (lbl_804650D4[1].x - lbl_804650D4[0].x) + lbl_804650D4[0].x;
-        pts[2].x = 1.1f * (lbl_804650D4[2].x - lbl_804650D4[3].x) + lbl_804650D4[3].x;
-        pts[3].x = 0.1f * (lbl_804650D4[2].x - lbl_804650D4[3].x) + lbl_804650D4[3].x;
-        pts[0].y = pts[3].y = 0.1f * (lbl_804650D4[1].y - lbl_804650D4[0].y) + lbl_804650D4[0].y;
-        pts[1].y = pts[2].y = 1.1f * (lbl_804650D4[1].y - lbl_804650D4[0].y) + lbl_804650D4[0].y;
-        HairBarColor color = lbl_804650F4[3];
+        pts[0].x = 0.1f * (hair_bar_corners[1].x - hair_bar_corners[0].x) + hair_bar_corners[0].x;
+        pts[1].x = 1.1f * (hair_bar_corners[1].x - hair_bar_corners[0].x) + hair_bar_corners[0].x;
+        pts[2].x = 1.1f * (hair_bar_corners[2].x - hair_bar_corners[3].x) + hair_bar_corners[3].x;
+        pts[3].x = 0.1f * (hair_bar_corners[2].x - hair_bar_corners[3].x) + hair_bar_corners[3].x;
+        pts[0].y = pts[3].y = 0.1f * (hair_bar_corners[1].y - hair_bar_corners[0].y) + hair_bar_corners[0].y;
+        pts[1].y = pts[2].y = 1.1f * (hair_bar_corners[1].y - hair_bar_corners[0].y) + hair_bar_corners[0].y;
+        HairBarColor color = hair_bar_colors[3];
         pts[0].y *= scale;
         pts[1].y *= scale;
         pts[2].y *= scale;
@@ -1683,14 +1671,14 @@ void TObjCMHairMenu::render() {
         for (s32 i = 0; i < 3; i++) {
             v = (&appearance->red)[i] / 255.0f;
             if (v != 0.0f) {
-                pts[0].x = lbl_804650D4[0].x;
-                pts[1].x = lbl_804650D4[1].x;
-                pts[2].x = v * (lbl_804650D4[2].x - lbl_804650D4[1].x) + lbl_804650D4[1].x;
-                pts[3].x = v * (lbl_804650D4[3].x - lbl_804650D4[0].x) + lbl_804650D4[0].x;
+                pts[0].x = hair_bar_corners[0].x;
+                pts[1].x = hair_bar_corners[1].x;
+                pts[2].x = v * (hair_bar_corners[2].x - hair_bar_corners[1].x) + hair_bar_corners[1].x;
+                pts[3].x = v * (hair_bar_corners[3].x - hair_bar_corners[0].x) + hair_bar_corners[0].x;
                 for (s32 j = 0; j < 4; j++) {
-                    pts[j].y = scale * lbl_804650D4[j].y + i * step;
+                    pts[j].y = scale * hair_bar_corners[j].y + i * step;
                 }
-                HairBarColor bar_color = lbl_804650F4[i];
+                HairBarColor bar_color = hair_bar_colors[i];
                 bar_color.c[3] = 255.0f * t;
                 TObjCMHairMenu__sub_801E3F54(&cols[0], TObjCMHairMenu__sub_801E3F54(&cols[1],
                     TObjCMHairMenu__sub_801E3F54(&cols[2], TObjCMHairMenu__sub_801E3F54(&cols[3], &bar_color.rgba))));
@@ -1956,9 +1944,9 @@ void TObjCMProportion::run_task() {
     }
 }
 
-NJS_POINT2 lbl_804DBCE8[4] = {{245.0f, 165.0f}, {395.0f, 165.0f}, {395.0f, 315.0f}, {245.0f, 315.0f}};
-NJS_POINT2COL lbl_804DBD08 = {lbl_804DBCE8, lbl_80540988, NULL, 4};
-NJS_POINT2COL lbl_804DBD18 = {lbl_80540998, lbl_805409B8, NULL, 4};
+NJS_POINT2 proportion_frame_points[4] = {{245.0f, 165.0f}, {395.0f, 165.0f}, {395.0f, 315.0f}, {245.0f, 315.0f}};
+NJS_POINT2COL proportion_frame_strip = {proportion_frame_points, proportion_frame_colors, NULL, 4};
+NJS_POINT2COL proportion_marker_strip = {proportion_marker_points, proportion_marker_colors, NULL, 4};
 
 void TObjCMProportion::render() {
     f32 alpha;
@@ -1968,36 +1956,36 @@ void TObjCMProportion::render() {
 
     alpha = fade * fade;
     color = ((s32)(32.0f * alpha) << 24) | 0xFF0000 | 0xFFFF;
-    lbl_80540988[3].color = color;
-    lbl_80540988[2].color = color;
-    lbl_80540988[1].color = color;
-    lbl_80540988[0].color = color;
-    reinterpret_cast<ColorLineList *>(&lbl_804DBD08)->draw_strip_swap_color(4, 5, -2.0f);
+    proportion_frame_colors[3].color = color;
+    proportion_frame_colors[2].color = color;
+    proportion_frame_colors[1].color = color;
+    proportion_frame_colors[0].color = color;
+    reinterpret_cast<ColorLineList *>(&proportion_frame_strip)->draw_strip_swap_color(4, 5, -2.0f);
     color = ((s32)(64.0f * alpha) << 24) | 0xFF0000 | 0xFFFF;
-    lbl_805409B8[3].color = color;
-    lbl_805409B8[2].color = color;
-    lbl_805409B8[1].color = color;
-    lbl_805409B8[0].color = color;
+    proportion_marker_colors[3].color = color;
+    proportion_marker_colors[2].color = color;
+    proportion_marker_colors[1].color = color;
+    proportion_marker_colors[0].color = color;
     x = 75.0f * (2.0f * (appearance->width - 0.5f)) + 320.0f;
     y = 75.0f * (2.0f * (appearance->height - 0.5f)) + 240.0f;
-    lbl_80540998[1].y = 150.0f;
-    lbl_80540998[0].y = 150.0f;
-    lbl_80540998[3].y = 330.0f;
-    lbl_80540998[2].y = 330.0f;
-    lbl_80540998[0].x = x - 2.0f;
-    lbl_80540998[1].x = 2.0f + x;
-    lbl_80540998[2].x = 2.0f + x;
-    lbl_80540998[3].x = x - 2.0f;
-    reinterpret_cast<ColorLineList *>(&lbl_804DBD18)->draw_strip_swap_color(4, 6, -2.0f);
-    lbl_80540998[0].y = y - 2.0f;
-    lbl_80540998[1].x = 230.0f;
-    lbl_80540998[1].y = 2.0f + y;
-    lbl_80540998[0].x = 230.0f;
-    lbl_80540998[2].y = 2.0f + y;
-    lbl_80540998[3].y = y - 2.0f;
-    lbl_80540998[3].x = 410.0f;
-    lbl_80540998[2].x = 410.0f;
-    reinterpret_cast<ColorLineList *>(&lbl_804DBD18)->draw_strip_swap_color(4, 6, -2.0f);
+    proportion_marker_points[1].y = 150.0f;
+    proportion_marker_points[0].y = 150.0f;
+    proportion_marker_points[3].y = 330.0f;
+    proportion_marker_points[2].y = 330.0f;
+    proportion_marker_points[0].x = x - 2.0f;
+    proportion_marker_points[1].x = 2.0f + x;
+    proportion_marker_points[2].x = 2.0f + x;
+    proportion_marker_points[3].x = x - 2.0f;
+    reinterpret_cast<ColorLineList *>(&proportion_marker_strip)->draw_strip_swap_color(4, 6, -2.0f);
+    proportion_marker_points[0].y = y - 2.0f;
+    proportion_marker_points[1].x = 230.0f;
+    proportion_marker_points[1].y = 2.0f + y;
+    proportion_marker_points[0].x = 230.0f;
+    proportion_marker_points[2].y = 2.0f + y;
+    proportion_marker_points[3].y = y - 2.0f;
+    proportion_marker_points[3].x = 410.0f;
+    proportion_marker_points[2].x = 410.0f;
+    reinterpret_cast<ColorLineList *>(&proportion_marker_strip)->draw_strip_swap_color(4, 6, -2.0f);
     draw_creation_ruler_lines(fade);
 }
 
