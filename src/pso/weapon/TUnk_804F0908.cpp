@@ -96,8 +96,8 @@ void TUnk_804F0908::emit_marker_effects() {
     }
 }
 
-void TObjPlayer::spawn_particle_at_entity_slot(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
-    TObjCollidable *entity = static_cast<TObjCollidable *>(find_entity_by_id(arg2));
+void TObjPlayer::spawn_particle_at_entity_slot(s32 arg0, s32 arg1, s32 id, s32 arg3) {
+    TObjCollidable *entity = static_cast<TObjCollidable *>(find_entity_by_id(id));
     if (entity != NULL) {
         CollisionBody *bodies = entity->bodies;
         if (bodies != NULL && arg3 < entity->body_count) {

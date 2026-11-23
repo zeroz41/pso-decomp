@@ -122,10 +122,10 @@ void TItemWeapon::draw_weapon_model() {
     }
 }
 
-void draw_weapon_at_joint(saddr arg0, s8 arg1) {
+void draw_weapon_at_joint(saddr arg0, s8 joint) {
     s8 temp_r31;
     temp_r31 = (s32)((TItemEquipBase *)arg0)->get_attach_joint();
-    ((TItemEquipBase *)arg0)->set_attach_joint(arg1);
+    ((TItemEquipBase *)arg0)->set_attach_joint(joint);
     ((TItemWeapon *)arg0)->draw_weapon_model();
     ((TItemEquipBase *)arg0)->set_attach_joint(temp_r31);
 }
@@ -318,7 +318,7 @@ void*TObjPlayer::get_extended_state() { return ((TObjPlayer *)((char*)this + 0x7
 f32 TObjPlayer::query_extended_state() { return get_attack_damage_scale((s16 *)((char*)this + 0x7cc)); }
 int TObjPlayer::test_flag30_bit0x100000() { return test_actor_flags((uaddr)((void*)1048576)); }
 }
-void* get_model_joint_matrix(void* a0, int a1) {  return (char*)(*(saddr *)((char*)a0 + 0xdb4)) + a1 * 48; }
+void* get_model_joint_matrix(void* owner, int joint) {  return (char*)(*(saddr *)((char*)owner + 0xdb4)) + joint * 48; }
 void TObjPlayer::set_action_type(s16 v) { *(s16*)((char*)this + 0x0) = v; }
 
 // ---- pso/player/TObjPlayer_80121178

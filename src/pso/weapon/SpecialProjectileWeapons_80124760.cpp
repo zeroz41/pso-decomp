@@ -164,9 +164,9 @@ TUnk_804A2164::TUnk_804A2164(TObject *parent, u8 *item) : TItemWeapon(parent, it
     recoil_angle = 0;
 }
 
-TItem *create_drill_launcher(u8 *arg0) {
-    if (arg0 != NULL) {
-        return new TUnk_804A2164(tl_05, arg0);
+TItem *create_drill_launcher(u8 *item) {
+    if (item != NULL) {
+        return new TUnk_804A2164(tl_05, item);
     }
     return NULL;
 }

@@ -40,7 +40,7 @@ struct TItemAttackCol : public TUnk_804E355C {
     TItemAttackColHitWall hit_wall;
     TItemAttackColHitObject hit_object;
     TParticleCtrl *continuous_particle;
-    static void add_to_active_list(void* a0);
+    static void add_to_active_list(void* node);
     void shift_collision_bounds();
     void move_with_collision(void *to);
     virtual void render();

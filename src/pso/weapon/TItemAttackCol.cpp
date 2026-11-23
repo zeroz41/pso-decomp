@@ -592,7 +592,7 @@ void TItemAttackCol::shift_collision_bounds() {
     pad_114[2] -= 0xCCC;
 }
 
-void TItemAttackCol::add_to_active_list(void* a0) { fn_802E3BA8(attack_collider_render_owner, a0); attack_collider_active_count = (attack_collider_active_count + 0x1); }
+void TItemAttackCol::add_to_active_list(void* node) { fn_802E3BA8(attack_collider_render_owner, node); attack_collider_active_count = (attack_collider_active_count + 0x1); }
 
 // Called for each node of the model before add_to_active_list counts it:
 // with flag 8 the second node drawn gets the collider's extra rotation and scale.

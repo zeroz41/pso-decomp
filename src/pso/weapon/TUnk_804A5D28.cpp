@@ -136,19 +136,19 @@ void TUnk_804A5D10::render() {
 }
 
 
-void TObjPlayer::launch_weapon_casing(saddr arg0, uaddr arg1, s32 joint, uaddr arg3, uaddr angle) {
+void TObjPlayer::launch_weapon_casing(saddr parent, uaddr item, s32 joint, uaddr velocity, uaddr angle) {
     u8 sp8[0x18];
     void *object;
-    if ((arg0 != 0) && (arg1 != 0U) && (arg3 != 0U) && (angle != 0U) && (((TItemWeapon *)arg1)->get_joint_position(joint, sp8) != 0)) {
-        object = new TUnk_804A5D10((TObject *)arg0, (TItem *)arg1, (Vec *)sp8, (Vec *)arg3, (s32 *)angle);
+    if ((parent != 0) && (item != 0U) && (velocity != 0U) && (angle != 0U) && (((TItemWeapon *)item)->get_joint_position(joint, sp8) != 0)) {
+        object = new TUnk_804A5D10((TObject *)parent, (TItem *)item, (Vec *)sp8, (Vec *)velocity, (s32 *)angle);
         TItemAttacker::spawn_item_timer((TObject *)object, (ItemTimerCallback)expire_weapon_casing, 0xF);
     }
 }
 
-void TObjPlayer::spawn_weapon_casing(saddr arg0, uaddr arg1, uaddr pos, uaddr arg3, uaddr angle) {
+void TObjPlayer::spawn_weapon_casing(saddr parent, uaddr item, uaddr pos, uaddr velocity, uaddr angle) {
     void *p;
-    if ((arg0 != 0) && (arg1 != 0U) && (pos != 0U) && (arg3 != 0U) && (angle != 0U)) {
-        p = new TUnk_804A5D10((TObject *)arg0, (TItem *)arg1, (Vec *)pos, (Vec *)arg3, (s32 *)angle);
+    if ((parent != 0) && (item != 0U) && (pos != 0U) && (velocity != 0U) && (angle != 0U)) {
+        p = new TUnk_804A5D10((TObject *)parent, (TItem *)item, (Vec *)pos, (Vec *)velocity, (s32 *)angle);
         TItemAttacker::spawn_item_timer((TObject *)p, (ItemTimerCallback)expire_weapon_casing, 0xF);
     }
 }

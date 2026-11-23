@@ -9,7 +9,7 @@ struct TObjPlayer;
 extern "C" {
 void *__dt__13TUnk_804A2164Fv(void *arg0, s16 arg1);
 }
-TItem *create_drill_launcher(u8 *arg0);
+TItem *create_drill_launcher(u8 *item);
 extern "C" {
 void *ct_shoot_model__10TObjPlayerFPv(void *arg0);
 }

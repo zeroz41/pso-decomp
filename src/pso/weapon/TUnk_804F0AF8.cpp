@@ -134,16 +134,16 @@ void TObjPlayer::spawn_fire_explosion(uaddr a0, saddr a1) {
     new TUnk_804CCB28(10.0f, &info.position, 0, tl_particle);
 }
 
-void TObjPlayer::spawn_fire_explosion_at_item(s32 arg0, saddr arg1) {
+void TObjPlayer::spawn_fire_explosion_at_item(s32 id, saddr arg1) {
     Ctx_80125628 *ctx = (Ctx_80125628 *)arg1;
-    uaddr p = (uaddr)find_item_by_id(arg0);
+    uaddr p = (uaddr)find_item_by_id(id);
     if (p != 0U) {
         TObjPlayer::spawn_fire_explosion(p, (s32)((saddr)ctx->obj->elems[ctx->idx].f1c));
     }
 }
 
-void TObjPlayer::spawn_fire_explosion_for_item(s32 arg0, s32 arg1) {
-    uaddr temp_r3 = (uaddr)find_item_by_id(arg0);
+void TObjPlayer::spawn_fire_explosion_for_item(s32 id, s32 arg1) {
+    uaddr temp_r3 = (uaddr)find_item_by_id(id);
     if (temp_r3 != 0U) {
         TObjPlayer::spawn_fire_explosion(temp_r3, arg1);
     }
