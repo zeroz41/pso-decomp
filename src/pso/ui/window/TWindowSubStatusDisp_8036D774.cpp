@@ -14,6 +14,7 @@
 #include "pso/unk/TLobby.h"
 #include "pso/system/TLanguage.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/system/TLanguage_801E4874.h"
 
 struct Desc_8036D774 { f32 *pos; u32 *col; s32 a; s32 n; };
 
@@ -166,7 +167,6 @@ void TWindowSubStatusDisp::draw_split_screen_hud() {
 
 #pragma readonly_strings on
 #pragma pool_data off
-u8 *load_gvm_texture_file(saddr arg0);
 extern "C" {
 extern s32 split_screen_hud_animation_frame;
 s32 release_texture_list(void*);
@@ -184,7 +184,7 @@ void TBGMulti__ct(void) {
         sp8[0] = (saddr)TLobby::tmp_buf_use_req("TBGMulti");
         TLanguage::draw_string((void *)"f128_gr.gvp", sp8, 0x4D);
         TLobby::tmp_buf_release("TBGMulti");
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>((*(s32 *)&TBGMulti__textures) = (saddr)load_gvm_texture_file((saddr)"bg_multi.gvm")));
+        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>((*(s32 *)&TBGMulti__textures) = (saddr)load_gvm_texture_file("bg_multi.gvm")));
         TLanguage::set_entry_index(0, 0x4D);
     }
     split_screen_hud_animation_frame = 0x384;

@@ -40,7 +40,7 @@ void TObjNpcHFW00::free_resources() {
 
 void TObjNpcHFW00::load_resources() {
     TObjNpcHFW00__shared_resource_obj = (u32)create_named_object((saddr)"npc_g00_data.rel");
-    TObjNpcHFW00__texture_handle = (uaddr)load_gvm_texture_file((saddr)"n_g00_body.gvm");
+    TObjNpcHFW00__texture_handle = (uaddr)load_gvm_texture_file("n_g00_body.gvm");
 }
 
 }

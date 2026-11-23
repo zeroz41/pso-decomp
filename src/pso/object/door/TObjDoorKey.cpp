@@ -32,6 +32,7 @@
 #include "pso/object/key/TOKey.h"
 #include "pso/player/TUnk_804B6C24.h"
 #include "pso/player/TObjPlayer_80011014.h"
+#include "pso/system/TLanguage_801E4874.h"
 
 
 struct BmlResource;
@@ -121,7 +122,6 @@ struct Node_8018FCD8 { s32 pad0; void *f4; };
 
 struct Key_8018FCD8 { u8 pad0[0x38]; u8 f38[0x28]; s32 f60; u8 pad64[0x28]; s32 f8C; u8 pad90[0x60]; s32 fF0; };
 
-u8 *load_gvm_texture_file(saddr arg0);
 extern "C" {
 void PPCSync();
 void post_translate_matrix(void *);
@@ -312,7 +312,7 @@ void TObjDoorKey::free_key() {
 void TObjDoorKey::load_resources() {
     saddr r = (saddr)new BmlResource(5, &TObjDoorKey__resource_descriptor, 0, 0, NULL);
     door_key_resource_handle = (BmlResource *)r;
-    TObjDoorKey__texture_handle = (GinjaTextureList *)load_gvm_texture_file((saddr)"fe_obj_switch.gvm");
+    TObjDoorKey__texture_handle = (GinjaTextureList *)load_gvm_texture_file("fe_obj_switch.gvm");
     TObjDoorKey__ginja_model_table[0] = (saddr)get_bml_model((BmlResource *)door_key_resource_handle, 1);
     TObjDoorKey__ginja_model_table[1] = (saddr)get_bml_model((BmlResource *)door_key_resource_handle, 2);
     s32 t = (saddr)get_bml_model((BmlResource *)door_key_resource_handle, 0);

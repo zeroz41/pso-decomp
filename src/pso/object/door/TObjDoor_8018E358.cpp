@@ -83,7 +83,7 @@ void *TObjDoorJung::create(void *set_data) {
 void TObjDoor::load_resources() {
     BmlResource *p = new BmlResource(5, &door_resource_descriptor, 0, 0, NULL);
     door_resource_handle = p;
-    TObjDoor__resource_param = (GinjaTextureList *)load_gvm_texture_file((saddr)"fe_obj_door.gvm");
+    TObjDoor__resource_param = (GinjaTextureList *)load_gvm_texture_file("fe_obj_door.gvm");
     TObjDoor__model_resource_ptrs.f0 = get_bml_model((BmlResource *)door_resource_handle, 4);
     TObjDoor__model_resource_ptrs.f4 = get_bml_model((BmlResource *)door_resource_handle, 3);
     TObjDoor__model_resource_ptrs.c = (Node_8018E358 *)get_bml_model((BmlResource *)door_resource_handle, 0);

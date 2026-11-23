@@ -34,6 +34,7 @@ struct GinjaTextureList;
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/render/ModelDrawContext.h"
 #include "pso/player/TObjPlayer_80011014.h"
+#include "pso/system/TLanguage_801E4874.h"
 
 
 extern "C" { void rotate_matrix_y(int, void *); s32 pop_matrix(void); void draw_ginja_object(void *); AnimationMotion *get_bml_motion(BmlResource *resource, s32 index); }
@@ -73,7 +74,6 @@ __declspec(section ".data") uaddr lazer_fence_beam_motions[2];
 // The models of the first three children of switch model 0 (the beams).
 __declspec(section ".data") void *lazer_fence_beam_node_table[3];
 }
-u8 *load_gvm_texture_file(saddr arg0);
 
 extern s32 game_difficulty_selection;
 __declspec(section ".data") const char *fe_obj_switch_laz_model_names[4] = { "fe_obj_switch_laz.gj", "fs_obj_switch_laz_moto.gj", "fs_obj_switch_laz_moto_taiki.gj", NULL };
@@ -262,14 +262,14 @@ void TLazerFenceSw::load_resources() {
     if (TContainerAncient01::is_global_state_in_table() == 1 || area == AREA_SEABED_UPPER || area == AREA_SEABED_LOWER) {
         obj = new BmlResource(5, (BmlResourceDescriptor *)&fe_obj_switch_laz_j_resource_descriptor, 0, 0, NULL);
         lazer_fence_switch_bml_resource = obj;
-        TLazerFenceSw__texture_list = (GinjaTextureList *)load_gvm_texture_file((saddr)fe_obj_switch_laz_j_gvm);
+        TLazerFenceSw__texture_list = (GinjaTextureList *)load_gvm_texture_file(fe_obj_switch_laz_j_gvm);
     } else {
         obj = new BmlResource(5, (BmlResourceDescriptor *)&laser_fence_switch_resource_descriptor, 0, 0, NULL);
         lazer_fence_switch_bml_resource = obj;
         if (game_difficulty_selection == 3) {
-            TLazerFenceSw__texture_list = (GinjaTextureList *)load_gvm_texture_file((saddr)fe_obj_switch_laz_a_gvm);
+            TLazerFenceSw__texture_list = (GinjaTextureList *)load_gvm_texture_file(fe_obj_switch_laz_a_gvm);
         } else {
-            TLazerFenceSw__texture_list = (GinjaTextureList *)load_gvm_texture_file((saddr)fe_obj_switch_laz_gvm);
+            TLazerFenceSw__texture_list = (GinjaTextureList *)load_gvm_texture_file(fe_obj_switch_laz_gvm);
         }
     }
     lazer_fence_sw_ginja_model_table[0] = get_bml_model((BmlResource *)lazer_fence_switch_bml_resource, 0);

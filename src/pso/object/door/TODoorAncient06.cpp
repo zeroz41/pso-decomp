@@ -104,8 +104,8 @@ void TODoorAncient06::load_resources() {
     BmlResource *resource = new BmlResource(1, (BmlResourceDescriptor *)&door_ancient_567_resource_descriptor, 0, 0, NULL);
     bml_resource = resource;
     texture_lists = (GinjaTextureList **)mem_alloc(2 * sizeof(GinjaTextureList *));
-    texture_lists[0] = (GinjaTextureList *)load_gvm_texture_file((saddr)"fs_obj_door07_m_02_r.gvm");
-    texture_lists[1] = (GinjaTextureList *)load_gvm_texture_file((saddr)"fs_obj_door07_m_02_g.gvm");
+    texture_lists[0] = (GinjaTextureList *)load_gvm_texture_file("fs_obj_door07_m_02_r.gvm");
+    texture_lists[1] = (GinjaTextureList *)load_gvm_texture_file("fs_obj_door07_m_02_g.gvm");
     model_nodes = (NJS_OBJECT *)mem_alloc(3 * sizeof(NJS_OBJECT));
     if (bml_resource != NULL && model_nodes != NULL) {
         copy_model_node((u8 *)&model_nodes[0], (u8 *)bml_resource->models[0].model);

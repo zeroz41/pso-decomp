@@ -22,6 +22,7 @@
 #include "pso/object/switch/TSwitch.h"
 #include "pso/unk/TLobby_8001EF5C.h"
 #include "pso/render/GinjaTexture.h"
+#include "pso/system/TLanguage_801E4874.h"
 
 struct AnimationMotion;
 
@@ -108,7 +109,6 @@ struct TObjLazerFenceNorm_80192CCC {
 };
 
 }
-u8 *load_gvm_texture_file(saddr arg0);
 
 void load_lazer_fence_norm_resources(void) {
     BmlResource *obj;
@@ -124,12 +124,12 @@ void load_lazer_fence_norm_resources(void) {
     case AREA_TOWER:
         obj = new BmlResource(5, (BmlResourceDescriptor *)&lazer_fence_norm_episode2_resource_descriptor, 0, 0, NULL);
         lazer_fence_norm_bml_resource = obj;
-        lazer_fence_norm_texture_list = (GinjaTextureList *)load_gvm_texture_file((saddr)"fe_obj_lazer2_2.gvm");
+        lazer_fence_norm_texture_list = (GinjaTextureList *)load_gvm_texture_file("fe_obj_lazer2_2.gvm");
         break;
     default:
         obj = new BmlResource(5, (BmlResourceDescriptor *)&lazer_fence_norm_episode1_resource_descriptor, 0, 0, NULL);
         lazer_fence_norm_bml_resource = obj;
-        lazer_fence_norm_texture_list = (GinjaTextureList *)load_gvm_texture_file((saddr)"fe_obj_lazer2.gvm");
+        lazer_fence_norm_texture_list = (GinjaTextureList *)load_gvm_texture_file("fe_obj_lazer2.gvm");
         break;
     }
 }

@@ -64,7 +64,7 @@ GinjaTextureList *TObjGoalWarpAncient::get_archive_textures(s32 index) {
 void TObjGoalWarpAncient::load_resources() {
     BmlResource *resource = new BmlResource(1, &bm_o_warp_ancient_resource_descriptor, 0, 0, NULL);
     ancient_warp_shared_resource = resource;
-    goal_warp_ancient_gvm_texture = (GinjaTextureList *)load_gvm_texture_file((saddr)"de_obj2_swarp_beam_r.gvm");
+    goal_warp_ancient_gvm_texture = (GinjaTextureList *)load_gvm_texture_file("de_obj2_swarp_beam_r.gvm");
 }
 
 void TObjMapWarpAncient::free_globals() {

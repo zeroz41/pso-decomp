@@ -264,11 +264,11 @@ void TODoorCave01::load_resources() {
     if (enable_v2_features != 0 && TLobby::is_online_ready() != 0) {
         resource = new BmlResource(1, &door_cave01_a_resource_descriptor, 0, 0, NULL);
         bml_resource = resource;
-        texture_lists[0] = (GinjaTextureList *)load_gvm_texture_file((saddr)"fs_obj_do_doa01r_a.gvm");
+        texture_lists[0] = (GinjaTextureList *)load_gvm_texture_file("fs_obj_do_doa01r_a.gvm");
     } else {
         resource = new BmlResource(1, &door_cave01_resource_descriptor, 0, 0, NULL);
         bml_resource = resource;
-        texture_lists[0] = (GinjaTextureList *)load_gvm_texture_file((saddr)"fs_obj_do_doa01r.gvm");
+        texture_lists[0] = (GinjaTextureList *)load_gvm_texture_file("fs_obj_do_doa01r.gvm");
     }
     texture_lists[1] = (GinjaTextureList *)bml_resource->models[0].texlist;
 }

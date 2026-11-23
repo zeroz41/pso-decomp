@@ -19,6 +19,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/math/AngleLookup.h"
+#include "pso/system/TLanguage_801E4874.h"
 
 
 struct G_80338534 { u8 p0[0x2C]; ProjectedVertex a[4]; u8 b[0x60]; u8 c[0x40]; };
@@ -140,7 +141,6 @@ void TLobby__sub_803382E4(void) {
     }
 }
 }
-u8 *load_gvm_texture_file(saddr arg0);
 #pragma pop
 
 void TLobby::handle_flag2_request() {
@@ -255,4 +255,4 @@ void TLobby::update_pulse_colors(s32 arg0) {
 
 void TWindowSubStatusDisp__sub_803386F0(void) { TObjPlayer::free_if_valid(info_icon_texture); }
 
-void load_info_icon(void) { info_icon_texture = (saddr)load_gvm_texture_file((saddr)"InfoIcon.gvm"); }
+void load_info_icon(void) { info_icon_texture = (saddr)load_gvm_texture_file("InfoIcon.gvm"); }

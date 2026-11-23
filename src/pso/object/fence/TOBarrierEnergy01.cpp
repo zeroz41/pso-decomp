@@ -79,7 +79,7 @@ void TOBarrierEnergy01::load_resources() {
     barrier_energy_shared_bml_archive = archive;
     barrier_energy_model = (void *)get_bml_model((BmlResource *)archive, 0);
     barrier_energy_texlists = (GinjaTextureList **)mem_alloc(3 * sizeof(*barrier_energy_texlists));
-    barrier_energy_texlists[0] = (GinjaTextureList *)load_gvm_texture_file((saddr)"fs_obj_laz_guard_r.gvm");
+    barrier_energy_texlists[0] = (GinjaTextureList *)load_gvm_texture_file("fs_obj_laz_guard_r.gvm");
     barrier_energy_texlists[1] = (GinjaTextureList *)get_bml_texlist((BmlResource *)barrier_energy_shared_bml_archive, 1);
     barrier_energy_texlists[2] = (GinjaTextureList *)get_bml_texlist((BmlResource *)barrier_energy_shared_bml_archive, 0);
 }

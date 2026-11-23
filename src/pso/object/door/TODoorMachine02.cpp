@@ -140,11 +140,11 @@ void TODoorMachine02::load_resources() {
     if (enable_v2_features == 1 && TLobby::is_online_ready() != 0) {
         resource = new BmlResource(1, &door_machine02_a_resource_descriptor, 0, 0, NULL);
         bml_resource = resource;
-        texture_lists[0] = (GinjaTextureList *)load_gvm_texture_file((saddr)"fs_obj_ki_doa2_r_a.gvm");
+        texture_lists[0] = (GinjaTextureList *)load_gvm_texture_file("fs_obj_ki_doa2_r_a.gvm");
     } else {
         resource = new BmlResource(1, &door_machine02_resource_descriptor, 0, 0, NULL);
         bml_resource = resource;
-        texture_lists[0] = (GinjaTextureList *)load_gvm_texture_file((saddr)"fs_obj_ki_doa2_r.gvm");
+        texture_lists[0] = (GinjaTextureList *)load_gvm_texture_file("fs_obj_ki_doa2_r.gvm");
     }
     texture_lists[1] = (GinjaTextureList *)bml_resource->models[0].texlist;
 }

@@ -52,6 +52,7 @@ struct AnimationMotion;
 #include "pso/system/task/TMainTask.h"
 #include "pso/unk/TLobby_8001EF5C.h"
 #include "pso/object/trap/TOTrapAncient01_80226534.h"
+#include "pso/system/TLanguage_801E4874.h"
 
 
 struct Ids_8029B428 {
@@ -133,7 +134,6 @@ BmlResource *TODoorJungleMain__bml_resource;
 
 GinjaTextureList *door_jungle_main_gvm_texture;
 
-u8 * load_gvm_texture_file(saddr);
 extern "C" {
 
 u32 init_collision_body_parts(void *, saddr, s32);
@@ -310,7 +310,7 @@ void TODoorJungleMain::load_resources() {
     saddr var_r0;
     var_r0 = (saddr)new BmlResource(0x1, &bm_o_jungle_doormain_resource_descriptor, 0, 0, NULL);
     TODoorJungleMain__bml_resource = (BmlResource *)var_r0;
-    door_jungle_main_gvm_texture = (GinjaTextureList *)load_gvm_texture_file((saddr) "o_jungle_doormain.gvm");
+    door_jungle_main_gvm_texture = (GinjaTextureList *)load_gvm_texture_file("o_jungle_doormain.gvm");
 }
 
 void TODoorJungleMain::free_static_resources() {

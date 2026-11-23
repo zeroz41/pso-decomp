@@ -33,9 +33,9 @@
 #include <dolphin/base/PPCArch.h>
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/system/TLanguage_801E4874.h"
 
 
-u8 *load_gvm_texture_file(saddr arg0);
 extern u32 actor_frame_tick;
 void load_computer_resources(void);
 const char *fe_obj_tanmatu02_model_names[3] = {"fe_obj_tanmatu02.gj", "fs_obj_tanmatu01.gj", NULL};
@@ -102,13 +102,13 @@ void load_computer_resources(void) {
     case AREA_SEASIDE_NIGHT: case AREA_TOWER:
         p = new BmlResource(5, (BmlResourceDescriptor *)&fs_obj_tanmatu02_resource_descriptor, 0, 0, NULL);
         TObjComputer__model_archive = p;
-        TObjComputer__texture_gvm_handle = reinterpret_cast<GinjaTextureList *>(load_gvm_texture_file((saddr)"fs_obj_tanmatu02.gvm"));
+        TObjComputer__texture_gvm_handle = reinterpret_cast<GinjaTextureList *>(load_gvm_texture_file("fs_obj_tanmatu02.gvm"));
         computer_uv_scroll_phase = 0;
         break;
     default:
         p = new BmlResource(5, (BmlResourceDescriptor *)&fe_obj_tanmatu02_resource_descriptor, 0, 0, NULL);
         TObjComputer__model_archive = p;
-        TObjComputer__texture_gvm_handle = reinterpret_cast<GinjaTextureList *>(load_gvm_texture_file((saddr)"fe_obj_computer.gvm"));
+        TObjComputer__texture_gvm_handle = reinterpret_cast<GinjaTextureList *>(load_gvm_texture_file("fe_obj_computer.gvm"));
         computer_uv_scroll_phase = 1;
         break;
     }

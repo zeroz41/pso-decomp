@@ -312,7 +312,6 @@ extern const f32 lbl_805DBCF8;
 u32 init_collision_body_parts(void *, void *, s32);
 s32 free_collision_body_parts(void *);
 }
-u8 *load_gvm_texture_file(saddr arg0);
 extern s32 local_client_id;
 NJS_OBJECT *get_container_breakup_model(s32 index);
 extern const f32 lbl_805DBCF4;
@@ -356,7 +355,7 @@ void load_forest_box_resources(void) {
     case AREA_OLGA_FLOW:
         bundle = new BmlResource(5, (BmlResourceDescriptor *)&bm_obj_seabed_con_resource_descriptor, 0, 0, NULL);
         forest_box_model_archive = bundle;
-        forest_box_textures = (GinjaTextureList *)load_gvm_texture_file((saddr)seabed_container_texture_filename);
+        forest_box_textures = (GinjaTextureList *)load_gvm_texture_file(seabed_container_texture_filename);
         forest_box_debris_primary = &forest_box_break_params[2];
         forest_box_debris_secondary = &forest_box_break_params[3];
         node = find_object_node((NJS_OBJECT *)get_bml_model((BmlResource *)forest_box_model_archive, 1), 2);
@@ -367,7 +366,7 @@ void load_forest_box_resources(void) {
     default:
         bundle = new BmlResource(5, (BmlResourceDescriptor *)&fe_obj_hako01_hahen02_resource_descriptor, 0, 0, NULL);
         forest_box_model_archive = bundle;
-        forest_box_textures = TLobby::is_online_ready() != 0 ? (GinjaTextureList *)load_gvm_texture_file((saddr)forest_box_texture_filename_a) : (GinjaTextureList *)load_gvm_texture_file((saddr)((saddr)forest_box_texture_filename_n));
+        forest_box_textures = TLobby::is_online_ready() != 0 ? (GinjaTextureList *)load_gvm_texture_file(forest_box_texture_filename_a) : (GinjaTextureList *)load_gvm_texture_file(forest_box_texture_filename_n);
         forest_box_debris_primary = &forest_box_break_params[0];
         forest_box_debris_secondary = &forest_box_break_params[1];
         break;
@@ -398,13 +397,13 @@ void load_container_breakup_resources() {
     case AREA_OLGA_FLOW:
         p = new BmlResource(5, &bm_obj_seabed_con_rare_resource_descriptor, 0, 0, NULL);
         container_breakup_model_archive = (BmlResource *)p;
-        container_breakup_textures = (GinjaTextureList *)load_gvm_texture_file((saddr)"obj_seabed_con_rare.gvm");
+        container_breakup_textures = (GinjaTextureList *)load_gvm_texture_file("obj_seabed_con_rare.gvm");
         break;
     case AREA_GAL_GRYPHON:
     default:
         p = new BmlResource(5, &fe_obj_con_hahen1_resource_descriptor, 0, 0, NULL);
         container_breakup_model_archive = (BmlResource *)p;
-        container_breakup_textures = (GinjaTextureList *)load_gvm_texture_file((saddr)"obj_abecon.gvm");
+        container_breakup_textures = (GinjaTextureList *)load_gvm_texture_file("obj_abecon.gvm");
         break;
     }
 }

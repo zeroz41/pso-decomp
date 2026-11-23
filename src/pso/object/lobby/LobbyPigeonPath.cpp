@@ -334,13 +334,13 @@ void matrix_mult_vec(void *, void *, void *);
 
 s32 release_texture_list(void*);
 }
-u8 *load_gvm_texture_file(saddr arg0);
 struct Pl_802C26E4;
 struct Ent_802C26E4;
 
 #include "pso/ui/frontend/TAdStorySelectGC.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/system/MatrixOps.h"
+#include "pso/system/TLanguage_801E4874.h"
 
 
 #pragma push
@@ -570,7 +570,7 @@ s32 TObjSeabedDolphin::sub_802C2A10() {
 void TObjSeabedDolphin::load_static_resource() {
     Obj_802C2958 *o = (Obj_802C2958 *)new BmlResource(5, &bm_obj_seabed_dolphin_resource_descriptor, 0, 0, NULL);
     (*(Obj_802C2958 * *)&seabed_dolphin_bml_archive) = o;
-    seabed_dolphin_texture_handle = (saddr)load_gvm_texture_file((saddr)("obj_seabed_dolphin.gvm"));
+    seabed_dolphin_texture_handle = (saddr)load_gvm_texture_file("obj_seabed_dolphin.gvm");
     NpcAnimationBinding binding = seabed_dolphin_anim_binding;
     binding.motions = reinterpret_cast<BmlMotionEntry *>((*(Obj_802C2958 * *)&seabed_dolphin_bml_archive)->f430);
     NpcModelRegistry::register_animated_chunk(0x40,
@@ -771,7 +771,7 @@ void TObjJungleEbi::load_static_resource() {
     saddr var_r0;
     var_r0 = (saddr)new BmlResource(5, &bm_obj_jungle_ebi_resource_descriptor, 0, 0, NULL);
     (*(saddr *)&jungle_ebi_model_resource) = var_r0;
-    (*(u8 * *)&jungle_ebi_texture_gvm_handle) = load_gvm_texture_file((saddr)("obj_jungle_ebi.gvm"));
+    (*(u8 * *)&jungle_ebi_texture_gvm_handle) = load_gvm_texture_file("obj_jungle_ebi.gvm");
 }
 
 void TObjJungleEbi::destroy_instance() {
@@ -939,7 +939,7 @@ void TObjJungleBird::load_static_resource() {
     saddr var_r0;
     var_r0 = (saddr)new BmlResource(5, &bm_obj_jungle_bird_resource_descriptor, 0, 0, NULL);
     (*(saddr *)&jungle_bird_bml_resource) = var_r0;
-    (*(u8 * *)&lobby_pigeon_texture_gvm) = load_gvm_texture_file((saddr)("obj_jungle_bird.gvm"));
+    (*(u8 * *)&lobby_pigeon_texture_gvm) = load_gvm_texture_file("obj_jungle_bird.gvm");
 }
 
 void TObjJungleBird::destroy_instance() {
@@ -1118,7 +1118,7 @@ void TObjJungleKamome::load_static_resource() {
     s32 var_r0;
     var_r0 = (saddr)new BmlResource(5, &bm_obj_jungle_kamome_resource_descriptor, 0, 0, NULL);
     (*(saddr *)&lobby_kamome_model_resource) = var_r0;
-    (*(u8 * *)&lobby_kamome_texture_gvm_handle) = load_gvm_texture_file((saddr)("obj_jungle_kamome.gvm"));
+    (*(u8 * *)&lobby_kamome_texture_gvm_handle) = load_gvm_texture_file("obj_jungle_kamome.gvm");
 }
 
 void TObjJungleKamome::destroy_instance() {

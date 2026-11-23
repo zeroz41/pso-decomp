@@ -151,7 +151,7 @@ void TODoorVS2Door01::load_resources() {
     bml_resource = resource;
     texture_lists = (GinjaTextureList **)mem_alloc(2 * sizeof(GinjaTextureList *));
     texture_lists[1] = (GinjaTextureList *)bml_resource->models[0].texlist;
-    texture_lists[0] = (GinjaTextureList *)load_gvm_texture_file((saddr)"fs_obj_o_vs2door01lr.gvm");
+    texture_lists[0] = (GinjaTextureList *)load_gvm_texture_file("fs_obj_o_vs2door01lr.gvm");
 }
 
 TODoorVS2Door01::~TODoorVS2Door01() {

@@ -184,7 +184,7 @@ void TOKeyAncient03::load_resources() {
     textures = (GinjaTextureList **)mem_alloc(2 * sizeof(*textures));
     TOKeyAncient03__texture_variants = textures;
     textures[0] = (GinjaTextureList *)TOKeyAncient03__model_archive->models[0].texlist;
-    TOKeyAncient03__texture_variants[1] = (GinjaTextureList *)load_gvm_texture_file((saddr) "fs_obj_o_doorpanelg.gvm");
+    TOKeyAncient03__texture_variants[1] = (GinjaTextureList *)load_gvm_texture_file("fs_obj_o_doorpanelg.gvm");
 }
 
 TOKeyAncient03::~TOKeyAncient03() {}

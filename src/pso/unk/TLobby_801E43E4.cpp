@@ -210,7 +210,7 @@ struct GvmFileHeader {
 
 saddr TLanguage__read_cursor;
 
-u8 *load_gvm_texture_file(saddr name) {
+u8 *load_gvm_texture_file(const char *name) {
     s32 count;
     s32 i;
     NJS_TEXLIST *res;
@@ -222,7 +222,7 @@ u8 *load_gvm_texture_file(saddr name) {
     GvmFileHeader hdr;
     big = 0;
     TLobby::pump_frames();
-    size = TGStream::get_resource_file_size((const char *)name);
+    size = TGStream::get_resource_file_size(name);
     if (size <= 0) {
         TLobby::debug_print("LoadPvmFileTls:%s load error.", name);
         return NULL;
@@ -234,7 +234,7 @@ u8 *load_gvm_texture_file(saddr name) {
     } else {
         buf = (saddr)TLobby::tmp_buf_use_req("LoadPvmFileTls");
     }
-    TGStream::load_sct_file((const char *)name, (u8 *)buf);
+    TGStream::load_sct_file(name, (u8 *)buf);
     count = TLanguage::read_file_header(buf, &hdr);
     if (count == 0) {
         if (big != 0) {

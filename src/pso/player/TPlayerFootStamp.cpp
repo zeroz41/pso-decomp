@@ -60,7 +60,7 @@ void TPlayerFootStamp::sub_802B0204(s32 num) {
 }
 
 void load_player_footstamp(void) {
-    player_footstamp_texture_gvm_handle = (uaddr)load_gvm_texture_file((saddr)"player_footstamp.GVM");
+    player_footstamp_texture_gvm_handle = (uaddr)load_gvm_texture_file("player_footstamp.GVM");
 }
 
 void TPlayerFootStamp::free_instance() {

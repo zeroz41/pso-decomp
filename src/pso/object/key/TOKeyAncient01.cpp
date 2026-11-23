@@ -88,9 +88,9 @@ void TOKeyAncient01::load_resources() {
     TOKeyAncient01__shared_resource_object = resource;
     TOKeyAncient01__texture_lists = (GinjaTextureList **)mem_alloc(4 * sizeof(*TOKeyAncient01__texture_lists));
     TOKeyAncient01__texture_lists[0] = (GinjaTextureList *)TOKeyAncient01__shared_resource_object->models[0].texlist;
-    TOKeyAncient01__texture_lists[1] = (GinjaTextureList *)load_gvm_texture_file((saddr) "o_key_ancient01b.gvm");
-    TOKeyAncient01__texture_lists[2] = (GinjaTextureList *)load_gvm_texture_file((saddr) "o_key_ancient01g.gvm");
-    TOKeyAncient01__texture_lists[3] = (GinjaTextureList *)load_gvm_texture_file((saddr) "o_key_ancient01p.gvm");
+    TOKeyAncient01__texture_lists[1] = (GinjaTextureList *)load_gvm_texture_file("o_key_ancient01b.gvm");
+    TOKeyAncient01__texture_lists[2] = (GinjaTextureList *)load_gvm_texture_file("o_key_ancient01g.gvm");
+    TOKeyAncient01__texture_lists[3] = (GinjaTextureList *)load_gvm_texture_file("o_key_ancient01p.gvm");
 }
 
 TOKeyAncient01::~TOKeyAncient01() {

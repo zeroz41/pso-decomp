@@ -48,6 +48,7 @@
 #include "pso/unk/text_803D853C.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/system/TLanguage_801E4874.h"
 
 TechniqueParams lbl_80515F90;
 // Per player: the technique boosts of the equipped weapon and shield.
@@ -174,7 +175,6 @@ struct TechniqueRingwaveTextureList { u8 * value; u8 remaining[0x8]; };
 extern TechniqueRingwaveTextureList technique_ringwave_texture_list;
 void bind_gvm_texture_list(const char *, void *);
 }
-u8 *load_gvm_texture_file(saddr arg0);
 void reset_telepipe_visit_counts(void);
 s8 lbl_805D63A8;
 BmlResource *technique_effect_bml;
@@ -217,7 +217,7 @@ GinjaTextureList *lbl_805D63B0;
 
 void load_technique_resources(void) {
     technique_effect_bml = new BmlResource(1, &technique_resource_descriptor, 0, 0, NULL);
-    lbl_805D63B0 = (GinjaTextureList *)load_gvm_texture_file((saddr)"technic.gvm");
+    lbl_805D63B0 = (GinjaTextureList *)load_gvm_texture_file("technic.gvm");
     bind_gvm_texture_list("technic_pt", ((u8 *)&technique_ringwave_texture_list));
     TTecZondeEff::init_resources();
 }

@@ -235,7 +235,7 @@ void TObjContainerIdo::free_resources() {
 void TObjContainerIdo::load_resources() {
     BmlResource *archive = new BmlResource(5, &container_ido_resource_descriptor, 0, 0, NULL);
     container_ido_model_archive = archive;
-    container_ido_textures = (GinjaTextureList *)load_gvm_texture_file((saddr)"obj_containerido.GVM");
+    container_ido_textures = (GinjaTextureList *)load_gvm_texture_file("obj_containerido.GVM");
 }
 
 TObjContainerIdo::~TObjContainerIdo() {

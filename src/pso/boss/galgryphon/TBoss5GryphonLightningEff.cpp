@@ -145,5 +145,5 @@ void TBoss5GryphonLightningEff::release_texture() {
     }
 }
 void TBoss5GryphonLightningEff::load_texture() {
-    inazuma_texture_list = (GinjaTextureList *)load_gvm_texture_file((saddr)"f512_inazuma.gvm");
+    inazuma_texture_list = (GinjaTextureList *)load_gvm_texture_file("f512_inazuma.gvm");
 }

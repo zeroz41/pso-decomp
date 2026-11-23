@@ -53,6 +53,7 @@
 #include "pso/math/MatrixVector.h"
 #include "pso/render/BlobShadow.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/system/TLanguage_801E4874.h"
 BmlResource *gogo_ball_bml_resource;
 #pragma inline_depth(1)
 #pragma auto_inline off
@@ -197,7 +198,6 @@ struct Vec_80198E84 { f32 x; f32 y; f32 z; s32 w; u8 pad10[2]; s16 f12; };
 void fn_80198E84(void);
 struct Cfg_80198F14 { f32 f0; f32 f4; f32 f8; s32 fC; u8 pad10[2]; s16 f12; u8 pad14[4]; s8 f18; };
 struct Pair_80198F14 { s32 a; s32 b; };
-u8 *load_gvm_texture_file(saddr arg0);
 struct ByteBlock_C { u8 bytes[0xc]; };
 struct G_80199078 { u8 pad[0x10]; s16 flags; };
 struct Fx_801994DC {
@@ -878,15 +878,15 @@ void TLanguage::load_lobby_textures() {
     p->b = 0;
     obj = new BmlResource(5, (BmlResourceDescriptor *)&language_lobby_texture_descriptor, 0, 0, NULL);
     gogo_ball_bml_resource = obj;
-    lobby_gvm_texture_handles[0] = (GinjaTextureList *)load_gvm_texture_file((saddr)"robby_chu.gvm");
-    lobby_gvm_texture_handles[1] = (GinjaTextureList *)load_gvm_texture_file((saddr)"biri_ball.gvm");
-    lobby_gvm_texture_handles[2] = (GinjaTextureList *)load_gvm_texture_file((saddr)"bom_ball.gvm");
-    lobby_gvm_texture_handles[3] = (GinjaTextureList *)load_gvm_texture_file((saddr)"soft_ball.gvm");
-    lobby_gvm_texture_handles[4] = (GinjaTextureList *)load_gvm_texture_file((saddr)"rokeorange_churoke.gvm");
-    lobby_gvm_texture_handles[5] = (GinjaTextureList *)load_gvm_texture_file((saddr)"rokeblue_pso_churoke.gvm");
-    lobby_gvm_texture_handles[6] = (GinjaTextureList *)load_gvm_texture_file((saddr)"robby_cat.gvm");
-    lobby_gvm_texture_handles[7] = (GinjaTextureList *)load_gvm_texture_file((saddr)"fd_obj804_gorl03.gvm");
-    lobby_gvm_texture_handles[8] = (GinjaTextureList *)load_gvm_texture_file((saddr)"fd_obj804_gorl03_b.gvm");
+    lobby_gvm_texture_handles[0] = (GinjaTextureList *)load_gvm_texture_file("robby_chu.gvm");
+    lobby_gvm_texture_handles[1] = (GinjaTextureList *)load_gvm_texture_file("biri_ball.gvm");
+    lobby_gvm_texture_handles[2] = (GinjaTextureList *)load_gvm_texture_file("bom_ball.gvm");
+    lobby_gvm_texture_handles[3] = (GinjaTextureList *)load_gvm_texture_file("soft_ball.gvm");
+    lobby_gvm_texture_handles[4] = (GinjaTextureList *)load_gvm_texture_file("rokeorange_churoke.gvm");
+    lobby_gvm_texture_handles[5] = (GinjaTextureList *)load_gvm_texture_file("rokeblue_pso_churoke.gvm");
+    lobby_gvm_texture_handles[6] = (GinjaTextureList *)load_gvm_texture_file("robby_cat.gvm");
+    lobby_gvm_texture_handles[7] = (GinjaTextureList *)load_gvm_texture_file("fd_obj804_gorl03.gvm");
+    lobby_gvm_texture_handles[8] = (GinjaTextureList *)load_gvm_texture_file("fd_obj804_gorl03_b.gvm");
 }
 #pragma pool_data reset
 

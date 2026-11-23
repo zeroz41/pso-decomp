@@ -272,7 +272,7 @@ int TAdStorySelectGC::get_story_select() { return story_select_cursor; }
 void load_forest_warp_resources(void) {
     BmlResource *resource = new BmlResource(5, &forest_warp_resource_descriptor, 0, 0, NULL);
     forest_warp_bml_resource = resource;
-    forest_warp_texture_list = (GinjaTextureList *)load_gvm_texture_file((saddr)"fs_obj_warp.gvm");
+    forest_warp_texture_list = (GinjaTextureList *)load_gvm_texture_file("fs_obj_warp.gvm");
 }
 
 
