@@ -22,7 +22,6 @@
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/system/scene/TScene.h"
-#include "pso/system/task/TObject.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/vector.h"
 #include "pso/unk/text_803D8F74.h"
