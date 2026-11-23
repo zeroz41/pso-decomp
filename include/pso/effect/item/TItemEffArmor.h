@@ -43,7 +43,7 @@ struct TItemEffArmor : public TObject {
 LAYOUT_ASSERT(TItemEffArmor_size, sizeof(TItemEffArmor) == 0x7C);
 
 // While a player wears the armour, every 120 frames: a particle effect on the
-// player when its area allows items and TObjPlayer__sub_80117E50 holds.
+// player when its area allows items and a player of the other sex is near.
 class TItemEffArmorPulse : public TObject {
 public:
     TItemEffArmorPulse(TObject *parent, u16 client_id);

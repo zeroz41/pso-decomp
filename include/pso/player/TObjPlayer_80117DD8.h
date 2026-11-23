@@ -5,7 +5,9 @@
 
 // --- C functions defined in TObjPlayer_80117DD8.cpp ---
 extern "C" {
-s32 TObjPlayer__sub_80117E50(u16 idx);
+// 1 when a player of the other sex (class_flags bit 0 or 1) stands on the same floor
+// within 20 units of client `idx`.
+s32 is_opposite_sex_player_near(u16 idx);
 }
 // --- end of C functions
 

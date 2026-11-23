@@ -299,7 +299,7 @@ s32 TObjPlayer::count_nearby_players_with_shield(u16 idx, u8 *item) {
     return count;
 }
 
-s32 TObjPlayer__sub_80117E50(u16 idx) {
+s32 is_opposite_sex_player_near(u16 idx) {
     TObjPlayer *me;
     s32 mask;
     s32 found = 0;

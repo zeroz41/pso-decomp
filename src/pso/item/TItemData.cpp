@@ -1323,7 +1323,7 @@ f32 TItemData::get_armor_set_multiplier(u8 *arg1) {
         }
         break;
     case 45:
-        if (TObjPlayer__sub_80117E50(get_entity_id(arg1)) != 0) {
+        if (is_opposite_sex_player_near(get_entity_id(arg1)) != 0) {
             v = 1.5f;
         }
         break;

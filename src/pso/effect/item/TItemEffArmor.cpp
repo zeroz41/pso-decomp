@@ -130,7 +130,7 @@ void TItemEffArmorPulse::run_task() {
         TObjPlayer *player = get_player_by_client_id(client_id);
         if (player != NULL) {
             if (is_item_area_enabled(player->get_area()) == 1) {
-                if (TObjPlayer__sub_80117E50(get_entity_id(player)) != 0) {
+                if (is_opposite_sex_player_near(get_entity_id(player)) != 0) {
                     spawn_particle_effect(&player->body_center, 0x1BE);
                 }
             }
