@@ -4747,7 +4747,7 @@ force_active:
   - calc_burrow_speed__12TBoss1DragonFPv
   - calc_ci4_tile_offset__FUlUl
   - calc_circle_offset__14TObjEneBm5WolfFP3VecP3Vec
-  - calc_clamp_offset__11TLoadingCurFlPUcPUc
+  - calc_clamp_offset__11TLoadingCurFPCfP10NJS_POINT2
   - calc_clock_bonus__9TItemDataFPv
   - calc_damage__11TTecRaZondeFv
   - calc_death_slide_speed__14TObjEneBm5WolfFPvf
