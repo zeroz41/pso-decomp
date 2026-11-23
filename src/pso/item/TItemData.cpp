@@ -750,9 +750,8 @@ u8 TItemData::get_entry_field16() {
 int TItemData::register_drop() { return register_item_drop__10TObjPlayerFv(this); }
 
 s32 TItemData::get_max_stack_size() {
-    u8 *arg0 = (u8 *)this;
     if (TItemData::lookup_item_def(this) != 0) {
-        if (((u8) *(u8 *)((s8 *)arg0 + 0) == 3) && ((u8) *(u8 *)((s8 *)arg0 + 1) == 0x10)) {
+        if (((u8) this->data1.data_u8[0] == 3) && ((u8) this->data1.data_u8[1] == 0x10)) {
             return 0x63;
         }
         return 0xA;
@@ -830,7 +829,7 @@ s16 get_field6_bswap__9TItemDataFPv(void *arg0) {
 void TItemData::set_unit_modifier(s16 modifier) {
     u8 *arg0 = (u8 *)this;
     *(s16 *)((s8 *)arg0 + 6) = modifier;
-    bswap_16((u16 *)(arg0 + 6));
+    bswap_16(&this->data1.data_u16[3]);
 }
 
 s16 get_bswap16_field8__9TItemDataFPv(void *arg0) {
@@ -844,7 +843,7 @@ s16 get_bswap16_field8__9TItemDataFPv(void *arg0) {
 void TItemData::set_bswapped_field_8(s16 evp_bonus) {
     u8 *arg0 = (u8 *)this;
     *(s16 *)((s8 *)arg0 + 8) = evp_bonus;
-    bswap_16((u16 *)(arg0 + 8));
+    bswap_16(&this->data1.data_u16[4]);
 }
 
 s16 getS16_06__9TItemDataFPv(void *arg0) {
@@ -858,7 +857,7 @@ s16 getS16_06__9TItemDataFPv(void *arg0) {
 void TItemData::set_dfp_bonus(s16 dfp_bonus) {
     u8 *arg0 = (u8 *)this;
     *(s16 *)((s8 *)arg0 + 6) = dfp_bonus;
-    bswap_16((u16 *)(arg0 + 6));
+    bswap_16(&this->data1.data_u16[3]);
 }
 
 s16 TItemData::get_technique_level() {
@@ -1185,7 +1184,6 @@ void deserialize_mag__9TItemDataFPvPv(Raw_8010D614 *src, Mag_8010D614 *dst) {
 }
 
 f32 TItemData::get_shield_set_multiplier(u8 *player) {
-    u8 *arg0 = (u8 *)this;
   TItem *item;
   f32 var_f31;
   saddr temp_r30;
@@ -1195,7 +1193,7 @@ f32 TItemData::get_shield_set_multiplier(u8 *player) {
   saddr temp_r31_3;
   u8 temp_r0;
   u8 *temp_r3;
-  temp_r0 = *((u8 *) (((s8 *) arg0) + 2));
+  temp_r0 = this->data1.data_u8[2];
   var_f31 = 1.0f;
   switch ((s32) temp_r0)
   {
@@ -1332,7 +1330,6 @@ f32 TItemData::get_armor_set_multiplier(u8 *player) {
 }
 
 f32 TItemData::get_weapon_set_multiplier(u8 *item_data) {
-    u8 *arg0 = (u8 *)this;
   f32 var_f31;
   saddr temp_r31;
   saddr temp_r30;
@@ -1342,12 +1339,12 @@ f32 TItemData::get_weapon_set_multiplier(u8 *item_data) {
   saddr temp_r31_3;
   u8 temp_r0;
   u8 *item;
-  temp_r0 = *((u8 *) (((s8 *) arg0) + 1));
+  temp_r0 = this->data1.data_u8[1];
   var_f31 = 1.0f;
   switch ((s32) temp_r0)
   {
     case 1:
-      if (((u8) (*((u8 *) (((s8 *) arg0) + 2)))) == 5)
+      if (((u8) (this->data1.data_u8[2])) == 5)
     {
       temp_r31 = ((TItemData *)item_data)->test_flag3();
       temp_r30 = ((TItemData *)item_data)->get_item_field_2();
@@ -1358,7 +1355,7 @@ f32 TItemData::get_weapon_set_multiplier(u8 *item_data) {
     }
       break;
     case 2:
-      if (((u8) (*((u8 *) (((s8 *) arg0) + 2)))) == 5)
+      if (((u8) (this->data1.data_u8[2])) == 5)
     {
       temp_r30_2 = ((TItemData *)item_data)->test_flag3();
       temp_r31_2 = ((TItemData *)item_data)->get_item_field_2();
@@ -1369,7 +1366,7 @@ f32 TItemData::get_weapon_set_multiplier(u8 *item_data) {
     }
       break;
     case 6:
-      if (((u8) (*((u8 *) (((s8 *) arg0) + 2)))) == 6)
+      if (((u8) (this->data1.data_u8[2])) == 6)
     {
       temp_r30_3 = ((TItemData *)item_data)->test_flag3();
       temp_r31_3 = ((TItemData *)item_data)->get_item_field_2();
