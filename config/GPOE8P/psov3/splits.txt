@@ -2242,17 +2242,8 @@ pso/effect/item/TItemEffCane.cpp:
 pso/player/TObjPlayer_80108854.cpp:
 	.text       start:0x80108854 end:0x80108860
 
-pso/effect/item/TItemEffEquip_80108860.cpp:
-	.text       start:0x80108860 end:0x801088D0
-
-pso/effect/item/TItemEffEquip_801088D0.cpp:
-	.text       start:0x801088D0 end:0x801088F8
-
-pso/effect/item/TItemEffEquip_801088F8.cpp:
-	.text       start:0x801088F8 end:0x80108974
-
 pso/effect/item/TItemEffEquip.cpp:
-	.text       start:0x80108974 end:0x80108D2C
+	.text       start:0x80108860 end:0x80108D2C
 	.rodata     start:0x8043E1A0 end:0x8043E1E0
 	.data       start:0x8049F020 end:0x8049F070
 	.sdata      start:0x805D2BA0 end:0x805D2BA8

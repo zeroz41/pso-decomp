@@ -7,6 +7,8 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/boss/dragon/TBoss1DragonColli.h"
 #include "pso/system/task/TObject_80019A50.h"
+#include "pso/effect/item/TItemEffEquip_801088D0.h"
+#include "pso/effect/item/TItemEffEquip_801088F8.h"
 #include "pso/system/task/TObject_8001A448.h"
 #include "pso/unk/text_80087278.h"
 #include "pso/boss/darkfalz/TBoss4Type2.h"
@@ -44,8 +46,6 @@ extern "C" {
 
 struct Equip_80108A20 { const char *x0; u8 pad4[0x18 - 4]; void *vt; void *src; s32 x20; void *x24; };
 s32 __ct__7TObjectFP7TObject(void *, void *);
-extern s32 retire_equipment_effect[];
-extern s32 TItemEffEquip__sub_801088F8[];
 Obj_80108C90 *__ct__13TUnk_8049F038FP7TObjectsl(Obj_80108C90 *self, void *parent, s16 a, s32 b);
 
 
@@ -263,7 +263,7 @@ void *TItemEffEquip__ct(void *arg0, void *arg1, void *arg2, void *arg3, void *ar
     if (self->src != NULL) {
         ((TItemEffEquip *)arg0)->spawn_equip_particle_effect((saddr)arg4);
         TItemAttacker::spawn_item_timer((TObject *)arg0, (ItemTimerCallback)TItemEffEquip__sub_801088F8, 0xA);
-        TItemAttacker::spawn_item_timer((TObject *)arg0, (ItemTimerCallback)retire_equipment_effect, 0x14);
+        TItemAttacker::spawn_item_timer((TObject *)arg0, retire_equipment_effect, 0x14);
     } else {
         ((TObject *)arg0)->queue_destruction();
     }
@@ -283,3 +283,30 @@ void run_task__13TItemEffEquipFv(Equip_Self *self) {
     }
 }
 
+
+void TItemEffEquip::release_effect() {
+    if (((uaddr) this->m_1c != 0U) && ((s32) *(s32 *)((s8 *)this + 0x24) != -1)) {
+        TParticleCtrl::release((void *)this->m_20);
+        spawn_equip_particle_effect(*(s32 *)((s8 *)this + 0x24));
+    }
+}
+
+void TItemEffEquip__sub_801088F8(TItemEffEquip *effect) {
+    if (effect != NULL) {
+        effect->release_effect();
+    }
+}
+
+void retire_equipment_effect(TObject* effect) {
+    if (effect != 0) {
+        effect->queue_destruction();
+    }
+}
+
+extern "C" TParticleCtrl *spawn_continuous_particle_effect_with_flags(void *parent, s32 idx, s32 flags);
+void TItemEffEquip::spawn_equip_particle_effect(saddr arg1) {
+    m_20 = spawn_continuous_particle_effect_with_flags(m_1c->get_center(), arg1, 0x10);
+    if (m_20 != NULL) {
+        m_20->set_owner_id(get_entity_id(m_1c));
+    }
+}
