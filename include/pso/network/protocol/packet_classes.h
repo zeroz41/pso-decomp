@@ -69,6 +69,7 @@ struct extended_game_command {
 };
 
 TMenuListEntry(GameListEntry,
+    GameListEntry();
     GameListEntry &operator=(const GameListEntry &other);
 
     u8 difficulty_tag;
@@ -128,6 +129,8 @@ public:
 
 class TPlyJoinLobbyData {
 public:
+    TPlyJoinLobbyData();
+
     TPlyGuildCardTag tag;
     u32 ip_addr;
     u32 client_id;
@@ -276,6 +279,8 @@ public:
 
 class TPlyJoinGame {
 public:
+    TPlyJoinGame();
+
     packet_header header;
     u32 variations[16][2];
     TPlyJoinLobbyData lobby_data[4];

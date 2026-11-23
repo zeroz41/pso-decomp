@@ -1,6 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include <string.h>
 #include "pso/network/TGameProtocol.h"
+#include "pso/network/protocol/packet_classes.h"
 #include "pso/unk/TUnk_804C8678.h"
 #include "pso/ui/frontend/DrawLineResource.h"
 #include "pso/system/task/TMainTask.h"
@@ -75,24 +76,6 @@
 
 struct Pair_801A3CFC { s32 f0; s32 f4; };
 
-struct Entry_801A3CFC {
-    u8 pad0[2];
-    s16 f2;
-    s32 f4;
-    s32 f8;
-    s32 fC;
-    char name[0x10];
-};
-
-struct Msg_801A3CFC {
-    u8 pad0[0x84];
-    Entry_801A3CFC entries[4];
-    s8 f104;
-    s8 f105;
-    s8 f106;
-    u8 pad107[0x114 - 0x107];
-};
-
 struct VBase_18_801A4268 { char pad[0x18]; };
 
 struct VObj_18_801A4268 : VBase_18_801A4268 {
@@ -138,8 +121,6 @@ s32 func_803DCDFC__Fv();
 s32 cleanup__6TLobbyFv();
 s32 PPCSync();
 extern s32 lbl_805D5718;
-void __construct_array(void *, void *, int, int, int);
-s32 TLobby__sub_8013A23C(s32 arg0);
 s32 unlock_main_warp_destination();
 s32 TObjPlayer__sub_801B1BA4();
 s32 TObjPlayer__sub_801B1C8C();
@@ -276,34 +257,29 @@ void TLobby::reset_to_chr_select() { reset_controller_input_state(); TLobby::sen
 void TLobby__sub_801A3CF8(void) {  }
 
 void TLobby::start_udp_test_game() {
-    Msg_801A3CFC msg;
     ((TLobby *)((u8 *)&lobby_udp_test_game_entries[0]))->bswap_udp_test_header();
     ((TLobby *)((u8 *)&lobby_udp_test_game_entries[1]))->bswap_udp_test_header();
-    ((TLobby *)((saddr)&msg))->construct_entry_array();
-    memset(&msg, 0, 0x114);
-    msg.f104 = local_client_id;
-    msg.f105 = TLobby__designated_client_id;
-    msg.f106 = 0;
-    msg.entries[0].f2 = 1;
-    msg.entries[0].f4 = 0x013158B7;
-    msg.entries[0].f8 = lobby_udp_test_game_entries[0].f4;
-    msg.entries[0].fC = 0;
-    strcpy(msg.entries[0].name, "UDPTEST-1");
-    msg.entries[1].f2 = 1;
-    msg.entries[1].f4 = 0x013158B8;
-    msg.entries[1].f8 = lobby_udp_test_game_entries[1].f4;
-    msg.entries[1].fC = 1;
-    strcpy(msg.entries[1].name, "UDPTEST-2");
+    TPlyJoinGame msg;
+    memset(&msg, 0, sizeof(msg));
+    msg.client_id = local_client_id;
+    msg.leader_id = TLobby__designated_client_id;
+    msg.disable_udp = 0;
+    msg.lobby_data[0].tag.m_tag2 = 1;
+    msg.lobby_data[0].tag.m_guildcard_number = 0x013158B7;
+    msg.lobby_data[0].ip_addr = lobby_udp_test_game_entries[0].f4;
+    msg.lobby_data[0].client_id = 0;
+    strcpy(msg.lobby_data[0].name, "UDPTEST-1");
+    msg.lobby_data[1].tag.m_tag2 = 1;
+    msg.lobby_data[1].tag.m_guildcard_number = 0x013158B8;
+    msg.lobby_data[1].ip_addr = lobby_udp_test_game_entries[1].f4;
+    msg.lobby_data[1].client_id = 1;
+    strcpy(msg.lobby_data[1].name, "UDPTEST-2");
     TLobby::handle_game_join(&msg);
     ((TObject *)game_protocol_instance)->delete_children();
     TLobby::open_udp_socket_for_player(1 - local_client_id);
 }
 
-s32 TLobby::construct_entry_array() {
-    saddr arg0 = (saddr)this;
-    __construct_array((void *)(arg0 + 0x84), (void *)TLobby__sub_8013A23C, 0, 0x20, 4);
-    return arg0;
-}
+TPlyJoinGame::TPlyJoinGame() {}
 
 void TLobby::bswap_udp_test_header() {
     u8 *arg0 = (u8 *)this;

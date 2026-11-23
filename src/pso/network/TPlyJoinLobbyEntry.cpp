@@ -277,7 +277,6 @@ typedef struct {
     u32 w0;
     u32 w1;
 } D_80137384;
-struct Entry_80138B7C { u8 b[0x1C]; };
 struct Card_80138B7C { u8 b[0x98]; };
 struct Lobby_80138B7C { u8 pad[0x2C68]; Card_80138B7C cards[1]; };
 typedef struct Date_801399B8 {
@@ -386,7 +385,6 @@ void TQuestListOnline__sub_8013ACF4(s32);
 s32 send_lobby_arrow__9TProtocolFUc(TProtocol *, s32);
 s32 clear_lobby_flag__10TObjPlayerFPv();
 extern s32 lbl_805DB0B4;
-void *__ct__16TPlyGuildCardTagFv(void *self);
 void set_queued_main_phase(s32);
 void request_main_phase(s32);
 extern const char lobby_window_title_block_jump[];
@@ -1424,10 +1422,7 @@ void TLobby::handle_comcard_window() {
     }
 }
 
-void *__ct__13GameListEntryFv(void *entry) {
-    __ct__16TPlyGuildCardTagFv(entry);
-    return entry;
-}
+GameListEntry::GameListEntry() {}
 void TLobby::update_card_list_window() {
     s32 sel;
     u32 btn;
@@ -1435,13 +1430,12 @@ void TLobby::update_card_list_window() {
         return;
     }
     if (((TWindowMenuIconLine *)TLobby__list_window)->is_decided() != 0) {
-        Entry_80138B7C e;
         sel = ((TWindowMenuIconLine *)TLobby__list_window)->get_cursor_value();
         ((TWindowBase *)TLobby__list_window)->close();
         TLobby__list_window = 0;
-        __ct__13GameListEntryFv(&e);
+        GameListEntry e;
         __as__16TPlyGuildCardTagFRC16TPlyGuildCardTag(&e, &((Lobby_80138B7C *)TLobby__protocol_instance)->cards[sel]);
-        TLobby__protocol_instance->send_action(*(GameListEntry *)&e, (char *)TLobby__data_805DB0B0, (char *)TLobby__data_805DB0B0);
+        TLobby__protocol_instance->send_action(e, (char *)TLobby__data_805DB0B0, (char *)TLobby__data_805DB0B0);
         if (TLobby__card_list_window != 0) {
             ((TWindowBase *)TLobby__card_list_window)->close();
             TLobby__card_list_window = 0;
@@ -1464,11 +1458,10 @@ void TLobby::update_card_list_window() {
     }
     btn = controller_input_state.sources[0]->pressed;
     if (btn & 0x400) {
-        Entry_80138B7C e2;
         sel = ((TWindowMenuIconLine *)TLobby__list_window)->get_cursor_value();
-        __ct__13GameListEntryFv(&e2);
+        GameListEntry e2;
         __as__16TPlyGuildCardTagFRC16TPlyGuildCardTag(&e2, &((Lobby_80138B7C *)TLobby__protocol_instance)->cards[sel]);
-        TLobby__protocol_instance->send_info(*(TPlyGuildCardTag *)&e2);
+        TLobby__protocol_instance->send_info(e2.tag);
     } else if (btn & 2) {
         if (TLobby__card_list_window != 0) {
             ((TWindowBase *)TLobby__card_list_window)->close();
@@ -2895,17 +2888,14 @@ void lobby_debug_printf_stub(const char *fmt, ...) {}
 void TLobby::construct_global_arrays() {
     __construct_array(TLobby__data_80506A6C, (void *)__ct__18TPlyJoinLobbyEntryFv, (void *)__dt__18TPlyJoinLobbyEntryFv, 0x43C, 0xC);
     __register_global_object(0, (void *)TLobby::destroy_join_entries, TLobby__join_entries_dtor_registration);
-    __construct_array(game_join_player_records, (void *)TLobby__sub_8013A23C, 0, 0x20, 4);
+    __construct_array(game_join_player_records, (void *)__ct__17TPlyJoinLobbyDataFv, 0, 0x20, 4);
 }
 
 #pragma pop
 
 #pragma push
 
-void *TLobby__sub_8013A23C(void *record) {
-    __ct__16TPlyGuildCardTagFv(record);
-    return record;
-}
+TPlyJoinLobbyData::TPlyJoinLobbyData() {}
 void TLobby::destroy_join_entries() {
     __destroy_arr(TLobby__data_80506A6C, (void *)__dt__18TPlyJoinLobbyEntryFv, 0x43c, 0xc);
 }

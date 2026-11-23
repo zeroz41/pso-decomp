@@ -260,7 +260,6 @@ struct TLobby : public TObject {
     static void init_chr_select();
     static void reset_to_chr_select();
     static void start_udp_test_game();
-    s32 construct_entry_array();
     void bswap_udp_test_header();
     static void send_and_handle();
     static void blocking_vsync();

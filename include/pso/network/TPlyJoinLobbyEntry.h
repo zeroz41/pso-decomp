@@ -33,7 +33,7 @@ void queue_join_entry_exit_on_input(void *self);
 void show_join_entry_message(s32 arg0);
 void show_dialog_value_line(saddr arg0);
 void TLobby__sub_8013A16C(void);
-void *TLobby__sub_8013A23C(void *record);
+void *__ct__17TPlyJoinLobbyDataFv(void *self);
 void TLobby__sub_8013A2DC(void);
 void TLobby__sub_8013A578(void *p);
 void *TObjPlayer__sub_8013A748(void *arg0, void *arg1);
