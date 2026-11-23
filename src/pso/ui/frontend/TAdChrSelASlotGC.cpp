@@ -205,15 +205,15 @@ TWindowMessageYesNo *TAdChrSelASlotGC::open_replace_character_prompt(s32 pos, s3
 }
 #pragma pop
 
-s32 TAdChrSelASlotGC::open_yes_no_window(s32 pos, s32 client_id) {
-    saddr temp_r31;
+TWindowMessageYesNo *TAdChrSelASlotGC::open_yes_no_window(s32 pos, s32 client_id) {
+    TWindowMessageYesNo *window;
 
     play_sound_effect(0x53F06, 0, 0, 0);
-    temp_r31 = (saddr)TWindowMessageYesNo::create(this, client_id, 0, 0);
-    ((TWindowMessageYesNo *)temp_r31)->open_yes_no_prompt_with_text((s32)(get_localized_text_entry(0x16, 0x1B)), pos, 458.0f);
-    ((TWindowMessageYesNo *)temp_r31)->set_menu_selected_index(1);
-    ((TWindowSubComCard *)temp_r31)->free_windows();
-    return temp_r31;
+    window = TWindowMessageYesNo::create(this, client_id, 0, 0);
+    window->open_yes_no_prompt_with_text((s32)(get_localized_text_entry(0x16, 0x1B)), pos, 458.0f);
+    window->set_menu_selected_index(1);
+    ((TWindowSubComCard *)window)->free_windows();
+    return window;
 }
 
 TWindowMessageYesNo *TAdChrSelASlotGC::open_create_character_prompt(s32 pos) {

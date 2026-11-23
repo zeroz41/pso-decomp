@@ -358,7 +358,7 @@ void TAdSinglePlyChrSelectGC::handle_slot_selection() {
         if (TAdSinglePlyChrSelectGC::is_slot_active(reinterpret_cast<TAdSelectCurGC *>(m_2c)->selection_index()) != 0) {
             if (((TAdChrSelASlotGC *)this->m_28)->is_character_transferred((u32)(reinterpret_cast<TAdSelectCurGC *>((*(saddr *)&this->m_2c))->selection_index())) != 0) {
                 this->m_54 = (uaddr)new TAdFadeGC(tl_fade, NULL);
-                *(u32 *)&this->unk_48 = ((TAdChrSelASlotGC *)this->m_28)->open_yes_no_window((saddr)&single_chr_select_yes_no_pos, 0);
+                *(TWindowMessageYesNo **)&this->unk_48 = ((TAdChrSelASlotGC *)this->m_28)->open_yes_no_window((saddr)&single_chr_select_yes_no_pos, 0);
                 *(s32 *)&this->m_20 = 7;
                 return;
             }

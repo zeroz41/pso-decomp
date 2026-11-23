@@ -38,7 +38,7 @@ struct TAdChrSelASlotGC : public TObject {
     TWindowMessageYesNo *create_message_window(s32 kind, s32 client_id);
     static s32 create_format_message_window(saddr arg0, s32 arg1, s32 arg2);
     TWindowMessageYesNo *open_replace_character_prompt(s32 pos, s32 client_id);
-    s32 open_yes_no_window(s32 pos, s32 client_id);
+    TWindowMessageYesNo *open_yes_no_window(s32 pos, s32 client_id);
     TWindowMessageYesNo *open_create_character_prompt(s32 pos);
     TWindowBase *create_slot_message_window(s32 kind, s32 text);
     void sub_8030CBD0();
