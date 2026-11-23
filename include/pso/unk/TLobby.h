@@ -15,6 +15,8 @@ struct ShortMailEntry;
 struct NJS_TEXLIST;
 class TObjPlayer;
 class TProtocol;
+class TWindowMenuIconLine;
+struct TWindowMessage;
 struct TPlyChallenge;
 struct TRecvInfoBoard;
 struct TRecvChoiceSearchOptions;
@@ -1132,12 +1134,12 @@ struct TLobby : public TObject {
 
     // Lobby state shared by the lobby screens.
     static TProtocol *protocol_instance;
-    static void *list_window;
+    static TWindowMenuIconLine *list_window;
     static s32 data_805D5594;
-    static uaddr current_dialog_window;
-    static void *download_list_window;
-    static uaddr join_entry_window_obj;
-    static void *card_list_window;
+    static TWindowMessage *current_dialog_window;
+    static TWindowMessage *download_list_window;
+    static TWindowMessage *join_entry_window_obj;
+    static TWindowMessage *card_list_window;
     static s32 event_theme_id;
     static s32 lobby_number;
     static s32 deferred_player_setup_state;
