@@ -339,7 +339,7 @@ void TWindowMainMenu::create_submenu(u32 id) {
         return;
     case 19:
     case 20:
-        this->m_20 = reinterpret_cast<saddr>(new TWindowSubShortMail(this, reinterpret_cast<void *>(static_cast<saddr>(client_index))));
+        this->m_20 = reinterpret_cast<saddr>(new TWindowSubShortMail(this, client_index));
         return;
     case 22:
         temp_r3_17 = ((saddr)TObject::operator new(0x914));

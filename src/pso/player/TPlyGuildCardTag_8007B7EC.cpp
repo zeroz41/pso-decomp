@@ -2,6 +2,7 @@
 #include "pso/player/TPlyGuildCardTag_8007B7EC.h"
 #include "pso/player/TPlyPhotonChair.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/ui/chat/ShortMail.h"
 
 #include "types.h"
 
@@ -16,9 +17,9 @@ void TWindowSubShortMail__sub_8007B824(void) {
     lbl_805D63FC |= 2;
 }
 
-s32 TWindowSubShortMail__sub_8007B834(void* p) { return *(s32*)((char*)p + 0x0); }
+s32 ShortMailEntry::get_sender_card_id() { return sender_card_id; }
 
-void* fn_8007B83C(void* p) { return (char*)p + 0x8; }
+char *ShortMailEntry::get_sender_name() { return sender_name; }
 
 s32 TPlyPhotonChair::get_actor_section_id() {
     s8 id = *((s8 *)this + 0x88C);

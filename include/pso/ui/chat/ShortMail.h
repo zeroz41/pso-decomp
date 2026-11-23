@@ -17,7 +17,7 @@ struct ShortMailEntry {
     u32 get_id();
     char *get_sender_name();
     char *get_body();
-    int get_flags();
+    s8 get_flags();
     void set_replied();
     void clear_unread();
     int is_active();

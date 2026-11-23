@@ -5,7 +5,6 @@
 #include "types.h"
 #include "pso/system/task/TObject.h"
 
-struct TKeyBoardControl;
 struct TWindowMainMenu;
 struct TWindowMenuIconLine;
 struct TWindowMessage;
@@ -13,45 +12,47 @@ struct TWindowMessage;
 class TKeyBoardControl;
 
 struct TWindowSubShortMail : public TObject {
-    TWindowSubShortMail(TObject *object, void *arg2);
+    TWindowSubShortMail(TWindowMainMenu *parent, s32 client_id);
     virtual ~TWindowSubShortMail();
+    virtual void run_task();
+    virtual void render();
     s32 create_list_item();
     static TKeyBoardControl *create_keyboard();
-    void open_recipient_search();
+    static s32 open_confirm_prompt(void *parent, int client_id);
     s32 open_confirm_dialog();
     s32 open_delete_confirm_dialog();
-    u8 m_1c;
-    u8 _pad1D[0x3];
-    uaddr m_20;
-    u32 mail_id;
-    u32 m_28;
-    u32 m_2c;
-    u32 m_30;
-    u32 m_34;
-    uaddr m_38;
-    uaddr message_window;
-    uaddr m_40;
-    uaddr m_44;
-    uaddr m_48;
-    uaddr m_4c;
-    uaddr m_50;
-    uaddr m_54;
-    uaddr m_58;
-    uaddr keyboard;
+    void sub_8027E620();
     static s32 is_active();
     void close();
     void update_mail_count();
-    s32 refresh_mail_list(void *arg1);
-    virtual void render();
-    virtual void run_task();
+    s32 refresh_mail_list(void *list);
     void advance_line(s32 arg1);
-    static u8 get_field_cc(void* p);
-    static void *get_mail_ptr(void* p);
-    static s32 create_menu();
-    static s32 build_menu();
-    static s32 create_confirm_menu_window();
-    static s32 create_window();
+    s32 create_menu();
+    s32 build_menu();
+    s32 create_confirm_menu_window();
+    s32 create_window();
     static s32 open_menu();
+
+    static const char *class_name;
+
+    u8 state;
+    u8 pad_1d[0x3];
+    s32 client_id;
+    u32 mail_id;
+    s32 card_index;
+    s32 target_card_id;
+    u32 reply_mail_id;
+    TWindowMainMenu *parent;
+    void *mail_list;
+    void *message_window;
+    void *main_menu;
+    void *action_menu;
+    void *auto_reply_window;
+    void *auto_reply_menu;
+    void *confirm_window;
+    void *card_list;
+    void *card_window;
+    void *keyboard;
 };
 
 LAYOUT_ASSERT(TWindowSubShortMailKeyboardOffset, offsetof(TWindowSubShortMail, keyboard) == 0x5C);

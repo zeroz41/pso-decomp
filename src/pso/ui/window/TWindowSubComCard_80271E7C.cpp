@@ -178,7 +178,6 @@ void TWindowSubComCard__sub_80249144(void *arg0);
 u32 TWindowSubComCard__sub_80272640(void *);
 u32 TWindowSubComCard__sub_80272A98(void *);
 u32 TWindowSubComCard__sub_8027337C();
-s32 open_confirm_prompt__19TWindowSubShortMailFPvi(void *arg0, s32 arg1);
 extern saddr TLobby__protocol_instance;
 
 void TWindowSubComCard__sub_80077980(void *);
@@ -725,7 +724,7 @@ void TWindowSubComCard::run_task() {
     case 0x23:
         ((TKeyBoardControl *)(this->keyboard))->set_position((void *)(get_window_layout_position(0xBC)));
         ((TKeyBoardControl *)this->keyboard)->hide();
-        this->confirm_window = open_confirm_prompt__19TWindowSubShortMailFPvi((this), (this->m_20));
+        this->confirm_window = TWindowSubShortMail::open_confirm_prompt(this, m_20);
         this->state = 0x24U;
     case 0x24:
         if (((TWindowSubComCard *)(this->confirm_window))->get_card_data() != 0) {
@@ -1590,13 +1589,13 @@ extern "C" {
 u32 TWindowSubComCard__sub_80272640(void *) {
     s32 n;
     s32 i;
-    void *e;
+    ShortMailEntry *e;
     saddr w;
     w = create_titled_window_menu_default(get_window_layout_position(0x95), 8, TWindowSubStatusDisp::get_message_10(0x2E));
     n = TLobby::get_short_mail_ctrl();
     for (i = n - 1; i >= 0; i--) {
         e = get_short_mail_entry(i);
-        TObjCityMainWarp::forward_trade_action_default((void *)w, (saddr)fn_8007B83C(e), 7, reinterpret_cast<ShortMailEntry *>(e)->get_id());
+        TObjCityMainWarp::forward_trade_action_default((void *)w, (saddr)e->get_sender_name(), 7, e->get_id());
     }
     if (n <= 0) {
         add_gray_text_entry((TWindowSubTradeMain *)w, (const char *)(TWindowSubStatusDisp::get_message_10(0xD1)), 7, 0);

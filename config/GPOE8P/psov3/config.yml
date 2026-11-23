@@ -1850,8 +1850,8 @@ force_active:
   - TWindowSubMag__sub_8027C0E8
   - TWindowSubQuestBoardSelect__sub_8027D444
   - TWindowSubShortCutList__ct
-  - TWindowSubShortMail__sub_8027E620
-  - TWindowSubShortMail__sub_8027FAD0
+  - sub_8027E620__19TWindowSubShortMailFv
+  - set_replied__14ShortMailEntryFv
   - TWindowSubStatusDisp__sub_8025AF0C
   - TWindowSubStatusDisp__sub_8025B2DC
   - TWindowSubStatusDisp__sub_8025B760
@@ -6630,7 +6630,7 @@ force_active:
   - get_variant__11TBoss6Type2Fv
   - get_field_2__9TTecLukerFPv
   - prompt_was_accepted__16TCheckMemoryCardFv
-  - get_field_cc__19TWindowSubShortMailFPv
+  - get_flags__14ShortMailEntryFv
   - get_flag_1__10TObjPlayerFv
   - get_flag_bit0__14TObjEneBm5WolfFPv
   - get_flag_or_zero__20TWindowSubStatusDispFPvSc
@@ -6660,7 +6660,7 @@ force_active:
   - get_list_item8__24TShopEquipmentListWindowFv
   - get_lobby_theme_clamped__16TObjCurtainLobbyFv
   - get_mag_state__13TWindowSubMagFv
-  - get_mail_ptr__19TWindowSubShortMailFPv
+  - get_body__14ShortMailEntryFv
   - get_material_index__18TPlayerLobbyMarkerFv
   - get_material_limit_for_class__Fl
   - get_max_difficulty_for_party_level__21TAdMultiSelGameModeGCFv
