@@ -6,7 +6,7 @@
 struct WindowDrawContext;
 
 // A text label part of a window entry list: built by construct_text_entry, filled by
-// set_text_entry_string, drawn by render_text_entry (vtable 0x804CFA28).
+// set_text_entry_string, drawn by render_text_entry.
 class WindowTextEntry {
 public:
     u16 flags;
