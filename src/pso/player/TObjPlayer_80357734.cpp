@@ -51,11 +51,11 @@ void TUnk_804F14A8::vfunc_60() {
 }
 
 void TUnk_804F14A8::emit_marker_effects() {
-    S_80357734 info;
+    OrgaFlowShotParams info;
     Vec sp8;
     if (is_mode_two_and_ready() != 0) {
         remap_extra_attack_type();
-        info.reset_field28();
+        info.reset_defaults();
         ((TItemWeapon *)this)->fill_status_info(&info);
         get_joint_position(4, &info.joints[0]);
         get_joint_position(3, &info.joints[1]);
@@ -85,7 +85,7 @@ void TUnk_804F14A8::init_weapon_effect_descriptor(Desc_8011E5C4 *desc) {
     desc->particle = 0x12;
 }
 
-S_80357734 *S_80357734::reset_field28() {
+OrgaFlowShotParams *OrgaFlowShotParams::reset_defaults() {
     TObjPlayer__sub_802E451C(this);
     rotation_y = 0;
     return this;

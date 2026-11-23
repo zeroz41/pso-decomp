@@ -564,7 +564,7 @@ force_active:
   - TItemEffNeedleBase__class_name
   - TItemEffNeedlePos__class_name
   - TItemEffNeedle__class_name
-  - __ct__20TItemEffOrgaFlowShotFP7TObjectP10S_80357734
+  - __ct__20TItemEffOrgaFlowShotFP7TObjectP18OrgaFlowShotParams
   - TItemEffectWeapon__class_name
   - remove_freeze_immunity
   - remove_slow_immunity

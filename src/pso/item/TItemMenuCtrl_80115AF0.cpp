@@ -34,14 +34,14 @@ u8 *spawn_star_light_2d(s32 arg0, s32 arg1, s32 arg2) {
 }
 #pragma pop
 
-void TItemEffOrgaFlowShot::approach_value(f32 *arg0, f32 farg0, f32 farg1) {
-    *arg0 += farg0;
-    if (farg0 > 0.0f) {
-        if (*arg0 > farg1) {
-            *arg0 = farg1;
+void TItemEffOrgaFlowShot::approach_value(f32 *value, f32 step, f32 target) {
+    *value += step;
+    if (step > 0.0f) {
+        if (*value > target) {
+            *value = target;
         }
-    } else if (*arg0 < farg1) {
-        *arg0 = farg1;
+    } else if (*value < target) {
+        *value = target;
     }
 }
 
