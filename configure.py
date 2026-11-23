@@ -439,7 +439,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # pack_movie_frame keeps every named local in one register, recomputes its pad and
     # stride shifts and leaves invariant hoisting to the backend. The frame-buffer
     # functions after it (flush_cache..flush_framebuffer, same TU) match under these too.
-    "pso/system/movie/TMovie_80143988.cpp": {"cflags": _switch(cflags_pso, "-opt nolifetimes,nocse,noprop,noloop")},
+    "pso/system/movie/MovieFramePack.cpp": {"cflags": _switch(cflags_pso, "-opt nolifetimes,nocse,noprop,noloop")},
     # TObjChara's vtable sits ahead of the jump tables and its methods run in reverse
     # slot order: deferred generation of the last-to-first source. The EXP/TP/HP labels
     # are 4-byte string literals in .sdata2.
@@ -554,7 +554,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/object/TObjLuker_801329B0.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # -inline off,deferred: the ctor reaches __vt__16TObjOnlineEnding through the unit's .data
     # anchor, so the vtable is pooled before the functions; the source runs from the last function back.
-    "pso/object/ending/TObjOnlineEnding_802E4B80.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
+    "pso/object/ending/TObjOnlineEndingMain.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
     # -inline off,deferred: the ctor reaches __vt__21TObjHMS_EZRope_Player through the unit's .data
     # anchor and the HMS vtable precedes the base's, so the source runs from the last function back.
     "pso/object/TObjHMS_EZRope_Player.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
@@ -1485,8 +1485,8 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/object/TObjLiveMonitor.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # -str readonly: the class-name string their .sdata name pointer targets sits in .rodata
     "pso/boss/olgaflow/TBoss6EffHyoui.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
-    "pso/ui/keyboard/TKeyBoardControl_80131C58.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
-    "pso/ui/keyboard/TKeyBoardControl_80131F5C.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    "pso/ui/keyboard/KeyboardControlTask.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    "pso/ui/keyboard/KeyboardKeyState.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/object/trap/TOTrap.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/object/wreck/TOWreckAncient02.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/effect/sprite/TQuadSpriteNormal.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
@@ -1534,7 +1534,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/object/TObjWaitEntryHairMoveSim.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
     # -inline off,deferred: __vt__8TEndingC precedes run_task's jump table, so the source runs
     # from the last function back.
-    "pso/system/scene/TEndingC_8008D00C.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
+    "pso/system/scene/TEndingCWall.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
     "pso/object/collision/TOSymbolchatColli.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/ui/charcreate/TChCrTagInformationStr.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/quest/challenge/TChallenge4PItemSelect.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},

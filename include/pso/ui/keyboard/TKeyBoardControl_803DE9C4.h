@@ -18,7 +18,7 @@ struct PadSlot {
     s16 stickY;
     s16 substickX;
     s16 substickY;
-    u8 unk24[0xC];
+    u8 reserved[0xC];
     s32 *conn;
 };
 

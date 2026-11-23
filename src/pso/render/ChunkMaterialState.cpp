@@ -51,7 +51,7 @@ s32 PADReset(u32);
 #pragma push
 #pragma scheduling off
 
-void TKeyBoardControl::init_pad_slots_and_read() {
+void TKeyBoardControl::init_pad_slots_and_read(s32, s32, s32) {
     keyboard_control_pad_slots[0].conn = TKeyBoardControl__pad_status_buffer;
     keyboard_control_pad_slots[1].conn = &TKeyBoardControl__pad_status_buffer[0x1E];
     keyboard_control_pad_slots[2].conn = &TKeyBoardControl__pad_status_buffer[0x3C];

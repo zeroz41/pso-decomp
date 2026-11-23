@@ -7,7 +7,7 @@ struct MainPhaseState {
     s32 cur;
     s32 next;
     s32 queued_main_phase;
-    s32 unkC;
+    s32 fallback;
     s32 result;
     s32 prev;
 };

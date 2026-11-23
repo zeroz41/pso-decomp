@@ -24,21 +24,17 @@
 
 #pragma readonly_strings on
 
-const char *TFontSmallHelp__name = "TFontSmallHelp";
+const char *font_small_help_class_name = "TFontSmallHelp";
 
 // The view axis the label must face to be drawn (render's dot test); the name is inferred.
 static const Vec help_text_forward = {0.0f, 0.0f, -1.0f};
-
-extern "C" {
-extern s32 localized_alphabet_list;
-}
 
 void TWindowSubStatusDisp::render_forward() {
     begin_render();
 }
 
 void TWindowSubStatusDisp::begin_render() {
-    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(localized_alphabet_list));
+    TObjFish::set_global_param(localized_alphabet_list);
 }
 
 void TFontSmallHelp::set_color(u32 text_color) {
@@ -120,15 +116,6 @@ void TFontSmallHelp::render() {
 }
 #pragma pop
 
-struct HelpTextPlayerState {
-    u8 unresolved_00[0x84C];
-    Vec position;
-    u8 unresolved_858[0x558];
-    u32 identity;
-};
-LAYOUT_ASSERT(HelpTextPlayerPosition, offsetof(HelpTextPlayerState, position) == 0x84C);
-LAYOUT_ASSERT(HelpTextPlayerIdentity, offsetof(HelpTextPlayerState, identity) == 0xDB0);
-
 void TFontSmallHelp::run_task() {
     HelpTextPlayerState *player = (HelpTextPlayerState *)get_player_by_client_id(player_id);
     if (player == NULL) {
@@ -152,7 +139,7 @@ TFontSmallHelp::~TFontSmallHelp() {}
 
 TFontSmallHelp::TFontSmallHelp(u32 player, u32 text_color, s32 lifetime, uaddr text_id)
     : TObject((TObject *)TWindowCtrlMain::get_instance()) {
-    m_name = TFontSmallHelp__name;
+    m_name = font_small_help_class_name;
     HelpTextPlayerState *owner = (HelpTextPlayerState *)get_player_by_client_id(player);
     if (owner == NULL) {
         disallow_rendering();

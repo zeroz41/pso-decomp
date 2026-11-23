@@ -16,7 +16,7 @@ Sections:
 pso/unk/text_8000F740.cpp:
 	.text       start:0x8000F740 end:0x8000F764
 
-pso/ui/keyboard/TKeyBoardControl_8000F764.cpp:
+pso/ui/keyboard/SystemBootInit.cpp:
 	.text       start:0x8000F764 end:0x8000FE54
 	.data       start:0x804805E0 end:0x804806E8
 	.bss        start:0x804FE020 end:0x804FE138
@@ -1303,7 +1303,7 @@ pso/system/scene/TEndingAB.cpp:
 	.sbss       start:0x805D4F10 end:0x805D4F18
 	.sdata2     start:0x805D9580 end:0x805D95C0
 
-pso/system/scene/TEndingC_8008D00C.cpp:
+pso/system/scene/TEndingCWall.cpp:
 	.text       start:0x8008D00C end:0x8008D68C
 	.rodata     start:0x804398E0 end:0x80439910
 	.data       start:0x8048EB18 end:0x8048EB74
@@ -3007,26 +3007,20 @@ pso/unk/TLobby_80131794.cpp:
 	.text       start:0x80131794 end:0x80131998
 	.sdata2     start:0x805DB070 end:0x805DB078
 
-pso/ui/keyboard/TKeyBoardControl_80131998.cpp:
-	.text       start:0x80131998 end:0x80131A5C
-
-pso/ui/keyboard/TKeyBoardControl_80131A5C.cpp:
-	.text       start:0x80131A5C end:0x80131AA4
-
-pso/ui/keyboard/TKeyBoardControl_80131AA4.cpp:
-	.text       start:0x80131AA4 end:0x80131BC4
+pso/ui/keyboard/TKeyBoardControlLayout.cpp:
+	.text       start:0x80131998 end:0x80131BC4
 	.sdata2     start:0x805DB078 end:0x805DB080
 
 pso/ui/keyboard/TKeyBoardControl_80131BC4.cpp:
 	.text       start:0x80131BC4 end:0x80131C58
 
-pso/ui/keyboard/TKeyBoardControl_80131C58.cpp:
+pso/ui/keyboard/KeyboardControlTask.cpp:
 	.text       start:0x80131C58 end:0x80131F5C
 	.rodata     start:0x8043E9D8 end:0x8043E9F0
 	.data       start:0x804A6EB8 end:0x804A6ED0
 	.sdata      start:0x805D2C98 end:0x805D2C9C
 
-pso/ui/keyboard/TKeyBoardControl_80131F5C.cpp:
+pso/ui/keyboard/KeyboardKeyState.cpp:
 	.text       start:0x80131F5C end:0x8013292C
 	.data       start:0x804A6ED0 end:0x804A6EE0
 	.bss        start:0x80506270 end:0x80506320
@@ -3229,7 +3223,7 @@ pso/object/base/TObjMotion.cpp:
 	.sbss       start:0x805D5678 end:0x805D5688
 	.sdata2     start:0x805DB168 end:0x805DB174
 
-pso/system/movie/TMovie_80143988.cpp:
+pso/system/movie/MovieFramePack.cpp:
 	.text       start:0x80143988 end:0x80143D9C
 	.sdata      start:0x805D2CE8 end:0x805D2CEC
 	.sbss       start:0x805D5688 end:0x805D56AC
@@ -6802,7 +6796,7 @@ pso/ui/window/TWindowKeyBoardBase_8025B85C.cpp:
 pso/ui/chat/TWindowChat_8025CB10.cpp:
 	.text       start:0x8025CB10 end:0x8025CB70
 
-pso/ui/keyboard/TKeyBoardControl_8025CB70.cpp:
+pso/ui/keyboard/WindowKeyBoardMode.cpp:
 	.text       start:0x8025CB70 end:0x8025CD10
 
 pso/unk/text_8025CD10.cpp:
@@ -8518,7 +8512,7 @@ pso/weapon/TItemAttackCol.cpp:
 	.sbss       start:0x805D68E8 end:0x805D68F0
 	.sdata2     start:0x805DE910 end:0x805DE930
 
-pso/object/ending/TObjOnlineEnding_802E4B80.cpp:
+pso/object/ending/TObjOnlineEndingMain.cpp:
 	.text       start:0x802E4B80 end:0x802E530C
 	.rodata     start:0x804729C8 end:0x80472BE8
 	.data       start:0x804E3578 end:0x804E3A98

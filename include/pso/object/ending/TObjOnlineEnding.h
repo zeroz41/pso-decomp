@@ -11,6 +11,12 @@ struct AnimationMotion;
 struct NJS_TEXLIST;
 struct NJS_OBJECT;
 
+struct OnlineEndingPlayerPlacement {
+    Vec position;
+    s32 yaw;
+    f32 scale;
+};
+
 struct OnlineEndingPlayer {
     s32 active;
     u16 id;
@@ -51,6 +57,9 @@ LAYOUT_ASSERT(TObjOnlineEnding_size, sizeof(TObjOnlineEnding) == 0x158);
 LAYOUT_ASSERT(OnlineEndingPlayersOffset, offsetof(TObjOnlineEnding, players) == 0xA8);
 LAYOUT_ASSERT(OnlineEndingPlayerCountOffset, offsetof(TObjOnlineEnding, player_count) == 0x148);
 LAYOUT_ASSERT(OnlineEndingResultWindowOffset, offsetof(TObjOnlineEnding, result_window) == 0x154);
+
+extern int player_unique_pair_entry_count;
+extern unsigned char lbl_8050DAD0[];
 
 extern "C" {
 void fn_802E52AC(void);

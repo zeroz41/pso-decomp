@@ -2,6 +2,7 @@
 #include "types.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/player/TObjPlayer_80011014.h"
 #include "pso/system/vector.h"
 #include "pso/ui/font/TFontSmallTask.h"
 #include "pso/enemy/epsilon/TObjEneEpsilonGuard.h"
@@ -26,6 +27,7 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/ui/window/TWindowSubStatusDisp_800FBD74.h"
+#include "pso/map/area/AreaScene.h"
 const char *font_small_task_class_name = "TFontSmallTask";
 
 static const Vec font_small_forward_vec = {0.0f, 0.0f, -1.0f};
@@ -35,14 +37,6 @@ void update_card_window_flags(saddr client_id, s32 card_status_bits) {
     TWindowKeyBoardHard::set_card_window_flags((void *)client_id, (s32)(card_status_bits << 0xD), (s32)0xFFFF1FFF);
 }
 s32 get_player_status_color(void *player) { return *(s32 *)((char *)player + 0x874); }
-}
-
-// The screen-space corner/UV box build_small_font_glyph_quad fills for one glyph.
-struct GlyphQuad { f32 x, y, right, bottom, u, v, u2, v2; };
-
-extern "C" {
-void build_small_font_glyph_quad(u8 c, GlyphQuad *q);
-s32 is_split_screen(void);
 }
 
 f32 TFontSmallTask::calc_font_scale() {
@@ -208,16 +202,7 @@ saddr TOCtrlDubchik::create_font(saddr pos, s32 color, s32 life, const char *tex
 
 TFontSmallTask::~TFontSmallTask() {}
 
-// One .ctors reverse-walk entry: a labelled function the lobby area tear-down calls.
-struct LobbyFrameEntry { u32 id; void (*fn)(void); };
-
-// One forward-walk load callback entry: a function and its threshold id.
-struct LoadFrameEntry { void (*fn)(void); u32 id; };
-
 LeaderSelection leader_selection;
-extern "C" {
-s32 run_load_callback_table(LoadFrameEntry *p, u32 size);
-}
 
 #pragma push
 #pragma fp_contract on
@@ -278,16 +263,16 @@ void TLobby::call_funcs_reverse(void *table, unsigned int size) {
     }
 }
 
-s32 run_load_callback_table(LoadFrameEntry *p, u32 size) {
+s32 run_load_callback_table(void *table, u32 size) {
     s32 n = size / sizeof(LoadFrameEntry);
     while (n > 0) {
         if (is_area_transfer_pending() != 0) {
             return 0;
         }
-        if (p->fn != NULL) {
-            p->fn();
+        if (static_cast<LoadFrameEntry *>(table)->fn != NULL) {
+            static_cast<LoadFrameEntry *>(table)->fn();
         }
-        p++;
+        table = static_cast<LoadFrameEntry *>(table) + 1;
         n--;
     }
     return 1;

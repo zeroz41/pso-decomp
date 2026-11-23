@@ -24,7 +24,7 @@ struct TWindowKeyBoardBase : public TWindowBase {
     u8 m_input_mode;
     s8 m_65;
     u8 _pad66[0x2];
-    KeyboardTextBuffer *m_68;
+    KeyboardTextBuffer *active_text;
     KeyboardTextBuffer m_text;
     KeyboardTextBuffer m_text2;
     u8 *candidate_buffer;
@@ -115,7 +115,7 @@ struct TWindowKeyBoardBase : public TWindowBase {
 };
 
 LAYOUT_ASSERT(TWindowKeyBoardBase_size, sizeof(TWindowKeyBoardBase) == 0xB8);
-LAYOUT_ASSERT(TWindowKeyBoardBase_active_text_offset, offsetof(TWindowKeyBoardBase, m_68) == 0x68);
+LAYOUT_ASSERT(TWindowKeyBoardBase_active_text_offset, offsetof(TWindowKeyBoardBase, active_text) == 0x68);
 LAYOUT_ASSERT(TWindowKeyBoardBase_candidate_offset, offsetof(TWindowKeyBoardBase, candidate_buffer) == 0x9C);
 LAYOUT_ASSERT(TWindowKeyBoardBase_input_mode_offset, offsetof(TWindowKeyBoardBase, m_input_mode) == 0x64);
 

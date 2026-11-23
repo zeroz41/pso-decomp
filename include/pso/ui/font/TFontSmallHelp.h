@@ -3,6 +3,19 @@
 #include "pso/system/task/TObject.h"
 #include "types.h"
 #include <dolphin/mtx.h>
+#include <stddef.h>
+
+struct NJS_TEXLIST;
+extern NJS_TEXLIST *localized_alphabet_list;
+
+struct HelpTextPlayerState {
+    u8 unresolved_00[0x84C];
+    Vec position;
+    u8 unresolved_858[0x558];
+    u32 identity;
+};
+LAYOUT_ASSERT(HelpTextPlayerPosition, offsetof(HelpTextPlayerState, position) == 0x84C);
+LAYOUT_ASSERT(HelpTextPlayerIdentity, offsetof(HelpTextPlayerState, identity) == 0xDB0);
 
 class TFontSmallHelp : public TObject {
 public:

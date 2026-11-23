@@ -1019,7 +1019,7 @@ struct G_Unknown_6x78 {
 struct G_Unknown_6x92 {
  struct G_UnusedHeader header;
  u32 client_id;
- f32 unknown_a2;
+ f32 value;
 };
 
 struct G_UpdateAttackableColState_6x91 {

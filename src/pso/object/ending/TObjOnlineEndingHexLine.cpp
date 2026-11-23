@@ -2,6 +2,8 @@
 #include "pso/system/task/TObject.h"
 #include "pso/object/ending/TObjOnlineEndingHexMove.h"
 #include "types.h"
+#include "pso/network/protocol/subcmd_6x.h"
+#include "pso/render/ColorLineList.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/player/TObjPlayer_80011014.h"
@@ -14,24 +16,18 @@
 #include "pso/network/client_id.h"
 #include "pso/player/PlayerSlots.h"
 
-struct Desc_802E55B8 { NJS_POINT2 *pts; u32 *cols; s32 z; s32 n; };
-
-
 NJS_TEXLIST *multiplay_texture_f512_handle;
 
-const char *TObjOnlineEndingHexMove__name = "TObjOnlineEndingHexMove";
-static const NJS_POINT2 lbl_80472C00[] = {{320.0f, 240.0f}};
-const char *TObjOnlineEndingHexLine__name = "TObjOnlineEndingHexLine";
+const char *online_ending_hex_move_name = "TObjOnlineEndingHexMove";
+static const NJS_POINT2 ending_hex_screen_center[] = {{320.0f, 240.0f}};
+const char *online_ending_hex_line_name = "TObjOnlineEndingHexLine";
 
-struct Pkt_802E5EFC { s32 hdr; s32 idx; f32 val; };
-
-
-EndingHexLineParams lbl_804E3A98 = { 0.25f, 1.0f, 0, 10.0f };
-EndingHexLineParams TObjOnlineEndingHexLine::hex_line_params = lbl_804E3A98;
-EndingHexLineParams online_ending_hex_line_param = lbl_804E3A98;
-EndingHexPoint TObjOnlineEndingHexLine_corner_offsets[4] = { {0, 0}, {21, 0}, {0, 19}, {21, 19} };
-EndingHexLineParams TObjOnlineEndingHexMove__default_move_params = { 0.0f, 0.0f, 0, 0.0f };
-EndingHexPoint TObjOnlineEndingHexLine__direction_table[18] = {
+EndingHexLineParams online_ending_hex_line_defaults = { 0.25f, 1.0f, 0, 10.0f };
+EndingHexLineParams TObjOnlineEndingHexLine::hex_line_params = online_ending_hex_line_defaults;
+EndingHexLineParams online_ending_hex_line_param = online_ending_hex_line_defaults;
+EndingHexPoint online_ending_hex_corner_offsets[4] = { {0, 0}, {21, 0}, {0, 19}, {21, 19} };
+EndingHexLineParams online_ending_hex_move_default_params = { 0.0f, 0.0f, 0, 0.0f };
+EndingHexPoint online_ending_hex_direction_table[18] = {
     { -1, 0 }, { 0, -1 }, { 0, 1 },
     { 0, 0 }, { 0, 0 }, { 0, 0 },
     { 1, 0 }, { -1, -1 }, { -1, 1 },
@@ -40,21 +36,11 @@ EndingHexPoint TObjOnlineEndingHexLine__direction_table[18] = {
     { 0, 0 }, { 0, 0 }, { 0, 0 },
 };
 
-extern "C" {
-void copy_ending_hex_point(EndingHexPoint *point, const EndingHexPoint *source);
-
-extern EndingHexLineParams online_ending_hex_line_state;
-
-s32 draw_color_lines(Desc_802E55B8 *, s32, s32, f32);
-
-void reset_hex_line_params(void);
-}
-
 // Built with -inline off,deferred: functions are emitted last to first, so they are written in reverse.
 
 void reset_hex_line_params(void) {
     TObjOnlineEndingHexMove::copy_move_params(&TObjOnlineEndingHexLine::hex_line_params,
-        TObjOnlineEndingHexMove::copy_move_params(&online_ending_hex_line_param, &lbl_804E3A98));
+        TObjOnlineEndingHexMove::copy_move_params(&online_ending_hex_line_param, &online_ending_hex_line_defaults));
 }
 
 void *TObjOnlineEndingHexMove::create(void *parent) {
@@ -74,18 +60,18 @@ EndingHexLineParams *TObjOnlineEndingHexMove::copy_move_params(EndingHexLinePara
 
 TObjOnlineEndingHexMove::TObjOnlineEndingHexMove(TObject *parent) : TObject(parent) {
     s32 i;
-    m_name = TObjOnlineEndingHexMove__name;
+    m_name = online_ending_hex_move_name;
     for (i = 0; i < 4; i++) {
-        TObjOnlineEndingHexLine::create(parent, &TObjOnlineEndingHexLine_corner_offsets[i]);
+        TObjOnlineEndingHexLine::create(parent, &online_ending_hex_corner_offsets[i]);
     }
-    copy_move_params(&online_ending_hex_line_state, &TObjOnlineEndingHexMove__default_move_params);
+    copy_move_params(&online_ending_hex_line_state, &online_ending_hex_move_default_params);
     timer = 0x1E;
 }
 
 TObjOnlineEndingHexMove::~TObjOnlineEndingHexMove() {}
 
 void TObjOnlineEndingHexMove::run_task() {
-    Pkt_802E5EFC pkt;
+    G_Unknown_6x92 pkt;
     void *pad;
     f32 v;
     f32 step;
@@ -100,12 +86,12 @@ void TObjOnlineEndingHexMove::run_task() {
         pad = &controller_input_state.controllers[0];
         if (test_previous_buttons_packed(pad, 0x30000) != 0) {
             TAdGameStartGC::init_6x92(&pkt);
-            pkt.idx = local_client_id % 4;
-            switch (pkt.idx) {
+            pkt.client_id = local_client_id % 4;
+            switch (pkt.client_id) {
             case 0:
             case 1:
             case 3:
-                switch (pkt.idx) {
+                switch (pkt.client_id) {
                 case 0:
                     step = 0.093333334f;
                     max = 0.5f;
@@ -136,7 +122,7 @@ void TObjOnlineEndingHexMove::run_task() {
                         v = min;
                     }
                 }
-                pkt.val = v;
+                pkt.value = v;
                 break;
             case 2:
                 ang = TObjOnlineEndingHexLine::hex_line_params.angle;
@@ -145,7 +131,7 @@ void TObjOnlineEndingHexMove::run_task() {
                 } else {
                     ang -= 0x1999;
                 }
-                pkt.val = (s32)(u16)ang;
+                pkt.value = (s32)(u16)ang;
                 break;
             }
             TAdGameStartGC::send_6x92(&pkt);
@@ -216,7 +202,7 @@ void TObjOnlineEndingHexMove::update_line_params() {
 #pragma push
 #pragma fp_contract on
 
-s32 TObjOnlineEndingHexLine::calc_rotated_hex_point(NJS_POINT2 *arg0, EndingHexPoint *ending_hex_point) {
+s32 TObjOnlineEndingHexLine::calc_rotated_hex_point(NJS_POINT2 *out, EndingHexPoint *ending_hex_point) {
     NJS_POINT2 p;
     f32 s;
     f32 c;
@@ -229,7 +215,7 @@ s32 TObjOnlineEndingHexLine::calc_rotated_hex_point(NJS_POINT2 *arg0, EndingHexP
         p.x = (f32) (ending_hex_point->x * 0x1E);
     }
     f32 y = (f32) (ending_hex_point->y * 0x19);
-    NJS_POINT2 ctr = lbl_80472C00[0];
+    NJS_POINT2 ctr = ending_hex_screen_center[0];
     ang = hex_line_params.angle;
     p.x = p.x - ctr.x;
     p.y = y;
@@ -244,19 +230,21 @@ s32 TObjOnlineEndingHexLine::calc_rotated_hex_point(NJS_POINT2 *arg0, EndingHexP
     p.y = p.y * sc;
     p.x = p.x + ctr.x;
     p.y = p.y + ctr.y;
-    copy_vec2(arg0, &p);
+    copy_vec2(out, &p);
     return 1;
 }
 #pragma pop
 
-void handle_6x92(u8 *arg0) {
+void handle_6x92(u8 *packet) {
+    G_Unknown_6x92 *cmd;
     f32 v;
     f32 d;
     s32 idx;
 
-    TAdGameStartGC::bswap_6x92(arg0);
-    idx = *(s32 *)((s8 *)arg0 + 4);
-    v = *(f32 *)((s8 *)arg0 + 8);
+    TAdGameStartGC::bswap_6x92(packet);
+    cmd = reinterpret_cast<G_Unknown_6x92 *>(packet);
+    idx = static_cast<s32>(cmd->client_id);
+    v = cmd->value;
     idx = idx % 4;
     if (get_player_by_client_id(idx) != 0U) {
         switch (idx) {
@@ -291,13 +279,13 @@ void handle_6x92(u8 *arg0) {
     }
 }
 
-void *TObjOnlineEndingHexLine::create(void *arg0, void *arg1) {
-    return new TObjOnlineEndingHexLine(static_cast<TObject *>(arg0), static_cast<EndingHexPoint *>(arg1));
+void *TObjOnlineEndingHexLine::create(void *parent, void *start) {
+    return new TObjOnlineEndingHexLine(static_cast<TObject *>(parent), static_cast<EndingHexPoint *>(start));
 }
 
 TObjOnlineEndingHexLine::TObjOnlineEndingHexLine(TObject *parent, EndingHexPoint *start) : TObject(parent) {
     s32 i;
-    m_name = TObjOnlineEndingHexLine__name;
+    m_name = online_ending_hex_line_name;
     EndingHexPoint pos = *start;
     if (pos.y & 1) {
         if (pos.x % 3 == 2) {
@@ -337,7 +325,7 @@ void TObjOnlineEndingHexLine::render() {
     NJS_POINT2 q0;
     NJS_POINT2 p1;
     NJS_POINT2 p0;
-    Desc_802E55B8 d;
+    ColorLineList d;
     u32 cols[32];
     NJS_POINT2 pts[32];
     NJS_POINT2 *pq1 = &q1;
@@ -363,10 +351,10 @@ void TObjOnlineEndingHexLine::render() {
         }
         cols[i] = 0x20FFFFFF;
     }
-    d.pts = pts;
-    d.cols = cols;
-    d.z = 0;
-    d.n = n;
+    d.verts = reinterpret_cast<ColorLineVertex *>(pts);
+    d.colors = cols;
+    d.tex = NULL;
+    d.count = n;
     draw_color_lines(&d, n, 0x15, -117.0f);
 }
 #pragma pop
@@ -399,7 +387,7 @@ void TObjOnlineEndingHexLine::step_line() {
         copy_ending_hex_point(&points[i], &points[i - 1]);
     }
     base = ((s16)(points[0].x % 3) + (s16)(points[0].y & 1) * 3) * 3;
-    dirs = &TObjOnlineEndingHexLine__direction_table[base];
+    dirs = &online_ending_hex_direction_table[base];
     nbad = 0;
     last = -1;
     for (j = 0; j < 3; j++) {
