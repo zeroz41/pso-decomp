@@ -2161,7 +2161,7 @@ force_active:
   - __ct__24G_ActivateMagEffect_6x61Fv
   - __ct__24G_PickUpItemRequest_6x5AFv
   - __ct__24TObjCity_Season_FireWorkFP7TObjectPvf
-  - __ct__24TObjWaitEntryHairMoveSimFv
+  - __ct__24TObjWaitEntryHairMoveSimFP10TObjPlayer
   - __ct__25G_DropStackedItem_DC_6x5DFv
   - __ct__25TBoss6Demo10_TYPE1_APPEARFP14TBoss6PlotFalz
   - __ct__26TBoss5GryphonLightningHornFP7TObjectP3Vecl
@@ -5278,7 +5278,7 @@ force_active:
   - confirm_and_free__17TWindowSubComCardFv
   - confirm_mode_selection__21TAdMultiChgGameModeGCFv
   - constant_material_color
-  - construct__12T_OWEHMS_ExpFP10TObjPlayer
+  - __ct__12T_OWEHMS_ExpFP10TObjPlayer
   - __ct__24ItemTextureArchiveLoaderFPCcll
   - __ct__13TUnk_804EF8C0Fv
   - __ct__9TTecJelinFlP3VecP3Vecl
@@ -5629,7 +5629,7 @@ force_active:
   - __dt__12TBoss1DragonFv
   - __dt__12TPhotonGollaFv
   - __dt__12TPhotonPillaFv
-  - destroy__12T_OWEHMS_ExpFs
+  - __dt__12T_OWEHMS_ExpFv
   - __dt__13TPhotonFarllaFv
   - __dt__18TObjEneBm5WolfNodeFv
   - __dt__15TORockJungleL01Fv

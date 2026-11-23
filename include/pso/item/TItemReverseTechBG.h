@@ -5,8 +5,8 @@
 #include "pso/effect/sprite/TQuadSprite.h"
 #include "types.h"
 
-// One picture of the reverse tech scene, as TItemReverseTechPart2 keeps it and
-// a TItemReverseTechBG built from it shows it (a sprite layout; name unknown).
+// One picture of the reverse tech scene: TItemReverseTechPart2 keeps seven and
+// shows one by building a TItemReverseTechBG from it.
 struct TItemReverseTech_8011A54C {
     TItemReverseTech_8011A54C();
     s32 hold_time;  // frames at full alpha

@@ -3,13 +3,24 @@
 
 #include "types.h"
 
+#include "pso/system/task/TObject.h"
+
 class TObjPlayer;
+
+class TObjWaitEntryHairMoveSim : public TObject {
+public:
+    TObjWaitEntryHairMoveSim(TObjPlayer *player);
+    virtual ~TObjWaitEntryHairMoveSim();
+    virtual void run_task();
+
+    TObjPlayer *player;
+};
+LAYOUT_ASSERT(TObjWaitEntryHairMoveSimSize, sizeof(TObjWaitEntryHairMoveSim) == 0x20);
 
 extern "C" {
 void TObjWaitEntryHairMoveSim__sub_800FE3BC(int _w0);
-s32 fn_800FE73C(TObjPlayer *player);
-void *__ct__24TObjWaitEntryHairMoveSimFv(void *arg0, void *player);
-void create_hair_effects__24TObjWaitEntryHairMoveSimFPv(void *arg0);
+TObject *fn_800FE73C(TObjPlayer *player);
+void create_hair_effects__24TObjWaitEntryHairMoveSimFPv(TObjWaitEntryHairMoveSim *self);
 int is_move_done__24TObjWaitEntryHairMoveSimFv(void);
 }
 
