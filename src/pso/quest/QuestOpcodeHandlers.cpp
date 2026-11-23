@@ -31,6 +31,7 @@
 #include "pso/item/TObjItemOKWindow.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/network/protocol/subcmd_6x.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
@@ -892,7 +893,6 @@ void send_code50_packet__10TObjPlayerFi(s32 player);
 s32 send_code_49_1__10TObjPlayerFi();
 void delete_item(void *, s32, s32);
 void send_6x29_delete_item__10TObjPlayerFPvii(void *obj, s32 a, s32 b);
-void send_6x21_inter_level_warp(void *obj, s32 value);
 u32 TObjPlayer__sub_801BFFA0(void *);
 void TFontSmallLobby__sub_801C013C(void *p);
 void request_player_size_restore(PlayerScaleState *state);
@@ -3406,7 +3406,7 @@ void qst_op_go_floor(s32 a, s32 b) {
         floor_transition_state.set_next_floor(qst_registers[(u8)b], get_floor_map_terrain(qst_registers[(u8)b]));
         mark_area_change_pending();
         TNpcPlayer::send_inter_level_warp_all(floor_transition_state.get_next_floor());
-        send_6x21_inter_level_warp((void *)r, (saddr)((void *)(saddr)floor_transition_state.get_next_floor()));
+        send_6x21_inter_level_warp((TObjPlayer *)r, floor_transition_state.get_next_floor());
     }
 }
 

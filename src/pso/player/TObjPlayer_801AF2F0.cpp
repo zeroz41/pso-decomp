@@ -41,6 +41,7 @@
 
 #include "pso/boss/barbaray/TBoss7Crawfish.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/network/protocol/subcmd_6x.h"
 #include "pso/ui/font/TFontSmallHelp.h"
 #include "pso/player/PlayerActionPaletteState.h"
 #include "pso/player/PlayerSlots.h"
@@ -1250,7 +1251,6 @@ void handle_6xAE_set_animation_state(void *command);
 void handle_6x20_set_position(void *command);
 void handle_6x1F_set_player_floor(void *command);
 void handle_6x21_inter_level_warp(void *command);
-void send_6x21_inter_level_warp(void *obj, s32 value);
 void draw_projected_shadow__10TObjPlayerFPvPvi(VObj_801BAB78 *self, f32 *pos, s32 forceDraw);
 void TObjPlayer__sub_801BAC48(void);
 void draw_body__10TObjPlayerFPvi(u8 *arg0, s32 arg1);
@@ -2189,12 +2189,12 @@ void draw_projected_shadow__10TObjPlayerFPvPvi(VObj_801BAB78 *self, f32 *pos, s3
     pop_matrix();
 }
 
-void send_6x21_inter_level_warp(void *obj, s32 value) {
-    if (obj == 0 || ((TObjChara *)obj)->obj_isState2_324() == 0) {
+void send_6x21_inter_level_warp(TObjPlayer *player, s32 floor) {
+    if (player == 0 || player->obj_isState2_324() == 0) {
         Msg_801BAB1C m;
         init_6x21_inter_level_warp_packet((u8 *)&m);
-        m.id = ((TObjBase *)(obj))->get_entity_id();
-        m.value = value;
+        m.id = player->get_entity_id();
+        m.value = floor;
         ((TObjPlayer *)(&m))->send_warp_packet();
     }
 }
@@ -5348,7 +5348,7 @@ void complete_deferred_player_death(void) {
 }
 
 void TObjPlayer::prepare_hospital_return() {
-    ((s32 (*)(s32, int))send_6x21_inter_level_warp)((saddr)this, 0);
+    send_6x21_inter_level_warp(this, 0);
     set_arrival_override_pos(this->get_entity_id(), get_hospital_yaw(), (saddr)((TObjPlayer *)this)->get_hospital_position());
     this->set_state_flags(0x800);
     this->set_battle_flag(0);
@@ -5372,7 +5372,7 @@ void prepare_guild_return__10TObjPlayerFPv(void *player) {
     set_arrival_override_pos(((TObjBase *)((saddr) player))->get_entity_id(), ((TObjPlayer *)player)->get_guild_return_yaw(), (saddr)((TObjPlayer *)player)->get_guild_return_position());
     ((TObjPlayer *)player)->set_state_flags(0x800);
     ((TObjPlayer *)player)->set_battle_flag(1);
-    send_6x21_inter_level_warp(player, floor_transition_state.get_next_floor());
+    send_6x21_inter_level_warp((TObjPlayer *)player, floor_transition_state.get_next_floor());
     TNpcPlayer::apply_to_players((s32)(floor_transition_state.get_next_floor()), (void *)(get_party_position()), (s32)(get_party_yaw()));
 }
 #pragma pop

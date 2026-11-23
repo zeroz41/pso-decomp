@@ -5,6 +5,7 @@
 #include "pso/unk/TLobby_800FD78C.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/network/protocol/subcmd_6x.h"
 #include "pso/object/TObjLuker.h"
 #include "pso/object/TObjLuker_801329B0.h"
 #include "pso/ui/window/TWindowBase.h"
@@ -101,7 +102,6 @@ f32 horizontal_distance_squared(void *, void *);
 s32 play_persistent_sound(int, void *, void *, int, int);
 s32 TTecLuker__sub_8023401C(void *);
 s32 is_player_in_range__9TObjLukerFv(saddr arg0, f32 farg0);
-void send_6x21_inter_level_warp(void *obj, s32 value);
 s32 init_fields__9TTecLukerFs(void *, int);
 extern s32 lbl_805D55C0;
 
@@ -334,7 +334,7 @@ void TObjLuker::transfer_to_town() {
       if (flag != 0)
       {
         ((TTecLuker *)(p + 0x848))->set_state(arg0->owner);
-        send_6x21_inter_level_warp(p, floor_transition_state.get_next_floor());
+        send_6x21_inter_level_warp((TObjPlayer *)p, floor_transition_state.get_next_floor());
         ((TObjMotion *)p)->set_room((s16) (*((s32 *) (((s8 *) self) + 0x834))));
       }
     }
@@ -346,7 +346,7 @@ void TObjLuker::transfer_to_town() {
     {
       ((TObjMotion *)local)->set_room((s16) (*((s32 *) (((s8 *) self) + 0x834))));
     }
-    send_6x21_inter_level_warp(local, floor_transition_state.get_next_floor());
+    send_6x21_inter_level_warp((TObjPlayer *)local, floor_transition_state.get_next_floor());
   }
   if (is_split_screen() != 0)
   {

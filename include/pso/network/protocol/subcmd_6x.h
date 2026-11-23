@@ -479,6 +479,8 @@ void send_6x55_intra_map_warp(u16 id, const Vec *destination, s32 yaw);
 void handle_6x55_intra_map_warp(game_command_header *command);
 }
 void bswap_6x94_inter_level_warp(G_InterLevelWarp_6x94 *packet);
+struct TObjPlayer;
+void send_6x21_inter_level_warp(TObjPlayer *player, s32 floor);
 
 struct G_LegacyActivateSwitchByToken_6x04 {
  struct G_ParameterHeader header;

@@ -5,6 +5,7 @@
 #include "pso/network/protocol/protocol_types.h"
 
 #include "pso/player/TObjPlayer.h"
+#include "pso/network/protocol/subcmd_6x.h"
 #include "pso/unk/TUnk_804CC9D4.h"
 #include "pso/unk/TLobby_801E43E4.h"
 #include "types.h"
@@ -132,7 +133,6 @@ s32 telepipe_record_differs(Rec_8023402C *r, s16 floor, Vec *p, u16 unused);
 s32 is_split_screen();
 u8 *find_entity_by_id(u16);
 void handle_6x68_set_telepipe_state(Pkt_802341B0 *pkt);
-s32 send_6x21_inter_level_warp(void *, s32);
 s32 play_persistent_sound(s32, void *, void *, s32, s32);
 f32 horizontal_distance_squared(void *, void *);
 s32 free_collision_body_parts(void *);
@@ -341,9 +341,9 @@ void TTecLuker::run_task() {
             }
             set_state__9TTecLukerFl(temp_r29 + 0x848, owner_id);
             if (TLobby::get_instance() == 1) {
-                send_6x21_inter_level_warp(temp_r29, 0);
+                send_6x21_inter_level_warp((TObjPlayer *)temp_r29, 0);
             } else {
-                send_6x21_inter_level_warp(temp_r29, 0);
+                send_6x21_inter_level_warp((TObjPlayer *)temp_r29, 0);
             }
             goto block_43;
         }
@@ -358,16 +358,16 @@ block_43:
                 if (is_split_screen() != 0) {
                     set_state__9TTecLukerFl(p + 0x848, owner_id);
                     if (TLobby::get_instance() == 1) {
-                        send_6x21_inter_level_warp(p, 0);
+                        send_6x21_inter_level_warp((TObjPlayer *)p, 0);
                     } else {
-                        send_6x21_inter_level_warp(p, 0);
+                        send_6x21_inter_level_warp((TObjPlayer *)p, 0);
                     }
                 } else if (((TObjChara *)p)->obj_isState3_324() != 0) {
                     set_state__9TTecLukerFl(p + 0x848, owner_id);
                     if (TLobby::get_instance() == 1) {
-                        send_6x21_inter_level_warp(p, 0);
+                        send_6x21_inter_level_warp((TObjPlayer *)p, 0);
                     } else {
-                        send_6x21_inter_level_warp(p, 0);
+                        send_6x21_inter_level_warp((TObjPlayer *)p, 0);
                     }
                 }
             }

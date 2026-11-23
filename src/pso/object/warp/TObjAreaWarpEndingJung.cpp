@@ -108,7 +108,6 @@ extern "C" {
 
 s64 get_warp_string_screen_position(void *arg0, u16 client_id);
 void TObjAreaWarpQuest__sub_8019DCD8(TObjPlayer *, s32);
-void send_6x21_inter_level_warp(void *obj, s32 value);
 }
 
 void mask_action_buttons(void *p, u32 v);
@@ -617,7 +616,7 @@ void handle_6x94_inter_level_warp(game_command_header *command) {
         mark_area_change_pending();
         TWindowCtrl::suppress_slot(local_client_id);
         TNpcPlayer::send_inter_level_warp_all(floor_transition_state.get_next_floor());
-        void *p = get_player_by_client_id(local_client_id);
+        TObjPlayer *p = get_player_by_client_id(local_client_id);
         if (p != 0) {
             send_6x21_inter_level_warp(p, (s32)(floor_transition_state.get_next_floor()));
         }
