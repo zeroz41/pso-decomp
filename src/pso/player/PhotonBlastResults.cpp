@@ -12,9 +12,8 @@
 #include "pso/effect/photon/PhotonBlastSummon.h"
 #include "pso/system/vector.h"
 #include "pso/effect/photon/TPhotonEstlla.h"
-#include "pso/unk/text_801AB370.h"
-#include "pso/unk/text_801ABE14.h"
 #include "pso/effect/photon/TPhotonPilla.h"
+#include "pso/effect/photon/TPhotonFarlla.h"
 #include "pso/effect/photon/TPhotonGolla.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/unk/TUnk_804C349C.h"
@@ -638,7 +637,7 @@ void TUnk_804C349C::step_photon_blast_sequence() {
         case 0:
             summon = (u8 *)TObject::operator new(0x1A8);
             if (summon != NULL) {
-                summon = TPhotonFarlla__ct(summon, (u8 *)&params);
+                summon = (u8 *)TPhotonFarlla__ct((TPhotonFarlla *)summon, &params);
             }
             this->summon = (TObject *)summon;
             break;
@@ -939,7 +938,7 @@ PhotonBlastLoadCallback photon_blast_load_callback_table[10] = {
     { create_golla_photon_blast_model, destroy_golla_photon_blast_model },
     { create_pilla_photon_blast_model, TObjPlayer::free_buffer_pair },
     { create_leilla_photon_blast_model, destroy_leilla_photon_blast_model },
-    { create_farlla_photon_blast_model, TObjPlayer::destroy_buffers },
+    { create_farlla_photon_blast_model, destroy_farlla_photon_blast_model },
     { create_estlla_photon_blast_model, TObjPlayer::destroy_global_buffer },
     { create_youlla_photon_blast_model, destroy_youlla_photon_blast_model },
     { create_mylla_photon_blast_model, destroy_mylla_photon_blast_model },

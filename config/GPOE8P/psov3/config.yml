@@ -16261,7 +16261,7 @@ force_active:
   - sub_8019E418__12TObjWarpBossFv
   - sub_8019F9E4__14TObjWarpBoss03Fv
   - reset_color__13TPhotonEstllaFUc
-  - sub_801AAE6C__13TPhotonFarllaFv
+  - reset_material_color__13TPhotonFarllaFUc
   - reset_material_color__12TPhotonGollaFUc
   - reset_material_color__13TPhotonLeillaFUc
   - reset_material_color__12TPhotonMyllaFUc
@@ -16658,7 +16658,7 @@ force_active:
   - update_ai_state__15TObjEneDelDepthFv
   - update_air_fire_state__12TBoss1DragonFUl
   - update_all_parts__9TBoss6MagFv
-  - update_all_slots__13TPhotonFarllaFv
+  - collect_hit_targets__13TPhotonFarllaFv
   - update_and_destroy__13TUnk_804C349CFv
   - update_and_reset__6TLobbyFPUc
   - update_and_send_lobby__9TWindowDDFv

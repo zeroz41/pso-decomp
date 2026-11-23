@@ -517,7 +517,6 @@ struct TObjPlayer : public TObjChara {
     void set_type(s16 v);
     u16 get_entity_type();
     static void destroy_global_buffer();
-    static void destroy_buffers();
     int check_flag_0x80();
     static void free_buffer_pair();
     static s32 is_final_phase();
