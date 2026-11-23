@@ -3,6 +3,23 @@
 #include "pso/unk/TUnk_804C57F0.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 
+void TUnk_804C57F0::append_node_to_tail(QuadSpriteNode *node) {
+    s32 i = node->uv_index;
+    node->next = NULL;
+    tails[i]->next = node;
+    tails[i] = node;
+    queued = 1;
+}
+
+void TUnk_804C57F0::quad_sprite_reset_entries() {
+    s32 i;
+    for (i = 0; i < definition->uv_count; i++) {
+        lists[i].next = NULL;
+        tails[i] = &lists[i];
+    }
+    queued = 0;
+}
+
 TUnk_804C57F0::~TUnk_804C57F0() {
     mem_free(tails);
     tails = NULL;
