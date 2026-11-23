@@ -480,8 +480,6 @@ struct TObjPlayer : public TObjChara {
     void set_action_type(s16 v);
     void*get_state_ptr();
     static int get_player_list();
-    void set_effect_state(s32 v);
-    void set_atp(s16 v);
     s16 get_stage_strike_count();
     static void notify_hit_target(u32 arg0, uaddr arg1, u32 arg2, uaddr pos);
     s32 is_rand_below_threshold();

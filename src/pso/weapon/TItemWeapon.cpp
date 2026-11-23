@@ -59,7 +59,7 @@ void TItemWeapon::draw_weapon_model() {
         push_matrix_from((void *)((TObjMotion *)(this->owner))->get_joint_matrix((s8)get_attach_joint()));
         if ((var_r30 != 0) && (this->is_hidden() == 0)) {
             weapon_render_callback_object = (u8 *)this;
-            weapon_node_material_index = *(s16 *)((s8 *)this + 0x1CC);
+            weapon_node_material_index = color_node;
             parameters = this->parameters;
             TObjPlayer__weapon_node_ids[0] = parameters->effect_nodes[0];
             TObjPlayer__weapon_node_ids[1] = parameters->effect_nodes[1];
@@ -214,8 +214,8 @@ TItemWeapon::TItemWeapon(TObject *parent, u8 *item) : TItemEquipBase(parent, ite
     u8 special;
     set_attach_slot(6);
     parameters = (WeaponParams *)lookup_item_pmt_record(item);
-    technique_boosts = (const TechniqueBoostParam *)TObjPlayer::get_shield_pmt_entry(*(u8 *)((s8 *)parameters + 0x26));
-    photon_color_id = (s16) (s8) *(u8 *)((s8 *)parameters + 0x17);
+    technique_boosts = (const TechniqueBoostParam *)TObjPlayer::get_shield_pmt_entry(parameters->technique_boost);
+    photon_color_id = (s16) (s8) parameters->photon_color;
     grind = item[3];
     identified = ((TItemData *)item)->check_item_flags();
     special = parameters->special;
@@ -231,7 +231,7 @@ TItemWeapon::TItemWeapon(TObject *parent, u8 *item) : TItemEquipBase(parent, ite
     impact_callback = 0;
     hit_callback = 0;
     shot_callback = (WeaponShotCallback)create_gun_shot;
-    this->gun_point_joint = (s16) *(u8 *)((s8 *)parameters + 0x1B);
+    this->gun_point_joint = parameters->gun_point_joint;
     set_weapon_trail_joints((saddr)this, 0, parameters->trail_joints[0], parameters->trail_joints[1]);
     set_weapon_trail_joints((saddr)this, 1, parameters->trail_joints[2], parameters->trail_joints[3]);
     set_weapon_trail_joints((saddr)this, 2, -1, -1);
@@ -246,13 +246,13 @@ TItemWeapon::TItemWeapon(TObject *parent, u8 *item) : TItemEquipBase(parent, ite
     if (group < 0xAA) {
         motion_type = get_weapon_class_motion_type(group);
         if (photon_color_id != -1) {
-            *(s16 *)((s8 *)this + 0x1CC) = (s16) *(u8 *)((s8 *)parameters + 0x20);
+            color_node = parameters->color_node;
         } else {
-            *(s16 *)((s8 *)this + 0x1CC) = -1;
+            color_node = -1;
         }
     } else {
         motion_type = 1;
-        *(s16 *)((s8 *)this + 0x1CC) = -1;
+        color_node = -1;
     }
     stage = -1;
     motion_frame = lbl_805DAC98;
@@ -263,13 +263,13 @@ TItemWeapon::TItemWeapon(TObject *parent, u8 *item) : TItemEquipBase(parent, ite
         photon_phase = lbl_805DAC98;
     }
     set_weapon_category_flags();
-    if (*(u8 *)((s8 *)parameters + 0x27) & 1) {
+    if (parameters->flags & 1) {
         effect_flags.set(0x20);
     }
-    if (*(u8 *)((s8 *)parameters + 0x27) & 2) {
+    if (parameters->flags & 2) {
         this->set_weapon_flags(0x40000);
     }
-    if (*(u8 *)((s8 *)parameters + 0x27) & 4) {
+    if (parameters->flags & 4) {
         this->set_weapon_flags(0x80000);
     }
 }

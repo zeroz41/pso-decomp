@@ -24,7 +24,7 @@ TItem *create_suppressed_gun_weapon(u8 *item) {
 TUnk_804A2C90::TUnk_804A2C90(TObject *parent, u8 *item) : TItemWeapon(parent, item) {
     impact_callback = (WeaponHitCallback)spawn_weapon_impact_effect;
     if (item[2] >= 5U) {
-        ((TObjPlayer *)this)->set_atp(-1);
+        set_color_node(-1);
     }
 }
 

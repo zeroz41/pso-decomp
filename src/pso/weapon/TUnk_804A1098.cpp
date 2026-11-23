@@ -82,7 +82,7 @@ TUnk_804A1098::TUnk_804A1098(TObject *parent, u8 *item) : TItemWeapon(parent, it
     set_weapon_flags(34);
     open_angle = 0;
     open_state = 0;
-    ((TObjPlayer *)this)->set_effect_state(10);
+    set_technique_roll_range(10);
 }
 
 TItem *TObjPlayer__sub_801228CC(u8 *item) {

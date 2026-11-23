@@ -36,7 +36,7 @@ TUnk_804A5248::TUnk_804A5248(TObject *parent, u8 *item) : TItemWeapon(parent, it
     impact_callback = (WeaponHitCallback)spawn_weapon_impact_effect;
     barrel_scale = 1.0f;
     if (item[2] >= 5U) {
-        ((TObjPlayer *)this)->set_atp(-1);
+        set_color_node(-1);
     }
 }
 

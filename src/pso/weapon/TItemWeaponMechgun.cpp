@@ -65,7 +65,7 @@ TUnk_804A3260::TUnk_804A3260(saddr parent, u8 *item) : TItemWeapon((TObject *)((
         break;
     }
     if ((u8) *(u8 *)((s8 *)item + 2) >= 5U) {
-        ((TObjPlayer *)this)->set_atp(-1);
+        set_color_node(-1);
     }
 }
 

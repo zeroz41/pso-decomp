@@ -61,7 +61,7 @@ TUnk_804A2678::~TUnk_804A2678() {
 
 TUnk_804A2678::TUnk_804A2678(TObject *parent, u8 *item) : TItemWeapon(parent, item) {
     set_weapon_flags(34);
-    ((TObjPlayer *)this)->set_effect_state(10);
+    set_technique_roll_range(10);
     floor_area = -1;
 }
 

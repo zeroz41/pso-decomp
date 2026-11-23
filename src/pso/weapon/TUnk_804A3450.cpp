@@ -40,7 +40,7 @@ TUnk_804A3450::~TUnk_804A3450() {}
 
 TUnk_804A3450::TUnk_804A3450(TObject *parent, u8 *item) : TItemWeapon(parent, item) {
     set_weapon_flags(34);
-    ((TObjPlayer *)this)->set_effect_state(2);
+    set_technique_roll_range(2);
 }
 
 TItem *TObjPlayer::create_substate_b(u8 *item) {

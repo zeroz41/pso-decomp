@@ -167,7 +167,7 @@ TUnk_804A204C::~TUnk_804A204C() {
 TUnk_804A204C::TUnk_804A204C(TObject *parent, u8 *item) : TItemWeapon(parent, item) {
     effect_flags.set(32);
     set_weapon_flags(35);
-    ((TObjPlayer *)this)->set_effect_state(12);
+    set_technique_roll_range(12);
     pad_1f8 = 0;
     swing_angle = 0;
     floor_area = -1;

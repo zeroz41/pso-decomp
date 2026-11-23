@@ -20,7 +20,7 @@ TUnk_804A5458::TUnk_804A5458(TObject *parent, u8 *item) : TItemWeapon(parent, it
         break;
     }
     if (item[2] >= 4U) {
-        ((TObjPlayer *)this)->set_atp(-1);
+        set_color_node(-1);
     }
 }
 

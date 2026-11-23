@@ -35,7 +35,7 @@ TUnk_804A2358::~TUnk_804A2358() {}
 TUnk_804A2358::TUnk_804A2358(TObject *parent, u8 *item) : TItemWeapon(parent, item) {
     set_weapon_trail_joints((saddr)this, 2, 6, 5);
     set_weapon_flags(35);
-    ((TObjPlayer *)this)->set_effect_state(13);
+    set_technique_roll_range(13);
 }
 
 TItem *TObjPlayer::create_configured_state(u8 *item) {

@@ -60,7 +60,7 @@ TUnk_804A65E0::~TUnk_804A65E0() {}
 TUnk_804A65E0::TUnk_804A65E0(TObject *parent, u8 *item) : TItemWeapon(parent, item) {
     effect_flags.set(32);
     set_weapon_flags(34);
-    ((TObjPlayer *)this)->set_effect_state(5);
+    set_technique_roll_range(5);
 }
 
 TItem *TObjPlayer::create_effect_object(u8 *item) {
