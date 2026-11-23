@@ -32,7 +32,7 @@ s32 get_tcp_stat(s16 arg0, s16 *arg1, s16 *arg2, s32 *snd_space, s32 *rcv_count)
 void insert_item_at(TcpTcb *tcb, s16 idx, s32 a, s32 b);
 s32 mark_connection_closed(s16 arg0);
 void reset_slot_index(TcpTcb *tcb);
-s16 tcp_connect_start(s16 arg0, saddr arg1, s16 arg2);
+s16 AT_TCP_Connect(s16 handle, void *addr, s16 port);
 s16 tcp_get_socket_handle(s16 i);
 s16 validate_tcp_handle(s16 i);
 
@@ -140,7 +140,7 @@ extern void TLobby__sub_8041A3CC(void) {
             if (e->ack_delay == 0) {
                 e->ack_delay = g->ack_ticks / 100;
                 e->flags |= 1;
-                TLobby__sub_8041A9AC(e);
+                AT_TCP_Rawsend(e);
             }
         }
     }
@@ -151,7 +151,7 @@ void TLobby__sub_8041A498(TcpTcb *tcp_tcb, s16 arg1) {
 
     if (tcp_tcb->t_state >= 3) {
         tcp_tcb->t_state = 0;
-        TLobby__sub_8041A9AC(tcp_tcb);
+        AT_TCP_Rawsend(tcp_tcb);
     }
     tcp_tcb->error = arg1;
     switch (arg1) {
@@ -249,7 +249,7 @@ extern s32 TLobby__sub_8041A6A4(TcpTcb *tcb, s16 timer) {
         }
         tcb->snd_cwnd = tcb->maxseg;
         tcb->snd_ssthresh = win * tcb->maxseg;
-        TLobby__sub_8041A9AC(tcb);
+        AT_TCP_Rawsend(tcb);
         break;
     case 1:
         t = ((tcb->srtt >> 2) + tcb->rttvar) >> 1;
@@ -263,7 +263,7 @@ extern s32 TLobby__sub_8041A6A4(TcpTcb *tcb, s16 timer) {
             tcb->rxtshift++;
         }
         tcb->force = 1;
-        TLobby__sub_8041A9AC(tcb);
+        AT_TCP_Rawsend(tcb);
         tcb->force = 0;
         break;
     case 2:
@@ -303,7 +303,7 @@ s32 TLobby__sub_8041D460(TcpTcb *tcb, s32 *p1, s32 *p2);
 #pragma opt_common_subs on
 #pragma opt_propagation off
 #pragma opt_loop_invariants off
-s16 TLobby__sub_8041A9AC(TcpTcb *tp)
+s16 AT_TCP_Rawsend(TcpTcb *tp)
 {
     TcpTcb *q;
     u16 header_bytes;
@@ -1283,7 +1283,7 @@ retry:
                     ((TcpTcb *)found)->rtt = 0;
                     *(u32 *)(found + offsetof(TcpTcb, snd_nxt)) = hdr.ack;
                     *(u32 *)(found + offsetof(TcpTcb, snd_cwnd)) = *(u16 *)(found + offsetof(TcpTcb, maxseg));
-                    TLobby__sub_8041A9AC((TcpTcb *)found);
+                    AT_TCP_Rawsend((TcpTcb *)found);
                     *(u32 *)(found + offsetof(TcpTcb, snd_cwnd)) = *(u32 *)(found + offsetof(TcpTcb, snd_ssthresh)) + *(u16 *)(found + offsetof(TcpTcb, maxseg)) * found[offsetof(TcpTcb, dupacks)];
                     if ((s32)(onxt - *(u32 *)(found + offsetof(TcpTcb, snd_nxt))) > 0) {
                         *(u32 *)(found + offsetof(TcpTcb, snd_nxt)) = onxt;
@@ -1291,7 +1291,7 @@ retry:
                     goto drop;
                 } else if (found[offsetof(TcpTcb, dupacks)] > (u8)TCP_REXMTTHRESH) {
                     ((TcpTcb *)found)->snd_cwnd += ((TcpTcb *)found)->maxseg;
-                    TLobby__sub_8041A9AC((TcpTcb *)found);
+                    AT_TCP_Rawsend((TcpTcb *)found);
                     goto drop;
                 }
             } else {
@@ -1326,12 +1326,12 @@ retry:
                     ((TcpTcb *)found)->timers[0] = 0;
                     ((TcpTcb *)found)->rtt = 0;
                     *(u32 *)(found + offsetof(TcpTcb, snd_cwnd)) = *(s32 *)(found + offsetof(TcpTcb, f2F0)) + *(u16 *)(found + offsetof(TcpTcb, maxseg));
-                    TLobby__sub_8041A9AC((TcpTcb *)found);
+                    AT_TCP_Rawsend((TcpTcb *)found);
                     *(u32 *)(found + offsetof(TcpTcb, snd_cwnd)) = *(u32 *)(found + offsetof(TcpTcb, snd_ssthresh));
                     goto drop;
                 } else if (found[offsetof(TcpTcb, dupacks)] > (u8)TCP_REXMTTHRESH) {
                     ((TcpTcb *)found)->f2F0 -= ((TcpTcb *)found)->maxseg;
-                    TLobby__sub_8041A9AC((TcpTcb *)found);
+                    AT_TCP_Rawsend((TcpTcb *)found);
                     goto drop;
                 }
             } else if (hdr.win > ((TcpTcb *)found)->snd_wnd) {
@@ -1544,7 +1544,7 @@ L1397:
     }
 L1469:
     if (changed != 0 || (((TcpTcb *)found)->flags & 1)) {
-        TLobby__sub_8041A9AC((TcpTcb *)found);
+        AT_TCP_Rawsend((TcpTcb *)found);
     }
     return 0;
 
@@ -1553,7 +1553,7 @@ dropafterack:
         goto drop;
     }
     ((TcpTcb *)found)->flags |= 1;
-    TLobby__sub_8041A9AC((TcpTcb *)found);
+    AT_TCP_Rawsend((TcpTcb *)found);
     return 0;
 
 dropwithreset:
@@ -2019,7 +2019,7 @@ s16 tcp_start_send(s16 arg0, NetPacket *req, TcpCompletion completion, u8 arg3) 
     if (arg3 != 0) {
         e->snd_up = e->snd_nxt + req->total_bytes;
     }
-    ret = TLobby__sub_8041A9AC(e);
+    ret = AT_TCP_Rawsend(e);
     TLobby__sub_8041FFF8(0, e);
     return ret;
 }
@@ -2197,7 +2197,7 @@ s32 abort_tcp_connection(s16 arg0) {
         e->t_state = 0;
     } else {
         e->t_state = 0;
-        TLobby__sub_8041A9AC(e);
+        AT_TCP_Rawsend(e);
     }
     clear_position(e);
     return 0;
@@ -2218,13 +2218,13 @@ u16 TLobby__sub_8041EA14(void);
 #pragma opt_propagation off
 #pragma push
 #pragma pool_data off
-s16 tcp_connect_start(s16 arg0, saddr addr, s16 arg2) {
+s16 AT_TCP_Connect(s16 handle, void *addr, s16 port) {
     s16 r;
     TcpTcb *e;
 
-    if (arg0 < 0 || arg0 >= tcp_protocol_state.count) {
+    if (handle < 0 || handle >= tcp_protocol_state.count) {
         r = -4;
-    } else if (tcp_protocol_state.tcbs[arg0].state != 1) {
+    } else if (tcp_protocol_state.tcbs[handle].state != 1) {
         r = -4;
     } else {
         r = 0;
@@ -2233,8 +2233,8 @@ s16 tcp_connect_start(s16 arg0, saddr addr, s16 arg2) {
         return -4;
     }
     e = tcp_protocol_state.tcbs;
-    e += arg0;
-    if (TLobby__sub_8040DA54((u8 *)addr, e->local) == 0) {
+    e += handle;
+    if (TLobby__sub_8040DA54(addr, e->local) == 0) {
         NetDispatchSocketEvent((s16)(e - tcp_protocol_state.tcbs), e->event_ctx, 3, 0xC);
         return -6;
     }
@@ -2245,8 +2245,8 @@ s16 tcp_connect_start(s16 arg0, saddr addr, s16 arg2) {
     if (e->hdr.sport == 0) {
         e->hdr.sport = TLobby__sub_8041EA14();
     }
-    NetMemcpy(e->remote, (void *)addr, sizeof(e->remote));
-    e->hdr.dport = arg2;
+    NetMemcpy(e->remote, addr, sizeof(e->remote));
+    e->hdr.dport = port;
     if (TLobby__sub_8041B724(e) < 0) {
         return -6;
     }
@@ -2274,7 +2274,7 @@ s16 tcp_connect_start(s16 arg0, saddr addr, s16 arg2) {
         e->snd_una = v;
         *t += 0xFA00;
     }
-    return TLobby__sub_8041A9AC(e);
+    return AT_TCP_Rawsend(e);
 }
 #pragma pop
 

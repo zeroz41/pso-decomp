@@ -287,7 +287,10 @@ void TLobby::clear_flag_on_phase_e() {
 
 void TLobby__sub_800F7744(void) {  }
 
-s32 TObjEnemy::bind_enemy_combat_stats(u8 *arg1, u8 *arg2, u8 *arg3) {
+s32 TObjEnemy::bind_enemy_combat_stats(u8 *base_record, u8 *attack_record, u8 *resistance_record) {
+    player_stats *base_stats = reinterpret_cast<player_stats *>(base_record);
+    AttackParams *attack_stats = reinterpret_cast<AttackParams *>(attack_record);
+    ActorParamBlock *resistance_stats = reinterpret_cast<ActorParamBlock *>(resistance_record);
     f32 temp_f31;
     f32 temp_f31_2;
     f32 temp_f31_3;
@@ -296,64 +299,64 @@ s32 TObjEnemy::bind_enemy_combat_stats(u8 *arg1, u8 *arg2, u8 *arg3) {
     s16 evp;
     s16 dfp;
     s16 attack_params_atp_max;
-    player_stats *stat_block;
-    player_stats *temp_r6;
+    const player_stats *bound_stats_for_tp;
+    const player_stats *bound_stats_for_hp;
 
-    if (arg1 != NULL) {
-        this->stat_block = (player_stats *)arg1;
-        temp_r6 = this->stat_block;
-        this->hpmax = (s16) (temp_r6->stats.hp + temp_r6->level);
+    if (base_stats != NULL) {
+        stat_block = base_stats;
+        bound_stats_for_hp = stat_block;
+        this->hpmax = (s16) (bound_stats_for_hp->stats.hp + bound_stats_for_hp->level);
         this->hp = (s16) this->hpmax;
         if (obj_testFlag_2E4(4U) != 0) {
             this->tpmax = 0;
             this->tp = 0;
         } else {
-            stat_block = this->stat_block;
-            this->tpmax = (s16) (stat_block->stats.mst + stat_block->level);
+            bound_stats_for_tp = stat_block;
+            this->tpmax = (s16) (bound_stats_for_tp->stats.mst + bound_stats_for_tp->level);
             this->tp = (s16) this->tpmax;
         }
         goto block_6;
     }
-    if ((void *) this->stat_block == NULL) {
+    if (stat_block == NULL) {
         return 0;
     }
 block_6:
-    if (arg2 != NULL) {
-        *(u8 **)((s8 *)((u8 *)this) + 0x318) = arg2;
+    if (attack_stats != NULL) {
+        attack_params = attack_stats;
         goto block_10;
     }
-    if ((void *) *(u8 **)((s8 *)((u8 *)this) + 0x318) == NULL) {
+    if (attack_params == NULL) {
         return 0;
     }
 block_10:
-    if (arg3 != NULL) {
-        *(u8 **)((s8 *)((u8 *)this) + 0x31C) = arg3;
+    if (resistance_stats != NULL) {
+        param_block = resistance_stats;
         goto block_14;
     }
-    if ((void *) *(u8 **)((s8 *)((u8 *)this) + 0x31C) == NULL) {
+    if (param_block == NULL) {
         return 0;
     }
 block_14:
-    atp = this->stat_block->stats.atp;
+    atp = stat_block->stats.atp;
     this->atp = atp;
     this->base_atp = atp;
-    attack_params_atp_max = get_attack_params_atp_max(*(u8 **)((s8 *)((u8 *)this) + 0x318));
-    atp_range = attack_params_atp_max - get_attack_params_atp_min(*(u8 **)((s8 *)((u8 *)this) + 0x318));
+    attack_params_atp_max = get_attack_params_atp_max(attack_params);
+    atp_range = attack_params_atp_max - get_attack_params_atp_min(attack_params);
     this->atp_range = atp_range;
     this->base_atp_range = atp_range;
-    evp = this->stat_block->stats.evp + *(s16 *)((s8 *)(*(u8 **)((s8 *)((u8 *)this) + 0x31C)) + 0);
+    evp = stat_block->stats.evp + param_block->values[0];
     this->evp = evp;
     this->base_evp = evp;
-    dfp = this->stat_block->stats.dfp + *(s32 *)((s8 *)(*(u8 **)((s8 *)((u8 *)this) + 0x31C)) + 0x1C);
+    dfp = stat_block->stats.dfp + param_block->value_1c;
     this->dfp = dfp;
     this->base_dfp = dfp;
-    this->ata = (s16) (this->stat_block->stats.ata + this->attack_params->get_ata());
-    this->lck = (s16) this->stat_block->stats.lck;
-    this->m_2f2 = (s16) *(s16 *)((s8 *)(*(u8 **)((s8 *)((u8 *)this) + 0x31C)) + 2);
-    this->m_2f4 = (s16) *(s16 *)((s8 *)(*(u8 **)((s8 *)((u8 *)this) + 0x31C)) + 6);
-    *(s16 *)((s8 *)((u8 *)this) + 0x2F6) = (s16) *(s16 *)((s8 *)(*(u8 **)((s8 *)((u8 *)this) + 0x31C)) + 4);
-    this->m_2f8 = (s16) *(s16 *)((s8 *)(*(u8 **)((s8 *)((u8 *)this) + 0x31C)) + 0xA);
-    *(s16 *)((s8 *)((u8 *)this) + 0x2FA) = (s16) *(s16 *)((s8 *)(*(u8 **)((s8 *)((u8 *)this) + 0x31C)) + 8);
+    this->ata = (s16) (stat_block->stats.ata + attack_params->get_ata());
+    this->lck = (s16) stat_block->stats.lck;
+    this->m_2f2 = (s16) param_block->values[1];
+    this->m_2f4 = (s16) param_block->values[3];
+    m_2f6 = (s16) param_block->values[2];
+    this->m_2f8 = (s16) param_block->values[5];
+    m_2fa = (s16) param_block->values[4];
     this->adjust_atp((s32)((f32)this->get_base_atp() * this->get_status_effect_amount(2)));
     this->adjust_atp_range((s32)((f32)this->get_base_atp_range() * this->get_status_effect_amount(2)));
     this->adjust_dfp((s32)((f32)this->get_base_dfp() * this->get_status_effect_amount(3)));

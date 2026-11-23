@@ -8,6 +8,7 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/system/vector.h"
 #include "pso/npc/TObjNpcBase.h"
+#include "pso/player/TPlyDispData.h"
 #include "pso/npc/TObjNpcFemaleBase.h"
 #include "pso/system/task/TObject.h"
 #include "pso/camera/TCameraConversation.h"
@@ -76,7 +77,7 @@ void TObjNpcBase::draw_debug_info() {
 }
 #pragma pool_data reset
 
-NpcBattleStats npc_default_battle_stats = { {0}, 20.0f };
+player_stats npc_default_battle_stats = { {0}, 0, 20.0f, 0.0f, 0, 0, 0 };
 NpcMovementParameters npc_movement_parameters = { 100.0f, 0.5f, 0x400 };
 CollisionBody npc_base_collision_body_desc = { {0.0f, 10.0f, 0.0f}, 5.0f, 0.0f, 0, 0x30203 };
 

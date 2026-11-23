@@ -49,9 +49,9 @@ s32 TLobby__sub_80418A7C(void);
 s32 TLobby__sub_8041A1D8(void);
 void TLobby__sub_80421FB8(NetworkReceiveCallback cb, NetworkReceivePrefix *hdr, NetPacket *pkt);
 s32 TLobby__sub_8040F9CC(void *, void *, void *, int);
-s32 TLobby__sub_804219D0(saddr arg0, saddr unused, saddr arg2);
+s32 route4_del(saddr dst, saddr mask, saddr gateway);
 s32 NetIPv4AddRoute(void *, void *, void *, s16, u8, u16); /* declared s32 here; the definition is s16 (u32, u32, u32, s16, u8, u16) */
-s32 net_add_ipv4_route(saddr arg0, saddr mask, saddr gateway);
+s32 route4_add(saddr dst, saddr mask, saddr gateway);
 s32 mark_connection_closed(s32);
 s16 TLobby__sub_8041DE1C(s16, s16, u32 *); /* declared s16 here; the definition returns s32 */
 void TLobby__sub_8041E590(s16);
@@ -70,7 +70,7 @@ s16 TUdpSocket__sub_8041118C();
 s16 NetIPv6InitNeighborDiscovery();
 s16 init_packet_fragment_pools();
 s16 NetTCPInit();
-/* inferred: the avetcp.a version strings (names from their contents); init_network_stack checks the banner's
+/* inferred: the avetcp.a version strings (names from their contents); avetcp_init checks the banner's
    leading '\n' through avetcp_version_banner_ptr */
 const u8 avetcp_version_banner[] =
     "\nAVE-TCPv6.0 for GC Ver 1.16.1 Build:Oct 23 2002 17:47:54 SDKVER 12Dec2001Patch3\n";
@@ -88,7 +88,7 @@ u32 network_stack_init_count;
 /* This C library caller passes a full register for the handle and a signed halfword length. */
 s16 TLobby__sub_8041DBD4(s32 handle, NetBufferRef *destination, s16 len, TcpCompletion callback);
 void TLobby__sub_8041E2EC(int, void *, void *); /* declared here with an s32 1st argument; the definition takes s16 */
-s32 tcp_connect_start(int, void *, u16);
+s32 AT_TCP_Connect(int, void *, s16); /* declared here with an s32 return and 1st argument; the definition is s16 (s16, void *, s16) */
 s32 tcp_connect(s32 a, IpAddr_80422B8C *addr, u16 port, IpAddr_80422B8C *opt);
 s32 TLobby__sub_8041E5E4(int, void *, u16);
 s16 copy_ipv4_interface_addresses(s16, void *, int, void *); /* declared s16 here; the definition is s32 (s16, NetBufferRef *, s16, s32) */
@@ -100,8 +100,8 @@ s16 bring_down_ipv4_interface(s16);
 s16 TLobby__sub_80412210(s16);
 s16 AT_IP4_IfUp(s32, s32, s32, s16);
 s16 TLobby__sub_80412CA4(void *, s16, s16, s16, s32);
-s16 TLobby__sub_8042315C(s16 arg0, P_8042315C *p);
-s32 cleanup_subsystems(void) {
+s16 if_config(s16 arg0, P_8042315C *p);
+s32 avetcp_term(void) {
     TLobby__sub_80419A7C();
     TLobby__sub_80409AA8();
     NetIPv6ShutdownNeighborDiscovery();
@@ -119,7 +119,7 @@ s32 cleanup_subsystems(void) {
 }
 
 /* Brings up the network stack subsystems in order, stopping at the first failure (result < 0). */
-s16 init_network_stack(void) {
+s16 avetcp_init(void) {
     s16 init_ucb_entries(void);
     s16 result;
     if ((s32) *avetcp_version_banner_ptr != 0xA) {
@@ -254,15 +254,15 @@ s32 raw_socket_deliver(NetPacket *pkt, u8 *src, u8 *dst, NetworkReceiveCallback 
     return 0;
 }
 
-s32 TLobby__sub_804219D0(saddr arg0, saddr unused, saddr arg2) {
+s32 route4_del(saddr dst, saddr mask, saddr gateway) {
     s32 result;
     lock_mutex(network_dispatch_state.lock_handle);
-    result = TLobby__sub_8040F9CC((void *)arg0, (void *)unused, (void *)arg2, 0);
+    result = TLobby__sub_8040F9CC((void *)dst, (void *)mask, (void *)gateway, 0);
     unlock_mutex(network_dispatch_state.lock_handle);
     return result;
 }
 
-s32 net_add_ipv4_route(saddr dst, saddr mask, saddr gateway) {
+s32 route4_add(saddr dst, saddr mask, saddr gateway) {
     s32 result;
     lock_mutex(network_dispatch_state.lock_handle);
     result = NetIPv4AddRoute((void *)dst, (void *)mask, (void *)gateway, 1, (int) (0U), (int) (0U));
@@ -300,7 +300,7 @@ s32 udp_close(s32 a) {
     return r;
 }
 
-s16 udp_sendto(s32 id, NetPacket *pkt, NetworkAddress *src, NetworkAddress *dst, u16 port, UdpSendOptions *opt); /* declared here with an s32 handle; the definition takes s16 */
+s16 AT_UDP_Send(s32 id, NetPacket *pkt, NetworkAddress *src, NetworkAddress *dst, u16 port, UdpSendOptions *opt); /* declared here with an s32 handle; the definition takes s16 */
 
 s16 udp_send(s32 h, NetworkAddress *src, NetworkAddress *dst, u16 port, UdpSendOptions *opt, s8 n, send_buffs *bufs) {
     NetworkAddress any_addr;
@@ -364,7 +364,7 @@ s16 udp_send(s32 h, NetworkAddress *src, NetworkAddress *dst, u16 port, UdpSendO
         unlock_mutex(network_dispatch_state.lock_handle);
         return 0;
     }
-    r = udp_sendto(h, pkt, src, dst, port, opt);
+    r = AT_UDP_Send(h, pkt, src, dst, port, opt);
     release_entry(pkt);
     unlock_mutex(network_dispatch_state.lock_handle);
     return r;
@@ -822,7 +822,7 @@ s32 tcp_connect(s32 a, IpAddr_80422B8C *addr, u16 port, IpAddr_80422B8C *opt) {
         return -9;
     }
     TLobby__sub_8041E2EC(a, p, opt);
-    r = tcp_connect_start(a, addr, port);
+    r = AT_TCP_Connect(a, addr, port);
     unlock_mutex(g->lock_handle);
     return r;
 }
@@ -930,7 +930,7 @@ s16 TLobby__sub_80422F70(s16 iface, s32 hdr_src, s32 len, saddr buf) {
     return total;
 }
 
-s16 TLobby__sub_80423064(s16 idx, s32 op) {
+s16 if_down(s16 idx, s32 op) {
     s16 tmp;
     s16 tmp2;
     s16 result;
@@ -967,7 +967,7 @@ s16 TLobby__sub_80423064(s16 idx, s32 op) {
     return result;
 }
 
-s16 TLobby__sub_8042315C(s16 iface, P_8042315C *p) {
+s16 if_config(s16 iface, P_8042315C *p) {
     s16 result;
     s32 intr;
     if (iface < 0) {

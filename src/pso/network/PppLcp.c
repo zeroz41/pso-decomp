@@ -11,7 +11,7 @@ typedef struct St_8040098C St_8040098C;
 #include "pso/network/NetworkRuntime.h"
 #include "pso/network/TLobby_804048E8.h"
 extern s32 is_timed_out(void);
-extern void set_ppp_auth_protocol(u16 protocol);
+extern void ppp_set_auth(u16 protocol);
 #include "pso/network/NetworkTransport.h"
 
 struct St_8040098C { s8 f0; u8 f1; u8 f2; u8 pad3[0x69]; u8 f6C[0x9C]; s32 f108; s32 f10C; };
@@ -111,7 +111,7 @@ s16 apply_lcp_config_to_sides(PppFsm *state, LcpConfig *config) {
     pp = pad;
 
     TLobby__sub_803FE600((O_803FE600 *)s);
-    set_flags_and_state(s);
+    PP_doppp_active(s);
     *s->sub = 1;
     if (*s->sub >= 1) {
         id = msg->mru;
@@ -239,7 +239,7 @@ void reset_connection_slot(PppFsm *self) {
     sub = (s8 *)self->sub;
     *sub = 4;
     TLobby__sub_803FD85C(sub + 0x6C);
-    reset_connection_state((void *)(sub + 0x38));
+    PP_pap_down((void *)(sub + 0x38));
 }
 
 void queue_command_81(PppFsm *fsm) {
@@ -544,7 +544,7 @@ s16 parse_lcp_option(saddr arg0, u8 *opts, u8 *arg2, u8 *hdr, s16 arg4) {
             }
         }
         if (res == 2) {
-            set_ppp_auth_protocol(side->got.auth_proto);
+            ppp_set_auth(side->got.auth_proto);
         }
         break;
     case 5:

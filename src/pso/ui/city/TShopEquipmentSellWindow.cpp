@@ -118,18 +118,18 @@ void TShopEquipmentSellWindow::update_state() {
 }
 
 void TShopEquipmentSellWindow::build_sell_list() {
-    uaddr ids[32];
+    TItem *items[32];
     s32 n;
     s32 i;
     s32 v;
     void *r;
-    n = this->player->inventory_objects->count_matching_items(ids);
+    n = this->player->inventory_objects->count_matching_items(items);
     this->entry_count = 0;
     for (i = 0; i < n; i++) {
-        if (ids[i] != 0) {
-            v = TShopEquipmentSellWindow::get_item_data_value(ids[i]);
-            if (v > 0 && ((TItem *)(ids[i]))->copy_to_item_data(&this->entries[this->entry_count].data) != 0) {
-                this->entries[this->entry_count].item = (TItem *)ids[i];
+        if (items[i] != NULL) {
+            v = TShopEquipmentSellWindow::get_item_data_value(reinterpret_cast<uaddr>(items[i]));
+            if (v > 0 && items[i]->copy_to_item_data(&this->entries[this->entry_count].data) != 0) {
+                this->entries[this->entry_count].item = (TItem *)reinterpret_cast<uaddr>(items[i]);
                 this->entries[this->entry_count].data.data2.price = v / 8;
                 this->entries[this->entry_count].index = i;
                 this->entry_count++;

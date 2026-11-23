@@ -5,7 +5,7 @@
 /* The network stack's transport (NetworkTransport.c, C): the modem/PPPoE send path with its ring buffer and queue
  * thread, and the start-up parameters. */
 
-/* The start-up parameters (validate_and_store_net_params) and the sizes derived from them. */
+/* The start-up parameters (AT_SetInitParam) and the sizes derived from them. */
 typedef struct NetTransportParams {
     s16 a;
     s16 b;
@@ -41,9 +41,9 @@ s16 map_state_to_mode_id(void);
 s32 map_state_to_code(const char *number, s16 mode);
 s32 configure_modem_options(s32 ms_mode, s32 error_correction, s32 compression, s32 count, char *commands);
 s32 send_atx_command_mode(s32 mode);
-s32 get_net_params_and_size(NetTransportParams* out);
-s32 layout_net_params_buffer(u8* data, s32 size);
-s32 validate_and_store_net_params(NetTransportParams* params);
+s32 AT_GetInitParam(NetTransportParams* out);
+s32 AT_SetWorkArea(u8* data, s32 size);
+s32 AT_SetInitParam(NetTransportParams* params);
 void close_network_transport(void);
 void start_network_thread(void);
 u16 is_transport_connected(void);

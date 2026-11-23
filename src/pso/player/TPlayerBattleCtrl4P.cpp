@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/unk/TUnk_804999D0.h"
+#include "pso/npc/TNpcPlayer_802C3CD0.h"
 #include "pso/unk/TUnk_804C8678.h"
 #include "pso/system/CharacterSaveRecordLookup.h"
 #include "pso/ui/window/TWindowDuelResult.h"
@@ -192,7 +193,6 @@ typedef void (TPlayerBattleCtrl4P::*BattleAction)();
 extern "C" {
 s32 lbl_805D6AB0;
 // Japanese text (shift-JIS)
-void export_character_data__10TObjPlayerFPvPv(u8 *player, u8 *arg1);
 const char *TPlayerBattleCtrl4P__message_table_language0[7] = {
     "\x82\xE0\x82\xA4\x88\xEA\x93\x78\x81\x41\x93\xAF\x82\xB6\x83\x8B\x81\x5B\x83\x8B\x82\xC5\n\x8C\x88\x93\xAC\x82\xF0\x8D\x73\x82\xA2\x82\xDC\x82\xB7\x82\xA9\x81\x48", // もう一度、同じルールで 決闘を行いますか？
     "\x82\xCD\x82\xA2", // はい
@@ -242,7 +242,7 @@ TPlayerBattleCtrl4P::TPlayerBattleCtrl4P(TObject *parent) : TObject(parent) {
     for (i = 0; i < 4; i++) {
         saddr pl = (saddr)get_player_by_client_id(i);
         if (pl != 0) {
-            export_character_data__10TObjPlayerFPvPv((u8 *)pl, (u8 *)(TAdSinglePlyChrSelectGC::get_char_index((u32)i)));
+            export_character_data__10TObjPlayerFPvPv(reinterpret_cast<TObjPlayer *>(pl), reinterpret_cast<TPlyCharData *>(TAdSinglePlyChrSelectGC::get_char_index((u32)i)));
         }
     }
     TPlayerBattleCtrl4P__instance = this;

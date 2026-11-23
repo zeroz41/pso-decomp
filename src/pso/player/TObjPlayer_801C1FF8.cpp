@@ -1,3 +1,4 @@
+#include "pso/player/PlayerLevelTable.h"
 #include "types.h"
 #include "pso/system/data/FlagWord.h"
 #include "pso/player/TPlyCharData_8007214C.h"
@@ -50,8 +51,8 @@ s32 is_field_0_positive(s32 *arg0) {
 }
 
 void* get_ptr_8(void* p) { return (char*)p + 0x8; }
-void TObjPlayer::set_field4(s32 v) { *(s32*)((char*)this + 0x4) = v; }
-Unk_801C2068::Unk_801C2068() {}
+void PendingItemDrop::set_source_id(s32 id) { source_id = id; }
+PendingItemDrop::PendingItemDrop() {}
 Unk_801C2098::Unk_801C2098() { state = 0; }
 
 S_801C20A4 *init_player_telepipe_record(S_801C20A4 *arg0) {
@@ -69,13 +70,13 @@ S_801C20A4 *init_player_telepipe_record(S_801C20A4 *arg0) {
 
 void set_field_0_s32(void* p, s32 v) { *(s32*)((char*)p + 0x0) = v; }
 int TObjPlayer::sub_801C2114() { return 0; }
-u8 TObjPlayer::get_field_5() { return *(u8*)((char*)this + 0x5); }
-u8 TObjPlayer::get_byte_4() { return *(u8*)((char*)this + 0x4); }
-u8 get_byte_3(void* p) { return *(u8*)((char*)p + 0x3); }
-u8 get_byte_2(void* p) { return *(u8*)((char*)p + 0x2); }
-u8 TObjPlayer::get_team_id() { return *(u8*)((char*)this + 0x1); }
-u8 TObjPlayer::get_char_class() { return *(u8*)((char*)this + 0x0); }
-s32 get_level_row_exp_threshold(void* p) { return *(s32*)((char*)p + 0x8); }
+u8 get_field_5__10TObjPlayerFv(const PlayerLevelTableRow *row) { return row->growth[5]; }
+u8 get_byte_4__10TObjPlayerFv(const PlayerLevelTableRow *row) { return row->growth[4]; }
+u8 get_byte_3(const PlayerLevelTableRow *row) { return row->growth[3]; }
+u8 get_byte_2(const PlayerLevelTableRow *row) { return row->growth[2]; }
+u8 get_team_id__10TObjPlayerFv(const PlayerLevelTableRow *row) { return row->growth[1]; }
+u8 get_char_class__10TObjPlayerFv(const PlayerLevelTableRow *row) { return row->growth[0]; }
+s32 get_level_row_exp_threshold(const PlayerLevelTableRow *row) { return row->experience; }
 
 u32 TObjPlayer::unpack_u32_hi() {
     O_801C2154 *self = (O_801C2154 *)this;

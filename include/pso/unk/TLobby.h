@@ -178,7 +178,6 @@ struct TLobby : public TObject {
     static int get_lobby_flag();
     void bswap_player_packet();
     void update_and_send();
-    void bswap_item();
     static TLobbyFloorItemEntry *copy_floor_item_entry(TLobbyFloorItemEntry *dst, TLobbyFloorItemEntry *src);
     static void set_boss_buf_entry(int a0, int a1);
     static int get_sync_counter(u16 a0);
@@ -193,10 +192,6 @@ struct TLobby : public TObject {
     void process_and_dispatch_packet();
     void bswap_6xa2_fields();
     void *build_6x06_guild_card_packet();
-    void send_item_packet();
-    void bswap_item_packet();
-    void *init_header_packet();
-    void *init_header();
     void bswap_packet();
     static s32 apply_table_entry(s16 source, void * _w1);
     void copy_short_fields(void *arg1);
@@ -280,10 +275,6 @@ struct TLobby : public TObject {
     void bswap_set_battle_mode_data();
     void send_6x7D_set_battle_mode_data();
     static s32 free_if_positive(s32 arg0, s16 arg1);
-    void reduce_item_amount(s32 arg1, saddr node, s32 arg3);
-    s32 use_item(saddr player, s32 key, s32 amount);
-    void set_globals_and_update(int a1, int a2);
-    int set_globals_and_notify(TObjPlayer *player, void *records);
     void update_all_children();
     void set_volume(u8 vol);
     void set_validated_field_0x11(u8 arg1);
@@ -566,8 +557,6 @@ struct TLobby : public TObject {
     static s32 tmp_buf_is_free();
     static u8 *tmp_buf_use_req(const char *name);
     void handle_quest_download_chunk();
-    void reduce_owner_matched_items();
-    void reduce_child_item_amounts();
     static void update_battle_mode();
     static void update_trade_partner();
     static void close_trade_request();
@@ -727,8 +716,8 @@ struct TLobby : public TObject {
     static void handle_choice_search_options(TRecvChoiceSearchOptions *options);
     static void init_keyboard_buffer();
     static s32 poll_connect();
-    static void flush_pending_flag2();
-    static void set_battle_flag(s32 gateway);
+    static void remove_default_route();
+    static void set_default_gateway(s32 gateway);
     static s32 query_task_active();
     static int get_link_status_value();
     void cleanup();
@@ -957,7 +946,6 @@ struct TLobby : public TObject {
     static s32 calc_player_rankings(void *);
     static s32 change_file_extension(void *, void *, void *);
     static void check_bin_model_loaded(void *, void *);
-    static s32 check_switch_available(void *, int);
     static s32 check_team_balance(void *, int);
     static void check_valid_state(int);
     static void close_all_windows(void *);

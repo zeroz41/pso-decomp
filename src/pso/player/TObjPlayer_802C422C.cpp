@@ -82,7 +82,6 @@ s32 copy_player_visual_record(void *, void *);
 s32 TObjPlayer__sub_8013A748(void *, void *);
 void is_slot_within_limit__10TObjPlayerFllUc(u8 id, s16 i, u8 v);
 s32 clamp_stats__10TObjPlayerFiPv(void *, void *, void *);
-s8 query_state_if_present__10TObjPlayerFPv(void *, void *);
 u8 TObjPlayer__sub_801C0124(void *, s16);
 s32 TObjPlayer__sub_802A1018();
 int init_action_config__10TObjPlayerFv(void*);
@@ -95,8 +94,8 @@ void export_player_record__10TObjPlayerFPvPv(TObjPlayer *player, u8 *arg1) {
     s32 i;
     ((TObjPlayer *)arg1)->set_flag_80000();
     copy_player_visual_record((u8 *)player + 0x370, arg1 + 0x85C);
-    *(s8 *)((s8 *)player + 0) = query_state_if_present__10TObjPlayerFPv(arg1, (void *) (player->get_ptr_4()));
-    ((TPlyItem *)(*(saddr *)((s8 *)arg1 + 0xD00)))->set_flag_and_update((saddr)arg1);
+    *(s8 *)((s8 *)player + 0) = query_state_if_present__10TObjPlayerFPv(reinterpret_cast<TObjPlayer *>(arg1), static_cast<TPlyInventoryItem *>(player->get_ptr_4()));
+    ((TObjPlayer *)arg1)->inventory_objects->set_flag_and_update((TObjPlayer *)arg1);
     clamp_stats__10TObjPlayerFiPv(arg1, (u8 *)player + 0x34C, (void *) (TObjPlayer::get_class_stat_entry((u8 *)arg1)));
     *(s8 *)((s8 *)player + 1) = ((TObjPlayer *)arg1)->get_hp_material_points();
     *(s8 *)((s8 *)player + 2) = ((TObjPlayer *)arg1)->get_tp_materials_clamped();

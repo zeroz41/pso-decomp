@@ -62,7 +62,6 @@ extern "C" {
 void decrement_clamped(void *, s32);
 void play_sound_effect(s32, s32, s32, s32);
 s32 TWindowCtrl__sub_8024A228(saddr);
-s32 send_6x25_equip_item(s32, s32, s32);
 s32 close_sub_window__10TObjPlayerFv();
 s32 try_send_6x27_use_item(s32, s32);
 }
@@ -84,7 +83,7 @@ void TWindowSubItemList::build_item_list() {
 
     pl = get_player_by_client_id(client_index);
     if (pl != NULL) {
-        item_count = pl->inventory_objects->run_and_get_result((saddr)ids);
+        item_count = pl->inventory_objects->run_and_get_result((s32 *)ids);
         for (i = 0; i < item_count; i++) {
             it = find_item_by_id(ids[i]);
             if (it != NULL) {
@@ -618,14 +617,14 @@ void TWindowSubItem::exec_item_command(saddr item_id, s32 arg2) {
             TItem *held = (TItem *)TObjPlayer::get_slot_value((void *)(player + 0xD04), item->get_attach_slot());
             if (held != NULL) {
                 t = held->get_item_id();
-                TObjPlayer::send_6x26_unequip_item((void *)player, t);
+                TObjPlayer::send_6x26_unequip_item((TObjPlayer *)player, t);
             }
-            send_6x25_equip_item(player, item_id, 0);
+            send_6x25_equip_item(reinterpret_cast<TObjPlayer *>(player), item_id, 0);
             this->state = 0x16;
             break;
         }
         case 2:
-            TObjPlayer::send_6x26_unequip_item((void *)player, item_id);
+            TObjPlayer::send_6x26_unequip_item((TObjPlayer *)player, item_id);
             this->state = 0x16;
             break;
         }

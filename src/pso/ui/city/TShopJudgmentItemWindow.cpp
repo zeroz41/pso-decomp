@@ -1,6 +1,7 @@
 #pragma defer_codegen on
 
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/player/TPlyDispData.h"
 #include "pso/unk/text_80104FCC.h"
 #include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/ui/city/THunterGuildSeqOnlineTask_802156A0.h"
@@ -287,7 +288,7 @@ void TShopJudgmentItemWindow::update_judge_confirm() {
                     help_window->close();
                     help_window = NULL;
                 }
-                try_spend_actor_meseta((u8 *)player, 0x64);
+                try_spend_actor_meseta(player, 0x64);
                 if (check_equip_requirements(player, &judged_item, NULL) != 0) {
                     send_message(0xC, 1);
                     yes_no_menu->close();
@@ -444,7 +445,7 @@ void TShopJudgmentItemWindow::handle_pay_confirm() {
                 this->timer = 3;
                 this->yes_no_menu->close();
                 this->yes_no_menu = NULL;
-                try_spend_actor_meseta((u8 *)this->player, 0x64);
+                try_spend_actor_meseta(reinterpret_cast<TObjChara *>(this->player), 0x64);
                 send_message(0xA, 1);
                 this->set_state(5);
                 return;

@@ -96,16 +96,16 @@ void TShopKeepItemWindow::update_state() {
 }
 
 void TShopKeepItemWindow::rebuild_item_list() {
-    uaddr buf[30];
+    TItem *buf[30];
     s32 count;
     s32 i;
     s32 cur;
     this->deposit_count = 1;
-    count = ((TPlyItem *)this->player->inventory_objects)->count_matching_items(buf);
+    count = player->inventory_objects->count_matching_items(buf);
     this->entry_count = 0;
     for (i = 0; i < count; i++) {
-        if (buf[i] != 0 && ((TItem *)(buf[i]))->copy_to_item_data(&this->entries[this->entry_count].data) != 0) {
-            this->entries[this->entry_count].item = (TItem *)buf[i];
+        if (buf[i] != NULL && buf[i]->copy_to_item_data(&this->entries[this->entry_count].data) != 0) {
+            this->entries[this->entry_count].item = buf[i];
             this->entries[this->entry_count].inventory_index = i;
             this->entry_count++;
         }

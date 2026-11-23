@@ -213,7 +213,7 @@ void TCheckRoomSequence::accept_meseta_deposit() {
         amount = number_input->get_value();
         slot = get_split_screen_slot();
         bank_credit_meseta(amount, slot);
-        try_spend_actor_meseta((u8 *)player, amount);
+        try_spend_actor_meseta(player, amount);
         copy_bank_to_card_window(slot);
         if (deposit_window != NULL) {
             deposit_window->set_meseta(get_room_data(slot));

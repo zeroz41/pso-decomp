@@ -1,7 +1,9 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/npc/TNpcPlayer_802C3CD0.h"
 #include <string.h>
 #include "pso/ui/window/TObjCHTimeWin.h"
 #include "pso/system/CharacterSaveRecordLookup.h"
+#include "pso/npc/TNpcPlayer.h"
 #include "pso/object/TObjWarnChime.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/vector.h"
@@ -328,7 +330,6 @@ struct Tbl_80292730 { s32 f0; s32 f4; s32 f8; Entry_80292730 *entries; };
 extern "C" {
 void copy_player_visual_record(void *, void *);
 void clamp_and_set_unit_value__10TObjPlayerFiUci(void *, u8, s16);
-void send_command__10TNpcPlayerFlScllPSc(u8, s32, s32, s32, void *);
 
 
 s32 TLobby::set_camera_height_if_valid(f32 farg0) {
@@ -390,7 +391,7 @@ void TLobby::rebuild_players_for_stage(s32 arg0) {
                 TPlyCharData cd;
                 copy_player_visual_record(&cd.m_disp_part2, &info);
                 TObjPlayer::begin_action_state(&cd);
-                send_command__10TNpcPlayerFlScllPSc(info.cls, tbl->f4, tbl->f8, tbl->f0, &cd);
+                TNpcPlayer::send_command(info.cls, tbl->f4, reinterpret_cast<const TPlyInventoryItem *>(tbl->f8), tbl->f0, &cd);
                 p = (TObjPlayer *)create_player_object(i, map, (u8 *)&cd);
                 if (p == NULL) {
                     return;
@@ -735,7 +736,6 @@ struct ByteBlock_690 { u8 bytes[0x690]; };
 
 extern "C" {
 void TLobby__sub_80293218(s32 client);
-s32 export_character_data__10TObjPlayerFPvPv(u32, u32);
 
 }
 void *create_obj_tag_challenge(void *tag_challenge);
@@ -767,7 +767,7 @@ void setup_split_screen(void) {
             player = (uaddr)get_player_by_client_id(i);
             char_index = (u32)TAdSinglePlyChrSelectGC::get_char_index(i);
             if ((player != 0U) && (char_index != 0U)) {
-                export_character_data__10TObjPlayerFPvPv(player, char_index);
+                export_character_data__10TObjPlayerFPvPv(reinterpret_cast<TObjPlayer *>(player), reinterpret_cast<TPlyCharData *>(char_index));
             }
             i += 1;
         } while (i != 4U);

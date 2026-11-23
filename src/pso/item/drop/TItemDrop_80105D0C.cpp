@@ -22,8 +22,6 @@
 #include "pso/system/GslArchive.h"
 #include "pso/unk/TLobby_801D6DC4.h"
 
-struct Item_80105EA4 { u8 type; u8 b1; u8 b2; };
-
 struct Names_80105DB0 { char *n[4]; };
 
 s32 TItemDrop__relocatable_load_buffer;
@@ -52,7 +50,7 @@ u8 fn_801D7168(void *);
 u8 fn_801D719C(void *);
 u8 fn_801D71D0(void *);
 u8 fn_801D7204(void *);
-void apply_drop_restrictions(void *arg0, Item_80105EA4 *it);
+void apply_drop_restrictions(void *arg0, TItemData *it);
 void format_drop_table_filename(char *out, const char *prefix);
 s32 get_item_star_count(s32 id);
 }
@@ -109,76 +107,76 @@ s32 TItemDrop::calc_drop_offset(s32 arg0) {
     return var_r31;
 }
 
-void apply_drop_restrictions(void *arg0, Item_80105EA4 *it) {
+void apply_drop_restrictions(void *arg0, TItemData *it) {
     void *p;
     u8 m;
     if (it == NULL) {
         return;
     }
     if (TItemDrop::can_drop() == 0 && TItemData::is_rare_item((u8 *)it) != 0) {
-        ((TItemData *)it)->init();
+        it->init();
         return;
     }
     if (get_game_play_mode() == 1) {
-        if (it->type == 1) {
-            if (it->b1 == 3) {
-                if ((u8)*(s8 *)((s8 *)it + 2) >= 0x33 && (u8)*(s8 *)((s8 *)it + 2) <= 0x38) {
-                    ((TItemData *)it)->init();
+        if (it->data1.data_u8[0] == 1) {
+            if (it->data1.data_u8[1] == 3) {
+                if (static_cast<u8>(*reinterpret_cast<const s8 *>(&it->data1.data_u8[2])) >= 0x33 && static_cast<u8>(*reinterpret_cast<const s8 *>(&it->data1.data_u8[2])) <= 0x38) {
+                    it->init();
                 }
             }
-        } else if (it->type == 4) {
-            ((TItemData *)it)->init();
+        } else if (it->data1.data_u8[0] == 4) {
+            it->init();
         }
     }
     p = lobby_rule_settings;
     if (((TLobby *)lobby_rule_settings)->get_rule_field_0() == TItemDrop__sub_80107B04(p)) {
         return;
     }
-    if (it->type == 0 || it->type == 1) {
+    if (it->data1.data_u8[0] == 0 || it->data1.data_u8[0] == 1) {
         switch (fn_801D71D0(p)) {
         case 2:
-            ((TItemData *)it)->init();
+            it->init();
             return;
         case 3:
             if (TItemData::is_rare_item((u8 *)it) == 1) {
-                ((TItemData *)it)->init();
+                it->init();
             }
             return;
         }
     }
-    if (it->type == 2) {
+    if (it->data1.data_u8[0] == 2) {
         if (fn_801D719C(p) == 1) {
-            ((TItemData *)it)->init();
+            it->init();
         }
-    } else if (it->type == 3) {
+    } else if (it->data1.data_u8[0] == 3) {
         if (fn_801D7168(p) == 2) {
-            ((TItemData *)it)->init();
-        } else if (it->b1 == 2) {
+            it->init();
+        } else if (it->data1.data_u8[1] == 2) {
             switch (fn_801D7204(p)) {
             case 0:
                 return;
             case 1:
-                ((TItemData *)it)->init();
+                it->init();
                 break;
             default:
                 m = ((TItemDrop *)p)->get_bool_from_1d6ddc();
                 if (m != 0) {
-                    it->b2 = it->b2 % m;
+                    it->data1.data_u8[2] = it->data1.data_u8[2] % m;
                 } else {
-                    it->b2 = 0;
+                    it->data1.data_u8[2] = 0;
                 }
                 break;
             }
-        } else if (it->b1 == 9) {
+        } else if (it->data1.data_u8[1] == 9) {
             if (TLobby__sub_801D6F94(p) == 1) {
-                ((TItemData *)it)->init();
+                it->init();
                 return;
             }
             return;
         }
-    } else if (it->type == 4) {
+    } else if (it->data1.data_u8[0] == 4) {
         if (TLobby__sub_801D6FFC(p) == 1) {
-            ((TItemData *)it)->init();
+            it->init();
         }
     }
 }
@@ -328,8 +326,6 @@ struct Tbl_80106E04 {
     u8 *rate;
 };
 
-struct Item_8010663C { u8 type; u8 sub; u8 pad2[0xE]; u32 id; };
-
 struct Tbl_8010663C { u8 pad[0x18]; s32 f18; u8 *chance; u8 *kind; };
 
 struct Tbl_80106FC8 {
@@ -371,7 +367,6 @@ s32 run_step__9TItemDropFl(s32, u32);
 extern const f32 lbl_805DAAD4;
 extern const f32 lbl_805DAAE4;
 
-void select_enemy_drop__9TItemDropFPviiPv(u8 *self, s32 area, s32 idx, Item_8010663C *item);
 void select_box_item__9TItemDropFiiPv(saddr rng, s32 arg1, u8 *arg2);
 u8 select_weighted_column_u16__9TItemDropFiiiii(saddr rng, saddr base, s32 off, s32 count, s32 stride);
 void roll_rare_weapon_attributes__9TItemDropFiPvi(saddr rng, Obj_80106F4C *item, s32 idx);
@@ -433,13 +428,13 @@ u32 TItemDrop::roll_channel_below(s32 count, u32 arg2) {
     return (u32)item_drop_rng_below((saddr)var_r3, count);
 }
 
-void select_enemy_drop__9TItemDropFPviiPv(u8 *self, s32 area, s32 idx, Item_8010663C *item) {
+void select_enemy_drop__9TItemDropFPviiPv(u8 *self, s32 area, s32 idx, TItemData *item) {
     s32 r;
     u8 kind;
     if (item == NULL) {
         return;
     }
-    ((TItemData *)item)->init();
+    item->init();
     if (area > 0x58) {
         return;
     }
@@ -469,30 +464,30 @@ void select_enemy_drop__9TItemDropFPviiPv(u8 *self, s32 area, s32 idx, Item_8010
     }
     switch (kind) {
     case 0:
-        item->type = 0;
+        item->data1.data_u8[0] = 0;
         break;
     case 1:
-        item->sub = item->type = 1;
+        item->data1.data_u8[1] = item->data1.data_u8[0] = 1;
         break;
     case 2:
-        item->type = 1;
-        item->sub = 2;
+        item->data1.data_u8[0] = 1;
+        item->data1.data_u8[1] = 2;
         break;
     case 3:
-        item->type = 1;
-        item->sub = 3;
+        item->data1.data_u8[0] = 1;
+        item->data1.data_u8[1] = 3;
         break;
     case 4:
-        item->type = 3;
+        item->data1.data_u8[0] = 3;
         break;
     case 5:
-        item->type = 4;
-        item->id = ((TItemDrop *)self)->roll_meseta_range((s32)(((Tbl_8010663C *)TItemDrop__common_probability_table)->f18), area, 0, 1);
+        item->data1.data_u8[0] = 4;
+        item->data2.data_u32 = ((TItemDrop *)self)->roll_meseta_range((s32)(((Tbl_8010663C *)TItemDrop__common_probability_table)->f18), area, 0, 1);
         break;
     default:
         return;
     }
-    if (item->type != 4) {
+    if (item->data1.data_u8[0] != 4) {
         ((TItemDrop *)self)->generate_drop_item(idx, (u8 *)item);
     }
 }
@@ -567,7 +562,7 @@ void TItemDrop::generate_drop_item(s32 idx, u8 *item) {
         item[0] = 5;
         break;
     }
-    apply_drop_restrictions(((u8 *)this), (Item_80105EA4 *)item);
+    apply_drop_restrictions(((u8 *)this), (TItemData *)item);
     TItemDrop::clear_item_if_player_picked_up(((u8 *)this), item);
 }
 
@@ -853,7 +848,7 @@ s32 try_generate_rare_item__9TItemDropFiPvPv(saddr rng, u8 *arg1, u8 *item) {
                     TItemDrop::handle_type3((void*)rng, (void*)item);
                     break;
                 }
-                apply_drop_restrictions((void *)rng, (Item_80105EA4 *)item);
+                apply_drop_restrictions((void *)rng, reinterpret_cast<TItemData *>(item));
                 TItemDrop::clear_item_if_player_picked_up((void *)rng, (void *)item);
                 return 1;
             }

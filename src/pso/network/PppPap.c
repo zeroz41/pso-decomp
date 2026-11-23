@@ -26,7 +26,7 @@ s32 init_net_block_620_secondary(void) {
     return 0;
 }
 
-s16 TLobby__sub_80402BB4(void *arg0, u32 timeout) {
+s16 PP_pap_monitor(void *arg0, u32 timeout) {
     PppFsm *c = (PppFsm *)arg0;
     NetThreadState *g;
     u8 *sub;
@@ -244,7 +244,7 @@ s32 TLobby__sub_80403168(u8 *source, u8 *pap_password, u8 *ppp_fsm) {
     return 0;
 }
 
-void reset_connection_state(void *self) {
+void PP_pap_down(void *self) {
     PppFsm *fsm;
 
     fsm = (PppFsm *)self;

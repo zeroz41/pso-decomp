@@ -6,13 +6,6 @@
 
 class TQuestThread;
 
-// The stats block TObjChara::set_motion_params reads.
-struct NpcBattleStats {
-    s16 unk_00[8];
-    f32 unk_10;
-    u32 unk_14[4];
-};
-
 // What TObjEnemy::movementParameters points at for the town NPCs.
 struct NpcMovementParameters {
     f32 unk_00;
@@ -63,7 +56,7 @@ struct TObjNpcBase : public TObjEnemy {
 };
 
 extern "C" {
-extern NpcBattleStats npc_default_battle_stats;
+extern player_stats npc_default_battle_stats;
 extern NpcMovementParameters npc_movement_parameters;
 extern CollisionBody npc_base_collision_body_desc;
 }

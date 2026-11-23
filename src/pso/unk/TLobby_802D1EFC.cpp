@@ -43,15 +43,15 @@ void snapshot_player_trade_inventory(saddr arg0, s32 client) {
     s32 temp_r29;
     s32 var_r31;
     u8 *trade_obj_ptr;
-    u8 *player;
+    TObjPlayer *player;
     s32 i;
     u8 *temp_r3_2;
     player_stats *temp_r3_3;
     u8 *var_r25;
     ((TLobby *)arg0)->update_both_halves();
-    player = (u8 *)get_player_by_client_id(client);
+    player = get_player_by_client_id(client);
     if (player != NULL) {
-        temp_r29 = ((TPlyItem *)(((TObjPlayer *)player)->inventory_objects))->run_and_get_result((saddr)((void *) ids));
+        temp_r29 = player->inventory_objects->run_and_get_result(ids);
         var_r25 = (unsigned char *) (arg0 + 0xF8);
         i = 0;
         while (i < temp_r29) {
@@ -67,7 +67,7 @@ void snapshot_player_trade_inventory(saddr arg0, s32 client) {
             i += 1;
         }
         trade_obj_ptr = (u8 *) ((TLobby *)(arg0 + 0xF8))->get_trade_obj_ptr();
-        temp_r3_3 = ((TObjPlayer *)player)->get_stats();
+        temp_r3_3 = player->get_stats();
         *(s32 *)((s8 *)trade_obj_ptr + 0) = -0xFF;
         if (temp_r3_3 != NULL) {
             *(s32 *)((s8 *)trade_obj_ptr + 4) = temp_r3_3->meseta;

@@ -1,35 +1,26 @@
+#include "pso/item/InventoryEntryCopy.h"
+#include "pso/player/TPlyInventory.h"
 #include "types.h"
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/unk/TLobby.h"
-struct Entry_802C3A50 {
-    u8 a;
-    u8 b;
-    u8 pad[2];
-    s32 c;
-    u8 item[0x14];
-};
-
-struct E_802C39F8 { u8 b[0x1C]; };
-
 extern "C" {
-void copy_item_entry_array(s32 n, struct Entry_802C3A50 *src, struct Entry_802C3A50 *dst);
-s32 fn_801C1BA8(void *, void *);
-void copy_entries(s32 count, E_802C39F8 *source, E_802C39F8 *destination);
 
-void copy_entries(s32 count, E_802C39F8 *source, E_802C39F8 *destination) {
+void copy_entries(s32 count, const TPlyInventoryItem *source, TPlyInventoryItem *destination) {
     s32 i;
     for (i = 0; i < count; i++) {
         fn_801C1BA8(destination++, source++);
     }
 }
 
-void copy_item_entry_array(s32 n, struct Entry_802C3A50 *src, struct Entry_802C3A50 *dst) {
+// The template copy keeps the two reserved presence bytes already in the destination.
+void copy_item_entry_array(s32 n, const TPlyInventoryItem *src, TPlyInventoryItem *dst) {
     s32 i;
     for (i = 0; i < n; i++) {
-        dst->a = src->a;
-        dst->b = src->b;
-        dst->c = src->c;
-        ((TItemData *)(dst->item))->copy_from((TItemData *)(src->item));
+        // The retail copy stores the presence bytes before the flags word.
+        *reinterpret_cast<volatile u8 *>(&dst->m_present[0]) = *reinterpret_cast<const u8 *>(&src->m_present[0]);
+        *reinterpret_cast<volatile u8 *>(&dst->m_present[1]) = *reinterpret_cast<const volatile u8 *>(&src->m_present[1]);
+        *static_cast<volatile u32 *>(&dst->m_flags) = *static_cast<const volatile u32 *>(&src->m_flags);
+        dst->m_data.copy_from(const_cast<TItemData *>(&src->m_data));
         dst++;
         src++;
     }

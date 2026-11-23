@@ -8,6 +8,8 @@
 #include "pso/system/save/CardSaveFile.h"
 #include "pso/system/save/CharacterFile.h"
 #include "pso/unk/text_8007C0CC.h"
+#include "pso/player/TObjPlayer_802C367C.h"
+#include "pso/player/TPlyCharData.h"
 #include "types.h"
 #include "pso/ui/window/TWindowKeyBoardHard_801A529C.h"
 #include "pso/ui/window/TWindowShortListCtrl_8026E7DC.h"
@@ -588,7 +590,6 @@ s32 TAdSinglePlyChrSelectGC__sub_801FDA4C(void);
 s32 TAdSinglePlyChrSelectGC__sub_801FDAAC(void);
 int TAdSinglePlyChrSelectGC__sub_801FD990(s32 chan);
 s32 __dt__12TPlyCharDataFv(s32 arg0, s16 arg1);
-int init_new_character_data(void *p);
 void init_fresh_character_slot(s32 arg0);
 s32 get_field_118__22TAdEnterSerialAccessGCFv();
 extern s32 lbl_805D55C0;
@@ -2422,7 +2423,6 @@ struct Str_80200A44 {
 
 extern "C" {
 s32 reinit__17TWindowSubComCardFi(s32 object);
-s32 init_character_stats_for_level(u8, void *, s32);
 void init_class_starting_inventory(void *arg0);
 void TLobby__sub_801F494C(u16 client);
 void TAdSinglePlyChrSelectGC__sub_802000C8(void *arg0_, void *arg1);
@@ -2777,7 +2777,8 @@ void TAdSinglePlyChrSelectGC::reset_character_data(void) {
         } while (i < 0x1E);
         *(s8 *)((s8 *)selected_character_data + 0) = 0;
         init_class_starting_inventory((void *)selected_character_data);
-        init_character_stats_for_level(*(u8 *)((s8 *)selected_character_data + 0x3A1), (void *)selected_character_data, *(s32 *)((s8 *)selected_character_data + 0x364));
+        TPlyCharData *character = (TPlyCharData *)selected_character_data;
+        init_character_stats_for_level(character->m_disp_part2.char_class, character, character->m_stats.level);
         ((TObjPlayer *)selected_character_data)->reset_action_palette();
         ((TObjPlayer *)selected_character_data)->m_36c = 0;
     }

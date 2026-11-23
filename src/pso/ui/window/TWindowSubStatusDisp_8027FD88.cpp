@@ -484,7 +484,7 @@ void vt11__20TWindowSubStatusDispFv(Wn_80280F14 *arg0) {
     En_80280F14 *e;
     p = (VObj_18_eecf68 *)get_player_by_client_id(arg0->f20);
     if (p != NULL) {
-        q = reinterpret_cast<player_stats *>(((TObjPlayer *)p)->get_stats());
+        q = ((TObjPlayer *)p)->get_stats();
         if (q != NULL) {
             e = ((En_80280F14 *)(void *)((TWindowBase *)arg0)->get_array_entry(2));
             e->v = p->m14() + 1;

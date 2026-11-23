@@ -1,3 +1,4 @@
+#include "pso/npc/TNpcPlayer_802C3CD0.h"
 #include "pso/ui/window/TWindowDuelResult.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -85,7 +86,6 @@ extern u8 lobby_rule_settings[];
 extern s32 battle_team_table[];
 extern Ent_801C26A8 duel_result_table[];
 s32 TLobby__sub_801C26A8(void);
-s32 export_character_data__10TObjPlayerFPvPv(s32, s32);
 extern u8 player_battle_ctrl_text_japanese[];
 extern u8 player_battle_ctrl_text_english[];
 struct S801C295C_801C25B4 { s32 f0; s8 f4; s8 pad[0x13]; };
@@ -416,7 +416,7 @@ s32 battle_intro_value_table[4];
 char battle_intro_message_buffer[0x100];
 
 TPlayerBattleCtrl::TPlayerBattleCtrl(TObject *parent) : TObject(parent) {
-    s32 player;
+    TObjPlayer *player;
     m_name = TPlayerBattleCtrl__name;
     unk_28 = 0;
     state_24 = 0;
@@ -426,9 +426,9 @@ TPlayerBattleCtrl::TPlayerBattleCtrl(TObject *parent) : TObject(parent) {
     window_50 = NULL;
     window_54 = NULL;
     text = (current_language == LANGUAGE_JAPANESE) ? player_battle_ctrl_text_japanese : player_battle_ctrl_text_english;
-    player = (saddr)get_local_player();
-    if (player != 0) {
-        export_character_data__10TObjPlayerFPvPv(player, (saddr)TAdSinglePlyChrSelectGC::get_char_index(0xFFFF));
+    player = get_local_player();
+    if (player != NULL) {
+        export_character_data__10TObjPlayerFPvPv(player, TAdSinglePlyChrSelectGC::get_char_index(0xFFFF));
     }
     TLobby::stop_audio_streams();
     unk_64 = 0;

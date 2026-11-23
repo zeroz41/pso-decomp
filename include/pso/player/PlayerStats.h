@@ -2,6 +2,7 @@
 #define PSO_PLAYER_PLAYERSTATS_H
 
 #include "types.h"
+#include <stddef.h>
 #include "pso/system/byteswap.h"
 
 struct stats {
@@ -41,5 +42,10 @@ struct player_stats {
     int exp;
     int meseta;
 };
+
+LAYOUT_ASSERT(PlayerBaseStatsSize, sizeof(player_stats) == 0x24);
+LAYOUT_ASSERT(PlayerBaseStatsProportionsOffset, offsetof(player_stats, proportions) == 0x10);
+LAYOUT_ASSERT(PlayerBaseStatsLevelOffset, offsetof(player_stats, level) == 0x18);
+LAYOUT_ASSERT(PlayerBaseStatsMesetaOffset, offsetof(player_stats, meseta) == 0x20);
 
 #endif

@@ -715,7 +715,7 @@ force_active:
   - gvm_stream_read
   - gvm_stream_seek
   - copy_u16_bytes
-  - dhcp_begin_discover
+  - DHCP_request
   - dhcp_get_option
   - TLobby__sub_80425D88
   - TLobby__sub_80426110
@@ -1573,10 +1573,10 @@ force_active:
   - TObjPlayer__sub_801C6FE0
   - fn_801C7098__19ContactSurfaceStateFv
   - TObjPlayer__sub_801D45B0
-  - TObjPlayer__sub_801D4678
-  - TObjPlayer__sub_801D46D4
-  - TObjPlayer__sub_801D4730
-  - TObjPlayer__sub_801D47D8
+  - __dt__19InventorySortBufferFv
+  - __ct__19InventorySortBufferFl
+  - __ct__18InventorySortEntryFv
+  - __as__18InventorySortEntryFR18InventorySortEntry
   - TObjPlayer__sub_801D8A38
   - TObjPlayer__sub_801D9C34
   - TObjPlayer__sub_8023E034
@@ -7071,7 +7071,7 @@ force_active:
   - init_gx_lighting_defaults__Fv
   - init_hall_boss_scene__14TBoss6PlotFalzFv
   - init_hanger__11TBoss4Type2Fv
-  - init_header__6TLobbyFv
+  - __ct__18G_DropItem_DC_6x5FFv
   - init_header__9TWindowDDFv
   - init_help_texts__15TWindowHelpItemFv
   - init_hp_and_state__11TBoss6Type1Fv
@@ -15739,7 +15739,7 @@ force_active:
   - solo_play_result_window_extent
   - some_stub__9TProtocolFv
   - sorcerers_cane_ct__FPUcPUcl
-  - sort_by_key__10TObjPlayerFv
+  - sort_by_key__19InventorySortBufferFv
   - sound_bank_file_crc16
   - sound_bank_filename_a_enemy_pool
   - sound_bank_filename_a_enemy_proj

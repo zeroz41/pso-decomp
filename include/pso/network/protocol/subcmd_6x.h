@@ -289,13 +289,16 @@ struct G_DropItem_6x2A {
 };
 
 struct G_DropItem_DC_6x5F {
- struct G_UnusedHeader header;
- struct FloorItem item;
+ G_ClientIDHeader header;
+ FloorItem item;
+ G_DropItem_DC_6x5F();
 };
 
 struct G_DropItem_PC_V3_BB_6x5F {
- struct G_DropItem_DC_6x5F __base_G_DropItem_DC_6x5F;
- u32 unused3;
+ G_DropItem_DC_6x5F __base_G_DropItem_DC_6x5F;
+ u8 version[4];
+ G_DropItem_PC_V3_BB_6x5F();
+ void send();
 };
 
 struct G_DropStackedItem_DC_6x5D {
@@ -828,17 +831,17 @@ struct G_ShrinkPlayer_6x87 {
 
 struct G_StandardDropItemRequest_DC_6x60 {
  struct G_UnusedHeader header;
- u8 floor;
+ s8 floor;
  u8 rt_index;
- u16 entity_index;
+ s16 entity_index;
  struct VectorXZF pos;
- u16 room;
- u16 ignore_def;
+ s16 room;
+ s16 ignore_def;
 };
 
 struct G_StandardDropItemRequest_PC_V3_BB_6x60 {
  struct G_StandardDropItemRequest_DC_6x60 __base_G_StandardDropItemRequest_DC_6x60;
- u8 effective_area;
+ s8 effective_area;
  u8 unused[3];
 };
 

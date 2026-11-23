@@ -33,7 +33,7 @@ s32 init_net_state_b(void) {
     return 0;
 }
 
-s16 TLobby__sub_803FC1CC(PppFsm *c, s32 timeout) {
+s16 PP_chap_monitor(PppFsm *c, s32 timeout) {
     PppChap *auth;
     u8 *sub;
     NetThreadState *g;

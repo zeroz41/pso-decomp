@@ -44,7 +44,6 @@ s16 get_actor_hp__9TObjCharaFv(void *object);
 s16 get_actor_tp(void *object);
 s32 obj_is_hit_receivable(u8 *target);
 void show_meseta_label(saddr player, u32 arg1, s32 arg2, s32 arg3);
-s32 try_spend_actor_meseta(u8 *player, s32 count);
 s32 update_slow_status__9TObjCharaFv(u8 *player);
 s32 update_attack_stat_status__9TObjCharaFv(u8 *player);
 // 1 when csnLookAt finds a wall between the body centre and `target` (a far target is

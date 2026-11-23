@@ -59,9 +59,9 @@ typedef struct Ent_8017873C Ent_8017873C;
 void TOSymbolchatColli::init_collision_params() {
   s32 i;
   radius_sq = scale.x * scale.x;
-  memset(&stats, 0, sizeof(stats));
-  stats.unk_10 = position.y / 0.92f;
-  set_motion_params(&stats);
+  memset(&collision_stats, 0, sizeof(collision_stats));
+  collision_stats.proportions = position.y / 0.92f;
+  set_motion_params(&collision_stats);
   for (i = 0; i < 3; i++)
   {
     u32 v = set_params[i];

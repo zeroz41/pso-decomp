@@ -299,7 +299,7 @@ void TShopEquipmentListWindow::handle_buy_confirm() {
                 if (item != NULL && (equipped = player->get_equipped_item(item->get_attach_slot())) != NULL) {
                     TObjPlayer::send_6x26_unequip_item(player, equipped->get_item_id());
                 }
-                send_6x25_equip_item(player, it.id, 0);
+                send_6x25_equip_item(reinterpret_cast<TObjPlayer *>(player), it.id, 0);
                 update_list(&stock[i]);
                 if (is_single_purchase_shop_item((u8 *)&stock[i]) != 0) {
                     TLobby::clear_slot_field_f10(i, get_split_screen_slot());

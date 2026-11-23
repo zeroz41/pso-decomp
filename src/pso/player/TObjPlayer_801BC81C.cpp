@@ -1,3 +1,4 @@
+#include "pso/player/PlayerRequirementStats.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/system/task/TObject_80019A50.h"
@@ -141,8 +142,6 @@ void TObjPlayer::load_char_data(u8 *arg1) {
 int TObjPlayer::can_cast_technique() { return TObjPlayer::check_technique_castable((saddr)this); }
 void TObjPlayer::sub_801BCC50() {  }
 
-u8 *get_class_attack_template(TObjPlayer *player);
-u8 *get_class_defense_template(TObjPlayer *player);
 
 extern const f32 TObjPlayer__data_805DC28C;
 
@@ -151,18 +150,18 @@ void TObjPlayer::init_player_data(void *src) {
     f32 proportions;
     f32 yscale;
 
-    proportions = this->stat_data.proportions;
-    TLobby::copy_data(&this->stat_data, src);
-    this->stat_data.proportions = proportions;
-    this->stat_block = &this->stat_data;
+    proportions = this->base_stats.proportions;
+    TLobby::copy_data(&this->base_stats, src);
+    this->base_stats.proportions = proportions;
+    this->stat_block = &this->base_stats;
     this->apply_input_mode();
     this->set_move_mode_from_class_flags();
     this->init_trait_flags();
     ((TLobby *)(arg0 + 0xD5C))->copy_from((void *)(get_class_attack_template(this)));
     ((TLobby *)(arg0 + 0xD8C))->copy_entry((void *)(get_class_defense_template(this)));
     yscale = this->get_tp_class_factor();
-    this->recalc_combat_stats(this->stat_block, arg0 + 0xD5C, arg0 + 0xD8C, this->get_class_hp_factor(), yscale);
-    *(f32 *)((s8 *)this->bodies + 4) = (f32) (TObjPlayer__data_805DC28C * this->stat_block->proportions);
+    this->recalc_combat_stats(this->stat_block, &attack_stats, &resistance_stats, this->get_class_hp_factor(), yscale);
+    *(f32 *)((s8 *)this->bodies + 4) = (f32) (TObjPlayer__data_805DC28C * stat_block->proportions);
 }
 
 int TObjPlayer__sub_801BEF60(void*, int);

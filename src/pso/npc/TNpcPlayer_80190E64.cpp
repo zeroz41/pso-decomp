@@ -39,7 +39,6 @@ extern "C" {
 s32 init_collision_body_parts(void *, void *, int);
 extern RecoveredGlobal_8019118C_lbl_804B7C1C __vt__13TUnk_804B7C1C;
 u8 *TLobby__sub_8019118C(u8 *actor, s32 arg1, saddr arg2);
-extern s32 npc_player_char_data_buffer;
 void free_collision_body_parts(void *);
 f32 horizontal_distance_squared(void *, void *);
 int npc_proximity_target_id = -1;

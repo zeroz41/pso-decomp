@@ -103,7 +103,7 @@ void TWindowMenuIconLine::build_usable_item_list() {
     TObjPlayer *player;
     player = get_player_by_client_id(client_index);
     if (player != NULL) {
-        count = player->inventory_objects->run_and_get_result((saddr)list);
+        count = player->inventory_objects->run_and_get_result(list);
         for (i = 0; i < count; i++) {
             item = find_item_by_id(list[i]);
             if (item != NULL && item->get_usable_action_flags(4, 0) != 0) {
@@ -140,7 +140,7 @@ void TWindowMenuIconLine::build_item_shortcut_list() {
     u32 i;
     player = get_player_by_client_id(client_index);
     if (player != NULL) {
-        count = player->inventory_objects->run_and_get_result((saddr)ids);
+        count = player->inventory_objects->run_and_get_result(reinterpret_cast<s32 *>(ids));
         for (i = 0; i < count; i++) {
             item = find_item_by_id(ids[i]);
             if (item != NULL && item->get_usable_action_flags(2, 0) != 0 && item->get_usable_action_flags(1, 0) == 0) {
@@ -166,7 +166,7 @@ void TWindowMenuIconLine::build_weapon_shortcut_list() {
 
     player = get_player_by_client_id(client_index);
     if (player != NULL) {
-        count = player->inventory_objects->run_and_get_result((saddr)ids);
+        count = player->inventory_objects->run_and_get_result(ids);
         for (i = 0; i < count; i++) {
             item = find_item_by_id(ids[i]);
             if (item != NULL && item->get_item_type() == 0 && item->check_equip_requirements(player, &reason) != 0 &&
@@ -195,7 +195,7 @@ void TWindowMenuIconLine::add_armor_equip_candidates(u16 kind, u16 sub) {
     TObjPlayer *player;
     player = get_player_by_client_id(client_index);
     if (player != NULL) {
-        n = player->inventory_objects->run_and_get_result((saddr)ids);
+        n = player->inventory_objects->run_and_get_result(ids);
         for (i = 0; i < n; i++) {
             item = find_item_by_id(ids[i]);
             if (item != NULL && kind == item->get_item_type() && sub == item->get_item_group() &&
@@ -218,7 +218,7 @@ void TWindowMenuIconLine::build_mag_item_candidates(u16 kind) {
     TObjPlayer *player;
     player = get_player_by_client_id(client_index);
     if (player != NULL) {
-        n = player->inventory_objects->run_and_get_result((saddr)ids);
+        n = player->inventory_objects->run_and_get_result(ids);
         for (i = 0; i < n; i++) {
             item = find_item_by_id(ids[i]);
             if ((item != NULL) && (kind == item->get_item_type()) && (item->get_usable_action_flags(8, 0) != 0U)) {
@@ -240,7 +240,7 @@ void TWindowMenuIconLine::populate_judgment_item_list() {
     TObjPlayer *player;
     player = get_player_by_client_id(client_index);
     if (player != NULL) {
-        count = player->inventory_objects->run_and_get_result((saddr)list);
+        count = player->inventory_objects->run_and_get_result(list);
         for (i = 0; i < count; i++) {
             item = find_item_by_id(list[i]);
             if (item != NULL) {

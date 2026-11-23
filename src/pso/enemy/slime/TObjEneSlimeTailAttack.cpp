@@ -1494,7 +1494,7 @@ s32 TObjEneSlimeTailAttack::apply_tail_hits() {
         if (e != NULL) {
             TObjPlayer *pl = (TObjPlayer *)e;
             f32 lo = pl->position.y - 5.0f;
-            f32 hi = 5.0f + (pl->position.y + pl->stat_data.proportions);
+            f32 hi = 5.0f + (pl->position.y + pl->base_stats.proportions);
             if (!(self->body_center.y < lo) && !(self->body_center.y > hi) &&
                 !(horizontal_distance_squared(&self->body_center, &pl->position) > 56.25f)) {
                 f32 damage = e->receive_direct_attack(self->owner, hit, 0, -1, -1);

@@ -48,6 +48,12 @@ struct Unk_80152A48 {
 
 struct Vec;
 
+class TPlyInventoryItem;
+class TPlyCharData;
+struct disp_data_part2;
+
+extern disp_data_part2 *npc_player_char_data_buffer;
+
 struct TNpcPlayer : public TObject {
     struct AiParams {
         u16 npc_id;
@@ -150,7 +156,7 @@ struct TNpcPlayer : public TObject {
     void bswap_6x3E();
     void init_6x3E_packet();
     void init_equipment();
-    static s32 send_command(s32 arg0, s8 count, s32 arg2, s32 arg3, s8 *arg4);
+    static s32 send_command(s32 cls, s32 count, const TPlyInventoryItem *source, s32 level, TPlyCharData *character);
     static u8 *get_lobby_entry_ptr();
     static void send_warp_toward_player(u16 id, const Vec *destination);
     static void send_code_45_to_player(int client);

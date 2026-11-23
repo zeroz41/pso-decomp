@@ -58,7 +58,7 @@ s32 TLobby__sub_8040B838(u8 *dst, char *src, s32 max);
 #pragma dont_inline off
 #pragma inline_depth(4)
 
-s32 TLobby__sub_8040A3C0(void) {
+s32 dns_term(void) {
     s32 ret;
     s16 i;
     DnsResolverState *m = (DnsResolverState *)&dns_resolver_state;

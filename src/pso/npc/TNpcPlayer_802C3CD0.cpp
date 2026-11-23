@@ -1,3 +1,7 @@
+#include "pso/item/InventoryEntryCopy.h"
+#include "pso/player/TObjPlayer_802C367C.h"
+#include "pso/player/TPlyCharData.h"
+#include "pso/player/TPlyItem.h"
 #include "types.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/unk/TLobby.h"
@@ -50,22 +54,21 @@ struct Item_802C3F74 : VBase_802C3F74 {
 extern "C" {
 void copy_player_visual_record(void *, void *);
 void clamp_stats__10TObjPlayerFiPv(void *, void *, s32);
-s8 query_state_if_present__10TObjPlayerFPv(void *, s32);
 u8 TObjPlayer__sub_801C0124(void *, s16);
 u8 *TObjPlayer__sub_802C4688(O_802C4688 *self, s32 i);
 E_802C4698 *TObjPlayer__sub_802C4698(O_802C4698 *self, s32 i);
 saddr reset(s32);
-s32 export_inventory_entry__10TObjPlayerFiPv(Item_802C3F74 *, s32);
-int init_character_stats_for_level(s32, s8 *, s32);
-int copy_item_entry_array(s8, s32, s32);
 
-s32 TNpcPlayer::send_command(s32 cls, s8 count, s32 src, s32 level, s8 *arg4) {
-    *arg4 = count;
-    copy_item_entry_array(count, src, (saddr)((TObjPlayer *)arg4)->get_ptr_4());
-    init_character_stats_for_level(cls, arg4, level);
+s32 TNpcPlayer::send_command(s32 cls, s32 count, const TPlyInventoryItem *source, s32 level, TPlyCharData *character) {
+    character->m_inventory.m_num_items = count;
+    copy_item_entry_array(count, source,
+        static_cast<TPlyInventoryItem *>(reinterpret_cast<TObjPlayer *>(character)->get_ptr_4()));
+    init_character_stats_for_level(cls, character, level);
     return 1;
 }
-void export_character_data__10TObjPlayerFPvPv(u8 *player, u8 *arg1) {
+void export_character_data__10TObjPlayerFPvPv(TObjPlayer *player, TPlyCharData *character) {
+    u8 *arg0 = reinterpret_cast<u8 *>(player);
+    u8 *arg1 = reinterpret_cast<u8 *>(character);
     s32 i;
     s16 hp;
     s16 facing;
@@ -73,46 +76,46 @@ void export_character_data__10TObjPlayerFPvPv(u8 *player, u8 *arg1) {
     E_802C4698 *e;
     s32 j;
     s32 k;
-    ((TObjPlayer *)player)->set_flag_80000();
-    *(s8 *)((s8 *)arg1 + 0) = query_state_if_present__10TObjPlayerFPv(player, (saddr)((TObjPlayer *)arg1)->get_ptr_4());
-    hp = ((TObjChara *)player)->get_actor_hp();
-    facing = get_actor_tp(player);
+    player->set_flag_80000();
+    character->m_inventory.m_num_items = query_state_if_present__10TObjPlayerFPv(reinterpret_cast<TObjPlayer *>(arg0), static_cast<TPlyInventoryItem *>(reinterpret_cast<TObjPlayer *>(arg1)->get_ptr_4()));
+    hp = ((TObjChara *)arg0)->get_actor_hp();
+    facing = get_actor_tp(arg0);
     for (i = 0; i != 0xD; i++) {
-        eq = ((TObjPlayer *)player)->get_equipped_item(i);
+        eq = player->get_equipped_item(i);
         if (eq != NULL) {
             eq->remove_equip_stats(1);
         }
     }
-    *(s8 *)((s8 *)arg1 + 1) = ((TObjPlayer *)player)->get_hp_material_points();
-    *(s8 *)((s8 *)arg1 + 2) = ((TObjPlayer *)player)->get_tp_materials_clamped();
-    ((TObjPlayer *)arg1)->set_flag_e7(((TObjPlayer *)player)->get_field_374());
-    ((TObjPlayer *)arg1)->set_flag_103(((TObjPlayer *)player)->get_field_374_state());
-    ((TObjPlayer *)arg1)->set_action_flags(((TObjPlayer *)player)->get_inventory_state());
-    ((TObjPlayer *)arg1)->set_byte_13b(((TObjPlayer *)player)->get_equip_flags());
-    ((TObjPlayer *)arg1)->set_field_157(((TObjPlayer *)player)->fn_801BE7BC());
-    TLobby::copy_data(arg1 + 0x34C, ((TObjPlayer *)player)->get_stats());
-    clamp_stats__10TObjPlayerFiPv(player, arg1 + 0x34C, (saddr)TObjPlayer::get_class_stat_entry(player));
-    copy_player_visual_record(arg1 + 0x370, player + 0x85C);
-    TObjPlayer__sub_8013A748(arg1 + 0x3C0, player + 0x500);
+    character->m_inventory.m_hp_materials_used = player->get_hp_material_points();
+    character->m_inventory.m_tp_materials_used = player->get_tp_materials_clamped();
+    ((TObjPlayer *)arg1)->set_flag_e7(player->get_field_374());
+    ((TObjPlayer *)arg1)->set_flag_103(player->get_field_374_state());
+    ((TObjPlayer *)arg1)->set_action_flags(player->get_inventory_state());
+    ((TObjPlayer *)arg1)->set_byte_13b(player->get_equip_flags());
+    ((TObjPlayer *)arg1)->set_field_157(player->fn_801BE7BC());
+    TLobby::copy_data(&character->m_stats, player->get_stats());
+    clamp_stats__10TObjPlayerFiPv(arg0, &character->m_stats, (saddr)TObjPlayer::get_class_stat_entry(arg0));
+    copy_player_visual_record(&character->m_disp_part2, arg0 + 0x85C);
+    TObjPlayer__sub_8013A748(&character->m_config, arg0 + 0x500);
     for (j = 0; j < 0x13; j++) {
         e = TObjPlayer__sub_802C4698((O_802C4698 *)arg1, j);
-        TObjPlayer::split_capped_value(TObjPlayer__sub_801C0124(player + 0x428, j),
+        TObjPlayer::split_capped_value(TObjPlayer__sub_801C0124(arg0 + 0x428, j),
             TObjPlayer__sub_802C4688((O_802C4688 *)arg1, j), (s8 *)e);
     }
     for (k = 0; k != 0xD; k++) {
-        eq = ((TObjPlayer *)player)->get_equipped_item(k);
+        eq = player->get_equipped_item(k);
         if (eq != NULL) {
             eq->add_equip_stats(1);
         }
     }
-    ((TObjPlayer *)player)->set_hp_clamped(hp);
-    ((TObjPlayer *)player)->set_tp(facing);
-    *(s8 *)((s8 *)arg1 + 3) = ((TObjPlayer *)player)->sub_801AFD8C();
-    ((TObjPlayer *)player)->apply_pending_action((saddr)arg1);
-    ((TObjPlayer *)player)->copy_mag_level_to_record((u8 *)arg1);
-    ((TObjPlayer *)player)->copy_byte_339_to_record((u8 *)arg1);
-    ((TObjPlayer *)player)->copy_battle_mode((u8 *)arg1);
-    ((TObjPlayer *)player)->clear_flag_80000();
+    player->set_hp_clamped(hp);
+    player->set_tp(facing);
+    character->m_inventory.m_language = player->sub_801AFD8C();
+    player->apply_pending_action((saddr)arg1);
+    player->copy_mag_level_to_record((u8 *)arg1);
+    player->copy_byte_339_to_record((u8 *)arg1);
+    player->copy_battle_mode((u8 *)arg1);
+    player->clear_flag_80000();
 }
 void export_state_to_record__10TObjPlayerFPvPv(u8 *player, s8 *arg1) {
     Item_802C3F74 *items[30];
@@ -129,7 +132,7 @@ void export_state_to_record__10TObjPlayerFPvPv(u8 *player, s8 *arg1) {
     saddr a;
     s32 m;
     ((TObjPlayer *)player)->set_flag_80000();
-    arg1[0] = query_state_if_present__10TObjPlayerFPv(player, (saddr)((TObjPlayer *)arg1)->get_ptr_4());
+    arg1[0] = query_state_if_present__10TObjPlayerFPv((TObjPlayer *)player, static_cast<TPlyInventoryItem *>(reinterpret_cast<TObjPlayer *>(arg1)->get_ptr_4()));
     hp = ((TObjChara *)player)->get_actor_hp();
     facing = get_actor_tp(player);
     p = items;
@@ -151,7 +154,7 @@ void export_state_to_record__10TObjPlayerFPvPv(u8 *player, s8 *arg1) {
     p = items;
     for (i = 0; i < 30; i++) {
         if (*p != NULL) {
-            export_inventory_entry__10TObjPlayerFiPv(*p, rec);
+            reinterpret_cast<TItem *>(*p)->export_inventory_entry(reinterpret_cast<TPlyInventoryItem *>(rec));
             p++;
         } else {
             reset(rec);

@@ -151,7 +151,7 @@ void TObjPlayer::get_pos(saddr out) {
 
 void TObjPlayer::spend_photon_blast_charge(f32 charge) { photon_blast_gauge.subtract_photon_blast_charge(charge); }
 
-void TObjPlayer::gain_photon_blast_chain_charge() { add_photon_blast_chain_charge((char*)this + 0x4ac); }
+void TObjPlayer::gain_photon_blast_chain_charge() { add_photon_blast_chain_charge(&photon_blast_gauge); }
 
 s32 TObjPlayer::vfunc_79() { return 0; }
 s32 TObjPlayer::check_camera_mode() {

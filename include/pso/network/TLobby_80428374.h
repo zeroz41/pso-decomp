@@ -78,7 +78,7 @@ typedef struct ModemConfig {
 } ModemConfig;
 
 /* The session (lbl_805BFF68, TLobby_803FAEA0.c): NetApplyConnectionConfig copies the connection request (NetConnectCfg)
- * into it and TLobby__sub_803FB7A4 connects with it. A dial script substitutes %t, %u and %p with phone_number, user and
+ * into it and ppp_open_sub connects with it. A dial script substitutes %t, %u and %p with phone_number, user and
  * password. */
 typedef struct NetSession {
     u16 flags;                  /* NetConnectCfg.flags; bit 2: no modem */
@@ -90,7 +90,7 @@ typedef struct NetSession {
     char *password;             /* 0x10 */
     char *phone_number;         /* 0x14 */
     void (*cb)(s16, s32);       /* 0x18: status callback */
-    ModemConfig modem;          /* 0x1C: a copy of the default (init_net_session, copy_name_buffer) */
+    ModemConfig modem;          /* 0x1C: a copy of the default (ppp_init, copy_name_buffer) */
     s16 h7C;                    /* 0x7C: NetConnectCfg.h18 .. h20 */
     s16 h7E;
     s16 h80;
@@ -126,9 +126,9 @@ extern "C" {
 #endif
 s32 init_modem_session_config(void);
 s16 modem_run_script(u8 *script, NetSession *sess);
-s16 modem_script_wait(ModemRequest *req);
+s16 go_wait(ModemRequest *req);
 s16 modem_script_send(void);
-s16 modem_script_dial(ModemRequest *request);
+s16 go_dial(ModemRequest *request);
 s16 modem_script_next_token(u8 *src, u8 *dst, u8 **next);
 void modem_script_store_field(s16 type, s16 index, u8 *src, s16 *nstr, s16 *nint);
 s16 TLobby__sub_804290D4(s32 idx);

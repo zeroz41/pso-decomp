@@ -32,7 +32,7 @@ s32 remove_rec_by_handle(s16 channel, u16 ether_type);
 s32 open_channel_checked(s16 channel, u16 ether_type);
 void forward_to_channel(void *frame, void *b);
 s16 query_link_status(void);
-s32 set_connect_mode(s32 mode);
+s32 AT_SetEtherNegoMode(s32 mode);
 #ifdef __cplusplus
 }
 #endif

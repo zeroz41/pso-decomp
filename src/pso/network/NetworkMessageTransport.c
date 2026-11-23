@@ -38,9 +38,9 @@ LAYOUT_ASSERT(TransportMessageQueue10Messages, offsetof(TransportMessageQueue10,
 static TransportMessageQueue32 lbl_805CF240;
 static TransportMessageQueue32 pppoe_message_queue;
 static TransportMessageQueue10 lbl_805CF380;
-/* The thread, link-status and connection-mode state (.sbss 805D7BB0-805D7BD0), in reverse definition order. */
+/* The thread, link-status and Ethernet negotiation-mode state. */
 s32 network_message_pending_count;
-saddr lobby_connect_mode;
+saddr ether_nego_mode;
 uaddr lbl_805D7BC4;
 u32 lobby_exi_stable_target;
 u32 lobby_exi_stable_count;
@@ -279,7 +279,7 @@ s16 TLobby__sub_804262CC(EthernetReceiveFilter *config) {
         return 0;
     }
     NetMemset(config, 0, sizeof(EthernetReceiveFilter));
-    if (init_bba_exi_adapter((void *)lobby_connect_mode) != 1) {
+    if (init_bba_exi_adapter((void *)ether_nego_mode) != 1) {
         status = -1;
     } else {
         if ((u32) lbl_805D7BC4 != 0U) {
@@ -583,22 +583,22 @@ s16 query_link_status(void) {
     return -1;
 }
 
-s32 set_connect_mode(s32 mode) {
+s32 AT_SetEtherNegoMode(s32 mode) {
     switch (mode) {
     case 1:
-        lobby_connect_mode = 1;
+        ether_nego_mode = 1;
         break;
     case 2:
-        lobby_connect_mode = 2;
+        ether_nego_mode = 2;
         break;
     case 3:
-        lobby_connect_mode = 3;
+        ether_nego_mode = 3;
         break;
     case 4:
-        lobby_connect_mode = 4;
+        ether_nego_mode = 4;
         break;
     case 0:
-        lobby_connect_mode = 0;
+        ether_nego_mode = 0;
         break;
     default:
         return -1;

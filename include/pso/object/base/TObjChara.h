@@ -8,8 +8,8 @@
 struct Vec;
 struct player_stats;
 struct ActorParamBlock;
-struct ControllerInputContext;
 struct AttackParams;
+struct ControllerInputContext;
 struct CsnGroup;
 
 // One row of a character's status effects: 0 poison/paralysis, 1 slow,
@@ -71,8 +71,8 @@ public:
     void adjust_atp_range(int);
     s16 get_base_dfp();
     void adjust_dfp(int);
-    s32 recalc_combat_stats(void *, void *, void *, f32, f32);
-    s32 set_motion_params(void *);
+    s32 recalc_combat_stats(player_stats *base_stats, AttackParams *attack_stats, ActorParamBlock *resistance_stats, f32 xscale, f32 yscale);
+    s32 set_motion_params(player_stats *base_stats);
     void show_miss_popup(const float *);
     void try_apply_damage(const Vec *pos, s32 damage);
     s32 subtract_actor_tp(s32);
@@ -210,11 +210,11 @@ public:
     u32 hit_flags;
     u8 pad_2E0[0x4];
     u32 target_attribute_mask;  // 1 native, 2 A.Beast, 4 machine (androids), 8 dark: what a weapon's attribute bonus targets
-    u8 pad_2E8[0x2];
+    s16 pad_2E8;
     s16 m_2ea;
-    u8 pad_2EC[0x2];
+    s16 pad_2EC;
     s16 m_2ee;
-    u8 pad_2F0[0x2];
+    s16 pad_2F0;
     s16 m_2f2;
     s16 m_2f4;
     s16 m_2f6;
@@ -239,7 +239,12 @@ public:
 };
 
 extern "C" void *__dt__9TObjCharaFv(void *, s16);
+extern "C" s32 try_spend_actor_meseta(TObjChara *actor, s32 amount);
 
+LAYOUT_ASSERT(TObjCharaBaseStatsOffset, offsetof(TObjChara, stat_block) == 0x2B0);
+LAYOUT_ASSERT(TObjCharaAttackParamsOffset, offsetof(TObjChara, attack_params) == 0x318);
+LAYOUT_ASSERT(TObjCharaResistanceParamsOffset, offsetof(TObjChara, param_block) == 0x31C);
+LAYOUT_ASSERT(TObjCharaSize, sizeof(TObjChara) == 0x334);
 LAYOUT_ASSERT(TObjCharaGroundNormalOffset, offsetof(TObjChara, ground_normal) == 0x248);
 
 #endif
