@@ -14,6 +14,7 @@ struct NJS_OBJECT;
 #include "pso/player/PlayerScaleState.h"
 #include "pso/player/PlayerMoveSpeed.h"
 #include "pso/player/PlayerAnimationState.h"
+#include "pso/player/PlayerDeathSink.h"
 #include "pso/player/RenderMaterialState.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/player/PlayerAttackController.h"
@@ -218,8 +219,7 @@ struct TObjPlayer : public TObjChara {
     PlayerScaleState scale_state;
     PlayerMoveSpeed move_speed;
     PlayerAnimationState anim_state;
-    void* pad_5fc;
-    u8 _pad600[0x8];
+    PlayerDeathSink death_sink;
     RenderMaterialState render_material_state;
     u8 unk_628[0xC];
     void* m_634;
@@ -566,7 +566,6 @@ struct TObjPlayer : public TObjChara {
     void*get_sub_object();
     s32 get_lock_timer();
     void set_vec3_const();
-    void set_pos_z(f32 v);
     static s32 reset_and_return(saddr arg0);
     void clear_base();
     void*forward_release();
@@ -575,7 +574,6 @@ struct TObjPlayer : public TObjChara {
     u8 *construct_hurt_timer();
     void*wrap_update();
     void*set_vec4_const_wrapper();
-    void*init_members();
     int sub_802a7290_fwd();
     int is_handle_valid();
     static void forward_801C210C(void *p, int v);

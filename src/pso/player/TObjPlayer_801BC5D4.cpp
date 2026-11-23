@@ -28,5 +28,5 @@ void TObjPlayer::reset_state() {
     this->velocity.z = (f32) TObjPlayer__data_805DC278;
     this->velocity.y = (f32) TObjPlayer__data_805DC278;
     this->velocity.x = (f32) TObjPlayer__data_805DC278;
-    zero_vec3(&this->pad_5fc);
+    death_sink.reset();
 }

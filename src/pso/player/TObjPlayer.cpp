@@ -95,7 +95,7 @@ ContactSurfaceState::~ContactSurfaceState() {}
 #pragma dont_inline on
 PlayerActionPaletteState::~PlayerActionPaletteState() {}
 
-void TObjPlayer::set_pos_z(f32 v) { *(f32*)((char*)this + 0x8) = v; }
+void PlayerDeathSink::set_progress(f32 v) { progress = v; }
 
 void TObjPlayer__sub_801BF9E0(void* p, u16 v) { *(s16*)((char*)p + 0x0) = v; }
 
@@ -113,7 +113,11 @@ void PlayerActionPaletteState::init_tag() {
 
 #pragma pop
 
-void zero_vec3(void* a0) { *(float*)((char*)a0 + 0x0) = TObjPlayer__data_805DC278; *(float*)((char*)a0 + 0x4) = TObjPlayer__data_805DC278; *(float*)((char*)a0 + 0x8) = TObjPlayer__data_805DC278; }
+void PlayerDeathSink::reset() {
+    offset = TObjPlayer__data_805DC278;
+    height = TObjPlayer__data_805DC278;
+    progress = TObjPlayer__data_805DC278;
+}
 
 s32 TObjPlayer__sub_801BF95C(void* p) { return *(s32*)((char*)p + 0x0); }
 
@@ -547,7 +551,7 @@ void TObjPlayer__sub_801BFC90(O_801BFC90 *p) {
 }
 
 void*TObjPlayer::set_vec4_const_wrapper() { set_vec4_const(); return this; }
-void*TObjPlayer::init_members() { zero_vec3(this); return this; }
+PlayerDeathSink::PlayerDeathSink() { reset(); }
 PlayerAnimationState::PlayerAnimationState() { reset(); }
 void PlayerAnimationState::reset() {
     state = 0;

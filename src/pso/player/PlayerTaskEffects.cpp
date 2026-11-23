@@ -243,15 +243,6 @@ struct VObj_801C57D0 : Base_801C57D0 {
     virtual void m11(u16);
 };
 
-struct Actor_801C58CC : VO_801C6408 {
-    u8 pad1C[0x20];
-    f32 f3c;
-};
-
-typedef struct Out_801C58CC {
-    u8 pad0[4];
-    f32 v;
-} Out_801C58CC;
 
 
 struct Arrival_801C5F84 {
@@ -266,7 +257,6 @@ struct MovementHistoryEntry { f32 a; f32 b; };
 struct MovementHistory { s32 n; MovementHistoryEntry e[16]; };
 
 extern "C" {
-void calc_death_pose_height_offset(Out_801C58CC *arg0, Actor_801C58CC *player);
 void *find_entity_by_id();
 s32 get_current_floor();
 void set_params__10TObjPlayerFPvPvPviPv(void *arg0, void *arg1, void *arg2, saddr arg3, void *arg4);
@@ -279,7 +269,6 @@ void clear_movement_history(MovementHistory *p);
 s16 get_attack_params_atp_max(void *p);
 int copy_subcommand_header(void *);
 }
-void calc_death_sink_offset(void *arg0);
 void update_player_appear_fade(u8 *arg0);
 void reset_player_appearance_opacity(void *a0);
 void save_render_material_state(u8 *arg0);
@@ -944,21 +933,19 @@ void update_player_appear_fade(u8 *arg0) {
 }
 #pragma pop
 
-void calc_death_sink_offset(void *arg0) {
-    *(f32 *)((s8 *)arg0 + 0) = (f32) (*(f32 *)((s8 *)arg0 + 4) * *(f32 *)((s8 *)arg0 + 8));
-}
+void PlayerDeathSink::update_offset() { offset = height * progress; }
 
 #pragma push
 #pragma opt_common_subs off
-void calc_death_pose_height_offset(Out_801C58CC *arg0, Actor_801C58CC *player) {
-    f32 sp[4];
-    player->get_pos(1, (Vec *)sp);
-    arg0->v = (1.0f + player->f3c) - sp[1];
-    if (arg0->v > 3.0f) {
-        arg0->v = 3.0f;
+void PlayerDeathSink::calc_height(TObjPlayer *player) {
+    Vec node;
+    player->get_anim_node_position(1, &node);
+    height = (1.0f + player->position.y) - node.y;
+    if (height > 3.0f) {
+        height = 3.0f;
     }
-    if (arg0->v < -4.0f) {
-        arg0->v = -4.0f;
+    if (height < -4.0f) {
+        height = -4.0f;
     }
 }
 #pragma pop

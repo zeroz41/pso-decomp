@@ -2081,7 +2081,7 @@ void draw_body__10TObjPlayerFPvi(u8 *player, s32 arg1) {
     Vec *scale;
     push_matrix();
     VecCopy((Vec *)(&stack.sp8), (const Vec *)(player + 0x38));
-    stack.spC += *(f32 *)((s8 *)player + 0x5FC);
+    stack.spC += ((TObjPlayer *)player)->death_sink.offset;
     translate_matrix_vec3((u8 *)(0), (u8 *)&stack.sp8);
     ((s32 (*)(int, int))rotate_matrix_y)(0, (int) (((TObjPlayer *)player)->rotation_y));
     if (((PlayerScaleState *)(player + 0x5B0))->is_scaled() != 0) {

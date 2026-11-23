@@ -1040,7 +1040,6 @@ u32 resolve_move_collision__10TObjPlayerFv(void *);
 s32 damp_planar_velocity();
 s32 get_vobj_state_28__10TObjPlayerFv(void *);
 void TObjPlayer__sub_801BEEE0(void *p, void *q);
-s32 zero_vec3(void *);
 s32 TObjPlayer__sub_801BFFA0(void *);
 s32 is_action_id_none(int);
 u8 TObjPlayer__sub_801C010C(void *, s32);
@@ -1049,7 +1048,6 @@ int copy_subcommand_header(void*);
 void TObjPlayer__sub_801C0734(void *);
 void TObjPlayer__sub_801C18E0(void *);
 void set_photon_blast_kind(void *p, s16 v);
-void calc_death_pose_height_offset(void *out, void *player);
 s32 interpolate_angle__10TObjPlayerFPvUsUsPl(void *, int, int, s32 *);
 void handle_6xB0_turn_or_move_lobby_chair(void *command);
 void handle_6xAF_turn_or_move_lobby_chair(void *command);
@@ -1165,7 +1163,6 @@ void bswap_6x45_packet(void *p);
 void bswap_6x44_packet(void *p);
 void bswap_6x43_packet(void *p);
 void init_6x40_walk_packet(void *cmd);
-void calc_death_sink_offset(void *arg0);
 void reset_player_appearance_opacity(void *a0);
 void remove_photon_blast_participant(s32 id);
 void send_photon_blast_targets_packet(u8 *player);
@@ -1173,7 +1170,6 @@ void init_6x48_cast_complete_packet(u8 *arg0);
 void init_6x8D_technique_level_packet(u8 *arg0);
 void send_6x46_attack_finished(u8 *arg0);
 u8 get_6x46_strike_packet_size(saddr arg0);
-void add_death_sink_progress(u8 *arg0, f32 farg0);
 f32 get_attack_controller_rate(void* p);
 void emit_heavy_attack_particles(saddr owner, u16 target_id);
 void create_technique_charge_light(u32 kind, void *owner);
@@ -1690,7 +1686,7 @@ void TObjPlayer__deactivate_off_floor_body(void* p) { ((TObjPlayer *)p)->deactiv
 
 void TObjPlayer::enter_off_floor_state() {
     this->movement_hold.reset();
-    zero_vec3((void *) (((u8 *)this) + 0x5FC));
+    death_sink.reset();
     this->protection.reset_lobby_model();
     this->set_state_flags(4);
     this->deactivate_body_collision();
@@ -2582,9 +2578,9 @@ void init_subobject(TObjPlayer *player) {
     if (player != NULL) {
         player->run_action_state_phase(0xF, 0);
         player->update_action_render();
-        zero_vec3(&player->pad_5fc);
-        calc_death_pose_height_offset(&player->pad_5fc, player);
-        ((TObjPlayer *)&player->pad_5fc)->set_pos_z(1.0f);
+        player->death_sink.reset();
+        player->death_sink.calc_height(player);
+        player->death_sink.set_progress(1.0f);
     }
 }
 
@@ -2608,7 +2604,7 @@ void TObjPlayer::update_active_state() {
         } else {
             this->restart_death_pose();
         }
-        ((TObjPlayer *)(arg0 + 0x5FC))->set_pos_z(1.0f);
+        death_sink.set_progress(1.0f);
         this->revive_or_spawn_marker();
     }
 }
@@ -2668,20 +2664,19 @@ void TObjPlayer::update_action_render() {
 void TObjPlayer::restart_death_pose() {
     u8 *arg0 = (u8 *)this;
     this->update_action_render();
-    ((void (*)(void *))zero_vec3)((void *) (arg0 + 0x5FC));
-    calc_death_pose_height_offset(arg0 + 0x5FC, arg0);
+    death_sink.reset();
+    death_sink.calc_height(this);
     if (TObjPlayer::is_locally_controlled(this) != 0) {
         *(TObject **)((s8 *)arg0 + 0x548) = new TUnk_804999A0(tl_particlemodel, complete_deferred_player_death, get_entity_id());
     }
 }
 
 void TObjPlayer::reset_on_death() {
-    u8 *arg0 = (u8 *)this;
-    ((TObjBase *)arg0)->set_actor_flags(0x800U);
+    set_actor_flags(0x800U);
     this->hp = 0;
     this->clear_all_status_effects();
-    ((TObjPlayer *)arg0)->protection.reset_lobby_model();
-    ((void (*)(void *))zero_vec3)(arg0 + 0x5FC);
+    protection.reset_lobby_model();
+    death_sink.reset();
 }
 
 void TObjPlayer::exit_death_state() {
@@ -2691,17 +2686,16 @@ void TObjPlayer::exit_death_state() {
     temp_r4 = *(s32 *)((s8 *)arg0 + 0x30) & 0xFFFFFDFF;
     *(s32 *)((s8 *)arg0 + 0x30) = temp_r4;
     *(s32 *)((s8 *)arg0 + 0x36C) = 0;
-    ((s32 (*)(void *, s32))zero_vec3)(arg0 + 0x5FC, temp_r4);
+    ((TObjPlayer *)arg0)->death_sink.reset();
     ((s32 (*)(void *))clear_status_bit6__10TObjPlayerFPv)(arg0);
 }
 
 void TObjPlayer::update_death_pose() {
-    u8 *arg0 = (u8 *)this;
     if ((test_motion_flags(0x20) != 0) && ((s16) this->requested_action == (s16) this->current_action)) {
         this->restart_death_pose();
     }
-    ((s32 (*)(void *, f32))add_death_sink_progress)(arg0 + 0x5FC, 0.002f);
-    calc_death_sink_offset((u8 *)&this->pad_5fc);
+    death_sink.add_progress(0.002f);
+    death_sink.update_offset();
     if (this->resolve_move_collision() == 0U) {
         this->apply_velocity();
     }
@@ -5520,7 +5514,7 @@ s16 TObjPlayer::get_idle_animation() {
     return ((VObj_8_e57d67 *)((u8 *)(*(u8 **)((s8 *)((u8 *)this) + 0x380))))->m21();
 }
 
-void TObjPlayer::cleanup_idle_entry() { clear_actor_flags((uaddr)((void*)3840)); clear_state_flags((s32)(128)); move_speed.set_run_counter(0); ((int (*)(void*))clear_status_bit6__10TObjPlayerFPv)(this); ((int (*)(void*))clear_velocity)(this); ((int (*)(void*))zero_vec3)((char*)this + 0x5fc); }
+void TObjPlayer::cleanup_idle_entry() { clear_actor_flags((uaddr)((void*)3840)); clear_state_flags((s32)(128)); move_speed.set_run_counter(0); ((int (*)(void*))clear_status_bit6__10TObjPlayerFPv)(this); ((int (*)(void*))clear_velocity)(this); death_sink.reset(); }
 
 void TObjPlayer::exit_idle_state() {  }
 
@@ -6593,10 +6587,10 @@ s16 PlayerAnimationState::get_state() { return state; }
 #pragma auto_inline off
 #pragma dont_inline off
 #pragma opt_common_subs off
-void add_death_sink_progress(u8 *arg0, f32 farg0) {
-    *(f32 *)((s8 *)arg0 + 8) = (f32) (*(f32 *)((s8 *)arg0 + 8) + farg0);
-    if (*(f32 *)((s8 *)arg0 + 8) > 1.0f) {
-        *(f32 *)((s8 *)arg0 + 8) = 1.0f;
+void PlayerDeathSink::add_progress(f32 step) {
+    progress += step;
+    if (progress > 1.0f) {
+        progress = 1.0f;
     }
 }
 extern int fold_flush_19;

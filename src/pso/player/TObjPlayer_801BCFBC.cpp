@@ -32,7 +32,7 @@ void TObjPlayer::update_action_animation() {
             } else {
                 this->restart_death_pose();
             }
-            ((TObjPlayer *)(arg0 + 0x5FC))->set_pos_z(TObjPlayer__data_805DC294);
+            death_sink.set_progress(TObjPlayer__data_805DC294);
             this->revive_or_spawn_marker();
             return;
         }

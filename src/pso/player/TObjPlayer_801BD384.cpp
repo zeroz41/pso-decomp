@@ -72,7 +72,6 @@ extern const char *lbl_805D3530;
 }
 
 TObjPlayer::TObjPlayer(TObject *parent, TUnk_801D8A4C *src) : TObjChara(parent) {
-    ((TObjPlayer *)((char *)this + 1532))->init_members();
     ((TObjPlayer *)((char *)this + 1544))->set_vec4_const_wrapper();
     ((TObjPlayer *)((char *)this + 1588))->wrap_update();
     battle_music.reset_and_clear();
@@ -104,7 +103,6 @@ TObjPlayer::TObjPlayer(TObject *parent, TUnk_801D8A4C *src) : TObjChara(parent) 
 }
 
 TObjPlayer::TObjPlayer(TObject *parent, void *arg2) : TObjChara(parent) {
-    ((TObjPlayer *)((char *)this + 1532))->init_members();
     ((TObjPlayer *)((char *)this + 1544))->set_vec4_const_wrapper();
     ((TObjPlayer *)((char *)this + 1588))->wrap_update();
     battle_music.reset_and_clear();
