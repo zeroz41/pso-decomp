@@ -399,7 +399,7 @@ void spawn_hit_particles__10TObjPlayerFiPv(saddr pos, const Vec *dir) {
     angles[1] = (s32)(lbl_804725B8[0] * atan2_float(dir->x, dir->z));
     angles[2] = 0;
     {
-        TParticleCtrl *particle = (TParticleCtrl *)create_timed_particle_emitter_with_angles((void *)pos, angles, 0x1B8, 0, 0xF, 4);
+        TParticleCtrl *particle = create_timed_particle_emitter_with_angles((void *)pos, angles, 0x1B8, 0, 0xF, 4);
         if (particle != NULL) {
             particle->set_scale(1.5f, 1.5f);
         }

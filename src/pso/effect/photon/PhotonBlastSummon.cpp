@@ -264,7 +264,7 @@ void TPhotonBlastSummon::spawn_photon_blast_attachment_effects(s32 kind) {
                 rot[1] = 0;
                 rot[2] = 0;
             }
-            attachments[i].obj = (TParticleCtrl *)create_timed_particle_emitter_with_angles(&position, rot, params.id, params.delay, params.duration, flags & 0xFFFF);
+            attachments[i].obj = create_timed_particle_emitter_with_angles(&position, rot, params.id, params.delay, params.duration, flags);
             attachments[i].joint = def->joint;
             copy_xyz(attachments[i].angles, angles);
         }

@@ -109,7 +109,7 @@ struct ParticleGenerator {
 
 extern ParticleGenerator particle_ctrl_generator_table[];
 
-void *create_timed_particle_emitter_with_angles(void *pos, void *dir, s32 id, s32 a, s32 b, s32 flags);
+TParticleCtrl *create_timed_particle_emitter_with_angles(void *pos, void *dir, s32 id, s32 delay, s32 duration, u16 flags);
 TParticleCtrl *create_timed_particle_emitter_with_flags(void *pos, s32 id, s32 delay, s32 duration, u16 flags);
 
 // Number of entries in particleentry.dat; ids from 0x200 index the area's entry file.

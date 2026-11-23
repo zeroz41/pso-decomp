@@ -19,12 +19,6 @@ NJS_OBJECT *TParticleCtrl::get_particle_model(s32 model) {
 
 GinjaTextureList *TParticleCtrl::get_instance() {  return texture_list; }
 
-extern "C" {
-// Callers pass the flags as int while the constructor takes u16, so the wrapper
-// hands the int on to it unconverted.
-void *__ct__13TParticleCtrlFPC3VecP14ParticleAnglesP13ParticleParamllllUs(void *self, const Vec *pos, ParticleAngles *dir, ParticleParam *entry, s32 oneshot,
-    s32 delay, s32 lifetime, s32 use_self, s32 flags);
-}
 #pragma push
 #pragma opt_propagation off
 TParticleCtrl *create_timed_particle_emitter_with_flags(void *pos, s32 id, s32 delay, s32 duration, u16 flags) {
@@ -58,24 +52,14 @@ TParticleCtrl *create_timed_particle_emitter(const void *pos, s32 id, s32 delay,
 
 #pragma push
 #pragma opt_propagation off
-void *create_timed_particle_emitter_with_angles(void *pos, void *dir, s32 id, s32 a, s32 b, s32 flags) {
+TParticleCtrl *create_timed_particle_emitter_with_angles(void *pos, void *dir, s32 id, s32 delay, s32 duration, u16 flags) {
     s32 idx = id;
     if (particle_pool_limit > idx) {
-        void *p = TObject::operator new(sizeof(TParticleCtrl));
-        if (p != 0) {
-            p = __ct__13TParticleCtrlFPC3VecP14ParticleAnglesP13ParticleParamllllUs(p, static_cast<const Vec *>(pos), static_cast<ParticleAngles *>(dir),
-                &particle_global_entry_table[idx], 0, a, b, 0, flags);
-        }
-        return p;
+        return new TParticleCtrl(static_cast<const Vec *>(pos), static_cast<ParticleAngles *>(dir), &particle_global_entry_table[idx], 0, delay, duration, 0, flags);
     }
     if (particle_pool_limit + 0x40 > idx) {
         idx -= 0x200;
-        void *p = TObject::operator new(sizeof(TParticleCtrl));
-        if (p != 0) {
-            p = __ct__13TParticleCtrlFPC3VecP14ParticleAnglesP13ParticleParamllllUs(p, static_cast<const Vec *>(pos), static_cast<ParticleAngles *>(dir),
-                &particle_area_entry_table[idx], 0, a, b, 0, flags);
-        }
-        return p;
+        return new TParticleCtrl(static_cast<const Vec *>(pos), static_cast<ParticleAngles *>(dir), &particle_area_entry_table[idx], 0, delay, duration, 0, flags);
     }
     return 0;
 }
