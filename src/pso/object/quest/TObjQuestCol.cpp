@@ -76,7 +76,7 @@ TObjQuestColBase::TObjQuestColBase(TObject *parent, void *set_data) : TObjCollid
     m_name = quest_col_base_class_name;
     apply_object_set_data(set_data);
     if (entity_id == 0xFFFF) {
-        entity_id = TLobby::alloc_actor_ids(0);
+        entity_id = alloc_object_ids(0);
     }
     m_id = quest_collision_next_id++;
     radius = scale.x;

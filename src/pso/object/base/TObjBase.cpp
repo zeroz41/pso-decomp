@@ -25,11 +25,11 @@ s32 project_world_to_screen(int, const Vec *, f32 *);
 f32 transform_point_by_current_matrix(const Vec *, Vec *);
 }
 
-u16 lbl_805D5CD0;
-u16 lbl_805D5CD2;
-u16 lbl_805D5CD4;
-u16 lbl_805D5CD6;
-u16 lbl_805D5CD8;
+u16 next_player_id;
+u16 next_enemy_id;
+u16 next_object_id;
+u16 first_free_object_id;
+u16 first_free_enemy_id;
 
 const char *TObjBase::get_name() { return NULL; }
 void TObjBase::set_room(s16 room) {
@@ -88,42 +88,42 @@ u16 TObjBase::get_or_assign_entity_id(s32 count) {
             break;
         default:
         case 0x40000000:
-            this->entity_id = TLobby::alloc_actor_ids(count);
+            this->entity_id = alloc_object_ids(count);
             break;
         }
     }
     return this->entity_id;
 }
-u16 TLobby::alloc_actor_ids(s32 arg) {
-    u16 n = arg;
-    s32 id = lbl_805D5CD4;
+u16 alloc_object_ids(s32 count) {
+    u16 n = count;
+    s32 id = next_object_id;
     if (id + n + 1 >= 0xFFFF) {
-        lbl_805D5CD4 = lbl_805D5CD6;
-        id = lbl_805D5CD4;
-        lbl_805D5CD4 = id + (n + 1);
+        next_object_id = first_free_object_id;
+        id = next_object_id;
+        next_object_id = id + (n + 1);
     } else {
-        lbl_805D5CD4 = id + (n + 1);
+        next_object_id = id + (n + 1);
     }
     return id;
 }
 
-u16 alloc_enemy_ids(s32 arg) {
-    u16 n = arg;
-    s32 id = lbl_805D5CD2;
+u16 alloc_enemy_ids(s32 count) {
+    u16 n = count;
+    s32 id = next_enemy_id;
     if (id + n + 1 >= 0x4000) {
-        lbl_805D5CD2 = lbl_805D5CD8;
-        id = lbl_805D5CD2;
-        lbl_805D5CD2 = id + (n + 1);
+        next_enemy_id = first_free_enemy_id;
+        id = next_enemy_id;
+        next_enemy_id = id + (n + 1);
     } else {
-        lbl_805D5CD2 = id + (n + 1);
+        next_enemy_id = id + (n + 1);
     }
     return id;
 }
 
-u16 alloc_player_ids(s32 n) {
-    u16 r = lbl_805D5CD0;
-    lbl_805D5CD0 += n + 1;
-    return r;
+u16 alloc_player_ids(s32 count) {
+    u16 id = next_player_id;
+    next_player_id += count + 1;
+    return id;
 }
 
 void *TObjBase::get_center() { return &center; }
@@ -235,32 +235,32 @@ s32 TObjBase::update_object_view_visibility(f32 far_depth, f32 radius) {
 }
 #pragma pop
 
-void advance_enemy_id_counter(s32 arg0) {
-    u16 temp_r0;
-    temp_r0 = lbl_805D5CD2 + arg0;
-    lbl_805D5CD2 = temp_r0;
-    lbl_805D5CD8 = temp_r0;
+void advance_enemy_id_counter(s32 count) {
+    u16 id;
+    id = next_enemy_id + count;
+    next_enemy_id = id;
+    first_free_enemy_id = id;
 }
 
-void advance_object_id_counter(s32 arg0) {
-    u16 temp_r0;
-    temp_r0 = lbl_805D5CD4 + arg0;
-    lbl_805D5CD4 = temp_r0;
-    lbl_805D5CD6 = temp_r0;
+void advance_object_id_counter(s32 count) {
+    u16 id;
+    id = next_object_id + count;
+    next_object_id = id;
+    first_free_object_id = id;
 }
 
-void TLobby::init_limits() {
-    lbl_805D5CD2 = 0x1000;
-    lbl_805D5CD4 = 0x4000;
+void reset_enemy_and_object_ids() {
+    next_enemy_id = 0x1000;
+    next_object_id = 0x4000;
 }
 
-void TLobby__sub_801A2550(void) {  }
+void free_id_counters() {}
 
 
-void reset_id_counters(void) {
-    lbl_805D5CD0 = 0;
-    lbl_805D5CD2 = 0x1000;
-    lbl_805D5CD4 = 0x4000;
+void reset_id_counters() {
+    next_player_id = 0;
+    next_enemy_id = 0x1000;
+    next_object_id = 0x4000;
 }
 
 void TObjBase::reset_motion_fields() {

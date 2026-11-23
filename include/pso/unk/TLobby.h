@@ -244,7 +244,6 @@ struct TLobby : public TObject {
 
     static void *create_npc(void *arg0);
     static s32 is_idle();
-    static void init_limits();
     static void reset_keyboard_input();
     static void shutdown_keyboard_control();
     static void apply_char_to_players();
@@ -580,7 +579,6 @@ struct TLobby : public TObject {
     static s32 tmp_buf_is_free();
     static u8 *tmp_buf_use_req(const char *name);
     void handle_quest_download_chunk();
-    static u16 alloc_actor_ids(s32 arg);
     void reduce_owner_matched_items();
     void reduce_child_item_amounts();
     static void update_battle_mode();

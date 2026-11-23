@@ -196,7 +196,7 @@ FloorResourceCallbacks online_lobby_scene_callback_table[43] = {
     {TWindowCtrl::close, TWindowCtrl::shutdown},
     {TLobby__sub_8001ED74, TLobby__sub_8001ED70},
     {alloc_battle_param_tables, TLobby::free_boss4_rock},
-    {reset_id_counters, TLobby__sub_801A2550},
+    {reset_id_counters, free_id_counters},
     {TObjPlayer::reset, TObjPlayer__sub_80156934},
     {init_scene_fog_system, TFogCtrl::reset},
     {load_light_entry_file, TObjLight::free_shared_data},
@@ -555,7 +555,7 @@ void change_floor_reload_area(void) {
     TLoadCtrl::start_loading(2);
     if (TLobby__new_game_setup_flags & 1) {
         TLobby__new_game_setup_flags &= ~1;
-        TLobby::init_limits();
+        reset_enemy_and_object_ids();
         TAdDialingGC__sub_801A4C90();
         TLobby__sub_80207E24(game_variations, 0x80);
         apply_phase_keyboard_mode();

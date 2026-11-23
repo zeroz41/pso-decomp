@@ -208,7 +208,7 @@ FloorResourceCallbacks offline_game_scene_callbacks[48] = {
     {TLobby::set_ending_callback, TLobby::free_ending_callback},
     {TKeyBoardControl__sub_80131F60, TKeyBoardControl__sub_80131F5C},
     {alloc_battle_param_tables, TLobby::free_boss4_rock},
-    {reset_id_counters, TLobby__sub_801A2550},
+    {reset_id_counters, free_id_counters},
     {TObjPlayer::reset, TObjPlayer__sub_80156934},
     {init_scene_fog_system, TFogCtrl::reset},
     {load_light_entry_file, TObjLight::free_shared_data},
@@ -284,7 +284,7 @@ void TLobby::reload_offline_area() {
     TParticleCtrl::create_quad_sprites();
     apply_phase_keyboard_mode();
     TLoadCtrl::start_loading(1);
-    TLobby::init_limits();
+    reset_enemy_and_object_ids();
     TLobby::load_set_gsl_files();
     TLobby::load_set_event_gsl();
     load_battle_param_entry();
@@ -359,7 +359,7 @@ void TLobby::rebuild_area_keep_players() {
         thread->run_task();
     }
     TLobby::set_enemy_mode_flag();
-    TLobby::init_limits();
+    reset_enemy_and_object_ids();
     TLobby::setup_quest_list();
     TQuestListVM::load_vm();
     if (TRaderMapCore::is_not_split_screen() == 1) {
