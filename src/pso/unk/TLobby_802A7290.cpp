@@ -2756,5 +2756,5 @@ void TLobby::enable_and_refresh() { TLobby::set_photon_chair_flag(1); TLobby::al
 TUnk_804DDBF0::~TUnk_804DDBF0() {}
 TUnk_804DDBF0::TUnk_804DDBF0() {}
 s32 *TUnk_804DDBF0::get_state_table(s32) { return (s32 *)pad_C; }
-int TUnk_804DDBF0::vfunc_76() { return (saddr)pad_C; }
+BmlMotionEntry *TUnk_804DDBF0::vfunc_76() { return reinterpret_cast<BmlMotionEntry *>(pad_C); }
 int TUnk_804DDBF0::vfunc_4() {  return (*(int *)&player_action_motion_buffer); }

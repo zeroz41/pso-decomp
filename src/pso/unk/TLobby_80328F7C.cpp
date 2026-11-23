@@ -222,8 +222,8 @@ void check_valid_state__6TLobbyFi(saddr unused) {
     TLobby::is_valid_state((void *)unused, (s32)((s32)(is_handle_valid__10TObjPlayerFv())));
 }
 
-int TUnk_804ED7D0::vfunc_76() {
-    return (saddr)get_state_table(((TObjPlayer *)this)->is_handle_valid());
+BmlMotionEntry *TUnk_804ED7D0::vfunc_76() {
+    return reinterpret_cast<BmlMotionEntry *>(get_state_table(((TObjPlayer *)this)->is_handle_valid()));
 }
 s32 *TUnk_804ED7D0::get_state_table(s32 _w1) {
     saddr unused = (saddr)this;

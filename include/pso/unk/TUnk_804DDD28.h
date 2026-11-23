@@ -2,6 +2,8 @@
 #define PSO_UNK_TUNK_804DDD28_H
 #include "types.h"
 
+struct BmlMotionEntry;
+
 // The two-word record TUnk_804DDD28 starts with: its constructor 0x802A7318
 // clears both words, its destructor is 0x801D3518.
 class TUnk_802A7318 {
@@ -94,7 +96,7 @@ public:
     virtual int vfunc_73();
     virtual int vfunc_74();
     virtual int vfunc_75();
-    virtual int vfunc_76();
+    virtual BmlMotionEntry *vfunc_76(); // Motion list used when the player changes lobby animation state.
     virtual s32 *get_state_table(s32);
     void copy_motion_pair(void*);
     s32 load_action_motion_pairs(s32, s32, s32);

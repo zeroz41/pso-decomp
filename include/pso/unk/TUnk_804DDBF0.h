@@ -34,7 +34,7 @@ public:
     virtual int vfunc_17();
     virtual int vfunc_4();
     virtual s32 *get_state_table(s32);
-    virtual int vfunc_76();
+    virtual BmlMotionEntry *vfunc_76();
 };
 LAYOUT_ASSERT(TUnk_804DDBF0_size, sizeof(TUnk_804DDBF0) == 0x8C);
 

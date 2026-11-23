@@ -12,6 +12,7 @@
 #include "pso/enemy/flower/TObjEneRe2Flower.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/system/task/TObject.h"
+#include "pso/boss/DragonAttackParams.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/enemy/beast/TObjEneBeast.h"
 #include "pso/enemy/dd/TObjEneDD.h"
@@ -84,14 +85,7 @@ void reset_motion_fields__14TObjCollidableFv();
 void render_shadows__7TObjectFv();
 void update_object_view_visibility__8TObjBaseFff();
 void run_task__21TObjEneRe2Flower_BombFv(TObjEneRe2Flower_Bomb *o);
-struct Hit_800C4A5C {
-    s32 f0;
-    f32 f4;
-    f32 radius;
-    s32 fC;
-    s32 f10;
-};
-extern const Hit_800C4A5C lbl_8043BC10 = { 0xF, 2.0f, 2.0f, 0, 1 };
+extern const DragonAttackParams lbl_8043BC10 = { 0xF, 2.0f, 2.0f, { 0.0f, 1 } };
 extern const char lbl_8043BC24[] = "TObjEneRe2Flower_Bomb";
 s32 lbl_805D2A50 = (saddr)lbl_8043BC24;
 void *lbl_804933D8[24] = {
@@ -203,7 +197,7 @@ void TObjEneRe2Flower_Bomb::run_task() {
         if (o->age >= 0x14) {
             o->contact.contact_flags |= 2;
         }
-        if (o->vfunc_16(&o->contact, const_cast<Hit_800C4A5C *>(&lbl_8043BC10)) != 0) {
+        if (o->vfunc_16(&o->contact, const_cast<DragonAttackParams *>(&lbl_8043BC10)) != 0) {
             static_cast<TObjEneRe2Flower *>(find_entity_by_id(o->owner_id))->notify_bomb_hit();
             o->queue_destruction();
             return;
