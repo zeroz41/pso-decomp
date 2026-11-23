@@ -35,7 +35,7 @@ u16 TPlyFollowParticleCtrl::get_owner_id() { return owner_id; }
 
 void TPlyFollowParticleCtrl__sub_8030A694(void) {  }
 
-s32 __dt__22TPlyFollowParticleCtrlFis(s32 self, s16 flags) {
+saddr __dt__22TPlyFollowParticleCtrlFis(saddr self, s16 flags) {
     if ((self != 0) && (flags > 0)) {
         ::operator delete((void *)self);
     }

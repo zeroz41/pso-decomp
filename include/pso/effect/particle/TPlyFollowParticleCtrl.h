@@ -22,7 +22,7 @@ LAYOUT_ASSERT(TPlyFollowParticleCtrl_size, sizeof(TPlyFollowParticleCtrl) == 0xB
 
 extern "C" {
 void TPlyFollowParticleCtrl__sub_8030A694(void);
-s32 __dt__22TPlyFollowParticleCtrlFis(s32 self, s16 flags);
+saddr __dt__22TPlyFollowParticleCtrlFis(saddr self, s16 flags);
 }
 
 #endif
