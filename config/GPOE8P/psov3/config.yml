@@ -5079,7 +5079,7 @@ force_active:
   - city_door_warp_params
   - city_vertical_model_max_y_offset
   - city_vertical_model_min_y_offset
-  - city_vertical_model_vtable
+  - __vt__13TUnk_804B5C08
   - city_vertical_model_y_step
   - select_subtype__16TObjEneMerillLiaFv
   - clamp_axes__16TKeyBoardControlFv
@@ -5289,7 +5289,7 @@ force_active:
   - construct_card_window_array__23TAdSinglePlyChrSelectGCFPv
   - construct_card_window_array__23TAdSinglePlyChrSelectGCFi
   - __ct__18TObjCityAirCar_CarFP7TObjectllf
-  - construct_city_vertical_model__FPUcll
+  - __ct__13TUnk_804B5C08FP7TObjectPv
   - __ct__13TUnk_804A0FA0FP7TObjectPUc
   - construct_entry_array
   - construct_entry_array__6TLobbyFv
@@ -5648,7 +5648,7 @@ force_active:
   - __dt__18TPlyDispConfigSmthFv
   - destroy_char_data_array__10TObjPlayerFv
   - destroy_children__15TBoss3VoloptP02Fv
-  - destroy_city_vertical_model__FPvs
+  - __dt__13TUnk_804B5C08Fv
   - destroy_download_server__6TLobbyFPv
   - destroy_effect_objects__10TObjPlayerFv
   - destroy_effects__12TBoss4ThanksFv
