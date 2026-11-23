@@ -1950,7 +1950,7 @@ force_active:
   - __ct__12TChCrLoadReqFP7TObjectPC24CharacterPreviewLoadArgs
   - __ct__12TChCrTagNameFP7TObjectl
   - __ct__12TChatMessageFRC12TChatMessage
-  - __ct__12TEffCliticalFPv
+  - __ct__12TEffCliticalFP3Vec
   - __ct__12TItemProUnitFP7TObjectPUc
   - __ct__12TItemTexLoadFP7TObject
   - __ct__12TOBoss4TowerFPv

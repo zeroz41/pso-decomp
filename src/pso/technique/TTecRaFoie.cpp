@@ -280,9 +280,9 @@ void TUnk_804CCB28::run_task() {
         if ((s32) this->m_60 != 0) {
             this->m_60 = 0;
         }
-        approach_position_if_far(((u8 *)&this->m_34), (u8 *)&stack.sp18, (f32) ((0.05f)));
+        approach_position_if_far((Vec *)&this->m_34, (Vec *)&stack.sp18, 0.05f);
     } else {
-        approach_position_if_far(((u8 *)&this->m_34), (u8 *)&stack.sp18, (f32) ((0.15f)));
+        approach_position_if_far((Vec *)&this->m_34, (Vec *)&stack.sp18, 0.15f);
     }
     approach_alpha_clamped((f32 *)(arg0 + 0x48), (const f32 *)&stack.sp8, 0.035f);
 }

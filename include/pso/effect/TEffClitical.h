@@ -4,19 +4,26 @@
 #include "types.h"
 #include "pso/effect/TEffect.h"
 
+// The ring and particle burst of a critical hit.
 class TEffClitical : public TEffect {
 public:
-    TEffClitical(void *arg1);
+    TEffClitical(Vec *pos);
     virtual ~TEffClitical();
     virtual void run_task();
     virtual void render();
-public:
-    void create();
+    static void create(Vec *pos);
+
+    static f32 alpha_approach_step;
+    static const char *class_name;
+
+    s32 frame;  // frame of the ring texture, 0..6
+    s32 phase;  // 0 until the burst particles are spawned
 };
 
-extern "C" {
-void approach_position_if_far(u8 *from, u8 *to, f32 farg0);
-void init_texture_copy_rect(void *arg0, saddr arg1, saddr arg2, s32 arg3, s32 arg4);
-}
+LAYOUT_ASSERT(TEffCliticalSize, sizeof(TEffClitical) == 0x78);
+
+void init_texture_copy_rect(TextureFrameSlot *slot, GinjaTextureList *texlist, GinjaTextureList *frames, s32 slot_index,
+                            s32 frame);
+void approach_position_if_far(Vec *from, Vec *to, f32 rate);
 
 #endif

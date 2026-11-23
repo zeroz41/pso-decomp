@@ -1,5 +1,6 @@
 #include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/effect/TEffClitical.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "types.h"
@@ -36,8 +37,6 @@ struct Quad_80232934 { u32 a; u32 b; u32 c; u32 d; };
 
 extern "C" {
 
-void init_texture_copy_rect(TextureFrameSlot *, void *, void *, s32, s32);
-void approach_position_if_far(Vec *, Vec *, f32);
 void scale_matrix(s32, f32, f32, f32);
 void draw_ginja_object(void);
 extern u8 technique_ringwave_texture_list[];
@@ -220,7 +219,7 @@ void TUnk_804CC870::render() {
         get_current_floor_area() == AREA_LOBBY) {
         return;
     }
-    init_texture_copy_rect(&ctx, &lbl_804CC868, technique_ringwave_texture_list, 0, frame + 1);
+    init_texture_copy_rect(&ctx, (GinjaTextureList *)&lbl_804CC868, (GinjaTextureList *)technique_ringwave_texture_list, 0, frame + 1);
     Vec v = { 1.2f, 1.2f, 1.2f };
     Quad_80232934 q = { 0, 0, 0, 0 };
     approach_alpha_clamped(&color.a, (const f32 *)&q, 0.1f);

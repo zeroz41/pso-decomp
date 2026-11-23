@@ -2818,7 +2818,7 @@ f32 TObjChara::receive_physical_attack(void *att, f32 scale) {
                         lck = 100.0f;
                     }
                     if (crit <= lck) {
-                        ((TEffClitical *)(&hit))->create();
+                        TEffClitical::create(&hit);
                         play_sound_effect(0x4001A31F, &hit, 0, 0);
                         d *= (1.5f);
                     } else {
