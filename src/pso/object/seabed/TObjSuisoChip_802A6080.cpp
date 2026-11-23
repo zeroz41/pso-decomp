@@ -15,8 +15,8 @@ s32 TObjSuisoChip::vfunc_8() {
     return TObjChip::vfunc_8();
 }
 
-s32 TObjSuisoChip::vfunc_10(Vec *center, f32 max_depth, f32 radius) {
-    return TObjChip::vfunc_10(&origin, max_depth, radius);
+s32 TObjSuisoChip::is_in_view(Vec *center, f32 max_depth, f32 radius) {
+    return TObjChip::is_in_view(&origin, max_depth, radius);
 }
 
 void TObjSuisoChip::vfunc_12() {

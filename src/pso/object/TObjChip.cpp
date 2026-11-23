@@ -130,7 +130,7 @@ s32 TObjChip::vfunc_8() {
 
 #pragma push
 #pragma fp_contract on
-s32 TObjChip::vfunc_10(Vec *center, f32 max_depth, f32 radius) {
+s32 TObjChip::is_in_view(Vec *center, f32 max_depth, f32 radius) {
     Vec v;
     NJS_POINT2 o1;
     NJS_POINT2 o2;

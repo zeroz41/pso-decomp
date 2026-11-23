@@ -29,7 +29,7 @@ public:
     virtual s32 spawn_chips(s32 *rotation);
     virtual s32 vfunc_8();
     virtual void tick_chips();
-    virtual s32 vfunc_10(Vec *center, f32 max_depth, f32 radius);
+    virtual s32 is_in_view(Vec *center, f32 max_depth, f32 radius);
     // What render() draws through.
     virtual void render_chips();
     virtual void vfunc_12();
