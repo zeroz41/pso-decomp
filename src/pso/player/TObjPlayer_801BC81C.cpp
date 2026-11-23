@@ -72,7 +72,7 @@ void init_session_technique_caps__10TObjPlayerFPvPv(Player_801BC948 *self, Src_8
 void TObjPlayer__sub_801BC8F0(saddr arg0) {
     TObjPlayer__sub_801BF9E0((void *)(arg0 + 0x634), ((TObjBase *)arg0)->get_entity_id());
     ((TObjPlayer *)(arg0 + 0x384))->update_follow_particle(arg0);
-    set_field2_s16((void *)(arg0 + 0x34C), (((TObjBase *)arg0)->get_entity_id()));
+    ((TObjPlayer *)arg0)->chair_seat.set_owner_id(((TObjBase *)arg0)->get_entity_id());
 }
 void init_session_technique_caps__10TObjPlayerFPvPv(Player_801BC948 *self, Src_801BC948 *src) {
     s32 i;

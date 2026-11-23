@@ -15,6 +15,7 @@ struct NJS_OBJECT;
 #include "pso/player/BattleMusicState.h"
 #include "pso/player/ContactSurfaceState.h"
 #include "pso/player/MovementHold.h"
+#include "pso/player/PhotonChairSeat.h"
 #include "pso/unk/TUnk_804DDD28.h"
 
 struct TItemData;
@@ -170,10 +171,7 @@ struct TObjPlayer : public TObjChara {
     s16 m_33e;
     void* m_340;
     u8 _pad344[0x8];
-    void* m_34c;
-    u8 unk_350[0x4];
-    f32 m_354;
-    u8 unk_358[0x8];
+    PhotonChairSeat chair_seat;
     ContactSurfaceState contact_surface;
     s32 m_36c;
     u8 unk_370[0x4];
@@ -619,7 +617,6 @@ struct TObjPlayer : public TObjChara {
     u32 unpack_u32_lo();
     s32 get_slot_value_checked(s32 i);
     void*get_ptr_4();
-    void*setup_ctrl();
     int check_flag_at_428();
     void*get_sub_obj();
     void*get_char_data();
@@ -1031,7 +1028,6 @@ struct TObjPlayer : public TObjChara {
     static void update_battle_control_on_unlock(void *player, void *target, void *pos, s32 phase);
     void draw_node_tree(void *arg1);
     void draw_node_tree_if_visible();
-    static s32 conditional_delete_ex(saddr arg0, s16 arg1);
     static void create_cane_if_ready(saddr item, void *position);
     static void create_cleanup_object(void *arg0);
     static void free_static_buffer();

@@ -34,7 +34,6 @@ void __dt__18PhotonBlastRequestFv(void);
 extern const f32 TObjPlayer__data_805DC278;
 S_801C20A4 *init_player_telepipe_record(S_801C20A4 *arg0);
 s32 test_flags_any(s32 *flags, s32 mask);
-int fn_8035B00C(void*);
 
 extern const f32 TObjPlayer__data_805DC294;
 
@@ -117,8 +116,8 @@ u8 get_byte_13b(void* p) { return *(u8*)((char*)p + 0x13b); }
 u8 get_byte_11f(void* p) { return *(u8*)((char*)p + 0x11f); }
 u8 get_byte_103(void* p) { return *(u8*)((char*)p + 0x103); }
 u8 get_byte_e7(void* p) { return *(u8*)((char*)p + 0xe7); }
-void set_field2_s16(void* p, u16 v) { *(s16*)((char*)p + 0x2) = v; }
-void*TObjPlayer::setup_ctrl() { fn_8035B00C(this); return this; }
+void PhotonChairSeat::set_owner_id(u16 id) { owner_id = id; }
+PhotonChairSeat *PhotonChairSeat::init() { reset(); return this; }
 
 int TObjPlayer::check_flag_at_428() { return test_flags_any((s32 *)((char*)this + 0x428), 1); }
 void*TObjPlayer::get_sub_obj() { return (char*)this + 0x4; }

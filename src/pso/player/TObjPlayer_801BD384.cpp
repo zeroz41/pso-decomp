@@ -82,7 +82,7 @@ void *__dt__10TObjPlayerFv(void *arg0, s16 arg1) {
         destroy_follow_particle_state((saddr)((s8 *)arg0 + 0x384), -1);
         TObjPlayer__sub_801BEDC0((s8 *)arg0 + 0x374, -1);
         ((TObjPlayer *)arg0)->contact_surface.fn_801BFA4C(-1);
-        TObjPlayer::conditional_delete_ex((saddr)((s8 *)arg0 + 0x34C), (s16)(-1));
+        ((TObjPlayer *)arg0)->chair_seat.conditional_delete_ex(-1);
         TObjPlayer__sub_801BF9F0((u8 *)((s8 *)arg0 + 0x340), -1);
         __dt__9TObjCharaFv(arg0, 0);
         if (arg1 > 0) {
@@ -108,7 +108,7 @@ extern const char *lbl_805D3530;
 
 TObjPlayer::TObjPlayer(TObject *parent, TUnk_801D8A4C *src) : TObjChara(parent) {
     ((TObjPlayer *)((char *)this + 832))->init_subobject();
-    ((TObjPlayer *)((char *)this + 844))->setup_ctrl();
+    chair_seat.init();
     contact_surface.init_state();
     TObjPlayer__sub_803374C4((void *)((char *)this + 884));
     init_follow_particle_state((PlayerFollowParticles *)((char *)this + 900));
@@ -153,7 +153,7 @@ TObjPlayer::TObjPlayer(TObject *parent, TUnk_801D8A4C *src) : TObjChara(parent) 
 
 TObjPlayer::TObjPlayer(TObject *parent, void *arg2) : TObjChara(parent) {
     ((TObjPlayer *)((char *)this + 832))->init_subobject();
-    ((TObjPlayer *)((char *)this + 844))->setup_ctrl();
+    chair_seat.init();
     contact_surface.init_state();
     TObjPlayer__sub_803374C4((void *)((char *)this + 884));
     init_follow_particle_state((PlayerFollowParticles *)((char *)this + 900));
