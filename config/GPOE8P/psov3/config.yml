@@ -1771,8 +1771,8 @@ force_active:
   - TWindowComCard__class_name
   - __ct__14TWindowComCardFPvPv
   - __dt__22TWindowComCardFollowerFv
-  - TWindowComCard__window_desc
-  - TWindowComCard__window_desc_b
+  - com_card_window_descriptor
+  - com_card_follower_window_descriptor
   - TWindowCtrlMain__sub_8024CE34
   - TWindowCtrlMain__sub_8024D2A4
   - TWindowCtrlSub__name
@@ -8047,8 +8047,8 @@ force_active:
   - lbl_804C9C9C
   - lbl_804CB838
   - lbl_804CDC88
-  - lbl_804CE820
-  - lbl_804CE918
+  - com_card_layout_entries
+  - com_card_follower_layout_entries
   - __vt__22TWindowComCardFollower
   - lbl_804CF9F8
   - lbl_804CFA10

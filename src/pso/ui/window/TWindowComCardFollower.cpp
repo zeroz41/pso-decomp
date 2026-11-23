@@ -12,22 +12,25 @@
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/window/TWindowTradeRequest.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
+#include "pso/unk/WindowLayoutRecord.h"
 
-extern "C" {
-int initialize_subwindow__9TWindowDDFv(void*);
-extern "C" u8 hud_texlist[];
-extern void *lbl_804CE918[14];
-void *lbl_804CE918[14] = {
-    (void *)0x1, (void *)0x1, (void *)0x6, (void *)0x0,
-    (void *)0x0, (void *)0x42000000, (void *)0x41e00000, (void *)0x0,
-    (void *)0x0, (void *)0x3f000000, (void *)0xffffffff, (void *)&hud_texlist,
-    (void *)0x1, (void *)0x4,
+extern s32 hud_texlist;
+
+// The follower window draws a single HUD sprite.
+struct ComCardFollowerLayout {
+    u32 cols;
+    u32 rows;
+    SpritePartLayoutRecord panel;
 };
-void *TWindowComCard__window_desc_b[5] = {
-    (void *)0x42000000, (void *)0x41e00000, (void *)0x4788d100, (void *)&lbl_804CE918,
-    (void *)0x82b,
+
+ComCardFollowerLayout com_card_follower_layout_entries = {
+    1, 1,
+    {6, {0.0f, 0.0f}, {32.0f, 28.0f}, 0.0f, 0.0f, 0.5f, -1, &hud_texlist, 1, 4},
 };
-}
+
+WindowDescriptor com_card_follower_window_descriptor = {
+    {32.0f, 28.0f}, 70050.0f, &com_card_follower_layout_entries, 0x82B,
+};
 
 TWindowCtrl *TWindowCtrl::instance;
 u16 lbl_805D63FC;
@@ -53,7 +56,7 @@ void TWindowTradeRequest::close_request_window() {
 #pragma push
 #pragma fp_contract on
 TWindowComCardFollower::TWindowComCardFollower(TWindowBase *parent, NJS_POINT2 *ofs, s32 col, s32 mode, s32 client)
-    : TWindowBase((u8 *)TWindowComCard__window_desc_b, (s16)client, (u8 *)get_zero_vec2()) {
+    : TWindowBase((u8 *)&com_card_follower_window_descriptor, (s16)client, (u8 *)get_zero_vec2()) {
     parent_window = parent;
     offset.x = ofs->x;
     offset.y = ofs->y;
@@ -69,16 +72,11 @@ TWindowComCardFollower::TWindowComCardFollower(TWindowBase *parent, NJS_POINT2 *
 TWindowComCardFollower::~TWindowComCardFollower() {}
 
 void TWindowComCardFollower::run_task() {
-    u8 *arg0 = (u8 *)this;
-    f32 temp_f1;
-    u8 *temp_r4;
-    temp_r4 = (unsigned char *) (this->parent_window);
-    temp_f1 = parent_window->frame_position[1];
-    this->target_position[1] = (f32) (temp_f1 + offset.y);
-    this->frame_position[1] = (f32) this->target_position[1];
-    ((s32 (*)(void *, int, f32))initialize_subwindow__9TWindowDDFv)((void *)arg0, (saddr)temp_r4, (f32)temp_f1);
-    ((TWindowBase *)arg0)->update_fade();
-    ((TWindowBase *)arg0)->update_window_entry_list(reinterpret_cast<const WindowLayoutEntries *>(arg0 + 0x24));
+    target_position[1] = parent_window->frame_position[1] + offset.y;
+    frame_position[1] = target_position[1];
+    ((TWindowDD *)this)->initialize_subwindow();
+    update_fade();
+    update_window_entry_list(&entry_list);
 }
 
 void TWindowComCardFollower::render() {

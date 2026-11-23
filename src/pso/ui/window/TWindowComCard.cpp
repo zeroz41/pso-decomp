@@ -23,6 +23,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp_80228F5C.h"
 #include "pso/ui/window/TWindowSubStatusDisp_8025A9B4.h"
 #include "pso/object/TObjLuker.h"
+#include "pso/unk/WindowLayoutRecord.h"
 
 
 extern "C" {
@@ -31,25 +32,31 @@ extern s32 local_client_id;
 void TWindowComCard__sub_80249920(saddr arg0, s32 arg1, s32 arg2);
 s8 TWindowComCard__sub_80249C18(void* p);
 s8 TWindowComCard__sub_80249C20(void* p);
+}
 
-extern void *lbl_804CE820[44];
-void *lbl_804CE820[44] = {
-    (void *)0x6, (void *)0x1, (void *)0x3, (void *)0x0,
-    (void *)0x0, (void *)0x3f000000, (void *)0xffffffff, (void *)0x40,
-    (void *)0x0, (void *)0x3, (void *)0x43460000, (void *)0x41a00000,
-    (void *)0x3f000000, (void *)0xffffffff, (void *)0x40, (void *)0x0,
-    (void *)0x3, (void *)0x0, (void *)0x42200000, (void *)0x3f000000,
-    (void *)0xffffffff, (void *)0x40, (void *)0x0, (void *)0x3,
-    (void *)0x0, (void *)0x42700000, (void *)0x3f000000, (void *)0xffffffff,
-    (void *)0x40, (void *)0x0, (void *)0x3, (void *)0x0,
-    (void *)0x42a00000, (void *)0x3f000000, (void *)0xffffffff, (void *)0x40,
-    (void *)0x0, (void *)0x3, (void *)0x0, (void *)0x42c80000,
-    (void *)0x3f000000, (void *)0xffffffff, (void *)0x0, (void *)0x0,
+// The six text entries of the card: name, card id, class, language, stat and keyboard.
+struct ComCardLayout {
+    u32 cols;
+    u32 rows;
+    TextLayoutRecord text[6];
 };
-void *TWindowComCard__window_desc[5] = {
-    (void *)0x434e0000, (void *)0x43340000, (void *)0x4743b400, (void *)&lbl_804CE820,
-    (void *)0x23,
+
+ComCardLayout com_card_layout_entries = {
+    6, 1,
+    {
+        {3, {0.0f, 0.0f}, 0.5f, 0xFFFFFFFF, 0x40, NULL},
+        {3, {198.0f, 20.0f}, 0.5f, 0xFFFFFFFF, 0x40, NULL},
+        {3, {0.0f, 40.0f}, 0.5f, 0xFFFFFFFF, 0x40, NULL},
+        {3, {0.0f, 60.0f}, 0.5f, 0xFFFFFFFF, 0x40, NULL},
+        {3, {0.0f, 80.0f}, 0.5f, 0xFFFFFFFF, 0x40, NULL},
+        {3, {0.0f, 100.0f}, 0.5f, 0xFFFFFFFF, 0, NULL},
+    },
 };
+
+WindowDescriptor com_card_window_descriptor = {
+    {206.0f, 180.0f}, 50100.0f, &com_card_layout_entries, 0x23,
+};
+
 const char *TWindowComCard__class_name = "TWindowComCard";
 void *com_card_status_text_table[6] = {
     (void *)"Jpn.", (void *)"Eng.", (void *)"Ger.", (void *)"Fr.",
@@ -61,7 +68,6 @@ const ComCardHelpRect com_card_help_panel_rect_table[14] = {
     {0.0f, 208.0f}, {32.0f, 208.0f}, {64.0f, 208.0f}, {96.0f, 208.0f}, {128.0f, 208.0f},
     {72.0f, 167.0f}, {104.0f, 167.0f}, {136.0f, 167.0f}, {168.0f, 167.0f},
 };
-}
 
 // The text set of the com card display: its six text entries (name, card id, class, status, stat, keyboard).
 struct ComCardText { u16 flags; u8 pad2[6]; f32 x; u8 padC[4]; f32 w; };
@@ -110,7 +116,7 @@ extern "C" s8 TWindowComCard__sub_80249C18(void* p) { return *(s8*)((char*)p + 0
 void*TWindowComCard::get_kbd_ptr() { return (char*)this + 0x20; }
 
 TWindowComCard::TWindowComCard(void *position, void *data)
-    : TWindowBase((u8 *)&TWindowComCard__window_desc, 4, (u8 *)position) {
+    : TWindowBase((u8 *)&com_card_window_descriptor, 4, (u8 *)position) {
     m_name = TWindowComCard__class_name;
     update_com_card_display((ComCardDisplay *)&entry_list, data);
 }
