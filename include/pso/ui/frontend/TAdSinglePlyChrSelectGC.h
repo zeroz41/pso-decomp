@@ -136,9 +136,7 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     static void free_all_resources();
     s32 load_and_verify_character_save(char *desc);
     static void remove_matching_entries(s32 arg0);
-    static s32 free_chardata(saddr arg0, s16 arg1);
     u8 *copy_character_data(u8 *arg1);
-    u8 *construct_chardata_array();
     void swap_item_data(s32 *arg1);
     static void reset_quest_id();
     static void set_quest_download_server(int a0);
@@ -178,7 +176,6 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     static s32 copy_save_data(int arg0, int arg1);
     static void encrypt_save_data(void *arg0);
     static void create_instance();
-    static s32 destroy_chardata_array(int arg0, s16 arg1);
     static s32 encrypt_and_save();
     static s32 encrypt_save_and_write();
     static s32 free();
