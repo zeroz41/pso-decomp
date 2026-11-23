@@ -290,10 +290,10 @@ u8 *TPhotonFarlla__ct(u8 *summon, u8 *arg1) {
     switch (get_current_floor_area()) {
     case AREA_DRAGON: case AREA_DE_ROL_LE: case AREA_VOL_OPT: case AREA_DARK_FALZ:
     case AREA_GAL_GRYPHON: case AREA_OLGA_FLOW: case AREA_BARBA_RAY: case AREA_GOL_DRAGON:
-        new TPhotonRainbow((TObject *)summon, (const Vec *)(summon + 0x38), 1);
+        new TPhotonRainbow((TObject *)summon, &((TObjBase *)summon)->position, 1);
         break;
     default:
-        new TPhotonRainbow((TObject *)summon, (const Vec *)(summon + 0x38), 0);
+        new TPhotonRainbow((TObject *)summon, &((TObjBase *)summon)->position, 0);
         break;
     }
     sub_801AAE6C__13TPhotonFarllaFv(summon, *(u8 *)((s8 *)arg1 + 0x1C));

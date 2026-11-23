@@ -267,10 +267,10 @@ u8 *TPhotonPilla__ct(u8 *photon_rainbow, u8 *arg1) {
     case AREA_DE_ROL_LE:
     case AREA_VOL_OPT:
     case AREA_DARK_FALZ:
-        new TPhotonRainbow((TObject *)photon_rainbow, (const Vec *)(photon_rainbow + 0x38), 1);
+        new TPhotonRainbow((TObject *)photon_rainbow, &((TObjBase *)photon_rainbow)->position, 1);
         break;
     default:
-        new TPhotonRainbow((TObject *)photon_rainbow, (const Vec *)(photon_rainbow + 0x38), 0);
+        new TPhotonRainbow((TObject *)photon_rainbow, &((TObjBase *)photon_rainbow)->position, 0);
         break;
     }
     *(s32 *)((s8 *)photon_rainbow + 0x194) = 0;

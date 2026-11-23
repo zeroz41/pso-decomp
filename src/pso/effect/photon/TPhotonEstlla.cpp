@@ -234,10 +234,10 @@ TPhotonEstlla::TPhotonEstlla(u8 *arg1) : TPhotonBlastSummon() {
     switch (get_current_floor_area()) {
     case AREA_DRAGON: case AREA_DE_ROL_LE: case AREA_VOL_OPT: case AREA_DARK_FALZ:
     case AREA_GAL_GRYPHON: case AREA_OLGA_FLOW: case AREA_BARBA_RAY: case AREA_GOL_DRAGON:
-        new TPhotonRainbow(this, (const Vec *)(((u8 *)this) + 0x38), 1);
+        new TPhotonRainbow(this, &position, 1);
         break;
     default:
-        new TPhotonRainbow(this, (const Vec *)(((u8 *)this) + 0x38), 0);
+        new TPhotonRainbow(this, &position, 0);
         break;
     }
     sub_801AA6F8__13TPhotonEstllaFv(this, *(u8 *)((s8 *)arg1 + 0x1C));
