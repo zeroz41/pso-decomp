@@ -2115,7 +2115,7 @@ s32 TObjEneMe3Stelth::try_spawn_ground_effect(const Vec *origin) {
             attach_particle_model((u8 *)effect, TParticleCtrl::get_particle_model(2), TParticleCtrl::get_instance(), 0, 1, 1.0f);
         }
         spawn_particle_effect(&hit->contact[2].point, 0xA4);
-        TObjEneGibbles__sub_800D8988(&position);
+        play_ground_contact_sound(&position);
         return 1;
     }
     return 0;

@@ -49,7 +49,7 @@
 #include "pso/effect/TUnk_80494968.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/SoundEffect.h"
-#include "pso/unk/text_800D8830.h"
+#include "pso/effect/GroundContactSound.h"
 #include "pso/object/TObjControl.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/player/TObjPlayer_800D8FDC.h"
@@ -923,7 +923,7 @@ void TObjEneDolmOlm::spawn_ground_effects(Vec *pos) {
     if (hit != NULL) {
         if (hit->hit_mask & 4) {
             if (actor_frame_tick % 5 == 0) {
-                fn_800D88E4(&position);
+                play_ground_landing_sound(&position);
             }
             e = spawn_particle_effect(&hit->contact[2].point, 0x49);
             if (e != NULL) {
@@ -932,7 +932,7 @@ void TObjEneDolmOlm::spawn_ground_effects(Vec *pos) {
             spawn_particle_effect(&hit->contact[2].point, 0xA4);
         } else if (hit->hit_mask & 2) {
             if (actor_frame_tick % 10 == 0) {
-                fn_800D88E4(&position);
+                play_ground_landing_sound(&position);
             }
             e = spawn_particle_effect(&hit->contact[3].point, 0x49);
             if (e != NULL) {

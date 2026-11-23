@@ -241,6 +241,7 @@ pso/boss/darkfalz/TBoss4Thanks.cpp
 pso/boss/darkfalz/TBoss4Type1.cpp
 pso/boss/darkfalz/TBoss4Type2_8004A978.cpp
 pso/boss/darkfalz/TBoss4Type2_80086C44.cpp
+pso/effect/GroundContactSound.cpp
 pso/effect/particle/TParticleCtrl_800874F4.cpp
 pso/effect/particle/ParticleResources.cpp
 pso/boss/darkfalz/TBoss4Type3.cpp
@@ -1995,8 +1996,6 @@ pso/unk/text_800C2A88.cpp
 pso/unk/text_800C2CE0.cpp
 pso/enemy/TUnk_80493450_800C69E8.cpp
 pso/unk/text_800C7FEC.cpp
-pso/unk/text_800D8830.cpp
-pso/unk/text_800D8988.cpp
 pso/enemy/nanodrago/TObjEneNanoDrago_800D9BBC.cpp
 pso/unk/text_800DC420.cpp
 pso/unk/text_800F5BC0.cpp

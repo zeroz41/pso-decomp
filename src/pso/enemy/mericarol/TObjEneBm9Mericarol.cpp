@@ -6,7 +6,7 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "types.h"
 #include "pso/system/AreaSound.h"
-#include "pso/unk/text_800D8830.h"
+#include "pso/effect/GroundContactSound.h"
 #include "pso/boss/goldragon/TBoss8Dragon_80065C90.h"
 #include "pso/boss/goldragon/TBoss8Dragon_800BC53C.h"
 #include "pso/object/trap/TOTrapAncient01_80226534.h"
@@ -1317,7 +1317,7 @@ void TObjEneBm9Mericarol::play_step_effect() {
     if (hit != NULL) {
         u32 surface_mask = hit->hit_mask & 4;
         if (surface_mask != 0) {
-            fn_800D8830(this, &position);
+            play_ground_step_sound(this, &position);
         } else {
             play_persistent_sound(remap_sound_for_area(0x3B211), (saddr)this, (uaddr)&position, 0, 0);
         }

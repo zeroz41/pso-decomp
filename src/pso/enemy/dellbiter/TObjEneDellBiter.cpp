@@ -66,7 +66,6 @@
 #include "pso/unk/text_803D96A8.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/unk/text_800D8830.h"
 #include "pso/object/mine/TOComputerMachine01_8023DD0C.h"
 #include "pso/ui/TLevelSelect.h"
 #include "pso/map/CsnQuery.h"
@@ -462,7 +461,7 @@ s32 TObjEneDellBiter::check_rush_collisions() {
 
 void TObjEneDellBiter::update_attack_effect() {
     if (fn_803059BC(&position) != 0) {
-        TObjEneGibbles__sub_800D8988(&position);
+        play_ground_contact_sound(&position);
         return;
     }
     play_sound_effect(this->remap_sound_for_area((saddr)((void *)0x40039E11)), &position, 0, 0);
@@ -525,7 +524,7 @@ s32 TObjEneDellBiter::fn_803059BC(const Vec *origin) {
 void TObjEneDellBiter::play_step_effect() {
     if (is_passing_frame(0.0f) != 0 || is_passing_frame(8.0f) != 0) {
         if (fn_803059BC(&position) != 0) {
-            fn_800D8830(this, &position);
+            play_ground_step_sound(this, &position);
             return;
         }
         play_persistent_sound(this->remap_sound_for_area((saddr)((void *)0x40039E13)), (saddr)this, (uaddr)&position, 0, 0);

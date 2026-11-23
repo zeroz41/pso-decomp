@@ -46,7 +46,7 @@
 #include "pso/system/SoundEffect.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/ui/TLevelSelect.h"
-#include "pso/unk/text_800D8830.h"
+#include "pso/effect/GroundContactSound.h"
 #include "pso/math/ScratchVectors.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/map/CsnQuery.h"
@@ -1072,7 +1072,7 @@ void TObjEneMerillLia::spawn_ground_effect() {
             spawn_particle_effect(&hit->contact[2].point, 0xA4);
         }
         if ((is_passing_frame(7.0f) != 0) || (is_passing_frame(22.0f) != 0)) {
-            fn_800D88E4(&position);
+            play_ground_landing_sound(&position);
         }
     }
 }

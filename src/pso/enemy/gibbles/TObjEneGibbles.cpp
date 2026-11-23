@@ -779,7 +779,7 @@ void TObjEneGibbles::update_death_sequence() {
             this->jump_speed = 0.0f;
             switch (landing_damage_players()) {
             case 0:
-                TObjEneGibbles__sub_800D8988(&position);
+                ::play_ground_contact_sound(&position);
                 break;
             default:
             case 1:
@@ -1371,7 +1371,7 @@ void TObjEneGibbles::state_jump_attack() {
             jump_height = 0.0f;
             switch (landing_damage_players()) {
             case 0:
-                TObjEneGibbles__sub_800D8988(&position);
+                ::play_ground_contact_sound(&position);
                 break;
             case 1:
             default:
@@ -1710,7 +1710,7 @@ void TObjEneGibbles::sub_802D7E3C() {}
 void TObjEneGibbles::play_ground_contact_sound() {
     if (is_passing_frame(7.0f) != 0 || is_passing_frame(20.0f) != 0) {
         if (spawn_ground_impact_effects(&position, 3.0f) != 0) {
-            TObjEneGibbles__sub_800D8988(&position);
+            ::play_ground_contact_sound(&position);
             return;
         }
         play_sound_effect(resolve_sound_id(0x3A82B), &position, 0, 0);
@@ -1720,7 +1720,7 @@ void TObjEneGibbles::play_ground_contact_sound() {
 void TObjEneGibbles::play_distance_sound() {
     if (is_passing_frame(8.0f) != 0) {
         if (spawn_ground_impact_effects(&position, 3.0f) != 0) {
-            TObjEneGibbles__sub_800D8988(&position);
+            ::play_ground_contact_sound(&position);
             return;
         }
         play_sound_effect(resolve_sound_id(0x3A83D), &position, 0, 0);
@@ -1728,7 +1728,7 @@ void TObjEneGibbles::play_distance_sound() {
     }
     if (is_passing_frame(23.0f) != 0) {
         if (spawn_ground_impact_effects(&position, 3.0f) != 0) {
-            TObjEneGibbles__sub_800D8988(&position);
+            ::play_ground_contact_sound(&position);
             return;
         }
         play_sound_effect(resolve_sound_id(0x3A83E), &position, 0, 0);
@@ -1736,7 +1736,7 @@ void TObjEneGibbles::play_distance_sound() {
     }
     if (is_passing_frame(40.0f) != 0) {
         if (spawn_ground_impact_effects(&position, 3.0f) != 0) {
-            TObjEneGibbles__sub_800D8988(&position);
+            ::play_ground_contact_sound(&position);
             return;
         }
         play_sound_effect(resolve_sound_id(0x3A83F), &position, 0, 0);

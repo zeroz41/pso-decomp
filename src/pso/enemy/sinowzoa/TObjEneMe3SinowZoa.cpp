@@ -2185,7 +2185,7 @@ s32 TObjEneMe3SinowZoa::check_floor_contact(const Vec *origin) {
             VecCopy(&this->floor_point, &this->position);
         }
         if (hit->hit_mask & 4) {
-            TObjEneGibbles__sub_800D8988(&this->position);
+            play_ground_contact_sound(&this->position);
             p = spawn_particle_effect(&hit->contact[2].point, 0x49);
             if (p != 0) {
                 attach_particle_model((u8 *)p, TParticleCtrl::get_particle_model(2), TParticleCtrl::get_instance(), 0, 1, 1.0f);
@@ -2194,7 +2194,7 @@ s32 TObjEneMe3SinowZoa::check_floor_contact(const Vec *origin) {
             return 1;
         }
         if (hit->hit_mask & 2) {
-            TObjEneGibbles__sub_800D8988(&this->position);
+            play_ground_contact_sound(&this->position);
             p = spawn_particle_effect(&hit->contact[3].point, 0x49);
             if (p != 0) {
                 attach_particle_model((u8 *)p, TParticleCtrl::get_particle_model(2), TParticleCtrl::get_instance(), 0, 1, 1.0f);

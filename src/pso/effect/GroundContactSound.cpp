@@ -1,13 +1,11 @@
-#include "types.h"
-#include "pso/unk/text_800D8830.h"
-#include "pso/object/trap/TOTrapAncient01_80226534.h"
+#include "pso/effect/GroundContactSound.h"
 #include "pso/map/FloorArea.h"
+#include "pso/object/trap/TOTrapAncient01_80226534.h"
 #include "pso/player/TObjPlayer_80011014.h"
+#include "pso/system/SoundEffect.h"
+#include "types.h"
 
-extern "C" {
-s32 play_sound_effect(int, void *, int, int);
-
-void fn_800D8830(void *owner, void *pos) {
+void play_ground_step_sound(TObject *owner, Vec *pos) {
     switch (get_current_floor_area()) {
     case AREA_CENTRAL_CONTROL_AREA:
     case AREA_JUNGLE_NORTH:
@@ -26,7 +24,7 @@ void fn_800D8830(void *owner, void *pos) {
     }
 }
 
-void fn_800D88E4(void *pos) {
+void play_ground_landing_sound(Vec *pos) {
     switch (get_current_floor_area()) {
     case AREA_CENTRAL_CONTROL_AREA:
     case AREA_JUNGLE_NORTH:
@@ -44,4 +42,22 @@ void fn_800D88E4(void *pos) {
         break;
     }
 }
+
+void play_ground_contact_sound(Vec *pos) {
+    switch (get_current_floor_area()) {
+    case AREA_CENTRAL_CONTROL_AREA:
+    case AREA_JUNGLE_NORTH:
+    case AREA_JUNGLE_EAST:
+    case AREA_MOUNTAIN:
+    case AREA_SEASIDE:
+        play_sound_effect(0x3A841, pos, 0, 0);
+        break;
+    case AREA_SEASIDE_NIGHT:
+        play_sound_effect(0x4003B22C, pos, 0, 0);
+        break;
+    case AREA_SEABED_UPPER:
+    case AREA_SEABED_LOWER:
+        play_sound_effect(0x4003A834, pos, 0, 0);
+        break;
+    }
 }

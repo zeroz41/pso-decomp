@@ -66,7 +66,7 @@ struct NJS_OBJECT;
 #include "pso/system/MatrixOps.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/player/TObjPlayer_80011014.h"
-#include "pso/unk/text_800D8830.h"
+#include "pso/effect/GroundContactSound.h"
 #include "pso/map/CsnQuery.h"
 #include "pso/enemy/TObjEnemyCustom.h"
 #include "pso/enemy/sinowzoa/TObjEneMe3SinowZoa.h"
@@ -216,7 +216,7 @@ void TObjEneBm5GibonU::spawn_landing_effect(Vec *pos) {
         if (p != NULL && is_leader == 1) {
             ((TParticleCtrl *)p)->set_scale(1.5f, 1.0f);
         }
-        fn_800D88E4(&position);
+        play_ground_landing_sound(&position);
         return;
     }
     play_sound_effect(remap_sound_for_area(0x3BC21), &position, 0, 0);

@@ -1785,11 +1785,8 @@ pso/object/TDeadSpot.cpp:
 pso/npc/TNpcPlayer_800D87A8.cpp:
 	.text       start:0x800D87A8 end:0x800D8830
 
-pso/unk/text_800D8830.cpp:
-	.text       start:0x800D8830 end:0x800D8988
-
-pso/unk/text_800D8988.cpp:
-	.text       start:0x800D8988 end:0x800D8A2C
+pso/effect/GroundContactSound.cpp:
+	.text       start:0x800D8830 end:0x800D8A2C
 
 pso/player/TObjPlayer_800D8A2C.cpp:
 	.text       start:0x800D8A2C end:0x800D8A78
