@@ -280,9 +280,9 @@ force_active:
   - sub_802E1868__12TAdTimeSetGCFv
   - sub_802E18C8__12TAdTimeSetGCFv
   - sub_802E1A04__12TAdTimeSetGCFllll
-  - TAdSinglePlyChrSelectGC__sub_8033A9F0
+  - sub_8033A9F0__13TUnk_804EF8C0Fv
   - TAdSinglePlyChrSelectGC__sub_8033B244
-  - TAdSinglePlyChrSelectGC__sub_8033B5F0
+  - sub_8033B5F0__13TUnk_804EF8C0Fv
   - enable_prompt__16TCheckMemoryCardFv
   - __ct__16TBGLightningCtrlFP7TObjectPv
   - class_name__16TBGLightningCtrl
@@ -5008,7 +5008,7 @@ force_active:
   - check_low_hp_transition__16TObjEneDellBiterFv
   - check_low_hp_trigger__13TObjEneMorfosFv
   - check_memcard_slot__22TQuestVmDownLoadServerFv
-  - check_memcard_space__23TAdSinglePlyChrSelectGCFv
+  - check_memcard_space__13TUnk_804EF8C0Fv
   - check_movement_progress__10TNpcPlayerFv
   - check_object_in_view_cone__6TSceneFiPvPvPvi
   - check_open_trigger__20TContainerAncient01RFv
@@ -5235,7 +5235,7 @@ force_active:
   - close_window__20TObjChallenge4PRetryFv
   - close_window__21TAdMultiChgGameModeGCFPv
   - close_window__22TQuestVmDownLoadServerFv
-  - close_window__23TAdSinglePlyChrSelectGCFPv
+  - close_window__13TUnk_804EF8C0Fv
   - close_window__9TSaveChCrFv
   - close_window_and_destroy__18TAdEnterPasswordGCFPv
   - close_window_field30__20TObjChallenge4PRetryFv
@@ -6842,7 +6842,7 @@ force_active:
   - handle_input__28TWindowSubSymbolChatFaceTypeFv
   - handle_input_window_result__24TShopEquipmentSellWindowFv
   - handle_judge_confirm__23TShopJudgmentItemWindowFv
-  - handle_load_result__23TAdSinglePlyChrSelectGCFv
+  - handle_load_result__13TUnk_804EF8C0Fv
   - handle_lobby_enter__6TLobbyFP18TPlyJoinLobbyEntryiiiiiii
   - handle_login_result__6TLobbyFUi
   - handle_loss_sequence__18TObjChallengeRetryFv
@@ -6867,7 +6867,7 @@ force_active:
   - handle_pay_confirm__23TShopJudgmentItemWindowFv
   - handle_pickup__5TItemFsP10TObjPlayer
   - handle_player_buttons__12TAdMultiOkGCFi
-  - handle_player_load__23TAdSinglePlyChrSelectGCFv
+  - handle_player_load__13TUnk_804EF8C0Fv
   - handle_regist_check__6TLobbyFi
   - handle_register_name_result__6TLobbyFi
   - handle_register_result__6TLobbyFi
@@ -7209,9 +7209,9 @@ force_active:
   - __ct__13TUnk_804A4E68FP7TObjectPUc
   - __ct__13TUnk_804A5150FP7TObjectPUc
   - __ct__13TUnk_804ECEB8FP7TObjectPUc
-  - init_warp__23TAdSinglePlyChrSelectGCFv
+  - init_warp__13TUnk_804EF8C0Fv
   - init_warp_params__17TObjWarpBossMultiFv
-  - init_warps__23TAdSinglePlyChrSelectGCFv
+  - init_warps__13TUnk_804EF8C0Fv
   - init_window__22THunterGuildSeqOfflineFPv
   - init_window__22TShopEquipmentSequenceFPv
   - init_windows__23TAdSinglePlyChrSelectGCFi
@@ -13910,7 +13910,7 @@ force_active:
   - queue_destruction__15TObjIllGillKageFv
   - queue_destruction__18TChallenge4PResultFv
   - queue_destruction__20TObjEneMe1Gee_NEEDLEFv
-  - queue_destruction__23TAdSinglePlyChrSelectGCFPv
+  - queue_destruction__13TUnk_804EF8C0Fv
   - queue_static_object_destruction__6TLobbyFv
   - queue_thread_main__6TLobbyFv
   - quick_sort__10TNpcPlayerFllll
@@ -15422,7 +15422,7 @@ force_active:
   - start_fleeing__12TObjEneLappyFv
   - set_camera__15TEndingPicStageFv
   - set_card_index__17TWindowSubComCardFl
-  - set_char_slots__23TAdSinglePlyChrSelectGCFll
+  - set_char_slots__13TUnk_804EF8C0Fll
   - set_character_select_b_slot_state__Fi
   - set_child_flags__11TBoss6Type2Fv
   - set_child_windows_enabled__19TWindowSubTradeMainFl
@@ -16035,7 +16035,7 @@ force_active:
   - start_attack_motion__15TObjEneDelDepthFv
   - start_bone_rotation__12T_OWEHMS_ExpFv
   - start_bone_rotation_sequence__19TObjEZBoneRotPlayerFl
-  - start_check_memory_card__23TAdSinglePlyChrSelectGCFv
+  - start_check_memory_card__13TUnk_804EF8C0Fv
   - start_countdown_sound_state__11TBoss6Type2Fv
   - start_download__12TChCrLoadAfsFv
   - start_duel_battle__6TLobbyFv
@@ -16375,10 +16375,10 @@ force_active:
   - sub_80339DBC__9TSaveChCrFv
   - sub_80339F30__9TSaveChCrFv
   - sub_8033A138__9TSaveChCrFv
-  - sub_8033AA64__23TAdSinglePlyChrSelectGCFv
-  - sub_8033ACF4__23TAdSinglePlyChrSelectGCFv
-  - sub_8033AFC8__23TAdSinglePlyChrSelectGCFv
-  - sub_8033B0AC__23TAdSinglePlyChrSelectGCFv
+  - sub_8033AA64__13TUnk_804EF8C0Fv
+  - sub_8033ACF4__13TUnk_804EF8C0Fv
+  - sub_8033AFC8__13TUnk_804EF8C0Fv
+  - sub_8033B0AC__13TUnk_804EF8C0Fv
   - draw_parts__25TBoss6Demo10_TYPE1_APPEARFv
   - sub_80348E34__18TAdChrMoveEffectGCFv
   - sub_8034B8B0__18TChallenge4PResultFv
@@ -17177,7 +17177,7 @@ force_active:
   - update_segment_angles__9TBoss6MagFv
   - update_segments__11TBoss6Type2Fv
   - update_segments__20TItemEffOrgaFlowShotFv
-  - update_select_state__23TAdSinglePlyChrSelectGCFv
+  - update_select_state__13TUnk_804EF8C0Fv
   - update_selected_char__19TChCrTagInformationFv
   - update_selected_help__19TWindowSubTechniqueFl
   - update_selection__17TWindowSubComCardFUiUiPvi
@@ -17185,7 +17185,7 @@ force_active:
   - update_selection__19TQuestListChallengeFv
   - update_selection__20TShopArmorListWindowFPv
   - update_selection_input__19TWindowSubMagPhotonFv
-  - update_setup__23TAdSinglePlyChrSelectGCFv
+  - update_setup__13TUnk_804EF8C0Fv
   - update_shadow_attack__14TObjEneIllGillFv
   - update_shake__11TCameraCtrlFv
   - update_shifta_deband_action__8TItemMagFv

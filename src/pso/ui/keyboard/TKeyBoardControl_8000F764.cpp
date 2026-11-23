@@ -26,7 +26,7 @@
 #include "pso/unk/text_8008C4F4.h"
 #include "pso/system/scene/OfflineGameScene.h"
 #include "pso/unk/TLobby_801A3C48.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_8033A8EC.h"
+#include "pso/ui/TUnk_804EF8C0.h"
 #include "pso/ui/frontend/TAdTrialModemChkGC.h"
 #include "pso/item/TItemReverseTech.h"
 #include "pso/ui/keyboard/TKeyBoardControl_803DE9C4.h"

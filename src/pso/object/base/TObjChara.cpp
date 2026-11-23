@@ -91,7 +91,6 @@
 
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_8033A8EC.h"
 
 #include "pso/ui/frontend/TAdTrialModemChkGC.h"
 

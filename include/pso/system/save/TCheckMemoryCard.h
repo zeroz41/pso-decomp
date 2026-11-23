@@ -21,6 +21,8 @@ struct TCheckMemoryCard : public TObject {
     void enable_prompt();
     void select_main_window_controller();
     s32 is_card_ready();
+    static s32 has_no_save_files(s32 chan);
+    static s32 sub_8033BA84(s32 chan);
 
     s32 check_player_data();
     s32 check_card();
