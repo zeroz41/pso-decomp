@@ -5541,7 +5541,7 @@ force_active:
   - creation_stick_zero
   - cri_copyright_string
   - __ct__13TUnk_804C4480FP7TObjectlP8TObjBasePC3VecSc
-  - ct_shoot_model__10TObjPlayerFPv
+  - __ct__13TUnk_804A2148FPvPC3VecPC3Vecf
   - __ct__13TUnk_804A5058FP7TObjectPUc
   - cull_sections__6TSceneFv
   - current_floor_area_type
@@ -5933,7 +5933,7 @@ force_active:
   - drawing__11TItemMagSub
   - drawn_node__11TItemMagSub
   - drill_launcher_create_shot__Flllf
-  - drill_launcher_ct__FPvlPv
+  - __ct__13TUnk_804A2164FP7TObjectPUc
   - drill_launcher_return_timer__FPv
   - drop_item__9TItemDropFiii
   - dspInitCallback
