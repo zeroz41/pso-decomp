@@ -3,7 +3,7 @@
 #include "types.h"
 #include "pso/system/task/TObject.h"
 
-// Gogo-ball goal marker, spawned in pairs by TUnk_804B8E00::run_task.
+// Gogo-ball goal marker, spawned in pairs by TGoGoBallGame::run_task.
 class TUnk_804B8DD0 : public TObject {
 public:
     TUnk_804B8DD0(Vec *pos, s32 team0, s32 three_point, s32 lifetime, TObject *parent);

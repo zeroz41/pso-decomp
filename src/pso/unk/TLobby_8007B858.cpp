@@ -6,7 +6,7 @@
 #include "pso/ui/city/THunterGuildSeqOnlineTask.h"
 #include "pso/system/TLanguage.h"
 #include "pso/object/lobby/LobbyGoGoBall.h"
-#include "pso/unk/TUnk_804B8E00.h"
+#include "pso/object/lobby/TGoGoBallGame.h"
 #include "pso/npc/TNpcPlayer.h"
 #include "pso/unk/TUnk_804F07C8.h"
 #include "pso/map/TSetManager.h"
@@ -149,7 +149,7 @@ void TLobby::create_tasks() {
         TLobbyEventTheme::create();
     }
     if ((get_current_floor_area() == AREA_LOBBY) && (TLobby::is_scene_ready() != 0)) {
-        TUnk_804B8E00::create();
+        TGoGoBallGame::create();
     }
     if ((get_main_phase() == 0xF) && ((get_current_floor_area() == AREA_PIONEER2_EP1) || (get_current_floor_area() == AREA_PIONEER2_EP2))) {
         new THunterGuildSeqOnlineTask((TObject *)tl_01);

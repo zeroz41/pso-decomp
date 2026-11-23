@@ -1553,7 +1553,7 @@ force_active:
   - TObjPlayer__sub_80155028
   - TObjPlayer__sub_801550B8
   - __dt__13TUnk_804B5BA8Fv
-  - draw_shadow_quads__13TUnk_804B8E18FP3VecP3VeclP3Vecf
+  - draw_shadow_quads__12TObjGoGoBallFP3VecP3VeclP3Vecf
   - __ct__22PhotonBlastRequestSlotFv
   - __as__22PhotonBlastRequestSlotFR22PhotonBlastRequestSlot
   - TObjPlayer__sub_801BD384
@@ -1876,7 +1876,7 @@ force_active:
   - TWindowTimer__sub_801988E8
   - TWindowTimer__sub_80198CF8
   - TWindowTimer__sub_80199410
-  - send_local_player_walk__13TUnk_804B8E18Fv
+  - send_local_player_walk__12TObjGoGoBallFv
   - TWindowTimer__sub_8019A574
   - init__15G_GoGoBall_6x79Fv
   - close_gogo_ball_timer__Fv
@@ -5900,7 +5900,7 @@ force_active:
   - draw_serial_chars__22TAdEnterSerialAccessGCFPv
   - draw_serial_plates__22TAdEnterSerialAccessGCFv
   - draw_serial_separators__22TAdEnterSerialAccessGCFv
-  - draw_shadow_on_ground__13TUnk_804B8E18Fv
+  - draw_shadow_on_ground__12TObjGoGoBallFv
   - draw_shadowed_node_tree__FP10NJS_OBJECT
   - draw_slot__14TWindowSubItemFlll
   - draw_slot_icons__15TAdChrSelSlotGCFv
@@ -14028,7 +14028,7 @@ force_active:
   - recv_vm_download_head__9TProtocolFR6packet
   - ref_counted_load_buffer
   - refill_gstream_buffer__Fl
-  - reflect_velocity_off_collision__13TUnk_804B8E18FPvPv
+  - reflect_velocity_off_collision__12TObjGoGoBallFPvPv
   - refresh__14TWindowSubItemFv
   - refresh_display__12TAdDialingGCFv
   - refresh_invincibility__8TItemMagFv
@@ -16253,7 +16253,7 @@ force_active:
   - sub_8018B48C__19TContainerAncient01Fv
   - sub_8018B700__19TContainerAncient01Fv
   - sub_801933C8__15TObjLazerFence4Fv
-  - sub_8019A44C__13TUnk_804B8E18Fl
+  - sub_8019A44C__12TObjGoGoBallFl
   - delay_before_fade_in__14TObjWarpStringFv
   - sub_8019E418__12TObjWarpBossFv
   - sub_8019F9E4__14TObjWarpBoss03Fv
@@ -16706,7 +16706,7 @@ force_active:
   - update_battle_intro__6TLobbyFPv
   - update_battle_phase__19TPlayerBattleCtrl4PFv
   - update_battle_sync__6TLobbyFl
-  - update_best_time__13TUnk_804B8E18Fv
+  - update_best_time__12TObjGoGoBallFv
   - update_blink_state__16TOCakeshopCave01Fl
   - update_block_jump_list__6TLobbyFv
   - update_bobbing__13TOCtrlDubchikFv
@@ -16927,7 +16927,7 @@ force_active:
   - update_giveup__20TObjChallenge4PRetryFv
   - update_go_down__11TBoss4Type3Fv
   - update_go_up__11TBoss4Type3Fv
-  - update_goal_checks__13TUnk_804B8E18FUs
+  - update_goal_checks__12TObjGoGoBallFUs
   - update_ground_check__15TObjEneDelDepthFv
   - update_ground_effect__11TObjEneMojaFv
   - update_ground_effects__13TBoss5GryphonFv

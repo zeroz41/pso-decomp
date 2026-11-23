@@ -7,6 +7,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/map/CsnGroundQuery.h"
 #include "pso/network/protocol/protocol_types.h"
+#include "pso/network/protocol/subcmd_6x.h"
 #include "pso/system/ControllerInputState.h"
 #include "pso/unk/TLobby_801E43E4.h"
 #include "pso/system/NinjaTypes.h"
@@ -37,8 +38,8 @@
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/object/base/TObjChara.h"
-#include "pso/unk/TUnk_804B8E18.h"
-#include "pso/unk/TUnk_804B8E00.h"
+#include "pso/object/lobby/TObjGoGoBall.h"
+#include "pso/object/lobby/TGoGoBallGame.h"
 #include <stddef.h>
 #include "pso/render/render_util.h"
 #include "pso/unk/text_803D8F74.h"
@@ -67,7 +68,6 @@ s32 scale_matrix(int, f32, f32, f32);
 s32 rotate_matrix_x(int, int);
 }
 
-struct Obj_8019978C;
 struct Pair_80198F14;
 extern "C" {
 extern BmlResourceDescriptor language_lobby_texture_descriptor;
@@ -191,12 +191,6 @@ struct Hit_8019978C {
     u8 pad0[4];
     Tri_8019978C *tri;
 };
-struct Obj_8019978C {
-    u8 pad0[0x340];
-    f32 f340;
-    u8 pad344[0x394 - 0x344];
-    f32 f394;
-};
 extern "C" {
 Hit_8019978C *csnVector(Vec *, Vec *, s32);
 f32 vec3_dot(Vec *, Vec *);
@@ -210,23 +204,6 @@ extern s32 chunk_polygon_flags_and_mask;
 extern s32 model_render_flags;
 }
 void direction_to_rotation_yx(u8 *arg0, s32 *arg1, s32 *arg2);
-struct Pkt_8019A098 { u8 cmd; u8 size; u16 id; f32 x; f32 z; s32 flag; };
-struct Player_8019A098 { u8 pad[0x60]; s32 area; };
-struct Win_8019A44C { u8 pad0[0x50]; f32 f50[3]; u8 pad5C[0x2D8]; s32 angle; u8 pad338[0xC]; f32 f344; f32 f348; f32 f34C; u8 pad350[0x40]; f32 f390; f32 f394; f32 f398; f32 f39C; f32 f3A0; };
-struct Player_8019A104 { u8 pad0[0x38]; Vec pos; };
-struct Timer_8019A104 {
-    u8 pad0[0x30];
-    u32 f30;
-    u8 pad34[4];
-    Vec pos;
-    u8 pad44[0x300];
-    Vec vel;
-    s32 time;
-    u8 pad354[4];
-    s32 f358;
-    s32 f35C;
-    s32 f360;
-};
 extern "C" {
 void vec3_add_to(void *, void *);
 f32 atan2_float(f32, f32);
@@ -266,11 +243,11 @@ void G_GoGoBall_6x79::send() {
     send_subcommand(this);
 }
 
-TUnk_804B8E18::TUnk_804B8E18(TObject *parent) : TObjChara(parent) {
-    unk_390[0] = 0.0f;
-    unk_390[1] = 0.0f;
-    unk_390[2] = 0.0f;
-    unk_390[3] = 0.0f;
+TObjGoGoBall::TObjGoGoBall(TObject *parent) : TObjChara(parent) {
+    throw_forward_speed = 0.0f;
+    throw_up_speed = 0.0f;
+    pad_398[0] = 0.0f;
+    pad_398[1] = 0.0f;
     velocity.x = 0.0f;
     velocity.y = 0.0f;
     velocity.z = 0.0f;
@@ -278,12 +255,12 @@ TUnk_804B8E18::TUnk_804B8E18(TObject *parent) : TObjChara(parent) {
     position.y = gogo_ball_configuration.start_position.y;
     position.z = gogo_ball_configuration.start_position.z;
     time = 0;
-    m_354 = 0;
-    unk_334 = 0;
-    unk_338 = 0;
+    sequence = 0;
+    heading = 0;
+    roll = 0;
     gravity = gogo_ball_configuration.gravity;
-    unk_340 = gogo_ball_configuration.restitution;
-    unk_358 = 0;
+    restitution = gogo_ball_configuration.restitution;
+    resting = 0;
     collision_body.offset.x = 0.0f;
     collision_body.offset.y = 0.0f;
     collision_body.offset.z = 0.0f;
@@ -293,123 +270,120 @@ TUnk_804B8E18::TUnk_804B8E18(TObject *parent) : TObjChara(parent) {
     collision_body.flags = 0x40107;
     set_collision_body(&collision_body);
     register_object_by_id();
-    unk_35c = 0;
+    rest_count = 0;
     gogo_ball_sync_state.goal_flags = 0;
     gogo_ball_sync_state.mode = 0;
-    unk_360 = 0;
+    scored = 0;
 }
 
-TUnk_804B8E18::~TUnk_804B8E18() {
+TObjGoGoBall::~TObjGoGoBall() {
     unregister_object_by_id();
     clear_collision_bodies();
 }
 
-void TUnk_804B8E18::sub_8019A44C(s32 angle) {
-    Win_8019A44C *arg0 = (Win_8019A44C *)this;
-    arg0->f390 = gogo_ball_configuration.throw_forward_speed;
-    arg0->f394 = gogo_ball_configuration.throw_up_speed;
+void TObjGoGoBall::sub_8019A44C(s32 angle) {
+    throw_forward_speed = gogo_ball_configuration.throw_forward_speed;
+    throw_up_speed = gogo_ball_configuration.throw_up_speed;
     if ((s32)gogo_ball_sync_state.mode == 1) {
-        arg0->f390 = gogo_ball_configuration.throw_forward_speed_alt;
-        arg0->f394 = gogo_ball_configuration.throw_up_speed_alt;
+        throw_forward_speed = gogo_ball_configuration.throw_forward_speed_alt;
+        throw_up_speed = gogo_ball_configuration.throw_up_speed_alt;
     }
-    arg0->f398 = (0.1f);
-    arg0->f39C = (0.1f);
-    arg0->f344 = (0.0f);
-    arg0->f348 = arg0->f394;
-    arg0->f34C = arg0->f390;
-    arg0->f3A0 = vector_length(&arg0->f344, (0.1f));
-    rotate_vec_xz(&arg0->f344, &arg0->f344, angle);
-    arg0->angle = angle;
-    VecCopy((Vec *)arg0->f50, (const Vec *)&arg0->f344);
-    arg0->f50[1] = (0.0f);
+    pad_398[0] = (0.1f);
+    pad_398[1] = (0.1f);
+    velocity.x = (0.0f);
+    velocity.y = throw_up_speed;
+    velocity.z = throw_forward_speed;
+    throw_speed = vector_length(&velocity, (0.1f));
+    rotate_vec_xz(&velocity, &velocity, angle);
+    heading = angle;
+    VecCopy(&home_position, &velocity);
+    home_position.y = (0.0f);
 }
 
-void TUnk_804B8E18::update_goal_checks(u16 id) {
-    Timer_8019A104 *self;
-    Player_8019A104 *p;
+void TObjGoGoBall::update_goal_checks(u16 id) {
+    TObjPlayer *p;
     f32 len;
     s32 ang;
-    p = (Player_8019A104 *)get_player_by_client_id(id);
-    self = (Timer_8019A104 *)this;
+    p = get_player_by_client_id(id);
     if (p == NULL) {
         return;
     }
-    if (xyz_distance(&gogo_ball_configuration.team1_goal, &self->pos) <= gogo_ball_configuration.goal_radius && (0.0f) == ((f32 (*)(void *))vector_length)(&self->vel)) {
+    if (xyz_distance(&gogo_ball_configuration.team1_goal, &position) <= gogo_ball_configuration.goal_radius && (0.0f) == ((f32 (*)(void *))vector_length)(&velocity)) {
         gogo_ball_sync_state.goal_flags |= 2;
-        if (self->f360 == 0) {
+        if (scored == 0) {
             add_gogo_ball_one_point_score(1);
-            self->f360 = 1;
+            scored = 1;
         }
     }
-    if (xyz_distance(&gogo_ball_configuration.team0_goal, &self->pos) <= gogo_ball_configuration.goal_radius && (0.0f) == ((f32 (*)(void *))vector_length)(&self->vel)) {
+    if (xyz_distance(&gogo_ball_configuration.team0_goal, &position) <= gogo_ball_configuration.goal_radius && (0.0f) == ((f32 (*)(void *))vector_length)(&velocity)) {
         gogo_ball_sync_state.goal_flags |= 1;
-        if (self->f360 == 0) {
+        if (scored == 0) {
             add_gogo_ball_one_point_score(0);
-            self->f360 = 1;
+            scored = 1;
         }
     }
-    if (xyz_distance(&(*(Vec *)&lbl_804B8D94), &self->pos) <= gogo_ball_configuration.goal_radius && (0.0f) == ((f32 (*)(void *))vector_length)(&self->vel)) {
+    if (xyz_distance(&(*(Vec *)&lbl_804B8D94), &position) <= gogo_ball_configuration.goal_radius && (0.0f) == ((f32 (*)(void *))vector_length)(&velocity)) {
         gogo_ball_sync_state.goal_flags |= 0x10;
-        if (self->f360 == 0) {
+        if (scored == 0) {
             add_gogo_ball_three_point_score(0);
-            self->f360 = 1;
+            scored = 1;
         }
     }
-    if (xyz_distance(&(*(Vec *)&lbl_804B8DA0), &self->pos) <= gogo_ball_configuration.goal_radius && (0.0f) == ((f32 (*)(void *))vector_length)(&self->vel)) {
+    if (xyz_distance(&(*(Vec *)&lbl_804B8DA0), &position) <= gogo_ball_configuration.goal_radius && (0.0f) == ((f32 (*)(void *))vector_length)(&velocity)) {
         gogo_ball_sync_state.goal_flags |= 0x20;
-        if (self->f360 == 0) {
+        if (scored == 0) {
             add_gogo_ball_three_point_score(1);
-            self->f360 = 1;
+            scored = 1;
         }
     }
     if ((gogo_ball_sync_state.goal_flags & 2 || gogo_ball_sync_state.goal_flags & 1 || gogo_ball_sync_state.goal_flags & 0x20 || gogo_ball_sync_state.goal_flags & 0x10) && !(gogo_ball_sync_state.goal_flags & 8) && !(gogo_ball_sync_state.goal_flags & 4)) {
-        TWindowCtrl::open(((TObjBase *)(self))->get_entity_id(), (saddr)"\tC4Goal", 0x1B);
+        TWindowCtrl::open(get_entity_id(), (saddr)"\tC4Goal", 0x1B);
     }
-    if (!(gogo_ball_sync_state.goal_flags & 0x33) && self->f360 != 0) {
-        self->f360 = 0;
+    if (!(gogo_ball_sync_state.goal_flags & 0x33) && scored != 0) {
+        scored = 0;
     }
-    len = ((f32 (*)(void *))vector_length)(&self->vel);
+    len = ((f32 (*)(void *))vector_length)(&velocity);
     if ((0.0f) == len) {
-        if (self->f358 == 0) {
-            self->f35C++;
-            TWindowCtrl::open(((TObjBase *)(self))->get_entity_id(), (saddr)"Go!", 0x1B);
+        if (resting == 0) {
+            rest_count++;
+            TWindowCtrl::open(get_entity_id(), (saddr)"Go!", 0x1B);
         }
-        self->f358 = 1;
+        resting = 1;
     } else {
-        self->f358 = 0;
+        resting = 0;
     }
-    if (xyz_distance(&self->pos, &p->pos) > gogo_ball_configuration.radius) {
-        self->f30 = 0;
+    if (xyz_distance(&position, &p->position) > gogo_ball_configuration.radius) {
+        actorFlags = 0;
         return;
     }
-    if (self->f30 != 1) {
-        self->f30 = 1;
-        ang = 10430.38043493439 * atan2_float(self->pos.x - p->pos.x, self->pos.z - p->pos.z);
+    if (actorFlags != 1) {
+        actorFlags = 1;
+        ang = 10430.38043493439 * atan2_float(position.x - p->position.x, position.z - p->position.z);
         if ((0.0f) == len) {
-            throw_gogo_ball(&self->pos, (s32)ang, (s32)self->time);
+            throw_gogo_ball(&position, (s32)ang, (s32)time);
             send_local_player_walk();
         }
     }
 }
 
-void TUnk_804B8E18::send_local_player_walk() {
-    Pkt_8019A098 pkt;
+void TObjGoGoBall::send_local_player_walk() {
+    G_WalkToPosition_6x40 pkt;
     f32 x;
     f32 z;
-    Player_8019A098 *p;
+    TObjPlayer *p;
     init_6x40_walk_packet(&pkt);
-    p = (Player_8019A098 *)get_player_by_client_id(local_client_id);
+    p = get_player_by_client_id(local_client_id);
     if (p != 0) {
-        pkt.id = local_client_id;
-        ((TObjPlayer *)p)->calc_movement_target(p->area, &x, &z);
-        pkt.x = x;
-        pkt.z = z;
-        pkt.flag = 0;
+        pkt.header.client_id = local_client_id;
+        p->calc_movement_target(p->rotation_y, &x, &z);
+        pkt.pos.x = x;
+        pkt.pos.z = z;
+        pkt.flags = 0;
         ((TNpcPlayer *)(&pkt))->sync_from_lobby();
     }
 }
 
-void TUnk_804B8E18::run_task() {
+void TObjGoGoBall::run_task() {
     s32 i;
     Vec q;
     Vec p;
@@ -443,9 +417,9 @@ void TUnk_804B8E18::run_task() {
     }
 }
 
-void TUnk_804B8E18::update_best_time() {
-    if (gogo_ball_sync_state.applied == 0 && m_354 <= gogo_ball_sync_state.sequence) {
-        m_354 = gogo_ball_sync_state.sequence;
+void TObjGoGoBall::update_best_time() {
+    if (gogo_ball_sync_state.applied == 0 && sequence <= gogo_ball_sync_state.sequence) {
+        sequence = gogo_ball_sync_state.sequence;
         position.x = gogo_ball_sync_state.position.x;
         position.y = gogo_ball_sync_state.position.y;
         position.z = gogo_ball_sync_state.position.z;
@@ -460,7 +434,7 @@ void TUnk_804B8E18::update_best_time() {
 
 #define F(t, o) (*(t *)((u8 *)this + (o)))
 #define vector_length ((f32 (*)(void*))vector_length)
-void TUnk_804B8E18::render() {
+void TObjGoGoBall::render() {
     Vec dir;
     NJS_ARGB color = fish_draw_color[0];
     Vec pos;
@@ -470,12 +444,12 @@ void TUnk_804B8E18::render() {
 
     VecCopy((Vec *)&pos, &position);
     pos.y += gogo_ball_configuration.radius - (2.0f * gogo_ball_configuration.radius) / 10.0f;
-    color.a = (unk_358 != 0) ? 0.0f : -0.75f;
+    color.a = (resting != 0) ? 0.0f : -0.75f;
     VecCopy((Vec *)&dir, &velocity);
     dir.y = 0.0f;
     len = vector_length(&dir);
     direction_to_rotation_yx((u8 *)&dir, &rotation_y, &rotation_z);
-    unk_334 = (u16)unk_334;
+    heading = (u16)heading;
     rotation_y = (u16)rotation_y;
     if (0.0f != len) {
         normalize_vector(&dir);
@@ -496,8 +470,8 @@ void TUnk_804B8E18::render() {
     rate = (s32)(182.04445f * (4096.0f * len));
     if (0.0f != rate) {
         step = rate;
-        unk_334 = approach_angle_limited(unk_334, rotation_y, step);
-        unk_338 = approach_angle_limited(unk_338, rotation_x, step);
+        heading = approach_angle_limited(heading, rotation_y, step);
+        roll = approach_angle_limited(roll, rotation_x, step);
     }
     rotation_x += (s32)(182.04445f * (7.0f * len));
     push_matrix_from(0);
@@ -506,9 +480,9 @@ void TUnk_804B8E18::render() {
     scale_matrix(0, rate, rate, rate);
     set_constant_material((const NJS_ARGB *)((&color)));
     if (vec_squared_length(&dir)) {
-        rotate_matrix_about_axis((u8 *)(0), (saddr)&dir, unk_338);
+        rotate_matrix_about_axis((u8 *)(0), (saddr)&dir, roll);
     }
-    rotate_matrix_y(0, unk_334);
+    rotate_matrix_y(0, heading);
     if (lobby_gvm_texture_handles != 0 && gogo_ball_bml_resource != 0) {
         switch (gogo_ball_configuration.ball_type) {
         case 0:
@@ -568,7 +542,7 @@ void TUnk_804B8E18::render() {
 
 #pragma push
 #pragma fp_contract on
-s32 TUnk_804B8E18::reflect_velocity_off_collision(void *p, void *v) {
+s32 TObjGoGoBall::reflect_velocity_off_collision(void *p, void *v) {
     Vec end;
     Vec dir;
     Vec a;
@@ -614,15 +588,15 @@ s32 TUnk_804B8E18::reflect_velocity_off_collision(void *p, void *v) {
     q.z = pz - ((Vec *)p)->z;
     q.y = (0.0f);
     vector_length(&q);
-    ((Vec *)v)->x = r.x * ((Obj_8019978C *)this)->f340;
-    ((Vec *)v)->z = r.z * ((Obj_8019978C *)this)->f340;
+    ((Vec *)v)->x = r.x * restitution;
+    ((Vec *)v)->z = r.z * restitution;
     normalize_vector(&r);
-    ((Obj_8019978C *)this)->f394 *= ((Obj_8019978C *)this)->f340;
-    ((Vec *)v)->y = r.y * ((Obj_8019978C *)this)->f394;
+    throw_up_speed *= restitution;
+    ((Vec *)v)->y = r.y * throw_up_speed;
     s.x = ((Vec *)v)->x;
     s.z = ((Vec *)v)->z;
-    s.y = ((Obj_8019978C *)this)->f394;
-    if (vector_length(&s) < (1.0f) - ((Obj_8019978C *)this)->f340) {
+    s.y = throw_up_speed;
+    if (vector_length(&s) < (1.0f) - restitution) {
         ((Vec *)v)->x = (0.0f);
         ((Vec *)v)->y = (0.0f);
         ((Vec *)v)->z = (0.0f);
@@ -635,7 +609,7 @@ s32 TUnk_804B8E18::reflect_velocity_off_collision(void *p, void *v) {
     return 0;
 }
 
-void TUnk_804B8E18::draw_shadow_on_ground() {
+void TObjGoGoBall::draw_shadow_on_ground() {
     Hit_80199674 *hit;
     f32 t;
     f32 k;
@@ -670,7 +644,7 @@ void TUnk_804B8E18::draw_shadow_on_ground() {
 #pragma pop
 
 
-void TUnk_804B8E18::draw_shadow_quads(Vec *pos, Vec *dir, s32 angle, Vec *scale, f32 farg0) {
+void TObjGoGoBall::draw_shadow_quads(Vec *pos, Vec *dir, s32 angle, Vec *scale, f32 farg0) {
     Ang_801994DC ang;
     Col_801994DC col;
     Fx_801994DC fx;
@@ -730,14 +704,14 @@ void handle_6x79_gogo_ball(u8 *packet) {
 }
 
 
-TUnk_804B8E00::TUnk_804B8E00(TObject *parent) : TObject(parent) {
+TGoGoBallGame::TGoGoBallGame(TObject *parent) : TObject(parent) {
     beat = TLobby::get_internet_beat();
     TWindowCtrl::create_timer();
     set_gogo_ball_score(1, 0);
     set_gogo_ball_score(0, 0);
 }
 
-TUnk_804B8E00::~TUnk_804B8E00() {
+TGoGoBallGame::~TGoGoBallGame() {
     close_gogo_ball_timer();
 }
 
@@ -763,7 +737,7 @@ void GoGoBallConfig::copy_state(GoGoBallConfig *src) {
     throw_up_speed_alt = src->throw_up_speed_alt;
 }
 
-void TUnk_804B8E00::run_task() {
+void TGoGoBallGame::run_task() {
     ControllerInputContext *pad;
     s32 m;
     s32 r;
@@ -790,7 +764,7 @@ void TUnk_804B8E00::run_task() {
             idx = 0;
         }
         gogo_ball_configuration.copy_state(&((GoGoBallConfig *)lbl_804B8A10)[idx]);
-        new TUnk_804B8E18(tl_03);
+        new TObjGoGoBall(tl_03);
         new TUnk_804B8DD0(&gogo_ball_configuration.team0_goal, 1, gogo_ball_configuration.lifetime, tl_04);
         new TUnk_804B8DD0(&gogo_ball_configuration.team1_goal, 0, gogo_ball_configuration.lifetime, tl_04);
         new TUnk_804B8DD0((Vec *)lbl_804B8D94, 1, 1, gogo_ball_configuration.lifetime, tl_04);
@@ -799,7 +773,7 @@ void TUnk_804B8E00::run_task() {
     this->beat = m;
 }
 
-void TUnk_804B8E00::render() {
+void TGoGoBallGame::render() {
     gogo_ball_sync_state.goal_flags &= ~1;
     gogo_ball_sync_state.goal_flags &= ~2;
     gogo_ball_sync_state.goal_flags &= ~0x10;
@@ -867,8 +841,8 @@ void throw_gogo_ball(Vec *position, s32 angle, s32 sequence) {
     cmd.send();
 }
 
-void TUnk_804B8E00::create() {
-    new TUnk_804B8E00(tl_03);
+void TGoGoBallGame::create() {
+    new TGoGoBallGame(tl_03);
 }
 
 TUnk_804B8DE8::TUnk_804B8DE8(Vec *position, s32 limit, s32 team0, s32 three_point, TObject *parent) : TObject(parent) {
