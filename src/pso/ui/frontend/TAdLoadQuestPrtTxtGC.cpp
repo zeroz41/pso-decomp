@@ -75,7 +75,7 @@ TAdLoadQuestPrtTxtGC::TAdLoadQuestPrtTxtGC(TObject *parent, s32 slot) : TObject(
             particle_pos[i].x = 8.0f;
             particle_pos[i].y = 16.0f * i + 72.0f;
             particle_pos[i].z = 0.002020202f;
-            particles[i] = (TParticleCtrl *)create_particle(&particle_pos[i], 15, 1);
+            particles[i] = (TParticleCtrl *)create_particle_controller(&particle_pos[i], 15, 1);
             if (particles[i] != NULL) {
                 particles[i]->set_flags(0xC0);
                 particles[i]->enable();
@@ -91,7 +91,7 @@ TAdLoadQuestPrtTxtGC::TAdLoadQuestPrtTxtGC(TObject *parent, s32 slot) : TObject(
             particle_pos[i].x = 16.0f * column + x;
             particle_pos[i].y = y;
             particle_pos[i].z = 0.0022222223f;
-            particles[i] = (TParticleCtrl *)create_particle(&particle_pos[i], 8, 1);
+            particles[i] = (TParticleCtrl *)create_particle_controller(&particle_pos[i], 8, 1);
             if (particles[i] != NULL) {
                 particles[i]->set_flags(0xC0);
             }
@@ -106,7 +106,7 @@ TAdLoadQuestPrtTxtGC::TAdLoadQuestPrtTxtGC(TObject *parent, s32 slot) : TObject(
                 particle_pos[n].x = 16.0f * j + 555.0f;
                 particle_pos[n].y = y;
                 particle_pos[n].z = 0.1f;
-                particles[n] = (TParticleCtrl *)create_particle(&particle_pos[n], 8, 1);
+                particles[n] = (TParticleCtrl *)create_particle_controller(&particle_pos[n], 8, 1);
                 // The original tests particles[i] here, not the particle just created.
                 if (particles[i] != NULL) {
                     particles[i]->set_flags(0xC0);

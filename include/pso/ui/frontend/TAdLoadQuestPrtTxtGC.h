@@ -18,7 +18,6 @@ struct TAdLoadQuestPrtTxtGC : public TObject {
     s32 slot;
     s32 timer;
     virtual void render();
-    static void *create_particle(void *arg0, s32 arg1, s32 arg2);
     virtual void run_task();
 };
 

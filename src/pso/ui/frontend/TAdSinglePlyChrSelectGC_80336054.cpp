@@ -27,7 +27,7 @@
 #include "pso/system/NinjaTypes.h"
 #include "pso/unk/TLobby_80335E08.h"
 #include "pso/unk/text_803369C8.h"
-#include "pso/ui/frontend/TAdLoadQuestPrtTxtGC.h"
+#include "pso/effect/particle/TParticleCtrl.h"
 
 
 extern "C" {
@@ -402,9 +402,9 @@ u8 *TUnk_804EEF64::construct_title_scene() {
     }
     {
         NJS_POINT3 v = {0.0f, 0.0f, -47.0f};
-        this->m_40 = (saddr)TAdLoadQuestPrtTxtGC::create_particle(&v, 0x1E3, 1);
-        *(s32 *)((s8 *)arg0 + 0x44) = (saddr)TAdLoadQuestPrtTxtGC::create_particle(&v, 0x1E4, 1);
-        this->m_48 = (saddr)TAdLoadQuestPrtTxtGC::create_particle(&v, 0x1E5, 1);
+        this->m_40 = (saddr)create_particle_controller(&v, 0x1E3, 1);
+        *(s32 *)((s8 *)arg0 + 0x44) = (saddr)create_particle_controller(&v, 0x1E4, 1);
+        this->m_48 = (saddr)create_particle_controller(&v, 0x1E5, 1);
     }
     p = TObject::operator new(0x28);
     if (p != 0) {

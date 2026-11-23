@@ -255,7 +255,7 @@ TLoadingCur::TLoadingCur(TObject *parent, Vec *pos) : TObject(parent) {
     stack.spC = 0;
     stack.sp10 = 0;
     direction_to_rotation_xz((object + 0x50), (&stack.sp8), (&stack.sp10));
-    *(s32 *)((s8 *)object + 0x1C) = (saddr)fn_80086FE0((object + 0x20), (&stack.sp8), 0x16, 1);
+    *(s32 *)((s8 *)object + 0x1C) = (saddr)create_particle_controller_with_angles((object + 0x20), (&stack.sp8), 0x16, 1);
 }
 #undef object
 #pragma pop
