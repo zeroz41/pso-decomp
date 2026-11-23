@@ -5428,7 +5428,7 @@ pso/system/data/pso_date.cpp:
 pso/player/TObjPlayer_801E2D1C.cpp:
 	.text       start:0x801E2D1C end:0x801E2EFC
 
-pso/effect/particle/TParticleCtrl_801E2EFC.cpp:
+pso/effect/particle/EffectRender.cpp:
 	.text       start:0x801E2EFC end:0x801E2F94
 
 pso/unk/TLobby_801E2F94.cpp:
