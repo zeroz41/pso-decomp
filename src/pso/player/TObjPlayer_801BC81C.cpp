@@ -153,10 +153,10 @@ void TObjPlayer::init_player_data(void *src) {
     f32 temp_f31;
     f32 yscale;
 
-    temp_f31 = this->m_d48;
-    TLobby::copy_data((u8 *)&this->unk_D38, src);
-    this->m_d48 = temp_f31;
-    this->stat_block = (player_stats *)this->unk_D38;
+    temp_f31 = this->stat_data.proportions;
+    TLobby::copy_data(&this->stat_data, src);
+    this->stat_data.proportions = temp_f31;
+    this->stat_block = &this->stat_data;
     this->apply_input_mode();
     this->set_move_mode_from_class_flags();
     this->init_trait_flags();

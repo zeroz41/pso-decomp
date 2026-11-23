@@ -10,6 +10,7 @@ struct NJS_OBJECT;
 #include "pso/player/RenderMaterialState.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/player/PlayerAttackController.h"
+#include "pso/player/PlayerStats.h"
 
 struct TItemData;
 struct SceneSectionAngles;
@@ -291,9 +292,8 @@ struct TObjPlayer : public TObjChara {
     s32 model_load_flags;  // nonzero while the models load (update_body_parts sets 255); not drawn until 0
     TPlyItem *inventory_objects;  // created by create_inventory
     void *equipped_items[13];  // by equip slot; read through get_equipped_item
-    u8 unk_D38[0x10];
-    f32 m_d48;
-    u8 unk_D4C[0x60];
+    player_stats stat_data;  // init_player_data copies it in; stat_block points at it
+    u8 unk_D5C[0x50];
     void* m_dac;
     static void draw_area_chunk_objects();
     static void copy_screen_to_texture(s32 mode, void *src);
