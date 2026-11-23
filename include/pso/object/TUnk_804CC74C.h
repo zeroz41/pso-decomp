@@ -10,7 +10,7 @@ class TObjPlayer;
 // the caster m_actor while the charge flag 0x80 is set, up to 180 frames.
 class TUnk_804CC74C : public TObject {
 public:
-    TUnk_804CC74C(saddr arg1, saddr arg2);
+    TUnk_804CC74C(TObjPlayer *actor, TObject *parent);
     virtual ~TUnk_804CC74C();
     virtual void run_task();
     TObjPlayer *m_actor;

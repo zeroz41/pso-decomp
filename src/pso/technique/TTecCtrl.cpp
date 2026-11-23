@@ -38,6 +38,12 @@
 #include "pso/ui/hud/TMainCursor.h"
 #include "pso/technique/TTecResta.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/object/TUnk_804CC794.h"
+#include "pso/object/TUnk_804CC948.h"
+#include "pso/unk/TUnk_804CCD0C.h"
+#include "pso/unk/TUnk_804CC990.h"
+#include "pso/object/TUnk_804CCAC8.h"
+#include "pso/object/TUnk_804CC74C.h"
 #include "pso/unk/text_803D853C.h"
 #include "pso/unk/text_803D8F74.h"
 
@@ -97,12 +103,6 @@ void get_hand_joint_position__10TObjPlayerFl(void *, void *);
 Target_8022D27C *get_technique_data__10TObjPlayerFPv(void *);
 u8 get_cast_technique_level(void *, int);
 void launch_technique__10TObjPlayerFv(s32 tech, s32 unused, Player_8022D27C *pl);
-void *__ct__13TUnk_804CC794Fll(void *, void *, TObject *);
-void *__ct__13TUnk_804CC948Fll(void *, void *, TObject *);
-void *__ct__13TUnk_804CCD0CFll(void *, void *, TObject *);
-void *__ct__13TUnk_804CC990Fll(void *, void *, TObject *);
-void *__ct__13TUnk_804CCAC8Fll(void *, void *, TObject *);
-void *__ct__13TUnk_804CC74CFll(void *, void *, TObject *);
 }
 extern u8 identity_matrix[];
 extern s32 local_client_id;
@@ -712,14 +712,10 @@ void capture_technique_targets__10TObjPlayerFv(int kind, Owner_8022CDE8 *owner) 
     {                                                                                            \
         NJS_ARGB c = {A, R, G, B};                                                               \
         Vec v = {0.0f, -1.0f, 0.0f};                                                             \
-        void *o;                                                                                 \
         new TActorLight(0.1f, 0.35f, TObjLight__scene_light_state.intensity, &c, &v, base,          \
                           (TObjBase *)owner, tl_07);                                             \
         if (TObjPlayer::is_locally_controlled(owner) != 0) {                                \
-            o = TObject::operator new(0x34);                                                     \
-            if (o != NULL) {                                                                     \
-                INIT(o, owner, tl_07);                                                           \
-            }                                                                                    \
+            new INIT((TObjPlayer *)owner, tl_07);                                                \
         }                                                                                        \
     }
 void create_technique_charge_light(u32 kind, void *owner) {
@@ -727,41 +723,41 @@ void create_technique_charge_light(u32 kind, void *owner) {
     s32 base = p->f12 + p->f20 + 50;
     switch (kind) {
     case 1:
-        CHARGE_LIGHT_8022C738(1.0f, 1.0f, 0.5f, 0.0f, __ct__13TUnk_804CC794Fll)
+        CHARGE_LIGHT_8022C738(1.0f, 1.0f, 0.5f, 0.0f, TUnk_804CC794)
         break;
     case 0:
     case 2:
-        CHARGE_LIGHT_8022C738(1.0f, 1.0f, 0.5f, 0.0f, __ct__13TUnk_804CC794Fll)
+        CHARGE_LIGHT_8022C738(1.0f, 1.0f, 0.5f, 0.0f, TUnk_804CC794)
         break;
     case 3:
     case 4:
-        CHARGE_LIGHT_8022C738(1.0f, 1.0f, 1.0f, 1.0f, __ct__13TUnk_804CC948Fll)
+        CHARGE_LIGHT_8022C738(1.0f, 1.0f, 1.0f, 1.0f, TUnk_804CC948)
         break;
     case 5:
-        CHARGE_LIGHT_8022C738(1.0f, 0.3f, 0.7f, 1.0f, __ct__13TUnk_804CC948Fll)
+        CHARGE_LIGHT_8022C738(1.0f, 0.3f, 0.7f, 1.0f, TUnk_804CC948)
         break;
     case 6:
     case 7:
     case 8:
-        CHARGE_LIGHT_8022C738(1.0f, 1.0f, 1.0f, 0.3f, __ct__13TUnk_804CCD0CFll)
+        CHARGE_LIGHT_8022C738(1.0f, 1.0f, 1.0f, 0.3f, TUnk_804CCD0C)
         break;
     case 9:
     case 15:
     case 16:
     case 17:
-        CHARGE_LIGHT_8022C738(1.0f, 1.0f, 1.0f, 1.0f, __ct__13TUnk_804CC990Fll)
+        CHARGE_LIGHT_8022C738(1.0f, 1.0f, 1.0f, 1.0f, TUnk_804CC990)
         break;
     case 10:
     case 11:
     case 12:
     case 14:
-        CHARGE_LIGHT_8022C738(1.0f, 0.3f, 0.9f, 1.0f, __ct__13TUnk_804CCAC8Fll)
+        CHARGE_LIGHT_8022C738(1.0f, 0.3f, 0.9f, 1.0f, TUnk_804CCAC8)
         break;
     case 13:
-        CHARGE_LIGHT_8022C738(1.0f, 0.9f, 0.3f, 1.0f, __ct__13TUnk_804CCAC8Fll)
+        CHARGE_LIGHT_8022C738(1.0f, 0.9f, 0.3f, 1.0f, TUnk_804CCAC8)
         break;
     case 18:
-        CHARGE_LIGHT_8022C738(1.0f, 0.6f, 0.2f, 0.7f, __ct__13TUnk_804CC74CFll)
+        CHARGE_LIGHT_8022C738(1.0f, 0.6f, 0.2f, 0.7f, TUnk_804CC74C)
         break;
     }
 }

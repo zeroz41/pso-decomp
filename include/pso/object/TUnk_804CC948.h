@@ -11,7 +11,7 @@ struct TObjPlayer;
 // until the caster stops charging or 180 frames pass.
 class TUnk_804CC948 : public TObject {
 public:
-    TUnk_804CC948(saddr actor, saddr parent);
+    TUnk_804CC948(TObjPlayer *actor, TObject *parent);
     virtual ~TUnk_804CC948();
     virtual void run_task();
 

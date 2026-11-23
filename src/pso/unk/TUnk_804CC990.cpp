@@ -25,8 +25,8 @@ TUnk_804CC990::~TUnk_804CC990() {
     stop_sound_request(sound_handle);
 }
 
-TUnk_804CC990::TUnk_804CC990(saddr actor, saddr parent) : TObject((TObject *)parent) {
-    this->actor = (TObjPlayer *)actor;
+TUnk_804CC990::TUnk_804CC990(TObjPlayer *actor, TObject *parent) : TObject(parent) {
+    this->actor = actor;
     VecCopy(&this->position, &this->actor->body_center);
     this->age = 0;
     this->sound_handle = play_sound_effect(0x4002BC20, &this->position, 0, 0);

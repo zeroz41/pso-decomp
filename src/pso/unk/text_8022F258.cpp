@@ -33,9 +33,9 @@ extern "C" {
 s32 play_sound_effect(int, void *, int, int);
 }
 
-TUnk_804CC74C::TUnk_804CC74C(saddr player, saddr task) : TObject((TObject *)((void *)task)) {
-    m_actor = (TObjPlayer *)player;
-    VecCopy(&m_position, (const Vec *)((u8 *)m_actor + 0x2FC));
+TUnk_804CC74C::TUnk_804CC74C(TObjPlayer *actor, TObject *parent) : TObject(parent) {
+    m_actor = actor;
+    VecCopy(&m_position, &m_actor->body_center);
     m_age = 0;
     m_sound_handle = play_sound_effect(0x4002BB1F, &m_position, 0, 0);
 }
