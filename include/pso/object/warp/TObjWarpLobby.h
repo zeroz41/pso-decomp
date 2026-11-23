@@ -18,9 +18,10 @@ struct TObjWarpLobby : public TObjAreaWarp {
     f32 beam_phase;
     f32 beam_frame;
     s32 show_beam;
-    u8 unused_D0[0x8];
+    s32 pad_D0;
+    s32 pad_D4;
     AnimationMotion *beam_motion;
-    u8 unused_DC[0x4];
+    s32 pad_DC;
     static void *create(void *set_data);
 };
 
