@@ -7017,7 +7017,7 @@ force_active:
   - init_buffer
   - init_cast__9TTecRestaFv
   - __ct__17CharacterFileSlotFv
-  - init_char_data__6TLobbyFPv
+  - __ct__18TPlyJoinLobbyEntryFv
   - __ct__19CharacterSaveRecordFv
   - init_char_select__16TKeyBoardControlFP7TObject
   - init_char_slot_record__23TAdSinglePlyChrSelectGCFv

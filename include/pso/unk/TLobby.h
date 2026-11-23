@@ -1040,7 +1040,6 @@ struct TLobby : public TObject {
     static void increment_ref_and_set_flag(void *);
     static void init(void *);
     static void init_buffers(int floor, u8 *quest);
-    static void *init_char_data(void*);
     static void init_player_entry(void *, void *);
     static void init_player_window_effect();
     static u8 is_challenge_lobby();

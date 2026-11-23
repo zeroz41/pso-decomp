@@ -2464,7 +2464,7 @@ void TLobby::handle_lobby_enter(TPlyJoinLobbyEntry *ents, int n, int client_id, 
         TLobby__player_names[j][0] = 0;
     }
     for (i = 0; i < n; i++) {
-        strncpy(TLobby__player_names[ents[i].lobby_data.client_id], ents[i].lobby_data.name, 0x10);
+        strncpy(TLobby__player_names[ents[i].client_id], ents[i].name, 0x10);
     }
     for (i = 0; i < 12; i++) {
         p = (Obj_801368B0 *)get_player_by_client_id(i);
@@ -2536,7 +2536,7 @@ void TLobby::on_game_player_add(TPlyJoinLobbyEntry *entries, int leader_id, int 
     }
     TLobby__sub_8013AA64(&e, entries);
     if (e.client_id == local_client_id) {
-        ((void (*)(void *, s32))__dt__18TPlyJoinLobbyEntryFv)(&e, -1);
+        ((TPlyJoinLobbyEntry *)&e)->~TPlyJoinLobbyEntry();
         return;
     }
     __as__16TPlyGuildCardTagFRC16TPlyGuildCardTag(&game_join_player_records[e.client_id], &e);
@@ -2602,7 +2602,7 @@ void TLobby::on_game_player_add(TPlyJoinLobbyEntry *entries, int leader_id, int 
         init_6x72_resume_packet(&pkt);
         TLobby::send_packet_60(&pkt);
     }
-    ((void (*)(void *, s32))__dt__18TPlyJoinLobbyEntryFv)(&e, -1);
+    ((TPlyJoinLobbyEntry *)&e)->~TPlyJoinLobbyEntry();
 }
 
 void handle_6x72_done_loading_into_game(void) {
@@ -2641,15 +2641,7 @@ void TLobby::remove_player(unsigned int arg0, int arg1, int arg2) {
     }
 }
 
-s32 __dt__18TPlyJoinLobbyEntryFv(saddr arg0, s16 arg1) {
-    if (arg0 != 0) {
-        ((TPlyJoinLobbyEntry *)arg0)->char_data.~TPlyCharData();
-        if (arg1 > 0) {
-            ::operator delete((void *)arg0);
-        }
-    }
-    return arg0;
-}
+TPlyJoinLobbyEntry::~TPlyJoinLobbyEntry() {}
 void TLobby::on_lobby_player_add(TPlyJoinLobbyEntry *entries, int leader_id) {
     Entry_80136080 e;
     Obj_80136080 *p;
@@ -2658,7 +2650,7 @@ void TLobby::on_lobby_player_add(TPlyJoinLobbyEntry *entries, int leader_id) {
     TLobby__designated_client_id = leader_id;
     if (e.client_id == local_client_id) {
         lobby_debug_printf_stub(lobby_debug_burst_overwrite_format, e.client_id);
-        ((void (*)(void *, s32))__dt__18TPlyJoinLobbyEntryFv)(&e, -1);
+        ((TPlyJoinLobbyEntry *)&e)->~TPlyJoinLobbyEntry();
         return;
     }
     p = (Obj_80136080 *)get_player_by_client_id(e.client_id);
@@ -2671,7 +2663,7 @@ void TLobby::on_lobby_player_add(TPlyJoinLobbyEntry *entries, int leader_id) {
     ((TLobby *)(plr + 0xDAC))->copy_header_struct(&e);
     ((Plr_80136080 *)plr)->m6();
     lobby_debug_printf_stub(lobby_debug_burst_player_format, e.client_id);
-    ((void (*)(void *, s32))__dt__18TPlyJoinLobbyEntryFv)(&e, -1);
+    ((TPlyJoinLobbyEntry *)&e)->~TPlyJoinLobbyEntry();
 }
 void TLobby::retire_lobby_player(int idx, int v) {
     Obj_80136000 *p;
@@ -2901,7 +2893,7 @@ saddr TLobby::get_seq_phase(int id) { return get_online_message_text(id); }
 void TLobby__sub_8013A16C(void) {  }
 void lobby_debug_printf_stub(const char *fmt, ...) {}
 void TLobby::construct_global_arrays() {
-    __construct_array(TLobby__data_80506A6C, (void *)TLobby::init_char_data, (void *)__dt__18TPlyJoinLobbyEntryFv, 0x43C, 0xC);
+    __construct_array(TLobby__data_80506A6C, (void *)__ct__18TPlyJoinLobbyEntryFv, (void *)__dt__18TPlyJoinLobbyEntryFv, 0x43C, 0xC);
     __register_global_object(0, (void *)TLobby::destroy_join_entries, TLobby__join_entries_dtor_registration);
     __construct_array(game_join_player_records, (void *)TLobby__sub_8013A23C, 0, 0x20, 4);
 }
@@ -2921,7 +2913,7 @@ void TLobby::destroy_join_entries() {
 #pragma pop
 
 #pragma push
-void * TLobby::init_char_data(void*p) { __ct__16TPlyGuildCardTagFv(p); __ct__12TPlyCharDataFv((char*)p + 0x20); return p; }
+TPlyJoinLobbyEntry::TPlyJoinLobbyEntry() {}
 void TLobby__sub_8013A2DC(void) {  }
 void TLobby::bswap_6x6E_sync_game_state(void*p) { bswap_16((u16 *)p); bswap_16((u16 *)((char*)p + 0x2)); bswap_16((u16 *)((char*)p + 0x4)); bswap_16((u16 *)((char*)p + 0x6)); }
 s32 TLobby::open_hard_keyboard(void *p) { return TWindowKeyBoardHard::test_card_flag((saddr)p, 0x40000); }

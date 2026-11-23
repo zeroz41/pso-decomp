@@ -142,13 +142,19 @@ public:
 
 class TPlyJoinLobbyEntry {
 public:
-    TPlyJoinLobbyData lobby_data;
+    TPlyJoinLobbyEntry();
+    ~TPlyJoinLobbyEntry();
+
+    TPlyGuildCardTag tag;
+    u32 ip_addr;
+    u32 client_id;
+    char name[16];
     TPlyCharData char_data;
 public:
     void bswap() {
-        lobby_data.tag.bswap();
-        bswap_32(&lobby_data.ip_addr);
-        bswap_32(&lobby_data.client_id);
+        tag.bswap();
+        bswap_32(&ip_addr);
+        bswap_32(&client_id);
         char_data.bswap();
     };
 };
