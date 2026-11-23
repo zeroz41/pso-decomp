@@ -34,9 +34,9 @@ struct Ent_80207478 { s32 f0; char *name; };
 
 #pragma readonly_strings on
 
-s32 TSceneSora__sky_active_flag = 1;
+s32 TSceneSora::sky_active_flag = 1;
 const char *TSceneSora__name = "TSceneSora";
-TSceneSora *TSceneSora__instance;
+TSceneSora *TSceneSora::instance;
 BmlResource *TSceneSora__sky_bml_resource;
 s32 TSceneSora__has_sky_motion;
 
@@ -53,7 +53,7 @@ void TLobby__sub_802075F4(void);
 extern s32 tl_05;
 
 void TSceneSora::render() {
-    if ((s32) TSceneSora__sky_active_flag != 0) {
+    if ((s32) TSceneSora::sky_active_flag != 0) {
         TParticleCtrl::begin_effect_render();
         TObjFish::set_global_param(get_bml_texlist((BmlResource *)TSceneSora__sky_bml_resource, 0));
         push_matrix();
@@ -86,7 +86,7 @@ void TSceneSora::run_task() {
 
 }
 TSceneSora::~TSceneSora() {
-    TSceneSora__instance = 0;
+    TSceneSora::instance = 0;
 }
 TSceneSora::TSceneSora(saddr _w1) : TObjBase((TObject *)_w1) {
     this->m_name = TSceneSora__name;
@@ -110,19 +110,19 @@ void TSceneSora::create_instance() {
         if (scene_sora != 0) {
             scene_sora = ((saddr)__ct__10TSceneSoraFl((TSceneSora *)((u8 *)scene_sora), (s32)tl_05));
         }
-        TSceneSora__instance = (TSceneSora *)scene_sora;
+        TSceneSora::instance = (TSceneSora *)scene_sora;
         return;
     }
-    TSceneSora__instance = 0;
+    TSceneSora::instance = 0;
 }
 
 void TSceneSora__sub_80207430(void) {
-    TSceneSora__sky_active_flag = 1;
+    TSceneSora::sky_active_flag = 1;
     if (TSceneSora__sky_bml_resource != NULL) {
         delete (BmlResource *)TSceneSora__sky_bml_resource;
         TSceneSora__sky_bml_resource = NULL;
     }
-    TSceneSora__instance = 0;
+    TSceneSora::instance = 0;
 }
 
 void TSceneSora::load_sky_resources() {
@@ -135,7 +135,7 @@ void TSceneSora::load_sky_resources() {
     s32 ok;
     AdxfHandle *p;
     TBinModel *o;
-    TSceneSora__instance = 0;
+    TSceneSora::instance = 0;
     TSceneSora__sky_bml_resource = NULL;
     TSceneSora__has_sky_motion = 0;
     if (lookup_floor_map_selection(get_current_floor(), &ref) != 0) {
@@ -171,7 +171,7 @@ void TSceneSora::load_sky_resources() {
             o = init_bin_model_request(o, 1, models, motions, 0, 0, 0);
         }
         TSceneSora__sky_bml_resource = reinterpret_cast<BmlResource *>(o);
-        TSceneSora__sky_active_flag = 1;
+        TSceneSora::sky_active_flag = 1;
     }
 }
 

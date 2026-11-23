@@ -22,13 +22,13 @@ struct TSceneSora : public TObjBase {
     s32 get_state();
     static void set_scene_flag(int a0);
     static void copy_reflection_vec(u8 *arg0);
+    static TSceneSora *instance;
+    static s32 sky_active_flag; // 0 while something else draws the sky
 };
 
 LAYOUT_ASSERT(TSceneSora_motion_offset, offsetof(TSceneSora, sky_motion) == 0x94);
 LAYOUT_ASSERT(TSceneSora_frame_offset, offsetof(TSceneSora, m_a0) == 0xA0);
 LAYOUT_ASSERT(TSceneSora_size, sizeof(TSceneSora) == 0xA4);
-extern TSceneSora *TSceneSora__instance;
-extern s32 TSceneSora__sky_active_flag;  // 0 while something else draws the sky
 void prepare_adventure_maps(void);
 extern "C" void TLobby__sub_802075F4(void);
 #endif

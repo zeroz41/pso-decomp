@@ -75,6 +75,8 @@ struct TObjEneDarkGunner : public TObjEnemyCustom {
     TParticleCtrl *glow_emitter;   // particle 0xDB at body_center while behavior_flags & 0x800000
     TUnk_80490470 render_control;
     s32 material_phase;
+    // bm_ene_darkgunner.bml, loaded with the Dark Gunner's resources.
+    static BmlResource *bml_resource;
     u16 center_id;  // entity id of the TObjEneDarkGunCenter that links it
     u8 pad_42a[2];
 };
@@ -83,7 +85,5 @@ extern "C" const char *TObjEneDarkGunner__class_name;
 LAYOUT_ASSERT(DarkGunnerSize, sizeof(TObjEneDarkGunner)==0x42C);
 // The shot speed per frame (float param 3, set by load_params); the shot (TUnk_804909C4) moves by it.
 extern f32 dark_gunner_shot_speed;
-// bm_ene_darkgunner.bml, loaded with the Dark Gunner's resources.
-extern BmlResource *TObjEneDarkGunner__bml_resource;
 
 #endif

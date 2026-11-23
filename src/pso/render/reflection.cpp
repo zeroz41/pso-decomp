@@ -360,8 +360,8 @@ void TUnk_804DC7C4::render_shadows() {
     }
     TScene__sub_8029F5EC();
     TScene__sub_8029F5E4(100.0f);
-    if (TSceneSora__instance != 0) {
-        TSceneSora__sky_active_flag = 0;
+    if (TSceneSora::instance != 0) {
+        TSceneSora::sky_active_flag = 0;
     }
     TSceneSora::copy_reflection_vec((u8 *)&v);
     scene_sora_reflect_active = 1;
@@ -460,8 +460,8 @@ void TUnk_804DC7C4::render_shadows() {
     }
     TScene__sub_8029F5D8();
     TScene__sub_8029F5E4(0.0f);
-    if (TSceneSora__instance != 0) {
-        TSceneSora__sky_active_flag = 1;
+    if (TSceneSora::instance != 0) {
+        TSceneSora::sky_active_flag = 1;
     }
     ((TObjPlayer *)recon_object)->copy_efb_to_texture();
     TSceneSora::set_scene_flag(recon_object + 0x1C);

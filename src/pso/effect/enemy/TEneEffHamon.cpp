@@ -74,8 +74,8 @@ void TEneEffHamon::run_task() {
 void TEneEffHamon::free_fish_effects() {  }
 
 void TEneEffHamon::init_fish_effects() {
-    fish_model = get_bml_model(TObjEneDarkGunner__bml_resource, 3);
-    fish_texlist = get_bml_texlist(TObjEneDarkGunner__bml_resource, 3);
+    fish_model = get_bml_model(TObjEneDarkGunner::bml_resource, 3);
+    fish_texlist = get_bml_texlist(TObjEneDarkGunner::bml_resource, 3);
 }
 
 TEneEffHamon::~TEneEffHamon() {}

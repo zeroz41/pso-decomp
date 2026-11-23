@@ -298,15 +298,15 @@ void TPhotonBlastSummon::enter_scene() {
 
 void TPhotonBlastSummon::show_sky() {
     TScene::set_ready();
-    if (TSceneSora__instance != 0) {
-        TSceneSora__sky_active_flag = 1;
+    if (TSceneSora::instance != 0) {
+        TSceneSora::sky_active_flag = 1;
     }
 }
 
 void TPhotonBlastSummon::hide_sky() {
     TScene::reset_counter();
-    if (TSceneSora__instance != 0) {
-        TSceneSora__sky_active_flag = 0;
+    if (TSceneSora::instance != 0) {
+        TSceneSora::sky_active_flag = 0;
     }
 }
 
