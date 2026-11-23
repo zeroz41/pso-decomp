@@ -7,7 +7,7 @@
 #include "pso/system/BmlResourceDescriptor.h"
 
 struct BmlResource;
-struct GinjaTextureList;
+struct NJS_TEXLIST;
 struct AnimationMotion;
 
 // The seabed's breakable tank (object 0x224): one of three models, broken
@@ -32,12 +32,12 @@ struct TObjSeabedSuisoBrakable : public TORockCaveBrakable {
     static NJS_OBJECT *get_model13_node(int index);
     static void notify_break(NJS_OBJECT *node);
     static AnimationMotion *get_bml_motion_by_index(s32 index);
-    static GinjaTextureList *get_texlist(int index);  // the one texture list, whatever the index
+    static NJS_TEXLIST *get_texlist(int index);  // the one texture list, whatever the index
     static void *get_model(int index);
 
     static const char *class_name;
     static BmlResource *bml_resource;
-    static GinjaTextureList *texture_list;
+    static NJS_TEXLIST *texture_list;
     static s32 texture_entries[5];       // the scrolled textures, by name
     static NJS_OBJECT *model12_nodes[3];
     static NJS_OBJECT *model13_nodes[3];

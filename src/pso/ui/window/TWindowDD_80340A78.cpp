@@ -146,7 +146,7 @@ void TWindowDD_WS_ScrollBar::render() {
     ((TWindowDD *)verts)->draw_transformed_primitive(8, tex, 1);
 
     z = TWindowDD__sub_80348AD4(self->draw_depth, 0.1f);
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(hud_texlist));
+    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(hud_texlist));
     begin_screen_draw(1);
     set_draw_texture_and_color(0, -1);
 

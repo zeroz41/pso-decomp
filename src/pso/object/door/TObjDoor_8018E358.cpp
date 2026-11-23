@@ -33,7 +33,7 @@
 #include "pso/ui/hud/TRaderMapCore.h"
 
 struct BmlResource;
-struct GinjaTextureList;
+struct NJS_TEXLIST;
 struct AnimationMotion;
 
 struct Node_8018E358 { s32 pad0; void *model; };
@@ -70,7 +70,7 @@ const char *TObjDoor::name = "TObjDoor";
 DoorMotionHeader *TObjDoor::motion_table[2];
 DoorModelSet TObjDoor::model_resource_ptrs;
 
-GinjaTextureList *TObjDoor::resource_param;
+NJS_TEXLIST *TObjDoor::resource_param;
 BmlResource *door_resource_handle;
 s32 TObjDoor__data_805D5BC8;
 
@@ -83,7 +83,7 @@ void *TObjDoorJung::create(void *set_data) {
 void TObjDoor::load_resources() {
     BmlResource *p = new BmlResource(5, &door_resource_descriptor, 0, 0, NULL);
     door_resource_handle = p;
-    resource_param = (GinjaTextureList *)load_gvm_texture_file("fe_obj_door.gvm");
+    resource_param = (NJS_TEXLIST *)load_gvm_texture_file("fe_obj_door.gvm");
     model_resource_ptrs.f0 = get_bml_model((BmlResource *)door_resource_handle, 4);
     model_resource_ptrs.f4 = get_bml_model((BmlResource *)door_resource_handle, 3);
     model_resource_ptrs.c = (Node_8018E358 *)get_bml_model((BmlResource *)door_resource_handle, 0);

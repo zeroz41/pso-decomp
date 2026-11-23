@@ -26,7 +26,7 @@ CollisionBody fence_ancient04_collision_bodies[8] = {
 };
 const char *TOFenceAncient04::class_name = "TOFenceAncient04";
 BmlResource *TOFenceAncient04::model_resource;
-GinjaTextureList **TOFenceAncient04::texlists;
+NJS_TEXLIST **TOFenceAncient04::texlists;
 
 void TOFenceAncient04::update_demo() {}
 
@@ -71,12 +71,12 @@ void TOFenceAncient04::unload_resources() {
 void TOFenceAncient04::load_resources() {
     BmlResource *resource = new BmlResource(1, &bm_fd_obj_n_saku_6x4_resource_descriptor, 0, 0, NULL);
     model_resource = resource;
-    GinjaTextureList **lists = (GinjaTextureList **)mem_alloc(4 * sizeof(GinjaTextureList *));
+    NJS_TEXLIST **lists = (NJS_TEXLIST **)mem_alloc(4 * sizeof(NJS_TEXLIST *));
     texlists = lists;
-    lists[0] = (GinjaTextureList *)model_resource->models[0].texlist;
-    texlists[1] = (GinjaTextureList *)load_gvm_texture_file(texture_file_b);
-    texlists[2] = (GinjaTextureList *)load_gvm_texture_file(texture_file_g);
-    texlists[3] = (GinjaTextureList *)load_gvm_texture_file(texture_file_p);
+    lists[0] = (NJS_TEXLIST *)model_resource->models[0].texlist;
+    texlists[1] = (NJS_TEXLIST *)load_gvm_texture_file(texture_file_b);
+    texlists[2] = (NJS_TEXLIST *)load_gvm_texture_file(texture_file_g);
+    texlists[3] = (NJS_TEXLIST *)load_gvm_texture_file(texture_file_p);
 }
 
 // Defined after load_resources, which addresses each by its own symbol.

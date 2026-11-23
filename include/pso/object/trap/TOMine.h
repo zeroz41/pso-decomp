@@ -6,7 +6,7 @@
 #include "pso/object/base/TObjChara.h"
 #include "pso/system/NinjaTypes.h"
 
-struct GinjaTextureList;
+struct NJS_TEXLIST;
 struct NJS_OBJECT;
 
 struct TOMine : public TObjChara {
@@ -51,7 +51,7 @@ struct TOMine : public TObjChara {
     NJS_ARGB color;           // the constant material colour render draws it with
     u32 m_370;
     NJS_OBJECT *light_model;
-    GinjaTextureList *light_textures;
+    NJS_TEXLIST *light_textures;
     int get_player_state();
     int find_target_player();
     virtual void run_task();

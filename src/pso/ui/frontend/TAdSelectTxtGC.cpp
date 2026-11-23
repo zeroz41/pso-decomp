@@ -13,13 +13,13 @@
 // The select screen's text textures, English set then Japanese set. inferred: names from the f256_selectgamen_*
 // texture files they list; TLobby__sub_802A194C picks a set by current_language (0 = Japanese).
 static NJS_TEXNAME select_gamen_eng_texture_names[2] = {
-    {(void *)"f256_selectgamen_a_eng", 0, 0},
-    {(void *)"f256_selectgamen_b_eng", 0, 0},
+    {"f256_selectgamen_a_eng", 0, 0},
+    {"f256_selectgamen_b_eng", 0, 0},
 };
 static NJS_TEXLIST select_gamen_eng_texture_list = {select_gamen_eng_texture_names, 2};
 static NJS_TEXNAME select_gamen_texture_names[2] = {
-    {(void *)"f256_selectgamen_a", 0, 0},
-    {(void *)"f256_selectgamen_b", 0, 0},
+    {"f256_selectgamen_a", 0, 0},
+    {"f256_selectgamen_b", 0, 0},
 };
 static NJS_TEXLIST select_gamen_texture_list = {select_gamen_texture_names, 2};
 // inferred: same <Class>__class_name pattern as the other frontend tasks

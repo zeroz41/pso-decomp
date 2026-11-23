@@ -92,7 +92,7 @@ void TBoss6Tube::render() {
         break;
     }
     start = lo - TBoss6Tube::scale_by_const(TBoss6Tube::calc_tube_progress(scroll_phase));
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(boss6_tube_texture_list));
+    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(boss6_tube_texture_list));
     set_draw_list_mask(3);
     for (i = 0; i < 3; i++) {
         for (y = start; y < hi; y += (8e+02f)) {
@@ -210,7 +210,7 @@ void TBoss6Tube::free_resources() {
         boss6_tube_bml_resource = NULL;
     }
     if ((u32) boss6_tube_texture_list != 0U) {
-        release_texture_list((GinjaTextureList *)boss6_tube_texture_list);
+        release_texture_list((NJS_TEXLIST *)boss6_tube_texture_list);
         TAdSinglePlyChrSelectGC::safe_free(boss6_tube_texture_list);
         boss6_tube_texture_list = 0U;
     }

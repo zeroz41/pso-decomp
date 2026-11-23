@@ -57,7 +57,7 @@ s32 post_translate_matrix(void *);
 
 void TOJungleDesign::render() {
     if (this->update_object_view_visibility(400.0f, 40.0f) == 1) {
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(this->texlist));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_yxz(0, (this->rotation_x), (this->rotation_y), (this->rotation_z));
@@ -80,9 +80,9 @@ TOJungleDesign::TOJungleDesign(saddr parent, saddr set_data) : TObjCollidable((T
 }
 
 
-GinjaTextureList *fn_802FF028(s32 index) {
+NJS_TEXLIST *fn_802FF028(s32 index) {
     if (TOJungleDesign__shared_model_resource != NULL) {
-        return (GinjaTextureList *)get_bml_texlist((BmlResource *)TOJungleDesign__shared_model_resource, index);
+        return (NJS_TEXLIST *)get_bml_texlist((BmlResource *)TOJungleDesign__shared_model_resource, index);
     }
     return NULL;
 }

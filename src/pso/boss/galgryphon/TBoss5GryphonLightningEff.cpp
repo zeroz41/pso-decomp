@@ -20,7 +20,7 @@
 
 extern "C" {
 const char *gryphon_lightning_eff_name = "TBoss5GryphonLightningEff";
-GinjaTextureList *inazuma_texture_list;  // f512_inazuma.gvm: two bolt textures
+NJS_TEXLIST *inazuma_texture_list;  // f512_inazuma.gvm: two bolt textures
 
 void TBoss5GryphonLightningEff::set_two_sided() { this->two_sided = 1; }
 
@@ -47,9 +47,9 @@ s32 TBoss5GryphonLightningEff::calc_segment_uvs(void *vertices) {
         u += step;
     }
     if (flags & 8) {
-        return inazuma_texture_list->entries[0].texture->surface->id;
+        return inazuma_texture_list->textures[0].texture->surface->id;
     }
-    return inazuma_texture_list->entries[1].texture->surface->id;
+    return inazuma_texture_list->textures[1].texture->surface->id;
 }
 
 void TBoss5GryphonLightningEff::render() {
@@ -144,5 +144,5 @@ void TBoss5GryphonLightningEff::release_texture() {
     }
 }
 void TBoss5GryphonLightningEff::load_texture() {
-    inazuma_texture_list = (GinjaTextureList *)load_gvm_texture_file("f512_inazuma.gvm");
+    inazuma_texture_list = (NJS_TEXLIST *)load_gvm_texture_file("f512_inazuma.gvm");
 }

@@ -6,7 +6,7 @@
 extern "C" {
 extern void *lbl_805D4DD8;
 
-GinjaTextureList *get_green_door_textures() {
+NJS_TEXLIST *get_green_door_textures() {
     return green_door_texture_handle;
 }
 void TBoss8Dragon__sub_8028A900(void *self, Vec *pos, DragonAttackParams *params) {

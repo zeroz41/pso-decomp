@@ -699,7 +699,7 @@ void draw_item_list_icon(WindowDrawContext *win, ItemListPosition *pos, s32 icon
     if ((u8)icon != 0x33) {
         p = pos;
         begin_screen_draw(1);
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(hud_texlist));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(hud_texlist));
         set_draw_texture_and_color(1, style);
         entry = (f32 *)TWindowSubStatusDisp::get_entry_ptr(icon);
         offset = lbl_805DCF14;

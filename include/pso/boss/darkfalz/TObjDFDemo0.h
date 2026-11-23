@@ -7,7 +7,7 @@
 
 class TParticleCtrl;
 struct AnimationMotion;
-struct GinjaTextureList;
+struct NJS_TEXLIST;
 
 // Dark Falz's first demo scene: six body models from boss4_type1_model_ids
 // play their motions around df_demo0_center while timed particle effects,
@@ -24,7 +24,7 @@ public:
     ModelNodeTables strips;
     TParticleCtrl *particle_emitters[5];
     NJS_OBJECT *models[6];
-    GinjaTextureList *texture_lists[6];
+    NJS_TEXLIST *texture_lists[6];
     AnimationMotion *motions[6];
     f32 loop_frame;   // motion frame of models 0 and 1, wraps at 30
     f32 motion_frame; // motion frame of the other models, stops at 139

@@ -9,7 +9,7 @@
 #include "pso/render/NinjaUtil.h"
 
 struct BmlResource;
-struct GinjaTextureList;
+struct NJS_TEXLIST;
 struct AnimationMotion;
 
 #include "pso/object/door/TODoorJungleMain.h"
@@ -133,7 +133,7 @@ struct Door_8029B428 : VObj_8029B428 {
 
 BmlResource *TODoorJungleMain__bml_resource;
 
-GinjaTextureList *door_jungle_main_gvm_texture;
+NJS_TEXLIST *door_jungle_main_gvm_texture;
 
 extern "C" {
 
@@ -311,7 +311,7 @@ void TODoorJungleMain::load_resources() {
     saddr var_r0;
     var_r0 = (saddr)new BmlResource(0x1, &bm_o_jungle_doormain_resource_descriptor, 0, 0, NULL);
     TODoorJungleMain__bml_resource = (BmlResource *)var_r0;
-    door_jungle_main_gvm_texture = (GinjaTextureList *)load_gvm_texture_file("o_jungle_doormain.gvm");
+    door_jungle_main_gvm_texture = (NJS_TEXLIST *)load_gvm_texture_file("o_jungle_doormain.gvm");
 }
 
 void TODoorJungleMain::free_static_resources() {

@@ -282,7 +282,7 @@ s32 fn_8029EC3C(Vec *pos, s32 mask) {
 
 }
 
-void TObjPlayer__sub_8029EE2C(void) { TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(lbl_805D65F0)); load_list_texture((saddr)((void*)0), (saddr)((void*)0), (saddr)((void*)0), (saddr)((void*)2)); }
+void TObjPlayer__sub_8029EE2C(void) { TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(lbl_805D65F0)); load_list_texture((saddr)((void*)0), (saddr)((void*)0), (saddr)((void*)0), (saddr)((void*)2)); }
 
 struct Cam_8029EFFC { Vec pos; Vec scale; };
 

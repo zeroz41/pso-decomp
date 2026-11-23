@@ -10,7 +10,7 @@
 #pragma readonly_strings on
 
 TLobbyEventTheme *TLobbyEventTheme::instance;
-GinjaTextureList *lobby_main_texture_gvm;
+NJS_TEXLIST *lobby_main_texture_gvm;
 
 void TLobbyEventTheme::sub_80351DF8(s32 theme) {}
 
@@ -80,7 +80,7 @@ void free_obj_lobby_main() {
 }
 
 void load_obj_lobby_main() {
-    lobby_main_texture_gvm = (GinjaTextureList *)load_gvm_texture_file("obj_lobby_main.GVM");
+    lobby_main_texture_gvm = (NJS_TEXLIST *)load_gvm_texture_file("obj_lobby_main.GVM");
 }
 
 s32 get_theme_lobby_type() {

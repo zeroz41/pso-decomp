@@ -3,13 +3,13 @@
 
 #include "types.h"
 
-struct GinjaTextureList;
+struct NJS_TEXLIST;
 
 extern "C" {
-extern GinjaTextureList *ending_ab_wall_texture_list;
+extern NJS_TEXLIST *ending_ab_wall_texture_list;
 extern s32 TEndingAB__fade_sequence_state;
 }
 
-GinjaTextureList *get_ending_ab_wall_texture_list(void);
+NJS_TEXLIST *get_ending_ab_wall_texture_list(void);
 
 #endif

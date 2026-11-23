@@ -26,7 +26,7 @@ struct Lobby_8001FB6C { u8 pad[0x430]; struct Ent_8001FB6C *entries; };
 struct BmlModelLoadRequest {
     void *name;
     NJS_OBJECT **model;
-    GinjaTextureList **texture;
+    NJS_TEXLIST **texture;
     BmlResource *resource;
     BmlModelEntry *entry;
     u32 size;
@@ -138,7 +138,7 @@ AnimationMotion *get_bml_motion(BmlResource *resource, s32 index) {
     return resource->motions[index].motion;
 }
 
-GinjaTextureList *get_bml_texlist(BmlResource *resource, s32 index) {
+NJS_TEXLIST *get_bml_texlist(BmlResource *resource, s32 index) {
     return resource->models[index].texlist;
 }
 
@@ -503,14 +503,14 @@ void load_bin_model_callback(BmlModelLoadRequest *self) {
     void *handle;
     void *data;
     s32 r;
-    GinjaTextureList **slot;
+    NJS_TEXLIST **slot;
     i = 0;
     while (i < self->size) {
         data = allocate_bml_chunk(self->resource, (u8 *)lobby_download_buffer, &i, &tag);
         switch (tag) {
         case 0x4E4A544C:
             slot = self->texture;
-            *slot = (GinjaTextureList *)data;
+            *slot = (NJS_TEXLIST *)data;
             params.resource = self->resource;
             params.entry = self->entry;
             TLobby::change_file_extension((char *)name, (char *)self->name, (char *)"gvm");
@@ -897,7 +897,7 @@ TBinModel *init_bin_model_request(TBinModel *self, s32 kind, char **models, char
         for (p = models, i = 0; *p != 0; p++, i++) {
             req.name = *p;
             req.model = (NJS_OBJECT **)&((BmlResource *)self)->models[i].model;
-            req.texture = (GinjaTextureList **)&((BmlResource *)self)->models[i].texlist;
+            req.texture = (NJS_TEXLIST **)&((BmlResource *)self)->models[i].texlist;
             req.resource = (BmlResource *)self;
             req.entry = &((BmlResource *)self)->models[i];
             req.size = TGStream::get_resource_file_size(*p);

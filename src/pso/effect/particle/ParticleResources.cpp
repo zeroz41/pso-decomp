@@ -76,7 +76,7 @@ void load_particle_entry_resources(void) {
     read_disc_file(name, particle_area_entry_table);
     TParticleCtrl::regular_bml_resource =
         new BmlResource(1, &particle_regular_bml_descriptor, 0, 0, NULL);
-    TParticleCtrl::texture_list = (GinjaTextureList *)load_gvm_texture_file(particle_texture_file_name);
+    TParticleCtrl::texture_list = (NJS_TEXLIST *)load_gvm_texture_file(particle_texture_file_name);
 }
 
 __declspec(section ".rodata") extern char particle_entry_file_name[] = "particleentrya";

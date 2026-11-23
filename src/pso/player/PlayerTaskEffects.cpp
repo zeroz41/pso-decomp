@@ -502,7 +502,7 @@ void TPlayerLobbyMarker::render() {
         TParticleCtrl::begin_effect_render();
         saved_model_render_flags = model_render_flags;
         copy_argb((NJS_ARGB *)saved_model_draw_color, (NJS_ARGB *)model_material_color);
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(shared_effect_texture_list));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(shared_effect_texture_list));
         model_render_flags |= 0x11;
         translate_matrix_vec3(0, TObjPlayer__sub_801BF914(player + 0x84C));
         rotate_matrix_y(0, camera_ctrl_instance->yaw + rotation);

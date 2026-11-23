@@ -395,7 +395,7 @@ void load_darkgunner_effect_resources() {
     TObjEneDarkGunner__rcly_line_texlist = (saddr)get_bml_texlist(TObjEneDarkGunner::bml_resource, 2);
     TObjEneDarkGunner__body_child_polygons = ((NJS_CNK_MODEL *)get_bml_model(TObjEneDarkGunner::bml_resource, 1)->child->model)->polygon_list;
     TObjEneDarkGunner__cly_line_polygons = ((NJS_CNK_MODEL *)get_bml_model(TObjEneDarkGunner::bml_resource, 0)->model)->polygon_list;
-    TObjPlayer__sub_800A4294();
+    init_fake_tec_texlist();
     TEneEffHamon::init_fish_effects();
     TObjEneDarkGunner__effect_resource = (uaddr)load_gvm_texture_file("re5_b_gunner_body_pika.gvm");
     for (i = 0; i < 1; i++) {
@@ -897,9 +897,9 @@ void TObjEneDarkGunner::render() {
                 color.g = s;
                 color.b = s;
                 set_constant_material((const NJS_ARGB *)&color);
-                TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(TObjEneDarkGunner__effect_resource));
+                TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(TObjEneDarkGunner__effect_resource));
             } else {
-                TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
+                TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
             }
             if (behavior_flags & 4) {
                 if (render_control.has_visible_opacity() != 0) {
@@ -956,9 +956,9 @@ void TObjEneDarkGunner::run_demo_task() {  }
 void TObjEneDarkGunner::render_shadow() {
     if (test_actor_flags(0x800) == 0) {
         if (is_death_gunner() == 0) {
-            TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(TObjEneDarkGunner__cly_line_texlist));
+            TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(TObjEneDarkGunner__cly_line_texlist));
         } else {
-            TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(TObjEneDarkGunner__rcly_line_texlist));
+            TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(TObjEneDarkGunner__rcly_line_texlist));
         }
         push_matrix();
         post_translate_matrix(&shadow_pos.x);

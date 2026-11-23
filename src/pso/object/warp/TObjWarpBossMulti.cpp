@@ -101,8 +101,8 @@ NJS_OBJECT *boss_warp_confirmation_model;
 NJS_OBJECT *warp_boss_model;
 AnimationMotion *warp_boss_motion;
 AnimationMotion *warp_boss_bml_motion;
-GinjaTextureList *boss_warp_base_textures;
-GinjaTextureList *boss_warp_effect_textures;
+NJS_TEXLIST *boss_warp_base_textures;
+NJS_TEXLIST *boss_warp_effect_textures;
 extern "C" {
 void release_boss_warp_resources(void);
 }
@@ -129,9 +129,9 @@ AnimationMotion *get_boss_warp_motion(void) { return warp_boss_motion; }
 
 AnimationMotion *get_boss_warp_bml_motion(void) { return warp_boss_bml_motion; }
 
-GinjaTextureList *get_boss_warp_base_textures(void) { return boss_warp_base_textures; }
+NJS_TEXLIST *get_boss_warp_base_textures(void) { return boss_warp_base_textures; }
 
-GinjaTextureList *get_boss_warp_effect_textures(void) { return boss_warp_effect_textures; }
+NJS_TEXLIST *get_boss_warp_effect_textures(void) { return boss_warp_effect_textures; }
 
 void load_boss_warp_resources() {
     s32 area;
@@ -145,8 +145,8 @@ void load_boss_warp_resources() {
         warp_boss_model = (NJS_OBJECT *)get_bml_model((BmlResource *)boss_warp_resource_bundle, 1);
         warp_boss_motion = get_bml_motion(boss_warp_resource_bundle, 1);
         warp_boss_bml_motion = get_bml_motion(boss_warp_resource_bundle, 0);
-        boss_warp_base_textures = (GinjaTextureList *)get_bml_texlist((BmlResource *)boss_warp_resource_bundle, 2);
-        boss_warp_effect_textures = (GinjaTextureList *)get_bml_texlist((BmlResource *)boss_warp_resource_bundle, 2);
+        boss_warp_base_textures = (NJS_TEXLIST *)get_bml_texlist((BmlResource *)boss_warp_resource_bundle, 2);
+        boss_warp_effect_textures = (NJS_TEXLIST *)get_bml_texlist((BmlResource *)boss_warp_resource_bundle, 2);
         return;
     }
     if (TContainerAncient01::is_global_state_in_table() != 0 || area == AREA_SEABED_UPPER || area == AREA_SEABED_LOWER) {
@@ -157,8 +157,8 @@ void load_boss_warp_resources() {
         warp_boss_model = (NJS_OBJECT *)get_bml_model((BmlResource *)boss_warp_resource_bundle, 1);
         warp_boss_motion = get_bml_motion(boss_warp_resource_bundle, 0);
         warp_boss_bml_motion = get_bml_motion(boss_warp_resource_bundle, 0);
-        boss_warp_base_textures = (GinjaTextureList *)get_bml_texlist((BmlResource *)boss_warp_resource_bundle, 0);
-        boss_warp_effect_textures = (GinjaTextureList *)get_bml_texlist((BmlResource *)boss_warp_resource_bundle, 0);
+        boss_warp_base_textures = (NJS_TEXLIST *)get_bml_texlist((BmlResource *)boss_warp_resource_bundle, 0);
+        boss_warp_effect_textures = (NJS_TEXLIST *)get_bml_texlist((BmlResource *)boss_warp_resource_bundle, 0);
         return;
     }
     resource = new BmlResource(5, &lbl_804B94AC, 0, 0, NULL);
@@ -168,8 +168,8 @@ void load_boss_warp_resources() {
     warp_boss_model = (NJS_OBJECT *)get_bml_model((BmlResource *)boss_warp_resource_bundle, 1);
     warp_boss_motion = get_bml_motion(boss_warp_resource_bundle, 1);
     warp_boss_bml_motion = get_bml_motion(boss_warp_resource_bundle, 0);
-    boss_warp_base_textures = (GinjaTextureList *)get_bml_texlist((BmlResource *)boss_warp_resource_bundle, 2);
-    boss_warp_effect_textures = (GinjaTextureList *)get_bml_texlist((BmlResource *)boss_warp_resource_bundle, 2);
+    boss_warp_base_textures = (NJS_TEXLIST *)get_bml_texlist((BmlResource *)boss_warp_resource_bundle, 2);
+    boss_warp_effect_textures = (NJS_TEXLIST *)get_bml_texlist((BmlResource *)boss_warp_resource_bundle, 2);
 }
 
 void release_boss_warp_resources(void) {
@@ -880,10 +880,10 @@ block_4:
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(model_handle));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(model_handle));
         draw_ginja_object(base_model);
         TParticleCtrl::begin_effect_render();
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(effect_textures));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(effect_textures));
         switch (state) {
         case 0:
             draw_ginja_model_with_motion(confirmation_model, motion, frame);

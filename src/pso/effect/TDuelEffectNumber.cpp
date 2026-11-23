@@ -94,7 +94,7 @@ void TDuelEffectNumber::render() {
     calc_digit_uv(&quad, digit);
     set_additive_blend();
     begin_screen_draw(1);
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(hud_texlist));
+    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(hud_texlist));
     set_draw_texture_and_color(6, -1);
     draw_digit(&quad);
     draw_echo(&quad);

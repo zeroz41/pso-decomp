@@ -42,7 +42,7 @@ static CollisionBody door_machine01_collision_body[1] = {
 };
 
 BmlResource *TODoorMachine01::bml_resource;
-GinjaTextureList **TODoorMachine01::texture_lists;
+NJS_TEXLIST **TODoorMachine01::texture_lists;
 
 void TODoorMachine01::update_demo() {}
 
@@ -174,7 +174,7 @@ void TODoorMachine01::render() {
         if (object_state == DOOR_CLOSED) {
             node = ((NJS_OBJECT *)model)->child;
             lit = (door_flags >> LIGHT_LIT_SHIFT) & 1;
-            TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texture_lists[lit]));
+            TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texture_lists[lit]));
             push_matrix();
             translate_matrix(0, node->pos[0], node->pos[1], node->pos[2]);
             draw_ginja_model((void *)node->model);
@@ -182,7 +182,7 @@ void TODoorMachine01::render() {
             pop_matrix();
             node = ((NJS_OBJECT *)model)->child->sibling;
             lit = (door_flags >> (LIGHT_LIT_SHIFT + 1)) & 1;
-            TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texture_lists[lit]));
+            TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texture_lists[lit]));
             push_matrix();
             translate_matrix(0, node->pos[0], node->pos[1], node->pos[2]);
             draw_ginja_model((void *)node->model);
@@ -190,19 +190,19 @@ void TODoorMachine01::render() {
             draw_switch_light(node, lit);
             node = node->sibling;
             lit = (door_flags >> (LIGHT_LIT_SHIFT + 2)) & 1;
-            TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texture_lists[lit]));
+            TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texture_lists[lit]));
             draw_switch_light(node, lit);
             pop_matrix();
             node = ((NJS_OBJECT *)model)->child->sibling->sibling;
             lit = (door_flags >> (LIGHT_LIT_SHIFT + 3)) & 1;
-            TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texture_lists[lit]));
+            TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texture_lists[lit]));
             push_matrix();
             translate_matrix(0, node->pos[0], node->pos[1], node->pos[2]);
             draw_ginja_model((void *)node->model);
             draw_switch_light(node->child, lit);
             pop_matrix();
         } else {
-            TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texture_lists[1]));
+            TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texture_lists[1]));
             draw_ginja_model_with_motion(model, motion, animation_frame);
         }
         pop_matrix();
@@ -229,17 +229,17 @@ void TODoorMachine01::destroy() {
 
 void TODoorMachine01::load_resources() {
     BmlResource *resource;
-    texture_lists = (GinjaTextureList **)mem_alloc(2 * sizeof(GinjaTextureList *));
+    texture_lists = (NJS_TEXLIST **)mem_alloc(2 * sizeof(NJS_TEXLIST *));
     if (enable_v2_features == 1 && TLobby::is_online_ready() != 0) {
         resource = new BmlResource(1, &door_machine01_a_resource_descriptor, 0, 0, NULL);
         bml_resource = resource;
-        texture_lists[0] = (GinjaTextureList *)load_gvm_texture_file("fs_obj_ki_doa_r_a.gvm");
+        texture_lists[0] = (NJS_TEXLIST *)load_gvm_texture_file("fs_obj_ki_doa_r_a.gvm");
     } else {
         resource = new BmlResource(1, &door_machine01_resource_descriptor, 0, 0, NULL);
         bml_resource = resource;
-        texture_lists[0] = (GinjaTextureList *)load_gvm_texture_file("fs_obj_ki_doa_r.gvm");
+        texture_lists[0] = (NJS_TEXLIST *)load_gvm_texture_file("fs_obj_ki_doa_r.gvm");
     }
-    texture_lists[1] = (GinjaTextureList *)bml_resource->models[0].texlist;
+    texture_lists[1] = (NJS_TEXLIST *)bml_resource->models[0].texlist;
 }
 
 TODoorMachine01::~TODoorMachine01() {

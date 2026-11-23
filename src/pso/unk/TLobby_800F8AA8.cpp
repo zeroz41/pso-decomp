@@ -933,7 +933,7 @@ void TLobby::draw_fullscreen_texture_quad() {
     v[3] = 432.0f;
     v[5] = v[4] = 0.0f;
     v[7] = v[6] = 1.0f;
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(lbl_8049C61C));
+    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(lbl_8049C61C));
     begin_screen_draw(0);
     set_draw_texture_and_color((saddr)this, -1);
     draw_textured_quad_at_depth(v, (0.5f));
@@ -952,7 +952,7 @@ void TLobby::load_font_texture() {
     if (file != 0) {
         s32 r;
         prs_decompress_buffer((saddr)lobby_font_texture_prs_data, (saddr)file);
-        r = load_gvm_texture_archive(file, (GinjaTextureList *)lbl_8049C61C);
+        r = load_gvm_texture_archive(file, (NJS_TEXLIST *)lbl_8049C61C);
         TLobby::tmp_buf_release("FONT");
         lobby_font_texture_loaded = 1;
         if (r == -1) {

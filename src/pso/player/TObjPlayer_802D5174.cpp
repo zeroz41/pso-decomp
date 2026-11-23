@@ -200,7 +200,7 @@ void TObjPlayer__sub_802D5B78(void *hit, void *arg1, void *arg2) {
 
 void TObjPlayer::spawn_item() {
     NJS_OBJECT *model;
-    GinjaTextureList *texture;
+    NJS_TEXLIST *texture;
     TParticleCtrl *particle;
 
     particle = spawn_particle_effect(((Vec *)this), 0x1BF);

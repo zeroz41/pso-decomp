@@ -315,7 +315,7 @@ void TObjEneLappy::render() {
         detail = this->classify_actor_view_detail(150.0f, 400.0f, 10.0f);
         if (detail != 0) {
             set_speed_params(this->variant);
-            TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(this->texlist));
+            TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
             select_actor_lighting(this);
             TObjPlayer::toggle_particle_effect();
             push_matrix();
@@ -923,7 +923,7 @@ __declspec(section ".data") f32 *lappy_variant_speed_ptr_table[2];
 void TObjEneLappy::free_resources() {
     if (TLobby::get_instance() == 0) {
         if (rappy_alternate_texture_list != 0) {
-            release_texture_list((GinjaTextureList *)rappy_alternate_texture_list);
+            release_texture_list((NJS_TEXLIST *)rappy_alternate_texture_list);
             TAdSinglePlyChrSelectGC::safe_free(rappy_alternate_texture_list);
             rappy_alternate_texture_list = 0;
         }
@@ -1034,7 +1034,7 @@ void TObjEneLappy::clear_flag_1() {
 
 void TObjEneLappy::set_speed_params(s32 variant) {
     void *body;
-    GinjaTextureList *textures;
+    NJS_TEXLIST *textures;
 
     if (TLobby::get_instance() == 0) {
         model = rappy_bml_resource->models[0].model;
@@ -1049,7 +1049,7 @@ void TObjEneLappy::set_speed_params(s32 variant) {
     if (variant == 0) {
         textures = rappy_bml_resource->models[0].texlist;
     } else {
-        textures = (GinjaTextureList *)rappy_alternate_texture_list;
+        textures = (NJS_TEXLIST *)rappy_alternate_texture_list;
     }
     texlist = (saddr)textures;
 }

@@ -50,6 +50,9 @@
 #include "pso/object/base/TObjBase.h"
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/system/TLanguage_801E4874.h"
+#include "pso/render/GinjaTexture.h"
+#include "pso/player/TObjPlayer_8023E480.h"
+#include "pso/technique/TechniqueRingwaveList.h"
 
 TechniqueParams calculated_technique_params;
 // Per player: the technique boosts of the equipped weapon and shield.
@@ -138,16 +141,10 @@ TechniqueCostScale technique_scale_table[19] = {
     {0.1f, 5.0f}, {1.0f, 10.0f}, {1.0f, 30.0f}, {0.3f, 5.0f},
 };
 
-extern "C" {
-s32 release_texture_list(void *, s32);
-struct TechniqueRingwaveTextureList { u8 * value; u8 remaining[0x8]; };
-extern TechniqueRingwaveTextureList technique_ringwave_texture_list;
-void bind_gvm_texture_list(const char *, void *);
-}
 void reset_telepipe_visit_counts(void);
 s8 lbl_805D63A8;
 BmlResource *technique_effect_bml;
-GinjaTextureList *technique_texture_list;
+NJS_TEXLIST *technique_texture_list;
 
 #define ONE_SLOT()                                                                       \
     if (((TObjPlayer *)(TObjPlayer__sub_80116620(&c->target_records, 0)))->get_type_id() != 0xFFFF) { \
@@ -186,21 +183,19 @@ GinjaTextureList *technique_texture_list;
 
 void load_technique_resources(void) {
     technique_effect_bml = new BmlResource(1, &technique_resource_descriptor, 0, 0, NULL);
-    technique_texture_list = (GinjaTextureList *)load_gvm_texture_file("technic.gvm");
-    bind_gvm_texture_list("technic_pt", ((u8 *)&technique_ringwave_texture_list));
+    technique_texture_list = (NJS_TEXLIST *)load_gvm_texture_file("technic.gvm");
+    bind_gvm_texture_list("technic_pt", &technique_ringwave_texture_list);
     TTecZondeEff::init_resources();
 }
 
 void TLobby__sub_8022F068(void) {
-    GinjaTextureEntry *entries;
     clear_zonde_beam_vertex_pointer();
-    if ((u32) *(u32 *)((s8 *)technique_ringwave_texture_list.value + 8) != 0U) {
-        release_texture_list(&technique_ringwave_texture_list.value, (saddr) technique_ringwave_texture_list.value);
+    if (technique_ringwave_texture_list.textures->texture != NULL) {
+        release_texture_list(&technique_ringwave_texture_list);
     }
     if (technique_texture_list != NULL) {
-        entries = technique_texture_list->entries;
-        if (entries->texture != NULL) {
-            release_texture_list(technique_texture_list, (saddr) entries);
+        if (technique_texture_list->textures->texture != NULL) {
+            release_texture_list(technique_texture_list);
         }
         TAdSinglePlyChrSelectGC::safe_free((uaddr) technique_texture_list);
         technique_texture_list = NULL;

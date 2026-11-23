@@ -3,8 +3,10 @@
 
 #include "types.h"
 
+// Points fake_tec_texlist at the technique ring-wave textures and picks its first texture.
+void init_fake_tec_texlist();
+
 extern "C" {
-void TObjPlayer__sub_800A4294(void);
 void *create_ene_saver(void *set_data);
 void initialize_saver_resources(void);
 }

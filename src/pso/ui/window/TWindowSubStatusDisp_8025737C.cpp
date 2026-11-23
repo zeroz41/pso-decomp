@@ -256,7 +256,7 @@ void TWindowStatusGaugeFeedback::render(WindowDrawContext *context) {
         sz = self->f8;
         scale = -1.0f / (0.299f * sz + parent->f38);
         begin_screen_draw(1, sz, 0.299f, -1.0f);
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(hud_texlist));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(hud_texlist));
         set_draw_texture_and_color(0xB, -1);
         if (self->flags & 8) {
             TWindowSubStatusDisp__sub_80256C40(self, parent, &pos, scale);

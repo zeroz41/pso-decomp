@@ -69,8 +69,8 @@ public:
     u8 kind;
     u8 pad_26[0x2];
     GinjaTextureInput *texture_info;
-    GinjaTextureList *texture_list;
-    GinjaTextureEntry texture_entry;
+    NJS_TEXLIST *texture_list;
+    NJS_TEXNAME texture_entry;
     u32 horizontal_phase;
     u32 vertical_phase;
     u16 scroll_phase;

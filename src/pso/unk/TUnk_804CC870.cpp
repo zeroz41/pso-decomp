@@ -30,6 +30,7 @@
 #include "pso/boss/goldragon/TBoss8Dragon_80065C90.h"
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/technique/TechniqueRingwaveList.h"
 
 // ---- pso/unk/text_80232934
 
@@ -40,7 +41,6 @@ extern "C" {
 
 void scale_matrix(s32, f32, f32, f32);
 void draw_ginja_object(void);
-extern u8 technique_ringwave_texture_list[];
 
 // ---- pso/unk/text_80232AA4
 
@@ -49,7 +49,7 @@ extern u8 technique_ringwave_texture_list[];
 // One-texture list that render() fills with a copy of the ring-wave frame and draws with; same shape as
 // TEffClitical's clitical_texture_list (the 8-byte list is placed in .data, its name in .bss).
 NJS_TEXNAME lbl_80516140[1];
-__declspec(section ".data") NJS_TEXLIST lbl_804CC868 = { lbl_80516140, 1 };
+NJS_TEXLIST lbl_804CC868 = { lbl_80516140, 1 };
 
 // ---- pso/unk/text_80232B24
 
@@ -145,7 +145,7 @@ void TUnk_804CC888::run_task() {
                 if (e->flags & 0x20) {
                     r = spawn_particle_effect(&obj->position, e->a);
                     if (r != NULL) {
-                        attach_particle_model(r, get_bml_model(technique_effect_bml, technique_effect_entry_table[((Ctl_80232C50 *)this)->kind].ents[i].flags >> 16), (GinjaTextureList *)technique_texture_list, NULL, 1, 1.0f);
+                        attach_particle_model(r, get_bml_model(technique_effect_bml, technique_effect_entry_table[((Ctl_80232C50 *)this)->kind].ents[i].flags >> 16), (NJS_TEXLIST *)technique_texture_list, NULL, 1, 1.0f);
                     }
                 } else {
                     spawn_particle_effect(&obj->position, e->a);
@@ -220,7 +220,7 @@ void TUnk_804CC870::render() {
         get_current_floor_area() == AREA_LOBBY) {
         return;
     }
-    init_texture_copy_rect(&ctx, (GinjaTextureList *)&lbl_804CC868, (GinjaTextureList *)technique_ringwave_texture_list, 0, frame + 1);
+    init_texture_copy_rect(&ctx, &lbl_804CC868, &technique_ringwave_texture_list, 0, frame + 1);
     Vec v = { 1.2f, 1.2f, 1.2f };
     Quad_80232934 q = { 0, 0, 0, 0 };
     approach_alpha_clamped(&color.a, (const f32 *)&q, 0.1f);
@@ -236,7 +236,7 @@ void TUnk_804CC870::render() {
     post_translate_matrix(&position.x);
     scale_matrix(0, scale.x, scale.y, scale.z);
     translate_matrix(0, 0.0f, 1e+01f, 0.0f);
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(&lbl_804CC868));
+    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(&lbl_804CC868));
     get_bml_model(technique_effect_bml, 10);
     draw_ginja_object();
     pop_matrix();

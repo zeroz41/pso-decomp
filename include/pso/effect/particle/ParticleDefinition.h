@@ -4,14 +4,14 @@
 #include "types.h"
 #include <stddef.h>
 
-struct GinjaTextureList;
+struct NJS_TEXLIST;
 class TQuadSprite;
 
 // One quad-sprite particle kind; create_quad_sprites builds sprite_type's
 // TQuadSprite* class for each.
 struct ParticleDefinition {
     u32 flags;
-    GinjaTextureList *texlist;
+    NJS_TEXLIST *texlist;
     s32 texture;
     s32 uv_count;
     f32 (*uvs)[4];

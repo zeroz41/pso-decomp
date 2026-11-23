@@ -85,7 +85,7 @@ s32 TItemTexLoad::load_item_icon(TItemData* item) {
     return 0;
 }
 
-GinjaTextureList* TItemTexLoad::ready_texture_list() {
+NJS_TEXLIST* TItemTexLoad::ready_texture_list() {
     if (m_state == 2) return &m_texture_list;
     return NULL;
 }
@@ -120,8 +120,8 @@ TItemTexLoad::~TItemTexLoad() {
 TItemTexLoad::TItemTexLoad(TObject* parent) : TObject(parent) {
     m_name = TItemTexLoad_name;
     TObjPlayer__sub_803DD5E8(&m_texture_list, &m_texture_entry, (uaddr)item_texture_filename_buffer, 1);
-    m_texture_entry.value04 = 0;
-    m_texture_list.count = 1;
+    m_texture_entry.attr = 0;
+    m_texture_list.nbTexture = 1;
     m_texture_index = -1;
     m_state = 0;
     m_archive_buffer = mem_alloc(0x4800);

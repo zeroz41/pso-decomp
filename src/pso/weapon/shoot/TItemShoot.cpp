@@ -179,7 +179,7 @@ TItemShootModel::TItemShootModel(void *owner, const Vec *pos, const Vec *dir, f3
     : TItemShoot(owner, pos, dir, life) {
     m_name = TItemShootModel__class_name;
     model = *(NJS_OBJECT **)((u8 *)owner + 0x188);
-    texture_list = (GinjaTextureList *)((TObjBase *)owner)->get_texlist();
+    texture_list = (NJS_TEXLIST *)((TObjBase *)owner)->get_texlist();
     if (0.0f != m_dir.y) {
         f32 horiz = newton_sqrtf(m_dir.x * m_dir.x + m_dir.z * m_dir.z);
         m_28 = -(s32)(RADIANS_TO_ANGLE * atan2_float(m_dir.y, horiz));

@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/render/GinjaMaterialState.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/memory.h"
 #include "pso/ui/window/TWindowSubComCard.h"
@@ -17,19 +18,19 @@ void text_builder_reset(void);
 void set_text_entry_string(u8 *arg0, uaddr str, s32 arg2);
 // The HUD palette texture names; load_hud_palette_textures loads the archive into this list.
 NJS_TEXNAME f256_hyouji_texname[13] = { // the texture names of f256_hyouji_texlist
-    { (void *)"f256_hyouji_a", 0, 0 },
-    { (void *)"f256_hyouji_b", 0, 0 },
-    { (void *)"f256_hyouji_c", 0, 0 },
-    { (void *)"f256_actionpallet_a", 0, 0 },
-    { (void *)"f256_actionpallet_b", 0, 0 },
-    { (void *)"f256_actionpallet_c", 0, 0 },
-    { (void *)"f256_duelcount", 0, 0 },
-    { (void *)"r256_symobj01", 0, 0 },
-    { (void *)"r256_symobj02", 0, 0 },
-    { (void *)"r256_symobj03", 0, 0 },
-    { (void *)"r256_symparts", 0, 0 },
-    { (void *)"b256_mainmenu", 0, 0 },
-    { (void *)"f256_carsol", 0, 0 },
+    { "f256_hyouji_a", 0, 0 },
+    { "f256_hyouji_b", 0, 0 },
+    { "f256_hyouji_c", 0, 0 },
+    { "f256_actionpallet_a", 0, 0 },
+    { "f256_actionpallet_b", 0, 0 },
+    { "f256_actionpallet_c", 0, 0 },
+    { "f256_duelcount", 0, 0 },
+    { "r256_symobj01", 0, 0 },
+    { "r256_symobj02", 0, 0 },
+    { "r256_symobj03", 0, 0 },
+    { "r256_symparts", 0, 0 },
+    { "b256_mainmenu", 0, 0 },
+    { "f256_carsol", 0, 0 },
 };
 
 NJS_TEXLIST f256_hyouji_texlist = { f256_hyouji_texname, 13 };

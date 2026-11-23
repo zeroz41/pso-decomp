@@ -189,7 +189,7 @@ void TParticle::draw_particle_refraction_quad() {
     rotate_matrix_y(0, camera_ctrl_instance->yaw);
     rotate_matrix_x(0, camera_ctrl_instance->pitch);
     load_projected_texture_matrix(1.1333334f);
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(particle_definitions[9].texlist));
+    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(particle_definitions[9].texlist));
     set_texture_num(sprite_index);
     TParticleCtrl::setup_particle_draw(1);
     GXSetNumTevStages(2);
@@ -251,7 +251,7 @@ void TParticleBallistic::draw_sprite_quad(s32 kind) {
     sx = sy * (480.0f / (480.0f * screen_projection.width));
     TParticleCtrl::begin_effect_render();
     begin_screen_draw(1);
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(particle_definitions[kind].texlist));
+    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(particle_definitions[kind].texlist));
     set_draw_texture_and_color(particle_definitions[kind].texture, particle_definitions[kind].color);
     uv = particle_definitions[kind].uvs[sprite.uv_index];
     quad.u = uv[0];

@@ -51,7 +51,7 @@ void TLobby__sub_80228154(NJS_SPRITE *sprite, s32 frame_index, s32 flags, f32 de
     if (sprite->tlist == NULL) {
         return;
     }
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(sprite->tlist));
+    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(sprite->tlist));
     NJS_TEXANIM *frame = &sprite->tanim[frame_index];
     f32 left = -frame->cx;
     f32 top = -frame->cy;

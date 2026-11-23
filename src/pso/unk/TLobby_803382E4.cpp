@@ -1,4 +1,5 @@
 #include "pso/render/GvmTextureArchive.h"
+#include "pso/render/GinjaMaterialState.h"
 #include "pso/system/ResourceFile.h"
 #include "types.h"
 #include "pso/unk/TLobby_803382E4.h"
@@ -43,9 +44,9 @@ u32 __cvt_fp2unsigned(f32);
 s32 release_texture_list(s32 *);
 
 NJS_TEXNAME lbl_804EF1B8[3] = {
-    { (void *)"f256_nowloading", 0, 0 },
-    { (void *)"f256_nowloading_b", 0, 0 },
-    { (void *)"f064_mahourot", 0, 0 },
+    { "f256_nowloading", 0, 0 },
+    { "f256_nowloading_b", 0, 0 },
+    { "f064_mahourot", 0, 0 },
 };
 __declspec(section ".data") void *lbl_804EF1DC[2] = {
     (void *)&lbl_804EF1B8, (void *)0x3,
@@ -123,7 +124,7 @@ void TLobby__sub_803382E4(void) {
         TParticleCtrl::begin_effect_render();
         TCameraCtrl::restore_full_screen_view();
         set_default_alpha_blend();
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(lbl_804EF1DC));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(lbl_804EF1DC));
         set_texture_num(0);
         TLobby__sub_803E2EE4(0);
         draw_projected_textured_strip(lbl_804EF2E4, 4);
@@ -158,7 +159,7 @@ void TLobby::load_now_loading_texture() {
         packed = (saddr)TQuestVmDownLoadServer::alloc(0x2000);
         read_disc_file_sectors("NowLoading.prs", (void *)packed);
         prs_decompress_buffer(packed, archive);
-        load_gvm_texture_archive((void *)archive, (GinjaTextureList *)lbl_804EF1DC);
+        load_gvm_texture_archive((void *)archive, (NJS_TEXLIST *)lbl_804EF1DC);
         TAdSinglePlyChrSelectGC::safe_free(packed);
         TAdSinglePlyChrSelectGC::safe_free(archive);
         lobby_request_flags |= 2;
@@ -198,7 +199,7 @@ void TLobby__sub_80338534(void) {
     TObjBoss2Tunnel::draw_projected_quads(t->a, 4);
     TObjBoss2Tunnel::reset_player_state();
     if ((u32)info_icon_texture != 0) {
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(info_icon_texture));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(info_icon_texture));
         if (lobby_request_flags & 4) {
             set_texture_num(1);
         } else {
@@ -209,7 +210,7 @@ void TLobby__sub_80338534(void) {
         draw_projected_textured_strip(t->b, 4);
         TLobby::reset_player_state();
         set_default_alpha_blend();
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(hud_texlist));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(hud_texlist));
         set_texture_num(5);
         TLobby__sub_803E2EE4(1);
         draw_projected_textured_strip(t->c, 4);

@@ -17,7 +17,7 @@ s32 status_disp_texture_handle;
 
 void TAdSelectTxtSubGC::render_status() {
     begin_screen_draw(1);
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(status_disp_texture_handle));
+    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(status_disp_texture_handle));
     set_draw_texture_and_color(m_texture, m_color);
     draw_textured_quad_at_depth(&m_quad.x0, 0.25f);
     TWindowSubStatusDisp::get_player();

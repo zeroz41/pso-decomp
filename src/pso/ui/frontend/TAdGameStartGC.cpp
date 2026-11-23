@@ -160,10 +160,10 @@ void TAdGameStartSubGC::destroy_instance() {
     }
 }
 extern const unsigned char lbl_80472C28[];
-__declspec(section ".data") extern GinjaTextureList texture_f512_multiplay_descriptor;
+__declspec(section ".data") extern NJS_TEXLIST texture_f512_multiplay_descriptor;
 void register_texture_f512_multiplay(void) { multiplay_texture_f512_handle = &texture_f512_multiplay_descriptor; load_streamed_prs_texture((saddr)lbl_80472C28, (saddr)&texture_f512_multiplay_descriptor); }
 __declspec(section ".rodata") extern const unsigned char lbl_80472C28[] = "f512_multiplay";
 __declspec(section ".rodata") extern const char TAdGameStartGC__class_name_string[] = "TAdGameStartGC";
-GinjaTextureEntry lbl_804E3B60[1] = {{(char *)lbl_80472C28, 0, {0}}};
-__declspec(section ".data") GinjaTextureList texture_f512_multiplay_descriptor = {lbl_804E3B60, 1};
+NJS_TEXNAME lbl_804E3B60[1] = {{(char *)lbl_80472C28, 0, {0}}};
+__declspec(section ".data") NJS_TEXLIST texture_f512_multiplay_descriptor = {lbl_804E3B60, 1};
 void *ad_game_start_name_ptr[2] = {(void *)TAdGameStartGC__class_name_string, 0};

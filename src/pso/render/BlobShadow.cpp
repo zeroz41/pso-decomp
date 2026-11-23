@@ -50,7 +50,7 @@ void draw_blob_shadow(s32 forceDraw) {
 
 void release_blob_shadow_texture(void) {
     if (blob_shadow_texture_list != NULL) {
-        release_texture_list((GinjaTextureList *)blob_shadow_texture_list);
+        release_texture_list((NJS_TEXLIST *)blob_shadow_texture_list);
         TAdSinglePlyChrSelectGC::safe_free((uaddr)blob_shadow_texture_list);
         blob_shadow_texture_list = NULL;
     }

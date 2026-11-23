@@ -77,13 +77,13 @@ TObjDFDemo1::TObjDFDemo1(TObject *parent, const Vec *pos, s32 angle) : TObjBase(
     for (i = 0; i < 6; i++) {
         int id = boss4_type1_model_ids[i];
         body_parts[i].model = (NJS_OBJECT *)get_bml_model(res, id);
-        body_parts[i].texlist = (GinjaTextureList *)get_bml_texlist(res, id);
+        body_parts[i].texlist = (NJS_TEXLIST *)get_bml_texlist(res, id);
         body_parts[i].motion = get_bml_motion(res, df_demo1_body_motion_ids[i]);
     }
     for (i = 0; i < 2; i++) {
         int id = boss4_zanzo_bml_index_table[i];
         zanzo_parts[i].model = (NJS_OBJECT *)get_bml_model(res, id);
-        zanzo_parts[i].texlist = (GinjaTextureList *)get_bml_texlist(res, id);
+        zanzo_parts[i].texlist = (NJS_TEXLIST *)get_bml_texlist(res, id);
         zanzo_parts[i].motion = get_bml_motion(res, df_demo1_zanzo_motion_ids[i]);
     }
     frame = -0.5f;
@@ -198,7 +198,7 @@ void TObjDFDemo1::draw_fading_model() {
     rotate_matrix_y(NULL, angle);
     max = 30.0f;
     for (i = 0; i < 6; i++) {
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(body_parts[i].texlist));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(body_parts[i].texlist));
         f = frame;
         switch (i) {
         case 0:
@@ -261,7 +261,7 @@ void TObjDFDemo1::sub_8004E068() {
     post_translate_matrix(&pos.x);
     rotate_matrix_y(NULL, angle);
     for (j = 0; j < 2; j++) {
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(zanzo_parts[j].texlist));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(zanzo_parts[j].texlist));
         draw_model_motion(zanzo_parts[j].model, zanzo_parts[j].motion, frame);
     }
     clear_motion_packed_rotation();

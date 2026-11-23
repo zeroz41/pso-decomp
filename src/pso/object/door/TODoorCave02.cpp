@@ -41,7 +41,7 @@ static CollisionBody door_cave02_collision_body[1] = {
 };
 
 BmlResource *TODoorCave02::bml_resource;
-GinjaTextureList **TODoorCave02::texture_lists;
+NJS_TEXLIST **TODoorCave02::texture_lists;
 
 void TODoorCave02::update_demo() {}
 
@@ -113,11 +113,11 @@ void TODoorCave02::render() {
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
         if ((s32)object_state == DOOR_CLOSED) {
-            TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texture_lists[door_flags & 1]));
+            TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texture_lists[door_flags & 1]));
             draw_light(((NJS_OBJECT *)model)->child);
             draw_light(((NJS_OBJECT *)model)->child->sibling);
         } else {
-            TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texture_lists[1]));
+            TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texture_lists[1]));
             draw_ginja_model_with_motion(model, motion, animation_frame);
         }
         pop_matrix();
@@ -143,17 +143,17 @@ void TODoorCave02::destroy() {
 
 void TODoorCave02::load_resources() {
     BmlResource *resource;
-    texture_lists = (GinjaTextureList **)mem_alloc(2 * sizeof(GinjaTextureList *));
+    texture_lists = (NJS_TEXLIST **)mem_alloc(2 * sizeof(NJS_TEXLIST *));
     if (enable_v2_features == 1 && TLobby::is_online_ready() != 0) {
         resource = new BmlResource(1, &door_cave02_a_resource_descriptor, 0, 0, NULL);
         bml_resource = resource;
-        texture_lists[0] = (GinjaTextureList *)load_gvm_texture_file("fs_obj_do_doa02r_a.gvm");
+        texture_lists[0] = (NJS_TEXLIST *)load_gvm_texture_file("fs_obj_do_doa02r_a.gvm");
     } else {
         resource = new BmlResource(1, &door_cave02_resource_descriptor, 0, 0, NULL);
         bml_resource = resource;
-        texture_lists[0] = (GinjaTextureList *)load_gvm_texture_file("fs_obj_do_doa02r.gvm");
+        texture_lists[0] = (NJS_TEXLIST *)load_gvm_texture_file("fs_obj_do_doa02r.gvm");
     }
-    texture_lists[1] = (GinjaTextureList *)bml_resource->models[0].texlist;
+    texture_lists[1] = (NJS_TEXLIST *)bml_resource->models[0].texlist;
 }
 
 TODoorCave02::~TODoorCave02() {

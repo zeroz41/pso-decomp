@@ -10,7 +10,7 @@
 #include "pso/effect/sprite/TQuadSpriteSclColRot.h"
 #include "pso/system/task/TMainTask.h"
 
-GinjaTextureList *particle_texture_lists[2] = { (GinjaTextureList *)&shared_effect_texture_list, 0 };
+NJS_TEXLIST *particle_texture_lists[2] = { (NJS_TEXLIST *)&shared_effect_texture_list, 0 };
 
 
 extern f32 particle_sprite_atlas_uv_rects[0x10][4];

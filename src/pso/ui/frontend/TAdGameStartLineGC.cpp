@@ -14,7 +14,7 @@ void *lbl_805D6C18;
 #pragma fp_contract on
 void TAdGameStartLineGC::draw_lines() {
     begin_screen_draw(1);
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(lbl_805D6C18));
+    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(lbl_805D6C18));
     set_draw_texture_and_color(0, m_color);
     for (u32 i = 0; i < 4; i++) {
         draw_textured_quad_at_depth(&m_quads[i].x0, 0.0001f * i + 0.795f);

@@ -15,7 +15,7 @@ extern "C" {
 int TKeyBoardControl__sub_8000F828(void);
 extern const char TEndingPic__class_name_string[] = "TEndingPic";
 const char *lbl_805D4378 = TEndingPic__class_name_string;
-GinjaTextureList *ending_pic_wall_texture_list;
+NJS_TEXLIST *ending_pic_wall_texture_list;
 
 void TEndingPic::advance_animation_state() {
     switch (TEndingPic__animation_state) {
@@ -161,4 +161,4 @@ TEndingPic::TEndingPic(TObject *parent) : TObject(parent) {
 }
 }
 
-GinjaTextureList *get_ending_ab_wall_texture_list(void) { return ending_ab_wall_texture_list; }
+NJS_TEXLIST *get_ending_ab_wall_texture_list(void) { return ending_ab_wall_texture_list; }

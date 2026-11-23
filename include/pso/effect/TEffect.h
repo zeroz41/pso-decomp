@@ -31,21 +31,21 @@ LAYOUT_ASSERT(EffectAgeOffset, offsetof(TEffect, age) == 0x68);
 
 // A texture file and the texture list it is bound to.
 struct EffectTextureFile {
-    GinjaTextureList *texlist;
+    NJS_TEXLIST *texlist;
     const char *filename;
 };
 
 // One frame of an animated texture list, put into a slot of the texture list
 // a model draws with.
 struct TextureFrameSlot {
-    GinjaTextureList *frames;
-    GinjaTextureList *texlist;
+    NJS_TEXLIST *frames;
+    NJS_TEXLIST *texlist;
     s32 frame;
     s32 slot;
 };
 
 // The particle textures from effect_nt.gvm, bound by load_effect_resources.
-__declspec(section ".data") extern GinjaTextureList shared_effect_texture_list;
+__declspec(section ".data") extern NJS_TEXLIST shared_effect_texture_list;
 // EFFECT_NT.REL, the effect models.
 extern saddr effect_rel;
 

@@ -88,7 +88,7 @@ void fn_80271848(s32 arg0, u8 *arg1) {
         color = -1;
     }
     begin_screen_draw(1);
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(hud_texlist));
+    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(hud_texlist));
     set_draw_texture_and_color(0, color);
     r.x0 = 16.0f;
     r.y0 = 346.0f;

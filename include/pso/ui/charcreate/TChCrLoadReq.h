@@ -6,7 +6,7 @@
 
 struct CharacterAppearanceFields;
 struct CharacterClassAppearance;
-struct GinjaTextureList;
+struct NJS_TEXLIST;
 struct TObjPlayer;
 class TChCrLoadAfs;
 
@@ -16,9 +16,9 @@ struct CharacterPreviewLoadArgs {
     s32 load_slot;
     s32 *body_model;
     s32 *part_models;
-    GinjaTextureList *body_textures;
-    GinjaTextureList *other_textures;
-    GinjaTextureList *head_textures;
+    NJS_TEXLIST *body_textures;
+    NJS_TEXLIST *other_textures;
+    NJS_TEXLIST *head_textures;
 
     void copy_from(const CharacterPreviewLoadArgs *source);
 };

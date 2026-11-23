@@ -39,8 +39,8 @@ s32 get_card_file_info__15TAdPlayerLoadGCFiPvPv(saddr, const char *, Stat_80197E
 const char *TObjSinBoard__class_name = "TObjSinBoard";
 
 u32 TObjSinBoard__texture_buffer;
-GinjaTextureEntry TObjSinBoard__texture_name;
-__declspec(section ".data") GinjaTextureList signboard_texture_list;
+NJS_TEXNAME TObjSinBoard__texture_name;
+__declspec(section ".data") NJS_TEXLIST signboard_texture_list;
 GinjaTextureInput TObjSinBoard__texture_surface;
 s32 gogo_ball_team_scores[2];
 GoGoBallConfig gogo_ball_configuration;
@@ -104,7 +104,7 @@ void TLobby::free_global_buffer() {
     if (TObjSinBoard__texture_buffer != 0) {
         TAdSinglePlyChrSelectGC::safe_free(TObjSinBoard__texture_buffer);
         TObjSinBoard__texture_buffer = 0;
-        if (signboard_texture_list.entries->texture != NULL) {
+        if (signboard_texture_list.textures->texture != NULL) {
             release_texture_list(&signboard_texture_list);
         }
     }
@@ -117,8 +117,8 @@ void fn_80197FD0(const void *image, u32 size) {
     TObjSinBoard__texture_buffer = t;
     if (t != 0) {
         move_data((void *)(t), (const void *)(image), size);
-        signboard_texture_list.entries = &TObjSinBoard__texture_name;
-        signboard_texture_list.count = 1;
+        signboard_texture_list.textures = &TObjSinBoard__texture_name;
+        signboard_texture_list.nbTexture = 1;
         TObjSinBoard__texture_surface.set_render_rect(reinterpret_cast<void *>(TObjSinBoard__texture_buffer), 0, 0, 0);
         set_texture_name(&TObjSinBoard__texture_name, &TObjSinBoard__texture_surface, 0, 0x40000000);
         load_texture_if_valid((uaddr)&signboard_texture_list);

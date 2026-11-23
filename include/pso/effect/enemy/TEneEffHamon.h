@@ -6,7 +6,7 @@
 #include "pso/system/NinjaTypes.h"
 #include <dolphin/mtx/GeoTypes.h>
 
-struct GinjaTextureList;
+struct NJS_TEXLIST;
 
 // One ripple ring of the Dark Gunner (spawn_hamon_effects): the fish model,
 // grown by scale_rate and faded by alpha_rate each frame once delay runs out.
@@ -23,7 +23,7 @@ public:
 
     static const char *class_name;
     static NJS_OBJECT *fish_model;
-    static GinjaTextureList *fish_texlist;
+    static NJS_TEXLIST *fish_texlist;
 
     Vec position;
     s32 rotation_x;

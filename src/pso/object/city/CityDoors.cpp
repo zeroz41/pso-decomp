@@ -295,7 +295,7 @@ void TObjCityDoor_Shop::run_task() {
 
 void TObjCityDoor_Shop::render() {
     if (vfunc_22() != 0) {
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(city_common_texture_list));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(city_common_texture_list));
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, rotation_y);
@@ -323,7 +323,7 @@ void TObjCityDoor_Guild::run_task() {
 
 void TObjCityDoor_Guild::render() {
     if (vfunc_22() != 0) {
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(city_common_texture_list));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(city_common_texture_list));
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, rotation_y);
@@ -374,7 +374,7 @@ void TObjCityDoor_Warp::run_task() {
 
 void TObjCityDoor_Warp::render() {
     if (vfunc_22() != 0) {
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(city_common_texture_list));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(city_common_texture_list));
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, rotation_y);
@@ -420,7 +420,7 @@ void TObjCityDoor_Med::run_task() {
 
 void TObjCityDoor_Med::render() {
     if (vfunc_22() != 0) {
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(city_common_texture_list));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(city_common_texture_list));
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, rotation_y);
@@ -547,7 +547,7 @@ void TObjCityDoor_Lobby::run_task() {
 
 void TObjCityDoor_Lobby::process_lobby_action_14() {
     if (update_object_view_visibility(400.0f, 70.0f) != 0) {
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(city_common_texture_list));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(city_common_texture_list));
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, rotation_y);
@@ -565,7 +565,7 @@ void TObjCityDoor_Lobby::render() {
 void load_city_common_resources(void) {
     BmlResource *resource = new BmlResource(5, (BmlResourceDescriptor *)&bm_obj_city_common_resource_descriptor.archive, 0, 0, NULL);
     city_common_model_archive = resource;
-    city_common_texture_list = (GinjaTextureList *)load_gvm_texture_file(city_common_texture_filename);
+    city_common_texture_list = (NJS_TEXLIST *)load_gvm_texture_file(city_common_texture_filename);
 }
 
 void TLobby::free_map_resources() {

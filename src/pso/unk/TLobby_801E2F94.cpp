@@ -53,7 +53,7 @@ void draw_shadow_quad(NJS_SPRITE *sprite, s32 frame, s32 flags) {
     f32 ey, ex, cx, cy, z;
     f32 u0, v0, u1, v1;
 
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(sprite->tlist));
+    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(sprite->tlist));
     set_texture_num(sprite->tanim->texid);
     u0 = 0.01f;
     u1 = 0.99f;

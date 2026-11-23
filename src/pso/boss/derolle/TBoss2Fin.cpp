@@ -29,7 +29,7 @@ void TBoss2Fin::render() {
     s32 j;
     s32 yaw;
     Vec v;
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(boss2_derolle_resource->models[2].texlist));
+    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(boss2_derolle_resource->models[2].texlist));
     seg = segments;
     end = ends;
     pt = points;

@@ -61,7 +61,7 @@ void TObjVoloptShutter::update_shutter_state() {
 
 void TObjVoloptShutter::render() {
     TObjPlayer::toggle_particle_effect();
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(volopt_shutter_global_param));
+    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(volopt_shutter_global_param));
     push_matrix();
     model_render_flags &= ~0x400;
     rotate_matrix_y(0, rotation_y);

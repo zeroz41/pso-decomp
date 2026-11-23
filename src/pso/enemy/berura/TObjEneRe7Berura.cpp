@@ -534,7 +534,7 @@ void TObjEneRe7Berura::draw_saved_node_tree(NJS_OBJECT *obj, u8 *matrices) {
 void TObjEneRe7Berura::draw_arm(s32 arm) {
     TObjEneRe7BeruraPart *part;
 
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(TObjEneRe7Berura__shared_resource->models->texlist));
+    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(TObjEneRe7Berura__shared_resource->models->texlist));
     part = &TObjEneRe7Berura__detached_part_states[arm];
     draw_saved_node_tree(&part->object, part->node_matrices);
 }
@@ -1422,7 +1422,7 @@ void TObjEneRe7Berura::render() {
         fade = &camera_fades[cam];
         fade->update();
         cam = fade->updateFromCamera(&body_center.x);
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
@@ -1523,7 +1523,7 @@ void TObjEneRe7Berura::render_demo() {
             draw_ground_shadow(&v, 0);
         }
         TObjPlayer::toggle_particle_effect();
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);

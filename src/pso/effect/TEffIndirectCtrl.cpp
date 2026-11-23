@@ -340,7 +340,7 @@ TEffIndirectCtrl::TEffIndirectCtrl(s32 kind, TObject *parent) : TObject(parent) 
     u8 k;
     m_name = class_name;
     texture_info = (GinjaTextureInput *)::operator new(sizeof(GinjaTextureInput));
-    texture_list = (GinjaTextureList *)::operator new(sizeof(GinjaTextureList));
+    texture_list = (NJS_TEXLIST *)::operator new(sizeof(NJS_TEXLIST));
     if (texture_list == NULL || texture_info == NULL) {
         queue_destruction();
         return;
@@ -361,12 +361,12 @@ TEffIndirectCtrl::TEffIndirectCtrl(s32 kind, TObject *parent) : TObject(parent) 
     source_index = recipe->source_index;
     global_index = get_indirect_source_id(source_index);
     global_index += k * 1000;
-    texture_list->entries = &texture_entry;
-    texture_list->count = 1;
+    texture_list->textures = &texture_entry;
+    texture_list->nbTexture = 1;
     texture_info->set_render_rect(NULL, 1, 0x40, 0x40);
     set_texture_name(&texture_entry, texture_info, global_index, 0x8800000);
     load_texture_list(texture_list);
-    pixels = (u8 *)texture_list->entries->texture->surface->header.pixels;
+    pixels = (u8 *)texture_list->textures->texture->surface->header.pixels;
     copy_and_flush_texture(get_indirect_source_pixels(source_index));
 }
 

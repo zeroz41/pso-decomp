@@ -70,7 +70,7 @@ void TUnk_804A5340::hook() {  }
 
 TUnk_804A5340::TUnk_804A5340(TUnk_804A535C *owner, const Vec *pos, const Vec *dir, f32 life)
     : TItemShootModel(owner, pos, dir, life) {
-    set_render_model(owner->fn_8012C9D8(), (GinjaTextureList *)owner->get_texlist());
+    set_render_model(owner->fn_8012C9D8(), (NJS_TEXLIST *)owner->get_texlist());
 }
 
 uaddr rocket_punch_create_shot(saddr owner, saddr pos, saddr dir, f32 life) {

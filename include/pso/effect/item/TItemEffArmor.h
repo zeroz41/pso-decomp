@@ -6,7 +6,7 @@
 #include "pso/system/NinjaTypes.h"
 
 struct AnimationMotion;
-struct GinjaTextureList;
+struct NJS_TEXLIST;
 struct NJS_OBJECT;
 class TParticleCtrl;
 struct TObjPlayer;
@@ -37,7 +37,7 @@ struct TItemEffArmor : public TObject {
     TObjPlayer *owner;
     NJS_OBJECT *model;
     AnimationMotion *motion;
-    GinjaTextureList *texture_list;
+    NJS_TEXLIST *texture_list;
 };
 
 LAYOUT_ASSERT(TItemEffArmor_size, sizeof(TItemEffArmor) == 0x7C);

@@ -1,9 +1,10 @@
 #include "types.h"
+#include "pso/render/GinjaMaterialState.h"
 #include "pso/render/NinjaUtil.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/player/TObjPlayer_80011014.h"
 
-static u8 texlist_null_name[0x20];
+static char texlist_null_name[0x20];
 
 void clear_texlist_names(NJS_TEXLIST *texlist) {
     u32 i;

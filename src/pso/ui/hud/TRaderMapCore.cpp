@@ -423,7 +423,7 @@ void TRaderMapCore::load_frame_texture() {
 
 void TRaderMapCore::free_statics() {
     if ((u32) TRaderMapCore__data_805D5F4C != 0U) {
-        release_texture_list((GinjaTextureList *)TRaderMapCore__data_805D5F4C);
+        release_texture_list((NJS_TEXLIST *)TRaderMapCore__data_805D5F4C);
         TAdSinglePlyChrSelectGC::safe_free(TRaderMapCore__data_805D5F4C);
         TRaderMapCore__data_805D5F4C = 0U;
     }
@@ -436,7 +436,7 @@ void TRaderMapCore::free_statics() {
 
 s32 TRaderMapCore::apply_compass_param(const s32 *counter) {
     if ((u32) TRaderMapCore__data_805D5F4C != 0U) {
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(TRaderMapCore__data_805D5F4C));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(TRaderMapCore__data_805D5F4C));
         return 1;
     }
     return -1;
@@ -470,7 +470,7 @@ void TRaderMapCore::load_map_resources() {
 }
 
 void TRaderMapCore::unload_floor_map() {
-    GinjaTextureList *texlist;
+    NJS_TEXLIST *texlist;
     u8 *map_data;
     map_data = (u8 *)TRaderMapCore__floor_map_resource;
     if (map_data != NULL) {
@@ -478,7 +478,7 @@ void TRaderMapCore::unload_floor_map() {
     }
     TRaderMapCore::free_statics();
     if ((void *) TRaderMapCore__floor_map_resource != NULL) {
-        texlist = *(GinjaTextureList **)(TRaderMapCore__floor_map_resource + 4);
+        texlist = *(NJS_TEXLIST **)(TRaderMapCore__floor_map_resource + 4);
         if (texlist != NULL) {
             release_texture_list(texlist);
         }
@@ -801,7 +801,7 @@ void TRaderMapCore::render_region_records(s32 mode) {
     model_render_flags |= arg0->m_194;
     set_chunk_material_override_pair(-0xFF01, 0x900);
     if (MAP_801FAAEC->tex != 0) {
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(MAP_801FAAEC->tex));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(MAP_801FAAEC->tex));
     }
     i = 0;
     {

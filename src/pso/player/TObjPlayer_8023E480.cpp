@@ -34,7 +34,7 @@ s32 set_texlist(u32 texlist) {
     if (texlist == 0U) {
         return 0;
     }
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
+    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
     return 1;
 }
 
@@ -50,7 +50,7 @@ s32 load_streamed_prs_texture(saddr name, saddr texlist) {
     }
     buf = (saddr)TQuestVmDownLoadServer::alloc(0x100000);
     prs_decompress_buffer(h, buf);
-    load_gvm_texture_archive((void *)buf, (GinjaTextureList *)texlist);
+    load_gvm_texture_archive((void *)buf, (NJS_TEXLIST *)texlist);
     TAdSinglePlyChrSelectGC::safe_free(buf);
     TAdSinglePlyChrSelectGC::safe_free(h);
     return 1;
@@ -69,7 +69,7 @@ s32 load_disc_prs_texture(saddr name, saddr texlist) {
         if (read_disc_file(texture_prs_disc_filename_buffer, (void *)b) != -1) {
             c = (saddr)xmalloc(0x200000);
             prs_decompress_buffer(b, c);
-            load_gvm_texture_archive((void *)c, (GinjaTextureList *)texlist);
+            load_gvm_texture_archive((void *)c, (NJS_TEXLIST *)texlist);
             xfree((void *)c);
         }
         xfree((void *)b);
@@ -78,24 +78,24 @@ s32 load_disc_prs_texture(saddr name, saddr texlist) {
     return 0;
 }
 
-s32 bind_gvm_texture_list(const char *name, GinjaTextureList *texlist) {
+s32 bind_gvm_texture_list(const char *name, NJS_TEXLIST *texlist) {
     u8 m_texture_list[8];
-    GinjaTextureEntry *d;
+    NJS_TEXNAME *d;
     s32 i;
     s32 n;
     if (name == NULL || texlist == NULL) {
         return 0;
     }
     memset((void *)lbl_805D63C0, 0, 0x1800);
-    TObjPlayer__sub_803DD5E8((GinjaTextureList *)m_texture_list, (GinjaTextureEntry *)lbl_805D63C0, lbl_805D63C4, 0x200);
+    TObjPlayer__sub_803DD5E8((NJS_TEXLIST *)m_texture_list, (NJS_TEXNAME *)lbl_805D63C0, lbl_805D63C4, 0x200);
     if (TLobby::load_texture_pvm_file(name, (saddr)m_texture_list) == -1) {
         return 0;
     }
-    n = texlist->count;
-    d = texlist->entries;
+    n = texlist->nbTexture;
+    d = texlist->textures;
     for (i = 0; i < n; i++) {
-        d[i].texture = ((GinjaTextureEntry *)lbl_805D63C0)[i].texture;
-        d[i].value04 = ((GinjaTextureEntry *)lbl_805D63C0)[i].value04;
+        d[i].texture = ((NJS_TEXNAME *)lbl_805D63C0)[i].texture;
+        d[i].attr = ((NJS_TEXNAME *)lbl_805D63C0)[i].attr;
     }
     return 1;
 }

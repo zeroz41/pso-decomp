@@ -419,7 +419,7 @@ void TBoss3VoloptP02::render() {
         if (fade.updateFromCamera((const f32 *)&body_center) != 0) {
             fade.set_flags_and_apply_damage_color();
         }
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
         select_actor_lighting(this);
         TObjPlayer::toggle_particle_effect();
         push_matrix();

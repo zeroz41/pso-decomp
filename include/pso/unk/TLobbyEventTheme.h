@@ -34,7 +34,7 @@ public:
 LAYOUT_ASSERT(TLobbyEventTheme_size, sizeof(TLobbyEventTheme) == 0x24);
 
 // The lobby texture list (obj_lobby_main.GVM), loaded and freed with the lobby.
-extern GinjaTextureList *lobby_main_texture_gvm;
+extern NJS_TEXLIST *lobby_main_texture_gvm;
 
 void load_obj_lobby_main();
 void free_obj_lobby_main();

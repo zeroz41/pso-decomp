@@ -5,14 +5,14 @@
 #include "pso/render/GinjaTexture.h"
 
 
-s32 find_texture_entry_by_name(const GinjaTextureList *list, const char *name) {
-    const GinjaTextureEntry *ents;
+s32 find_texture_entry_by_name(const NJS_TEXLIST *list, const char *name) {
+    const NJS_TEXNAME *ents;
     u32 i;
     if (list != NULL) {
-        ents = list->entries;
+        ents = list->textures;
         if (ents != NULL) {
-            for (i = 0; i < list->count; i++) {
-                if (strcmp(name, ents[i].name) == 0) {
+            for (i = 0; i < list->nbTexture; i++) {
+                if (strcmp(name, ents[i].filename) == 0) {
                     return i;
                 }
             }

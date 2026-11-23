@@ -5,7 +5,7 @@
 #include <dolphin/mtx.h>
 #include <stddef.h>
 struct NJS_OBJECT;
-struct GinjaTextureList;
+struct NJS_TEXLIST;
 class TAdRicoRing : public TObject {
 public:
     TAdRicoRing(TObject *parent);
@@ -24,7 +24,7 @@ public:
     f32 scale_step[4];
     s32 angular_acceleration;
     NJS_OBJECT *model;
-    GinjaTextureList *textures;
+    NJS_TEXLIST *textures;
     u32 unknown_54;
     Vec position;
     s32 angles[3];

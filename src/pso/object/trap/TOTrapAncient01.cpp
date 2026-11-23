@@ -133,7 +133,7 @@ void TOTrapAncient01::load_resources() {
     BmlResource *resource = new BmlResource(1, &bm_o_trap_ancient01_resource_descriptor, 0, 0, NULL);
     TOTrapAncient01__bml_resource = resource;
     TMotorcycle::add_entry(0x39, reinterpret_cast<NJS_OBJECT *>(get_bml_model((BmlResource *)TOTrapAncient01__bml_resource, 3)),
-                           reinterpret_cast<GinjaTextureList *>(get_bml_texlist((BmlResource *)resource, 3)), 20.0f, 0.0f);
+                           reinterpret_cast<NJS_TEXLIST *>(get_bml_texlist((BmlResource *)resource, 3)), 20.0f, 0.0f);
 }
 
 void TOTrapAncient01::release_static_resource() {
@@ -178,7 +178,7 @@ void TOTrapAncient01::render() {
             v.z = 0.1f * (3.0517578125e-05f * (f32)rand()) - 0.05f;
             post_translate_matrix(&v.x);
         }
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
         n = (NJS_OBJECT *)model;
         push_matrix();
         translate_matrix(0, 0.0f, scale.y, 0.0f);

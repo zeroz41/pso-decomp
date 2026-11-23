@@ -46,7 +46,7 @@ static CollisionBody door_cave01_collision_body[1] = {
 };
 
 BmlResource *TODoorCave01::bml_resource;
-GinjaTextureList **TODoorCave01::texture_lists;
+NJS_TEXLIST **TODoorCave01::texture_lists;
 
 void TODoorCave01::update_demo() {}
 
@@ -188,7 +188,7 @@ void TODoorCave01::update_door_switch_state() {
 void TODoorCave01::draw_switch_light(NJS_OBJECT *node, s32 lit) {
     u32 flags;
     NJS_OBJECT *child;
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texture_lists[lit]));
+    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texture_lists[lit]));
     push_matrix();
     translate_matrix(0, node->pos[0], node->pos[1], node->pos[2]);
     draw_ginja_model((void *)node->model);
@@ -233,7 +233,7 @@ void TODoorCave01::render() {
                 node = node->sibling;
             } while (i < 4);
         } else {
-            TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texture_lists[1]));
+            TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texture_lists[1]));
             draw_ginja_model_with_motion(model, motion, animation_frame);
         }
         pop_matrix();
@@ -260,17 +260,17 @@ void TODoorCave01::destroy() {
 
 void TODoorCave01::load_resources() {
     BmlResource *resource;
-    texture_lists = (GinjaTextureList **)mem_alloc(2 * sizeof(GinjaTextureList *));
+    texture_lists = (NJS_TEXLIST **)mem_alloc(2 * sizeof(NJS_TEXLIST *));
     if (enable_v2_features != 0 && TLobby::is_online_ready() != 0) {
         resource = new BmlResource(1, &door_cave01_a_resource_descriptor, 0, 0, NULL);
         bml_resource = resource;
-        texture_lists[0] = (GinjaTextureList *)load_gvm_texture_file("fs_obj_do_doa01r_a.gvm");
+        texture_lists[0] = (NJS_TEXLIST *)load_gvm_texture_file("fs_obj_do_doa01r_a.gvm");
     } else {
         resource = new BmlResource(1, &door_cave01_resource_descriptor, 0, 0, NULL);
         bml_resource = resource;
-        texture_lists[0] = (GinjaTextureList *)load_gvm_texture_file("fs_obj_do_doa01r.gvm");
+        texture_lists[0] = (NJS_TEXLIST *)load_gvm_texture_file("fs_obj_do_doa01r.gvm");
     }
-    texture_lists[1] = (GinjaTextureList *)bml_resource->models[0].texlist;
+    texture_lists[1] = (NJS_TEXLIST *)bml_resource->models[0].texlist;
 }
 
 TODoorCave01::~TODoorCave01() {

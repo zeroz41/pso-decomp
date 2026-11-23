@@ -219,7 +219,7 @@ TObjOnlineEnding::TObjOnlineEnding(TObject *parent) : TObjBase(parent) {
         return;
     }
     self->scene_model = reinterpret_cast<NJS_OBJECT *>(get_bml_model((BmlResource *)online_ending_resource, 0));
-    self->scene_textures = reinterpret_cast<GinjaTextureList *>(get_bml_texlist((BmlResource *)online_ending_resource, 0));
+    self->scene_textures = reinterpret_cast<NJS_TEXLIST *>(get_bml_texlist((BmlResource *)online_ending_resource, 0));
     self->scene_motion = get_bml_motion(online_ending_resource, 0x18);
     self->player_count = 0;
     for (i = 0; i < 4; i++) {
@@ -315,7 +315,7 @@ void TObjOnlineEnding::render() {
     push_matrix();
     post_translate_matrix(&lbl_804E3A38.x);
     scale_matrix(0, online_ending_scene_scale, 1.0f, 1.0f);
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(scene_textures));
+    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(scene_textures));
     draw_model_motion(scene_model, scene_motion, scene_frame);
     pop_matrix();
     for (i = 0; i < player_count; i++) {

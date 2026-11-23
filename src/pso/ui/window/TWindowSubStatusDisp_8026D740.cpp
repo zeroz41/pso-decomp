@@ -61,7 +61,7 @@ void draw_window_scrollbar(WindowScrollBar *scroll, Ctx_8026D790 *c, f32 *offset
     x = c->x + c->width - 7.0f;
     y = 17.0f + c->y;
     begin_screen_draw(0);
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(hud_texlist));
+    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(hud_texlist));
     set_draw_texture_and_color(0, 0xFF646464);
     depth = -1.0f / (0.1196f + c->x38);
     q.x0 = x;

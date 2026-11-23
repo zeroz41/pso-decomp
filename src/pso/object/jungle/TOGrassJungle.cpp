@@ -17,7 +17,7 @@
 
 extern "C" {
 BmlResource *TOGrassJungle__bml_resource;
-GinjaTextureList *TOGrassJungle__grass_gvm_texture;
+NJS_TEXLIST *TOGrassJungle__grass_gvm_texture;
 const char *bm_o_grass_jungle_motion_names[1] = { NULL };
 const char *bm_o_grass_jungle_model_names[3] = { "fe_obj_kusa_hinata.gj", "fe_obj_kusa_kage.gj", NULL };
 BmlResourceDescriptor ograss_jungle_resource_descriptor = { "bm_o_grass_jungle.bml", bm_o_grass_jungle_model_names, bm_o_grass_jungle_motion_names, 2, 0 };
@@ -42,7 +42,7 @@ void TOGrassJungle::release_static_instance() {
 void TOGrassJungle::load_resources() {
     BmlResource *archive = new BmlResource(1, (BmlResourceDescriptor *)&ograss_jungle_resource_descriptor, 0, 0, NULL);
     TOGrassJungle__bml_resource = archive;
-    TOGrassJungle__grass_gvm_texture = (GinjaTextureList *)load_gvm_texture_file("o_grass_jungle.gvm");
+    TOGrassJungle__grass_gvm_texture = (NJS_TEXLIST *)load_gvm_texture_file("o_grass_jungle.gvm");
     TMotorcycle::add_entry(0x3F, reinterpret_cast<NJS_OBJECT *>(get_bml_model((BmlResource *)TOGrassJungle__bml_resource, 0)),
                            TOGrassJungle__grass_gvm_texture, 12.0f, -10.0f);
 }

@@ -143,7 +143,7 @@ s32 TBreakUpMdlData::collect_node_positions(NJS_OBJECT *node, s32 index) {
     return index;
 }
 
-TBreakUpMdl::TBreakUpMdl(TObject *parent, TBreakUpMdlData *model, BreakUpParamRow *params, GinjaTextureList *texlist,
+TBreakUpMdl::TBreakUpMdl(TObject *parent, TBreakUpMdlData *model, BreakUpParamRow *params, NJS_TEXLIST *texlist,
                          Vec *position, s32 rotation_y) : TObject(parent) {
     f32 base;
     f32 scale;

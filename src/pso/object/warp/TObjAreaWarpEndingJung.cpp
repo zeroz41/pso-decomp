@@ -130,7 +130,7 @@ extern s32 lbl_805D55C0;
 }
 
 BmlResource *forest_warp_bml_resource;
-GinjaTextureList *forest_warp_texture_list;
+NJS_TEXLIST *forest_warp_texture_list;
 // Set by TLobby while a quest is in progress; TObjAreaWarp's ctor reads it.
 s32 lobby_quest_progress_flag;
 
@@ -196,14 +196,14 @@ NJS_OBJECT *get_forest_warp_model(s32 index) { return (NJS_OBJECT *)get_bml_mode
 
 AnimationMotion *get_forest_warp_motion(s32 index) { return get_bml_motion(forest_warp_bml_resource, index); }
 
-GinjaTextureList *get_forest_warp_textures() { return forest_warp_texture_list; }
+NJS_TEXLIST *get_forest_warp_textures() { return forest_warp_texture_list; }
 
 int TAdStorySelectGC::get_story_select() { return story_select_cursor; }
 
 void load_forest_warp_resources(void) {
     BmlResource *resource = new BmlResource(5, &forest_warp_resource_descriptor, 0, 0, NULL);
     forest_warp_bml_resource = resource;
-    forest_warp_texture_list = (GinjaTextureList *)load_gvm_texture_file("fs_obj_warp.gvm");
+    forest_warp_texture_list = (NJS_TEXLIST *)load_gvm_texture_file("fs_obj_warp.gvm");
 }
 
 
@@ -477,7 +477,7 @@ void TObjMapWarpForest::run_task() {
 
 void TObjMapWarpForest::render() {
     if (this->update_object_view_visibility(400.0f, 20.0f) != 0) {
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(textures));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(textures));
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, this->rotation_y);
@@ -681,7 +681,7 @@ void TObjAreaWarpForest::render() {
             n = n->child;
         }
         m = warp_model;
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(textures));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(textures));
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, this->rotation_y);
@@ -773,7 +773,7 @@ void TObjAreaWarpQuest::render() {
             n = n->child;
         }
         m = warp_model;
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(textures));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(textures));
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, this->rotation_y);
@@ -890,7 +890,7 @@ void TObjAreaWarpEnding::render() {
         }
     }
     root = warp_model;
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(textures));
+    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(textures));
     push_matrix();
     post_translate_matrix(&position.x);
     rotate_matrix_y(NULL, rotation_y);

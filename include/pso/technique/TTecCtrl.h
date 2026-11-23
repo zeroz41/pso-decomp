@@ -28,8 +28,8 @@ LAYOUT_ASSERT(TTecCtrlSize, sizeof(TTecCtrl) == 0x24);
 // technic.bml (the technique effects' models and motions) and technic.gvm (their textures), loaded by
 // load_technique_resources.
 extern BmlResource *technique_effect_bml;
-struct GinjaTextureList;
-extern GinjaTextureList *technique_texture_list;
+struct NJS_TEXLIST;
+extern NJS_TEXLIST *technique_texture_list;
 
 extern "C" {
 void TLobby__sub_8022F068(void);

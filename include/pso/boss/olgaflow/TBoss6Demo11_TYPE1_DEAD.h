@@ -8,7 +8,7 @@
 class ModelNodePositionCapture;
 struct TObjFish;
 struct AnimationMotion;
-struct GinjaTextureList;
+struct NJS_TEXLIST;
 class TParticleCtrl;
 struct TBoss6PlotFalz;
 

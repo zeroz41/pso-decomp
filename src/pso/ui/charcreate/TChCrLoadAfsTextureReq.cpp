@@ -103,7 +103,7 @@ TChCrLoadAfsTextureReq::~TChCrLoadAfsTextureReq() {
 
 void TChCrLoadAfsTextureReq::init_texture_table() {
     s32 i;
-    count = textures->count;
+    count = textures->nbTexture;
     if (count <= 0 || count > 8) return;
     for (i = 0; i < 8; i++) buffers[i] = 0;
     m_1c = 0;
@@ -114,7 +114,7 @@ void TChCrLoadAfsTextureReq::init_texture_table() {
     m_68 = 0;
 }
 
-TChCrLoadAfsTextureReq::TChCrLoadAfsTextureReq(TObject *parent, GinjaTextureList *textures, s32 *arg3, s32 arg4)
+TChCrLoadAfsTextureReq::TChCrLoadAfsTextureReq(TObject *parent, NJS_TEXLIST *textures, s32 *arg3, s32 arg4)
     : TObject(parent) {
     m_name = lbl_805D3B50;
     this->textures = textures;
@@ -135,7 +135,7 @@ TChCrLoadAfsTextureReq::TChCrLoadAfsTextureReq(TObject *parent, TChCrLoadAfsText
 }
 
 TChCrLoadAfsTextureReq *create_ch_cr_load_afs_texture_req(void *parent, void *textures, void *slot, void *index) {
-    return new TChCrLoadAfsTextureReq((TObject *)parent, (GinjaTextureList *)textures, (s32 *)slot, (saddr)index);
+    return new TChCrLoadAfsTextureReq((TObject *)parent, (NJS_TEXLIST *)textures, (s32 *)slot, (saddr)index);
 }
 
 TChCrLoadAfsTextureReq *TChCrLoadAfsTextureReq::create(TObject *parent, TChCrLoadAfsTextureReqArgs *args) {

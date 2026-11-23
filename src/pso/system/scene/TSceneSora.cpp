@@ -95,7 +95,7 @@ TSceneSora::TSceneSora(TObject *parent) : TObjBase(parent) {
     } else {
         sky_motion = NULL;
     }
-    sky_textures = reinterpret_cast<GinjaTextureList *>(get_bml_texlist((BmlResource *)TSceneSora__sky_bml_resource, 0));
+    sky_textures = reinterpret_cast<NJS_TEXLIST *>(get_bml_texlist((BmlResource *)TSceneSora__sky_bml_resource, 0));
     motion_step = 0.1f;
     m_a0 = 0.0f;
 }

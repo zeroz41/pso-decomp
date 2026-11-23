@@ -4,7 +4,7 @@
 #include "types.h"
 #include "pso/object/base/TObjMotion.h"
 
-struct GinjaTextureList;
+struct NJS_TEXLIST;
 struct NJS_OBJECT;
 
 // The two counter-rotating rainbow rings a photon blast summon raises over the
@@ -16,7 +16,7 @@ struct TPhotonRainbow : public TObjBase {
     virtual void render();
     virtual void run_task();
 
-    GinjaTextureList *ring_texlist[2];
+    NJS_TEXLIST *ring_texlist[2];
     NJS_OBJECT *ring_model[2];
     u8 pad_A0[0x8];
     // The constructor never stores its boss_area argument, so the model choice

@@ -5,12 +5,12 @@
 
 struct AnimationMotion;
 struct BmlResource;
-struct GinjaTextureList;
+struct NJS_TEXLIST;
 struct NJS_OBJECT;
 
 extern "C" {
 extern BmlResource *city_common_model_archive;
-extern GinjaTextureList *city_common_texture_list;
+extern NJS_TEXLIST *city_common_texture_list;
 }
 
 void free_buffer_pair_table(void);

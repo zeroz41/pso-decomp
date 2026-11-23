@@ -38,7 +38,7 @@ void TWindowSubStatusDisp::render_forward() {
 }
 
 void TWindowSubStatusDisp::begin_render() {
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(localized_alphabet_list));
+    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(localized_alphabet_list));
 }
 
 void TFontSmallHelp::set_color(u32 text_color) {

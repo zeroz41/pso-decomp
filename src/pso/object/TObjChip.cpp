@@ -263,7 +263,7 @@ void TObjChip::tick_chips() {
 }
 #pragma pop
 void TObjChip::render_chips() {
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(params.textures));
+    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(params.textures));
     if (params.flags & 0x10) {
         vfunc_12();
         return;

@@ -198,7 +198,7 @@ void TItemReverseTech::load_textures() {
     if (file != 0) {
         buf = mem_alloc(0x200000);
         if (buf != NULL && prs_decompress_alloc(file, buf, 0x200000) > 0) {
-            load_gvm_texture_archive(buf, (GinjaTextureList *)TItemReverseTech__texture_archive);
+            load_gvm_texture_archive(buf, (NJS_TEXLIST *)TItemReverseTech__texture_archive);
         }
         mem_free(buf);
     }

@@ -17,10 +17,10 @@
 #include "pso/render/GinjaTexture.h"
 #include "pso/player/TObjPlayer_8023E480.h"
 
-__declspec(section ".rodata") extern const char ending_c_texture_ed_128al[] = "ed_128al";
-__declspec(section ".rodata") extern const char ending_c_texture_ed_512kabe_c[] = "ed_512kabe_C";
+__declspec(section ".rodata") extern char ending_c_texture_ed_128al[] = "ed_128al";
+__declspec(section ".rodata") extern char ending_c_texture_ed_512kabe_c[] = "ed_512kabe_C";
 __declspec(section ".rodata") extern const char ending_c_class_name_text[] = "TEndingC";
-NJS_TEXNAME ending_c_wall_texnames[2] = { {(void *)ending_c_texture_ed_128al, 0, 0}, {(void *)ending_c_texture_ed_512kabe_c, 0, 0} };
+NJS_TEXNAME ending_c_wall_texnames[2] = { {ending_c_texture_ed_128al, 0, 0}, {ending_c_texture_ed_512kabe_c, 0, 0} };
 __declspec(section ".data") NJS_TEXLIST ending_c_wall_texlist = { ending_c_wall_texnames, 2 };
 const char *ending_c_class_name = ending_c_class_name_text;
 
@@ -57,11 +57,11 @@ void start_ending_pic_sequence(void) { TEndingPic__animation_state = 1; }
 
 void start_ending_ab_fade(void) { TEndingAB__fade_sequence_state = 1; }
 
-void register_texture_ed_512kabe_c(void) { ending_c_wall_texture_list = &ending_c_wall_texlist; bind_gvm_texture_list(ending_c_texture_ed_512kabe_c, (GinjaTextureList *)&ending_c_wall_texlist); }
+void register_texture_ed_512kabe_c(void) { ending_c_wall_texture_list = &ending_c_wall_texlist; bind_gvm_texture_list(ending_c_texture_ed_512kabe_c, (NJS_TEXLIST *)&ending_c_wall_texlist); }
 
 void TEndingC::release_lobby() {
     if (ending_c_wall_texture_list != NULL) {
-        release_texture_list((GinjaTextureList *)ending_c_wall_texture_list);
+        release_texture_list((NJS_TEXLIST *)ending_c_wall_texture_list);
         ending_c_wall_texture_list = NULL;
     }
 }
@@ -198,7 +198,7 @@ void TEndingC::run_task() {
 }
 
 void TEndingC::render() {
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(&ending_c_wall_texlist));
+    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(&ending_c_wall_texlist));
     begin_screen_draw(1);
     set_draw_texture_and_color(1, ((s32) (255.0f * primary_opacity) << 0x18) | 0xFF0000 | 0xFFFF);
     draw_textured_quad_at_depth(render_geometry[0], 0.98f);

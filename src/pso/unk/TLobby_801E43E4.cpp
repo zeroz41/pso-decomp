@@ -1,4 +1,5 @@
 #include <string.h>
+#include "pso/render/GinjaMaterialState.h"
 #include "pso/render/GvmTextureArchive.h"
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/network/client_id.h"
@@ -147,7 +148,7 @@ s32 TLobby::load_texture_pvm_file(const char *name, saddr arg1) {
         buf = (saddr)TLobby::tmp_buf_use_req("LoadTexturePvm");
     }
     TGStream::load_sct_file((const char *)path, (u8 *)buf);
-    ret = load_gvm_texture_archive((void *)buf, (GinjaTextureList *)arg1);
+    ret = load_gvm_texture_archive((void *)buf, (NJS_TEXLIST *)arg1);
     if (allocated != 0) {
         TAdSinglePlyChrSelectGC::safe_free(buf);
     } else {
@@ -181,7 +182,7 @@ s32 pso_load_texture(NJS_TEXLIST *texlist) {
 
 void TObjPlayer::free_if_valid(saddr texlist) {
     if (texlist != 0) {
-        release_texture_list((GinjaTextureList *)texlist);
+        release_texture_list((NJS_TEXLIST *)texlist);
         TAdSinglePlyChrSelectGC::safe_free(texlist);
     }
 }
@@ -201,7 +202,7 @@ u8 *load_gvm_texture_file(const char *name) {
     s32 i;
     NJS_TEXLIST *res;
     NJS_TEXNAME *ent;
-    u8 *str;
+    char *str;
     uaddr buf;
     u32 big;
     s32 size;
@@ -235,7 +236,7 @@ u8 *load_gvm_texture_file(const char *name) {
     i = 0;
     res->textures = (NJS_TEXNAME *)(res + 1);
     ent = (NJS_TEXNAME *)(res + 1);
-    str = (u8 *)(ent + count);
+    str = (char *)(ent + count);
     for (; i < count; i++, ent++, str += 0x20) {
         ent->filename = str;
         TLanguage__read_cursor += 2;
@@ -253,7 +254,7 @@ u8 *load_gvm_texture_file(const char *name) {
             TLanguage__read_cursor += 4;
         }
     }
-    load_gvm_texture_archive((void *)buf, (GinjaTextureList *)res);
+    load_gvm_texture_archive((void *)buf, (NJS_TEXLIST *)res);
     if (big != 0) {
         TAdSinglePlyChrSelectGC::safe_free(big);
     } else {
@@ -296,7 +297,7 @@ s32 TLanguage::read_u16_le() {
 
 void TTextureWave::update_texture_wave_image() {
     if ((is_split_screen() == 0) || (TCameraCtrl::get_camera_no() == 0)) {
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(m_3c));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(m_3c));
         advance_wrapped_cursor();
         distort_texture_wave_image(this);
     }

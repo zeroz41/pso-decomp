@@ -1377,7 +1377,7 @@ void TScene::render_map_sections() {
             render_callback();
         }
         if (scene_material_root->texlist != 0) {
-            TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(scene_material_root->texlist));
+            TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(scene_material_root->texlist));
         }
         sec = scene_material_root->sections;
         prepare_ginja_model();
@@ -1481,7 +1481,7 @@ void TScene::render_static_map_section(SceneMaterialSection *scene_material_sect
                 } else {
                     play_reflection_particles(-1);
                 }
-                TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>((void *)scene_material_root->texlist));
+                TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>((void *)scene_material_root->texlist));
                 set_material_alpha_compare_reference(scene_material_root->flags);
                 draw_ginja_object(node);
                 reset_reflection_tev_stages();
@@ -1507,7 +1507,7 @@ void TScene::render_static_map_section(SceneMaterialSection *scene_material_sect
                 if (m != NULL) {
                     if (m->tex != NULL) {
                         enable_indirect_tev(tex = m->tex, m->sampler, m->scale, 0);
-                        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>((void *)scene_material_root->texlist));
+                        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>((void *)scene_material_root->texlist));
                         set_material_alpha_compare_reference(scene_material_root->flags);
                         draw_ginja_object(node);
                         disable_indirect_tev(tex, 0);
@@ -1605,7 +1605,7 @@ void TScene::render_animated_map_section(SceneMaterialSection *scene_material_se
         if (tex != 0)
         {
           enable_indirect_tev(texture = tex, m->sampler, m->scale, 0);
-          TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(scene_material_root->texlist));
+          TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(scene_material_root->texlist));
           set_material_alpha_compare_reference(scene_material_root->flags);
           draw_ginja_model_with_motion(node, e->motion, e->frame);
           disable_indirect_tev(texture, 0);

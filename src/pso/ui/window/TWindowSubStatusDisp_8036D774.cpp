@@ -59,7 +59,7 @@ void TWindowSubStatusDisp::draw_tiled_background() {
     s32 j;
     f32 buf[8];
     begin_screen_draw(1);
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(TBGMulti__textures));
+    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(TBGMulti__textures));
     set_draw_texture_and_color(0, -1);
     i = 0;
     buf[4] = 0.5f;
@@ -93,7 +93,7 @@ void TWindowSubStatusDisp__sub_8036D994(void) {
     if (split_screen_hud_animation_frame <= 0x1E) {
         set_additive_blend();
         begin_screen_draw(1);
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(TBGMulti__textures));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(TBGMulti__textures));
         set_draw_texture_and_color(0, -1);
         i = 0;
         buf[0] = 0.0f;
@@ -121,7 +121,7 @@ void TWindowSubStatusDisp::draw_bottom_bar() {
   s32 i;
   f32 buffer_8[8];
   begin_screen_draw(1);
-  TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>((void *) TBGMulti__textures));
+  TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>((void *) TBGMulti__textures));
   set_draw_texture_and_color(0, -1);
   i = 0;
   ;
@@ -184,7 +184,7 @@ void TBGMulti__ct(void) {
         palette[0] = (saddr)TLobby::tmp_buf_use_req("TBGMulti");
         TLanguage::draw_string((void *)"f128_gr.gvp", palette, 0x4D);
         TLobby::tmp_buf_release("TBGMulti");
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>((*(s32 *)&TBGMulti__textures) = (saddr)load_gvm_texture_file("bg_multi.gvm")));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>((*(s32 *)&TBGMulti__textures) = (saddr)load_gvm_texture_file("bg_multi.gvm")));
         TLanguage::set_entry_index(0, 0x4D);
     }
     split_screen_hud_animation_frame = 0x384;

@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/unk/TUnk_804999D0.h"
+#include "pso/render/GinjaMaterialState.h"
 #include "pso/unk/TUnk_804999B8.h"
 #include "pso/ui/frontend/TAdSEGAlogo.h"
 #include "pso/ui/TLogo_8001C134.h"
@@ -17,30 +18,30 @@
 #pragma const_strings off
 // The logo textures: eight ADX, eight SEGA and eight Sonic Team frames.
 NJS_TEXNAME lbl_80480A70[24] = {
-    { (void *)"gc_adx01", 0, 0 },
-    { (void *)"gc_adx02", 0, 0 },
-    { (void *)"gc_adx03", 0, 0 },
-    { (void *)"gc_adx04", 0, 0 },
-    { (void *)"gc_adx05", 0, 0 },
-    { (void *)"gc_adx06", 0, 0 },
-    { (void *)"gc_adx07", 0, 0 },
-    { (void *)"gc_adx08", 0, 0 },
-    { (void *)"sega_logo_e01", 0, 0 },
-    { (void *)"sega_logo_e02", 0, 0 },
-    { (void *)"sega_logo_e03", 0, 0 },
-    { (void *)"sega_logo_e04", 0, 0 },
-    { (void *)"sega_logo_e05", 0, 0 },
-    { (void *)"sega_logo_e06", 0, 0 },
-    { (void *)"sega_logo_e07", 0, 0 },
-    { (void *)"sega_logo_e08", 0, 0 },
-    { (void *)"st_logo01", 0, 0 },
-    { (void *)"st_logo02", 0, 0 },
-    { (void *)"st_logo03", 0, 0 },
-    { (void *)"st_logo04", 0, 0 },
-    { (void *)"st_logo05", 0, 0 },
-    { (void *)"st_logo06", 0, 0 },
-    { (void *)"st_logo07", 0, 0 },
-    { (void *)"st_logo08", 0, 0 },
+    { "gc_adx01", 0, 0 },
+    { "gc_adx02", 0, 0 },
+    { "gc_adx03", 0, 0 },
+    { "gc_adx04", 0, 0 },
+    { "gc_adx05", 0, 0 },
+    { "gc_adx06", 0, 0 },
+    { "gc_adx07", 0, 0 },
+    { "gc_adx08", 0, 0 },
+    { "sega_logo_e01", 0, 0 },
+    { "sega_logo_e02", 0, 0 },
+    { "sega_logo_e03", 0, 0 },
+    { "sega_logo_e04", 0, 0 },
+    { "sega_logo_e05", 0, 0 },
+    { "sega_logo_e06", 0, 0 },
+    { "sega_logo_e07", 0, 0 },
+    { "sega_logo_e08", 0, 0 },
+    { "st_logo01", 0, 0 },
+    { "st_logo02", 0, 0 },
+    { "st_logo03", 0, 0 },
+    { "st_logo04", 0, 0 },
+    { "st_logo05", 0, 0 },
+    { "st_logo06", 0, 0 },
+    { "st_logo07", 0, 0 },
+    { "st_logo08", 0, 0 },
 };
 __declspec(section ".data") NJS_TEXLIST texture_logo_e_descriptor = { lbl_80480A70, 24 };
 const char *TAdSEGAlogo__class_name = "TAdSEGAlogo";

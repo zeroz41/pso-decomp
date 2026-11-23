@@ -26,7 +26,7 @@ void TPhotonMagicSquare::render() {
     push_matrix();
     post_translate_matrix(&pos.x);
     rotate_matrix_y(0, rotation_y);
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
+    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
     scale_current_matrix(&scale.x);
     NJS_ARGB saved = color;
     if ((age % flash_period) == 0) {

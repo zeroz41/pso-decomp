@@ -3707,7 +3707,7 @@ void TBoss7DeRolLeC::render() {
 
 void TObjPlayer::draw_effect() { TObjFish::set_global_param(get_bml_texlist(boss7_derolle_c_bml_resource, 0)); }
 
-GinjaTextureList *TBoss7DeRolLeC::get_archive_textures() { return (GinjaTextureList *)get_bml_texlist(boss7_derolle_c_bml_resource, 0); }
+NJS_TEXLIST *TBoss7DeRolLeC::get_archive_textures() { return (NJS_TEXLIST *)get_bml_texlist(boss7_derolle_c_bml_resource, 0); }
 
 NJS_OBJECT *TBoss7DeRolLeC::get_archive_model(s32 index) { return (NJS_OBJECT *)get_bml_model(boss7_derolle_c_bml_resource, index); }
 

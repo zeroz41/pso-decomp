@@ -12,7 +12,7 @@ struct NJS_OBJECT;
 #include <dolphin/mtx.h>
 
 struct AnimationMotion;
-struct GinjaTextureList;
+struct NJS_TEXLIST;
 struct TBoss7Joint;
 class TBoss7Tentacle;
 class TBoss7LaserLight;
@@ -47,7 +47,7 @@ struct TBoss7DeRolLeC : public TObjEneDD_ST {
     void update_or_dispatch();
     void flee_if_disturbed();
     void set_state_and_send(s32 state);
-    static GinjaTextureList *get_archive_textures();
+    static NJS_TEXLIST *get_archive_textures();
     static NJS_OBJECT *get_archive_model(s32 index);
     void emit_hit_effect(const Vec *position);
     s32 is_ready();                // name from the TBoss2DeRolLe twin

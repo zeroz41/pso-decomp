@@ -21,13 +21,13 @@
 #include "pso/boss/goldragon/TBoss8Dragon_8002CC48.h"
 #include "pso/render/model_render_state.h"
 #include "pso/unk/text_803D853C.h"
+#include "pso/technique/TechniqueRingwaveList.h"
 
 
 #pragma readonly_strings on
 
 const char *TTecZondeEff_class_name = "TTecZondeEff";
-GinjaTextureList tec_zonde_texture_list;
-extern GinjaTextureEntry lbl_804CC8C8[];
+NJS_TEXLIST tec_zonde_texture_list;
 s32 TTecZondeEff__beam_vertex_data;
 
 
@@ -290,7 +290,7 @@ void TTecZondeEff::render() {
 void TTecZondeEff::run_task() {
     s32 i;
     f32 s;
-    TTecZondeEff__beam_vertex_data = tec_zonde_texture_list.entries[idx].texture->surface->id;
+    TTecZondeEff__beam_vertex_data = tec_zonde_texture_list.textures[idx].texture->surface->id;
     if (timer > 0x78) {
         queue_destruction();
         return;
@@ -377,7 +377,7 @@ void clear_zonde_beam_vertex_pointer(void) {
     TTecZondeEff__beam_vertex_data = 0;
 }
 void TTecZondeEff::init_resources() {
-    tec_zonde_texture_list.entries = lbl_804CC8C8;
-    tec_zonde_texture_list.count = 0x10;
-    TTecZondeEff__beam_vertex_data = shared_effect_texture_list.entries[16].texture->surface->id;
+    tec_zonde_texture_list.textures = technique_ringwave_texnames;
+    tec_zonde_texture_list.nbTexture = 0x10;
+    TTecZondeEff__beam_vertex_data = shared_effect_texture_list.textures[16].texture->surface->id;
 }

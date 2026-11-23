@@ -8,7 +8,7 @@ struct AdxfHandle;
 #include "pso/render/GinjaMaterialState.h"
 
 struct TChCrLoadAfsTextureReqArgs {
-    GinjaTextureList *textures;
+    NJS_TEXLIST *textures;
     s32 completion_mask;
     s32 *completion_flags;
     s32 display_index;
@@ -16,7 +16,7 @@ struct TChCrLoadAfsTextureReqArgs {
 LAYOUT_ASSERT(TChCrLoadAfsTextureReqArgs_size, sizeof(TChCrLoadAfsTextureReqArgs) == 0x10);
 
 struct TChCrLoadAfsTextureReq : public TObject {
-    TChCrLoadAfsTextureReq(TObject *parent, GinjaTextureList *textures, s32 *arg3, s32 arg4);
+    TChCrLoadAfsTextureReq(TObject *parent, NJS_TEXLIST *textures, s32 *arg3, s32 arg4);
     TChCrLoadAfsTextureReq(TObject *parent, TChCrLoadAfsTextureReqArgs *args);
     virtual ~TChCrLoadAfsTextureReq();
     virtual void run_task();
@@ -33,7 +33,7 @@ struct TChCrLoadAfsTextureReq : public TObject {
     s32 m_24;
     s32 m_28;
     s32 state;
-    GinjaTextureList *textures;
+    NJS_TEXLIST *textures;
     s32 *m_34;
     uaddr buffers[8];
     s32 count;

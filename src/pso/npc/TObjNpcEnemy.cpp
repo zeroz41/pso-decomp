@@ -52,7 +52,7 @@ void TObjNpcEnemyEntry::reset() {
     animation.debug_action_limit = 0;
 }
 
-void NpcModelRegistry::register_animated_ginja(s16 id, NJS_OBJECT *model, GinjaTextureList *textures,
+void NpcModelRegistry::register_animated_ginja(s16 id, NJS_OBJECT *model, NJS_TEXLIST *textures,
                                               const NpcAnimationBinding *animation, f32 radius, f32 y_offset) {
     TObjNpcEnemyEntry *entry = TObjNpcEnemy::insert_slot_by_id(id);
     if (entry != NULL) {
@@ -78,7 +78,7 @@ NpcAnimationBinding &NpcAnimationBinding::operator=(const NpcAnimationBinding &o
 }
 #pragma pop
 
-void TMotorcycle::add_entry(s16 id, NJS_OBJECT *model, GinjaTextureList *textures, f32 radius, f32 y_offset) {
+void TMotorcycle::add_entry(s16 id, NJS_OBJECT *model, NJS_TEXLIST *textures, f32 radius, f32 y_offset) {
     TObjNpcEnemyEntry *entry = TObjNpcEnemy::insert_slot_by_id(id);
     if (entry != NULL) {
         entry->id = id;
@@ -294,7 +294,7 @@ void TObjNpcEnemy::render() {
         if (((TObjNpcEnemy *)arg0)->sub_802D7444() != 0) {
             model_render_flags |= 1;
         }
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(this->texlist));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
         push_matrix_from(0);
         translate_matrix_vec3(0, ((u8 *)&this->position));
         entry = this->entry;

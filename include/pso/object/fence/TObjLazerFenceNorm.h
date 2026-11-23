@@ -5,7 +5,7 @@
 #include "pso/object/base/TObjMotion.h"
 
 struct BmlResource;
-struct GinjaTextureList;
+struct NJS_TEXLIST;
 
 struct TObjLazerFenceNorm : public TObjCollidable {
     TObjLazerFenceNorm(TObject *parent, void *set_data);
@@ -34,7 +34,7 @@ LAYOUT_ASSERT(TObjLazerFenceNorm_size, sizeof(TObjLazerFenceNorm) == 0xD8);
 
 extern "C" {
 extern BmlResource *lazer_fence_norm_bml_resource;
-extern GinjaTextureList *lazer_fence_norm_texture_list;
+extern NJS_TEXLIST *lazer_fence_norm_texture_list;
 }
 
 // Loads the fence models (episode 2 areas get fe_obj_lazer2_2); undone by TObjLazerFenceNorm::free_resources.

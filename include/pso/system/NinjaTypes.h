@@ -4,12 +4,9 @@
 #include "types.h"
 #include <dolphin/mtx/GeoTypes.h>
 
-// Ninja texture list: `nbTexture` names, each naming one texture.
-struct NJS_TEXNAME {
-    void *filename;
-    u32 attr;
-    uaddr texaddr;
-};
+// Ninja texture list: `nbTexture` names, each naming one texture
+// (NJS_TEXNAME is defined with Ginja's loaded-texture fields in GinjaMaterialState.h).
+struct NJS_TEXNAME;
 
 struct NJS_TEXLIST {
     NJS_TEXNAME *textures;

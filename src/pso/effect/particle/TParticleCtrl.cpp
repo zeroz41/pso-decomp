@@ -19,7 +19,7 @@
 ParticleParam *particle_global_entry_table;
 ParticleParam *particle_area_entry_table;
 BmlResource *TParticleCtrl::regular_bml_resource;
-GinjaTextureList *TParticleCtrl::texture_list;
+NJS_TEXLIST *TParticleCtrl::texture_list;
 
 NJS_OBJECT *TParticleCtrl::get_particle_model(s32 model) {
     if (model < 3) {
@@ -28,7 +28,7 @@ NJS_OBJECT *TParticleCtrl::get_particle_model(s32 model) {
     return 0;
 }
 
-GinjaTextureList *TParticleCtrl::get_instance() { return texture_list; }
+NJS_TEXLIST *TParticleCtrl::get_instance() { return texture_list; }
 
 TParticleCtrl *create_timed_particle_emitter_with_flags(void *pos, s32 id, s32 delay, s32 duration, u16 flags) {
     if (particle_pool_limit > id) {
@@ -605,7 +605,7 @@ TParticleCtrl::TParticleCtrl(const Vec *pos, ParticleParam *entry, s32 oneshot, 
 
 void TParticle::set_rotation(ParticleAngles *rotation) { copy_xyz(&rot_x, rotation); }
 
-void TParticle::attach_model(void *model, GinjaTextureList *texlist, NJS_MOTION *motion, s32 loop, f32 speed) {
+void TParticle::attach_model(void *model, NJS_TEXLIST *texlist, NJS_MOTION *motion, s32 loop, f32 speed) {
     this->model = model;
     this->texlist = texlist;
     this->motion = motion;

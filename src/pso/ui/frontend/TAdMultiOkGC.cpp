@@ -172,7 +172,7 @@ void TAdMultiOkGC::draw_entry(int index) {
     f32 base;
     if (m_entries[index].flags & 2) {
         begin_screen_draw(1);
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(multi_confirm_texture_list));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(multi_confirm_texture_list));
         base = 0.0050000004f * (f32)index;
         for (i = 0; i < 5; i++) {
             set_draw_texture_and_color(0, m_entries[index].colors[i]);

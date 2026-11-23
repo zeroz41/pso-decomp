@@ -9,7 +9,7 @@
 struct AdxfHandle;
 struct NJS_OBJECT;
 struct AnimationMotion;
-struct GinjaTextureList;
+struct NJS_TEXLIST;
 
 // One loaded ItemModel.afs file as TItemLoad::find_node_by_id hands it out:
 // the file's NJCM models, its NJTL texture list and its NMDM motion.
@@ -17,7 +17,7 @@ struct ItemModelResource {
     ItemModelResource();
 
     NJS_OBJECT *models[4];
-    GinjaTextureList *texlist;
+    NJS_TEXLIST *texlist;
     NJS_MOTION *motion;
 };
 
@@ -70,12 +70,12 @@ LAYOUT_ASSERT(AfsFileLoaderSize, sizeof(AfsFileLoader) == 0x24);
 // item_texture_archive_loader). Name from the archive it loads.
 class ItemTextureArchiveLoader : public AfsFileLoader {
 public:
-    GinjaTextureList *texlist;
+    NJS_TEXLIST *texlist;
 
     ItemTextureArchiveLoader(const char *path, s32 partition_id, s32 nfiles);
     virtual ~ItemTextureArchiveLoader();
     virtual void on_loaded();
-    void begin_load_if_pending(GinjaTextureList *dst, s32 index);
+    void begin_load_if_pending(NJS_TEXLIST *dst, s32 index);
 };
 
 // Loads one ItemModel.afs file and splits it into its NJCM, NJTL and NMDM
@@ -83,7 +83,7 @@ public:
 class ItemModelChunkLoader : public AfsFileLoader {
 public:
     u8 *buffer;
-    GinjaTextureList *texlist;
+    NJS_TEXLIST *texlist;
     NJS_OBJECT *models[4];
     NJS_MOTION *motion;
 
@@ -92,7 +92,7 @@ public:
     virtual void on_loaded();
     void start_load_with_id(u8 *dst, s32 index);
     NJS_MOTION *get_motion();
-    GinjaTextureList *get_texlist();
+    NJS_TEXLIST *get_texlist();
     NJS_OBJECT *get_model(s32 i);
 };
 
@@ -128,10 +128,10 @@ public:
     static void free_work_buffer();
     static void alloc_work_buffer();
     static s32 has_resource_id(s32 id);
-    static void get_item_texture_list(s32 index, GinjaTextureList **texlist);
+    static void get_item_texture_list(s32 index, NJS_TEXLIST **texlist);
     static void get_item_model(s32 index, NJS_OBJECT **model);
-    static void get_armor_effect_model(NJS_OBJECT **model, GinjaTextureList **texlist, AnimationMotion **motion);
-    static void get_drop_model(u8 index, NJS_OBJECT **model, GinjaTextureList **texlist);
+    static void get_armor_effect_model(NJS_OBJECT **model, NJS_TEXLIST **texlist, AnimationMotion **motion);
+    static void get_drop_model(u8 index, NJS_OBJECT **model, NJS_TEXLIST **texlist);
     static ItemModelResource *find_node_by_id(s32 id);
     static void release_resource_by_id(s32 id);
     static void update();

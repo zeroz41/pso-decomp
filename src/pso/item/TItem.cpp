@@ -1479,7 +1479,7 @@ void TItem::render_ground() {
 
 void TItem::render_model() {
     NJS_OBJECT *model;
-    GinjaTextureList *texture;
+    NJS_TEXLIST *texture;
     TItemLoad::get_drop_model(drop_model, &model, &texture);
     if (model != NULL) {
         set_draw_list_mask(3);
@@ -1500,7 +1500,7 @@ void TItem::render_model() {
 // colours of its wrapping.
 void TItem::render_present_box() {
     NJS_OBJECT *box;
-    GinjaTextureList *texture;
+    NJS_TEXLIST *texture;
     TItemLoad::get_drop_model(6, &box, &texture);
     if (box != NULL) {
         saved_model_render_flags = model_render_flags;

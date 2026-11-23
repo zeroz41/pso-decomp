@@ -22,7 +22,7 @@ void *TObjNpcNFW01__create(void *set_data) {
 
 void TObjNpcNFW01::free_resources() {
     if (TObjNpcNFW01__texture_gvm != 0) {
-        release_texture_list((GinjaTextureList *)TObjNpcNFW01__texture_gvm);
+        release_texture_list((NJS_TEXLIST *)TObjNpcNFW01__texture_gvm);
         TAdSinglePlyChrSelectGC::safe_free(TObjNpcNFW01__texture_gvm);
         TObjNpcNFW01__texture_gvm = 0;
     }

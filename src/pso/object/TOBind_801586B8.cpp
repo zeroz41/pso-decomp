@@ -44,10 +44,10 @@ void TOBind::render() {
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, this->rotation_y);
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(this->texlist));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
         draw_ginja_object(this->model);
         if ((s32) this->m_b0 != 1) {
-            TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(animated_textures));
+            TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(animated_textures));
             TParticleCtrl::begin_effect_render();
             draw_ginja_model_with_motion(animated_model, motion, motion_frame);
             TParticleCtrl::end_effect_render();
@@ -91,7 +91,7 @@ u8 *TOBind__ct(TOBind *bind, saddr set_data) {
     bind->model = reinterpret_cast<NJS_OBJECT *>(get_bml_model((BmlResource *)TOBind__static_model_resource, 0));
     bind->texlist = (saddr)get_bml_texlist((BmlResource *)TOBind__static_model_resource, 0);
     bind->animated_model = reinterpret_cast<NJS_OBJECT *>(get_bml_model((BmlResource *)TOBind__static_model_resource, 1));
-    bind->animated_textures = reinterpret_cast<GinjaTextureList *>(get_bml_texlist((BmlResource *)TOBind__static_model_resource, 1));
+    bind->animated_textures = reinterpret_cast<NJS_TEXLIST *>(get_bml_texlist((BmlResource *)TOBind__static_model_resource, 1));
     bind->motion = get_bml_motion(TOBind__static_model_resource, 0);
     bind->motion_frame = 0.0f;
     bind->m_bc = static_cast<f32>(bind->motion->frameCount) - 1.0f;

@@ -4,7 +4,7 @@
 #include "types.h"
 #include "pso/object/key/TOKey.h"
 struct BmlResource;
-struct GinjaTextureList;
+struct NJS_TEXLIST;
 #include "pso/system/NinjaTypes.h"
 
 // The machine floors' door panel (fs_obj_ki_doa_panel): held down while a
@@ -34,6 +34,6 @@ LAYOUT_ASSERT(TOKeyMachine01_size, sizeof(TOKeyMachine01) == 0xFC);
 
 extern BmlResource *TOKeyMachine01__resource_bundle;
 // The red texture list while up, the model's own while down.
-extern GinjaTextureList **TOKeyMachine01__texture_lists;
+extern NJS_TEXLIST **TOKeyMachine01__texture_lists;
 
 #endif

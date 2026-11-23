@@ -4,7 +4,7 @@
 #include "types.h"
 #include "pso/object/base/TObjMotion.h"
 
-struct GinjaTextureList;
+struct NJS_TEXLIST;
 struct NJS_OBJECT;
 
 // The rock model a size kind draws and how far its landing hurts.
@@ -23,7 +23,7 @@ struct TBoss6RockChase : public TObjCollidable {
     f32 fall_speed;
     s32 spin_speed;  // added to rotation_y every frame
     NJS_OBJECT *model;
-    GinjaTextureList *textures;
+    NJS_TEXLIST *textures;
     void damage_players_in_range();
     virtual void render();
     virtual void run_task();

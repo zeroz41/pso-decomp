@@ -16,7 +16,7 @@ s32 TObjPlayer__sub_803DA104(int format);
 s32 TObjPlayer__sub_803D9DA8(GinjaTextureState *texture, GvrTextureDesc *desc);
 }
 
-s32 TObjFish::set_global_param(GinjaTextureList *texlist) {
+s32 TObjFish::set_global_param(NJS_TEXLIST *texlist) {
     current_render_context->textures = texlist;
     return 1;
 }
@@ -30,7 +30,7 @@ s32 TObjFish::set_global_param(GinjaTextureList *texlist) {
 #pragma scheduling off
 #pragma peephole off
 s32 set_texture_num(s32 i) {
-    GinjaTextureState *texture = current_render_context->textures->entries[i].texture;
+    GinjaTextureState *texture = current_render_context->textures->textures[i].texture;
     current_render_context->texture_header = &texture->surface->header;
     current_render_context->tlut_name = texture->tlut_name;
     return 1;
@@ -161,8 +161,8 @@ s32 TObjPlayer__sub_803DAA70(u32 id, u32 tlut_name, GvrTextureDesc *desc) {
 #pragma push
 #pragma scheduling off
 #pragma peephole off
-void TObjPlayer__sub_803DAB7C(GinjaTextureList *list, s32 index, s32 slot) {
-    list->entries[index].texture = record_array_ptr + slot;
+void TObjPlayer__sub_803DAB7C(NJS_TEXLIST *list, s32 index, s32 slot) {
+    list->textures[index].texture = record_array_ptr + slot;
 }
 #pragma pop
 
@@ -189,7 +189,7 @@ void TObjPlayer__sub_803DAC1C(s32 slot) {
 #pragma push
 #pragma optimize_for_size on
 #pragma use_lmw_stmw off
-s32 TObjPlayer__sub_803DAC48(GinjaTextureList *list, s32 index, u32 id, u32 tlut_name, GvrTextureDesc *desc, s32 *slot) {
+s32 TObjPlayer__sub_803DAC48(NJS_TEXLIST *list, s32 index, u32 id, u32 tlut_name, GvrTextureDesc *desc, s32 *slot) {
     switch (TObjPlayer__sub_803DA8E4(id, tlut_name, desc->format, slot)) {
     case -1:
         return -1;
@@ -248,7 +248,7 @@ s32 TObjPlayer__sub_803DAD84(GinjaTextureState *texture, s32 src, u32 arg2) {
 
 s32 TObjPlayer__sub_803DAE1C(s32 index, s32 src, u32 arg2) {
     reset_texture_error();
-    s32 r = TObjPlayer__sub_803DAD84(current_render_context->textures->entries[index].texture, src, arg2);
+    s32 r = TObjPlayer__sub_803DAD84(current_render_context->textures->textures[index].texture, src, arg2);
     if (r < 0) {
         lbl_8058D470.entry_index = index;
     }

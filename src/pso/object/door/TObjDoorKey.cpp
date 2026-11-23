@@ -36,7 +36,7 @@
 
 
 struct BmlResource;
-struct GinjaTextureList;
+struct NJS_TEXLIST;
 
 const char *abeno_fs_obj001_fosuno_model_names[4] = { "abeno_fs_obj001_fosuno.gj", "abesu_fs_obj001_fosu.gj", "abesu_fs_obj001_fotutu.gj", NULL };
 const char *abeno_fs_obj001_fosuno_motion_names[1] = { NULL };
@@ -61,7 +61,7 @@ const char *TObjDoorKey__class_name = "TObjDoorKey";
 
 saddr TObjDoorKey__ginja_model_table[4];
 BmlResource *door_key_resource_handle;
-GinjaTextureList *TObjDoorKey__texture_handle;
+NJS_TEXLIST *TObjDoorKey__texture_handle;
 s16 door_key_id_counter;
 s32 TObjDoorKey__data_805D5C04;
 
@@ -312,7 +312,7 @@ void TObjDoorKey::free_key() {
 void TObjDoorKey::load_resources() {
     saddr r = (saddr)new BmlResource(5, &TObjDoorKey__resource_descriptor, 0, 0, NULL);
     door_key_resource_handle = (BmlResource *)r;
-    TObjDoorKey__texture_handle = (GinjaTextureList *)load_gvm_texture_file("fe_obj_switch.gvm");
+    TObjDoorKey__texture_handle = (NJS_TEXLIST *)load_gvm_texture_file("fe_obj_switch.gvm");
     TObjDoorKey__ginja_model_table[0] = (saddr)get_bml_model((BmlResource *)door_key_resource_handle, 1);
     TObjDoorKey__ginja_model_table[1] = (saddr)get_bml_model((BmlResource *)door_key_resource_handle, 2);
     s32 t = (saddr)get_bml_model((BmlResource *)door_key_resource_handle, 0);

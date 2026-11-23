@@ -7,13 +7,13 @@
 class TBoss6PlotFalz;
 class TParticleCtrl;
 struct NJS_OBJECT;
-struct GinjaTextureList;
+struct NJS_TEXLIST;
 struct AnimationMotion;
 
 // One animated part of the wait demo: model, texture list and motion from the scene archive.
 struct WaitDemoPart {
     NJS_OBJECT *model;
-    GinjaTextureList *texlist;
+    NJS_TEXLIST *texlist;
     AnimationMotion *motion;
 };
 

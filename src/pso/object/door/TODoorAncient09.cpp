@@ -40,7 +40,7 @@ static CollisionBody door_ancient09_collision_body[1] = {
 };
 
 BmlResource *TODoorAncient09::bml_resource;
-GinjaTextureList **TODoorAncient09::texture_lists;
+NJS_TEXLIST **TODoorAncient09::texture_lists;
 
 TODoorAncient09::TODoorAncient09(TObject *parent, void *set_data) : TODoorBase(parent) {
     m_name = door_ancient09_class_name;
@@ -74,9 +74,9 @@ TODoorAncient09::~TODoorAncient09() {
 void TODoorAncient09::load_resources() {
     BmlResource *resource = new BmlResource(1, &door_ancient09_resource_descriptor, 0, 0, NULL);
     bml_resource = resource;
-    texture_lists = (GinjaTextureList **)mem_alloc(2 * sizeof(GinjaTextureList *));
-    texture_lists[0] = (GinjaTextureList *)bml_resource->models[0].texlist;
-    texture_lists[1] = (GinjaTextureList *)load_gvm_texture_file("fs_obj_o_door05l_g.gvm");
+    texture_lists = (NJS_TEXLIST **)mem_alloc(2 * sizeof(NJS_TEXLIST *));
+    texture_lists[0] = (NJS_TEXLIST *)bml_resource->models[0].texlist;
+    texture_lists[1] = (NJS_TEXLIST *)load_gvm_texture_file("fs_obj_o_door05l_g.gvm");
 }
 
 void TODoorAncient09::destroy() {
@@ -171,7 +171,7 @@ void TODoorAncient09::render() {
             push_matrix();
             post_translate_matrix(&position.x);
             rotate_matrix_y(NULL, rotation_y);
-            TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
+            TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
             draw_ginja_model_with_motion(model, motion, animation_frame);
             pop_matrix();
             return;
@@ -179,7 +179,7 @@ void TODoorAncient09::render() {
             push_matrix();
             post_translate_matrix(&position.x);
             rotate_matrix_y(NULL, rotation_y);
-            TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
+            TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
             draw_ginja_model_with_motion(model, motion, animation_end_frame - 1.0f);
             pop_matrix();
             return;
@@ -214,7 +214,7 @@ void TODoorAncient09::draw_switch_lights() {
     }
     on[1] = set;
     push_matrix();
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texture_lists[0]));
+    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texture_lists[0]));
     post_translate_matrix(&position.x);
     post_translate_matrix(root->pos);
     rotate_matrix_y(NULL, rotation_y);
@@ -223,9 +223,9 @@ void TODoorAncient09::draw_switch_lights() {
     TParticleCtrl::begin_effect_render();
     for (i = 0; i < 2; i++) {
         if (on[i] != 0) {
-            TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texture_lists[1]));
+            TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texture_lists[1]));
         } else {
-            TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texture_lists[0]));
+            TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texture_lists[0]));
         }
         push_matrix();
         pair = pairs[i];

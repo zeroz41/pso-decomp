@@ -11,8 +11,8 @@
 #include "pso/render/render_util.h"
 #include "pso/render/GinjaTexture.h"
 
-GinjaTextureEntry lbl_804F1418 = { "f256_player_prate", 0, NULL };
-__declspec(section ".data") GinjaTextureList player_prate_texture_list = { &lbl_804F1418, 1 };
+NJS_TEXNAME lbl_804F1418 = { "f256_player_prate", 0, NULL };
+__declspec(section ".data") NJS_TEXLIST player_prate_texture_list = { &lbl_804F1418, 1 };
 TAdPlyPltAnimGC *TAdPlyPltAnimGC__instances[5] = { NULL, NULL, NULL, NULL, NULL };
 const PlyPltAnimVec2 ply_plt_anim_target_position_table[5] = {
     { 4.0f, 10.0f }, { 8.0f, 3.0f }, { 10.0f, 2.0f }, { 6.0f, 5.0f }, { 2.0f, 1.0f },
@@ -21,7 +21,7 @@ const u32 ply_plt_anim_duration_table[5] = { 16, 14, 12, 10, 14 };
 // plate size in pixels (width, height)
 static const PlyPltAnimVec2 lbl_80479350[1] = { { 180.0f, 38.0f } };
 const char *TAdPlyPltAnimGC__class_name = "TAdPlyPltAnimGC";
-GinjaTextureList *player_prate_texture_list_ptr;
+NJS_TEXLIST *player_prate_texture_list_ptr;
 
 #pragma push
 #pragma fp_contract on

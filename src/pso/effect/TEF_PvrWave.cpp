@@ -4,29 +4,29 @@
 #include "pso/system/scene/TSceneMaterial.h"
 
 TEF_PvrWave::~TEF_PvrWave() {
-    GinjaTextureList *list;
-    list = reinterpret_cast<GinjaTextureList *>(get_scene_material_root()->texlist);
-    list->entries[texture_index].texture = saved_entry.texture;
-    list->entries[texture_index].value04 = saved_entry.value04;
-    list->entries[texture_index].name = saved_entry.name;
+    NJS_TEXLIST *list;
+    list = reinterpret_cast<NJS_TEXLIST *>(get_scene_material_root()->texlist);
+    list->textures[texture_index].texture = saved_entry.texture;
+    list->textures[texture_index].attr = saved_entry.attr;
+    list->textures[texture_index].filename = saved_entry.filename;
     delete wave;
 }
 
 const char *TEF_PvrWave::class_name = "TEF_PvrWave";
 
 TEF_PvrWave::TEF_PvrWave(TObject *parent, u8 *image, s32 size, s32 index) : TObject(parent) {
-    GinjaTextureList *list;
+    NJS_TEXLIST *list;
     m_name = class_name;
     texture_index = index;
     wave = new TTextureWave(&texture_list);
     wave->init_image_buffer(image, size);
-    list = reinterpret_cast<GinjaTextureList *>(get_scene_material_root()->texlist);
-    saved_entry.texture = list->entries[index].texture;
-    saved_entry.value04 = list->entries[index].value04;
-    saved_entry.name = list->entries[index].name;
-    list->entries[index].texture = texture_list.entries->texture;
-    list->entries[index].value04 = texture_list.entries->value04;
-    list->entries[index].name = texture_list.entries->name;
+    list = reinterpret_cast<NJS_TEXLIST *>(get_scene_material_root()->texlist);
+    saved_entry.texture = list->textures[index].texture;
+    saved_entry.attr = list->textures[index].attr;
+    saved_entry.filename = list->textures[index].filename;
+    list->textures[index].texture = texture_list.textures->texture;
+    list->textures[index].attr = texture_list.textures->attr;
+    list->textures[index].filename = texture_list.textures->filename;
 }
 
 SceneMaterialRoot *get_scene_material_root() {

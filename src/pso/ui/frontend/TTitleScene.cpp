@@ -56,7 +56,7 @@ s32 TTitleScene::start_offline_seq() {
 struct TCameraCtrl;
 
 
-GinjaTextureEntry title_texture_entries[21] = {
+NJS_TEXNAME title_texture_entries[21] = {
     {(char *)"f256_ad", 0, 0},
     {(char *)"f256_psotitle", 0, 0},
     {(char *)"f256_psotitle02", 0, 0},
@@ -80,7 +80,7 @@ GinjaTextureEntry title_texture_entries[21] = {
     {(char *)"s256_1st_title08", 0, 0},
 };
 
-__declspec(section ".data") GinjaTextureList title_texture_list = {title_texture_entries, 21};
+__declspec(section ".data") NJS_TEXLIST title_texture_list = {title_texture_entries, 21};
 
 // One scene resource: load runs front to back (run_load_callback_table),
 // release back to front (call_funcs_reverse); field names inferred from those.
@@ -228,7 +228,7 @@ extern "C" {
 void request_main_phase(s32 arg0);
 TTitleScene *title_scene_instance;
 int lobby_game_mode_state;
-GinjaTextureList *lobby_title_texture_list;
+NJS_TEXLIST *lobby_title_texture_list;
     extern int lbl_805D68C8;
 s32 release_texture_list(void *, s32);
 u64 call_funcs_reverse__6TLobbyFPvUi(void *, int);

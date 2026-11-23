@@ -29,7 +29,7 @@ void TOMonumentAncient01::update_demo() {}
 
 void TOMonumentAncient01::render() {
     if (update_object_view_visibility(view_range, model_radius) == 1) {
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);

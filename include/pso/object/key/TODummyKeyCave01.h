@@ -4,14 +4,14 @@
 #include "types.h"
 #include "pso/object/base/TObjMotion.h"
 
-struct GinjaTextureList;
+struct NJS_TEXLIST;
 
 struct TODummyKeyCave01 : public TObjBase {
     TODummyKeyCave01(TObject *parent, void *set_data);
     virtual ~TODummyKeyCave01();
     void sub_80165940();
-    GinjaTextureList *off_textures;
-    GinjaTextureList *on_textures;
+    NJS_TEXLIST *off_textures;
+    NJS_TEXLIST *on_textures;
     u16 id;
     u16 m_9a;
     void* color;

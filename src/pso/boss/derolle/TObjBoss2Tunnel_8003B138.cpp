@@ -562,11 +562,11 @@ void TObjBoss2Tunnel::render() {
     if (TObjPlayer::is_any_teammate_in_state() == 0 && TMainTask::get_render_pass() == 0) {
     push_matrix();
     {
-        GinjaTextureEntry *entries = boss2_common_texture_list->entries;
+        NJS_TEXNAME *entries = boss2_common_texture_list->textures;
         saved = entries->texture;
         entries->texture = entries[current_texture_index()].texture;
     }
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(boss2_common_texture_list));
+    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(boss2_common_texture_list));
     if (state == 0 || state == 1) {
         push_matrix();
         translate_matrix(0, 0.0f, 0.0f, -start_offset);
@@ -642,7 +642,7 @@ void TObjBoss2Tunnel::render() {
             post_translate_matrix(&v.x);
         }
     }
-    boss2_common_texture_list->entries->texture = saved;
+    boss2_common_texture_list->textures->texture = saved;
     pop_matrix();
     }
 }

@@ -65,7 +65,7 @@ void load_player_footstamp(void) {
 
 void TPlayerFootStamp::free_instance() {
     if ((u32) player_footstamp_texture_gvm_handle != 0U) {
-        release_texture_list((GinjaTextureList *)player_footstamp_texture_gvm_handle);
+        release_texture_list((NJS_TEXLIST *)player_footstamp_texture_gvm_handle);
         TAdSinglePlyChrSelectGC::safe_free(player_footstamp_texture_gvm_handle);
         player_footstamp_texture_gvm_handle = 0U;
     }
@@ -306,7 +306,7 @@ void TPlayerFootStamp::render() {
     if (horizontal_distance_squared(&position, (const Vec *)&camera_ctrl_instance->pos.x) < 22500.0f) {
         saved_model_render_flags = model_render_flags;
         set_default_alpha_blend();
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(player_footstamp_texture_gvm_handle));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(player_footstamp_texture_gvm_handle));
         set_texture_num(texture);
         set_depth_buffer_settings_1();
         draw_particle_strip(verts, 4, 1);

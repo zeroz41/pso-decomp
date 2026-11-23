@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/EnemyBmlResource.h"
+#include "pso/render/GinjaMaterialState.h"
 #include "pso/system/BmlResource.h"
 #include "pso/animation/ActorAnimationState.h"
 #include "pso/effect/particle/ParticleFactory.h"
@@ -1348,7 +1349,7 @@ void TObjEneDf2Bringer::render() {
             }
         }
         TObjEneDf2Bringer__uv_scroll_buffer->scroll_uvs(texture_scroll, 0);
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
         {
             NJS_TEXNAME *textures = ((NJS_TEXLIST *)texlist)->textures;
             saved_texture = textures[1].texaddr;
@@ -1398,7 +1399,7 @@ void TObjEneDf2Bringer::render_demo() {
         Vec v = { 1.0f, 1.0f, 3.0f };
         draw_ground_shadow(&v, 0);
         TObjPlayer::toggle_particle_effect();
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, rotation_y);

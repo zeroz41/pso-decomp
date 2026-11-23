@@ -49,7 +49,7 @@ s32 jungle_warp_destination_ids[3] = { 6, 8, 9 };
 // The beam archive and what load_warp_beam_resources picks out of it.
 BmlResource *TObjWarpJung__beam_bml_resource;
 AnimationMotion *warp_jung_beam_motion;
-GinjaTextureList *warp_jung_textures;
+NJS_TEXLIST *warp_jung_textures;
 s32 warp_jung_last_scroll_tick; // actor_frame_tick of the last UV scroll (inferred)
 GinjaModel *warp_jung_beam_uv_model;
 s32 warp_jung_beam_entry_index; // texture entry "ts064_beam_aka"
@@ -289,7 +289,7 @@ void load_warp_beam_resources(void) {
     BmlResource *resource = new BmlResource(5, &jungle_warp_beam_resource_descriptor, 0, 0, NULL);
     TObjWarpJung__beam_bml_resource = resource;
     warp_jung_beam_motion = get_bml_motion(resource, 0);
-    warp_jung_textures = (GinjaTextureList *)get_bml_texlist((BmlResource *)TObjWarpJung__beam_bml_resource, 0);
+    warp_jung_textures = (NJS_TEXLIST *)get_bml_texlist((BmlResource *)TObjWarpJung__beam_bml_resource, 0);
     root = ((NJS_OBJECT *)get_bml_model((BmlResource *)TObjWarpJung__beam_bml_resource, 1))->child;
     warp_jung_beam_models[0] = (GinjaModel *)root->child->model;
     warp_jung_beam_models[1] = (GinjaModel *)root->child->sibling->model;

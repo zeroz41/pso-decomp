@@ -8,7 +8,7 @@
 #include "pso/object/base/TObjMotion.h"
 
 struct BmlResource;
-struct GinjaTextureList;
+struct NJS_TEXLIST;
 
 #include "pso/object/door/TODoorBase.h"
 #include "pso/effect/particle/TParticleCtrl.h"
@@ -34,7 +34,7 @@ const char *TObjDoorJung__class_name = "TObjDoorJung";
 
 s32 TObjDoorJung__child_table[4];
 BmlResource *TObjDoorJung__resource_handle;
-GinjaTextureList *lbl_805D5BD4;
+NJS_TEXLIST *lbl_805D5BD4;
 s32 door_jung_child_list;
 s32 lbl_805D5BDC;
 void *TObjDoorJung__door_scene_buffer;
@@ -84,7 +84,7 @@ void load_door_jung_resources(void) {
 
     handle = (saddr)new BmlResource(5, &bm_obj_beamdoa_resource_descriptor, 0, 0, NULL);
     TObjDoorJung__resource_handle = (BmlResource *)handle;
-    lbl_805D5BD4 = (GinjaTextureList *)get_bml_texlist((BmlResource *)TObjDoorJung__resource_handle, 0);
+    lbl_805D5BD4 = (NJS_TEXLIST *)get_bml_texlist((BmlResource *)TObjDoorJung__resource_handle, 0);
     model = (Node_8018F4AC *)get_bml_model((BmlResource *)TObjDoorJung__resource_handle, 1);
     node = model->child;
     TObjDoorJung__child_table[0] = node->model;
@@ -94,10 +94,10 @@ void load_door_jung_resources(void) {
     door_jung_child_list = model->child->sibling->model;
     lbl_805D5BDC = 0;
     const char *parts[4] = {"ts032_beamdoa_singo_aka", "ts032_beamdoa_singo_ao", "ts064_beamdoa_aka", "ts064_beamdoa_ao"};
-    lbl_805D5BE4 = find_texture_entry_by_name((const GinjaTextureList *)lbl_805D5BD4, parts[0]);
-    lbl_805D5BE8 = find_texture_entry_by_name((const GinjaTextureList *)lbl_805D5BD4, parts[1]);
-    lbl_805D5BEC = find_texture_entry_by_name((const GinjaTextureList *)lbl_805D5BD4, parts[2]);
-    lbl_805D5BF0 = find_texture_entry_by_name((const GinjaTextureList *)lbl_805D5BD4, parts[3]);
+    lbl_805D5BE4 = find_texture_entry_by_name((const NJS_TEXLIST *)lbl_805D5BD4, parts[0]);
+    lbl_805D5BE8 = find_texture_entry_by_name((const NJS_TEXLIST *)lbl_805D5BD4, parts[1]);
+    lbl_805D5BEC = find_texture_entry_by_name((const NJS_TEXLIST *)lbl_805D5BD4, parts[2]);
+    lbl_805D5BF0 = find_texture_entry_by_name((const NJS_TEXLIST *)lbl_805D5BD4, parts[3]);
     if (lbl_805D5BEC != -1) {
         scene = (void *)::operator new(0x14);
         if (scene != NULL) {

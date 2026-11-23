@@ -42,7 +42,7 @@ static CollisionBody door_machine02_collision_body[1] = {
 };
 
 BmlResource *TODoorMachine02::bml_resource;
-GinjaTextureList **TODoorMachine02::texture_lists;
+NJS_TEXLIST **TODoorMachine02::texture_lists;
 
 void TODoorMachine02::update_demo() {}
 
@@ -81,7 +81,7 @@ void TODoorMachine02::render() {
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
         unlocked = door_flags & 1;
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texture_lists[door_flags & 1]));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texture_lists[door_flags & 1]));
         if (object_state == DOOR_CLOSED) {
             node = ((NJS_OBJECT *)model)->child;
             post_translate_matrix(node->pos);
@@ -136,17 +136,17 @@ void TODoorMachine02::destroy() {
 
 void TODoorMachine02::load_resources() {
     BmlResource *resource;
-    texture_lists = (GinjaTextureList **)mem_alloc(2 * sizeof(GinjaTextureList *));
+    texture_lists = (NJS_TEXLIST **)mem_alloc(2 * sizeof(NJS_TEXLIST *));
     if (enable_v2_features == 1 && TLobby::is_online_ready() != 0) {
         resource = new BmlResource(1, &door_machine02_a_resource_descriptor, 0, 0, NULL);
         bml_resource = resource;
-        texture_lists[0] = (GinjaTextureList *)load_gvm_texture_file("fs_obj_ki_doa2_r_a.gvm");
+        texture_lists[0] = (NJS_TEXLIST *)load_gvm_texture_file("fs_obj_ki_doa2_r_a.gvm");
     } else {
         resource = new BmlResource(1, &door_machine02_resource_descriptor, 0, 0, NULL);
         bml_resource = resource;
-        texture_lists[0] = (GinjaTextureList *)load_gvm_texture_file("fs_obj_ki_doa2_r.gvm");
+        texture_lists[0] = (NJS_TEXLIST *)load_gvm_texture_file("fs_obj_ki_doa2_r.gvm");
     }
-    texture_lists[1] = (GinjaTextureList *)bml_resource->models[0].texlist;
+    texture_lists[1] = (NJS_TEXLIST *)bml_resource->models[0].texlist;
 }
 
 TODoorMachine02::~TODoorMachine02() {

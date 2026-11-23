@@ -214,7 +214,7 @@ void TObjLobbyMain::render() {
         if (fade_state != 2) {
             scale_matrix(NULL, fade_scale, 1.0f, fade_scale);
         }
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(lobby_texlist));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(lobby_texlist));
         index = model_index;
         motion = lobby_main_model_motions[index];
         if (motion != 5) {

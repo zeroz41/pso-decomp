@@ -14,7 +14,7 @@ struct AsyncFileReadRequest {
     s32 size;
     s32 count;
     u8 pad34[8];
-    GinjaTextureList *tex;
+    NJS_TEXLIST *tex;
     u8 pad40[0x24];
     saddr mode;
 };

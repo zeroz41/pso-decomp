@@ -60,7 +60,7 @@ const char *TObjGbAdvance__class_name = "TObjGbAdvance";
 const s16 TObjComputer__data_805DBCD8[2] = {1, 0};
 
 BmlResource *TObjComputer__model_archive;
-GinjaTextureList *TObjComputer__texture_gvm_handle;
+NJS_TEXLIST *TObjComputer__texture_gvm_handle;
 u16 computer_uv_scroll_phase;
 BmlResource *TObjGbAdvance__data_805D5B74;
 
@@ -102,13 +102,13 @@ void load_computer_resources(void) {
     case AREA_SEASIDE_NIGHT: case AREA_TOWER:
         p = new BmlResource(5, (BmlResourceDescriptor *)&fs_obj_tanmatu02_resource_descriptor, 0, 0, NULL);
         TObjComputer__model_archive = p;
-        TObjComputer__texture_gvm_handle = reinterpret_cast<GinjaTextureList *>(load_gvm_texture_file("fs_obj_tanmatu02.gvm"));
+        TObjComputer__texture_gvm_handle = reinterpret_cast<NJS_TEXLIST *>(load_gvm_texture_file("fs_obj_tanmatu02.gvm"));
         computer_uv_scroll_phase = 0;
         break;
     default:
         p = new BmlResource(5, (BmlResourceDescriptor *)&fe_obj_tanmatu02_resource_descriptor, 0, 0, NULL);
         TObjComputer__model_archive = p;
-        TObjComputer__texture_gvm_handle = reinterpret_cast<GinjaTextureList *>(load_gvm_texture_file("fe_obj_computer.gvm"));
+        TObjComputer__texture_gvm_handle = reinterpret_cast<NJS_TEXLIST *>(load_gvm_texture_file("fe_obj_computer.gvm"));
         computer_uv_scroll_phase = 1;
         break;
     }

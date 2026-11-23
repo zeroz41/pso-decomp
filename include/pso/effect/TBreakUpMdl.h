@@ -7,7 +7,7 @@
 
 struct NJS_OBJECT;
 struct NJS_MOTION;
-struct GinjaTextureList;
+struct NJS_TEXLIST;
 
 // One node record of a breakup model: where its piece starts and how it flies off (the De Rol Le breakup
 // effects copy pos into each piece's position and rotate vel into its velocity).
@@ -56,12 +56,12 @@ struct BreakUpPiece {
 // A model that falls apart: each node of a breakup model flies off from where it sits and the whole
 // thing fades out.
 struct TBreakUpMdl : public TObject {
-    TBreakUpMdl(TObject *parent, TBreakUpMdlData *model, BreakUpParamRow *params, GinjaTextureList *texlist,
+    TBreakUpMdl(TObject *parent, TBreakUpMdlData *model, BreakUpParamRow *params, NJS_TEXLIST *texlist,
                 Vec *position, s32 rotation_y);
     virtual ~TBreakUpMdl();
     s32 piece_count;
     TBreakUpMdlData *model;
-    GinjaTextureList *texlist;
+    NJS_TEXLIST *texlist;
     f32 alpha;
     u8 pad_2C[4];
     f32 speed;

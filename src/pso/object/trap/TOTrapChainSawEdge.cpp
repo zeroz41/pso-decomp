@@ -54,7 +54,7 @@
 
 #pragma readonly_strings on
 extern "C" {
-GinjaTextureList *fn_802C9924(s32 index);
+NJS_TEXLIST *fn_802C9924(s32 index);
 
 
 typedef struct P_802C86D4 {
@@ -302,9 +302,9 @@ AnimationMotion *TOTrapChainSawKey::get_motion(s32 index) {
     return NULL;
 }
 
-GinjaTextureList *fn_802C9924(s32 index) {
+NJS_TEXLIST *fn_802C9924(s32 index) {
     if (lbl_805D6808 != NULL) {
-        return (GinjaTextureList *)get_bml_texlist((BmlResource *)lbl_805D6808, index);
+        return (NJS_TEXLIST *)get_bml_texlist((BmlResource *)lbl_805D6808, index);
     }
     return NULL;
 }
@@ -600,7 +600,7 @@ void TOTrapChainSawDamage::update_state() {
 }
 #pragma pop
 void TOTrapChainSawDamage::vfunc_25() {
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(*(void **)((s8 *)this + 0x24)));
+    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(*(void **)((s8 *)this + 0x24)));
     push_matrix();
     post_translate_matrix((void *)((char *)this + 56));
     push_matrix();
@@ -713,7 +713,7 @@ void TOTrapChainSawKey::vfunc_14() {
 }
 
 void TOTrapChainSawKey::vfunc_25() {
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(*(void **)((s8 *)this + 0x24)));
+    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(*(void **)((s8 *)this + 0x24)));
     push_matrix();
     post_translate_matrix((void *)((char *)this + 56));
     push_matrix();
@@ -812,7 +812,7 @@ void TOTrapChainSawEdge::update_sweep() {
 }
 
 void TOTrapChainSawEdge::vfunc_25() {
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(*(void **)((s8 *)this + 0x24)));
+    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(*(void **)((s8 *)this + 0x24)));
     push_matrix();
     post_translate_matrix((void *)((char *)this + 56));
     push_matrix();

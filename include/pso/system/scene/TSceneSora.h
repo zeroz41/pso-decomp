@@ -5,14 +5,14 @@
 #include "pso/object/base/TObjMotion.h"
 
 struct AnimationMotion;
-struct GinjaTextureList;
+struct NJS_TEXLIST;
 
 struct TSceneSora : public TObjBase {
     TSceneSora(TObject *parent);
     virtual ~TSceneSora();
     NJS_OBJECT *sky_model;
     AnimationMotion *sky_motion;
-    GinjaTextureList *sky_textures;
+    NJS_TEXLIST *sky_textures;
     virtual void render();
     virtual void run_task();
     static void create_instance();

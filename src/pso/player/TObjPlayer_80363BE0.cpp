@@ -174,7 +174,7 @@ TUnk_804F2A10::~TUnk_804F2A10() {
 
 void TUnk_804F2A10::run_task() {
     NJS_OBJECT *model;
-    GinjaTextureList *texture;
+    NJS_TEXLIST *texture;
 
     TItemLoad::get_drop_model(5, &model, &texture);
     if (model != NULL) {

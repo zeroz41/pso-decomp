@@ -300,7 +300,7 @@ void TObjEneDubchik::load_resources() {
     }
     n = (NJS_OBJECT *)find_model_node((uaddr)dubchik_resource->models[1].model, 0x17);
     n->sibling = NULL;
-    TObjPlayer__sub_800A4294();
+    init_fake_tec_texlist();
     lbl_805D509C = (NJS_OBJECT *)find_model_node((uaddr)dubchik_resource->models[0].model, 0x15);
     lbl_805D50A0 = (NJS_OBJECT *)find_model_node((uaddr)dubchik_resource->models[0].model, 0x2A);
     ((NJS_OBJECT *)find_model_node((uaddr)dubchik_resource->models[1].model, 0x15))->evalflags |= NJD_EVAL_HIDE;
@@ -439,9 +439,9 @@ void TObjEneDubchik::render() {
             select_actor_lighting(this);
             TObjPlayer::toggle_particle_effect();
             if (collapsed != 0) {
-                TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(dubchik_texlist));
+                TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(dubchik_texlist));
             } else {
-                TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
+                TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
             }
             drew = 1;
             push_matrix();

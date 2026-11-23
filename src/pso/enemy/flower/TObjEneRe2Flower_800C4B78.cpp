@@ -115,7 +115,7 @@ extern "C" {
 
 struct Node_800C4D88 { void *p; s32 v; };
 GinjaTextureInput player_render_target;
-GinjaTextureEntry player_render_texture_name;
+NJS_TEXNAME player_render_texture_name;
 __declspec(section ".data") Node_800C4D88 lbl_80500C30;
 
 void TObjPlayer__sub_800C4D44(void) {

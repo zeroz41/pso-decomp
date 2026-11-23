@@ -91,9 +91,9 @@ static s32 volopt_monitor_models[3][4] = {
     { 3, 6, 9, 12 },
 };
 
-static GinjaTextureList volopt_monitor_screen = { NULL, 2 };
+static NJS_TEXLIST volopt_monitor_screen = { NULL, 2 };
 
-static GinjaTextureEntry volopt_monitor_texture_entries[25] = {
+static NJS_TEXNAME volopt_monitor_texture_entries[25] = {
     { "ki_u256_vo_mo_moji001" },
     { "ki_u256_vo_mo_moji002" },
     { "ki_u256_vo_mo_moji003" },
@@ -121,7 +121,7 @@ static GinjaTextureEntry volopt_monitor_texture_entries[25] = {
     { "ki_u064_vo_mo" },
 };
 
-static GinjaTextureList volopt_monitor_texture_table = { volopt_monitor_texture_entries, 25 };
+static NJS_TEXLIST volopt_monitor_texture_table = { volopt_monitor_texture_entries, 25 };
 
 
 static BossStats *volopt_monitor_stats;
@@ -129,7 +129,7 @@ static void *volopt_monitor_stats_b;
 static void *volopt_monitor_object_params;
 static MonitorStatTable *volopt_monitor_stat_table;
 static BmlResource *volopt_monitor_resources;
-static GinjaTextureList *volopt_monitor_textures;
+static NJS_TEXLIST *volopt_monitor_textures;
 static s32 volopt_monitor_last_tick;
 
 static void *volopt_monitor_screen_meshes[4];
@@ -340,7 +340,7 @@ void TBoss3VoloptMonitor::render() {
                 }
             }
         }
-        volopt_monitor_screen.entries = &volopt_monitor_textures->entries[frame];
+        volopt_monitor_screen.textures = &volopt_monitor_textures->textures[frame];
         TObjFish::set_global_param(&volopt_monitor_screen);
         set_draw_list_mask(3);
         push_matrix();

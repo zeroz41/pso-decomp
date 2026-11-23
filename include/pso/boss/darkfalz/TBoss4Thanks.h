@@ -5,7 +5,7 @@
 #include "pso/system/task/TObject.h"
 
 struct NJS_OBJECT;
-struct GinjaTextureList;
+struct NJS_TEXLIST;
 struct AnimationMotion;
 class TParticleCtrl;
 
@@ -20,7 +20,7 @@ struct TBoss4Thanks : public TObject {
     f32 fade_amount;
     s32 fade_frame;
     NJS_OBJECT *model;
-    GinjaTextureList *texture_list;
+    NJS_TEXLIST *texture_list;
     AnimationMotion *motions[2];
     TParticleCtrl *particle_emitters[4];
     // int: the body widens a bool (clrlwi) and its callers test r3 with a plain cmpwi.

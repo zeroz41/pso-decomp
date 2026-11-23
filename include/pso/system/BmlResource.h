@@ -9,7 +9,7 @@ struct BmlModelEntry {
     s32 m_4;
     NJS_OBJECT *model;
     // The model's texture list, set as the global texture list before it is drawn.
-    GinjaTextureList *texlist;
+    NJS_TEXLIST *texlist;
 };
 
 LAYOUT_ASSERT(BmlModelEntry_size, sizeof(BmlModelEntry) == 0x10);

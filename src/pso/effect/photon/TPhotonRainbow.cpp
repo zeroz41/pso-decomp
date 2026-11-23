@@ -22,14 +22,14 @@ void TPhotonRainbow::render() {
     texlist = (saddr)ring_texlist[0];
     post_translate_matrix(&position.x);
     rotate_matrix_y(0, rotation_y / 2);
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
+    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
     draw_chunk_object(ring_model[0]);
     pop_matrix();
     push_matrix();
     texlist = (saddr)ring_texlist[1];
     post_translate_matrix(&position.x);
     rotate_matrix_y(0, 0x10000 - rotation_y);
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
+    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
     draw_chunk_object(ring_model[1]);
     pop_matrix();
     TParticleCtrl::end_effect_render();

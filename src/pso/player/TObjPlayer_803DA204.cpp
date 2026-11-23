@@ -34,14 +34,14 @@ void GinjaTextureInput::set_render_rect(void *pixels, s32 input_format, s32 inpu
 #pragma scheduling off
 #pragma peephole off
 #pragma optimize_for_size off
-void set_texture_name(GinjaTextureEntry *entry, GinjaTextureInput *input, u32 index, u32 attributes) {
+void set_texture_name(NJS_TEXNAME *entry, GinjaTextureInput *input, u32 index, u32 attributes) {
     if (attributes & 0x40000000) {
-        entry->name = reinterpret_cast<char *>(input);
-        entry->value04 = attributes;
+        entry->filename = reinterpret_cast<char *>(input);
+        entry->attr = attributes;
         entry->global_index = index;
     } else {
-        entry->name = reinterpret_cast<char *>(input);
-        entry->value04 = attributes;
+        entry->filename = reinterpret_cast<char *>(input);
+        entry->attr = attributes;
         entry->global_index = index;
     }
 }

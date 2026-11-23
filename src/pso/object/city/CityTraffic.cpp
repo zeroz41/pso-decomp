@@ -69,11 +69,11 @@ typedef struct
 
 extern "C" {
 BmlResource *city_air_car_model_resource;
-GinjaTextureList *city_air_car_model_handle;
+NJS_TEXLIST *city_air_car_model_handle;
 }
 
 BmlResource *city_common_model_archive;
-GinjaTextureList *city_common_texture_list;
+NJS_TEXLIST *city_common_texture_list;
 
 #pragma defer_codegen on
 
@@ -384,7 +384,7 @@ void TObjCityAirCar_Car::run_task() {
 
 void TObjCityAirCar_Car::render() {
     u32 texture_index;
-    GinjaTextureEntry *texture_entries;
+    NJS_TEXNAME *texture_entries;
     if (this->update_object_view_visibility(800.0f, 50.0f) != 0) {
         TParticleCtrl::end_effect_render();
         push_matrix();
@@ -398,7 +398,7 @@ void TObjCityAirCar_Car::render() {
         TParticleCtrl::begin_effect_render();
         draw_ginja_object(get_city_common_model(city_air_car_model_index_table[model_type]));
         if (city_air_car_model_resource != NULL) {
-            texture_entries = city_air_car_model_handle->entries;
+            texture_entries = city_air_car_model_handle->textures;
             texture_index = texture_entries[2].global_index;
             if (light_blink >= 0x14) {
                 texture_entries[2].global_index = texture_entries[0].global_index;
@@ -406,7 +406,7 @@ void TObjCityAirCar_Car::render() {
             TObjFish::set_global_param(city_air_car_model_handle);
             air_car_buffer_pair_table[model_type]->scroll_uvs(uv_scroll, 0);
             draw_chunk_object((void *)city_air_car_model_resource->models[city_traffic_car_chunk_index_table[model_type]].model);
-            city_air_car_model_handle->entries[2].global_index = texture_index;
+            city_air_car_model_handle->textures[2].global_index = texture_index;
         }
         pop_matrix();
         TParticleCtrl::end_effect_render();

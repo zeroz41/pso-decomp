@@ -5,7 +5,7 @@
 #include "pso/object/door/TODoorBase.h"
 #include "pso/system/NinjaTypes.h"
 
-struct GinjaTextureList;
+struct NJS_TEXLIST;
 
 struct BmlResource;
 
@@ -27,7 +27,7 @@ struct TODoorMachine02 : public TODoorBase {
     NJS_ARGB light_color;  // the locked light's tint
 
     static BmlResource *bml_resource;
-    static GinjaTextureList **texture_lists;  // [0] the locked (red) light, [1] the bml's own
+    static NJS_TEXLIST **texture_lists;  // [0] the locked (red) light, [1] the bml's own
 };
 
 LAYOUT_ASSERT(TODoorMachine02_size, sizeof(TODoorMachine02) == 0xE4);

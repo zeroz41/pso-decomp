@@ -68,7 +68,7 @@ void TUnk_804A4020::hook() {  }
 
 TUnk_804A4020::TUnk_804A4020(void *owner, const Vec *pos, const Vec *dir, f32 life)
     : TItemShootModel(owner, pos, dir, life) {
-    set_render_model(TObjPlayer__sub_801290D0((u8 *)owner), (GinjaTextureList *)((TObjBase *)owner)->get_texlist());
+    set_render_model(TObjPlayer__sub_801290D0((u8 *)owner), (NJS_TEXLIST *)((TObjBase *)owner)->get_texlist());
 }
 
 u32 TObjPlayer::spawn_shot_effect(saddr owner, saddr origin, saddr end, f32 frames) {
@@ -191,7 +191,7 @@ NJS_OBJECT *TObjPlayer__sub_801290D0(u8 *owner) {
 }
 
 
-void TItemShootModel::set_render_model(NJS_OBJECT *new_model, GinjaTextureList *new_texture_list) {
+void TItemShootModel::set_render_model(NJS_OBJECT *new_model, NJS_TEXLIST *new_texture_list) {
     model = new_model;
     texture_list = new_texture_list;
 }

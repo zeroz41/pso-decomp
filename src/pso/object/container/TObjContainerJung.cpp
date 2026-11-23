@@ -78,7 +78,7 @@ CollisionBody container_jung_collision_desc = {
 
 const char *TObjContainerJung__name = "TObjContainerJung";
 BmlResource *jungle_container_archive;
-GinjaTextureList *jungle_container_textures;
+NJS_TEXLIST *jungle_container_textures;
 BmlResource *jungle_container_ex_archive;
 
 extern const TObjChipParams container_jung_debris_desc = {
@@ -137,9 +137,9 @@ NJS_OBJECT *TObjContainerJungEx::get_model(s32 index) {
     return NULL;
 }
 
-GinjaTextureList *TObjContainerJungEx::get_textures(s32 index) {
+NJS_TEXLIST *TObjContainerJungEx::get_textures(s32 index) {
     if (jungle_container_ex_archive != NULL) {
-        return (GinjaTextureList *)get_bml_texlist((BmlResource *)jungle_container_ex_archive, index);
+        return (NJS_TEXLIST *)get_bml_texlist((BmlResource *)jungle_container_ex_archive, index);
     }
     return 0;
 }
@@ -254,7 +254,7 @@ void TObjContainerJung::vfunc_79() const {
 void TObjContainerJung::load_resources() {
     BmlResource *archive = new BmlResource(5, (BmlResourceDescriptor *)&TObjContainerJung__resource_descriptor, 0, 0, NULL);
     jungle_container_archive = archive;
-    jungle_container_textures = (GinjaTextureList *)get_bml_texlist((BmlResource *)archive, 0);
+    jungle_container_textures = (NJS_TEXLIST *)get_bml_texlist((BmlResource *)archive, 0);
 }
 
 void TObjContainerJung::release() {
@@ -274,7 +274,7 @@ NJS_OBJECT *TObjContainerJung::get_model_by_index(s32 index) {
     return NULL;
 }
 
-GinjaTextureList *TObjContainerJung::get_textures(s32) {
+NJS_TEXLIST *TObjContainerJung::get_textures(s32) {
     return jungle_container_textures;
 }
 
@@ -310,7 +310,7 @@ void TObjContainerJungEx::vfunc_81() {
 
     switch (this->mode) {
     case 0:
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>((saddr)TObjContainerJungEx::get_textures(0)));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>((saddr)TObjContainerJungEx::get_textures(0)));
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_y(0, this->rotation_y);
@@ -450,7 +450,7 @@ void TObjContainerJungEnemy::vfunc_81() {
 
     switch (this->mode) {
     case 0:
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(this->texlist));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_y(0, this->rotation_y);

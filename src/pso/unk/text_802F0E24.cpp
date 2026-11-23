@@ -51,7 +51,7 @@ BmlResourceDescriptor boss7_common_resource_descriptor = {
 
 u32 boss7_dermt_slot_table[7];
 BmlResource *boss7_common_bml_resource;
-GinjaTextureList *boss7_common_texture_list;
+NJS_TEXLIST *boss7_common_texture_list;
 __declspec(section ".sdata2") const f32 boss7_tunnel_max_scroll_speed = 9.259259f;
 
 void free_boss7_common_resources(void) {

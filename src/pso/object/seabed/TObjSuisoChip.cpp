@@ -248,7 +248,7 @@ CollisionBody seabed_suiso_brakable_collision_bodies[3] = {
 
 
 BmlResource *TObjSeabedSuisoBrakable::bml_resource;
-GinjaTextureList *TObjSeabedSuisoBrakable::texture_list;
+NJS_TEXLIST *TObjSeabedSuisoBrakable::texture_list;
 s32 TObjSeabedSuiso_CH::last_uv_scroll_tick;
 s32 TObjSeabedSuisoBrakable::last_uv_scroll_tick;
 
@@ -259,7 +259,7 @@ void *TObjSeabedSuisoBrakable::get_model(int index) {
     return NULL;
 }
 
-GinjaTextureList *TObjSeabedSuisoBrakable::get_texlist(int index) {
+NJS_TEXLIST *TObjSeabedSuisoBrakable::get_texlist(int index) {
     return texture_list;
 }
 
@@ -333,7 +333,7 @@ void TObjSeabedSuiso_CH::render() {
     if (update_object_view_visibility(view_range, model_radius) != 0) {
         TParticleCtrl::end_effect_render();
         update_state();
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>((saddr)TObjSeabedSuisoBrakable::get_texlist(0)));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>((saddr)TObjSeabedSuisoBrakable::get_texlist(0)));
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);

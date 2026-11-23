@@ -3,6 +3,11 @@
 #include "types.h"
 #include "pso/system/task/TObject.h"
 #include <dolphin/mtx/GeoTypes.h>
+#include "pso/system/NinjaTypes.h"
+
+// The bolt's textures (set up by init_fake_tec_texlist) and the texture render draws with.
+extern NJS_TEXLIST fake_tec_texlist;
+extern u32 fake_tec_texture;
 
 // A screen-space vertex of the bolt's strip.
 struct TeneFakeTecThunderVertex {

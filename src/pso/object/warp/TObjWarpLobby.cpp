@@ -78,7 +78,7 @@ s32 create_window_menu_default(f32 *, s32, f32);
 
 s32 post_translate_matrix(void *);
 
-GinjaTextureList *lobby_warp_textures;
+NJS_TEXLIST *lobby_warp_textures;
 
 void TObjWarpLobby::open_lobby_menu() {
     f32 sp[2];
@@ -181,5 +181,5 @@ void TObjWarpLobby::release_static() {
 void TObjWarpLobby::load_resources() {
     BmlResource *resource = new BmlResource(1, (BmlResourceDescriptor *)&warp_lobby_resource_descriptor, 0, 0, NULL);
     lobby_warp_bml_resource = resource;
-    lobby_warp_textures = (GinjaTextureList *)lobby_warp_bml_resource->models[0].texlist;
+    lobby_warp_textures = (NJS_TEXLIST *)lobby_warp_bml_resource->models[0].texlist;
 }

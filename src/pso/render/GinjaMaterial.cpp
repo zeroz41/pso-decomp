@@ -383,7 +383,7 @@ void apply_ginja_material_params(const GinjaDrawRecord *record) {
                     0.0f != model_material_color.a) {
                     opaque = 0;
                 }
-                const u32 &format = current_render_context->textures->entries[texture].texture->surface->header.format;
+                const u32 &format = current_render_context->textures->textures[texture].texture->surface->header.format;
                 GXSetZCompLoc(GX_FALSE);
                 if (opaque) {
                     GXSetZMode(GX_TRUE, GX_LEQUAL, GX_FALSE);
@@ -404,7 +404,7 @@ void apply_ginja_material_params(const GinjaDrawRecord *record) {
                 GXSetBlendMode(mode, source, destination, operation);
             }
         } else if (mode != GX_BM_NONE) {
-            surface = current_render_context->textures->entries[
+            surface = current_render_context->textures->textures[
                 ginja_material_cache.texture & 0x1FFF].texture->surface;
             if (ginja_material_cache.textured != 0 && surface->header.format == GX_TF_CMPR &&
                 source == GX_BL_SRCALPHA && destination == GX_BL_INVSRCALPHA && (surface->header.flags & 0x40000000) != 0) {
@@ -437,7 +437,7 @@ void apply_ginja_material_params(const GinjaDrawRecord *record) {
                 }
             }
         } else {
-            surface = current_render_context->textures->entries[
+            surface = current_render_context->textures->textures[
                 ginja_material_cache.texture & 0x1FFF].texture->surface;
             if (surface->header.format == GX_TF_CMPR && (surface->header.flags & 0x40000000) == 0) {
                 GXSetBlendMode(GX_BM_NONE, GX_BL_SRCALPHA, GX_BL_INVSRCALPHA, GX_LO_SET);

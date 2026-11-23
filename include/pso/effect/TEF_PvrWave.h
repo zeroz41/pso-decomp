@@ -19,8 +19,8 @@ public:
 
     TTextureWave *wave;
     s32 texture_index;
-    GinjaTextureList texture_list;  // the wave's one-entry texture list
-    GinjaTextureEntry saved_entry;  // the scene entry it replaced, put back on destruction
+    NJS_TEXLIST texture_list;  // the wave's one-entry texture list
+    NJS_TEXNAME saved_entry;  // the scene entry it replaced, put back on destruction
 };
 LAYOUT_ASSERT(TEF_PvrWave_size, sizeof(TEF_PvrWave) == 0x38);
 

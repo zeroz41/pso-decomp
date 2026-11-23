@@ -18,19 +18,19 @@
 #include "pso/system/task/TObject.h"
 
 extern "C" {
-GinjaTextureEntry lbl_804ED990 = { "f256_memorycard_select", 0, NULL };
-__declspec(section ".data") GinjaTextureList mc_select_cursor_texture_list = { &lbl_804ED990, 1 };
+NJS_TEXNAME lbl_804ED990 = { "f256_memorycard_select", 0, NULL };
+__declspec(section ".data") NJS_TEXLIST mc_select_cursor_texture_list = { &lbl_804ED990, 1 };
 }
 
 extern "C" {
 const char *TAdMcSelectCursorGC__class_name = "TAdMcSelectCursorGC";
 void restore_saved_depth_alpha_state(void);
 
-GinjaTextureList *TAdMcSelectCursorGC__texture_entry;
+NJS_TEXLIST *TAdMcSelectCursorGC__texture_entry;
 
 void TAdMcSelectCursorGC::render_cursor() {
     begin_screen_draw(1);
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(TAdMcSelectCursorGC__texture_entry));
+    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(TAdMcSelectCursorGC__texture_entry));
     set_draw_texture_and_color(0, ((this->cursor_alpha << 0x18) | 0xFF0000 | 0xFFFF));
     draw_textured_quad_at_depth(&quads[0].x0, 0.9f);
     TWindowSubStatusDisp::get_player();
@@ -133,7 +133,7 @@ TAdMcSelectCursorGC::TAdMcSelectCursorGC(TObject *parent) : TObject(parent) {
 }
 
 extern "C" {
-s32 release_texture_list(GinjaTextureList *, GinjaTextureEntry *);
+s32 release_texture_list(NJS_TEXLIST *, NJS_TEXNAME *);
 
 TAdMcSelectCursorGC *TAdMcSelectCursorGC::get_instance(TObject *parent) {
     if (TAdMcSelectCursorGC__instance == NULL) {
@@ -144,7 +144,7 @@ TAdMcSelectCursorGC *TAdMcSelectCursorGC::get_instance(TObject *parent) {
 
 void TAdMcSelectCursorGC::release_cursor_entry() {
     if (TAdMcSelectCursorGC__texture_entry != NULL) {
-        GinjaTextureEntry *entry = TAdMcSelectCursorGC__texture_entry->entries;
+        NJS_TEXNAME *entry = TAdMcSelectCursorGC__texture_entry->textures;
         if (entry->texture != NULL) {
             release_texture_list(TAdMcSelectCursorGC__texture_entry, entry);
         }

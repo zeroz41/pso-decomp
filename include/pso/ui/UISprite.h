@@ -5,7 +5,6 @@
 #include "pso/system/NinjaTypes.h"
 
 // Character-creation screen textures and sprite cells.
-extern NJS_TEXNAME creation_chara_sprite_entries[20];
 extern NJS_TEXLIST creation_sprite_table;
 extern NJS_TEXANIM lbl_804D9670[143];
 extern NJS_TEXANIM lbl_804DA19C[49];  // Japanese cells (creation_sprite_table_index 0)

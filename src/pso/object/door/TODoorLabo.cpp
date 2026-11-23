@@ -32,7 +32,7 @@
 #include "pso/system/TLanguage_801E4874.h"
 
 struct BmlResource;
-struct GinjaTextureList;
+struct NJS_TEXLIST;
 
 #pragma defer_codegen on
 #pragma inline_depth(1)
@@ -59,17 +59,17 @@ CollisionBody labo_door_collision_body_parts[] = {
 // The BML archives and texture lists the door classes load and free (TODoorFourLightSeabed,
 // TODoorFourLightSeabedU, TODoorLabo, TODoorLaboNormal), in address order.
 BmlResource *door_labo_bml_resource;
-GinjaTextureList *lbl_805D6604;
-GinjaTextureList *lbl_805D6608;
+NJS_TEXLIST *lbl_805D6604;
+NJS_TEXLIST *lbl_805D6608;
 BmlResource *seabed_four_light_door_bml_resource;
-GinjaTextureList *seabed_four_light_door_textures;
-GinjaTextureList *TODoorFourLightSeabedU__texture_list;
+NJS_TEXLIST *seabed_four_light_door_textures;
+NJS_TEXLIST *TODoorFourLightSeabedU__texture_list;
 BmlResource *TODoorLabo__bml_resource;
-GinjaTextureList *TODoorLabo__green_texture_list;
-GinjaTextureList *labo_door_red_textures;
+NJS_TEXLIST *TODoorLabo__green_texture_list;
+NJS_TEXLIST *labo_door_red_textures;
 BmlResource *TODoorLabo__model_archive;
-GinjaTextureList *TODoorLaboNormal__green_texture_list;
-GinjaTextureList *TODoorLaboNormal__red_texture_list;
+NJS_TEXLIST *TODoorLaboNormal__green_texture_list;
+NJS_TEXLIST *TODoorLaboNormal__red_texture_list;
 struct Door_802A0670 {
     u8 pad0[0x38];
     u8 f38[0x60 - 0x38];
@@ -121,7 +121,7 @@ void TODoorFourLightBase::render() {
     case 1:
     case 3:
         push_matrix();
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(get_lit_textures()));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(get_lit_textures()));
         post_translate_matrix(&position);
         rotate_matrix_y(0, rotation_y);
         draw_ginja_model_with_motion((void *)model, (void *)motion, (f32)animation_frame);
@@ -129,7 +129,7 @@ void TODoorFourLightBase::render() {
         break;
     case 2:
         push_matrix();
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(get_lit_textures()));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(get_lit_textures()));
         post_translate_matrix(&position);
         rotate_matrix_y(0, rotation_y);
         draw_ginja_model_with_motion((void *)model, (void *)motion, (f32)animation_end_frame);
@@ -141,7 +141,7 @@ void TODoorFourLightBase::render() {
             break;
         }
         push_matrix();
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(get_lit_textures()));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(get_lit_textures()));
         post_translate_matrix(&position);
         rotate_matrix_y(0, rotation_y);
         draw_ginja_object((void *)model);
@@ -198,9 +198,9 @@ void TODoorFourLightBase::draw_node_tree(u8 *arg1) {
     do {
         temp_r31 = *(s32 *)((s8 *)var_r30 + 0);
         if (temp_r31 & 0x100000) {
-            TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(get_lit_textures()));
+            TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(get_lit_textures()));
         } else {
-            TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(get_unlit_textures()));
+            TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(get_unlit_textures()));
         }
         if (*(s32 *)((s8 *)var_r30 + 0) & 0x200000) {
             TParticleCtrl::begin_effect_render();
@@ -332,14 +332,14 @@ void TLanguage__sub_802A0204(void) {
     case AREA_SEABED_UPPER:
         var_r0 = (saddr)new BmlResource(5, &bm_o_door_seabed01_resource_descriptor, 0, 0, NULL);
         door_labo_bml_resource = (BmlResource *)var_r0;
-        lbl_805D6604 = (GinjaTextureList *)load_gvm_texture_file("fs_obj_doorx4_atui_green.GVM");
-        lbl_805D6608 = (GinjaTextureList *)load_gvm_texture_file("fs_obj_doorx4_atui.GVM");
+        lbl_805D6604 = (NJS_TEXLIST *)load_gvm_texture_file("fs_obj_doorx4_atui_green.GVM");
+        lbl_805D6608 = (NJS_TEXLIST *)load_gvm_texture_file("fs_obj_doorx4_atui.GVM");
         return;
     case AREA_SEABED_LOWER:
         var_r0_2 = (saddr)new BmlResource(5, &bm_o_door_seabed01_resource_descriptor, 0, 0, NULL);
         door_labo_bml_resource = (BmlResource *)var_r0_2;
-        lbl_805D6604 = (GinjaTextureList *)load_gvm_texture_file("fs_obj_doorx4_atui_green_02.GVM");
-        lbl_805D6608 = (GinjaTextureList *)load_gvm_texture_file("fs_obj_doorx4_atui_02.GVM");
+        lbl_805D6604 = (NJS_TEXLIST *)load_gvm_texture_file("fs_obj_doorx4_atui_green_02.GVM");
+        lbl_805D6608 = (NJS_TEXLIST *)load_gvm_texture_file("fs_obj_doorx4_atui_02.GVM");
         return;
     }
 }
@@ -407,14 +407,14 @@ void TLanguage__sub_8029FF0C(void) {
     case AREA_SEABED_UPPER:
         var_r0 = (saddr)new BmlResource(5, &bm_o_door_seabed01_u_resource_descriptor, 0, 0, NULL);
         seabed_four_light_door_bml_resource = (BmlResource *)var_r0;
-        seabed_four_light_door_textures = (GinjaTextureList *)load_gvm_texture_file("fs_obj_doorx4_u_green.GVM");
-        TODoorFourLightSeabedU__texture_list = (GinjaTextureList *)load_gvm_texture_file("fs_obj_doorx4_u.GVM");
+        seabed_four_light_door_textures = (NJS_TEXLIST *)load_gvm_texture_file("fs_obj_doorx4_u_green.GVM");
+        TODoorFourLightSeabedU__texture_list = (NJS_TEXLIST *)load_gvm_texture_file("fs_obj_doorx4_u.GVM");
         return;
     case AREA_SEABED_LOWER:
         var_r0_2 = (saddr)new BmlResource(5, &bm_o_door_seabed01_u_resource_descriptor, 0, 0, NULL);
         seabed_four_light_door_bml_resource = (BmlResource *)var_r0_2;
-        seabed_four_light_door_textures = (GinjaTextureList *)load_gvm_texture_file("fs_obj_doorx4_usui_green_02.GVM");
-        TODoorFourLightSeabedU__texture_list = (GinjaTextureList *)load_gvm_texture_file("fs_obj_doorx4_usui_02.GVM");
+        seabed_four_light_door_textures = (NJS_TEXLIST *)load_gvm_texture_file("fs_obj_doorx4_usui_green_02.GVM");
+        TODoorFourLightSeabedU__texture_list = (NJS_TEXLIST *)load_gvm_texture_file("fs_obj_doorx4_usui_02.GVM");
         return;
     }
 }
@@ -475,8 +475,8 @@ s32 TODoorFourLightSeabedU::get_lit_textures() {
 void load_labo_door_resources(void) {
     saddr r = (saddr)new BmlResource(5, &labo_door_resource_descriptor, 0, 0, NULL);
     TODoorLabo__bml_resource = (BmlResource *)r;
-    TODoorLabo__green_texture_list = (GinjaTextureList *)load_gvm_texture_file("obj_o_labodoor_l_grn.GVM");
-    labo_door_red_textures = (GinjaTextureList *)load_gvm_texture_file("obj_o_labodoor_l_red.GVM");
+    TODoorLabo__green_texture_list = (NJS_TEXLIST *)load_gvm_texture_file("obj_o_labodoor_l_grn.GVM");
+    labo_door_red_textures = (NJS_TEXLIST *)load_gvm_texture_file("obj_o_labodoor_l_red.GVM");
 }
 
 const char *odoor_labo_class_name = "TODoorLabo";
@@ -549,8 +549,8 @@ void TODoorLabo::init_model_by_type() {
 void TODoorLabo::load_resources() {
     saddr r = (saddr)new BmlResource(5, &labo_door_resource_descriptor_2, 0, 0, NULL);
     TODoorLabo__model_archive = (BmlResource *)r;
-    TODoorLaboNormal__green_texture_list = (GinjaTextureList *)load_gvm_texture_file("o_labodoor_nrm_green.GVM");
-    TODoorLaboNormal__red_texture_list = (GinjaTextureList *)load_gvm_texture_file("o_labodoor_nrm_red.GVM");
+    TODoorLaboNormal__green_texture_list = (NJS_TEXLIST *)load_gvm_texture_file("o_labodoor_nrm_green.GVM");
+    TODoorLaboNormal__red_texture_list = (NJS_TEXLIST *)load_gvm_texture_file("o_labodoor_nrm_red.GVM");
 }
 
 void TODoorLabo::free_resources() {

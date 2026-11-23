@@ -227,7 +227,7 @@ void TObjEneDimedian::render() {
         fading = camera_fades[camera].updateFromCamera(&body_center.x);
     }
     select_actor_lighting(this);
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
+    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
     push_matrix();
     post_translate_matrix(&position.x);
     rotate_matrix_y(0, rotation_y);

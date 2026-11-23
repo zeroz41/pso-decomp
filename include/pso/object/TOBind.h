@@ -5,7 +5,7 @@
 #include "pso/object/base/TObjMotion.h"
 
 struct AnimationMotion;
-struct GinjaTextureList;
+struct NJS_TEXLIST;
 
 struct TOBind : public TObjCollidable {
     virtual ~TOBind();
@@ -17,7 +17,7 @@ struct TOBind : public TObjCollidable {
     f32 m_bc;
     f32 motion_step;
     NJS_OBJECT *animated_model;
-    GinjaTextureList *animated_textures;
+    NJS_TEXLIST *animated_textures;
     AnimationMotion *motion;
     virtual void run_task();
     virtual void render();

@@ -22,7 +22,7 @@ BmlResourceDescriptor TOSensorGeneral01__resource_descriptor = {
 };
 const char *TOSensorGeneral01__class_name = "TOSensorGeneral01";
 BmlResource *sensor_general_shared_bml_archive;
-GinjaTextureList **TOSensorGeneral01__texture_lists;
+NJS_TEXLIST **TOSensorGeneral01__texture_lists;
 
 void TOSensorGeneral01::update_switch_off() {
     rotation_y = rotation_y + 0x147;
@@ -64,27 +64,27 @@ void TOSensorGeneral01::render() {
         rotate_matrix_y(NULL, rotation_y);
         object = (NJS_OBJECT *)model;
         translate_matrix(0, object->pos[0], object->pos[1], object->pos[2]);
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(TOSensorGeneral01__texture_lists[0]));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(TOSensorGeneral01__texture_lists[0]));
         draw_ginja_model(object->model);
         TParticleCtrl::begin_effect_render();
         object = object->child;
         translate_matrix(0, object->pos[0], object->pos[1], object->pos[2]);
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(TOSensorGeneral01__texture_lists[lamps_dark < 1]));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(TOSensorGeneral01__texture_lists[lamps_dark < 1]));
         draw_ginja_model(object->model);
         object = object->sibling;
         translate_matrix(0, object->pos[0], object->pos[1], object->pos[2]);
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(TOSensorGeneral01__texture_lists[lamps_dark < 2]));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(TOSensorGeneral01__texture_lists[lamps_dark < 2]));
         draw_ginja_model(object->model);
         object = object->sibling;
         translate_matrix(0, object->pos[0], object->pos[1], object->pos[2]);
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(TOSensorGeneral01__texture_lists[lamps_dark < 3]));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(TOSensorGeneral01__texture_lists[lamps_dark < 3]));
         draw_ginja_model(object->model);
         TParticleCtrl::end_effect_render();
         object = object->sibling;
         push_matrix();
         translate_matrix(0, object->pos[0], object->pos[1], object->pos[2]);
         rotate_matrix_y(NULL, head_angle);
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(TOSensorGeneral01__texture_lists[1]));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(TOSensorGeneral01__texture_lists[1]));
         draw_ginja_model(object->model);
         pop_matrix();
         pop_matrix();
@@ -112,9 +112,9 @@ void TOSensorGeneral01::free_assets() {
 void TOSensorGeneral01::load_assets() {
     BmlResource *resource = new BmlResource(1, &TOSensorGeneral01__resource_descriptor, 0, 0, NULL);
     sensor_general_shared_bml_archive = resource;
-    TOSensorGeneral01__texture_lists = (GinjaTextureList **)mem_alloc(2 * sizeof(*TOSensorGeneral01__texture_lists));
-    TOSensorGeneral01__texture_lists[1] = (GinjaTextureList *)sensor_general_shared_bml_archive->models[0].texlist;
-    TOSensorGeneral01__texture_lists[0] = (GinjaTextureList *)load_gvm_texture_file("fs_obj_sensor_r.gvm");
+    TOSensorGeneral01__texture_lists = (NJS_TEXLIST **)mem_alloc(2 * sizeof(*TOSensorGeneral01__texture_lists));
+    TOSensorGeneral01__texture_lists[1] = (NJS_TEXLIST *)sensor_general_shared_bml_archive->models[0].texlist;
+    TOSensorGeneral01__texture_lists[0] = (NJS_TEXLIST *)load_gvm_texture_file("fs_obj_sensor_r.gvm");
 }
 
 TOSensorGeneral01::~TOSensorGeneral01() {}

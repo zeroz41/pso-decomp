@@ -88,7 +88,7 @@ s32 TObjContainerIdo::update_object_view_visibility(f32 far_depth, f32 radius) {
 #pragma pop
 
 BmlResource *container_ido_model_archive;
-GinjaTextureList *container_ido_textures;
+NJS_TEXLIST *container_ido_textures;
 
 void TObjContainerIdo::render() {
     s32 fading;
@@ -102,7 +102,7 @@ void TObjContainerIdo::render() {
             fade.set_flags_and_apply_damage_color();
         }
         {
-            GinjaTextureList *textures = container_ido_textures;
+            NJS_TEXLIST *textures = container_ido_textures;
             if (textures != NULL) {
                 TObjFish::set_global_param(textures);
             }
@@ -235,7 +235,7 @@ void TObjContainerIdo::free_resources() {
 void TObjContainerIdo::load_resources() {
     BmlResource *archive = new BmlResource(5, &container_ido_resource_descriptor, 0, 0, NULL);
     container_ido_model_archive = archive;
-    container_ido_textures = (GinjaTextureList *)load_gvm_texture_file("obj_containerido.GVM");
+    container_ido_textures = (NJS_TEXLIST *)load_gvm_texture_file("obj_containerido.GVM");
 }
 
 TObjContainerIdo::~TObjContainerIdo() {

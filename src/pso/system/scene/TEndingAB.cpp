@@ -18,8 +18,8 @@ void TEndingAB__sub_8008CCC0(TEndingAB *);
 }
 
 struct EndingWallTextureSet {
-    GinjaTextureEntry names[14];
-    GinjaTextureList list;
+    NJS_TEXNAME names[14];
+    NJS_TEXLIST list;
 };
 LAYOUT_ASSERT(EndingWallTextureSetSize, sizeof(EndingWallTextureSet) == 0xB0);
 
@@ -161,7 +161,7 @@ EndingWallTextureSet ending_wall_texture_sets[4] = {
 
 extern "C" {
 s32 TEndingAB__fade_sequence_state;
-GinjaTextureList *ending_ab_wall_texture_list;
+NJS_TEXLIST *ending_ab_wall_texture_list;
 }
 
 void TEndingAB::advance_fade_sequence() {
@@ -345,7 +345,7 @@ void TEndingAB::destroy_instance() {
 }
 void TScene::bind_ending_wall_textures() {
     EndingWallTextureSet *base = ending_wall_texture_sets;
-    GinjaTextureList *t;
+    NJS_TEXLIST *t;
     if (get_ending_scene_active() != 0) {
         t = &base[3].list;
         ending_ab_wall_texture_list = t;

@@ -1390,7 +1390,7 @@ void TObjEneRe4Sorcerer::render() {
             draw_ground_shadow(0, 0);
         }
         update_secondary_light();
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
         saved_model_render_flags = model_render_flags;
         TObjEneDD::clear_global_flag_400();
         TObjEneRe4Sorcerer__uv_scroll_buffer->scroll_uvs(strip_scroll, 0);
@@ -1452,7 +1452,7 @@ void TObjEneRe4Sorcerer::render_demo() {
     get_target_info();
     if (update_object_view_visibility(400.0f, 15.0f) != 0) {
         draw_ground_shadow(0, 0);
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
         push_matrix();
         post_translate_matrix(&position.x);
         translate_matrix(0, 0.0f, 22.0f, 0.0f);

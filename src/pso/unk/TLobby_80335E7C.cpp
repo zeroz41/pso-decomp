@@ -75,7 +75,7 @@ TUnk_804EE470::TUnk_804EE470(TObject *parent) : TObject(parent) {
 void TLobby__sub_80335FE0(void) {  }
 void TLobby__sub_80335FE4(void) {  }
 
-GinjaTextureList *get_title_texture_list(void) {
+NJS_TEXLIST *get_title_texture_list(void) {
     return &title_texture_list;
 }
 

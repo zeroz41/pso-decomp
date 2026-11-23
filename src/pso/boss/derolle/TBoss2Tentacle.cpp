@@ -43,7 +43,7 @@ extern s32 TBoss2Tentacle__segment_point_defaults[];
 void TBoss2Tentacle::render() {
     s32 i;
     set_motion_packed_rotation();
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(boss2_tentacle_texlist));
+    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(boss2_tentacle_texlist));
     push_matrix();
     switch (state) {
     case 0:

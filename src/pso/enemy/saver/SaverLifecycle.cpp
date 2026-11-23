@@ -60,6 +60,9 @@
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/render/model_render_state.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/technique/TechniqueRingwaveList.h"
+#include "pso/effect/enemy/TeneFakeTecThunderEff.h"
+#include "pso/render/GinjaMaterialState.h"
 
 extern "C" {
 void calc_velocity_toward_destination(TObjChara *chara, Vec from, Vec to, f32 speed);
@@ -91,17 +94,6 @@ SampledMotionPoints *saver_jump_trail_points;
 SampledMotionPoints *saver_nail_trail_points;
 }
 
-struct C_800A4294 { s32 x0; };
-
-struct B_800A4294 { u8 pad[0xc]; C_800A4294 *c; };
-
-struct A_800A4294 { u8 pad[0x8]; B_800A4294 *b; };
-
-struct G_800A4294 { A_800A4294 *p; s32 n; u8 pad[0x8]; };
-
-extern A_800A4294 lbl_804CC8C8;
-extern G_800A4294 fake_tec_texlist;
-extern int fake_tec_texture;
 
 extern "C" {
 __declspec(section ".data") void *bm_ene_df1_saver_model_names[2] = {
@@ -144,10 +136,10 @@ CollisionBody saver_collision_body_part_table[1] = {
 
 void TObjPlayer::reset_effect_count() { fake_tec_texture = 0; }
 
-void TObjPlayer__sub_800A4294(void) {
-    fake_tec_texlist.p = &lbl_804CC8C8;
-    fake_tec_texlist.n = 0x10;
-    (*(s32 *)&fake_tec_texture) = fake_tec_texlist.p->b->c->x0;
+void init_fake_tec_texlist() {
+    fake_tec_texlist.textures = technique_ringwave_texnames;
+    fake_tec_texlist.nbTexture = 0x10;
+    fake_tec_texture = fake_tec_texlist.textures->texture->surface->id;
 }
 
 void TObjEneSaver::run_demo_task() {}
@@ -828,7 +820,7 @@ void TObjEneSaver::render() {
     v = classify_actor_view_detail(300.0f, 600.0f, 30.0f);
     if (v != 0) {
         select_actor_lighting(this);
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
         push_matrix_from(NULL);
         translate_matrix_vec3(0, (u8 *)&position);
         rotate_matrix_y(0, rotation_y);

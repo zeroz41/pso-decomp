@@ -11,7 +11,7 @@
 #include "pso/player/TObjPlayer_8023E480.h"
 #include "pso/system/task/TObject.h"
 
-GinjaTextureEntry lbl_804DBEC0[8] = {
+NJS_TEXNAME lbl_804DBEC0[8] = {
     {(char *)"f256_adpic01", 0, 0},
     {(char *)"f256_adpic02", 0, 0},
     {(char *)"f256_adpic03", 0, 0},
@@ -21,7 +21,7 @@ GinjaTextureEntry lbl_804DBEC0[8] = {
     {(char *)"f128_adpic07", 0, 0},
     {(char *)"f128_adpic08", 0, 0},
 };
-__declspec(section ".data") GinjaTextureList chr_select_ad_pic_2_texture_descriptor = {lbl_804DBEC0, 8};
+__declspec(section ".data") NJS_TEXLIST chr_select_ad_pic_2_texture_descriptor = {lbl_804DBEC0, 8};
 const char *TAdBackGC__class_name = "TAdBackGC";
 
 
@@ -80,7 +80,7 @@ TAdBackGC::TAdBackGC(TObject *parent) : TObject(parent) {
     m_20 = 1;
 }
 
-GinjaTextureList *chr_select_ad_pic_texture;
+NJS_TEXLIST *chr_select_ad_pic_texture;
 
 void TAdSinglePlyChrSelectGC::free_global() {
     if (chr_select_ad_pic_texture != NULL) {

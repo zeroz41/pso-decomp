@@ -20,8 +20,8 @@ extern GinjaTextureState *record_array_ptr;
 extern "C" {
 s32 TObjPlayer__sub_803DAE98(GinjaTextureState *texture);
 // Releases every loaded texture in `texlist`; -1 if one failed, else 1.
-s32 release_texture_list(GinjaTextureList *texlist);
-s32 find_texture_entry_by_name(const GinjaTextureList *texlist, const char *name);
+s32 release_texture_list(NJS_TEXLIST *texlist);
+s32 find_texture_entry_by_name(const NJS_TEXLIST *texlist, const char *name);
 }
 
 #endif

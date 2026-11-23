@@ -6,7 +6,7 @@
 #include "types.h"
 #include <stddef.h>
 
-struct GinjaTextureList;
+struct NJS_TEXLIST;
 
 class TBoss6CrushRock : public TObject {
 public:
@@ -18,7 +18,7 @@ public:
 
     struct Angles { s32 x, y, z; };
     void *model;
-    GinjaTextureList *texture_list;
+    NJS_TEXLIST *texture_list;
     Vec position;
     Vec velocity;
     Angles angles;

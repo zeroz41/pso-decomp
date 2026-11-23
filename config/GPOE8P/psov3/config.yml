@@ -485,7 +485,7 @@ force_active:
   - TChCrEffTagStr__name
   - TChCrEffTag__name
   - TChCrLoadAfsTextureReq__active_load_count
-  - __ct__22TChCrLoadAfsTextureReqFP7TObjectP16GinjaTextureListPll
+  - __ct__22TChCrLoadAfsTextureReqFP7TObjectP11NJS_TEXLISTPll
   - __ct__16TChCrLoadGmNjReqFP7TObjectP20TChCrLoadGmNjReqArgs
   - __ct__12TChCrLoadReqFP10TObjPlayer
   - TChCrTagName__class_name
@@ -4137,7 +4137,7 @@ force_active:
   - assign_player_id__6TLobbyFv
   - at_end__24TMessageWindowControllerFv
   - attach_mine_trap__10TObjPlayerFiUi
-  - attach_model__9TParticleFPvP16GinjaTextureListP10NJS_MOTIONlf
+  - attach_model__9TParticleFPvP11NJS_TEXLISTP10NJS_MOTIONlf
   - attack_default__13TBoss5GryphonFv
   - attack_target__15TObjIllGillKageFv
   - attack_target_history_contains__FPvPv

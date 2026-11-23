@@ -1110,7 +1110,7 @@ void TBoss4Zanzo::render() {
         set_motion_packed_rotation();
         post_translate_matrix(&params.pos.x);
         rotate_matrix_y(0, params.rotation_y);
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(params.texlist));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(params.texlist));
         TObjPlayer::begin_alpha_blend(value);
         draw_model_motion(params.model, params.motion, params.frame);
         TObjPlayer::sync_player_globals();

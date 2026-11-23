@@ -130,7 +130,7 @@ void TUnk_804EFA88::render() {
         play_indirect_effect_recipe(this->entries[i].effect_kind, 1, 1);
         ((void (*)(void *))init_particle_effect__10TObjPlayerFv)(this);
         ((void (*)(void *))setup_projection_tex_matrix__10TObjPlayerFv)(this);
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(this->entries[i].p18));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(this->entries[i].p18));
         draw_ginja_object((this->entries[i].p1C));
         pop_matrix();
         reset_indirect_tev(1);

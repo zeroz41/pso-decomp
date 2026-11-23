@@ -131,7 +131,7 @@ void fn_802D1C84(void) {
 
 
 GinjaTextureInput lbl_80540B98;
-GinjaTextureEntry lbl_80540BBC;
+NJS_TEXNAME lbl_80540BBC;
 __declspec(section ".data") u32 lbl_80540BC8[2];
 
 void fn_802D1CC8(void) {

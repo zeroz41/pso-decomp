@@ -11,10 +11,10 @@
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer_8023E480.h"
 
-GinjaTextureEntry lbl_804ED9C0 = { "f256_memorycard", 0, NULL };
-__declspec(section ".data") GinjaTextureList mc_select_memorycard_texture_list = { &lbl_804ED9C0, 1 };
+NJS_TEXNAME lbl_804ED9C0 = { "f256_memorycard", 0, NULL };
+__declspec(section ".data") NJS_TEXLIST mc_select_memorycard_texture_list = { &lbl_804ED9C0, 1 };
 const char *TAdMcSelectMcGC__class_name = "TAdMcSelectMcGC";
-GinjaTextureList *TAdMcSelectMcGC__texture_list_ptr;
+NJS_TEXLIST *TAdMcSelectMcGC__texture_list_ptr;
 
 void TAdMcSelectMcGC::draw_status_window() {
     begin_screen_draw(1);
@@ -109,7 +109,7 @@ TAdMcSelectMcGC::TAdMcSelectMcGC(TObject *parent, s32 slot) : TObject(parent) {
 }
 
 void TAdMcSelectMcGC::release_selected_entry() {
-    if (TAdMcSelectMcGC__texture_list_ptr != NULL && TAdMcSelectMcGC__texture_list_ptr->entries->texture != NULL) {
+    if (TAdMcSelectMcGC__texture_list_ptr != NULL && TAdMcSelectMcGC__texture_list_ptr->textures->texture != NULL) {
         release_texture_list(TAdMcSelectMcGC__texture_list_ptr);
     }
 }

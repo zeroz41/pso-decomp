@@ -28,12 +28,12 @@ const char *bm_o_light_machine01_motion_names[1] = {0};
 const char *bm_o_light_machine01_model_names[3] = { "fs_obj_light.gj", "fs_obj_toudai.gj", NULL };
 BmlResourceDescriptor light_machine01_resource_desc = { "bm_o_light_machine01.bml", bm_o_light_machine01_model_names, bm_o_light_machine01_motion_names, 2, 0 };
 
-struct GinjaTextureList;
+struct NJS_TEXLIST;
 
 extern "C" {
 BmlResource *TOLightMachine01__shared_bml_archive;
 NJS_OBJECT *light_machine_ginja_model_handle;
-GinjaTextureList *light_machine_ginja_param;
+NJS_TEXLIST *light_machine_ginja_param;
 const char *TOLightMachine01__name = "TOLightMachine01";
 s32 post_translate_matrix(void *);
 
@@ -49,7 +49,7 @@ void TOLightMachine01::render() {
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_y(0, this->rotation_y);
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(this->texlist));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
         draw_ginja_model(((NJS_OBJECT *)model)->model);
         push_matrix();
         translate_matrix(0, 0.0f, this->m_9c, 0.0f);
@@ -79,7 +79,7 @@ void TOLightMachine01::load_assets() {
     BmlResource *archive = new BmlResource(1, (BmlResourceDescriptor *)&light_machine01_resource_desc, 0, 0, NULL);
     TOLightMachine01__shared_bml_archive = archive;
     light_machine_ginja_model_handle = (NJS_OBJECT *)get_bml_model((BmlResource *)archive, 0);
-    light_machine_ginja_param = (GinjaTextureList *)get_bml_texlist((BmlResource *)TOLightMachine01__shared_bml_archive, 0);
+    light_machine_ginja_param = (NJS_TEXLIST *)get_bml_texlist((BmlResource *)TOLightMachine01__shared_bml_archive, 0);
 }
 
 }

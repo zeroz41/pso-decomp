@@ -431,7 +431,7 @@ void TObjNpcBase::render() {
     if ((update_object_view_visibility(m_398, m_39c) != 0) && (m_390 == 1)) {
         select_actor_lighting(this);
         model_render_flags |= 1;
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
         push_matrix_from(0);
         translate_matrix_vec3(0, (u8 *) &position);
         rotate_matrix_y(0, rotation_y);

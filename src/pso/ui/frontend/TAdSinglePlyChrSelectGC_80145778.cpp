@@ -31,7 +31,7 @@ typedef struct Glyph_80145804 {
 } Glyph_80145804;
 
 extern "C" {
-extern GinjaTextureList menu_font_texture_list[];
+extern NJS_TEXLIST menu_font_texture_list[];
 s32 menu_font_glyph_data;
 s16 *menu_font_palette;
 s32 menu_font_upload_flags;
@@ -70,7 +70,7 @@ extern "C" {
 void load_texture_list(void *);
 __declspec(section ".data") u32 *menu_font_glyph_pixel_buffers[2];
 GinjaTextureInput menu_font_render_rects[2];
-GinjaTextureEntry lbl_8050C090[2];
+NJS_TEXNAME lbl_8050C090[2];
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(4)
@@ -102,7 +102,7 @@ void load_menu_font(void) {
     }
     load_texture_list(menu_font_texture_list);
     for (m = 0; m < 2; m++) {
-        *(menu_font_glyph_pixel_buffers + m) = menu_font_texture_list[0].entries[m].texture->surface->header.pixels;
+        *(menu_font_glyph_pixel_buffers + m) = menu_font_texture_list[0].textures[m].texture->surface->header.pixels;
         clear_words_80145804(*(menu_font_glyph_pixel_buffers + m), 0x2000);
     }
     menu_font_palette = (s16 *)mem_alloc(0x100);
@@ -111,7 +111,7 @@ void load_menu_font(void) {
     menu_font_palette[1] = 0x3FFF;
     menu_font_palette[2] = 0x5FFF;
     menu_font_palette[3] = 0x7FFF;
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(menu_font_texture_list));
+    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(menu_font_texture_list));
     for (i = 0; i < 2; i++) {
         TLanguage::set_entry_index(i, 0);
     }

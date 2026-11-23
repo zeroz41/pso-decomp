@@ -416,7 +416,7 @@ void TContainerAncient01::load_resources() {
     NpcAnimationBinding prm = container_ancient_anim_binding;
     prm.motions = TContainerAncient01__bml_resource->motions;
     NpcModelRegistry::register_animated_ginja(0x3B, reinterpret_cast<NJS_OBJECT *>(get_bml_model((BmlResource *)TContainerAncient01__bml_resource, 0)),
-                                             reinterpret_cast<GinjaTextureList *>(get_bml_texlist((BmlResource *)TContainerAncient01__bml_resource, 0)), &prm,
+                                             reinterpret_cast<NJS_TEXLIST *>(get_bml_texlist((BmlResource *)TContainerAncient01__bml_resource, 0)), &prm,
                                              10.0f, TContainerAncient01__data_805DBD14[0]);
 }
 
@@ -480,7 +480,7 @@ void TContainerAncient01::run_task() {
 
 void TContainerAncient01::render() {
     if (this->update_object_view_visibility(3e+02f, 2e+01f) != 0) {
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(this->texlist));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_y(0, this->rotation_y);
@@ -772,7 +772,7 @@ void TContainerAncient01R::run_task() {
 
 void TContainerAncient01R::render() {
     if (this->update_object_view_visibility(3e+02f, 2e+01f) != 0) {
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(this->texlist));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_y(0, this->rotation_y);

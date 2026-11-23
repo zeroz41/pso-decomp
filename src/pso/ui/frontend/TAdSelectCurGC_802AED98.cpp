@@ -19,13 +19,13 @@
 
 /* inferred: the two one-texture lists apply_menu_cursor_selection picks from by language
    (f256_ad for Japanese, f256_ad_eng otherwise) and keeps in menu_selection_cursor_texture_list */
-GinjaTextureEntry select_cursor_eng_texture_entry = {"f256_ad_eng", 0, NULL};
-GinjaTextureList select_cursor_eng_texture_list = {&select_cursor_eng_texture_entry, 1};
-GinjaTextureEntry select_cursor_texture_entry = {"f256_ad", 0, NULL};
-GinjaTextureList select_cursor_texture_list = {&select_cursor_texture_entry, 1};
+NJS_TEXNAME select_cursor_eng_texture_entry = {"f256_ad_eng", 0, NULL};
+NJS_TEXLIST select_cursor_eng_texture_list = {&select_cursor_eng_texture_entry, 1};
+NJS_TEXNAME select_cursor_texture_entry = {"f256_ad", 0, NULL};
+NJS_TEXLIST select_cursor_texture_list = {&select_cursor_texture_entry, 1};
 /* inferred: TObject name the constructor stores */
 const char *TAdSelectCurGC__name = "TAdSelectCurGC";
-GinjaTextureList *menu_selection_cursor_texture_list;
+NJS_TEXLIST *menu_selection_cursor_texture_list;
 
 extern "C" {
 extern const s32 current_language;
@@ -132,11 +132,11 @@ void TLobby__sub_802AF198(void) {
 void TLobby::apply_menu_cursor_selection() {
     TLobby::update_menu_cursor();
     const char *names[5] = {"f256_ad", "f256_ad_eng", "f256_ad_eng", "f256_ad_eng", "f256_ad_eng"};
-    GinjaTextureList *lists[5] = {
+    NJS_TEXLIST *lists[5] = {
         &select_cursor_texture_list, &select_cursor_eng_texture_list, &select_cursor_eng_texture_list,
         &select_cursor_eng_texture_list, &select_cursor_eng_texture_list,
     };
-    GinjaTextureList *list = lists[current_language];
+    NJS_TEXLIST *list = lists[current_language];
     menu_selection_cursor_texture_list = list;
     load_streamed_prs_texture((saddr)names[current_language], (saddr)list);
 }

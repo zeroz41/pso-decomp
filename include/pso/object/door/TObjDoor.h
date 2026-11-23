@@ -6,7 +6,7 @@
 struct CollisionBody;
 struct DoorModelSet;
 struct DoorMotionHeader;
-struct GinjaTextureList;
+struct NJS_TEXLIST;
 struct NJS_ARGB;
 
 struct TObjDoor : public TObjCollidable {
@@ -52,7 +52,7 @@ struct TObjDoor : public TObjCollidable {
     static const char *name;
     static DoorMotionHeader *motion_table[2];
     static DoorModelSet model_resource_ptrs;
-    static GinjaTextureList *resource_param;
+    static NJS_TEXLIST *resource_param;
 };
 LAYOUT_ASSERT(TObjDoor_size, sizeof(TObjDoor)==0xD4);
 extern "C" s32 TObjDoor__data_805D5BC8;

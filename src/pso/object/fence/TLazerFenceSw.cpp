@@ -6,7 +6,7 @@
 #include "pso/object/fence/TLazerFenceSw.h"
 
 struct BmlResource;
-struct GinjaTextureList;
+struct NJS_TEXLIST;
 
 #include "pso/render/NinjaUtil.h"
 #include "pso/system/task/TMainTask.h"
@@ -90,7 +90,7 @@ const u16 lbl_80445CB8[4] = { 0, 1, 2, 3 };
 const char *TLazerFenceSw__class_name = "TLazerFenceSw";
 
 BmlResource *lazer_fence_switch_bml_resource;
-GinjaTextureList *TLazerFenceSw__texture_list;
+NJS_TEXLIST *TLazerFenceSw__texture_list;
 u8 *lazer_fence_switch_scroll_node;
 
 #pragma push
@@ -262,14 +262,14 @@ void TLazerFenceSw::load_resources() {
     if (TContainerAncient01::is_global_state_in_table() == 1 || area == AREA_SEABED_UPPER || area == AREA_SEABED_LOWER) {
         obj = new BmlResource(5, (BmlResourceDescriptor *)&fe_obj_switch_laz_j_resource_descriptor, 0, 0, NULL);
         lazer_fence_switch_bml_resource = obj;
-        TLazerFenceSw__texture_list = (GinjaTextureList *)load_gvm_texture_file(fe_obj_switch_laz_j_gvm);
+        TLazerFenceSw__texture_list = (NJS_TEXLIST *)load_gvm_texture_file(fe_obj_switch_laz_j_gvm);
     } else {
         obj = new BmlResource(5, (BmlResourceDescriptor *)&laser_fence_switch_resource_descriptor, 0, 0, NULL);
         lazer_fence_switch_bml_resource = obj;
         if (game_difficulty_selection == 3) {
-            TLazerFenceSw__texture_list = (GinjaTextureList *)load_gvm_texture_file(fe_obj_switch_laz_a_gvm);
+            TLazerFenceSw__texture_list = (NJS_TEXLIST *)load_gvm_texture_file(fe_obj_switch_laz_a_gvm);
         } else {
-            TLazerFenceSw__texture_list = (GinjaTextureList *)load_gvm_texture_file(fe_obj_switch_laz_gvm);
+            TLazerFenceSw__texture_list = (NJS_TEXLIST *)load_gvm_texture_file(fe_obj_switch_laz_gvm);
         }
     }
     lazer_fence_sw_ginja_model_table[0] = get_bml_model((BmlResource *)lazer_fence_switch_bml_resource, 0);

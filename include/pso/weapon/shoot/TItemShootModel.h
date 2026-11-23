@@ -3,13 +3,13 @@
 #include "pso/weapon/shoot/TItemShoot.h"
 #include "types.h"
 
-struct GinjaTextureList;
+struct NJS_TEXLIST;
 struct NJS_OBJECT;
 
 class TItemShootModel : public TItemShoot {
 public:
  NJS_OBJECT *model;
- GinjaTextureList *texture_list;
+ NJS_TEXLIST *texture_list;
  s32   ang;
  s32   m_64;
  s32   m_68;
@@ -20,7 +20,7 @@ public:
     // in TItemShoot.cpp (the destructor's kept copy is in another TU).
     virtual void render();
     virtual ~TItemShootModel();
-    void set_render_model(NJS_OBJECT *model, GinjaTextureList *texture_list);
+    void set_render_model(NJS_OBJECT *model, NJS_TEXLIST *texture_list);
     s32 is_owner_alive();
 };
 

@@ -10,9 +10,9 @@
 #include "pso/system/task/TObject.h"
 
 extern "C" {
-NJS_TEXNAME lbl_804E0B40[1] = { { (void *)"f256_slot_eng", 0, 0 } };
+NJS_TEXNAME lbl_804E0B40[1] = { { "f256_slot_eng", 0, 0 } };
 __declspec(section ".data") NJS_TEXLIST lbl_804E0B4C = { lbl_804E0B40, 1 };
-NJS_TEXNAME lbl_804E0B54[1] = { { (void *)"f256_slot", 0, 0 } };
+NJS_TEXNAME lbl_804E0B54[1] = { { "f256_slot", 0, 0 } };
 __declspec(section ".data") NJS_TEXLIST lbl_804E0B60 = { lbl_804E0B54, 1 };
 const char *TAdChrSelSlotGC__name = "TAdChrSelSlotGC";
 /* per current_language: texture archive and texture list */
@@ -46,7 +46,7 @@ void TAdChrSelSlotGC::draw_slot_icons() {
     for (i = 0; i < 5; i++) {
         if (visible[i] != 0) {
             begin_screen_draw(1);
-            TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>((void *)lbl_805D67F0));
+            TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>((void *)lbl_805D67F0));
             set_draw_texture_and_color(0, colors[i]);
             draw_textured_quad_at_depth((f32 *)&quads[i], 0.1f);
             TWindowSubStatusDisp::get_player();

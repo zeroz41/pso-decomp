@@ -13,7 +13,7 @@
 inline void render_cave_sign(TObjMapObject *sign) {
     NJS_OBJECT *node;
     if (sign->update_object_view_visibility(sign->view_range, sign->model_radius) != 0) {
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(sign->texlist));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(sign->texlist));
         push_matrix();
         post_translate_matrix(&sign->position.x);
         rotate_matrix_y(NULL, sign->rotation_y);

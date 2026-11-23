@@ -44,7 +44,7 @@ struct Stack_80082C30 {
     f32 sp24;
 };
 
-static GinjaTextureEntry effect_textures[54] = {
+static NJS_TEXNAME effect_textures[54] = {
     {"f008_white_npr01", 0, NULL},
     {"f032_awa_apn01", 0, NULL},
     {"f032_chun_npn01", 0, NULL},
@@ -101,17 +101,17 @@ static GinjaTextureEntry effect_textures[54] = {
     {"u064_glasshahen_npr01", 0, NULL},
 };
 
-GinjaTextureList shared_effect_texture_list = {effect_textures, 54};
+NJS_TEXLIST shared_effect_texture_list = {effect_textures, 54};
 
 /* inferred: one-entry list init_capture_texture fills with a 640x480 render texture
    that capture_viewport_texture and copy_screen_to_texture copy the framebuffer into */
-GinjaTextureEntry shared_capture_texture_entry = {NULL, 0, NULL};
-GinjaTextureList shared_capture_texture_list = {&shared_capture_texture_entry, 1};
+NJS_TEXNAME shared_capture_texture_entry = {NULL, 0, NULL};
+NJS_TEXLIST shared_capture_texture_list = {&shared_capture_texture_entry, 1};
 
 /* inferred: one-entry list TObjPlayer__sub_80083F38 fills with a 256x256 render texture
    that end_shadow_map_pass copies the shadow pass into and draw_if_all_ready binds */
-GinjaTextureEntry shadow_map_texture_entry = {NULL, 0, NULL};
-GinjaTextureList shadow_map_texture_list = {&shadow_map_texture_entry, 1};
+NJS_TEXNAME shadow_map_texture_entry = {NULL, 0, NULL};
+NJS_TEXLIST shadow_map_texture_list = {&shadow_map_texture_entry, 1};
 Vec shadow_light_position = {0.0f, 0.0f, 0.0f};
 
 extern "C" {
@@ -309,14 +309,14 @@ void init_capture_texture(s32 wide) {
         h = 480;
     }
     r.set_render_rect(NULL, mode, w, h);
-    set_texture_name(shared_capture_texture_list.entries, &r, 0x2EE0, 0x08800000);
+    set_texture_name(shared_capture_texture_list.textures, &r, 0x2EE0, 0x08800000);
     load_texture_list(&shared_capture_texture_list);
 }
 
 void **release_shared_capture_texture(void) {
     void **var_r3;
     var_r3 = (void **)&shared_capture_texture_list;
-    if (shared_capture_texture_list.entries->texture != NULL) {
+    if (shared_capture_texture_list.textures->texture != NULL) {
         var_r3 = release_texture_list();
     }
     return var_r3;
@@ -329,7 +329,7 @@ void reset_and_init_capture_texture(void) { camera_capture_flags = 0; init_captu
 void reset_and_release_capture_texture(void) { camera_capture_flags = 0; release_shared_capture_texture(); }
 
 saddr get_capture_texture_pixels(void) {
-    return (saddr)shared_capture_texture_list.entries->texture->surface->header.pixels;
+    return (saddr)shared_capture_texture_list.textures->texture->surface->header.pixels;
 }
 
 void capture_viewport_texture(void) {
@@ -339,9 +339,9 @@ void capture_viewport_texture(void) {
         GXSetTexCopySrc(0, 0, 0x280, 0x1E0);
         GXSetTexCopyDst(0x280, 0x1E0, 4, 0);
         if (camera_capture_flags & 8) {
-            GXCopyTex(shared_capture_texture_list.entries->texture->surface->header.pixels, 1);
+            GXCopyTex(shared_capture_texture_list.textures->texture->surface->header.pixels, 1);
         } else {
-            GXCopyTex(shared_capture_texture_list.entries->texture->surface->header.pixels, 0);
+            GXCopyTex(shared_capture_texture_list.textures->texture->surface->header.pixels, 0);
         }
         GXPixModeSync();
     }
@@ -359,7 +359,7 @@ void TObjPlayer::draw_textured_screen_quad(u32 arg0, f32 *arg1, f32 *size, s32 a
     f32 z;
     TObjFish::set_global_param(&shared_capture_texture_list);
     if (arg3 != 0) {
-        temp_r4 = shared_capture_texture_list.entries->texture->surface;
+        temp_r4 = shared_capture_texture_list.textures->texture->surface;
         *(s32 *)((s8 *)temp_r4 + 0x10) = 0x100;
         *(s32 *)((s8 *)temp_r4 + 0x14) = 0xC0;
     }
@@ -397,7 +397,7 @@ void TObjPlayer::draw_textured_screen_quad(u32 arg0, f32 *arg1, f32 *size, s32 a
     sub_800847FC();
     set_default_alpha_blend();
     if (arg3 != 0) {
-        temp_r4_2 = shared_capture_texture_list.entries->texture->surface;
+        temp_r4_2 = shared_capture_texture_list.textures->texture->surface;
         *(s32 *)((s8 *)temp_r4_2 + 0x10) = 0x280;
         *(s32 *)((s8 *)temp_r4_2 + 0x14) = 0x1E0;
     }
@@ -415,7 +415,7 @@ void TObjPlayer::draw_screen_quad(u32 arg0, s32 arg1, f32 farg0) {
     void *temp_r4_2;
     TObjFish::set_global_param(&shared_capture_texture_list);
     if (arg1 != 0) {
-        temp_r4 = shared_capture_texture_list.entries->texture->surface;
+        temp_r4 = shared_capture_texture_list.textures->texture->surface;
         *(s32 *)((s8 *)temp_r4 + 0x10) = 0x100;
         *(s32 *)((s8 *)temp_r4 + 0x14) = 0xC0;
     }
@@ -458,7 +458,7 @@ void TObjPlayer::draw_screen_quad(u32 arg0, s32 arg1, f32 farg0) {
     sub_800847FC();
     set_default_alpha_blend();
     if (arg1 != 0) {
-        temp_r4_2 = shared_capture_texture_list.entries->texture->surface;
+        temp_r4_2 = shared_capture_texture_list.textures->texture->surface;
         *(s32 *)((s8 *)temp_r4_2 + 0x10) = 0x280;
         *(s32 *)((s8 *)temp_r4_2 + 0x14) = 0x1E0;
     }
@@ -494,7 +494,7 @@ int TObjPlayer::sub_80083F9C() {  return lbl_805D4EE0; }
 void TObjPlayer__sub_80083F38(void) {
     GinjaTextureInput r;
     r.set_render_rect(NULL, 2, 0x100, 0x100);
-    set_texture_name(shadow_map_texture_list.entries, &r, 0x2EE1, 0x08800000);
+    set_texture_name(shadow_map_texture_list.textures, &r, 0x2EE1, 0x08800000);
     load_texture_list(&shadow_map_texture_list);
     lbl_805D4EE0 = 0;
 }
@@ -502,7 +502,7 @@ void TObjPlayer__sub_80083F38(void) {
 void **TObjPlayer__sub_80083F04(void) {
     void **var_r3;
     var_r3 = (void **)&shadow_map_texture_list;
-    if (shadow_map_texture_list.entries->texture != NULL) {
+    if (shadow_map_texture_list.textures->texture != NULL) {
         var_r3 = release_texture_list();
     }
     return var_r3;
@@ -574,7 +574,7 @@ void end_shadow_map_pass() {
         GXSetCopyClear(c, 0xFFFFFF);
         GXSetTexCopySrc(0, 0, 0x100, 0x100);
         GXSetTexCopyDst(0x100, 0x100, 2, 0);
-        GXCopyTex(shadow_map_texture_list.entries->texture->surface->header.pixels, 1);
+        GXCopyTex(shadow_map_texture_list.textures->texture->surface->header.pixels, 1);
         GXPixModeSync();
         temp_r31 = active_gx_render_mode;
         GXSetCopyFilter((int) (*(u8 *)((s8 *)temp_r31 + 0x19)), temp_r31 + 0x1A, (int) (get_display_copy_filter()), temp_r31 + 0x32);
@@ -850,7 +850,7 @@ void TLiveCameraView::render() {}
 
 void TLiveCameraView::bind_texture() {
     if ((is_split_screen() == 0) && ((u32) camera_render_target_singleton != 0U)) {
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(camera_render_target_singleton + 0x1C));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(camera_render_target_singleton + 0x1C));
         load_list_texture(0, 0, 0, 0);
     }
 }
@@ -889,7 +889,7 @@ void TObjPlayer::copy_screen_to_texture(s32 mode, void *src) {
         }
         GXSetTexCopySrc(v.x, v.y, 0x100, 0xC0);
         GXSetTexCopyDst(0x100, 0xC0, 4, 0);
-        GXCopyTex(shared_capture_texture_list.entries->texture->surface->header.pixels, 1);
+        GXCopyTex(shared_capture_texture_list.textures->texture->surface->header.pixels, 1);
         GXPixModeSync();
         cam = &controller_physical_port_bank.controllers[3];
         a.x = 192.0f;
@@ -906,7 +906,7 @@ void TObjPlayer::copy_screen_to_texture(s32 mode, void *src) {
         sub_80082C30();
         GXSetTexCopySrc(0xC0, 0x90, 0x100, 0xC0);
         GXSetTexCopyDst(0x100, 0xC0, 4, 0);
-        GXCopyTex(shared_capture_texture_list.entries->texture->surface->header.pixels, 1);
+        GXCopyTex(shared_capture_texture_list.textures->texture->surface->header.pixels, 1);
         GXPixModeSync();
         break;
     case 1:
@@ -914,7 +914,7 @@ void TObjPlayer::copy_screen_to_texture(s32 mode, void *src) {
         GXSetCopyClear(c, 0xFFFFFF);
         GXSetTexCopySrc(0, 0, 0x280, 0x1E0);
         GXSetTexCopyDst(0x280, 0x1E0, 4, 0);
-        GXCopyTex(shared_capture_texture_list.entries->texture->surface->header.pixels, 1);
+        GXCopyTex(shared_capture_texture_list.textures->texture->surface->header.pixels, 1);
         GXPixModeSync();
         cam = &controller_physical_port_bank.controllers[3];
         a.x = 192.0f;
@@ -931,7 +931,7 @@ void TObjPlayer::copy_screen_to_texture(s32 mode, void *src) {
         sub_80082C30();
         GXSetTexCopySrc(0xC0, 0x90, 0x100, 0xC0);
         GXSetTexCopyDst(0x100, 0xC0, 4, 0);
-        GXCopyTex(shared_capture_texture_list.entries->texture->surface->header.pixels, 1);
+        GXCopyTex(shared_capture_texture_list.textures->texture->surface->header.pixels, 1);
         GXPixModeSync();
         break;
     }
@@ -956,7 +956,7 @@ void TObjPlayer::sub_80082C30() {
     Stack_80082C30 stack;
     f32 y;
     f32 x;
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(hud_texlist));
+    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(hud_texlist));
     set_draw_texture_and_color(0, -1);
     begin_screen_draw(1);
     x = 192.0f;

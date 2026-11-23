@@ -129,7 +129,7 @@ void draw_cursor_sprite__21TWindowSubCustomEquipFPvPvif(u8 *arg0, NJS_POINT2 *ar
     scale = (-1.0f) / (0.299f * farg0 + *(f32 *)((s8 *)arg0 + 0x38));
     set_additive_blend();
     begin_screen_draw(1);
-    TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(hud_texlist));
+    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(hud_texlist));
     set_draw_texture_and_color(0xC, -1);
     r.x0 = arg1->x + *(f32 *)((s8 *)arg0 + 0x10);
     r.y0 = arg1->y + *(f32 *)((s8 *)arg0 + 0x14);

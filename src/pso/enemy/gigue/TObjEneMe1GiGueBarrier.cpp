@@ -43,7 +43,7 @@ void TObjEneMe1GiGueBarrier::render() {
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(texlist));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
         TParticleCtrl::end_effect_render();
         draw();
         pop_matrix();

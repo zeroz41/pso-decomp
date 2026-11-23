@@ -94,7 +94,7 @@ Vec three_point_goal_team0 = {500.0f, 20.0f, 0.0f};
 Vec three_point_goal_team1 = {-500.0f, 20.0f, 0.0f};
 
 // The lobby GVM texture lists TLanguage::load_lobby_textures loads.
-GinjaTextureList *lobby_gvm_texture_handles[9] = {0};
+NJS_TEXLIST *lobby_gvm_texture_handles[9] = {0};
 const NJS_ARGB fish_draw_color[1] = {{0.2f, 0.0f, 0.0f, 0.0f}};
 // spawn_particle_effect_with_rotation takes x/y/z angles (0x8000 = half turn).
 const ParticleAngles boss3_volopt_init_vec = {0, 0, 0x8000};
@@ -368,7 +368,7 @@ void TObjGoGoBall::render() {
     if (lobby_gvm_texture_handles != 0 && gogo_ball_bml_resource != 0) {
         switch (gogo_ball_configuration.ball_type) {
         case 0:
-            TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(lobby_gvm_texture_handles[0]));
+            TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(lobby_gvm_texture_handles[0]));
             set_cull_back();
             draw_chunk_object(get_bml_model(gogo_ball_bml_resource, 3));
             set_cull_front();
@@ -376,7 +376,7 @@ void TObjGoGoBall::render() {
             set_cull_none();
             break;
         case 1:
-            TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(lobby_gvm_texture_handles[1]));
+            TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(lobby_gvm_texture_handles[1]));
             set_cull_back();
             draw_chunk_object(get_bml_model(gogo_ball_bml_resource, 0));
             set_cull_front();
@@ -384,7 +384,7 @@ void TObjGoGoBall::render() {
             set_cull_none();
             break;
         case 2:
-            TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(lobby_gvm_texture_handles[2]));
+            TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(lobby_gvm_texture_handles[2]));
             set_cull_back();
             draw_chunk_object(get_bml_model(gogo_ball_bml_resource, 0));
             set_cull_front();
@@ -392,7 +392,7 @@ void TObjGoGoBall::render() {
             set_cull_none();
             break;
         case 3:
-            TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(lobby_gvm_texture_handles[3]));
+            TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(lobby_gvm_texture_handles[3]));
             set_cull_back();
             draw_chunk_object(get_bml_model(gogo_ball_bml_resource, 0));
             set_cull_front();
@@ -400,7 +400,7 @@ void TObjGoGoBall::render() {
             set_cull_none();
             break;
         case 6:
-            TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(lobby_gvm_texture_handles[6]));
+            TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(lobby_gvm_texture_handles[6]));
             set_cull_back();
             draw_chunk_object(get_bml_model(gogo_ball_bml_resource, 2));
             set_cull_front();
@@ -675,15 +675,15 @@ void load_lobby_textures() {
     scores[1] = 0;
     obj = new BmlResource(5, (BmlResourceDescriptor *)&language_lobby_texture_descriptor, 0, 0, NULL);
     gogo_ball_bml_resource = obj;
-    lobby_gvm_texture_handles[0] = (GinjaTextureList *)load_gvm_texture_file("robby_chu.gvm");
-    lobby_gvm_texture_handles[1] = (GinjaTextureList *)load_gvm_texture_file("biri_ball.gvm");
-    lobby_gvm_texture_handles[2] = (GinjaTextureList *)load_gvm_texture_file("bom_ball.gvm");
-    lobby_gvm_texture_handles[3] = (GinjaTextureList *)load_gvm_texture_file("soft_ball.gvm");
-    lobby_gvm_texture_handles[4] = (GinjaTextureList *)load_gvm_texture_file("rokeorange_churoke.gvm");
-    lobby_gvm_texture_handles[5] = (GinjaTextureList *)load_gvm_texture_file("rokeblue_pso_churoke.gvm");
-    lobby_gvm_texture_handles[6] = (GinjaTextureList *)load_gvm_texture_file("robby_cat.gvm");
-    lobby_gvm_texture_handles[7] = (GinjaTextureList *)load_gvm_texture_file("fd_obj804_gorl03.gvm");
-    lobby_gvm_texture_handles[8] = (GinjaTextureList *)load_gvm_texture_file("fd_obj804_gorl03_b.gvm");
+    lobby_gvm_texture_handles[0] = (NJS_TEXLIST *)load_gvm_texture_file("robby_chu.gvm");
+    lobby_gvm_texture_handles[1] = (NJS_TEXLIST *)load_gvm_texture_file("biri_ball.gvm");
+    lobby_gvm_texture_handles[2] = (NJS_TEXLIST *)load_gvm_texture_file("bom_ball.gvm");
+    lobby_gvm_texture_handles[3] = (NJS_TEXLIST *)load_gvm_texture_file("soft_ball.gvm");
+    lobby_gvm_texture_handles[4] = (NJS_TEXLIST *)load_gvm_texture_file("rokeorange_churoke.gvm");
+    lobby_gvm_texture_handles[5] = (NJS_TEXLIST *)load_gvm_texture_file("rokeblue_pso_churoke.gvm");
+    lobby_gvm_texture_handles[6] = (NJS_TEXLIST *)load_gvm_texture_file("robby_cat.gvm");
+    lobby_gvm_texture_handles[7] = (NJS_TEXLIST *)load_gvm_texture_file("fd_obj804_gorl03.gvm");
+    lobby_gvm_texture_handles[8] = (NJS_TEXLIST *)load_gvm_texture_file("fd_obj804_gorl03_b.gvm");
 }
 #pragma pool_data reset
 
@@ -804,9 +804,9 @@ void TGoGoBallRocket::run_task() {
 void TGoGoBallRocket::render() {
     if (((gogo_ball_bml_resource != NULL) || (lobby_gvm_texture_handles[4] != NULL)) && (gogo_ball_configuration.ball_type != 6)) {
         if (this->team0 == 1) {
-            TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(lobby_gvm_texture_handles[4]));
+            TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(lobby_gvm_texture_handles[4]));
         } else {
-            TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(lobby_gvm_texture_handles[5]));
+            TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(lobby_gvm_texture_handles[5]));
         }
         push_matrix();
         post_translate_matrix(&this->pos.x);
@@ -943,9 +943,9 @@ void TGoGoBallGoal::render() {
     bml_model = get_bml_model(gogo_ball_bml_resource, 1);
     if (bml_model != NULL) {
         if ((s32) this->team0 != 0) {
-            TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(lobby_gvm_texture_handles[7]));
+            TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(lobby_gvm_texture_handles[7]));
         } else {
-            TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(lobby_gvm_texture_handles[8]));
+            TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(lobby_gvm_texture_handles[8]));
         }
         push_matrix();
         post_translate_matrix(&this->pos.x);

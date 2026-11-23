@@ -3,6 +3,7 @@
 #ifndef TYPES_H
 #include "types.h"
 #endif
+#include "pso/system/NinjaTypes.h"
 typedef struct GinjaParameter {
   u8 kind;
   u8 reserved[3];
@@ -30,18 +31,17 @@ typedef struct GinjaTextureState {
   s32 ref_count; /* decremented on release, entry cleared at 0 */
   u32 reserved14;
 } GinjaTextureState;
-typedef struct GinjaTextureEntry {
-  char *name;
-  u32 value04;
+// One texture of an NJS_TEXLIST: its name and, once loaded, its texture (or a global index).
+struct NJS_TEXNAME {
+  char *filename;
+  u32 attr;
   union {
+    uaddr texaddr;
     GinjaTextureState *texture;
     u32 global_index;
   };
-} GinjaTextureEntry;
-typedef struct GinjaTextureList {
-  GinjaTextureEntry *entries;
-  u32 count;
-} GinjaTextureList;
+};
+
 // A render context: render_contexts holds six, select_render_context makes one current.
 typedef struct GinjaSceneState {
   u8 reserved0[8];
@@ -51,7 +51,7 @@ typedef struct GinjaSceneState {
   s32 reserved14; /* set to -1 on init and whenever a texture surface is freed */
   u32 tlut_name; /* palette bank of the selected texture */
   u32 reserved1C;
-  GinjaTextureList *textures;
+  NJS_TEXLIST *textures;
   u32 reserved24;
 } GinjaSceneState;
 #endif
