@@ -535,9 +535,9 @@ force_active:
   - TEnemyTaskList_name
   - TFogCtrl__data_805DA948
   - TFogCtrl__data_805DA94C
-  - TFogCtrl__swap_fog_slots
-  - TFogCtrl__sub_800FBA54
-  - TFogCtrl__sub_800FBAAC
+  - swap_slots__8TFogCtrlFll
+  - fn_800FBA54__8TFogCtrlFv
+  - fn_800FBAAC__8TFogCtrlFv
   - assign_subcommand_header
   - TFontSmallLobby__sub_801D677C
   - TFontSmallLobby__sub_801D67AC
@@ -3912,7 +3912,7 @@ force_active:
   - apply_drop_restrictions
   - apply_equip_effects__14TItemEquipBaseFv
   - apply_feed__8TItemMagFP8MagStats
-  - apply_fog_entry__FPv
+  - apply_fog_entry__8TFogCtrlFv
   - apply_follow_camera_offsets__FP3VecP3VeclUs
   - apply_foot_attack_pair_0__12TBoss1DragonFv
   - apply_foot_attack_pair_1__12TBoss1DragonFv
@@ -7272,7 +7272,7 @@ force_active:
   - is_confirm_pressed__14TOKeyAncient03Fv
   - is_confirm_pressed__14TOKeyMachine01Fv
   - is_confirm_pressed__8TOKeyColFv
-  - is_controller_animated__8TFogCtrlFll
+  - is_controller_animated__8TFogCtrlFl
   - is_dead__12TBoss3VoloptFv
   - is_destination_ahead__12TBoss1DragonFv
   - is_done__16TObjItemOKWindowFv

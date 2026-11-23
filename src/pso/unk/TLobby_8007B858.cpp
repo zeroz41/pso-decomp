@@ -60,7 +60,6 @@ extern "C" {
 void TLobby__sub_802A5154(void);
 s32 run_load_callback_table(void *, int);
 void TSceneSora__sub_80207430(void);
-void TFogCtrl__sub_800FBA58(void);
 void TTecLuker__sub_80234F08(void);
 void TTecLuker__sub_80234F48(void);
 void fn_80198E84(void);
@@ -92,7 +91,7 @@ FloorResourceCallbacks lbl_8048D4C0[29] = {
     {TLobby::clear_flag_on_phase_e, TLobby__sub_800F7744},
     {clear_legacy_enemy_kill_flags, release_legacy_enemy_kill_flags},
     {load_particle_entry_resources, TParticleCtrl::free_all},
-    {TFogCtrl::update_fog_entries, TFogCtrl__sub_800FBA58},
+    {TFogCtrl::update_fog_entries, TFogCtrl::fn_800FBA58},
     {init_partner_dialogue, TNpcPlayer__sub_8034EDB8},
     {TLobby__sub_80191270, TLobby__sub_80191264},
     {TLobby__sub_8007BBEC, TLobby__sub_8007BBF8},

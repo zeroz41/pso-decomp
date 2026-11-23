@@ -2,6 +2,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/system/task/TObject.h"
+#include "pso/system/task/TMainTask.h"
 #include "pso/render/TFogCtrl_EOR.h"
 #include "pso/render/TFogCtrl.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
@@ -23,168 +24,32 @@
 #include "pso/math/AngleLookup.h"
 
 extern "C" {
-s32 request_fog__8TFogCtrlFPvii(u8 *arg0, s32 arg1, s32 arg2);
-extern saddr TFogCtrl__fog_instance_table[];
+extern TFogCtrl *TFogCtrl__fog_instance_table[];
 static const char lbl_8043DA20[] = "fogentry.dat";
 static const char lbl_8043DA30[] = "fogentry_a.dat";
 const char *TFogCtrl__name = "TFogCtrl";
 const char *TFogCtrl_EOR__name = "TFogCtrl_EOR";
-s32 TFogCtrl__sub_800FAC84(void *p);
 }
 
 struct ByteBlock_8 { u8 bytes[0x8]; };
 
 struct ByteBlock_20 { u8 bytes[0x20]; };
 
-struct Row_800FAFE0 { u8 pad[0x40]; s32 identity; };
-
-struct Ctrl_800FAFE0 {
-    u8 pad[0x174];
-    struct Row_800FAFE0 *slots[4];
-    s32 selected;
-};
-
-struct GXFogAdjTable_800FAE1C {
+struct GXFogAdjTable {
     u16 r[10];
 };
 
-struct TFogCtrl_800FAE1C {
-    u8 pad[0x188];
-    u32 color;
-    f32 end;
-    f32 start;
-    f32 width;
-};
-
-struct O_800FB400 { u8 pad[0x174]; s32 arr[1]; };
-
-struct Fog_800FB424 { u8 pad[0x40]; s32 entry; f32 f44; s32 f48[3]; };
-
-struct Ctrl_800FB424 { u8 pad[0x174]; Fog_800FB424 *fogs[1]; };
-
-struct FogRow_800FB134 {
-    u32 flags;
-    u32 color;
-    f32 end;
-    f32 start;
-    f32 rate;
-    u32 reserved14;
-    f32 speed;
-    f32 reserved1c;
-    f32 end_amplitude;
-    f32 reserved24;
-    f32 start_amplitude;
-    f32 reserved2c;
-    f32 width;
-    f32 reserved34;
-    u8 phases[8];
-};
-
-struct FogCtrl_800FB134 {
-    u8 prefix[0x1C];
-    u32 dirty;
-    u8 pad20[0x174 - 0x20];
-    FogRow_800FB134 *slots[4];
-    s32 selected;
-    u32 color;
-    f32 end;
-    f32 start;
-    f32 width;
-};
-
-struct TFogCtrl_800FB92C {
-    s32 f0;
-    u8 pad4[0x18 - 4];
-    void *vt;
-    s32 f1C;
-    s32 f20;
-    Fog_800FB424 fogs[4];
-    Fog_800FB424 *ptrs[4];
-    s32 f184;
-    u8 pad188[0x19C - 0x188];
-    s32 f19C;
-    s32 f1A0;
-    s32 f1A4;
-    s32 f1A8;
-    s32 f1AC;
-    s32 f1B0;
-    s32 f1B4;
-    f32 f1B8;
-    f32 f1BC;
-    s32 f1C0;
-    s32 index;
-};
-
-struct FogParam_800FBC5C {
-    s32 f0;
-    s32 f4;
-    f32 f8;
-    f32 fC;
-    f32 f10;
-    s32 f14;
-    f32 f18[8];
-    u8 f38[8];
-};
-
-struct Row_800FB498 {
-    u32 flags;
-    u32 color;
-    f32 end;
-    f32 start;
-    f32 rate;
-    u32 f14;
-    f32 speed;
-    f32 f1C;
-    f32 endAmp;
-    f32 f24;
-    f32 startAmp;
-    f32 f2C;
-    f32 width;
-    f32 f34;
-    u8 phases[8];
-    s32 identity;
-    f32 randomPhase;
-};
-
-struct Ctrl_800FB498 {
-    u8 pad0[0x20];
-    s32 mode;
-    u8 pad24[0x150];
-    Row_800FB498 *slots[4];
-    s32 selected;
-    u8 pad188[0x14];
-    s32 reqFrom;
-    s32 reqTo;
-    s32 reqCommit;
-    s32 pad1A8;
-    s32 blendFrom;
-    s32 blendTo;
-    s32 blendCommit;
-    f32 amount;
-    f32 rate;
-};
-
-struct O_800FB400;
-
-struct FogCtrl_800FB134;
 extern "C" {
 
-s32 TFogCtrl__sub_800FAC84(void* p);
-void TFogCtrl__swap_fog_slots(O_800FB400 *self, s32 i, s32 j);
-TFogCtrl_800FB92C * __ct__8TFogCtrlFP7TObjectl(TFogCtrl_800FB92C *self, void *parent, s32 index);
-void TFogCtrl__sub_800FBA54(void);
-void TFogCtrl__sub_800FBA58(void);
-void TFogCtrl__sub_800FBAAC(void);
 void create_area_fog_ctrl(void);
-void GXInitFogAdjTable(GXFogAdjTable_800FAE1C *, s32, void *);
-void GXSetFogRangeAdj(s32, s32, GXFogAdjTable_800FAE1C *);
+void GXInitFogAdjTable(GXFogAdjTable *, s32, void *);
+void GXSetFogRangeAdj(s32, s32, GXFogAdjTable *);
 
 extern s32 area_fog_row_table[];
-extern FogParam_800FBC5C fog_default_entry;
+extern FogEntry fog_default_entry;
 extern u8 scene_projection_state[];
-extern uaddr fog_entry_array;
+extern FogEntry *fog_entry_array;
 extern s32 fog_update_flags;
-extern s32 *tl_02;
 
 extern const f32 TFogCtrl__data_805DA948 = 0.0f;
 extern const f32 TFogCtrl__data_805DA94C = 640.0f;
@@ -192,7 +57,6 @@ extern const f32 TFogCtrl__data_805DA94C = 640.0f;
 #define FOG_MAX (*(const f32 *)&TFogCtrl__data_805DA94C)
 }
 void copy_fog_entry(u8 *arg0, u8 *arg1);
-void apply_fog_entry(void *arg0);
 void init_scene_fog_system(void);
 
 s32 area_fog_row_table[36] = {
@@ -200,37 +64,34 @@ s32 area_fog_row_table[36] = {
     96, 97, 98, 64, 65, 24, 25, 26, 27, 28, 40, 41, 66, 99, 100, 16, 73, 75,
 };
 // The TFogCtrl of each view (one per player in split screen).
-saddr TFogCtrl__fog_instance_table[4];
-FogParam_800FBC5C fog_default_entry;
-uaddr fog_entry_array;
+TFogCtrl *TFogCtrl__fog_instance_table[4];
+FogEntry fog_default_entry;
+FogEntry *fog_entry_array;
 s32 fog_update_flags;
 TFogCtrl_EOR *fog_ctrl_instance;
 
-extern "C" {
-void run_task__8TFogCtrlFv(Ctrl_800FB498 *arg0);
-}
 
 void init_scene_fog_system(void) {
     s32 i;
     fog_update_flags = 0;
-    fog_default_entry.f0 = 1;
-    fog_default_entry.f4 = 0;
-    fog_default_entry.f8 = 4000.0f;
-    fog_default_entry.fC = 100.0f;
-    fog_default_entry.f10 = 0.01f;
-    fog_default_entry.f14 = 0;
+    fog_default_entry.flags = 1;
+    fog_default_entry.color = 0;
+    fog_default_entry.end = 4000.0f;
+    fog_default_entry.start = 100.0f;
+    fog_default_entry.rate = 0.01f;
+    fog_default_entry.pad_14 = 0;
     for (i = 0; i < 8; i++) {
-        fog_default_entry.f18[i] = FOG_ZERO;
-        fog_default_entry.f38[i] = 0;
+        fog_default_entry.waves[i] = FOG_ZERO;
+        fog_default_entry.wave_phases[i] = 0;
     }
-    fog_default_entry.f18[6] = FOG_MAX;
-    fog_entry_array = (uaddr)mem_alloc(0x2000);
+    fog_default_entry.waves[6] = FOG_MAX;
+    fog_entry_array = (FogEntry *)mem_alloc(0x80 * sizeof(FogEntry));
     for (i = 0; i < 0x80; i++) {
-        copy_fog_entry((u8 *)&((FogParam_800FBC5C *)fog_entry_array)[i], (u8 *)&fog_default_entry);
+        copy_fog_entry((u8 *)&fog_entry_array[i], (u8 *)&fog_default_entry);
     }
-    read_disc_file(lbl_8043DA20, (void *)fog_entry_array);
+    read_disc_file(lbl_8043DA20, fog_entry_array);
     for (i = 0; i < 4; i++) {
-        TFogCtrl__fog_instance_table[i] = 0;
+        TFogCtrl__fog_instance_table[i] = NULL;
     }
     TParticleCtrl::end_effect_render();
     TFogCtrl::create_instance();
@@ -240,43 +101,26 @@ void init_scene_fog_system(void) {
 void TFogCtrl::reset() {
     TObjFogCollisionPoison__sub_801533BC();
     TQuestVmDownLoadServer::destroy_instance();
-    if ((u32) fog_entry_array != 0U) {
-        mem_free((void *)fog_entry_array);
+    if (fog_entry_array != NULL) {
+        mem_free(fog_entry_array);
     }
-    fog_entry_array = 0U;
-    ((s32 (*)(s32))fn_803E1FC8)(-1);
+    fog_entry_array = NULL;
+    fn_803E1FC8(0xFFFFFFFF);
     set_scene_fog_distances((1e+03f), (1e+04f));
     reset_scene_fog();
     TParticleCtrl::begin_effect_render();
 }
 
 void create_area_fog_ctrl(void) {
-    s32 *var_r3;
-    s32 *var_r4;
-    s32 var_r31;
-    s32 var_r5;
-    void *temp_r3;
-    void *temp_r3_2;
+    s32 i;
     if (is_split_screen() != 0) {
-        var_r31 = 0;
+        i = 0;
         do {
-            var_r3 = (s32 *)((u8 *)((s32 *)0x1C8));
-            temp_r3 = TObject::operator new(0x1C8);
-            if (temp_r3 != NULL) {
-                var_r4 = (s32 *)tl_02;
-                var_r5 = var_r31;
-                ((s32 (*)(saddr, saddr, int))__ct__8TFogCtrlFP7TObjectl)((saddr)temp_r3, (saddr)var_r4, (int)var_r5);
-            }
-            var_r31 += 1;
-        } while (var_r31 != 4);
+            new TFogCtrl(tl_02, i);
+            i += 1;
+        } while (i != 4);
     } else {
-        var_r3 = (s32 *)((u8 *)((s32 *)0x1C8));
-        temp_r3_2 = TObject::operator new(0x1C8);
-        if (temp_r3_2 != NULL) {
-            var_r4 = (s32 *)tl_02;
-            var_r5 = 0;
-            ((s32 (*)(saddr, saddr, int))__ct__8TFogCtrlFP7TObjectl)((saddr)temp_r3_2, (saddr)var_r4, 0);
-        }
+        new TFogCtrl(tl_02, 0);
     }
     TObjFogCollisionPoison::create();
     s32 row = area_fog_row_table[get_current_floor_area()];
@@ -285,104 +129,87 @@ void create_area_fog_ctrl(void) {
 
 void TFogCtrl::update_fog_entries() {
     s32 i;
-    s32 j;
-    s32 v;
     if (TLobby::is_online_ready() != 0) {
         if (!(fog_update_flags & 2)) {
-            read_disc_file(lbl_8043DA30, (void *)fog_entry_array);
+            read_disc_file(lbl_8043DA30, fog_entry_array);
             fog_update_flags |= 2;
         }
     } else if (fog_update_flags & 2) {
-        read_disc_file(lbl_8043DA20, (void *)fog_entry_array);
+        read_disc_file(lbl_8043DA20, fog_entry_array);
         fog_update_flags &= ~2;
     }
-    i = 0;
-    j = 0;
-    do {
-        v = *(TFogCtrl__fog_instance_table + j);
-        if ((u32)v != 0U) {
-            ((void (*)(s32))TFogCtrl__sub_800FBAAC)(v);
+    for (i = 0; i != 4; i++) {
+        if (TFogCtrl__fog_instance_table[i] != NULL) {
+            TFogCtrl__fog_instance_table[i]->fn_800FBAAC();
         }
-        i += 1;
-        j += 1;
-    } while (i != 4);
+    }
     TParticleCtrl::end_effect_render();
 }
 
-void TFogCtrl__sub_800FBAAC(void) {  }
+void TFogCtrl::fn_800FBAAC() { }
 
-void TFogCtrl__sub_800FBA58(void) {
-    s32 var_r29;
-    s32 var_r31;
-    s32 temp_r3;
-
-    var_r29 = 0;
-    var_r31 = 0;
-    do {
-        temp_r3 = *(TFogCtrl__fog_instance_table + var_r31);
-        if ((u32) temp_r3 != 0U) {
-            ((s32 (*)(s32))TFogCtrl__sub_800FBA54)(temp_r3);
+void TFogCtrl::fn_800FBA58() {
+    s32 i;
+    for (i = 0; i != 4; i++) {
+        if (TFogCtrl__fog_instance_table[i] != NULL) {
+            TFogCtrl__fog_instance_table[i]->fn_800FBA54();
         }
-        var_r29 += 1;
-        var_r31 += 1;
-    } while (var_r29 != 4);
+    }
 }
 
-void TFogCtrl__sub_800FBA54(void) {  }
+void TFogCtrl::fn_800FBA54() { }
 
 #pragma push
 #pragma opt_common_subs off
 TFogCtrl::TFogCtrl(TObject *parent, s32 index) : TObject(parent) {
     s32 i;
-    f32 one;
+    f32 zero;
     m_name = TFogCtrl__name;
-    ((TFogCtrl_800FB92C *)this)->index = index;
-    if (((TFogCtrl_800FB92C *)this)->index >= 0 && ((TFogCtrl_800FB92C *)this)->index < 4) {
-        ((TFogCtrl_800FB92C **)&TFogCtrl__fog_instance_table)[((TFogCtrl_800FB92C *)this)->index] = ((TFogCtrl_800FB92C *)this);
+    this->index = index;
+    if (this->index >= 0 && this->index < 4) {
+        TFogCtrl__fog_instance_table[this->index] = this;
     }
-    ((TFogCtrl_800FB92C *)this)->f20 = 0;
-    one = FOG_ZERO;
+    mode = 0;
+    zero = FOG_ZERO;
     for (i = 0; i < 4; i++) {
-        ((TFogCtrl_800FB92C *)this)->fogs[i].entry = 0;
-        copy_fog_entry((u8 *)&((TFogCtrl_800FB92C *)this)->fogs[i], (u8 *)&fog_default_entry);
-        ((TFogCtrl_800FB92C *)this)->fogs[i].f44 = one;
-        ((TFogCtrl_800FB92C *)this)->ptrs[i] = &((TFogCtrl_800FB92C *)this)->fogs[i];
+        slot_storage[i].entry = 0;
+        copy_fog_entry((u8 *)&slot_storage[i], (u8 *)&fog_default_entry);
+        slot_storage[i].scroll = zero;
+        slots[i] = &slot_storage[i];
     }
-    ((TFogCtrl_800FB92C *)this)->f184 = 0;
-    one = FOG_ZERO;
-    ((TFogCtrl_800FB92C *)this)->f19C = 0;
-    ((TFogCtrl_800FB92C *)this)->f1A0 = 0;
-    ((TFogCtrl_800FB92C *)this)->f1A4 = 0;
-    ((TFogCtrl_800FB92C *)this)->f1A8 = 0;
-    ((TFogCtrl_800FB92C *)this)->f1AC = 0;
-    ((TFogCtrl_800FB92C *)this)->f1B0 = 0;
-    ((TFogCtrl_800FB92C *)this)->f1B4 = 0;
-    ((TFogCtrl_800FB92C *)this)->f1B8 = one;
-    ((TFogCtrl_800FB92C *)this)->f1BC = one;
-    ((TFogCtrl_800FB92C *)this)->f1C0 = 0;
-    ((TFogCtrl_800FB92C *)this)->f1C = 0;
-    this->apply_slot_params(0);
+    selected = 0;
+    zero = FOG_ZERO;
+    request_from = 0;
+    request_to = 0;
+    request_selected = 0;
+    pad_1a8 = 0;
+    blend_from = 0;
+    blend_to = 0;
+    blend_selected = 0;
+    blend_amount = zero;
+    blend_rate = zero;
+    locked = 0;
+    dirty = 0;
+    apply_slot_params(0);
 }
 #pragma pop
 
 TFogCtrl::~TFogCtrl() {
-    s32 temp_r0;
     reset_scene_fog();
     TParticleCtrl::end_effect_render();
-    temp_r0 = this->m_1c4;
-    if ((temp_r0 >= 0) && (temp_r0 < 4)) {
-        *(s32 *)((s8 *)&TFogCtrl__fog_instance_table + (temp_r0 * 4)) = 0;
+    if (index >= 0 && index < 4) {
+        TFogCtrl__fog_instance_table[index] = NULL;
     }
 }
 
 #pragma push
 #pragma fp_contract on
-void run_task__8TFogCtrlFv(Ctrl_800FB498 *arg0) {
+void TFogCtrl::run_task() {
     u32 c0;
     u32 c1;
-    Row_800FB498 *mixed;
-    Row_800FB498 *from;
-    Row_800FB498 *to;
+    FogSlot *mixed;
+    FogSlot *from;
+    FogSlot *to;
     s32 update;
     f32 amount;
     f32 inv;
@@ -391,47 +218,47 @@ void run_task__8TFogCtrlFv(Ctrl_800FB498 *arg0) {
     u32 color;
 
     update = 0;
-    switch (arg0->mode) {
+    switch (mode) {
     case 0:
-        if (TFogCtrl::is_controller_animated((saddr)arg0, arg0->selected) != 0) {
+        if (is_controller_animated(selected) != 0) {
             update = 1;
         }
         break;
     case 1:
-        TFogCtrl__swap_fog_slots((O_800FB400 *)arg0, arg0->reqTo, arg0->reqCommit);
+        swap_slots(request_to, request_selected);
         update = 1;
-        arg0->selected = arg0->reqCommit;
-        arg0->mode = 0;
+        selected = request_selected;
+        mode = 0;
         break;
     case 2:
-        arg0->blendFrom = arg0->reqFrom;
-        arg0->blendTo = arg0->reqTo;
-        arg0->blendCommit = arg0->reqCommit;
-        arg0->amount = FOG_ZERO;
-        if (arg0->blendTo == 0) {
-            arg0->rate = arg0->slots[arg0->blendFrom]->rate;
+        blend_from = request_from;
+        blend_to = request_to;
+        blend_selected = request_selected;
+        blend_amount = FOG_ZERO;
+        if (blend_to == 0) {
+            blend_rate = slots[blend_from]->params.rate;
         } else {
-            arg0->rate = arg0->slots[arg0->blendTo]->rate;
+            blend_rate = slots[blend_to]->params.rate;
         }
-        if (arg0->rate <= FOG_ZERO) {
-            arg0->rate = (0.001f);
+        if (blend_rate <= FOG_ZERO) {
+            blend_rate = (0.001f);
         }
-        arg0->selected = 3;
-        arg0->slots[3]->identity = arg0->slots[arg0->blendTo]->identity;
-        arg0->mode = 3;
+        selected = 3;
+        slots[3]->entry = slots[blend_to]->entry;
+        mode = 3;
     case 3:
-        mixed = arg0->slots[3];
-        from = arg0->slots[arg0->blendFrom];
-        to = arg0->slots[arg0->blendTo];
-        mixed->randomPhase = FOG_ZERO;
-        amount = arg0->amount;
+        mixed = slots[3];
+        from = slots[blend_from];
+        to = slots[blend_to];
+        mixed->scroll = FOG_ZERO;
+        amount = blend_amount;
         if (amount >= 1.0f) {
-            TFogCtrl__swap_fog_slots((O_800FB400 *)arg0, arg0->reqTo, arg0->reqCommit);
-            arg0->selected = arg0->blendCommit;
-            arg0->mode = 0;
+            swap_slots(request_to, request_selected);
+            selected = blend_selected;
+            mode = 0;
         } else {
-            c0 = from->color;
-            c1 = to->color;
+            c0 = from->params.color;
+            c1 = to->params.color;
             inv = 1.0f - amount;
             a = (f32)((c0 >> 16) & 0xFF) * inv;
             b = (f32)((c1 >> 16) & 0xFF) * amount;
@@ -442,23 +269,23 @@ void run_task__8TFogCtrlFv(Ctrl_800FB498 *arg0) {
             a = (f32)(c0 & 0xFF) * inv;
             b = (f32)(c1 & 0xFF) * amount;
             color |= (u8)(u32)(a + b);
-            mixed->color = color;
-            mixed->end = from->end * inv + to->end * amount;
-            mixed->start = from->start * inv + to->start * amount;
-            mixed->speed = to->speed;
-            mixed->endAmp = from->endAmp * inv + to->endAmp * amount;
-            mixed->startAmp = from->startAmp * inv + to->startAmp * amount;
-            mixed->width = from->width * inv + to->width * amount;
-            mixed->phases[2] = from->phases[2] * inv + to->phases[2] * amount;
-            mixed->phases[4] = from->phases[4] * inv + to->phases[4] * amount;
-            mixed->phases[6] = from->phases[6] * inv + to->phases[6] * amount;
-            arg0->amount += arg0->rate;
+            mixed->params.color = color;
+            mixed->params.end = from->params.end * inv + to->params.end * amount;
+            mixed->params.start = from->params.start * inv + to->params.start * amount;
+            mixed->params.waves[0] = to->params.waves[0];
+            mixed->params.waves[2] = from->params.waves[2] * inv + to->params.waves[2] * amount;
+            mixed->params.waves[4] = from->params.waves[4] * inv + to->params.waves[4] * amount;
+            mixed->params.waves[6] = from->params.waves[6] * inv + to->params.waves[6] * amount;
+            mixed->params.wave_phases[2] = from->params.wave_phases[2] * inv + to->params.wave_phases[2] * amount;
+            mixed->params.wave_phases[4] = from->params.wave_phases[4] * inv + to->params.wave_phases[4] * amount;
+            mixed->params.wave_phases[6] = from->params.wave_phases[6] * inv + to->params.wave_phases[6] * amount;
+            blend_amount += blend_rate;
         }
         update = 1;
         break;
     }
     if (update != 0) {
-        ((TFogCtrl *)arg0)->apply_slot_params(arg0->selected);
+        apply_slot_params(selected);
     }
 }
 #pragma pop
@@ -466,86 +293,74 @@ void run_task__8TFogCtrlFv(Ctrl_800FB498 *arg0) {
 void TFogCtrl::render() {  }
 
 void TFogCtrl::load_entry_into_slot(s32 i, s32 entry) {
-    Ctrl_800FB424 *self = (Ctrl_800FB424 *)this;
     s32 k;
-    Fog_800FB424 *f = self->fogs[i];
+    FogSlot *f = slots[i];
     f->entry = entry;
     copy_fog_entry((u8 *)f, (u8 *)TFogCtrl::get_entry(entry));
-    f->f44 = FOG_ZERO;
+    f->scroll = FOG_ZERO;
     for (k = 0; k < 3; k++) {
-        f->f48[k] = 0;
+        f->pad_48[k] = 0;
     }
 }
 
-void TFogCtrl__swap_fog_slots(O_800FB400 *self, s32 i, s32 j) {
-    s32 t = self->arr[i];
-    self->arr[i] = self->arr[j];
-    self->arr[j] = t;
+void TFogCtrl::swap_slots(s32 i, s32 j) {
+    FogSlot *t = slots[i];
+    slots[i] = slots[j];
+    slots[j] = t;
 }
 
-s32 TFogCtrl::is_controller_animated(saddr arg0, s32 selected) {
-  f32 temp_f31;
-  f32 var_f31;
-  saddr temp_r3;
-  u8 *temp_r31;
-  temp_r3 = arg0 + (selected * 4);
-  temp_r31 = (u8 *) (*((u8 **) (((s8 *) temp_r3) + 0x174)));
-  temp_r3 = *((s32 *) (((s8 *) temp_r31) + 0));
-  if (temp_r3 & 2)
-  {
-    if (((FOG_ZERO != (*((f32 *) (((s8 *) temp_r31) + 0x20)))) || (FOG_ZERO != (*((f32 *) (((s8 *) temp_r31) + 0x28))))) || (((u8) (*((u8 *) (((s8 *) temp_r31) + 0x3E)))) != 0))
-    {
-      return 1;
+s32 TFogCtrl::is_controller_animated(s32 idx) {
+    f32 scroll;
+    f32 next;
+    FogSlot *slot = slots[idx];
+    u32 flags = slot->params.flags;
+    if (flags & 2) {
+        if (FOG_ZERO != slot->params.waves[2] || FOG_ZERO != slot->params.waves[4] || slot->params.wave_phases[6] != 0) {
+            return 1;
+        }
+        return 0;
+    }
+    if (flags & 4) {
+        scroll = slot->scroll;
+        floor_to_float(scroll);
+        next = scroll + slot->params.waves[0];
+        floor_to_float(next);
+        if (next < FOG_ZERO) {
+            next += 128.0f;
+        } else if (next >= 128.0f) {
+            next -= 128.0f;
+        }
+        slot->scroll = next;
+        return 1;
     }
     return 0;
-  }
-  if (temp_r3 & 4)
-  {
-    temp_f31 = *((f32 *) (((s8 *) temp_r31) + 0x44));
-    floor_to_float((f32) temp_f31);
-    var_f31 = temp_f31 + (*((f32 *) (((s8 *) temp_r31) + 0x18)));
-    floor_to_float((f32) var_f31);
-    if (var_f31 < FOG_ZERO)
-    {
-      var_f31 += (128.0f);
-    }
-    else
-      if (var_f31 >= (128.0f))
-    {
-      var_f31 -= (128.0f);
-    }
-    *((f32 *) (((s8 *) temp_r31) + 0x44)) = var_f31;
-    return 1;
-  }
-  return 0;
 }
 
 #pragma push
 #pragma fp_contract on
 void TFogCtrl::apply_slot_params(s32 idx) {
-    FogCtrl_800FB134 *self = (FogCtrl_800FB134 *)this;
-    FogRow_800FB134 *row = self->slots[idx];
+    FogEntry *row = &slots[idx]->params;
     f32 t;
-    self->color = row->color;
-    self->end = row->end;
-    self->start = row->start;
-    self->width = FOG_MAX;
-    if (FOG_ZERO != row->end_amplitude) {
-        t = row->end_amplitude * sin_table_lookup((s32)((182.04445f) * ((f32)actor_frame_tick * row->speed + (f32)row->phases[2])));
-        self->end += t;
+    color = row->color;
+    end = row->end;
+    start = row->start;
+    width = FOG_MAX;
+    if (FOG_ZERO != row->waves[2]) {
+        t = row->waves[2] * sin_table_lookup((s32)((182.04445f) * ((f32)actor_frame_tick * row->waves[0] + (f32)row->wave_phases[2])));
+        end += t;
     }
-    if (FOG_ZERO != row->start_amplitude) {
-        t = row->start_amplitude * sin_table_lookup((s32)((182.04445f) * ((f32)actor_frame_tick * row->speed + (f32)row->phases[4])));
-        self->start += t;
+    if (FOG_ZERO != row->waves[4]) {
+        t = row->waves[4] * sin_table_lookup((s32)((182.04445f) * ((f32)actor_frame_tick * row->waves[0] + (f32)row->wave_phases[4])));
+        start += t;
     }
-    if (FOG_ZERO != row->width) {
-        self->width = (f32)row->phases[6] * sin_table_lookup((s32)((182.04445f) * ((f32)actor_frame_tick * row->speed))) + row->width;
+    if (FOG_ZERO != row->waves[6]) {
+        width = (f32)row->wave_phases[6] * sin_table_lookup((s32)((182.04445f) * ((f32)actor_frame_tick * row->waves[0]))) + row->waves[6];
     }
-    self->dirty |= 1;
+    dirty |= 1;
 }
 #pragma pop
 
-s32 TFogCtrl::get_param() { return this->m_1c0; }
+s32 TFogCtrl::get_param() { return locked; }
 
 #pragma push
 #pragma inline_depth(1)
@@ -553,13 +368,13 @@ s32 TFogCtrl::get_param() { return this->m_1c0; }
 #pragma dont_inline off
 void TFogCtrl::request_transition(s32 arg1, s32 arg2) {
     if (arg2 & 1) {
-        this->m_20 = 1;
+        mode = 1;
     } else {
-        this->m_20 = 2;
+        mode = 2;
     }
-    this->m_19c = (s32) this->m_184;
-    this->m_1a0 = 2;
-    this->m_1a4 = arg1;
+    request_from = selected;
+    request_to = 2;
+    request_selected = arg1;
 }
 #pragma pop
 
@@ -567,41 +382,16 @@ void TFogCtrl::request_transition(s32 arg1, s32 arg2) {
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-s32 request_fog__8TFogCtrlFPvii(u8 *fog_ctrl, s32 arg1, s32 arg2) {
-  s32 var_r30;
-  s32 var_r31;
-  s32 var_r4;
-  s32 entry;
-  u8 *var_r29;
-  u8 *var_r3;
-  var_r29 = fog_ctrl;
-  var_r30 = arg1;
-  var_r31 = arg2;
-  if (((TFogCtrl *)fog_ctrl)->get_param() != 0)
-  {
-    var_r3 = (u8 *) 0;
-    return 0;
-  }
-  var_r3 = (u8 *) (var_r29 + ((*((s32 *) (((s8 *) var_r29) + 0x184))) * 4));
-  var_r3 = (u8 *) (*((u8 **) (((s8 *) var_r3) + 0x174)));
-  if (((s32) (*((s32 *) (((s8 *) var_r3) + 0x40)))) == var_r30)
-  {
-    var_r3 = (u8 *) ((void *) 1);
-    if (var_r3 && var_r3)
-    {
+s32 TFogCtrl::request_fog(s32 entry, s32 flags) {
+    if (get_param() != 0) {
+        return 0;
     }
+    if (slots[selected]->entry == entry) {
+        return 1;
+    }
+    load_entry_into_slot(2, entry);
+    request_transition(0, flags);
     return 1;
-  }
-  var_r3 = (u8 *) var_r29;
-  entry = var_r30;
-  var_r4 = 2;
-  ((TFogCtrl *)var_r3)->load_entry_into_slot(2, (int) entry);
-  var_r3 = (u8 *) var_r29;
-  entry = var_r31;
-  var_r4 = 0;
-  ((TFogCtrl *)var_r3)->request_transition(0, (s32)((int) entry));
-  var_r3 = (u8 *) ((void *) 1);
-  return 1;
 }
 #pragma pop
 
@@ -610,15 +400,14 @@ s32 request_fog__8TFogCtrlFPvii(u8 *fog_ctrl, s32 arg1, s32 arg2) {
 #pragma auto_inline off
 #pragma dont_inline off
 s32 TFogCtrl::select_fog(s32 entry, s32 arg2) {
-    struct Ctrl_800FAFE0 *self = (struct Ctrl_800FAFE0 *)this;
-    if (this->get_param() != 0) {
+    if (get_param() != 0) {
         return 0;
     }
-    if (self->slots[self->selected]->identity == entry) {
+    if (slots[selected]->entry == entry) {
         return 1;
     }
-    this->load_entry_into_slot(2, entry);
-    this->request_transition(1, arg2);
+    load_entry_into_slot(2, entry);
+    request_transition(1, arg2);
     return 1;
 }
 #pragma pop
@@ -632,21 +421,21 @@ s32 TFogCtrl::restore_fog(s32 arg1) {
     if (get_param() != 0) {
         return 0;
     }
-    temp_r0 = this->m_184;
+    temp_r0 = selected;
     if (temp_r0 == 0) {
         return 1;
     }
-    if ((temp_r0 == 3) && ((s32) this->m_1b4 == 0)) {
+    if ((temp_r0 == 3) && (blend_selected == 0)) {
         return 1;
     }
     if (arg1 & 1) {
-        this->m_20 = 1;
+        mode = 1;
     } else {
-        this->m_20 = 2;
+        mode = 2;
     }
-    this->m_19c = (s32) this->m_184;
-    this->m_1a0 = 0;
-    this->m_1a4 = 0;
+    request_from = selected;
+    request_to = 0;
+    request_selected = 0;
     return 1;
 }
 #pragma pop
@@ -655,27 +444,26 @@ s32 TFogCtrl::restore_fog(s32 arg1) {
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-void apply_fog_entry(void *arg0) {
-    TFogCtrl_800FAE1C *self = (TFogCtrl_800FAE1C *)arg0;
-    GXFogAdjTable_800FAE1C tbl;
+void TFogCtrl::apply_fog_entry() {
+    GXFogAdjTable tbl;
     set_scene_fog_type(2);
-    fn_803E1FC8((self->color << 8) | (self->color >> 24));
-    set_scene_fog_distances(self->start, self->end);
+    fn_803E1FC8((color << 8) | (color >> 24));
+    set_scene_fog_distances(start, end);
     if (is_split_screen() == 0) {
-        if (self->width >= FOG_MAX) {
-            self->width = FOG_MAX;
-        } else if (self->width <= FOG_ZERO) {
-            self->width = FOG_ZERO;
+        if (width >= FOG_MAX) {
+            width = FOG_MAX;
+        } else if (width <= FOG_ZERO) {
+            width = FOG_ZERO;
         }
-        GXInitFogAdjTable(&tbl, (s32)self->width, scene_projection_state);
+        GXInitFogAdjTable(&tbl, (s32)width, scene_projection_state);
         GXSetFogRangeAdj(1, 0x140, &tbl);
     } else {
-        if (self->width >= (3.2e+02f)) {
-            self->width = (3.2e+02f);
-        } else if (self->width <= FOG_ZERO) {
-            self->width = FOG_ZERO;
+        if (width >= (3.2e+02f)) {
+            width = (3.2e+02f);
+        } else if (width <= FOG_ZERO) {
+            width = FOG_ZERO;
         }
-        GXInitFogAdjTable(&tbl, (s32)self->width, scene_projection_state);
+        GXInitFogAdjTable(&tbl, (s32)width, scene_projection_state);
         GXSetFogRangeAdj(1, 0xA0, &tbl);
     }
     TParticleCtrl::end_effect_render();
@@ -690,14 +478,14 @@ void TFogCtrl::clear_active_flag() {
     s32 temp_r3;
 
     if (is_split_screen() == 0) {
-        temp_r3 = this->m_1c;
+        temp_r3 = dirty;
         if (temp_r3 & 1) {
-            this->m_1c = (s32) (temp_r3 & 0xFFFFFFFE);
-            apply_fog_entry(this);
+            dirty = temp_r3 & ~1;
+            apply_fog_entry();
         }
     } else {
-        apply_fog_entry(this);
-        this->m_1c = (s32) (this->m_1c & 0xFFFFFFFE);
+        apply_fog_entry();
+        dirty &= ~1;
     }
 }
 #pragma pop
@@ -707,35 +495,12 @@ void TFogCtrl::clear_active_flag() {
 #pragma auto_inline off
 #pragma dont_inline off
 void TFogCtrl::update_all() {
-    s32 var_r29;
-    s32 var_r31;
-    saddr temp_r3;
-
+    s32 i;
     if (is_split_screen() == 0) {
-        var_r29 = 0;
-        var_r31 = 0;
-        do {
-            temp_r3 = *(TFogCtrl__fog_instance_table + var_r31);
-            if ((u32)temp_r3 != 0U) {
-                ((TFogCtrl *)temp_r3)->clear_active_flag();
+        for (i = 0; i != 4; i++) {
+            if (TFogCtrl__fog_instance_table[i] != NULL) {
+                TFogCtrl__fog_instance_table[i]->clear_active_flag();
             }
-            var_r29 += 1;
-            var_r31 += 1;
-        } while (var_r29 != 4);
-    }
-}
-#pragma pop
-
-#pragma push
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-void TFogCtrl::clear_split_screen_fog() {
-    uaddr temp_r3;
-    if (is_split_screen() == 1) {
-        temp_r3 = *(s32 *)((s8 *)&TFogCtrl__fog_instance_table + ((TCameraCtrl::get_nth_view_player_id((int) (TCameraCtrl::get_camera_mode())) * 4) & 0x3FFFC));
-        if (temp_r3 != 0U) {
-            ((TFogCtrl *)temp_r3)->clear_active_flag();
         }
     }
 }
@@ -745,7 +510,22 @@ void TFogCtrl::clear_split_screen_fog() {
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-void*TFogCtrl::get_entry(int a0) {  return (char*)((*(saddr *)&fog_entry_array)) + a0 * 64; }
+void TFogCtrl::clear_split_screen_fog() {
+    TFogCtrl *fog;
+    if (is_split_screen() == 1) {
+        fog = TFogCtrl__fog_instance_table[TCameraCtrl::get_nth_view_player_id(TCameraCtrl::get_camera_mode())];
+        if (fog != NULL) {
+            fog->clear_active_flag();
+        }
+    }
+}
+#pragma pop
+
+#pragma push
+#pragma inline_depth(1)
+#pragma auto_inline off
+#pragma dont_inline off
+void *TFogCtrl::get_entry(int a0) { return &fog_entry_array[a0]; }
 #pragma pop
 
 #pragma push
@@ -778,7 +558,7 @@ void copy_fog_entry(u8 *arg0, u8 *arg1) {
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-s32 TFogCtrl__sub_800FAC84(void* p) { return *(s32*)((char*)*(void**)((char*)p + 0x174) + 0x40); }
+s32 TFogCtrl::fn_800FAC84() { return slots[0]->entry; }
 #pragma pop
 
 #pragma push
@@ -790,9 +570,8 @@ s32 TFogCtrl::restore_fog_for_player(s32 owner_client_id, s32 arg0) {
         owner_client_id = 0;
     }
     if ((owner_client_id >= 0) && (owner_client_id < 4)) {
-        saddr elem = *(s32 *)(((s8 *)&TFogCtrl__fog_instance_table) + owner_client_id * 4);
-        if ((u32) elem != 0U) {
-            return ((TFogCtrl *)elem)->restore_fog(arg0);
+        if (TFogCtrl__fog_instance_table[owner_client_id] != NULL) {
+            return TFogCtrl__fog_instance_table[owner_client_id]->restore_fog(arg0);
         }
     }
     return 0;
@@ -807,67 +586,50 @@ s32 TFogCtrl::select_fog_for_viewport(s32 arg0, s32 arg1, s32 arg2) {
     if (is_split_screen() == 0) {
         arg0 = 0;
     }
-    if ((arg0 >= 0) && (arg0 < 4) && ((u32) TFogCtrl__fog_instance_table[arg0] != 0U)) {
-        return ((s32)((TFogCtrl *)(TFogCtrl__fog_instance_table[arg0]))->select_fog(arg1, arg2));
+    if (arg0 >= 0 && arg0 < 4 && TFogCtrl__fog_instance_table[arg0] != NULL) {
+        return TFogCtrl__fog_instance_table[arg0]->select_fog(arg1, arg2);
     }
     return 0;
 }
 #pragma pop
 
 s32 TFogCtrl::update_all(s32 arg0) {
-    s32 var_r29;
-    s32 var_r31;
-    saddr temp_r3;
-    var_r29 = 0;
-    var_r31 = 0;
-    do {
-        temp_r3 = *(TFogCtrl__fog_instance_table + var_r31);
-        if ((u32) temp_r3 != 0U) {
-            ((TFogCtrl *)temp_r3)->restore_fog(arg0);
+    s32 i;
+    for (i = 0; i != 4; i++) {
+        if (TFogCtrl__fog_instance_table[i] != NULL) {
+            TFogCtrl__fog_instance_table[i]->restore_fog(arg0);
         }
-        var_r29 += 1;
-        var_r31 += 1;
-    } while (var_r29 != 4);
+    }
     return 1;
 }
 
 s32 TFogCtrl::update_first_active_fog() {
     s32 i;
     for (i = 0; i < 4; i++) {
-        if ((void *)TFogCtrl__fog_instance_table[i] != NULL) {
-            return TFogCtrl__sub_800FAC84((void *)TFogCtrl__fog_instance_table[i]);
+        if (TFogCtrl__fog_instance_table[i] != NULL) {
+            return TFogCtrl__fog_instance_table[i]->fn_800FAC84();
         }
     }
     return 0;
 }
 
 s32 TFogCtrl::apply_all(s32 arg0, s32 arg1) {
-    s32 var_r29 = 0;
-    saddr *var_r30 = TFogCtrl__fog_instance_table;
-    s32 var_r31 = 0;
-    do {
-        uaddr v = (u32)var_r30[var_r31];
-        if (v != 0U) {
-            ((TFogCtrl *)v)->select_fog(arg0, arg1);
+    s32 i;
+    for (i = 0; i != 4; i++) {
+        if (TFogCtrl__fog_instance_table[i] != NULL) {
+            TFogCtrl__fog_instance_table[i]->select_fog(arg0, arg1);
         }
-        var_r29 += 1;
-        var_r31 += 1;
-    } while (var_r29 != 4);
+    }
     return 1;
 }
 
 s32 TFogCtrl::update_all(s32 arg0, s32 arg1) {
-    s32 var_r29 = 0;
-    saddr *var_r30 = TFogCtrl__fog_instance_table;
-    s32 var_r31 = 0;
-    do {
-        uaddr v = (u32)var_r30[var_r31];
-        if (v != 0U) {
-            request_fog__8TFogCtrlFPvii((u8 *)v, arg0, arg1);
+    s32 i;
+    for (i = 0; i != 4; i++) {
+        if (TFogCtrl__fog_instance_table[i] != NULL) {
+            TFogCtrl__fog_instance_table[i]->request_fog(arg0, arg1);
         }
-        var_r29 += 1;
-        var_r31 += 1;
-    } while (var_r29 != 4);
+    }
     return 1;
 }
 

@@ -4,26 +4,52 @@
 #include "types.h"
 #include "pso/system/task/TObject.h"
 
+// One fogentry.dat record.
+struct FogEntry {
+    u32 flags;           // 2: waves move the distances, 4: the slot's scroll advances
+    u32 color;
+    f32 end;
+    f32 start;
+    f32 rate;            // blend step per frame when a transition moves to this entry
+    u32 pad_14;
+    f32 waves[8];        // [0] wave speed, [2] end amplitude, [4] start amplitude, [6] width
+    u8 wave_phases[8];   // degrees added to the [2], [4] and [6] waves
+};
+LAYOUT_ASSERT(FogEntry_size, sizeof(FogEntry) == 0x40);
+
+struct FogSlot {
+    FogEntry params;
+    s32 entry;           // index into fogentry.dat
+    f32 scroll;          // 0..128, advanced by waves[0] while flags & 4
+    s32 pad_48[3];
+};
+LAYOUT_ASSERT(FogSlot_size, sizeof(FogSlot) == 0x54);
+
 struct TFogCtrl : public TObject {
     TFogCtrl(TObject *parent, s32 index);
     virtual ~TFogCtrl();
     virtual void run_task();
-    u32 m_1c;
-    u32 m_20;
-    u8 _pad24[0x15C];
-    u32 m_180;
-    u32 m_184;
-    u8 _pad188[0x14];
-    u32 m_19c;
-    u32 m_1a0;
-    u32 m_1a4;
-    u32 m_1a8;
-    u32 m_1ac;
-    u32 m_1b0;
-    u32 m_1b4;
-    u8 _pad1B8[0x8];
-    u32 m_1c0;
-    u32 m_1c4;
+    u32 dirty;           // 1: color/end/start/width changed since the last apply_fog_entry
+    s32 mode;            // 0 idle, 1 swap slots, 2 start a blend, 3 blending
+    FogSlot slot_storage[4];
+    FogSlot *slots[4];   // [3] holds the mix while blending
+    s32 selected;
+    u32 color;
+    f32 end;
+    f32 start;
+    f32 width;
+    u32 pad_198;
+    s32 request_from;
+    s32 request_to;
+    s32 request_selected;
+    u32 pad_1a8;
+    s32 blend_from;
+    s32 blend_to;
+    s32 blend_selected;
+    f32 blend_amount;
+    f32 blend_rate;
+    s32 locked;          // while set, select_fog and restore_fog refuse
+    s32 index;           // the view this controller belongs to
     static s32 select_fog_for_viewport(s32 arg0, s32 arg1, s32 arg2);
     static s32 restore_fog_for_player(s32 owner_client_id, s32 arg0);
     static void*get_entry(int a0);
@@ -34,7 +60,7 @@ struct TFogCtrl : public TObject {
     void request_transition(s32 arg1, s32 arg2);
     s32 get_param();
     void apply_slot_params(s32 idx);
-    static s32 is_controller_animated(saddr arg0, s32 selected);
+    s32 is_controller_animated(s32 idx);
     void load_entry_into_slot(s32 i, s32 entry);
     virtual void render();
     static void update_fog_entries();
@@ -45,6 +71,13 @@ struct TFogCtrl : public TObject {
     static s32 update_first_active_fog();
     static s32 update_all(s32 arg0);
     s32 select_fog(s32 entry, s32 arg2);
+    s32 request_fog(s32 entry, s32 flags);
+    void swap_slots(s32 i, s32 j);
+    void apply_fog_entry();
+    s32 fn_800FAC84();
+    void fn_800FBAAC();
+    void fn_800FBA54();
+    static void fn_800FBA58();
 };
 
 LAYOUT_ASSERT(TFogCtrl_size, sizeof(TFogCtrl) == 0x1C8);
