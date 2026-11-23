@@ -124,6 +124,7 @@
 #include "pso/object/lobby/TObjWeddingLobby.h"
 #include "pso/player/TObjPlayerSet.h"
 #include "pso/camera/TObjLiveCamera.h"
+#include "pso/effect/TBGLightningCtrl.h"
 
 extern "C" {
 void* TEF_LensFlare__create(void* placement);
@@ -248,7 +249,6 @@ void* TODoorJungleMain__create(void* placement);
 void* TORockJungleL01__create(void* placement);
 void* TOGrassJungle__create(void* placement);
 void* TObjFish__create(void* placement);
-void* TBGLightningCtrl__create(void* placement);
 void* create__10TObjPlayerFPv(void* placement);
 void* TObjPlayer__sub_802C28B4(void* placement);
 void* TObjTradeCollision__create(void* placement);
@@ -1452,7 +1452,7 @@ ObjectFactoryEntry object_factories_floor_23[65] = {
     { 0x0208, TORockJungleL01__create, 250000.0f, 0 },
     { 0x0209, TOGrassJungle__create, 250000.0f, 0 },
     { 0x020A, TObjWarpJungMain__create, 250000.0f, 0 },
-    { 0x020B, TBGLightningCtrl__create, 100000000.0f, 0 },
+    { 0x020B, TBGLightningCtrl::create, 100000000.0f, 0 },
     { 0x0152, TContainerAncient01::create, 250000.0f, 0 },
     { 0x02B0, TContainerAncient01R__create, 250000.0f, 0 },
     { 0x0229, TOCapsuleLabo::create, 250000.0f, 0 },
@@ -2024,7 +2024,7 @@ ObjectFactoryEntry object_factories_floor_30[22] = {
     { 0x0018, TObjFogCollisionSwitch__create, 250000.0f, 0 },
     { 0x0200, TObjContainerJung::create, 250000.0f, 0 },
     { 0x0203, TObjContainerJungEx::create, 250000.0f, 0 },
-    { 0x020B, TBGLightningCtrl__create, 100000000.0f, 0 },
+    { 0x020B, TBGLightningCtrl::create, 100000000.0f, 0 },
     { 0x0027, TObjRaderIcon__create, 250000.0f, 0 },
     { 0x0229, TOCapsuleLabo::create, 250000.0f, 0 },
     { 0x0024, TOSwitchAttack::create, 250000.0f, 0 },

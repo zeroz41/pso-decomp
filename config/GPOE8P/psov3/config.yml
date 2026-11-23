@@ -284,10 +284,10 @@ force_active:
   - TAdSinglePlyChrSelectGC__sub_8033B244
   - TAdSinglePlyChrSelectGC__sub_8033B5F0
   - enable_prompt__16TCheckMemoryCardFv
-  - TBGLightningCtrl__ct
-  - TBGLightningCtrl__name
-  - bind_lightning_texture
-  - TBGLightning__name
+  - __ct__16TBGLightningCtrlFP7TObjectPv
+  - class_name__16TBGLightningCtrl
+  - bind_lightning_texture__Fv
+  - class_name__12TBGLightning
   - __ct__19TBoss1DragonColli_CFP7TObjectlP3Vecf
   - TBoss1DragonColli_sphere_chain_desc
   - TBoss1DragonEffTail__collision_body_templates
@@ -1943,7 +1943,7 @@ force_active:
   - __ct__11TObjDoorKeyFP7TObjectPv
   - __ct__11TPlayerSoulFP7TObjectUs
   - __ct__12CursorActionFv
-  - __ct__12TBGLightningFv
+  - __ct__12TBGLightningFP7TObjectP3Vecf
   - __ct__12TBoss3VoloptFPv
   - __ct__12TChCrEffWallFP7TObject
   - __ct__12TChCrLoadAfsFP7TObjectUlUl
@@ -5434,7 +5434,7 @@ force_active:
   - create__10TBoss6RockFl
   - create__10TBoss6RockFv
   - create__12TAdMcCheckGCFl
-  - create__12TBGLightningFiif
+  - create__12TBGLightningFP7TObjectP3Vecf
   - create__12TChCrTagNameFl
   - create__12T_OWEHMS_ExpFP10TObjPlayer
   - create__13TBoss6MagMineFP19Boss6MagMineSetData
@@ -6400,8 +6400,8 @@ force_active:
   - fn_80271848
   - fn_8028DBC4
   - fn_80293D84
-  - fn_802A9DF4
-  - fn_802A9F48
+  - draw_bolt__12TBGLightningFP3Vec
+  - draw_flash__12TBGLightningFP3Vec
   - fn_802C9924
   - __sinit_TObjOnlineEndingHexLine_cpp
   - fn_802F1DAC
@@ -7701,7 +7701,7 @@ force_active:
   - lbl_80466758
   - TBGLightning__class_name_string
   - TBGLightningCtrl__class_name_string
-  - lbl_8046FC8C
+  - bolt_first_texture__12TBGLightning
   - lbl_8046FCA0
   - TAdFadeGC__class_name_string
   - lbl_80472C28
