@@ -500,7 +500,7 @@ TWindowDD::TWindowDD(TObject *parent, void *arg2) : TObject(parent) {
     saddr w = TWindowDD__sub_80342384(self->f88, (s32) lbl_805DFB54);
     if (w != 0)
     {
-      TWindowDD::set_default_positions(self, (void*)w);
+      TWindowDD::set_default_positions(self, (TWindowDD_WS_Word *)w);
       self->a24[0] = w;
     }
   }
@@ -508,7 +508,7 @@ TWindowDD::TWindowDD(TObject *parent, void *arg2) : TObject(parent) {
   p = (u8 *) TWindowDD__sub_80342384(self->f8C, (s32) lbl_805DFB54);
   if (p != 0)
   {
-    TWindowDD::init_layout(self, p);
+    TWindowDD::init_layout(self, (TWindowDD_WS_Word *)p);
     self->a24[1] = (saddr) p;
   }
   if (!lbl_805D6E68)

@@ -396,7 +396,7 @@ u8 *TWindowDD__sub_80347AD4(W_80347AD4 *self, s32 offset, s32 id) {
     win = self->child[i];
     if (win == NULL) {
         win = (u8 *)TWindowDD__sub_80342384(id, (s32)lbl_805DFB54);
-        TWindowDD::set_default_coords((saddr)self, win);
+        TWindowDD::set_default_coords((saddr)self, (TWindowDD_WS_Word *)win);
         self->child[self->depth + offset] = win;
     }
     return win;
@@ -594,17 +594,47 @@ int update__9TWindowDDFl(void);
         extern const float lbl_805DFB98;
     extern const float lbl_805DFB9C;
     extern const float lbl_805DFBA0;
-void TWindowDD::set_default_coords(int a0, void* win) { refresh_sub__9TWindowDDFPvPv(); *(float*)((char*)win + 0x30) = lbl_805DFB94; *(float*)((char*)win + 0x40) = lbl_805DFB94; *(float*)((char*)win + 0x34) = lbl_805DFB98; *(float*)((char*)win + 0x44) = lbl_805DFB98; *(float*)((char*)win + 0x38) = lbl_805DFB9C; *(float*)((char*)win + 0x48) = lbl_805DFB9C; *(float*)((char*)win + 0x3c) = lbl_805DFBA0; *(float*)((char*)win + 0x4c) = lbl_805DFBA0; }
+void TWindowDD::set_default_coords(int a0, TWindowDD_WS_Word *win) {
+    refresh_sub__9TWindowDDFPvPv();
+    win->target_position[0] = lbl_805DFB94;
+    win->frame_position[0] = lbl_805DFB94;
+    win->target_position[1] = lbl_805DFB98;
+    win->frame_position[1] = lbl_805DFB98;
+    win->target_size[0] = lbl_805DFB9C;
+    win->frame_size[0] = lbl_805DFB9C;
+    win->target_size[1] = lbl_805DFBA0;
+    win->frame_size[1] = lbl_805DFBA0;
+}
 
     extern const float lbl_805DFB80;
     extern const float lbl_805DFB84;
     extern const float lbl_805DFB88;
     extern const float lbl_805DFB8C;
-void TWindowDD::init_layout(void *window, void *child) { update__9TWindowDDFPvPv(); *(float*)((char*)child + 0x30) = lbl_805DFB80; *(float*)((char*)child + 0x40) = lbl_805DFB80; *(float*)((char*)child + 0x34) = lbl_805DFB84; *(float*)((char*)child + 0x44) = lbl_805DFB84; *(float*)((char*)child + 0x38) = lbl_805DFB88; *(float*)((char*)child + 0x48) = lbl_805DFB88; *(float*)((char*)child + 0x3c) = lbl_805DFB8C; *(float*)((char*)child + 0x4c) = lbl_805DFB8C; }
+void TWindowDD::init_layout(void *window, TWindowDD_WS_Word *child) {
+    update__9TWindowDDFPvPv();
+    child->target_position[0] = lbl_805DFB80;
+    child->frame_position[0] = lbl_805DFB80;
+    child->target_position[1] = lbl_805DFB84;
+    child->frame_position[1] = lbl_805DFB84;
+    child->target_size[0] = lbl_805DFB88;
+    child->frame_size[0] = lbl_805DFB88;
+    child->target_size[1] = lbl_805DFB8C;
+    child->frame_size[1] = lbl_805DFB8C;
+}
 
         extern const float lbl_805DFB70;
         extern const float lbl_805DFB78;
-void TWindowDD::set_default_positions(void *window, void *child) { update__9TWindowDDFl(); *(float*)((char*)child + 0x30) = TWindowDD__data_805DFB6C; *(float*)((char*)child + 0x40) = TWindowDD__data_805DFB6C; *(float*)((char*)child + 0x34) = lbl_805DFB70; *(float*)((char*)child + 0x44) = lbl_805DFB70; *(float*)((char*)child + 0x38) = TWindowDD__data_805DFB74; *(float*)((char*)child + 0x48) = TWindowDD__data_805DFB74; *(float*)((char*)child + 0x3c) = lbl_805DFB78; *(float*)((char*)child + 0x4c) = lbl_805DFB78; }
+void TWindowDD::set_default_positions(void *window, TWindowDD_WS_Word *child) {
+    update__9TWindowDDFl();
+    child->target_position[0] = TWindowDD__data_805DFB6C;
+    child->frame_position[0] = TWindowDD__data_805DFB6C;
+    child->target_position[1] = lbl_805DFB70;
+    child->frame_position[1] = lbl_805DFB70;
+    child->target_size[0] = TWindowDD__data_805DFB74;
+    child->frame_size[0] = TWindowDD__data_805DFB74;
+    child->target_size[1] = lbl_805DFB78;
+    child->frame_size[1] = lbl_805DFB78;
+}
 
 void TWindowDD::spawn_window() { play_sound_effect((void*)344320, (void*)0, (void*)0, (void*)0); }
 void TWindowDD::play_se() { play_sound_effect((void*)339734, (void*)0, (void*)0, (void*)0); }

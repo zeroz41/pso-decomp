@@ -9,6 +9,8 @@ extern "C" {
 s32 TWindowDD_is_id_in_range_5AC_5F9(s32 value);
 }
 
+class TWindowDD_WS_Word;
+
 struct TWindowDDValueList {
     s16 *values;
     s32 count;
@@ -100,9 +102,9 @@ struct TWindowDD : public TObject
     static void apply_input(void* p, void* a1);
     static void update(void* p, void* child);
     void update(saddr window_dd);
-    static void set_default_coords(int a0, void* win);
-    static void init_layout(void *window, void *child);
-    static void set_default_positions(void *window, void *child);
+    static void set_default_coords(int a0, TWindowDD_WS_Word *win);
+    static void init_layout(void *window, TWindowDD_WS_Word *child);
+    static void set_default_positions(void *window, TWindowDD_WS_Word *child);
     static void spawn_window();
     static void play_se();
     static void play_sound();
