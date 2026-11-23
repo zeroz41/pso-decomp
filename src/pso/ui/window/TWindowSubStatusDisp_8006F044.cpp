@@ -20,11 +20,11 @@ s32 TWindowSubStatusDisp::calc_entry_offset(s32 slot) {
 extern "C" {
 extern const char lbl_80438570[11] = "TChallenge";
 extern const char lbl_8043857C[5] = "... ";
-extern const s32 challenge_record_award_slots[3] = { 0, 1, 2 };
+extern const s32 challenge_record_rank_slots[3] = { 0, 1, 2 };
 extern const s32 challenge_record_time_offsets[3] = { 0, 9, 14 };
 extern const s32 challenge_record_stage_counts[3] = { 9, 5, 9 };
 s32 *TWindowSubStatusDisp__sub_8006F0D8(ChallengeRecord *record, s32 slot);
-ChallengeAwardState *TWindowSubStatusDisp__sub_8006F134(ChallengeRecord *record, s32 slot);
+ChallengeStageRank *TWindowSubStatusDisp__sub_8006F134(ChallengeRecord *record, s32 slot);
 
 s32 TWindowSubStatusDisp::get_layout_id(s32 slot) {
     slot = TWindowSubStatusDisp::resolve_player_slot(slot);
@@ -44,12 +44,12 @@ s32 *TWindowSubStatusDisp__sub_8006F0D8(ChallengeRecord *record, s32 slot) {
     return record->ep2_split_stage_times;
 }
 
-ChallengeAwardState *TWindowSubStatusDisp__sub_8006F134(ChallengeRecord *record, s32 slot) {
+ChallengeStageRank *TWindowSubStatusDisp__sub_8006F134(ChallengeRecord *record, s32 slot) {
     s32 idx = TWindowSubStatusDisp::resolve_player_slot(slot);
     if (idx < 3) {
-        return &record->awards[challenge_record_award_slots[idx]];
+        return &record->ranks[challenge_record_rank_slots[idx]];
     }
-    return &record->ep2_split_award;
+    return &record->ep2_split_rank;
 }
 
 s32 TWindowSubStatusDisp::resolve_player_slot(s32 slot) {
