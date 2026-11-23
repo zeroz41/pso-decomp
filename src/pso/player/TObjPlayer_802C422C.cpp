@@ -19,13 +19,13 @@ void export_state_to_record__10TObjPlayerFPvPv(u8 *player, s8 *arg1);
 extern s32 local_client_id;
 
 s32 sync_state__10TObjPlayerFi(saddr arg0) {
-    uaddr temp_r3;
-    temp_r3 = (uaddr)get_local_player();
-    if (temp_r3 == 0U) {
+    uaddr player;
+    player = (uaddr)get_local_player();
+    if (player == 0U) {
         TPlyOnCreated::create((u16)local_client_id, fn_802C4748);
         return 0;
     }
-    export_state_to_record__10TObjPlayerFPvPv((u8 *)temp_r3, (s8 *)arg0);
+    export_state_to_record__10TObjPlayerFPvPv((u8 *)player, (s8 *)arg0);
     return 1;
 }
 

@@ -2071,7 +2071,7 @@ void send_6x55_intra_map_warp(u16 id, const Vec *destination, s32 yaw) {
 void TObjPlayer::init_flags_vec4() { set_indexed_flags((saddr)((void*)0), (saddr)((void*)1)); ((TObjPlayer *)((char*)this + 0x608))->set_vec4_const(); }
 
 void TObjPlayer::update_warp_relocation() {
-    s32 sp8;
+    s32 pos;
     f32 var_f2;
     f32 var_f31;
     s32 temp;
@@ -2092,8 +2092,8 @@ void TObjPlayer::update_warp_relocation() {
                 this->play_sound_if_on_floor(0x40003206);
             }
             if (TObjPlayer::is_locally_controlled(this) != 0) {
-                calc_circle_offset_pos(this->rotation_y + 0x8000, this->get_position_ptr(), (Vec *)&sp8, 10.0f);
-                TNpcPlayer::send_6x3e_to_all_players(&sp8, this->rotation_y);
+                calc_circle_offset_pos(this->rotation_y + 0x8000, this->get_position_ptr(), (Vec *)&pos, 10.0f);
+                TNpcPlayer::send_6x3e_to_all_players(&pos, this->rotation_y);
                 reset_cameras_to_actor(this, 1);
             }
         }
@@ -3716,15 +3716,15 @@ void handle_6x36(void) {  }
 
 void handle_6x37_photon_blast(saddr command) {
     struct Pkt_801CC0F4 pkt;
-    u8 *temp_r3;
+    u8 *player;
     ((void (*)(struct PbPacket37_801CC194 *))TObjPlayer__sub_801D1D88)((struct PbPacket37_801CC194 *)((void *) (&pkt)));
     ((s32 (*)(void *, void *))TObjPlayer__sub_801D1D44)((void *) (&pkt), (void *) (command));
     ((TObjPlayer *)(&pkt))->swap_endian16();
     if (validate_6x37_photon_blast((G_ClientIDHeader *)(&pkt)) != 0) {
-        temp_r3 = reinterpret_cast<u8 *>(get_player_by_client_id(pkt.player));
-        if ((temp_r3 != NULL) && (((s32 (*)(void))check_flag_4__10TObjPlayerFv)() == 0) && (*(TObject **)((s8 *)temp_r3 + 0x10) == tl_03) && (((s32 (*)(int))reset_volopt_state__10TObjPlayerFv)((saddr) (temp_r3)) != 0)) {
-            ((PhotonBlastGauge *)(temp_r3 + 0x4AC))->check_photon_blast_flag();
-            ((PhotonBlastGauge *)(temp_r3 + 0x4AC))->trigger_photon_blast();
+        player = reinterpret_cast<u8 *>(get_player_by_client_id(pkt.player));
+        if ((player != NULL) && (((s32 (*)(void))check_flag_4__10TObjPlayerFv)() == 0) && (*(TObject **)((s8 *)player + 0x10) == tl_03) && (((s32 (*)(int))reset_volopt_state__10TObjPlayerFv)((saddr) (player)) != 0)) {
+            ((PhotonBlastGauge *)(player + 0x4AC))->check_photon_blast_flag();
+            ((PhotonBlastGauge *)(player + 0x4AC))->trigger_photon_blast();
         }
     }
 }
@@ -4978,10 +4978,10 @@ void TObjPlayer::update_by_state() {
 
 void TObjPlayer::apply_movement_if_ready() {
     u8 *arg0 = (u8 *)this;
-    s16 temp_r3;
+    s16 handle_value;
 
-    temp_r3 = ((TObjPlayer *)this)->get_handle_value();
-    if ((temp_r3 != 0x11) && ((temp_r3 >= 0x11) || (temp_r3 >= 0xA) || (temp_r3 < 6)) && (this->is_flag_b0_4() == 0) && ((s16) this->requested_action == (s16) this->current_action) && (this->action_flags & 0x20000000) && (((s32 (*)(void *))TObjPlayer__sub_801D2680)(arg0) == 0)) {
+    handle_value = ((TObjPlayer *)this)->get_handle_value();
+    if ((handle_value != 0x11) && ((handle_value >= 0x11) || (handle_value >= 0xA) || (handle_value < 6)) && (this->is_flag_b0_4() == 0) && ((s16) this->requested_action == (s16) this->current_action) && (this->action_flags & 0x20000000) && (((s32 (*)(void *))TObjPlayer__sub_801D2680)(arg0) == 0)) {
         if (0.0f > get_root_motion_step(&this->velocity.x, &this->velocity.z)) {
             clear_velocity(arg0);
         }

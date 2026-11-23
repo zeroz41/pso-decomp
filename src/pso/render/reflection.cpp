@@ -312,21 +312,21 @@ void TObjPlayer::clear_state_if_flag80(s32 arg0) {
 }
 
 void TObjPlayer::setup_projection_texture(Vec *, SceneSectionAngles *, u32 flags) {
-    GinjaMatrix sp10;
-    f32 spC;
-    f32 sp8;
+    GinjaMatrix mtx;
+    f32 x;
+    f32 y;
     f32 fov_y;
     if ((camera_ctrl_instance != NULL) && ((u32) lbl_805D65F0 != 0U)) {
-        calc_projection_screen_offset(&spC, &sp8);
+        calc_projection_screen_offset(&x, &y);
         if (flags & 0x80) {
             push_matrix();
             fov_y = (f32) (lbl_80465E18 * calc_camera_fov_degrees());
             if (TCameraCtrl::is_view_offset() != 0) {
-                C_MTXLightPerspective(sp10, fov_y, 1.1333334f, 0.5f, -0.5f, (f32) (0.5f - spC), (f32) (0.5f - sp8));
+                C_MTXLightPerspective(mtx, fov_y, 1.1333334f, 0.5f, -0.5f, (f32) (0.5f - x), (f32) (0.5f - y));
             } else {
-                C_MTXLightPerspective(sp10, fov_y, 1.1333334f, 0.5f, -0.5f, 0.5f, 0.5f);
+                C_MTXLightPerspective(mtx, fov_y, 1.1333334f, 0.5f, -0.5f, 0.5f, 0.5f);
             }
-            PSMTXConcat(sp10, *current_matrix, *current_matrix);
+            PSMTXConcat(mtx, *current_matrix, *current_matrix);
             load_current_tex_matrix(2);
             pop_matrix();
             load_current_pos_matrix(2);

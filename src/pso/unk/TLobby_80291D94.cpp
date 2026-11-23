@@ -578,12 +578,12 @@ s32 TLobby__sub_80292BB8(s32 seed, u16 card, s32 id);
 s32 TLobby__sub_80292AB4(s32 total, s32 card, s32 slot);
 
 void TLobby::clamp_and_store_layout_index(s32 arg0) {
-    s32 temp_r3;
+    s32 layout_id;
     s32 var_r31;
 
     var_r31 = arg0;
-    temp_r3 = TWindowSubStatusDisp::get_layout_id(-1);
-    if ((var_r31 < 0) || (var_r31 >= temp_r3)) {
+    layout_id = TWindowSubStatusDisp::get_layout_id(-1);
+    if ((var_r31 < 0) || (var_r31 >= layout_id)) {
         var_r31 = 0;
     }
     lbl_804DB1F0[0] = var_r31;
@@ -950,7 +950,7 @@ void setup_split_screen(void);
 void setup_split_screen(void) {
     u32 var_r31;
     u32 player;
-    u32 temp_r4;
+    u32 char_index;
 
     split_screen_flag = 1;
     split_screen_challenge_created = 0;
@@ -970,9 +970,9 @@ void setup_split_screen(void) {
         var_r31 = 0U;
         do {
             player = (uaddr)get_player_by_client_id(var_r31);
-            temp_r4 = (u32)TAdSinglePlyChrSelectGC::get_char_index(var_r31);
-            if ((player != 0U) && (temp_r4 != 0U)) {
-                export_character_data__10TObjPlayerFPvPv(player, temp_r4);
+            char_index = (u32)TAdSinglePlyChrSelectGC::get_char_index(var_r31);
+            if ((player != 0U) && (char_index != 0U)) {
+                export_character_data__10TObjPlayerFPvPv(player, char_index);
             }
             var_r31 += 1;
         } while (var_r31 != 4U);

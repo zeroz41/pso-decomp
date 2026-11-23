@@ -1160,11 +1160,11 @@ void qst_op_open_pack_select() {
 }
 
 void qst_op_prepare_gba_rom_from_disk(void) {
-    s32 temp_r31;
+    s32 filename;
 
-    temp_r31 = qst_args[0];
+    filename = qst_args[0];
     TLobby::free_luker_object();
-    TLobby::send_data(temp_r31);
+    TLobby::send_data(filename);
     TLobby::set_send_buffer((u8 *)gba_download_data_buffer, (s32)gba_download_data_size);
     TLobby::clear_quest_vm_flag();
 }
@@ -2296,11 +2296,11 @@ void qst_op_disable_bosswarp_option() {
 }
 
 void qst_op_player_recovery(s32 reg) {
-    s32 temp_r3;
-    temp_r3 = (saddr)get_player_by_client_id(qst_registers[(u8)reg]);
-    if (temp_r3 != 0) {
+    s32 player;
+    player = (saddr)get_player_by_client_id(qst_registers[(u8)reg]);
+    if (player != 0) {
         send_code_49_1__10TObjPlayerFi();
-        send_code50_packet__10TObjPlayerFi((temp_r3));
+        send_code50_packet__10TObjPlayerFi((player));
     }
 }
 
@@ -3454,14 +3454,14 @@ void qst_op_set_cmode_difficulty() {
 }
 
 void qst_op_set_cmode_char_template() {
-    s32 temp_r31;
+    s32 stage;
 
-    temp_r31 = qst_args[0];
+    stage = qst_args[0];
     if (is_split_screen() == 1) {
-        TLobby::rebuild_players_for_stage(temp_r31);
+        TLobby::rebuild_players_for_stage(stage);
         return;
     }
-    TObjPlayer::rebuild_players_for_stage(temp_r31);
+    TObjPlayer::rebuild_players_for_stage(stage);
 }
 
 void qst_op_nop_F822(s32 reg) {

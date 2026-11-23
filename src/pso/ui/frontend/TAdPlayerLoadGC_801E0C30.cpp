@@ -58,15 +58,15 @@ void TAdPlayerLoadGC::reset_load_state(s32 channel, u64 *serial_number) {
 }
 
 void TAdPlayerLoadGC::poll_card_load(s32 chan) {
-    s32 spC;
-    s32 sp8;
+    s32 memSize;
+    s32 sectorSize;
     s32 temp_r3;
 
     card_slot_state_flags &= ~(0x400 << chan);
     do {
-        temp_r3 = CARDProbeEx(chan, &spC, &sp8);
+        temp_r3 = CARDProbeEx(chan, &memSize, &sectorSize);
     } while (temp_r3 == -1);
-    if (sp8 == 0x2000) {
+    if (sectorSize == 0x2000) {
         if ((temp_r3 == -3) || (temp_r3 == -2)) {
             card_result_code = -0x7D;
             return;
@@ -101,8 +101,8 @@ s32 TAdPlayerLoadGC::check_card_result_code(s32 channel) {
 #pragma push
 #pragma fp_contract on
 s32 TAdPlayerLoadGC::probe_and_check_card(saddr channel) {
-    s32 spC;
-    s32 sp8;
+    s32 memSize;
+    s32 sectorSize;
     s32 temp_r3;
     s32 temp_r3_2;
     s32 temp_r3_3;
@@ -117,13 +117,13 @@ s32 TAdPlayerLoadGC::probe_and_check_card(saddr channel) {
         return 0;
     }
     do {
-        temp_r3_2 = CARDProbeEx(channel, &spC, &sp8);
+        temp_r3_2 = CARDProbeEx(channel, &memSize, &sectorSize);
     } while (temp_r3_2 == -1);
     if (temp_r3_2 == -2) {
         card_result_code = -0x7D;
         return 0;
     }
-    if (sp8 == 0x2000) {
+    if (sectorSize == 0x2000) {
         if (!(card_slot_state_flags & (4 << channel))) {
             mount_memcard(channel);
             if ((u32) TAdPlayerLoadGC::get_load_result(channel) == -0x7FU) {
@@ -606,8 +606,8 @@ s32 poll_memcard_result(saddr chan) {
 }
 
 s32 TAdPlayerLoadGC::probe_card_slot(saddr chan) {
-    s32 spC;
-    s32 sp8;
+    s32 memSize;
+    s32 sectorSize;
     s32 temp_r3;
     if (chan >= 2) {
         return 0;
@@ -617,13 +617,13 @@ s32 TAdPlayerLoadGC::probe_card_slot(saddr chan) {
         return 1;
     }
     do {
-        temp_r3 = CARDProbeEx(chan, &spC, &sp8);
+        temp_r3 = CARDProbeEx(chan, &memSize, &sectorSize);
     } while (temp_r3 == -1);
     if (temp_r3 == -3) {
         card_result_code = -0xFF;
         return 0;
     }
-    if (sp8 == 0x2000) {
+    if (sectorSize == 0x2000) {
         switch (temp_r3) {
         case 0:
             if (!(card_slot_state_flags & (4 << chan))) {

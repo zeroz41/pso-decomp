@@ -662,21 +662,21 @@ void TScene::apply_single_screen_state() {
 }
 
 void load_projection_tex_matrix(saddr rotation_y) {
-    GC_Mtx sp10;
+    GC_Mtx mtx;
     f32 spC;
     f32 sp8;
-    f32 temp_f31;
+    f32 fovY;
     if (is_split_screen() == 0) {
         calc_projection_screen_offset(&spC, &sp8);
         push_matrix();
         rotate_matrix_y(0, (void *)rotation_y);
-        temp_f31 = (f32) (0.0054931640625 * calc_camera_fov_degrees());
+        fovY = (f32) (0.0054931640625 * calc_camera_fov_degrees());
         if (TCameraCtrl::is_view_offset() != 0) {
-            C_MTXLightPerspective(sp10, temp_f31, 1.1333334f, 0.5f, -0.5f, (f32) (0.5f - spC), (f32) (0.5f - sp8));
+            C_MTXLightPerspective(mtx, fovY, 1.1333334f, 0.5f, -0.5f, (f32) (0.5f - spC), (f32) (0.5f - sp8));
         } else {
-            C_MTXLightPerspective(sp10, temp_f31, 1.1333334f, 0.5f, -0.5f, 0.5f, 0.5f);
+            C_MTXLightPerspective(mtx, fovY, 1.1333334f, 0.5f, -0.5f, 0.5f, 0.5f);
         }
-        PSMTXConcat(sp10, *current_matrix, *current_matrix);
+        PSMTXConcat(mtx, *current_matrix, *current_matrix);
         load_current_tex_matrix(0);
         pop_matrix();
         load_current_pos_matrix(0);
@@ -688,15 +688,15 @@ void load_projected_texture_matrix(f32 aspect) {
     LAYOUT_ASSERT(spC_offset, offsetof(Stack_800836E8, spC) == 0x4);
     LAYOUT_ASSERT(sp10_offset, offsetof(Stack_800836E8, sp10) == 0x8);
     Stack_800836E8 stack;
-    f32 temp_f31;
+    f32 fovY;
     if (is_split_screen() == 0) {
         calc_projection_screen_offset(&stack.spC, &stack.sp8);
         push_matrix();
-        temp_f31 = (f32) (0.0054931640625 * calc_camera_fov_degrees());
+        fovY = (f32) (0.0054931640625 * calc_camera_fov_degrees());
         if (TCameraCtrl::is_view_offset() != 0) {
-            C_MTXLightPerspective(stack.sp10, temp_f31, aspect, 0.5f, -0.5f, (f32) (0.5f - stack.spC), (f32) (0.5f - stack.sp8));
+            C_MTXLightPerspective(stack.sp10, fovY, aspect, 0.5f, -0.5f, (f32) (0.5f - stack.spC), (f32) (0.5f - stack.sp8));
         } else {
-            C_MTXLightPerspective(stack.sp10, temp_f31, aspect, 0.5f, -0.5f, 0.5f, 0.5f);
+            C_MTXLightPerspective(stack.sp10, fovY, aspect, 0.5f, -0.5f, 0.5f, 0.5f);
         }
         PSMTXConcat(stack.sp10, *current_matrix, *current_matrix);
         load_current_tex_matrix(0);

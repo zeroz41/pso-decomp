@@ -587,11 +587,11 @@ void TLobby::update_idle_timeout(void *object) {
 }
 
 u8 *init_idle_timeout_timer(u8 *arg0, saddr parent) {
-    s32 sp8;
+    s32 date;
     __ct__7TObjectFP7TObject((void *)arg0, (void *)parent);
     *(void ***)((s8 *)arg0 + 0x18) = lbl_804A7008;
-    getDateStamp((DateStamp *)(&sp8));
-    DateToSeconds((DateStamp *)(&sp8), (int *)(arg0 + 0x1C));
+    getDateStamp((DateStamp *)(&date));
+    DateToSeconds((DateStamp *)(&date), (int *)(arg0 + 0x1C));
     ((TUnk_804A7008 *)arg0)->m_20 = (s32) *(s32 *)((s8 *)arg0 + 0x1C);
     *(s32 *)((s8 *)arg0 + 0x24) = ((TLobby *)local_client_id)->get_table_entry_by_index();
     ((TUnk_804A7008 *)arg0)->m_28 = 0;
@@ -1137,15 +1137,15 @@ void TLobby::handle_team_select() {
     }
 }
 void TLobby::handle_game_list_select() {
-    s32 temp_r31;
+    s32 cursor_value;
 
     if (TLobby__list_window != 0U) {
         if (((TWindowMenuIconLine *)TLobby__list_window)->is_decided() != 0) {
-            temp_r31 = ((TWindowMenuIconLine *)TLobby__list_window)->get_cursor_value();
+            cursor_value = ((TWindowMenuIconLine *)TLobby__list_window)->get_cursor_value();
             ((TWindowBase *)TLobby__list_window)->close();
             TLobby__list_window = 0U;
             TLobby__protocol_instance->send_action(
-                TLobby__protocol_instance->m_game_entries[temp_r31],
+                TLobby__protocol_instance->m_game_entries[cursor_value],
                 (char *)TLobby__data_805DB0B0, (char *)TLobby__data_805DB0B0);
             ((s32 (*)())TLobby::close_and_set_state_12)();
             return;
@@ -1240,13 +1240,13 @@ void TLobby::update_game_list_menu() {
     }
 }
 void TLobby::handle_com_card() {
-    s32 temp_r3;
+    s32 selected_value;
 
     if (lobby_com_card_window != NULL) {
         if (lobby_com_card_window->is_decided() != 0) {
             ((s32 (*)())TLobby::close_com_card_window)();
-            temp_r3 = lobby_com_card_window->get_selected_value();
-            switch (temp_r3) {
+            selected_value = lobby_com_card_window->get_selected_value();
+            switch (selected_value) {
             case 0:
                 ((s32 (*)())TLobby::return_to_main_menu)();
                 return;
@@ -1331,21 +1331,21 @@ extern "C" u8 get_field_20__15TWindowMakeTeamFv(TWindowMakeTeam *window);
 void TLobby::handle_create_game_window() {
     const char *name;
     const char *password;
-    u8 temp_r29;
-    u8 temp_r28;
-    u8 temp_r27;
-    u8 temp_r0;
+    u8 battle_mode;
+    u8 difficulty;
+    u8 challenge_mode;
+    u8 episode;
 
     if (lobby_make_team_window != NULL) {
         if (lobby_make_team_window->test_flag_1d_bit0() != 0) {
             name = TWindowMakeTeam__sub_80264B38(lobby_make_team_window);
             if (name != NULL) {
                 password = TWindowMakeTeam__sub_80264B24(lobby_make_team_window);
-                temp_r29 = (s8)lobby_make_team_window->read_mode() == 2;
-                temp_r28 = lobby_make_team_window->is_enabled();
-                temp_r27 = (s8)lobby_make_team_window->get_mode() == 1;
-                temp_r0 = get_field_20__15TWindowMakeTeamFv(lobby_make_team_window);
-                TLobby__protocol_instance->send_create_game((char *)name, (char *)password, temp_r28, temp_r29, temp_r27, temp_r0);
+                battle_mode = (s8)lobby_make_team_window->read_mode() == 2;
+                difficulty = lobby_make_team_window->is_enabled();
+                challenge_mode = (s8)lobby_make_team_window->get_mode() == 1;
+                episode = get_field_20__15TWindowMakeTeamFv(lobby_make_team_window);
+                TLobby__protocol_instance->send_create_game((char *)name, (char *)password, difficulty, battle_mode, challenge_mode, episode);
                 ((s32 (*)())TLobby::destroy_lobby_ui)();
                 return;
             }
@@ -2137,14 +2137,14 @@ void TLobby::handle_register_result(int arg0) {
     TLobby::reset_state(0x50);
 }
 void TLobby::handle_login_result(unsigned int arg0) {
-    s32 temp_r31;
+    s32 event_counter;
     switch (arg0) {
     case 0:
         lobby_debug_printf_stub(lobby_msg_login_success);
         TAdEnterSerialAccessGC::store_serial_access_key((saddr)((char *)TLobby__protocol_instance + 0x3F8A), (saddr)((char *)TLobby__protocol_instance + 0x3F9B), (saddr)((char *)TLobby__protocol_instance + 0x3F3A));
         if (TLobby__login_pending_flag != 0) {
-            temp_r31 = TAdSinglePlyChrSelectGC::increment_frame();
-            ((TProtocol *)(TLobby__protocol_instance))->send_character_save_info(TAdSinglePlyChrSelectGC::get_player_count(), temp_r31);
+            event_counter = TAdSinglePlyChrSelectGC::increment_frame();
+            ((TProtocol *)(TLobby__protocol_instance))->send_character_save_info(TAdSinglePlyChrSelectGC::get_player_count(), event_counter);
             TLobby__login_pending_flag = 0;
         }
         break;
@@ -2214,12 +2214,12 @@ void TLobby::queue_static_object_destruction() {
     TLobby__join_lobby_controller->queue_destruction();
 }
 void TLobby::send_position_update() {
-    s32 temp_r31;
+    s32 event_counter;
     s32 temp_r4;
 
-    temp_r31 = TAdSinglePlyChrSelectGC::increment_frame();
+    event_counter = TAdSinglePlyChrSelectGC::increment_frame();
     temp_r4 = TAdSinglePlyChrSelectGC::get_player_count();
-    ((TProtocol *)(TLobby__protocol_instance))->send_character_save_info(temp_r4, temp_r31);
+    ((TProtocol *)(TLobby__protocol_instance))->send_character_save_info(temp_r4, event_counter);
 }
 void TLobby::handle_state(int arg0) {
     s32 temp_r3;

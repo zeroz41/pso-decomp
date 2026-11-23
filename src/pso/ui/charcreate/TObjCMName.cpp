@@ -331,7 +331,7 @@ TObjCMMainMenu *TObjCMMainMenu::create(TObject *parent) {
 #pragma push
 #pragma fp_contract on
 void TObjCMMainMenu::run_task() {
-    f32 sp8;
+    f32 magnitude;
 
     TChCrCharSelect::reset_proportions();
     rand();
@@ -374,8 +374,8 @@ void TObjCMMainMenu::run_task() {
         break;
     }
     TObjCMMainMenu::set_speed(30.0f * (1.0f - this->preview));
-    get_creation_pad_stick(0, &sp8);
-    if (sp8 > 0.0f || creation_buttons_held(0xF0) != 0) {
+    get_creation_pad_stick(0, &magnitude);
+    if (magnitude > 0.0f || creation_buttons_held(0xF0) != 0) {
         if (this->idle_ticks > 0) {
             request_creation_motion(0);
         }
@@ -1882,8 +1882,8 @@ TObjCMProportion *TObjCMProportion::create(TObject *parent) {
 #pragma fp_contract on
 void TObjCMProportion::run_task() {
     TObjCMProportion* arg0=this;
-    s32 spC;
-    f32 sp8;
+    s32 angle;
+    f32 magnitude;
     f32 temp_f0;
     f32 temp_f1_4;
     f32 proportion;
@@ -1918,9 +1918,9 @@ void TObjCMProportion::run_task() {
         if ((arg0->fade += 0.16666667f) > 1.0f) {
             arg0->fade = 1.0f;
         }
-        get_creation_pad_stick(&spC, &sp8);
-        var_f30 = 0.016666668f * (sp8 * sin_table_lookup(spC));
-        var_f29 = 0.016666668f * (sp8 * -cos_table_lookup(spC));
+        get_creation_pad_stick(&angle, &magnitude);
+        var_f30 = 0.016666668f * (magnitude * sin_table_lookup(angle));
+        var_f29 = 0.016666668f * (magnitude * -cos_table_lookup(angle));
         if (0.0f == (fabs_float(var_f30) + fabs_float(var_f29))) {
             if (creation_buttons_held(0x80) != 0) {
                 var_f30 = 0.013333335f;

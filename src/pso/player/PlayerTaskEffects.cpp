@@ -497,16 +497,16 @@ u8 *TObjPlayer::create_lobby_marker(s16 arg0, s8 arg1) {
 void TPlayerLobbyMarker::run_task() { rotation += 0x800; }
 
 void TPlayerLobbyMarker::render() {
-    saddr temp_r3;
-    temp_r3 = (saddr)get_player_by_client_id(player_id);
-    if ((temp_r3 != 0) && (((TObject *)temp_r3)->all_parents_unqueued_for_destruction() != 0) && (get_material_index() != 0) && (((TObjPlayer *)temp_r3)->is_body_collision_inactive() == 0)) {
+    saddr player;
+    player = (saddr)get_player_by_client_id(player_id);
+    if ((player != 0) && (((TObject *)player)->all_parents_unqueued_for_destruction() != 0) && (get_material_index() != 0) && (((TObjPlayer *)player)->is_body_collision_inactive() == 0)) {
         push_matrix();
         TParticleCtrl::begin_effect_render();
         saved_model_render_flags = model_render_flags;
         copy_argb((NJS_ARGB *)saved_model_draw_color, (NJS_ARGB *)model_material_color);
         TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(shared_effect_texture_list));
         model_render_flags |= 0x11;
-        translate_matrix_vec3(0, TObjPlayer__sub_801BF914(temp_r3 + 0x84C));
+        translate_matrix_vec3(0, TObjPlayer__sub_801BF914(player + 0x84C));
         rotate_matrix_y(0, camera_ctrl_instance->yaw + rotation);
         scale_matrix(0, 1.3f, 1.3f, 1.3f);
         set_constant_material(&player_lobby_marker_color_table[get_material_index()]);
@@ -964,12 +964,12 @@ void TObjPlayer::write_ids() { set_model_render_flags((saddr)this->m_name); set_
 void reset_player_appearance_opacity(void* a0) { *(float*)((char*)a0 + 0x1c) = 1.0f; }
 
 void TObjPlayer::enter_battle_state() {
-    saddr temp_r3;
+    saddr player;
 
-    temp_r3 = (saddr)get_player_by_client_id(*(u16 *)((s8 *)this + 0));
-    if ((temp_r3 != 0) && (fn_801C6F2C((u8 *)this) == 0)) {
+    player = (saddr)get_player_by_client_id(*(u16 *)((s8 *)this + 0));
+    if ((player != 0) && (fn_801C6F2C((u8 *)this) == 0)) {
         *(s32 *)((s8 *)this + 4) = 0;
-        ((TObjPlayer *)temp_r3)->deactivate_body_collision();
+        ((TObjPlayer *)player)->deactivate_body_collision();
         *(s16 *)((s8 *)this + 2) = 4;
     }
 }
@@ -978,42 +978,42 @@ void TObjPlayer::enter_battle_state() {
 #pragma opt_common_subs off
 void update_player_appear_fade(u8 *arg0) {
     f32 var_f31;
-    u8 *temp_r3;
-    temp_r3 = (u8 *)(get_player_by_client_id(*(u16 *)((s8 *)arg0 + 0)));
-    if (temp_r3 != NULL) {
+    u8 *player;
+    player = (u8 *)(get_player_by_client_id(*(u16 *)((s8 *)arg0 + 0)));
+    if (player != NULL) {
         switch (*(s32 *)((s8 *)arg0 + 4)) {
         case 2:
         default:
             break;
         case 0:
-            if ((((TObjPlayer *)temp_r3)->is_inactive() != 0) && (((TObjPlayer *)temp_r3)->check_flag_40000() == 0) && (((TObjPlayer *)temp_r3)->check_flag_04000000() != 0) && (is_on_current_floor__10TObjPlayerFi((VO_801C6408 *)temp_r3) != 0)) {
+            if ((((TObjPlayer *)player)->is_inactive() != 0) && (((TObjPlayer *)player)->check_flag_40000() == 0) && (((TObjPlayer *)player)->check_flag_04000000() != 0) && (is_on_current_floor__10TObjPlayerFi((VO_801C6408 *)player) != 0)) {
                 if (--*(s16 *)((s8 *)arg0 + 2) < 0) {
                     if (TCameraCtrl::get_mode() != 0) {
-                        ((TObjPlayer *)temp_r3)->render_material_state.alpha = 1.0f;
+                        ((TObjPlayer *)player)->render_material_state.alpha = 1.0f;
                         *(s32 *)((s8 *)arg0 + 4) = 2;
                         return;
                     }
                     *(s32 *)((s8 *)arg0 + 4) = 1;
-                    ((TObjPlayer *)temp_r3)->activate_body_collision();
-                    if (((TObjCollidable *)temp_r3)->test_actor_flags(0x800) == 0) {
+                    ((TObjPlayer *)player)->activate_body_collision();
+                    if (((TObjCollidable *)player)->test_actor_flags(0x800) == 0) {
                         TObjPlayer::spawn_appearance_effect((int) (*(u16 *)((s8 *)arg0 + 0)));
                     }
-                    ((TObjPlayer *)temp_r3)->render_material_state.alpha = 0.0f;
-                    ((TObjPlayer *)temp_r3)->refresh_equipment_slot();
+                    ((TObjPlayer *)player)->render_material_state.alpha = 0.0f;
+                    ((TObjPlayer *)player)->refresh_equipment_slot();
                     return;
                 }
             }
             break;
         case 1:
-            var_f31 = ((TObjPlayer *)temp_r3)->render_material_state.alpha;
+            var_f31 = ((TObjPlayer *)player)->render_material_state.alpha;
             var_f31 += 0.1f;
             if (var_f31 >= 1.0f) {
                 var_f31 = 1.0f;
                 *(s32 *)((s8 *)arg0 + 4) = 2;
                 set_flag_2000000_alt__10TObjPlayerFv();
-                ((TObjPlayer *)temp_r3)->activate_body_collision();
+                ((TObjPlayer *)player)->activate_body_collision();
             }
-            ((TObjPlayer *)temp_r3)->render_material_state.alpha = var_f31;
+            ((TObjPlayer *)player)->render_material_state.alpha = var_f31;
             break;
         }
     }
@@ -1045,16 +1045,16 @@ TForceOperate::TForceOperate(TObject *parent, u16 id) : TObject(parent) {
 }
 
 void TForceOperate::run_task() {
-    void *temp_r31;
+    void *state;
     void *entity;
 
     if (TObjPlayer__sub_801C6DAC((u8 *)&m_1c) != 0) {
-        temp_r31 = (void *)((TMainCursor *)(&m_1c))->get_state();
-        if ((((TObjPlayer *)temp_r31)->is_target_valid() != 0) && (((TObjPlayer *)temp_r31)->has_action_palette_entry() != 0)) {
-            ((TMainCursor *)&((TObjPlayer *)temp_r31)->lock_on_cursor->selection.target)->get_id();
+        state = (void *)((TMainCursor *)(&m_1c))->get_state();
+        if ((((TObjPlayer *)state)->is_target_valid() != 0) && (((TObjPlayer *)state)->has_action_palette_entry() != 0)) {
+            ((TMainCursor *)&((TObjPlayer *)state)->lock_on_cursor->selection.target)->get_id();
             entity = find_entity_by_id();
             if (entity != NULL) {
-                ((VObj_801C57D0 *)entity)->m11(((TObjBase *)((saddr)temp_r31))->get_entity_id());
+                ((VObj_801C57D0 *)entity)->m11(((TObjBase *)((saddr)state))->get_entity_id());
                 queue_destruction();
             }
         }

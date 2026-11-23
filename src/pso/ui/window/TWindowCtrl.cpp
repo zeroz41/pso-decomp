@@ -1607,13 +1607,13 @@ bool TWindowCtrl__sub_8024A1A8(void) {
 extern "C" {
 
 void TLobby::send_card_window_state() {
-    s32 sp8[5];
+    s32 parameters[5];
     s32 character_save_record;
 
     character_save_record = get_character_save_record(0xFFFF);
-    sp8[0] = open_hard_keyboard__6TLobbyFPv(local_client_id) ? 1 : 0;
-    TLobby__sub_80077798(character_save_record + 0x22EC, sp8);
-    ((TProtocol *)TLobby__protocol_instance)->send_choice_search_parameters((ChoiceSearchParameters &)sp8);
+    parameters[0] = open_hard_keyboard__6TLobbyFPv(local_client_id) ? 1 : 0;
+    TLobby__sub_80077798(character_save_record + 0x22EC, parameters);
+    ((TProtocol *)TLobby__protocol_instance)->send_choice_search_parameters((ChoiceSearchParameters &)parameters);
 }
 
 }

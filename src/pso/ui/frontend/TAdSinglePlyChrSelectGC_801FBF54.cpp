@@ -3029,16 +3029,16 @@ s32 TAdSinglePlyChrSelectGC::update_play_time() {
 
 s32 TAdSinglePlyChrSelectGC::init_and_register(CharacterFile *arg0) {
     CharacterFile *allocation;
-    u32 temp_r30;
+    u32 type;
     u32 temp_r31;
 
     allocation = new CharacterFile;
     TAdSinglePlyChrSelectGC::copy_save_data(allocation, arg0);
-    temp_r30 = TAdSinglePlyChrSelectGC::get_type(allocation);
+    type = TAdSinglePlyChrSelectGC::get_type(allocation);
     TAdSinglePlyChrSelectGC::set_id(allocation, 0);
     temp_r31 = calc_crc32_bitwise((u8 *)allocation, 0x1156C);
     delete allocation;
-    if (temp_r30 == temp_r31) {
+    if (type == temp_r31) {
         return 1;
     }
     return 0;
@@ -3150,12 +3150,12 @@ extern "C" {
 
 
 s32 buffer_init(void) {
-    s32 temp_r31;
+    s32 size;
 
     if ((u32) guild_card_save_file_buffer == 0U) {
-        temp_r31 = guild_card_save_file_block_count << 0xD;
-        guild_card_save_file_buffer = (saddr)TQuestVmDownLoadServer::alloc(temp_r31);
-        memset((void *)guild_card_save_file_buffer, 0, temp_r31);
+        size = guild_card_save_file_block_count << 0xD;
+        guild_card_save_file_buffer = (saddr)TQuestVmDownLoadServer::alloc(size);
+        memset((void *)guild_card_save_file_buffer, 0, size);
         return 1;
     }
     return 0;
@@ -3163,12 +3163,12 @@ s32 buffer_init(void) {
 
 
 s32 alloc_global_buffer(void) {
-    s32 temp_r31;
+    s32 size;
 
     if ((u32) system_save_file_buffer == 0U) {
-        temp_r31 = system_save_file_block_count << 0xD;
-        system_save_file_buffer = (saddr)TQuestVmDownLoadServer::alloc(temp_r31);
-        memset((void *)system_save_file_buffer, 0, temp_r31);
+        size = system_save_file_block_count << 0xD;
+        system_save_file_buffer = (saddr)TQuestVmDownLoadServer::alloc(size);
+        memset((void *)system_save_file_buffer, 0, size);
         return 1;
     }
     return 0;
@@ -3190,12 +3190,12 @@ extern "C" {
 
 
 s32 init_buffer(void) {
-    s32 temp_r31;
+    s32 size;
 
     if ((u32) character_save_file_buffer == 0U) {
-        temp_r31 = character_save_file_block_count << 0xD;
-        character_save_file_buffer = (saddr)TQuestVmDownLoadServer::alloc(temp_r31);
-        memset((void *)character_save_file_buffer, 0, temp_r31);
+        size = character_save_file_block_count << 0xD;
+        character_save_file_buffer = (saddr)TQuestVmDownLoadServer::alloc(size);
+        memset((void *)character_save_file_buffer, 0, size);
         return 1;
     }
     return 0;

@@ -52,11 +52,11 @@ u32 TLobby__sub_8022318C(u8 *arg0, u8 *arg1) {
 }
 
 void TLobby::swap_item_data(s32 *item_data) {
-    s32 sp8[8];
+    s32 src[8];
 
-    ((TItemData *)sp8)->copy_from((TItemData *)(this));
+    ((TItemData *)src)->copy_from((TItemData *)(this));
     ((TItemData *)this)->copy_from((TItemData *)item_data);
-    ((TItemData *)item_data)->copy_from((TItemData *)(sp8));
+    ((TItemData *)item_data)->copy_from((TItemData *)(src));
 }
 
 void TLobby::sort_records(s32 arg1, s32 arg2) {

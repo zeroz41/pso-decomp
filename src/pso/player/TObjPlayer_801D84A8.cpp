@@ -315,10 +315,10 @@ void equip_saved_item_if_slot_empty__10TObjPlayerFPvPv(u8 *player, u8 *records);
 int TObjPlayer::bswap_disp_config_field() { return bswap_16__FPUs((char*)this + 0x2); }
 s32 TObjPlayer__sub_801D84F0(void* p) { return *(s32*)((char*)p + 0x4); }
 void TObjPlayer::set_animation_from_data(saddr arg0, s32 picture) {
-    void *temp_r3;
+    void *anim_table_entry;
 
-    temp_r3 = (void *)((TObjPlayer *)arg0)->get_anim_table_entry(picture);
-    TObjPlayer__sub_801D8664(arg0, *(s16 *)((s8 *)temp_r3 + 0), *(s16 *)((s8 *)temp_r3 + 2));
+    anim_table_entry = (void *)((TObjPlayer *)arg0)->get_anim_table_entry(picture);
+    TObjPlayer__sub_801D8664(arg0, *(s16 *)((s8 *)anim_table_entry + 0), *(s16 *)((s8 *)anim_table_entry + 2));
     ((TUnk_804C4540 *)arg0)->set_animation_default(picture);
 }
 

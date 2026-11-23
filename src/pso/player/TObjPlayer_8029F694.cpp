@@ -14,13 +14,13 @@ void TObjPlayer::reset_lobby_subobject() {
 
 void TObjPlayer::init_render_target() {
     u8 *arg0 = (u8 *)this;
-    s32 sp8[12];
+    s32 input[12];
 
     *(s32 *)((s8 *)arg0 + 0x1C) = (saddr)(arg0 + 0x10);
     (this->m_20) = 1;
-    reinterpret_cast<GinjaTextureInput *>(sp8)->set_render_rect(NULL, 4, 0x280, 0x1E0);
+    reinterpret_cast<GinjaTextureInput *>(input)->set_render_rect(NULL, 4, 0x280, 0x1E0);
     set_texture_name(*reinterpret_cast<GinjaTextureEntry **>(arg0 + 0x1C),
-        reinterpret_cast<GinjaTextureInput *>(sp8), 0x901, 0x08800000);
+        reinterpret_cast<GinjaTextureInput *>(input), 0x901, 0x08800000);
     this->texlist = load_texture_list((u8 *)&this->entity_id);
 }
 

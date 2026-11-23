@@ -169,9 +169,9 @@ void TObjPlayer::set_tev_passclr() {
 #pragma peephole off
 #pragma scheduling off
 void set_tev_stage_mode(s32 arg0) {
-    s32 temp_r31 = arg0;
-    GXSetNumTevStages(temp_r31);
-    switch (temp_r31) {
+    s32 nStages = arg0;
+    GXSetNumTevStages(nStages);
+    switch (nStages) {
     case 1:
         GXSetTevOrder(0, 0, 0, 4);
         GXSetTevOp(0, 0);

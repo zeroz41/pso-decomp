@@ -285,13 +285,13 @@ void randomize_adventure_maps(void);
 void TLobby::reset_story_select() { TAdStorySelectGC::set_state((saddr)((void*)0)); story_select_pending_state = -1; }
 
 s32 TLobby::is_scene_ready() {
-    s32 temp_r3;
+    s32 status;
 
     if (get_current_floor_area() != AREA_LOBBY) {
         return 0;
     }
-    temp_r3 = TScene::get_status();
-    if ((temp_r3 >= 0xD) && (temp_r3 < 0xF)) {
+    status = TScene::get_status();
+    if ((status >= 0xD) && (status < 0xF)) {
         return 1;
     }
     return 0;

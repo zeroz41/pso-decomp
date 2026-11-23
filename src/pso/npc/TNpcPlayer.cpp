@@ -1969,7 +1969,7 @@ s32 TNpcPlayer::choose_attack_target() {
 s32 TNpcPlayer::calc_follow_goal() {
     Vec dir;
     f32 temp_f0;
-    f32 temp_f1;
+    f32 z;
     f32 temp_f2;
     TObjPlayer *obj_player;
     if (m_84 != 0) {
@@ -1979,9 +1979,9 @@ s32 TNpcPlayer::calc_follow_goal() {
                 obj_player = m_78->m_94;
                 dir.x = m_dc.x - obj_player->position.x;
                 temp_f2 = m_dc.z;
-                temp_f1 = temp_f2 - obj_player->position.z;
+                z = temp_f2 - obj_player->position.z;
                 dir.y = 0.0f;
-                dir.z = temp_f1;
+                dir.z = z;
                 if (0.0f != vector_length(&dir)) {
                     normalize_vector(&dir);
                 }
@@ -2617,17 +2617,17 @@ s32 partner_view_check_moved(u8 *arg0) {
     Unk_8014F844 *view = (Unk_8014F844 *)arg0;
     Vec d;
     f32 temp_f1;
-    f32 *temp_r31;
-    f32 *temp_r3;
-    temp_r31 = (f32 *)view->m_94->get_prev_position_ptr();
-    temp_r3 = (f32 *)view->m_94->get_position_ptr();
-    if ((temp_r31 == NULL) || (temp_r3 == NULL)) {
+    f32 *prev_position_ptr;
+    f32 *position_ptr;
+    prev_position_ptr = (f32 *)view->m_94->get_prev_position_ptr();
+    position_ptr = (f32 *)view->m_94->get_position_ptr();
+    if ((prev_position_ptr == NULL) || (position_ptr == NULL)) {
         return 0;
     }
-    d.x = temp_r3[0] - temp_r31[0];
-    d.y = temp_r3[1] - temp_r31[1];
-    temp_f1 = temp_r3[2];
-    d.z = temp_f1 - temp_r31[2];
+    d.x = position_ptr[0] - prev_position_ptr[0];
+    d.y = position_ptr[1] - prev_position_ptr[1];
+    temp_f1 = position_ptr[2];
+    d.z = temp_f1 - prev_position_ptr[2];
     if (((f32 (*)(void *, f32))vector_length)(&d, temp_f1) > 0.4f) {
         view->m_8c = view->m_8c | 1;
         return 1;
@@ -2695,13 +2695,13 @@ s32 partner_view_update_conditions(u8 *arg0) {
     Unk_8014F844 *view = (Unk_8014F844 *)arg0;
     f32 temp_f1;
     f32 temp_f2;
-    f32 temp_f31;
+    f32 actor_hp;
     f32 actor_tp;
     s32 temp_r3;
     s32 var_r31;
     var_r31 = 0;
-    temp_f31 = (f32)((TObjChara *)view->m_94)->get_actor_hp();
-    temp_f1 = temp_f31 / (f32)((TObjChara *)view->m_94)->get_hpmax();
+    actor_hp = (f32)((TObjChara *)view->m_94)->get_actor_hp();
+    temp_f1 = actor_hp / (f32)((TObjChara *)view->m_94)->get_hpmax();
     if (view->m_8c & 2) {
         if (temp_f1 <= 0.25f) {
             var_r31 = 1;
@@ -2739,29 +2739,29 @@ s32 partner_view_update_conditions(u8 *arg0) {
 
 s32 partner_view_update_hp_change(void *arg0) {
     s16 temp_r0;
-    s16 temp_r31;
-    s16 temp_r3;
+    s16 actor_hp;
+    s16 hpmax;
     s16 temp_r4;
-    temp_r31 = ((TObjChara *)((Unk_8014F844 *)arg0)->m_94)->get_actor_hp();
-    temp_r3 = ((TObjChara *)((Unk_8014F844 *)arg0)->m_94)->get_hpmax();
+    actor_hp = ((TObjChara *)((Unk_8014F844 *)arg0)->m_94)->get_actor_hp();
+    hpmax = ((TObjChara *)((Unk_8014F844 *)arg0)->m_94)->get_hpmax();
     if (((Unk_8014F844 *)arg0)->m_88 <= 0) {
-        ((Unk_8014F844 *)arg0)->m_88 = temp_r31;
+        ((Unk_8014F844 *)arg0)->m_88 = actor_hp;
         return 0;
     }
     temp_r4 = ((Unk_8014F844 *)arg0)->m_88;
-    temp_r0 = (s16)(temp_r4 - temp_r31);
-    if (temp_r4 >= (s32)(temp_r31 - 1)) {
-        if ((f32)temp_r0 > (0.3f * (f32)temp_r3)) {
+    temp_r0 = (s16)(temp_r4 - actor_hp);
+    if (temp_r4 >= (s32)(actor_hp - 1)) {
+        if ((f32)temp_r0 > (0.3f * (f32)hpmax)) {
             ((Unk_8014F844 *)arg0)->m_90 = ((Unk_8014F844 *)arg0)->m_90 | 0x40;
-        } else if ((f32)temp_r0 > (0.2f * (f32)temp_r3)) {
+        } else if ((f32)temp_r0 > (0.2f * (f32)hpmax)) {
             ((Unk_8014F844 *)arg0)->m_90 = ((Unk_8014F844 *)arg0)->m_90 | 0x80;
-        } else if ((f32)temp_r0 > (0.01f * (f32)temp_r3)) {
+        } else if ((f32)temp_r0 > (0.01f * (f32)hpmax)) {
             ((Unk_8014F844 *)arg0)->m_90 = ((Unk_8014F844 *)arg0)->m_90 | 0x100;
         }
     } else {
         ((Unk_8014F844 *)arg0)->m_90 = ((Unk_8014F844 *)arg0)->m_90 | 0x200;
     }
-    ((Unk_8014F844 *)arg0)->m_88 = temp_r31;
+    ((Unk_8014F844 *)arg0)->m_88 = actor_hp;
     return temp_r0 ? 1 : 0;
 }
 

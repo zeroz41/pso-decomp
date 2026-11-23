@@ -42,7 +42,7 @@ void snapshot_player_trade_inventory(saddr arg0, s32 arg1) {
     s32 ids[0x1E];
     s32 temp_r29;
     s32 var_r31;
-    u8 *temp_r31;
+    u8 *trade_obj_ptr;
     u8 *player;
     s32 var_r26;
     u8 *temp_r3_2;
@@ -66,14 +66,14 @@ void snapshot_player_trade_inventory(saddr arg0, s32 arg1) {
             }
             var_r26 += 1;
         }
-        temp_r31 = (u8 *) ((TLobby *)(arg0 + 0xF8))->get_trade_obj_ptr();
+        trade_obj_ptr = (u8 *) ((TLobby *)(arg0 + 0xF8))->get_trade_obj_ptr();
         temp_r3_3 = ((TObjPlayer *)player)->get_stats();
-        *(s32 *)((s8 *)temp_r31 + 0) = -0xFF;
+        *(s32 *)((s8 *)trade_obj_ptr + 0) = -0xFF;
         if (temp_r3_3 != NULL) {
-            *(s32 *)((s8 *)temp_r31 + 4) = temp_r3_3->meseta;
+            *(s32 *)((s8 *)trade_obj_ptr + 4) = temp_r3_3->meseta;
             return;
         }
-        *(s32 *)((s8 *)temp_r31 + 4) = 0;
+        *(s32 *)((s8 *)trade_obj_ptr + 4) = 0;
     }
 }
 

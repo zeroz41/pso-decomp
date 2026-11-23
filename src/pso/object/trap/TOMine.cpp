@@ -399,14 +399,14 @@ void TOMine::detonate() {
 }
 void TOMineTrap::sync_position() { VecCopy(&position, &float_position); refresh_collision_body_centers(); }
 void TOMine::update_float_height() {
-    f32 temp_f1;
+    f32 y;
     f32 temp_f4;
     if (!(this->m_340 & 2)) {
         temp_f4 = float_position.y;
         float_position.y = (f32) (temp_f4 + ((0.5f * ((25.0f + this->home_position.y) - temp_f4)) + 1.0f));
-        temp_f1 = 25.0f + this->home_position.y;
-        if (temp_f1 <= float_position.y) {
-            float_position.y = temp_f1;
+        y = 25.0f + this->home_position.y;
+        if (y <= float_position.y) {
+            float_position.y = y;
             this->m_340 = (s32) (this->m_340 | 2);
         }
     } else {

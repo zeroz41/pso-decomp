@@ -457,12 +457,12 @@ void TLobby::set_player_name_and_color(s32 arg1) {
 #undef challenge_mode_state
 
 void TLobby::set_selected_layout(s32 arg0) {
-    s32 temp_r3;
+    s32 layout_id;
     s32 var_r31;
 
     var_r31 = arg0;
-    temp_r3 = TWindowSubStatusDisp::get_layout_id(-1);
-    if ((var_r31 < 0) || (var_r31 >= temp_r3)) {
+    layout_id = TWindowSubStatusDisp::get_layout_id(-1);
+    if ((var_r31 < 0) || (var_r31 >= layout_id)) {
         var_r31 = 0;
     }
     challenge_mode_state[0] = var_r31;

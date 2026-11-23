@@ -340,13 +340,13 @@ void begin_meseta_withdrawal__18TCheckRoomSequenceFPv(Seq_8020F478 *self) {
 #pragma push
 #pragma optimization_level 1
 void accept_meseta_deposit__18TCheckRoomSequenceFPv(u8 *arg0) {
-    s32 temp_r31;
+    s32 count;
     s32 slot;
     if (((u32) *(u32 *)((s8 *)arg0 + 0x34) != 0U) && (((s32)((TWindowInputNumber *)(*(uaddr *)((s8 *)arg0 + 0x34)))->is_confirmed()) != 0)) {
-        temp_r31 = ((TShopEquipmentSellWindow *)(*(uaddr *)((s8 *)arg0 + 0x34)))->get_result();
+        count = ((TShopEquipmentSellWindow *)(*(uaddr *)((s8 *)arg0 + 0x34)))->get_result();
         slot = ((s32)((TShopWindowBase *)arg0)->sub_8022397C());
-        bank_credit_meseta(temp_r31, slot);
-        try_spend_actor_meseta((u8 *)(*(saddr *)((s8 *)arg0 + 0x24)), (temp_r31));
+        bank_credit_meseta(count, slot);
+        try_spend_actor_meseta((u8 *)(*(saddr *)((s8 *)arg0 + 0x24)), (count));
         copy_bank_to_card_window(slot);
         if ((u32) *(u32 *)((s8 *)arg0 + 0x40) != 0U) {
             TWindowMainMenu::set_entry_field_20((int) (*(u32 *)((s8 *)arg0 + 0x40)), (int) (TCheckRoomSequence::get_room_data(slot)));

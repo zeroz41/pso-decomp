@@ -69,15 +69,15 @@ s32 TLobby::send_packet(s32 arg1, s32 arg2, s32 size, s32 arg4) {
     s32 temp_r31;
     s32 temp_r31_2;
     saddr temp_r3;
-    s32 temp_r0;
+    s32 dst;
     temp_r31_2 = (size + 0x1F) & 0xFFFFFFE0;
     temp_r3 = (saddr)mem_alloc(temp_r31_2);
     if (temp_r3 == 0) {
         return 0;
     }
     TLobby::send_type2_event(arg4, temp_r3, temp_r31_2);
-    temp_r0 = ((_VObj802A78E4_802a78e4_802A7848*)this)->m0(arg1, arg2);
-    temp_r31 = ((TLobby *)temp_r3)->write_packet_header(size, temp_r0, 0x4000);
+    dst = ((_VObj802A78E4_802a78e4_802A7848*)this)->m0(arg1, arg2);
+    temp_r31 = ((TLobby *)temp_r3)->write_packet_header(size, dst, 0x4000);
     mem_free((void *)temp_r3);
     return temp_r31;
 }
@@ -149,19 +149,19 @@ void TLobby::alloc_snapshot_buffer() {
   saddr temp_r31;
   s32 max_players;
   u32 temp_r3;
-  u8 *temp_r31_3;
+  u8 *size;
   if (((u32) snapshot_image_buffer) == 0U)
   {
     temp_r31 = TWindowSnapShot::get_height();
     max_players = TLobby::get_max_players();
     max_players = max_players * temp_r31;
     temp_r31 = TWindowSnapShot::get_width();
-    temp_r31_3 = (u8 *) (temp_r31 + max_players);
-    temp_r3 = ((saddr)mem_alloc((uaddr)temp_r31_3));
+    size = (u8 *) (temp_r31 + max_players);
+    temp_r3 = ((saddr)mem_alloc((uaddr)size));
     snapshot_image_buffer = temp_r3;
     if (temp_r3 != 0U)
     {
-      (*(u8 * *)&snapshot_buffer_size) = temp_r31_3;
+      (*(u8 * *)&snapshot_buffer_size) = size;
     }
   }
 }

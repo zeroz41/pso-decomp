@@ -90,11 +90,11 @@ void gba_joyboot_transfer_callback(s32 channel, s32 arg1) {
 }
 
 void TLobby::send_data(saddr filename) {
-    u32 temp_r3;
+    u32 resource_file_size;
 
-    temp_r3 = get_resource_file_size((const char *)filename);
-    gba_download_data_size = temp_r3;
-    if (temp_r3 > 0x40000U) {
+    resource_file_size = get_resource_file_size((const char *)filename);
+    gba_download_data_size = resource_file_size;
+    if (resource_file_size > 0x40000U) {
         gba_download_data_size = 0U;
         return;
     }
@@ -125,16 +125,16 @@ void TLobby::update_alloc_size() {
 void gba_init(void) { GBAInit(); }
 
 u8 TLobby::get_selected_slot() {
-    u8 sp8;
+    u8 percentp;
 
     if (TLobby__sub_801F34F8() == 3) {
-        if (GBAGetProcessStatus(3, &sp8) == 0) {
+        if (GBAGetProcessStatus(3, &percentp) == 0) {
             return 0U;
         }
         if ((u32) gba_download_graph != 0U) {
-            TDLGraph::update_graph(sp8 + 1, 0x65);
+            TDLGraph::update_graph(percentp + 1, 0x65);
         }
-        return sp8;
+        return percentp;
     }
     return 0U;
 }

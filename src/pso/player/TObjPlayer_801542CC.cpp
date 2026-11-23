@@ -1105,7 +1105,7 @@ void check_enemy_body_collisions(TObjCollidable *actor) {
 }
 
 void TObjCollidable::check_object_collisions() {
-    void *temp_r3;
+    void *player_data;
     s32 j;
     void *actor_body_contact;
     void *temp_r3_3;
@@ -1115,13 +1115,13 @@ void TObjCollidable::check_object_collisions() {
     if (temp_r5 != NULL) {
         *(s32 *)((s8 *)temp_r5 + 0x18) = (s32) (*(s32 *)((s8 *)temp_r5 + 0x18) & 0xFFB7FFFF);
         for (j = 0; j < (s32) registered_player_count; j++) {
-            temp_r3 = ((void *)TObjPlayer::get_player_data(j));
-            if ((temp_r3 != NULL) && ((u16) *(u16 *)((s8 *)temp_r3 + 0x1C) < 0x1000U)) {
-                actor_body_contact = find_actor_body_contact((u8*)temp_r3, 10000.0f);
+            player_data = ((void *)TObjPlayer::get_player_data(j));
+            if ((player_data != NULL) && ((u16) *(u16 *)((s8 *)player_data + 0x1C) < 0x1000U)) {
+                actor_body_contact = find_actor_body_contact((u8*)player_data, 10000.0f);
                 if (actor_body_contact != NULL) {
                     temp_r3_3 = *(void **)((s8 *)this + 0xA4);
                     *(s32 *)((s8 *)temp_r3_3 + 0x18) = (s32) (*(s32 *)((s8 *)temp_r3_3 + 0x18) | 0x80000);
-                    if ((TObjPlayer::check_flag_pair(*(s32 *)((s8 *)(*(void **)((s8 *)this + 0xA4)) + 0x18), *(s32 *)((s8 *)actor_body_contact + 0x18)) == 0) && (respond_to_body_contact((u8 *)this, (uaddr)temp_r3, (u8 *)actor_body_contact) != 0)) {
+                    if ((TObjPlayer::check_flag_pair(*(s32 *)((s8 *)(*(void **)((s8 *)this + 0xA4)) + 0x18), *(s32 *)((s8 *)actor_body_contact + 0x18)) == 0) && (respond_to_body_contact((u8 *)this, (uaddr)player_data, (u8 *)actor_body_contact) != 0)) {
                         temp_r3_4 = *(void **)((s8 *)this + 0xA4);
                         *(s32 *)((s8 *)temp_r3_4 + 0x18) = (s32) (*(s32 *)((s8 *)temp_r3_4 + 0x18) | 0x400000);
                     }

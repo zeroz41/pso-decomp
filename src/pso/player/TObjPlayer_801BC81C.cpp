@@ -149,12 +149,12 @@ extern const f32 TObjPlayer__data_805DC28C;
 
 void TObjPlayer::init_player_data(void *src) {
     u8 *arg0 = (u8 *)this;
-    f32 temp_f31;
+    f32 proportions;
     f32 yscale;
 
-    temp_f31 = this->stat_data.proportions;
+    proportions = this->stat_data.proportions;
     TLobby::copy_data(&this->stat_data, src);
-    this->stat_data.proportions = temp_f31;
+    this->stat_data.proportions = proportions;
     this->stat_block = &this->stat_data;
     this->apply_input_mode();
     this->set_move_mode_from_class_flags();

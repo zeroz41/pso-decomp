@@ -172,29 +172,29 @@ void TLobby__sub_8006F48C(void) {
 
 s32 TLobby__sub_8006F5B0(saddr clear_time) {
     s32 temp_r30;
-    s32 temp_r3;
+    s32 layout_id;
     saddr temp_r3_2;
-    s32 temp_r3_3;
+    s32 id;
     s32 valid_slot;
     s32 var_r28;
     uaddr character_save_record;
     character_save_record = get_character_save_record(0xFFFF);
-    temp_r3 = TWindowSubStatusDisp::get_layout_id(-1);
-    if ((character_save_record == 0U) || ((s32) challenge_mode_state.value < 0) || ((s32) challenge_mode_state.value >= temp_r3)) {
+    layout_id = TWindowSubStatusDisp::get_layout_id(-1);
+    if ((character_save_record == 0U) || ((s32) challenge_mode_state.value < 0) || ((s32) challenge_mode_state.value >= layout_id)) {
         return 0;
     }
     temp_r3_2 = TWindowSubStatusDisp__sub_8006F0D8((void *)(character_save_record + 0x21C4), -1);
     var_r28 = 0;
     temp_r30 = challenge_mode_state.value * 4;
-    temp_r3_3 = *(s32 *)((s8 *)temp_r3_2 + temp_r30);
-    if (temp_r3_3 == 0) {
+    id = *(s32 *)((s8 *)temp_r3_2 + temp_r30);
+    if (id == 0) {
         if (TWindowSubStatusDisp::resolve_player_slot(-1) == 0) {
             TLobby__sub_8006F48C();
         }
         var_r28 = 1;
         goto block_12;
     }
-    valid_slot = TLobby::get_valid_slot(temp_r3_3);
+    valid_slot = TLobby::get_valid_slot(id);
     if (TLobby::is_id_out_of_range(valid_slot) != 0) {
         *(s32 *)((s8 *)temp_r3_2 + temp_r30) = 0;
         return 0;
@@ -350,14 +350,14 @@ s32 decode_slot__6TLobbyFUi(u32 id);
 
 s32 decode_slot__6TLobbyFUi(u32 id) {
     s32 temp_r3;
-    u32 temp_r31;
+    u32 x;
 
-    temp_r31 = id >> 0x10U;
-    temp_r3 = TLobby::count_set_bits(temp_r31);
+    x = id >> 0x10U;
+    temp_r3 = TLobby::count_set_bits(x);
     if ((temp_r3 < 4) || (temp_r3 > 0xC)) {
         return -1;
     }
-    return (u16) (temp_r31 ^ id);
+    return (u16) (x ^ id);
 }
 
 s32 TLobby__sub_8006FBE4(void);

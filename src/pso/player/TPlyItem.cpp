@@ -276,15 +276,15 @@ void TItemList::unequip_invalid_items_recursive() {
 }
 
 void TItemList::collect_alive_owners() {
-    u32 temp_r3;
+    u32 owner_if_alive;
     void *down;
 
     down = this->m_down;
     while (down != NULL) {
         if (TItemList::is_item_valid((saddr)(void *)((saddr)down)) != 0) {
-            temp_r3 = ((TItemList *)down)->get_owner_if_alive();
-            if (temp_r3 != 0U) {
-                *player_owner_collect_cursor = temp_r3;
+            owner_if_alive = ((TItemList *)down)->get_owner_if_alive();
+            if (owner_if_alive != 0U) {
+                *player_owner_collect_cursor = owner_if_alive;
                 player_owner_collect_cursor += 1;
                 inventory_walk_visit_count += 1;
             }

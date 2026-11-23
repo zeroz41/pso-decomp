@@ -36,13 +36,13 @@ s32 TObjPlayer::is_single_screen() {
     return (u8) (TRaderMapCore::is_not_split_screen() == 1);
 }
 s32 TObjPlayer::is_player_valid_target(u16 client_index) {
-    saddr temp_r31;
+    saddr player;
 
     if (is_local_client(client_index) == 0) {
         return 0;
     }
-    temp_r31 = (saddr)get_player_by_client_id((u16) client_index);
-    if ((TObjPlayer__sub_80354C7C(client_index) == 0) || (((TObjPlayer *)temp_r31)->is_controls_locked() != 0) || (reset_volopt_state__10TObjPlayerFv(temp_r31) == 0)) {
+    player = (saddr)get_player_by_client_id((u16) client_index);
+    if ((TObjPlayer__sub_80354C7C(client_index) == 0) || (((TObjPlayer *)player)->is_controls_locked() != 0) || (reset_volopt_state__10TObjPlayerFv(player) == 0)) {
         return 0;
     }
     return 1;

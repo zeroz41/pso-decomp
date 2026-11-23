@@ -867,15 +867,15 @@ void TLobby::invoke_callback() {
 void TLobby::set_keyboard_mode(int a0) { (*(int *)&main_phase_deferred_callback) = a0; }
 
 void TLobby::flush_pending() {
-    uaddr temp_r5;
+    uaddr destination;
     s32 count;
     if ((s32) pending_file_read_flush_requested != 0) {
-        temp_r5 = pending_file_read_destination;
+        destination = pending_file_read_destination;
         pending_file_read_flush_requested = 0;
-        if ((temp_r5 != 0U)) {
+        if ((destination != 0U)) {
             count = pending_file_read_sector_count;
             if (count != 0) {
-                ADXF_ReadNw(*pending_file_read_handle_ref, count, (void *)temp_r5);
+                ADXF_ReadNw(*pending_file_read_handle_ref, count, (void *)destination);
             }
         }
         TLobby::flush_checked_reads();

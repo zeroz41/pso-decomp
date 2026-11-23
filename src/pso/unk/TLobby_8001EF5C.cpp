@@ -555,12 +555,12 @@ void load_bin_model_callback(BmlModelLoadRequest *self) {
 }
 
 s32 bind_bml_motion(struct Lobby_8001FB6C *self, s32 idx, void *bytes) {
-    s32 spC;
-    s32 sp8;
+    s32 offset;
+    s32 tag;
     u32 r;
     self->entries[idx].data = 0;
-    spC = 0;
-    r = (uaddr)allocate_bml_chunk((BmlResource *)self, (u8 *)bytes, (u32 *)&spC, (u32 *)&sp8);
+    offset = 0;
+    r = (uaddr)allocate_bml_chunk((BmlResource *)self, (u8 *)bytes, (u32 *)&offset, (u32 *)&tag);
     if (r == 0) {
         TLobby::debug_print("LoadBinMotionSub: Illegal format.");
         return 0;

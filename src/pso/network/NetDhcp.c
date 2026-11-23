@@ -312,7 +312,7 @@ s32 dhcp_build_packet(DhcpMessage *packet) {
 }
 
 s32 build_dhcp_discover_packet(DhcpMessage *packet) {
-    u32 spC;
+    u32 source;
     u8 *p;
     u16 len;
     s32 n;
@@ -347,8 +347,8 @@ s32 build_dhcp_discover_packet(DhcpMessage *packet) {
     if (lbl_805D7B58 != 0) {
         *p++ = 0x33;
         *p++ = 4;
-        spC = lbl_805D7B58;
-        NetMemcpy(p, &spC, 4);
+        source = lbl_805D7B58;
+        NetMemcpy(p, &source, 4);
         p += 4;
     }
     len = NetStringLength((const char*)dhcp_hostname);

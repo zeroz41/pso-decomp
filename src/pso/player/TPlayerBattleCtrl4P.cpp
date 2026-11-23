@@ -1058,19 +1058,19 @@ loop_1:
 }
 
 void send_code_45_to_window__19TPlayerBattleCtrl4PFPvii(void *arg0, s32 arg1, s32 arg2) {
-    u16 temp_r31;
+    u16 client;
     s32 temp_r30;
 
-    temp_r31 = (u16)arg1;
+    client = (u16)arg1;
     temp_r30 = arg2;
     s32 player;
-    if ((player = (saddr)get_player_by_client_id(temp_r31)) != 0U) {
+    if ((player = (saddr)get_player_by_client_id(client)) != 0U) {
         TObjPlayer::send_code_45_1(player);
     }
     if (temp_r30 != 0) {
-        end_player_keyboard_hold(temp_r31);
+        end_player_keyboard_hold(client);
         TWindowCtrl::clear_flag();
-        TWindowCtrl::unsuppress_slot(temp_r31);
+        TWindowCtrl::unsuppress_slot(client);
     }
 }
 

@@ -145,12 +145,12 @@ Hdr_8020967C *find_chunk_by_id__6TLobbyFPvi(Hdr_8020967C *arg, s32 id) {
 
 
 void TLobby::append_swapped_u32(s32 *arg0) {
-    s32 sp8;
+    s32 src;
 
     if (challenge_action_buffer != NULL) {
-        sp8 = *arg0;
-        bswap_32((u32 *)&sp8);
-        move_data((void *)(challenge_action_buffer + challenge_action_size), &sp8, 4);
+        src = *arg0;
+        bswap_32((u32 *)&src);
+        move_data((void *)(challenge_action_buffer + challenge_action_size), &src, 4);
         challenge_action_size += 4;
     }
 }

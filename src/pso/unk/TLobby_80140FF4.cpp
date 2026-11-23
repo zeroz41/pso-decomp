@@ -17,11 +17,11 @@ void TLobby::create_map_csn_ctrl() {
 CsnGroup *TLobby__sub_80141030(TObjMapCsn *object) { return &object->collision_group; }
 
 void initialize_floor_transition(Obj_80515BA0 *transition, s32 floor, s32 map) {
-    s32 temp_r6;
+    s32 next_floor;
     transition->current_floor = floor;
-    temp_r6 = floor + 1;
-    transition->f8 = temp_r6;
-    transition->next_floor = temp_r6;
+    next_floor = floor + 1;
+    transition->f8 = next_floor;
+    transition->next_floor = next_floor;
     transition->current_map = map;
     transition->f14 = 0;
     transition->next_map = 0;

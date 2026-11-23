@@ -52,7 +52,7 @@ void TUnk_804F14A8::vfunc_60() {
 
 void TUnk_804F14A8::emit_marker_effects() {
     OrgaFlowShotParams info;
-    Vec sp8;
+    Vec origin;
     if (is_mode_two_and_ready() != 0) {
         remap_extra_attack_type();
         info.reset_defaults();
@@ -68,16 +68,16 @@ void TUnk_804F14A8::emit_marker_effects() {
         restore_action_type();
         return;
     }
-    get_joint_position(6, &sp8);
-    launch_shot((u8 *)&sp8, 0, 0, 1);
-    get_joint_position(9, &sp8);
-    launch_shot((u8 *)&sp8, 1, 0x11C7, 1);
-    get_joint_position(3, &sp8);
-    launch_shot((u8 *)&sp8, 2, -0x11C7, 1);
-    get_joint_position(0xA, &sp8);
-    launch_shot((u8 *)&sp8, 3, 0x2000, 1);
-    get_joint_position(4, &sp8);
-    launch_shot((u8 *)&sp8, 4, -0x2000, 1);
+    get_joint_position(6, &origin);
+    launch_shot((u8 *)&origin, 0, 0, 1);
+    get_joint_position(9, &origin);
+    launch_shot((u8 *)&origin, 1, 0x11C7, 1);
+    get_joint_position(3, &origin);
+    launch_shot((u8 *)&origin, 2, -0x11C7, 1);
+    get_joint_position(0xA, &origin);
+    launch_shot((u8 *)&origin, 3, 0x2000, 1);
+    get_joint_position(4, &origin);
+    launch_shot((u8 *)&origin, 4, -0x2000, 1);
 }
 
 void TUnk_804F14A8::init_weapon_effect_descriptor(Desc_8011E5C4 *desc) {
