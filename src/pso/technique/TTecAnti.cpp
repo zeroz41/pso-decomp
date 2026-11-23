@@ -77,7 +77,7 @@ TTecAnti::TTecAnti(void *owner, void *pos, void *target_list, s32 level) : TTecP
     use_targets = 1;
     copy_technique_target_list(&targets, (TargetCursorList *)target_list);
     params.copy(&technique_param_table[16]);
-    sub_8022AD94();
+    setup_params();
     t = target;
     if (t != NULL) {
         t->bodies->radius = 5.0f + params.pad_08;
@@ -187,7 +187,7 @@ TUnk_804CC0E8::~TUnk_804CC0E8() {
 
 void TUnk_804CC0E8::run_task() { queue_destruction(); }
 
-void TTecAnti::sub_8022AD94() {  }
+void TTecAnti::setup_params() {  }
 
 void TTecAnti::spawn_anti_range_effect() { spawn_support_tec_range_effect(); }
 

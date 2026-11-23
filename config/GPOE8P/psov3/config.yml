@@ -1723,7 +1723,7 @@ force_active:
   - texture_wave_resource
   - TSetEvtDestroy_class_name
   - TSetEvtDestroy_name
-  - fn_8020D7D4__11TSetManagerFv
+  - post_step__11TSetManagerFv
   - TShopDeleteItemWindow__sub_80337E2C
   - TShopEquipmentListWindow__sub_8021C85C
   - TShopEquipmentSequence__sub_8021D65C
@@ -1734,7 +1734,7 @@ force_active:
   - __ct__8TTecAntiFPvPvPvl
   - TTecAnti__self_effect_rows
   - spawn_anti_range_effect__8TTecAntiFv
-  - sub_8022AD94__8TTecAntiFv
+  - setup_params__8TTecAntiFv
   - class_name__8TTecAnti
   - TTecBarta__class_name
   - __ct__9TTecBartaFlPUcPUcl

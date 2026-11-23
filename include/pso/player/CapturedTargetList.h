@@ -8,7 +8,7 @@ struct CapturedTarget {
     u16 uid;
     s16 collider_index;
 
-    void fn_8012AF80();
+    void clear();
     s16 get_captured_target_collider_index();
     u16 get_uid();
 };

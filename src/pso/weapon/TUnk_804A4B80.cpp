@@ -127,12 +127,12 @@ CapturedTargetList *TObjPlayer__sub_8012AF00(CapturedTargetList *self) {
 }
 
 CapturedTarget *TObjPlayer__sub_8012AF50(CapturedTarget *self) {
-    self->fn_8012AF80();
+    self->clear();
     return self;
 }
 }
 
-void CapturedTarget::fn_8012AF80() {
+void CapturedTarget::clear() {
     uid = 0xffff;
     collider_index = 0;
 }

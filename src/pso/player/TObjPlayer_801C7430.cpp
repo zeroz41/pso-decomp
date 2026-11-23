@@ -5785,7 +5785,7 @@ void TObjPlayer::update_lobby_chair(s32 value) { chair_seat.set_move_angle(value
 
 void TObjPlayer::get_chair_state(s32 value) { chair_seat.set_target_angle(value); }
 
-void TObjPlayer::leave_chair_seat() { this->chair_seat.fn_8035AF14(); }
+void TObjPlayer::leave_chair_seat() { this->chair_seat.update(); }
 
 void TObjPlayer::clear_chair_seated() { this->state_flags &= 0xfbffffff; }
 

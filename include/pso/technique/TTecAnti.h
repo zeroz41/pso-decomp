@@ -11,7 +11,7 @@ struct TTecAnti : public TTecPlayerInfluence {
     virtual ~TTecAnti();
     void play_anti_cast_sound();
     void spawn_anti_range_effect();
-    void sub_8022AD94();
+    void setup_params();  // empty; the constructor calls it after loading params
     virtual void apply_to_player(TObjPlayer *player);
     virtual void run_task();
     TargetCursorList targets;

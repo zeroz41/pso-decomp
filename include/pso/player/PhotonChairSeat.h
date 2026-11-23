@@ -21,7 +21,7 @@ struct PhotonChairSeat {
     void reset();
     ~PhotonChairSeat();
     void set_owner_id(u16 id);
-    void fn_8035AF14();
+    void update();  // empty; TObjPlayer::update_state_group calls it
     int create_chair();
     void set_move_angle(s32 v);
     void set_target_angle(s32 angle);

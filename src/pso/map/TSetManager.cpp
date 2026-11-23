@@ -46,7 +46,7 @@ EnemyStateRecord *TLobby__data_805D6144;
 s32 object_condition_count;
 s32 enemy_condition_count;
 
-void TSetManager::fn_8020D7D4() {  }
+void TSetManager::post_step() {  }
 
 void TSetManager::run_task() {
     static void (TSetManager::*steps[])() = {
@@ -54,7 +54,7 @@ void TSetManager::run_task() {
         &TSetManager::update_decoration_spawning,
     };
     (this->*steps[step])();
-    fn_8020D7D4();
+    post_step();
 }
 
 TSetManager::~TSetManager() {}

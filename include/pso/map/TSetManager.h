@@ -14,7 +14,7 @@ public:
     static const char *class_name;
     void update_decoration_spawning();
     void apply_floor_set_rows();
-    void fn_8020D7D4();
+    void post_step();  // empty; run_task calls it after every step
 
     s32 step;  // which of run_task's steps (apply_floor_set_rows, update_decoration_spawning) runs
 };

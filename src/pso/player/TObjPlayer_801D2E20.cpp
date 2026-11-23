@@ -66,7 +66,7 @@ void CapturedTargetList::clear_lockon_list() {
     CapturedTarget *entry = entries;
     count = 0;
     for (i = 0; i < 10; i++) {
-        entry->fn_8012AF80();
+        entry->clear();
         entry++;
     }
 }

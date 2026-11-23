@@ -26,4 +26,4 @@ TUnk_804F1C88::TUnk_804F1C88(TObject *parent, const Vec *origin) : TObject(paren
 
 void TUnk_804F1C88::destroy_instance() {  }
 void TUnk_804F1C88::load_static_resource() {  }
-void PhotonChairSeat::fn_8035AF14() {}
+void PhotonChairSeat::update() {}
