@@ -5299,7 +5299,7 @@ force_active:
   - construct_global_arrays__6TLobbyFv
   - __ct__13TUnk_804CC870FlP7TObjectP3Vecf
   - __ct__13TUnk_804A2C90FP7TObjectPUc
-  - construct_item_follow_effect__FPUcllll
+  - __ct__13TUnk_804A2660FP7TObjectP11TItemWeaponll
   - construct_lobby_players
   - construct_nug2000_bazooka__13TUnk_804E71F8FlPv
   - construct_panzer_faust__FPUcPUcl
@@ -5655,7 +5655,7 @@ force_active:
   - destroy_effects__12TBoss6ThanksFv
   - destroy_free_buffers__20TWindowSubStatusDispFPvs
   - destroy_if_keyboard_idle__9TSaveChCrFv
-  - destroy_item_follow_effect__FPvs
+  - __dt__13TUnk_804A2660Fv
   - destroy_join_entries__6TLobbyFv
   - destroy_lobby_ui__6TLobbyFv
   - destroy_matching_children__19TPlayerBattleCtrl4PFPvPv
@@ -7376,7 +7376,7 @@ force_active:
   - item_eff_armor_particle_class_name
   - item_effect_object_table
   - item_equip_base_class_name
-  - item_follow_effect_vtable
+  - __vt__13TUnk_804A2660
   - item_help_level_requirement_callback
   - item_id_counters
   - item_kt_archive_filename

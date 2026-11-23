@@ -2666,9 +2666,13 @@ pso/player/TUnk_804A2548.cpp:
 	.data       start:0x804A2548 end:0x804A265C
 	.sdata2     start:0x805DAD50 end:0x805DAD64
 
+pso/weapon/TUnk_804A2660.cpp:
+	.text       start:0x8012599C end:0x80125BE4
+	.data       start:0x804A2660 end:0x804A2678
+
 pso/weapon/TUnk_804A2678.cpp:
-	.text       start:0x8012599C end:0x80125E88
-	.data       start:0x804A2660 end:0x804A2770
+	.text       start:0x80125BE4 end:0x80125E88
+	.data       start:0x804A2678 end:0x804A2770
 
 pso/weapon/TUnk_804A2770.cpp:
 	.text       start:0x80125E88 end:0x80125FB8

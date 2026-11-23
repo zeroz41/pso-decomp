@@ -545,6 +545,7 @@ pso/weapon/TUnk_804A1190.cpp
 pso/weapon/TUnk_804A1D30.cpp
 pso/weapon/TUnk_804A2260.cpp
 pso/weapon/TUnk_804A2358.cpp
+pso/weapon/TUnk_804A2660.cpp
 pso/weapon/TUnk_804A2678.cpp
 pso/weapon/TUnk_804A2770.cpp
 pso/weapon/TUnk_804A2868.cpp
