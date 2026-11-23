@@ -2,18 +2,8 @@
 #define PSO_EFFECT_PHOTON_TPHOTONGOLLA_H
 #include "types.h"
 #include "pso/effect/photon/PhotonBlastSummon.h"
+#include "pso/effect/photon/TPhotonConcentrate.h"
 
-class TObjChara;
-
-// What TPhotonGolla hands each TPhotonConcentrate beam it fires.
-struct PhotonConcentrateParams {
-    Vec origin;
-    Vec target;
-    Vec direction;
-    f32 range[3];
-    TObjChara *target_object;
-    u32 angle;
-};
 
 // Golla, the photon blast summon that fires concentrated beams at the nearest enemy in front of its owner.
 class TPhotonGolla : public TPhotonBlastSummon {

@@ -4,46 +4,48 @@
 #include "types.h"
 #include "pso/object/base/TObjMotion.h"
 
-struct TPhotonConcentrate : public TObjCollidable {
-    TPhotonConcentrate(u8 *arg1, saddr parent, s32 arg3);
+class TParticleCtrl;
+class TObjChara;
+
+// What the spawner fills in for one concentrating photon.
+struct PhotonConcentrateParams {
+    Vec origin;
+    Vec target;
+    Vec direction;  // unit vector, scaled by speed
+    f32 range;      // destroyed once this far from the origin
+    f32 speed;
+    f32 pad_2C;
+    TObjChara *target_object;  // the enemy the spawner aimed at
+    u32 angle;      // roll of its spiral around the path, in degrees
+};
+
+// A photon that flies from origin to target on a spiral, carrying a particle
+// emitter; it bursts when it reaches the target.
+class TPhotonConcentrate : public TObjCollidable {
+public:
+    TPhotonConcentrate(PhotonConcentrateParams *params, TObject *parent, u16 owner_id);
     virtual ~TPhotonConcentrate();
     virtual void render();
     virtual void run_task();
-    void* m_ac;
-    u8 _padB0[0x8];
-    u32 m_b8;
-    u32 m_bc;
-    u32 m_c0;
-    void* m_c4;
-    u8 unk_C8[0x4];
-    f32 m_cc;
-    u32 m_d0;
-    u32 m_d4;
-    u32 m_d8;
-    u8 unk_DC[0x8];
-    f32 m_e4;
-    u8 unk_E8[0x4];
-    u32 m_ec;
-    u32 m_f0;
-    u8 _padF4[0x4];
-    uaddr m_f8;
-    u32 m_fc;
-    u8 unk_100[0xC];
+    Vec origin;
+    Vec pos;
+    Vec vel;
+    Vec target;
+    f32 dist;       // to the target
+    f32 total;      // from the origin to the target
+    f32 range;
+    f32 pad_E8;
+    u32 angle;
+    TObjChara *target_object;
+    u8 pad_F4[0x4];
+    TParticleCtrl *emitter;
+    TObjCollidable *owner;  // its spiral turns with the owner's y rotation
+    u8 pad_100[0xC];
 };
 
 LAYOUT_ASSERT(TPhotonConcentrate_size, sizeof(TPhotonConcentrate) == 0x10C);
 
-extern "C" {
-u8 *__ct__18TPhotonConcentrateFPUcll(u8 *photon_concentrate, u8 *arg1, s32 arg2, s32 arg3);
-void *__dt__18TPhotonConcentrateFv(void *arg0, s16 arg1);
-void render__18TPhotonConcentrateFv(void);
-}
-
-// --- C functions defined in TPhotonConcentrate.cpp ---
-extern "C" {
-void *__dt__18TPhotonConcentrateFv(void *arg0, s16 arg1);
-void render__18TPhotonConcentrateFv(void);
-}
-// --- end of C functions
+extern "C" u8 *__ct__18TPhotonConcentrateFP23PhotonConcentrateParamsP7TObjectUs(
+    u8 *photon_concentrate, u8 *params, s32 parent, s32 owner_id);
 
 #endif

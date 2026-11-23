@@ -4,32 +4,37 @@
 #include "types.h"
 #include "pso/object/base/TObjChara.h"
 
+class TParticleCtrl;
+
 // What a photon blast passes to the laser it fires.
 struct PhotonLaserParams {
     Vec pos;
-    u8 unk_0C[0xC];
-    Vec dir;
-    f32 unk_24;
-    f32 scale;
-    f32 unk_2C;
+    u8 pad_0C[0xC];
+    Vec dir;    // unit vector, scaled by speed
+    f32 range;
+    f32 speed;
+    f32 pad_2C;
 };
 
-struct TPhotonLaser : public TObjChara {
-    TPhotonLaser(PhotonLaserParams *params, TObject *parent, u16 target_id);
+// A laser that falls from the sky, spinning, with a particle emitter; it
+// bursts when it drops below its owner's height.
+class TPhotonLaser : public TObjChara {
+public:
+    TPhotonLaser(PhotonLaserParams *params, TObject *parent, u16 owner_id);
     virtual ~TPhotonLaser();
     virtual void run_task();
-    void* m_334;
-    u8 _pad338[0x8];
-    void* m_340;
-    u8 _pad344[0x8];
-    void* m_34c;
-    u8 _pad350[0x14];
-    u32 m_364;
-    u8 _pad368[0x4];
-    u32 m_36c;
-    u16 m_370;
     virtual void render();
-    u8 unk_372[0xE];
+    Vec origin;
+    Vec pos;
+    Vec vel;
+    f32 range;
+    f32 pad_35C;
+    u8 pad_360[0x4];
+    TParticleCtrl *emitter;
+    f32 timer;
+    u32 angle;     // spin around the fall line, in degrees
+    u16 owner_id;
+    u8 pad_372[0xE];
 };
 
 LAYOUT_ASSERT(TPhotonLaser_size, sizeof(TPhotonLaser) == 0x380);

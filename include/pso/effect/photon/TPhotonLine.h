@@ -7,22 +7,27 @@
 // What a photon blast passes to the line it fires.
 struct PhotonLineParams {
     Vec pos;
-    Vec dir;
-    f32 scale;
-    f32 power;
+    Vec dir;    // unit vector, scaled by speed
+    f32 speed;
+    f32 power;  // scale of the photon blast hit it deals
 };
 
-struct TPhotonLine : public TObjChara {
-    TPhotonLine(PhotonLineParams *params, TObject *parent, u16 target_id);
+// A wave that sweeps along the ground and hits each player it crosses once
+// (at most nine); it ends when a wall blocks its path.
+class TPhotonLine : public TObjChara {
+public:
+    TPhotonLine(PhotonLineParams *params, TObject *parent, u16 owner_id);
     virtual ~TPhotonLine();
     virtual void run_task();
-    void* m_334;
-    u8 _pad338[0x18];
-    u32 m_350;
-    u8 _pad354[0x14];
-    u16 m_368;
     virtual void render();
-    u8 unk_36A[0xE];
+    Vec vel;
+    u8 pad_340[0x4];
+    f32 power;
+    u8 pad_348[0x8];
+    TObjCollidable *owner;
+    u16 hit_ids[10];  // entity ids already hit
+    u16 hit_count;
+    u8 pad_36A[0xE];
 };
 
 LAYOUT_ASSERT(TPhotonLine_size, sizeof(TPhotonLine) == 0x378);

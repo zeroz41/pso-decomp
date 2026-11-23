@@ -8300,7 +8300,7 @@ force_active:
   - TObjWarpLobby__name
   - TObjLuker__name
   - lbl_805D34C8
-  - TPhotonLaser__name
+  - photon_laser_class_name
   - photon_rainbow_class_name
   - TPhotonYoulla_name
   - TCheckRoomSequence__name

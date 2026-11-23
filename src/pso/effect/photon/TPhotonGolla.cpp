@@ -51,7 +51,7 @@ void *golla_photon_blast_buffer_pair;
 
 const char *TPhotonGolla_name = "TPhotonGolla";
 extern const PhotonConcentrateParams photon_golla_concentrate_packet = {
-    { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 500.0f, 5.0f, 30.0f }, NULL, 0
+    { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, 500.0f, 5.0f, 30.0f, NULL, 0
 };
 
 void TPhotonGolla::reset_material_color(u8 count) {
@@ -106,7 +106,7 @@ void TPhotonGolla::spawn_concentrate() {
     params.direction.z = direction.z;
     params.target_object = target;
     params.angle = angle;
-    beam = new TPhotonConcentrate((u8 *)&params, (saddr)this, owner_id);
+    beam = new TPhotonConcentrate(&params, this, owner_id);
 }
 #pragma pop
 
