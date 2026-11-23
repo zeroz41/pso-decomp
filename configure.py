@@ -1489,7 +1489,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # holds the vtable ahead of run_task's jump table.
     "pso/ui/window/TWindowSubInformationBoard.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
     # -str readonly: "TWindowBase" (TWindowBase__name, tmp buffer key) sits in .rodata (0x8044E658).
-    "pso/ui/window/TWindowSubComCard_80244774.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    "pso/ui/window/TWindowBase.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/ui/window/TWindowSubTechnique.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # -str readonly: the class name "TWindowCtrl" of TWindowCtrl__name sits in .rodata (0x8044EBC8).
     "pso/ui/window/TWindowCtrl.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},

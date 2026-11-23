@@ -20,7 +20,6 @@
 #include "pso/ui/window/TWindowDD_80348100.h"
 #include "pso/ui/window/TWindowDD_80348304.h"
 #include "pso/ui/window/TWindowDD_8034AF68.h"
-#include "pso/ui/window/TWindowSubComCard_80244774.h"
 #include "pso/map/FloorArea.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/system/NinjaTypes.h"

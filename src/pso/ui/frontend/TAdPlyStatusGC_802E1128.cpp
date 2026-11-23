@@ -1,6 +1,5 @@
 #include "types.h"
 #include "pso/ui/window/TWindowBase.h"
-#include "pso/ui/window/TWindowSubComCard_80244774.h"
 #include "pso/ui/frontend/TAdPlyStatusGC.h"
 
 #pragma inline_depth(1)

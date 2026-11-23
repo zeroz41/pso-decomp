@@ -3,7 +3,6 @@
 #include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/item/TItem.h"
 #include "pso/ui/window/TWindowHelpItem_8025A60C.h"
-#include "pso/ui/window/TWindowSubComCard_80244774.h"
 #include "pso/ui/window/TWindowSubStatusDisp_8026F6DC.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/ui/window/TWindowLockOn_80262C3C.h"

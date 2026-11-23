@@ -4,7 +4,6 @@
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowShortListCtrl.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/ui/window/TWindowSubComCard_80244774.h"
 
 
 extern s32 actor_frame_tick;

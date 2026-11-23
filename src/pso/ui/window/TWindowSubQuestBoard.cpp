@@ -6,7 +6,6 @@
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowSubQuestBoard.h"
 #include "pso/quest/TQuestThread.h"
-#include "pso/ui/window/TWindowSubComCard_80244774.h"
 #include "pso/ui/window/TWindowSubQuestBoard_8027D1E8.h"
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/window/TWindowSubQuestBoardSelect.h"

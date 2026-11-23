@@ -1,7 +1,6 @@
 #include "pso/system/ControllerInputState.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/ui/window/TWindowKeyBoardSoft.h"
-#include "pso/ui/window/TWindowSubComCard_80244774.h"
 #include "pso/unk/TLobby_80226070.h"
 #include "pso/unk/TWindowStatusGauge.h"
 #include "types.h"

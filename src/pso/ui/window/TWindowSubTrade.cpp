@@ -20,7 +20,6 @@ class TChCrTagPlBack;
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowCtrl_8024A054.h"
-#include "pso/ui/window/TWindowSubComCard_80244774.h"
 #include "pso/network/TradeSession.h"
 #include "pso/unk/text_802D298C.h"
 

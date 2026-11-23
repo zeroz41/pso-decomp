@@ -1,6 +1,5 @@
 #include "types.h"
 #include "pso/system/ControllerInputState.h"
-#include "pso/ui/window/TWindowSubComCard_80244774.h"
 #include "pso/unk/text_80263A20.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/enemy/morfos/TWindowSubTradeMain.h"

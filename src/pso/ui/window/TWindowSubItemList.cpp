@@ -6,7 +6,6 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/TWindowMenuIconLine.h"
 #include "pso/ui/window/TWindowSubItem.h"
-#include "pso/ui/window/TWindowSubComCard_80244774.h"
 #pragma readonly_strings on
 
 extern s32 actor_frame_tick;

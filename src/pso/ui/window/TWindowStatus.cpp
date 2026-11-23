@@ -29,7 +29,6 @@ f32 TWindowSubComCard__sub_80244784(TWindowSubComCard *);
 s32 TWindowSubComCard__sub_802452DC(int);
 s32 TWindowSubComCard__sub_80245320(void *, void *);
 s32 TWindowSubComCard__sub_802454E4(int);
-s32 TWindowSubComCard__sub_80245558(void *, void *, void *);
 void draw_photon_blast_gauge_ring(s32, void *, const f32 *, f32, f32);
 void begin_screen_draw(s32 arg0);
 s32 draw_textured_quad_at_depth(void *, f32);

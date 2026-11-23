@@ -64,7 +64,6 @@ f32 TWindowSubComCard__sub_80244784(TWindowSubComCard *);
 s32 TWindowSubComCard__sub_802452DC(int);
 s32 TWindowSubComCard__sub_80245320(void *, void *);
 s32 TWindowSubComCard__sub_802454E4(int);
-s32 TWindowSubComCard__sub_80245558(void *, void *, void *);
 extern s32 hud_texlist;
 }
 

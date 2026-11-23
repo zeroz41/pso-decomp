@@ -6532,7 +6532,7 @@ pso/ui/window/TWindowArea.cpp:
 	.sbss       start:0x805D63E8 end:0x805D63EC
 	.sdata2     start:0x805DCAB8 end:0x805DCAC8
 
-pso/ui/window/TWindowSubComCard_80244774.cpp:
+pso/ui/window/TWindowBase.cpp:
 	.text       start:0x80244774 end:0x80246B80
 	.rodata     start:0x8044E658 end:0x8044E768
 	.data       start:0x804CE018 end:0x804CE030

@@ -27,7 +27,6 @@
 #include "pso/system/TLanguage.h"
 #include "pso/ui/window/TWindowHelpItem.h"
 #include "pso/ui/chat/TWindowSubShortMail.h"
-#include "pso/ui/window/TWindowSubComCard_80244774.h"
 #include "pso/system/vector.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/ui/window/TWindowCtrlMain_8024CB7C.h"
@@ -550,16 +549,19 @@ void TWindowSubComCard__sub_802454E4(s32 texture) {
 }
 #pragma push
 #pragma fp_contract on
-bool TWindowSubComCard__sub_80245558(s32 ctx, f32 *arg1, f32 *arg2) {
+BOOL TWindowSubComCard__sub_80245558(void *ctx, void *position, void *size) {
     f32 limit_x;
     f32 start_x;
 
-    start_x = *(f32 *)((s8 *)arg1 + 0);
+    start_x = *(f32 *)position;
     limit_x = (5.0f * (f32) lbl_805D63F6) - 100.0f;
     if (limit_x <= start_x) {
-        return 0;
+        return FALSE;
     }
-    return !(limit_x >= (start_x + *(f32 *)((s8 *)arg2 + 0)));
+    if (limit_x >= (start_x + *(f32 *)size)) {
+        return FALSE;
+    }
+    return TRUE;
 }
 #pragma pop
 

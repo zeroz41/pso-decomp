@@ -16,7 +16,6 @@
 #include "pso/ui/window/ProgressMessageWindow.h"
 #include "pso/unk/TLobby.h"
 #include "pso/ui/window/TWindowBase.h"
-#include "pso/ui/window/TWindowSubComCard_80244774.h"
 #include "pso/ui/charcreate/TChCrCharSelect.h"
 
 #include <stddef.h>

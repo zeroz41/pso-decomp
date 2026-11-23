@@ -11,7 +11,6 @@
 #include "pso/npc/TObjNpcEnemy.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/network/TPlyJoinLobbyEntry.h"
-#include "pso/ui/window/TWindowSubComCard_80244774.h"
 #include "pso/object/warp/TObjWarpLobby_801A0760.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/ui/window/TWindowMenu.h"

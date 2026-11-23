@@ -21,7 +21,6 @@ extern "C" void render__22TAdEnterSerialAccessGCFv();
 
 #include "pso/unk/TLobby_80132ED0.h"
 #include "pso/quest/TQuestThread.h"
-#include "pso/ui/window/TWindowSubComCard_80244774.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/ui/frontend/TAdEnterBaseGC_8032B38C.h"

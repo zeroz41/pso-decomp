@@ -14,7 +14,6 @@
 #include "pso/object/warp/ForestWarpResources.h"
 #include "pso/unk/TLobby_801E43E4.h"
 #include "pso/unk/TLobby_801F2D2C.h"
-#include "pso/ui/window/TWindowSubComCard_80244774.h"
 #include "pso/unk/TLobby.h"
 #include "pso/system/task/TObject.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"

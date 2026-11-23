@@ -10,7 +10,7 @@
 #include "pso/ui/window/TWindowSimpleStatus.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/window/TWindowCtrl_8024B9C0.h"
-#include "pso/ui/window/TWindowSubComCard_80244774.h"
+#include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowLockOn.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/ui/window/TWindowCtrlMain.h"

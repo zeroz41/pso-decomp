@@ -38,7 +38,6 @@
 #include "pso/enemy/morfos/TWindowSubTradeMain.h"
 #include "pso/map/FloorArea.h"
 #include "pso/ui/window/TWindowShortListCtrl.h"
-#include "pso/ui/window/TWindowSubComCard_80244774.h"
 #include "pso/object/TObjLuker.h"
 #include "pso/unk/text_80269FE8.h"
 #include "pso/unk/text_80271400.h"
