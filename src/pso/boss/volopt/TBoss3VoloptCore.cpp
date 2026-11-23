@@ -41,7 +41,6 @@ s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
 void set_matrix_identity(s32 matrix, f32 scale);
 void rotate_vector_by_matrix(saddr matrix, Vec *src, Vec *dst);
 }
-void reset_status_effect_row(u8 *row);
 
 #pragma readonly_strings on
 static const char *TBoss3VoloptCore_name = "TBoss3VoloptCore";
@@ -187,8 +186,8 @@ void TBoss3VoloptCore::run_task() {
         }
     }
     if (obj_testFlags30(0x4000) != 0) {
-        if (((TObjPlayer *)this)->add_status_effect_timer(4, -1) <= 0) {
-            reset_status_effect_row(unk_284);
+        if (this->add_status_effect_timer(4, -1) <= 0) {
+            status_effects[4].clear();
             obj_clearFlags30(0x4000);
         }
     } else {

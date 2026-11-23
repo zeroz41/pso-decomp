@@ -127,9 +127,7 @@ struct Self_801B96BC {
     u8 fD04[4];
 };
 
-void reset_status_effect_row(u8 *arg0);
 extern "C" {
-f32 TObjPlayer__sub_800192C4(void *, int);
 s32 calc_stat_threshold__10TObjPlayerFPv(void *arg0);
 s32 set_params__10TObjPlayerFPvPvPviPv(void *, void *, void *, int, int);
 s32 preview_equip_stats__10TObjPlayerFv(u8 *arg0, s16 *out, u8 *incoming);
@@ -1119,7 +1117,6 @@ s32 try_spend_actor_meseta(u8 *arg0, s32 arg1);
 s32 set_hp_clamped__10TObjPlayerFs(void * a0 = 0, s16 a1 = 0);
 s32 add_actor_hp(u8 *arg0, s16 arg1);
 s32 is_locally_controlled__10TObjPlayerFPv(void * a0);
-s32 obj_getArrWord_254(void *, s32);
 s32 get_actor_tp(void *);
 int obj_getPtr2B0_20(u8 *p);
 s32 get_actor_hp__9TObjCharaFv(void *);
@@ -1431,6 +1428,7 @@ s32 TObjPlayer__sub_801C1F50(s32);
 s32 is_field_0_positive(s32 *arg0);
 void *get_ptr_8(void *p);
 void* __ct__12Unk_801C2068Fv(void*);
+void *__ct__12StatusEffectFv(void *);
 void init_player_telepipe_record(void *);
 int TObjPlayer__sub_801C2114(void);
 u8 get_byte_3(void *p);
@@ -2706,7 +2704,7 @@ s32 preview_equip_stats__10TObjPlayerFv(u8 *player, s16 *out, u8 *incoming) {
     b.field[5] = clamp_s32(b.field[5], 0, ((s16 *)TObjPlayer::get_class_stat_entry((u8 *)player))[5]);
     b.field[6] = clamp_s32(b.field[6], 0, ((s16 *)TObjPlayer::get_class_stat_entry((u8 *)player))[6]);
     set_params__10TObjPlayerFPvPvPviPv(out, player, (void *)&b, (saddr)&a, (saddr)&d);
-    rate = TObjPlayer__sub_800192C4(player, 2);
+    rate = ((TObjChara *)player)->get_status_effect_amount(2);
     {
         s16 range;
         slot = b.field[0];
@@ -2717,7 +2715,7 @@ s32 preview_equip_stats__10TObjPlayerFv(u8 *player, s16 *out, u8 *incoming) {
         range = get_attack_params_atp_max(&a) - get_attack_params_atp_min(&a);
         out[0] = atp + (s32)((f32)range * rate + (f32)range);
     }
-    rate = TObjPlayer__sub_800192C4(player, 3);
+    rate = ((TObjChara *)player)->get_status_effect_amount(3);
     out[1] = (s32)((f32)out[1] * rate + (f32)out[1]);
     return 1;
     }
@@ -2760,7 +2758,7 @@ s32 preview_unequip_stats__10TObjPlayerFv(Self_801B96BC *self, Out_801B96BC *out
         }
     }
     set_params__10TObjPlayerFPvPvPviPv((void *)out, (void *)self, &c, (saddr)a, (saddr)b);
-    k = TObjPlayer__sub_800192C4(self, 2);
+    k = ((TObjChara *)self)->get_status_effect_amount(2);
     i = c.atp;
     {
         s16 sl = i;
@@ -2769,7 +2767,7 @@ s32 preview_unequip_stats__10TObjPlayerFv(Self_801B96BC *self, Out_801B96BC *out
     d = get_attack_params_atp_max(a) - get_attack_params_atp_min(a);
     out->a = base + (s32)((f32)d * k + (f32)d);
     {
-        f32 k2 = TObjPlayer__sub_800192C4(self, 3);
+        f32 k2 = ((TObjChara *)self)->get_status_effect_amount(3);
         out->b = (f32)out->b * k2 + (f32)out->b;
     }
     return 2;
@@ -3544,7 +3542,7 @@ u8 *TObjPlayer::update_actor_ground_y_at(Vec *pos) {
     temp_f1 = pos->y;
     stack.y = temp_f1 + *(f32 *)((s8 *)temp_r6 + 0x10);
     stack.z = pos->z;
-    temp_r3 = (u8 *)csnVectorUnder(&stack, (CsnGroup **)&this->ground_cache, 0x5F);
+    temp_r3 = (u8 *)csnVectorUnder(&stack, this->ground_candidates.groups, 0x5F);
     if (temp_r3 == NULL) {
         return NULL;
     }
@@ -4196,7 +4194,7 @@ void TObjPlayer::rewind_position_history() {
     }
     TObjPlayer__sub_801BE918(this, *(s32 *)((s8 *)((u8 *)this) + 0x6AC), &stack.sp8, &stack.sp10);
     stack.spC = *(f32 *)((s8 *)((u8 *)this) + 0x3C);
-    temp_r3 = (u8 *)csnVectorUnder((Vec *)&stack.sp8, (CsnGroup **)&this->ground_cache, 0x41);
+    temp_r3 = (u8 *)csnVectorUnder((Vec *)&stack.sp8, this->ground_candidates.groups, 0x41);
     if (temp_r3 != NULL) {
         *(f32 *)((s8 *)((u8 *)this) + 0x38) = (f32) *(f32 *)((s8 *)(*(void **)((s8 *)temp_r3 + 4)) + 0);
         *(f32 *)((s8 *)((u8 *)this) + 0x3C) = (f32) *(f32 *)((s8 *)(*(void **)((s8 *)temp_r3 + 4)) + 4);
@@ -4646,7 +4644,7 @@ s32 TObjPlayer::is_outside_movement_hold(f32 *pos) {
 
 Obj_801B4FD8 *init_player_join_record(Obj_801B4FD8 *self) {
     s32 i;
-    __construct_array(self->f28, TObjPlayer::init_192dc_return_self, 0, 0xC, 5);
+    __construct_array(self->f28, __ct__12StatusEffectFv, 0, 0xC, 5);
     ((TObjPlayer *)(self->f68))->clear_header_struct();
     TObjPlayer__sub_801C1A00(self->f70);
     init_player_telepipe_record(self->f78);
@@ -4898,12 +4896,12 @@ s32 TObjPlayer::get_recovery_need_flags() {
     if (obj_testFlags30(0x3F) != 0) {
         var_r31 |= 4;
     }
-    switch (obj_getArrWord_254(this, 2)) {
+    switch (this->get_status_effect_type(2)) {
     case 0xB:
         var_r31 |= 4;
         break;
     }
-    switch (obj_getArrWord_254(this, 3)) {
+    switch (this->get_status_effect_type(3)) {
     case 0xC:
         var_r31 |= 4;
         break;
@@ -5667,37 +5665,37 @@ void remove_status_effect__10TObjPlayerFUiPv(uaddr arg0_, Pair_801B2C04 *arg1_) 
     switch (temp_r0) {
     case 0:
         ((TObjChara *)arg0)->actorFlags = (s32) (((TObjChara *)arg0)->actorFlags & 0xFFFFFFFC);
-        temp_f31 = -TObjPlayer__sub_800192C4((void *) arg0, 0);
+        temp_f31 = -((TObjChara *)arg0)->get_status_effect_amount(0);
         v = ((TObjChara *)arg0)->get_base_evp();
         v *= temp_f31;
         ((TObjChara *)arg0)->adjust_evp((s32) v);
-        reset_status_effect_row(arg0 + 0x254);
+        ((TObjChara *)arg0)->status_effects[0].clear();
         return;
     case 1:
         ((TObjChara *)arg0)->actorFlags = (s32) (((TObjChara *)arg0)->actorFlags & 0xFFFFFFC3);
-        temp_f31_2 = -TObjPlayer__sub_800192C4((void *) arg0, 1);
+        temp_f31_2 = -((TObjChara *)arg0)->get_status_effect_amount(1);
         v = ((TObjChara *)arg0)->get_base_evp();
         v *= temp_f31_2;
         ((TObjChara *)arg0)->adjust_evp((s32) v);
-        reset_status_effect_row(arg0 + 0x260);
+        ((TObjChara *)arg0)->status_effects[1].clear();
         return;
     case 2:
-        temp_f31_3 = -TObjPlayer__sub_800192C4((void *) arg0, 2);
+        temp_f31_3 = -((TObjChara *)arg0)->get_status_effect_amount(2);
         v = ((TObjChara *)arg0)->get_base_atp();
         v *= temp_f31_3;
         ((TObjChara *)arg0)->adjust_atp((s32) v);
-        temp_f31_4 = -TObjPlayer__sub_800192C4((void *) arg0, 2);
+        temp_f31_4 = -((TObjChara *)arg0)->get_status_effect_amount(2);
         v = ((TObjChara *)arg0)->get_base_atp_range();
         v *= temp_f31_4;
         ((TObjChara *)arg0)->adjust_atp_range((s32) v);
-        reset_status_effect_row(arg0 + 0x26C);
+        ((TObjChara *)arg0)->status_effects[2].clear();
         return;
     case 3:
-        temp_f31_5 = -TObjPlayer__sub_800192C4((void *) arg0, 3);
+        temp_f31_5 = -((TObjChara *)arg0)->get_status_effect_amount(3);
         v = ((TObjChara *)arg0)->get_base_dfp();
         v *= temp_f31_5;
         ((TObjChara *)arg0)->adjust_dfp((s32) v);
-        reset_status_effect_row(arg0 + 0x278);
+        ((TObjChara *)arg0)->status_effects[3].clear();
         return;
     }
 }
@@ -5711,26 +5709,26 @@ void TObjPlayer::cancel_status_effects() {
     f32 temp_f31_5;
     f32 v;
     ((TObjChara *)arg0)->actorFlags = (s32) (((TObjChara *)arg0)->actorFlags & 0xFFFFFFFC);
-    temp_f31 = -TObjPlayer__sub_800192C4(arg0, 0);
+    temp_f31 = -((TObjChara *)arg0)->get_status_effect_amount(0);
     v = ((TObjChara *)arg0)->get_base_evp();
     ((TObjChara *)arg0)->adjust_evp((s32) (v * temp_f31));
-    reset_status_effect_row(arg0 + 0x254);
+    ((TObjChara *)arg0)->status_effects[0].clear();
     ((TObjChara *)arg0)->actorFlags = (s32) (((TObjChara *)arg0)->actorFlags & 0xFFFFFFC3);
-    temp_f31_2 = -TObjPlayer__sub_800192C4(arg0, 1);
+    temp_f31_2 = -((TObjChara *)arg0)->get_status_effect_amount(1);
     v = ((TObjChara *)arg0)->get_base_evp();
     ((TObjChara *)arg0)->adjust_evp((s32) (v * temp_f31_2));
-    reset_status_effect_row(arg0 + 0x260);
-    temp_f31_3 = -TObjPlayer__sub_800192C4(arg0, 2);
+    ((TObjChara *)arg0)->status_effects[1].clear();
+    temp_f31_3 = -((TObjChara *)arg0)->get_status_effect_amount(2);
     v = ((TObjChara *)arg0)->get_base_atp();
     ((TObjChara *)arg0)->adjust_atp((s32) (v * temp_f31_3));
-    temp_f31_4 = -TObjPlayer__sub_800192C4(arg0, 2);
+    temp_f31_4 = -((TObjChara *)arg0)->get_status_effect_amount(2);
     v = ((TObjChara *)arg0)->get_base_atp_range();
     ((TObjChara *)arg0)->adjust_atp_range((s32) (v * temp_f31_4));
-    reset_status_effect_row(arg0 + 0x26C);
-    temp_f31_5 = -TObjPlayer__sub_800192C4(arg0, 3);
+    ((TObjChara *)arg0)->status_effects[2].clear();
+    temp_f31_5 = -((TObjChara *)arg0)->get_status_effect_amount(3);
     v = ((TObjChara *)arg0)->get_base_dfp();
     ((TObjChara *)arg0)->adjust_dfp((s32) (v * temp_f31_5));
-    reset_status_effect_row(arg0 + 0x278);
+    ((TObjChara *)arg0)->status_effects[3].clear();
 }
 #undef arg0
 

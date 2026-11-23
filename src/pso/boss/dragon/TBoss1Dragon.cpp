@@ -269,7 +269,6 @@ static Vec boss1_dragon_held_camera_eye_offsets[4] = {
     {300.0f, 120.0f, 50.0f},
 };
 f32 atan2_float(f32 y, f32 x);
-void subtractive_rng_seed(void *, u32);
 f32 calc_random_ratio__10TObjPlayerFv(void *);
 }
 void handle_6x12_dragon_boss_actions(TObjPlayer *packet);

@@ -53,4 +53,4 @@ TItem *create_dagger_weapon(u8 *item) {
 
 TUnk_804A0FA0::~TUnk_804A0FA0() {}
 
-void TObjPlayer::set_atp(s16 v) { *(s16 *)&this->unk_1CC = v; }
+void TObjPlayer::set_atp(s16 v) { *(s16 *)((u8 *)this + 0x1CC) = v; }

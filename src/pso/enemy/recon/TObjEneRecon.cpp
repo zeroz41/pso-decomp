@@ -234,7 +234,7 @@ void TObjEneRecon::update_ground_probe() {
     if ((actor_frame_tick % 5) == 0) {
         VecCopy(&probe, &position);
         probe.y += 15.0f;
-        hit = csnVectorUnder(&probe, (CsnGroup **)&ground_cache, 0x4000);
+        hit = csnVectorUnder(&probe, ground_candidates.groups, 0x4000);
         if (hit != NULL) {
             floor_flags = hit->contact->flags;
             VecCopy(&floor_point, &hit->contact->point);

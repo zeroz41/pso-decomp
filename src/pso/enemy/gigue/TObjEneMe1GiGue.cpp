@@ -1279,7 +1279,7 @@ void TObjEneMe1GiGue::clear_state7_flag() {
 }
 
 s32 TObjEneMe1GiGue::check_vector_bit(Vec *pos) {
-    CsnHit *hit = csnVectorUnder(pos, (CsnGroup **)&ground_cache, 5);
+    CsnHit *hit = csnVectorUnder(pos, ground_candidates.groups, 5);
     if (hit == NULL) {
         return 0;
     }

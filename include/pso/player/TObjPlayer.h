@@ -385,8 +385,6 @@ struct TObjPlayer : public TObjChara {
     static f32 calc_distance_to_client(saddr actor, u16 client, Vec *delta);
     s16 get_class_id();
     s16 get_item_index();
-    s32 add_status_effect_timer(s32 i, s32 v);
-    static void*init_192dc_return_self(void* p);
     void bswap_head16();
     void send_head();
     void init_packet_9a();

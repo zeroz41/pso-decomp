@@ -94,4 +94,4 @@ TItem *TObjPlayer::create_enter_state_804A0BC0(u8 *item) {
 }
 
 saddr TItemWeapon::get_tp() { return (this->previous_technique_roll); }
-void TObjPlayer::set_effect_state(s32 v) { *(s32 *)&this->unk_1C4 = v; }
+void TObjPlayer::set_effect_state(s32 v) { *(s32 *)((u8 *)this + 0x1C4) = v; }

@@ -103,7 +103,6 @@ s32 is_split_screen();
 f32 fabs_float(f32);
 s32 TBoss8Dragon__sub_800670E0(int, void *);
 f32 calc_random_ratio__10TObjPlayerFv(void *);
-s32 subtractive_rng_seed(void *, s32);
 void TBoss8Dragon__sub_80067074(saddr arg0, saddr prm);
 }
 const char *bm_modelparticle_gryphon_model_names[4] = {

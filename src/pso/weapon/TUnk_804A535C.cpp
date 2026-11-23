@@ -232,8 +232,8 @@ void rocket_punch_return_timer(uaddr arg0) {
 
 saddr TObjPlayer::get_hp_by_flag() {
     u8 *arg0 = (u8 *)this;
-    if (test_flags_any((s32 *)&this->unk_1F8, 4) != 0) {
+    if (test_flags_any((s32 *)(arg0 + 0x1F8), 4) != 0) {
         return *(s32 *)((s8 *)arg0 + 0x188);
     }
-    return this->m_184;
+    return *(s32 *)((s8 *)arg0 + 0x184);
 }

@@ -4,6 +4,7 @@
 #include "types.h"
 #include "pso/effect/TEffect.h"
 #include "pso/object/base/TObjMotion.h"
+#include "pso/map/CsnGroundCandidates.h"
 
 struct CsnGroup;
 struct TechniqueContactBody;
@@ -32,7 +33,7 @@ public:
     f32 range;
     f32 traveled;
     Vec previous;  // position before the last move
-    CsnGroup *ground_candidates[16];
+    CsnGroundCandidates ground_candidates;
     s16 level;
     s16 band;
     u16 sourceId;

@@ -65,7 +65,6 @@ u8 *get_player_by_client_id(s32);
 s32 submit_cursor_candidate(void *, int);
 }
 
-void reset_status_effect_row(u8 *row);
 
 struct NjModel {
     void *vlist;
@@ -368,8 +367,8 @@ void TBoss3VoloptP02::run_task() {
             }
         }
         if (obj_testFlags30(0x4000) != 0) {
-            if (((TObjPlayer *)this)->add_status_effect_timer(4, -1) <= 0) {
-                reset_status_effect_row(unk_284);
+            if (this->add_status_effect_timer(4, -1) <= 0) {
+                status_effects[4].clear();
                 obj_clearFlags30(0x4000);
             }
         } else {

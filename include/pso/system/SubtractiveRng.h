@@ -11,6 +11,6 @@ struct SubtractiveRng {
 };
 LAYOUT_ASSERT(SubtractiveRng_size, sizeof(SubtractiveRng) == 0xE8);
 
-extern "C" void subtractive_rng_seed(SubtractiveRng *rng, s32 seed);
+extern "C" void subtractive_rng_seed(void *rng, s32 seed);
 
 #endif

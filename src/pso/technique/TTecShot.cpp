@@ -121,7 +121,6 @@ TTecShot::TTecShot(saddr source, u8 *pos, u8 *target, s32 level) : TEffect() {
     f32 dz;
     f32 dy;
     s32 yaw;
-    initialize_ground_candidates(ground_candidates);
     this->sourceId = 0xFFFF;
     dx = ((Vec *)target)->x - ((Vec *)pos)->x;
     dz = ((Vec *)target)->z - ((Vec *)pos)->z;
@@ -187,7 +186,6 @@ TTecShot::TTecShot(saddr source, u8 *pos, u8 *target, s32 level) : TEffect() {
 // The facing form: the technique starts at `pos` and flies along the y angle
 // `angle` instead of towards a target point.
 TTecShot::TTecShot(saddr source, Vec *pos, s32 angle, s32 level) : TEffect() {
-    initialize_ground_candidates(ground_candidates);
     this->sourceId = 0xFFFF;
     this->position.x = pos->x;
     this->position.y = pos->y;

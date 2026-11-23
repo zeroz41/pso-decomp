@@ -1496,9 +1496,9 @@ force_active:
   - __ct__11TObjPathObjFP7TObjectPv
   - __ct__13TObjPlayerSetFP7TObjectPv
   - TObjPlayer__sub_800181DC
-  - TObjPlayer__sub_800193FC
-  - TObjPlayer__sub_8001940C
-  - TObjPlayer__sub_8001941C
+  - set_status_effect_timer__9TObjCharaFll
+  - set_status_effect_type__9TObjCharaFll
+  - set_status_effect_amount__9TObjCharaFlf
   - TObjPlayer__sub_8001951C
   - TObjPlayer__sub_8002ECC4
   - TObjPlayer__sub_8002ED48

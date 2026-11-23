@@ -2,12 +2,25 @@
 #define PSO_OBJECT_BASE_TOBJCHARA_H
 #include "types.h"
 #include "pso/object/base/TObjMotion.h"
+#include "pso/map/CsnGroundCandidates.h"
+#include "pso/system/SubtractiveRng.h"
 
 struct Vec;
 struct ActorParamBlock;
 struct ControllerInputContext;
 struct AttackParams;
 struct CsnGroup;
+
+// One row of a character's status effects: 0 poison/paralysis, 1 slow,
+// confusion, freeze or shock, 2 the attack stat (Shifta/Jellen), 3 the
+// defense stat (Deband/Zalure), 4 an action hold.
+struct StatusEffect {
+    StatusEffect();
+    void clear();
+    s32 type;
+    f32 amount;
+    s32 timer;  // frames left
+};
 
 struct DirectAttackPayload {
     s32 kind;
@@ -37,6 +50,13 @@ public:
     f32 get_attack_range();
     s32 get_attack_angle();
     s16 test_immunity_flags(s32);
+    f32 get_status_effect_amount(s32 i);
+    s32 get_status_effect_type(s32 i);
+    void set_status_effect_timer(s32 i, s32 timer);
+    void set_status_effect_type(s32 i, s32 type);
+    void set_status_effect_amount(s32 i, f32 amount);
+    s32 get_status_effect_timer(s32 i);
+    s32 add_status_effect_timer(s32 i, s32 frames);
     s16 get_actor_attack_params_atp_min();
     s32 obj_testFlag_2E4(u32);
     int obj_getPtr2B0_1C();
@@ -143,28 +163,10 @@ public:
     s16 m_11c;
     u8 pad_11E[0x1];
     u8 m_11f;
-    CsnGroup *ground_cache;  // csnVectorUnder's cached candidate groups for ground probes
-    u8 pad_124[0x17];
-    u8 m_13b;
-    u8 pad_13C[0x1B];
-    u8 m_157;
-    u8 pad_158[0x2C];
-    s32 m_184;
-    u8 pad_188[0x7];
-    u8 m_18f;
-    u8 pad_190[0x1B];
-    u8 m_1ab;
-    u8 pad_1AC[0x18];
-    TObject *unk_1C4;
-    u8 pad_1C8[0x4];
-    u8 unk_1CC[0x2];
-    u8 pad_1CE[0x2A];
-    u8 unk_1F8[0x4];
-    u8 pad_1FC[0x4C];
+    CsnGroundCandidates ground_candidates;  // ground_cache points here
+    SubtractiveRng rng;
     Vec ground_normal;
-    u8 pad_254[0x30];
-    u8 unk_284[0x8];
-    u8 pad_28C[0x4];
+    StatusEffect status_effects[5];
     Vec move_origin;  // where the current move started (calc_velocity_toward_destination's from)
     Vec move_destination;  // where the current move goes
     u8 *target;

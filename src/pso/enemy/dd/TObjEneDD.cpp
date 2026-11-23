@@ -128,7 +128,6 @@ int submit_cursor_candidate(void*, int);
 #include "pso/network/TProtocol.h"
 
 extern "C" {
-s32 subtractive_rng_seed(void *, int);
 int fn_800FD8A0(void*);
 extern s32 area_random_seed;
 }
@@ -297,7 +296,7 @@ void TObjEneDD::init_common_from(u8 *source) {
     reset_state_fields();
     this->room = (s16) *(s16 *)((s8 *)source + 0x28);
     this->set_group = (s16) *(s16 *)((s8 *)source + 0x2A);
-    subtractive_rng_seed((void *) (((u8 *)this) + 0x160), (int) (this->entity_id + area_random_seed));
+    subtractive_rng_seed(&this->rng, (int) (this->entity_id + area_random_seed));
 }
 
 
@@ -453,10 +452,10 @@ u8 *TObjEneDD::snap_to_ground_at(u8 *dest) {
     probe.x = target->x;
     probe.y = target->y + *(f32 *)(this->stat_block + 0x10);
     probe.z = target->z;
-    if (csnVectorUnder(&probe, (CsnGroup **)&this->ground_cache, 0xE0) != NULL) {
+    if (csnVectorUnder(&probe, this->ground_candidates.groups, 0xE0) != NULL) {
         return NULL;
     }
-    hit = csnVectorUnder(&probe, (CsnGroup **)&ground_cache, 0x15);
+    hit = csnVectorUnder(&probe, ground_candidates.groups, 0x15);
     if (hit == NULL) {
         return NULL;
     }

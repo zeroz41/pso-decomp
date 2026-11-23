@@ -919,7 +919,7 @@ void TObjEneDolmOlm::spawn_ground_effects(Vec *pos) {
     TParticleCtrl *e;
     VecCopy(&v, pos);
     v.y += 15.0f;
-    hit = csnVectorUnder(&v, (CsnGroup **)&ground_cache, 0x4007);
+    hit = csnVectorUnder(&v, ground_candidates.groups, 0x4007);
     if (hit != NULL) {
         if (hit->hit_mask & 4) {
             if (actor_frame_tick % 5 == 0) {

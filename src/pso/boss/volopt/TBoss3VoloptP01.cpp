@@ -50,7 +50,6 @@ extern s32 registered_player_count;
 
 // TBoss3Volopt.cpp defines these; its header does not declare them yet.
 }
-void reset_status_effect_row(u8 *row);
 
 #pragma readonly_strings on
 static const char *TBoss3VoloptP01_class_name = "TBoss3VoloptP01";
@@ -207,8 +206,8 @@ void TBoss3VoloptP01::run_task() {
         run_hit_reaction();
     }
     if (obj_testFlags30(0x4000) != 0) {
-        if (((TObjPlayer *)this)->add_status_effect_timer(4, -1) <= 0) {
-            reset_status_effect_row(unk_284);
+        if (this->add_status_effect_timer(4, -1) <= 0) {
+            status_effects[4].clear();
             obj_clearFlags30(0x4000);
         }
     } else {

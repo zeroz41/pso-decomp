@@ -1747,7 +1747,7 @@ s32 TObjEneGibbles::spawn_ground_contact_effect() {
     Vec point;
     VecCopy(&point, &position);
     point.y += 15.0f;
-    CsnHit *hit = csnVectorUnder(&point, (CsnGroup **)&ground_cache, 0x15);
+    CsnHit *hit = csnVectorUnder(&point, ground_candidates.groups, 0x15);
     if (hit != NULL) {
         if (hit->hit_mask & 4) {
             spawn_ground_impact_effects(&position, 3.0f);
@@ -1766,7 +1766,7 @@ s32 TObjEneGibbles::spawn_ground_impact_effects(const Vec *pos, f32 scale) {
     }
     VecCopy(&point, pos);
     point.y += 15.0f;
-    CsnHit *hit = csnVectorUnder(&point, (CsnGroup **)&ground_cache, 5);
+    CsnHit *hit = csnVectorUnder(&point, ground_candidates.groups, 5);
     if (hit != NULL && (hit->hit_mask & 4) != 0) {
         TParticleCtrl *spray = (TParticleCtrl *)spawn_particle_effect(&hit->contact[2].point, 0x49);
         if (spray != NULL) {

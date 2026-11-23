@@ -1209,7 +1209,7 @@ s32 project_actor_to_ground(TObjCollidable *actor, Vec *pos, Vec *normal) {
 
 void TObjCollidable::reset_motion_fields() {
     if (ground_cache != NULL) {
-        clear_ground_candidates(static_cast<CsnGroup **>(ground_cache));
+        static_cast<CsnGroundCandidates *>(ground_cache)->clear();
     }
 }
 void TObjPlayer__sub_80156934(void) { TObjPlayer::clear_item_table(); TObjPlayer::init_all_slots(); }

@@ -78,7 +78,7 @@ void TObjCGrass::run_task() {
         VecCopy(&prev_position, &a);
         vec3_add_to(&a, &b);
         if (i == actor_frame_tick % fragment_count) {
-            hit = csnVectorUnder(&a, ground_candidates, 1);
+            hit = csnVectorUnder(&a, ground_candidates.groups, 1);
             if (hit != NULL) {
                 VecCopy(&a, &hit->contact->point);
                 b.y += -0.10888889f;
@@ -137,9 +137,8 @@ TObjCGrass::~TObjCGrass() {
 #define self this
 TObjCGrass::TObjCGrass(Vec *origin, s32 count, s32 lifetime) : TObjMotion(tl_06) {
     CsnHit *hit;
-    initialize_ground_candidates(self->ground_candidates);
     self->m_name = TObjCGrass__name;
-    hit = csnVectorUnder(origin, self->ground_candidates, 1);
+    hit = csnVectorUnder(origin, self->ground_candidates.groups, 1);
     if (hit != NULL) {
         VecCopy(&self->position, &hit->contact->point);
     } else {

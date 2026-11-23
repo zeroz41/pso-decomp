@@ -139,7 +139,6 @@ struct LockOnEntryColor {
 };
 
 extern "C" {
-u32 obj_getArrWord_254(LockOnEnemyView *, s32);
 s16 obj_getS16_2BA(LockOnEnemyView *);
 u16 get_entity_id(void *);
 s32 is_split_screen(void);
@@ -390,7 +389,7 @@ void TWindowLockOn::refresh_enemy_statuses() {
     }
     i = 0;
     do {
-        mode = get_status_effect_icon_index(obj_getArrWord_254(enemy, i));
+        mode = get_status_effect_icon_index(((TObjChara *)enemy)->get_status_effect_type(i));
         ((TWindowComCard *)get_array_entry(i + 3))->set_help_mode(mode);
         i++;
     } while (i < 4);

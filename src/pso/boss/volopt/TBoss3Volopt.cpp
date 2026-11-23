@@ -73,7 +73,6 @@ u16 TObjRoomId__sub_801A1DB8(u16 id);
 void TObjPlayer__sub_801BA42C(void);
 extern s32 door_vo_ship_class_name;
 }
-void reset_status_effect_row(u8 *row);
 void reset_cameras_to_actor(void *actor, s32 flags);
 
 static const char *bm_boss3_volopt_model_names[] = {
@@ -457,8 +456,8 @@ void TBoss3Volopt::run_task() {
         return;
     }
     if (obj_testFlags30(0x4000) != 0) {
-        if (((TObjPlayer *)this)->add_status_effect_timer(4, -1) <= 0) {
-            reset_status_effect_row(unk_284);
+        if (this->add_status_effect_timer(4, -1) <= 0) {
+            status_effects[4].clear();
             obj_clearFlags30(0x4000);
         }
     } else {

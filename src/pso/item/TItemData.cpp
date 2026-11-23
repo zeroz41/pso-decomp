@@ -93,7 +93,6 @@ struct Parm_8010C320
 };
 
 extern "C" {
-s32 obj_getArrWord_254(void *, int);
 u16 get_entity_id(void *);
 s32 check_equip_requirements(void *self, TItemData *p, s32 *out);
 void *lookup_item_pmt_record(u8 *item);
@@ -995,13 +994,13 @@ s32 TItemData::calc_action_flags(s32 mask, u8 *player) {
         switch (((u8 *)this)[2])
       {
         case 0:
-          if (obj_getArrWord_254(player, 0) != 0xF)
+          if (((TObjChara *)player)->get_status_effect_type(0) != 0xF)
         {
           result |= 1;
         }
           break;
         case 1:
-          if (obj_getArrWord_254(player, 0) != 0x10)
+          if (((TObjChara *)player)->get_status_effect_type(0) != 0x10)
         {
           result |= 1;
         }

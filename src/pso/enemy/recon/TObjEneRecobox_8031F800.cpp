@@ -347,7 +347,7 @@ void TObjEneRecobox::update_body_colliders() {
     } else {
         probe.y += 5.0f;
     }
-    hit = csnVectorUnder(&probe, (CsnGroup **)&ground_cache, 0x15);
+    hit = csnVectorUnder(&probe, ground_candidates.groups, 0x15);
     if (hit == NULL || body_center.y >= 40.0f + hit->contact->point.y) {
         set_colliders_contact_high();
     }
@@ -689,7 +689,7 @@ void TObjEneRecobox::update_floor_probe() {
     if ((actor_frame_tick % 5) == 0) {
         VecCopy(&probe, &position);
         probe.y += 15.0f;
-        hit = csnVectorUnder(&probe, (CsnGroup **)&ground_cache, 0x4000);
+        hit = csnVectorUnder(&probe, ground_candidates.groups, 0x4000);
         if (hit != NULL) {
             floor_flags = hit->contact->flags;
             VecCopy(&floor_point, &hit->contact->point);

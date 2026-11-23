@@ -127,7 +127,7 @@ typedef struct TObjPlayer_800F6B68 {
 struct A_800F698C {
     u8 pad0[0x1C]; u16 f1C; u8 pad1E[0x28 - 0x1E]; s16 f28; s16 f2A; s16 f2C;
     u8 pad2E[0x38 - 0x2E]; Vec v38; u8 pad44[0x50 - 0x44]; Vec v50; Vec v5C;
-    u8 pad68[0x160 - 0x68]; u8 f160[0x354 - 0x160]; f32 f354[5]; s32 f368; s32 f36C;
+    u8 pad68[0x160 - 0x68]; SubtractiveRng rng; u8 pad248[0x354 - 0x248]; f32 f354[5]; s32 f368; s32 f36C;
 };
 
 struct B_800F698C {
@@ -142,14 +142,12 @@ struct Node_800F6E2C {
     Node_800F6E2C *f34C;
 };
 
-f32 TObjPlayer__sub_800192C4(saddr, s32);
 
 u16 obj_getArrU16_FC(void *, int);
 
 
 s16 get_attack_params_atp_min(void *);
 
-s32 TObjPlayer__sub_8001943C(void *, int);
 
 s16 TObjPlayer__sub_800194E8(void *);
 
@@ -162,7 +160,6 @@ s32 is_split_screen();
 s32 get_current_floor();
 
 
-void subtractive_rng_seed(void *, s32);
 
 void handle_6x9C_set_enemy_low_game_flags_ultimate(Msg_800F62E0 *arg0);
 
@@ -355,9 +352,9 @@ block_14:
     *(s16 *)((s8 *)((u8 *)this) + 0x2F6) = (s16) *(s16 *)((s8 *)(*(u8 **)((s8 *)((u8 *)this) + 0x31C)) + 4);
     this->m_2f8 = (s16) *(s16 *)((s8 *)(*(u8 **)((s8 *)((u8 *)this) + 0x31C)) + 0xA);
     *(s16 *)((s8 *)((u8 *)this) + 0x2FA) = (s16) *(s16 *)((s8 *)(*(u8 **)((s8 *)((u8 *)this) + 0x31C)) + 8);
-    this->adjust_atp((s32)((f32)this->get_base_atp() * TObjPlayer__sub_800192C4((saddr)this, 2)));
-    this->adjust_atp_range((s32)((f32)this->get_base_atp_range() * TObjPlayer__sub_800192C4((saddr)this, 2)));
-    this->adjust_dfp((s32)((f32)this->get_base_dfp() * TObjPlayer__sub_800192C4((saddr)this, 3)));
+    this->adjust_atp((s32)((f32)this->get_base_atp() * this->get_status_effect_amount(2)));
+    this->adjust_atp_range((s32)((f32)this->get_base_atp_range() * this->get_status_effect_amount(2)));
+    this->adjust_dfp((s32)((f32)this->get_base_dfp() * this->get_status_effect_amount(3)));
     return 1;
 }
 
@@ -740,7 +737,7 @@ void TObjEnemy::apply_set_data(void *arg1_arg) {
     arg0->f28 = arg1->f8;
     arg0->f2A = arg1->fA;
     arg0->f2C = arg1->f0;
-    subtractive_rng_seed(arg0->f160, arg0->f1C + area_random_seed);
+    subtractive_rng_seed(&arg0->rng, arg0->f1C + area_random_seed);
 }
 
 void TObjEnemy::apply_enemy_state(s32 *state) {
@@ -804,12 +801,12 @@ s32 TObjEnemy::sync_enemy_state(s32 status) {
         case 9:
         case 11:
             pkt.attack_status = status;
-            pkt.attack_status_level = 0.1f * ((f32)TObjPlayer__sub_8001943C(this, 2) / 30.0f - 40.0f);
+            pkt.attack_status_level = 0.1f * ((f32)this->get_status_effect_timer(2) / 30.0f - 40.0f);
             break;
         case 10:
         case 12:
             pkt.defense_status = status;
-            pkt.defense_status_level = 0.1f * ((f32)TObjPlayer__sub_8001943C(this, 3) / 30.0f - 40.0f);
+            pkt.defense_status_level = 0.1f * ((f32)this->get_status_effect_timer(3) / 30.0f - 40.0f);
             break;
         }
         ret = this->exchange_object_state(&pkt, 0);

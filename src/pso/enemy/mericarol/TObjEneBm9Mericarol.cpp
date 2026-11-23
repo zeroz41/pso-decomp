@@ -1313,7 +1313,7 @@ void TObjEneBm9Mericarol::play_step_effect() {
     VecCopy(&origin, &position);
     origin.y += 15.0f;
 
-    CsnHit *hit = csnVectorUnder(&origin, (CsnGroup **)&ground_cache, 0x15);
+    CsnHit *hit = csnVectorUnder(&origin, ground_candidates.groups, 0x15);
     if (hit != NULL) {
         u32 surface_mask = hit->hit_mask & 4;
         if (surface_mask != 0) {

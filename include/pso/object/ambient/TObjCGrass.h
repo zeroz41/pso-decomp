@@ -4,6 +4,7 @@
 #include <stddef.h>
 #include "types.h"
 #include "pso/object/base/TObjMotion.h"
+#include "pso/map/CsnGroundCandidates.h"
 
 struct CsnGroup;
 
@@ -23,7 +24,7 @@ struct TObjCGrass : public TObjMotion {
     f32 last_animation_frame;
     s32 fragment_count;
     s32 remaining_frames;
-    CsnGroup *ground_candidates[16];
+    CsnGroundCandidates ground_candidates;
     virtual void render();
     virtual void run_task();
     static void release_global_805D5130();

@@ -1031,7 +1031,6 @@ s32 add_actor_tp(u8 *arg0, s32 arg1);
 s32 add_actor_hp(u8 *arg0, s16 arg1);
 void set_technique_id__10TObjPlayerFs(void *, s32);
 s32 get_actor_hp__9TObjCharaFv(void * a0 = 0);
-s32 TObjPlayer__sub_8001943C(void *, s32);
 void obj_setFlags30(void *, u32);
 s32 get_current_floor(void);
 f32 atan2_float(f32 y, f32 x);
@@ -2279,7 +2278,7 @@ void TObjPlayer::enter_freeze_action() {
         this->phase = 1;
     } else {
         this->phase = 0;
-        *(s32 *)((s8 *)this + 0x3D4) = (s32) -(lbl_80447128 * (f64) TObjPlayer__sub_8001943C(this, 1));
+        *(s32 *)((s8 *)this + 0x3D4) = (s32) -(lbl_80447128 * (f64) this->get_status_effect_timer(1));
     }
     this->set_action_state(0x13, (s16) ((s16 (*)(void))ret_801D26AC)());
 }

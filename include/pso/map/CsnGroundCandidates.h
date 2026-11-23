@@ -3,9 +3,12 @@
 
 struct CsnGroup;
 
-extern "C" {
-CsnGroup **initialize_ground_candidates(CsnGroup **candidates);
-void clear_ground_candidates(CsnGroup **candidates);
-}
+// The collision groups csnVectorUnder last found under an object; ground
+// probes search these first.
+struct CsnGroundCandidates {
+    CsnGroundCandidates();
+    void clear();
+    CsnGroup *groups[16];
+};
 
 #endif

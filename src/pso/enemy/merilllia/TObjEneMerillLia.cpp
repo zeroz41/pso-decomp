@@ -1062,7 +1062,7 @@ void TObjEneMerillLia::spawn_ground_effect() {
     CsnHit *hit;
     VecCopy(&pos, &position);
     pos.y += 15.0f;
-    hit = csnVectorUnder(&pos, (CsnGroup **)&ground_cache, 5);
+    hit = csnVectorUnder(&pos, ground_candidates.groups, 5);
     if ((hit != NULL) && (hit->hit_mask & 4)) {
         if (((s32)((f32)actor_frame_tick * (3.0517578125e-05f * (f32)rand())) % 5) == 0) {
             particle = spawn_particle_effect(&hit->contact[2].point, 0x49);

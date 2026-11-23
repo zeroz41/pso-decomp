@@ -79,7 +79,6 @@ WindowDescriptor simple_status_window_layout = {
 };
 
 extern "C" {
-int obj_getArrWord_254(void *p, int i);
 void TWindowComCard__set_column(u8 *arg0, s32 arg1);
 void *TWindowComCard__sub_80249ED8(void *, void *, void *, s32, s32, s32);
 void draw_photon_blast_fan(saddr, NJS_POINT2 *, Params_80270244 *, u32, f32, s32, s32, f32);
@@ -290,7 +289,7 @@ void TWindowSimpleStatus::update_status_icons(void *ofs) {
     }
     j++;
     for (k = 0; k < 4; k++, j++) {
-        s32 word = obj_getArrWord_254(player, k);
+        s32 word = ((TObjChara *)player)->get_status_effect_type(k);
         if (word == 0) {
             if (((Disp_8026F9F4 *)this)->windows[j] != NULL) {
                 ((TWindowBase *)(((Disp_8026F9F4 *)this)->windows[j]))->close();

@@ -97,10 +97,6 @@ u8 TQuestVmDownLoadServer__memcard_key[0x10] = {
 const char memcard_default_banner[4] = "\xF0\x04";
 const char memcard_default_icon[4] = "\x04";
 }
-struct SubtractiveRng {
-    SubtractiveRng();
-    u32 state[58];
-};
 
 u32 lbl_805137C8[4];
 uaddr chr_select_buffer_ptr_table[8];
