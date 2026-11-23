@@ -220,7 +220,7 @@ TObjItemNameSelect::TObjItemNameSelect(TObject *parent) : TObject(parent) {
         TObjCityMainWarp::forward_trade_action_default(m_1c, get_text_collection(item_name_selection_table[i].text_id), 6, i);
     }
     ((TWindowSubComCardList *)m_1c)->set_scroll_target(216.0f, 144.0f);
-    TWindowSubComCard__sub_80265500((u8 *)m_1c);
+    TWindowSubComCard__sub_80265500((TWindowMenu *)m_1c);
     ((TWindowBase *)m_1c)->set_depth(39000.0f);
     pos.x = 332.0f;
     pos.y = 80.0f;

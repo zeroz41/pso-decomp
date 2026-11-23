@@ -490,7 +490,7 @@ void TWindowSubTradeMain::run_task() {
         if (are_both_trade_offers_confirmed() != 0) {
             ((TWindowSubComCard *)(o->confirm))->set_entry_value_clear_flag(2, 0xFFEE946E);
         } else {
-            TWindowSubComCard__sub_80265680((u8 *)o->confirm, 2);
+            TWindowSubComCard__sub_80265680((TWindowMenu *)o->confirm, 2);
         }
         if (((TWindowMenu *)(o->confirm))->is_cancelled() != 0) {
             o->state = 0x16;

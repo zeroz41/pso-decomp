@@ -24,6 +24,7 @@
 #include "pso/ui/window/TWindowHelpItem.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/unk/WindowLayoutRecord.h"
+#include "pso/unk/TUnk_804CFA28.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
@@ -34,25 +35,6 @@
 #pragma readonly_strings on
 
 extern "C" {
-struct ScrollClampRange {
-    f32 sp8;
-    f32 spC;
-};
-
-struct ScrollbarExtent {
-    f32 sp8;
-    f32 spC;
-};
-
-struct ScrollbarInitExtent {
-    f32 sp8;
-    f32 spC;
-};
-
-struct E_80265660 { u32 flags; u32 b; };
-
-struct MenuRowFlagView { u8 pad[0x80]; E_80265660 *entries; };
-
 struct Rec_802655E4 { s32 a; s32 b; };
 
 struct Win_802655E4 { u8 p0[0x72]; s16 f72; s16 f74; s16 f76; u8 p78[8]; Rec_802655E4 *f80; };
@@ -63,14 +45,6 @@ struct Ent_802656D8 { u8 p0[0x24]; s32 f24; };
 
 struct Win_802656D8 { u8 p0[0x80]; Rec_802656D8 *f80; };
 
-struct MenuScrollClampRange {
-    f32 sp8;
-    f32 spC;
-};
-
-struct E_80265BF8 { u32 a; u32 b; };
-
-struct SelectedValueView { u8 pad[0x78]; s16 selected_row; u8 pad2[6]; E_80265BF8 *entries; };
 
 
 struct Ent_80265C30 { u8 pad[0x8]; f32 x; u8 padc[4]; f32 w; f32 h; };
@@ -95,9 +69,9 @@ struct Ent_80265C30;
 
 s32 play_sound_effect(s32, s32, s32, s32);
 void measure_message_text_width(Ent_80265C30 *e, f32 x);
-void TWindowSubComCard__sub_80265500(u8 *arg0);
-s32 TWindowSubComCard__sub_80265660(MenuRowFlagView *o, s16 i);
-void TWindowSubComCard__sub_80265680(u8 *arg0, s16 index);
+void TWindowSubComCard__sub_80265500(TWindowMenu *menu);
+s32 TWindowSubComCard__sub_80265660(TWindowMenu *menu, s16 row);
+void TWindowSubComCard__sub_80265680(TWindowMenu *menu, s16 row);
 int forward_trade_action_default__16TObjCityMainWarpFPviii(void* p, int a1, int a2, int a3);
 void fn_80266378(s32 rows);
 
@@ -139,41 +113,38 @@ void TWindowMenuInfomation::clear_flag_and_release2() {
 }
 
 void TWindowSubComCardList::update_scroll_target_position() {
-    ScrollbarExtent stack;
+    f32 position[2];
     u8 *window_menu;
     window_menu = (u8 *)(*(u8 * *)&this->m_84);
     if (window_menu != NULL) {
-        stack.sp8 = ((this->frame_size[0]) - 4.0f) - 9.0f;
-        stack.spC = (f32) ((*(s16 *)&this->m_72 * 0x14) - 2);
-        ((Scroll_8026D790 *)window_menu)->copy_position(&stack.sp8);
+        position[0] = ((this->frame_size[0]) - 4.0f) - 9.0f;
+        position[1] = (f32) ((*(s16 *)&this->m_72 * 0x14) - 2);
+        ((Scroll_8026D790 *)window_menu)->copy_position(position);
     }
 }
 
-void TWindowSubComCard__sub_80265500(u8 *menu_window) {
-    ScrollClampRange stack;
+void TWindowSubComCard__sub_80265500(TWindowMenu *menu) {
+    f32 scroll_range[2];
     f32 max_scroll_y;
-    if ((u32) *(u32 *)((s8 *)menu_window + 0x84) != 0U) {
-        stack.sp8 = 0.0f;
-        max_scroll_y = *(f32 *)((s8 *)menu_window + 0x4C) - 20.0f;
-        stack.spC = max_scroll_y;
-        if ((u32) *(u32 *)((s8 *)menu_window + 0x88) != 0U) {
-            stack.spC = max_scroll_y - 6.0f;
+    if (menu->m_84 != 0U) {
+        scroll_range[0] = 0.0f;
+        max_scroll_y = menu->frame_size[1] - 20.0f;
+        scroll_range[1] = max_scroll_y;
+        if (menu->m_88 != NULL) {
+            scroll_range[1] = max_scroll_y - 6.0f;
         }
-        clamp_list_scroll_offset((int) (*(u32 *)((s8 *)menu_window + 0x84)), menu_window + 0x68, &stack.sp8);
+        clamp_list_scroll_offset(menu->m_84, menu->scroll_offset, scroll_range);
     }
 }
 
 void TWindowSubComCardList::sub_8026556C() {
-    LAYOUT_ASSERT(sp8_offset, offsetof(ScrollbarInitExtent, sp8) == 0x0);
-    LAYOUT_ASSERT(spC_offset, offsetof(ScrollbarInitExtent, spC) == 0x4);
-    ScrollbarInitExtent stack;
+    f32 extent[2];
     f32 extent_x;
-    u32 temp_r3;
     if ((u32) this->m_84 == 0U) {
         extent_x = this->target_size[0] - 8.0f;
-        stack.spC = 0.0f;
-        stack.sp8 = extent_x;
-        this->m_84 = reinterpret_cast<uaddr>(new Scroll_8026D790(&stack.sp8));
+        extent[1] = 0.0f;
+        extent[0] = extent_x;
+        this->m_84 = reinterpret_cast<uaddr>(new Scroll_8026D790(extent));
         this->window_flags = (s32) (this->window_flags | 0x80);
     }
 }
@@ -194,30 +165,16 @@ void TWindowSubComCardList::reset_entries() {
     }
 }
 
-s32 TWindowSubComCard__sub_80265660(MenuRowFlagView *o, s16 i) {
-    if (o->entries[i].flags & 0x10) return 0;
+s32 TWindowSubComCard__sub_80265660(TWindowMenu *menu, s16 row) {
+    if (menu->rows[row].flags & 0x10) return 0;
     return 1;
 }
 
-void TWindowSubComCard__sub_80265680(u8 *arg0, s16 index) {
-  s32 *new_var;
-  s16 var_r31;
-  s16 var_r4;
-  saddr row_entry;
-  s32 var_r3;
-  saddr var_r5;
-  u8 *var_r30;
-  var_r31 = index;
-  var_r30 = (u8 *) arg0;
-  var_r4 = var_r31;
-  row_entry = reinterpret_cast<saddr>(((TWindowBase *)arg0)->get_array_entry((s16)var_r4));
-  var_r4 = 0xFF910000;
-  var_r5 = *((s32 *) (((s8 *) var_r30) + 0x80));
-  var_r4 = var_r31;
-  new_var = (s32 *) (((s8 *) var_r5) + (var_r4 * 8));
-  *((s32 *) (((s8 *) row_entry) + 0x24)) = 0xFF909090;
-  ;
-  *new_var = (*new_var) | 0x10;
+void TWindowSubComCard__sub_80265680(TWindowMenu *menu, s16 row) {
+    TUnk_804CFA28 *entry = static_cast<TUnk_804CFA28 *>(menu->get_array_entry(row));
+    TWindowMenuRow *state = &menu->rows[row];
+    entry->color = 0xFF909090;
+    state->flags |= 0x10;
 }
 
 void TWindowSubComCard::set_entry_value_clear_flag(s32 idx, s32 val) {
@@ -340,16 +297,16 @@ void TWindowMenu::update_target_y() {
 #pragma pop
 
 void TWindowMenu::clamp_menu_choice_scroll() {
-    MenuScrollClampRange stack;
+    f32 scroll_range[2];
     f32 max_scroll_y;
     if ((u32) this->m_84 != 0U) {
-        stack.sp8 = 0.0f;
+        scroll_range[0] = 0.0f;
         max_scroll_y = this->frame_size[1] - 20.0f;
-        stack.spC = max_scroll_y;
+        scroll_range[1] = max_scroll_y;
         if (this->m_88 != 0) {
-            stack.spC = max_scroll_y - 6.0f;
+            scroll_range[1] = max_scroll_y - 6.0f;
         }
-        clamp_list_scroll_offset(this->m_84, (void *) (((u8 *)this) + 0x68), &stack.sp8);
+        clamp_list_scroll_offset(this->m_84, scroll_offset, scroll_range);
     }
 }
 
@@ -402,8 +359,7 @@ void TWindowMenu::update_scroll_value() {
 }
 
 s32 TWindowMenu::get_selected_value() {
-    SelectedValueView *o = (SelectedValueView *)this;
-    return o->entries[o->selected_row].b;
+    return rows[selected_row].value;
 }
 
 void TWindowSubComCardList::set_selected_index(s16 index) {
@@ -546,13 +502,13 @@ void TWindowMenu::clear_transition_flag() {
 
 void TWindowOptionCtrl::open() {
     u16 open_flags;
-    void *selected_entry;
+    TUnk_804CFA28 *selected_entry;
 
     open_flags = *(u16 *)((s8 *)this + 0x70);
     if (!(open_flags & 0x20)) {
         *(u16 *)((s8 *)this + 0x70) = (u16) (open_flags | 0x20);
-        selected_entry = (void *)((TWindowMenu *)this)->get_selected_entry();
-        *(f32 *)&this->m_3c = (f32) (20.0f + *(f32 *)((s8 *)selected_entry + 0x14));
+        selected_entry = static_cast<TUnk_804CFA28 *>(((TWindowMenu *)this)->get_selected_entry());
+        *(f32 *)&this->m_3c = (f32) (20.0f + selected_entry->height);
         if (*(s32 *)&this->m_2c & 0x40) {
             *(f32 *)&this->m_3c += 6.0f;
         }
@@ -568,14 +524,14 @@ s32 TWindowSubTradeMain::add_text_entry(saddr text, s32 flags, s32 id, s32 color
     u8 *arg0 = (u8 *)this;
     s16 row_index;
     u8 *window_help_item;
-    u8 *row_record;
+    TWindowMenuRow *row_record;
 
     if ((s16) *(s16 *)&this->unk_72 >= (s16) *(s16 *)((s8 *)arg0 + 0x76)) {
         return 0;
     }
     window_help_item = (u8 *)((TWindowBase *)arg0)->get_array_entry(*(s16 *)&this->unk_72);
     row_index = *(s16 *)&this->unk_72;
-    row_record = (unsigned char *) (*(saddr *)&this->m_80 + (row_index * 8));
+    row_record = &((TWindowMenuRow *)this->m_80)[row_index];
     *(f32 *)((s8 *)window_help_item + 0xC) = (f32) (row_index * 0x14);
     *(s32 *)((s8 *)window_help_item + 0x24) = color;
     if (flags & 1) {
@@ -603,8 +559,8 @@ s32 TWindowSubTradeMain::add_text_entry(saddr text, s32 flags, s32 id, s32 color
         ((TWindowHelpItem *)window_help_item)->reset_float_field();
     }
     measure_message_text_width_default(window_help_item);
-    *(s32 *)((s8 *)row_record + 0) = flags;
-    *(s32 *)((s8 *)row_record + 4) = id;
+    row_record->flags = flags;
+    row_record->value = id;
     *(s16 *)&this->unk_72 = (s16) (*(s16 *)&this->unk_72 + 1);
     return 1;
 }

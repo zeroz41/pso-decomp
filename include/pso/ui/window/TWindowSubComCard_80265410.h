@@ -6,8 +6,8 @@
 
 struct TWindowMenu;
 extern "C" {
-void TWindowSubComCard__sub_80265500(u8 *menu_window);
-void TWindowSubComCard__sub_80265680(u8 *arg0, s16 index);
+void TWindowSubComCard__sub_80265500(TWindowMenu *menu);
+void TWindowSubComCard__sub_80265680(TWindowMenu *menu, s16 row);
 }
 saddr create_titled_window_menu(saddr position, s32 count, saddr title, s32 client_id);
 extern "C" {

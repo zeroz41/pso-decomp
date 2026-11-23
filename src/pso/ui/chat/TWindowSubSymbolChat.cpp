@@ -783,7 +783,7 @@ s32 TWindowSubSymbolChat::create_symbol_list_card() {
 }
 
 void TWindowSubSymbolChat::apply_symbol() {
-    TWindowSubComCard__sub_80265680((u8 *)this->m_38, (s16) this->m_20);
+    TWindowSubComCard__sub_80265680((TWindowMenu *)this->m_38, (s16) this->m_20);
 }
 
 s32 TWindowSubSymbolChat::open_main_menu(void * _w0) {
