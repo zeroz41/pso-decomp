@@ -41,7 +41,7 @@ void TUnk_804A2260::sub_80124C90() {
     CapturedTarget *e;
     Tgt_80124C90 *t;
     s32 found;
-    Unk_8010340C atk;
+    DelayedWeaponHit atk;
     s32 i;
     Hit_80124C90 *hit;
     ext = ((TObjPlayer *)(me->pl))->get_extended_state();

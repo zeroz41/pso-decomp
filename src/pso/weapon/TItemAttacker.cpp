@@ -52,13 +52,13 @@ void TItemAttacker::deliver_delayed_weapon_hit() {
     done = 1;
 }
 
-void spawn_item_attacker(TObject *parent, const Vec *position, s32 frames, Unk_8010340C *attack_record) {
+void spawn_item_attacker(TObject *parent, const Vec *position, s32 frames, DelayedWeaponHit *attack_record) {
     if ((parent != NULL) && (attack_record != NULL) && (position != NULL) && (attack_record->source != 0xFFFF) && (attack_record->target != 0xFFFF)) {
         TItemAttacker::spawn_item_timer(new TItemAttacker(parent, position, frames, attack_record), TItemAttacker__sub_8010349C, frames);
     }
 }
 
-TItemAttacker::TItemAttacker(TObject *parent, const Vec *position, s32 frames, Unk_8010340C *attack_record) : TObject(parent) {
+TItemAttacker::TItemAttacker(TObject *parent, const Vec *position, s32 frames, DelayedWeaponHit *attack_record) : TObject(parent) {
     TObjCollidable *entity;
     m_name = TItemAttacker__name;
     this->hit.copy_from(attack_record);
@@ -72,7 +72,7 @@ TItemAttacker::TItemAttacker(TObject *parent, const Vec *position, s32 frames, U
     }
 }
 
-void Unk_8010340C::copy_from(Unk_8010340C *source_record) {
+void DelayedWeaponHit::copy_from(DelayedWeaponHit *source_record) {
     reserved = source_record->reserved;
     kind = source_record->kind;
     weapon = source_record->weapon;

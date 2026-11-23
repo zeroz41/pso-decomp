@@ -1965,7 +1965,7 @@ force_active:
   - __ct__12TOSignCave03FP7TObjectPv
   - __ct__12TOSwitchItemFP7TObjectPv
   - __ct__13PointerBufferFlPv
-  - __ct__13TItemAttackerFP7TObjectPC3VeclP12Unk_8010340C
+  - __ct__13TItemAttackerFP7TObjectPC3VeclP16DelayedWeaponHit
   - __ct__13TItemEffFlameFP7TObjectP12ActorBodyHit
   - __ct__13TItemEffLavisFPvPC3VecPC3Vecf
   - __ct__13TLazerFenceSwFP7TObjectPv
@@ -5358,7 +5358,7 @@ force_active:
   - copy_effect_data__18TAdChrMoveEffectGCFPvPv
   - copy_fog_entry__FP8FogEntryP8FogEntry
   - copy_from__11TMainCursorFPv
-  - copy_from__12Unk_8010340CFP12Unk_8010340C
+  - copy_from__16DelayedWeaponHitFP16DelayedWeaponHit
   - copy_from__14TechniqueBoostFP14TechniqueBoost
   - copy_from__19StarLightParametersFP19StarLightParameters
   - copy_from__23MagNodeOscillationStateFP23MagNodeOscillationState

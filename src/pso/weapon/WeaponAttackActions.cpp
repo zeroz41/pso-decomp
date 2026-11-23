@@ -440,7 +440,7 @@ void TItemWeapon::launch_rare_weapon_special(void *origin, s32 enable, f32 scale
             if (t != NULL) {
                 Part_8011EDFC *part = &t->parts[e->get_captured_target_collider_index()];
                 CapturedTarget *e2 = ext->get_captured_target_entry(i);
-                Unk_8010340C sp;
+                DelayedWeaponHit sp;
                 sp.reserved = 0;
                 sp.kind = 1;
                 sp.source = ((TObjBase *)(((Self_8011EDFC *)this)->owner))->get_entity_id();
@@ -463,7 +463,7 @@ void TItemWeapon::launch_rare_weapon_special(void *origin, s32 enable, f32 scale
 
 s32 TItemWeapon::launch_shot(u8 *origin, s32 i, s32 angle, s32 apply) {
     s32 var_r31;
-    Unk_8010340C hit;
+    DelayedWeaponHit hit;
     f32 *weapon_range_record;
     f32 temp_f1;
     f32 temp_f2;

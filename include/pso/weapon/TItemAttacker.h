@@ -10,8 +10,8 @@ typedef void (*ItemTimerCallback)(TObject *object);
 
 // The hit a delayed weapon attack carries to its target (launch_shot,
 // launch_rare_weapon_special, TUnk_804A2260::sub_80124C90).
-struct Unk_8010340C {
-    void copy_from(Unk_8010340C *source_record);
+struct DelayedWeaponHit {
+    void copy_from(DelayedWeaponHit *source_record);
     s32 reserved;   // always 0
     s32 kind;       // TItemWeapon::deliver_hit's attack_kind
     s32 weapon;     // item id of the weapon
@@ -23,7 +23,7 @@ struct Unk_8010340C {
 
 class TItemAttacker : public TObject {
 public:
-    TItemAttacker(TObject *parent, const Vec *position, s32 frames, Unk_8010340C *attack_record);
+    TItemAttacker(TObject *parent, const Vec *position, s32 frames, DelayedWeaponHit *attack_record);
     virtual ~TItemAttacker();
     virtual void run_task();
 public:
@@ -31,7 +31,7 @@ public:
     // Calls expire(object) after frames frames unless object is destroyed
     // first; nothing when object is NULL.
     static void spawn_item_timer(TObject *object, ItemTimerCallback expire, s32 frames);
-    Unk_8010340C hit;
+    DelayedWeaponHit hit;
     s32 done;          // set once the hit is delivered or the target is gone
     Vec target_pos;    // the target body's center when spawned
     Vec origin;
@@ -43,7 +43,7 @@ extern "C" {
 void TItemAttacker__sub_8010349C(TObject *attacker);
 void TItemBuff__ct(void);
 }
-void spawn_item_attacker(TObject *parent, const Vec *position, s32 frames, Unk_8010340C *attack_record);
+void spawn_item_attacker(TObject *parent, const Vec *position, s32 frames, DelayedWeaponHit *attack_record);
 s32 create_item_buff(s32 size);
 saddr get_item_chunk_buffer(int a0);
 
