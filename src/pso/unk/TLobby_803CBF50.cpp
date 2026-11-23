@@ -25,7 +25,7 @@ void TLobby__sub_803CBFB0(void) {
 }
 
 void TLobby::run_sequence() {
-    ::update_active_streams();
+    update_active_streams();
 }
 
 s32 TLobby__sub_803CBFF0(TLobby *stream) {
