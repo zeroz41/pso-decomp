@@ -21,7 +21,6 @@
 #include "pso/enemy/panarms/TObjEnePanarms.h"
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
 #include "pso/object/ambient/TObjFish.h"
-#include "pso/effect/photon/PhotonBlastSummon.h"
 #include "pso/system/task/TObject.h"
 #include "pso/unk/TLobby_802268F4.h"
 #include "pso/unk/text_801AE1F8.h"
