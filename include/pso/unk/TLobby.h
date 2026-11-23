@@ -4,6 +4,7 @@
 #include "types.h"
 
 struct NJS_SPRITE;
+struct BmlResource;
 
 struct ShortMailEntry;
 #include "pso/audio/AdxCallbacks.h"
@@ -111,7 +112,7 @@ struct TLobby : public TObject {
     static f32 calc_phase_offset();
     static s32 get_internet_beat();
     static s32 get_clock_frames();
-    static s32 load_bml_exec(u8 *arg0, u8 *name);
+    static s32 load_bml_exec(BmlResource *bml, u8 *name);
     static void free_chr_select_data();
     static void init_download_buffers();
     static s32 get_game_mode();

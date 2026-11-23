@@ -99,27 +99,9 @@ typedef struct Lobby_8001FBEC {
 } Lobby_8001FBEC;
 
 struct Lobby_8001FBEC;
-struct Ent_8001F128 {
-    s32 flags;
-    s32 unk4;
-    s32 motion;
-    GinjaTextureList *texture;
-};
 
 struct Rec_8001F128 { u8 pad0[0x20]; s32 size; u8 pad24[4]; s32 rawSize; u8 pad2C[0x14]; };
 
-struct Ctx_8001F128 {
-    u32 flags;
-    s32 nmodel;
-    s32 nmotion;
-    s32 ntex;
-    u32 state;
-    u8 pad14[0x42C - 0x14];
-    Ent_8001F128 *entries;
-    u8 pad430[4];
-    s32 f434;
-    s32 f438;
-};
 
 void reset_gstream_globals(void);
 extern "C" {
@@ -252,14 +234,13 @@ void BmlResource::set_flag_and_notify() {
     }
 }
 
-#define self ((Ctx_8001F128 *) arg0)
-s32 TLobby::load_bml_exec(u8 *arg0, u8 *name) {
+s32 TLobby::load_bml_exec(BmlResource *bml, u8 *name) {
     s32 n;
-    switch (self->state) {
+    switch (bml->load_state) {
     case 0:
         lbl_805D4AE0 = NULL;
-        if (self->flags & 0x200) {
-            self->state = 9;
+        if (bml->flags & 0x200) {
+            bml->load_state = 9;
             break;
         }
         bml_load_entry_index = 0;
@@ -267,10 +248,10 @@ s32 TLobby::load_bml_exec(u8 *arg0, u8 *name) {
         lobby_bml_file_handle = ADXF_Open(name, 0);
         if (lobby_bml_file_handle == 0) {
             TLobby::debug_print("LoadBmlExec: %s cannot open.", name);
-            self->state = 0xB;
+            bml->load_state = 0xB;
             return -1;
         }
-        n = ((self->f434 + self->f438 + 1) * 64 + 0x7FF) / 2048;
+        n = ((bml->model_count + bml->motion_count + 1) * 64 + 0x7FF) / 2048;
         if (n > 0x4000) {
             debug_printf_nop("TOO LARGE BMLHEAD SIZE(%08x)", n);
         }
@@ -278,12 +259,12 @@ s32 TLobby::load_bml_exec(u8 *arg0, u8 *name) {
         bml_header_record_ptr = (Rec_8001F128 *) (bml_load_buffer + 0x40);
         ADXF_ReadNw(lobby_bml_file_handle, (s32)n, (void *)bml_load_buffer);
         TLobby::set_read_params(&lobby_bml_file_handle, (int)n, (saddr)lbl_805D4AE0);
-        self->state = 1;
+        bml->load_state = 1;
     case 1:
-        if (self->flags & 0x200) {
+        if (bml->flags & 0x200) {
             TLobby::reset_read_state();
             ADXF_Close(lobby_bml_file_handle);
-            self->state = 9;
+            bml->load_state = 9;
         } else if (ADXF_GetStat(lobby_bml_file_handle) == 3) {
             TLobby::reset_read_state();
             switch (lbl_805D4AE0[8]) {
@@ -294,15 +275,15 @@ s32 TLobby::load_bml_exec(u8 *arg0, u8 *name) {
                 bml_load_state = 0;
                 break;
             }
-            self->state = 2;
+            bml->load_state = 2;
         }
         break;
     case 2:
-        if (self->flags & 0x200) {
+        if (bml->flags & 0x200) {
             TLobby::reset_read_state();
             ADXF_Close(lobby_bml_file_handle);
-            self->state = 9;
-        } else if (self->nmodel < self->f434) {
+            bml->load_state = 9;
+        } else if (bml->loaded_models < bml->model_count) {
             n = (bml_header_record_ptr->size + 0x7FF) / 2048;
             switch ((s8) bml_load_state) {
             case 0:
@@ -314,16 +295,16 @@ s32 TLobby::load_bml_exec(u8 *arg0, u8 *name) {
                 TLobby::debug_print("TBinModel: Illegal File Format");
                 break;
             }
-            self->state = 3;
+            bml->load_state = 3;
         } else {
-            self->state = 4;
+            bml->load_state = 4;
         }
         break;
     case 3:
-        if (self->flags & 0x200) {
+        if (bml->flags & 0x200) {
             TLobby::reset_read_state();
             ADXF_Close(lobby_bml_file_handle);
-            self->state = 9;
+            bml->load_state = 9;
         } else if (ADXF_GetStat(lobby_bml_file_handle) == 3) {
             TLobby::reset_read_state();
             switch ((s8) bml_load_state) {
@@ -331,7 +312,7 @@ s32 TLobby::load_bml_exec(u8 *arg0, u8 *name) {
                 s32 p = (saddr)TQuestVmDownLoadServer::alloc(bml_header_record_ptr->rawSize);
                 if (p != 0) {
                     prs_decompress_buffer((saddr)lobby_bml_read_buffer, p);
-                    bind_bml_model((Lobby_8001FBEC *) self, bml_header_record_ptr->rawSize, self->nmodel++, p);
+                    bind_bml_model((Lobby_8001FBEC *)bml, bml_header_record_ptr->rawSize, bml->loaded_models++, p);
                     TAdSinglePlyChrSelectGC::safe_free(p);
                 } else {
                     TLobby::debug_print("TBinModel: Can't malloc(LOADMODEL)");
@@ -339,19 +320,19 @@ s32 TLobby::load_bml_exec(u8 *arg0, u8 *name) {
                 break;
             }
             case 0:
-                bind_bml_model((Lobby_8001FBEC *) self, bml_header_record_ptr->size, self->nmodel++, (saddr) lobby_bml_read_buffer);
+                bind_bml_model((Lobby_8001FBEC *)bml, bml_header_record_ptr->size, bml->loaded_models++, (saddr) lobby_bml_read_buffer);
                 break;
             }
             bml_header_record_ptr++;
-            self->state = 2;
+            bml->load_state = 2;
         }
         break;
     case 4:
-        if (self->flags & 0x200) {
+        if (bml->flags & 0x200) {
             TLobby::reset_read_state();
             ADXF_Close(lobby_bml_file_handle);
-            self->state = 9;
-        } else if (self->nmotion < self->f438) {
+            bml->load_state = 9;
+        } else if (bml->loaded_motions < bml->motion_count) {
             n = (bml_header_record_ptr->size + 0x7FF) / 2048;
             switch ((s8) bml_load_state) {
             case 0:
@@ -363,19 +344,19 @@ s32 TLobby::load_bml_exec(u8 *arg0, u8 *name) {
                 TLobby::debug_print("TBinModel: Illegal File Format");
                 break;
             }
-            self->state = 5;
+            bml->load_state = 5;
         } else {
             TLobby::reset_read_state();
             ADXF_Close(lobby_bml_file_handle);
             bml_header_record_ptr = (Rec_8001F128 *) (lbl_805D4AE0 + 0x40);
-            self->state = 6;
+            bml->load_state = 6;
         }
         break;
     case 5:
-        if (self->flags & 0x200) {
+        if (bml->flags & 0x200) {
             TLobby::reset_read_state();
             ADXF_Close(lobby_bml_file_handle);
-            self->state = 9;
+            bml->load_state = 9;
         } else if (ADXF_GetStat(lobby_bml_file_handle) == 3) {
             TLobby::reset_read_state();
             switch ((s8) bml_load_state) {
@@ -383,7 +364,7 @@ s32 TLobby::load_bml_exec(u8 *arg0, u8 *name) {
                 saddr p = (saddr)TQuestVmDownLoadServer::alloc(bml_header_record_ptr->rawSize);
                 if (p != 0) {
                     prs_decompress_buffer((saddr)lobby_bml_read_buffer, p);
-                    bind_bml_motion((Lobby_8001FB6C *) self, self->nmodel++, (void *) p);
+                    bind_bml_motion((Lobby_8001FB6C *)bml, bml->loaded_models++, (void *) p);
                     TAdSinglePlyChrSelectGC::safe_free(p);
                 } else {
                     TLobby::debug_print("TBinModel: Can't malloc(LOADMOTION)");
@@ -391,22 +372,22 @@ s32 TLobby::load_bml_exec(u8 *arg0, u8 *name) {
                 break;
             }
             case 0:
-                bind_bml_motion((Lobby_8001FB6C *) self, self->nmotion++, lobby_bml_read_buffer);
+                bind_bml_motion((Lobby_8001FB6C *)bml, bml->loaded_motions++, lobby_bml_read_buffer);
                 break;
             }
             bml_header_record_ptr++;
-            self->state = 4;
+            bml->load_state = 4;
         }
         break;
     case 6:
-        while (self->entries[bml_load_entry_index].texture == 0) {
+        while (bml->models[bml_load_entry_index].texlist == 0) {
             bml_load_entry_index++;
             bml_header_record_ptr++;
-            if (bml_load_entry_index >= self->f434) {
+            if (bml_load_entry_index >= bml->model_count) {
                 break;
             }
         }
-        if (bml_load_entry_index < self->f434) {
+        if (bml_load_entry_index < bml->model_count) {
             TLobby::change_file_extension(NULL, (char *)bml_header_record_ptr, (char *)"gvm");
             lobby_bml_file_handle = ADXF_Open(bml_header_record_ptr, 0);
             if (lobby_bml_file_handle != 0) {
@@ -420,37 +401,37 @@ s32 TLobby::load_bml_exec(u8 *arg0, u8 *name) {
                     TLobby::set_read_params(&lobby_bml_file_handle, (int)n, (saddr)lobby_bml_read_buffer);
                 }
             } else {
-                self->entries[bml_load_entry_index].flags |= 2;
-                if (!(self->flags & 4)) {
+                bml->models[bml_load_entry_index].m_0 |= 2;
+                if (!(bml->flags & 4)) {
                     TLobby::debug_print("LoadBmlExec: %s load failed.", bml_header_record_ptr);
                 }
                 bml_load_entry_index++;
                 bml_header_record_ptr++;
                 break;
             }
-            self->state = 7;
+            bml->load_state = 7;
         } else {
-            ((BmlResource *)self)->set_flag_and_notify();
-            self->state = 0xA;
+            bml->set_flag_and_notify();
+            bml->load_state = 0xA;
         }
         break;
     case 7:
-        if (self->flags & 0x200) {
+        if (bml->flags & 0x200) {
             TLobby::reset_read_state();
             ADXF_Close(lobby_bml_file_handle);
-            self->state = 9;
+            bml->load_state = 9;
         } else if (ADXF_GetStat(lobby_bml_file_handle) == 3) {
             TLobby::reset_read_state();
-            load_gvm_texture_archive(lobby_bml_read_buffer, self->entries[bml_load_entry_index].texture);
-            self->entries[bml_load_entry_index].flags |= 1;
+            load_gvm_texture_archive(lobby_bml_read_buffer, bml->models[bml_load_entry_index].texlist);
+            bml->models[bml_load_entry_index].m_0 |= 1;
             bml_load_entry_index++;
             bml_header_record_ptr++;
-            self->ntex++;
-            self->state = 6;
+            bml->loaded_textures++;
+            bml->load_state = 6;
         }
         break;
     case 9:
-        self->state = 0xA;
+        bml->load_state = 0xA;
     case 10:
         TLobby::tmp_buf_release("LoadBmlExec");
         lbl_805D4AE0 = NULL;
@@ -462,7 +443,6 @@ s32 TLobby::load_bml_exec(u8 *arg0, u8 *name) {
     }
     return 0;
 }
-#undef self
 
 void TLobby::free_chr_select_data() {
     if ((u32) bml_load_buffer != 0U) {
