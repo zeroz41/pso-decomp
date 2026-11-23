@@ -5974,7 +5974,7 @@ void TObjPlayer::play_phase_transition_sound(saddr child) {
 }
 
 void unequip_by_field326__10TObjPlayerFPv(void *player) {
-    TObjPlayer__sub_801B18C0((saddr)player, (u32)(*(s16 *)((s8 *)player + 0x326)));
+    TObjPlayer__sub_801B18C0((saddr)player, (u32)((TObjPlayer *)player)->mode);
 }
 
 void TObjPlayer__sub_801B18C0(saddr player, u32 arg1) {
@@ -6780,7 +6780,7 @@ s32 TObjPlayer::get_class_flags() { return this->class_flags; }
 
 s32 TObjPlayer::get_language() {
     s32 temp_r3;
-    temp_r3 = *(s32 *)((s8 *)this + 0x3BC);
+    temp_r3 = this->m_3bc;
     if ((temp_r3 < 0) || (temp_r3 >= 5)) {
         return 1;
     }

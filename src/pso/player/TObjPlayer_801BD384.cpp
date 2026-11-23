@@ -57,9 +57,9 @@ TObjPlayer::~TObjPlayer() {
     release_action_palettes();
     release_pending_action();
     unregister();
-    TObjPlayer::free_owned_buffer_b((saddr)((s8 *)this + 0x7CC), (s16)(-1));
-    destroy__10TObjPlayerFis((saddr)((s8 *)this + 0x754), -1);
-    TObjPlayer__sub_801BFAD4((s8 *)this + 0x644, -1);
+    TObjPlayer::free_owned_buffer_b((saddr)&this->attack_state, (s16)(-1));
+    destroy__10TObjPlayerFis((saddr)&this->m_754, -1);
+    TObjPlayer__sub_801BFAD4(&this->protection, -1);
 }
 
 extern "C" {
