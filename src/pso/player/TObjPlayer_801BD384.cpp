@@ -77,7 +77,6 @@ extern const char *lbl_805D3530;
 }
 
 TObjPlayer::TObjPlayer(TObject *parent, TUnk_801D8A4C *src) : TObjChara(parent) {
-    this->photon_blast_gauge.construct_pb_controller();
     __ct__14TPlyDispConfigFv(((char *)this + 1280));
     TObjPlayer__sub_80351974((void *)((char *)this + 1360));
     ((TObjPlayer *)((char *)this + 1456))->init_subobjects();
@@ -115,7 +114,6 @@ TObjPlayer::TObjPlayer(TObject *parent, TUnk_801D8A4C *src) : TObjChara(parent) 
 }
 
 TObjPlayer::TObjPlayer(TObject *parent, void *arg2) : TObjChara(parent) {
-    this->photon_blast_gauge.construct_pb_controller();
     __ct__14TPlyDispConfigFv(((char *)this + 1280));
     TObjPlayer__sub_80351974((void *)((char *)this + 1360));
     ((TObjPlayer *)((char *)this + 1456))->init_subobjects();

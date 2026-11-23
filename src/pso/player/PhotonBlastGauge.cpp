@@ -292,12 +292,11 @@ s32 __construct_array(void *, void *, int, int, int);
 extern s32 fn_80152EF8[];
 }
 
-PhotonBlastGauge *PhotonBlastGauge::construct_pb_controller() {
+PhotonBlastGauge::PhotonBlastGauge() {
     __construct_array(targets, fn_80152EF8, 0, 4, 0xA);
     __ct__8FlagWordFv(&flags);
     donation.init_reset_fields();
     reset_state();
-    return this;
 }
 
 int PhotonBlastGauge::is_valid_index(s16 blast) {

@@ -31,6 +31,7 @@ struct Obj_801D67D4 {
 // A player's photon blast state (TObjPlayer + 0x4AC): the charge the mag's
 // support events and the photon blast window read.
 struct PhotonBlastGauge {
+    PhotonBlastGauge();
     ~PhotonBlastGauge();
     // Empties the charge.
     void clear_charge();
@@ -62,7 +63,6 @@ struct PhotonBlastGauge {
     void update_if_ready();
     void reset_photon_blast_gauge();
     void reset_state();
-    PhotonBlastGauge *construct_pb_controller();
     static int is_valid_index(s16 blast);
     void set_bit1_at_40();
     void update_ready();
