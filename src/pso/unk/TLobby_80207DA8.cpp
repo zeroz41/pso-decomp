@@ -421,6 +421,9 @@ void bswap_object_row_fields(void *arg0) {
     bswap_32((u32 *)((void *)((char *)arg0 + 52)));
     bswap_32((u32 *)((void *)((char *)arg0 + 56)));
 }
+
+MapSetArea *map_set_areas;
+
 extern "C" {
 
 
@@ -454,7 +457,6 @@ s32 TLobby::get_drop_item_mode() {
 
 saddr load_relocatable_file(saddr name, saddr arg1);
 
-MapSetArea *map_set_areas;
 // inferred: first word of the loaded SetDataTable*.rel module (update_drop_item/load_item_data)
 MapSetArea *forest_rel_set_data_table;
 // inferred: the SetDataTable*.rel module load_relocatable_file returns
