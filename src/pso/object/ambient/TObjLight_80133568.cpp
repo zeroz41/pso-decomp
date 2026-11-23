@@ -64,6 +64,7 @@ void *__dt__13TUnk_804A7008Fv(void *object, s16 arg1) {
     }
     return object;
 }
+}
 
 void LightEntry::bswap_data() {
     bswap_32((u32 *)&direction.x);
@@ -289,8 +290,6 @@ void TObjLight::apply_distant_light() {
 TUnk_804A6FC0::TUnk_804A6FC0(TObject *parent) : TObject(parent) {}
 
 TUnk_804A6FC0::~TUnk_804A6FC0() {}
-
-}
 
 void load_light_entry_file(void) {
     light_entry_data = NULL;
