@@ -6714,7 +6714,7 @@ force_active:
   - get_selected_entry__14TWindowSubItemFv
   - get_selected_guild_card_record__Fv
   - get_seq_phase__6TLobbyFi
-  - get_serial_access_field_118__23TAdSinglePlyChrSelectGCFv
+  - get_serial_seed__23TAdSinglePlyChrSelectGCFv
   - get_serial_result__22TAdEnterSerialAccessGCFv
   - get_serial_text__22TAdEnterSerialAccessGCFii
   - get_set_bonus_multiplier__9TItemDataFPvi

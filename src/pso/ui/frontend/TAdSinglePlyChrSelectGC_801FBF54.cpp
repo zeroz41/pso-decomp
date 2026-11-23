@@ -2354,7 +2354,7 @@ s32 load_and_verify_data(s32 arg0) {
     u32 sum;
 
     TAdSinglePlyChrSelectGC::set_save_slot(0);
-    serial = TAdSinglePlyChrSelectGC::get_serial_access_field_118();
+    serial = TAdSinglePlyChrSelectGC::get_serial_seed();
     chr_select_serial_seeds[1] = serial;
     chr_select_serial_seeds[0] = serial;
     memcpy((void *)guild_card_save_payload, (void *)(guild_card_save_file_buffer + 0x2048), 0xE28C);
@@ -2451,8 +2451,8 @@ void TAdSinglePlyChrSelectGC__sub_802000C8(void *arg0_, void *arg1);
 s32 init_guild_card_tag__17TWindowSubComCardFi(s32 arg0);
 
 void *TAdSinglePlyChrSelectGC::init_windows(void *arg0) {
-    TAdSinglePlyChrSelectGC::construct_card_window_array((u8 *)arg0 + 4);
-    TAdSinglePlyChrSelectGC::construct_guild_card_tag_array((u8 *)arg0 + 0xD2C4);
+    TAdSinglePlyChrSelectGC::construct_card_window_array(&((CardFile_801FFD78 *)arg0)->list);
+    TAdSinglePlyChrSelectGC::construct_guild_card_tag_array(((CardFile_801FFD78 *)arg0)->tags);
     return arg0;
 }
 
@@ -2463,7 +2463,7 @@ void *TAdSinglePlyChrSelectGC::construct_guild_card_tag_array(void *arg0) {
 }
 
 u8 *TAdSinglePlyChrSelectGC::construct_card_window_array(void *arg0) {
-    __construct_array((u8 *)arg0 + 0xC0, (void *)reinit__17TWindowSubComCardFi, 0, 0x100, 0xD2);
+    __construct_array(((CardList_801FFDFC *)arg0)->entries, (void *)reinit__17TWindowSubComCardFi, 0, 0x100, 0xD2);
     return (u8 *)arg0;
 }
 
@@ -2501,7 +2501,7 @@ void TAdSinglePlyChrSelectGC::verify_save_checksum(void) {
 
 void TAdSinglePlyChrSelectGC__sub_801FFF14(void) {
     s32 temp_r3;
-    temp_r3 = TAdSinglePlyChrSelectGC::get_serial_access_field_118();
+    temp_r3 = TAdSinglePlyChrSelectGC::get_serial_seed();
     chr_select_serial_seeds[1] = temp_r3;
     chr_select_serial_seeds[0] = temp_r3;
     TAdSinglePlyChrSelectGC__sub_802000C8((void *)guild_card_save_payload, chr_select_serial_seeds);
@@ -3807,7 +3807,7 @@ void TAdSinglePlyChrSelectGC::alloc_char_buffers() {
 
 extern "C" {
 
-int TAdSinglePlyChrSelectGC::get_serial_access_field_118() { return get_field_118__22TAdEnterSerialAccessGCFv(); }
+int TAdSinglePlyChrSelectGC::get_serial_seed() { return get_field_118__22TAdEnterSerialAccessGCFv(); }
 
 }
 

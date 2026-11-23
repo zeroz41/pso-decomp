@@ -14,6 +14,18 @@ struct CharacterFile;
 
 struct TCheckMemoryCard;
 
+// The blocks TAdSinglePlyChrSelectGC::init_windows constructs in a 0xE28C-byte buffer.
+struct CardList_801FFDFC {
+    u8 pad_0[0xC0];
+    u8 entries[0xD2][0x100];
+};
+
+struct CardFile_801FFD78 {
+    u32 pad_0;
+    CardList_801FFDFC list;
+    u8 tags[0x1C][0x90];
+};
+
 struct TAdSinglePlyChrSelectGC : public TObject {
     explicit TAdSinglePlyChrSelectGC(TObject *parent);
     virtual ~TAdSinglePlyChrSelectGC();
@@ -220,7 +232,7 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     static void decrypt_char_data(void *arg0);
     static void free_char_data_slots(void *table);
     static u8 *get_entry(int i);
-    static int get_serial_access_field_118();
+    static int get_serial_seed();
     static void *init_windows(void *arg0);
     static s32 is_entry_valid(CharacterFile *self, int i);
     static s32 is_same_slot_entry(void *src_file, int src_slot, void *dst_file, int dst_slot);
