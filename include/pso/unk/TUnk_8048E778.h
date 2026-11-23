@@ -12,7 +12,7 @@ public:
     void retire_ballistic_particle_if_done();
     void draw_sprite_quad(s32);
     virtual void render();
-    f32 unk_C0;                // 0xC0, motion frame step
+    f32 motion_speed;          // 0xC0, motion frames per frame
     Vec velocity;              // 0xC4, step after rotation
 };
 

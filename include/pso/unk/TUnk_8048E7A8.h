@@ -11,7 +11,7 @@ public:
     virtual void run_task();
     void check_radial_particle_retire();
     virtual void render();
-    f32 unk_C0;                // 0xC0, motion frame step
+    f32 motion_speed;          // 0xC0, motion frames per frame
 };
 
 #endif

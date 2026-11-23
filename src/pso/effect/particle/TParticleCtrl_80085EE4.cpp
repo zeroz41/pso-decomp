@@ -160,7 +160,7 @@ TUnk_8048E728::TUnk_8048E728(ParticleParam *src, TObject *parent) : TObject(pare
         v = 1.0f / param->fade_out_start;
     }
     fade_out_scale = v;
-    sprite_index = find_particle_texture_index(param->unk_14);
+    sprite_index = find_particle_texture_index(param->sprite_id);
     m_28 = 1.0f;
     unk_2C = 1.0f;
     step.x = 0.0f;

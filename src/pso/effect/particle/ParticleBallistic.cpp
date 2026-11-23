@@ -29,184 +29,6 @@
 #pragma auto_inline off
 #pragma dont_inline off
 
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-
-struct Fields0_800896E4 {
-    u8 pad_0[0x18]; s32 *field_18; u16 field_1C; u8 pad_1E[6]; u16 field_24; s16 field_26;
-    f32 field_28; f32 field_2C; f32 field_30; f32 field_34; f32 field_38; f32 field_3C; f32 field_40; f32 field_44;
-    u8 pad_48[0x14]; f32 field_5C; u8 pad_60[8]; f32 field_68; u8 pad_6C[4]; f32 field_70; f32 field_74; f32 field_78;
-    u8 pad_7C[0x19]; s8 field_95; s16 field_96; s32 field_98; s32 field_9C; s32 field_A0;
-    u8 pad_A4[0x20]; f32 field_C4; f32 field_C8; f32 field_CC;
-};
-
-struct Fields1_800896E4 {
-    u8 pad_0[0x18]; f32 field_18; f32 field_1C; f32 field_20; f32 field_24; f32 field_28; u8 pad_2C[4];
-    f32 field_30; f32 field_34; f32 field_38; f32 field_3C; u8 pad_40[8]; s32 field_48; s32 field_4C;
-    u8 pad_50[4]; f32 field_54; u8 pad_58[0x30]; u8 field_88;
-};
-
-struct Fields3_800896E4 { s32 field_0; s32 field_4; s32 field_8; };
-
-struct Ang_800890F4 { s32 x, y, z; };
-
-static const Vec lbl_804394E8 = { 0.0f, 0.0f, -1.0f };
-static const Vec lbl_804394F4 = { 0.0f, 0.0f, -1.0f };
-static const Vec lbl_80439500 = { 0.0f, 0.0f, 1.0f };
-static const Ang_800890F4 lbl_8043950C = { 0, 0, 0 };
-
-struct Def_800890F4 {
-    u8 pad0[0x64];
-    f32 sx;
-    f32 sy;
-    u8 pad6C[0x88 - 0x6C];
-    u8 flags;
-};
-
-struct Part_800890F4 {
-    u8 pad0[0x1C];
-    u16 tex;
-    u8 pad1E[0x20 - 0x1E];
-    Def_800890F4 *def;
-    u16 flags;
-    u8 pad26[0x28 - 0x26];
-    f32 w;
-    f32 h;
-    u8 pad30[0x6C - 0x30];
-    u8 f6C[4];
-    Vec pos;
-    Vec ofs;
-    f32 sw;
-    f32 sh;
-    u8 pad90[0x96 - 0x90];
-    s16 angle;
-    u8 pad98[0x9C - 0x98];
-    s32 rotY;
-    u8 padA0[0xA4 - 0xA0];
-    f32 scx;
-    f32 scy;
-    u8 padAC[0xB0 - 0xAC];
-    uaddr model;
-    u32 texlist;
-    uaddr motion;
-    f32 frame;
-    u8 padC0[0xC4 - 0xC0];
-    Vec vel;
-};
-
-extern "C" {
-f32 vec_squared_length(u8 *arg0);
-void project_world_to_screen(int, void *, void *);
-s32 post_translate_matrix(void *);
-void rotate_vector_by_current_matrix(void *, void *);
-s32 append_node_to_tail__13TParticleCtrlFPvPv(s32, void *);
-extern s32 saved_model_render_flags;
-extern s32 model_render_flags;
-f32 vector_length(void *);
-}
-void setup_particle_tev(s32 arg0);
-void load_projected_texture_matrix(f32 farg0);
-void direction_to_rotation_xz(u8 *arg0, s32 *arg1, s32 *arg2);
-extern void *__vt__13TParticleCtrl[];
-extern s32 TParticleCtrl__class_name_descriptor;
-extern const f32 TParticleCtrl__data_805D94E0;
-extern const f32 TParticleCtrl__data_805D94E4;
-
-#define COPY_PARTICLE_DIRECTION(particle, direction) do {                      \
-    s32 component;                                                             \
-    component = direction->x;                                                  \
-    particle->direction.x = component;                                         \
-    component = direction->z;                                                  \
-    particle->direction.z = component;                                         \
-    component = direction->y;                                                  \
-    particle->direction.y = component;                                         \
-} while (0)
-#define CLEAR_PARTICLE_DIRECTION(particle, unused) do {                        \
-    particle->direction.x = 0;                                                 \
-    particle->direction.y = 0;                                                 \
-    particle->direction.z = 0;                                                 \
-} while (0)
-
-#define INITIALIZE_PARTICLE(particle, position, particle_index, field30,       \
-                            field34, field38, use_self, particle_flags,        \
-                            direction_action, direction_source) do {           \
-    __ct__7TObjectFP7TObject(particle, tl_07);                                 \
-    particle->vtable = __vt__13TParticleCtrl;                                  \
-    particle->descriptor = TParticleCtrl__class_name_descriptor;                       \
-    particle->field4C = 0;                                                     \
-    particle->field50 = 0;                                                     \
-    particle->field54 = 0;                                                     \
-    particle->field48 = 0;                                                     \
-    particle->field40 = TParticleCtrl__data_805D94E4;                          \
-    particle->field44 = TParticleCtrl__data_805D94E4;                          \
-    particle->field1C = TParticleCtrl__data_805D94E0;                          \
-    particle->field20 = 0;                                                     \
-    particle->field24 = TParticleCtrl__data_805D94E4;                          \
-    particle->particle_index = particle_index;                                 \
-    VecCopy(&particle->position, position);                      \
-    particle->flags = particle_flags;                                          \
-    particle->field2E = 0xFFFF;                                                \
-    direction_action(particle, direction_source);                              \
-    particle->field30 = field30;                                               \
-    particle->field34 = field34;                                               \
-    particle->field38 = field38;                                               \
-    particle->field3C = 0;                                                     \
-    if (use_self != 0) {                                                       \
-        particle->owner = particle;                                            \
-    } else if (particle->flags & 0x800) {                                      \
-        if (particle->flags & 0x4000) {                                        \
-            particle->owner = tl_clipout;                                      \
-        } else {                                                               \
-            particle->owner = tl_07;                                           \
-        }                                                                      \
-    } else {                                                                   \
-        particle->owner = tl_07;                                               \
-    }                                                                          \
-} while (0)
-
 #include "pso/unk/TLobby.h"
 #include "pso/object/key/TOKeyMachine01.h"
 #include "pso/object/ambient/TObjFish.h"
@@ -217,27 +39,37 @@ extern const f32 TParticleCtrl__data_805D94E4;
 #include "pso/render/ModelDrawContext.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/unk/text_803D853C.h"
+#include "pso/unk/text_80086B64.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/math/MatrixVector.h"
+#include "pso/render/model_render_state.h"
 
-u8 *create_ballistic_particle(u8 *arg0, u8 *pos, u8 *dir, s32 parent, u16 flags, s16 target_id) {
-    return (u8 *)new TUnk_8048E778(arg0, pos, dir, parent, flags, target_id);
+static const Vec ballistic_camera_yaw_axis = { 0.0f, 0.0f, -1.0f };
+static const Vec ballistic_camera_pitch_axis = { 0.0f, 0.0f, -1.0f };
+static const Vec ballistic_facing_axis = { 0.0f, 0.0f, 1.0f };
+static const ParticleAngles ballistic_zero_angles = { 0, 0, 0 };
+
+u8 *create_ballistic_particle(u8 *param, u8 *pos, u8 *dir, s32 parent, u16 flags, s16 target_id) {
+    return (u8 *)new TUnk_8048E778(param, pos, dir, parent, flags, target_id);
 }
-void *TParticleCtrl::create_random_spread(void *arg0, void *pos, void *parent) {
-    return new TUnk_8048E778(arg0, pos, parent);
+
+void *TParticleCtrl::create_random_spread(void *param, void *pos, void *parent) {
+    return new TUnk_8048E778(param, pos, parent);
 }
+
 void TUnk_8048E778::retire_ballistic_particle_if_done() {
-    u8 *arg0 = (u8 *)this;
-    Vec stack;
-    if (*(u8 *)((s8 *)this->param + 0x88) & 8) {
-        stack.x = this->pos.x - this->origin.x;
-        stack.y = this->pos.y - *(f32 *)((s8 *)arg0 + 0x34);
-        stack.z = this->pos.z - this->origin.z;
-        if (0.0f == vec_squared_length((u8 *)&stack.x)) {
-            ((TObject *)arg0)->queue_destruction();
+    Vec offset;
+    if (param->flags & 8) {
+        offset.x = pos.x - origin.x;
+        offset.y = pos.y - origin.y;
+        offset.z = pos.z - origin.z;
+        if (0.0f == vec_squared_length(&offset)) {
+            queue_destruction();
             return;
         }
     }
-    if (this->age >= 1.0f) {
-        ((TObject *)arg0)->queue_destruction();
+    if (age >= 1.0f) {
+        queue_destruction();
     }
 }
 
@@ -283,7 +115,7 @@ void TUnk_8048E778::run_task() {
     }
     p = param;
     if ((p->flags & 2) && origin.y > pos.y) {
-        step.y = p->unk_60 * (p->unk_3C * (3.0517578e-05f * rand()) + p->unk_34);
+        step.y = p->bounce * (p->rise_range * (3.0517578e-05f * rand()) + p->rise_min);
     }
     step.x *= param->speed_decay;
     step.z *= param->speed_decay;
@@ -334,10 +166,10 @@ void TUnk_8048E778::run_task() {
     col.argb.b = 254.0f * ch[2];
     color = col.color;
     p = param;
-    if (0.0f == p->gravity && 0.0f == p->unk_34 && 0.0f == p->unk_30) {
-        m_96 += (s32)(182.04445f * p->unk_60);
+    if (0.0f == p->gravity && 0.0f == p->rise_min && 0.0f == p->speed_min) {
+        m_96 += (s32)(182.04445f * p->bounce);
     } else if (!(p->flags & 4)) {
-        tilt = step.y * (p->unk_64 * step.x);
+        tilt = step.y * (p->tilt * step.x);
         if (fabs_float(tilt) > 20.0f) {
             tilt = 20.0f;
         }
@@ -376,7 +208,7 @@ void TUnk_8048E778::run_task() {
             }
         }
     }
-    motion_frame += unk_C0;
+    motion_frame += motion_speed;
     if (motion != NULL && (motion->nbFrame - 1) <= motion_frame) {
         motion_frame = motion->nbFrame - 1;
     }
@@ -385,133 +217,132 @@ void TUnk_8048E778::run_task() {
 #pragma pop
 
 void TUnk_8048E778::render() {
-    Part_800890F4 *p = (Part_800890F4 *)this;
-    u16 flags;
+    u16 draw_flags;
     int id;
-    if ((s32)this->all_parents_unqueued_for_destruction() == 0) {
+    if ((s32)all_parents_unqueued_for_destruction() == 0) {
         return;
     }
-    if (p->def->flags & 4) {
-        Vec b;
-        Vec a;
-        NJS_POINT2 s0;
-        NJS_POINT2 s1;
+    if (param->flags & 4) {
+        Vec end;
+        Vec start;
+        NJS_POINT2 start_screen;
+        NJS_POINT2 end_screen;
         f32 len;
-        if (p->flags & 0x10) {
-            a.x = p->pos.x + p->ofs.x;
-            a.y = p->pos.y + p->ofs.y;
-            a.z = p->pos.z + p->ofs.z;
+        if (flags & 0x10) {
+            start.x = pos.x + attach.x;
+            start.y = pos.y + attach.y;
+            start.z = pos.z + attach.z;
         } else {
-            VecCopy((Vec *)&a, (const Vec *)&p->pos);
+            VecCopy(&start, &pos);
         }
-        b.x = a.x + p->vel.x;
-        b.y = a.y + p->vel.y;
-        b.z = a.z + p->vel.z;
-        len = vector_length(&p->vel);
-        project_world_to_screen(0, &a, &s0);
-        project_world_to_screen(0, &b, &s1);
-        s1.x -= s0.x;
-        s1.y -= s0.y;
-        p->angle = 10430.38043493439 * atan2_float(s1.y, s1.x);
-        p->sw = p->def->sx * len;
-        p->sh = p->def->sy * len;
-    } else if (p->def->flags & 0x40) {
-        Vec a = lbl_804394E8;
-        Vec b = lbl_804394F4;
-        Vec c = lbl_80439500;
-        f32 d1;
-        f32 d2;
+        end.x = start.x + velocity.x;
+        end.y = start.y + velocity.y;
+        end.z = start.z + velocity.z;
+        len = vector_length(&velocity);
+        project_world_to_screen(NULL, &start, &start_screen.x);
+        project_world_to_screen(NULL, &end, &end_screen.x);
+        end_screen.x -= start_screen.x;
+        end_screen.y -= start_screen.y;
+        m_96 = 10430.38043493439 * atan2_float(end_screen.y, end_screen.x);
+        m_88 = param->tilt * len;
+        unk_8C = param->ballistic_streak_height * len;
+    } else if (param->flags & 0x40) {
+        Vec yaw_axis = ballistic_camera_yaw_axis;
+        Vec pitch_axis = ballistic_camera_pitch_axis;
+        Vec facing = ballistic_facing_axis;
+        f32 yaw_dot;
+        f32 pitch_dot;
         push_matrix_from(identity_matrix);
-        rotate_matrix_y(0, p->rotY);
-        rotate_vector_by_current_matrix(&c, &c);
+        rotate_matrix_y(0, m_9c);
+        rotate_vector_by_current_matrix(&facing, &facing);
         pop_matrix();
         push_matrix_from(identity_matrix);
         rotate_matrix_y(0, camera_ctrl_instance->yaw);
-        rotate_vector_by_current_matrix(&a, &a);
+        rotate_vector_by_current_matrix(&yaw_axis, &yaw_axis);
         pop_matrix();
         push_matrix_from(identity_matrix);
         rotate_matrix_y(0, camera_ctrl_instance->pitch);
-        rotate_vector_by_current_matrix(&b, &b);
+        rotate_vector_by_current_matrix(&pitch_axis, &pitch_axis);
         pop_matrix();
-        d1 = vec3_dot(&c, &a);
-        d2 = vec3_dot(&c, &b);
-        if (d2 < 0.0f) {
-            d2 *= -1.0f;
+        yaw_dot = vec3_dot(&facing, &yaw_axis);
+        pitch_dot = vec3_dot(&facing, &pitch_axis);
+        if (pitch_dot < 0.0f) {
+            pitch_dot *= -1.0f;
         }
-        if (d1 < 0.0f) {
-            d1 *= -1.0f;
+        if (yaw_dot < 0.0f) {
+            yaw_dot *= -1.0f;
         }
-        flags = p->flags;
-        if (flags & 8) {
-            p->sw = p->w;
-            p->sh = p->h * d2;
-        } else if (flags & 4) {
-            p->sw = p->w * d1;
-            p->sh = p->h;
+        draw_flags = flags;
+        if (draw_flags & 8) {
+            m_88 = m_28;
+            unk_8C = unk_2C * pitch_dot;
+        } else if (draw_flags & 4) {
+            m_88 = m_28 * yaw_dot;
+            unk_8C = unk_2C;
         } else {
-            p->sw = p->w * d1;
-            p->sh = p->h * d2;
+            m_88 = m_28 * yaw_dot;
+            unk_8C = unk_2C * pitch_dot;
         }
     } else {
-        p->sw = p->w;
-        p->sh = p->h;
+        m_88 = m_28;
+        unk_8C = unk_2C;
     }
-    p->sw *= p->scx;
-    p->sh *= p->scy;
-    flags = p->flags;
-    if (flags & 0x200) {
-        Vec t;
-        if (is_split_screen() != 0 && (p->flags & 0x400)) {
+    m_88 *= m_a4;
+    unk_8C *= unk_A8;
+    draw_flags = flags;
+    if (draw_flags & 0x200) {
+        Vec at;
+        if (is_split_screen() != 0 && (flags & 0x400)) {
             return;
         }
-        if (p->texlist == 0) {
+        if (unk_B4 == 0) {
             return;
         }
-        if (p->model == 0) {
+        if (model == NULL) {
             return;
         }
-        t.x = p->pos.x + p->ofs.x;
-        t.y = p->pos.y + p->ofs.y;
-        t.z = p->pos.z + p->ofs.z;
-        Ang_800890F4 r = lbl_8043950C;
-        direction_to_rotation_xz((u8 *)&p->vel, &r.x, &r.z);
+        at.x = pos.x + attach.x;
+        at.y = pos.y + attach.y;
+        at.z = pos.z + attach.z;
+        ParticleAngles angles = ballistic_zero_angles;
+        direction_to_rotation_xz((u8 *)&velocity, &angles.x, &angles.z);
         push_matrix();
-        post_translate_matrix(&t);
-        scale_matrix(0, p->sw, p->sw, p->sw);
-        rotate_matrix_z(0, r.z);
-        rotate_matrix_x(0, r.x);
-        if (p->flags & 0x1000) {
+        post_translate_matrix(&at.x);
+        scale_matrix(0, m_88, m_88, m_88);
+        rotate_matrix_z(0, angles.z);
+        rotate_matrix_x(0, angles.x);
+        if (flags & 0x1000) {
             if (camera_ctrl_instance != NULL) {
                 rotate_matrix_y(0, camera_ctrl_instance->yaw);
             }
         } else {
-            rotate_matrix_y(0, r.y);
-            rotate_matrix_y(0, p->angle);
+            rotate_matrix_y(0, angles.y);
+            rotate_matrix_y(0, m_96);
         }
-        if (p->flags & 0x400) {
+        if (flags & 0x400) {
             load_projected_texture_matrix(1.33f);
         }
         TParticleCtrl::begin_effect_render();
-        if (p->flags & 0x400) {
+        if (flags & 0x400) {
             setup_particle_tev(0);
         } else {
-            s32 st = model_render_flags;
-            saved_model_render_flags = st;
-            model_render_flags = st | 0x8021;
-            if (((TUnk_8048E728 *)p)->is_particle_sprite_additive(st) != 0) {
-                ((TUnk_8048E728 *)p)->apply_particle_model_fade_color(1);
+            s32 render_flags = model_render_flags;
+            saved_model_render_flags = render_flags;
+            model_render_flags = render_flags | 0x8021;
+            if (is_particle_sprite_additive(render_flags) != 0) {
+                apply_particle_model_fade_color(1);
             } else {
-                ((TUnk_8048E728 *)p)->apply_particle_model_fade_color(0);
+                apply_particle_model_fade_color(0);
             }
         }
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(p->texlist));
+        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(unk_B4));
         set_draw_list_mask(3);
-        if (p->motion != 0) {
-            draw_ginja_model_with_motion((void *)p->model, (void *)p->motion, (f32)p->frame);
+        if (motion != NULL) {
+            draw_ginja_model_with_motion(model, motion, motion_frame);
         } else {
-            draw_ginja_object((void *)p->model);
+            draw_ginja_object(model);
         }
-        if (p->flags & 0x400) {
+        if (flags & 0x400) {
             reset_particle_tev();
         } else {
             model_render_flags = saved_model_render_flags;
@@ -519,147 +350,130 @@ void TUnk_8048E778::render() {
         restore_draw_list_mask();
         TParticleCtrl::end_effect_render();
         pop_matrix();
-    } else if (flags & 0x2000) {
-        ((TUnk_8048E728 *)p)->draw_particle_refraction_quad();
-    } else if (flags & 0x800) {
-        if (p->def->flags & 0x20) {
-            id = p->tex + 0x36;
+    } else if (draw_flags & 0x2000) {
+        draw_particle_refraction_quad();
+    } else if (draw_flags & 0x800) {
+        if (param->flags & 0x20) {
+            id = sprite_index + 0x36;
         } else {
-            id = p->tex;
+            id = sprite_index;
         }
         set_depth_buffer_settings_2();
-        ((TUnk_8048E778 *)p)->draw_sprite_quad(id);
+        draw_sprite_quad(id);
         restore_saved_depth_alpha_state();
-    } else if (p->def->flags & 0x20) {
-        id = p->tex + 0x36;
-        append_node_to_tail__13TParticleCtrlFPvPv(((s32 *)&particle_sprites)[id], p->f6C);
+    } else if (param->flags & 0x20) {
+        id = sprite_index + 0x36;
+        TParticleCtrl::append_node_to_tail(particle_sprites[id], &unk_6C);
     } else {
-        append_node_to_tail__13TParticleCtrlFPvPv(((s32 *)&particle_sprites)[p->tex], p->f6C);
+        TParticleCtrl::append_node_to_tail(particle_sprites[sprite_index], &unk_6C);
     }
 }
 
 TUnk_8048E778::~TUnk_8048E778() {}
+
 #pragma push
 #pragma fp_contract on
-TUnk_8048E778::TUnk_8048E778(void *a1, void *a2, void *a3, saddr parent, u16 arg5, s16 arg6)
-    : TUnk_8048E728((ParticleParam *)a1, (TObject *)parent) {
-    Fields0_800896E4 *p = (Fields0_800896E4 *)this;
-    Fields1_800896E4 *d = (Fields1_800896E4 *)a1;
-    Vec *pos = (Vec *)a2;
-    Fields3_800896E4 *c = (Fields3_800896E4 *)a3;
-    s32 temp_r0;
-    f32 *v;
-    p->field_C4 = 0.0f;
-    p->field_C8 = 0.0f;
-    p->field_CC = 0.0f;
-    p->field_24 = arg5;
-    if (p->field_24 & 0x80) {
-        p->field_95 = 1;
+TUnk_8048E778::TUnk_8048E778(void *entry, void *position, void *direction, saddr parent, u16 particle_flags,
+                             s16 target)
+    : TUnk_8048E728((ParticleParam *)entry, (TObject *)parent) {
+    ParticleParam *src = (ParticleParam *)entry;
+    Vec *at = (Vec *)position;
+    ParticleAngles *dir = (ParticleAngles *)direction;
+    s32 life;
+    velocity.x = 0.0f;
+    velocity.y = 0.0f;
+    velocity.z = 0.0f;
+    flags = particle_flags;
+    if (flags & 0x80) {
+        unk_95 = 1;
     }
-    p->field_26 = arg6;
-    p->field_98 = c->field_0;
-    p->field_9C = c->field_4;
-    p->field_A0 = c->field_8;
-    p->field_70 = (d->field_18 * ((3.0517578e-05f * (f32)rand()) - 0.5f)) + pos->x;
-    p->field_78 = (d->field_20 * ((3.0517578e-05f * (f32)rand()) - 0.5f)) + pos->z;
-    if (d->field_88 & 2) {
-        p->field_74 = pos->y + d->field_1C;
+    target_id = target;
+    unk_98 = dir->x;
+    m_9c = dir->y;
+    unk_A0 = dir->z;
+    pos.x = (src->spawn_spread.x * ((3.0517578e-05f * (f32)rand()) - 0.5f)) + at->x;
+    pos.z = (src->spawn_spread.z * ((3.0517578e-05f * (f32)rand()) - 0.5f)) + at->z;
+    if (src->flags & 2) {
+        pos.y = at->y + src->spawn_spread.y;
     } else {
-        p->field_74 = (d->field_1C * ((3.0517578e-05f * (f32)rand()) - 0.5f)) + pos->y;
+        pos.y = (src->spawn_spread.y * ((3.0517578e-05f * (f32)rand()) - 0.5f)) + at->y;
     }
-    p->field_30 = pos->x;
-    p->field_38 = pos->z;
-    if (d->field_88 & 2) {
-        p->field_34 = pos->y;
+    origin.x = at->x;
+    origin.z = at->z;
+    if (src->flags & 2) {
+        origin.y = at->y;
     } else {
-        p->field_34 = pos->y;
+        origin.y = at->y;
     }
-    p->field_28 = (d->field_28 * (3.0517578e-05f * (f32)rand())) + d->field_24;
-    p->field_2C = p->field_28;
-    temp_r0 = (s32)(((f32)d->field_4C * (3.0517578e-05f * (f32)rand())) + (f32)d->field_48);
-    if (d->field_88 & 1) {
-        p->field_5C = 1.0f / (f32)((s32 **)(((void **)&particle_sprites)[p->field_1C]))[0x28 / 4][0xC / 4];
+    m_28 = (src->size_range * (3.0517578e-05f * (f32)rand())) + src->size_min;
+    unk_2C = m_28;
+    life = (s32)(((f32)src->life_range * (3.0517578e-05f * (f32)rand())) + (f32)src->life_min);
+    if (src->flags & 1) {
+        age_rate = 1.0f / (f32)particle_sprites[sprite_index]->definition->uv_count;
     } else {
-        p->field_5C = 1.0f / (f32)temp_r0;
+        age_rate = 1.0f / (f32)life;
     }
-    p->field_3C = (d->field_38 * (3.0517578e-05f * (f32)rand())) + d->field_30;
-    p->field_40 = (d->field_3C * (3.0517578e-05f * (f32)rand())) + d->field_34;
-    v = &p->field_3C;
-    p->field_44 = 0.0f;
-    rotate_vec_xz(v, v, (s32)(182.04445f * (360.0f * (3.0517578e-05f * (f32)rand()))));
-    if (0.0f == d->field_54 && 0.0f == d->field_34 && 0.0f == d->field_30) {
-        p->field_96 = 0;
-        p->field_68 = 0.0f;
+    step.x = (src->speed_range * (3.0517578e-05f * (f32)rand())) + src->speed_min;
+    step.y = (src->rise_range * (3.0517578e-05f * (f32)rand())) + src->rise_min;
+    step.z = 0.0f;
+    rotate_vec_xz(&step, &step, (s32)(182.04445f * (360.0f * (3.0517578e-05f * (f32)rand()))));
+    if (0.0f == src->gravity && 0.0f == src->rise_min && 0.0f == src->speed_min) {
+        m_96 = 0;
+        speed = 0.0f;
     } else {
-        p->field_96 = (s16)(182.04445f * (360.0f * (3.0517578e-05f * (f32)rand())));
-        p->field_68 = (3.0517578e-05f * (f32)rand()) - 0.5f;
+        m_96 = (s16)(182.04445f * (360.0f * (3.0517578e-05f * (f32)rand())));
+        speed = (3.0517578e-05f * (f32)rand()) - 0.5f;
     }
-    if (p->field_24 & 0x2000) {
+    if (flags & 0x2000) {
         request_indirect_effect(0x1F);
     }
 }
 #pragma pop
 
-struct BF0_80089B50 {
-    u8 pad_0[0x18]; s32 *field_18; u16 field_1C; u8 pad_1E[6]; u16 field_24; s16 field_26;
-    f32 field_28; f32 field_2C; f32 field_30; f32 field_34; f32 field_38; f32 field_3C; f32 field_40; f32 field_44;
-    u8 pad_48[0x14]; f32 field_5C; u8 pad_60[8]; f32 field_68; u8 pad_6C[4]; f32 field_70; f32 field_74; f32 field_78;
-    u8 pad_7C[0x19]; s8 field_95; s16 field_96; s32 field_98; s32 field_9C; s32 field_A0;
-    u8 pad_A4[0x20]; f32 field_C4; f32 field_C8; f32 field_CC;
-};
-struct BF1_80089B50 {
-    u8 pad_0[0x18]; f32 field_18; f32 field_1C; f32 field_20; f32 field_24; f32 field_28; u8 pad_2C[4];
-    f32 field_30; f32 field_34; f32 field_38; f32 field_3C; u8 pad_40[8]; s32 field_48; s32 field_4C;
-    u8 pad_50[4]; f32 field_54; u8 pad_58[0x30]; u8 field_88;
-};
-
 #pragma push
 #pragma fp_contract on
-TUnk_8048E778::TUnk_8048E778(void *a1, void *a2, void *a3)
-    : TUnk_8048E728((ParticleParam *)a1, (TObject *)a3) {
-    BF0_80089B50 *p = (BF0_80089B50 *)this;
-    BF1_80089B50 *d = (BF1_80089B50 *)a1;
-    Vec *pos = (Vec *)a2;
-    s32 temp_r0;
-    f32 *v;
-    p->field_C4 = 0.0f;
-    p->field_C8 = 0.0f;
-    p->field_CC = 0.0f;
-    p->field_70 = (d->field_18 * ((3.0517578e-05f * (f32)rand()) - 0.5f)) + pos->x;
-    p->field_78 = (d->field_20 * ((3.0517578e-05f * (f32)rand()) - 0.5f)) + pos->z;
-    if (d->field_88 & 2) {
-        p->field_74 = pos->y + d->field_1C;
+TUnk_8048E778::TUnk_8048E778(void *entry, void *position, void *parent)
+    : TUnk_8048E728((ParticleParam *)entry, (TObject *)parent) {
+    ParticleParam *src = (ParticleParam *)entry;
+    Vec *at = (Vec *)position;
+    s32 life;
+    velocity.x = 0.0f;
+    velocity.y = 0.0f;
+    velocity.z = 0.0f;
+    pos.x = (src->spawn_spread.x * ((3.0517578e-05f * (f32)rand()) - 0.5f)) + at->x;
+    pos.z = (src->spawn_spread.z * ((3.0517578e-05f * (f32)rand()) - 0.5f)) + at->z;
+    if (src->flags & 2) {
+        pos.y = at->y + src->spawn_spread.y;
     } else {
-        p->field_74 = (d->field_1C * ((3.0517578e-05f * (f32)rand()) - 0.5f)) + pos->y;
+        pos.y = (src->spawn_spread.y * ((3.0517578e-05f * (f32)rand()) - 0.5f)) + at->y;
     }
-    p->field_30 = pos->x;
-    p->field_38 = pos->z;
-    if (d->field_88 & 2) {
-        p->field_34 = pos->y;
+    origin.x = at->x;
+    origin.z = at->z;
+    if (src->flags & 2) {
+        origin.y = at->y;
     } else {
-        p->field_34 = pos->y;
+        origin.y = at->y;
     }
-    p->field_28 = (d->field_28 * (3.0517578e-05f * (f32)rand())) + d->field_24;
-    p->field_2C = p->field_28;
-    temp_r0 = (s32)(((f32)d->field_4C * (3.0517578e-05f * (f32)rand())) + (f32)d->field_48);
-    if (d->field_88 & 1) {
-        p->field_5C = 1.0f / (f32)((s32 **)(((void **)&particle_sprites)[p->field_1C]))[0x28 / 4][0xC / 4];
+    m_28 = (src->size_range * (3.0517578e-05f * (f32)rand())) + src->size_min;
+    unk_2C = m_28;
+    life = (s32)(((f32)src->life_range * (3.0517578e-05f * (f32)rand())) + (f32)src->life_min);
+    if (src->flags & 1) {
+        age_rate = 1.0f / (f32)particle_sprites[sprite_index]->definition->uv_count;
     } else {
-        p->field_5C = 1.0f / (f32)temp_r0;
+        age_rate = 1.0f / (f32)life;
     }
-    p->field_3C = (d->field_38 * (3.0517578e-05f * (f32)rand())) + d->field_30;
-    p->field_40 = (d->field_3C * (3.0517578e-05f * (f32)rand())) + d->field_34;
-    v = &p->field_3C;
-    p->field_44 = 0.0f;
-    rotate_vec_xz(v, v, (s32)(182.04445f * (360.0f * (3.0517578e-05f * (f32)rand()))));
-    if (0.0f == d->field_54 && 0.0f == d->field_34 && 0.0f == d->field_30) {
-        p->field_96 = 0;
-        p->field_68 = 0.0f;
+    step.x = (src->speed_range * (3.0517578e-05f * (f32)rand())) + src->speed_min;
+    step.y = (src->rise_range * (3.0517578e-05f * (f32)rand())) + src->rise_min;
+    step.z = 0.0f;
+    rotate_vec_xz(&step, &step, (s32)(182.04445f * (360.0f * (3.0517578e-05f * (f32)rand()))));
+    if (0.0f == src->gravity && 0.0f == src->rise_min && 0.0f == src->speed_min) {
+        m_96 = 0;
+        speed = 0.0f;
     } else {
-        p->field_96 = (s16)(182.04445f * (360.0f * (3.0517578e-05f * (f32)rand())));
-        p->field_68 = (3.0517578e-05f * (f32)rand()) - 0.5f;
+        m_96 = (s16)(182.04445f * (360.0f * (3.0517578e-05f * (f32)rand())));
+        speed = (3.0517578e-05f * (f32)rand()) - 0.5f;
     }
-    if (p->field_24 & 0x2000) {
+    if (flags & 0x2000) {
         request_indirect_effect(0x1F);
     }
 }
