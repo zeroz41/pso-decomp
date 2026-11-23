@@ -143,7 +143,7 @@ TObjEneGibbles::TObjEneGibbles(TObject *parent, void *setData) : TObjEnemy(paren
     subtype = 0;
     select_model_record(variant);
     action_table = gibbles_action_table;
-    set_action_table((saddr)action_table);
+    set_action_table(action_table);
     motion_list = TObjEneGibbles__resource_bundle->motions;
     requested_action = 0;
     set_animation(requested_action);
@@ -152,7 +152,7 @@ TObjEneGibbles::TObjEneGibbles(TObject *parent, void *setData) : TObjEnemy(paren
     attack_kind = 0;
     combo_count = 0;
     movementParameters = &gibbles_move_params;
-    bind_enemy_combat_stats((u8 *)gibbles_boss_stat_handle, (u8 *)gibbles_combat_stat_entries[attack_kind], (u8 *)gibbles_combat_stats_handle);
+    bind_enemy_combat_stats(reinterpret_cast<player_stats *>(gibbles_boss_stat_handle), reinterpret_cast<AttackParams *>(gibbles_combat_stat_entries[attack_kind]), reinterpret_cast<ActorParamBlock *>(gibbles_combat_stats_handle));
     referenceHp = hp;
     update_position();
     update_shadow_height();
@@ -936,7 +936,7 @@ void TObjEneGibbles::run_attack_action() {
         this->status_flags &= 0xFFFFFF7F;
         break;
     }
-    bind_enemy_combat_stats(NULL, (u8 *)gibbles_combat_stat_entries[this->attack_kind], NULL);
+    bind_enemy_combat_stats(NULL, reinterpret_cast<AttackParams *>(gibbles_combat_stat_entries[this->attack_kind]), NULL);
     this->bodies->flags |= 1;
     this->actorFlags &= 0xF9FBFFFF;
     this->actorFlags |= 0x200000;

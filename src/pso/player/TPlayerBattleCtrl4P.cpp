@@ -23,6 +23,7 @@
 #include "pso/object/trap/TOMineTrap.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/quest/TQuestThread.h"
 #include "pso/map/FloorArea.h"
@@ -810,10 +811,10 @@ void TPlayerBattleCtrl4P::shuffle_order() {
 
 void TPlayerBattleCtrl4P::reset_players() {
     s32 i;
-    void *p;
+    TObjPlayer *p;
     TLobby::init_scene_objects();
     for (i = 0; i < 4; i++) {
-        p = (void *)get_player_by_client_id(i);
+        p = reinterpret_cast<TObjPlayer *>(get_player_by_client_id(i));
         if (p != 0) {
             ((TObjPlayer *)p)->send_selected_spawn_position(((Ctl_80311380 *)this)->tbl[((TObjBase *)(p))->get_entity_id()]);
             reset_cameras_to_actor(p, 0);

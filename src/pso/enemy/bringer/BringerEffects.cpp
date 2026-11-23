@@ -1,3 +1,4 @@
+#include "pso/enemy/AreaAttackContact.h"
 #include "pso/system/TrailStrip.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
@@ -32,16 +33,9 @@ void __ct__7TObjectFP7TObject(void *, void *);
 extern s32 __vt__26TObjEneDf2Bringer_Eff_Rush[];
 }
 
-// The first argument of TUnk_804928CC::call_vt13_with_default: the recoil and the bodies the shot
-// tests (bit 0 players, bit 1 enemies; see DragonAttackParams), as in TObjEneDellBiterEffects.
-struct BringerTpAbsorbHitParams {
-    f32 recoil;
-    s32 contact_flags;
-};
-
 const char *bringer_rush_effect_name = "TObjEneDf2Bringer_Eff_Rush";
 const char *bringer_tp_absorb_effect_name = "TObjEneDf2Bringer_Eff_TpAbsorb1";
-extern const BringerTpAbsorbHitParams bringer_tp_absorb_hit_params = {3.0f, 3};
+extern const AreaAttackContact bringer_tp_absorb_hit_params = {3.0f, 3};
 extern const DirectAttackPayload bringer_tp_absorb_attack = {0, 20.0f};
 
 Vec bringer_effect_vec_table[6];

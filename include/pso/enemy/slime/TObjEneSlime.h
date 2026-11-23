@@ -39,7 +39,6 @@ struct TObjEneSlime : public TObjEnemy {
     static void free_instance();
     static void spawn_pair();
     static s32 create(saddr set_data);
-    static void spawn_child(s16 id, void *model, NJS_TEXLIST *texlist, f32 radius, f32 y_offset);
     void init_slots();
 };
 

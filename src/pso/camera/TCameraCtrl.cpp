@@ -211,8 +211,7 @@ TCameraCtrl::TCameraCtrl(TObject *parent) : TObject(parent) {
 }
 #pragma pop
 
-void TCameraCtrl::setup_default_view(void *offset_arg) {
-    Vec *offset = (Vec *)offset_arg;
+void TCameraCtrl::setup_default_view(Vec *offset) {
     Vec eye_pos;
     Vec at_pos;
     Vec d;
@@ -487,7 +486,7 @@ u16 TCameraCtrl::get_active_controller() {
     return TCameraCtrl::view_state.controller;
 }
 
-void reset_cameras_to_actor(void *actor, s32 view_unused) {
+void reset_cameras_to_actor(TObjPlayer *actor, s32 view_unused) {
     s32 view = 0;
     u16 entity_id;
     s32 count = 0;
@@ -518,8 +517,8 @@ void reset_cameras_to_actor(void *actor, s32 view_unused) {
         if (is_split_screen() == 0) {
             camera_ctrl_instance->focus_actor = actor;
         }
-        controller->set_target((TObjPlayer *)actor);
-        controller->reset_to_actor((TObjPlayer *)actor);
+        controller->set_target(actor);
+        controller->reset_to_actor(actor);
         if (is_split_screen() != 0) {
             TCameraCtrl::view_state.flags |= 0x800;
             if (is_boss_area() == 0) {
@@ -535,8 +534,8 @@ void reset_cameras_to_actor(void *actor, s32 view_unused) {
     }
     controller = camera_controller_registry[view];
     if (controller != NULL) {
-        controller->set_target((TObjPlayer *)actor);
-        controller->reset_to_actor((TObjPlayer *)actor);
+        controller->set_target(actor);
+        controller->reset_to_actor(actor);
     }
     if (camera_ctrl_instance != NULL) {
         VecCopy(&camera_ctrl_instance->split_pos[view], &controller->position);
@@ -1119,7 +1118,7 @@ void TCameraCtrl::transform_to_view(const Vec *src, Vec *dst) {
 u16 TCameraCtrl::get_camera_target_id(s32 view) {
     u16 id;
     s32 index;
-    void *actor;
+    TObjPlayer *actor;
     TCameraController *controller;
     if (is_split_screen() != 0) {
         id = 0xFFFF;

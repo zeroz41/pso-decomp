@@ -2,6 +2,7 @@
 #include "types.h"
 #include "pso/boss/goldragon/TBoss8Dragon_800BC53C.h"
 #include "pso/object/base/TObjMotion.h"
+#include "pso/enemy/AreaAttackContact.h"
 #include "pso/player/TUnk_804928CC.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
@@ -18,8 +19,6 @@ struct Rec_800BC080 { u8 pad0[0x18]; s32 flags; u8 pad1C[0x2C - 0x1C]; };
 
 struct Tgt_800BC080 { u8 pad[0x30]; s32 x30; u8 pad2[0xA4 - 0x34]; Rec_800BC080 *recs; s32 nrecs; };
 
-struct Arg_800BC080 { s32 x0; s32 flags; };
-
 struct Info_800BC080 { u8 pad[0x18]; s32 mask; };
 
 struct VB_800BC080 { char pad[0x18]; };
@@ -30,7 +29,6 @@ struct P_800BC080 : VB_800BC080 {
     virtual void m8(); virtual void m9(); virtual void m10(); virtual void m11();
     virtual void m12(); virtual void m13(); virtual void m14(); virtual void m15();
     virtual void m16(); virtual void m17(); virtual void m18(); virtual void m19();
-    virtual void m20(Tgt_800BC080 *, Arg_800BC080 *);
     u8 pad1c[0xA4 - 0x1C];
     Info_800BC080 *info;
     u8 padA8[4];
@@ -39,7 +37,6 @@ struct P_800BC080 : VB_800BC080 {
 
 struct Tgt_800BC250 { u8 pad[0x30]; s32 x30; };
 
-struct Arg_800BC250 { s32 x0; s32 flags; };
 
 struct Info_800BC250 { u8 pad[0x18]; s32 mask; };
 
@@ -51,7 +48,6 @@ struct P_800BC250 : VB_800BC250 {
     virtual void m8(); virtual void m9(); virtual void m10(); virtual void m11();
     virtual void m12(); virtual void m13(); virtual void m14(); virtual void m15();
     virtual void m16(); virtual void m17(); virtual void m18();
-    virtual void m19(Tgt_800BC250 *, Arg_800BC250 *, s32);
     u8 pad1c[0xA4 - 0x1C];
     Info_800BC250 *info;
     u8 padA8[4];
@@ -116,11 +112,11 @@ s32 TUnk_804928CC::area_attack_deliver_physical(void *arg1, void *object, f32 ra
         return 0;
     }
     TObjPlayer::init_all_slots();
-    if (((Arg_800BC080 *)arg1)->flags & 1) {
+    if (static_cast<AreaAttackContact *>(arg1)->contact_flags & 1) {
         ((TUnk_804928CC *)((P_800BC080 *)this))->update_body_contact_flag(range);
         mask |= 0x80000;
     }
-    if (((Arg_800BC080 *)arg1)->flags & 2) {
+    if (static_cast<AreaAttackContact *>(arg1)->contact_flags & 2) {
         ((TObjCollidable *)((P_800BC080 *)this))->mark_enemy_body_contacts();
         mask |= 0x100000;
     }
@@ -136,7 +132,7 @@ s32 TUnk_804928CC::area_attack_deliver_physical(void *arg1, void *object, f32 ra
                     ok = 0;
                 }
                 if (ok != 0) {
-                    this->apply_hit_if_active(t, (f32 *)((Arg_800BC080 *)arg1));
+                    this->apply_hit_if_active(t, (f32 *)((AreaAttackContact *)arg1));
                     hit = 1;
                 } else {
                     n = t->nrecs;
@@ -172,11 +168,11 @@ s32 TUnk_804928CC::area_attack_deliver_direct(void *recoil, saddr arg2, void *ob
         return 0;
     }
     TObjPlayer::init_all_slots();
-    if (((Arg_800BC250 *)recoil)->flags & 1) {
+    if (static_cast<AreaAttackContact *>(recoil)->contact_flags & 1) {
         ((TUnk_804928CC *)((P_800BC250 *)this))->update_body_contact_flag(range);
         mask |= 0x80000;
     }
-    if (((Arg_800BC250 *)recoil)->flags & 2) {
+    if (static_cast<AreaAttackContact *>(recoil)->contact_flags & 2) {
         ((TObjCollidable *)((P_800BC250 *)this))->mark_enemy_body_contacts();
         mask |= 0x100000;
     }
@@ -192,7 +188,7 @@ s32 TUnk_804928CC::area_attack_deliver_direct(void *recoil, saddr arg2, void *ob
                     ok = 0;
                 }
                 if (ok != 0) {
-                    this->area_attack_receive_direct((void *)t, (f32 *)((Arg_800BC250 *)recoil), (void *)arg2);
+                    this->area_attack_receive_direct((void *)t, (f32 *)((AreaAttackContact *)recoil), (void *)arg2);
                     hit = 1;
                 }
             }

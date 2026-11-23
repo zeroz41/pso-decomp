@@ -20,6 +20,7 @@
 #include "pso/technique/TTecReverserEff.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/camera/TCameraCtrl.h"
 #include "pso/player/PlayerActionPaletteState.h"
 #include "pso/player/TObjPlayer_801C7430.h"
 #include "pso/player/TObjPlayer_801D2E20.h"
@@ -151,7 +152,7 @@ struct VObj_801C7538 : Base_801C7538 {
     virtual void m71();
     virtual void m72();
     virtual void m73();
-    virtual int m74();
+    virtual BmlMotionEntry *m74();
 };
 
 struct VBase8_801c7630 { char pad[8]; };
@@ -327,7 +328,7 @@ VV(51)VV(52)VV(53)VV(54)VV(55)VV(56)VV(57)VV(58)VV(59)VV(60)
 VV(61)VV(62)VV(63)VV(64)VV(65)VV(66)VV(67)VV(68)VV(69)VV(70)
 VV(71)VV(72)VV(73)
 #undef VV
-    virtual s32 v76();
+    virtual BmlMotionEntry *v76();
 };
 
 typedef struct Msg_801C851C {

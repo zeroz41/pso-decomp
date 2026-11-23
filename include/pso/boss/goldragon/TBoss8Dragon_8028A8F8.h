@@ -5,9 +5,10 @@
 #include <dolphin/mtx/GeoTypes.h>
 
 struct DragonAttackParams;
+class TObject;
 
 extern "C" {
-void TBoss8Dragon__sub_8028A900(void *self, Vec *pos, DragonAttackParams *params);
+void TBoss8Dragon__sub_8028A900(TObject *floor_grass, const Vec *pos, const DragonAttackParams *params);
 }
 
 #endif

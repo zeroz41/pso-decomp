@@ -80,9 +80,9 @@ extern void *bm_ene_df1_saver_motion_names[12];
 struct SaverNodePoint { Vec pos; u8 pad_c[4]; };
 SaverNodePoint saver_particle_node_position;
 extern "C" {
-void *saver_boss_stat_handle;
-void **player_object_ptr_array;
-void *saver_object_stat_handle;
+player_stats *saver_boss_stat_handle;
+AttackParams **player_object_ptr_array;
+ActorParamBlock *saver_object_stat_handle;
 f32 *saver_ai_params;  // [0] attack motion speed, [1] attack recovery frames, [2] walk speed, [3] walk motion speed
 BmlResource *saver_bml_resource;
 s16 *saver_scroll_polygons;  // polygon list whose uvs run_task scrolls once a frame
@@ -122,7 +122,7 @@ TObjMotionAction saver_action_table[11] = {
 };
 
 const char *TObjEneSaver__class_name = "TObjEneSaver";
-const NpcAnimationBinding saver_init_binding_desc = { NULL, reinterpret_cast<TObjMotionAction *>(saver_action_table), 0, 1, 11 };
+const NpcAnimationBinding saver_init_binding_desc = { NULL, saver_action_table, 0, 1, 11 };
 const Vec lbl_8043A8A4 = {0.0f, 0.0f, 0.0f};
 const Vec lbl_8043A8B0 = {0.0f, 0.0f, 0.0f};
 const Vec lbl_8043A8BC = {0.0f, 0.0f, 0.0f};
@@ -651,7 +651,7 @@ TObjEneSaver::TObjEneSaver(TObject *parent, void *set_data) : TObjEnemy(parent) 
     subtype = 0;
     select_model_record(variant);
     action_table = saver_action_table;
-    set_action_table((saddr)action_table);
+    set_action_table(action_table);
     motion_list = saver_bml_resource->motions;
     requested_action = 0;
     set_animation(requested_action);
@@ -659,7 +659,7 @@ TObjEneSaver::TObjEneSaver(TObject *parent, void *set_data) : TObjEnemy(parent) 
     init_collision_body_parts(this, saver_collision_body_part_table, 1);
     attack_index = 0;
     step_counter = 0;
-    bind_enemy_combat_stats((u8 *)saver_boss_stat_handle, (u8 *)(player_object_ptr_array[attack_index]), (u8 *)saver_object_stat_handle);
+    bind_enemy_combat_stats(saver_boss_stat_handle, player_object_ptr_array[attack_index], saver_object_stat_handle);
     movementParameters = &saver_move_params;
     referenceHp = hp;
     update_prev_position();
@@ -713,7 +713,7 @@ void initialize_saver_resources(void) {
     dir.x = (-10.0f);
     dir.y = dir.z = 0.0f;
     saver_nail_trail_points->sample_node_offsets(saver_bml_resource->models[0].model, (NJS_MOTION *)(saver_bml_resource->motions[saver_action_table[3].motion].motion), 0x19, (const Vec *)&pos, (const Vec *)&dir);
-    player_object_ptr_array = (void **)mem_alloc(0xC);
+    player_object_ptr_array = static_cast<AttackParams **>(mem_alloc(3 * sizeof(*player_object_ptr_array)));
     saver_boss_stat_handle = TLobby::register_boss(0x52);
     player_object_ptr_array[0] = TLobby::dispatch_shared_handler_b(0x57);
     player_object_ptr_array[2] = TLobby::dispatch_shared_handler_b(0x58);
@@ -1326,7 +1326,7 @@ s32 TObjEneSaver::is_target_in_attack_range() {
             flags = state_flags;
             if (flags & 8) {
                 attack_index = 2;
-                if (dist <= (radius + ((AttackParams *)(player_object_ptr_array[attack_index]))->get_attack_range()) * (radius + ((AttackParams *)(player_object_ptr_array[attack_index]))->get_attack_range()) && ang <= ((AttackParams *)(player_object_ptr_array[attack_index]))->get_attack_angle()) {
+                if (dist <= (radius + player_object_ptr_array[attack_index]->get_attack_range()) * (radius + player_object_ptr_array[attack_index]->get_attack_range()) && ang <= player_object_ptr_array[attack_index]->get_attack_angle()) {
                     return 1;
                 }
             } else if (flags & 0x10) {
@@ -1337,7 +1337,7 @@ s32 TObjEneSaver::is_target_in_attack_range() {
                 }
             } else {
                 attack_index = 0;
-                if (dist <= (radius + ((AttackParams *)(player_object_ptr_array[attack_index]))->get_attack_range()) * (radius + ((AttackParams *)(player_object_ptr_array[attack_index]))->get_attack_range()) && ang <= ((AttackParams *)(player_object_ptr_array[attack_index]))->get_attack_angle()) {
+                if (dist <= (radius + player_object_ptr_array[attack_index]->get_attack_range()) * (radius + player_object_ptr_array[attack_index]->get_attack_range()) && ang <= player_object_ptr_array[attack_index]->get_attack_angle()) {
                     return 1;
                 }
             }
@@ -1376,7 +1376,7 @@ void TObjEneSaver::run_attack_action() {
         requested_action = 4;
         break;
     }
-    bind_enemy_combat_stats(NULL, (u8 *)player_object_ptr_array[attack_index], NULL);
+    bind_enemy_combat_stats(NULL, player_object_ptr_array[attack_index], NULL);
     bodies->flags |= 1;
     actorFlags &= 0xF9FBFFFF;
     actorFlags |= 0x200000;

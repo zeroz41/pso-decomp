@@ -15,7 +15,7 @@ struct LightningStripSegment {
 
 class TBoss5GryphonLightningEff : public TTecZondeEff {
 public:
-    TBoss5GryphonLightningEff(TObject *parent, TBoss5GryphonLightningSegment *segments, int segment_count, f32 from,
+    TBoss5GryphonLightningEff(TObject *parent, CurvePathPoint *segments, int segment_count, f32 from,
                               f32 to, f32 scale);
     virtual ~TBoss5GryphonLightningEff();
     void set_two_sided();

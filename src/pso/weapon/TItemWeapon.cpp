@@ -90,11 +90,11 @@ void TItemWeapon::draw_weapon_model() {
                 model_render_flags &= 0xFFFF7FEE;
             } else if ((u32) *(u32 *)((s8 *)this + 0x17C) == 0U) {
                 if (this->test_weapon_flags(0x40) != 0U) {
-                    this->apply_sign_effect((u8 *)(*(saddr *)((s8 *)this->owner + 0xDB4)));
+                    this->apply_sign_effect(this->owner->item_node_matrices);
                 } else if (this->test_weapon_flags(0x800000) != 0U) {
                     draw_chunk_object((void *)(*(uaddr *)((s8 *)this + 0xF4)));
                 } else {
-                    this->draw_model_nodes((u8 *)(*(saddr *)((s8 *)this->owner + 0xDB4)));
+                    this->draw_model_nodes(this->owner->item_node_matrices);
                 }
             } else {
                 set_motion_packed_rotation();
@@ -114,7 +114,7 @@ void TItemWeapon::draw_weapon_model() {
             }
             item_render_state.reset();
         } else {
-            this->visit_model_nodes((u8 *)(*(saddr *)((s8 *)this->owner + 0xDB4)));
+            this->visit_model_nodes(this->owner->item_node_matrices);
         }
         pop_matrix();
         reset_model_node_counter();
@@ -317,7 +317,7 @@ CapturedTargetList *TObjPlayer::get_extended_state() { return (CapturedTargetLis
 f32 TObjPlayer::query_extended_state() { return attack_state.get_attack_damage_scale(); }
 int TObjPlayer::test_flag30_bit0x100000() { return test_actor_flags((uaddr)((void*)1048576)); }
 }
-void* get_model_joint_matrix(void* owner, int joint) {  return (char*)(*(saddr *)((char*)owner + 0xdb4)) + joint * 48; }
+MtxP get_model_joint_matrix(TObjPlayer *player, int joint) { return player->item_node_matrices[joint]; }
 void TObjPlayer::set_action_type(s16 v) { *(s16*)((char*)this + 0x0) = v; }
 
 // ---- pso/player/TObjPlayer_80121178

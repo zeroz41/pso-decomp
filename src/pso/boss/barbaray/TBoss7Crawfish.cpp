@@ -373,8 +373,8 @@ TBoss7Crawfish::TBoss7Crawfish(TObject *parent, void *set) : TObjEnemy(parent) {
     texlist = get_bml_texlist(TBoss7Crawfish__shared_resource, 0);
     copy_collision_body(&collision_body, &crawfish_collision_body_desc);
     set_collision_body(&collision_body);
-    set_action_table((saddr)crawfish_action_table);
-    set_motion_list((saddr)TBoss7Crawfish__shared_resource->motions);
+    set_action_table(crawfish_action_table);
+    set_motion_list(TBoss7Crawfish__shared_resource->motions);
     set_anim_timer(2);
     set_animation(requested_action);
     set_requested_action(requested_action);
@@ -382,12 +382,12 @@ TBoss7Crawfish::TBoss7Crawfish(TObject *parent, void *set) : TObjEnemy(parent) {
     apply_set_data(set);
     if (sub_80308AA8() != 0) {
         set_param(0x4A);
-        bind_enemy_combat_stats((u8 *)TLobby::register_boss(8), (u8 *)TLobby::dispatch_shared_handler_b(8), (u8 *)TLobby::register_object(8));
+        bind_enemy_combat_stats(TLobby::register_boss(8), TLobby::dispatch_shared_handler_b(8), TLobby::register_object(8));
         params = (Boss7CrawfishParams *)TLobby::dispatch_shared_handler_a(8);
         model = get_bml_model(TBoss7Crawfish__shared_resource, 0);
     } else {
         set_param(0x4B);
-        bind_enemy_combat_stats((u8 *)TLobby::register_boss(9), (u8 *)TLobby::dispatch_shared_handler_b(9), (u8 *)TLobby::register_object(9));
+        bind_enemy_combat_stats(TLobby::register_boss(9), TLobby::dispatch_shared_handler_b(9), TLobby::register_object(9));
         params = (Boss7CrawfishParams *)TLobby::dispatch_shared_handler_a(9);
         model = get_bml_model(TBoss7Crawfish__shared_resource, 1);
     }

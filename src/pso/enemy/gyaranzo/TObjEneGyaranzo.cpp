@@ -137,11 +137,11 @@ TBoss3VoloptBreakupParams gyaranzo_death_breakup_params = {
     0x14, {0.06f, 1.5f, 0.9f, 0.12f, 0.55f, 0.5f},
 };
 
-saddr gyaranzo_boss_stats_handle;
+player_stats *gyaranzo_boss_stats_handle;
 
-saddr gyaranzo_boss_stats_ptr_b;
+AttackParams *gyaranzo_boss_stats_ptr_b;
 
-saddr gyaranzo_object_handle;
+ActorParamBlock *gyaranzo_object_handle;
 
 GyaranzoParameters *gyaranzo_missile_param_table;
 
@@ -171,11 +171,11 @@ TObjEneGyaranzo::TObjEneGyaranzo(TObject *parent, void *set_data) : TObjEnemyCus
     VecCopy(&move_origin, VecCopy(&move_destination, &position));
     motion_list = gyaranzo_bml_resource->motions;
     action_table = gyaranzo_action_table;
-    set_action_table((saddr)action_table);
+    set_action_table(action_table);
     init_collision_body_parts(this, gyaranzo_collision_bodies, 1);
     variant = 0;
     movementParameters = &gyaranzo_move_params;
-    bind_enemy_combat_stats((u8 *)gyaranzo_boss_stats_handle, (u8 *)gyaranzo_boss_stats_ptr_b, (u8 *)gyaranzo_object_handle);
+    bind_enemy_combat_stats(gyaranzo_boss_stats_handle, gyaranzo_boss_stats_ptr_b, gyaranzo_object_handle);
     init_params_from_table();
     requested_action = 0;
     set_animation(requested_action);
@@ -222,24 +222,24 @@ void TLobby::load_gyaranzo_resources() {
         gyaranzo_bml_resource = (BmlResource *)p;
     }
     for (i = 0; i < 0x16; i++) {
-        gyaranzo_model_resources[i] = (NJS_OBJECT *)find_model_node((uaddr)gyaranzo_bml_resource->models[3].model, gyaranzo_resource_index_table[i]);
+        gyaranzo_model_resources[i] = find_model_node(gyaranzo_bml_resource->models[3].model, gyaranzo_resource_index_table[i]);
     }
     for (i = 0; i < 0xD; i++) {
-        gyaranzo_resource_ptrs[i] = (NJS_OBJECT *)find_model_node((uaddr)gyaranzo_bml_resource->models[4].model, gyaranzo_resource_index_table[i]);
+        gyaranzo_resource_ptrs[i] = find_model_node(gyaranzo_bml_resource->models[4].model, gyaranzo_resource_index_table[i]);
     }
     for (i = 0; i < 0xD; i++) {
         gyaranzo_resource_ptrs[i]->sibling = NULL;
     }
-    gyaranzo_broken_node25 = (NJS_OBJECT *)find_model_node((uaddr)gyaranzo_bml_resource->models[3].model, 0x19);
-    gyaranzo_broken_node13 = (NJS_OBJECT *)find_model_node((uaddr)gyaranzo_bml_resource->models[3].model, 0xD);
+    gyaranzo_broken_node25 = find_model_node(gyaranzo_bml_resource->models[3].model, 0x19);
+    gyaranzo_broken_node13 = find_model_node(gyaranzo_bml_resource->models[3].model, 0xD);
     p = new TBreakUpMdlData(gyaranzo_bml_resource->models[3].model, (NJS_MOTION *)get_bml_motion(gyaranzo_bml_resource, 3), 54.0f);
     gyaranzo_breakup_model_obj = (TBreakUpMdlData *)p;
-    gyaranzo_boss_stats_handle = (saddr)TLobby::register_boss(0x1D);
-    gyaranzo_boss_stats_ptr_b = (saddr)TLobby::dispatch_shared_handler_b(0x1D);
-    gyaranzo_object_handle = (saddr)TLobby::register_object(0x1D);
+    gyaranzo_boss_stats_handle = TLobby::register_boss(0x1D);
+    gyaranzo_boss_stats_ptr_b = TLobby::dispatch_shared_handler_b(0x1D);
+    gyaranzo_object_handle = TLobby::register_object(0x1D);
     gyaranzo_missile_param_table = (GyaranzoParameters *)TLobby::dispatch_shared_handler_a(0x1D);
     {
-        NpcAnimationBinding pos = { NULL, reinterpret_cast<TObjMotionAction *>(gyaranzo_action_table), 0, 1, 8 };
+        NpcAnimationBinding pos = { NULL, gyaranzo_action_table, 0, 1, 8 };
         pos.motions = gyaranzo_bml_resource->motions;
         NpcModelRegistry::register_animated_chunk(0x20, gyaranzo_bml_resource->models[3].model, gyaranzo_bml_resource->models[3].texlist, &pos, 18.0f, 0.0f);
         NpcModelRegistry::register_animated_chunk(0x21, gyaranzo_bml_resource->models[4].model, gyaranzo_bml_resource->models[3].texlist, &pos, 18.0f, 0.0f);

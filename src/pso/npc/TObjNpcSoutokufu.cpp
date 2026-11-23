@@ -1,5 +1,7 @@
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlAccessors.h"
+#include "pso/system/NinjaTypes.h"
+#include "pso/unk/text_80066F10.h"
 #include "types.h"
 #include "pso/npc/TObjNpcSoutokufu.h"
 #include "pso/npc/TUnk_804A9F50.h"
@@ -24,17 +26,6 @@ BmlResource *TObjNpcSoutokufu__shared_model_resource;
 }
 
 
-struct Nd_80289710 { u32 flags; u8 pad4[4]; f32 f8; f32 fc; f32 f10; u8 pad14[0x1C]; Nd_80289710 *next; };
-
-struct Ls_80289710 { u8 pad[0x2C]; Nd_80289710 *head; };
-
-struct Ow_80289710 { u8 pad[0x58]; Ls_80289710 *list; };
-
-struct Gl_80289710 { u8 pad[0x42C]; Ow_80289710 *owner; };
-
-
-extern void *lbl_805D4DD8;
-
 void TObjNpcSoutokufu::close_dialog_window() {
     if (TObjNpcSoutokufu__shared_model_resource != NULL) {
         delete TObjNpcSoutokufu__shared_model_resource;
@@ -58,24 +49,23 @@ TObjNpcSoutokufu::TObjNpcSoutokufu(TObject *parent, void *arg2) : TUnk_804A9F50(
     ((TObjNpcBase *)this)->setup_common();
 }
 
-void TBoss8Dragon::trigger_switches_in_range(void *floor_stone, void *pos, void *prm) {
-    f32 sp[3];
-    f32 off;
-    Ls_80289710 *list;
-    Nd_80289710 *n;
-    Ow_80289710 *ow;
-    ow = (*(Gl_80289710 * *)&lbl_805D4DD8)->owner;
-    list = ow->list;
-    off = ((TBoss8Dragon *)prm)->calc_sq_offset(50.0f);
-    for (n = list->head; n != NULL; n = n->next) {
-        if (!(n->flags & 8) && ((TBoss8Dragon *)pos)->is_within_xz_distance((u8 *)n, (f32)off) != 0) {
-            sp[0] = n->f8;
-            sp[1] = n->fc;
-            sp[2] = n->f10;
-            ((TBoss8Dragon *)sp)->spawn_attack_effect();
-            ((TBoss8Dragon *)sp)->spawn_switch_attack();
-            n->flags |= 8;
+void TBoss8Dragon::trigger_switches_in_range(TObject *floor_stone, const Vec *pos, const DragonAttackParams *params) {
+    Vec effect_pos;
+    f32 range_squared;
+    NJS_OBJECT *root;
+    NJS_OBJECT *node;
+    BmlModelEntry *models;
+    models = lbl_805D4DD8->models;
+    root = models[5].model;
+    range_squared = calc_sq_offset(params, 50.0f);
+    for (node = root->child; node != NULL; node = node->sibling) {
+        if (!(node->evalflags & NJD_EVAL_HIDE) && is_within_xz_distance(pos, node, range_squared) != 0) {
+            effect_pos.x = node->pos[0];
+            effect_pos.y = node->pos[1];
+            effect_pos.z = node->pos[2];
+            spawn_attack_effect(&effect_pos);
+            spawn_switch_attack(&effect_pos);
+            node->evalflags |= NJD_EVAL_HIDE;
         }
     }
 }
-

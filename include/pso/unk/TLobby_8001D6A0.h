@@ -3,6 +3,11 @@
 
 #include "types.h"
 
+struct player_stats;
+struct AttackParams;
+struct ActorParamBlock;
+union BattleMovementParams;
+
 extern "C" {
 void TLobby__sub_8001D9DC(void);
 void TLobby__sub_8001D9E8(void *p);
@@ -11,8 +16,8 @@ void TLobby__sub_8001DC04(void *p);
 void TLobby__sub_8001DE30(void *a0);
 void TLobby__sub_8001DEA8(s32 arg0);
 void TLobby__sub_8001DF58(s32 arg0, saddr ent);
-void *TLobby__sub_8001E270(int a0, int a1);
-void *TLobby__sub_8001E2A8(int a0, int a1);
+AttackParams *TLobby__sub_8001E270(int a0, int a1);
+player_stats *TLobby__sub_8001E2A8(int a0, int a1);
 s32 TLobby__sub_8001E75C(void *arg0);
 void TLobby__sub_8001E998(f32 x, f32 position1Y, f32 farg2, f32 farg3);
 void TLobby__sub_8001EA5C(f32 x, f32 y, f32 size, f32 alpha);
@@ -28,9 +33,9 @@ void copy_all_entries__6TLobbyFii(s32 arg0, saddr arg1);
 s32 default_clock_offset_frames(void);
 uaddr *free_and_delete__6TLobbyFPvs(uaddr *arg0, s16 arg1);
 s32 get_card_window_area__6TLobbyFv(void);
-void *get_entry__6TLobbyFii(int a0, int a1);
+ActorParamBlock *get_entry__6TLobbyFii(int a0, int a1);
 int get_flag_bit0__6TLobbyFv(void);
-void *get_player_entry__6TLobbyFii(int a0, int a1);
+BattleMovementParams *get_player_entry__6TLobbyFii(int a0, int a1);
 s32 *get_shared_text_buffer(void);
 u8 is_valid_player_index__6TLobbyFi(s32 arg0);
 }

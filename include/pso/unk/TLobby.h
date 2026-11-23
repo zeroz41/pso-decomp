@@ -8,6 +8,10 @@ struct BmlResource;
 struct AsyncFileReadRequest;
 
 struct ShortMailEntry;
+struct player_stats;
+struct AttackParams;
+struct ActorParamBlock;
+union BattleMovementParams;
 #include "pso/audio/AdxCallbacks.h"
 #include "pso/audio/GcrnaError.h"
 #include "pso/system/task/TObject.h"
@@ -101,15 +105,13 @@ struct TLobby : public TObject {
     static void copy_data(void *dst, void *src);
     void copy_entry(void *ent);
     void copy_from(void *arg1);
-    static void*dispatch_shared_handler_a(s32 index);
-    static void*register_object(s32 index);
-    static void*dispatch_shared_handler_b(s32 index);
-    static void*register_boss(s32 index);
+    static BattleMovementParams *dispatch_shared_handler_a(s32 index);
+    static ActorParamBlock *register_object(s32 index);
+    static AttackParams *dispatch_shared_handler_b(s32 index);
+    static player_stats *register_boss(s32 index);
     static void clamp_difficulty(s32 arg0);
     static void update_difficulty();
     static void free_boss4_rock();
-    void swap_endian();
-    void byteswap_packet();
     static s32 get_instance();
     s32 calc_time_from_hms();
     static s32 calc_alpha_shifted(f32 alpha);
@@ -976,10 +978,10 @@ struct TLobby : public TObject {
     static void *find_type5_header(void *, int);
     static uaddr *free_and_delete(void *, s16);
     static saddr get_card_window_area();
-    static void *get_entry(int, int);
+    static ActorParamBlock *get_entry(int, int);
     static int get_flag_bit0();
     static void get_menu_field_280();
-    static void *get_player_entry(int, int);
+    static BattleMovementParams *get_player_entry(int, int);
     static s32 get_progress_info(void *, void *, void *, void *);
     static saddr get_seq_phase(int);
     static void handle_com_card();

@@ -143,7 +143,7 @@ TBoss6Mag::TBoss6Mag(TObject *parent, TBoss6MagSpawnParams *params) : TObjEnemy(
     velocity.y = 0.0f;
     velocity.x = 0.0f;
     target = NULL;
-    bind_enemy_combat_stats((u8 *)TLobby::register_boss(0x2E), (u8 *)TLobby::dispatch_shared_handler_b(0x2E), (u8 *)TLobby::register_object(0x2E));
+    bind_enemy_combat_stats(TLobby::register_boss(0x2E), TLobby::dispatch_shared_handler_b(0x2E), TLobby::register_object(0x2E));
     referenceHp = hp;
     initial_hp = hp;
     ((TBoss3Volopt *)this)->reset_photon_effect();

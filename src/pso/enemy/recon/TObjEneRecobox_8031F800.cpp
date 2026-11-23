@@ -92,9 +92,9 @@ extern NJS_OBJECT *debug_chunk_object;
 
 // TObjEneDD.cpp's view-detail distances.
 
-saddr recobox_boss_register_id;
-saddr recobox_attack_params;
-saddr TObjEneRecobox__shared_object_handle;
+player_stats *recobox_boss_register_id;
+AttackParams *recobox_attack_params;
+ActorParamBlock *TObjEneRecobox__shared_object_handle;
 
 void *TObjEneRecobox__attack_params[7] = {
     (void *)0x43610000, (void *)0x0, (void *)0x600, (void *)0x0,
@@ -172,9 +172,9 @@ void TObjEneRecobox::load_resources() {
         }
         TObjEneRecobox__static_instance = res;
     }
-    recobox_boss_register_id = (saddr)TLobby::register_boss(0x41);
-    recobox_attack_params = (saddr)TLobby::dispatch_shared_handler_b(0x41);
-    TObjEneRecobox__shared_object_handle = (saddr)TLobby::register_object(0x41);
+    recobox_boss_register_id = TLobby::register_boss(0x41);
+    recobox_attack_params = TLobby::dispatch_shared_handler_b(0x41);
+    TObjEneRecobox__shared_object_handle = TLobby::register_object(0x41);
     recobox_behavior_params = (saddr)TLobby::dispatch_shared_handler_a(0x41);
     TObjEneRecon::load_resources();
     {
@@ -229,12 +229,12 @@ TObjEneRecobox::TObjEneRecobox(TObject *parent, void *set_data) : TObjEneDD_ST(p
     init_model(&recobox_collision_body, 1);
     body_center.y = 20.0f + position.y;
     update_body_colliders();
-    set_action_table((saddr)TObjEneRecobox__animation_entries);
-    set_motion_list((saddr)TObjEneRecobox__static_instance->motions);
+    set_action_table(TObjEneRecobox__animation_entries);
+    set_motion_list(TObjEneRecobox__static_instance->motions);
     requested_action = 0;
     set_animation(requested_action);
     set_requested_action(requested_action);
-    reset_hp((u8 *)recobox_boss_register_id, (u8 *)recobox_attack_params, (u8 *)TObjEneRecobox__shared_object_handle);
+    reset_hp(recobox_boss_register_id, recobox_attack_params, TObjEneRecobox__shared_object_handle);
     set_state_flag_4();
     movementParameters = TObjEneRecobox__attack_params;
     initialize_enemy_state(0x43);

@@ -167,7 +167,7 @@ TBoss4Type2::TBoss4Type2(TObject *parent, TBoss4FormSetData *set_data) : TObjEne
     VecCopy(&body_center, &position);
     velocity.x = velocity.y = velocity.z = 0.0f;
     target = 0;
-    bind_enemy_combat_stats((u8 *)TLobby::register_boss(0x37), (u8 *)TLobby::dispatch_shared_handler_b(0x37), (u8 *)TLobby::register_object(0x37));
+    bind_enemy_combat_stats(TLobby::register_boss(0x37), TLobby::dispatch_shared_handler_b(0x37), TLobby::register_object(0x37));
     referenceHp = hp;
     ((TBoss3Volopt *)this)->reset_photon_effect();
     set_param(0x2F);

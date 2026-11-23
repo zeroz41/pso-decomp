@@ -6,6 +6,7 @@
 #include "pso/boss/goldragon/TBoss8Dragon_800BC53C.h"
 #include "pso/enemy/AttackTargetHistory.h"
 #include "pso/system/vector.h"
+#include "pso/enemy/AreaAttackContact.h"
 #include "pso/player/TUnk_804928CC.h"
 #include "pso/system/task/TObject.h"
 #include "pso/object/ambient/TObjFish.h"
@@ -49,10 +50,10 @@ struct CraterAttackParams {
     s32 kind;
     f32 power;
     f32 radius;
-    s32 recoil[2];
+    AreaAttackContact contact;
 };
 
-extern const CraterAttackParams boss1_crater_attack_params = { 1, 50.0f, 20.0f, { 0, 1 } };
+extern const CraterAttackParams boss1_crater_attack_params = { 1, 50.0f, 20.0f, { 0.0f, 1 } };
 const char *TObjBoss1Crater__name = "TObjBoss1Crater";
 
 TObjBoss1Crater *TObjBoss1Crater__instance_list[20];
@@ -82,7 +83,7 @@ void TObjBoss1Crater::run_task() {
         params.power = ((TBoss1Dragon *)owner)->get_crater_attack_power();
         params.kind = attack_kind;
         n = attack_target_list_count(attack_history);
-        if (call_vt13_with_default((void *)boss1_crater_attack_params.recoil, &params, (saddr)attack_history) != 0) {
+        if (call_vt13_with_default(const_cast<AreaAttackContact *>(&boss1_crater_attack_params.contact), &params, (saddr)attack_history) != 0) {
             s32 m = attack_target_list_count(attack_history);
             for (s32 j = n; j < m; j++) {
                 hit_timers[j] = 0x3C;

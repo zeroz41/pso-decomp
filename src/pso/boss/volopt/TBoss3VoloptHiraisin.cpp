@@ -69,12 +69,6 @@ struct CollisionState {
 };
 
 // A model node: evaluation flags, then the node's rotation at 0x14.
-struct ModelNode {
-    u32 flags;
-    u8 pad_4[0x14];
-    s32 rotation_y;
-};
-
 #pragma readonly_strings on
 
 static const char *TBoss3VoloptHiraisin_name = "TBoss3VoloptHiraisin";
@@ -98,7 +92,7 @@ static void *volopt_hiraisin_stats_b;
 static void *volopt_hiraisin_object_params;
 static void *volopt_hiraisin_stat_table;
 static BmlResource *volopt_hiraisin_resources;
-static ModelNode *volopt_hiraisin_spin_node;
+static NJS_OBJECT *volopt_hiraisin_spin_node;
 static TBreakUpMdlData *volopt_hiraisin_breakup_model;
 
 void TBoss3VoloptHiraisin::clear_flag_08000000() {
@@ -308,7 +302,7 @@ void TBoss3VoloptHiraisin::run_task() {
         copy_position();
         submit_cursor_candidate(this, -1);
         minimap_render_dot(&position, -0x5DB4, 1, 0);
-        volopt_hiraisin_spin_node->rotation_y += 0x4000;
+        volopt_hiraisin_spin_node->ang[1] += 0x4000;
         clear_all_status_effects();
     }
 }
@@ -321,8 +315,8 @@ void TBoss3VoloptHiraisin::destroy() {
 void TBoss3VoloptHiraisin::init_models() {
     TBreakUpMdlData *breakup;
     volopt_hiraisin_resources = boss3_volopt_resources;
-    volopt_hiraisin_spin_node = (ModelNode *)find_model_node((saddr)get_bml_model((BmlResource *)boss3_volopt_resources, 0x10), 0xB);
-    volopt_hiraisin_spin_node->flags &= ~2;
+    volopt_hiraisin_spin_node = find_model_node(get_bml_model((BmlResource *)boss3_volopt_resources, 0x10), 0xB);
+    volopt_hiraisin_spin_node->evalflags &= ~NJD_EVAL_UNIT_ANG;
     breakup = new TBreakUpMdlData((saddr)get_bml_model((BmlResource *)volopt_hiraisin_resources, 0x10));
     volopt_hiraisin_breakup_model = breakup;
     volopt_hiraisin_stats = TLobby::register_boss(0x24);
@@ -345,7 +339,7 @@ void TBoss3VoloptHiraisin::init_params() {
     copy_position();
     motion_list = volopt_hiraisin_resources->motions;
     action_table = volopt_hiraisin_motions;
-    set_action_table((saddr)action_table);
+    set_action_table(action_table);
     init_collision_body_parts(this, volopt_hiraisin_body_parts, 1);
     variant = 0;
     movementParameters = &volopt_hiraisin_movement;

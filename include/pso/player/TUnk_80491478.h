@@ -22,7 +22,7 @@ public:
     u8 unk_BC[0x4];
     s32 rot_y;  // render's rotate_matrix_y angle (inferred)
     u8 unk_C4[0x4];
-    saddr m_c8;
+    NJS_OBJECT *m_c8;
     Vec *target;  // &parent->part_offsets[part_index]; run_task homes on it (inferred)
     TeneFakeTecThunderEff *thunder_effect;  // the ctor's 0x348-byte TeneFakeTecThunderEff (inferred name)
     s16 parent_id;  // get_entity_id(parent)

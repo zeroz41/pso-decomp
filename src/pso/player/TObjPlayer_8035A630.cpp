@@ -1,4 +1,4 @@
-#include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
+#include "pso/unk/TUnk_804F1C58.h"
 #include "types.h"
 #include "pso/unk/text_803D853C.h"
 #include "pso/unk/text_803D96A8.h"
@@ -8,13 +8,13 @@
 
 s32 player_node_matrix_cursor;
 s32 player_node_matrix_count;
-saddr node_matrix_array_base;
+GC_Mtx *node_matrix_array_base;
 ChunkModelNodeCallback player_apply_callback_fn;
 
 
 void process_node_callback(NJS_OBJECT *node) {
     if ((s32) player_node_matrix_cursor < (s32) player_node_matrix_count) {
-        get_current_matrix((void *)(node_matrix_array_base + (player_node_matrix_cursor * 0x30)));
+        get_current_matrix(&node_matrix_array_base[player_node_matrix_cursor]);
     }
     if (player_apply_callback_fn != NULL) {
         player_apply_callback_fn(node);
@@ -31,7 +31,7 @@ void TObjPlayer::draw_node_tree(void *arg1) {
     do {
         temp_r31 = *(s32 *)((s8 *)var_r30 + 0);
         push_matrix();
-        TObjPlayer::concat_matrix(0, node_matrix_array_base + (this->actorFlags * 0x30));
+        TObjPlayer::concat_matrix(0, reinterpret_cast<uaddr>(node_matrix_array_base[this->actorFlags]));
         this->actorFlags = (this->actorFlags + 1);
         temp_r12 = *(s32 (**)(void *))((s8 *)this + 0x34);
         if (temp_r12 != NULL) {

@@ -1,3 +1,5 @@
+#include "pso/player/TPlyCharData.h"
+#include "pso/system/BmlResource.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/player/TObjPlayer.h"
@@ -272,8 +274,8 @@ void TAdChrSelPlayerGC::run_task() {
 }
 
 void TAdChrSelPlayerGC::init_model_animation() {
-    this->set_action_table(reinterpret_cast<saddr>(lbl_804E2F78));
-    this->set_motion_list(*(s32 *)(TAdMultiPlyChrSelectGC__resource_bundle + 0x430));
+    this->set_action_table(lbl_804E2F78);
+    this->set_motion_list(reinterpret_cast<BmlResource *>(TAdMultiPlyChrSelectGC__resource_bundle)->motions);
     set_cursor_index(0);
     set_animation((this->requested_action));
 }

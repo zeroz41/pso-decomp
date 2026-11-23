@@ -25,7 +25,7 @@ struct TObjEneRe7BeruraPart {
     void show();
     void hide();
 
-    u8 *node_matrices;
+    GC_Mtx *node_matrices;
     s32 first_node;
     s32 last_node;
     s32 action;            // the punch's action (lattack / rattack)
@@ -93,7 +93,7 @@ struct TObjEneRe7Berura : public TObjEneDD_ST {
     s32 is_arm_ready();
     s32 acquire_target_in_view();
     static void draw_arm(s32 arm);
-    static void draw_saved_node_tree(NJS_OBJECT *obj, u8 *matrices);
+    static void draw_saved_node_tree(NJS_OBJECT *obj, GC_Mtx *matrices);
     static void draw_node_tree(NJS_OBJECT *obj);
     static void capture_arm_matrices(NJS_OBJECT *root, TObjEneRe7BeruraPart *arm);
     static s32 collect_node_matrices(NJS_OBJECT *obj, s32 idx);

@@ -4,19 +4,11 @@
 #include "pso/system/vector.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/effect/TDuelEffectString.h"
-typedef struct Vec4_8034D500 {
-    f32 x, y, z, w;
-} Vec4_8034D500;
+#include "pso/boss/goldragon/TBoss8Dragon.h"
+#include "pso/math/CurvePathPoint.h"
 
 extern "C" {
-s32 calc_binomial_coefficient__12TBoss8DragonFll(int, int);
-s32 eval_bezier_curve__12TBoss8DragonFPviiPvf(Vec4_8034D500 *pts, s32 count, s32 closed, Vec *out, f32 t);
-struct Entry_8034D3D0 {
-    u8 pad0[0xC];
-    f32 weight;
-};
-
-s32 fn_8034D3D0(Entry_8034D3D0 *e, s32 n, s32 arg2, s32 closed, saddr arg4, f32 scale) {
+s32 fn_8034D3D0(CurvePathPoint *e, f32 scale, s32 n, s32 step, s32 closed, Vec *out, s32) {
     f32 sum;
     f32 total;
     f32 ratio;
@@ -27,29 +19,29 @@ s32 fn_8034D3D0(Entry_8034D3D0 *e, s32 n, s32 arg2, s32 closed, saddr arg4, f32 
     }
     sum = 0.0f;
     for (i = 0; i < n; i++) {
-        sum += e[i].weight;
+        sum += e[i].length;
     }
     if (0.0f == sum) {
         return 0;
     }
     if (closed == 0) {
-        total = (s32) (sum - e[n - 1].weight);
+        total = (s32) (sum - e[n - 1].length);
     } else {
         total = (s32) sum;
     }
-    ratio = scale * arg2; ratio /= total;
+    ratio = scale * step; ratio /= total;
     if (ratio >= 1.0f) {
         return 1;
     }
-    return eval_bezier_curve__12TBoss8DragonFPviiPvf((Vec4_8034D500 *)e, n, closed, (Vec *)arg4, ratio);
+    return TBoss8Dragon::eval_bezier_curve(e, n, closed, out, ratio);
+}
 }
 
 #pragma push
 #pragma fp_contract on
-s32 eval_bezier_curve__12TBoss8DragonFPviiPvf(Vec4_8034D500 *pts, s32 count, s32 closed, Vec *out, f32 t) {
+s32 TBoss8Dragon::eval_bezier_curve(CurvePathPoint *pts, int count, int closed, Vec *out, f32 t) {
     s32 n;
     s32 i;
-    s32 m;
     f32 u;
     f32 w;
     f32 a;
@@ -63,29 +55,29 @@ s32 eval_bezier_curve__12TBoss8DragonFPviiPvf(Vec4_8034D500 *pts, s32 count, s32
     out->z = out->y = out->x = (0.0f);
     if (closed == 0) {
         for (i = 0; i <= n; i++) {
-            k = calc_binomial_coefficient__12TBoss8DragonFll(n, i);
+            k = calc_binomial_coefficient(n, i);
             a = pow(t, (f32)i);
             b = pow(u, (f32)(n - i));
             w = ((f32)k * a) * b;
-            out->x += w * pts[i].x;
-            out->y += w * pts[i].y;
-            out->z += w * pts[i].z;
+            out->x += w * pts[i].pos.x;
+            out->y += w * pts[i].pos.y;
+            out->z += w * pts[i].pos.z;
         }
     } else {
-        m = n + 1;
+        count = n + 1;
         for (i = 0; i <= n; i++) {
-            k = calc_binomial_coefficient__12TBoss8DragonFll(m, i);
+            k = calc_binomial_coefficient(count, i);
             a = pow(t, (f32)i);
-            b = pow(u, (f32)(m - i));
+            b = pow(u, (f32)(count - i));
             w = ((f32)k * a) * b;
             if (i == n) {
-                out->x += w * pts[0].x;
-                out->y += w * pts[0].y;
-                out->z += w * pts[0].z;
+                out->x += w * pts[0].pos.x;
+                out->y += w * pts[0].pos.y;
+                out->z += w * pts[0].pos.z;
             } else {
-                out->x += w * pts[i].x;
-                out->y += w * pts[i].y;
-                out->z += w * pts[i].z;
+                out->x += w * pts[i].pos.x;
+                out->y += w * pts[i].pos.y;
+                out->z += w * pts[i].pos.z;
             }
         }
     }
@@ -95,8 +87,6 @@ s32 eval_bezier_curve__12TBoss8DragonFPviiPvf(Vec4_8034D500 *pts, s32 count, s32
     return 0;
 }
 #pragma pop
-
-}
 
 struct PartnerText_8034D9E0 {
     const char *text[6];
@@ -110,12 +100,11 @@ struct PartnerText_8034DA38
 };
 
 struct PartnerText_8034D9E0 partner_dialogue_table[4];
-struct Ent_8034D790 { Vec p; f32 weight; };
 extern "C" {
 
 #pragma push
 #pragma fp_contract on
-s32 fn_8034D790(Ent_8034D790 *e, s32 n, s32 count, s32 closed, Vec *out, f32 scale) {
+s32 fn_8034D790(CurvePathPoint *e, f32 scale, s32 n, s32 count, s32 closed, Vec *out) {
     Vec a;
     Vec b;
     Vec d;
@@ -133,27 +122,27 @@ s32 fn_8034D790(Ent_8034D790 *e, s32 n, s32 count, s32 closed, Vec *out, f32 sca
     }
     sum = 0.0f;
     for (i = 0; i < n; i++) {
-        sum += e[i].weight;
+        sum += e[i].length;
     }
     if (0.0f == sum) {
         return 0;
     }
     pos = scale * count;
     if (closed == 0) {
-        total = (s32)(sum - e[n - 1].weight);
+        total = (s32)(sum - e[n - 1].length);
     } else {
         total = (s32)sum;
     }
     seg = (s32)pos / total;
     pos -= seg * sum;
     if (closed == 0 && seg != 0) {
-        VecCopy((Vec *)out, (const Vec *)&e[n - 1]);
+        VecCopy((Vec *)out, &e[n - 1].pos);
         return 1;
     }
     acc = 0.0f;
     prev = acc;
     for (i = 0; i < n; i++) {
-        acc += e[i].weight;
+        acc += e[i].length;
         if (pos <= acc) {
             pos -= prev;
             idx = i;
@@ -162,11 +151,11 @@ s32 fn_8034D790(Ent_8034D790 *e, s32 n, s32 count, s32 closed, Vec *out, f32 sca
         prev = acc;
     }
     if (idx == n - 1) {
-        VecCopy((Vec *)&a, (const Vec *)&e[idx]);
-        VecCopy((Vec *)&b, (const Vec *)&e[0]);
+        VecCopy((Vec *)&a, &e[idx].pos);
+        VecCopy((Vec *)&b, &e[0].pos);
     } else {
-        VecCopy((Vec *)&a, (const Vec *)&e[idx]);
-        VecCopy((Vec *)&b, (const Vec *)&e[idx + 1]);
+        VecCopy((Vec *)&a, &e[idx].pos);
+        VecCopy((Vec *)&b, &e[idx + 1].pos);
     }
     d.x = b.x - a.x;
     d.y = b.y - a.y;

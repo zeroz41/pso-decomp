@@ -37,11 +37,11 @@ s32 TObjEneBm9Mericarol_Bomb::area_attack_deliver_direct(void *recoil, saddr des
         return 0;
     }
     TObjPlayer::init_all_slots();
-    if (*(s32 *)((s8 *)recoil + 4) & 1) {
+    if (static_cast<AreaAttackContact *>(recoil)->contact_flags & 1) {
         update_body_contact_flag(range);
         mask |= 0x80000;
     }
-    if (*(s32 *)((s8 *)recoil + 4) & 2) {
+    if (static_cast<AreaAttackContact *>(recoil)->contact_flags & 2) {
         mark_enemy_body_contacts();
         mask |= 0x100000;
     }
@@ -118,11 +118,11 @@ void TObjEneBm9Mericarol_Bomb::run_task() {
             bodies->flags |= 2;
         }
         bodies->offset.y = d;
-        if (this->vfunc_16(&this->recoil, &this->attack_type) != 0) {
+        if (this->vfunc_16(&this->contact, &this->attack_type) != 0) {
             ((TObjEneBm9Mericarol *)(find_entity_by_id(owner_id)))->notify_bomb_hit();
             if (attack_type == 0 && this->final_blast != 0) {
                 attack_type = 0x12;
-                this->vfunc_16(&this->recoil, &this->attack_type);
+                this->vfunc_16(&this->contact, &this->attack_type);
             }
             queue_destruction();
             return;
@@ -222,8 +222,8 @@ TObjEneBm9Mericarol_Bomb::TObjEneBm9Mericarol_Bomb(TObjEneBm9Mericarol *owner, V
     look_ahead.x = d.x * k;
     look_ahead.y = d.y * k;
     look_ahead.z = d.z * k;
-    recoil = 0.0f;
-    contact_flags = 1;
+    contact.recoil = 0.0f;
+    contact.contact_flags = 1;
     fall_speed = 0.0f;
     age = 0;
     state = 0;

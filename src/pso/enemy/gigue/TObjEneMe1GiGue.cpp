@@ -63,9 +63,9 @@
 
 s32 get_gigue_int_parameter(TObjEneMe1GiGue *, s32);
 f32 get_gigue_float_parameter(TObjEneMe1GiGue *, s32);
-saddr ene_me1_gigue_boss_id;
-saddr gigue_attack_params;
-saddr gigue_resistance_params;
+player_stats *ene_me1_gigue_boss_id;
+AttackParams *gigue_attack_params;
+ActorParamBlock *gigue_resistance_params;
 GiGueParameters *TObjEneMe1GiGue__param_table;
 BmlResource *gigue_resource;
 TBreakUpMdlData *gigue_breakup_model;
@@ -173,11 +173,11 @@ TObjEneMe1GiGue::TObjEneMe1GiGue(TObject *parent, void *set_data) : TObjEnemyCus
     state36C = *(s16 *)((s8 *)set_data + 0x3E);
     load_params_from_table(variant);
     action_table = gigue_enemy_param_table;
-    set_action_table((saddr)action_table);
+    set_action_table(action_table);
     init_collision_body_parts(this, gigue_collision_bodies, 2);
     bodies[1].flags &= ~1;
     movementParameters = &gigue_move_params;
-    bind_enemy_combat_stats((u8 *)ene_me1_gigue_boss_id, (u8 *)gigue_attack_params, (u8 *)gigue_resistance_params);
+    bind_enemy_combat_stats(ene_me1_gigue_boss_id, gigue_attack_params, gigue_resistance_params);
     update_direction();
     load_params();
     requested_action = 0;
@@ -238,17 +238,17 @@ void TObjEneMe1GiGue::load_resources() {
         o = new BmlResource(1, &gigue_bml_descriptor, 0, 0, NULL);
         gigue_resource = (BmlResource *)o;
     }
-    ene_me1_gigue_boss_id = (saddr)TLobby::register_boss(0x1A);
-    gigue_attack_params = (saddr)TLobby::dispatch_shared_handler_b(0x1A);
-    gigue_resistance_params = (saddr)TLobby::register_object(0x1A);
+    ene_me1_gigue_boss_id = TLobby::register_boss(0x1A);
+    gigue_attack_params = TLobby::dispatch_shared_handler_b(0x1A);
+    gigue_resistance_params = TLobby::register_object(0x1A);
     TObjEneMe1GiGue__param_table = (GiGueParameters *)TLobby::dispatch_shared_handler_a(0x1A);
     o = new TBreakUpMdlData((saddr)gigue_resource->models->model);
     gigue_breakup_model = (TBreakUpMdlData *)o;
     TObjEneMe1GiGueMissile::init_global();
     TObjEneMe1GiGueBarrier::init_global();
     {
-    NpcAnimationBinding binding = { reinterpret_cast<BmlMotionEntry *>(gigue_resource->motions), reinterpret_cast<TObjMotionAction *>(gigue_enemy_param_table), 0, 1, 9 };
-    NpcModelRegistry::register_animated_chunk(0x41, reinterpret_cast<void *>(gigue_resource->models->model), gigue_resource->models->texlist, &binding, gigue_collision_bodies[0].radius, 15.0f);
+    NpcAnimationBinding binding = { gigue_resource->motions, gigue_enemy_param_table, 0, 1, 9 };
+    NpcModelRegistry::register_animated_chunk(0x41, gigue_resource->models->model, gigue_resource->models->texlist, &binding, gigue_collision_bodies[0].radius, 15.0f);
     }
 }
 

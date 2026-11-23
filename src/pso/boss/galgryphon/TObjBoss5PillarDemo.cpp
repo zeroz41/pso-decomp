@@ -1,3 +1,4 @@
+#include "pso/unk/text_80066F10.h"
 #include "types.h"
 #include "pso/boss/galgryphon/TObjBoss5PillarDemo.h"
 #include "pso/boss/galgryphon/TObjBoss5Pillar.h"
@@ -11,29 +12,22 @@
 #include "pso/system/NinjaTypes.h"
 
 extern "C" {
-extern BmlResource *lbl_805D4DD8;
 #pragma push
 #pragma readonly_strings on
 const char *TObjBoss5PillarDemo__name = "TObjBoss5PillarDemo";
 #pragma pop
-s32 clear_child_target_refs(s32, s32);
-s32 clear_chain_flags(s32, s32);
 
 void TObjBoss5PillarDemo__sub_8028AB38(void) {
-    void *temp_r4;
-
-    if ((void *) lbl_805D4DD8 != NULL) {
-        temp_r4 = *(void **)((s8 *)lbl_805D4DD8 + 0x42C);
-        clear_child_target_refs(*(s32 *)((s8 *)temp_r4 + 0x78), *(s32 *)((s8 *)temp_r4 + 0x68));
+    if (lbl_805D4DD8 != NULL) {
+        BmlModelEntry *models = lbl_805D4DD8->models;
+        clear_child_target_refs(models[7].model, models[6].model);
     }
 }
 
 void TObjBoss5PillarDemo::update_active_pillar() {
-    void *temp_r4;
-
-    if ((void *) lbl_805D4DD8 != NULL) {
-        temp_r4 = *(void **)((s8 *)lbl_805D4DD8 + 0x42C);
-        clear_chain_flags(*(s32 *)((s8 *)temp_r4 + 0x78), *(s32 *)((s8 *)temp_r4 + 0x68));
+    if (lbl_805D4DD8 != NULL) {
+        BmlModelEntry *models = lbl_805D4DD8->models;
+        clear_chain_flags(models[7].model, models[6].model);
     }
 }
 

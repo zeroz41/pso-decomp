@@ -8,7 +8,8 @@ struct NJS_OBJECT;
 struct NJS_TEXLIST;
 
 struct NpcModelRegistry {
-    static void register_animated_chunk(s16 id, void *model, NJS_TEXLIST *textures,
+    static void register_chunk(s16 id, NJS_OBJECT *model, NJS_TEXLIST *textures, f32 radius, f32 y_offset);
+    static void register_animated_chunk(s16 id, NJS_OBJECT *model, NJS_TEXLIST *textures,
                                         const NpcAnimationBinding *animation,
                                         f32 radius, f32 y_offset);
     static void register_animated_ginja(s16 id, NJS_OBJECT *model, NJS_TEXLIST *textures,

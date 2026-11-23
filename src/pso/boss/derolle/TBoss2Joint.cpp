@@ -113,9 +113,9 @@ void TBoss2Joint::start_flash(s32 kind) {
 // Breaks the shell: marks it broken, reloads the broken stats and throws the breakup pieces.
 void TBoss2Joint::break_shell() {
     joint_flags |= SHELL_BROKEN;
-    reload_stats_keep_hp_tp((u8 *)TLobby::register_boss(TBoss2Joint__param_table[1]),
-                            (u8 *)TLobby::dispatch_shared_handler_b(TBoss2Joint__attack_stats[1]),
-                            (u8 *)TLobby::register_object(TBoss2Joint__resistance_stats[1]));
+    reload_stats_keep_hp_tp(TLobby::register_boss(TBoss2Joint__param_table[1]),
+                            TLobby::dispatch_shared_handler_b(TBoss2Joint__attack_stats[1]),
+                            TLobby::register_object(TBoss2Joint__resistance_stats[1]));
     hp = 0x4E20;
     hpmax = 0x4E20;
     new TUnk_804820A8(this, &position);
@@ -199,8 +199,8 @@ void TBoss2Joint::init_params() {
     model = NULL;
     texlist = 0;
     init_model(&TBoss2Joint__body, 1);
-    reset_hp((u8 *)TLobby::register_boss(TBoss2Joint__param_table[0]), (u8 *)TLobby::dispatch_shared_handler_b(TBoss2Joint__attack_stats[0]),
-             (u8 *)TLobby::register_object(TBoss2Joint__resistance_stats[0]));
+    reset_hp(TLobby::register_boss(TBoss2Joint__param_table[0]), TLobby::dispatch_shared_handler_b(TBoss2Joint__attack_stats[0]),
+             TLobby::register_object(TBoss2Joint__resistance_stats[0]));
     hp = 0x4E20;
     hpmax = 0x4E20;
     set_state_flag_2();

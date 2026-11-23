@@ -22,11 +22,12 @@ struct TBoss6EffFlowSoul;
 struct TBoss6PlotFalz;
 struct TParticleCtrl;
 struct BmlResource;
+struct NJS_TEXLIST;
 
 // One body model of the two the boss cross-fades between (state_progress).
 struct TBoss6Type2Model {
-    saddr texlist;
-    saddr model;
+    NJS_TEXLIST *texlist;
+    NJS_OBJECT *model;
 };
 
 // One motion track; a change of motion blends from prev_motion over blend.
@@ -43,7 +44,7 @@ struct TBoss6Type2MotionTrack {
 
 // A head joint aim_toward_point turns: render adds aim_angle to the node's rest angle.
 struct TBoss6Type2Joint {
-    s32 *node_angle;  // find_model_node(model, 0x28) + 0x18
+    s32 *node_angle;  // Y angle of model node 0x28
     s32 rest_angle;
     s32 aim_angle;
 };

@@ -162,7 +162,7 @@ void TObjEneBm9Mericarol::load_resources() {
     clear_motion_packed_rotation();
     {
         NpcAnimationBinding params = { reinterpret_cast<BmlMotionEntry *>(mericarol_bml->motions), reinterpret_cast<TObjMotionAction *>(mericarol_motion_actions), 3, 1, 9 };
-        NpcModelRegistry::register_animated_chunk(0x42, reinterpret_cast<void *>(mericarol_bml->models[0].model), mericarol_bml->models[0].texlist, &params,
+        NpcModelRegistry::register_animated_chunk(0x42, mericarol_bml->models[0].model, mericarol_bml->models[0].texlist, &params,
             mericarol_collision_bodies[0].radius, 0.0f);
     }
 }
@@ -202,13 +202,13 @@ TObjEneBm9Mericarol::TObjEneBm9Mericarol(TObject *parent, void *set_data) : TObj
     model = (void *)mericarol_bml->models[0].model;
     texlist = mericarol_bml->models[0].texlist;
     init_model(mericarol_collision_bodies, 1);
-    set_action_table((saddr)mericarol_motion_actions);
-    set_motion_list((saddr)mericarol_bml->motions);
+    set_action_table(mericarol_motion_actions);
+    set_motion_list(mericarol_bml->motions);
     requested_action = 2;
     set_animation(requested_action);
     set_requested_action(requested_action);
     ph = get_phase();
-    reset_hp(bm9_mericarol_phase_hp_table[ph], bm9_mericarol_phase_attack_table[ph], bm9_mericarol_phase_resist_table[ph]);
+    reset_hp(reinterpret_cast<player_stats *>(bm9_mericarol_phase_hp_table[ph]), reinterpret_cast<AttackParams *>(bm9_mericarol_phase_attack_table[ph]), reinterpret_cast<ActorParamBlock *>(bm9_mericarol_phase_resist_table[ph]));
     trails[0] = TAttackTraceStrip::create(0xA0303030, mericarol_phase_effect_colors[ph]);
     trails[1] = TAttackTraceStrip::create(0xA0303030, mericarol_phase_effect_colors[ph]);
     add_flags_2e4(0x12);

@@ -60,8 +60,8 @@ struct TObjEneDD : public TObjEnemy {
     static void draw_oriented_shadow(const Vec *position, const Vec *normal, saddr angle, const Vec *scale);
     void update_primary_light();
     void update_secondary_light();
-    void reload_stats_keep_hp_tp(u8 *base_stats, u8 *attack_stats, u8 *resistance_stats);
-    void reset_hp(u8 *base_stats, u8 *attack_stats, u8 *resistance_stats);
+    void reload_stats_keep_hp_tp(player_stats *base_stats, AttackParams *attack_stats, ActorParamBlock *resistance_stats);
+    void reset_hp(player_stats *base_stats, AttackParams *attack_stats, ActorParamBlock *resistance_stats);
     void initialize_enemy_state(s32 parameter);
     s32 get_random_scaled();
     f32 rand_range(f32 low, f32 high);
@@ -71,9 +71,9 @@ struct TObjEneDD : public TObjEnemy {
     void set_state_flag_1();
     static void send_damage_message(TObjChara *attacker, TObjChara *target);
     static void inflict_poison(TObjChara *attacker, TObjChara *target);
-    void emit_effect_at_position(void* a1);
-    static void emit_effect(void *p, saddr pos, saddr params);
-    static void emit_enemy_effect(void *ene_dd, void *pos, u8 *params, void *attack_history);
+    void emit_effect_at_position(const DragonAttackParams *params);
+    static void emit_effect(TObjBase *owner, const Vec *pos, const DragonAttackParams *params);
+    static void emit_enemy_effect(TObjBase *owner, const Vec *pos, const DragonAttackParams *params, AreaAttackHistory *attack_history);
     // Fires the shared DD hitbox (obj_ene_dd_instance) at pos for owner with the given attack.
     static void setup(TObjBase *owner, Vec *pos, DragonAttackParams *params);
     static void setup_instance(TObjBase *owner, Vec *pos, DragonAttackParams *params, AreaAttackHistory *attack_history);
@@ -140,7 +140,7 @@ s32 pack_debug_text_position(s32 x, s32 y);
 void project_sound_origin_from_camera(saddr source, u8 *out, f32 distance);
 void TObjEneDD__sub_800BA378(TObjChara *attacker, TObjChara *target);
 void TObjEneDD__sub_800BA438(TObjChara *attacker, TObjChara *target);
-void TObjEneDD__sub_800BA5A4(TObjBase *owner, void *params);
+void TObjEneDD__sub_800BA5A4(TObjBase *owner, DragonAttackParams *params);
 int is_target_android(void *p);
 int is_target_ranger(void *p);
 void TBoss8Dragon__sub_800BB650(TargetCandidate *dst, TargetCandidate *src);

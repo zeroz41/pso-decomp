@@ -277,7 +277,7 @@ TBoss6Type1::TBoss6Type1(TObject *parent, saddr *params) : TObjEnemy(parent) {
     velocity.y = 0.0f;
     velocity.x = 0.0f;
     target = 0;
-    bind_enemy_combat_stats((u8 *)(TLobby::register_boss(0x2B)), (u8 *)(TLobby::dispatch_shared_handler_b(0x2B)), (u8 *)(TLobby::register_object(0x2B)));
+    bind_enemy_combat_stats(TLobby::register_boss(0x2B), TLobby::dispatch_shared_handler_b(0x2B), TLobby::register_object(0x2B));
     referenceHp = hp;
     ((TBoss3Volopt *)this)->reset_photon_effect();
     set_param(0x4E);

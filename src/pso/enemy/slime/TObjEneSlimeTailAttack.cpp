@@ -9,6 +9,7 @@
 
 struct NJS_OBJECT;
 #include "pso/enemy/slime/TObjEneSlime.h"
+#include "pso/npc/NpcModelRegistry.h"
 #include "pso/enemy/slime/SlimeAnimationState.h"
 #include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
 #include "pso/object/base/TObjChara.h"
@@ -57,7 +58,7 @@ struct NJS_OBJECT;
 
 extern "C" {
 extern void *slime_model_index_by_type[2];
-extern void *slime_motion_action_table[28];
+extern TObjMotionAction slime_motion_action_table[7];
 
 struct SlimeSavedState {
     s32 flags;
@@ -132,14 +133,14 @@ __declspec(section ".data") void *slime_model_index_by_type[2] = {
 CollisionBody slime_one_collision_body[1] = {
     { { 0.0f, 15.0f, 0.0f }, 7.5f, 0.0f, 0, 0x8003, { 0.0f, 0.0f, 0.0f }, 0.0f },
 };
-void *slime_motion_action_table[28] = {
-    (void *)0x10000, (void *)0xa, (void *)0x3f000000, (void *)0x0,
-    (void *)0x20002, (void *)0xa, (void *)0x3f000000, (void *)0x0,
-    (void *)0x10000, (void *)0xd, (void *)0x3f000000, (void *)0x0,
-    (void *)0x20000, (void *)0x2, (void *)0x3f4ccccd, (void *)0x0,
-    (void *)0x30000, (void *)0x8, (void *)0x3f4ccccd, (void *)0x0,
-    (void *)0x30000, (void *)0x3, (void *)0x3f4ccccd, (void *)0x0,
-    (void *)0x30000, (void *)0x9, (void *)0x3f4ccccd, (void *)0x0,
+TObjMotionAction slime_motion_action_table[7] = {
+    { MOTION_MODE_LOOP, 0, 10, 0.5f, 0 },
+    { MOTION_MODE_CHAIN, 2, 10, 0.5f, 0 },
+    { MOTION_MODE_LOOP, 0, 13, 0.5f, 0 },
+    { MOTION_MODE_CHAIN, 0, 2, 0.8f, 0 },
+    { MOTION_MODE_ONCE, 0, 8, 0.8f, 0 },
+    { MOTION_MODE_ONCE, 0, 3, 0.8f, 0 },
+    { MOTION_MODE_ONCE, 0, 9, 0.8f, 0 },
 };
 /* State table of TObjEneSlimeOne: {enter, update} per state, indexed by state; built by the TU's __sinit. */
 typedef void (TObjEneSlimeOne::*SlimeOneStateFn)();
@@ -256,9 +257,12 @@ s32 TObjEneSlime::create(saddr set_data) {
 }
 
 void TObjEneSlime::spawn_pair() {
-    slime_bml_resource = new BmlResource(1, (BmlResourceDescriptor *)slime_pair_resource_descriptor, 0, 0, NULL);
-    TObjEneSlime::spawn_child(0x28, slime_bml_resource->models[4].model, slime_bml_resource->models[4].texlist, 10.0f, 0.0f);
-    TObjEneSlime::spawn_child(0x29, slime_bml_resource->models[5].model, slime_bml_resource->models[5].texlist, 10.0f, 0.0f);
+    BmlResource *resource = new BmlResource(1, (BmlResourceDescriptor *)slime_pair_resource_descriptor, 0, 0, NULL);
+    slime_bml_resource = resource;
+    BmlModelEntry *models = resource->models;
+    NpcModelRegistry::register_chunk(0x28, models[4].model, models[4].texlist, 10.0f, 0.0f);
+    models = static_cast<BmlResource *>(slime_bml_resource)->models;
+    NpcModelRegistry::register_chunk(0x29, models[5].model, models[5].texlist, 10.0f, 0.0f);
 }
 
 void TObjEneSlime::free_instance() {
@@ -511,8 +515,8 @@ void TObjEneSlimeOne::initialize_slime_instance_state() {
     actor->model = reinterpret_cast<void *>(get_bml_model(actor->model_archive, id));
     VecCopy(&actor->prev_position, VecCopy(&actor->home_position, VecCopy(&actor->center, &actor->position)));
     actor->collision_body_parts = init_collision_body_parts(actor, slime_one_collision_body, 1);
-    actor->set_action_table((saddr)slime_motion_action_table);
-    actor->set_motion_list((saddr)actor->model_archive->motions);
+    actor->set_action_table(slime_motion_action_table);
+    actor->set_motion_list(actor->model_archive->motions);
     actor->set_animation(0);
     actor->set_requested_action(0);
     VecCopy(&actor->body_center, &actor->position);
@@ -521,11 +525,11 @@ void TObjEneSlimeOne::initialize_slime_instance_state() {
     actor->velocity.x = 0.0f;
     actor->target = NULL;
     if (*variant == 0) {
-        actor->bind_enemy_combat_stats((u8 *)TLobby::register_boss(0x30), (u8 *)TLobby::dispatch_shared_handler_b(0x30),
-                                      (u8 *)TLobby::register_object(0x30));
+        actor->bind_enemy_combat_stats(TLobby::register_boss(0x30), TLobby::dispatch_shared_handler_b(0x30),
+                                      TLobby::register_object(0x30));
     } else {
-        actor->bind_enemy_combat_stats((u8 *)TLobby::register_boss(0x34), (u8 *)TLobby::dispatch_shared_handler_b(0x34),
-                                      (u8 *)TLobby::register_object(0x34));
+        actor->bind_enemy_combat_stats(TLobby::register_boss(0x34), TLobby::dispatch_shared_handler_b(0x34),
+                                      TLobby::register_object(0x34));
     }
     actor->referenceHp = actor->hp;
     reinterpret_cast<TBoss3Volopt *>(actor)->reset_photon_effect();
@@ -1416,10 +1420,10 @@ TObjEneSlimeTailAttack::TObjEneSlimeTailAttack(TObject *parent, const Vec *posit
     u32 id = slime_tail_model_by_target[this->owner->get_attack_target()];
     texlist = get_bml_texlist(resource, id);
     model = (void *)get_bml_model(resource, id);
-    action_table = (TObjMotionAction *)slime_motion_action_table;
-    set_action_table((saddr)slime_motion_action_table);
+    action_table = slime_motion_action_table;
+    set_action_table(slime_motion_action_table);
     motion_list = resource->motions;
-    set_motion_list((saddr)resource->motions);
+    set_motion_list(resource->motions);
     requested_action = 6;
     set_animation(requested_action);
     set_requested_action(requested_action);

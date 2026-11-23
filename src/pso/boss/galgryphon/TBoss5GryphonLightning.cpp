@@ -74,7 +74,7 @@ TBoss5GryphonLightning::TBoss5GryphonLightning(TObject *parent, Vec *pos, f32 sc
     this->effects[3] = spawn_continuous_particle_effect_with_flags(&this->end, 0x216, 0x40);
     for (i = 0; i < 4; i++) {
         VecCopy(&this->segments[i].pos, &this->start);
-        this->segments[i].w = 0.0f;
+        this->segments[i].length = 0.0f;
     }
     this->life_progress = 0.0f;
     this->grow_progress = 0.0f;

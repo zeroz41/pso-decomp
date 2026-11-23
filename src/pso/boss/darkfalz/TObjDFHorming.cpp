@@ -315,7 +315,6 @@ extern s32 local_client_id;
 
 void release_all_players_control_lock(void);
 }
-void reset_cameras_to_actor(void *, s32);
 
 extern "C" {
 s32 is_local_client_floor_leader();
@@ -794,9 +793,9 @@ TBoss4DarkFalz::TBoss4DarkFalz(TObject *parent, TBoss4DarkFalzSetEntry *set_data
     velocity.x = velocity.y = velocity.z = 0.0f;
     target = 0;
     if (game_difficulty_selection == 0) {
-        bind_enemy_combat_stats((u8 *)TLobby::register_boss(0x37), (u8 *)TLobby::dispatch_shared_handler_b(0x37), (u8 *)TLobby::register_object(0x37));
+        bind_enemy_combat_stats(TLobby::register_boss(0x37), TLobby::dispatch_shared_handler_b(0x37), TLobby::register_object(0x37));
     } else {
-        bind_enemy_combat_stats((u8 *)TLobby::register_boss(0x38), (u8 *)TLobby::dispatch_shared_handler_b(0x38), (u8 *)TLobby::register_object(0x38));
+        bind_enemy_combat_stats(TLobby::register_boss(0x38), TLobby::dispatch_shared_handler_b(0x38), TLobby::register_object(0x38));
     }
     register_entity_by_id(this);
     actorFlags |= 0x02000000;

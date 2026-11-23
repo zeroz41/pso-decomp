@@ -29,7 +29,6 @@ extern BmlResourceDescriptor motorcycle_resource_descriptor;
 extern const char *fe_obj_baiku_motion_names[1];
 
 
-void rotate_matrix_yxz(saddr matrix, s32 arg1, s32 arg2, s32 arg3);
 BmlResource *TMotorcycle__bml_resource;
 NJS_TEXLIST *TMotorcycle__texture_list;
 extern const s32 lbl_80445DF4[];

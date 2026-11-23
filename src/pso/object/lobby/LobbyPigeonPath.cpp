@@ -357,7 +357,7 @@ void TObjSeabedDolphin::load_static_resource() {
     NpcAnimationBinding binding = seabed_dolphin_anim_binding;
     binding.motions = reinterpret_cast<BmlMotionEntry *>((*(Obj_802C2958 * *)&seabed_dolphin_bml_archive)->f430);
     NpcModelRegistry::register_animated_chunk(0x40,
-        reinterpret_cast<void *>(get_bml_model((BmlResource *)reinterpret_cast<void *>(seabed_dolphin_bml_archive), 0)),
+        get_bml_model((BmlResource *)reinterpret_cast<void *>(seabed_dolphin_bml_archive), 0),
         seabed_dolphin_texture_handle, &binding, 16.0f, 10.0f);
 }
 #pragma pop

@@ -1,3 +1,4 @@
+#include "pso/enemy/BattleParameters.h"
 #pragma defer_codegen on
 
 #define TOBJECT_OUT_OF_LINE_HELPERS
@@ -287,10 +288,7 @@ void TLobby::clear_flag_on_phase_e() {
 
 void TLobby__sub_800F7744(void) {  }
 
-s32 TObjEnemy::bind_enemy_combat_stats(u8 *base_record, u8 *attack_record, u8 *resistance_record) {
-    player_stats *base_stats = reinterpret_cast<player_stats *>(base_record);
-    AttackParams *attack_stats = reinterpret_cast<AttackParams *>(attack_record);
-    ActorParamBlock *resistance_stats = reinterpret_cast<ActorParamBlock *>(resistance_record);
+s32 TObjEnemy::bind_enemy_combat_stats(player_stats *base_stats, AttackParams *attack_stats, ActorParamBlock *resistance_stats) {
     f32 temp_f31;
     f32 temp_f31_2;
     f32 temp_f31_3;

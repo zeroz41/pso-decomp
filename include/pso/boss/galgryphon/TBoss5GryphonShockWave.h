@@ -26,7 +26,7 @@ struct TBoss5GryphonShockWave : public TObject {
     Vec position;  // on path at frame / duration
     TBoss5Gryphon *owner;
     TParticleCtrl *trail;
-    TBoss5GryphonLightningSegment path[3];  // origin, origin + velocity, target at floor height
+    CurvePathPoint path[3];  // origin, origin + velocity, target at floor height
 };
 
 LAYOUT_ASSERT(TBoss5GryphonShockWave_size, sizeof(TBoss5GryphonShockWave) == 0x70);

@@ -107,7 +107,7 @@ void TObjEneRe4Bit::init() {
     texlist = re4_bit_texture_list;
     init_model(&re4_bit_model_node_desc, 1);
     i = enabled == 1 ? 0 : 1;
-    reset_hp(TObjEneRe4Bit_boss_handles[i], TObjEneRe4Bit_attack_handles[i], TObjEneRe4Bit_resistance_handles[i]);
+    reset_hp(reinterpret_cast<player_stats *>(TObjEneRe4Bit_boss_handles[i]), reinterpret_cast<AttackParams *>(TObjEneRe4Bit_attack_handles[i]), reinterpret_cast<ActorParamBlock *>(TObjEneRe4Bit_resistance_handles[i]));
     set_state_8();
     movementParameters = &re4_bit_init_params;
     if (enabled == 1) {

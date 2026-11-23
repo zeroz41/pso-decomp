@@ -5,11 +5,11 @@
 // referencing unit keeps them extern.
 
 u8 auto_reply_flags[0x8];
-Params_8001DC30 *battle_parameter_buffer;
-u8 *battle_param_stats;
-u8 *battle_param_attacks;
-u8 *battle_param_resistances;
-u8 *battle_param_movement;
+BattleParameterBank *battle_parameter_buffer;
+player_stats *battle_param_stats;
+AttackParams *battle_param_attacks;
+ActorParamBlock *battle_param_resistances;
+BattleMovementParams *battle_param_movement;
 s32 battle_parameter_difficulty;
 s32 battle_param_lab_variant;
 saddr lobby_instance;

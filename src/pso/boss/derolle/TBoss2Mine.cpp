@@ -10,6 +10,7 @@
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_800F0810.h"
+#include "pso/boss/DragonAttackParams.h"
 #include "pso/boss/derolle/TBoss2DeRolLe.h"
 #include "pso/unk/TLobby.h"
 #include "pso/unk/text_803D8F74.h"
@@ -31,20 +32,11 @@ struct TBoss2MineMovement {
 
 // The mine's attack template: state_explode copies it, sets the power from the boss and
 // hands it to TObjEneDD__sub_800BA5A4, whose setup_instance installs the collision radius.
-struct TBoss2MineCollisionDesc {
-    s32 value;
-    f32 power;
-    f32 radius;
-    f32 pad_0c;
-    s32 pad_10;
-};
-
-// The collision template viewed as five words.
 struct TBoss2MineCollisionWords {
     s32 w[5];
 };
 
-static const TBoss2MineCollisionDesc boss2_mine_collision_desc = { 1, 2.0f, 50.0f, 5.0f, 1 };
+static const DragonAttackParams boss2_mine_collision_desc = { 1, 2.0f, 50.0f, {5.0f, 1} };
 
 const char *TBoss2Mine__name = "TBoss2Mine";
 
@@ -117,9 +109,9 @@ void TBoss2Mine::init(s32 variant) {
     this->model = boss2_derolle_resource->models[3].model;
     this->texlist = boss2_derolle_resource->models[2].texlist;
     this->init_model(&boss2_mine_collision_body, 1);
-    this->reset_hp((u8 *)TLobby::register_boss(boss2_mine_params[variant]),
-                   (u8 *)TLobby::dispatch_shared_handler_b(boss2_mine_attack_params[variant]),
-                   (u8 *)TLobby::register_object(boss2_mine_resist_params[variant]));
+    this->reset_hp(TLobby::register_boss(boss2_mine_params[variant]),
+                   TLobby::dispatch_shared_handler_b(boss2_mine_attack_params[variant]),
+                   TLobby::register_object(boss2_mine_resist_params[variant]));
     this->set_state_flag_2();
     this->movementParameters = &boss2_mine_movement[variant];
     this->wall_reach = 3.0f;
@@ -323,7 +315,7 @@ void TBoss2Mine::state_launch(s32) {  }
 void TBoss2Mine::state_armed(s32) {  }
 
 void TBoss2Mine::state_explode(s32 reason) {
-    TBoss2MineCollisionDesc hit;
+    DragonAttackParams hit;
     switch (reason) {
     case 4:
         clear_intangible();
@@ -342,7 +334,8 @@ void TBoss2Mine::state_explode(s32 reason) {
     case 0:
         step++;
         if (step > 30) {
-            *(TBoss2MineCollisionWords *)&hit = *(const TBoss2MineCollisionWords *)&boss2_mine_collision_desc;
+            *reinterpret_cast<TBoss2MineCollisionWords *>(&hit) =
+                *reinterpret_cast<const TBoss2MineCollisionWords *>(&boss2_mine_collision_desc);
             hit.power = TBoss2DeRolLe::get_mine_power();
             TObjEneDD__sub_800BA5A4(this, &hit);
             spawn_particle_effect_with_flags(&bodies->center, 0x16B, 0x40);

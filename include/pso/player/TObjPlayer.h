@@ -77,6 +77,8 @@ LAYOUT_ASSERT(StickEscapeDetector_size, sizeof(StickEscapeDetector) == 0xC);
 void init_stick_escape_detector(StickEscapeDetector *detector, const ControllerInputContext *input);
 
 class TPlyCharData;
+typedef GC_Mtx PlayerJointMatrixSet[32];
+extern PlayerJointMatrixSet *player_shared_buffer_base;
 
 struct TObjPlayer : public TObjChara {
     TObjPlayer(TObject *parent, void *arg2);
@@ -425,7 +427,6 @@ struct TObjPlayer : public TObjChara {
     static void spawn_dead_spot_here(s32 point, s32 delay);
     static void spawn_dead_spot_type2(s32 point, s32 delay);
     static void destroy_static_lobby();
-    void copy_vec3(void* q);
     static void init_render_globals();
     static void push_material_color_override(f32 alpha, f32 farg1, f32 farg2, f32 farg3);
     // attack_state.get_validated_attack_stage(): the pending stage, 0 when it is not valid.
@@ -1073,12 +1074,12 @@ struct TObjPlayer : public TObjChara {
     void create_party_effects(u16 id);
     u16 find_first_valid_target_id();
     void process_all_elements();
-    static void invert_matrix_in_place(uaddr arg0);
+    static void invert_matrix_in_place(MtxP matrix);
     static void concat_matrix(uaddr arg0, uaddr arg1);
     void concat_quaternion_rotation();
     static s32 is_gvm_load_ok();
     static void load_screen_space_matrix();
-    void copy_matrix3x3_for_chunk_tree();
+    static void copy_matrix3x3_for_chunk_tree(const GC_Mtx *source);
     void transform_vertex_list();
     static void setup_tev_passclr();
     static void setup_model_draw_state(void *);
@@ -1390,7 +1391,7 @@ struct TObjPlayer : public TObjChara {
     int start_freeze_self();
     void set_floor_index(s32 v);
     u8 unk_DB0[0x4];
-    s32 m_db4;
+    GC_Mtx *item_node_matrices;
     void revive_or_spawn_marker();
     static void spawn_dead_spot(saddr point, s32 selector, s32 delay, f32 maxScale);
     static s32 find_or_alloc_slot(uaddr arg0);
@@ -1580,6 +1581,7 @@ LAYOUT_ASSERT(PlayerResistanceStatsOffset, offsetof(TObjPlayer, resistance_stats
 
 LAYOUT_ASSERT(TObjPlayer_area_offset, offsetof(TObjPlayer, current_area) == 0x3E0);
 LAYOUT_ASSERT(TObjPlayer_npc_control_offset, offsetof(TObjPlayer, npc_control) == 0x678);
+LAYOUT_ASSERT(PlayerItemNodeMatricesOffset, offsetof(TObjPlayer, item_node_matrices) == 0xDB4);
 LAYOUT_ASSERT(TObjPlayer_size, sizeof(TObjPlayer) == 0xDB8);
 
 void set_flag_400000(TObjPlayer *player);

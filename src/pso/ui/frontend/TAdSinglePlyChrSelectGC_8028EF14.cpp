@@ -230,16 +230,16 @@ BmlResourceDescriptor *character_making_resource_descriptor_table[19] = {
     &lbl_804D3DDC, &lbl_804D3DFC, &lbl_804D3E18, &lbl_804D3E34,
     &lbl_804D3E50, &lbl_804D3E6C, &lbl_804D3E88,
 };
-void *character_making_action_table[36] = {
-    (void *)0x10000, (void *)0x21, (void *)0x3f800000, (void *)0x0,
-    (void *)0x10000, (void *)0x1, (void *)0x3f800000, (void *)0x0,
-    (void *)0x10000, (void *)0x0, (void *)0x3f800000, (void *)0x0,
-    (void *)0x10000, (void *)0x1f, (void *)0x3f800000, (void *)0x0,
-    (void *)0x10000, (void *)0x20, (void *)0x3f800000, (void *)0x0,
-    (void *)0x10000, (void *)0x1e, (void *)0x3f800000, (void *)0x0,
-    (void *)0x10000, (void *)0x2f, (void *)0x3f800000, (void *)0x0,
-    (void *)0x10000, (void *)0x30, (void *)0x3f800000, (void *)0x0,
-    (void *)0x10000, (void *)0x2e, (void *)0x3f800000, (void *)0x0,
+TObjMotionAction character_making_action_table[9] = {
+    { MOTION_MODE_LOOP, 0, 33, 1.0f, 0 },
+    { MOTION_MODE_LOOP, 0, 1, 1.0f, 0 },
+    { MOTION_MODE_LOOP, 0, 0, 1.0f, 0 },
+    { MOTION_MODE_LOOP, 0, 31, 1.0f, 0 },
+    { MOTION_MODE_LOOP, 0, 32, 1.0f, 0 },
+    { MOTION_MODE_LOOP, 0, 30, 1.0f, 0 },
+    { MOTION_MODE_LOOP, 0, 47, 1.0f, 0 },
+    { MOTION_MODE_LOOP, 0, 48, 1.0f, 0 },
+    { MOTION_MODE_LOOP, 0, 46, 1.0f, 0 },
 };
 // TCMCharacter class-name pointer, stored as the object name by TCMCharacter__ct (inferred)
 const char *TCMCharacter__name = "TCMCharacter";
@@ -295,8 +295,8 @@ TCMCharacter::TCMCharacter(TObject *parent) : TObjMotion(parent) {
     char_select_current_entry = 0;
     ((void (*)(int))TAdSinglePlyChrSelectGC__sub_8028ED54)(0);
     char_select_current_entry = 0;
-    set_action_table((saddr)character_making_action_table);
-    set_motion_list(reinterpret_cast<saddr>(creation_menu_main_obj->motions));
+    set_action_table(character_making_action_table);
+    set_motion_list(creation_menu_main_obj->motions);
     requested_action = creation_motion_group(creation_player_character);
     set_animation(requested_action);
     joint_matrices = mem_alloc(0xC00);

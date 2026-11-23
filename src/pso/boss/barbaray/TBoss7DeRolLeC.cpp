@@ -175,9 +175,9 @@ extern const Vec boss7_derolle_c_position_points[10] = {
     {0.0f, -100.0f, 25.0f}
 };
 
-extern const DragonAttackParams boss7_derolle_c_hit_effect_params = {0, 0.0f, 8.0f, 5.0f, 1};
+extern const DragonAttackParams boss7_derolle_c_hit_effect_params = {0, 0.0f, 8.0f, {5.0f, 1}};
 
-extern const DragonAttackParams boss7_laser_particle_params = {0, 120.0f, 16.0f, 20.0f, 1};
+extern const DragonAttackParams boss7_laser_particle_params = {0, 120.0f, 16.0f, {20.0f, 1}};
 
 extern const Boss7ActionStep boss7_derolle_c_actions_normal[68] = {
     {1, 0}, {3, 0}, {8, 0}, {15, 0}, {3, 0}, {40, 0}, {60, 0}, {50, 0},
@@ -547,7 +547,7 @@ void TBoss7DeRolLeC::load_resources() {
     boss7_derolle_c_node_matrix_cursor = NULL;
     boss7_joint_state = NULL;
     run_load_callback_table(boss7_derolle_c_load_callbacks, 0x30);
-    boss7_derolle_c_hideable_node = (NJS_OBJECT *)find_model_node((uaddr)boss7_derolle_c_bml_resource->models[0].model, 0x4D);
+    boss7_derolle_c_hideable_node = find_model_node(boss7_derolle_c_bml_resource->models[0].model, 0x4D);
     boss7_derolle_c_hideable_node_child = boss7_derolle_c_hideable_node->child;
     for (i = 0; i < 11; i++) {
         NJS_OBJECT *node = &boss7_derolle_light_pool[i];
@@ -595,7 +595,7 @@ TBoss7DeRolLeC::TBoss7DeRolLeC(TObject *parent, void *set_data) : TObjEneDD_ST(p
     if (boss7_joint_state == NULL) {
         boss7_joint_state = this;
     }
-    reset_hp((u8 *)TLobby::register_boss(15), (u8 *)TLobby::dispatch_shared_handler_b(15), (u8 *)TLobby::register_object(15));
+    reset_hp(TLobby::register_boss(15), TLobby::dispatch_shared_handler_b(15), TLobby::register_object(15));
     boss_params = (TBoss7DeRolLeCParams *)TLobby::dispatch_shared_handler_a(15);
     invoke_initialization_hook(set_data);
     state_flags = 0;
@@ -610,8 +610,8 @@ TBoss7DeRolLeC::TBoss7DeRolLeC(TObject *parent, void *set_data) : TObjEneDD_ST(p
     set_collision_body(&collision_body);
     transform_part_positions();
     motion_flags = 0;
-    set_action_table((saddr)de_rol_le_c_action_table);
-    set_motion_list((saddr)boss7_derolle_c_bml_resource->motions);
+    set_action_table(de_rol_le_c_action_table);
+    set_motion_list(boss7_derolle_c_bml_resource->motions);
     requested_action = 0;
     set_animation(requested_action);
     set_requested_action(requested_action);
@@ -987,12 +987,12 @@ void TBoss7DeRolLeC::reload_stats_for_phase(s32 phase) {
         v = 0x11;
         break;
     }
-    reload_stats_keep_hp_tp((u8 *)TLobby::register_boss(0xF), (u8 *)TLobby::dispatch_shared_handler_b(v), (u8 *)TLobby::register_object(0xF));
+    reload_stats_keep_hp_tp(TLobby::register_boss(0xF), TLobby::dispatch_shared_handler_b(v), TLobby::register_object(0xF));
 }
 
 void TBoss7DeRolLeC::emit_hit_effect(const Vec *position) {
     reload_stats_for_phase(2);
-    TObjEneDD::emit_effect(this, (saddr)position, (saddr)&boss7_derolle_c_hit_effect_params);
+    TObjEneDD::emit_effect(this, position, &boss7_derolle_c_hit_effect_params);
     reload_stats_for_phase(stat_phase);
 }
 
@@ -3713,14 +3713,14 @@ NJS_OBJECT *TBoss7DeRolLeC::get_archive_model(s32 index) { return (NJS_OBJECT *)
 
 AnimationMotion *get_boss7_motion(s32 kind) { return get_bml_motion(boss7_derolle_c_bml_resource, kind); }
 void TBoss7DeRolLeC::restore_joint_polygons() {
-    uaddr model;
+    NJS_OBJECT *model;
     s32 i;
     NJS_OBJECT *node;
-    model = (uaddr)get_archive_model(0);
+    model = get_archive_model(0);
     for (i = 0; i != 10; i++) {
-        node = (NJS_OBJECT *)find_model_node(model, boss7_derolle_c_joint_node_ids[i]);
+        node = find_model_node(model, boss7_derolle_c_joint_node_ids[i]);
         ((NJS_CNK_MODEL *)node->model)->polygon_list = joint_polygons[i];
-        node = (NJS_OBJECT *)find_model_node(model, boss7_derolle_c_shell_node_ids[i]);
+        node = find_model_node(model, boss7_derolle_c_shell_node_ids[i]);
         ((NJS_CNK_MODEL *)node->model)->polygon_list = shell_polygons[i];
     }
 }
@@ -3728,11 +3728,11 @@ void TBoss7DeRolLeC::restore_joint_polygons() {
 void TBoss7DeRolLeC::hide_joint_polygons(s32 joint) {
     NJS_OBJECT *node;
     if (joint >= 0 && joint < 10) {
-        node = (NJS_OBJECT *)find_model_node((uaddr)get_archive_model(0), boss7_derolle_c_joint_node_ids[joint]);
+        node = find_model_node(get_archive_model(0), boss7_derolle_c_joint_node_ids[joint]);
         if (node != NULL) {
             ((NJS_CNK_MODEL *)node->model)->polygon_list = NULL;
         }
-        node = (NJS_OBJECT *)find_model_node((uaddr)get_archive_model(0), boss7_derolle_c_shell_node_ids[joint]);
+        node = find_model_node(get_archive_model(0), boss7_derolle_c_shell_node_ids[joint]);
         if (node != NULL) {
             ((NJS_CNK_MODEL *)node->model)->polygon_list = NULL;
         }
@@ -3740,12 +3740,12 @@ void TBoss7DeRolLeC::hide_joint_polygons(s32 joint) {
 }
 
 void TBoss7DeRolLeC::save_joint_polygons() {
-    uaddr model;
+    NJS_OBJECT *model;
     s32 i;
-    model = (uaddr)get_archive_model(0);
+    model = get_archive_model(0);
     for (i = 0; i != 10; i++) {
-        joint_polygons[i] = ((NJS_CNK_MODEL *)((NJS_OBJECT *)find_model_node(model, boss7_derolle_c_joint_node_ids[i]))->model)->polygon_list;
-        shell_polygons[i] = ((NJS_CNK_MODEL *)((NJS_OBJECT *)find_model_node(model, boss7_derolle_c_shell_node_ids[i]))->model)->polygon_list;
+        joint_polygons[i] = ((NJS_CNK_MODEL *)find_model_node(model, boss7_derolle_c_joint_node_ids[i])->model)->polygon_list;
+        shell_polygons[i] = ((NJS_CNK_MODEL *)find_model_node(model, boss7_derolle_c_shell_node_ids[i])->model)->polygon_list;
     }
 }
 #pragma push

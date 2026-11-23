@@ -8,6 +8,7 @@
 
 class TCameraController;
 struct NJS_CAMERA;
+struct TObjPlayer;
 struct CameraViewParams;
 struct CharacterSelectionRequest;
 
@@ -54,7 +55,7 @@ public:
     virtual ~TCameraCtrl();
     virtual void run_task();
     virtual void render();
-    void setup_default_view(void *offset);
+    void setup_default_view(Vec *offset);
     void calc_rotated_axes();
     void update_target_from_state();
     void update_active_controller();
@@ -71,7 +72,7 @@ public:
     f32 pad_80;
     u8 pad_84[0x8];
     s32 pad_8C;
-    void *focus_actor; // the actor the controllers follow (reset_cameras_to_actor)
+    TObjPlayer *focus_actor;
     // Per split-screen view: the yaw and position saved by sync_split_view_slots,
     // and each view's own eye, target and look point.
     s32 view_yaw[4];
@@ -217,7 +218,7 @@ void select_camera_controller(s32 index);
 // Fixes the view at position, looking at target (quest leti_fixed_camera).
 void set_fixed_camera(const Vec *position, const Vec *target);
 // Points every controller of the actor's view at the actor.
-void reset_cameras_to_actor(void *actor, s32 view_unused);
+void reset_cameras_to_actor(TObjPlayer *actor, s32 view_unused);
 
 int is_quest_active();
 // Nonzero when value is a NaN or an infinity.

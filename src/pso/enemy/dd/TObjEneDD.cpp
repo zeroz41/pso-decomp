@@ -797,31 +797,41 @@ void TObjEneDD::setup_instance(TObjBase *owner, Vec *pos, DragonAttackParams *pa
     obj_ene_dd_instance->bodies->radius = params->radius;
     obj_ene_dd_instance->bodies->flags = 0x9D03;
     if (params->radius > 100.0f) {
-        obj_ene_dd_instance->area_attack_deliver_direct(&params->recoil, (saddr)params, attack_history, params->radius);
+        obj_ene_dd_instance->area_attack_deliver_direct(&params->contact, (saddr)params, attack_history, params->radius);
         return;
     }
-    obj_ene_dd_instance->call_vt13_with_default(&params->recoil, params, (saddr)attack_history);
+    obj_ene_dd_instance->call_vt13_with_default(&params->contact, params, (saddr)attack_history);
 }
 
 void TObjEneDD::setup(TObjBase *owner, Vec *pos, DragonAttackParams *params) { TObjEneDD::setup_instance(owner, pos, params, NULL); }
 
-void TObjEneDD__sub_800BA5A4(TObjBase *owner, void *params) { TObjEneDD::setup_instance(owner, &owner->position, (DragonAttackParams *)params, NULL); }
-
-void TObjEneDD::emit_enemy_effect(void *ene_dd, void *pos, u8 *params, void *attack_history) {
-    obj_ene_dd_instance->set_owner((TObjBase *)ene_dd);
-    obj_ene_dd_instance->set_position_from((Vec *)pos);
-    obj_ene_dd_instance->bodies->radius = *(f32 *)(params + 8);
-    obj_ene_dd_instance->bodies->flags = 0x9D03;
-    if (*(f32 *)(params + 8) > 100.0f) {
-        obj_ene_dd_instance->area_attack_deliver_physical(params + 0xC, attack_history, *(f32 *)(params + 8));
-        return;
-    }
-    obj_ene_dd_instance->call_vt16_with_default(params + 0xC, attack_history);
+void TObjEneDD__sub_800BA5A4(TObjBase *owner, DragonAttackParams *params) {
+    TObjEneDD::setup_instance(owner, &owner->position, params, NULL);
 }
 
-void TObjEneDD::emit_effect(void *p, saddr pos, saddr params) { TObjEneDD::emit_enemy_effect(p, (void *)pos, (u8 *)params, 0); }
+void TObjEneDD::emit_enemy_effect(TObjBase *owner, const Vec *pos, const DragonAttackParams *params,
+                                   AreaAttackHistory *attack_history) {
+    obj_ene_dd_instance->set_owner(owner);
+    obj_ene_dd_instance->set_position_from(pos);
+    obj_ene_dd_instance->bodies->radius = params->radius;
+    // Store the hitbox flags before rereading the radius for dispatch.
+    static_cast<volatile CollisionBody *>(obj_ene_dd_instance->bodies)->flags = 0x9D03;
+    f32 radius = static_cast<const volatile DragonAttackParams *>(params)->radius;
+    if (radius > 100.0f) {
+        obj_ene_dd_instance->area_attack_deliver_physical(const_cast<AreaAttackContact *>(&params->contact),
+                                                          attack_history, radius);
+        return;
+    }
+    obj_ene_dd_instance->call_vt16_with_default(const_cast<AreaAttackContact *>(&params->contact), attack_history);
+}
 
-void TObjEneDD::emit_effect_at_position(void* a1) { TObjEneDD::emit_enemy_effect(this, (char*)this + 0x38, (u8 *)a1, (void*)0); }
+void TObjEneDD::emit_effect(TObjBase *owner, const Vec *pos, const DragonAttackParams *params) {
+    TObjEneDD::emit_enemy_effect(owner, pos, params, NULL);
+}
+
+void TObjEneDD::emit_effect_at_position(const DragonAttackParams *params) {
+    TObjEneDD::emit_enemy_effect(this, &position, params, NULL);
+}
 
 void TObjEneDD__sub_800BA438(TObjChara *attacker, TObjChara *target) {
     DirectAttackPayload attack = {0x12, 1.0f};
@@ -931,12 +941,12 @@ void forward_split_screen_view_matrix() { TCameraCtrl::apply_split_screen_view_m
 
 void forward_transform_to_view(const Vec *in, Vec *out) { TCameraCtrl::transform_to_view(in, out); }
 
-void TObjEneDD::reset_hp(u8 *base_stats, u8 *attack_stats, u8 *resistance_stats) {
+void TObjEneDD::reset_hp(player_stats *base_stats, AttackParams *attack_stats, ActorParamBlock *resistance_stats) {
     bind_enemy_combat_stats(base_stats, attack_stats, resistance_stats);
     referenceHp = hp;
 }
 
-void TObjEneDD::reload_stats_keep_hp_tp(u8 *base_stats, u8 *attack_stats, u8 *resistance_stats) {
+void TObjEneDD::reload_stats_keep_hp_tp(player_stats *base_stats, AttackParams *attack_stats, ActorParamBlock *resistance_stats) {
     s16 a = this->hpmax;
     s16 c = this->hp;
     s16 b = this->tpmax;
