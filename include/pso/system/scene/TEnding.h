@@ -5,6 +5,9 @@
 
 class TAdRicoRingCtrl;
 
+// Frames since the ending started.
+extern u32 ending_frame_counter;
+
 class TEnding : public TObject {
 public:
     TEnding();

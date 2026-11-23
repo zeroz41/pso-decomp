@@ -33,14 +33,7 @@ LAYOUT_ASSERT(TEndingC_timing_rate_offset, offsetof(TEndingC, timing_rate) == 0x
 LAYOUT_ASSERT(TEndingC_fade_in_ticks_offset, offsetof(TEndingC, fade_in_ticks) == 0x94);
 LAYOUT_ASSERT(TEndingC_fade_out_ticks_offset, offsetof(TEndingC, fade_out_ticks) == 0x98);
 
-extern "C" {
-int TEndingC__sub_8008C6F4(void);
-}
-
-// --- C functions defined in TEndingC.cpp ---
-extern "C" {
-int TEndingC__sub_8008C6F4(void);
-}
-// --- end of C functions
+// Seconds into the ending at which TEndingC starts fading its wall in.
+int get_ending_c_start_seconds(void);
 
 #endif

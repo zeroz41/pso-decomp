@@ -2,4 +2,4 @@
 #include "pso/system/scene/TEndingC.h"
 #include "pso/system/scene/TEnding.h"
 
-int TEndingC__sub_8008C6F4(void) { return 140; }
+int get_ending_c_start_seconds(void) { return 140; }

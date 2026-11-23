@@ -525,10 +525,10 @@ force_active:
   - class_name__18TEffStarLightChild
   - TEffStarLightChild_class_name
   - class_name__7TEffect
-  - TEndingAB__sub_8008D5A0
-  - TEndingC__wall_texture_list
-  - TEndingPic__sub_8008D5AC
-  - TEnding__sub_8008D5B8
+  - start_ending_ab_fade__Fv
+  - ending_c_wall_texture_list
+  - start_ending_pic_sequence__Fv
+  - get_ending_frame_counter__Fv
   - fish_texlist__12TEneEffHamon
   - fish_model__12TEneEffHamon
   - TEnemyTaskList_class_name
