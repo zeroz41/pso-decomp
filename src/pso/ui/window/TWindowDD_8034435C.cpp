@@ -97,19 +97,19 @@ s16 TWindowDD__sub_8034435C(u8 *window_dd, u32 arg1, s32 entry_id, s32 value_ind
         break;
     case 13:
         if (TWindowDD_read_resolved_value(-0x50, value_index) == 0x2C8) {
-            v = (*(s16 **)(TWindowDD__ws_data_table + 0x78))[*(s16 *)(window_dd + 0xFC) - 0x37];
+            v = ((WordSelectDataTable *)TWindowDD__ws_data_table)->primary_values[((WordSelectMenuState *)window_dd)->selected_word - 0x37];
         } else {
-            v = (*(s16 **)(TWindowDD__ws_data_table + 0x80))[*(s16 *)(window_dd + 0xFC) - 0x37];
+            v = ((WordSelectDataTable *)TWindowDD__ws_data_table)->fallback_values[((WordSelectMenuState *)window_dd)->selected_word - 0x37];
         }
         break;
     case 14:
-        v = TWindowDD_read_indexed_value(0xF, *(s16 *)(window_dd + 0xFC) - 0x37);
+        v = TWindowDD_read_indexed_value(0xF, ((WordSelectMenuState *)window_dd)->selected_word - 0x37);
         break;
     case 15:
         v = -0x32;
         break;
     case 17:
-        v = TWindowDD_read_indexed_value(0x11, *(s16 *)(window_dd + 0xFC) - 0x37);
+        v = TWindowDD_read_indexed_value(0x11, ((WordSelectMenuState *)window_dd)->selected_word - 0x37);
         break;
     case 18:
         v = -0x32;
@@ -184,19 +184,19 @@ s16 TWindowDD__sub_80344568(u8 *window_dd, u32 arg1, s32 entry_id, s32 value_ind
         break;
     case 13:
         if (TWindowDD_read_resolved_value(-0x50, value_index) == 0x2C8) {
-            v = (*(s16 **)(TWindowDD__ws_data_table + 0x78))[*(s16 *)(window_dd + 0xFC) - 0x37];
+            v = ((WordSelectDataTable *)TWindowDD__ws_data_table)->primary_values[((WordSelectMenuState *)window_dd)->selected_word - 0x37];
         } else {
-            v = (*(s16 **)(TWindowDD__ws_data_table + 0x80))[*(s16 *)(window_dd + 0xFC) - 0x37];
+            v = ((WordSelectDataTable *)TWindowDD__ws_data_table)->fallback_values[((WordSelectMenuState *)window_dd)->selected_word - 0x37];
         }
         break;
     case 14:
-        v = TWindowDD_read_indexed_value(0xF, *(s16 *)(window_dd + 0xFC) - 0x37);
+        v = TWindowDD_read_indexed_value(0xF, ((WordSelectMenuState *)window_dd)->selected_word - 0x37);
         break;
     case 15:
         v = -0x32;
         break;
     case 17:
-        v = TWindowDD_read_indexed_value(0x11, *(s16 *)(window_dd + 0xFC) - 0x37);
+        v = TWindowDD_read_indexed_value(0x11, ((WordSelectMenuState *)window_dd)->selected_word - 0x37);
         break;
     case 18:
         v = -0x32;
@@ -271,19 +271,19 @@ s16 TWindowDD__sub_80344774(u8 *window_dd, u32 arg1, s32 entry_id, s32 value_ind
         break;
     case 13:
         if (TWindowDD_read_resolved_value(-0x50, value_index) == 0x2C8) {
-            v = (*(s16 **)(TWindowDD__ws_data_table + 0x78))[*(s16 *)(window_dd + 0xFC) - 0x37];
+            v = ((WordSelectDataTable *)TWindowDD__ws_data_table)->primary_values[((WordSelectMenuState *)window_dd)->selected_word - 0x37];
         } else {
-            v = (*(s16 **)(TWindowDD__ws_data_table + 0x80))[*(s16 *)(window_dd + 0xFC) - 0x37];
+            v = ((WordSelectDataTable *)TWindowDD__ws_data_table)->fallback_values[((WordSelectMenuState *)window_dd)->selected_word - 0x37];
         }
         break;
     case 14:
-        v = TWindowDD_read_indexed_value(0xF, *(s16 *)(window_dd + 0xFC) - 0x37);
+        v = TWindowDD_read_indexed_value(0xF, ((WordSelectMenuState *)window_dd)->selected_word - 0x37);
         break;
     case 15:
         v = -0x32;
         break;
     case 17:
-        v = TWindowDD_read_indexed_value(0x11, *(s16 *)(window_dd + 0xFC) - 0x37);
+        v = TWindowDD_read_indexed_value(0x11, ((WordSelectMenuState *)window_dd)->selected_word - 0x37);
         break;
     case 18:
         v = -0x32;
@@ -1252,19 +1252,19 @@ s16 TWindowDD__sub_80346434(u8 *window_dd, u32 arg1, s32 entry_id, s32 value_ind
         break;
     case 13:
         if (TWindowDD_read_resolved_value(-0x50, value_index) == 0x2C8) {
-            v = (*(s16 **)(TWindowDD__ws_data_table + 0x78))[*(s16 *)(window_dd + 0xFC) - 0x37];
+            v = ((WordSelectDataTable *)TWindowDD__ws_data_table)->primary_values[((WordSelectMenuState *)window_dd)->selected_word - 0x37];
         } else {
-            v = (*(s16 **)(TWindowDD__ws_data_table + 0x80))[*(s16 *)(window_dd + 0xFC) - 0x37];
+            v = ((WordSelectDataTable *)TWindowDD__ws_data_table)->fallback_values[((WordSelectMenuState *)window_dd)->selected_word - 0x37];
         }
         break;
     case 14:
-        v = TWindowDD_read_indexed_value(0xF, *(s16 *)(window_dd + 0xFC) - 0x37);
+        v = TWindowDD_read_indexed_value(0xF, ((WordSelectMenuState *)window_dd)->selected_word - 0x37);
         break;
     case 15:
         v = -0x32;
         break;
     case 17:
-        v = TWindowDD_read_indexed_value(0x11, *(s16 *)(window_dd + 0xFC) - 0x37);
+        v = TWindowDD_read_indexed_value(0x11, ((WordSelectMenuState *)window_dd)->selected_word - 0x37);
         break;
     case 18:
         v = -0x32;
@@ -1325,7 +1325,7 @@ s32 TWindowDD__sub_80346640(u8 *window_dd, u32 arg1, s32 entry_id, s32 value_ind
         var_r31 = ((s16 (*)(s32, s32))TWindowDD_read_indexed_value)(0xF, value_index);
         break;
     case 8:
-        var_r31 = ((s16 (*)(s32, s32))TWindowDD_read_indexed_value)(0x10, *(s16 *)(window_dd + 0xFC) - 0x37);
+        var_r31 = ((s16 (*)(s32, s32))TWindowDD_read_indexed_value)(0x10, ((WordSelectMenuState *)window_dd)->selected_word - 0x37);
         break;
     case 9:
         var_r31 = -0x32;
@@ -1379,7 +1379,7 @@ void build_item_list__9TWindowDDFPv(u8 *arg0) {
         break;
     }
     sel = NULL;
-    idx = *(s16 *)(arg0 + 0x1C) - 0x7F;
+    idx = ((WordSelectMenuState *)arg0)->menu_index - 0x7F;
     entry = (List_803467CC *)TWindowDD::get_entry(kind);
     if (entry != NULL && idx >= 0 && idx < entry->count) {
         sel = (List_803467CC *)TWindowDD::get_element_ptr(entry->items[idx]);

@@ -101,8 +101,8 @@ TAdFloorLoadCamGC::TAdFloorLoadCamGC(TObject *object, void *arg2) : TObject(obje
     m_name = lbl_805D4340;
     this->m_20 = 0;
     this->m_24 = 0;
-    *((f32 *) (((s8 *) this) + 0x40)) = (*(const f32 *)&lbl_805DFDB8);
-    *((f32 *) (((s8 *) this) + 0x44)) = (*(const f32 *)&lbl_805DFDB8);
+    this->up_x = (*(const f32 *)&lbl_805DFDB8);
+    this->up_y = (*(const f32 *)&lbl_805DFDB8);
     this->m_48 = (*(const f32 *)&lbl_805DFDB8);
     *((void **) (((s8 *) this) + 0x1C)) = arg2;
     TAdMultiChgGameModeGC::set_default_camera();

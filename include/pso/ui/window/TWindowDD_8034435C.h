@@ -7,6 +7,20 @@
 // word-select formatters (TWindowDD_8034435C.cpp) read.
 struct Pair_80344980 { s16 *list; s32 n; };
 
+struct WordSelectDataTable {
+    u8 pad0[0x78];
+    s16 *primary_values;
+    u8 pad7C[4];
+    s16 *fallback_values;
+};
+
+struct WordSelectMenuState {
+    u8 pad0[0x1C];
+    s16 menu_index;
+    u8 pad1E[0xDE];
+    s16 selected_word;
+};
+
 extern "C" {
 extern s32 TWindowDD__window_mode;
 extern uaddr TWindowDD__word_select_lists;

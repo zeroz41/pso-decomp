@@ -90,6 +90,6 @@ void TAdSinglePlyChrSelectGC::free_singleton_805D65C0() {
         TAdBackTxtGC__backtext_texture_list = 0U;
     }
 }
-void register_texture_f256_backtext(void) { (*(int *)&TAdBackTxtGC__backtext_texture_list) = (saddr)&TAdBackTxtGC_backtext_tex_list; load_streamed_prs_texture((saddr)"f256_backtext", (saddr)&TAdBackTxtGC_backtext_tex_list); }
+void register_texture_f256_backtext(void) { TAdBackTxtGC__backtext_texture_list = (saddr)&TAdBackTxtGC_backtext_tex_list; load_streamed_prs_texture((saddr)"f256_backtext", (saddr)&TAdBackTxtGC_backtext_tex_list); }
 
 }
