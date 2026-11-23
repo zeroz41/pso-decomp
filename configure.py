@@ -441,7 +441,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # TObjChara's vtable sits ahead of the jump tables and its methods run in reverse
     # slot order: deferred generation of the last-to-first source. The EXP/TP/HP labels
     # are 4-byte string literals in .sdata2.
-    "pso/player/TObjPlayer_80011014.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
+    "pso/object/base/TObjChara.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
     "pso/ui/frontend/DrawLine.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-fp_contract on")},
     # .rodata holds assign_photon_blast_palette_slot's id table ahead of the earlier
     # assign_default_photon_blast_palette_slots's: deferred generation of the last-to-first source.

@@ -1,6 +1,6 @@
 #include "types.h"
 
-// Data-only unit split off TObjPlayer_80011014 at 0x80434090 (doubles, MESETA/MISS, angle scale); the referencing unit keeps these extern.
+// Data-only unit split off TObjChara at 0x80434090 (doubles, MESETA/MISS, angle scale); the referencing unit keeps these extern.
 
 __declspec(section ".rodata") extern const u32 lbl_80434090[2] = {
     0x3F847AE1, 0x47AE147B,

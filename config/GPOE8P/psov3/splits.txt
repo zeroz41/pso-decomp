@@ -24,13 +24,13 @@ pso/ui/keyboard/TKeyBoardControl_8000F764.cpp:
 	.sdata2     start:0x805D7D00 end:0x805D7D14
 	.sbss2      start:0x805E1200 end:0x805E1204
 
-pso/player/TObjPlayer_80011014.cpp:
+pso/object/base/TObjChara.cpp:
 	.text       start:0x8000FE54 end:0x80019848
 	.rodata     start:0x80434040 end:0x80434090
 	.data       start:0x804806E8 end:0x804808EC
 	.sdata2     start:0x805D7D18 end:0x805D7DCC
 
-pso/player/TObjPlayer_80011014Data.cpp:
+pso/object/base/TObjCharaData.cpp:
 	.rodata     start:0x80434090 end:0x804340C0
 
 pso/ui/frontend/TAdADXlogo.cpp:

@@ -23,7 +23,7 @@
 const char *item_equip_base_class_name = "TItemEquipBase";
 
 extern "C" {
-// The attack parameter getters (TObjPlayer_80011014.cpp), seen here as
+// The attack parameter getters (TObjChara.cpp), seen here as
 // returning int: the stat helpers take the values without re-extending them.
 s32 get_attack_params_atp_min(AttackParams *params);
 s32 get_attack_params_atp_max(AttackParams *params);

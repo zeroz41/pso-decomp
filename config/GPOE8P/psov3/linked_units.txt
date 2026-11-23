@@ -1660,7 +1660,7 @@ pso/ui/city/THunterGuildSeqOnlineTask_802156A0.cpp
 pso/weapon/TItemWeaponFist.cpp
 pso/player/TObjPlayer.cpp
 pso/player/TObjPlayerSet.cpp
-pso/player/TObjPlayer_80011014.cpp
+pso/object/base/TObjChara.cpp
 pso/player/TObjPlayer_80020898.cpp
 pso/player/TObjPlayer_8002E784.cpp
 pso/player/TObjPlayer_8002EF8C.cpp
@@ -1818,7 +1818,7 @@ pso/system/TMemberCheck.cpp
 pso/ui/font/TNECFontEORFunction.cpp
 pso/object/switch/TOSwitchAttackSub.cpp
 pso/map/TSetEvtDestroy.cpp
-pso/player/TObjPlayer_80011014Data.cpp
+pso/object/base/TObjCharaData.cpp
 pso/ui/frontend/TAdADXlogo.cpp
 pso/ui/frontend/TAdAgreementBaseGC.cpp
 pso/ui/frontend/TAdBackGC.cpp
