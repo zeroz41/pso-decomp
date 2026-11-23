@@ -63,7 +63,7 @@ LAYOUT_ASSERT(Ent_80403F4C_size_check, sizeof(Ent_80403F4C) == 0x8C);
 typedef struct Obj_80403F4C {
     Ent_80403F4C *tstate;
     Ent_80403F4C *ents;
-    u8 pad8;
+    u8 max_tx;
     u8 max;
     u8 last_cs;
     u8 last_xmit;
@@ -86,10 +86,14 @@ LAYOUT_ASSERT(Obj_80403F4C_size_check, sizeof(Obj_80403F4C) == 0x38);
 #ifdef __cplusplus
 extern "C" {
 #endif
-void TLobby__sub_80405000(u32 arg0);
-s32 init_net_list(s16 count2, s16 count1);
+void TLobby__sub_80405000(Obj_80403F4C *state);
+Obj_80403F4C *init_net_list(s16 count1, s16 count2);
+s16 TLobby__sub_804040E0(Obj_80403F4C *state, PppFrame **frame);
+s32 TLobby__sub_804048E8(Obj_80403F4C *state, PppFrame **frame, s16 compress_cid);
 s32 TLobby__sub_803FEA88(A_80403F4C *out, PppFrame **src);
-u8 *NetIPv4WriteHeader(A_80403F4C *arg0, u8 *arg1, s32 arg2); /* PppFsm.c */
+PppFrame *NetIPv4WriteHeader(A_80403F4C *ip, PppFrame *frame, s32 preserve_checksum);
+s32 TLobby__sub_804053B8(B_80403F4C *record, PppFrame **frame);
+PppFrame *TLobby__sub_8040555C(B_80403F4C *record, PppFrame *frame, u8 *checksum_state);
 #ifdef __cplusplus
 }
 #endif

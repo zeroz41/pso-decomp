@@ -48,7 +48,7 @@ s32 init_ipv4_interfaces(void) {
     Ipv4RawSocket *e;
     Ipv4ProtocolState *g = &ipv4_protocol_state;
 
-    TLobby__sub_803F8930((u8 *)&g->nsockets);
+    TLobby__sub_803F8930(g);
     e = g->sockets;
     for (i = 0; i < g->nsockets; i++) {
         e->tag[0] = 'I';
@@ -79,8 +79,6 @@ s16 ipv4_input(u8 *ip, s16 len, s16 iface)
 {
   saddr fragment_input(u8 *self, u16 hdr_len, s16 frag_len, u8 ttl, u32 ident, NetworkAddress *src, u16 frag_off, u8 more, s16 iface);
   s16 tcp_input(NetPacket *pkt, NetworkAddress *src, NetworkAddress *dst); /* the definition takes (u8 *, u8 *, u8 *) */
-  s16 udp_input(NetPacket *pkt, NetworkAddress *src, NetworkAddress *dst, s16 arg3);
-  s32 raw_socket_deliver_ipv4(u8 *pkt, u32 src, u32 dst, u32 cb, s16 index); /* declared here with an s16 index; the definition takes (u8 *, s32, s32, u32, s32) */
   u16 total_len;
   u16 hlen;
   NetPacket *pkt;
@@ -280,7 +278,7 @@ s16 ipv4_input(u8 *ip, s16 len, s16 iface)
         {
           if (sock->callback != 0)
           {
-            raw_socket_deliver_ipv4((u8 *) pkt, src.ipv4, dst.ipv4, (uaddr) sock->callback, i);
+            raw_socket_deliver_ipv4(pkt, src.ipv4, dst.ipv4, sock->callback, i);
             found = 1;
           }
         }

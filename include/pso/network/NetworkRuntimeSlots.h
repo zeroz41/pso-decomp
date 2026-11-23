@@ -47,6 +47,8 @@ typedef struct NetworkMessageQueueSlot {
 } NetworkMessageQueueSlot;
 
 LAYOUT_ASSERT(NetworkAlarmSlot_size, sizeof(NetworkAlarmSlot) == 0x58);
+LAYOUT_ASSERT(NetworkAlarmSlot_queue_offset, offsetof(NetworkAlarmSlot, queue) == 0x30);
+LAYOUT_ASSERT(NetworkAlarmSlot_message_offset, offsetof(NetworkAlarmSlot, message) == 0x50);
 LAYOUT_ASSERT(NetworkMutexSlot_size, sizeof(NetworkMutexSlot) == 0x20);
 LAYOUT_ASSERT(NetworkMessageQueueSlot_size, sizeof(NetworkMessageQueueSlot) == 0x3A8);
 LAYOUT_ASSERT(NetworkMutexSlot_mutex_offset, offsetof(NetworkMutexSlot, mutex) == 8);
@@ -54,6 +56,7 @@ LAYOUT_ASSERT(NetworkMessageQueueSlot_queue_offset, offsetof(NetworkMessageQueue
 #ifdef __cplusplus
 extern "C" {
 #endif
+s16 TLobby__sub_803F96AC(s32 *out);
 extern NetworkAlarmSlot lobby_alarm_slot_table[64];
 extern NetworkMutexSlot network_mutex_slot_table[8];
 extern NetworkMessageQueueSlot network_message_queue_slot_table[2];

@@ -12,6 +12,7 @@ typedef struct LobbyBufferSlot {
     s32 size;
     u32 addr;
 } LobbyBufferSlot;
+LAYOUT_ASSERT(LobbyBufferSlot_size, sizeof(LobbyBufferSlot) == 12);
 
 #ifdef __cplusplus
 extern "C" {

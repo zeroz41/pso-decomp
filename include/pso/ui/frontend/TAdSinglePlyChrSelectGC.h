@@ -6,6 +6,7 @@
 #include "pso/system/task/TObject.h"
 
 struct CreationTextureCacheEntry;
+struct OSContext;
 class TAdGuideTxtGC;
 class TAdChrSelPlayerGC;
 class TPlyCharData;
@@ -28,13 +29,12 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     static void try_load_system_file();
     static s32 wait_for_card_load(s32 arg0);
     static void format_challenge_stage_times(s32 arg0, s32 arg1);
-    static void wake_load_thread();
+    static void wake_load_thread(s32 channel, OSContext *context);
     static s32 send_at_ms_command(s32 arg0);
     static s32 send_at_error_correction_cmd(s32 arg0);
     static s32 send_at_compression_cmd(s32 arg0);
-    s32 copy_default_and_get_state();
     static s32 send_atx_command(s32 arg0);
-    static s32 send_modem_hangup(s32 arg0);
+    static BOOL send_modem_hangup(BOOL final);
     static void free_singleton_805D65C0();
     static s32 check_slot_flags(s32 arg0, u32 arg1);
     void cleanup();

@@ -92,20 +92,22 @@ extern "C" {
 s32 NetControl(s32 cmd, s32 arg);
 s32 TLobby__sub_803FAFDC(void);
 s16 init_net_session(void);
-u8 *TLobby__sub_803FB110(void);
+struct ModemConfig;
+struct ModemConfig *TLobby__sub_803FB110(void);
 s16 TLobby__sub_803FB358(NetLinkStatus *status);
 u8 *copy_name_buffer(void *src);
 s16 NetGetLinkStatus(NetLinkStatus *status);
 s32 NetLinkDisconnect(NetWaitParam *param);
 s32 NetLinkConnect(NetConnectCfg *cfg);
 s16 NetApplyConnectionConfig(NetConnectCfg *config);
-s32 get_remaining(s32 arg0);
+s16 get_remaining(s32 arg0);
 s32 is_timed_out(void);
 s32 TLobby__sub_803FB6A0(void);
 void set_ppp_auth_protocol(u16 protocol);
 extern s16 lbl_805D7A84;
 extern s16 lbl_805D7A88;
 extern saddr lbl_805D7A8C;
+extern PppProtoBlocks ppp_proto_blocks;
 extern s16 lobby_modem_abort_flag;
 extern s32 lobby_modem_reply_value;
 #ifdef __cplusplus

@@ -283,20 +283,6 @@ LAYOUT_ASSERT(RecoveredGlobal_80137B50___vt__6TLobby_size, sizeof(RecoveredGloba
 struct Entry_80138B7C { u8 b[0x1C]; };
 struct Card_80138B7C { u8 b[0x98]; };
 struct Lobby_80138B7C { u8 pad[0x2C68]; Card_80138B7C cards[1]; };
-struct GLE_80138D3C_80137188 { char pad[0x1c]; };
-struct GBig_80138D3C_80137188 { char pad[0x1da8]; GLE_80138D3C_80137188 arr[1]; };
-struct Ent_80139104 { u8 b[0x1C]; };
-struct Lst_80139104 { u8 pad[0x1DA8]; Ent_80139104 e[1]; };
-struct Ent_801391BC { u8 b[0x1C]; };
-struct Lst_801391BC { u8 pad[0x1DA8]; Ent_801391BC e[1]; };
-struct Ent_801392F8 { u8 b[0x1B]; u8 flags; };
-struct Lst_801392F8 { u8 pad[0x1920]; s32 count; u8 pad2[0x1DA8 - 0x1924]; Ent_801392F8 e[1]; };
-struct GameListEntry_80139538_80137188 { char pad[0x1C]; };
-struct Root_80139538_80137188 { char pad[0x1DA8]; struct GameListEntry_80139538_80137188 entries[1]; };
-struct Ent_801395D8 { u8 b[0x1C]; };
-struct Lst_801395D8 { u8 pad[0x1DA8]; Ent_801395D8 e[1]; };
-struct Flag_80139690 { u8 pad[0x2A]; s8 flag; };
-struct Root_80139538_80137188;
 typedef struct Date_801399B8 {
     u16 y;
     u8 b[0x16];
@@ -461,6 +447,9 @@ void buffer_reset(void);
 void bswap_telepipe_record(void *);
 
 
+LAYOUT_ASSERT(ProtocolGameEntriesOffset, offsetof(TProtocol, m_game_entries) == 0x1DA8);
+LAYOUT_ASSERT(ProtocolEntryCountOffset, offsetof(TProtocol, m_entry_count) == 0x1920);
+LAYOUT_ASSERT(ProtocolInvalidPacketOffset, offsetof(TProtocol, m_is_invalid_packet) == 0x2A);
 TProtocol *TLobby__protocol_instance;
 s32 TLobby__lobby_entered_flag;
 s32 TLobby__data_805D5588;
@@ -1126,9 +1115,8 @@ void run_task__6TLobbyFv(void *self) {
         func_80019A68__Fv();
     }
     r = TLobby::query_task_active();
-    if (((Flag_80139690 *)(*(struct Root_80139538_80137188 * *)&(*(struct Root_80139538_80137188 * *)&(*(struct Root_80139538_80137188 * *)&TLobby__protocol_instance))))->flag != 0 || get_link_status__Fv() == 0 || r < 0) {
-        Flag_80139690 *d = (Flag_80139690 *)(*(struct Root_80139538_80137188 * *)&(*(struct Root_80139538_80137188 * *)&(*(struct Root_80139538_80137188 * *)&TLobby__protocol_instance)));
-        d->flag = 0;
+    if (TLobby__protocol_instance->m_is_invalid_packet != 0 || get_link_status__Fv() == 0 || r < 0) {
+        TLobby__protocol_instance->m_is_invalid_packet = 0;
         TQuestListOnline::close_windows_and_reset();
         if (r < 0) {
             TLobby::update_state();
@@ -1146,13 +1134,15 @@ void TLobby::handle_team_select() {
             idx = ((TWindowMenuIconLine *)TLobby__list_window)->get_cursor_value();
             ((TWindowBase *)TLobby__list_window)->close();
             TLobby__list_window = 0U;
-            ((TProtocol *)((void *)((*(Lst_801395D8 * *)&(*(struct Root_80139538_80137188 * *)&(*(struct Root_80139538_80137188 * *)&(*(struct Root_80139538_80137188 * *)&TLobby__protocol_instance)))))))->send_action(*(GameListEntry *)((void *)(&(*(Lst_801395D8 * *)&(*(struct Root_80139538_80137188 * *)&(*(struct Root_80139538_80137188 * *)&(*(struct Root_80139538_80137188 * *)&TLobby__protocol_instance))))->e[idx])), (char *)((s32 *)lobby_window_title_taisen_team), (char *)((s32 *)(&(*(s32 *)&(*(s32 *)&TLobby__data_805DB0B0)))));
+            TLobby__protocol_instance->send_action(
+                TLobby__protocol_instance->m_game_entries[idx],
+                (char *)lobby_window_title_taisen_team, (char *)TLobby__data_805DB0B0);
             ((s32 (*)())TLobby::close_and_set_state_12)();
             return;
         }
         if (controller_input_state.sources[0]->pressed & 0x400) {
             idx = ((TWindowMenuIconLine *)TLobby__list_window)->get_cursor_value();
-            ((TProtocol *)((*(Lst_801395D8 * *)&(*(struct Root_80139538_80137188 * *)&(*(struct Root_80139538_80137188 * *)&(*(struct Root_80139538_80137188 * *)&TLobby__protocol_instance))))))->send_info(*(TPlyGuildCardTag *)(&(*(Lst_801395D8 * *)&(*(struct Root_80139538_80137188 * *)&(*(struct Root_80139538_80137188 * *)&(*(struct Root_80139538_80137188 * *)&TLobby__protocol_instance))))->e[idx]));
+            TLobby__protocol_instance->send_info(TLobby__protocol_instance->m_game_entries[idx].tag);
         }
     }
 }
@@ -1164,7 +1154,9 @@ void TLobby::handle_game_list_select() {
             temp_r31 = ((TWindowMenuIconLine *)TLobby__list_window)->get_cursor_value();
             ((TWindowBase *)TLobby__list_window)->close();
             TLobby__list_window = 0U;
-            ((TProtocol *)((*(struct Root_80139538_80137188 * *)&(*(struct Root_80139538_80137188 * *)&(*(struct Root_80139538_80137188 * *)&TLobby__protocol_instance)))))->send_action(*(GameListEntry *)(&(*(struct Root_80139538_80137188 * *)&(*(struct Root_80139538_80137188 * *)&(*(struct Root_80139538_80137188 * *)&TLobby__protocol_instance)))->entries[temp_r31]), (char *)(&(*(s32 *)&(*(s32 *)&TLobby__data_805DB0B0))), (char *)(&(*(s32 *)&(*(s32 *)&TLobby__data_805DB0B0))));
+            TLobby__protocol_instance->send_action(
+                TLobby__protocol_instance->m_game_entries[temp_r31],
+                (char *)TLobby__data_805DB0B0, (char *)TLobby__data_805DB0B0);
             ((s32 (*)())TLobby::close_and_set_state_12)();
             return;
         }
@@ -1233,11 +1225,13 @@ void TLobby::update_game_list_menu() {
             lobby_selected_game_list_index = ((TWindowMenuIconLine *)TLobby__list_window)->get_cursor_value();
             ((TWindowBase *)TLobby__list_window)->close();
             TLobby__list_window = 0U;
-            if ((*(Lst_801392F8 **)&TLobby__protocol_instance)->e[lobby_selected_game_list_index].flags & 2) {
+            if (TLobby__protocol_instance->m_game_entries[lobby_selected_game_list_index].flags & 2) {
                 ((s32 (*)())TLobby::open_keyboard_window)();
                 return;
             }
-            ((TProtocol *)((*(Lst_801392F8 **)&TLobby__protocol_instance)))->send_action(*(GameListEntry *)(&(*(Lst_801392F8 **)&TLobby__protocol_instance)->e[lobby_selected_game_list_index]), (char *)(&(*(char *)&(*(char *)&(*(char *)&TLobby__data_805DB0B0)))), (char *)(&(*(char *)&(*(char *)&(*(char *)&TLobby__data_805DB0B0)))));
+            TLobby__protocol_instance->send_action(
+                TLobby__protocol_instance->m_game_entries[lobby_selected_game_list_index],
+                (char *)TLobby__data_805DB0B0, (char *)TLobby__data_805DB0B0);
             ((s32 (*)())TLobby::destroy_lobby_ui)();
             return;
         }
@@ -1249,8 +1243,8 @@ void TLobby::update_game_list_menu() {
         }
         if (controller_input_state.sources[0]->pressed & 0x400) {
             lobby_selected_game_list_index = ((TWindowMenuIconLine *)TLobby__list_window)->get_cursor_value();
-            if (lobby_selected_game_list_index < (*(Lst_801392F8 **)&TLobby__protocol_instance)->count) {
-                ((TProtocol *)((*(Lst_801392F8 **)&TLobby__protocol_instance)))->send_info(*(TPlyGuildCardTag *)(&(*(Lst_801392F8 **)&TLobby__protocol_instance)->e[lobby_selected_game_list_index]));
+            if (lobby_selected_game_list_index < TLobby__protocol_instance->m_entry_count) {
+                TLobby__protocol_instance->send_info(TLobby__protocol_instance->m_game_entries[lobby_selected_game_list_index].tag);
             }
         }
     }
@@ -1284,13 +1278,15 @@ void TLobby::update_ship_select_window() {
             idx = ((TWindowMenuIconLine *)TLobby__list_window)->get_cursor_value();
             ((TWindowBase *)TLobby__list_window)->close();
             TLobby__list_window = 0U;
-            ((TProtocol *)((*(Lst_801391BC * *)&TLobby__protocol_instance)))->send_action(*(GameListEntry *)(&(*(Lst_801391BC * *)&TLobby__protocol_instance)->e[idx]), (char *)(lobby_window_title_ship_jump), (char *)(&(*(char *)&(*(char *)&(*(char *)&TLobby__data_805DB0B0)))));
+            TLobby__protocol_instance->send_action(
+                TLobby__protocol_instance->m_game_entries[idx],
+                (char *)lobby_window_title_ship_jump, (char *)TLobby__data_805DB0B0);
             TLobby::close_and_set_state_12();
             return;
         }
         if (controller_input_state.sources[0]->pressed & 0x400) {
             idx = ((TWindowMenuIconLine *)TLobby__list_window)->get_cursor_value();
-            ((TProtocol *)((*(Lst_801391BC * *)&TLobby__protocol_instance)))->send_info(*(TPlyGuildCardTag *)(&(*(Lst_801391BC * *)&TLobby__protocol_instance)->e[idx]));
+            TLobby__protocol_instance->send_info(TLobby__protocol_instance->m_game_entries[idx].tag);
         }
     }
 }
@@ -1301,13 +1297,15 @@ void TLobby::update_block_jump_list() {
             idx = ((TWindowMenuIconLine *)TLobby__list_window)->get_cursor_value();
             ((TWindowBase *)TLobby__list_window)->close();
             TLobby__list_window = 0U;
-            ((TProtocol *)((*(Lst_80139104 * *)&TLobby__protocol_instance)))->send_action(*(GameListEntry *)(&(*(Lst_80139104 * *)&TLobby__protocol_instance)->e[idx]), (char *)(lobby_window_title_block_jump), (char *)(&(*(char *)&(*(char *)&(*(char *)&TLobby__data_805DB0B0)))));
+            TLobby__protocol_instance->send_action(
+                TLobby__protocol_instance->m_game_entries[idx],
+                (char *)lobby_window_title_block_jump, (char *)TLobby__data_805DB0B0);
             TLobby::close_and_set_state_12();
             return;
         }
         if (controller_input_state.sources[0]->pressed & 0x400) {
             idx = ((TWindowMenuIconLine *)TLobby__list_window)->get_cursor_value();
-            ((TProtocol *)((*(Lst_80139104 * *)&TLobby__protocol_instance)))->send_info(*(TPlyGuildCardTag *)(&(*(Lst_80139104 * *)&TLobby__protocol_instance)->e[idx]));
+            TLobby__protocol_instance->send_info(TLobby__protocol_instance->m_game_entries[idx].tag);
         }
     }
 }
@@ -1422,7 +1420,9 @@ void TLobby::handle_comcard_window() {
         }
         if (lobby_keyboard_controller->is_confirmed() != 0) {
             text = lobby_keyboard_controller->realloc_buffer();
-            ((TProtocol *)((*(GBig_80138D3C_80137188 * *)&TLobby__protocol_instance)))->send_action(*(GameListEntry *)(&(*(GBig_80138D3C_80137188 * *)&TLobby__protocol_instance)->arr[lobby_selected_game_list_index]), (char *)(&(*(s32 *)&TLobby__data_805DB0B0)), text);
+            TLobby__protocol_instance->send_action(
+                TLobby__protocol_instance->m_game_entries[lobby_selected_game_list_index],
+                (char *)TLobby__data_805DB0B0, text);
             mem_free(text);
             lobby_keyboard_controller->queue_destruction();
             lobby_keyboard_controller = NULL;

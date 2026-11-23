@@ -4,13 +4,18 @@
 #include "types.h"
 #include <stddef.h>
 
+typedef union ModemFieldSlot {
+    u8 *text;
+    s16 *number;
+} ModemFieldSlot;
+
 typedef struct ModemSessionState {
-    char **subst;
+    const char **subst;
     u8 pad04[4];
-    char *strbuf;
+    u8 *strbuf;
     u8 pad0C[2];
     s16 strstride;
-    u8 **fields;
+    ModemFieldSlot *fields;
     u8 pad14[4];
     s16 *ints;
     u8 pad1C[4];
@@ -26,6 +31,10 @@ typedef struct ModemSessionState {
     s16 rxlen;
     u8 pad4A[0x16];
 } ModemSessionState;
+LAYOUT_ASSERT(ModemFieldSlot_size, sizeof(ModemFieldSlot) == 4);
+LAYOUT_ASSERT(ModemSessionState_size, sizeof(ModemSessionState) == 0x60);
+LAYOUT_ASSERT(ModemSessionState_fields_offset, offsetof(ModemSessionState, fields) == 0x10);
+LAYOUT_ASSERT(ModemSessionState_line_offset, offsetof(ModemSessionState, line) == 0x20);
 
 typedef struct ModemRequest {
     s16 type;
@@ -34,6 +43,8 @@ typedef struct ModemRequest {
     u8 pad06[6];
     char *arg;
 } ModemRequest;
+LAYOUT_ASSERT(ModemRequest_size, sizeof(ModemRequest) == 0x10);
+LAYOUT_ASSERT(ModemRequest_timeout_offset, offsetof(ModemRequest, timeout) == 4);
 
 typedef struct ModemConfig {
     s16 h0;
@@ -117,12 +128,12 @@ s32 init_modem_session_config(void);
 s16 modem_run_script(u8 *script, NetSession *sess);
 s16 modem_script_wait(ModemRequest *req);
 s16 modem_script_send(void);
-s16 modem_script_dial(u8 *request);
+s16 modem_script_dial(ModemRequest *request);
 s16 modem_script_next_token(u8 *src, u8 *dst, u8 **next);
 void modem_script_store_field(s16 type, s16 index, u8 *src, s16 *nstr, s16 *nint);
 s16 TLobby__sub_804290D4(s32 idx);
 void reset_boot_state(void);
-s16 wait_timeout_loop(void *params);
+s16 wait_timeout_loop(ModemRequest *request);
 void cancel_alarm_b(void);
 s16 init_buffer_pool(void);
 void reset_buffer_pool(void);

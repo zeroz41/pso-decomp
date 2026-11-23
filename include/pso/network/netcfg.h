@@ -4,6 +4,7 @@
  * GC/1.2.5n, separate from the game's C++: each function here fills one of its configuration records with
  * counts, sizes and static buffers. Record and field names are ours (no symbols survive). */
 #include "types.h"
+#include <stddef.h>
 #include "pso/network/NetworkTransport.h"
 
 #ifdef __cplusplus
@@ -11,6 +12,16 @@ extern "C" {
 #endif
 
 struct DnsResolverState;
+struct UdpRuntimeState;
+struct Ipv4ProtocolState;
+struct LobbyHandler;
+
+typedef struct LobbyHandlerTable {
+    s16 count;
+    struct LobbyHandler *list;
+} LobbyHandlerTable;
+LAYOUT_ASSERT(LobbyHandlerTable_size_check, sizeof(LobbyHandlerTable) == 8);
+LAYOUT_ASSERT(LobbyHandlerTable_list_offset, offsetof(LobbyHandlerTable, list) == 4);
 
 typedef struct NetParamCfg {
     s32 buffer;          /* 0x00 */
@@ -29,7 +40,7 @@ void init_net_config(struct DnsResolverState *cfg);
 void TLobby__sub_803F8794(void *cfg);
 void init_params(NetParamCfg *cfg);
 void TLobby__sub_803F87C4(void *cfg);
-void TLobby__sub_803F87C8(u8 *cfg);
+void TLobby__sub_803F87C8(struct UdpRuntimeState *cfg);
 void TLobby__sub_803F87DC(void *cfg);
 struct Ipv6ProtocolState;
 void init_ipv6_interface_config(struct Ipv6ProtocolState *cfg);
@@ -40,7 +51,7 @@ void TLobby__sub_803F88E0(void *cfg);
 struct Ipv6NdState;
 void init_buffer_descriptor_b(struct Ipv6NdState *cfg);
 void TLobby__sub_803F892C(void *cfg);
-void TLobby__sub_803F8930(u8 *cfg);
+void TLobby__sub_803F8930(struct Ipv4ProtocolState *cfg);
 void TLobby__sub_803F8958(void *cfg);
 struct Ipv4RoutingState;
 void init_buffer_descriptor_a(struct Ipv4RoutingState *cfg);
@@ -57,7 +68,7 @@ void TLobby__sub_803F8A24(void *cfg);
 struct ArpState;
 void init_net_buffer_config(struct ArpState *cfg);
 void TLobby__sub_803F8A9C(void *cfg);
-void TLobby__sub_803F8AA0(u8 *cfg);
+void TLobby__sub_803F8AA0(LobbyHandlerTable *cfg);
 void TLobby__sub_803F8AB8(void *cfg);
 struct EthernetState;
 void init_net_func_table(struct EthernetState *cfg);

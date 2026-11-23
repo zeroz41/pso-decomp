@@ -16,18 +16,14 @@
 u8 lbl_805D7AC4[1];
 u8 lbl_805D7AC0[2];
 
-void TLobby__sub_804053B8(B_80403F4C *, u8 **);
-u8 *TLobby__sub_8040555C(B_80403F4C *, u8 *, s32);
-s16 TLobby__sub_80403F4C(void *ov, PppFrame **spp) {
-    Obj_80403F4C *o = (Obj_80403F4C *)ov;
-    u8 **pp = (u8 **)spp;
+s16 TLobby__sub_80403F4C(Obj_80403F4C *o, PppFrame **spp) {
     A_80403F4C a;
     B_80403F4C b;
     Ent_80403F4C *e;
     u8 c;
 
     TLobby__sub_803FEA88(&a, spp);
-    TLobby__sub_804053B8(&b, pp);
+    TLobby__sub_804053B8(&b, spp);
     c = a.proto;
     if (c > o->max) {
         o->n30++;
@@ -43,10 +39,10 @@ s16 TLobby__sub_80403F4C(void *ov, PppFrame **spp) {
     a.proto = 6;
     e->a = a;
     e->b = b;
-    *pp = TLobby__sub_8040555C(&b, *pp, 0);
-    *pp = NetIPv4WriteHeader(&a, *pp, 1);
+    *spp = TLobby__sub_8040555C(&b, *spp, NULL);
+    *spp = NetIPv4WriteHeader(&a, *spp, 1);
     o->n28++;
-    return get_field_4(*pp);
+    return (s16)(s64)get_field_4(*spp);
 }
 
 #pragma push
@@ -90,7 +86,7 @@ s16 TLobby__sub_804040E0(Obj_80403F4C *comp, PppFrame **src) {
     s16 len;
 
     comp->n2C++;
-    if (get_field_4(*src) < 3) {
+    if ((u16)get_field_4(*src) < 3) {
         comp->n30++;
         return 0;
     }
@@ -188,8 +184,8 @@ s16 TLobby__sub_804040E0(Obj_80403F4C *comp, PppFrame **src) {
     }
     len = get_field_4(*src) + 40 + cs->a.optlen;
     cs->a.len = len;
-    *src = (PppFrame *)TLobby__sub_8040555C((B_80403F4C *)th, (u8 *)*src, 0);
-    *src = (PppFrame *)NetIPv4WriteHeader(&cs->a, (u8 *)*src, 0);
+    *src = TLobby__sub_8040555C(th, *src, NULL);
+    *src = NetIPv4WriteHeader(&cs->a, *src, 0);
     return len;
 
 bad:

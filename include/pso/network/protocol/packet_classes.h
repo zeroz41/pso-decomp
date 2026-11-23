@@ -69,6 +69,8 @@ struct extended_game_command {
 };
 
 TMenuListEntry(GameListEntry,
+    GameListEntry &operator=(const GameListEntry &other);
+
     u8 difficulty_tag;
     u8 num_players;
     char name[16];
@@ -77,6 +79,8 @@ TMenuListEntry(GameListEntry,
 );
 
 TMenuListEntry(LobbyListEntry,
+    LobbyListEntry &operator=(const LobbyListEntry &other);
+
     u32 smth;
 );
 

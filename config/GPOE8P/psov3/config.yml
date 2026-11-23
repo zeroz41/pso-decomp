@@ -6884,7 +6884,7 @@ force_active:
   - handle_selection__24TShopEquipmentSellWindowFv
   - handle_sell_confirm__24TShopEquipmentSellWindowFv
   - handle_short_list_input__6TLobbyFv
-  - handle_socket_event__10TUdpSocketFsP11UdpDatagram
+  - handle_socket_event__10TUdpSocketFsP20NetworkReceivePrefix
   - handle_state__12TAdDialingGCFv
   - handle_state__12TBoss1DragonFUl
   - handle_state__16TObjEneBm5GibonUFl

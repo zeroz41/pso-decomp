@@ -1,6 +1,7 @@
 /* The network stack's UDP layer (a C library, built with GC/1.2.5n): UDP control blocks (create, bind, connect,
  * close, input, sendto, ephemeral ports). */
 #include "pso/network/NetworkRuntime.h"
+#include "pso/network/netcfg.h"
 #include "pso/network/UdpRuntime.h"
 #include "types.h"
 #include "pso/network/TLobby_804050DC.h"
@@ -10,12 +11,7 @@
 
 typedef struct Hdr_80420DE4 { u16 src; u16 dst; u16 len; u16 sum; } Hdr_80420DE4;
 
-void TLobby__sub_803F87C8(u8 *arg0);
-void TLobby__sub_803F87C4(void *cfg);
 s16 TLobby__sub_8040D8F0(void *, void *, int, void *, int);
-s16 udp_sendto(s16 id, NetPacket *pkt, NetworkAddress *src, NetworkAddress *dst, u16 port, UdpSendOptions *opt);
-s16 TLobby__sub_80421F10(void *, void *, void *, u16, s32, s16);
-s16 udp_input(NetPacket *pkt, NetworkAddress *src, NetworkAddress *dst, s16 arg3);
 UdpRuntimeState udp_runtime_state;
 
 s32 reset_stack_module(void) {
@@ -27,7 +23,7 @@ s16 init_ucb_entries(void) {
     s16 i;
     UdpControlBlock *e;
 
-    TLobby__sub_803F87C8((u8 *)&udp_runtime_state);
+    TLobby__sub_803F87C8(&udp_runtime_state);
     e = udp_runtime_state.entries;
     i = 0;
     while (i < udp_runtime_state.count) {
@@ -77,15 +73,15 @@ inline void add_item_80420FC8(NetPacket *pkt, void *data, s32 len) {
 }
 
 s16 udp_input(NetPacket *pkt, NetworkAddress *src, NetworkAddress *dst, s16 iface) {
-    u8 sp20[8];
+    NetBufferRef header;
     Hdr_80420DE4 hdr;
     UdpRuntimeState *g;
     s16 i;
     NetPacketFragment *frag;
     UdpControlBlock *e;
     frag = &pkt->fragments[1];
-    set_value_and_enable((NetBufferRef *)sp20, (saddr)&hdr);
-    netbuf_copy_by_ref(sp20, &frag->buffer, 8);
+    set_value_and_enable(&header, (saddr)&hdr);
+    netbuf_copy_by_ref(&header, &frag->buffer, 8);
     if (hdr.sum != 0 && (u16)TLobby__sub_8040D8F0(src, dst, 0x11, pkt, 0) != 0) {
         return -1;
     }
@@ -184,7 +180,7 @@ s32 NetUdpClose(s16 id) {
     entry->active = 0;
     return 0;
 }
-s16 NetUdpConnect(s16 id, NetworkAddress* remoteAddress, s32 port, NetSocketEventCallback eventCallback, u32 receiveCallback) {
+s16 NetUdpConnect(s16 id, NetworkAddress* remoteAddress, s32 port, NetSocketEventCallback eventCallback, NetUdpReceiveCallback receiveCallback) {
     UdpControlBlock* entry;
     if (id < 0 || id >= udp_runtime_state.count) return -4;
     entry = udp_runtime_state.entries;

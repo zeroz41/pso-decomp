@@ -899,7 +899,6 @@ void TProtocol::recv_user_ans(packet &pkt) {
 	}
 };
 
-struct ByteBlock_C { u8 bytes[0xc]; };
 
 void TProtocol::recv_room_info(packet &pkt) {
 	typedef TMenuList<LobbyListEntry, 16, 0> lobby_list;
@@ -910,25 +909,26 @@ void TProtocol::recv_room_info(packet &pkt) {
 
 	if (enable_v2_features) {
 		for (int i = 0; i < m_lobby_list_count; ++i) {
-			__as__14LobbyListEntryFRC14LobbyListEntry(&m_lobby_entries[i], &tmp.entries[i]);
+			m_lobby_entries[i] = tmp.entries[i];
 		}
 	} else {
 		for (int i = 0; i < 10; ++i) {
-			__as__14LobbyListEntryFRC14LobbyListEntry(&m_lobby_entries[i], &tmp.entries[i]);
+			m_lobby_entries[i] = tmp.entries[i];
 		}
 	}
 };
 
 #pragma push
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
 #pragma scheduling off
-u8 *__as__14LobbyListEntryFRC14LobbyListEntry(void *arg0, const void *arg1) {
-    *(ByteBlock_C *)(arg0) = *(const ByteBlock_C *)(arg1);
-    return (u8 *)arg0;
+LobbyListEntry &LobbyListEntry::operator=(const LobbyListEntry &other) {
+#ifdef __MWERKS__
+    __memcpy(&tag, &other.tag, sizeof(tag));
+#else
+    tag = other.tag;
+#endif
+    smth = other.smth;
+    return *this;
 }
-struct ByteBlock_C;
 #pragma pop
 
 void TProtocol::recv_generate_id(packet &pkt) {
@@ -1143,11 +1143,6 @@ void TProtocol::recv_start_game(packet &pkt) {
 
 };
 
-struct Tag_801DDB44 { u8 c[8]; };
-struct Name_801DDB44 { char c[16]; };
-struct Game_801DDB44 { Tag_801DDB44 tag; u8 difficulty_tag; u8 num_players; Name_801DDB44 name; u8 episode; u8 flags; };
-extern "C" Game_801DDB44 *__as__13GameListEntryFRC13GameListEntry(void *arg0, const void *arg1);
-
 void TProtocol::recv_text_list(packet &pkt) {
 	typedef TMenuList<GameListEntry, 64, 1> text_list;
 	text_list tmp = as(text_list &, pkt);
@@ -1156,7 +1151,7 @@ void TProtocol::recv_text_list(packet &pkt) {
 	m_entry_count = tmp.header.flags;
 
 	for (int i = 0; i < m_entry_count; ++i) {
-		__as__13GameListEntryFRC13GameListEntry(&m_game_entries[i], &tmp.entries[i]);
+		m_game_entries[i] = tmp.entries[i];
 	}
 
 	if (m_recv_handlers.handle_1F_recv_text_list != nullptr) {
@@ -1165,24 +1160,24 @@ void TProtocol::recv_text_list(packet &pkt) {
 };
 
 #pragma push
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
 #pragma scheduling off
-#define arg0 ((Game_801DDB44 *)arg0_)
-#define arg1 ((const Game_801DDB44 *)arg1_)
-Game_801DDB44 *__as__13GameListEntryFRC13GameListEntry(void *arg0_, const void *arg1_) {
-    arg0->tag = arg1->tag;
-    arg0->difficulty_tag = arg1->difficulty_tag;
-    arg0->num_players = arg1->num_players;
-    arg0->name = arg1->name;
-    arg0->episode = arg1->episode;
-    arg0->flags = arg1->flags;
-    return arg0;
+GameListEntry &GameListEntry::operator=(const GameListEntry &other) {
+#ifdef __MWERKS__
+    __memcpy(&tag, &other.tag, sizeof(tag));
+#else
+    tag = other.tag;
+#endif
+    difficulty_tag = other.difficulty_tag;
+    num_players = other.num_players;
+#ifdef __MWERKS__
+    __memcpy(name, other.name, sizeof(name));
+#else
+    memmove(name, other.name, sizeof(name));
+#endif
+    episode = other.episode;
+    flags = other.flags;
+    return *this;
 }
-#undef arg0
-#undef arg1
-struct Game_801DDB44;
 #pragma pop
 
 void TProtocol::recv_game_list(packet &pkt) {
@@ -1193,7 +1188,7 @@ void TProtocol::recv_game_list(packet &pkt) {
 	m_entry_count = tmp.header.flags;
 
 	for (int i = 0; i < m_entry_count; ++i) {
-		__as__13GameListEntryFRC13GameListEntry(&m_game_entries[i], &tmp.entries[i]);
+		m_game_entries[i] = tmp.entries[i];
 	}
 
 	if (m_recv_handlers.handle_08_recv_game_list != nullptr) {
@@ -1209,7 +1204,7 @@ void TProtocol::recv_dir_list(packet &pkt) {
 	m_entry_count = tmp.header.flags;
 
 	for (int i = 0; i < m_entry_count; ++i) {
-		__as__13GameListEntryFRC13GameListEntry(&m_game_entries[i], &tmp.entries[i]);
+		m_game_entries[i] = tmp.entries[i];
 	}
 
 	if (m_recv_handlers.handle_07_A0_A1_recv_dir_list != nullptr) {

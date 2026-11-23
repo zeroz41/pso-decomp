@@ -13,7 +13,6 @@
 #include "pso/network/PppFsm.h"
 #include "pso/network/TLobby_803FAEA0.h"
 
-extern PppProtoBlocks ppp_proto_blocks;
 
 
 void TLobby__sub_803F7980(void *);

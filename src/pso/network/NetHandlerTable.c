@@ -17,8 +17,6 @@
 #include "pso/network/TLobby_8041112C.h"
 #include "pso/network/text_80421620.h"
 typedef struct LobbyHandler LobbyHandler;
-typedef struct LobbyHandlerTable LobbyHandlerTable;
-s32 dispatch_handler_by_id(s16 arg0, s32 arg1, s32 arg2);
 
 #include <stddef.h>
 
@@ -43,9 +41,7 @@ struct LobbyHandler {
 };
 LAYOUT_ASSERT(LobbyHandler_size_check, sizeof(LobbyHandler) == 0x30);
 
-typedef struct LobbyHandlerTable { s16 count; LobbyHandler *list; } LobbyHandlerTable;
 extern LobbyHandlerTable lobby_handler_table_desc; /* defined at the end of the file */
-LAYOUT_ASSERT(LobbyHandlerTable_size_check, sizeof(LobbyHandlerTable) == 8);
 
 #include "pso/network/IPv6Send.h"
 #include "pso/network/NetStackTypes.h"
@@ -58,7 +54,6 @@ s32 TLobby__sub_80409AD8(void);
 #pragma inline_depth(4)
 
 void TLobby__sub_80409818(s32 msg, s16 len, s16 idx, s16 second, u16 type) {
-    void NetEnqueueProtocolMessage(s32 msg, s16 len, s16 idx, s16 second, u16 type);
     if (idx < 0 || idx >= lobby_handler_table_desc.count) {
         return;
     }
@@ -150,7 +145,7 @@ s32 TLobby__sub_80409AA8(void) {
 s32 TLobby__sub_80409AD8(void) {
     s16 i;
     LobbyHandler *e;
-    TLobby__sub_803F8AA0((u8 *)&lobby_handler_table_desc);
+    TLobby__sub_803F8AA0(&lobby_handler_table_desc);
     e = lobby_handler_table_desc.list;
     i = 0;
     while (i < lobby_handler_table_desc.count) {

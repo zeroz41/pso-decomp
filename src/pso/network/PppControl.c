@@ -15,7 +15,6 @@
 #include "pso/network/NetStackTypes.h"
 #include "pso/network/TLobby_803FAEA0.h"
 
-extern PppProtoBlocks ppp_proto_blocks;
 s16 configure_and_open_network_transport(int a, int b, int c, int d, int e, char *modem_name, int no_modem);
 
 s32 network_input_available(u8 *out) {
@@ -61,7 +60,7 @@ s32 close_all_connections(void) {
     return 0;
 }
 
-s32 negotiate_ipcp_and_ipv6cp(void) {
+s16 negotiate_ipcp_and_ipv6cp(void) {
     u8 *g = (u8 *)&ppp_proto_blocks;
     u8 *p = g + 0xD4;
     s16 st = lbl_805D7A7C;
@@ -80,25 +79,21 @@ s32 negotiate_ipcp_and_ipv6cp(void) {
     return 0;
 }
 
-s32 ipv6cp_set_interface_identifiers(s32 ignored, s32 first_identifier, s32 second_identifier) {
-    u8 *state;
-    u8 *fsm_state;
-    s16 clear_flag_bit4(s32, u8 *);
-    s16 NetIPv6CPSetInterfaceIdentifier(u8 *, saddr);
+s32 ipv6cp_set_interface_identifiers(s32 ignored, u8 *first_identifier, u8 *second_identifier) {
+    PppFsm *fsm_state = &ppp_proto_blocks.ipv6cp;
+    Ipv6cpConfig *state = fsm_state->opts;
 
-    fsm_state = (u8 *)&ppp_proto_blocks.ipv6cp;
-    state = *(u8 **)((s8 *)fsm_state + 0x30);
-    set_flags_and_state((void *)fsm_state);
-    if (clear_flag_bit4(ignored, state) != 0) {
+    set_flags_and_state(fsm_state);
+    if (clear_flag_bit4(ignored, &state->local) != 0) {
         return -0x11;
     }
-    if (clear_flag_bit4(ignored, state + 0x34) != 0) {
+    if (clear_flag_bit4(ignored, &state->peer) != 0) {
         return -0x11;
     }
-    if (NetIPv6CPSetInterfaceIdentifier(state, first_identifier) != 0) {
+    if (NetIPv6CPSetInterfaceIdentifier(&state->local, first_identifier) != 0) {
         return -0x11;
     }
-    if (NetIPv6CPSetInterfaceIdentifier(state + 0x34, second_identifier) != 0) {
+    if (NetIPv6CPSetInterfaceIdentifier(&state->peer, second_identifier) != 0) {
         return -0x11;
     }
     return 0;
@@ -172,7 +167,7 @@ s16 pap_connect(u8 *peer_id, u8 *pap_password, s32 timeout) {
     s16 st;
     if (lbl_805D7A90 & 1) {
         TLobby__sub_80403168(peer_id, pap_password, c);
-        TLobby__sub_803FE658(c);
+        TLobby__sub_803FE658((PppFsm *)c);
     }
     r = TLobby__sub_80402BB4(c, timeout);
     if (r < 0) {
@@ -189,7 +184,7 @@ s16 pap_connect(u8 *peer_id, u8 *pap_password, s32 timeout) {
     return 0;
 }
 
-s32 lcp_connect(LcpConfig *cfg) {
+s16 lcp_connect(LcpConfig *cfg) {
     PppFsm *conn;
     LcpSide *auth_side;
     LcpSide *local_side;

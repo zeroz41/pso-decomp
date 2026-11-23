@@ -130,7 +130,6 @@ struct Info_80146D7C {
 
 extern "C" {
 void fn_80147A60(int a0);
-s16 dhcp_discover_and_request(s16, s32, s32, void *, void *, s32 *, void *, s32);
 s16 dhcp_start(s16);
 int TLobby__sub_80145E40(void);
 int TLobby__sub_80146724(void);
@@ -141,9 +140,8 @@ s32 TLobby__sub_80145DB4(s32 arg0);
 s32 TLobby__sub_80147284();
 s32 TLobby__sub_804219D0(saddr, saddr, saddr);
 s32 net_add_ipv4_route(saddr, saddr, saddr);
-int xmalloc__FUl(void);
 
-    extern int lbl_805D56C8;
+    extern void *lbl_805D56C8;
     extern short lbl_805D56CE;
     extern int keyboard_buffer_cursor;
 u32 lbl_8050C0A8[7];
@@ -162,7 +160,13 @@ char lbl_8050CE34[0x20];
 u8 lbl_8050CE54[0x114];
 #define lbl_8050C0A8 (*(RecoveredGlobal_8014672C_lbl_8050C0A8 *)lbl_8050C0A8)
 
-void TLobby::init_keyboard_buffer() { keyboard_buffer_cursor = 0; lbl_805D56CE = 0; lbl_805D56C8 = 0; get_network_config_buffer_size((saddr)((void*)0)); lbl_805D56C8 = xmalloc__FUl(); load_network_info(); }
+void TLobby::init_keyboard_buffer() {
+    keyboard_buffer_cursor = 0;
+    lbl_805D56CE = 0;
+    lbl_805D56C8 = NULL;
+    lbl_805D56C8 = xmalloc(get_network_config_buffer_size(0));
+    load_network_info();
+}
 
 s32 TLobby::poll_connect() {
     s32 var_r31;

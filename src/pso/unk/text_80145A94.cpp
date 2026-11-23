@@ -20,7 +20,7 @@ struct Buf_80145A94 { s32 hdr; s8 name[0xA0]; s8 x[0x270 - 0xA4]; };
 
 
 extern s16 disc_error_code;
-saddr lbl_805D56C8;
+void *lbl_805D56C8;
 u16 lbl_805D56CC;
 u16 lbl_805D56CE;
 int keyboard_buffer_cursor; // stored only by TLobby_801461EC; placed here by the 8-byte .sbss boundary at 0x805D56D8
@@ -49,7 +49,7 @@ s32 load_network_info(void) {
         TLobby__sub_803F3D60();
         lbl_805D56CE = 0;
     }
-    TLobby__sub_803F3BF8(0, (void *)lbl_805D56C8, status);
+    TLobby__sub_803F3BF8(0, lbl_805D56C8, status);
     lbl_805D56CE = 1;
     TAdPlayerLoadGC__sub_803F31D8((void *)TLobby::get_global_63e0());
     start = 0;

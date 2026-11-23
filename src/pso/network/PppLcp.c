@@ -52,11 +52,11 @@ s16 wait_for_connection(PppFsm *c) {
     return 0;
 }
 
-extern saddr TLobby__sub_8040172C(PppFsm *c);
-extern s32 recv_lcp_config_reject(PppFsm *fsm, PppHeader *msg, s32 src);
-extern s32 recv_lcp_config_nak(PppFsm *fsm, PppHeader *msg, s32 src);
-s16 recv_lcp_config_request(PppFsm *fsm, PppHeader *msg, u32 src);
-s32 verify_lcp_config_ack(PppFsm *fsm, PppHeader *msg, uaddr expected);
+PppFrame *TLobby__sub_8040172C(PppFsm *c);
+s16 recv_lcp_config_reject(PppFsm *fsm, PppHeader *msg, PppFrame *src);
+s16 recv_lcp_config_nak(PppFsm *fsm, PppHeader *msg, PppFrame *src);
+s16 recv_lcp_config_request(PppFsm *fsm, PppHeader *msg, PppFrame *src);
+s16 verify_lcp_config_ack(PppFsm *fsm, PppHeader *msg, PppFrame *expected);
 
 void init_lcp_protocol(u8 *conn)
 {
@@ -72,17 +72,17 @@ void init_lcp_protocol(u8 *conn)
   proto->bA = 10;
   proto->bB = 3;
   proto->timeout = 1000;
-  proto->f10 = (void *)lcp_noop_callback;
-  proto->f14 = (void *)reset_lcp_options;
-  proto->f18 = (void *)mark_lcp_starting;
-  proto->f1C = (void *)setup_auth_after_lcp_negotiation;
-  proto->f20 = (void *)reset_connection_slot;
-  proto->f24 = (void *)queue_command_81;
-  proto->f28 = (void *)TLobby__sub_8040172C;
-  proto->f2C = (void *)recv_lcp_config_request;
-  proto->f30 = (void *)verify_lcp_config_ack;
-  proto->f34 = (void *)recv_lcp_config_nak;
-  proto->f38 = (void *)recv_lcp_config_reject;
+  proto->f10 = lcp_noop_callback;
+  proto->f14 = reset_lcp_options;
+  proto->f18 = mark_lcp_starting;
+  proto->f1C = setup_auth_after_lcp_negotiation;
+  proto->f20 = reset_connection_slot;
+  proto->f24 = queue_command_81;
+  proto->f28 = TLobby__sub_8040172C;
+  proto->f2C = recv_lcp_config_request;
+  proto->f30 = verify_lcp_config_ack;
+  proto->f34 = recv_lcp_config_nak;
+  proto->f38 = recv_lcp_config_reject;
   e->sub = conn;
   e->proto = proto;
   e->opts = area;
@@ -94,11 +94,12 @@ void init_lcp_protocol(u8 *conn)
   TLobby__sub_803FD694((u8 *)e);
 }
 
-extern s16 apply_lcp_config_to_sides(void *a0, void *a1) {
+s16 apply_lcp_config_to_sides(PppFsm *state, LcpConfig *config) {
     s32 pad[2];
     s32 *pp;
-    PppFsm *s = (PppFsm *)a0;
-    LcpConfig *msg = (LcpConfig *)a1;
+    /* Preserve the original argument and local register allocation. */
+    PppFsm *s = (PppFsm *)(u8 *)state;
+    LcpConfig *msg = (LcpConfig *)(u8 *)config;
     LcpSide *p;
     LcpSide *q;
     LcpSide *t;
@@ -180,7 +181,7 @@ extern s16 apply_lcp_config_to_sides(void *a0, void *a1) {
     return 0;
 }
 
-void lcp_noop_callback(void) {
+void lcp_noop_callback(PppFsm *fsm) {
 
 }
 
@@ -233,26 +234,26 @@ void start_ipcp_after_auth(O_80400ACC *o) {
     }
 }
 
-void reset_connection_slot(void *self) {
+void reset_connection_slot(PppFsm *self) {
     s8 *temp_r31;
-    temp_r31 = (s8 *)((PppFsm *)self)->sub;
+    temp_r31 = (s8 *)self->sub;
     *temp_r31 = 4;
     TLobby__sub_803FD85C(temp_r31 + 0x6C);
     reset_connection_state((void *)(temp_r31 + 0x38));
 }
 
-void queue_command_81(void) {
+void queue_command_81(PppFsm *fsm) {
     TLobby__sub_804062A0(0x81);
 }
 
-void mark_lcp_starting(u8 *arg0) {
-    *((PppFsm *)arg0)->sub = 1;
+void mark_lcp_starting(PppFsm *arg0) {
+    *arg0->sub = 1;
 }
 
-void reset_lcp_options(void *self) {
+void reset_lcp_options(PppFsm *self) {
     LcpOpts *s;
     s32 t;
-    s = ((PppFsm *)self)->opts;
+    s = self->opts;
     if (s->local.want.mask & 0x20) {
         get_time_ms(&t);
         s->local.want.magic += t;
@@ -263,7 +264,7 @@ void reset_lcp_options(void *self) {
     s->remote.mask |= s->remote.want.mask;
 }
 
-extern s32 recv_lcp_config_reject(PppFsm *fsm, PppHeader *msg, s32 src) {
+s16 recv_lcp_config_reject(PppFsm *fsm, PppHeader *msg, PppFrame *src) {
     s16 last = 0;
     LcpOpts *o = fsm->opts;
     s32 left = msg->len;
@@ -299,7 +300,7 @@ extern s32 recv_lcp_config_reject(PppFsm *fsm, PppHeader *msg, s32 src) {
 
 #pragma push
 #pragma opt_common_subs on
-extern s32 recv_lcp_config_nak(PppFsm *fsm, PppHeader *msg, s32 src) {
+s16 recv_lcp_config_nak(PppFsm *fsm, PppHeader *msg, PppFrame *src) {
     LcpOpts *opts = fsm->opts;
     LcpSide *local = &opts->local;
     s32 remaining = msg->len;
@@ -347,7 +348,7 @@ inline void loop_8040172C(uaddr *self, void *src, s16 mask) {
         i++;
     }
 }
-inline s32 read_option_byte(uaddr *p) {
+inline s32 read_option_byte(void *p) {
     if (ppp_buffer_read(p, lobby_read_byte_buffer, 1) != 1) {
         return -1;
     }
@@ -366,7 +367,7 @@ inline uaddr build_requested_options(PppFsm *fsm) {
     loop_8040172C(&t, &o->local.got, o->local.got.mask);
     return t;
 }
-s32 verify_lcp_config_ack(PppFsm *fsm, PppHeader *msg, uaddr expected) {
+s16 verify_lcp_config_ack(PppFsm *fsm, PppHeader *msg, PppFrame *expected) {
     s16 err;
     s16 a;
     s16 b;
@@ -376,7 +377,7 @@ s32 verify_lcp_config_ack(PppFsm *fsm, PppHeader *msg, uaddr expected) {
     }
     {
         uaddr cur = build_requested_options(fsm);
-        if (msg->len != get_field_4((void *)cur)) {
+        if (msg->len != (u16)get_field_4((PppFrame *)cur)) {
             err = 1;
         } else {
             while ((a = read_option_byte(&cur)) != -1) {
@@ -408,7 +409,7 @@ inline void add_lcp_options(PppFrame **pbuf, s16 *vals, s16 mask) {
     }
 }
 
-s16 recv_lcp_config_request(PppFsm *fsm, PppHeader *msg, u32 src) {
+s16 recv_lcp_config_request(PppFsm *fsm, PppHeader *msg, PppFrame *src) {
     LcpOpts *opts;
     s32 remaining;
     s16 status;
@@ -593,7 +594,7 @@ s16 parse_lcp_option(saddr arg0, u8 *opts, u8 *arg2, u8 *hdr, s16 arg4) {
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(4)
-saddr TLobby__sub_8040172C(PppFsm *c) {
+PppFrame *TLobby__sub_8040172C(PppFsm *c) {
     uaddr obj;
     LcpOpts *s;
     s = c->opts;
@@ -603,7 +604,7 @@ saddr TLobby__sub_8040172C(PppFsm *c) {
         return 0;
     }
     loop_8040172C(&obj, &s->local.got, s->local.got.mask);
-    return obj;
+    return (PppFrame *)obj;
 }
 #pragma pop
 

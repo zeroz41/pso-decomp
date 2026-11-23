@@ -76,10 +76,12 @@ struct O_803FE600 {
 struct Blk_803FF48C { s32 w[9]; };
 union U_803FF48C { s16 h4; Blk_803FF48C src; };
 struct Names_80403168 {
-    u8 pad[0x48];
+    PppFsmProtocol proto;
+    PapOptions options;
     u8 a[0x80];
     u8 b[0x80];
 };
+LAYOUT_ASSERT(Names_80403168_size, sizeof(Names_80403168) == 0x148);
 
 #ifdef __cplusplus
 extern "C" {
@@ -91,44 +93,33 @@ void TLobby__sub_803FD0C0(void);
 void TLobby__sub_803FD694(u8 *arg0); /* PppFsm.c */
 void TLobby__sub_803FE600(O_803FE600 *o); /* PppFsm.c */
 s16 TLobby__sub_803FED78(u8 *self); /* PppIpcp.c */
-s16 apply_lcp_config_to_sides(void *a0, void *a1); /* PppLcp.c */
+struct LcpConfig;
+s16 apply_lcp_config_to_sides(PppFsm *state, struct LcpConfig *config); /* PppLcp.c */
 s32 TLobby__sub_80401ABC(u8 *self_m, void *dst, s32 n); /* PppBuffer.c */
 
-/* The protocol header that opens the IPCP and LCP state objects (.bss 805C0328 and 805C0400). */
-typedef struct Obj_803FEF4C {
-    u32 w0;
-    u16 h4;
-    s16 h6;
-    u8 b8;
-    u8 b9;
-    u8 bA;
-    u8 bB;
-    s32 wC;
-    void *fn[11];
-} Obj_803FEF4C;
 void TLobby__sub_803FE820(saddr arg0);
 s16 TLobby__sub_803FF304(u8 *lobby);
-void TLobby__sub_803FF468(saddr arg0);
+void TLobby__sub_803FF468(PppFsm *arg0);
 void TLobby__sub_803FD85C(void *arg0);
 s16 ppp_begin_connect(s32 ignored, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, char *modem_name, s32 no_modem);
-s16 ppp_fsm_send_packet(void *self, u8 code, int reply_identifier, void *payload);
-s16 TLobby__sub_803FE658(u8 *arg0);
+s16 ppp_fsm_send_packet(PppFsm *fsm, u8 code, int reply_identifier, PppFrame *payload);
+s16 TLobby__sub_803FE658(PppFsm *fsm);
 void TLobby__sub_803FD958(u8 *arg0);
 void TLobby__sub_80401CAC(PppFrame **o, u16 v);
 u16 read_network_u16_be(u8 *p);
 u32 TLobby__sub_80402AFC(u8 *p);
 u8 *write_network_u16_be(u8 *p, u16 v);
-void TLobby__sub_803FF384(u8 *arg0);
+void TLobby__sub_803FF384(PppFsm *arg0);
 s16 wait_for_connection(PppFsm *c);
 s32 TLobby__sub_80403168(u8 *arg0, u8 *pap_password, u8 *arg2);
 s16 chap_connect(u8 *chap_name, u8 *chap_secret, s32 timeout);
 s16 TLobby__sub_80402BB4(void *arg0, u32 timeout);
 s16 pap_connect(u8 *peer_id, u8 *pap_password, s32 timeout);
 void setup_auth_after_lcp_negotiation(PppFsm *c);
-s16 TLobby__sub_80403F4C(void *ov, PppFrame **spp);
+s16 TLobby__sub_80403F4C(Obj_80403F4C *state, PppFrame **spp);
 PppFrame *init_net_buffer_entry(u16 idx);
 void append_masked_ipcp_options(uaddr *self, void *opt, s32 mask);
-s32 TLobby__sub_803FF858(struct PppFsm *fsm, struct PppHeader *msg, uaddr expected);
+s16 TLobby__sub_803FF858(PppFsm *fsm, PppHeader *msg, PppFrame *expected);
 s16 TLobby__sub_803FD5A4(s16 h, s16 v);
 s32 TLobby__sub_803FD21C(s16 arg0, s32 arg1, s32 arg2, u8 *arg3);
 s32 TLobby__sub_803FD310(s16 arg0, s32 arg1, u8 *arg2);
@@ -136,14 +127,15 @@ s32 TLobby__sub_803FD490(s16 arg0);
 s32 TLobby__sub_803FD4B4(s16 arg0);
 s32 TLobby__sub_803FD4D8(s16 arg0);
 s32 TLobby__sub_803FD4FC(s16 arg0);
-s32 TLobby__sub_803FE844(void);
-void TLobby__sub_803FE84C(void);
-void TLobby__sub_803FF374(u8 *arg0);
-void lcp_noop_callback(void);
-void mark_lcp_starting(u8 *arg0);
-void *build_avetcp_net_buffer(PppFsm *c);
-s16 TLobby__sub_803FE8BC(u8 *dst, void *src);
-s16 pap_recv_auth_request(u8 *self, u8 *src, PppFrame *val);
+s16 TLobby__sub_803FE844(PppFsm *fsm, PppHeader *header, PppFrame *frame);
+void TLobby__sub_803FE84C(PppFsm *fsm);
+void TLobby__sub_803FF374(PppFsm *arg0);
+void lcp_noop_callback(PppFsm *fsm);
+void mark_lcp_starting(PppFsm *arg0);
+PppFrame *build_avetcp_net_buffer(PppFsm *c);
+void TLobby__sub_803FDBF8(PppFsm *fsm, PppFrame *payload);
+s16 TLobby__sub_803FE8BC(PppHeader *dst, PppFrame **src);
+s16 pap_recv_auth_request(PppFsm *fsm, PppHeader *header, PppFrame *payload);
 void start_ipcp_after_auth(O_80400ACC *o);
 PppFrame *TLobby__sub_80401B20(void *src, u16 n);
 void MD5Update(MD5Context *context, u8 *input, u32 inputLen);

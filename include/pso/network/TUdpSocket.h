@@ -18,7 +18,7 @@ struct UdpSocketEventRecord {
     u16 e;
 };
 
-struct UdpDatagram;
+struct NetworkReceivePrefix;
 
 class TUdpSocket : public TSocket {
 public:
@@ -36,7 +36,7 @@ public:
     virtual short send(u8 *data);
     virtual short send(u8 *data, size_t size);
 
-    static s32 handle_socket_event(s16 received, UdpDatagram *event);
+    static s16 handle_socket_event(s16 received, NetworkReceivePrefix *event);
 };
 
 LAYOUT_ASSERT(TUdpSocket_size, sizeof(TUdpSocket) == 0x8B8);

@@ -1,7 +1,7 @@
 #include "pso/network/UdpRuntime.h"
 #include "pso/network/SocketEvents.h"
 #include "pso/network/NetworkDispatch.h"
-#include "pso/network/NetworkRuntime.h"
+#include "pso/network/NetworkRuntimeSlots.h"
 #include "pso/network/TLobby_803FC178.h"
 #include "pso/network/NetworkPacketPool.h"
 #include "pso/network/netcfg.h"
@@ -18,8 +18,6 @@ struct Self_803FD85C;
 #include "pso/network/IPv6Send.h"
 #include "pso/network/NetStackTypes.h"
 void net_sleep_ms(s32 ms);
-void TLobby__sub_803F9344(u32 handle, void *source, s32 size);
-void NetEnqueueProtocolMessage(s32 payload, s16 detail, s16 first, s16 second, u16 protocol);
 
 struct Self_803FDA68;
 
@@ -50,10 +48,6 @@ s32 TLobby__sub_80419A7C(void) {
     return 0;
 }
 
-extern void NetRunProtocolDispatchLoop(void);
-extern void NetRunTimerDispatchLoop(void);
-extern s16 TLobby__sub_803F94F0(void *);
-extern s16 TLobby__sub_803F96AC(void *);
 s16 NetInitializeDispatcher(void) {
     s32 *p4 = &network_dispatch_state.queue_handle;
     NetThreadHandle *p8;
@@ -224,10 +218,9 @@ void NetEnqueueProtocolMessage(s32 payload, s16 detail, s16 first, s16 second, u
     message.protocol = protocol;
     message.detail = detail;
     message.payload = payload;
-    TLobby__sub_803F9344(network_dispatch_state.queue_handle, &message, 0xC);
+    TLobby__sub_803F9344(network_dispatch_state.queue_handle, &message, sizeof(message));
 }
 
-s32 dispatch_handler_by_id(s16 arg0, s32 arg1, s32 arg2); /* declared here with other parameter types; the definition is s32 (s16, s32, s32) */
 void NetRunProtocolDispatchLoop(void) {
     NetProtocolMessage msg;
     s16 i;

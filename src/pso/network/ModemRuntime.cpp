@@ -19,8 +19,6 @@
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-struct ByteBlock_1C { u8 bytes[0x1c]; };
-
 // Transmit side of the modem EXI transfer (cleared as one 0x2C block by sub_8042CEF8).
 struct ModemSendState {
     s32 busy;
@@ -110,7 +108,6 @@ typedef struct Ent_80427C6C {
 
 extern "C" {
 void TAdSinglePlyChrSelectGC__sub_8042DE20(void);
-struct ModemConnectionInfo { s32 value; s32 f4; s32 f8; char carrier[5]; char error_control[5]; char compression[6]; };
 static ModemConnectionInfo modem_connection_info;
 static ModemResponseState modem_command_response_state;
 void modem_write_string(char *str);
@@ -124,7 +121,6 @@ typedef struct Tbl_804267F0 {
     Ent_804267F0 ent[6];
 } Tbl_804267F0;
 
-s32 modem_send_at_command(char *cmd);
 struct ModemRegs_805D7C90 { u16 f0; u16 f2; u8 f4; u8 f5; u8 f6; u8 f7; };
 ModemRegs_805D7C90 lbl_805D7C90;
 s32 lbl_805D7C98;
@@ -132,12 +128,9 @@ s32 lbl_805D7C9C;
 OSThreadQueue lbl_805D7CA0;
 static ModemSendState modem_send_state;
 static ModemRecvState modem_recv_state;
-s32 TAdSinglePlyChrSelectGC__sub_8042E184(void);
 }
 s32 modem_wait_ok_or_error(void);
 extern "C" {
-void modem_hangup(void);
-void TAdSinglePlyChrSelectGC__sub_8042E488(s32 value);
 
 #pragma push
 #pragma opt_propagation off
@@ -155,12 +148,12 @@ void TAdSinglePlyChrSelectGC__sub_8042E488(s32 value);
 #pragma dont_inline on
 #pragma pop
 
-void TAdSinglePlyChrSelectGC::wake_load_thread() {
+void TAdSinglePlyChrSelectGC::wake_load_thread(s32, OSContext *) {
     OSWakeupThread(&lbl_805D7CA0);
 }
 
 static OSResetFunctionInfo modem_reset_function_info = {
-    (OSResetFunction)TAdSinglePlyChrSelectGC::send_modem_hangup, 127
+    TAdSinglePlyChrSelectGC::send_modem_hangup, 127
 };
 
 void TAdSinglePlyChrSelectGC__sub_8042BF6C(s32 length);
@@ -228,7 +221,7 @@ static inline void ModemLockExi(void) {
     BOOL enabled = OSDisableInterrupts();
 
     for (;;) {
-        if (EXILock(0, 2, (EXICallback)TAdSinglePlyChrSelectGC::wake_load_thread) == 1) {
+        if (EXILock(0, 2, TAdSinglePlyChrSelectGC::wake_load_thread) == 1) {
             OSRestoreInterrupts(enabled);
             break;
         }
@@ -560,7 +553,7 @@ static char modem_setup_commands[][12] = {
     "ATW1\\V0\r", "ATS95=44\r"
 };
 
-static inline BOOL ModemSetupCommands(char *buf, char *country) {
+static inline BOOL ModemSetupCommands(char *buf, const char *country) {
     u8 value;
     BOOL selected;
     u16 cmd;
@@ -582,7 +575,7 @@ static inline BOOL ModemSetupCommands(char *buf, char *country) {
     return selected;
 }
 
-s32 modem_init(char *country) {
+s32 modem_init(const char *country) {
     // Keep the command text in eight-byte-aligned storage. Its character view
     // is used by the string routines and EXI immediate transfers. The 0x88-byte
     // storage extent fits the native frame; the original text limit is unknown.
@@ -684,7 +677,7 @@ void modem_hangup(void) {
     lbl_805D7C98 = 1;
     e = OSDisableInterrupts();
     for (;;) {
-        if (EXILock(0, 2, (EXICallback)TAdSinglePlyChrSelectGC::wake_load_thread) == 1) {
+        if (EXILock(0, 2, TAdSinglePlyChrSelectGC::wake_load_thread) == 1) {
             OSRestoreInterrupts(e);
             break;
         }
@@ -818,25 +811,25 @@ s32 TAdSinglePlyChrSelectGC__sub_8042D7E0(u8 *buf) {
 
 #pragma push
 #pragma opt_common_subs off
-s32 TAdSinglePlyChrSelectGC__sub_8042DD70(s32 arg0, s32 arg1, s32 arg2) {
-    if ((s32) *(s32 *)((s8 *)&modem_connection_info + 0xB0) != 0) {
+s32 TAdSinglePlyChrSelectGC__sub_8042DD70(u8 *data, s32 length, void (*callback)(s32 sent)) {
+    if (modem_send_state.busy != 0) {
         return -4;
     }
-    if ((s32) lbl_805D7C98 != 3) {
+    if (lbl_805D7C98 != 3) {
         return -7;
     }
-    *(s32 *)((s8 *)&modem_connection_info + 0xB0) = 1;
-    *(s32 *)((s8 *)&modem_connection_info + 0xB4) = arg0;
-    *(s32 *)((s8 *)&modem_connection_info + 0xBC) = arg1;
-    *(s32 *)((s8 *)&modem_connection_info + 0xB8) = arg1;
-    *(s32 *)((s8 *)&modem_connection_info + 0xD8) = arg2;
-    TAdSinglePlyChrSelectGC__sub_8042DDE4(0, 0);
+    modem_send_state.busy = 1;
+    modem_send_state.data = data;
+    modem_send_state.length = length;
+    modem_send_state.remaining = length;
+    modem_send_state.callback = callback;
+    TAdSinglePlyChrSelectGC__sub_8042DDE4(0, NULL);
     return 1;
 }
 #pragma pop
 
-void TAdSinglePlyChrSelectGC__sub_8042DDE4(int _w0, int _w1) {
-    if (EXILock(0, 2U, (EXICallback)TAdSinglePlyChrSelectGC__sub_8042DDE4) != 0) {
+void TAdSinglePlyChrSelectGC__sub_8042DDE4(s32, OSContext *) {
+    if (EXILock(0, 2U, TAdSinglePlyChrSelectGC__sub_8042DDE4) != 0) {
         TAdSinglePlyChrSelectGC__sub_8042DE20();
     }
 }
@@ -948,6 +941,12 @@ s32 TAdSinglePlyChrSelectGC__sub_8042E184(void) {
     return 1;
 }
 
+// The two AT&P commands are edited in place by modem_send_at_command.
+static char lbl_805D4920[5] = "ATDT";
+static char lbl_805D4928[7] = "AT&P0\r";
+static char lbl_805D4930[5] = "ATDP";
+static char lbl_805D4938[7] = "AT&P2\r";
+
 s32 modem_dial(const char *number, s32 mode, void (*callback)(s32 result)) {
     char buf[0x40];
     s32 result;
@@ -962,15 +961,15 @@ s32 modem_dial(const char *number, s32 mode, void (*callback)(s32 result)) {
     modem_command_response_state.callback = callback;
     switch (mode) {
     case 1:
-        strcpy(buf, "ATDT");
+        strcpy(buf, lbl_805D4920);
         break;
     case 2:
-        result = modem_send_at_command("AT&P0\r");
-        strcpy(buf, "ATDP");
+        result = modem_send_at_command(lbl_805D4928);
+        strcpy(buf, lbl_805D4930);
         break;
     case 3:
-        result = modem_send_at_command("AT&P2\r");
-        strcpy(buf, "ATDP");
+        result = modem_send_at_command(lbl_805D4938);
+        strcpy(buf, lbl_805D4930);
         break;
     }
     strcat(buf, number);
@@ -1031,10 +1030,9 @@ s32 TAdSinglePlyChrSelectGC::send_at_compression_cmd(s32 arg0) {
     return 1;
 }
 
-s32 TAdSinglePlyChrSelectGC::copy_default_and_get_state() {
-    uaddr arg0 = (uaddr)this;
-    if (arg0 != 0U) {
-        *(ByteBlock_1C *)(arg0) = *(const ByteBlock_1C *)(&modem_connection_info.value);
+s32 copy_default_and_get_state(ModemConnectionInfo *out) {
+    if (out != NULL) {
+        *out = modem_connection_info;
     }
     return lbl_805D7C98;
 }
@@ -1053,7 +1051,7 @@ s32 TAdSinglePlyChrSelectGC::send_atx_command(s32 arg0) {
     return 1;
 }
 
-s32 TAdSinglePlyChrSelectGC::send_modem_hangup(s32 arg0) {
+BOOL TAdSinglePlyChrSelectGC::send_modem_hangup(BOOL arg0) {
     if ((arg0 == 0) && ((s32) lbl_805D7C98 == 3)) {
         lbl_805D7C98 = 1;
         if (EXILock(0, 2U, NULL) == 0) {

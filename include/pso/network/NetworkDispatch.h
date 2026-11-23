@@ -43,6 +43,10 @@ void TLobby__sub_80419A00(void);
 s16 TLobby__sub_80419A34(void);
 s16 NetInitializeDispatcher(void);
 void NetYieldOutsideDispatcherThread(void);
+void NetRunProtocolDispatchLoop(void);
+void NetRunTimerDispatchLoop(void);
+void NetEnqueueProtocolMessage(s32 payload, s16 detail, s16 first, s16 second, u16 protocol);
+s32 dispatch_handler_by_id(s16 first, s32 second, s32 payload);
 s32 TLobby__sub_80419A7C(void);
 #ifdef __cplusplus
 }

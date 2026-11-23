@@ -4,39 +4,18 @@
 #include "pso/network/TLobby_803FCF44.h"
 #include "pso/network/TLobby_804048E8.h"
 #include "pso/network/NetArp.h"
-
-typedef struct Node_80405008 {
-    u8 id;
-    u8 pad1[3];
-    struct Node_80405008 *next;
-    u8 rest[0x84];
-} Node_80405008;
-
-typedef struct List_80405008 {
-    Node_80405008 *list;
-    Node_80405008 *list2;
-    u8 n2;
-    u8 n1;
-    u8 a;
-    u8 b;
-    u8 c;
-    u8 pad[0x2B];
-} List_80405008;
+#include "pso/network/PppBuffer.h"
 
 #pragma push
 #pragma cplusplus on
-u32 lbl_805C06D8[14];
-u32 lbl_805C0710[560];
-u32 lbl_805C0FD0[560];
+Obj_80403F4C lbl_805C06D8;
+Ent_80403F4C lbl_805C0710[16];
+Ent_80403F4C lbl_805C0FD0[16];
 u32 lbl_805C1890[4];
 #pragma pop
 
-s32 TLobby__sub_804053B8(B_80403F4C *, PppFrame **); /* declared here with other parameter types; the definition is s32 (void *, u8 **) */
-u8 *TLobby__sub_8040555C(B_80403F4C *, u8 *, s32);
-u8 *NetIPv4WriteHeader(A_80403F4C *, u8 *, s32);
 s32 NetMemcmp(void *, void *, int);
 void NetMemcpy(void *, void *, int);
-u8 *alloc_from_buffer(void *self, s16 arg1);
 
 #pragma push
 #pragma dont_inline off
@@ -76,14 +55,14 @@ s32 TLobby__sub_804048E8(Obj_80403F4C *comp, PppFrame **m, s16 compress_cid) {
         } else {
             comp->n14++;
         }
-        *m = (PppFrame *)NetIPv4WriteHeader(&a, (u8 *)*m, 1);
+        *m = NetIPv4WriteHeader(&a, *m, 1);
         return 0x40;
     }
     hlen += TLobby__sub_804053B8(&b, m);
     if (b.syn || b.fin || b.rst || !b.ack_flag) {
         comp->n14++;
-        *m = (PppFrame *)TLobby__sub_8040555C(&b, (u8 *)*m, 0);
-        *m = (PppFrame *)NetIPv4WriteHeader(&a, (u8 *)*m, 1);
+        *m = TLobby__sub_8040555C(&b, *m, NULL);
+        *m = NetIPv4WriteHeader(&a, *m, 1);
         return 0x40;
     }
     for (;;) {
@@ -182,12 +161,12 @@ found:
     cs->b = b;
     deltaS = cp - (u8 *)lbl_805C1890;
     if (compress_cid == 0 || comp->last_xmit != cs->id) {
-        cp = (*m = (PppFrame *)alloc_from_buffer(*m, deltaS + 4))->data;
+        cp = (*m = alloc_from_buffer(*m, deltaS + 4))->data;
         *cp++ = changes | 0x40;
         *cp++ = cs->id;
         comp->last_xmit = cs->id;
     } else {
-        cp = (*m = (PppFrame *)alloc_from_buffer(*m, deltaS + 3))->data;
+        cp = (*m = alloc_from_buffer(*m, deltaS + 3))->data;
         *cp++ = (s8)changes;
     }
     cp = write_network_u16_be(cp, deltaA);
@@ -201,44 +180,44 @@ uncompressed:
     cs->b = b;
     comp->last_xmit = cs->id;
     comp->n18++;
-    *m = (PppFrame *)TLobby__sub_8040555C(&b, (u8 *)*m, 0);
-    *m = (PppFrame *)NetIPv4WriteHeader(&a, (u8 *)*m, 1);
+    *m = TLobby__sub_8040555C(&b, *m, NULL);
+    *m = NetIPv4WriteHeader(&a, *m, 1);
     return 0x70;
 }
 #pragma pop
 
-void TLobby__sub_80405000(u32 mode) {
-    if (mode == 0) {
+void TLobby__sub_80405000(Obj_80403F4C *state) {
+    if (state == NULL) {
         return;
     }
 }
 
-s32 init_net_list(s16 count1, s16 count2) {
-    Node_80405008 *base;
+Obj_80403F4C *init_net_list(s16 count1, s16 count2) {
+    Ent_80403F4C *base;
     s16 i;
-    List_80405008 *p = (List_80405008 *)lbl_805C06D8;
+    Obj_80403F4C *p = &lbl_805C06D8;
 
     if (count1 > 0 && count1 <= 0x10) {
-        p->list2 = (Node_80405008 *)lbl_805C0710;
-        p->n1 = count1 - 1;
+        p->ents = lbl_805C0710;
+        p->max = count1 - 1;
     }
     if (count2 > 0 && count2 <= 0x10) {
-        p->list = (Node_80405008 *)lbl_805C0FD0;
-        p->n2 = count2 - 1;
+        p->tstate = lbl_805C0FD0;
+        p->max_tx = count2 - 1;
     }
-    p->a = 0;
-    p->b = 0xFF;
-    p->c = 0xFF;
+    p->last_cs = 0;
+    p->last_xmit = 0xFF;
+    p->cur = 0xFF;
     if (count2 > 0) {
-        base = p->list;
-        for (i = p->n2; i > 0; i--) {
+        base = p->tstate;
+        for (i = p->max_tx; i > 0; i--) {
             base[i].id = i;
             base[i].next = &base[i - 1];
         }
-        base[0].next = &base[p->n2];
+        base[0].next = &base[p->max_tx];
         base[0].id = 0;
     }
-    return (saddr)p;
+    return p;
 }
 
 NetThreadState lbl_805C18A0;

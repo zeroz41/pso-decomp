@@ -2,11 +2,16 @@
 #define PSO_NETWORK_TEXT_80421620_H
 
 #include "pso/network/TcpSendQueue.h"
+#include "pso/network/NetworkReceiveCallback.h"
+#include "pso/network/NetworkTimer.h"
 
 /* text_80421620.c: stack start-up and shutdown. */
 #ifdef __cplusplus
 extern "C" {
 #endif
+struct NetPacket;
+s32 raw_socket_deliver(struct NetPacket *pkt, u8 *src, u8 *dst, NetworkReceiveCallback cb, s16 index);
+s32 raw_socket_deliver_ipv4(struct NetPacket *pkt, u32 src, u32 dst, NetworkReceiveCallback cb, s16 index);
 s16 init_network_stack(void);
 s16 tcp_receive(s32 handle, TcpCompletion callback, s32 length, void *buffer);
 s32 cleanup_subsystems(void);
@@ -16,7 +21,7 @@ s32 set_thread_state_and_resume(s32 idx, TcpCompletion cb, s16 state);
 s32 complete_request_callback(s16 handle, TcpSendCallback cb, s16 code, const TcpSendRequest *request);
 s32 net_unlock(void);
 s32 net_lock(void);
-s32 net_unregister_timer(saddr timer);
+s32 net_unregister_timer(NetTimerCallback timer);
 s32 udp_close(s32 a);
 s16 TLobby__sub_80423064(s16 idx, s32 op);
 s16 tcp_get_opt(s16 nh, s16 type, u32 *opt);

@@ -1,7 +1,7 @@
 /* The network stack's packet buffers (a C library, built with GC/1.2.5n): the pool of 0x600-byte packet buffers
  * shared by the receive path, taken and released under network_packet_mutex. Its .bss starts at the descriptor
  * table: the code addresses it at offset 0 of the file's .bss, so the DHCP client before it is another file. */
-#include "pso/network/NetworkRuntime.h"
+#include "pso/network/NetworkRuntimeSlots.h"
 #include "pso/network/NetworkPacketPool.h"
 #include <stddef.h>
 #include "pso/network/NetworkTransport.h"
@@ -15,8 +15,7 @@
 
 NetworkPacketBufferDescriptor network_packet_buffer_descriptors[NETWORK_PACKET_BUFFER_COUNT];
 u8 network_packet_buffers[NETWORK_PACKET_BUFFER_COUNT][NETWORK_PACKET_BUFFER_BYTES];
-u32 network_packet_mutex;
-s16 TLobby__sub_803F96AC(u32*);
+s32 network_packet_mutex;
 
 #pragma push
 #pragma dont_inline off

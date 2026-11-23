@@ -1,9 +1,9 @@
 #include "types.h"
+#include "pso/network/TLobby_803FAEA0.h"
 #include "pso/network/TLobby_803FC178.h"
 #include "pso/network/TLobby_803FCF44.h"
 #include "pso/network/TLobby_804050DC.h"
 /* This file's functions. */
-void chap_input(void *self, saddr arg1);
 void init_net_state_a(void);
 s32 init_net_state_b(void);
 s32 mark_sub_ready(void *obj);
@@ -11,7 +11,6 @@ s32 set_active_flag(void *self);
 void update_connection_state(void *arg0);
 #include "pso/network/NetworkRuntime.h"
 #include "pso/network/TLobby_804048E8.h"
-extern s32 is_timed_out(void);
 #include "pso/network/NetworkTransport.h"
 
 struct Self_803FD74C;
@@ -34,7 +33,6 @@ s32 init_net_state_b(void) {
     return 0;
 }
 
-extern s16 get_remaining(s32 x);
 s16 TLobby__sub_803FC1CC(PppFsm *c, s32 timeout) {
     PppChap *auth;
     u8 *sub;
@@ -81,78 +79,41 @@ PppAuthState lbl_805C02D0;
 /* The challenge length and the response reader's scratch byte (.sbss 805D7A98), in reverse definition order. */
 u16 lbl_805D7A9A;
 u8 chap_read_byte_buffer;
-typedef struct Proto3_803FC318 {
-    const char *name;
-    u16 proto;
-    u16 h6;
-    u8 b8;
-    u8 b9;
-    u8 bA;
-    u8 bB;
-    s32 timeout;
-    void *f10;
-    void *f14;
-    void *f18;
-    void *f1C;
-    void *f20;
-    void *f24;
-    void *f28;
-    void *f2C;
-    void *f30;
-    void *f34;
-    void *f38;
-} Proto3_803FC318;
-typedef struct Buf3_803FC318 { char a[0x80]; char b[0x80]; u8 opts[0x14]; Proto3_803FC318 proto; } Buf3_803FC318;
-typedef struct Timer3_803FC318 {
-    u8 pad0[0x10];
-    void *callback;
-    void *arg;
-    u8 pad18[4];
-} Timer3_803FC318;
-typedef struct Self3_803FC318 {
-    u8 f0; u8 f1; u8 f2; u8 f3; u8 f4; u8 f5; u8 f6; u8 f7;
-    u8 pad8[4];
-    u8 *sub;
-    Timer3_803FC318 timer;
-    Proto3_803FC318 *proto;
-    void *opts;
-} Self3_803FC318;
-#define BUF3_803FC318 (*(Buf3_803FC318 *)&lbl_805C0180)
 extern void TLobby__sub_803FC318(u8 *conn) {
-    Self3_803FC318 *fsm = (Self3_803FC318 *)(conn + 0xA0);
-    Timer3_803FC318 *timer;
+    PppFsm *fsm = (PppFsm *)(conn + 0xA0);
+    PppFsmTimer *timer;
 
     if (fsm->opts == NULL) {
         timer = &fsm->timer;
-        BUF3_803FC318.proto.name = chap_protocol_name;
-        BUF3_803FC318.proto.proto = 0xC223;
-        BUF3_803FC318.proto.h6 = 0x70;
-        BUF3_803FC318.proto.b8 = 3;
-        BUF3_803FC318.proto.bB = 0;
-        BUF3_803FC318.proto.b9 = lbl_805C02D0.f36;
-        BUF3_803FC318.proto.bA = lbl_805C02D0.f37;
-        BUF3_803FC318.proto.timeout = lbl_805C02D0.f38 * 1000;
-        BUF3_803FC318.proto.f10 = (void *)TLobby__sub_803FE84C;
-        BUF3_803FC318.proto.f14 = (void *)TLobby__sub_803FE84C;
-        BUF3_803FC318.proto.f18 = (void *)TLobby__sub_803FE84C;
-        BUF3_803FC318.proto.f1C = (void *)TLobby__sub_803FE84C;
-        BUF3_803FC318.proto.f20 = (void *)TLobby__sub_803FE84C;
-        BUF3_803FC318.proto.f24 = (void *)TLobby__sub_803FE84C;
-        BUF3_803FC318.proto.f28 = (void *)build_avetcp_net_buffer;
-        BUF3_803FC318.proto.f2C = (void *)TLobby__sub_803FE844;
-        BUF3_803FC318.proto.f30 = (void *)TLobby__sub_803FE844;
-        BUF3_803FC318.proto.f34 = (void *)TLobby__sub_803FE844;
-        BUF3_803FC318.proto.f38 = (void *)TLobby__sub_803FE844;
+        lbl_805C0180.proto.name = chap_protocol_name;
+        lbl_805C0180.proto.proto = 0xC223;
+        lbl_805C0180.proto.h6 = 0x70;
+        lbl_805C0180.proto.b8 = 3;
+        lbl_805C0180.proto.bB = 0;
+        lbl_805C0180.proto.b9 = lbl_805C02D0.f36;
+        lbl_805C0180.proto.bA = lbl_805C02D0.f37;
+        lbl_805C0180.proto.timeout = lbl_805C02D0.f38 * 1000;
+        lbl_805C0180.proto.f10 = TLobby__sub_803FE84C;
+        lbl_805C0180.proto.f14 = TLobby__sub_803FE84C;
+        lbl_805C0180.proto.f18 = TLobby__sub_803FE84C;
+        lbl_805C0180.proto.f1C = TLobby__sub_803FE84C;
+        lbl_805C0180.proto.f20 = TLobby__sub_803FE84C;
+        lbl_805C0180.proto.f24 = TLobby__sub_803FE84C;
+        lbl_805C0180.proto.f28 = build_avetcp_net_buffer;
+        lbl_805C0180.proto.f2C = TLobby__sub_803FE844;
+        lbl_805C0180.proto.f30 = TLobby__sub_803FE844;
+        lbl_805C0180.proto.f34 = TLobby__sub_803FE844;
+        lbl_805C0180.proto.f38 = TLobby__sub_803FE844;
         fsm->sub = conn;
-        fsm->proto = &BUF3_803FC318.proto;
-        fsm->opts = BUF3_803FC318.opts;
+        fsm->proto = &lbl_805C0180.proto;
+        fsm->opts = &lbl_805C0180.options;
         fsm->f4 = fsm->proto->b9;
         fsm->f7 = fsm->proto->bA;
         fsm->f5 = fsm->proto->bB;
-        fsm->f0 = 0;
-        fsm->f3 = fsm->f4;
+        fsm->state = 0;
+        fsm->retries = fsm->f4;
         fsm->f6 = fsm->f7;
-        timer->callback = (void *)TLobby__sub_803FC728;
+        timer->callback = TLobby__sub_803FC728;
         timer->arg = fsm;
         lobby_timer_add((N_80405298 *)timer, fsm->proto->timeout);
     }
@@ -178,7 +139,7 @@ s32 mark_sub_ready(void *obj) {
 
 struct O_80400ACC;
 
-void chap_input(void *self, saddr source) {
+void chap_input(PppFsm *self, PppFrame *source) {
     u8 *arg0 = (u8 *)self;
     PppHeader hdr;
     u8 temp_r0;
@@ -189,15 +150,15 @@ void chap_input(void *self, saddr source) {
     u8 *temp_r30_3;
     u8 *temp_r30_4;
 
-    if (TLobby__sub_803FE8BC((u8 *)&hdr, &source) != -1) {
+    if (TLobby__sub_803FE8BC(&hdr, &source) != -1) {
         hdr.len -= 4;
-        TLobby__sub_80401CAC((PppFrame **)&source, hdr.len);
+        TLobby__sub_80401CAC(&source, hdr.len);
         switch (hdr.code) {
         case 1:
-            chap_recv_challenge((PppFsm *)arg0, &hdr, (PppFrame *)source);
+            chap_recv_challenge(self, &hdr, source);
             return;
         case 2:
-            if (chap_recv_response((void *)arg0, (void *)&hdr, (int)source) == 0) {
+            if (chap_recv_response(self, &hdr, source) == 0) {
                 if (lbl_805D7A90 & 2) {
                     temp_r30 = (u8 *)(*(u8 **)((s8 *)arg0 + 0xC));
                     lobby_timer_stop((void *) (arg0 + 0x10));
@@ -272,7 +233,7 @@ void TLobby__sub_803FC728(PppFsm *c) {
     if (chap->active != 0) {
         if (c->retries != 0) {
             chap->msg = "Request timeout";
-            TLobby__sub_803FE658((u8 *)c);
+            TLobby__sub_803FE658(c);
             return;
         }
         chap->msg = "Request retry exceeded";
@@ -320,7 +281,7 @@ inline s32 chap_read_byte(PppFrame **src) {
     }
     return chap_read_byte_slow(src);
 }
-extern s16 chap_recv_response(PppFsm *c, u8 *hdr, int v) {
+s16 chap_recv_response(PppFsm *c, PppHeader *hdr, PppFrame *v) {
     s16 total;
     PppChap *chap;
     u8 *name;
@@ -343,15 +304,15 @@ extern s16 chap_recv_response(PppFsm *c, u8 *hdr, int v) {
     secret = NULL;
     chap = c->opts;
 
-    if (hdr[1] != c->id) {
+    if (hdr->id != c->id) {
         return -1;
     }
-    total = *(s16 *)(hdr + 2);
-    n = chap_read_byte_slow((PppFrame **)&v);
+    total = hdr->len;
+    n = chap_read_byte_slow(&v);
     if (n != -1) {
         p = value = lbl_805C02D0.p10;
         for (i = 0; i < n; i++) {
-            *p++ = chap_read_byte((PppFrame **)&v);
+            *p++ = chap_read_byte(&v);
         }
     }
     m = total - n - 1;
@@ -364,7 +325,7 @@ extern s16 chap_recv_response(PppFsm *c, u8 *hdr, int v) {
     if (m != 0) {
         q = name = lbl_805C02D0.p4;
         for (j = 0; j < m; j++) {
-            *q++ = chap_read_byte((PppFrame **)&v);
+            *q++ = chap_read_byte(&v);
         }
         *q = 0;
     }
@@ -373,11 +334,11 @@ extern s16 chap_recv_response(PppFsm *c, u8 *hdr, int v) {
         if (secret == NULL) {
             NetCopyString(lbl_805C02D0.p20, chap_failure_message);
             reply = TLobby__sub_80401B20(lbl_805C02D0.p20, NetStringLength(lbl_805C02D0.p20));
-            ppp_fsm_send_packet(c, 4, hdr[1], reply);
+            ppp_fsm_send_packet(c, 4, hdr->id, reply);
             return -1;
         }
     }
-    *lbl_805C02D0.p18 = hdr[1];
+    *lbl_805C02D0.p18 = hdr->id;
     if (lbl_805D7A90 & 2) {
         NetCopyString((char *)lbl_805C02D0.p18 + 1, secret);
     } else {
@@ -406,7 +367,7 @@ extern s16 chap_recv_response(PppFsm *c, u8 *hdr, int v) {
         ret = 0;
     }
     reply = TLobby__sub_80401B20(lbl_805C02D0.p20, NetStringLength(lbl_805C02D0.p20));
-    ppp_fsm_send_packet(c, code, hdr[1], reply);
+    ppp_fsm_send_packet(c, code, hdr->id, reply);
     return ret;
 }
 #pragma pop

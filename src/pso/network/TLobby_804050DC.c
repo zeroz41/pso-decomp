@@ -51,14 +51,12 @@ typedef struct Obj_80405304 { u8 pad[0x18]; u8 f18; } Obj_80405304;
 #include "pso/network/IPv6Send.h"
 #include "pso/network/NetStackTypes.h"
 #include "pso/network/PppLcp.h"
+#include "pso/network/PppIpcp.h"
 
 s32 TLobby__sub_803F79AC(void *);
 
 void net_sleep_ms(int);
-extern u8 ppp_proto_blocks[];
-void TLobby__sub_803FDBF8(u8 *self, void *arg1);
 void pap_input(PppFsm *self, PppFrame *source);
-s16 TLobby__sub_804040E0(void *self, void *arg);
 s32 TLobby__sub_804060B8(u8 *, int, int);
 
 struct N_80405298;
@@ -195,7 +193,7 @@ void lobby_timer_start(u8 *arg0) {
     }
 }
 
-extern s32 TLobby__sub_804053B8(void *self, u8 **pp)
+s32 TLobby__sub_804053B8(B_80403F4C *record, PppFrame **pp)
 {
   struct Hdr_804053B8
   {
@@ -209,7 +207,6 @@ extern s32 TLobby__sub_804053B8(void *self, u8 **pp)
     u16 h10;
     u16 h12;
   } hdr;
-  u8 *b = (u8 *) self;
   u8 *p;
   u16 size;
   u16 rem;
@@ -221,39 +218,39 @@ extern s32 TLobby__sub_804053B8(void *self, u8 **pp)
   u32 n;
   ret = ppp_buffer_read(pp, &hdr, 0x14);
   (void) (&pad);
-  *((u16 *) b) = hdr.h0;
-  *((u16 *) (b + 0x2)) = hdr.h2;
-  *((u32 *) (b + 0x4)) = hdr.h4;
-  *((u32 *) (b + 0x8)) = hdr.h8;
+  record->src_port = hdr.h0;
+  record->dst_port = hdr.h2;
+  record->seq = hdr.h4;
+  record->ack = hdr.h8;
   flags = hdr.hd;
   cb = hdr.hc;
-  b[0x15] = flags & 0x20;
-  b[0x16] = flags & 0x10;
-  b[0x17] = flags & 0x8;
-  b[0x18] = flags & 0x4;
-  b[0x19] = flags & 0x2;
-  b[0x1a] = flags & 0x1;
+  record->urg = flags & 0x20;
+  record->ack_flag = flags & 0x10;
+  record->psh = flags & 0x8;
+  record->rst = flags & 0x4;
+  record->syn = flags & 0x2;
+  record->fin = flags & 0x1;
   cb = (cb & 0xf0) >> 2;
-  *((u16 *) (b + 0xc)) = hdr.he;
-  *((u16 *) (b + 0xe)) = hdr.h10;
-  *((u16 *) (b + 0x10)) = hdr.h12;
-  *((u16 *) (b + 0x12)) = 0;
-  b[0x1b] = cb - 0x14;
+  record->window = hdr.he;
+  record->checksum = hdr.h10;
+  record->urgent = hdr.h12;
+  record->mss = 0;
+  record->option_len = cb - 0x14;
   if ((((u16) ret) < 0x14) || (0x14 > cb))
   {
     return 0;
   }
-  if (b[0x1b] == 0)
+  if (record->option_len == 0)
   {
     return cb;
   }
-  if (b[0x1b] > get_field_4((void *) (*pp)))
+  if (record->option_len > (u16)get_field_4(*pp))
   {
     return 0;
   }
-  ppp_buffer_read(pp, b + 0x1c, b[0x1b]);
-  rem = b[0x1b];
-  p = b + 0x1c;
+  ppp_buffer_read(pp, record->options, record->option_len);
+  rem = record->option_len;
+  p = record->options;
   while (rem != 0)
   {
     c = p[0];
@@ -277,7 +274,7 @@ extern s32 TLobby__sub_804053B8(void *self, u8 **pp)
       case 2:
         if (size == 4)
       {
-        *((u16 *) (b + 0x12)) = (p[2] << 8) | p[3];
+        record->mss = (p[2] << 8) | p[3];
       }
         break;
 
@@ -290,62 +287,62 @@ extern s32 TLobby__sub_804053B8(void *self, u8 **pp)
   return cb;
 }
 
-extern u16 TLobby__sub_803FE934(u8 *obj, u8 *buf, u16 n); /* declared here with other parameter types; the definition is u16 (u8 *, PppFrame *, u16) */
-extern u8 *TLobby__sub_8040555C(u8 *self, void *lobby, u8 *obj) {
+extern u16 TLobby__sub_803FE934(u8 *obj, PppFrame *buf, u16 n);
+PppFrame *TLobby__sub_8040555C(B_80403F4C *record, PppFrame *frame, u8 *obj) {
     u8 hdr[0x3c];
     u32 n = 0;
-    u8 *buf;
+    PppFrame *buf;
     u8 *hp;
     u8 *dst;
     u8 flags;
     u32 len;
 
-    if (self[0x1b] != 0 && self[0x1b] <= 0x28) {
-        n = self[0x1b];
-    } else if (*(u16 *)(self + 0x12) != 0) {
+    if (record->option_len != 0 && record->option_len <= 0x28) {
+        n = record->option_len;
+    } else if (record->mss != 0) {
         n = 4;
     }
-    buf = alloc_from_buffer(lobby, n + 0x14);
+    buf = alloc_from_buffer(frame, n + 0x14);
     if (buf == NULL) {
         return NULL;
     }
-    dst = *(u8 **)buf;
+    dst = buf->data;
     hp = hdr;
     flags = 0;
-    *(u16 *)(hp + 0) = *(u16 *)(self + 0);
-    *(u16 *)(hp + 2) = *(u16 *)(self + 2);
-    *(u32 *)(hp + 4) = *(u32 *)(self + 4);
-    *(u32 *)(hp + 8) = *(u32 *)(self + 8);
+    *(u16 *)(hp + 0) = record->src_port;
+    *(u16 *)(hp + 2) = record->dst_port;
+    *(u32 *)(hp + 4) = record->seq;
+    *(u32 *)(hp + 8) = record->ack;
     hp[0xc] = (u8)((n + 0x14) << 2);
-    if (self[0x15]) {
+    if (record->urg) {
         flags |= 0x20;
     }
-    if (self[0x16]) {
+    if (record->ack_flag) {
         flags |= 0x10;
     }
-    if (self[0x17]) {
+    if (record->psh) {
         flags |= 0x8;
     }
-    if (self[0x18]) {
+    if (record->rst) {
         flags |= 0x4;
     }
-    if (self[0x19]) {
+    if (record->syn) {
         flags |= 0x2;
     }
-    if (self[0x1a]) {
+    if (record->fin) {
         flags |= 0x1;
     }
     hp[0xd] = flags;
-    *(u16 *)(hp + 0xe) = *(u16 *)(self + 0xc);
+    *(u16 *)(hp + 0xe) = record->window;
     if (obj == NULL) {
-        *(u16 *)(hp + 0x10) = *(u16 *)(self + 0xe);
+        *(u16 *)(hp + 0x10) = record->checksum;
     } else {
         *(u16 *)(hp + 0x10) = 0;
     }
-    *(u16 *)(hp + 0x12) = *(u16 *)(self + 0x10);
+    *(u16 *)(hp + 0x12) = record->urgent;
     len = 0;
     if ((u16)n > len) {
-        NetMemcpy(hp + 0x14, self + 0x1c, self[0x1b]);
+        NetMemcpy(hp + 0x14, record->options, record->option_len);
     }
     len = (u16)(n + 0x14);
     NetMemcpy(dst, hp, len);
@@ -433,7 +430,7 @@ s32 ppp_poll_input(void)
     {
       if (((ppp_rx_frame_ptr != 0) && (ppp_rx_frame_ptr->len < 0x800)) && (ppp_rx_fcs == 0xf0b8))
       {
-        n = get_field_4((void *) ppp_rx_frame_ptr) - 2;
+        n = get_field_4(ppp_rx_frame_ptr) - 2;
         TLobby__sub_80401CAC(&ppp_rx_frame_ptr, n);
         get_time_ms(&lbl_805D7A94);
         ppp_input_packet(ppp_rx_frame_ptr);
@@ -518,7 +515,7 @@ inline s32 get_80405A74(PppFrame **s) {
 }
 #define FWD_80405A74()                                                       \
     (*(s16 *)(G + 0x13A))++;                                            \
-    t = (PppFrame *)alloc_from_buffer((void *)arg0, 4); \
+    t = alloc_from_buffer(arg0, 4); \
     p = t->data;                                                             \
     *p++ = 0xFF;                                                             \
     *p++ = 3;                                                                \
@@ -531,7 +528,7 @@ inline s32 get_80405A74(PppFrame **s) {
     if (ppp_buffer_read(&u, lobby_ppp_read_buf, 2) == 2) {                    \
         read_network_u16_be(lobby_ppp_read_buf);                             \
     }                                                                        \
-    ppp_fsm_send_packet(G + 4, 8, 0, u);                                    \
+    ppp_fsm_send_packet(&((PppProtoBlocks *)G)->lcp, 8, 0, u);                                    \
     return;
 void ppp_input_packet(PppFrame *arg0) {
     u16 code;
@@ -543,7 +540,7 @@ void ppp_input_packet(PppFrame *arg0) {
     if (arg0 == NULL) {
         return;
     }
-    G = ppp_proto_blocks;
+    G = (u8 *)&ppp_proto_blocks;
     if (lbl_805D7A7A == 0 && arg0->data[0] == 0xFF && arg0->data[1] == 3 &&
         ppp_buffer_read(&arg0, lobby_ppp_read_buf, 2) == 2) {
         read_network_u16_be(lobby_ppp_read_buf);
@@ -576,7 +573,7 @@ void ppp_input_packet(PppFrame *arg0) {
             (*(s16 *)((s8 *)G + 0x140))++;
             return;
         }
-        if (TLobby__sub_804040E0(*(void **)((s8 *)(*(u8 **)((s8 *)G + 0x9C)) + 0x98), &arg0) <= 0) {
+        if (TLobby__sub_804040E0(((IpcpConfig *)((PppProtoBlocks *)G)->ipcp.opts)->net_list, &arg0) <= 0) {
             (*(s16 *)((s8 *)G + 0x140))++;
             return;
         }
@@ -591,7 +588,7 @@ void ppp_input_packet(PppFrame *arg0) {
             (*(s16 *)((s8 *)G + 0x140))++;
             return;
         }
-        if (TLobby__sub_80403F4C(*(void **)((s8 *)(*(u8 **)((s8 *)G + 0x9C)) + 0x98), &arg0) <= 0) {
+        if (TLobby__sub_80403F4C(((IpcpConfig *)((PppProtoBlocks *)G)->ipcp.opts)->net_list, &arg0) <= 0) {
             (*(s16 *)((s8 *)G + 0x140))++;
             return;
         }
@@ -599,29 +596,29 @@ void ppp_input_packet(PppFrame *arg0) {
         return;
     case 0xC021:
         (*(s16 *)((s8 *)G + 0x130))++;
-        TLobby__sub_803FDBF8(G + 4, arg0);
+        TLobby__sub_803FDBF8(&((PppProtoBlocks *)G)->lcp, arg0);
         return;
     case 0xC023:
         if (G[0] != 2 && G[0] != 3) {
             (*(s16 *)((s8 *)G + 0x140))++;
             if (G[0] == 0) {
-                setup_auth_after_lcp_negotiation((PppFsm *)(G + 4));
+                setup_auth_after_lcp_negotiation(&((PppProtoBlocks *)G)->lcp);
             }
             return;
         }
         (*(s16 *)((s8 *)G + 0x132))++;
-        pap_input((PppFsm *)(G + 0x38), arg0);
+        pap_input(&((PppProtoBlocks *)G)->pap, arg0);
         return;
     case 0xC223:
         if (G[0] != 2 && G[0] != 3) {
             (*(s16 *)((s8 *)G + 0x140))++;
             if (G[0] == 0) {
-                setup_auth_after_lcp_negotiation((PppFsm *)(G + 4));
+                setup_auth_after_lcp_negotiation(&((PppProtoBlocks *)G)->lcp);
             }
             return;
         }
         (*(s16 *)((s8 *)G + 0x136))++;
-        chap_input((void *)(G + 0xA0), (saddr)arg0);
+        chap_input(&((PppProtoBlocks *)G)->chap, arg0);
         return;
     case 0x8021:
         if (G[0] != 3) {
@@ -629,7 +626,7 @@ void ppp_input_packet(PppFrame *arg0) {
             return;
         }
         (*(s16 *)((s8 *)G + 0x134))++;
-        TLobby__sub_803FDBF8(G + 0x6C, arg0);
+        TLobby__sub_803FDBF8(&((PppProtoBlocks *)G)->ipcp, arg0);
         return;
     case 0x8057:
         if (G[0] != 3) {
@@ -640,7 +637,7 @@ void ppp_input_packet(PppFrame *arg0) {
             FWD_80405A74()
         }
         (*(s16 *)((s8 *)G + 0x138))++;
-        TLobby__sub_803FDBF8(G + 0xD4, arg0);
+        TLobby__sub_803FDBF8(&((PppProtoBlocks *)G)->ipv6cp, arg0);
         return;
     default:
         FWD_80405A74()
@@ -694,31 +691,32 @@ void TLobby__sub_803F9FAC(u8 *ctx);
 s32 TLobby__sub_804061FC(void)
 {
   u8 *p;
-  saddr z;
+  s32 z;
   u8 *new_var;
   u8 *q;
   z = 0;
   ppp_rx_read_ptr = (u8 *) z;
-  p = ppp_proto_blocks;
+  /* CodeWarrior keeps the original register order when using the first member. */
+  p = &ppp_proto_blocks.busy;
   q = p;
   new_var = q;
-  NetMemset(q, 0, 0x144);
+  NetMemset((PppProtoBlocks *)q, 0, 0x144);
   p[0] = z;
-  init_lcp_protocol(new_var);
-  pap_init(new_var);
-  TLobby__sub_803FC318(new_var);
-  TLobby__sub_803FEF4C(new_var);
-  TLobby__sub_803F9FAC(new_var);
+  init_lcp_protocol((u8 *)(PppProtoBlocks *)new_var);
+  pap_init((u8 *)(PppProtoBlocks *)new_var);
+  TLobby__sub_803FC318((u8 *)(PppProtoBlocks *)new_var);
+  TLobby__sub_803FEF4C((u8 *)(PppProtoBlocks *)new_var);
+  TLobby__sub_803F9FAC((u8 *)(PppProtoBlocks *)new_var);
   if (p[0] == 0)
   {
     p[0] = 1;
   }
-  TLobby__sub_803FD958(p + 4);
+  TLobby__sub_803FD958((u8 *)&((PppProtoBlocks *)p)->lcp);
   return 0;
 }
 
 s32 TLobby__sub_804062A0(s16 arg0) {
-    Lobby_804062A0 *l = (Lobby_804062A0 *)ppp_proto_blocks;
+    Lobby_804062A0 *l = (Lobby_804062A0 *)&ppp_proto_blocks;
 
     switch (arg0) {
     case 0x82:
@@ -736,19 +734,18 @@ s32 TLobby__sub_804062A0(s16 arg0) {
     }
 }
 
-s32 TLobby__sub_804048E8(void *, saddr *, s16); /* declared here with other parameter types; the definition is s32 (Obj_80403F4C *, PppFrame **, s16) */
 s16 ppp_output_frame(PppFrame *);
 s16 TLobby__sub_80406328(saddr self, s16 type) {
-    saddr sv = self;
-    void *me = (void *)self;
+    PppFrame *sv = (PppFrame *)self;
+    PppFrame *me = (PppFrame *)self;
     s32 ty = type;
     u8 *G;
-    u8 *t;
+    PppFrame *t;
     u8 *p;
     s16 tag = 0x21;
     u8 pad[0x30];
     if (ty == -0x7923) {
-        G = ppp_proto_blocks;
+        G = (u8 *)&ppp_proto_blocks;
         if (G[0xd4] != 5) {
             (*(s16 *)(G + 0x122))++;
             return -1;
@@ -758,7 +755,7 @@ s16 TLobby__sub_80406328(saddr self, s16 type) {
             return -1;
         }
         t = alloc_from_buffer(me, 4);
-        p = *(u8 **)t;
+        p = t->data;
         *p++ = 0xFF;
         *p++ = 3;
         write_network_u16_be(p, 0x57);
@@ -766,9 +763,9 @@ s16 TLobby__sub_80406328(saddr self, s16 type) {
             (*(s16 *)(G + 0x124))++;
             return -1;
         }
-        return ppp_output_frame((PppFrame *)t);
+        return ppp_output_frame(t);
     }
-    G = ppp_proto_blocks;
+    G = (u8 *)&ppp_proto_blocks;
     if (G[0x6c] != 5) {
         (*(s16 *)(G + 0x122))++;
         return -1;
@@ -779,7 +776,7 @@ s16 TLobby__sub_80406328(saddr self, s16 type) {
             return -1;
         }
         t = alloc_from_buffer(me, 4);
-        p = *(u8 **)t;
+        p = t->data;
         *p++ = 0xFF;
         *p++ = 3;
         write_network_u16_be(p, 0x57);
@@ -787,14 +784,14 @@ s16 TLobby__sub_80406328(saddr self, s16 type) {
             (*(s16 *)(G + 0x124))++;
             return -1;
         }
-        return ppp_output_frame((PppFrame *)t);
+        return ppp_output_frame(t);
     }
     {
-        u8 *e = *(u8 **)(G + 0x9c);
+        IpcpConfig *e = ((PppProtoBlocks *)G)->ipcp.opts;
         if (lbl_805D7A90 & 2) {
             s16 r;
-            if (!(*(s16 *)(e + 0x28) & 4)) goto skip;
-            r = TLobby__sub_804048E8(*(void **)(e + 0x98), &sv, e[0x84]);
+            if (!(e->local.got.flags & 4)) goto skip;
+            r = TLobby__sub_804048E8(e->net_list, &sv, e->peer.got.vj_comp_slot);
             switch (r) {
             case 0x40: tag = 0x21; break;
             case 0x80: tag = 0x2d; break;
@@ -805,8 +802,8 @@ s16 TLobby__sub_80406328(saddr self, s16 type) {
             }
         } else {
             s16 r;
-            if (!(*(s16 *)(e + 0x74) & 4)) goto skip;
-            r = TLobby__sub_804048E8(*(void **)(e + 0x98), &sv, e[0x84]);
+            if (!(e->peer.got.flags & 4)) goto skip;
+            r = TLobby__sub_804048E8(e->net_list, &sv, e->peer.got.vj_comp_slot);
             switch (r) {
             case 0x40: tag = 0x21; break;
             case 0x80: tag = 0x2d; break;
@@ -819,16 +816,16 @@ s16 TLobby__sub_80406328(saddr self, s16 type) {
     }
 skip:
     {
-        void *a = (void *)sv;
-        G = ppp_proto_blocks;
+        PppFrame *a = sv;
+        G = (u8 *)&ppp_proto_blocks;
         if (G[0] == 0) {
             (*(s16 *)(G + 0x122))++;
             return -1;
         }
         {
             s16 tg = tag;
-            u8 *t2 = alloc_from_buffer(a, 4);
-            p = *(u8 **)t2;
+            PppFrame *t2 = alloc_from_buffer(a, 4);
+            p = t2->data;
             *p++ = 0xFF;
             *p++ = 3;
             write_network_u16_be(p, tg);
@@ -836,34 +833,34 @@ skip:
                 (*(s16 *)(G + 0x124))++;
                 return -1;
             }
-            return ppp_output_frame((PppFrame *)t2);
+            return ppp_output_frame(t2);
         }
     }
 }
 
-s16 TLobby__sub_80406624(s32 a, s32 b, u16 code, void *self) {
+s16 TLobby__sub_80406624(s32 a, s32 b, u16 code, PppFrame *self) {
     s32 pad[4];
     u16 r30;
-    u8 *r29;
+    PppFrame *r29;
     u8 *p;
-    u8 *ret;
+    PppFrame *ret;
 
-    if (ppp_proto_blocks[0] == 0) {
-        *(s16 *)(ppp_proto_blocks + 0x122) = *(s16 *)(ppp_proto_blocks + 0x122) + 1;
+    if (ppp_proto_blocks.busy == 0) {
+        *(s16 *)((u8 *)&ppp_proto_blocks + 0x122) = *(s16 *)((u8 *)&ppp_proto_blocks + 0x122) + 1;
         return -1;
     }
     r30 = code;
     r29 = alloc_from_buffer(self, 4);
-    p = *(u8 **)r29;
+    p = r29->data;
     *p++ = 0xff;
     *p++ = 3;
     write_network_u16_be(p, r30);
     ret = r29;
     if (r29 == 0) {
-        *(s16 *)(ppp_proto_blocks + 0x124) = *(s16 *)(ppp_proto_blocks + 0x124) + 1;
+        *(s16 *)((u8 *)&ppp_proto_blocks + 0x124) = *(s16 *)((u8 *)&ppp_proto_blocks + 0x124) + 1;
         return -1;
     }
-    return ppp_output_frame((PppFrame *)ret);
+    return ppp_output_frame(ret);
 }
 
 /* 1 while the address and control fields (LCP_OPT_ACFC) or the high protocol byte (LCP_OPT_PFC) must be sent:
@@ -910,9 +907,9 @@ s16 ppp_output_frame(PppFrame *p) {
     s32 skip;
     s32 acfc;
 
-    ppp = ppp_proto_blocks;
+    ppp = (u8 *)&ppp_proto_blocks;
     opts = *(LcpOpts **)(ppp + 0x34);
-    *(s32 *)(ppp + 0x110) += get_field_4(p) + 2;
+    *(s32 *)(ppp + 0x110) += (u16)get_field_4(p) + 2;
     if (p == NULL || p->len < 4) {
         *(s16 *)(ppp + 0x122) += 1;
         return -1;
@@ -1057,7 +1054,7 @@ u16 packet_ones_complement_sum(NetPacket *pkt, s16 flag)
         e = pkt->fragments + count - 1;
         while (count != 0) {
             u8 kind = e->buffer.kind;
-            uaddr *w = &e->buffer.value;
+            u32 *w = &e->buffer.value;
             s16 len;
             e--;
             count--;
@@ -1078,7 +1075,7 @@ u16 packet_ones_complement_sum(NetPacket *pkt, s16 flag)
                 ent = ent + k;
                 seg = ent->segs[(s16)((len = word >> 16) & 0xff)].offset;
                 {
-                    uaddr t = (uaddr)ent->buf;
+                    u32 t = (u32)ent->buf;
                     t = (word & 0xffff) + t;
                     t = seg + t;
                     ptr = (u8 *)t;
@@ -1113,7 +1110,7 @@ u16 packet_ones_complement_sum(NetPacket *pkt, s16 flag)
     } else {
         e = pkt->fragments;
         for (i = 1; i < count; e++, i++) {
-            uaddr *w = &e[1].buffer.value;
+            u32 *w = &e[1].buffer.value;
             s16 len;
             switch (e[1].buffer.kind) {
             case 1:
@@ -1131,7 +1128,7 @@ u16 packet_ones_complement_sum(NetPacket *pkt, s16 flag)
                 ent = network_buffer_pool_state.ents;
                 ent = ent + k;
                 {
-                    uaddr t = (uaddr)ent->buf;
+                    u32 t = (u32)ent->buf;
                     seg = ent->segs[(s16)((len = word >> 16) & 0xff)].offset;
                     t = (word & 0xffff) + t;
                     t = seg + t;
@@ -1191,7 +1188,7 @@ void netbuf_ref_advance(NetBufferRef *ref, s32 n) {
 
 u8 *netbuf_ref_data(void *self)
 {
-    uaddr w;
+    u32 w;
     s16 k;
     s16 j;
     u8 *rec;
@@ -1253,7 +1250,7 @@ void netbuf_copy_by_ref(void *a, void *b, s32 v) {
         u32 hi;
         u8 *rec;
         u8 *ent;
-        uaddr t;
+        u32 t;
         if (network_buffer_pool_state.count < id) {
             return;
         }
@@ -1280,7 +1277,7 @@ void netbuf_copy_by_ref(void *a, void *b, s32 v) {
         u32 hi;
         u8 *rec;
         u8 *ent;
-        uaddr t;
+        u32 t;
         if (network_buffer_pool_state.count < id) {
             return;
         }
@@ -1301,11 +1298,11 @@ void netbuf_copy_by_ref(void *a, void *b, s32 v) {
         NetBufferPoolEntry *ents;
         u32 hi;
         u8 *ent;
-        uaddr t;
+        u32 t;
         s16 id2;
         u32 raw;
         u8 *rec;
-        uaddr t2;
+        u32 t2;
         if (cnt < id) {
             return;
         }
@@ -1334,7 +1331,7 @@ void netbuf_copy_by_ref(void *a, void *b, s32 v) {
         u32 hi;
         u8 *rec;
         u8 *ent;
-        uaddr t;
+        u32 t;
         if (network_buffer_pool_state.count < id) {
             return;
         }
@@ -1361,7 +1358,7 @@ void netbuf_copy_by_ref(void *a, void *b, s32 v) {
         u32 hi;
         u8 *rec;
         u8 *ent;
-        uaddr t;
+        u32 t;
         if (network_buffer_pool_state.count < id) {
             return;
         }

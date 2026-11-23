@@ -43,20 +43,27 @@ s32 cancel_pending_alarms(void) {
 s16 TLobby__sub_803F8E9C(void)
 {
   s32 i;
+  /* These retained locals preserve the retail stack frame. */
   s32 off;
   s32 cnt;
-  u8 *new_var4;
+  NetworkMutexSlot *first_mutex;
   s32 zero;
-  u8 *new_var3;
-  NetworkAlarmSlot *s;
-  s32 *q;
-  s32 *new_var;
-  s32 *new_var2;
+  uaddr message_queue_base;
+  NetworkAlarmSlot *alarm;
+  NetworkMutexSlot *mutex;
+  NetworkMutexSlot *third_mutex;
+  NetworkMutexSlot *fourth_mutex;
   NetworkThreadSlot *slot;
-  u8 *tbl;
-  tbl = (u8 *) lobby_alarm_slot_table;
-  new_var3 = tbl;
-  new_var3 = new_var3 + 0x1700;
+  NetworkMessageQueueSlot *message_queue;
+  u8 *alarm_base;
+  enum {
+    MUTEX_SLOTS_OFFSET = sizeof(lobby_alarm_slot_table),
+    MESSAGE_QUEUE_SLOTS_OFFSET = MUTEX_SLOTS_OFFSET + sizeof(network_mutex_slot_table)
+  };
+  alarm_base = (u8 *) lobby_alarm_slot_table;
+  /* These three tables occupy consecutive BSS ranges. Retail addresses them from the alarm table base. */
+  message_queue_base = (uaddr)alarm_base;
+  message_queue_base = message_queue_base + MESSAGE_QUEUE_SLOTS_OFFSET;
   if ((lobby_thread_pool_base == 0) || (lobby_buffer_slots == 0))
   {
     return -1;
@@ -70,42 +77,44 @@ s16 TLobby__sub_803F8E9C(void)
 
   for (i = 0; i < 0x40; i++)
   {
-    ((NetworkAlarmSlot *) tbl)[i].active = 0;
-    OSInitMessageQueue((void *) (((u8 *) (&((NetworkAlarmSlot *) tbl)[i])) + 0x30), (void *) (((u8 *) (&((NetworkAlarmSlot *) tbl)[i])) + 0x50), 1);
+    alarm = &((NetworkAlarmSlot *)alarm_base)[i];
+    alarm->active = 0;
+    OSInitMessageQueue(&alarm->queue, &alarm->message, 1);
   }
 
-  q = (s32 *) network_mutex_slot_table;
-  ((s32 *) (new_var4 = (u8 *) network_mutex_slot_table))[0] = 0;
-  ((s32 *) network_mutex_slot_table)[1] = (saddr)(q + 2);
-  q = (s32 *)(tbl + 0x1620);
-  q[0] = 0;
-  new_var = (s32 *)(tbl + 0x1640);
-  q[1] = (saddr)(q + 2);
-  q = new_var;
-  new_var2 = (s32 *)(tbl + 0x1660);
-  q[0] = 0;
-  q[1] = (saddr)(q + 2);
-  q = new_var2;
-  q[0] = 0;
-  q[1] = (saddr)(q + 2);
-  q = (s32 *)(tbl + 0x1680);
-  q[0] = 0;
-  q[(((1 & 0xFFFF) & 0xFFFF) & 0xFFFF) & 0xFFFF] = (saddr)(q + 2);
-  q = (s32 *)(tbl + 0x16a0);
-  q[0] = 0;
-  q[1] = (saddr)(q + 2);
-  q = (s32 *)(tbl + 0x16c0);
-  q[0] = 0;
-  q[1] = (saddr)(q + 2);
-  q = (s32 *)(tbl + 0x16e0);
-  q[0] = 0;
-  q[1] = (saddr)(q + 2);
-  q = (s32 *) new_var3;
-  q[0] = 0;
-  q[1] = (saddr)(q + 2);
-  q = (s32 *)(tbl + 0x1aa8);
-  q[0] = 0;
-  q[1] = (saddr)(q + 2);
+  mutex = (NetworkMutexSlot *) network_mutex_slot_table;
+  /* Keep the first table address assignment in the store to preserve register allocation. */
+  (first_mutex = network_mutex_slot_table)->active = 0;
+  network_mutex_slot_table[0].handle = (uaddr)&mutex->mutex;
+  mutex = (NetworkMutexSlot *)((uaddr)alarm_base + (MUTEX_SLOTS_OFFSET + sizeof(NetworkMutexSlot)));
+  mutex->active = 0;
+  third_mutex = (NetworkMutexSlot *)((uaddr)alarm_base + (MUTEX_SLOTS_OFFSET + 2 * sizeof(NetworkMutexSlot)));
+  mutex->handle = (uaddr)&mutex->mutex;
+  mutex = third_mutex;
+  fourth_mutex = (NetworkMutexSlot *)((uaddr)alarm_base + (MUTEX_SLOTS_OFFSET + 3 * sizeof(NetworkMutexSlot)));
+  mutex->active = 0;
+  mutex->handle = (uaddr)&mutex->mutex;
+  mutex = fourth_mutex;
+  mutex->active = 0;
+  mutex->handle = (uaddr)&mutex->mutex;
+  mutex = (NetworkMutexSlot *)((uaddr)alarm_base + (MUTEX_SLOTS_OFFSET + 4 * sizeof(NetworkMutexSlot)));
+  mutex->active = 0;
+  mutex->handle = (uaddr)&mutex->mutex;
+  mutex = (NetworkMutexSlot *)((uaddr)alarm_base + (MUTEX_SLOTS_OFFSET + 5 * sizeof(NetworkMutexSlot)));
+  mutex->active = 0;
+  mutex->handle = (uaddr)&mutex->mutex;
+  mutex = (NetworkMutexSlot *)((uaddr)alarm_base + (MUTEX_SLOTS_OFFSET + 6 * sizeof(NetworkMutexSlot)));
+  mutex->active = 0;
+  mutex->handle = (uaddr)&mutex->mutex;
+  mutex = (NetworkMutexSlot *)((uaddr)alarm_base + (MUTEX_SLOTS_OFFSET + 7 * sizeof(NetworkMutexSlot)));
+  mutex->active = 0;
+  mutex->handle = (uaddr)&mutex->mutex;
+  message_queue = (NetworkMessageQueueSlot *)message_queue_base;
+  message_queue->active = 0;
+  message_queue->handle = (uaddr)&message_queue->queue;
+  message_queue = (NetworkMessageQueueSlot *)((uaddr)alarm_base + (MESSAGE_QUEUE_SLOTS_OFFSET + sizeof(NetworkMessageQueueSlot)));
+  message_queue->active = 0;
+  message_queue->handle = (uaddr)&message_queue->queue;
   for (i = 0; i < lobby_buffer_slot_count; i++)
   {
     lobby_buffer_slots[i].active = 0;
@@ -219,7 +228,7 @@ NetworkMessageQueueSlot network_message_queue_slot_table[2];
 #pragma push
 #pragma optimize_for_size off
 #pragma use_lmw_stmw off
-s32 TLobby__sub_803F94F0(s32 *out) {
+s16 TLobby__sub_803F94F0(s32 *out) {
     NetworkMessageQueueSlot *s;
     s32 i;
     s32 off;
@@ -254,7 +263,7 @@ void NetReleaseMutex(u32 handle) {
     if (index < 8) network_mutex_slot_table[index].active = 0;
 }
 
-s32 TLobby__sub_803F96AC(s32 *out) {
+s16 TLobby__sub_803F96AC(s32 *out) {
     NetworkMutexSlot *m;
     s32 i;
     s32 off;
