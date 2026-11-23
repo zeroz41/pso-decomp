@@ -19,7 +19,7 @@ public:
     static void set_default_camera();
     static void set_mode_change_state();
     static void set_change_mode_flags();
-    static void apply_bgm_col_ctrl(saddr arg0);
+    static void apply_bgm_col_ctrl(const char *name);
     void set_state_0x1a();
     static void reset_and_set_mode();
     static void set_mode_18();

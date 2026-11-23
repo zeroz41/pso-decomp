@@ -369,7 +369,7 @@ TTitleScene::TTitleScene(TObject *parent) : TObject(parent) {
     if (transition_controller != NULL) {
         transition_controller->suspend_update();
     }
-    TAdMultiChgGameModeGC::apply_bgm_col_ctrl((saddr)"title.adx");
+    TAdMultiChgGameModeGC::apply_bgm_col_ctrl("title.adx");
     {
         Cam_80336520 cam;
         cam.f8 = 320.0f;
