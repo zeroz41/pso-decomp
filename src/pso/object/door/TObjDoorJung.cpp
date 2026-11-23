@@ -47,9 +47,6 @@ struct Jung_8018F808 { u8 pad0[0xC8]; s32 fC8; u8 padCC[4]; u32 fD0; s32 fD4; };
 
 extern "C" {
 s32 init_collision_body_parts(void *, void *, int);
-void *__ct__10TODoorBaseFP7TObject(void *a0);
-extern s32 __vt__12TObjDoorJung[];
-u8 *TObjDoorJung__ct(u8 *arg0, s32 arg1, saddr arg2);
 /* Ninja object node of the door model: model pointer, transform, then child and sibling links. */
 struct Node_8018F4AC {
     u32 eval_flags;
@@ -206,16 +203,13 @@ TObjDoorJung::~TObjDoorJung() {
     free_collision_body_parts(this);
 }
 
-u8 *TObjDoorJung__ct(u8 *arg0, s32 arg1, saddr set_data) {
-    __ct__10TODoorBaseFP7TObject((arg0));
-    *(s32 **)((s8 *)arg0 + 0x18) = __vt__12TObjDoorJung;
-    ((TObjDoorJung *)arg0)->m_name = TObjDoorJung__class_name;
-    ((TObjDoorJung *)(arg0))->apply_object_set_data((void *)set_data);
-    init_collision_body_parts(arg0, &TObjDoorJung__collision_desc, 1);
-    ((TObjCollidable *)arg0)->refresh_collision_body_centers();
-    ((TObjPlayer *)arg0)->register_object_by_id();
-    ((TObjDoorJung *)(arg0))->init_door_switch_binding();
-    ((TObjDoorJung *)arg0)->clamp_state();
-    return arg0;
+TObjDoorJung::TObjDoorJung(TObject *parent, void *set_data) : TODoorBase(parent) {
+    this->m_name = TObjDoorJung__class_name;
+    apply_object_set_data(set_data);
+    init_collision_body_parts(this, &TObjDoorJung__collision_desc, 1);
+    refresh_collision_body_centers();
+    register_object_by_id();
+    init_door_switch_binding();
+    clamp_state();
 }
 

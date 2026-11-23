@@ -3,6 +3,7 @@
 #include "types.h"
 #include "pso/object/base/TObjMotion.h"
 struct TObjDoor : public TObjCollidable {
+    TObjDoor(TObject *parent, void *set_data);
     virtual ~TObjDoor();
     virtual void render();
     virtual void run_task();
@@ -18,7 +19,21 @@ struct TObjDoor : public TObjCollidable {
     s32 switchId;
     s32 label;
     static void reset_instance();
-    s32 is_visible(f32 farg0, f32 farg1);
+    s32 is_visible(f32 far_dist, f32 near_dist);
+    // render's draw per state (0 locked .. 5 open).
+    void draw_locked();
+    void update_timer();
+    void draw_closed();
+    void draw_closing();
+    void fn_8018E40C();
+    void draw_model();
+    // run_task's update per state.
+    void update_locked_pulse();
+    void update_anim();
+    void draw_closed_glow();
+    void fn_8018E8BC();
+    void update_opening_glow();
+    void fn_8018E890();
     void update_state();
     static void free_resources();
     static void load_resources();

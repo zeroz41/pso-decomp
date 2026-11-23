@@ -955,7 +955,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/object/TObjDoaEx01.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # -sdata 4: the 8-byte TObjDoor__motion_table 0x8050DC78 sits in .bss, not .sbss, while the
     # unit's 4-byte objects stay in .sdata/.sbss.
-    "pso/object/door/TObjDoor_8018E358.cpp": {"cflags": _switch(cflags_pso, "-sdata 4", "-str reuse,readonly")},
+    "pso/object/door/TObjDoor_8018E358.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-sdata 4", "-str reuse,readonly")},
     # TObjGoalWarpAncient's methods lead .text but its vtable follows TObjMapWarpAncient's in .data and the
     # literals run in .text order: deferred codegen of a last-to-first source, as TObjLaboMapWarp.
     "pso/object/warp/TObjMapWarpAncient.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-inline off,deferred")},

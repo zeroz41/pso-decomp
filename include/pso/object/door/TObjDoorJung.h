@@ -5,6 +5,7 @@
 #include "pso/object/door/TODoorBase.h"
 
 struct TObjDoorJung : public TODoorBase {
+    TObjDoorJung(TObject *parent, void *set_data);
     virtual ~TObjDoorJung();
     void clamp_state();
     virtual void update_door_switch_state();

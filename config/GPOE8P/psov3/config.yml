@@ -1033,11 +1033,11 @@ force_active:
   - TObjDoorKey__collision_body_parts
   - TObjDoorKey__resource_descriptor
   - TObjDoor__collision_desc
-  - TObjDoor__ct
+  - __ct__8TObjDoorFP7TObjectPv
   - TObjDoor__label_color_table
   - TObjDoor__resource_param
-  - TObjDoor__sub_8018E890
-  - TObjDoor__sub_8018E8BC
+  - fn_8018E890__8TObjDoorFv
+  - fn_8018E8BC__8TObjDoorFv
   - __ct__17TObjEZBoneRotBaseFP7TObjectPvP13EZBoneRotDesc
   - TObjEZRopeBase__name
   - TObjEneBalClawClaw__collision_body_template
@@ -5808,9 +5808,9 @@ force_active:
   - draw_bottom_bar__20TWindowSubStatusDispFv
   - capture_node__24ModelNodePositionCaptureFP10NJS_OBJECT
   - draw_class_illustration__17TChCrTagPlGraphicFv
-  - draw_closed__8TObjDoorFPv
-  - draw_closed_glow__8TObjDoorFPv
-  - draw_closing__8TObjDoorFPv
+  - draw_closed__8TObjDoorFv
+  - draw_closed_glow__8TObjDoorFv
+  - draw_closing__8TObjDoorFv
   - draw_color_palette__24TWindowSubSymbolChatHelpFPv
   - draw_color_quad_2d__FPvPvi
   - draw_current_pic__10TEndingPicFv
@@ -5855,7 +5855,7 @@ force_active:
   - draw_line_task_name
   - draw_line_task_resource
   - draw_line_task_resource_path
-  - draw_locked__8TObjDoorFPv
+  - draw_locked__8TObjDoorFv
   - draw_menu_backdrop_gradients__Fl
   - draw_message_frame_row__11TWindowBaseFPvPv
   - draw_message_window__11TAdEp3ExistFPvPv
@@ -5869,7 +5869,7 @@ force_active:
   - draw_model__16TObjEneMe3StelthFv
   - enable_at__20TBoss5GryphonColli_CFP3Vecl
   - draw_model__18TObjLazerFenceNormFv
-  - draw_model__8TObjDoorFPv
+  - draw_model__8TObjDoorFv
   - draw_model_and_lights__20TODoorFourLightRuinsFPv
   - draw_model_motion_blend__9TBoss6MagFv
   - draw_model_node_tree__FP10NJS_OBJECT
@@ -7610,7 +7610,6 @@ force_active:
   - lbl_80444250
   - lbl_80444E5C
   - lbl_80444EA8
-  - lbl_80445588
   - lbl_80445CD8
   - lbl_80446F94
   - lbl_80446F9C
@@ -14467,7 +14466,7 @@ force_active:
   - render__8TOKeyColFv
   - render__8TOKurageFv
   - render__8TOSensorFv
-  - render__8TObjDoorFPv
+  - fn_8018E40C__8TObjDoorFv
   - render__8TObjDoorFv
   - render__8TObjRainFv
   - render__8TObjTankFv
@@ -16661,7 +16660,7 @@ force_active:
   - update_and_send_lobby__9TWindowDDFv
   - update_angle__13TObjEneMe1GeeFv
   - update_angle__17TObjEneMe1CanadinFv
-  - update_anim__8TObjDoorFPv
+  - update_anim__8TObjDoorFv
   - update_upper_hover_height__13TObjEneMe1GeeFv
   - update_appear__11TBoss4Type3Fv
   - update_appearance_drop__11TObjEneMojaFv
@@ -17016,7 +17015,7 @@ force_active:
   - update_load_status__12TQuestListVMFv
   - update_lobby_pigeon_visibility__15TObjLobbyPigeonFv
   - update_lobby_selection__12TQuestListVMFv
-  - update_locked_pulse__8TObjDoorFPv
+  - update_locked_pulse__8TObjDoorFv
   - update_long_action__8TItemMagFv
   - update_lower_contact_delta__11TBoss6Type2Fv
   - update_lunge__14TObjEneBm5WolfFl
@@ -17074,7 +17073,7 @@ force_active:
   - update_opening__13TOHealGeneralFv
   - update_opening__15TODoorVS2Door01Fv
   - update_opening__17TOBarrierEnergy01Fv
-  - update_opening_glow__8TObjDoorFPv
+  - update_opening_glow__8TObjDoorFv
   - update_or_dispatch__14TBoss7DeRolLeCFv
   - update_orbit_position__16TBoss3VoloptCoreFv
   - update_orbit_state__16TBoss3VoloptCoreFv
@@ -17316,7 +17315,7 @@ force_active:
   - update_timed_wait__6TLobbyFPv
   - update_timer__11TBoss6Type1Fv
   - update_timer__5TItemFv
-  - update_timer__8TObjDoorFPv
+  - update_timer__8TObjDoorFv
   - update_timer_state__11TBoss6Type1Fv
   - update_timer_transition__11TBoss6Type1Fv
   - update_title_prompt__19TAdTrialAgreementGCFv
