@@ -6,6 +6,9 @@
 #include <dolphin/os/OSContext.h>
 #include <dolphin/os/OSThread.h>
 
+typedef void (*KeyboardCallback)(s32 chan, s32 err);
+typedef void (*KeyboardTypeCallback)(s32 chan);
+
 struct KeyboardChannelState {
     u8 type;
     u8 layout;
@@ -14,7 +17,7 @@ struct KeyboardChannelState {
     u8 in[9];
     u32 out_bytes;
     u32 in_bytes;
-    void (*callback)(s32 chan, s32 err);
+    KeyboardCallback callback;
     s32 err;
     OSThreadQueue queue;
     union {
@@ -24,7 +27,7 @@ struct KeyboardChannelState {
             s32 lo;
         } delay_words;
     };
-    void (*type_callback)(s32 chan);
+    KeyboardTypeCallback type_callback;
     u8 prev[4];
     u8 cur[4];
     u8 key_queue[32];
@@ -46,8 +49,8 @@ extern "C" {
 extern s32 TKeyBoardControl__polling_channel_mask;
 s32 __OSReschedule(void);
 
-void noop_keyboard_callback(void);
-s32 reset_keyboard_port(s32 chan, void *callback);
+void noop_keyboard_callback(s32 chan, s32 err);
+s32 reset_keyboard_port(s32 chan, KeyboardCallback callback);
 void on_keyboard_type_event(s32 chan, u32 type);
 u8 get_keyboard_port_layout(s32 chan);
 }

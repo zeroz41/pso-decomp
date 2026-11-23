@@ -8,7 +8,7 @@
 void TWindowKeyBoardBase::reset_input() {
     m_text.reset_state();
     m_text2.reset_state();
-    m_68 = &m_text;
+    active_text = &m_text;
     m_60 = 0;
     current_candidate = NULL;
     last_candidate = NULL;

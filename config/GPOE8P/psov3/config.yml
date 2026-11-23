@@ -16042,7 +16042,7 @@ force_active:
   - capture_symbol_chat__18TSymbolChatCaptureFUsl
   - start_fade__9TAdFadeGCFPv
   - start_gba_joyboot__6TLobbyFv
-  - start_get_type_async__16TKeyBoardControlFllll
+  - start_get_type_async__16TKeyBoardControlFlllPFl_v
   - start_handle_6x78_entry__FUs
   - start_hp_text_color_transition__20TWindowSubStatusDispFv
   - start_invincibility__8TItemMagFv

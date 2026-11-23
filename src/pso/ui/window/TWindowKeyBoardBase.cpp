@@ -85,7 +85,7 @@ void TWindowKeyBoardBase::init_keyboard_text_field(u32 width, u32 lines) {
     this->frame_size[0] = (f32) this->target_size[0];
     this->frame_size[1] = (f32) this->target_size[1];
     m_text.init(width, lines);
-    m_68 = &m_text;
+    active_text = &m_text;
     this->m_60 = 0;
 }
 
@@ -940,7 +940,7 @@ TWindowKeyBoardBase::TWindowKeyBoardBase() : TWindowBase((u8 *)&TWindowKeyBoardB
     temp_r31 = current_language;
     ((TWindowKeyBoardBase *)self)->init_keyboard_text_field(0, 0);
     m_text2.init(0, 0);
-    m_68 = &m_text;
+    active_text = &m_text;
     *(s32 *)&((TWindowKeyBoardBase *)self)->m_b4 = 0;
     *(s16 *)&((TWindowKeyBoardBase *)self)->m_62 = 0;
     *(s8 *)&((TWindowKeyBoardBase *)self)->m_65 = -1;

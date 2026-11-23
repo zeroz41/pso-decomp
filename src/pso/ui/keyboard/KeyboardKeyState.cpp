@@ -19,39 +19,15 @@
 
 KeyboardKeyState hardware_keyboard_state;
 
-void TKeyBoardControl__sub_80131F5C(void) {
-}
-
-void TKeyBoardControl__sub_80131F60(void) {
-}
-
-void TWindowKeyBoardHard::set_flag60_bit200() {
-    m_60 |= 0x200;
-}
-
-void TWindowKeyBoardHard::clear_flag60_bit200() {
-    m_60 &= 0xfffffdff;
-}
-
-int TWindowKeyBoardHard::is_key_held() {
-    return (m_60 >> 8) & 0x1;
-}
-
-void TWindowKeyBoardBase::set_flag62_bit2() {
-    m_62 |= 0x2;
-}
-
-int TWindowKeyBoardBase::is_cancelled() {
-    return (m_60 >> 5) & 0x1;
-}
-
-int TWindowKeyBoardBase::is_confirmed() {
-    return m_60 & 0x1;
-}
-
-void TWindowKeyBoardBase::set_flag62_bit8() {
-    m_62 |= 0x8;
-}
+void TKeyBoardControl__sub_80131F5C(void) {  }
+void TKeyBoardControl__sub_80131F60(void) {  }
+void TWindowKeyBoardHard::set_flag60_bit200() { m_60 |= 0x200; }
+void TWindowKeyBoardHard::clear_flag60_bit200() { m_60 &= 0xfffffdff; }
+int TWindowKeyBoardHard::is_key_held() { return (m_60 >> 8) & 0x1; }
+void TWindowKeyBoardBase::set_flag62_bit2() { m_62 |= 0x2; }
+int TWindowKeyBoardBase::is_cancelled() { return (m_60 >> 5) & 0x1; }
+int TWindowKeyBoardBase::is_confirmed() { return m_60 & 0x1; }
+void TWindowKeyBoardBase::set_flag62_bit8() { m_62 |= 0x8; }
 
 s32 KeyboardKeyState::append_char(s8 port_index) {
     s32 err;

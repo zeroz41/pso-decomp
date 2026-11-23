@@ -101,15 +101,15 @@ void TKeyBoardControl::detect_device_type(s32 chan) {
     }
 }
 
-void noop_keyboard_callback(void) {
+void noop_keyboard_callback(s32 chan, s32 err) {
 }
 
-s32 reset_keyboard_port(s32 chan, void *callback) {
+s32 reset_keyboard_port(s32 chan, KeyboardCallback callback) {
     KeyboardChannelState *state = &keyboard_pad_state_table[chan];
-    void (*cb)(s32, s32);
+    KeyboardCallback cb;
     s32 ret;
     s32 lvl;
-    cb = callback != NULL ? (void (*)(s32, s32))callback : (void (*)(s32, s32))noop_keyboard_callback;
+    cb = callback != NULL ? callback : noop_keyboard_callback;
     lvl = OSDisableInterrupts();
     if (state->callback != NULL) {
         ret = -2;
@@ -122,7 +122,7 @@ s32 reset_keyboard_port(s32 chan, void *callback) {
         return ret;
     }
     state->out[0] = 0xFF;
-    return TKeyBoardControl::start_get_type_async(chan, 1, 3, (saddr)TKeyBoardControl::detect_device_type);
+    return TKeyBoardControl::start_get_type_async(chan, 1, 3, TKeyBoardControl::detect_device_type);
 }
 
 s32 TKeyBoardControl::disable_all_channels() {
@@ -204,11 +204,11 @@ void on_keyboard_type_event(s32 chan, u32 type) {
     }
 }
 
-s32 TKeyBoardControl::start_get_type_async(s32 chan, s32 out_bytes, s32 in_bytes, s32 callback_addr) {
+s32 TKeyBoardControl::start_get_type_async(s32 chan, s32 out_bytes, s32 in_bytes, KeyboardTypeCallback callback) {
     s32 en;
     KeyboardChannelState *state = &keyboard_pad_state_table[chan];
     en = OSDisableInterrupts();
-    state->type_callback = (void (*)(s32))callback_addr;
+    state->type_callback = callback;
     state->out_bytes = out_bytes;
     state->in_bytes = in_bytes;
     SIGetTypeAsync(chan, on_keyboard_type_event);

@@ -293,7 +293,7 @@ void init_game_systems(void) {
     player_matrix_stack_buffer = (saddr)xmalloc(0x600);
     TObjPlayer::init_matrix_stack(player_matrix_stack_buffer, 0x20);
     set_matrix_identity(0);
-    ((s32 (*)(int, int, int))TKeyBoardControl::init_pad_slots_and_read)(0, 0, 0);
+    TKeyBoardControl::init_pad_slots_and_read(0, 0, 0);
     TObjBoss2Tunnel::enable_and_trigger();
     init_pad_rumble();
     TKeyBoardControl::init_pad_state();

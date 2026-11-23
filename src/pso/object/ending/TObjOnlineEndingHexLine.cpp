@@ -122,7 +122,7 @@ void TObjOnlineEndingHexMove::run_task() {
                         v = min;
                     }
                 }
-                pkt.unknown_a2 = v;
+                pkt.value = v;
                 break;
             case 2:
                 ang = TObjOnlineEndingHexLine::hex_line_params.angle;
@@ -131,7 +131,7 @@ void TObjOnlineEndingHexMove::run_task() {
                 } else {
                     ang -= 0x1999;
                 }
-                pkt.unknown_a2 = (s32)(u16)ang;
+                pkt.value = (s32)(u16)ang;
                 break;
             }
             TAdGameStartGC::send_6x92(&pkt);
@@ -244,7 +244,7 @@ void handle_6x92(u8 *packet) {
     TAdGameStartGC::bswap_6x92(packet);
     cmd = reinterpret_cast<G_Unknown_6x92 *>(packet);
     idx = static_cast<s32>(cmd->client_id);
-    v = cmd->unknown_a2;
+    v = cmd->value;
     idx = idx % 4;
     if (get_player_by_client_id(idx) != 0U) {
         switch (idx) {
