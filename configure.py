@@ -1506,7 +1506,6 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/ui/frontend/TAdChrSelMovePlateGC.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/ui/frontend/TAdFloorLoadCamGC.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/boss/galgryphon/TBoss5GryphonLightningEff.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
-    "pso/effect/enemy/TObjEneHoldEffect_8036D0C0.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/object/TObjWaitEntryHairMoveSim.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/object/collision/TOSymbolchatColli.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/ui/charcreate/TChCrTagInformationStr.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},

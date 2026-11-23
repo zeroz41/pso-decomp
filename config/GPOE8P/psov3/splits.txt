@@ -10597,20 +10597,14 @@ pso/network/protocol/subcommand_validation_player.cpp:
 	.sdata2     start:0x805E03A8 end:0x805E03B0
 
 pso/network/protocol/subcommand_validation_movement.cpp:
-	.text       start:0x8036CA9C end:0x8036CDFC
+	.text       start:0x8036CA9C end:0x8036CE20
 
 pso/effect/enemy/TObjEneHoldEffect.cpp:
-	.text       start:0x8036CDFC end:0x8036D070
-	.data       start:0x804F3688 end:0x804F36BC
-	.sdata2     start:0x805E03B0 end:0x805E03B4
-
-pso/effect/enemy/TObjEneHoldEffect_8036D070.cpp:
-	.text       start:0x8036D070 end:0x8036D0C0
-
-pso/effect/enemy/TObjEneHoldEffect_8036D0C0.cpp:
-	.text       start:0x8036D0C0 end:0x8036D1B4
+	.text       start:0x8036CE20 end:0x8036D1B4
 	.rodata     start:0x8047ACC0 end:0x8047ACD8
+	.data       start:0x804F3688 end:0x804F36BC
 	.sdata      start:0x805D44E8 end:0x805D44EC
+	.sdata2     start:0x805E03B0 end:0x805E03B4
 
 pso/boss/olgaflow/TBoss6RockChase.cpp:
 	.text       start:0x8036D1B4 end:0x8036D774
