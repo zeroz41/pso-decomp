@@ -209,10 +209,10 @@ TPhotonEstlla::TPhotonEstlla(PhotonSummonParams *params) : TPhotonBlastSummon() 
         }
         new TPhotonMagicSquare(this, 1, &at, 0x78);
         spawn_photon_blast_attachment_effects(1);
-        play_cue_stream_file((saddr)"estla2.adx");
+        play_cue_stream_file("estla2.adx");
     } else {
         spawn_photon_blast_opening_effects(1, owner_id);
-        play_cue_stream_file((saddr)"estla.adx");
+        play_cue_stream_file("estla.adx");
     }
 }
 

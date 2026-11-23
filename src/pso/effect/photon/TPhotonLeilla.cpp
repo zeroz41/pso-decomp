@@ -187,10 +187,10 @@ TPhotonLeilla::TPhotonLeilla(PhotonSummonParams *params) {
         pos.y += 3e+01f;
         new TPhotonMagicSquare(this, 4, &pos, 0x78);
         spawn_photon_blast_attachment_effects(4);
-        play_cue_stream_file((saddr)"reila2.adx");
+        play_cue_stream_file("reila2.adx");
     } else {
         spawn_photon_blast_opening_effects(4, owner_id);
-        play_cue_stream_file((saddr)"reila.adx");
+        play_cue_stream_file("reila.adx");
     }
 }
 

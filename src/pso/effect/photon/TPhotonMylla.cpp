@@ -227,10 +227,10 @@ TPhotonMylla::TPhotonMylla(PhotonSummonParams *params) {
         pos.y += 30.0f;
         new TPhotonMagicSquare(this, 5, &pos, 0xAA, 0.5f);
         spawn_photon_blast_attachment_effects(5);
-        play_cue_stream_file((saddr)"maila2.adx");
+        play_cue_stream_file("maila2.adx");
     } else {
         spawn_photon_blast_opening_effects(5, owner_id);
-        play_cue_stream_file((saddr)"maila.adx");
+        play_cue_stream_file("maila.adx");
     }
 }
 

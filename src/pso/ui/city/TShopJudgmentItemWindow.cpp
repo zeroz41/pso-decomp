@@ -8,6 +8,7 @@
 #include "pso/ui/window/TWindowMenuIconLine.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "types.h"
+#include "pso/unk/TLobby_802268F4.h"
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/ui/city/TShopArmorListWindow.h"
 #include "pso/ui/window/TWindowAddition.h"
@@ -47,7 +48,6 @@ struct Win_80221440 {
 
 extern "C" {
 int obj_getPtr2B0_20(u8 *p);
-void play_cue_stream_file(saddr name);
 u16 get_entity_id(s32);
 }
 
@@ -230,7 +230,7 @@ void TShopJudgmentItemWindow::handle_judge_confirm() {
                         ((TWindowBase *)(*(void **)((s8 *)arg0 + 0x154)))->close();
                         this->m_154 = 0U;
                     }
-                    play_cue_stream_file((saddr)"j_kantei.adx");
+                    play_cue_stream_file("j_kantei.adx");
                 }
                 ((TWindowBase *)(*(void **)((s8 *)arg0 + 0x158)))->close();
                 this->m_158 = 0U;
@@ -351,7 +351,7 @@ void TShopJudgmentItemWindow::update_judge_confirm() {
                 ((TWindowBase *)(*(void **)((s8 *)arg0 + 0x158)))->close();
                 *(u32 *)((s8 *)arg0 + 0x158) = 0U;
                 if (TLobby::get_shop_value() > 0) {
-                    play_cue_stream_file((saddr)"miniclear.adx");
+                    play_cue_stream_file("miniclear.adx");
                 }
                 ((TShopWindowBase *)arg0)->set_field_20(0);
                 return;
@@ -423,7 +423,7 @@ void TShopJudgmentItemWindow::handle_equip_prompt() {
                 send_6x25_equip_item((void *)(F(0x24, saddr)), F(0x34, s32), 0);
                 send_message(0xB, 1);
                 if (TLobby::get_shop_value() > 0) {
-                    play_cue_stream_file((saddr)"miniclear.adx");
+                    play_cue_stream_file("miniclear.adx");
                 }
                 ((TShopWindowBase *)arg0)->set_field_20(0);
             }
@@ -436,7 +436,7 @@ void TShopJudgmentItemWindow::handle_equip_prompt() {
                 set_judgment_target_flag(arg0, &this->unk_28);
                 send_message(0xB, 1);
                 if (TLobby::get_shop_value() > 0) {
-                    play_cue_stream_file((saddr)"miniclear.adx");
+                    play_cue_stream_file("miniclear.adx");
                 }
                 ((TShopWindowBase *)arg0)->set_field_20(0);
             }
@@ -450,7 +450,7 @@ void TShopJudgmentItemWindow::handle_equip_prompt() {
             set_judgment_target_flag(arg0, &this->unk_28);
             send_message(0xB, 1);
             if (TLobby::get_shop_value() > 0) {
-                play_cue_stream_file((saddr)"miniclear.adx");
+                play_cue_stream_file("miniclear.adx");
             }
             ((TShopWindowBase *)arg0)->set_field_20(0);
         }

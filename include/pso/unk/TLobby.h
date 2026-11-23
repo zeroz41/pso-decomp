@@ -956,7 +956,6 @@ struct TLobby : public TObject {
     void show_score_results();
     static s32 check_all_players_ready(void *);
     static s32 assign_player_id(void *);
-    void send_neg50(void* a1);
     static void init_and_set_flag();
     static void init_battle_ctrl(s32 arg0, saddr src);
     static void init_char_slots();

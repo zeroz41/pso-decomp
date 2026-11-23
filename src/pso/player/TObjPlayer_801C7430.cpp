@@ -7,6 +7,7 @@
 #include "pso/render/render_util.h"
 #include "pso/unk/TLobby_801E43E4.h"
 #include "types.h"
+#include "pso/unk/TLobby_801C25B4.h"
 #include "pso/system/vector.h"
 #include "pso/system/data/FlagWord.h"
 #include "pso/object/warp/TObjWarpBossMulti.h"
@@ -2934,7 +2935,7 @@ void TObjPlayer::enter_death_state() {
         }
         draw_player_status(this, this, "\tC8");
         if (TObjPlayer::is_locally_controlled(this) != 0) {
-            ((TLobby *)("death.adx"))->send_neg50((void*)0x96);
+            play_duel_result_stream("death.adx", 0x96);
         }
     }
     if ((TObjPlayer::is_locally_controlled(this) != 0) && (TObjPlayer::is_camera_mode_active() == 0) && (TTecCtrl::is_technique_ready() == 0)) {

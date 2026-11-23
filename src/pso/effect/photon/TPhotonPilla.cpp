@@ -128,10 +128,10 @@ TPhotonPilla::TPhotonPilla(PhotonSummonParams *params) : TPhotonBlastSummon() {
         at.y += 40.0f;
         new TPhotonMagicSquare(this, 3, &at, 0xAA, 0.5f);
         spawn_photon_blast_attachment_effects(3);
-        play_cue_stream_file((saddr)"paila2.adx");
+        play_cue_stream_file("paila2.adx");
     } else {
         spawn_photon_blast_opening_effects(3, owner_id);
-        play_cue_stream_file((saddr)"paila.adx");
+        play_cue_stream_file("paila.adx");
     }
 }
 

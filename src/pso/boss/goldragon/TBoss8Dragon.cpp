@@ -2851,7 +2851,7 @@ void TBoss8Dragon::update_stretch_state(s32 event) {
     case 0:
         this->advance_animation();
         if (this->is_passing_frame(20.0f) != 0) {
-            play_cue_stream_file((saddr)"draroar.adx");
+            play_cue_stream_file("draroar.adx");
         }
         break;
     case 5:
@@ -2869,7 +2869,7 @@ void TBoss8Dragon::state_roar(s32 event) {
         this->activate_attack();
         this->flags = (s32) (this->flags | 0x30);
         this->flags = (s32) (this->flags & 0xFFFFFFF9);
-        play_cue_stream_file((saddr)"draroar.adx");
+        play_cue_stream_file("draroar.adx");
         this->set_invulnerable();
         this->stateStep = 0;
         break;
@@ -3427,7 +3427,7 @@ void TBoss8Dragon::update_death_state(s32 event) {
         this->impactAge = 0;
         this->fallVelocity = 0.0f;
         this->breath_particles[0] = 0;
-        play_cue_stream_file((saddr)"goldeath.adx");
+        play_cue_stream_file("goldeath.adx");
         TWindowCtrl::init_all_slots();
         cam.bank = 2;
         cam.index = 0;
@@ -4385,7 +4385,7 @@ void TBoss8Dragon::update_appearance_state(s32 event) {
                 break;
             case 4:
                 if (this->is_passing_frame(105.0f) != 0) {
-                    play_cue_stream_file((saddr)"dradeath.adx");
+                    play_cue_stream_file("dradeath.adx");
                     this->action_frames++;
                     this->impactAge = 0;
                 }

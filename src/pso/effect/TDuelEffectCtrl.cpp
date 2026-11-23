@@ -24,7 +24,7 @@ void TDuelEffectCtrl::update_duel_end_effect() {
     switch (m_frameCount) {
     case 0:
         new TDuelEffectString(m_effect, (f32 *)duel_end_banner_pos, 1);
-        ((TLobby *)((void *)"end.adx"))->send_neg50((void *)0x96);
+        play_duel_result_stream("end.adx", 0x96);
         break;
     case 30:
         queue_destruction();
@@ -59,7 +59,7 @@ void TDuelEffectCtrl::update_duel_start_countdown() {
         break;
     case 0xA0:
         spawn_particle_effect_with_flags((const Vec *)duel_start_countdown_effect_pos, 0x1F1, 0x48C0);
-        play_cue_stream_file((saddr)"start.adx");
+        play_cue_stream_file("start.adx");
         break;
     case 0xB4:
         queue_destruction();

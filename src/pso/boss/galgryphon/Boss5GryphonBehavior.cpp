@@ -1550,7 +1550,7 @@ void TBoss5Gryphon::update_death_state(u32 event) {
         self->position.x = p->x - gryphon_six_hundred * sin_table_lookup(self->rotation_y);
         self->position.y = gryphon_three_hundred_sixty;
         self->position.z = p->z - gryphon_six_hundred * cos_table_lookup(self->rotation_y);
-        play_cue_stream_file((saddr)"dradeath.adx");
+        play_cue_stream_file("dradeath.adx");
         TWindowCtrl::init_all_slots();
         switch (TBoss8Dragon__sub_8005D700()) {
         case 0:

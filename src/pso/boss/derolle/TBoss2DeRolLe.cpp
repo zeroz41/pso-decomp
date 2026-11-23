@@ -3586,7 +3586,7 @@ void TBoss2DeRolLe::handle_death_state(u32 reason) {
         switch (state_step) {
         case 0:
             if (is_passing_frame(27.0f) != 0) {
-                play_cue_stream_file((saddr)"deldeath.adx");
+                play_cue_stream_file("deldeath.adx");
             } else if (is_passing_frame(20.0f) != 0) {
                 play_sound_effect(0x4003AD11, 0, 0, 0);
             } else if (is_passing_frame(99.0f) != 0) {

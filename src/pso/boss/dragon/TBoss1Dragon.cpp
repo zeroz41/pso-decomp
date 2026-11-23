@@ -3329,7 +3329,7 @@ void TBoss1Dragon::update_stretch_state(u32 reason) {
     case ENEMY_STATE_UPDATE:
         advance_animation();
         if (this->is_passing_frame((20.0f)) != 0) {
-            play_cue_stream_file((saddr)"draroar.adx");
+            play_cue_stream_file("draroar.adx");
             return;
         }
         break;
@@ -3349,7 +3349,7 @@ void TBoss1Dragon::update_roar_state(u32 reason) {
         this->set_flight_height();
         this->flags |= 0xC00;
         this->flags &= ~0x280;
-        play_cue_stream_file((saddr)"draroar.adx");
+        play_cue_stream_file("draroar.adx");
         this->set_invulnerable();
         this->stateStep = 0;
         return;
@@ -3963,7 +3963,7 @@ void TBoss1Dragon::update_death_state(u32 reason) {
         this->impactAge = 0;
         this->fallVelocity = (0.0f);
         this->breath_particles[0] = 0;
-        play_cue_stream_file((saddr)"dradeath.adx");
+        play_cue_stream_file("dradeath.adx");
         TWindowCtrl::init_all_slots();
         switch (TBoss1Dragon::isV2Mode()) {
         case 0:
@@ -4808,7 +4808,7 @@ void TBoss1Dragon::update_appearance_state(u32 reason) {
                 break;
             case 4:
                 if (this->is_passing_frame((f32)(105.0f)) != 0) {
-                    play_cue_stream_file((saddr)"dradeath.adx");
+                    play_cue_stream_file("dradeath.adx");
                     this->action_frames++;
                     this->impactAge = 0;
                 }
@@ -4874,7 +4874,7 @@ void TBoss1Dragon::update_appearance_state(u32 reason) {
                 break;
             case 3:
                 if (this->is_passing_frame((f32)(120.0f)) != 0) {
-                    play_cue_stream_file((saddr)"dradeath.adx");
+                    play_cue_stream_file("dradeath.adx");
                     this->action_frames++;
                     this->impactAge = 0;
                 }
@@ -4937,7 +4937,7 @@ void TBoss1Dragon::update_appearance_state(u32 reason) {
                 break;
             case 4:
                 if (this->is_passing_frame((f32)(105.0f)) != 0) {
-                    play_cue_stream_file((saddr)"dradeath.adx");
+                    play_cue_stream_file("dradeath.adx");
                     this->action_frames++;
                     this->impactAge = 0;
                 }

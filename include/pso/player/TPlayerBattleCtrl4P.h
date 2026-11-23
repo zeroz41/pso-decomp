@@ -78,7 +78,8 @@ public:
     static void reset_ctrl_to_default();
     static void init();
     static int init_ctrl_default(void* p);
-    static void notify_lobby(void* p, void* a1, void* a2);
+    // Plays the result jingle and shows the duel result window for duration frames.
+    void notify_lobby(const char *file, saddr duration);
     void reset_score_counters();
     s32 set_state();
     void update_players();

@@ -26,6 +26,8 @@
 #include "pso/player/TObjPlayer_801BDF5C.h"
 
 #include "types.h"
+#include "pso/unk/text_801C23A8.h"
+#include "pso/unk/TLobby_802268F4.h"
 #include "pso/unk/text_800C7FEC.h"
 #include <string.h>
 #include "pso/ui/Language.h"
@@ -64,6 +66,7 @@ typedef struct Lobby_801C2898 {
 
 struct Ent_801C26A8 { u16 id; s16 active; u8 pad[4]; };
 
+void play_duel_result_stream(const char *file, saddr duration);
 extern "C" {
 u8 TLobby__sub_801C2614(void);
 s32 TLobby__sub_801C2678(void);
@@ -398,10 +401,8 @@ u16 TAdSinglePlyChrSelectGC__sub_801C50FC();
 void TAdSinglePlyChrSelectGC__sub_801C5108(u16);
 u16 TAdSinglePlyChrSelectGC__sub_801C5114();
 void handle_6x7F_battle_scores(saddr arg0);
-int play_cue_stream_file(void*);
 void play_area_music(char *name);
 s32 TObjPlayer__sub_801AFFD0();
-int show_duel_result_window(void*, void*);
 
 #define TBL_801C32B4 ((Ent_801C32B4 *)TLobby__duel_result_table)
 void record_local_battle_placement(void *arg0);
@@ -698,9 +699,9 @@ void update_duel_result__6TLobbyFPv(u8 *arg0) {
             TLobby::calc_player_rankings((Lobby_801C484C *)arg0);
             record_local_battle_placement(arg0);
             if (((u16 *)TLobby__duel_result_table)[0] == local_client_id) {
-                ((TLobby *)"win.adx")->send_neg50((void *)0x96);
+                play_duel_result_stream("win.adx", 0x96);
             } else {
-                ((TLobby *)"lose.adx")->send_neg50((void *)0x96);
+                play_duel_result_stream("lose.adx", 0x96);
             }
             *(s32 *)((s8 *)arg0 + 0x20) = 4;
         }
@@ -1285,7 +1286,10 @@ void record_local_battle_placement(void *arg0) {
     TAdSinglePlyChrSelectGC__sub_801FCE6C();
 }
 
-void TLobby::send_neg50(void* a1) { play_cue_stream_file(this); show_duel_result_window((void*)-50, a1); }
+void play_duel_result_stream(const char *file, saddr duration) {
+    play_cue_stream_file(file);
+    show_duel_result_window(-50, duration);
+}
 
 s32 TLobby::assign_player_id(void *) {
     s32 temp_r3;
@@ -1508,7 +1512,7 @@ void TLobby::show_score_results() {
             ((TWindowCtrl *)buf)->init_all_default();
         }
     }
-    ((TLobby *)"start.adx")->send_neg50((void *)(0x3C));
+    play_duel_result_stream("start.adx", 0x3C);
 }
 
 void TLobby::set_flag_270() {
