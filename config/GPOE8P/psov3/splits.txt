@@ -5757,22 +5757,13 @@ pso/unk/text_8020E700.cpp:
 	.sdata2     start:0x805DC628 end:0x805DC62C
 
 pso/ui/city/TCheckRoomSequence.cpp:
-	.text       start:0x8020F034 end:0x802115F4
+	.text       start:0x8020F034 end:0x80211648
 	.rodata     start:0x8044BC50 end:0x8044BC68
 	.data       start:0x804C9490 end:0x804C969C
 	.bss        start:0x80513D88 end:0x80513DC8
 	.sdata      start:0x805D3640 end:0x805D3648
 	.sbss       start:0x805D6160 end:0x805D6178
 	.sdata2     start:0x805DC630 end:0x805DC640
-
-pso/ui/city/TShopEquipmentSellWindow_802115F4.cpp:
-	.text       start:0x802115F4 end:0x80211608
-
-pso/ui/window/TWindowInputNumber_80211608.cpp:
-	.text       start:0x80211608 end:0x80211614
-
-pso/ui/city/TCheckRoomSequence_80211614.cpp:
-	.text       start:0x80211614 end:0x80211648
 
 pso/ui/city/THunterGuildWarning.cpp:
 	.text       start:0x80211648 end:0x80211FEC

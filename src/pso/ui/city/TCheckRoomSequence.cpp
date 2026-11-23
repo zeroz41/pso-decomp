@@ -946,3 +946,13 @@ BankItemRecord::BankItemRecord() { init(); }
 
 void TShopWindowBase::display_shop_message(s32 id, s32 flags) {  }
 }
+
+#pragma optimization_level 4
+
+int TWindowInputNumber::is_cancelled() { return (this->inputFlags >> 2) & 0x1; }
+s32 TWindowInputNumber::get_value() { return this->value; }
+int TWindowInputNumber::is_confirmed() { return (this->inputFlags >> 1) & 0x1; }
+void TWindowInputNumber::set_scale(f32 x, f32 y) { scaleX = x; scaleY = y; }
+
+int TCheckRoomSequence::get_room_data(int slot) { return bank_meseta_by_slot[slot]; }
+int TCheckRoomSequence::get_room_table_entry(int slot) { return bank_item_count_by_slot[slot]; }

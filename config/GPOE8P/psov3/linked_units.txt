@@ -680,7 +680,6 @@ pso/ui/chat/TChatMessage.cpp
 pso/ui/chat/TChatMessage_801DF918.cpp
 pso/system/save/TCheckMemoryCard.cpp
 pso/ui/city/TCheckRoomSequence.cpp
-pso/ui/city/TCheckRoomSequence_80211614.cpp
 pso/ui/city/TCheckRoomSequence_8021E464.cpp
 pso/ui/city/TCheckRoomSequence_80222FC0.cpp
 pso/camera/TCineCtrl.cpp
@@ -1128,7 +1127,6 @@ pso/ui/city/TShopEquipmentGearSequence_8021E3A4.cpp
 pso/ui/city/TShopEquipmentListWindow.cpp
 pso/ui/city/TShopEquipmentListWindow_8010ED54.cpp
 pso/ui/city/TShopEquipmentSellWindow.cpp
-pso/ui/city/TShopEquipmentSellWindow_802115F4.cpp
 pso/ui/city/TShopEquipmentSellWindow_8026CE78.cpp
 pso/ui/city/TShopEquipmentSellWindow_803094E8.cpp
 pso/ui/city/TShopEquipmentSequence.cpp
@@ -1244,7 +1242,6 @@ pso/ui/window/TWindowHelpItem_8025A12C.cpp
 pso/ui/window/TWindowHelpItem_8025A60C.cpp
 pso/ui/window/WindowHelpItemTextB.cpp
 pso/ui/window/TWindowInputNumber.cpp
-pso/ui/window/TWindowInputNumber_80211608.cpp
 pso/ui/window/TWindowKeyBoardBase.cpp
 pso/ui/window/TWindowKeyBoardBase_8008102C.cpp
 pso/ui/window/TWindowKeyBoardHard.cpp
